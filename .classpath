@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="src" path="data"/>
+	<classpathentry kind="lib" path="lib/Ess/library/Ess.jar"/>
+	<classpathentry kind="lib" path="lib/toxiclibs-complete-0020/toxiclibs_p5/library/toxiclibs_p5.jar"/>
+	<classpathentry kind="lib" path="lib/toxiclibs-complete-0020/toxiclibscore/library/toxiclibscore.jar"/>
+	<classpathentry kind="lib" path="lib/toxiclibs-complete-0020/volumeutils/library/volumeutils.jar"/>
+	<classpathentry kind="lib" path="lib/toxiclibs-complete-0020/colorutils/library/colorutils.jar"/>
+	<classpathentry kind="lib" path="lib/fullscreen/library/fullscreen.jar"/>
+	<classpathentry kind="lib" path="lib/oscP5/library/oscP5.jar"/>
+	<classpathentry kind="lib" path="lib/themidibus/themidibus.jar"/>
+	<classpathentry kind="lib" path="lib/OBJLoader/library/OBJLoader.jar"/>
+	<classpathentry kind="lib" path="lib/hemesh/library/apfloat.jar"/>
+	<classpathentry kind="lib" path="lib/hemesh/library/hemesh.jar"/>
+	<classpathentry kind="lib" path="lib/hemesh/library/javolution-5.5.1.jar"/>
+	<classpathentry kind="lib" path="lib/hemesh/library/quickhull3d.jar"/>
+	<classpathentry kind="lib" path="lib/geomerative/library/batikfont.jar"/>
+	<classpathentry kind="lib" path="lib/geomerative/library/geomerative.jar"/>
+	<classpathentry kind="lib" path="lib/SimpleOpenNI/library/SimpleOpenNI.jar">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="haxademic-2/lib/SimpleOpenNI/library"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="lib/blobDetection/library/blobDetection.jar"/>
+	<classpathentry kind="lib" path="lib/Filters/dist/Filters.jar" sourcepath="lib/Filters/src"/>
+	<classpathentry kind="lib" path="lib/super-csv/super-csv-2.1.0.jar"/>
+	<classpathentry kind="lib" path="lib/processing-2.0/core.jar"/>
+	<classpathentry kind="lib" path="lib/processing-2.0/gluegen-rt.jar"/>
+	<classpathentry kind="lib" path="lib/processing-2.0/jogl-all.jar"/>
+	<classpathentry kind="lib" path="lib/joons/library/janino.jar"/>
+	<classpathentry kind="lib" path="lib/joons/library/joons.jar"/>
+	<classpathentry kind="lib" path="lib/joons/library/sunflow.jar"/>
+	<classpathentry kind="lib" path="lib/UMovieMaker/library/monte-cc.jar"/>
+	<classpathentry kind="lib" path="lib/UMovieMaker/library/UMovieMaker.jar"/>
+	<classpathentry kind="lib" path="lib/processing-2.0/libraries/video/library/video.jar"/>
+	<classpathentry kind="lib" path="lib/processing-2.0/libraries/minim/library/jl1.0.jar"/>
+	<classpathentry kind="lib" path="lib/processing-2.0/libraries/minim/library/jsminim.jar"/>
+	<classpathentry kind="lib" path="lib/processing-2.0/libraries/minim/library/minim.jar"/>
+	<classpathentry kind="lib" path="lib/processing-2.0/libraries/minim/library/mp3spi1.9.4.jar"/>
+	<classpathentry kind="lib" path="lib/processing-2.0/libraries/minim/library/tritonus_aos.jar"/>
+	<classpathentry kind="lib" path="lib/processing-2.0/libraries/minim/library/tritonus_share.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/J2SE-1.5"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>

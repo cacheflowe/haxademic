@@ -1,0 +1,7 @@
+applet=SimpleOpenNI.jar
+
+application.macosx=SimpleOpenNI.jar,libSimpleOpenNI.jnilib
+application.windows32=SimpleOpenNI.jar,SimpleOpenNI32.dll
+application.windows64=SimpleOpenNI.jar,SimpleOpenNI64.dll
+application.linux32=SimpleOpenNI.jar,libSimpleOpenNI32.so
+application.linux64=SimpleOpenNI.jar,libSimpleOpenNI64.so

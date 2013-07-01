@@ -1,0 +1,2 @@
+# HaxVisual
+HaxVisual is the original incarnation of the Haxademic library. It was built to be a module-based VJ system, where Processing sketches could quickly be turned into swappable visual modes for live VJing and music video rendering.
