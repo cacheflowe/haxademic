@@ -9,6 +9,7 @@ import toxi.processing.ToxiclibsSupport;
 
 import com.haxademic.app.haxvisual.viz.IVizModule;
 import com.haxademic.app.haxvisual.viz.ModuleBase;
+import com.haxademic.core.app.P;
 import com.haxademic.core.cameras.CameraBasic;
 import com.haxademic.core.cameras.CameraOscillate;
 import com.haxademic.core.draw.shapes.Shapes;
@@ -92,7 +93,7 @@ public class MaxCache extends ModuleBase implements IVizModule {
 		
 		
 		// Kinect stuff
-		p.textureMode(p.NORMALIZED);
+		p.textureMode(P.NORMAL);
 		
 		p.background(0);
 		
@@ -131,17 +132,17 @@ public class MaxCache extends ModuleBase implements IVizModule {
 		p.noStroke();
 		p.pushMatrix();
 		p.translate(p.width / 2, (p.height / 5) * 2 - _audioData.getFFT().spectrum[50]*_audioBoost*1000, 0);
-		p.rotateX(p.PI/2);
+		p.rotateX(P.PI/2);
 		Shapes.drawDisc3D( p, 2000 + _audioData.getFFT().spectrum[50]*_audioBoost*20000, 10000, 50 + _audioData.getFFT().spectrum[50]*_audioBoost*50, 50, p.color(_curR, _curG, _curB, _audioData.getFFT().spectrum[50]*_audioBoost * 100), p.color(_curR, _curG, _curB, _audioData.getFFT().spectrum[50]*_audioBoost * 100) );
 		p.popMatrix();
 		p.pushMatrix();
 		p.translate(p.width / 2, (p.height / 5) * 3, 0);
-		p.rotateX(p.PI/2);
+		p.rotateX(P.PI/2);
 		Shapes.drawDisc3D( p, 2000 + _audioData.getFFT().spectrum[150]*_audioBoost*20000, 10000, 50 + _audioData.getFFT().spectrum[150]*_audioBoost*50, 50, p.color(_curR, _curG, _curB, _audioData.getFFT().spectrum[150]*_audioBoost * 100), p.color(_curR, _curG, _curB, _audioData.getFFT().spectrum[150]*_audioBoost * 100) );
 		p.popMatrix();
 		p.pushMatrix();
 		p.translate(p.width / 2, (p.height / 5) * 4 + _audioData.getFFT().spectrum[200]*_audioBoost*1000, 0);
-		p.rotateX(p.PI/2);
+		p.rotateX(P.PI/2);
 		Shapes.drawDisc3D( p, 2000 + _audioData.getFFT().spectrum[200]*_audioBoost*20000, 10000, 50 + _audioData.getFFT().spectrum[200]*_audioBoost*50, 50, p.color(_curR, _curG, _curB, _audioData.getFFT().spectrum[200]*_audioBoost * 100), p.color(_curR, _curG, _curB, _audioData.getFFT().spectrum[200]*_audioBoost * 100) );
 		p.popMatrix();
 		
@@ -198,7 +199,7 @@ public class MaxCache extends ModuleBase implements IVizModule {
 				if (nextX < _kinectWidth && nextY < _kinectHeight && x >= 1 && y >= 1
 						&& (x % _pixelsSkip == 0 && y % _pixelsSkip == 0)) {
 					
-					p.beginShape(p.TRIANGLES);
+					p.beginShape(P.TRIANGLES);
 					if( _mode == MAPPING ) { 
 						//p.texture(_videoCamImg);
 					}
@@ -339,7 +340,7 @@ public class MaxCache extends ModuleBase implements IVizModule {
 		if ( p.key == 'm' || p.key == 'M' || p.getMidi().midiPadIsOn( MidiWrapper.PAD_04 ) == 1 || p.getMidi().midiPadIsOn( MidiWrapper.NOTE_04 ) == 1 ) {
 			newBaseColors();
 			newCamera();
-			_mode = p.round( p.random( 0, 2 ) );
+			_mode = P.round( p.random( 0, 2 ) );
 			updateMode();
 		}
 		if ( p.key == '1' || p.getMidi().midiPadIsOn( MidiWrapper.PAD_09 ) == 1 || p.getMidi().midiPadIsOn( MidiWrapper.NOTE_09 ) == 1 ) {
@@ -353,10 +354,10 @@ public class MaxCache extends ModuleBase implements IVizModule {
 			updateMode();
 		} else if ( p.getMidi().midiPadIsOn( MidiWrapper.PAD_05 ) == 1 || p.getMidi().midiPadIsOn( MidiWrapper.NOTE_05 ) == 1 ) {
 			_pixelsSkip--;
-			_pixelsSkip = p.constrain(_pixelsSkip,5,15);
+			_pixelsSkip = P.constrain(_pixelsSkip,5,15);
 		} else if ( p.getMidi().midiPadIsOn( MidiWrapper.PAD_06 ) == 1 || p.getMidi().midiPadIsOn( MidiWrapper.NOTE_06 ) == 1 ) {
 			_pixelsSkip++;
-			_pixelsSkip = p.constrain(_pixelsSkip,5,15);
+			_pixelsSkip = P.constrain(_pixelsSkip,5,15);
 		} else if ( p.getMidi().midiPadIsOn( MidiWrapper.PAD_07 ) == 1 || p.getMidi().midiPadIsOn( MidiWrapper.NOTE_07 ) == 1 ) {
 			_kinectinterface.tiltDown();
 		} else if ( p.getMidi().midiPadIsOn( MidiWrapper.PAD_08 ) == 1 || p.getMidi().midiPadIsOn( MidiWrapper.NOTE_08 ) == 1 ) {
@@ -365,10 +366,10 @@ public class MaxCache extends ModuleBase implements IVizModule {
 
 		if (p.key == ' ') {
 //			Renderer.renderScreenToJPG(p);
-		} else if (p.key == p.CODED) {
-			if (p.keyCode == p.UP) {
+		} else if (p.key == P.CODED) {
+			if (p.keyCode == P.UP) {
 				_kinectinterface.tiltUp();
-			} else if (p.keyCode == p.DOWN) {
+			} else if (p.keyCode == P.DOWN) {
 				_kinectinterface.tiltDown();
 			}
 		}
@@ -401,7 +402,7 @@ public class MaxCache extends ModuleBase implements IVizModule {
 //		if( randCamera == 0 ) _curCamera = new CameraBasic( p, 0, 0, newZ );
 //		else if( randCamera == 1 ) _curCamera = new CameraSpotter( p, 0, 0, newZ );
 //		else if( randCamera == 2 ) _curCamera = new CameraOscillate( p, 0, 0, newZ/2, 100 );
-		_curCamera = _curCamera = new CameraBasic( p, 0, 0, -1500 );
+		_curCamera = new CameraBasic( p, 0, 0, -1500 );
 		_curCamera.reset();
 		
 		_curCamera.setTarget( p.width/2, p.height/2, 0 );

@@ -1,7 +1,5 @@
 package com.haxademic.sketch.three_d;
 
-import hipstersinc.P5Sunflow;
-import hipstersinc.sunflow.SunflowCamera;
 import processing.core.PApplet;
 import processing.core.PConstants;
 
@@ -92,11 +90,6 @@ public class MegaFractalCube
 			_render.stop();
 			exit();
 		}
-	}
-	
-	void setupCamera() {
-		P5Sunflow sunflow = (P5Sunflow) g;
-		sunflow.camera.setType(SunflowCamera.THINLENS);
 	}
 
 	void setupScene() {
