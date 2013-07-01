@@ -73,7 +73,8 @@ While the code has been open-sourced, I haven't had time to write much (any) doc
 	* [Eclipse](http://www.eclipse.org/)
 	* [JDK](http://www.oracle.com/technetwork/java/javase/downloads/index.html)
 * [Download](http://code.google.com/p/simple-openni/downloads/list) and install the latest SimpleOpenNI (Kinect) drivers with the [instructions](http://code.google.com/p/simple-openni/wiki/Installation) for your particular platform
-* Clone or [download](https://github.com/cacheflowe/haxademic/archive/master.zip) the Haxademic project
+* [Download](http://processing.org) and install the Processing 2.0 core libraries. Add the jars to your build path, as well as the libraries that come with Processing (video, minim, etc.)
+* Clone or [download](https://github.com/cacheflowe/haxademic-2/archive/master.zip) the Haxademic-2 project
 * Open Eclipse and: **File -> Import -> General / Existing Projects into Workspace**
 	* Choose the `haxademic` directory that you cloned/downloaded, press **Finish**, and the project should be ready to use
 * Make sure you're compiling with Java 1.6 instead of the new default of 1.7:
