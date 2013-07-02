@@ -7,7 +7,6 @@ import processing.core.PVector;
 import toxi.geom.Vec3D;
 import SimpleOpenNI.SimpleOpenNI;
 
-import com.haxademic.app.matchgame.MatchGame;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.util.DrawUtil;
@@ -85,7 +84,7 @@ public class SkeletonsTracker {
 //		return false;
 	}
 	
-	public void getClosestUser() {
+	public void getClosestUser( int minDist, int maxDist ) {
 		int[] users = _kinectContext.getUsers();
 		if( users.length == 0 ) {
 			_curUserId = -1;
@@ -97,7 +96,7 @@ public class SkeletonsTracker {
 			boolean isInZBounds = false;
 			for(int i=0; i < users.length; i++) { 
 				_kinectContext.getCoM( users[i], _utilPVec );							// PVec comes back with real-world `z` in millimeters
-				isInZBounds = ( _utilPVec.z > MatchGame.KINECT_MIN_DIST && _utilPVec.z < MatchGame.KINECT_MAX_DIST );
+				isInZBounds = ( _utilPVec.z > minDist && _utilPVec.z < maxDist );
 				// if in-z-bounds, user.x is legit, closer-to-center & has a good skeleton...
 				if( isInZBounds == true && _utilPVec.x != 0.0 && _utilPVec.x < xDist && userHasHands( users[i] ) ) {
 					_curUserId = users[i];
