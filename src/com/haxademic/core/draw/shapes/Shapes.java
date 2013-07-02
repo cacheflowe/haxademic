@@ -119,7 +119,7 @@ public class Shapes {
 		p.popMatrix();
 	}
 
-	public static void drawPyramid( PApplet p, float shapeHeight, int baseWidth, boolean drawBase )
+	public static void drawPyramid( PApplet p, float shapeHeight, float baseWidth, boolean drawBase )
 	{
 		baseWidth *= P.HALF_PI;
 		
@@ -129,7 +129,7 @@ public class Shapes {
 		
 		int numSides = 4;
 		float segmentCircumference = (2f*P.PI) / numSides;
-		float halfBaseW = baseWidth / 2;
+		float halfBaseW = baseWidth / 2f;
 
 		for( int i = 0; i < numSides; i++ )
 		{
