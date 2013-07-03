@@ -155,4 +155,17 @@ public class DrawMesh {
 			toxi.triangle( tri );
 		}		
 	}
+	
+	public static void drawToxiMeshFacesNative( PApplet p, WETriangleMesh mesh ) {
+		Face f;
+		for( int i = 0; i < mesh.faces.size(); i++ ) {
+			p.beginShape(P.TRIANGLES);
+			f = mesh.faces.get( i );
+			p.vertex(f.a.x, f.a.y, f.a.z);
+			p.vertex(f.b.x, f.b.y, f.b.z);
+			p.vertex(f.c.x, f.c.y, f.c.z);
+			p.endShape();
+		}		
+	}
+
 }
