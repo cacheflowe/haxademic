@@ -6,7 +6,7 @@ import toxi.processing.ToxiclibsSupport;
 
 import com.haxademic.app.haxvisual.viz.elements.RotatorShape;
 import com.haxademic.core.draw.color.ColorGroup;
-import com.haxademic.core.draw.color.ColorRGBA;
+import com.haxademic.core.draw.color.ColorHax;
 import com.haxademic.core.render.Renderer;
 
 public class RotationObjects 
@@ -17,8 +17,8 @@ extends PApplet
 	
 	RotatorShape _rotator;
 	RotatorShape _rotatorBG;
-	ColorRGBA _color;
-	ColorRGBA _colorBG;
+	ColorHax _color;
+	ColorHax _colorBG;
 	
 	int _numRotations = 6;
 	float[] _fakeAudioData;
@@ -45,8 +45,8 @@ extends PApplet
 		
 		_rotator = new RotatorShape( p, toxi, null, _numRotations );
 		_rotatorBG = new RotatorShape( p, toxi, null, _numRotations );
-		_color = new ColorRGBA( 255, 255, 155, 255 );
-		_colorBG = new ColorRGBA( 255, 155, 255, 255 );
+		_color = new ColorHax( 255, 255, 155, 255 );
+		_colorBG = new ColorHax( 255, 155, 255, 255 );
 		_fakeAudioData = new float[ _numRotations ];
 		
 		for( int i = 0; i < _numRotations; i++ ) {

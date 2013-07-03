@@ -6,7 +6,7 @@ import com.haxademic.app.haxvisual.viz.IVizModule;
 import com.haxademic.app.haxvisual.viz.ModuleBase;
 import com.haxademic.core.cameras.CameraOscillate;
 import com.haxademic.core.cameras.common.ICamera;
-import com.haxademic.core.draw.color.ColorRGBA;
+import com.haxademic.core.draw.color.ColorHax;
 import com.haxademic.core.draw.shapes.CacheFloweLogo;
 import com.haxademic.core.draw.shapes.Shapes;
 import com.haxademic.core.hardware.midi.MidiWrapper;
@@ -36,12 +36,12 @@ public class CacheRings
 		
 		// mode vars
 		protected float _fillAlpha = 1;
-		protected ColorRGBA _yellow = new ColorRGBA( 255/255f, 249/255f, 0, 1 );
-		protected ColorRGBA _blue = new ColorRGBA( 0, 249/255f, 255/255f, 1 );
-		protected ColorRGBA _red = new ColorRGBA( 249/255f, 150/255f, 150/255f, 1 );
-		protected ColorRGBA _white = new ColorRGBA( 240/255f, 240/255f, 240/255f, 1 );
-		protected ColorRGBA[] _ringColors;
-		protected ColorRGBA _curColor;
+		protected ColorHax _yellow = new ColorHax( 255/255f, 249/255f, 0, 1 );
+		protected ColorHax _blue = new ColorHax( 0, 249/255f, 255/255f, 1 );
+		protected ColorHax _red = new ColorHax( 249/255f, 150/255f, 150/255f, 1 );
+		protected ColorHax _white = new ColorHax( 240/255f, 240/255f, 240/255f, 1 );
+		protected ColorHax[] _ringColors;
+		protected ColorHax _curColor;
 		protected float wallOffset = -30/255f;
 		
 		/*
@@ -64,12 +64,12 @@ public class CacheRings
 			p.colorMode( PConstants.RGB, 1, 1, 1, 1 );			
 			
 			// init colors
-			_ringColors = new ColorRGBA[NUM_RINGS];
+			_ringColors = new ColorHax[NUM_RINGS];
 			for(int i = 0; i < NUM_RINGS; i++)
 			{
-				_ringColors[i] = new ColorRGBA(0,0,0,1);   
+				_ringColors[i] = new ColorHax(0,0,0,1);   
 			}
-			_curColor = new ColorRGBA(1, 1, 1, 1);
+			_curColor = new ColorHax(1, 1, 1, 1);
 			
 			// init with random mode
 			pickMode();
@@ -264,7 +264,7 @@ public class CacheRings
 			
 			// set new inner ring
 			int newColor = p.round( p.random(0,3) );
-			ColorRGBA newColorObj = null;
+			ColorHax newColorObj = null;
 			switch( newColor )
 			{
 				case 0 :
