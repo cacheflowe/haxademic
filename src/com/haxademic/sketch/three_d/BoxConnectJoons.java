@@ -9,7 +9,7 @@ import toxi.geom.mesh.WETriangleMesh;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.mesh.MeshUtil;
-import com.haxademic.core.draw.util.DrawMesh;
+import com.haxademic.core.draw.shapes.BoxBetween;
 import com.haxademic.core.render.JoonsWrapper;
 import com.haxademic.core.system.FileUtil;
 
@@ -23,7 +23,7 @@ extends PAppletHax {
 	protected boolean isWebCam;
 	
 	
-	boolean autoRender = true;
+	boolean autoRender = false;
 		
 	protected JoonsWrapper _jw;
 	
@@ -97,7 +97,7 @@ extends PAppletHax {
 			// bars!
 			p.pushMatrix();
 			translate(0,0,20);
-			drawBoxBetween( new PVector(x, y, 0 ), new PVector( xNext, yNext, 0 ) );
+			BoxBetween.draw( p, new PVector(x, y, 0 ), new PVector( xNext, yNext, 0 ), 3 );
 			p.popMatrix();
 //			p.pushMatrix();
 //			translate(0,0,20);
@@ -134,32 +134,6 @@ extends PAppletHax {
 		
 		// render frame
 		if( autoRender == true ) _jw.endFrame();
-	}
-
-	public void drawBoxBetween( PVector point1, PVector point2 ) {
-		PVector pointMid = point1.get();
-		pointMid.lerp(point2, 0.5f);
-
-		// Rotation vectors
-		// use to perform orientation to velocity vector
-		PVector new_dir = PVector.sub(point1,point2);
-		float r = sqrt(new_dir.x * new_dir.x + new_dir.y * new_dir.y + new_dir.z * new_dir.z);
-		float theta = atan2(new_dir.y, new_dir.x);
-		float phi = acos(new_dir.z / r);
-
-		pushMatrix();
-		// update location
-		p.translate(pointMid.x, pointMid.y, pointMid.z);
-		// orientation to velocity
-		rotateZ(theta);
-		rotateY(phi);
-		rotateX(HALF_PI);
-
-		// draw your stuff here
-		p.box(3, point1.dist(point2), 3);
-
-		popMatrix(); 
-
 	}
 
 }
