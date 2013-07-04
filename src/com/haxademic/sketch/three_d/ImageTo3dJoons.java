@@ -27,27 +27,27 @@ extends PAppletHax {
 
 	public void setup() {
 		super.setup();
-		image = p.loadImage( FileUtil.getHaxademicDataPath() + "images/tiny-pattern.png" );
+		image = p.loadImage( FileUtil.getHaxademicDataPath() + "images/justin-small-bw.png" );
 		_jw = new JoonsWrapper( p, width, height, JoonsWrapper.QUALITY_HIGH );
 	}
 	
 	protected void overridePropsFile() {
 		_appConfig.setProperty( "sunflow", "false" );
 		_appConfig.setProperty( "width", "1000" );
-		_appConfig.setProperty( "height", "1000" );
+		_appConfig.setProperty( "height", "1200" );
 		_appConfig.setProperty( "rendering", "false" );
 	}
 
 	public void drawApp() {
 		background(0);
-		lights();
+//		lights();
 		p.noStroke();
 		
 		
 		_jw.startFrame();
 		
-//		p.rotateX(5f);
-		p.rotateX(-0.8f);
+		p.rotateX(5.03f);
+//		p.rotateX(-0.8f);
 //		p.rotateX(mouseY*0.01f);
 //		P.println(mouseY*0.01f);
 //		p.rotateY(mouseX*0.01f);
@@ -55,17 +55,17 @@ extends PAppletHax {
 		_jw.drawRoomWithSizeAndColor( width, height, JoonsWrapper.MATERIAL_MIRROR, -1, p.color( 60, 60, 60) );
 		
 		// mirror ball
-		pushMatrix();
-		translate(0,-50,0);
-		fill(255);
-		sphere(30);
-		popMatrix();
-		// always call after drawing shapes
-		_jw.addColorForObject( JoonsWrapper.MATERIAL_MIRROR, -1, p.color( 255, 255, 255 ), true );
+//		pushMatrix();
+//		translate(0,-50,0);
+//		fill(255);
+//		sphere(30);
+//		popMatrix();
+//		// always call after drawing shapes
+//		_jw.addColorForObject( JoonsWrapper.MATERIAL_MIRROR, -1, p.color( 255, 255, 255 ), true );
 
 	
 		// draw pyramids
-		float size = 8f;
+		float size = 1.4f;
 		float height = 0;
 		for( int x=0; x < image.width; x++ ){
 			for(int y=0; y < image.height; y++){
@@ -75,16 +75,23 @@ extends PAppletHax {
 				
 				p.fill( pixelColor );
 				p.pushMatrix();
-				float xScaled = -image.width*size/2f + x * size;
-				float yScaled  = -image.height*size/2f + y * size;
+				float xScaled = -image.width*size/2f + (float) x * size;
+				float yScaled  = -image.height*size/2f + (float) y * size;
 				p.translate(xScaled, yScaled);
-				height = pixelBrightness * 0.3f;
-				if( height < 2 ) height = 2;
-				Shapes.drawPyramid( p, height, size, false );
-				p.popMatrix();
+				height = pixelBrightness * 0.1f;
+//				if( height < 2 ) height = 2;
 				
-				// always call after drawing shapes
-				_jw.addColorForObject( JoonsWrapper.MATERIAL_SHINY, pixelColor, 1, false );
+				
+				// pyramids
+//				Shapes.drawPyramid( p, height, size, false );
+//				_jw.addColorForObject( JoonsWrapper.MATERIAL_SHINY, pixelColor, 1, false );
+				
+				// spheres
+				sphere(size*0.5f * pixelBrightness/255f);
+				_jw.addColorForObject( JoonsWrapper.MATERIAL_CONSTANT, pixelColor, 1, true );
+				
+				
+				p.popMatrix();
 			}
 		}
 		
