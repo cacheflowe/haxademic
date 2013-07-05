@@ -50,10 +50,13 @@ public class JoonsWrapper {
 	protected ArrayList<Integer> _reflectives;
 	protected ArrayList<String> _shaderTypes;
 	protected ArrayList<Boolean> _isSpheres;
+	
+	protected Boolean _isActive;
 
-	public JoonsWrapper( PApplet p, int width, int height, String quality ) {
+	public JoonsWrapper( PApplet p, int width, int height, String quality, Boolean isActive ) {
 		this.p = p;
 		_quality = quality;
+		_isActive = isActive;
 
 		_aspect = (float) width / (float) height;
 
@@ -67,42 +70,47 @@ public class JoonsWrapper {
 	}
 
 	public void startFrame() {
-		p.beginRecord("joons.OBJWriter","");	//	just call like this. Leave the second parameter as "".
-
-		_objectMaterialIndex = 0;
-		_sphereMaterialIndex = 0;
-		
-		_shaderTypes.clear();
-		_colors.clear();
-		_reflectives.clear();
-		_isSpheres.clear();
+		if( _isActive == true ) { 
+			p.beginRecord("joons.OBJWriter","");	//	just call like this. Leave the second parameter as "".
+	
+			_objectMaterialIndex = 0;
+			_sphereMaterialIndex = 0;
+			
+			_shaderTypes.clear();
+			_colors.clear();
+			_reflectives.clear();
+			_isSpheres.clear();
+		}
 
 		p.perspective( _fov, _aspect, _zNear, _zFar);	// call perspective() before camera()!!
 		p.camera( _eyeX, _eyeY, _eyeZ, _centerX, _centerY, _centerZ, _upX, _upY, _upZ );
 	}
 
-	public void endFrame() {
-		p.endRecord();
-
-		// add shader colors from array
-		for(int i=0; i < _colors.size(); i++ ) {
-			makeJoonsColor( "Color-"+i, _shaderTypes.get(i), _colors.get(i), _reflectives.get(i), _isSpheres.get(i) );
+	public void endFrame( boolean saveFrameImg ) {
+		if( _isActive == true ) { 
+			p.endRecord();
+	
+			// add shader colors from array
+			for(int i=0; i < _colors.size(); i++ ) {
+				makeJoonsColor( "Color-"+i, _shaderTypes.get(i), _colors.get(i), _reflectives.get(i), _isSpheres.get(i) );
+			}
+	
+			// set scene rendering config and do the deed
+			// lots more info here: https://code.google.com/p/joons-renderer/wiki/3_Advanced_Use
+			// http://sfwiki.geneome.net/index.php5?title=Main_Page
+			_jr.setSC( FileUtil.getHaxademicDataPath() + "joons/ambient.sc" );	
+			if( _jr.render( _quality ) == false ) {
+				P.println("Error: Joons is having issues...");
+			}
+	
+			// draw to screen and save an image, since drawing to screen doesn't necessarily work...
+			_jr.display();	
+			if( saveFrameImg == true ) p.saveFrame( FileUtil.getHaxademicOutputPath() + SystemUtil.getTimestamp(p) + "-render.png" );
 		}
-
-		// set scene rendering config and do the deed
-		// lots more info here: https://code.google.com/p/joons-renderer/wiki/3_Advanced_Use
-		// http://sfwiki.geneome.net/index.php5?title=Main_Page
-		_jr.setSC( FileUtil.getHaxademicDataPath() + "joons/ambient.sc" );	
-		if( _jr.render( _quality ) == false ) {
-			P.println("Error: Joons is having issues...");
-		}
-
-		// draw to screen and save an image, since drawing to screen doesn't necessarily work...
-		_jr.display();	
-		p.saveFrame( FileUtil.getHaxademicOutputPath() + SystemUtil.getTimestamp(p) + "render.png" );
 	}
 
 	public void addColorForObject( String type, int color, int reflective, boolean sphere ) {
+		if( _isActive == false ) return;
 		_shaderTypes.add( type );
 		_colors.add( color );
 		_reflectives.add( reflective );
@@ -115,6 +123,10 @@ public class JoonsWrapper {
 
 		// build room -------------------
 		p.rect(-width*2f,-height*2f,width*4,height*4); // the floor plane
+//		p.pushMatrix();
+//		p.translate(0,0,-400);
+//		p.rect(-width*2f,-height*2f,width*4,height*4); // the roof plane
+//		p.popMatrix();
 		
 		p.pushMatrix();
 		p.translate(0,-400,0);

@@ -20,25 +20,18 @@ extends PAppletHax {
 	protected Triangle3D tri;
 	protected TriangleMesh mesh;
 	protected PImage image;
-	protected boolean isWebCam;
-	
-	
-	boolean autoRender = false;
-		
-	protected JoonsWrapper _jw;
-	
 	protected WETriangleMesh _mesh;
 
 	public void setup() {
-		super.setup();
-		_jw = new JoonsWrapper( p, width, height, JoonsWrapper.QUALITY_HIGH );
-		
+		super.setup();		
 		_mesh = MeshUtil.meshFromOBJ( p, FileUtil.getHaxademicDataPath() + "models/cacheflowe-3d.obj", 16f );
-
 	}
 	
 	protected void overridePropsFile() {
-		_appConfig.setProperty( "sunflow", "false" );
+		_appConfig.setProperty( "sunflow", "true" );
+		_appConfig.setProperty( "sunflow_active", "false" );
+		_appConfig.setProperty( "sunflow_quality", "high" );
+		_appConfig.setProperty( "sunflow_save_images", "true" );
 		_appConfig.setProperty( "width", "1280" );
 		_appConfig.setProperty( "height", "1280" );
 		_appConfig.setProperty( "rendering", "false" );
@@ -48,10 +41,7 @@ extends PAppletHax {
 		background(0);
 		lights();
 		p.noStroke();
-		
-		
-		_jw.startFrame();
-		
+				
 //		p.rotateX(5f);
 		p.rotateX(-0.1f);
 //		p.rotateX(mouseY*0.01f);
@@ -62,7 +52,7 @@ extends PAppletHax {
 		p.fill(0);
 		// _jw.drawRoomWithSizeAndColor( width, height, JoonsWrapper.MATERIAL_SHINY, p.color( 45, 55, 45 ), 1 );
 		// _jw.drawRoomSphereWithColor( JoonsWrapper.MATERIAL_SHINY, p.color( 45, 55, 45 ), 1 );
-		_jw.drawRoomSphereWithColor( JoonsWrapper.MATERIAL_DIFFUSE, p.color( 25, 25, 25 ), -1 );
+		if( _jw != null ) _jw.drawRoomSphereWithColor( JoonsWrapper.MATERIAL_DIFFUSE, p.color( 25, 25, 25 ), -1 );
 		
 		// mirror ball
 		pushMatrix();
@@ -71,7 +61,7 @@ extends PAppletHax {
 		sphere(12);
 		popMatrix();
 		// always call after drawing shapes
-		_jw.addColorForObject( JoonsWrapper.MATERIAL_MIRROR, -1, p.color( 200, 200, 200 ), true );
+		if( _jw != null ) _jw.addColorForObject( JoonsWrapper.MATERIAL_MIRROR, -1, p.color( 200, 200, 200 ), true );
 
 		
 		// glass model
@@ -85,7 +75,7 @@ extends PAppletHax {
 	
 		// draw boxes
 
-		float segments = 20;
+		float segments = 6;
 		float radius = 60;
 		float inc = P.TWO_PI / segments;
 		for( float i=0; i < P.TWO_PI; i+= inc ) {
@@ -105,7 +95,7 @@ extends PAppletHax {
 //			p.popMatrix();
 
 			// always call after drawing shapes
-			_jw.addColorForObject( JoonsWrapper.MATERIAL_SHINY, p.color( 200, 200, 200 ), 1, false );
+			if( _jw != null ) _jw.addColorForObject( JoonsWrapper.MATERIAL_SHINY, p.color( 200, 200, 200 ), 1, false );
 			
 			
 			
@@ -116,7 +106,7 @@ extends PAppletHax {
 			sphere(3.5f);
 			popMatrix();
 			// always call after drawing shapes
-			_jw.addColorForObject( JoonsWrapper.MATERIAL_SHINY, p.color( 0, 0, 0 ), 1, true );
+			if( _jw != null ) _jw.addColorForObject( JoonsWrapper.MATERIAL_SHINY, p.color( 0, 0, 0 ), 1, true );
 
 			
 			// glass ball
@@ -126,14 +116,9 @@ extends PAppletHax {
 			sphere(5f);
 			popMatrix();
 			// always call after drawing shapes
-			_jw.addColorForObject( JoonsWrapper.MATERIAL_GLASS, -1, p.color( 127, 127, 127 ), true );
+			if( _jw != null ) _jw.addColorForObject( JoonsWrapper.MATERIAL_GLASS, -1, p.color( 127, 127, 127 ), true );
 			
 		}
-
-
-		
-		// render frame
-		if( autoRender == true ) _jw.endFrame();
 	}
 
 }

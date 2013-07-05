@@ -21,6 +21,7 @@ import com.haxademic.core.hardware.kinect.KinectWrapper;
 import com.haxademic.core.hardware.midi.MidiWrapper;
 import com.haxademic.core.hardware.osc.OscWrapper;
 import com.haxademic.core.hardware.webcam.WebCamWrapper;
+import com.haxademic.core.render.JoonsWrapper;
 import com.haxademic.core.render.MIDISequenceRenderer;
 import com.haxademic.core.render.Renderer;
 import com.haxademic.core.system.FileUtil;
@@ -195,6 +196,11 @@ extends PApplet
 	public String _graphicsMode;
 
 	/**
+	 * Joons renderer wrapper
+	 */
+	protected JoonsWrapper _jw;
+	
+	/**
 	 * Helps the Renderer object work with minimal reconfiguration. Maybe this should be moved at some point... 
 	 */
 	protected Boolean _isRendering = true;
@@ -223,7 +229,7 @@ extends PApplet
 			overridePropsFile();
 			_is_setup = true;
 			// set screen size and renderer
-			String renderer = P.OPENGL; //( _appConfig.getBoolean("sunflow", true ) == true ) ? P.SUNFLOW : P.OPENGL;
+			String renderer = P.OPENGL;
 			if( _appConfig.getBoolean("fills_screen", false) == true || _appConfig.getBoolean("fullscreen", false) == true ) {
 				p.size(displayWidth,displayHeight,renderer);
 			} else {
@@ -307,6 +313,9 @@ extends PApplet
 		_oscWrapper = new OscWrapper( p );
 		_minim = new Minim( p );
 		meshPool = new MeshPool( p );
+		_jw = ( _appConfig.getBoolean("sunflow", true ) == true ) ? 
+				new JoonsWrapper( p, width, height, ( _appConfig.getString("sunflow_quality", "high" ) == "high" ) ? JoonsWrapper.QUALITY_HIGH : JoonsWrapper.QUALITY_LOW, ( _appConfig.getBoolean("sunflow_active", true ) == true ) ? true : false ) 
+		: null;
 		_debugText = new DebugText( p );
 		if( _showStats == true ) _stats = new Stats( p );
 		try { _robot = new Robot(); } catch( Exception error ) { println("couldn't init Robot for screensaver disabling"); }
@@ -329,9 +338,9 @@ extends PApplet
 		initializeExtraObjectsOn1stFrame();	// wait until draw() happens, to avoid weird launch crash if midi signals were coming in as haxademic starts
 		_audioInput.getBeatDetection(); // detect beats and pass through to current visual module	// 		int[] beatDetectArr = 
 		if( kinectWrapper != null ) kinectWrapper.update();
-		
+		if( _jw != null ) _jw.startFrame();
 		drawApp();
-		
+		if( _jw != null ) _jw.endFrame( _appConfig.getBoolean("sunflow_save_images", false) == true );
 		if( _isRendering == true ) _renderer.renderFrame(); 	// render frame if rendering
 		if( _showStats == true ) showStats();
 	}

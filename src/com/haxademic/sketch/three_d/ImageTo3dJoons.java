@@ -4,9 +4,7 @@ import processing.core.PImage;
 import toxi.geom.Triangle3D;
 import toxi.geom.mesh.TriangleMesh;
 
-import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.draw.shapes.Shapes;
 import com.haxademic.core.image.ImageUtil;
 import com.haxademic.core.render.JoonsWrapper;
 import com.haxademic.core.system.FileUtil;
@@ -20,17 +18,17 @@ extends PAppletHax {
 	protected PImage image;
 	protected boolean isWebCam;
 	
-		
-	protected JoonsWrapper _jw;
 
 	public void setup() {
 		super.setup();
 		image = p.loadImage( FileUtil.getHaxademicDataPath() + "images/dawn-pattern.png" );
-		_jw = new JoonsWrapper( p, width, height, JoonsWrapper.QUALITY_HIGH );
 	}
 	
 	protected void overridePropsFile() {
 		_appConfig.setProperty( "sunflow", "true" );
+		_appConfig.setProperty( "sunflow_active", "false" );
+		_appConfig.setProperty( "sunflow_quality", "high" );
+		_appConfig.setProperty( "sunflow_save_images", "true" );
 		_appConfig.setProperty( "width", "1300" );
 		_appConfig.setProperty( "height", "1000" );
 		_appConfig.setProperty( "rendering", "false" );
@@ -38,11 +36,9 @@ extends PAppletHax {
 
 	public void drawApp() {
 		background(0);
-//		lights();
+		lights();
 		p.noStroke();
 		
-		
-		_jw.startFrame();
 				
 //		p.rotateX(5.03f);
 		p.rotateX(5.7f);
@@ -50,23 +46,12 @@ extends PAppletHax {
 //		p.rotateX(-0.8f);
 //		p.rotateX(mouseY*0.01f);
 //		P.println(mouseY*0.01f);
-//		p.rotateY(mouseX*0.01f);
 
-		if( _appConfig.getBoolean("sunflow", false) == true ) _jw.drawRoomWithSizeAndColor( width, height, JoonsWrapper.MATERIAL_MIRROR, -1, p.color( 60, 60, 60) );
-		
-		// mirror ball
-//		pushMatrix();
-//		translate(0,-50,0);
-//		fill(255);
-//		sphere(30);
-//		popMatrix();
-//		// always call after drawing shapes
-//		_jw.addColorForObject( JoonsWrapper.MATERIAL_MIRROR, -1, p.color( 255, 255, 255 ), true );
-
+		// draw a dark room
+		if( _jw != null ) _jw.drawRoomWithSizeAndColor( width, height, JoonsWrapper.MATERIAL_MIRROR, -1, p.color( 60, 60, 60) );
 	
 		// draw pyramids
 		float size = 3.5f;
-		float height = 0;
 		for( int x=0; x < image.width; x++ ){
 			for(int y=0; y < image.height; y++){
 				int pixelColor = ImageUtil.getPixelColor( image, x, y );
@@ -77,10 +62,7 @@ extends PAppletHax {
 				p.pushMatrix();
 				float xScaled = -image.width*size/2f + (float) x * size;
 				float yScaled  = -image.height*size/2f + (float) y * size;
-				p.translate(xScaled, yScaled);
-				height = pixelBrightness * 0.1f;
-//				if( height < 2 ) height = 2;
-				
+				p.translate(xScaled, yScaled);				
 				
 				// pyramids
 //				Shapes.drawPyramid( p, height, size, false );
@@ -88,15 +70,12 @@ extends PAppletHax {
 				
 				// spheres
 				sphere(size*0.5f * pixelBrightness/255f);
-				if( _appConfig.getBoolean("sunflow", false) == true ) _jw.addColorForObject( JoonsWrapper.MATERIAL_DIFFUSE, pixelColor, 1, true );
+				if( _jw != null ) _jw.addColorForObject( JoonsWrapper.MATERIAL_DIFFUSE, pixelColor, 1, true );
 				
 				
 				p.popMatrix();
 			}
 		}
-		
-		// render frame
-		if( _appConfig.getBoolean("sunflow", false) == true ) _jw.endFrame();
 	}
 
 }
