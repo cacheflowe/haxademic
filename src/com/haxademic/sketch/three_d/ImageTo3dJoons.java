@@ -20,21 +20,19 @@ extends PAppletHax {
 	protected PImage image;
 	protected boolean isWebCam;
 	
-	
-	boolean autoRender = true;
 		
 	protected JoonsWrapper _jw;
 
 	public void setup() {
 		super.setup();
-		image = p.loadImage( FileUtil.getHaxademicDataPath() + "images/justin-small-bw.png" );
+		image = p.loadImage( FileUtil.getHaxademicDataPath() + "images/dawn-pattern.png" );
 		_jw = new JoonsWrapper( p, width, height, JoonsWrapper.QUALITY_HIGH );
 	}
 	
 	protected void overridePropsFile() {
-		_appConfig.setProperty( "sunflow", "false" );
-		_appConfig.setProperty( "width", "1000" );
-		_appConfig.setProperty( "height", "1200" );
+		_appConfig.setProperty( "sunflow", "true" );
+		_appConfig.setProperty( "width", "1300" );
+		_appConfig.setProperty( "height", "1000" );
 		_appConfig.setProperty( "rendering", "false" );
 	}
 
@@ -45,14 +43,16 @@ extends PAppletHax {
 		
 		
 		_jw.startFrame();
-		
-		p.rotateX(5.03f);
+				
+//		p.rotateX(5.03f);
+		p.rotateX(5.7f);
+//		p.rotateX(6.35f);
 //		p.rotateX(-0.8f);
 //		p.rotateX(mouseY*0.01f);
 //		P.println(mouseY*0.01f);
 //		p.rotateY(mouseX*0.01f);
 
-		_jw.drawRoomWithSizeAndColor( width, height, JoonsWrapper.MATERIAL_MIRROR, -1, p.color( 60, 60, 60) );
+		if( _appConfig.getBoolean("sunflow", false) == true ) _jw.drawRoomWithSizeAndColor( width, height, JoonsWrapper.MATERIAL_MIRROR, -1, p.color( 60, 60, 60) );
 		
 		// mirror ball
 //		pushMatrix();
@@ -65,7 +65,7 @@ extends PAppletHax {
 
 	
 		// draw pyramids
-		float size = 1.4f;
+		float size = 3.5f;
 		float height = 0;
 		for( int x=0; x < image.width; x++ ){
 			for(int y=0; y < image.height; y++){
@@ -84,11 +84,11 @@ extends PAppletHax {
 				
 				// pyramids
 //				Shapes.drawPyramid( p, height, size, false );
-//				_jw.addColorForObject( JoonsWrapper.MATERIAL_SHINY, pixelColor, 1, false );
+//				if( _appConfig.getBoolean("sunflow", false) == true ) _jw.addColorForObject( JoonsWrapper.MATERIAL_SHINY, pixelColor, 1, false );
 				
 				// spheres
 				sphere(size*0.5f * pixelBrightness/255f);
-				_jw.addColorForObject( JoonsWrapper.MATERIAL_CONSTANT, pixelColor, 1, true );
+				if( _appConfig.getBoolean("sunflow", false) == true ) _jw.addColorForObject( JoonsWrapper.MATERIAL_DIFFUSE, pixelColor, 1, true );
 				
 				
 				p.popMatrix();
@@ -96,7 +96,7 @@ extends PAppletHax {
 		}
 		
 		// render frame
-		if( autoRender == true ) _jw.endFrame();
+		if( _appConfig.getBoolean("sunflow", false) == true ) _jw.endFrame();
 	}
 
 }
