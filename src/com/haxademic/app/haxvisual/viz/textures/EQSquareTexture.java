@@ -7,6 +7,7 @@ import toxi.color.TColor;
 import com.haxademic.app.haxvisual.viz.IAudioTexture;
 import com.haxademic.core.app.P;
 import com.haxademic.core.audio.AudioInputWrapper;
+import com.haxademic.core.debug.DebugUtil;
 import com.haxademic.core.draw.color.ColorGroup;
 import com.haxademic.core.draw.color.TColorBlendBetween;
 
@@ -19,6 +20,7 @@ implements IAudioTexture
 	protected TColorBlendBetween _color;
 	
 	public EQSquareTexture( int width, int height ) {
+		DebugUtil.printErr("EQSquareTexture: Fix performance issues by converting PGraphics to PImage");
 		_width = width;
 		_height = height;
 		_graphics = P.p.createGraphics( _width, _height, P.P3D );
