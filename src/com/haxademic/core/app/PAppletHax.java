@@ -223,7 +223,7 @@ extends PApplet
 			overridePropsFile();
 			_is_setup = true;
 			// set screen size and renderer
-			String renderer = ( _appConfig.getBoolean("sunflow", true ) == true ) ? P.SUNFLOW : P.OPENGL;
+			String renderer = P.OPENGL; //( _appConfig.getBoolean("sunflow", true ) == true ) ? P.SUNFLOW : P.OPENGL;
 			if( _appConfig.getBoolean("fills_screen", false) == true || _appConfig.getBoolean("fullscreen", false) == true ) {
 				p.size(displayWidth,displayHeight,renderer);
 			} else {
