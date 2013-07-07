@@ -67,6 +67,7 @@ extends PAppletHax {
 			p.fill(0, 255, 0, 40);
 			p.stroke(127, 255, 127, 255);
 			p.strokeWeight(2f);
+			_texture.beginDraw();
 			_texture.noFill();
 			_texture.stroke(255);
 			_texture.strokeWeight(3f);
@@ -77,6 +78,7 @@ extends PAppletHax {
 			
 			p.translate(p.width/2, p.height/2);
 			drawSkeletonLines(rotations);
+			_texture.endDraw();
 		}
 
 		p.popMatrix();

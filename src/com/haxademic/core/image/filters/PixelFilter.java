@@ -27,12 +27,12 @@ public class PixelFilter {
 		_pg = p.createGraphics( _width, _height );
 	}
 	
-	public PImage updateWithPImage( PImage source ) {
-		drawPixels( source );
+	public PImage pg() {
 		return _pg;
 	}
 	
-	public PImage pg() {
+	public PImage updateWithPImage( PImage source ) {
+		drawPixels( source );
 		return _pg;
 	}
 	

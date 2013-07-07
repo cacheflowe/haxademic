@@ -32,12 +32,17 @@ public class ImageHistogramFilter {
 		_colors = new ArrayList<ColorAndCount>();
 	}
 	
+	public PImage pg() {
+		return _pg;
+	}
+	
 	public PImage updateWithPImage( PImage source ) {
 		drawPixels( source );
 		return _pg;
 	}
 	
 	protected void drawPixels( PImage source ) {
+		_pg.beginDraw();
 		ImageUtil.clearPGraphics( _pg );
 		DrawUtil.setDrawCorner(p);
 		_pg.noStroke();
@@ -70,6 +75,7 @@ public class ImageHistogramFilter {
 				_pg.rect( x, y, _rowSize, _rowSize );
 			}
 		}
+		_pg.endDraw();
 	}
 	
 	protected void addColorToHistogram( int color ) {

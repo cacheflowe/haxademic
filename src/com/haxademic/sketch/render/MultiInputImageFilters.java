@@ -53,7 +53,7 @@ extends PAppletHax
 
 	// INITIALIZE OBJECTS ===================================================================================
 	public void initRender() {
-		inputType = WEBCAM;
+		inputType = IMAGE;
 		int w = 1280;
 		int h = 720;
 		
@@ -115,12 +115,12 @@ extends PAppletHax
 	
 	protected void applyImageFilters() {
 //		_curFrame = _histogramFilter.updateWithPImage( _curFrame );
+//		if( frameCount % 2 == 1 ) _curFrame = _clusterRowFilter.updateWithPImage( _curFrame );
 //		_curFrame = _pixelTriFilter.updateWithPImage( _curFrame );	// _clusterRowFilter.updateWithPImage( 
-//		_curFrame = _clusterRowFilter.updateWithPImage( _curFrame );
 //		_curFrame = _pixelTriFilter.updateWithPImage( _histogramFilter.updateWithPImage( _curFrame ) );
 //		_curFrame = _blobFilter.updateWithPImage( _curFrame );	// _pixelFilter.updateWithPImage( 
-		_curFrame = _pixelTriFilter.updateWithPImage( _histogramFilter.updateWithPImage( _reflectionFilter.updateWithPImage( _curFrame ) ) );
-//		_curFrame = _blobFilter.updateWithPImage( _pixelFilter.updateWithPImage( _curFrame ) );
+//		_curFrame = _pixelTriFilter.updateWithPImage( _histogramFilter.updateWithPImage( _reflectionFilter.updateWithPImage( _curFrame ) ) );
+		_curFrame = _blobFilter.updateWithPImage( _pixelFilter.updateWithPImage( _curFrame ) );
 	}
 	
 	protected void applyPostFilters() {

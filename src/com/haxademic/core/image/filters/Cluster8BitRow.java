@@ -26,12 +26,17 @@ public class Cluster8BitRow {
 		_pg = p.createGraphics( _width, _height, P.P3D );
 	}
 	
+	public PImage pg() {
+		return _pg;
+	}
+	
 	public PImage updateWithPImage( PImage source ) {
 		drawPixels( source );
 		return _pg;
 	}
 	
 	protected void drawPixels( PImage source ) {
+		_pg.beginDraw();
 		ImageUtil.clearPGraphics( _pg );
 		_pg.noStroke();
 		_pg.fill(0,0);
@@ -41,6 +46,7 @@ public class Cluster8BitRow {
 		} else {
 			drawHorizontal( source );
 		}
+		_pg.endDraw();
 	}
 	
 	protected void drawHorizontal( PImage source ) {	

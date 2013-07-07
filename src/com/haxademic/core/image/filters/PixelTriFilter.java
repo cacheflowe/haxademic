@@ -27,12 +27,17 @@ public class PixelTriFilter {
 		_pg = p.createGraphics( _width, _height, P.P3D );
 	}
 	
+	public PImage pg() {
+		return _pg;
+	}
+	
 	public PImage updateWithPImage( PImage source ) {
 		drawPixels( source );
 		return _pg;
 	}
 	
 	protected void drawPixels( PImage source ) {
+		_pg.beginDraw();
 		ImageUtil.clearPGraphics( _pg );
 		_pg.noStroke();
 		// _pg.smooth();
@@ -41,9 +46,7 @@ public class PixelTriFilter {
 		
 		for( int x=0; x < source.width; x += _pixelSize ) {
 			for( int y=0; y < source.height; y += _pixelSize ) {
-				// get center color of triangle
-				_pg.beginDraw();
-				
+				// get center color of triangle				
 				_pg.fill( ImageUtil.getPixelColor( source, x, y + pixelSizeHalf ) );
 				_pg.beginShape(P.TRIANGLES);
 				_pg.vertex( x, y, 0 );
@@ -57,9 +60,8 @@ public class PixelTriFilter {
 				_pg.vertex( x + _pixelSize, y, 0 );
 				_pg.vertex( x + pixelSizeHalf, y + _pixelSize, 0 );
 				_pg.endShape();
-
-				_pg.endDraw();
 			}
 		}
+		_pg.endDraw();
 	}
 }

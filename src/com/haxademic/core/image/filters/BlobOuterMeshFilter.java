@@ -29,6 +29,10 @@ public class BlobOuterMeshFilter {
 		initBlobDetection();
 	}
 	
+	public PImage pg() {
+		return _pg;
+	}
+	
 	protected void initBlobDetection() {
 		_pg = p.createGraphics( _width, _height, P.P3D );
 		
@@ -56,6 +60,7 @@ public class BlobOuterMeshFilter {
 	// test 2 - mesh from outer
 	protected void drawEdges(PImage source)
 	{
+		_pg.beginDraw();
 		ImageUtil.clearPGraphics( _pg );
 		_pg.noStroke();
 		_pg.fill(0,0);
@@ -98,6 +103,7 @@ public class BlobOuterMeshFilter {
 				}
 			}
 		}
+		_pg.endDraw();
 		
 		// draw shadow
 		p.pushMatrix();
