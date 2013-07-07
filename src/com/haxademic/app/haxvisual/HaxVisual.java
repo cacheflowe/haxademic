@@ -26,6 +26,7 @@ import com.haxademic.core.hardware.midi.MidiWrapper;
 import com.haxademic.core.image.ScreenUtil;
 import com.haxademic.core.system.FileUtil;
 
+@SuppressWarnings("serial")
 public class HaxVisual
 extends PAppletHax 
 {
@@ -36,18 +37,12 @@ extends PAppletHax
 	 */
 
 	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-
-	/**
 	 * Auto-initialization of the main class.
 	 * @param args
 	 */
-	public static void main(String args[]) {
-		// "--present", 
-		_hasChrome = false;
-		PApplet.main(new String[] { "--hide-stop", "--bgcolor=000000", "com.haxademic.app.haxvisual.HaxVisual" });
+	static public void main(String args[]) {
+		_isFullScreen = false;
+		PApplet.main( "com.haxademic.app.haxvisual.HaxVisual", new String[] { "--hide-stop", "--bgcolor=000000" } );
 	}
 
 	/**

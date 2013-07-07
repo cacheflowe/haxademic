@@ -25,12 +25,10 @@ import com.haxademic.core.render.JoonsWrapper;
 import com.haxademic.core.render.MIDISequenceRenderer;
 import com.haxademic.core.render.Renderer;
 import com.haxademic.core.system.FileUtil;
-import com.haxademic.core.system.MacMenuBarTint;
 import com.haxademic.core.system.P5Properties;
 import com.haxademic.core.system.SystemUtil;
 
 import ddf.minim.Minim;
-import fullscreen.FullScreen;
 
 /**
  * PAppletHax is a starting point for interactive visuals, giving you a unified
@@ -102,11 +100,6 @@ extends PApplet
 	public ToxiclibsSupport toxi;
 	
 	/**
-	 * FullScreen object to get rid of the grey toolbar on OS X.
-	 */
-	private FullScreen fs; 
-	
-	/**
 	 * Single instance and wrapper for the ESS audio object.
 	 */
 	public AudioInputWrapper _audioInput;
@@ -164,9 +157,14 @@ extends PApplet
 	protected Boolean _is_setup = false;
 	
 	/**
-	 * Override this in a subclass of PAppletHax if you want to remove the window chrome . Must be published as an Application, not an Applet.
+	 * Override this in a subclass of PAppletHax in main() if you want to remove the window chrome. Must be published as an Application, not an Applet.
 	 */
 	protected static Boolean _hasChrome = true;
+	
+	/**
+	 * Override this in a subclass of PAppletHax in main() if you want to go full screen. Must be published as an Application, not an Applet.
+	 */
+	protected static Boolean _isFullScreen = false;
 	
 	/**
 	 * Executable's target frames per second. 
@@ -237,7 +235,6 @@ extends PApplet
 			}
 		}
 		_graphicsMode = p.g.getClass().getName();
-//		if(_graphicsMode == P.OPENGL) P.gl=((PGraphicsOpenGL)g).gl;
 		if( frame != null ) frame.setBackground(new java.awt.Color(0,0,0));
 		setAppletProps();
 		initHaxademicObjects();
@@ -249,6 +246,10 @@ extends PApplet
 	
 	protected void drawApp() {
 		P.println("YOU MUST OVERRIDE drawApp()");
+	}
+	
+	public boolean sketchFullScreen() {
+		return _isFullScreen;
 	}
 	
 	protected void handleInput( boolean isMidi ) {
@@ -286,7 +287,6 @@ extends PApplet
 		_fps = _appConfig.getInt("fps", 30);
 		frameRate(_fps);
 		if( _appConfig.getBoolean("hide_cursor", false) == true ) p.noCursor();
-		if( _appConfig.getBoolean("menu_bar_tint", false) == true ) MacMenuBarTint.launchTint();
 	}
 	
 	public void init() {
@@ -319,7 +319,6 @@ extends PApplet
 		_debugText = new DebugText( p );
 		if( _showStats == true ) _stats = new Stats( p );
 		try { _robot = new Robot(); } catch( Exception error ) { println("couldn't init Robot for screensaver disabling"); }
-		if( _appConfig.getBoolean( "fullscreen", true ) ) launchFullScreen();
 	}
 	
 	protected void initializeExtraObjectsOn1stFrame() {
@@ -400,16 +399,6 @@ extends PApplet
 
 	}
 	
-	/**
-	 * Inits the full-screen object and launches it.
-	 */
-	protected void launchFullScreen() {
-		// add fullscreen - use fs.enter(); to make it happen immediately, or use cmd + F to toggle fullscreen manually 
-		//	fs.setResolution( width, height );
-		fs = new FullScreen(this); 
-		fs.enter();
-	}
-	
 	protected void killScreensaver(){
 		// keep screensaver off - hit shift every 1000 frames
 		if( p.frameCount % 1000 == 0 ) _robot.keyRelease(KeyEvent.VK_SHIFT);
@@ -433,7 +422,6 @@ extends PApplet
 	 */
 	public void stop() {
 		if( _isRendering ) _renderer.stop();
-		MacMenuBarTint.shutDownTint();
 		WebCamWrapper.dispose();
 //		if( _launchpadViz != null ) _launchpadViz.dispose();
 		if( kinectWrapper != null ) kinectWrapper.stop();

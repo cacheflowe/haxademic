@@ -32,7 +32,7 @@ extends PAppletHax
 	 */
 	private static final long serialVersionUID = 1L;
 	public static void main(String args[]) {
-		_hasChrome = false;
+		_isFullScreen = false;
 		PApplet.main(new String[] { "--hide-stop", "--bgcolor=000000", "com.haxademic.app.airdrums.AirDrums" });
 	}
 

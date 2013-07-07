@@ -32,8 +32,7 @@ extends PAppletHax
 	 * @param args
 	 */
 	public static void main(String args[]) {
-		// "--present",
-		_hasChrome = false;
+		_isFullScreen = false;
 		PApplet.main(new String[] { "--hide-stop", "--bgcolor=000000", "com.haxademic.app.kacheout.KacheOut" });
 	}
 
