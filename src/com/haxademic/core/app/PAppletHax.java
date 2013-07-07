@@ -202,6 +202,7 @@ extends PApplet
 	 * Helps the Renderer object work with minimal reconfiguration. Maybe this should be moved at some point... 
 	 */
 	protected Boolean _isRendering = true;
+	protected int _renderShutdown = -1;
 	
 	/**
 	 * Helps the Renderer object work without trying to read an audio file
@@ -340,7 +341,13 @@ extends PApplet
 		if( _jw != null ) _jw.startFrame();
 		drawApp();
 		if( _jw != null ) _jw.endFrame( _appConfig.getBoolean("sunflow_save_images", false) == true );
-		if( _isRendering == true ) _renderer.renderFrame(); 	// render frame if rendering
+		if( _isRendering == true ) {
+			if( _renderShutdown == -1 ) {
+				_renderer.renderFrame();
+			} else if( p.frameCount >= _renderShutdown + 1 ) {
+				p.exit();
+			}
+		}
 		if( _showStats == true ) showStats();
 	}
 	
@@ -409,8 +416,12 @@ extends PApplet
 	 */
 	public void keyPressed() {
 		// disable esc key - subclass must call super.keyPressed()
-		if( p.key == P.ESC && _appConfig.getBoolean("disable_esc", false) == true ) {
+		if( p.key == P.ESC && ( _appConfig.getBoolean("disable_esc", false) == true || _appConfig.getBoolean("rendering", false) == true ) ) {
 			key = 0;
+			if( _isRendering ) {
+				_renderShutdown = p.frameCount;
+				_renderer.stop();
+			}
 		}
 
 		handleInput( false );
@@ -421,7 +432,6 @@ extends PApplet
 	 * We stop rendering if applicable, and clean up hardware connections that might barf if left open.
 	 */
 	public void stop() {
-		if( _isRendering ) _renderer.stop();
 		WebCamWrapper.dispose();
 //		if( _launchpadViz != null ) _launchpadViz.dispose();
 		if( kinectWrapper != null ) kinectWrapper.stop();
