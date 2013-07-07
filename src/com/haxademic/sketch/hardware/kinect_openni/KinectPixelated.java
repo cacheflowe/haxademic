@@ -39,7 +39,8 @@ extends PAppletHax {
 		// draw filtered web cam
 		DrawUtil.setDrawCorner(p);
 		DrawUtil.setColorForPImage(p);
-		p.image(_pixelFilter.updateWithPImage(p.kinectWrapper.getRgbImage()), 0, 0);
+		
+		p.image(_pixelFilter.updateWithPImage( p.kinectWrapper.getRgbImage() ), 0, 0);
 
 
 		// loop through kinect data within player's control range

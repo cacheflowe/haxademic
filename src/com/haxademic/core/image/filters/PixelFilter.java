@@ -24,7 +24,7 @@ public class PixelFilter {
 		_width = width;
 		_height = height;
 		_pixelSize = pixelSize;
-		_pg = p.createGraphics( _width, _height, P.P3D );
+		_pg = p.createGraphics( _width, _height );
 	}
 	
 	public PImage updateWithPImage( PImage source ) {
@@ -32,7 +32,12 @@ public class PixelFilter {
 		return _pg;
 	}
 	
+	public PImage pg() {
+		return _pg;
+	}
+	
 	protected void drawPixels( PImage source ) {
+		_pg.beginDraw();
 		ImageUtil.clearPGraphics( _pg );
 		_pg.noStroke();
 		_pg.fill(0,0);
@@ -44,5 +49,6 @@ public class PixelFilter {
 				_pg.rect( x, y, _pixelSize, _pixelSize );
 			}
 		}
+		_pg.endDraw();
 	}
 }

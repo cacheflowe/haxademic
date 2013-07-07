@@ -71,9 +71,9 @@ public class ImageUtil {
 	}
 	
 	public static void clearPGraphics( PGraphics pg ) {
+//		pg.beginDraw();
 		pg.background(0,0);
-		pg.beginDraw();
-		pg.endDraw();
+//		pg.endDraw();
 	}
 	
 	public static PImage bufferedToPImage( BufferedImage bimg ) {
