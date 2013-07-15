@@ -14,7 +14,7 @@ While the code has been open-sourced, I haven't had time to write much (any) doc
 	* MIDI input (both realtime and step-through for rendering)
 		* Cached MIDI input to avoid thread-unsafe operations
 	* OSC input
-	* Kinect input, with skeleton data via OpenNI
+	* Kinect input, with skeleton tracking and helper methods
 	* Simple webcam wrapper
 * 3D tools (using Toxiclibs WETriangleMesh objects as the common format)
 	* Convert SVG files to 2D meshes
@@ -46,7 +46,7 @@ While the code has been open-sourced, I haven't had time to write much (any) doc
 	* Elastic 3d floats
 * Drawing utilities
 	* Utilities to (re)set Applet properties like lighting, current matrix, drawing colors
-	* OpenGL utility to set GL-specific properties
+	* ~~OpenGL utility to set GL-specific properties~~
 	* Eased color interpolation
 * Output
 	* Render to Quicktime or image sequence with minimal effort
@@ -56,9 +56,9 @@ While the code has been open-sourced, I haven't had time to write much (any) doc
 	* .properties file loader with overridable defaults
 	* Directory searching for specific filetypes
 	* Automatic system screensaver disabling while running
-	* ~~True full-screen mode on OS X~~
-	* Toggles the window chrome on a non-fullscreen applet
-	* Debug utilities to report current actual frame rate, memory usage 
+	* True full-screen mode on OS X
+	* Toggles the window chrome on a non-fullscreen Java application
+	* Debug utilities to report current actual frame rate, memory usage and print red text to the console
 	* Timestamp generators
 	* CSV loading & saving
 * Apps
@@ -90,7 +90,7 @@ Haxademic uses the following Java & Processing libraries, which I've included in
 * [ESS](http://www.tree-axis.com/Ess/)
 * [simple-openni](http://code.google.com/p/simple-openni/)
 * [toxiclibs](http://toxiclibs.org/)
-* [p5sunflow](https://github.com/hryk/p5sunflow) original site is down :-/
+* [Joons renderer](https://github.com/joonhyublee/joons-renderer/wiki)
 * [OBJLoader](http://code.google.com/p/saitoobjloader/)
 * [themidibus](https://github.com/sparks/themidibus)
 * [oscP5](http://www.sojamo.de/libraries/oscP5/)
@@ -102,16 +102,27 @@ Haxademic uses the following Java & Processing libraries, which I've included in
 * [Java Image Filters](http://www.jhlabs.com/ip/filters/index.html)
 * [Super CSV](http://supercsv.sourceforge.net/)
 
-Use the following VM Arguments when running the Java Application
+Use the following VM Arguments when running the Java Application to increase memory allocated to your app
 
-* `-d32` (when rendering to Quicktime movie or using a web cam)
 * `-Xmx1024M`
 * `-Xms1024M`
 
 General Use / Tips
 
-* If you get a Quicktime error, try adding `-d32` to your VM arguments when compiling. 
 * If you want to wipe your `bin/` directory, you'll have to do a **Project -> Clean…** in Eclipse afterwards.
+
+## Copying Haxademic to a new project 
+* Copy the entire **haxademic-2** project directory to a new one in your filesystem
+* Make sure hidden/system files are showing
+* Delete the **.git** folder
+* Open the **.classpath** file with a text editor and replace the instance of **haxademic-2** with the name of your new project directory
+* Open the **.project** file with a text editor and repeat the previous step
+* Open Eclipse, and in the Package Explorer panel, right click in the empty space and select "Import Project"
+	* Select "Import existing projects into workspace…"
+	* Open Eclipse and: **File -> Import -> General / Existing Projects into Workspace**
+	* Choose your new project directory and press **Finish** - the project should be ready to use in its new sandbox
+	
+
 
 ## Todo
 * Comment the codebase and generate docs
