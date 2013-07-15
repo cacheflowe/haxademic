@@ -37,7 +37,7 @@ extends PAppletHax
 		for( int x=0; x < sourceImg.width; x++ ){
 			for( int y=0; y < sourceImg.height; y++ ){
 				int pixelColor = ImageUtil.getPixelColor( sourceImg, x, y );
-				float pixelBrightness = p.brightness( pixelColor );
+				// float pixelBrightness = p.brightness( pixelColor );
 				
 				r = ColorHax.redFromColorInt( pixelColor );
 				g = ColorHax.greenFromColorInt( pixelColor );
