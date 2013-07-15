@@ -1,4 +1,4 @@
-package com.haxademic.sketch.three_d;
+package com.haxademic.sketch.three_d.texture;
 
 import krister.Ess.AudioInput;
 import processing.core.PApplet;
