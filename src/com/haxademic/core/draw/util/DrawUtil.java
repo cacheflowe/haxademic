@@ -15,8 +15,8 @@ public class DrawUtil {
 	public static void resetGlobalProps(PApplet p) {
 		p.resetMatrix();
 		p.colorMode( P.RGB, 255, 255, 255, 255 );
-		p.fill( 0, 255, 0, 127 );
-		p.stroke( 0, 255, 0, 127 );
+		p.fill( 0, 255, 0, 255 );
+		p.stroke( 0, 255, 0, 255 );
 		p.strokeWeight( 1 );
 		p.imageMode( PConstants.CENTER );
 		p.rectMode( PConstants.CENTER );
