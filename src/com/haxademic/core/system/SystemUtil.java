@@ -1,6 +1,7 @@
 package com.haxademic.core.system;
 
 import processing.core.PApplet;
+import processing.opengl.PGL;
 
 import com.haxademic.core.app.P;
 
@@ -22,5 +23,10 @@ public class SystemUtil {
 
 	public static String getTimestampFine( PApplet p ) {
 		return SystemUtil.getTimestamp(p) + "-" + P.nf( p.frameCount, 8 ); 
+	}
+	
+	// monkey-patch TAB capture ability - Processing 2.0 broke this in 3D rendering contexts
+	public static void p2TabKeyInputPatch() {
+		if(PGL.canvas != null) { PGL.canvas.setFocusTraversalKeysEnabled(false); }
 	}
 }
