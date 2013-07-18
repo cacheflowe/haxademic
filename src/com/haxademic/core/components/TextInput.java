@@ -39,13 +39,17 @@ implements IMouseable {
 		_focused = false;
 		_cursorX = ( align == CustomFontText2D.ALIGN_LEFT ) ? _padX : _rect.width/2;
 		_textWidth = _rect.width - ( _padX * 2 );
-		_fontRenderer = new CustomFontText2D( p, fontFile, _fontSize, _textColor, align, _textWidth, (int)_fontSize );
+		_fontRenderer = new CustomFontText2D( p, fontFile, _fontSize, _textColor, align, _textWidth, (int)_fontSize + 10 );
 		_text = "";
 		_fontRenderer.updateText( _text );
 	}
 	
 	public String id() {
 		return _id;
+	}
+	
+	public String text() {
+		return _text;
 	}
 	
 	public int length() {

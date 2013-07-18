@@ -12,6 +12,7 @@ import com.haxademic.core.components.TextButton;
 import com.haxademic.core.components.TextInput;
 import com.haxademic.core.draw.text.CustomFontText2D;
 import com.haxademic.core.system.FileUtil;
+import com.haxademic.core.system.SystemUtil;
 import com.haxademic.core.text.ValidateUtil;
 
 @SuppressWarnings("serial")
@@ -41,6 +42,9 @@ extends PAppletHax{
 	public void setup() {
 		super.setup();
 		
+		// monkey-patch TAB capture ability - Processing 2.0 broke this in 3D rendering contexts
+		SystemUtil.p2TabKeyInputPatch();
+
 		loadAndSaveImagesFromDir();
 		
 		// test async image loading
@@ -106,6 +110,11 @@ extends PAppletHax{
 	public void keyPressed() {
 		super.keyPressed();
 		if( p.keyCode == P.BACKSPACE ) {
+		if( p.key == PConstants.BACKSPACE ) P.println("BACKSPACE");
+		if( p.key == PConstants.TAB ) P.println("TAB");
+		if( p.key == PConstants.RETURN ) P.println("RETURN");
+		if( p.key == PConstants.ENTER ) P.println("ENTER");
+		if( p.key == PConstants.BACKSPACE ) {
 			if( _activeTextInput != null ) {
 				_activeTextInput.backspace();
 			}
