@@ -29,8 +29,8 @@ public class AssetLoader {
 		p.meshPool.addMesh( KacheOut.CREATE_DENVER_LOGO, MeshUtil.meshFromSVG( p, "../data/svg/create-denver-logo.svg", -1, 6, 0.6f ), 1 );
 		
 		// Kacheout logo
-		p.meshPool.addMesh( KacheOut.KACHEOUT_LOGO, MeshUtil.meshFromImg( p, "../data/images/kacheout/kacheout.gif", 1.2f ), 20f );
-		p.meshPool.addMesh( KacheOut.KACHEOUT_LOGO_ALT, MeshUtil.meshFromImg( p, "../data/images/kacheout/kacheout_alt.gif", 1.2f ), 20f );
+		p.meshPool.addMesh( KacheOut.KACHEOUT_LOGO, MeshUtil.meshFromImg( p, "../data/images/kacheout/kacheout.gif", 1f ), 20f );
+		p.meshPool.addMesh( KacheOut.KACHEOUT_LOGO_ALT, MeshUtil.meshFromImg( p, "../data/images/kacheout/kacheout_alt.gif", 1f ), 20f );
 
 		// Built by text & ufo
 		p.meshPool.addMesh( KacheOut.BUILT_BY_TEXT, MeshUtil.mesh2dFromTextFont( p, _fontBitLow, null, 200, "BUILT BY:", -1, 2, 0.5f ), 1 );
