@@ -22,6 +22,7 @@ implements IMouseable {
 	protected float _cursorX;
 	protected float _cursorPadding;
 	protected float _textY;
+	protected float _caretY;
 	protected int _padX;
 	protected int _textColor;
 	protected int _textWidth;
@@ -33,7 +34,8 @@ implements IMouseable {
 		_padX = padX;
 		_cursorPadding = Math.round( _fontSize / 6f ); 
 		_rect = new Rectangle( x, y, w, h );
-		_textY = _rect.y + _rect.height * 0.5f - _fontSize * 0.5f;
+		_textY = _rect.y + _rect.height * 0.5f - _fontSize * 0.4f;
+		_caretY = _rect.y + _rect.height * 0.5f - _fontSize * 0.5f;
 		_over = false;
 		_pressed = false;
 		_focused = false;
@@ -64,6 +66,11 @@ implements IMouseable {
 		_focused = true;
 	}
 	
+	public void reset() {
+		_text = "";
+		_fontRenderer.updateText( _text );
+	}
+	
 	public void update( PApplet p ) {
 		DrawUtil.setDrawFlat2d( p, true );
 		p.noStroke();
@@ -81,7 +88,7 @@ implements IMouseable {
 		// draw cursor
 		if( _focused == true ) {
 			p.fill( _textColor );
-			if( p.millis() % 1000f > 500 ) p.rect( _rect.x + _cursorX, _textY, 2f, _fontSize );
+			if( p.millis() % 1000f > 500 ) p.rect( _rect.x + _cursorX, _caretY, 2f, _fontSize );
 		}
 		DrawUtil.setDrawFlat2d( p, false );
 	}
