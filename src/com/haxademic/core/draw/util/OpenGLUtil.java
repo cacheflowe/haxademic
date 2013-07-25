@@ -14,6 +14,10 @@ public class OpenGLUtil {
 		return null;
 	}
 	
+	public static final int SMOOTH_LOW = 2;
+	public static final int SMOOTH_MEDIUM = 4;
+	public static final int SMOOTH_HIGH = 8;
+
 	public static final int LOW = 0;
 	public static final int MEDIUM = 1;
 	public static final int HIGH = 2;
