@@ -73,7 +73,6 @@ While the code has been open-sourced, I haven't had time to write much (any) doc
 	* [Eclipse](http://www.eclipse.org/)
 	* [JDK](http://www.oracle.com/technetwork/java/javase/downloads/index.html)
 * [Download](http://code.google.com/p/simple-openni/downloads/list) and install the latest SimpleOpenNI (Kinect) drivers with the [instructions](http://code.google.com/p/simple-openni/wiki/Installation) for your particular platform
-* [Download](http://processing.org) and install the Processing 2.0 core libraries. Add the jars to your build path, as well as the libraries that come with Processing (video, minim, etc.)
 * Clone or [download](https://github.com/cacheflowe/haxademic-2/archive/master.zip) the Haxademic-2 project
 * Open Eclipse and: **File -> Import -> General / Existing Projects into Workspace**
 	* Choose the `haxademic` directory that you cloned/downloaded, press **Finish**, and the project should be ready to use
@@ -82,6 +81,24 @@ While the code has been open-sourced, I haven't had time to write much (any) doc
 	* Click the **Java Compiler** section and check the **Enable project specific settings** box on the right
 	* Select **1.6** as your **Compiler compliance level**, if possible
 	* If "Configure the **Installed JREs**" is shown at the bottom of this window, click that, make sure the **1.6** item is checked, then click OK.
+* [Download](http://processing.org) and install the Processing 2.0 core libraries (they're too big to include in this project). Add the jars to your build path, as well as the libraries that come with Processing (video, minim, etc.):
+	* Download Processing and right-click the application. Select **Show Package Contents**
+	* Within the package, navigate to `Contents/Resources/Java/core/library`
+		* Copy the contents of this directory to `haxademic-2/lib/processing-2.0/core` (create this directory if it doesn't exist)
+	* Within the application package again, navigate to `Contents/Resources/Java/modes/java/libraries`, and again copy the contents. Paste them into `haxademic-2/lib/processing-2.0/libraries`
+	* In the **Package Explorer** in Eclipse, right-click the `lib` directory and select **Refresh**
+	* In the `lib/processing-2.0/core` directory, right click the following .jar files and select **Build path -> Add to build path**:
+		* core.jar
+		* gluegen-rt.jar
+		* jogl-all.jar
+	* In the `lib/processing-2.0/libraries` directory, right click the following required .jar files and select **Build path -> Add to build path**. You can add others that you might need for your project: 
+		* minim/library/jl1.0.jar
+		* minim/library/jsminim.jar
+		* minim/library/minim.jar
+		* minim/library/mp3spi1.9.4.jar
+		* minim/library/tritonus_aos.jar
+		* minim/library/tritonus_share.jar
+		* video/library/video.jar
 * Right-click on a PApplet or PAppletHax subclass within `src` and choose **Run As -> Java Applet** from the menu. Hopefully you're seeing something awesome at this point.
 
 Haxademic uses the following Java & Processing libraries, which I've included in this repository so you don't have to find them yourself (more on that below):
