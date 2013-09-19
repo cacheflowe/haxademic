@@ -124,7 +124,7 @@ implements IVizElement {
 			cntrls[i].update( _audioData.getFFT().averages[i], _audioData.getFFT().averages[i] );
 		}
 		
-		p.beginShape(P.TRIANGLES);
+		if( _curMode ==  MODE_MESH || _curMode == MODE_TRIANGLES || _curMode == MODE_MESH_COLOR ) p.beginShape(P.TRIANGLES);
 		for (int i = 0; i < cols; i++) {
 			for (int j = 0; j < rows; j++) {
 				// Oscillate and display each object
@@ -143,7 +143,7 @@ implements IVizElement {
 				curB += incB;
 			}
 		}
-		p.endShape();
+		if( _curMode ==  MODE_MESH || _curMode == MODE_TRIANGLES || _curMode == MODE_MESH_COLOR ) p.endShape();
 
 	}
 	
@@ -246,16 +246,17 @@ implements IVizElement {
 			
 			switch( _curMode ){
 				case MODE_BOXES :
+				case MODE_CIRCLES :
 					p.fill(cellColor, 167f);
 					p.noStroke();
 					p.rect(x,y,w*sizeMult,h*sizeMult); 
 					break;
-				case MODE_CIRCLES :
-					p.stroke(cellColor);
-					p.strokeWeight(1);
-					p.noFill();
-					p.ellipse(x,y,w*sizeMult,h*sizeMult); 
-					break;
+//				case MODE_CIRCLES :
+//					p.stroke(cellColor);
+//					p.strokeWeight(1);
+//					p.noFill();
+//					p.ellipse(x,y,w*sizeMult,h*sizeMult); 
+//					break;
 				case MODE_BOXEN :
 					p.fill(cellColor, 167f);
 					p.noStroke();

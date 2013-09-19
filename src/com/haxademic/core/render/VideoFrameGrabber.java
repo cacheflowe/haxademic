@@ -2,6 +2,7 @@ package com.haxademic.core.render;
 
 
 import processing.core.PApplet;
+import processing.core.PGraphics;
 import processing.core.PImage;
 import processing.video.Movie;
 
@@ -12,7 +13,8 @@ public class VideoFrameGrabber {
 
 	protected String _videoFile;
 	protected Movie _video = null;
-	protected PImage _curFrame = null;
+	protected PGraphics _curFrameBuffer = null;
+	protected PImage _curFrameImage= null;
 	protected int _fps = 30;
 	protected int _startFrame = 0;
 	
@@ -24,9 +26,20 @@ public class VideoFrameGrabber {
 		_video = new Movie( p, _videoFile );
 		_video.play();
 		_video.frameRate( _fps );
-		_video.pause();
+//		_video.pause();
+		
+		_curFrameBuffer = p.createGraphics( _video.width, _video.height, P.P3D );
+		_curFrameImage = p.createImage( _video.width, _video.height, P.ARGB );
 		
 		seekAndUpdateFrame(0);
+	}
+	
+	public int width() {
+		return _video.width;
+	}
+	
+	public int height() {
+		return _video.height;
 	}
 	
 	public void readVideo() {
@@ -34,7 +47,7 @@ public class VideoFrameGrabber {
 	}
 	
 	public PImage curFrame() {
-		return _curFrame;
+		return _curFrameImage;
 	}
 	
 	public boolean isVideoDataGood() {
@@ -45,11 +58,18 @@ public class VideoFrameGrabber {
 	public void seekAndUpdateFrame( int frameIndex ) {
 		frameIndex += _startFrame;
 		seekTo( (float) frameIndex / _fps );
-		_video.read();
-		_video.pause();
-		P.p.image(_video, 0, 0);
-		if( _curFrame == null )	_curFrame = new PImage( _video.width, _video.height );	// need to wait till first frame has been read from video
-		_curFrame.copy( _video, 0, 0, _video.width, _video.height, 0, 0, _curFrame.width, _curFrame.height );
+//		if( _video.available() ) {
+			P.println("attempt to read "+frameIndex + "  - "+_video.available());
+//			P.p.image(_video, 0, 0);
+			
+			_curFrameBuffer.beginDraw();
+			_curFrameBuffer.image(_video, 0, 0, _video.width, _video.height);
+			_curFrameBuffer.endDraw();
+//
+			_curFrameImage.copy( _curFrameBuffer, 0, 0, _curFrameBuffer.width, _curFrameBuffer.height, 0, 0, _curFrameImage.width, _curFrameImage.height );
+//			if( _curFrame == null )	_curFrame = new PImage( _video.width, _video.height );	// need to wait till first frame has been read from video
+//			_curFrame.copy( _video, 0, 0, _video.width, _video.height, 0, 0, _curFrame.width, _curFrame.height );
+//		}
 	}
 	
 	public void randomMovieTime() {
@@ -58,13 +78,10 @@ public class VideoFrameGrabber {
 	
 	public void seekTo( float time ) {
 		_video.jump( time );
-		_video.pause();
+		_video.play();
+//		_video.pause();
 	}
 	
-	// Called every time a new frame is available to read
-	public void movieEvent(Movie m) {
-		// m.read();
-	}
 	
 
 }

@@ -15,7 +15,8 @@ public class EQGridTexture
 implements IAudioTexture
 {
 	
-	protected PGraphics _graphics;
+//	protected PGraphics _graphics;
+	protected PImage _image;
 	protected int _width, _height;
 	protected int _cols, _rows;
 	protected int _colW, _rowH;
@@ -23,27 +24,37 @@ implements IAudioTexture
 	protected TColorBlendBetween _color;
 
 	public EQGridTexture( int width, int height ) {
-		_width = width;
-		_height = height;
+		_width = 32; //width;
+		_height = 32; //height;
 		_cols = 32;
 		_rows = 32;
 		_colW = _width / _cols;
 		_rowH = _height / _rows;
-		_graphics = P.p.createGraphics( _width, _height, P.P3D );
+//		_graphics = P.p.createGraphics( _width, _height, P.P3D );
+		_image = new PImage( _width, _height, P.ARGB );
 		_color = new TColorBlendBetween( TColor.BLACK.copy(), TColor.BLACK.copy() );
+		
+		/*
+		for( int i=0; i < _rows; i++ ) {
+			_image.set( 0, i, _color.argbWithPercent( audioInput.getFFT().spectrum[ ( i * eqStep ) % 512 ] ) );
+		}
+
+		 */
 	}
 	
 	public void updateTexture( AudioInputWrapper audioInput ) {
 		int eqStep = Math.round( 512f / (float) ( _cols * _rows ) );
-		_graphics.background( 0 );
-		_graphics.noStroke();
+//		_graphics.background( 0 );
+//		_graphics.noStroke();
 		int index = 0;
 		for( int i=0; i < _cols; i++ ) {
 			for( int j=0; j < _rows; j++ ) {
-				_graphics.beginDraw();
-				_graphics.fill( _color.argbWithPercent( audioInput.getFFT().spectrum[ ( index * eqStep ) % 512 ] ) );
-				_graphics.rect( i*_colW, j*_rowH, _colW, _rowH );
-				_graphics.endDraw();
+//				_graphics.beginDraw();
+//				_graphics.fill( _color.argbWithPercent( audioInput.getFFT().spectrum[ ( index * eqStep ) % 512 ] ) );
+//				_graphics.rect( i*_colW, j*_rowH, _colW, _rowH );
+//				_graphics.endDraw();
+				
+				_image.set( i, j, _color.argbWithPercent( audioInput.getFFT().spectrum[ ( index * eqStep ) % 512 ] ) );
 				
 				index++;
 			}
@@ -51,7 +62,7 @@ implements IAudioTexture
 	}
 	
 	public PImage getTexture() {
-		return _graphics;
+		return _image;
 	}
 	
 	public void dispose() {

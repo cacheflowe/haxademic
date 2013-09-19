@@ -18,6 +18,7 @@ public class ImageHistogramFilter {
 	protected int _height;
 	protected int _rowSize;
 	protected PGraphics _pg;
+	protected PImage _image;
 	protected ArrayList<ColorAndCount> _colors;
 	
 	protected float RGB_DIFF_THRESH = 0.04f;
@@ -28,6 +29,7 @@ public class ImageHistogramFilter {
 		_width = width;
 		_height = height;
 		_rowSize = rowSize;
+		_image = p.createImage( _width, _height, P.ARGB );
 		_pg = p.createGraphics( _width, _height, P.P3D );
 		_colors = new ArrayList<ColorAndCount>();
 	}
@@ -38,7 +40,7 @@ public class ImageHistogramFilter {
 	
 	public PImage updateWithPImage( PImage source ) {
 		drawPixels( source );
-		return _pg;
+		return _image;
 	}
 	
 	protected void drawPixels( PImage source ) {
@@ -76,6 +78,8 @@ public class ImageHistogramFilter {
 			}
 		}
 		_pg.endDraw();
+		
+		_image.copy( _pg, 0, 0, _width, _height, 0, 0, _width, _height );
 	}
 	
 	protected void addColorToHistogram( int color ) {

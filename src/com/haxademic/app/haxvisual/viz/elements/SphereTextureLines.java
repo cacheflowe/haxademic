@@ -96,15 +96,16 @@ implements IVizElement {
 		if( rand == 0 ) {
 			_texture = _columns;
 		} else if( rand == 1 ) {
-			_texture = _eqGrid;
+			_texture = _imageTexture;
 		} else if( rand == 2 ) {
 			_texture = _eqSquare;
 		} else if( rand == 3 ) {
-			_texture = _imageTexture;
-		} 
+			_texture = _eqGrid;
+		}
 	}
 	
 	public void update() {
+		if( _audioData == null || _texture == null ) return;
 		p.pushMatrix();
 		
 		DrawUtil.setColorForPImage(p);
