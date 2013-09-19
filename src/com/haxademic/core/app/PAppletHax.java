@@ -309,7 +309,11 @@ extends PApplet
 		_audioInput = new AudioInputWrapper( p, _isRenderingAudio );
 		_waveformData = new WaveformData( p, _audioInput._bufferSize );
 		_renderer = new Renderer( p, _fps, Renderer.OUTPUT_TYPE_MOVIE, _appConfig.getString( "render_output_dir", FileUtil.getHaxademicOutputPath() ) );
-		if( _appConfig.getBoolean( "kinect_active", false ) == true ) kinectWrapper = new KinectWrapper( p, _appConfig.getBoolean( "kinect_depth", true ), _appConfig.getBoolean( "kinect_rgb", true ), _appConfig.getBoolean( "kinect_depth_image", true ) );
+		if( _appConfig.getBoolean( "kinect_active", false ) == true ) {
+			kinectWrapper = new KinectWrapper( p, _appConfig.getBoolean( "kinect_depth", true ), _appConfig.getBoolean( "kinect_rgb", true ), _appConfig.getBoolean( "kinect_depth_image", true ) );
+			kinectWrapper.setMirror( _appConfig.getBoolean( "kinect_mirrored", true ) );
+			DebugUtil.printErr("kinect mirrored = "+_appConfig.getBoolean( "kinect_mirrored", true ));
+		}
 //		_launchpadViz = new LaunchpadViz( p5 );
 		_oscWrapper = new OscWrapper( p );
 		_minim = new Minim( p );

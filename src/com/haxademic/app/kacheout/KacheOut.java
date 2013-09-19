@@ -32,7 +32,7 @@ extends PAppletHax
 	 * @param args
 	 */
 	public static void main(String args[]) {
-		_isFullScreen = false;
+		_isFullScreen = true;
 		PApplet.main(new String[] { "--hide-stop", "--bgcolor=000000", "com.haxademic.app.kacheout.KacheOut" });
 	}
 
@@ -158,7 +158,6 @@ extends PAppletHax
 		KINECT_MAX_DIST = _appConfig.getInt( "kinect_max_mm", 2000 );
 		KINECT_TOP = _appConfig.getInt( "kinect_top_pixel", 240 );
 		KINECT_BOTTOM = _appConfig.getInt( "kinect_bottom_pixel", 400 );
-		if(kinectWrapper != null) kinectWrapper.setMirror( true );
 		
 		float kinectRangeWidth = KinectWrapper.KWIDTH / 2f * KINECT_GAP_PERCENT;
 		_player1 = new GamePlay( 0, 0, _gameWidth, new FloatRange( 0, kinectRangeWidth ) );
