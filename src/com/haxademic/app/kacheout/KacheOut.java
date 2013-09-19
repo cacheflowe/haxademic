@@ -146,7 +146,7 @@ extends PAppletHax
 		loader.createMeshPool();
 		loader.loadAudio( sounds );		
 		
-		_screenIntro = new IntroScreen();
+		_screenIntro = new IntroScreen( _appConfig.getString("sponsor_images", "" ) );
 		
 		// set flags and props	
 		pickNewColors();
