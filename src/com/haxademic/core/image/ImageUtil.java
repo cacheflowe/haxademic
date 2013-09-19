@@ -1,6 +1,5 @@
 package com.haxademic.core.image;
 
-import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
 import processing.core.PApplet;
@@ -26,7 +25,7 @@ public class ImageUtil {
 	 * @return		The color as an int
 	 */
 	public static int getPixelColor( PImage image, int x, int y ) {
-		if( x < 0 || y < 0 || image.pixels.length < getPixelIndex( image, x, y ) ) return 0;
+		if( x < 0 || y < 0 || x > image.width - 1 || y > image.height - 1 || image.pixels == null || image.pixels.length < getPixelIndex( image, x, y ) ) return 0;
 		return image.pixels[ getPixelIndex( image, x, y ) ];
 	}
 	
@@ -78,7 +77,7 @@ public class ImageUtil {
 	
 	public static PImage bufferedToPImage( BufferedImage bimg ) {
 		try {
-			PImage img=new PImage(bimg.getWidth(),bimg.getHeight(),PConstants.ARGB);
+			PImage img = new PImage(bimg.getWidth(),bimg.getHeight(),PConstants.ARGB);
 			bimg.getRGB(0, 0, img.width, img.height, img.pixels, 0, img.width);
 			img.updatePixels();
 			return img;
@@ -91,12 +90,13 @@ public class ImageUtil {
 	}
 
 	public static BufferedImage pImageToBuffered( PImage pimg ) {
-		BufferedImage dest = new BufferedImage( pimg.width, pimg.height, BufferedImage.TYPE_INT_ARGB );
-		Graphics2D g2 = dest.createGraphics();
-		g2.drawImage( pimg.getImage(), 0, 0, null );
-		g2.finalize();
-		g2.dispose();
-		return dest;
+		return (BufferedImage) pimg.getNative();
+//		BufferedImage dest = new BufferedImage( pimg.width, pimg.height, BufferedImage.TYPE_INT_ARGB );
+//		Graphics2D g2 = dest.createGraphics();
+//		g2.drawImage( pimg.getImage(), 0, 0, null );
+//		g2.finalize();
+//		g2.dispose();
+//		return dest;
 	}
 
 }
