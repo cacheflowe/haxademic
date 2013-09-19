@@ -41,7 +41,7 @@ extends PAppletHax
 	 * @param args
 	 */
 	static public void main(String args[]) {
-		_isFullScreen = false;
+		_isFullScreen = true;
 		PApplet.main( "com.haxademic.app.haxvisual.HaxVisual", new String[] { "--hide-stop", "--bgcolor=000000" } );
 	}
 
