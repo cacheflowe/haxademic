@@ -99,6 +99,8 @@ While the code has been open-sourced, I haven't had time to write much (any) doc
 		* minim/library/tritonus_aos.jar
 		* minim/library/tritonus_share.jar
 		* video/library/video.jar
+		* video/library/gstreamer-java.jar
+		* video/library/jna.jar
 * Right-click on a PApplet or PAppletHax subclass within `src` and choose **Run As -> Java Applet** from the menu. Hopefully you're seeing something awesome at this point.
 
 Haxademic uses the following Java & Processing libraries, which I've included in this repository so you don't have to find them yourself (more on that below):
