@@ -11,12 +11,12 @@ extends Button {
 
 	protected String _text;
 	protected CustomFontText2D _fontRenderer;
-	protected float _fontSize = 40f;
+	protected float _fontSize = 20f;
 	
 	public TextButton( PApplet p, String text, String id, int x, int y, int w, int h ) {
 		super( id, x, y, w, h );
 		_text = text;
-		_fontRenderer = new CustomFontText2D( p, FileUtil.getHaxademicDataPath() + "fonts/bitlow.ttf", _fontSize, p.color( 255, 255, 255 ), CustomFontText2D.ALIGN_CENTER, _rect.width, (int)_fontSize );
+		_fontRenderer = new CustomFontText2D( p, FileUtil.getHaxademicDataPath() + "fonts/GothamBold.ttf", _fontSize, p.color( 255, 255, 255 ), CustomFontText2D.ALIGN_CENTER, _rect.width, (int)_fontSize );
 		_fontRenderer.updateText( _text );
 	}
 
