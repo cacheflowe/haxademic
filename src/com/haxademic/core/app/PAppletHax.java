@@ -312,7 +312,6 @@ extends PApplet
 		if( _appConfig.getBoolean( "kinect_active", false ) == true ) {
 			kinectWrapper = new KinectWrapper( p, _appConfig.getBoolean( "kinect_depth", true ), _appConfig.getBoolean( "kinect_rgb", true ), _appConfig.getBoolean( "kinect_depth_image", true ) );
 			kinectWrapper.setMirror( _appConfig.getBoolean( "kinect_mirrored", true ) );
-			DebugUtil.printErr("kinect mirrored = "+_appConfig.getBoolean( "kinect_mirrored", true ));
 		}
 //		_launchpadViz = new LaunchpadViz( p5 );
 		_oscWrapper = new OscWrapper( p );
@@ -320,7 +319,7 @@ extends PApplet
 		meshPool = new MeshPool( p );
 		_jw = ( _appConfig.getBoolean("sunflow", true ) == true ) ? 
 				new JoonsWrapper( p, width, height, ( _appConfig.getString("sunflow_quality", "high" ) == "high" ) ? JoonsWrapper.QUALITY_HIGH : JoonsWrapper.QUALITY_LOW, ( _appConfig.getBoolean("sunflow_active", true ) == true ) ? true : false ) 
-		: null;
+				: null;
 		_debugText = new DebugText( p );
 		if( _showStats == true ) _stats = new Stats( p );
 		try { _robot = new Robot(); } catch( Exception error ) { println("couldn't init Robot for screensaver disabling"); }
