@@ -337,14 +337,14 @@ extends PApplet
 	public void draw() {
 		//if( keyPressed ) handleInput( false ); // handles overall keyboard commands
 		killScreensaver();
-		handleRenderingStepthrough();
 		initializeExtraObjectsOn1stFrame();	// wait until draw() happens, to avoid weird launch crash if midi signals were coming in as haxademic starts
+		handleRenderingStepthrough();
 		_audioInput.getBeatDetection(); // detect beats and pass through to current visual module	// 		int[] beatDetectArr = 
 		if( kinectWrapper != null ) kinectWrapper.update();
 		if( _jw != null ) _jw.startFrame();
 		drawApp();
 		if( _jw != null ) _jw.endFrame( _appConfig.getBoolean("sunflow_save_images", false) == true );
-		if( _isRendering == true ) {
+		if( _isRendering == true || _renderShutdown > 1 ) {
 			if( _renderShutdown == -1 ) {
 				_renderer.renderFrame();
 			} else if( p.frameCount >= _renderShutdown + 1 ) {
@@ -378,7 +378,7 @@ extends PApplet
 				if( _isRenderingMidi == true ) {
 					try {
 						_midiRenderer = new MIDISequenceRenderer(p);
-						_midiRenderer.loadMIDIFile( _appConfig.getString("render_midi_file", ""), 124, 30, -8f );	// bnc: 98  jack-splash: 
+						_midiRenderer.loadMIDIFile( _appConfig.getString("render_midi_file", ""), _appConfig.getFloat("render_midi_bpm", 150f), _fps, _appConfig.getFloat("render_midi_offset", -8f) ); 
 					} catch (InvalidMidiDataException e) { e.printStackTrace(); } catch (IOException e) { e.printStackTrace(); }
 				}
 			}
@@ -403,7 +403,7 @@ extends PApplet
 						doneCheckingForMidi = true;
 					}
 				}
-				if( triggered == false ) _midi.allOff();
+				if( triggered == false && _midi != null ) _midi.allOff();
 			}
 		}
 

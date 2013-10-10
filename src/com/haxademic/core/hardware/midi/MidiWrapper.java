@@ -11,7 +11,7 @@ public class MidiWrapper
 {
 	PApplet p;
 	MidiBus myBus;
-	int[] _notesOn;
+	public int[] _notesOn;
 	Hashtable<String, Integer> padMap;
 	
 	public static String PAD_01 = "PAD_01";
@@ -167,10 +167,12 @@ public class MidiWrapper
 	
 	public int midiNoteIsOn( int pitch )
 	{
-		if( _notesOn[ pitch ] == 1 )
+		if( _notesOn[ pitch ] == 1 ) {
+			_notesOn[ pitch ] = 0;
 			return 1;
-		else 
+		} else { 
 			return 0;
+		}
 	}
 	
 	public void noteOn(int channel, int pitch, int velocity) {

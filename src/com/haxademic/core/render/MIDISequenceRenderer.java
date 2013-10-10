@@ -35,7 +35,6 @@ public class MIDISequenceRenderer {
     
     // helps align audio and midi render timing
     protected float _frameOffset = 0;
-    // TODO: make fps configurable
     protected float _renderFPS = 30;
     
     public MIDISequenceRenderer( PApplet p ) {
@@ -44,6 +43,7 @@ public class MIDISequenceRenderer {
     
     public void loadMIDIFile( String midiFile, float midiBpm, float renderFPS, float frameOffset ) throws InvalidMidiDataException, IOException {
     	// load file
+    	P.println("loading midi file: "+midiFile);
         Sequence sequence = MidiSystem.getSequence(new File(midiFile));
         P.println("sequence.getMicrosecondLength() = " + sequence.getMicrosecondLength());
         P.println("sequence.getTickLength() = " + sequence.getTickLength());
@@ -54,7 +54,7 @@ public class MIDISequenceRenderer {
         _frameOffset = frameOffset;
         _renderFPS = renderFPS;
         _bpm = midiBpm;
-    	_ticksPerMin = _bpm * sequence.getResolution();
+    	_ticksPerMin = _bpm * (float) sequence.getResolution();
     	_ticksPerSecond = _ticksPerMin / 60f;
     	_tickInMilliseconds = _ticksPerSecond / 1000.f;
         P.println("_bpm = " + _bpm);
