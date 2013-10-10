@@ -15,6 +15,7 @@ public class PixelFilter {
 	protected int _height;
 	protected int _pixelSize;
 	protected PGraphics _pg;
+	protected PImage _image;
 	BlobDetection theBlobDetection;
 	PImage blobBufferImg;
 
@@ -25,6 +26,7 @@ public class PixelFilter {
 		_height = height;
 		_pixelSize = pixelSize;
 		_pg = p.createGraphics( _width, _height );
+		_image = p.createImage( _width, _height, P.ARGB );
 	}
 	
 	public PImage pg() {
@@ -33,7 +35,7 @@ public class PixelFilter {
 	
 	public PImage updateWithPImage( PImage source ) {
 		drawPixels( source );
-		return _pg;
+		return _image;
 	}
 	
 	protected void drawPixels( PImage source ) {
@@ -50,5 +52,7 @@ public class PixelFilter {
 			}
 		}
 		_pg.endDraw();
+		
+		_image.copy( _pg, 0, 0, _width, _height, 0, 0, _width, _height );
 	}
 }

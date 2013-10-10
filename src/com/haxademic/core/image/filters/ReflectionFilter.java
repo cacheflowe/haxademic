@@ -14,6 +14,7 @@ public class ReflectionFilter {
 	protected int _width;
 	protected int _height;
 	protected PGraphics _pg;
+	protected PImage _image;
 	BlobDetection theBlobDetection;
 	PImage blobBufferImg;
 
@@ -23,6 +24,7 @@ public class ReflectionFilter {
 		_width = width;
 		_height = height;
 		_pg = p.createGraphics( _width, _height, P.P3D );
+		_image = p.createImage( _width, _height, P.ARGB );
 	}
 	
 	public PImage pg() {
@@ -31,7 +33,7 @@ public class ReflectionFilter {
 	
 	public PImage updateWithPImage( PImage source ) {
 		drawPixels( source );
-		return _pg;
+		return _image;
 	}
 	
 	protected void drawPixels( PImage source ) {
@@ -43,5 +45,7 @@ public class ReflectionFilter {
 		_pg.copy(source, 0, 0, source.width, source.height, 0, 0, source.width, source.height );
 		_pg.copy( ImageUtil.getReversePImageFast( source ), source.width / 2, 0, source.width / 2, source.height, source.width / 2, 0, source.width / 2, source.height );
 		_pg.endDraw();
+		
+		_image.copy( _pg, 0, 0, _width, _height, 0, 0, _width, _height );
 	}
 }

@@ -15,6 +15,7 @@ public class Cluster8BitRow {
 	protected int _rowSize;
 	protected boolean _isVertical;
 	protected PGraphics _pg;
+	protected PImage _image;
 
 	
 	public Cluster8BitRow( int width, int height, int rowSize, boolean isVertical ) {
@@ -24,6 +25,7 @@ public class Cluster8BitRow {
 		_rowSize = rowSize;
 		_isVertical = isVertical;
 		_pg = p.createGraphics( _width, _height, P.P3D );
+		_image = p.createImage( _width, _height, P.ARGB );
 	}
 	
 	public PImage pg() {
@@ -32,7 +34,7 @@ public class Cluster8BitRow {
 	
 	public PImage updateWithPImage( PImage source ) {
 		drawPixels( source );
-		return _pg;
+		return _image;
 	}
 	
 	protected void drawPixels( PImage source ) {
@@ -47,6 +49,8 @@ public class Cluster8BitRow {
 			drawHorizontal( source );
 		}
 		_pg.endDraw();
+		
+		_image.copy( _pg, 0, 0, _width, _height, 0, 0, _width, _height );
 	}
 	
 	protected void drawHorizontal( PImage source ) {	

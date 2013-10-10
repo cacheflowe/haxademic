@@ -59,9 +59,9 @@ extends PAppletHax
 
 	// INITIALIZE OBJECTS ===================================================================================
 	public void initRender() {
-		inputType = VIDEO;
-		int w = 470;
-		int h = 340;
+		inputType = IMAGE;
+		int w = 680;
+		int h = 680;
 		
 //		blur = loadShader( FileUtil.getHaxademicDataPath()+"shaders/blur.glsl" ); 
 		
@@ -73,7 +73,8 @@ extends PAppletHax
 				_frameGrabber = new VideoFrameGrabber( p, "/Users/cacheflowe/Documents/workspace/haxademic/assets/media/video/Janet Jackson - Control - trimmed.mov", 30, 100 );
 				break;
 			case IMAGE :
-				_loadedImg = p.loadImage("http://blogs.smithsonianmag.com/artscience/files/2012/09/caffeine-crystals-big.jpg");
+//				_loadedImg = p.loadImage("http://blogs.smithsonianmag.com/artscience/files/2012/09/caffeine-crystals-big.jpg");
+				_loadedImg = p.loadImage(FileUtil.getHaxademicDataPath()+"images/bobby-broadway.jpg");
 				break;
 		}
 		
@@ -82,7 +83,7 @@ extends PAppletHax
 		_pixelFilter = new PixelFilter( w, h, 2 );
 		_clusterRowFilter = new Cluster8BitRow( w, h, 8, false );
 		_histogramFilter = new ImageHistogramFilter( w, h, 6 );
-		_pixelTriFilter = new PixelTriFilter( w, h, 12 );
+		_pixelTriFilter = new PixelTriFilter( w, h, 6 );
 		_blobFilter = new BlobOuterMeshFilter( w, h );
 	}
 		
@@ -122,16 +123,16 @@ extends PAppletHax
 //		applyPostFilters();
 		applyImageFilters();
 		applyPostFilters();
-		p.image( _curFrame, 0, 0, width, height );
+		p.image( _curFrame, 0, 0, _curFrame.width, _curFrame.height );
 	}
 	
 	protected void applyImageFilters() {
 //		_curFrame = _histogramFilter.updateWithPImage( _curFrame );
 //		if( frameCount % 2 == 1 ) _curFrame = _clusterRowFilter.updateWithPImage( _curFrame );
-		_curFrame = _pixelTriFilter.updateWithPImage( _curFrame );	// _clusterRowFilter.updateWithPImage( 
+//		_curFrame = _pixelTriFilter.updateWithPImage( _curFrame );	// _clusterRowFilter.updateWithPImage( 
 //		_curFrame = _pixelTriFilter.updateWithPImage( _histogramFilter.updateWithPImage( _curFrame ) );
 //		_curFrame = _blobFilter.updateWithPImage( _curFrame );	// _pixelFilter.updateWithPImage( 
-//		_curFrame = _pixelTriFilter.updateWithPImage( _histogramFilter.updateWithPImage( _reflectionFilter.updateWithPImage( _curFrame ) ) );
+		_curFrame = _pixelTriFilter.updateWithPImage( _histogramFilter.updateWithPImage( _reflectionFilter.updateWithPImage( _curFrame ) ) );
 //		_curFrame = _blobFilter.updateWithPImage( _pixelFilter.updateWithPImage( _curFrame ) );
 //		_curFrame = _pixelFilter.updateWithPImage( _curFrame );
 	}
