@@ -7,7 +7,9 @@ import processing.core.PImage;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.system.FileUtil;
+import com.lowagie.text.pdf.draw.DrawInterface;
 
 public class TimeLapse
 extends PAppletHax  
@@ -66,6 +68,8 @@ extends PAppletHax
 		
 	public void drawApp() {
 		p.background(0);
+		DrawUtil.setColorForPImage(p);
+		DrawUtil.setPImageAlpha(p, (p.frameCount % 2 == 1) ? 0.999f : 1 );	// stupid hack b/c UMovieMaker doesn't save the exact same frame twice in a row.
 		
 		// load and display current image
 		if( _imageIndex < _images.size() ) {
