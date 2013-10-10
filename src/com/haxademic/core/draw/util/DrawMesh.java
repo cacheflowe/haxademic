@@ -168,4 +168,16 @@ public class DrawMesh {
 		}		
 	}
 
+	public static void drawToxiMeshFacesNative2d( PApplet p, WETriangleMesh mesh ) {
+		Face f;
+		for( int i = 0; i < mesh.faces.size(); i++ ) {
+			p.beginShape(P.TRIANGLES);
+			f = mesh.faces.get( i );
+			p.vertex(f.a.x, f.a.y);
+			p.vertex(f.b.x, f.b.y);
+			p.vertex(f.c.x, f.c.y);
+			p.endShape();
+		}		
+	}
+
 }
