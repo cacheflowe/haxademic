@@ -2,6 +2,7 @@ package com.haxademic.app.kacheout.game;
 
 import java.util.ArrayList;
 
+import processing.core.PVector;
 import toxi.color.TColor;
 
 import com.haxademic.app.haxvisual.viz.elements.GridEQ;
@@ -13,6 +14,8 @@ import com.haxademic.core.hardware.kinect.KinectWrapper;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.EasingFloat;
 import com.haxademic.core.math.easing.ElasticFloat;
+
+import de.voidplus.leapmotion.Hand;
 
 public class GamePlay {
 	protected KacheOut p;
@@ -227,6 +230,19 @@ public class GamePlay {
 				}
 			}
 			if( inputDetected == true ) _paddle.setTargetXByPercent( 1f - paddleX );
+		} else if( p.leapMotion != null ) {
+			float leapFactor = ((float)p.width/(float)KinectWrapper.KWIDTH);
+		    for(Hand hand : p.leapMotion.getHands()){
+		        PVector handPosition = hand.getPosition();
+		        float leftHandBounds = _kinectRange.min() * leapFactor;
+		        float rightHandBounds = _kinectRange.max() * leapFactor;
+
+		        if( handPosition.x > leftHandBounds && handPosition.x < rightHandBounds ) {
+		        	_paddle.setTargetXByPercent( 1f - MathUtil.getPercentWithinRange( leftHandBounds, rightHandBounds, handPosition.x ) );
+		        	detectPlayerReady();
+		        }
+//		        P.println("handPosition.x = "+handPosition.x);
+		    }
 		} else {
 			_paddle.setTargetXByPercent( 1f - MathUtil.getPercentWithinRange( 0, p.gameWidth(), p.mouseX ) );
 		}
