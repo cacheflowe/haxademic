@@ -7,6 +7,7 @@ import toxi.geom.mesh.TriangleMesh;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.debug.DebugUtil;
 import com.haxademic.core.draw.color.TColorBlendBetween;
 
 public class VectorFlyer {
@@ -23,6 +24,7 @@ public class VectorFlyer {
 	protected TColorBlendBetween color;
 
 	public VectorFlyer( TColor colorLow, TColor colorHigh ) {
+		DebugUtil.printErr("This VectorFlyer class should be deprecated");
 		p = (PAppletHax) P.p;
 		accel = p.random(0.5f, 8.0f);
 		maxSpeed = p.random(5f, 45f);
