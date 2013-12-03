@@ -10,7 +10,6 @@ varying vec4 vertColor;
 varying vec4 vertTexCoord;
 
 uniform float time;
-uniform vec2 resolution;
 
 #define PI 3.1415926
 
