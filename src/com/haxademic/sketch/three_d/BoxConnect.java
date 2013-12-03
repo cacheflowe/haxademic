@@ -5,6 +5,7 @@ import processing.core.PVector;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.color.TColorInit;
+import com.haxademic.core.draw.shapes.BoxBetween;
 import com.haxademic.core.draw.util.DrawUtil;
 
 @SuppressWarnings("serial")
@@ -59,37 +60,12 @@ extends PAppletHax
 			float xNext = P.sin(i+inc) * radius;
 			float yNext = P.cos(i+inc) * radius;
 			
-			drawBoxBetween( new PVector(x, y, zInc ), new PVector( xNext, yNext, zInc - zIncStep ) );
-			drawBoxBetween( new PVector(x, y, zInc ), new PVector( P.sin(i) * radius*2, P.cos(i) * radius*2, zInc ) );
+			BoxBetween.draw( p, new PVector(x, y, zInc ), new PVector( xNext, yNext, zInc - zIncStep ), 5 );
+			BoxBetween.draw( p, new PVector(x, y, zInc ), new PVector( P.sin(i) * radius*2, P.cos(i) * radius*2, zInc ), 5 );
 			
 			zInc -= zIncStep;
 		}
 		
 	}
 
-	public void drawBoxBetween( PVector point1, PVector point2 ) {
-		PVector pointMid = point1.get();
-		pointMid.lerp(point2, 0.5f);
-
-		// Rotation vectors
-		// use to perform orientation to velocity vector
-		PVector new_dir = PVector.sub(point1,point2);
-		float r = sqrt(new_dir.x * new_dir.x + new_dir.y * new_dir.y + new_dir.z * new_dir.z);
-		float theta = atan2(new_dir.y, new_dir.x);
-		float phi = acos(new_dir.z / r);
-
-		pushMatrix();
-		// update location
-		p.translate(pointMid.x, pointMid.y, pointMid.z);
-		// orientation to velocity
-		rotateZ(theta);
-		rotateY(phi);
-		rotateX(HALF_PI);
-
-		// draw your stuff here
-		p.box(5, point1.dist(point2), 5);
-
-		popMatrix(); 
-
-	}
 }
