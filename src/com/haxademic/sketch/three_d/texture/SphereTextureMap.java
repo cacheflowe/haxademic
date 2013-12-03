@@ -6,8 +6,6 @@ import processing.core.PConstants;
 import processing.core.PImage;
 import toxi.geom.AABB;
 import toxi.geom.Sphere;
-import toxi.geom.Vec2D;
-import toxi.geom.Vec3D;
 import toxi.geom.mesh.Face;
 import toxi.geom.mesh.WETriangleMesh;
 import toxi.processing.ToxiclibsSupport;
@@ -25,7 +23,7 @@ import com.haxademic.core.math.MathUtil;
 
 @SuppressWarnings("serial")
 public class SphereTextureMap
-extends PApplet 
+extends PApplet
 {
 	
 	PApplet p;
@@ -43,7 +41,6 @@ extends PApplet
 	}
 	
 	public void setup() {
-		P.p = this;
 		p.size( 800, 600, OPENGL );
 		p.frameRate( 30 );
 		p.colorMode( PConstants.RGB, 255, 255, 255, 1 );

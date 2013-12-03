@@ -1,4 +1,4 @@
-package com.haxademic.core.draw.util;
+package com.haxademic.core.draw.mesh;
 
 import java.util.Iterator;
 

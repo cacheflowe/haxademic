@@ -8,11 +8,9 @@ import toxi.color.theory.CompoundTheoryStrategy;
 
 import com.haxademic.app.haxvisual.viz.IVizModule;
 import com.haxademic.app.haxvisual.viz.VizCollection;
-import com.haxademic.app.haxvisual.viz.elements.BarsEQ;
 import com.haxademic.app.haxvisual.viz.elements.GridEQ;
 import com.haxademic.app.haxvisual.viz.elements.LinesEQ;
 import com.haxademic.app.haxvisual.viz.elements.MeshDeform;
-import com.haxademic.app.haxvisual.viz.elements.ObjMesh;
 import com.haxademic.app.haxvisual.viz.elements.OuterSphere;
 import com.haxademic.app.haxvisual.viz.elements.RotatingRings;
 import com.haxademic.app.haxvisual.viz.elements.RotatorShapes;

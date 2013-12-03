@@ -20,7 +20,6 @@ implements ICamera
 	public CameraBasic( PApplet p5, int xoffset, int yoffset, int zoffset )
 	{
 		super( p5, xoffset, yoffset, zoffset );
-
 		init();
 	}
 

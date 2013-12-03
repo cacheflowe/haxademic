@@ -12,7 +12,7 @@ import com.haxademic.app.haxvisual.viz.ElementBase;
 import com.haxademic.app.haxvisual.viz.IVizElement;
 import com.haxademic.core.audio.AudioInputWrapper;
 import com.haxademic.core.draw.color.ColorGroup;
-import com.haxademic.core.draw.util.DrawMesh;
+import com.haxademic.core.draw.mesh.DrawMesh;
 import com.haxademic.core.draw.util.ThreeDeeUtil;
 import com.haxademic.core.hardware.kinect.KinectWrapper;
 

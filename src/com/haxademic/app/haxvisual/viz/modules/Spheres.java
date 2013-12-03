@@ -8,7 +8,6 @@ import toxi.processing.ToxiclibsSupport;
 
 import com.haxademic.app.haxvisual.viz.IVizModule;
 import com.haxademic.app.haxvisual.viz.ModuleBase;
-import com.haxademic.app.haxvisual.viz.modules.BlobSheet.Cell;
 import com.haxademic.core.cameras.CameraBasic;
 import com.haxademic.core.cameras.CameraOscillate;
 import com.haxademic.core.hardware.midi.MidiWrapper;

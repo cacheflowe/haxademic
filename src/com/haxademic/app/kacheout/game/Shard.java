@@ -1,10 +1,10 @@
 package com.haxademic.app.kacheout.game;
 
-import com.haxademic.core.draw.util.ThreeDeeUtil;
-import com.haxademic.core.math.MathUtil;
-
 import toxi.geom.Vec3D;
 import toxi.geom.mesh.WETriangleMesh;
+
+import com.haxademic.core.draw.util.ThreeDeeUtil;
+import com.haxademic.core.math.MathUtil;
 
 public class Shard {
 	

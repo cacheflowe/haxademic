@@ -1,7 +1,6 @@
 package com.haxademic.app.haxvisual.viz.elements;
 
 import processing.core.PApplet;
-import toxi.color.TColor;
 import toxi.processing.ToxiclibsSupport;
 
 import com.haxademic.app.haxvisual.viz.ElementBase;

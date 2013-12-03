@@ -2,7 +2,6 @@ package com.haxademic.app.haxvisual.viz.modules;
 
 import processing.core.PConstants;
 import toxi.geom.AABB;
-import toxi.geom.Sphere;
 import toxi.geom.Vec3D;
 import toxi.processing.ToxiclibsSupport;
 

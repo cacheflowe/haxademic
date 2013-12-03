@@ -4,6 +4,7 @@ import krister.Ess.AudioInput;
 import processing.core.PApplet;
 import processing.core.PConstants;
 import processing.core.PImage;
+
 import com.haxademic.core.audio.AudioInputWrapper;
 import com.haxademic.core.render.Renderer;
 

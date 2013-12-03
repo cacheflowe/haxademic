@@ -10,7 +10,6 @@ import toxi.geom.Vec3D;
 import toxi.geom.mesh.TriangleMesh;
 import toxi.processing.ToxiclibsSupport;
 
-import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 
 public class PointMeshToxiExample 

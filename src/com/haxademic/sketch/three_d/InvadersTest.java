@@ -8,8 +8,8 @@ import toxi.geom.mesh.WETriangleMesh;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.audio.AudioInputWrapper;
+import com.haxademic.core.draw.mesh.DrawMesh;
 import com.haxademic.core.draw.shapes.Meshes;
-import com.haxademic.core.draw.util.DrawMesh;
 
 @SuppressWarnings("serial")
 public class InvadersTest

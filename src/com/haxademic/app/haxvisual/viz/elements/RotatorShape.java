@@ -10,7 +10,6 @@ import toxi.processing.ToxiclibsSupport;
 
 import com.haxademic.app.haxvisual.viz.ElementBase;
 import com.haxademic.app.haxvisual.viz.IVizElement;
-import com.haxademic.core.app.P;
 import com.haxademic.core.audio.AudioInputWrapper;
 import com.haxademic.core.draw.color.ColorGroup;
 import com.haxademic.core.draw.color.TColorBlendBetween;
