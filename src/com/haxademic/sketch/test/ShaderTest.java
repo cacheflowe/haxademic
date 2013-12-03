@@ -1,8 +1,10 @@
 package com.haxademic.sketch.test;
 
+import processing.core.PGraphics;
 import processing.core.PImage;
 import processing.opengl.PShader;
 
+import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.draw.util.OpenGLUtil;
@@ -19,6 +21,8 @@ extends PAppletHax{
 	protected float CURSOR_EASING_FACTOR = 7;
 	protected float CURSOR_STROKE = 4;
 	
+	PGraphics _bg;
+
 	protected PShader invert;
 	protected PShader vignette;
 	protected PShader kaleido;
@@ -35,6 +39,7 @@ extends PAppletHax{
 	protected PShader swirl;
 	protected PShader coffeeswirl;
 	protected PShader clouds;
+	protected PShader stars;
 	
 	protected PImage _image;
 	
@@ -43,14 +48,18 @@ extends PAppletHax{
 	protected float _autoTime = 0;
 	
 	protected void overridePropsFile() {
-		_appConfig.setProperty( "fills_screen", "true" );
+		_appConfig.setProperty( "fills_screen", "false" );
 		_appConfig.setProperty( "width", "800" );
 		_appConfig.setProperty( "height", "600" );
+		_appConfig.setProperty( "rendering", "false" );
 	}
 
 	public void setup() {
 		super.setup();	
 		p.smooth( OpenGLUtil.SMOOTH_HIGH );
+		
+		_bg = p.createGraphics(p.width, p.height, P.P2D);
+		_bg.smooth( OpenGLUtil.SMOOTH_HIGH );
 		
 		invert = loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/invert.glsl" ); 
 		
@@ -97,12 +106,14 @@ extends PAppletHax{
 
 		_image = p.loadImage( FileUtil.getHaxademicDataPath() + "images/green-screen-2.png" );
 
+		
 		glowwave = loadShader( FileUtil.getHaxademicDataPath()+"shaders/textures/glowwave.glsl" ); 
 		swirl = loadShader( FileUtil.getHaxademicDataPath()+"shaders/textures/swirl.glsl" ); 
 		coffeeswirl = loadShader( FileUtil.getHaxademicDataPath()+"shaders/textures/inversion-iq.glsl" ); 
 		clouds = loadShader( FileUtil.getHaxademicDataPath()+"shaders/textures/clouds-iq.glsl" ); 
+		stars = loadShader( FileUtil.getHaxademicDataPath()+"shaders/textures/to-convert/star-field.glsl" );
 
-//		glowwave.set("mouse", float(mouseX), float(mouseY));
+		//		glowwave.set("mouse", float(mouseX), float(mouseY));
 	}
 
 	public void drawApp() {
@@ -126,25 +137,37 @@ extends PAppletHax{
 	}
 	
 	public void keyPressed() {
+		super.keyPressed();
 		if(p.key == ' ') _timeEaser.setTarget(_timeEaser.value() + 10);
 	}
 	
 	protected void generateTexture() {
-//		glowwave.set("time", _autoTime);
-//		p.filter(glowwave);
+		_bg.resetShader();
+		_bg.clear();
+
+		glowwave = loadShader( FileUtil.getHaxademicDataPath()+"shaders/textures/glowwave.glsl" ); 
+		glowwave.set("time", _timeEaseInc);
+		_bg.filter(glowwave);
 		
 //		swirl.set("time", _timeInc );
 //		swirl.set("resolution", 1f, (float)(p.width/p.height));
 //		p.filter(swirl);
 		
-		coffeeswirl.set("time", _autoTime);	// _timeInc
-		coffeeswirl.set("resolution", 1f, (float)(p.width/p.height));
-		p.filter(coffeeswirl);
+//		coffeeswirl.set("time", _autoTime);	// _timeInc
+//		coffeeswirl.set("resolution", 1f, (float)(p.width/p.height));
+//		p.filter(coffeeswirl);
 
 //		clouds.set("time", _timeEaseInc/5f);	// 
 //		clouds.set("resolution", 1f, (float)(p.width/p.height));
 //		clouds.set("mouse", (float)mouseX/p.width, (float)mouseY/p.height - 0.5f);		
 //		p.filter(clouds);
+		
+//		stars = loadShader( FileUtil.getHaxademicDataPath()+"shaders/textures/to-convert/star-field.glsl" );
+//		stars.set("time", _timeEaseInc);
+//		_bg.filter(stars);
+
+		p.image( _bg,  0,  0 );
+
 	}
 	
 	protected void postProcess() {
@@ -158,8 +181,8 @@ extends PAppletHax{
 //		deformHoles.set("resolution", 1f, (float)(p.width/p.height));
 //		p.filter(deformHoles);
 		
-		warping.set("time", _timeEaseInc );
-		p.filter(warping);
+//		warping.set("time", _timeEaseInc );
+//		p.filter(warping);
 
 //		deformRelief.set("time", _autoTime );
 //		deformRelief.set("resolution", 1f, (float)(p.width/p.height));
@@ -167,8 +190,8 @@ extends PAppletHax{
 		
 		
 //		p.filter(invert);
-//		p.filter(vignette);
 //		p.filter(kaleido);
+//		p.filter(vignette);
 //		p.filter(invert);
 		
 //		edge.set("aspect", 1f/(float)p.width, 1f/(float)p.height);
