@@ -141,7 +141,11 @@ General Use / Tips
 	* Open Eclipse and: **File -> Import -> General / Existing Projects into Workspace**
 	* Choose your new project directory and press **Finish** - the project should be ready to use in its new sandbox
 	
-
+## Converting .mov output
+```
+ffmpeg -y -i input.mov -vcodec mpeg4 -b:v 10000k -f mp4 output.mp4
+ffmpeg -y -i output.mp4 -vcodec libx264 -b:v 10000k output-final.mp4
+```
 
 ## Todo
 * Comment the codebase and generate docs
