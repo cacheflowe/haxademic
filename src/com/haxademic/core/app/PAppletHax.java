@@ -446,6 +446,13 @@ extends PApplet
 
 	// PApplet-level listeners ------------------------------------------------
 	/**
+	 * PApplet-level listener for Movie frame update events
+	 */
+	public void movieEvent(Movie m) {
+		m.read();
+	}
+
+	/**
 	 * PApplet-level listener for MIDIBUS noteOn call
 	 */
 	public void noteOn(int channel, int  pitch, int velocity) {
