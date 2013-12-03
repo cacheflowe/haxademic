@@ -1,7 +1,6 @@
 package com.haxademic.core.system;
 
 import processing.core.PApplet;
-import processing.opengl.PGL;
 
 import com.haxademic.core.app.P;
 
@@ -27,6 +26,6 @@ public class SystemUtil {
 	
 	// Patch TAB capture ability - Processing 2.0 broke this in 3D rendering contexts
 	public static void p2TabKeyInputPatch() {
-		if(PGL.canvas != null) { PGL.canvas.setFocusTraversalKeysEnabled(false); }
+//		if(PJOGL.canvas != null) { PJOGL.canvas.setFocusTraversalKeysEnabled(false); }
 	}
 }
