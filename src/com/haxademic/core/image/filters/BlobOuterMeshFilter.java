@@ -18,6 +18,7 @@ public class BlobOuterMeshFilter {
 	protected int _width;
 	protected int _height;
 	protected PGraphics _pg;
+	protected PImage _image;
 	BlobDetection theBlobDetection;
 	PImage blobBufferImg;
 
@@ -35,6 +36,7 @@ public class BlobOuterMeshFilter {
 	
 	protected void initBlobDetection() {
 		_pg = p.createGraphics( _width, _height, P.P3D );
+		_image = p.createImage( _width, _height, P.ARGB );
 		
 		// BlobDetection
 		// img which will be sent to detection (a smaller copy of the image frame);
@@ -47,7 +49,7 @@ public class BlobOuterMeshFilter {
 	public PImage updateWithPImage( PImage source ) {
 		runBlobDetection( source );
 		drawEdges( source );
-		return _pg;
+		return _image;
 	}
 	
 	// IMAGE PROCESSING METHODS ===================================================================================
@@ -111,6 +113,8 @@ public class BlobOuterMeshFilter {
 //		p.image(source,0,0);
 //		p.image(_pg,-50,-50,_width+100,_height+100);
 		p.popMatrix();
+		
+		_image.copy( _pg, 0, 0, _width, _height, 0, 0, _width, _height );
 	}
 
 	public void draw4PointsTriangles( Vec3D point1, Vec3D point2, Vec3D point3, Vec3D point4, PGraphics shadow ) {

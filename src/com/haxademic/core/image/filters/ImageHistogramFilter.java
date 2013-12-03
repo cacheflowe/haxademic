@@ -21,7 +21,7 @@ public class ImageHistogramFilter {
 	protected PImage _image;
 	protected ArrayList<ColorAndCount> _colors;
 	
-	protected float RGB_DIFF_THRESH = 0.04f;
+	protected float RGB_DIFF_THRESH = 0.01f;
 
 	
 	public ImageHistogramFilter( int width, int height, int rowSize ) {
