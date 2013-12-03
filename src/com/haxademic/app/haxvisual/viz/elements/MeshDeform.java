@@ -1,21 +1,18 @@
 package com.haxademic.app.haxvisual.viz.elements;
 
 import toxi.color.TColor;
-import toxi.geom.Sphere;
 import toxi.geom.mesh.WETriangleMesh;
 import toxi.processing.ToxiclibsSupport;
 
 import com.haxademic.app.haxvisual.viz.ElementBase;
 import com.haxademic.app.haxvisual.viz.IVizElement;
-import com.haxademic.app.kacheout.KacheOut;
-import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.audio.AudioInputWrapper;
 import com.haxademic.core.data.Point3D;
 import com.haxademic.core.draw.color.ColorGroup;
+import com.haxademic.core.draw.mesh.DrawMesh;
 import com.haxademic.core.draw.mesh.MeshPool;
 import com.haxademic.core.draw.mesh.MeshUtil;
-import com.haxademic.core.draw.util.DrawMesh;
 import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.system.FileUtil;
@@ -55,6 +52,7 @@ implements IVizElement {
 		
 		_meshPool.addMesh( "DISCOVERY", MeshUtil.meshFromOBJ( p, FileUtil.getHaxademicDataPath() + "models/the-discovery-multiplied-seied.obj", 1f ), 900 * scaleMult );
 		_meshPool.addMesh( "TOPSECRET", MeshUtil.meshFromOBJ( p, FileUtil.getHaxademicDataPath() + "models/topsecret-seied.obj", 1f ), 400 * scaleMult );
+		_meshPool.addMesh( "SKULL", MeshUtil.meshFromOBJ( p, FileUtil.getHaxademicDataPath() + "models/skull.obj", 1f ), 50 * scaleMult );
 //		_meshPool.addMesh( "MODE_SET", MeshUtil.meshFromOBJ( p, FileUtil.getHaxademicDataPath() + "models/mode-set.obj", 1f ), 250 * scaleMult );
 		
 		_meshPool.addMesh( "POLY_HOLE_PENT", MeshUtil.meshFromOBJ( p, FileUtil.getHaxademicDataPath() + "models/poly-hole-penta.obj", 1f ), 70f * scaleMult );

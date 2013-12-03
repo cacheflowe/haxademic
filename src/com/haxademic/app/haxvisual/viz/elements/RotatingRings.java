@@ -120,6 +120,7 @@ implements IVizElement {
 	
 	public void updateLineMode() {
 		_isWireframe = ( p.random(0f,2f) >= 1 ) ? false : true;
+		_isWireframe = false;
 	}
 	public void updateCamera() {
 		// rotate

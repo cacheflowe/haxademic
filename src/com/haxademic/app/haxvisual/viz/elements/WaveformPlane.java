@@ -33,7 +33,7 @@ implements IVizElement {
 	protected final int MODE_LINES = 1;
 	protected float _drawMode = MODE_LINES;
 	
-	protected final int NUM_LINES = 25;
+	protected final int NUM_LINES = 10;
 	protected final float _ninteyDeg = p.PI / 2f;
 
 
@@ -79,8 +79,6 @@ implements IVizElement {
 		p.rotateZ( _rotation.z() );
 		
 		// set initial darw color to fade out
-		p.stroke( _color.argbWithPercent(1) );
-		p.noFill();
 		p.pushMatrix();
 		
 		_baseWaveLineSpacing.update();
@@ -90,9 +88,9 @@ implements IVizElement {
 			for(int i=0; i < NUM_LINES; i++) {
 				// _curColors.getColorFromIndex(i % 1).toARGB()
 				// set color, decreasing to black
-				float alpha = ((float)NUM_LINES - (float)i)/(float)NUM_LINES;
-				alpha = ( alpha >= 0 ) ? alpha : 0;
-				p.stroke( _color.argbWithPercent( alpha ) );
+				float alpha = 1;//((float)NUM_LINES - (float)i)/(float)NUM_LINES;
+//				alpha = ( alpha >= 0 ) ? alpha : 0;
+				_wave.setColor( _color.argbWithPercent( alpha ) );
 				
 				// set waveform history on drawing object
 				_wave.setWaveform( _waveformDataHistory.get(NUM_LINES - i - 1) );
@@ -111,7 +109,7 @@ implements IVizElement {
 				p.popMatrix();
 				p.pushMatrix();
 				
-				p.translate(0, curSpacing * 2f, 0);
+				p.translate(0, curSpacing, 0);
 				p.rotateX(_ninteyDeg);
 				_wave.setDrawProps(_strokeWidth, p.width/2 + p.width * (i+1)/20, 20f * (NUM_LINES - i)/NUM_LINES);
 				_wave.update();

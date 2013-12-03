@@ -62,8 +62,7 @@ implements IVizElement {
 		
 		p.pushMatrix();
 
-		float zDepth = 400;
-		p.translate(0, 0, -zDepth);
+		p.translate(0, 0, -400);
 		
 		// apply base easing rotation
 		_rotation.update();
@@ -83,11 +82,11 @@ implements IVizElement {
 		float _strokeWidth = 3;
 		for(int i=0; i < NUM_LINES; i++) {
 			// _curColors.getColorFromIndex(i % 1).toARGB()
-			p.stroke( lineColor.toARGB() );
 
 			// set waveform history on drawing object
 			_wave.setWaveform( _waveformDataHistory.get(NUM_LINES - i - 1) );
-
+			_wave.setColor( lineColor.toARGB() );
+			
 			// set stroke width and color
 			float strokeWidth = 3f * ((float)NUM_LINES - (float)i)/(float)NUM_LINES;
 			_strokeWidth = strokeWidth;

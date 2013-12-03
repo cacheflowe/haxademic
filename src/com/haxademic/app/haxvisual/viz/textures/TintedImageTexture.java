@@ -11,6 +11,7 @@ import com.haxademic.core.audio.AudioInputWrapper;
 import com.haxademic.core.draw.color.ColorGroup;
 import com.haxademic.core.draw.color.TColorBlendBetween;
 import com.haxademic.core.math.MathUtil;
+import com.haxademic.core.system.FileUtil;
 
 public class TintedImageTexture
 implements IAudioTexture
@@ -24,26 +25,19 @@ implements IAudioTexture
 	protected int _imageIndex = 0;
 	
 	public TintedImageTexture() {
+		String imgBase = "images/gg/";
+		ArrayList<String> files = FileUtil.getFilesInDirOfType( FileUtil.getHaxademicDataPath() + imgBase, "png" );
 		_images = new ArrayList<PImage>();
-		_images.add( P.p.loadImage( "../data/images/maya-01.png" ) );
-		_images.add( P.p.loadImage( "../data/images/maya-02.png" ) );
-		_images.add( P.p.loadImage( "../data/images/maya-03.png" ) );
-		_images.add( P.p.loadImage( "../data/images/maya-04.png" ) );
-		_images.add( P.p.loadImage( "../data/images/maya-05.png" ) );
-		_images.add( P.p.loadImage( "../data/images/maya-06.png" ) );
-		_images.add( P.p.loadImage( "../data/images/maya-07.png" ) );
-		_images.add( P.p.loadImage( "../data/images/maya-08.png" ) );
-		_images.add( P.p.loadImage( "../data/images/maya-09.png" ) );
-		_images.add( P.p.loadImage( "../data/images/maya-10.png" ) );
-		_images.add( P.p.loadImage( "../data/images/maya-11.png" ) );
-		_images.add( P.p.loadImage( "../data/images/maya-12.png" ) );
+		for( int i=0; i < files.size(); i++ ) {
+			_images.add( P.p.loadImage( FileUtil.getHaxademicDataPath() + imgBase + files.get(i) ) );
+		}
 
 		_image = new PImage( 512, 512 );
 		_color = new TColorBlendBetween( TColor.BLACK.copy(), TColor.BLACK.copy() );
 	}
 	
 	public void updateTexture( AudioInputWrapper audioInput ) {
-		_alpha = audioInput.getFFT().spectrum[ 10 ] * 1.7f;
+		_alpha = 1; //audioInput.getFFT().spectrum[ 10 ] * 1.7f;
 	}
 	
 	public PImage getTexture() {

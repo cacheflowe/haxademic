@@ -239,7 +239,7 @@ implements IVizElement {
 			// Color calculated using sine wave
 
 			// adjust cell z per brightness
-			z = -7000 + 20f * p.brightness( cellColor ) * ( _audioData.getFFT().averages[2] + _audioData.getFFT().averages[3] );
+			z = -9000 + 20f * p.brightness( cellColor ) * ( _audioData.getFFT().averages[2] + _audioData.getFFT().averages[3] );
 			p.pushMatrix();
 			p.translate( 0, 0, 0 + z );
 			

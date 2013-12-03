@@ -37,11 +37,11 @@ implements IVizElement {
 	}
 
 	public void init() {
-		_fontSize = Math.round(p.width * 0.15f);
+		_fontSize = Math.round(p.width * 0.1f);
 		_fontRenderer = new CustomFontText2D( p, FileUtil.getHaxademicDataPath() + "fonts/HelveticaNeueLTStd-Blk.ttf", (int)_fontSize, p.color(255), CustomFontText2D.ALIGN_CENTER, p.width, _fontSize + 20 );
-		_fontRenderer.setTextColor(p.color(255, 255, 0), p.color(240));
+		_fontRenderer.setTextColor(p.color(0, 0, 0, 127), p.color(100, 100));
 		
-		String lines[] = p.loadStrings(FileUtil.getHaxademicDataPath() + "text/rap-lyrics.txt");
+		String lines[] = p.loadStrings(FileUtil.getHaxademicDataPath() + "text/gibson-text.txt");
 		_words = new ArrayList<String>();
 		String wordsPerLine[];
 		for( int i=0; i < lines.length; i++ ) {
@@ -88,7 +88,7 @@ implements IVizElement {
 	public void updateTiming() {
 		_wordIndex++;
 		if( _wordIndex >= _words.size() ) _wordIndex = 0;
-		_fontRenderer.setTextColor( p.color(0), p.color(240) );
+		_fontRenderer.setTextColor(p.color(0, 0, 0, 127), p.color(100, 100));
 		_fontRenderer.updateText( _words.get(_wordIndex) );
 	}
 

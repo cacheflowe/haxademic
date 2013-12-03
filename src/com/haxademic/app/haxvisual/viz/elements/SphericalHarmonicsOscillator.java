@@ -12,7 +12,7 @@ import com.haxademic.app.haxvisual.viz.IVizElement;
 import com.haxademic.core.audio.AudioInputWrapper;
 import com.haxademic.core.data.Point3D;
 import com.haxademic.core.draw.color.ColorGroup;
-import com.haxademic.core.draw.util.DrawMesh;
+import com.haxademic.core.draw.mesh.DrawMesh;
 import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.draw.util.ThreeDeeUtil;
 import com.haxademic.core.math.MathUtil;
@@ -33,8 +33,8 @@ implements IVizElement {
 	
 	protected TColor _baseColor = null;
 	protected TColor _strokeColor = null;
-	protected boolean _isWireframe = true;
-	protected boolean _isPoints = true;
+	protected boolean _isWireframe = false;
+	protected boolean _isPoints = false;
 	
 	protected Point3D _rotSpeed = new Point3D( 0, 0, 0 );
 	protected Point3D _rotation = new Point3D( 0, 0, 0 );
@@ -121,7 +121,7 @@ implements IVizElement {
 	}
 	
 	public void updateLineMode() {
-		int linesMode = p.round( p.random( 0, 1 ) );
+		int linesMode = 1; // p.round( p.random( 0, 1 ) );
 		if( linesMode == 0 ) {
 			_isWireframe = true;
 			_isPoints = false;

@@ -79,8 +79,7 @@ implements IVizElement {
 			float curSpacing = _baseWaveLineSpacing.value();
 			float _strokeWidth = 3;
 			for(int i=0; i < 10; i++) {
-				p.stroke( _curColors.getColorFromIndex(i % 4).toARGB() );
-
+				_wave.setColor( _curColors.getColorFromIndex(i % 4).toARGB() );
 				p.pushMatrix();
 				p.translate(0, -curSpacing, 0);
 				_wave.setDrawProps(_strokeWidth, p.width + zDepth, 20);
@@ -93,12 +92,6 @@ implements IVizElement {
 				p.popMatrix();
 			}
 		}
-		
-		// draw lines
-
-//		p.rotateZ((float)(Math.PI*2f)/4f);
-		
-		
 		p.popMatrix();
 	}
 	

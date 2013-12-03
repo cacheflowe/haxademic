@@ -58,18 +58,18 @@ implements IVizElement {
 		
 		p.rectMode(PConstants.CENTER);
 		p.noStroke();
-		
-		p.translate( 0, 0, -500 );
-		
+				
 		// ease vertex multipliers
 		for( int i=0; i < 8; i++ ) {
 			_radii.get( i ).update();
 		}
 		
+		p.translate(0,0,-400);
+		
 		// start outer for wraparound
-		float outerMult = 2;
-		float halfW = p.width/2f;
-		float halfH = p.height/2f;
+		float outerMult = 3;
+		float halfW = p.width/5f;
+		float halfH = p.height/5f;
 		p.fill( 0 );
 		p.noStroke();
 		

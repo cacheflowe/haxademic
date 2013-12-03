@@ -2,7 +2,6 @@ package com.haxademic.app.haxvisual.viz.elements;
 
 import processing.core.PApplet;
 import toxi.color.TColor;
-import toxi.geom.AABB;
 import toxi.geom.Sphere;
 import toxi.geom.mesh.WETriangleMesh;
 import toxi.processing.ToxiclibsSupport;
@@ -18,7 +17,6 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.audio.AudioInputWrapper;
 import com.haxademic.core.draw.color.ColorGroup;
 import com.haxademic.core.draw.mesh.MeshUtil;
-import com.haxademic.core.draw.util.DrawMesh;
 import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.EasingFloat3d;
@@ -57,8 +55,8 @@ implements IVizElement {
 	}
 	
 	public void setDrawProps( float baseRadius, float deformFactor ) {
-		_baseRadius = baseRadius;
-		_deformFactor = deformFactor;
+		_baseRadius = baseRadius * 0.7f;
+		_deformFactor = deformFactor * 1.4f;
 		createNewSphere();
 	}
 	

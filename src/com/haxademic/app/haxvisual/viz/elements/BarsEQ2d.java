@@ -44,42 +44,48 @@ implements IVizElement {
 	
 	public void update() {
 		DrawUtil.resetGlobalProps( p );
-		DrawUtil.setCenter( p );
+//		DrawUtil.setTopLeft( p );
 		p.pushMatrix();
 		
-		p.rectMode(PConstants.CORNER);
 		p.noStroke();
-		
-		setDrawProps(p.width, p.height/4);
 		p.fill( 0 );
-		p.translate( 0, 0, -400f );
+		
+		p.rectMode(PConstants.CENTER);
 
 		// draw bars
-		p.translate( 0, -p.height/2 );
+		p.pushMatrix();
 		drawBars();
+		p.popMatrix();
+
+		p.pushMatrix();
 		p.translate( 0, p.height );
 		p.rotateX( (float) Math.PI );
-		p.rotateY( (float) Math.PI );
+//		p.rotateY( (float) Math.PI );
 		drawBars();
+		p.popMatrix();
 		
 		p.popMatrix();
 	}
 
 	public void drawBars() {
 		// draw bars
-		float cellW = p.width/_cols;
-		float cellX = -p.width/2f;
-		float cellH = p.height/4f;
+		float halfH = p.height * 0.5f;
+		float halfW = p.width * 0.5f;
+		float cellW = (float)p.width/(float)_cols;
+		float cellX = 0;
+		float cellH = p.height/6f;
 		int spectrumInterval = (int) ( 128f / _cols );	// 128 keeps it in the bottom quarter of the spectrum since the high ends is so overrun
 		
 		p.beginShape();
-		p.vertex( cellX, -p.height );
+		p.vertex( cellX, -halfH );
 		for (int i = 0; i < _cols; i++) {
 			float eqAmp = _audioData.getFFT().spectrum[i*spectrumInterval] * cellH;
 			p.vertex( cellX, eqAmp );
 			cellX += cellW;
 		}		
-		p.vertex( cellX, -p.height );
+		p.vertex( cellX, 0 );
+		p.vertex( cellX, -halfH );
+		p.vertex( -halfW, -halfH );
 		p.endShape(P.CLOSE);
 	}
 
