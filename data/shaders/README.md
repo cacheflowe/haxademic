@@ -1,8 +1,10 @@
-#### GLSL Conversion notes
+# GLSL Conversion notes
 
-#### pixel position
+## pixel position
 
 ----------------------
+
+##### glsl.heroku
 
 	vec2 p = -1.0 + 2.0 * gl_FragCoord.xy / iResolution.xy;
 
@@ -11,18 +13,28 @@ becomes:
     vec2 p = vertTexCoord.xy;
 
 
-or:
-
+##### shadertoy
 	vec2 uv = gl_FragCoord.xy/iResolution.xy;
 becomes:
 	
 	vec2 uv = vertTexCoord.xy;
 	
 	
-#### resolution
+## center
 
 --------------------
 
+	vec2 uv = gl_FragCoord.xy;
+	
+becomes:
+	
+	vec2 uv = vertTexCoord.xy - vec2(.5,.5);
+
+## resolution
+
+--------------------
+
+##### shadertoy + glsl.heroku
 	iResolution
 	
 becomes:
@@ -87,4 +99,18 @@ becomes:
 * http://glsl.heroku.com/e#7022.0
 * http://glsl.heroku.com/e#7055.0
 * http://glsl.heroku.com/e#7083.10
+* http://glsl.heroku.com/e#7315.1
+* http://glsl.heroku.com/e#7070.6
+* http://glsl.heroku.com/e#7403.0
+* http://glsl.heroku.com/e#7405.0
+* http://glsl.heroku.com/e#7453.12
+* http://glsl.heroku.com/e#7520.0
+* http://glsl.heroku.com/e#7597.0
+* http://glsl.heroku.com/e#7600.1
+* http://glsl.heroku.com/e#7716.0
+* http://glsl.heroku.com/e#7734.0
+* http://glsl.heroku.com/e#7757.5
+* http://glsl.heroku.com/e#8034.0
+* http://glsl.heroku.com/e#7988.0
+* http://glsl.heroku.com/e#8010.0
 * 
