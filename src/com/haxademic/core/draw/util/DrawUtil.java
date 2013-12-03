@@ -29,6 +29,7 @@ public class DrawUtil {
 	}
 
 	public static void setCenterScreen(PApplet p) {
+		p.resetMatrix();
 		p.translate( p.width/2, p.height/2, 0 );
 	}
 
