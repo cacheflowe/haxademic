@@ -48,7 +48,7 @@ extends PAppletHax {
 //		P.println(mouseY*0.01f);
 
 		// draw a dark room
-		if( _jw != null ) _jw.drawRoomWithSizeAndColor( width, height, JoonsWrapper.MATERIAL_MIRROR, -1, p.color( 60, 60, 60) );
+//		if( _jw != null ) _jw.drawRoomWithSizeAndColor( width, height, JoonsWrapper.MATERIAL_MIRROR, -1, p.color( 60, 60, 60) );
 	
 		// draw pyramids
 		float size = 3.5f;
