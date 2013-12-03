@@ -29,6 +29,7 @@ extends PApplet {
 	protected int _camH = 120;
 	
 	protected WETriangleMesh _mesh;
+	protected String camera;
 	
 	public void setup () {
 		p = this;
@@ -51,11 +52,14 @@ extends PApplet {
 			for (int i = 0; i < cameras.length; i++) {
 				println(cameras[i]);
 			}
-			_webCam = new Capture(this, _camW, _camH);
+			camera = cameras[3];
+			_webCam = new Capture(this, cameras[3]);
 		}      
 	}
 	
 	public void draw() {
+		if(p.frameCount == 1) _webCam = new Capture(this, camera);
+		
 		p.background( 0 );
 		p.rectMode(PConstants.CENTER);
 		DrawUtil.resetGlobalProps( p );
@@ -66,9 +70,16 @@ extends PApplet {
 		p.noStroke();
 
 		
-		p.translate( 0, 0, -100 );
+		p.translate( 0, 0, -1000 );
 		p.rotateX( 0.02f*p.mouseY );
 		p.rotateY( 0.02f*p.mouseX );
+		
+		  if (_webCam.available()) { 
+			    // Reads the new frame
+			  _webCam.read(); 
+			  } 
+			  image(_webCam, 0, 0); 
+
 		
 		if (_webCam.available() == true) {
 			_webCam.read();
