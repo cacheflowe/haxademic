@@ -2,54 +2,77 @@ package com.haxademic.core.render;
 
 import java.util.ArrayList;
 
-import joons.JoonsRenderer;
 import processing.core.PApplet;
 import toxi.geom.Sphere;
 import toxi.geom.mesh.WETriangleMesh;
 
 import com.haxademic.core.app.P;
+import com.haxademic.core.debug.DebugUtil;
 import com.haxademic.core.draw.color.ColorHax;
-import com.haxademic.core.draw.util.DrawMesh;
+import com.haxademic.core.draw.mesh.DrawMesh;
+import com.haxademic.core.render.joons.JRStatics;
+import com.haxademic.core.render.joons.JoonsRenderer;
 import com.haxademic.core.system.FileUtil;
 import com.haxademic.core.system.SystemUtil;
+import com.haxademic.sketch.test.JoonsTester;
 
 public class JoonsWrapper {
 
 	public static final String QUALITY_HIGH = "bucket";
 	public static final String QUALITY_LOW = "ipr";
 
-	// http://sfwiki.geneome.net/index.php5?title=Shaders
+	
+	// Backgrounds ========================================================
+	public static final String BACKGROUND_GI = "gi_instant";
+	public static final String BACKGROUND_AO = "gi_ambient_occlusion";
+    //jr.background(0, 255, 255); //background(gray), or (r, g, b), like Processing.
+    //jr.background("gi_instant"); //Global illumination, normal mode.
+    //jr.background("gi_ambient_occlusion"); //Global illumination, ambient occlusion mode.
+
+	
+	// Materials ==========================================================
 	public static final String MATERIAL_DIFFUSE = "diffuse";
+    //jr.fill("diffuse"); or
+    //jr.fill("diffuse", r, g, b);
 	public static final String MATERIAL_MIRROR = "mirror";
+    //jr.fill("mirror"); or
+    //jr.fill("mirror", r, g, b);    
 	public static final String MATERIAL_GLASS = "glass";
+    //jr.fill("glass", r, g, b);
 	public static final String MATERIAL_SHINY = "shiny";
+    //jr.fill("shiny"); or
+    //jr.fill("shiny", r, g, b);  or
+    //jr.fill("shiny", r, g, b, shininess);  or
 	public static final String MATERIAL_CONSTANT = "constant";
+    //jr.fill("constant", r, g, b);
+	public static final String MATERIAL_LIGHT = "light";
+    //jr.fill("light"); or
+    //jr.fill("light", r, g, b); or
+    //jr.fill("light", r, g, b, int samples);
+	public static final String MATERIAL_PHONG = "phong";
+    //jr.fill("phong", r, g, b);
+	public static final String MATERIAL_AMBIENT_OCCLUSION = "ambient_occlusion";
+    //jr.fill("ambient_occlusion"); or
+    //jr.fill("ambient_occlusion", bright r, bright g, bright b); or
+    //jr.fill("ambient occlusion", bright r, bright g, bright b, dark r, dark g, dark b, maximum distance, int samples);
 
 	protected PApplet p;
-	protected JoonsRenderer _jr;
+	public JoonsRenderer jr;
 	protected String _quality;
-
-	protected int _objectMaterialIndex = 0;
-	protected int _sphereMaterialIndex = 0;
-
+	
 	protected float _eyeX = 0;
-	protected float _eyeY = 120;
-	protected float _eyeZ = 40;
+	protected float _eyeY = 0;
+	protected float _eyeZ = 0;
 	protected float _centerX = 0;
 	protected float _centerY = 0;
-	protected float _centerZ = 0; // was 40
+	protected float _centerZ = -1;
 	protected float _upX = 0;
-	protected float _upY = 0;
-	protected float _upZ = -1;
-	protected float _fov = P.PI / 4; 
-	protected float _aspect = (float) 1;	//1.7777;  // was 1.3333
+	protected float _upY = 1;
+	protected float _upZ = 0;
+	protected float _fov = P.PI / 4f; 
+	protected float _aspect = 4/3f;  
 	protected float _zNear = 5;
 	protected float _zFar = 10000;
-
-	protected ArrayList<Integer> _colors;
-	protected ArrayList<Integer> _reflectives;
-	protected ArrayList<String> _shaderTypes;
-	protected ArrayList<Boolean> _isSpheres;
 	
 	protected Boolean _isActive;
 
@@ -60,152 +83,93 @@ public class JoonsWrapper {
 
 		_aspect = (float) width / (float) height;
 
-		_jr = new JoonsRenderer( p, width, height );
-		_jr.setRenderSpeed(1);							//render speed is 1 by default. Set it to 2 for x2 speed. Set it to any number. Lowers quality.
-
-		_shaderTypes = new ArrayList<String>();
-		_colors = new ArrayList<Integer>();
-		_reflectives = new ArrayList<Integer>();
-		_isSpheres = new ArrayList<Boolean>();
+		jr = new JoonsRenderer( p );
+		jr.setSampler(_quality); //Rendering mode, either "ipr" or "bucket".
+		jr.setSizeMultiplier(1); //Set size of the .PNG file as a multiple of the Processing sketch size.
+		jr.setAA(-2, 0, 1); //Set anti-aliasing, (min, max, samples). -2 < min, max < 2, samples = 1,2,3,4..
+        jr.setCaustics(1); //Set caustics. 1 ~ 100. affects quality of light scattered through glass.
+        //jr.setTraceDepth(1,4,4); //Set trace depth, (diffraction, reflection, refraction). Affects glass. (1,4,4) is good.
+        //jr.setDOF(170, 5); //Set depth of field of camera, (focus distance, lens radius). Larger radius => more blurry.
+		
+//		DebugUtil.printErr("Remember that x & y axis are swapped in Joons");
 	}
 
 	public void startFrame() {
-		if( _isActive == true ) { 
-			p.beginRecord("joons.OBJWriter","");	//	just call like this. Leave the second parameter as "".
-	
-			_objectMaterialIndex = 0;
-			_sphereMaterialIndex = 0;
-			
-			_shaderTypes.clear();
-			_colors.clear();
-			_reflectives.clear();
-			_isSpheres.clear();
+		if( _isActive == true ) {
+			if( p.frameCount >= 1 ) jr.render();
+			jr.beginRecord(); 
 		}
-
-		p.perspective( _fov, _aspect, _zNear, _zFar);	// call perspective() before camera()!!
 		p.camera( _eyeX, _eyeY, _eyeZ, _centerX, _centerY, _centerZ, _upX, _upY, _upZ );
+		p.perspective( _fov, _aspect, _zNear, _zFar);
 	}
 
 	public void endFrame( boolean saveFrameImg ) {
 		if( _isActive == true ) { 
-			p.endRecord();
-	
-			// add shader colors from array
-			for(int i=0; i < _colors.size(); i++ ) {
-				makeJoonsColor( "Color-"+i, _shaderTypes.get(i), _colors.get(i), _reflectives.get(i), _isSpheres.get(i) );
-			}
-	
-			// set scene rendering config and do the deed
-			// lots more info here: https://code.google.com/p/joons-renderer/wiki/3_Advanced_Use
-			// http://sfwiki.geneome.net/index.php5?title=Main_Page
-			_jr.setSC( FileUtil.getHaxademicDataPath() + "joons/ambient.sc" );	
-			if( _jr.render( _quality ) == false ) {
-				P.println("Error: Joons is having issues...");
-			}
-	
-			// draw to screen and save an image, since drawing to screen doesn't necessarily work...
-			_jr.display();	
-			if( saveFrameImg == true ) p.saveFrame( FileUtil.getHaxademicOutputPath() + SystemUtil.getTimestamp(p) + "-render.png" );
+            jr.endRecord(); //Make sure to end record.
+            jr.displayRendered(true); //Display rendered image if rendering completed, and the argument is true.
+			if( saveFrameImg == true ) p.saveFrame( FileUtil.getHaxademicOutputPath() + SystemUtil.getTimestamp(p) + "-render.png" );				// draw to screen and save an image, since drawing to screen doesn't necessarily work...
 		}
 	}
 
 	public void addColorForObject( String type, int color, int reflective, boolean sphere ) {
-		if( _isActive == false ) return;
-		_shaderTypes.add( type );
-		_colors.add( color );
-		_reflectives.add( reflective );
-		_isSpheres.add( sphere );
-		if( sphere == false ) p.noSmooth();
+//		if( _isActive == false ) return;
+//		_shaderTypes.add( type );
+//		_colors.add( color );
+//		_reflectives.add( reflective );
+//		_isSpheres.add( sphere );
+//		if( sphere == false ) p.noSmooth();
 	}
 
 	// TODO: fix this to make more sense with the size of the room... 400??
-	public void drawRoomWithSizeAndColor( float width, float height, String shaderType, int color, int refl ) {
+	public void drawRoomWithSizeAndColor( float width, float height ) {
 
-		// build room -------------------
-		p.rect(-width*2f,-height*2f,width*4,height*4); // the floor plane
-//		p.pushMatrix();
-//		p.translate(0,0,-400);
-//		p.rect(-width*2f,-height*2f,width*4,height*4); // the roof plane
-//		p.popMatrix();
-		
-		p.pushMatrix();
-		p.translate(0,-400,0);
-		p.rotateX(P.PI/2);
-		p.rect(-width*2f,-height*2f,width*4,height*4); // the back plane
-		p.popMatrix();
-		
-		p.pushMatrix();
-		p.translate(0,400,0);
-		p.rotateX(P.PI/2);
-		p.rect(-width*2f,-height*2f,width*4,height*4); // the behind-camera plane
-		p.popMatrix();
-		
-		p.pushMatrix();
-		p.translate(-400,0,0);
-		p.rotateY(P.PI/2);
-		p.rect(-width*2f,-height*2f,width*4,height*4); // left plane
-		p.popMatrix();
-		
-		p.pushMatrix();
-		p.translate(400,0,0);
-		p.rotateY(P.PI/2);
-		p.rect(-width*2f,-height*2f,width*4,height*4); // right plane
-		p.popMatrix();
-		
-		p.pushMatrix();
-		p.translate(0,0,400);
-		p.rect(-width*2f,-height*2f,width*4,height*4); // the roof plane
-		p.popMatrix();
-
-		// add shader color after drawing
-		addColorForObject( shaderType, color, refl, false );
 	}
 	
 	public void drawRoomSphereWithColor( String shaderType, int color, int refl ) {
 		WETriangleMesh mesh = new WETriangleMesh();
 		mesh.addMesh( (new Sphere(400)).toMesh( 10 ) );
 		DrawMesh.drawToxiMeshFacesNative(p, mesh);
-		addColorForObject( shaderType, color, refl, false );
+//		addColorForObject( shaderType, color, refl, false );
 	}
 	
 	// internal methods during rendering -------------------------------------
-	/**
-	 * Auto-increment shader colors for every object that's drawn.
-	 * This isn't necessarily efficient, but it is flexible for lots of dynamic colors
-	 * @param shaderAutoId
-	 * @param color
-	 */
-	protected void makeJoonsColor( String shaderAutoId, String type, int color, int refl, boolean sphere ) {
-		_jr.addAfterShader("shader {");
-		_jr.addAfterShader("   name " + shaderAutoId);
-		_jr.addAfterShader("   type " + type);
-		
-		if( type == MATERIAL_DIFFUSE ) {
-			_jr.addAfterShader("   diff "+ roundForShader( ColorHax.redFromColorInt(color) ) +" "+ roundForShader( ColorHax.greenFromColorInt(color) ) +" "+ roundForShader( ColorHax.blueFromColorInt(color) ) +"");
-		} else if( type == MATERIAL_CONSTANT ) {
-			_jr.addAfterShader("   color "+ roundForShader( ColorHax.redFromColorInt(color) ) +" "+ roundForShader( ColorHax.greenFromColorInt(color) ) +" "+ roundForShader( ColorHax.blueFromColorInt(color) ) +"");
-		} else if( type == MATERIAL_MIRROR ) {
-			_jr.addAfterShader("   refl "+ roundForShader( ColorHax.redFromColorInt(refl) ) +" "+ roundForShader( ColorHax.greenFromColorInt(refl) ) +" "+ roundForShader( ColorHax.blueFromColorInt(refl) ) +"");
-		} else if( type == MATERIAL_SHINY ) {
-			_jr.addAfterShader("   diff "+ roundForShader( ColorHax.redFromColorInt(color) ) +" "+ roundForShader( ColorHax.greenFromColorInt(color) ) +" "+ roundForShader( ColorHax.blueFromColorInt(color) ) +"");
-			_jr.addAfterShader("   refl "+ refl +"");
-		} else if( type == MATERIAL_GLASS ) {
-			_jr.addAfterShader("   eta 1.6");
-			_jr.addAfterShader("   color "+ roundForShader( ColorHax.redFromColorInt(refl) ) +" "+ roundForShader( ColorHax.greenFromColorInt(refl) ) +" "+ roundForShader( ColorHax.blueFromColorInt(refl) ) +"");
-		}
-		
-		_jr.addAfterShader("}");
-		_jr.addAfterShader("");
-
-		// increment for next objects
-		if( sphere == false ) {
-			_jr.setShader("object"+_objectMaterialIndex, shaderAutoId);
-			_objectMaterialIndex++;
-		} else {
-			_jr.setShader("sphere"+_sphereMaterialIndex, shaderAutoId);
-			_sphereMaterialIndex++;
-		}
-	}
+//	/**
+//	 * Auto-increment shader colors for every object that's drawn.
+//	 * This isn't necessarily efficient, but it is flexible for lots of dynamic colors
+//	 * @param shaderAutoId
+//	 * @param color
+//	 */
+//	protected void makeJoonsColor( String shaderAutoId, String type, int color, int refl, boolean sphere ) {
+//		_jr.addAfterShader("shader {");
+//		_jr.addAfterShader("   name " + shaderAutoId);
+//		_jr.addAfterShader("   type " + type);
+//		
+//		if( type == MATERIAL_DIFFUSE ) {
+//			_jr.addAfterShader("   diff "+ roundForShader( ColorHax.redFromColorInt(color) ) +" "+ roundForShader( ColorHax.greenFromColorInt(color) ) +" "+ roundForShader( ColorHax.blueFromColorInt(color) ) +"");
+//		} else if( type == MATERIAL_CONSTANT ) {
+//			_jr.addAfterShader("   color "+ roundForShader( ColorHax.redFromColorInt(color) ) +" "+ roundForShader( ColorHax.greenFromColorInt(color) ) +" "+ roundForShader( ColorHax.blueFromColorInt(color) ) +"");
+//		} else if( type == MATERIAL_MIRROR ) {
+//			_jr.addAfterShader("   refl "+ roundForShader( ColorHax.redFromColorInt(refl) ) +" "+ roundForShader( ColorHax.greenFromColorInt(refl) ) +" "+ roundForShader( ColorHax.blueFromColorInt(refl) ) +"");
+//		} else if( type == MATERIAL_SHINY ) {
+//			_jr.addAfterShader("   diff "+ roundForShader( ColorHax.redFromColorInt(color) ) +" "+ roundForShader( ColorHax.greenFromColorInt(color) ) +" "+ roundForShader( ColorHax.blueFromColorInt(color) ) +"");
+//			_jr.addAfterShader("   refl "+ refl +"");
+//		} else if( type == MATERIAL_GLASS ) {
+//			_jr.addAfterShader("   eta 1.6");
+//			_jr.addAfterShader("   color "+ roundForShader( ColorHax.redFromColorInt(refl) ) +" "+ roundForShader( ColorHax.greenFromColorInt(refl) ) +" "+ roundForShader( ColorHax.blueFromColorInt(refl) ) +"");
+//		}
+//		
+//		_jr.addAfterShader("}");
+//		_jr.addAfterShader("");
+//
+//		// increment for next objects
+//		if( sphere == false ) {
+//			_jr.setShader("object"+_objectMaterialIndex, shaderAutoId);
+//			_objectMaterialIndex++;
+//		} else {
+//			_jr.setShader("sphere"+_sphereMaterialIndex, shaderAutoId);
+//			_sphereMaterialIndex++;
+//		}
+//	}
 
 	protected float roundForShader( float value ) {
 		value /= 255f;

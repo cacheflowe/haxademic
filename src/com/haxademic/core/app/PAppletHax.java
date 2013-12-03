@@ -273,6 +273,7 @@ extends PApplet
 	 */
 	protected void setAppletProps() {
 		_isRendering = _appConfig.getBoolean("rendering", false);
+		if( _isRendering == true ) DebugUtil.printErr("When rendering, make sure to call super.keyPressed(); for esc key shutdown");
 		_isRenderingAudio = _appConfig.getBoolean("render_audio", false);
 		_isRenderingMidi = _appConfig.getBoolean("render_midi", false);
 		_showStats = _appConfig.getBoolean("show_stats", false);
@@ -348,6 +349,7 @@ extends PApplet
 			if( _renderShutdown == -1 ) {
 				_renderer.renderFrame();
 			} else if( p.frameCount >= _renderShutdown + 1 ) {
+				P.println("should exit!");
 				p.exit();
 			}
 		}
@@ -424,6 +426,7 @@ extends PApplet
 			if( _isRendering ) {
 				_renderShutdown = p.frameCount;
 				_renderer.stop();
+				P.println("shutting down");
 			}
 		}
 
