@@ -13,6 +13,7 @@ import java.util.ArrayList;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.debug.DebugUtil;
+import com.haxademic.core.math.MathUtil;
 
 public class FileUtil {
 	
@@ -101,6 +102,19 @@ public class FileUtil {
 		    }
 		}
 		return filesOfType;
+	}
+	
+	public static void shuffleFileList( ArrayList<String> files ) {
+		String cur = null;
+		String temp = null;
+		int swapIndex = 0;
+		for( int i=0; i < files.size(); i++ ) {
+			swapIndex = MathUtil.randRange(0, files.size() - 1);
+			temp = files.get( swapIndex );
+			cur = files.get( i );
+			files.set( swapIndex, cur );
+			files.set( i, temp );
+		}
 	}
 	
 	public static void getFilesInDir( String directory ) {
