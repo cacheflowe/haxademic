@@ -11,4 +11,6 @@ public interface IVizElement {
 	public void updateColorSet( ColorGroup colors );
 	public void updateLineMode();
 	public void updateCamera();
+	public void updateTiming();
+	public void updateSection();
 }

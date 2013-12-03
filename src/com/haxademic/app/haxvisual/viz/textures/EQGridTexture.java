@@ -1,13 +1,11 @@
 package com.haxademic.app.haxvisual.viz.textures;
 
-import processing.core.PGraphics;
 import processing.core.PImage;
 import toxi.color.TColor;
 
 import com.haxademic.app.haxvisual.viz.IAudioTexture;
 import com.haxademic.core.app.P;
 import com.haxademic.core.audio.AudioInputWrapper;
-import com.haxademic.core.debug.DebugUtil;
 import com.haxademic.core.draw.color.ColorGroup;
 import com.haxademic.core.draw.color.TColorBlendBetween;
 
@@ -91,6 +89,14 @@ implements IAudioTexture
 	}
 
 	public void updateCamera() {
+		// TODO Auto-generated method stub
+	}
+	
+	public void updateTiming() {
+		// TODO Auto-generated method stub
+	}
+	
+	public void updateSection() {
 		// TODO Auto-generated method stub
 	}
 }

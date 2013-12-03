@@ -11,7 +11,7 @@ import toxi.color.theory.ColorTheoryRegistry;
 import toxi.color.theory.ColorTheoryStrategy;
 
 import com.haxademic.core.app.P;
-import com.haxademic.core.cameras.CameraBasic;
+import com.haxademic.core.cameras.CameraDefault;
 import com.haxademic.core.draw.color.ColorGroup;
 import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.hardware.midi.MidiWrapper;
@@ -36,12 +36,16 @@ implements IVizModule
 	protected IVizElement _fgElement = null;
 	protected IVizElement _ambientElement = null;
 	protected IVizElement _2dElement = null;
+	protected IVizElement _frame2dElement = null;
+	protected IVizElement _kinectElement = null;
 	
 	protected Vector<IVizElement> _bgElements;
 	protected Vector<IVizElement> _fgElements;
 	protected Vector<IVizElement> _ambientElements;
 	protected Vector<IVizElement> _outerElements;
 	protected Vector<IVizElement> _2dElements;
+	protected Vector<IVizElement> _frame2dElements;
+	protected Vector<IVizElement> _kinectElements;
 	
 	protected ColorGroup _balletColors;
 	
@@ -58,7 +62,7 @@ implements IVizModule
 	}
 
 	public void init() {
-		_curCamera = new CameraBasic( p, 0, 0, (int)_curCameraZ );
+		_curCamera = new CameraDefault( p, 0, 0, (int)_curCameraZ );
 		_curCamera.reset();
 		_curCamera.setTarget( 0, 0, 0 );
 
@@ -67,6 +71,8 @@ implements IVizModule
 		_ambientElements = new Vector<IVizElement>();
 		_outerElements = new Vector<IVizElement>();
 		_2dElements = new Vector<IVizElement>();
+		_frame2dElements = new Vector<IVizElement>();
+		_kinectElements = new Vector<IVizElement>();
 		
 		addElements();
 		pickElements();
@@ -95,20 +101,22 @@ implements IVizModule
 		// clear screen and set camera
 		p.background(0,0,0,255f);
 				
+		// set camera
+		_curCameraZ = MathUtil.easeTo(_curCameraZ, 0, 10);
+		_curCamera.setPosition(0, 0, (int)_curCameraZ);
+		_curCamera.setTarget( 0, 0, 0 );
+		_curCamera.update();
+
 		// draw shapes
 		if( _outerElement != null ) _outerElement.update();
 		if( _bgElement != null ) _bgElement.update();
 		if( _fgElement != null ) _fgElement.update();
+		if( _kinectElement != null ) _kinectElement.update();
 		if( _ambientElement != null ) _ambientElement.update();	
 		p.hint( P.DISABLE_DEPTH_TEST );
 		if( _2dElement != null ) _2dElement.update();		
+		if( _frame2dElement != null ) _frame2dElement.update();		
 		p.hint( P.ENABLE_DEPTH_TEST );
-
-		// set camera
-		_curCameraZ = MathUtil.easeTo(_curCameraZ, 0, 10);
-		_curCamera.setPosition(0, 0, (int)_curCameraZ);
-		_curCamera.setTarget( 0, 0, -100 );
-		_curCamera.update();
 
 //		debugDrawColorList();
 		// lets us use the keyboard to funk it up
@@ -174,6 +182,8 @@ implements IVizModule
 			pickNewColors();
 			newLineMode();
 			newCamera();
+			updateSection();
+			updateTiming();
 		}
 	}
 	
@@ -183,6 +193,8 @@ implements IVizModule
 		if( _fgElement != null ) _fgElement.updateColorSet( _balletColors );
 		if( _ambientElement != null ) _ambientElement.updateColorSet( _balletColors );		
 		if( _2dElement != null ) _2dElement.updateColorSet( _balletColors );		
+		if( _frame2dElement != null ) _frame2dElement.updateColorSet( _balletColors );		
+		if( _kinectElement != null ) _kinectElement.updateColorSet( _balletColors );		
 	}
 	
 	public void handleKeyboardInput() {
@@ -194,15 +206,21 @@ implements IVizModule
 			_isStressTesting = !_isStressTesting;
 			P.println("_isStressTesting = "+_isStressTesting);
 		}
-		if ( p.key == 'm' || p.key == 'M' || p.getMidi().midiPadIsOn( MidiWrapper.PAD_04 ) == 1 || p.getMidi().midiPadIsOn( MidiWrapper.NOTE_04 ) == 1 ) {
-			pickMode();
-			pickNewColors();
-		}
 		if ( p.key == 'c' || p.key == 'C' || p.getMidi().midiPadIsOn( MidiWrapper.PAD_01 ) == 1 || p.getMidi().midiPadIsOn( MidiWrapper.NOTE_01 ) == 1 ) {
 			pickNewColors();
 		}
 		if ( p.key == 'v' || p.key == 'V' || p.getMidi().midiPadIsOn( MidiWrapper.PAD_02 ) == 1 || p.getMidi().midiPadIsOn( MidiWrapper.NOTE_02 ) == 1 ) {
 			newCamera();
+		}
+		if ( p.key == 'n' || p.key == 'N' || p.getMidi().midiPadIsOn( MidiWrapper.PAD_03 ) == 1 || p.getMidi().midiPadIsOn( MidiWrapper.NOTE_03 ) == 1 ) {
+			updateTiming();
+		}
+		if ( p.key == 'm' || p.key == 'M' || p.getMidi().midiPadIsOn( MidiWrapper.PAD_04 ) == 1 || p.getMidi().midiPadIsOn( MidiWrapper.NOTE_04 ) == 1 ) {
+			pickMode();
+			pickNewColors();
+		}
+		if ( p.key == 'f' || p.key == 'F' || p.getMidi().midiPadIsOn( MidiWrapper.PAD_05 ) == 1 || p.getMidi().midiPadIsOn( MidiWrapper.NOTE_05 ) == 1 ) {
+			updateSection();
 		}
 		if ( p.key == 'l' || p.key == 'L' || p.getMidi().midiPadIsOn( MidiWrapper.PAD_08 ) == 1 || p.getMidi().midiPadIsOn( MidiWrapper.NOTE_08 ) == 1 ) {
 			newLineMode();
@@ -246,10 +264,24 @@ implements IVizModule
 		// _ambientElement = ( MathUtil.randBoolean( p ) == true ) ? null : _ambientElement;
 		
 		// pick 2D element
-		if( _numBigChanges % 1 == 0 && _2dElements.size() > 0 ) {
+		if( _2dElements.size() > 0 ) {	// _numBigChanges % 1 == 0 && 
 			int cur2dIndex = _2dElements.indexOf( _2dElement );
 			cur2dIndex = ( cur2dIndex < _2dElements.size() - 1 ) ? cur2dIndex + 1 : 0;
 			_2dElement = _2dElements.get( cur2dIndex );
+		}
+
+		// pick frame 2D element
+		if( _frame2dElements.size() > 0 ) { 
+			int curIndex = _frame2dElements.indexOf( _frame2dElement );
+			curIndex = ( curIndex < _frame2dElements.size() - 1 ) ? curIndex + 1 : 0;
+			_frame2dElement = _frame2dElements.get( curIndex );
+		}
+
+		// pick kinect element
+		if( _kinectElements.size() > 0 ) { 
+			int curIndex = _kinectElements.indexOf( _kinectElement );
+			curIndex = ( curIndex < _kinectElements.size() - 1 ) ? curIndex + 1 : 0;
+			_kinectElement = _kinectElements.get( curIndex );
 		}
 
 		// keep track of changes
@@ -262,6 +294,8 @@ implements IVizModule
 		if( _fgElement != null && MathUtil.randBoolean( p ) == true ) _fgElement.updateCamera();
 		if( _ambientElement != null && MathUtil.randBoolean( p ) == true ) _ambientElement.updateCamera();
 		if( _2dElement != null && MathUtil.randBoolean( p ) == true ) _2dElement.updateCamera();
+		if( _frame2dElement != null && MathUtil.randBoolean( p ) == true ) _frame2dElement.updateCamera();
+		if( _kinectElement != null && MathUtil.randBoolean( p ) == true ) _kinectElement.updateCamera();
 	}
 	
 	protected void newLineMode() {
@@ -270,6 +304,8 @@ implements IVizModule
 		if( _fgElement != null && MathUtil.randBoolean( p ) == true ) _fgElement.updateLineMode();
 		if( _ambientElement != null && MathUtil.randBoolean( p ) == true ) _ambientElement.updateLineMode();
 		if( _2dElement != null && MathUtil.randBoolean( p ) == true ) _2dElement.updateLineMode();
+		if( _frame2dElement != null && MathUtil.randBoolean( p ) == true ) _frame2dElement.updateLineMode();
+		if( _kinectElement != null && MathUtil.randBoolean( p ) == true ) _kinectElement.updateLineMode();
 	}
 	
 	protected void pickMode() {
@@ -279,11 +315,32 @@ implements IVizModule
 		if( _fgElement != null ) _fgElement.reset();
 		if( _ambientElement != null ) _ambientElement.reset();
 		if( _2dElement != null ) _2dElement.reset();
+		if( _frame2dElement != null ) _frame2dElement.reset();
+		if( _kinectElement != null ) _kinectElement.reset();
 				
-		_curCameraZ = -200;
 		_curCamera.setPosition(0, 0, (int)_curCameraZ);
 	}
 
+	protected void updateTiming() {
+		if( _outerElement != null ) _outerElement.updateTiming();
+		if( _bgElement != null ) _bgElement.updateTiming();
+		if( _fgElement != null ) _fgElement.updateTiming();
+		if( _ambientElement != null ) _ambientElement.updateTiming();
+		if( _2dElement != null ) _2dElement.updateTiming();
+		if( _frame2dElement != null ) _frame2dElement.updateTiming();
+		if( _kinectElement != null ) _kinectElement.updateTiming();
+	}
+	
+	protected void updateSection() {
+		if( _outerElement != null ) _outerElement.updateSection();
+		if( _bgElement != null ) _bgElement.updateSection();
+		if( _fgElement != null ) _fgElement.updateSection();
+		if( _ambientElement != null ) _ambientElement.updateSection();
+		if( _2dElement != null ) _2dElement.updateSection();
+		if( _frame2dElement != null ) _frame2dElement.updateSection();
+		if( _kinectElement != null ) _kinectElement.updateSection();
+	}
+	
 	public void beatDetect( int isKickCount, int isSnareCount, int isHatCount, int isOnsetCount ) {
 //		P.println("beat detect: "+isKickCount+" "+isSnareCount+" "+isHatCount+" "+isOnsetCount);
 	}

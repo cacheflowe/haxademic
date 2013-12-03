@@ -76,5 +76,12 @@ implements IAudioTexture
 	public void updateCamera() {
 		// TODO Auto-generated method stub
 	}
-
+	
+	public void updateTiming() {
+		// TODO Auto-generated method stub
+	}
+	
+	public void updateSection() {
+		// TODO Auto-generated method stub
+	}
 }

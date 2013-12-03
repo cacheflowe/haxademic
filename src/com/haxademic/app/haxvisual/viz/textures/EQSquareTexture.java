@@ -42,7 +42,7 @@ implements IAudioTexture
 				if( j < _height * eqVal )
 					_image.set( i, j, _color.argbWithPercent( eqVal ) );
 				else
-					_image.set( i, j, P.p.color( 0, 80 ) );
+					_image.set( i, j, P.p.color( 0 ) ); // , 80
 			}
 		}
 	}
@@ -77,6 +77,14 @@ implements IAudioTexture
 	}
 
 	public void updateCamera() {
+		// TODO Auto-generated method stub
+	}
+	
+	public void updateTiming() {
+		// TODO Auto-generated method stub
+	}
+	
+	public void updateSection() {
 		// TODO Auto-generated method stub
 	}
 }

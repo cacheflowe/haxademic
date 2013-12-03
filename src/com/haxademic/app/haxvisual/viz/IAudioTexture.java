@@ -1,8 +1,8 @@
 package com.haxademic.app.haxvisual.viz;
 
-import com.haxademic.core.audio.AudioInputWrapper;
-
 import processing.core.PImage;
+
+import com.haxademic.core.audio.AudioInputWrapper;
 
 public interface IAudioTexture
 extends IVizElement {
