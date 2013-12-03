@@ -22,6 +22,7 @@ import com.haxademic.app.haxvisual.viz.modules.Toxi;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.debug.DebugText;
+import com.haxademic.core.draw.util.OpenGLUtil;
 import com.haxademic.core.hardware.midi.MidiWrapper;
 import com.haxademic.core.image.ScreenUtil;
 import com.haxademic.core.system.FileUtil;
@@ -100,6 +101,8 @@ extends PAppletHax
 	public void setup () {
 		_customPropsFile = FileUtil.getHaxademicDataPath() + "properties/haxvisual.properties";
 		super.setup();
+		// p.smooth(OpenGLUtil.SMOOTH_LOW);
+		p.noSmooth();
 		initVizModules();
 	}
 
