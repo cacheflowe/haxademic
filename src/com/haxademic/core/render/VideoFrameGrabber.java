@@ -11,8 +11,11 @@ import com.haxademic.core.math.MathUtil;
 
 public class VideoFrameGrabber {
 
+	protected Movie _movie;
+	protected PGraphics _curFrame;
+	protected int newFrame = 0;
+
 	protected String _videoFile;
-	protected Movie _video = null;
 	protected PGraphics _curFrameBuffer = null;
 	protected PImage _curFrameImage= null;
 	protected int _fps = 30;
@@ -23,65 +26,83 @@ public class VideoFrameGrabber {
 		_fps = frameRate;
 		_startFrame = startFrame;
 		
-		_video = new Movie( p, _videoFile );
-		_video.play();
-		_video.frameRate( _fps );
-//		_video.pause();
-		
-		_curFrameBuffer = p.createGraphics( _video.width, _video.height, P.P3D );
-		_curFrameImage = p.createImage( _video.width, _video.height, P.ARGB );
-		
-		seekAndUpdateFrame(0);
+		// Load and set the video to play. Setting the video 
+		// in play mode is needed so at least one frame is read
+		// and we can get duration, size and other information from
+		// the video stream. 
+
+		_movie = new Movie( p, _videoFile );
+		_movie.play();
+		_movie.jump(0);
+		_movie.pause();
+
+		_curFrameBuffer = p.createGraphics( _movie.width, _movie.height, P.P3D );
+		_curFrameImage = p.createImage( _movie.width, _movie.height, P.ARGB );
 	}
+
 	
 	public int width() {
-		return _video.width;
+		return _movie.width;
 	}
 	
 	public int height() {
-		return _video.height;
+		return _movie.height;
 	}
 	
-	public void readVideo() {
-		if( _video != null ) _video.read();
+	public Movie movie() {
+		return _movie;
 	}
 	
-	public PImage curFrame() {
+	public PImage frameImageCopy() {
 		return _curFrameImage;
 	}
 	
 	public boolean isVideoDataGood() {
-		if( _video.pixels.length > 100 ) return true;
+		if( _movie.pixels.length > 100 ) return true;
 		else return false;
 	}
 	
-	public void seekAndUpdateFrame( int frameIndex ) {
-		frameIndex += _startFrame;
-		seekTo( (float) frameIndex / _fps );
-//		if( _video.available() ) {
-			P.println("attempt to read "+frameIndex + "  - "+_video.available());
-//			P.p.image(_video, 0, 0);
-			
-			_curFrameBuffer.beginDraw();
-			_curFrameBuffer.image(_video, 0, 0, _video.width, _video.height);
-			_curFrameBuffer.endDraw();
-//
-			_curFrameImage.copy( _curFrameBuffer, 0, 0, _curFrameBuffer.width, _curFrameBuffer.height, 0, 0, _curFrameImage.width, _curFrameImage.height );
-//			if( _curFrame == null )	_curFrame = new PImage( _video.width, _video.height );	// need to wait till first frame has been read from video
-//			_curFrame.copy( _video, 0, 0, _video.width, _video.height, 0, 0, _curFrame.width, _curFrame.height );
-//		}
-	}
-	
 	public void randomMovieTime() {
-		_video.jump( MathUtil.randRangeDecimel( 0, _video.duration() - 1 ) );
+		_movie.jump( MathUtil.randRangeDecimel( 0, _movie.duration() - 1 ) );
+	}
+
+	public int getFrame() {    
+		return P.ceil( _movie.time() * 30 ) - 1;
+	}
+
+	public void setFrameIndex(int n) {
+		_movie.play();
+
+		// The duration of a single frame:
+		float frameDuration = 1.0f / _fps;
+
+		// We move to the middle of the frame by adding 0.5:
+		float where = (n + 0.5f) * frameDuration; 
+
+		// Taking into account border effects:
+		float diff = _movie.duration() - where;
+		if (diff < 0) {
+			where += diff - 0.25 * frameDuration;
+		}
+
+		_movie.jump(where);
+		_movie.pause();  
+		
+		P.println(getFrame() + " / " + (getLength() - 1));
+		
+		// copy pixels to PGraphics and PImage - is this necessary?
+		_curFrameBuffer.beginDraw();
+		_curFrameBuffer.image( _movie, 0, 0, _movie.width, _movie.height);
+		_curFrameBuffer.endDraw();
+		_curFrameImage.copy( _curFrameBuffer, 0, 0, _curFrameBuffer.width, _curFrameBuffer.height, 0, 0, _curFrameImage.width, _curFrameImage.height );
+	}  
+
+	int getLength() {
+		return (int) (_movie.duration() * _fps);
 	}
 	
-	public void seekTo( float time ) {
-		_video.jump( time );
-		_video.play();
-//		_video.pause();
-	}
-	
-	
+//	public void readVideo() {
+//		if( _movie != null ) _movie.read();
+//	}
 
 }
