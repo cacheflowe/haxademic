@@ -8,7 +8,6 @@
 	<classpathentry kind="lib" path="lib/toxiclibs-complete-0020/volumeutils/library/volumeutils.jar"/>
 	<classpathentry kind="lib" path="lib/toxiclibs-complete-0020/colorutils/library/colorutils.jar"/>
 	<classpathentry kind="lib" path="lib/oscP5/library/oscP5.jar"/>
-	<classpathentry kind="lib" path="lib/themidibus/themidibus.jar"/>
 	<classpathentry kind="lib" path="lib/OBJLoader/library/OBJLoader.jar"/>
 	<classpathentry kind="lib" path="lib/hemesh/library/apfloat.jar"/>
 	<classpathentry kind="lib" path="lib/hemesh/library/hemesh.jar"/>

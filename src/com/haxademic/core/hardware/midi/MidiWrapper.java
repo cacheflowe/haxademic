@@ -1,16 +1,21 @@
 package com.haxademic.core.hardware.midi;
 
+import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.Hashtable;
 
 import processing.core.PApplet;
-import themidibus.MidiBus;
 
 import com.haxademic.core.app.P;
+import com.haxademic.core.debug.DebugUtil;
+import com.haxademic.core.system.SystemUtil;
 
 public class MidiWrapper
 {
 	PApplet p;
-	MidiBus myBus;
+//	MidiBus myBus;
+	
+	MidiHandler _midiHandler;
+	
 	public int[] _notesOn;
 	Hashtable<String, Integer> padMap;
 	
@@ -68,14 +73,25 @@ public class MidiWrapper
 	public MidiWrapper( PApplet p5, String in_device_name, String out_device_name )
 	{
 		p = p5;
-		P.println("Available MIDI devices:");
-		MidiBus.list();
+		
+//		_midiHandler = new MidiHandler();
+		Thread t = new Thread(new MidiHandler());
+		t.setPriority(Thread.MIN_PRIORITY);
+		t.setUncaughtExceptionHandler(new UncaughtExceptionHandler() {
+            @Override
+            public void uncaughtException(Thread thread, Throwable ex) {
+                DebugUtil.printErr("UncaughtExceptionHandler on MidiHandler Thread");
+            }
+        });
+		t.start();
+		
+//		MidiBus.list();
 		if(in_device_name != "") {
 			P.println("MIDI connection:");
 			if( in_device_name != "" || out_device_name != "" ) {
-				myBus = new MidiBus( p, in_device_name, out_device_name);
+//				myBus = new MidiBus( p, in_device_name, out_device_name);
 			} else {
-				myBus = new MidiBus( p );
+//				myBus = new MidiBus( p );
 			}
 		} else {
 			P.println("No MIDI connected");

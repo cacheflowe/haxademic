@@ -66,16 +66,16 @@ public class MIDISequenceRenderer {
         _messages = new Vector<MidiSequenceEvent>();
         for (Track track :  sequence.getTracks()) {
             trackNumber++;
-            P.println("Track " + trackNumber + ": size = " + track.size() + ": ticks = " + track.ticks());
-            P.println();
+//            P.println("Track " + trackNumber + ": size = " + track.size() + ": ticks = " + track.ticks());
             for (int i=0; i < track.size(); i++) { 
                 MidiEvent event = track.get(i);
-                System.out.print("@" + event.getTick() + " ");
+//                P.println("@" + event.getTick() + " ");
                 MidiMessage message = event.getMessage();
                 if (message instanceof ShortMessage) {
                     ShortMessage sm = (ShortMessage) message;
-                    System.out.print("Channel: " + sm.getChannel() + " ");
-                    float tickTime = event.getTick() / _ticksPerSecond;
+                    float tickTime = (float) event.getTick() / _ticksPerSecond;
+//                    P.println("Channel: " + sm.getChannel());
+                    P.print("|| "+sm.getCommand()+" ||");
                     if (sm.getCommand() == NOTE_ON) {
                     	_messages.add( new MidiSequenceEvent( event, sm, tickTime ) );
                         int key = sm.getData1();
@@ -83,7 +83,7 @@ public class MIDISequenceRenderer {
                         int note = key % 12;
                         String noteName = NOTE_NAMES[note];
                         int velocity = sm.getData2();
-                        P.println("Note on, " + noteName + octave + " key=" + key + " velocity: " + velocity + " tick: " + event.getTick() + " tickTime: " + tickTime);
+                        P.print("### Note on, " + noteName + octave + " key=" + key + " velocity: " + velocity + " tick: " + event.getTick() + " tickTime: " + tickTime);
                     } else if (sm.getCommand() == NOTE_OFF) {
                     	_messages.add( new MidiSequenceEvent( event, sm, tickTime ) );
                     	int key = sm.getData1();
@@ -91,7 +91,7 @@ public class MIDISequenceRenderer {
                         int note = key % 12;
                         String noteName = NOTE_NAMES[note];
                         int velocity = sm.getData2();
-                        P.println("Note on, " + noteName + octave + " key=" + key + " velocity: " + velocity + " tick: " + event.getTick() + " tickTime: " + tickTime);
+//                        P.print("Note off, " + noteName + octave + " key=" + key + " velocity: " + velocity + " tick: " + event.getTick() + " tickTime: " + tickTime);
                     } else {
                         P.println("Command:" + sm.getCommand());
                     }
