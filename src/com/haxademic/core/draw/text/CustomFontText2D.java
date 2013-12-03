@@ -6,7 +6,6 @@ import processing.core.PGraphics;
 import processing.core.PImage;
 
 import com.haxademic.core.app.P;
-import com.haxademic.core.draw.util.OpenGLUtil;
 import com.haxademic.core.image.ImageUtil;
 
 public class CustomFontText2D {
@@ -19,6 +18,7 @@ public class CustomFontText2D {
 	protected float _fontSize;
 	protected PGraphics _textCanvas;
 	protected int _textColor;
+	protected int _textStroke = -1;
 	protected int _textAlign;
 	protected int _textLeading = 0;
 
@@ -26,14 +26,16 @@ public class CustomFontText2D {
 		_fontSize = fontSize;
 		_textLeading = (int) fontSize;
 		_textColor = color;
+		_textStroke = p.color(255);
 		_font = p.createFont( fontFile, _fontSize );
 		_textAlign = align;
 		_textCanvas = p.createGraphics( canvasW, canvasH, P.JAVA2D );
-		_textCanvas.smooth( OpenGLUtil.SMOOTH_HIGH );
+//		_textCanvas.smooth( OpenGLUtil.SMOOTH_HIGH );
 	}
 	
-	public void setTextColor( int color ) {
+	public void setTextColor( int color, int strokeColor ) {
 		_textColor = color;
+		_textStroke = strokeColor;
 	}
 	
 	public void setTextAlign( int textAlign ) {
@@ -51,12 +53,20 @@ public class CustomFontText2D {
 	public void updateText( String txt ) {
 		if( txt == null ) return;
 		_textCanvas.beginDraw();
-		_textCanvas.background( 0, 0 );		// clear background with alpha = 0 (only works in PGraphics)
-		_textCanvas.fill( _textColor );
+		_textCanvas.clear();
 		_textCanvas.textAlign( _textAlign );
 		_textCanvas.textFont( _font, _fontSize );
 		_textCanvas.textLeading( _textLeading );
-		_textCanvas.text( txt, 1, 1, _textCanvas.width, _textCanvas.height );
+
+		if( _textStroke != -1 ) {
+			_textCanvas.fill( _textStroke );
+			_textCanvas.text( txt, 3, 3, _textCanvas.width, _textCanvas.height );
+			_textCanvas.text( txt, 3, 7, _textCanvas.width, _textCanvas.height );
+			_textCanvas.text( txt, -1, 3, _textCanvas.width, _textCanvas.height );
+			_textCanvas.text( txt, -1, 7, _textCanvas.width, _textCanvas.height );
+		}
+		_textCanvas.fill( _textColor );
+		_textCanvas.text( txt, 1, 8, _textCanvas.width, _textCanvas.height );
 		_textCanvas.endDraw();
 	}
 	
