@@ -110,8 +110,8 @@ extends PAppletHax
 				_curFrame = ImageUtil.getReversePImageFast( _curFrame );	// mirror mode
 				break;
 			case VIDEO :
-				_frameGrabber.seekAndUpdateFrame( p.frameCount );
-				_curFrame = _frameGrabber.curFrame();
+				_frameGrabber.setFrameIndex( p.frameCount );
+				_curFrame = _frameGrabber.frameImageCopy();
 				break;
 			case IMAGE :
 				_curFrame = _loadedImg;
