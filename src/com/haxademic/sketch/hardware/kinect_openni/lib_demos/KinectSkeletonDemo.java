@@ -19,7 +19,7 @@ public class KinectSkeletonDemo extends PApplet {
 		context.enableDepth();
 
 		// enable skeleton generation for all joints
-		context.enableUser(SimpleOpenNI.SKEL_PROFILE_ALL);
+		context.enableUser();
 
 		background(200,0,0);
 
@@ -97,19 +97,28 @@ public class KinectSkeletonDemo extends PApplet {
 	// -----------------------------------------------------------------
 	// SimpleOpenNI events
 
-	public void onNewUser(int userId)
-	{
-		println("onNewUser - userId: " + userId);
-		println("  start pose detection");
+	// -----------------------------------------------------------------
+	// SimpleOpenNI user events
 
-		context.startPoseDetection("Psi",userId);
-		context.requestCalibrationSkeleton(userId,true);
+	void onNewUser(SimpleOpenNI curContext,int userId)
+	{
+	  println("onNewUser - userId: " + userId);
+	  println("\tstart tracking skeleton");
+	  
+	  context.startTrackingSkeleton(userId);
 	}
 
-	public void onLostUser(int userId)
+	void onLostUser(SimpleOpenNI curContext,int userId)
 	{
-		println("onLostUser - userId: " + userId);
+	  println("onLostUser - userId: " + userId);
 	}
+
+	void onVisibleUser(SimpleOpenNI curContext,int userId)
+	{
+	  //println("onVisibleUser - userId: " + userId);
+	}
+
+
 
 	public void onStartCalibration(int userId)
 	{
@@ -129,7 +138,7 @@ public class KinectSkeletonDemo extends PApplet {
 		{ 
 			println("  Failed to calibrate user !!!");
 			println("  Start pose detection");
-			context.startPoseDetection("Psi",userId);
+//			context.startPoseDetection("Psi",userId);
 		}
 	}
 
@@ -138,9 +147,8 @@ public class KinectSkeletonDemo extends PApplet {
 		println("onStartPose - userId: " + userId + ", pose: " + pose);
 		println(" stop pose detection");
 
-		context.stopPoseDetection(userId); 
-		context.requestCalibrationSkeleton(userId, true);
-
+//		context.stopPoseDetection(userId); 
+//		context.requestCalibrationSkeleton(userId, true);
 	}
 
 	public void onEndPose(String pose,int userId)

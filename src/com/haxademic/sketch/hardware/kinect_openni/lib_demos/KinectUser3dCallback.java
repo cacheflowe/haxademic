@@ -35,8 +35,7 @@ public class KinectUser3dCallback extends PApplet {
 	  }
 
 	  // enable skeleton generation for all joints, direct all callback to the helper class
-	  context.enableUser(SimpleOpenNI.SKEL_PROFILE_ALL,
-	                     userManager);
+	  context.enableUser();
 
 	  stroke(255, 255, 255);
 	  smooth();  
@@ -223,22 +222,28 @@ public class KinectUser3dCallback extends PApplet {
 	    _context = context;
 	  }
 	  
-	  public void onNewUser(int userId)
-	  {
-	    println("onNewUser - userId: " + userId);
-	    println("  start pose detection");
+		// -----------------------------------------------------------------
+		// SimpleOpenNI user events
 
-	        if(_autoCalib)
-	          _context.requestCalibrationSkeleton(userId,true);
-	        else    
-	          _context.startPoseDetection("Psi",userId);  
-	        
-	  }
+		void onNewUser(SimpleOpenNI curContext,int userId)
+		{
+		  println("onNewUser - userId: " + userId);
+		  println("\tstart tracking skeleton");
+		  
+		  context.startTrackingSkeleton(userId);
+		}
 
-	  public void onLostUser(int userId)
-	  {
-	    println("onLostUser - userId: " + userId);
-	  }
+		void onLostUser(SimpleOpenNI curContext,int userId)
+		{
+		  println("onLostUser - userId: " + userId);
+		}
+
+		void onVisibleUser(SimpleOpenNI curContext,int userId)
+		{
+		  //println("onVisibleUser - userId: " + userId);
+		}
+
+
 
 	  public void onExitUser(int userId)
 	  {
@@ -268,7 +273,7 @@ public class KinectUser3dCallback extends PApplet {
 	    { 
 	      println("  Failed to calibrate user !!!");
 	      println("  Start pose detection");
-	      _context.startPoseDetection("Psi", userId);
+//	      _context.startPoseDetection("Psi", userId);
 	    }
 	  }
 
@@ -277,8 +282,8 @@ public class KinectUser3dCallback extends PApplet {
 	    println("onStartdPose - userId: " + userId + ", pose: " + pose);
 	    println(" stop pose detection");
 
-	    _context.stopPoseDetection(userId); 
-	    _context.requestCalibrationSkeleton(userId, true);
+//	    _context.stopPoseDetection(userId); 
+//	    _context.requestCalibrationSkeleton(userId, true);
 	  }
 
 	  public void onEndPose(String pose, int userId)

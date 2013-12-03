@@ -10,7 +10,6 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.hardware.kinect.SkeletonsTracker;
-import com.haxademic.core.image.ImageUtil;
 
 import ddf.minim.AudioPlayer;
 

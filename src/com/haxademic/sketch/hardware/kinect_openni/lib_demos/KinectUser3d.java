@@ -33,7 +33,7 @@ public class KinectUser3d extends PApplet {
 	  }
 
 	  // enable skeleton generation for all joints
-	  context.enableUser(SimpleOpenNI.SKEL_PROFILE_ALL);
+	  context.enableUser();
 
 	  stroke(255,255,255);
 	  smooth();  
@@ -181,69 +181,24 @@ public class KinectUser3d extends PApplet {
 	// -----------------------------------------------------------------
 	// SimpleOpenNI user events
 
-	void onNewUser(int userId)
+	public void onNewUser(SimpleOpenNI curContext,int userId)
 	{
 	  println("onNewUser - userId: " + userId);
-	  println("  start pose detection");
+	  println("\tstart tracking skeleton");
 	  
-	  if(autoCalib)
-	    context.requestCalibrationSkeleton(userId,true);
-	  else    
-	    context.startPoseDetection("Psi",userId);
+	  context.startTrackingSkeleton(userId);
 	}
 
-	void onLostUser(int userId)
+	public void onLostUser(SimpleOpenNI curContext,int userId)
 	{
 	  println("onLostUser - userId: " + userId);
 	}
 
-	void onExitUser(int userId)
+	public void onVisibleUser(SimpleOpenNI curContext,int userId)
 	{
-	  println("onExitUser - userId: " + userId);
+	  //println("onVisibleUser - userId: " + userId);
 	}
 
-	void onReEnterUser(int userId)
-	{
-	  println("onReEnterUser - userId: " + userId);
-	}
-
-
-	void onStartCalibration(int userId)
-	{
-	  println("onStartCalibration - userId: " + userId);
-	}
-
-	void onEndCalibration(int userId, boolean successfull)
-	{
-	  println("onEndCalibration - userId: " + userId + ", successfull: " + successfull);
-	  
-	  if (successfull) 
-	  { 
-	    println("  User calibrated !!!");
-	    context.startTrackingSkeleton(userId); 
-	  } 
-	  else 
-	  { 
-	    println("  Failed to calibrate user !!!");
-	    println("  Start pose detection");
-	    context.startPoseDetection("Psi",userId);
-	  }
-	}
-
-	void onStartPose(String pose,int userId)
-	{
-	  println("onStartdPose - userId: " + userId + ", pose: " + pose);
-	  println(" stop pose detection");
-	  
-	  context.stopPoseDetection(userId); 
-	  context.requestCalibrationSkeleton(userId, true);
-	 
-	}
-
-	void onEndPose(String pose,int userId)
-	{
-	  println("onEndPose - userId: " + userId + ", pose: " + pose);
-	}
 
 	// -----------------------------------------------------------------
 	// Keyboard events

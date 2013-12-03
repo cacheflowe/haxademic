@@ -182,11 +182,11 @@ extends PAppletHax {
 					_skeletonTracker.getBodyPart2d(users[i], SimpleOpenNI.SKEL_LEFT_FOOT)
 					);
 
-			draw3PointsTriangle(
-					_skeletonTracker.getBodyPart2d(users[i], SimpleOpenNI.SKEL_RIGHT_HIP),
-					_skeletonTracker.getBodyPart2d(users[i], SimpleOpenNI.SKEL_WAIST),
-					_skeletonTracker.getBodyPart2d(users[i], SimpleOpenNI.SKEL_LEFT_HIP)
-					);
+//			draw3PointsTriangle(
+//					_skeletonTracker.getBodyPart2d(users[i], SimpleOpenNI.SKEL_RIGHT_HIP),
+//					_skeletonTracker.getBodyPart2d(users[i], SimpleOpenNI.SKEL_WAIST),
+//					_skeletonTracker.getBodyPart2d(users[i], SimpleOpenNI.SKEL_LEFT_HIP)
+//					);
 			
 		}
 	}
