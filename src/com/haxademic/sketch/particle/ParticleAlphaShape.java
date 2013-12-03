@@ -1,0 +1,230 @@
+package com.haxademic.sketch.particle;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import processing.core.PVector;
+import toxi.color.TColor;
+import ProGAL.geom3d.Point;
+import ProGAL.geom3d.complex.CTriangle;
+import ProGAL.geom3d.complex.alphaComplex.AlphaComplex;
+import ProGAL.geom3d.complex.alphaComplex.AlphaFiltration;
+
+import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.draw.color.TColorInit;
+import com.haxademic.core.draw.particle.VectorFlyer;
+import com.haxademic.core.draw.shapes.BoxBetween;
+import com.haxademic.core.draw.util.OpenGLUtil;
+import com.haxademic.core.math.MathUtil;
+import com.haxademic.core.render.JoonsWrapper;
+
+@SuppressWarnings("serial")
+public class ParticleAlphaShape
+extends PAppletHax {
+
+	protected TColor MODE_SET_BLUE = TColorInit.newRGBA( 0, 200, 234, 255 );
+	protected TColor MODE_SET_BLUE_TRANS = TColorInit.newRGBA( 0, 200, 234, 100 );
+	protected TColor BLACK = TColor.BLACK.copy();
+
+	public ArrayList<VectorFlyer> boxes;
+	public ArrayList<Attractor> attractors;
+	public ArrayList<PVector> attractorsPositions;
+
+	protected float _numAttractors = 10;
+	protected float _numParticles = 50;
+	
+	List<Point> points;
+	
+	protected void overridePropsFile() {
+		_appConfig.setProperty( "sunflow", "true" );
+		_appConfig.setProperty( "sunflow_active", "true" );
+		_appConfig.setProperty( "sunflow_quality", "low" );
+
+		
+		_appConfig.setProperty( "width", "1280" );
+		_appConfig.setProperty( "height", "720" );
+		_appConfig.setProperty( "rendering", "true" );
+		_appConfig.setProperty( "fps", "30" );
+	}
+
+	public void setup() {
+		super.setup();
+		p.smooth(OpenGLUtil.SMOOTH_HIGH);
+
+		initFlyers();
+	}
+
+	protected void initFlyers() {
+		attractors = new ArrayList<Attractor>();
+		attractorsPositions = new ArrayList<PVector>();
+		for( int i=0; i < _numAttractors; i++ ) {
+			attractors.add( new Attractor( new PVector() ) );
+			attractorsPositions.add( attractors.get(i).position() );
+		}
+
+		boxes = new ArrayList<VectorFlyer>();
+		for( int i=0; i < _numParticles; i++ ) {
+			PVector pos = new PVector( MathUtil.randRange(-600, 600), MathUtil.randRange(-600, 600), -2500 );
+			boxes.add( new VectorFlyer( p.random(3.5f, 5.5f), p.random(10f, 50f), pos ) );
+			boxes.get(i).setVector( new PVector( MathUtil.randRange(-10, 10), MathUtil.randRange(-10, 10), MathUtil.randRange(-10, 10) ) );
+		}
+		
+		points = new ArrayList<Point>();
+		for( int i=0; i < _numParticles; i++ ) {
+			points.add( new Point(0,0,0) );
+		}
+	}
+
+
+	public void drawApp() {
+		p.background(0);
+		p.lights();
+
+//		_jw.jr.background(25, 25, 25);
+		_jw.jr.background(JoonsWrapper.BACKGROUND_GI);
+
+		setUpRoom();
+		
+		translate(0, 0, -400);
+
+		// set target of particle to closest attractor
+		VectorFlyer box = null;
+		for( int i=0; i < boxes.size(); i++ ) {
+			box = boxes.get(i);
+			box.setTarget( box.findClosestPoint( attractorsPositions ) );
+			box.update( p, false );
+		}
+		for( int i=0; i < attractors.size(); i++ ) attractors.get(i).update( false );
+		
+//		drawProximitySticks();
+		drawAlphaShape( true );
+	}
+
+	protected void setUpRoom() {
+		pushMatrix();
+		translate(0, 0, -2000);
+		float radiance = 20;
+		int samples = 16;
+		_jw.jr.background("cornell_box", 
+				4000, 3000, 3000,	// width, height, depth
+				radiance, radiance, radiance, samples,  // radiance rgb & samples
+				40, 40, 40, // left rgb
+				40, 40, 40, // right rgb
+				60, 60, 60, // back rgb
+				60, 60, 60, // top rgb
+				60, 60, 60  // bottom rgb
+		); 
+		popMatrix();		
+	}
+	
+	protected void drawProximitySticks() {
+		// set target of particle to closest attractor
+		VectorFlyer box = null;
+		VectorFlyer boxCheck = null;
+		for( int i=0; i < boxes.size(); i++ ) {
+			for( int j=0; j < boxes.size(); j++ ) {
+				box = boxes.get(i);
+				boxCheck = boxes.get(j);
+				if( box != boxCheck ) {
+					if( box.position().dist( boxCheck.position() ) < 200 ) {
+						_jw.jr.fill(JoonsWrapper.MATERIAL_SHINY, 190, 190, 190, 0.55f);
+						BoxBetween.draw(p, box.position(), boxCheck.position(), 20 );
+						_jw.jr.fill(JoonsWrapper.MATERIAL_DIFFUSE, 90, 90, 90);
+						p.pushMatrix();
+						p.translate(box.position().x, box.position().y, box.position().z);
+						p.sphere(15);
+						p.popMatrix();
+						p.pushMatrix();
+						p.translate(boxCheck.position().x, boxCheck.position().y, boxCheck.position().z);
+						p.sphere(15);
+						p.popMatrix();
+					}
+				}
+			}
+		}
+	}
+
+	protected void drawAlphaShape( boolean complex ) {
+		for( int i=0; i < _numParticles; i++ ) {
+			points.get(i).setX( boxes.get(i).position().x );
+			points.get(i).setY( boxes.get(i).position().y );
+			points.get(i).setZ( boxes.get(i).position().z );
+		}
+
+		if( complex == false ) {
+			AlphaFiltration af = new AlphaFiltration(points);
+			List<CTriangle> triangles = af.getAlphaShape(200.8);
+			for(CTriangle tri: triangles) {
+				p.fill( 50, 200, 50 );
+				_jw.jr.fill(JoonsWrapper.MATERIAL_SHINY, 50, 200, 50, 0.75f);
+				beginShape(TRIANGLES);
+
+				vertex( (float) tri.getP1().x(), (float) tri.getP1().y(), (float) tri.getP1().z() );
+				vertex( (float) tri.getP2().x(), (float) tri.getP2().y(), (float) tri.getP2().z() );
+				vertex( (float) tri.getP3().x(), (float) tri.getP3().y(), (float) tri.getP3().z() );
+
+				endShape();
+			}
+		} else {
+			// draw alpha complex
+			AlphaComplex ac = new AlphaComplex(points, 200.8);
+			for(CTriangle tri: ac.getTriangles()){		
+				p.fill( 50, 200, 50 );
+//				if(MathUtil.randBoolean(p) == true) {
+					_jw.jr.fill(JoonsWrapper.MATERIAL_SHINY, 190, 210, 190, 0.25f);
+//				} else {
+//					_jw.jr.fill(JoonsWrapper.MATERIAL_GLASS, 255, 255, 255);
+//				}
+				beginShape(TRIANGLES);
+
+				vertex( (float) tri.getP1().x(), (float) tri.getP1().y(), (float) tri.getP1().z() );
+				vertex( (float) tri.getP2().x(), (float) tri.getP2().y(), (float) tri.getP2().z() );
+				vertex( (float) tri.getP3().x(), (float) tri.getP3().y(), (float) tri.getP3().z() );
+
+				endShape();
+			}
+		}
+	}
+
+
+	public class Attractor {
+		protected PVector position = new PVector();
+		protected float randDivisor;
+
+		public Attractor( PVector newPosition ) {
+			position.set( newPosition );
+			randDivisor = MathUtil.randRangeDecimel(600, 1000);
+			resetPos();
+		}
+
+		public PVector position() {
+			return position;
+		}
+
+		public void resetPos() {
+			position.x = MathUtil.randRange(-600, 600);
+			position.y = MathUtil.randRange(-600, 600);
+			position.z = MathUtil.randRange(-2500, -3000);
+		}
+		
+		public void update( boolean draws ) {
+//			position.x = P.sin(p.millis() / randDivisor) * 500;
+//			position.y = P.sin(p.millis() / (randDivisor*2)) * 500;
+//			position.z = -2000 + P.sin(p.millis() / (randDivisor*2.5f)) * 500;
+			if(p.frameCount % 100 == 0) {
+				resetPos();
+			}
+			
+			if( draws == true ) {
+				p.fill( 255, 255, 255 );
+				p.noStroke();
+				p.pushMatrix();
+				p.translate(position.x, position.y, position.z);
+				p.box(30);
+				p.popMatrix();
+			}
+		}
+	}
+
+
+}
