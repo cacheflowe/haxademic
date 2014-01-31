@@ -19,6 +19,8 @@ public class MidiWrapper
 	public int[] _notesOn;
 	Hashtable<String, Integer> padMap;
 	
+	public int sliderValue = 0;
+	
 	public static String PAD_01 = "PAD_01";
 	public static String PAD_02 = "PAD_02";
 	public static String PAD_03 = "PAD_03";
@@ -193,10 +195,12 @@ public class MidiWrapper
 	
 	public void noteOn(int channel, int pitch, int velocity) {
 		// Receive a noteOn
+//		P.println("ON: pitch = "+pitch);
 		_notesOn[ pitch ] = 1;
 	}
 	public void noteOff(int channel, int pitch, int velocity) {
 		// Receive a noteOff
+//		P.println("OFF: pitch = "+pitch);
 		_notesOn[ pitch ] = 0;
 	}
 	public void allOff() {
@@ -205,6 +209,6 @@ public class MidiWrapper
 	public void controllerChange(int channel, int number, int value) {
 		// Receive a controllerChange
 //		p.println("Note CC:  Channel:"+channel+" | Number:"+number+" | Value:"+value);
-		
+		sliderValue = value;
 	}
 }
