@@ -13,7 +13,9 @@ public class WebCamWrapper {
 
 	public static boolean initWebCam( PApplet p, int width, int height ) {
 		if( webCam == null ) {
+			P.println("getting cameras");
 			String[] cameras = Capture.list();
+			P.println("cameras: "+cameras);
 			if (cameras.length == 0) {
 				P.println("There are no cameras available for capture.");
 				return false;
@@ -23,6 +25,7 @@ public class WebCamWrapper {
 					P.println(cameras[i]);
 				}
 				webCam = new Capture( p, width, height );
+				webCam.start();
 				return true;
 			}      
 		}
