@@ -18,6 +18,7 @@ import com.haxademic.core.data.FloatRange;
 import com.haxademic.core.draw.color.ColorGroup;
 import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.hardware.kinect.KinectWrapper;
+import com.haxademic.core.system.FileUtil;
 
 public class KacheOut
 extends PAppletHax  
@@ -125,7 +126,7 @@ extends PAppletHax
 	protected float _cameraZFromHeight = 0;
 	
 	public void setup() {
-		_customPropsFile = "../data/properties/kacheout.properties";
+		_customPropsFile = FileUtil.getHaxademicDataPath() + "properties/kacheout.properties";
 		super.setup();
 		initGame();
 	}
