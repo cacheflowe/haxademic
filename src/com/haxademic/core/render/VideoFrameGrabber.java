@@ -11,6 +11,7 @@ import com.haxademic.core.math.MathUtil;
 
 public class VideoFrameGrabber {
 
+	protected PApplet p;
 	protected Movie _movie;
 	protected PGraphics _curFrame;
 	protected int newFrame = 0;
@@ -22,6 +23,7 @@ public class VideoFrameGrabber {
 	protected int _startFrame = 0;
 	
 	public VideoFrameGrabber( PApplet p, String videoFile, int frameRate, int startFrame ) {
+		this.p = p;
 		_videoFile = videoFile;
 		_fps = frameRate;
 		_startFrame = startFrame;
@@ -30,14 +32,17 @@ public class VideoFrameGrabber {
 		// in play mode is needed so at least one frame is read
 		// and we can get duration, size and other information from
 		// the video stream. 
+		initMovie();
 
+		_curFrameBuffer = p.createGraphics( _movie.width, _movie.height, P.P3D );
+		_curFrameImage = p.createImage( _movie.width, _movie.height, P.ARGB );
+	}
+	
+	protected void initMovie() {
 		_movie = new Movie( p, _videoFile );
 		_movie.play();
 		_movie.jump(0);
 		_movie.pause();
-
-		_curFrameBuffer = p.createGraphics( _movie.width, _movie.height, P.P3D );
-		_curFrameImage = p.createImage( _movie.width, _movie.height, P.ARGB );
 	}
 
 	
@@ -57,6 +62,10 @@ public class VideoFrameGrabber {
 		return _curFrameImage;
 	}
 	
+	public PGraphics frameGraphicsCopy() {
+		return _curFrameBuffer;
+	}
+	
 	public boolean isVideoDataGood() {
 		if( _movie.pixels.length > 100 ) return true;
 		else return false;
@@ -67,10 +76,12 @@ public class VideoFrameGrabber {
 	}
 
 	public int getFrame() {    
-		return P.ceil( _movie.time() * 30 ) - 1;
+		return P.ceil( _movie.time() * 30f ) - 1;
 	}
 
 	public void setFrameIndex(int n) {
+		if(_movie.time() <= 0 ) initMovie(); // fix movie unloading problem???
+		
 		_movie.play();
 
 		// The duration of a single frame:
@@ -82,13 +93,13 @@ public class VideoFrameGrabber {
 		// Taking into account border effects:
 		float diff = _movie.duration() - where;
 		if (diff < 0) {
-			where += diff - 0.25 * frameDuration;
+			where += diff - 0.25f * frameDuration;
 		}
 
 		_movie.jump(where);
 		_movie.pause();  
 		
-		P.println(getFrame() + " / " + (getLength() - 1));
+		P.println("Movie frame: "+getFrame() + " / " + (getLength() - 1));
 		
 		// copy pixels to PGraphics and PImage - is this necessary?
 		_curFrameBuffer.beginDraw();
@@ -100,9 +111,4 @@ public class VideoFrameGrabber {
 	int getLength() {
 		return (int) (_movie.duration() * _fps);
 	}
-	
-//	public void readVideo() {
-//		if( _movie != null ) _movie.read();
-//	}
-
 }
