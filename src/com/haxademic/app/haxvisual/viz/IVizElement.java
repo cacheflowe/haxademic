@@ -6,6 +6,7 @@ public interface IVizElement {
 	public void init();
 	public void update();
 	public void reset();
+	public void pause();
 	public void dispose();
 	
 	public void updateColorSet( ColorGroup colors );

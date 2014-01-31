@@ -55,6 +55,10 @@ implements IAudioTexture
 		// TODO Auto-generated method stub
 	}
 
+	public void pause() {
+		// TODO Auto-generated method stub
+	}
+
 	public void updateLineMode() {
 		// TODO Auto-generated method stub
 	}

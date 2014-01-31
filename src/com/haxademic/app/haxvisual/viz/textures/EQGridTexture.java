@@ -79,6 +79,10 @@ implements IAudioTexture
 		// TODO Auto-generated method stub
 	}
 
+	public void pause() {
+		// TODO Auto-generated method stub
+	}
+
 	public void updateColorSet( ColorGroup colors ) {
 		_color.setColors( TColor.BLACK.copy(), colors.getRandomColor() );
 		_color.lightenColor( 0.3f );

@@ -235,6 +235,7 @@ implements IVizModule
 		// stagger swapping on FG and BG elements - find cur index and increment to next
 		// pick bg element
 		if( _numBigChanges % 2 == 1 && _bgElements.size() > 0 ) {
+			if( _bgElement != null ) _bgElement.pause();
 			int curBGIndex = _bgElements.indexOf( _bgElement );
 			curBGIndex = ( curBGIndex < _bgElements.size() - 1 ) ? curBGIndex + 1 : 0;
 			_bgElement = _bgElements.get( curBGIndex );
@@ -242,6 +243,7 @@ implements IVizModule
 		
 		// pick fg element
 		if( _numBigChanges % 2 == 0 && _fgElements.size() > 0 ) {
+			if( _fgElement != null ) _fgElement.pause();
 			int curFGIndex = _fgElements.indexOf( _fgElement );
 			curFGIndex = ( curFGIndex < _fgElements.size() - 1 ) ? curFGIndex + 1 : 0;
 			_fgElement = _fgElements.get( curFGIndex );
@@ -249,6 +251,7 @@ implements IVizModule
 		
 		// pick outer element - randomly turn it off
 		if( _numBigChanges > 3 && _outerElements.size() > 0 ) {
+			if( _outerElement != null ) _outerElement.pause();
 			int curOuterIndex = _outerElements.indexOf( _outerElement );
 			curOuterIndex = ( curOuterIndex < _outerElements.size() - 1 ) ? curOuterIndex + 1 : 0;
 			_outerElement = _outerElements.get( curOuterIndex );
@@ -257,6 +260,7 @@ implements IVizModule
 		
 		// pick ambient element
 		if( _numBigChanges > 4 && _ambientElements.size() > 0 ) {
+			if( _ambientElement != null ) _ambientElement.pause();
 			int curAmbientIndex = _ambientElements.indexOf( _ambientElement );
 			curAmbientIndex = ( curAmbientIndex < _ambientElements.size() - 1 ) ? curAmbientIndex + 1 : 0;
 			_ambientElement = _ambientElements.get( curAmbientIndex );
@@ -265,6 +269,7 @@ implements IVizModule
 		
 		// pick 2D element
 		if( _2dElements.size() > 0 ) {	// _numBigChanges % 1 == 0 && 
+			if( _2dElement != null ) _2dElement.pause();
 			int cur2dIndex = _2dElements.indexOf( _2dElement );
 			cur2dIndex = ( cur2dIndex < _2dElements.size() - 1 ) ? cur2dIndex + 1 : 0;
 			_2dElement = _2dElements.get( cur2dIndex );
@@ -272,6 +277,7 @@ implements IVizModule
 
 		// pick frame 2D element
 		if( _frame2dElements.size() > 0 ) { 
+			if( _frame2dElement != null ) _frame2dElement.pause();
 			int curIndex = _frame2dElements.indexOf( _frame2dElement );
 			curIndex = ( curIndex < _frame2dElements.size() - 1 ) ? curIndex + 1 : 0;
 			_frame2dElement = _frame2dElements.get( curIndex );
@@ -279,6 +285,7 @@ implements IVizModule
 
 		// pick kinect element
 		if( _kinectElements.size() > 0 ) { 
+			if( _kinectElement != null ) _kinectElement.pause();
 			int curIndex = _kinectElements.indexOf( _kinectElement );
 			curIndex = ( curIndex < _kinectElements.size() - 1 ) ? curIndex + 1 : 0;
 			_kinectElement = _kinectElements.get( curIndex );

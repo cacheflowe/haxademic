@@ -65,6 +65,10 @@ implements IAudioTexture
 		// TODO Auto-generated method stub
 	}
 
+	public void pause() {
+		// TODO Auto-generated method stub
+	}
+
 	public void updateColorSet(ColorGroup colors) {
 		// TODO Auto-generated method stub
 	}

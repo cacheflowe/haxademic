@@ -24,6 +24,7 @@ public class ElementBase {
 		_audioData = null;
 	}
 
+	public void pause() {}
 	public void updateColorSet( ColorGroup colors ){}
 	public void updateLineMode(){}
 	public void updateCamera(){}
