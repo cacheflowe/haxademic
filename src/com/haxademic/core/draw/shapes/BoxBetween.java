@@ -18,6 +18,8 @@ public class BoxBetween {
 	 * @param thickness
 	 */
 	public static void draw( PApplet p, PVector point1, PVector point2, float thickness ) {
+		if( point1 == null || point2 == null ) return; 
+			
 		// reuse halfway vector and find the midpoint
 		pointMid.set( point1.x, point1.y, point1.z );
 		pointMid.lerp( point2, 0.5f );
