@@ -159,7 +159,7 @@ extends PAppletHax
 			
 			// big screenshot
 			if ( key == '\\' ) { 
-				ScreenUtil.screenshotHiRes( p, 3, P.P3D, "output/saved_img/" );
+				ScreenUtil.screenshotHiRes( p, 3, P.P3D, FileUtil.getHaxademicOutputPath() + "saved_img/" );
 			}
 		}
 		
