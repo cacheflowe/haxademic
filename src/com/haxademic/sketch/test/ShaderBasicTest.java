@@ -24,7 +24,7 @@ extends PAppletHax {
 		super.setup();
 		
 		_textureShaderFile = FileUtil.getHaxademicDataPath() + "shaders/textures/firey-spiral.glsl";
-		_filterShaderFile = FileUtil.getHaxademicDataPath() + FILTER_BLUR_VERT;
+		_filterShaderFile = FileUtil.getHaxademicDataPath() + FILTER_VIGNETTE;
 		
 		_buffer = createGraphics( width,  height, P2D );
 		_textureShader = p.loadShader( _textureShaderFile );
@@ -44,7 +44,7 @@ extends PAppletHax {
 		// applyMouse( _textureShader );
 		
 		_filterShader = p.loadShader( _filterShaderFile );	// this sucks but will be fixed in the next version of processing.
-		updateBlurVertFilter( _filterShader );
+		updateVignetteFilter( _filterShader );
 		
 		_buffer.filter( _textureShader );
 		
@@ -88,6 +88,12 @@ extends PAppletHax {
 		shader.set("sCount", 4096.0f);
 	}
 	
+	public static final String FILTER_VIGNETTE = "shaders/filters/vignette.glsl";
+	public void updateVignetteFilter( PShader shader ) {
+		shader.set("darkness", 0.85f);
+		shader.set("spread", 0.15f);
+	}
+	
 	public static final String FILTER_BLUR_HORIZ = "shaders/filters/blur-horizontal.glsl";
 	public void updateBlurHorizFilter( PShader shader ) {
 		shader.set( "h", 1f/p.width );
@@ -96,6 +102,11 @@ extends PAppletHax {
 	public static final String FILTER_BLUR_VERT = "shaders/filters/blur-vertical.glsl";
 	public void updateBlurVertFilter( PShader shader ) {
 		shader.set( "v", 1f/p.height );
+	}
+	
+	public static final String FILTER_SATURATION = "shaders/filters/saturation.glsl";
+	public void updateSaturationFilter( PShader shader ) {
+		shader.set( "saturation", 2f );	// 0-2
 	}
 	
 	public static final String FILTER_TEXTURE_TUNNEL = "shaders/textures/to-convert/bw-checker-tunnel.glsl";

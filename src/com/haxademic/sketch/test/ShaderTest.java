@@ -69,7 +69,7 @@ extends PAppletHax{
 		
 		vignette = loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/vignette.glsl" );
 		vignette.set("darkness", 0.85f);
-		vignette.set("offset", 0.15f);
+		vignette.set("spread", 0.15f);
 
 		edge = loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/edge.glsl" ); 
 		
