@@ -32,7 +32,7 @@ extends PAppletHax
 	 */
 	private static final long serialVersionUID = 1L;
 	public static void main(String args[]) {
-		_isFullScreen = false;
+		_isFullScreen = true;
 		PApplet.main(new String[] { "--hide-stop", "--bgcolor=000000", "com.haxademic.app.airdrums.AirDrums" });
 	}
 
@@ -89,6 +89,9 @@ extends PAppletHax
 		// draw filtered web cam
 		DrawUtil.setDrawCorner(p);
 		DrawUtil.setColorForPImage(p);
+		
+		p.translate(p.width, 0);
+		p.rotateY(P.PI);
 
 		for( int i=0; i < _beats.size(); i++ ) {
 			_beats.get(i).update();
@@ -124,7 +127,8 @@ extends PAppletHax
 				fill( _color.toARGB() );
 			else
 				noFill();
-			stroke( 255 );
+//			stroke( 255 );
+			noStroke();
 			rect( _x * _drawRatio, _y * _drawRatio, _w * _drawRatio, _h * _drawRatio );			
 		}
 
@@ -148,15 +152,17 @@ extends PAppletHax
 		}
 
 		protected void detectWithKinect() {
-			drawKinectUser();
+//			drawKinectUser();
 //			p.image(p.kinectWrapper.getRgbImage(), 0, 0);
 			float pixelDepth;
+			int activePixels = 0;
 			boolean madeActive = false;
 			for ( int x = (int)_x; x < _x + _w; x += PIXEL_SIZE ) {
 				for ( int y = (int)_y; y < _y + _h; y += PIXEL_SIZE ) {
 					pixelDepth = p.kinectWrapper.getMillimetersDepthForKinectPixel( x, y );
 					if( pixelDepth != 0 && pixelDepth > KINECT_CLOSE && pixelDepth < KINECT_FAR ) {
-						if( _active == false ) {
+						activePixels++;
+						if( _active == false && activePixels >= 4 ) {
 							_active = true;
 							_sound.play(0);
 						}
