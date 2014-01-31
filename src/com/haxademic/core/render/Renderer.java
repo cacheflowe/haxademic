@@ -6,7 +6,9 @@ import unlekker.moviemaker.UMovieMaker;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.audio.AudioInputWrapper;
+import com.haxademic.core.debug.DebugUtil;
 import com.haxademic.core.system.SystemUtil;
+import com.haxademic.core.text.StringFormatter;
 
 public class Renderer 
 {
@@ -68,6 +70,11 @@ public class Renderer
 	public static final int OUTPUT_TYPE_MOVIE = 1;
 
 	/**
+	 * Time render was started
+	 */
+	public int _timeStarted;
+
+	/**
 	 * Creates a renderer to save images or movies of your work
 	 * @param p5
 	 * @param framesPerSecond
@@ -104,6 +111,7 @@ public class Renderer
 		
 		// set rendering flag
 		_isRendering = true;
+		_timeStarted = p.millis();
 	}
 	
 	/**
@@ -136,7 +144,9 @@ public class Renderer
 		if( _isRendering == true ) {
 			// print a message every 100 frames
 			if ((_frameNumber%100) == 0) {
-				P.println( "Working on frame number " + _frameNumber );
+				P.println( "=============================" );
+				P.println( "= Working on frame number " + _frameNumber );
+				P.println( "=============================" );
 			}
 			
 			// if movie, add frame to MovieMaker file
@@ -158,27 +168,34 @@ public class Renderer
 	 * Called at the beginning of PApplet.draw() to prepare the audio data 
 	 */
 	public void analyzeAudio() {
-//		
-
-		// get position in wav file
-		int pos = (int)( _frameNumber * _chn.sampleRate / _framesPerSecond );
-		float seconds = _frameNumber / _framesPerSecond;
-		_chn.cue(pos);
-		if ((_frameNumber%100) == 0) {
-//			p.println( "Audio position: " + pos + " fps: " + _framesPerSecond + " seconds: " + seconds + " _chn.sampleRate = " + _chn.sampleRate + "  position in file: " + pos + " / " + _chn.samples.length );
-			P.println( "Audio seconds: " + seconds + "  Progress: " + Math.round(100f*((float)pos/(float)_chn.samples.length)) + "%" );
-		}
-		
-		// make sure we're still in bounds - kept getting data run-out errors
-		if (pos >= _chn.size - 4000) {
-			if (_outputType==OUTPUT_TYPE_MOVIE)
-				_mm.finish();
-			stop();  
-			p.exit();
-			return;
-		} else {
-			// if still running & in-bounds, grab next data
-			_audioData.getFFT().getSpectrum( _chn.samples, pos );
+		try{
+			// get position in wav file
+			if( _chn != null ) {
+				int pos = (int)( _frameNumber * _chn.sampleRate / _framesPerSecond );
+				float seconds = _frameNumber / _framesPerSecond;
+				_chn.cue(pos);
+				if ((_frameNumber%30) == 0) {
+		//			p.println( "Audio position: " + pos + " fps: " + _framesPerSecond + " seconds: " + seconds + " _chn.sampleRate = " + _chn.sampleRate + "  position in file: " + pos + " / " + _chn.samples.length );
+					P.println( "=============================" );
+					P.println( "= Audio @ seconds: " + seconds + "  Progress: " + Math.round(100f*((float)pos/(float)_chn.samples.length)) + "%" );
+					P.println( "= Rendering time: " + StringFormatter.timeFromMilliseconds( p.millis() - _timeStarted, true ) );
+					P.println( "=============================" );
+				}
+			
+				// make sure we're still in bounds - kept getting data run-out errors
+				if (pos >= _chn.size - 4000) {
+					if (_outputType==OUTPUT_TYPE_MOVIE)
+						_mm.finish();
+					stop();  
+					p.exit();
+					return;
+				} else {
+					// if still running & in-bounds, grab next data
+					_audioData.getFFT().getSpectrum( _chn.samples, pos );
+				}
+			}
+		} catch (NullPointerException e) {
+			DebugUtil.printErr( "## krister.Ess.AudioChannel read error caught" );
 		}
 		
 	}
