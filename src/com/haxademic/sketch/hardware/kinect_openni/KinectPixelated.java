@@ -14,7 +14,7 @@ extends PAppletHax {
 	public static final int KINECT_TOP = 0;
 	public static final int KINECT_BOTTOM = 480;
 	public static final int KINECT_CLOSE = 1000;
-	public static final int KINECT_FAR = 2000;
+	public static final int KINECT_FAR = 3000;
 	
 	protected PixelFilter _pixelFilter;
 	
