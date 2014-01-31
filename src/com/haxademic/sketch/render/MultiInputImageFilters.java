@@ -84,7 +84,6 @@ extends PAppletHax
 		_clusterRowFilter = new Cluster8BitRow( w, h, 8, false );
 		_histogramFilter = new ImageHistogramFilter( w, h, 6 );
 		_pixelTriFilter = new PixelTriFilter( w, h, 6 );
-		_blobFilter = new BlobOuterMeshFilter( w, h );
 	}
 		
 	// FRAME LOOP RENDERING ===================================================================================
