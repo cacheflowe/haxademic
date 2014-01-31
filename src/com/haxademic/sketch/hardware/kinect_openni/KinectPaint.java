@@ -30,7 +30,7 @@ extends PAppletHax {
 	}
 	
 	protected void overridePropsFile() {
-		_appConfig.setProperty( "rendering", "true" );
+		_appConfig.setProperty( "rendering", "false" );
 		_appConfig.setProperty( "kinect_active", "true" );
 		_appConfig.setProperty( "width", "640" );
 		_appConfig.setProperty( "height", "480" );
