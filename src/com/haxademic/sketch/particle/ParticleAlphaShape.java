@@ -10,6 +10,7 @@ import ProGAL.geom3d.complex.CTriangle;
 import ProGAL.geom3d.complex.alphaComplex.AlphaComplex;
 import ProGAL.geom3d.complex.alphaComplex.AlphaFiltration;
 
+import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.color.TColorInit;
 import com.haxademic.core.draw.particle.VectorFlyer;
@@ -30,8 +31,8 @@ extends PAppletHax {
 	public ArrayList<Attractor> attractors;
 	public ArrayList<PVector> attractorsPositions;
 
-	protected float _numAttractors = 10;
-	protected float _numParticles = 50;
+	protected float _numAttractors = 4;
+	protected float _numParticles = 500;
 	
 	List<Point> points;
 	
@@ -96,8 +97,9 @@ extends PAppletHax {
 		}
 		for( int i=0; i < attractors.size(); i++ ) attractors.get(i).update( false );
 		
+		drawVoxels();
 //		drawProximitySticks();
-		drawAlphaShape( true );
+//		drawAlphaShape( true );
 	}
 
 	protected void setUpRoom() {
@@ -115,6 +117,60 @@ extends PAppletHax {
 				60, 60, 60  // bottom rgb
 		); 
 		popMatrix();		
+	}
+	
+	protected void drawVoxels() {
+		
+		ArrayList<PVector> voxelPositions = new ArrayList<PVector>();
+		ArrayList<Integer> voxelDecay = new ArrayList<Integer>();
+		float resolution = 50;
+		
+		PVector checkVector;
+		PVector roundedPos = new PVector();
+		for( int i=0; i < _numParticles; i++ ) {
+			checkVector = boxes.get(i).position();
+			roundedPos.set(
+					Math.round(checkVector.x / resolution) * resolution, 
+					Math.round(checkVector.y / resolution) * resolution, 
+					Math.round(checkVector.z / resolution) * resolution
+					);
+			
+			boolean foundMatch = false;
+			for( int j=0; j < voxelPositions.size(); j++ ) {
+				if( roundedPos.equals(voxelPositions.get(j))) {
+					foundMatch = true;
+				}
+			}
+			if( foundMatch == false ) {
+				voxelPositions.add( new PVector( roundedPos.x, roundedPos.y, roundedPos.z ) );
+				voxelDecay.add(1);
+			}
+				
+		}
+		
+		for( int i=0; i < voxelPositions.size(); i++ ) {
+			PVector worldCenter = new PVector();
+			PVector voxel = voxelPositions.get(i);
+			// P.println(i+"  "+voxel.x+"  "+ Math.abs(Math.round(voxel.x / resolution)));
+//			if( Math.abs(Math.round(voxel.x / resolution)) == 0 &&  Math.abs(Math.round(voxel.y / resolution)) == 0 ) { 
+//				p.fill(255, 255, 255);
+//				_jw.jr.fill(JoonsWrapper.MATERIAL_LIGHT, 255, 255, 255, 4);
+//			} else 
+			if( Math.abs(Math.round(voxel.x / resolution)) % 2 == 0 ||  Math.abs(Math.round(voxel.y / resolution)) % 2 == 0 ) {
+				p.fill( Math.abs(voxel.x)/4, Math.abs(voxel.y)/3, Math.abs(voxel.z)/2);
+				_jw.jr.fill(JoonsWrapper.MATERIAL_SHINY, Math.abs(voxel.x)/3, Math.abs(voxel.y)/3, Math.abs(voxel.z)/2);
+			} else { 
+				p.fill(20, 20, 20);
+				_jw.jr.fill(JoonsWrapper.MATERIAL_SHINY, 20, 20, 20, 1);
+			}
+			
+			p.pushMatrix();
+//			p.rotateZ(p.frameCount / 130f);
+			p.translate(voxelPositions.get(i).x, voxelPositions.get(i).y, voxelPositions.get(i).z);
+//			p.sphere(resolution/2f);
+			p.box(resolution);
+			p.popMatrix();
+		}
 	}
 	
 	protected void drawProximitySticks() {
