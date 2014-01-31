@@ -111,7 +111,7 @@ extends PAppletHax{
 
 		_vignette = loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/vignette.glsl" );
 		_vignette.set("darkness", 0.85f);
-		_vignette.set("offset", 0.15f);
+		_vignette.set("spread", 0.15f);
 		
 		_blurH = loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/blur-horizontal.glsl" ); 
 		_blurH.set( "h", 1f/p.width );

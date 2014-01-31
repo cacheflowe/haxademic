@@ -64,7 +64,7 @@ implements IVizElement  {
 		
 		_vignette = p.loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/vignette.glsl" );
 		_vignette.set("darkness", 0.75f);
-		_vignette.set("offset", 0.3f);
+		_vignette.set("spread", 0.3f);
 
 		_kaleido = p.loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/kaleido.glsl" ); 
 		_kaleido.set("sides", 6.0f);

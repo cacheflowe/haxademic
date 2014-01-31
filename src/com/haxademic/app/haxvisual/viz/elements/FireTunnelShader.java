@@ -42,7 +42,7 @@ implements IVizElement  {
 
 		_vignette = p.loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/vignette.glsl" );
 		_vignette.set("darkness", 0.7f);
-		_vignette.set("offset", 0.15f);
+		_vignette.set("spread", 0.15f);
 
 		_brightness = p.loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/brightness.glsl" );
 		_brightness.set("brightness", _brightEaser.value() );
