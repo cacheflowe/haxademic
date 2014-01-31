@@ -1,10 +1,13 @@
 package com.haxademic.core.image;
 
+import java.awt.AWTException;
+import java.awt.Rectangle;
+import java.awt.Robot;
+
 import processing.core.PApplet;
 import processing.core.PGraphics;
 import processing.core.PImage;
 
-import com.haxademic.core.app.P;
 import com.haxademic.core.system.SystemUtil;
 
 public class ScreenUtil {
@@ -23,26 +26,21 @@ public class ScreenUtil {
 		p.smooth();
 		p.draw();
 		p.endRecord();
-		hires.save( outputDir + "hires.png" );
+		hires.save( outputDir + SystemUtil.getTimestamp(p) + "hires.png" );
 		p.noSmooth();
 	}
 
 	public static PImage getScreenAsPImage( PApplet p ) {
-//		PImage screenshot = null;
-		
-		PGraphics screenshot = p.createGraphics(p.width, p.height, P.P3D );
-		p.beginRecord(screenshot);
-//		p.smooth();
-		p.draw();
-		p.endRecord();
-//		p.noSmooth();
-
-		
-//		try {
-//			Robot robot = new Robot();
-//			screenshot = new PImage(robot.createScreenCapture(new Rectangle(0,0,p.width,p.height)));
-//		} catch (AWTException e) { }
-		return screenshot.get();
+		return p.get();
+	}
+	
+	public static PImage getScreenShotAsPImage( PApplet p ) {
+		try {
+			Robot robot = new Robot();
+			PImage screenshot = new PImage(robot.createScreenCapture(new Rectangle(0,0,p.width,p.height)));
+			return screenshot;
+		} catch (AWTException e) { }
+		return null;
 	}
 }
 
