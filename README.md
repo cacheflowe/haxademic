@@ -72,7 +72,8 @@ While the code has been open-sourced, I haven't had time to write much (any) doc
 * Download the standard Eclipse IDE for Java development, and the Java Development Kit itself:
 	* [Eclipse](http://www.eclipse.org/)
 	* [JDK](http://www.oracle.com/technetwork/java/javase/downloads/index.html)
-* [Download](http://code.google.com/p/simple-openni/downloads/list) and install the latest SimpleOpenNI (Kinect) drivers with the [instructions](http://code.google.com/p/simple-openni/wiki/Installation) for your particular platform
+* [Download](http://code.google.com/p/simple-openni/downloads/list) and install the latest SimpleOpenNI (Kinect) drivers with the [instructions](http://code.google.com/p/simple-openni/wiki/Installation) for your particular platform. This is most likely to work with the 1st-gen Kinect model 1414
+	* If you have a model 1473 Kinect camera, you might try [this build](http://intermedia.itu.dk/1473/) of the SimpleOpenNI library	
 * Clone or [download](https://github.com/cacheflowe/haxademic-2/archive/master.zip) the Haxademic-2 project
 * Open Eclipse and: **File -> Import -> General / Existing Projects into Workspace**
 	* Choose the `haxademic` directory that you cloned/downloaded, press **Finish**, and the project should be ready to use
