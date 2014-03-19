@@ -199,7 +199,7 @@ extends PAppletHax{
 
 	    void updateAndDraw(){
 	        PGraphicsOpenGL pgl = (PGraphicsOpenGL) g;         // processings opengl graphics object
-	        GL gl = PJOGL.gl;                // JOGL's GL object
+	        GL gl = ((PJOGL)beginPGL()).gl;                // JOGL's GL object
 			GL2 gl2 = gl.getGL2();
 
 			gl2.glEnable( GL2.GL_BLEND );             // enable blending
