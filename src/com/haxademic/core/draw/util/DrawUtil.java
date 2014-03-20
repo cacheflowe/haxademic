@@ -2,6 +2,7 @@ package com.haxademic.core.draw.util;
 
 import processing.core.PApplet;
 import processing.core.PConstants;
+import processing.core.PGraphics;
 
 import com.haxademic.core.app.P;
 
@@ -12,33 +13,37 @@ public class DrawUtil {
 	 * 
 	 * @param p		Processing Applet for reference to p5 core
 	 */
-	public static void resetGlobalProps(PApplet p) {
+	public static void resetGlobalProps( PApplet p ) { resetGlobalProps(p.g); }
+	public static void resetGlobalProps(PGraphics p) {
 		p.resetMatrix();
 		p.colorMode( P.RGB, 255, 255, 255, 255 );
 		p.fill( 0, 255, 0, 255 );
 		p.stroke( 0, 255, 0, 255 );
 		p.strokeWeight( 1 );
-		p.imageMode( PConstants.CENTER );
-		p.rectMode( PConstants.CENTER );
 		p.camera();
+		setDrawCenter(p);
 	}
 
-	public static void setCenter(PApplet p) {
+	public static void setCenter( PApplet p ) { setCenter(p.g); }
+	public static void setCenter(PGraphics p) {
 		p.resetMatrix();
 		p.translate( 0, 0, 0 );
 	}
 
-	public static void setCenterScreen(PApplet p) {
+	public static void setCenterScreen( PApplet p ) { setCenterScreen(p.g); }
+	public static void setCenterScreen(PGraphics p) {
 		p.resetMatrix();
 		p.translate( p.width/2, p.height/2, 0 );
 	}
 
-	public static void setTopLeft( PApplet p ) {
+	public static void setTopLeft( PApplet p ) { setTopLeft(p.g); }
+	public static void setTopLeft( PGraphics p ) {
 		p.resetMatrix();
 		p.translate( -p.width/2, -p.height/2, 0 );
 	}
 
-	public static void setBasicLights( PApplet p ) {
+	public static void setBasicLights( PApplet p ) { setBasicLights(p.g); }
+	public static void setBasicLights( PGraphics p ) {
 		// setup lighting props
 		p.shininess(500); 
 		p.lights();
@@ -47,29 +52,37 @@ public class DrawUtil {
 	}
 
 	
-	public static void setDrawCorner( PApplet p ) {
+	public static void setDrawCorner( PApplet p ) { setDrawCenter(p.g); }
+	public static void setDrawCorner( PGraphics p ) {
 		p.imageMode( PConstants.CORNER );
 		p.rectMode( PConstants.CORNER );
+		p.shapeMode( PConstants.CORNER );
 	}
 	
-	public static void setDrawCenter( PApplet p ) {
+	public static void setDrawCenter( PApplet p ) { setDrawCenter(p.g); }
+	public static void setDrawCenter( PGraphics p ) {
 		p.imageMode( PConstants.CENTER );
 		p.rectMode( PConstants.CENTER );
+		p.shapeMode( PConstants.CENTER );
 	}
 	
-	public static void setColorForPImage( PApplet p ) {
+	public static void setColorForPImage( PApplet p ) { setColorForPImage(p.g); }
+	public static void setColorForPImage( PGraphics p ) {
 		p.fill( 255, 255, 255, 255 );
 	}
 	
-	public static void setPImageAlpha( PApplet p, float alpha ) {
+	public static void setPImageAlpha( PApplet p, float alpha ) { setPImageAlpha( p.g, alpha ); };
+	public static void setPImageAlpha( PGraphics p, float alpha ) {
 		p.tint( 255, alpha * 255 );
 	}
 	
-	public static void resetPImageAlpha( PApplet p ) {
+	public static void resetPImageAlpha( PApplet p ) { resetPImageAlpha( p.g ); };
+	public static void resetPImageAlpha( PGraphics p ) {
 		p.tint( 255 );
 	}
 	
-	public static void setDrawFlat2d( PApplet p, Boolean is2d ) {
+	public static void setDrawFlat2d( PApplet p, Boolean is2d ) { setDrawFlat2d( p.g, is2d ); };
+	public static void setDrawFlat2d( PGraphics p, Boolean is2d ) {
 		if( is2d ) {
 			p.hint( P.DISABLE_DEPTH_TEST );
 		} else {
