@@ -20,13 +20,13 @@ public class KinectWrapper {
 	public int[] _depthArray;
 	public PVector[] _realWorldMap;
 	
-	// The sensor has an angular field of view of 57¡ horizontally and 43¡ vertically, while the motorized pivot is capable of tilting the sensor up to 27¡ either up or down
+	// The sensor has an angular field of view of 57ï¿½ horizontally and 43ï¿½ vertically, while the motorized pivot is capable of tilting the sensor up to 27ï¿½ either up or down
 	// http://en.wikipedia.org/wiki/Field_of_view
 
 	public KinectWrapper( PApplet p, boolean initDepth, boolean initRGB, boolean initDepthImage ) {
 		this.p = p;
 
-		_kinect = new SimpleOpenNI( p, SimpleOpenNI.RUN_MODE_MULTI_THREADED );
+		_kinect = new SimpleOpenNI( p, SimpleOpenNI.RUN_MODE_DEFAULT );
 		_kinect.enableDepth();
 		_kinect.enableRGB();
 //		_kinect.enableIR();	// IR doesn't like being enabled off the bat - it kills the RGB camera?!
@@ -90,6 +90,10 @@ public class KinectWrapper {
 	
 	public boolean isMirrored() {
 		return _kinect.mirror();
+	}
+	
+	public void drawCamFrustum() {
+		_kinect.drawCamFrustum();
 	}
 	
 	public void tiltUp() {
@@ -156,10 +160,10 @@ public class KinectWrapper {
 	
 	public int getMillimetersDepthForKinectPixel( int x, int y ) {
 		int offset = x + y * KinectWrapper.KWIDTH;
-		if( offset >= _realWorldMap.length ) {
+		if( offset >= _depthArray.length ) {
 			return 0;
 		} else {
-			return _depthArray[offset];			
+			return _depthArray[offset];
 		}
 	}
 }
