@@ -58,22 +58,24 @@ public class KinectRegion {
 		float controlXTotal = 0;
 		float controlZTotal = 0;
 		float pixelDepth = 0;
-		for ( int x = _left; x < _right; x += _resolution ) {
-			for ( int y = _top; y < _bottom; y += _resolution ) {
-				pixelDepth = p.kinectWrapper.getMillimetersDepthForKinectPixel( x, y );
-				if( pixelDepth != 0 && pixelDepth > _near && pixelDepth < _far ) {
-					if( isDebugging == true ) {
-						p.noStroke();
-						p.fill( _blockColor, 200 );
-						p.pushMatrix();
-						p.translate(x, y, -pixelDepth);
-						p.box(_resolution, _resolution, _resolution);
-						p.popMatrix();
+		if( p.kinectWrapper != null ) {
+			for ( int x = _left; x < _right; x += _resolution ) {
+				for ( int y = _top; y < _bottom; y += _resolution ) {
+					pixelDepth = p.kinectWrapper.getMillimetersDepthForKinectPixel( x, y );
+					if( pixelDepth != 0 && pixelDepth > _near && pixelDepth < _far ) {
+						if( isDebugging == true ) {
+							p.noStroke();
+							p.fill( _blockColor, 200 );
+							p.pushMatrix();
+							p.translate(x, y, -pixelDepth);
+							p.box(_resolution, _resolution, _resolution);
+							p.popMatrix();
+						}
+						// add up for calculations
+						_pixelCount++;
+						controlXTotal += x;
+						controlZTotal += pixelDepth;
 					}
-					// add up for calculations
-					_pixelCount++;
-					controlXTotal += x;
-					controlZTotal += pixelDepth;
 				}
 			}
 		}
