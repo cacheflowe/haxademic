@@ -60,7 +60,7 @@ extends PAppletHax{
 	 */
 	public static void main(String args[]) {
 		_isFullScreen = true;
-		PApplet.main(new String[] { "--hide-stop", "--bgcolor=000000", "com.haxademic.sketch.particle.BloodSplats" });
+		PApplet.main(new String[] { "--hide-stop", "--bgcolor=000000", "com.haxademic.app.horrorhouse.BloodSplats" });
 	}
 	protected void overridePropsFile() {
 		_appConfig.setProperty( "width", "1000" );
