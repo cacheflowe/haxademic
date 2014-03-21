@@ -1,20 +1,14 @@
 package com.haxademic.core.render;
 
-import java.util.ArrayList;
-
 import processing.core.PApplet;
 import toxi.geom.Sphere;
 import toxi.geom.mesh.WETriangleMesh;
 
 import com.haxademic.core.app.P;
-import com.haxademic.core.debug.DebugUtil;
-import com.haxademic.core.draw.color.ColorHax;
 import com.haxademic.core.draw.mesh.DrawMesh;
-import com.haxademic.core.render.joons.JRStatics;
 import com.haxademic.core.render.joons.JoonsRenderer;
 import com.haxademic.core.system.FileUtil;
 import com.haxademic.core.system.SystemUtil;
-import com.haxademic.sketch.test.JoonsTester;
 
 public class JoonsWrapper {
 
@@ -86,9 +80,12 @@ public class JoonsWrapper {
 		jr = new JoonsRenderer( p );
 		jr.setSampler(_quality); //Rendering mode, either "ipr" or "bucket".
 		jr.setSizeMultiplier(1); //Set size of the .PNG file as a multiple of the Processing sketch size.
-		jr.setAA(-2, 0, 1); //Set anti-aliasing, (min, max, samples). -2 < min, max < 2, samples = 1,2,3,4..
+		if( quality == QUALITY_HIGH ) {
+			jr.setAA(-0, 2, 4); //Set anti-aliasing, (min, max, samples). -2 < min, max < 2, samples = 1,2,3,4..
+		} else {
+			jr.setAA(-2, 0, 1);
+		}
         jr.setCaustics(1); //Set caustics. 1 ~ 100. affects quality of light scattered through glass.
-        //jr.setTraceDepth(1,4,4); //Set trace depth, (diffraction, reflection, refraction). Affects glass. (1,4,4) is good.
         //jr.setDOF(170, 5); //Set depth of field of camera, (focus distance, lens radius). Larger radius => more blurry.
 		
 //		DebugUtil.printErr("Remember that x & y axis are swapped in Joons");
