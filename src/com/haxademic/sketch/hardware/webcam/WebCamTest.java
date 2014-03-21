@@ -17,25 +17,25 @@ import com.haxademic.core.image.ImageUtil;
 @SuppressWarnings("serial")
 public class WebCamTest 
 extends PApplet {
-	
+
 	PApplet p;
-	
+
 	/**
 	 * Processing web cam capture object
 	 */
 	protected Capture _webCam;
-	
+
 	protected int _camW = 160;
 	protected int _camH = 120;
-	
+
 	protected WETriangleMesh _mesh;
 	protected String camera;
-	
+
 	public void setup () {
 		p = this;
 		// set up stage and drawing properties
 		p.size( 640, 480, PConstants.OPENGL );
-		OpenGLUtil.setQuality( p, OpenGLUtil.HIGH );
+		//		OpenGLUtil.setQuality( p, OpenGLUtil.HIGH );
 		p.frameRate( 30 );
 		p.smooth();
 
@@ -52,53 +52,52 @@ extends PApplet {
 			for (int i = 0; i < cameras.length; i++) {
 				println(cameras[i]);
 			}
-			camera = cameras[3];
-			_webCam = new Capture(this, cameras[3]);
+			camera = cameras[0];
+			_webCam = new Capture(this, cameras[0]);
+			_webCam.start();
+			_camW = _webCam.width;
+			_camH = _webCam.height;
 		}      
 	}
-	
+
 	public void draw() {
-		if(p.frameCount == 1) _webCam = new Capture(this, camera);
-		
+		//		if(p.frameCount == 1) _webCam = new Capture(this, camera);
+
 		p.background( 0 );
 		p.rectMode(PConstants.CENTER);
 		DrawUtil.resetGlobalProps( p );
 		DrawUtil.setCenter( p );
 		DrawUtil.setBasicLights( p );
-		
+
 		p.fill( 0, 0, 0, 255 );
 		p.noStroke();
 
-		
+
 		p.translate( 0, 0, -1000 );
 		p.rotateX( 0.02f*p.mouseY );
 		p.rotateY( 0.02f*p.mouseX );
-		
-		  if (_webCam.available()) { 
-			    // Reads the new frame
-			  _webCam.read(); 
-			  } 
-			  image(_webCam, 0, 0); 
 
-		
-		if (_webCam.available() == true) {
-			_webCam.read();
-//			drawImage();
-//			drawDepthImage();
-			drawMesh();
-		}
+		if (_webCam.available()) { 
+			// Reads the new frame
+			_webCam.read(); 
+//						drawDepthImage();
+			//			drawMesh();
+//						drawNativeMesh();
+			// image(_webCam, 0, 0); 
+		} 
+		drawImage();
 	}
-	
+
 	void drawImage(){
-		  p.image(_webCam, 0, 0);
+		p.image(_webCam, 0, 0);
 	}
-	
+
 	void drawDepthImage(){
 		int cellsize = 3;
 		PImage img = _webCam.get();
-		
+
 		p.noStroke();
-		
+
 		int x, y, color;
 		for ( int i = 0; i < _camW; i++) {
 			for ( int j = 0; j < _camH; j++) {
@@ -118,7 +117,7 @@ extends PApplet {
 			}
 		}
 	}
-	
+
 	void drawMesh() {
 		if( _mesh == null ) createMesh();
 		PImage img = _webCam.get();
@@ -126,7 +125,7 @@ extends PApplet {
 		// set draw props to draw texture mesh properly
 		p.fill( 0 );
 		p.noStroke();
-		
+
 		// iterate over all mesh triangles
 		// and add their vertices
 		p.beginShape(P.TRIANGLES);
@@ -141,19 +140,19 @@ extends PApplet {
 			p.vertex(f.a.x,f.a.y,f.a.z+brightA,f.uvA.x,f.uvA.y);
 			p.vertex(f.b.x,f.b.y,f.b.z+brightB,f.uvB.x,f.uvB.y);
 			p.vertex(f.c.x,f.c.y,f.c.z+brightC,f.uvC.x,f.uvC.y);
-	   	}
+		}
 		p.endShape();
 	}
-	
+
 	float getBrightnessForTextureLoc( PImage img, float x, float y ) {
 		float loc = x + y * img.width;  //  p.Pixel array location
 		int c = img.pixels[(int)loc];  // Grab the color
 		return p.brightness(c) * 0.1f;
 	}
-	
+
 	void createMesh() {
 		_mesh = new WETriangleMesh();
-		
+
 		int cols = _camW;
 		int rows = _camH;
 		for ( int i = 0; i < cols - 1; i++) {
@@ -182,7 +181,7 @@ extends PApplet {
 				color = ImageUtil.getPixelColor( img, x, y );
 
 				float z = p.brightness(color) / 10f;
-				
+
 				p.fill(color);
 				p.stroke(0);
 				p.strokeWeight(1);
@@ -190,12 +189,12 @@ extends PApplet {
 				// draw grid out from center
 				x = -img.width/2 + x;
 				y = -img.height/2 + y;
-				
+
 				// draw trianges 
 				p.vertex( x, y, z );
 				p.vertex( x+1, y, z );
 				p.vertex( x+1, y+1, z );
-				
+
 				p.vertex( x, y, z );
 				p.vertex( x, y+1, z );
 				p.vertex( x+1, y+1, z );
