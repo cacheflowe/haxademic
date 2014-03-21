@@ -7,6 +7,7 @@ import unlekker.moviemaker.UMovieMaker;
 import com.haxademic.core.app.P;
 import com.haxademic.core.audio.AudioInputWrapper;
 import com.haxademic.core.debug.DebugUtil;
+import com.haxademic.core.system.FileUtil;
 import com.haxademic.core.system.SystemUtil;
 import com.haxademic.core.text.StringFormatter;
 
@@ -105,6 +106,7 @@ public class Renderer
 
 		// initialize movie renderer
 		if( _outputType == OUTPUT_TYPE_MOVIE ) {
+			if( FileUtil.fileOrPathExists(_outputDir) == false ) FileUtil.createDir(_outputDir);
 			_mm = new UMovieMaker( p, _outputDir+"render-"+_timestamp+".mov", p.width, p.height, _framesPerSecond );
 			P.println("new MovieMaker success :: "+_timestamp);
 		}
