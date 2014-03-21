@@ -34,7 +34,8 @@ extends PAppletHax {
 //		_meshCrest = MeshUtil.getExtrudedMesh( MeshUtil.meshFromSVG( p, FileUtil.getHaxademicDataPath() + "svg/modeset-logotype.svg", 10, -1, 0.7f ), 250 );
 //		_meshCrest = MeshUtil.meshFromSVG( p, FileUtil.getHaxademicDataPath() + "svg/modeset-crest.svg", -1, 20, 0.8f );
 //		_meshCrest = MeshUtil.meshFromOBJ( p, FileUtil.getHaxademicDataPath() + "models/mode-set.obj", 300f );
-		_meshCrest = new WETriangleMesh(); manualBuildTriangleMesh();
+		_meshCrest = new WETriangleMesh(); 
+		manualBuildTriangleMesh();
 		
 		p.smooth(OpenGLUtil.SMOOTH_HIGH);
 	}
