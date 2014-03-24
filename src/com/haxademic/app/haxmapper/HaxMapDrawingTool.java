@@ -9,8 +9,11 @@ import processing.core.PVector;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.data.ConvertUtil;
 import com.haxademic.core.draw.util.OpenGLUtil;
 import com.haxademic.core.math.MathUtil;
+import com.haxademic.core.system.FileUtil;
+import com.haxademic.core.system.SystemUtil;
 
 @SuppressWarnings("serial")
 public class HaxMapDrawingTool
@@ -21,7 +24,8 @@ extends PAppletHax {
 	protected ArrayList<ArrayList<PShape>> _shapeGroups;
 	protected boolean _isPressed = false;
 	protected boolean _debugging = true;
-	
+	protected String _inputFileLines[];
+
 	protected ArrayList<PShape> _draggingShapes;
 	
 	protected final static int MODE_TRIANGLES = 0;
@@ -42,6 +46,7 @@ extends PAppletHax {
 		_appConfig.setProperty( "rendering", "false" );
 		_appConfig.setProperty( "fills_screen", "true" );
 		_appConfig.setProperty( "fullscreen", "true" );
+		_appConfig.setProperty( "mapping_file", FileUtil.getHaxademicDataPath() + "text/mapping/mapping-2014-03-23-23-24-17.txt" );
 	}
 
 	public void setup() {
@@ -49,7 +54,7 @@ extends PAppletHax {
 
 		_shapes = new ArrayList<PShape>();
 		_shapeGroups = new ArrayList<ArrayList<PShape>>();
-		newGroup();
+		loadVertices();
 		
 		_draggingShapes = new ArrayList<PShape>();
 
@@ -251,14 +256,65 @@ extends PAppletHax {
 		_curShape.endShape(P.CLOSE);
 		_curShape = null;
 	}
+	
+	public void exportVertices() {
+		String export = "";
+		for( int i=0; i < _shapeGroups.size(); i++ ) {
+			export += "#group#\n";
+			ArrayList<PShape> curGroup = _shapeGroups.get(i);
+			for( int j=0; j < curGroup.size(); j++ ) {
+				PShape curShape = curGroup.get(j);
+				PVector vertex;
+				export += "#poly#";
+				for (int k = 0; k < curShape.getVertexCount(); k++) {
+					vertex = curShape.getVertex(k);
+					if( k > 0 ) export += ",";
+					export += vertex.x+","+vertex.y;
+				}
+				export += "\n";
+			}
+		}
+		FileUtil.writeTextToFile(FileUtil.getHaxademicDataPath() + "text/mapping/mapping-"+SystemUtil.getTimestamp(p)+".txt", export);
+	}
+	
+	public void loadVertices() {
+		if( _appConfig.getString("mapping_file", "") != "" ) {
+			_inputFileLines = loadStrings(_appConfig.getString("mapping_file", ""));
+			for( int i=0; i < _inputFileLines.length; i++ ) {
+				String inputLine = _inputFileLines[i]; 
+				// count lines that contain characters
+				if( inputLine.indexOf("#group#") != -1 ) {
+					newGroup();
+				} else if( inputLine.indexOf("#poly#") != -1 ) {
+					inputLine = inputLine.replace("#poly#", "");
+					String polyPoints[] = inputLine.split(",");
+
+					_curShape = p.createShape();
+					_curShape.setFill(color(255, 200));
+					_curShape.beginShape();
+					_curShape.noStroke();  
+					if(polyPoints.length == 6) {
+						_curShape.vertex( ConvertUtil.stringToFloat( polyPoints[0] ), ConvertUtil.stringToFloat( polyPoints[1] ) );
+						_curShape.vertex( ConvertUtil.stringToFloat( polyPoints[2] ), ConvertUtil.stringToFloat( polyPoints[3] ) );
+						_curShape.vertex( ConvertUtil.stringToFloat( polyPoints[4] ), ConvertUtil.stringToFloat( polyPoints[5] ) );
+					} else {
+						_curShape.vertex( ConvertUtil.stringToFloat( polyPoints[0] ), ConvertUtil.stringToFloat( polyPoints[1] ) );
+						_curShape.vertex( ConvertUtil.stringToFloat( polyPoints[2] ), ConvertUtil.stringToFloat( polyPoints[3] ) );
+						_curShape.vertex( ConvertUtil.stringToFloat( polyPoints[4] ), ConvertUtil.stringToFloat( polyPoints[5] ) );
+						_curShape.vertex( ConvertUtil.stringToFloat( polyPoints[6] ), ConvertUtil.stringToFloat( polyPoints[7] ) );
+					}
+					closeShape();
+				}  
+			}
+			
+		} else {
+			newGroup();
+		}
+
+	}
 
 	// keyboard handling -------------------------------------------------------------
 	public void keyPressed() {
-//		if(p.key == ' ') {
-//			if( _curShape != null ) {
-//				closeShape();
-//			}
-//		} else 
 		if(p.key == 'd') {
 			// show debugging lines & points
 			_debugging = !_debugging;
@@ -268,6 +324,9 @@ extends PAppletHax {
 		} else if(p.key == 'g') {
 			// add a new group
 			newGroup();
+		} else if(p.key == 'e') {
+			// add a new group
+			exportVertices();
 		} else if(p.key == PConstants.BACKSPACE) {
 			// remove last object (undo)
 			if( _shapes.size() > 0 ) {

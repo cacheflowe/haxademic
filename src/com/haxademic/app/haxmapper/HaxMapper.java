@@ -2,6 +2,7 @@ package com.haxademic.app.haxmapper;
 
 import java.util.ArrayList;
 
+import processing.core.PApplet;
 import processing.core.PConstants;
 import processing.core.PGraphics;
 import processing.core.PImage;
@@ -10,6 +11,7 @@ import processing.video.Movie;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.data.ConvertUtil;
 import com.haxademic.core.draw.util.OpenGLUtil;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.system.FileUtil;
@@ -29,10 +31,19 @@ extends PAppletHax {
 	Movie _movie;
 	ArrayList<MappedTriangle> _triangles;
 	
+	protected String _inputFileLines[];
+	
+	public static void main(String args[]) {
+		_isFullScreen = true;
+		PApplet.main(new String[] { "--hide-stop", "--bgcolor=000000", "com.haxademic.app.haxmapper.HaxMapper" });
+	}
+
 	protected void overridePropsFile() {
 		_appConfig.setProperty( "width", "800" );
 		_appConfig.setProperty( "height", "800" );
 		_appConfig.setProperty( "rendering", "false" );
+		_appConfig.setProperty( "fullscreen", "true" );
+		_appConfig.setProperty( "mapping_file", FileUtil.getHaxademicDataPath() + "text/mapping/mapping-2014-03-23-23-24-17.txt" );
 	}
 
 	public void setup() {
@@ -43,12 +54,47 @@ extends PAppletHax {
 		p.smooth(OpenGLUtil.SMOOTH_HIGH);
 		
 		_triangles = new ArrayList<MappedTriangle>();
-		for(int i=0; i < 100; i++ ) {
-			float startX = p.random(0,p.width);
-			float startY = p.random(0,p.height);
-			_triangles.add( new MappedTriangle( startX, startY, startX + p.random(-300,300), startY + p.random(-300,300), startX + p.random(-300,300), startY + p.random(-300,300) ) );
+		if( _appConfig.getString("mapping_file", "") == "" ) {
+			for(int i=0; i < 100; i++ ) {
+				float startX = p.random(0,p.width);
+				float startY = p.random(0,p.height);
+				_triangles.add( new MappedTriangle( startX, startY, startX + p.random(-300,300), startY + p.random(-300,300), startX + p.random(-300,300), startY + p.random(-300,300) ) );
+			}
+			_triangles.add( new MappedTriangle( 100, 200, 400, 700, 650, 300 ) );
+		} else {
+			_inputFileLines = loadStrings(_appConfig.getString("mapping_file", ""));
+			for( int i=0; i < _inputFileLines.length; i++ ) {
+				String inputLine = _inputFileLines[i]; 
+				// count lines that contain characters
+				if( inputLine.indexOf("#group#") != -1 ) {
+					// group!
+				} else if( inputLine.indexOf("#poly#") != -1 ) {
+					// poly!
+					inputLine = inputLine.replace("#poly#", "");
+					String polyPoints[] = inputLine.split(",");
+					if(polyPoints.length == 6) {
+						_triangles.add( new MappedTriangle( 
+								ConvertUtil.stringToFloat( polyPoints[0] ), 
+								ConvertUtil.stringToFloat( polyPoints[1] ), 
+								ConvertUtil.stringToFloat( polyPoints[2] ), 
+								ConvertUtil.stringToFloat( polyPoints[3] ), 
+								ConvertUtil.stringToFloat( polyPoints[4] ), 
+								ConvertUtil.stringToFloat( polyPoints[5] )
+						) );
+					} else {
+						_triangles.add( new MappedTriangle( 
+								ConvertUtil.stringToFloat( polyPoints[0] ), 
+								ConvertUtil.stringToFloat( polyPoints[1] ), 
+								ConvertUtil.stringToFloat( polyPoints[2] ), 
+								ConvertUtil.stringToFloat( polyPoints[3] ), 
+								ConvertUtil.stringToFloat( polyPoints[4] ), 
+								ConvertUtil.stringToFloat( polyPoints[5] )
+						) );
+					}
+				}  
+			}
+			
 		}
-		_triangles.add( new MappedTriangle( 100, 200, 400, 700, 650, 300 ) );
 		
 //		initWebCam();
 	}

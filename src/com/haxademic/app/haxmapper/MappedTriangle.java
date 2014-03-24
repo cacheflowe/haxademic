@@ -75,6 +75,7 @@ public class MappedTriangle {
 					pg.vertex(x3, y3, 0, 		_texture.width, _texture.height);
 				}
 			} else {
+				// map the screen coordinates to the texture coordinates
 				float texScreenRatioW = (float) _texture.width / (float) pg.width;
 				float texScreenRatioH = (float) _texture.height / (float) pg.height;
 				pg.vertex(x1, y1, 0, 		x1 * texScreenRatioW, y1 * texScreenRatioH);
