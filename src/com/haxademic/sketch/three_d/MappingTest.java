@@ -17,6 +17,7 @@ extends PAppletHax{
 	protected PShape _curShape;
 	protected ArrayList<PShape> _shapes;
 	protected boolean _isPressed = false;
+	protected boolean _debugging = true;
 	
 	public static void main(String args[]) {
 		_isFullScreen = true;
@@ -36,7 +37,7 @@ extends PAppletHax{
 		
 		_shapes = new ArrayList<PShape>();
 		
-		p.strokeWeight( 2 );
+		p.strokeWeight( 1 );
 		p.smooth(OpenGLUtil.SMOOTH_HIGH);
 	}
 	
@@ -45,8 +46,27 @@ extends PAppletHax{
 		
 		// draw already-drawn shapes
 		for (int i=0; i < _shapes.size(); i++) {
-			_shapes.get(i).setFill(p.color(255, p._audioInput.getFFT().spectrum[(i * 10 + 10) % 512] * 2000));
-			p.shape( _shapes.get(i) );
+			// get shape and set audio-reactive fill --------------
+			PShape shape = _shapes.get(i);
+			shape.setFill(p.color(255, p._audioInput.getFFT().spectrum[(i * 10 + 10) % 512] * 2000));
+			p.shape( shape );
+
+			
+			if( _debugging == true ) {
+				// draw wireframe and handles -------------------------
+				PVector v = null;
+				PVector nextV = null;
+				int numVertices = shape.getVertexCount();
+				for (int j = 0; j < shape.getVertexCount(); j++) {
+					v = shape.getVertex(j);
+					p.ellipse( v.x, v.y, 6, 6 );
+					if( j < numVertices - 1 ) {
+						nextV = shape.getVertex(j+1);
+						p.line( v.x, v.y, nextV.x, nextV.y );
+					}
+				}
+				p.line( shape.getVertex(0).x, shape.getVertex(0).y, shape.getVertex(numVertices-1).x, shape.getVertex(numVertices-1).y );
+			}
 		}
 		
 		// draw mouse point when pressed
@@ -89,8 +109,7 @@ extends PAppletHax{
 		
 		if (_curShape == null) {
 			_curShape = p.createShape();
-			_curShape.setStroke(color(255));  
-			_curShape.setStrokeWeight(4);
+			_curShape.noStroke();  
 			_curShape.setFill(color(255, 200));
 			_curShape.beginShape();
 			_curShape.vertex( p.mouseX, p.mouseY );
@@ -106,6 +125,8 @@ extends PAppletHax{
 				_curShape.endShape(P.CLOSE);
 				_curShape = null;
 			}
+		} else if(p.key == 'd') {
+			_debugging = !_debugging;
 		}
 	}
 
