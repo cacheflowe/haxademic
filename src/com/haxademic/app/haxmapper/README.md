@@ -4,11 +4,14 @@ A custom projection-mapped visual system
 
 #### TODO
 
-* Improve drawing tools:
-	* Snap points together
-	* Drag points after being drawn
-* Import/export data
-	* Groups of triangles and rectangles
-	* Import to HaxMapper and back into HaxMapDrawingTool
 * Texture manager to distribute textures between groups and group items
-* Build RectangleMapper object
+* Build MappedRect object
+	* Create IMappedPoly interface
+* Build wireframe animations
+	* Actual bars between points. Don't add line data twice for overlapping polygon sides!
+	* Auido-reactive points between vertices
+* More textures!! 
+	* convert existing element/modules from HaxVisual
+	* add more shaders
+* Cleanup
+	* Tighten up the mapping modes of rects and triangles
