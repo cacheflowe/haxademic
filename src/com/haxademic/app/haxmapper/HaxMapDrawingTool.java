@@ -41,8 +41,6 @@ extends PAppletHax {
 	}
 
 	protected void overridePropsFile() {
-		_appConfig.setProperty( "width", "1024" );
-		_appConfig.setProperty( "height", "768" );
 		_appConfig.setProperty( "rendering", "false" );
 		_appConfig.setProperty( "fills_screen", "true" );
 		_appConfig.setProperty( "fullscreen", "true" );
