@@ -42,17 +42,19 @@ implements IVizElement {
 	public void init() {
 		_svgs = new ArrayList<PShape>();
 		
+		_svgs.add( p.loadShape( FileUtil.getHaxademicDataPath() + "svg/wuki.svg" ) );
+		_svgs.add( p.loadShape( FileUtil.getHaxademicDataPath() + "svg/wuki-2.svg" ) );
 		_svgs.add( p.loadShape( FileUtil.getHaxademicDataPath() + "svg/cursor.svg" ) );
 		_svgs.add( p.loadShape( FileUtil.getHaxademicDataPath() + "svg/hexagon.svg" ) );
 		_svgs.add( p.loadShape( FileUtil.getHaxademicDataPath() + "svg/eye.svg" ) );
 		_svgs.add( p.loadShape( FileUtil.getHaxademicDataPath() + "svg/x.svg" ) );
-		_svgs.add( p.loadShape( FileUtil.getHaxademicDataPath() + "svg/money.svg" ) );
-		_svgs.add( p.loadShape( FileUtil.getHaxademicDataPath() + "svg/weed.svg" ) );
+//		_svgs.add( p.loadShape( FileUtil.getHaxademicDataPath() + "svg/money.svg" ) );
+//		_svgs.add( p.loadShape( FileUtil.getHaxademicDataPath() + "svg/weed.svg" ) );
 		_svgs.add( p.loadShape( FileUtil.getHaxademicDataPath() + "svg/diamond.svg" ) );
 		_svgs.add( p.loadShape( FileUtil.getHaxademicDataPath() + "svg/gun-uzi.svg" ) );
-		_svgs.add( p.loadShape( FileUtil.getHaxademicDataPath() + "svg/coin.svg" ) );
+//		_svgs.add( p.loadShape( FileUtil.getHaxademicDataPath() + "svg/coin.svg" ) );
 		_svgs.add( p.loadShape( FileUtil.getHaxademicDataPath() + "svg/heart.svg" ) );
-		_svgs.add( p.loadShape( FileUtil.getHaxademicDataPath() + "svg/cacheflowe-logo.svg" ) );
+//		_svgs.add( p.loadShape( FileUtil.getHaxademicDataPath() + "svg/cacheflowe-logo.svg" ) );
 		_svgs.add( p.loadShape( FileUtil.getHaxademicDataPath() + "svg/smiley.svg" ) );
 		_svgs.add( p.loadShape( FileUtil.getHaxademicDataPath() + "svg/star.svg" ) );
 		_svgs.add( p.loadShape( FileUtil.getHaxademicDataPath() + "svg/triangle-stroke.svg" ) );
