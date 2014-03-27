@@ -21,7 +21,7 @@ extends PAppletHax {
 	public void setup() {
 		super.setup();
 		
-		_kinectGrid = new KinectRegionGrid(p, 2, 1, 500, 1000, 40, 0, 480);
+		_kinectGrid = new KinectRegionGrid(p, 2, 2, 1000, 2000, 40, 0, 480);
 	}
 
 	public void drawApp() {		
