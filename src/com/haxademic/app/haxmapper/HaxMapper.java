@@ -29,7 +29,7 @@ extends PAppletHax {
 	Capture _webCam;
 	PGraphics _movieTexture;
 	Movie _movie;
-	ArrayList<MappedTriangle> _triangles;
+	ArrayList<IMappedPolygon> _mappedPolygons;
 	
 	protected String _inputFileLines[];
 	
@@ -42,7 +42,7 @@ extends PAppletHax {
 		_appConfig.setProperty( "rendering", "false" );
 		_appConfig.setProperty( "fullscreen", "true" );
 		_appConfig.setProperty( "fills_screen", "true" );
-		_appConfig.setProperty( "mapping_file", FileUtil.getHaxademicDataPath() + "text/mapping/mapping-2014-03-24-11-02-12.txt" );
+		_appConfig.setProperty( "mapping_file", FileUtil.getHaxademicDataPath() + "text/mapping/mapping-2014-03-24-09-29-28.txt" );
 	}
 
 	public void setup() {
@@ -52,14 +52,14 @@ extends PAppletHax {
 		noStroke();
 		p.smooth(OpenGLUtil.SMOOTH_HIGH);
 		
-		_triangles = new ArrayList<MappedTriangle>();
+		_mappedPolygons = new ArrayList<IMappedPolygon>();
 		if( _appConfig.getString("mapping_file", "") == "" ) {
 			for(int i=0; i < 100; i++ ) {
 				float startX = p.random(0,p.width);
 				float startY = p.random(0,p.height);
-				_triangles.add( new MappedTriangle( startX, startY, startX + p.random(-300,300), startY + p.random(-300,300), startX + p.random(-300,300), startY + p.random(-300,300) ) );
+				_mappedPolygons.add( new MappedTriangle( startX, startY, startX + p.random(-300,300), startY + p.random(-300,300), startX + p.random(-300,300), startY + p.random(-300,300) ) );
 			}
-			_triangles.add( new MappedTriangle( 100, 200, 400, 700, 650, 300 ) );
+			_mappedPolygons.add( new MappedTriangle( 100, 200, 400, 700, 650, 300 ) );
 		} else {
 			_inputFileLines = loadStrings(_appConfig.getString("mapping_file", ""));
 			for( int i=0; i < _inputFileLines.length; i++ ) {
@@ -72,7 +72,7 @@ extends PAppletHax {
 					inputLine = inputLine.replace("#poly#", "");
 					String polyPoints[] = inputLine.split(",");
 					if(polyPoints.length == 6) {
-						_triangles.add( new MappedTriangle( 
+						_mappedPolygons.add( new MappedTriangle( 
 								ConvertUtil.stringToFloat( polyPoints[0] ), 
 								ConvertUtil.stringToFloat( polyPoints[1] ), 
 								ConvertUtil.stringToFloat( polyPoints[2] ), 
@@ -80,14 +80,16 @@ extends PAppletHax {
 								ConvertUtil.stringToFloat( polyPoints[4] ), 
 								ConvertUtil.stringToFloat( polyPoints[5] )
 						) );
-					} else {
-						_triangles.add( new MappedTriangle( 
+					} else if(polyPoints.length == 8) {
+						_mappedPolygons.add( new MappedRectangle( 
 								ConvertUtil.stringToFloat( polyPoints[0] ), 
 								ConvertUtil.stringToFloat( polyPoints[1] ), 
 								ConvertUtil.stringToFloat( polyPoints[2] ), 
 								ConvertUtil.stringToFloat( polyPoints[3] ), 
 								ConvertUtil.stringToFloat( polyPoints[4] ), 
-								ConvertUtil.stringToFloat( polyPoints[5] )
+								ConvertUtil.stringToFloat( polyPoints[5] ),
+								ConvertUtil.stringToFloat( polyPoints[6] ), 
+								ConvertUtil.stringToFloat( polyPoints[7] )
 						) );
 					}
 				}  
@@ -123,8 +125,8 @@ extends PAppletHax {
 //		endShape();
 		
 		// update triangles
-		for(int i=0; i < _triangles.size(); i++ ) {
-			MappedTriangle triangle = _triangles.get(i);
+		for(int i=0; i < _mappedPolygons.size(); i++ ) {
+			IMappedPolygon triangle = _mappedPolygons.get(i);
 			if(p.random(0,100) > 99) {
 				triangle.rotateTexture();
 				

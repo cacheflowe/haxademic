@@ -6,7 +6,8 @@ import processing.core.PImage;
 
 import com.haxademic.core.math.MathUtil;
 
-public class MappedTriangle {
+public class MappedTriangle
+implements IMappedPolygon {
 	
 	public float x1;
 	public float y1;
