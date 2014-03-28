@@ -1,5 +1,7 @@
 package com.haxademic.app.haxmapper;
 
+import java.awt.Point;
+
 import processing.core.PConstants;
 import processing.core.PGraphics;
 import processing.core.PImage;
@@ -15,7 +17,8 @@ implements IMappedPolygon {
 	public float y2;
 	public float x3;
 	public float y3;
-	
+	protected Point _center;
+
 	protected PImage _texture;
 	
 	protected int mappingOrientation;
@@ -28,10 +31,15 @@ implements IMappedPolygon {
 		this.y2 = y2;
 		this.x3 = x3;
 		this.y3 = y3;
+		_center = MathUtil.computeTriangleCenter(x1, y1, x2, y2, x3, y3);
 		
 		mappingOrientation = 0;
 	}
 	
+	public Point getCenter() {
+		return _center;
+	}
+
 	public void setTexture( PImage texture ) {
 		_texture = texture;
 	}

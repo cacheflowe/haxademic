@@ -1,5 +1,7 @@
 package com.haxademic.app.haxmapper;
 
+import java.awt.Point;
+
 import processing.core.PGraphics;
 import processing.core.PImage;
 
@@ -8,4 +10,5 @@ public interface IMappedPolygon {
 	public void setTexture( PImage texture );
 	public void setTextureStyle( boolean isFullImage );
 	public void rotateTexture();
+	public Point getCenter();
 }

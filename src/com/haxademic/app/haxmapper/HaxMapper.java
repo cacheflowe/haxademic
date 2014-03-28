@@ -1,5 +1,6 @@
 package com.haxademic.app.haxmapper;
 
+import java.awt.Point;
 import java.util.ArrayList;
 
 import processing.core.PApplet;
@@ -81,7 +82,7 @@ extends PAppletHax {
 								ConvertUtil.stringToFloat( polyPoints[5] )
 						) );
 					} else if(polyPoints.length == 8) {
-						_mappedPolygons.add( new MappedRectangle( 
+						_mappedPolygons.add( new MappedQuad( 
 								ConvertUtil.stringToFloat( polyPoints[0] ), 
 								ConvertUtil.stringToFloat( polyPoints[1] ), 
 								ConvertUtil.stringToFloat( polyPoints[2] ), 

@@ -1,12 +1,14 @@
 package com.haxademic.app.haxmapper;
 
+import java.awt.Point;
+
 import processing.core.PConstants;
 import processing.core.PGraphics;
 import processing.core.PImage;
 
 import com.haxademic.core.math.MathUtil;
 
-public class MappedRectangle
+public class MappedQuad
 implements IMappedPolygon {
 
 		
@@ -18,13 +20,14 @@ implements IMappedPolygon {
 		public float y3;
 		public float x4;
 		public float y4;
-		
+		protected Point _center;
+
 		protected PImage _texture;
 		
 		protected int mappingOrientation;
 		protected boolean _mappingStyleIsFullImage = false;
 		
-		public MappedRectangle( float x1, float y1, float x2, float y2, float x3, float y3, float x4, float y4 ) {
+		public MappedQuad( float x1, float y1, float x2, float y2, float x3, float y3, float x4, float y4 ) {
 			this.x1 = x1;
 			this.y1 = y1;
 			this.x2 = x2;
@@ -33,6 +36,7 @@ implements IMappedPolygon {
 			this.y3 = y3;
 			this.x4 = x4;
 			this.y4 = y4;
+			_center = MathUtil.computeQuadCenter(x1, y1, x2, y2, x3, y3, x4, y4);
 			
 			mappingOrientation = 0;
 		}
