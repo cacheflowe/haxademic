@@ -34,7 +34,7 @@ implements Runnable {
     			//does the device have any transmitters?
     			//if it does, add it to the device list
     			System.out.println(infos[i]);
-    			
+    			    			
     			//get all transmitters
     			List<Transmitter> transmitters = device.getTransmitters();
     			//and for each transmitter
@@ -55,13 +55,12 @@ implements Runnable {
     			//if code gets this far without throwing an exception
     			//print a success message
     			System.out.println(device.getDeviceInfo()+" was opened");
-    			
+
     		} catch (MidiUnavailableException e) {}
     	}
     }
 
 
-	// tried to write my own class. I thought the send method handles an MidiEvents sent to it
 	public class MidiInputReceiver implements Receiver {
 		public String name;
 		public MidiInputReceiver(String name) {
@@ -69,11 +68,11 @@ implements Runnable {
 		}
 
 		public void send(MidiMessage message, long timeStamp) {
-//			System.out.println("midi received");
+//			P.println("midi received, "+message);
 			if (message instanceof ShortMessage) {
 				ShortMessage sm = (ShortMessage) message;
-//				P.print("|| "+sm.getCommand()+" ||");
-				if (sm.getCommand() == NOTE_ON) {
+				P.println("ShortMessage.getCommand() = "+sm.getCommand());
+				if (sm.getCommand() == ShortMessage.NOTE_ON) {
 					int key = sm.getData1();
 					int velocity = sm.getData2();
 					P.p.noteOn(1, key, velocity);
@@ -81,7 +80,20 @@ implements Runnable {
 //					String noteName = NOTE_NAMES[note];
 //					int octave = (key / 12)-1;
 //					P.println("Channel: " + sm.getChannel());
-				}
+				} else if (sm.getCommand() == ShortMessage.NOTE_OFF) {
+					int key = sm.getData1();
+					int velocity = sm.getData2();
+					P.p.noteOff(1, key, velocity);
+//					int note = key % 12;
+//					String noteName = NOTE_NAMES[note];
+//					int octave = (key / 12)-1;
+//					P.println("Channel: " + sm.getChannel());
+				} else if (sm.getCommand() == ShortMessage.CONTROL_CHANGE) {
+					int key = sm.getData1();
+					int ccValue = sm.getData2();
+					P.p.controllerChange(sm.getChannel(), sm.getData1(), sm.getData2());
+//					P.println("CONTROL_CHANGE Channel: " + sm.getChannel() + " " + sm.getData1() + " " + sm.getData2());
+				} 
 			}
 		}
 
