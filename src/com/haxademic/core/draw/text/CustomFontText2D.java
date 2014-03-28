@@ -6,6 +6,7 @@ import processing.core.PGraphics;
 import processing.core.PImage;
 
 import com.haxademic.core.app.P;
+import com.haxademic.core.draw.util.OpenGLUtil;
 import com.haxademic.core.image.ImageUtil;
 
 public class CustomFontText2D {
@@ -30,7 +31,7 @@ public class CustomFontText2D {
 		_font = p.createFont( fontFile, _fontSize );
 		_textAlign = align;
 		_textCanvas = p.createGraphics( canvasW, canvasH, P.JAVA2D );
-//		_textCanvas.smooth( OpenGLUtil.SMOOTH_HIGH );
+		_textCanvas.smooth( OpenGLUtil.SMOOTH_HIGH );
 	}
 	
 	public void setTextColor( int color, int strokeColor ) {
