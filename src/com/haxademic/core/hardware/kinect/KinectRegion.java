@@ -85,9 +85,9 @@ public class KinectRegion {
 			// compute averages
 			if( controlXTotal > 0 && controlZTotal > 0 ) {
 				float avgX = controlXTotal / _pixelCount;
-				_controlX = MathUtil.getPercentWithinRange(_left, _right, avgX);
+				_controlX = MathUtil.getPercentWithinRange(_left, _right, avgX) - 0.5f;
 				float avgZ = controlZTotal / _pixelCount;
-				_controlZ = MathUtil.getPercentWithinRange(_near, _far, avgZ);
+				_controlZ = MathUtil.getPercentWithinRange(_near, _far, avgZ) - 0.5f;
 
 				// show debug
 				if( isDebugging == true ) {
