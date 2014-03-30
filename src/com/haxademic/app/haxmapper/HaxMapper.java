@@ -116,6 +116,7 @@ extends PAppletHax {
 		
 		background(0);
 		
+		
 		// basic quad
 //		beginShape(QUADS);
 //		texture(_barsTexture);
@@ -126,6 +127,27 @@ extends PAppletHax {
 //		endShape();
 		
 		// update triangles
+		for(int i=0; i < _mappedPolygons.size(); i++ ) {
+			IMappedPolygon triangle = _mappedPolygons.get(i);
+			triangle.draw(p.g);
+		}	
+		// called after polygon draw() to be sure that polygon's texture has initialized
+		checkBeat();
+	}
+	
+	protected void checkBeat() {
+		int[] beatDetectArr = _audioInput.getBeatDetection();
+		boolean isKickCount = (beatDetectArr[0] > 0);
+		boolean isSnareCount = (beatDetectArr[1] > 0);
+		boolean isHatCount = (beatDetectArr[2] > 0);
+		boolean isOnsetCount = (beatDetectArr[3] > 0);
+		// if(isKickCount == true || isSnareCount == true || isHatCount == true || isOnsetCount == true) {
+		if( isKickCount == true || isSnareCount == true ) {
+			randomizeNextPolygon();
+		}
+	}
+	
+	protected void randomizeNextPolygon() {
 		for(int i=0; i < _mappedPolygons.size(); i++ ) {
 			IMappedPolygon triangle = _mappedPolygons.get(i);
 			if(p.random(0,100) > 99) {
@@ -142,7 +164,6 @@ extends PAppletHax {
 				
 				triangle.setTextureStyle( MathUtil.randBoolean(p) );
 			}
-			triangle.draw(p.g);
 		}		
 	}
 	
