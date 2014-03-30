@@ -41,6 +41,10 @@ implements IMappedPolygon {
 			mappingOrientation = 0;
 		}
 		
+		public Point getCenter() {
+			return _center;
+		}
+
 		public void setTexture( PImage texture ) {
 			_texture = texture;
 		}
