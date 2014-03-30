@@ -1,16 +1,16 @@
 package com.haxademic.app.haxmapper;
 
-import java.awt.Point;
 import java.util.ArrayList;
 
 import processing.core.PApplet;
-import processing.core.PConstants;
-import processing.core.PGraphics;
 import processing.core.PImage;
-import processing.video.Capture;
-import processing.video.Movie;
 
-import com.haxademic.core.app.P;
+import com.haxademic.app.haxmapper.textures.BaseTexture;
+import com.haxademic.app.haxmapper.textures.TextureEQColumns;
+import com.haxademic.app.haxmapper.textures.TextureScrollingColumns;
+import com.haxademic.app.haxmapper.textures.TextureShaderBwEyeJacker;
+import com.haxademic.app.haxmapper.textures.TextureVideoPlayer;
+import com.haxademic.app.haxmapper.textures.TextureWebCam;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.data.ConvertUtil;
 import com.haxademic.core.draw.util.OpenGLUtil;
@@ -24,13 +24,8 @@ extends PAppletHax {
 	
 	PImage img;
 	
-	PGraphics _barsTexture;
-	PGraphics _eqTexture;
-	PGraphics _webcamTexture;
-	Capture _webCam;
-	PGraphics _movieTexture;
-	Movie _movie;
 	ArrayList<IMappedPolygon> _mappedPolygons;
+	ArrayList<BaseTexture> _curTextures;
 	
 	protected String _inputFileLines[];
 	
@@ -98,33 +93,30 @@ extends PAppletHax {
 			
 		}
 		
-//		initWebCam();
+		buildTextures();
 	}
 	
-	void initWebCam() {
-		String[] cameras = Capture.list();
-		if (cameras.length == 0) {
-			exit();
-		} else {
-			_webCam = new Capture(this, cameras[0]);
-			_webCam.start();
-		}      
-	}
+	protected void buildTextures() {
+		_curTextures = new ArrayList<BaseTexture>();
+//		_curTextures.add( new TextureVideoPlayer( 640, 360, "video/loops/ink-in-water.mp4" ));
+//		_curTextures.add( new TextureVideoPlayer( 640, 360, "video/loops/smoke-loop.mov" ));
+//		_curTextures.add( new TextureVideoPlayer( 640, 360, "video/loops/clouds-timelapse.mov" ));
+//		_curTextures.add( new TextureVideoPlayer( 640, 360, "video/loops/water.mp4" ));
+//		_curTextures.add( new TextureVideoPlayer( 640, 360, "video/loops/tree-loop.mp4" ));
+//		_curTextures.add( new TextureVideoPlayer( 640, 360, "video/loops/ink-grow-shrink.mp4" ));
+//		_curTextures.add( new TextureVideoPlayer( 640, 360, "video/loops/fire.mp4" ));
+		_curTextures.add( new TextureVideoPlayer( 640, 360, "video/loops/bubbles.mp4" ));		
+		_curTextures.add( new TextureScrollingColumns( 100, 100 ));
+		_curTextures.add( new TextureEQColumns( 200, 100 ));
+		_curTextures.add( new TextureShaderBwEyeJacker( 200, 200 ));
+//		_curTextures.add( new TextureWebCam());
 		
+	}
+			
 	public void drawApp() {
 		updateTextures();
 		
 		background(0);
-		
-		
-		// basic quad
-//		beginShape(QUADS);
-//		texture(_barsTexture);
-//		vertex(50+ 90f*sin(f/10f), 70+ 50f*sin(f/9f),  150f*sin(f/6f), 	0, 0);
-//		vertex(250+ 90f*sin(f/7f), 100+ 50f*sin(f/7f), 150f*sin(f/7f), 	_barsTexture.width, 0);
-//		vertex(300+ 90f*sin(f/3f), 350+ 50f*sin(f/4f), 150f*sin(f/3f), 	_barsTexture.width, _barsTexture.height);
-//		vertex(90+ 90f*sin(f/9f),  300+ 60f*sin(f/6f), 150f*sin(f/8f), 	0, _barsTexture.height);
-//		endShape();
 		
 		// update triangles
 		for(int i=0; i < _mappedPolygons.size(); i++ ) {
@@ -151,87 +143,18 @@ extends PAppletHax {
 		for(int i=0; i < _mappedPolygons.size(); i++ ) {
 			IMappedPolygon triangle = _mappedPolygons.get(i);
 			if(p.random(0,100) > 99) {
-				triangle.rotateTexture();
-				
-				float rand = p.random(0,100);
-				if(rand > 66) {
-					triangle.setTexture(_barsTexture);
-				} else if(rand > 33) {
-					triangle.setTexture(_eqTexture);					
-				} else {
-					triangle.setTexture(_movieTexture);
-				}
-				
+				int randTexture = MathUtil.randRange( 0, _curTextures.size() - 1 );
+				triangle.setTexture(_curTextures.get(randTexture).texture());
 				triangle.setTextureStyle( MathUtil.randBoolean(p) );
+				triangle.rotateTexture();
 			}
 		}		
 	}
 	
 	public void updateTextures() {
-		// webcam ---------------------------------------------------
-		if( _webCam != null && _webCam.available() ) { 
-			if( _webcamTexture == null && _webCam.width > 1 ) {
-				_webcamTexture = p.createGraphics( _webCam.width, _webCam.height, PConstants.OPENGL );
-			}
-			_webCam.read(); 
-
-			if( _webcamTexture != null ) {
-				_webcamTexture.beginDraw();
-				_webcamTexture.image( _webCam.get(), 0, 0, _webCam.width, _webCam.height );
-				_webcamTexture.endDraw();
-			}
+		for( int i=0; i < _curTextures.size(); i++ ) {
+			_curTextures.get(i).update();
 		}
-		
-		// video ----------------------------------------------------
-		if( _movie == null ) {
-			_movie = new Movie( p, FileUtil.getHaxademicDataPath() + "video/smoke-loop.mov" );
-			_movie.play();
-			_movie.loop();
-			_movie.volume(0);
-			_movie.speed(1f);
-			_movieTexture = p.createGraphics( _movie.width, _movie.height, PConstants.OPENGL );
-		}
-		_movieTexture.beginDraw();
-		_movieTexture.image(_movie, 0, 0);
-		_movieTexture.endDraw();
-		
-		// repeating columns ----------------------------------------
-		if( _barsTexture == null ) {
-			_barsTexture = p.createGraphics(100, 100, PConstants.OPENGL);
-			_barsTexture.smooth(OpenGLUtil.SMOOTH_HIGH);
-		}
-		int barW = 20;
-		int x = p.frameCount % (barW * 2);
-		
-		_barsTexture.beginDraw();
-		_barsTexture.clear();
-		
-		for( int i=x - barW*2; i < _barsTexture.width; i+=barW*2 ) {
-			_barsTexture.fill( 0 );
-			_barsTexture.rect(i, 0, barW, _barsTexture.height );
-			_barsTexture.fill( 255 );
-			_barsTexture.rect(i+barW, 0, barW, _barsTexture.height );
-		}
-		
-		_barsTexture.endDraw();
-
-		// eq columns ------------------------------------------------
-		if( _eqTexture == null ) {
-			_eqTexture = p.createGraphics(200, 100, PConstants.OPENGL);
-		}
-		int numBands = 32;
-		float eqW = P.ceil( _eqTexture.width / numBands );
-		float spectrumInterval = (int) ( 256 / numBands );	// 256 keeps it in the bottom half of the spectrum since the high ends is so overrun
-		
-		_eqTexture.beginDraw();
-		_eqTexture.clear();
-		
-		for( int i=0; i < numBands; i++ ) {
-			_eqTexture.fill( 255 * p._audioInput.getFFT().spectrum[P.floor(i*spectrumInterval)] * 2, 255 );
-			_eqTexture.rect(i * eqW, 0, eqW, _eqTexture.height );
-		}
-		
-		_eqTexture.endDraw();
 	}
 	
 }
