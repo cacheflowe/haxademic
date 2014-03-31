@@ -2,6 +2,9 @@ package com.haxademic.app.haxmapper;
 
 import java.util.ArrayList;
 
+import oscP5.OscArgument;
+import oscP5.OscMessage;
+
 import processing.core.PApplet;
 
 import com.haxademic.app.haxmapper.overlays.MeshLines;
@@ -17,7 +20,10 @@ import com.haxademic.app.haxmapper.textures.TextureVideoPlayer;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.data.ConvertUtil;
 import com.haxademic.core.draw.util.OpenGLUtil;
+import com.haxademic.core.hardware.midi.AkaiMpdPads;
 import com.haxademic.core.hardware.midi.MidiWrapper;
+import com.haxademic.core.hardware.osc.TouchOscPads;
+import com.haxademic.core.hardware.shared.InputTrigger;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.system.FileUtil;
 
@@ -31,9 +37,22 @@ extends PAppletHax {
 	protected ArrayList<BaseTexture> _curTextures;
 	protected MeshLines _meshLines;
 	
+	protected InputTrigger _colorTrigger = new InputTrigger(new char[]{'c'},new String[]{TouchOscPads.PAD_01},new Integer[]{AkaiMpdPads.PAD_01});
+	protected InputTrigger _rotationTrigger = new InputTrigger(new char[]{'v'},new String[]{TouchOscPads.PAD_02},new Integer[]{AkaiMpdPads.PAD_02});
+	protected InputTrigger _modeTrigger = new InputTrigger(new char[]{'m'},new String[]{TouchOscPads.PAD_04},new Integer[]{AkaiMpdPads.PAD_04});
+	protected InputTrigger _lineModeTrigger = new InputTrigger(new char[]{'l'},new String[]{TouchOscPads.PAD_08},new Integer[]{AkaiMpdPads.PAD_08});
+	protected InputTrigger _timingTrigger = new InputTrigger(new char[]{'n'},new String[]{TouchOscPads.PAD_03},new Integer[]{AkaiMpdPads.PAD_03});
+	protected InputTrigger _timingSectionTrigger = new InputTrigger(new char[]{'f'},new String[]{TouchOscPads.PAD_05},new Integer[]{AkaiMpdPads.PAD_05});
+	protected InputTrigger _bigChangeTrigger = new InputTrigger(new char[]{' '},new String[]{TouchOscPads.PAD_07},new Integer[]{AkaiMpdPads.PAD_07});
+
+	
 	public static void main(String args[]) {
 		_isFullScreen = true;
 		PApplet.main(new String[] { "--hide-stop", "--bgcolor=000000", "com.haxademic.app.haxmapper.HaxMapper" });
+	}
+	
+	public void oscEvent(OscMessage theOscMessage) {  
+		super.oscEvent(theOscMessage);
 	}
 
 	protected void overridePropsFile() {
@@ -222,40 +241,39 @@ extends PAppletHax {
 //			_isStressTesting = !_isStressTesting;
 //			P.println("_isStressTesting = "+_isStressTesting);
 //		}
-		if ( p.key == 'c' || p.key == 'C' || p.getMidi().midiPadIsOn( MidiWrapper.PAD_01 ) == 1 || p.getMidi().midiPadIsOn( MidiWrapper.NOTE_01 ) == 1 ) {
+		if ( _colorTrigger.active() == true ) {
 //			pickNewColors();
 		}
-		if ( p.key == 'm' || p.key == 'M' || p.getMidi().midiPadIsOn( MidiWrapper.PAD_04 ) == 1 || p.getMidi().midiPadIsOn( MidiWrapper.NOTE_04 ) == 1 ) {
+		if ( _modeTrigger.active() == true ) {
 			for( int i=0; i < _curTextures.size(); i++ ) {
 				_curTextures.get(i).newMode();
 			}
 		}
-		if ( p.key == 'l' || p.key == 'L' || p.getMidi().midiPadIsOn( MidiWrapper.PAD_08 ) == 1 || p.getMidi().midiPadIsOn( MidiWrapper.NOTE_08 ) == 1 ) {
+		if ( _lineModeTrigger.active() == true ) {
 			for( int i=0; i < _curTextures.size(); i++ ) {
 				_curTextures.get(i).newLineMode();
 			}
 			_meshLines.updateLineMode();
 		}
-		if ( p.key == 'v' || p.key == 'V' || p.getMidi().midiPadIsOn( MidiWrapper.PAD_02 ) == 1 || p.getMidi().midiPadIsOn( MidiWrapper.NOTE_02 ) == 1 ) {
+		if ( _rotationTrigger.active() == true ) {
 			for( int i=0; i < _curTextures.size(); i++ ) {
 				_curTextures.get(i).newRotation();
 			}
 		}
-		if ( p.key == 'n' || p.key == 'N' || p.getMidi().midiPadIsOn( MidiWrapper.PAD_03 ) == 1 || p.getMidi().midiPadIsOn( MidiWrapper.NOTE_03 ) == 1 ) {
+		if ( _timingTrigger.active() == true ) {
 			for( int i=0; i < _curTextures.size(); i++ ) {
 				_curTextures.get(i).updateTiming();
 			}
 		}
-		if ( p.key == 'f' || p.key == 'F' || p.getMidi().midiPadIsOn( MidiWrapper.PAD_05 ) == 1 || p.getMidi().midiPadIsOn( MidiWrapper.NOTE_05 ) == 1 ) {
+		if ( _timingSectionTrigger.active() == true ) {
 			for( int i=0; i < _curTextures.size(); i++ ) {
 				_curTextures.get(i).updateTimingSection();
 			}
 		}
-		if ( p.key == ' ' || p.getMidi().midiPadIsOn( MidiWrapper.PAD_07 ) == 1 || p.getMidi().midiPadIsOn( MidiWrapper.NOTE_07 ) == 1 ) {
+		if ( _bigChangeTrigger.active() == true ) {
 			randomizeNextPolygon();
 //			pickNewColors();
 		}
 	}
 	
-
 }

@@ -457,11 +457,13 @@ extends PApplet
 	 */
 	public void noteOn(int channel, int  pitch, int velocity) {
 		if( _midi != null ) { 
-			_midi.noteOn( channel, pitch, velocity );
-			try{ 
-				handleInput( true );
+			if( _midi.midiNoteIsOn( pitch ) == 0 ) {
+				_midi.noteOn( channel, pitch, velocity );
+				try{ 
+					handleInput( true );
+				}
+				catch( ArrayIndexOutOfBoundsException e ){println("noteOn BROKE!");}
 			}
-			catch( ArrayIndexOutOfBoundsException e ){println("noteOn BROKE!");}
 		}
 	}
 	
@@ -493,12 +495,13 @@ extends PApplet
 	 * PApplet-level listener for OSC data from the oscP5 library
 	 */
 	public void oscEvent(OscMessage theOscMessage) {
-		int oscValue = theOscMessage.get(0).intValue();
+		float oscValue = theOscMessage.get(0).floatValue();
 		String oscMsg = theOscMessage.addrPattern();
+		PAppletHax.println(oscMsg+": "+oscValue);
 		_oscWrapper.setOscMapItem(oscMsg, oscValue);
 
 		try { 
-			if( oscValue == 1 ) {
+			if( oscValue > 0 ) {
 				handleInput( true );
 			}
 		}

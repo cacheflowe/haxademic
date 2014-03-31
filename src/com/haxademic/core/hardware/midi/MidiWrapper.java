@@ -12,7 +12,6 @@ import com.haxademic.core.system.SystemUtil;
 public class MidiWrapper
 {
 	PApplet p;
-//	MidiBus myBus;
 	
 	MidiHandler _midiHandler;
 	

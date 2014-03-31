@@ -14,7 +14,7 @@ public class OscWrapper {
 	protected OscP5 _oscP5;
 	protected NetAddress _remoteLocation;
 	
-	protected Hashtable<String, Integer> oscMsgMap;
+	protected Hashtable<String, Float> oscMsgMap;
 	
 	public static String MSG_COLOR = "/osc/color";
 	public static String MSG_CAMERA = "/osc/camera";
@@ -39,25 +39,23 @@ public class OscWrapper {
 	
 	protected void initOscMessages()
 	{
-		oscMsgMap = new Hashtable<String, Integer>();
-		oscMsgMap.put(MSG_COLOR, 0);
-		oscMsgMap.put(MSG_CAMERA, 0);
-		oscMsgMap.put(MSG_MODE, 0);
-		oscMsgMap.put(MSG_FOLLOW, 0);
-		oscMsgMap.put(MSG_BLOCKSIZE, 0);
-		oscMsgMap.put(MSG_LINES, 0);
+		oscMsgMap = new Hashtable<String, Float>();
+		oscMsgMap.put(MSG_COLOR, 0f);
+		oscMsgMap.put(MSG_CAMERA, 0f);
+		oscMsgMap.put(MSG_MODE, 0f);
+		oscMsgMap.put(MSG_FOLLOW, 0f);
+		oscMsgMap.put(MSG_BLOCKSIZE, 0f);
+		oscMsgMap.put(MSG_LINES, 0f);
 	}
 	
-	public void setOscMapItem( String oscMessage, int intValue ) {
-		if( oscMsgMap.containsKey( oscMessage ) ) {
-			oscMsgMap.put( oscMessage, intValue );
-		}
+	public void setOscMapItem( String oscMessage, float floatValue ) {
+		oscMsgMap.put( oscMessage, floatValue );
 	}
 	
 	public int oscMsgIsOn( String oscMessage ) {
-		P.print("check: "+oscMessage);
+//		P.print("check: "+oscMessage);
 		if( oscMsgMap.containsKey( oscMessage ) ) {
-			if( oscMsgMap.get( oscMessage ) == 1 ) {
+			if( oscMsgMap.get( oscMessage ) > 0 ) {
 				return 1;
 			}
 		}
