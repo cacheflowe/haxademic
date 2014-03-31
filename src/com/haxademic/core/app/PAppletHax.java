@@ -11,6 +11,8 @@ import oscP5.OscMessage;
 import processing.core.PApplet;
 import toxi.processing.ToxiclibsSupport;
 
+import SimpleOpenNI.SimpleOpenNI;
+
 import com.haxademic.core.audio.AudioInputWrapper;
 import com.haxademic.core.audio.WaveformData;
 import com.haxademic.core.debug.DebugText;
@@ -126,7 +128,7 @@ extends PApplet
 	public MeshPool meshPool = null;
 	
 	/**
-	 * Wraps up Kinect functionality with openkinect library.
+	 * Wraps up Kinect functionality.
 	 */
 	public KinectWrapper kinectWrapper = null;
 	
@@ -506,6 +508,24 @@ extends PApplet
 			}
 		}
 		catch( ArrayIndexOutOfBoundsException e ){println("noteOn BROKE!");}
+	}
+
+	/**
+	 * PApplet-level listeners for SimpleOpenNI user events
+	 */
+	public void onNewUser(SimpleOpenNI curContext,int userId)
+	{
+	  println("onNewUser - userId: " + userId);
+	  println("\tstart tracking skeleton");
+	  p.kinectWrapper.openni().startTrackingSkeleton(userId);
+	}
+
+	public void onLostUser( SimpleOpenNI curContext, int userId ) {
+	  println("onLostUser - userId: " + userId);
+	}
+
+	public void onVisibleUser( SimpleOpenNI curContext, int userId ) {
+	  // println("onVisibleUser - userId: " + userId);
 	}
 
 	/**

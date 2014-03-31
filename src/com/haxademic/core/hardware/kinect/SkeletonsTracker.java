@@ -73,7 +73,7 @@ public class SkeletonsTracker {
 	}
 	
 	protected void enableSkeletonTracking() {
-		_kinectContext.enableUser( SimpleOpenNI.SKEL_PROFILE_ALL, this );	// optional `this` routes OPENNI callbacks here instead of PApplet. nice.
+		_kinectContext.enableUser();
 	}
 		
 	public boolean hasASkeleton() {
@@ -128,6 +128,26 @@ public class SkeletonsTracker {
 		}
 	}
 	
+ 	public PVector getBodyPartPVec( int userId, int bodyPartID )
+	{
+		if( _kinectContext.getJointPositionSkeleton( userId, bodyPartID, _utilPVec ) > 0.001f) {
+			_utilPVec.set( _utilPVec.x + p.width/2f, -_utilPVec.y, -_utilPVec.z / 2f );
+			return _utilPVec;
+		} else {
+			return null;
+		}
+	}
+ 	
+ 	public PVector getBodyPartPVec2( int userId, int bodyPartID )
+	{
+		if( _kinectContext.getJointPositionSkeleton( userId, bodyPartID, _utilPVec2 ) > 0.001f) {
+			_utilPVec2.set( _utilPVec2.x + p.width/2f, -_utilPVec2.y, -_utilPVec2.z / 2f );
+			return _utilPVec2;
+		} else {
+			return null;
+		}
+	}
+ 	
  	public Vec3D getBodyPartVec3d( int userId, int bodyPartID )
 	{
 		if( _kinectContext.getJointPositionSkeleton( userId, bodyPartID, _utilPVec ) > 0.001f) {
@@ -152,26 +172,26 @@ public class SkeletonsTracker {
 
  	}
 	
-	protected void drawUserBlobs() {
-		int[] users = _kinectContext.getUsers();
-		for(int i=0; i < users.length; i++) {
-			if( _curUserId == users[i] ) {
-				drawUserBlob( users[i], p.color(0, 255, 0, 255) );
-			} else {
-				drawUserBlob( users[i], p.color(0, 255, 0, 255) );
-			}
-		}
-	}
+//	protected void drawUserBlobs() {
+//		int[] users = _kinectContext.getUsers();
+//		for(int i=0; i < users.length; i++) {
+//			if( _curUserId == users[i] ) {
+//				drawUserBlob( users[i], p.color(0, 255, 0, 255) );
+//			} else {
+//				drawUserBlob( users[i], p.color(0, 255, 0, 255) );
+//			}
+//		}
+//	}
 	
-	public void drawUserBlob( int user, int userColor ) {
-		PImage userImg = p.createImage( 640, 480, P.ARGB );
-		int[] kinectPixels = _kinectContext.getUsersPixels( user );
-		for ( int i = 0; i < userImg.pixels.length; i++ ) {
-			if( kinectPixels[i] == 1 ) userImg.pixels[i] = userColor;  
-		}
-		DrawUtil.setColorForPImage(p);
-		p.image( userImg, 0, p.height - 480 );
-	}
+//	public void drawUserBlob( int user, int userColor ) {
+//		PImage userImg = p.createImage( 640, 480, P.ARGB );
+//		int[] kinectPixels = _kinectContext.getUsersPixels( user );
+//		for ( int i = 0; i < userImg.pixels.length; i++ ) {
+//			if( kinectPixels[i] == 1 ) userImg.pixels[i] = userColor;  
+//		}
+//		DrawUtil.setColorForPImage(p);
+//		p.image( userImg, 0, p.height - 480 );
+//	}
 	
 	public void drawSkeletons() {
 		int[] users = _kinectContext.getUsers();
@@ -210,59 +230,5 @@ public class SkeletonsTracker {
 		_kinectContext.drawLimb(userId, SimpleOpenNI.SKEL_TORSO, SimpleOpenNI.SKEL_RIGHT_HIP);
 		_kinectContext.drawLimb(userId, SimpleOpenNI.SKEL_RIGHT_HIP, SimpleOpenNI.SKEL_RIGHT_KNEE);
 		_kinectContext.drawLimb(userId, SimpleOpenNI.SKEL_RIGHT_KNEE, SimpleOpenNI.SKEL_RIGHT_FOOT);  
-	}
-
-	// -----------------------------------------------------------------
-	// SimpleOpenNI events
-
-	public void onNewUser(int userId)
-	{
-		P.println("onNewUser - userId: " + userId);
-		P.println("  start pose detection");
-
-		_kinectContext.startPoseDetection("Psi",userId);
-		_kinectContext.requestCalibrationSkeleton(userId,true);
-	}
-
-	public void onLostUser(int userId)
-	{
-		P.println("onLostUser - userId: " + userId);
-	}
-
-	public void onStartCalibration(int userId)
-	{
-		P.println("onStartCalibration - userId: " + userId);
-	}
-
-	public void onEndCalibration(int userId, boolean successfull)
-	{
-		P.println("onEndCalibration - userId: " + userId + ", successfull: " + successfull);
-
-		if (successfull) 
-		{ 
-			P.println("  User calibrated !!!");
-			_kinectContext.startTrackingSkeleton(userId); 
-		} 
-		else 
-		{ 
-			P.println("  Failed to calibrate user !!!");
-			P.println("  Start pose detection");
-			_kinectContext.startPoseDetection("Psi",userId);
-		}
-	}
-
-	public void onStartPose(String pose,int userId)
-	{
-		P.println("onStartPose - userId: " + userId + ", pose: " + pose);
-		P.println(" stop pose detection");
-
-		_kinectContext.stopPoseDetection(userId); 
-		_kinectContext.requestCalibrationSkeleton(userId, true);
-
-	}
-
-	public void onEndPose(String pose,int userId)
-	{
-		P.println("onEndPose - userId: " + userId + ", pose: " + pose);
 	}
 }
