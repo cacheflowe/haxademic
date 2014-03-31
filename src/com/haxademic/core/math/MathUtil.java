@@ -196,7 +196,26 @@ public class MathUtil {
 		}
 	};
 
+	public static Point triangleCenter = new Point(0,0);
+	public static Point computeTriangleCenter( float x1, float y1, float x2, float y2, float x3, float y3 ) {
+		triangleCenter.setLocation( averageOfThree( x1, x2, x3 ), averageOfThree( y1, y2, y3 ) );
+		return triangleCenter;
+	};
 
+	public static float averageOfThree( float one, float two, float three ) {
+		return (one + two + three) / 3f;
+	}
+	
+	public static Point quadCenter = new Point(0,0);
+	public static Point computeQuadCenter( float x1, float y1, float x2, float y2, float x3, float y3, float x4, float y4 ) {
+		quadCenter.setLocation( averageOfFour( x1, x2, x3, x4 ), averageOfFour( y1, y2, y3, y4 ) );
+		return quadCenter;
+	};
+
+	public static float averageOfFour( float one, float two, float three, float four ) {
+		return (one + two + three + four) / 4f;
+	}
+	
 	public static float saw( float rads ) {
 		rads += P.PI * 0.5f;									// add to sync up with sin(0)
 		float percent = ( rads % P.PI ) / P.PI;				
