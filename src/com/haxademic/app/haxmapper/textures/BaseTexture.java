@@ -8,13 +8,18 @@ import com.haxademic.core.app.P;
 public class BaseTexture {
 	
 	protected PGraphics _texture;
+	protected boolean _active;
 	
 	public BaseTexture() {
-		
+		_active = false;
 	}
 	
 	public PGraphics texture() {
 		return _texture;
+	}
+	
+	public void setActive( boolean isActive ) {
+		
 	}
 	
 	public void update() {

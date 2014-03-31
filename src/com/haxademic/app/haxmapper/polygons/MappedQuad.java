@@ -1,4 +1,4 @@
-package com.haxademic.app.haxmapper;
+package com.haxademic.app.haxmapper.polygons;
 
 import java.awt.Point;
 

@@ -76,11 +76,10 @@ extends BaseTexture {
 		_timingFrame++;
 	}
 	
-	public void updateSection() {
+	public void updateTimingSection() {
 		_timingFrame = 0;
 		_mode++;
 		if(_mode >= 3) _mode = 0;
-//		_patternShader.set("mode", _mode);
 	}
 
 }

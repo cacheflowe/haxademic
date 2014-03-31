@@ -4,6 +4,10 @@ import java.util.ArrayList;
 
 import processing.core.PApplet;
 
+import com.haxademic.app.haxmapper.overlays.MeshLines;
+import com.haxademic.app.haxmapper.polygons.IMappedPolygon;
+import com.haxademic.app.haxmapper.polygons.MappedQuad;
+import com.haxademic.app.haxmapper.polygons.MappedTriangle;
 import com.haxademic.app.haxmapper.textures.BaseTexture;
 import com.haxademic.app.haxmapper.textures.TextureEQColumns;
 import com.haxademic.app.haxmapper.textures.TextureEQGrid;
@@ -22,10 +26,10 @@ import com.haxademic.core.system.FileUtil;
 public class HaxMapper
 extends PAppletHax {
 		
-	ArrayList<IMappedPolygon> _mappedPolygons;
-	ArrayList<BaseTexture> _curTextures;
-	
 	protected String _inputFileLines[];
+	protected ArrayList<IMappedPolygon> _mappedPolygons;
+	protected ArrayList<BaseTexture> _curTextures;
+	protected MeshLines _meshLines;
 	
 	public static void main(String args[]) {
 		_isFullScreen = true;
@@ -43,6 +47,8 @@ extends PAppletHax {
 		super.setup();
 		noStroke();
 		p.smooth(OpenGLUtil.SMOOTH_MEDIUM);
+		
+		_meshLines = new MeshLines( p.width, p.height );
 		
 		_mappedPolygons = new ArrayList<IMappedPolygon>();
 		if( _appConfig.getString("mapping_file", "") == "" ) {
@@ -64,6 +70,7 @@ extends PAppletHax {
 					inputLine = inputLine.replace("#poly#", "");
 					String polyPoints[] = inputLine.split(",");
 					if(polyPoints.length == 6) {
+						// add polygons
 						_mappedPolygons.add( new MappedTriangle( 
 								ConvertUtil.stringToFloat( polyPoints[0] ), 
 								ConvertUtil.stringToFloat( polyPoints[1] ), 
@@ -72,7 +79,27 @@ extends PAppletHax {
 								ConvertUtil.stringToFloat( polyPoints[4] ), 
 								ConvertUtil.stringToFloat( polyPoints[5] )
 						) );
+						// add to mesh
+						_meshLines.addSegment(
+								ConvertUtil.stringToFloat( polyPoints[0] ), 
+								ConvertUtil.stringToFloat( polyPoints[1] ), 
+								ConvertUtil.stringToFloat( polyPoints[2] ), 
+								ConvertUtil.stringToFloat( polyPoints[3] ) 
+						);
+						_meshLines.addSegment(
+								ConvertUtil.stringToFloat( polyPoints[2] ), 
+								ConvertUtil.stringToFloat( polyPoints[3] ), 
+								ConvertUtil.stringToFloat( polyPoints[4] ), 
+								ConvertUtil.stringToFloat( polyPoints[5] ) 
+						);
+						_meshLines.addSegment(
+								ConvertUtil.stringToFloat( polyPoints[4] ), 
+								ConvertUtil.stringToFloat( polyPoints[5] ), 
+								ConvertUtil.stringToFloat( polyPoints[0] ), 
+								ConvertUtil.stringToFloat( polyPoints[1] ) 
+						);
 					} else if(polyPoints.length == 8) {
+						// add polygons
 						_mappedPolygons.add( new MappedQuad( 
 								ConvertUtil.stringToFloat( polyPoints[0] ), 
 								ConvertUtil.stringToFloat( polyPoints[1] ), 
@@ -83,6 +110,31 @@ extends PAppletHax {
 								ConvertUtil.stringToFloat( polyPoints[6] ), 
 								ConvertUtil.stringToFloat( polyPoints[7] )
 						) );
+						// add to mesh
+						_meshLines.addSegment(
+								ConvertUtil.stringToFloat( polyPoints[0] ), 
+								ConvertUtil.stringToFloat( polyPoints[1] ), 
+								ConvertUtil.stringToFloat( polyPoints[2] ), 
+								ConvertUtil.stringToFloat( polyPoints[3] ) 
+						);
+						_meshLines.addSegment(
+								ConvertUtil.stringToFloat( polyPoints[2] ), 
+								ConvertUtil.stringToFloat( polyPoints[3] ), 
+								ConvertUtil.stringToFloat( polyPoints[4] ), 
+								ConvertUtil.stringToFloat( polyPoints[5] ) 
+						);
+						_meshLines.addSegment(
+								ConvertUtil.stringToFloat( polyPoints[4] ), 
+								ConvertUtil.stringToFloat( polyPoints[5] ),
+								ConvertUtil.stringToFloat( polyPoints[6] ), 
+								ConvertUtil.stringToFloat( polyPoints[7] )
+						);
+						_meshLines.addSegment(
+								ConvertUtil.stringToFloat( polyPoints[6] ), 
+								ConvertUtil.stringToFloat( polyPoints[7] ), 
+								ConvertUtil.stringToFloat( polyPoints[0] ), 
+								ConvertUtil.stringToFloat( polyPoints[1] ) 
+						);
 					}
 				}  
 			}
@@ -121,6 +173,10 @@ extends PAppletHax {
 			IMappedPolygon triangle = _mappedPolygons.get(i);
 			triangle.draw(p.g);
 		}	
+		
+		// draw mesh on top
+		_meshLines.update();
+		p.image( _meshLines.texture(), 0, 0, _meshLines.texture().width, _meshLines.texture().height );
 		
 		// called after polygon draw() to be sure that polygon's texture has initialized
 		checkBeat();
@@ -178,6 +234,7 @@ extends PAppletHax {
 			for( int i=0; i < _curTextures.size(); i++ ) {
 				_curTextures.get(i).newLineMode();
 			}
+			_meshLines.updateLineMode();
 		}
 		if ( p.key == 'v' || p.key == 'V' || p.getMidi().midiPadIsOn( MidiWrapper.PAD_02 ) == 1 || p.getMidi().midiPadIsOn( MidiWrapper.NOTE_02 ) == 1 ) {
 			for( int i=0; i < _curTextures.size(); i++ ) {

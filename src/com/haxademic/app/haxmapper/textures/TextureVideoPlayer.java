@@ -14,12 +14,21 @@ extends BaseTexture {
 		super();
 		
 		_movie = new Movie( P.p, FileUtil.getHaxademicDataPath() + videoFile );
-		_movie.play();
+		// _movie.play();
 		_movie.loop();
 		_movie.volume(0);
 		_movie.speed(1f);
 
 		buildGraphics( width, height );
+	}
+	
+	public void setActive( boolean isActive ) {
+		super.setActive( isActive );
+		if( _active == true ) {
+			_movie.play();
+		} else {
+			_movie.pause();
+		}
 	}
 	
 	public void update() {
