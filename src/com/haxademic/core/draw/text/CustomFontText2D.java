@@ -61,13 +61,13 @@ public class CustomFontText2D {
 
 		if( _textStroke != -1 ) {
 			_textCanvas.fill( _textStroke );
-			_textCanvas.text( txt, 3, 3, _textCanvas.width, _textCanvas.height );
-			_textCanvas.text( txt, 3, 7, _textCanvas.width, _textCanvas.height );
-			_textCanvas.text( txt, -1, 3, _textCanvas.width, _textCanvas.height );
-			_textCanvas.text( txt, -1, 7, _textCanvas.width, _textCanvas.height );
+			_textCanvas.text( txt, 2, -5, _textCanvas.width, _textCanvas.height );
+			_textCanvas.text( txt, 2, 1, _textCanvas.width, _textCanvas.height );
+			_textCanvas.text( txt, -2, -5, _textCanvas.width, _textCanvas.height );
+			_textCanvas.text( txt, -2, 1, _textCanvas.width, _textCanvas.height );
 		}
 		_textCanvas.fill( _textColor );
-		_textCanvas.text( txt, 1, 8, _textCanvas.width, _textCanvas.height );
+		_textCanvas.text( txt, 0, _textCanvas.height / 2f - _fontSize * 0.666f, _textCanvas.width, _textCanvas.height );
 		_textCanvas.endDraw();
 	}
 	
