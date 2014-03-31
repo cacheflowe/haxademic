@@ -3,17 +3,17 @@ package com.haxademic.app.haxmapper;
 import java.util.ArrayList;
 
 import processing.core.PApplet;
-import processing.core.PImage;
 
 import com.haxademic.app.haxmapper.textures.BaseTexture;
 import com.haxademic.app.haxmapper.textures.TextureEQColumns;
+import com.haxademic.app.haxmapper.textures.TextureEQGrid;
 import com.haxademic.app.haxmapper.textures.TextureScrollingColumns;
 import com.haxademic.app.haxmapper.textures.TextureShaderBwEyeJacker;
 import com.haxademic.app.haxmapper.textures.TextureVideoPlayer;
-import com.haxademic.app.haxmapper.textures.TextureWebCam;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.data.ConvertUtil;
 import com.haxademic.core.draw.util.OpenGLUtil;
+import com.haxademic.core.hardware.midi.MidiWrapper;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.system.FileUtil;
 
@@ -21,9 +21,7 @@ import com.haxademic.core.system.FileUtil;
 @SuppressWarnings("serial")
 public class HaxMapper
 extends PAppletHax {
-	
-	PImage img;
-	
+		
 	ArrayList<IMappedPolygon> _mappedPolygons;
 	ArrayList<BaseTexture> _curTextures;
 	
@@ -43,10 +41,8 @@ extends PAppletHax {
 
 	public void setup() {
 		super.setup();
-		img = loadImage(FileUtil.getHaxademicDataPath() + "images/justin-tiny-color1.png");
-		// img = loadImage(FileUtil.getHaxademicDataPath() + "images/sphere-map-test-2.jpg");
 		noStroke();
-		p.smooth(OpenGLUtil.SMOOTH_HIGH);
+		p.smooth(OpenGLUtil.SMOOTH_MEDIUM);
 		
 		_mappedPolygons = new ArrayList<IMappedPolygon>();
 		if( _appConfig.getString("mapping_file", "") == "" ) {
@@ -105,10 +101,12 @@ extends PAppletHax {
 //		_curTextures.add( new TextureVideoPlayer( 640, 360, "video/loops/tree-loop.mp4" ));
 //		_curTextures.add( new TextureVideoPlayer( 640, 360, "video/loops/ink-grow-shrink.mp4" ));
 //		_curTextures.add( new TextureVideoPlayer( 640, 360, "video/loops/fire.mp4" ));
-		_curTextures.add( new TextureVideoPlayer( 640, 360, "video/loops/bubbles.mp4" ));		
+//		_curTextures.add( new TextureVideoPlayer( 640, 360, "video/loops/bubbles.mp4" ));		
 		_curTextures.add( new TextureScrollingColumns( 100, 100 ));
 		_curTextures.add( new TextureEQColumns( 200, 100 ));
+		_curTextures.add( new TextureEQGrid( 320, 160 ));
 		_curTextures.add( new TextureShaderBwEyeJacker( 200, 200 ));
+//		_curTextures.add( new TextureShaderGlowWave( 200, 200 ));
 //		_curTextures.add( new TextureWebCam());
 		
 	}
@@ -123,6 +121,7 @@ extends PAppletHax {
 			IMappedPolygon triangle = _mappedPolygons.get(i);
 			triangle.draw(p.g);
 		}	
+		
 		// called after polygon draw() to be sure that polygon's texture has initialized
 		checkBeat();
 	}
@@ -135,20 +134,18 @@ extends PAppletHax {
 		boolean isOnsetCount = (beatDetectArr[3] > 0);
 		// if(isKickCount == true || isSnareCount == true || isHatCount == true || isOnsetCount == true) {
 		if( isKickCount == true || isSnareCount == true ) {
-			randomizeNextPolygon();
+			// randomizeNextPolygon();
 		}
 	}
 	
 	protected void randomizeNextPolygon() {
-		for(int i=0; i < _mappedPolygons.size(); i++ ) {
-			IMappedPolygon triangle = _mappedPolygons.get(i);
-			if(p.random(0,100) > 99) {
-				int randTexture = MathUtil.randRange( 0, _curTextures.size() - 1 );
-				triangle.setTexture(_curTextures.get(randTexture).texture());
-				triangle.setTextureStyle( MathUtil.randBoolean(p) );
-				triangle.rotateTexture();
-			}
-		}		
+//		for(int i=0; i < _mappedPolygons.size(); i++ ) {
+			IMappedPolygon triangle = _mappedPolygons.get( MathUtil.randRange( 0, _mappedPolygons.size() - 1 ) );
+			int randTexture = MathUtil.randRange( 0, _curTextures.size() - 1 );
+			triangle.setTexture(_curTextures.get(randTexture).texture());
+			triangle.setTextureStyle( MathUtil.randBoolean(p) );
+			triangle.rotateTexture();
+//		}		
 	}
 	
 	public void updateTextures() {
@@ -157,4 +154,51 @@ extends PAppletHax {
 		}
 	}
 	
+	
+	protected void handleInput( boolean isMidi ) {
+		super.handleInput( isMidi );
+		
+//		if( p.key == 'a' || p.key == 'A' ){
+//			_isAutoPilot = !_isAutoPilot;
+//			P.println("_isAutoPilot = "+_isAutoPilot);
+//		}
+//		if( p.key == 'S' ){
+//			_isStressTesting = !_isStressTesting;
+//			P.println("_isStressTesting = "+_isStressTesting);
+//		}
+		if ( p.key == 'c' || p.key == 'C' || p.getMidi().midiPadIsOn( MidiWrapper.PAD_01 ) == 1 || p.getMidi().midiPadIsOn( MidiWrapper.NOTE_01 ) == 1 ) {
+//			pickNewColors();
+		}
+		if ( p.key == 'm' || p.key == 'M' || p.getMidi().midiPadIsOn( MidiWrapper.PAD_04 ) == 1 || p.getMidi().midiPadIsOn( MidiWrapper.NOTE_04 ) == 1 ) {
+			for( int i=0; i < _curTextures.size(); i++ ) {
+				_curTextures.get(i).newMode();
+			}
+		}
+		if ( p.key == 'l' || p.key == 'L' || p.getMidi().midiPadIsOn( MidiWrapper.PAD_08 ) == 1 || p.getMidi().midiPadIsOn( MidiWrapper.NOTE_08 ) == 1 ) {
+			for( int i=0; i < _curTextures.size(); i++ ) {
+				_curTextures.get(i).newLineMode();
+			}
+		}
+		if ( p.key == 'v' || p.key == 'V' || p.getMidi().midiPadIsOn( MidiWrapper.PAD_02 ) == 1 || p.getMidi().midiPadIsOn( MidiWrapper.NOTE_02 ) == 1 ) {
+			for( int i=0; i < _curTextures.size(); i++ ) {
+				_curTextures.get(i).newRotation();
+			}
+		}
+		if ( p.key == 'n' || p.key == 'N' || p.getMidi().midiPadIsOn( MidiWrapper.PAD_03 ) == 1 || p.getMidi().midiPadIsOn( MidiWrapper.NOTE_03 ) == 1 ) {
+			for( int i=0; i < _curTextures.size(); i++ ) {
+				_curTextures.get(i).updateTiming();
+			}
+		}
+		if ( p.key == 'f' || p.key == 'F' || p.getMidi().midiPadIsOn( MidiWrapper.PAD_05 ) == 1 || p.getMidi().midiPadIsOn( MidiWrapper.NOTE_05 ) == 1 ) {
+			for( int i=0; i < _curTextures.size(); i++ ) {
+				_curTextures.get(i).updateTimingSection();
+			}
+		}
+		if ( p.key == ' ' || p.getMidi().midiPadIsOn( MidiWrapper.PAD_07 ) == 1 || p.getMidi().midiPadIsOn( MidiWrapper.NOTE_07 ) == 1 ) {
+			randomizeNextPolygon();
+//			pickNewColors();
+		}
+	}
+	
+
 }

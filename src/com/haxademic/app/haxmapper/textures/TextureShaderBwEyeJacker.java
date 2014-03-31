@@ -3,7 +3,6 @@ package com.haxademic.app.haxmapper.textures;
 import processing.core.PGraphics;
 import processing.opengl.PShader;
 
-import com.haxademic.core.app.P;
 import com.haxademic.core.math.easing.EasingFloat;
 import com.haxademic.core.system.FileUtil;
 
@@ -41,10 +40,9 @@ extends BaseTexture {
 	}
 
 	public void update() {
-		_texture.beginDraw();
+		_texture.beginDraw();		
 		
 		updateShaders();
-		
 		_texture.background(0,255,0);
 		_texture.filter( _patternShader );
 		_texture.filter( _brightness );
@@ -54,7 +52,6 @@ extends BaseTexture {
 	}
 	
 	protected void updateShaders() {
-		if(P.p.frameCount % 10 == 0) updateTiming();
 		_timeEaser.update();
 		_brightEaser.update();
 

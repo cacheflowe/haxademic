@@ -21,6 +21,26 @@ public class BaseTexture {
 		// override with subclass
 	}
 	
+	public void updateTiming() {
+		// override with subclass
+	}
+	
+	public void updateTimingSection() {
+		// override with subclass
+	}
+	
+	public void newMode() {
+		// override with subclass
+	}
+	
+	public void newLineMode() {
+		// override with subclass
+	}
+	
+	public void newRotation() {
+		// override with subclass
+	}
+	
 	protected void buildGraphics( int width, int height ) {
 		_texture = P.p.createGraphics( width, height, PConstants.OPENGL );
 	}
