@@ -342,7 +342,7 @@ extends PApplet
 		killScreensaver();
 		initializeExtraObjectsOn1stFrame();	// wait until draw() happens, to avoid weird launch crash if midi signals were coming in as haxademic starts
 		handleRenderingStepthrough();
-		_audioInput.getBeatDetection(); // detect beats and pass through to current visual module	// 		int[] beatDetectArr = 
+		if( _audioInput != null ) _audioInput.getBeatDetection(); // detect beats and pass through to current visual module	// 		int[] beatDetectArr = 
 		if( kinectWrapper != null ) kinectWrapper.update();
 		if( _jw != null ) _jw.startFrame();
 		drawApp();
