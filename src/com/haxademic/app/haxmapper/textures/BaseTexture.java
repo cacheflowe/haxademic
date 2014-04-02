@@ -9,9 +9,11 @@ public class BaseTexture {
 	
 	protected PGraphics _texture;
 	protected boolean _active;
+	protected int _color;
 	
 	public BaseTexture() {
 		_active = false;
+		_color = P.p.color(255);
 	}
 	
 	public PGraphics texture() {
@@ -20,6 +22,10 @@ public class BaseTexture {
 	
 	public void setActive( boolean isActive ) {
 		
+	}
+	
+	public void setColor( int color ) {
+		_color = color;
 	}
 	
 	public void update() {

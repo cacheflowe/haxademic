@@ -2,9 +2,7 @@ package com.haxademic.app.haxmapper;
 
 import java.util.ArrayList;
 
-import oscP5.OscArgument;
 import oscP5.OscMessage;
-
 import processing.core.PApplet;
 
 import com.haxademic.app.haxmapper.overlays.MeshLines;
@@ -12,6 +10,8 @@ import com.haxademic.app.haxmapper.polygons.IMappedPolygon;
 import com.haxademic.app.haxmapper.polygons.MappedQuad;
 import com.haxademic.app.haxmapper.polygons.MappedTriangle;
 import com.haxademic.app.haxmapper.textures.BaseTexture;
+import com.haxademic.app.haxmapper.textures.TextureColorAudioFade;
+import com.haxademic.app.haxmapper.textures.TextureColorAudioSlide;
 import com.haxademic.app.haxmapper.textures.TextureEQColumns;
 import com.haxademic.app.haxmapper.textures.TextureEQGrid;
 import com.haxademic.app.haxmapper.textures.TextureScrollingColumns;
@@ -21,7 +21,6 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.data.ConvertUtil;
 import com.haxademic.core.draw.util.OpenGLUtil;
 import com.haxademic.core.hardware.midi.AkaiMpdPads;
-import com.haxademic.core.hardware.midi.MidiWrapper;
 import com.haxademic.core.hardware.osc.TouchOscPads;
 import com.haxademic.core.hardware.shared.InputTrigger;
 import com.haxademic.core.math.MathUtil;
@@ -59,7 +58,7 @@ extends PAppletHax {
 		_appConfig.setProperty( "rendering", "false" );
 		_appConfig.setProperty( "fullscreen", "true" );
 		_appConfig.setProperty( "fills_screen", "true" );
-		_appConfig.setProperty( "mapping_file", FileUtil.getHaxademicDataPath() + "text/mapping/mapping-2014-03-24-09-29-28.txt" );
+		_appConfig.setProperty( "mapping_file", FileUtil.getHaxademicDataPath() + "text/mapping/mapping-2014-04-02-01-02-28.txt" );
 	}
 
 	public void setup() {
@@ -71,10 +70,21 @@ extends PAppletHax {
 		
 		_mappedPolygons = new ArrayList<IMappedPolygon>();
 		if( _appConfig.getString("mapping_file", "") == "" ) {
-			for(int i=0; i < 100; i++ ) {
+			for(int i=0; i < 200; i++ ) {
+				// create triangle
 				float startX = p.random(0,p.width);
 				float startY = p.random(0,p.height);
-				_mappedPolygons.add( new MappedTriangle( startX, startY, startX + p.random(-300,300), startY + p.random(-300,300), startX + p.random(-300,300), startY + p.random(-300,300) ) );
+				float x2 = startX + p.random(-300,300);
+				float y2 = startY + p.random(-300,300);
+				float x3 = startX + p.random(-300,300);
+				float y3 = startY + p.random(-300,300);
+				// add polygon
+				_mappedPolygons.add( new MappedTriangle( startX, startY, x2, y2, y3, y3 ) );
+				// add to mesh
+				_meshLines.addSegment( startX, startY, x2, y2 );
+				_meshLines.addSegment( x2, y2, x3, y3 );
+				_meshLines.addSegment( x3, y3, startX, startY );
+
 			}
 			_mappedPolygons.add( new MappedTriangle( 100, 200, 400, 700, 650, 300 ) );
 		} else {
@@ -172,11 +182,13 @@ extends PAppletHax {
 //		_curTextures.add( new TextureVideoPlayer( 640, 360, "video/loops/tree-loop.mp4" ));
 //		_curTextures.add( new TextureVideoPlayer( 640, 360, "video/loops/ink-grow-shrink.mp4" ));
 //		_curTextures.add( new TextureVideoPlayer( 640, 360, "video/loops/fire.mp4" ));
-//		_curTextures.add( new TextureVideoPlayer( 640, 360, "video/loops/bubbles.mp4" ));		
+		_curTextures.add( new TextureVideoPlayer( 640, 360, "video/loops/bubbles.mp4" ));		
 		_curTextures.add( new TextureScrollingColumns( 100, 100 ));
 		_curTextures.add( new TextureEQColumns( 200, 100 ));
 		_curTextures.add( new TextureEQGrid( 320, 160 ));
 		_curTextures.add( new TextureShaderBwEyeJacker( 200, 200 ));
+		_curTextures.add( new TextureColorAudioFade( 100, 100 ));
+		_curTextures.add( new TextureColorAudioSlide( 100, 100 ));
 //		_curTextures.add( new TextureShaderGlowWave( 200, 200 ));
 //		_curTextures.add( new TextureWebCam());
 		
