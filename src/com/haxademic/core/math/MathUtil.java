@@ -1,5 +1,7 @@
 package com.haxademic.core.math;
 
+import java.awt.Point;
+
 import processing.core.PApplet;
 
 import com.haxademic.core.app.P;
