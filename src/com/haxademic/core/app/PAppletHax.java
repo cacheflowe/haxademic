@@ -9,6 +9,7 @@ import javax.sound.midi.InvalidMidiDataException;
 import krister.Ess.AudioInput;
 import oscP5.OscMessage;
 import processing.core.PApplet;
+import processing.video.Movie;
 import toxi.processing.ToxiclibsSupport;
 
 import SimpleOpenNI.SimpleOpenNI;
