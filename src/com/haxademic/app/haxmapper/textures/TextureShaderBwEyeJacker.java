@@ -40,6 +40,8 @@ extends BaseTexture {
 	}
 
 	public void update() {
+		super.update();
+
 		_texture.beginDraw();		
 		
 		updateShaders();

@@ -32,6 +32,8 @@ extends BaseTexture {
 	}
 	
 	public void update() {
+		super.update();
+
 		_texture.beginDraw();
 		_texture.image(_movie, 0, 0);
 		_texture.endDraw();

@@ -22,10 +22,12 @@ extends BaseTexture {
 	}
 	
 	public void update() {
+		super.update();
+		
 		_texture.beginDraw();
 		_texture.clear();
 		
-		_texture.fill( _color , P.p._audioInput.getFFT().spectrum[ _eqIndex ] * 2 * 255 );
+		_texture.fill( _colorEase.colorInt(), P.p._audioInput.getFFT().spectrum[ _eqIndex ] * 2 * 255 );
 		_texture.rect(0, 0, _texture.width, _texture.height );
 		
 		_texture.endDraw();

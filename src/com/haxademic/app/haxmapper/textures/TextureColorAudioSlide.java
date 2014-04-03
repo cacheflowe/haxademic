@@ -28,10 +28,12 @@ extends BaseTexture {
 	}
 	
 	public void update() {
+		super.update();
+
 		_texture.beginDraw();
 		_texture.clear();
 		
-		_texture.fill( _color );
+		_texture.fill( _colorEase.colorInt() );
 		float amp = P.p._audioInput.getFFT().spectrum[ _eqIndex ];
 		if( _mode == 0 ) {
 			_texture.rect(0, 0, _texture.width * amp, _texture.height );			

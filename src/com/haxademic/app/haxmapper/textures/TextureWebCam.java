@@ -32,6 +32,8 @@ extends BaseTexture {
 	}
 
 	public void update() {
+		super.update();
+
 		if( _texture != null && _webCam != null && _webCam.available() == true ) { 
 			if( _texture.width != _webCam.width && _webCam.width > 100 ) {
 				buildGraphics( _webCam.width, _webCam.height ); 

@@ -12,6 +12,8 @@ extends BaseTexture {
 	}
 	
 	public void update() {
+		super.update();
+
 		int barW = 20;
 		int x = P.p.frameCount % (barW * 2);
 		
@@ -21,7 +23,7 @@ extends BaseTexture {
 		for( int i=x - barW*2; i < _texture.width; i+=barW*2 ) {
 			_texture.fill( 0 );
 			_texture.rect(i, 0, barW, _texture.height );
-			_texture.fill( 255 );
+			_texture.fill( _colorEase.colorInt() );
 			_texture.rect(i+barW, 0, barW, _texture.height );
 		}
 		

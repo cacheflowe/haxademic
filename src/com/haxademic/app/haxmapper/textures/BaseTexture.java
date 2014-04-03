@@ -4,16 +4,19 @@ import processing.core.PConstants;
 import processing.core.PGraphics;
 
 import com.haxademic.core.app.P;
+import com.haxademic.core.draw.color.ColorHaxEasing;
 
 public class BaseTexture {
 	
 	protected PGraphics _texture;
 	protected boolean _active;
 	protected int _color;
-	
+	protected ColorHaxEasing _colorEase;
+
 	public BaseTexture() {
 		_active = false;
 		_color = P.p.color(255);
+		_colorEase = new ColorHaxEasing( "#ffffff", 5 );
 	}
 	
 	public PGraphics texture() {
@@ -26,10 +29,11 @@ public class BaseTexture {
 	
 	public void setColor( int color ) {
 		_color = color;
+		_colorEase.setTargetColorInt( color );
 	}
 	
 	public void update() {
-		// override with subclass
+		_colorEase.update();
 	}
 	
 	public void updateTiming() {
