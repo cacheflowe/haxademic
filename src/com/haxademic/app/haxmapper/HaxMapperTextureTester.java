@@ -2,7 +2,6 @@ package com.haxademic.app.haxmapper;
 
 import com.haxademic.app.haxmapper.textures.BaseTexture;
 import com.haxademic.app.haxmapper.textures.TextureEQColumns;
-import com.haxademic.app.haxmapper.textures.TextureWebCam;
 import com.haxademic.core.app.PAppletHax;
 
 @SuppressWarnings("serial")
@@ -22,8 +21,9 @@ extends PAppletHax {
 	public void setup() {
 		super.setup();	
 		
-		_texture = new TextureWebCam();
-//		_texture = new TextureEQColumns( 200, 100 );
+//		_texture = new TextureWebCam();
+		_texture = new TextureEQColumns( 200, 100 );
+//		_texture = new TextureSphereRotate( 400, 400 );
 	}
 
 	public void drawApp() {
