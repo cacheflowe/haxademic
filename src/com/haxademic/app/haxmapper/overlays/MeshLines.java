@@ -27,8 +27,8 @@ public class MeshLines {
 	public static final int MODE_DOTS = 5;
 	public static final int MODE_NONE = 6;
 
-	public MeshLines( int width, int height ) {
-		_texture = P.p.createGraphics( width, height, PConstants.OPENGL );
+	public MeshLines( PGraphics pg ) {
+		_texture = pg;
 		_meshLineSegments = new ArrayList<MeshLineSegment>();
 	}
 
@@ -49,8 +49,8 @@ public class MeshLines {
 	}
 
 	public void update() {
-		_texture.beginDraw();
-		_texture.clear();
+//		_texture.beginDraw();
+//		_texture.clear();
 		DrawUtil.setDrawCenter( _texture );
 
 		float spectrumInterval = (int) ( 256 / _meshLineSegments.size() );	// 256 keeps it in the bottom half of the spectrum since the high ends is so overrun
@@ -59,7 +59,7 @@ public class MeshLines {
 			_meshLineSegments.get(i).update( _texture, _mode, P.p._audioInput.getFFT().spectrum[10], P.p._audioInput.getFFT().spectrum[P.floor(i*spectrumInterval)] );
 		}
 
-		_texture.endDraw();
+//		_texture.endDraw();
 	}
 	
 	public void updateLineMode() {

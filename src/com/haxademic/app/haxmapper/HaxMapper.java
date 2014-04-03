@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import oscP5.OscMessage;
 import processing.core.PApplet;
+import processing.core.PConstants;
+import processing.core.PGraphics;
 
 import com.haxademic.app.haxmapper.overlays.MeshLines;
 import com.haxademic.app.haxmapper.polygons.IMappedPolygon;
@@ -16,7 +18,10 @@ import com.haxademic.app.haxmapper.textures.TextureEQColumns;
 import com.haxademic.app.haxmapper.textures.TextureEQGrid;
 import com.haxademic.app.haxmapper.textures.TextureScrollingColumns;
 import com.haxademic.app.haxmapper.textures.TextureShaderBwEyeJacker;
+import com.haxademic.app.haxmapper.textures.TextureSphereRotate;
 import com.haxademic.app.haxmapper.textures.TextureVideoPlayer;
+import com.haxademic.app.haxmapper.textures.TextureWebCam;
+import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.data.ConvertUtil;
 import com.haxademic.core.draw.util.OpenGLUtil;
@@ -32,9 +37,10 @@ public class HaxMapper
 extends PAppletHax {
 		
 	protected String _inputFileLines[];
-	protected ArrayList<IMappedPolygon> _mappedPolygons;
-	protected ArrayList<BaseTexture> _curTextures;
-	protected MeshLines _meshLines;
+	protected PGraphics _overlayPG;
+	protected ArrayList<MappingGroup> _mappingGroups;
+	protected ArrayList<BaseTexture> _texturePool;
+	protected ArrayList<BaseTexture> _activeTextures;
 	
 	protected InputTrigger _colorTrigger = new InputTrigger(new char[]{'c'},new String[]{TouchOscPads.PAD_01},new Integer[]{AkaiMpdPads.PAD_01});
 	protected InputTrigger _rotationTrigger = new InputTrigger(new char[]{'v'},new String[]{TouchOscPads.PAD_02},new Integer[]{AkaiMpdPads.PAD_02});
@@ -66,10 +72,11 @@ extends PAppletHax {
 		noStroke();
 		p.smooth(OpenGLUtil.SMOOTH_MEDIUM);
 		
-		_meshLines = new MeshLines( p.width, p.height );
+		_overlayPG = P.p.createGraphics( p.width, p.height, PConstants.OPENGL );
+		_mappingGroups = new ArrayList<MappingGroup>();
 		
-		_mappedPolygons = new ArrayList<IMappedPolygon>();
 		if( _appConfig.getString("mapping_file", "") == "" ) {
+			_mappingGroups.add( new MappingGroup( this, _overlayPG ) );
 			for(int i=0; i < 200; i++ ) {
 				// create triangle
 				float startX = p.random(0,p.width);
@@ -79,28 +86,28 @@ extends PAppletHax {
 				float x3 = startX + p.random(-300,300);
 				float y3 = startY + p.random(-300,300);
 				// add polygon
-				_mappedPolygons.add( new MappedTriangle( startX, startY, x2, y2, y3, y3 ) );
+				_mappingGroups.get(0).addPolygon( new MappedTriangle( startX, startY, x2, y2, y3, y3 ) );
 				// add to mesh
-				_meshLines.addSegment( startX, startY, x2, y2 );
-				_meshLines.addSegment( x2, y2, x3, y3 );
-				_meshLines.addSegment( x3, y3, startX, startY );
+				_mappingGroups.get(0).addMeshSegment( startX, startY, x2, y2 );
+				_mappingGroups.get(0).addMeshSegment( x2, y2, x3, y3 );
+				_mappingGroups.get(0).addMeshSegment( x3, y3, startX, startY );
 
 			}
-			_mappedPolygons.add( new MappedTriangle( 100, 200, 400, 700, 650, 300 ) );
+			_mappingGroups.get(0).addPolygon( new MappedTriangle( 100, 200, 400, 700, 650, 300 ) );
 		} else {
 			_inputFileLines = loadStrings(_appConfig.getString("mapping_file", ""));
 			for( int i=0; i < _inputFileLines.length; i++ ) {
 				String inputLine = _inputFileLines[i]; 
 				// count lines that contain characters
 				if( inputLine.indexOf("#group#") != -1 ) {
-					// group!
+					_mappingGroups.add( new MappingGroup( this, _overlayPG ) );
 				} else if( inputLine.indexOf("#poly#") != -1 ) {
 					// poly!
 					inputLine = inputLine.replace("#poly#", "");
 					String polyPoints[] = inputLine.split(",");
 					if(polyPoints.length == 6) {
 						// add polygons
-						_mappedPolygons.add( new MappedTriangle( 
+						_mappingGroups.get(_mappingGroups.size()-1).addPolygon( new MappedTriangle( 
 								ConvertUtil.stringToFloat( polyPoints[0] ), 
 								ConvertUtil.stringToFloat( polyPoints[1] ), 
 								ConvertUtil.stringToFloat( polyPoints[2] ), 
@@ -109,19 +116,19 @@ extends PAppletHax {
 								ConvertUtil.stringToFloat( polyPoints[5] )
 						) );
 						// add to mesh
-						_meshLines.addSegment(
+						_mappingGroups.get(_mappingGroups.size()-1).addMeshSegment(
 								ConvertUtil.stringToFloat( polyPoints[0] ), 
 								ConvertUtil.stringToFloat( polyPoints[1] ), 
 								ConvertUtil.stringToFloat( polyPoints[2] ), 
 								ConvertUtil.stringToFloat( polyPoints[3] ) 
 						);
-						_meshLines.addSegment(
+						_mappingGroups.get(_mappingGroups.size()-1).addMeshSegment(
 								ConvertUtil.stringToFloat( polyPoints[2] ), 
 								ConvertUtil.stringToFloat( polyPoints[3] ), 
 								ConvertUtil.stringToFloat( polyPoints[4] ), 
 								ConvertUtil.stringToFloat( polyPoints[5] ) 
 						);
-						_meshLines.addSegment(
+						_mappingGroups.get(_mappingGroups.size()-1).addMeshSegment(
 								ConvertUtil.stringToFloat( polyPoints[4] ), 
 								ConvertUtil.stringToFloat( polyPoints[5] ), 
 								ConvertUtil.stringToFloat( polyPoints[0] ), 
@@ -129,7 +136,7 @@ extends PAppletHax {
 						);
 					} else if(polyPoints.length == 8) {
 						// add polygons
-						_mappedPolygons.add( new MappedQuad( 
+						_mappingGroups.get(_mappingGroups.size()-1).addPolygon( new MappedQuad( 
 								ConvertUtil.stringToFloat( polyPoints[0] ), 
 								ConvertUtil.stringToFloat( polyPoints[1] ), 
 								ConvertUtil.stringToFloat( polyPoints[2] ), 
@@ -140,25 +147,25 @@ extends PAppletHax {
 								ConvertUtil.stringToFloat( polyPoints[7] )
 						) );
 						// add to mesh
-						_meshLines.addSegment(
+						_mappingGroups.get(_mappingGroups.size()-1).addMeshSegment(
 								ConvertUtil.stringToFloat( polyPoints[0] ), 
 								ConvertUtil.stringToFloat( polyPoints[1] ), 
 								ConvertUtil.stringToFloat( polyPoints[2] ), 
 								ConvertUtil.stringToFloat( polyPoints[3] ) 
 						);
-						_meshLines.addSegment(
+						_mappingGroups.get(_mappingGroups.size()-1).addMeshSegment(
 								ConvertUtil.stringToFloat( polyPoints[2] ), 
 								ConvertUtil.stringToFloat( polyPoints[3] ), 
 								ConvertUtil.stringToFloat( polyPoints[4] ), 
 								ConvertUtil.stringToFloat( polyPoints[5] ) 
 						);
-						_meshLines.addSegment(
+						_mappingGroups.get(_mappingGroups.size()-1).addMeshSegment(
 								ConvertUtil.stringToFloat( polyPoints[4] ), 
 								ConvertUtil.stringToFloat( polyPoints[5] ),
 								ConvertUtil.stringToFloat( polyPoints[6] ), 
 								ConvertUtil.stringToFloat( polyPoints[7] )
 						);
-						_meshLines.addSegment(
+						_mappingGroups.get(_mappingGroups.size()-1).addMeshSegment(
 								ConvertUtil.stringToFloat( polyPoints[6] ), 
 								ConvertUtil.stringToFloat( polyPoints[7] ), 
 								ConvertUtil.stringToFloat( polyPoints[0] ), 
@@ -174,40 +181,87 @@ extends PAppletHax {
 	}
 	
 	protected void buildTextures() {
-		_curTextures = new ArrayList<BaseTexture>();
-//		_curTextures.add( new TextureVideoPlayer( 640, 360, "video/loops/ink-in-water.mp4" ));
-//		_curTextures.add( new TextureVideoPlayer( 640, 360, "video/loops/smoke-loop.mov" ));
-//		_curTextures.add( new TextureVideoPlayer( 640, 360, "video/loops/clouds-timelapse.mov" ));
-//		_curTextures.add( new TextureVideoPlayer( 640, 360, "video/loops/water.mp4" ));
-//		_curTextures.add( new TextureVideoPlayer( 640, 360, "video/loops/tree-loop.mp4" ));
-//		_curTextures.add( new TextureVideoPlayer( 640, 360, "video/loops/ink-grow-shrink.mp4" ));
-//		_curTextures.add( new TextureVideoPlayer( 640, 360, "video/loops/fire.mp4" ));
-		_curTextures.add( new TextureVideoPlayer( 640, 360, "video/loops/bubbles.mp4" ));		
-		_curTextures.add( new TextureScrollingColumns( 100, 100 ));
-		_curTextures.add( new TextureEQColumns( 200, 100 ));
-		_curTextures.add( new TextureEQGrid( 320, 160 ));
-		_curTextures.add( new TextureShaderBwEyeJacker( 200, 200 ));
-		_curTextures.add( new TextureColorAudioFade( 100, 100 ));
-		_curTextures.add( new TextureColorAudioSlide( 100, 100 ));
-//		_curTextures.add( new TextureShaderGlowWave( 200, 200 ));
-//		_curTextures.add( new TextureWebCam());
+		_texturePool = new ArrayList<BaseTexture>();
+//		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/loops/ink-in-water.mp4" ));
+//		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/loops/smoke-loop.mov" ));
+//		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/loops/clouds-timelapse.mov" ));
+//		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/loops/water.mp4" ));
+		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/loops/tree-loop.mp4" ));
+		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/loops/ink-grow-shrink.mp4" ));
+		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/loops/fire.mp4" ));
+		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/loops/bubbles.mp4" ));		
+		_texturePool.add( new TextureScrollingColumns( 100, 100 ));
+		_texturePool.add( new TextureEQColumns( 200, 100 ));
+		_texturePool.add( new TextureEQGrid( 320, 160 ));
+		_texturePool.add( new TextureShaderBwEyeJacker( 200, 200 ));
+		_texturePool.add( new TextureColorAudioFade( 100, 100 ));
+		_texturePool.add( new TextureColorAudioSlide( 100, 100 ));
+		_texturePool.add( new TextureSphereRotate( 400, 400 ));
+//		_texturePool.add( new TextureShaderGlowWave( 200, 200 ));
+//		_texturePool.add( new TextureWebCam());
 		
+		_activeTextures = new ArrayList<BaseTexture>();
+		
+		// temp: give each group a texture to start ---------------
+		MappingGroup centerGroup = _mappingGroups.get(0);
+		centerGroup.pushTexture( _texturePool.get(4) );
+		centerGroup.pushTexture( _texturePool.get(5) );
+		centerGroup.pushTexture( _texturePool.get(6) );
+		centerGroup.pushTexture( _texturePool.get(7) );
+		centerGroup.pushTexture( _texturePool.get(10) );
+		
+		MappingGroup leftGroup = _mappingGroups.get(1);
+		leftGroup.pushTexture( _texturePool.get(0) );
+		leftGroup.pushTexture( _texturePool.get(1) );
+
+		MappingGroup rightGroup = _mappingGroups.get(2);
+		rightGroup.pushTexture( _texturePool.get(0) );
+		rightGroup.pushTexture( _texturePool.get(1) );
+
+		MappingGroup bottomGroup = _mappingGroups.get(3);
+		bottomGroup.pushTexture( _texturePool.get(7) );
+		bottomGroup.pushTexture( _texturePool.get(8) );
+		bottomGroup.pushTexture( _texturePool.get(9) );
+
+		// -- loop through all
+//		for( int i=0; i < _mappingGroups.size(); i++ ) {
+//			_mappingGroups.get(i).pushTexture( _texturePool.get(0) );
+//		}
+
 	}
 			
 	public void drawApp() {
-		updateTextures();
 		
 		background(0);
 		
-		// update triangles
-		for(int i=0; i < _mappedPolygons.size(); i++ ) {
-			IMappedPolygon triangle = _mappedPolygons.get(i);
-			triangle.draw(p.g);
-		}	
+		// figure out which textures are being used and rebuild array
+		while( _activeTextures.size() > 0 ) _activeTextures.remove( _activeTextures.size() - 1 );
+		for( int i=0; i < _mappingGroups.size(); i++ ) {
+			ArrayList<BaseTexture> textures = _mappingGroups.get(i).textures();
+			for( int j=0; j < textures.size(); j++ ) {
+				if( _activeTextures.indexOf( textures.get(j) ) == -1 ) {
+					_activeTextures.add( textures.get(j) );
+				}
+			}
+		}
+		for( int i=0; i < _activeTextures.size(); i++ ) {
+			_activeTextures.get(i).update();
+		}
+
 		
+		// update triangles
+		for( int i=0; i < _mappingGroups.size(); i++ ) {
+			_mappingGroups.get(i).draw();
+		}
 		// draw mesh on top
-		_meshLines.update();
-		p.image( _meshLines.texture(), 0, 0, _meshLines.texture().width, _meshLines.texture().height );
+		_overlayPG.beginDraw();
+		_overlayPG.clear();
+		for( int i=0; i < _mappingGroups.size(); i++ ) {
+			_mappingGroups.get(i).drawOverlay();
+		}
+		_overlayPG.endDraw();
+		p.image( _overlayPG, 0, 0, _overlayPG.width, _overlayPG.height );
+
 		
 		// called after polygon draw() to be sure that polygon's texture has initialized
 		checkBeat();
@@ -225,22 +279,6 @@ extends PAppletHax {
 		}
 	}
 	
-	protected void randomizeNextPolygon() {
-//		for(int i=0; i < _mappedPolygons.size(); i++ ) {
-			IMappedPolygon triangle = _mappedPolygons.get( MathUtil.randRange( 0, _mappedPolygons.size() - 1 ) );
-			int randTexture = MathUtil.randRange( 0, _curTextures.size() - 1 );
-			triangle.setTexture(_curTextures.get(randTexture).texture());
-			triangle.setTextureStyle( MathUtil.randBoolean(p) );
-			triangle.rotateTexture();
-//		}		
-	}
-	
-	public void updateTextures() {
-		for( int i=0; i < _curTextures.size(); i++ ) {
-			_curTextures.get(i).update();
-		}
-	}
-	
 	
 	protected void handleInput( boolean isMidi ) {
 		super.handleInput( isMidi );
@@ -254,38 +292,42 @@ extends PAppletHax {
 //			P.println("_isStressTesting = "+_isStressTesting);
 //		}
 		if ( _colorTrigger.active() == true ) {
-//			pickNewColors();
+			for( int i=0; i < _mappingGroups.size(); i++ ) {
+				_mappingGroups.get(i).newColor();
+			}
 		}
 		if ( _modeTrigger.active() == true ) {
-			for( int i=0; i < _curTextures.size(); i++ ) {
-				_curTextures.get(i).newMode();
+			for( int i=0; i < _mappingGroups.size(); i++ ) {
+				_mappingGroups.get(i).newMode();
 			}
 		}
 		if ( _lineModeTrigger.active() == true ) {
-			for( int i=0; i < _curTextures.size(); i++ ) {
-				_curTextures.get(i).newLineMode();
+			for( int i=0; i < _mappingGroups.size(); i++ ) {
+				_mappingGroups.get(i).newLineMode();
 			}
-			_meshLines.updateLineMode();
 		}
 		if ( _rotationTrigger.active() == true ) {
-			for( int i=0; i < _curTextures.size(); i++ ) {
-				_curTextures.get(i).newRotation();
+			for( int i=0; i < _mappingGroups.size(); i++ ) {
+				_mappingGroups.get(i).newRotation();
 			}
 		}
+		
 		if ( _timingTrigger.active() == true ) {
-			for( int i=0; i < _curTextures.size(); i++ ) {
-				_curTextures.get(i).updateTiming();
+			for( int i=0; i < _activeTextures.size(); i++ ) {
+				_activeTextures.get(i).updateTiming();
 			}
 		}
 		if ( _timingSectionTrigger.active() == true ) {
-			for( int i=0; i < _curTextures.size(); i++ ) {
-				_curTextures.get(i).updateTimingSection();
+			for( int i=0; i < _activeTextures.size(); i++ ) {
+				_activeTextures.get(i).updateTimingSection();
 			}
 		}
 		if ( _bigChangeTrigger.active() == true ) {
-			randomizeNextPolygon();
+			for( int i=0; i < _mappingGroups.size(); i++ ) _mappingGroups.get(i).randomizeNextPolygon();
 //			pickNewColors();
 		}
 	}
 	
+	
+
 }

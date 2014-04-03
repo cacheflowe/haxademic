@@ -20,7 +20,7 @@ extends BaseTexture {
 		_texture.clear();
 		
 		for( int i=0; i < numBands; i++ ) {
-			_texture.fill( 255 * P.p._audioInput.getFFT().spectrum[P.floor(i*spectrumInterval)] * 2, 255 );
+			_texture.fill( 255 * P.p._audioInput.getFFT().spectrum[P.floor((i+1)*spectrumInterval)%512] * 2, 255 );
 			_texture.rect(i * eqW, 0, eqW, _texture.height );
 		}
 		

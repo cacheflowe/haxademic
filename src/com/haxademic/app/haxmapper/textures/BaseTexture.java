@@ -53,6 +53,7 @@ public class BaseTexture {
 	}
 	
 	protected void buildGraphics( int width, int height ) {
+		if( _texture != null ) _texture.dispose();
 		_texture = P.p.createGraphics( width, height, PConstants.OPENGL );
 	}
 }
