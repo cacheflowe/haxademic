@@ -2,13 +2,34 @@
 
 A custom projection-mapped visual system
 
-## ToDo:
 ---
+
+### Live gear required:
+
+* Computer & power cord
+* Tripod 
+* Ratchet straps
+* Audio cables & dongle for input
+* Extension power cords
+* Video cables
+* projector(s)
+* iPad
+* Wireless router
+
+
+## ToDo:
+
+---
+
 #### Next:
 
+* Swap out ESS for minim 
+* Add OSC controls into HaxMapper from Genessier show
 * Add methods to creatively distrubte updates to polygons and meshlines in a group
 * Add a mode for polygons to take a color and be a simple audio-reactive panel - good for small triangles when there's not enough room for textures
 * Beat detection test! make a test app for this.
+* setActive on video addition / removal from pool to stop playing
+* Convert to minim!
 
 #### Texture manager to distribute textures between groups and group items* 
 
@@ -19,8 +40,9 @@ A custom projection-mapped visual system
 * all polygons in a group switch to differet rotations or modes
 * groups add & remove textures as time goes on
 * sweeping/traversing 
-* all textures should null out an dslowly come back in as the wireframes/overlays take focus
-
+* all textures should null out and slowly come back in as the wireframes/overlays take focus
+* Reset all properties/rotation of polygons
+* Set rotation & mapping mode of polygons manually
 * Groups should control wireframes as well as polygons
  
 		
@@ -54,7 +76,7 @@ A custom projection-mapped visual system
 
 #### Nice-to-have
 * Concave hull to draw around the outer edge and mask the interior
-* Overall shader post-processing
+* More final post-processing
 
 
 #### Add Videos for night 1

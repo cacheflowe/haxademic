@@ -2,6 +2,8 @@ package com.haxademic.app.haxmapper;
 
 import com.haxademic.app.haxmapper.textures.BaseTexture;
 import com.haxademic.app.haxmapper.textures.TextureEQColumns;
+import com.haxademic.app.haxmapper.textures.TextureShaderGlowWave;
+import com.haxademic.app.haxmapper.textures.TextureShaderWavyCheckerPlanes;
 import com.haxademic.core.app.PAppletHax;
 
 @SuppressWarnings("serial")
@@ -23,11 +25,14 @@ extends PAppletHax {
 		
 //		_texture = new TextureWebCam();
 		_texture = new TextureEQColumns( 200, 100 );
+//		_texture = new TextureShaderGlowWave( 500, 400 );
+//		_texture = new TextureShaderWavyCheckerPlanes( 500, 400 );
 //		_texture = new TextureSphereRotate( 400, 400 );
 	}
 
 	public void drawApp() {
-		background(0,127,0);
+		background(90,110,90);
+		if(p.frameCount % 30 == 0) _texture.updateTiming();
 		_texture.update();
 		p.image( _texture.texture(), 0, 0 );
 	}
