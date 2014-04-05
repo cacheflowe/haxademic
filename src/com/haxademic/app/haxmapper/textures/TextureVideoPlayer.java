@@ -17,7 +17,7 @@ extends BaseTexture {
 		// _movie.play();
 		_movie.loop();
 		_movie.volume(0);
-		_movie.speed(1f);
+		_movie.speed(0.5f);
 
 		buildGraphics( width, height );
 	}
@@ -35,7 +35,7 @@ extends BaseTexture {
 		super.update();
 
 		_texture.beginDraw();
-		_texture.image(_movie, 0, 0);
+		_texture.image(_movie, 0, 0, _texture.width, _texture.height);
 		_texture.endDraw();
 	}
 }
