@@ -42,6 +42,14 @@ public class MappingGroup {
 		}
 	}
 
+	public BaseTexture shiftTexture() {
+		if( _curTextures.size() > 0 ) {
+			return _curTextures.remove(0);
+		} else {
+			return null;
+		}
+	}
+
 	public ArrayList<IMappedPolygon> polygons() {
 		return _mappedPolygons;
 	}
@@ -59,6 +67,13 @@ public class MappingGroup {
 		triangle.setTextureStyle( MathUtil.randBoolean(p) );
 		triangle.rotateTexture();
 		//			}		
+	}
+	
+	public void setAllPolygonsToTexture( int textureIndex ) {
+		for(int j=0; j < _mappedPolygons.size(); j++ ) {
+			IMappedPolygon polygon = _mappedPolygons.get(j);
+			polygon.setTexture( _curTextures.get(textureIndex).texture() );
+		}
 	}
 
 	public void draw() {

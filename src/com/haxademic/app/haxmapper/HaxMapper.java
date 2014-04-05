@@ -6,9 +6,8 @@ import oscP5.OscMessage;
 import processing.core.PApplet;
 import processing.core.PConstants;
 import processing.core.PGraphics;
+import processing.opengl.PShader;
 
-import com.haxademic.app.haxmapper.overlays.MeshLines;
-import com.haxademic.app.haxmapper.polygons.IMappedPolygon;
 import com.haxademic.app.haxmapper.polygons.MappedQuad;
 import com.haxademic.app.haxmapper.polygons.MappedTriangle;
 import com.haxademic.app.haxmapper.textures.BaseTexture;
@@ -17,18 +16,18 @@ import com.haxademic.app.haxmapper.textures.TextureColorAudioSlide;
 import com.haxademic.app.haxmapper.textures.TextureEQColumns;
 import com.haxademic.app.haxmapper.textures.TextureEQGrid;
 import com.haxademic.app.haxmapper.textures.TextureScrollingColumns;
-import com.haxademic.app.haxmapper.textures.TextureShaderBwEyeJacker;
+import com.haxademic.app.haxmapper.textures.TextureShaderGlowWave;
+import com.haxademic.app.haxmapper.textures.TextureShaderWavyCheckerPlanes;
 import com.haxademic.app.haxmapper.textures.TextureSphereRotate;
 import com.haxademic.app.haxmapper.textures.TextureVideoPlayer;
-import com.haxademic.app.haxmapper.textures.TextureWebCam;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.data.ConvertUtil;
+import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.draw.util.OpenGLUtil;
 import com.haxademic.core.hardware.midi.AkaiMpdPads;
 import com.haxademic.core.hardware.osc.TouchOscPads;
 import com.haxademic.core.hardware.shared.InputTrigger;
-import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.system.FileUtil;
 
 
@@ -49,29 +48,37 @@ extends PAppletHax {
 	protected InputTrigger _timingTrigger = new InputTrigger(new char[]{'n'},new String[]{TouchOscPads.PAD_03},new Integer[]{AkaiMpdPads.PAD_03});
 	protected InputTrigger _timingSectionTrigger = new InputTrigger(new char[]{'f'},new String[]{TouchOscPads.PAD_05},new Integer[]{AkaiMpdPads.PAD_05});
 	protected InputTrigger _bigChangeTrigger = new InputTrigger(new char[]{' '},new String[]{TouchOscPads.PAD_07},new Integer[]{AkaiMpdPads.PAD_07});
+	protected InputTrigger _audioInputUpTrigger = new InputTrigger(new char[]{},new String[]{"/7/nav1"},new Integer[]{});
+	protected InputTrigger _audioInputDownTrigger = new InputTrigger(new char[]{},new String[]{"/7/nav2"},new Integer[]{});
 
-	
-	public static void main(String args[]) {
-		_isFullScreen = true;
-		PApplet.main(new String[] { "--hide-stop", "--bgcolor=000000", "com.haxademic.app.haxmapper.HaxMapper" });
-	}
+	protected PShader _brightness;
+	protected float _brightnessVal;
+
 	
 	public void oscEvent(OscMessage theOscMessage) {  
 		super.oscEvent(theOscMessage);
+		String oscMsg = theOscMessage.addrPattern();
+		if( oscMsg.indexOf("/7/fader0") != -1) {
+			_brightnessVal = theOscMessage.get(0).floatValue() * 2.0f;
+		}
 	}
 
 	protected void overridePropsFile() {
 		_appConfig.setProperty( "rendering", "false" );
 		_appConfig.setProperty( "fullscreen", "true" );
 		_appConfig.setProperty( "fills_screen", "true" );
-		_appConfig.setProperty( "mapping_file", FileUtil.getHaxademicDataPath() + "text/mapping/mapping-2014-04-02-01-02-28.txt" );
 	}
 
 	public void setup() {
 		super.setup();
-		noStroke();
 		p.smooth(OpenGLUtil.SMOOTH_MEDIUM);
-		
+		noStroke();
+		importPolygons();
+		buildTextures();
+		buildPostProcessingChain();
+	}
+	
+	protected void importPolygons() {
 		_overlayPG = P.p.createGraphics( p.width, p.height, PConstants.OPENGL );
 		_mappingGroups = new ArrayList<MappingGroup>();
 		
@@ -174,66 +181,42 @@ extends PAppletHax {
 					}
 				}  
 			}
-			
 		}
-		
-		buildTextures();
 	}
 	
 	protected void buildTextures() {
 		_texturePool = new ArrayList<BaseTexture>();
-//		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/loops/ink-in-water.mp4" ));
-//		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/loops/smoke-loop.mov" ));
-//		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/loops/clouds-timelapse.mov" ));
-//		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/loops/water.mp4" ));
-		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/loops/tree-loop.mp4" ));
-		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/loops/ink-grow-shrink.mp4" ));
-		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/loops/fire.mp4" ));
-		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/loops/bubbles.mp4" ));		
-		_texturePool.add( new TextureScrollingColumns( 100, 100 ));
-		_texturePool.add( new TextureEQColumns( 200, 100 ));
-		_texturePool.add( new TextureEQGrid( 320, 160 ));
-		_texturePool.add( new TextureShaderBwEyeJacker( 200, 200 ));
-		_texturePool.add( new TextureColorAudioFade( 100, 100 ));
-		_texturePool.add( new TextureColorAudioSlide( 100, 100 ));
-		_texturePool.add( new TextureSphereRotate( 400, 400 ));
-//		_texturePool.add( new TextureShaderGlowWave( 200, 200 ));
-//		_texturePool.add( new TextureWebCam());
-		
 		_activeTextures = new ArrayList<BaseTexture>();
-		
-		// temp: give each group a texture to start ---------------
-		MappingGroup centerGroup = _mappingGroups.get(0);
-		centerGroup.pushTexture( _texturePool.get(4) );
-		centerGroup.pushTexture( _texturePool.get(5) );
-		centerGroup.pushTexture( _texturePool.get(6) );
-		centerGroup.pushTexture( _texturePool.get(7) );
-		centerGroup.pushTexture( _texturePool.get(10) );
-		
-		MappingGroup leftGroup = _mappingGroups.get(1);
-		leftGroup.pushTexture( _texturePool.get(0) );
-		leftGroup.pushTexture( _texturePool.get(1) );
-
-		MappingGroup rightGroup = _mappingGroups.get(2);
-		rightGroup.pushTexture( _texturePool.get(0) );
-		rightGroup.pushTexture( _texturePool.get(1) );
-
-		MappingGroup bottomGroup = _mappingGroups.get(3);
-		bottomGroup.pushTexture( _texturePool.get(7) );
-		bottomGroup.pushTexture( _texturePool.get(8) );
-		bottomGroup.pushTexture( _texturePool.get(9) );
-
-		// -- loop through all
-//		for( int i=0; i < _mappingGroups.size(); i++ ) {
-//			_mappingGroups.get(i).pushTexture( _texturePool.get(0) );
-//		}
-
+		addTexturesToPool();
+		buildPolygonGroups();
 	}
 			
+	protected void buildPolygonGroups() {
+		// override this!
+	}
+	
+	protected void addTexturesToPool() {
+		// override this!
+	}
+
+	protected void buildPostProcessingChain() {
+		_brightness = p.loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/brightness.glsl" );
+		_brightness.set("brightness", 1.0f );
+	}
+	
 	public void drawApp() {
 		
 		background(0);
 		
+		updateActiveTextures();
+		drawPolygonGroups();
+		drawOverlays();
+		
+		// called after polygon draw() to be sure that polygon's texture has initialized
+		checkBeat();
+	}
+	
+	protected void updateActiveTextures() {
 		// figure out which textures are being used and rebuild array
 		while( _activeTextures.size() > 0 ) _activeTextures.remove( _activeTextures.size() - 1 );
 		for( int i=0; i < _mappingGroups.size(); i++ ) {
@@ -247,12 +230,17 @@ extends PAppletHax {
 		for( int i=0; i < _activeTextures.size(); i++ ) {
 			_activeTextures.get(i).update();
 		}
-
-		
-		// update triangles
+	}
+	
+	protected void drawPolygonGroups() {
 		for( int i=0; i < _mappingGroups.size(); i++ ) {
 			_mappingGroups.get(i).draw();
 		}
+	}
+	
+	protected void drawOverlays() {
+		DrawUtil.setColorForPImage(p);
+		DrawUtil.resetPImageAlpha(p);
 		// draw mesh on top
 		_overlayPG.beginDraw();
 		_overlayPG.clear();
@@ -261,22 +249,18 @@ extends PAppletHax {
 		}
 		_overlayPG.endDraw();
 		p.image( _overlayPG, 0, 0, _overlayPG.width, _overlayPG.height );
-
-		
-		// called after polygon draw() to be sure that polygon's texture has initialized
-		checkBeat();
 	}
 	
 	protected void checkBeat() {
-		int[] beatDetectArr = _audioInput.getBeatDetection();
-		boolean isKickCount = (beatDetectArr[0] > 0);
-		boolean isSnareCount = (beatDetectArr[1] > 0);
-		boolean isHatCount = (beatDetectArr[2] > 0);
-		boolean isOnsetCount = (beatDetectArr[3] > 0);
-		// if(isKickCount == true || isSnareCount == true || isHatCount == true || isOnsetCount == true) {
-		if( isKickCount == true || isSnareCount == true ) {
-			// randomizeNextPolygon();
-		}
+//		int[] beatDetectArr = _audioInput.getBeatDetection();
+//		boolean isKickCount = (beatDetectArr[0] > 0);
+//		boolean isSnareCount = (beatDetectArr[1] > 0);
+//		boolean isHatCount = (beatDetectArr[2] > 0);
+//		boolean isOnsetCount = (beatDetectArr[3] > 0);
+//		// if(isKickCount == true || isSnareCount == true || isHatCount == true || isOnsetCount == true) {
+//		if( isKickCount == true || isSnareCount == true ) {
+//			// randomizeNextPolygon();
+//		}
 	}
 	
 	
@@ -322,12 +306,80 @@ extends PAppletHax {
 				_activeTextures.get(i).updateTimingSection();
 			}
 		}
-		if ( _bigChangeTrigger.active() == true ) {
-			for( int i=0; i < _mappingGroups.size(); i++ ) _mappingGroups.get(i).randomizeNextPolygon();
-//			pickNewColors();
-		}
+		if ( _bigChangeTrigger.active() == true ) bigChangeTrigger();
+		if ( _audioInputUpTrigger.active() == true ) _audioInput.gainUp();
+		if ( _audioInputDownTrigger.active() == true ) _audioInput.gainDown();
 	}
 	
-	
+	protected void bigChangeTrigger() {
+		for( int i=0; i < _mappingGroups.size(); i++ ) _mappingGroups.get(i).randomizeNextPolygon();
+//		pickNewColors();
+	}
 
 }
+
+
+
+
+
+
+
+
+
+
+////_texturePool.add( new TextureVideoPlayer( 640, 360, "video/loops/ink-in-water.mp4" ));
+////_texturePool.add( new TextureVideoPlayer( 640, 360, "video/loops/smoke-loop.mov" ));
+////_texturePool.add( new TextureVideoPlayer( 640, 360, "video/loops/clouds-timelapse.mov" ));
+////_texturePool.add( new TextureVideoPlayer( 640, 360, "video/loops/water.mp4" ));
+//_texturePool.add( new TextureVideoPlayer( 640, 360, "video/horrorhouse/genessier/Genessier_Emlyn_1080P_h264/Genessier_Emlyn_1080P_h264-desktop.m4v" ));
+////_texturePool.add( new TextureVideoPlayer( 640, 360, "video/loops/tree-loop.mp4" ));
+//_texturePool.add( new TextureVideoPlayer( 640, 360, "video/loops/ink-grow-shrink.mp4" ));
+//_texturePool.add( new TextureVideoPlayer( 640, 360, "video/loops/fire.mp4" ));
+//_texturePool.add( new TextureVideoPlayer( 640, 360, "video/loops/bubbles.mp4" ));		
+//_texturePool.add( new TextureScrollingColumns( 100, 100 ));
+//_texturePool.add( new TextureEQColumns( 200, 100 ));
+//_texturePool.add( new TextureEQGrid( 320, 160 ));
+////_texturePool.add( new TextureShaderBwEyeJacker( 200, 200 ));
+////_texturePool.add( new TextureShaderGlowWave( 200, 200 ));
+//_texturePool.add( new TextureShaderWavyCheckerPlanes( 300, 300 ));
+//_texturePool.add( new TextureColorAudioFade( 100, 100 ));
+//_texturePool.add( new TextureColorAudioSlide( 100, 100 ));
+//_texturePool.add( new TextureSphereRotate( 400, 400 ));
+////_texturePool.add( new TextureShaderGlowWave( 200, 200 ));
+////_texturePool.add( new TextureWebCam());
+
+
+//// temp: give each group a texture to start ---------------
+//MappingGroup centerGroup = _mappingGroups.get(1);
+//centerGroup.pushTexture( _texturePool.get(0) );
+//centerGroup.pushTexture( _texturePool.get(1) );
+//centerGroup.pushTexture( _texturePool.get(2) );
+//centerGroup.pushTexture( _texturePool.get(3) );
+//centerGroup.pushTexture( _texturePool.get(4) );
+//centerGroup.pushTexture( _texturePool.get(5) );
+//centerGroup.pushTexture( _texturePool.get(6) );
+//centerGroup.pushTexture( _texturePool.get(7) );
+//centerGroup.pushTexture( _texturePool.get(10) );
+//
+//MappingGroup leftGroup = _mappingGroups.get(0);
+//leftGroup.pushTexture( _texturePool.get(5) );
+//leftGroup.pushTexture( _texturePool.get(6) );
+//leftGroup.pushTexture( _texturePool.get(8) );
+//leftGroup.pushTexture( _texturePool.get(9) );
+//
+//MappingGroup rightGroup = _mappingGroups.get(2);
+//rightGroup.pushTexture( _texturePool.get(5) );
+//rightGroup.pushTexture( _texturePool.get(6) );
+//rightGroup.pushTexture( _texturePool.get(8) );
+//rightGroup.pushTexture( _texturePool.get(9) );
+
+//MappingGroup bottomGroup = _mappingGroups.get(3);
+//bottomGroup.pushTexture( _texturePool.get(7) );
+//bottomGroup.pushTexture( _texturePool.get(8) );
+//bottomGroup.pushTexture( _texturePool.get(9) );
+
+// -- loop through all
+//for( int i=0; i < _mappingGroups.size(); i++ ) {
+//_mappingGroups.get(i).pushTexture( _texturePool.get(0) );
+//}
+
