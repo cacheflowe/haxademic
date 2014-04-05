@@ -32,6 +32,7 @@ import com.haxademic.core.system.P5Properties;
 import com.haxademic.core.system.SystemUtil;
 
 import ddf.minim.Minim;
+import de.voidplus.leapmotion.LeapMotion;
 
 /**
  * PAppletHax is a starting point for interactive visuals, giving you a unified
@@ -132,6 +133,11 @@ extends PApplet
 	 * Wraps up Kinect functionality.
 	 */
 	public KinectWrapper kinectWrapper = null;
+	
+	/**
+	 * Wraps up Leap Motion functionality.
+	 */
+	public LeapMotion leapMotion = null;
 	
 	/**
 	 * A secondary system of running the visuals on the Launchpad. This should probably be integrated into Modules?
@@ -317,6 +323,7 @@ extends PApplet
 			kinectWrapper = new KinectWrapper( p, _appConfig.getBoolean( "kinect_depth", true ), _appConfig.getBoolean( "kinect_rgb", true ), _appConfig.getBoolean( "kinect_depth_image", true ) );
 			kinectWrapper.setMirror( _appConfig.getBoolean( "kinect_mirrored", true ) );
 		}
+		if( _appConfig.getBoolean( "leap_active", false ) == true ) leapMotion = new LeapMotion(this);
 //		_launchpadViz = new LaunchpadViz( p5 );
 		_oscWrapper = new OscWrapper( p );
 		_minim = new Minim( p );
@@ -511,6 +518,25 @@ extends PApplet
 		catch( ArrayIndexOutOfBoundsException e ){println("noteOn BROKE!");}
 	}
 
+	/**
+	 * PApplet-level listeners for LeapMotion events
+	 */
+	void leapOnInit(){
+	    // println("Leap Motion Init");
+	}
+	void leapOnConnect(){
+	    // println("Leap Motion Connect");
+	}
+	void leapOnFrame(){
+	    // println("Leap Motion Frame");
+	}
+	void leapOnDisconnect(){
+	    // println("Leap Motion Disconnect");
+	}
+	void leapOnExit(){
+	    // println("Leap Motion Exit");
+	}
+	
 	/**
 	 * PApplet-level listeners for SimpleOpenNI user events
 	 */
