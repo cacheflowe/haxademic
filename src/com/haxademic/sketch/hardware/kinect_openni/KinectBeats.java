@@ -78,7 +78,7 @@ extends PAppletHax {
 			_y = y;
 			_w = w; 
 			_h = h;
-			_sound = _minim.loadFile( file, 512 );
+			_sound = minim.loadFile( file, 512 );
 		}
 		
 		public void update() {
@@ -157,7 +157,7 @@ extends PAppletHax {
 		protected SineWave _oscillator;
 
 		public SynthHand() {
-			_audioOut = _minim.getLineOut(Minim.STEREO, 512);
+			_audioOut = minim.getLineOut(Minim.STEREO, 512);
 			_oscillator = new SineWave(200, 1, _audioOut.sampleRate());
 			_oscillator.setAmp(0);
 			_audioOut.addSignal(_oscillator);

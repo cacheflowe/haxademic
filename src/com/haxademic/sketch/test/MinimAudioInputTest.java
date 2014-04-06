@@ -34,6 +34,7 @@ extends PAppletHax {
 
 		// a beat detection object song SOUND_ENERGY mode with a sensitivity of 10 milliseconds
 		beat = new BeatDetect();
+		beat.setSensitivity(300);
 		ellipseMode(RADIUS);
 		eRadius = 20;
 	}

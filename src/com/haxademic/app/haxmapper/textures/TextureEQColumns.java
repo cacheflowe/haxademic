@@ -35,9 +35,9 @@ extends BaseTexture {
 		} else {
 			_texture.noStroke();
 		}
-		
+
 		for( int i=0; i < _numLines; i++ ) {
-			_texture.fill( _colorEase.colorInt(), P.p._audioInput.getFFT().spectrum[P.floor((i+1)*spectrumInterval)%512] * 2 * 255 );
+			_texture.fill( _colorEase.colorInt(), P.p.audioIn.getEqBand( P.floor((i+1)*spectrumInterval)%512 ) * 2 * 255 );
 			_texture.rect(i * eqW, 0, eqW, _texture.height );
 		}
 		

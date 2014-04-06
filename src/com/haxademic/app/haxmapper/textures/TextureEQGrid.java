@@ -38,7 +38,7 @@ extends BaseTexture {
 		_texture.noStroke();
 		for (int i = 0; i < _cols; i++) {
 			for (int j = 0; j < _rows; j++) {
-				float alphaVal = P.p._audioInput.getFFT().spectrum[P.floor(_spectrumInterval * spectrumIndex)];
+				float alphaVal = P.p.audioIn.getEqBand( P.floor(_spectrumInterval * spectrumIndex) );
 				_texture.fill( _colorEase.colorInt(), alphaVal * 255f );
 				_texture.rect( startX + i*_cellW, startY + j*_cellH, _cellW, _cellH );	
 				spectrumIndex++;

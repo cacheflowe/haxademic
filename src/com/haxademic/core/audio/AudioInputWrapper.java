@@ -21,8 +21,8 @@ public class AudioInputWrapper
 	int _gain = 0;
 	final int GAIN_STEP = 3;
 
-	int[] beats = { 0, 0, 0, 0 }; 
-	int[] curBeats = new int[4];
+	public int[] beats = { 0, 0, 0, 0 }; 
+	public int[] curBeats = new int[4];
 
 	public Boolean _isRendering = false;
 
@@ -50,7 +50,7 @@ public class AudioInputWrapper
 		_limitDiff = _maxLimit - _minLimit;
 
 		detector = new BeatDetect(p,_bufferSize,44100);
-		detector.detectMode("FREQ_ENERGY");//SOUND_ENERGY
+		detector.detectMode("SOUND_ENERGY");//FREQ_ENERGY
 
 		// TODO: move this into a sketch so audio and renderer are separate
 		// listen realtime if not rendering

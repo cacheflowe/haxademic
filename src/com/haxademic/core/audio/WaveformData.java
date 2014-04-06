@@ -1,7 +1,6 @@
 package com.haxademic.core.audio;
 
 import krister.Ess.AudioChannel;
-import krister.Ess.AudioInput;
 import processing.core.PApplet;
 
 import com.haxademic.core.app.P;
@@ -18,7 +17,7 @@ public class WaveformData {
 		for( int i = 0; i < bufferSize; i++ ) _waveform[i] = 0;
 	}
 	
-	public void updateWaveformData ( AudioInput audioInput, int bufferSize ) {
+	public void updateWaveformData ( krister.Ess.AudioInput audioInput, int bufferSize ) {
 		// store waveform data from live input
 		int interp = (int) P.max( 0, (( ( p.millis() - audioInput.bufferStartTime)/(float)audioInput.duration) * audioInput.size));
 		for (int i=0;i<bufferSize;i++) {
@@ -29,7 +28,14 @@ public class WaveformData {
 		}
 	}
 	
-	public void updateWaveformDataForRender ( Renderer renderer, AudioInput audioInput, int bufferSize ) {
+	public void updateWaveformDataMinim ( ddf.minim.AudioInput audioInput ) {
+		// store waveform data from live input
+		for (int i=0; i < _waveform.length; i++ ) {
+			_waveform[i] = audioInput.mix.get(i);
+		}
+	}
+	
+	public void updateWaveformDataForRender ( Renderer renderer, krister.Ess.AudioInput audioInput, int bufferSize ) {
 		// store waveform data from Channel that's playing the audio file
 		int buffer2Length = renderer.getChannel().buffer2.length;
 		AudioChannel channel = renderer.getChannel();

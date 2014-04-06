@@ -11,10 +11,10 @@ import oscP5.OscMessage;
 import processing.core.PApplet;
 import processing.video.Movie;
 import toxi.processing.ToxiclibsSupport;
-
 import SimpleOpenNI.SimpleOpenNI;
 
 import com.haxademic.core.audio.AudioInputWrapper;
+import com.haxademic.core.audio.AudioInputWrapperMinim;
 import com.haxademic.core.audio.WaveformData;
 import com.haxademic.core.debug.DebugText;
 import com.haxademic.core.debug.DebugUtil;
@@ -107,6 +107,8 @@ extends PApplet
 	 * Single instance and wrapper for the ESS audio object.
 	 */
 	public AudioInputWrapper _audioInput;
+	public AudioInputWrapperMinim audioIn;
+	public boolean _useLegacyAudio = false;
 	
 	/**
 	 * Single instance of the data needed to draw a realtime waveform / oscilloscpe.
@@ -157,7 +159,7 @@ extends PApplet
 	/**
 	 * Single instance for minim audio library.
 	 */
-	public Minim _minim;
+	public Minim minim;
 	
 	/**
 	 * Prevents crashing from possible attempts to re-initialize. 
@@ -271,8 +273,10 @@ extends PApplet
 			// audio gain
 //			if ( p.key == '.' || _midi.midiPadIsOn( MidiWrapper.PAD_14 ) == 1 ) _audioInput.gainUp(); 
 //			if ( p.key == ',' || _midi.midiPadIsOn( MidiWrapper.PAD_13 ) == 1 ) _audioInput.gainDown(); 
-			if ( p.key == '.' ) _audioInput.gainUp(); 
-			if ( p.key == ',' ) _audioInput.gainDown(); 
+			if ( p.key == '.' && _audioInput != null ) _audioInput.gainUp(); 
+			if ( p.key == ',' && _audioInput != null ) _audioInput.gainDown(); 
+			if ( p.key == '.' && audioIn != null ) audioIn.gainUp(); 
+			if ( p.key == ',' && audioIn != null ) audioIn.gainDown(); 
 		}
 
 	}
@@ -316,8 +320,14 @@ extends PApplet
 	protected void initHaxademicObjects() {
 		// save single reference for other objects
 		toxi = new ToxiclibsSupport(p);
-		_audioInput = new AudioInputWrapper( p, _isRenderingAudio );
-		_waveformData = new WaveformData( p, _audioInput._bufferSize );
+		minim = new Minim( p );
+		if( _useLegacyAudio == true ) {
+			_audioInput = new AudioInputWrapper( p, _isRenderingAudio );
+			_waveformData = new WaveformData( p, _audioInput._bufferSize );
+		} else {
+			audioIn = new AudioInputWrapperMinim( p, _isRenderingAudio );
+			_waveformData = new WaveformData( p, audioIn.bufferSize() );
+		}
 		_renderer = new Renderer( p, _fps, Renderer.OUTPUT_TYPE_MOVIE, _appConfig.getString( "render_output_dir", FileUtil.getHaxademicOutputPath() ) );
 		if( _appConfig.getBoolean( "kinect_active", false ) == true ) {
 			kinectWrapper = new KinectWrapper( p, _appConfig.getBoolean( "kinect_depth", true ), _appConfig.getBoolean( "kinect_rgb", true ), _appConfig.getBoolean( "kinect_depth_image", true ) );
@@ -326,7 +336,6 @@ extends PApplet
 		if( _appConfig.getBoolean( "leap_active", false ) == true ) leapMotion = new LeapMotion(this);
 //		_launchpadViz = new LaunchpadViz( p5 );
 		_oscWrapper = new OscWrapper( p );
-		_minim = new Minim( p );
 		meshPool = new MeshPool( p );
 		_jw = ( _appConfig.getBoolean("sunflow", true ) == true ) ? 
 				new JoonsWrapper( p, width, height, ( _appConfig.getString("sunflow_quality", "high" ) == "high" ) ? JoonsWrapper.QUALITY_HIGH : JoonsWrapper.QUALITY_LOW, ( _appConfig.getBoolean("sunflow_active", true ) == true ) ? true : false ) 
@@ -351,6 +360,10 @@ extends PApplet
 		initializeExtraObjectsOn1stFrame();	// wait until draw() happens, to avoid weird launch crash if midi signals were coming in as haxademic starts
 		handleRenderingStepthrough();
 		if( _audioInput != null ) _audioInput.getBeatDetection(); // detect beats and pass through to current visual module	// 		int[] beatDetectArr = 
+		if( audioIn != null ) {
+			audioIn.update(); // detect beats and pass through to current visual module	// 		int[] beatDetectArr =
+			_waveformData.updateWaveformDataMinim( audioIn.getAudioInput() );
+		}
 		if( kinectWrapper != null ) kinectWrapper.update();
 		if( _jw != null ) _jw.startFrame();
 		drawApp();
@@ -507,7 +520,7 @@ extends PApplet
 	public void oscEvent(OscMessage theOscMessage) {
 		float oscValue = theOscMessage.get(0).floatValue();
 		String oscMsg = theOscMessage.addrPattern();
-		PAppletHax.println(oscMsg+": "+oscValue);
+		// PAppletHax.println(oscMsg+": "+oscValue);
 		_oscWrapper.setOscMapItem(oscMsg, oscValue);
 
 		try { 
@@ -569,7 +582,7 @@ extends PApplet
 	// instance of osc wrapper -------------------------------------------------
 	public OscWrapper getOsc() { return _oscWrapper; }
 	// instance of osc wrapper -------------------------------------------------
-	public Minim getMinim() { return _minim; }
+	public Minim getMinim() { return minim; }
 	// get fps of app -------------------------------------------------
 	public int getFps() { return _fps; }
 	// get fps factor of app -------------------------------------------------

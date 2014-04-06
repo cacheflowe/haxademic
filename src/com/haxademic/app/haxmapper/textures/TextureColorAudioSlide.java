@@ -34,7 +34,7 @@ extends BaseTexture {
 		_texture.clear();
 		
 		_texture.fill( _colorEase.colorInt() );
-		float amp = P.p._audioInput.getFFT().spectrum[ _eqIndex ];
+		float amp = P.p.audioIn.getEqBand( _eqIndex );
 		if( _mode == 0 ) {
 			_texture.rect(0, 0, _texture.width * amp, _texture.height );			
 		} else if( _mode == 1 ) {
