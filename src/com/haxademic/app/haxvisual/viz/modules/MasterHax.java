@@ -8,7 +8,6 @@ import com.haxademic.app.haxvisual.viz.elements.BarsModEQ;
 import com.haxademic.app.haxvisual.viz.elements.BlobSheetElement;
 import com.haxademic.app.haxvisual.viz.elements.BwMotionIllusion;
 import com.haxademic.app.haxvisual.viz.elements.BwShaderBg;
-import com.haxademic.app.haxvisual.viz.elements.CacheLogo;
 import com.haxademic.app.haxvisual.viz.elements.FireTunnelShader;
 import com.haxademic.app.haxvisual.viz.elements.GlowwaveShader;
 import com.haxademic.app.haxvisual.viz.elements.GridEQ;
@@ -19,15 +18,14 @@ import com.haxademic.app.haxvisual.viz.elements.OuterSphere;
 import com.haxademic.app.haxvisual.viz.elements.RotatingRings;
 import com.haxademic.app.haxvisual.viz.elements.RotatorShapes;
 import com.haxademic.app.haxvisual.viz.elements.SphereClouds;
-import com.haxademic.app.haxvisual.viz.elements.SphereTextureLines;
 import com.haxademic.app.haxvisual.viz.elements.SphericalHarmonicsOscillator;
 import com.haxademic.app.haxvisual.viz.elements.StarField;
 import com.haxademic.app.haxvisual.viz.elements.SvgPattern2d;
+import com.haxademic.app.haxvisual.viz.elements.VideoScrubberLayer;
 import com.haxademic.app.haxvisual.viz.elements.WarpedImagesBackdrop;
 import com.haxademic.app.haxvisual.viz.elements.WaveformPlane;
 import com.haxademic.app.haxvisual.viz.elements.WaveformShapes;
 import com.haxademic.app.haxvisual.viz.elements.WaveformSingle;
-import com.haxademic.app.haxvisual.viz.elements.WordsOverlay2d;
 import com.haxademic.core.draw.color.ColorGroup;
 
 public class MasterHax 
@@ -50,10 +48,11 @@ implements IVizModule {
 //		SphereTextureLines sphereLinesSmall = new SphereTextureLines( p, toxi, _audioData );
 //		sphereLinesSmall.setDrawProps( 150, 0.2f );
 //		_fgElements.add( sphereLinesSmall );
-		_fgElements.add( new CacheLogo( p, toxi, _audioData ) );
+//		_fgElements.add( new CacheLogo( p, toxi, _audioData ) );
 		_fgElements.add( new SphericalHarmonicsOscillator( p, toxi, _audioData ) );
 //		_fgElements.add( new KinectMesh( p, toxi, _audioData, p.kinectWrapper ) );
 		
+		_bgElements.add( new VideoScrubberLayer( p, toxi, _audioData ) );
 		_bgElements.add( new GlowwaveShader( p, toxi, _audioData ) );
 		_bgElements.add( new BwMotionIllusion( p, toxi, _audioData ) );
 		_bgElements.add( new BwShaderBg( p, toxi, _audioData ) );
@@ -75,7 +74,7 @@ implements IVizModule {
 		_frame2dElements.add( new BarsEQ2d( p, toxi, _audioData ) );
 		_frame2dElements.add( new AppFrame2d( p, toxi, _audioData ) );
 		_frame2dElements.add( new SvgPattern2d( p, toxi, _audioData ) );
-		_frame2dElements.add( new WordsOverlay2d( p, toxi, _audioData ) );
+//		_frame2dElements.add( new WordsOverlay2d( p, toxi, _audioData ) );
 
 		if( p.kinectWrapper != null ) _kinectElements.add( new KinectMeshHead( p, toxi, _audioData, p.kinectWrapper ) );
 		
