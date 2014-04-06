@@ -144,8 +144,14 @@ General Use / Tips
 	
 ## Converting .mov output
 ```
-ffmpeg -y -i input.mov -vcodec mpeg4 -b:v 10000k -f mp4 output.mp4
-ffmpeg -y -i output.mp4 -vcodec libx264 -b:v 10000k output-final.mp4
+$ ffmpeg -y -i input.mov -vcodec mpeg4 -b:v 10000k -f mp4 output.mp4
+$ ffmpeg -y -i output.mp4 -vcodec libx264 -b:v 10000k output-final.mp4
+```
+
+## Publish a .jar of the /core
+```	
+$ cd haxademic-2/bin
+$ jar cfv ../../ohheckyeah/games-java/lib/haxademic/haxademic.jar ./com/haxademic/core/*
 ```
 
 ## Todo
