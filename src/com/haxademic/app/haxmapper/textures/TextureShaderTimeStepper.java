@@ -6,7 +6,7 @@ import processing.opengl.PShader;
 import com.haxademic.core.math.easing.EasingFloat;
 import com.haxademic.core.system.FileUtil;
 
-public class BaseShaderTexture
+public class TextureShaderTimeStepper
 extends BaseTexture {
 
 	protected PGraphics _image;
@@ -19,10 +19,11 @@ extends BaseTexture {
 	protected EasingFloat _brightEaser = new EasingFloat(0, 10);
 	protected int _mode = 0;
 
-	public BaseShaderTexture( int width, int height ) {
+	public TextureShaderTimeStepper( int width, int height, String textureShader ) {
 		super();
 		
 		buildGraphics( width, height );
+		loadShaders( textureShader );
 	}
 	
 	protected void loadShaders( String textureShader ) {
@@ -72,7 +73,7 @@ extends BaseTexture {
 	public void updateTiming() {
 		if( _timingFrame % 4 == 0 ) {
 			_brightEaser.setCurrent(1.1f);
-			_timeEaser.setTarget( _timeEaser.value() + 4 );
+			_timeEaser.setTarget( _timeEaser.value() + 3 );
 		} else {
 			_brightEaser.setCurrent(0.8f);
 			_timeEaser.setTarget( _timeEaser.value() + 1 );

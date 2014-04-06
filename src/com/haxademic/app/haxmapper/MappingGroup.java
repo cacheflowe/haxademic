@@ -58,7 +58,7 @@ public class MappingGroup {
 		return _curTextures;
 	}
 
-	protected void randomizeNextPolygon() {
+	public void randomizeNextPolygon() {
 		if( _curTextures.size() == 0 ) return;
 		//			for(int i=0; i < _mappedPolygons.size(); i++ ) {
 		IMappedPolygon triangle = _mappedPolygons.get( MathUtil.randRange( 0, _mappedPolygons.size() - 1 ) );

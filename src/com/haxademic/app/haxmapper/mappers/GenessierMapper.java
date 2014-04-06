@@ -107,14 +107,7 @@ extends HaxMapper{
 	}
 	
 	protected void drawOverlays() {
-		
-	}
-	
-	public void drawApp() {
-		super.drawApp();
-		
-		_brightness.set("brightness", _brightnessVal );
-		p.filter( _brightness );
+		// prevent mesh from drawing
 	}
 	
 	

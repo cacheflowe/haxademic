@@ -3,7 +3,6 @@ package com.haxademic.app.haxmapper;
 import java.util.ArrayList;
 
 import oscP5.OscMessage;
-import processing.core.PApplet;
 import processing.core.PConstants;
 import processing.core.PGraphics;
 import processing.opengl.PShader;
@@ -11,15 +10,6 @@ import processing.opengl.PShader;
 import com.haxademic.app.haxmapper.polygons.MappedQuad;
 import com.haxademic.app.haxmapper.polygons.MappedTriangle;
 import com.haxademic.app.haxmapper.textures.BaseTexture;
-import com.haxademic.app.haxmapper.textures.TextureColorAudioFade;
-import com.haxademic.app.haxmapper.textures.TextureColorAudioSlide;
-import com.haxademic.app.haxmapper.textures.TextureEQColumns;
-import com.haxademic.app.haxmapper.textures.TextureEQGrid;
-import com.haxademic.app.haxmapper.textures.TextureScrollingColumns;
-import com.haxademic.app.haxmapper.textures.TextureShaderGlowWave;
-import com.haxademic.app.haxmapper.textures.TextureShaderWavyCheckerPlanes;
-import com.haxademic.app.haxmapper.textures.TextureSphereRotate;
-import com.haxademic.app.haxmapper.textures.TextureVideoPlayer;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.data.ConvertUtil;
@@ -52,7 +42,7 @@ extends PAppletHax {
 	protected InputTrigger _audioInputDownTrigger = new InputTrigger(new char[]{},new String[]{"/7/nav2"},new Integer[]{});
 
 	protected PShader _brightness;
-	protected float _brightnessVal;
+	protected float _brightnessVal = 1f;
 
 	
 	public void oscEvent(OscMessage theOscMessage) {  
@@ -202,6 +192,7 @@ extends PAppletHax {
 	protected void buildPostProcessingChain() {
 		_brightness = p.loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/brightness.glsl" );
 		_brightness.set("brightness", 1.0f );
+		
 	}
 	
 	public void drawApp() {
@@ -211,9 +202,8 @@ extends PAppletHax {
 		updateActiveTextures();
 		drawPolygonGroups();
 		drawOverlays();
-		
-		// called after polygon draw() to be sure that polygon's texture has initialized
 		checkBeat();
+		postProcessFilters();
 	}
 	
 	protected void updateActiveTextures() {
@@ -249,6 +239,11 @@ extends PAppletHax {
 		}
 		_overlayPG.endDraw();
 		p.image( _overlayPG, 0, 0, _overlayPG.width, _overlayPG.height );
+	}
+	
+	protected void postProcessFilters() {
+		_brightness.set("brightness", _brightnessVal );
+		p.filter( _brightness );	
 	}
 	
 	protected void checkBeat() {
