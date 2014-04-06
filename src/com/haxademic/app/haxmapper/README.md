@@ -23,8 +23,7 @@ A custom projection-mapped visual system
 
 #### Next:
 
-* Swap out ESS for minim 
-* Add OSC controls into HaxMapper from Genessier show
+* Test Minim on basic EQ and make sure gain change is good 
 * Add methods to creatively distrubte updates to polygons and meshlines in a group
 * Add a mode for polygons to take a color and be a simple audio-reactive panel - good for small triangles when there's not enough room for textures
 * Beat detection test! make a test app for this.

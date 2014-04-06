@@ -140,7 +140,7 @@ extends PAppletHax
 		_audioInput.setNumAverages( _numAverages );
 		_audioInput.setDampening( .13f );
 		
-		sounds = new AudioPool( p, p._minim );
+		sounds = new AudioPool( p, p.minim );
 		soundtrack = new Soundtrack();
 		
 		AssetLoader loader = new AssetLoader();

@@ -81,13 +81,13 @@ extends PAppletHax
 	}
 		
 	public void drawApp() {
-		DrawUtil.resetGlobalProps( p );
+//		DrawUtil.resetGlobalProps( p );
 		p.shininess(1000f); 
 		p.lights();
 		p.background(0);
 		
 		// draw filtered web cam
-		DrawUtil.setDrawCorner(p);
+//		DrawUtil.setDrawCorner(p);
 		DrawUtil.setColorForPImage(p);
 		
 		p.translate(p.width, 0);
@@ -114,7 +114,7 @@ extends PAppletHax
 			_w = w;
 			_h = h;
 			_color = color;
-			_sound = _minim.loadFile( file, 512 );
+			_sound = minim.loadFile( file, 512 );
 		}
 		
 		public void update() {
