@@ -12,10 +12,13 @@ import com.haxademic.app.haxmapper.textures.TextureColorAudioFade;
 import com.haxademic.app.haxmapper.textures.TextureColorAudioSlide;
 import com.haxademic.app.haxmapper.textures.TextureEQColumns;
 import com.haxademic.app.haxmapper.textures.TextureEQGrid;
+import com.haxademic.app.haxmapper.textures.TextureImageTimeStepper;
 import com.haxademic.app.haxmapper.textures.TextureScrollingColumns;
 import com.haxademic.app.haxmapper.textures.TextureShaderTimeStepper;
 import com.haxademic.app.haxmapper.textures.TextureSphereRotate;
 import com.haxademic.app.haxmapper.textures.TextureVideoPlayer;
+import com.haxademic.app.haxmapper.textures.TextureWaveformSimple;
+import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.system.FileUtil;
 
 @SuppressWarnings("serial")
@@ -36,7 +39,7 @@ extends HaxMapper{
 
 	protected void overridePropsFile() {
 		super.overridePropsFile();
-		_appConfig.setProperty( "mapping_file", FileUtil.getHaxademicDataPath() + "text/mapping/mapping-2014-04-02-01-02-28.txt" );
+		_appConfig.setProperty( "mapping_file", FileUtil.getHaxademicDataPath() + "text/mapping/mapping-2014-04-06-21-30-19.txt" );
 	}
 
 	public void oscEvent(OscMessage theOscMessage) {  
@@ -49,23 +52,25 @@ extends HaxMapper{
 		centerGroup.pushTexture( _texturePool.get(0) );
 
 		MappingGroup leftGroup = _mappingGroups.get(1);
-		leftGroup.pushTexture( _texturePool.get(1) );
-		leftGroup.pushTexture( _texturePool.get(3) );
-		leftGroup.pushTexture( _texturePool.get(5) );
-		leftGroup.pushTexture( _texturePool.get(7) );
-		leftGroup.pushTexture( _texturePool.get(9) );
-		leftGroup.pushTexture( _texturePool.get(10) );
+		leftGroup.pushTexture( _texturePool.get(17) );
+		leftGroup.pushTexture( _texturePool.get(16) );
+//		leftGroup.pushTexture( _texturePool.get(15) );
+//		leftGroup.pushTexture( _texturePool.get(14) );
+//		leftGroup.pushTexture( _texturePool.get(13) );
+//		leftGroup.pushTexture( _texturePool.get(12) );
 
 		MappingGroup rightGroup = _mappingGroups.get(2);
-		rightGroup.pushTexture( _texturePool.get(2) );
-		rightGroup.pushTexture( _texturePool.get(4) );
-		rightGroup.pushTexture( _texturePool.get(6) );
-		rightGroup.pushTexture( _texturePool.get(8) );
-		rightGroup.pushTexture( _texturePool.get(1) );
-		rightGroup.pushTexture( _texturePool.get(3) );
+		rightGroup.pushTexture( _texturePool.get(9) );
+		rightGroup.pushTexture( _texturePool.get(10) );
+//		rightGroup.pushTexture( _texturePool.get(11) );
+//		rightGroup.pushTexture( _texturePool.get(12) );
+//		rightGroup.pushTexture( _texturePool.get(13) );
+//		rightGroup.pushTexture( _texturePool.get(14) );
 
-		MappingGroup bottomGroup = _mappingGroups.get(3);
-		bottomGroup.pushTexture( _texturePool.get(3) );
+//		MappingGroup bottomGroup = _mappingGroups.get(3);
+//		bottomGroup.pushTexture( _texturePool.get(10) );
+//		bottomGroup.pushTexture( _texturePool.get(11) );
+//		bottomGroup.pushTexture( _texturePool.get(12) );
 
 
 		// set initial mapping properties - make all fully contain their textures
@@ -94,8 +99,10 @@ extends HaxMapper{
 		_texturePool.add( new TextureShaderTimeStepper( 400, 400, "bw-eye-jacker-01.glsl" ));
 		_texturePool.add( new TextureShaderTimeStepper( 400, 400, "dots-orbit.glsl" ));
 		_texturePool.add( new TextureShaderTimeStepper( 400, 400, "glowwave.glsl" ));
+		_texturePool.add( new TextureImageTimeStepper( 600, 600 ));
 		_texturePool.add( new TextureEQColumns( 200, 100 ));
 		_texturePool.add( new TextureEQGrid( 320, 160 ));
+		_texturePool.add( new TextureWaveformSimple( 400, 200 ));
 		_texturePool.add( new TextureColorAudioFade( 100, 100 ));
 		_texturePool.add( new TextureColorAudioSlide( 100, 100 ));
 		_texturePool.add( new TextureSphereRotate( 400, 400 ));
@@ -105,12 +112,15 @@ extends HaxMapper{
 
 	protected void bigChangeTrigger() {
 
-		MappingGroup centerGroup = _mappingGroups.get(1);
-//		centerGroup.shiftTexture();
-//		centerGroup.pushTexture( _texturePool.get(0) );
+		MappingGroup centerGroup = _mappingGroups.get(0);
+		centerGroup.clearAllTextures();
+		centerGroup.pushTexture( _texturePool.get( MathUtil.randRange(0, 8)) );
+		centerGroup.pushTexture( _texturePool.get( MathUtil.randRange(9, 14)) );
+//		centerGroup.pushTexture( _texturePool.get( MathUtil.randRange(15, 18)) );
+//		centerGroup.pushTexture( _texturePool.get( MathUtil.randRange(10, 18)) );
 		centerGroup.setAllPolygonsToTexture(0);
 		
-		// REMOVE ALL TEXTURE FROM A GROUP AND ADD A RANDOM SET
+		// REMOVE ALL TEXTURES FROM A GROUP AND ADD A RANDOM SET
 		// setAllPolygonsToTexture() yes!
 		// THEN RANDOMIZE FROM THERE
 		// ALSO< SET ALL POLYGON MAPPING ROTATION + STYLE
@@ -120,7 +130,7 @@ extends HaxMapper{
 //			curSideIndex = 0;
 //		}
 
-		MappingGroup leftGroup = _mappingGroups.get(0);
+		MappingGroup leftGroup = _mappingGroups.get(1);
 //		leftGroup.shiftTexture();
 //		leftGroup.pushTexture( _texturePool.get(sideIndexes[curSideIndex]) );
 		leftGroup.setAllPolygonsToTexture(0);
@@ -130,10 +140,10 @@ extends HaxMapper{
 //		rightGroup.pushTexture( _texturePool.get(sideIndexes[curSideIndex]) );
 		rightGroup.setAllPolygonsToTexture(0);
 
-		MappingGroup bottomGroup = _mappingGroups.get(3);
-//		bottomGroup.shiftTexture();
-//		bottomGroup.pushTexture( _texturePool.get(sideIndexes[curSideIndex]) );
-		bottomGroup.setAllPolygonsToTexture(0);
+//		MappingGroup bottomGroup = _mappingGroups.get(3);
+////		bottomGroup.shiftTexture();
+////		bottomGroup.pushTexture( _texturePool.get(sideIndexes[curSideIndex]) );
+//		bottomGroup.setAllPolygonsToTexture(0);
 
 	}
 
@@ -145,11 +155,17 @@ extends HaxMapper{
 		if( audioIn.isBeat() == true ) {
 			numBeatsDetected++;
 			
-			for(int i=0; i < _mappingGroups.size(); i++ ) {
-				_mappingGroups.get(i).randomizeNextPolygon();
+//			if( numBeatsDetected % 4 == 0 ) {
+				for(int i=0; i < _mappingGroups.size(); i++ ) {
+					_mappingGroups.get(i).randomizeNextPolygon();
+				}
+//			}
+			for( int i=0; i < _activeTextures.size(); i++ ) {
+				_activeTextures.get(i).updateTiming();
 			}
 
-			if( numBeatsDetected % 10 == 0 ) {
+
+			if( numBeatsDetected % 20 == 0 ) {
 				bigChangeTrigger();
 			}
 		}

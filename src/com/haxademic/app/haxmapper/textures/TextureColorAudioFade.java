@@ -18,7 +18,7 @@ extends BaseTexture {
 	
 	public void setActive( boolean isActive ) {
 		super.setActive(isActive);
-		_eqIndex = MathUtil.randRange(0, 255);
+		_eqIndex = MathUtil.randRange(3, 31);
 	}
 	
 	public void update() {
@@ -27,7 +27,7 @@ extends BaseTexture {
 		_texture.beginDraw();
 		_texture.clear();
 		
-		_texture.fill( _colorEase.colorInt(), P.p.audioIn.getEqBand( _eqIndex ) * 2 * 255 );
+		_texture.fill( _colorEase.colorInt(), P.p.audioIn.getEqAvgBand( _eqIndex ) * 255 );
 		_texture.rect(0, 0, _texture.width, _texture.height );
 		
 		_texture.endDraw();

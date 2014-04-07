@@ -24,11 +24,12 @@ A custom projection-mapped visual system
 #### Next:
 
 * Test Minim on basic EQ and make sure gain change is good 
+* Fix meshlines! audio is jacked with minim upgrade
 * Add methods to creatively distrubte updates to polygons and meshlines in a group
-* Add a mode for polygons to take a color and be a simple audio-reactive panel - good for small triangles when there's not enough room for textures
-* Beat detection test! make a test app for this.
-* setActive on video addition / removal from pool to stop playing
-* Convert to minim!
+* Add a mode for polygons to take a color and be a simple audio-reactive panel - good for small triangles when there's not enough room for textures - can we just replicate what's in the mapping program?
+* Allow dragging polygons in HaxMapper for realtime adjustments
+* OSC controls should disable beat detection unless it's been off for a minute
+
 
 #### Texture manager to distribute textures between groups and group items* 
 

@@ -207,16 +207,28 @@ extends PAppletHax {
 	}
 	
 	protected void updateActiveTextures() {
-		// figure out which textures are being used and rebuild array
-		while( _activeTextures.size() > 0 ) _activeTextures.remove( _activeTextures.size() - 1 );
+		// reset active texture pool array
+		while( _activeTextures.size() > 0 ) {
+			_activeTextures.remove( _activeTextures.size() - 1 ).resetUseCount();
+		}
+		// figure out which textures are being used and rebuild array, telling 
 		for( int i=0; i < _mappingGroups.size(); i++ ) {
 			ArrayList<BaseTexture> textures = _mappingGroups.get(i).textures();
 			for( int j=0; j < textures.size(); j++ ) {
 				if( _activeTextures.indexOf( textures.get(j) ) == -1 ) {
+					textures.get(j).setActive(true);
 					_activeTextures.add( textures.get(j) );
 				}
 			}
 		}
+		// set inactive pool textures' _active state to false (mostly for turning off video players)
+		for( int i=0; i < _texturePool.size(); i++ ) {
+			if( _texturePool.get(i).useCount() == 0 ) {
+				// P.println("setting to false",i);
+				_texturePool.get(i).setActive(false);
+			}
+		}
+		// update active textures, once each
 		for( int i=0; i < _activeTextures.size(); i++ ) {
 			_activeTextures.get(i).update();
 		}

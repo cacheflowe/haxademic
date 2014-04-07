@@ -10,6 +10,7 @@ public class BaseTexture {
 	
 	protected PGraphics _texture;
 	protected boolean _active;
+	protected int _useCount = 0;
 	protected int _color;
 	protected ColorHaxEasing _colorEase;
 
@@ -24,7 +25,20 @@ public class BaseTexture {
 	}
 	
 	public void setActive( boolean isActive ) {
-		
+		_active = isActive;
+		if( _active == true ) addUseCount();
+	}
+	
+	public void addUseCount() {
+		_useCount += 1;
+	}
+	
+	public void resetUseCount() {
+		_useCount = 0;
+	}
+	
+	public int useCount() {
+		return _useCount;
 	}
 	
 	public void setColor( int color ) {
@@ -34,6 +48,7 @@ public class BaseTexture {
 	
 	public void update() {
 		_colorEase.update();
+		resetUseCount(); // this should be the last thing that happens in a frame, to help with texture pool optimization
 	}
 	
 	public void updateTiming() {

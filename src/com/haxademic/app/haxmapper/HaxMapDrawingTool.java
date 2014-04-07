@@ -45,7 +45,7 @@ extends PAppletHax {
 		_appConfig.setProperty( "fills_screen", "true" );
 		_appConfig.setProperty( "fullscreen", "true" );
 		_appConfig.setProperty( "mapping_file", FileUtil.getHaxademicDataPath() + "text/mapping/mapping-2014-03-23-23-24-17.txt" );
-		_appConfig.setProperty( "mapping_file", FileUtil.getHaxademicDataPath() + "text/mapping/mapping-2014-03-24-09-29-28.txt" );
+		_appConfig.setProperty( "mapping_file", FileUtil.getHaxademicDataPath() + "text/mapping/mapping-2014-04-06-20-58-33.txt" );
 	}
 
 	public void setup() {
@@ -99,7 +99,7 @@ extends PAppletHax {
 		for (int i=0; i < _shapes.size(); i++) {
 			// get shape and set audio-reactive fill --------------
 			PShape shape = _shapes.get(i);
-			shape.setFill(p.color(255, p._audioInput.getFFT().spectrum[(i * 10 + 10) % 512] * 2000));
+			shape.setFill(p.color(255, p.audioIn.getEqAvgBand((i * 10 + 10) % 512) * 2000));
 			p.shape( shape );
 
 

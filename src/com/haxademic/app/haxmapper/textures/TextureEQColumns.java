@@ -16,7 +16,7 @@ extends BaseTexture {
 	}
 	
 	public void newLineMode() {
-		_numLines = MathUtil.randRange(20, 100);
+		_numLines = MathUtil.randRange(20, 30);
 		_hasStroke = !_hasStroke;
 	}
 
@@ -24,7 +24,8 @@ extends BaseTexture {
 		super.update();
 		
 		float eqW = _texture.width / _numLines;
-		float spectrumInterval = (int) ( 256 / _numLines );	// 256 keeps it in the bottom half of the spectrum since the high ends is so overrun
+		float spectrumInterval = ( 512f / _numLines );
+		float avergeInterval = ( 32f / _numLines );
 		
 		_texture.beginDraw();
 		_texture.clear();
@@ -37,8 +38,9 @@ extends BaseTexture {
 		}
 
 		for( int i=0; i < _numLines; i++ ) {
-			_texture.fill( _colorEase.colorInt(), P.p.audioIn.getEqBand( P.floor((i+1)*spectrumInterval)%512 ) * 2 * 255 );
-			_texture.rect(i * eqW, 0, eqW, _texture.height );
+			 _texture.fill( _colorEase.colorInt(), P.constrain( P.p.audioIn.getEqAvgBand( P.floor(i*avergeInterval) ) * 255, 0, 255 ) );
+//			_texture.fill( _colorEase.colorInt(), P.constrain( P.p.audioIn.getEqBand( P.floor(i*spectrumInterval) ) * 255, 0, 255 ) );
+			_texture.rect(i * eqW, 0, eqW, _texture.height );  //  P.p.audioIn.getEqBand( P.floor(i*spectrumInterval)%512 ) * 50
 		}
 		
 		_texture.endDraw();

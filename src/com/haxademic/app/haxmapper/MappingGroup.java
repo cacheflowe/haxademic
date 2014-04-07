@@ -50,6 +50,10 @@ public class MappingGroup {
 		}
 	}
 
+	public void clearAllTextures() {
+		while( _curTextures.size() > 0 ) _curTextures.remove( _curTextures.size() - 1 );
+	}
+
 	public ArrayList<IMappedPolygon> polygons() {
 		return _mappedPolygons;
 	}

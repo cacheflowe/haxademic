@@ -23,7 +23,7 @@ extends BaseTexture {
 	}
 	
 	public void randomize() {
-		_eqIndex = MathUtil.randRange(0, 255);
+		_eqIndex = MathUtil.randRange(3, 31);
 		_mode = MathUtil.randRange(0, 3);
 	}
 	
@@ -34,7 +34,7 @@ extends BaseTexture {
 		_texture.clear();
 		
 		_texture.fill( _colorEase.colorInt() );
-		float amp = P.p.audioIn.getEqBand( _eqIndex );
+		float amp = P.p.audioIn.getEqAvgBand( _eqIndex ) * 0.5f;
 		if( _mode == 0 ) {
 			_texture.rect(0, 0, _texture.width * amp, _texture.height );			
 		} else if( _mode == 1 ) {
