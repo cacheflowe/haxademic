@@ -3,6 +3,7 @@ package com.haxademic.app.haxmapper.textures;
 import processing.core.PGraphics;
 import processing.opengl.PShader;
 
+import com.haxademic.core.app.P;
 import com.haxademic.core.math.easing.EasingFloat;
 import com.haxademic.core.system.FileUtil;
 
@@ -18,6 +19,9 @@ extends BaseTexture {
 	protected EasingFloat _timeEaser = new EasingFloat(0, 15);
 	protected EasingFloat _brightEaser = new EasingFloat(0, 10);
 	protected int _mode = 0;
+	protected float _smallTimeStep = 1f;
+	protected float _largeTimeStep = 3f;
+	protected float _reverseThreshold = 100f;
 
 	public TextureShaderTimeStepper( int width, int height, String textureShader ) {
 		super();
@@ -57,8 +61,26 @@ extends BaseTexture {
 		_texture.endDraw();
 	}
 	
+	public void setActive( boolean isActive ) {
+		boolean wasActive = _active;
+		super.setActive(isActive);
+		if( _active == true && wasActive == false ) {
+			_timeEaser.setCurrent( 0.0001f );
+			_timeEaser.setTarget( 0.0001f );
+		}
+	}
+	
 	protected void updateShaders() {
 		_timeEaser.update();
+		if( _timeEaser.value() > _reverseThreshold || _timeEaser.value() < -_reverseThreshold ) {
+			_timeEaser.setCurrent( ( _timeEaser.value() > _reverseThreshold ) ? _reverseThreshold : -_reverseThreshold );
+			_largeTimeStep = _largeTimeStep * -1f;
+			_smallTimeStep = _smallTimeStep * -1f;
+			_timeEaser.setTarget( _timeEaser.value() + _largeTimeStep );
+			_timeEaser.update();
+			_timeEaser.update();
+		}
+
 		_brightEaser.update();
 
 		_patternShader.set("time", _timeEaser.value() );
@@ -72,11 +94,11 @@ extends BaseTexture {
 	
 	public void updateTiming() {
 		if( _timingFrame % 4 == 0 ) {
-			_brightEaser.setCurrent(1.1f);
-			_timeEaser.setTarget( _timeEaser.value() + 3 );
+			_brightEaser.setCurrent(1.3f);
+			_timeEaser.setTarget( _timeEaser.value() + _largeTimeStep );
 		} else {
-			_brightEaser.setCurrent(0.8f);
-			_timeEaser.setTarget( _timeEaser.value() + 1 );
+			_brightEaser.setCurrent(1.0f);
+			_timeEaser.setTarget( _timeEaser.value() + _smallTimeStep );
 		}
 		_brightEaser.setTarget(0.25f);
 		_timingFrame++;

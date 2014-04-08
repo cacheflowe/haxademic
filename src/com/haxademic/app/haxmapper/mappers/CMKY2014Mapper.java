@@ -18,6 +18,7 @@ import com.haxademic.app.haxmapper.textures.TextureShaderTimeStepper;
 import com.haxademic.app.haxmapper.textures.TextureSphereRotate;
 import com.haxademic.app.haxmapper.textures.TextureVideoPlayer;
 import com.haxademic.app.haxmapper.textures.TextureWaveformSimple;
+import com.haxademic.app.haxmapper.textures.TextureWebCam;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.system.FileUtil;
 
@@ -99,6 +100,14 @@ extends HaxMapper{
 		_texturePool.add( new TextureShaderTimeStepper( 400, 400, "bw-eye-jacker-01.glsl" ));
 		_texturePool.add( new TextureShaderTimeStepper( 400, 400, "dots-orbit.glsl" ));
 		_texturePool.add( new TextureShaderTimeStepper( 400, 400, "glowwave.glsl" ));
+		_texturePool.add( new TextureShaderTimeStepper( 400, 400, "bw-simple-sin.glsl" ));
+		_texturePool.add( new TextureShaderTimeStepper( 400, 400, "supershape-2d.glsl" ));
+		_texturePool.add( new TextureShaderTimeStepper( 400, 400, "star-field.glsl" ));
+		_texturePool.add( new TextureShaderTimeStepper( 400, 400, "sin-grey.glsl" ));
+		_texturePool.add( new TextureShaderTimeStepper( 400, 400, "swirl.glsl" ));
+		_texturePool.add( new TextureShaderTimeStepper( 400, 400, "bw-motion-illusion.glsl" ));
+		_texturePool.add( new TextureShaderTimeStepper( 400, 400, "sin-waves.glsl" ));
+		_texturePool.add( new TextureShaderTimeStepper( 400, 400, "lines-scroll-diag.glsl" ));
 		_texturePool.add( new TextureImageTimeStepper( 600, 600 ));
 		_texturePool.add( new TextureEQColumns( 200, 100 ));
 		_texturePool.add( new TextureEQGrid( 320, 160 ));
@@ -106,7 +115,7 @@ extends HaxMapper{
 		_texturePool.add( new TextureColorAudioFade( 100, 100 ));
 		_texturePool.add( new TextureColorAudioSlide( 100, 100 ));
 		_texturePool.add( new TextureSphereRotate( 400, 400 ));
-		//			_texturePool.add( new TextureWebCam());
+//		_texturePool.add( new TextureWebCam() );
 
 	}
 
@@ -114,8 +123,8 @@ extends HaxMapper{
 
 		MappingGroup centerGroup = _mappingGroups.get(0);
 		centerGroup.clearAllTextures();
-		centerGroup.pushTexture( _texturePool.get( MathUtil.randRange(0, 8)) );
-		centerGroup.pushTexture( _texturePool.get( MathUtil.randRange(9, 14)) );
+//		centerGroup.pushTexture( _texturePool.get( MathUtil.randRange(0, 8)) );
+		centerGroup.pushTexture( _texturePool.get( MathUtil.randRange(9, 20)) );
 //		centerGroup.pushTexture( _texturePool.get( MathUtil.randRange(15, 18)) );
 //		centerGroup.pushTexture( _texturePool.get( MathUtil.randRange(10, 18)) );
 		centerGroup.setAllPolygonsToTexture(0);
