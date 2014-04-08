@@ -21,6 +21,7 @@ implements IMappedPolygon {
 	protected Point _center;
 	protected int _eqIndex = MathUtil.randRange(30, 512);
 
+	protected int _color;
 	protected PImage _texture;
 	
 	protected int _mappingOrientation;
@@ -42,9 +43,13 @@ implements IMappedPolygon {
 		return _center;
 	}
 
+	public void setColor( int color ) {
+		_color = color;
+		_eqIndex = MathUtil.randRange(30, 512);
+	}
+	
 	public void setTexture( PImage texture ) {
 		_texture = texture;
-		if( _texture == null ) _eqIndex = MathUtil.randRange(30, 512);
 	}
 	
 	public void setTextureStyle( int mapStyle ) {
@@ -103,7 +108,7 @@ implements IMappedPolygon {
 				pg.endShape();
 			} else if( _mappingStyle == MAP_STYLE_EQ ) {
 				pg.beginShape(PConstants.TRIANGLE);
-				pg.fill(pg.color(255, P.p.audioIn.getEqAvgBand((_eqIndex * 10 + 10) % 512) * 255));
+				pg.fill(pg.color(_color, P.p.audioIn.getEqAvgBand((_eqIndex)) * 255));
 				pg.vertex(x1, y1, 0);
 				pg.vertex(x2, y2, 0);
 				pg.vertex(x3, y3, 0);

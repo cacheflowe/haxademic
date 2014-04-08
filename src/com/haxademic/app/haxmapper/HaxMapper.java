@@ -18,6 +18,7 @@ import com.haxademic.core.draw.util.OpenGLUtil;
 import com.haxademic.core.hardware.midi.AkaiMpdPads;
 import com.haxademic.core.hardware.osc.TouchOscPads;
 import com.haxademic.core.hardware.shared.InputTrigger;
+import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.system.FileUtil;
 
 
@@ -310,11 +311,7 @@ extends PAppletHax {
 			}
 		}
 		
-		if ( _timingTrigger.active() == true ) {
-			for( int i=0; i < _activeTextures.size(); i++ ) {
-				_activeTextures.get(i).updateTiming();
-			}
-		}
+		if ( _timingTrigger.active() == true ) updateTiming();
 		if ( _timingSectionTrigger.active() == true ) {
 			for( int i=0; i < _activeTextures.size(); i++ ) {
 				_activeTextures.get(i).updateTimingSection();
@@ -325,8 +322,16 @@ extends PAppletHax {
 		if ( _audioInputDownTrigger.active() == true ) _audioInput.gainDown();
 	}
 	
+	protected void updateTiming() {
+		for( int i=0; i < _activeTextures.size(); i++ ) {
+			_activeTextures.get(i).updateTiming();
+		}
+	}
+	
 	protected void bigChangeTrigger() {
-		for( int i=0; i < _mappingGroups.size(); i++ ) _mappingGroups.get(i).randomTextureToRandomPolygon();
+		for( int i=0; i < _mappingGroups.size(); i++ ) {
+			_mappingGroups.get(i).randomTextureToRandomPolygon();
+		}
 //		pickNewColors();
 	}
 

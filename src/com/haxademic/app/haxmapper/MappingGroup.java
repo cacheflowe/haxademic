@@ -118,11 +118,18 @@ public class MappingGroup {
 		}
 	}
 
+	public int randomColor() {
+		return p.color(p.random(200,255), p.random(200,255), p.random(200,255), 255f );
+	}
+	
 	public void newColor() {
 		for( int i=0; i < _curTextures.size(); i++ ) {
-			_curTextures.get(i).setColor( p.color(p.random(200,255), p.random(200,255), p.random(200,255), 255f ) );
+			_curTextures.get(i).setColor( randomColor() );
 		}
-		_meshLines.setColor( p.color(p.random(200,255), p.random(200,255), p.random(200,255), 255f ) );
+		_meshLines.setColor( randomColor() );
+		for(int j=0; j < _mappedPolygons.size(); j++ ) {
+			_mappedPolygons.get(j).setColor( randomColor() );
+		}
 	}
 
 	public void newLineMode() {

@@ -24,13 +24,13 @@ A custom projection-mapped visual system
 #### Next:
 
 * Add methods to creatively distrubte updates to polygons and meshlines in a group
-* Add a mode for polygons to take a color and be a simple audio-reactive panel - good for small triangles when there's not enough room for textures - can we just replicate what's in the mapping program?
 * Allow dragging polygons in HaxMapper for realtime adjustments
 * Mock test with actual groups for CMKY
 
 
 #### Texture manager to distribute textures between groups and group items* 
 
+* big change should happen manually, or if it hasn't happened in 5 minutes or so...
 * Switch all to one particular mode
 * Make a distribution across group
 * Randomly switch textures on beat
