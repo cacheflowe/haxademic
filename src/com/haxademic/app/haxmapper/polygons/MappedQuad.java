@@ -117,7 +117,7 @@ implements IMappedPolygon {
 					pg.endShape();
 				} else if( _mappingStyle == MAP_STYLE_EQ ) {
 					pg.beginShape(PConstants.QUAD);
-					pg.fill(pg.color(_color, P.p.audioIn.getEqAvgBand(_eqIndex) * 255));
+					pg.fill(pg.color(_color, P.constrain( P.p.audioIn.getEqBand((_eqIndex)) * 255, 0, 255 )));
 					pg.vertex(x1, y1, 0);
 					pg.vertex(x2, y2, 0);
 					pg.vertex(x3, y3, 0);
