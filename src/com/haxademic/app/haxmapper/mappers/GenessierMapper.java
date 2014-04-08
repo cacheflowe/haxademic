@@ -50,7 +50,7 @@ extends HaxMapper{
 			ArrayList<IMappedPolygon> polygons = _mappingGroups.get(i).polygons();
 			for(int j=0; j < polygons.size(); j++ ) {
 				IMappedPolygon polygon = polygons.get(j);
-				polygon.setTextureStyle(true);
+				polygon.randomTextureStyle();
 			}
 		}
 

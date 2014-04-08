@@ -37,7 +37,6 @@ public class MeshLineSegment {
 			float spacing = (float) width / P.p._waveformData._waveform.length;
 			float startX = 0f;
 			for (int i = 0; i < P.p._waveformData._waveform.length; i++ ) {	
-				P.println(startX + i * spacing);
 				waveformShape.vertex(startX + i * spacing, 0);
 			}
 			waveformShape.endShape();

@@ -62,15 +62,25 @@ public class MappingGroup {
 		return _curTextures;
 	}
 
-	public void randomizeNextPolygon() {
+	public IMappedPolygon randomPolygon() {
+		return _mappedPolygons.get( MathUtil.randRange( 0, _mappedPolygons.size() - 1 ) );
+	}
+	
+	public BaseTexture randomBaseTexture() {
+		return _curTextures.get( MathUtil.randRange( 0, _curTextures.size() - 1 ) );
+	}
+	
+	public void randomPolygonRandomRotate() {
+		randomPolygon().rotateTexture();
+	}
+	
+	public void randomPolygonRandomMappingStyle() {
+		randomPolygon().rotateTexture();
+	}
+	
+	public void randomTextureToRandomPolygon() {
 		if( _curTextures.size() == 0 ) return;
-		//			for(int i=0; i < _mappedPolygons.size(); i++ ) {
-		IMappedPolygon triangle = _mappedPolygons.get( MathUtil.randRange( 0, _mappedPolygons.size() - 1 ) );
-		int randTexture = MathUtil.randRange( 0, _curTextures.size() - 1 );
-		triangle.setTexture(_curTextures.get(randTexture).texture());
-		triangle.setTextureStyle( MathUtil.randBoolean(p) );
-		triangle.rotateTexture();
-		//			}		
+		randomPolygon().setTexture( randomBaseTexture().texture() );
 	}
 	
 	public void setAllPolygonsToTexture( int textureIndex ) {
@@ -80,6 +90,13 @@ public class MappingGroup {
 		}
 	}
 
+	public void setAllPolygonsTextureStyle( int textureStyle ) {
+		for(int j=0; j < _mappedPolygons.size(); j++ ) {
+			IMappedPolygon polygon = _mappedPolygons.get(j);
+			polygon.setTextureStyle( textureStyle );
+		}
+	}
+	
 	public void draw() {
 		for(int j=0; j < _mappedPolygons.size(); j++ ) {
 			IMappedPolygon triangle = _mappedPolygons.get(j);

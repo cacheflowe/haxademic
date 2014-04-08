@@ -79,7 +79,7 @@ extends HaxMapper{
 			ArrayList<IMappedPolygon> polygons = _mappingGroups.get(i).polygons();
 			for(int j=0; j < polygons.size(); j++ ) {
 				IMappedPolygon polygon = polygons.get(j);
-				polygon.setTextureStyle(true);
+				polygon.setTextureStyle( IMappedPolygon.MAP_STYLE_MASK );
 			}
 		}
 
@@ -125,7 +125,7 @@ extends HaxMapper{
 
 		MappingGroup centerGroup = _mappingGroups.get(0);
 		centerGroup.clearAllTextures();
-//		centerGroup.pushTexture( _texturePool.get( MathUtil.randRange(0, 8)) );
+		centerGroup.pushTexture( _texturePool.get( MathUtil.randRange(0, 8)) );
 		centerGroup.pushTexture( _texturePool.get( MathUtil.randRange(9, 20)) );
 //		centerGroup.pushTexture( _texturePool.get( MathUtil.randRange(15, 18)) );
 //		centerGroup.pushTexture( _texturePool.get( MathUtil.randRange(10, 18)) );
@@ -163,20 +163,26 @@ extends HaxMapper{
 	}
 
 	protected void checkBeat() {
-		if( audioIn.isBeat() == true ) {
+		if( audioIn.isBeat() == true && p.millis() - 4000 > _lastInputMillis ) {
 			numBeatsDetected++;
 			
-//			if( numBeatsDetected % 4 == 0 ) {
-				for(int i=0; i < _mappingGroups.size(); i++ ) {
-					_mappingGroups.get(i).randomizeNextPolygon();
-				}
-//			}
+			// every beat, cahnge a polygon or 2
+			for(int i=0; i < _mappingGroups.size(); i++ ) {
+				_mappingGroups.get(i).randomTextureToRandomPolygon();
+				_mappingGroups.get(i).randomPolygonRandomMappingStyle();
+			}
+			// make sure everything's timed to the beat
 			for( int i=0; i < _activeTextures.size(); i++ ) {
 				_activeTextures.get(i).updateTiming();
 			}
-
-
+			// every 20 beats, set all polygons' styles to be the same per group
 			if( numBeatsDetected % 20 == 0 ) {
+				for(int i=0; i < _mappingGroups.size(); i++ ) {
+					_mappingGroups.get(i).setAllPolygonsTextureStyle( MathUtil.randRange(0, 2) );
+				}
+			}
+			// every 40 beats, do something bigger
+			if( numBeatsDetected % 40 == 0 ) {
 				bigChangeTrigger();
 			}
 		}

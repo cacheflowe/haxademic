@@ -40,6 +40,7 @@ extends PAppletHax {
 	protected InputTrigger _bigChangeTrigger = new InputTrigger(new char[]{' '},new String[]{TouchOscPads.PAD_07},new Integer[]{AkaiMpdPads.PAD_07});
 	protected InputTrigger _audioInputUpTrigger = new InputTrigger(new char[]{},new String[]{"/7/nav1"},new Integer[]{});
 	protected InputTrigger _audioInputDownTrigger = new InputTrigger(new char[]{},new String[]{"/7/nav2"},new Integer[]{});
+	protected int _lastInputMillis = 0;
 
 	protected PShader _brightness;
 	protected float _brightnessVal = 1f;
@@ -48,9 +49,15 @@ extends PAppletHax {
 	public void oscEvent(OscMessage theOscMessage) {  
 		super.oscEvent(theOscMessage);
 		String oscMsg = theOscMessage.addrPattern();
+		// handle brightness slider
 		if( oscMsg.indexOf("/7/fader0") != -1) {
 			_brightnessVal = theOscMessage.get(0).floatValue() * 2.0f;
 		}
+		// reset beats if we're tapping it out
+		if( oscMsg.indexOf("/7/push") != -1) {
+			_lastInputMillis = p.millis();
+		}
+		
 	}
 
 	protected void overridePropsFile() {
@@ -319,7 +326,7 @@ extends PAppletHax {
 	}
 	
 	protected void bigChangeTrigger() {
-		for( int i=0; i < _mappingGroups.size(); i++ ) _mappingGroups.get(i).randomizeNextPolygon();
+		for( int i=0; i < _mappingGroups.size(); i++ ) _mappingGroups.get(i).randomTextureToRandomPolygon();
 //		pickNewColors();
 	}
 
