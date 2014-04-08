@@ -2,7 +2,7 @@ package com.haxademic.app.haxmapper;
 
 import com.haxademic.app.haxmapper.textures.BaseTexture;
 import com.haxademic.app.haxmapper.textures.TextureEQColumns;
-import com.haxademic.app.haxmapper.textures.TextureEQGrid;
+import com.haxademic.app.haxmapper.textures.TextureShaderTimeStepper;
 import com.haxademic.app.haxmapper.textures.TextureWaveformSimple;
 import com.haxademic.core.app.PAppletHax;
 
@@ -27,9 +27,9 @@ extends PAppletHax {
 		
 //		_texture = new TextureWebCam();
 		_texture = new TextureEQColumns( 200, 200 );
-		_texture2 = new TextureEQGrid( 200, 200 );
-		_texture3 = new TextureWaveformSimple( 400, 200 );
-//		_texture = new TextureShaderTimeStepper( 400, 400, "dots-orbit.glsl" );
+//		_texture2 = new TextureEQGrid( 200, 200 );
+		_texture3 = new TextureWaveformSimple( 400, 400 );
+		_texture2 = new TextureShaderTimeStepper( 300, 300, "bw-kaleido.glsl" );
 //		_texture = new TextureImageTimeStepper( 600, 600 );
 //		_texture = new TextureSphereRotate( 400, 400 );
 	}
@@ -46,6 +46,6 @@ extends PAppletHax {
 		_texture3.update();
 		p.image( _texture.texture(), 0, 0 );
 		p.image( _texture2.texture(), 0, 200 );
-		p.image( _texture3.texture(), 0, 400 );
+		p.image( _texture3.texture(), p.width - 400, 400 );
 	}
 }

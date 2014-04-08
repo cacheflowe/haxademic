@@ -108,6 +108,8 @@ extends HaxMapper{
 		_texturePool.add( new TextureShaderTimeStepper( 400, 400, "bw-motion-illusion.glsl" ));
 		_texturePool.add( new TextureShaderTimeStepper( 400, 400, "sin-waves.glsl" ));
 		_texturePool.add( new TextureShaderTimeStepper( 400, 400, "lines-scroll-diag.glsl" ));
+		_texturePool.add( new TextureShaderTimeStepper( 400, 400, "iq-iterations-shiny.glsl" ));
+		_texturePool.add( new TextureShaderTimeStepper( 400, 400, "bw-kaleido.glsl" ));
 		_texturePool.add( new TextureImageTimeStepper( 600, 600 ));
 		_texturePool.add( new TextureEQColumns( 200, 100 ));
 		_texturePool.add( new TextureEQGrid( 320, 160 ));
