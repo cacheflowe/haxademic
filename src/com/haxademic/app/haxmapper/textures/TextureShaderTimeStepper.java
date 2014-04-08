@@ -3,7 +3,6 @@ package com.haxademic.app.haxmapper.textures;
 import processing.core.PGraphics;
 import processing.opengl.PShader;
 
-import com.haxademic.core.app.P;
 import com.haxademic.core.math.easing.EasingFloat;
 import com.haxademic.core.system.FileUtil;
 
