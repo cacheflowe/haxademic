@@ -60,7 +60,7 @@ public class MeshLines {
 		float spectrumInterval = (int) ( 256 / _meshLineSegments.size() );	// 256 keeps it in the bottom half of the spectrum since the high ends is so overrun
 
 		for( int i=0; i < _meshLineSegments.size(); i++ ) {
-			_meshLineSegments.get(i).update( _texture, _mode, _colorEase.colorInt(), P.p.audioIn.getEqBand( 10 ), P.p.audioIn.getEqBand( P.floor(i*spectrumInterval) ) );
+			_meshLineSegments.get(i).update( _texture, _mode, _colorEase.colorInt(), P.p.audioIn.getEqAvgBand( 15 ), P.p.audioIn.getEqBand( 20 + P.floor(i*spectrumInterval) ) );
 		}
 
 //		_texture.endDraw();
