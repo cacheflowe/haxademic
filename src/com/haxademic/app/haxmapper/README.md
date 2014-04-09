@@ -12,9 +12,10 @@ A custom projection-mapped visual system
 * Audio cables & dongle for input
 * Extension power cords
 * Video cables
-* projector(s)
+* Projector(s)
 * iPad
 * Wireless router
+* Crates for airflow
 
 
 ## ToDo:
@@ -24,30 +25,29 @@ A custom projection-mapped visual system
 #### Next:
 
 * Add methods to creatively distrubte updates to polygons and meshlines in a group
+	* Groups should control own wireframes as well as polygons
 * Allow dragging polygons in HaxMapper for realtime adjustments
+* Create darkened color for groups to send to audiopixel!!!
 * Mock test with actual groups for CMKY
+* Add adjustable speed throttling properties to speed/slow the rate at which program changes happen - use adjustable modulos
+	* big changes should happen manually, or if it hasn't happened in 5 minutes or so...
+* Add an all-black texture
+* Switch everything to one particular mode once in a while
+* Use solid colors vs. using any alpha, since this is faster
+* Break up content between the 2 nights
+* More cohesive color scheme??
 
 
-#### Texture manager to distribute textures between groups and group items* 
-
-* big change should happen manually, or if it hasn't happened in 5 minutes or so...
-* Switch all to one particular mode
-* Make a distribution across group
-* Randomly switch textures on beat
-* all polygons in a group switch to a new texture, then start swapping
-* all polygons in a group switch to differet rotations or modes
-* groups add & remove textures as time goes on
-* sweeping/traversing 
-* all textures should null out and slowly come back in as the wireframes/overlays take focus
-* Reset all properties/rotation of polygons
-* Set rotation & mapping mode of polygons manually
-* Groups should control wireframes as well as polygons
- 
-		
 #### Add UDP messages into group management
 * Average color for each structure
 * Use tringle centroid to get color from each mapped polygon
 
+#### Testing!
+* Stress test with more triangles!!!!! Especially for audio-reactive waveform mesh
+
+#### Texture manager to distribute textures between groups and group items* 
+* sweeping/traversing 
+ 		
 #### Build wireframe animations
 
 * Audio-reactive points between vertices
@@ -62,15 +62,7 @@ A custom projection-mapped visual system
 * Kinect textures
 
 #### Cleanup
-* Break up content between the 2 nights
-* Tighten up the mapping modes of rects and triangles
 * Subdivide quads for less distortion
-* More cohesive color scheme??
-
-#### Testing!
-* Stress test with more triangles!!!!! Especially for audio-reactive waveform mesh
-
-
 
 #### Nice-to-have
 * Concave hull to draw around the outer edge and mask the interior
