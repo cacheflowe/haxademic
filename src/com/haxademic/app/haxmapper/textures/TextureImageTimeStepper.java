@@ -130,7 +130,6 @@ extends BaseTexture {
 			_brightEaser.setCurrent(2.0f);
 			_timeEaser.setTarget( _timeEaser.value() + 3 );
 			_needsReload = true;
-			nextImage();
 		} else {
 			_brightEaser.setCurrent(1.0f);
 			_timeEaser.setTarget( _timeEaser.value() + 1 );

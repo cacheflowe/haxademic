@@ -8,6 +8,7 @@ extends BaseTexture {
 
 	protected int _eqIndex;
 	protected int _mode;
+	protected float _lastAmp = 0;
 	
 	public TextureColorAudioSlide( int width, int height ) {
 		super();
@@ -34,7 +35,8 @@ extends BaseTexture {
 		_texture.clear();
 		
 		_texture.fill( _colorEase.colorInt() );
-		float amp = P.p.audioIn.getEqAvgBand( _eqIndex ) * 0.5f;
+		float amp = P.p.audioIn.getEqAvgBand( _eqIndex ) * 0.15f;
+		if( amp < _lastAmp ) amp = _lastAmp * 0.9f;
 		if( _mode == 0 ) {
 			_texture.rect(0, 0, _texture.width * amp, _texture.height );			
 		} else if( _mode == 1 ) {
@@ -44,6 +46,7 @@ extends BaseTexture {
 		} else if( _mode == 3 ) {
 			_texture.rect(0, _texture.height, _texture.width, -_texture.height * amp );			
 		} 
+		_lastAmp = amp;
 		
 		_texture.endDraw();
 	}

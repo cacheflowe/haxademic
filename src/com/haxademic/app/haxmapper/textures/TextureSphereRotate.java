@@ -38,7 +38,7 @@ extends BaseTexture {
 		
 		if( _isWireframe == true ) {
 			_texture.noFill();
-			_texture.strokeWeight(2);
+			_texture.strokeWeight(3);
 			_texture.stroke( _colorEase.colorInt() );
 		} else {
 			_texture.noStroke();
@@ -46,11 +46,12 @@ extends BaseTexture {
 		}
 		
 		_texture.beginShape();
+		float size = 10;
 		for( int i=0; i < points.length; i+=3 ) {
-			float amp = P.p.audioIn.getEqBand( i%512 ) * 2;
+			float amp = P.p.audioIn.getEqBand( i%512 );
 			_texture.pushMatrix();
 			_texture.translate(points[i], points[i+1], points[i+2]);
-			_texture.box(40 * amp, 40 * amp, 40 * amp);
+			_texture.box(size * amp, size * amp, size * amp);
 			_texture.popMatrix();
 		}
 		_texture.endShape( PConstants.CLOSE );
