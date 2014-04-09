@@ -1,6 +1,7 @@
 package com.haxademic.app.haxmapper.polygons;
 
 import java.awt.Point;
+import java.awt.Rectangle;
 
 import processing.core.PConstants;
 import processing.core.PGraphics;
@@ -27,8 +28,11 @@ implements IMappedPolygon {
 		protected PImage _texture;
 		protected int _eqIndex = MathUtil.randRange(30, 512);
 
+		protected int _numRotations = 0;
 		protected int _mappingOrientation;
 		protected int _mappingStyle = 0;
+		
+		protected Rectangle _randRect = new Rectangle(0,0,100,100);
 		
 		public MappedQuad( float x1, float y1, float x2, float y2, float x3, float y3, float x4, float y4 ) {
 			this.x1 = x1;
@@ -59,10 +63,28 @@ implements IMappedPolygon {
 		
 		public void setTextureStyle( int mapStyle ) {
 			_mappingStyle = mapStyle;
+			randomMappingArea();
 		}
 		
 		public void randomTextureStyle() {
-			_mappingStyle = MathUtil.randRange(0, 2); 
+			_mappingStyle = MathUtil.randRange(0, 3); 
+			randomMappingArea();
+		}
+		
+		public void resetRotation() {
+			int numRotationToReset = 4 - ( _numRotations % 4 );
+			for( int i=0; i < numRotationToReset; i++ ) {
+				rotateTexture();
+			}
+		}
+		
+		public void randomMappingArea() {
+			if( _texture != null ) {
+				_randRect.x = MathUtil.randRange(0, _texture.width / 2f );
+				_randRect.y = MathUtil.randRange(0, _texture.height / 2f );
+				_randRect.width = MathUtil.randRange(_randRect.x, _texture.width / 2f );
+				_randRect.height = MathUtil.randRange(_randRect.y, _texture.height / 2f );
+			}
 		}
 		
 		public void rotateTexture() {
@@ -77,6 +99,7 @@ implements IMappedPolygon {
 			x4 = xTemp;
 			y4 = yTemp;
 
+			_numRotations++;
 			_mappingOrientation = MathUtil.randRange(0, 3); 
 		}
 		
@@ -115,12 +138,22 @@ implements IMappedPolygon {
 					pg.vertex(x3, y3, 0, 		x3 * texScreenRatioW, y3 * texScreenRatioH);
 					pg.vertex(x4, y4, 0, 		x4 * texScreenRatioW, y4 * texScreenRatioH);
 					pg.endShape();
+				} else if( _mappingStyle == MAP_STYLE_CONTAIN_RANDOM_TEX_AREA ) {
+					pg.beginShape(PConstants.QUAD);
+					pg.texture(_texture);
+					// map the polygon coordinates to the random sampling coordinates
+					pg.vertex(x1, y1, 0, 		_randRect.x, _randRect.y);
+					pg.vertex(x2, y2, 0, 		_randRect.x + _randRect.width, _randRect.y);
+					pg.vertex(x3, y3, 0, 		_randRect.x + _randRect.width, _randRect.y + _randRect.height);
+					pg.vertex(x4, y4, 0, 		_randRect.x, _randRect.y + _randRect.height);
+					pg.endShape();
 				} else if( _mappingStyle == MAP_STYLE_EQ ) {
 					pg.beginShape(PConstants.QUAD);
 					pg.fill(pg.color(_color, P.constrain( P.p.audioIn.getEqBand((_eqIndex)) * 255, 0, 255 )));
 					pg.vertex(x1, y1, 0);
 					pg.vertex(x2, y2, 0);
 					pg.vertex(x3, y3, 0);
+					pg.fill(pg.color(_color, P.constrain( P.p.audioIn.getEqBand((_eqIndex)) * 100, 0, 190 )));
 					pg.vertex(x4, y4, 0);
 					pg.endShape();
 				}

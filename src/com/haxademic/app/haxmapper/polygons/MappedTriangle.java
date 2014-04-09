@@ -5,6 +5,7 @@ import java.awt.Point;
 import processing.core.PConstants;
 import processing.core.PGraphics;
 import processing.core.PImage;
+import processing.core.PVector;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.math.MathUtil;
@@ -24,8 +25,12 @@ implements IMappedPolygon {
 	protected int _color;
 	protected PImage _texture;
 	
+	protected int _numRotations = 0;
 	protected int _mappingOrientation;
 	protected int _mappingStyle = 0;
+	
+	protected PVector[] _randTriangle = {new PVector(), new PVector(), new PVector()};
+
 	
 	public MappedTriangle( float x1, float y1, float x2, float y2, float x3, float y3 ) {
 		this.x1 = x1;
@@ -54,10 +59,27 @@ implements IMappedPolygon {
 	
 	public void setTextureStyle( int mapStyle ) {
 		_mappingStyle = mapStyle;
+		randomMappingArea();
 	}
 	
 	public void randomTextureStyle() {
-		_mappingStyle = MathUtil.randRange(0, 2); 
+		_mappingStyle = MathUtil.randRange(0, 3); 
+		randomMappingArea();
+	}
+	
+	public void resetRotation() {
+		int numRotationToReset = 3 - ( _numRotations % 3 );
+		for( int i=0; i < numRotationToReset; i++ ) {
+			rotateTexture();
+		}
+	}
+	
+	public void randomMappingArea() {
+		if( _texture != null ) {
+			_randTriangle[0].set( MathUtil.randRange(0, _texture.width ), MathUtil.randRange(0, _texture.width ) );
+			_randTriangle[1].set( MathUtil.randRange(0, _texture.width ), MathUtil.randRange(0, _texture.width ) );
+			_randTriangle[2].set( MathUtil.randRange(0, _texture.width ), MathUtil.randRange(0, _texture.width ) );
+		}
 	}
 	
 	public void rotateTexture() {
@@ -106,11 +128,20 @@ implements IMappedPolygon {
 				pg.vertex(x2, y2, 0, 		x2 * texScreenRatioW, y2 * texScreenRatioH);
 				pg.vertex(x3, y3, 0, 		x3 * texScreenRatioW, y3 * texScreenRatioH);
 				pg.endShape();
+			} else if( _mappingStyle == MAP_STYLE_CONTAIN_RANDOM_TEX_AREA ) {
+				pg.beginShape(PConstants.QUAD);
+				pg.texture(_texture);
+				// map the polygon coordinates to the random sampling coordinates
+				pg.vertex(x1, y1, 0, 		_randTriangle[0].x, _randTriangle[0].y);
+				pg.vertex(x2, y2, 0, 		_randTriangle[1].x, _randTriangle[1].y);
+				pg.vertex(x3, y3, 0, 		_randTriangle[2].x, _randTriangle[2].y);
+				pg.endShape();
 			} else if( _mappingStyle == MAP_STYLE_EQ ) {
 				pg.beginShape(PConstants.TRIANGLE);
 				pg.fill(pg.color(_color, P.constrain( P.p.audioIn.getEqBand((_eqIndex)) * 255, 0, 255 )));
 				pg.vertex(x1, y1, 0);
-				pg.vertex(x2, y2, 0);
+				pg.vertex(x2, y2, 0);				
+				pg.fill(pg.color(_color, P.constrain( P.p.audioIn.getEqBand((_eqIndex)) * 100, 0, 190 )));
 				pg.vertex(x3, y3, 0);
 				pg.endShape();
 			}
