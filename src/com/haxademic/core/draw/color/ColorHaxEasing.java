@@ -38,6 +38,13 @@ public class ColorHaxEasing {
 		this.a.setTarget( 255 );
 	}
 	
+	public void setTargetColorIntWithBrightness( int color, float brightness ) {
+		this.r.setTarget( redFromColorInt(color) * brightness );
+		this.g.setTarget( greenFromColorInt(color) * brightness );
+		this.b.setTarget( blueFromColorInt(color) * brightness );
+		this.a.setTarget( 255 );
+	}
+	
 	public void update() {
 		r.update();
 		g.update();
