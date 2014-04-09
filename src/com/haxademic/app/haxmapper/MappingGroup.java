@@ -10,6 +10,7 @@ import com.haxademic.app.haxmapper.polygons.IMappedPolygon;
 import com.haxademic.app.haxmapper.textures.BaseTexture;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.draw.color.ColorHaxEasing;
 import com.haxademic.core.math.MathUtil;
 
 public class MappingGroup {
@@ -19,6 +20,8 @@ public class MappingGroup {
 	protected ArrayList<BaseTexture> _curTextures;
 	protected MeshLines _meshLines;
 	protected int _color;
+	protected ColorHaxEasing _colorEase;
+
 
 	public MappingGroup( PAppletHax p, PGraphics overlayPG ) {
 		this.p = p;
@@ -26,6 +29,7 @@ public class MappingGroup {
 		_mappedPolygons = new ArrayList<IMappedPolygon>();
 		_meshLines = new MeshLines( overlayPG );
 		_color = P.p.color(255);
+		_colorEase = new ColorHaxEasing( "#000000", 5 );
 	}
 
 	public void addPolygon( IMappedPolygon polygon ) {
@@ -75,7 +79,7 @@ public class MappingGroup {
 	}
 	
 	public void randomPolygonRandomMappingStyle() {
-		randomPolygon().rotateTexture();
+		randomPolygon().randomTextureStyle();
 	}
 	
 	public void randomTextureToRandomPolygon() {
@@ -84,16 +88,19 @@ public class MappingGroup {
 	}
 	
 	public void setAllPolygonsToTexture( int textureIndex ) {
+		if( _curTextures.size() < 1 ) return;
 		for(int j=0; j < _mappedPolygons.size(); j++ ) {
-			IMappedPolygon polygon = _mappedPolygons.get(j);
-			polygon.setTexture( _curTextures.get(textureIndex).texture() );
+			_mappedPolygons.get(j).setTexture( _curTextures.get(textureIndex).texture() );
 		}
+	}
+	
+	public void setAllPolygonsToNewTexture() {
+		setAllPolygonsToTexture( MathUtil.randRange(0,_curTextures.size() - 1 ) ); 
 	}
 
 	public void setAllPolygonsTextureStyle( int textureStyle ) {
 		for(int j=0; j < _mappedPolygons.size(); j++ ) {
-			IMappedPolygon polygon = _mappedPolygons.get(j);
-			polygon.setTextureStyle( textureStyle );
+			_mappedPolygons.get(j).setTextureStyle( textureStyle );
 		}
 	}
 	
@@ -102,6 +109,7 @@ public class MappingGroup {
 			IMappedPolygon triangle = _mappedPolygons.get(j);
 			triangle.draw(p.g);
 		}
+		_colorEase.update();
 	}
 
 	public void drawOverlay() {
@@ -126,7 +134,9 @@ public class MappingGroup {
 		for( int i=0; i < _curTextures.size(); i++ ) {
 			_curTextures.get(i).setColor( randomColor() );
 		}
-		_meshLines.setColor( randomColor() );
+		int groupColor = randomColor();
+		_meshLines.setColor( groupColor );
+		_colorEase.setTargetColorIntWithBrightness( groupColor, 0.4f );
 		for(int j=0; j < _mappedPolygons.size(); j++ ) {
 			_mappedPolygons.get(j).setColor( randomColor() );
 		}
@@ -143,6 +153,14 @@ public class MappingGroup {
 		for( int i=0; i < _curTextures.size(); i++ ) {
 			_curTextures.get(i).newRotation();
 		}
+		for(int j=0; j < _mappedPolygons.size(); j++ ) {
+			_mappedPolygons.get(j).rotateTexture();
+		}
 	}
 
+	public void resetRotation() {
+		for(int j=0; j < _mappedPolygons.size(); j++ ) {
+			_mappedPolygons.get(j).rotateTexture();
+		}
+	}
 }

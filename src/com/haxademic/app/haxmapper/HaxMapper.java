@@ -30,6 +30,8 @@ extends PAppletHax {
 	protected PGraphics _overlayPG;
 	protected ArrayList<MappingGroup> _mappingGroups;
 	protected ArrayList<BaseTexture> _texturePool;
+	protected ArrayList<BaseTexture> _curTexturePool;
+	protected ArrayList<BaseTexture> _movieTexturePool;
 	protected ArrayList<BaseTexture> _activeTextures;
 	
 	protected InputTrigger _colorTrigger = new InputTrigger(new char[]{'c'},new String[]{TouchOscPads.PAD_01},new Integer[]{AkaiMpdPads.PAD_01});
@@ -52,7 +54,7 @@ extends PAppletHax {
 		String oscMsg = theOscMessage.addrPattern();
 		// handle brightness slider
 		if( oscMsg.indexOf("/7/fader0") != -1) {
-			_brightnessVal = theOscMessage.get(0).floatValue() * 2.0f;
+			_brightnessVal = theOscMessage.get(0).floatValue() * 3.0f;
 		}
 		// reset beats if we're tapping it out
 		if( oscMsg.indexOf("/7/push") != -1) {
@@ -69,7 +71,7 @@ extends PAppletHax {
 
 	public void setup() {
 		super.setup();
-		p.smooth(OpenGLUtil.SMOOTH_MEDIUM);
+		p.smooth(OpenGLUtil.SMOOTH_LOW);
 		noStroke();
 		importPolygons();
 		buildTextures();
@@ -78,6 +80,7 @@ extends PAppletHax {
 	
 	protected void importPolygons() {
 		_overlayPG = P.p.createGraphics( p.width, p.height, PConstants.OPENGL );
+		_overlayPG.noSmooth();
 		_mappingGroups = new ArrayList<MappingGroup>();
 		
 		if( _appConfig.getString("mapping_file", "") == "" ) {
@@ -184,6 +187,8 @@ extends PAppletHax {
 	
 	protected void buildTextures() {
 		_texturePool = new ArrayList<BaseTexture>();
+		_curTexturePool = new ArrayList<BaseTexture>();
+		_movieTexturePool = new ArrayList<BaseTexture>();
 		_activeTextures = new ArrayList<BaseTexture>();
 		addTexturesToPool();
 		buildPolygonGroups();
@@ -232,7 +237,6 @@ extends PAppletHax {
 		// set inactive pool textures' _active state to false (mostly for turning off video players)
 		for( int i=0; i < _texturePool.size(); i++ ) {
 			if( _texturePool.get(i).useCount() == 0 ) {
-				// P.println("setting to false",i);
 				_texturePool.get(i).setActive(false);
 			}
 		}
@@ -267,17 +271,7 @@ extends PAppletHax {
 	}
 	
 	protected void checkBeat() {
-//		int[] beatDetectArr = _audioInput.getBeatDetection();
-//		boolean isKickCount = (beatDetectArr[0] > 0);
-//		boolean isSnareCount = (beatDetectArr[1] > 0);
-//		boolean isHatCount = (beatDetectArr[2] > 0);
-//		boolean isOnsetCount = (beatDetectArr[3] > 0);
-//		// if(isKickCount == true || isSnareCount == true || isHatCount == true || isOnsetCount == true) {
-//		if( isKickCount == true || isSnareCount == true ) {
-//			// randomizeNextPolygon();
-//		}
 	}
-	
 	
 	protected void handleInput( boolean isMidi ) {
 		super.handleInput( isMidi );
@@ -290,39 +284,48 @@ extends PAppletHax {
 //			_isStressTesting = !_isStressTesting;
 //			P.println("_isStressTesting = "+_isStressTesting);
 //		}
-		if ( _colorTrigger.active() == true ) {
-			for( int i=0; i < _mappingGroups.size(); i++ ) {
-				_mappingGroups.get(i).newColor();
-			}
-		}
-		if ( _modeTrigger.active() == true ) {
-			for( int i=0; i < _mappingGroups.size(); i++ ) {
-				_mappingGroups.get(i).newMode();
-			}
-		}
-		if ( _lineModeTrigger.active() == true ) {
-			for( int i=0; i < _mappingGroups.size(); i++ ) {
-				_mappingGroups.get(i).newLineMode();
-			}
-		}
-		if ( _rotationTrigger.active() == true ) {
-			for( int i=0; i < _mappingGroups.size(); i++ ) {
-				_mappingGroups.get(i).newRotation();
-			}
-		}
-		
+		if ( _colorTrigger.active() == true ) newColor();
+		if ( _modeTrigger.active() == true ) newMode();
+		if ( _lineModeTrigger.active() == true ) newLineMode();
+		if ( _rotationTrigger.active() == true ) updateRotation();
 		if ( _timingTrigger.active() == true ) updateTiming();
-		if ( _timingSectionTrigger.active() == true ) {
-			for( int i=0; i < _activeTextures.size(); i++ ) {
-				_activeTextures.get(i).updateTimingSection();
-			}
-		}
+		if ( _timingSectionTrigger.active() == true ) updateTimingSection();
 		if ( _bigChangeTrigger.active() == true ) bigChangeTrigger();
 		if ( _audioInputUpTrigger.active() == true ) _audioInput.gainUp();
 		if ( _audioInputDownTrigger.active() == true ) _audioInput.gainDown();
 	}
 	
+	protected void newMode() {
+		for( int i=0; i < _mappingGroups.size(); i++ ) {
+			_mappingGroups.get(i).newMode();
+		}
+	}
+	
+	protected void newColor() {
+		for( int i=0; i < _mappingGroups.size(); i++ ) {
+			_mappingGroups.get(i).newColor();
+		}
+	}
+	
+	protected void newLineMode() {
+		for( int i=0; i < _mappingGroups.size(); i++ ) {
+			_mappingGroups.get(i).newLineMode();
+		}
+	}
+	
+	protected void updateRotation() {
+		for( int i=0; i < _mappingGroups.size(); i++ ) {
+			_mappingGroups.get(i).newRotation();
+		}
+	}
+	
 	protected void updateTiming() {
+		for( int i=0; i < _activeTextures.size(); i++ ) {
+			_activeTextures.get(i).updateTimingSection();
+		}
+	}
+	
+	protected void updateTimingSection() {
 		for( int i=0; i < _activeTextures.size(); i++ ) {
 			_activeTextures.get(i).updateTiming();
 		}
