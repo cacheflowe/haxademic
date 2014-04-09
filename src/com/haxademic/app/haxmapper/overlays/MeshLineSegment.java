@@ -36,7 +36,7 @@ public class MeshLineSegment {
 			waveformShape.strokeWeight(2);
 			float spacing = (float) width / P.p._waveformData._waveform.length;
 			float startX = 0f;
-			for (int i = 0; i < P.p._waveformData._waveform.length; i++ ) {	
+			for (int i = 0; i < P.p._waveformData._waveform.length-3; i+=4 ) {	
 				waveformShape.vertex(startX + i * spacing, 0);
 			}
 			waveformShape.endShape();
@@ -45,11 +45,11 @@ public class MeshLineSegment {
 
 	public void update( PGraphics pg, int mode, int color, float ampTotal, float amp ) {
 		if( mode == MeshLines.MODE_EQ_TOTAL ) {
-			pg.strokeWeight( ampTotal * 1.5f );
+			pg.strokeWeight( ampTotal * 1.75f );
 			pg.stroke(color);
 			pg.line( _point1.x, _point1.y, _point2.x, _point2.y );
 		} else if( mode == MeshLines.MODE_EQ_BARS_BLACK ) {
-			pg.strokeWeight( ampTotal * 2.5f );
+			pg.strokeWeight( P.constrain( ampTotal * 2.5f, 0, 10 ) );
 			pg.stroke(0);
 			pg.line( _point1.x, _point1.y, _point2.x, _point2.y );
 		} else if( mode == MeshLines.MODE_DOTS ) {
@@ -65,7 +65,7 @@ public class MeshLineSegment {
 			amp = 5;
 			
 			if(waveformShapeFrameDrew != P.p.frameCount) {
-				for (int i = 0; i < waveformShape.getVertexCount(); i++) {
+				for (int i = 0; i < waveformShape.getVertexCount()-3; i+=4) {
 					waveformShape.setVertex( i, waveformShape.getVertexX(i), P.p._waveformData._waveform[i] * amp );
 				}
 				waveformShapeFrameDrew = P.p.frameCount;
@@ -87,7 +87,7 @@ public class MeshLineSegment {
 //			}
 			pg.popMatrix();
 		} else if( mode == MeshLines.MODE_EQ_BARS ) {
-			pg.strokeWeight( amp * 1.4f );
+			pg.strokeWeight( P.constrain( amp * 1.f, 0, 7 ) );
 			pg.stroke(color);
 			pg.line( _point1.x, _point1.y, _point2.x, _point2.y );
 		} else if( mode == MeshLines.MODE_LINE_EXTEND ) {
