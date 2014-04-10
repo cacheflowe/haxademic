@@ -19,8 +19,11 @@ extends BaseTexture {
 	}
 	
 	public void setActive( boolean isActive ) {
+		boolean wasActive = _active;
 		super.setActive(isActive);
-		randomize();
+		if( isActive != wasActive ) {
+			randomize();
+		}
 	}
 	
 	public void randomize() {
