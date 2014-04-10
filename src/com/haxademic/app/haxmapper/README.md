@@ -25,7 +25,6 @@ A custom projection-mapped visual system
 #### Next:
 
 * Add methods to creatively distrubte updates to polygons and meshlines in a group
-	* Groups should control own wireframes as well as polygons
 * Allow dragging polygons in HaxMapper for realtime adjustments
 * Create darkened color for groups to send to audiopixel!!!
 * Mock test with actual groups for CMKY

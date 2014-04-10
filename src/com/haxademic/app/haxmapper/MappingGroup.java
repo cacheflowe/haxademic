@@ -94,7 +94,7 @@ public class MappingGroup {
 		}
 	}
 	
-	public void setAllPolygonsToNewTexture() {
+	public void setAllPolygonsToSameRandomTexture() {
 		setAllPolygonsToTexture( MathUtil.randRange(0,_curTextures.size() - 1 ) ); 
 	}
 
@@ -149,6 +149,10 @@ public class MappingGroup {
 		_meshLines.updateLineMode();
 	}
 
+	public void resetLineModeToIndex( int index ) {
+		_meshLines.resetLineMode( index );
+	}
+	
 	public void newRotation() {
 		for( int i=0; i < _curTextures.size(); i++ ) {
 			_curTextures.get(i).newRotation();

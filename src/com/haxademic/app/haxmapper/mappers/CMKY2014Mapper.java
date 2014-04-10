@@ -6,6 +6,7 @@ import oscP5.OscMessage;
 import processing.core.PApplet;
 
 import com.haxademic.app.haxmapper.HaxMapper;
+import com.haxademic.app.haxmapper.overlays.MeshLines;
 import com.haxademic.app.haxmapper.polygons.IMappedPolygon;
 import com.haxademic.app.haxmapper.textures.TextureColorAudioFade;
 import com.haxademic.app.haxmapper.textures.TextureColorAudioSlide;
@@ -58,8 +59,6 @@ extends HaxMapper{
 				polygon.setTextureStyle( IMappedPolygon.MAP_STYLE_MASK );
 			}
 		}
-//		bigChangeTrigger();
-//		bigChangeTrigger();
 	}
 
 	protected void addTexturesToPool() {
@@ -99,7 +98,7 @@ extends HaxMapper{
 		_texturePool.add( new TextureSphereRotate( 500, 500 ));
 //		_texturePool.add( new TextureWebCam() );
 		
-		// store just movies
+		// store just movies to restrain the number of concurrent movies
 		for( int i=0; i < _texturePool.size(); i++ ) {
 			if( _texturePool.get(i) instanceof TextureVideoPlayer ) {
 				_movieTexturePool.add( _texturePool.get(i) );
@@ -128,7 +127,7 @@ extends HaxMapper{
 			_curTexturePool.remove( _curTexturePool.size() - 1 );
 			_curTexturePool.add( _texturePool.get( MathUtil.randRange(0, _texturePool.size()-1 ) ) );
 		}
-		// remove last texture if more than max 
+		// remove oldest texture if more than max 
 		if( _curTexturePool.size() >= MAX_ACTIVE_TEXTURES ) {
 			_curTexturePool.remove(0);
 		}
@@ -137,12 +136,19 @@ extends HaxMapper{
 		for( int i=0; i < _mappingGroups.size(); i++ ) {
 			_mappingGroups.get(i).shiftTexture();
 			_mappingGroups.get(i).pushTexture( _curTexturePool.get( MathUtil.randRange(0, _curTexturePool.size()-1 )) );
-			_mappingGroups.get(i).setAllPolygonsToNewTexture();				
+			_mappingGroups.get(i).setAllPolygonsToSameRandomTexture();				
 		}
 				
 		// set new line mode
 		for(int i=0; i < _mappingGroups.size(); i++ ) {
 			_mappingGroups.get(i).newLineMode();
+		}
+		// once in a while, reset all mesh lines to the same random mode
+		if( MathUtil.randRange(0, 100) < 10 ) {
+			int newLineMode = MathUtil.randRange(0, MeshLines.NUM_MODES - 1);
+			for(int i=0; i < _mappingGroups.size(); i++ ) {
+				_mappingGroups.get(i).resetLineModeToIndex( newLineMode );
+			}
 		}
 
 		// set longer timing updates
@@ -154,7 +160,6 @@ extends HaxMapper{
 		for(int i=0; i < _mappingGroups.size(); i++ ) {
 			_mappingGroups.get(i).resetRotation();
 		}
-		
 
 	}
 
@@ -163,12 +168,17 @@ extends HaxMapper{
 	}
 
 	protected void updateTiming() {
+		super.updateTiming();
+		
 		numBeatsDetected++;
 		
-		// every beat, change a polygon or 2
+		// every beat, change a polygon mapping style or texture
 		for(int i=0; i < _mappingGroups.size(); i++ ) {
-			_mappingGroups.get(i).randomTextureToRandomPolygon();
-			_mappingGroups.get(i).randomPolygonRandomMappingStyle();
+			if( MathUtil.randBoolean(p) == true ) {
+				_mappingGroups.get(i).randomTextureToRandomPolygon();
+			} else {
+				_mappingGroups.get(i).randomPolygonRandomMappingStyle();
+			}
 		}
 		
 		// make sure everything's timed to the beat
@@ -177,19 +187,19 @@ extends HaxMapper{
 		}
 		
 		if( numBeatsDetected % 100 == 0 ) {
-			// every 20 beats, set all polygons' styles to be the same per group
+			// every once in a while, set all polygons' styles to be the same per group
 			for(int i=0; i < _mappingGroups.size(); i++ ) {
 				if( MathUtil.randRange(0, 100) < 90 ) {
 					_mappingGroups.get(i).setAllPolygonsTextureStyle( MathUtil.randRange(0, 2) );
 				} else {
-					_mappingGroups.get(i).setAllPolygonsTextureStyle( IMappedPolygon.MAP_STYLE_EQ );
+					_mappingGroups.get(i).setAllPolygonsTextureStyle( IMappedPolygon.MAP_STYLE_EQ );	// less likely to go to EQ fill
 				}
 				_mappingGroups.get(i).newColor();
 			}
 			// maybe also set a group to all to be the same texture
 			for(int i=0; i < _mappingGroups.size(); i++ ) {
-				if( MathUtil.randRange(0, 100) < 50 ) {
-					_mappingGroups.get(i).setAllPolygonsToNewTexture();
+				if( MathUtil.randRange(0, 100) < 25 ) {
+					_mappingGroups.get(i).setAllPolygonsToSameRandomTexture();
 				}
 			}
 		}
