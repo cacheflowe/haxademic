@@ -20,7 +20,7 @@ public class MeshLines {
 	protected ColorHaxEasing _colorEase;
 
 	protected int _mode = 4;
-	protected int _numModes = 7;
+	public static final int NUM_MODES = 7;
 	public static final int MODE_EQ_BARS = 0;
 	public static final int MODE_LINE_EXTEND = 1;
 	public static final int MODE_EQ_TOTAL = 2;
@@ -67,8 +67,12 @@ public class MeshLines {
 	}
 	
 	public void updateLineMode() {
-		_mode++;
-		if( _mode >= _numModes ) _mode = 0;
+		_mode += MathUtil.randRange(1, 2);
+		if( _mode >= NUM_MODES ) _mode = 0;
+	}
+
+	public void resetLineMode( int index ) {
+		_mode = index;
 	}
 
 	public void setColor( int color ) {
