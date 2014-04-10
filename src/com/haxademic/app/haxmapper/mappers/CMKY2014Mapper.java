@@ -14,6 +14,7 @@ import com.haxademic.app.haxmapper.textures.TextureEQColumns;
 import com.haxademic.app.haxmapper.textures.TextureEQGrid;
 import com.haxademic.app.haxmapper.textures.TextureImageTimeStepper;
 import com.haxademic.app.haxmapper.textures.TextureScrollingColumns;
+import com.haxademic.app.haxmapper.textures.TextureTwistingSquares;
 import com.haxademic.app.haxmapper.textures.TextureShaderTimeStepper;
 import com.haxademic.app.haxmapper.textures.TextureSphereRotate;
 import com.haxademic.app.haxmapper.textures.TextureVideoPlayer;
@@ -73,6 +74,7 @@ extends HaxMapper{
 		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/loops/water.mp4" ));
 		
 		_texturePool.add( new TextureScrollingColumns( 100, 100 ));
+		_texturePool.add( new TextureTwistingSquares( 300, 300 ));
 		_texturePool.add( new TextureShaderTimeStepper( 400, 400, "wavy-checker-planes.glsl" ));
 		_texturePool.add( new TextureShaderTimeStepper( 400, 400, "bw-eye-jacker-01.glsl" ));
 		_texturePool.add( new TextureShaderTimeStepper( 400, 400, "dots-orbit.glsl" ));
