@@ -284,15 +284,15 @@ extends PAppletHax {
 //			_isStressTesting = !_isStressTesting;
 //			P.println("_isStressTesting = "+_isStressTesting);
 //		}
-		if ( _colorTrigger.active() == true ) newColor();
+		if ( _colorTrigger.active() == true ) updateColor();
 		if ( _modeTrigger.active() == true ) newMode();
-		if ( _lineModeTrigger.active() == true ) newLineMode();
+		if ( _lineModeTrigger.active() == true ) updateLineMode();
 		if ( _rotationTrigger.active() == true ) updateRotation();
 		if ( _timingTrigger.active() == true ) updateTiming();
 		if ( _timingSectionTrigger.active() == true ) updateTimingSection();
 		if ( _bigChangeTrigger.active() == true ) bigChangeTrigger();
-		if ( _audioInputUpTrigger.active() == true ) _audioInput.gainUp();
-		if ( _audioInputDownTrigger.active() == true ) _audioInput.gainDown();
+		if ( _audioInputUpTrigger.active() == true ) audioIn.gainUp();
+		if ( _audioInputDownTrigger.active() == true ) audioIn.gainDown();
 	}
 	
 	protected void newMode() {
@@ -301,13 +301,13 @@ extends PAppletHax {
 		}
 	}
 	
-	protected void newColor() {
+	protected void updateColor() {
 		for( int i=0; i < _mappingGroups.size(); i++ ) {
 			_mappingGroups.get(i).newColor();
 		}
 	}
 	
-	protected void newLineMode() {
+	protected void updateLineMode() {
 		for( int i=0; i < _mappingGroups.size(); i++ ) {
 			_mappingGroups.get(i).newLineMode();
 		}
@@ -321,13 +321,13 @@ extends PAppletHax {
 	
 	protected void updateTiming() {
 		for( int i=0; i < _activeTextures.size(); i++ ) {
-			_activeTextures.get(i).updateTimingSection();
+			_activeTextures.get(i).updateTiming();
 		}
 	}
 	
 	protected void updateTimingSection() {
 		for( int i=0; i < _activeTextures.size(); i++ ) {
-			_activeTextures.get(i).updateTiming();
+			_activeTextures.get(i).updateTimingSection();
 		}
 	}
 	
