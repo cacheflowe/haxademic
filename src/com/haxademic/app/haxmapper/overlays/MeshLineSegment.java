@@ -45,27 +45,28 @@ public class MeshLineSegment {
 
 	public void update( PGraphics pg, int mode, int color, float ampTotal, float amp ) {
 		if( mode == MeshLines.MODE_EQ_TOTAL ) {
-			pg.strokeWeight( ampTotal * 1.75f );
+			pg.strokeWeight( P.constrain( ampTotal * 1.75f, 0, 4 ) );
 			pg.stroke(color);
 			pg.line( _point1.x, _point1.y, _point2.x, _point2.y );
 		} else if( mode == MeshLines.MODE_EQ_BARS_BLACK ) {
-			pg.strokeWeight( P.constrain( ampTotal * 2.5f, 0, 10 ) );
+			pg.strokeWeight( P.constrain( ampTotal * 2.5f, 0, 4 ) );
 			pg.stroke(0);
 			pg.line( _point1.x, _point1.y, _point2.x, _point2.y );
 		} else if( mode == MeshLines.MODE_DOTS ) {
 			pg.noStroke();
 			pg.fill(color);
-			pg.ellipse( _point1.x, _point1.y, 1f * amp, 1f * amp );
+			float ampNormalized = P.constrain( amp * 1.f, 0, 4 );
+			pg.ellipse( _point1.x, _point1.y, ampNormalized, ampNormalized );
 		} else if( mode == MeshLines.MODE_WAVEFORMS ) {
 			DrawUtil.setDrawCorner(pg);
 			pg.noFill();
 			pg.stroke(color);
-			pg.strokeWeight(2);
+			pg.strokeWeight(1);
 			
 			amp = 5;
 			
 			if(waveformShapeFrameDrew != P.p.frameCount) {
-				for (int i = 0; i < waveformShape.getVertexCount()-3; i+=4) {
+				for (int i = 0; i < waveformShape.getVertexCount()-2; i+=2) {
 					waveformShape.setVertex( i, waveformShape.getVertexX(i), P.p._waveformData._waveform[i] * amp );
 				}
 				waveformShapeFrameDrew = P.p.frameCount;
@@ -74,6 +75,7 @@ public class MeshLineSegment {
 			pg.pushMatrix();
 			pg.translate( _point2.x, _point2.y );
 			pg.rotate(_radians);
+			waveformShape.setStroke(color);
 			pg.shape(waveformShape, 0, 0, _length, waveformShape.height);
 			
 //			pg.translate( (_point1.x + _point2.x)/2f, (_point1.y + _point2.y)/2f );
@@ -87,7 +89,7 @@ public class MeshLineSegment {
 //			}
 			pg.popMatrix();
 		} else if( mode == MeshLines.MODE_EQ_BARS ) {
-			pg.strokeWeight( P.constrain( amp * 1.f, 0, 7 ) );
+			pg.strokeWeight( P.constrain( amp * 1.f, 0, 3 ) );
 			pg.stroke(color);
 			pg.line( _point1.x, _point1.y, _point2.x, _point2.y );
 		} else if( mode == MeshLines.MODE_LINE_EXTEND ) {
