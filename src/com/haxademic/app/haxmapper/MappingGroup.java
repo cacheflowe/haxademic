@@ -133,6 +133,11 @@ public class MappingGroup {
 		return _colorEase.colorInt();
 	}
 
+	public void pulseColor() {
+		 //int curColor = _colorEase.targetInt();
+		 _colorEase.setCurrentColorInt( P.p.color(0) );
+	}
+
 	public void drawOverlay() {
 		_meshLines.update();
 	}
@@ -148,16 +153,17 @@ public class MappingGroup {
 	}
 
 	public int randomColor() {
-		return p.color(p.random(200,255), p.random(200,255), p.random(200,255), 255f );
+		return p.color(p.random(180,255), p.random(180,255), p.random(180,255), 255f );
 	}
 	
 	public void newColor() {
+		// give textures a new random color
 		for( int i=0; i < _curTextures.size(); i++ ) {
 			_curTextures.get(i).setColor( randomColor() );
 		}
 		int groupColor = randomColor();
 		_meshLines.setColor( groupColor );
-		_colorEase.setTargetColorIntWithBrightness( groupColor, 0.4f );
+		_colorEase.setTargetColorIntWithBrightnessAndRandomSaturation( groupColor, 0.9f );
 		for(int j=0; j < _mappedPolygons.size(); j++ ) {
 			_mappedPolygons.get(j).setColor( randomColor() );
 		}

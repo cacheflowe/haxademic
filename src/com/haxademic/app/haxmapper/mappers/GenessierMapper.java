@@ -36,7 +36,7 @@ extends HaxMapper{
 		super.oscEvent(theOscMessage);
 	}
 
-	protected void buildPolygonGroups() {
+	protected void buildMappingGroups() {
 
 		MappingGroup centerGroup = _mappingGroups.get(1);
 		centerGroup.pushTexture( _texturePool.get(0) );

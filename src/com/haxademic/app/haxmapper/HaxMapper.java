@@ -7,6 +7,7 @@ import processing.core.PConstants;
 import processing.core.PGraphics;
 import processing.opengl.PShader;
 
+import com.haxademic.app.haxmapper.polygons.IMappedPolygon;
 import com.haxademic.app.haxmapper.polygons.MappedQuad;
 import com.haxademic.app.haxmapper.polygons.MappedTriangle;
 import com.haxademic.app.haxmapper.textures.BaseTexture;
@@ -41,9 +42,11 @@ extends PAppletHax {
 	protected InputTrigger _timingTrigger = new InputTrigger(new char[]{'n'},new String[]{TouchOscPads.PAD_03},new Integer[]{AkaiMpdPads.PAD_03});
 	protected InputTrigger _timingSectionTrigger = new InputTrigger(new char[]{'f'},new String[]{TouchOscPads.PAD_05},new Integer[]{AkaiMpdPads.PAD_05});
 	protected InputTrigger _bigChangeTrigger = new InputTrigger(new char[]{' '},new String[]{TouchOscPads.PAD_07},new Integer[]{AkaiMpdPads.PAD_07});
+	protected InputTrigger _allSameTextureTrigger = new InputTrigger(new char[]{'a'},new String[]{TouchOscPads.PAD_06},new Integer[]{AkaiMpdPads.PAD_06});
 	protected InputTrigger _audioInputUpTrigger = new InputTrigger(new char[]{},new String[]{"/7/nav1"},new Integer[]{});
 	protected InputTrigger _audioInputDownTrigger = new InputTrigger(new char[]{},new String[]{"/7/nav2"},new Integer[]{});
 	protected int _lastInputMillis = 0;
+	protected int numBeatsDetected = 0;
 
 	protected PShader _brightness;
 	protected float _brightnessVal = 1f;
@@ -55,12 +58,7 @@ extends PAppletHax {
 		// handle brightness slider
 		if( oscMsg.indexOf("/7/fader0") != -1) {
 			_brightnessVal = theOscMessage.get(0).floatValue() * 3.0f;
-		}
-		// reset beats if we're tapping it out
-		if( oscMsg.indexOf("/7/push") != -1) {
-			_lastInputMillis = p.millis();
-		}
-		
+		}		
 	}
 
 	protected void overridePropsFile() {
@@ -191,10 +189,10 @@ extends PAppletHax {
 		_movieTexturePool = new ArrayList<BaseTexture>();
 		_activeTextures = new ArrayList<BaseTexture>();
 		addTexturesToPool();
-		buildPolygonGroups();
+		buildMappingGroups();
 	}
 			
-	protected void buildPolygonGroups() {
+	protected void buildMappingGroups() {
 		// override this!
 	}
 	
@@ -273,6 +271,11 @@ extends PAppletHax {
 	protected void checkBeat() {
 	}
 	
+	public void resetBeatDetectMode() {
+		_lastInputMillis = p.millis();
+		numBeatsDetected = 1;
+	}
+	
 	protected void handleInput( boolean isMidi ) {
 		super.handleInput( isMidi );
 		
@@ -284,13 +287,32 @@ extends PAppletHax {
 //			_isStressTesting = !_isStressTesting;
 //			P.println("_isStressTesting = "+_isStressTesting);
 //		}
-		if ( _colorTrigger.active() == true ) updateColor();
+		if ( _colorTrigger.active() == true ) {
+			resetBeatDetectMode();
+			updateColor();
+		}
 		if ( _modeTrigger.active() == true ) newMode();
-		if ( _lineModeTrigger.active() == true ) updateLineMode();
-		if ( _rotationTrigger.active() == true ) updateRotation();
-		if ( _timingTrigger.active() == true ) updateTiming();
+		if ( _lineModeTrigger.active() == true ) {
+			resetBeatDetectMode();
+			updateLineMode();
+		}
+		if ( _rotationTrigger.active() == true ) {
+			resetBeatDetectMode();
+			updateRotation();
+		}
+		if ( _timingTrigger.active() == true ) {
+			resetBeatDetectMode();
+			updateTiming();
+		}
 		if ( _timingSectionTrigger.active() == true ) updateTimingSection();
-		if ( _bigChangeTrigger.active() == true ) bigChangeTrigger();
+		if ( _bigChangeTrigger.active() == true ) {
+			resetBeatDetectMode();
+			bigChangeTrigger();
+		}
+		if ( _allSameTextureTrigger.active() == true ) {
+			resetBeatDetectMode();
+			setAllSameTexture();
+		}
 		if ( _audioInputUpTrigger.active() == true ) audioIn.gainUp();
 		if ( _audioInputDownTrigger.active() == true ) audioIn.gainDown();
 	}
@@ -304,6 +326,7 @@ extends PAppletHax {
 	protected void updateColor() {
 		for( int i=0; i < _mappingGroups.size(); i++ ) {
 			_mappingGroups.get(i).newColor();
+			_mappingGroups.get(i).pulseColor();
 		}
 	}
 	
@@ -338,6 +361,21 @@ extends PAppletHax {
 //		pickNewColors();
 	}
 
+	protected void setAllSameTexture() {
+		boolean mode = MathUtil.randBoolean(p);
+		BaseTexture newTexture = _texturePool.get( MathUtil.randRange(0, _texturePool.size()-1 ) );
+		for( int i=0; i < _mappingGroups.size(); i++ ) {
+			_mappingGroups.get(i).clearAllTextures();
+			_mappingGroups.get(i).pushTexture( newTexture );
+			_mappingGroups.get(i).setAllPolygonsToTexture(0);
+			if( mode == true ) {
+				_mappingGroups.get(i).setAllPolygonsTextureStyle( IMappedPolygon.MAP_STYLE_CONTAIN_RANDOM_TEX_AREA );
+			} else {
+				_mappingGroups.get(i).setAllPolygonsTextureStyle( IMappedPolygon.MAP_STYLE_MASK );
+			}
+		}
+	}
+	
 }
 
 

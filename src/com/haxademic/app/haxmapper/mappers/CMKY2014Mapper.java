@@ -1,12 +1,11 @@
 package com.haxademic.app.haxmapper.mappers;
 
-import hypermedia.net.UDP;
-
 import java.util.ArrayList;
 
 import oscP5.OscMessage;
 import processing.core.PApplet;
 
+import com.haxademic.app.haxmapper.AudioPixelInterface;
 import com.haxademic.app.haxmapper.HaxMapper;
 import com.haxademic.app.haxmapper.overlays.MeshLines;
 import com.haxademic.app.haxmapper.polygons.IMappedPolygon;
@@ -16,13 +15,11 @@ import com.haxademic.app.haxmapper.textures.TextureEQColumns;
 import com.haxademic.app.haxmapper.textures.TextureEQGrid;
 import com.haxademic.app.haxmapper.textures.TextureImageTimeStepper;
 import com.haxademic.app.haxmapper.textures.TextureScrollingColumns;
-import com.haxademic.app.haxmapper.textures.TextureTwistingSquares;
 import com.haxademic.app.haxmapper.textures.TextureShaderTimeStepper;
 import com.haxademic.app.haxmapper.textures.TextureSphereRotate;
+import com.haxademic.app.haxmapper.textures.TextureTwistingSquares;
 import com.haxademic.app.haxmapper.textures.TextureVideoPlayer;
 import com.haxademic.app.haxmapper.textures.TextureWaveformSimple;
-import com.haxademic.core.app.P;
-import com.haxademic.core.draw.color.ColorHaxEasing;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.system.FileUtil;
 
@@ -33,9 +30,8 @@ extends HaxMapper{
 	protected int MAX_ACTIVE_TEXTURES = 8;
 	protected int MAX_ACTIVE_MOVIE_TEXTURES = 2;
 	
-	protected int numBeatsDetected = 0;
-	public UDP udp;
-
+	protected AudioPixelInterface _audioPixel;
+	protected int[] _audioPixelColors;
 
 	public static void main(String args[]) {
 		_isFullScreen = true;
@@ -51,7 +47,7 @@ extends HaxMapper{
 		super.oscEvent(theOscMessage);
 	}
 
-	protected void buildPolygonGroups() {
+	protected void buildMappingGroups() {
 		// give each group a texture to start with
 		for( int i=0; i < _mappingGroups.size(); i++ ) {
 			_mappingGroups.get(i).pushTexture( _texturePool.get(0) );
@@ -142,41 +138,33 @@ extends HaxMapper{
 		return numMovieTextures;
 	}
 	
+	public void setup() {
+		super.setup();
+		_audioPixel = new AudioPixelInterface();
+		_audioPixelColors = new int[ _mappingGroups.size() ];
+	}
+	
 	public void drawApp() {
 		super.drawApp();
 		
-		sendAudioPixelData();
+		for(int i=0; i < _mappingGroups.size(); i++ ) {
+			_audioPixelColors[i] = _mappingGroups.get(i).colorEaseInt();
+			// debug draw!
+			//			int size = 100;
+			//			p.fill( _audioPixelColors[i] );
+			//			p.rect(size*i, p.height-size, size, size);
+		}
+		_audioPixel.sendColorData( _audioPixelColors );
 	}
 	
 	protected void checkBeat() {
-		if( audioIn.isBeat() == true && p.millis() - 4000 > _lastInputMillis ) {
+		if( audioIn.isBeat() == true && isBeatDetectMode() == true ) {
 			updateTiming();
 		}
 	}
 	
-	protected void sendAudioPixelData() {
-		int curGroup = 0;
-		int nodeCount = 72;
-		byte[] rgbData = new byte[nodeCount * 3];
-		int t = 0;
-		for( int e=0; e < nodeCount; e = e + 1 ) {
-			int theColor = _mappingGroups.get(curGroup % _mappingGroups.size()).colorEaseInt();
-			t = e * 3;
-			rgbData[t] = (byte) ColorHaxEasing.redFromColorInt(theColor);
-			rgbData[t+1] = (byte) ColorHaxEasing.greenFromColorInt(theColor);
-			rgbData[t+2] = (byte) ColorHaxEasing.blueFromColorInt(theColor);
-			curGroup++;
-		}
-		broadcastKiNet("10.0.0.30", 30, rgbData, true);
-	}
-
-	public void setup() {
-		super.setup();
-		
-		udp = new UDP( this, 6000, "224.0.0.1" );
-		udp.log( false ); 		// <-- printout the connection activity
-		udp.listen( true );
-
+	protected boolean isBeatDetectMode() {
+		return ( p.millis() - 10000 > _lastInputMillis );
 	}
 	
 	protected void updateColor() {
@@ -186,6 +174,7 @@ extends HaxMapper{
 		} else {
 			int randGroup = MathUtil.randRange( 0, _mappingGroups.size() - 1 );
 			_mappingGroups.get(randGroup).newColor();
+			_mappingGroups.get(randGroup).pulseColor();
 		}
 	}
 	
@@ -202,38 +191,26 @@ extends HaxMapper{
 	protected void updateTiming() {
 		super.updateTiming();
 		
-		numBeatsDetected++;
+		if( isBeatDetectMode() == true ) numBeatsDetected++;
 		
-		// every beat, change a polygon mapping style or texture
-		for(int i=0; i < _mappingGroups.size(); i++ ) {
-			if( MathUtil.randBoolean(p) == true ) {
-				_mappingGroups.get(i).randomTextureToRandomPolygon();
-			} else {
-				_mappingGroups.get(i).randomPolygonRandomMappingStyle();
-			}
-		}
+		changeGroupsRandomPolygonMapStyle();
 		
-		// make sure everything's timed to the beat
+		// make sure textures are timed to the beat
 		for( int i=0; i < _activeTextures.size(); i++ ) {
 			_activeTextures.get(i).updateTiming();
 		}
 		
+		if( numBeatsDetected % 4 == 0 ) {
+			updateColor();
+		}
+		
 		if( numBeatsDetected % 100 == 0 ) {
-			// every once in a while, set all polygons' styles to be the same per group
-			for(int i=0; i < _mappingGroups.size(); i++ ) {
-				if( MathUtil.randRange(0, 100) < 90 ) {
-					_mappingGroups.get(i).setAllPolygonsTextureStyle( MathUtil.randRange(0, 2) );
-				} else {
-					_mappingGroups.get(i).setAllPolygonsTextureStyle( IMappedPolygon.MAP_STYLE_EQ );	// less likely to go to EQ fill
-				}
-				_mappingGroups.get(i).newColor();
-			}
-			// maybe also set a group to all to be the same texture
-			for(int i=0; i < _mappingGroups.size(); i++ ) {
-				if( MathUtil.randRange(0, 100) < 25 ) {
-					_mappingGroups.get(i).setAllPolygonsToSameRandomTexture();
-				}
-			}
+			setGroupsMappingStylesToTheSame();
+			setGroupsTextureToTheSameMaybe();
+		}
+		
+		if( numBeatsDetected % 200 == 0 ) {
+			updateTimingSection();
 		}
 		
 		// every 40 beats, do something bigger
@@ -262,6 +239,39 @@ extends HaxMapper{
 		// reset rotations
 		for(int i=0; i < _mappingGroups.size(); i++ ) {
 			_mappingGroups.get(i).resetRotation();
+		}
+	}
+	
+	// cool rules =========================================================
+	
+	protected void setGroupsTextureToTheSameMaybe() {
+		// maybe also set a group to all to be the same texture
+		for(int i=0; i < _mappingGroups.size(); i++ ) {
+			if( MathUtil.randRange(0, 100) < 25 ) {
+				_mappingGroups.get(i).setAllPolygonsToSameRandomTexture();
+			}
+		}
+	}	
+	
+	protected void setGroupsMappingStylesToTheSame() {
+		// every once in a while, set all polygons' styles to be the same per group
+		for(int i=0; i < _mappingGroups.size(); i++ ) {
+			if( MathUtil.randRange(0, 100) < 90 ) {
+				_mappingGroups.get(i).setAllPolygonsTextureStyle( MathUtil.randRange(0, 2) );
+			} else {
+				_mappingGroups.get(i).setAllPolygonsTextureStyle( IMappedPolygon.MAP_STYLE_EQ );	// less likely to go to EQ fill
+			}
+			_mappingGroups.get(i).newColor();
+		}
+	}
+	protected void changeGroupsRandomPolygonMapStyle() {
+		// every beat, change a polygon mapping style or texture
+		for(int i=0; i < _mappingGroups.size(); i++ ) {
+			if( MathUtil.randBoolean(p) == true ) {
+				_mappingGroups.get(i).randomTextureToRandomPolygon();
+			} else {
+				_mappingGroups.get(i).randomPolygonRandomMappingStyle();
+			}
 		}
 	}
 	
@@ -313,133 +323,6 @@ extends HaxMapper{
 			_mappingGroups.get(i).reloadTextureAtIndex();				
 		}
 	}
-	
-	
-	
-	
-    protected Boolean broadcastKiNet(String addy, int port, byte[] rbgvalues, boolean is150Server) {
-
-        // when sending to strands cut the FPS in half
-//        if(p.stateManager().getPortType(port) == HardwareManager.PORT_TYPE_KINET_2 && p.tick() % 2 == 1){
-//            //return false; 
-//            // !hack! TODO turn this back on - for some reason it was causing us to not be able to talk to the 2x8 tiles
-//        }
-        
-        if (addy != "") {
-
-            // Construct a UDP Packet with RGB
-            int a = 24;
-            int len = rbgvalues.length;
-            if (is150Server) {
-                a = 21;
-            }
-            // !CK Protocol
-            byte[] data = new byte[a + len + 296];
-            data[0] = (byte) (PApplet.unhex("04"));
-            data[1] = (byte) (PApplet.unhex("01"));
-            data[2] = (byte) (PApplet.unhex("dc"));
-            data[3] = (byte) (PApplet.unhex("4a"));
-            data[4] = (byte) (PApplet.unhex("01"));
-            data[5] = (byte) (PApplet.unhex("00"));
-            data[6] = (byte) (PApplet.unhex("08"));
-            if (is150Server) {
-                data[6] = (byte) (PApplet.unhex("01"));
-            }
-            data[7] = (byte) (PApplet.unhex("01"));
-            data[8] = (byte) (PApplet.unhex("00"));
-            data[9] = (byte) (PApplet.unhex("00"));
-            data[10] = (byte) (PApplet.unhex("00"));
-            data[11] = (byte) (PApplet.unhex("00"));
-            data[12] = (byte) (PApplet.unhex("00"));
-            data[13] = (byte) (PApplet.unhex("00"));
-            data[14] = (byte) (PApplet.unhex("00"));
-            data[15] = (byte) (PApplet.unhex("00"));
-            String p1 = "";
-            switch (port) {
-            case 1:
-                p1 = "01";
-                break;
-            case 2:
-                p1 = "02";
-                break;
-            case 3:
-                p1 = "03";
-                break;
-            case 4:
-                p1 = "04";
-                break;
-            case 5:
-                p1 = "05";
-                break;
-            case 6:
-                p1 = "06";
-                break;
-            case 7:
-                p1 = "07";
-                break;
-            case 8:
-                p1 = "08";
-                break;
-            case 9:
-                p1 = "09";
-                break;
-            case 10:
-                p1 = "0A";
-                break;
-            case 11:
-                p1 = "0B";
-                break;
-            case 12:
-                p1 = "0C";
-                break;
-            case 13:
-                p1 = "0D";
-                break;
-            case 14:
-                p1 = "0E";
-                break;
-            case 15:
-                p1 = "0F";
-                break;
-            case 16:
-                p1 = "10";
-                break;
-            default:
-                p1 = "ff";
-                break;
-            }
-            data[16] = (byte) (PApplet.unhex(p1));
-            if (is150Server) {
-                data[17] = (byte) (PApplet.unhex("ff"));
-                data[18] = (byte) (PApplet.unhex("ff"));
-                data[19] = (byte) (PApplet.unhex("ff"));
-                data[20] = (byte) (PApplet.unhex("00"));
-            } else {
-                data[17] = (byte) (PApplet.unhex("00"));
-                data[18] = (byte) (PApplet.unhex("00"));
-                data[19] = (byte) (PApplet.unhex("00"));
-                data[20] = (byte) (PApplet.unhex("00"));
-                data[21] = (byte) (PApplet.unhex("02"));
-                data[22] = (byte) (PApplet.unhex("00"));
-                data[23] = (byte) (PApplet.unhex("00"));
-            }
-            // RGB
-            for (int i = 0; i < (len / 3); i = i + 1) {
-                data[a] = rbgvalues[i * 3];
-                data[a + 1] = rbgvalues[i * 3 + 1];
-                data[a + 2] = rbgvalues[i * 3 + 2];
-                a += 3;
-            }
-            return udp.send(data, addy, 6038);
-        }
-        return false;
-    }
-	
 }
 
 
-//MappingGroup centerGroup = _mappingGroups.get(0);
-//centerGroup.clearAllTextures();
-//centerGroup.pushTexture( _texturePool.get( MathUtil.randRange(0, _texturePool.size()-1 )) );
-//centerGroup.pushTexture( _texturePool.get( MathUtil.randRange(0, _texturePool.size()-1 )) );
-//centerGroup.setAllPolygonsToTexture(0);
