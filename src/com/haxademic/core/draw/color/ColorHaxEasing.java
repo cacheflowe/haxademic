@@ -1,6 +1,7 @@
 package com.haxademic.core.draw.color;
 
 import com.haxademic.core.app.P;
+import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.EasingFloat;
 
 public class ColorHaxEasing {
@@ -38,11 +39,41 @@ public class ColorHaxEasing {
 		this.a.setTarget( 255 );
 	}
 	
+	public void setCurrentColorInt( int color ) {
+		this.r.setCurrent( redFromColorInt(color) );
+		this.g.setCurrent( greenFromColorInt(color) );
+		this.b.setCurrent( blueFromColorInt(color) );
+		this.a.setCurrent( 255 );
+	}
+	
 	public void setTargetColorIntWithBrightness( int color, float brightness ) {
 		this.r.setTarget( redFromColorInt(color) * brightness );
 		this.g.setTarget( greenFromColorInt(color) * brightness );
 		this.b.setTarget( blueFromColorInt(color) * brightness );
 		this.a.setTarget( 255 );
+	}
+	
+	public void setTargetColorIntWithBrightnessAndRandomSaturation( int color, float brightness ) {
+		int randComponent = MathUtil.randRange(0, 2);
+		this.r.setTarget( redFromColorInt(color) * brightness );
+		this.g.setTarget( greenFromColorInt(color) * brightness );
+		this.b.setTarget( blueFromColorInt(color) * brightness );
+		this.a.setTarget( 255 );
+		
+		// tone down other colors to give more saturation
+		float saturationAmount = 0.75f;
+		if( randComponent == 0 ) {
+			this.g.setTarget( greenFromColorInt(color) * brightness * saturationAmount );
+			this.b.setTarget( blueFromColorInt(color) * brightness * saturationAmount );
+		}
+		if( randComponent == 1 ) {
+			this.r.setTarget( redFromColorInt(color) * brightness * saturationAmount );
+			this.b.setTarget( blueFromColorInt(color) * brightness * saturationAmount );
+		}
+		if( randComponent == 2 ) {
+			this.r.setTarget( redFromColorInt(color) * brightness * saturationAmount );
+			this.g.setTarget( greenFromColorInt(color) * brightness * saturationAmount );
+		}
 	}
 	
 	public void update() {
@@ -59,6 +90,10 @@ public class ColorHaxEasing {
 
 	public int colorInt() {
 		return P.p.color(r.value(), g.value(), b.value(), a.value());
+	}
+	
+	public int targetInt() {
+		return P.p.color(r.target(), g.target(), b.target(), a.target());
 	}
 	
 }
