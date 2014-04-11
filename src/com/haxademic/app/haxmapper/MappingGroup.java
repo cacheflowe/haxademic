@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import processing.core.PApplet;
 import processing.core.PGraphics;
 
+import com.haxademic.app.haxmapper.mappers.CMKY2014Mapper;
 import com.haxademic.app.haxmapper.overlays.MeshLines;
 import com.haxademic.app.haxmapper.polygons.IMappedPolygon;
 import com.haxademic.app.haxmapper.textures.BaseTexture;
@@ -21,6 +22,7 @@ public class MappingGroup {
 	protected MeshLines _meshLines;
 	protected int _color;
 	protected ColorHaxEasing _colorEase;
+	protected int _textureIndex = 0;
 
 
 	public MappingGroup( PAppletHax p, PGraphics overlayPG ) {
@@ -88,9 +90,23 @@ public class MappingGroup {
 	}
 	
 	public void setAllPolygonsToTexture( int textureIndex ) {
+		_textureIndex = textureIndex;
 		if( _curTextures.size() < 1 ) return;
 		for(int j=0; j < _mappedPolygons.size(); j++ ) {
-			_mappedPolygons.get(j).setTexture( _curTextures.get(textureIndex).texture() );
+			_mappedPolygons.get(j).setTexture( _curTextures.get(_textureIndex).texture() );
+		}
+	}
+	
+	public void reloadTextureAtIndex() {
+		if( _curTextures.size() < 1 ) return;
+		// subtract since we shift the texture pool - this keeps texture around if it still exists in pool
+		_textureIndex--;
+		if( _textureIndex < 0 ) _textureIndex = _curTextures.size();
+		
+		int safeIndex = 0;
+		for(int j=0; j < _mappedPolygons.size(); j++ ) {
+			safeIndex = _textureIndex % _curTextures.size();
+			_mappedPolygons.get(j).setTexture( _curTextures.get(safeIndex).texture() );
 		}
 	}
 	
@@ -109,7 +125,12 @@ public class MappingGroup {
 			IMappedPolygon triangle = _mappedPolygons.get(j);
 			triangle.draw(p.g);
 		}
+		
 		_colorEase.update();
+	}
+	
+	public int colorEaseInt() {
+		return _colorEase.colorInt();
 	}
 
 	public void drawOverlay() {
@@ -167,4 +188,5 @@ public class MappingGroup {
 			_mappedPolygons.get(j).rotateTexture();
 		}
 	}
+	
 }
