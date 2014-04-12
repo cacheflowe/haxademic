@@ -40,7 +40,7 @@ extends HaxMapper{
 
 	protected void overridePropsFile() {
 		super.overridePropsFile();
-		_appConfig.setProperty( "mapping_file", FileUtil.getHaxademicDataPath() + "text/mapping/mapping-2014-04-09-23-16-58.txt" );
+		_appConfig.setProperty( "mapping_file", FileUtil.getHaxademicDataPath() + "text/mapping/mapping-2014-04-11-22-02-56.txt" );
 	}
 
 	public void oscEvent(OscMessage theOscMessage) {  
@@ -66,28 +66,15 @@ extends HaxMapper{
 
 	protected void addTexturesToPool() {
 
-//		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/loops/smoke-loop.mov" ));
-//		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/loops/tree-loop.mp4" ));
-//		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/loops/ink-in-water.mp4" ));
-//		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/loops/ink-grow-shrink.mp4" ));
-//		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/loops/fire.mp4" ));
-//		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/loops/bubbles.mp4" ));	
-//		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/loops/clouds-timelapse.mov" ));
-//		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/loops/water.mp4" ));
-		
-		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/loops/deadbeat/airlift_01-desktop.m4v" ));
-		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/loops/deadbeat/Aspen Sunset Timelapse-desktop.m4v" ));
-		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/loops/deadbeat/Blood Tide-desktop.m4v" ));
-		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/loops/deadbeat/Ferrofluid-desktop.m4v" ));
-		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/loops/deadbeat/GUNDAM_01-desktop.m4v" ));
+		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/loops/smoke-loop.mov" ));
+		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/loops/tree-loop.mp4" ));
+		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/loops/ink-in-water.mp4" ));
+		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/loops/ink-grow-shrink.mp4" ));
+		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/loops/fire.mp4" ));
+		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/loops/bubbles.mp4" ));	
+		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/loops/clouds-timelapse.mov" ));
+		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/loops/water.mp4" ));
 		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/loops/deadbeat/Intermolecular_02-desktop.m4v" ));
-		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/loops/deadbeat/Macro Timelapse_02-desktop.m4v" ));
-		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/loops/deadbeat/Macro Timelapse_03-desktop.m4v" ));
-		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/loops/deadbeat/Macro Timelapse_04-desktop.m4v" ));
-		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/loops/deadbeat/Ride of the Valkyries_01_720p-desktop.m4v" ));
-		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/loops/deadbeat/Sunset in Colorado Springs-desktop.m4v" ));
-		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/loops/deadbeat/Sunset Timelapse in Colorado-desktop.m4v" ));
-		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/loops/deadbeat/The Aurora_01-desktop.m4v" ));
 		
 		_texturePool.add( new TextureScrollingColumns( 100, 100 ));
 		_texturePool.add( new TextureTwistingSquares( 300, 300 ));
