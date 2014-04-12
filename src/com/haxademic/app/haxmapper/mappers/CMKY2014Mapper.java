@@ -200,9 +200,10 @@ extends HaxMapper{
 			_activeTextures.get(i).updateTiming();
 		}
 		
-		if( numBeatsDetected % 4 == 0 ) {
+		if( numBeatsDetected % 1 == 0 ) {
 			updateColor();
 		}
+		updateColor();
 		
 		if( numBeatsDetected % 100 == 0 ) {
 			setGroupsMappingStylesToTheSame();
