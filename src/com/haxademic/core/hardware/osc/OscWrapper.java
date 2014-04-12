@@ -56,6 +56,7 @@ public class OscWrapper {
 //		P.print("check: "+oscMessage);
 		if( oscMsgMap.containsKey( oscMessage ) ) {
 			if( oscMsgMap.get( oscMessage ) > 0 ) {
+				oscMsgMap.put( oscMessage, 0.0f );
 				return 1;
 			}
 		}
