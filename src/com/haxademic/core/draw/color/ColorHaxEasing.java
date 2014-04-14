@@ -53,8 +53,8 @@ public class ColorHaxEasing {
 		this.a.setTarget( 255 );
 	}
 	
-	public void setTargetColorIntWithBrightnessAndRandomSaturation( int color, float brightness ) {
-		int randComponent = MathUtil.randRange(0, 2);
+	public void setTargetColorIntWithBrightnessAndSaturation( int color, float brightness ) {
+
 		this.r.setTarget( redFromColorInt(color) * brightness );
 		this.g.setTarget( greenFromColorInt(color) * brightness );
 		this.b.setTarget( blueFromColorInt(color) * brightness );
@@ -62,15 +62,13 @@ public class ColorHaxEasing {
 		
 		// tone down other colors to give more saturation
 		float saturationAmount = 0.75f;
-		if( randComponent == 0 ) {
+		if( this.r.target() >= this.g.target() && this.r.target() >= this.b.target() ) {
 			this.g.setTarget( greenFromColorInt(color) * brightness * saturationAmount );
 			this.b.setTarget( blueFromColorInt(color) * brightness * saturationAmount );
-		}
-		if( randComponent == 1 ) {
+		} else if( this.g.target() >= this.r.target() && this.g.target() >= this.b.target() ) {
 			this.r.setTarget( redFromColorInt(color) * brightness * saturationAmount );
 			this.b.setTarget( blueFromColorInt(color) * brightness * saturationAmount );
-		}
-		if( randComponent == 2 ) {
+		} else if( this.b.target() >= this.r.target() && this.b.target() >= this.g.target() ) {
 			this.r.setTarget( redFromColorInt(color) * brightness * saturationAmount );
 			this.g.setTarget( greenFromColorInt(color) * brightness * saturationAmount );
 		}
