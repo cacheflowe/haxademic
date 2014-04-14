@@ -3,6 +3,7 @@ package com.haxademic.sketch.test;
 import processing.core.PApplet;
 
 import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.system.ControlFrame;
 
 import controlP5.ControlElement;
 
