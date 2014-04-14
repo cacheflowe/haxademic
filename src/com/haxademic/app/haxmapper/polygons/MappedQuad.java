@@ -5,7 +5,6 @@ import java.awt.Rectangle;
 
 import processing.core.PConstants;
 import processing.core.PGraphics;
-import processing.core.PImage;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.math.MathUtil;
@@ -25,7 +24,7 @@ implements IMappedPolygon {
 		protected Point _center;
 
 		protected int _color;
-		protected PImage _texture;
+		protected PGraphics _texture;
 		protected int _eqIndex = MathUtil.randRange(30, 512);
 
 		protected int _numRotations = 0;
@@ -52,12 +51,16 @@ implements IMappedPolygon {
 			return _center;
 		}
 
+		public PGraphics getTexture() {
+			return _texture;
+		}
+		
 		public void setColor( int color ) {
 			_color = color;
 			_eqIndex = MathUtil.randRange(30, 512);
 		}
 		
-		public void setTexture( PImage texture ) {
+		public void setTexture( PGraphics texture ) {
 			_texture = texture;
 		}
 		

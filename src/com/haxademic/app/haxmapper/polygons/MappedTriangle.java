@@ -4,7 +4,6 @@ import java.awt.Point;
 
 import processing.core.PConstants;
 import processing.core.PGraphics;
-import processing.core.PImage;
 import processing.core.PVector;
 
 import com.haxademic.core.app.P;
@@ -23,7 +22,7 @@ implements IMappedPolygon {
 	protected int _eqIndex = MathUtil.randRange(30, 512);
 
 	protected int _color;
-	protected PImage _texture;
+	protected PGraphics _texture;
 	
 	protected int _numRotations = 0;
 	protected int _mappingOrientation;
@@ -48,12 +47,16 @@ implements IMappedPolygon {
 		return _center;
 	}
 
+	public PGraphics getTexture() {
+		return _texture;
+	}
+	
 	public void setColor( int color ) {
 		_color = color;
 		_eqIndex = MathUtil.randRange(30, 512);
 	}
 	
-	public void setTexture( PImage texture ) {
+	public void setTexture( PGraphics texture ) {
 		_texture = texture;
 	}
 	
