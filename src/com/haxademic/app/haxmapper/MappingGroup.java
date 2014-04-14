@@ -1,17 +1,18 @@
 package com.haxademic.app.haxmapper;
 
+import java.awt.Point;
 import java.util.ArrayList;
 
 import processing.core.PApplet;
 import processing.core.PGraphics;
 
-import com.haxademic.app.haxmapper.mappers.CMKY2014Mapper;
 import com.haxademic.app.haxmapper.overlays.MeshLines;
 import com.haxademic.app.haxmapper.polygons.IMappedPolygon;
 import com.haxademic.app.haxmapper.textures.BaseTexture;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.color.ColorHaxEasing;
+import com.haxademic.core.image.ImageUtil;
 import com.haxademic.core.math.MathUtil;
 
 public class MappingGroup {
@@ -23,7 +24,10 @@ public class MappingGroup {
 	protected int _color;
 	protected ColorHaxEasing _colorEase;
 	protected int _textureIndex = 0;
-
+	protected IMappedPolygon _selectedPolygon;
+	protected float _selectedPolygonTextureX = 0;
+	protected float _selectedPolygonTextureY = 0;
+	protected Point center = null;
 
 	public MappingGroup( PAppletHax p, PGraphics overlayPG ) {
 		this.p = p;
@@ -31,7 +35,7 @@ public class MappingGroup {
 		_mappedPolygons = new ArrayList<IMappedPolygon>();
 		_meshLines = new MeshLines( overlayPG );
 		_color = P.p.color(255);
-		_colorEase = new ColorHaxEasing( "#000000", 5 );
+		_colorEase = new ColorHaxEasing( "#000000", 4 );
 	}
 
 	public void addPolygon( IMappedPolygon polygon ) {
@@ -125,7 +129,25 @@ public class MappingGroup {
 			IMappedPolygon triangle = _mappedPolygons.get(j);
 			triangle.draw(p.g);
 		}
-		
+	}
+	
+	public void getAudioPixelColor() {
+		// use a pixel for audiopixel
+//		if( _selectedPolygon == null ) return;
+//		center = _selectedPolygon.getCenter();
+//		int color = ImageUtil.getPixelColor( P.p, center.x, center.y );
+//		P.println(_selectedPolygon, color, center.x, center.y);
+//		_colorEase.setTargetColorIntWithBrightnessAndSaturation( color, 1.2f );
+
+		//		PGraphics texture = _mappedPolygons.get( _selectedPolygonIndex ).getTexture();
+//		if( texture != null ) {
+//			P.println(Math.round(_selectedPolygonTextureX * texture.width), Math.round(_selectedPolygonTextureY * texture.height));
+//			P.println(_selectedPolygonIndex, ImageUtil.getPixelColor( texture, Math.round(_selectedPolygonTextureX * texture.width), Math.round(_selectedPolygonTextureY * texture.height) ) );
+//			texture.loadPixels();
+//			P.println( texture.pixels[0] );
+//			_colorEase.setTargetColorIntWithBrightnessAndSaturation( ImageUtil.getPixelColor( texture, Math.round(_selectedPolygonTextureX * texture.width), Math.round(_selectedPolygonTextureY * texture.height) ), 0.5f );
+//			_colorEase.setTargetColorIntWithBrightnessAndSaturation( ImageUtil.getPixelColor( texture, Math.round(_selectedPolygonTextureX * texture.width), Math.round(_selectedPolygonTextureY * texture.height) ), 0.5f );
+//		}
 		_colorEase.update();
 	}
 	
@@ -156,6 +178,11 @@ public class MappingGroup {
 		return p.color(p.random(180,255), p.random(180,255), p.random(180,255), 255f );
 	}
 	
+	public void newAudioPixelColor() {
+		int groupColor = randomColor();
+		_colorEase.setTargetColorIntWithBrightnessAndSaturation( groupColor, 0.5f );
+	}
+	
 	public void newColor() {
 		// give textures a new random color
 		for( int i=0; i < _curTextures.size(); i++ ) {
@@ -163,7 +190,11 @@ public class MappingGroup {
 		}
 		int groupColor = randomColor();
 		_meshLines.setColor( groupColor );
-		_colorEase.setTargetColorIntWithBrightnessAndRandomSaturation( groupColor, 0.9f );
+//		_colorEase.setTargetColorIntWithBrightnessAndSaturation( groupColor, 0.5f );
+		_selectedPolygon = randomPolygon();
+		_selectedPolygonTextureX = MathUtil.randRangeDecimel(0f, 1f);
+		_selectedPolygonTextureY = MathUtil.randRangeDecimel(0f, 1f);
+		
 		for(int j=0; j < _mappedPolygons.size(); j++ ) {
 			_mappedPolygons.get(j).setColor( randomColor() );
 		}

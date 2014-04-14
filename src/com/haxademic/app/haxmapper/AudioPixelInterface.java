@@ -21,7 +21,8 @@ public class AudioPixelInterface {
 		int nodeCount = 72;
 		byte[] rgbData = new byte[nodeCount * 3];
 		int t = 0;
-		for( int e=0; e < 6; e = e + 1 ) {
+		
+		for( int e=0; e < nodeCount; e = e + 1 ) {
 			int theColor = colors[curGroup % colors.length];
 			t = e * 3;
 			rgbData[t] = (byte) ColorHaxEasing.redFromColorInt(theColor);
@@ -29,9 +30,21 @@ public class AudioPixelInterface {
 			rgbData[t+2] = (byte) ColorHaxEasing.blueFromColorInt(theColor);
 			curGroup++;
 		}
-		broadcastKiNet("10.0.0.29", 30, rgbData, true);
+		broadcastKiNet("10.32.21.177", 30, rgbData, true);
 		
-		for( int e=7; e < nodeCount-7; e = e + 1 ) {
+		
+		for( int e=0; e < nodeCount; e = e + 1 ) {
+			int theColor = colors[curGroup % colors.length];
+			t = e * 3;
+			rgbData[t] = (byte) ColorHaxEasing.redFromColorInt(theColor);
+			rgbData[t+1] = (byte) ColorHaxEasing.greenFromColorInt(theColor);
+			rgbData[t+2] = (byte) ColorHaxEasing.blueFromColorInt(theColor);
+			curGroup++;
+		}
+		broadcastKiNet("10.32.21.207", 30, rgbData, true);
+		
+		/*
+		for( int e=0; e < nodeCount; e = e + 1 ) {
 			int theColor = colors[curGroup % colors.length];
 			t = e * 3;
 			rgbData[t] = (byte) ColorHaxEasing.redFromColorInt(theColor);
@@ -40,7 +53,7 @@ public class AudioPixelInterface {
 			curGroup++;
 		}
 		broadcastKiNet("10.0.0.30", 30, rgbData, true);
-
+		*/
 	}
 
 	

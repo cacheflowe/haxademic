@@ -40,7 +40,7 @@ extends HaxMapper{
 
 	protected void overridePropsFile() {
 		super.overridePropsFile();
-		_appConfig.setProperty( "mapping_file", FileUtil.getHaxademicDataPath() + "text/mapping/mapping-2014-04-11-22-02-56.txt" );
+		_appConfig.setProperty( "mapping_file", FileUtil.getHaxademicDataPath() + "text/mapping/mapping-2014-04-12-22-23-08.txt" );
 	}
 
 	public void oscEvent(OscMessage theOscMessage) {  
@@ -134,12 +134,14 @@ extends HaxMapper{
 	public void drawApp() {
 		super.drawApp();
 		
+		// p.loadPixels();
 		for(int i=0; i < _mappingGroups.size(); i++ ) {
+			_mappingGroups.get(i).getAudioPixelColor();
 			_audioPixelColors[i] = _mappingGroups.get(i).colorEaseInt();
 			// debug draw!
-			//			int size = 100;
-			//			p.fill( _audioPixelColors[i] );
-			//			p.rect(size*i, p.height-size, size, size);
+//			int size = 100;
+//			p.fill( _audioPixelColors[i] );
+//			p.rect(size*i, p.height-size, size, size);
 		}
 		_audioPixel.sendColorData( _audioPixelColors );
 	}
@@ -187,10 +189,13 @@ extends HaxMapper{
 			_activeTextures.get(i).updateTiming();
 		}
 		
-		if( numBeatsDetected % 1 == 0 ) {
+		if( numBeatsDetected % 4 == 0 ) {
 			updateColor();
 		}
 		updateColor();
+		for(int i=0; i < _mappingGroups.size(); i++ ) {
+			_mappingGroups.get(i).newAudioPixelColor();
+		}
 		
 		if( numBeatsDetected % 100 == 0 ) {
 			setGroupsMappingStylesToTheSame();
