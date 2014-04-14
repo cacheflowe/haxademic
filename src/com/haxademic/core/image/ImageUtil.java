@@ -1,12 +1,15 @@
 package com.haxademic.core.image;
 
 import java.awt.image.BufferedImage;
+import java.nio.ByteBuffer;
 
 import processing.core.PApplet;
 import processing.core.PConstants;
 import processing.core.PGraphics;
 import processing.core.PImage;
+import processing.opengl.PGL;
 
+import com.haxademic.core.app.P;
 import com.haxademic.core.draw.color.ColorHax;
 
 public class ImageUtil {
@@ -16,6 +19,9 @@ public class ImageUtil {
 	public static final int EMPTY_INT = 0;
 	
 	public static int getPixelIndex( PImage image, int x, int y ) {
+		return (int) x + y * image.width;
+	}
+	public static int getPixelIndex( PApplet image, int x, int y ) {
 		return (int) x + y * image.width;
 	}
 	
@@ -29,6 +35,30 @@ public class ImageUtil {
 	public static int getPixelColor( PImage image, int x, int y ) {
 		if( x < 0 || y < 0 || x > image.width - 1 || y > image.height - 1 || image.pixels == null || image.pixels.length < getPixelIndex( image, x, y ) ) return 0;
 		return image.pixels[ getPixelIndex( image, x, y ) ];
+	}
+	public static int getPixelColor( PGraphics image, int x, int y ) {
+		if( x < 0 || y < 0 || x > image.width - 1 || y > image.height - 1 || image.pixels == null || image.pixels.length < getPixelIndex( image, x, y ) ) return 0;
+		return image.pixels[ getPixelIndex( image, x, y ) ];
+	}
+	public static int getPixelColor( PApplet image, int x, int y ) {
+		if( x < 0 || y < 0 || x > image.width - 1 || y > image.height - 1 || image.pixels == null || image.pixels.length < getPixelIndex( image, x, y ) ) return 0;
+		return image.pixels[ getPixelIndex( image, x, y ) ];
+	}
+	
+	// needs testing....
+	public static int getPixelColorFast( PApplet p, PGraphics image, int x, int y ) {
+	    PGL pgl = image.beginPGL();
+	    ByteBuffer buffer = ByteBuffer.allocateDirect(1 * 1 * Integer.SIZE / 8);
+	
+	    pgl.readPixels(x, y, 1, 1, PGL.RGBA, PGL.UNSIGNED_BYTE, buffer); 
+	
+	    // get the first three bytes
+	    int r = buffer.get() & 0xFF;
+	    int g = buffer.get() & 0xFF;
+	    int b = buffer.get() & 0xFF;
+	    buffer.clear();
+	    image.endPGL();
+	    return p.color(r, g, b);
 	}
 	
 	public static float getBrightnessForPixel( PApplet p, PImage image, int x, int y ) {
@@ -106,7 +136,7 @@ public class ImageUtil {
 		float containerH = dest.height;
 		float imageW = src.width;
 		float imageH = src.height;
-
+		
 		float ratioW = containerW / imageW;
 		float ratioH = containerH / imageH;
 		float shorterRatio = ratioW > ratioH ? ratioH : ratioW;
