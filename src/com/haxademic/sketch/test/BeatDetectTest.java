@@ -18,10 +18,6 @@ extends PAppletHax {
 	public void setup() {
 		super.setup();	
 		p.smooth( OpenGLUtil.SMOOTH_HIGH );
-
-//		_cp5 = new ControlP5(this);
-//		_cp5.addSlider("fric").setPosition(20,60).setWidth(200).setRange(0,1);
-//		_cp5.addSlider("accel").setPosition(20,100).setWidth(200).setRange(0,1);
 	}
 
 	public void drawApp() {
