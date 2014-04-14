@@ -9,40 +9,36 @@ A custom projection-mapped visual system
 * Computer & power cord
 * Tripod 
 * Ratchet straps
-* Audio cables & dongle for input
+* Audio cables & dongle for input & XLR long cables & connectors
 * Extension power cords
 * Video cables
 * Projector(s)
 * iPad
 * Wireless router
-* Crates for airflow
+* Crates for airflow?
 
 
 ## ToDo:
+
+* MORE B&W TEXTURES
+* GET COLOR READING FROM TEXTURES RUNNING NICELY - JUST USE RANDOM TEXTURE COORDS
 
 ---
 
 #### Next:
 
-* Add methods to creatively distrubte updates to polygons and meshlines in a group
+* Process and select new videos
+	* Break up content between the 2 nights
+* Adjust mapping to tiny triangles...
 * Allow dragging polygons in HaxMapper for realtime adjustments
-* Create darkened color for groups to send to audiopixel!!!
-* Mock test with actual groups for CMKY
 * Add adjustable speed throttling properties to speed/slow the rate at which program changes happen - use adjustable modulos
 	* big changes should happen manually, or if it hasn't happened in 5 minutes or so...
-* Add an all-black texture
-* Switch everything to one particular mode once in a while
 * Use solid colors vs. using any alpha, since this is faster
-* Break up content between the 2 nights
-* More cohesive color scheme??
 
 
 #### Add UDP messages into group management
 * Average color for each structure
 * Use tringle centroid to get color from each mapped polygon
-
-#### Testing!
-* Stress test with more triangles!!!!! Especially for audio-reactive waveform mesh
 
 #### Texture manager to distribute textures between groups and group items* 
 * sweeping/traversing 
