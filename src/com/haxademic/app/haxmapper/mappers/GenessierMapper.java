@@ -7,7 +7,7 @@ import processing.core.PApplet;
 import processing.opengl.PShader;
 
 import com.haxademic.app.haxmapper.HaxMapper;
-import com.haxademic.app.haxmapper.MappingGroup;
+import com.haxademic.app.haxmapper.distribution.MappingGroup;
 import com.haxademic.app.haxmapper.polygons.IMappedPolygon;
 import com.haxademic.app.haxmapper.textures.TextureEQColumns;
 import com.haxademic.app.haxmapper.textures.TextureEQGrid;

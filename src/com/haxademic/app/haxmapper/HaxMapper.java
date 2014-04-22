@@ -7,6 +7,7 @@ import processing.core.PConstants;
 import processing.core.PGraphics;
 import processing.opengl.PShader;
 
+import com.haxademic.app.haxmapper.distribution.MappingGroup;
 import com.haxademic.app.haxmapper.polygons.IMappedPolygon;
 import com.haxademic.app.haxmapper.polygons.MappedQuad;
 import com.haxademic.app.haxmapper.polygons.MappedTriangle;

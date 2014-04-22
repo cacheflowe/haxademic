@@ -1,4 +1,4 @@
-package com.haxademic.app.haxmapper;
+package com.haxademic.app.haxmapper.distribution;
 
 import hypermedia.net.UDP;
 

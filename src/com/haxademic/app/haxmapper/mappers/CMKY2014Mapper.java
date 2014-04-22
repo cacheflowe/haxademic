@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import oscP5.OscMessage;
 import processing.core.PApplet;
 
-import com.haxademic.app.haxmapper.AudioPixelInterface;
 import com.haxademic.app.haxmapper.HaxMapper;
+import com.haxademic.app.haxmapper.distribution.AudioPixelInterface;
 import com.haxademic.app.haxmapper.overlays.MeshLines;
 import com.haxademic.app.haxmapper.polygons.IMappedPolygon;
 import com.haxademic.app.haxmapper.textures.TextureColorAudioFade;
@@ -40,7 +40,7 @@ extends HaxMapper{
 
 	protected void overridePropsFile() {
 		super.overridePropsFile();
-		_appConfig.setProperty( "mapping_file", FileUtil.getHaxademicDataPath() + "text/mapping/mapping-2014-04-12-22-23-08.txt" );
+		_appConfig.setProperty( "mapping_file", FileUtil.getHaxademicDataPath() + "text/mapping/mapping-2014-04-17-22-45-36.txt" );
 	}
 
 	public void oscEvent(OscMessage theOscMessage) {  
@@ -74,7 +74,7 @@ extends HaxMapper{
 		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/loops/bubbles.mp4" ));	
 		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/loops/clouds-timelapse.mov" ));
 		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/loops/water.mp4" ));
-		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/loops/deadbeat/Intermolecular_02-desktop.m4v" ));
+//		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/loops/deadbeat/Intermolecular_02-desktop.m4v" ));
 		
 		_texturePool.add( new TextureScrollingColumns( 100, 100 ));
 		_texturePool.add( new TextureTwistingSquares( 300, 300 ));
