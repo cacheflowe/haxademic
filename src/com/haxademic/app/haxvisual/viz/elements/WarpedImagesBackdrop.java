@@ -42,9 +42,10 @@ implements IVizElement  {
 	}
 
 	public void init() {
-		String imgBase = "images/gg/";
+		String imgBase = "images/cacheflowe-art/";
 		
-		ArrayList<String> files = FileUtil.getFilesInDirOfType( FileUtil.getHaxademicDataPath() + imgBase, "png" );
+		ArrayList<String> files = FileUtil.getFilesInDirOfType( FileUtil.getHaxademicDataPath() + imgBase, "jpg" );
+		files.addAll( FileUtil.getFilesInDirOfType( FileUtil.getHaxademicDataPath() + imgBase, "png" ) );
 		FileUtil.shuffleFileList( files );
 		
 		_images = new ArrayList<PImage>();
