@@ -30,7 +30,7 @@ public class CustomFontText2D {
 		_textStroke = p.color(255);
 		_font = p.createFont( fontFile, _fontSize );
 		_textAlign = align;
-		_textCanvas = p.createGraphics( canvasW, canvasH, P.JAVA2D );
+		_textCanvas = p.createGraphics( canvasW, canvasH, P.P2D );
 		_textCanvas.smooth( OpenGLUtil.SMOOTH_HIGH );
 	}
 	
