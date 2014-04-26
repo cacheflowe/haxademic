@@ -121,6 +121,8 @@ Haxademic uses the following Java & Processing libraries, which I've included in
 * [blobDetection](http://www.v3ga.net/processing/BlobDetection/)
 * [Java Image Filters](http://www.jhlabs.com/ip/filters/index.html)
 * [Super CSV](http://supercsv.sourceforge.net/)
+* [UDP Processing Library](http://ubaa.net/shared/processing/udp/)
+* [ControlP5](http://www.sojamo.de/libraries/controlP5/)
 
 Use the following VM Arguments when running the Java Application to increase memory allocated to your app
 
