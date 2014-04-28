@@ -37,14 +37,26 @@ public class KinectRegion {
 		return _pixelCount;
 	}
 	
+	public void pixelCount( int value ) {
+		_pixelCount = value;
+	}
+	
 	public float controlX() {
 		return _controlX;
 	}
-
+	
+	public void controlX( float value ) {
+		_controlX = value;
+	}
+	
 	public float controlZ() {
 		return _controlZ;
 	}
 
+	public void controlZ( float value ) {
+		_controlZ = value;
+	}
+	
 	public void drawRect() {
 		if( _blockColor == -1 ) return;
 		p.stroke( _blockColor );
@@ -54,11 +66,11 @@ public class KinectRegion {
 	
 	public void detect( boolean isDebugging ) {
 		// find kinect readings in the region
-		_pixelCount = 0;
-		float controlXTotal = 0;
-		float controlZTotal = 0;
-		float pixelDepth = 0;
 		if( p.kinectWrapper != null ) {
+			_pixelCount = 0;
+			float controlXTotal = 0;
+			float controlZTotal = 0;
+			float pixelDepth = 0;
 			for ( int x = _left; x < _right; x += _resolution ) {
 				for ( int y = _top; y < _bottom; y += _resolution ) {
 					pixelDepth = p.kinectWrapper.getMillimetersDepthForKinectPixel( x, y );
@@ -78,26 +90,26 @@ public class KinectRegion {
 					}
 				}
 			}
-		}
-		
-		// if we have enough blocks in a region, update the player's joystick position
-		 if( _pixelCount > 20 ) {
-			// compute averages
-			if( controlXTotal > 0 && controlZTotal > 0 ) {
-				float avgX = controlXTotal / _pixelCount;
-				_controlX = MathUtil.getPercentWithinRange(_left, _right, avgX) - 0.5f;
-				float avgZ = controlZTotal / _pixelCount;
-				_controlZ = MathUtil.getPercentWithinRange(_near, _far, avgZ) - 0.5f;
 
-				// show debug
-				if( isDebugging == true ) {
-					p.fill( 255 );
-					p.pushMatrix();
-					p.translate(avgX, 220, -avgZ);
-					p.box(40, 480, 40);
-					p.popMatrix();
+			// if we have enough blocks in a region, update the player's joystick position
+			if( _pixelCount > 20 ) {
+				// compute averages
+				if( controlXTotal > 0 && controlZTotal > 0 ) {
+					float avgX = controlXTotal / _pixelCount;
+					_controlX = MathUtil.getPercentWithinRange(_left, _right, avgX) - 0.5f;
+					float avgZ = controlZTotal / _pixelCount;
+					_controlZ = MathUtil.getPercentWithinRange(_near, _far, avgZ) - 0.5f;
+
+					// show debug
+					if( isDebugging == true ) {
+						p.fill( 255 );
+						p.pushMatrix();
+						p.translate(avgX, 220, -avgZ);
+						p.box(40, 480, 40);
+						p.popMatrix();
+					}
 				}
 			}
-		 }
+		}
 	}
 }
