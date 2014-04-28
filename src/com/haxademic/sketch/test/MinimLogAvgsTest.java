@@ -8,6 +8,7 @@ import ddf.minim.AudioInput;
 import ddf.minim.Minim;
 import ddf.minim.analysis.FFT;
 
+@SuppressWarnings("serial")
 public class MinimLogAvgsTest
 extends PAppletHax {
 

@@ -7,6 +7,7 @@ import oscP5.OscP5;
 
 import com.haxademic.core.app.PAppletHax;
 
+@SuppressWarnings("serial")
 public class OSCTest 
 extends PAppletHax {
 
