@@ -30,8 +30,8 @@ public class CustomFontText2D {
 		_textStroke = p.color(255);
 		_font = p.createFont( fontFile, _fontSize );
 		_textAlign = align;
-		_textCanvas = p.createGraphics( canvasW, canvasH, P.P2D );
-		_textCanvas.smooth( OpenGLUtil.SMOOTH_HIGH );
+		_textCanvas = p.createGraphics( canvasW, canvasH, P.JAVA2D ); // P.P2D? Whay does this cause issues in Catchy?
+		_textCanvas.smooth( OpenGLUtil.SMOOTH_MEDIUM );
 	}
 	
 	public void setTextColor( int color, int strokeColor ) {
