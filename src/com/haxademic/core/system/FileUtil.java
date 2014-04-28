@@ -8,6 +8,7 @@ import java.io.FileOutputStream;
 import java.io.FileWriter;
 import java.io.FilenameFilter;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.nio.channels.FileChannel;
 import java.util.ArrayList;
 
@@ -164,6 +165,19 @@ public class FileUtil {
 			BufferedWriter writer = new BufferedWriter(new FileWriter(file));
             writer.write( text );
             writer.close();
+		} catch (IOException e) { e.printStackTrace(); }
+	}
+	
+	/**
+	 * Simple method to append text to a file
+	 * @param file The filename (with full path) to write to
+	 * @param text Text to appendto the file
+	 */
+	public static final void appendTextToFile( String file, String text ) {
+		try {
+		    PrintWriter out = new PrintWriter(new BufferedWriter(new FileWriter(file, true)));
+		    out.print(text);
+		    out.close();
 		} catch (IOException e) { e.printStackTrace(); }
 	}
 	
