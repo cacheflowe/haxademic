@@ -25,10 +25,14 @@ extends PApplet {
 	}
 
 	public void draw() {
-		if( frameCount == 2 ) {
+		if( frameCount == 1 ) {
 			createControlP5(_parent, _name);
 		}
-		background(0);
+		if(	f.isFocused() == true ) {
+			background(0);
+		} else {
+			background(20);
+		}
 	}
 
 	public ControlFrame(Object parent, int w, int h, int x, int y) {
