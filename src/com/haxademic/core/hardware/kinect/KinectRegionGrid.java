@@ -72,8 +72,6 @@ public class KinectRegionGrid {
 			_sceneRot = new EasingFloat(0, 6f);
 			_sceneTranslateZ = new EasingFloat(0, 6f);
 			_sceneTranslateZ2 = new EasingFloat(0, 6f);
-			
-			
 		}
 		
 		// move scene towards front of kinect range
