@@ -5,7 +5,7 @@ import java.util.Properties;
 
 import processing.core.PApplet;
 
-import com.haxademic.core.app.P;
+import com.haxademic.core.debug.DebugUtil;
 
 /**
  * simple convenience wrapper object for the standard
@@ -28,7 +28,7 @@ extends Properties
 		try {
 			load( p.createInput( file ) );
 		} catch(IOException e) {
-			P.println("couldn't read run.properties config file...");
+			DebugUtil.printErr("couldn't read run.properties config file...");
 		}
 	}
  
