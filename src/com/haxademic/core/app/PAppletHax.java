@@ -91,7 +91,8 @@ extends PApplet
 	/**
 	 * Loads the project .properties file to configure several app properties externally.
 	 */
-	protected P5Properties _appConfig;
+	protected P5Properties _appConfig;	// we should move to public instance
+	public P5Properties appConfig;
 	
 	/**
 	 * Loads an app-specific project .properties file.
@@ -234,6 +235,7 @@ extends PApplet
 		if ( !_is_setup ) { 
 			// load external properties and set flag
 			_appConfig = new P5Properties(p);
+			appConfig = _appConfig;
 			if( _customPropsFile != null ) 
 				_appConfig.loadPropertiesFile( _customPropsFile );
 			overridePropsFile();
