@@ -21,10 +21,10 @@ extends PAppletHax {
 	public void setup() {
 		super.setup();
 		
-		_kinectGrid = new KinectRegionGrid(p, 2, 2, 1000, 2000, 40, 0, 480);
+		_kinectGrid = new KinectRegionGrid(p, 2, 2, 1000, 2000, 40, 0, 480, 20, 10);
 	}
 
-	public void drawApp() {		
+	public void drawApp() {
 		// reset drawing 
 		DrawUtil.resetGlobalProps( p );
 		p.shininess(1000f); 
