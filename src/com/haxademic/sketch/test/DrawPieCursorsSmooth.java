@@ -7,6 +7,7 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.draw.util.OpenGLUtil;
 
+@SuppressWarnings("serial")
 public class DrawPieCursorsSmooth
 extends PAppletHax {
 	

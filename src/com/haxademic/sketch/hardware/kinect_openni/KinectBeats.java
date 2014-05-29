@@ -156,6 +156,7 @@ extends PAppletHax {
 		protected AudioOutput _audioOut;
 		protected SineWave _oscillator;
 
+		@SuppressWarnings("deprecation")
 		public SynthHand() {
 			_audioOut = minim.getLineOut(Minim.STEREO, 512);
 			_oscillator = new SineWave(200, 1, _audioOut.sampleRate());

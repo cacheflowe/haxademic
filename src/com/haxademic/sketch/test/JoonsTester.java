@@ -3,6 +3,7 @@ package com.haxademic.sketch.test;
 import processing.core.PApplet;
 import com.haxademic.core.render.joons.JoonsRenderer;
 
+@SuppressWarnings("serial")
 public class JoonsTester extends PApplet {
 
 	JoonsRenderer jr;
