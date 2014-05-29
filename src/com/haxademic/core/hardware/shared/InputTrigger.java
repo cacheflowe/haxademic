@@ -8,11 +8,17 @@ public class InputTrigger {
 	protected char[] _keys;
 	protected String[] _oscMessages;
 	protected Integer[] _midiNotes;
+	protected Integer[] _midiCC;
 	
-	public InputTrigger( char[] charList, String[] oscMessages, Integer[] midiNote ) {
+	public InputTrigger( char[] charList, String[] oscMessages, Integer[] midiNotes ) {
 		_keys = charList;
 		_oscMessages = oscMessages;
-		_midiNotes = midiNote;
+		_midiNotes = midiNotes;
+	}
+	
+	public InputTrigger( char[] charList, String[] oscMessages, Integer[] midiNotes, Integer[] midiCCNotes ) {
+		this( charList, oscMessages, midiNotes );
+		_midiCC = midiCCNotes;
 	}
 	
 	public boolean active() {
@@ -21,6 +27,9 @@ public class InputTrigger {
 		}
 		for( int i=0; i < _oscMessages.length; i++ ) {
 			if( P.p._oscWrapper.oscMsgIsOn( _oscMessages[i] ) == 1 ) return true;
+		}
+		for( int i=0; i < _midiNotes.length; i++ ) {
+			if( P.p.getMidi().midiNoteIsOn( _midiNotes[i] ) == 1 ) return true;
 		}
 		for( int i=0; i < _midiNotes.length; i++ ) {
 			if( P.p.getMidi().midiNoteIsOn( _midiNotes[i] ) == 1 ) return true;

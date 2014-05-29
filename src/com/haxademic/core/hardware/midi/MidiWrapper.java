@@ -7,7 +7,6 @@ import processing.core.PApplet;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.debug.DebugUtil;
-import com.haxademic.core.system.SystemUtil;
 
 public class MidiWrapper
 {
@@ -16,6 +15,7 @@ public class MidiWrapper
 	MidiHandler _midiHandler;
 	
 	public int[] _notesOn;
+	public int[][] _ccOn;
 	Hashtable<String, Integer> padMap;
 	
 	public int sliderValue = 0;
@@ -101,6 +101,14 @@ public class MidiWrapper
 		// init notes on array
 		_notesOn = new int[128];
 		for( int i = 0; i < 128; i++ ) _notesOn[i] = 0;
+		
+		// and cc
+		_ccOn = new int[17][129];
+		for( int i = 0; i < 17; i++ ) {
+			for( int j = 0; j < 129; j++ ) {
+				_ccOn[i][j] = 0;
+			}
+		}
 		
 		initPads();
 	}
@@ -192,6 +200,11 @@ public class MidiWrapper
 		}
 	}
 	
+	public float midiCCPercent( int channel, int number )
+	{
+		return _ccOn[channel][number] / 127f;
+	}
+	
 	public void noteOn(int channel, int pitch, int velocity) {
 		// Receive a noteOn
 //		P.println("ON: pitch = "+pitch);
@@ -207,7 +220,8 @@ public class MidiWrapper
 	}
 	public void controllerChange(int channel, int number, int value) {
 		// Receive a controllerChange
-//		p.println("Note CC:  Channel:"+channel+" | Number:"+number+" | Value:"+value);
+//		P.println("Note CC:  Channel:"+channel+" | Number:"+number+" | Value:"+value);
+		_ccOn[channel][number] = value;
 		sliderValue = value;
 	}
 }

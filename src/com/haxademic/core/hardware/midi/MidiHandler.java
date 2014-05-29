@@ -71,9 +71,10 @@ implements Runnable {
 //			P.println("midi received, "+message);
 			if (message instanceof ShortMessage) {
 				ShortMessage sm = (ShortMessage) message;
-				P.println("ShortMessage.getCommand() = "+sm.getCommand());
+//				P.println("ShortMessage.getCommand() = "+sm.getCommand());
 				if (sm.getCommand() == ShortMessage.NOTE_ON) {
 					int key = sm.getData1();
+					//P.println("key:",key);
 					int velocity = sm.getData2();
 					P.p.noteOn(1, key, velocity);
 //					int note = key % 12;
@@ -91,7 +92,7 @@ implements Runnable {
 				} else if (sm.getCommand() == ShortMessage.CONTROL_CHANGE) {
 					int key = sm.getData1();
 					int ccValue = sm.getData2();
-					P.p.controllerChange(sm.getChannel(), sm.getData1(), sm.getData2());
+					P.p.controllerChange(sm.getChannel(), key, ccValue);
 //					P.println("CONTROL_CHANGE Channel: " + sm.getChannel() + " " + sm.getData1() + " " + sm.getData2());
 				} 
 			}
