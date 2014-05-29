@@ -9,7 +9,6 @@ import processing.core.PGraphics;
 import processing.core.PImage;
 import processing.opengl.PGL;
 
-import com.haxademic.core.app.P;
 import com.haxademic.core.draw.color.ColorHax;
 
 public class ImageUtil {
@@ -148,6 +147,19 @@ public class ImageUtil {
 		
 		dest.copy( src, 0, 0, (int) imageW, (int) imageH, (int) offsetX, (int) offsetY, (int) resizedW, (int) resizedH );
 	}
+	
+	public static float[] getOffsetAndSizeToCrop( float containerW, float containerH, float imageW, float imageH, boolean cropFill ) {
+		float ratioW = containerW / imageW;
+		float ratioH = containerH / imageH;
+		float shorterRatio = ratioW > ratioH ? ratioH : ratioW;
+		float longerRatio = ratioW > ratioH ? ratioW : ratioH;
+		float resizedW = (cropFill) ? (float) Math.ceil(imageW * longerRatio) : (float) Math.ceil(imageW * shorterRatio);
+		float resizedH = cropFill ? (float) Math.ceil(imageH * longerRatio) : (float) Math.ceil(imageH * shorterRatio);
+		float offsetX = (float) Math.ceil((containerW - resizedW) * 0.5f);
+		float offsetY = (float) Math.ceil((containerH - resizedH) * 0.5f);
+		return new float[]{offsetX, offsetY, resizedW, resizedH};
+	}
+
 
 	public static void chromaKeyImage( PApplet p, PImage sourceImg, PImage dest ) {
 		float threshRange = 20f;
