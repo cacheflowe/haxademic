@@ -126,6 +126,7 @@ extends PApplet
 	 * Wraps up MIDI functionality with theMIDIbus library.
 	 */
 	public MidiWrapper _midi = null;
+	public MidiWrapper midi = null;
 	
 	/**
 	 * Loads and stores a pool of WETriangleMesh objects.
@@ -352,6 +353,7 @@ extends PApplet
 			P.println("Using Java version: "+SystemUtil.getJavaVersion());
 			if( _appConfig.getString("midi_device_in", "") != "" ) {
 				_midi = new MidiWrapper( p, _appConfig.getString("midi_device_in", ""), _appConfig.getString("midi_device_out", "") );
+				midi = _midi;
 			}
 		}
 	}
