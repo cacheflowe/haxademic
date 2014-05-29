@@ -2,7 +2,7 @@ package com.haxademic.app.haxmapper;
 
 import com.haxademic.app.haxmapper.textures.BaseTexture;
 import com.haxademic.app.haxmapper.textures.TextureColorAudioSlide;
-import com.haxademic.app.haxmapper.textures.TextureTwistingSquares;
+import com.haxademic.app.haxmapper.textures.TextureEQConcentricCircles;
 import com.haxademic.app.haxmapper.textures.TextureSphereRotate;
 import com.haxademic.core.app.PAppletHax;
 
@@ -26,7 +26,8 @@ extends PAppletHax {
 		super.setup();	
 		
 //		_texture = new TextureWebCam();
-		_texture = new TextureTwistingSquares( 200, 200 );
+//		_texture = new TextureTwistingSquares( 200, 200 );
+		_texture = new TextureEQConcentricCircles( 200, 200 );
 //		_texture2 = new TextureEQGrid( 200, 200 );
 //		_texture3 = new TextureWaveformSimple( 400, 400 );
 		_texture3 = new TextureColorAudioSlide( 400, 400 );
