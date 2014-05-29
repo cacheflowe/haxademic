@@ -28,6 +28,10 @@ public class ElasticFloat3D {
 		_z.setValue( z );
 	};
 
+	public void setCurrent( float x, float y, float z ) {
+		setLoc( x, y, z );
+	}
+
 	public void setTarget( float x, float y, float z ) {
 		_x.setTarget( x );
 		_y.setTarget( y );
