@@ -14,14 +14,15 @@ public class KinectRegion {
 	protected int _far = 0;
 	protected int _top = 0;
 	protected int _bottom = 0;
-	protected int _resolution = 10;
+	protected int _pixelSkip = 10;
 	protected int _blockColor = -1;
 	
 	protected int _pixelCount = 0;
+	protected int _minPixels = 20;
 	protected float _controlX = 0.5f;
 	protected float _controlZ = 0.5f;
 	
-	public KinectRegion( int left, int right, int near, int far, int top, int bottom, int resolution, int blockColor ) {
+	public KinectRegion( int left, int right, int near, int far, int top, int bottom, int resolution, int minPixels, int blockColor ) {
 		p = P.p;
 		_left = left;
 		_right = right;
@@ -29,7 +30,8 @@ public class KinectRegion {
 		_far = far;
 		_top = top;
 		_bottom = bottom;
-		_resolution = resolution;
+		_pixelSkip = resolution;
+		_minPixels = minPixels;
 		_blockColor = blockColor;
 	}
 	
@@ -71,8 +73,8 @@ public class KinectRegion {
 			float controlXTotal = 0;
 			float controlZTotal = 0;
 			float pixelDepth = 0;
-			for ( int x = _left; x < _right; x += _resolution ) {
-				for ( int y = _top; y < _bottom; y += _resolution ) {
+			for ( int x = _left; x < _right; x += _pixelSkip ) {
+				for ( int y = _top; y < _bottom; y += _pixelSkip ) {
 					pixelDepth = p.kinectWrapper.getMillimetersDepthForKinectPixel( x, y );
 					if( pixelDepth != 0 && pixelDepth > _near && pixelDepth < _far ) {
 						if( isDebugging == true ) {
@@ -80,7 +82,7 @@ public class KinectRegion {
 							p.fill( _blockColor, 200 );
 							p.pushMatrix();
 							p.translate(x, y, -pixelDepth);
-							p.box(_resolution, _resolution, _resolution);
+							p.box(_pixelSkip, _pixelSkip, _pixelSkip);
 							p.popMatrix();
 						}
 						// add up for calculations
@@ -92,7 +94,7 @@ public class KinectRegion {
 			}
 
 			// if we have enough blocks in a region, update the player's joystick position
-			if( _pixelCount > 20 ) {
+			if( _pixelCount > _minPixels ) {
 				// compute averages
 				if( controlXTotal > 0 && controlZTotal > 0 ) {
 					float avgX = controlXTotal / _pixelCount;

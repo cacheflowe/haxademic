@@ -22,7 +22,7 @@ public class KinectRegionGrid {
 	protected boolean _overheadView = false;
 
 
-	public KinectRegionGrid(PAppletHax p, int cols, int rows, int kinectClose, int kinectFar, int padding, int kinectTop, int kinectBottom) {
+	public KinectRegionGrid(PAppletHax p, int cols, int rows, int kinectClose, int kinectFar, int padding, int kinectTop, int kinectBottom, int kinectPixelSkip, int minPixels) {
 		this.p = p;
 		
 		_kinectClose = kinectClose;
@@ -44,7 +44,8 @@ public class KinectRegionGrid {
 						kinectClose + y * rowH + padding * y + rowH,
 						kinectTop,
 						kinectBottom,
-						20,
+						kinectPixelSkip,
+						minPixels,
 						p.color( p.random(130,255), p.random(130,255), p.random(130,255) )
 				);
 				kinectRegions.add( region );
