@@ -1,7 +1,6 @@
 package com.haxademic.core.draw.color;
 
 import com.haxademic.core.app.P;
-import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.EasingFloat;
 
 public class ColorHaxEasing {
