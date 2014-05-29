@@ -3,15 +3,12 @@ package com.haxademic.sketch.particle;
 import java.util.ArrayList;
 import java.util.List;
 
-import toxi.geom.mesh.Face;
 import toxi.geom.mesh.Vertex;
 import toxi.geom.mesh.WETriangleMesh;
 import ProGAL.geom3d.Point;
 import ProGAL.geom3d.complex.CTriangle;
 import ProGAL.geom3d.complex.alphaComplex.AlphaComplex;
-import ProGAL.geom3d.complex.alphaComplex.AlphaFiltration;
 
-import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.mesh.MeshPool;
 import com.haxademic.core.draw.mesh.MeshUtil;
