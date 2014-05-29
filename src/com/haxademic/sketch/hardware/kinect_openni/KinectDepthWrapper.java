@@ -84,6 +84,7 @@ extends PApplet {
 	}
 
 
+	@SuppressWarnings("deprecation")
 	public void keyPressed()
 	{
 		switch(key)
