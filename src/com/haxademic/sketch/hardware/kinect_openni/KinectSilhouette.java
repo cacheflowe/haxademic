@@ -51,7 +51,7 @@ extends PAppletHax {
 
 
 	public static void main(String args[]) {
-		_isFullScreen = true;
+		_isFullScreen = false;
 		PApplet.main(new String[] { "--hide-stop", "--bgcolor=000000", "com.haxademic.sketch.hardware.kinect_openni.KinectSilhouette" });
 	}
 
@@ -61,7 +61,7 @@ extends PAppletHax {
 		_appConfig.setProperty( "rendering", "false" );
 		_appConfig.setProperty( "kinect_active", "true" );
 		_appConfig.setProperty( "kinect_mirrored", "true" );
-//		_appConfig.setProperty( "fullscreen", "true" );
+		_appConfig.setProperty( "fullscreen", "false" );
 	}
 	
 	public void setup() {
@@ -146,7 +146,7 @@ extends PAppletHax {
 				
 				float oldX, newX, oldY, newY;
 				
-				int plusFrame = (p.frameCount % 2 == 0) ? 0 : 1;	// swap between even and odd vertices each frame
+				// int plusFrame = (p.frameCount % 2 == 0) ? 0 : 1;	// swap between even and odd vertices each frame
 
 				// find closest last vertex
 				for(int j=0; j < _lastEdgeList.size(); j++) {
