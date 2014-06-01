@@ -5,7 +5,7 @@ import processing.core.PImage;
 import processing.core.PVector;
 import SimpleOpenNI.SimpleOpenNI;
 
-import com.haxademic.core.app.P;
+import com.haxademic.core.debug.DebugUtil;
 
 public class KinectWrapper {
 	
@@ -34,7 +34,7 @@ public class KinectWrapper {
 				
 		// enable depthMap generation 
 		if(_kinect.enableDepth() == false) {
-			P.println("Can't open the depthMap, maybe the camera is not connected!"); 
+			DebugUtil.alert("Can't access the Kinect. Make sure it's plugged into the computer and a power outlet.");
 			_kinectActive = false;
 		}
 	}
