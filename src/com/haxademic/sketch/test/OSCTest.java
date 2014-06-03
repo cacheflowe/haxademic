@@ -14,9 +14,8 @@ extends PAppletHax {
 	OscP5 oscP5;
 	NetAddress myRemoteLocation;
 
-
 	protected void overridePropsFile() {
-		// _appConfig.setProperty( "width", "1200" );
+		 _appConfig.setProperty( "osc_active", "true" );
 	}
 
 	public void setup() {

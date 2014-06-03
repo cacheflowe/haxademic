@@ -69,6 +69,7 @@ extends PAppletHax {
 		_appConfig.setProperty( "rendering", "false" );
 		_appConfig.setProperty( "fullscreen", "true" );
 		_appConfig.setProperty( "fills_screen", "true" );
+		_appConfig.setProperty( "osc_active", "true" );
 	}
 
 	public void setup() {
