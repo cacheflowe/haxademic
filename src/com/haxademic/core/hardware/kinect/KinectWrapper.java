@@ -12,6 +12,7 @@ public class KinectWrapper {
 	protected PApplet p;
 	protected SimpleOpenNI _kinect;
 	protected boolean _kinectActive = true;
+	public static boolean KINECT_ERROR_SHOWN = false;
 
 	protected int _hardwareTilt = 0;
 	public static int KWIDTH = 640;
@@ -26,16 +27,18 @@ public class KinectWrapper {
 	public KinectWrapper( PApplet p, boolean initDepth, boolean initRGB, boolean initDepthImage ) {
 		this.p = p;
 
-		_kinect = new SimpleOpenNI( p, SimpleOpenNI.RUN_MODE_DEFAULT );
+		_kinect = new SimpleOpenNI( p, SimpleOpenNI.RUN_MODE_MULTI_THREADED );
 		_kinect.enableDepth();
 		_kinect.enableRGB();
 //		_kinect.enableIR();	// IR doesn't like being enabled off the bat - it kills the RGB camera?!
 		_kinect.setMirror(false);
 				
 		// enable depthMap generation 
-		if(_kinect.enableDepth() == false) {
+		if(_kinect.enableDepth() == false && KINECT_ERROR_SHOWN == false) {
 			DebugUtil.alert("Can't access the Kinect. Make sure it's plugged into the computer and a power outlet.");
 			_kinectActive = false;
+			KINECT_ERROR_SHOWN = true;
+			p.exit();
 		}
 	}
 	
