@@ -97,7 +97,7 @@ public class FileUtil {
 		    for (int i=0; i < children.length; i++) {
 		        String filename = children[i];
 		        if( filename.indexOf( type ) != -1 ) {	
-		        	P.println(filename);
+		        	// P.println(filename);
 		        	filesOfType.add( filename );
 		        }
 		    }
