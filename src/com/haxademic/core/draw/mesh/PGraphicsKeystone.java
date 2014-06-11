@@ -7,8 +7,6 @@ import processing.core.PConstants;
 import processing.core.PGraphics;
 import processing.event.MouseEvent;
 
-import com.haxademic.core.math.MathUtil;
-
 public class PGraphicsKeystone {
 
 	protected PGraphics pg;
@@ -60,26 +58,26 @@ public class PGraphicsKeystone {
 					float yPercentNext = (y+1f)/stepsY;
 					if( yPercentNext > 1 ) yPercentNext = 1;
 
-					// calc grid positions based on interpolating columns
-					float colTopX = MathUtil.interp(_topLeft.x, _topRight.x, xPercent);
-					float colTopY = MathUtil.interp(_topLeft.y, _topRight.y, xPercent);
-					float colBotX = MathUtil.interp(_bottomLeft.x, _bottomRight.x, xPercent);
-					float colBotY = MathUtil.interp(_bottomLeft.y, _bottomRight.y, xPercent);
+					// calc grid positions based on interpolating columns between corners
+					float colTopX = interp(_topLeft.x, _topRight.x, xPercent);
+					float colTopY = interp(_topLeft.y, _topRight.y, xPercent);
+					float colBotX = interp(_bottomLeft.x, _bottomRight.x, xPercent);
+					float colBotY = interp(_bottomLeft.y, _bottomRight.y, xPercent);
 					
-					float nextColTopX = MathUtil.interp(_topLeft.x, _topRight.x, xPercentNext);
-					float nextColTopY = MathUtil.interp(_topLeft.y, _topRight.y, xPercentNext);
-					float nextColBotX = MathUtil.interp(_bottomLeft.x, _bottomRight.x, xPercentNext);
-					float nextColBotY = MathUtil.interp(_bottomLeft.y, _bottomRight.y, xPercentNext);
+					float nextColTopX = interp(_topLeft.x, _topRight.x, xPercentNext);
+					float nextColTopY = interp(_topLeft.y, _topRight.y, xPercentNext);
+					float nextColBotX = interp(_bottomLeft.x, _bottomRight.x, xPercentNext);
+					float nextColBotY = interp(_bottomLeft.y, _bottomRight.y, xPercentNext);
 					
 					// calc quad coords
-					float quadTopLeftX = MathUtil.interp(colTopX, colBotX, yPercent);
-					float quadTopLeftY = MathUtil.interp(colTopY, colBotY, yPercent);
-					float quadTopRightX = MathUtil.interp(nextColTopX, nextColBotX, yPercent);
-					float quadTopRightY = MathUtil.interp(nextColTopY, nextColBotY, yPercent);
-					float quadBotRightX = MathUtil.interp(nextColTopX, nextColBotX, yPercentNext);
-					float quadBotRightY = MathUtil.interp(nextColTopY, nextColBotY, yPercentNext);
-					float quadBotLeftX = MathUtil.interp(colTopX, colBotX, yPercentNext);
-					float quadBotLeftY = MathUtil.interp(colTopY, colBotY, yPercentNext);
+					float quadTopLeftX = interp(colTopX, colBotX, yPercent);
+					float quadTopLeftY = interp(colTopY, colBotY, yPercent);
+					float quadTopRightX = interp(nextColTopX, nextColBotX, yPercent);
+					float quadTopRightY = interp(nextColTopY, nextColBotY, yPercent);
+					float quadBotRightX = interp(nextColTopX, nextColBotX, yPercentNext);
+					float quadBotRightY = interp(nextColTopY, nextColBotY, yPercentNext);
+					float quadBotLeftX = interp(colTopX, colBotX, yPercentNext);
+					float quadBotLeftY = interp(colTopY, colBotY, yPercentNext);
 					
 					// draw subdivided quads
 					canvas.vertex(quadTopLeftX, quadTopLeftY, 0, 	pg.width * xPercent, pg.height * yPercent);
@@ -97,6 +95,10 @@ public class PGraphicsKeystone {
 		}
 
 		canvas.endShape();
+	}
+	
+	protected float interp( float lower, float upper, float n ) {
+		return ( ( upper - lower ) * n ) + lower;
 	}
 
 	public void mouseEvent(MouseEvent event) {

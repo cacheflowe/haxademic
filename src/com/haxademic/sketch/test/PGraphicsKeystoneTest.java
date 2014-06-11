@@ -26,7 +26,7 @@ extends PAppletHax {
 		_appConfig.setProperty( "width", "432" );
 		_appConfig.setProperty( "height", "927" );
 		_appConfig.setProperty( "fills_screen", "false" );
-		_appConfig.setProperty( "fullscreen", "true" );
+		_appConfig.setProperty( "fullscreen", "false" );
 	}
 
 	public void setup() {
@@ -38,7 +38,7 @@ extends PAppletHax {
 	protected void buildCanvas() {
 		pg = p.createGraphics( p.width, p.height, P.OPENGL );
 		pg.smooth(OpenGLUtil.SMOOTH_MEDIUM);
-		_pgPinnable = new PGraphicsKeystone( p, pg );
+		_pgPinnable = new PGraphicsKeystone( p, pg, 12 );
 	}
 
 	protected void drawTestPattern() {
@@ -62,8 +62,7 @@ extends PAppletHax {
 	public void drawApp() {
 		p.background(0);
 		// draw pinned pgraphics
-		p.noStroke();
-		_pgPinnable.update(p.g, true, 12);
+		_pgPinnable.update(p.g, true);
 	}
 
 }
