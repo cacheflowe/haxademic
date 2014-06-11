@@ -12,34 +12,34 @@ import com.haxademic.core.math.MathUtil;
 public class PGraphicsKeystone {
 
 	protected PGraphics pg;
+	protected float _subDivideSteps;
 
-	protected Point topLeft;
-	protected Point topRight;
-	protected Point bottomRight;
-	protected Point bottomLeft;
-	protected Point points[];
+	protected Point _topLeft;
+	protected Point _topRight;
+	protected Point _bottomRight;
+	protected Point _bottomLeft;
+	protected Point _points[];
 	protected Point _draggingPoint;
 
 	protected boolean _isPressed = false;
-	protected int curMouseX = 0;
-	protected int curMouseY = 0;
 	protected Point _mousePoint = new Point();
 
-	public PGraphicsKeystone( PApplet p, PGraphics pg ) {
+	public PGraphicsKeystone( PApplet p, PGraphics pg, float subDivideSteps ) {
 		this.pg = pg;
+		_subDivideSteps = subDivideSteps;
 
 		// set up draggable corners
-		topLeft = new Point(0,0);
-		topRight = new Point(pg.width,0);
-		bottomRight = new Point(pg.width,pg.height);
-		bottomLeft = new Point(0,pg.height);
-		points = new Point[] { topLeft, topRight, bottomRight, bottomLeft };
+		_topLeft = new Point(0,0);
+		_topRight = new Point(pg.width,0);
+		_bottomRight = new Point(pg.width,pg.height);
+		_bottomLeft = new Point(0,pg.height);
+		_points = new Point[] { _topLeft, _topRight, _bottomRight, _bottomLeft };
 
 		// add delegate mouse response
 		p.registerMethod("mouseEvent", this);
 	}
 
-	public void update( PGraphics canvas, boolean subdivide, float subDivideSteps ) {
+	public void update( PGraphics canvas, boolean subdivide ) {
 		// draw to screen with pinned corner coords
 		canvas.noStroke();
 		canvas.beginShape(PConstants.QUAD);
@@ -47,8 +47,8 @@ public class PGraphicsKeystone {
 		
 		if( subdivide == true ) {
 			// subdivide quad for better resolution
-			float stepsX = subDivideSteps;
-			float stepsY = subDivideSteps;
+			float stepsX = _subDivideSteps;
+			float stepsY = _subDivideSteps;
 
 			for( float x=0; x < stepsX; x += 1f ) {
 				float xPercent = x/stepsX;
@@ -61,15 +61,15 @@ public class PGraphicsKeystone {
 					if( yPercentNext > 1 ) yPercentNext = 1;
 
 					// calc grid positions based on interpolating columns
-					float colTopX = MathUtil.interp(topLeft.x, topRight.x, xPercent);
-					float colTopY = MathUtil.interp(topLeft.y, topRight.y, xPercent);
-					float colBotX = MathUtil.interp(bottomLeft.x, bottomRight.x, xPercent);
-					float colBotY = MathUtil.interp(bottomLeft.y, bottomRight.y, xPercent);
+					float colTopX = MathUtil.interp(_topLeft.x, _topRight.x, xPercent);
+					float colTopY = MathUtil.interp(_topLeft.y, _topRight.y, xPercent);
+					float colBotX = MathUtil.interp(_bottomLeft.x, _bottomRight.x, xPercent);
+					float colBotY = MathUtil.interp(_bottomLeft.y, _bottomRight.y, xPercent);
 					
-					float nextColTopX = MathUtil.interp(topLeft.x, topRight.x, xPercentNext);
-					float nextColTopY = MathUtil.interp(topLeft.y, topRight.y, xPercentNext);
-					float nextColBotX = MathUtil.interp(bottomLeft.x, bottomRight.x, xPercentNext);
-					float nextColBotY = MathUtil.interp(bottomLeft.y, bottomRight.y, xPercentNext);
+					float nextColTopX = MathUtil.interp(_topLeft.x, _topRight.x, xPercentNext);
+					float nextColTopY = MathUtil.interp(_topLeft.y, _topRight.y, xPercentNext);
+					float nextColBotX = MathUtil.interp(_bottomLeft.x, _bottomRight.x, xPercentNext);
+					float nextColBotY = MathUtil.interp(_bottomLeft.y, _bottomRight.y, xPercentNext);
 					
 					// calc quad coords
 					float quadTopLeftX = MathUtil.interp(colTopX, colBotX, yPercent);
@@ -90,10 +90,10 @@ public class PGraphicsKeystone {
 			}
 		} else {
 			// default single mapped quad
-			canvas.vertex(topLeft.x, topLeft.y, 0, 			0, 0);
-			canvas.vertex(topRight.x, topRight.y, 0, 		pg.width, 0);
-			canvas.vertex(bottomRight.x, bottomRight.y, 0, 	pg.width, pg.height);
-			canvas.vertex(bottomLeft.x, bottomLeft.y, 0, 	0, pg.height);
+			canvas.vertex(_topLeft.x, _topLeft.y, 0, 			0, 0);
+			canvas.vertex(_topRight.x, _topRight.y, 0, 			pg.width, 0);
+			canvas.vertex(_bottomRight.x, _bottomRight.y, 0, 	pg.width, pg.height);
+			canvas.vertex(_bottomLeft.x, _bottomLeft.y, 0, 	0, 	pg.height);
 		}
 
 		canvas.endShape();
@@ -103,9 +103,9 @@ public class PGraphicsKeystone {
 		_mousePoint.setLocation( event.getX(), event.getY() );
 		switch (event.getAction()) {
 			case MouseEvent.PRESS:
-				for( int i=0; i < points.length; i++ ) {
-					if( points[i].distance( _mousePoint.x, _mousePoint.y ) < 30 ) {
-						_draggingPoint = points[i]; 
+				for( int i=0; i < _points.length; i++ ) {
+					if( _points[i].distance( _mousePoint.x, _mousePoint.y ) < 30 ) {
+						_draggingPoint = _points[i]; 
 					}
 				}
 				break;
