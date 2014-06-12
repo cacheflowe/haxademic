@@ -12,7 +12,7 @@ import com.haxademic.core.draw.util.OpenGLUtil;
 public class PGraphicsKeystoneTest
 extends PAppletHax {
 
-	protected PGraphics pg;
+	protected PGraphics _pg;
 	protected PGraphicsKeystone _pgPinnable;
 
 	public static void main(String args[]) {
@@ -23,7 +23,7 @@ extends PAppletHax {
 
 	protected void overridePropsFile() {
 		_appConfig.setProperty( "fps", "60" );
-		_appConfig.setProperty( "width", "432" );
+		_appConfig.setProperty( "width", "1432" );
 		_appConfig.setProperty( "height", "927" );
 		_appConfig.setProperty( "fills_screen", "false" );
 		_appConfig.setProperty( "fullscreen", "false" );
@@ -32,16 +32,15 @@ extends PAppletHax {
 	public void setup() {
 		super.setup();	
 		buildCanvas();
-		drawTestPattern();
 	}
 
 	protected void buildCanvas() {
-		pg = p.createGraphics( p.width, p.height, P.OPENGL );
-		pg.smooth(OpenGLUtil.SMOOTH_MEDIUM);
-		_pgPinnable = new PGraphicsKeystone( p, pg, 12 );
+		_pg = p.createGraphics( p.width / 2, p.height / 2, P.OPENGL );
+		_pg.smooth(OpenGLUtil.SMOOTH_MEDIUM);
+		_pgPinnable = new PGraphicsKeystone( p, _pg, 12 );
 	}
 
-	protected void drawTestPattern() {
+	protected void drawTestPattern( PGraphics pg ) {
 		// redraw pgraphics grid
 		pg.beginDraw();
 		pg.clear();
@@ -62,6 +61,7 @@ extends PAppletHax {
 	public void drawApp() {
 		p.background(0);
 		// draw pinned pgraphics
+		drawTestPattern( _pg );
 		_pgPinnable.update(p.g, true);
 	}
 
