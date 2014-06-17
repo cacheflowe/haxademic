@@ -31,7 +31,7 @@ extends PAppletHax
 	public void setup() {
 		super.setup();
 		
-		p.smooth(OpenGLUtil.SMOOTH_HIGHER);
+		p.smooth(OpenGLUtil.SMOOTH_HIGH);
 //		p.smooth();
 		_fxaa = p.loadShader( FileUtil.getHaxademicDataPath() + "shaders/filters/fxaa.glsl" );
 		
