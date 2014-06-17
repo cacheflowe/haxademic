@@ -154,10 +154,22 @@ public class MathUtil {
 		return interp( lower2, upper2, getPercentWithinRange( lower1, upper1, value ) / 100f );
 	}
 
+	/**
+	 * Rounds a number to a (generally) smaller number of decmiel places. Useful for making smaller floating point number to transmit.
+	 * @param 	value				The number to round
+	 * @param 	numDecimalPlaces	The number of decmiel places to round to
+	 * @return
+	 * @use    	{@code var floatNum = MathUtil.roundToPrecision( 0.5555555555, 3 );}
+	 */
+	public static float roundToPrecision( float value, int numDecimalPlaces ) {
+		float multiplyFactor = (float) Math.pow( 10f, numDecimalPlaces );
+	    float valueMultiplied = value * multiplyFactor;
+	    return (float) Math.round( valueMultiplied ) / multiplyFactor;
+	}
 
 	/**
 	 *  Keep an angle between 0-360
-	 *  @param  angle the angle to constrain
+	 *  @param  angle 	the angle to constrain
 	 *  @return The normalized angle
 	 *  @use    {@code var angle = MathUtil.constrainAngle( 540 );}
 	 */
