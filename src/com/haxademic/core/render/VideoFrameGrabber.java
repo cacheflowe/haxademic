@@ -72,7 +72,7 @@ public class VideoFrameGrabber {
 	}
 	
 	public void randomMovieTime() {
-		_movie.jump( MathUtil.randRangeDecimel( 0, _movie.duration() - 1 ) );
+		_movie.jump( MathUtil.randRangeDecimal( 0, _movie.duration() - 1 ) );
 	}
 
 	public int getFrame() {    

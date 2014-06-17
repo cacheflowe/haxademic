@@ -23,7 +23,7 @@ public class Shard {
 		_curPos = mesh.computeCentroid();
 		_speed = new Vec3D( 0, 0, 0 );
 		_curRotation = new Vec3D( 0, 0, 0 );
-		_rotationSpeed = new Vec3D( MathUtil.randRangeDecimel( -0.1f, 0.1f ), MathUtil.randRangeDecimel( -0.1f, 0.1f ), MathUtil.randRangeDecimel( -0.1f, 0.1f ) );
+		_rotationSpeed = new Vec3D( MathUtil.randRangeDecimal( -0.1f, 0.1f ), MathUtil.randRangeDecimal( -0.1f, 0.1f ), MathUtil.randRangeDecimal( -0.1f, 0.1f ) );
 	}
 	
 	public WETriangleMesh mesh() {

@@ -211,8 +211,8 @@ extends PAppletHax{
 			
 			if( isLightning() == true || isLogoSpaz() == true ) {
 				p.translate( MathUtil.randRange(-20, 20), MathUtil.randRange(-20, 20) );
-				p.rotate( MathUtil.randRangeDecimel(-.3f, -.3f) );
-				p.scale( MathUtil.randRangeDecimel( 0.5f, 1.5f ) );
+				p.rotate( MathUtil.randRangeDecimal(-.3f, -.3f) );
+				p.scale( MathUtil.randRangeDecimal( 0.5f, 1.5f ) );
 			}
 			
 			p.image( _horrorhouse, 0, 0 );

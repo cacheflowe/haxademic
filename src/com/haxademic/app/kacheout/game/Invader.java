@@ -92,7 +92,7 @@ public class Invader {
 		_isAnimating = false;
 		_hasBeenHit = true;
 		for( int i=0; i < _curBoxesArray.size(); i++ ) {
-			_curBoxesArray.get( i ).die( 0, MathUtil.randRangeDecimel( -1f, 1f ) );
+			_curBoxesArray.get( i ).die( 0, MathUtil.randRangeDecimal( -1f, 1f ) );
 		}
 	}
 	

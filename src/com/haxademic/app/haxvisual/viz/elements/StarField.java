@@ -133,10 +133,10 @@ implements IVizElement {
 		
 		public void reset() {
 			if( _colors != null ) updateColorSet( _colors );
-			_loc.setCurrentX( MathUtil.randRangeDecimel( -_width, _width ) );
-			_loc.setTargetX( MathUtil.randRangeDecimel( -_width, _width ) );
-			_loc.setCurrentY( MathUtil.randRangeDecimel( -_height, _height ) );
-			_loc.setTargetY( MathUtil.randRangeDecimel( -_height, _height ) );
+			_loc.setCurrentX( MathUtil.randRangeDecimal( -_width, _width ) );
+			_loc.setTargetX( MathUtil.randRangeDecimal( -_width, _width ) );
+			_loc.setCurrentY( MathUtil.randRangeDecimal( -_height, _height ) );
+			_loc.setTargetY( MathUtil.randRangeDecimal( -_height, _height ) );
 			_loc.setCurrentZ( _zRange );
 			_loc.setTargetZ( _zRange );
 			
@@ -149,7 +149,7 @@ implements IVizElement {
 
 			
 			_size = 60 + (int) (Math.sin( p.frameCount / 100f ) * 50);
-			_speed = -_size + MathUtil.randRangeDecimel( -10, 10 );
+			_speed = -_size + MathUtil.randRangeDecimal( -10, 10 );
 			_framesTillMove = MathUtil.randRange( 0, 30 );
 		}
 		

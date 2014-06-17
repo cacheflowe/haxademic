@@ -362,9 +362,9 @@ extends PAppletHax
 		public Particle( Vec3D vertex ) {
 			_vertexPoint = vertex;
 			float dist = MathUtil.pythagDistance( Math.abs( _vertexPoint.x() ), Math.abs( _vertexPoint.y() ) ) / 5f;
-			_speedX = _vertexPoint.x() * 1f/dist*0.5f*MathUtil.randRangeDecimel( 1.1f, 1.3f );
-			_speedY = _vertexPoint.y() * 1f/dist*0.5f*MathUtil.randRangeDecimel( 1.1f, 1.3f );
-			_speedZ = _vertexPoint.z() * 1f/dist*0.5f*MathUtil.randRangeDecimel( 1.1f, 1.3f );
+			_speedX = _vertexPoint.x() * 1f/dist*0.5f*MathUtil.randRangeDecimal( 1.1f, 1.3f );
+			_speedY = _vertexPoint.y() * 1f/dist*0.5f*MathUtil.randRangeDecimal( 1.1f, 1.3f );
+			_speedZ = _vertexPoint.z() * 1f/dist*0.5f*MathUtil.randRangeDecimal( 1.1f, 1.3f );
 //			_speedX = (1/_vertexPoint.x() )*60f;//*MathUtil.randRangeDecimel( 1.1f, 1.3f );
 //			_speedY = (1/_vertexPoint.y() )*30f;//*MathUtil.randRangeDecimel( 1.1f, 1.3f );
 //			_speedZ = 1;//(1/_vertexPoint.z() )*30f;//*MathUtil.randRangeDecimel( 1.1f, 1.3f );

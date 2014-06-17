@@ -191,8 +191,8 @@ public class MappingGroup {
 		_meshLines.setColor( groupColor );
 //		_colorEase.setTargetColorIntWithBrightnessAndSaturation( groupColor, 0.5f );
 		_selectedPolygon = randomPolygon();
-		_selectedPolygonTextureX = MathUtil.randRangeDecimel(0f, 1f);
-		_selectedPolygonTextureY = MathUtil.randRangeDecimel(0f, 1f);
+		_selectedPolygonTextureX = MathUtil.randRangeDecimal(0f, 1f);
+		_selectedPolygonTextureY = MathUtil.randRangeDecimal(0f, 1f);
 		
 		for(int j=0; j < _mappedPolygons.size(); j++ ) {
 			_mappedPolygons.get(j).setColor( randomColor() );

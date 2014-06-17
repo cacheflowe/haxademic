@@ -40,7 +40,7 @@ extends PAppletHax{
 
 	protected void generateVars() {
 		_baseRadius = MathUtil.randRange( 300, 400 );
-		_strokeWidth = MathUtil.randRangeDecimel( 0.5f, 3f );
+		_strokeWidth = MathUtil.randRangeDecimal( 0.5f, 3f );
 		_numArms = MathUtil.randRange( 3, 12 );
 		_levels = MathUtil.randRange( 2, 3 );
 		_shouldBeFurther = MathUtil.randBoolean(p);

@@ -249,7 +249,7 @@ extends PAppletHax {
 
 		public Attractor( PVector newPosition ) {
 			position.set( newPosition );
-			randDivisor = MathUtil.randRangeDecimel(600, 1000);
+			randDivisor = MathUtil.randRangeDecimal(600, 1000);
 			resetPos();
 		}
 

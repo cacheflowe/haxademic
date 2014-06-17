@@ -42,9 +42,9 @@ public class MathUtil {
 	 *  @param  min   the value for the bottom range.
 	 *  @param  max   the value for the upper range.
 	 *  @return the random number within the range.
-	 *  @use    {@code var vRandRange = MathUtil.randRange( 0, 999999 );}
+	 *  @use    {@code var vRandRange = MathUtil.randRangeDecimal( 0, 999999 );}
 	 */
-	public static float randRangeDecimel( float min, float max ) {	
+	public static float randRangeDecimal( float min, float max ) {	
 		return (float) Math.random() * ( max - min ) + min;
 	}
 

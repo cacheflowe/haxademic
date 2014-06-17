@@ -306,8 +306,8 @@ extends PAppletHax
 			
 //			_size = MathUtil.randRangeDecimel( 10, 50 );
 //			_speed = _size/4;
-			_size = MathUtil.randRangeDecimel( 1, 4 );
-			_speed = MathUtil.randRangeDecimel( 2, 5 );
+			_size = MathUtil.randRangeDecimal( 1, 4 );
+			_speed = MathUtil.randRangeDecimal( 2, 5 );
 			
 			setColorFromPosition();
 		}
