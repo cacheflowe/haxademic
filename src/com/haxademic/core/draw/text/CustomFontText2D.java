@@ -84,9 +84,10 @@ public class CustomFontText2D {
 		}
 		// then go down columns to find the real last pixel - allow for a few clear columns before calling it finished
 		int columnsClear = 0;
+		int rowSkip = Math.round( _textCanvas.height / 40f );
 		for( int i = rightmost; i < _textCanvas.width; i++ ) {
 			boolean columnClear = true;
-			for( int j=0; j < _textCanvas.height; j++ ) {
+			for( int j=0; j < _textCanvas.height; j+= rowSkip) {
 				if( ImageUtil.getPixelColor( _textCanvas, i, j ) != ImageUtil.EMPTY_INT ) {
 					rightmost = i;
 					columnsClear = 0;
@@ -102,4 +103,32 @@ public class CustomFontText2D {
 		return rightmost;
 	}
 
+	public int getLeftmostPixel() {
+		int y = Math.round( (float) _textCanvas.height / 2f );
+		int leftMost = _textCanvas.width;
+		// check pixels across horizontal center to get a rough idea
+		for( int i=_textCanvas.width - 1; i > 0; i-- ) {
+			if( ImageUtil.getPixelColor( _textCanvas, i, y ) != ImageUtil.EMPTY_INT ) leftMost = i;
+		}
+		// then go down columns to find the real last pixel - allow for a few clear columns before calling it finished
+		int columnsClear = 0;
+		int rowSkip = Math.round( _textCanvas.height / 40f );
+		for( int i = leftMost; i > 0; i-- ) {
+			boolean columnClear = true;
+			for( int j=0; j < _textCanvas.height; j+= rowSkip) {
+				if( ImageUtil.getPixelColor( _textCanvas, i, j ) != ImageUtil.EMPTY_INT ) {
+					leftMost = i;
+					columnsClear = 0;
+					columnClear = false;
+					break;
+				}
+			}
+			if( columnClear == true ) {
+				columnsClear++;
+				if( columnsClear > 3 ) break;
+			}
+		}		
+		return leftMost;
+	}
+	
 }
