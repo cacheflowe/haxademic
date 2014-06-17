@@ -36,7 +36,7 @@ public class FontUtil {
 	}
 	
 	public static void listfonts( PApplet p ) {
-		P.println( PFont.list() );
+		P.println( (Object[]) PFont.list() );
 	}
 	
 }
