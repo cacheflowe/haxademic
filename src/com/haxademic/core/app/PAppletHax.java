@@ -302,7 +302,7 @@ extends PApplet
 			}
 		}
 
-		_fps = _appConfig.getInt("fps", 30);
+		_fps = _appConfig.getInt("fps", 60);
 		frameRate(_fps);
 		if( _appConfig.getBoolean("hide_cursor", false) == true ) p.noCursor();
 	}
