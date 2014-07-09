@@ -6,6 +6,7 @@ import toxi.geom.mesh.WETriangleMesh;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.draw.mesh.DrawMesh;
+import com.haxademic.core.render.joons.JRStatics;
 import com.haxademic.core.render.joons.JoonsRenderer;
 import com.haxademic.core.system.FileUtil;
 import com.haxademic.core.system.SystemUtil;
@@ -87,8 +88,6 @@ public class JoonsWrapper {
 		}
         jr.setCaustics(1); //Set caustics. 1 ~ 100. affects quality of light scattered through glass.
         //jr.setDOF(170, 5); //Set depth of field of camera, (focus distance, lens radius). Larger radius => more blurry.
-		
-//		DebugUtil.printErr("Remember that x & y axis are swapped in Joons");
 	}
 
 	public void startFrame() {
@@ -104,7 +103,11 @@ public class JoonsWrapper {
 		if( _isActive == true ) { 
             jr.endRecord(); //Make sure to end record.
             jr.displayRendered(true); //Display rendered image if rendering completed, and the argument is true.
-			if( saveFrameImg == true ) p.saveFrame( FileUtil.getHaxademicOutputPath() + SystemUtil.getTimestamp(p) + "-render.png" );				// draw to screen and save an image, since drawing to screen doesn't necessarily work...
+			if( saveFrameImg == true ) {
+				String sunflowOutputPath = FileUtil.getHaxademicOutputPath()+"/_sunflow/";
+				if(FileUtil.fileOrPathExists(sunflowOutputPath) == false) FileUtil.createDir(sunflowOutputPath);
+				p.save(sunflowOutputPath + SystemUtil.getTimestamp(JRStatics.P) + "-render.png");
+			}
 		}
 	}
 
