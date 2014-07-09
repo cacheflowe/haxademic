@@ -1,4 +1,4 @@
-package com.haxademic.sketch.test;
+package com.haxademic.sketch.particle;
 
 import java.util.ArrayList;
 
