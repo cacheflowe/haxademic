@@ -9,6 +9,7 @@ import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.draw.util.OpenGLUtil;
 import com.haxademic.core.math.MathUtil;
 
+@SuppressWarnings("serial")
 public class SinSaw
 extends PAppletHax  
 {	
