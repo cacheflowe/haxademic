@@ -3,6 +3,7 @@ package com.haxademic.sketch.three_d;
 import processing.core.PApplet;
 import processing.core.PConstants;
 
+@SuppressWarnings("serial")
 public class SphericalCoordinates
 	extends PApplet
 {
@@ -23,7 +24,6 @@ public class SphericalCoordinates
 	}
 
 	public void draw() {
-		if(frameCount < 2) return;
 		background( 0 );
 		
 		translate( width/2, height/2, 50 );
@@ -37,9 +37,9 @@ public class SphericalCoordinates
 		sphere(radius*.9f);
 
 		noStroke();
-		fill(255);
-		sphereDetail( 5 );
-		for(float i=0; i < 2*PI; i+=(2*PI)/100) {
+		fill(255, 50);
+		// sphereDetail( 5 );
+		for(float i=0; i < 2*PI; i+=(2*PI)/20) {
 			pushMatrix();
 			
 			// spherical coordinates
@@ -53,7 +53,7 @@ public class SphericalCoordinates
 			rotateY(sin(lon) * cos(lat));
 			rotateZ(sin(lat));
 			
-			box(30);
+			sphere(10);
 
 			popMatrix();
 		}
