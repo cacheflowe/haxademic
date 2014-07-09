@@ -210,6 +210,37 @@ public class MathUtil {
 		}
 	};
 
+	/**
+	 *  Get the radians fron current coordinate to target coordinate
+	 *  @param  x1  first point's x position
+	 *  @param  y1  first point's y position
+	 *  @param  x2  second point's x position
+	 *  @param  y2  second point's y position
+	 *  @return The radians from point 1 and 2
+	 *  @use    {@code var angle = MathUtil.getRadiansToTarget( 0, 0, 5, 5 );}
+	 */
+	public static float getRadiansToTarget( float x1, float y1, float x2, float y2 ) {
+		return (float) (Math.PI + Math.atan2( x1 - x2, y1 - y2 ));	// add PI to normalize between 0 - 2*pi. atan2 returnes -pi/2 - pi/2
+	};
+
+	/**
+	 *  Figures out which way to rotate, for the shortest path from current to target angle
+	 *  @param  curAngle    starting angle
+	 *  @param  targetAngle destination angle
+	 *  @return +1 for clockwise, -1 for counter-clockwise
+	 *  @use    {@code var direction = MathUtil.getRadiansDirectionToTarget( 90, 180 );}
+	 */
+	public static float getRadiansDirectionToTarget( float curRadians, float targetRadians ) {
+		// calculate the difference between the current angle and destination angle
+		float angleDifference = Math.abs( curRadians - targetRadians );
+		// turn left or right to get to the target
+		if( curRadians > targetRadians ){
+			return (angleDifference < P.PI) ? -1 : 1;
+		} else {
+			return (angleDifference < P.PI) ? 1 : -1;
+		}
+	};
+
 	public static Point triangleCenter = new Point(0,0);
 	public static Point computeTriangleCenter( float x1, float y1, float x2, float y2, float x3, float y3 ) {
 		triangleCenter.setLocation( averageOfThree( x1, x2, x3 ), averageOfThree( y1, y2, y3 ) );
