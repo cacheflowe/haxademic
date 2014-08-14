@@ -3,6 +3,7 @@ package com.haxademic.app.haxmapper;
 import com.haxademic.app.haxmapper.textures.BaseTexture;
 import com.haxademic.app.haxmapper.textures.TextureColorAudioSlide;
 import com.haxademic.app.haxmapper.textures.TextureEQConcentricCircles;
+import com.haxademic.app.haxmapper.textures.TextureShaderTimeStepper;
 import com.haxademic.app.haxmapper.textures.TextureSphereRotate;
 import com.haxademic.core.app.PAppletHax;
 
@@ -31,8 +32,24 @@ extends PAppletHax {
 //		_texture2 = new TextureEQGrid( 200, 200 );
 //		_texture3 = new TextureWaveformSimple( 400, 400 );
 		_texture3 = new TextureColorAudioSlide( 400, 400 );
-		_texture2 = new TextureSphereRotate( 500, 500 );
-//		_texture2 = new TextureShaderTimeStepper( 300, 300, "bw-kaleido.glsl" );
+//		_texture2 = new TextureSphereRotate( 500, 500 );
+//		_texture2 = new TextureShaderTimeStepper( 300, 300, "cog-tunnel.glsl" );
+//		_texture2 = new TextureShaderTimeStepper( 500, 300, "space-swirl.glsl" );
+//		_texture2 = new TextureShaderTimeStepper( 500, 300, "matrix-rain.glsl" );
+//		_texture2 = new TextureShaderTimeStepper( 500, 300, "water-smoke.glsl" );
+//		_texture2 = new TextureShaderTimeStepper( 500, 300, "stars-screensaver.glsl" );
+//		_texture2 = new TextureShaderTimeStepper( 500, 300, "square-fade.glsl" );
+//		_texture2 = new TextureShaderTimeStepper( 500, 300, "gradient-line.glsl" );
+//		_texture2 = new TextureShaderTimeStepper( 500, 300, "stars-scroll.glsl" );
+//		_texture2 = new TextureShaderTimeStepper( 400, 400, "square-twist.glsl" );
+//		_texture2 = new TextureShaderTimeStepper( 400, 400, "hex-alphanumerics.glsl" );
+//		_texture2 = new TextureShaderTimeStepper( 300, 300, "bw-eye-jacker-02.glsl" );
+//		_texture2 = new TextureShaderTimeStepper( 300, 300, "bw-expand-loop.glsl" );
+//		_texture2 = new TextureShaderTimeStepper( 300, 300, "bw-clouds.glsl" );
+//		_texture2 = new TextureShaderTimeStepper( 300, 300, "stars-fractal-field.glsl" );
+//		_texture2 = new TextureShaderTimeStepper( 300, 300, "circle-parts-rotate.glsl" );
+//		_texture2 = new TextureShaderTimeStepper( 300, 300, "warped-tunnel.glsl" );
+//		_texture2 = new TextureShaderTimeStepper( 300, 300, "supershape-2d.glsl" );
 //		_texture = new TextureImageTimeStepper( 600, 600 );
 //		_texture = new TextureSphereRotate( 400, 400 );
 	}

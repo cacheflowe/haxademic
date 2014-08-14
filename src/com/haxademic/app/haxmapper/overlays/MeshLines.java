@@ -2,13 +2,9 @@ package com.haxademic.app.haxmapper.overlays;
 
 import java.util.ArrayList;
 
-import processing.core.PConstants;
 import processing.core.PGraphics;
-import processing.core.PShape;
-import processing.core.PVector;
 
 import com.haxademic.core.app.P;
-import com.haxademic.core.audio.WaveformData;
 import com.haxademic.core.draw.color.ColorHaxEasing;
 import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.math.MathUtil;
@@ -19,24 +15,39 @@ public class MeshLines {
 	protected PGraphics _texture;
 	protected ColorHaxEasing _colorEase;
 
-	protected int _mode = 4;
-	public static final int NUM_MODES = 7;
-	public static final int MODE_EQ_BARS = 0;
-	public static final int MODE_LINE_EXTEND = 1;
-	public static final int MODE_EQ_TOTAL = 2;
-	public static final int MODE_EQ_BARS_BLACK = 3;
-	public static final int MODE_WAVEFORMS = 4;
-	public static final int MODE_DOTS = 5;
-	public static final int MODE_NONE = 6;
+	public enum MODE {
+		MODE_PERLIN,
+		MODE_PROGRESS_BAR,
+//		MODE_EQ_BARS, 
+		MODE_LINE_EXTEND, 
+//		MODE_EQ_TOTAL,
+		MODE_EQ_BARS_BLACK,
+//		MODE_WAVEFORMS,
+		MODE_DOTS,
+		MODE_PARTICLES,
+		MODE_SEGMENT_SCANNERS,
+		MODE_NONE
+	}
+	protected int NUM_MODES = MODE.values().length;
+	protected int _modeIndex;
 
 	public MeshLines( PGraphics pg ) {
 		_texture = pg;
 		_meshLineSegments = new ArrayList<MeshLineSegment>();
 		_colorEase = new ColorHaxEasing( "#ffffff", 5 );
+		_modeIndex = 0;
 	}
 
 	public PGraphics texture() {
 		return _texture;
+	}
+	
+	public MODE mode() {
+		return MODE.values()[_modeIndex];
+	}
+
+	public ArrayList<MeshLineSegment> meshLineSegments() {
+		return _meshLineSegments;
 	}
 
 	public void addSegment( float x1, float y1, float x2, float y2 ) {
@@ -60,19 +71,19 @@ public class MeshLines {
 		float spectrumInterval = (int) ( 256 / _meshLineSegments.size() );	// 256 keeps it in the bottom half of the spectrum since the high ends is so overrun
 
 		for( int i=0; i < _meshLineSegments.size(); i++ ) {
-			_meshLineSegments.get(i).update( _texture, _mode, _colorEase.colorInt(), P.p.audioIn.getEqAvgBand( 15 ), P.p.audioIn.getEqBand( 20 + P.floor(i*spectrumInterval) ) );
+			_meshLineSegments.get(i).update( _texture, mode(), _colorEase.colorInt(), P.p.audioIn.getEqAvgBand( 15 ), P.p.audioIn.getEqBand( 20 + P.floor(i*spectrumInterval) ) );
 		}
 
 //		_texture.endDraw();
 	}
 	
 	public void updateLineMode() {
-		_mode += MathUtil.randRange(1, 2);
-		if( _mode >= NUM_MODES ) _mode = 0;
+		_modeIndex += MathUtil.randRange(1, 2);
+		if( _modeIndex >= NUM_MODES ) _modeIndex = 0;
 	}
 
 	public void resetLineMode( int index ) {
-		_mode = index;
+		_modeIndex = index;
 	}
 
 	public void setColor( int color ) {

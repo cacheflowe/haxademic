@@ -2,9 +2,11 @@ package com.haxademic.app.haxmapper.polygons;
 
 import java.awt.Point;
 import java.awt.Rectangle;
+import java.util.ArrayList;
 
 import processing.core.PConstants;
 import processing.core.PGraphics;
+import processing.core.PVector;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.math.MathUtil;
@@ -21,6 +23,7 @@ implements IMappedPolygon {
 		public float y3;
 		public float x4;
 		public float y4;
+		protected PVector[] _vertices;
 		protected Point _center;
 
 		protected int _color;
@@ -30,7 +33,11 @@ implements IMappedPolygon {
 		protected int _numRotations = 0;
 		protected int _mappingOrientation;
 		protected int _mappingStyle = 0;
-		
+		protected ArrayList<IMappedPolygon> _neighbors;
+		protected float _isFlash = 1;
+		protected float _isFlashMode = 1;
+		protected float _isWireMode = 0;
+
 		protected Rectangle _randRect = new Rectangle(0,0,100,100);
 		
 		public MappedQuad( float x1, float y1, float x2, float y2, float x3, float y3, float x4, float y4 ) {
@@ -42,9 +49,18 @@ implements IMappedPolygon {
 			this.y3 = y3;
 			this.x4 = x4;
 			this.y4 = y4;
+			_vertices = new PVector[4];
+			_vertices[0] = new PVector(x1, y1);
+			_vertices[1] = new PVector(x2, y2);
+			_vertices[2] = new PVector(x3, y3);
+			_vertices[3] = new PVector(x4, y4);
 			_center = MathUtil.computeQuadCenter(x1, y1, x2, y2, x3, y3, x4, y4);
-			
+			_neighbors = new ArrayList<IMappedPolygon>();
 			_mappingOrientation = 0;
+		}
+		
+		public PVector[] getVertices() {
+			return _vertices;
 		}
 		
 		public Point getCenter() {
@@ -53,6 +69,24 @@ implements IMappedPolygon {
 
 		public PGraphics getTexture() {
 			return _texture;
+		}
+		
+		public void addNeighbor(IMappedPolygon neighbor) {
+			_neighbors.add(neighbor);
+		}
+		
+		public IMappedPolygon getRandomNeighbor() {
+			if(_neighbors.size() > 0) {
+				return _neighbors.get(MathUtil.randRange(0, _neighbors.size()-1));
+			} else {
+				return null;
+			}
+		}
+		
+		public void setFlash(int mode, int wireMode) {
+			_isFlash = 1;
+			_isFlashMode = mode;
+			_isWireMode = wireMode;
 		}
 		
 		public void setColor( int color ) {
@@ -91,6 +125,7 @@ implements IMappedPolygon {
 		}
 		
 		public void rotateTexture() {
+			if(MathUtil.randRange(0, 4) > 1) return;
 			float xTemp = x1;
 			float yTemp = y1;
 			x1 = x2;

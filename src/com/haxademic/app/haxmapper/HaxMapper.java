@@ -29,6 +29,10 @@ import com.haxademic.core.system.FileUtil;
 public class HaxMapper
 extends PAppletHax {
 		
+	public static int MAX_ACTIVE_TEXTURES = 4;
+	public static int MAX_ACTIVE_TEXTURES_PER_GROUP = 2;
+	public static int MAX_ACTIVE_MOVIE_TEXTURES = 2;
+	
 	protected String _inputFileLines[];
 	protected PGraphics _overlayPG;
 	protected ArrayList<MappingGroup> _mappingGroups;
@@ -37,23 +41,28 @@ extends PAppletHax {
 	protected ArrayList<BaseTexture> _movieTexturePool;
 	protected ArrayList<BaseTexture> _activeTextures;
 	
+	protected boolean _debugTextures = false;
+
 	protected InputTrigger _colorTrigger = new InputTrigger(new char[]{'c'},new String[]{TouchOscPads.PAD_01},new Integer[]{AkaiMpdPads.PAD_01, AbletonNotes.NOTE_01});
 	protected InputTrigger _rotationTrigger = new InputTrigger(new char[]{'v'},new String[]{TouchOscPads.PAD_02},new Integer[]{AkaiMpdPads.PAD_02, AbletonNotes.NOTE_02});
-	protected InputTrigger _modeTrigger = new InputTrigger(new char[]{'m'},new String[]{TouchOscPads.PAD_04},new Integer[]{AkaiMpdPads.PAD_04, AbletonNotes.NOTE_04});
-	protected InputTrigger _lineModeTrigger = new InputTrigger(new char[]{'l'},new String[]{TouchOscPads.PAD_08},new Integer[]{AkaiMpdPads.PAD_08, AbletonNotes.NOTE_08});
 	protected InputTrigger _timingTrigger = new InputTrigger(new char[]{'n'},new String[]{TouchOscPads.PAD_03},new Integer[]{AkaiMpdPads.PAD_03, AbletonNotes.NOTE_03});
+	protected InputTrigger _modeTrigger = new InputTrigger(new char[]{'m'},new String[]{TouchOscPads.PAD_04},new Integer[]{AkaiMpdPads.PAD_04, AbletonNotes.NOTE_04});
 	protected InputTrigger _timingSectionTrigger = new InputTrigger(new char[]{'f'},new String[]{TouchOscPads.PAD_05},new Integer[]{AkaiMpdPads.PAD_05, AbletonNotes.NOTE_05});
-	protected InputTrigger _bigChangeTrigger = new InputTrigger(new char[]{' '},new String[]{TouchOscPads.PAD_07},new Integer[]{AkaiMpdPads.PAD_07, AbletonNotes.NOTE_07});
 	protected InputTrigger _allSameTextureTrigger = new InputTrigger(new char[]{'a'},new String[]{TouchOscPads.PAD_06},new Integer[]{AkaiMpdPads.PAD_06, AbletonNotes.NOTE_06});
+	protected InputTrigger _bigChangeTrigger = new InputTrigger(new char[]{' '},new String[]{TouchOscPads.PAD_07},new Integer[]{AkaiMpdPads.PAD_07, AbletonNotes.NOTE_07});
+	protected InputTrigger _lineModeTrigger = new InputTrigger(new char[]{'l'},new String[]{TouchOscPads.PAD_08},new Integer[]{AkaiMpdPads.PAD_08, AbletonNotes.NOTE_08});
 	protected InputTrigger _audioInputUpTrigger = new InputTrigger(new char[]{},new String[]{"/7/nav1"},new Integer[]{});
 	protected InputTrigger _audioInputDownTrigger = new InputTrigger(new char[]{},new String[]{"/7/nav2"},new Integer[]{});
 	protected InputTrigger _brightnessUpTrigger = new InputTrigger(new char[]{']'},new String[]{},new Integer[]{});
 	protected InputTrigger _brightnessDownTrigger = new InputTrigger(new char[]{'['},new String[]{},new Integer[]{});
+	protected InputTrigger _debugTexturesTrigger = new InputTrigger(new char[]{'d'},new String[]{},new Integer[]{});
 	protected int _lastInputMillis = 0;
 	protected int numBeatsDetected = 0;
 
 	protected PShader _brightness;
 	protected float _brightnessVal = 1f;
+	protected PShader _blurH;
+	protected PShader _blurV;
 
 	
 	public void oscEvent(OscMessage theOscMessage) {  
@@ -74,16 +83,17 @@ extends PAppletHax {
 
 	public void setup() {
 		super.setup();
-		p.smooth(OpenGLUtil.SMOOTH_LOW);
+		p.smooth(OpenGLUtil.SMOOTH_MEDIUM);
 		noStroke();
 		importPolygons();
+		for( int i=0; i < _mappingGroups.size(); i++ ) _mappingGroups.get(i).completePolygonImport();
 		buildTextures();
 		buildPostProcessingChain();
 	}
 	
 	protected void importPolygons() {
 		_overlayPG = P.p.createGraphics( p.width, p.height, PConstants.OPENGL );
-		_overlayPG.noSmooth();
+		_overlayPG.smooth(OpenGLUtil.SMOOTH_MEDIUM);
 		_mappingGroups = new ArrayList<MappingGroup>();
 		
 		if( _appConfig.getString("mapping_file", "") == "" ) {
@@ -98,10 +108,6 @@ extends PAppletHax {
 				float y3 = startY + p.random(-300,300);
 				// add polygon
 				_mappingGroups.get(0).addPolygon( new MappedTriangle( startX, startY, x2, y2, y3, y3 ) );
-				// add to mesh
-				_mappingGroups.get(0).addMeshSegment( startX, startY, x2, y2 );
-				_mappingGroups.get(0).addMeshSegment( x2, y2, x3, y3 );
-				_mappingGroups.get(0).addMeshSegment( x3, y3, startX, startY );
 
 			}
 			_mappingGroups.get(0).addPolygon( new MappedTriangle( 100, 200, 400, 700, 650, 300 ) );
@@ -126,25 +132,6 @@ extends PAppletHax {
 								ConvertUtil.stringToFloat( polyPoints[4] ), 
 								ConvertUtil.stringToFloat( polyPoints[5] )
 						) );
-						// add to mesh
-						_mappingGroups.get(_mappingGroups.size()-1).addMeshSegment(
-								ConvertUtil.stringToFloat( polyPoints[0] ), 
-								ConvertUtil.stringToFloat( polyPoints[1] ), 
-								ConvertUtil.stringToFloat( polyPoints[2] ), 
-								ConvertUtil.stringToFloat( polyPoints[3] ) 
-						);
-						_mappingGroups.get(_mappingGroups.size()-1).addMeshSegment(
-								ConvertUtil.stringToFloat( polyPoints[2] ), 
-								ConvertUtil.stringToFloat( polyPoints[3] ), 
-								ConvertUtil.stringToFloat( polyPoints[4] ), 
-								ConvertUtil.stringToFloat( polyPoints[5] ) 
-						);
-						_mappingGroups.get(_mappingGroups.size()-1).addMeshSegment(
-								ConvertUtil.stringToFloat( polyPoints[4] ), 
-								ConvertUtil.stringToFloat( polyPoints[5] ), 
-								ConvertUtil.stringToFloat( polyPoints[0] ), 
-								ConvertUtil.stringToFloat( polyPoints[1] ) 
-						);
 					} else if(polyPoints.length == 8) {
 						// add polygons
 						_mappingGroups.get(_mappingGroups.size()-1).addPolygon( new MappedQuad( 
@@ -157,31 +144,6 @@ extends PAppletHax {
 								ConvertUtil.stringToFloat( polyPoints[6] ), 
 								ConvertUtil.stringToFloat( polyPoints[7] )
 						) );
-						// add to mesh
-						_mappingGroups.get(_mappingGroups.size()-1).addMeshSegment(
-								ConvertUtil.stringToFloat( polyPoints[0] ), 
-								ConvertUtil.stringToFloat( polyPoints[1] ), 
-								ConvertUtil.stringToFloat( polyPoints[2] ), 
-								ConvertUtil.stringToFloat( polyPoints[3] ) 
-						);
-						_mappingGroups.get(_mappingGroups.size()-1).addMeshSegment(
-								ConvertUtil.stringToFloat( polyPoints[2] ), 
-								ConvertUtil.stringToFloat( polyPoints[3] ), 
-								ConvertUtil.stringToFloat( polyPoints[4] ), 
-								ConvertUtil.stringToFloat( polyPoints[5] ) 
-						);
-						_mappingGroups.get(_mappingGroups.size()-1).addMeshSegment(
-								ConvertUtil.stringToFloat( polyPoints[4] ), 
-								ConvertUtil.stringToFloat( polyPoints[5] ),
-								ConvertUtil.stringToFloat( polyPoints[6] ), 
-								ConvertUtil.stringToFloat( polyPoints[7] )
-						);
-						_mappingGroups.get(_mappingGroups.size()-1).addMeshSegment(
-								ConvertUtil.stringToFloat( polyPoints[6] ), 
-								ConvertUtil.stringToFloat( polyPoints[7] ), 
-								ConvertUtil.stringToFloat( polyPoints[0] ), 
-								ConvertUtil.stringToFloat( polyPoints[1] ) 
-						);
 					}
 				}  
 			}
@@ -208,6 +170,11 @@ extends PAppletHax {
 	protected void buildPostProcessingChain() {
 		_brightness = p.loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/brightness.glsl" );
 		_brightness.set("brightness", 1.0f );
+
+		_blurH = p.loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/blur-horizontal.glsl" );
+		_blurH.set("h", 1.0f );
+		_blurV = p.loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/blur-vertical.glsl" );
+		_blurV.set("v", 1.0f );
 		
 	}
 	
@@ -215,11 +182,13 @@ extends PAppletHax {
 		
 		background(0);
 		
+		checkBeat();
 		updateActiveTextures();
+		traverseGroups();
 		drawPolygonGroups();
 		drawOverlays();
-		checkBeat();
 		postProcessFilters();
+		if(_debugTextures == true) debugTextures();
 	}
 	
 	protected void updateActiveTextures() {
@@ -227,7 +196,7 @@ extends PAppletHax {
 		while( _activeTextures.size() > 0 ) {
 			_activeTextures.remove( _activeTextures.size() - 1 ).resetUseCount();
 		}
-		// figure out which textures are being used and rebuild array, telling 
+		// figure out which textures are being used and rebuild array, telling active textures that they're active
 		for( int i=0; i < _mappingGroups.size(); i++ ) {
 			ArrayList<BaseTexture> textures = _mappingGroups.get(i).textures();
 			for( int j=0; j < textures.size(); j++ ) {
@@ -247,6 +216,7 @@ extends PAppletHax {
 		for( int i=0; i < _activeTextures.size(); i++ ) {
 			_activeTextures.get(i).update();
 		}
+		P.println(_activeTextures.size());
 	}
 	
 	protected void drawPolygonGroups() {
@@ -265,12 +235,21 @@ extends PAppletHax {
 			_mappingGroups.get(i).drawOverlay();
 		}
 		_overlayPG.endDraw();
+//		_overlayPG.filter(_blurH);
+//		_overlayPG.filter(_blurV);
 		p.image( _overlayPG, 0, 0, _overlayPG.width, _overlayPG.height );
 	}
 	
 	protected void postProcessFilters() {
 		_brightness.set("brightness", _brightnessVal );
 		p.filter( _brightness );	
+	}
+	
+	protected void debugTextures() {
+		// debug current textures
+		for( int i=0; i < _activeTextures.size(); i++ ) {
+			p.image(_activeTextures.get(i).texture(), i * 100, 0, 100, 100);
+		}
 	}
 	
 	protected void checkBeat() {
@@ -296,7 +275,10 @@ extends PAppletHax {
 			resetBeatDetectMode();
 			updateColor();
 		}
-		if ( _modeTrigger.active() == true ) newMode();
+		if ( _modeTrigger.active() == true ) {
+			newMode();
+			traverseTrigger();
+		}
 		if ( _lineModeTrigger.active() == true ) {
 			resetBeatDetectMode();
 			updateLineMode();
@@ -309,7 +291,9 @@ extends PAppletHax {
 			resetBeatDetectMode();
 			updateTiming();
 		}
-		if ( _timingSectionTrigger.active() == true ) updateTimingSection();
+		if ( _timingSectionTrigger.active() == true ) {
+			updateTimingSection();
+		}
 		if ( _bigChangeTrigger.active() == true ) {
 			resetBeatDetectMode();
 			bigChangeTrigger();
@@ -322,6 +306,7 @@ extends PAppletHax {
 		if ( _audioInputDownTrigger.active() == true ) audioIn.gainDown();
 		if ( _brightnessUpTrigger.active() == true ) _brightnessVal += 0.1f;
 		if ( _brightnessDownTrigger.active() == true ) _brightnessVal -= 0.1f;
+		if ( _debugTexturesTrigger.active() == true ) _debugTextures = !_debugTextures;
 	}
 	
 	protected void newMode() {
@@ -345,7 +330,8 @@ extends PAppletHax {
 	
 	protected void updateRotation() {
 		for( int i=0; i < _mappingGroups.size(); i++ ) {
-			_mappingGroups.get(i).newRotation();
+//			_mappingGroups.get(i).newRotation();
+			_mappingGroups.get(i).newRandomRotation();
 		}
 	}
 	
@@ -383,6 +369,17 @@ extends PAppletHax {
 		}
 	}
 	
+	protected void traverseTrigger() {
+		for( int i=0; i < _mappingGroups.size(); i++ ) {
+			_mappingGroups.get(i).traverseStart();
+		}
+	}
+
+	protected void traverseGroups() {
+		for( int i=0; i < _mappingGroups.size(); i++ ) {
+			_mappingGroups.get(i).traverseUpdate();
+		}
+	}
 }
 
 

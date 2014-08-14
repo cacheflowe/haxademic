@@ -7,11 +7,11 @@ import processing.core.PApplet;
 
 import com.haxademic.app.haxmapper.HaxMapper;
 import com.haxademic.app.haxmapper.distribution.AudioPixelInterface;
-import com.haxademic.app.haxmapper.overlays.MeshLines;
+import com.haxademic.app.haxmapper.overlays.MeshLines.MODE;
 import com.haxademic.app.haxmapper.polygons.IMappedPolygon;
-import com.haxademic.app.haxmapper.textures.TextureColorAudioFade;
 import com.haxademic.app.haxmapper.textures.TextureColorAudioSlide;
 import com.haxademic.app.haxmapper.textures.TextureEQColumns;
+import com.haxademic.app.haxmapper.textures.TextureEQConcentricCircles;
 import com.haxademic.app.haxmapper.textures.TextureEQGrid;
 import com.haxademic.app.haxmapper.textures.TextureImageTimeStepper;
 import com.haxademic.app.haxmapper.textures.TextureScrollingColumns;
@@ -27,20 +27,30 @@ import com.haxademic.core.system.FileUtil;
 public class CMKY2014Mapper
 extends HaxMapper{
 	
-	protected int MAX_ACTIVE_TEXTURES = 8;
-	protected int MAX_ACTIVE_MOVIE_TEXTURES = 2;
-	
 	protected AudioPixelInterface _audioPixel;
 	protected int[] _audioPixelColors;
+		
+	protected float BEAT_DIVISOR = 1; // 10 to test
+	protected int BEAT_INTERVAL_COLOR = (int) Math.ceil(6f / BEAT_DIVISOR);
+	protected int BEAT_INTERVAL_ROTATION = (int) Math.ceil(8f / BEAT_DIVISOR);
+	protected int BEAT_INTERVAL_TRAVERSE = (int) Math.ceil(20f / BEAT_DIVISOR);
+	protected int BEAT_INTERVAL_ALL_SAME = (int) Math.ceil(150f / BEAT_DIVISOR);
+	protected int BEAT_INTERVAL_NEW_TIMING = (int) Math.ceil(40f / BEAT_DIVISOR);
+	protected int BEAT_INTERVAL_BIG_CHANGE = (int) Math.ceil(400f / BEAT_DIVISOR);
+	
 
 	public static void main(String args[]) {
 		_isFullScreen = true;
-		PApplet.main(new String[] { "--hide-stop", "--bgcolor=000000", "com.haxademic.app.haxmapper.mappers.CMKY2014Mapper" });
+		PApplet.main(new String[] { "--hide-stop", "--bgcolor=000000", CMKY2014Mapper.class.getName() });
 	}
 
 	protected void overridePropsFile() {
 		super.overridePropsFile();
-		_appConfig.setProperty( "mapping_file", FileUtil.getHaxademicDataPath() + "text/mapping/mapping-2014-04-17-22-45-36.txt" );
+		_appConfig.setProperty( "mapping_file", FileUtil.getHaxademicDataPath() + "text/mapping/mapping-2014-08-09-20-40-59.txt" );
+		_appConfig.setProperty( "rendering", "false" );
+		_appConfig.setProperty( "fullscreen", "true" );
+		_appConfig.setProperty( "fills_screen", "true" );
+		_appConfig.setProperty( "osc_active", "true" );
 	}
 
 	public void oscEvent(OscMessage theOscMessage) {  
@@ -74,37 +84,67 @@ extends HaxMapper{
 		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/loops/bubbles.mp4" ));	
 		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/loops/clouds-timelapse.mov" ));
 		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/loops/water.mp4" ));
-//		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/loops/deadbeat/Intermolecular_02-desktop.m4v" ));
+		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/lunar-lodge/LL-00-desktop.m4v" ));
+		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/lunar-lodge/LL-01-desktop.m4v" ));
+		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/lunar-lodge/LL-02-desktop.m4v" ));
+		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/lunar-lodge/LL-03-desktop.m4v" ));
+		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/lunar-lodge/LL-04-desktop.m4v" ));
+		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/lunar-lodge/LL-08-desktop.m4v" ));
+		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/lunar-lodge/LL-09-desktop.m4v" ));
+		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/lunar-lodge/LL-10-desktop.m4v" ));
+		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/lunar-lodge/LL-11-desktop.m4v" ));
+		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/lunar-lodge/LL-12-desktop.m4v" ));
+		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/lunar-lodge/LL-13-desktop.m4v" ));
+		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/lunar-lodge/crystal-growth-2.mp4" ));
+		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/lunar-lodge/crystal-growth-3-desktop.m4v" ));
+		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/lunar-lodge/crystal-growth-4.mp4" ));
+		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/lunar-lodge/crystal-growth-desktop.m4v" ));
 		
 		_texturePool.add( new TextureScrollingColumns( 100, 100 ));
-		_texturePool.add( new TextureTwistingSquares( 300, 300 ));
-		_texturePool.add( new TextureShaderTimeStepper( 400, 400, "wavy-checker-planes.glsl" ));
-		_texturePool.add( new TextureShaderTimeStepper( 400, 400, "bw-eye-jacker-01.glsl" ));
-		_texturePool.add( new TextureShaderTimeStepper( 400, 400, "dots-orbit.glsl" ));
-		_texturePool.add( new TextureShaderTimeStepper( 400, 400, "glowwave.glsl" ));
-		_texturePool.add( new TextureShaderTimeStepper( 400, 400, "bw-simple-sin.glsl" ));
-		_texturePool.add( new TextureShaderTimeStepper( 400, 400, "supershape-2d.glsl" ));
-		_texturePool.add( new TextureShaderTimeStepper( 400, 400, "star-field.glsl" ));
-		_texturePool.add( new TextureShaderTimeStepper( 400, 400, "sin-grey.glsl" ));
+		_texturePool.add( new TextureTwistingSquares( 500, 500 ));
+		_texturePool.add( new TextureShaderTimeStepper( 500, 500, "bw-eye-jacker-01.glsl" ));
+		_texturePool.add( new TextureShaderTimeStepper( 500, 500, "bw-eye-jacker-02.glsl" ));
+		_texturePool.add( new TextureShaderTimeStepper( 500, 500, "bw-clouds.glsl" ));
+		_texturePool.add( new TextureShaderTimeStepper( 500, 500, "bw-expand-loop.glsl" ));
+		_texturePool.add( new TextureShaderTimeStepper( 500, 500, "bw-kaleido.glsl" ));
+		_texturePool.add( new TextureShaderTimeStepper( 500, 500, "bw-motion-illusion.glsl" ));
+		_texturePool.add( new TextureShaderTimeStepper( 500, 500, "bw-simple-sin.glsl" ));
+		_texturePool.add( new TextureShaderTimeStepper( 500, 500, "circle-parts-rotate.glsl" ));
+		_texturePool.add( new TextureShaderTimeStepper( 500, 500, "cog-tunnel.glsl" ));
+//		_texturePool.add( new TextureShaderTimeStepper( 500, 500, "dots-orbit.glsl" ));
+		_texturePool.add( new TextureShaderTimeStepper( 500, 500, "glowwave.glsl" ));
+		_texturePool.add( new TextureShaderTimeStepper( 500, 500, "gradient-line.glsl" ));
+		_texturePool.add( new TextureShaderTimeStepper( 500, 500, "hex-alphanumerics.glsl" ));
+		_texturePool.add( new TextureShaderTimeStepper( 500, 500, "iq-iterations-shiny.glsl" ));
+		_texturePool.add( new TextureShaderTimeStepper( 500, 500, "lines-scroll-diag.glsl" ));
+		_texturePool.add( new TextureShaderTimeStepper( 500, 500, "matrix-rain.glsl" ));
+		_texturePool.add( new TextureShaderTimeStepper( 500, 500, "sin-grey.glsl" ));
+		_texturePool.add( new TextureShaderTimeStepper( 500, 500, "sin-waves.glsl" ));
+		_texturePool.add( new TextureShaderTimeStepper( 500, 500, "space-swirl.glsl" ));
+		_texturePool.add( new TextureShaderTimeStepper( 500, 500, "square-fade.glsl" ));
+		_texturePool.add( new TextureShaderTimeStepper( 500, 500, "square-twist.glsl" ));
+		_texturePool.add( new TextureShaderTimeStepper( 500, 500, "star-field.glsl" ));
+		_texturePool.add( new TextureShaderTimeStepper( 500, 500, "stars-screensaver.glsl" ));
+		_texturePool.add( new TextureShaderTimeStepper( 500, 500, "stars-scroll.glsl" ));
+		_texturePool.add( new TextureShaderTimeStepper( 500, 500, "supershape-2d.glsl" ));
 		_texturePool.add( new TextureShaderTimeStepper( 600, 600, "swirl.glsl" ));
-		_texturePool.add( new TextureShaderTimeStepper( 400, 400, "bw-motion-illusion.glsl" ));
-		_texturePool.add( new TextureShaderTimeStepper( 400, 400, "sin-waves.glsl" ));
-		_texturePool.add( new TextureShaderTimeStepper( 400, 400, "lines-scroll-diag.glsl" ));
-		_texturePool.add( new TextureShaderTimeStepper( 400, 400, "iq-iterations-shiny.glsl" ));
-		_texturePool.add( new TextureShaderTimeStepper( 400, 400, "bw-kaleido.glsl" ));
+		_texturePool.add( new TextureShaderTimeStepper( 500, 500, "warped-tunnel.glsl" ));
+		_texturePool.add( new TextureShaderTimeStepper( 500, 500, "water-smoke.glsl" ));
+		_texturePool.add( new TextureShaderTimeStepper( 500, 500, "wavy-checker-planes.glsl" ));
 		_texturePool.add( new TextureImageTimeStepper( 600, 600 ));
 		_texturePool.add( new TextureEQColumns( 200, 100 ));
 		_texturePool.add( new TextureEQColumns( 200, 100 ));
 		_texturePool.add( new TextureEQGrid( 320, 160 ));
 		_texturePool.add( new TextureEQGrid( 320, 160 ));
 		_texturePool.add( new TextureWaveformSimple( 500, 500 ));
-		_texturePool.add( new TextureColorAudioFade( 200, 200 ));
-		_texturePool.add( new TextureColorAudioFade( 200, 200 ));
+//		_texturePool.add( new TextureColorAudioFade( 200, 200 ));
+//		_texturePool.add( new TextureColorAudioFade( 200, 200 ));
 		_texturePool.add( new TextureColorAudioSlide( 200, 200 ));
-		_texturePool.add( new TextureColorAudioSlide( 200, 200 ));
+//		_texturePool.add( new TextureColorAudioSlide( 200, 200 ));
 		_texturePool.add( new TextureSphereRotate( 500, 500 ));
-//		_texturePool.add( new TextureWebCam() );
-		
+		_texturePool.add( new TextureEQConcentricCircles( 500, 500 ) );
+//		_texturePool.add( new TextureWebCam() );		
+
 		// store just movies to restrain the number of concurrent movies
 		for( int i=0; i < _texturePool.size(); i++ ) {
 			if( _texturePool.get(i) instanceof TextureVideoPlayer ) {
@@ -125,6 +165,15 @@ extends HaxMapper{
 		return numMovieTextures;
 	}
 	
+	protected void removeOldestMovieTexture() {
+		for( int i=0; i < _curTexturePool.size(); i++ ) {
+			if( _curTexturePool.get(i) instanceof TextureVideoPlayer ) {
+				_curTexturePool.remove(i);
+				return;
+			}
+		}
+	}
+	
 	public void setup() {
 		super.setup();
 		_audioPixel = new AudioPixelInterface();
@@ -134,16 +183,10 @@ extends HaxMapper{
 	public void drawApp() {
 		super.drawApp();
 		
-		// p.loadPixels();
 		for(int i=0; i < _mappingGroups.size(); i++ ) {
 			_mappingGroups.get(i).getAudioPixelColor();
 			_audioPixelColors[i] = _mappingGroups.get(i).colorEaseInt();
-			// debug draw!
-//			int size = 100;
-//			p.fill( _audioPixelColors[i] );
-//			p.rect(size*i, p.height-size, size, size);
 		}
-		_audioPixel.sendColorData( _audioPixelColors );
 	}
 	
 	protected void checkBeat() {
@@ -189,25 +232,38 @@ extends HaxMapper{
 			_activeTextures.get(i).updateTiming();
 		}
 		
-		if( numBeatsDetected % 4 == 0 ) {
+		if( numBeatsDetected % BEAT_INTERVAL_COLOR == 0 ) {
+//			P.println("BEAT_INTERVAL_COLOR");
 			updateColor();
 		}
-		updateColor();
+		if( numBeatsDetected % BEAT_INTERVAL_ROTATION == 0 ) {
+//			P.println("BEAT_INTERVAL_ROTATION");
+			updateRotation();
+		}
+		if( numBeatsDetected % BEAT_INTERVAL_TRAVERSE == 0 ) {
+//			P.println("BEAT_INTERVAL_TRAVERSE");
+			traverseTrigger();
+		}
+//		updateColor();
 		for(int i=0; i < _mappingGroups.size(); i++ ) {
 			_mappingGroups.get(i).newAudioPixelColor();
 		}
 		
-		if( numBeatsDetected % 100 == 0 ) {
+		if( numBeatsDetected % BEAT_INTERVAL_ALL_SAME == 0 ) {
+//			P.println("BEAT_INTERVAL_ALL_SAME");
 			setGroupsMappingStylesToTheSame();
 			setGroupsTextureToTheSameMaybe();
+			updateLineMode();
 		}
 		
-		if( numBeatsDetected % 200 == 0 ) {
+		if( numBeatsDetected % BEAT_INTERVAL_NEW_TIMING == 0 ) {
+//			P.println("BEAT_INTERVAL_NEW_TIMING");
 			updateTimingSection();
 		}
 		
 		// every 40 beats, do something bigger
-		if( numBeatsDetected % 400 == 0 ) {
+		if( numBeatsDetected % BEAT_INTERVAL_BIG_CHANGE == 0 ) {
+//			P.println("BEAT_INTERVAL_BIG_CHANGE");
 			bigChangeTrigger();
 		}
 	}
@@ -216,11 +272,10 @@ extends HaxMapper{
 		super.updateTimingSection();
 		
 		newLineModeForRandomGroup();
-		cycleANewTexture();
+		// cycleANewTexture();
 	}
 	
 	protected void bigChangeTrigger() {
-		
 		cycleANewTexture();
 		newTexturesForAllGroups();
 		newLineModesForAllGroups();
@@ -280,7 +335,7 @@ extends HaxMapper{
 		}
 		// once in a while, reset all mesh lines to the same random mode
 		if( MathUtil.randRange(0, 100) < 10 ) {
-			int newLineMode = MathUtil.randRange(0, MeshLines.NUM_MODES - 1);
+			int newLineMode = MathUtil.randRange(0, MODE.values().length - 1);
 			for(int i=0; i < _mappingGroups.size(); i++ ) {
 				_mappingGroups.get(i).resetLineModeToIndex( newLineMode );
 			}
@@ -292,7 +347,7 @@ extends HaxMapper{
 		for( int i=0; i < _mappingGroups.size(); i++ ) {
 			_mappingGroups.get(i).shiftTexture();
 			_mappingGroups.get(i).pushTexture( _curTexturePool.get( MathUtil.randRange(0, _curTexturePool.size()-1 )) );
-			_mappingGroups.get(i).setAllPolygonsToSameRandomTexture();				
+			_mappingGroups.get(i).reloadTextureAtIndex();					
 		}
 	}
 
@@ -301,11 +356,12 @@ extends HaxMapper{
 		// check number of movie textures, and make sure we never have more than 2
 		_curTexturePool.add( _texturePool.get( MathUtil.randRange(0, _texturePool.size()-1 ) ) );
 		while( numMovieTextures() > MAX_ACTIVE_MOVIE_TEXTURES ) {
-			_curTexturePool.remove( _curTexturePool.size() - 1 );
+			removeOldestMovieTexture();
 			_curTexturePool.add( _texturePool.get( MathUtil.randRange(0, _texturePool.size()-1 ) ) );
 		}
 		// remove oldest texture if more than max 
 		if( _curTexturePool.size() >= MAX_ACTIVE_TEXTURES ) {
+			// P.println(_curTexturePool.size());
 			_curTexturePool.remove(0);
 		}
 		

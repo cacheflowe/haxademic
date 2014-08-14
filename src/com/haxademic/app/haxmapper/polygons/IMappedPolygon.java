@@ -3,6 +3,7 @@ package com.haxademic.app.haxmapper.polygons;
 import java.awt.Point;
 
 import processing.core.PGraphics;
+import processing.core.PVector;
 
 public interface IMappedPolygon {
 	public static final int MAP_STYLE_CONTAIN_TEXTURE = 0;
@@ -18,4 +19,8 @@ public interface IMappedPolygon {
 	public void rotateTexture();
 	public void resetRotation();
 	public Point getCenter();
+	public PVector[] getVertices();
+	public void addNeighbor( IMappedPolygon polygon );
+	public IMappedPolygon getRandomNeighbor();
+	public void setFlash( int mode, int wireMode );
 }

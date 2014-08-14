@@ -17,7 +17,7 @@ extends BaseTexture {
 
 		buildGraphics( width, height );
 		
-		float radius = width;
+		float radius = width * 2;
 		for( int i=0; i < points84.length; i++ ) {
 			points[i] = ConvertUtil.stringToFloat( points84[i] ) * radius;
 		}
@@ -42,7 +42,7 @@ extends BaseTexture {
 			_texture.stroke( _colorEase.colorInt() );
 		} else {
 			_texture.noStroke();
-			_texture.fill( _colorEase.colorInt() );
+			_texture.fill( _colorEase.colorInt(), 80 );
 		}
 		
 		_texture.beginShape();
