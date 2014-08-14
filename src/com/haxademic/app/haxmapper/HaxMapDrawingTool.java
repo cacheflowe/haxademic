@@ -44,8 +44,10 @@ extends PAppletHax {
 		_appConfig.setProperty( "rendering", "false" );
 		_appConfig.setProperty( "fills_screen", "true" );
 		_appConfig.setProperty( "fullscreen", "true" );
-		_appConfig.setProperty( "mapping_file", FileUtil.getHaxademicDataPath() + "text/mapping/mapping-2014-03-23-23-24-17.txt" );
-		_appConfig.setProperty( "mapping_file", FileUtil.getHaxademicDataPath() + "text/mapping/mapping-2014-04-06-21-30-19.txt" );
+//		_appConfig.setProperty( "mapping_file", FileUtil.getHaxademicDataPath() + "text/mapping/mapping-2014-03-23-23-24-17.txt" );
+//		_appConfig.setProperty( "mapping_file", FileUtil.getHaxademicDataPath() + "text/mapping/mapping-2014-06-25-21-03-38.txt" );
+//		_appConfig.setProperty( "fullscreen", "false" );
+//		_appConfig.setProperty( "fills_screen", "false" );
 	}
 
 	public void setup() {
