@@ -20,16 +20,13 @@ A custom projection-mapped visual system
 
 ## ToDo:
 
+* Solve performance issues...
+* Refactor new MeshLines modes into a better system
 * MORE TEXTURES
-* Allow dragging polygons in HaxMapper for realtime adjustments
+* Allow dragging polygons in HaxMapper for realtime adjustments?
 * Add adjustable speed throttling properties to speed/slow the rate at which program changes happen - use adjustable modulos
-	* big changes should happen manually, or if it hasn't happened in 5 minutes or so...
 * Use solid colors vs. using any alpha, since this is faster
 
-
-#### Add UDP messages into group management
-* Average color for each structure
-* Use tringle centroid to get color from each mapped polygon
 
 #### Texture manager to distribute textures between groups and group items* 
 * sweeping/traversing 
@@ -40,15 +37,19 @@ A custom projection-mapped visual system
 * Triangle moving from polygon to polygon
 * Particle system flying around vertices
 
-#### More textures!! 
+#### More textures
 * convert existing element/modules from HaxVisual
 * add more shaders
 * Add a wiping texture
 * Kinect textures
+* perf - figure out what slows the program down
+* mesh line mode: fade random polygon on the beat
+* another basic eq mode with vertices instead of bars
+* post-processing effects?? / occasional crazy shit with the camera?
+* vertex displacement
+* More post-processing
+* Concave hull to draw around the outer edge and mask the interior
+
 
 #### Cleanup
 * Subdivide quads for less distortion
-
-#### Nice-to-have
-* Concave hull to draw around the outer edge and mask the interior
-* More final post-processing
