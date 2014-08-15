@@ -1,23 +1,23 @@
 package com.haxademic.core.draw.shapes;
 
 import processing.core.PApplet;
+import processing.core.PGraphics;
 
 import com.haxademic.core.app.P;
 
 public class Shapes {
 	
-	public static void drawDisc3D( PApplet p, float radius, float innerRadius, float cylinderHeight, int numSegments, int color, int wallcolor )
-	{
+	public static void drawDisc3D( PGraphics p, float radius, float innerRadius, float cylinderHeight, int numSegments, int color, int wallcolor ) {
 		// draw triangles
 		p.beginShape(P.TRIANGLES);
 		
 		float segmentCircumference = (2f*P.PI) / numSegments;
 		float halfHeight = cylinderHeight / 2;
-
+		
 		for( int i = 0; i < numSegments; i++ )
 		{
 			if( color > 0 ) p.fill( color );
-
+			
 			// top disc
 			p.vertex( P.sin( i * segmentCircumference ) * innerRadius, P.cos( i * segmentCircumference ) * innerRadius, halfHeight );
 			p.vertex( P.sin( i * segmentCircumference ) * radius, P.cos( i * segmentCircumference ) * radius, halfHeight );
@@ -62,6 +62,10 @@ public class Shapes {
 		}
 		
 		p.endShape();
+	}
+	public static void drawDisc3D( PApplet p, float radius, float innerRadius, float cylinderHeight, int numSegments, int color, int wallcolor )
+	{
+		drawDisc3D(p.g, radius, innerRadius, cylinderHeight, numSegments, color, wallcolor);
 	}
 
 	public static void drawDisc( PApplet p, float radius, float innerRadius, int numSegments )
@@ -119,8 +123,11 @@ public class Shapes {
 		p.popMatrix();
 	}
 
-	public static void drawPyramid( PApplet p, float shapeHeight, float baseWidth, boolean drawBase )
-	{
+		
+	public static void drawPyramid( PApplet p, float shapeHeight, float baseWidth, boolean drawBase ){
+		drawPyramid(p.g, shapeHeight, baseWidth, drawBase);
+	}
+	public static void drawPyramid( PGraphics p, float shapeHeight, float baseWidth, boolean drawBase ){
 		baseWidth *= P.HALF_PI;
 		
 		p.pushMatrix();
