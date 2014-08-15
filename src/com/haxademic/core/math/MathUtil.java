@@ -21,6 +21,19 @@ public class MathUtil {
 	public static float easeTo( float current, float target, float easingFactor ) {
 		return current -= ( ( current - target ) / easingFactor );
 	}
+	
+	/**
+	 * Return easing from 0-1 based on a pow-based ease-in-out factor
+	 * @param progress		progress from 0-1 
+	 * @param easeFactor	pow-based factor
+	 * @return				the remapped 0-1 value
+	 */
+	public static float easePowPercent( float progress, float easeFactor ) {
+		if (progress < 0.5) 
+			return 0.5f * (float)Math.pow(2*progress, easeFactor);
+		else
+			return 1 - 0.5f * (float)Math.pow(2*(1 - progress), easeFactor);
+	}
 
 	public static boolean randBoolean( PApplet p ) {
 		return ( p.random( 0f, 1f ) > 0.5f ) ? true : false;
