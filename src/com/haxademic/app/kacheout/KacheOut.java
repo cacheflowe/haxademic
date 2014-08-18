@@ -126,6 +126,7 @@ extends PAppletHax
 	protected float _cameraZFromHeight = 0;
 	
 	public void setup() {
+		_useLegacyAudio = true;
 		_customPropsFile = FileUtil.getHaxademicDataPath() + "properties/kacheout.properties";
 		super.setup();
 		initGame();

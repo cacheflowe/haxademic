@@ -100,6 +100,7 @@ extends PAppletHax
 	
 	public void setup () {
 		_customPropsFile = FileUtil.getHaxademicDataPath() + "properties/haxvisual.properties";
+		_useLegacyAudio = true;
 		super.setup();
 		// p.smooth(OpenGLUtil.SMOOTH_LOW);
 		p.noSmooth();
