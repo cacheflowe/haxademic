@@ -74,7 +74,7 @@ While the code has been open-sourced, I haven't had time to write much (any) doc
 	* [JDK](http://www.oracle.com/technetwork/java/javase/downloads/index.html)
 * [Download](http://code.google.com/p/simple-openni/downloads/list) and install the latest SimpleOpenNI (Kinect) drivers with the [instructions](http://code.google.com/p/simple-openni/wiki/Installation) for your particular platform. This is most likely to work with the 1st-gen Kinect model 1414
 	* If you have a model 1473 Kinect camera, you might try [this build](http://intermedia.itu.dk/1473/) of the SimpleOpenNI library	
-* Clone or [download](https://github.com/cacheflowe/haxademic-2/archive/master.zip) the Haxademic-2 project
+* Clone or [download](https://github.com/cacheflowe/haxademic/archive/master.zip) the Haxademic-2 project
 * Open Eclipse and: **File -> Import -> General / Existing Projects into Workspace**
 	* Choose the `haxademic` directory that you cloned/downloaded, press **Finish**, and the project should be ready to use
 * Make sure you're compiling with Java 1.6 instead of the new default of 1.7:
@@ -85,8 +85,8 @@ While the code has been open-sourced, I haven't had time to write much (any) doc
 * [Download](http://processing.org) and install the Processing 2.0 core libraries (they're too big to include in this project). Add the jars to your build path, as well as the libraries that come with Processing (video, minim, etc.):
 	* Download Processing and right-click the application. Select **Show Package Contents**
 	* Within the package, navigate to `Contents/Resources/Java/core/library`
-		* Copy the contents of this directory to `haxademic-2/lib/processing-2.0/core` (create this directory if it doesn't exist)
-	* Within the application package again, navigate to `Contents/Resources/Java/modes/java/libraries`, and again copy the contents. Paste them into `haxademic-2/lib/processing-2.0/libraries`
+		* Copy the contents of this directory to `haxademic/lib/processing-2.0/core` (create this directory if it doesn't exist)
+	* Within the application package again, navigate to `Contents/Resources/Java/modes/java/libraries`, and again copy the contents. Paste them into `haxademic/lib/processing-2.0/libraries`
 	* In the **Package Explorer** in Eclipse, right-click the `lib` directory and select **Refresh**
 	* In the `lib/processing-2.0/core` directory, right click the following .jar files and select **Build path -> Add to build path**:
 		* core.jar
@@ -135,10 +135,10 @@ General Use / Tips
 * If you want to wipe your `bin/` directory, you'll have to do a **Project -> Clean…** in Eclipse afterwards.
 
 ## Copying Haxademic to a new project 
-* Copy the entire **haxademic-2** project directory to a new one in your filesystem
+* Copy the entire **haxademic** project directory to a new one in your filesystem
 * Make sure hidden/system files are showing
 * Delete the **.git** folder
-* Open the **.classpath** file with a text editor and replace the instance of **haxademic-2** with the name of your new project directory
+* Open the **.classpath** file with a text editor and replace the instance of **haxademic** with the name of your new project directory
 * Open the **.project** file with a text editor and repeat the previous step
 * Open Eclipse, and in the Package Explorer panel, right click in the empty space and select "Import Project"
 	* Select "Import existing projects into workspace…"
@@ -153,7 +153,7 @@ $ ffmpeg -y -i output.mp4 -vcodec libx264 -b:v 10000k output-final.mp4
 
 ## Publish a .jar of the /core
 ```	
-$ cd haxademic-2/bin
+$ cd haxademic/bin
 $ jar cfv ../../ohheckyeah/ohheckyeah-games-java/lib/haxademic/haxademic.jar ./com/haxademic/core/*
 ```
 

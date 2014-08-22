@@ -39,7 +39,7 @@
 	<classpathentry kind="lib" path="lib/LeapMotionForProcessing/library/LeapJava.jar"/>
 	<classpathentry kind="lib" path="lib/LeapMotionForProcessing/library/LeapMotionForProcessing.jar">
 		<attributes>
-			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="haxademic-2/lib/LeapMotionForProcessing/library/macosx"/>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="haxademic/lib/LeapMotionForProcessing/library/macosx"/>
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="lib/processing-2.0/libraries/pdf/library/itext.jar"/>
@@ -51,6 +51,7 @@
 	<classpathentry kind="lib" path="lib/poly2tri/slf4j-api-1.6.3.jar"/>
 	<classpathentry kind="lib" path="lib/controlP5/library/controlP5.jar"/>
 	<classpathentry kind="lib" path="lib/udp/library/udp.jar"/>
+	<classpathentry kind="lib" path="lib/processing-2.0/libraries/dxf/library/dxf.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/J2SE-1.5"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
