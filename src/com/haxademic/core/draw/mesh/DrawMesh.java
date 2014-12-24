@@ -4,6 +4,7 @@ import java.util.Iterator;
 
 import processing.core.PApplet;
 import processing.core.PConstants;
+import processing.core.PGraphics;
 import processing.core.PVector;
 import saito.objloader.OBJModel;
 import toxi.color.TColor;
@@ -21,10 +22,16 @@ public class DrawMesh {
 	public static Matrix4x4 normalMap = new Matrix4x4().translateSelf(128,128,128).scaleSelf(127);
 
 	public static void drawMeshWithAudio( PApplet p, WETriangleMesh mesh, AudioInputWrapper audioInput, boolean isWireframe, TColor fillColor, TColor strokeColor, float baseAlpha ) {
+		drawMeshWithAudio(p.g, mesh, audioInput, isWireframe, fillColor, strokeColor, baseAlpha);
+	}
+	public static void drawMeshWithAudio( PGraphics p, WETriangleMesh mesh, AudioInputWrapper audioInput, boolean isWireframe, TColor fillColor, TColor strokeColor, float baseAlpha ) {
+		drawMeshWithAudio(p, mesh, audioInput, isWireframe, fillColor.toARGB(), strokeColor.toARGB(), baseAlpha);
+	}
+	public static void drawMeshWithAudio( PGraphics p, WETriangleMesh mesh, AudioInputWrapper audioInput, boolean isWireframe, int fillColor, int strokeColor, float baseAlpha ) {
 		p.beginShape(PConstants.TRIANGLES);
 		int faceIndex = 0;
-		int color = fillColor.toARGB();
-		int colorStroke = strokeColor.toARGB();
+		int color = fillColor;
+		int colorStroke = strokeColor;
 		float alpha;
 		Face f;
 
