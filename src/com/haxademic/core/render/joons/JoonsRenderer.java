@@ -10,6 +10,8 @@ import org.sunflow.math.Vector3;
 import processing.core.PApplet;
 import processing.opengl.PGraphicsOpenGL;
 
+import com.haxademic.core.debug.DebugUtil;
+
 public class JoonsRenderer{
 
 	private JRRecorder recorder;	
@@ -92,14 +94,14 @@ public class JoonsRenderer{
 		JRStatics.BG_R=gray/255f;
 		JRStatics.BG_G=gray/255f;
 		JRStatics.BG_B=gray/255f;
-		JRStatics.P.background(gray);
+		// JRStatics.P.background(gray);
 	}
 	
 	public void background(float r, float g, float b){
 		JRStatics.BG_R=r/255f;
 		JRStatics.BG_G=g/255f;
 		JRStatics.BG_B=b/255f;
-		JRStatics.P.background(r,g,b);
+		// JRStatics.P.background(r,g,b);
 	}
 	
 	public void background(String type){
@@ -317,7 +319,13 @@ public class JoonsRenderer{
 				JRImagePanel imagePanel = new JRImagePanel();
 				api.render(SunflowAPI.DEFAULT_OPTIONS, imagePanel);
 				JRStatics.IMG_RENDERED = imagePanel.getInversedImage();
-				JRStatics.IMG_RENDERED.save(JRStatics.P.sketchPath(JRStatics.RENDERED_INV_FILE_NAME));				
+				if( JRStatics.IMG_RENDERED.width == 0 ) {
+					DebugUtil.printErr("####################################");
+					DebugUtil.printErr("##### Rendered image isn't right...");
+					DebugUtil.printErr("####################################");
+				} else {
+					JRStatics.IMG_RENDERED.save(JRStatics.P.sketchPath(JRStatics.RENDERED_INV_FILE_NAME));
+				}
 				return true;
 			}
 		}
