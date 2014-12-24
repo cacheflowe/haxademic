@@ -1,5 +1,7 @@
 package com.haxademic.core.draw.mesh;
 
+import java.util.ArrayList;
+
 import geomerative.RCommand;
 import geomerative.RFont;
 import geomerative.RG;
@@ -8,7 +10,9 @@ import geomerative.RMesh;
 import geomerative.RPoint;
 import geomerative.RSVG;
 import processing.core.PApplet;
+import processing.core.PGraphics;
 import processing.core.PImage;
+import processing.core.PShape;
 import processing.core.PVector;
 import saito.objloader.OBJModel;
 import toxi.geom.AABB;
@@ -217,7 +221,10 @@ public class MeshUtil {
 		// make sure longitude is always within 0.0 ... 1.0 interval
 		if (uv.x < 0) uv.x += 1f;
 		else if (uv.x > 1) uv.x -= 1f;
+		if (uv.y < 0) uv.y += 1f;
+		else if (uv.y > 1) uv.y -= 1f;
 		uv.x = P.abs(uv.x);
+		uv.y = P.abs(uv.y);
 //		uv.x = P.constrain( uv.x, 0.000001f, 0.9999999f );
 		return uv;
 	}
@@ -226,5 +233,84 @@ public class MeshUtil {
 		p.textureMode(P.NORMAL);	// P.NORMAL ??
 		toxi.texturedMesh( mesh.toWEMesh(), image, false );
 	}
+
+	public static void drawExtrudedPShape( PGraphics p, ArrayList<PVector> shape, float depth ) {
+		
+		p.beginShape();
+		PVector v;
+		
+		// draw top
+		p.beginShape();
+		for (int i = 0; i < shape.size(); i++) {
+			v = shape.get(i);
+			p.vertex(v.x, v.y, depth);
+		}
+		p.endShape();
+
+		// draw bottom
+		p.beginShape();
+		for (int i = 0; i < shape.size(); i++) {
+			v = shape.get(i);
+			p.vertex(v.x, v.y, -depth);
+		}
+		p.endShape();
+
+		// draw walls between the 2 faces - close the 2 triangles
+		p.beginShape(P.TRIANGLE_STRIP);
+		for (int i = 0; i < shape.size(); i++) {
+			v = shape.get(i);
+			p.vertex(v.x, v.y, depth);
+			p.vertex(v.x, v.y, -depth);
+		}
+		// connect the last to the first
+		v = shape.get(0);
+		p.vertex(v.x, v.y, depth);
+		p.vertex(v.x, v.y, -depth);
+
+		p.endShape();
+
+	}
+	
+	public static void drawExtrudedPShape( PApplet p, ArrayList<PVector> shape, float depth ) {
+		
+		p.beginShape();
+		PVector v, vNext;
+		
+		// draw top
+		p.beginShape();
+		for (int i = 0; i < shape.size(); i++) {
+			v = shape.get(i);
+			p.vertex(v.x, v.y, depth);
+		}
+		p.endShape();
+
+		// draw bottom
+		p.beginShape();
+		for (int i = 0; i < shape.size(); i++) {
+			v = shape.get(i);
+			p.vertex(v.x, v.y, -depth);
+		}
+		p.endShape();
+
+		// draw walls between the 2 faces - close the 2 triangles
+		for (int i = 0; i < shape.size(); i++) {
+			v = shape.get(i);
+			vNext = shape.get((i+1) % shape.size());
+			
+			p.beginShape(P.TRIANGLE);
+			p.vertex(v.x, v.y, depth);
+			p.vertex(v.x, v.y, -depth);
+			p.vertex(vNext.x, vNext.y, -depth);
+			p.endShape();
+			
+			p.beginShape(P.TRIANGLE);
+			p.vertex(v.x, v.y, depth);
+			p.vertex(vNext.x, vNext.y, depth);
+			p.vertex(vNext.x, vNext.y, -depth);
+			p.endShape();
+		}
+
+	}
+	
 
 }
