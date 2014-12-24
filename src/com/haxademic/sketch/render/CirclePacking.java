@@ -2,10 +2,8 @@ package com.haxademic.sketch.render;
 
 import java.util.ArrayList;
 
-import processing.core.PConstants;
 import processing.core.PGraphics;
 import processing.core.PImage;
-import processing.core.PShape;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
@@ -14,7 +12,6 @@ import com.haxademic.core.draw.util.OpenGLUtil;
 import com.haxademic.core.image.AnimatedGifEncoder;
 import com.haxademic.core.image.ImageUtil;
 import com.haxademic.core.math.MathUtil;
-import com.haxademic.core.math.easing.Penner;
 import com.haxademic.core.system.FileUtil;
 
 @SuppressWarnings("serial")
@@ -22,13 +19,11 @@ public class CirclePacking
 extends PAppletHax{
 	
 	AnimatedGifEncoder encoder;
-	PShape _logo;
-	PShape _logoInverse;
-	PImage _bread;
 	float _frames = 300;
 	
 	PGraphics _logoOffscreen;
-	ArrayList<GrowEllo> _particles;
+	ArrayList<GrowParticle> _particles;
+	float _maxRadius = 0;
 	
 	protected void overridePropsFile() {
 		_appConfig.setProperty( "width", "800" );
@@ -45,11 +40,8 @@ extends PAppletHax{
 	public void setup() {
 		super.setup();
 		p.smooth(OpenGLUtil.SMOOTH_HIGH);
-		_logo = p.loadShape(FileUtil.getHaxademicDataPath()+"svg/ello.svg");
-		_logoInverse = p.loadShape(FileUtil.getHaxademicDataPath()+"svg/ello-inverse.svg");
-		_bread = p.loadImage(FileUtil.getHaxademicDataPath()+"images/bread.png");
 		
-		PImage img = p.loadImage(FileUtil.getHaxademicDataPath() + "images/snowblinded-mtn-2.jpg");
+		PImage img = p.loadImage(FileUtil.getHaxademicDataPath() + "images/snowblinded-beach.jpg");
 		
 		// build off-screen logo image for processing
 		_logoOffscreen = p.createGraphics(p.width, p.height);
@@ -58,16 +50,18 @@ extends PAppletHax{
 		_logoOffscreen.image(img, 0, 0, p.width, p.height);
 		_logoOffscreen.endDraw();
 		
+		_maxRadius = p.width * 0.45f;
+		
 		// build particles
-		_particles = new ArrayList<GrowEllo>();
+		_particles = new ArrayList<GrowParticle>();
 	}
 
 	public void drawApp() {
 		p.smooth(OpenGLUtil.SMOOTH_HIGH);
 		p.background(255);
-		p.noStroke();
+		p.strokeWeight(0.75f);
 				
-		// Ello logo
+		// draw original image
 //		DrawUtil.setDrawCorner(p);
 //		DrawUtil.setPImageAlpha(p, 0.3f);
 //		p.image(_logoOffscreen, 0, 0);
@@ -75,25 +69,24 @@ extends PAppletHax{
 		
 		// add particles
 		if(_particles.size() < 10000) { //  && p.frameCount <= 250
-			_particles.add(new GrowEllo());
-			_particles.add(new GrowEllo());
-			_particles.add(new GrowEllo());
-			_particles.add(new GrowEllo());
-			_particles.add(new GrowEllo());
-			_particles.add(new GrowEllo());
-			_particles.add(new GrowEllo());
-			_particles.add(new GrowEllo());
-			_particles.add(new GrowEllo());
-			_particles.add(new GrowEllo());
-			_particles.add(new GrowEllo());
-			_particles.add(new GrowEllo());
-			_particles.add(new GrowEllo());
-			_particles.add(new GrowEllo());
+			_particles.add(new GrowParticle());
+			_particles.add(new GrowParticle());
+			_particles.add(new GrowParticle());
+			_particles.add(new GrowParticle());
+			_particles.add(new GrowParticle());
+			_particles.add(new GrowParticle());
+			_particles.add(new GrowParticle());
+			_particles.add(new GrowParticle());
+			_particles.add(new GrowParticle());
+			_particles.add(new GrowParticle());
+			_particles.add(new GrowParticle());
+			_particles.add(new GrowParticle());
+			_particles.add(new GrowParticle());
+			_particles.add(new GrowParticle());
 		}
 //		P.println(p.frameCount);
 		
 		// draw particles
-		p.strokeWeight(0.75f);
 		for (int i = 0; i < _particles.size(); i++) {
 			_particles.get(i).update();
 		}
@@ -106,7 +99,7 @@ extends PAppletHax{
 		}
 	}
 	
-	public class GrowEllo {
+	public class GrowParticle{
 		
 		float _x;
 		float _y;
@@ -116,14 +109,15 @@ extends PAppletHax{
 		int _color;
 		int _colorStroke;
 		
-		public GrowEllo() {
+		public GrowParticle() {
 			_size = 0;
 			_active = true;
 			_growing = true;
 			_x = p.random(0,p.width);
 			_y = p.random(0,p.height);
 			int attempts = 0;
-			while(ImageUtil.getPixelColor(_logoOffscreen, (int)_x, (int)_y) == ImageUtil.EMPTY_INT || isCloseToAnother() == true || MathUtil.getDistance(_x, _y, p.width/2, p.height/2) > p.width * 0.45f) {
+			// find an x/y in the circle, with a non-empty color, and not too close to another circle
+			while(ImageUtil.getPixelColor(_logoOffscreen, (int)_x, (int)_y) == ImageUtil.EMPTY_INT || isCloseToAnother() == true || MathUtil.getDistance(_x, _y, p.width/2, p.height/2) > _maxRadius) {
 				_x = p.random(0,p.width);
 				_y = p.random(0,p.height);
 				attempts++;
@@ -152,22 +146,22 @@ extends PAppletHax{
 						_growing = false;
 					}
 				}
-				// check for collision with whitespace
+				// check out of bounds
 				for(float i=0; i < P.TWO_PI; i += P.TWO_PI/36f) {
 					float checkX = _x + P.sin(i) * radius();
 					float checkY = _y + P.cos(i) * radius();
-					if(ImageUtil.getPixelColor(_logoOffscreen, (int)checkX, (int)checkY) == ImageUtil.EMPTY_INT) {
+					if(MathUtil.getDistance(checkX, checkY, p.width/2, p.height/2) > _maxRadius) {
 						_growing = false;
 					}
 				}
 			}
 
-			if(_growing == false && radius() < 2) _active = false;
 //			if(p.frameCount > 250) {
 //				_active = false;
 //				_growing = false;
 //			}
 			if(radius() > 10) _growing = false;
+			if(_growing == false && radius() < 2) _active = false;
 			if(_growing == true) _size += 1;
 			if(_growing == false && _active == false && _size > 0) _size -= 1;
 			
@@ -181,7 +175,7 @@ extends PAppletHax{
 			p.popMatrix();
 		}
 		
-		public boolean isTouching(GrowEllo otherParticle) {
+		public boolean isTouching(GrowParticle otherParticle) {
 			if(MathUtil.getDistance(_x, _y, otherParticle.x(), otherParticle.y()) < (radius() + otherParticle.radius())) 
 				return true;
 			else
@@ -197,7 +191,7 @@ extends PAppletHax{
 			return false;
 		}
 		
-		public boolean isClose(GrowEllo otherParticle) {
+		public boolean isClose(GrowParticle otherParticle) {
 			if(MathUtil.getDistance(_x, _y, otherParticle.x(), otherParticle.y()) - 2 < (radius() + otherParticle.radius())) 
 				return true;
 			else
