@@ -1,8 +1,11 @@
 package com.haxademic.core.image;
 
 import java.awt.AWTException;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
 import java.awt.Rectangle;
 import java.awt.Robot;
+import java.awt.image.BufferedImage;
 
 import processing.core.PApplet;
 import processing.core.PGraphics;
@@ -21,12 +24,14 @@ public class ScreenUtil {
 	public static void screenshotHiRes( PApplet p, int scaleFactor, String p5Renderer, String outputDir ) {
 		// from: http://amnonp5.wordpress.com/2012/01/28/25-life-saving-tips-for-processing/
 		PGraphics hires = p.createGraphics(p.width*scaleFactor, p.height*scaleFactor, p5Renderer );
+		hires.beginDraw();
 		p.beginRecord(hires);
 		hires.scale(scaleFactor);
 		p.smooth();
 		p.draw();
 		p.endRecord();
-		hires.save( outputDir + SystemUtil.getTimestamp(p) + "hires.png" );
+		hires.endDraw();
+		hires.save( outputDir + SystemUtil.getTimestamp(p) + "-hires.png" );
 		p.noSmooth();
 	}
 
@@ -42,6 +47,24 @@ public class ScreenUtil {
 		} catch (AWTException e) { }
 		return null;
 	}
+
+	public static PImage getScreen(int x, int y, int width, int height) {
+		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+		GraphicsDevice[] gs = ge.getScreenDevices();
+		//DisplayMode mode = gs[0].getDisplayMode();
+		Rectangle bounds = new Rectangle(x, y, width, height);
+		BufferedImage desktop = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+
+		try {
+			desktop = new Robot(gs[0]).createScreenCapture(bounds);
+		}
+		catch(AWTException e) {
+			System.err.println("Screen capture failed.");
+		}
+
+		return new PImage(desktop);
+	}
+
 }
 
 
