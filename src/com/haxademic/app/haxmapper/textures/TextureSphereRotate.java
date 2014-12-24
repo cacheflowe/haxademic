@@ -27,10 +27,7 @@ extends BaseTexture {
 		_isWireframe = !_isWireframe;
 	}
 	
-	public void update() {
-		super.update();
-				
-		_texture.beginDraw();
+	public void updateDraw() {
 		_texture.clear();
 		
 		_texture.translate( _texture.width * 0.5f, _texture.height * 0.5f );
@@ -55,7 +52,5 @@ extends BaseTexture {
 			_texture.popMatrix();
 		}
 		_texture.endShape( PConstants.CLOSE );
-		
-		_texture.endDraw();
 	}
 }

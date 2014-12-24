@@ -16,12 +16,8 @@ extends BaseTexture {
 		updateTimingSection();
 	}
 	
-	public void update() {
-		super.update();
-		
-		_texture.beginDraw();
+	public void updateDraw() {
 		_texture.clear();
-		
 
 		DrawUtil.setDrawCenter(_texture);
 		_texture.translate( _texture.width/2, _texture.height/2, 0 );
@@ -49,8 +45,6 @@ extends BaseTexture {
 			_texture.rect( 0, 0, i * lineSize, i * lineSize );
 			_texture.popMatrix();
 		}
-		
-		_texture.endDraw();
 	}
 	
 	public void updateTimingSection() {

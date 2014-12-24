@@ -31,12 +31,10 @@ extends BaseTexture {
 		_mode = MathUtil.randRange(0, 3);
 	}
 	
-	public void update() {
-		super.update();
-
-		_texture.beginDraw();
+	public void updateDraw() {
 		_texture.clear();
 		
+		_texture.noStroke();
 		_texture.fill( _colorEase.colorInt() );
 		float amp = P.p.audioIn.getEqAvgBand( _eqIndex ) * 0.15f;
 		if( amp < _lastAmp ) amp = _lastAmp * 0.9f;
@@ -50,7 +48,5 @@ extends BaseTexture {
 			_texture.rect(0, _texture.height, _texture.width, -_texture.height * amp );			
 		} 
 		_lastAmp = amp;
-		
-		_texture.endDraw();
 	}
 }

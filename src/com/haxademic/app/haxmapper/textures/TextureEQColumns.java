@@ -22,15 +22,13 @@ extends BaseTexture {
 		_barsGrow = MathUtil.randBoolean(P.p);
 	}
 
-	public void update() {
-		super.update();
-
+	public void updateDraw() {
+		_texture.clear();
+		
 		float eqW = _texture.width / _numLines;
 		// float spectrumInterval = ( 512f / _numLines );
 		float avergeInterval = ( 32f / _numLines );
-
-		_texture.beginDraw();
-		_texture.clear();
+		
 
 		if( _hasStroke == true ) {
 			_texture.stroke(0);
@@ -50,7 +48,5 @@ extends BaseTexture {
 				_texture.rect(i * eqW, 0, eqW, _texture.height );  //  P.p.audioIn.getEqBand( P.floor(i*spectrumInterval)%512 ) * 50
 			}
 		}
-
-		_texture.endDraw();
 	}
 }

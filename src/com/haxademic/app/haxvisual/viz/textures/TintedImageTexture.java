@@ -25,7 +25,7 @@ implements IAudioTexture
 	protected int _imageIndex = 0;
 	
 	public TintedImageTexture() {
-		String imgBase = "images/gg/";
+		String imgBase = "images/cacheflowe-art/";
 		ArrayList<String> files = FileUtil.getFilesInDirOfType( FileUtil.getHaxademicDataPath() + imgBase, "png" );
 		_images = new ArrayList<PImage>();
 		for( int i=0; i < files.size(); i++ ) {

@@ -27,10 +27,7 @@ extends BaseTexture {
 		_boxesGrow = MathUtil.randBoolean(P.p);
 	}
 
-	public void update() {
-		super.update();
-		
-		_texture.beginDraw();
+	public void updateDraw() {
 		_texture.clear();
 		
 		// draw grid
@@ -58,7 +55,5 @@ extends BaseTexture {
 				}
 			}
 		}
-		
-		_texture.endDraw();
 	}
 }

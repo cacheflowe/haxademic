@@ -83,9 +83,7 @@ extends BaseTexture {
 
 	}
 
-	public void update() {
-		super.update();
-
+	public void updateDraw() {
 		if( _needsReload == true ) {
 			reloadImage();
 			_needsReload = false;
@@ -93,14 +91,11 @@ extends BaseTexture {
 		
 		updateShaders();
 		
-		_texture.beginDraw();
 		_texture.clear();
 		_texture.image( _image, 0, 0, _image.width, _image.height );
 		_texture.filter( _saturation );
 		_texture.filter( _brightness );
 		_texture.filter( _vignette );
-		
-		_texture.endDraw();
 	}
 	
 	public void nextImage() {

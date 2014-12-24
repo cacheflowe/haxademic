@@ -31,9 +31,7 @@ extends BaseTexture {
 		}
 	}
 
-	public void update() {
-		super.update();
-
+	public void updateDraw() {
 		if( _texture != null && _webCam != null && _webCam.available() == true ) { 
 			if( _texture.width != _webCam.width && _webCam.width > 100 ) {
 				buildGraphics( _webCam.width, _webCam.height ); 
@@ -42,15 +40,11 @@ extends BaseTexture {
 			_webCam.read(); 
 
 			if( _texture != null ) {
-				_texture.beginDraw();
 				_texture.image( _webCam.get(), 0, 0 );
-				_texture.endDraw();
 				_texture.filter( _threshold );
 			}
 		} else {
-			_texture.beginDraw();
 			_texture.clear();
-			_texture.endDraw();
 		}
 	}
 }

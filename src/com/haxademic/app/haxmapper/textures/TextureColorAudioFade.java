@@ -21,15 +21,10 @@ extends BaseTexture {
 		_eqIndex = MathUtil.randRange(3, 31);
 	}
 	
-	public void update() {
-		super.update();
-		
-		_texture.beginDraw();
+	public void updateDraw() {
 		_texture.clear();
 		
 		_texture.fill( _colorEase.colorInt(), P.constrain( P.p.audioIn.getEqAvgBand( _eqIndex ) * 255, 0, 255 ) );
 		_texture.rect(0, 0, _texture.width, _texture.height );
-		
-		_texture.endDraw();
 	}
 }

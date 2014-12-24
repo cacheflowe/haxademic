@@ -104,6 +104,10 @@ implements IVizElement {
 		updateCamera();
 	}
 	
+	public void updateTiming() {
+		_targetRadius = MathUtil.randRange(1000, 1600);
+	}
+	
 	public void updateLineMode() {
 		_isWireframe = ( MathUtil.randBoolean( p ) == true ) ? false : true;
 		_isSphere = ( MathUtil.randBoolean( p ) == true ) ? false : true;

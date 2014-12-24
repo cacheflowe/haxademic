@@ -15,13 +15,10 @@ extends BaseTexture {
 		updateTimingSection();
 	}
 	
-	public void update() {
-		super.update();
+	public void updateDraw() {
+		_texture.clear();
 
 		int x = P.p.frameCount % (_barW * 2);
-		
-		_texture.beginDraw();
-		_texture.clear();
 		
 		for( int i=x - _barW*2; i < _texture.width; i+=_barW*2 ) {
 			_texture.fill( 0 );
@@ -29,8 +26,6 @@ extends BaseTexture {
 			_texture.fill( _colorEase.colorInt() );
 			_texture.rect(i+_barW, 0, _barW, _texture.height );
 		}
-		
-		_texture.endDraw();
 	}
 	
 	public void updateTimingSection() {

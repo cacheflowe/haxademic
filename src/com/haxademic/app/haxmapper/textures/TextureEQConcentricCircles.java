@@ -24,10 +24,7 @@ extends BaseTexture {
 		_circleRadiusStep = _maxRadius / _numCircles;
 	}
 	
-	public void update() {
-		super.update();
-		
-		_texture.beginDraw();
+	public void updateDraw() {
 		_texture.clear();
 		
 		// draw grid
@@ -38,12 +35,10 @@ extends BaseTexture {
 		_texture.strokeWeight(_circleRadiusStep);
 		DrawUtil.setDrawCenter(_texture);
 		for (int i = 0; i < _numCircles; i++) {
-			float alphaVal = P.p.audioIn.getEqBand( P.floor(_spectrumInterval * i) );
+			float alphaVal = 0.1f * P.p.audioIn.getEqBand( P.floor(_spectrumInterval * i) );
 			_texture.stroke( _colorEase.colorInt(), P.constrain( alphaVal * 255f, 0, 255 ) );
 			if( i % 2 == 0 ) _texture.fill( white, P.constrain( alphaVal * 255f, 0, 255 ) );
 			_texture.ellipse( startX, startY, i * _circleRadiusStep, i * _circleRadiusStep );	
 		}
-		
-		_texture.endDraw();
 	}
 }

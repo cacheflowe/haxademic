@@ -20,24 +20,19 @@ extends BaseTexture {
 		_hasStroke = !_hasStroke;
 	}
 
-	public void update() {
-		super.update();
+	public void updateDraw() {
+		_texture.clear();
 		
 		int waveformDataLength = P.p._waveformData._waveform.length;
 		float widthStep = (float) _texture.width / waveformDataLength;
 		float startY = _texture.height * 0.5f;
 		float amp = _texture.height * 0.4f;
 		
-		_texture.beginDraw();
-		_texture.clear();
-		
-		_texture.stroke(255);
+		_texture.stroke(_color);
 		_texture.strokeWeight(2);
 
 		for(int i = 1; i < waveformDataLength; i++) {
 			_texture.line( i * widthStep, startY + P.p._waveformData._waveform[i-1] * amp, (i+1) * widthStep, startY + P.p._waveformData._waveform[i] * amp );
 		}
-		
-		_texture.endDraw();
 	}
 }

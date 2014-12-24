@@ -45,19 +45,13 @@ extends BaseTexture {
 		_saturation.set("saturation", 0.25f );
 	}
 
-	public void update() {
-		super.update();
-
-		_texture.beginDraw();		
-		
+	public void updateDraw() {
 		updateShaders();
 		_texture.background(0,255,0);
 		_texture.filter( _patternShader );
 		_texture.filter( _saturation );
 		_texture.filter( _brightness );
 		_texture.filter( _vignette );
-		
-		_texture.endDraw();
 	}
 	
 	public void setActive( boolean isActive ) {

@@ -21,7 +21,6 @@ implements IVizElement {
 	
 	protected float _amp;
 	
-	protected float _cols = 32;
 	protected TColor _baseColor = null;
 	protected TColor _fillColor = null;
 	
