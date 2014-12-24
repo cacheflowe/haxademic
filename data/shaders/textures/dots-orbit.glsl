@@ -36,7 +36,7 @@ bool run(vec2 p, float t) {
 	t = (t) - 100.0;
 	bool hit = false;
 	vec2 start = cart_polar(vec2(0.0, 0.5));
-	for(int temp_1 = 0; temp_1 < 300; ++temp_1) {
+	for(int temp_1 = 0; temp_1 < 50; ++temp_1) {
 		t = (t) + 1.0;
 		vec2 cp = move(start, t);
 		float dist = length((polar_cart(cp)) - (p));
