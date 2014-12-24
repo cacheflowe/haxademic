@@ -25,8 +25,10 @@ public class InputTrigger {
 		for( int i=0; i < _keys.length; i++ ) {
 			if( P.p.key == _keys[i] ) return true;
 		}
-		for( int i=0; i < _oscMessages.length; i++ ) {
-			if( P.p._oscWrapper.oscMsgIsOn( _oscMessages[i] ) == 1 ) return true;
+		if(P.p._oscWrapper != null) {
+			for( int i=0; i < _oscMessages.length; i++ ) {
+				if( P.p._oscWrapper.oscMsgIsOn( _oscMessages[i] ) == 1 ) return true;
+			}
 		}
 		for( int i=0; i < _midiNotes.length; i++ ) {
 			if( P.p.getMidi().midiNoteIsOn( _midiNotes[i] ) == 1 ) return true;
