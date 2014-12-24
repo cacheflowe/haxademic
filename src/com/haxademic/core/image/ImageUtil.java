@@ -14,8 +14,10 @@ import com.haxademic.core.draw.color.ColorHax;
 public class ImageUtil {
 	
 	public static final int BLACK_INT = -16777216;
+	public static final int WHITE_INT = 16777215;
 	public static final int CLEAR_INT = 48356;
 	public static final int EMPTY_INT = 0;
+	public static final int EMPTY_WHITE_INT = -1;
 	
 	public static int getPixelIndex( PImage image, int x, int y ) {
 		return (int) x + y * image.width;
