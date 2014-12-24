@@ -24,7 +24,7 @@ public class WebCamWrapper {
 				for (int i = 0; i < cameras.length; i++) {
 					P.println(cameras[i]);
 				}
-				webCam = new Capture( p, width, height );
+				webCam = new Capture( p, cameras[0] );
 				webCam.start();
 				return true;
 			}      
