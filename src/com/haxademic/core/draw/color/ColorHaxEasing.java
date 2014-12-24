@@ -31,6 +31,13 @@ public class ColorHaxEasing {
 		this.a.setTarget( a );
 	}
 	
+	public void setCurrentRGBA( float r, float g, float b, float a ) {
+		this.r.setCurrent( r );
+		this.g.setCurrent( g );
+		this.b.setCurrent( b );
+		this.a.setCurrent( a );
+	}
+	
 	public void setTargetColorInt( int color ) {
 		this.r.setTarget( redFromColorInt(color) );
 		this.g.setTarget( greenFromColorInt(color) );
@@ -87,6 +94,10 @@ public class ColorHaxEasing {
 
 	public int colorInt() {
 		return P.p.color(r.value(), g.value(), b.value(), a.value());
+	}
+	
+	public int colorInt( float multiplier ) {
+		return P.p.color(r.value() * multiplier, g.value() * multiplier, b.value() * multiplier, a.value());
 	}
 	
 	public int targetInt() {
