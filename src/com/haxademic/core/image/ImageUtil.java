@@ -148,6 +148,7 @@ public class ImageUtil {
 		dest.copy( src, 0, 0, (int) imageW, (int) imageH, (int) offsetX, (int) offsetY, (int) resizedW, (int) resizedH );
 	}
 	
+	public static float[] offsetAndSize = new float[]{0,0,0,0};
 	public static float[] getOffsetAndSizeToCrop( float containerW, float containerH, float imageW, float imageH, boolean cropFill ) {
 		float ratioW = containerW / imageW;
 		float ratioH = containerH / imageH;
@@ -157,7 +158,11 @@ public class ImageUtil {
 		float resizedH = (cropFill) ? (float) Math.ceil(imageH * longerRatio) : (float) Math.ceil(imageH * shorterRatio);
 		float offsetX = (float) Math.ceil((containerW - resizedW) * 0.5f);
 		float offsetY = (float) Math.ceil((containerH - resizedH) * 0.5f);
-		return new float[]{offsetX, offsetY, resizedW, resizedH};
+		offsetAndSize[0] = offsetX;
+		offsetAndSize[1] = offsetY;
+		offsetAndSize[2] = resizedW;
+		offsetAndSize[3] = resizedH;
+		return offsetAndSize;
 	}
 
 
