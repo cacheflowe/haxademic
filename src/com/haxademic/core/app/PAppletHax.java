@@ -24,6 +24,7 @@ import com.haxademic.core.hardware.kinect.KinectWrapper;
 import com.haxademic.core.hardware.midi.MidiWrapper;
 import com.haxademic.core.hardware.osc.OscWrapper;
 import com.haxademic.core.hardware.webcam.WebCamWrapper;
+import com.haxademic.core.render.GifRenderer;
 import com.haxademic.core.render.JoonsWrapper;
 import com.haxademic.core.render.MIDISequenceRenderer;
 import com.haxademic.core.render.Renderer;
@@ -117,10 +118,11 @@ extends PApplet
 	public WaveformData _waveformData;
 	
 	/**
-	 * Renderer object for saving frames and rendering movies.
+	 * Renderer object for saving frames and rendering movies & gifs.
 	 */
 	public Renderer _renderer;
 	public MIDISequenceRenderer _midiRenderer;
+	public GifRenderer _gifRenderer;
 	
 	/**
 	 * Wraps up MIDI functionality with theMIDIbus library.
@@ -328,10 +330,14 @@ extends PApplet
 			_audioInput = new AudioInputWrapper( p, _isRenderingAudio );
 			_waveformData = new WaveformData( p, _audioInput._bufferSize );
 		} else {
+			_audioInput = new AudioInputWrapper( p, _isRenderingAudio );
 			audioIn = new AudioInputWrapperMinim( p, _isRenderingAudio );
 			_waveformData = new WaveformData( p, audioIn.bufferSize() );
 		}
 		_renderer = new Renderer( p, _fps, Renderer.OUTPUT_TYPE_MOVIE, _appConfig.getString( "render_output_dir", FileUtil.getHaxademicOutputPath() ) );
+		if(appConfig.getBoolean("rendering_gif", false) == true) {
+			_gifRenderer = new GifRenderer(appConfig.getInt("rendering_gif_framerate", 45), appConfig.getInt("rendering_gif_quality", 15));
+		}
 		if( _appConfig.getBoolean( "kinect_active", false ) == true ) {
 			kinectWrapper = new KinectWrapper( p, _appConfig.getBoolean( "kinect_depth", true ), _appConfig.getBoolean( "kinect_rgb", true ), _appConfig.getBoolean( "kinect_depth_image", true ) );
 			kinectWrapper.setMirror( _appConfig.getBoolean( "kinect_mirrored", true ) );
@@ -435,7 +441,15 @@ extends PApplet
 				if( triggered == false && _midi != null ) _midi.allOff();
 			}
 		}
-
+		if(_gifRenderer != null) {
+			if(appConfig.getInt("rendering_gif_startframe", 1) == p.frameCount) {
+				_gifRenderer.startGifRender(this);
+			}
+			_gifRenderer.renderGifFrame(this);
+			if(appConfig.getInt("rendering_gif_stopframe", 100) == p.frameCount) {
+				_gifRenderer.finish();
+			}
+		}
 	}
 	
 	protected void killScreensaver(){
