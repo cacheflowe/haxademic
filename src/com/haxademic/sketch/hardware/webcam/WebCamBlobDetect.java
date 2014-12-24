@@ -36,7 +36,6 @@ extends PAppletHax {
 
 	public void setup() {
 		super.setup();
-		WebCamWrapper.initWebCam( this, 640, 480 );
 		//		image = ImageUtil.getScaledImage( WebCamWrapper.getImage(), 64, 48 );
 
 		pg = p.createGraphics(p.width,p.height,P.P3D);
@@ -48,6 +47,7 @@ extends PAppletHax {
 		theBlobDetection.setPosDiscrimination(false);	// true if looking for dark objects
 		theBlobDetection.setThreshold(0.3f); // will detect bright areas whose luminosity > 0.2f;
 
+		WebCamWrapper.initWebCam( this, 640, 480 );
 	}
 
 	protected void overridePropsFile() {
@@ -60,21 +60,22 @@ extends PAppletHax {
 		p.noStroke();
 
 		curFrame = WebCamWrapper.getImage();
-		
-		DrawUtil.setColorForPImage(this);
-		DrawUtil.setPImageAlpha(this, 0.5f);
-		p.pushMatrix();
-		p.translate(0,0,-4);
-		p.image(curFrame,0,0,width,height);
-		p.popMatrix();
-
-		img.copy(curFrame, 0, 0, curFrame.width, curFrame.height, 0, 0, img.width, img.height);
-		FastBlurFilter.blur(img, 2);
-		theBlobDetection.setPosDiscrimination(true);
-		theBlobDetection.computeBlobs(img.pixels);
-		drawEdges2(false,true);
-		
-		DrawUtil.resetPImageAlpha(this);
+		if(curFrame != null) {
+			DrawUtil.setColorForPImage(this);
+			DrawUtil.setPImageAlpha(this, 0.5f);
+			p.pushMatrix();
+			p.translate(0,0,-4);
+			p.image(curFrame,0,0,width,height);
+			p.popMatrix();
+	
+			img.copy(curFrame, 0, 0, curFrame.width, curFrame.height, 0, 0, img.width, img.height);
+			FastBlurFilter.blur(img, 2);
+			theBlobDetection.setPosDiscrimination(true);
+			theBlobDetection.computeBlobs(img.pixels);
+			drawEdges2(false,true);
+			
+			DrawUtil.resetPImageAlpha(this);
+		}
 	}
 
 	// ==================================================
