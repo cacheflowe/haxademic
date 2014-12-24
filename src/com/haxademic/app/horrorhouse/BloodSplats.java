@@ -10,10 +10,14 @@ import processing.video.Movie;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.draw.color.ColorHaxEasing;
 import com.haxademic.core.draw.util.DrawUtil;
+import com.haxademic.core.hardware.dmx.DmxInterface;
 import com.haxademic.core.hardware.kinect.KinectAmbientActivityMonitor;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.system.FileUtil;
+
+import ddf.minim.AudioPlayer;
 
 @SuppressWarnings("serial")
 public class BloodSplats
@@ -39,6 +43,13 @@ extends PAppletHax{
 	protected PImage _horrorhouse;
 	protected boolean _logoShowing = true;
 	
+	protected ArrayList<AudioPlayer> _lightnings;
+	protected int _lightningIndex;
+	
+	protected DmxInterface _dmx;
+	protected ColorHaxEasing _color1;
+	protected ColorHaxEasing _color2;
+	
 	protected boolean _kinectActive = false;
 	protected int _nextLightning = 0;
 	protected int _nextLogoSpaz = 0;
@@ -48,9 +59,9 @@ extends PAppletHax{
 	// configure everything for the install here ======================
 	protected boolean _mirrored = false;
 	protected float _baseLogoScale = 1.0f;
-	protected float _kinectAcitivityLaunchThreshold = 40000f;
-	protected int _nextLightningLow = 100;
-	protected int _nextLightningHigh = 800;
+	protected float _kinectAcitivityLaunchThreshold = 30000f;
+	protected int _nextLightningLow = 500;
+	protected int _nextLightningHigh = 1000;
 	// end config =====================================================
 	
 	
@@ -66,7 +77,7 @@ extends PAppletHax{
 		_appConfig.setProperty( "width", "1000" );
 		_appConfig.setProperty( "height", "800" );
 		_appConfig.setProperty( "rendering", "false" );
-		_appConfig.setProperty( "fps", "30" );
+//		_appConfig.setProperty( "fps", "30" );
 		_appConfig.setProperty( "kinect_active", "true" );
 		_appConfig.setProperty( "fullscreen", "true" );
 	}
@@ -79,26 +90,34 @@ extends PAppletHax{
 		if( _kinectActive == true ) _kinectMonitor = new KinectAmbientActivityMonitor( 20, 500, 15000 );
 		
 		_vidClips = new ArrayList<Movie>();
-		_vidClips.add( new Movie(this, "/Users/cacheflowe/Documents/workspace/haxademic-2/data/video/horrorhouse/MotelLondon_02.mov") );
-		_vidClips.add( new Movie(this, "/Users/cacheflowe/Documents/workspace/haxademic-2/data/video/horrorhouse/MotelLondon_01.mov") );
-		_vidClips.add( new Movie(this, "/Users/cacheflowe/Documents/workspace/haxademic-2/data/video/horrorhouse/MotelLondon_03.mov") );
-		_vidClips.add( new Movie(this, "/Users/cacheflowe/Documents/workspace/haxademic-2/data/video/horrorhouse/MotelLondon_04.mov") );
-		_vidClips.add( new Movie(this, "/Users/cacheflowe/Documents/workspace/haxademic-2/data/video/horrorhouse/MotelLondon_05.mov") );
-		_vidClips.add( new Movie(this, "/Users/cacheflowe/Documents/workspace/haxademic-2/data/video/horrorhouse/MotelLondon_06.mov") );
-		_vidClips.add( new Movie(this, "/Users/cacheflowe/Documents/workspace/haxademic-2/data/video/horrorhouse/MotelLondon_07.mov") );
-		_vidClips.add( new Movie(this, "/Users/cacheflowe/Documents/workspace/haxademic-2/data/video/horrorhouse/MotelLondon_08.mov") );
+		_vidClips.add( new Movie(this, "/Users/cacheflowe/Documents/workspace/haxademic/data/video/horrorhouse/MotelLondon_02.mov") );
+		_vidClips.add( new Movie(this, "/Users/cacheflowe/Documents/workspace/haxademic/data/video/horrorhouse/MotelLondon_01.mov") );
+		_vidClips.add( new Movie(this, "/Users/cacheflowe/Documents/workspace/haxademic/data/video/horrorhouse/MotelLondon_03.mov") );
+		_vidClips.add( new Movie(this, "/Users/cacheflowe/Documents/workspace/haxademic/data/video/horrorhouse/MotelLondon_04.mov") );
+		_vidClips.add( new Movie(this, "/Users/cacheflowe/Documents/workspace/haxademic/data/video/horrorhouse/MotelLondon_05.mov") );
+		_vidClips.add( new Movie(this, "/Users/cacheflowe/Documents/workspace/haxademic/data/video/horrorhouse/MotelLondon_06.mov") );
+//		_vidClips.add( new Movie(this, "/Users/cacheflowe/Documents/workspace/haxademic/data/video/horrorhouse/MotelLondon_07.mov") );
+		_vidClips.add( new Movie(this, "/Users/cacheflowe/Documents/workspace/haxademic/data/video/horrorhouse/MotelLondon_08.mov") );
 		for(int i=0; i < _vidClips.size(); i++) {
 //			_vidClips.get(i).speed(5.4f);
 		}
 		_curClip = _vidClips.get(0);
 		
-		_horrorhouse = p.loadImage( FileUtil.getHaxademicDataPath()+"images/horrorhouse.png" );
+		_horrorhouse = p.loadImage( FileUtil.getHaxademicDataPath()+"images/halloween.png" );
 //		_drop = p.loadImage("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABaCAIAAACHRsd0AAAAAXNSR0IArs4c6QAAAAZiS0dEAP8A/wD/oL2nkwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9wIARENKcscdTYAAAFbSURBVHja7ZoxTsMwFIZtN02DkooBxg6VGBArF+AArD1Fr8HWjYF7cI5K5QJdKnUqUjaEBEkxa5f3VNxgOer3b9GTnHx6v/3HiW1ZluaP+siupFLV1iaunOm5AAAAAAAAOEk2IMjoAAAHyg4vFq6cuyKd9xwsBEDsOdCVYm4Y6EAUKS1lEgOQ4stc56sQc4Bl9BgzhBkMC5HEx0ixFhYCAIDzXIX0PFLkR9Z++dSX0e/70GGXzAEAAAAAAAA6CzIlbv2Fbe4GUjV/2kil/arav14H3FHaEmAhAAAAAIAzDzIlO5SNlS2a/HZLBwAAAAAAAEh5R5ZN38XaxJsHK1aVD6fDQTwAd/kp1kbG3NiQG1Y/WAgAAAAAoCdB9h/S//AFnFZRAWZKoKqjPotP6dY+f2uxEAAAAAAAAF0lo3L0WDtTM23My06sPk6kyritfa874LEQAAAAAEBS+gXVX0Ar1x59kgAAAABJRU5ErkJggg==");
 		for(int i=0; i < _numDrips; i++) {
 			_drips[i] = new Drip();
 		}
 		p.background(0);
 		
+		_lightnings = new ArrayList<AudioPlayer>();
+		_lightnings.add(minim.loadFile( FileUtil.getHaxademicDataPath() + "/audio/halloween/lightning-strike-080807.wav", 512 ));
+		_lightnings.add(minim.loadFile( FileUtil.getHaxademicDataPath() + "/audio/halloween/lightning-strike-with-rain.wav", 512 ));
+		_lightnings.add(minim.loadFile( FileUtil.getHaxademicDataPath() + "/audio/halloween/noisenoir__lightningcrash.wav", 512 ));
+		_lightnings.add(minim.loadFile( FileUtil.getHaxademicDataPath() + "/audio/halloween/thunder-and-lightning.mp3", 512 ));
+		_lightnings.add(minim.loadFile( FileUtil.getHaxademicDataPath() + "/audio/halloween/turrus__lightning-strike.wav", 512 ));
+		_lightningIndex = 0;
+		buildPhysicalLighting();
 		
 		_invert = loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/invert.glsl" ); 
 
@@ -119,12 +138,21 @@ extends PAppletHax{
 		_blurV.set( "v", 1f/p.height );
 
 		_pg = p.createGraphics(width, height, P.OPENGL);
+		_pg.beginDraw();
 		_pg.background(0);
+		_pg.endDraw();
 		p.background(0);
 		
 		getNextLightning();
 		getNextLogoSpaz();
 	}
+	
+	protected void buildPhysicalLighting() {
+		_dmx = new DmxInterface();
+		_color1 = new ColorHaxEasing("#000000", 5);
+		_color2 = new ColorHaxEasing("#000000", 5);
+	}
+
 	
 	public void drawApp() {
 		p.background(0);
@@ -134,6 +162,7 @@ extends PAppletHax{
 
 		drawLogo();
 		applyFilters();
+		drawLights();
 	}
 	
 	public void keyPressed() {
@@ -161,6 +190,20 @@ extends PAppletHax{
 			}
 		}
 	}
+	
+	protected void drawLights() {
+		_color1.update();
+		_color2.update();
+		_dmx.updateColors(_color1.colorInt(), _color2.colorInt());
+
+		
+		// debug dmx lights
+//		p.fill(_color1.colorInt());
+//		p.rect(0, 0, 100, 100);
+//		p.fill(_color2.colorInt());
+//		p.rect(100, 0, 100, 100);
+	}
+
 	
 	public void drawBloodAndVideo() {
 		_pg.beginDraw();
@@ -206,13 +249,19 @@ extends PAppletHax{
 		if( _clipPlaying == false ) {
 			DrawUtil.setDrawCenter(p);
 			p.translate( p.width / 2, p.height / 2 );
-			p.scale(P.sin(p.frameCount/100f) * (_baseLogoScale * 0.1f) + _baseLogoScale);
+			float scaleOsc = P.sin(p.frameCount/100f);
+			_color1.setTargetRGBA(75f * scaleOsc + 180f, 0, 0, 255);
+			p.scale(scaleOsc * (_baseLogoScale * 0.1f) + _baseLogoScale);
 			p.rotate( P.sin(p.frameCount/330f) * 0.03f );
 			
 			if( isLightning() == true || isLogoSpaz() == true ) {
 				p.translate( MathUtil.randRange(-20, 20), MathUtil.randRange(-20, 20) );
 				p.rotate( MathUtil.randRangeDecimal(-.3f, -.3f) );
 				p.scale( MathUtil.randRangeDecimal( 0.5f, 1.5f ) );
+				
+				_color2.setCurrentRGBA(255, 255, 255, 255);
+			} else {
+				if(_color2.r.value() == 255f) _color2.setCurrentRGBA(0,0,0,255);
 			}
 			
 			p.image( _horrorhouse, 0, 0 );
@@ -253,16 +302,27 @@ extends PAppletHax{
 		_curClip.play();
 	}
 	
+	public void playLightningAudio() {
+		_lightnings.get(_lightningIndex).play(0);
+		_lightningIndex = (_lightningIndex + 1) % _lightnings.size();
+	}
+	
 	public void getNextLightning() {
 		_nextLightning += MathUtil.randRange( _nextLightningLow, _nextLightningHigh );
 		if( _nextLightning % 2 != 0 ) _nextLightning++;
 		_nextLightningLength = MathUtil.randRange( 4, 10 );
 		if( _nextLightningLength % 2 != 0 ) _nextLightningLength++;
+		
+		_color2.setCurrentRGBA(253, 253, 253, 255);
+		_color2.setTargetRGBA(0,0,0,255);
 	}
 	
 	public boolean isLightning() {
 		if( p.frameCount >= _nextLightning && p.frameCount <= _nextLightning + _nextLightningLength && p.frameCount % 2 == 0 ) { 
-			if( p.frameCount == _nextLightning + _nextLightningLength ) getNextLightning();
+			if( p.frameCount == _nextLightning + _nextLightningLength ) {
+				getNextLightning();
+				playLightningAudio();
+			}
 			return true;
 		} else if( p.frameCount % 1000 == 0 || p.frameCount % 1000 == 2 || p.frameCount % 1000 == 94 || p.frameCount % 1000 == 96 ) {
 			// time with blur filter start/end
