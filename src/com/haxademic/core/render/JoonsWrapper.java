@@ -6,6 +6,7 @@ import toxi.geom.mesh.WETriangleMesh;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.draw.mesh.DrawMesh;
+import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.render.joons.JRStatics;
 import com.haxademic.core.render.joons.JoonsRenderer;
 import com.haxademic.core.system.FileUtil;
@@ -102,6 +103,7 @@ public class JoonsWrapper {
 	public void endFrame( boolean saveFrameImg ) {
 		if( _isActive == true ) { 
             jr.endRecord(); //Make sure to end record.
+            DrawUtil.setDrawCorner(p);
             jr.displayRendered(true); //Display rendered image if rendering completed, and the argument is true.
 			if( saveFrameImg == true ) {
 				String sunflowOutputPath = FileUtil.getHaxademicOutputPath()+"/_sunflow/";
