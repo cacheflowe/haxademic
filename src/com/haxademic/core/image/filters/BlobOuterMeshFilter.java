@@ -9,6 +9,8 @@ import blobDetection.EdgeVertex;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.draw.color.ColorUtil;
+import com.haxademic.core.draw.util.OpenGLUtil;
 import com.haxademic.core.image.ImageUtil;
 import com.haxademic.core.math.MathUtil;
 
@@ -36,14 +38,15 @@ public class BlobOuterMeshFilter {
 	
 	protected void initBlobDetection() {
 		_pg = p.createGraphics( _width, _height, P.P3D );
+		_pg.smooth(OpenGLUtil.SMOOTH_HIGH);
 		_image = p.createImage( _width, _height, P.ARGB );
 		
 		// BlobDetection
 		// img which will be sent to detection (a smaller copy of the image frame);
-		blobBufferImg = new PImage(80,60); 
+		blobBufferImg = new PImage( (int)(_width * 0.15f), (int)(_height * 0.15f) ); 
 		theBlobDetection = new BlobDetection( blobBufferImg.width, blobBufferImg.height );
-		theBlobDetection.setPosDiscrimination(true);	// true if looking for dark objects
-		theBlobDetection.setThreshold(0.4f); // will detect bright areas whose luminosity > 0.2f;
+		theBlobDetection.setPosDiscrimination(false);	// true if looking for bright areas
+		theBlobDetection.setThreshold(0.32f); // will detect bright areas whose luminosity > 0.2f;
 	}
 	
 	public PImage updateWithPImage( PImage source ) {
@@ -76,23 +79,31 @@ public class BlobOuterMeshFilter {
 				for (int m=0;m<b.getEdgeNb();m++) {
 					eA = b.getEdgeVertexA(m);
 					eB = b.getEdgeVertexB(m);
-					
+										
 					if (eA !=null && eB !=null) {
 						
 						float angle = -MathUtil.getAngleToTarget(eA.x, eA.y, b.x, b.y);
 						float angleB = -MathUtil.getAngleToTarget(eB.x, eB.y, b.x, b.y);
-						float distance = MathUtil.getDistance(b.x, b.y, eA.x, eA.y) * 2f;
-						float distanceB = MathUtil.getDistance(b.x, b.y, eB.x, eB.y) * 2f;
+						float distance = MathUtil.getDistance(b.x, b.y, eA.x, eA.y) * 1f;
+						float distanceB = MathUtil.getDistance(b.x, b.y, eB.x, eB.y) * 1f;
 
 						float outerX = eA.x + P.sin( MathUtil.degreesToRadians(angle) )*distance;
 						float outerY = eA.y + P.cos( MathUtil.degreesToRadians(angle) )*distance;
 						float outerXB = eB.x + P.sin( MathUtil.degreesToRadians(angleB) )*distanceB;
 						float outerYB = eB.y + P.cos( MathUtil.degreesToRadians(angleB) )*distanceB;
+
+						// draw inner lines
+//						_pg.beginDraw();
+//						_pg.stroke(0,127);
+//						_pg.line(eA.x*_width, eA.y*_height, eB.x*_width, eB.y*_height);
+//						_pg.noStroke();
+//						_pg.endDraw();
+
 						
 						int color = ImageUtil.getPixelColor( source, P.round(eA.x*source.width-1), P.round(eA.y*source.height-1) );
-						_pg.fill(color);
+						_pg.fill( color, 127 );
 						// float bright = p.brightness(color);
-						
+
 						draw4PointsTriangles(
 							new Vec3D(eA.x*_width, eA.y*_height, 0),
 							new Vec3D(outerX*_width, outerY*_height, 0),
@@ -108,11 +119,11 @@ public class BlobOuterMeshFilter {
 		_pg.endDraw();
 		
 		// draw shadow
-		p.pushMatrix();
-		p.translate(0,0,-3);
-//		p.image(source,0,0);
-//		p.image(_pg,-50,-50,_width+100,_height+100);
-		p.popMatrix();
+//		p.pushMatrix();
+//		p.translate(0,0,-3);
+////		p.image(source,0,0);
+////		p.image(_pg,-50,-50,_width+100,_height+100);
+//		p.popMatrix();
 		
 		_image.copy( _pg, 0, 0, _width, _height, 0, 0, _width, _height );
 	}
@@ -129,7 +140,7 @@ public class BlobOuterMeshFilter {
 //		p.toxi.triangle( new Triangle3D( point1, point3, point4 ) );
 		
 		// draw native processing style
-		_pg.beginDraw();
+//		_pg.beginDraw();
 		
 		_pg.beginShape(P.TRIANGLES);
 		_pg.vertex( point1.x, point1.y, point1.z );
@@ -143,7 +154,7 @@ public class BlobOuterMeshFilter {
 		_pg.vertex( point4.x, point4.y, point4.z );
 		_pg.endShape();
 		
-		_pg.endDraw();
+//		_pg.endDraw();
 
 		
 		

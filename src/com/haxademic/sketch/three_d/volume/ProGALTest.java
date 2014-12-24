@@ -25,7 +25,7 @@ extends PAppletHax {
 	PImage img;
 
 	protected void overridePropsFile() {
-		_appConfig.setProperty( "rendering", "true" );
+		_appConfig.setProperty( "rendering", "false" );
 		_appConfig.setProperty( "width", "1280" );
 		_appConfig.setProperty( "height", "1024" );
 	}

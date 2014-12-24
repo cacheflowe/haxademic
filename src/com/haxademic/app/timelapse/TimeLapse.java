@@ -58,8 +58,8 @@ extends PAppletHax
 
 	public void initRender() {
 		_imageDir = _appConfig.getString( "image_dir", "" );
-		_imageType = _appConfig.getString( "image_type", ".jpg" );
-		_images = FileUtil.getFilesInDirOfType( FileUtil.getHaxademicDataPath() + _imageDir, _imageType );
+		_imageType = _appConfig.getString( "image_type", ".png" );
+		_images = FileUtil.getFilesInDirOfType( _imageDir, _imageType ); // FileUtil.getHaxademicDataPath() + 
 		_imageIndex = 0;
 		_fpi = _appConfig.getInt( "frames_per_image", 2 );
 	}

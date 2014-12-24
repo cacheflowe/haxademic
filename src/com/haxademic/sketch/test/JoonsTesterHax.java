@@ -4,7 +4,8 @@ package com.haxademic.sketch.test;
 import com.haxademic.core.app.PAppletHax;
 
 @SuppressWarnings("serial")
-public class JoonsTesterHax extends PAppletHax {
+public class JoonsTesterHax 
+extends PAppletHax {
 
 	//    JoonsRenderer jr;
 	//
@@ -52,9 +53,9 @@ public class JoonsTesterHax extends PAppletHax {
 		//            camera(eyeX, eyeY, eyeZ, centerX, centerY, centerZ, upX, upY, upZ);
 		//            perspective(fov, aspect, zNear, zFar);
 
-		_jw.jr.background(0, 255, 255); //background(gray), or (r, g, b), like Processing.
+		_jw.jr.background(0, 0, 0); //background(gray), or (r, g, b), like Processing.
 		_jw.jr.background("gi_instant"); //Global illumination, normal mode.
-		//_jw.jr.background("gi_ambient_occlusion"); //Global illumination, ambient occlusion mode.
+		_jw.jr.background("gi_ambient_occlusion"); //Global illumination, ambient occlusion mode.
 
 //		pushMatrix();
 //		translate(0, 0, -120);

@@ -1,15 +1,12 @@
 package com.haxademic.sketch.three_d;
 
 import processing.core.PVector;
-import toxi.color.TColor;
 import toxi.geom.Sphere;
 import toxi.geom.mesh.Face;
 import toxi.geom.mesh.WETriangleMesh;
 
-import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.shapes.BoxBetween;
-import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.render.JoonsWrapper;
 
 @SuppressWarnings("serial")
@@ -40,12 +37,12 @@ extends PAppletHax {
 //		_mesh = MeshUtil.meshFromOBJ( p, "../data/models/diamond.obj", 1f );
 //		_mesh = MeshUtil.meshFromImg( p, "../data/images/kacheout/ufo_1.gif", 14f );
 		_mesh = new WETriangleMesh(  );
-		_mesh.addMesh( (new Sphere(30)).toMesh( 5 ) );
+		_mesh.addMesh( (new Sphere(30)).toMesh( 10 ) );
 		_meshDeform = _mesh.copy();
 	}
 	
 	public void drawApp() {
-		background(0);
+//		background(0);
 //		DrawUtil.resetGlobalProps( p );
 //		DrawUtil.setCenter( p );
 
@@ -53,7 +50,6 @@ extends PAppletHax {
 
 		// draw a dark room
 //		if( _jw != null ) _jw.drawRoomWithSizeAndColor( width, height, JoonsWrapper.MATERIAL_MIRROR, -1, p.color( 200, 200, 200 ) );
-		if( _jw != null ) _jw.drawRoomWithSizeAndColor( width, height, JoonsWrapper.MATERIAL_DIFFUSE, -1, p.color( 200, 230, 200 ) );
 		
 		
 //		p.rect( 0, 0, 4000, 4000 );
@@ -84,31 +80,31 @@ extends PAppletHax {
 			vec.set(f.c.x, f.c.y, f.c.z);
 			BoxBetween.draw(p, vec, vec2, thickness);
 
-			if( _jw != null ) _jw.addColorForObject( JoonsWrapper.MATERIAL_SHINY, p.color( 100, 200, 150 ), 1, false );
+//			if( _jw != null ) _jw.addColorForObject( JoonsWrapper.MATERIAL_SHINY, p.color( 100, 200, 150 ), 1, false );
 
 			// spheres at connections
-			p.fill( 60, 80, 60 );
-
-			p.pushMatrix();
-			translate( f.a.x, f.a.y, f.a.z);
-			sphere(radius);
-			p.popMatrix();
-
-			if( _jw != null ) _jw.addColorForObject( JoonsWrapper.MATERIAL_DIFFUSE, p.color( 60, 80, 60 ), 1, true );
-
-			if( i == numFaces - 1 ) {
-				p.pushMatrix();
-				translate( f.c.x, f.c.y, f.c.z);
-				sphere(radius);
-				p.popMatrix();
-				if( _jw != null ) _jw.addColorForObject( JoonsWrapper.MATERIAL_DIFFUSE, p.color( 60, 80, 60 ), 1, true );
-			} else if( i == 0 ) {
-				p.pushMatrix();
-				translate( f.b.x, f.b.y, f.b.z);
-				sphere(radius);
-				p.popMatrix();
-				if( _jw != null ) _jw.addColorForObject( JoonsWrapper.MATERIAL_DIFFUSE, p.color( 60, 80, 60 ), 1, true );
-			}
+//			p.fill( 60, 80, 60 );
+//
+//			p.pushMatrix();
+//			translate( f.a.x, f.a.y, f.a.z);
+//			sphere(radius);
+//			p.popMatrix();
+//
+//			if( _jw != null ) _jw.addColorForObject( JoonsWrapper.MATERIAL_DIFFUSE, p.color( 60, 80, 60 ), 1, true );
+//
+//			if( i == numFaces - 1 ) {
+//				p.pushMatrix();
+//				translate( f.c.x, f.c.y, f.c.z);
+//				sphere(radius);
+//				p.popMatrix();
+//				if( _jw != null ) _jw.addColorForObject( JoonsWrapper.MATERIAL_DIFFUSE, p.color( 60, 80, 60 ), 1, true );
+//			} else if( i == 0 ) {
+//				p.pushMatrix();
+//				translate( f.b.x, f.b.y, f.b.z);
+//				sphere(radius);
+//				p.popMatrix();
+//				if( _jw != null ) _jw.addColorForObject( JoonsWrapper.MATERIAL_DIFFUSE, p.color( 60, 80, 60 ), 1, true );
+//			}
 		}
 		
 	}

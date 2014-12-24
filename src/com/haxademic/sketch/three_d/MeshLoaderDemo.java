@@ -18,6 +18,7 @@ import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.draw.util.OpenGLUtil;
 import com.haxademic.core.math.easing.EasingFloat3d;
 import com.haxademic.core.render.Renderer;
+import com.haxademic.core.system.FileUtil;
 
 @SuppressWarnings("serial")
 public class MeshLoaderDemo 
@@ -70,16 +71,16 @@ extends PApplet
 		if( RG.initialized() == false ) RG.init( p );
 		RFont helloDenverFont = new RFont( "../data/fonts/HelloDenverDisplay-Regular.ttf", 200, RFont.CENTER);
 		RFont bitLowFont = new RFont( "../data/fonts/bitlow.ttf", 200, RFont.CENTER);
-		_meshPool.addMesh( "HAI", MeshUtil.mesh2dFromTextFont( p, null, "../data/fonts/bitlow.ttf", 200, "HAI", -1, 2, 1f ), 1 );
-		WETriangleMesh helloTextMesh = MeshUtil.mesh2dFromTextFont( p, helloDenverFont, null, -1, "HELLO", -1, 3, 1f );
-		_meshPool.addMesh( "HELLO", helloTextMesh, 1 );
-		_meshPool.addMesh( "HELLO_3D", MeshUtil.getExtrudedMesh( helloTextMesh, 20 ), 1 );
-		
-		_meshPool.addMesh( "PRESENTS_TEXT", MeshUtil.mesh2dFromTextFont( p, bitLowFont, null, 200, "MODE SET", -1, 2, 0.4f ), 1 );
-
-		_meshPool.addMesh( "POLY_HOLE_PENT", MeshUtil.meshFromOBJ( p, "../data/models/poly-hole-penta.obj", 1f ), 70f );
-		_meshPool.addMesh( "POLY_HOLE_SQUARE", MeshUtil.meshFromOBJ( p, "../data/models/poly-hole-square.obj", 1f ), 70f );
-		_meshPool.addMesh( "POLY_HOLE_TRI", MeshUtil.meshFromOBJ( p, "../data/models/poly-hole-tri.obj", 1f ), 70f );
+//		_meshPool.addMesh( "HAI", MeshUtil.mesh2dFromTextFont( p, null, "../data/fonts/bitlow.ttf", 200, "HAI", -1, 2, 1f ), 1 );
+//		WETriangleMesh helloTextMesh = MeshUtil.mesh2dFromTextFont( p, helloDenverFont, null, -1, "HELLO", -1, 3, 1f );
+//		_meshPool.addMesh( "HELLO", helloTextMesh, 1 );
+//		_meshPool.addMesh( "HELLO_3D", MeshUtil.getExtrudedMesh( helloTextMesh, 20 ), 1 );
+//		
+//		_meshPool.addMesh( "PRESENTS_TEXT", MeshUtil.mesh2dFromTextFont( p, bitLowFont, null, 200, "MODE SET", -1, 2, 0.4f ), 1 );
+//
+//		_meshPool.addMesh( "POLY_HOLE_PENT", MeshUtil.meshFromOBJ( p, "../data/models/poly-hole-penta.obj", 1f ), 70f );
+//		_meshPool.addMesh( "POLY_HOLE_SQUARE", MeshUtil.meshFromOBJ( p, "../data/models/poly-hole-square.obj", 1f ), 70f );
+//		_meshPool.addMesh( "POLY_HOLE_TRI", MeshUtil.meshFromOBJ( p, "../data/models/poly-hole-tri.obj", 1f ), 70f );
 
 		
 //		_meshPool.addMesh( "DESIGN_BY", MeshUtil.mesh2dFromTextFont( p, bitLowFont, null, 200, "DESIGN BY:", -1, 2, 0.3f ), 1 );
@@ -92,21 +93,22 @@ extends PApplet
 		
 		// .svg vectors
 		WETriangleMesh cacheSVG = MeshUtil.meshFromSVG( p, "../data/svg/cacheflowe-logo.svg", -1, 10, 1f );
-		_meshPool.addMesh( "CACHE", cacheSVG, 0.5f );
-		_meshPool.addMesh( "CACHE_EXTRUDE", MeshUtil.getExtrudedMesh( cacheSVG, 20 ), 1 );
-		_meshPool.addMesh( "DIAMOND_2D", MeshUtil.getExtrudedMesh( MeshUtil.meshFromSVG( p, "../data/svg/diamond.svg", -1, 3, 0.5f ), 20 ), 1 );
-		_meshPool.addMesh( "CACHEFLOWE_LOGOTYPE", MeshUtil.getExtrudedMesh( MeshUtil.meshFromSVG( p, "../data/svg/cacheflowe-logotype.svg", -1, 6, 0.7f ), 4 ), 1 );
-		_meshPool.addMesh( "MODE_SET_LOGOTYPE", MeshUtil.getExtrudedMesh( MeshUtil.meshFromSVG( p, "../data/svg/modeset-logotype.svg", -1, 6, 0.7f ), 4 ), 1 );
-		_meshPool.addMesh( "CDW_LOGO", MeshUtil.meshFromSVG( p, "../data/svg/create-denver-logo.svg", -1, 3, 0.6f ), 1 );
-
-		_meshPool.addMesh( "GUICEWORKS_LOGO", MeshUtil.getExtrudedMesh( MeshUtil.meshFromSVG( p, "../data/svg/guiceworks-logo.svg", -1, 20, 0.7f ), 20 ), 1 );
-
-		_meshPool.addMesh( "BIKE_COMMUTER", MeshUtil.meshFromSVG( p, "../data/svg/bike-commuter.svg", -1, 7, 0.5f ), 1 );
+//		_meshPool.addMesh( "CACHE", cacheSVG, 0.5f );
+//		_meshPool.addMesh( "CACHE_EXTRUDE", MeshUtil.getExtrudedMesh( cacheSVG, 20 ), 1 );
+//		_meshPool.addMesh( "DIAMOND_2D", MeshUtil.getExtrudedMesh( MeshUtil.meshFromSVG( p, "../data/svg/diamond.svg", -1, 3, 0.5f ), 20 ), 1 );
+//		_meshPool.addMesh( "CACHEFLOWE_LOGOTYPE", MeshUtil.getExtrudedMesh( MeshUtil.meshFromSVG( p, "../data/svg/cacheflowe-logotype.svg", -1, 6, 0.7f ), 4 ), 1 );
+//		_meshPool.addMesh( "MODE_SET_LOGOTYPE", MeshUtil.getExtrudedMesh( MeshUtil.meshFromSVG( p, "../data/svg/modeset-logotype.svg", -1, 6, 0.7f ), 4 ), 1 );
+		_meshPool.addMesh( "WUKI", MeshUtil.getExtrudedMesh( MeshUtil.meshFromSVG( p, "../data/svg/wuki-2.svg", -1, 6, 0.7f ), 4 ), 1 );
+//		_meshPool.addMesh( "CDW_LOGO", MeshUtil.meshFromSVG( p, "../data/svg/create-denver-logo.svg", -1, 3, 0.6f ), 1 );
+//
+//		_meshPool.addMesh( "GUICEWORKS_LOGO", MeshUtil.getExtrudedMesh( MeshUtil.meshFromSVG( p, "../data/svg/guiceworks-logo.svg", -1, 20, 0.7f ), 20 ), 1 );
+//
+//		_meshPool.addMesh( "BIKE_COMMUTER", MeshUtil.meshFromSVG( p, "../data/svg/bike-commuter.svg", -1, 7, 0.5f ), 1 );
 		
 		// img models
-		_meshPool.addMesh( "KACHEOUT", MeshUtil.meshFromImg( p, "../data/images/kacheout/kacheout.gif", 1f ), 20f );
-		_meshPool.addMesh( "MUSIC_NOTE", MeshUtil.meshFromImg( p, "../data/images/music.gif", 1f ), 40f );
-		_meshPool.addMesh( "UFO", MeshUtil.meshFromImg( p, "../data/images/kacheout/invader-01.gif", 1f ), 30f );
+//		_meshPool.addMesh( "KACHEOUT", MeshUtil.meshFromImg( p, "../data/images/kacheout/kacheout.gif", 1f ), 20f );
+//		_meshPool.addMesh( "MUSIC_NOTE", MeshUtil.meshFromImg( p, "../data/images/music.gif", 1f ), 40f );
+//		_meshPool.addMesh( "UFO", MeshUtil.meshFromImg( p, "../data/images/kacheout/invader-01.gif", 1f ), 30f );
 //		
 //		// .obj models
 //		_meshPool.addMesh( "POINTER", MeshUtil.meshFromOBJ( p, "../data/models/pointer_cursor_2_hollow.obj", 1f ), 1.5f );
@@ -119,7 +121,12 @@ extends PApplet
 //		_meshPool.addMesh( "MODE_SET", MeshUtil.meshFromOBJ( p, "../data/models/mode-set.obj", 1f ), 150 );
 //		_meshPool.addMesh( "SPIROGRAPH", MeshUtil.meshFromOBJ( p, "../data/models/spirograph-seied.obj", 1f ), 150 );
 //		_meshPool.addMesh( "CACHEFLOWE", MeshUtil.meshFromOBJ( p, "../data/models/cacheflowe-3d.obj", 1f ), 150 );
+		_meshPool.addMesh( "chicken", MeshUtil.meshFromOBJ( p, FileUtil.getHaxademicDataPath() + "models/chicken.obj", 1f ), 50 );
+		_meshPool.addMesh( "library_chair", MeshUtil.meshFromOBJ( p, FileUtil.getHaxademicDataPath() + "models/library-chair.obj", 1f ), 50 );
+		_meshPool.addMesh( "strat.obj", MeshUtil.meshFromOBJ( p, FileUtil.getHaxademicDataPath() + "models/strat.obj", 1f ), 50 );
+		_meshPool.addMesh( "octahedron.obj", MeshUtil.meshFromOBJ( p, FileUtil.getHaxademicDataPath() + "models/octahedron.obj", 1f ), 50 );
 
+		
 //		_objPool.loadObj( "SUBMISH_HORIZ", 		200, 	"./models/submish-rotated.obj" );
 //		_objPool.loadObj( "SHUTTLE", 			30, 	"./models/Space Shuttle.obj" );
 //		_objPool.loadObj( "SPEAKER", 			200, 	"./models/speaker.obj" );
@@ -159,9 +166,11 @@ extends PApplet
 		// rotate with mouse
 		_rot.setTargetX( p.mouseX/100f );
 		_rot.setTargetY( p.mouseY/100f );
+//		_rot.setTargetZ( (p.mouseY+p.mouseX)/100f );
 		_rot.update();
 		p.rotateZ( _rot.x() );
 		p.rotateY( _rot.y() );
+		p.rotateZ( _rot.z() );
 		
 		// draw WETriangleMesh
 		if( _wireFrame ) {

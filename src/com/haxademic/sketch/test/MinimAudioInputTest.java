@@ -4,12 +4,10 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 
 import ddf.minim.AudioInput;
-import ddf.minim.Controller;
 import ddf.minim.Minim;
 import ddf.minim.analysis.BeatDetect;
 import ddf.minim.analysis.FFT;
 import ddf.minim.analysis.WindowFunction;
-import ddf.minim.ugens.Gain;
 
 @SuppressWarnings("serial")
 public class MinimAudioInputTest 
@@ -58,7 +56,7 @@ extends PAppletHax {
 		background(0);
 		stroke(255);
 
-		float newGain = P.map(p.mouseX, 0, p.width, -500, 10f);
+//		float newGain = P.map(p.mouseX, 0, p.width, -500, 10f);
 //		if(in.hasControl(Controller.GAIN)) {
 //			P.println(newGain);
 //			in.setGain( newGain );
@@ -83,7 +81,7 @@ extends PAppletHax {
 		}
 
 		// marius normalized vals
-		float volNow = P.max(spectrumDampened);
+//		float volNow = P.max(spectrumDampened);
 
 		// apply damping to find the new volume
 		float damper = map(mouseY, 0f,height, 0.001f,1);

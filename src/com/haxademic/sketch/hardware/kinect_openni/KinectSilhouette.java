@@ -31,7 +31,7 @@ extends PAppletHax {
 	
 	protected int PIXEL_SIZE = 5;
 	protected final int KINECT_CLOSE = 500;
-	protected final int KINECT_FAR = 2000;
+	protected final int KINECT_FAR = 3000;
 	
 	protected PGraphics _kinectPixelated;
 	protected Vector<FloatParticle> _particles;

@@ -9,7 +9,7 @@ import com.haxademic.core.hardware.kinect.KinectAmbientActivityMonitor;
 public class KinectAmbientActivity 
 extends PAppletHax {
 
-	public static final float PIXEL_SIZE = 15;
+	public static final float PIXEL_SIZE = 6;
 	public static final int KINECT_TOP = 0;
 	public static final int KINECT_BOTTOM = 480;
 	public static final int KINECT_CLOSE = 500;

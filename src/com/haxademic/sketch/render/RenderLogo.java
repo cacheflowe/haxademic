@@ -4,7 +4,6 @@ import toxi.color.TColor;
 import toxi.geom.mesh.WETriangleMesh;
 
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.draw.color.TColorInit;
 import com.haxademic.core.draw.mesh.DrawMesh;
 import com.haxademic.core.draw.mesh.MeshUtil;
 import com.haxademic.core.draw.util.OpenGLUtil;
@@ -17,7 +16,8 @@ extends PAppletHax{
 	
 
 //	protected TColor MODE_SET_BLUE = TColorInit.newRGBA( 0, 200, 234, 255 );
-	protected TColor COLOR = TColor.newHex("FF007E"); // TColorInit.newRGBA( 0, 200, 234, 255 ); // TColor.newHex("FFFF00"); // DAFFCA // FED7ED
+//	protected TColor COLOR = TColor.newHex("FF007E"); // TColorInit.newRGBA( 0, 200, 234, 255 ); // TColor.newHex("FFFF00"); // DAFFCA // FED7ED
+	protected TColor COLOR = TColor.newHex("ffffff"); // TColorInit.newRGBA( 0, 200, 234, 255 ); // TColor.newHex("FFFF00"); // DAFFCA // FED7ED
 	
 	WETriangleMesh _mesh;
 	
@@ -25,6 +25,7 @@ extends PAppletHax{
 		_appConfig.setProperty( "sunflow", "true" );
 		_appConfig.setProperty( "sunflow_active", "true" );
 		_appConfig.setProperty( "sunflow_quality", "high" );
+		_appConfig.setProperty( "sunflow_save_images", "true" );
 
 		
 		_appConfig.setProperty( "width", "1280" );
@@ -37,19 +38,24 @@ extends PAppletHax{
 		super.setup();
 		p.smooth(OpenGLUtil.SMOOTH_HIGH);
 
-		_mesh = MeshUtil.getExtrudedMesh( MeshUtil.meshFromSVG( p, FileUtil.getHaxademicDataPath() + "svg/guiceworks-logo.svg", -1, 20, 1.5f ), 14 );
+		_mesh = MeshUtil.getExtrudedMesh( MeshUtil.meshFromSVG( p, "/Users/cacheflowe/Documents/workspace/haxademic/output/fractal-2014-11-19-19-57-24-01.svg", -1, 20, 1.2f ), 80 );
+//		_mesh = MeshUtil.getExtrudedMesh( MeshUtil.meshFromSVG( p, FileUtil.getHaxademicDataPath() + "svg/fractal-2013-09-26-20-11-32.svg", -1, 20, 1.2f ), 40 );
+//		_mesh = MeshUtil.getExtrudedMesh( MeshUtil.meshFromSVG( p, FileUtil.getHaxademicDataPath() + "svg/ello.svg", -1, 20, 1.2f ), 40 );
 	}
 
 
 	public void drawApp() {
-		p.background(0);
-		p.lights();
+//		p.background(0);
+//		p.lights();
 
-		_jw.jr.background(JoonsWrapper.BACKGROUND_GI);
+//		_jw.jr.background(JoonsWrapper.BACKGROUND_GI);
+		_jw.jr.background(JoonsWrapper.BACKGROUND_AO);
+		_jw.jr.background(0, 0, 0); //background(gray), or (r, g, b), like Processing.
 		setUpRoom();
+//		makeLightSource();
 		
-		translate(0, 0, -2500);
-//		p.rotateX(0.1f);
+		translate(0, 0, -2300);
+//		p.rotateX(0.3f);
 
 //		p.fill(255);
 //		p.stroke(255);
@@ -57,21 +63,27 @@ extends PAppletHax{
 //		DrawMesh.drawToxiMeshFacesNative( p, _mesh );
 
 	
-		for( int i=0; i < 14; i++) {
+		for( int i=0; i < 1; i++) {
 		
 			translate(0, 0, -20);
 			p.fill(255);
 			p.noStroke();
 			if( i%2 == 0 ) {
-				_jw.jr.fill( JoonsWrapper.MATERIAL_DIFFUSE, COLOR.red() * (255 - i*15), COLOR.green() * (255 - i*15), COLOR.blue() * (255 - i*15) );
+				_jw.jr.fill( JoonsWrapper.MATERIAL_SHINY, COLOR.red() * (255 - i*10), COLOR.green() * (255 - i*10), COLOR.blue() * (255 - i*10) );
 			} else {
 				_jw.jr.fill( JoonsWrapper.MATERIAL_SHINY, 0, 0, 0, 1f);
 			}
 			DrawMesh.drawToxiMeshFacesNative( p, _mesh );
 			scale(1.1f);
 		}
-}
+	}
 
+	protected void makeLightSource() {
+		_jw.jr.fill("light", 200, 255, 200);
+		sphere(10);
+		translate(-2300, 0, 0);
+	}
+	
 	protected void setUpRoom() {
 		pushMatrix();
 		translate(0, 0, -2000);
@@ -86,6 +98,24 @@ extends PAppletHax{
 				60, 60, 60, // top rgb
 				60, 60, 60  // bottom rgb
 		); 
+//		_jw.jr.background("cornell_box", 
+//				12000, 6000, 6000,	// width, height, depth
+//				radiance, radiance, radiance, samples,  // radiance rgb & samples
+//				0,0,0, // left rgb
+//				0,0,0, // right rgb
+//				0,0,0, // back rgb
+//				0,0,0, // top rgb
+//				0,0,0  // bottom rgb
+//		); 
+//		_jw.jr.background("cornell_box", 
+//				12000, 6000, 6000,	// width, height, depth
+//				radiance, radiance, radiance, samples,  // radiance rgb & samples
+//				255,255,255, // left rgb
+//				255,255,255, // right rgb
+//				255,255,255, // back rgb
+//				255,255,255, // top rgb
+//				255,255,255  // bottom rgb
+//		); 
 		popMatrix();		
 	}
 }

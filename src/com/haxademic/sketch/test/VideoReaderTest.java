@@ -2,6 +2,7 @@ package com.haxademic.sketch.test;
 
 import java.awt.image.BufferedImage;
 
+import processing.core.PApplet;
 import processing.core.PGraphics;
 import processing.core.PImage;
 import processing.video.Movie;
@@ -12,6 +13,7 @@ import com.haxademic.core.image.ImageUtil;
 import com.haxademic.core.image.filters.ImageHistogramFilter;
 import com.haxademic.core.image.filters.PixelTriFilter;
 import com.haxademic.core.math.MathUtil;
+import com.haxademic.core.system.FileUtil;
 import com.jhlabs.image.ContrastFilter;
 import com.jhlabs.image.HSBAdjustFilter;
 
@@ -29,12 +31,19 @@ extends PAppletHax
 	ImageHistogramFilter _histogramFilter;
 	// PixelTriFilter, Cluster8BitRow, ImageHistogramFilter
 
+	static public void main(String args[]) {
+//		_isFullScreen = true;
+		PApplet.main( "com.haxademic.sketch.test.VideoReaderTest", new String[] { "--hide-stop", "--bgcolor=000000" } );
+	}
+
+	
 	public void setup() {
 		super.setup();		
 
 		_curMov = p.createGraphics(width, height, P.P3D);
 		_curFrame = p.createImage(width, height, P.ARGB);
-		movie = new Movie(this, "/Users/cacheflowe/Documents/workspace/haxademic/assets/media/video/Janet Jackson - Control - trimmed.mov");
+//		movie = new Movie(this, "/Users/cacheflowe/Documents/workspace/haxademic/assets/media/video/Janet Jackson - Control - trimmed.mov");
+		movie = new Movie( p, FileUtil.getHaxademicDataPath() + "video/da-dip.mov" );
 		curBase = (int) (movie.duration() * (float) Math.random());
 
 		_triPixelFilter = new PixelTriFilter( _curFrame.width, _curFrame.height, 10 );

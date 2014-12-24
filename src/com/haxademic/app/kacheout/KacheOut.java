@@ -33,7 +33,7 @@ extends PAppletHax
 	 * @param args
 	 */
 	public static void main(String args[]) {
-		_isFullScreen = true;
+		_isFullScreen = false;
 		PApplet.main(new String[] { "--hide-stop", "--bgcolor=000000", "com.haxademic.app.kacheout.KacheOut" });
 	}
 

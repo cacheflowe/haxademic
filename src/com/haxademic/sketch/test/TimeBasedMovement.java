@@ -16,7 +16,6 @@ extends PAppletHax
 		_appConfig.setProperty( "width", "640" );
 		_appConfig.setProperty( "height", "480" );
 		_appConfig.setProperty( "fps", "60" );
-		// _appConfig.setProperty( "fps", "60" );
 	}
 
 	public void setup() {
