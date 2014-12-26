@@ -3,6 +3,7 @@ package com.haxademic.sketch.test;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.util.DrawUtil;
+import com.haxademic.core.draw.util.OpenGLUtil;
 
 import controlP5.ControlP5;
 
@@ -22,7 +23,7 @@ extends PAppletHax {
 	public void setup() {
 		_useLegacyAudio = true;
 		super.setup();
-		p.smooth( 16 );
+		p.smooth(OpenGLUtil.SMOOTH_HIGH);
 
 		_cp5 = new ControlP5(this);
 		_cp5.addSlider("numPoints").setPosition(20,60).setWidth(200).setRange(1,90).setDefaultValue(3);
