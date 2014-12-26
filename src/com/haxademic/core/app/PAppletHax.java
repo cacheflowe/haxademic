@@ -399,6 +399,15 @@ extends PApplet
 	}
 	
 	protected void handleRenderingStepthrough() {
+		// step through midi file if set
+		if( _isRenderingMidi == true ) {
+			if( p.frameCount == 1 ) {
+				try {
+					_midiRenderer = new MIDISequenceRenderer(p);
+					_midiRenderer.loadMIDIFile( _appConfig.getString("render_midi_file", ""), _appConfig.getFloat("render_midi_bpm", 150f), _fps, _appConfig.getFloat("render_midi_offset", -8f) ); 
+				} catch (InvalidMidiDataException e) { e.printStackTrace(); } catch (IOException e) { e.printStackTrace(); }
+			}
+		}
 		// analyze & init audio if stepping through a render
 		if( _isRendering == true ) {
 			if( p.frameCount == 1 ) {
@@ -409,12 +418,6 @@ extends PApplet
 					_audioInput.gainDown();
 				} else {
 					_renderer.startRenderer();
-				}
-				if( _isRenderingMidi == true ) {
-					try {
-						_midiRenderer = new MIDISequenceRenderer(p);
-						_midiRenderer.loadMIDIFile( _appConfig.getString("render_midi_file", ""), _appConfig.getFloat("render_midi_bpm", 150f), _fps, _appConfig.getFloat("render_midi_offset", -8f) ); 
-					} catch (InvalidMidiDataException e) { e.printStackTrace(); } catch (IOException e) { e.printStackTrace(); }
 				}
 			}
 			
