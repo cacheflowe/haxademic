@@ -19,8 +19,9 @@ public class VideoFrameGrabber {
 	protected String _videoFile;
 	protected PGraphics _curFrameBuffer = null;
 	protected PImage _curFrameImage= null;
-	protected int _fps = 30;
+	protected float _fps = 30.0f;
 	protected int _startFrame = 0;
+	protected float _position = 0;
 	
 	public VideoFrameGrabber( PApplet p, String videoFile, int frameRate, int startFrame ) {
 		this.p = p;
@@ -34,7 +35,7 @@ public class VideoFrameGrabber {
 		// the video stream. 
 		initMovie();
 
-		_curFrameBuffer = p.createGraphics( _movie.width, _movie.height, P.P3D );
+		_curFrameBuffer = p.createGraphics( _movie.width, _movie.height, P.P2D );
 		_curFrameImage = p.createImage( _movie.width, _movie.height, P.ARGB );
 	}
 	
@@ -75,14 +76,17 @@ public class VideoFrameGrabber {
 		_movie.jump( MathUtil.randRangeDecimal( 0, _movie.duration() - 1 ) );
 	}
 
+	public void setTimeFromPercent(float percent) {
+		_movie.jump(_movie.duration() * percent);
+	}
+
 	public int getFrame() {    
 		return P.ceil( _movie.time() * 30f ) - 1;
 	}
 
-	public void setFrameIndex(int n) {
-		if(_movie.time() <= 0 ) initMovie(); // fix movie unloading problem???
+	public void setFrameIndex(float n) {
+//		if(_movie.time() <= 0 ) initMovie(); // fix movie unloading problem???
 		
-		_movie.play();
 
 		// The duration of a single frame:
 		float frameDuration = 1.0f / _fps;
@@ -92,12 +96,16 @@ public class VideoFrameGrabber {
 
 		// Taking into account border effects:
 		float diff = _movie.duration() - where;
-		if (diff < 0) {
+		if(diff < 0) {
 			where += diff - 0.25f * frameDuration;
 		}
 
-		_movie.jump(where);
-		_movie.pause();  
+		if(P.abs(where - _position) >= frameDuration) {
+			_movie.play();
+			_movie.jump(where);
+			_movie.pause();  
+			_position = where;
+		}
 		
 		P.println("Movie frame: "+getFrame() + " / " + (getLength() - 1));
 		
@@ -106,6 +114,7 @@ public class VideoFrameGrabber {
 		_curFrameBuffer.image( _movie, 0, 0, _movie.width, _movie.height);
 		_curFrameBuffer.endDraw();
 		_curFrameImage.copy( _curFrameBuffer, 0, 0, _curFrameBuffer.width, _curFrameBuffer.height, 0, 0, _curFrameImage.width, _curFrameImage.height );
+//		_curFrameImage.copy( _movie, 0, 0, _curFrameImage.width, _curFrameImage.height, 0, 0, _curFrameImage.width, _curFrameImage.height );
 	}  
 
 	int getLength() {
