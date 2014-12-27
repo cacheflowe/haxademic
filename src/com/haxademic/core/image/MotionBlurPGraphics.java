@@ -17,7 +17,7 @@ public class MotionBlurPGraphics {
 		_pastFrames = new ArrayList<PImage>();
 	}
 	
-	public void updateToCanvas(PGraphics pg, PGraphics canvas) {
+	public void updateToCanvas(PGraphics pg, PGraphics canvas, float maxAlpha) {
 		// save current frame to buffer
 		_pastFrames.add(pg.get());
 		if(_pastFrames.size() > _blurFrames) {
@@ -26,7 +26,7 @@ public class MotionBlurPGraphics {
 		
 		// draw all frames to screen
 		for (int f=0; f < _pastFrames.size(); f++) {
-			float alpha = (f+1f) / _pastFrames.size();
+			float alpha = (f+1f) * maxAlpha / _pastFrames.size();
 			PImage pastFrame = _pastFrames.get(f);
 			DrawUtil.setPImageAlpha(canvas, alpha);
 			canvas.image(pastFrame, 0, 0);
