@@ -49,7 +49,6 @@ extends PAppletHax {
 
 	public void drawApp() {
 		p.background(0);
-		// draw pinned pgraphics
 		drawGraphics(_pg);
 		_pgMotionBlur.updateToCanvas(_pg, p.g, 1);
 	}

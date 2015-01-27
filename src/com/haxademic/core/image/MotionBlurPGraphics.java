@@ -31,6 +31,5 @@ public class MotionBlurPGraphics {
 			DrawUtil.setPImageAlpha(canvas, alpha);
 			canvas.image(pastFrame, 0, 0);
 		}
-
 	}
 }

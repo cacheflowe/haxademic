@@ -37,8 +37,6 @@ extends PAppletHax {
 		
 		// _kinectGrid.update();
 		_kinectGrid.updateDebug();
-		
-		// P.println( _kinectGrid.getRegion(0).controlX() + " , " + _kinectGrid.getRegion(0).controlZ() );
 	}
 	
 	public void keyPressed() {
