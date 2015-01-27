@@ -1,0 +1,133 @@
+package com.haxademic.core.hardware.leap;
+
+import processing.core.PGraphics;
+import processing.core.PVector;
+
+import com.haxademic.core.app.P;
+import com.haxademic.core.math.MathUtil;
+
+import de.voidplus.leapmotion.Hand;
+ class LeapRegion {
+	
+	protected int _left = 0;
+	protected int _right = 0;
+	protected int _near = 0;
+	protected int _far = 0;
+	protected int _top = 0;
+	protected int _bottom = 0;
+	protected int _blockColor = -1;
+	
+	protected boolean _hasHand = false;
+	protected float _controlX = 0;
+	protected float _controlY = 0;
+	protected float _controlZ = 0;
+	
+	public LeapRegion( int left, int right, int top, int bottom, int near, int far, int blockColor ) {
+		_left = left;
+		_right = right;
+		_near = near;
+		_far = far;
+		_top = top;
+		_bottom = bottom;
+		_blockColor = blockColor;
+	}
+	
+	public float controlX() {
+		return _controlX;
+	}
+	
+	public void controlX( float value ) {
+		_controlX = value;
+	}
+	
+	public float controlY() {
+		return _controlY;
+	}
+	
+	public void controlY( float value ) {
+		_controlY = value;
+	}
+	
+	public float controlZ() {
+		return _controlZ;
+	}
+
+	public void controlZ( float value ) {
+		_controlZ = value;
+	}
+	
+	public boolean hasHand() {
+		return _hasHand;
+	}
+	
+	public void drawBox(PGraphics pg) {
+		if( _blockColor == -1 ) return;
+		
+		// set box color for (in)active states
+		pg.strokeWeight(5f);
+		if(_hasHand == true) {
+			pg.stroke(_blockColor, 255);
+			pg.noFill();
+		} else {
+			pg.stroke(255, 127);
+			pg.noFill();
+		}
+		pg.pushMatrix();
+		
+		// move to center of box location & draw box
+		pg.noStroke();
+		pg.translate(P.lerp(_right, _left, 0.5f), P.lerp(_top, _bottom, 0.5f), -1f * P.lerp(_far, _near, 0.5f));
+		pg.box(_right - _left, _top - _bottom, _far - _near);
+		
+		// draw text control values
+		if(_hasHand == true) {
+			pg.fill(255);
+			pg.textSize(24);
+			pg.text(MathUtil.roundToPrecision(_controlX, 2)+", "+MathUtil.roundToPrecision(_controlY, 2)+", "+MathUtil.roundToPrecision(_controlZ, 2), -50, 0);
+		}
+		
+		pg.popMatrix();
+	}
+	
+	public void detect(PGraphics debugGraphics) {
+		// find kinect readings in the region
+		_hasHand = false;
+		if( P.p.leapMotion != null ) {
+		    for(Hand hand : P.p.leapMotion.getHands()){
+		        PVector hand_position    = hand.getPosition();
+		        // PVector hand_stabilized  = hand.getStabilizedPosition();
+		        
+		        // draw debug hand position
+		        if(debugGraphics != null) {
+			        debugGraphics.fill(255);
+			        debugGraphics.pushMatrix();
+			        debugGraphics.translate(hand_position.x, hand_position.y, -1f * hand_position.z);
+			        debugGraphics.box(40, 40, 40);
+			        debugGraphics.popMatrix();
+		        }
+				
+		        // set position if hand is in region
+		        if(
+		        	hand_position.x > _left && 
+		        	hand_position.x < _right && 
+		        	hand_position.y > _top && 
+		        	hand_position.y < _bottom && 
+		        	hand_position.z > _near && 
+		        	hand_position.z < _far 
+		        	) {
+		        	_hasHand = true;
+		        	_controlX = MathUtil.getPercentWithinRange(_left, _right, hand_position.x) - 0.5f;
+		        	_controlY = MathUtil.getPercentWithinRange(_top, _bottom, hand_position.y) - 0.5f;
+		        	_controlZ = MathUtil.getPercentWithinRange(_near, _far, hand_position.z) - 0.5f;
+		        }
+		    }
+		}
+		
+		// if none found, reset values
+		if(_hasHand == false) {
+			_controlX = 0;
+			_controlY = 0;
+			_controlZ = 0;
+		}
+	}
+}

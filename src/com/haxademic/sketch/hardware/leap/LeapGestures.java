@@ -14,6 +14,7 @@ import de.voidplus.leapmotion.ScreenTapGesture;
 import de.voidplus.leapmotion.SwipeGesture;
 import de.voidplus.leapmotion.Tool;
 
+@SuppressWarnings("serial")
 public class LeapGestures
 extends PAppletHax {
 	
