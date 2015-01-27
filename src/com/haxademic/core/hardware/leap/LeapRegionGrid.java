@@ -17,11 +17,14 @@ public class LeapRegionGrid {
 
 	public ArrayList<LeapRegion> leapRegions;
 	
-	public LeapRegionGrid(int cols, int rows, int depthCells, int padding, int leapClose, int leapFar) {
+	public LeapRegionGrid(int cols, int rows, int depthCells, float padding, int leapClose, int leapFar) {
 		this(cols, rows, depthCells, padding, leapClose, leapFar, false);
 	}
 	
-	public LeapRegionGrid(int cols, int rows, int depthCells, int padding, int leapClose, int leapFar, boolean debug) {
+	public LeapRegionGrid(int cols, int rows, int depthCells, float padding, int leapClose, int leapFar, boolean debug) {
+		int sketchW = P.p.width;
+		int sketchH = P.p.height;
+		
 		if(debug == true) {
 			_pg = P.p.createGraphics(P.p.width, P.p.height, P.OPENGL);
 		}
@@ -32,21 +35,24 @@ public class LeapRegionGrid {
 		
 		// set up rectangles for position detection
 		leapRegions = new ArrayList<LeapRegion>();
-		int colW = (_pg.width - padding*(cols-1)) / cols;
-		int rowH = (_pg.height - padding*(cols-1)) / rows;
-		int depthSize = (100 - padding*(cols-1)) / depthCells;	 // 0-100 is the general leap depth range 
+		int paddingW = Math.round(padding * sketchW);
+		int colW = (sketchW - paddingW*(cols-1)) / cols;
+		int paddingH = Math.round(padding * sketchH);
+		int rowH = (sketchH - paddingH*(rows-1)) / rows;
+		int paddingDepth = Math.round(padding * _leapDepth);
+		int depthSize = (_leapDepth - paddingDepth*(cols-1)) / depthCells;	 // 0-100 is the general leap depth range 
 		
 		// create grid cells
 		for ( int x = 0; x < cols; x++ ) {
 			for ( int y = 0; y < rows; y++ ) {
 				for ( int z = 0; z < depthCells; z++ ) {
 					LeapRegion region = new LeapRegion(
-						colW * x + padding * x, 
-						colW * x + padding * x + colW, 
-						rowH * y + padding * y, 
-						rowH * y + padding * y + rowH, 
-						leapClose + z * depthSize + padding * z,
-						leapClose + z * depthSize + padding * z + depthSize,
+						colW * x + paddingW * x, 
+						colW * x + paddingW * x + colW, 
+						rowH * y + paddingH * y, 
+						rowH * y + paddingH * y + rowH, 
+						leapClose + z * depthSize + paddingDepth * z,
+						leapClose + z * depthSize + paddingDepth * z + depthSize,
 						P.p.color( MathUtil.randRange(130,255), MathUtil.randRange(130,255), MathUtil.randRange(130,255) )
 					);
 					leapRegions.add( region );

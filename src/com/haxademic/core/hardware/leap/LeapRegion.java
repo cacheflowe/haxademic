@@ -60,33 +60,33 @@ import de.voidplus.leapmotion.Hand;
 		return _hasHand;
 	}
 	
-	public void drawBox(PGraphics pg) {
+	public void drawBox(PGraphics debugGraphics) {
 		if( _blockColor == -1 ) return;
 		
 		// set box color for (in)active states
-		pg.strokeWeight(5f);
+		debugGraphics.strokeWeight(5f);
 		if(_hasHand == true) {
-			pg.stroke(_blockColor, 255);
-			pg.noFill();
+			debugGraphics.stroke(_blockColor, 255);
+			debugGraphics.noFill();
 		} else {
-			pg.stroke(255, 127);
-			pg.noFill();
+			debugGraphics.stroke(255, 127);
+			debugGraphics.noFill();
 		}
-		pg.pushMatrix();
+		debugGraphics.pushMatrix();
 		
 		// move to center of box location & draw box
-		pg.noStroke();
-		pg.translate(P.lerp(_right, _left, 0.5f), P.lerp(_top, _bottom, 0.5f), -1f * P.lerp(_far, _near, 0.5f));
-		pg.box(_right - _left, _top - _bottom, _far - _near);
+		debugGraphics.translate(P.lerp(_right, _left, 0.5f), P.lerp(_top, _bottom, 0.5f), -1f * P.lerp(_far, _near, 0.5f));
+		debugGraphics.box(_right - _left, _top - _bottom, _far - _near);
 		
 		// draw text control values
 		if(_hasHand == true) {
-			pg.fill(255);
-			pg.textSize(24);
-			pg.text(MathUtil.roundToPrecision(_controlX, 2)+", "+MathUtil.roundToPrecision(_controlY, 2)+", "+MathUtil.roundToPrecision(_controlZ, 2), -50, 0);
+			debugGraphics.noStroke();
+			debugGraphics.fill(255);
+			debugGraphics.textSize(24);
+			debugGraphics.text(MathUtil.roundToPrecision(_controlX, 2)+", "+MathUtil.roundToPrecision(_controlY, 2)+", "+MathUtil.roundToPrecision(_controlZ, 2), -50, 0);
 		}
 		
-		pg.popMatrix();
+		debugGraphics.popMatrix();
 	}
 	
 	public void detect(PGraphics debugGraphics) {
@@ -99,6 +99,7 @@ import de.voidplus.leapmotion.Hand;
 		        
 		        // draw debug hand position
 		        if(debugGraphics != null) {
+		        	debugGraphics.noStroke();
 			        debugGraphics.fill(255);
 			        debugGraphics.pushMatrix();
 			        debugGraphics.translate(hand_position.x, hand_position.y, -1f * hand_position.z);
