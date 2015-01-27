@@ -179,8 +179,11 @@ extends PAppletHax
 	// HAXADEMIC STUFF --------------------------------------------------------------------------------------
 	void newCamera() {
 		_curCamera = new CameraDefault( p, 0, 0, 0 );
-		_curCamera.setPosition( _stageWidth/2f, _stageHeight/2f, 0 );	// _cameraZFromHeight
-		_curCamera.setTarget( _stageWidth/2f, _stageHeight/2f, 0 );
+		_curCamera.setPosition( _stageWidth/2f, _stageHeight/2f, 10 );	// _cameraZFromHeight
+		_curCamera.setTarget( _stageWidth/2f, _stageHeight/2f, 10 );
+//		_curCamera.setPosition( -_stageWidth/2f, -_stageHeight/2f, 1500 );	// _cameraZFromHeight
+//		_curCamera.setTarget( -_stageWidth/2f, -_stageHeight/2f, 1500 );
+
 		_curCamera.reset();
 	}
 	
@@ -267,6 +270,8 @@ extends PAppletHax
 		p.background(0);
 				
 		_curCamera.update();
+		
+		p.translate(p.width/2, p.height/2);
 
 		if( _gameState != _gameStateQueued ) swapGameMode();
 		if( _gameState == GAME_INTRO ) {
@@ -295,8 +300,10 @@ extends PAppletHax
 		// update all games before checking for complete. also take screenshot if the game's over and the time is right
 		boolean takeScreenShot = false;
 		for( int i=0; i < NUM_PLAYERS; i++ ) {
+			p.pushMatrix();
 			_gamePlays.get( i ).update( i );
 			if( _gamePlays.get( i ).shouldTakeScreenshot() == true ) takeScreenShot = true;
+			p.popMatrix();
 		}
 		if( takeScreenShot == true ) PhotoBooth.snapGamePhoto( p, _stageWidth, _stageHeight );
 		// check for complete
