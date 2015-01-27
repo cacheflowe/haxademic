@@ -2,18 +2,23 @@ package com.haxademic.core.hardware.kinect;
 
 import java.util.ArrayList;
 
+import processing.core.PGraphics;
+
 import com.haxademic.core.app.P;
-import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.hardware.joystick.IJoystickCollection;
+import com.haxademic.core.hardware.joystick.IJoystickControl;
+import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.EasingFloat;
 
-public class KinectRegionGrid {
+public class KinectRegionGrid
+implements IJoystickCollection {
 	
-	protected PAppletHax p;
+	protected PGraphics _pg;
 	protected int _kinectClose = 0;
 	protected int _kinectFar = 0;
 	protected int _kinectDepth = 0;
 	
-	public ArrayList<KinectRegion> kinectRegions;
+	public ArrayList<IJoystickControl> kinectRegions;
 	
 	// debug drawing helpers
 	protected EasingFloat _sceneRot;
@@ -22,15 +27,22 @@ public class KinectRegionGrid {
 	protected boolean _overheadView = false;
 
 
-	public KinectRegionGrid(PAppletHax p, int cols, int rows, int kinectClose, int kinectFar, int padding, int kinectTop, int kinectBottom, int kinectPixelSkip, int minPixels) {
-		this.p = p;
+	public KinectRegionGrid(int cols, int rows, int kinectClose, int kinectFar, int padding, int kinectTop, int kinectBottom, int kinectPixelSkip, int minPixels) {
+		this(cols, rows, kinectClose, kinectFar, padding, kinectTop, kinectBottom, kinectPixelSkip, minPixels, false);
+	}
+	
+
+	public KinectRegionGrid(int cols, int rows, int kinectClose, int kinectFar, int padding, int kinectTop, int kinectBottom, int kinectPixelSkip, int minPixels, boolean debug) {
+		if(debug == true) {
+			_pg = P.p.createGraphics(KinectWrapper.KWIDTH, KinectWrapper.KHEIGHT, P.OPENGL);
+		}
 		
 		_kinectClose = kinectClose;
 		_kinectFar = kinectFar;
 		_kinectDepth = _kinectFar - _kinectClose;
 		
 		// set up rectangles for position detection
-		kinectRegions = new ArrayList<KinectRegion>();
+		kinectRegions = new ArrayList<IJoystickControl>();
 		int colW = (KinectWrapper.KWIDTH - padding*(cols-1)) / cols;
 		int kinectDepth = kinectFar - kinectClose;
 		int rowH = (kinectDepth - padding*(rows-1)) / rows;
@@ -46,28 +58,38 @@ public class KinectRegionGrid {
 						kinectBottom,
 						kinectPixelSkip,
 						minPixels,
-						p.color( p.random(130,255), p.random(130,255), p.random(130,255) )
+						P.p.color( MathUtil.randRange(130,255), MathUtil.randRange(130,255), MathUtil.randRange(130,255) )
 				);
 				kinectRegions.add( region );
 			}
 		}
 	}
 	
-	public KinectRegion getRegion( int index ) {
+	public IJoystickControl getRegion( int index ) {
 		return kinectRegions.get(index);
 	}
 	
 	public void update() {
-		updateRegions(false);
+		if(_pg == null) {
+			updateRegions();			
+		} else {
+			updateDebug();
+		}
 	}
 	
-	public void updateRegions( boolean isDebugging ) {
+	public void updateRegions() {
 		for( int i=0; i < kinectRegions.size(); i++ ) {
-			kinectRegions.get(i).detect(isDebugging);
+			kinectRegions.get(i).detect(_pg);
 		}
 	}
 	
 	public void updateDebug() {
+		_pg.beginDraw();
+		_pg.clear();
+		
+		_pg.shininess(1000f); 
+		_pg.lights();
+
 		// lazy-init debugging camera easing
 		if( _sceneRot == null ) {
 			_sceneRot = new EasingFloat(0, 6f);
@@ -76,35 +98,38 @@ public class KinectRegionGrid {
 		}
 		
 		// move scene towards front of kinect range
-		p.pushMatrix();
-		p.translate(0,0,_kinectClose);
+		_pg.pushMatrix();
+		_pg.translate(0,0,_kinectClose);
 		
 		// rotate scene for debugging
 		_sceneTranslateZ.update();
 		_sceneRot.update();
 		_sceneTranslateZ2.update();
 		
-		p.translate(0,0,_sceneTranslateZ.value());
-		p.rotateX(_sceneRot.value());
-		p.translate(0,0,_sceneTranslateZ2.value());
+		_pg.translate(0,0,_sceneTranslateZ.value());
+		_pg.rotateX(_sceneRot.value());
+		_pg.translate(0,0,_sceneTranslateZ2.value());
 		
 		// loop through kinect data within rectangles ----------
-		updateRegions(true);
+		updateRegions();
 		
 		// draw regions' rectangles ----------------------------
-		p.pushMatrix();
+		_pg.pushMatrix();
 		
-		p.rotateX(-P.PI/2f);
-		p.translate(0,0,460);
+		_pg.rotateX(-P.PI/2f);
+		_pg.translate(0,0,460);
 				
 		for( int i=0; i < kinectRegions.size(); i++ ) {
-			kinectRegions.get(i).drawRect();
+			kinectRegions.get(i).drawDebug(_pg);
 		}
-		p.popMatrix();
-		p.popMatrix();
+		_pg.popMatrix();
+		_pg.popMatrix();
+
+		_pg.endDraw();
 	}
 	
 	public void toggleDebugOverhead() {
+		if(_pg == null) return;
 		_overheadView = !_overheadView;
 		
 		if(_overheadView == true) {
@@ -116,6 +141,11 @@ public class KinectRegionGrid {
 			_sceneRot.setTarget(0);
 			_sceneTranslateZ2.setTarget(0);
 		}
-
 	}
+	
+	public void drawDebug(PGraphics pg) {
+		if(_pg == null) return;
+		pg.image(_pg, 0, 0);
+	}
+
 }

@@ -2,20 +2,22 @@ package com.haxademic.core.hardware.leap;
 
 import java.util.ArrayList;
 
-import processing.core.PApplet;
 import processing.core.PGraphics;
 
 import com.haxademic.core.app.P;
+import com.haxademic.core.hardware.joystick.IJoystickCollection;
+import com.haxademic.core.hardware.joystick.IJoystickControl;
 import com.haxademic.core.math.MathUtil;
 
-public class LeapRegionGrid {
+public class LeapRegionGrid
+implements IJoystickCollection {
 
 	protected PGraphics _pg;
 	protected int _leapClose = 0;
 	protected int _leapFar = 0;
 	protected int _leapDepth = 0;
 
-	public ArrayList<LeapRegion> leapRegions;
+	public ArrayList<IJoystickControl> leapRegions;
 	
 	public LeapRegionGrid(int cols, int rows, int depthCells, float padding, int leapClose, int leapFar) {
 		this(cols, rows, depthCells, padding, leapClose, leapFar, false);
@@ -26,7 +28,7 @@ public class LeapRegionGrid {
 		int sketchH = P.p.height;
 		
 		if(debug == true) {
-			_pg = P.p.createGraphics(P.p.width, P.p.height, P.OPENGL);
+			_pg = P.p.createGraphics(sketchW, sketchH, P.OPENGL);
 		}
 		
 		_leapClose = leapClose;
@@ -34,7 +36,7 @@ public class LeapRegionGrid {
 		_leapDepth = _leapFar - _leapClose;
 		
 		// set up rectangles for position detection
-		leapRegions = new ArrayList<LeapRegion>();
+		leapRegions = new ArrayList<IJoystickControl>();
 		int paddingW = Math.round(padding * sketchW);
 		int colW = (sketchW - paddingW*(cols-1)) / cols;
 		int paddingH = Math.round(padding * sketchH);
@@ -61,7 +63,7 @@ public class LeapRegionGrid {
 		}
 	}
 	
-	public LeapRegion getRegion( int index ) {
+	public IJoystickControl getRegion( int index ) {
 		return leapRegions.get(index);
 	}
 	
@@ -71,7 +73,6 @@ public class LeapRegionGrid {
 		} else {
 			updateDebug();
 		}
-
 	}
 	
 	public void updateRegions() {
@@ -97,16 +98,17 @@ public class LeapRegionGrid {
 		updateRegions();
 		
 		for( int i=0; i < leapRegions.size(); i++ ) {
-			leapRegions.get(i).drawBox(_pg);
+			leapRegions.get(i).drawDebug(_pg);
 		}
 		
 		_pg.popMatrix();
+		
 		_pg.endDraw();
 	}
 	
-	public void drawDebug(PApplet p) {
+	public void drawDebug(PGraphics pg) {
 		if(_pg == null) return;
-		p.image(_pg, 0, 0);
+		pg.image(_pg, 0, 0);
 	}
 
 }

@@ -4,10 +4,13 @@ import processing.core.PGraphics;
 import processing.core.PVector;
 
 import com.haxademic.core.app.P;
+import com.haxademic.core.hardware.joystick.IJoystickControl;
 import com.haxademic.core.math.MathUtil;
 
 import de.voidplus.leapmotion.Hand;
- class LeapRegion {
+
+class LeapRegion
+implements IJoystickControl {
 	
 	protected int _left = 0;
 	protected int _right = 0;
@@ -60,7 +63,7 @@ import de.voidplus.leapmotion.Hand;
 		return _hasHand;
 	}
 	
-	public void drawBox(PGraphics debugGraphics) {
+	public void drawDebug(PGraphics debugGraphics) {
 		if( _blockColor == -1 ) return;
 		
 		// set box color for (in)active states
@@ -117,9 +120,9 @@ import de.voidplus.leapmotion.Hand;
 		        	hand_position.z < _far 
 		        	) {
 		        	_hasHand = true;
-		        	_controlX = MathUtil.getPercentWithinRange(_left, _right, hand_position.x) - 0.5f;
-		        	_controlY = MathUtil.getPercentWithinRange(_top, _bottom, hand_position.y) - 0.5f;
-		        	_controlZ = MathUtil.getPercentWithinRange(_near, _far, hand_position.z) - 0.5f;
+		        	_controlX = (MathUtil.getPercentWithinRange(_left, _right, hand_position.x) - 0.5f) * 2f;
+		        	_controlY = (MathUtil.getPercentWithinRange(_top, _bottom, hand_position.y) - 0.5f) * 2f;
+		        	_controlZ = (MathUtil.getPercentWithinRange(_near, _far, hand_position.z) - 0.5f) * 2f;
 		        }
 		    }
 		}

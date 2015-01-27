@@ -21,7 +21,10 @@ extends PAppletHax {
 	public void setup() {
 		super.setup();
 		
-		_kinectGrid = new KinectRegionGrid(p, 2, 2, 1000, 2000, 40, 0, 480, 20, 10);
+		// debug display
+		_kinectGrid = new KinectRegionGrid(2, 2, 1000, 2000, 40, 0, 480, 20, 10, true);
+		// no debug display - control only
+		// _kinectGrid = new KinectRegionGrid(2, 2, 1000, 2000, 40, 0, 480, 20, 10);
 	}
 
 	public void drawApp() {
@@ -35,8 +38,8 @@ extends PAppletHax {
 		DrawUtil.setColorForPImage(p);
 		// p.image( p.kinectWrapper.getRgbImage(), 0, 0);
 		
-		// _kinectGrid.update();
-		_kinectGrid.updateDebug();
+		_kinectGrid.update();
+		_kinectGrid.drawDebug(p.g);
 	}
 	
 	public void keyPressed() {

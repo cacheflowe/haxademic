@@ -22,8 +22,10 @@ extends PAppletHax {
 	public void setup() {
 		super.setup();
 		DebugUtil.printErr("Make sure to run Processing LEAP Apps with JavaSE-1.7");
-//		_leapGrid = new LeapRegionGrid(2, 3, 2, 0.05f, 0, 100, true);
-		_leapGrid = new LeapRegionGrid(2, 3, 2, 0.05f, 0, 100);
+		// debug display
+		_leapGrid = new LeapRegionGrid(2, 3, 2, 0.05f, 0, 100, true);
+		// no debug display - control only
+		// _leapGrid = new LeapRegionGrid(2, 3, 2, 0.05f, 0, 100);
 	}
 
 	public void drawApp() {
@@ -37,7 +39,7 @@ extends PAppletHax {
 		DrawUtil.setColorForPImage(p);
 		
 		_leapGrid.update();
-		_leapGrid.drawDebug(p);
+		_leapGrid.drawDebug(p.g);
 	}
 	
 }
