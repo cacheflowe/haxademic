@@ -20,6 +20,7 @@ import com.haxademic.core.debug.DebugText;
 import com.haxademic.core.debug.DebugUtil;
 import com.haxademic.core.debug.Stats;
 import com.haxademic.core.draw.mesh.MeshPool;
+import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.hardware.kinect.KinectWrapper;
 import com.haxademic.core.hardware.midi.MidiWrapper;
 import com.haxademic.core.hardware.osc.OscWrapper;
@@ -444,11 +445,12 @@ extends PApplet
 				if( triggered == false && _midi != null ) _midi.allOff();
 			}
 		}
-		if(_gifRenderer != null) {
+		if(_gifRenderer != null && appConfig.getBoolean("rendering_gif", false) == true) {
 			if(appConfig.getInt("rendering_gif_startframe", 1) == p.frameCount) {
 				_gifRenderer.startGifRender(this);
 			}
-			_gifRenderer.renderGifFrame(this);
+			DrawUtil.setColorForPImage(p);
+			_gifRenderer.renderGifFrame(p.g);
 			if(appConfig.getInt("rendering_gif_stopframe", 100) == p.frameCount) {
 				_gifRenderer.finish();
 			}

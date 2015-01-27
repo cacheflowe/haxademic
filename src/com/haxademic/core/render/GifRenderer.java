@@ -3,6 +3,7 @@ package com.haxademic.core.render;
 import java.awt.image.BufferedImage;
 
 import processing.core.PApplet;
+import processing.core.PGraphics;
 import processing.core.PImage;
 
 import com.haxademic.core.app.P;
@@ -31,11 +32,11 @@ public class GifRenderer {
 		P.println("== started rendering gif ==");
 	}
 		
-	public void renderGifFrame(PApplet p) {
+	public void renderGifFrame(PGraphics pg) {
 		if(encoder == null) return; // no-op if we're starting after frameCount == 1
 		_framesRendered++;
 		P.println("== rendering gif frame: "+_framesRendered+" ==");
-		PImage screenshot = p.get();
+		PImage screenshot = pg.get();
 		BufferedImage newFrame = (BufferedImage) screenshot.getNative();
 		encoder.addFrame(newFrame);
 	}
