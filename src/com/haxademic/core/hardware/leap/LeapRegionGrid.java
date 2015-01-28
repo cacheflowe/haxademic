@@ -1,15 +1,14 @@
 package com.haxademic.core.hardware.leap;
 
-import java.util.ArrayList;
-
 import processing.core.PGraphics;
 
 import com.haxademic.core.app.P;
+import com.haxademic.core.hardware.joystick.BaseJoysticksCollection;
 import com.haxademic.core.hardware.joystick.IJoystickCollection;
-import com.haxademic.core.hardware.joystick.IJoystickControl;
 import com.haxademic.core.math.MathUtil;
 
 public class LeapRegionGrid
+extends BaseJoysticksCollection
 implements IJoystickCollection {
 
 	protected PGraphics _pg;
@@ -17,8 +16,6 @@ implements IJoystickCollection {
 	protected int _leapFar = 0;
 	protected int _leapDepth = 0;
 
-	public ArrayList<IJoystickControl> leapRegions;
-	
 	public LeapRegionGrid(int cols, int rows, int depthCells, float padding) {
 		this(cols, rows, depthCells, padding, 0, 100, false);
 	}
@@ -28,6 +25,8 @@ implements IJoystickCollection {
 	}
 	
 	public LeapRegionGrid(int cols, int rows, int depthCells, float padding, int leapClose, int leapFar, boolean debug) {
+		super();
+
 		int sketchW = P.p.width;
 		int sketchH = P.p.height;
 		
@@ -40,7 +39,6 @@ implements IJoystickCollection {
 		_leapDepth = _leapFar - _leapClose;
 		
 		// set up rectangles for position detection
-		leapRegions = new ArrayList<IJoystickControl>();
 		int paddingW = Math.round(padding * sketchW);
 		int colW = (sketchW - paddingW*(cols-1)) / cols;
 		int paddingH = Math.round(padding * sketchH);
@@ -61,14 +59,10 @@ implements IJoystickCollection {
 						leapClose + z * depthSize + paddingDepth * z + depthSize,
 						P.p.color( MathUtil.randRange(130,255), MathUtil.randRange(130,255), MathUtil.randRange(130,255) )
 					);
-					leapRegions.add( region );
+					_joysticks.add( region );
 				}
 			}
 		}
-	}
-	
-	public IJoystickControl getRegion( int index ) {
-		return leapRegions.get(index);
 	}
 	
 	public void update() {
@@ -80,8 +74,8 @@ implements IJoystickCollection {
 	}
 	
 	public void updateRegions() {
-		for( int i=0; i < leapRegions.size(); i++ ) {
-			leapRegions.get(i).detect(_pg);
+		for( int i=0; i < _joysticks.size(); i++ ) {
+			_joysticks.get(i).detect(_pg);
 		}
 	}
 	
@@ -101,8 +95,8 @@ implements IJoystickCollection {
 		// loop through leap data within rectangles ----------
 		updateRegions();
 		
-		for( int i=0; i < leapRegions.size(); i++ ) {
-			leapRegions.get(i).drawDebug(_pg);
+		for( int i=0; i < _joysticks.size(); i++ ) {
+			_joysticks.get(i).drawDebug(_pg);
 		}
 		
 		_pg.popMatrix();

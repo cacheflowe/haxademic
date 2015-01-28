@@ -3,10 +3,12 @@ package com.haxademic.core.hardware.kinect;
 import processing.core.PGraphics;
 
 import com.haxademic.core.app.P;
+import com.haxademic.core.hardware.joystick.BaseJoystick;
 import com.haxademic.core.hardware.joystick.IJoystickControl;
 import com.haxademic.core.math.MathUtil;
 
 public class KinectRegion
+extends BaseJoystick
 implements IJoystickControl {
 	
 	protected int _left = 0;
@@ -20,10 +22,6 @@ implements IJoystickControl {
 	
 	protected int _pixelCount = 0;
 	protected int _minPixels = 20;
-	protected boolean _isActive = false;
-	protected float _controlX = 0;
-	protected float _controlY = 0;
-	protected float _controlZ = 0;
 	
 	public KinectRegion( int left, int right, int near, int far, int top, int bottom, int resolution, int minPixels, int blockColor ) {
 		_left = left;
@@ -43,38 +41,6 @@ implements IJoystickControl {
 	
 	public void pixelCount( int value ) {
 		_pixelCount = value;
-	}
-	
-	public float controlX() {
-		return _controlX;
-	}
-	
-	public void controlX( float value ) {
-		_controlX = value;
-	}
-	
-	public float controlY() {
-		return 0;
-	}
-	
-	public void controlY( float value ) {
-		_controlY = value;
-	}
-	
-	public float controlZ() {
-		return _controlZ;
-	}
-
-	public void controlZ( float value ) {
-		_controlZ = value;
-	}
-	
-	public boolean isActive() {
-		return _isActive;
-	}
-	
-	public void isActive( boolean value ) {
-		_isActive = value;
 	}
 	
 	public void drawDebug(PGraphics debugGraphics) {

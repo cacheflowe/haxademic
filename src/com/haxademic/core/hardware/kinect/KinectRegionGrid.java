@@ -1,24 +1,21 @@
 package com.haxademic.core.hardware.kinect;
 
-import java.util.ArrayList;
-
 import processing.core.PGraphics;
 
 import com.haxademic.core.app.P;
+import com.haxademic.core.hardware.joystick.BaseJoysticksCollection;
 import com.haxademic.core.hardware.joystick.IJoystickCollection;
-import com.haxademic.core.hardware.joystick.IJoystickControl;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.EasingFloat;
 
 public class KinectRegionGrid
+extends BaseJoysticksCollection
 implements IJoystickCollection {
 	
 	protected PGraphics _pg;
 	protected int _kinectClose = 0;
 	protected int _kinectFar = 0;
 	protected int _kinectDepth = 0;
-	
-	public ArrayList<IJoystickControl> kinectRegions;
 	
 	// debug drawing helpers
 	protected EasingFloat _sceneRot;
@@ -33,6 +30,8 @@ implements IJoystickCollection {
 	
 
 	public KinectRegionGrid(int cols, int rows, int kinectClose, int kinectFar, int padding, int kinectTop, int kinectBottom, int kinectPixelSkip, int minPixels, boolean debug) {
+		super();
+		
 		if(debug == true) {
 			_pg = P.p.createGraphics(KinectWrapper.KWIDTH, KinectWrapper.KHEIGHT, P.OPENGL);
 		}
@@ -42,7 +41,6 @@ implements IJoystickCollection {
 		_kinectDepth = _kinectFar - _kinectClose;
 		
 		// set up rectangles for position detection
-		kinectRegions = new ArrayList<IJoystickControl>();
 		int colW = (KinectWrapper.KWIDTH - padding*(cols-1)) / cols;
 		int kinectDepth = kinectFar - kinectClose;
 		int rowH = (kinectDepth - padding*(rows-1)) / rows;
@@ -60,13 +58,9 @@ implements IJoystickCollection {
 						minPixels,
 						P.p.color( MathUtil.randRange(130,255), MathUtil.randRange(130,255), MathUtil.randRange(130,255) )
 				);
-				kinectRegions.add( region );
+				_joysticks.add( region );
 			}
 		}
-	}
-	
-	public IJoystickControl getRegion( int index ) {
-		return kinectRegions.get(index);
 	}
 	
 	public void update() {
@@ -78,8 +72,8 @@ implements IJoystickCollection {
 	}
 	
 	public void updateRegions() {
-		for( int i=0; i < kinectRegions.size(); i++ ) {
-			kinectRegions.get(i).detect(_pg);
+		for( int i=0; i < _joysticks.size(); i++ ) {
+			_joysticks.get(i).detect(_pg);
 		}
 	}
 	
@@ -119,8 +113,8 @@ implements IJoystickCollection {
 		_pg.rotateX(-P.PI/2f);
 		_pg.translate(0,0,460);
 				
-		for( int i=0; i < kinectRegions.size(); i++ ) {
-			kinectRegions.get(i).drawDebug(_pg);
+		for( int i=0; i < _joysticks.size(); i++ ) {
+			_joysticks.get(i).drawDebug(_pg);
 		}
 		_pg.popMatrix();
 		_pg.popMatrix();
