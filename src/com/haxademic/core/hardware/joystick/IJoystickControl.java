@@ -9,6 +9,8 @@ public interface IJoystickControl {
 	public void controlY(float value);
 	public float controlZ();
 	public void controlZ(float value);
+	public boolean isActive();
+	public void isActive( boolean value );
 	public void drawDebug(PGraphics debugGraphics);
 	public void detect(PGraphics debugGraphics);
 }

@@ -19,6 +19,10 @@ implements IJoystickCollection {
 
 	public ArrayList<IJoystickControl> leapRegions;
 	
+	public LeapRegionGrid(int cols, int rows, int depthCells, float padding) {
+		this(cols, rows, depthCells, padding, 0, 100, false);
+	}
+	
 	public LeapRegionGrid(int cols, int rows, int depthCells, float padding, int leapClose, int leapFar) {
 		this(cols, rows, depthCells, padding, leapClose, leapFar, false);
 	}

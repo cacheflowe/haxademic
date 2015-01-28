@@ -20,6 +20,7 @@ implements IJoystickControl {
 	
 	protected int _pixelCount = 0;
 	protected int _minPixels = 20;
+	protected boolean _isActive = false;
 	protected float _controlX = 0;
 	protected float _controlY = 0;
 	protected float _controlZ = 0;
@@ -68,6 +69,14 @@ implements IJoystickControl {
 		_controlZ = value;
 	}
 	
+	public boolean isActive() {
+		return _isActive;
+	}
+	
+	public void isActive( boolean value ) {
+		_isActive = value;
+	}
+	
 	public void drawDebug(PGraphics debugGraphics) {
 		if( _blockColor == -1 ) return;
 		debugGraphics.stroke( _blockColor );
@@ -77,6 +86,7 @@ implements IJoystickControl {
 	
 	public void detect(PGraphics debugGraphics) {
 		// find kinect readings in the region
+		_isActive = false;
 		if( P.p.kinectWrapper != null ) {
 			_pixelCount = 0;
 			float controlXTotal = 0;
@@ -104,6 +114,7 @@ implements IJoystickControl {
 
 			// if we have enough blocks in a region, update the player's joystick position
 			if( _pixelCount > _minPixels ) {
+				_isActive = true;
 				// compute averages
 				if( controlXTotal > 0 && controlZTotal > 0 ) {
 					float avgX = controlXTotal / _pixelCount;

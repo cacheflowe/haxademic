@@ -20,7 +20,7 @@ implements IJoystickControl {
 	protected int _bottom = 0;
 	protected int _blockColor = -1;
 	
-	protected boolean _hasHand = false;
+	protected boolean _isActive = false;
 	protected float _controlX = 0;
 	protected float _controlY = 0;
 	protected float _controlZ = 0;
@@ -59,8 +59,12 @@ implements IJoystickControl {
 		_controlZ = value;
 	}
 	
-	public boolean hasHand() {
-		return _hasHand;
+	public boolean isActive() {
+		return _isActive;
+	}
+	
+	public void isActive( boolean value ) {
+		_isActive = value;
 	}
 	
 	public void drawDebug(PGraphics debugGraphics) {
@@ -68,7 +72,7 @@ implements IJoystickControl {
 		
 		// set box color for (in)active states
 		debugGraphics.strokeWeight(5f);
-		if(_hasHand == true) {
+		if(_isActive == true) {
 			debugGraphics.stroke(_blockColor, 255);
 			debugGraphics.noFill();
 		} else {
@@ -82,7 +86,7 @@ implements IJoystickControl {
 		debugGraphics.box(_right - _left, _top - _bottom, _far - _near);
 		
 		// draw text control values
-		if(_hasHand == true) {
+		if(_isActive == true) {
 			debugGraphics.noStroke();
 			debugGraphics.fill(255);
 			debugGraphics.textSize(24);
@@ -94,7 +98,7 @@ implements IJoystickControl {
 	
 	public void detect(PGraphics debugGraphics) {
 		// find kinect readings in the region
-		_hasHand = false;
+		_isActive = false;
 		if( P.p.leapMotion != null ) {
 		    for(Hand hand : P.p.leapMotion.getHands()){
 		        PVector hand_position    = hand.getPosition();
@@ -119,7 +123,7 @@ implements IJoystickControl {
 		        	hand_position.z > _near && 
 		        	hand_position.z < _far 
 		        	) {
-		        	_hasHand = true;
+		        	_isActive = true;
 		        	_controlX = (MathUtil.getPercentWithinRange(_left, _right, hand_position.x) - 0.5f) * 2f;
 		        	_controlY = (MathUtil.getPercentWithinRange(_top, _bottom, hand_position.y) - 0.5f) * 2f;
 		        	_controlZ = (MathUtil.getPercentWithinRange(_near, _far, hand_position.z) - 0.5f) * 2f;
@@ -128,7 +132,7 @@ implements IJoystickControl {
 		}
 		
 		// if none found, reset values
-		if(_hasHand == false) {
+		if(_isActive == false) {
 			_controlX = 0;
 			_controlY = 0;
 			_controlZ = 0;
