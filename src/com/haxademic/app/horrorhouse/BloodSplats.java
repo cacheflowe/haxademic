@@ -148,7 +148,7 @@ extends PAppletHax{
 	}
 	
 	protected void buildPhysicalLighting() {
-		_dmx = new DmxInterface();
+		_dmx = new DmxInterface(2);
 		_color1 = new ColorHaxEasing("#000000", 5);
 		_color2 = new ColorHaxEasing("#000000", 5);
 	}
@@ -194,7 +194,9 @@ extends PAppletHax{
 	protected void drawLights() {
 		_color1.update();
 		_color2.update();
-		_dmx.updateColors(_color1.colorInt(), _color2.colorInt());
+		_dmx.setColorAtIndex(0, _color1.colorInt());
+		_dmx.setColorAtIndex(1, _color2.colorInt());
+		_dmx.updateColors();
 
 		
 		// debug dmx lights

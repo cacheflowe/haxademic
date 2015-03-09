@@ -153,7 +153,7 @@ extends PAppletHax {
 	}
 	
 	protected void buildPhysicalLighting() {
-		_dmx = new DmxInterface();
+		_dmx = new DmxInterface(2);
 		_color1 = new ColorHaxEasing("#000000", 5);
 		_color2 = new ColorHaxEasing("#000000", 5);
 	}
