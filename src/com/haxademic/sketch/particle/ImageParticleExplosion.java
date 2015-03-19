@@ -1,8 +1,10 @@
 package com.haxademic.sketch.particle;
 
-import processing.core.PApplet;
 import processing.core.PConstants;
 import processing.core.PImage;
+
+import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.system.FileUtil;
 
 /**
  * 
@@ -10,7 +12,7 @@ import processing.core.PImage;
  *
  */
 public class ImageParticleExplosion
-	extends PApplet
+	extends PAppletHax
 {
 	// global vars
 	protected int _fps = 30;
@@ -20,21 +22,14 @@ public class ImageParticleExplosion
 
 	public void setup ()
 	{
+		super.setup();
 		// set up stage and drawing properties
-		size( 1024, 768, OPENGL );
-		frameRate( _fps );
-		colorMode( PConstants.RGB, 255, 255, 255, 255 );
-		background( 0 );
-//		noSmooth();
-//		shininess(1000); 
-//		lights();
 		smooth();
 		noStroke();
 		
-		
 		// set up image
 		PImage image;
-		image = loadImage("../data/images/middle-finger-trans.png");
+		image = loadImage(FileUtil.getHaxademicDataPath()+"images/cursor-finger-trans.png");
 		imageMode( PConstants.CENTER );
 		
 		// create particles
@@ -42,13 +37,9 @@ public class ImageParticleExplosion
 		for( int i = 0; i < _numParticles; i++ ) {
 			_particles[i] = new ImageParticle( width/2, height/4, image );
 		}
-		
-		// set up renderer
-//		_render = new Renderer( this, _fps, Renderer.OUTPUT_TYPE_IMAGE, "bin/output/" );
-//		_render.startRenderer();
 	}
 
-	public void draw() 
+	public void drawApp() 
 	{
 		// update particles
 		for (int i = 0; i < _numParticles; i++) 
