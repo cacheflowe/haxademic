@@ -26,7 +26,7 @@ extends PAppletHax {
 	protected ArrayList<NotePlayer> _players;
 	protected IJoystickCollection _joysticks;
 	protected int NUM_PLAYERS = 4;
-	protected boolean _dmxActive = false;
+	protected boolean _dmxActive = true;
 	
 	// http://en.wikipedia.org/wiki/Piano_key_frequencies
 	protected float[] _frequenciesFromMiddleC4 = {
@@ -142,9 +142,9 @@ extends PAppletHax {
 			
 			// fade between start & end 
 			_color.setTargetRGBA(
-					MathUtil.interp(ColorHaxEasing.redFromColorInt(_lowColor), ColorHaxEasing.redFromColorInt(_highColor), percent),
-					MathUtil.interp(ColorHaxEasing.greenFromColorInt(_lowColor), ColorHaxEasing.greenFromColorInt(_highColor), percent),
-					MathUtil.interp(ColorHaxEasing.blueFromColorInt(_lowColor), ColorHaxEasing.blueFromColorInt(_highColor), percent),
+					MathUtil.interp(ColorUtil.redFromColorInt(_lowColor), ColorUtil.redFromColorInt(_highColor), percent),
+					MathUtil.interp(ColorUtil.greenFromColorInt(_lowColor), ColorUtil.greenFromColorInt(_highColor), percent),
+					MathUtil.interp(ColorUtil.blueFromColorInt(_lowColor), ColorUtil.blueFromColorInt(_highColor), percent),
 					255);
 		}
 		
@@ -179,6 +179,7 @@ extends PAppletHax {
 			_gainDB.update();
 			_gainEfx.setValue(_gainDB.value());
 			
+			// probably need  to do this instead: http://wiki.audacityteam.org/wiki/Change_Speed
 			if(_noteIndex != -1) {
 				float sampleRate = BASE_SAMPLE_RATE - (SAMPLE_RATE_OCTAVE / OCTAVE_NUM_NOTES) * _noteIndex;
 				_sampleRate.setTarget(sampleRate);
@@ -189,7 +190,7 @@ extends PAppletHax {
 		
 		public int color() {
 			float freqOsc = (_noteIndex != -1) ? 0.1f * P.sin((p.millis() / 1000f) * (_frequenciesFromMiddleC4[_noteIndex] / 10f)) : 0;
-			return _color.colorInt(_brightness.value() * 0.85f + freqOsc);
+			return _color.colorInt(_brightness.value() * 1.05f + freqOsc);
 		}
 	}
 	
