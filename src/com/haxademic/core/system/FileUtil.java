@@ -105,6 +105,26 @@ public class FileUtil {
 		return filesOfType;
 	}
 	
+	public static ArrayList<String> getFilesInDirOfTypes( String directory, String formats ) {
+		File dir = new File( directory );
+		String[] children = dir.list();
+		ArrayList<String> filesOfType = new ArrayList<String>();
+		if (children == null) {
+			P.println("FileUtil error: couldn't find file or directory");
+		} else {
+			String[] extensions = formats.split(",");
+		    for (int i=0; i < children.length; i++) {
+		        String filename = children[i];
+		        for( int j=0; j < extensions.length; j++ ) {
+			        if( filename.indexOf( "." + extensions[j] ) != -1 ) {	
+			        	filesOfType.add( directory + "/" + filename );
+			        }
+		        }
+		    }
+		}
+		return filesOfType;		
+	}
+	
 	public static void shuffleFileList( ArrayList<String> files ) {
 		String cur = null;
 		String temp = null;
@@ -153,6 +173,22 @@ public class FileUtil {
 		};
 		File[] files = dir.listFiles(fileFilter);
 		P.println( files.length );
+	}
+	
+	public static String[] getDirsInDir( String directory ) {
+		File dir = new File( directory );
+		// This filter only returns directories
+		FileFilter fileFilter = new FileFilter() {
+		    public boolean accept(File file) {
+		        return file.isDirectory();
+		    }
+		};
+		File[] files = dir.listFiles(fileFilter);
+		String[] fileNames = new String[files.length];
+		for (int i = 0; i < files.length; i++) {
+			fileNames[i] = files[i].toString();
+		}
+		return fileNames;
 	}
 	
 	/**
