@@ -19,7 +19,7 @@ public class KinectSkeletonDemo extends PApplet {
 		context.enableDepth();
 
 		// enable skeleton generation for all joints
-		context.enableUser();
+		context.enableUser(0);
 
 		background(200,0,0);
 

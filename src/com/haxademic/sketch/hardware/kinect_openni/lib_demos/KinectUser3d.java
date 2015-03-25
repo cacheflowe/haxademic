@@ -33,7 +33,7 @@ public class KinectUser3d extends PApplet {
 	  }
 
 	  // enable skeleton generation for all joints
-	  context.enableUser();
+	  context.enableUser(0);
 
 	  stroke(255,255,255);
 	  smooth();  

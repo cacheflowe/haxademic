@@ -2,7 +2,7 @@ package com.haxademic.sketch.hardware.kinect_openni;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.util.DrawUtil;
-import com.haxademic.core.hardware.kinect.KinectWrapper;
+import com.haxademic.core.hardware.kinect.IKinectWrapper;
 import com.haxademic.core.image.filters.PixelFilter;
 
 
@@ -20,7 +20,7 @@ extends PAppletHax {
 	
 	public void setup() {
 		super.setup();
-		_pixelFilter = new PixelFilter(KinectWrapper.KWIDTH, KinectWrapper.KHEIGHT, (int)PIXEL_SIZE);
+		_pixelFilter = new PixelFilter(IKinectWrapper.KWIDTH, IKinectWrapper.KWIDTH, (int)PIXEL_SIZE);
 	}
 
 	protected void overridePropsFile() {
@@ -46,7 +46,7 @@ extends PAppletHax {
 		// loop through kinect data within player's control range
 		p.stroke(255, 127);
 		float pixelDepth;
-		for ( int x = 0; x < KinectWrapper.KWIDTH; x += PIXEL_SIZE ) {
+		for ( int x = 0; x < p.kinectWrapper.KWIDTH; x += PIXEL_SIZE ) {
 			for ( int y = KINECT_TOP; y < KINECT_BOTTOM; y += PIXEL_SIZE ) {
 				pixelDepth = p.kinectWrapper.getMillimetersDepthForKinectPixel( x, y );
 				if( pixelDepth != 0 && pixelDepth > KINECT_CLOSE && pixelDepth < KINECT_FAR ) {

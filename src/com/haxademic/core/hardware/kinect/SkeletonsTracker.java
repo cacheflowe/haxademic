@@ -15,7 +15,7 @@ import com.haxademic.core.math.easing.EasingFloat3d;
 public class SkeletonsTracker {
 	
 	protected PAppletHax p;
-	public SimpleOpenNI  _kinectContext;
+	public IKinectWrapper  _kinectContext;
 	protected int _curUserId = -1;
 	protected float _controlsMultiplier = 1;
 	protected EasingFloat3d _handLeft;
@@ -36,7 +36,8 @@ public class SkeletonsTracker {
 	public SkeletonsTracker() {
 		p = (PAppletHax) P.p;
 		// Set Kinect user/skeleton tracking - most of the setup and updating happens in PAppletHax
-		_kinectContext = p.kinectWrapper.openni();
+		//_kinectContext = p.kinectWrapper.openni();
+		_kinectContext = p.kinectWrapper;
 		p.kinectWrapper.setMirror(true);
 		enableSkeletonTracking();
 		
@@ -73,7 +74,7 @@ public class SkeletonsTracker {
 	}
 	
 	protected void enableSkeletonTracking() {
-		_kinectContext.enableUser();
+		_kinectContext.enableUser(0);
 	}
 		
 	public boolean hasASkeleton() {

@@ -14,14 +14,14 @@ import com.haxademic.core.audio.AudioInputWrapper;
 import com.haxademic.core.draw.color.ColorGroup;
 import com.haxademic.core.draw.mesh.DrawMesh;
 import com.haxademic.core.draw.util.ThreeDeeUtil;
-import com.haxademic.core.hardware.kinect.KinectWrapper;
+import com.haxademic.core.hardware.kinect.IKinectWrapper;
 
 public class KinectMeshOld
 extends ElementBase 
 implements IVizElement {
 	
 	// kinect setup
-	protected KinectWrapper _kinectInterface;
+	protected IKinectWrapper _kinectInterface;
 	protected int _kinectWidth = 640;
 	protected int _kinectHeight = 480;
 	protected int _drawScale = 10000;
@@ -60,7 +60,7 @@ implements IVizElement {
 	protected TColor _fillColor;
 	protected TColor _strokeColor;
 
-	public KinectMeshOld( PApplet p, ToxiclibsSupport toxi, AudioInputWrapper audioData, KinectWrapper kinectWrapper ) {
+	public KinectMeshOld( PApplet p, ToxiclibsSupport toxi, AudioInputWrapper audioData, IKinectWrapper kinectWrapper ) {
 		super( p, toxi, audioData );
 		_kinectInterface = kinectWrapper;
 		init();
@@ -107,7 +107,7 @@ implements IVizElement {
 		p.rectMode(PConstants.CENTER);
 
 		_mesh = new WETriangleMesh();
-		_depthArray = _kinectInterface.getDepthData();
+		//_depthArray = _kinectInterface.getDepthData();
 		
 		// loop through point grid and skip over pixels on an interval
 		for (int x = 0; x < _kinectWidth; x+=_pixelsSkip) {
