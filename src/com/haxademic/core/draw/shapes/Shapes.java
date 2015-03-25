@@ -68,7 +68,10 @@ public class Shapes {
 		drawDisc3D(p.g, radius, innerRadius, cylinderHeight, numSegments, color, wallcolor);
 	}
 
-	public static void drawDisc( PApplet p, float radius, float innerRadius, int numSegments )
+	public static void drawDisc( PApplet p, float radius, float innerRadius, int numSegments ) {
+		drawDisc(p.g, radius, innerRadius, numSegments);
+	}
+	public static void drawDisc( PGraphics p, float radius, float innerRadius, int numSegments )
 	{
 		p.pushMatrix();
 
@@ -79,13 +82,13 @@ public class Shapes {
 			p.beginShape(P.TRIANGLES);
 			float segmentCircumference = (2f*P.PI) / numSegments;
 			
-			p.vertex( P.sin( i * segmentCircumference ) * innerRadius, P.cos( i * segmentCircumference ) * innerRadius );
-			p.vertex( P.sin( i * segmentCircumference ) * radius, P.cos( i * segmentCircumference ) * radius );
-			p.vertex( P.sin( (i + 1) * segmentCircumference ) * radius, P.cos( (i + 1) * segmentCircumference ) * radius );
+			p.vertex( P.sin( i * segmentCircumference ) * innerRadius, P.cos( i * segmentCircumference ) * innerRadius, 0 );
+			p.vertex( P.sin( i * segmentCircumference ) * radius, P.cos( i * segmentCircumference ) * radius, 0 );
+			p.vertex( P.sin( (i + 1) * segmentCircumference ) * radius, P.cos( (i + 1) * segmentCircumference ) * radius, 0 );
 			
-			p.vertex( P.sin( i * segmentCircumference ) * innerRadius, P.cos( i * segmentCircumference ) * innerRadius );
-			p.vertex( P.sin( (i + 1) * segmentCircumference ) * innerRadius, P.cos( (i + 1) * segmentCircumference ) * innerRadius );
-			p.vertex( P.sin( (i + 1) * segmentCircumference ) * radius, P.cos( (i + 1) * segmentCircumference ) * radius );
+			p.vertex( P.sin( i * segmentCircumference ) * innerRadius, P.cos( i * segmentCircumference ) * innerRadius, 0 );
+			p.vertex( P.sin( (i + 1) * segmentCircumference ) * innerRadius, P.cos( (i + 1) * segmentCircumference ) * innerRadius, 0 );
+			p.vertex( P.sin( (i + 1) * segmentCircumference ) * radius, P.cos( (i + 1) * segmentCircumference ) * radius, 0 );
 			p.endShape();
 		}
 		

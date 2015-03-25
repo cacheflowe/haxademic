@@ -13,6 +13,10 @@ public class ConvertUtil {
 	public static String intToString( int number ) {
 		return Integer.toString( number );
 	}
+	
+	public static boolean stringToBoolean( String bool ) {
+		return (bool == "true") ? true : false;
+	}
 }
 
 

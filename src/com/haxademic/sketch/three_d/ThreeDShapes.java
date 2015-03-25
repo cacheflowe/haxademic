@@ -322,13 +322,6 @@ public class ThreeDShapes
 		}
 		*/
 		
-		drawRandom();
-	}
-	
-	protected void drawRandom(  )
-	{
-		
-		
 	}
 	
 	protected void drawPyramid( float shapeHeight, int baseWidth )

@@ -7,10 +7,14 @@ import processing.opengl.PShader;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.util.OpenGLUtil;
+import com.haxademic.core.image.MotionBlurPGraphics;
+import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.EasingFloat;
 import com.haxademic.core.math.easing.LinearFloat;
 import com.haxademic.core.render.VideoFrameGrabber;
 import com.haxademic.core.system.FileUtil;
+
+import controlP5.ControlP5;
 
 @SuppressWarnings("serial")
 public class CachePatterChromaVideoTest
@@ -31,67 +35,113 @@ extends PAppletHax{
 	PShader _brightness;
 	PShader _opacity;
 	PShader _vignette;
-	protected EasingFloat _vignetteEaser = new EasingFloat(0.5f, 13);
 	
-	int _timingFrames = -1;
-	protected float _timeConstantInc = 0.01f;
-	protected EasingFloat _cloudTimeEaser = new EasingFloat(0, 13);
-	protected EasingFloat _superShapeOpacityEaser = new EasingFloat(0, 17);
-	protected LinearFloat _chromaOpacityEaser;
-	protected LinearFloat _overallBrightnessEaser = new LinearFloat(2, 0.004f);	// (1/0.004)/30 = 8.3 seconds
+	MotionBlurPGraphics _pgMotionBlur;
 
-	float _curMovieFrame = 1800;
-	float _playbackFrameCountInc = 1f/3f;
 
-	float _songLengthFrames = 4520; // really 4519, but we're letting Renderer shut this down at the end of the audio file
+	protected ControlP5 _cp5;
+	public float thresholdSensitivity;
+	public float smoothing;
+	public float colorToReplaceR;
+	public float colorToReplaceG;
+	public float colorToReplaceB;
+	public float darkness;
+	public float spread;
+
+	float _startMovieFrame = 0;
+	float _addMovieFrame = 0;
 
 	protected void overridePropsFile() {
 		_appConfig.setProperty( "width", "1280" );
 		_appConfig.setProperty( "height", "720" );
+		_appConfig.setProperty( "width", "960" );
+		_appConfig.setProperty( "height", "540" );
 		_appConfig.setProperty( "rendering", "false" );
 	}
 	
 	public void setup() {
 		super.setup();
-		
+	
+		_pgMotionBlur = new MotionBlurPGraphics(6);
+
 		// video frame buffer graphics
 		_movieBuffer = p.createGraphics(p.width, p.height, P.P2D);
 
 		// video scrubber
-		_videoFrames = new VideoFrameGrabber(p, "/Users/cacheflowe/Documents/workspace/plasticsoundsupply/resources/_releases/PSS020 - ambient compilation/patter-video/selectes-reference-all-export-264.mov", 30, 0);
+		_videoFrames = new VideoFrameGrabber(p, "/Users/cacheflowe/Documents/workspace/plasticsoundsupply/resources/_releases/PSS020 - ambient compilation/patter-video/ultrasoft-selects-540.mp4", 30, 0);
 
 		_vignette = loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/vignette.glsl" );
-		_vignette.set("darkness", 0.5f);
-		_vignette.set("spread", 0.15f);
+		_desaturate = loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/saturation.glsl" );
+		_resaturate = loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/saturation.glsl" );
 
+		_videoFrames.setFrameIndex(_startMovieFrame);
+
+		_cp5 = new ControlP5(this);
+		int cp5W = 160;
+		int cp5X = 20;
+		int cp5Y = 20;
+		int cp5YSpace = 40;
+		_cp5.addSlider("thresholdSensitivity").setPosition(cp5X,cp5Y).setWidth(cp5W).setRange(0,1f).setValue(0.75f);
+		_cp5.addSlider("smoothing").setPosition(cp5X,cp5Y+=cp5YSpace).setWidth(cp5W).setRange(0,1f).setValue(0.26f);
+		_cp5.addSlider("colorToReplaceR").setPosition(cp5X,cp5Y+=cp5YSpace).setWidth(cp5W).setRange(0,1f).setValue(0.29f);
+		_cp5.addSlider("colorToReplaceG").setPosition(cp5X,cp5Y+=cp5YSpace).setWidth(cp5W).setRange(0,1f).setValue(0.93f);
+		_cp5.addSlider("colorToReplaceB").setPosition(cp5X,cp5Y+=cp5YSpace).setWidth(cp5W).setRange(0,1f).setValue(0.14f);
+		_cp5.addSlider("darkness").setPosition(cp5X,cp5Y+=cp5YSpace).setWidth(cp5W).setRange(0,1f).setValue(0.4f);
+		_cp5.addSlider("spread").setPosition(cp5X,cp5Y+=cp5YSpace).setWidth(cp5W).setRange(0,1f).setValue(0.35f);
 	}
 	
 	public void drawApp() {
 		p.background(255);
 
+		_addMovieFrame += 0.5f;
+		_videoFrames.setFrameIndex(_startMovieFrame + _addMovieFrame);
+		P.println(_startMovieFrame + _addMovieFrame);
 
-		_videoFrames.setFrameIndex( p.frameCount + 1950 );
-		
 		// shaders
 		_chromaKeyFilter = loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/chroma-gpu.glsl" );
+		
 		_chromaKeyFilter.set("thresholdSensitivity", 0.65f);
-//		_chromaKeyFilter.set("thresholdSensitivity", (float)p.mouseY/(float)p.height);
 		_chromaKeyFilter.set("smoothing", 0.19f);
-//		_chromaKeyFilter.set("smoothing", (float)p.mouseY/(float)p.height);
 		_chromaKeyFilter.set("colorToReplace", 0.48f,0.8f,0.2f);
-//		_chromaKeyFilter.set("colorToReplace", (float)p.mouseY/(float)p.height,(float)p.mouseX/(float)p.width,0.1f);
+		
+		_chromaKeyFilter.set("thresholdSensitivity", 0.65f);
+		_chromaKeyFilter.set("smoothing", 0.26f);
+		_chromaKeyFilter.set("colorToReplace", 0.29f,0.93f,0.14f);
+				
+		_chromaKeyFilter.set("thresholdSensitivity", thresholdSensitivity);
+		_chromaKeyFilter.set("smoothing", smoothing);
+		_chromaKeyFilter.set("colorToReplace", colorToReplaceR, colorToReplaceG, colorToReplaceB);
 		
 		_vignette = loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/vignette.glsl" );
-		_vignette.set("darkness", 0.5f);
-		_vignette.set("spread", (float)p.mouseX/(float)p.width);
-		P.println("== mouse == (y) = "+(float)p.mouseY/(float)p.height+"  (x) = "+(float)p.mouseX/(float)p.width);
+		_vignette.set("darkness", 0.4f);
+		_vignette.set("spread", 0.35f);
+
+		_vignette.set("darkness", darkness);
+		_vignette.set("spread", spread);
 
 		_movieBuffer.beginDraw();
 		_movieBuffer.image(_videoFrames.movie(), 0, 0, p.width, p.height);
 		_movieBuffer.endDraw();
 		_movieBuffer.filter(_chromaKeyFilter);
+		_movieBuffer.filter(_desaturate);
 		
-		p.image(_movieBuffer, 0, 0);
+//		p.image(_movieBuffer, 0, 0);
+		_pgMotionBlur.updateToCanvas(_movieBuffer, p.g, 0.3f);
+
 		p.filter(_vignette);
+		
+		
+		float _opacity = MathUtil.getPercentWithinRange(p.height * 0.75f, p.height, p.mouseY);//(p.mouseY, p.height * 0.75f, p.height, 0, 1f);
+		P.println(_opacity);
+
+	}
+	
+	public void mousePressed() {
+		super.mousePressed();
+		if(p.mouseY < p.height * 0.75f) return;
+		_addMovieFrame = 0;
+		_startMovieFrame = Math.round(((float)p.mouseX/(float)p.width) * (_videoFrames.movie().duration() * 30.0f));
+		_videoFrames.setFrameIndex(_startMovieFrame);
+//		_videoFrames.setTimeFromPercent((float)p.width/(float)p.mouseX);
 	}
 }

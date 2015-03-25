@@ -16,7 +16,7 @@ extends PAppletHax{
 	PGraphics _cloudsGraphics;
 	PShader _clouds;
 	
-	protected float _timeConstantInc = 0.1f;
+	protected float _timeConstantInc = 0.5f;
 	protected EasingFloat _cloudTimeEaser = new EasingFloat(0, 13);
 
 	float _songLengthFrames = 120f; // really 4519, but we're letting Renderer shut this down at the end of the audio file
@@ -25,6 +25,8 @@ extends PAppletHax{
 	protected void overridePropsFile() {
 		_appConfig.setProperty( "width", "1280" );
 		_appConfig.setProperty( "height", "720" );
+		_appConfig.setProperty( "width", "480" );
+		_appConfig.setProperty( "height", "270" );
 		_appConfig.setProperty( "rendering", "false" );
 	}
 	
@@ -52,6 +54,16 @@ extends PAppletHax{
 		p.fill(0);
 		p.ellipse(cloudControlX, cloudControlY, 10, 10);
 
+		// show 3d rotation
+		p.stroke(0);
+		p.noFill();
+		p.pushMatrix();
+		p.translate(p.width/2, p.height/2);
+		p.rotateY(cloudControlRadians);
+		p.rotateX(P.sin(cloudControlRadians * -2f)/2);
+		p.box(10,10,50);
+		p.popMatrix();
+		
 		P.println(p.frameCount+" / "+_songLengthFrames);
 	}
 	
@@ -59,7 +71,7 @@ extends PAppletHax{
 		// move clouds control in a big half-circle
 		float percentComplete = (float) p.frameCount / _songLengthFrames;
 		float cloudControlRadians = percentComplete * P.PI;
-		float cloudControlX = (float)p.width/2f + 		   P.sin(cloudControlRadians - P.HALF_PI) * (float)p.width/2f;
+		float cloudControlX = (float)p.width/4f + 		   P.sin(cloudControlRadians - P.HALF_PI) * (float)p.width/4f;
 		float cloudControlY = ((float)-p.height * 0.3f) + P.cos(cloudControlRadians - P.HALF_PI) * (float)p.width/2f * 1.f;
 
 		_cloudTimeEaser.update();

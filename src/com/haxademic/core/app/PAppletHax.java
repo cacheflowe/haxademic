@@ -21,7 +21,7 @@ import com.haxademic.core.debug.DebugUtil;
 import com.haxademic.core.debug.Stats;
 import com.haxademic.core.draw.mesh.MeshPool;
 import com.haxademic.core.hardware.kinect.IKinectWrapper;
-import com.haxademic.core.hardware.kinect.IKinectWrapper;
+import com.haxademic.core.hardware.kinect.KinectWrapperV1;
 import com.haxademic.core.hardware.kinect.KinectWrapperV2;
 import com.haxademic.core.hardware.midi.MidiWrapper;
 import com.haxademic.core.hardware.osc.OscWrapper;
@@ -42,7 +42,7 @@ import de.voidplus.leapmotion.LeapMotion;
  * environment for both realtime and rendering modes. It loads several Java
  * libraries and wraps them up to play nicely with each other, all within the
  * context of Haxademic.
- * 
+ *
  * @TODO: Add better Processing lights() situation
  * @TODO: Refactor MIDI input for easier switching between ableton & akai pad control
  * @TODO: Add MIDI debug flag in .properties
@@ -51,12 +51,12 @@ import de.voidplus.leapmotion.LeapMotion;
  * @TODO: Implement new viz ideas from sketchbook
  * @TODO: Add SVG animation class
  * @TODO: Create PGraphics & PImage audio-reactive textures to apply to meshes across sketches/apps. See SphereTextureMap and abstracts some of the goodness. !!! - add current texture and iVizTextureDraw classes to VizCollection Module
- * 
+ *
  * @TODO: Use a static Haxademic.support( PApplet ) type static instance to let us gain access to the applet without passing it everywhere. Look at Geomerative & Toxiclibs to see how they did it.
  * @TODO: ^^^ General cleanup of PAppletHax references throughout codebase
  * @TODO: Make sure it's cool to post all the 3rd-party code within. potentially rewrite these bits
  * @TODO: Address garbage collection - a larger project would be to have dispose() methods in every class, and implement disposal across the project.
- * @TODO: Come up with a single solution to be an IVizModule or an extension of PAppletHax. 
+ * @TODO: Come up with a single solution to be an IVizModule or an extension of PAppletHax.
  * @TODO: optimize the kinectMesh element - shit is slow
  * @TODO: MIDI signals from rendering and live should be abstracted as MIDI message objects?
  * @TODO: Mesh traversal drawing: more configurable. generative options - implement mesh drawing strategy pattern
@@ -69,20 +69,20 @@ import de.voidplus.leapmotion.LeapMotion;
  * @TODO: Add launchpad back in without a secondary AudioInputWrapper
  * @TODO: Improve color selecting - use test sketch to figure out how to deal with color-traversing
  * @TODO: New elements: trails, supershapes, GEARS, particles
- * @TODO: add foreground/background modes to elements that could use them. 
+ * @TODO: add foreground/background modes to elements that could use them.
  * @TODO: Create good input system for building up MasterHax module over time & manage flow of Elements.
  * @TODO: create more complex uses of new Elements
  * @TODO: Refine existing elements
- * 
+ *
  * @author cacheflowe
  *
  */
 
 public class PAppletHax
-extends PApplet 
+extends PApplet
 {
 	/**
-	 * 
+	 *
 	 */
 	private static final long serialVersionUID = 1L;
 
@@ -90,121 +90,121 @@ extends PApplet
 	 * Global/static ref to PApplet - any audio-reactive object should be passed this reference, or grabbed from this static ref.
 	 */
 	protected static PAppletHax p;
-	
+
 	/**
 	 * Loads the project .properties file to configure several app properties externally.
 	 */
 	protected P5Properties _appConfig;	// we should move to public instance
 	public P5Properties appConfig;
-	
+
 	/**
 	 * Loads an app-specific project .properties file.
 	 */
 	protected String _customPropsFile = null;
-	
+
 	/**
 	 * Single instance of Toxiclibs object
 	 */
 	public ToxiclibsSupport toxi;
-	
+
 	/**
 	 * Single instance and wrapper for the ESS audio object.
 	 */
 	public AudioInputWrapper _audioInput;
 	public AudioInputWrapperMinim audioIn;
 	public boolean _useLegacyAudio = false;
-	
+
 	/**
 	 * Single instance of the data needed to draw a realtime waveform / oscilloscpe.
 	 */
 	public WaveformData _waveformData;
-	
+
 	/**
 	 * Renderer object for saving frames and rendering movies & gifs.
 	 */
 	public Renderer _renderer;
 	public MIDISequenceRenderer _midiRenderer;
 	public GifRenderer _gifRenderer;
-	
+
 	/**
 	 * Wraps up MIDI functionality with theMIDIbus library.
 	 */
 	public MidiWrapper _midi = null;
 	public MidiWrapper midi = null;
-	
+
 	/**
 	 * Loads and stores a pool of WETriangleMesh objects.
 	 */
 	public MeshPool meshPool = null;
-	
+
 	/**
 	 * Wraps up Kinect functionality.
 	 */
 	public IKinectWrapper kinectWrapper = null;
-	
+
 	/**
 	 * Wraps up Leap Motion functionality.
 	 */
 	public LeapMotion leapMotion = null;
-	
+
 	/**
 	 * A secondary system of running the visuals on the Launchpad. This should probably be integrated into Modules?
 	 */
 //	public LaunchpadViz _launchpadViz = null;
-	
+
 	/**
 	 * Wraps up incoming OSC commands with the oscP5 library.
 	 */
 	public OscWrapper _oscWrapper = null;
-	
+
 	/**
 	 * Native Java object that simulates occasional keystrokes to prevent the system's screensaver from starting.
 	 */
 	protected Robot _robot;
-	
+
 	/**
 	 * Single instance for minim audio library.
 	 */
 	public Minim minim;
-	
+
 	/**
-	 * Prevents crashing from possible attempts to re-initialize. 
+	 * Prevents crashing from possible attempts to re-initialize.
 	 * Similar error described here: http://code.google.com/p/processing/issues/detail?id=356
 	 */
 	protected Boolean _is_setup = false;
-	
+
 	/**
 	 * Override this in a subclass of PAppletHax in main() if you want to remove the window chrome. Must be published as an Application, not an Applet.
 	 */
 	protected static Boolean _hasChrome = true;
-	
+
 	/**
 	 * Override this in a subclass of PAppletHax in main() if you want to go full screen. Must be published as an Application, not an Applet.
 	 */
 	protected static Boolean _isFullScreen = false;
-	
+
 	/**
-	 * Executable's target frames per second. 
+	 * Executable's target frames per second.
 	 * This value is set in .properties file.
 	 */
 	public int _fps;
-	
+
 	/**
 	 * Stats debug class
 	 */
 	public Stats _stats;
-	
+
 	/**
 	 * Flag for showing stats
 	 */
 	public boolean _showStats;
-	
+
 	/**
 	 * Text for showing stats
 	 */
 	public DebugText _debugText;
-	
-	
+
+
 	/**
 	 * Graphical render mode
 	 */
@@ -214,34 +214,34 @@ extends PApplet
 	 * Joons renderer wrapper
 	 */
 	protected JoonsWrapper _jw;
-	
+
 	/**
-	 * Helps the Renderer object work with minimal reconfiguration. Maybe this should be moved at some point... 
+	 * Helps the Renderer object work with minimal reconfiguration. Maybe this should be moved at some point...
 	 */
 	protected Boolean _isRendering = true;
 	protected int _renderShutdown = -1;
-	
+
 	/**
 	 * Helps the Renderer object work without trying to read an audio file
 	 */
 	protected Boolean _isRenderingAudio = true;
-	
+
 	/**
 	 * Helps the Renderer object work without trying to read a MIDI file
 	 */
 	protected Boolean _isRenderingMidi = true;
-	
-	// OVERRIDE THE FOLLOWING METHODS 
+
+	// OVERRIDE THE FOLLOWING METHODS
 	/**
 	 * Called by PApplet to run before the first draw() command.
 	 */
 	public void setup () {
 		P.p = p = this;
-		if ( !_is_setup ) { 
+		if ( !_is_setup ) {
 			// load external properties and set flag
 			_appConfig = new P5Properties(p);
 			appConfig = _appConfig;
-			if( _customPropsFile != null ) 
+			if( _customPropsFile != null )
 				_appConfig.loadPropertiesFile( _customPropsFile );
 			overridePropsFile();
 			_is_setup = true;
@@ -258,36 +258,36 @@ extends PApplet
 		setAppletProps();
 		initHaxademicObjects();
 	}
-	
+
 	protected void overridePropsFile() {
 		if( _customPropsFile == null ) P.println("YOU SHOULD OVERRIDE overridePropsFile()");
 	}
-	
+
 	protected void drawApp() {
 		P.println("YOU MUST OVERRIDE drawApp()");
 	}
-	
+
 	public boolean sketchFullScreen() {
 		return _isFullScreen;
 	}
-	
+
 	protected void handleInput( boolean isMidi ) {
 //		p.println("YOU MUST OVERRIDE KEYPRESSED");
 		if( isMidi == true ) {
-			
+
 		} else {
 //			P.println("p.key = "+p.key);
 			// audio gain
-//			if ( p.key == '.' || _midi.midiPadIsOn( MidiWrapper.PAD_14 ) == 1 ) _audioInput.gainUp(); 
-//			if ( p.key == ',' || _midi.midiPadIsOn( MidiWrapper.PAD_13 ) == 1 ) _audioInput.gainDown(); 
-			if ( p.key == '.' && _audioInput != null ) _audioInput.gainUp(); 
-			if ( p.key == ',' && _audioInput != null ) _audioInput.gainDown(); 
-			if ( p.key == '.' && audioIn != null ) audioIn.gainUp(); 
-			if ( p.key == ',' && audioIn != null ) audioIn.gainDown(); 
+//			if ( p.key == '.' || _midi.midiPadIsOn( MidiWrapper.PAD_14 ) == 1 ) _audioInput.gainUp();
+//			if ( p.key == ',' || _midi.midiPadIsOn( MidiWrapper.PAD_13 ) == 1 ) _audioInput.gainDown();
+			if ( p.key == '.' && _audioInput != null ) _audioInput.gainUp();
+			if ( p.key == ',' && _audioInput != null ) _audioInput.gainDown();
+			if ( p.key == '.' && audioIn != null ) audioIn.gainUp();
+			if ( p.key == ',' && audioIn != null ) audioIn.gainDown();
 		}
 
 	}
-	
+
 	/**
 	 * Sets some initial Applet properties for OpenGL quality, FPS, and nocursor().
 	 */
@@ -310,17 +310,17 @@ extends PApplet
 		frameRate(_fps);
 		if( _appConfig.getBoolean("hide_cursor", false) == true ) p.noCursor();
 	}
-	
+
 	public void init() {
 		// frame only exists on Java Applications, not Applets
 		if( frame != null && _hasChrome == false ) {
-			frame.removeNotify(); 
-			frame.setUndecorated(true); 
-			frame.addNotify(); 
+			frame.removeNotify();
+			frame.setUndecorated(true);
+			frame.addNotify();
 		}
 		super.init();
 	}
-	
+
 	/**
 	 * Initializes app-wide support objects for hardware interaction and rendering purposes.
 	 */
@@ -350,14 +350,14 @@ extends PApplet
 //		_launchpadViz = new LaunchpadViz( p5 );
 		if( _appConfig.getBoolean( "osc_active", false ) ) _oscWrapper = new OscWrapper( p );
 		meshPool = new MeshPool( p );
-		_jw = ( _appConfig.getBoolean("sunflow", true ) == true ) ? 
-				new JoonsWrapper( p, width, height, ( _appConfig.getString("sunflow_quality", "high" ) == "high" ) ? JoonsWrapper.QUALITY_HIGH : JoonsWrapper.QUALITY_LOW, ( _appConfig.getBoolean("sunflow_active", true ) == true ) ? true : false ) 
+		_jw = ( _appConfig.getBoolean("sunflow", true ) == true ) ?
+				new JoonsWrapper( p, width, height, ( _appConfig.getString("sunflow_quality", "high" ) == "high" ) ? JoonsWrapper.QUALITY_HIGH : JoonsWrapper.QUALITY_LOW, ( _appConfig.getBoolean("sunflow_active", true ) == true ) ? true : false )
 				: null;
 		_debugText = new DebugText( p );
 		if( _showStats == true ) _stats = new Stats( p );
 		try { _robot = new Robot(); } catch( Exception error ) { println("couldn't init Robot for screensaver disabling"); }
 	}
-	
+
 	protected void initializeExtraObjectsOn1stFrame() {
 		if( p.frameCount == 1 ){
 			P.println("Using Java version: "+SystemUtil.getJavaVersion());
@@ -367,13 +367,13 @@ extends PApplet
 			}
 		}
 	}
-	
+
 	public void draw() {
 		//if( keyPressed ) handleInput( false ); // handles overall keyboard commands
 		killScreensaver();
 		initializeExtraObjectsOn1stFrame();	// wait until draw() happens, to avoid weird launch crash if midi signals were coming in as haxademic starts
 		handleRenderingStepthrough();
-		if( _audioInput != null ) _audioInput.getBeatDetection(); // detect beats and pass through to current visual module	// 		int[] beatDetectArr = 
+		if( _audioInput != null ) _audioInput.getBeatDetection(); // detect beats and pass through to current visual module	// 		int[] beatDetectArr =
 		if( audioIn != null ) {
 			audioIn.update(); // detect beats and pass through to current visual module	// 		int[] beatDetectArr =
 			_waveformData.updateWaveformDataMinim( audioIn.getAudioInput() );
@@ -392,7 +392,7 @@ extends PApplet
 		}
 		if( _showStats == true ) showStats();
 	}
-	
+
 	protected void showStats() {
 		_stats.update();
 		_debugText.draw( "FPS: " + _fps + " :: ACTUAL FPS: " + _stats.getFps() );	// display some info
@@ -401,14 +401,14 @@ extends PApplet
 			DebugUtil.showMemoryUsage();
 		}
 	}
-	
+
 	protected void handleRenderingStepthrough() {
 		// step through midi file if set
 		if( _isRenderingMidi == true ) {
 			if( p.frameCount == 1 ) {
 				try {
 					_midiRenderer = new MIDISequenceRenderer(p);
-					_midiRenderer.loadMIDIFile( _appConfig.getString("render_midi_file", ""), _appConfig.getFloat("render_midi_bpm", 150f), _fps, _appConfig.getFloat("render_midi_offset", -8f) ); 
+					_midiRenderer.loadMIDIFile( _appConfig.getString("render_midi_file", ""), _appConfig.getFloat("render_midi_bpm", 150f), _fps, _appConfig.getFloat("render_midi_offset", -8f) );
 				} catch (InvalidMidiDataException e) { e.printStackTrace(); } catch (IOException e) { e.printStackTrace(); }
 			}
 		}
@@ -424,15 +424,15 @@ extends PApplet
 					_renderer.startRenderer();
 				}
 			}
-			
+
 //			if( p.frameCount > 1 ) {
-				// have renderer step through audio, then special call to update the single WaveformData storage object				
+				// have renderer step through audio, then special call to update the single WaveformData storage object
 				if( _isRenderingAudio == true ) {
-					_renderer.analyzeAudio();				
+					_renderer.analyzeAudio();
 					_waveformData.updateWaveformDataForRender( _renderer, _audioInput.getAudioInput(), _audioInput._bufferSize );
 				}
 //			}
-			
+
 			if( _midiRenderer != null ) {
 				boolean doneCheckingForMidi = false;
 				boolean triggered = false;
@@ -448,22 +448,23 @@ extends PApplet
 				if( triggered == false && _midi != null ) _midi.allOff();
 			}
 		}
-		if(_gifRenderer != null) {
+		if(_gifRenderer != null && appConfig.getBoolean("rendering_gif", false) == true) {
 			if(appConfig.getInt("rendering_gif_startframe", 1) == p.frameCount) {
 				_gifRenderer.startGifRender(this);
 			}
-			_gifRenderer.renderGifFrame(this);
+			DrawUtil.setColorForPImage(p);
+			_gifRenderer.renderGifFrame(p.g);
 			if(appConfig.getInt("rendering_gif_stopframe", 100) == p.frameCount) {
 				_gifRenderer.finish();
 			}
 		}
 	}
-	
+
 	protected void killScreensaver(){
 		// keep screensaver off - hit shift every 1000 frames
 		if( p.frameCount % 1000 == 0 ) _robot.keyRelease(KeyEvent.VK_SHIFT);
 	}
-	
+
 	/**
 	 * Called by PApplet as the keyboard input listener.
 	 */
@@ -489,6 +490,7 @@ extends PApplet
 		WebCamWrapper.dispose();
 //		if( _launchpadViz != null ) _launchpadViz.dispose();
 		if( kinectWrapper != null ) kinectWrapper.stop();
+		if( leapMotion != null ) leapMotion.dispose();
 		super.stop();
 	}
 
@@ -504,24 +506,24 @@ extends PApplet
 	 * PApplet-level listener for MIDIBUS noteOn call
 	 */
 	public void noteOn(int channel, int  pitch, int velocity) {
-		if( _midi != null ) { 
+		if( _midi != null ) {
 			if( _midi.midiNoteIsOn( pitch ) == 0 ) {
 				_midi.noteOn( channel, pitch, velocity );
-				try{ 
+				try{
 					handleInput( true );
 				}
 				catch( ArrayIndexOutOfBoundsException e ){println("noteOn BROKE!");}
 			}
 		}
 	}
-	
+
 	/**
 	 * PApplet-level listener for MIDIBUS noteOff call
 	 */
 	public void noteOff(int channel, int  pitch, int velocity) {
 		if( _midi != null ) _midi.noteOff( channel, pitch, velocity );
 	}
-	
+
 	/**
 	 * PApplet-level listener for MIDIBUS CC signal
 	 */
@@ -538,7 +540,7 @@ extends PApplet
 		_audioInput.detector.detect(theInput);
 		_waveformData.updateWaveformData( theInput, _audioInput._bufferSize );
 	}
-	
+
 	/**
 	 * PApplet-level listener for OSC data from the oscP5 library
 	 */
@@ -548,7 +550,7 @@ extends PApplet
 		// PAppletHax.println(oscMsg+": "+oscValue);
 		_oscWrapper.setOscMapItem(oscMsg, oscValue);
 
-		try { 
+		try {
 			if( oscValue > 0 ) {
 				handleInput( true );
 			}
@@ -574,7 +576,7 @@ extends PApplet
 	void leapOnExit(){
 	    // println("Leap Motion Exit");
 	}
-	
+
 	/**
 	 * PApplet-level listeners for SimpleOpenNI user events
 	 */

@@ -3,6 +3,7 @@ package com.haxademic.sketch.test;
 import processing.core.PGraphics;
 import processing.opengl.PShader;
 
+import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.EasingFloat;
@@ -23,8 +24,8 @@ extends PAppletHax {
 	public void setup() {
 		super.setup();
 		
-		_textureShaderFile = FileUtil.getHaxademicDataPath() + "shaders/textures/firey-spiral.glsl";
-		_filterShaderFile = FileUtil.getHaxademicDataPath() + FILTER_VIGNETTE;
+		_textureShaderFile = FileUtil.getHaxademicDataPath() + "shaders/textures/basic-checker.glsl";
+		_filterShaderFile = FileUtil.getHaxademicDataPath() + FILTER_WOBBLE;
 		
 		_buffer = createGraphics( width,  height, P2D );
 		_textureShader = p.loadShader( _textureShaderFile );
@@ -37,19 +38,17 @@ extends PAppletHax {
 		_timeEaser.update();
 		_timeEaseInc = _timeEaser.value();
 
-		_textureShader = loadShader( _textureShaderFile );	// this sucks but will be fixed in the next version of processing.
-		applyTime( _textureShader );
+//		applyTime( _textureShader );
 		// updateBwEyeJacker01(_textureShader);
 		// applyResolution( _textureShader );
 		// applyMouse( _textureShader );
 		
-		_filterShader = p.loadShader( _filterShaderFile );	// this sucks but will be fixed in the next version of processing.
-		updateVignetteFilter( _filterShader );
+		updateWobbleFilter( _filterShader );
 		
 		_buffer.filter( _textureShader );
-		
-		image( _buffer,  0,  0 );
-		p.filter( _filterShader );
+		_buffer.filter( _filterShader );
+		image( _buffer, 0, 0);
+//		p.filter( _filterShader );
 	}
 	
 	public void keyPressed() {
@@ -115,6 +114,14 @@ extends PAppletHax {
 		shader.set("texture", _buffer);
 	}
 		
+	public static final String FILTER_WOBBLE = "shaders/filters/wobble.glsl";
+	public void updateWobbleFilter( PShader shader ) {
+		shader.set("time", _timeEaseInc * 2f);
+		shader.set("speed", 1.0f + (0.5f * P.sin(p.frameCount/90f)));
+		shader.set("strength", 0.001f + (0.0005f * P.sin(p.frameCount/80f)));
+		shader.set("size", 100f + (50f * P.sin(p.frameCount/70f)));
+	}
+	
 	// TEXTURES =====================================================================
 
 	public static final String TEXTURE_BW_EYE_JACKER_01 = "shaders/textures/bw-eye-jacker-01.glsl";

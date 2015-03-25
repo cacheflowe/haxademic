@@ -4,6 +4,7 @@ import processing.core.PVector;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.debug.DebugUtil;
 
 import de.voidplus.leapmotion.Device;
 import de.voidplus.leapmotion.Finger;
@@ -11,30 +12,29 @@ import de.voidplus.leapmotion.Hand;
 import de.voidplus.leapmotion.LeapMotion;
 import de.voidplus.leapmotion.Tool;
 
+@SuppressWarnings("serial")
 public class LeapBasic 
 extends PAppletHax {
 	
-
-	LeapMotion leap;
-
 	protected void overridePropsFile() {
 		_appConfig.setProperty( "fills_screen", "false" );
+		_appConfig.setProperty( "leap_active", "true" );
 		_appConfig.setProperty( "width", "1200" );
-		_appConfig.setProperty( "height", "600" );
+		_appConfig.setProperty( "height", "900" );
 	}
 
 	public void setup() {
 		super.setup();
-		leap = new LeapMotion(this);
+		DebugUtil.printErr("Make sure to run Processing LEAP Apps with JavaSE-1.7");
 	}
 
 	public void drawApp(){
 	    background(255);
 	    // ...
-	    int fps = leap.getFrameRate();
+	    int fps = leapMotion.getFrameRate();
 
 	    // HANDS
-	    for(Hand hand : leap.getHands()){
+	    for(Hand hand : leapMotion.getHands()){
 
 	        hand.draw();
 	        int     hand_id          = hand.getId();
@@ -48,7 +48,7 @@ extends PAppletHax {
 	        PVector sphere_position  = hand.getSpherePosition();
 	        float   sphere_radius    = hand.getSphereRadius();
 
-	        P.println("hand_position.x = "+hand_position.x);
+	        P.println("hand_position = "+hand_position.x+", "+hand_position.y+", "+hand_position.z);
 	        
 	        // FINGERS
 	        for(Finger finger : hand.getFingers()){
@@ -107,7 +107,7 @@ extends PAppletHax {
 	    }
 
 	    // DEVICES
-	    for(Device device : leap.getDevices()){
+	    for(Device device : leapMotion.getDevices()){
 	        float device_horizontal_view_angle = device.getHorizontalViewAngle();
 	        float device_verical_view_angle = device.getVerticalViewAngle();
 	        float device_range = device.getRange();

@@ -27,7 +27,6 @@ extends PAppletHax{
 	protected AsyncImageLoader asyncLoader;
 
 	protected ArrayList<IMouseable> _mouseables;
-	protected Button _button;
 
 	protected TextInput _emailInput;
 	protected TextInput _initialsInput;
