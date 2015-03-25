@@ -13,14 +13,14 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.cameras.CameraBasic;
 import com.haxademic.core.cameras.CameraOscillate;
 import com.haxademic.core.draw.shapes.Shapes;
-import com.haxademic.core.hardware.kinect.KinectWrapper;
+import com.haxademic.core.hardware.kinect.IKinectWrapper;
 import com.haxademic.core.hardware.midi.MidiWrapper;
 
 public class MaxCache extends ModuleBase implements IVizModule {
 	
 	protected int _numAverages = 12;
 
-	protected KinectWrapper _kinectinterface;
+	protected IKinectWrapper _kinectinterface;
 	protected ToxiclibsSupport _gfx;
 		
 	protected float _audioBoost = 6;
@@ -179,7 +179,8 @@ public class MaxCache extends ModuleBase implements IVizModule {
 //		rect(0,0,100,100);
 		
 		int numPixelsDrawn = 0;
-		int[] _depthArray = _kinectinterface.getDepthData();
+		//int[] _depthArray = kinectinterface.getDepthData();
+		int[] _depthArray = null; //TODO: Temporary while testing
 		
 		// get camera image and create UV coord floats
 		_depthImage = _kinectinterface.getDepthImage();

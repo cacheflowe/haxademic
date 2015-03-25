@@ -11,7 +11,8 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.audio.AudioInputWrapper;
 import com.haxademic.core.draw.color.ColorGroup;
 import com.haxademic.core.draw.util.DrawUtil;
-import com.haxademic.core.hardware.kinect.KinectWrapper;
+import com.haxademic.core.hardware.kinect.IKinectWrapper;
+import com.haxademic.core.hardware.kinect.IKinectWrapper;
 import com.haxademic.core.image.filters.PixelFilter;
 
 public class KinectMesh
@@ -39,10 +40,10 @@ implements IVizElement {
 	
 	protected PAppletHax pHax;
 	
-	public KinectMesh( PApplet p, ToxiclibsSupport toxi, AudioInputWrapper audioData, KinectWrapper kinectWrapper ) {
+	public KinectMesh( PApplet p, ToxiclibsSupport toxi, AudioInputWrapper audioData, IKinectWrapper kinectWrapper ) {
 		super( p, toxi, audioData );
 		pHax = (PAppletHax) p;
-		_pixelFilter = new PixelFilter(KinectWrapper.KWIDTH, KinectWrapper.KHEIGHT, (int)PIXEL_SIZE);
+		_pixelFilter = new PixelFilter(IKinectWrapper.KWIDTH, IKinectWrapper.KWIDTH, (int)PIXEL_SIZE);
 		init();
 	}
 
@@ -69,7 +70,7 @@ implements IVizElement {
 		// loop through kinect data within player's control range
 		p.stroke(_fillColor.toARGB());
 		float pixelDepth;
-		for ( int x = 0; x < KinectWrapper.KWIDTH; x += PIXEL_SIZE ) {
+		for ( int x = 0; x < pHax.kinectWrapper.KWIDTH; x += PIXEL_SIZE ) {
 			for ( int y = KINECT_TOP; y < KINECT_BOTTOM; y += PIXEL_SIZE ) {
 				pixelDepth = pHax.kinectWrapper.getMillimetersDepthForKinectPixel( x, y );
 				if( pixelDepth != 0 && pixelDepth > KINECT_CLOSE && pixelDepth < KINECT_FAR ) {

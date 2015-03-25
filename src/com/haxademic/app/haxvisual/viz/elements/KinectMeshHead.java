@@ -20,7 +20,7 @@ import com.haxademic.core.draw.color.ColorGroup;
 import com.haxademic.core.draw.mesh.MeshPool;
 import com.haxademic.core.draw.mesh.MeshUtil;
 import com.haxademic.core.draw.util.DrawUtil;
-import com.haxademic.core.hardware.kinect.KinectWrapper;
+import com.haxademic.core.hardware.kinect.IKinectWrapper;
 import com.haxademic.core.hardware.kinect.SkeletonsTracker;
 import com.haxademic.core.system.FileUtil;
 
@@ -45,7 +45,7 @@ implements IVizElement {
 	
 	protected PAppletHax pHax;
 	
-	public KinectMeshHead( PApplet p, ToxiclibsSupport toxi, AudioInputWrapper audioData, KinectWrapper kinectWrapper ) {
+	public KinectMeshHead( PApplet p, ToxiclibsSupport toxi, AudioInputWrapper audioData, IKinectWrapper kinectWrapper ) {
 		super( p, toxi, audioData );
 		init();
 	}

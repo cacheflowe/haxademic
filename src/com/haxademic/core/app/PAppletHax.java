@@ -20,7 +20,9 @@ import com.haxademic.core.debug.DebugText;
 import com.haxademic.core.debug.DebugUtil;
 import com.haxademic.core.debug.Stats;
 import com.haxademic.core.draw.mesh.MeshPool;
-import com.haxademic.core.hardware.kinect.KinectWrapper;
+import com.haxademic.core.hardware.kinect.IKinectWrapper;
+import com.haxademic.core.hardware.kinect.IKinectWrapper;
+import com.haxademic.core.hardware.kinect.KinectWrapperV2;
 import com.haxademic.core.hardware.midi.MidiWrapper;
 import com.haxademic.core.hardware.osc.OscWrapper;
 import com.haxademic.core.hardware.webcam.WebCamWrapper;
@@ -138,7 +140,7 @@ extends PApplet
 	/**
 	 * Wraps up Kinect functionality.
 	 */
-	public KinectWrapper kinectWrapper = null;
+	public IKinectWrapper kinectWrapper = null;
 	
 	/**
 	 * Wraps up Leap Motion functionality.
@@ -339,7 +341,9 @@ extends PApplet
 			_gifRenderer = new GifRenderer(appConfig.getInt("rendering_gif_framerate", 45), appConfig.getInt("rendering_gif_quality", 15));
 		}
 		if( _appConfig.getBoolean( "kinect_active", false ) == true ) {
-			kinectWrapper = new KinectWrapper( p, _appConfig.getBoolean( "kinect_depth", true ), _appConfig.getBoolean( "kinect_rgb", true ), _appConfig.getBoolean( "kinect_depth_image", true ) );
+			//kinectWrapper = new KinectWrapper( p, _appConfig.getBoolean( "kinect_depth", true ), _appConfig.getBoolean( "kinect_rgb", true ), _appConfig.getBoolean( "kinect_depth_image", true ) );
+			//TODO: This is temporary. Redesign to use dependency injection of the Kinect services
+			kinectWrapper = new KinectWrapperV2( p, _appConfig.getBoolean( "kinect_depth", true ), _appConfig.getBoolean( "kinect_rgb", true ), _appConfig.getBoolean( "kinect_depth_image", true ) );
 			kinectWrapper.setMirror( _appConfig.getBoolean( "kinect_mirrored", true ) );
 		}
 		if( _appConfig.getBoolean( "leap_active", false ) == true ) leapMotion = new LeapMotion(this);
@@ -578,7 +582,7 @@ extends PApplet
 	{
 	  println("onNewUser - userId: " + userId);
 	  println("\tstart tracking skeleton");
-	  p.kinectWrapper.openni().startTrackingSkeleton(userId);
+	  p.kinectWrapper.startTrackingSkeleton(userId);
 	}
 
 	public void onLostUser( SimpleOpenNI curContext, int userId ) {

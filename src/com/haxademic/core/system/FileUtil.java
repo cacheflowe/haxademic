@@ -31,26 +31,26 @@ public class FileUtil {
 	public static String getHaxademicPath() {
 		if( HAX_PATH != null ) return HAX_PATH;
 		String binPath = getProjectAbsolutePath();
-		Boolean hasBin = ( binPath.lastIndexOf("/bin") != -1 ) ? true : false;
-		HAX_PATH = ( hasBin == true ) ? binPath.substring(0, binPath.lastIndexOf("/bin") ) : binPath;
+		Boolean hasBin = ( binPath.lastIndexOf(File.separator + "bin") != -1 ) ? true : false;
+		HAX_PATH = ( hasBin == true ) ? binPath.substring(0, binPath.lastIndexOf(File.separator + "bin") ) : binPath;
 		return HAX_PATH;
 	}
 	
 	public static String getHaxademicBinPath() {
 		if( BIN_PATH != null ) return BIN_PATH;
-		BIN_PATH = getHaxademicPath().concat("/bin/");
+		BIN_PATH = getHaxademicPath().concat(File.separator + "bin" + File.separator);
 		return BIN_PATH;
 	}
 	
 	public static String getHaxademicDataPath() {
 		if( DATA_PATH != null ) return DATA_PATH;
-		DATA_PATH = getHaxademicPath().concat("/data/");
+		DATA_PATH = getHaxademicPath().concat(File.separator + "data" + File.separator);
 		return DATA_PATH;
 	}
 	
 	public static String getHaxademicOutputPath() {
 		if( OUTPUT_PATH != null ) return OUTPUT_PATH;
-		OUTPUT_PATH = getHaxademicPath().concat("/output/");
+		OUTPUT_PATH = getHaxademicPath().concat(File.separator + "output" + File.separator);
 		return OUTPUT_PATH;
 	}
 	

@@ -17,7 +17,7 @@ import com.haxademic.core.cameras.common.ICamera;
 import com.haxademic.core.data.FloatRange;
 import com.haxademic.core.draw.color.ColorGroup;
 import com.haxademic.core.draw.util.DrawUtil;
-import com.haxademic.core.hardware.kinect.KinectWrapper;
+import com.haxademic.core.hardware.kinect.IKinectWrapper;
 import com.haxademic.core.system.FileUtil;
 
 public class KacheOut
@@ -161,9 +161,9 @@ extends PAppletHax
 		KINECT_TOP = _appConfig.getInt( "kinect_top_pixel", 240 );
 		KINECT_BOTTOM = _appConfig.getInt( "kinect_bottom_pixel", 400 );
 		
-		float kinectRangeWidth = KinectWrapper.KWIDTH / 2f * KINECT_GAP_PERCENT;
+		float kinectRangeWidth = IKinectWrapper.KWIDTH / 2f * KINECT_GAP_PERCENT;
 		_player1 = new GamePlay( 0, 0, _gameWidth, new FloatRange( 0, kinectRangeWidth ) );
-		_player2 = new GamePlay( 1, _gameWidth, _gameWidth * 2, new FloatRange( KinectWrapper.KWIDTH - kinectRangeWidth, KinectWrapper.KWIDTH ) );
+		_player2 = new GamePlay( 1, _gameWidth, _gameWidth * 2, new FloatRange( IKinectWrapper.KWIDTH - kinectRangeWidth, IKinectWrapper.KWIDTH ) );
 		_gamePlays = new ArrayList<GamePlay>();
 		_gamePlays.add( _player1 );
 		_gamePlays.add( _player2 );
@@ -327,7 +327,7 @@ extends PAppletHax
 		p.translate( 0, 0, -1350 );
 		p.fill(255, 255);
 		p.noStroke();
-		p.rect(0, 0, KinectWrapper.KWIDTH*1.1f, KinectWrapper.KHEIGHT*1.1f);
+		p.rect(0, 0, IKinectWrapper.KWIDTH*1.1f, IKinectWrapper.KHEIGHT*1.1f);
 		p.translate( 0, 0, 100 );
 		p.rotateY( (float)Math.PI );
 //		p.image( _kinectWrapper.getDepthImage(), 0, 0, _kinectWrapper.KWIDTH, _kinectWrapper.KHEIGHT );

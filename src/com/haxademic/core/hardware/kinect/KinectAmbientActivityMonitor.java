@@ -23,20 +23,20 @@ public class KinectAmbientActivityMonitor {
 	
 	protected void buildGridBuffer() {
 		_gridBuffer = new ArrayList<FloatBuffer>();
-		for ( int x = 0; x < KinectWrapper.KWIDTH; x += _pixelSize ) {
-			for ( int y = 0; y < KinectWrapper.KHEIGHT; y += _pixelSize ) {
+		for ( int x = 0; x < IKinectWrapper.KWIDTH; x += _pixelSize ) {
+			for ( int y = 0; y < IKinectWrapper.KWIDTH; y += _pixelSize ) {
 				_gridBuffer.add( new FloatBuffer(10) );
 			}
 		}
 	}
 	
-	public float update( KinectWrapper kinectWrapper, boolean debugDraw ) {
+	public float update( IKinectWrapper kinectWrapper, boolean debugDraw ) {
 		int gridIndex = 0;
 		float depth = 0;
 		_activityLevel = 0;
 		P.p.noStroke();
-		for ( int x = 0; x < KinectWrapper.KWIDTH; x += _pixelSize ) {
-			for ( int y = 0; y < KinectWrapper.KHEIGHT; y += _pixelSize ) {
+		for ( int x = 0; x < IKinectWrapper.KWIDTH; x += _pixelSize ) {
+			for ( int y = 0; y < IKinectWrapper.KHEIGHT; y += _pixelSize ) {
 				depth = kinectWrapper.getMillimetersDepthForKinectPixel( x, y );
 				if( depth > 0 ) {
 					_gridBuffer.get( gridIndex ).update( depth );

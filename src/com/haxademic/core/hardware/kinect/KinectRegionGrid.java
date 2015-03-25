@@ -31,7 +31,7 @@ public class KinectRegionGrid {
 		
 		// set up rectangles for position detection
 		kinectRegions = new ArrayList<KinectRegion>();
-		int colW = (KinectWrapper.KWIDTH - padding*(cols-1)) / cols;
+		int colW = (IKinectWrapper.KWIDTH - padding*(cols-1)) / cols;
 		int kinectDepth = kinectFar - kinectClose;
 		int rowH = (kinectDepth - padding*(rows-1)) / rows;
 

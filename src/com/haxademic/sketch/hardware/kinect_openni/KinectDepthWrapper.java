@@ -5,13 +5,15 @@ import processing.core.PFont;
 import processing.core.PVector;
 
 import com.haxademic.core.app.P;
-import com.haxademic.core.hardware.kinect.KinectWrapper;
+import com.haxademic.core.hardware.kinect.IKinectWrapper;
+import com.haxademic.core.hardware.kinect.IKinectWrapper;
+import com.haxademic.core.hardware.kinect.KinectWrapperV2;
 
 @SuppressWarnings("serial")
 public class KinectDepthWrapper 
 extends PApplet {
 
-	KinectWrapper _kinectWrapper;
+	IKinectWrapper _kinectWrapper;
 	float        zoomF =0.5f;
 	float        rotX = radians(0);//radians(180);  // by default rotate the hole scene 180deg around the x-axis, 
 	// the data from openni comes upside down
@@ -24,7 +26,10 @@ extends PApplet {
 		size(1024,768,P3D);  // strange, get drawing error in the cameraFrustum if i use P3D, in opengl there is no problem
 
 		//context = new SimpleOpenNI(this,SimpleOpenNI.RUN_MODE_SINGLE_THREADED);
-		_kinectWrapper = new KinectWrapper( this, true, true, true );
+		//_kinectWrapper = new KinectWrapper( this, true, true, true );
+		
+		//TODO: This is temporary. Redesign to use dependency injection of the Kinect services
+		_kinectWrapper = new KinectWrapperV2( this, true, true, true );
 		
 		stroke(255,255,255);
 		smooth();
@@ -54,9 +59,11 @@ extends PApplet {
 		PFont debugFont = createFont("Arial",50);
 		textFont( debugFont );
 		fill(255,255,255);
-
-		for(int y=0; y < KinectWrapper.KHEIGHT; y+=steps) {
-			for(int x=0; x < KinectWrapper.KWIDTH; x+=steps) {
+		int kwidth=IKinectWrapper.KWIDTH;
+		int kheight = IKinectWrapper.KHEIGHT;
+		
+		for(int y=0; y < kheight; y+=steps) {
+			for(int x=0; x < kwidth; x+=steps) {
 				// draw raw data in millimeters
 				curPoint = _kinectWrapper.getRealWorldDepthForKinectPixel(x, y);
 				stroke(255,255,255);
@@ -64,8 +71,8 @@ extends PApplet {
 					point( curPoint.x,curPoint.y,curPoint.z );  // make realworld z negative, in the 3d drawing coordsystem +z points in the direction of the eye
 					pushMatrix();
 					translate( curPoint.x,curPoint.y,curPoint.z );
-//					if( x % 30 == 0 && y == KinectWrapper.KWIDTH / 2 ) text(""+curPoint.z);
-					if( x == KinectWrapper.KWIDTH / 2 && y == KinectWrapper.KHEIGHT / 2 ) P.println("real:  x"+curPoint.x+"  y:"+curPoint.y+"  z:"+curPoint.z);
+//					if( x % 30 == 0 && y == IKinectWrapper.KWIDTH / 2 ) text(""+curPoint.z);
+					if( x == kwidth / 2 && y == kheight / 2 ) P.println("real:  x"+curPoint.x+"  y:"+curPoint.y+"  z:"+curPoint.z);
 					popMatrix();
 				}
 				// draw raw data in millimeters
@@ -74,13 +81,13 @@ extends PApplet {
 				if( curPoint != null ) point(x,y,curZ);
 				pushMatrix();
 				translate( x,y,-curZ );
-				if( x == KinectWrapper.KWIDTH / 2 && y == KinectWrapper.KHEIGHT / 2 ) P.println("depth: "+curZ);
+				if( x == kwidth / 2 && y == kheight / 2 ) P.println("depth: "+curZ);
 				popMatrix();
 			}
 		}
 
 		// draw the kinect cam
-		_kinectWrapper.openni().drawCamFrustum();
+		_kinectWrapper.drawCamFrustum();
 	}
 
 

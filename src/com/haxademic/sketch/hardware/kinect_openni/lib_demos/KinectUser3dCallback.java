@@ -35,7 +35,7 @@ public class KinectUser3dCallback extends PApplet {
 	  }
 
 	  // enable skeleton generation for all joints, direct all callback to the helper class
-	  context.enableUser();
+	  context.enableUser(0);
 
 	  stroke(255, 255, 255);
 	  smooth();  

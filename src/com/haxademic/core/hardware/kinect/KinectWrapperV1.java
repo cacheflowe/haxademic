@@ -7,7 +7,7 @@ import SimpleOpenNI.SimpleOpenNI;
 
 import com.haxademic.core.debug.DebugUtil;
 
-public class KinectWrapper {
+public class KinectWrapperV1 implements IKinectWrapper{
 	
 	protected PApplet p;
 	protected SimpleOpenNI _kinect;
@@ -15,8 +15,10 @@ public class KinectWrapper {
 	public static boolean KINECT_ERROR_SHOWN = false;
 
 	protected int _hardwareTilt = 0;
-	public static int KWIDTH = 640;
+	private static int KWIDTH = 640;
 	public static int KHEIGHT = 480;
+	public static int getKWIDTH() { return KWIDTH; }
+	public static int getKHEIGHT() { return KHEIGHT; }
 
 	public int[] _depthArray;
 	public PVector[] _realWorldMap;
@@ -24,7 +26,10 @@ public class KinectWrapper {
 	// The sensor has an angular field of view of 57� horizontally and 43� vertically, while the motorized pivot is capable of tilting the sensor up to 27� either up or down
 	// http://en.wikipedia.org/wiki/Field_of_view
 
-	public KinectWrapper( PApplet p, boolean initDepth, boolean initRGB, boolean initDepthImage ) {
+	
+	
+
+	public KinectWrapperV1( PApplet p, boolean initDepth, boolean initRGB, boolean initDepthImage ) {
 		this.p = p;
 
 		_kinect = new SimpleOpenNI( p, SimpleOpenNI.RUN_MODE_DEFAULT );
@@ -62,6 +67,9 @@ public class KinectWrapper {
 	public PImage getRgbImage() {
 		return _kinect.rgbImage();
 	}
+	
+	public int rgbWidth() {return 640;};
+	public int rgbHeight() {return 480;};
 	
 	public int[] getDepthData() {
 		return _depthArray;
@@ -153,7 +161,7 @@ public class KinectWrapper {
 	}
 	
 	public PVector getRealWorldDepthForKinectPixel( int x, int y ) {
-		int offset = x + y * KinectWrapper.KWIDTH;
+		int offset = x + y * KinectWrapperV1.getKWIDTH();
 		if( _depthArray[offset] == 0 || offset >= _realWorldMap.length ) {
 			return null;
 		} else {
@@ -162,11 +170,48 @@ public class KinectWrapper {
 	}
 	
 	public int getMillimetersDepthForKinectPixel( int x, int y ) {
-		int offset = x + y * KinectWrapper.KWIDTH;
+		int offset = x + y * KinectWrapperV1.getKWIDTH();
 		if( offset >= _depthArray.length ) {
 			return 0;
 		} else {
 			return _depthArray[offset];
 		}
+	}
+	
+	/* (non-Javadoc)
+	 * @see com.haxademic.core.hardware.kinect.IKinectWrapper#startTrackingSkeleton(int)
+	 */
+	@Override
+	public void startTrackingSkeleton(int userId) {
+		_kinect.startTrackingSkeleton(userId);
+		
+	}
+	@Override
+	public void enableUser(int i) {
+		_kinect.enableUser(i);
+		
+	}
+	@Override
+	public int[] getUsers() {
+		return _kinect.getUsers();
+	}
+	@Override
+	public void getCoM(int i, PVector _utilPVec) {
+		_kinect.getCoM(i, _utilPVec);
+		
+	}
+	@Override
+	public float getJointPositionSkeleton(int userId, int skelLeftHand,
+			PVector _utilPVec) {
+		return getJointPositionSkeleton(userId, skelLeftHand, _utilPVec);
+	}
+	@Override
+	public void convertRealWorldToProjective(PVector _utilPVec,
+			PVector _utilPVec2) {
+		_kinect.convertRealWorldToProjective(_utilPVec, _utilPVec2);	
+	}
+	@Override
+	public void drawLimb(int userId, int skelHead, int skelNeck) {
+		_kinect.drawLimb(userId, skelHead, skelNeck);
 	}
 }

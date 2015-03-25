@@ -10,7 +10,7 @@ import com.haxademic.app.kacheout.KacheOut;
 import com.haxademic.core.app.P;
 import com.haxademic.core.data.FloatRange;
 import com.haxademic.core.draw.util.DrawUtil;
-import com.haxademic.core.hardware.kinect.KinectWrapper;
+import com.haxademic.core.hardware.kinect.*;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.EasingFloat;
 import com.haxademic.core.math.easing.ElasticFloat;
@@ -231,7 +231,7 @@ public class GamePlay {
 			}
 			if( inputDetected == true ) _paddle.setTargetXByPercent( 1f - paddleX );
 		} else if( p.leapMotion != null ) {
-			float leapFactor = ((float)p.width/(float)KinectWrapper.KWIDTH);
+			float leapFactor = ((float)p.width/(float)IKinectWrapper.KWIDTH);
 		    for(Hand hand : p.leapMotion.getHands()){
 		        PVector handPosition = hand.getPosition();
 		        float leftHandBounds = _kinectRange.min() * leapFactor;
@@ -405,9 +405,9 @@ public class GamePlay {
 		// draw point cloud
 		p.pushMatrix();
 		DrawUtil.setCenter( p );
-//		float xTravel = p.gameWidth() - KinectWrapper.KWIDTH;
+//		float xTravel = p.gameWidth() - IKinectWrapper.KWIDTH;
 		float scale = 1;
-		p.translate( -KinectWrapper.KWIDTH/2f, 0, -1000 );
+		p.translate( -IKinectWrapper.KWIDTH/2f, 0, -1000 );
 //		float scale = 100f;	// 22f
 //		p.translate( (_gameIndex*60f) + -_paddle.xPosPercent() * 50f, 26, -400 );
 		
@@ -423,7 +423,7 @@ public class GamePlay {
 		// draw debug positioning vertical lines
 		p.pushMatrix();
 		DrawUtil.setCenter( p );
-		p.translate( -KinectWrapper.KWIDTH/2, 0, -700 );
+		p.translate( -IKinectWrapper.KWIDTH/2, 0, -700 );
 		p.fill( 255, 255, 255, 127 );
 		p.rect(_kinectRange.min(), 0, 2, p.stageHeight());
 		p.rect(_kinectRange.max(), 0, 2, p.stageHeight());
