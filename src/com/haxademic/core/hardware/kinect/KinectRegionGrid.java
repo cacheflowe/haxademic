@@ -33,7 +33,7 @@ implements IJoystickCollection {
 		super();
 
 		if(debug == true) {
-			_pg = P.p.createGraphics(KinectWrapper.KWIDTH, KinectWrapper.KHEIGHT, P.OPENGL);
+			_pg = P.p.createGraphics(IKinectWrapper.KWIDTH, IKinectWrapper.KHEIGHT, P.OPENGL);
 		}
 
 		_kinectClose = kinectClose;

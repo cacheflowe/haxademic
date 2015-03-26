@@ -3,12 +3,12 @@ package com.haxademic.core.hardware.kinect;
 import processing.core.PApplet;
 import processing.core.PImage;
 import processing.core.PVector;
-import KinectPV2.*;
+import KinectPV2.KinectPV2;
 import SimpleOpenNI.SimpleOpenNI;
 
 import com.haxademic.core.debug.DebugUtil;
 //Kinect Wrapper for Microsoft Kinect V2 for Windows
-public class KinectWrapperV2 extends KinectWrapperBase implements IKinectWrapper {
+public class KinectWrapperV2 implements IKinectWrapper {
 	
 	protected PApplet p;
 	protected KinectPV2 _kinect;

@@ -20,7 +20,7 @@ import blobDetection.EdgeVertex;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.draw.util.OpenGLUtil;
-import com.haxademic.core.hardware.kinect.KinectWrapper;
+import com.haxademic.core.hardware.kinect.IKinectWrapper;
 import com.haxademic.core.image.filters.FastBlurFilter;
 import com.haxademic.core.math.MathUtil;
 
@@ -55,8 +55,8 @@ public class KinectSilhouettePG {
 	
 		initBlobDetection();
 
-		_kinectPixelated = P.p.createGraphics( KinectWrapper.KWIDTH, KinectWrapper.KHEIGHT, P.OPENGL );
-		_canvas = P.p.createGraphics( KinectWrapper.KWIDTH, KinectWrapper.KHEIGHT, P.OPENGL );
+		_kinectPixelated = P.p.createGraphics( IKinectWrapper.KWIDTH, IKinectWrapper.KHEIGHT, P.OPENGL );
+		_canvas = P.p.createGraphics( IKinectWrapper.KWIDTH, IKinectWrapper.KHEIGHT, P.OPENGL );
 		
 		_particles = new Vector<FloatParticle>();
 		_inactiveParticles = new Vector<FloatParticle>();
@@ -95,8 +95,8 @@ public class KinectSilhouettePG {
 		_kinectPixelated.clear();
 		_kinectPixelated.noStroke();
 		float pixelDepth;
-		for ( int x = 0; x < KinectWrapper.KWIDTH; x += PIXEL_SIZE ) {
-			for ( int y = 0; y < KinectWrapper.KHEIGHT; y += PIXEL_SIZE ) {
+		for ( int x = 0; x < IKinectWrapper.KWIDTH; x += PIXEL_SIZE ) {
+			for ( int y = 0; y < IKinectWrapper.KHEIGHT; y += PIXEL_SIZE ) {
 				pixelDepth = P.p.kinectWrapper.getMillimetersDepthForKinectPixel( x, y );
 				if( pixelDepth != 0 && pixelDepth > KINECT_CLOSE && pixelDepth < KINECT_FAR ) {
 //					_kinectPixelated.fill(((pixelDepth - KINECT_CLOSE) / (KINECT_FAR - KINECT_CLOSE)) * 255f);
