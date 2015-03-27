@@ -24,7 +24,7 @@ public class KinectAmbientActivityMonitor {
 	protected void buildGridBuffer() {
 		_gridBuffer = new ArrayList<FloatBuffer>();
 		for ( int x = 0; x < KinectSize.WIDTH; x += _pixelSize ) {
-			for ( int y = 0; y < KinectSize.WIDTH; y += _pixelSize ) {
+			for ( int y = 0; y < KinectSize.HEIGHT; y += _pixelSize ) {
 				_gridBuffer.add( new FloatBuffer(10) );
 			}
 		}
