@@ -41,13 +41,15 @@ public class KinectWrapperV2 implements IKinectWrapper {
 		_kinect.init();
 		setMirror(false);
 						
-		// enable depthMap generation 
+		// enable depthMap generation
+		/* Commented out until we get an updated jar
 		if(_kinect.isRunningKinect() == false && KINECT_ERROR_SHOWN == false) {
 			DebugUtil.alert("Can't access the Kinect. Make sure it's plugged into the computer and a power outlet.");
 			_kinectActive = false;
 			KINECT_ERROR_SHOWN = true;
 			p.exit();
 		}
+		*/
 	}
 	
 	/* (non-Javadoc)
@@ -57,6 +59,7 @@ public class KinectWrapperV2 implements IKinectWrapper {
 	public void update() {
 		// Get the raw depth as array of integers
 		if( _kinectActive == true ) {
+			/* Commented out until we get an updated jar
 			short[] depth16Array = _kinect.getRawDepth();
 			if(_depthArray != null && depth16Array !=null)
 			{			
@@ -71,6 +74,7 @@ public class KinectWrapperV2 implements IKinectWrapper {
 				//_realWorldMap = _kinect.depthMapRealWorld();
 				//_realWorldMap = _kinect.getDepthImage();
 			}
+			*/
 		}
 	}
 	
