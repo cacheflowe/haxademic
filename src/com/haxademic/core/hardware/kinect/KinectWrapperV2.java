@@ -6,7 +6,6 @@ import processing.core.PVector;
 import KinectPV2.KinectPV2;
 import SimpleOpenNI.SimpleOpenNI;
 
-import com.haxademic.core.debug.DebugUtil;
 //Kinect Wrapper for Microsoft Kinect V2 for Windows
 public class KinectWrapperV2 implements IKinectWrapper {
 	
@@ -14,6 +13,9 @@ public class KinectWrapperV2 implements IKinectWrapper {
 	protected KinectPV2 _kinect;
 	protected boolean _kinectActive = true;
 	public static boolean KINECT_ERROR_SHOWN = false;
+
+	public static int KWIDTH = 512;
+	public static int KHEIGHT = 424;
 
 	//Kinect V2
 	public int[] _depthArray;
@@ -24,12 +26,10 @@ public class KinectWrapperV2 implements IKinectWrapper {
 	public KinectWrapperV2( PApplet p, boolean initDepth, boolean initRGB, boolean initDepthImage ) {
 		this.p = p;
 		
-		//KWIDTH = 512;
-		//KHEIGHT = 424;
+		KinectSize.setSize(KWIDTH, KHEIGHT);
 		
 		_kinect = new KinectPV2(p);
 		_kinect.enableDepthImg(true);
-
 		
 		//TODO: Setup configurations to activate each individually
 		//_kinect.activateRawColor(true);

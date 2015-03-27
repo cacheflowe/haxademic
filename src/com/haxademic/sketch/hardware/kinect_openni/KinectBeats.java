@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.util.DrawUtil;
-import com.haxademic.core.hardware.kinect.IKinectWrapper;
+import com.haxademic.core.hardware.kinect.KinectSize;
 
 import ddf.minim.AudioOutput;
 import ddf.minim.AudioPlayer;
@@ -138,8 +138,8 @@ extends PAppletHax {
 			// loop through kinect data within player's control range
 			p.stroke(255, 127);
 			float pixelDepth;
-			for ( int x = 0; x < IKinectWrapper.KWIDTH; x += PIXEL_SIZE ) {
-				for ( int y = 0; y < IKinectWrapper.KHEIGHT; y += PIXEL_SIZE ) {
+			for ( int x = 0; x < KinectSize.WIDTH; x += PIXEL_SIZE ) {
+				for ( int y = 0; y < KinectSize.HEIGHT; y += PIXEL_SIZE ) {
 					pixelDepth = p.kinectWrapper.getMillimetersDepthForKinectPixel( x, y );
 					if( pixelDepth != 0 && pixelDepth > KINECT_CLOSE && pixelDepth < KINECT_FAR ) {
 						p.pushMatrix();

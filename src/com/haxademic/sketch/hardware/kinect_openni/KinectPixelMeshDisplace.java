@@ -8,7 +8,7 @@ import toxi.geom.mesh.WETriangleMesh;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.util.DrawUtil;
-import com.haxademic.core.hardware.kinect.IKinectWrapper;
+import com.haxademic.core.hardware.kinect.KinectSize;
 import com.haxademic.core.image.filters.PixelFilter;
 
 @SuppressWarnings("serial")
@@ -26,8 +26,8 @@ extends PAppletHax {
 
 	public void setup() {
 		super.setup();
-		_pixelFilter = new PixelFilter(IKinectWrapper.KWIDTH, IKinectWrapper.KWIDTH, (int)PIXEL_SIZE);
-		setupMeshForTexture( (int)(IKinectWrapper.KWIDTH / PIXEL_SIZE), (int)(IKinectWrapper.KWIDTH / PIXEL_SIZE), 640, 480 );
+		_pixelFilter = new PixelFilter(KinectSize.WIDTH, KinectSize.WIDTH, (int)PIXEL_SIZE);
+		setupMeshForTexture( (int)(KinectSize.WIDTH / PIXEL_SIZE), (int)(KinectSize.WIDTH / PIXEL_SIZE), 640, 480 );
 	}
 
 	protected void overridePropsFile() {

@@ -45,7 +45,7 @@ extends PAppletHax {
 		// loop through kinect data within player's control range
 //		p.stroke(255, 127);
 //		float pixelDepth;
-//		for ( int x = 0; x < IKinectWrapper.KWIDTH; x += PIXEL_SIZE ) {
+//		for ( int x = 0; x < KinectSize.WIDTH; x += PIXEL_SIZE ) {
 //			for ( int y = KINECT_TOP; y < KINECT_BOTTOM; y += PIXEL_SIZE ) {
 //				pixelDepth = p.kinectWrapper.getMillimetersDepthForKinectPixel( x, y );
 //				if( pixelDepth != 0 && pixelDepth > KINECT_CLOSE && pixelDepth < KINECT_FAR ) {

@@ -6,14 +6,7 @@ import processing.core.PVector;
 import SimpleOpenNI.SimpleOpenNI;
 
 public interface IKinectWrapper {
-	
-	//TODO: Change this so the width/height set dynamically based on sensor
-	public int KWIDTH = 512;
-	public int KHEIGHT = 424;
 		
-	//public abstract static int getKWIDTH();
-	//public abstract int getKHEIGHT();
-	
 	public abstract void update();
 	public abstract PImage getDepthImage();
 

@@ -4,9 +4,10 @@ package com.haxademic.sketch.hardware.kinect_openni.lib_demos;
 import processing.core.PApplet;
 
 import com.haxademic.core.hardware.kinect.IKinectWrapper;
-import com.haxademic.core.hardware.kinect.IKinectWrapper;
+import com.haxademic.core.hardware.kinect.KinectSize;
 import com.haxademic.core.hardware.kinect.KinectWrapperV2;
 
+@SuppressWarnings("serial")
 public class OpenNICameraTest extends PApplet {
 
 	//	SimpleOpenNI context;
@@ -26,7 +27,7 @@ public class OpenNICameraTest extends PApplet {
 		_kinect = new KinectWrapperV2( this, true, true, true );
 
 		background(200,0,0);
-		size(IKinectWrapper.KWIDTH + _kinect.rgbWidth() + 10, _kinect.rgbHeight()); 
+		size(KinectSize.WIDTH + _kinect.rgbWidth() + 10, _kinect.rgbHeight()); 
 	}
 
 	public void draw()
@@ -37,6 +38,6 @@ public class OpenNICameraTest extends PApplet {
 		image(_kinect.getDepthImage(),0,0);
 
 		// draw camera
-		image(_kinect.getRgbImage(), IKinectWrapper.KWIDTH + 10,0);
+		image(_kinect.getRgbImage(), KinectSize.WIDTH + 10,0);
 	}
 }

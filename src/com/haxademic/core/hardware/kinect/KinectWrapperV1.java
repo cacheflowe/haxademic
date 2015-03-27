@@ -15,10 +15,8 @@ public class KinectWrapperV1 implements IKinectWrapper{
 	public static boolean KINECT_ERROR_SHOWN = false;
 
 	protected int _hardwareTilt = 0;
-	private static int KWIDTH = 640;
+	public static int KWIDTH = 640;
 	public static int KHEIGHT = 480;
-	public static int getKWIDTH() { return KWIDTH; }
-	public static int getKHEIGHT() { return KHEIGHT; }
 
 	public int[] _depthArray;
 	public PVector[] _realWorldMap;
@@ -31,7 +29,7 @@ public class KinectWrapperV1 implements IKinectWrapper{
 
 	public KinectWrapperV1( PApplet p, boolean initDepth, boolean initRGB, boolean initDepthImage ) {
 		this.p = p;
-
+		
 		_kinect = new SimpleOpenNI( p, SimpleOpenNI.RUN_MODE_DEFAULT );
 		_kinect.enableDepth();
 		_kinect.enableRGB();
@@ -161,7 +159,7 @@ public class KinectWrapperV1 implements IKinectWrapper{
 	}
 	
 	public PVector getRealWorldDepthForKinectPixel( int x, int y ) {
-		int offset = x + y * KinectWrapperV1.getKWIDTH();
+		int offset = x + y * KWIDTH;
 		if( _depthArray[offset] == 0 || offset >= _realWorldMap.length ) {
 			return null;
 		} else {
@@ -170,7 +168,7 @@ public class KinectWrapperV1 implements IKinectWrapper{
 	}
 	
 	public int getMillimetersDepthForKinectPixel( int x, int y ) {
-		int offset = x + y * KinectWrapperV1.getKWIDTH();
+		int offset = x + y * KWIDTH;
 		if( offset >= _depthArray.length ) {
 			return 0;
 		} else {

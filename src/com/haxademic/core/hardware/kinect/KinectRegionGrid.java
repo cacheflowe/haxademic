@@ -33,7 +33,7 @@ implements IJoystickCollection {
 		super();
 
 		if(debug == true) {
-			_pg = P.p.createGraphics(IKinectWrapper.KWIDTH, IKinectWrapper.KHEIGHT, P.OPENGL);
+			_pg = P.p.createGraphics(KinectSize.WIDTH, KinectSize.HEIGHT, P.OPENGL);
 		}
 
 		_kinectClose = kinectClose;
@@ -41,7 +41,7 @@ implements IJoystickCollection {
 		_kinectDepth = _kinectFar - _kinectClose;
 
 		// set up rectangles for position detection
-		int colW = (IKinectWrapper.KWIDTH - padding*(cols-1)) / cols;
+		int colW = (KinectSize.WIDTH - padding*(cols-1)) / cols;
 		int kinectDepth = kinectFar - kinectClose;
 		int rowH = (kinectDepth - padding*(rows-1)) / rows;
 

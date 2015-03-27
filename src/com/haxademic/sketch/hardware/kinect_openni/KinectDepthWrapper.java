@@ -6,7 +6,7 @@ import processing.core.PVector;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.hardware.kinect.IKinectWrapper;
-import com.haxademic.core.hardware.kinect.IKinectWrapper;
+import com.haxademic.core.hardware.kinect.KinectSize;
 import com.haxademic.core.hardware.kinect.KinectWrapperV2;
 
 @SuppressWarnings("serial")
@@ -59,8 +59,8 @@ extends PApplet {
 		PFont debugFont = createFont("Arial",50);
 		textFont( debugFont );
 		fill(255,255,255);
-		int kwidth=IKinectWrapper.KWIDTH;
-		int kheight = IKinectWrapper.KHEIGHT;
+		int kwidth = KinectSize.WIDTH;
+		int kheight = KinectSize.HEIGHT;
 		
 		for(int y=0; y < kheight; y+=steps) {
 			for(int x=0; x < kwidth; x+=steps) {
@@ -71,7 +71,7 @@ extends PApplet {
 					point( curPoint.x,curPoint.y,curPoint.z );  // make realworld z negative, in the 3d drawing coordsystem +z points in the direction of the eye
 					pushMatrix();
 					translate( curPoint.x,curPoint.y,curPoint.z );
-//					if( x % 30 == 0 && y == IKinectWrapper.KWIDTH / 2 ) text(""+curPoint.z);
+//					if( x % 30 == 0 && y == KinectSize.WIDTH / 2 ) text(""+curPoint.z);
 					if( x == kwidth / 2 && y == kheight / 2 ) P.println("real:  x"+curPoint.x+"  y:"+curPoint.y+"  z:"+curPoint.z);
 					popMatrix();
 				}
