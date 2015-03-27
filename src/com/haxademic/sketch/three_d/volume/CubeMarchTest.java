@@ -9,7 +9,7 @@ import toxi.geom.Vec3D;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.shapes.MarchingCubes;
-import com.haxademic.core.hardware.kinect.IKinectWrapper;
+import com.haxademic.core.hardware.kinect.KinectSize;
 
 @SuppressWarnings("serial")
 public class CubeMarchTest 
@@ -71,8 +71,8 @@ extends PAppletHax {
 		// original for loop
 //		println("entering loop");
 		int nBalls = 0;
-		for ( int x = 0; x < IKinectWrapper.KWIDTH; x += skip ) {
-			for ( int y = 0; y < IKinectWrapper.KHEIGHT; y += skip ) {
+		for ( int x = 0; x < KinectSize.WIDTH; x += skip ) {
+			for ( int y = 0; y < KinectSize.HEIGHT; y += skip ) {
 				pixelDepth = p.kinectWrapper.getMillimetersDepthForKinectPixel( x, y );
 				if( pixelDepth != 0 && pixelDepth > minDepth && pixelDepth < maxDepth ) {
 
