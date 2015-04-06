@@ -87,14 +87,12 @@ extends PAppletHax{
 	}
 
 	// TODO:
-	// * Fill in neightbors on Scan at end - tell each pixel to check neightbors and replicate their value if neighbor is null
+	// * Swap video when one ends
 	// * Increase kinect data resolution
 	//		* Quad tree?
-	// * Fix dark stroke on masks - Look at SCALE_DOWN - at 1.0f, the black lines don't happen
 	// * Make all blob resolution numbers configurable 
 	// * Performance - make sure videos only draw what they need for the current mask mode
 	// 		* Check memory use while running
-	// * Swap video when one ends
 	
 	public void setup() {
 		super.setup();
@@ -110,6 +108,7 @@ extends PAppletHax{
 			drawMenu();
 		} else {
 			drawVideoBackgrounds();
+			postProcessEffects();
 			drawVideos();
 		}
 	}
@@ -172,7 +171,7 @@ extends PAppletHax{
 		// build movie players & composite
 		_movieComposite = p.createGraphics(P.round(p.width * SCALE_DOWN), P.round(p.height * SCALE_DOWN), P.OPENGL);
 
-		_movieLayer1 = new MovieLayer(_files.get(0));
+		_movieLayer1 = new MovieLayer(_files);
 //		_movieLayer2 = new MovieLayer(_files.get(1));	
 		_movieLayer2 = new KinectLayer();	
 		
@@ -288,7 +287,7 @@ extends PAppletHax{
 //		p.image(_movieLayer2.maskInverse(), 0, 0, p.width, p.height);
 //		p.image(_movieLayer2.mask(), 0, 0, p.width, p.height);
 		p.image(_movieLayer1.image(), 0, 0, p.width, p.height);
-		postProcessEffects();
+//		postProcessEffects();
 	}
 	
 	protected void setShaderValues() {
@@ -312,8 +311,8 @@ extends PAppletHax{
 		p.filter(_vignette);
 		
 		p.filter( _postBrightness );		
-//		_badTV.set("time", millis() / 1000.0f);
-//		p.filter(_badTV);
+		_badTV.set("time", millis() / 1000.0f);
+		p.filter(_badTV);
 	}
 	
 	protected void handleInput( boolean isMidi ) {
@@ -327,13 +326,17 @@ extends PAppletHax{
 	public class MovieLayer {
 
 		protected Movie _movie;
+		protected ArrayList<String> _videoPaths;
+		protected int _movieIndex = -1;
 		protected float[] _cropProps = null;
 		protected PGraphics _curFrame;
 		protected PGraphics _curFrameMask;
 		protected PGraphics _curFrameMaskInverse;
 
-		public MovieLayer(String videoPath) {
-			initMovie(videoPath);
+		public MovieLayer(ArrayList<String> videoPaths) {
+			_videoPaths = videoPaths;
+			if(_videoPaths != null) playNextMovie();
+			initImageBuffers();
 		}
 		
 		public boolean ready() {
@@ -370,14 +373,28 @@ extends PAppletHax{
 			);
 		}
 		
-		protected void initMovie(String videoPath) {
-			if(videoPath != null) {
-				_movie = new Movie( p, videoPath );
-				_movie.play();
-				_movie.loop();
-				_movie.jump(0);
-//				_movie.speed(0.8f);
+		protected void playNextMovie() {
+			_movieIndex++;
+			if(_movieIndex > _videoPaths.size() - 1) _movieIndex = 0;
+//			if(_videoPaths.get(_movieIndex)) {
+			if(_movie != null) {
+				_movie.dispose();
+				_movie = null;
 			}
+			_movie = new Movie( p, _videoPaths.get(_movieIndex) );
+			P.println("loading", _videoPaths.get(_movieIndex));
+			_movie.play();
+			_movie.loop();
+			_movie.jump(0);
+			_movie.volume(0);
+			
+			_cropProps = null;
+			
+//				_movie.speed(0.8f);
+//			}
+		}
+		
+		protected void initImageBuffers() {
 			_curFrame = p.createGraphics(_movieComposite.width, _movieComposite.height, P.OPENGL);
 			_curFrameMask = p.createGraphics(_movieComposite.width, _movieComposite.height, P.OPENGL);
 			_curFrameMaskInverse = p.createGraphics(_movieComposite.width, _movieComposite.height, P.OPENGL);
@@ -392,8 +409,13 @@ extends PAppletHax{
 		}
 		
 		public void update() {
-			if(_cropProps == null && imageToProcess().width != 0 && imageToProcess().height != 0) {
-				_cropProps = ImageUtil.getOffsetAndSizeToCrop(_movieComposite.width, _movieComposite.height, imageToProcess().width, imageToProcess().width, true);
+			if(_movie != null) {
+				if(_movie.time() > _movie.duration() - 5) playNextMovie();
+			}
+			if(_cropProps == null) {
+				if(imageToProcess().width != 0 && imageToProcess().height != 0) {
+					_cropProps = ImageUtil.getOffsetAndSizeToCrop(_movieComposite.width, _movieComposite.height, imageToProcess().width, imageToProcess().width, true);
+				}
 			} else {
 				_curFrame.beginDraw();
 				_curFrame.clear();
