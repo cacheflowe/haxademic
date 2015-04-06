@@ -87,10 +87,10 @@ public class ColorHaxEasing {
 		a.update();
 	}
 
-	public final static int alphaFromColorInt( int c ) { return (c >> 24) & 0xFF; }
-	public final static int redFromColorInt( int c ) { return (c >> 16) & 0xFF;	}
-	public final static int greenFromColorInt( int c ) { return (c >> 8)  & 0xFF; }
-	public final static int blueFromColorInt( int c ) { return c & 0xFF; }
+	public final int alphaFromColorInt( int c ) { return (c >> 24) & 0xFF; }
+	public final int redFromColorInt( int c ) { return (c >> 16) & 0xFF;	}
+	public final int greenFromColorInt( int c ) { return (c >> 8)  & 0xFF; }
+	public final int blueFromColorInt( int c ) { return c & 0xFF; }
 
 	public int colorInt() {
 		return P.p.color(r.value(), g.value(), b.value(), a.value());
