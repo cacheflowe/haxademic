@@ -1,10 +1,10 @@
 package com.haxademic.app.haxmapper.distribution;
 
 import hypermedia.net.UDP;
+import processing.core.PApplet;
 
 import com.haxademic.core.draw.color.ColorHaxEasing;
-
-import processing.core.PApplet;
+import com.haxademic.core.draw.color.ColorUtil;
 
 public class AudioPixelInterface {
 	
@@ -25,9 +25,9 @@ public class AudioPixelInterface {
 		for( int e=0; e < nodeCount; e = e + 1 ) {
 			int theColor = colors[curGroup % colors.length];
 			t = e * 3;
-			rgbData[t] = (byte) ColorHaxEasing.redFromColorInt(theColor);
-			rgbData[t+1] = (byte) ColorHaxEasing.greenFromColorInt(theColor);
-			rgbData[t+2] = (byte) ColorHaxEasing.blueFromColorInt(theColor);
+			rgbData[t] = (byte) ColorUtil.redFromColorInt(theColor);
+			rgbData[t+1] = (byte) ColorUtil.greenFromColorInt(theColor);
+			rgbData[t+2] = (byte) ColorUtil.blueFromColorInt(theColor);
 			curGroup++;
 		}
 		broadcastKiNet("10.32.21.177", 30, rgbData, true);
@@ -36,9 +36,9 @@ public class AudioPixelInterface {
 		for( int e=0; e < nodeCount; e = e + 1 ) {
 			int theColor = colors[curGroup % colors.length];
 			t = e * 3;
-			rgbData[t] = (byte) ColorHaxEasing.redFromColorInt(theColor);
-			rgbData[t+1] = (byte) ColorHaxEasing.greenFromColorInt(theColor);
-			rgbData[t+2] = (byte) ColorHaxEasing.blueFromColorInt(theColor);
+			rgbData[t] = (byte) ColorUtil.redFromColorInt(theColor);
+			rgbData[t+1] = (byte) ColorUtil.greenFromColorInt(theColor);
+			rgbData[t+2] = (byte) ColorUtil.blueFromColorInt(theColor);
 			curGroup++;
 		}
 		broadcastKiNet("10.32.21.207", 30, rgbData, true);
