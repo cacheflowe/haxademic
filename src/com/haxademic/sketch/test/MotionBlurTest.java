@@ -15,9 +15,6 @@ extends PAppletHax {
 	protected PGraphics _pg;
 	protected MotionBlurPGraphics _pgMotionBlur;
 
-
-	
-	
 	protected void overridePropsFile() {
 		_appConfig.setProperty( "width", "400" );
 		_appConfig.setProperty( "height", "400" );
