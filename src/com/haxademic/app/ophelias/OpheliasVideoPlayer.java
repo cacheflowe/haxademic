@@ -12,6 +12,10 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.components.IMouseable;
 import com.haxademic.core.components.TextButton;
+import com.haxademic.core.draw.color.ColorHaxEasing;
+import com.haxademic.core.draw.shapes.Gradients;
+import com.haxademic.core.draw.util.OpenGLUtil;
+import com.haxademic.core.hardware.kinect.KinectSilhouetteBasic;
 import com.haxademic.core.image.ImageUtil;
 import com.haxademic.core.system.FileUtil;
 
@@ -40,37 +44,57 @@ extends PAppletHax{
 	protected PShader _halftone;
 	protected PShader _mirror;
 	protected PShader _contrast;
+	
+	protected ColorHaxEasing _colorGradientCenter;
+	protected ColorHaxEasing _colorGradientOuter;
+
 
 	protected boolean _isDebug = false;
 	
 	protected boolean _playlistSelected = false;
 	
-	protected float SCALE_DOWN = 0.5f;
+	protected float SCALE_DOWN = 0.333f;
+	protected float BLOB_DETECT_SCALE = 0.5f;
 
 	public static void main(String args[]) {
-		_isFullScreen = true;
+		_isFullScreen = false;
 		PApplet.main(new String[] { "--hide-stop", "--bgcolor=000000", OpheliasVideoPlayer.class.getName() });
 	}
 
 	protected void overridePropsFile() {
-		_appConfig.setProperty( "width", "1280" );
-		_appConfig.setProperty( "height", "720" );
-		_appConfig.setProperty( "width", "960" );
-		_appConfig.setProperty( "height", "540" );
-		_appConfig.setProperty( "fullscreen", "true" );
-		_appConfig.setProperty( "rendering", "false" );
-		_appConfig.setProperty( "kinect_active", "false" );
-		_appConfig.setProperty( "kinect_mirrored", "true" );
+		p.appConfig.setProperty( "width", "1280" );
+		p.appConfig.setProperty( "height", "720" );
+		p.appConfig.setProperty( "width", "960" );
+		p.appConfig.setProperty( "height", "540" );
+		p.appConfig.setProperty( "fullscreen", "false" );
+		p.appConfig.setProperty( "rendering", "false" );
+		p.appConfig.setProperty( "kinect_active", "true" );
+		p.appConfig.setProperty( "kinect_mirrored", "false" );
+		p.appConfig.setProperty( "kinect_top_pixel", "0" );
+		p.appConfig.setProperty( "kinect_bottom_pixel", "480" );
+		p.appConfig.setProperty( "kinect_left_pixel", "0" );
+		p.appConfig.setProperty( "kinect_right_pixel", "640" );
+
+		p.appConfig.setProperty( "kinect_pixel_skip", "5" );
+		p.appConfig.setProperty( "kinect_scan_frames", "400" );
+		p.appConfig.setProperty( "kinect_depth_key_dist", "400" );
+		p.appConfig.setProperty( "kinect_mirrored", "true" );
+		
+		p.appConfig.setProperty( "kinect_top_pixel", "130" );
+		p.appConfig.setProperty( "kinect_bottom_pixel", "380" );
+		p.appConfig.setProperty( "kinect_left_pixel", "90" );
+		p.appConfig.setProperty( "kinect_right_pixel", "570" );
 	}
 
 	// TODO:
+	// * Fill in neightbors on Scan at end - tell each pixel to check neightbors and replicate their value if neighbor is null
+	// * Increase kinect data resolution
+	//		* Quad tree?
+	// * Fix dark stroke on masks - Look at SCALE_DOWN - at 1.0f, the black lines don't happen
+	// * Make all blob resolution numbers configurable 
 	// * Performance - make sure videos only draw what they need for the current mask mode
 	// 		* Check memory use while running
-	// * Add kinect version with solid background
 	// * Swap video when one ends
-	// * Oscillate between effect values
-	// * Change filters & masks occasionally
-	// * Add particle system to masks to make them more organic
 	
 	public void setup() {
 		super.setup();
@@ -80,11 +104,12 @@ extends PAppletHax{
 	}
 	
 	public void drawApp() {
-		p.background(0);
 		
 		if(_playlistSelected == false) {
+			p.background(0);
 			drawMenu();
 		} else {
+			drawVideoBackgrounds();
 			drawVideos();
 		}
 	}
@@ -148,8 +173,8 @@ extends PAppletHax{
 		_movieComposite = p.createGraphics(P.round(p.width * SCALE_DOWN), P.round(p.height * SCALE_DOWN), P.OPENGL);
 
 		_movieLayer1 = new MovieLayer(_files.get(0));
-		_movieLayer2 = new MovieLayer(_files.get(1));	
-//		_movieLayer2 = new KinectLayer();	
+//		_movieLayer2 = new MovieLayer(_files.get(1));	
+		_movieLayer2 = new KinectLayer();	
 		
 		_movieLayer1.randomFrame();
 		_movieLayer2.randomFrame();
@@ -161,9 +186,9 @@ extends PAppletHax{
 		_threshold = loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/blackandwhite.glsl" );
 		_threshold.set("cutoff", 0.5f);
 		_blurV = loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/blur-vertical.glsl" );
-		_blurV.set( "v", 5f/p.height );
+		_blurV.set( "v", 3f/p.height );
 		_blurH = loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/blur-horizontal.glsl" );
-		_blurH.set( "h", 5f/p.width );
+		_blurH.set( "h", 3f/p.width );
 		_invert = loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/invert.glsl" );
 		
 		_badTV = loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/badtv.glsl" );
@@ -197,45 +222,72 @@ extends PAppletHax{
 		_clipBrightness = p.loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/brightness.glsl" );
 		_clipBrightness.set("brightness", 2.0f );
 		
+		
+		// build colors for sampled gradient
+		_colorGradientCenter = new ColorHaxEasing("#000000", 150f);
+		_colorGradientOuter = new ColorHaxEasing("#000000", 150f);
+
+	}
+	
+	protected void drawVideoBackgrounds() {
+		_colorGradientCenter.setTargetColorInt( _movieLayer1.colorL() );
+		_colorGradientCenter.update();
+		_colorGradientOuter.setTargetColorInt( _movieLayer1.colorR() );
+		_colorGradientOuter.update();
+		
+		p.pushMatrix();
+		p.translate(p.width/2, p.height/2);
+		Gradients.radial(p, p.width * 2f, p.height * 2f, _colorGradientCenter.colorInt(), _colorGradientOuter.colorInt(), 12);
+		p.popMatrix();
 	}
 	
 	protected void drawVideos() {
 		setShaderValues();
-		
+				
 		_movieLayer1.update();
 		_movieLayer2.update();
 		
 		if(_movieLayer1.ready() && _movieLayer2.ready()) {
-			_movieLayer1.updateMask();
-			_movieLayer1.updateMaskInverse();
-			//			_movieLayer1.image().mask(_movieLayer1.mask());
-			
-			_movieLayer2.updateMask();
-			_movieLayer2.updateMaskInverse();
-			_movieLayer2.image().mask(_movieLayer1.mask());
-			
-			if(_isDebug == false) {
-				_movieComposite.beginDraw();
-				_movieComposite.clear();
-				_movieComposite.image(_movieLayer1.image(), 0, 0);
-				_movieComposite.image(_movieLayer2.image(), 0, 0);
-				_movieComposite.endDraw();
-			} else {
-				_movieComposite.beginDraw();
-				_movieComposite.clear();
-				_movieComposite.image(_movieLayer1.image(), 0, 0, _movieComposite.width * 0.333f, _movieComposite.height * 0.333f);
-				_movieComposite.image(_movieLayer1.mask(), _movieComposite.width * 0.333f, 0, _movieComposite.width * 0.333f, _movieComposite.height * 0.333f);
-				_movieComposite.image(_movieLayer1.maskInverse(), _movieComposite.width * 0.666f, 0, _movieComposite.width * 0.333f, _movieComposite.height * 0.333f);
-				_movieComposite.image(_movieLayer2.image(), 0, _movieComposite.height * 0.333f, _movieComposite.width * 0.333f, _movieComposite.height * 0.333f);
-				_movieComposite.image(_movieLayer2.mask(), _movieComposite.width * 0.333f, _movieComposite.height * 0.333f, _movieComposite.width * 0.333f, _movieComposite.height * 0.333f);
-				_movieComposite.image(_movieLayer2.maskInverse(), _movieComposite.width * 0.666f, _movieComposite.height * 0.333f, _movieComposite.width * 0.333f, _movieComposite.height * 0.333f);
-				_movieComposite.endDraw();
-			}
+////			_movieLayer1.updateMask();
+////			_movieLayer1.updateMaskInverse();
+//			//			_movieLayer1.image().mask(_movieLayer1.mask());
+////			_movieLayer2.update();
+//			_movieLayer2.updateMask();
+			_movieLayer1.image().mask(_movieLayer2.image());
+////			_movieLayer2.updateMaskInverse();
+////			_movieLayer2.image().mask(_movieLayer1.mask());
+//			
+//			if(_isDebug == false) {
+//				_movieComposite.beginDraw();
+//				_movieComposite.clear();
+//				_movieComposite.image(_movieLayer1.image(), 0, 0);
+////				_movieComposite.image(_movieLayer2.image(), 0, 0);
+//				_movieComposite.endDraw();
+//			} else {
+//				_movieComposite.beginDraw();
+//				_movieComposite.clear();
+//				_movieComposite.image(_movieLayer1.image(), 0, 0, _movieComposite.width * 0.333f, _movieComposite.height * 0.333f);
+//				_movieComposite.image(_movieLayer1.mask(), _movieComposite.width * 0.333f, 0, _movieComposite.width * 0.333f, _movieComposite.height * 0.333f);
+//				_movieComposite.image(_movieLayer1.maskInverse(), _movieComposite.width * 0.666f, 0, _movieComposite.width * 0.333f, _movieComposite.height * 0.333f);
+//				_movieComposite.image(_movieLayer2.image(), 0, _movieComposite.height * 0.333f, _movieComposite.width * 0.333f, _movieComposite.height * 0.333f);
+//				_movieComposite.image(_movieLayer2.mask(), _movieComposite.width * 0.333f, _movieComposite.height * 0.333f, _movieComposite.width * 0.333f, _movieComposite.height * 0.333f);
+//				_movieComposite.image(_movieLayer2.maskInverse(), _movieComposite.width * 0.666f, _movieComposite.height * 0.333f, _movieComposite.width * 0.333f, _movieComposite.height * 0.333f);
+//				_movieComposite.endDraw();
+//			}
+//			if(_isDebug == false) {
+//				p.image(_movieLayer2.imageToProcess(), 0, 0, p.width, p.height);
+//			} else {
+//				p.image(_movieLayer2.image(), 0, 0, p.width, p.height);
+//			}
+
 		}
 		
 		//		_movieComposite.filter(_blurVPost);
 		
-		p.image(_movieComposite, 0, 0, p.width, p.height);
+//		p.image(_movieComposite, 0, 0, p.width, p.height); 
+//		p.image(_movieLayer2.maskInverse(), 0, 0, p.width, p.height);
+//		p.image(_movieLayer2.mask(), 0, 0, p.width, p.height);
+		p.image(_movieLayer1.image(), 0, 0, p.width, p.height);
 		postProcessEffects();
 	}
 	
@@ -259,9 +311,9 @@ extends PAppletHax{
 	protected void postProcessEffects() {
 		p.filter(_vignette);
 		
+		p.filter( _postBrightness );		
 //		_badTV.set("time", millis() / 1000.0f);
 //		p.filter(_badTV);
-		p.filter( _postBrightness );		
 	}
 	
 	protected void handleInput( boolean isMidi ) {
@@ -271,12 +323,6 @@ extends PAppletHax{
 			_isDebug = !_isDebug;
 		}
 	}
-	
-//	public void mousePressed() {
-//		super.mousePressed();
-//		_movieLayer1.randomFrame();
-//		_movieLayer2.randomFrame();
-//	}
 	
 	public class MovieLayer {
 
@@ -310,17 +356,34 @@ extends PAppletHax{
 			return _curFrameMaskInverse;
 		}
 		
+		public int colorL() {
+			return _curFrame.get(
+					Math.round( _curFrame.width * 0.3f + (P.sin(p.frameCount * 0.05f) * _curFrame.width * 0.1f) ), 
+					Math.round(_curFrame.height * 0.5f)
+			);
+		}
+		
+		public int colorR() {
+			return _curFrame.get(
+					Math.round( _curFrame.width * 0.7f + (P.sin(p.frameCount * 0.05f) * _curFrame.width * 0.1f) ), 
+					Math.round(_curFrame.height * 0.5f)
+			);
+		}
+		
 		protected void initMovie(String videoPath) {
 			if(videoPath != null) {
 				_movie = new Movie( p, videoPath );
 				_movie.play();
 				_movie.loop();
 				_movie.jump(0);
-				_movie.speed(0.8f);
+//				_movie.speed(0.8f);
 			}
 			_curFrame = p.createGraphics(_movieComposite.width, _movieComposite.height, P.OPENGL);
 			_curFrameMask = p.createGraphics(_movieComposite.width, _movieComposite.height, P.OPENGL);
 			_curFrameMaskInverse = p.createGraphics(_movieComposite.width, _movieComposite.height, P.OPENGL);
+			_curFrame.smooth(OpenGLUtil.SMOOTH_LOW);
+			_curFrameMask.smooth(OpenGLUtil.SMOOTH_LOW);
+			_curFrameMaskInverse.smooth(OpenGLUtil.SMOOTH_LOW);
 		}
 
 		public void randomFrame() {
@@ -349,8 +412,8 @@ extends PAppletHax{
 			_curFrameMask.filter(_clipBrightness);
 			_curFrameMask.filter(_contrast);
 			_curFrameMask.filter(_threshold);
-			_curFrameMask.filter(_blurH);
-			_curFrameMask.filter(_blurV);
+//			_curFrameMask.filter(_blurH);
+//			_curFrameMask.filter(_blurV);
 //			_curFrameMask.filter(_halftone);
 		}
 		
@@ -371,15 +434,23 @@ extends PAppletHax{
 	
 	
 	public class KinectLayer extends MovieLayer {
-		protected KinectSilhouettePG _silhouette;
+		protected KinectSilhouetteBasic _silhouette;
 		public KinectLayer() {
 			super(null);
-			_silhouette = new KinectSilhouettePG();
+			_silhouette = new KinectSilhouetteBasic(BLOB_DETECT_SCALE, true, true);
 		}
 		
 		public PImage imageToProcess() {
 			return _silhouette._canvas;
 		}
+		
+//		public PGraphics mask() {
+//			return (PGraphics) _silhouette._kinectPixelated;
+//		}
+//		
+//		public PGraphics maskInverse() {
+//			return (PGraphics) _silhouette.debugKinectBuffer();
+//		}
 		
 		public void update() {
 			_silhouette.update();

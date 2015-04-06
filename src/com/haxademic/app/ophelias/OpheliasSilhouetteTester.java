@@ -3,6 +3,7 @@ package com.haxademic.app.ophelias;
 import processing.opengl.PShader;
 
 import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.hardware.kinect.KinectSilhouetteBasic;
 import com.haxademic.core.system.FileUtil;
 
@@ -29,16 +30,28 @@ extends PAppletHax{
 	protected PShader _contrast;
 
 	protected void overridePropsFile() {
-		_appConfig.setProperty( "width", "640" );
-		_appConfig.setProperty( "height", "480" );
-		_appConfig.setProperty( "rendering", "false" );
-		_appConfig.setProperty( "kinect_active", "true" );
-		_appConfig.setProperty( "kinect_mirrored", "true" );
+		p.appConfig.setProperty( "width", "640" );
+		p.appConfig.setProperty( "height", "480" );
+		p.appConfig.setProperty( "rendering", "false" );
+		p.appConfig.setProperty( "kinect_active", "true" );
+		p.appConfig.setProperty( "kinect_top_pixel", "0" );
+		p.appConfig.setProperty( "kinect_bottom_pixel", "480" );
+		p.appConfig.setProperty( "kinect_left_pixel", "0" );
+		p.appConfig.setProperty( "kinect_right_pixel", "640" );
+		p.appConfig.setProperty( "kinect_pixel_skip", "5" );
+		p.appConfig.setProperty( "kinect_scan_frames", "400" );
+		p.appConfig.setProperty( "kinect_depth_key_dist", "400" );
+		p.appConfig.setProperty( "kinect_mirrored", "true" );
+		
+		p.appConfig.setProperty( "kinect_top_pixel", "130" );
+		p.appConfig.setProperty( "kinect_bottom_pixel", "380" );
+		p.appConfig.setProperty( "kinect_left_pixel", "90" );
+		p.appConfig.setProperty( "kinect_right_pixel", "570" );
 	}
 
 	public void setup() {
 		super.setup();
-		_silhouette = new KinectSilhouetteBasic();
+		_silhouette = new KinectSilhouetteBasic(0.6f, true, true);
 	}
 	
 	public void drawApp() {
@@ -46,9 +59,13 @@ extends PAppletHax{
 		setShaderValues();
 		_silhouette.update();
 		if(!_isDebug) {
-			p.image(_silhouette._canvas, 0, 0);
-		} else {
+//			DrawUtil.setPImageAlpha(p, 0.5f);
+//			p.image(_silhouette.debugKinectBuffer(), 0, 0);
 			p.image(_silhouette._kinectPixelated, 0, 0);
+		} else {
+//			DrawUtil.setPImageAlpha(p, 0.5f);
+//			p.image(_silhouette.debugKinectScanBuffer(), 0, 0);
+			p.image(_silhouette._canvas, 0, 0);
 		}
 //		postProcessEffects();
 	}
@@ -121,11 +138,11 @@ extends PAppletHax{
 	protected void postProcessEffects() {
 		p.filter(_vignette);
 		
-//		_curFrameMaskInverse.filter(_clipBrightness);
-//		_curFrameMaskInverse.filter(_contrast);
-//		_curFrameMaskInverse.filter(_threshold);
-//		_curFrameMaskInverse.filter(_blurH);
-//		_curFrameMaskInverse.filter(_blurV);
+		p.filter(_clipBrightness);
+		p.filter(_contrast);
+		p.filter(_threshold);
+		p.filter(_blurH);
+		p.filter(_blurV);
 //		_curFrameMaskInverse.filter(_invert);
 
 //		_badTV.set("time", millis() / 1000.0f);
