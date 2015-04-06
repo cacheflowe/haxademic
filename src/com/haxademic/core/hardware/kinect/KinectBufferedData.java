@@ -136,4 +136,29 @@ public class KinectBufferedData {
 			}
 		}
 	}
+	
+	public void extraSpread() {
+		int gridIndex = 0;
+		for ( int x = _kinectLeft; x < _kinectRight; x += _pixelSize ) {
+			for ( int y = _kinectTop; y < _kinectBottom; y += _pixelSize ) {
+				int offset = x + y * KinectSize.WIDTH;
+				float confidence = _gridBuffer.get( gridIndex ).confidence();
+				if(confidence == 0) {
+					int prevOffset = x + Math.round(y - _pixelSize) * KinectSize.WIDTH;
+					int nextOffset = x + Math.round(y + _pixelSize) * KinectSize.WIDTH;
+
+					// grab prev/next value in column if current pixel is empty
+					if(y != _kinectTop && _bufferedConfidenceData[nextOffset] != 0) {
+						_bufferedConfidenceData[offset] = _bufferedConfidenceData[nextOffset];
+						_bufferedData[offset] = _bufferedData[nextOffset];
+					} else if(y != _kinectBottom && _bufferedConfidenceData[prevOffset] != 0) {
+						_bufferedConfidenceData[offset] = _bufferedConfidenceData[prevOffset];
+						_bufferedData[offset] = _bufferedData[prevOffset];
+					}
+				}
+				
+				gridIndex += 1;
+			}
+		}
+	}
 }

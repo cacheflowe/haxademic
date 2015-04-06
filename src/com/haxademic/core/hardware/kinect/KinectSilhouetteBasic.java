@@ -3,8 +3,6 @@ package com.haxademic.core.hardware.kinect;
 
 import java.util.Vector;
 
-import org.supercsv.cellprocessor.constraint.ForbidSubStr;
-
 import processing.core.PGraphics;
 import processing.core.PImage;
 import processing.core.PVector;
@@ -115,12 +113,13 @@ public class KinectSilhouetteBasic {
 	public PImage debugKinectBuffer() {
 		return _kinectBuffer.drawDebug();
 	}
-	
+		
 	protected void drawKinectForBlob() {
 		_kinectBuffer.update(P.p.kinectWrapper);
 		if(_kinectBufferRoomScan != null && _framesScannedCount <= _framesToScan) {
 			_kinectBufferRoomScan.update(P.p.kinectWrapper);
 			if(_framesScannedCount == _framesToScan) {
+				_kinectBufferRoomScan.extraSpread();
 				P.println("=== Finished Scanning Room ===");
 			}
 		}
@@ -173,8 +172,9 @@ public class KinectSilhouetteBasic {
 		_canvas.noSmooth();
 		_canvas.background(0);
 		
-		_canvas.stroke(255);
-		_canvas.strokeWeight(3f);
+//		_canvas.stroke(255);
+//		_canvas.strokeWeight(3f);
+		_canvas.noStroke();
 		_canvas.fill(255);
 		int numEdges = 0;
 		// do edge detection
@@ -217,7 +217,7 @@ public class KinectSilhouetteBasic {
 		canvas.vertex( vertexX, vertexY );
 		if(_hasParticles == true) {
 			if(MathUtil.randRangeDecimal(0, 1) < 0.05f) {
-				newParticle(vertexX, vertexY, P.p.random(-2f,2f), P.p.random(-3f,1f), 255);
+				newParticle(vertexX, vertexY, P.p.random(-2f,2f), P.p.random(-3f,1f));
 			}
 		}
 	}
@@ -239,6 +239,8 @@ public class KinectSilhouetteBasic {
 			_inactiveParticles = new Vector<FloatParticle>();
 		}
 		// update particles
+		_canvas.fill( 255 );
+		_canvas.noStroke();
 		FloatParticle particle;
 		int particlesLen = _particles.size() - 1;
 		for( int i = particlesLen; i > 0; i-- ) {
@@ -254,14 +256,14 @@ public class KinectSilhouetteBasic {
 	}
 	
 	
-	protected void newParticle( float x, float y, float speedX, float speedY, int color ) {
+	protected void newParticle( float x, float y, float speedX, float speedY ) {
 		FloatParticle particle;
 		if( _inactiveParticles.size() > 0 ) {
 			particle = _inactiveParticles.remove( _inactiveParticles.size() - 1 );
 		} else {
 			particle = new FloatParticle(_canvas);
 		}
-		particle.startAt( x, y, speedX, speedY, color );
+		particle.startAt( x, y, speedX, speedY );
 		_particles.add( particle );
 	}
 
@@ -281,11 +283,10 @@ public class KinectSilhouetteBasic {
 			this.p = p;
 		}
 		
-		public void startAt( float x, float y, float speedX, float speedY, int color ) {
+		public void startAt( float x, float y, float speedX, float speedY ) {
 			_position.set( x, y );
 			_speed.set( speedX, speedY );	// add a little extra x variance
 //			_speed.mult( 1 + p._audioInput.getFFT().spectrum[_audioIndex] ); // speed multiplied by audio
-			_color = color;
 			active = true;
 			_size = 3; //P.max(6,(P.abs(_speed.x) + P.abs(_speed.y))*0.3f);
 			_audioIndex = MathUtil.randRange(0, 511);
@@ -303,8 +304,6 @@ public class KinectSilhouetteBasic {
 			} else if( _position.y < -5 ) {
 				active = false;
 			} else {
-				p.fill( _color );
-				p.noStroke();
 				// float size = _size; // 1 + p._audioInput.getFFT().spectrum[_audioIndex] * 10; // was 3
 				p.rect( _position.x, _position.y, _size, _size );
 			}
