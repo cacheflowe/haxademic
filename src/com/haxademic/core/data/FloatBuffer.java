@@ -3,10 +3,9 @@ package com.haxademic.core.data;
 /**
  * Stores an array of values, intended to be the 
  * last [x] frames of data over time, allowing the 
- * developer to efficiently keep track of the last 
+ * developer to keep track of the most recent 
  * sampling of data from input, movement, or other
- * constantly-changing values that need to be 
- * instantly analyzed.  
+ * constantly-changing values that need to be smoothed.  
  */
 public class FloatBuffer {
 	
@@ -95,7 +94,7 @@ public class FloatBuffer {
 	 */
 	public float max() {
 		float max = buffer[0];
-		for( int i=1; i < size; i++) {
+		for( int i=0; i < size; i++) {
 			if( buffer[i] > max ) max = buffer[i];
 		}
 		return max;
@@ -107,7 +106,7 @@ public class FloatBuffer {
 	 */
 	public float min() {
 		float min = buffer[0];
-		for( int i=1; i < size; i++) {
+		for( int i=0; i < size; i++) {
 			if( buffer[i] < min ) min = buffer[i];
 		}
 		return min;
@@ -119,7 +118,7 @@ public class FloatBuffer {
 	 */
 	public float absMax() {
 		float max = Math.abs(buffer[0]);
-		for( int i=1; i < size; i++) {
+		for( int i=0; i < size; i++) {
 			if( Math.abs(buffer[i]) > max ) max = Math.abs(buffer[i]);
 		}
 		return max;
@@ -131,5 +130,28 @@ public class FloatBuffer {
 	 */
 	public float average() {
 		return sum() / size;
+	};
+	
+	/**
+	 * Returns first index of a needle value
+	 * @return		The buffer index of needle
+	 */
+	public int indexOf(float needle) {
+		for( int i=0; i < size; i++) {
+			if( buffer[i] == needle) return i;
+		}
+		return -1;
+	};
+	
+	/**
+	 * Returns The a percentage of buffer values that aren't zero. Confidences decreases as zeros increase.
+	 * @return		The percentage of buffer values that aren't zero
+	 */
+	public float confidence() {
+		float numZeros = 0;
+		for( int i=0; i < size; i++) {
+			if( buffer[i] == 0 ) numZeros++;
+		}
+		return 1f - numZeros/size;
 	};
 }
