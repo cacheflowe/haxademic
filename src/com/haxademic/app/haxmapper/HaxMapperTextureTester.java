@@ -89,7 +89,9 @@ extends PAppletHax {
 //		    new TextureShaderTimeStepper( w, h, "stars-fractal-field.glsl" )
 //			new TextureShaderTimeStepper( w, h, "morphing-bokeh-shape.glsl" )
 			new TextureShaderTimeStepper( w, h, "basic-diagonal-stripes.glsl" ),
-			new TextureShaderTimeStepper( w, h, "basic-checker.glsl" )
+			new TextureShaderTimeStepper( w, h, "basic-checker.glsl" ),
+			new TextureShaderTimeStepper( w, h, "water-smoke.glsl" ),
+			new TextureShaderTimeStepper( w, h, "flexi-spiral.glsl" )
 		};
 		
 		for(BaseTexture tex : _textures) {
