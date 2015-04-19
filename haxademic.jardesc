@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="WINDOWS-1252" standalone="no"?>
+<jardesc>
+    <jar path="haxademic/output/haxademic.jar"/>
+    <options buildIfNeeded="true" compress="true" descriptionLocation="/haxademic/haxademic.jardesc" exportErrors="true" exportWarnings="true" includeDirectoryEntries="false" overwrite="false" saveDescription="true" storeRefactorings="false" useSourceFolders="false"/>
+    <storedRefactorings deprecationInfo="true" structuralOnly="false"/>
+    <selectedProjects/>
+    <manifest generateManifest="true" manifestLocation="" manifestVersion="1.0" reuseManifest="false" saveManifest="false" usesManifest="true">
+        <sealing sealJar="false">
+            <packagesToSeal/>
+            <packagesToUnSeal/>
+        </sealing>
+    </manifest>
+    <selectedElements exportClassFiles="true" exportJavaFiles="false" exportOutputFolder="false">
+        <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.hardware.kinect"/>
+        <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.image"/>
+        <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.data"/>
+        <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.cameras"/>
+        <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.draw.particle"/>
+        <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.math"/>
+        <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.draw.util"/>
+        <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.assets"/>
+        <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.components"/>
+        <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.math.easing"/>
+        <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.draw.color"/>
+        <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.text"/>
+        <file path="/haxademic/README.md"/>
+        <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.audio"/>
+        <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.render.joons"/>
+        <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.debug"/>
+        <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.draw.shapes"/>
+        <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.cameras.common"/>
+        <file path="/haxademic/LICENSE"/>
+        <file path="/haxademic/.project"/>
+        <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.hardware.osc"/>
+        <file path="/haxademic/.classpath"/>
+        <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.app"/>
+        <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.hardware.dmx"/>
+        <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.draw.mesh"/>
+        <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.image.filters"/>
+        <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.system"/>
+        <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.hardware.shared"/>
+        <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.render"/>
+        <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.hardware.midi"/>
+        <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.hardware.webcam"/>
+        <file path="/haxademic/.gitignore"/>
+        <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.draw.text"/>
+    </selectedElements>
+</jardesc>
