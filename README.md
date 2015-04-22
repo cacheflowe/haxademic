@@ -128,8 +128,13 @@ Haxademic uses the following Java & Processing libraries, which I've included in
 
 Use the following VM Arguments when running the Java Application to increase memory allocated to your app
 
-* `-Xmx1024M`
+* `-Xmx2048M`
 * `-Xms1024M`
+
+or
+ 
+* `-Xmx4G`
+* `-Xms2G`
 
 General Use / Tips
 
