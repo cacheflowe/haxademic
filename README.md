@@ -124,6 +124,7 @@ Haxademic uses the following Java & Processing libraries, which I've included in
 * [UDP Processing Library](http://ubaa.net/shared/processing/udp/)
 * [ControlP5](http://www.sojamo.de/libraries/controlP5/)
 * [Leap Motion for Processing](https://github.com/voidplus/leap-motion-processing/)
+* [Java-WebSocket](https://github.com/TooTallNate/Java-WebSocket)
 
 Use the following VM Arguments when running the Java Application to increase memory allocated to your app
 
