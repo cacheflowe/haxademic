@@ -5,27 +5,9 @@ import com.haxademic.app.haxmapper.textures.TextureAppFrame2d;
 import com.haxademic.app.haxmapper.textures.TextureAppFrameEq2d;
 import com.haxademic.app.haxmapper.textures.TextureAppFrameWaveformCircle;
 import com.haxademic.app.haxmapper.textures.TextureAudioTube;
-import com.haxademic.app.haxmapper.textures.TextureBarsEQ;
 import com.haxademic.app.haxmapper.textures.TextureBasicWindowShade;
-import com.haxademic.app.haxmapper.textures.TextureBlobSheet;
-import com.haxademic.app.haxmapper.textures.TextureColorAudioSlide;
-import com.haxademic.app.haxmapper.textures.TextureEQConcentricCircles;
-import com.haxademic.app.haxmapper.textures.TextureEQGrid;
-import com.haxademic.app.haxmapper.textures.TextureImageTimeStepper;
-import com.haxademic.app.haxmapper.textures.TextureLinesEQ;
-import com.haxademic.app.haxmapper.textures.TextureMeshDeform;
-import com.haxademic.app.haxmapper.textures.TextureOuterSphere;
-import com.haxademic.app.haxmapper.textures.TextureRotatingRings;
-import com.haxademic.app.haxmapper.textures.TextureRotatorShape;
-import com.haxademic.app.haxmapper.textures.TextureShaderScrubber;
 import com.haxademic.app.haxmapper.textures.TextureShaderTimeStepper;
-import com.haxademic.app.haxmapper.textures.TextureSphereAudioTextures;
-import com.haxademic.app.haxmapper.textures.TextureSphereRotate;
 import com.haxademic.app.haxmapper.textures.TextureSvgPattern;
-import com.haxademic.app.haxmapper.textures.TextureTwistingSquares;
-import com.haxademic.app.haxmapper.textures.TextureVideoPlayer;
-import com.haxademic.app.haxmapper.textures.TextureWaveformCircle;
-import com.haxademic.app.haxmapper.textures.TextureWaveformSimple;
 import com.haxademic.core.app.PAppletHax;
 
 @SuppressWarnings("serial")
@@ -38,8 +20,8 @@ extends PAppletHax {
 
 	protected void overridePropsFile() {
 		_appConfig.setProperty( "fps", "30" );
-		_appConfig.setProperty( "width", "1200" );
-		_appConfig.setProperty( "height", "800" );
+		_appConfig.setProperty( "width", "1280" );
+		_appConfig.setProperty( "height", "960" );
 		_appConfig.setProperty( "rendering", "false" );
 	}
 
@@ -52,8 +34,8 @@ extends PAppletHax {
 			new TextureSvgPattern( w, h ),
 			new TextureAppFrameEq2d( w, h ),
 			new TextureAppFrame2d( w, h ),
-//			new TextureAppFrameWaveformCircle( w, h ),
-//			new TextureBasicWindowShade( w, h ),
+			new TextureAppFrameWaveformCircle( w, h ),
+			new TextureBasicWindowShade( w, h ),
 //			new TextureSphereAudioTextures( w, h ),
 //			new TextureWaveformCircle( w, h ),
 //			new TextureRotatorShape( w, h ),
@@ -84,14 +66,15 @@ extends PAppletHax {
 //		    new TextureShaderTimeStepper( w, h, "bw-eye-jacker-02.glsl" ),
 //		    new TextureShaderTimeStepper( w, h, "bw-expand-loop.glsl" ),
 //		    new TextureShaderTimeStepper( w, h, "bw-clouds.glsl" ),
-//		    new TextureShaderTimeStepper( w, h, "circle-parts-rotate.glsl" ),
-//		    new TextureShaderTimeStepper( w, h, "warped-tunnel.glsl" ),
-//		    new TextureShaderTimeStepper( w, h, "stars-fractal-field.glsl" )
-//			new TextureShaderTimeStepper( w, h, "morphing-bokeh-shape.glsl" )
+		    new TextureShaderTimeStepper( w, h, "circle-parts-rotate.glsl" ),
+		    new TextureShaderTimeStepper( w, h, "warped-tunnel.glsl" ),
+		    new TextureShaderTimeStepper( w, h, "stars-fractal-field.glsl" ),
+			new TextureShaderTimeStepper( w, h, "morphing-bokeh-shape.glsl" ),
 			new TextureShaderTimeStepper( w, h, "basic-diagonal-stripes.glsl" ),
 			new TextureShaderTimeStepper( w, h, "basic-checker.glsl" ),
 			new TextureShaderTimeStepper( w, h, "water-smoke.glsl" ),
-			new TextureShaderTimeStepper( w, h, "flexi-spiral.glsl" )
+			new TextureShaderTimeStepper( w, h, "flexi-spiral.glsl" ),
+			new TextureShaderTimeStepper( w, h, "light-leak.glsl" )
 		};
 		
 		for(BaseTexture tex : _textures) {
