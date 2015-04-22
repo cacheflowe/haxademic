@@ -3,7 +3,6 @@ package com.haxademic.app.haxmapper.distribution;
 import hypermedia.net.UDP;
 import processing.core.PApplet;
 
-import com.haxademic.core.draw.color.ColorHaxEasing;
 import com.haxademic.core.draw.color.ColorUtil;
 
 public class AudioPixelInterface {

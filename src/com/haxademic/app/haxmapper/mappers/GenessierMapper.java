@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import oscP5.OscMessage;
 import processing.core.PApplet;
-import processing.opengl.PShader;
 
 import com.haxademic.app.haxmapper.HaxMapper;
 import com.haxademic.app.haxmapper.distribution.MappingGroup;
@@ -12,7 +11,6 @@ import com.haxademic.app.haxmapper.polygons.IMappedPolygon;
 import com.haxademic.app.haxmapper.textures.TextureEQColumns;
 import com.haxademic.app.haxmapper.textures.TextureEQGrid;
 import com.haxademic.app.haxmapper.textures.TextureVideoPlayer;
-import com.haxademic.core.app.P;
 import com.haxademic.core.system.FileUtil;
 
 @SuppressWarnings("serial")

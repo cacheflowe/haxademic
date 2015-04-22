@@ -6,7 +6,6 @@ import processing.core.PVector;
 
 import com.haxademic.app.haxmapper.overlays.MeshLines.MODE;
 import com.haxademic.core.app.P;
-import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.math.MathUtil;
 
 public class MeshLineSegment {

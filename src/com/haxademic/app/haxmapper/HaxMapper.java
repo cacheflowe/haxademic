@@ -104,7 +104,7 @@ extends PAppletHax {
 				float startY = p.random(0,p.height);
 				float x2 = startX + p.random(-300,300);
 				float y2 = startY + p.random(-300,300);
-				float x3 = startX + p.random(-300,300);
+				// float x3 = startX + p.random(-300,300);
 				float y3 = startY + p.random(-300,300);
 				// add polygon
 				_mappingGroups.get(0).addPolygon( new MappedTriangle( startX, startY, x2, y2, y3, y3 ) );
