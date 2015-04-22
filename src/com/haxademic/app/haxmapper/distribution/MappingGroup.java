@@ -225,16 +225,17 @@ public class MappingGroup {
 		if(_traversePolygon == null) return;
 		if(_traverseFrame > 20) return;
 		_traverseFrame++;
-
 		IMappedPolygon newNeighbor = _traversePolygon.getRandomNeighbor();
 		int tries = 0;
-		while(newNeighbor == _traversePolygonLast && tries < 5) {
+		while(newNeighbor == _traversePolygonLast && tries < 10) {
 			newNeighbor = _traversePolygon.getRandomNeighbor();
 			tries++;
 		}
 		_traversePolygonLast = _traversePolygon;
 		_traversePolygon = newNeighbor;
-		_traversePolygon.setFlash(_traverseMode, _traverseWireMode);
+		if(_traversePolygon != null) {
+			_traversePolygon.setFlash(_traverseMode, _traverseWireMode);
+		}
 	}
 	
 	public int randomColor() {
