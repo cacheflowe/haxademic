@@ -40,17 +40,20 @@ extends HaxMapper{
 	
 
 	public static void main(String args[]) {
-		_isFullScreen = true;
+		_isFullScreen = false;
 		PApplet.main(new String[] { "--hide-stop", "--bgcolor=000000", CMKY2014Mapper.class.getName() });
 	}
 
 	protected void overridePropsFile() {
 		super.overridePropsFile();
-		_appConfig.setProperty( "mapping_file", FileUtil.getHaxademicDataPath() + "text/mapping/mapping-2014-08-09-20-40-59.txt" );
+		_appConfig.setProperty( "mapping_file", FileUtil.getHaxademicDataPath() + "text/mapping/mapping-2015-04-18-21-34-34.txt" );
 		_appConfig.setProperty( "rendering", "false" );
-		_appConfig.setProperty( "fullscreen", "true" );
-		_appConfig.setProperty( "fills_screen", "true" );
+		_appConfig.setProperty( "fullscreen", "false" );
+		_appConfig.setProperty( "fills_screen", "false" );
 		_appConfig.setProperty( "osc_active", "true" );
+		_appConfig.setProperty( "audio_debug", "true" );
+		_appConfig.setProperty( "width", "1200" );
+		_appConfig.setProperty( "height", "1000" );
 	}
 
 	public void oscEvent(OscMessage theOscMessage) {  
@@ -76,73 +79,87 @@ extends HaxMapper{
 
 	protected void addTexturesToPool() {
 
-		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/loops/smoke-loop.mov" ));
-		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/loops/tree-loop.mp4" ));
-		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/loops/ink-in-water.mp4" ));
-		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/loops/ink-grow-shrink.mp4" ));
-		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/loops/fire.mp4" ));
-		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/loops/bubbles.mp4" ));	
-		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/loops/clouds-timelapse.mov" ));
-		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/loops/water.mp4" ));
-		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/lunar-lodge/LL-00-desktop.m4v" ));
-		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/lunar-lodge/LL-01-desktop.m4v" ));
-		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/lunar-lodge/LL-02-desktop.m4v" ));
-		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/lunar-lodge/LL-03-desktop.m4v" ));
-		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/lunar-lodge/LL-04-desktop.m4v" ));
-		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/lunar-lodge/LL-08-desktop.m4v" ));
-		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/lunar-lodge/LL-09-desktop.m4v" ));
-		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/lunar-lodge/LL-10-desktop.m4v" ));
-		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/lunar-lodge/LL-11-desktop.m4v" ));
-		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/lunar-lodge/LL-12-desktop.m4v" ));
-		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/lunar-lodge/LL-13-desktop.m4v" ));
-		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/lunar-lodge/crystal-growth-2.mp4" ));
-		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/lunar-lodge/crystal-growth-3-desktop.m4v" ));
-		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/lunar-lodge/crystal-growth-4.mp4" ));
-		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/lunar-lodge/crystal-growth-desktop.m4v" ));
+//		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/loops/smoke-loop.mov" ));
+//		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/loops/tree-loop.mp4" ));
+//		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/loops/ink-in-water.mp4" ));
+//		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/loops/ink-grow-shrink.mp4" ));
+//		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/loops/fire.mp4" ));
+//		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/loops/bubbles.mp4" ));	
+//		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/loops/clouds-timelapse.mov" ));
+//		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/loops/water.mp4" ));
+//		
+//				
+//		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/lunar-lodge/LL-00-desktop.m4v" ));
+//		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/lunar-lodge/LL-01-desktop.m4v" ));
+//		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/lunar-lodge/LL-02-desktop.m4v" ));
+//		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/lunar-lodge/LL-03-desktop.m4v" ));
+//		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/lunar-lodge/LL-04-desktop.m4v" ));
+//		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/lunar-lodge/LL-08-desktop.m4v" ));
+//		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/lunar-lodge/LL-09-desktop.m4v" ));
+//		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/lunar-lodge/LL-10-desktop.m4v" ));
+//		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/lunar-lodge/LL-11-desktop.m4v" ));
+//		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/lunar-lodge/LL-12-desktop.m4v" ));
+//		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/lunar-lodge/LL-13-desktop.m4v" ));
+//		
+//		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/lunar-lodge/crystal-growth-2.mp4" ));
+//		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/lunar-lodge/crystal-growth-3-desktop.m4v" ));
+//		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/lunar-lodge/crystal-growth-4.mp4" ));
+//		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/lunar-lodge/crystal-growth-desktop.m4v" ));
+		
+		int shaderW = 300;
+		int shaderH = 300;
+		
+		_texturePool.add( new TextureShaderTimeStepper( shaderW, shaderH, "basic-checker.glsl" ));
+		_texturePool.add( new TextureShaderTimeStepper( shaderW, shaderH, "basic-diagonal-stripes.glsl" ));
+		_texturePool.add( new TextureShaderTimeStepper( shaderW, shaderH, "bw-eye-jacker-01.glsl" ));
+		_texturePool.add( new TextureShaderTimeStepper( shaderW, shaderH, "bw-eye-jacker-02.glsl" ));
+		_texturePool.add( new TextureShaderTimeStepper( shaderW, shaderH, "bw-clouds.glsl" ));
+		_texturePool.add( new TextureShaderTimeStepper( shaderW, shaderH, "bw-expand-loop.glsl" ));
+		_texturePool.add( new TextureShaderTimeStepper( shaderW, shaderH, "bw-kaleido.glsl" ));
+		_texturePool.add( new TextureShaderTimeStepper( shaderW, shaderH, "bw-motion-illusion.glsl" ));
+		_texturePool.add( new TextureShaderTimeStepper( shaderW, shaderH, "bw-simple-sin.glsl" ));
+		_texturePool.add( new TextureShaderTimeStepper( shaderW, shaderH, "circle-parts-rotate.glsl" ));
+		_texturePool.add( new TextureShaderTimeStepper( shaderW, shaderH, "cog-tunnel.glsl" ));
+		_texturePool.add( new TextureShaderTimeStepper( shaderW, shaderH, "dots-orbit.glsl" ));
+		_texturePool.add( new TextureShaderTimeStepper( shaderW, shaderH, "flexi-spiral.glsl" ));
+		_texturePool.add( new TextureShaderTimeStepper( shaderW, shaderH, "glowwave.glsl" ));
+		_texturePool.add( new TextureShaderTimeStepper( shaderW, shaderH, "gradient-line.glsl" ));
+		_texturePool.add( new TextureShaderTimeStepper( shaderW, shaderH, "hex-alphanumerics.glsl" ));
+		_texturePool.add( new TextureShaderTimeStepper( shaderW, shaderH, "iq-iterations-shiny.glsl" ));
+		_texturePool.add( new TextureShaderTimeStepper( shaderW, shaderH, "light-leak.glsl" ));
+		_texturePool.add( new TextureShaderTimeStepper( shaderW, shaderH, "lines-scroll-diag.glsl" ));
+		_texturePool.add( new TextureShaderTimeStepper( shaderW, shaderH, "matrix-rain.glsl" ));
+		_texturePool.add( new TextureShaderTimeStepper( shaderW, shaderH, "morphing-bokeh-shape.glsl" ));
+		_texturePool.add( new TextureShaderTimeStepper( shaderW, shaderH, "sin-grey.glsl" ));
+		_texturePool.add( new TextureShaderTimeStepper( shaderW, shaderH, "sin-waves.glsl" ));
+		_texturePool.add( new TextureShaderTimeStepper( shaderW, shaderH, "space-swirl.glsl" ));
+		_texturePool.add( new TextureShaderTimeStepper( shaderW, shaderH, "square-fade.glsl" ));
+		_texturePool.add( new TextureShaderTimeStepper( shaderW, shaderH, "square-twist.glsl" ));
+		_texturePool.add( new TextureShaderTimeStepper( shaderW, shaderH, "star-field.glsl" ));
+		_texturePool.add( new TextureShaderTimeStepper( shaderW, shaderH, "stars-screensaver.glsl" ));
+		_texturePool.add( new TextureShaderTimeStepper( shaderW, shaderH, "stars-scroll.glsl" ));
+		_texturePool.add( new TextureShaderTimeStepper( shaderW, shaderH, "stars-fractal-field.glsl" ));
+		_texturePool.add( new TextureShaderTimeStepper( shaderW, shaderH, "supershape-2d.glsl" ));
+		_texturePool.add( new TextureShaderTimeStepper( shaderW, shaderH, "swirl.glsl" ));
+		_texturePool.add( new TextureShaderTimeStepper( shaderW, shaderH, "warped-tunnel.glsl" ));
+		_texturePool.add( new TextureShaderTimeStepper( shaderW, shaderH, "water-smoke.glsl" ));
+		_texturePool.add( new TextureShaderTimeStepper( shaderW, shaderH, "wavy-checker-planes.glsl" ));
 		
 		_texturePool.add( new TextureScrollingColumns( 100, 100 ));
-		_texturePool.add( new TextureTwistingSquares( 500, 500 ));
-		_texturePool.add( new TextureShaderTimeStepper( 500, 500, "bw-eye-jacker-01.glsl" ));
-		_texturePool.add( new TextureShaderTimeStepper( 500, 500, "bw-eye-jacker-02.glsl" ));
-		_texturePool.add( new TextureShaderTimeStepper( 500, 500, "bw-clouds.glsl" ));
-		_texturePool.add( new TextureShaderTimeStepper( 500, 500, "bw-expand-loop.glsl" ));
-		_texturePool.add( new TextureShaderTimeStepper( 500, 500, "bw-kaleido.glsl" ));
-		_texturePool.add( new TextureShaderTimeStepper( 500, 500, "bw-motion-illusion.glsl" ));
-		_texturePool.add( new TextureShaderTimeStepper( 500, 500, "bw-simple-sin.glsl" ));
-		_texturePool.add( new TextureShaderTimeStepper( 500, 500, "circle-parts-rotate.glsl" ));
-		_texturePool.add( new TextureShaderTimeStepper( 500, 500, "cog-tunnel.glsl" ));
-//		_texturePool.add( new TextureShaderTimeStepper( 500, 500, "dots-orbit.glsl" ));
-		_texturePool.add( new TextureShaderTimeStepper( 500, 500, "glowwave.glsl" ));
-		_texturePool.add( new TextureShaderTimeStepper( 500, 500, "gradient-line.glsl" ));
-		_texturePool.add( new TextureShaderTimeStepper( 500, 500, "hex-alphanumerics.glsl" ));
-		_texturePool.add( new TextureShaderTimeStepper( 500, 500, "iq-iterations-shiny.glsl" ));
-		_texturePool.add( new TextureShaderTimeStepper( 500, 500, "lines-scroll-diag.glsl" ));
-		_texturePool.add( new TextureShaderTimeStepper( 500, 500, "matrix-rain.glsl" ));
-		_texturePool.add( new TextureShaderTimeStepper( 500, 500, "sin-grey.glsl" ));
-		_texturePool.add( new TextureShaderTimeStepper( 500, 500, "sin-waves.glsl" ));
-		_texturePool.add( new TextureShaderTimeStepper( 500, 500, "space-swirl.glsl" ));
-		_texturePool.add( new TextureShaderTimeStepper( 500, 500, "square-fade.glsl" ));
-		_texturePool.add( new TextureShaderTimeStepper( 500, 500, "square-twist.glsl" ));
-		_texturePool.add( new TextureShaderTimeStepper( 500, 500, "star-field.glsl" ));
-		_texturePool.add( new TextureShaderTimeStepper( 500, 500, "stars-screensaver.glsl" ));
-		_texturePool.add( new TextureShaderTimeStepper( 500, 500, "stars-scroll.glsl" ));
-		_texturePool.add( new TextureShaderTimeStepper( 500, 500, "supershape-2d.glsl" ));
-		_texturePool.add( new TextureShaderTimeStepper( 600, 600, "swirl.glsl" ));
-		_texturePool.add( new TextureShaderTimeStepper( 500, 500, "warped-tunnel.glsl" ));
-		_texturePool.add( new TextureShaderTimeStepper( 500, 500, "water-smoke.glsl" ));
-		_texturePool.add( new TextureShaderTimeStepper( 500, 500, "wavy-checker-planes.glsl" ));
+		_texturePool.add( new TextureTwistingSquares( shaderW, shaderH ));
 		_texturePool.add( new TextureImageTimeStepper( 600, 600 ));
-		_texturePool.add( new TextureEQColumns( 200, 100 ));
-		_texturePool.add( new TextureEQColumns( 200, 100 ));
-		_texturePool.add( new TextureEQGrid( 320, 160 ));
-		_texturePool.add( new TextureEQGrid( 320, 160 ));
-		_texturePool.add( new TextureWaveformSimple( 500, 500 ));
+		_texturePool.add( new TextureEQColumns( shaderW, shaderH ));
+		_texturePool.add( new TextureEQColumns( shaderW, shaderH ));
+		_texturePool.add( new TextureEQGrid( shaderW, shaderH ));
+		_texturePool.add( new TextureEQGrid( shaderW, shaderH ));
+		_texturePool.add( new TextureWaveformSimple( shaderW, shaderH ));
+		_texturePool.add( new TextureWaveformSimple( shaderW, shaderH ));
 //		_texturePool.add( new TextureColorAudioFade( 200, 200 ));
 //		_texturePool.add( new TextureColorAudioFade( 200, 200 ));
 		_texturePool.add( new TextureColorAudioSlide( 200, 200 ));
 //		_texturePool.add( new TextureColorAudioSlide( 200, 200 ));
-		_texturePool.add( new TextureSphereRotate( 500, 500 ));
-		_texturePool.add( new TextureEQConcentricCircles( 500, 500 ) );
+		_texturePool.add( new TextureSphereRotate( shaderW, shaderH ));
+		_texturePool.add( new TextureEQConcentricCircles( shaderW, shaderH ) );
 //		_texturePool.add( new TextureWebCam() );		
 
 		// store just movies to restrain the number of concurrent movies
