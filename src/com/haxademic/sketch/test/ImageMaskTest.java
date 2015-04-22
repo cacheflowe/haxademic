@@ -52,7 +52,7 @@ extends PAppletHax {
 		_mask.background(0);
 		DrawUtil.setDrawCenter(_mask);
 		_svgMask.disableStyle();
-		_mask.fill(255);
+		_mask.fill(255, 127 + 127 * P.sin(p.frameCount*0.01f));
 		_mask.pushMatrix();
 		_mask.translate( _mask.width / 2f, _mask.height / 2f );
 		_mask.rotate(p.frameCount * 0.01f);
