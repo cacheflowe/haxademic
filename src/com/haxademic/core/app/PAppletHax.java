@@ -337,6 +337,7 @@ extends PApplet
 			audioIn = new AudioInputWrapperMinim( p, _isRenderingAudio );
 			_waveformData = new WaveformData( p, audioIn.bufferSize() );
 		}
+		if(appConfig.getBoolean("audio_debug", false) == true) _audioInput.debugInfo();
 		_renderer = new Renderer( p, _fps, Renderer.OUTPUT_TYPE_MOVIE, _appConfig.getString( "render_output_dir", FileUtil.getHaxademicOutputPath() ) );
 		if(appConfig.getBoolean("rendering_gif", false) == true) {
 			_gifRenderer = new GifRenderer(appConfig.getInt("rendering_gif_framerate", 45), appConfig.getInt("rendering_gif_quality", 15));
