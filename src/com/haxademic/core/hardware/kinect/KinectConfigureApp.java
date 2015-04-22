@@ -27,8 +27,8 @@ extends PAppletHax {
 		_appConfig.setProperty( "height", "480" );
 		_appConfig.setProperty( "rendering", "false" );
 		_appConfig.setProperty( "kinect_active", "true" );
-		_appConfig.setProperty( "kinect_top_pixel", "100" );
-		_appConfig.setProperty( "kinect_bottom_pixel", "540" );
+		_appConfig.setProperty( "kinect_top_pixel", "0" );
+		_appConfig.setProperty( "kinect_bottom_pixel", "480" );
 		_appConfig.setProperty( "kinect_mirrored", "false" );
 	}
 
