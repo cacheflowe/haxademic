@@ -216,7 +216,7 @@ extends PAppletHax {
 		for( int i=0; i < _activeTextures.size(); i++ ) {
 			_activeTextures.get(i).update();
 		}
-		P.println(_activeTextures.size());
+//		P.println(_activeTextures.size());
 	}
 	
 	protected void drawPolygonGroups() {
