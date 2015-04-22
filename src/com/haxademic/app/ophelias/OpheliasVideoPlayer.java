@@ -1,6 +1,7 @@
 package com.haxademic.app.ophelias;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import processing.core.PApplet;
 import processing.core.PGraphics;
@@ -14,9 +15,11 @@ import com.haxademic.core.components.IMouseable;
 import com.haxademic.core.components.TextButton;
 import com.haxademic.core.draw.color.ColorHaxEasing;
 import com.haxademic.core.draw.shapes.Gradients;
+import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.draw.util.OpenGLUtil;
 import com.haxademic.core.hardware.kinect.KinectSilhouetteBasic;
 import com.haxademic.core.image.ImageUtil;
+import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.system.FileUtil;
 
 @SuppressWarnings("serial")
@@ -29,7 +32,8 @@ extends PAppletHax{
 	protected ArrayList<String> _files;
 	protected MovieLayer _movieLayer1;
 	protected MovieLayer _movieLayer2;
-	protected PGraphics _movieComposite;
+	protected PGraphics _movieComposite; 
+	protected PGraphics _lightLeak; 
 	
 	protected PShader _desaturate;
 	protected PShader _vignette;
@@ -45,6 +49,8 @@ extends PAppletHax{
 	protected PShader _mirror;
 	protected PShader _contrast;
 	
+	protected PShader _lightShader;
+	
 	protected ColorHaxEasing _colorGradientCenter;
 	protected ColorHaxEasing _colorGradientOuter;
 
@@ -53,8 +59,8 @@ extends PAppletHax{
 	
 	protected boolean _playlistSelected = false;
 	
-	protected float SCALE_DOWN = 0.333f;
-	protected float BLOB_DETECT_SCALE = 0.5f;
+	protected float SCALE_DOWN = 0.5f;
+	protected float BLOB_DETECT_SCALE = 0.6f;
 
 	public static void main(String args[]) {
 		_isFullScreen = false;
@@ -64,10 +70,12 @@ extends PAppletHax{
 	protected void overridePropsFile() {
 		p.appConfig.setProperty( "width", "1280" );
 		p.appConfig.setProperty( "height", "720" );
-		p.appConfig.setProperty( "width", "960" );
-		p.appConfig.setProperty( "height", "540" );
+//		p.appConfig.setProperty( "width", "960" );
+//		p.appConfig.setProperty( "height", "540" );
 		p.appConfig.setProperty( "fullscreen", "false" );
 		p.appConfig.setProperty( "rendering", "false" );
+		p.appConfig.setProperty( "hide_cursor", "true" );
+
 		p.appConfig.setProperty( "kinect_active", "true" );
 		p.appConfig.setProperty( "kinect_mirrored", "false" );
 		p.appConfig.setProperty( "kinect_top_pixel", "0" );
@@ -77,17 +85,33 @@ extends PAppletHax{
 
 		p.appConfig.setProperty( "kinect_pixel_skip", "5" );
 		p.appConfig.setProperty( "kinect_scan_frames", "400" );
-		p.appConfig.setProperty( "kinect_depth_key_dist", "400" );
+		p.appConfig.setProperty( "kinect_depth_key_dist", "200" );
 		p.appConfig.setProperty( "kinect_mirrored", "true" );
 		
-		p.appConfig.setProperty( "kinect_top_pixel", "130" );
-		p.appConfig.setProperty( "kinect_bottom_pixel", "380" );
+		// bar kinect setup:
+		p.appConfig.setProperty( "kinect_top_pixel", "60" );
+		p.appConfig.setProperty( "kinect_bottom_pixel", "400" );
 		p.appConfig.setProperty( "kinect_left_pixel", "90" );
 		p.appConfig.setProperty( "kinect_right_pixel", "570" );
+		p.appConfig.setProperty( "kinect_mirrored", "true" );
+
+		
+		// stage kinect setup:
+//		p.appConfig.setProperty( "kinect_top_pixel", "200" );
+//		p.appConfig.setProperty( "kinect_bottom_pixel", "400" );
+//		p.appConfig.setProperty( "kinect_left_pixel", "40" );
+//		p.appConfig.setProperty( "kinect_right_pixel", "580" );
+//		p.appConfig.setProperty( "kinect_mirrored", "false" );
+		
+		
+		p.appConfig.setProperty( "kinect_blob_bg_int", "31" ); // opacity of the non-kinect-masked whitespace. 0-255
 	}
 
 	// TODO:
-	// * Swap video when one ends
+	// * Resaturate colors after all compositing 
+	// * Push blob vertices out to make bigger blobs 
+	// * Remove extra filling-in of depth data at the end of the room scan 
+	
 	// * Increase kinect data resolution
 	//		* Quad tree?
 	// * Make all blob resolution numbers configurable 
@@ -107,9 +131,18 @@ extends PAppletHax{
 			p.background(0);
 			drawMenu();
 		} else {
+			DrawUtil.setPImageAlpha(p, 1f);
+
+			setShaderValues();
+			
+			_movieLayer1.update();
+			_movieLayer2.update();
+
 			drawVideoBackgrounds();
 			postProcessEffects();
 			drawVideos();
+			drawLightLeak();
+			drawScanProgress();
 		}
 	}
 	
@@ -127,8 +160,11 @@ extends PAppletHax{
 	}
 	
 	public void playlistSelected(String playlistDir) {
-		_files = FileUtil.getFilesInDirOfTypes(playlistDir, "mp4,m4v");
-		FileUtil.shuffleFileList( _files );
+		_files = FileUtil.getFilesInDirOfTypes(playlistDir, "mp4,m4v,mov");
+		for (String file : _files) {
+			P.println("File: "+file);
+		}
+		// FileUtil.shuffleFileList( _files );
 		buildVideoPlayer();
 		_playlistSelected = true;
 	}
@@ -170,6 +206,7 @@ extends PAppletHax{
 	protected void buildVideoPlayer() {
 		// build movie players & composite
 		_movieComposite = p.createGraphics(P.round(p.width * SCALE_DOWN), P.round(p.height * SCALE_DOWN), P.OPENGL);
+		_lightLeak = p.createGraphics(P.round(p.width * SCALE_DOWN), P.round(p.height * SCALE_DOWN), P.OPENGL);
 
 		_movieLayer1 = new MovieLayer(_files);
 //		_movieLayer2 = new MovieLayer(_files.get(1));	
@@ -182,6 +219,7 @@ extends PAppletHax{
 		
 		// build shaders
 		_desaturate = loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/saturation.glsl" );
+		_desaturate.set("saturation", 0.6f);
 		_threshold = loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/blackandwhite.glsl" );
 		_threshold.set("cutoff", 0.5f);
 		_blurV = loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/blur-vertical.glsl" );
@@ -189,6 +227,8 @@ extends PAppletHax{
 		_blurH = loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/blur-horizontal.glsl" );
 		_blurH.set( "h", 3f/p.width );
 		_invert = loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/invert.glsl" );
+
+		_lightShader = loadShader( FileUtil.getHaxademicDataPath()+"shaders/textures/light-leak.glsl" );
 		
 		_badTV = loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/badtv.glsl" );
 		_badTV.set("time", millis() / 1000.0f);
@@ -229,9 +269,9 @@ extends PAppletHax{
 	}
 	
 	protected void drawVideoBackgrounds() {
-		_colorGradientCenter.setTargetColorInt( _movieLayer1.colorL() );
+		_colorGradientCenter.setTargetColorIntWithBrightness( _movieLayer1.colorL(), 2f );
 		_colorGradientCenter.update();
-		_colorGradientOuter.setTargetColorInt( _movieLayer1.colorR() );
+		_colorGradientOuter.setTargetColorIntWithBrightness( _movieLayer1.colorR(), 2f );
 		_colorGradientOuter.update();
 		
 		p.pushMatrix();
@@ -241,52 +281,31 @@ extends PAppletHax{
 	}
 	
 	protected void drawVideos() {
-		setShaderValues();
-				
-		_movieLayer1.update();
-		_movieLayer2.update();
-		
 		if(_movieLayer1.ready() && _movieLayer2.ready()) {
-////			_movieLayer1.updateMask();
-////			_movieLayer1.updateMaskInverse();
-//			//			_movieLayer1.image().mask(_movieLayer1.mask());
-////			_movieLayer2.update();
-//			_movieLayer2.updateMask();
+			// desaturate video
+			_movieLayer1.image().filter(_desaturate);
+			// blur kinect blobs
+			_movieLayer2.image().filter(_blurH);
+			_movieLayer2.image().filter(_blurV);
+			// apply mask
 			_movieLayer1.image().mask(_movieLayer2.image());
-////			_movieLayer2.updateMaskInverse();
-////			_movieLayer2.image().mask(_movieLayer1.mask());
-//			
-//			if(_isDebug == false) {
-//				_movieComposite.beginDraw();
-//				_movieComposite.clear();
-//				_movieComposite.image(_movieLayer1.image(), 0, 0);
-////				_movieComposite.image(_movieLayer2.image(), 0, 0);
-//				_movieComposite.endDraw();
-//			} else {
-//				_movieComposite.beginDraw();
-//				_movieComposite.clear();
-//				_movieComposite.image(_movieLayer1.image(), 0, 0, _movieComposite.width * 0.333f, _movieComposite.height * 0.333f);
-//				_movieComposite.image(_movieLayer1.mask(), _movieComposite.width * 0.333f, 0, _movieComposite.width * 0.333f, _movieComposite.height * 0.333f);
-//				_movieComposite.image(_movieLayer1.maskInverse(), _movieComposite.width * 0.666f, 0, _movieComposite.width * 0.333f, _movieComposite.height * 0.333f);
-//				_movieComposite.image(_movieLayer2.image(), 0, _movieComposite.height * 0.333f, _movieComposite.width * 0.333f, _movieComposite.height * 0.333f);
-//				_movieComposite.image(_movieLayer2.mask(), _movieComposite.width * 0.333f, _movieComposite.height * 0.333f, _movieComposite.width * 0.333f, _movieComposite.height * 0.333f);
-//				_movieComposite.image(_movieLayer2.maskInverse(), _movieComposite.width * 0.666f, _movieComposite.height * 0.333f, _movieComposite.width * 0.333f, _movieComposite.height * 0.333f);
-//				_movieComposite.endDraw();
-//			}
-//			if(_isDebug == false) {
-//				p.image(_movieLayer2.imageToProcess(), 0, 0, p.width, p.height);
-//			} else {
-//				p.image(_movieLayer2.image(), 0, 0, p.width, p.height);
-//			}
-
+			
 		}
 		
-		//		_movieComposite.filter(_blurVPost);
-		
-//		p.image(_movieComposite, 0, 0, p.width, p.height); 
-//		p.image(_movieLayer2.maskInverse(), 0, 0, p.width, p.height);
-//		p.image(_movieLayer2.mask(), 0, 0, p.width, p.height);
-		p.image(_movieLayer1.image(), 0, 0, p.width, p.height);
+		// draw to screen!
+		if(_isDebug == false) {
+			p.image(_movieLayer1.image(), 0, 0, p.width, p.height);
+		} else {
+			int thirdW = P.round(_movieComposite.width * 0.333f);
+			int thirdH = P.round(_movieComposite.height * 0.333f);
+			p.image(_movieLayer1.image(), 0, 0, thirdW, thirdH);
+			p.image(_movieLayer1.mask(), thirdW, 0, thirdW, thirdH);
+			p.image(_movieLayer1.maskInverse(), _movieComposite.width * 0.666f, 0, thirdW, thirdH);
+			p.image(_movieLayer2.image(), 0, thirdH, thirdW, thirdH);
+			p.image(_movieLayer2.mask(), thirdW, thirdH, thirdW, thirdH);
+			p.image(_movieLayer2.maskInverse(), thirdW * 2, thirdH, thirdW, thirdH);
+
+		}
 //		postProcessEffects();
 	}
 	
@@ -307,12 +326,29 @@ extends PAppletHax{
 		}
 	}
 	
+	protected void drawLightLeak() {
+		_lightShader.set("time", p.millis() / 2000.0f);
+		_lightLeak.filter(_lightShader);
+		_lightLeak.filter(_desaturate);
+		DrawUtil.setPImageAlpha(p, 0.2f);
+		p.image(_lightLeak, 0, 0, p.width, p.height);
+		DrawUtil.setPImageAlpha(p, 1f);
+	}
+	
+	protected void drawScanProgress() {
+		float scanProgress = ((KinectLayer) _movieLayer2)._silhouette.getRoomScanProgress();
+		if(scanProgress < 0.99f) {
+			p.fill(255,0,0, 120);
+			p.rect(0,0,p.width * scanProgress, p.height);
+		}	
+	}
+	
 	protected void postProcessEffects() {
 		p.filter(_vignette);
 		
 		p.filter( _postBrightness );		
 		_badTV.set("time", millis() / 1000.0f);
-		p.filter(_badTV);
+//		p.filter(_badTV);
 	}
 	
 	protected void handleInput( boolean isMidi ) {
@@ -335,7 +371,10 @@ extends PAppletHax{
 
 		public MovieLayer(ArrayList<String> videoPaths) {
 			_videoPaths = videoPaths;
-			if(_videoPaths != null) playNextMovie();
+			if(_videoPaths != null) {
+				_movieIndex = MathUtil.randRange(0, _videoPaths.size() - 1);
+				playNextMovie();
+			}
 			initImageBuffers();
 		}
 		
@@ -376,22 +415,18 @@ extends PAppletHax{
 		protected void playNextMovie() {
 			_movieIndex++;
 			if(_movieIndex > _videoPaths.size() - 1) _movieIndex = 0;
-//			if(_videoPaths.get(_movieIndex)) {
 			if(_movie != null) {
 				_movie.dispose();
 				_movie = null;
 			}
 			_movie = new Movie( p, _videoPaths.get(_movieIndex) );
-			P.println("loading", _videoPaths.get(_movieIndex));
 			_movie.play();
 			_movie.loop();
 			_movie.jump(0);
 			_movie.volume(0);
-			
+			_movie.speed(0.75f);
+			// reset crop fill offset properties
 			_cropProps = null;
-			
-//				_movie.speed(0.8f);
-//			}
 		}
 		
 		protected void initImageBuffers() {
@@ -421,7 +456,6 @@ extends PAppletHax{
 				_curFrame.clear();
 				_curFrame.image(imageToProcess(), _cropProps[0], _cropProps[1], _cropProps[2], _cropProps[3]);
 				_curFrame.endDraw();
-//				_curFrame.filter(_mirror);
 			}
 		}
 		
@@ -456,7 +490,7 @@ extends PAppletHax{
 	
 	
 	public class KinectLayer extends MovieLayer {
-		protected KinectSilhouetteBasic _silhouette;
+		public KinectSilhouetteBasic _silhouette;
 		public KinectLayer() {
 			super(null);
 			_silhouette = new KinectSilhouetteBasic(BLOB_DETECT_SCALE, true, true);
@@ -466,13 +500,13 @@ extends PAppletHax{
 			return _silhouette._canvas;
 		}
 		
-//		public PGraphics mask() {
-//			return (PGraphics) _silhouette._kinectPixelated;
-//		}
-//		
-//		public PGraphics maskInverse() {
-//			return (PGraphics) _silhouette.debugKinectBuffer();
-//		}
+		public PGraphics mask() {
+			return (PGraphics) _silhouette._kinectPixelated;
+		}
+		
+		public PGraphics maskInverse() {
+			return (PGraphics) _silhouette.debugKinectBuffer();
+		}
 		
 		public void update() {
 			_silhouette.update();

@@ -3,7 +3,6 @@ package com.haxademic.app.ophelias;
 import processing.opengl.PShader;
 
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.hardware.kinect.KinectSilhouetteBasic;
 import com.haxademic.core.system.FileUtil;
 
@@ -51,7 +50,7 @@ extends PAppletHax{
 
 	public void setup() {
 		super.setup();
-		_silhouette = new KinectSilhouetteBasic(0.6f, true, true);
+		_silhouette = new KinectSilhouetteBasic(1f, true, true);
 	}
 	
 	public void drawApp() {
@@ -61,11 +60,11 @@ extends PAppletHax{
 		if(!_isDebug) {
 //			DrawUtil.setPImageAlpha(p, 0.5f);
 //			p.image(_silhouette.debugKinectBuffer(), 0, 0);
-			p.image(_silhouette._kinectPixelated, 0, 0);
+			p.image(_silhouette._canvas, 0, 0);
 		} else {
 //			DrawUtil.setPImageAlpha(p, 0.5f);
 //			p.image(_silhouette.debugKinectScanBuffer(), 0, 0);
-			p.image(_silhouette._canvas, 0, 0);
+			p.image(_silhouette._kinectPixelated, 0, 0);
 		}
 //		postProcessEffects();
 	}

@@ -45,6 +45,7 @@ public class KinectSilhouetteBasic {
 	protected float _scaleDownForBlobDetection = 0.4f;
 	protected boolean _hasParticles = false;
 	protected int _framesScannedCount = 0;
+	protected int _backgroundColor = 0;
 	
 	protected boolean DEBUG_OUTPUT = false;
 
@@ -57,6 +58,7 @@ public class KinectSilhouetteBasic {
 		if(P.p.appConfig.getInt("kinect_bottom_pixel", -1) != -1) KINECT_BOTTOM_PIXEL = P.p.appConfig.getInt("kinect_bottom_pixel", -1);
 		if(P.p.appConfig.getInt("kinect_scan_frames", -1) != -1) _framesToScan = P.p.appConfig.getInt("kinect_scan_frames", -1);
 		if(P.p.appConfig.getInt("kinect_depth_key_dist", -1) != -1) DEPTH_KEY_DIST = P.p.appConfig.getInt("kinect_depth_key_dist", -1);
+		_backgroundColor = P.p.appConfig.getInt("kinect_blob_bg_int", 0);
 
 		_scaleDownForBlobDetection = scaleDownForBlobDetection;
 		_hasParticles = hasParticles;
@@ -80,9 +82,9 @@ public class KinectSilhouetteBasic {
 		blobBufferGraphics = P.p.createGraphics( (int)(_canvasW * _scaleDownForBlobDetection), (int)(_canvasH * _scaleDownForBlobDetection), P.OPENGL);
 		blobBufferGraphics.noSmooth();
 		_blurV = P.p.loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/blur-vertical.glsl" );
-		_blurV.set( "v", 2f/_canvasH );
+		_blurV.set( "v", 3f/_canvasH );
 		_blurH = P.p.loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/blur-horizontal.glsl" );
-		_blurH.set( "h", 2f/_canvasW );
+		_blurH.set( "h", 3f/_canvasW );
 
 		theBlobDetection = new BlobDetection( blobBufferGraphics.width, blobBufferGraphics.height );
 		theBlobDetection.setPosDiscrimination(true);	// true if looking for bright areas
@@ -114,6 +116,10 @@ public class KinectSilhouetteBasic {
 		return _kinectBuffer.drawDebug();
 	}
 		
+	public float getRoomScanProgress() {
+		return (float) _framesScannedCount / (float) _framesToScan;
+	}
+	
 	protected void drawKinectForBlob() {
 		_kinectBuffer.update(P.p.kinectWrapper);
 		if(_kinectBufferRoomScan != null && _framesScannedCount <= _framesToScan) {
@@ -134,6 +140,8 @@ public class KinectSilhouetteBasic {
 		float pixelDepthRoom = -99999;
 		_kinectPixelated.fill(255f);
 		int kinectBlobPadding = 10;
+		float kinectPixelScaleUp = 1.0f;
+		float kinectPixelSize = PIXEL_SIZE * kinectPixelScaleUp;
 		// leave edges blank to get solid blobs that don't go off-screen!
 		for ( int x = KINECT_LEFT_PIXEL + kinectBlobPadding; x < KINECT_RIGHT_PIXEL - kinectBlobPadding; x += PIXEL_SIZE ) {
 			for ( int y = KINECT_TOP_PIXEL + kinectBlobPadding; y < KINECT_BOTTOM_PIXEL - kinectBlobPadding; y += PIXEL_SIZE ) {
@@ -146,7 +154,7 @@ public class KinectSilhouetteBasic {
 					if( pixelDepth != 0 && pixelDepth > KINECT_CLOSE && pixelDepth < KINECT_FAR ) {
 						if(Math.abs(pixelDepth - pixelDepthRoom) > DEPTH_KEY_DIST) {
 							_kinectPixelated.fill(255f * confidence);
-							_kinectPixelated.rect(x - KINECT_LEFT_PIXEL, y - KINECT_TOP_PIXEL, PIXEL_SIZE, PIXEL_SIZE);
+							_kinectPixelated.rect(x - KINECT_LEFT_PIXEL, y - KINECT_TOP_PIXEL, kinectPixelSize, kinectPixelSize);
 //							_kinectPixelated.fill(0,205f,0);
 //							_kinectPixelated.text(MathUtil.roundToPrecision(pixelDepth/1000f, 1),x - KINECT_LEFT_PIXEL,y - KINECT_TOP_PIXEL);
 //							_kinectPixelated.text(MathUtil.roundToPrecision(pixelDepthRoom/1000f, 1),x - KINECT_LEFT_PIXEL,y - KINECT_TOP_PIXEL+14);
@@ -170,10 +178,10 @@ public class KinectSilhouetteBasic {
 		_canvas.beginDraw();
 		_canvas.clear();
 		_canvas.noSmooth();
-		_canvas.background(0);
+		_canvas.background(_backgroundColor);
 		
-//		_canvas.stroke(255);
-//		_canvas.strokeWeight(3f);
+		_canvas.stroke(255);
+		_canvas.strokeWeight(5f);
 		_canvas.noStroke();
 		_canvas.fill(255);
 		int numEdges = 0;
@@ -217,7 +225,7 @@ public class KinectSilhouetteBasic {
 		canvas.vertex( vertexX, vertexY );
 		if(_hasParticles == true) {
 			if(MathUtil.randRangeDecimal(0, 1) < 0.05f) {
-				newParticle(vertexX, vertexY, P.p.random(-2f,2f), P.p.random(-3f,1f));
+				newParticle(vertexX, vertexY, P.p.random(-2f,2f), P.p.random(-1f,1f));
 			}
 		}
 	}
@@ -273,7 +281,7 @@ public class KinectSilhouetteBasic {
 		PGraphics p;
 		PVector _position = new PVector();
 		PVector _speed = new PVector();
-		PVector _gravity = new PVector(0,-0.31f);
+		PVector _gravity = new PVector(0,-0.11f);
 		int _color = 0;
 		float _size = 4;
 		public boolean active = false;
