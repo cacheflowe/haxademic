@@ -1,21 +1,20 @@
 package com.haxademic.sketch.three_d;
 
-import processing.core.PApplet;
-import processing.core.PConstants;
-
 import com.haxademic.core.app.P;
+import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.cameras.CameraOscillate;
 import com.haxademic.core.cameras.common.ICamera;
+import com.haxademic.core.draw.util.OpenGLUtil;
+import com.haxademic.core.math.easing.Penner;
+import com.haxademic.core.render.JoonsWrapper;
 import com.haxademic.core.render.Renderer;
-
-//import hipstersinc.P5Sunflow;
 
 @SuppressWarnings({ "serial" })
 public class MegaFractalCube
-	extends PApplet
+extends PAppletHax
 {
 	// global vars
-	protected int _fps = 30;
+	protected float _frames = 50;
 	protected FractCube _cube;
 	protected int _cols = 10;
 	protected int _rows = 10;
@@ -23,112 +22,114 @@ public class MegaFractalCube
 	protected int NUM_BLOCKS = 20;  
 	protected Renderer _render;
 	protected float rotInc = 0;
-	protected int BASE_CUBE_SIZE = 500;
+	protected float BASE_CUBE_SIZE = 200;
+	protected float MIN_CUBE_SIZE = 7;
 	protected boolean RENDERING = false;
-	
-	public void setup ()
-	{
-		int SUNFLOW = 1;
-		RENDERING = false;
-		//noLoop();
-		// set up stage
-		if( SUNFLOW == 1 ) {
-			size( 800, 600, P.SUNFLOW );
-			BASE_CUBE_SIZE *= 1 + 1/3;
-//			noLoop();
-		} else {
-			size( 800, 600, PConstants.P3D );
+	float percentComplete;
+
+	protected void overridePropsFile() {
+		_appConfig.setProperty( "sunflow", "true" );
+		_appConfig.setProperty( "sunflow_active", "false" );
+		_appConfig.setProperty( "sunflow_quality", "low" );
+
+		_appConfig.setProperty( "rendering_gif", "true" );
+		_appConfig.setProperty( "rendering_gif_framerate", "45" );
+		_appConfig.setProperty( "rendering_gif_quality", "15" );
+		_appConfig.setProperty( "rendering_gif_startframe", "3" );
+		_appConfig.setProperty( "rendering_gif_stopframe", ""+Math.round(_frames+2) );
+
+		_appConfig.setProperty( "width", "640" );
+		_appConfig.setProperty( "height", "640" );
+		
+		_appConfig.setProperty( "rendering", "false" );
+	}
+
+	public void setup() {
+		super.setup();
+		
+		BASE_CUBE_SIZE = p.width/4f;
+		
+		if(_appConfig.getBoolean("sunflow_active", false) == false) {
+			p.smooth(OpenGLUtil.SMOOTH_HIGH);
 			lights();
 			shininess(500); 
-//			smooth();
-			camera = new CameraOscillate( this, 200, 200, 0, 200 );
+			background(255);
+			noStroke();
 		}
-		frameRate( _fps );
-		colorMode( PConstants.RGB, 255, 255, 255, 255 );
-		background( 0, 0, 0 );
-		noStroke();
-		
-		
+
 		_cube = new FractCube( BASE_CUBE_SIZE );
-		
-		// set up camera
-		
-		if( RENDERING )
-		{
-			// set up renderer
-			_render = new Renderer( this, _fps, Renderer.OUTPUT_TYPE_MOVIE, "bin/output/" );
-			_render.startRenderer();
-		}
+		camera = new CameraOscillate( this, 200, 200, 0, 200 );
 	}
 
-	/**
-	 * Auto-initialization of the root class.
-	 * @param args
-	 *//*
-	public static void main(String args[]) {
-		PApplet.main(new String[] { "--present", "--hide-stop", "--bgcolor=000000", "com.haxademic.sketch.test2.TestDrawing2" });
-	}*/
-
-	public void draw() 
-	{
-		background( 0, 0, 40 );
-		camera( 600, 700, -600, 400, 300, 0, 0, 1, 0);
-		rotateY(45);
+	public void drawApp() {
 		
-		// update, keep base cube in center
-		if(camera != null) camera.update();
-		_cube.update( width/2, height/2, 0 );
+		percentComplete = ((float)(p.frameCount%_frames)/_frames);
+		float easedPercent = Penner.easeInOutCubic(percentComplete, 0, 1, 1);
+		float easedPercentHard = Penner.easeInOutQuad(percentComplete, 0, 1, 1);
 
-		if( frameCount > 1 && RENDERING ) 
-		{
-			_render.renderFrame();
-			println("rendering frame "+frameCount);
+		
+		
+		if(_appConfig.getBoolean("sunflow_active", false) == true) {
+			_jw.jr.background(255, 255, 255); //background(gray), or (r, g, b), like Processing.
+			_jw.jr.background("gi_instant"); //Global illumination, normal mode.
+			_jw.jr.background("gi_ambient_occlusion"); //Global illumination, ambient occlusion mode.
+			setUpRoom();
+		} else {
+			background( 255 );
+			
+//			p.ambientLight(102, 102, 102);
+//			p.lightSpecular(100, 100, 100);
+//			p.directionalLight(102, 102, 102, 0, 0, -1);
+//			p.specular(100, 100, 100);
+//			p.emissive(51, 51, 51);
+//			p.ambient(50, 50, 50);
+			
+			p.shininess(20.0f); 
+			
+//			p.pointLight(0, 255, 255, 0, 0, -500);
+//			p.pointLight(255, 255, 0, 0, 0, -500);
+//			p.pointLight(0, 0, 0, 255, 500, 3000);
 		}
 		
-		if( frameCount >= 600 )
-		{
-			_render.stop();
-			exit();
+		
+		
+//		camera( width/2, 700, 600, 400, 300, 0, 0, 1, 0);
+//		translate(width/2, height/2, -800);
+		translate(0, 0, -p.width);
+		
+		p.rotateY(P.PI/2f * percentComplete);
+		
+//		if(camera != null) camera.update();
+		_cube.update( 0, 0, 0 );
+		
+		
+		if( p.frameCount == _frames + 2 ) {
+			if(_appConfig.getBoolean("rendering", false) ==  true) {				
+				_renderer.stop();
+				P.println("render done!");
+			}
 		}
-	}
 
-	void setupScene() {
-		// P5Sunflow sunflow = (P5Sunflow) g;
 	}
 	
-	/**
-	 * Key handling for rendering functions - stopping and saving an image
-	 */
-	public void keyPressed()
-	{
-		if( key == ' ' ) _render.stop();
-		if( key == 'p' ) _render.renderFrame();
-	}
-	
-	// A Cube object
-	class FractCube 
-	{
-		// A cell object knows about its location in the _blocks as well as its size with the variables x,y,w,h.
+	public class FractCube {
 		float _baseSize;
 		float _curSize;
 		float _x, _y, _z;
 		protected FractCube[] _childrens;
 		protected float CHILD_RATIO = 0.5f;
 		
-		// Cube Constructor
-		FractCube( float size ) 
-		{
+		public FractCube( float size ) {
 			_baseSize = size;
 			_curSize = _baseSize;	//0;// _baseSize * 1f 
 			
-			if( _baseSize > 8 )
-			{
+			if( _baseSize > MIN_CUBE_SIZE ) {
 				_childrens = new FractCube[ 6 ];
 					
 				// Initialize each object with base size
-				for ( int i = 0; i < _childrens.length; i++ ) 
+				for ( int i = 0; i < _childrens.length; i++ ) {
 					_childrens[i] = new FractCube( _baseSize * CHILD_RATIO );
-				
+				}
 			}
 		} 
 		
@@ -143,8 +144,7 @@ public class MegaFractalCube
 		/**
 		 * Place and draw each cube
 		 */
-		void update( float x, float y, float z ) 
-		{
+		void update( float x, float y, float z ) {
 			// store 3d coordinates
 			_x = x;
 			_y = y;
@@ -157,7 +157,31 @@ public class MegaFractalCube
 			
 			// draw self
 			translate( _x, _y, _z );
-			fill( 255 - (_curSize / BASE_CUBE_SIZE) * 235 );
+			
+			int color = P.round(255f - (_curSize / BASE_CUBE_SIZE) * 235f);  
+			int colorDark = P.round(150f - (_curSize / BASE_CUBE_SIZE) * 135f); 
+			
+			if(_appConfig.getBoolean("sunflow_active", false) == true) {
+				if(_baseSize == BASE_CUBE_SIZE) {
+					_jw.jr.fill( JoonsWrapper.MATERIAL_GLASS, 0, 0, 100);
+				} else {
+					_jw.jr.fill( JoonsWrapper.MATERIAL_SHINY, 
+							color + color/4f * P.sin(percentComplete * P.TWO_PI) * _x/10f, 
+							color + color/4f * P.sin(percentComplete * P.TWO_PI + P.PI) * _y/10f,
+							color + color/4f * P.sin(percentComplete * P.TWO_PI + P.PI/2f) * _z/10f
+							);
+				}
+			} else {
+//				fill(p.color(color));
+				fill(
+					color + color/5f * P.sin(percentComplete * P.TWO_PI) * _x/40f, 
+					color + color/5f * P.sin(percentComplete * P.TWO_PI + P.PI) * _y/40f,
+					color + color/5f * P.sin(percentComplete * P.TWO_PI + P.PI/2f) * _z/40f
+				);
+				stroke(p.color(colorDark));
+				strokeWeight(0.2f);
+			}
+
 			box(_curSize);
 			
 			if( _childrens != null )
@@ -167,8 +191,7 @@ public class MegaFractalCube
 			popMatrix();
 		}
 		
-		void updateChildrenBoxen()
-		{
+		void updateChildrenBoxen() {
 			// half size of 
 			float distance = ( _curSize / 2 ) + ( _curSize * CHILD_RATIO ) / 2;
 			
@@ -183,4 +206,23 @@ public class MegaFractalCube
 		}
 	}
 	
+	
+	
+	protected void setUpRoom() {
+		pushMatrix();
+		translate(0, 0, -1000);
+		float radiance = 20;
+		int samples = 16;
+		_jw.jr.background("cornell_box", 
+				12000, 6000, 6000,	// width, height, depth
+				radiance, radiance, radiance, samples,  // radiance rgb & samples
+				255, 255, 255, // left rgb
+				255, 255, 255, // right rgb
+				255, 255, 255, // back rgb
+				255, 255, 255, // top rgb
+				255, 255, 255  // bottom rgb
+		); 
+		popMatrix();		
+	}
+
 }
