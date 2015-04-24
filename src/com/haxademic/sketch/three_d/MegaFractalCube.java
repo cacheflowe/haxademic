@@ -5,9 +5,7 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.cameras.CameraOscillate;
 import com.haxademic.core.cameras.common.ICamera;
 import com.haxademic.core.draw.util.OpenGLUtil;
-import com.haxademic.core.math.easing.Penner;
 import com.haxademic.core.render.JoonsWrapper;
-import com.haxademic.core.render.Renderer;
 
 @SuppressWarnings({ "serial" })
 public class MegaFractalCube
@@ -16,15 +14,9 @@ extends PAppletHax
 	// global vars
 	protected float _frames = 50;
 	protected FractCube _cube;
-	protected int _cols = 10;
-	protected int _rows = 10;
 	protected ICamera camera;
-	protected int NUM_BLOCKS = 20;  
-	protected Renderer _render;
-	protected float rotInc = 0;
 	protected float BASE_CUBE_SIZE = 200;
 	protected float MIN_CUBE_SIZE = 7;
-	protected boolean RENDERING = false;
 	float percentComplete;
 
 	protected void overridePropsFile() {
@@ -64,9 +56,6 @@ extends PAppletHax
 	public void drawApp() {
 		
 		percentComplete = ((float)(p.frameCount%_frames)/_frames);
-		float easedPercent = Penner.easeInOutCubic(percentComplete, 0, 1, 1);
-		float easedPercentHard = Penner.easeInOutQuad(percentComplete, 0, 1, 1);
-
 		
 		
 		if(_appConfig.getBoolean("sunflow_active", false) == true) {
