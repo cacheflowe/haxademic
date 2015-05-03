@@ -15,6 +15,10 @@ public class ColorUtil {
 		return P.unhex("FF"+hex.substring(1));
 	}
 	
+	public static float componentByPercent( float percent ) {
+		return percent * 255f;
+	}
+	
 	public final static int alphaFromColorInt( int c ) { return (c >> 24) & 0xFF; }
 	public final static int redFromColorInt( int c ) { return (c >> 16) & 0xFF;	}
 	public final static int greenFromColorInt( int c ) { return (c >> 8)  & 0xFF; }
