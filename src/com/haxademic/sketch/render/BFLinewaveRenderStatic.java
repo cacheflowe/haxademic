@@ -2,6 +2,7 @@ package com.haxademic.sketch.render;
 
 import java.util.ArrayList;
 
+import processing.core.PApplet;
 import processing.core.PConstants;
 import processing.core.PGraphics;
 import processing.core.PImage;
@@ -13,9 +14,10 @@ import com.haxademic.core.draw.util.OpenGLUtil;
 import com.haxademic.core.image.MotionBlurPGraphics;
 import com.haxademic.core.math.easing.EasingFloat;
 import com.haxademic.core.system.FileUtil;
+import com.haxademic.core.system.SystemUtil;
 
 @SuppressWarnings("serial")
-public class BFLinewaveRender
+public class BFLinewaveRenderStatic
 extends PAppletHax{
 	
 	PImage _print;
@@ -24,6 +26,8 @@ extends PAppletHax{
 	protected MotionBlurPGraphics _pgMotionBlur;
 	protected ArrayList<Linewave> _lines;
 	
+	protected boolean _shouldPrint = false;
+
 	protected void overridePropsFile() {
 		_appConfig.setProperty( "width", "900" );
 		_appConfig.setProperty( "height", "900" );
@@ -54,38 +58,47 @@ extends PAppletHax{
 		_pgMotionBlur = new MotionBlurPGraphics(3);
 	}
 	
-	protected void drawGraphics( PGraphics pg ) {
-		pg.beginDraw();
-		pg.clear();
-		DrawUtil.setDrawCorner(pg);
+	protected void drawGraphics() {
+		DrawUtil.setDrawCorner(p);
 		
 		// timeline
 		float percentComplete = ((float)(p.frameCount%_frames)/_frames);
 		float frameOsc = P.sin( PConstants.TWO_PI * percentComplete);
+		frameOsc = P.sin( PConstants.TWO_PI * 0.25f);
 
 		// reference image
-		pg.image(_print, 0, 0, p.width, p.height);
+//		p.image(_print, 0, 0, p.width, p.height);
 		
 		// white bg
-		pg.fill(255, 255);
-		pg.noStroke();
-		pg.rect(266, 175, 373, 537);
+		p.fill(255, 255);
+		p.noStroke();
+		p.rect(266, 175, 373, 537);
 		
 		// draw lines
 		int numLines = _lines.size();
 		for (int i = 0; i < numLines; i++) {
-			_lines.get(i).update(pg, frameOsc);
+			_lines.get(i).update(p, frameOsc);
 		}
-		
-		pg.endDraw();
 	}
 
 	public void drawApp() {
-		p.background(255);
-		drawGraphics(_pg);
-		_pgMotionBlur.updateToCanvas(_pg, p.g, 1f);
+		p.background(0);
+		if( _shouldPrint ) p.beginRecord( P.PDF,  FileUtil.getHaxademicOutputPath() + "linewave-"+ SystemUtil.getTimestamp(p) +".pdf" );
+		drawGraphics();
+//		_pgMotionBlur.updateToCanvas(_pg, p.g, 1f);
+		if( _shouldPrint == true ) {
+			p.endRecord();
+			_shouldPrint = false;
+		}
 	}
 
+	public void keyPressed() {
+		if( p.key == 'p' ) printPDF();
+	}
+
+	public void printPDF() {
+		_shouldPrint = true;
+	}
 	
 	public class Linewave {
 		public float WIDTH = 350;
@@ -103,7 +116,7 @@ extends PAppletHax{
 			_index = index;
 		}
 		
-		public void update(PGraphics pg, float frameOsc) {
+		public void update(PApplet pg, float frameOsc) {
 			_x.update();
 			_y.update();
 			
