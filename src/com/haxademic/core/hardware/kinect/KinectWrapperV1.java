@@ -24,33 +24,53 @@ public class KinectWrapperV1 implements IKinectWrapper{
 	// The sensor has an angular field of view of 57� horizontally and 43� vertically, while the motorized pivot is capable of tilting the sensor up to 27� either up or down
 	// http://en.wikipedia.org/wiki/Field_of_view
 
-	
+	// multithread the kinect communication
+	protected KinectUpdater _loader;
+	protected Thread _loadThread;
+	protected Boolean _updateComplete = true;
 	
 
 	public KinectWrapperV1( PApplet p, boolean initDepth, boolean initRGB, boolean initDepthImage ) {
 		this.p = p;
 		
 		_kinect = new SimpleOpenNI( p, SimpleOpenNI.RUN_MODE_DEFAULT );
-		_kinect.enableDepth();
-		_kinect.enableRGB();
+		boolean depthEnabled = _kinect.enableDepth();
+		if(initRGB == true) _kinect.enableRGB();
 //		_kinect.enableIR();	// IR doesn't like being enabled off the bat - it kills the RGB camera?!
 		_kinect.setMirror(false);
 				
 		// enable depthMap generation 
-		if(_kinect.enableDepth() == false && KINECT_ERROR_SHOWN == false) {
+		if(depthEnabled == false && KINECT_ERROR_SHOWN == false) {
 			DebugUtil.alert("Can't access the Kinect. Make sure it's plugged into the computer and a power outlet.");
 			_kinectActive = false;
 			KINECT_ERROR_SHOWN = true;
 			p.exit();
+		} else {
+			// capture one frame of depth data so the array exists. otherwise the new threading would return null on the first frame
+			_depthArray = _kinect.depthMap();
 		}
 	}
 	
+	
+	class KinectUpdater implements Runnable {
+		public KinectUpdater() {}    
+
+		public void run() {
+			if(_kinect != null && _kinect.isInit() == true) {
+				_kinect.update();
+				_depthArray = _kinect.depthMap();
+				_realWorldMap = _kinect.depthMapRealWorld();
+				_updateComplete = true;
+			}
+		} 
+	}
+
 	public void update() {
-		// Get the raw depth as array of integers
-		if( _kinectActive == true ) {
-			_kinect.update();
-			_depthArray = _kinect.depthMap();
-			_realWorldMap = _kinect.depthMapRealWorld();
+		if( _kinectActive == true && _updateComplete == true ) {
+			_updateComplete = false;
+			if(_loader == null) _loader = new KinectUpdater();
+			_loadThread = new Thread( _loader );
+			_loadThread.start();
 		}
 	}
 	
