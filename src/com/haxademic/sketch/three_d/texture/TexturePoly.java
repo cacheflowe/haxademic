@@ -113,16 +113,20 @@ extends PAppletHax {
 		
 		// video ----------------------------------------------------
 		if( _movie == null ) {
-			_movie = new Movie( p, FileUtil.getHaxademicDataPath() + "video/smoke-loop.mov" );
+			_movie = new Movie( p, FileUtil.getHaxademicDataPath() + "video/da-dip.mp4" );
 			_movie.play();
 			_movie.loop();
 			_movie.volume(0);
 			_movie.speed(1f);
-			_movieTexture = p.createGraphics( _movie.width, _movie.height, PConstants.OPENGL );
 		}
-		_movieTexture.beginDraw();
-		_movieTexture.image(_movie, 0, 0);
-		_movieTexture.endDraw();
+		if(_movie.available() == true) {
+			if(_movieTexture == null) {
+				_movieTexture = p.createGraphics( _movie.width, _movie.height, PConstants.OPENGL );
+			}
+			_movieTexture.beginDraw();
+			_movieTexture.image(_movie, 0, 0);
+			_movieTexture.endDraw();
+		}
 		
 		// repeating columns ----------------------------------------
 		if( _barsTexture == null ) {
