@@ -18,7 +18,7 @@ public class KinectWrapperV1 implements IKinectWrapper{
 	public static int KWIDTH = 640;
 	public static int KHEIGHT = 480;
 
-	public int[] _depthArray;
+	public int[] _depthArray = {0};
 	public PVector[] _realWorldMap;
 	
 	// The sensor has an angular field of view of 57� horizontally and 43� vertically, while the motorized pivot is capable of tilting the sensor up to 27� either up or down
@@ -26,7 +26,7 @@ public class KinectWrapperV1 implements IKinectWrapper{
 
 	// multithread the kinect communication
 	protected KinectUpdater _loader;
-	protected Thread _loadThread;
+	protected Thread _updateThread;
 	protected Boolean _updateComplete = true;
 	
 
@@ -69,8 +69,8 @@ public class KinectWrapperV1 implements IKinectWrapper{
 		if( _kinectActive == true && _updateComplete == true ) {
 			_updateComplete = false;
 			if(_loader == null) _loader = new KinectUpdater();
-			_loadThread = new Thread( _loader );
-			_loadThread.start();
+			_updateThread = new Thread( _loader );
+			_updateThread.start();
 		}
 	}
 	
