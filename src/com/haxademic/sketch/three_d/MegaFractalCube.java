@@ -16,7 +16,7 @@ extends PAppletHax
 	protected FractCube _cube;
 	protected ICamera camera;
 	protected float BASE_CUBE_SIZE = 200;
-	protected float MIN_CUBE_SIZE = 7;
+	protected float MIN_CUBE_SIZE = 3;
 	float percentComplete;
 
 	protected void overridePropsFile() {
@@ -24,7 +24,7 @@ extends PAppletHax
 		_appConfig.setProperty( "sunflow_active", "false" );
 		_appConfig.setProperty( "sunflow_quality", "low" );
 
-		_appConfig.setProperty( "rendering_gif", "true" );
+		_appConfig.setProperty( "rendering_gif", "false" );
 		_appConfig.setProperty( "rendering_gif_framerate", "45" );
 		_appConfig.setProperty( "rendering_gif_quality", "15" );
 		_appConfig.setProperty( "rendering_gif_startframe", "3" );
@@ -66,18 +66,18 @@ extends PAppletHax
 		} else {
 			background( 255 );
 			
-//			p.ambientLight(102, 102, 102);
-//			p.lightSpecular(100, 100, 100);
-//			p.directionalLight(102, 102, 102, 0, 0, -1);
-//			p.specular(100, 100, 100);
-//			p.emissive(51, 51, 51);
-//			p.ambient(50, 50, 50);
+			p.ambientLight(102, 102, 122);
+			p.lightSpecular(100, 100, 150);
+			p.directionalLight(102, 132, 102, 0, 0, -1);
+			p.specular(100, 150, 100);
+			p.emissive(81, 51, 51);
+			p.ambient(200, 200, 200);
 			
 			p.shininess(20.0f); 
 			
-//			p.pointLight(0, 255, 255, 0, 0, -500);
-//			p.pointLight(255, 255, 0, 0, 0, -500);
-//			p.pointLight(0, 0, 0, 255, 500, 3000);
+			p.pointLight(0, 255, 255, 0, 0, -500);
+			p.pointLight(255, 255, 0, 0, 0, -500);
+			p.pointLight(0, 0, 0, 255, 500, 3000);
 		}
 		
 		
@@ -85,6 +85,12 @@ extends PAppletHax
 //		camera( width/2, 700, 600, 400, 300, 0, 0, 1, 0);
 //		translate(width/2, height/2, -800);
 		translate(0, 0, -p.width);
+
+		// angled view!
+		translate(0, 0, p.width/1.7f);
+		p.rotateX(-P.PI/4f * 10f);
+		p.rotateZ(-P.PI/4f * 6f);
+
 		
 		p.rotateY(P.PI/2f * percentComplete);
 		
@@ -152,12 +158,12 @@ extends PAppletHax
 			
 			if(_appConfig.getBoolean("sunflow_active", false) == true) {
 				if(_baseSize == BASE_CUBE_SIZE) {
-					_jw.jr.fill( JoonsWrapper.MATERIAL_GLASS, 0, 0, 100);
+					_jw.jr.fill( JoonsWrapper.MATERIAL_GLASS, 60, 60, 100);
 				} else {
 					_jw.jr.fill( JoonsWrapper.MATERIAL_SHINY, 
-							color + color/4f * P.sin(percentComplete * P.TWO_PI) * _x/10f, 
-							color + color/4f * P.sin(percentComplete * P.TWO_PI + P.PI) * _y/10f,
-							color + color/4f * P.sin(percentComplete * P.TWO_PI + P.PI/2f) * _z/10f
+							color + color/5f * P.sin(percentComplete * P.TWO_PI) * _x/40f, 
+							color + color/5f * P.sin(percentComplete * P.TWO_PI + P.PI) * _y/40f,
+							color + color/5f * P.sin(percentComplete * P.TWO_PI + P.PI/2f) * _z/40f
 							);
 				}
 			} else {
