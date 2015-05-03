@@ -493,7 +493,10 @@ extends PApplet
 	public void stop() {
 		WebCamWrapper.dispose();
 //		if( _launchpadViz != null ) _launchpadViz.dispose();
-		if( kinectWrapper != null ) kinectWrapper.stop();
+		if( kinectWrapper != null ) {
+			kinectWrapper.stop();
+			kinectWrapper = null;
+		}
 		if( leapMotion != null ) leapMotion.dispose();
 		super.stop();
 	}
