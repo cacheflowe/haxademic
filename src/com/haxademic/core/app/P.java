@@ -8,6 +8,5 @@ import processing.core.PApplet;
 public class P
 extends PApplet {
 	public static PAppletHax p;
-	public static GL gl;
-	public static String SUNFLOW = "hipstersinc.P5Sunflow";
+	public static GL gl;	
 }
