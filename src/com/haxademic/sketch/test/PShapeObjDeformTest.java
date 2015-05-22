@@ -1,5 +1,7 @@
 package com.haxademic.sketch.test;
 
+import java.util.ArrayList;
+
 import processing.core.PShape;
 import processing.core.PVector;
 
@@ -15,6 +17,11 @@ extends PAppletHax {
 	protected PShape obj;
 	protected PShape objOrig;
 	protected float _spectrumInterval;
+	
+	protected ArrayList<PVector> vertices;
+	protected ArrayList<Integer> sharedVertexIndices;
+	
+	protected float _size = 0;
 
 	protected void overridePropsFile() {
 		_appConfig.setProperty( "fills_screen", "false" );
@@ -25,25 +32,72 @@ extends PAppletHax {
 		super.setup();	
 		OpenGLUtil.setQuality( p, OpenGLUtil.SMOOTH_HIGH );
 
-		String objFile = "poly-hole-tri.obj";
+		String objFile = "";
+		objFile = "mode-set.obj";
+		objFile = "Space_Shuttle.obj";
+		objFile = "cacheflowe-3d.obj";
+		objFile = "poly-hole-tri.obj";
+		objFile = "pointer_cursor_2_hollow.obj";
 		objFile = "skull.obj";
 		objFile = "lego-man.obj";
-		objFile = "mode-set.obj";
 		objFile = "chicken.obj";
-		objFile = "cacheflowe-3d.obj";
-//		objFile = "Space_Shuttle.obj";
-//		objFile = "pointer_cursor_2_hollow.obj";
+		
 		obj = p.loadShape( FileUtil.getHaxademicDataPath() + "models/" + objFile );
 		objOrig = p.loadShape( FileUtil.getHaxademicDataPath() + "models/" + objFile );
 		
-		_spectrumInterval = 512f / obj.getChildCount() * 3;
+		
+		// build data of shared vertex connections
+		vertices = new ArrayList<PVector>();
+		sharedVertexIndices = new ArrayList<Integer>();
+		
+		// loop through model, finding vertices
+		for (int j = 0; j < obj.getChildCount(); j++) {
+			for (int i = 0; i < obj.getChild(j).getVertexCount(); i++) {
+				// store vertex
+				PVector vertex = objOrig.getChild(j).getVertex(i);
+				vertices.add(vertex);
+				
+				// look for matching vertex, and store vertex to shared vertex match, if we find one.  
+				boolean foundMatch = false;
+				for(int v=0; v < vertices.size(); v++) {
+					if(foundMatch == false && vertices.get(v).dist(vertex) == 0) {
+						sharedVertexIndices.add(v);
+						foundMatch = true;
+					}
+				}
+				
+				// otherwise, add a new vertex match
+				if(foundMatch == false) {
+					sharedVertexIndices.add(vertices.size() - 1);
+				}
+			}
+		}
+		
+		// find mesh size extent to responsively scale the mesh
+		float outermostVertex = 0;
+		for (PVector vertex : vertices) {
+			if(vertex.x > outermostVertex) outermostVertex = vertex.x;
+			if(vertex.y > outermostVertex) outermostVertex = vertex.y;
+			if(vertex.z > outermostVertex) outermostVertex = vertex.z;
+		}
+		_size = outermostVertex;
+		
+		// spread spectrum across vertices
+		_spectrumInterval = 512f / sharedVertexIndices.size();
+		P.println("vertex count: ", vertices.size());
+		
+		p.smooth(OpenGLUtil.SMOOTH_HIGH);
 	}
 
 	public void drawApp() {
 		background(0);
 		
-		p.shininess(1000f); 
-		p.lights();
+		// setup lights
+		p.lightSpecular(230, 230, 230); 
+		p.directionalLight(200, 200, 200, -0.0f, -0.0f, 1); 
+		p.directionalLight(200, 200, 200, 0.0f, 0.0f, -1); 
+		p.specular(color(200)); 
+		p.shininess(5.0f); 
 
 
 		p.translate(p.width/2f, p.height/2f);
@@ -64,29 +118,45 @@ extends PAppletHax {
 //			}
 //		}
 
+		
 		// deform from original copy
-		int spectrumIndex = 0;
-		for (int j = 0; j < obj.getChildCount(); j++) {
-			for (int i = 0; i < obj.getChild(j).getVertexCount(); i++) {
-				float amp = 1 + 0.9f * P.p.audioIn.getEqAvgBand( P.floor(_spectrumInterval * spectrumIndex) );
-				PVector v = obj.getChild(j).getVertex(i);
-				PVector vOrig = objOrig.getChild(j).getVertex(i);
-				v.x = vOrig.x * amp;
-				v.y = vOrig.y * amp;
-				v.z = vOrig.z * amp;
-				obj.getChild(j).setVertex(i,v.x,v.y,v.z);
-				spectrumIndex++;
-			}
-		}
+//		int spectrumIndex = 0;
+//		for (int j = 0; j < obj.getChildCount(); j++) {
+//			for (int i = 0; i < obj.getChild(j).getVertexCount(); i++) {
+//				float amp = 1 + 0.9f * P.p.audioIn.getEqAvgBand( P.floor(_spectrumInterval * spectrumIndex) );
+//				PVector v = obj.getChild(j).getVertex(i);
+//				PVector vOrig = objOrig.getChild(j).getVertex(i);
+//				v.x = vOrig.x * amp;
+//				v.y = vOrig.y * amp;
+//				v.z = vOrig.z * amp;
+//				obj.getChild(j).setVertex(i,v.x,v.y,v.z);
+//				spectrumIndex++;
+//			}
+//		}
 		
 
+		// deform from original copy, using vertexIndex as the key to find the shared index
+		int vertexIndex = 0;
+		for (int j = 0; j < obj.getChildCount(); j++) {
+			for (int i = 0; i < obj.getChild(j).getVertexCount(); i++) {
+				int sharedVertexIndex = sharedVertexIndices.get(vertexIndex);
+				PVector vOrig = vertices.get(vertexIndex);
+				
+				float amp = 1 + 0.5f * P.p._audioInput.getFFT().spectrum[ P.floor(_spectrumInterval * sharedVertexIndex) ]; // get shared vertex deformation
+//				float amp = 1 + 0.1f * P.p.audioIn.getEqAvgBand( P.floor(_spectrumInterval * sharedVertexIndex) ); // get shared vertex deformation
+				obj.getChild(j).setVertex(i, vOrig.x * amp, vOrig.y * amp, vOrig.z * amp);
+				vertexIndex++;
+			}
+		}
+
+		
 		// draw!
 		obj.disableStyle();
-		p.fill(0, 255, 0);
+		p.fill(200, 255, 200);
 		p.noStroke();
 //		p.stroke(255);
 //		p.strokeWeight(2);
-		p.scale(90);
+		p.scale(p.height/_size * 0.8f);
 		p.shape(obj);
 	}
 }
