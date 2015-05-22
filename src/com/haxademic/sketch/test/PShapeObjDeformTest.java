@@ -2,8 +2,11 @@ package com.haxademic.sketch.test;
 
 import java.util.ArrayList;
 
+import javax.media.opengl.GL2;
+
 import processing.core.PShape;
 import processing.core.PVector;
+import processing.opengl.PJOGL;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
@@ -36,11 +39,11 @@ extends PAppletHax {
 		objFile = "mode-set.obj";
 		objFile = "Space_Shuttle.obj";
 		objFile = "cacheflowe-3d.obj";
-		objFile = "poly-hole-tri.obj";
 		objFile = "pointer_cursor_2_hollow.obj";
-		objFile = "skull.obj";
-		objFile = "lego-man.obj";
 		objFile = "chicken.obj";
+		objFile = "lego-man.obj";
+		objFile = "poly-hole-tri.obj";
+		objFile = "skull.obj";
 		
 		obj = p.loadShape( FileUtil.getHaxademicDataPath() + "models/" + objFile );
 		objOrig = p.loadShape( FileUtil.getHaxademicDataPath() + "models/" + objFile );
@@ -91,6 +94,14 @@ extends PAppletHax {
 
 	public void drawApp() {
 		background(0);
+
+		// wireframe hotness!
+		GL2 gl = ((PJOGL)beginPGL()).gl.getGL2();
+		if(P.round(p.frameCount/20) % 2 == 0) {
+			gl.glPolygonMode( GL2.GL_FRONT_AND_BACK, GL2.GL_LINE );
+		} else {
+			gl.glPolygonMode( GL2.GL_FRONT_AND_BACK, GL2.GL_FILL );
+		}
 		
 		// setup lights
 		p.lightSpecular(230, 230, 230); 
