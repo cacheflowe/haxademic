@@ -71,10 +71,8 @@ public class AppRestart {
 				@Override
 				public void run() {
 					try {
-						// FileUtil.writeTextToFile( FileUtil.getHaxademicOutputPath() + "" + SystemUtil.getTimestamp(P.p)+"-restart-file.txt", cmd.toString());
 						Runtime.getRuntime().exec(cmd.toString());
 					} catch (IOException e) {
-						// FileUtil.writeTextToFile( FileUtil.getHaxademicOutputPath() + "" + SystemUtil.getTimestamp(P.p)+"-error-file.txt", e.toString());
 						e.printStackTrace();
 					}
 				}
@@ -87,7 +85,6 @@ public class AppRestart {
 			System.exit(0);
 		} catch (Exception e) {
 			// something went wrong
-			// FileUtil.writeTextToFile( FileUtil.getHaxademicOutputPath() + "" + SystemUtil.getTimestamp(P.p)+"-error-file.txt", e.toString());
 			throw new IOException("Error while trying to restart the application", e);
 		}
 	}
