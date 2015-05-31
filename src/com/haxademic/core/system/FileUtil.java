@@ -48,6 +48,10 @@ public class FileUtil {
 		return DATA_PATH;
 	}
 	
+	public static String getFile(String path) {
+		return getHaxademicDataPath() + path;
+	}
+	
 	public static String getHaxademicOutputPath() {
 		if( OUTPUT_PATH != null ) return OUTPUT_PATH;
 		OUTPUT_PATH = getHaxademicPath().concat(File.separator + "output" + File.separator);
