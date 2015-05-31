@@ -78,22 +78,26 @@ public class DrawUtil {
 	public static void setDrawCorner( PApplet p ) { 
 		p.imageMode( PConstants.CORNER );
 		p.rectMode( PConstants.CORNER );
+		p.ellipseMode( PConstants.CORNER );
 		p.shapeMode( PConstants.CORNER );
 	}
 	public static void setDrawCorner( PGraphics p ) {
 		p.imageMode( PConstants.CORNER );
 		p.rectMode( PConstants.CORNER );
+		p.ellipseMode( PConstants.CORNER );
 		p.shapeMode( PConstants.CORNER );
 	}
 	
 	public static void setDrawCenter( PApplet p ) {
 		p.imageMode( PConstants.CENTER );
 		p.rectMode( PConstants.CENTER );
+		p.ellipseMode( PConstants.CENTER );
 		p.shapeMode( PConstants.CENTER );
 	}
 	public static void setDrawCenter( PGraphics p ) {
 		p.imageMode( PConstants.CENTER );
 		p.rectMode( PConstants.CENTER );
+		p.ellipseMode( PConstants.CENTER );
 		p.shapeMode( PConstants.CENTER );
 	}
 	
