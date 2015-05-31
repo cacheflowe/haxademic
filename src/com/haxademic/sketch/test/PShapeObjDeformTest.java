@@ -2,12 +2,15 @@ package com.haxademic.sketch.test;
 
 import java.util.ArrayList;
 
+import javax.media.opengl.GL;
 import javax.media.opengl.GL2;
 
+import processing.core.PImage;
 import processing.core.PShape;
 import processing.core.PVector;
 import processing.opengl.PJOGL;
 
+import com.haxademic.core.app.AppUtil;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.util.OpenGLUtil;
@@ -25,6 +28,8 @@ extends PAppletHax {
 	protected ArrayList<Integer> sharedVertexIndices;
 	
 	protected float _size = 0;
+	
+	protected PImage img;
 
 	protected void overridePropsFile() {
 		_appConfig.setProperty( "fills_screen", "false" );
@@ -33,16 +38,15 @@ extends PAppletHax {
 
 	public void setup() {
 		super.setup();	
-		OpenGLUtil.setQuality( p, OpenGLUtil.SMOOTH_HIGH );
 
 		String objFile = "";
-		objFile = "mode-set.obj";
-		objFile = "Space_Shuttle.obj";
-		objFile = "cacheflowe-3d.obj";
 		objFile = "pointer_cursor_2_hollow.obj";
 		objFile = "chicken.obj";
-		objFile = "lego-man.obj";
 		objFile = "poly-hole-tri.obj";
+		objFile = "lego-man.obj";
+		objFile = "cacheflowe-3d.obj";
+		objFile = "mode-set.obj";
+		objFile = "Space_Shuttle.obj";
 		objFile = "skull.obj";
 		
 		obj = p.loadShape( FileUtil.getHaxademicDataPath() + "models/" + objFile );
@@ -90,17 +94,35 @@ extends PAppletHax {
 		P.println("vertex count: ", vertices.size());
 		
 		p.smooth(OpenGLUtil.SMOOTH_HIGH);
+		
+		img = p.loadImage( FileUtil.getHaxademicDataPath() + "images/justin-spike-portrait-02-smaller.png" );
+
 	}
 
 	public void drawApp() {
-		background(0);
+		if(p.frameCount == 10) AppUtil.setPImageToDockIcon(img);
 
-		// wireframe hotness!
-		GL2 gl = ((PJOGL)beginPGL()).gl.getGL2();
+		background(0);
+		
+		// draw image
+//		OpenGLUtil.setWireframe(p.g, false);
+//		p.translate(0, 0, -4000);
+//		p.image(img, 0, 0);
+
+		// blending test 
 		if(P.round(p.frameCount/20) % 2 == 0) {
-			gl.glPolygonMode( GL2.GL_FRONT_AND_BACK, GL2.GL_LINE );
+			OpenGLUtil.setBlending(p.g, true);
+			OpenGLUtil.setBlendMode(p.g, OpenGLUtil.Blend.ALPHA_REVEAL);
 		} else {
-			gl.glPolygonMode( GL2.GL_FRONT_AND_BACK, GL2.GL_FILL );
+			OpenGLUtil.setBlending(p.g, false);
+			OpenGLUtil.setBlendMode(p.g, OpenGLUtil.Blend.DEFAULT);
+		}
+		
+		// wireframe hotness!
+		if(P.round(p.frameCount/40) % 2 == 0) {
+			OpenGLUtil.setWireframe(p.g, true);
+		} else {
+			OpenGLUtil.setWireframe(p.g, false);
 		}
 		
 		// setup lights
@@ -163,11 +185,45 @@ extends PAppletHax {
 		
 		// draw!
 		obj.disableStyle();
-		p.fill(200, 255, 200);
+		if(p.frameCount == 6) {
+			addTextureUVObjChildren(obj, img, _size);
+		}
+//		p.fill(200, 255, 200);
 		p.noStroke();
 //		p.stroke(255);
-//		p.strokeWeight(2);
+//		p.strokeWeight(0.4f);
 		p.scale(p.height/_size * 0.8f);
 		p.shape(obj);
+	}
+	
+	protected void addTextureUV(PShape s, PImage img) {
+		s.setStroke(false);
+		s.setTexture(img);
+		s.setTextureMode(NORMAL);
+		for (int i = 0; i < s.getVertexCount (); i++) {
+			PVector v = s.getVertex(i);
+			s.setTextureUV(
+					i, 
+					map(P.abs(v.x), 0, _size, 0, 1f), 
+					map(P.abs(v.y), 0, _size, 0, 1f)
+			);
+		}
+	}
+	
+	protected void addTextureUVObjChildren(PShape s, PImage img, float outerExtent) {
+		s.setStroke(false);
+		s.setTexture(img);
+		s.setTextureMode(NORMAL);
+		for (int j = 0; j < s.getChildCount(); j++) {
+			for (int i = 0; i < s.getChild(j).getVertexCount(); i++) {
+				PShape subShape = s.getChild(j);
+				PVector v = subShape.getVertex(i);
+				subShape.setTextureUV(
+						i, 
+						map(v.x, -outerExtent, outerExtent, 0, 1f), 
+						map(v.y, outerExtent, -outerExtent, 0, 1f)
+				);
+			}
+		}
 	}
 }
