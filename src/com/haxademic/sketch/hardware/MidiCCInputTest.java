@@ -3,7 +3,7 @@ package com.haxademic.sketch.hardware;
 import com.haxademic.core.app.PAppletHax;
 
 @SuppressWarnings("serial")
-public class MidiInputTest 
+public class MidiCCInputTest 
 extends PAppletHax {
 
 	protected void overridePropsFile() {
