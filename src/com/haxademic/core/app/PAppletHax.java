@@ -255,7 +255,7 @@ extends PApplet
 			}
 		}
 		_graphicsMode = p.g.getClass().getName();
-		if( frame != null ) frame.setBackground(new java.awt.Color(0,0,0));
+		AppUtil.setFrameBackground(p,0,0,0);
 		setAppletProps();
 		initHaxademicObjects();
 	}
@@ -313,12 +313,7 @@ extends PApplet
 	}
 
 	public void init() {
-		// frame only exists on Java Applications, not Applets
-		if( frame != null && _hasChrome == false ) {
-			frame.removeNotify();
-			frame.setUndecorated(true);
-			frame.addNotify();
-		}
+		if(_hasChrome == false) AppUtil.removeChrome(this);
 		super.init();
 	}
 
@@ -375,6 +370,7 @@ extends PApplet
 	public void draw() {
 		//if( keyPressed ) handleInput( false ); // handles overall keyboard commands
 		killScreensaver();
+		forceForeground();
 		initializeExtraObjectsOn1stFrame();	// wait until draw() happens, to avoid weird launch crash if midi signals were coming in as haxademic starts
 		handleRenderingStepthrough();
 		if( _audioInput != null ) _audioInput.getBeatDetection(); // detect beats and pass through to current visual module	// 		int[] beatDetectArr =
@@ -395,6 +391,10 @@ extends PApplet
 			}
 		}
 		if( _showStats == true ) showStats();
+		if(p.frameCount == 1) {
+			AppUtil.setTitle(p, "Haxademic");
+			AppUtil.setAppToDockIcon(p);
+		}
 	}
 
 	protected void showStats() {
@@ -464,6 +464,14 @@ extends PApplet
 		}
 	}
 
+	protected void forceForeground(){
+		if( p.frameCount % 30 == 0 ) {
+			if(_appConfig.getBoolean("force_foreground", false) == true) {
+				AppUtil.requestForeground();
+			}
+		}
+	}
+	
 	protected void killScreensaver(){
 		// keep screensaver off - hit shift every 1000 frames
 		if( p.frameCount % 1000 == 0 ) _robot.keyRelease(KeyEvent.VK_SHIFT);
