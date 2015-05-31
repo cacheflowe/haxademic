@@ -46,7 +46,7 @@ extends PAppletHax{
 		_appConfig.setProperty( "height", "600" );
 		_appConfig.setProperty( "rendering", "false" );
 		_appConfig.setProperty( "fills_screen", "false" );
-		_appConfig.setProperty( "leap_active", "true" );
+		_appConfig.setProperty( "leap_active", "false" );
 	}
 
 	public void setup() {
@@ -75,15 +75,16 @@ extends PAppletHax{
 		
 	    fluidSolver.update();
 	    
-	    for(Hand hand : p.leapMotion.getHands()){
-	        PVector handPosition = hand.getPosition();
-	        if( lastHandPosition != null ) { 
-	        	P.println(handPosition.x+", "+handPosition.x);
-	        	updateInputXY( handPosition.x, lastHandPosition.x, handPosition.y, lastHandPosition.y );
-	        }
-	        lastHandPosition = handPosition;
+	    if(p.leapMotion != null) {
+		    for(Hand hand : p.leapMotion.getHands()){
+		        PVector handPosition = hand.getPosition();
+		        if( lastHandPosition != null ) { 
+		        	P.println(handPosition.x+", "+handPosition.x);
+		        	updateInputXY( handPosition.x, lastHandPosition.x, handPosition.y, lastHandPosition.y );
+		        }
+		        lastHandPosition = handPosition;
+		    }
 	    }
-
 
 	    if(drawFluid) {
 	        for(int i=0; i<fluidSolver.getNumCells(); i++) {
