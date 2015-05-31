@@ -111,7 +111,6 @@ extends PAppletHax{
 		swirl = loadShader( FileUtil.getHaxademicDataPath()+"shaders/textures/swirl.glsl" ); 
 		coffeeswirl = loadShader( FileUtil.getHaxademicDataPath()+"shaders/textures/inversion-iq.glsl" ); 
 		clouds = loadShader( FileUtil.getHaxademicDataPath()+"shaders/textures/clouds-iq.glsl" ); 
-		stars = loadShader( FileUtil.getHaxademicDataPath()+"shaders/textures/to-convert/star-field.glsl" );
 
 		//		glowwave.set("mouse", float(mouseX), float(mouseY));
 	}
@@ -143,7 +142,7 @@ extends PAppletHax{
 	
 	protected void generateTexture() {
 		_bg.resetShader();
-		_bg.clear();
+//		_bg.clear();
 
 		glowwave = loadShader( FileUtil.getHaxademicDataPath()+"shaders/textures/glowwave.glsl" ); 
 		glowwave.set("time", _timeEaseInc);
@@ -189,10 +188,10 @@ extends PAppletHax{
 //		p.filter(deformRelief);
 		
 		
-//		p.filter(invert);
-//		p.filter(kaleido);
-//		p.filter(vignette);
-//		p.filter(invert);
+		p.filter(invert);
+		p.filter(kaleido);
+		p.filter(vignette);
+		p.filter(invert);
 		
 //		edge.set("aspect", 1f/(float)p.width, 1f/(float)p.height);
 //		p.filter(edge);
