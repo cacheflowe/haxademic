@@ -22,8 +22,8 @@ extends PAppletHax{
 	float _frames = 45;
 	
 	protected void overridePropsFile() {
-		_appConfig.setProperty( "width", "140" );
-		_appConfig.setProperty( "height", "140" );
+		_appConfig.setProperty( "width", "360" );
+		_appConfig.setProperty( "height", "240" );
 
 		_appConfig.setProperty( "rendering", "false" );
 		_appConfig.setProperty( "rendering_gif", "false" );
@@ -51,6 +51,7 @@ extends PAppletHax{
 		float scale = 0.95f;
 		float oscSize = 0.1f;
 		float elloSize = (float)(p.width * (scale - oscSize + oscSize * frameOsc));
+//		float elloSize = (float)(40 * (scale - oscSize + oscSize * frameOsc));	// with padding
 		
 		DrawUtil.setDrawCenter(p);
 		
