@@ -10,7 +10,7 @@ import com.haxademic.core.draw.util.OpenGLUtil;
 import com.haxademic.core.system.FileUtil;
 
 @SuppressWarnings("serial")
-public class ShaderVertexTextureDeformTest
+public class ShaderVertexTextureDeform
 extends PAppletHax{
 
 
