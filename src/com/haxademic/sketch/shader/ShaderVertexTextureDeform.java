@@ -40,14 +40,7 @@ extends PAppletHax{
 		super.setup();	
 		p.smooth( OpenGLUtil.SMOOTH_HIGH );
 
-//		texture = loadImage(FileUtil.getHaxademicDataPath()+"images/ello-multiple.png");
-//		texture = loadImage(FileUtil.getHaxademicDataPath()+"images/justin-spike-portrait-02-smaller.png");
-//		texture = loadImage(FileUtil.getHaxademicDataPath()+"images/snowblinded-beach.jpg");
-		texture = loadImage(FileUtil.getHaxademicDataPath()+"images/snowblinded-mtn.jpg");
-//		texture = loadImage(FileUtil.getHaxademicDataPath()+"images/ello-opaque.png");
-//		texture = loadImage(FileUtil.getHaxademicDataPath()+"images/green-screen.png");
-//		texture = loadImage(FileUtil.getHaxademicDataPath()+"images/cacheflowe-art/fractal-2013-09-26-20-11-32.png");
-
+		texture = loadImage(FileUtil.getFile("images/snowblinded-mtn.jpg"));
 		mesh = createSheet(60, texture);
 		texShader = loadShader(
 			FileUtil.getFile("shaders/vertex/brightness-displace-frag.glsl"), 
