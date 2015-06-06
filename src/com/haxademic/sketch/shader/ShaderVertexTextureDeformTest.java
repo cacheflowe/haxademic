@@ -1,4 +1,4 @@
-package com.haxademic.sketch.test;
+package com.haxademic.sketch.shader;
 
 import processing.core.PImage;
 import processing.core.PShape;
@@ -15,7 +15,7 @@ extends PAppletHax{
 
 
 	PImage texture;
-	PShape can;
+	PShape mesh;
 	float angle;
 	PShader texShader;
 	float _frames = 40;
@@ -43,11 +43,12 @@ extends PAppletHax{
 //		texture = loadImage(FileUtil.getHaxademicDataPath()+"images/ello-multiple.png");
 //		texture = loadImage(FileUtil.getHaxademicDataPath()+"images/justin-spike-portrait-02-smaller.png");
 //		texture = loadImage(FileUtil.getHaxademicDataPath()+"images/snowblinded-beach.jpg");
-//		texture = loadImage(FileUtil.getHaxademicDataPath()+"images/snowblinded-mtn.jpg");
+		texture = loadImage(FileUtil.getHaxademicDataPath()+"images/snowblinded-mtn.jpg");
 //		texture = loadImage(FileUtil.getHaxademicDataPath()+"images/ello-opaque.png");
-		texture = loadImage(FileUtil.getHaxademicDataPath()+"images/cacheflowe-art/fractal-2013-09-26-20-11-32.png");
+//		texture = loadImage(FileUtil.getHaxademicDataPath()+"images/green-screen.png");
+//		texture = loadImage(FileUtil.getHaxademicDataPath()+"images/cacheflowe-art/fractal-2013-09-26-20-11-32.png");
 //		can = createCan(100, 200, 1000, texture);
-		can = createSheet(560, texture);
+		mesh = createSheet(10, texture);
 		texShader = loadShader(
 			FileUtil.getFile("shaders/vertex/brightness-displace-frag.glsl"), 
 			FileUtil.getFile("shaders/vertex/brightness-displace-sheet-vert.glsl")
@@ -67,7 +68,7 @@ extends PAppletHax{
 		//		DrawUtil.resetPImageAlpha( p );
 		//		DrawUtil.setPImageAlpha(p, 1f);		
 
-//		texShader.set("scale", (p.mouseX * 2f) / p.width);
+		texShader.set("displaceStrength", 200f + 200f * P.sin(percentComplete * P.TWO_PI));
 		shader(texShader);  
 
 		translate(width/2, height/2);
@@ -78,10 +79,10 @@ extends PAppletHax{
 //		rotateY(mouseX/40f);  
 //		rotateZ(angle); 
 //		scale(1.3f);
-		shape(can);
+		shape(mesh);
+		resetShader();
 		angle += P.TWO_PI / _frames;
 
-		texShader.set("displaceStrength", 200f + 200f * P.sin(percentComplete * P.TWO_PI));
 		
 		if( p.frameCount == _frames * 2 ) {
 			if(_appConfig.getBoolean("rendering", false) ==  true) {				

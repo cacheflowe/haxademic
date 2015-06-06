@@ -1,4 +1,4 @@
-package com.haxademic.sketch.test;
+package com.haxademic.sketch.shader;
 
 import processing.core.PGraphics;
 import processing.opengl.PShader;

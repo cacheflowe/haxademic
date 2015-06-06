@@ -1,4 +1,4 @@
-package com.haxademic.sketch.test;
+package com.haxademic.sketch.shader;
 
 import processing.core.PGraphics;
 import processing.core.PImage;
@@ -9,7 +9,7 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.system.FileUtil;
 
 @SuppressWarnings("serial")
-public class ShaderWarpTest
+public class ShaderTextureWarp
 extends PAppletHax {
 
 	protected PShader _warpShader;
