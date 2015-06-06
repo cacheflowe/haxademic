@@ -3,6 +3,7 @@ package com.haxademic.core.draw.util;
 import processing.core.PApplet;
 import processing.core.PConstants;
 import processing.core.PGraphics;
+import processing.opengl.Texture;
 
 import com.haxademic.core.app.P;
 
@@ -74,6 +75,21 @@ public class DrawUtil {
 		p.ambientLight(0.2f,0.2f,0.2f, 0, 0, -6000);
 	}
 
+	public static void setBetterLights( PApplet p ) {
+		// setup lighting props
+		p.shininess(500); 
+		p.lights();
+		p.ambientLight(0.2f,0.2f,0.2f, 0, 0, 6000);
+		p.ambientLight(0.2f,0.2f,0.2f, 0, 0, -6000);
+	}
+	public static void setBetterLights( PGraphics p ) {
+		// setup lighting props
+		p.shininess(500); 
+		p.lights();
+		p.ambientLight(0.2f,0.2f,0.2f, 0, 0, 6000);
+		p.ambientLight(0.2f,0.2f,0.2f, 0, 0, -6000);
+	}
+	
 	
 	public static void setDrawCorner( PApplet p ) { 
 		p.imageMode( PConstants.CORNER );
@@ -136,4 +152,12 @@ public class DrawUtil {
 			p.hint( P.ENABLE_DEPTH_TEST );
 		}
 	}
+	
+	public static void setTextureRepeat(PGraphics pg, boolean doesRepeat) {
+		if( doesRepeat == true ) 
+			(pg).textureWrap(Texture.REPEAT);
+		else 
+			(pg).textureWrap(Texture.CLAMP);
+	}
+	
 }
