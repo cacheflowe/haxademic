@@ -76,26 +76,20 @@ public class DrawUtil {
 	}
 
 	public static void setBetterLights( PApplet p ) {
-		// setup lighting props
-		p.shininess(500); 
-		p.lights();
-		p.ambientLight(0.2f,0.2f,0.2f, 0, 0, 6000);
-		p.ambientLight(0.2f,0.2f,0.2f, 0, 0, -6000);
+		setBetterLights(p.g);
 	}
 	public static void setBetterLights( PGraphics p ) {
 		// setup lighting props
-		p.shininess(500); 
-		p.lights();
-		p.ambientLight(0.2f,0.2f,0.2f, 0, 0, 6000);
-		p.ambientLight(0.2f,0.2f,0.2f, 0, 0, -6000);
+		p.lightSpecular(230, 230, 230); 
+		p.directionalLight(200, 200, 200, -0.0f, -0.0f, 1); 
+		p.directionalLight(200, 200, 200, 0.0f, 0.0f, -1); 
+		p.specular(p.color(200)); 
+		p.shininess(5.0f); 
 	}
 	
 	
 	public static void setDrawCorner( PApplet p ) { 
-		p.imageMode( PConstants.CORNER );
-		p.rectMode( PConstants.CORNER );
-		p.ellipseMode( PConstants.CORNER );
-		p.shapeMode( PConstants.CORNER );
+		setDrawCorner(p.g);
 	}
 	public static void setDrawCorner( PGraphics p ) {
 		p.imageMode( PConstants.CORNER );
@@ -105,10 +99,7 @@ public class DrawUtil {
 	}
 	
 	public static void setDrawCenter( PApplet p ) {
-		p.imageMode( PConstants.CENTER );
-		p.rectMode( PConstants.CENTER );
-		p.ellipseMode( PConstants.CENTER );
-		p.shapeMode( PConstants.CENTER );
+		setDrawCenter(p.g);
 	}
 	public static void setDrawCenter( PGraphics p ) {
 		p.imageMode( PConstants.CENTER );
@@ -118,34 +109,30 @@ public class DrawUtil {
 	}
 	
 	public static void setColorForPImage( PApplet p ) {
-		p.fill( 255, 255, 255, 255 );
+		setColorForPImage(p.g);
 	}
 	public static void setColorForPImage( PGraphics p ) {
 		p.fill( 255, 255, 255, 255 );
 	}
 	
 	public static void setPImageAlpha( PApplet p, float alpha ) {
-		p.tint( 255, alpha * 255 );
+		setPImageAlpha(p.g, alpha);
 	};
 	public static void setPImageAlpha( PGraphics p, float alpha ) {
 		p.tint( 255, alpha * 255 );
 	}
 	
 	public static void resetPImageAlpha( PApplet p ) {
-		p.tint( 255 );
+		resetPImageAlpha(p.g);
 	};
 	public static void resetPImageAlpha( PGraphics p ) {
 		p.tint( 255 );
 	}
 	
-	public static void setDrawFlat2d( PApplet p, Boolean is2d ) {
-		if( is2d ) {
-			p.hint( P.DISABLE_DEPTH_TEST );
-		} else {
-			p.hint( P.ENABLE_DEPTH_TEST );
-		}
+	public static void setDrawFlat2d( PApplet p, boolean is2d ) {
+		setDrawFlat2d(p.g, is2d);
 	};
-	public static void setDrawFlat2d( PGraphics p, Boolean is2d ) {
+	public static void setDrawFlat2d( PGraphics p, boolean is2d ) {
 		if( is2d ) {
 			p.hint( P.DISABLE_DEPTH_TEST );
 		} else {
@@ -153,6 +140,9 @@ public class DrawUtil {
 		}
 	}
 	
+	public static void setTextureRepeat( PApplet p, boolean doesRepeat ) {
+		setTextureRepeat(p.g, doesRepeat);
+	};
 	public static void setTextureRepeat(PGraphics pg, boolean doesRepeat) {
 		if( doesRepeat == true ) 
 			(pg).textureWrap(Texture.REPEAT);
