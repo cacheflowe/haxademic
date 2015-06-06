@@ -7,18 +7,21 @@ import processing.core.PGraphics;
 import processing.core.PImage;
 import processing.core.PVector;
 import processing.opengl.PShader;
+import processing.video.Movie;
 import blobDetection.Blob;
 import blobDetection.BlobDetection;
 import blobDetection.EdgeVertex;
 
 import com.haxademic.core.app.P;
+import com.haxademic.core.draw.util.DrawUtil;
+import com.haxademic.core.draw.util.OpenGLUtil;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.system.FileUtil;
 
 public class KinectSilhouetteBasic {
 	
 	protected int PIXEL_SIZE = 20;
-	protected int KINECT_CLOSE = 500;
+	protected int KINECT_NEAR = 500;
 	protected int KINECT_FAR = 30000;
 	protected int KINECT_TOP_PIXEL = 0;
 	protected int KINECT_BOTTOM_PIXEL = 480;
@@ -48,14 +51,19 @@ public class KinectSilhouetteBasic {
 	protected int _backgroundColor = 0;
 	
 	protected boolean DEBUG_OUTPUT = false;
+	
+	Movie _movieFallback;
 
 	
 	public KinectSilhouetteBasic(float scaleDownForBlobDetection, boolean depthKeying, boolean hasParticles) {
+		// set properties if they're been defined in appConfig
 		if(P.p.appConfig.getInt("kinect_pixel_skip", -1) != -1) PIXEL_SIZE = P.p.appConfig.getInt("kinect_pixel_skip", -1);
 		if(P.p.appConfig.getInt("kinect_left_pixel", -1) != -1) KINECT_LEFT_PIXEL = P.p.appConfig.getInt("kinect_left_pixel", -1);
 		if(P.p.appConfig.getInt("kinect_right_pixel", -1) != -1) KINECT_RIGHT_PIXEL = P.p.appConfig.getInt("kinect_right_pixel", -1);
 		if(P.p.appConfig.getInt("kinect_top_pixel", -1) != -1) KINECT_TOP_PIXEL = P.p.appConfig.getInt("kinect_top_pixel", -1);
 		if(P.p.appConfig.getInt("kinect_bottom_pixel", -1) != -1) KINECT_BOTTOM_PIXEL = P.p.appConfig.getInt("kinect_bottom_pixel", -1);
+		if(P.p.appConfig.getInt("kinect_near", -1) != -1) KINECT_NEAR = P.p.appConfig.getInt("kinect_near", -1);
+		if(P.p.appConfig.getInt("kinect_far", -1) != -1) KINECT_FAR = P.p.appConfig.getInt("kinect_far", -1);
 		if(P.p.appConfig.getInt("kinect_scan_frames", -1) != -1) _framesToScan = P.p.appConfig.getInt("kinect_scan_frames", -1);
 		if(P.p.appConfig.getInt("kinect_depth_key_dist", -1) != -1) DEPTH_KEY_DIST = P.p.appConfig.getInt("kinect_depth_key_dist", -1);
 		_backgroundColor = P.p.appConfig.getInt("kinect_blob_bg_int", 0);
@@ -64,26 +72,46 @@ public class KinectSilhouetteBasic {
 		_hasParticles = hasParticles;
 		
 		initBlobDetection();
-		_kinectBuffer = new KinectBufferedData(PIXEL_SIZE, KINECT_CLOSE, KINECT_FAR, KINECT_BUFFER_FRAMES, true);
-		_kinectBuffer.setKinectRect(KINECT_LEFT_PIXEL, KINECT_RIGHT_PIXEL, KINECT_TOP_PIXEL, KINECT_BOTTOM_PIXEL);
+		_kinectBuffer = new KinectBufferedData(PIXEL_SIZE, KINECT_NEAR, KINECT_FAR, KINECT_BUFFER_FRAMES, true);
+		setCustomKinectRect();
 		if(depthKeying == true) {
-			_kinectBufferRoomScan = new KinectBufferedData(PIXEL_SIZE, KINECT_CLOSE, KINECT_FAR, KINECT_BUFFER_FRAMES, false);
+			_kinectBufferRoomScan = new KinectBufferedData(PIXEL_SIZE, KINECT_NEAR, KINECT_FAR, KINECT_BUFFER_FRAMES, false);
 			_kinectBufferRoomScan.setKinectRect(KINECT_LEFT_PIXEL, KINECT_RIGHT_PIXEL, KINECT_TOP_PIXEL, KINECT_BOTTOM_PIXEL);
 		}
 		_kinectPixelated = P.p.createGraphics( KINECT_RIGHT_PIXEL - KINECT_LEFT_PIXEL, KINECT_BOTTOM_PIXEL - KINECT_TOP_PIXEL, P.OPENGL );
 		_kinectPixelated.noSmooth();
 		_canvas = P.p.createGraphics( KINECT_RIGHT_PIXEL - KINECT_LEFT_PIXEL, KINECT_BOTTOM_PIXEL - KINECT_TOP_PIXEL, P.OPENGL );
-		_canvas.noSmooth();
+//		_canvas.noSmooth();
+		_canvas.smooth(OpenGLUtil.SMOOTH_LOW);
+		_canvas.smooth();
 		_canvasW = _canvas.width;
 		_canvasH = _canvas.height;
+		
+		if(P.p.appConfig.getBoolean("kinect_active", false) == false) {
+			initBackupMovie();
+		}
+	}
+	
+	protected void initBackupMovie() {
+		_movieFallback = new Movie(P.p, FileUtil.getFile("video/loops/bubbles-2.m4v"));
+		_movieFallback.play();
+		_movieFallback.loop();
+		_movieFallback.jump(0);
+		_movieFallback.speed(0.5f);
+	}
+	
+	protected void setCustomKinectRect() {
+		if(KINECT_TOP_PIXEL != 0 || KINECT_LEFT_PIXEL != 0 || KINECT_RIGHT_PIXEL != KinectSize.WIDTH || KINECT_BOTTOM_PIXEL != KinectSize.HEIGHT) {
+			_kinectBuffer.setKinectRect(KINECT_LEFT_PIXEL, KINECT_RIGHT_PIXEL, KINECT_TOP_PIXEL, KINECT_BOTTOM_PIXEL);
+		}
 	}
 	
 	protected void initBlobDetection() {
 		blobBufferGraphics = P.p.createGraphics( (int)(_canvasW * _scaleDownForBlobDetection), (int)(_canvasH * _scaleDownForBlobDetection), P.OPENGL);
 		blobBufferGraphics.noSmooth();
-		_blurV = P.p.loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/blur-vertical.glsl" );
+		_blurV = P.p.loadShader(FileUtil.getFile("shaders/filters/blur-vertical.glsl"));
 		_blurV.set( "v", 3f/_canvasH );
-		_blurH = P.p.loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/blur-horizontal.glsl" );
+		_blurH = P.p.loadShader(FileUtil.getFile("shaders/filters/blur-horizontal.glsl"));
 		_blurH.set( "h", 3f/_canvasW );
 
 		theBlobDetection = new BlobDetection( blobBufferGraphics.width, blobBufferGraphics.height );
@@ -102,10 +130,14 @@ public class KinectSilhouetteBasic {
 	}
 
 
-	public void update() {
-		drawKinectForBlob();
-		runBlobDetection( _kinectPixelated );
-		drawEdges();
+	public void update(boolean clearsCanvas) {
+		if(_movieFallback == null) {
+			drawKinectForBlob();
+			runBlobDetection( _kinectPixelated );
+		} else {
+			if(_movieFallback.width > 10) runBlobDetection( _movieFallback );
+		}
+		drawBlobs(clearsCanvas);
 	}
 	
 	public PImage debugKinectScanBuffer() {
@@ -151,7 +183,7 @@ public class KinectSilhouetteBasic {
 				if(_kinectBufferRoomScan != null) {
 					pixelDepthRoom = _kinectBufferRoomScan.getBufferedDepthForKinectPixel( x, y );
 					float confidence = _kinectBuffer.getConfidenceForKinectPixel( x, y );
-					if( pixelDepth != 0 && pixelDepth > KINECT_CLOSE && pixelDepth < KINECT_FAR ) {
+					if( pixelDepth != 0 && pixelDepth > KINECT_NEAR && pixelDepth < KINECT_FAR ) {
 						if(Math.abs(pixelDepth - pixelDepthRoom) > DEPTH_KEY_DIST) {
 							_kinectPixelated.fill(255f * confidence);
 							_kinectPixelated.rect(x - KINECT_LEFT_PIXEL, y - KINECT_TOP_PIXEL, kinectPixelSize, kinectPixelSize);
@@ -161,7 +193,7 @@ public class KinectSilhouetteBasic {
 							pixelsDrawn++;
 						}
 					}
-				} else if( pixelDepth != 0 && pixelDepth > KINECT_CLOSE && pixelDepth < KINECT_FAR ) {
+				} else if( pixelDepth != 0 && pixelDepth > KINECT_NEAR && pixelDepth < KINECT_FAR ) {
 					_kinectPixelated.rect(x - KINECT_LEFT_PIXEL, y - KINECT_TOP_PIXEL, PIXEL_SIZE, PIXEL_SIZE);
 					pixelsDrawn++;
 				}
@@ -173,59 +205,83 @@ public class KinectSilhouetteBasic {
 		if(DEBUG_OUTPUT) P.println("pixelsDrawn",pixelsDrawn);
 	}
 	
-	protected void drawEdges() {
+	protected void drawBlobs(boolean clearsCanvas) {
 		
 		_canvas.beginDraw();
-		_canvas.clear();
-		_canvas.noSmooth();
-		_canvas.background(_backgroundColor);
 		
-		_canvas.stroke(255);
-		_canvas.strokeWeight(5f);
+		if(clearsCanvas) {
+			_canvas.clear();		
+			_canvas.background(_backgroundColor);
+		} else {
+			// texture feedback
+			float feedback = 2;// * P.sin(percentComplete * P.TWO_PI);
+			_canvas.copy(
+					_canvas, 
+					0, 
+					0, 
+					_canvas.width, 
+					_canvas.height, 
+					P.round(-feedback/2f), 
+					P.round(-feedback), 
+					P.round(_canvas.width + feedback), 
+					P.round(_canvas.height + feedback)
+			);
+
+			
+			// fade out
+			DrawUtil.setDrawCorner(_canvas);
+			_canvas.fill(_backgroundColor,8);
+			_canvas.rect(0, 0, _canvasW, _canvasH);
+		}
+		
+//		_canvas.stroke(255);
+//		_canvas.strokeWeight(2f);
 		_canvas.noStroke();
 		_canvas.fill(255);
-		int numEdges = 0;
 		// do edge detection
 		Blob b;
-		EdgeVertex eA,eB;
 		for (int n=0 ; n < theBlobDetection.getBlobNb() ; n++) {
 			b = theBlobDetection.getBlob(n);
-			if ( b != null ) {
-				_canvas.beginShape();
-				for (int m = 0; m < b.getEdgeNb(); m++) {
-					if(m % 3 == 0) { // only draw every other segment
-						eA = b.getEdgeVertexA(m);
-						eB = b.getEdgeVertexB(m);	// should store these too?
-						if (eA !=null && eB !=null) {
-							drawEdgeVertex( _canvas, eA.x * _canvasW, eA.y * _canvasH );
-							drawEdgeVertex( _canvas, eB.x * _canvasW, eB.y * _canvasH );
-	//						_canvas.line(eA.x * _canvasW, eA.y * _canvasH, eB.x * _canvasW, eB.y * _canvasH);
-							numEdges++;
-						}
-					}
-				}
-				// connect last vertex to first
-				eA = b.getEdgeVertexA(0);
-				eB = b.getEdgeVertexB(0);
-				drawEdgeVertex( _canvas, eA.x * _canvasW, eA.y * _canvasH );
-				drawEdgeVertex( _canvas, eB.x * _canvasW, eB.y * _canvasH );
-
-				// complete shape
-				_canvas.endShape();
-			}
+			if ( b != null ) processBlob(b);
 		}
 		
 		if(_hasParticles == true) updateParticles();
 		_canvas.endDraw();
+	}
+	
+	protected void processBlob(Blob b) {
+		int numEdges = 0;
+		_canvas.beginShape();
+		for (int m = 0; m < b.getEdgeNb(); m++) {
+			if(m % 3 == 0) { // only draw every other segment
+				drawEdgeSegmentAtIndex(b, m);
+				numEdges++;
+			}
+		}
+		// connect last vertex to first
+		drawEdgeSegmentAtIndex(b, 0);
+		
+		// complete shape
+		_canvas.endShape();
 		if(DEBUG_OUTPUT) P.println("drawEdges",numEdges);
 	}
 	
+	protected void drawEdgeSegmentAtIndex(Blob b, int i) {
+		EdgeVertex eA,eB;
+		eA = b.getEdgeVertexA(i);
+		eB = b.getEdgeVertexB(i);
+		if (eA !=null && eB !=null) {
+			drawEdgeVertex( _canvas, eA.x * _canvasW, eA.y * _canvasH, b.x * _canvasW, b.y * _canvasH);
+			drawEdgeVertex( _canvas, eB.x * _canvasW, eB.y * _canvasH, b.x * _canvasW, b.y * _canvasH);
+		}
+	}
 	
-	protected void drawEdgeVertex(PGraphics canvas, float vertexX, float vertexY) {
+	
+	protected void drawEdgeVertex(PGraphics canvas, float vertexX, float vertexY, float blobX, float blobY) {
 		canvas.vertex( vertexX, vertexY );
 		if(_hasParticles == true) {
 			if(MathUtil.randRangeDecimal(0, 1) < 0.05f) {
-				newParticle(vertexX, vertexY, P.p.random(-2f,2f), P.p.random(-1f,1f));
+				newParticle(vertexX, vertexY, blobX, blobY);
 			}
 		}
 	}
@@ -264,7 +320,10 @@ public class KinectSilhouetteBasic {
 	}
 	
 	
-	protected void newParticle( float x, float y, float speedX, float speedY ) {
+	protected void newParticle( float x, float y, float blobX, float blobY ) {
+		float speedX = P.p.random(-2f,2f);
+		float speedY = P.p.random(-1f,1f);
+		if(_particles == null) return;
 		FloatParticle particle;
 		if( _inactiveParticles.size() > 0 ) {
 			particle = _inactiveParticles.remove( _inactiveParticles.size() - 1 );
@@ -317,7 +376,5 @@ public class KinectSilhouetteBasic {
 			}
 		}
 	}
-	
-	
 	
 }

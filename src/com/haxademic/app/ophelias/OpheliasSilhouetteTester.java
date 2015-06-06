@@ -56,7 +56,7 @@ extends PAppletHax{
 	public void drawApp() {
 		p.background(0);
 		setShaderValues();
-		_silhouette.update();
+		_silhouette.update(true);
 		if(!_isDebug) {
 //			DrawUtil.setPImageAlpha(p, 0.5f);
 //			p.image(_silhouette.debugKinectBuffer(), 0, 0);
