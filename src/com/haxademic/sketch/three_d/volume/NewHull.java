@@ -49,7 +49,7 @@ extends PAppletHax {
 	}  
 
 	public void drawApp() {
-		DrawUtil.setBasicLights(p);
+		DrawUtil.setBetterLights(p);
 		background(0);
 		fill(255);
 		noStroke();
