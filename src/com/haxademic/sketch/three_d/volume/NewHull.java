@@ -18,7 +18,7 @@ extends PAppletHax {
 	PImage img;
 	
 	protected void overridePropsFile() {
-		_appConfig.setProperty( "rendering", "true" );
+		_appConfig.setProperty( "rendering", "false" );
 	}
 
 	public void setup() {
@@ -73,8 +73,13 @@ extends PAppletHax {
 			hull.build(points);  //build hull
 			hull.triangulate();  //triangulate faces
 			Point3d[] vertices = hull.getVertices();  //get vertices
-
-			beginShape(TRIANGLE_STRIP);
+			
+			if(p.frameCount % 20 < 10) {
+				DrawUtil.setTextureRepeat(p.g, true);
+			} else {
+				DrawUtil.setTextureRepeat(p.g, false);
+			}
+			beginShape(TRIANGLES);
 			texture(img);
 			int[][] faceIndices = hull.getFaces();
 			//run through faces (each point on each face), and draw them
