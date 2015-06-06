@@ -30,6 +30,7 @@ extends PAppletHax {
 		super.setup();
 		
 		_textures = new BaseTexture[]{
+			new TextureShaderTimeStepper( w, h, "radial-waves.glsl" ),
 			new TextureAudioTube( w, h ),
 			new TextureSvgPattern( w, h ),
 			new TextureAppFrameEq2d( w, h ),
@@ -66,14 +67,17 @@ extends PAppletHax {
 //		    new TextureShaderTimeStepper( w, h, "bw-eye-jacker-02.glsl" ),
 //		    new TextureShaderTimeStepper( w, h, "bw-expand-loop.glsl" ),
 //		    new TextureShaderTimeStepper( w, h, "bw-clouds.glsl" ),
-		    new TextureShaderTimeStepper( w, h, "circle-parts-rotate.glsl" ),
-		    new TextureShaderTimeStepper( w, h, "warped-tunnel.glsl" ),
-		    new TextureShaderTimeStepper( w, h, "stars-fractal-field.glsl" ),
-			new TextureShaderTimeStepper( w, h, "morphing-bokeh-shape.glsl" ),
+			new TextureShaderTimeStepper( w, h, "coffeeswirl.glsl" ),
+//		    new TextureShaderTimeStepper( w, h, "circle-parts-rotate.glsl" ),
+//		    new TextureShaderTimeStepper( w, h, "warped-tunnel.glsl" ),
+//		    new TextureShaderTimeStepper( w, h, "stars-fractal-field.glsl" ),
+//			new TextureShaderTimeStepper( w, h, "morphing-bokeh-shape.glsl" ),
 			new TextureShaderTimeStepper( w, h, "basic-diagonal-stripes.glsl" ),
 			new TextureShaderTimeStepper( w, h, "basic-checker.glsl" ),
 			new TextureShaderTimeStepper( w, h, "water-smoke.glsl" ),
 			new TextureShaderTimeStepper( w, h, "flexi-spiral.glsl" ),
+			new TextureShaderTimeStepper( w, h, "noise-function.glsl" ),
+			new TextureShaderTimeStepper( w, h, "noise-simplex-2d-iq.glsl" ),
 			new TextureShaderTimeStepper( w, h, "light-leak.glsl" )
 		};
 		
