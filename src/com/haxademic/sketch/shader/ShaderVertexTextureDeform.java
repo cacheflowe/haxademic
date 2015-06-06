@@ -18,7 +18,7 @@ extends PAppletHax{
 	PShape mesh;
 	float angle;
 	PShader texShader;
-	float _frames = 40;
+	float _frames = 60;
 
 
 	protected void overridePropsFile() {
@@ -47,8 +47,8 @@ extends PAppletHax{
 //		texture = loadImage(FileUtil.getHaxademicDataPath()+"images/ello-opaque.png");
 //		texture = loadImage(FileUtil.getHaxademicDataPath()+"images/green-screen.png");
 //		texture = loadImage(FileUtil.getHaxademicDataPath()+"images/cacheflowe-art/fractal-2013-09-26-20-11-32.png");
-//		can = createCan(100, 200, 1000, texture);
-		mesh = createSheet(10, texture);
+
+		mesh = createSheet(60, texture);
 		texShader = loadShader(
 			FileUtil.getFile("shaders/vertex/brightness-displace-frag.glsl"), 
 			FileUtil.getFile("shaders/vertex/brightness-displace-sheet-vert.glsl")
@@ -62,26 +62,19 @@ extends PAppletHax{
 		
 		// rendering
 		float percentComplete = ((float)(p.frameCount%_frames)/_frames);
+		angle = P.TWO_PI * percentComplete;
 
-
-		//		DrawUtil.setColorForPImage( p );
-		//		DrawUtil.resetPImageAlpha( p );
-		//		DrawUtil.setPImageAlpha(p, 1f);		
-
-		texShader.set("displaceStrength", 200f + 200f * P.sin(percentComplete * P.TWO_PI));
-		shader(texShader);  
-
+		// set center screen & rotate
 		translate(width/2, height/2);
 		rotateX(0.3f * P.sin(percentComplete * P.TWO_PI)); 
-//		rotateX(P.TWO_PI + 0.9f); 
-//		rotateX(mouseY/40f); 
-//		rotateY(P.PI/2);  
-//		rotateY(mouseX/40f);  
-//		rotateZ(angle); 
-//		scale(1.3f);
+
+		// set shader properties & set on processing context
+		texShader.set("displaceStrength", 200f + 200f * P.sin(percentComplete * P.TWO_PI));
+		shader(texShader);  
 		shape(mesh);
+		
+		// unset shader deformation
 		resetShader();
-		angle += P.TWO_PI / _frames;
 
 		
 		if( p.frameCount == _frames * 2 ) {
@@ -90,28 +83,8 @@ extends PAppletHax{
 				P.println("render done!");
 			}
 		}
-
 	}
 
-
-	PShape createCan(float r, float h, int detail, PImage tex) {
-		textureMode(NORMAL);
-		PShape sh = createShape();
-		sh.beginShape(QUAD_STRIP);
-		sh.noStroke();
-		sh.texture(tex);
-		for (int i = 0; i <= detail; i++) {
-			float angle = TWO_PI / detail;
-			float x = sin(i * angle);
-			float z = cos(i * angle);
-			float u = (float)i / detail;
-			sh.normal(x, 0, z);
-			sh.vertex(x * r, -h/2, z * r, u, 0);
-			sh.vertex(x * r, +h/2, z * r, u, 1);    
-		}
-		sh.endShape(); 
-		return sh;
-	}
 
 	PShape createSheet(int detail, PImage tex) {
 		p.textureMode(NORMAL);

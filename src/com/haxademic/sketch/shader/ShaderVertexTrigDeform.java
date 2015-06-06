@@ -18,7 +18,7 @@ extends PAppletHax{
 	PShape mesh;
 	float angle;
 	PShader texShader;
-	float _frames = 40;
+	float _frames = 60;
 
 
 	protected void overridePropsFile() {
