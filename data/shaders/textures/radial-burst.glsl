@@ -39,15 +39,14 @@ float snoise(vec3 uv, float res)
 
 void main( void ) {
 
-	vec2 p = vertTexCoord.xy * 2.0 - 1.0;
-	// vec2 p = -.5 + gl_FragCoord.xy / resolution.xy;
+	vec2 p = vertTexCoord.xy * 1.0 - 0.5;
 	p.x *= texOffset.x/texOffset.y;
 	
 	float color = 3.0 - (3.*length(2.*p));
 	
 	vec3 coord = vec3(atan(p.x,p.y)/6.2832+.5, length(p)*.4, .5);
 	
-	for(int i = 1; i <= 1; i++)
+	for(int i = 1; i <= 2; i++)
 	{
 		float power = pow(2.0, float(i));
 		color += (1.5 / power) * snoise(coord + vec3(0.,-time*.05, time*.01), power*16.);

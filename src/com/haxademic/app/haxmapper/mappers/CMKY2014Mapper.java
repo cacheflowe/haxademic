@@ -144,7 +144,11 @@ extends HaxMapper{
 		_texturePool.add( new TextureShaderTimeStepper( shaderW, shaderH, "warped-tunnel.glsl" ));
 		_texturePool.add( new TextureShaderTimeStepper( shaderW, shaderH, "water-smoke.glsl" ));
 		_texturePool.add( new TextureShaderTimeStepper( shaderW, shaderH, "wavy-checker-planes.glsl" ));
-		
+		_texturePool.add( new TextureShaderTimeStepper( shaderW, shaderH, "radial-waves.glsl" ));
+		_texturePool.add( new TextureShaderTimeStepper( shaderW, shaderH, "radial-burst.glsl" ));
+		_texturePool.add( new TextureShaderTimeStepper( shaderW, shaderH, "wavy-3d-tubes.glsl" ));
+		_texturePool.add( new TextureShaderTimeStepper( shaderW, shaderH, "fade-dots.glsl" ));
+
 		_texturePool.add( new TextureScrollingColumns( 100, 100 ));
 		_texturePool.add( new TextureTwistingSquares( shaderW, shaderH ));
 		_texturePool.add( new TextureImageTimeStepper( 600, 600 ));
