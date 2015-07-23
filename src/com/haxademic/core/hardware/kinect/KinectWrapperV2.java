@@ -4,7 +4,8 @@ import processing.core.PApplet;
 import processing.core.PImage;
 import processing.core.PVector;
 import KinectPV2.KinectPV2;
-import SimpleOpenNI.SimpleOpenNI;
+import SimpleOpenNI.SimpleOpenNI; //Remove this when all reference removed
+import com.haxademic.core.debug.DebugUtil;
 
 //Kinect Wrapper for Microsoft Kinect V2 for Windows
 public class KinectWrapperV2 implements IKinectWrapper {
@@ -42,14 +43,14 @@ public class KinectWrapperV2 implements IKinectWrapper {
 		setMirror(false);
 						
 		// enable depthMap generation
-		/* Commented out until we get an updated jar
+		//Commented out until we get an updated jar
 		if(_kinect.isRunningKinect() == false && KINECT_ERROR_SHOWN == false) {
 			DebugUtil.alert("Can't access the Kinect. Make sure it's plugged into the computer and a power outlet.");
 			_kinectActive = false;
 			KINECT_ERROR_SHOWN = true;
 			p.exit();
 		}
-		*/
+		// *//
 	}
 	
 	/* (non-Javadoc)
@@ -59,7 +60,7 @@ public class KinectWrapperV2 implements IKinectWrapper {
 	public void update() {
 		// Get the raw depth as array of integers
 		if( _kinectActive == true ) {
-			/* Commented out until we get an updated jar
+			
 			short[] depth16Array = _kinect.getRawDepth();
 			if(_depthArray != null && depth16Array !=null)
 			{			
@@ -74,7 +75,7 @@ public class KinectWrapperV2 implements IKinectWrapper {
 				//_realWorldMap = _kinect.depthMapRealWorld();
 				//_realWorldMap = _kinect.getDepthImage();
 			}
-			*/
+			
 		}
 	}
 	

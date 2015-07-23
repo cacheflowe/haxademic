@@ -99,6 +99,7 @@ public class DrawUtil {
 	
 	public static void setColorForPImage( PApplet p ) {
 		p.fill( 255, 255, 255, 255 );
+		
 	}
 	public static void setColorForPImage( PGraphics p ) {
 		p.fill( 255, 255, 255, 255 );

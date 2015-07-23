@@ -22,7 +22,7 @@ extends PAppletHax {
 		super.setup();
 		
 		// debug display
-		_kinectGrid = new KinectRegionGrid(2, 2, 1000, 2000, 40, 0, 480, 20, 10, true);
+		_kinectGrid = new KinectRegionGrid(2, 2, 1000, 2000, 0, 40, 0, 480, 20, 10, true);
 		// no debug display - control only
 		// _kinectGrid = new KinectRegionGrid(2, 2, 1000, 2000, 40, 0, 480, 20, 10);
 	}

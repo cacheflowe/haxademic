@@ -11,8 +11,8 @@ public class KinectRegion
 extends BaseJoystick
 implements IJoystickControl {
 	
-	protected int _left = 0;
-	protected int _right = 0;
+	public int _left = 0;
+	public int _right = 0;
 	protected int _near = 0;
 	protected int _far = 0;
 	protected int _top = 0;

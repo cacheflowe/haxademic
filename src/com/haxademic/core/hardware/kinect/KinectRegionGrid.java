@@ -24,12 +24,12 @@ implements IJoystickCollection {
 	protected boolean _overheadView = false;
 
 
-	public KinectRegionGrid(int cols, int rows, int kinectClose, int kinectFar, int padding, int kinectTop, int kinectBottom, int kinectPixelSkip, int minPixels) {
-		this(cols, rows, kinectClose, kinectFar, padding, kinectTop, kinectBottom, kinectPixelSkip, minPixels, false);
+	public KinectRegionGrid(int cols, int rows, int kinectClose, int kinectFar, int sideMargin, int padding, int kinectTop, int kinectBottom, int kinectPixelSkip, int minPixels) {
+		this(cols, rows, kinectClose, kinectFar, sideMargin, padding, kinectTop, kinectBottom, kinectPixelSkip, minPixels, false);
 	}
 
 
-	public KinectRegionGrid(int cols, int rows, int kinectClose, int kinectFar, int padding, int kinectTop, int kinectBottom, int kinectPixelSkip, int minPixels, boolean debug) {
+	public KinectRegionGrid(int cols, int rows, int kinectClose, int kinectFar, int sideMargin, int padding, int kinectTop, int kinectBottom, int kinectPixelSkip, int minPixels, boolean debug) {
 		super();
 
 		if(debug == true) {
@@ -41,15 +41,21 @@ implements IJoystickCollection {
 		_kinectDepth = _kinectFar - _kinectClose;
 
 		// set up rectangles for position detection
-		int colW = (KinectSize.WIDTH - padding*(cols-1)) / cols;
+		int colW = (KinectSize.WIDTH -  padding*(cols-1) - 2*sideMargin) / cols ;
 		int kinectDepth = kinectFar - kinectClose;
 		int rowH = (kinectDepth - padding*(rows-1)) / rows;
-
+		
+		System.out.println("Rows:" + rows + ", Cols=" + cols + "ColWidth=" + colW + "SideMargin=" + sideMargin + ", padding=" + padding);
+		int leftPos = 0;
 		for ( int x = 0; x < cols; x++ ) {
+			//Set side margins to narrow the field of view of the kinect and play area
+			if(x==0){ leftPos = sideMargin;} 
+			else {leftPos += colW + padding;} //NOTE: Right margin is accounted for in the ColW calculation
+			
 			for ( int y = 0; y < rows; y++ ) {
 				KinectRegion region = new KinectRegion(
-						colW * x + padding * x,
-						colW * x + padding * x + colW,
+						leftPos,
+						leftPos + colW,
 						kinectClose + y * rowH + padding * y,
 						kinectClose + y * rowH + padding * y + rowH,
 						kinectTop,
@@ -58,6 +64,8 @@ implements IJoystickCollection {
 						minPixels,
 						P.p.color( MathUtil.randRange(130,255), MathUtil.randRange(130,255), MathUtil.randRange(130,255) )
 				);
+			    				
+				System.out.println("Col-" + x + ": left=" + region._left + ", right=" + region._right);
 				_joysticks.add( region );
 			}
 		}
