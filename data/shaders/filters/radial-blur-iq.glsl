@@ -33,7 +33,7 @@ vec3 deform( vec2 p )
 
 void main()
 {
-    vec2 p = vertTexCoord.xy;
+    vec2 p = vertTexCoord.xy - 0.5;
     vec2 s = p;
     
     vec3 total = vec3(0.0);

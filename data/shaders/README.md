@@ -14,10 +14,20 @@ becomes:
 
 
 ##### shadertoy
+
 	vec2 uv = gl_FragCoord.xy/iResolution.xy;
+
 becomes:
 	
 	vec2 uv = vertTexCoord.xy;
+
+or:
+	
+    vec2 p = (-iResolution.xy + 2.0*fragCoord.xy)/iResolution.y;
+
+becomes:
+
+	vec2 p = -vertTexCoord.xy + 0.5;
 	
 	
 ## center

@@ -24,8 +24,8 @@ void main( void ) {
 
     // scroll
     float x = gl_FragCoord.x / 32.0;
-    float y = gl_FragCoord.y / 32.0;
-    int sum = int(x) + int(y + time);
+    float y = gl_FragCoord.y / 32.0 + time;
+    int sum = int(x) + int(y);
 
     
     if (int(mod(float(sum), float(2))) == 0)

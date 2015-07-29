@@ -76,7 +76,7 @@ extends PAppletHax{
 		
 		// build shaders
 		_desaturate = loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/saturation.glsl" );
-		_threshold = loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/blackandwhite.glsl" );
+		_threshold = loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/threshold.glsl" );
 		_threshold.set("cutoff", 0.5f);
 		_blurV = loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/blur-vertical.glsl" );
 		_blurV.set( "v", 5f/p.height );

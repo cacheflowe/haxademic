@@ -23,7 +23,7 @@ void main() {
      // this one makes more dusty look (as opposed to burned)
      vec4 color = texture2D( texture, vertTexCoord.xy );
      float dist = distance( vertTexCoord.xy, vec2( 0.5 ) );
-     color.rgb *= smoothstep( 0.8, spread * 0.799, dist *( darkness + spread ) );
+     color.rgb *= smoothstep( 0.8, spread * 0.799, dist * ( darkness + spread ) );
      gl_FragColor = color;
 
 }

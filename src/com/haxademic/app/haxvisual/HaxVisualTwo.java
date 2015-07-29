@@ -190,7 +190,7 @@ extends PAppletHax {
 
 		edge = loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/edges.glsl" ); 
 		
-		dotScreen = loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/dotscreen.glsl" ); 
+		dotScreen = loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/halftone.glsl" ); 
 		dotScreen.set("tSize", 256f, 256f);
 		dotScreen.set("center", 0.5f, 0.5f);
 		dotScreen.set("angle", 1.57f);

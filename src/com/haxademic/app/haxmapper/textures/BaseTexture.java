@@ -35,7 +35,7 @@ public class BaseTexture {
 		_texture.smooth(OpenGLUtil.SMOOTH_MEDIUM);
 
 		// postprocessing - only create 1 shader for all instances
-		if(_threshold == null) _threshold = P.p.loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/blackandwhite.glsl" );
+		if(_threshold == null) _threshold = P.p.loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/threshold.glsl" );
 		if(_invert == null) _invert = P.p.loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/invert.glsl" );
 		if(_chroma == null) _chroma = P.p.loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/chroma-gpu.glsl" );
 		_chroma.set("thresholdSensitivity", 0.0f);
