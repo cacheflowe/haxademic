@@ -2,14 +2,14 @@ package com.haxademic.sketch.particle;
 
 import java.util.ArrayList;
 
-import processing.core.PVector;
-
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.draw.util.OpenGLUtil;
 import com.haxademic.core.image.filters.shaders.FXAAFilter;
 import com.haxademic.core.math.easing.EasingFloat;
+
+import processing.core.PVector;
 
 @SuppressWarnings("serial")
 public class VectorFieldTest 
@@ -90,7 +90,7 @@ extends PAppletHax
 			_particles.get(i).update( _vectorField );
 		}
 		
-		FXAAFilter.applyTo(p, p.g);
+		FXAAFilter.instance(p).applyTo(p.g);
 	}
 	
 	public class FieldParticle {
