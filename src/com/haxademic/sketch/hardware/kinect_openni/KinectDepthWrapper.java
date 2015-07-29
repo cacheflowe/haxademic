@@ -7,7 +7,7 @@ import processing.core.PVector;
 import com.haxademic.core.app.P;
 import com.haxademic.core.hardware.kinect.IKinectWrapper;
 import com.haxademic.core.hardware.kinect.KinectSize;
-import com.haxademic.core.hardware.kinect.KinectWrapperV2;
+import com.haxademic.core.hardware.kinect.KinectWrapperV1;
 
 @SuppressWarnings("serial")
 public class KinectDepthWrapper 
@@ -29,7 +29,7 @@ extends PApplet {
 		//_kinectWrapper = new KinectWrapper( this, true, true, true );
 		
 		//TODO: This is temporary. Redesign to use dependency injection of the Kinect services
-		_kinectWrapper = new KinectWrapperV2( this, true, true, true );
+		_kinectWrapper = new KinectWrapperV1( this, true, true, true );
 		
 		stroke(255,255,255);
 		smooth();
