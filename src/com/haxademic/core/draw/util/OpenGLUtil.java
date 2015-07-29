@@ -5,6 +5,7 @@ import javax.media.opengl.GL2;
 
 import processing.core.PGraphics;
 import processing.opengl.PJOGL;
+import processing.opengl.Texture;
 
 public class OpenGLUtil {
 	
@@ -16,6 +17,10 @@ public class OpenGLUtil {
 	public static final int MEDIUM = 1;
 	public static final int HIGH = 2;
 
+	public static void setTextureRepeat(PGraphics pg) {
+		pg.textureWrap(Texture.REPEAT);
+	}
+	
 	public static void setQuality(PGraphics pg, int quality) {
 		//		p.hint(p.DISABLE_DEPTH_SORT);
 		GL gl = ((PJOGL)pg.beginPGL()).gl.getGL();
