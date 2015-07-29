@@ -1,4 +1,4 @@
-package com.haxademic.sketch.test;
+package com.haxademic.sketch.audio;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;

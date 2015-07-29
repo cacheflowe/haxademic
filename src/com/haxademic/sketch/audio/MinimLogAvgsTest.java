@@ -1,4 +1,4 @@
-package com.haxademic.sketch.test;
+package com.haxademic.sketch.audio;
 
 import processing.core.PFont;
 
