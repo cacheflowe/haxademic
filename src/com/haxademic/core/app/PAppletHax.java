@@ -113,12 +113,12 @@ extends PApplet
 	 */
 	public AudioInputWrapper _audioInput;
 	public AudioInputWrapperMinim audioIn;
-	public boolean _useLegacyAudio = false;
 
 	/**
 	 * Single instance of the data needed to draw a realtime waveform / oscilloscpe.
 	 */
 	public WaveformData _waveformData;
+	public WaveformData _waveformDataMinim;
 
 	/**
 	 * Renderer object for saving frames and rendering movies & gifs.
@@ -324,15 +324,15 @@ extends PApplet
 		// save single reference for other objects
 		toxi = new ToxiclibsSupport(p);
 		minim = new Minim( p );
-		if( _useLegacyAudio == true ) {
+		if( appConfig.getBoolean("init_ess_audio", true) == true ) {
 			_audioInput = new AudioInputWrapper( p, _isRenderingAudio );
-			_waveformData = new WaveformData( p, _audioInput._bufferSize );
-		} else {
-			_audioInput = new AudioInputWrapper( p, _isRenderingAudio );
-			audioIn = new AudioInputWrapperMinim( p, _isRenderingAudio );
-			_waveformData = new WaveformData( p, audioIn.bufferSize() );
+			_waveformData = new WaveformData( p, _audioInput.bufferSize() );
+			if(appConfig.getBoolean("audio_debug", false) == true) _audioInput.debugInfo();
 		}
-		if(appConfig.getBoolean("audio_debug", false) == true) _audioInput.debugInfo();
+		if( appConfig.getBoolean("init_minim_audio", true) == true ) {
+			audioIn = new AudioInputWrapperMinim( p, _isRenderingAudio );
+			_waveformDataMinim = new WaveformData( p, audioIn.bufferSize() );
+		}
 		_renderer = new Renderer( p, _fps, Renderer.OUTPUT_TYPE_MOVIE, _appConfig.getString( "render_output_dir", FileUtil.getHaxademicOutputPath() ) );
 		if(appConfig.getBoolean("rendering_gif", false) == true) {
 			_gifRenderer = new GifRenderer(appConfig.getInt("rendering_gif_framerate", 45), appConfig.getInt("rendering_gif_quality", 15));
@@ -376,7 +376,7 @@ extends PApplet
 		if( _audioInput != null ) _audioInput.getBeatDetection(); // detect beats and pass through to current visual module	// 		int[] beatDetectArr =
 		if( audioIn != null ) {
 			audioIn.update(); // detect beats and pass through to current visual module	// 		int[] beatDetectArr =
-			_waveformData.updateWaveformDataMinim( audioIn.getAudioInput() );
+			_waveformDataMinim.updateWaveformDataMinim( audioIn.getAudioInput() );
 		}
 		if( kinectWrapper != null ) kinectWrapper.update();
 		if( _jw != null ) _jw.startFrame();
@@ -433,7 +433,7 @@ extends PApplet
 				// have renderer step through audio, then special call to update the single WaveformData storage object
 				if( _isRenderingAudio == true ) {
 					_renderer.analyzeAudio();
-					_waveformData.updateWaveformDataForRender( _renderer, _audioInput.getAudioInput(), _audioInput._bufferSize );
+					_waveformData.updateWaveformDataForRender( _renderer, _audioInput.getAudioInput(), _audioInput.bufferSize() );
 				}
 //			}
 
