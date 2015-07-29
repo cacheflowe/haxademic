@@ -12,19 +12,24 @@ extends PAppletHax {
 
 	protected float angle;
 
+	public static void main(String args[]) {
+		PAppletHax.main(P.concat(args, new String[] { "--hide-stop", "--bgcolor=000000", Thread.currentThread().getStackTrace()[1].getClassName() }));
+	}
+
 	protected void overridePropsFile() {
 		_appConfig.setProperty( "width", "1280" );
 		_appConfig.setProperty( "height", "1280" );
 		_appConfig.setProperty( "rendering", "false" );
+		_appConfig.setProperty( "force_foreground", "true" );
+		_appConfig.setProperty( "force_foreground", "true" );
 	}
 
 	public void setup() {
-		_useLegacyAudio = true;
 		super.setup();
 		p.smooth(OpenGLUtil.SMOOTH_HIGH);
 	}
 
-	public void draw() {
+	public void drawApp() {
 		p.background(0);
 
 //		p.pointLight(0, 255, 255, 0, p.mouseY, 500);

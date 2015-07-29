@@ -45,7 +45,7 @@ extends PAppletHax
 		// float easedPercentHard = Penner.easeInOutQuad(percentComplete, 0, 1, 1);
 		
 		// texture feedback
-		float feedback = 20f;// * P.sin(percentComplete * P.TWO_PI);
+		float feedback = 10f;// * P.sin(percentComplete * P.TWO_PI);
 		_texture.copy(
 				_texture, 
 				0, 
@@ -72,7 +72,7 @@ extends PAppletHax
 		// rotating circles
 		float arms = 260;
 		float circleInc = P.TWO_PI / arms;
-		float radius = 100;
+		float radius = width/6f;
 		
 		for (int i = 0; i < arms; i++) {
 			float curRads = circleInc * i;

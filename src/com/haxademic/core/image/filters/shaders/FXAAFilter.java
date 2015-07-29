@@ -1,4 +1,4 @@
-package com.haxademic.core.image.filters;
+package com.haxademic.core.image.filters.shaders;
 
 import com.haxademic.core.system.FileUtil;
 
@@ -12,7 +12,7 @@ public class FXAAFilter {
 	
 	protected static PShader getShader(PApplet p) {
 		if(shader != null) return shader;
-		shader = p.loadShader(FileUtil.getHaxademicDataPath() + "shaders/filters/fxaa.glsl");
+		shader = p.loadShader(FileUtil.getFile("shaders/filters/fxaa.glsl"));
 		return shader;
 	}
 	

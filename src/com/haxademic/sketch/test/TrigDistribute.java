@@ -21,7 +21,6 @@ extends PAppletHax {
 	}
 
 	public void setup() {
-		_useLegacyAudio = true;
 		super.setup();
 		p.smooth(OpenGLUtil.SMOOTH_HIGH);
 

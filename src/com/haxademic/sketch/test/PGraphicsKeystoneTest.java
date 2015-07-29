@@ -16,7 +16,7 @@ extends PAppletHax {
 	protected PGraphicsKeystone _pgPinnable;
 
 	public static void main(String args[]) {
-		_isFullScreen = true;
+//		_isFullScreen = true;
 		_hasChrome = false;
 		PApplet.main(new String[] { PGraphicsKeystoneTest.class.getName() });
 	}
