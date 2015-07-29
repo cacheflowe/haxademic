@@ -1,14 +1,11 @@
 package com.haxademic.app.haxmapper;
 
 import com.haxademic.app.haxmapper.textures.BaseTexture;
-import com.haxademic.app.haxmapper.textures.TextureAppFrame2d;
-import com.haxademic.app.haxmapper.textures.TextureAppFrameEq2d;
-import com.haxademic.app.haxmapper.textures.TextureAppFrameWaveformCircle;
-import com.haxademic.app.haxmapper.textures.TextureAudioTube;
-import com.haxademic.app.haxmapper.textures.TextureBasicWindowShade;
 import com.haxademic.app.haxmapper.textures.TextureShaderTimeStepper;
-import com.haxademic.app.haxmapper.textures.TextureSvgPattern;
+import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.draw.util.OpenGLUtil;
+import com.haxademic.core.image.filters.shaders.ColorDistortionFilter;
 
 @SuppressWarnings("serial")
 public class HaxMapperTextureTester 
@@ -16,11 +13,10 @@ extends PAppletHax {
 	
 	protected BaseTexture[] _textures;
 	int w = 320;
-	int h = 240;
+	int h = 320;
 
 	protected void overridePropsFile() {
-		_appConfig.setProperty( "fps", "30" );
-		_appConfig.setProperty( "width", "1280" );
+		_appConfig.setProperty( "width", "960" );
 		_appConfig.setProperty( "height", "960" );
 		_appConfig.setProperty( "rendering", "false" );
 	}
@@ -28,18 +24,32 @@ extends PAppletHax {
 
 	public void setup() {
 		super.setup();
+			
+//		_tvShader = p.loadShader( FileUtil.getFile("shaders/filters/radial-ripples.glsl")); 
+//		_tvShader = p.loadShader( FileUtil.getFile("shaders/filters/bad-tv-simple.glsl")); 
+//		_tvShader = p.loadShader( FileUtil.getFile("shaders/filters/warper.glsl")); 
+		OpenGLUtil.setTextureRepeat(g);
 		
 		_textures = new BaseTexture[]{
+//			new TextureShaderTimeStepper( w, h, "_drawing-stuff.glsl" ),
+				
+			new TextureShaderTimeStepper( w, h, "bw-circles.glsl" ),
+			new TextureShaderTimeStepper( w, h, "dot-grid-dof.glsl" ),
+			new TextureShaderTimeStepper( w, h, "flame-wisps.glsl" ),
+
+			new TextureShaderTimeStepper( w, h, "bubbles-iq.glsl" ),
+			new TextureShaderTimeStepper( w, h, "spinning-iq.glsl" ),
+			new TextureShaderTimeStepper( w, h, "inversion-iq.glsl" ),
 			new TextureShaderTimeStepper( w, h, "radial-waves.glsl" ),
 			new TextureShaderTimeStepper( w, h, "radial-burst.glsl" ),
 			new TextureShaderTimeStepper( w, h, "wavy-3d-tubes.glsl" ),
 			new TextureShaderTimeStepper( w, h, "fade-dots.glsl" ),
-			new TextureAudioTube( w, h ),
-			new TextureSvgPattern( w, h ),
-			new TextureAppFrameEq2d( w, h ),
-			new TextureAppFrame2d( w, h ),
-			new TextureAppFrameWaveformCircle( w, h ),
-			new TextureBasicWindowShade( w, h ),
+//			new TextureAudioTube( w, h ),
+//			new TextureSvgPattern( w, h ),
+//			new TextureAppFrameEq2d( w, h ),
+//			new TextureAppFrame2d( w, h ),
+//			new TextureAppFrameWaveformCircle( w, h ),
+//			new TextureBasicWindowShade( w, h ),
 //			new TextureSphereAudioTextures( w, h ),
 //			new TextureWaveformCircle( w, h ),
 //			new TextureRotatorShape( w, h ),
@@ -70,7 +80,6 @@ extends PAppletHax {
 //		    new TextureShaderTimeStepper( w, h, "bw-eye-jacker-02.glsl" ),
 //		    new TextureShaderTimeStepper( w, h, "bw-expand-loop.glsl" ),
 //		    new TextureShaderTimeStepper( w, h, "bw-clouds.glsl" ),
-			new TextureShaderTimeStepper( w, h, "coffeeswirl.glsl" ),
 //		    new TextureShaderTimeStepper( w, h, "circle-parts-rotate.glsl" ),
 //		    new TextureShaderTimeStepper( w, h, "warped-tunnel.glsl" ),
 //		    new TextureShaderTimeStepper( w, h, "stars-fractal-field.glsl" ),
@@ -79,9 +88,9 @@ extends PAppletHax {
 //			new TextureShaderTimeStepper( w, h, "basic-checker.glsl" ),
 //			new TextureShaderTimeStepper( w, h, "water-smoke.glsl" ),
 //			new TextureShaderTimeStepper( w, h, "flexi-spiral.glsl" ),
-			new TextureShaderTimeStepper( w, h, "noise-function.glsl" ),
-			new TextureShaderTimeStepper( w, h, "noise-simplex-2d-iq.glsl" ),
-			new TextureShaderTimeStepper( w, h, "light-leak.glsl" )
+//			new TextureShaderTimeStepper( w, h, "noise-function.glsl" ),
+//			new TextureShaderTimeStepper( w, h, "noise-simplex-2d-iq.glsl" ),
+//			new TextureShaderTimeStepper( w, h, "light-leak.glsl" )
 		};
 		
 		for(BaseTexture tex : _textures) {
@@ -139,5 +148,12 @@ extends PAppletHax {
 				y += h;
 			}
 		}
+		
+//		float time = p.millis() / 10000f;
+//		ColorDistortionFilter.instance(p).setTime(time);
+//		ColorDistortionFilter.instance(p).setAmplitude(1.5f + 1.5f * P.sin(time/10f));
+//		ColorDistortionFilter.instance(p).applyTo(p);
+//		VignetteFilter.instance(p).applyTo(p);
+
 	}
 }
