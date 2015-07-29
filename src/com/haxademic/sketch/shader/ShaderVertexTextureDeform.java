@@ -43,7 +43,7 @@ extends PAppletHax{
 		texture = loadImage(FileUtil.getFile("images/snowblinded-mtn.jpg"));
 		mesh = createSheet(60, texture);
 		texShader = loadShader(
-			FileUtil.getFile("shaders/vertex/brightness-displace-frag.glsl"), 
+			FileUtil.getFile("shaders/vertex/brightness-displace-frag-texture.glsl"), 
 			FileUtil.getFile("shaders/vertex/brightness-displace-sheet-vert.glsl")
 		);
 		texShader.set("displacementMap", texture);
@@ -62,7 +62,7 @@ extends PAppletHax{
 		rotateX(0.3f * P.sin(percentComplete * P.TWO_PI)); 
 
 		// set shader properties & set on processing context
-		texShader.set("displaceStrength", 200f + 200f * P.sin(percentComplete * P.TWO_PI));
+		texShader.set("displaceStrength", 100f + 100f * P.sin(percentComplete * P.TWO_PI));
 		shader(texShader);  
 		shape(mesh);
 		
