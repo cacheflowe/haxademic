@@ -62,7 +62,11 @@ public class AudioInputWrapper
 		// listen realtime if not rendering
 		// P.println("AudioInputWrapper._isRendering = "+_isRendering);
 		if( _isRendering == false ) {
-			_myInput.start();
+			try {
+				_myInput.start();
+			} catch (NullPointerException e) {
+				_myInput = null;
+			}
 		}
 		
 		setGain(_gain);
@@ -115,7 +119,10 @@ public class AudioInputWrapper
 
 	}
 
-
+	public int bufferSize() {
+		return _bufferSize;
+	}
+	
 	public void setNumAverages( int numAvgs )
 	{
 		_numAverages = numAvgs;
@@ -130,7 +137,7 @@ public class AudioInputWrapper
 	
 	public void setGain(int gain) {
 		_gain = gain;
-		_myInput.gain( _gain );
+		if(_myInput != null) _myInput.gain( _gain );
 	}
 	
 	public void gainUp()
