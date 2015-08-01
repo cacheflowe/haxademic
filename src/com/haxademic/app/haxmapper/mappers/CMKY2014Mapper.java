@@ -40,7 +40,7 @@ extends HaxMapper{
 	
 
 	public static void main(String args[]) {
-		_isFullScreen = false;
+		_isFullScreen = true;
 		PApplet.main(new String[] { "--hide-stop", "--bgcolor=000000", CMKY2014Mapper.class.getName() });
 	}
 
@@ -48,9 +48,9 @@ extends HaxMapper{
 		super.overridePropsFile();
 		_appConfig.setProperty( "mapping_file", FileUtil.getHaxademicDataPath() + "text/mapping/mapping-2015-04-18-21-34-34.txt" );
 		_appConfig.setProperty( "rendering", "false" );
-		_appConfig.setProperty( "fullscreen", "false" );
-		_appConfig.setProperty( "fills_screen", "false" );
-		_appConfig.setProperty( "osc_active", "true" );
+		_appConfig.setProperty( "fullscreen", "true" );
+		_appConfig.setProperty( "fills_screen", "true" );
+		_appConfig.setProperty( "osc_active", "false" );
 		_appConfig.setProperty( "audio_debug", "true" );
 		_appConfig.setProperty( "width", "1200" );
 		_appConfig.setProperty( "height", "1000" );
@@ -79,27 +79,31 @@ extends HaxMapper{
 
 	protected void addTexturesToPool() {
 
-//		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/loops/smoke-loop.mov" ));
-//		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/loops/tree-loop.mp4" ));
-//		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/loops/ink-in-water.mp4" ));
-//		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/loops/ink-grow-shrink.mp4" ));
-//		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/loops/fire.mp4" ));
-//		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/loops/bubbles.mp4" ));	
-//		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/loops/clouds-timelapse.mov" ));
-//		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/loops/water.mp4" ));
-//		
-//				
-//		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/lunar-lodge/LL-00-desktop.m4v" ));
-//		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/lunar-lodge/LL-01-desktop.m4v" ));
-//		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/lunar-lodge/LL-02-desktop.m4v" ));
-//		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/lunar-lodge/LL-03-desktop.m4v" ));
-//		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/lunar-lodge/LL-04-desktop.m4v" ));
-//		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/lunar-lodge/LL-08-desktop.m4v" ));
-//		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/lunar-lodge/LL-09-desktop.m4v" ));
-//		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/lunar-lodge/LL-10-desktop.m4v" ));
-//		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/lunar-lodge/LL-11-desktop.m4v" ));
-//		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/lunar-lodge/LL-12-desktop.m4v" ));
-//		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/lunar-lodge/LL-13-desktop.m4v" ));
+		int videoW = 640;
+		int videoH = 360;
+		
+
+		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/loops/smoke-loop.mov" ));
+		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/loops/tree-loop.mp4" ));
+		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/loops/ink-in-water.mp4" ));
+		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/loops/ink-grow-shrink.mp4" ));
+		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/loops/fire.mp4" ));
+		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/loops/bubbles.mp4" ));	
+		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/loops/clouds-timelapse.mov" ));
+		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/loops/water.mp4" ));
+		
+				
+		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/lunar-lodge/LL-00-desktop.m4v" ));
+		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/lunar-lodge/LL-01-desktop.m4v" ));
+		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/lunar-lodge/LL-02-desktop.m4v" ));
+		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/lunar-lodge/LL-03-desktop.m4v" ));
+		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/lunar-lodge/LL-04-desktop.m4v" ));
+		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/lunar-lodge/LL-08-desktop.m4v" ));
+		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/lunar-lodge/LL-09-desktop.m4v" ));
+		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/lunar-lodge/LL-10-desktop.m4v" ));
+		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/lunar-lodge/LL-11-desktop.m4v" ));
+		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/lunar-lodge/LL-12-desktop.m4v" ));
+		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/lunar-lodge/LL-13-desktop.m4v" ));
 //		
 //		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/lunar-lodge/crystal-growth-2.mp4" ));
 //		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/lunar-lodge/crystal-growth-3-desktop.m4v" ));
@@ -307,6 +311,8 @@ extends HaxMapper{
 	}
 	
 	protected void bigChangeTrigger() {
+		super.bigChangeTrigger();
+		
 		cycleANewTexture();
 		newTexturesForAllGroups();
 		newLineModesForAllGroups();
