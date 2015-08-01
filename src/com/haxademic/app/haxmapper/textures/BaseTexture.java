@@ -1,13 +1,15 @@
 package com.haxademic.app.haxmapper.textures;
 
-import processing.core.PConstants;
-import processing.core.PGraphics;
-import processing.opengl.PShader;
-
 import com.haxademic.core.app.P;
 import com.haxademic.core.draw.color.ColorHaxEasing;
 import com.haxademic.core.draw.util.OpenGLUtil;
+import com.haxademic.core.image.filters.shaders.InvertFilter;
+import com.haxademic.core.image.filters.shaders.ThresholdFilter;
 import com.haxademic.core.system.FileUtil;
+
+import processing.core.PConstants;
+import processing.core.PGraphics;
+import processing.opengl.PShader;
 
 public class BaseTexture {
 	
@@ -16,8 +18,6 @@ public class BaseTexture {
 	protected int _useCount = 0;
 	protected int _color;
 	protected ColorHaxEasing _colorEase;
-	public static PShader _threshold;
-	public static PShader _invert;
 	public static PShader _chroma;
 	
 	protected boolean _makeOverlay;
@@ -32,20 +32,22 @@ public class BaseTexture {
 	protected void buildGraphics( int width, int height ) {
 		if( _texture != null ) _texture.dispose();
 		_texture = P.p.createGraphics( width, height, PConstants.OPENGL );
-		_texture.smooth(OpenGLUtil.SMOOTH_MEDIUM);
+//		_texture.smooth(OpenGLUtil.SMOOTH_MEDIUM);
+		_texture.smooth(OpenGLUtil.SMOOTH_HIGH);
 
 		// postprocessing - only create 1 shader for all instances
-		if(_threshold == null) _threshold = P.p.loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/threshold.glsl" );
-		if(_invert == null) _invert = P.p.loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/invert.glsl" );
-		if(_chroma == null) _chroma = P.p.loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/chroma-gpu.glsl" );
+		if(_chroma == null) _chroma = P.p.loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/chroma-color.glsl" );
 		_chroma.set("thresholdSensitivity", 0.0f);
 		_chroma.set("smoothing", 0.5f);
 		_chroma.set("colorToReplace", 0.0f,0.0f,0.0f);
-
 	}
 	
 	public PGraphics texture() {
 		return _texture;
+	}
+	
+	public boolean isActive() {
+		return _active;
 	}
 	
 	public void setActive( boolean isActive ) {
@@ -63,13 +65,9 @@ public class BaseTexture {
 	
 	public void postProcess() {
 		if( _makeOverlay == true ) {
-			_texture.filter( _threshold );
-			_texture.filter( _invert );
+			ThresholdFilter.instance(P.p).applyTo(_texture);
+			InvertFilter.instance(P.p).applyTo(_texture);
 			_texture.filter( _chroma );
-			
-//			_chroma.set("thresholdSensitivity", P.p.midi.midiCCPercent(0, 22));
-//			_chroma.set("smoothing", P.p.midi.midiCCPercent(0, 23));
-//			_chroma.set("colorToReplace", P.p.midi.midiCCPercent(0, 24), P.p.midi.midiCCPercent(0, 25), P.p.midi.midiCCPercent(0, 26));
 		}
 		if( _knockoutBlack == true ) {
 			_texture.filter( _chroma );

@@ -14,13 +14,7 @@ import com.haxademic.core.system.FileUtil;
 public class TextureImageTimeStepper
 extends BaseTexture {
 
-//	protected PGraphics _image;
-//	protected PShader _vignette;
-//	protected PShader _brightness;
 	protected PShader _saturation;
-//	protected int _timingFrame = 0;
-//	protected EasingFloat _timeEaser = new EasingFloat(0, 15);
-//	protected EasingFloat _brightEaser = new EasingFloat(0, 10);
 	protected int _mode = 0;
 	
 	
@@ -95,7 +89,7 @@ extends BaseTexture {
 		_texture.image( _image, 0, 0, _image.width, _image.height );
 		_texture.filter( _saturation );
 		_texture.filter( _brightness );
-		_texture.filter( _vignette );
+//		_texture.filter( _vignette );
 	}
 	
 	public void nextImage() {
@@ -108,8 +102,8 @@ extends BaseTexture {
 		_timeEaser.update();
 		_brightEaser.update();
 
-		_vignette.set("darkness", 0.7f);
-		_vignette.set("spread", 0.15f);
+//		_vignette.set("darkness", 0.7f);
+//		_vignette.set("spread", 0.15f);
 
 		_brightness.set("brightness", _brightEaser.value() );
 	}

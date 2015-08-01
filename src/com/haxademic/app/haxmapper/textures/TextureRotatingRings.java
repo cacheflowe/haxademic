@@ -74,7 +74,7 @@ extends BaseTexture {
 			_texture.noFill();
 		else
 			_texture.noStroke();
-		_texture.strokeWeight( 4 );
+		_texture.strokeWeight( 2 );
 		
 		// draw rings
 		for( int i = 0; i < NUM_RINGS; i++ ) {

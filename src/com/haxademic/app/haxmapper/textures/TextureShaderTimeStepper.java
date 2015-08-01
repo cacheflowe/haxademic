@@ -31,7 +31,7 @@ extends BaseTexture {
 	protected float _largeTimeStep = 3f;
 	protected float _nonBeatSpeed = 0.1f;
 	protected float _beatSpeedUp = 0.1f;
-	protected float _beatSpeedUpMax = 0.1f;
+	protected float _beatSpeedUpMax = 0.055f;
 	protected ShaderTimeMode _nonBeatTimeMode = ShaderTimeMode.BeatEaseOut;
 	protected float _reverseTimeThreshold = 100f;
 	
@@ -107,7 +107,6 @@ extends BaseTexture {
 			_timeEaser.setCurrent( _timeEaser.value() + _beatSpeedUp );
 			_timeEaser.setTarget( _timeEaser.value() + _beatSpeedUp );
 			_beatSpeedUp *= 1.2f;
-//			P.println("_beatSpeedUp", _beatSpeedUp);
 			if(Math.abs(_beatSpeedUp) > _beatSpeedUpMax) _beatSpeedUp = P.constrain(_beatSpeedUp, -_beatSpeedUpMax, _beatSpeedUpMax);
 		} else if(_nonBeatTimeMode == ShaderTimeMode.ForwardOsc) {
 			_timeEaser.setCurrent( _timeEaser.value() + _nonBeatSpeed * 0.75f + _nonBeatSpeed * 0.25f * P.sin(P.p.frameCount/40f) );

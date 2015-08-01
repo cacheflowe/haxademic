@@ -16,7 +16,7 @@ extends BaseTexture {
 	public TextureWebCam() {
 		super();
 		initWebCam();
-		_threshold = P.p.loadShader( FileUtil.getHaxademicDataPath() + "shaders/filters/blackandwhite.glsl");
+		_threshold = P.p.loadShader( FileUtil.getHaxademicDataPath() + "shaders/filters/threshold.glsl");
 	}
 	
 	void initWebCam() {
