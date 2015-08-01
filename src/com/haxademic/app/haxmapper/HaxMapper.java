@@ -1,5 +1,6 @@
 package com.haxademic.app.haxmapper;
 
+import java.awt.Rectangle;
 import java.util.ArrayList;
 
 import com.haxademic.app.haxmapper.distribution.MappingGroup;
@@ -48,6 +49,9 @@ extends PAppletHax {
 	
 	protected String _inputFileLines[];
 	protected PGraphics _overlayPG;
+	protected Rectangle _boundingBox;
+	protected float[] extentsX = {-1,-1};
+	protected float[] extentsY = {-1,-1};
 	protected ArrayList<MappingGroup> _mappingGroups;
 	protected ArrayList<BaseTexture> _texturePool;
 	protected ArrayList<BaseTexture> _curTexturePool;
@@ -101,11 +105,14 @@ extends PAppletHax {
 		p.smooth(OpenGLUtil.SMOOTH_HIGH);
 		noStroke();
 		importPolygons();
+		P.println("_boundingBox", _boundingBox);
 		for( int i=0; i < _mappingGroups.size(); i++ ) _mappingGroups.get(i).completePolygonImport();
 		buildTextures();
 	}
 	
 	protected void importPolygons() {
+		_boundingBox = new Rectangle(-1, -1, 0, 0);
+		
 		_overlayPG = P.p.createGraphics( p.width, p.height, PConstants.OPENGL );
 		_overlayPG.smooth(OpenGLUtil.SMOOTH_MEDIUM);
 		_mappingGroups = new ArrayList<MappingGroup>();
@@ -119,10 +126,14 @@ extends PAppletHax {
 				float x2 = startX + p.random(-300,300);
 				float y2 = startY + p.random(-300,300);
 				// float x3 = startX + p.random(-300,300);
+				float x3 = startY + p.random(-300,300);
 				float y3 = startY + p.random(-300,300);
 				// add polygon
-				_mappingGroups.get(0).addPolygon( new MappedTriangle( startX, startY, x2, y2, y3, y3 ) );
-
+				_mappingGroups.get(0).addPolygon( new MappedTriangle( startX, startY, x2, y2, x3, y3 ) );
+				// update bounding box as we build
+				updateBoundingBox(startX, startY);
+				updateBoundingBox(x2, y2);
+				updateBoundingBox(x3, y3);
 			}
 			_mappingGroups.get(0).addPolygon( new MappedTriangle( 100, 200, 400, 700, 650, 300 ) );
 		} else {
@@ -146,6 +157,11 @@ extends PAppletHax {
 								ConvertUtil.stringToFloat( polyPoints[4] ), 
 								ConvertUtil.stringToFloat( polyPoints[5] )
 						) );
+						// update bounding box as we build
+						updateBoundingBox(ConvertUtil.stringToFloat( polyPoints[0] ), ConvertUtil.stringToFloat( polyPoints[1] ));
+						updateBoundingBox(ConvertUtil.stringToFloat( polyPoints[2] ), ConvertUtil.stringToFloat( polyPoints[3] ));
+						updateBoundingBox(ConvertUtil.stringToFloat( polyPoints[4] ), ConvertUtil.stringToFloat( polyPoints[5] ));
+
 					} else if(polyPoints.length == 8) {
 						// add polygons
 						_mappingGroups.get(_mappingGroups.size()-1).addPolygon( new MappedQuad( 
@@ -158,10 +174,26 @@ extends PAppletHax {
 								ConvertUtil.stringToFloat( polyPoints[6] ), 
 								ConvertUtil.stringToFloat( polyPoints[7] )
 						) );
+						// update bounding box as we build
+						updateBoundingBox(ConvertUtil.stringToFloat( polyPoints[0] ), ConvertUtil.stringToFloat( polyPoints[1] ));
+						updateBoundingBox(ConvertUtil.stringToFloat( polyPoints[2] ), ConvertUtil.stringToFloat( polyPoints[3] ));
+						updateBoundingBox(ConvertUtil.stringToFloat( polyPoints[4] ), ConvertUtil.stringToFloat( polyPoints[5] ));
+						updateBoundingBox(ConvertUtil.stringToFloat( polyPoints[6] ), ConvertUtil.stringToFloat( polyPoints[7] ));
 					}
 				}  
 			}
 		}
+	}
+	
+	protected void updateBoundingBox(float x, float y) {
+		if(x < extentsX[0] || extentsX[0] == -1) extentsX[0] = x;
+		if(x > extentsX[1] || extentsX[1] == -1) extentsX[1] = x;
+		if(y < extentsY[0] || extentsY[0] == -1) extentsY[0] = y;
+		if(y > extentsY[1] || extentsY[1] == -1) extentsY[1] = y;
+		_boundingBox.x = (int) Math.floor(extentsX[0]);
+		_boundingBox.width = (int) Math.ceil(extentsX[1] - extentsX[0]);
+		_boundingBox.y = (int) Math.floor(extentsY[0]);
+		_boundingBox.height= (int) Math.ceil(extentsY[1] - extentsY[0]);
 	}
 	
 	protected void buildTextures() {
@@ -214,7 +246,7 @@ extends PAppletHax {
 		for( int i=0; i < _texturePool.size(); i++ ) {
 			if( _texturePool.get(i).useCount() == 0 && _texturePool.get(i).isActive() == true ) {
 				_texturePool.get(i).setActive(false);
-				P.println("Deactivated: ", _texturePool.get(i).getClass().getName());
+				// P.println("Deactivated: ", _texturePool.get(i).getClass().getName());
 			}
 		}
 		// update active textures, once each
@@ -229,7 +261,6 @@ extends PAppletHax {
 			if(MathUtil.randRange(0, 10) > 8) {
 				_textureEffectsIndices[i] = MathUtil.randRange(0, _numTextureEffects);
 			}
-			P.println("effect for texture ", i, " = ", _textureEffectsIndices[i]);
 		}
 	}
 	
@@ -273,7 +304,7 @@ extends PAppletHax {
 			} else if(_textureEffectsIndices[i] == 12) {
 				HalftoneFilter.instance(p).applyTo(pg);
 			} else if(_textureEffectsIndices[i] == 13) {
-				PixelateFilter.instance(p).setDivider(40f, 40f * pg.height/pg.width);
+				PixelateFilter.instance(p).setDivider(15f, 15f * pg.height/pg.width);
 				PixelateFilter.instance(p).applyTo(pg);
 			} else if(_textureEffectsIndices[i] == 14) {
 				DeformBloomFilter.instance(p).setTime(filterTime);
