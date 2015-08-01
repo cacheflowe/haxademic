@@ -48,7 +48,8 @@ extends PAppletHax {
 	float colorRangeLow = 52;
 	float colorRangeHigh = 235;
 	int bailedOnUniqueAttempts = 0;
-	float blackThresh = 1.5f;
+	float blackThresh = -2.5f;
+	float imagePrintWidth = 22.5f;
 
 	boolean kobeTest = false;
 	boolean friendTest = false;
@@ -81,15 +82,20 @@ extends PAppletHax {
 			iconInches = 1.5f;
 			shapeDrawScale = 0.9f;
 		} else {
-			img = p.loadImage(FileUtil.getFile("images/_the_grove_src_2_contrast.jpg"));
-			directory = "svg/bw9_all_icons/";
-			splitFiles = true;
+			img = p.loadImage(FileUtil.getFile("images/_the_grove_src_3.jpg"));
+			iconInches = 0.25f;
+			directory = "svg/bw11/";
 			shapeDrawScale = 0.95f;
 			// whitenessMode = 0;
-			outputFile = "la";
+			outputFile = "kobe11";
+
+			splitFiles = true;
+			numRowSplits = 2;
+			img = p.loadImage(FileUtil.getFile("images/_kobe_01_11.25_feet.jpg"));
+			imagePrintWidth = 11.5f;
 		}
 		
-		shapeSize = (float) img.width / ((18.5f * 12f) / iconInches);	// for 18.5 feet wide
+		shapeSize = (float) img.width / ((imagePrintWidth * 12f) / iconInches);	// for 18.5 feet wide
 		shapeSize = shapeSize * (1f / imgScale);
 		P.println("shapeSize: ",shapeSize);
 		
@@ -116,11 +122,11 @@ extends PAppletHax {
 			}
 
 			if(file.indexOf("scaled-100") != -1) {
-				// copy 100 to 60 for more options
-				shape = p.loadShape( FileUtil.getHaxademicDataPath() + directory + file );
-				rankedSvg = new SvgRanked(shape, 0.6f);
-				if(file.indexOf("white") != -1) rankedSvg.isWhite = true;
-				_svgs.add(rankedSvg);
+//				// copy 100 to 60 for more options
+//				shape = p.loadShape( FileUtil.getHaxademicDataPath() + directory + file );
+//				rankedSvg = new SvgRanked(shape, 0.6f);
+//				if(file.indexOf("white") != -1) rankedSvg.isWhite = true;
+//				_svgs.add(rankedSvg);
 				
 //				// copy 100 to 70 for more options
 //				shape = p.loadShape( FileUtil.getHaxademicDataPath() + directory + file );
@@ -128,11 +134,11 @@ extends PAppletHax {
 //				if(file.indexOf("white") != -1) rankedSvg.isWhite = true;
 //				_svgs.add(rankedSvg);
 //				
-//				// copy 100 to 80 for more options
-//				shape = p.loadShape( FileUtil.getHaxademicDataPath() + directory + file );
-//				rankedSvg = new SvgRanked(shape, 0.8f);
-//				if(file.indexOf("white") != -1) rankedSvg.isWhite = true;
-//				_svgs.add(rankedSvg);
+				// copy 100 to 80 for more options
+				shape = p.loadShape( FileUtil.getHaxademicDataPath() + directory + file );
+				rankedSvg = new SvgRanked(shape, 0.8f);
+				if(file.toLowerCase().indexOf("white") != -1) rankedSvg.isWhite = true;
+				_svgs.add(rankedSvg);
 //				
 //				// copy 100 to 90 for more options
 //				shape = p.loadShape( FileUtil.getHaxademicDataPath() + directory + file );
@@ -269,7 +275,7 @@ extends PAppletHax {
 		P.println("Rendering PDF");
 		p.endRecord();
 		P.println("PDF rendered with "+shapesDrawn+" shapes and "+colsDrawn+" columns. Whoa.");
-		P.println("Printed at 18.5', this makes each icon "+((18.5f*imgScale*12f)/(float)colsDrawn)+" inches in size.");
+		P.println("Printed at "+imagePrintWidth+"', this makes each icon "+((imagePrintWidth*imgScale*12f)/(float)colsDrawn)+" inches in size.");
 		P.println("Bailed on unique attempts: ",bailedOnUniqueAttempts);
 
 	}
@@ -291,8 +297,8 @@ extends PAppletHax {
 	}
 	
 	protected boolean indexUnique(int indexAttempt) {
-		int numColsToCheckBack = 3;
-		int numRowsToCheckBack = 3;
+		int numColsToCheckBack = 5;
+		int numRowsToCheckBack = 5;
 		
 		// check prev in current row
 		if(currRow.size() > 0) {
