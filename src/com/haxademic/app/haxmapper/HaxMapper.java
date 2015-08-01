@@ -2,11 +2,6 @@ package com.haxademic.app.haxmapper;
 
 import java.util.ArrayList;
 
-import oscP5.OscMessage;
-import processing.core.PConstants;
-import processing.core.PGraphics;
-import processing.opengl.PShader;
-
 import com.haxademic.app.haxmapper.distribution.MappingGroup;
 import com.haxademic.app.haxmapper.polygons.IMappedPolygon;
 import com.haxademic.app.haxmapper.polygons.MappedQuad;
@@ -21,8 +16,26 @@ import com.haxademic.core.hardware.midi.AbletonNotes;
 import com.haxademic.core.hardware.midi.AkaiMpdPads;
 import com.haxademic.core.hardware.osc.TouchOscPads;
 import com.haxademic.core.hardware.shared.InputTrigger;
+import com.haxademic.core.image.filters.shaders.BadTVLinesFilter;
+import com.haxademic.core.image.filters.shaders.BrightnessFilter;
+import com.haxademic.core.image.filters.shaders.ColorDistortionFilter;
+import com.haxademic.core.image.filters.shaders.CubicLensDistortionFilter;
+import com.haxademic.core.image.filters.shaders.DeformBloomFilter;
+import com.haxademic.core.image.filters.shaders.DeformTunnelFanFilter;
+import com.haxademic.core.image.filters.shaders.EdgesFilter;
+import com.haxademic.core.image.filters.shaders.HalftoneFilter;
+import com.haxademic.core.image.filters.shaders.InvertFilter;
+import com.haxademic.core.image.filters.shaders.KaleidoFilter;
+import com.haxademic.core.image.filters.shaders.MirrorFilter;
+import com.haxademic.core.image.filters.shaders.PixelateFilter;
+import com.haxademic.core.image.filters.shaders.RadialRipplesFilter;
+import com.haxademic.core.image.filters.shaders.SphereDistortionFilter;
+import com.haxademic.core.image.filters.shaders.WobbleFilter;
 import com.haxademic.core.math.MathUtil;
-import com.haxademic.core.system.FileUtil;
+
+import oscP5.OscMessage;
+import processing.core.PConstants;
+import processing.core.PGraphics;
 
 
 @SuppressWarnings("serial")
@@ -59,18 +72,20 @@ extends PAppletHax {
 	protected int _lastInputMillis = 0;
 	protected int numBeatsDetected = 0;
 
-	protected PShader _brightness;
-	protected float _brightnessVal = 1f;
-	protected PShader _blurH;
-	protected PShader _blurV;
+//	protected PShader _brightness;
+//	protected float _brightnessVal = 1f;
+//	protected PShader _blurH;
+//	protected PShader _blurV;
 
+	protected int[] _textureEffectsIndices = {0,0,0,0,0,0,0};	// store a effects number for each texture position after the first
+	protected int _numTextureEffects = 15 + 8; // +8 to give a good chance at removing the filter from the texture slot
 	
 	public void oscEvent(OscMessage theOscMessage) {  
 		super.oscEvent(theOscMessage);
 		String oscMsg = theOscMessage.addrPattern();
 		// handle brightness slider
 		if( oscMsg.indexOf("/7/fader0") != -1) {
-			_brightnessVal = theOscMessage.get(0).floatValue() * 3.0f;
+//			_brightnessVal = theOscMessage.get(0).floatValue() * 3.0f;
 		}		
 	}
 
@@ -83,12 +98,11 @@ extends PAppletHax {
 
 	public void setup() {
 		super.setup();
-		p.smooth(OpenGLUtil.SMOOTH_MEDIUM);
+		p.smooth(OpenGLUtil.SMOOTH_HIGH);
 		noStroke();
 		importPolygons();
 		for( int i=0; i < _mappingGroups.size(); i++ ) _mappingGroups.get(i).completePolygonImport();
 		buildTextures();
-		buildPostProcessingChain();
 	}
 	
 	protected void importPolygons() {
@@ -166,17 +180,6 @@ extends PAppletHax {
 	protected void addTexturesToPool() {
 		// override this!
 	}
-
-	protected void buildPostProcessingChain() {
-		_brightness = p.loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/brightness.glsl" );
-		_brightness.set("brightness", 1.0f );
-
-		_blurH = p.loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/blur-horizontal.glsl" );
-		_blurH.set("h", 1.0f );
-		_blurV = p.loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/blur-vertical.glsl" );
-		_blurV.set("v", 1.0f );
-		
-	}
 	
 	public void drawApp() {
 		
@@ -184,6 +187,7 @@ extends PAppletHax {
 		
 		checkBeat();
 		updateActiveTextures();
+		filterActiveTextures();
 		traverseGroups();
 		drawPolygonGroups();
 		drawOverlays();
@@ -208,8 +212,9 @@ extends PAppletHax {
 		}
 		// set inactive pool textures' _active state to false (mostly for turning off video players)
 		for( int i=0; i < _texturePool.size(); i++ ) {
-			if( _texturePool.get(i).useCount() == 0 ) {
+			if( _texturePool.get(i).useCount() == 0 && _texturePool.get(i).isActive() == true ) {
 				_texturePool.get(i).setActive(false);
+				P.println("Deactivated: ", _texturePool.get(i).getClass().getName());
 			}
 		}
 		// update active textures, once each
@@ -217,6 +222,74 @@ extends PAppletHax {
 			_activeTextures.get(i).update();
 		}
 //		P.println(_activeTextures.size());
+	}
+	
+	protected void selectNewActiveTextureFilters() {
+		for(int i=1; i < _textureEffectsIndices.length; i++) {
+			if(MathUtil.randRange(0, 10) > 8) {
+				_textureEffectsIndices[i] = MathUtil.randRange(0, _numTextureEffects);
+			}
+			P.println("effect for texture ", i, " = ", _textureEffectsIndices[i]);
+		}
+	}
+	
+	protected void filterActiveTextures() {
+		for( int i=0; i < _activeTextures.size(); i++ ) {
+			PGraphics pg = _activeTextures.get(i).texture();
+			float filterTime = p.frameCount / 40f;
+			
+			if(_textureEffectsIndices[i] == 1) {
+				KaleidoFilter.instance(p).setSides(4);
+				KaleidoFilter.instance(p).setAngle(filterTime / 10f);
+				KaleidoFilter.instance(p).applyTo(pg);
+			} else if(_textureEffectsIndices[i] == 2) {
+				DeformTunnelFanFilter.instance(p).setTime(filterTime);
+				DeformTunnelFanFilter.instance(p).applyTo(p);
+			} else if(_textureEffectsIndices[i] == 3) {
+				EdgesFilter.instance(p).applyTo(pg);
+			} else if(_textureEffectsIndices[i] == 4) {
+				MirrorFilter.instance(p).applyTo(pg);
+			} else if(_textureEffectsIndices[i] == 5) {
+				WobbleFilter.instance(p).setTime(filterTime);
+				WobbleFilter.instance(p).setSpeed(0.5f);
+				WobbleFilter.instance(p).setStrength(0.0004f);
+				WobbleFilter.instance(p).setSize( 200f);
+				WobbleFilter.instance(p).applyTo(pg);
+			} else if(_textureEffectsIndices[i] == 6) {
+				InvertFilter.instance(p).applyTo(pg);
+			} else if(_textureEffectsIndices[i] == 7) {
+				RadialRipplesFilter.instance(p).setTime(filterTime);
+				RadialRipplesFilter.instance(p).setAmplitude(0.5f + 0.5f * P.sin(filterTime));
+				RadialRipplesFilter.instance(p).applyTo(pg);
+			} else if(_textureEffectsIndices[i] == 8) {
+				BadTVLinesFilter.instance(p).applyTo(pg);
+			} else if(_textureEffectsIndices[i] == 9) {
+				EdgesFilter.instance(p).applyTo(pg);
+			} else if(_textureEffectsIndices[i] == 10) {
+				CubicLensDistortionFilter.instance(p).setTime(filterTime);
+				CubicLensDistortionFilter.instance(p).applyTo(pg);
+			} else if(_textureEffectsIndices[i] == 11) {
+				SphereDistortionFilter.instance(p).applyTo(pg);
+			} else if(_textureEffectsIndices[i] == 12) {
+				HalftoneFilter.instance(p).applyTo(pg);
+			} else if(_textureEffectsIndices[i] == 13) {
+				PixelateFilter.instance(p).setDivider(40f, 40f * pg.height/pg.width);
+				PixelateFilter.instance(p).applyTo(pg);
+			} else if(_textureEffectsIndices[i] == 14) {
+				DeformBloomFilter.instance(p).setTime(filterTime);
+				DeformBloomFilter.instance(p).applyTo(pg);
+			} else if(_textureEffectsIndices[i] == 15) {
+				DeformTunnelFanFilter.instance(p).setTime(filterTime);
+				DeformTunnelFanFilter.instance(p).applyTo(pg);
+			}
+//			WarperFilter.instance(p).setTime( _timeEaseInc / 5f);
+//			WarperFilter.instance(p).applyTo(pg);
+//			ColorDistortionFilter.instance(p).setTime( _timeEaseInc / 5f);
+//			ColorDistortionFilter.instance(p).setAmplitude(1.5f + 1.5f * P.sin(radsComplete));
+//			ColorDistortionFilter.instance(p).applyTo(pg);
+//			OpenGLUtil.setTextureRepeat(_buffer);
+
+		}
 	}
 	
 	protected void drawPolygonGroups() {
@@ -241,8 +314,31 @@ extends PAppletHax {
 	}
 	
 	protected void postProcessFilters() {
-		_brightness.set("brightness", _brightnessVal );
-		p.filter( _brightness );	
+		// brightness
+		float brightMult = 6f;
+		if(p.frameCount < 3) p.midi.controllerChange(3, 41, P.round(127f/brightMult));
+		float brightnessVal = p.midi.midiCCPercent(3, 41) * brightMult;
+		BrightnessFilter.instance(p).setBrightness(brightnessVal);
+		BrightnessFilter.instance(p).applyTo(p);
+		
+		// color distortion auto
+		int distAutoFrame = p.frameCount % 6000;
+		float distFrames = 100f;
+		if(distAutoFrame <= distFrames) {
+			float distAmpAuto = P.sin(distAutoFrame/distFrames * P.PI);
+			p.midi.controllerChange(3, 42, P.round(127 * distAmpAuto));
+			p.midi.controllerChange(3, 43, P.round(127 * distAmpAuto));
+		}
+		
+		// color distortion
+		float colorDistortionAmp = p.midi.midiCCPercent(3, 42) * 0.5f;
+		float colorDistortionTimeMult = p.midi.midiCCPercent(3, 43);
+		if(colorDistortionAmp > 0) {
+			float prevTime = ColorDistortionFilter.instance(p).getTime();
+			ColorDistortionFilter.instance(p).setTime(prevTime + 1/100f * colorDistortionTimeMult);
+			ColorDistortionFilter.instance(p).setAmplitude(colorDistortionAmp);
+			ColorDistortionFilter.instance(p).applyTo(p);
+		}
 	}
 	
 	protected void debugTextures() {
@@ -304,8 +400,8 @@ extends PAppletHax {
 		}
 		if ( _audioInputUpTrigger.active() == true ) audioIn.gainUp();
 		if ( _audioInputDownTrigger.active() == true ) audioIn.gainDown();
-		if ( _brightnessUpTrigger.active() == true ) _brightnessVal += 0.1f;
-		if ( _brightnessDownTrigger.active() == true ) _brightnessVal -= 0.1f;
+//		if ( _brightnessUpTrigger.active() == true ) _brightnessVal += 0.1f;
+//		if ( _brightnessDownTrigger.active() == true ) _brightnessVal -= 0.1f;
 		if ( _debugTexturesTrigger.active() == true ) _debugTextures = !_debugTextures;
 	}
 	
@@ -351,7 +447,7 @@ extends PAppletHax {
 		for( int i=0; i < _mappingGroups.size(); i++ ) {
 			_mappingGroups.get(i).randomTextureToRandomPolygon();
 		}
-//		pickNewColors();
+		selectNewActiveTextureFilters();
 	}
 
 	protected void setAllSameTexture() {
