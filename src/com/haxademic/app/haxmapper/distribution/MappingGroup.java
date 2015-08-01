@@ -1,11 +1,8 @@
 package com.haxademic.app.haxmapper.distribution;
 
 import java.awt.Point;
+import java.awt.Rectangle;
 import java.util.ArrayList;
-
-import processing.core.PApplet;
-import processing.core.PGraphics;
-import processing.core.PVector;
 
 import com.haxademic.app.haxmapper.HaxMapper;
 import com.haxademic.app.haxmapper.overlays.MeshLines;
@@ -19,10 +16,15 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.color.ColorHaxEasing;
 import com.haxademic.core.math.MathUtil;
 
+import processing.core.PApplet;
+import processing.core.PGraphics;
+import processing.core.PVector;
+
 public class MappingGroup {
 
 	protected PApplet p;
 	protected PGraphics overlayPG;
+	protected Rectangle mappingBounds;
 	protected ArrayList<IMappedPolygon> _mappedPolygons;
 	protected ArrayList<BaseTexture> _curTextures;
 	protected MeshLines _meshLines;
@@ -40,9 +42,10 @@ public class MappingGroup {
 	
 	protected Point center = null;
 
-	public MappingGroup( PAppletHax p, PGraphics overlayPG ) {
+	public MappingGroup( PAppletHax p, PGraphics overlayPG, Rectangle mappingBounds ) {
 		this.p = p;
 		this.overlayPG = overlayPG;
+		this.mappingBounds = mappingBounds;
 		_curTextures = new ArrayList<BaseTexture>();
 		_mappedPolygons = new ArrayList<IMappedPolygon>();
 		_meshLines = new MeshLines( overlayPG );
@@ -176,7 +179,7 @@ public class MappingGroup {
 	
 	public void draw() {
 		for(int j=0; j < _mappedPolygons.size(); j++ ) {
-			_mappedPolygons.get(j).draw(p.g);
+			_mappedPolygons.get(j).draw(p.g, mappingBounds);
 		}
 	}
 	

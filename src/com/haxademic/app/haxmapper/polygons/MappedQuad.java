@@ -9,6 +9,7 @@ import processing.core.PGraphics;
 import processing.core.PVector;
 
 import com.haxademic.core.app.P;
+import com.haxademic.core.image.ImageUtil;
 import com.haxademic.core.math.MathUtil;
 
 public class MappedQuad
@@ -143,7 +144,7 @@ implements IMappedPolygon {
 			_mappingOrientation = MathUtil.randRange(0, 3); 
 		}
 		
-		public void draw( PGraphics pg ) {
+		public void draw( PGraphics pg, Rectangle mappingBounds ) {
 			if( _texture != null ) {
 				if( _mappingStyle == MAP_STYLE_CONTAIN_TEXTURE ) {
 //					if( _mappingOrientation == 0 ) {
@@ -171,12 +172,16 @@ implements IMappedPolygon {
 					pg.beginShape(PConstants.QUAD);
 					pg.texture(_texture);
 					// map the screen coordinates to the texture coordinates
-					float texScreenRatioW = (float) _texture.width / (float) pg.width;
-					float texScreenRatioH = (float) _texture.height / (float) pg.height;
-					pg.vertex(x1, y1, 0, 		x1 * texScreenRatioW, y1 * texScreenRatioH);
-					pg.vertex(x2, y2, 0, 		x2 * texScreenRatioW, y2 * texScreenRatioH);
-					pg.vertex(x3, y3, 0, 		x3 * texScreenRatioW, y3 * texScreenRatioH);
-					pg.vertex(x4, y4, 0, 		x4 * texScreenRatioW, y4 * texScreenRatioH);
+					// crop to fill the mapped area with the current texture
+					float[] cropPosOffset = ImageUtil.getOffsetAndSizeToCrop(mappingBounds.width, mappingBounds.height, _texture.width, _texture.height, true);
+					float left = mappingBounds.x + cropPosOffset[0];
+					float top = mappingBounds.y + cropPosOffset[1];
+					float right = left + cropPosOffset[2];
+					float bottom = top + cropPosOffset[3];
+					pg.vertex(x1, y1, 0, 		P.map(x1, left, right, 0f, _texture.width), P.map(y1, top, bottom, 0f, _texture.height));
+					pg.vertex(x2, y2, 0, 		P.map(x2, left, right, 0f, _texture.width), P.map(y2, top, bottom, 0f, _texture.height));
+					pg.vertex(x3, y3, 0, 		P.map(x3, left, right, 0f, _texture.width), P.map(y3, top, bottom, 0f, _texture.height));
+					pg.vertex(x4, y4, 0, 		P.map(x4, left, right, 0f, _texture.width), P.map(y4, top, bottom, 0f, _texture.height));
 					pg.endShape();
 				} else if( _mappingStyle == MAP_STYLE_CONTAIN_RANDOM_TEX_AREA ) {
 					pg.beginShape(PConstants.QUAD);

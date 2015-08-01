@@ -118,7 +118,7 @@ extends PAppletHax {
 		_mappingGroups = new ArrayList<MappingGroup>();
 		
 		if( _appConfig.getString("mapping_file", "") == "" ) {
-			_mappingGroups.add( new MappingGroup( this, _overlayPG ) );
+			_mappingGroups.add( new MappingGroup( this, _overlayPG, _boundingBox) );
 			for(int i=0; i < 200; i++ ) {
 				// create triangle
 				float startX = p.random(0,p.width);
@@ -142,7 +142,7 @@ extends PAppletHax {
 				String inputLine = _inputFileLines[i]; 
 				// count lines that contain characters
 				if( inputLine.indexOf("#group#") != -1 ) {
-					_mappingGroups.add( new MappingGroup( this, _overlayPG ) );
+					_mappingGroups.add( new MappingGroup( this, _overlayPG, _boundingBox ) );
 				} else if( inputLine.indexOf("#poly#") != -1 ) {
 					// poly!
 					inputLine = inputLine.replace("#poly#", "");

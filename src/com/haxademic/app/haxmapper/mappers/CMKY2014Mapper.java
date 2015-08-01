@@ -1,12 +1,9 @@
 package com.haxademic.app.haxmapper.mappers;
 
 import java.util.ArrayList;
-
-import oscP5.OscMessage;
-import processing.core.PApplet;
+import java.util.Collections;
 
 import com.haxademic.app.haxmapper.HaxMapper;
-import com.haxademic.app.haxmapper.distribution.AudioPixelInterface;
 import com.haxademic.app.haxmapper.overlays.MeshLines.MODE;
 import com.haxademic.app.haxmapper.polygons.IMappedPolygon;
 import com.haxademic.app.haxmapper.textures.TextureColorAudioSlide;
@@ -23,12 +20,15 @@ import com.haxademic.app.haxmapper.textures.TextureWaveformSimple;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.system.FileUtil;
 
+import oscP5.OscMessage;
+import processing.core.PApplet;
+
 @SuppressWarnings("serial")
 public class CMKY2014Mapper
 extends HaxMapper{
 	
-	protected AudioPixelInterface _audioPixel;
-	protected int[] _audioPixelColors;
+//	protected AudioPixelInterface _audioPixel;
+//	protected int[] _audioPixelColors;
 		
 	protected float BEAT_DIVISOR = 1; // 10 to test
 	protected int BEAT_INTERVAL_COLOR = (int) Math.ceil(6f / BEAT_DIVISOR);
@@ -38,6 +38,7 @@ extends HaxMapper{
 	protected int BEAT_INTERVAL_NEW_TIMING = (int) Math.ceil(40f / BEAT_DIVISOR);
 	protected int BEAT_INTERVAL_BIG_CHANGE = (int) Math.ceil(400f / BEAT_DIVISOR);
 	
+	protected int _texturePoolNextIndex = 0;
 
 	public static void main(String args[]) {
 		_isFullScreen = true;
@@ -180,6 +181,9 @@ extends HaxMapper{
 		_texturePool.add( new TextureEQConcentricCircles( shaderW, shaderH ) );
 //		_texturePool.add( new TextureWebCam() );		
 
+		// shuffle one time!
+		shuffleTexturePool();
+		
 		// store just movies to restrain the number of concurrent movies
 		for( int i=0; i < _texturePool.size(); i++ ) {
 			if( _texturePool.get(i) instanceof TextureVideoPlayer ) {
@@ -188,8 +192,22 @@ extends HaxMapper{
 		}
 		
 		// add 1 inital texture to current array
-		_curTexturePool.add( _texturePool.get( MathUtil.randRange(0, _texturePool.size()-1 ) ) );
+		_curTexturePool.add( _texturePool.get(nextTexturePoolIndex() ) );
 
+	}
+	
+	protected void shuffleTexturePool() {
+		Collections.shuffle(_texturePool);
+	}
+	
+	protected int nextTexturePoolIndex() {
+		_texturePoolNextIndex++;
+		if(_texturePoolNextIndex >= _texturePool.size()) {
+			_texturePoolNextIndex = 0;
+			shuffleTexturePool(); // shuffle texture pool array again to prevent possiblt video neighbors from never playing
+		}
+		return _texturePoolNextIndex;
+		// return MathUtil.randRange(0, _texturePool.size()-1 );
 	}
 
 	protected int numMovieTextures() {
@@ -211,8 +229,8 @@ extends HaxMapper{
 	
 	public void setup() {
 		super.setup();
-		_audioPixel = new AudioPixelInterface();
-		_audioPixelColors = new int[ _mappingGroups.size() ];
+//		_audioPixel = new AudioPixelInterface();
+//		_audioPixelColors = new int[ _mappingGroups.size() ];
 	}
 	
 	public void drawApp() {
@@ -220,7 +238,7 @@ extends HaxMapper{
 		
 		for(int i=0; i < _mappingGroups.size(); i++ ) {
 			_mappingGroups.get(i).getAudioPixelColor();
-			_audioPixelColors[i] = _mappingGroups.get(i).colorEaseInt();
+//			_audioPixelColors[i] = _mappingGroups.get(i).colorEaseInt();
 		}
 	}
 	
@@ -391,10 +409,10 @@ extends HaxMapper{
 	protected void cycleANewTexture() {
 		// rebuild the array of currently-available textures
 		// check number of movie textures, and make sure we never have more than 2
-		_curTexturePool.add( _texturePool.get( MathUtil.randRange(0, _texturePool.size()-1 ) ) );
+		_curTexturePool.add( _texturePool.get( nextTexturePoolIndex() ) );
 		while( numMovieTextures() > MAX_ACTIVE_MOVIE_TEXTURES ) {
 			removeOldestMovieTexture();
-			_curTexturePool.add( _texturePool.get( MathUtil.randRange(0, _texturePool.size()-1 ) ) );
+			_curTexturePool.add( _texturePool.get( nextTexturePoolIndex() ) );
 		}
 		// remove oldest texture if more than max 
 		if( _curTexturePool.size() >= MAX_ACTIVE_TEXTURES ) {
