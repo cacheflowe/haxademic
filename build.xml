@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- WARNING: Eclipse auto-generated file.
+              Any modifications will be overwritten.
+              To include a user specific buildfile here, simply create one in the same
+              directory with the processing instruction <?eclipse.ant.import?>
+              as the first entry and export the buildfile again. --><project basedir="." default="build" name="haxademic">
+    <property environment="env"/>
+    <property name="ohheckyeah.location" value="../../git/OHHeckYeah"/>
+    <property name="Kinect4PV2.location" value="../KinectV2_Processing/KinectPV2"/>
+    <property name="Java-WebSocket.location" value="../../Java-WebSocket"/>
+    <property name="debuglevel" value="source,lines,vars"/>
+    <property name="target" value="1.6"/>
+    <property name="source" value="1.6"/>
+    <property name="build.location" value="build"/>
+
+    <path id="processing-2.2.1.userclasspath">
+        <pathelement location="../../Processing/processing-2.2.1/core/library/core.jar"/>
+        <pathelement location="../../Processing/processing-2.2.1/core/library/gluegen-rt.jar"/>
+        <pathelement location="../../Processing/processing-2.2.1/core/library/gluegen-rt-natives-linux-amd64.jar"/>
+        <pathelement location="../../Processing/processing-2.2.1/core/library/gluegen-rt-natives-linux-armv6hf.jar"/>
+        <pathelement location="../../Processing/processing-2.2.1/core/library/gluegen-rt-natives-linux-i586.jar"/>
+        <pathelement location="../../Processing/processing-2.2.1/core/library/gluegen-rt-natives-macosx-universal.jar"/>
+        <pathelement location="../../Processing/processing-2.2.1/core/library/gluegen-rt-natives-windows-amd64.jar"/>
+        <pathelement location="../../Processing/processing-2.2.1/core/library/gluegen-rt-natives-windows-i586.jar"/>
+        <pathelement location="../../Processing/processing-2.2.1/core/library/jogl-all.jar"/>
+        <pathelement location="../../Processing/processing-2.2.1/core/library/jogl-all-natives-linux-amd64.jar"/>
+        <pathelement location="../../Processing/processing-2.2.1/core/library/jogl-all-natives-linux-armv6hf.jar"/>
+        <pathelement location="../../Processing/processing-2.2.1/core/library/jogl-all-natives-linux-i586.jar"/>
+        <pathelement location="../../Processing/processing-2.2.1/core/library/jogl-all-natives-macosx-universal.jar"/>
+        <pathelement location="../../Processing/processing-2.2.1/core/library/jogl-all-natives-windows-amd64.jar"/>
+        <pathelement location="../../Processing/processing-2.2.1/core/library/jogl-all-natives-windows-i586.jar"/>
+    </path>
+    <path id="Maven Dependencies.libraryclasspath"/>
+    <path id="Java-WebSocket.classpath">
+        <pathelement location="${Java-WebSocket.location}/target/classes"/>
+        <pathelement location="${Java-WebSocket.location}/target/test-classes"/>
+        <path refid="Maven Dependencies.libraryclasspath"/>
+    </path>
+    <path id="haxademic.classpath">
+       <!-- <pathelement location="bin"/> -->
+        <pathelement location="lib/Ess/library/Ess.jar"/>
+        <pathelement location="lib/toxiclibs-complete-0020/toxiclibs_p5/library/toxiclibs_p5.jar"/>
+        <pathelement location="lib/toxiclibs-complete-0020/toxiclibscore/library/toxiclibscore.jar"/>
+        <pathelement location="lib/toxiclibs-complete-0020/volumeutils/library/volumeutils.jar"/>
+        <pathelement location="lib/toxiclibs-complete-0020/colorutils/library/colorutils.jar"/>
+        <pathelement location="lib/oscP5/library/oscP5.jar"/>
+        <pathelement location="lib/OBJLoader/library/OBJLoader.jar"/>
+        <pathelement location="lib/hemesh/library/apfloat.jar"/>
+        <pathelement location="lib/hemesh/library/hemesh.jar"/>
+        <pathelement location="lib/hemesh/library/javolution-5.5.1.jar"/>
+        <pathelement location="lib/hemesh/library/quickhull3d.jar"/>
+        <pathelement location="lib/geomerative/library/batikfont.jar"/>
+        <pathelement location="lib/geomerative/library/geomerative.jar"/>
+        <pathelement location="lib/SimpleOpenNI/library/SimpleOpenNI.jar"/>
+        <pathelement location="lib/blobDetection/library/blobDetection.jar"/>
+        <pathelement location="lib/Filters/dist/Filters.jar"/>
+        <pathelement location="lib/super-csv/super-csv-2.1.0.jar"/>
+        <pathelement location="lib/joons/library/janino.jar"/>
+        <pathelement location="lib/joons/library/sunflow73.jar"/>
+        <pathelement location="lib/newhull/library/newhull.jar"/>
+        <pathelement location="lib/ProGAL/ProGAL.jar"/>
+        <pathelement location="lib/UMovieMaker/library/monte-cc.jar"/>
+        <pathelement location="lib/UMovieMaker/library/UMovieMaker.jar"/>
+        <pathelement location="lib/controlP5/library/controlP5.jar"/>
+        <pathelement location="lib/udp/library/udp.jar"/>
+        <pathelement location="lib/leap-motion-processing/library/LeapJava.jar"/>
+        <pathelement location="lib/leap-motion-processing/library/LeapMotionForProcessing.jar"/>
+        <path refid="processing-2.2.1.userclasspath"/>
+        <pathelement location="${ohheckyeah.location}/lib/processing-2/libraries/video/library/gstreamer-java.jar"/>
+        <pathelement location="${ohheckyeah.location}/lib/processing-2/libraries/pdf/library/itext.jar"/>
+        <pathelement location="${ohheckyeah.location}/lib/processing-2/libraries/pdf/library/pdf.jar"/>
+        <pathelement location="${ohheckyeah.location}/lib/processing-2/libraries/minim/library/jl1.0.jar"/>
+        <pathelement location="${ohheckyeah.location}/lib/processing-2/libraries/minim/library/jsminim.jar"/>
+        <pathelement location="${ohheckyeah.location}/lib/processing-2/libraries/minim/library/minim.jar"/>
+        <pathelement location="${ohheckyeah.location}/lib/processing-2/libraries/minim/library/mp3spi1.9.4.jar"/>
+        <pathelement location="${ohheckyeah.location}/lib/processing-2/libraries/minim/library/tritonus_aos.jar"/>
+        <pathelement location="${ohheckyeah.location}/lib/processing-2/libraries/minim/library/tritonus_share.jar"/>
+        <pathelement location="${ohheckyeah.location}/lib/processing-2/libraries/video/library/jna.jar"/>
+        <pathelement location="${ohheckyeah.location}/lib/processing-2/libraries/video/library/video.jar"/>
+        <path refid="Java-WebSocket.classpath"/>
+        <pathelement location="${Kinect4PV2.location}/library/KinectPV2.jar"/>
+        <pathelement location="../../MovitationStaging/Movitation/lib/poly2tri/lib/poly2tri-core-0.1.1-SNAPSHOT.jar"/>
+        <pathelement location="../../MovitationStaging/Movitation/lib/SimpleLoggingFacade4Java/lib/slf4j-api-1.6.3.jar"/>
+    </path>
+    <target name="init">
+        <mkdir dir="${build.location}"/>
+    	<mkdir dir="${build.location}/lib"/>
+        <copy includeemptydirs="false" todir="${build.location}">
+            <fileset dir="src">
+                <exclude name="**/*.java"/>
+            </fileset>
+        </copy>
+        <!--
+    	<copy includeemptydirs="false" todir="${build.location}/data">
+            <fileset dir="data">
+                <exclude name="**/*.java"/>
+            </fileset>
+        </copy>  	
+    	<copy includeemptydirs="false" todir="${build.location}/lib" flatten="true">
+    	     <path refid="haxademic.classpath"/>            
+    	</copy>	
+    	-->
+    </target>
+    <target name="clean">
+       <delete dir="${build.location}"/>
+    </target>
+    <target depends="clean" name="cleanall">
+        <ant antfile="build.xml" dir="${Java-WebSocket.location}" inheritAll="false" target="clean"/>
+    </target>
+    <target depends="build-subprojects,build-project" name="build"/>
+    <target name="build-subprojects">
+       <!-- <ant antfile="build.xml" dir="${Java-WebSocket.location}" inheritAll="false" target="build-project">
+            <propertyset>
+                <propertyref name="build.compiler"/>
+            </propertyset>
+        </ant>
+        -->
+    </target>
+    <target depends="init" name="build-project">
+        <echo message="${ant.project.name}: ${ant.file}"/>
+        <javac debug="true" debuglevel="${debuglevel}" destdir="${build.location}" includeantruntime="false" source="${source}" target="${target}">
+            <src path="src"/>
+            <classpath refid="haxademic.classpath"/>
+        </javac>
+    </target>
+              	
+  	<target depends="build" name="package">	    	
+		<delete file="${build.location}/haxademic.jar"/>
+	   <!--
+  		<manifestclasspath property="lib.list" jarfile="${build.location}/haxademic.jar">
+    	    <classpath>
+    	    	<fileset dir="lib">
+    	    		<include name="**/*.jar"/>
+    	    	</fileset>	
+    	    </classpath>	    		
+    	</manifestclasspath>
+    	-->
+    	<jar jarfile="${build.location}/haxademic.jar"
+    	     basedir="${build.location}" excludes="**/*.jar,**/*.dll,**/*.lib" >
+    	</jar> 
+	</target>
+              
+    <target description="Build all projects which reference this project. Useful to propagate changes." name="build-refprojects">
+        <ant antfile="build.xml" dir="${ohheckyeah.location}" inheritAll="false" target="clean"/>
+        <ant antfile="build.xml" dir="${ohheckyeah.location}" inheritAll="false" target="build">
+            <propertyset>
+                <propertyref name="build.compiler"/>
+            </propertyset>
+        </ant>
+    </target>
+    <target description="copy Eclipse compiler jars to ant lib directory" name="init-eclipse-compiler">
+        <copy todir="${ant.library.dir}">
+            <fileset dir="${ECLIPSE_HOME}/plugins" includes="org.eclipse.jdt.core_*.jar"/>
+        </copy>
+        <unzip dest="${ant.library.dir}">
+            <patternset includes="jdtCompilerAdapter.jar"/>
+            <fileset dir="${ECLIPSE_HOME}/plugins" includes="org.eclipse.jdt.core_*.jar"/>
+        </unzip>
+    </target>
+    <target description="compile project with Eclipse compiler" name="build-eclipse-compiler">
+        <property name="build.compiler" value="org.eclipse.jdt.core.JDTCompilerAdapter"/>
+        <antcall target="build"/>
+    </target>
+    <target name="AirDrums">
+        <java classname="com.haxademic.app.airdrums.AirDrums" failonerror="true" fork="yes">
+            <classpath refid="haxademic.classpath"/>
+        </java>
+    </target>
+    <target name="KinectDepthWrapper">
+        <java classname="sun.applet.AppletViewer" dir="." failonerror="true" fork="yes">
+            <arg line="KinectDepthWrapper.html"/>
+            <classpath refid="haxademic.classpath"/>
+        </java>
+    </target>
+    <target name="MSAFluidDemo">
+        <java classname="sun.applet.AppletViewer" dir="." failonerror="true" fork="yes">
+            <arg line="-Djava.library.path=&quot;C:\Users\kjube_000\Documents\KinectV24Win\haxademic\lib\LeapMotionForProcessing\library\windows64&quot;"/>
+            <arg line="MSAFluidDemo.html"/>
+            <classpath refid="haxademic.classpath"/>
+        </java>
+    </target>
+    <target name="PAppletHax">
+        <java classname="sun.applet.AppletViewer" dir="." failonerror="true" fork="yes">
+            <arg line="PAppletHax.html"/>
+            <classpath refid="haxademic.classpath"/>
+        </java>
+    </target>
+</project>
