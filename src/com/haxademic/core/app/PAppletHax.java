@@ -1,5 +1,9 @@
 package com.haxademic.core.app;
 
+import java.awt.GraphicsConfiguration;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
+import java.awt.Rectangle;
 import java.awt.Robot;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
@@ -246,13 +250,36 @@ extends PApplet
 				_appConfig.loadPropertiesFile( _customPropsFile );
 			overridePropsFile();
 			_is_setup = true;
+			
+//			try
+//			{
+			/**********************/
+			//TODO: Finish implementing functionality so the game can be run on second screen - Kirk Jubeck
 			// set screen size and renderer
+//			Rectangle monitor = new Rectangle();
+//			GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+//			GraphicsDevice[] gs = ge.getScreenDevices();
+//			// gs[1] gets the *second* screen. gs[0] would get the primary screen
+//			GraphicsDevice gd = gs[1];
+//			GraphicsConfiguration[] gc = gd.getConfigurations();
+//			monitor = gc[0].getBounds();
+//			println("Monitor Bounds: " + monitor.x + " " + monitor.y + " " + monitor.width + " " + monitor.height);
+			//TODO: Figure out how to tell Processing render to use second screen - Kirk Jubeck
+			/*****************************/
+					
 			String renderer = P.OPENGL;
 			if( _appConfig.getBoolean("fills_screen", false) == true || _appConfig.getBoolean("fullscreen", false) == true ) {
 				p.size(displayWidth,displayHeight,renderer);
 			} else {
 				p.size(_appConfig.getInt("width", 800),_appConfig.getInt("height", 600),renderer);
+				//p.size(monitor.width,monitor.height,renderer);
 			}
+			System.out.println("Render Size: width=" + p.width + ", height=" + p.height);
+//			}
+//			catch(Exception ex)
+//			{
+//				ex.printStackTrace();
+//			}
 		}
 		_graphicsMode = p.g.getClass().getName();
 		if( frame != null ) frame.setBackground(new java.awt.Color(0,0,0));
