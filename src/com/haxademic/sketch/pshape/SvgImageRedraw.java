@@ -8,8 +8,9 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.color.ColorUtil;
 import com.haxademic.core.draw.util.DrawUtil;
-import com.haxademic.core.draw.util.PShapeUtil;
-import com.haxademic.core.math.MathUtil;
+import com.haxademic.core.image.ImageUtil;
+import com.haxademic.core.image.filters.shaders.BlurHFilter;
+import com.haxademic.core.image.filters.shaders.BlurVFilter;
 import com.haxademic.core.system.FileUtil;
 
 import processing.core.PApplet;
@@ -21,42 +22,51 @@ import processing.core.PShape;
 public class SvgImageRedraw 
 extends PAppletHax {
 
-	protected PShape shape;
-	protected PShape shapeTessellated;
-	protected PShape shapeIcos;
 	protected PImage img;
 	
+	// Add collection of SVG libraries - probably create a new object type
+	// Each library has thei own `prevRows` tracking for non-repetition
+	// - Fill up each `prevRows` as we draw icons, no matter which one is being drawn into currently
+	// Update `debugDrawSvgs()` to show multiple collections
+	// Create image map, and lerp randomness between gradient colors
+	// At the beginning of `renderPdf()`, choose which collection to pull from, based on the image map gradient
+	
+	String svgDirectory = "svg/bw5/";
 	ArrayList<SvgRanked> _svgs;
 	SvgRanked _blackDot;
 	SvgRanked _whiteDot;
 	
 	PGraphics analyzeCanvas;
-	
-	float iconInches = 0.5f;
-	float shapeSize;
-	float numRowSplits = 3;
-	boolean splitFiles = false;
-	float shapeSizeDebug = 30;
 	float analyzeSize = 30;
-	int whitenessMode = 1;
+	float shapeSizeDebug = 30;
+
+	float iconInches = 0.5f;
+	float imagePrintWidth = 22.5f;
+	float shapeSize;
 	float imgScale = 1f;
 	float shapeDrawScale = 1f;
-	int noRepeatVariance = 25;
+
+	int whitenessMode = 1;
 	boolean mapsTo255 = true;
+		
 	String outputFile = "la";
-	String directory = "svg/bw5/";
-	float colorRangeLow = 52;
-	float colorRangeHigh = 235;
+	float numRowSplits = 3;
+	boolean splitFiles = false;
+
+	float colorRangeLow = 54;
+	float colorRangeHigh = 228;
+	float blackThresh = 0.01f;
+
+	int noRepeatVariance = 25;
+	int numColsToCheckBack = 5;
+	int numRowsToCheckBack = 5;
 	int bailedOnUniqueAttempts = 0;
-	float blackThresh = -2.5f;
-	float imagePrintWidth = 22.5f;
+	ArrayList<ArrayList<Integer>> prevRows;
+	ArrayList<Integer> currRow;
 
 	boolean kobeTest = false;
 	boolean friendTest = false;
 	boolean rendering = true;
-	
-	ArrayList<ArrayList<Integer>> prevRows;
-	ArrayList<Integer> currRow;
 
 	protected void overridePropsFile() {
 		_appConfig.setProperty( "width", "1000" );
@@ -69,7 +79,7 @@ extends PAppletHax {
 		
 		if(kobeTest == true) {
 			img = p.loadImage(FileUtil.getFile("images/_kobeface_01_small.jpg"));
-			directory = "svg/bw9_all_icons/";
+			svgDirectory = "svg/bw9_all_icons/";
 //			directory = "svg/bw10_test_center/";
 			iconInches = 0.5f;
 			imgScale = 0.26f;
@@ -78,21 +88,33 @@ extends PAppletHax {
 		} else if(friendTest == true) {
 			img = p.loadImage(FileUtil.getFile("images/_adriana.png"));
 			outputFile = "adriana";
-			directory = "svg/bw2/";
+			svgDirectory = "svg/bw2/";
 			iconInches = 1.5f;
 			shapeDrawScale = 0.9f;
 		} else {
-			img = p.loadImage(FileUtil.getFile("images/_the_grove_src_3.jpg"));
-			iconInches = 0.25f;
-			directory = "svg/bw11/";
-			shapeDrawScale = 0.95f;
-			// whitenessMode = 0;
-			outputFile = "kobe11";
+			img = p.loadImage(FileUtil.getFile("images/_nike_08-11_kobe_top.jpg"));
 
-			splitFiles = true;
-			numRowSplits = 2;
-			img = p.loadImage(FileUtil.getFile("images/_kobe_01_11.25_feet.jpg"));
-			imagePrintWidth = 11.5f;
+			shapeDrawScale = 0.95f;
+			iconInches = 0.675f;
+			imagePrintWidth = 10f;
+
+//			String iconsLevel = "1"; 
+			String athlete = "kobe_top"; 
+			// directory = "svg/bw12/level"+iconsLevel+"/";
+			svgDirectory = "svg/bw13/"; // testing wtf black holes
+//			outputFile = athlete+"_level"+iconsLevel+"_"+iconInches+"inch";
+			outputFile = "2015-08-11_"+athlete+"_"+iconInches+"inch";
+
+//			splitFiles = true;
+//			numRowSplits = 2;
+			
+			// transform to blurred img
+			PGraphics pg = ImageUtil.imageToGraphics(p, img);
+			BlurHFilter.instance(p).applyTo(pg);
+			BlurHFilter.instance(p).setBlur(1f / (pg.width*0.25f));
+			BlurVFilter.instance(p).applyTo(pg);
+			BlurVFilter.instance(p).setBlur(1f / (pg.width*0.25f));
+			img = pg.get();
 		}
 		
 		shapeSize = (float) img.width / ((imagePrintWidth * 12f) / iconInches);	// for 18.5 feet wide
@@ -105,14 +127,14 @@ extends PAppletHax {
 		analyzeCanvas = p.createGraphics((int)analyzeSize, (int)analyzeSize);
 
 		// load svgs
-		ArrayList<String> files = FileUtil.getFilesInDirOfType(FileUtil.getHaxademicDataPath() + directory, "svg");
+		ArrayList<String> files = FileUtil.getFilesInDirOfType(FileUtil.getHaxademicDataPath() + svgDirectory, "svg");
 		P.println("Loading and analyzing "+files.size()+" svgs");
 		_svgs = new ArrayList<SvgRanked>();
 		for (String file : files) {
-			PShape shape = p.loadShape( FileUtil.getHaxademicDataPath() + directory + file );
-			PShapeUtil.scaleSvgToExtent(shape, shapeSize);
+			PShape shape = p.loadShape( FileUtil.getHaxademicDataPath() + svgDirectory + file );
+//			PShapeUtil.scaleSvgToExtent(shape, shapeSize);
 //			PShapeUtil.centerSvg(shape);
-			SvgRanked rankedSvg = new SvgRanked(shape, 1.0f);
+			SvgRanked rankedSvg = new SvgRanked(shape, 1.0f, file);
 			if(file.indexOf("black-dot.svg") != -1) {
 				_blackDot = rankedSvg;
 			} else if(file.indexOf("_white-dot.svg") != -1) {
@@ -135,8 +157,8 @@ extends PAppletHax {
 //				_svgs.add(rankedSvg);
 //				
 				// copy 100 to 80 for more options
-				shape = p.loadShape( FileUtil.getHaxademicDataPath() + directory + file );
-				rankedSvg = new SvgRanked(shape, 0.8f);
+				shape = p.loadShape( FileUtil.getHaxademicDataPath() + svgDirectory + file );
+				rankedSvg = new SvgRanked(shape, 0.8f, file);
 				if(file.toLowerCase().indexOf("white") != -1) rankedSvg.isWhite = true;
 				_svgs.add(rankedSvg);
 //				
@@ -149,7 +171,9 @@ extends PAppletHax {
 			}
 		}
 		
+		// sort icons for easy pixel whiteness comparison/redrawing 
 		Collections.sort(_svgs, new CustomComparator());
+		
 		// debug print whiteness analysis
 		for (int i = 0; i < _svgs.size() - 1; i++) {
 			P.println(i, "whiteness:", _svgs.get(i).whiteness, " | whitenessOrig:", _svgs.get(i).whitenessOrig);
@@ -166,9 +190,16 @@ extends PAppletHax {
 	public void drawApp() {
 		background(0, 70, 0);
 		
+		// debug draw image
+		DrawUtil.setDrawCorner(p);
+		p.image(img, 0, p.height - img.height);
+		
 		// debug draw shapes
 		debugDrawSvgs();
-		if(rendering == true && frameCount == 5) renderPdf();
+		if(rendering == true && frameCount == 5) {
+			renderPdf();
+			rendering = false;
+		}
 	}
 		
 	protected void debugDrawSvgs() {
@@ -186,7 +217,7 @@ extends PAppletHax {
 		}	
 		if(p.frameCount == 3) p.endRecord();
 	}
-	
+		
 	protected void renderPdf() {
 		DrawUtil.setDrawCenter(p);
 		int halfShapeSize = (int)(shapeSize/2f);
@@ -216,6 +247,8 @@ extends PAppletHax {
 				// if(pixelColor == ImageUtil.BLACK_INT) {
 				if(ColorUtil.redFromColorInt(pixelColor) < blackThresh && ColorUtil.greenFromColorInt(pixelColor) < blackThresh && ColorUtil.blueFromColorInt(pixelColor) < blackThresh) {
 					p.shape(_blackDot.shape, x, y, shapeDrawSize, shapeDrawSize);
+					if(ColorUtil.redFromColorInt(pixelColor) != 0 && ColorUtil.greenFromColorInt(pixelColor) != 0 && ColorUtil.blueFromColorInt(pixelColor) != 0)
+						P.println("Too Black ",ColorUtil.redFromColorInt(pixelColor), ColorUtil.greenFromColorInt(pixelColor), ColorUtil.blueFromColorInt(pixelColor));
 					currRow.add(-1);
 				} else {
 					// calculate color
@@ -247,6 +280,7 @@ extends PAppletHax {
 							// p.shape(svg.shape, x, y, shapeDrawSize * svg.scale, shapeDrawSize * svg.scale);
 							currRow.add(index);
 						}
+						if(foundShape == false) P.println("NO SHAPE DRAWN?!?!?!");
 					} else {
 						int index = P.round(P.map(lightness, 0, 255, 0, _svgs.size() - 1));
 						index = indexNonOverlap(index);
@@ -282,24 +316,28 @@ extends PAppletHax {
 	
 	public int indexNonOverlap(int indexAttempt) {
 		int attempts = 0;
+		float crawlIndex = 0;
 		int origAttempt = indexAttempt;
-		while(indexUnique(indexAttempt) == false) {
+		while(indexIsUnique(indexAttempt) == false) {
 			attempts++;
-			if(attempts > 70) {
+			if(attempts > noRepeatVariance * 2f) {
 				bailedOnUniqueAttempts++;
 				if(indexAttempt < 0) indexAttempt = 0;
 				if(indexAttempt >= _svgs.size()) indexAttempt = _svgs.size() - 1;
 				return indexAttempt;
 			}
-			indexAttempt = origAttempt + MathUtil.randRange(-noRepeatVariance, noRepeatVariance);
+			// indexAttempt = origAttempt + MathUtil.randRange(-noRepeatVariance, noRepeatVariance);
+			crawlIndex += 0.5f; // half is down, whole number is up
+			if(crawlIndex % 1f > 0) {
+				indexAttempt = origAttempt + P.ceil(crawlIndex);
+			} else {
+				indexAttempt = origAttempt - P.ceil(crawlIndex);
+			}
 		}
 		return indexAttempt;
 	}
 	
-	protected boolean indexUnique(int indexAttempt) {
-		int numColsToCheckBack = 5;
-		int numRowsToCheckBack = 5;
-		
+	protected boolean indexIsUnique(int indexAttempt) {		
 		// check prev in current row
 		if(currRow.size() > 0) {
 			for(int colIndex = currRow.size()-1; colIndex > currRow.size() - numColsToCheckBack; colIndex--) {
@@ -341,13 +379,15 @@ extends PAppletHax {
 	
 	public class SvgRanked {
 		public PShape shape;
+		public String file;
 		public float whitenessOrig = 0;
 		public float whiteness = 0;
 		public float scale = 1.0f;
 		public boolean isWhite = false;
-		public SvgRanked(PShape shape, float scale) {
+		public SvgRanked(PShape shape, float scale, String file) {
 			this.shape = shape;
 			this.scale = scale;
+			this.file = file;
 			
 			// draw shape
 			analyzeCanvas.beginDraw();
@@ -396,6 +436,7 @@ extends PAppletHax {
 			if(rendering == true) {
 				// super jacked repositioning for exporting a pdf. not sure why
 				canvas.shape(shape, x + drawSize * 0.5f * (1-(scale/1)), y + drawSize * 0.5f *(1-(scale/1)), drawSize * scale, drawSize * scale);
+				// P.println("drew file: "+file);
 			} else {
 				canvas.shape(shape, x, y, drawSize * scale, drawSize * scale);
 			}
