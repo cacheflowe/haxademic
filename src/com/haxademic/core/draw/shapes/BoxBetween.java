@@ -1,9 +1,10 @@
 package com.haxademic.core.draw.shapes;
 
-import processing.core.PApplet;
-import processing.core.PVector;
-
 import com.haxademic.core.app.P;
+
+import processing.core.PApplet;
+import processing.core.PGraphics;
+import processing.core.PVector;
 
 public class BoxBetween {
 	
@@ -18,6 +19,10 @@ public class BoxBetween {
 	 * @param thickness
 	 */
 	public static void draw( PApplet p, PVector point1, PVector point2, float thickness ) {
+		draw(p.g, point1, point2, thickness);
+	}
+	
+	public static void draw( PGraphics p, PVector point1, PVector point2, float thickness ) {
 		if( point1 == null || point2 == null ) return; 
 			
 		// reuse halfway vector and find the midpoint
