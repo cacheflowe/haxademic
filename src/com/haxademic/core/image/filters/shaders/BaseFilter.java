@@ -9,6 +9,7 @@ import processing.opengl.PShader;
 public class BaseFilter {
 
 	protected PShader shader;
+	protected float time;
 
 	public BaseFilter(PApplet p, String shaderFilePath) {
 		shader = p.loadShader(FileUtil.getFile(shaderFilePath));
@@ -24,7 +25,12 @@ public class BaseFilter {
 	}
 	
 	public void setTime(float time) {
+		this.time = time;
 		shader.set("time", time);
+	}
+	
+	public float getTime() {
+		return time;
 	}
 	
 }
