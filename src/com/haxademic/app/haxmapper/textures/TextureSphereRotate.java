@@ -31,7 +31,7 @@ extends BaseTexture {
 		_texture.clear();
 		
 		_texture.translate( _texture.width * 0.5f, _texture.height * 0.5f );
-		_texture.rotateY( P.p.millis() * 0.0007f );
+		_texture.rotateY( P.p.millis() * 0.0002f );
 		
 		if( _isWireframe == true ) {
 			_texture.noFill();

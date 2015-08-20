@@ -2,12 +2,16 @@ package com.haxademic.app.haxmapper;
 
 import java.awt.Rectangle;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import com.haxademic.app.haxmapper.distribution.MappingGroup;
 import com.haxademic.app.haxmapper.polygons.IMappedPolygon;
 import com.haxademic.app.haxmapper.polygons.MappedQuad;
 import com.haxademic.app.haxmapper.polygons.MappedTriangle;
 import com.haxademic.app.haxmapper.textures.BaseTexture;
+import com.haxademic.app.haxmapper.textures.TextureKinectFacePlayback;
+import com.haxademic.app.haxmapper.textures.TextureKinectFaceRecording;
+import com.haxademic.app.haxmapper.textures.TextureVideoPlayer;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.data.ConvertUtil;
@@ -25,6 +29,7 @@ import com.haxademic.core.image.filters.shaders.DeformBloomFilter;
 import com.haxademic.core.image.filters.shaders.DeformTunnelFanFilter;
 import com.haxademic.core.image.filters.shaders.EdgesFilter;
 import com.haxademic.core.image.filters.shaders.HalftoneFilter;
+import com.haxademic.core.image.filters.shaders.HueFilter;
 import com.haxademic.core.image.filters.shaders.InvertFilter;
 import com.haxademic.core.image.filters.shaders.KaleidoFilter;
 import com.haxademic.core.image.filters.shaders.MirrorFilter;
@@ -33,6 +38,7 @@ import com.haxademic.core.image.filters.shaders.RadialRipplesFilter;
 import com.haxademic.core.image.filters.shaders.SphereDistortionFilter;
 import com.haxademic.core.image.filters.shaders.WobbleFilter;
 import com.haxademic.core.math.MathUtil;
+import com.haxademic.sketch.hardware.kinect_openni.KinectFaceRecorder;
 
 import oscP5.OscMessage;
 import processing.core.PConstants;
@@ -43,9 +49,9 @@ import processing.core.PGraphics;
 public class HaxMapper
 extends PAppletHax {
 		
-	public static int MAX_ACTIVE_TEXTURES = 4;
+	public static int MAX_ACTIVE_TEXTURES = 3;
 	public static int MAX_ACTIVE_TEXTURES_PER_GROUP = 2;
-	public static int MAX_ACTIVE_MOVIE_TEXTURES = 2;
+	public static int MAX_ACTIVE_MOVIE_TEXTURES = 1;
 	
 	protected String _inputFileLines[];
 	protected PGraphics _overlayPG;
@@ -57,6 +63,7 @@ extends PAppletHax {
 	protected ArrayList<BaseTexture> _curTexturePool;
 	protected ArrayList<BaseTexture> _movieTexturePool;
 	protected ArrayList<BaseTexture> _activeTextures;
+	protected int _texturePoolNextIndex = 0;
 	
 	protected boolean _debugTextures = false;
 
@@ -75,6 +82,10 @@ extends PAppletHax {
 	protected InputTrigger _debugTexturesTrigger = new InputTrigger(new char[]{'d'},new String[]{},new Integer[]{});
 	protected int _lastInputMillis = 0;
 	protected int numBeatsDetected = 0;
+	
+	protected KinectFaceRecorder _faceRecorder;
+	protected BaseTexture _faceRecordingTexture;
+	protected BaseTexture _facesPlaybackTexture;
 
 //	protected PShader _brightness;
 //	protected float _brightnessVal = 1f;
@@ -82,7 +93,7 @@ extends PAppletHax {
 //	protected PShader _blurV;
 
 	protected int[] _textureEffectsIndices = {0,0,0,0,0,0,0};	// store a effects number for each texture position after the first
-	protected int _numTextureEffects = 15 + 8; // +8 to give a good chance at removing the filter from the texture slot
+	protected int _numTextureEffects = 16 + 8; // +8 to give a good chance at removing the filter from the texture slot
 	
 	public void oscEvent(OscMessage theOscMessage) {  
 		super.oscEvent(theOscMessage);
@@ -97,6 +108,7 @@ extends PAppletHax {
 		_appConfig.setProperty( "rendering", "false" );
 		_appConfig.setProperty( "fullscreen", "true" );
 		_appConfig.setProperty( "fills_screen", "true" );
+		_appConfig.setProperty( "kinect_active", "true" );
 		_appConfig.setProperty( "osc_active", "true" );
 	}
 
@@ -197,6 +209,12 @@ extends PAppletHax {
 	}
 	
 	protected void buildTextures() {
+		if(p.appConfig.getBoolean("kinect_active", false ) == true) {
+			_faceRecorder = new KinectFaceRecorder(this);
+			_faceRecordingTexture = new TextureKinectFaceRecording(320, 240);
+			_facesPlaybackTexture = new TextureKinectFacePlayback(320, 240);
+		}
+		
 		_texturePool = new ArrayList<BaseTexture>();
 		_curTexturePool = new ArrayList<BaseTexture>();
 		_movieTexturePool = new ArrayList<BaseTexture>();
@@ -216,7 +234,7 @@ extends PAppletHax {
 	public void drawApp() {
 		
 		background(0);
-		
+		updateFaceRecorder();
 		checkBeat();
 		updateActiveTextures();
 		filterActiveTextures();
@@ -227,6 +245,20 @@ extends PAppletHax {
 		if(_debugTextures == true) debugTextures();
 	}
 	
+	protected void shuffleTexturePool() {
+		Collections.shuffle(_texturePool);
+	}
+	
+	protected int nextTexturePoolIndex() {
+		_texturePoolNextIndex++;
+		if(_texturePoolNextIndex >= _texturePool.size()) {
+			_texturePoolNextIndex = 0;
+			shuffleTexturePool(); // shuffle texture pool array again to prevent possiblt video neighbors from never playing
+		}
+		return _texturePoolNextIndex;
+		// return MathUtil.randRange(0, _texturePool.size()-1 );
+	}
+
 	protected void updateActiveTextures() {
 		// reset active texture pool array
 		while( _activeTextures.size() > 0 ) {
@@ -312,6 +344,9 @@ extends PAppletHax {
 			} else if(_textureEffectsIndices[i] == 15) {
 				DeformTunnelFanFilter.instance(p).setTime(filterTime);
 				DeformTunnelFanFilter.instance(p).applyTo(pg);
+			} else if(_textureEffectsIndices[i] == 16) {
+				HueFilter.instance(p).setTime(filterTime);
+				HueFilter.instance(p).applyTo(pg);
 			}
 //			WarperFilter.instance(p).setTime( _timeEaseInc / 5f);
 //			WarperFilter.instance(p).applyTo(pg);
@@ -346,7 +381,7 @@ extends PAppletHax {
 	
 	protected void postProcessFilters() {
 		// brightness
-		float brightMult = 6f;
+		float brightMult = 2.8f;
 		if(p.frameCount < 3) p.midi.controllerChange(3, 41, P.round(127f/brightMult));
 		float brightnessVal = p.midi.midiCCPercent(3, 41) * brightMult;
 		BrightnessFilter.instance(p).setBrightness(brightnessVal);
@@ -475,6 +510,11 @@ extends PAppletHax {
 	}
 	
 	protected void bigChangeTrigger() {
+//		cycleANewTexture(_facesPlaybackTexture); // do tihs occasionally
+//		P.println("_faceRecordingTexture.isActive()",_faceRecordingTexture.isActive());
+		if(_faceRecorder != null) {
+			if(_faceRecordingTexture.isActive() == true) return;
+		}
 		for( int i=0; i < _mappingGroups.size(); i++ ) {
 			_mappingGroups.get(i).randomTextureToRandomPolygon();
 		}
@@ -483,7 +523,7 @@ extends PAppletHax {
 
 	protected void setAllSameTexture() {
 		boolean mode = MathUtil.randBoolean(p);
-		BaseTexture newTexture = _texturePool.get( MathUtil.randRange(0, _texturePool.size()-1 ) );
+		BaseTexture newTexture = _texturePool.get(nextTexturePoolIndex());
 		for( int i=0; i < _mappingGroups.size(); i++ ) {
 			_mappingGroups.get(i).clearAllTextures();
 			_mappingGroups.get(i).pushTexture( newTexture );
@@ -496,6 +536,56 @@ extends PAppletHax {
 		}
 	}
 	
+	
+	
+	public void updateFaceRecorder() {
+		if(_faceRecorder == null) return;
+		_faceRecorder.update(_faceRecordingTexture.isActive(), _facesPlaybackTexture.isActive());
+	}
+	
+	public void startFaceRecording() {
+		setAllFaceRecorder();
+		_faceRecordingTexture.setActive(true);
+	}
+	
+	public void stopFaceRecording() {
+		_faceRecordingTexture.setActive(false);
+		removeFaceRecorderTexture();
+		cycleANewTexture(_facesPlaybackTexture);
+		bigChangeTrigger();
+		updateTiming();
+		updateTimingSection();
+	}
+	
+	protected void setAllFaceRecorder() {
+		// this is fucked because we're just adding to mapping groups without adding to the _curTexturePool. removal below is funky
+		for( int i=0; i < _mappingGroups.size(); i++ ) {
+			_mappingGroups.get(i).clearAllTextures();
+			_mappingGroups.get(i).pushTextureFront(_faceRecordingTexture);
+			_mappingGroups.get(i).setAllPolygonsToTexture(0);
+			_mappingGroups.get(i).setAllPolygonsTextureStyle( IMappedPolygon.MAP_STYLE_MASK );
+		}
+	}	
+
+	protected void removeFaceRecorderTexture() {
+		for( int i=0; i < _mappingGroups.size(); i++ ) {
+			_mappingGroups.get(i).clearAllTextures();
+		}
+
+//		for( int i=0; i < _curTexturePool.size(); i++ ) {
+//			P.println("remove attempt!@! ", _curTexturePool.get(i));
+//			if( _curTexturePool.get(i) instanceof TextureKinectFaceRecording ) {
+//				_curTexturePool.remove(i);
+//				P.println("removed TextureKinectFaceRecording!!!");
+//				return;
+//			}
+//		}
+	}
+	
+
+	
+	
+	
 	protected void traverseTrigger() {
 		for( int i=0; i < _mappingGroups.size(); i++ ) {
 			_mappingGroups.get(i).traverseStart();
@@ -507,4 +597,56 @@ extends PAppletHax {
 			_mappingGroups.get(i).traverseUpdate();
 		}
 	}
+	
+	
+	
+	
+	
+	protected int numMovieTextures() {
+		int numMovieTextures = 0;
+		for( int i=0; i < _curTexturePool.size(); i++ ) {
+			if( _curTexturePool.get(i) instanceof TextureVideoPlayer ) numMovieTextures++;
+		}
+		return numMovieTextures;
+	}
+	
+	protected void removeOldestMovieTexture() {
+		for( int i=0; i < _curTexturePool.size(); i++ ) {
+			if( _curTexturePool.get(i) instanceof TextureVideoPlayer ) {
+				_curTexturePool.remove(i);
+				return;
+			}
+		}
+	}
+	
+	protected void cycleANewTexture(BaseTexture specificTexture) {
+		// rebuild the array of currently-available textures
+		// check number of movie textures, and make sure we never have more than 2
+		if(specificTexture != null) {
+			_curTexturePool.add(specificTexture);
+		} else {
+			_curTexturePool.add( _texturePool.get( nextTexturePoolIndex() ) );
+		}
+		while( numMovieTextures() > MAX_ACTIVE_MOVIE_TEXTURES ) {
+			removeOldestMovieTexture();
+			_curTexturePool.add( _texturePool.get( nextTexturePoolIndex() ) );
+		}
+		// remove oldest texture if more than max 
+		if( _curTexturePool.size() >= MAX_ACTIVE_TEXTURES ) {
+			// P.println(_curTexturePool.size());
+			_curTexturePool.remove(0);
+		}
+		
+		refreshGroupsTextures();
+	}
+	
+	protected void refreshGroupsTextures() {
+		// make sure polygons update their textures
+		for( int i=0; i < _mappingGroups.size(); i++ ) {
+			_mappingGroups.get(i).shiftTexture();
+			_mappingGroups.get(i).pushTexture( _curTexturePool.get( MathUtil.randRange(0, _curTexturePool.size()-1 )) );
+			_mappingGroups.get(i).reloadTextureAtIndex();				
+		}
+	}
+
 }

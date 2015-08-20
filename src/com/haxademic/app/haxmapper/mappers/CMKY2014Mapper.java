@@ -1,7 +1,6 @@
 package com.haxademic.app.haxmapper.mappers;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
 import com.haxademic.app.haxmapper.HaxMapper;
 import com.haxademic.app.haxmapper.overlays.MeshLines.MODE;
@@ -38,7 +37,6 @@ extends HaxMapper{
 	protected int BEAT_INTERVAL_NEW_TIMING = (int) Math.ceil(40f / BEAT_DIVISOR);
 	protected int BEAT_INTERVAL_BIG_CHANGE = (int) Math.ceil(400f / BEAT_DIVISOR);
 	
-	protected int _texturePoolNextIndex = 0;
 
 	public static void main(String args[]) {
 		_isFullScreen = true;
@@ -47,7 +45,7 @@ extends HaxMapper{
 
 	protected void overridePropsFile() {
 		super.overridePropsFile();
-		_appConfig.setProperty( "mapping_file", FileUtil.getHaxademicDataPath() + "text/mapping/mapping-2015-04-18-21-34-34.txt" );
+		_appConfig.setProperty( "mapping_file", FileUtil.getHaxademicDataPath() + "text/mapping/mapping-2015-08-01-21-17-46.txt" );
 		_appConfig.setProperty( "rendering", "false" );
 		_appConfig.setProperty( "fullscreen", "true" );
 		_appConfig.setProperty( "fills_screen", "true" );
@@ -80,37 +78,37 @@ extends HaxMapper{
 
 	protected void addTexturesToPool() {
 
-		int videoW = 640;
-		int videoH = 360;
+		int videoW = 420;
+		int videoH = 236;
 		
 
-		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/loops/smoke-loop.mov" ));
-		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/loops/tree-loop.mp4" ));
-		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/loops/ink-in-water.mp4" ));
-		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/loops/ink-grow-shrink.mp4" ));
-		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/loops/fire.mp4" ));
-		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/loops/bubbles.mp4" ));	
-		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/loops/clouds-timelapse.mov" ));
-		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/loops/water.mp4" ));
+		_texturePool.add( new TextureVideoPlayer( videoW, 236, "video/loops/smoke-loop.mov" ));
+		_texturePool.add( new TextureVideoPlayer( videoW, 236, "video/loops/tree-loop.mp4" ));
+		_texturePool.add( new TextureVideoPlayer( videoW, 236, "video/loops/ink-in-water.mp4" ));
+		_texturePool.add( new TextureVideoPlayer( videoW, 236, "video/loops/ink-grow-shrink.mp4" ));
+		_texturePool.add( new TextureVideoPlayer( videoW, 236, "video/loops/fire.mp4" ));
+		_texturePool.add( new TextureVideoPlayer( videoW, 236, "video/loops/bubbles.mp4" ));	
+		_texturePool.add( new TextureVideoPlayer( videoW, 236, "video/loops/clouds-timelapse.mov" ));
+		_texturePool.add( new TextureVideoPlayer( videoW, 236, "video/loops/water.mp4" ));
 		
 				
-		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/lunar-lodge/LL-00-desktop.m4v" ));
-		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/lunar-lodge/LL-01-desktop.m4v" ));
-		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/lunar-lodge/LL-02-desktop.m4v" ));
-		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/lunar-lodge/LL-03-desktop.m4v" ));
-		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/lunar-lodge/LL-04-desktop.m4v" ));
-		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/lunar-lodge/LL-08-desktop.m4v" ));
-		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/lunar-lodge/LL-09-desktop.m4v" ));
-		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/lunar-lodge/LL-10-desktop.m4v" ));
-		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/lunar-lodge/LL-11-desktop.m4v" ));
-		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/lunar-lodge/LL-12-desktop.m4v" ));
-		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/lunar-lodge/LL-13-desktop.m4v" ));
+//		_texturePool.add( new TextureVideoPlayer( videoW, 236, "video/lunar-lodge/LL-00-desktop.m4v" ));
+//		_texturePool.add( new TextureVideoPlayer( videoW, 236, "video/lunar-lodge/LL-01-desktop.m4v" ));
+//		_texturePool.add( new TextureVideoPlayer( videoW, 236, "video/lunar-lodge/LL-02-desktop.m4v" ));
+//		_texturePool.add( new TextureVideoPlayer( videoW, 236, "video/lunar-lodge/LL-03-desktop.m4v" ));
+//		_texturePool.add( new TextureVideoPlayer( videoW, 236, "video/lunar-lodge/LL-04-desktop.m4v" ));
+//		_texturePool.add( new TextureVideoPlayer( videoW, 236, "video/lunar-lodge/LL-08-desktop.m4v" ));
+//		_texturePool.add( new TextureVideoPlayer( videoW, 236, "video/lunar-lodge/LL-09-desktop.m4v" ));
+//		_texturePool.add( new TextureVideoPlayer( videoW, 236, "video/lunar-lodge/LL-10-desktop.m4v" ));
+//		_texturePool.add( new TextureVideoPlayer( videoW, 236, "video/lunar-lodge/LL-11-desktop.m4v" ));
+//		_texturePool.add( new TextureVideoPlayer( videoW, 236, "video/lunar-lodge/LL-12-desktop.m4v" ));
+//		_texturePool.add( new TextureVideoPlayer( videoW, 236, "video/lunar-lodge/LL-13-desktop.m4v" ));
 //		
-//		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/lunar-lodge/crystal-growth-2.mp4" ));
-//		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/lunar-lodge/crystal-growth-3-desktop.m4v" ));
-//		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/lunar-lodge/crystal-growth-4.mp4" ));
-//		_texturePool.add( new TextureVideoPlayer( 640, 360, "video/lunar-lodge/crystal-growth-desktop.m4v" ));
-		
+//		_texturePool.add( new TextureVideoPlayer( videoW, 236, "video/lunar-lodge/crystal-growth-2.mp4" ));
+//		_texturePool.add( new TextureVideoPlayer( videoW, 236, "video/lunar-lodge/crystal-growth-3-desktop.m4v" ));
+//		_texturePool.add( new TextureVideoPlayer( videoW, 236, "video/lunar-lodge/crystal-growth-4.mp4" ));
+//		_texturePool.add( new TextureVideoPlayer( videoW, 236, "video/lunar-lodge/crystal-growth-desktop.m4v" ));
+
 		int shaderW = 300;
 		int shaderH = 300;
 		
@@ -136,7 +134,7 @@ extends HaxMapper{
 		_texturePool.add( new TextureShaderTimeStepper( shaderW, shaderH, "glowwave.glsl" ));
 		_texturePool.add( new TextureShaderTimeStepper( shaderW, shaderH, "gradient-line.glsl" ));
 		_texturePool.add( new TextureShaderTimeStepper( shaderW, shaderH, "hex-alphanumerics.glsl" ));
-		_texturePool.add( new TextureShaderTimeStepper( shaderW, shaderH, "hughsk-metaballs.glsl" ));
+//		_texturePool.add( new TextureShaderTimeStepper( shaderW, shaderH, "hughsk-metaballs.glsl" ));
 		_texturePool.add( new TextureShaderTimeStepper( shaderW, shaderH, "hughsk-tunnel.glsl" ));
 		_texturePool.add( new TextureShaderTimeStepper( shaderW, shaderH, "inversion-iq.glsl" ));
 		_texturePool.add( new TextureShaderTimeStepper( shaderW, shaderH, "iq-iterations-shiny.glsl" ));
@@ -194,37 +192,6 @@ extends HaxMapper{
 		// add 1 inital texture to current array
 		_curTexturePool.add( _texturePool.get(nextTexturePoolIndex() ) );
 
-	}
-	
-	protected void shuffleTexturePool() {
-		Collections.shuffle(_texturePool);
-	}
-	
-	protected int nextTexturePoolIndex() {
-		_texturePoolNextIndex++;
-		if(_texturePoolNextIndex >= _texturePool.size()) {
-			_texturePoolNextIndex = 0;
-			shuffleTexturePool(); // shuffle texture pool array again to prevent possiblt video neighbors from never playing
-		}
-		return _texturePoolNextIndex;
-		// return MathUtil.randRange(0, _texturePool.size()-1 );
-	}
-
-	protected int numMovieTextures() {
-		int numMovieTextures = 0;
-		for( int i=0; i < _curTexturePool.size(); i++ ) {
-			if( _curTexturePool.get(i) instanceof TextureVideoPlayer ) numMovieTextures++;
-		}
-		return numMovieTextures;
-	}
-	
-	protected void removeOldestMovieTexture() {
-		for( int i=0; i < _curTexturePool.size(); i++ ) {
-			if( _curTexturePool.get(i) instanceof TextureVideoPlayer ) {
-				_curTexturePool.remove(i);
-				return;
-			}
-		}
 	}
 	
 	public void setup() {
@@ -329,9 +296,12 @@ extends HaxMapper{
 	}
 	
 	protected void bigChangeTrigger() {
+		if(_faceRecordingTexture != null) {
+			if(_faceRecordingTexture.isActive() == true) return;
+		}
 		super.bigChangeTrigger();
 		
-		cycleANewTexture();
+		cycleANewTexture(null);
 		newTexturesForAllGroups();
 		newLineModesForAllGroups();
 
@@ -405,28 +375,7 @@ extends HaxMapper{
 			_mappingGroups.get(i).reloadTextureAtIndex();					
 		}
 	}
-
-	protected void cycleANewTexture() {
-		// rebuild the array of currently-available textures
-		// check number of movie textures, and make sure we never have more than 2
-		_curTexturePool.add( _texturePool.get( nextTexturePoolIndex() ) );
-		while( numMovieTextures() > MAX_ACTIVE_MOVIE_TEXTURES ) {
-			removeOldestMovieTexture();
-			_curTexturePool.add( _texturePool.get( nextTexturePoolIndex() ) );
-		}
-		// remove oldest texture if more than max 
-		if( _curTexturePool.size() >= MAX_ACTIVE_TEXTURES ) {
-			// P.println(_curTexturePool.size());
-			_curTexturePool.remove(0);
-		}
-		
-		// make sure polygons update their textures
-		for( int i=0; i < _mappingGroups.size(); i++ ) {
-			_mappingGroups.get(i).shiftTexture();
-			_mappingGroups.get(i).pushTexture( _curTexturePool.get( MathUtil.randRange(0, _curTexturePool.size()-1 )) );
-			_mappingGroups.get(i).reloadTextureAtIndex();				
-		}
-	}
+	
 }
 
 

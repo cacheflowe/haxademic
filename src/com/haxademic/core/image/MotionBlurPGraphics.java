@@ -17,9 +17,9 @@ public class MotionBlurPGraphics {
 		_pastFrames = new ArrayList<PImage>();
 	}
 	
-	public void updateToCanvas(PGraphics pg, PGraphics canvas, float maxAlpha) {
+	public void updateToCanvas(PImage img, PGraphics canvas, float maxAlpha) {
 		// save current frame to buffer
-		_pastFrames.add(pg.get());
+		_pastFrames.add(img);
 		if(_pastFrames.size() > _blurFrames) {
 			_pastFrames.remove(0);
 		}
@@ -31,5 +31,9 @@ public class MotionBlurPGraphics {
 			DrawUtil.setPImageAlpha(canvas, alpha);
 			canvas.image(pastFrame, 0, 0);
 		}
+	}
+	
+	public void clearFrames() {
+		_pastFrames.clear();
 	}
 }

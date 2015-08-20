@@ -100,6 +100,12 @@ public class MappingGroup {
 		}
 	}
 
+	public void pushTextureFront( BaseTexture texture ) {
+		if( _curTextures.indexOf( texture ) == -1 ) {
+			_curTextures.add(0, texture);
+		}
+	}
+
 	public BaseTexture shiftTexture() {
 //		if( _curTextures.size() > HaxMapper.MAX_ACTIVE_TEXTURES ) {
 		if( _curTextures.size() > HaxMapper.MAX_ACTIVE_TEXTURES_PER_GROUP ) {

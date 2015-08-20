@@ -4,6 +4,32 @@ A custom projection-mapped visual system
 
 ---
 
+### LUNAR LODGE
+
+* Finish face recorder with: 
+	* Face recording special effects in HaxMapper!!!!!!
+	* Fix "all" mode: `setAllSameTexture()` - this should activate every time a face session starts, but bring back the recent textures when the face session ends
+		* why do other textures not clear out when "all" mode is set? - They are cleared out, but spacebar brings multiples back
+* HaxMapper fixes/additions
+	* Make overlay particles show better - look at classes drawing into _overlayPG
+* Add more textures
+	* audioreactive canvases
+	* SVG deform with different models & filters?
+	* add my own looped videos from processing output? (this is causing chunkiness)
+* Hardware:
+	* Build a face frame
+	* Projector test:
+	* Daisy chain projectors?
+	* Try focusing on near & far objects
+* Performance checks:
+	* Look at the names of texture classes that are being removed so we can see who's making the app slowwwwww
+	* Make sure SMOOTH_HIGH is okay on main PApplet and PG textures
+* Nice-to-haves:
+	* Add overall effects to system - change brightness & any other shaders to new system
+	* Vertex shader deformations to PShapes that define the mapping mesh?
+
+
+
 ### Live gear required:
 
 * Computer & power cord

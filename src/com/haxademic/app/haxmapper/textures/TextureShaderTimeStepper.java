@@ -26,6 +26,7 @@ extends BaseTexture {
 	protected int _timingFrame = 0;
 	protected EasingFloat _timeEaser = new EasingFloat(0, 15);
 	protected EasingFloat _brightEaser = new EasingFloat(0, 10);
+	protected int _brightMode = 0;
 	protected int _mode = 0;
 	protected float _smallTimeStep = 1f;
 	protected float _largeTimeStep = 3f;
@@ -88,6 +89,9 @@ extends BaseTexture {
 		if( _active == true && wasActive == false ) {
 			_timeEaser.setCurrent( 0.0001f );
 			_timeEaser.setTarget( 0.0001f );
+			// pick new brightness mode
+			_brightMode = MathUtil.randRange(0, 1);
+			// P.println("_brightmode", _brightMode);
 			// pick new time mode
 			float newTimeMode = MathUtil.randRange(0, 3);
 			if(newTimeMode == 0) _nonBeatTimeMode = ShaderTimeMode.BeatEaseOut;
@@ -133,23 +137,21 @@ extends BaseTexture {
 		}
 		_patternShader.set("locations", locations);
 		for(int i=0; i < colors.length; i++) {
-			//colors[i] = P.p.noise(i*10f+P.p.frameCount);
+			// colors[i] = P.p.noise(i*10f+P.p.frameCount);
 		}
 		_patternShader.set("colors", colors);
-
-
 	}
 	
 	public void updateTiming() {
 		// handle 3 modes
 		if(_nonBeatTimeMode == ShaderTimeMode.BeatEaseOut) {
-			if( _timingFrame % 4 == 0 ) {
+			if(_timingFrame % 4 == 0) {
 				_timeEaser.setTarget( _timeEaser.value() + _largeTimeStep );
 			} else {
 				_timeEaser.setTarget( _timeEaser.value() + _smallTimeStep );
 			}
 		} else if(_nonBeatTimeMode == ShaderTimeMode.DirectionSpeedShift) {
-			_nonBeatSpeed = MathUtil.randRangeDecimal(-_smallTimeStep/10f, _smallTimeStep/10f);
+			_nonBeatSpeed = MathUtil.randRangeDecimal(-_smallTimeStep/30f, _smallTimeStep/30f);
 		} else if(_nonBeatTimeMode == ShaderTimeMode.BeatSpeedUp) {
 			if(_nonBeatTimeMode == ShaderTimeMode.BeatSpeedUp) {
 				if(_beatSpeedUp > 0) _beatSpeedUp = 0.001f;
@@ -157,17 +159,22 @@ extends BaseTexture {
 			}
 		} else if(_nonBeatTimeMode == ShaderTimeMode.ForwardOsc) {
 			if( _timingFrame % 4 == 0 ) {
-				_nonBeatSpeed = MathUtil.randRangeDecimal(-_smallTimeStep/10f, _smallTimeStep/10f);
+				_nonBeatSpeed = MathUtil.randRangeDecimal(-_smallTimeStep/30f, _smallTimeStep/30f);
 			}
 		}
 		
-		// update brightness filter
+		// update brightness filter - fade up or down
 		if( _timingFrame % 4 == 0 ) {
-			_brightEaser.setCurrent(1.3f);
+			if(_brightMode == 0) _brightEaser.setCurrent(1.3f);
+			else 				 _brightEaser.setCurrent(0f);
 		} else {
-			_brightEaser.setCurrent(1.0f);
+			if(_brightMode == 0) _brightEaser.setCurrent(1.0f);
+			else 				 _brightEaser.setCurrent(0.5f);
 		}
-		_brightEaser.setTarget(0.25f);
+		if(_brightMode == 0) _brightEaser.setTarget(0.25f);
+		else 				 _brightEaser.setTarget(1.2f);
+
+		// update timing count 
 		_timingFrame++;
 	}
 	

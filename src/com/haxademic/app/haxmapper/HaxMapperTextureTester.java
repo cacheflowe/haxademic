@@ -1,23 +1,25 @@
 package com.haxademic.app.haxmapper;
 
 import com.haxademic.app.haxmapper.textures.BaseTexture;
+import com.haxademic.app.haxmapper.textures.TextureLinesEQ;
+import com.haxademic.app.haxmapper.textures.TextureRotatingRings;
 import com.haxademic.app.haxmapper.textures.TextureShaderTimeStepper;
-import com.haxademic.core.app.P;
+import com.haxademic.app.haxmapper.textures.TextureSvgPattern;
+import com.haxademic.app.haxmapper.textures.TextureWaveformCircle;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.util.OpenGLUtil;
-import com.haxademic.core.image.filters.shaders.ColorDistortionFilter;
 
 @SuppressWarnings("serial")
 public class HaxMapperTextureTester 
 extends PAppletHax {
 	
 	protected BaseTexture[] _textures;
-	int w = 320;
-	int h = 320;
+	int w = 250;
+	int h = 250;
 
 	protected void overridePropsFile() {
-		_appConfig.setProperty( "width", "960" );
-		_appConfig.setProperty( "height", "960" );
+		_appConfig.setProperty( "width", "1000" );
+		_appConfig.setProperty( "height", "750" );
 		_appConfig.setProperty( "rendering", "false" );
 	}
 
@@ -33,17 +35,18 @@ extends PAppletHax {
 		_textures = new BaseTexture[]{
 //			new TextureShaderTimeStepper( w, h, "_drawing-stuff.glsl" ),
 				
+			new TextureShaderTimeStepper( w, h, "wobble-sin.glsl" ),
 			new TextureShaderTimeStepper( w, h, "bw-circles.glsl" ),
 			new TextureShaderTimeStepper( w, h, "dot-grid-dof.glsl" ),
 			new TextureShaderTimeStepper( w, h, "flame-wisps.glsl" ),
 
 			new TextureShaderTimeStepper( w, h, "bubbles-iq.glsl" ),
-			new TextureShaderTimeStepper( w, h, "spinning-iq.glsl" ),
-			new TextureShaderTimeStepper( w, h, "inversion-iq.glsl" ),
-			new TextureShaderTimeStepper( w, h, "radial-waves.glsl" ),
-			new TextureShaderTimeStepper( w, h, "radial-burst.glsl" ),
-			new TextureShaderTimeStepper( w, h, "wavy-3d-tubes.glsl" ),
-			new TextureShaderTimeStepper( w, h, "fade-dots.glsl" ),
+//			new TextureShaderTimeStepper( w, h, "spinning-iq.glsl" ),
+//			new TextureShaderTimeStepper( w, h, "inversion-iq.glsl" ),
+//			new TextureShaderTimeStepper( w, h, "radial-waves.glsl" ),
+//			new TextureShaderTimeStepper( w, h, "radial-burst.glsl" ),
+//			new TextureShaderTimeStepper( w, h, "wavy-3d-tubes.glsl" ),
+//			new TextureShaderTimeStepper( w, h, "fade-dots.glsl" ),
 //			new TextureAudioTube( w, h ),
 //			new TextureSvgPattern( w, h ),
 //			new TextureAppFrameEq2d( w, h ),
@@ -53,9 +56,9 @@ extends PAppletHax {
 //			new TextureSphereAudioTextures( w, h ),
 //			new TextureWaveformCircle( w, h ),
 //			new TextureRotatorShape( w, h ),
-//			new TextureRotatingRings( w, h ),
+			new TextureRotatingRings( w, h ),
 //			new TextureMeshDeform( w, h ),
-//			new TextureLinesEQ( w, h ),
+			new TextureLinesEQ( w, h ),
 //			new TextureBlobSheet( w, h ),
 //			new TextureBarsEQ( w, h ),
 //		    new TextureEQConcentricCircles( w, h ),
@@ -67,7 +70,8 @@ extends PAppletHax {
 //		    new TextureTwistingSquares( w, h ),
 //		    new TextureImageTimeStepper( w, h ),
 //		    new TextureShaderScrubber( w, h, "cog-tunnel.glsl" ),
-//			new TextureVideoPlayer( w, h, "video/loops/water.mp4" ),
+//			new TextureVideoPlayer( w, h, "video/cacheflowe/render-2015-04-24-11-06-26-3x (Converted 2).mov" ),
+//			new TextureVideoPlayer( w, h, "video/cacheflowe/render-2015-07-28-10-03-01-desktop.m4v" ),
 //		    new TextureShaderTimeStepper( w, h, "cog-tunnel.glsl" ),
 //		    new TextureShaderTimeStepper( w, h, "space-swirl.glsl" ),
 //		    new TextureShaderTimeStepper( w, h, "matrix-rain.glsl" ),
@@ -112,6 +116,10 @@ extends PAppletHax {
 		if(p.frameCount % 120 == 0) {
 			for(BaseTexture tex : _textures) {
 				tex.updateTimingSection();
+			}
+			for(BaseTexture tex : _textures) {
+				tex.setActive(false);
+				tex.setActive(true);
 			}
 		}
 		if(p.frameCount % 60 == 0) {

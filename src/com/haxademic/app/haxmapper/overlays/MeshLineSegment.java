@@ -78,7 +78,7 @@ public class MeshLineSegment {
 		} else if( mode == MODE.MODE_DOTS ) {
 			pg.noStroke();
 			pg.fill(color, P.constrain(amp * 10, 0, 255));
-			float ampNormalized = P.constrain( amp * 1.f, 0, 4 );
+			float ampNormalized = P.constrain( amp * 2.f, 0, 4 );
 			pg.ellipse( _point1.x, _point1.y, ampNormalized, ampNormalized );
 		} 
 //		else if( mode == MODE.MODE_WAVEFORMS ) {
