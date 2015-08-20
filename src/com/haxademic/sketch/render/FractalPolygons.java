@@ -2,133 +2,217 @@ package com.haxademic.sketch.render;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.draw.shapes.BoxBetween;
 import com.haxademic.core.draw.util.OpenGLUtil;
+import com.haxademic.core.image.MotionBlurPGraphics;
 import com.haxademic.core.math.MathUtil;
+import com.haxademic.core.math.easing.EasingFloat;
+import com.haxademic.core.system.AppRestart;
 import com.haxademic.core.system.FileUtil;
 import com.haxademic.core.system.SystemUtil;
+
+import processing.core.PGraphics;
+import processing.core.PVector;
 
 @SuppressWarnings("serial")
 public class FractalPolygons
 extends PAppletHax{
 
-	protected float _baseRadius;
+	protected float easing = 5f;
 	protected float _curCircleSegment = 0;
-	protected float _recursiveDivisor;
-	protected float _rootRot = 0;
-	protected float _strokeWidth = 0;
-	protected int _numArms = 3;
-	protected int _levels = 1;
+	protected EasingFloat _recursiveDivisor = new EasingFloat(0, easing);
+	protected EasingFloat _baseRadiusEased = new EasingFloat(0, 10);
+	protected EasingFloat _strokeWidth = new EasingFloat(0, easing);
+	protected EasingFloat _numArms = new EasingFloat(3, easing);
+	protected EasingFloat _levels = new EasingFloat(1, easing);
 	protected boolean _shouldBeFurther;
 	protected boolean _drawsLinesOut;
 	protected boolean _nextLevelPushesOut;
+	protected boolean _armPushesOut;
 	protected boolean _drawCircles;
+	protected boolean _everyOtherPoly;
+	protected boolean _everyOtherPolyVerts;
+	protected boolean _everyOtherCircle;
 	
+	protected float _furthestPoint = 0;
 	
 	protected boolean _shouldPrint = false;
 
+	protected float _frames = 90;
+	protected float _numRenderedShapes = 3;
+	
+	MotionBlurPGraphics _pgMotionBlur;
+	PGraphics _pg;
+	// PApplet _pg;
+	
+	public static void main(String args[]) {
+		PAppletHax.main(P.concat(args, new String[] { "--hide-stop", "--bgcolor=000000", Thread.currentThread().getStackTrace()[1].getClassName() }));
+	}
+
 	protected void overridePropsFile() {
-		_appConfig.setProperty( "width", "1000" );
-		_appConfig.setProperty( "height", "1000" );
+		_appConfig.setProperty( "width", "700" );
+		_appConfig.setProperty( "height", "700" );
+//		_appConfig.setProperty( "fills_screen", "true" );
+		_appConfig.setProperty( "rendering", "false" );
+		_appConfig.setProperty( "rendering_gif", "false" );
+		_appConfig.setProperty( "rendering_gif_framerate", "40" );
+		_appConfig.setProperty( "rendering_gif_quality", "1" );
+		_appConfig.setProperty( "rendering_gif_startframe", ""+ Math.round(2) );
+		_appConfig.setProperty( "rendering_gif_stopframe", ""+Math.round(_frames + 10) );
 	}
 
 	public void setup() {
 		super.setup();
 
 		p.smooth(OpenGLUtil.SMOOTH_HIGH);
-		generateVars();
+		buildCanvas();
+	}
+
+	protected void buildCanvas() {
+		_pg = p.createGraphics( p.width, p.height, P.OPENGL );
+		_pg.smooth(OpenGLUtil.SMOOTH_HIGH);
+		_pgMotionBlur = new MotionBlurPGraphics(6);
+	}
+
+	public void drawApp() {
+		p.background(255);
+		_pg.beginDraw();
+		_pg.clear();
+		_pg.rotateX(p.mouseY/50f);
+		drawGraphics();
+		_pg.endDraw();
+		_pgMotionBlur.updateToCanvas(_pg.get(), p.g, 0.7f);
 	}
 
 	protected void generateVars() {
-		_baseRadius = MathUtil.randRange( 300, 400 );
-		_strokeWidth = MathUtil.randRangeDecimal( 0.5f, 3f );
-		_numArms = MathUtil.randRange( 3, 12 );
-		_levels = MathUtil.randRange( 2, 3 );
+		_baseRadiusEased.setTarget( MathUtil.randRange( 200, 250 ) );
+		_strokeWidth.setTarget( MathUtil.randRangeDecimal( 0.5f, 3f ) );
+		_numArms.setTarget( MathUtil.randRange( 3, 10 ) );
+//		_levels.setTarget( MathUtil.randRange( 2, 4 ) );
+		_levels.setTarget( MathUtil.randRange( 2, P.map(_numArms.target(), 3, 10, 5, 3) ) ); // the higher the arms, the fewer the levels. make it responsive
 		_shouldBeFurther = MathUtil.randBoolean(p);
 		_drawsLinesOut = MathUtil.randBoolean(p);
 		_nextLevelPushesOut = MathUtil.randBoolean(p);
+		_armPushesOut = MathUtil.randBoolean(p);
 		_drawCircles = MathUtil.randBoolean(p);
-//		_recursiveDivisor = 0.125f * MathUtil.randRange(1, 7);
-		_recursiveDivisor = 0.25f * MathUtil.randRange(2, 4);
-//		_recursiveDivisor = (1f/(float)_numArms) * (float)MathUtil.randRange(1, _numArms-1);
+		_everyOtherPoly = MathUtil.randBoolean(p);
+		_everyOtherPolyVerts = MathUtil.randBoolean(p);
+		if(_drawsLinesOut == true) _everyOtherPoly = false;
+		_everyOtherCircle = MathUtil.randBoolean(p);
+		_recursiveDivisor.setTarget( 0.125f * MathUtil.randRange(1, 8) );
 }
 	
 	public void keyPressed() {
 		if( p.key == ' ' ) generateVars();
 		if( p.key == 'p' ) printPDF();
 		
-		if( p.key == '1' ) _numArms = MathUtil.randRange( 3, 12 );
-		if( p.key == '2' ) _levels = MathUtil.randRange( 2, 3 );
-		if( p.key == '3' ) _numArms = MathUtil.randRange( 3, 8 );
-		if( p.key == '4' ) _shouldBeFurther = !_shouldBeFurther;
-		if( p.key == '5' ) _drawsLinesOut = !_drawsLinesOut;
-		if( p.key == '6' ) _nextLevelPushesOut = !_nextLevelPushesOut;
-		if( p.key == '7' ) _baseRadius = MathUtil.randRange( 300, 400 );
-		if( p.key == '8' ) _recursiveDivisor = 0.125f * MathUtil.randRange(3, 8);
-		if( p.key == '9' ) _drawCircles = !_drawCircles;
+		if( p.key == '1' ) _numArms.setTarget( MathUtil.randRange( 3, 10 ) );
+		if( p.key == '2' ) _levels.setTarget( MathUtil.randRange( 2, 4 ) );
+		if( p.key == '3' ) _recursiveDivisor.setTarget( 0.125f * MathUtil.randRange(2, 8) );
+		if( p.key == '4' ) _strokeWidth.setTarget( MathUtil.randRangeDecimal( 0.5f, 2f ) );
+		if( p.key == '5' ) _shouldBeFurther = !_shouldBeFurther;
+		if( p.key == '6' ) _drawsLinesOut = !_drawsLinesOut;
+		if( p.key == '7' ) _nextLevelPushesOut = !_nextLevelPushesOut;
+		if( p.key == '8' ) _drawCircles = !_drawCircles;
+		if( p.key == '9' ) _armPushesOut = !_armPushesOut;
+		if( p.key == '0' ) _everyOtherPoly = !_everyOtherPoly;
+		if( p.key == '-' ) _everyOtherPolyVerts = !_everyOtherPolyVerts;
+		if( p.key == '=' ) _everyOtherCircle = !_everyOtherCircle;
 	}
 
 	public void printPDF() {
 		_shouldPrint = true;
 	}
 	
-	public void drawApp() {
+	public void drawGraphics() {
 		
-		p.background(255);
+		if(p.frameCount == 2) generateVars();
+//		if(p.frameCount % P.round(_frames/_numRenderedShapes) == 0) {
+//			if(p.frameCount < _frames) { 
+//				generateVars();
+//			}
+//		}
 
 		if( _shouldPrint ) p.beginRecord( P.PDF,  FileUtil.getHaxademicOutputPath() + "fractal-"+ SystemUtil.getTimestamp(p) +".pdf" );
-		p.noFill();
-		p.stroke(0);
-		p.strokeWeight(3);
-		p.strokeJoin(P.MITER);
-
-		float startRadius = _baseRadius;
-		new ClusterPolygon( p.width/2, p.height/2, 0, startRadius, 0 );
+		_pg.noFill();
+		_pg.stroke(0);
+		_pg.strokeWeight(_strokeWidth.value());
+		_pg.strokeJoin(P.MITER);
 		
+		_baseRadiusEased.update();
+		_numArms.update();
+		_strokeWidth.update();
+		_recursiveDivisor.update();
+		_levels.update();
+		
+		_furthestPoint = 0;
+		
+		if(_baseRadiusEased.value() > 0) {
+			new ClusterPolygon( p.width/2, p.height/2, 0, _baseRadiusEased.value(), 0, P.round(_numArms.value()) );
+		}
+		
+//		if(p.frameCount >= _frames) 
+//			_baseRadiusEased.setTarget( -180 );
+//		else
+			_baseRadiusEased.setTarget( p.height/2 - _furthestPoint );
+
 		if( _shouldPrint == true ) {
 			p.endRecord();
 			_shouldPrint = false;
 		}
+		
+//		if(p.frameCount >= _frames * 2) AppRestart.restart( p ); 
+
 	}
 
 	public class ClusterPolygon {
 		
 		public PolygonArm arms[];
 		
-		public ClusterPolygon( float x, float y, float startCircleInc, float radius, int level ) {
+		public ClusterPolygon( float x, float y, float startCircleInc, float radius, int level, int numArms ) {
+			int nextArms = (MathUtil.randBoolean(p) == true) ? numArms + 2 : numArms - 2;
 
-			_curCircleSegment = (float)((Math.PI*2f) / (float)_numArms);
+			_curCircleSegment = (float)((Math.PI*2f) / (float)numArms);
 			float circleInc = 0;
 
-			arms = new PolygonArm[_numArms];
-			for( int i=0; i < _numArms; i++ ) {
+			arms = new PolygonArm[numArms];
+			for( int i=0; i < numArms; i++ ) {
 				circleInc = _curCircleSegment * (float)i;
-				arms[i] = new PolygonArm( x, y, circleInc + startCircleInc, radius * _recursiveDivisor, level + 1, i );
+				arms[i] = new PolygonArm( x, y, circleInc + startCircleInc, radius * _recursiveDivisor.value(), level + 1, i, numArms );
 			}
 
 			// draw the polygon vertices
-			p.beginShape();
-			for( int i=0; i < _numArms; i++ ) {
-//				if((i+level)%2==0 && i < level) {
-					p.vertex( arms[i]._x, arms[i]._y);
-//				}
+			_pg.beginShape();
+			for( int i=0; i < numArms; i++ ) {
+				if(_everyOtherPoly == false || ((i+level)%2==0 && i < level)) {
+					_pg.vertex( arms[i]._x, arms[i]._y);
+				}
 			}
-			p.endShape(P.CLOSE);
+			_pg.endShape(P.CLOSE);
+			for( int i=0; i < numArms; i++ ) {
+				if(_everyOtherPoly == false || ((i+level)%2==0 && i < level)) {
+					BoxBetween.draw(_pg, new PVector(arms[i]._x, arms[i]._y), new PVector(arms[(i+1)%arms.length]._x, arms[(i+1)%arms.length]._y), 6);
+				}
+			}
+
 
 			// draw lines between polygon center & vertices
 			if( _drawsLinesOut == true ) {
-				for( int i=0; i < _numArms; i++ ) {
-//					if((i+level)%2==0 && i < level) {
-						p.beginShape();
-						p.vertex( x, y );
-						p.vertex( arms[i]._x, arms[i]._y);
-						p.endShape();
-//					}
+				for( int i=0; i < numArms; i++ ) {
+					if(_everyOtherPolyVerts == false || ((i+level)%2==0 && i < level)) {
+						_pg.beginShape();
+						_pg.vertex( x, y );
+						_pg.vertex( arms[i]._x, arms[i]._y);
+						_pg.endShape();
+						BoxBetween.draw(_pg, new PVector(x, y), new PVector(arms[i]._x, arms[i]._y), 6);
+					}
 				}
 			} else {
-				for( int i=0; i < _numArms; i++ ) {
+				for( int i=0; i < numArms; i++ ) {
 					if( arms[i].clusterPolygon != null ) {
-						for( int j=0; j < _numArms; j++ ) {
-							p.line( arms[i]._x, arms[i]._y, arms[i].clusterPolygon.arms[j]._x, arms[i].clusterPolygon.arms[j]._y );
+						for( int j=0; j < numArms; j++ ) {
+							_pg.line( arms[i]._x, arms[i]._y, arms[i].clusterPolygon.arms[j]._x, arms[i].clusterPolygon.arms[j]._y );
+							BoxBetween.draw(_pg, new PVector(arms[i]._x, arms[i]._y), new PVector(arms[i].clusterPolygon.arms[j]._x, arms[i].clusterPolygon.arms[j]._y), 6);
 						}
 					}
 				}
@@ -144,7 +228,7 @@ extends PAppletHax{
 		public float _y;
 		public ClusterPolygon clusterPolygon;
 
-		public PolygonArm( float baseX, float baseY, float startCircleInc, float radius, int level, int index ) {
+		public PolygonArm( float baseX, float baseY, float startCircleInc, float radius, int level, int index, int numArms ) {
 			
 			_x = baseX + (float)Math.sin( startCircleInc ) * radius;
 			_y = baseY + (float)Math.cos( startCircleInc ) * radius;
@@ -155,9 +239,12 @@ extends PAppletHax{
 			float polyArmDist = MathUtil.getDistance( _x, _y, p.width/2f, p.height/2f );
 			boolean furtherFromCenter = (polyCenterDistToSceneCenter < polyArmDist );
 
-//			_x += Math.sin( startCircleInc ) * radius * _recursiveDivisor;
-//			_y += Math.cos( startCircleInc ) * radius * _recursiveDivisor;
-
+			// not helpful
+//			if( _armPushesOut == true ) {
+//				_x += Math.sin( startCircleInc ) * radius * _recursiveDivisor.value();
+//				_y += Math.cos( startCircleInc ) * radius * _recursiveDivisor.value();
+//			}
+			
 			float nextX = _x;
 			float nextY = _y;
 			if( _nextLevelPushesOut == true ) {
@@ -165,17 +252,22 @@ extends PAppletHax{
 				nextY = _y + (float)Math.cos( startCircleInc ) * radius * 0.5f;
 			}
 			
-			if( level < _levels && (furtherFromCenter || _shouldBeFurther == false) ) {
+			if( level < P.round(_levels.value()) && (furtherFromCenter || _shouldBeFurther == false) ) {
 				
-				float nextStart = (level%2 == 0) ? startCircleInc : startCircleInc + _curCircleSegment;
+				float nextStart = (level%2 == 0 && _everyOtherCircle) ? startCircleInc : startCircleInc + _curCircleSegment;
 				
-				clusterPolygon = new ClusterPolygon( nextX, nextY, nextStart, radius, level );
+				clusterPolygon = new ClusterPolygon( nextX, nextY, nextStart, radius, level, numArms );
 					
 				if( _drawCircles == true ) {
-//					if( level % 2 == 0 ) 
-//						p.ellipse(_x, _y, radius*2f, radius*2f);
-//					else 
-						p.ellipse(_x, _y, radius, radius);
+					if( _everyOtherCircle == true && level % 2 == 0 ) 
+						_pg.ellipse(_x, _y, radius*2f, radius*2f);
+					else 
+						_pg.ellipse(_x, _y, radius, radius);
+				}
+			} else {
+				float distFromCenter = MathUtil.getDistance(p.width/2, p.height/2, _x, _y);
+				if(distFromCenter > _furthestPoint) {
+					_furthestPoint = distFromCenter;
 				}
 			}
 		}
