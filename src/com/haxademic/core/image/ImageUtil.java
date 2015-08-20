@@ -9,6 +9,7 @@ import processing.core.PGraphics;
 import processing.core.PImage;
 import processing.opengl.PGL;
 
+import com.haxademic.core.app.P;
 import com.haxademic.core.draw.color.ColorHax;
 
 public class ImageUtil {
@@ -131,6 +132,15 @@ public class ImageUtil {
 //		g2.dispose();
 //		return dest;
 	}
+	
+	public static PGraphics imageToGraphics(PApplet p, PImage img) {
+		PGraphics pg = p.createGraphics(img.width, img.height, P.OPENGL);
+		pg.beginDraw();
+		pg.image(img,0,0);
+		pg.endDraw();
+		return pg;
+	}  
+
 	
 	public static void cropFillCopyImage( PImage src, PImage dest, boolean cropFill ) {
 		float containerW = dest.width;
