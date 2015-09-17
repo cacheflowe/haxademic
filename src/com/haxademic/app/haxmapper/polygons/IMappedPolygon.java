@@ -3,6 +3,8 @@ package com.haxademic.app.haxmapper.polygons;
 import java.awt.Point;
 import java.awt.Rectangle;
 
+import com.haxademic.app.haxmapper.textures.BaseTexture;
+
 import processing.core.PGraphics;
 import processing.core.PVector;
 
@@ -12,9 +14,10 @@ public interface IMappedPolygon {
 	public static final int MAP_STYLE_CONTAIN_RANDOM_TEX_AREA = 2;
 	public static final int MAP_STYLE_EQ = 3;
 	public void draw( PGraphics pg, Rectangle mappingBounds );
+	public void rawDrawPolygon( PGraphics pg );
 	public void setColor( int color );
-	public void setTexture( PGraphics texture );
-	public PGraphics getTexture();
+	public void setTexture( BaseTexture baseTtexture );
+	public BaseTexture getTexture();
 	public void setTextureStyle( int mapStyle );
 	public void randomTextureStyle();
 	public void rotateTexture();

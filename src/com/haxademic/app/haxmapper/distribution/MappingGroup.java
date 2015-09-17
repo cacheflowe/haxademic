@@ -32,7 +32,6 @@ public class MappingGroup {
 	protected MeshSegmentScanners _meshScanners;
 	protected int _color;
 	protected ColorHaxEasing _colorEase;
-	protected int _textureIndex = 0;
 	
 	protected int _traverseFrame = 0;
 	protected int _traverseMode = 0;
@@ -94,6 +93,12 @@ public class MappingGroup {
 		_meshScanners = new MeshSegmentScanners( this.overlayPG, _meshLines.meshLineSegments() );
 	}
 	
+	public void drawShapeForMask(PGraphics maskPG) {
+		for(int j=0; j < _mappedPolygons.size(); j++ ) {
+			_mappedPolygons.get(j).rawDrawPolygon(maskPG);
+		}
+	}
+	
 	public void pushTexture( BaseTexture texture ) {
 		if( _curTextures.indexOf( texture ) == -1 ) {
 			_curTextures.add(texture);
@@ -145,27 +150,25 @@ public class MappingGroup {
 	
 	public void randomTextureToRandomPolygon() {
 		if( _curTextures.size() == 0 ) return;
-		randomPolygon().setTexture( randomBaseTexture().texture() );
+		randomPolygon().setTexture( randomBaseTexture() );
 	}
 	
 	public void setAllPolygonsToTexture( int textureIndex ) {
-		_textureIndex = textureIndex;
 		if( _curTextures.size() < 1 ) return;
 		for(int j=0; j < _mappedPolygons.size(); j++ ) {
-			_mappedPolygons.get(j).setTexture( _curTextures.get(_textureIndex).texture() );
+			_mappedPolygons.get(j).setTexture( _curTextures.get(textureIndex) );
 		}
 	}
 	
-	public void reloadTextureAtIndex() {
+	public void refreshActiveTextures() {
+		// make sure textures that are no longer in the pool switch out to another texture
 		if( _curTextures.size() < 1 ) return;
-		// subtract since we shift the texture pool - this keeps texture around if it still exists in pool
-		_textureIndex--;
-		if( _textureIndex < 0 ) _textureIndex = _curTextures.size();
-		
-		int safeIndex = 0;
 		for(int j=0; j < _mappedPolygons.size(); j++ ) {
-			safeIndex = _textureIndex % _curTextures.size();
-			_mappedPolygons.get(j).setTexture( _curTextures.get(safeIndex).texture() );
+			BaseTexture curPolyTexture = _mappedPolygons.get(j).getTexture();
+			if(_curTextures.contains(curPolyTexture) == false) {
+				int randomTextureIndex = MathUtil.randRange(0, _curTextures.size() - 1);
+				_mappedPolygons.get(j).setTexture( _curTextures.get(randomTextureIndex) );
+			}
 		}
 	}
 	

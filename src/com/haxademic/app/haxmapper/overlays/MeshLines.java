@@ -17,7 +17,7 @@ public class MeshLines {
 
 	public enum MODE {
 		MODE_PERLIN,
-		MODE_PROGRESS_BAR,
+//		MODE_PROGRESS_BAR,
 //		MODE_EQ_BARS, 
 		MODE_LINE_EXTEND, 
 //		MODE_EQ_TOTAL,

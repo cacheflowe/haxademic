@@ -1,7 +1,6 @@
 package com.haxademic.app.haxmapper.textures;
 
 import com.haxademic.core.app.P;
-import com.haxademic.core.image.filters.shaders.BrightnessFilter;
 import com.haxademic.core.image.filters.shaders.SaturationFilter;
 import com.haxademic.core.image.filters.shaders.VignetteFilter;
 import com.haxademic.core.math.MathUtil;
@@ -23,11 +22,9 @@ extends BaseTexture {
 	
 	protected PGraphics _image;
 	protected PShader _patternShader;
-	protected int _timingFrame = 0;
-	protected EasingFloat _timeEaser = new EasingFloat(0, 15);
-	protected EasingFloat _brightEaser = new EasingFloat(0, 10);
-	protected int _brightMode = 0;
 	protected int _mode = 0;
+
+	protected EasingFloat _timeEaser = new EasingFloat(0, 15);
 	protected float _smallTimeStep = 1f;
 	protected float _largeTimeStep = 3f;
 	protected float _nonBeatSpeed = 0.1f;
@@ -36,8 +33,10 @@ extends BaseTexture {
 	protected ShaderTimeMode _nonBeatTimeMode = ShaderTimeMode.BeatEaseOut;
 	protected float _reverseTimeThreshold = 100f;
 	
+	// special crap for shader day drawing learnings ---------
 	protected float[] locations;
 	protected float[] colors;
+	// -------------------------------------------------------
 
 	public TextureShaderTimeStepper( int width, int height, String textureShader ) {
 		super();
@@ -50,6 +49,8 @@ extends BaseTexture {
 		_patternShader = _texture.loadShader( FileUtil.getFile("shaders/textures/" + textureShader)); 
 		_patternShader.set("time", _timeEaser.value() );
 		_patternShader.set("mode", _mode);
+		
+		// special crap for shader day drawing learnings ---------
 		_patternShader.set("mouse", (float)P.p.mouseX, (float)P.p.mouseY);
 		locations = new float[50];
 		for(int i=0; i < locations.length; i++) {
@@ -61,6 +62,7 @@ extends BaseTexture {
 			colors[i] = MathUtil.randRangeDecimal(0, 1f);
 		}
 		_patternShader.set("colors", colors);
+		// -------------------------------------------------------
 
 		SaturationFilter.instance(P.p).setSaturation(0.25f);
 		VignetteFilter.instance(P.p).setDarkness(0.7f);
@@ -76,29 +78,30 @@ extends BaseTexture {
 		_patternShader.set("time", _timeEaser.value() );
 		_patternShader.set("mode", _mode);
 		_texture.filter( _patternShader );
+	}
+	
+	public void postProcess() {
 		SaturationFilter.instance(P.p).applyTo(_texture);
-		
-		_brightEaser.update();
-		BrightnessFilter.instance(P.p).setBrightness(_brightEaser.value());
-		BrightnessFilter.instance(P.p).applyTo(_texture);
+		super.postProcess();
 	}
 	
 	public void setActive( boolean isActive ) {
 		boolean wasActive = _active;
 		super.setActive(isActive);
+		_brightMode = MathUtil.randRange(0, 1);
 		if( _active == true && wasActive == false ) {
 			_timeEaser.setCurrent( 0.0001f );
 			_timeEaser.setTarget( 0.0001f );
-			// pick new brightness mode
-			_brightMode = MathUtil.randRange(0, 1);
-			// P.println("_brightmode", _brightMode);
-			// pick new time mode
-			float newTimeMode = MathUtil.randRange(0, 3);
-			if(newTimeMode == 0) _nonBeatTimeMode = ShaderTimeMode.BeatEaseOut;
-			else if(newTimeMode == 1) _nonBeatTimeMode = ShaderTimeMode.BeatSpeedUp;
-			else if(newTimeMode == 2) _nonBeatTimeMode = ShaderTimeMode.DirectionSpeedShift;
-			else if(newTimeMode == 3) _nonBeatTimeMode = ShaderTimeMode.ForwardOsc;
+			pickNewTimeMode();
 		}
+	}
+	
+	protected void pickNewTimeMode() {
+		float newTimeMode = MathUtil.randRange(0, 3);
+		if(newTimeMode == 0) _nonBeatTimeMode = ShaderTimeMode.BeatEaseOut;
+		else if(newTimeMode == 1) _nonBeatTimeMode = ShaderTimeMode.BeatSpeedUp;
+		else if(newTimeMode == 2) _nonBeatTimeMode = ShaderTimeMode.DirectionSpeedShift;
+		else if(newTimeMode == 3) _nonBeatTimeMode = ShaderTimeMode.ForwardOsc;
 	}
 	
 	protected void updateTime() {
@@ -130,6 +133,7 @@ extends BaseTexture {
 		}
 	}
 	
+	// special crap for shader day drawing learnings ---------
 	protected void updateShaders() {
 		_patternShader.set("mouse", (float)P.p.mouseX, P.p.height - (float)P.p.mouseY);
 		for(int i=0; i < locations.length; i++) {
@@ -141,8 +145,11 @@ extends BaseTexture {
 		}
 		_patternShader.set("colors", colors);
 	}
+	// -------------------------------------------------------
 	
 	public void updateTiming() {
+		super.updateTiming();
+		
 		// handle 3 modes
 		if(_nonBeatTimeMode == ShaderTimeMode.BeatEaseOut) {
 			if(_timingFrame % 4 == 0) {
@@ -162,24 +169,11 @@ extends BaseTexture {
 				_nonBeatSpeed = MathUtil.randRangeDecimal(-_smallTimeStep/30f, _smallTimeStep/30f);
 			}
 		}
-		
-		// update brightness filter - fade up or down
-		if( _timingFrame % 4 == 0 ) {
-			if(_brightMode == 0) _brightEaser.setCurrent(1.3f);
-			else 				 _brightEaser.setCurrent(0f);
-		} else {
-			if(_brightMode == 0) _brightEaser.setCurrent(1.0f);
-			else 				 _brightEaser.setCurrent(0.5f);
-		}
-		if(_brightMode == 0) _brightEaser.setTarget(0.25f);
-		else 				 _brightEaser.setTarget(1.2f);
-
-		// update timing count 
-		_timingFrame++;
 	}
 	
 	public void updateTimingSection() {
-		_timingFrame = 0;
+		super.updateTimingSection();
+		
 		_mode++;
 		if(_mode >= 3) _mode = 0;
 	}

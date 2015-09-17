@@ -45,7 +45,7 @@ extends HaxMapper{
 
 	protected void overridePropsFile() {
 		super.overridePropsFile();
-		_appConfig.setProperty( "mapping_file", FileUtil.getHaxademicDataPath() + "text/mapping/mapping-2015-08-01-21-17-46.txt" );
+		_appConfig.setProperty( "mapping_file", FileUtil.getHaxademicDataPath() + "text/mapping/mapping-2015-08-31-20-09-27.txt" );
 		_appConfig.setProperty( "rendering", "false" );
 		_appConfig.setProperty( "fullscreen", "true" );
 		_appConfig.setProperty( "fills_screen", "true" );
@@ -302,7 +302,6 @@ extends HaxMapper{
 		super.bigChangeTrigger();
 		
 		cycleANewTexture(null);
-		newTexturesForAllGroups();
 		newLineModesForAllGroups();
 
 		// set longer timing updates
@@ -366,16 +365,7 @@ extends HaxMapper{
 			}
 		}
 	}
-	
-	protected void newTexturesForAllGroups() {
-		// give each group a new texture
-		for( int i=0; i < _mappingGroups.size(); i++ ) {
-			_mappingGroups.get(i).shiftTexture();
-			_mappingGroups.get(i).pushTexture( _curTexturePool.get( MathUtil.randRange(0, _curTexturePool.size()-1 )) );
-			_mappingGroups.get(i).reloadTextureAtIndex();					
-		}
-	}
-	
+		
 }
 
 

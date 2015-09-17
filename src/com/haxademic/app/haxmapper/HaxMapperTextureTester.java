@@ -1,6 +1,7 @@
 package com.haxademic.app.haxmapper;
 
 import com.haxademic.app.haxmapper.textures.BaseTexture;
+import com.haxademic.app.haxmapper.textures.TextureEQFloatParticles;
 import com.haxademic.app.haxmapper.textures.TextureLinesEQ;
 import com.haxademic.app.haxmapper.textures.TextureRotatingRings;
 import com.haxademic.app.haxmapper.textures.TextureShaderTimeStepper;
@@ -14,8 +15,8 @@ public class HaxMapperTextureTester
 extends PAppletHax {
 	
 	protected BaseTexture[] _textures;
-	int w = 250;
-	int h = 250;
+	int w = 500;
+	int h = 500;
 
 	protected void overridePropsFile() {
 		_appConfig.setProperty( "width", "1000" );
@@ -35,12 +36,13 @@ extends PAppletHax {
 		_textures = new BaseTexture[]{
 //			new TextureShaderTimeStepper( w, h, "_drawing-stuff.glsl" ),
 				
-			new TextureShaderTimeStepper( w, h, "wobble-sin.glsl" ),
-			new TextureShaderTimeStepper( w, h, "bw-circles.glsl" ),
-			new TextureShaderTimeStepper( w, h, "dot-grid-dof.glsl" ),
-			new TextureShaderTimeStepper( w, h, "flame-wisps.glsl" ),
-
-			new TextureShaderTimeStepper( w, h, "bubbles-iq.glsl" ),
+			new TextureEQFloatParticles( w, h ),
+//			new TextureShaderTimeStepper( w, h, "wobble-sin.glsl" ),
+//			new TextureShaderTimeStepper( w, h, "bw-circles.glsl" ),
+//			new TextureShaderTimeStepper( w, h, "dot-grid-dof.glsl" ),
+//			new TextureShaderTimeStepper( w, h, "flame-wisps.glsl" ),
+//
+//			new TextureShaderTimeStepper( w, h, "bubbles-iq.glsl" ),
 //			new TextureShaderTimeStepper( w, h, "spinning-iq.glsl" ),
 //			new TextureShaderTimeStepper( w, h, "inversion-iq.glsl" ),
 //			new TextureShaderTimeStepper( w, h, "radial-waves.glsl" ),

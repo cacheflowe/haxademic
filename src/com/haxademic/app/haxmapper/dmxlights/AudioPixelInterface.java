@@ -1,4 +1,4 @@
-package com.haxademic.app.haxmapper.distribution;
+package com.haxademic.app.haxmapper.dmxlights;
 
 import hypermedia.net.UDP;
 import processing.core.PApplet;

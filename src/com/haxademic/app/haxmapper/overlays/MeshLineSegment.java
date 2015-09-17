@@ -1,12 +1,13 @@
 package com.haxademic.app.haxmapper.overlays;
 
+import com.haxademic.app.haxmapper.overlays.MeshLines.MODE;
+import com.haxademic.core.app.P;
+import com.haxademic.core.draw.util.DrawUtil;
+import com.haxademic.core.math.MathUtil;
+
 import processing.core.PGraphics;
 import processing.core.PShape;
 import processing.core.PVector;
-
-import com.haxademic.app.haxmapper.overlays.MeshLines.MODE;
-import com.haxademic.core.app.P;
-import com.haxademic.core.math.MathUtil;
 
 public class MeshLineSegment {
 
@@ -141,27 +142,27 @@ public class MeshLineSegment {
 			pg.strokeWeight( 1f );
 			pg.stroke(color, noise * 255f);
 			pg.line( _point1.x, _point1.y, _point2.x, _point2.y );
-		} else if( mode == MODE.MODE_PROGRESS_BAR ) {
-			_progress += _progressDir * ( amp/100f );
-			if(_progressDir == 1 && _progress > 1) {
-				_progressDir = -1;
-				_progress = 1;
-			} else if(_progressDir == -1 && _progress < 0) {
-				_progressDir = 1;
-				_progress = 0;
-			} 
-			_utilLastVec.set(_utilVec);
-			
-//			pg.noStroke();
-//			pg.fill(color);
-			pg.noFill();
-			pg.stroke(color, 210);
-			pg.strokeWeight(1.3f);
-			_utilVec.set( _point2 );
-			_utilVec.lerp( _point1, _progress );
-			// pg.ellipse( _utilVec.x, _utilVec.y, 2, 2 );
-			pg.line( _utilVec.x, _utilVec.y, _utilLastVec.x, _utilLastVec.y );
-
+//		} else if( mode == MODE.MODE_PROGRESS_BAR ) {
+//			_progress += _progressDir * ( amp/100f );
+//			if(_progressDir == 1 && _progress > 1) {
+//				_progressDir = -1;
+//				_progress = 1;
+//			} else if(_progressDir == -1 && _progress < 0) {
+//				_progressDir = 1;
+//				_progress = 0;
+//			} 
+//			_utilLastVec.set(_utilVec);
+//			
+////			pg.noStroke();
+////			pg.fill(color);
+//			pg.noFill();
+//			pg.stroke(color, 210);
+//			pg.strokeWeight(1.3f);
+//			_utilVec.set( _point2 );
+//			_utilVec.lerp( _point1, _progress );
+//			// pg.ellipse( _utilVec.x, _utilVec.y, 2, 2 );
+//			pg.line( _utilVec.x, _utilVec.y, _utilLastVec.x, _utilLastVec.y );
+//
 		}
 	}
 

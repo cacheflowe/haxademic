@@ -6,8 +6,6 @@ import com.haxademic.core.math.MathUtil;
 
 public class TextureTwistingSquares
 extends BaseTexture {
-
-	protected int _barW = 20;
 	
 	public TextureTwistingSquares( int width, int height ) {
 		super();
@@ -48,7 +46,6 @@ extends BaseTexture {
 	}
 	
 	public void updateTimingSection() {
-		_barW = P.round( 20f / MathUtil.randRange(1, 2) );
 	}
 
 }

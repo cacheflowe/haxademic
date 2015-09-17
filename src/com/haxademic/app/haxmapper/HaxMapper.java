@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import com.haxademic.app.haxmapper.distribution.MappingGroup;
+import com.haxademic.app.haxmapper.overlays.FullMaskTextureOverlay;
 import com.haxademic.app.haxmapper.polygons.IMappedPolygon;
 import com.haxademic.app.haxmapper.polygons.MappedQuad;
 import com.haxademic.app.haxmapper.polygons.MappedTriangle;
@@ -24,16 +25,15 @@ import com.haxademic.core.hardware.shared.InputTrigger;
 import com.haxademic.core.image.filters.shaders.BadTVLinesFilter;
 import com.haxademic.core.image.filters.shaders.BrightnessFilter;
 import com.haxademic.core.image.filters.shaders.ColorDistortionFilter;
+import com.haxademic.core.image.filters.shaders.ContrastFilter;
 import com.haxademic.core.image.filters.shaders.CubicLensDistortionFilter;
 import com.haxademic.core.image.filters.shaders.DeformBloomFilter;
 import com.haxademic.core.image.filters.shaders.DeformTunnelFanFilter;
 import com.haxademic.core.image.filters.shaders.EdgesFilter;
-import com.haxademic.core.image.filters.shaders.HalftoneFilter;
+import com.haxademic.core.image.filters.shaders.FXAAFilter;
 import com.haxademic.core.image.filters.shaders.HueFilter;
-import com.haxademic.core.image.filters.shaders.InvertFilter;
 import com.haxademic.core.image.filters.shaders.KaleidoFilter;
 import com.haxademic.core.image.filters.shaders.MirrorFilter;
-import com.haxademic.core.image.filters.shaders.PixelateFilter;
 import com.haxademic.core.image.filters.shaders.RadialRipplesFilter;
 import com.haxademic.core.image.filters.shaders.SphereDistortionFilter;
 import com.haxademic.core.image.filters.shaders.WobbleFilter;
@@ -49,9 +49,9 @@ import processing.core.PGraphics;
 public class HaxMapper
 extends PAppletHax {
 		
-	public static int MAX_ACTIVE_TEXTURES = 3;
+	public static int MAX_ACTIVE_TEXTURES = 2;
 	public static int MAX_ACTIVE_TEXTURES_PER_GROUP = 2;
-	public static int MAX_ACTIVE_MOVIE_TEXTURES = 1;
+	public static int MAX_ACTIVE_MOVIE_TEXTURES = 2;
 	
 	protected String _inputFileLines[];
 	protected PGraphics _overlayPG;
@@ -63,7 +63,11 @@ extends PAppletHax {
 	protected ArrayList<BaseTexture> _curTexturePool;
 	protected ArrayList<BaseTexture> _movieTexturePool;
 	protected ArrayList<BaseTexture> _activeTextures;
+	protected ArrayList<BaseTexture> _overlayTexturePool;
 	protected int _texturePoolNextIndex = 0;
+	protected PGraphics _fullMask;
+	protected PGraphics _fullMaskOverlay;
+	protected FullMaskTextureOverlay _fullMaskTexture;
 	
 	protected boolean _debugTextures = false;
 
@@ -89,8 +93,6 @@ extends PAppletHax {
 
 //	protected PShader _brightness;
 //	protected float _brightnessVal = 1f;
-//	protected PShader _blurH;
-//	protected PShader _blurV;
 
 	protected int[] _textureEffectsIndices = {0,0,0,0,0,0,0};	// store a effects number for each texture position after the first
 	protected int _numTextureEffects = 16 + 8; // +8 to give a good chance at removing the filter from the texture slot
@@ -108,16 +110,15 @@ extends PAppletHax {
 		_appConfig.setProperty( "rendering", "false" );
 		_appConfig.setProperty( "fullscreen", "true" );
 		_appConfig.setProperty( "fills_screen", "true" );
-		_appConfig.setProperty( "kinect_active", "true" );
+		_appConfig.setProperty( "kinect_active", "false" );
 		_appConfig.setProperty( "osc_active", "true" );
 	}
 
 	public void setup() {
 		super.setup();
-		p.smooth(OpenGLUtil.SMOOTH_HIGH);
+//		p.smooth(OpenGLUtil.SMOOTH_HIGH);
 		noStroke();
 		importPolygons();
-		P.println("_boundingBox", _boundingBox);
 		for( int i=0; i < _mappingGroups.size(); i++ ) _mappingGroups.get(i).completePolygonImport();
 		buildTextures();
 	}
@@ -126,7 +127,7 @@ extends PAppletHax {
 		_boundingBox = new Rectangle(-1, -1, 0, 0);
 		
 		_overlayPG = P.p.createGraphics( p.width, p.height, PConstants.OPENGL );
-		_overlayPG.smooth(OpenGLUtil.SMOOTH_MEDIUM);
+		_overlayPG.smooth(OpenGLUtil.SMOOTH_HIGH);
 		_mappingGroups = new ArrayList<MappingGroup>();
 		
 		if( _appConfig.getString("mapping_file", "") == "" ) {
@@ -197,6 +198,27 @@ extends PAppletHax {
 		}
 	}
 	
+	protected void drawOverlayMask() {
+		// draw black on white
+		_fullMask = p.createGraphics(p.width, p.height, P.OPENGL);
+		_fullMask.smooth(OpenGLUtil.SMOOTH_HIGH);
+		_fullMask.beginDraw();
+		_fullMask.background(255);
+		_fullMask.fill(0);
+		for( int i=0; i < _mappingGroups.size(); i++ ) {
+			_mappingGroups.get(i).drawShapeForMask(_fullMask);
+		}
+		_fullMask.endDraw();
+		
+		// crate simple black overlay with polygons excluded via masking 
+		_fullMaskOverlay = p.createGraphics(p.width, p.height, P.OPENGL);
+		_fullMaskOverlay.smooth(OpenGLUtil.SMOOTH_HIGH);
+		_fullMaskOverlay.beginDraw();
+		_fullMaskOverlay.background(0);
+		_fullMaskOverlay.endDraw();
+		_fullMaskOverlay.mask(_fullMask);
+	}
+	
 	protected void updateBoundingBox(float x, float y) {
 		if(x < extentsX[0] || extentsX[0] == -1) extentsX[0] = x;
 		if(x > extentsX[1] || extentsX[1] == -1) extentsX[1] = x;
@@ -219,6 +241,7 @@ extends PAppletHax {
 		_curTexturePool = new ArrayList<BaseTexture>();
 		_movieTexturePool = new ArrayList<BaseTexture>();
 		_activeTextures = new ArrayList<BaseTexture>();
+		_overlayTexturePool = new ArrayList<BaseTexture>();
 		addTexturesToPool();
 		buildMappingGroups();
 	}
@@ -232,7 +255,7 @@ extends PAppletHax {
 	}
 	
 	public void drawApp() {
-		
+		p.blendMode(P.BLEND);
 		background(0);
 		updateFaceRecorder();
 		checkBeat();
@@ -240,8 +263,11 @@ extends PAppletHax {
 		filterActiveTextures();
 		traverseGroups();
 		drawPolygonGroups();
+		p.blendMode(P.ADD);
 		drawOverlays();
+		p.blendMode(P.BLEND);
 		postProcessFilters();
+		p.image( _fullMaskOverlay, 0, 0, _fullMaskOverlay.width, _fullMaskOverlay.height );
 		if(_debugTextures == true) debugTextures();
 	}
 	
@@ -308,8 +334,8 @@ extends PAppletHax {
 			} else if(_textureEffectsIndices[i] == 2) {
 				DeformTunnelFanFilter.instance(p).setTime(filterTime);
 				DeformTunnelFanFilter.instance(p).applyTo(p);
-			} else if(_textureEffectsIndices[i] == 3) {
-				EdgesFilter.instance(p).applyTo(pg);
+//			} else if(_textureEffectsIndices[i] == 3) {
+//				EdgesFilter.instance(p).applyTo(pg);
 			} else if(_textureEffectsIndices[i] == 4) {
 				MirrorFilter.instance(p).applyTo(pg);
 			} else if(_textureEffectsIndices[i] == 5) {
@@ -318,32 +344,32 @@ extends PAppletHax {
 				WobbleFilter.instance(p).setStrength(0.0004f);
 				WobbleFilter.instance(p).setSize( 200f);
 				WobbleFilter.instance(p).applyTo(pg);
-			} else if(_textureEffectsIndices[i] == 6) {
-				InvertFilter.instance(p).applyTo(pg);
+//			} else if(_textureEffectsIndices[i] == 6) {
+//				InvertFilter.instance(p).applyTo(pg);
 			} else if(_textureEffectsIndices[i] == 7) {
 				RadialRipplesFilter.instance(p).setTime(filterTime);
 				RadialRipplesFilter.instance(p).setAmplitude(0.5f + 0.5f * P.sin(filterTime));
 				RadialRipplesFilter.instance(p).applyTo(pg);
 			} else if(_textureEffectsIndices[i] == 8) {
 				BadTVLinesFilter.instance(p).applyTo(pg);
-			} else if(_textureEffectsIndices[i] == 9) {
-				EdgesFilter.instance(p).applyTo(pg);
+//			} else if(_textureEffectsIndices[i] == 9) {
+//				EdgesFilter.instance(p).applyTo(pg);
 			} else if(_textureEffectsIndices[i] == 10) {
 				CubicLensDistortionFilter.instance(p).setTime(filterTime);
 				CubicLensDistortionFilter.instance(p).applyTo(pg);
 			} else if(_textureEffectsIndices[i] == 11) {
 				SphereDistortionFilter.instance(p).applyTo(pg);
-			} else if(_textureEffectsIndices[i] == 12) {
-				HalftoneFilter.instance(p).applyTo(pg);
-			} else if(_textureEffectsIndices[i] == 13) {
-				PixelateFilter.instance(p).setDivider(15f, 15f * pg.height/pg.width);
-				PixelateFilter.instance(p).applyTo(pg);
+//			} else if(_textureEffectsIndices[i] == 12) {
+//				HalftoneFilter.instance(p).applyTo(pg);
+//			} else if(_textureEffectsIndices[i] == 13) {
+//				PixelateFilter.instance(p).setDivider(15f, 15f * pg.height/pg.width);
+//				PixelateFilter.instance(p).applyTo(pg);
 			} else if(_textureEffectsIndices[i] == 14) {
 				DeformBloomFilter.instance(p).setTime(filterTime);
 				DeformBloomFilter.instance(p).applyTo(pg);
-			} else if(_textureEffectsIndices[i] == 15) {
-				DeformTunnelFanFilter.instance(p).setTime(filterTime);
-				DeformTunnelFanFilter.instance(p).applyTo(pg);
+//			} else if(_textureEffectsIndices[i] == 15) {
+//				DeformTunnelFanFilter.instance(p).setTime(filterTime);
+//				DeformTunnelFanFilter.instance(p).applyTo(pg);
 			} else if(_textureEffectsIndices[i] == 16) {
 				HueFilter.instance(p).setTime(filterTime);
 				HueFilter.instance(p).applyTo(pg);
@@ -365,27 +391,46 @@ extends PAppletHax {
 	}
 	
 	protected void drawOverlays() {
-		DrawUtil.setColorForPImage(p);
-		DrawUtil.resetPImageAlpha(p);
-		// draw mesh on top
+		if(p.frameCount == 1) drawOverlayMask();
+		
+		// draw mesh & overlay on top
 		_overlayPG.beginDraw();
 		_overlayPG.clear();
 		for( int i=0; i < _mappingGroups.size(); i++ ) {
 			_mappingGroups.get(i).drawOverlay();
 		}
+		if(_fullMaskTexture != null) _fullMaskTexture.update();
 		_overlayPG.endDraw();
-//		_overlayPG.filter(_blurH);
-//		_overlayPG.filter(_blurV);
+				
+		DrawUtil.setColorForPImage(p);
+		DrawUtil.resetPImageAlpha(p);
 		p.image( _overlayPG, 0, 0, _overlayPG.width, _overlayPG.height );
 	}
 	
 	protected void postProcessFilters() {
 		// brightness
 		float brightMult = 2.8f;
-		if(p.frameCount < 3) p.midi.controllerChange(3, 41, P.round(127f/brightMult));
+		if(p.frameCount < 3) p.midi.controllerChange(3, 41, P.round(127f/brightMult));	// default to 1.0, essentially, with room to get up to 2.8f
 		float brightnessVal = p.midi.midiCCPercent(3, 41) * brightMult;
 		BrightnessFilter.instance(p).setBrightness(brightnessVal);
 		BrightnessFilter.instance(p).applyTo(p);
+		
+//		SaturationFilter.instance(p).setSaturation(1.2f);
+//		SaturationFilter.instance(p).applyTo(p);
+		
+		ContrastFilter.instance(p).setContrast(1.2f);
+		ContrastFilter.instance(p).applyTo(p);
+
+		FXAAFilter.instance(p).applyTo(p);
+		
+//		ColorCorrectionFilter.instance(p).setBrightness(0.1f * P.sin(p.frameCount/10f));
+//		ColorCorrectionFilter.instance(p).setContrast(1f + 0.1f * P.sin(p.frameCount/10f));
+//		ColorCorrectionFilter.instance(p).setGamma(1f + 0.2f * P.cos(p.frameCount/10f));
+//		ColorCorrectionFilter.instance(p).setBrightness(-0.1f);
+//		ColorCorrectionFilter.instance(p).setContrast(1.2f);
+//		ColorCorrectionFilter.instance(p).setGamma(1.4f);
+//		ColorCorrectionFilter.instance(p).applyTo(p);
+
 		
 		// color distortion auto
 		int distAutoFrame = p.frameCount % 6000;
@@ -419,7 +464,7 @@ extends PAppletHax {
 	
 	public void resetBeatDetectMode() {
 		_lastInputMillis = p.millis();
-		numBeatsDetected = 1;
+//		numBeatsDetected = 1;
 	}
 	
 	protected void handleInput( boolean isMidi ) {
@@ -466,8 +511,8 @@ extends PAppletHax {
 		}
 		if ( _audioInputUpTrigger.active() == true ) audioIn.gainUp();
 		if ( _audioInputDownTrigger.active() == true ) audioIn.gainDown();
-//		if ( _brightnessUpTrigger.active() == true ) _brightnessVal += 0.1f;
-//		if ( _brightnessDownTrigger.active() == true ) _brightnessVal -= 0.1f;
+		if ( _brightnessUpTrigger.active() == true ) p.midi.controllerChange(3, 41, Math.round(127f * p.midi.midiCCPercent(3, 41) + 1));
+		if ( _brightnessDownTrigger.active() == true ) p.midi.controllerChange(3, 41, Math.round(127f * p.midi.midiCCPercent(3, 41) - 1));
 		if ( _debugTexturesTrigger.active() == true ) _debugTextures = !_debugTextures;
 	}
 	
@@ -627,7 +672,7 @@ extends PAppletHax {
 		} else {
 			_curTexturePool.add( _texturePool.get( nextTexturePoolIndex() ) );
 		}
-		while( numMovieTextures() > MAX_ACTIVE_MOVIE_TEXTURES ) {
+		while( numMovieTextures() >= MAX_ACTIVE_MOVIE_TEXTURES ) {
 			removeOldestMovieTexture();
 			_curTexturePool.add( _texturePool.get( nextTexturePoolIndex() ) );
 		}
@@ -645,7 +690,7 @@ extends PAppletHax {
 		for( int i=0; i < _mappingGroups.size(); i++ ) {
 			_mappingGroups.get(i).shiftTexture();
 			_mappingGroups.get(i).pushTexture( _curTexturePool.get( MathUtil.randRange(0, _curTexturePool.size()-1 )) );
-			_mappingGroups.get(i).reloadTextureAtIndex();				
+			_mappingGroups.get(i).refreshActiveTextures();				
 		}
 	}
 

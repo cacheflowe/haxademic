@@ -3,8 +3,11 @@ package com.haxademic.app.haxmapper.textures;
 import com.haxademic.core.app.P;
 import com.haxademic.core.draw.color.ColorHaxEasing;
 import com.haxademic.core.draw.util.OpenGLUtil;
+import com.haxademic.core.image.filters.shaders.BrightnessFilter;
 import com.haxademic.core.image.filters.shaders.InvertFilter;
 import com.haxademic.core.image.filters.shaders.ThresholdFilter;
+import com.haxademic.core.math.MathUtil;
+import com.haxademic.core.math.easing.EasingFloat;
 import com.haxademic.core.system.FileUtil;
 
 import processing.core.PConstants;
@@ -18,8 +21,11 @@ public class BaseTexture {
 	protected int _useCount = 0;
 	protected int _color;
 	protected ColorHaxEasing _colorEase;
-	public static PShader _chroma;
+	protected int _timingFrame = 0;
 	
+	public static PShader _chroma;
+	protected int _brightMode = -1;
+	protected EasingFloat _brightEaser = new EasingFloat(1, 10);
 	protected boolean _makeOverlay;
 	protected boolean _knockoutBlack;
 
@@ -33,7 +39,9 @@ public class BaseTexture {
 		if( _texture != null ) _texture.dispose();
 		_texture = P.p.createGraphics( width, height, PConstants.OPENGL );
 //		_texture.smooth(OpenGLUtil.SMOOTH_MEDIUM);
-		_texture.smooth(OpenGLUtil.SMOOTH_HIGH);
+//		_texture.smooth(OpenGLUtil.SMOOTH_HIGH);
+		_texture.smooth(OpenGLUtil.SMOOTH_LOW);
+		OpenGLUtil.setTextureRepeat(_texture);
 
 		// postprocessing - only create 1 shader for all instances
 		if(_chroma == null) _chroma = P.p.loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/chroma-color.glsl" );
@@ -72,6 +80,28 @@ public class BaseTexture {
 		if( _knockoutBlack == true ) {
 			_texture.filter( _chroma );
 		}
+		
+		if( _brightMode > -1 ) {
+			_brightEaser.update();
+			if(P.p.frameCount == 10) {
+				P.println(_brightEaser.value());
+			}
+			BrightnessFilter.instance(P.p).setBrightness(_brightEaser.value());
+			BrightnessFilter.instance(P.p).applyTo(_texture);
+		}
+	}
+	
+	public void updateBrightnessTiming() {
+		// update brightness filter - fade up or down
+		if( _timingFrame % 4 == 0 ) {
+			if(_brightMode == 0) _brightEaser.setCurrent(1.3f);
+			else 				 _brightEaser.setCurrent(0f);
+		} else {
+			if(_brightMode == 0) _brightEaser.setCurrent(1.0f);
+			else 				 _brightEaser.setCurrent(0.5f);
+		}
+		if(_brightMode == 0) _brightEaser.setTarget(0.25f);
+		else 				 _brightEaser.setTarget(1.2f);
 	}
 	
 	public void addUseCount() {
@@ -96,8 +126,8 @@ public class BaseTexture {
 		resetUseCount(); // this should be the last thing that happens in a frame, to help with texture pool optimization
 		_texture.beginDraw();		
 		updateDraw();
-		postProcess();
 		_texture.endDraw();
+		postProcess();
 	}
 	
 	public void updateDraw() {
@@ -105,11 +135,14 @@ public class BaseTexture {
 	}
 	
 	public void updateTiming() {
-		// override with subclass
+		if( _brightMode > -1 ) updateBrightnessTiming();
+		
+		// keep incrementing
+		_timingFrame++;
 	}
 	
 	public void updateTimingSection() {
-		// override with subclass
+		_timingFrame = 0;
 	}
 	
 	public void newMode() {
