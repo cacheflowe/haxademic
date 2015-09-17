@@ -344,6 +344,7 @@ extends PApplet
 				kinectWrapper = new KinectWrapperV1( p, _appConfig.getBoolean( "kinect_depth", true ), _appConfig.getBoolean( "kinect_rgb", true ), _appConfig.getBoolean( "kinect_depth_image", true ) );
 			}
 			kinectWrapper.setMirror( _appConfig.getBoolean( "kinect_mirrored", true ) );
+			kinectWrapper.setFlipped( _appConfig.getBoolean( "kinect_flipped", false ) );
 		}
 		if( _appConfig.getBoolean( "leap_active", false ) == true ) leapMotion = new LeapMotion(this);
 //		_launchpadViz = new LaunchpadViz( p5 );

@@ -21,6 +21,7 @@ public class KinectWrapperV2 implements IKinectWrapper {
 	public int[] _depthArray;
 	public PVector[] _realWorldMap;
 	private boolean mirror = false;
+	public boolean _flipped = false;
 	
 	
 	public KinectWrapperV2( PApplet p, boolean initDepth, boolean initRGB, boolean initDepthImage ) {
@@ -164,6 +165,10 @@ public class KinectWrapperV2 implements IKinectWrapper {
 	@Override
 	public void setMirror( boolean mirrored ) {
 		this.mirror = mirrored;
+	}
+	
+	public void setFlipped( boolean flipped ) {
+		_flipped = flipped;
 	}
 	
 	/* (non-Javadoc)

@@ -30,6 +30,7 @@ extends PAppletHax {
 		_appConfig.setProperty( "kinect_top_pixel", "0" );
 		_appConfig.setProperty( "kinect_bottom_pixel", "480" );
 		_appConfig.setProperty( "kinect_mirrored", "false" );
+		_appConfig.setProperty( "kinect_flipped", "true" );
 	}
 
 	public void setup() {
@@ -66,7 +67,13 @@ extends PAppletHax {
 				int pixelDepth = p.kinectWrapper.getMillimetersDepthForKinectPixel( x, y );
 				if( pixelDepth != 0 && pixelDepth > kinectNear && pixelDepth < kinectFar ) {
 					p.translate(0, 0, -pixelDepth/depthDivider);
-					if(_isDebug == false) p.fill(p.kinectWrapper.getRgbImage().get(x, y));
+					if(_isDebug == false) {
+						if(p.appConfig.getBoolean("kinect_flipped", false) == false) {
+							p.fill(p.kinectWrapper.getRgbImage().get(x, y));
+						} else {
+							p.fill(p.kinectWrapper.getRgbImage().get(KinectSize.WIDTH - 1 - x, KinectSize.HEIGHT- 1 - y));
+						}
+					}
 					p.rect(x, y, pixelsize, pixelsize);
 					p.translate(0, 0, pixelDepth/depthDivider);
 					numPixelsProcessed++;

@@ -20,7 +20,8 @@ public class KinectWrapperV1 implements IKinectWrapper{
 
 	public int[] _depthArray = {0};
 	public PVector[] _realWorldMap;
-	
+	public boolean _flipped = false;
+
 	// The sensor has an angular field of view of 57� horizontally and 43� vertically, while the motorized pivot is capable of tilting the sensor up to 27� either up or down
 	// http://en.wikipedia.org/wiki/Field_of_view
 
@@ -59,6 +60,7 @@ public class KinectWrapperV1 implements IKinectWrapper{
 			if(_kinect != null && _kinect.isInit() == true) {
 				_kinect.update();
 				_depthArray = _kinect.depthMap();
+				if(_flipped == true) reverse(_depthArray);
 				_realWorldMap = _kinect.depthMapRealWorld();
 				_updateComplete = true;
 			}
@@ -72,6 +74,22 @@ public class KinectWrapperV1 implements IKinectWrapper{
 			_updateThread = new Thread( _loader );
 			_updateThread.start();
 		}
+	}
+	
+	public void reverse(final int[] array) {
+	    if (array == null) {
+	        return;
+	    }
+	    int i = 0;
+	    int j = array.length - 1;
+	    int tmp;
+	    while (j > i) {
+	        tmp = array[j];
+	        array[j] = array[i];
+	        array[i] = tmp;
+	        j--;
+	        i++;
+	    }
 	}
 	
 	public PImage getDepthImage() {
@@ -115,6 +133,10 @@ public class KinectWrapperV1 implements IKinectWrapper{
 	
 	public void setMirror( boolean mirrored ) {
 		_kinect.setMirror( mirrored );
+	}
+	
+	public void setFlipped( boolean flipped ) {
+		_flipped = flipped;
 	}
 	
 	public boolean isMirrored() {
@@ -221,7 +243,7 @@ public class KinectWrapperV1 implements IKinectWrapper{
 	@Override
 	public float getJointPositionSkeleton(int userId, int skelLeftHand,
 			PVector _utilPVec) {
-		return getJointPositionSkeleton(userId, skelLeftHand, _utilPVec);
+		return _kinect.getJointPositionSkeleton(userId, skelLeftHand, _utilPVec);
 	}
 	@Override
 	public void convertRealWorldToProjective(PVector _utilPVec,
