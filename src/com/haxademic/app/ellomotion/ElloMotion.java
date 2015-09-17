@@ -39,12 +39,8 @@ extends PAppletHax{
 	protected float SCALE_DOWN = 0.65f;
 	protected float BLOB_DETECT_SCALE = 0.6f;
 	
-	// TODO ===========================
-	//	* Add username in corner - fade in when kinect users are active
-	// ================================
-
 	public static void main(String args[]) {
-		_isFullScreen = false;
+		_isFullScreen = true;
 		_hasChrome = false;
 		boolean isSecondScreen = false;
 		if( isSecondScreen ) {
@@ -62,7 +58,7 @@ extends PAppletHax{
 //		p.appConfig.setProperty( "width", "960" );
 //		p.appConfig.setProperty( "height", "540" );
 		p.appConfig.setProperty( "fills_screen", "false" );
-		p.appConfig.setProperty( "fullscreen", "false" );
+		p.appConfig.setProperty( "fullscreen", "true" );
 		p.appConfig.setProperty( "rendering", "false" );
 		p.appConfig.setProperty( "hide_cursor", "true" );
 		p.appConfig.setProperty( "force_foreground", "false" );
