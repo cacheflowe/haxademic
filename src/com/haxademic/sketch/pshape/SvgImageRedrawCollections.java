@@ -23,9 +23,7 @@ import processing.core.PShape;
 public class SvgImageRedrawCollections 
 extends PAppletHax {
 
-	// Each library has their own `prevRows` tracking for non-repetition
-	// - Fill up each `prevRows` as we draw icons, no matter which one is being drawn into currently
-	// Each group needs their own colorRangeLow/colorRangeHigh 
+	// Each group needs their own colorRangeLow/colorRangeHigh?? 
 	
 	protected PImage img;
 	protected PImage imgGroupMap;
@@ -59,12 +57,13 @@ extends PAppletHax {
 	float colorRangeHigh = 231;
 	float blackThresh = 0.01f;
 
-	int noRepeatVariance = 25;
+	int noRepeatVariance = 20;
 	int numColsToCheckBack = 5;
 	int numRowsToCheckBack = 5;
 	int bailedOnUniqueAttempts = 0;
-	ArrayList<ArrayList<Integer>> prevRows;
-	ArrayList<Integer> currRow;
+	int rescuedLessUniqueSuccess = 0;
+	ArrayList<ArrayList<String>> prevRows;
+	ArrayList<String> currRow;
 
 	boolean rendering = true;
 
@@ -78,24 +77,24 @@ extends PAppletHax {
 		p.smooth();
 		
 		// load image and configure size
-		img = p.loadImage(FileUtil.getFile("images/_the_grove_src_4.jpg"));
-		imgGroupMap = p.loadImage(FileUtil.getFile("images/_the_grove_src_4_map.jpg"));
-		svgDirectories = new String[]{"svg/bw12/level3/", "svg/bw12/level2/", "svg/bw12/level1/"};
+		img = p.loadImage(FileUtil.getFile("images/_grovemural_08-26-15.jpg"));
+		imgGroupMap = p.loadImage(FileUtil.getFile("images/_grovemural_08-24-15_map.jpg"));
+		svgDirectories = new String[]{"svg/bw15/level3/", "svg/bw15/level2/", "svg/bw15/level1/"};
 		svgGroupMapColors = new int[]{ColorUtil.colorFromHex("#000000"), ColorUtil.colorFromHex("#808080"), ColorUtil.colorFromHex("#ffffff")};
-		imagePrintWidth = 21.0f;
+		imagePrintWidth = 20.25f;
 		iconInches = 0.675f;
 		shapeDrawScale = 0.95f;
-		outputFile = "2015-08-20_la_"+iconInches+"inch";
+		outputFile = "2015-08-26_la_"+iconInches+"inch";
 		splitFiles = true;
-		numRowSplits = 2;
+		numRowSplits = 6;
 		
 		// transform to blurred img
-//		PGraphics pg = ImageUtil.imageToGraphics(p, img);
-//		BlurHFilter.instance(p).applyTo(pg);
-//		BlurHFilter.instance(p).setBlur(1f / (pg.width*0.05f));
-//		BlurVFilter.instance(p).applyTo(pg);
-//		BlurVFilter.instance(p).setBlur(1f / (pg.width*0.05f));
-//		img = pg.get();
+		PGraphics pg = ImageUtil.imageToGraphics(p, img);
+		BlurHFilter.instance(p).setBlurByPercent(0.36f, pg.width);
+		BlurHFilter.instance(p).applyTo(pg);
+		BlurVFilter.instance(p).setBlurByPercent(0.36f, pg.height);
+		BlurVFilter.instance(p).applyTo(pg);
+		img = pg.get();
 		
 		// calculate svg draw size base on target output width
 		shapeSize = (float) img.width / ((imagePrintWidth * 12f) / iconInches);	// for 18.5 feet wide
@@ -103,8 +102,8 @@ extends PAppletHax {
 //		P.println("shapeSize: ",shapeSize);
 		
 		// set up arrays to track non-repetition
-		prevRows = new ArrayList<ArrayList<Integer>>();
-		currRow = new ArrayList<Integer>();
+		prevRows = new ArrayList<ArrayList<String>>();
+		currRow = new ArrayList<String>();
 
 		// load collections & analyze as they're created
 		analyzeCanvas = p.createGraphics((int)analyzeSize, (int)analyzeSize);
@@ -168,7 +167,7 @@ extends PAppletHax {
 		
 		// debug draw image
 		DrawUtil.setDrawCorner(p);
-		p.image(img, 0, p.height - img.height);
+		p.image(img, 0, p.height - p.mouseY * 3f);
 		
 		// debug draw shapes
 		debugDrawSvgs();
@@ -214,7 +213,7 @@ extends PAppletHax {
 		for (float y = halfShapeSize; y <= img.height - halfShapeSize; y += shapeSize) {
 			P.println("Processing row ",y);
 			if(rowsDrawn > 0) {
-				ArrayList<Integer> prevRow = new ArrayList<Integer>();
+				ArrayList<String> prevRow = new ArrayList<String>();
 				prevRow.addAll(currRow);
 				prevRows.add(prevRow);
 			}
@@ -269,7 +268,7 @@ extends PAppletHax {
 					p.shape(_blackDot.shape, x, y, shapeDrawSize, shapeDrawSize);
 					if(ColorUtil.redFromColorInt(pixelColor) != 0 && ColorUtil.greenFromColorInt(pixelColor) != 0 && ColorUtil.blueFromColorInt(pixelColor) != 0)
 						P.println("Too Black ",ColorUtil.redFromColorInt(pixelColor), ColorUtil.greenFromColorInt(pixelColor), ColorUtil.blueFromColorInt(pixelColor));
-					currRow.add(-1);
+					currRow.add("");
 				} else {
 					// calculate color
 					float lightness = 0;
@@ -283,31 +282,31 @@ extends PAppletHax {
 						boolean foundShape = false;
 						for (int i = 0; i < curSvgs.size() - 1; i++) {
 							if(curSvgs.get(i).whiteness > lightness) {
-								int index = indexNonOverlap(curSvgs, i);
+								int index = indexNonOverlap(curSvgs, i, numColsToCheckBack, numRowsToCheckBack);
 								SvgRanked svg = curSvgs.get(index);
 								svg.draw(p, x, y, shapeDrawSize);
 								// p.shape(svg.shape, x, y, shapeDrawSize * svg.scale, shapeDrawSize * svg.scale);
 								foundShape = true;
-								currRow.add(index);
+								currRow.add(svg.file);
 								break;
 							}
 						}
 						if(foundShape == false) {
 							int index = curSvgs.size() - 1;
-							index = indexNonOverlap(curSvgs, index);
+							index = indexNonOverlap(curSvgs, index, numColsToCheckBack, numRowsToCheckBack);
 							SvgRanked svg = curSvgs.get(index);
 							svg.draw(p, x, y, shapeDrawSize);
 							// p.shape(svg.shape, x, y, shapeDrawSize * svg.scale, shapeDrawSize * svg.scale);
-							currRow.add(index);
+							currRow.add(svg.file);
 						}
 						if(foundShape == false) P.println("NO SHAPE DRAWN?!?!?!");
 					} else {
 						int index = P.round(P.map(lightness, 0, 255, 0, curSvgs.size() - 1));
-						index = indexNonOverlap(curSvgs, index);
+						index = indexNonOverlap(curSvgs, index, numColsToCheckBack, numRowsToCheckBack);
 						SvgRanked svg = curSvgs.get(index);
 						svg.draw(p, x, y, shapeDrawSize);
 						// p.shape(svg.shape, x, y, shapeDrawSize * svg.scale, shapeDrawSize * svg.scale);
-						currRow.add(index);
+						currRow.add(svg.file);
 					}
 				}
 				
@@ -331,38 +330,52 @@ extends PAppletHax {
 		P.println("PDF rendered with "+shapesDrawn+" shapes and "+colsDrawn+" columns. Whoa.");
 		P.println("Printed at "+imagePrintWidth+"', this makes each icon "+((imagePrintWidth*imgScale*12f)/(float)colsDrawn)+" inches in size.");
 		P.println("Bailed on unique attempts: ",bailedOnUniqueAttempts);
+		P.println("Rescued unique attempts: ",rescuedLessUniqueSuccess);
 
 	}
 	
-	public int indexNonOverlap(ArrayList<SvgRanked> curSvgs, int indexAttempt) {
+	public int indexNonOverlap(ArrayList<SvgRanked> curSvgs, int indexAttempt, int checkBackCols, int checkBackRows) {
 		int attempts = 0;
 		float crawlIndex = 0;
 		int origAttempt = indexAttempt;
-		while(indexIsUnique(curSvgs, indexAttempt) == false) {
+		while(indexIsUnique(curSvgs, indexAttempt, checkBackCols, checkBackRows) == false) {
 			attempts++;
 			if(attempts > noRepeatVariance * 2f) {
 				bailedOnUniqueAttempts++;
 				if(indexAttempt < 0) indexAttempt = 0;
 				if(indexAttempt >= curSvgs.size()) indexAttempt = curSvgs.size() - 1;
-				return indexAttempt;
+				if(checkBackCols == numColsToCheckBack) {
+					// reduce rows to check against and try again
+					return indexNonOverlap(curSvgs, origAttempt, (int)Math.ceil(checkBackCols/2f), (int)Math.ceil(checkBackRows/2f));
+				} else {
+					return indexAttempt;
+				}
 			}
-			// indexAttempt = origAttempt + MathUtil.randRange(-noRepeatVariance, noRepeatVariance);
 			crawlIndex += 0.5f; // half is down, whole number is up
 			if(crawlIndex % 1f > 0) {
 				indexAttempt = origAttempt + P.ceil(crawlIndex);
+				indexAttempt = safeIndexForCollection(indexAttempt, curSvgs);
 			} else {
 				indexAttempt = origAttempt - P.ceil(crawlIndex);
+				indexAttempt = safeIndexForCollection(indexAttempt, curSvgs);
 			}
 		}
+		if(checkBackCols < numColsToCheckBack) rescuedLessUniqueSuccess++;
 		return indexAttempt;
 	}
 	
-	protected boolean indexIsUnique(ArrayList<SvgRanked> curSvgs, int indexAttempt) {		
+	protected int safeIndexForCollection(int indexAttempt, ArrayList<SvgRanked> curSvgs) {
+		if(indexAttempt < 0) indexAttempt = 0;
+		if(indexAttempt >= curSvgs.size()) indexAttempt = curSvgs.size() - 1;
+		return indexAttempt;
+	}
+	
+	protected boolean indexIsUnique(ArrayList<SvgRanked> curSvgs, int indexAttempt, int checkBackCols, int checkBackRows) {		
 		// check prev in current row
 		if(currRow.size() > 0) {
-			for(int colIndex = currRow.size()-1; colIndex > currRow.size() - numColsToCheckBack; colIndex--) {
+			for(int colIndex = currRow.size()-1; colIndex > currRow.size() - checkBackCols; colIndex--) {
 				if(colIndex >= 0) {
-					if(indexAttempt == currRow.get(colIndex)) {
+					if(curSvgs.get(indexAttempt).file == currRow.get(colIndex)) {
 						// P.println("Checking prev in row "+indexAttempt+" == "+currRow.get(colIndex));
 						return false;
 					}
@@ -373,14 +386,14 @@ extends PAppletHax {
 		// check prev rows
 		int curColIndex = currRow.size() - 1;
 		if(prevRows.size() > 0) {
-			for(int rowIndex = prevRows.size()-1; rowIndex > prevRows.size() - numRowsToCheckBack; rowIndex--) {
+			for(int rowIndex = prevRows.size()-1; rowIndex > prevRows.size() - checkBackRows; rowIndex--) {
 				if(rowIndex >= 0) {
 					
 					// check each col in prev row
-					ArrayList<Integer> prevRow = prevRows.get(rowIndex);
-					for(int colIndex = curColIndex + numColsToCheckBack; colIndex > curColIndex - numColsToCheckBack; colIndex--) {
+					ArrayList<String> prevRow = prevRows.get(rowIndex);
+					for(int colIndex = curColIndex + checkBackCols; colIndex > curColIndex - checkBackCols; colIndex--) {
 						if(colIndex >= 0 && colIndex < prevRow.size()-1) {
-							if(indexAttempt == prevRow.get(colIndex)) {
+							if(curSvgs.get(indexAttempt).file == prevRow.get(colIndex)) {
 								return false;
 							}
 						}
