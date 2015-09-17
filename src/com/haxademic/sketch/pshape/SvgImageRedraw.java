@@ -92,18 +92,18 @@ extends PAppletHax {
 			iconInches = 1.5f;
 			shapeDrawScale = 0.9f;
 		} else {
-			img = p.loadImage(FileUtil.getFile("images/_nike_08-11_kobe_top.jpg"));
+			img = p.loadImage(FileUtil.getFile("images/_billboard-contrast.jpg"));
 
-			shapeDrawScale = 0.95f;
-			iconInches = 0.675f;
-			imagePrintWidth = 10f;
+			shapeDrawScale = 0.75f;
+			iconInches = 1.675f;
+			imagePrintWidth = 39f;
 
 //			String iconsLevel = "1"; 
-			String athlete = "kobe_top"; 
+			String athlete = "billboard"; 
 			// directory = "svg/bw12/level"+iconsLevel+"/";
 			svgDirectory = "svg/bw13/"; // testing wtf black holes
 //			outputFile = athlete+"_level"+iconsLevel+"_"+iconInches+"inch";
-			outputFile = "2015-08-11_"+athlete+"_"+iconInches+"inch";
+			outputFile = "2015-08-24_"+athlete+"_"+iconInches+"inch";
 
 //			splitFiles = true;
 //			numRowSplits = 2;
