@@ -23,5 +23,6 @@ public class ColorUtil {
 	public final static int redFromColorInt( int c ) { return (c >> 16) & 0xFF;	}
 	public final static int greenFromColorInt( int c ) { return (c >> 8)  & 0xFF; }
 	public final static int blueFromColorInt( int c ) { return c & 0xFF; }
+	public final static int[] rgbFromColorInt( int c ) { return new int[]{redFromColorInt(c), greenFromColorInt(c), blueFromColorInt(c)}; }
 	
 }
