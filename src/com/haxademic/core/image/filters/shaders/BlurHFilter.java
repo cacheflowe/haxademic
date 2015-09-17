@@ -9,7 +9,7 @@ extends BaseFilter {
 	
 	public BlurHFilter(PApplet p) {
 		super(p, "shaders/filters/blur-horizontal.glsl");
-		setBlur(0.001f);
+		setBlur(0f);
 	}
 	
 	public static BlurHFilter instance(PApplet p) {
@@ -20,6 +20,10 @@ extends BaseFilter {
 	
 	public void setBlur(float blur) {
 		shader.set("h", blur);
+	}
+	
+	public void setBlurByPercent(float blurPercent, float imageWidth) {
+		shader.set("h", blurPercent * (1f / imageWidth));
 	}
 	
 }

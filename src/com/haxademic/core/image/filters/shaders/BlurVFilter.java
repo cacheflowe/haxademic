@@ -22,4 +22,8 @@ extends BaseFilter {
 		shader.set("v", blur);
 	}
 	
+	public void setBlurByPercent(float blurPercent, float imageWidth) {
+		shader.set("v", blurPercent * (1f / imageWidth));
+	}
+	
 }
