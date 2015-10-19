@@ -40,7 +40,8 @@ public class BaseTexture {
 		_texture = P.p.createGraphics( width, height, PConstants.OPENGL );
 //		_texture.smooth(OpenGLUtil.SMOOTH_MEDIUM);
 //		_texture.smooth(OpenGLUtil.SMOOTH_HIGH);
-		_texture.smooth(OpenGLUtil.SMOOTH_LOW);
+//		_texture.smooth(OpenGLUtil.SMOOTH_LOW);
+		_texture.noSmooth();
 		OpenGLUtil.setTextureRepeat(_texture);
 
 		// postprocessing - only create 1 shader for all instances

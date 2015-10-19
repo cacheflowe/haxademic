@@ -44,7 +44,7 @@ extends PAppletHax {
 		_appConfig.setProperty( "rendering", "false" );
 		_appConfig.setProperty( "fills_screen", "true" );
 		_appConfig.setProperty( "fullscreen", "true" );
-		_appConfig.setProperty( "mapping_file",  FileUtil.getFile("text/mapping/mapping-2015-09-07-16-18-50.txt") );
+		_appConfig.setProperty( "mapping_file",  FileUtil.getFile("text/mapping/mapping-2015-09-18-17-46-33.txt") );
 //		_appConfig.setProperty( "fullscreen", "false" );
 //		_appConfig.setProperty( "fills_screen", "false" );
 	}

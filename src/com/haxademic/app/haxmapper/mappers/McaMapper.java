@@ -43,23 +43,27 @@ extends HaxMapper{
 	protected int BEAT_INTERVAL_BIG_CHANGE = (int) Math.ceil(250f / BEAT_DIVISOR);
 	
 	protected RandomLightTiming _dmxLights;
+	
+	protected boolean _timingDebug = false;
 
 	public static void main(String args[]) {
-		_isFullScreen = false;
+		_isFullScreen = true;
 		PApplet.main(new String[] { "--hide-stop", "--bgcolor=000000", McaMapper.class.getName() });
 	}
 
 	protected void overridePropsFile() {
 		super.overridePropsFile();
-		_appConfig.setProperty( "mapping_file", FileUtil.getFile("text/mapping/mapping-2015-09-14-20-38-59.txt") );
-		_appConfig.setProperty( "rendering", "false" );
-		_appConfig.setProperty( "fullscreen", "false" );
-		_appConfig.setProperty( "fills_screen", "false" );
-		_appConfig.setProperty( "osc_active", "false" );
-		_appConfig.setProperty( "audio_debug", "true" );
-		_appConfig.setProperty( "width", "1200" );
-		_appConfig.setProperty( "height", "1000" );
-		_appConfig.setProperty( "dmx_lights_count", "0" );
+		p.appConfig.setProperty( "mapping_file", FileUtil.getFile("text/mapping/mapping-2015-09-18-17-55-50.txt") );
+		p.appConfig.setProperty( "rendering", "false" );
+		p.appConfig.setProperty( "fullscreen", "true" );
+		p.appConfig.setProperty( "fills_screen", "true" );
+		p.appConfig.setProperty( "osc_active", "false" );
+		p.appConfig.setProperty( "audio_debug", "true" );
+		p.appConfig.setProperty( "width", "1200" );
+		p.appConfig.setProperty( "height", "1000" );
+		p.appConfig.setProperty( "dmx_lights_count", "4" );
+		p.appConfig.setProperty( "hide_cursor", "false" );
+		p.appConfig.setProperty( "force_foreground", "true" );
 	}
 
 	public void oscEvent(OscMessage theOscMessage) {  
@@ -68,7 +72,7 @@ extends HaxMapper{
 	
 	public void setup() {
 		super.setup();
-		if(_appConfig.getInt("dmx_lights_count", 0) > 0) _dmxLights = new RandomLightTiming(_appConfig.getInt("dmx_lights_count", 0));
+		if(p.appConfig.getInt("dmx_lights_count", 0) > 0) _dmxLights = new RandomLightTiming(p.appConfig.getInt("dmx_lights_count", 0));
 		
 //		_audioPixel = new AudioPixelInterface();
 //		_audioPixelColors = new int[ _mappingGroups.size() ];
@@ -113,6 +117,12 @@ extends HaxMapper{
 		_texturePool.add( new TextureVideoPlayer( videoW, videoH, "video/minter/Macro Video of Human Eye & Iris.mp4" ));
 		_texturePool.add( new TextureVideoPlayer( videoW, videoH, "video/minter/Steam on Glass #2.mp4" ));
 		_texturePool.add( new TextureVideoPlayer( videoW, videoH, "video/minter/Water drop running down glass.mp4" ));
+		
+		_texturePool.add( new TextureVideoPlayer( videoW, videoH, "video/minter/ICE_LIPS_2.mov" ));
+		_texturePool.add( new TextureVideoPlayer( videoW, videoH, "video/minter/ink-in-water.mp4" ));
+		_texturePool.add( new TextureVideoPlayer( videoW, videoH, "video/minter/Macro shot of lips on Vimeo_2.mov" ));
+		_texturePool.add( new TextureVideoPlayer( videoW, videoH, "video/minter/Smoke_02.mov" ));
+		_texturePool.add( new TextureVideoPlayer( videoW, videoH, "video/minter/STEEL_WOLL_2.mov" ));
 		
 		int shaderW = 300;
 		int shaderH = 300;
@@ -209,20 +219,20 @@ extends HaxMapper{
 		if(_overlayTexturePool.size() > 0) _overlayTexturePool.get(0).updateTiming();
 		
 		if( numBeatsDetected % BEAT_INTERVAL_MAP_STYLE_CHANGE == 0 ) {
-			P.println("BEAT_INTERVAL_MAP_STYLE_CHANGE");
+			if(_timingDebug == true) P.println("BEAT_INTERVAL_MAP_STYLE_CHANGE");
 			changeGroupsRandomPolygonMapStyle();
 		}
 		
 		if( numBeatsDetected % BEAT_INTERVAL_COLOR == 0 ) {
-			P.println("BEAT_INTERVAL_COLOR");
+			if(_timingDebug == true) P.println("BEAT_INTERVAL_COLOR");
 			updateColor();
 		}
 		if( numBeatsDetected % BEAT_INTERVAL_ROTATION == 0 ) {
-			P.println("BEAT_INTERVAL_ROTATION");
+			if(_timingDebug == true) P.println("BEAT_INTERVAL_ROTATION");
 			updateRotation();
 		}
 		if( numBeatsDetected % BEAT_INTERVAL_TRAVERSE == 0 ) {
-			P.println("BEAT_INTERVAL_TRAVERSE");
+			if(_timingDebug == true) P.println("BEAT_INTERVAL_TRAVERSE");
 			traverseTrigger();
 		}
 //		updateColor();
@@ -231,24 +241,24 @@ extends HaxMapper{
 		}
 		
 		if( numBeatsDetected % BEAT_INTERVAL_ALL_SAME == 0 ) {
-			P.println("BEAT_INTERVAL_ALL_SAME");
+			if(_timingDebug == true) P.println("BEAT_INTERVAL_ALL_SAME");
 			setGroupsMappingStylesToTheSame();
 			setGroupsTextureToTheSameMaybe();
 		}
 		
 		if( numBeatsDetected % BEAT_INTERVAL_LINE_MODE == 0 ) {
-			P.println("BEAT_INTERVAL_LINE_MODE");
+			if(_timingDebug == true) P.println("BEAT_INTERVAL_LINE_MODE");
 			updateLineMode();
 		}
 		
 		if( numBeatsDetected % BEAT_INTERVAL_NEW_TIMING == 0 ) {
-			P.println("BEAT_INTERVAL_NEW_TIMING");
+			if(_timingDebug == true) P.println("BEAT_INTERVAL_NEW_TIMING");
 			updateTimingSection();
 		}
 		
 		// every 40 beats, do something bigger
 		if( numBeatsDetected % BEAT_INTERVAL_BIG_CHANGE == 0 ) {
-			P.println("BEAT_INTERVAL_BIG_CHANGE");
+			if(_timingDebug == true) P.println("BEAT_INTERVAL_BIG_CHANGE");
 			bigChangeTrigger();
 		}
 	}
@@ -297,18 +307,6 @@ extends HaxMapper{
 		}
 	}	
 	
-	// MCA ONLY - never go to EQ mapping mode
-	protected void setGroupsMappingStylesToTheSame() {
-		// every once in a while, set all polygons' styles to be the same per group
-		for(int i=0; i < _mappingGroups.size(); i++ ) {
-//			if( MathUtil.randRange(0, 100) < 90 ) {
-				_mappingGroups.get(i).setAllPolygonsTextureStyle( MathUtil.randRange(0, 2) );
-//			} else {
-//				_mappingGroups.get(i).setAllPolygonsTextureStyle( IMappedPolygon.MAP_STYLE_EQ );	// less likely to go to EQ fill
-//			}
-			_mappingGroups.get(i).newColor();
-		}
-	}
 	protected void changeGroupsRandomPolygonMapStyle() {
 		// every beat, change a polygon mapping style or texture
 		for(int i=0; i < _mappingGroups.size(); i++ ) {
@@ -339,6 +337,22 @@ extends HaxMapper{
 		}
 	}
 		
+	
+	// MCA ONLY =============================
+	
+	// never go to EQ mapping mode
+	protected void setGroupsMappingStylesToTheSame() {
+		// every once in a while, set all polygons' styles to be the same per group
+		for(int i=0; i < _mappingGroups.size(); i++ ) {
+//			if( MathUtil.randRange(0, 100) < 90 ) {
+				_mappingGroups.get(i).setAllPolygonsTextureStyle( MathUtil.randRange(0, 2) );
+//			} else {
+//				_mappingGroups.get(i).setAllPolygonsTextureStyle( IMappedPolygon.MAP_STYLE_EQ );	// less likely to go to EQ fill
+//			}
+			_mappingGroups.get(i).newColor();
+		}
+	}
+
 	// override to allow all-movie textures
 	@Override
 	protected void cycleANewTexture(BaseTexture specificTexture) {

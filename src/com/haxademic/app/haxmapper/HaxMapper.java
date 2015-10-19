@@ -117,6 +117,7 @@ extends PAppletHax {
 	public void setup() {
 		super.setup();
 //		p.smooth(OpenGLUtil.SMOOTH_HIGH);
+		p.noSmooth();
 		noStroke();
 		importPolygons();
 		for( int i=0; i < _mappingGroups.size(); i++ ) _mappingGroups.get(i).completePolygonImport();
