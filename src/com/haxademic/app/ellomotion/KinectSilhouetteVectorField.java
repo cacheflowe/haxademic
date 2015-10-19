@@ -19,8 +19,8 @@ extends KinectSilhouetteBasic {
 	protected ArrayList<PVector> _vectorFieldOffset;
 	protected boolean SHOW_ATTRACTORS = false;
 
-	public KinectSilhouetteVectorField(float scaleDownForBlobDetection, boolean depthKeying, boolean hasParticles) {
-		super(scaleDownForBlobDetection, depthKeying, hasParticles);
+	public KinectSilhouetteVectorField(boolean depthKeying, boolean hasParticles) {
+		super(depthKeying, hasParticles);
 		
 		buildVectorField();
 	}
@@ -75,7 +75,6 @@ extends KinectSilhouetteBasic {
 
 		// update particles
 		_canvas.fill( 255 );
-		_canvas.noStroke();
 		_canvas.stroke(255);
 		_canvas.strokeCap(P.ROUND);
 		VectorFieldParticle particle;
@@ -90,6 +89,7 @@ extends KinectSilhouetteBasic {
 			}
 		}
 		if(DEBUG_OUTPUT) P.println("_particles.size()",_particles.size());
+		_canvas.noStroke();
 	}
 	
 	

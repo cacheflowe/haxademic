@@ -58,7 +58,7 @@ extends PAppletHax{
 //		p.appConfig.setProperty( "width", "960" );
 //		p.appConfig.setProperty( "height", "540" );
 		p.appConfig.setProperty( "fills_screen", "false" );
-		p.appConfig.setProperty( "fullscreen", "true" );
+		p.appConfig.setProperty( "fullscreen", "false" );
 		p.appConfig.setProperty( "rendering", "false" );
 		p.appConfig.setProperty( "hide_cursor", "true" );
 		p.appConfig.setProperty( "force_foreground", "false" );
@@ -165,7 +165,7 @@ extends PAppletHax{
 		protected PGraphics _galleryImg;
 
 		public KinectLayer() {
-			_silhouette = new KinectSilhouetteVectorField(BLOB_DETECT_SCALE, false, true);
+			_silhouette = new KinectSilhouetteVectorField(false, true);
 			initImageBuffer();
 		}
 		
