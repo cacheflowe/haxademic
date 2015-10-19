@@ -4,6 +4,8 @@ import processing.core.PApplet;
 import processing.core.PImage;
 import processing.core.PShape;
 import processing.core.PVector;
+import toxi.geom.mesh.Face;
+import toxi.geom.mesh.WETriangleMesh;
 
 import com.haxademic.core.app.P;
 
@@ -150,4 +152,23 @@ public class PShapeUtil {
 		return outermostVertex;
 	}
 	
+	/**
+	 * Draws triangles instead of native draw calls
+	 * @param s
+	 * @return
+	 */
+	public static void drawTriangles(PApplet p, PShape s) {
+		for (int i = 0; i < s.getVertexCount() - 3; i += 3) { // ugh
+			p.beginShape(P.TRIANGLES);
+			p.vertex(s.getVertex(i).x, s.getVertex(i).y, s.getVertex(i).z);
+			p.vertex(s.getVertex(i+1).x, s.getVertex(i+1).y, s.getVertex(i+1).z);
+			p.vertex(s.getVertex(i+2).x, s.getVertex(i+2).y, s.getVertex(i+2).z);
+			p.endShape();
+		}
+		for (int j = 0; j < s.getChildCount(); j++) {
+			PShape subShape = s.getChild(j);
+			drawTriangles(p, subShape);
+		}
+	}
+
 }
