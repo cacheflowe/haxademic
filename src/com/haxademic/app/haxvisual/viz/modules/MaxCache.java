@@ -326,42 +326,42 @@ public class MaxCache extends ModuleBase implements IVizModule {
 
 	public void handleKeyboardInput()
 	{
-		if ( p.key == 'c' || p.key == 'C' || p.getMidi().midiPadIsOn( MidiWrapper.PAD_01 ) == 1 || p.getMidi().midiPadIsOn( MidiWrapper.NOTE_01 ) == 1 ) {
+		if ( p.key == 'c' || p.key == 'C' || p._midi.midiPadIsOn( MidiWrapper.PAD_01 ) == 1 || p._midi.midiPadIsOn( MidiWrapper.NOTE_01 ) == 1 ) {
 			newBaseColors();
 		}
-		if ( p.key == 'v' || p.key == 'V' || p.getMidi().midiPadIsOn( MidiWrapper.PAD_02 ) == 1 || p.getMidi().midiPadIsOn( MidiWrapper.NOTE_02 ) == 1 ) {
+		if ( p.key == 'v' || p.key == 'V' || p._midi.midiPadIsOn( MidiWrapper.PAD_02 ) == 1 || p._midi.midiPadIsOn( MidiWrapper.NOTE_02 ) == 1 ) {
 			newCamera();
 		}
-		if ( p.key == 'b' || p.key == 'B' || p.getMidi().midiPadIsOn( MidiWrapper.PAD_03 ) == 1 || p.getMidi().midiPadIsOn( MidiWrapper.NOTE_03 ) == 1 ) {
+		if ( p.key == 'b' || p.key == 'B' || p._midi.midiPadIsOn( MidiWrapper.PAD_03 ) == 1 || p._midi.midiPadIsOn( MidiWrapper.NOTE_03 ) == 1 ) {
 			swapRowBased();
 		}
-		if ( p.key == 'f' || p.key == 'F' || p.getMidi().midiPadIsOn( MidiWrapper.PAD_05 ) == 1 || p.getMidi().midiPadIsOn( MidiWrapper.NOTE_05 ) == 1 ) {
+		if ( p.key == 'f' || p.key == 'F' || p._midi.midiPadIsOn( MidiWrapper.PAD_05 ) == 1 || p._midi.midiPadIsOn( MidiWrapper.NOTE_05 ) == 1 ) {
 //			newFollowObject();
 		}
-		if ( p.key == 'm' || p.key == 'M' || p.getMidi().midiPadIsOn( MidiWrapper.PAD_04 ) == 1 || p.getMidi().midiPadIsOn( MidiWrapper.NOTE_04 ) == 1 ) {
+		if ( p.key == 'm' || p.key == 'M' || p._midi.midiPadIsOn( MidiWrapper.PAD_04 ) == 1 || p._midi.midiPadIsOn( MidiWrapper.NOTE_04 ) == 1 ) {
 			newBaseColors();
 			newCamera();
 			_mode = P.round( p.random( 0, 2 ) );
 			updateMode();
 		}
-		if ( p.key == '1' || p.getMidi().midiPadIsOn( MidiWrapper.PAD_09 ) == 1 || p.getMidi().midiPadIsOn( MidiWrapper.NOTE_09 ) == 1 ) {
+		if ( p.key == '1' || p._midi.midiPadIsOn( MidiWrapper.PAD_09 ) == 1 || p._midi.midiPadIsOn( MidiWrapper.NOTE_09 ) == 1 ) {
 			_mode = MAPPING;
 			updateMode();
-		} else if ( p.key == '2' || p.getMidi().midiPadIsOn( MidiWrapper.PAD_10 ) == 1 || p.getMidi().midiPadIsOn( MidiWrapper.NOTE_10 ) == 1 ) {
+		} else if ( p.key == '2' || p._midi.midiPadIsOn( MidiWrapper.PAD_10 ) == 1 || p._midi.midiPadIsOn( MidiWrapper.NOTE_10 ) == 1 ) {
 			_mode = BOXES;
 			updateMode();
-		} else if ( p.key == '3' || p.getMidi().midiPadIsOn( MidiWrapper.PAD_11 ) == 1 || p.getMidi().midiPadIsOn( MidiWrapper.NOTE_11 ) == 1 ) {
+		} else if ( p.key == '3' || p._midi.midiPadIsOn( MidiWrapper.PAD_11 ) == 1 || p._midi.midiPadIsOn( MidiWrapper.NOTE_11 ) == 1 ) {
 			_mode = MESH;
 			updateMode();
-		} else if ( p.getMidi().midiPadIsOn( MidiWrapper.PAD_05 ) == 1 || p.getMidi().midiPadIsOn( MidiWrapper.NOTE_05 ) == 1 ) {
+		} else if ( p._midi.midiPadIsOn( MidiWrapper.PAD_05 ) == 1 || p._midi.midiPadIsOn( MidiWrapper.NOTE_05 ) == 1 ) {
 			_pixelsSkip--;
 			_pixelsSkip = P.constrain(_pixelsSkip,5,15);
-		} else if ( p.getMidi().midiPadIsOn( MidiWrapper.PAD_06 ) == 1 || p.getMidi().midiPadIsOn( MidiWrapper.NOTE_06 ) == 1 ) {
+		} else if ( p._midi.midiPadIsOn( MidiWrapper.PAD_06 ) == 1 || p._midi.midiPadIsOn( MidiWrapper.NOTE_06 ) == 1 ) {
 			_pixelsSkip++;
 			_pixelsSkip = P.constrain(_pixelsSkip,5,15);
-		} else if ( p.getMidi().midiPadIsOn( MidiWrapper.PAD_07 ) == 1 || p.getMidi().midiPadIsOn( MidiWrapper.NOTE_07 ) == 1 ) {
+		} else if ( p._midi.midiPadIsOn( MidiWrapper.PAD_07 ) == 1 || p._midi.midiPadIsOn( MidiWrapper.NOTE_07 ) == 1 ) {
 			_kinectinterface.tiltDown();
-		} else if ( p.getMidi().midiPadIsOn( MidiWrapper.PAD_08 ) == 1 || p.getMidi().midiPadIsOn( MidiWrapper.NOTE_08 ) == 1 ) {
+		} else if ( p._midi.midiPadIsOn( MidiWrapper.PAD_08 ) == 1 || p._midi.midiPadIsOn( MidiWrapper.NOTE_08 ) == 1 ) {
 			_kinectinterface.tiltUp();
 		}
 

@@ -31,10 +31,10 @@ public class InputTrigger {
 			}
 		}
 		for( int i=0; i < _midiNotes.length; i++ ) {
-			if( P.p.getMidi().midiNoteIsOn( _midiNotes[i] ) == 1 ) return true;
+			if( P.p._midi.midiNoteIsOn( _midiNotes[i] ) == 1 ) return true;
 		}
 		for( int i=0; i < _midiNotes.length; i++ ) {
-			if( P.p.getMidi().midiNoteIsOn( _midiNotes[i] ) == 1 ) return true;
+			if( P.p._midi.midiNoteIsOn( _midiNotes[i] ) == 1 ) return true;
 		}
 		return false;
 	}

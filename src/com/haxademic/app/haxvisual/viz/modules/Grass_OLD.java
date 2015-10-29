@@ -85,10 +85,10 @@ implements IVizModule
 
 	public void handleKeyboardInput()
 	{
-		if ( p.key == 'm' || p.key == 'M' || p.getMidi().midiPadIsOn( MidiWrapper.PAD_04 ) == 1 || p.getMidi().midiPadIsOn( MidiWrapper.NOTE_04 ) == 1 ) {
+		if ( p.key == 'm' || p.key == 'M' || p._midi.midiPadIsOn( MidiWrapper.PAD_04 ) == 1 || p._midi.midiPadIsOn( MidiWrapper.NOTE_04 ) == 1 ) {
 			pickMode();
 		}
-		if ( p.key == 'c' || p.key == 'C' || p.getMidi().midiPadIsOn( MidiWrapper.PAD_01 ) == 1 || p.getMidi().midiPadIsOn( MidiWrapper.NOTE_01 ) == 1 ) {
+		if ( p.key == 'c' || p.key == 'C' || p._midi.midiPadIsOn( MidiWrapper.PAD_01 ) == 1 || p._midi.midiPadIsOn( MidiWrapper.NOTE_01 ) == 1 ) {
 			pickNewColors();
 		}
 	}

@@ -608,21 +608,11 @@ extends PApplet
 	/**
 	 * Getters / Setters
 	 */
-	// instance of this -------------------------------------------------
-//	public static PAppletHax getInstance(){ return p; }
 	// instance of audio wrapper -------------------------------------------------
 	public AudioInputWrapper getAudio() { return _audioInput; }
-	// instance of midi wrapper -------------------------------------------------
-	public MidiWrapper getMidi() { return _midi; }
-	// instance of osc wrapper -------------------------------------------------
-	public OscWrapper getOsc() { return _oscWrapper; }
-	// instance of osc wrapper -------------------------------------------------
-	public Minim getMinim() { return minim; }
 	// get fps of app -------------------------------------------------
 	public int getFps() { return _fps; }
 	// get fps factor of app -------------------------------------------------
 	public float getFpsFactor() { return 30f / _fps; }
-	// get autopilot boolean -------------------------------------------------
-//	public Boolean getIsAutopilot() { return _isAutoPilot; }
 
 }

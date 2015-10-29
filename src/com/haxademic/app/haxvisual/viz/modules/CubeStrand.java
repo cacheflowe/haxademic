@@ -187,19 +187,19 @@ public class CubeStrand extends ModuleBase implements IVizModule {
 
 	public void handleKeyboardInput()
 	{
-		if ( p.key == 'c' || p.key == 'C' || p.getMidi().midiPadIsOn( MidiWrapper.PAD_01 ) == 1 ) {
+		if ( p.key == 'c' || p.key == 'C' || p._midi.midiPadIsOn( MidiWrapper.PAD_01 ) == 1 ) {
 			 pickNewColors();
 		}
-		if ( p.key == 'v' || p.key == 'V' || p.getMidi().midiPadIsOn( MidiWrapper.PAD_02 ) == 1 ) {
+		if ( p.key == 'v' || p.key == 'V' || p._midi.midiPadIsOn( MidiWrapper.PAD_02 ) == 1 ) {
 			newCamera();
 		}
-		if ( p.key == 'b' || p.key == 'B' || p.getMidi().midiPadIsOn( MidiWrapper.PAD_03 ) == 1 ) {
+		if ( p.key == 'b' || p.key == 'B' || p._midi.midiPadIsOn( MidiWrapper.PAD_03 ) == 1 ) {
 			newSize();
 		}
-		if ( p.key == 'f' || p.key == 'F' || p.getMidi().midiPadIsOn( MidiWrapper.PAD_05 ) == 1 ) {
+		if ( p.key == 'f' || p.key == 'F' || p._midi.midiPadIsOn( MidiWrapper.PAD_05 ) == 1 ) {
 			newFollowObject();
 		}
-		if ( p.key == 'm' || p.key == 'M' || p.getMidi().midiPadIsOn( MidiWrapper.PAD_04 ) == 1 ) {
+		if ( p.key == 'm' || p.key == 'M' || p._midi.midiPadIsOn( MidiWrapper.PAD_04 ) == 1 ) {
 			pickNewColors();
 			newCamera();
 			newSize();
