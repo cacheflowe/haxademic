@@ -16,7 +16,7 @@ extends PAppletHax {
 	
 	protected BaseTexture[] _textures;
 	int w = 500;
-	int h = 500;
+	int h = 300;
 
 	protected void overridePropsFile() {
 		_appConfig.setProperty( "width", "1000" );
@@ -37,7 +37,11 @@ extends PAppletHax {
 //			new TextureShaderTimeStepper( w, h, "_drawing-stuff.glsl" ),
 				
 			new TextureEQFloatParticles( w, h ),
-//			new TextureShaderTimeStepper( w, h, "wobble-sin.glsl" ),
+			new TextureShaderTimeStepper( w, h, "wobble-sin.glsl" ),
+			new TextureShaderTimeStepper( w, h, "docking-tunnel.glsl" ),
+			new TextureShaderTimeStepper( w, h, "shiny-circle-wave.glsl" ),
+			new TextureShaderTimeStepper( w, h, "stars-nice.glsl" ),
+			new TextureShaderTimeStepper( w, h, "triangle-perlin.glsl" ),
 //			new TextureShaderTimeStepper( w, h, "bw-circles.glsl" ),
 //			new TextureShaderTimeStepper( w, h, "dot-grid-dof.glsl" ),
 //			new TextureShaderTimeStepper( w, h, "flame-wisps.glsl" ),
