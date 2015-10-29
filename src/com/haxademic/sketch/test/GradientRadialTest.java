@@ -33,7 +33,7 @@ extends PAppletHax {
 	}
 
 	public void drawApp() {
-		p.background(255);
+		p.background(0);
 
 		// rendering
 		float percentComplete = ((float)(p.frameCount%_frames)/_frames);
@@ -51,7 +51,7 @@ extends PAppletHax {
 		
 		p.pushMatrix();
 		p.translate(p.width/2, p.height/2);
-		Gradients.radial(p, p.width, p.height, _colorGradientCenter.colorInt(), _colorGradientOuter.colorInt(), 100);
+		Gradients.radial(p, p.width * 2, p.height * 2, _colorGradientCenter.colorInt(), _colorGradientOuter.colorInt(), 100);
 		p.popMatrix();
 	}
 }
