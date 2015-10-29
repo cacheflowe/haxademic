@@ -18,6 +18,8 @@ import com.haxademic.core.app.P;
 //create a separate thread for the server not to freeze/interfere with Processing's default animation thread
 public class WebSocketRelay extends Thread {
 	LocalServer localServer;
+	public String portStr;
+	public String localHost;
 	
 	@Override
 	public void run(){
@@ -32,6 +34,8 @@ public class WebSocketRelay extends Thread {
 			localServer.start();
 			P.println( "WS Server started on port: " + localServer.getPort() );
 			P.println( "WS Server started on ip: " + InetAddress.getLocalHost() );
+			portStr = ""+localServer.getPort();
+			localHost = ""+InetAddress.getLocalHost();
 			
 			BufferedReader sysin = new BufferedReader( new InputStreamReader( System.in ) );
 			while ( true ) {
@@ -61,13 +65,13 @@ public class WebSocketRelay extends Thread {
 		
 		@Override
 		public void onOpen( WebSocket conn, ClientHandshake handshake ) {
-			this.sendToAll( "new connection: " + handshake.getResourceDescriptor() );
+			this.sendToAll( "{\"message\":\"new connection: " + handshake.getResourceDescriptor()+"\"}" );
 			P.println( conn.getRemoteSocketAddress().getAddress().getHostAddress() + " entered the room!" );
 		}
 		
 		@Override
 		public void onClose( WebSocket conn, int code, String reason, boolean remote ) {
-			this.sendToAll( conn + " has left the room!" );
+			this.sendToAll( "{\"message\":\"" + conn + " has left the room!\"}" );
 			P.println( conn + " has left the room!" );
 		}
 		
