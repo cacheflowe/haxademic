@@ -5,6 +5,7 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.image.filters.shaders.BadTVLinesFilter;
 import com.haxademic.core.image.filters.shaders.BrightnessFilter;
 import com.haxademic.core.image.filters.shaders.ChromaColorFilter;
+import com.haxademic.core.image.filters.shaders.ColorCorrectionFilter;
 import com.haxademic.core.image.filters.shaders.CubicLensDistortionFilter;
 import com.haxademic.core.image.filters.shaders.DeformTunnelFanFilter;
 import com.haxademic.core.image.filters.shaders.HueFilter;
@@ -57,6 +58,11 @@ extends PAppletHax {
 		_buffer.filter( _textureShader );		
 		PGraphics filterTargetCanvas = _buffer;
 		
+		ColorCorrectionFilter.instance(p).setBrightness(0.1f * P.cos(radsComplete));
+		ColorCorrectionFilter.instance(p).setContrast(1f + 0.1f * P.sin(radsComplete));
+		ColorCorrectionFilter.instance(p).setGamma(1f + 0.2f * P.sin(radsComplete));
+		ColorCorrectionFilter.instance(p).applyTo(filterTargetCanvas);
+
 		BrightnessFilter.instance(p).setBrightness(1f + 0.5f * P.sin(radsComplete));
 		BrightnessFilter.instance(p).applyTo(filterTargetCanvas);
 //		ContrastFilter.instance(p).setContrast(2f);
