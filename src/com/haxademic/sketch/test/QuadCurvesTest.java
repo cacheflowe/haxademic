@@ -1,8 +1,5 @@
 package com.haxademic.sketch.test;
 
-import processing.core.PConstants;
-import processing.core.PVector;
-
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.color.ColorUtil;
@@ -10,6 +7,9 @@ import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.draw.util.OpenGLUtil;
 import com.haxademic.core.system.FileUtil;
 import com.haxademic.core.system.SystemUtil;
+
+import processing.core.PConstants;
+import processing.core.PVector;
 
 @SuppressWarnings("serial")
 public class QuadCurvesTest
@@ -27,16 +27,18 @@ extends PAppletHax {
 		super.setup();
 		p.smooth(OpenGLUtil.SMOOTH_HIGH);
 		
-		_points = new PVector[10];
+		_points = new PVector[20];
 		randomPoints();
 	}
 	
 	protected void randomPoints() {
+		float xSpace = (p.width * 0.6f) / _points.length;
 		for( int i=0; i < _points.length; i++ ) {
 			if(i == 0)
-				_points[i] = new PVector(p.random(p.width * 0.2f), p.height * 0.5f);
+				_points[i] = new PVector(p.width * 0.2f, p.height * 0.5f);
 			else
-				_points[i] = new PVector(p.random(_points[i-1].x + 50, _points[i-1].x + 200), p.random(_points[i-1].y - 200, _points[i-1].y + 200));
+//				_points[i] = new PVector(p.random(_points[i-1].x + 50, _points[i-1].x + 200), p.random(_points[i-1].y - 30, _points[i-1].y + 30));
+				_points[i] = new PVector(_points[i-1].x + xSpace, p.random(_points[i-1].y - 30, _points[i-1].y + 30));
 		}
 	}
 	
@@ -49,7 +51,7 @@ extends PAppletHax {
 		
 		// oscillate points
 		for( int i=0; i < _points.length; i++ ) {
-			_points[i].set(_points[i].x + P.sin(p.frameCount/100f * i), _points[i].y + P.sin(p.frameCount/120f * i));
+			_points[i].set(_points[i].x + P.sin(p.frameCount/100f * i) / 10f, _points[i].y + P.sin(p.frameCount/120f * i));
 		}
 
 		
@@ -65,18 +67,20 @@ extends PAppletHax {
 			p.beginShape();
 			p.strokeCap(PConstants.ROUND);
 			p.strokeWeight(1f * (numLines - k));
+			p.strokeWeight(1f);
 			p.stroke(255);
 			p.noFill();
+			float padding = 1f;
 
 			for( int i=0; i < numPoints; i++ ) {
 				float distFromEdge = P.min(i, (numPoints) - i);
 				distFromEdge--;	// helps reduce down to 0 on both ends
-				distFromEdge *= k * 8f;
+				distFromEdge *= k * padding;
 				if(distFromEdge < 0) distFromEdge = 0;
 				
 				float nextDistFromEdge = P.min(i+1, (numPoints) - i-1);
 				nextDistFromEdge--;	// helps reduce down to 0 on both ends
-				nextDistFromEdge *= k * 8f;
+				nextDistFromEdge *= k * padding;
 				if(nextDistFromEdge < 0) nextDistFromEdge = 0;
 
 				if( i > 0 ) {
