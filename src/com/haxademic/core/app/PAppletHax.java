@@ -342,7 +342,7 @@ extends PApplet
 //		_launchpadViz = new LaunchpadViz( p5 );
 		if( _appConfig.getBoolean( "osc_active", false ) ) _oscWrapper = new OscWrapper( p );
 		meshPool = new MeshPool( p );
-		_jw = ( _appConfig.getBoolean("sunflow", true ) == true ) ?
+		_jw = ( _appConfig.getBoolean("sunflow", false ) == true ) ?
 				new JoonsWrapper( p, width, height, ( _appConfig.getString("sunflow_quality", "high" ) == "high" ) ? JoonsWrapper.QUALITY_HIGH : JoonsWrapper.QUALITY_LOW, ( _appConfig.getBoolean("sunflow_active", true ) == true ) ? true : false )
 				: null;
 		_debugText = new DebugText( p );
