@@ -3,22 +3,25 @@
 <title>WebSocket Test</title>
 </head>
 <body>
-  Testing...
-<script type="text/javascript">
-  var socket = new WebSocket("ws://10.0.1.19:8887");  // , ["protocolOne", "protocolTwo"]
-  socket.onopen = function (event) {
-    console.log('connected!');
-    var msg = {
-      type: "message",
-      text: "Test Data",
-      date: Date.now()
+  <div id="debug">Testing...</div>
+  <script type="text/javascript">
+    var socket = new WebSocket("ws://cacheflowe.local:8887");  // , ["protocolOne", "protocolTwo"]
+    socket.onopen = function (event) {
+      console.log('connected!');
+      var msg = {
+        type: "message",
+        text: "New browser connected!",
+        date: Date.now()
+      };
+      socket.send(JSON.stringify(msg));
     };
-    socket.send(JSON.stringify(msg));
-  };
-  socket.onmessage = function (event) {
-    console.log('onmessage', event.data);
-  }
-  socket.close();
-</script>
+    socket.onmessage = function (event) {
+      console.log('onmessage', event.data);
+      var div = document.createElement('div');
+      div.innerHTML = event.data;
+      document.getElementById('debug').appendChild(div);
+    }
+    // socket.close();
+  </script>
 </body>
 </html>

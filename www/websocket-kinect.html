@@ -1,0 +1,68 @@
+<html>
+<head>
+  <title>WebSocket Test</title>
+  <style>
+    body {
+      transition: all 0.2s ease;
+    }
+  </style>
+</head>
+<body>
+  <div id="debug">Testing...</div>
+  <script type="text/javascript">
+    /////////////////////
+    // connect
+    /////////////////////
+    var socket = new WebSocket("ws://cacheflowe.local:8887");
+    socket.onopen = function (event) {
+      console.log('connected!');
+      socket.send(JSON.stringify({
+        type: "setup",
+        text: "Debug browser connected",
+        date: ""+Date.now()
+      }));
+    };
+    /////////////////////
+    // receive
+    /////////////////////
+    socket.onmessage = function (event) {
+      if(!event.data) return;
+      console.log(event.data);
+      var jsonMsg = window.JSON.parse(event.data);
+
+      var div = document.createElement('div');
+      div.innerHTML = jsonMsg.type + ', '+jsonMsg.text;
+      document.getElementById('debug').appendChild(div);
+
+      // respond to user in view
+      if(jsonMsg.type == 'user') {
+        if(jsonMsg.text == 'active') {
+          document.body.style.backgroundColor = "#00FF00";
+        } else if(jsonMsg.text == 'inactive') {
+          document.body.style.backgroundColor = "#FF0000";
+        }
+      }
+      // start taking pictures
+      if(jsonMsg.type == 'capture') {
+        document.body.style.backgroundColor = "#0000FF";
+      }
+    };
+    /////////////////////
+    // send
+    /////////////////////
+    document.body.addEventListener('click', function(e) {
+      socket.send(JSON.stringify({
+        type: "web-input",
+        text: 'click'
+      }));
+    })
+    document.body.addEventListener('touchend', function(e) {
+      socket.send(JSON.stringify({
+        type: "mobile-input",
+        text: 'click'
+      }));
+    })
+    // socket.close();
+  </script>
+</body>
+</html>
