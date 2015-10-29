@@ -71,8 +71,10 @@ extends PAppletHax {
 		}
 	}
 	
-	public void sendSocketMessage(String type, String message) {
+	public void sendSocketMessage(String service, String command, String type, String message) {
 	    JSONObject jsonOut = new JSONObject();
+	    jsonOut.setString("service", service);
+	    jsonOut.setString("command", command);
 	    jsonOut.setString("type", type);
 	    jsonOut.setString("text", message);
 	    _server.sendMessage(jsonOut.toString().replaceAll("[\r\n]+", " ").replaceAll("\\s+", " "));
@@ -88,9 +90,9 @@ extends PAppletHax {
 	public void mouseReleased() {
 		for( int i=0; i < _mouseables.size(); i++ ) {
 			if( _mouseables.get(i).checkRelease( p.mouseX, p.mouseY ) ) {
-				if(_mouseables.get(i).id() == "1") sendSocketMessage("user", "active");
-				if(_mouseables.get(i).id() == "2") sendSocketMessage("user", "inactive");
-				if(_mouseables.get(i).id() == "3") sendSocketMessage("capture", "take some pictures!");
+				if(_mouseables.get(i).id() == "1") sendSocketMessage("process", "capture", null, null);
+				if(_mouseables.get(i).id() == "2") sendSocketMessage("process", null, "user", "inactive");
+				if(_mouseables.get(i).id() == "3") sendSocketMessage("process", null, "capture", "take some pictures!");
 			}
 		}
 	}
