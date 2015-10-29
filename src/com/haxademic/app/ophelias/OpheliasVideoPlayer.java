@@ -98,17 +98,11 @@ extends PAppletHax{
 	}
 
 	// TODO:
-	// Switch to new shader Filtering system
 	// Adjust Pixel Skip variable since kinect is faster now. Warning: by setting it above in overridePropsFile(), things get out of sync with the particle plugin
-	// More debug helpers - we need to know what's going on
-	
+	// More debug helpers - we need to know what's going on	
 	// * Resaturate colors after all compositing 
-	// * Push blob vertices out to make bigger blobs 
-	// * Remove extra filling-in of depth data at the end of the room scan 
-	
+	// * Remove extra filling-in of depth data at the end of the room scan 	
 	// * Make all blob resolution numbers configurable 
-	// * Performance - make sure videos only draw what they need for the current mask mode
-	// 		* Check memory use while running
 	
 	public void setup() {
 		super.setup();
