@@ -6,13 +6,6 @@ import java.io.IOException;
 
 import javax.sound.midi.InvalidMidiDataException;
 
-import krister.Ess.AudioInput;
-import oscP5.OscMessage;
-import processing.core.PApplet;
-import processing.video.Movie;
-import toxi.processing.ToxiclibsSupport;
-import SimpleOpenNI.SimpleOpenNI;
-
 import com.haxademic.core.audio.AudioInputWrapper;
 import com.haxademic.core.audio.AudioInputWrapperMinim;
 import com.haxademic.core.audio.WaveformData;
@@ -35,8 +28,13 @@ import com.haxademic.core.system.FileUtil;
 import com.haxademic.core.system.P5Properties;
 import com.haxademic.core.system.SystemUtil;
 
+import SimpleOpenNI.SimpleOpenNI;
 import ddf.minim.Minim;
 import de.voidplus.leapmotion.LeapMotion;
+import krister.Ess.AudioInput;
+import oscP5.OscMessage;
+import processing.core.PApplet;
+import processing.video.Movie;
 
 /**
  * PAppletHax is a starting point for interactive visuals, giving you a unified

@@ -9,6 +9,7 @@ import com.haxademic.core.components.TextInput;
 import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.net.WebSocketRelay;
 
+import processing.core.PApplet;
 import processing.data.JSONObject;
 
 
@@ -21,6 +22,12 @@ extends PAppletHax {
 	protected WebSocketRelay _server;
 	protected int _userFoundTime = -1;
 	
+	protected String hostName;
+	
+	public static void main(String args[]) {
+		PApplet.main(new String[] { "--hide-stop", "--bgcolor=000000", "com.haxademic.app.hike.HikeSocket" });
+	}
+
 	protected void overridePropsFile() {
 		_appConfig.setProperty( "width", "640" );
 		_appConfig.setProperty( "height", "640" );
@@ -35,9 +42,9 @@ extends PAppletHax {
 		
 		// build buttons
 		_mouseables = new ArrayList<IMouseable>();
-		_mouseables.add( new TextButton( p, "ACTIVE", "1", 20, 20, 180, 40 ) );
+		_mouseables.add( new TextButton( p, "ACTIVE", "1", 20, 60, 180, 40 ) );
 		_mouseables.add( new TextButton( p, "INACTIVE", "2", 20, 120, 180, 40 ) );
-		_mouseables.add( new TextButton( p, "CAPTURE", "3", 20, 220, 180, 40 ) );
+		_mouseables.add( new TextButton( p, "CAPTURE", "3", 20, 180, 180, 40 ) );
 
 	}
 
@@ -48,6 +55,15 @@ extends PAppletHax {
 		DrawUtil.setDrawCorner(p);
 		DrawUtil.setColorForPImage(p);
 		p.noStroke();
+		
+		if(p.frameCount > 20) {
+			if(hostName == null) hostName = "Server: http://"+_server.localHost + ":" + _server.portStr;
+			
+			// show websocket address
+			p.fill(255);
+			p.textSize(14);
+			p.text(hostName, 20, 20);
+		}
 		
 		// draw buttons
 		for( int i=0; i < _mouseables.size(); i++ ) {
