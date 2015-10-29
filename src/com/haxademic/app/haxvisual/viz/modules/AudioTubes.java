@@ -1,13 +1,14 @@
 package com.haxademic.app.haxvisual.viz.modules;
 
-import processing.core.PApplet;
-import processing.core.PConstants;
-
 import com.haxademic.app.haxvisual.viz.IVizModule;
 import com.haxademic.app.haxvisual.viz.ModuleBase;
+import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.cameras.CameraDefault;
 import com.haxademic.core.hardware.midi.MidiWrapper;
+
+import processing.core.PApplet;
+import processing.core.PConstants;
 
 public class AudioTubes 
 extends ModuleBase
@@ -182,7 +183,7 @@ implements IVizModule
 
 		// Cell Constructor
 		Tube( int index ) {
-			p = PAppletHax.getInstance();
+			p = P.p;
 			grassIndex = index;
 
 			reset();

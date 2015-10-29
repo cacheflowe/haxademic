@@ -13,6 +13,7 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.color.TColorBlendBetween;
 import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.math.easing.EasingFloat3d;
+import com.haxademic.core.vendor.Toxiclibs;
 
 @SuppressWarnings("serial")
 public class Flocking3DAttractors 
@@ -109,7 +110,7 @@ extends PAppletHax {
 			// draw attractor
 			p.fill( fillColor.toARGB() );
 			p.noStroke();
-			p.toxi.mesh( box.toMesh(20) );
+			Toxiclibs.instance(p).toxi.mesh( box.toMesh(20) );
 		}
 	}
 	
@@ -163,7 +164,7 @@ extends PAppletHax {
 			position.addSelf(vector);
 						
 			// point and position
-			p.toxi.mesh( mesh.copy().pointTowards(positionLast.sub(position), Vec3D.Z_AXIS).translate(position) );
+			Toxiclibs.instance(p).toxi.mesh( mesh.copy().pointTowards(positionLast.sub(position), Vec3D.Z_AXIS).translate(position) );
 		}
 		
 		protected void findClosestAttractor() {
@@ -215,7 +216,7 @@ extends PAppletHax {
 			vector = vectorEase.sub(position); 
 			position.addSelf(vector);
 			
-			p.toxi.mesh( mesh.copy().pointTowards(target.sub(position), Vec3D.Z_AXIS).translate(position) );
+			Toxiclibs.instance(p).toxi.mesh( mesh.copy().pointTowards(target.sub(position), Vec3D.Z_AXIS).translate(position) );
 		}
 
 		protected void findClosestAttractor() {

@@ -1,10 +1,12 @@
 package com.haxademic.app.haxvisual.viz;
 
-import toxi.processing.ToxiclibsSupport;
-
+import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.audio.AudioInputWrapper;
 import com.haxademic.core.cameras.common.ICamera;
+import com.haxademic.core.vendor.Toxiclibs;
+
+import toxi.processing.ToxiclibsSupport;
 
 public class ModuleBase {
 	public PAppletHax p;
@@ -13,8 +15,8 @@ public class ModuleBase {
 	public ICamera _curCamera;
 	
 	public ModuleBase() {
-		p = PAppletHax.getInstance();
-		toxi = p.getToxi();
+		p = P.p;
+		toxi = Toxiclibs.instance(P.p).toxi;
 		_audioData = p.getAudio();
 	}
 	

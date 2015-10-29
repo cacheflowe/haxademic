@@ -23,6 +23,7 @@ import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.hardware.kinect.IKinectWrapper;
 import com.haxademic.core.hardware.kinect.SkeletonsTracker;
 import com.haxademic.core.system.FileUtil;
+import com.haxademic.core.vendor.Toxiclibs;
 
 public class KinectMeshHead
 extends ElementBase 
@@ -179,7 +180,7 @@ implements IVizElement {
 					_mesh = _meshPool.getMesh( _meshKeys.get( headIndex % _meshKeys.size() ) );
 					p.translate(headPosition.x, headPosition.y - 50, 0);
 					p.rotateY( _meshRot + i );
-					P.p.toxi.mesh( _mesh );
+					Toxiclibs.instance(p).toxi.mesh( _mesh );
 					p.popMatrix();
 				}
 			}

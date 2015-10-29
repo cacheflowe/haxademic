@@ -15,6 +15,7 @@ import com.haxademic.core.draw.mesh.VectorFlyer;
 import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.hardware.kinect.SkeletonsTracker;
 import com.haxademic.core.image.ImageUtil;
+import com.haxademic.core.vendor.Toxiclibs;
 import com.jhlabs.image.ContrastFilter;
 import com.jhlabs.image.GlowFilter;
 
@@ -208,7 +209,7 @@ extends PAppletHax {
 		
 		// draw triangles
 		Triangle3D tri = new Triangle3D(point1, point2, point3); 
-		toxi.triangle( tri );
+		Toxiclibs.instance(p).toxi.triangle( tri );
 
 		// draw mesh
 //		WETriangleMesh mesh = new WETriangleMesh();

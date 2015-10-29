@@ -6,6 +6,7 @@ import com.haxademic.core.draw.mesh.MeshPool;
 import com.haxademic.core.draw.mesh.MeshUtil;
 import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.draw.util.OpenGLUtil;
+import com.haxademic.core.vendor.Toxiclibs;
 
 @SuppressWarnings("serial")
 public class GifRenderEllo000ThreeDeeRotate
@@ -60,7 +61,7 @@ extends PAppletHax
 //			p.image(_image, 0, 0);
 			p.fill(0);
 			p.noStroke();
-			toxi.mesh( _objPool.getMesh("ELLO_SVG"), true );
+			Toxiclibs.instance(p).toxi.mesh( _objPool.getMesh("ELLO_SVG"), true );
 			p.popMatrix();
 		}
 		

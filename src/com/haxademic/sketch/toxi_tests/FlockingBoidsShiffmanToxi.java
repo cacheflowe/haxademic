@@ -2,12 +2,14 @@ package com.haxademic.sketch.toxi_tests;
 
 import java.util.ArrayList;
 
+import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.vendor.Toxiclibs;
+
 import toxi.geom.Cone;
 import toxi.geom.Matrix4x4;
 import toxi.geom.Vec3D;
 
-import com.haxademic.core.app.PAppletHax;
-
+@SuppressWarnings("serial")
 public class FlockingBoidsShiffmanToxi
 extends PAppletHax {
 
@@ -165,7 +167,7 @@ extends PAppletHax {
 			// use the color matrix to transform position into RGB values
 			Vec3D col=colorMatrix.applyTo(loc);
 			fill(col.x,col.y,col.z);
-			toxi.cone(new Cone(loc,vel,0,BOID_SIZE,BOID_SIZE*4),5,false);
+			Toxiclibs.instance(p).toxi.cone(new Cone(loc,vel,0,BOID_SIZE,BOID_SIZE*4),5,false);
 		}
 
 		// Wraparound

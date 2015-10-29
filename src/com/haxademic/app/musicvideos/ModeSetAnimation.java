@@ -18,6 +18,7 @@ import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.EasingFloat;
 import com.haxademic.core.math.easing.ElasticFloat;
+import com.haxademic.core.vendor.Toxiclibs;
 
 public class ModeSetAnimation
 extends PAppletHax  
@@ -205,7 +206,7 @@ extends PAppletHax
 			p.stroke( _logoColor.color().toARGB() );
 			p.fill( BLACK.toARGB() );
 		}
-		toxi.mesh( _meshDeform );
+		Toxiclibs.instance(p).toxi.mesh( _meshDeform );
 //		drawToxiFaces( _meshDeform, _logoColor.color() );
 		p.popMatrix();
 	}
@@ -217,7 +218,7 @@ extends PAppletHax
 		p.translate( 0, 0, _textZ );
 //		p.rotateX( _textXRot );
 		p.fill( _textColor.color().toARGB() );	// mode set blue
-		toxi.mesh( _meshText );
+		Toxiclibs.instance(p).toxi.mesh( _meshText );
 //		drawToxiFaces( _meshText, _textColor.color() );
 		p.popMatrix();
 	}
@@ -258,7 +259,7 @@ extends PAppletHax
 					new Vec3D( face.b.x, face.b.y, face.b.z ), 
 					new Vec3D( face.c.x, face.c.y, face.c.z )
 				);
-			toxi.triangle( tri );
+			Toxiclibs.instance(p).toxi.triangle( tri );
 		}		
 	}
 

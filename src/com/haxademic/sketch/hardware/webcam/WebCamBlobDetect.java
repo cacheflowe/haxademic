@@ -1,16 +1,6 @@
 package com.haxademic.sketch.hardware.webcam;
 
 
-import processing.core.PGraphics;
-import processing.core.PImage;
-import toxi.geom.Line3D;
-import toxi.geom.Triangle3D;
-import toxi.geom.Vec3D;
-import toxi.geom.mesh.TriangleMesh;
-import blobDetection.Blob;
-import blobDetection.BlobDetection;
-import blobDetection.EdgeVertex;
-
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.util.DrawUtil;
@@ -18,6 +8,18 @@ import com.haxademic.core.hardware.webcam.WebCamWrapper;
 import com.haxademic.core.image.ImageUtil;
 import com.haxademic.core.image.filters.FastBlurFilter;
 import com.haxademic.core.math.MathUtil;
+import com.haxademic.core.vendor.Toxiclibs;
+
+import blobDetection.Blob;
+import blobDetection.BlobDetection;
+import blobDetection.EdgeVertex;
+import processing.core.PGraphics;
+import processing.core.PImage;
+import toxi.geom.Line3D;
+import toxi.geom.Triangle3D;
+import toxi.geom.Vec3D;
+import toxi.geom.mesh.TriangleMesh;
+import toxi.processing.ToxiclibsSupport;
 
 @SuppressWarnings("serial")
 public class WebCamBlobDetect 
@@ -33,11 +35,13 @@ extends PAppletHax {
 	BlobDetection theBlobDetection;
 	PImage img;
 	boolean newFrame=false;
+	
+	ToxiclibsSupport toxi;
 
 	public void setup() {
 		super.setup();
 		//		image = ImageUtil.getScaledImage( WebCamWrapper.getImage(), 64, 48 );
-
+		toxi = Toxiclibs.instance(p).toxi;
 		pg = p.createGraphics(p.width,p.height,P.P3D);
 		
 		// BlobDetection

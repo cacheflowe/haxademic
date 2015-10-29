@@ -1,4 +1,4 @@
-package com.haxademic.sketch.three_d;
+package com.haxademic.sketch.toxi_tests;
 
 import java.util.ArrayList;
 
@@ -10,6 +10,7 @@ import toxi.geom.mesh.TriangleMesh;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.util.DrawUtil;
+import com.haxademic.core.vendor.Toxiclibs;
 
 public class PointMeshToVec 
 extends PAppletHax {
@@ -89,7 +90,7 @@ extends PAppletHax {
 			
 			position.addSelf(vector);
 
-			p.toxi.mesh( mesh.copy().pointTowards(focus.sub(position), Vec3D.Z_AXIS).translate(position) );
+			Toxiclibs.instance(p).toxi.mesh( mesh.copy().pointTowards(focus.sub(position), Vec3D.Z_AXIS).translate(position) );
 	
 			// debug positioning
 //			p.fill(0, 255, 0);
@@ -106,12 +107,12 @@ extends PAppletHax {
 			box.set(position);
 
 			TriangleMesh meshhh = (TriangleMesh)box.toMesh();
-			p.toxi.mesh( meshhh.copy().pointTowards(focus.sub(position), Vec3D.Z_AXIS).translate(position) );
+			Toxiclibs.instance(p).toxi.mesh( meshhh.copy().pointTowards(focus.sub(position), Vec3D.Z_AXIS).translate(position) );
 	
 			p.fill(255, 0, 0);
 			p.stroke(255, 0, 0);
-			p.toxi.mesh( focus.toMesh() );
-			p.toxi.line(position, focus);
+			Toxiclibs.instance(p).toxi.mesh( focus.toMesh() );
+			Toxiclibs.instance(p).toxi.line(position, focus);
 		}
 	}
 	

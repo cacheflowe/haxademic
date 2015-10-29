@@ -9,6 +9,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.debug.DebugUtil;
 import com.haxademic.core.draw.color.TColorBlendBetween;
+import com.haxademic.core.vendor.Toxiclibs;
 
 public class VectorFlyer {
 	protected PAppletHax p;
@@ -58,7 +59,7 @@ public class VectorFlyer {
 		position.addSelf(vector);
 					
 		// point and position
-		p.toxi.mesh( mesh.copy().pointTowards(positionLast.sub(position), Vec3D.Z_AXIS).translate(position) );
+		Toxiclibs.instance(p).toxi.mesh( mesh.copy().pointTowards(positionLast.sub(position), Vec3D.Z_AXIS).translate(position) );
 	}
 	
 	public Vec3D position() {

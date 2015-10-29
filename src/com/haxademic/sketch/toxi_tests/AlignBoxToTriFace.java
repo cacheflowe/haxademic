@@ -4,17 +4,22 @@ import toxi.geom.AABB;
 import toxi.geom.Triangle3D;
 import toxi.geom.Vec3D;
 import toxi.geom.mesh.TriangleMesh;
+import toxi.processing.ToxiclibsSupport;
 
 import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.vendor.Toxiclibs;
 
+@SuppressWarnings("serial")
 public class AlignBoxToTriFace 
 extends PAppletHax {
 
 	Triangle3D tri;
 	TriangleMesh mesh;
+	ToxiclibsSupport toxi;
 
 	public void setup() {
 		super.setup();
+		toxi = Toxiclibs.instance(p).toxi;
 		randomize();
 	}
 

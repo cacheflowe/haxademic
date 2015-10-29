@@ -1,4 +1,4 @@
-package com.haxademic.sketch.three_d;
+package com.haxademic.sketch.toxi_tests;
 
 import toxi.color.TColor;
 import toxi.geom.Sphere;
@@ -6,6 +6,7 @@ import toxi.geom.mesh.WETriangleMesh;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.util.DrawUtil;
+import com.haxademic.core.vendor.Toxiclibs;
 
 public class AudioMeshDeform
 extends PAppletHax {
@@ -67,7 +68,7 @@ extends PAppletHax {
 		p.rotateZ( (float) p.frameCount / 100f );
 		p.fill( fill.toARGB() );
 //		p.stroke( stroke.toARGB() );
-		p.toxi.mesh( _meshDeform );
+		Toxiclibs.instance(p).toxi.mesh( _meshDeform );
 		//DrawMesh.drawMeshWithAudio( (PApplet)this, _meshDeform, _audioInput, 3f, false, fill, stroke, 0.25f );
 
 	}

@@ -6,7 +6,9 @@ import toxi.geom.Vec3D;
 import toxi.geom.mesh.TriangleMesh;
 
 import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.vendor.Toxiclibs;
 
+@SuppressWarnings("serial")
 public class AlignObjectsToSphere
 extends PAppletHax {
 
@@ -41,7 +43,7 @@ extends PAppletHax {
 		rotateY(mouseX * 0.01f);
 		noStroke();
 		for(int i=0; i<boxes.length; i++) {
-			toxi.mesh(boxes[i]);
+			Toxiclibs.instance(p).toxi.mesh(boxes[i]);
 		}
 	}
 

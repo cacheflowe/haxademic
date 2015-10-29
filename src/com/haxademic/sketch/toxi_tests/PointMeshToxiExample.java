@@ -3,6 +3,9 @@ package com.haxademic.sketch.toxi_tests;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.vendor.Toxiclibs;
+
 import toxi.geom.AABB;
 import toxi.geom.Circle;
 import toxi.geom.Vec2D;
@@ -10,8 +13,7 @@ import toxi.geom.Vec3D;
 import toxi.geom.mesh.TriangleMesh;
 import toxi.processing.ToxiclibsSupport;
 
-import com.haxademic.core.app.PAppletHax;
-
+@SuppressWarnings("serial")
 public class PointMeshToxiExample 
 extends PAppletHax {
 
@@ -22,6 +24,7 @@ extends PAppletHax {
 
 	public void setup() {
 		super.setup();
+		toxi = Toxiclibs.instance(p).toxi;
 		// compute mesh positions on circle in XZ plane
 		Circle circle = new Circle(200);
 		for(Vec2D p : circle.toPolygon2D(8).vertices) {
@@ -41,17 +44,17 @@ extends PAppletHax {
 		// the mesh is a simple box placed at the world origin
 		TriangleMesh m = (TriangleMesh)new AABB(25).toMesh();
 		// draw focus
-		p.toxi.box(new AABB(focus, 5));
+		toxi.box(new AABB(focus, 5));
 		for(Vec3D p : positions) {
 			// align the positive z-axis of mesh to point at focus
 			// mesh needs to be located at world origin for it to work correctly
 			// only once rotated, move it to actual position
-			this.p.toxi.mesh(m.copy().pointTowards(focus.sub(p), Vec3D.Z_AXIS).translate(p));
+			toxi.mesh(m.copy().pointTowards(focus.sub(p), Vec3D.Z_AXIS).translate(p));
 		}
 		// draw connections from mesh centers to focal point
 		stroke(0,255,255);
 		for(Vec3D p : positions) {
-			this.p.toxi.line(p, focus);
+			toxi.line(p, focus);
 		}
 	}
 

@@ -104,11 +104,6 @@ extends PApplet
 	protected String _customPropsFile = null;
 
 	/**
-	 * Single instance of Toxiclibs object
-	 */
-	public ToxiclibsSupport toxi;
-
-	/**
 	 * Single instance and wrapper for the ESS audio object.
 	 */
 	public AudioInputWrapper _audioInput;
@@ -322,7 +317,6 @@ extends PApplet
 	 */
 	protected void initHaxademicObjects() {
 		// save single reference for other objects
-		toxi = new ToxiclibsSupport(p);
 		minim = new Minim( p );
 		if( appConfig.getBoolean("init_ess_audio", true) == true ) {
 			_audioInput = new AudioInputWrapper( p, _isRenderingAudio );
@@ -615,9 +609,7 @@ extends PApplet
 	 * Getters / Setters
 	 */
 	// instance of this -------------------------------------------------
-	public static PAppletHax getInstance(){ return p; }
-	// instance of toxiclibs -------------------------------------------------
-	public ToxiclibsSupport getToxi(){ return toxi; }
+//	public static PAppletHax getInstance(){ return p; }
 	// instance of audio wrapper -------------------------------------------------
 	public AudioInputWrapper getAudio() { return _audioInput; }
 	// instance of midi wrapper -------------------------------------------------

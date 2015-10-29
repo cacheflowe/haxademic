@@ -14,6 +14,7 @@ import com.haxademic.core.draw.color.TColorInit;
 import com.haxademic.core.draw.particle.VectorFlyer;
 import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.draw.util.OpenGLUtil;
+import com.haxademic.core.vendor.Toxiclibs;
 
 @SuppressWarnings("serial")
 public class ModeSetLogoParticles
@@ -83,7 +84,7 @@ extends PAppletHax {
 //		p.fill( MODE_SET_BLUE.toARGB() );
 		p.strokeWeight(3);
 		p.strokeJoin(P.MITER); // BEVEL, ROUND
-		p.toxi.mesh( _meshCrest );
+		Toxiclibs.instance(p).toxi.mesh( _meshCrest );
 		
 		p.beginShape();
 		for( int i=0; i < outerPoints.size(); i++ ) {

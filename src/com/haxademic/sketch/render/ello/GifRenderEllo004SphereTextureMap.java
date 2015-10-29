@@ -14,6 +14,7 @@ import com.haxademic.core.draw.util.OpenGLUtil;
 import com.haxademic.core.image.AnimatedGifEncoder;
 import com.haxademic.core.math.easing.Penner;
 import com.haxademic.core.system.FileUtil;
+import com.haxademic.core.vendor.Toxiclibs;
 
 @SuppressWarnings("serial")
 public class GifRenderEllo004SphereTextureMap
@@ -107,7 +108,7 @@ extends PAppletHax{
 //		MeshUtil.deformMeshWithAudio( _sphereMesh, _deformMesh, p._audioInput, 10 );
 	
 		// draw texture. if tinting happened, reset after drawing
-		if( _texture != null ) MeshUtil.drawToxiMesh( p, toxi, _deformMesh, _texture );
+		if( _texture != null ) MeshUtil.drawToxiMesh( p, Toxiclibs.instance(p).toxi, _deformMesh, _texture );
 		
 		p.popMatrix();
 	}

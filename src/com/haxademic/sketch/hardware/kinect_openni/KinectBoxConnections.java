@@ -16,6 +16,7 @@ import com.haxademic.core.draw.shapes.BoxBetween;
 import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.hardware.kinect.SkeletonsTracker;
 import com.haxademic.core.system.FileUtil;
+import com.haxademic.core.vendor.Toxiclibs;
 
 @SuppressWarnings("serial")
 public class KinectBoxConnections
@@ -178,7 +179,7 @@ extends PAppletHax {
 					_mesh = _meshPool.getMesh( _meshKeys.get( headIndex % _meshKeys.size() ) );
 					_mesh.rotateY( _meshRot + i );
 					p.translate(headPosition.x, headPosition.y - 50, 0);
-					p.toxi.mesh( _mesh );
+					Toxiclibs.instance(p).toxi.mesh( _mesh );
 					p.popMatrix();
 				}
 			}

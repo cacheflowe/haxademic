@@ -1,5 +1,7 @@
 	package com.haxademic.sketch.toxi_tests;
 
+import com.haxademic.core.vendor.Toxiclibs;
+
 import processing.core.PApplet;
 import toxi.geom.mesh.SuperEllipsoid;
 import toxi.geom.mesh.SurfaceFunction;
@@ -9,6 +11,7 @@ import toxi.math.waves.AbstractWave;
 import toxi.math.waves.SineWave;
 import toxi.processing.ToxiclibsSupport;
 
+@SuppressWarnings("serial")
 public class SuperEllipse
 extends PApplet{
 	TriangleMesh mesh = new TriangleMesh();
@@ -18,13 +21,13 @@ extends PApplet{
 	boolean isWireFrame;
 	boolean showNormals;
 
-	ToxiclibsSupport gfx;
+	ToxiclibsSupport toxi;
 
 	public void setup() {
 	  size(1024,576, OPENGL);
 	  modX = new SineWave(0, 0.01f, 2.5f, 2.5f);
 	  modY = new SineWave(PI, 0.017f, 2.5f, 2.5f);
-	  gfx=new ToxiclibsSupport(this);
+	  toxi = Toxiclibs.instance(this).toxi;
 	}
 
 	public void draw() {
@@ -37,7 +40,7 @@ extends PApplet{
 	  translate(width / 2, height / 2, 0);
 	  rotateX(mouseY * 0.01f);
 	  rotateY(mouseX * 0.01f);
-	  gfx.origin(300);
+	  toxi.origin(300);
 	  if (isWireFrame) {
 	    noFill();
 	    stroke(255);
@@ -48,7 +51,7 @@ extends PApplet{
 	  }
 	  mesh.scale(4);
 //	  scale(2);
-	  gfx.mesh(mesh, !isWireFrame, showNormals ? 10 : 0);
+	  toxi.mesh(mesh, !isWireFrame, showNormals ? 10 : 0);
 	}
 
 

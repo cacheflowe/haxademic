@@ -1,13 +1,14 @@
 package com.haxademic.app.haxmapper.textures;
 
-import toxi.geom.Sphere;
-import toxi.geom.mesh.WETriangleMesh;
-
 import com.haxademic.core.app.P;
 import com.haxademic.core.draw.mesh.MeshUtil;
 import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.EasingFloat3d;
+import com.haxademic.core.vendor.Toxiclibs;
+
+import toxi.geom.Sphere;
+import toxi.geom.mesh.WETriangleMesh;
 
 public class TextureSphereAudioTextures
 extends BaseTexture {
@@ -104,8 +105,8 @@ extends BaseTexture {
 		MeshUtil.deformMeshWithAudio( _sphereMesh, _deformMesh, P.p._audioInput, _deformFactor );
 	
 		// draw texture. if tinting happened, reset after drawing
-		P.p.toxi.setGraphics(_texture);
-		if( _sphereTexture.texture() != null ) MeshUtil.drawToxiMesh( P.p, P.p.toxi, _deformMesh, _sphereTexture.texture() );
+		Toxiclibs.instance(P.p).toxi.setGraphics(_texture);
+		if( _sphereTexture.texture() != null ) MeshUtil.drawToxiMesh( P.p, Toxiclibs.instance(P.p).toxi, _deformMesh, _sphereTexture.texture() );
 		DrawUtil.setColorForPImage(_texture);
 		DrawUtil.resetPImageAlpha(_texture);
 		

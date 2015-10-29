@@ -3,6 +3,9 @@ package com.haxademic.sketch.toxi_tests;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.vendor.Toxiclibs;
+
 import processing.core.PApplet;
 import toxi.color.ColorList;
 import toxi.color.ColorRange;
@@ -14,8 +17,9 @@ import toxi.geom.mesh.TriangleMesh;
 import toxi.math.waves.AbstractWave;
 import toxi.processing.ToxiclibsSupport;
 
+@SuppressWarnings("serial")
 public class ToxiColors
-extends PApplet{
+extends PAppletHax{
 	TriangleMesh mesh = new TriangleMesh();
 
 	AbstractWave modX, modY;
@@ -36,12 +40,12 @@ extends PApplet{
 	
 	
 	public void setup() {
-	  size(800,600, OPENGL);
-	  toxi = new ToxiclibsSupport(this);
-	  pickNewColors();
+		super.setup();
+		toxi = Toxiclibs.instance(p).toxi;
+		pickNewColors();
 	}
 
-	public void draw() {
+	public void drawApp() {
 	  background(0);
 	  lights();
 	  translate(width / 2, height / 2, 0);
@@ -125,6 +129,7 @@ extends PApplet{
 
 
 	public void keyPressed() {
+		super.keyPressed();
 	  if (key == 'c') {
 		  pickNewColors();
 	  }
