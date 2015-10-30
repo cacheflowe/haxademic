@@ -157,13 +157,40 @@ $ ffmpeg -y -i input.mov -vcodec mpeg4 -b:v 10000k -f mp4 output.mp4
 $ ffmpeg -y -i output.mp4 -vcodec libx264 -b:v 10000k output-final.mp4
 ```
 
+And convert a movie to frames, then to a gif, using ffmpeg and imagemagick:
+
+```
+ffmpeg -i input -vf scale=320:-1 -r 10 frames/ffout%03d.png
+convert -delay 5 -loop 0 frames/ffout*.png output.gif
+```
+
 ## Publish a .jar of the /core
 ```	
 $ cd haxademic/bin
 $ jar cfv ../../ohheckyeah/ohheckyeah-games-java/lib/haxademic/haxademic.jar ./com/haxademic/core/*
 ```
 
+## Run your app from the command-line  or a shell script: 
+* **Window -> Show View -> Other... - > Debug**
+* Open the debug window, find your recently-run app, and right click to get to Properties.  
+* Find the command uner **Command Line:**
+* You could even copy this to a **script.sh** file, and run it with:
+	* `sh script.sh`
+
 ## Todo
+* Get rid of Minim, and perhaps create an interface for the 2 audio libraries for FFT data
+* Fix Windows issues
+	* image files starting with `.` should be ignored
+	* AppUtil code that's Apple-specific should be injected if the platform allows
+* Fix problems with using haxademic.jar
+	* Shouldn't require a properties file
+		* MIDI should just be enabled by default without a midi_device_in=In in run.properties
+		* Sunflow/Joons is somehow enabled by default without sunflow=false
+	* Modularize these lib dependencies:
+		* Ess
+		* minim
+		* oscp5
+		* SimpleOpenNI (PApplet skeleton callbacks)
 * Comment the codebase and generate docs
 * Create a unified keyboard/MIDI/OSC input system with improved midi/osc data handling
 * Clean up legacy code that's no longer used
