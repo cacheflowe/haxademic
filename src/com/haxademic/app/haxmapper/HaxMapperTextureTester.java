@@ -37,6 +37,11 @@ extends PAppletHax {
 //			new TextureShaderTimeStepper( w, h, "_drawing-stuff.glsl" ),
 				
 			new TextureEQFloatParticles( w, h ),
+			
+			new TextureShaderTimeStepper( w, h, "morphing-bokeh-shape.glsl" ),
+			new TextureShaderTimeStepper( w, h, "bw-motion-illusion.glsl" ),
+			new TextureShaderTimeStepper( w, h, "bw-simple-sin.glsl" ),
+
 			new TextureShaderTimeStepper( w, h, "wobble-sin.glsl" ),
 			new TextureShaderTimeStepper( w, h, "docking-tunnel.glsl" ),
 			new TextureShaderTimeStepper( w, h, "shiny-circle-wave.glsl" ),

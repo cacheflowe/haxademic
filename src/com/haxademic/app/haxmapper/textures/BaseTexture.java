@@ -40,8 +40,8 @@ public class BaseTexture {
 		_texture = P.p.createGraphics( width, height, PConstants.OPENGL );
 //		_texture.smooth(OpenGLUtil.SMOOTH_MEDIUM);
 //		_texture.smooth(OpenGLUtil.SMOOTH_HIGH);
-//		_texture.smooth(OpenGLUtil.SMOOTH_LOW);
-		_texture.noSmooth();
+		_texture.smooth(OpenGLUtil.SMOOTH_LOW);
+//		_texture.noSmooth();
 		OpenGLUtil.setTextureRepeat(_texture);
 
 		// postprocessing - only create 1 shader for all instances
@@ -49,6 +49,10 @@ public class BaseTexture {
 		_chroma.set("thresholdSensitivity", 0.0f);
 		_chroma.set("smoothing", 0.5f);
 		_chroma.set("colorToReplace", 0.0f,0.0f,0.0f);
+	}
+	
+	public String toString() {
+		return this.getClass().getName();
 	}
 	
 	public PGraphics texture() {

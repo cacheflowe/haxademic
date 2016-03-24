@@ -12,6 +12,11 @@ import processing.opengl.PShader;
 
 public class TextureShaderTimeStepper
 extends BaseTexture {
+	
+	protected String _shaderFile;
+	public String toString() {
+		return this.getClass().getName() + " :: " + _shaderFile;
+	}
 
 	public enum ShaderTimeMode {
 		BeatEaseOut,
@@ -40,8 +45,10 @@ extends BaseTexture {
 
 	public TextureShaderTimeStepper( int width, int height, String textureShader ) {
 		super();
+		_shaderFile = textureShader;
 		
 		buildGraphics( width, height );
+		_texture.noSmooth();
 		loadShaders( textureShader );
 	}
 	
@@ -64,7 +71,6 @@ extends BaseTexture {
 		_patternShader.set("colors", colors);
 		// -------------------------------------------------------
 
-		SaturationFilter.instance(P.p).setSaturation(0.25f);
 		VignetteFilter.instance(P.p).setDarkness(0.7f);
 		VignetteFilter.instance(P.p).setSpread(0.15f);
 	}
@@ -78,9 +84,12 @@ extends BaseTexture {
 		_patternShader.set("time", _timeEaser.value() );
 		_patternShader.set("mode", _mode);
 		_texture.filter( _patternShader );
+		
+		postProcess();
 	}
 	
 	public void postProcess() {
+		SaturationFilter.instance(P.p).setSaturation(0.4f);
 		SaturationFilter.instance(P.p).applyTo(_texture);
 		super.postProcess();
 	}

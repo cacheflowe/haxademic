@@ -15,7 +15,7 @@ extends BaseTexture {
 	}
 	
 	public void updateDraw() {
-		_texture.clear();
+//		_texture.clear();
 
 		DrawUtil.setDrawCenter(_texture);
 		_texture.translate( _texture.width/2, _texture.height/2, 0 );
@@ -24,7 +24,7 @@ extends BaseTexture {
 		
 		int steps = 50;
 		float oscInc = P.TWO_PI / (float)steps;
-		float lineSize = 25 + 1f * P.sin( ( P.p.frameCount ) * oscInc );
+		float lineSize = 25f + 1f * P.sin( ( P.p.frameCount ) * oscInc );
 		
 		for( int i=100; i > 0; i-- ) {
 			

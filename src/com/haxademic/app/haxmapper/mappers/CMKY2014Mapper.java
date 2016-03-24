@@ -82,15 +82,23 @@ extends HaxMapper{
 		int videoH = 236;
 		
 
-		_texturePool.add( new TextureVideoPlayer( videoW, 236, "video/loops/smoke-loop.mov" ));
-		_texturePool.add( new TextureVideoPlayer( videoW, 236, "video/loops/tree-loop.mp4" ));
-		_texturePool.add( new TextureVideoPlayer( videoW, 236, "video/loops/ink-in-water.mp4" ));
-		_texturePool.add( new TextureVideoPlayer( videoW, 236, "video/loops/ink-grow-shrink.mp4" ));
-		_texturePool.add( new TextureVideoPlayer( videoW, 236, "video/loops/fire.mp4" ));
-		_texturePool.add( new TextureVideoPlayer( videoW, 236, "video/loops/bubbles.mp4" ));	
-		_texturePool.add( new TextureVideoPlayer( videoW, 236, "video/loops/clouds-timelapse.mov" ));
-		_texturePool.add( new TextureVideoPlayer( videoW, 236, "video/loops/water.mp4" ));
+//		_texturePool.add( new TextureVideoPlayer( videoW, videoH, "video/loops/smoke-loop.mov" ));
+//		_texturePool.add( new TextureVideoPlayer( videoW, videoH, "video/loops/tree-loop.mp4" ));
+//		_texturePool.add( new TextureVideoPlayer( videoW, videoH, "video/loops/ink-in-water.mp4" ));
+//		_texturePool.add( new TextureVideoPlayer( videoW, videoH, "video/loops/ink-grow-shrink.mp4" ));
+//		_texturePool.add( new TextureVideoPlayer( videoW, videoH, "video/loops/fire.mp4" ));
+//		_texturePool.add( new TextureVideoPlayer( videoW, videoH, "video/loops/bubbles.mp4" ));	
+//		_texturePool.add( new TextureVideoPlayer( videoW, videoH, "video/loops/clouds-timelapse.mov" ));
+//		_texturePool.add( new TextureVideoPlayer( videoW, videoH, "video/loops/water.mp4" ));
 		
+		_texturePool.add( new TextureVideoPlayer( videoW, videoH, "video/horrorhouse/MotelLondon_01.mov" ));
+		_texturePool.add( new TextureVideoPlayer( videoW, videoH, "video/horrorhouse/MotelLondon_02.mov" ));
+		_texturePool.add( new TextureVideoPlayer( videoW, videoH, "video/horrorhouse/MotelLondon_03.mov" ));
+		_texturePool.add( new TextureVideoPlayer( videoW, videoH, "video/horrorhouse/MotelLondon_04.mov" ));
+		_texturePool.add( new TextureVideoPlayer( videoW, videoH, "video/horrorhouse/MotelLondon_05.mov" ));
+		_texturePool.add( new TextureVideoPlayer( videoW, videoH, "video/horrorhouse/MotelLondon_06.mov" ));
+		_texturePool.add( new TextureVideoPlayer( videoW, videoH, "video/horrorhouse/MotelLondon_08.mov" ));
+
 				
 //		_texturePool.add( new TextureVideoPlayer( videoW, 236, "video/lunar-lodge/LL-00-desktop.m4v" ));
 //		_texturePool.add( new TextureVideoPlayer( videoW, 236, "video/lunar-lodge/LL-01-desktop.m4v" ));
@@ -125,6 +133,7 @@ extends HaxMapper{
 		_texturePool.add( new TextureShaderTimeStepper( shaderW, shaderH, "bw-simple-sin.glsl" ));
 		_texturePool.add( new TextureShaderTimeStepper( shaderW, shaderH, "circle-parts-rotate.glsl" ));
 		_texturePool.add( new TextureShaderTimeStepper( shaderW, shaderH, "cog-tunnel.glsl" ));
+		_texturePool.add( new TextureShaderTimeStepper( shaderW, shaderH, "docking-tunnel.glsl" ));
 		_texturePool.add( new TextureShaderTimeStepper( shaderW, shaderH, "dot-grid-dof.glsl" ));
 		_texturePool.add( new TextureShaderTimeStepper( shaderW, shaderH, "dots-orbit.glsl" ));
 		_texturePool.add( new TextureShaderTimeStepper( shaderW, shaderH, "fade-dots.glsl" ));
@@ -144,6 +153,7 @@ extends HaxMapper{
 		_texturePool.add( new TextureShaderTimeStepper( shaderW, shaderH, "morphing-bokeh-shape.glsl" ));
 		_texturePool.add( new TextureShaderTimeStepper( shaderW, shaderH, "radial-burst.glsl" ));
 		_texturePool.add( new TextureShaderTimeStepper( shaderW, shaderH, "radial-waves.glsl" ));
+		_texturePool.add( new TextureShaderTimeStepper( shaderW, shaderH, "shiny-circle-wave.glsl" ));
 		_texturePool.add( new TextureShaderTimeStepper( shaderW, shaderH, "sin-grey.glsl" ));
 		_texturePool.add( new TextureShaderTimeStepper( shaderW, shaderH, "sin-waves.glsl" ));
 		_texturePool.add( new TextureShaderTimeStepper( shaderW, shaderH, "space-swirl.glsl" ));
@@ -152,15 +162,18 @@ extends HaxMapper{
 		_texturePool.add( new TextureShaderTimeStepper( shaderW, shaderH, "square-twist.glsl" ));
 		_texturePool.add( new TextureShaderTimeStepper( shaderW, shaderH, "star-field.glsl" ));
 		_texturePool.add( new TextureShaderTimeStepper( shaderW, shaderH, "stars-fractal-field.glsl" ));
+		_texturePool.add( new TextureShaderTimeStepper( shaderW, shaderH, "stars-nice.glsl" ));
 		_texturePool.add( new TextureShaderTimeStepper( shaderW, shaderH, "stars-screensaver.glsl" ));
 		_texturePool.add( new TextureShaderTimeStepper( shaderW, shaderH, "stars-scroll.glsl" ));
 		_texturePool.add( new TextureShaderTimeStepper( shaderW, shaderH, "supershape-2d.glsl" ));
 		_texturePool.add( new TextureShaderTimeStepper( shaderW, shaderH, "swirl.glsl" ));
+		_texturePool.add( new TextureShaderTimeStepper( shaderW, shaderH, "triangle-perlin.glsl" ));
 		_texturePool.add( new TextureShaderTimeStepper( shaderW, shaderH, "warped-tunnel.glsl" ));
 		_texturePool.add( new TextureShaderTimeStepper( shaderW, shaderH, "water-smoke.glsl" ));
 		_texturePool.add( new TextureShaderTimeStepper( shaderW, shaderH, "wavy-3d-tubes.glsl" ));
 		_texturePool.add( new TextureShaderTimeStepper( shaderW, shaderH, "wavy-checker-planes.glsl" ));
-		
+		_texturePool.add( new TextureShaderTimeStepper( shaderW, shaderH, "wobble-sin.glsl" ));
+
 
 		_texturePool.add( new TextureScrollingColumns( 100, 100 ));
 		_texturePool.add( new TextureTwistingSquares( shaderW, shaderH ));

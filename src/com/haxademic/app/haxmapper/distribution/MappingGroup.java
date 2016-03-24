@@ -146,17 +146,19 @@ public class MappingGroup {
 	
 	public void randomPolygonRandomMappingStyle() {
 		randomPolygon().randomTextureStyle();
+		P.println("randomPolygonRandomMappingStyle()");
 	}
 	
 	public void randomTextureToRandomPolygon() {
 		if( _curTextures.size() == 0 ) return;
-		randomPolygon().setTexture( randomBaseTexture() );
+		randomPolygon().setTexture( randomBaseTexture(), mappingBounds );
+		P.println("randomPolygonRandomMappingStyle()");
 	}
 	
 	public void setAllPolygonsToTexture( int textureIndex ) {
 		if( _curTextures.size() < 1 ) return;
 		for(int j=0; j < _mappedPolygons.size(); j++ ) {
-			_mappedPolygons.get(j).setTexture( _curTextures.get(textureIndex) );
+			_mappedPolygons.get(j).setTexture( _curTextures.get(textureIndex), mappingBounds );
 		}
 	}
 	
@@ -167,7 +169,7 @@ public class MappingGroup {
 			BaseTexture curPolyTexture = _mappedPolygons.get(j).getTexture();
 			if(_curTextures.contains(curPolyTexture) == false) {
 				int randomTextureIndex = MathUtil.randRange(0, _curTextures.size() - 1);
-				_mappedPolygons.get(j).setTexture( _curTextures.get(randomTextureIndex) );
+				_mappedPolygons.get(j).setTexture( _curTextures.get(randomTextureIndex), mappingBounds );
 			}
 		}
 	}
@@ -188,9 +190,13 @@ public class MappingGroup {
 	
 	public void draw() {
 		for(int j=0; j < _mappedPolygons.size(); j++ ) {
-			_mappedPolygons.get(j).draw(p.g, mappingBounds);
+			_mappedPolygons.get(j).draw(p.g);
 		}
 	}
+	
+//	public void drawDebuggg() {
+//		_mappedPolygons.get(0).drawDebug();
+//	}
 	
 	public void getAudioPixelColor() {
 		_colorEase.update();

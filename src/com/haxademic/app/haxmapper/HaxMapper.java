@@ -31,9 +31,12 @@ import com.haxademic.core.image.filters.shaders.DeformBloomFilter;
 import com.haxademic.core.image.filters.shaders.DeformTunnelFanFilter;
 import com.haxademic.core.image.filters.shaders.EdgesFilter;
 import com.haxademic.core.image.filters.shaders.FXAAFilter;
+import com.haxademic.core.image.filters.shaders.HalftoneFilter;
 import com.haxademic.core.image.filters.shaders.HueFilter;
+import com.haxademic.core.image.filters.shaders.InvertFilter;
 import com.haxademic.core.image.filters.shaders.KaleidoFilter;
 import com.haxademic.core.image.filters.shaders.MirrorFilter;
+import com.haxademic.core.image.filters.shaders.PixelateFilter;
 import com.haxademic.core.image.filters.shaders.RadialRipplesFilter;
 import com.haxademic.core.image.filters.shaders.SphereDistortionFilter;
 import com.haxademic.core.image.filters.shaders.WobbleFilter;
@@ -76,6 +79,7 @@ extends PAppletHax {
 	protected InputTrigger _timingTrigger = new InputTrigger(new char[]{'n'},new String[]{TouchOscPads.PAD_03},new Integer[]{AkaiMpdPads.PAD_03, AbletonNotes.NOTE_03});
 	protected InputTrigger _modeTrigger = new InputTrigger(new char[]{'m'},new String[]{TouchOscPads.PAD_04},new Integer[]{AkaiMpdPads.PAD_04, AbletonNotes.NOTE_04});
 	protected InputTrigger _timingSectionTrigger = new InputTrigger(new char[]{'f'},new String[]{TouchOscPads.PAD_05},new Integer[]{AkaiMpdPads.PAD_05, AbletonNotes.NOTE_05});
+	protected InputTrigger _newTextureTrigger = new InputTrigger(new char[]{'b'},new String[]{TouchOscPads.PAD_09},new Integer[]{AkaiMpdPads.PAD_09, AbletonNotes.NOTE_09});
 	protected InputTrigger _allSameTextureTrigger = new InputTrigger(new char[]{'a'},new String[]{TouchOscPads.PAD_06},new Integer[]{AkaiMpdPads.PAD_06, AbletonNotes.NOTE_06});
 	protected InputTrigger _bigChangeTrigger = new InputTrigger(new char[]{' '},new String[]{TouchOscPads.PAD_07},new Integer[]{AkaiMpdPads.PAD_07, AbletonNotes.NOTE_07});
 	protected InputTrigger _lineModeTrigger = new InputTrigger(new char[]{'l'},new String[]{TouchOscPads.PAD_08},new Integer[]{AkaiMpdPads.PAD_08, AbletonNotes.NOTE_08});
@@ -113,11 +117,15 @@ extends PAppletHax {
 		_appConfig.setProperty( "kinect_active", "false" );
 		_appConfig.setProperty( "osc_active", "true" );
 	}
+	
+	/////////////////////////////////////////////////////////////////
+	// Setup: build mapped polygon groups & init texture pools
+	/////////////////////////////////////////////////////////////////
 
 	public void setup() {
 		super.setup();
-//		p.smooth(OpenGLUtil.SMOOTH_HIGH);
-		p.noSmooth();
+		p.smooth(OpenGLUtil.SMOOTH_MEDIUM);
+//		p.noSmooth();
 		noStroke();
 		importPolygons();
 		for( int i=0; i < _mappingGroups.size(); i++ ) _mappingGroups.get(i).completePolygonImport();
@@ -128,7 +136,7 @@ extends PAppletHax {
 		_boundingBox = new Rectangle(-1, -1, 0, 0);
 		
 		_overlayPG = P.p.createGraphics( p.width, p.height, PConstants.OPENGL );
-		_overlayPG.smooth(OpenGLUtil.SMOOTH_HIGH);
+		_overlayPG.smooth(OpenGLUtil.SMOOTH_MEDIUM);
 		_mappingGroups = new ArrayList<MappingGroup>();
 		
 		if( _appConfig.getString("mapping_file", "") == "" ) {
@@ -255,10 +263,14 @@ extends PAppletHax {
 		// override this!
 	}
 	
+	/////////////////////////////////////////////////////////////////
+	// Main draw loop
+	/////////////////////////////////////////////////////////////////
+
 	public void drawApp() {
 		p.blendMode(P.BLEND);
 		background(0);
-		updateFaceRecorder();
+		if(_faceRecorder != null) updateFaceRecorder();
 		checkBeat();
 		updateActiveTextures();
 		filterActiveTextures();
@@ -270,119 +282,7 @@ extends PAppletHax {
 		postProcessFilters();
 		p.image( _fullMaskOverlay, 0, 0, _fullMaskOverlay.width, _fullMaskOverlay.height );
 		if(_debugTextures == true) debugTextures();
-	}
-	
-	protected void shuffleTexturePool() {
-		Collections.shuffle(_texturePool);
-	}
-	
-	protected int nextTexturePoolIndex() {
-		_texturePoolNextIndex++;
-		if(_texturePoolNextIndex >= _texturePool.size()) {
-			_texturePoolNextIndex = 0;
-			shuffleTexturePool(); // shuffle texture pool array again to prevent possiblt video neighbors from never playing
-		}
-		return _texturePoolNextIndex;
-		// return MathUtil.randRange(0, _texturePool.size()-1 );
-	}
-
-	protected void updateActiveTextures() {
-		// reset active texture pool array
-		while( _activeTextures.size() > 0 ) {
-			_activeTextures.remove( _activeTextures.size() - 1 ).resetUseCount();
-		}
-		// figure out which textures are being used and rebuild array, telling active textures that they're active
-		for( int i=0; i < _mappingGroups.size(); i++ ) {
-			ArrayList<BaseTexture> textures = _mappingGroups.get(i).textures();
-			for( int j=0; j < textures.size(); j++ ) {
-				if( _activeTextures.indexOf( textures.get(j) ) == -1 ) {
-					textures.get(j).setActive(true);
-					_activeTextures.add( textures.get(j) );
-				}
-			}
-		}
-		// set inactive pool textures' _active state to false (mostly for turning off video players)
-		for( int i=0; i < _texturePool.size(); i++ ) {
-			if( _texturePool.get(i).useCount() == 0 && _texturePool.get(i).isActive() == true ) {
-				_texturePool.get(i).setActive(false);
-				// P.println("Deactivated: ", _texturePool.get(i).getClass().getName());
-			}
-		}
-		// update active textures, once each
-		for( int i=0; i < _activeTextures.size(); i++ ) {
-			_activeTextures.get(i).update();
-		}
-//		P.println(_activeTextures.size());
-	}
-	
-	protected void selectNewActiveTextureFilters() {
-		for(int i=1; i < _textureEffectsIndices.length; i++) {
-			if(MathUtil.randRange(0, 10) > 8) {
-				_textureEffectsIndices[i] = MathUtil.randRange(0, _numTextureEffects);
-			}
-		}
-	}
-	
-	protected void filterActiveTextures() {
-		for( int i=0; i < _activeTextures.size(); i++ ) {
-			PGraphics pg = _activeTextures.get(i).texture();
-			float filterTime = p.frameCount / 40f;
-			
-			if(_textureEffectsIndices[i] == 1) {
-				KaleidoFilter.instance(p).setSides(4);
-				KaleidoFilter.instance(p).setAngle(filterTime / 10f);
-				KaleidoFilter.instance(p).applyTo(pg);
-			} else if(_textureEffectsIndices[i] == 2) {
-				DeformTunnelFanFilter.instance(p).setTime(filterTime);
-				DeformTunnelFanFilter.instance(p).applyTo(p);
-//			} else if(_textureEffectsIndices[i] == 3) {
-//				EdgesFilter.instance(p).applyTo(pg);
-			} else if(_textureEffectsIndices[i] == 4) {
-				MirrorFilter.instance(p).applyTo(pg);
-			} else if(_textureEffectsIndices[i] == 5) {
-				WobbleFilter.instance(p).setTime(filterTime);
-				WobbleFilter.instance(p).setSpeed(0.5f);
-				WobbleFilter.instance(p).setStrength(0.0004f);
-				WobbleFilter.instance(p).setSize( 200f);
-				WobbleFilter.instance(p).applyTo(pg);
-//			} else if(_textureEffectsIndices[i] == 6) {
-//				InvertFilter.instance(p).applyTo(pg);
-			} else if(_textureEffectsIndices[i] == 7) {
-				RadialRipplesFilter.instance(p).setTime(filterTime);
-				RadialRipplesFilter.instance(p).setAmplitude(0.5f + 0.5f * P.sin(filterTime));
-				RadialRipplesFilter.instance(p).applyTo(pg);
-			} else if(_textureEffectsIndices[i] == 8) {
-				BadTVLinesFilter.instance(p).applyTo(pg);
-//			} else if(_textureEffectsIndices[i] == 9) {
-//				EdgesFilter.instance(p).applyTo(pg);
-			} else if(_textureEffectsIndices[i] == 10) {
-				CubicLensDistortionFilter.instance(p).setTime(filterTime);
-				CubicLensDistortionFilter.instance(p).applyTo(pg);
-			} else if(_textureEffectsIndices[i] == 11) {
-				SphereDistortionFilter.instance(p).applyTo(pg);
-//			} else if(_textureEffectsIndices[i] == 12) {
-//				HalftoneFilter.instance(p).applyTo(pg);
-//			} else if(_textureEffectsIndices[i] == 13) {
-//				PixelateFilter.instance(p).setDivider(15f, 15f * pg.height/pg.width);
-//				PixelateFilter.instance(p).applyTo(pg);
-			} else if(_textureEffectsIndices[i] == 14) {
-				DeformBloomFilter.instance(p).setTime(filterTime);
-				DeformBloomFilter.instance(p).applyTo(pg);
-//			} else if(_textureEffectsIndices[i] == 15) {
-//				DeformTunnelFanFilter.instance(p).setTime(filterTime);
-//				DeformTunnelFanFilter.instance(p).applyTo(pg);
-			} else if(_textureEffectsIndices[i] == 16) {
-				HueFilter.instance(p).setTime(filterTime);
-				HueFilter.instance(p).applyTo(pg);
-			}
-//			WarperFilter.instance(p).setTime( _timeEaseInc / 5f);
-//			WarperFilter.instance(p).applyTo(pg);
-//			ColorDistortionFilter.instance(p).setTime( _timeEaseInc / 5f);
-//			ColorDistortionFilter.instance(p).setAmplitude(1.5f + 1.5f * P.sin(radsComplete));
-//			ColorDistortionFilter.instance(p).applyTo(pg);
-//			OpenGLUtil.setTextureRepeat(_buffer);
-
-		}
+//		_mappingGroups.get(_mappingGroups.size()-1).drawDebuggg();
 	}
 	
 	protected void drawPolygonGroups() {
@@ -408,6 +308,191 @@ extends PAppletHax {
 		p.image( _overlayPG, 0, 0, _overlayPG.width, _overlayPG.height );
 	}
 	
+	protected void debugTextures() {
+		// debug current textures
+		for( int i=0; i < _activeTextures.size(); i++ ) {
+			p.image(_activeTextures.get(i).texture(), i * 100, p.height - 100, 100, 100);
+		}
+	}
+	
+	/////////////////////////////////////////////////////////////////
+	// Texture-cycling methods
+	/////////////////////////////////////////////////////////////////
+	
+	protected void shuffleTexturePool() {
+		Collections.shuffle(_texturePool);
+	}
+	
+	protected int nextTexturePoolIndex() {
+		_texturePoolNextIndex++;
+		if(_texturePoolNextIndex >= _texturePool.size()) {
+			_texturePoolNextIndex = 0;
+			shuffleTexturePool(); // shuffle texture pool array again to prevent possiblt video neighbors from never playing
+		}
+		return _texturePoolNextIndex;
+		// return MathUtil.randRange(0, _texturePool.size()-1 );
+	}
+
+	protected void nextOverlayTexture() {
+		// cycle the first to the last element
+		_overlayTexturePool.add(_overlayTexturePool.remove(0));
+	}
+
+	protected void updateActiveTextures() {
+		// reset active texture pool array
+		while( _activeTextures.size() > 0 ) {
+			_activeTextures.remove( _activeTextures.size() - 1 ).resetUseCount();
+		}
+		// figure out which textures are being used and rebuild array, telling active textures that they're active
+		for( int i=0; i < _mappingGroups.size(); i++ ) {
+			ArrayList<BaseTexture> textures = _mappingGroups.get(i).textures();
+			for( int j=0; j < textures.size(); j++ ) {
+				if( _activeTextures.indexOf( textures.get(j) ) == -1 ) {
+					if(textures.get(j).isActive() == false) P.println(textures.get(j).toString());
+					textures.get(j).setActive(true);
+					_activeTextures.add( textures.get(j) );
+				}
+			}
+		}
+		// set inactive pool textures' _active state to false (mostly for turning off video players)
+		for( int i=0; i < _texturePool.size(); i++ ) {
+			if( _texturePool.get(i).useCount() == 0 && _texturePool.get(i).isActive() == true ) {
+				_texturePool.get(i).setActive(false);
+				// P.println("Deactivated: ", _texturePool.get(i).getClass().getName());
+			}
+		}
+		// update active textures, once each
+		for( int i=0; i < _activeTextures.size(); i++ ) {
+			_activeTextures.get(i).update();
+		}
+//		P.println(_activeTextures.size());
+	}
+	
+	protected int numMovieTextures() {
+		int numMovieTextures = 0;
+		for( int i=0; i < _curTexturePool.size(); i++ ) {
+			if( _curTexturePool.get(i) instanceof TextureVideoPlayer ) numMovieTextures++;
+		}
+		return numMovieTextures;
+	}
+	
+	protected void removeOldestMovieTexture() {
+		for( int i=0; i < _curTexturePool.size(); i++ ) {
+			if( _curTexturePool.get(i) instanceof TextureVideoPlayer ) {
+				_curTexturePool.remove(i);
+				return;
+			}
+		}
+	}
+	
+	protected void cycleANewTexture(BaseTexture specificTexture) {
+		// rebuild the array of currently-available textures
+		// check number of movie textures, and make sure we never have more than 2
+		if(specificTexture != null) {
+			_curTexturePool.add(specificTexture);
+		} else {
+			_curTexturePool.add( _texturePool.get( nextTexturePoolIndex() ) );
+		}
+		while( numMovieTextures() >= MAX_ACTIVE_MOVIE_TEXTURES ) {
+			removeOldestMovieTexture();
+			_curTexturePool.add( _texturePool.get( nextTexturePoolIndex() ) );
+		}
+		// remove oldest texture if more than max 
+		if( _curTexturePool.size() >= MAX_ACTIVE_TEXTURES ) {
+			// P.println(_curTexturePool.size());
+			_curTexturePool.remove(0);
+		}
+		
+		refreshGroupsTextures();
+	}
+	
+	protected void refreshGroupsTextures() {
+		// make sure polygons update their textures
+		for( int i=0; i < _mappingGroups.size(); i++ ) {
+			_mappingGroups.get(i).shiftTexture();
+			_mappingGroups.get(i).pushTexture( _curTexturePool.get( MathUtil.randRange(0, _curTexturePool.size()-1 )) );
+			_mappingGroups.get(i).refreshActiveTextures();				
+		}
+	}
+	
+	/////////////////////////////////////////////////////////////////
+	// Texture-level post-processing effects
+	/////////////////////////////////////////////////////////////////
+
+	protected void selectNewActiveTextureFilters() {
+		for(int i=1; i < _textureEffectsIndices.length; i++) {
+			if(MathUtil.randRange(0, 10) > 8) {
+				_textureEffectsIndices[i] = MathUtil.randRange(0, _numTextureEffects);
+			}
+		}
+	}
+	
+	protected void filterActiveTextures() {
+		for( int i=0; i < _activeTextures.size(); i++ ) {
+			PGraphics pg = _activeTextures.get(i).texture();
+			float filterTime = p.frameCount / 40f;
+			
+			if(_textureEffectsIndices[i] == 1) {
+				KaleidoFilter.instance(p).setSides(4);
+				KaleidoFilter.instance(p).setAngle(filterTime / 10f);
+				KaleidoFilter.instance(p).applyTo(pg);
+			} else if(_textureEffectsIndices[i] == 2) {
+				DeformTunnelFanFilter.instance(p).setTime(filterTime);
+				DeformTunnelFanFilter.instance(p).applyTo(p);
+			} else if(_textureEffectsIndices[i] == 3) {
+				EdgesFilter.instance(p).applyTo(pg);
+			} else if(_textureEffectsIndices[i] == 4) {
+				MirrorFilter.instance(p).applyTo(pg);
+			} else if(_textureEffectsIndices[i] == 5) {
+				WobbleFilter.instance(p).setTime(filterTime);
+				WobbleFilter.instance(p).setSpeed(0.5f);
+				WobbleFilter.instance(p).setStrength(0.0004f);
+				WobbleFilter.instance(p).setSize( 200f);
+				WobbleFilter.instance(p).applyTo(pg);
+			} else if(_textureEffectsIndices[i] == 6) {
+				InvertFilter.instance(p).applyTo(pg);
+			} else if(_textureEffectsIndices[i] == 7) {
+				RadialRipplesFilter.instance(p).setTime(filterTime);
+				RadialRipplesFilter.instance(p).setAmplitude(0.5f + 0.5f * P.sin(filterTime));
+				RadialRipplesFilter.instance(p).applyTo(pg);
+			} else if(_textureEffectsIndices[i] == 8) {
+				BadTVLinesFilter.instance(p).applyTo(pg);
+//			} else if(_textureEffectsIndices[i] == 9) {
+//				EdgesFilter.instance(p).applyTo(pg);
+			} else if(_textureEffectsIndices[i] == 10) {
+				CubicLensDistortionFilter.instance(p).setTime(filterTime);
+				CubicLensDistortionFilter.instance(p).applyTo(pg);
+			} else if(_textureEffectsIndices[i] == 11) {
+				SphereDistortionFilter.instance(p).applyTo(pg);
+			} else if(_textureEffectsIndices[i] == 12) {
+				HalftoneFilter.instance(p).applyTo(pg);
+			} else if(_textureEffectsIndices[i] == 13) {
+				PixelateFilter.instance(p).setDivider(15f, 15f * pg.height/pg.width);
+				PixelateFilter.instance(p).applyTo(pg);
+			} else if(_textureEffectsIndices[i] == 14) {
+				DeformBloomFilter.instance(p).setTime(filterTime);
+				DeformBloomFilter.instance(p).applyTo(pg);
+			} else if(_textureEffectsIndices[i] == 15) {
+				DeformTunnelFanFilter.instance(p).setTime(filterTime);
+				DeformTunnelFanFilter.instance(p).applyTo(pg);
+			} else if(_textureEffectsIndices[i] == 16) {
+				HueFilter.instance(p).setTime(filterTime);
+				HueFilter.instance(p).applyTo(pg);
+			}
+//			WarperFilter.instance(p).setTime( _timeEaseInc / 5f);
+//			WarperFilter.instance(p).applyTo(pg);
+//			ColorDistortionFilter.instance(p).setTime( _timeEaseInc / 5f);
+//			ColorDistortionFilter.instance(p).setAmplitude(1.5f + 1.5f * P.sin(radsComplete));
+//			ColorDistortionFilter.instance(p).applyTo(pg);
+//			OpenGLUtil.setTextureRepeat(_buffer);
+
+		}
+	}
+	
+	/////////////////////////////////////////////////////////////////
+	// Global (PApplet-level) special effects
+	/////////////////////////////////////////////////////////////////
+
 	protected void postProcessFilters() {
 		// brightness
 		float brightMult = 2.8f;
@@ -422,7 +507,7 @@ extends PAppletHax {
 		ContrastFilter.instance(p).setContrast(1.2f);
 		ContrastFilter.instance(p).applyTo(p);
 
-		FXAAFilter.instance(p).applyTo(p);
+//		FXAAFilter.instance(p).applyTo(p);
 		
 //		ColorCorrectionFilter.instance(p).setBrightness(0.1f * P.sin(p.frameCount/10f));
 //		ColorCorrectionFilter.instance(p).setContrast(1f + 0.1f * P.sin(p.frameCount/10f));
@@ -453,20 +538,40 @@ extends PAppletHax {
 		}
 	}
 	
-	protected void debugTextures() {
-		// debug current textures
-		for( int i=0; i < _activeTextures.size(); i++ ) {
-			p.image(_activeTextures.get(i).texture(), i * 100, 0, 100, 100);
+	protected void traverseTrigger() {
+		for( int i=0; i < _mappingGroups.size(); i++ ) {
+			_mappingGroups.get(i).traverseStart();
+		}
+	}
+
+	protected void traverseGroups() {
+		for( int i=0; i < _mappingGroups.size(); i++ ) {
+			_mappingGroups.get(i).traverseUpdate();
 		}
 	}
 	
+	/////////////////////////////////////////////////////////////////
+	// Beat detection & user override
+	/////////////////////////////////////////////////////////////////
+	
 	protected void checkBeat() {
+		if( audioIn.isBeat() == true && isBeatDetectMode() == true ) {
+			updateTiming();
+		}
+	}
+	
+	protected boolean isBeatDetectMode() {
+		return ( p.millis() - 10000 > _lastInputMillis );
 	}
 	
 	public void resetBeatDetectMode() {
 		_lastInputMillis = p.millis();
 //		numBeatsDetected = 1;
 	}
+	
+	/////////////////////////////////////////////////////////////////
+	// User input
+	/////////////////////////////////////////////////////////////////
 	
 	protected void handleInput( boolean isMidi ) {
 		super.handleInput( isMidi );
@@ -502,6 +607,9 @@ extends PAppletHax {
 		if ( _timingSectionTrigger.active() == true ) {
 			updateTimingSection();
 		}
+		if ( _newTextureTrigger.active() == true ) {
+			cycleANewTexture(null);
+		}
 		if ( _bigChangeTrigger.active() == true ) {
 			resetBeatDetectMode();
 			bigChangeTrigger();
@@ -517,6 +625,10 @@ extends PAppletHax {
 		if ( _debugTexturesTrigger.active() == true ) _debugTextures = !_debugTextures;
 	}
 	
+	/////////////////////////////////////////////////////////////////
+	// Group/polygon mode updates
+	/////////////////////////////////////////////////////////////////
+
 	protected void newMode() {
 		for( int i=0; i < _mappingGroups.size(); i++ ) {
 			_mappingGroups.get(i).newMode();
@@ -582,10 +694,11 @@ extends PAppletHax {
 		}
 	}
 	
-	
+	/////////////////////////////////////////////////////////////////
+	// Face recorded insanity
+	/////////////////////////////////////////////////////////////////
 	
 	public void updateFaceRecorder() {
-		if(_faceRecorder == null) return;
 		_faceRecorder.update(_faceRecordingTexture.isActive(), _facesPlaybackTexture.isActive());
 	}
 	
@@ -628,71 +741,4 @@ extends PAppletHax {
 //		}
 	}
 	
-
-	
-	
-	
-	protected void traverseTrigger() {
-		for( int i=0; i < _mappingGroups.size(); i++ ) {
-			_mappingGroups.get(i).traverseStart();
-		}
-	}
-
-	protected void traverseGroups() {
-		for( int i=0; i < _mappingGroups.size(); i++ ) {
-			_mappingGroups.get(i).traverseUpdate();
-		}
-	}
-	
-	
-	
-	
-	
-	protected int numMovieTextures() {
-		int numMovieTextures = 0;
-		for( int i=0; i < _curTexturePool.size(); i++ ) {
-			if( _curTexturePool.get(i) instanceof TextureVideoPlayer ) numMovieTextures++;
-		}
-		return numMovieTextures;
-	}
-	
-	protected void removeOldestMovieTexture() {
-		for( int i=0; i < _curTexturePool.size(); i++ ) {
-			if( _curTexturePool.get(i) instanceof TextureVideoPlayer ) {
-				_curTexturePool.remove(i);
-				return;
-			}
-		}
-	}
-	
-	protected void cycleANewTexture(BaseTexture specificTexture) {
-		// rebuild the array of currently-available textures
-		// check number of movie textures, and make sure we never have more than 2
-		if(specificTexture != null) {
-			_curTexturePool.add(specificTexture);
-		} else {
-			_curTexturePool.add( _texturePool.get( nextTexturePoolIndex() ) );
-		}
-		while( numMovieTextures() >= MAX_ACTIVE_MOVIE_TEXTURES ) {
-			removeOldestMovieTexture();
-			_curTexturePool.add( _texturePool.get( nextTexturePoolIndex() ) );
-		}
-		// remove oldest texture if more than max 
-		if( _curTexturePool.size() >= MAX_ACTIVE_TEXTURES ) {
-			// P.println(_curTexturePool.size());
-			_curTexturePool.remove(0);
-		}
-		
-		refreshGroupsTextures();
-	}
-	
-	protected void refreshGroupsTextures() {
-		// make sure polygons update their textures
-		for( int i=0; i < _mappingGroups.size(); i++ ) {
-			_mappingGroups.get(i).shiftTexture();
-			_mappingGroups.get(i).pushTexture( _curTexturePool.get( MathUtil.randRange(0, _curTexturePool.size()-1 )) );
-			_mappingGroups.get(i).refreshActiveTextures();				
-		}
-	}
-
 }
