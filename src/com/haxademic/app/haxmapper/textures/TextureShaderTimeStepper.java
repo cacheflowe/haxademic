@@ -91,7 +91,7 @@ extends BaseTexture {
 	public void postProcess() {
 		SaturationFilter.instance(P.p).setSaturation(0.4f);
 		SaturationFilter.instance(P.p).applyTo(_texture);
-		super.postProcess();
+//		super.postProcess();
 	}
 	
 	public void setActive( boolean isActive ) {
