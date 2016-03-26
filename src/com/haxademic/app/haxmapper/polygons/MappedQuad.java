@@ -175,8 +175,8 @@ implements IMappedPolygon {
 		
 
 		// show debug info
-		pg.fill(255);
-		pg.textSize(20);
-		pg.text(_mappingStyle+"", _centerX, _centerY);
+//		pg.fill(255);
+//		pg.textSize(20);
+//		pg.text(_mappingStyle+"", _centerX, _centerY);
 	}
 }
