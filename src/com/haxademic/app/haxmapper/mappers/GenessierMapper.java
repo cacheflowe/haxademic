@@ -37,10 +37,10 @@ extends HaxMapper{
 	protected void buildMappingGroups() {
 
 		MappingGroup centerGroup = _mappingGroups.get(1);
-		centerGroup.pushTexture( _texturePool.get(0) );
+		centerGroup.pushTexture( _texturePool.get(0), _activeTextures );
 		
 		MappingGroup leftGroup = _mappingGroups.get(0);
-		leftGroup.pushTexture( _texturePool.get(1) );
+		leftGroup.pushTexture( _texturePool.get(1), _activeTextures );
 
 		
 		// set initial mapping properties - make all fully contain their textures
@@ -83,8 +83,8 @@ extends HaxMapper{
 	protected void bigChangeTrigger() {
 
 		MappingGroup centerGroup = _mappingGroups.get(1);
-		centerGroup.shiftTexture();
-		centerGroup.pushTexture( _texturePool.get(0) );
+//		centerGroup.shiftTexture();
+		centerGroup.pushTexture( _texturePool.get(0), _activeTextures );
 		centerGroup.setAllPolygonsToTexture(0);
 		
 		curSideIndex++;
@@ -93,8 +93,8 @@ extends HaxMapper{
 		}
 		
 		MappingGroup leftGroup = _mappingGroups.get(0);
-		leftGroup.shiftTexture();
-		leftGroup.pushTexture( _texturePool.get(sideIndexes[curSideIndex]) );
+//		leftGroup.shiftTexture();
+		leftGroup.pushTexture( _texturePool.get(sideIndexes[curSideIndex]), _activeTextures );
 		leftGroup.setAllPolygonsToTexture(0);
 
 //		MappingGroup rightGroup = _mappingGroups.get(2);

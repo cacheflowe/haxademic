@@ -48,7 +48,7 @@ extends BaseTexture {
 		_shaderFile = textureShader;
 		
 		buildGraphics( width, height );
-//		_texture.noSmooth();
+		_texture.noSmooth();
 		loadShaders( textureShader );
 	}
 	
@@ -91,7 +91,7 @@ extends BaseTexture {
 	public void postProcess() {
 		SaturationFilter.instance(P.p).setSaturation(0.3f);
 		SaturationFilter.instance(P.p).applyTo(_texture);
-		FXAAFilter.instance(P.p).applyTo(_texture);
+//		FXAAFilter.instance(P.p).applyTo(_texture);
 //		super.postProcess();
 	}
 	

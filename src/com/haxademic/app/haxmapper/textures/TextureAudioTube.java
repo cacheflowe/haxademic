@@ -47,7 +47,6 @@ extends BaseTexture {
 		if(P.abs(_rotationTarget.y % P.PI/2f) < 0.01f) {
 			_radius.setTarget(MathUtil.randRangeDecimal(_texture.width/15f, _texture.width/10f));
 		} else {
-			P.println("huge");
 			_radius.setTarget(MathUtil.randRangeDecimal(_texture.width, _texture.width * 2));
 		}
 		_spacing.setTarget(MathUtil.randRangeDecimal(_texture.width/20f, _texture.width/10f));

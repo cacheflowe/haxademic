@@ -107,6 +107,13 @@ public class MappingGroup {
 	// Cycle textures
 	/////////////////////////////////////////////////////////////////
 
+	public boolean isUsingTexture(BaseTexture texture) {
+		for(int i=0; i < _mappedPolygons.size(); i++ ) {
+			if(_mappedPolygons.get(i).getTexture() == texture) return true;
+		}
+		return false;
+	}
+	
 	protected BaseTexture getRandomTexture() {
 		return _curTextures.get( MathUtil.randRange(0, _curTextures.size() - 1) );
 	}
@@ -201,7 +208,7 @@ public class MappingGroup {
 	}
 	
 	public void setAllPolygonsToTexture( int textureIndex ) {
-		if( _curTextures.size() < 1 ) return;
+		if( _curTextures.size() == 0 ) return;
 		for(int j=0; j < _mappedPolygons.size(); j++ ) {
 			_mappedPolygons.get(j).setTexture( _curTextures.get(textureIndex), mappingBounds );
 		}

@@ -143,8 +143,8 @@ extends PAppletHax {
 
 	public void setup() {
 		super.setup();
-//		p.smooth(OpenGLUtil.SMOOTH_MEDIUM);
-		p.noSmooth();
+		p.smooth(OpenGLUtil.SMOOTH_LOW);
+//		p.noSmooth();
 		noStroke();
 		importPolygons();
 		for( int i=0; i < _mappingGroups.size(); i++ ) _mappingGroups.get(i).completePolygonImport();
@@ -156,8 +156,8 @@ extends PAppletHax {
 		_boundingBox = new Rectangle(-1, -1, 0, 0);
 		
 		_overlayPG = P.p.createGraphics( p.width, p.height, PConstants.OPENGL );
-//		_overlayPG.smooth(OpenGLUtil.SMOOTH_MEDIUM);
-		_overlayPG.noSmooth();
+		_overlayPG.smooth(OpenGLUtil.SMOOTH_MEDIUM);
+//		_overlayPG.noSmooth();
 		_mappingGroups = new ArrayList<MappingGroup>();
 		
 		if( _appConfig.getString("mapping_file", "") == "" ) {
@@ -230,7 +230,7 @@ extends PAppletHax {
 	
 	protected void buildOverlayMask() {
 		// draw black on white
-		_fullMask = p.createGraphics(p.width, p.height, P.P2D);
+		_fullMask = p.createGraphics(p.width, p.height, P.OPENGL);
 		_fullMask.smooth(OpenGLUtil.SMOOTH_HIGH);
 		_fullMask.beginDraw();
 		_fullMask.background(255);
@@ -241,7 +241,7 @@ extends PAppletHax {
 		_fullMask.endDraw();
 		
 		// crate simple black overlay with polygons excluded via masking 
-		_fullMaskOverlay = p.createGraphics(p.width, p.height, P.P2D);
+		_fullMaskOverlay = p.createGraphics(p.width, p.height, P.OPENGL);
 		_fullMaskOverlay.smooth(OpenGLUtil.SMOOTH_HIGH);
 		_fullMaskOverlay.beginDraw();
 		_fullMaskOverlay.background(0);
@@ -401,33 +401,16 @@ extends PAppletHax {
 	}
 
 	protected void updateActiveTextures() {
-		// reset active texture pool array
-//		while( _activeTextures.size() > 0 ) {
-//			_activeTextures.remove( _activeTextures.size() - 1 ).resetUseCount();
-//		}
-//		// figure out which textures are being used and rebuild array, telling active textures that they're active
-//		for( int i=0; i < _mappingGroups.size(); i++ ) {
-//			ArrayList<BaseTexture> textures = _mappingGroups.get(i).textures();
-//			for( int j=0; j < textures.size(); j++ ) {
-//				if( _activeTextures.indexOf( textures.get(j) ) == -1 ) {
-//					if(textures.get(j).isActive() == false) P.println(textures.get(j).toString());
-//					textures.get(j).setActive(true);
-//					_activeTextures.add( textures.get(j) );
-//				}
-//			}
-//		}
-//		// set inactive pool textures' _active state to false (mostly for turning off video players)
-//		for( int i=0; i < _texturePool.size(); i++ ) {
-//			if( _texturePool.get(i).useCount() == 0 && _texturePool.get(i).isActive() == true ) {
-//				_texturePool.get(i).setActive(false);
-//				// P.println("Deactivated: ", _texturePool.get(i).getClass().getName());
-//			}
-//		}
-		// update active textures, once each
+		// update active textures, once each if used in a group
 		for( int i=0; i < _activeTextures.size(); i++ ) {
-			_activeTextures.get(i).update();
+			BaseTexture texture = _activeTextures.get(i);
+			for (MappingGroup group : _mappingGroups) {
+				if(group.isUsingTexture(texture) == true) {					
+					texture.update();
+					break;
+				}
+			}
 		}
-//		P.println(_activeTextures.size());
 	}
 	
 	protected int numMovieTextures() {
@@ -571,7 +554,10 @@ extends PAppletHax {
 //		SaturationFilter.instance(p).setSaturation(1.2f);
 //		SaturationFilter.instance(p).applyTo(p);
 		
-		ContrastFilter.instance(p).setContrast(1.2f);
+		float contrastMult = 2.5f;
+		if(p.frameCount < 3) p.midi.controllerChange(3, 44, P.round(127f/contrastMult));	// default to 1.0, essentially, with room to get up to 2.8f
+		float contrastVal = p.midi.midiCCPercent(3, 44) * contrastMult;
+		ContrastFilter.instance(p).setContrast(contrastVal);
 		ContrastFilter.instance(p).applyTo(p);
 
 //		FXAAFilter.instance(p).applyTo(p);

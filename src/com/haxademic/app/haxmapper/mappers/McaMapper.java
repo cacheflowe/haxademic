@@ -1,13 +1,6 @@
 package com.haxademic.app.haxmapper.mappers;
 
-import java.util.ArrayList;
-
 import com.haxademic.app.haxmapper.HaxMapper;
-import com.haxademic.app.haxmapper.dmxlights.RandomLightTiming;
-import com.haxademic.app.haxmapper.overlays.FullMaskTextureOverlay;
-import com.haxademic.app.haxmapper.overlays.MeshLines.MODE;
-import com.haxademic.app.haxmapper.polygons.IMappedPolygon;
-import com.haxademic.app.haxmapper.textures.BaseTexture;
 import com.haxademic.app.haxmapper.textures.TextureAudioTube;
 import com.haxademic.app.haxmapper.textures.TextureEQColumns;
 import com.haxademic.app.haxmapper.textures.TextureEQConcentricCircles;
@@ -20,13 +13,10 @@ import com.haxademic.app.haxmapper.textures.TextureRotatingRings;
 import com.haxademic.app.haxmapper.textures.TextureRotatorShape;
 import com.haxademic.app.haxmapper.textures.TextureScrollingColumns;
 import com.haxademic.app.haxmapper.textures.TextureShaderTimeStepper;
-import com.haxademic.app.haxmapper.textures.TextureSphereRotate;
 import com.haxademic.app.haxmapper.textures.TextureTwistingSquares;
 import com.haxademic.app.haxmapper.textures.TextureVideoPlayer;
 import com.haxademic.app.haxmapper.textures.TextureWaveformCircle;
 import com.haxademic.app.haxmapper.textures.TextureWaveformSimple;
-import com.haxademic.core.app.P;
-import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.system.FileUtil;
 
 import oscP5.OscMessage;
@@ -35,37 +25,31 @@ import processing.core.PApplet;
 @SuppressWarnings("serial")
 public class McaMapper
 extends HaxMapper{
-	
-//	protected AudioPixelInterface _audioPixel;
-//	protected int[] _audioPixelColors;
 		
 	/*
 	 * TODO:
+	 * - Fix mapped quads
 	 * - Refactor & organize
 	 * 		- Merge user input triggers & beat detection decisions and then start to organize automated decision making 
 	 * - Fix image cycling texture - it does weird flashy things
 	 * - Fix performance issues
-	 * 		- Only update textures that are being used in any group
 	 * 		- Does the overlayPG need to be a separate PGraphics buffer if we use a blend mode for overlays drawing?
+	 * 		- Make sure there are no texture effects that are slowing things down
 	 * - use new triangle random coordinates for mapped quads
-	 * - interpolate polygon coordinates
-	 * - Test with multiple groups
+	 * - interpolate polygon coordinates for animated UV maps
 	 * - is newMode() getting called on textures?
 	 * - is rotate() getting called on textures?
-	 * - Make sure there are no texture effects that are slowing things down
 	 * - Add a vertex shader to manipulate the z of all mesh vertices? since we're not using pshapes, maybe just use noise() to deform the z, then apply lighting
 	 * - triangle rotation is causing warped polygons
+	 * - Fix up switching to all one texture. clear out other textures in the current pool?
 
 	 * - test with only 1 mapping group
 	 * - reset smoothing to something nice
 
-	 * - Add new SDF shaders in B&W
 	 * - Add more ambient overlay shaders
 	 * - Find the video Wally wanted to import: https://www.youtube.com/watch?v=gUilOCTqPC4
 
-	 * - When switching to all one texture, clear out other textures in the current pool?
 	 * - Add another floating audio-reactive particle overlay texture - switch the overloay textures out on an interval
-	 * - Mapped UV coordinates should never bee out of texture's frame - this results in lines - more prominent in triangle polygons
 	 */
 	
 
@@ -76,7 +60,7 @@ extends HaxMapper{
 
 	protected void overridePropsFile() {
 		super.overridePropsFile();
-		p.appConfig.setProperty( "mapping_file", FileUtil.getFile("text/mapping/mapping-2016-03-23-22-53-52.txt") );
+		p.appConfig.setProperty( "mapping_file", FileUtil.getFile("text/mapping/mapping-2015-09-18-17-55-50.txt") );
 		p.appConfig.setProperty( "rendering", "false" );
 		p.appConfig.setProperty( "fullscreen", "false" );
 		p.appConfig.setProperty( "fills_screen", "false" );
@@ -103,21 +87,25 @@ extends HaxMapper{
 		int videoH = 288;// 334;
 		
 
-		_texturePool.add( new TextureVideoPlayer( videoW, videoH, "video/loops/smoke-loop.mov" ));
-		_texturePool.add( new TextureVideoPlayer( videoW, videoH, "video/loops/tree-loop.mp4" ));
-		_texturePool.add( new TextureVideoPlayer( videoW, videoH, "video/loops/ink-in-water.mp4" ));
-		_texturePool.add( new TextureVideoPlayer( videoW, videoH, "video/loops/ink-grow-shrink.mp4" ));
-		_texturePool.add( new TextureVideoPlayer( videoW, videoH, "video/loops/fire.mp4" ));
-		_texturePool.add( new TextureVideoPlayer( videoW, videoH, "video/loops/clouds-timelapse.mov" ));
-		_texturePool.add( new TextureVideoPlayer( videoW, videoH, "video/loops/water.mp4" ));
-		_texturePool.add( new TextureVideoPlayer( videoW, videoH, "video/loops/bubbles.mp4" ));	
+//		_texturePool.add( new TextureVideoPlayer( videoW, videoH, "video/loops/smoke-loop.mov" ));
+//		_texturePool.add( new TextureVideoPlayer( videoW, videoH, "video/loops/tree-loop.mp4" ));
+//		_texturePool.add( new TextureVideoPlayer( videoW, videoH, "video/loops/ink-in-water.mp4" ));
+//		_texturePool.add( new TextureVideoPlayer( videoW, videoH, "video/loops/ink-grow-shrink.mp4" ));
+//		_texturePool.add( new TextureVideoPlayer( videoW, videoH, "video/loops/fire.mp4" ));
+//		_texturePool.add( new TextureVideoPlayer( videoW, videoH, "video/loops/clouds-timelapse.mov" ));
+//		_texturePool.add( new TextureVideoPlayer( videoW, videoH, "video/loops/water.mp4" ));
+//		_texturePool.add( new TextureVideoPlayer( videoW, videoH, "video/loops/bubbles.mp4" ));	
 
 		
 		int shaderW = 512;
 		int shaderH = 512;
 		int shaderWsm = shaderW/2;
 		int shaderHsm = shaderH/2;
+		shaderWsm = shaderW;
+		shaderHsm = shaderH;
 		
+		_texturePool.add( new TextureShaderTimeStepper( shaderW, shaderH, "sdf-01-auto.glsl" ));
+		_texturePool.add( new TextureShaderTimeStepper( shaderW, shaderH, "sdf-02-auto.glsl" ));
 		_texturePool.add( new TextureShaderTimeStepper( shaderW, shaderH, "basic-checker.glsl" ));
 		_texturePool.add( new TextureShaderTimeStepper( shaderW, shaderH, "basic-diagonal-stripes.glsl" ));
 		_texturePool.add( new TextureShaderTimeStepper( shaderW, shaderH, "bubbles-iq.glsl" ));

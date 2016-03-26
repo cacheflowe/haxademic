@@ -171,12 +171,12 @@ implements IMappedPolygon {
 			pg.vertex(x4, y4, 0);
 			pg.vertex(x1, y1, 0);
 			pg.endShape();
-		}
+		} 
 		
 
 		// show debug info
-//		pg.fill(255);
-//		pg.textSize(20);
-//		pg.text(_mappingStyle+"", _centerX, _centerY);
+		pg.fill(255);
+		pg.textSize(20);
+		pg.text(_mappingStyle+"", _centerX, _centerY);
 	}
 }

@@ -89,7 +89,7 @@ public class BaseMappedPolygon {
 	
 	public void randomTextureStyle() {
 		_mappingStyle = MathUtil.randRange(0, 3); 
-		P.println("randomTextureStyle()", _mappingStyle);
+//		P.println("randomTextureStyle()", _mappingStyle);
 //		_mappingStyle = IMappedPolygon.MAP_STYLE_CONTAIN_RANDOM_TEX_AREA;  // FOR TESTING
 		randomMappingArea();
 	}
@@ -147,7 +147,7 @@ public class BaseMappedPolygon {
 		float containRatio = (ratioW < ratioH) ? ratioW : ratioH;
 		translatePolygon(destination, -randomPolyRotatedBB.x, -randomPolyRotatedBB.y);
 
-		containRatio *= MathUtil.randRangeDecimal(0.25f, 1.0f);
+		containRatio *= MathUtil.randRangeDecimal(0.5f, 1.0f);
 		scalePolygon(destination, containRatio);
 		Rectangle destinationBB = createBoundingBox(destination);
 		
