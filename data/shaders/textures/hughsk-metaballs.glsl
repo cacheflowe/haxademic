@@ -176,10 +176,10 @@ float smin( float a, float b, float k )
 //------------------------------------------------------------------------
 float doModel( vec3 p )
 {
-    vec3  sep = vec3(sin(time * 0.75 + p.x * 0.05), 0, 0);
+    vec3  sep = vec3(sin(time * 0.5 + p.x * 0.05), 0, 0);
     float rad = 0.5;
     float d = 100000.0;
-    float t = time * 2.0;
+    float t = time * 0.5;
     float swell = 1.0; //(1.0 + snoise(vec4(p * 3.0, time)) * 0.06125);
     float blend = 0.6;
     
@@ -312,7 +312,7 @@ mat3 calcLookAtMatrix( in vec3 ro, in vec3 ta, in float roll )
 void main( void )
 {
     vec2 p = vertTexCoord.xy - vec2(.5,.5);
-    vec2 m = vec2(sin(time/250.0), sin(time/300.0));
+    vec2 m = vec2(sin(time/1500.0), sin(time/2000.0));
     
     //-----------------------------------------------------
     // camera

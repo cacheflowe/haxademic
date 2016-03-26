@@ -41,7 +41,7 @@ void main() {
     vec2 uvs = uv;
 	// vec2 uvs = uv * resolution.xy / max(resolution.x, resolution.y);
 	vec3 p = vec3(uvs / 4.0, 0) + vec3(1., -1.3, 0.0);
-	p += 0.2 * vec3(sin(1.0 / 16.0), sin(1.0 / 12.0),  sin(time / 128.0));
+	p += 0.2 * vec3(sin(1.0 / 16.0), sin(1.0 / 12.0),  sin(time / 64.));
 	
 	float t = field(p);
 	float v = (1.0 - exp((abs(uv.x) - 1.0) * 6.)) * (1.0 - exp((abs(uv.y) - 1.0) * 6.0));

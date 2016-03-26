@@ -26,6 +26,11 @@ uniform vec2 resolution;
 // Guts:          https://www.shadertoy.com/view/MssGW4
 // Trigonometric: https://www.shadertoy.com/view/Mdl3RH
 
+float adjustTime(float theTime) {
+	return theTime * 3.;
+}
+
+
 vec3 shape( in vec2 p )
 {
 	p *= 2.0;
@@ -35,7 +40,7 @@ vec3 shape( in vec2 p )
 	for( int i=0; i<8; i++ )
 	{
         // transform
-		z += cos(z.yx + cos(z.yx + cos(z.yx+0.5*time) ) );
+		z += cos(z.yx + cos(z.yx + cos(z.yx+0.5*adjustTime(time)) ) );
         
         // orbit traps
 		float d = dot( z-p, z-p );
@@ -63,7 +68,7 @@ void main( void )
     
     // color
 	vec3 col = mix( vec3(0.08,0.02,0.15), vec3(0.6,1.1,1.6), sc.x );
-	col = mix( col, col.zxy, smoothstep(-0.5,0.5,cos(0.5*time)) );
+	col = mix( col, col.zxy, smoothstep(-0.5,0.5,cos(0.5*adjustTime(time))) );
 	col *= 0.15*sc.y;
 	col += 0.4*abs(sc.z) - 0.1;
     
