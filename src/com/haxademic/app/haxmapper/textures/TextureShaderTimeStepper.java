@@ -1,8 +1,8 @@
 package com.haxademic.app.haxmapper.textures;
 
 import com.haxademic.core.app.P;
+import com.haxademic.core.image.filters.shaders.FXAAFilter;
 import com.haxademic.core.image.filters.shaders.SaturationFilter;
-import com.haxademic.core.image.filters.shaders.VignetteFilter;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.EasingFloat;
 import com.haxademic.core.system.FileUtil;
@@ -48,7 +48,7 @@ extends BaseTexture {
 		_shaderFile = textureShader;
 		
 		buildGraphics( width, height );
-		_texture.noSmooth();
+//		_texture.noSmooth();
 		loadShaders( textureShader );
 	}
 	
@@ -71,8 +71,8 @@ extends BaseTexture {
 		_patternShader.set("colors", colors);
 		// -------------------------------------------------------
 
-		VignetteFilter.instance(P.p).setDarkness(0.7f);
-		VignetteFilter.instance(P.p).setSpread(0.15f);
+//		VignetteFilter.instance(P.p).setDarkness(0.7f);
+//		VignetteFilter.instance(P.p).setSpread(0.15f);
 	}
 
 	public void updateDraw() {
@@ -91,6 +91,7 @@ extends BaseTexture {
 	public void postProcess() {
 		SaturationFilter.instance(P.p).setSaturation(0.4f);
 		SaturationFilter.instance(P.p).applyTo(_texture);
+		FXAAFilter.instance(P.p).applyTo(_texture);
 //		super.postProcess();
 	}
 	

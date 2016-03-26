@@ -5,7 +5,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import com.haxademic.app.haxmapper.distribution.MappingGroup;
+import com.haxademic.app.haxmapper.dmxlights.RandomLightTiming;
 import com.haxademic.app.haxmapper.overlays.FullMaskTextureOverlay;
+import com.haxademic.app.haxmapper.overlays.MeshLines.MODE;
 import com.haxademic.app.haxmapper.polygons.IMappedPolygon;
 import com.haxademic.app.haxmapper.polygons.MappedQuad;
 import com.haxademic.app.haxmapper.polygons.MappedTriangle;
@@ -52,28 +54,30 @@ import processing.core.PGraphics;
 public class HaxMapper
 extends PAppletHax {
 		
-	public static int MAX_ACTIVE_TEXTURES = 2;
-	public static int MAX_ACTIVE_TEXTURES_PER_GROUP = 2;
-	public static int MAX_ACTIVE_MOVIE_TEXTURES = 2;
-	
+	// mesh polygons & graphics layers
 	protected String _inputFileLines[];
-	protected PGraphics _overlayPG;
 	protected Rectangle _boundingBox;
 	protected float[] extentsX = {-1,-1};
 	protected float[] extentsY = {-1,-1};
 	protected ArrayList<MappingGroup> _mappingGroups;
+	protected PGraphics _overlayPG;
+	protected PGraphics _fullMask;
+	protected PGraphics _fullMaskOverlay;
+	protected FullMaskTextureOverlay _fullMaskTexture;
+	
+	// texture pool
+	public static int MAX_ACTIVE_TEXTURES = 2;
+	public static int MAX_ACTIVE_TEXTURES_PER_GROUP = 2;
+	public static int MAX_ACTIVE_MOVIE_TEXTURES = 2;
 	protected ArrayList<BaseTexture> _texturePool;
 	protected ArrayList<BaseTexture> _curTexturePool;
 	protected ArrayList<BaseTexture> _movieTexturePool;
 	protected ArrayList<BaseTexture> _activeTextures;
 	protected ArrayList<BaseTexture> _overlayTexturePool;
 	protected int _texturePoolNextIndex = 0;
-	protected PGraphics _fullMask;
-	protected PGraphics _fullMaskOverlay;
-	protected FullMaskTextureOverlay _fullMaskTexture;
-	
 	protected boolean _debugTextures = false;
 
+	// user input triggers
 	protected InputTrigger _colorTrigger = new InputTrigger(new char[]{'c'},new String[]{TouchOscPads.PAD_01},new Integer[]{AkaiMpdPads.PAD_01, AbletonNotes.NOTE_01});
 	protected InputTrigger _rotationTrigger = new InputTrigger(new char[]{'v'},new String[]{TouchOscPads.PAD_02},new Integer[]{AkaiMpdPads.PAD_02, AbletonNotes.NOTE_02});
 	protected InputTrigger _timingTrigger = new InputTrigger(new char[]{'n'},new String[]{TouchOscPads.PAD_03},new Integer[]{AkaiMpdPads.PAD_03, AbletonNotes.NOTE_03});
@@ -89,15 +93,30 @@ extends PAppletHax {
 	protected InputTrigger _brightnessDownTrigger = new InputTrigger(new char[]{'['},new String[]{},new Integer[]{});
 	protected InputTrigger _debugTexturesTrigger = new InputTrigger(new char[]{'d'},new String[]{},new Integer[]{});
 	protected int _lastInputMillis = 0;
+	
+	// beat-detection trigger intervals
+	protected float BEAT_DIVISOR = 1f; // 10 to test
+	protected int BEAT_INTERVAL_COLOR = (int) Math.ceil(6f / BEAT_DIVISOR);
+	protected int BEAT_INTERVAL_MAP_STYLE_CHANGE = (int) Math.ceil(4f / BEAT_DIVISOR);
+	protected int BEAT_INTERVAL_ROTATION = (int) Math.ceil(16f / BEAT_DIVISOR);
+	protected int BEAT_INTERVAL_TRAVERSE = (int) Math.ceil(20f / BEAT_DIVISOR);
+	protected int BEAT_INTERVAL_ALL_SAME = (int) Math.ceil(140f / BEAT_DIVISOR);
+	protected int BEAT_INTERVAL_LINE_MODE = (int) Math.ceil(32f / BEAT_DIVISOR);
+	protected int BEAT_INTERVAL_NEW_TIMING = (int) Math.ceil(40f / BEAT_DIVISOR);
+	protected int BEAT_INTERVAL_NEW_TEXTURE = (int) Math.ceil(80f / BEAT_DIVISOR);
+	protected int BEAT_INTERVAL_BIG_CHANGE = (int) Math.ceil(250f / BEAT_DIVISOR);
+	protected boolean _timingDebug = false;
 	protected int numBeatsDetected = 0;
 	
+	// face recorder insanity mode
 	protected KinectFaceRecorder _faceRecorder;
 	protected BaseTexture _faceRecordingTexture;
 	protected BaseTexture _facesPlaybackTexture;
 
-//	protected PShader _brightness;
-//	protected float _brightnessVal = 1f;
+	// dmx physical lighting
+	protected RandomLightTiming _dmxLights;
 
+	// global effects processing
 	protected int[] _textureEffectsIndices = {0,0,0,0,0,0,0};	// store a effects number for each texture position after the first
 	protected int _numTextureEffects = 16 + 8; // +8 to give a good chance at removing the filter from the texture slot
 	
@@ -130,6 +149,7 @@ extends PAppletHax {
 		importPolygons();
 		for( int i=0; i < _mappingGroups.size(); i++ ) _mappingGroups.get(i).completePolygonImport();
 		buildTextures();
+		if(p.appConfig.getInt("dmx_lights_count", 0) > 0) _dmxLights = new RandomLightTiming(p.appConfig.getInt("dmx_lights_count", 0));
 	}
 	
 	protected void importPolygons() {
@@ -207,9 +227,9 @@ extends PAppletHax {
 		}
 	}
 	
-	protected void drawOverlayMask() {
+	protected void buildOverlayMask() {
 		// draw black on white
-		_fullMask = p.createGraphics(p.width, p.height, P.OPENGL);
+		_fullMask = p.createGraphics(p.width, p.height, P.P2D);
 		_fullMask.smooth(OpenGLUtil.SMOOTH_HIGH);
 		_fullMask.beginDraw();
 		_fullMask.background(255);
@@ -220,7 +240,7 @@ extends PAppletHax {
 		_fullMask.endDraw();
 		
 		// crate simple black overlay with polygons excluded via masking 
-		_fullMaskOverlay = p.createGraphics(p.width, p.height, P.OPENGL);
+		_fullMaskOverlay = p.createGraphics(p.width, p.height, P.P2D);
 		_fullMaskOverlay.smooth(OpenGLUtil.SMOOTH_HIGH);
 		_fullMaskOverlay.beginDraw();
 		_fullMaskOverlay.background(0);
@@ -251,7 +271,9 @@ extends PAppletHax {
 		_movieTexturePool = new ArrayList<BaseTexture>();
 		_activeTextures = new ArrayList<BaseTexture>();
 		_overlayTexturePool = new ArrayList<BaseTexture>();
+		_fullMaskTexture = new FullMaskTextureOverlay(_overlayPG, _boundingBox);
 		addTexturesToPool();
+		storeVideoTextures();
 		buildMappingGroups();
 	}
 			
@@ -263,11 +285,21 @@ extends PAppletHax {
 		// override this!
 	}
 	
+	protected void storeVideoTextures() {
+		// store just movies to restrain the number of concurrent movies
+		for( int i=0; i < _texturePool.size(); i++ ) {
+			if( _texturePool.get(i) instanceof TextureVideoPlayer ) {
+				_movieTexturePool.add( _texturePool.get(i) );
+			}
+		}
+	}
+	
 	/////////////////////////////////////////////////////////////////
 	// Main draw loop
 	/////////////////////////////////////////////////////////////////
 
 	public void drawApp() {
+		prepareOverlayGraphics();
 		p.blendMode(P.BLEND);
 		background(0);
 		if(_faceRecorder != null) updateFaceRecorder();
@@ -281,6 +313,7 @@ extends PAppletHax {
 		p.blendMode(P.BLEND);
 		postProcessFilters();
 		p.image( _fullMaskOverlay, 0, 0, _fullMaskOverlay.width, _fullMaskOverlay.height );
+		runDmxLights();
 		if(_debugTextures == true) debugTextures();
 //		_mappingGroups.get(_mappingGroups.size()-1).drawDebuggg();
 	}
@@ -291,8 +324,13 @@ extends PAppletHax {
 		}
 	}
 	
+	protected void prepareOverlayGraphics() {
+		_overlayTexturePool.get(0).update();
+		_fullMaskTexture.setTexture(_overlayTexturePool.get(0));
+	}
+	
 	protected void drawOverlays() {
-		if(p.frameCount == 1) drawOverlayMask();
+		if(p.frameCount == 1) buildOverlayMask();
 		
 		// draw mesh & overlay on top
 		_overlayPG.beginDraw();
@@ -300,6 +338,7 @@ extends PAppletHax {
 		for( int i=0; i < _mappingGroups.size(); i++ ) {
 			_mappingGroups.get(i).drawOverlay();
 		}
+		// draw semi-transparent current texture on top
 		if(_fullMaskTexture != null) _fullMaskTexture.update();
 		_overlayPG.endDraw();
 				
@@ -315,6 +354,13 @@ extends PAppletHax {
 		}
 	}
 	
+	protected void runDmxLights() {
+		if(_dmxLights != null) {
+			_dmxLights.update();
+			if(_debugTextures == true) _dmxLights.drawDebug(p.g);
+		}
+	}
+	
 	/////////////////////////////////////////////////////////////////
 	// Texture-cycling methods
 	/////////////////////////////////////////////////////////////////
@@ -323,14 +369,21 @@ extends PAppletHax {
 		Collections.shuffle(_texturePool);
 	}
 	
+	protected BaseTexture randomActiveTexture() {
+		return _activeTextures.get( MathUtil.randRange(0, _activeTextures.size()-1) );
+	}
+	
+	protected MappingGroup getRandomGroup() {
+		return _mappingGroups.get( MathUtil.randRange( 0, _mappingGroups.size()-1) );
+	}
+	
 	protected int nextTexturePoolIndex() {
 		_texturePoolNextIndex++;
 		if(_texturePoolNextIndex >= _texturePool.size()) {
 			_texturePoolNextIndex = 0;
-			shuffleTexturePool(); // shuffle texture pool array again to prevent possiblt video neighbors from never playing
+			shuffleTexturePool(); // shuffle texture pool array again to prevent the same combination over and over
 		}
 		return _texturePoolNextIndex;
-		// return MathUtil.randRange(0, _texturePool.size()-1 );
 	}
 
 	protected void nextOverlayTexture() {
@@ -428,6 +481,7 @@ extends PAppletHax {
 	}
 	
 	protected void filterActiveTextures() {
+		if(_debugTextures == false) return; 
 		for( int i=0; i < _activeTextures.size(); i++ ) {
 			PGraphics pg = _activeTextures.get(i).texture();
 			float filterTime = p.frameCount / 40f;
@@ -630,54 +684,181 @@ extends PAppletHax {
 	/////////////////////////////////////////////////////////////////
 
 	protected void newMode() {
-		for( int i=0; i < _mappingGroups.size(); i++ ) {
+		for( int i=0; i < _mappingGroups.size(); i++ ) 
 			_mappingGroups.get(i).newMode();
-		}
 	}
 	
 	protected void updateColor() {
-		for( int i=0; i < _mappingGroups.size(); i++ ) {
-			_mappingGroups.get(i).newColor();
-			_mappingGroups.get(i).pulseColor();
+		// sometimes do all groups, but mostly pick a random group to change
+		if( MathUtil.randRange(0, 100) > 80 ) {
+			for( int i=0; i < _mappingGroups.size(); i++ )
+				_mappingGroups.get(i).newColor();
+		} else {
+			getRandomGroup().newColor();
 		}
 	}
 	
 	protected void updateLineMode() {
-		for( int i=0; i < _mappingGroups.size(); i++ ) {
-			_mappingGroups.get(i).newLineMode();
+		// sometimes do all groups, but mostly pick a random one to change
+		if( MathUtil.randRange(0, 100) > 80 ) {
+			for( int i=0; i < _mappingGroups.size(); i++ )
+				_mappingGroups.get(i).newLineMode();
+		} else {
+			getRandomGroup().newLineMode();
 		}
 	}
 	
 	protected void updateRotation() {
-		for( int i=0; i < _mappingGroups.size(); i++ ) {
-//			_mappingGroups.get(i).newRotation();
-			_mappingGroups.get(i).newRandomRotation();
-		}
+		randomActiveTexture().newRotation();
+		for( int i=0; i < _mappingGroups.size(); i++ )
+			_mappingGroups.get(i).newRotation();
 	}
 	
 	protected void updateTiming() {
-		for( int i=0; i < _activeTextures.size(); i++ ) {
-			_activeTextures.get(i).updateTiming();
+		// pass beat detection on to textures and lighting
+		if(_dmxLights != null) _dmxLights.updateDmxLightsOnBeat();
+		if(_overlayTexturePool.size() > 0) _overlayTexturePool.get(0).updateTiming();
+		for( int i=0; i < _activeTextures.size(); i++ ) _activeTextures.get(i).updateTiming();
+		
+		// make beat detection sequencing decisions
+		numBeatsDetected++;
+		
+		if( numBeatsDetected % BEAT_INTERVAL_MAP_STYLE_CHANGE == 0 ) {
+			if(_timingDebug == true) P.println("BEAT_INTERVAL_MAP_STYLE_CHANGE");
+			changeGroupsRandomPolygonMapStyle();
+		}
+		
+		if( numBeatsDetected % BEAT_INTERVAL_COLOR == 0 ) {
+			if(_timingDebug == true) P.println("BEAT_INTERVAL_COLOR");
+			updateColor();
+		}
+		if( numBeatsDetected % BEAT_INTERVAL_ROTATION == 0 ) {
+			if(_timingDebug == true) P.println("BEAT_INTERVAL_ROTATION");
+			updateRotation();
+		}
+		if( numBeatsDetected % BEAT_INTERVAL_TRAVERSE == 0 ) {
+			if(_timingDebug == true) P.println("BEAT_INTERVAL_TRAVERSE");
+			traverseTrigger();
+		}
+		if( numBeatsDetected % BEAT_INTERVAL_ALL_SAME == 0 ) {
+			if(_timingDebug == true) P.println("BEAT_INTERVAL_ALL_SAME");
+			setGroupsMappingStylesToTheSame(true);
+			setGroupsTextureToTheSameMaybe();
+		}
+		
+		if( numBeatsDetected % BEAT_INTERVAL_LINE_MODE == 0 ) {
+			if(_timingDebug == true) P.println("BEAT_INTERVAL_LINE_MODE");
+			updateLineMode();
+		}
+		
+		if( numBeatsDetected % BEAT_INTERVAL_NEW_TIMING == 0 ) {
+			if(_timingDebug == true) P.println("BEAT_INTERVAL_NEW_TIMING");
+			updateTimingSection();
+		}
+		
+		if( numBeatsDetected % BEAT_INTERVAL_NEW_TEXTURE == 0 ) {
+			if(_timingDebug == true) P.println("BEAT_INTERVAL_NEW_TEXTURE");
+			cycleANewTexture(null);
+		}
+		if( numBeatsDetected % BEAT_INTERVAL_BIG_CHANGE == 0 ) {
+			if(_timingDebug == true) P.println("BEAT_INTERVAL_BIG_CHANGE");
+			bigChangeTrigger();
 		}
 	}
 	
 	protected void updateTimingSection() {
+		if(_overlayTexturePool.size() > 0) _overlayTexturePool.get(0).updateTimingSection();
+
 		for( int i=0; i < _activeTextures.size(); i++ ) {
 			_activeTextures.get(i).updateTimingSection();
 		}
+		
+		newLineModeForRandomGroup();
+		selectNewActiveTextureFilters();
 	}
 	
 	protected void bigChangeTrigger() {
-//		cycleANewTexture(_facesPlaybackTexture); // do tihs occasionally
-//		P.println("_faceRecordingTexture.isActive()",_faceRecordingTexture.isActive());
-		if(_faceRecorder != null) {
+		// bail if the face recording texture is active
+		if(_faceRecorder != null && _faceRecordingTexture != null) {
 			if(_faceRecordingTexture.isActive() == true) return;
 		}
+		
+		// randomize all textures to polygons & global effects
 		for( int i=0; i < _mappingGroups.size(); i++ ) {
 			_mappingGroups.get(i).randomTextureToRandomPolygon();
 		}
 		selectNewActiveTextureFilters();
+		
+		// swap in a new overlay texture and normal pool texture
+		cycleANewTexture(null);
+		nextOverlayTexture();
+
+		// do a couple of normal triggers
+		newLineModesForAllGroups();
+		updateTimingSection();
+		
+		// reset rotations
+		for(int i=0; i < _mappingGroups.size(); i++ ) {
+			_mappingGroups.get(i).resetRotation();
+		}
 	}
+	
+	/////////////////////////////////////////////////////////////////
+	// cool rules (should just be across groups or forward timing/triggers to all groups)
+	/////////////////////////////////////////////////////////////////
+
+	protected void setGroupsTextureToTheSameMaybe() {
+		// maybe also set a group to all to be the same texture
+		for(int i=0; i < _mappingGroups.size(); i++ ) {
+			if( MathUtil.randRange(0, 100) < 25 ) {
+				_mappingGroups.get(i).setAllPolygonsToSameRandomTexture();
+			}
+		}
+	}	
+	
+	protected void changeGroupsRandomPolygonMapStyle() {
+		// every beat, change a polygon mapping style or texture
+		for(int i=0; i < _mappingGroups.size(); i++ ) {
+			if( MathUtil.randBoolean(p) == true ) {
+				_mappingGroups.get(i).randomTextureToRandomPolygon();
+			} else {
+				_mappingGroups.get(i).randomPolygonRandomMappingStyle();
+			}
+		}
+	}
+	
+	protected void setGroupsMappingStylesToTheSame(boolean allowsFullEQ) {
+		// every once in a while, set all polygons' styles to be the same per group
+		for(int i=0; i < _mappingGroups.size(); i++ ) {
+			if( MathUtil.randRange(0, 100) < 90 || allowsFullEQ == false ) {
+				_mappingGroups.get(i).setAllPolygonsTextureStyle( MathUtil.randRange(0, 2) );
+			} else {
+				_mappingGroups.get(i).setAllPolygonsTextureStyle( IMappedPolygon.MAP_STYLE_EQ );	// less likely to go to EQ fill
+			}
+			_mappingGroups.get(i).newColor();
+		}
+	}
+
+	
+	protected void newLineModeForRandomGroup() {
+		getRandomGroup().newLineMode();
+	}
+	
+	protected void newLineModesForAllGroups() {
+		// set new line mode
+		for(int i=0; i < _mappingGroups.size(); i++ ) {
+			_mappingGroups.get(i).newLineMode();
+		}
+		// once in a while, reset all mesh lines to the same random mode
+		if( MathUtil.randRange(0, 100) < 10 ) {
+			int newLineMode = MathUtil.randRange(0, MODE.values().length - 1);
+			for(int i=0; i < _mappingGroups.size(); i++ ) {
+				_mappingGroups.get(i).resetLineModeToIndex( newLineMode );
+			}
+		}
+	}
+		
+
 
 	protected void setAllSameTexture() {
 		boolean mode = MathUtil.randBoolean(p);

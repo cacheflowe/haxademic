@@ -217,7 +217,7 @@ extends HaxMapper{
 		super.drawApp();
 		
 		for(int i=0; i < _mappingGroups.size(); i++ ) {
-			_mappingGroups.get(i).getAudioPixelColor();
+//			_mappingGroups.get(i).getAudioPixelColor();
 //			_audioPixelColors[i] = _mappingGroups.get(i).colorEaseInt();
 		}
 	}
@@ -239,7 +239,7 @@ extends HaxMapper{
 		} else {
 			int randGroup = MathUtil.randRange( 0, _mappingGroups.size() - 1 );
 			_mappingGroups.get(randGroup).newColor();
-			_mappingGroups.get(randGroup).pulseColor();
+//			_mappingGroups.get(randGroup).pulseColor();
 		}
 	}
 	
@@ -278,9 +278,9 @@ extends HaxMapper{
 			traverseTrigger();
 		}
 //		updateColor();
-		for(int i=0; i < _mappingGroups.size(); i++ ) {
-			_mappingGroups.get(i).newAudioPixelColor();
-		}
+//		for(int i=0; i < _mappingGroups.size(); i++ ) {
+////			_mappingGroups.get(i).newAudioPixelColor();
+//		}
 		
 		if( numBeatsDetected % BEAT_INTERVAL_ALL_SAME == 0 ) {
 //			P.println("BEAT_INTERVAL_ALL_SAME");

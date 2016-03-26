@@ -42,6 +42,8 @@ extends HaxMapper{
 	/*
 	 * TODO:
 	 * - Refactor & organize
+	 * 		- Merge user input triggers & beat detection decisions and then start to organize automated decision making 
+	 * - Could line mode be causing slowdowns?!?! try disabling line overlay modes
 	 * - triangle rotation is causing warped polygons
 	 * - use new triangle random coordinates for mapped quads
 	 * - Add a vertex shader to manipulate the z of all mesh vertices? since we're not using pshapes, maybe just use noise() to deform the z, then apply lighting
@@ -56,24 +58,10 @@ extends HaxMapper{
 	 * - is rotate() getting called on textures?
 	 * 
 	 * - When switching to all one texture, clear out other textures in the current pool?
-	 * - Add another floating audio-reactive particle overlay texture - swithc the overloay textures out on an interval
+	 * - Add another floating audio-reactive particle overlay texture - switch the overloay textures out on an interval
 	 * - Mapped UV coordinates should never bee out of texture's frame - this results in lines - more prominent in triangle polygons
 	 */
 	
-	protected float BEAT_DIVISOR = 1f; // 10 to test
-	protected int BEAT_INTERVAL_COLOR = (int) Math.ceil(6f / BEAT_DIVISOR);
-	protected int BEAT_INTERVAL_MAP_STYLE_CHANGE = (int) Math.ceil(4f / BEAT_DIVISOR);
-	protected int BEAT_INTERVAL_ROTATION = (int) Math.ceil(16f / BEAT_DIVISOR);
-	protected int BEAT_INTERVAL_TRAVERSE = (int) Math.ceil(20f / BEAT_DIVISOR);
-	protected int BEAT_INTERVAL_ALL_SAME = (int) Math.ceil(140f / BEAT_DIVISOR);
-	protected int BEAT_INTERVAL_LINE_MODE = (int) Math.ceil(32f / BEAT_DIVISOR);
-	protected int BEAT_INTERVAL_NEW_TIMING = (int) Math.ceil(40f / BEAT_DIVISOR);
-	protected int BEAT_INTERVAL_NEW_TEXTURE = (int) Math.ceil(80f / BEAT_DIVISOR);
-	protected int BEAT_INTERVAL_BIG_CHANGE = (int) Math.ceil(250f / BEAT_DIVISOR);
-	
-	protected RandomLightTiming _dmxLights;
-	
-	protected boolean _timingDebug = false;
 
 	public static void main(String args[]) {
 		_isFullScreen = false;
@@ -99,23 +87,18 @@ extends HaxMapper{
 		super.oscEvent(theOscMessage);
 	}
 	
-	public void setup() {
-		super.setup();
-		if(p.appConfig.getInt("dmx_lights_count", 0) > 0) _dmxLights = new RandomLightTiming(p.appConfig.getInt("dmx_lights_count", 0));
-		
-//		_audioPixel = new AudioPixelInterface();
-//		_audioPixelColors = new int[ _mappingGroups.size() ];
-	}
-	
+	/////////////////////////////////////////////////////////////////
+	// required overrides to init mapping groups and texture pools 
+	/////////////////////////////////////////////////////////////////
 	protected void buildMappingGroups() {
-		// give each group a texture to start with
+		// initialize mapping groups
 		for( int i=0; i < _mappingGroups.size(); i++ ) {
+			// give each group a couple of textures to start with
 			_mappingGroups.get(i).pushTexture( _texturePool.get(0) );
 			_mappingGroups.get(i).pushTexture( _texturePool.get(1) );
-		}
-		
-		// set initial mapping properties - make all fully contain their textures
-		for(int i=0; i < _mappingGroups.size(); i++ ) {
+			
+			// set initial mapping properties - make all fully contain their textures
+			// TODO: can we just call a rule method to initialize all to mask style?
 			ArrayList<IMappedPolygon> polygons = _mappingGroups.get(i).polygons();
 			for(int j=0; j < polygons.size(); j++ ) {
 				IMappedPolygon polygon = polygons.get(j);
@@ -180,7 +163,7 @@ extends HaxMapper{
 		_texturePool.add( new TextureShaderTimeStepper( shaderW, shaderH, "spinning-iq.glsl" ));
 		_texturePool.add( new TextureShaderTimeStepper( shaderW, shaderH, "square-fade.glsl" ));
 		_texturePool.add( new TextureShaderTimeStepper( shaderW, shaderH, "square-twist.glsl" ));
-		_texturePool.add( new TextureShaderTimeStepper( shaderW, shaderH, "star-field.glsl" ));
+		_texturePool.add( new TextureShaderTimeStepper( shaderWsm, shaderHsm, "star-field.glsl" ));
 		_texturePool.add( new TextureShaderTimeStepper( shaderW, shaderH, "stars-fractal-field.glsl" ));
 		_texturePool.add( new TextureShaderTimeStepper( shaderW, shaderH, "stars-nice.glsl" ));
 		_texturePool.add( new TextureShaderTimeStepper( shaderW, shaderH, "stars-screensaver.glsl" ));
@@ -194,11 +177,11 @@ extends HaxMapper{
 		_texturePool.add( new TextureShaderTimeStepper( shaderW, shaderH, "wavy-checker-planes.glsl" ));
 		_texturePool.add( new TextureShaderTimeStepper( shaderW, shaderH, "wobble-sin.glsl" ));
 		// bad performance:
-//		_texturePool.add( new TextureShaderTimeStepper( shaderW, shaderH, "dot-grid-dof.glsl" ));
-//		_texturePool.add( new TextureShaderTimeStepper( shaderW, shaderH, "docking-tunnel.glsl" ));
-//		_texturePool.add( new TextureShaderTimeStepper( shaderW, shaderH, "hughsk-metaballs.glsl" ));
-//		_texturePool.add( new TextureShaderTimeStepper( shaderW, shaderH, "hughsk-tunnel.glsl" ));
-//		_texturePool.add( new TextureShaderTimeStepper( shaderW, shaderH, "morphing-bokeh-shape.glsl" ));
+		_texturePool.add( new TextureShaderTimeStepper( shaderWsm, shaderHsm, "dot-grid-dof.glsl" ));
+		_texturePool.add( new TextureShaderTimeStepper( shaderWsm/2, shaderHsm/2, "docking-tunnel.glsl" ));
+		_texturePool.add( new TextureShaderTimeStepper( shaderWsm, shaderHsm, "hughsk-metaballs.glsl" ));
+		_texturePool.add( new TextureShaderTimeStepper( shaderWsm/2, shaderHsm/2, "hughsk-tunnel.glsl" ));
+		_texturePool.add( new TextureShaderTimeStepper( shaderWsm/2, shaderHsm/2, "morphing-bokeh-shape.glsl" ));
 
 
 		
@@ -220,218 +203,25 @@ extends HaxMapper{
 
 		
 		
-		
-		
 		// shuffle one time!
 		shuffleTexturePool();
 		
-		// store just movies to restrain the number of concurrent movies
-		for( int i=0; i < _texturePool.size(); i++ ) {
-			if( _texturePool.get(i) instanceof TextureVideoPlayer ) {
-				_movieTexturePool.add( _texturePool.get(i) );
-			}
-		}
 		
 		// add 1 inital texture to current array
 		_curTexturePool.add( _texturePool.get(nextTexturePoolIndex() ));
 
 		// add full screen overlay texture
-		_fullMaskTexture = new FullMaskTextureOverlay(_overlayPG, _boundingBox);
 		_overlayTexturePool.add(new TextureEQFloatParticles( shaderW, shaderH ));
 		_overlayTexturePool.add(new TextureShaderTimeStepper( shaderW, shaderH, "light-leak.glsl" ));
 		_overlayTexturePool.add(new TextureShaderTimeStepper( shaderW, shaderH, "star-field.glsl" ));
 		_overlayTexturePool.add(new TextureShaderTimeStepper( shaderW, shaderH, "square-fade.glsl" ));
 		_overlayTexturePool.add(new TextureShaderTimeStepper( shaderW, shaderH, "bw-clouds.glsl" ));
-
-	}
-
-	
-	public void drawApp() {
-		// update & prepare overlay graphics
-		_overlayTexturePool.get(0).update();
-		_fullMaskTexture.setTexture(_overlayTexturePool.get(0));
-		
-		// draw the main mapping app
-		super.drawApp();
-		
-		// deal with physical lighting
-		for(int i=0; i < _mappingGroups.size(); i++ ) {
-			_mappingGroups.get(i).getAudioPixelColor();
-			// _audioPixelColors[i] = _mappingGroups.get(i).colorEaseInt();
-		}
-		
-		if(_dmxLights != null) {
-			_dmxLights.update();
-			if(_debugTextures == true) _dmxLights.drawDebug(p.g);
-		}
-		
-	}
-		
-	protected void updateColor() {
-		// sometimes do all groups, but mostly pick a random one to change
-		if( MathUtil.randRange(0, 100) > 80 ) {
-			super.updateColor();
-		} else {
-			int randGroup = MathUtil.randRange( 0, _mappingGroups.size() - 1 );
-			_mappingGroups.get(randGroup).newColor();
-			_mappingGroups.get(randGroup).pulseColor();
-		}
-	}
-	
-	protected void updateLineMode() {
-		// sometimes do all groups, but mostly pick a random one to change
-		if( MathUtil.randRange(0, 100) > 80 ) {
-			super.updateLineMode();
-		} else {
-			int randGroup = MathUtil.randRange( 0, _mappingGroups.size() - 1 );
-			_mappingGroups.get(randGroup).newLineMode();
-		}
-	}
-	
-	protected void updateTiming() {
-		super.updateTiming();
-		
-//		if( isBeatDetectMode() == true ) 
-		numBeatsDetected++;
-		
-		if(_dmxLights != null) _dmxLights.updateDmxLightsOnBeat();
-		if(_overlayTexturePool.size() > 0) _overlayTexturePool.get(0).updateTiming();
-		
-		if( numBeatsDetected % BEAT_INTERVAL_MAP_STYLE_CHANGE == 0 ) {
-			if(_timingDebug == true) P.println("BEAT_INTERVAL_MAP_STYLE_CHANGE");
-			changeGroupsRandomPolygonMapStyle();
-		}
-		
-		if( numBeatsDetected % BEAT_INTERVAL_COLOR == 0 ) {
-			if(_timingDebug == true) P.println("BEAT_INTERVAL_COLOR");
-			updateColor();
-		}
-		if( numBeatsDetected % BEAT_INTERVAL_ROTATION == 0 ) {
-			if(_timingDebug == true) P.println("BEAT_INTERVAL_ROTATION");
-			updateRotation();
-		}
-		if( numBeatsDetected % BEAT_INTERVAL_TRAVERSE == 0 ) {
-			if(_timingDebug == true) P.println("BEAT_INTERVAL_TRAVERSE");
-			traverseTrigger();
-		}
-//		updateColor();
-		for(int i=0; i < _mappingGroups.size(); i++ ) {
-			_mappingGroups.get(i).newAudioPixelColor();
-		}
-		
-		if( numBeatsDetected % BEAT_INTERVAL_ALL_SAME == 0 ) {
-			if(_timingDebug == true) P.println("BEAT_INTERVAL_ALL_SAME");
-			setGroupsMappingStylesToTheSame();
-			setGroupsTextureToTheSameMaybe();
-		}
-		
-		if( numBeatsDetected % BEAT_INTERVAL_LINE_MODE == 0 ) {
-			if(_timingDebug == true) P.println("BEAT_INTERVAL_LINE_MODE");
-			updateLineMode();
-		}
-		
-		if( numBeatsDetected % BEAT_INTERVAL_NEW_TIMING == 0 ) {
-			if(_timingDebug == true) P.println("BEAT_INTERVAL_NEW_TIMING");
-			updateTimingSection();
-		}
-		
-		if( numBeatsDetected % BEAT_INTERVAL_NEW_TEXTURE == 0 ) {
-			if(_timingDebug == true) P.println("BEAT_INTERVAL_NEW_TEXTURE");
-			cycleANewTexture(null);
-		}
-		
-		// every 40 beats, do something bigger
-		if( numBeatsDetected % BEAT_INTERVAL_BIG_CHANGE == 0 ) {
-			if(_timingDebug == true) P.println("BEAT_INTERVAL_BIG_CHANGE");
-			bigChangeTrigger();
-		}
-	}
-	
-	protected void updateTimingSection() {
-		super.updateTimingSection();
-		
-		newLineModeForRandomGroup();
-		selectNewActiveTextureFilters();
-		if(_overlayTexturePool.size() > 0) _overlayTexturePool.get(0).updateTimingSection();
-	}
-	
-	protected void bigChangeTrigger() {
-		if(_faceRecordingTexture != null) {
-			if(_faceRecordingTexture.isActive() == true) return;
-		}
-		super.bigChangeTrigger();
-		
-		cycleANewTexture(null);
-		newLineModesForAllGroups();
-		nextOverlayTexture();
-
-		// set longer timing updates
-		updateTimingSection();
-		updateColor();
-		
-		// reset rotations
-		for(int i=0; i < _mappingGroups.size(); i++ ) {
-			_mappingGroups.get(i).resetRotation();
-		}
-	}
-	
-	
-	// cool rules =========================================================
-	
-	protected void setGroupsTextureToTheSameMaybe() {
-		// maybe also set a group to all to be the same texture
-		for(int i=0; i < _mappingGroups.size(); i++ ) {
-			if( MathUtil.randRange(0, 100) < 25 ) {
-				_mappingGroups.get(i).setAllPolygonsToSameRandomTexture();
-			}
-		}
-	}	
-	
-	protected void changeGroupsRandomPolygonMapStyle() {
-		// every beat, change a polygon mapping style or texture
-		for(int i=0; i < _mappingGroups.size(); i++ ) {
-			if( MathUtil.randBoolean(p) == true ) {
-				_mappingGroups.get(i).randomTextureToRandomPolygon();
-			} else {
-				_mappingGroups.get(i).randomPolygonRandomMappingStyle();
-			}
-		}
-	}
-	
-	protected void newLineModeForRandomGroup() {
-		int randGroup = MathUtil.randRange( 0, _mappingGroups.size() - 1 );
-		_mappingGroups.get(randGroup).newLineMode();
-	}
-	
-	protected void newLineModesForAllGroups() {
-		// set new line mode
-		for(int i=0; i < _mappingGroups.size(); i++ ) {
-			_mappingGroups.get(i).newLineMode();
-		}
-		// once in a while, reset all mesh lines to the same random mode
-		if( MathUtil.randRange(0, 100) < 10 ) {
-			int newLineMode = MathUtil.randRange(0, MODE.values().length - 1);
-			for(int i=0; i < _mappingGroups.size(); i++ ) {
-				_mappingGroups.get(i).resetLineModeToIndex( newLineMode );
-			}
-		}
+		_overlayTexturePool.add(new TextureShaderTimeStepper( shaderW, shaderH, "water-smoke.glsl" ));
 	}
 		
 	
 	// MCA ONLY =============================
 	
-	// never go to EQ mapping mode
-	protected void setGroupsMappingStylesToTheSame() {
-		// every once in a while, set all polygons' styles to be the same per group
-		for(int i=0; i < _mappingGroups.size(); i++ ) {
-//			if( MathUtil.randRange(0, 100) < 90 ) {
-				_mappingGroups.get(i).setAllPolygonsTextureStyle( MathUtil.randRange(0, 2) );
-//			} else {
-//				_mappingGroups.get(i).setAllPolygonsTextureStyle( IMappedPolygon.MAP_STYLE_EQ );	// less likely to go to EQ fill
-//			}
-			_mappingGroups.get(i).newColor();
-		}
-	}
 
 //	// override to allow all-movie textures
 //	@Override

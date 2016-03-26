@@ -31,7 +31,6 @@ public class MappingGroup {
 	protected MeshParticles _meshParticles;
 	protected MeshSegmentScanners _meshScanners;
 	protected int _color;
-	protected ColorHaxEasing _colorEase;
 	
 	protected int _traverseFrame = 0;
 	protected int _traverseMode = 0;
@@ -50,7 +49,6 @@ public class MappingGroup {
 		_meshLines = new MeshLines( overlayPG );
 		_meshParticles = new MeshParticles( overlayPG );
 		_color = P.p.color(255);
-		_colorEase = new ColorHaxEasing( "#000000", 4 );
 	}
 
 	public void addPolygon( IMappedPolygon polygon ) {
@@ -198,18 +196,18 @@ public class MappingGroup {
 //		_mappedPolygons.get(0).drawDebug();
 //	}
 	
-	public void getAudioPixelColor() {
-		_colorEase.update();
-	}
-	
-	public int colorEaseInt() {
-		return _colorEase.colorInt();
-	}
-
-	public void pulseColor() {
-		 //int curColor = _colorEase.targetInt();
-		 _colorEase.setCurrentColorInt( P.p.color(0) );
-	}
+//	public void getAudioPixelColor() {
+////		_colorEase.update();
+//	}
+//	
+//	public int colorEaseInt() {
+////		return _colorEase.colorInt();
+//	}
+//
+//	public void pulseColor() {
+//		 //int curColor = _colorEase.targetInt();
+////		 _colorEase.setCurrentColorInt( P.p.color(0) );
+//	}
 
 	public void drawOverlay() {
 		_meshLines.update();
@@ -260,13 +258,8 @@ public class MappingGroup {
 		return p.color(p.random(180,255), p.random(180,255), p.random(180,255), 255f );
 	}
 	
-	public void newAudioPixelColor() {
-		int groupColor = randomColor();
-		_colorEase.setTargetColorIntWithBrightnessAndSaturation( groupColor, 0.5f );
-	}
-	
 	public void newColor() {
-		// give textures a new random color
+		// give textures, particles & scanners a new random color
 		for( int i=0; i < _curTextures.size(); i++ ) {
 			_curTextures.get(i).setColor( randomColor() );
 		}
@@ -274,7 +267,6 @@ public class MappingGroup {
 		_meshLines.setColor( groupColor );
 		_meshParticles.setColor( groupColor );
 		_meshScanners.setColor( groupColor );
-//		_colorEase.setTargetColorIntWithBrightnessAndSaturation( groupColor, 0.5f );
 		
 		for(int j=0; j < _mappedPolygons.size(); j++ ) {
 			_mappedPolygons.get(j).setColor( randomColor() );
@@ -294,7 +286,7 @@ public class MappingGroup {
 		_meshParticles.resetLineMode( index );
 	}
 	
-	public void newRotation() {
+	public void rotateAllTexturesAndPolygons() {
 		for( int i=0; i < _curTextures.size(); i++ ) {
 			_curTextures.get(i).newRotation();
 		}
@@ -303,8 +295,7 @@ public class MappingGroup {
 		}
 	}
 
-	public void newRandomRotation() {
-		_curTextures.get(MathUtil.randRange(0, _curTextures.size()-1)).newRotation();
+	public void newRotation() {
 		_mappedPolygons.get(MathUtil.randRange(0, _mappedPolygons.size()-1)).rotateTexture();
 	}
 	
