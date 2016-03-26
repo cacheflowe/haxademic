@@ -123,8 +123,8 @@ extends HaxMapper{
 		_texturePool.add( new TextureVideoPlayer( videoW, videoH, "video/loops/bubbles.mp4" ));	
 
 		
-		int shaderW = 600;
-		int shaderH = 500;
+		int shaderW = 512;
+		int shaderH = 512;
 		int shaderWsm = shaderW/2;
 		int shaderHsm = shaderH/2;
 		
@@ -211,12 +211,12 @@ extends HaxMapper{
 		_curTexturePool.add( _texturePool.get(nextTexturePoolIndex() ));
 
 		// add full screen overlay texture
-		_overlayTexturePool.add(new TextureEQFloatParticles( shaderW, shaderH ));
-		_overlayTexturePool.add(new TextureShaderTimeStepper( shaderW, shaderH, "light-leak.glsl" ));
-		_overlayTexturePool.add(new TextureShaderTimeStepper( shaderW, shaderH, "star-field.glsl" ));
-		_overlayTexturePool.add(new TextureShaderTimeStepper( shaderW, shaderH, "square-fade.glsl" ));
-		_overlayTexturePool.add(new TextureShaderTimeStepper( shaderW, shaderH, "bw-clouds.glsl" ));
-		_overlayTexturePool.add(new TextureShaderTimeStepper( shaderW, shaderH, "water-smoke.glsl" ));
+		_overlayTexturePool.add(new TextureEQFloatParticles( shaderWsm, shaderHsm ));
+		_overlayTexturePool.add(new TextureShaderTimeStepper( shaderWsm, shaderHsm, "light-leak.glsl" ));
+		_overlayTexturePool.add(new TextureShaderTimeStepper( shaderWsm, shaderHsm, "star-field.glsl" ));
+		_overlayTexturePool.add(new TextureShaderTimeStepper( shaderWsm, shaderHsm, "square-fade.glsl" ));
+		_overlayTexturePool.add(new TextureShaderTimeStepper( shaderWsm, shaderHsm, "bw-clouds.glsl" ));
+		_overlayTexturePool.add(new TextureShaderTimeStepper( shaderWsm, shaderHsm, "water-smoke.glsl" ));
 	}
 		
 	
