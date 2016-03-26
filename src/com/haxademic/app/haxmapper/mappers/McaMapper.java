@@ -109,8 +109,8 @@ extends HaxMapper{
 
 	protected void addTexturesToPool() {
 
-		int videoW = 592;
-		int videoH = 334;
+		int videoW = 512;// 592;
+		int videoH = 288;// 334;
 		
 
 		_texturePool.add( new TextureVideoPlayer( videoW, videoH, "video/loops/smoke-loop.mov" ));

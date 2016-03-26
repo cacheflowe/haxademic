@@ -163,10 +163,10 @@ implements IMappedPolygon {
 			pg.vertex(x3, y3, getZ(x3, y3));
 			pg.endShape();
 
-			// show debug info
-			pg.fill(255);
-			pg.textSize(20);
-			pg.text(_mappingStyle+"", _centerX, _centerY);
+//			// show debug info
+//			pg.fill(255);
+//			pg.textSize(20);
+//			pg.text(_mappingStyle+"", _centerX, _centerY);
 		}
 	}
 	

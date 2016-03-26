@@ -144,13 +144,13 @@ public class MappingGroup {
 	
 	public void randomPolygonRandomMappingStyle() {
 		randomPolygon().randomTextureStyle();
-		P.println("randomPolygonRandomMappingStyle()");
+//		P.println("randomPolygonRandomMappingStyle()");
 	}
 	
 	public void randomTextureToRandomPolygon() {
 		if( _curTextures.size() == 0 ) return;
 		randomPolygon().setTexture( randomBaseTexture(), mappingBounds );
-		P.println("randomPolygonRandomMappingStyle()");
+//		P.println("randomPolygonRandomMappingStyle()");
 	}
 	
 	public void setAllPolygonsToTexture( int textureIndex ) {
@@ -187,27 +187,11 @@ public class MappingGroup {
 	}
 	
 	public void draw() {
+		traverseUpdate();
 		for(int j=0; j < _mappedPolygons.size(); j++ ) {
 			_mappedPolygons.get(j).draw(p.g);
 		}
 	}
-	
-//	public void drawDebuggg() {
-//		_mappedPolygons.get(0).drawDebug();
-//	}
-	
-//	public void getAudioPixelColor() {
-////		_colorEase.update();
-//	}
-//	
-//	public int colorEaseInt() {
-////		return _colorEase.colorInt();
-//	}
-//
-//	public void pulseColor() {
-//		 //int curColor = _colorEase.targetInt();
-////		 _colorEase.setCurrentColorInt( P.p.color(0) );
-//	}
 
 	public void drawOverlay() {
 		_meshLines.update();
@@ -301,7 +285,7 @@ public class MappingGroup {
 	
 	public void resetRotation() {
 		for(int j=0; j < _mappedPolygons.size(); j++ ) {
-			_mappedPolygons.get(j).rotateTexture();
+			_mappedPolygons.get(j).resetRotation();
 		}
 	}
 	

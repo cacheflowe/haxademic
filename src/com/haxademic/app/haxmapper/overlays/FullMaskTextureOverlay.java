@@ -15,6 +15,7 @@ public class FullMaskTextureOverlay {
 	protected Rectangle bounds;
 	protected BaseTexture _baseTexture;
 	protected PGraphics _texture;
+	protected float[] cropPosOffset;
 
 	public FullMaskTextureOverlay( PGraphics pg, Rectangle bounds ) {
 		this.pg = pg;
@@ -24,19 +25,19 @@ public class FullMaskTextureOverlay {
 	public void setTexture( BaseTexture baseTexture ) {
 		_baseTexture = baseTexture;
 		_texture = baseTexture.texture();
+		cropPosOffset = ImageUtil.getOffsetAndSizeToCrop(bounds.width, bounds.height, _texture.width, _texture.height, true);
 	}
 
 	public PGraphics texture() {
 		return pg;
 	}
 
-	public void update() {
+	public void drawOverlay() {
 		if(_texture == null) return;
 		DrawUtil.setPImageAlpha(pg, 0.6f); 	// light opacity overlay. 
 		pg.beginShape(PConstants.QUAD);
 		pg.texture(_texture);
 		// crop to fill the mapped area with the current texture
-		float[] cropPosOffset = ImageUtil.getOffsetAndSizeToCrop(bounds.width, bounds.height, _texture.width, _texture.height, true);
 		float left = bounds.x + cropPosOffset[0];
 		float top = bounds.y + cropPosOffset[1];
 		float right = left + cropPosOffset[2];

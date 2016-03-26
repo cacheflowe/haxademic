@@ -66,7 +66,7 @@ extends PAppletHax {
 	protected FullMaskTextureOverlay _fullMaskTexture;
 	
 	// texture pool
-	public static int MAX_ACTIVE_TEXTURES = 2;
+	public static int MAX_ACTIVE_TEXTURES = 4;
 	public static int MAX_ACTIVE_TEXTURES_PER_GROUP = 2;
 	public static int MAX_ACTIVE_MOVIE_TEXTURES = 2;
 	protected ArrayList<BaseTexture> _texturePool;
@@ -93,6 +93,7 @@ extends PAppletHax {
 	protected InputTrigger _brightnessDownTrigger = new InputTrigger(new char[]{'['},new String[]{},new Integer[]{});
 	protected InputTrigger _debugTexturesTrigger = new InputTrigger(new char[]{'d'},new String[]{},new Integer[]{});
 	protected int _lastInputMillis = 0;
+	protected int USER_INPUT_BEAT_TIMEOUT = 5000;
 	
 	// beat-detection trigger intervals
 	protected float BEAT_DIVISOR = 1f; // 10 to test
@@ -143,8 +144,8 @@ extends PAppletHax {
 
 	public void setup() {
 		super.setup();
-		p.smooth(OpenGLUtil.SMOOTH_MEDIUM);
-//		p.noSmooth();
+//		p.smooth(OpenGLUtil.SMOOTH_MEDIUM);
+		p.noSmooth();
 		noStroke();
 		importPolygons();
 		for( int i=0; i < _mappingGroups.size(); i++ ) _mappingGroups.get(i).completePolygonImport();
@@ -299,38 +300,30 @@ extends PAppletHax {
 	/////////////////////////////////////////////////////////////////
 
 	public void drawApp() {
-		prepareOverlayGraphics();
+//		prepareOverlayGraphics();
 		p.blendMode(P.BLEND);
 		background(0);
 		if(_faceRecorder != null) updateFaceRecorder();
 		checkBeat();
 		updateActiveTextures();
 		filterActiveTextures();
-		traverseGroups();
-		drawPolygonGroups();
-		p.blendMode(P.ADD);
+		drawMappingGroups();
 		drawOverlays();
-		p.blendMode(P.BLEND);
 		postProcessFilters();
-		p.image( _fullMaskOverlay, 0, 0, _fullMaskOverlay.width, _fullMaskOverlay.height );
+		drawOverlayMask();
 		runDmxLights();
 		if(_debugTextures == true) debugTextures();
-//		_mappingGroups.get(_mappingGroups.size()-1).drawDebuggg();
 	}
 	
-	protected void drawPolygonGroups() {
+	protected void drawMappingGroups() {
 		for( int i=0; i < _mappingGroups.size(); i++ ) {
 			_mappingGroups.get(i).draw();
 		}
 	}
 	
-	protected void prepareOverlayGraphics() {
-		_overlayTexturePool.get(0).update();
-		_fullMaskTexture.setTexture(_overlayTexturePool.get(0));
-	}
-	
 	protected void drawOverlays() {
-		if(p.frameCount == 1) buildOverlayMask();
+		// let current overlay texture update before ma
+		_overlayTexturePool.get(0).update();
 		
 		// draw mesh & overlay on top
 		_overlayPG.beginDraw();
@@ -339,14 +332,21 @@ extends PAppletHax {
 			_mappingGroups.get(i).drawOverlay();
 		}
 		// draw semi-transparent current texture on top
-		if(_fullMaskTexture != null) _fullMaskTexture.update();
+		if(_fullMaskTexture != null) _fullMaskTexture.drawOverlay();
 		_overlayPG.endDraw();
 				
 		DrawUtil.setColorForPImage(p);
 		DrawUtil.resetPImageAlpha(p);
+		p.blendMode(P.ADD);
 		p.image( _overlayPG, 0, 0, _overlayPG.width, _overlayPG.height );
+		p.blendMode(P.BLEND);
 	}
 	
+	protected void drawOverlayMask() {
+		if(p.frameCount == 1) buildOverlayMask();
+		p.image( _fullMaskOverlay, 0, 0, _fullMaskOverlay.width, _fullMaskOverlay.height );
+	}
+
 	protected void debugTextures() {
 		// debug current textures
 		for( int i=0; i < _activeTextures.size(); i++ ) {
@@ -373,6 +373,10 @@ extends PAppletHax {
 		return _activeTextures.get( MathUtil.randRange(0, _activeTextures.size()-1) );
 	}
 	
+	protected BaseTexture randomCurTexture() {
+		return _curTexturePool.get( MathUtil.randRange(0, _curTexturePool.size()-1) );
+	}
+	
 	protected MappingGroup getRandomGroup() {
 		return _mappingGroups.get( MathUtil.randRange( 0, _mappingGroups.size()-1) );
 	}
@@ -387,8 +391,9 @@ extends PAppletHax {
 	}
 
 	protected void nextOverlayTexture() {
-		// cycle the first to the last element
+		// cycle the first to the last element & set on fullMaskTexture 
 		_overlayTexturePool.add(_overlayTexturePool.remove(0));
+		_fullMaskTexture.setTexture(_overlayTexturePool.get(0));
 	}
 
 	protected void updateActiveTextures() {
@@ -463,7 +468,7 @@ extends PAppletHax {
 		// make sure polygons update their textures
 		for( int i=0; i < _mappingGroups.size(); i++ ) {
 			_mappingGroups.get(i).shiftTexture();
-			_mappingGroups.get(i).pushTexture( _curTexturePool.get( MathUtil.randRange(0, _curTexturePool.size()-1 )) );
+			_mappingGroups.get(i).pushTexture( randomCurTexture() );
 			_mappingGroups.get(i).refreshActiveTextures();				
 		}
 	}
@@ -481,7 +486,7 @@ extends PAppletHax {
 	}
 	
 	protected void filterActiveTextures() {
-		if(_debugTextures == false) return; 
+		// if(_debugTextures == false) return; 
 		for( int i=0; i < _activeTextures.size(); i++ ) {
 			PGraphics pg = _activeTextures.get(i).texture();
 			float filterTime = p.frameCount / 40f;
@@ -593,15 +598,7 @@ extends PAppletHax {
 	}
 	
 	protected void traverseTrigger() {
-		for( int i=0; i < _mappingGroups.size(); i++ ) {
-			_mappingGroups.get(i).traverseStart();
-		}
-	}
-
-	protected void traverseGroups() {
-		for( int i=0; i < _mappingGroups.size(); i++ ) {
-			_mappingGroups.get(i).traverseUpdate();
-		}
+		getRandomGroup().traverseStart();
 	}
 	
 	/////////////////////////////////////////////////////////////////
@@ -615,7 +612,7 @@ extends PAppletHax {
 	}
 	
 	protected boolean isBeatDetectMode() {
-		return ( p.millis() - 10000 > _lastInputMillis );
+		return ( p.millis() - USER_INPUT_BEAT_TIMEOUT > _lastInputMillis );
 	}
 	
 	public void resetBeatDetectMode() {
