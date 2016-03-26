@@ -28,13 +28,12 @@ extends HaxMapper{
 		
 	/*
 	 * TODO:
-	 * - Fix mapped quads
 	 * - Refactor & organize
 	 * 		- Merge user input triggers & beat detection decisions and then start to organize automated decision making 
 	 * - Fix image cycling texture - it does weird flashy things
 	 * - Fix performance issues
 	 * 		- Does the overlayPG need to be a separate PGraphics buffer if we use a blend mode for overlays drawing?
-	 * 		- Make sure there are no texture effects that are slowing things down
+	 * 		- Make sure there are no texture effects that are slowing things down??
 	 * - use new triangle random coordinates for mapped quads
 	 * - interpolate polygon coordinates for animated UV maps
 	 * - is newMode() getting called on textures?
@@ -66,7 +65,7 @@ extends HaxMapper{
 		p.appConfig.setProperty( "fills_screen", "false" );
 		p.appConfig.setProperty( "osc_active", "false" );
 		p.appConfig.setProperty( "audio_debug", "true" );
-		p.appConfig.setProperty( "width", "1800" );
+		p.appConfig.setProperty( "width", "1280" );
 		p.appConfig.setProperty( "height", "1024" );
 		p.appConfig.setProperty( "dmx_lights_count", "0" );
 		p.appConfig.setProperty( "hide_cursor", "false" );
@@ -87,14 +86,14 @@ extends HaxMapper{
 		int videoH = 288;// 334;
 		
 
-//		_texturePool.add( new TextureVideoPlayer( videoW, videoH, "video/loops/smoke-loop.mov" ));
-//		_texturePool.add( new TextureVideoPlayer( videoW, videoH, "video/loops/tree-loop.mp4" ));
-//		_texturePool.add( new TextureVideoPlayer( videoW, videoH, "video/loops/ink-in-water.mp4" ));
-//		_texturePool.add( new TextureVideoPlayer( videoW, videoH, "video/loops/ink-grow-shrink.mp4" ));
-//		_texturePool.add( new TextureVideoPlayer( videoW, videoH, "video/loops/fire.mp4" ));
-//		_texturePool.add( new TextureVideoPlayer( videoW, videoH, "video/loops/clouds-timelapse.mov" ));
-//		_texturePool.add( new TextureVideoPlayer( videoW, videoH, "video/loops/water.mp4" ));
-//		_texturePool.add( new TextureVideoPlayer( videoW, videoH, "video/loops/bubbles.mp4" ));	
+		_texturePool.add( new TextureVideoPlayer( videoW, videoH, "video/loops/smoke-loop.mov" ));
+		_texturePool.add( new TextureVideoPlayer( videoW, videoH, "video/loops/tree-loop.mp4" ));
+		_texturePool.add( new TextureVideoPlayer( videoW, videoH, "video/loops/ink-in-water.mp4" ));
+		_texturePool.add( new TextureVideoPlayer( videoW, videoH, "video/loops/ink-grow-shrink.mp4" ));
+		_texturePool.add( new TextureVideoPlayer( videoW, videoH, "video/loops/fire.mp4" ));
+		_texturePool.add( new TextureVideoPlayer( videoW, videoH, "video/loops/clouds-timelapse.mov" ));
+		_texturePool.add( new TextureVideoPlayer( videoW, videoH, "video/loops/water.mp4" ));
+		_texturePool.add( new TextureVideoPlayer( videoW, videoH, "video/loops/bubbles.mp4" ));	
 
 		
 		int shaderW = 512;

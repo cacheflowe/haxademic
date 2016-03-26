@@ -23,6 +23,7 @@ import com.haxademic.core.draw.util.OpenGLUtil;
 import com.haxademic.core.draw.util.OpenGLUtil.Blend;
 import com.haxademic.core.hardware.midi.AbletonNotes;
 import com.haxademic.core.hardware.midi.AkaiMpdPads;
+import com.haxademic.core.hardware.midi.LaunchControl;
 import com.haxademic.core.hardware.osc.TouchOscPads;
 import com.haxademic.core.hardware.shared.InputTrigger;
 import com.haxademic.core.image.filters.shaders.BadTVLinesFilter;
@@ -35,7 +36,6 @@ import com.haxademic.core.image.filters.shaders.DeformTunnelFanFilter;
 import com.haxademic.core.image.filters.shaders.EdgesFilter;
 import com.haxademic.core.image.filters.shaders.HalftoneFilter;
 import com.haxademic.core.image.filters.shaders.HueFilter;
-import com.haxademic.core.image.filters.shaders.InvertFilter;
 import com.haxademic.core.image.filters.shaders.KaleidoFilter;
 import com.haxademic.core.image.filters.shaders.MirrorFilter;
 import com.haxademic.core.image.filters.shaders.PixelateFilter;
@@ -66,7 +66,7 @@ extends PAppletHax {
 	protected FullMaskTextureOverlay _fullMaskTexture;
 	
 	// texture pool
-	public static int MAX_ACTIVE_TEXTURES = 4;
+	public static int MAX_ACTIVE_TEXTURES = 3;
 	public static int MAX_ACTIVE_TEXTURES_PER_GROUP = 2;
 	public static int MAX_ACTIVE_MOVIE_TEXTURES = 2;
 	protected ArrayList<BaseTexture> _texturePool;
@@ -77,15 +77,18 @@ extends PAppletHax {
 	protected boolean _debugTextures = false;
 
 	// user input triggers
+	protected InputTrigger _timingTrigger = new InputTrigger(new char[]{'n'},new String[]{TouchOscPads.PAD_03},new Integer[]{AkaiMpdPads.PAD_03, AbletonNotes.NOTE_03, LaunchControl.PAD_01});
+	protected InputTrigger _timingSectionTrigger = new InputTrigger(new char[]{'f'},new String[]{TouchOscPads.PAD_05},new Integer[]{AkaiMpdPads.PAD_05, AbletonNotes.NOTE_05, LaunchControl.PAD_02});
+	
 	protected InputTrigger _colorTrigger = new InputTrigger(new char[]{'c'},new String[]{TouchOscPads.PAD_01},new Integer[]{AkaiMpdPads.PAD_01, AbletonNotes.NOTE_01});
-	protected InputTrigger _rotationTrigger = new InputTrigger(new char[]{'v'},new String[]{TouchOscPads.PAD_02},new Integer[]{AkaiMpdPads.PAD_02, AbletonNotes.NOTE_02});
-	protected InputTrigger _timingTrigger = new InputTrigger(new char[]{'n'},new String[]{TouchOscPads.PAD_03},new Integer[]{AkaiMpdPads.PAD_03, AbletonNotes.NOTE_03});
-	protected InputTrigger _modeTrigger = new InputTrigger(new char[]{'m'},new String[]{TouchOscPads.PAD_04},new Integer[]{AkaiMpdPads.PAD_04, AbletonNotes.NOTE_04});
-	protected InputTrigger _timingSectionTrigger = new InputTrigger(new char[]{'f'},new String[]{TouchOscPads.PAD_05},new Integer[]{AkaiMpdPads.PAD_05, AbletonNotes.NOTE_05});
-	protected InputTrigger _newTextureTrigger = new InputTrigger(new char[]{'b'},new String[]{TouchOscPads.PAD_09},new Integer[]{AkaiMpdPads.PAD_09, AbletonNotes.NOTE_09});
-	protected InputTrigger _allSameTextureTrigger = new InputTrigger(new char[]{'a'},new String[]{TouchOscPads.PAD_06},new Integer[]{AkaiMpdPads.PAD_06, AbletonNotes.NOTE_06});
-	protected InputTrigger _bigChangeTrigger = new InputTrigger(new char[]{' '},new String[]{TouchOscPads.PAD_07},new Integer[]{AkaiMpdPads.PAD_07, AbletonNotes.NOTE_07});
-	protected InputTrigger _lineModeTrigger = new InputTrigger(new char[]{'l'},new String[]{TouchOscPads.PAD_08},new Integer[]{AkaiMpdPads.PAD_08, AbletonNotes.NOTE_08});
+	protected InputTrigger _rotationTrigger = new InputTrigger(new char[]{'v'},new String[]{TouchOscPads.PAD_02},new Integer[]{AkaiMpdPads.PAD_02, AbletonNotes.NOTE_02, LaunchControl.PAD_03});
+	protected InputTrigger _modeTrigger = new InputTrigger(new char[]{'m'},new String[]{TouchOscPads.PAD_04},new Integer[]{AkaiMpdPads.PAD_04, AbletonNotes.NOTE_04, LaunchControl.PAD_04});
+	protected InputTrigger _lineModeTrigger = new InputTrigger(new char[]{'l'},new String[]{TouchOscPads.PAD_08},new Integer[]{AkaiMpdPads.PAD_08, AbletonNotes.NOTE_08, LaunchControl.PAD_05});
+
+	protected InputTrigger _newTextureTrigger = new InputTrigger(new char[]{'b'},new String[]{TouchOscPads.PAD_09},new Integer[]{AkaiMpdPads.PAD_09, AbletonNotes.NOTE_09, LaunchControl.PAD_06});
+	protected InputTrigger _allSameTextureTrigger = new InputTrigger(new char[]{'a'},new String[]{TouchOscPads.PAD_06},new Integer[]{AkaiMpdPads.PAD_06, AbletonNotes.NOTE_06, LaunchControl.PAD_07});
+	protected InputTrigger _bigChangeTrigger = new InputTrigger(new char[]{' '},new String[]{TouchOscPads.PAD_07},new Integer[]{AkaiMpdPads.PAD_07, AbletonNotes.NOTE_07, LaunchControl.PAD_08});
+	
 	protected InputTrigger _audioInputUpTrigger = new InputTrigger(new char[]{},new String[]{"/7/nav1"},new Integer[]{});
 	protected InputTrigger _audioInputDownTrigger = new InputTrigger(new char[]{},new String[]{"/7/nav2"},new Integer[]{});
 	protected InputTrigger _brightnessUpTrigger = new InputTrigger(new char[]{']'},new String[]{},new Integer[]{});
@@ -102,7 +105,7 @@ extends PAppletHax {
 	protected int BEAT_INTERVAL_TRAVERSE = (int) Math.ceil(20f / BEAT_DIVISOR);
 	protected int BEAT_INTERVAL_ALL_SAME = (int) Math.ceil(140f / BEAT_DIVISOR);
 	protected int BEAT_INTERVAL_LINE_MODE = (int) Math.ceil(32f / BEAT_DIVISOR);
-	protected int BEAT_INTERVAL_NEW_TIMING = (int) Math.ceil(40f / BEAT_DIVISOR);
+	protected int BEAT_INTERVAL_NEW_TIMING_SECTION = (int) Math.ceil(40f / BEAT_DIVISOR);
 	protected int BEAT_INTERVAL_NEW_TEXTURE = (int) Math.ceil(80f / BEAT_DIVISOR);
 	protected int BEAT_INTERVAL_BIG_CHANGE = (int) Math.ceil(250f / BEAT_DIVISOR);
 	protected boolean _timingDebug = false;
@@ -300,7 +303,6 @@ extends PAppletHax {
 	/////////////////////////////////////////////////////////////////
 
 	public void drawApp() {
-//		prepareOverlayGraphics();
 //		p.blendMode(P.BLEND);
 		background(0);
 		if(_faceRecorder != null) updateFaceRecorder();
@@ -308,7 +310,7 @@ extends PAppletHax {
 		updateActiveTextures();
 		filterActiveTextures();
 		drawMappingGroups();
-		drawOverlays();
+//		drawOverlays();
 		postProcessFilters();
 		drawOverlayMask();
 		runDmxLights();
@@ -444,7 +446,6 @@ extends PAppletHax {
 
 		// remove oldest texture if more than max 
 		if( _activeTextures.size() > MAX_ACTIVE_TEXTURES ) {
-			// P.println(_activeTextures.size());
 			_activeTextures.remove(0).setActive(false);
 		}
 		
@@ -453,6 +454,8 @@ extends PAppletHax {
 			_mappingGroups.get(i).pushTexture( randomCurTexture().setActive(true), _activeTextures );
 		}
 		
+		// swap filters 
+		selectNewActiveTextureFilters();
 		// debugLogActiveTextures();
 	}
 	
@@ -742,7 +745,7 @@ extends PAppletHax {
 			updateLineMode();
 		}
 		
-		if( numBeatsDetected % BEAT_INTERVAL_NEW_TIMING == 0 ) {
+		if( numBeatsDetected % BEAT_INTERVAL_NEW_TIMING_SECTION == 0 ) {
 			if(_timingDebug == true) P.println("BEAT_INTERVAL_NEW_TIMING");
 			updateTimingSection();
 		}
@@ -782,7 +785,6 @@ extends PAppletHax {
 		for( int i=0; i < _mappingGroups.size(); i++ ) {
 			_mappingGroups.get(i).randomTextureToRandomPolygon();
 		}
-		selectNewActiveTextureFilters();
 		
 		// do a couple of normal triggers
 		newLineModesForAllGroups();
