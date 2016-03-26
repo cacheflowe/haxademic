@@ -20,6 +20,7 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.data.ConvertUtil;
 import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.draw.util.OpenGLUtil;
+import com.haxademic.core.draw.util.OpenGLUtil.Blend;
 import com.haxademic.core.hardware.midi.AbletonNotes;
 import com.haxademic.core.hardware.midi.AkaiMpdPads;
 import com.haxademic.core.hardware.osc.TouchOscPads;
@@ -157,7 +158,8 @@ extends PAppletHax {
 		_boundingBox = new Rectangle(-1, -1, 0, 0);
 		
 		_overlayPG = P.p.createGraphics( p.width, p.height, PConstants.OPENGL );
-		_overlayPG.smooth(OpenGLUtil.SMOOTH_MEDIUM);
+//		_overlayPG.smooth(OpenGLUtil.SMOOTH_MEDIUM);
+		_overlayPG.noSmooth();
 		_mappingGroups = new ArrayList<MappingGroup>();
 		
 		if( _appConfig.getString("mapping_file", "") == "" ) {
@@ -334,12 +336,16 @@ extends PAppletHax {
 		// draw semi-transparent current texture on top
 		if(_fullMaskTexture != null) _fullMaskTexture.drawOverlay();
 		_overlayPG.endDraw();
-				
+		
+		// draw composited overlay buffer
 		DrawUtil.setColorForPImage(p);
 		DrawUtil.resetPImageAlpha(p);
-		p.blendMode(P.ADD);
+		OpenGLUtil.setBlendMode(p.g, Blend.ADDITIVE);
+//		p.blendMode(P.ADD);
+//		p.blendMode(P.SCREEN);
 		p.image( _overlayPG, 0, 0, _overlayPG.width, _overlayPG.height );
-		p.blendMode(P.BLEND);
+		OpenGLUtil.setBlendMode(p.g, Blend.DEFAULT);
+//		p.blendMode(P.BLEND);
 	}
 	
 	protected void drawOverlayMask() {
