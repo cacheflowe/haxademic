@@ -56,13 +56,14 @@ extends BaseTexture {
 		_texture.filter( _vignette );
 	}
 	
-	public void setActive( boolean isActive ) {
+	public BaseTexture setActive( boolean isActive ) {
 		boolean wasActive = _active;
 		super.setActive(isActive);
 		if( _active == true && wasActive == false ) {
 			_timeSpeed.setCurrent( 0.0001f );
 			_timeSpeed.setTarget( 0.0001f );
 		}
+		return this;
 	}
 	
 	protected void updateShaders() {

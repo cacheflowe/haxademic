@@ -62,8 +62,8 @@ extends HaxMapper{
 	protected void buildMappingGroups() {
 		// give each group a texture to start with
 		for( int i=0; i < _mappingGroups.size(); i++ ) {
-			_mappingGroups.get(i).pushTexture( _texturePool.get(0) );
-			_mappingGroups.get(i).pushTexture( _texturePool.get(1) );
+			_mappingGroups.get(i).pushTexture( _texturePool.get(0), _activeTextures );
+			_mappingGroups.get(i).pushTexture( _texturePool.get(1), _activeTextures );
 		}
 		
 		// set initial mapping properties - make all fully contain their textures
@@ -203,7 +203,7 @@ extends HaxMapper{
 		}
 		
 		// add 1 inital texture to current array
-		_curTexturePool.add( _texturePool.get(nextTexturePoolIndex() ) );
+		_activeTextures.add( _texturePool.get(nextTexturePoolIndex() ) );
 
 	}
 	

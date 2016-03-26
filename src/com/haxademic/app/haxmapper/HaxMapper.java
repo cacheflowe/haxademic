@@ -33,7 +33,6 @@ import com.haxademic.core.image.filters.shaders.CubicLensDistortionFilter;
 import com.haxademic.core.image.filters.shaders.DeformBloomFilter;
 import com.haxademic.core.image.filters.shaders.DeformTunnelFanFilter;
 import com.haxademic.core.image.filters.shaders.EdgesFilter;
-import com.haxademic.core.image.filters.shaders.FXAAFilter;
 import com.haxademic.core.image.filters.shaders.HalftoneFilter;
 import com.haxademic.core.image.filters.shaders.HueFilter;
 import com.haxademic.core.image.filters.shaders.InvertFilter;
@@ -71,7 +70,6 @@ extends PAppletHax {
 	public static int MAX_ACTIVE_TEXTURES_PER_GROUP = 2;
 	public static int MAX_ACTIVE_MOVIE_TEXTURES = 2;
 	protected ArrayList<BaseTexture> _texturePool;
-	protected ArrayList<BaseTexture> _curTexturePool;
 	protected ArrayList<BaseTexture> _movieTexturePool;
 	protected ArrayList<BaseTexture> _activeTextures;
 	protected ArrayList<BaseTexture> _overlayTexturePool;
@@ -270,19 +268,19 @@ extends PAppletHax {
 		}
 		
 		_texturePool = new ArrayList<BaseTexture>();
-		_curTexturePool = new ArrayList<BaseTexture>();
 		_movieTexturePool = new ArrayList<BaseTexture>();
 		_activeTextures = new ArrayList<BaseTexture>();
 		_overlayTexturePool = new ArrayList<BaseTexture>();
 		_fullMaskTexture = new FullMaskTextureOverlay(_overlayPG, _boundingBox);
 		addTexturesToPool();
 		storeVideoTextures();
-		buildMappingGroups();
+//		buildMappingGroups();
+		cycleANewTexture(null);
 	}
 			
-	protected void buildMappingGroups() {
-		// override this!
-	}
+//	protected void buildMappingGroups() {
+//		setAllSameTexture();
+//	}
 	
 	protected void addTexturesToPool() {
 		// override this!
@@ -303,7 +301,7 @@ extends PAppletHax {
 
 	public void drawApp() {
 //		prepareOverlayGraphics();
-		p.blendMode(P.BLEND);
+//		p.blendMode(P.BLEND);
 		background(0);
 		if(_faceRecorder != null) updateFaceRecorder();
 		checkBeat();
@@ -324,7 +322,7 @@ extends PAppletHax {
 	}
 	
 	protected void drawOverlays() {
-		// let current overlay texture update before ma
+		// let current overlay texture update before overlay pgraphics buffer gets composited
 		_overlayTexturePool.get(0).update();
 		
 		// draw mesh & overlay on top
@@ -380,7 +378,7 @@ extends PAppletHax {
 	}
 	
 	protected BaseTexture randomCurTexture() {
-		return _curTexturePool.get( MathUtil.randRange(0, _curTexturePool.size()-1) );
+		return _activeTextures.get( MathUtil.randRange(0, _activeTextures.size()-1) );
 	}
 	
 	protected MappingGroup getRandomGroup() {
@@ -404,27 +402,27 @@ extends PAppletHax {
 
 	protected void updateActiveTextures() {
 		// reset active texture pool array
-		while( _activeTextures.size() > 0 ) {
-			_activeTextures.remove( _activeTextures.size() - 1 ).resetUseCount();
-		}
-		// figure out which textures are being used and rebuild array, telling active textures that they're active
-		for( int i=0; i < _mappingGroups.size(); i++ ) {
-			ArrayList<BaseTexture> textures = _mappingGroups.get(i).textures();
-			for( int j=0; j < textures.size(); j++ ) {
-				if( _activeTextures.indexOf( textures.get(j) ) == -1 ) {
-					if(textures.get(j).isActive() == false) P.println(textures.get(j).toString());
-					textures.get(j).setActive(true);
-					_activeTextures.add( textures.get(j) );
-				}
-			}
-		}
-		// set inactive pool textures' _active state to false (mostly for turning off video players)
-		for( int i=0; i < _texturePool.size(); i++ ) {
-			if( _texturePool.get(i).useCount() == 0 && _texturePool.get(i).isActive() == true ) {
-				_texturePool.get(i).setActive(false);
-				// P.println("Deactivated: ", _texturePool.get(i).getClass().getName());
-			}
-		}
+//		while( _activeTextures.size() > 0 ) {
+//			_activeTextures.remove( _activeTextures.size() - 1 ).resetUseCount();
+//		}
+//		// figure out which textures are being used and rebuild array, telling active textures that they're active
+//		for( int i=0; i < _mappingGroups.size(); i++ ) {
+//			ArrayList<BaseTexture> textures = _mappingGroups.get(i).textures();
+//			for( int j=0; j < textures.size(); j++ ) {
+//				if( _activeTextures.indexOf( textures.get(j) ) == -1 ) {
+//					if(textures.get(j).isActive() == false) P.println(textures.get(j).toString());
+//					textures.get(j).setActive(true);
+//					_activeTextures.add( textures.get(j) );
+//				}
+//			}
+//		}
+//		// set inactive pool textures' _active state to false (mostly for turning off video players)
+//		for( int i=0; i < _texturePool.size(); i++ ) {
+//			if( _texturePool.get(i).useCount() == 0 && _texturePool.get(i).isActive() == true ) {
+//				_texturePool.get(i).setActive(false);
+//				// P.println("Deactivated: ", _texturePool.get(i).getClass().getName());
+//			}
+//		}
 		// update active textures, once each
 		for( int i=0; i < _activeTextures.size(); i++ ) {
 			_activeTextures.get(i).update();
@@ -434,49 +432,53 @@ extends PAppletHax {
 	
 	protected int numMovieTextures() {
 		int numMovieTextures = 0;
-		for( int i=0; i < _curTexturePool.size(); i++ ) {
-			if( _curTexturePool.get(i) instanceof TextureVideoPlayer ) numMovieTextures++;
+		for( int i=0; i < _activeTextures.size(); i++ ) {
+			if( _activeTextures.get(i) instanceof TextureVideoPlayer ) numMovieTextures++;
 		}
 		return numMovieTextures;
 	}
 	
 	protected void removeOldestMovieTexture() {
-		for( int i=0; i < _curTexturePool.size(); i++ ) {
-			if( _curTexturePool.get(i) instanceof TextureVideoPlayer ) {
-				_curTexturePool.remove(i);
+		for( int i=0; i < _activeTextures.size(); i++ ) {
+			if( _activeTextures.get(i) instanceof TextureVideoPlayer ) {
+				_activeTextures.remove(i).setActive(false);
 				return;
 			}
 		}
 	}
 	
 	protected void cycleANewTexture(BaseTexture specificTexture) {
-		// rebuild the array of currently-available textures
 		// check number of movie textures, and make sure we never have more than 2
 		if(specificTexture != null) {
-			_curTexturePool.add(specificTexture);
+			_activeTextures.add( specificTexture.setActive(true) );
 		} else {
-			_curTexturePool.add( _texturePool.get( nextTexturePoolIndex() ) );
+			_activeTextures.add( _texturePool.get( nextTexturePoolIndex() ).setActive(true) );
 		}
 		while( numMovieTextures() >= MAX_ACTIVE_MOVIE_TEXTURES ) {
 			removeOldestMovieTexture();
-			_curTexturePool.add( _texturePool.get( nextTexturePoolIndex() ) );
+			_activeTextures.add( _texturePool.get( nextTexturePoolIndex() ).setActive(true) );
 		}
+
 		// remove oldest texture if more than max 
-		if( _curTexturePool.size() >= MAX_ACTIVE_TEXTURES ) {
-			// P.println(_curTexturePool.size());
-			_curTexturePool.remove(0);
+		if( _activeTextures.size() > MAX_ACTIVE_TEXTURES ) {
+			// P.println(_activeTextures.size());
+			_activeTextures.remove(0).setActive(false);
 		}
 		
-		refreshGroupsTextures();
+		// make sure mapping groups update their textures - this will do nothing if the group already has the random active texture
+		for( int i=0; i < _mappingGroups.size(); i++ ) {
+			_mappingGroups.get(i).pushTexture( randomCurTexture().setActive(true), _activeTextures );
+		}
+		
+		// debugLogActiveTextures();
 	}
 	
-	protected void refreshGroupsTextures() {
-		// make sure polygons update their textures
-		for( int i=0; i < _mappingGroups.size(); i++ ) {
-			_mappingGroups.get(i).shiftTexture();
-			_mappingGroups.get(i).pushTexture( randomCurTexture() );
-			_mappingGroups.get(i).refreshActiveTextures();				
+	public void debugLogActiveTextures() {
+		P.println("%%% _activeTextures ===============");
+		for(int j = 0; j < _activeTextures.size(); j++) {
+			P.println(""+_activeTextures.get(j).toString());
 		}
+		P.println("%%% end AFTER ===============");
 	}
 	
 	/////////////////////////////////////////////////////////////////
@@ -514,8 +516,8 @@ extends PAppletHax {
 				WobbleFilter.instance(p).setStrength(0.0004f);
 				WobbleFilter.instance(p).setSize( 200f);
 				WobbleFilter.instance(p).applyTo(pg);
-			} else if(_textureEffectsIndices[i] == 6) {
-				InvertFilter.instance(p).applyTo(pg);
+//			} else if(_textureEffectsIndices[i] == 6) {
+//				InvertFilter.instance(p).applyTo(pg);
 			} else if(_textureEffectsIndices[i] == 7) {
 				RadialRipplesFilter.instance(p).setTime(filterTime);
 				RadialRipplesFilter.instance(p).setAmplitude(0.5f + 0.5f * P.sin(filterTime));
@@ -786,16 +788,16 @@ extends PAppletHax {
 			if(_faceRecordingTexture.isActive() == true) return;
 		}
 		
+		// swap in a new overlay texture and normal pool texture
+		cycleANewTexture(null);
+		nextOverlayTexture();
+		
 		// randomize all textures to polygons & global effects
 		for( int i=0; i < _mappingGroups.size(); i++ ) {
 			_mappingGroups.get(i).randomTextureToRandomPolygon();
 		}
 		selectNewActiveTextureFilters();
 		
-		// swap in a new overlay texture and normal pool texture
-		cycleANewTexture(null);
-		nextOverlayTexture();
-
 		// do a couple of normal triggers
 		newLineModesForAllGroups();
 		updateTimingSection();
@@ -868,7 +870,7 @@ extends PAppletHax {
 		BaseTexture newTexture = _texturePool.get(nextTexturePoolIndex());
 		for( int i=0; i < _mappingGroups.size(); i++ ) {
 			_mappingGroups.get(i).clearAllTextures();
-			_mappingGroups.get(i).pushTexture( newTexture );
+			_mappingGroups.get(i).pushTexture( newTexture, _activeTextures );
 			_mappingGroups.get(i).setAllPolygonsToTexture(0);
 			if( mode == true ) {
 				_mappingGroups.get(i).setAllPolygonsTextureStyle( IMappedPolygon.MAP_STYLE_CONTAIN_RANDOM_TEX_AREA );

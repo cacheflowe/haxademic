@@ -16,7 +16,7 @@ import processing.opengl.PShader;
 
 public class BaseTexture {
 	
-	protected PGraphics _texture;
+	protected PGraphics _texture = null;
 	protected boolean _active;
 	protected int _useCount = 0;
 	protected int _color;
@@ -63,9 +63,10 @@ public class BaseTexture {
 		return _active;
 	}
 	
-	public void setActive( boolean isActive ) {
+	public BaseTexture setActive( boolean isActive ) {
 		_active = isActive;
 		if( _active == true ) addUseCount();
+		return this;
 	}
 	
 	public void setAsOverlay( boolean isOverlay ) {

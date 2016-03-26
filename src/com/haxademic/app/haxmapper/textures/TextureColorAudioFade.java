@@ -16,9 +16,10 @@ extends BaseTexture {
 		_eqIndex = MathUtil.randRange(0, 255);
 	}
 	
-	public void setActive( boolean isActive ) {
+	public BaseTexture setActive( boolean isActive ) {
 		super.setActive(isActive);
 		_eqIndex = MathUtil.randRange(3, 31);
+		return this;
 	}
 	
 	public void updateDraw() {

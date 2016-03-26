@@ -89,13 +89,13 @@ extends BaseTexture {
 	}
 	
 	public void postProcess() {
-		SaturationFilter.instance(P.p).setSaturation(0.4f);
+		SaturationFilter.instance(P.p).setSaturation(0.3f);
 		SaturationFilter.instance(P.p).applyTo(_texture);
 		FXAAFilter.instance(P.p).applyTo(_texture);
 //		super.postProcess();
 	}
 	
-	public void setActive( boolean isActive ) {
+	public BaseTexture setActive( boolean isActive ) {
 		boolean wasActive = _active;
 		super.setActive(isActive);
 		_brightMode = MathUtil.randRange(0, 1);
@@ -104,6 +104,7 @@ extends BaseTexture {
 			_timeEaser.setTarget( 0.0001f );
 			pickNewTimeMode();
 		}
+		return this;
 	}
 	
 	protected void pickNewTimeMode() {

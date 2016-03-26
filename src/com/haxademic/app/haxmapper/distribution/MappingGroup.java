@@ -3,6 +3,7 @@ package com.haxademic.app.haxmapper.distribution;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.ArrayList;
+import java.util.Iterator;
 
 import com.haxademic.app.haxmapper.HaxMapper;
 import com.haxademic.app.haxmapper.overlays.MeshLines;
@@ -51,6 +52,11 @@ public class MappingGroup {
 		_color = P.p.color(255);
 	}
 
+	/////////////////////////////////////////////////////////////////
+	// Build polygon, find neighbors, draw mask
+	/////////////////////////////////////////////////////////////////
+
+
 	public void addPolygon( IMappedPolygon polygon ) {
 		// store polygon
 		_mappedPolygons.add(polygon);
@@ -97,9 +103,42 @@ public class MappingGroup {
 		}
 	}
 	
-	public void pushTexture( BaseTexture texture ) {
-		if( _curTextures.indexOf( texture ) == -1 ) {
-			_curTextures.add(texture);
+	/////////////////////////////////////////////////////////////////
+	// Cycle textures
+	/////////////////////////////////////////////////////////////////
+
+	protected BaseTexture getRandomTexture() {
+		return _curTextures.get( MathUtil.randRange(0, _curTextures.size() - 1) );
+	}
+
+	public void pushTexture( BaseTexture texture, ArrayList<BaseTexture> activeTextures ) {
+		// if group already has texture, move it to the end of the list, so we can shift the first off
+		if(_curTextures.contains(texture) == true) _curTextures.remove(texture);
+		_curTextures.add(texture);
+		// remove any textures that aren't in the app's current active texture pool
+		for(int i = _curTextures.size() - 1; i >= 0; i-- ) {
+			if(activeTextures.contains(_curTextures.get(i)) == false) {
+				_curTextures.remove(i);
+			}
+		}
+		if( _curTextures.size() > HaxMapper.MAX_ACTIVE_TEXTURES_PER_GROUP ) _curTextures.remove(0);
+		refreshTexturesForPolygons();
+		// debugLogGroupTextures();
+	}
+	
+	public void refreshTexturesForPolygons() {
+		if( _curTextures.size() < 1 ) return;
+		// remove inactive textures from local texture pool
+		for(int i = _curTextures.size() - 1; i >= 0; i-- ) {
+			if(_curTextures.get(i).isActive() == false) _curTextures.remove(i);
+		}
+		// make sure polygons that are no longer have an active texture switch out for a random group texture  
+		for(int i=0; i < _mappedPolygons.size(); i++ ) {
+			BaseTexture curPolyTexture = _mappedPolygons.get(i).getTexture();
+			if(curPolyTexture == null || _curTextures.indexOf(curPolyTexture) == -1) {		// || _curTextures.indexOf(curPolyTexture) == -1
+				BaseTexture newTex = getRandomTexture();
+				_mappedPolygons.get(i).setTexture( newTex, mappingBounds );
+			}
 		}
 	}
 
@@ -108,15 +147,23 @@ public class MappingGroup {
 			_curTextures.add(0, texture);
 		}
 	}
-
-	public BaseTexture shiftTexture() {
-//		if( _curTextures.size() > HaxMapper.MAX_ACTIVE_TEXTURES ) {
-		if( _curTextures.size() > HaxMapper.MAX_ACTIVE_TEXTURES_PER_GROUP ) {
-			return _curTextures.remove(0);
-		} else {
-			return null;
+	
+	public void debugLogGroupTextures() {
+		P.println("%%% _curTextures ===============");
+		for(int j = 0; j < _curTextures.size(); j++) {
+			P.println(""+_curTextures.get(j).toString());
 		}
+		P.println("%%% end AFTER ===============");
 	}
+
+//	public BaseTexture shiftTexture() {
+////		if( _curTextures.size() > HaxMapper.MAX_ACTIVE_TEXTURES ) {
+//	}
+
+	/////////////////////////////////////////////////////////////////
+	// Texture-level post-processing effects
+	/////////////////////////////////////////////////////////////////
+
 
 	public void clearAllTextures() {
 		while( _curTextures.size() > 0 ) _curTextures.remove( _curTextures.size() - 1 );
@@ -157,18 +204,6 @@ public class MappingGroup {
 		if( _curTextures.size() < 1 ) return;
 		for(int j=0; j < _mappedPolygons.size(); j++ ) {
 			_mappedPolygons.get(j).setTexture( _curTextures.get(textureIndex), mappingBounds );
-		}
-	}
-	
-	public void refreshActiveTextures() {
-		// make sure textures that are no longer in the pool switch out to another texture
-		if( _curTextures.size() < 1 ) return;
-		for(int j=0; j < _mappedPolygons.size(); j++ ) {
-			BaseTexture curPolyTexture = _mappedPolygons.get(j).getTexture();
-			if(_curTextures.contains(curPolyTexture) == false) {
-				int randomTextureIndex = MathUtil.randRange(0, _curTextures.size() - 1);
-				_mappedPolygons.get(j).setTexture( _curTextures.get(randomTextureIndex), mappingBounds );
-			}
 		}
 	}
 	

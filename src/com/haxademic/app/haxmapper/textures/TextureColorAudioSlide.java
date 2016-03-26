@@ -18,12 +18,13 @@ extends BaseTexture {
 		randomize();
 	}
 	
-	public void setActive( boolean isActive ) {
+	public BaseTexture setActive( boolean isActive ) {
 		boolean wasActive = _active;
 		super.setActive(isActive);
 		if( isActive != wasActive ) {
 			randomize();
 		}
+		return this;
 	}
 	
 	public void randomize() {

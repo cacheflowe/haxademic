@@ -43,20 +43,26 @@ extends HaxMapper{
 	 * TODO:
 	 * - Refactor & organize
 	 * 		- Merge user input triggers & beat detection decisions and then start to organize automated decision making 
-	 * - Could line mode be causing slowdowns?!?! try disabling line overlay modes
-	 * - triangle rotation is causing warped polygons
-	 * - use new triangle random coordinates for mapped quads
-	 * - Add a vertex shader to manipulate the z of all mesh vertices? since we're not using pshapes, maybe just use noise() to deform the z, then apply lighting
-	 * - Add more ambient overlay shaders
-	 * - Make sure nextTexturePoolIndex() is working properly 
-	 * - Add new SDF shaders in B&W
 	 * - Fix image cycling texture - it does weird flashy things
+	 * - Fix performance issues
+	 * 		- Only update textures that are being used in any group
+	 * 		- Does the overlayPG need to be a separate PGraphics buffer if we use a blend mode for overlays drawing?
+	 * - use new triangle random coordinates for mapped quads
+	 * - interpolate polygon coordinates
 	 * - Test with multiple groups
-	 * - Make sure there are no texture effects that are slowing things down
-	 * - Find the video Wally wanted to import: https://www.youtube.com/watch?v=gUilOCTqPC4
 	 * - is newMode() getting called on textures?
 	 * - is rotate() getting called on textures?
-	 * 
+	 * - Make sure there are no texture effects that are slowing things down
+	 * - Add a vertex shader to manipulate the z of all mesh vertices? since we're not using pshapes, maybe just use noise() to deform the z, then apply lighting
+	 * - triangle rotation is causing warped polygons
+
+	 * - test with only 1 mapping group
+	 * - reset smoothing to something nice
+
+	 * - Add new SDF shaders in B&W
+	 * - Add more ambient overlay shaders
+	 * - Find the video Wally wanted to import: https://www.youtube.com/watch?v=gUilOCTqPC4
+
 	 * - When switching to all one texture, clear out other textures in the current pool?
 	 * - Add another floating audio-reactive particle overlay texture - switch the overloay textures out on an interval
 	 * - Mapped UV coordinates should never bee out of texture's frame - this results in lines - more prominent in triangle polygons
@@ -90,22 +96,6 @@ extends HaxMapper{
 	/////////////////////////////////////////////////////////////////
 	// required overrides to init mapping groups and texture pools 
 	/////////////////////////////////////////////////////////////////
-	protected void buildMappingGroups() {
-		// initialize mapping groups
-		for( int i=0; i < _mappingGroups.size(); i++ ) {
-			// give each group a couple of textures to start with
-			_mappingGroups.get(i).pushTexture( _texturePool.get(0) );
-			_mappingGroups.get(i).pushTexture( _texturePool.get(1) );
-			
-			// set initial mapping properties - make all fully contain their textures
-			// TODO: can we just call a rule method to initialize all to mask style?
-			ArrayList<IMappedPolygon> polygons = _mappingGroups.get(i).polygons();
-			for(int j=0; j < polygons.size(); j++ ) {
-				IMappedPolygon polygon = polygons.get(j);
-				polygon.setTextureStyle( IMappedPolygon.MAP_STYLE_MASK );
-			}
-		}
-	}
 
 	protected void addTexturesToPool() {
 
@@ -203,12 +193,9 @@ extends HaxMapper{
 
 		
 		
-		// shuffle one time!
+		// shuffle one time and add 1 inital texture to current array
 		shuffleTexturePool();
-		
-		
-		// add 1 inital texture to current array
-		_curTexturePool.add( _texturePool.get(nextTexturePoolIndex() ));
+		_activeTextures.add( _texturePool.get(nextTexturePoolIndex() ));
 
 		// add full screen overlay texture
 		_overlayTexturePool.add(new TextureEQFloatParticles( shaderWsm, shaderHsm ));

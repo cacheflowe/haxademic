@@ -27,11 +27,12 @@ extends BaseTexture {
 		buildGraphics( width, height );
 	}
 	
-	public void setActive( boolean isActive ) {
+	public BaseTexture setActive( boolean isActive ) {
 		_wasActive = _active;
 		super.setActive( isActive );
 		_brightMode = MathUtil.randRange(0, 1);
 		resetOnActiveChange();
+		return this;
 	}
 	
 	public void updateDraw() {
@@ -40,10 +41,10 @@ extends BaseTexture {
 	
 	public void postProcess() {
 		super.postProcess();
-		BlurHFilter.instance(P.p).setBlurByPercent(0.7f, _texture.width);
-		BlurHFilter.instance(P.p).applyTo(_texture);
-		BlurVFilter.instance(P.p).setBlurByPercent(0.7f, _texture.height);
-		BlurVFilter.instance(P.p).applyTo(_texture);
+//		BlurHFilter.instance(P.p).setBlurByPercent(0.7f, _texture.width);
+//		BlurHFilter.instance(P.p).applyTo(_texture);
+//		BlurVFilter.instance(P.p).setBlurByPercent(0.7f, _texture.height);
+//		BlurVFilter.instance(P.p).applyTo(_texture);
 	}
 	
 	public void resetOnActiveChange() {
