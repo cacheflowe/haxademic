@@ -2,6 +2,9 @@ package com.haxademic.core.system;
 
 import processing.core.PApplet;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+
 import com.haxademic.core.app.P;
 
 public class SystemUtil {
@@ -28,4 +31,57 @@ public class SystemUtil {
 	public static void p2TabKeyInputPatch() {
 //		if(PJOGL.canvas != null) { PJOGL.canvas.setFocusTraversalKeysEnabled(false); }
 	}
+	
+	public static void printRunningProcesses() {
+	    try {
+	        String line;
+	        Process p = Runtime.getRuntime().exec("ps -e");
+	        BufferedReader input = new BufferedReader(new InputStreamReader(p.getInputStream()));
+	        while ((line = input.readLine()) != null) {
+	            System.out.println("## "+line); //<-- Parse data here.
+	        }
+	        input.close();
+	    } catch (Exception err) {
+	        err.printStackTrace();
+	    }
+	}
+	
+	public static boolean hasProcessContainingString(String processName) {
+		try {
+			String line;
+			Process p = Runtime.getRuntime().exec("ps -e");
+			BufferedReader input = new BufferedReader(new InputStreamReader(p.getInputStream()));
+			while ((line = input.readLine()) != null) {
+				if(line.indexOf(processName) != -1) {
+					return true;
+				}
+			}
+			input.close();
+		} catch (Exception err) {
+			err.printStackTrace();
+		}
+		return false;
+	}
+	
+	public static void killProcessContainingString(String processName) {
+		try {
+			String line;
+			Process p = Runtime.getRuntime().exec("ps -e");
+			BufferedReader input = new BufferedReader(new InputStreamReader(p.getInputStream()));
+			while ((line = input.readLine()) != null) {
+				if(line.indexOf(processName) != -1) {
+					P.println("found & killing: "+line);
+					String processline = line.trim().split(" ")[0];
+					String killCmd = "kill -9 "+processline;
+					P.println("killCmd: "+killCmd);
+					Process d = Runtime.getRuntime().exec(killCmd);
+				}
+			}
+			input.close();
+		} catch (Exception err) {
+			err.printStackTrace();
+		}
+	}
+	
+
 }
