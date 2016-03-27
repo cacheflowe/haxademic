@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import com.haxademic.core.app.P;
 import com.haxademic.core.image.ImageUtil;
 import com.haxademic.core.math.MathUtil;
+import com.haxademic.core.math.easing.EasingFloat;
 
 import processing.core.PConstants;
 import processing.core.PGraphics;
@@ -21,6 +22,12 @@ implements IMappedPolygon {
 	public float y2;
 	public float x3;
 	public float y3;
+	public EasingFloat _UVx1 = new EasingFloat(0, 5f);
+	public EasingFloat _UVy1 = new EasingFloat(0, 5f);
+	public EasingFloat _UVx2 = new EasingFloat(0, 5f);
+	public EasingFloat _UVy2 = new EasingFloat(0, 5f);
+	public EasingFloat _UVx3 = new EasingFloat(0, 5f);
+	public EasingFloat _UVy3 = new EasingFloat(0, 5f);
 	
 	protected PVector[] _randTriangle = {new PVector(), new PVector(), new PVector()};
 	protected PVector[] _maskTriangle = {new PVector(), new PVector(), new PVector()};
@@ -39,6 +46,7 @@ implements IMappedPolygon {
 		_center = MathUtil.computeTriangleCenter(x1, y1, x2, y2, x3, y3);
 		_centerX = _center.x;
 		_centerY = _center.y;
+		
 		_neighbors = new ArrayList<IMappedPolygon>();
 		_mappingOrientation = 0;
 	}
@@ -97,45 +105,58 @@ implements IMappedPolygon {
 		return 0; // 50f * P.sin(x1+y1 + P.p.frameCount/20f);
 	}
 	
+	protected void setUVCoordinates(float uvx1, float uvy1, float uvx2, float uvy2, float uvx3, float uvy3) {
+		_UVx1.setTarget(uvx1);
+		_UVy1.setTarget(uvy1);
+		_UVx2.setTarget(uvx2);
+		_UVy2.setTarget(uvy2);
+		_UVx3.setTarget(uvx3);
+		_UVy3.setTarget(uvy3);
+
+		_UVx1.update();
+		_UVy1.update();
+		_UVx2.update();
+		_UVy2.update();
+		_UVx3.update();
+		_UVy3.update();
+	}
+	
 	public void draw( PGraphics pg ) {
 		if( _texture != null ) {
 			if( _mappingStyle == MAP_STYLE_CONTAIN_TEXTURE ) {
 				pg.beginShape(PConstants.TRIANGLE);
 				pg.texture(_texture);
 				if( _mappingOrientation == 0 ) {
-					pg.vertex(x1, y1, getZ(x1, y1), 		0, 0);
-					pg.vertex(x2, y2, getZ(x2, y2), 		_texture.width, _texture.height/2);
-					pg.vertex(x3, y3, getZ(x3, y3), 		0, _texture.height);
+					setUVCoordinates(0, 0, _texture.width, _texture.height/2, 0, _texture.height);
 				} else if( _mappingOrientation == 1 ) {
-					pg.vertex(x1, y1, getZ(x1, y1), 		0, 0);
-					pg.vertex(x2, y2, getZ(x2, y2), 		_texture.width, 0);
-					pg.vertex(x3, y3, getZ(x3, y3), 		_texture.width/2, _texture.height);
+					setUVCoordinates(0, 0, _texture.width, 0, _texture.width/2, _texture.height);
 				} else if( _mappingOrientation == 2 ) {
-					pg.vertex(x1, y1, getZ(x1, y1), 		0, _texture.height/2);
-					pg.vertex(x2, y2, getZ(x2, y2), 		_texture.width, 0);
-					pg.vertex(x3, y3, getZ(x3, y3), 		_texture.width, _texture.height);
+					setUVCoordinates(0, _texture.height/2, _texture.width, 0, _texture.width, _texture.height);
 				} else if( _mappingOrientation == 3 ) {
-					pg.vertex(x1, y1, getZ(x1, y1), 		0, _texture.height);
-					pg.vertex(x2, y2, getZ(x2, y2), 		_texture.width/2, 0);
-					pg.vertex(x3, y3, getZ(x3, y3), 		_texture.width, _texture.height);
+					setUVCoordinates(0, _texture.height, _texture.width/2, 0, _texture.width, _texture.height);
 				}
+				pg.vertex(x1, y1, getZ(x1, y1), 		_UVx1.value(), _UVy1.value());
+				pg.vertex(x2, y2, getZ(x2, y2), 		_UVx2.value(), _UVy2.value());
+				pg.vertex(x3, y3, getZ(x3, y3), 		_UVx3.value(), _UVy3.value());
 				pg.endShape();
 			} else if( _mappingStyle == MAP_STYLE_MASK ) {
 				pg.beginShape(PConstants.TRIANGLE);
 				pg.texture(_texture);
 				// map the screen coordinates to the texture coordinates
 				// crop to fill the mapped area with the current texture
-				pg.vertex(x1, y1, getZ(x1, y1), 		_maskTriangle[0].x, _maskTriangle[0].y);
-				pg.vertex(x2, y2, getZ(x2, y2), 		_maskTriangle[1].x, _maskTriangle[1].y);
-				pg.vertex(x3, y3, getZ(x3, y3), 		_maskTriangle[2].x, _maskTriangle[2].y);
+				setUVCoordinates(_maskTriangle[0].x, _maskTriangle[0].y, _maskTriangle[1].x, _maskTriangle[1].y, _maskTriangle[2].x, _maskTriangle[2].y);
+				pg.vertex(x1, y1, getZ(x1, y1), 		_UVx1.value(), _UVy1.value());
+				pg.vertex(x2, y2, getZ(x2, y2), 		_UVx2.value(), _UVy2.value());
+				pg.vertex(x3, y3, getZ(x3, y3), 		_UVx3.value(), _UVy3.value());
 				pg.endShape();
 			} else if( _mappingStyle == MAP_STYLE_CONTAIN_RANDOM_TEX_AREA ) {
 				pg.beginShape(PConstants.TRIANGLE);
 				pg.texture(_texture);
 				// map the polygon coordinates to the random sampling coordinates
-				pg.vertex(x1, y1, getZ(x1, y1), 		_randTriangle[0].x, _randTriangle[0].y);
-				pg.vertex(x2, y2, getZ(x2, y2), 		_randTriangle[1].x, _randTriangle[1].y);
-				pg.vertex(x3, y3, getZ(x3, y3), 		_randTriangle[2].x, _randTriangle[2].y);
+				setUVCoordinates(_randTriangle[0].x, _randTriangle[0].y, _randTriangle[1].x, _randTriangle[1].y, _randTriangle[2].x, _randTriangle[2].y);
+				pg.vertex(x1, y1, getZ(x1, y1), 		_UVx1.value(), _UVy1.value());
+				pg.vertex(x2, y2, getZ(x2, y2), 		_UVx2.value(), _UVy2.value());
+				pg.vertex(x3, y3, getZ(x3, y3), 		_UVx3.value(), _UVy3.value());
 				pg.endShape();
 			} else if( _mappingStyle == MAP_STYLE_EQ ) {
 				_curColor = P.p.lerpColor(_curColor, _color, 0.1f);
