@@ -7,6 +7,9 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.draw.util.OpenGLUtil;
+import com.haxademic.core.image.filters.shaders.CubicLensDistortionFilter;
+import com.haxademic.core.image.filters.shaders.SphereDistortionFilter;
+import com.haxademic.core.image.filters.shaders.VignetteFilter;
 import com.haxademic.core.math.easing.EasingFloat;
 
 import processing.core.PVector;
@@ -17,19 +20,30 @@ extends PAppletHax {
 
 	protected ArrayList<PVector> _vectorField;
 	protected ArrayList<FieldParticle> _particles;
+	protected int frames = 130;
 	
 	
 	protected void overridePropsFile() {
 		p.appConfig.setProperty( AppSettings.WIDTH, 1280 );
 		p.appConfig.setProperty( AppSettings.HEIGHT, 720 );
+		p.appConfig.setProperty( AppSettings.WIDTH, 640 );
+		p.appConfig.setProperty( AppSettings.HEIGHT, 640 );
 		p.appConfig.setProperty( AppSettings.FULLSCREEN, false );
 //		p.appConfig.setProperty( AppSettings.DISPLAY, 2 );
 		p.appConfig.setProperty( AppSettings.FILLS_SCREEN, false );
 		p.appConfig.setProperty( AppSettings.RETINA, true );
-		p.appConfig.setProperty( AppSettings.FORCE_FOREGROUND, true );
+		p.appConfig.setProperty( AppSettings.FORCE_FOREGROUND, false );
 		p.appConfig.setProperty( AppSettings.SMOOTHING, OpenGLUtil.SMOOTH_HIGH );
 		p.appConfig.setProperty( AppSettings.SHOW_STATS, false );
-//		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "true" );
+		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, false);
+		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, frames);
+		p.appConfig.setProperty( AppSettings.RENDERING_GIF, false);
+		p.appConfig.setProperty( AppSettings.RENDERING_GIF_FRAMERATE, 45 );
+		p.appConfig.setProperty( AppSettings.RENDERING_GIF_QUALITY, 15 );
+		p.appConfig.setProperty( AppSettings.RENDERING_GIF_START_FRAME, 1 );
+		p.appConfig.setProperty( AppSettings.RENDERING_GIF_STOP_FRAME, frames );
+//		p.appConfig.setProperty( AppSettings.FPS, 30 );
+
 	}
 	
 	public void setup() {
@@ -44,13 +58,14 @@ extends PAppletHax {
 		}
 		
 		_particles = new ArrayList<FieldParticle>();
-		for( int i = 0; i < 6000; i++ ) {
+		for( int i = 0; i < 3000; i++ ) {
 			_particles.add( new FieldParticle() );
 		}
+		
 	}
 
 	public void drawApp() {
-		if( p.frameCount == 1 ) p.background(0);
+		if( p.frameCount == 1 ) p.background(255);
 
 //		OpenGLUtil.setBlending(p.g, true);
 //		OpenGLUtil.setBlendMode(p.g, OpenGLUtil.Blend.ADDITIVE);
@@ -58,7 +73,7 @@ extends PAppletHax {
 		// fade out background
 		DrawUtil.setDrawCorner(p);
 		p.noStroke();
-		p.fill(0, 20);
+		p.fill(255, 30);
 		p.rect(0,0,p.width, p.height);
 		
 		// draw field
@@ -75,7 +90,7 @@ extends PAppletHax {
 			p.pushMatrix();
 			p.translate(vector.x, vector.y);
 			p.rotate( vector.z );	// use z for rotation!
-		    p.rect(0, 0, 1, 10);
+		    // p.rect(0, 0, 1, 10);
 		    p.popMatrix();
 		}
 		
@@ -86,7 +101,31 @@ extends PAppletHax {
 			_particles.get(i).update( _vectorField );
 		}
 		
-//		FXAAFilter.instance(p).applyTo(p.g);
+//		postProcessForRendering();
+	}
+	
+	protected void postProcessForRendering() {
+		// overlay
+		int transitionIn = 50;
+		int transition = 40;
+		DrawUtil.setDrawCorner(p);
+		if(p.frameCount <= transitionIn) {
+			VignetteFilter.instance(p).setDarkness(P.map(p.frameCount, 1f, transitionIn, -7f, -1.75f));
+			VignetteFilter.instance(p).setSpread(P.map(p.frameCount, 1f, transitionIn, -3f, -1.25f));
+			VignetteFilter.instance(p).applyTo(p);
+			p.fill(255, P.map(p.frameCount, 1f, transition, 255f, 0));
+			p.rect(0,0,p.width, p.height);
+		} else if(p.frameCount >= frames - transition) {
+			VignetteFilter.instance(p).setDarkness(P.map(p.frameCount, frames - transition, frames, -1.75f, -7f));
+			VignetteFilter.instance(p).setSpread(P.map(p.frameCount, frames - transition, frames, -1.25f, -3f));
+			VignetteFilter.instance(p).applyTo(p);
+			p.fill(255, P.map(p.frameCount, frames - transition, frames, 0, 255f));
+			p.rect(0,0,p.width, p.height);
+		} else {
+			VignetteFilter.instance(p).setDarkness(-1.75f);
+			VignetteFilter.instance(p).setSpread(-1.25f);
+			VignetteFilter.instance(p).applyTo(p);
+		}
 	}
 	
 	public class FieldParticle {
@@ -96,7 +135,7 @@ extends PAppletHax {
 		public float speed;
 		
 		public FieldParticle() {
-			speed = p.random(10,20);
+			speed = p.random(4,10);
 			radians = new EasingFloat(0, p.random(6,20) );
 			position = new PVector( p.random(0, p.width), p.random(0, p.height) );
 		}
@@ -132,7 +171,7 @@ extends PAppletHax {
 			p.pushMatrix();
 			p.translate(position.x, position.y);
 			p.rotate( -radians.value() );
-		    p.rect(0, 0, speed * 0.2f, speed * 1.8f);
+		    p.rect(0, 0, speed * 0.15f, speed * 1.3f);
 		    p.popMatrix();
 		}
 	}
