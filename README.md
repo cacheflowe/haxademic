@@ -110,6 +110,7 @@ Haxademic uses the following Java & Processing libraries, which I've included in
 * [Processing](http://processing.org/) (view the [Processing for Eclipse instructions](http://processing.org/learning/eclipse/))
 * [ESS](http://www.tree-axis.com/Ess/)
 * [simple-openni](http://code.google.com/p/simple-openni/)
+* [OpenKinect for Processing](https://github.com/shiffman/OpenKinect-for-Processing)
 * [toxiclibs](http://toxiclibs.org/)
 * [Joons renderer](https://github.com/joonhyublee/joons-renderer/wiki)
 * [OBJLoader](http://code.google.com/p/saitoobjloader/)
