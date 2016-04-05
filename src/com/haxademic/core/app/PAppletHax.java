@@ -27,6 +27,7 @@ import com.haxademic.core.render.Renderer;
 import com.haxademic.core.system.FileUtil;
 import com.haxademic.core.system.P5Properties;
 import com.haxademic.core.system.SystemUtil;
+import com.haxademic.core.text.StringFormatter;
 
 import SimpleOpenNI.SimpleOpenNI;
 import ddf.minim.Minim;
@@ -379,9 +380,9 @@ extends PApplet
 		_stats.update();
 		_debugText.draw(new String[]{
 			"FPS: " + _stats.getFps(),
-			"Memory Allocated: " + DebugUtil.memoryAllocated(),
-			"Memory Free: " + DebugUtil.memoryFree(),
-			"Memory Max: " + DebugUtil.memoryMax(),
+			"Memory Allocated: " + StringFormatter.formattedInteger(DebugUtil.memoryAllocated()),
+			"Memory Free: " + StringFormatter.formattedInteger(DebugUtil.memoryFree()),
+			"Memory Max: " + StringFormatter.formattedInteger(DebugUtil.memoryMax()),
 		});
 	}
 
