@@ -1,6 +1,5 @@
 package com.haxademic.sketch.three_d;
 
-import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.cameras.CameraOscillate;
 import com.haxademic.core.cameras.common.ICamera;
@@ -14,12 +13,9 @@ import processing.core.PConstants;
  *
  */
 public class PlusGridWave
-extends PAppletHax
-{
-	public static void main(String args[]) {
-		PAppletHax.main(P.concat(args, new String[] { "--hide-stop", "--bgcolor=000000", Thread.currentThread().getStackTrace()[1].getClassName() }));
-	}
-	
+extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
+
 	// global vars
 	protected int _fps = 30;
 	protected Cube[][] _grid;
@@ -28,12 +24,9 @@ extends PAppletHax
 	protected ICamera _camera;
 	protected Renderer _render;
 
-	public void setup ()
-	{
-		// set up stage and drawing properties
-		//size( 800, 600, "hipstersinc.P5Sunflow" );			
-		size( displayWidth, displayHeight, P3D);
-		frameRate( _fps );
+	public void setup () {
+		super.setup();
+		
 		colorMode( PConstants.RGB, 1, 1, 1 );
 		background( 1 );
 		noSmooth();
@@ -63,7 +56,7 @@ extends PAppletHax
 		_render.startRenderer();
 	}
 
-	public void draw() 
+	public void drawApp() 
 	{
 		// redraw bg and set lighting/drawing props
 		background( 1 );

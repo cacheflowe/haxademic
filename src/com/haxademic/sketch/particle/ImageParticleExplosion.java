@@ -12,8 +12,9 @@ import processing.core.PImage;
  *
  */
 public class ImageParticleExplosion
-extends PAppletHax
-{
+extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
+
 	// global vars
 	protected int _fps = 30;
 	protected ImageParticle[] _particles;

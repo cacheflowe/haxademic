@@ -9,8 +9,9 @@ import com.haxademic.core.draw.util.OpenGLUtil;
 import com.haxademic.core.render.JoonsWrapper;
 
 public class MegaFractalCube
-extends PAppletHax
-{
+extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
+
 	// global vars
 	protected float _frames = 50;
 	protected FractCube _cube;
