@@ -1,16 +1,16 @@
 package com.haxademic.sketch.pshape;
 
-import processing.core.PShape;
-
+import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.util.DrawUtil;
-import com.haxademic.core.draw.util.OpenGLUtil;
 import com.haxademic.core.math.easing.EasingFloat;
 import com.haxademic.core.system.FileUtil;
 
-@SuppressWarnings("serial")
+import processing.core.PShape;
+
 public class PShapeSvgSubShapeTest 
 extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	protected PShape _squirrel;
 	
@@ -32,7 +32,7 @@ extends PAppletHax {
 	protected EasingFloat _beamY = new EasingFloat(0, 3f);
 
 	protected void overridePropsFile() {
-		_appConfig.setProperty( "rendering", "false" );
+		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
 	}
 
 

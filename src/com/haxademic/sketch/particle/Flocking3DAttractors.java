@@ -2,12 +2,7 @@ package com.haxademic.sketch.particle;
 
 import java.util.ArrayList;
 
-import toxi.color.TColor;
-import toxi.geom.Sphere;
-import toxi.geom.Vec3D;
-import toxi.geom.ZAxisCylinder;
-import toxi.geom.mesh.TriangleMesh;
-
+import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.color.TColorBlendBetween;
@@ -15,9 +10,15 @@ import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.math.easing.EasingFloat3d;
 import com.haxademic.core.vendor.Toxiclibs;
 
-@SuppressWarnings("serial")
+import toxi.color.TColor;
+import toxi.geom.Sphere;
+import toxi.geom.Vec3D;
+import toxi.geom.ZAxisCylinder;
+import toxi.geom.mesh.TriangleMesh;
+
 public class Flocking3DAttractors 
 extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	public ArrayList<MovingBox> boxes;
 	public ArrayList<Attractor> attractors;
@@ -40,11 +41,11 @@ extends PAppletHax {
 	}
 
 	protected void overridePropsFile() {
-		_appConfig.setProperty( "sunflow", "false" );
-		_appConfig.setProperty( "rendering", "false" );
-		_appConfig.setProperty( "width", "1000" );
-		_appConfig.setProperty( "height", "750" );
-		_appConfig.setProperty( "fills_screen", "false" );
+		p.appConfig.setProperty( AppSettings.SUNFLOW, "false" );
+		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
+		p.appConfig.setProperty( AppSettings.WIDTH, "1000" );
+		p.appConfig.setProperty( AppSettings.HEIGHT, "750" );
+		p.appConfig.setProperty( AppSettings.FILLS_SCREEN, "false" );
 	}
 
 	public void drawApp() {

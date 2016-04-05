@@ -4,6 +4,7 @@ import java.awt.Point;
 import java.awt.Rectangle;
 
 import com.haxademic.app.haxmapper.textures.BaseTexture;
+import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.util.DrawUtil;
@@ -11,9 +12,9 @@ import com.haxademic.core.math.MathUtil;
 
 import processing.core.PVector;
 
-@SuppressWarnings("serial")
 public class RandomUVCoordsConstrained 
 extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
 	protected PVector[] _randTriangle = {new PVector(), new PVector(), new PVector()};
 	protected PVector[] _randTriangleRotated;
@@ -29,8 +30,8 @@ extends PAppletHax {
 	int textureH = 300;
 
 	protected void overridePropsFile() {
-		_appConfig.setProperty( "width", "1000" );
-		_appConfig.setProperty( "height", "800" );
+		p.appConfig.setProperty( AppSettings.WIDTH, "1000" );
+		p.appConfig.setProperty( AppSettings.HEIGHT, "800" );
 	}
 
 

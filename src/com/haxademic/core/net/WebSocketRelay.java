@@ -20,11 +20,12 @@ public class WebSocketRelay extends Thread {
 	LocalServer localServer;
 	public String portStr;
 	public String localHost;
+	public static boolean DEBUG = false;
 	
 	@Override
 	public void run(){
 		try{
-			WebSocketImpl.DEBUG = true;
+			WebSocketImpl.DEBUG = WebSocketRelay.DEBUG;
 			int port = 8887; // 843 flash policy port
 			try {
 				port = Integer.parseInt( P.p.args[ 0 ] );
@@ -48,9 +49,13 @@ public class WebSocketRelay extends Thread {
 	}
 	
 	public void sendMessage(String msg) {
-		P.println("sending:");
-		P.println(msg);
+		if(WebSocketRelay.DEBUG == true) P.println("sending:");
+		if(WebSocketRelay.DEBUG == true) P.println(msg);
 		localServer.sendToAll( msg );
+	}
+	
+	protected void receiveMessage(String message) {
+		
 	}
 	
 	public class LocalServer extends WebSocketServer {
@@ -66,19 +71,20 @@ public class WebSocketRelay extends Thread {
 		@Override
 		public void onOpen( WebSocket conn, ClientHandshake handshake ) {
 			this.sendToAll( "{\"message\":\"new connection: " + handshake.getResourceDescriptor()+"\"}" );
-			P.println( conn.getRemoteSocketAddress().getAddress().getHostAddress() + " entered the room!" );
+			if(WebSocketRelay.DEBUG == true) P.println( conn.getRemoteSocketAddress().getAddress().getHostAddress() + " entered the room!" );
 		}
 		
 		@Override
 		public void onClose( WebSocket conn, int code, String reason, boolean remote ) {
 			this.sendToAll( "{\"message\":\"" + conn + " has left the room!\"}" );
-			P.println( conn + " has left the room!" );
+			if(WebSocketRelay.DEBUG == true) P.println( conn + " has left the room!" );
 		}
 		
 		@Override
 		public void onMessage( WebSocket conn, String message ) {
 			this.sendToAll( message );
-			P.println( conn + ": " + message );
+			receiveMessage( message );
+			if(WebSocketRelay.DEBUG == true) P.println( conn + ": " + message );
 		}
 		
 		@Override

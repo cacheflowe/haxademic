@@ -1,8 +1,6 @@
 package com.haxademic.sketch.pshape;
 
-import processing.core.PImage;
-import processing.core.PShape;
-
+import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.shapes.PShapeSolid;
@@ -10,9 +8,12 @@ import com.haxademic.core.draw.util.OpenGLUtil;
 import com.haxademic.core.draw.util.PShapeUtil;
 import com.haxademic.core.system.FileUtil;
 
-@SuppressWarnings("serial")
+import processing.core.PImage;
+import processing.core.PShape;
+
 public class PShapeObjDeformTest 
 extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	protected PShape obj;
 	protected PShapeSolid objSolid;
@@ -20,20 +21,20 @@ extends PAppletHax {
 	protected float _frames = 60;
 
 	protected void overridePropsFile() {
-		_appConfig.setProperty( "width", "400" );
-		_appConfig.setProperty( "height", "400" );
-		_appConfig.setProperty( "fills_screen", "false" );
-		_appConfig.setProperty( "rendering", "false" );
-		_appConfig.setProperty( "rendering_gif", "false" );
-		_appConfig.setProperty( "rendering_gif_framerate", "45" );
-		_appConfig.setProperty( "rendering_gif_quality", "15" );
-		_appConfig.setProperty( "rendering_gif_startframe", "2" );
-		_appConfig.setProperty( "rendering_gif_stopframe", ""+Math.round(_frames+1) );
+		p.appConfig.setProperty( AppSettings.WIDTH, "800" );
+		p.appConfig.setProperty( AppSettings.HEIGHT, "800" );
+		p.appConfig.setProperty( "smoothing", ""+OpenGLUtil.SMOOTH_DEFAULT );
+		p.appConfig.setProperty( AppSettings.FILLS_SCREEN, "false" );
+		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
+		p.appConfig.setProperty( AppSettings.RENDERING_GIF, "false" );
+		p.appConfig.setProperty( AppSettings.RENDERING_GIF_FRAMERATE, "45" );
+		p.appConfig.setProperty( AppSettings.RENDERING_GIF_QUALITY, "15" );
+		p.appConfig.setProperty( AppSettings.RENDERING_GIF_START_FRAME, "2" );
+		p.appConfig.setProperty( AppSettings.RENDERING_GIF_STOP_FRAME, ""+Math.round(_frames+1) );
 	}
 
 	public void setup() {
 		super.setup();	
-		p.smooth(OpenGLUtil.SMOOTH_HIGH);
 
 		// load texture
 		img = p.loadImage(FileUtil.getFile("images/justin-spike-portrait-02-smaller.png"));

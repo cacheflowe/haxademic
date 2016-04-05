@@ -2,10 +2,7 @@ package com.haxademic.sketch.render.ello;
 
 import java.util.ArrayList;
 
-import processing.core.PShape;
-import processing.core.PVector;
-import toxi.color.TColor;
-
+import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.mesh.MeshUtil;
@@ -15,9 +12,13 @@ import com.haxademic.core.math.easing.Penner;
 import com.haxademic.core.render.JoonsWrapper;
 import com.haxademic.core.system.FileUtil;
 
-@SuppressWarnings("serial")
+import processing.core.PShape;
+import processing.core.PVector;
+import toxi.color.TColor;
+
 public class GifRenderEllo014Mouth3d
-extends PAppletHax{
+extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
 	float _frames = 100;
 
@@ -32,20 +33,20 @@ extends PAppletHax{
 	protected ArrayList<ElasticFloat3D> _verticesElastic;
 	
 	protected void overridePropsFile() {
-		_appConfig.setProperty( "width", "800" );
-		_appConfig.setProperty( "height", "800" );
+		p.appConfig.setProperty( AppSettings.WIDTH, "800" );
+		p.appConfig.setProperty( AppSettings.HEIGHT, "800" );
 		
-		_appConfig.setProperty( "sunflow", "true" );
-		_appConfig.setProperty( "sunflow_active", "false" );
-		_appConfig.setProperty( "sunflow_quality", "low" );
-		_appConfig.setProperty( "sunflow_save_images", "false" );
+		p.appConfig.setProperty( AppSettings.SUNFLOW, "true" );
+		p.appConfig.setProperty( AppSettings.SUNFLOW_ACTIVE, "false" );
+		p.appConfig.setProperty( AppSettings.SUNFLOW_QUALITY, "low" );
+		p.appConfig.setProperty( "sunflow_save_images", "false" );
 		
-		_appConfig.setProperty( "rendering", "false" );
-		_appConfig.setProperty( "rendering_gif", "false" );
-		_appConfig.setProperty( "rendering_gif_framerate", "45" );
-		_appConfig.setProperty( "rendering_gif_quality", "15" );
-		_appConfig.setProperty( "rendering_gif_startframe", "2" );
-		_appConfig.setProperty( "rendering_gif_stopframe", ""+Math.round(_frames + 1) );
+		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
+		p.appConfig.setProperty( AppSettings.RENDERING_GIF, "false" );
+		p.appConfig.setProperty( AppSettings.RENDERING_GIF_FRAMERATE, "45" );
+		p.appConfig.setProperty( AppSettings.RENDERING_GIF_QUALITY, "15" );
+		p.appConfig.setProperty( AppSettings.RENDERING_GIF_START_FRAME, "2" );
+		p.appConfig.setProperty( AppSettings.RENDERING_GIF_STOP_FRAME, ""+Math.round(_frames + 1) );
 	}
 	
 	public void setup() {
@@ -82,8 +83,8 @@ extends PAppletHax{
 
 
 //		_jw.jr.background(JoonsWrapper.BACKGROUND_GI);
-		_jw.jr.background(JoonsWrapper.BACKGROUND_AO);
-		_jw.jr.background(0, 0, 0); //background(gray), or (r, g, b), like Processing.
+		joons.jr.background(JoonsWrapper.BACKGROUND_AO);
+		joons.jr.background(0, 0, 0); //background(gray), or (r, g, b), like Processing.
 //		setUpRoom();
 		
 //		p.rotateX(mouseY*0.01f);
@@ -107,8 +108,8 @@ extends PAppletHax{
 		p.pushMatrix();
 		translate(-5, -14, -5000 + easedPercentDouble * 5000);
 
-		_jw.jr.fill( JoonsWrapper.MATERIAL_SHINY, WHITE.red() * 0, WHITE.green() * 0, WHITE.blue() * 0 );
-		_jw.jr.fill( JoonsWrapper.MATERIAL_SHINY, WHITE.red() * 0, WHITE.green() * 0, WHITE.blue() * 0, 0 );
+		joons.jr.fill( JoonsWrapper.MATERIAL_SHINY, WHITE.red() * 0, WHITE.green() * 0, WHITE.blue() * 0 );
+		joons.jr.fill( JoonsWrapper.MATERIAL_SHINY, WHITE.red() * 0, WHITE.green() * 0, WHITE.blue() * 0, 0 );
 		p.stroke(GRAY.toARGB(), 80);
 		MeshUtil.drawExtrudedPShape(p, _outerPoints, 1000 - 999 * ((percentComplete + 0.5f) % 1.0f) );
 		p.popMatrix();
@@ -118,14 +119,14 @@ extends PAppletHax{
 		// DRAW MOUTH  ---------------
 		p.pushMatrix();
 		translate(-5, -14, -5000 + easedPercent * 5000);
-		_jw.jr.fill( JoonsWrapper.MATERIAL_SHINY, WHITE.red() * 255, WHITE.green() * 255, WHITE.blue() * 255 );
+		joons.jr.fill( JoonsWrapper.MATERIAL_SHINY, WHITE.red() * 255, WHITE.green() * 255, WHITE.blue() * 255 );
 		p.stroke(GRAY.toARGB(), 80);
 		MeshUtil.drawExtrudedPShape(p, _mouthPoints, 1000 - 999 * percentComplete);
 		p.popMatrix();
 	}
 	
 	protected void makeLightSource() {
-		_jw.jr.fill("light", 255, 255, 255);
+		joons.jr.fill("light", 255, 255, 255);
 		sphere(10);
 		translate(-1000, 0, 0);
 	}
@@ -136,7 +137,7 @@ extends PAppletHax{
 		float radiance = 20;
 		int samples = 16;
 		int grey = 10;
-		_jw.jr.background("cornell_box", 
+		joons.jr.background("cornell_box", 
 				12000, 6000, 6000,	// width, height, depth
 				radiance, radiance, radiance, samples,  // radiance rgb & samples
 				grey, grey, grey, // left rgb

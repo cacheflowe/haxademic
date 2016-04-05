@@ -1,22 +1,22 @@
 package com.haxademic.sketch.test;
 
-import processing.core.PApplet;
-
+import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.system.ControlFrame;
 
 import controlP5.ControlElement;
+import processing.core.PApplet;
 
-@SuppressWarnings("serial")
 public class ControlFrameTest 
 extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
 	protected ControlFrameRGB controlFrameLauncher;
 	
 	protected void overridePropsFile() {
-		_appConfig.setProperty( "fps", "30" );
-		_appConfig.setProperty( "width", "500" );
-		_appConfig.setProperty( "height", "500" );
+		p.appConfig.setProperty( AppSettings.FPS, "30" );
+		p.appConfig.setProperty( AppSettings.WIDTH, "500" );
+		p.appConfig.setProperty( AppSettings.HEIGHT, "500" );
 	}
 
 	public void setup() {

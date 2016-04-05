@@ -1,18 +1,19 @@
 package com.haxademic.sketch.test;
 
-import processing.core.PGraphics;
-import processing.core.PImage;
-import processing.core.PShape;
-
+import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.draw.util.OpenGLUtil;
 import com.haxademic.core.system.FileUtil;
 
-@SuppressWarnings("serial")
+import processing.core.PGraphics;
+import processing.core.PImage;
+import processing.core.PShape;
+
 public class ImageMaskTest
 extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
 	protected PGraphics _mask;
 	protected PGraphics _maskInverse;
@@ -22,17 +23,17 @@ extends PAppletHax {
 	protected PImage img, img2;
 
 	protected void overridePropsFile() {
-		appConfig.setProperty( "width", "1000" );
-		appConfig.setProperty( "height", "1000" );
-		appConfig.setProperty( "fps", "60" );
+		appConfig.setProperty( AppSettings.WIDTH, "1000" );
+		appConfig.setProperty( AppSettings.HEIGHT, "1000" );
+		appConfig.setProperty( AppSettings.FPS, "60" );
 	}
 
 	public void setup() {
 		super.setup();
 		
-		_mask = p.createGraphics( p.width, p.height, P.OPENGL );
+		_mask = p.createGraphics( p.width, p.height, P.P3D );
 		_mask.smooth(OpenGLUtil.SMOOTH_MEDIUM);
-		_maskInverse = p.createGraphics( p.width, p.height, P.OPENGL );
+		_maskInverse = p.createGraphics( p.width, p.height, P.P3D );
 		_maskInverse.smooth(OpenGLUtil.SMOOTH_MEDIUM);
 
 		_svgMask = p.loadShape( FileUtil.getHaxademicDataPath() + "svg/cacheflowe-logo.svg" );
@@ -40,8 +41,8 @@ extends PAppletHax {
 		
 		img = p.loadImage( FileUtil.getHaxademicDataPath() + "images/sphere-map-test.jpg" );
 		img2 = p.loadImage( FileUtil.getHaxademicDataPath() + "images/sphere-map-test-2.jpg" );
-		_image = p.createGraphics( p.width, p.height, P.OPENGL );
-		_image2 = p.createGraphics( p.width, p.height, P.OPENGL );
+		_image = p.createGraphics( p.width, p.height, P.P3D );
+		_image2 = p.createGraphics( p.width, p.height, P.P3D );
 	}
 
 	public void drawApp() {

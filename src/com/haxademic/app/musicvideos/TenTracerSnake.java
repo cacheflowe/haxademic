@@ -1,9 +1,9 @@
 package com.haxademic.app.musicvideos;
 
+import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 
-@SuppressWarnings("serial")
 public class TenTracerSnake
 extends PAppletHax  
 {	
@@ -20,10 +20,10 @@ extends PAppletHax
 	}
 	
 	protected void overridePropsFile() {
-		_appConfig.setProperty( "rendering", "false" );
-		_appConfig.setProperty( "fps", "30" );
-		_appConfig.setProperty( "width", "1920" );
-		_appConfig.setProperty( "height", "1080" );
+		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
+		p.appConfig.setProperty( AppSettings.FPS, "30" );
+		p.appConfig.setProperty( AppSettings.WIDTH, "1920" );
+		p.appConfig.setProperty( AppSettings.HEIGHT, "1080" );
 	}
 		
 	// FRAME LOOP RENDERING ===================================================================================

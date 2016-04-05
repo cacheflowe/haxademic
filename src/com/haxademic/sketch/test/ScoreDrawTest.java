@@ -7,7 +7,6 @@ import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.system.FileUtil;
 
 
-@SuppressWarnings("serial")
 public class ScoreDrawTest
 extends PAppletHax  
 {	

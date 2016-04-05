@@ -1,19 +1,19 @@
 package com.haxademic.sketch.hardware;
 
-import hypermedia.net.UDP;
-
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 
-@SuppressWarnings("serial")
+import hypermedia.net.UDP;
+
 public class UdpTest 
 extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	protected UDP udp;
 
 
 	protected void overridePropsFile() {
-		// _appConfig.setProperty( "width", "1200" );
+		// p.appConfig.setProperty( AppSettings.WIDTH, "1200" );
 	}
 
 	public void setup() {

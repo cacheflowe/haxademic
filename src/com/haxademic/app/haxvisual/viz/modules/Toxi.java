@@ -184,13 +184,13 @@ public class Toxi
 
 		public void handleKeyboardInput()
 		{
-			if ( p.key == 'm' || p.key == 'M' || p._midi.midiPadIsOn( MidiWrapper.PAD_04 ) == 1 || p._midi.midiPadIsOn( MidiWrapper.NOTE_04 ) == 1 ) {
+			if ( p.key == 'm' || p.key == 'M' || p.midi.midiPadIsOn( MidiWrapper.PAD_04 ) == 1 || p.midi.midiPadIsOn( MidiWrapper.NOTE_04 ) == 1 ) {
 				pickMode();
 			}
-			if ( p.key == 'v' || p.key == 'V' || p._midi.midiPadIsOn( MidiWrapper.PAD_02 ) == 1 || p._midi.midiPadIsOn( MidiWrapper.NOTE_02 ) == 1 ) {
+			if ( p.key == 'v' || p.key == 'V' || p.midi.midiPadIsOn( MidiWrapper.PAD_02 ) == 1 || p.midi.midiPadIsOn( MidiWrapper.NOTE_02 ) == 1 ) {
 				newCamera();
 			}
-			if ( p.key == 'c' || p.key == 'C' || p._midi.midiPadIsOn( MidiWrapper.PAD_01 ) == 1 || p._midi.midiPadIsOn( MidiWrapper.NOTE_01 ) == 1 ) {
+			if ( p.key == 'c' || p.key == 'C' || p.midi.midiPadIsOn( MidiWrapper.PAD_01 ) == 1 || p.midi.midiPadIsOn( MidiWrapper.NOTE_01 ) == 1 ) {
 				newColor();
 //				for (int i = 0; i < NUM_BLOCKS; i++) {
 //					_blocks[i].update( i, NUM_BLOCKS, _audioData.getFFT().averages[i] * 100 );

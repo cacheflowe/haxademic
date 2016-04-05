@@ -5,29 +5,30 @@ package com.haxademic.sketch.three_d.volume;
 import java.util.Arrays;
 import java.util.List;
 
-import processing.core.PImage;
-import ProGAL.geom3d.Point;
-import ProGAL.geom3d.complex.CTriangle;
-import ProGAL.geom3d.complex.alphaComplex.AlphaComplex;
-import ProGAL.geom3d.complex.alphaComplex.AlphaFiltration;
-
+import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.system.FileUtil;
 
-@SuppressWarnings("serial")
+import ProGAL.geom3d.Point;
+import ProGAL.geom3d.complex.CTriangle;
+import ProGAL.geom3d.complex.alphaComplex.AlphaComplex;
+import ProGAL.geom3d.complex.alphaComplex.AlphaFiltration;
+import processing.core.PImage;
+
 public class ProGALTest 
 extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	List<Point> points;
 	float[] intervals; //init Point3d array
 	PImage img;
 
 	protected void overridePropsFile() {
-		_appConfig.setProperty( "rendering", "false" );
-		_appConfig.setProperty( "width", "1280" );
-		_appConfig.setProperty( "height", "1024" );
+		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
+		p.appConfig.setProperty( AppSettings.WIDTH, "1280" );
+		p.appConfig.setProperty( AppSettings.HEIGHT, "1024" );
 	}
 
 	public void setup() {

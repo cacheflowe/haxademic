@@ -3,12 +3,6 @@ package com.haxademic.app.jumbotronix;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 
-import processing.core.PApplet;
-import processing.core.PConstants;
-import processing.core.PGraphics;
-import processing.opengl.PShader;
-import processing.video.Capture;
-
 import com.haxademic.app.haxmapper.textures.BaseTexture;
 import com.haxademic.app.haxmapper.textures.TextureEQColumns;
 import com.haxademic.app.haxmapper.textures.TextureEQConcentricCircles;
@@ -20,12 +14,18 @@ import com.haxademic.app.haxmapper.textures.TextureSphereRotate;
 import com.haxademic.app.haxmapper.textures.TextureTwistingSquares;
 import com.haxademic.app.haxmapper.textures.TextureVideoPlayer;
 import com.haxademic.app.haxmapper.textures.TextureWaveformSimple;
+import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.image.ImageUtil;
 import com.haxademic.core.image.ScreenUtil;
 import com.haxademic.core.image.filters.BlobOuterMeshFilter;
 import com.haxademic.core.system.FileUtil;
+
+import processing.core.PApplet;
+import processing.core.PGraphics;
+import processing.opengl.PShader;
+import processing.video.Capture;
 
 public class JumboTronix
 extends PAppletHax  
@@ -54,31 +54,33 @@ extends PAppletHax
 	protected int _curTextureIndex = 0;
 	
 
-	private static final long serialVersionUID = 1L;
 	public static void main(String args[]) {
-		_isFullScreen = true;
 		PApplet.main(new String[] { "--hide-stop", "--bgcolor=000000", "com.haxademic.app.jumbotronix.JumboTronix" });
 	}
 
+	public void settings() {
+		customPropsFile = FileUtil.getHaxademicDataPath() + "properties/jumbotronix.properties";
+		super.settings();
+	}
+	
 	public void setup() {
-		_customPropsFile = FileUtil.getHaxademicDataPath() + "properties/jumbotronix.properties";
 		super.setup();
-		pg = P.p.createGraphics( width, height, PConstants.OPENGL );
+		pg = P.p.createGraphics( width, height, P.P3D );
 		initWebcam();
 		initShaders();
 		initViz();
 	}
 	
 	protected void overridePropsFile() {
-		_appConfig.setProperty( "width", "1100" );
-		_appConfig.setProperty( "height", "462" );
-		_appConfig.setProperty( "fullscreen", "false" );
-		_appConfig.setProperty( "fills_screen", "true" );
+		p.appConfig.setProperty( AppSettings.WIDTH, "1100" );
+		p.appConfig.setProperty( AppSettings.HEIGHT, "462" );
+		p.appConfig.setProperty( AppSettings.FULLSCREEN, "false" );
+		p.appConfig.setProperty( AppSettings.FILLS_SCREEN, "true" );
 	}
 
 	protected void initWebcam() {
 		// build texture and rectangle to fill screen
-		_webcamTexture = P.p.createGraphics( 1280, 720, PConstants.OPENGL );
+		_webcamTexture = P.p.createGraphics( 1280, 720, P.P3D );
 		float[] cropFill = ImageUtil.getOffsetAndSizeToCrop( pg.width, pg.height, _webcamTexture.width, _webcamTexture.height, true );
 		_webCamRect = new Rectangle( (int) cropFill[0], (int) cropFill[1], (int) cropFill[2], (int) cropFill[3] );
 		

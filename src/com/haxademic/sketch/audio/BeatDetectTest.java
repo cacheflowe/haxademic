@@ -1,17 +1,18 @@
 package com.haxademic.sketch.audio;
 
+import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.util.OpenGLUtil;
 
-@SuppressWarnings("serial")
 public class BeatDetectTest 
 extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
 //	protected ControlP5 _cp5;
 
 	protected void overridePropsFile() {
-		_appConfig.setProperty( "fps", "60" );
+		p.appConfig.setProperty( AppSettings.FPS, "60" );
 	}
 
 

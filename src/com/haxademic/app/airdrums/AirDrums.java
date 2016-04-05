@@ -1,11 +1,8 @@
 package com.haxademic.app.airdrums;
 
-import java.io.File;
 import java.util.ArrayList;
 
-import processing.core.PApplet;
-import toxi.color.TColor;
-
+import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.color.ColorGroup;
@@ -14,6 +11,8 @@ import com.haxademic.core.hardware.kinect.KinectSize;
 import com.haxademic.core.system.FileUtil;
 
 import ddf.minim.AudioPlayer;
+import processing.core.PApplet;
+import toxi.color.TColor;
 
 public class AirDrums
 extends PAppletHax  
@@ -28,28 +27,27 @@ extends PAppletHax
 	protected ColorGroup _colors;
 	protected float _drawRatio = 1;
 
-	/**
-	 * Auto-initialization of the main class.
-	 */
-	private static final long serialVersionUID = 1L;
 	public static void main(String args[]) {
-		_isFullScreen = true;
 		PApplet.main(new String[] { "--hide-stop", "--bgcolor=000000", "com.haxademic.app.airdrums.AirDrums" });
 	}
 
+	public void settings() {
+		customPropsFile = FileUtil.getFile("properties/airdrums.properties");
+		super.settings();
+	}
+
 	public void setup() {
-		_customPropsFile = FileUtil.getHaxademicDataPath() + "properties" + File.pathSeparator + "airdrums.properties";
 		super.setup();
 		initDrums();
 	}
 	
 	protected void overridePropsFile() {
-		_appConfig.setProperty( "kinect_active", "true" );
+		p.appConfig.setProperty( AppSettings.KINECT_ACTIVE, "true" );
 	}
 
 	public void initDrums() {
-		KINECT_CLOSE = _appConfig.getInt( "kinect_min_mm", 1500 );
-		KINECT_FAR = _appConfig.getInt( "kinect_max_mm", 1700 );
+		KINECT_CLOSE = p.appConfig.getInt( "kinect_min_mm", 1500 );
+		KINECT_FAR = p.appConfig.getInt( "kinect_max_mm", 1700 );
 
 		_colors = new ColorGroup( ColorGroup.NEON );		
 	
@@ -134,7 +132,7 @@ extends PAppletHax
 		}
 
 		protected void detectInteraction() {
-			if( _appConfig.getBoolean("kinect_active", false) == false ) {				
+			if( p.appConfig.getBoolean("kinect_active", false) == false ) {				
 				detectWithMouse();
 			} else {				
 				detectWithKinect();

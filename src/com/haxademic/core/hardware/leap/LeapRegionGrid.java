@@ -31,7 +31,7 @@ implements IJoystickCollection {
 		int sketchH = P.p.height;
 		
 		if(debug == true) {
-			_pg = P.p.createGraphics(sketchW, sketchH, P.OPENGL);
+			_pg = P.p.createGraphics(sketchW, sketchH, P.P3D);
 		}
 		
 		_leapClose = leapClose;

@@ -10,14 +10,7 @@ import org.poly2tri.geometry.polygon.PolygonPoint;
 import org.poly2tri.triangulation.TriangulationPoint;
 import org.poly2tri.triangulation.delaunay.DelaunayTriangle;
 
-import processing.core.PApplet;
-import processing.core.PGraphics;
-import processing.core.PImage;
-import processing.core.PVector;
-import blobDetection.Blob;
-import blobDetection.BlobDetection;
-import blobDetection.EdgeVertex;
-
+import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.util.OpenGLUtil;
@@ -25,9 +18,17 @@ import com.haxademic.core.hardware.kinect.KinectSize;
 import com.haxademic.core.image.filters.FastBlurFilter;
 import com.haxademic.core.math.MathUtil;
 
-@SuppressWarnings("serial")
+import blobDetection.Blob;
+import blobDetection.BlobDetection;
+import blobDetection.EdgeVertex;
+import processing.core.PApplet;
+import processing.core.PGraphics;
+import processing.core.PImage;
+import processing.core.PVector;
+
 public class KinectSilhouette
 extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
 	protected int PIXEL_SIZE = 5;
 	protected final int KINECT_CLOSE = 500;
@@ -49,19 +50,13 @@ extends PAppletHax {
 	ArrayList<PolygonPoint> points = new ArrayList<PolygonPoint>();
 	List<DelaunayTriangle> triangles;
 
-
-	public static void main(String args[]) {
-		_isFullScreen = false;
-		PApplet.main(new String[] { "--hide-stop", "--bgcolor=000000", "com.haxademic.sketch.hardware.kinect_openni.KinectSilhouette" });
-	}
-
 	protected void overridePropsFile() {
-		_appConfig.setProperty( "width", "1024" );
-		_appConfig.setProperty( "height", "768" );
-		_appConfig.setProperty( "rendering", "false" );
-		_appConfig.setProperty( "kinect_active", "true" );
-		_appConfig.setProperty( "kinect_mirrored", "true" );
-		_appConfig.setProperty( "fullscreen", "false" );
+		p.appConfig.setProperty( AppSettings.WIDTH, "1024" );
+		p.appConfig.setProperty( AppSettings.HEIGHT, "768" );
+		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
+		p.appConfig.setProperty( AppSettings.KINECT_ACTIVE, "true" );
+		p.appConfig.setProperty( "kinect_mirrored", "true" );
+		p.appConfig.setProperty( AppSettings.FULLSCREEN, "false" );
 	}
 	
 	public void setup() {
@@ -69,7 +64,7 @@ extends PAppletHax {
 		
 		initBlobDetection();
 
-		_kinectPixelated = createGraphics( KinectSize.WIDTH, KinectSize.WIDTH, P.OPENGL );
+		_kinectPixelated = createGraphics( KinectSize.WIDTH, KinectSize.WIDTH, P.P3D );
 		
 		_particles = new Vector<FloatParticle>();
 		_inactiveParticles = new Vector<FloatParticle>();
@@ -80,7 +75,7 @@ extends PAppletHax {
 	}
 	
 	protected void initBlobDetection() {
-		_silhouette = p.createGraphics( p.width, p.height, P.OPENGL );
+		_silhouette = p.createGraphics( p.width, p.height, P.P3D );
 		
 		// BlobDetection
 		// img which will be sent to detection (a smaller copy of the image frame);

@@ -1,32 +1,26 @@
 package com.haxademic.sketch.test;
 
-import processing.core.PApplet;
-import processing.core.PGraphics;
-
+import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.mesh.PGraphicsKeystone;
 import com.haxademic.core.draw.util.OpenGLUtil;
 
-@SuppressWarnings("serial")
+import processing.core.PGraphics;
+
 public class PGraphicsKeystoneTest
 extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	protected PGraphics _pg;
 	protected PGraphicsKeystone _pgPinnable;
 
-	public static void main(String args[]) {
-//		_isFullScreen = true;
-		_hasChrome = false;
-		PApplet.main(new String[] { PGraphicsKeystoneTest.class.getName() });
-	}
-
 	protected void overridePropsFile() {
-		_appConfig.setProperty( "fps", "60" );
-		_appConfig.setProperty( "width", "1432" );
-		_appConfig.setProperty( "height", "927" );
-		_appConfig.setProperty( "fills_screen", "false" );
-		_appConfig.setProperty( "fullscreen", "false" );
+		p.appConfig.setProperty( AppSettings.FPS, "60" );
+		p.appConfig.setProperty( AppSettings.WIDTH, "1432" );
+		p.appConfig.setProperty( AppSettings.HEIGHT, "927" );
+		p.appConfig.setProperty( AppSettings.FILLS_SCREEN, "false" );
+		p.appConfig.setProperty( AppSettings.FULLSCREEN, "false" );
 	}
 
 	public void setup() {
@@ -35,7 +29,7 @@ extends PAppletHax {
 	}
 
 	protected void buildCanvas() {
-		_pg = p.createGraphics( p.width / 2, p.height / 2, P.OPENGL );
+		_pg = p.createGraphics( p.width / 2, p.height / 2, P.P3D );
 		_pg.smooth(OpenGLUtil.SMOOTH_MEDIUM);
 		_pgPinnable = new PGraphicsKeystone( p, _pg, 12 );
 	}

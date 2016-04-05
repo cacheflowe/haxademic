@@ -1,5 +1,6 @@
 package com.haxademic.sketch.test;
 
+import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.draw.util.OpenGLUtil;
@@ -7,9 +8,9 @@ import com.haxademic.core.math.easing.ElasticFloat;
 
 import controlP5.ControlP5;
 
-@SuppressWarnings("serial")
 public class ElasticFloatTest
 extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
 	public float fric = 0.5f;
 	public float accel = 0.5f;
@@ -18,7 +19,7 @@ extends PAppletHax {
 	protected ControlP5 _cp5;
 
 	protected void overridePropsFile() {
-		_appConfig.setProperty( "fps", "60" );
+		p.appConfig.setProperty( AppSettings.FPS, "60" );
 	}
 
 

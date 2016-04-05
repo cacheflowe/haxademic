@@ -3,20 +3,18 @@ package com.haxademic.sketch.render;
 
 import java.util.ArrayList;
 
+import com.haxademic.core.app.P;
+import com.haxademic.core.draw.mesh.MeshPool;
+import com.haxademic.core.draw.mesh.MeshUtil;
+import com.haxademic.core.draw.util.DrawUtil;
+import com.haxademic.core.render.Renderer;
+
 import processing.core.PApplet;
 import processing.core.PConstants;
 import saito.objloader.OBJModel;
 import toxi.geom.mesh.WETriangleMesh;
 import toxi.processing.ToxiclibsSupport;
 
-import com.haxademic.core.app.P;
-import com.haxademic.core.draw.mesh.MeshPool;
-import com.haxademic.core.draw.mesh.MeshUtil;
-import com.haxademic.core.draw.util.DrawUtil;
-import com.haxademic.core.draw.util.OpenGLUtil;
-import com.haxademic.core.render.Renderer;
-
-@SuppressWarnings("serial")
 public class Mesh360SpinRender 
 extends PApplet
 {
@@ -42,7 +40,7 @@ extends PApplet
 		if( _isSunflow == true ) {
 			p.size( 1280, 720, "hipstersinc.P5Sunflow" );
 		} else {
-			p.size( 1280, 720, PConstants.OPENGL );
+			p.size( 1280, 720, P.P3D );
 //			OpenGLUtil.setQuality( p, OpenGLUtil.HIGH );
 		}
 		

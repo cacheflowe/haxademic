@@ -1,5 +1,6 @@
 package com.haxademic.sketch.test;
 
+import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.util.DrawUtil;
@@ -12,14 +13,14 @@ import com.haxademic.core.system.FileUtil;
 import processing.core.PGraphics;
 import processing.core.PImage;
 
-@SuppressWarnings("serial")
 public class BlurImageTest
 extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	public PImage img;
 
 	protected void overridePropsFile() {
-		_appConfig.setProperty( "fps", "60" );
+		p.appConfig.setProperty( AppSettings.FPS, "60" );
 	}
 
 

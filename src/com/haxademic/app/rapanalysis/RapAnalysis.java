@@ -6,8 +6,7 @@ import java.io.IOException;
 import java.net.MalformedURLException;
 import java.util.ArrayList;
 
-import processing.pdf.PGraphicsPDF;
-
+import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.components.IMouseable;
@@ -21,9 +20,11 @@ import com.lowagie.text.Image;
 import com.lowagie.text.Rectangle;
 import com.lowagie.text.pdf.PdfWriter;
 
-@SuppressWarnings("serial")
+import processing.pdf.PGraphicsPDF;
+
 public class RapAnalysis
-extends PAppletHax{
+extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	// capture --------------
 	protected String _lines[];
@@ -52,11 +53,11 @@ extends PAppletHax{
 	// general setup & context switching -------------------------------------------------------
 	protected void overridePropsFile() {
 		if( _isCapturingData == true ) {
-			_appConfig.setProperty( "rendering", "false" );
+			p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
 		}
-		_appConfig.setProperty( "fps", "100" );
-		_appConfig.setProperty( "width", "800" );
-		_appConfig.setProperty( "height", "1300" );
+		p.appConfig.setProperty( AppSettings.FPS, "100" );
+		p.appConfig.setProperty( AppSettings.WIDTH, "800" );
+		p.appConfig.setProperty( AppSettings.HEIGHT, "1300" );
 	}
 
 	public void setup() {

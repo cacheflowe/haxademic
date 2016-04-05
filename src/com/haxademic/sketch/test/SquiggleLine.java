@@ -1,21 +1,22 @@
 package com.haxademic.sketch.test;
 
-import processing.core.PGraphics;
-
+import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.util.OpenGLUtil;
 import com.haxademic.core.math.easing.EasingFloat;
 
-@SuppressWarnings("serial")
+import processing.core.PGraphics;
+
 public class SquiggleLine 
 extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
 	protected Squiggle _squiggle;
 
 	protected void overridePropsFile() {
-		_appConfig.setProperty( "fps", "30" );
-		_appConfig.setProperty( "rendering", "false" );
+		p.appConfig.setProperty( AppSettings.FPS, "30" );
+		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
 	}
 
 
@@ -51,7 +52,7 @@ extends PAppletHax {
 			_amplitude = amplitude;
 			_speed = speed;
 			_color = color;
-			pg = p.createGraphics( amplitude * 2 + weight, height, P.OPENGL );
+			pg = p.createGraphics( amplitude * 2 + weight, height, P.P3D );
 			pg.smooth(OpenGLUtil.SMOOTH_HIGH);
 			
 			_easingInc = new EasingFloat( 0, 6f );

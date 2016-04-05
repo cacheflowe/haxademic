@@ -17,9 +17,9 @@ import toxi.geom.mesh.TriangleMesh;
 import toxi.math.waves.AbstractWave;
 import toxi.processing.ToxiclibsSupport;
 
-@SuppressWarnings("serial")
 public class ToxiColors
-extends PAppletHax{
+extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	TriangleMesh mesh = new TriangleMesh();
 
 	AbstractWave modX, modY;

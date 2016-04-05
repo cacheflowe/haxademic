@@ -10,9 +10,9 @@ import ddf.minim.ugens.Oscil;
 import ddf.minim.ugens.Waveform;
 import ddf.minim.ugens.Waves;
 
-@SuppressWarnings("serial")
 public class MinimSynthTest 
 extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	/* waveformExample<br/>
 	   is an example of how to construct different waveforms 
 	   for different tones from an oscillator.

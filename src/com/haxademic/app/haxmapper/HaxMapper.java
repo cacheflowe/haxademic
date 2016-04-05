@@ -15,6 +15,7 @@ import com.haxademic.app.haxmapper.textures.BaseTexture;
 import com.haxademic.app.haxmapper.textures.TextureKinectFacePlayback;
 import com.haxademic.app.haxmapper.textures.TextureKinectFaceRecording;
 import com.haxademic.app.haxmapper.textures.TextureVideoPlayer;
+import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.data.ConvertUtil;
@@ -46,13 +47,12 @@ import com.haxademic.core.math.MathUtil;
 import com.haxademic.sketch.hardware.kinect_openni.KinectFaceRecorder;
 
 import oscP5.OscMessage;
-import processing.core.PConstants;
 import processing.core.PGraphics;
 
 
-@SuppressWarnings("serial")
 public class HaxMapper
 extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 		
 	// mesh polygons & graphics layers
 	protected String _inputFileLines[];
@@ -66,7 +66,7 @@ extends PAppletHax {
 	protected FullMaskTextureOverlay _fullMaskTexture;
 	
 	// texture pool
-	public static int MAX_ACTIVE_TEXTURES = 3;
+	public static int MAX_ACTIVE_TEXTURES = 4;
 	public static int MAX_ACTIVE_TEXTURES_PER_GROUP = 2;
 	public static int MAX_ACTIVE_MOVIE_TEXTURES = 2;
 	protected ArrayList<BaseTexture> _texturePool;
@@ -133,11 +133,11 @@ extends PAppletHax {
 	}
 
 	protected void overridePropsFile() {
-		_appConfig.setProperty( "rendering", "false" );
-		_appConfig.setProperty( "fullscreen", "true" );
-		_appConfig.setProperty( "fills_screen", "true" );
-		_appConfig.setProperty( "kinect_active", "false" );
-		_appConfig.setProperty( "osc_active", "true" );
+		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
+		p.appConfig.setProperty( AppSettings.FULLSCREEN, "true" );
+		p.appConfig.setProperty( AppSettings.FILLS_SCREEN, "true" );
+		p.appConfig.setProperty( AppSettings.KINECT_ACTIVE, "false" );
+		p.appConfig.setProperty( "osc_active", "true" );
 	}
 	
 	/////////////////////////////////////////////////////////////////
@@ -146,8 +146,9 @@ extends PAppletHax {
 
 	public void setup() {
 		super.setup();
-		p.smooth(OpenGLUtil.SMOOTH_LOW);
-//		p.noSmooth();
+//		p.hint(P.DISABLE_DEPTH_SORT);
+//		p.hint(P.DISABLE_DEPTH_TEST);
+//		p.hint(P.DISABLE_DEPTH_MASK);
 		noStroke();
 		importPolygons();
 		for( int i=0; i < _mappingGroups.size(); i++ ) _mappingGroups.get(i).completePolygonImport();
@@ -158,12 +159,13 @@ extends PAppletHax {
 	protected void importPolygons() {
 		_boundingBox = new Rectangle(-1, -1, 0, 0);
 		
-		_overlayPG = P.p.createGraphics( p.width, p.height, PConstants.OPENGL );
+		_overlayPG = P.p.createGraphics( p.width, p.height, P.P3D );
 		_overlayPG.smooth(OpenGLUtil.SMOOTH_MEDIUM);
-//		_overlayPG.noSmooth();
+//		_overlayPG.hint(P.DISABLE_DEPTH_SORT);
+
 		_mappingGroups = new ArrayList<MappingGroup>();
 		
-		if( _appConfig.getString("mapping_file", "") == "" ) {
+		if( p.appConfig.getString("mapping_file", "") == "" ) {
 			_mappingGroups.add( new MappingGroup( this, _overlayPG, _boundingBox) );
 			for(int i=0; i < 200; i++ ) {
 				// create triangle
@@ -183,7 +185,7 @@ extends PAppletHax {
 			}
 			_mappingGroups.get(0).addPolygon( new MappedTriangle( 100, 200, 400, 700, 650, 300 ) );
 		} else {
-			_inputFileLines = loadStrings(_appConfig.getString("mapping_file", ""));
+			_inputFileLines = loadStrings(p.appConfig.getString("mapping_file", ""));
 			for( int i=0; i < _inputFileLines.length; i++ ) {
 				String inputLine = _inputFileLines[i]; 
 				// count lines that contain characters
@@ -233,7 +235,7 @@ extends PAppletHax {
 	
 	protected void buildOverlayMask() {
 		// draw black on white
-		_fullMask = p.createGraphics(p.width, p.height, P.OPENGL);
+		_fullMask = p.createGraphics(p.width, p.height, P.P3D);
 		_fullMask.smooth(OpenGLUtil.SMOOTH_HIGH);
 		_fullMask.beginDraw();
 		_fullMask.background(255);
@@ -244,7 +246,7 @@ extends PAppletHax {
 		_fullMask.endDraw();
 		
 		// crate simple black overlay with polygons excluded via masking 
-		_fullMaskOverlay = p.createGraphics(p.width, p.height, P.OPENGL);
+		_fullMaskOverlay = p.createGraphics(p.width, p.height, P.P3D);
 		_fullMaskOverlay.smooth(OpenGLUtil.SMOOTH_HIGH);
 		_fullMaskOverlay.beginDraw();
 		_fullMaskOverlay.background(0);
@@ -277,14 +279,9 @@ extends PAppletHax {
 		_fullMaskTexture = new FullMaskTextureOverlay(_overlayPG, _boundingBox);
 		addTexturesToPool();
 		storeVideoTextures();
-//		buildMappingGroups();
 		cycleANewTexture(null);
 	}
 			
-//	protected void buildMappingGroups() {
-//		setAllSameTexture();
-//	}
-	
 	protected void addTexturesToPool() {
 		// override this!
 	}
@@ -303,14 +300,13 @@ extends PAppletHax {
 	/////////////////////////////////////////////////////////////////
 
 	public void drawApp() {
-//		p.blendMode(P.BLEND);
 		background(0);
 		if(_faceRecorder != null) updateFaceRecorder();
 		checkBeat();
 		updateActiveTextures();
 		filterActiveTextures();
 		drawMappingGroups();
-//		drawOverlays();
+		drawOverlays();
 		postProcessFilters();
 		drawOverlayMask();
 		runDmxLights();
@@ -325,7 +321,7 @@ extends PAppletHax {
 	
 	protected void drawOverlays() {
 		// let current overlay texture update before overlay pgraphics buffer gets composited
-		_overlayTexturePool.get(0).update();
+		if(_overlayTexturePool.size() > 0) _overlayTexturePool.get(0).update();
 		
 		// draw mesh & overlay on top
 		_overlayPG.beginDraw();
@@ -334,7 +330,7 @@ extends PAppletHax {
 			_mappingGroups.get(i).drawOverlay();
 		}
 		// draw semi-transparent current texture on top
-		if(_fullMaskTexture != null) _fullMaskTexture.drawOverlay();
+		if(_overlayTexturePool.size() > 0) _fullMaskTexture.drawOverlay();
 		_overlayPG.endDraw();
 		
 		// draw composited overlay buffer
@@ -354,9 +350,15 @@ extends PAppletHax {
 	}
 
 	protected void debugTextures() {
+		DrawUtil.setPImageAlpha(p, 1);
 		// debug current textures
 		for( int i=0; i < _activeTextures.size(); i++ ) {
 			p.image(_activeTextures.get(i).texture(), i * 100, p.height - 100, 100, 100);
+		}
+		// debug overlay texture
+		if(_overlayTexturePool.size() > 0) {
+			p.image(_fullMaskTexture.texture(), p.width - 100, p.height - 100, 100, 100);
+
 		}
 	}
 	
@@ -397,6 +399,7 @@ extends PAppletHax {
 	}
 
 	protected void nextOverlayTexture() {
+		if(_overlayTexturePool.size() == 0)  return;
 		// cycle the first to the last element & set on fullMaskTexture 
 		_overlayTexturePool.add(_overlayTexturePool.remove(0));
 		_fullMaskTexture.setTexture(_overlayTexturePool.get(0));
@@ -449,14 +452,18 @@ extends PAppletHax {
 			_activeTextures.remove(0).setActive(false);
 		}
 		
-		// make sure mapping groups update their textures - this will do nothing if the group already has the random active texture
-		for( int i=0; i < _mappingGroups.size(); i++ ) {
-			_mappingGroups.get(i).pushTexture( randomCurTexture().setActive(true), _activeTextures );
-		}
+		sendRandomTextureToGroups();
 		
 		// swap filters 
 		selectNewActiveTextureFilters();
 		// debugLogActiveTextures();
+	}
+	
+	protected void sendRandomTextureToGroups() {
+		// make sure mapping groups update their textures - this will do nothing if the group already has the random active texture
+		for( int i=0; i < _mappingGroups.size(); i++ ) {
+			_mappingGroups.get(i).pushTexture( randomCurTexture().setActive(true), _activeTextures );
+		}
 	}
 	
 	public void debugLogActiveTextures() {
@@ -480,65 +487,65 @@ extends PAppletHax {
 	}
 	
 	protected void filterActiveTextures() {
-		// if(_debugTextures == false) return; 
 		for( int i=0; i < _activeTextures.size(); i++ ) {
-			PGraphics pg = _activeTextures.get(i).texture();
-			float filterTime = p.frameCount / 40f;
-			
-			if(_textureEffectsIndices[i] == 1) {
-				KaleidoFilter.instance(p).setSides(4);
-				KaleidoFilter.instance(p).setAngle(filterTime / 10f);
-				KaleidoFilter.instance(p).applyTo(pg);
-			} else if(_textureEffectsIndices[i] == 2) {
-				DeformTunnelFanFilter.instance(p).setTime(filterTime);
-				DeformTunnelFanFilter.instance(p).applyTo(p);
-			} else if(_textureEffectsIndices[i] == 3) {
-				EdgesFilter.instance(p).applyTo(pg);
-			} else if(_textureEffectsIndices[i] == 4) {
-				MirrorFilter.instance(p).applyTo(pg);
-			} else if(_textureEffectsIndices[i] == 5) {
-				WobbleFilter.instance(p).setTime(filterTime);
-				WobbleFilter.instance(p).setSpeed(0.5f);
-				WobbleFilter.instance(p).setStrength(0.0004f);
-				WobbleFilter.instance(p).setSize( 200f);
-				WobbleFilter.instance(p).applyTo(pg);
-//			} else if(_textureEffectsIndices[i] == 6) {
-//				InvertFilter.instance(p).applyTo(pg);
-			} else if(_textureEffectsIndices[i] == 7) {
-				RadialRipplesFilter.instance(p).setTime(filterTime);
-				RadialRipplesFilter.instance(p).setAmplitude(0.5f + 0.5f * P.sin(filterTime));
-				RadialRipplesFilter.instance(p).applyTo(pg);
-			} else if(_textureEffectsIndices[i] == 8) {
-				BadTVLinesFilter.instance(p).applyTo(pg);
-//			} else if(_textureEffectsIndices[i] == 9) {
-//				EdgesFilter.instance(p).applyTo(pg);
-			} else if(_textureEffectsIndices[i] == 10) {
-				CubicLensDistortionFilter.instance(p).setTime(filterTime);
-				CubicLensDistortionFilter.instance(p).applyTo(pg);
-			} else if(_textureEffectsIndices[i] == 11) {
-				SphereDistortionFilter.instance(p).applyTo(pg);
-			} else if(_textureEffectsIndices[i] == 12) {
-				HalftoneFilter.instance(p).applyTo(pg);
-			} else if(_textureEffectsIndices[i] == 13) {
-				PixelateFilter.instance(p).setDivider(15f, 15f * pg.height/pg.width);
-				PixelateFilter.instance(p).applyTo(pg);
-			} else if(_textureEffectsIndices[i] == 14) {
-				DeformBloomFilter.instance(p).setTime(filterTime);
-				DeformBloomFilter.instance(p).applyTo(pg);
-			} else if(_textureEffectsIndices[i] == 15) {
-				DeformTunnelFanFilter.instance(p).setTime(filterTime);
-				DeformTunnelFanFilter.instance(p).applyTo(pg);
-			} else if(_textureEffectsIndices[i] == 16) {
-				HueFilter.instance(p).setTime(filterTime);
-				HueFilter.instance(p).applyTo(pg);
+			if(_activeTextures.get(i).isActive() == true) {
+				PGraphics pg = _activeTextures.get(i).texture();
+				float filterTime = p.frameCount / 40f;
+				
+				if(_textureEffectsIndices[i] == 1) {
+					KaleidoFilter.instance(p).setSides(4);
+					KaleidoFilter.instance(p).setAngle(filterTime / 10f);
+					KaleidoFilter.instance(p).applyTo(pg);
+				} else if(_textureEffectsIndices[i] == 2) {
+					DeformTunnelFanFilter.instance(p).setTime(filterTime);
+					DeformTunnelFanFilter.instance(p).applyTo(p);
+				} else if(_textureEffectsIndices[i] == 3) {
+					EdgesFilter.instance(p).applyTo(pg);
+				} else if(_textureEffectsIndices[i] == 4) {
+					MirrorFilter.instance(p).applyTo(pg);
+				} else if(_textureEffectsIndices[i] == 5) {
+					WobbleFilter.instance(p).setTime(filterTime);
+					WobbleFilter.instance(p).setSpeed(0.5f);
+					WobbleFilter.instance(p).setStrength(0.0004f);
+					WobbleFilter.instance(p).setSize( 200f);
+					WobbleFilter.instance(p).applyTo(pg);
+	//			} else if(_textureEffectsIndices[i] == 6) {
+	//				InvertFilter.instance(p).applyTo(pg);
+				} else if(_textureEffectsIndices[i] == 7) {
+					RadialRipplesFilter.instance(p).setTime(filterTime);
+					RadialRipplesFilter.instance(p).setAmplitude(0.5f + 0.5f * P.sin(filterTime));
+					RadialRipplesFilter.instance(p).applyTo(pg);
+				} else if(_textureEffectsIndices[i] == 8) {
+					BadTVLinesFilter.instance(p).applyTo(pg);
+	//			} else if(_textureEffectsIndices[i] == 9) {
+	//				EdgesFilter.instance(p).applyTo(pg);
+				} else if(_textureEffectsIndices[i] == 10) {
+					CubicLensDistortionFilter.instance(p).setTime(filterTime);
+					CubicLensDistortionFilter.instance(p).applyTo(pg);
+				} else if(_textureEffectsIndices[i] == 11) {
+					SphereDistortionFilter.instance(p).applyTo(pg);
+				} else if(_textureEffectsIndices[i] == 12) {
+					HalftoneFilter.instance(p).applyTo(pg);
+				} else if(_textureEffectsIndices[i] == 13) {
+					PixelateFilter.instance(p).setDivider(15f, 15f * pg.height/pg.width);
+					PixelateFilter.instance(p).applyTo(pg);
+				} else if(_textureEffectsIndices[i] == 14) {
+					DeformBloomFilter.instance(p).setTime(filterTime);
+					DeformBloomFilter.instance(p).applyTo(pg);
+				} else if(_textureEffectsIndices[i] == 15) {
+					DeformTunnelFanFilter.instance(p).setTime(filterTime);
+					DeformTunnelFanFilter.instance(p).applyTo(pg);
+				} else if(_textureEffectsIndices[i] == 16) {
+					HueFilter.instance(p).setTime(filterTime);
+					HueFilter.instance(p).applyTo(pg);
+				}
+	//			WarperFilter.instance(p).setTime( _timeEaseInc / 5f);
+	//			WarperFilter.instance(p).applyTo(pg);
+	//			ColorDistortionFilter.instance(p).setTime( _timeEaseInc / 5f);
+	//			ColorDistortionFilter.instance(p).setAmplitude(1.5f + 1.5f * P.sin(radsComplete));
+	//			ColorDistortionFilter.instance(p).applyTo(pg);
+	//			OpenGLUtil.setTextureRepeat(_buffer);
 			}
-//			WarperFilter.instance(p).setTime( _timeEaseInc / 5f);
-//			WarperFilter.instance(p).applyTo(pg);
-//			ColorDistortionFilter.instance(p).setTime( _timeEaseInc / 5f);
-//			ColorDistortionFilter.instance(p).setAmplitude(1.5f + 1.5f * P.sin(radsComplete));
-//			ColorDistortionFilter.instance(p).applyTo(pg);
-//			OpenGLUtil.setTextureRepeat(_buffer);
-
 		}
 	}
 	
@@ -596,6 +603,9 @@ extends PAppletHax {
 	
 	protected void traverseTrigger() {
 		getRandomGroup().traverseStart();
+		
+		// now also send a random texture to a group
+		sendRandomTextureToGroups();
 	}
 	
 	/////////////////////////////////////////////////////////////////
@@ -673,41 +683,6 @@ extends PAppletHax {
 		if ( _debugTexturesTrigger.active() == true ) _debugTextures = !_debugTextures;
 	}
 	
-	/////////////////////////////////////////////////////////////////
-	// Group/polygon mode updates
-	/////////////////////////////////////////////////////////////////
-
-	protected void newMode() {
-		for( int i=0; i < _mappingGroups.size(); i++ ) 
-			_mappingGroups.get(i).newMode();
-	}
-	
-	protected void updateColor() {
-		// sometimes do all groups, but mostly pick a random group to change
-		if( MathUtil.randRange(0, 100) > 80 ) {
-			for( int i=0; i < _mappingGroups.size(); i++ )
-				_mappingGroups.get(i).newColor();
-		} else {
-			getRandomGroup().newColor();
-		}
-	}
-	
-	protected void updateLineMode() {
-		// sometimes do all groups, but mostly pick a random one to change
-		if( MathUtil.randRange(0, 100) > 80 ) {
-			for( int i=0; i < _mappingGroups.size(); i++ )
-				_mappingGroups.get(i).newLineMode();
-		} else {
-			getRandomGroup().newLineMode();
-		}
-	}
-	
-	protected void updateRotation() {
-		randomActiveTexture().newRotation();
-		for( int i=0; i < _mappingGroups.size(); i++ )
-			_mappingGroups.get(i).newRotation();
-	}
-	
 	protected void updateTiming() {
 		// pass beat detection on to textures and lighting
 		if(_dmxLights != null) _dmxLights.updateDmxLightsOnBeat();
@@ -760,6 +735,43 @@ extends PAppletHax {
 		}
 	}
 	
+	
+	/////////////////////////////////////////////////////////////////
+	// Group/polygon mode updates
+	/////////////////////////////////////////////////////////////////
+
+	protected void newMode() {
+		for( int i=0; i < _mappingGroups.size(); i++ ) 
+			_mappingGroups.get(i).newMode();
+	}
+	
+	protected void updateColor() {
+		// sometimes do all groups, but mostly pick a random group to change
+		if( MathUtil.randRange(0, 100) > 80 ) {
+			for( int i=0; i < _mappingGroups.size(); i++ )
+				_mappingGroups.get(i).newColor();
+		} else {
+			getRandomGroup().newColor();
+		}
+	}
+	
+	protected void updateLineMode() {
+		// sometimes do all groups, but mostly pick a random one to change
+		if( MathUtil.randRange(0, 100) > 80 ) {
+			for( int i=0; i < _mappingGroups.size(); i++ )
+				_mappingGroups.get(i).newLineMode();
+		} else {
+			getRandomGroup().newLineMode();
+		}
+	}
+	
+	protected void updateRotation() {
+		randomActiveTexture().newRotation();
+		for( int i=0; i < _mappingGroups.size(); i++ )
+			_mappingGroups.get(i).newRotation();
+	}
+	
+
 	protected void updateTimingSection() {
 		if(_overlayTexturePool.size() > 0) _overlayTexturePool.get(0).updateTimingSection();
 

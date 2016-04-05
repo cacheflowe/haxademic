@@ -13,9 +13,9 @@ import toxi.geom.Vec3D;
 import toxi.geom.mesh.TriangleMesh;
 import toxi.processing.ToxiclibsSupport;
 
-@SuppressWarnings("serial")
 public class PointMeshToxiExample 
 extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	// container for mesh positions
 	List<Vec3D> positions=new ArrayList<Vec3D>();

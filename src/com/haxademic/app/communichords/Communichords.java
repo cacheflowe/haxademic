@@ -2,6 +2,7 @@ package com.haxademic.app.communichords;
 
 import java.util.ArrayList;
 
+import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.color.ColorHaxEasing;
@@ -22,10 +23,10 @@ import ddf.minim.ugens.Gain;
 import ddf.minim.ugens.Sampler;
 
 
-@SuppressWarnings("serial")
 public class Communichords
 extends PAppletHax {
-	
+
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }	
 	/**
 	 * TODO SOFTWARE:
 	 * - Make sure sample rates are correct to play notes from C
@@ -70,7 +71,7 @@ extends PAppletHax {
 			};
 
 	protected void overridePropsFile() {
-		p.appConfig.setProperty( "kinect_active", "true" );
+		p.appConfig.setProperty( AppSettings.KINECT_ACTIVE, "true" );
 		p.appConfig.setProperty( "kinect_min_mm", "600" );
 		p.appConfig.setProperty( "kinect_max_mm", "2500" );
 		p.appConfig.setProperty( "kinect_top_pixel", "0" );

@@ -10,9 +10,9 @@
 //import com.haxademic.core.system.FileUtil;
 //import com.haxademic.core.system.SystemUtil;
 //
-//@SuppressWarnings("serial")
-//public class SunflowJoonsTest
+////public class SunflowJoonsTest
 //extends PAppletHax {
+//	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 //
 //	JoonsRenderer jr;
 //	boolean rendered = false;
@@ -35,9 +35,9 @@
 //	WETriangleMesh _mesh;
 //
 //	protected void overridePropsFile() {
-//		_appConfig.setProperty( "rendering", "false" );
-//		_appConfig.setProperty( "width", "1280" );
-//		_appConfig.setProperty( "height", "720" );
+//		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
+//		p.appConfig.setProperty( AppSettings.WIDTH, "1280" );
+//		p.appConfig.setProperty( AppSettings.HEIGHT, "720" );
 //	}
 //
 //	public void setup() {

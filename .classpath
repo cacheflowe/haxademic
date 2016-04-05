@@ -2,6 +2,7 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="data"/>
+	<classpathentry kind="src" path="lib/opencv-processing/src"/>
 	<classpathentry kind="lib" path="lib/Ess/library/Ess.jar"/>
 	<classpathentry kind="lib" path="lib/toxiclibs-complete-0020/toxiclibs_p5/library/toxiclibs_p5.jar"/>
 	<classpathentry kind="lib" path="lib/toxiclibs-complete-0020/toxiclibscore/library/toxiclibscore.jar"/>
@@ -21,33 +22,45 @@
 	<classpathentry kind="lib" path="lib/super-csv/super-csv-2.1.0.jar"/>
 	<classpathentry kind="lib" path="lib/joons/library/janino.jar"/>
 	<classpathentry kind="lib" path="lib/joons/library/sunflow73.jar"/>
+	<classpathentry kind="lib" path="lib/processing-2.0/libraries/minim/library/jl1.0.jar"/>
+	<classpathentry kind="lib" path="lib/processing-2.0/libraries/minim/library/jsminim.jar"/>
+	<classpathentry kind="lib" path="lib/processing-2.0/libraries/minim/library/minim.jar"/>
+	<classpathentry kind="lib" path="lib/processing-2.0/libraries/minim/library/mp3spi1.9.4.jar"/>
+	<classpathentry kind="lib" path="lib/processing-2.0/libraries/minim/library/tritonus_aos.jar"/>
+	<classpathentry kind="lib" path="lib/processing-2.0/libraries/minim/library/tritonus_share.jar"/>
 	<classpathentry kind="lib" path="lib/newhull/library/newhull.jar"/>
 	<classpathentry kind="lib" path="lib/ProGAL/ProGAL.jar"/>
-	<classpathentry kind="lib" path="lib/UMovieMaker/library/monte-cc.jar"/>
-	<classpathentry kind="lib" path="lib/UMovieMaker/library/UMovieMaker.jar"/>
-	<classpathentry kind="lib" path="lib/controlP5/library/controlP5.jar"/>
-	<classpathentry kind="lib" path="lib/udp/library/udp.jar"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/J2SE-1.5"/>
-	<classpathentry kind="lib" path="lib/leap-motion-processing/library/LeapJava.jar"/>
-	<classpathentry kind="lib" path="lib/leap-motion-processing/library/LeapMotionForProcessing.jar"/>
-	<classpathentry combineaccessrules="false" kind="src" path="/Kinect4PV2">
+	<classpathentry kind="lib" path="lib/processing-2.0/libraries/net/library/net.jar"/>
+	<classpathentry kind="lib" path="lib/LeapMotionForProcessing/library/LeapJava.jar"/>
+	<classpathentry kind="lib" path="lib/LeapMotionForProcessing/library/LeapMotionForProcessing.jar" sourcepath="lib/LeapMotionForProcessing/src">
 		<attributes>
-			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="Kinect4PV2/library"/>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="haxademic/lib/LeapMotionForProcessing/library/macosx"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry kind="lib" path="/ohheckyeah/lib/poly2tri/lib/poly2tri-core-0.1.1-SNAPSHOT.jar"/>
-	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/processing-2.2.1"/>
-	<classpathentry kind="lib" path="/ohheckyeah/lib/processing-2/libraries/video/library/gstreamer-java.jar"/>
-	<classpathentry kind="lib" path="/ohheckyeah/lib/processing-2/libraries/pdf/library/itext.jar"/>
-	<classpathentry kind="lib" path="/ohheckyeah/lib/processing-2/libraries/pdf/library/pdf.jar"/>
-	<classpathentry kind="lib" path="/ohheckyeah/lib/processing-2/libraries/minim/library/jl1.0.jar"/>
-	<classpathentry kind="lib" path="/ohheckyeah/lib/processing-2/libraries/minim/library/jsminim.jar"/>
-	<classpathentry kind="lib" path="/ohheckyeah/lib/processing-2/libraries/minim/library/minim.jar"/>
-	<classpathentry kind="lib" path="/ohheckyeah/lib/processing-2/libraries/minim/library/mp3spi1.9.4.jar"/>
-	<classpathentry kind="lib" path="/ohheckyeah/lib/processing-2/libraries/minim/library/tritonus_aos.jar"/>
-	<classpathentry kind="lib" path="/ohheckyeah/lib/processing-2/libraries/minim/library/tritonus_share.jar"/>
-	<classpathentry kind="lib" path="/ohheckyeah/lib/processing-2/libraries/video/library/jna.jar"/>
-	<classpathentry kind="lib" path="/ohheckyeah/lib/processing-2/libraries/video/library/video.jar"/>
-	<classpathentry kind="lib" path="/ohheckyeah/lib/SimpleLoggingFacade4Java/lib/slf4j-api-1.6.3.jar"/>
+	<classpathentry kind="lib" path="lib/processing-2.0/libraries/pdf/library/itext.jar"/>
+	<classpathentry kind="lib" path="lib/processing-2.0/libraries/pdf/library/pdf.jar"/>
+	<classpathentry kind="lib" path="lib/itext/itext-2.0.7.jar"/>
+	<classpathentry kind="lib" path="lib/UMovieMaker/library/monte-cc.jar"/>
+	<classpathentry kind="lib" path="lib/UMovieMaker/library/UMovieMaker.jar"/>
+	<classpathentry kind="lib" path="lib/poly2tri/poly2tri-core-0.1.1.jar"/>
+	<classpathentry kind="lib" path="lib/poly2tri/slf4j-api-1.6.3.jar"/>
+	<classpathentry kind="lib" path="lib/udp/library/udp.jar"/>
+	<classpathentry kind="lib" path="lib/processing-2.0/libraries/dxf/library/dxf.jar"/>
+	<classpathentry kind="lib" path="lib/java_websocket/dist/java_websocket.jar"/>
+	<classpathentry kind="lib" path="lib/KinectPV2/KinectPV2.jar"/>
+	<classpathentry kind="lib" path="lib/opencv-processing/lib/opencv-245.jar">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="haxademic/lib/opencv-processing/lib/macosx64"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="lib/processing-3/core/library/core.jar"/>
+	<classpathentry kind="lib" path="lib/processing-3/core/library/gluegen-rt.jar"/>
+	<classpathentry kind="lib" path="lib/processing-3/core/library/jogl-all.jar"/>
+	<classpathentry kind="lib" path="lib/processing-3/libraries/video/library/gstreamer-java.jar"/>
+	<classpathentry kind="lib" path="lib/processing-3/libraries/video/library/jna.jar"/>
+	<classpathentry kind="lib" path="lib/processing-3/libraries/video/library/video.jar"/>
+	<classpathentry kind="lib" path="lib/controlP5/library/controlP5.jar"/>
+	<classpathentry kind="lib" path="lib/openkinect_processing/library/openkinect_processing.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.launching.macosx.MacOSXType/Java SE 8 [1.8.0_60]"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

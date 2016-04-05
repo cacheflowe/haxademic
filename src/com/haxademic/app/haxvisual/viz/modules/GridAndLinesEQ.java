@@ -129,28 +129,28 @@ implements IVizModule
 	public void handleKeyboardInput()
 	{
 		// clear screen!
-		if ( p.key == 'm' || p.key == 'M' || p._midi.midiPadIsOn( MidiWrapper.PAD_04 ) == 1 || p._midi.midiPadIsOn( MidiWrapper.NOTE_04 ) == 1 || p._oscWrapper.oscMsgIsOn( OscWrapper.MSG_MODE ) == 1 ) {
+		if ( p.key == 'm' || p.key == 'M' || p.midi.midiPadIsOn( MidiWrapper.PAD_04 ) == 1 || p.midi.midiPadIsOn( MidiWrapper.NOTE_04 ) == 1 || p._oscWrapper.oscMsgIsOn( OscWrapper.MSG_MODE ) == 1 ) {
 			pickNewColors();
 			pickMode();
 			newCamera();
 		}
-		if ( p.key == 'c' || p.key == 'C' || p._midi.midiPadIsOn( MidiWrapper.PAD_01 ) == 1 || p._midi.midiPadIsOn( MidiWrapper.NOTE_01 ) == 1 || p._oscWrapper.oscMsgIsOn( OscWrapper.MSG_COLOR ) == 1 ) {
+		if ( p.key == 'c' || p.key == 'C' || p.midi.midiPadIsOn( MidiWrapper.PAD_01 ) == 1 || p.midi.midiPadIsOn( MidiWrapper.NOTE_01 ) == 1 || p._oscWrapper.oscMsgIsOn( OscWrapper.MSG_COLOR ) == 1 ) {
 			pickNewColors();
 		}
-		if ( p.key == 'v' || p.key == 'V' || p._midi.midiPadIsOn( MidiWrapper.PAD_02 ) == 1 || p._midi.midiPadIsOn( MidiWrapper.NOTE_02 ) == 1 || p._oscWrapper.oscMsgIsOn( OscWrapper.MSG_CAMERA ) == 1 ) {
+		if ( p.key == 'v' || p.key == 'V' || p.midi.midiPadIsOn( MidiWrapper.PAD_02 ) == 1 || p.midi.midiPadIsOn( MidiWrapper.NOTE_02 ) == 1 || p._oscWrapper.oscMsgIsOn( OscWrapper.MSG_CAMERA ) == 1 ) {
 			newCamera();
 		}
-		if ( p.key == ' ' || p._midi.midiPadIsOn( MidiWrapper.PAD_07 ) == 1 || p._midi.midiPadIsOn( MidiWrapper.NOTE_07 ) == 1 ) {
+		if ( p.key == ' ' || p.midi.midiPadIsOn( MidiWrapper.PAD_07 ) == 1 || p.midi.midiPadIsOn( MidiWrapper.NOTE_07 ) == 1 ) {
 			//p.background( _r, _g, _b );
 		}
-		if ( p.key == 'l' || p._midi.midiPadIsOn( MidiWrapper.PAD_08 ) == 1 || p._midi.midiPadIsOn( MidiWrapper.NOTE_08 ) == 1 || p._oscWrapper.oscMsgIsOn( OscWrapper.MSG_LINES ) == 1 ) {
+		if ( p.key == 'l' || p.midi.midiPadIsOn( MidiWrapper.PAD_08 ) == 1 || p.midi.midiPadIsOn( MidiWrapper.NOTE_08 ) == 1 || p._oscWrapper.oscMsgIsOn( OscWrapper.MSG_LINES ) == 1 ) {
 			pickStroke();
 		}
-		if ( p.key == '1' || p._midi.midiPadIsOn( MidiWrapper.PAD_09 ) == 1 || p._midi.midiPadIsOn( MidiWrapper.NOTE_09 ) == 1 ) {
+		if ( p.key == '1' || p.midi.midiPadIsOn( MidiWrapper.PAD_09 ) == 1 || p.midi.midiPadIsOn( MidiWrapper.NOTE_09 ) == 1 ) {
 			_curMode = MODE_DEFAULT;
-		} else if ( p.key == '2' || p._midi.midiPadIsOn( MidiWrapper.PAD_10 ) == 1 || p._midi.midiPadIsOn( MidiWrapper.NOTE_10 ) == 1 ) {
+		} else if ( p.key == '2' || p.midi.midiPadIsOn( MidiWrapper.PAD_10 ) == 1 || p.midi.midiPadIsOn( MidiWrapper.NOTE_10 ) == 1 ) {
 			_curMode = MODE_FADE;
-		} else if ( p.key == '3' || p._midi.midiPadIsOn( MidiWrapper.PAD_11 ) == 1 || p._midi.midiPadIsOn( MidiWrapper.NOTE_11 ) == 1 ) {
+		} else if ( p.key == '3' || p.midi.midiPadIsOn( MidiWrapper.PAD_11 ) == 1 || p.midi.midiPadIsOn( MidiWrapper.NOTE_11 ) == 1 ) {
 			_curMode = MODE_FADE_CHOP;
 		}
 	}

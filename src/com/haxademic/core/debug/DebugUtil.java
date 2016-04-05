@@ -21,6 +21,21 @@ public class DebugUtil {
 		System.out.println("---------------------------------");  
 	}
 	
+	public static String memoryMax() {
+		Runtime runtime = Runtime.getRuntime();  
+		return ""+Math.round(runtime.maxMemory() / 1024f);  
+	}
+	
+	public static String memoryAllocated() {
+		Runtime runtime = Runtime.getRuntime();  
+		return ""+Math.round(runtime.totalMemory() / 1024f);  
+	}
+	
+	public static String memoryFree() {
+		Runtime runtime = Runtime.getRuntime();  
+		return ""+Math.round(runtime.freeMemory() / 1024f);  
+	}
+	
 	public static void print( String str ) {
 		System.out.println( str );  
 	}

@@ -2,11 +2,7 @@ package com.haxademic.app.musicvideos;
 
 import java.awt.image.BufferedImage;
 
-import processing.core.PGraphics;
-import processing.core.PImage;
-import processing.opengl.PShader;
-import processing.video.Movie;
-
+import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.util.OpenGLUtil;
@@ -21,9 +17,14 @@ import com.haxademic.core.system.FileUtil;
 import com.jhlabs.image.ContrastFilter;
 import com.jhlabs.image.HSBAdjustFilter;
 
-@SuppressWarnings("serial")
+import processing.core.PGraphics;
+import processing.core.PImage;
+import processing.opengl.PShader;
+import processing.video.Movie;
+
 public class CacheAssaultVideo
 extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
 
 	
@@ -68,19 +69,19 @@ extends PAppletHax {
 
 
 	protected void overridePropsFile() {
-		_appConfig.setProperty( "fps", "30" );
-		_appConfig.setProperty( "video_source_file", FileUtil.getHaxademicDataPath() + "video/Janet Jackson - Control - trimmed.mov" );
-//		_appConfig.setProperty( "video_source_file", FileUtil.getHaxademicDataPath() + "video/Madonna - Lucky Star.mov" );
-		_appConfig.setProperty( "width", "1280" );
-		_appConfig.setProperty( "height", "720" );
-//		_appConfig.setProperty( "disable_esc", "true" );
-		_appConfig.setProperty( "rendering", "true" );
-		_appConfig.setProperty( "render_audio", "true" );
-		_appConfig.setProperty( "render_audio_file", FileUtil.getHaxademicDataPath() + "video/cache-assault-master.wav" );
-		_appConfig.setProperty( "render_midi", "true" );
-		_appConfig.setProperty( "render_midi_file", FileUtil.getHaxademicDataPath() + "video/cache-assault-midi.mid" );
-		_appConfig.setProperty( "render_midi_bpm", "150" );
-		_appConfig.setProperty( "render_midi_offset", "0" );
+		p.appConfig.setProperty( AppSettings.FPS, "30" );
+		p.appConfig.setProperty( "video_source_file", FileUtil.getHaxademicDataPath() + "video/Janet Jackson - Control - trimmed.mov" );
+//		p.appConfig.setProperty( "video_source_file", FileUtil.getHaxademicDataPath() + "video/Madonna - Lucky Star.mov" );
+		p.appConfig.setProperty( AppSettings.WIDTH, "1280" );
+		p.appConfig.setProperty( AppSettings.HEIGHT, "720" );
+//		p.appConfig.setProperty( "disable_esc", "true" );
+		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "true" );
+		p.appConfig.setProperty( AppSettings.RENDER_AUDIO, "true" );
+		p.appConfig.setProperty( AppSettings.RENDER_AUDIO_FILE, FileUtil.getHaxademicDataPath() + "video/cache-assault-master.wav" );
+		p.appConfig.setProperty( AppSettings.RENDER_MIDI, "true" );
+		p.appConfig.setProperty( AppSettings.RENDER_MIDI_FILE, FileUtil.getHaxademicDataPath() + "video/cache-assault-midi.mid" );
+		p.appConfig.setProperty( AppSettings.RENDER_MIDI_BPM, "150" );
+		p.appConfig.setProperty( AppSettings.RENDER_MIDI_OFFSET, "0" );
 	}
 
 	public void setup() {
@@ -92,7 +93,7 @@ extends PAppletHax {
 
 		_curMov = p.createGraphics(width, height, P.P3D);
 		_curFrame = p.createImage(width, height, P.ARGB);
-		_movie = new Movie(this, _appConfig.getString( "video_source_file", "" ));
+		_movie = new Movie(this, p.appConfig.getString( "video_source_file", "" ));
 
 		
 		_triPixelFilter = new PixelTriFilter( _curFrame.width, _curFrame.height, 10 );
@@ -245,13 +246,13 @@ extends PAppletHax {
 	protected void handleInput( boolean isMidi ) {
 		super.handleInput( isMidi );
 //		 P.println(_midi._notesOn);
-		if( isMidi && _midi != null ) {
-			if( _midi.midiNoteIsOn( 58 ) == 1 ) newSection();
-			else if( _midi.midiNoteIsOn( 57 ) == 1 ) newMeasure();
-			else if( _midi.midiNoteIsOn( 65 ) == 1 ) timer();
-			else if( _midi.midiNoteIsOn( 60 ) == 1 ) kick();
-			else if( _midi.midiNoteIsOn( 61 ) == 1 ) snare();
-			else if( _midi.midiNoteIsOn( 62 ) == 1 ) perc();
+		if( isMidi && midi != null ) {
+			if( midi.midiNoteIsOn( 58 ) == 1 ) newSection();
+			else if( midi.midiNoteIsOn( 57 ) == 1 ) newMeasure();
+			else if( midi.midiNoteIsOn( 65 ) == 1 ) timer();
+			else if( midi.midiNoteIsOn( 60 ) == 1 ) kick();
+			else if( midi.midiNoteIsOn( 61 ) == 1 ) snare();
+			else if( midi.midiNoteIsOn( 62 ) == 1 ) perc();
 		} 
 	}
 

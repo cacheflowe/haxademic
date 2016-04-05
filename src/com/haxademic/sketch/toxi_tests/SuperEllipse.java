@@ -11,7 +11,6 @@ import toxi.math.waves.AbstractWave;
 import toxi.math.waves.SineWave;
 import toxi.processing.ToxiclibsSupport;
 
-@SuppressWarnings("serial")
 public class SuperEllipse
 extends PApplet{
 	TriangleMesh mesh = new TriangleMesh();

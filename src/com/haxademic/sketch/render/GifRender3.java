@@ -2,27 +2,28 @@ package com.haxademic.sketch.render;
 
 import java.awt.image.BufferedImage;
 
-import processing.core.PGraphics;
-import processing.core.PImage;
-
+import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.image.AnimatedGifEncoder;
 import com.haxademic.core.system.FileUtil;
 import com.haxademic.core.system.SystemUtil;
 
-@SuppressWarnings("serial")
+import processing.core.PGraphics;
+import processing.core.PImage;
+
 public class GifRender3
-extends PAppletHax{
+extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
 	AnimatedGifEncoder encoder;
 	PGraphics _graphics;
 	PGraphics _mask;
 	
 	protected void overridePropsFile() {
-		_appConfig.setProperty( "width", "200" );
-		_appConfig.setProperty( "height", "200" );
-		_appConfig.setProperty( "rendering", "false" );
+		p.appConfig.setProperty( AppSettings.WIDTH, "200" );
+		p.appConfig.setProperty( AppSettings.HEIGHT, "200" );
+		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
 	}
 	
 	public void setup() {

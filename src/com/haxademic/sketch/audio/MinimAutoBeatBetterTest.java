@@ -10,9 +10,9 @@ import ddf.minim.AudioOutput;
 import ddf.minim.ugens.Instrument;
 import ddf.minim.ugens.Sampler;
 
-@SuppressWarnings("serial")
 public class MinimAutoBeatBetterTest 
 extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
 	// from: // https://github.com/ddf/Minim/blob/master/examples/Advanced/DrumMachine/DrumMachine.pde
 	

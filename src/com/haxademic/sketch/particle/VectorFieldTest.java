@@ -2,42 +2,39 @@ package com.haxademic.sketch.particle;
 
 import java.util.ArrayList;
 
+import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.draw.util.OpenGLUtil;
-import com.haxademic.core.image.filters.shaders.FXAAFilter;
 import com.haxademic.core.math.easing.EasingFloat;
 
 import processing.core.PVector;
 
-@SuppressWarnings("serial")
 public class VectorFieldTest 
 extends PAppletHax
 {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	protected ArrayList<PVector> _vectorField;
 	protected ArrayList<FieldParticle> _particles;
 	
-	public static void main(String args[]) {
-		_hasChrome = false;
-		PAppletHax.main(P.concat(args, new String[] { "--hide-stop", "--bgcolor=000000", Thread.currentThread().getStackTrace()[1].getClassName() }));
-	}
-
+	
 	protected void overridePropsFile() {
-		_appConfig.setProperty( "width", "1280" );
-		_appConfig.setProperty( "height", "720" );
-		_appConfig.setProperty( "fills_screen", "true" );
-		_appConfig.setProperty( "force_foreground", "true" );
-//		_appConfig.setProperty( "fps", "30" );
-//		_appConfig.setProperty( "rendering", "true" );
+		p.appConfig.setProperty( AppSettings.WIDTH, 1280 );
+		p.appConfig.setProperty( AppSettings.HEIGHT, 720 );
+		p.appConfig.setProperty( AppSettings.FULLSCREEN, false );
+//		p.appConfig.setProperty( AppSettings.DISPLAY, 2 );
+		p.appConfig.setProperty( AppSettings.FILLS_SCREEN, false );
+		p.appConfig.setProperty( AppSettings.RETINA, true );
+		p.appConfig.setProperty( AppSettings.FORCE_FOREGROUND, true );
+		p.appConfig.setProperty( AppSettings.SMOOTHING, OpenGLUtil.SMOOTH_HIGH );
+		p.appConfig.setProperty( AppSettings.SHOW_STATS, false );
+//		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "true" );
 	}
-
+	
 	public void setup() {
 		super.setup();
-		
-		p.smooth(OpenGLUtil.SMOOTH_LOW);
-//		p.smooth();
 		
 		_vectorField = new ArrayList<PVector>();
 		float spacing = 100f;
@@ -90,7 +87,7 @@ extends PAppletHax
 			_particles.get(i).update( _vectorField );
 		}
 		
-		FXAAFilter.instance(p).applyTo(p.g);
+//		FXAAFilter.instance(p).applyTo(p.g);
 	}
 	
 	public class FieldParticle {

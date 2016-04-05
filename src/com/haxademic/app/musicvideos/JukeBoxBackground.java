@@ -1,13 +1,13 @@
 package com.haxademic.app.musicvideos;
 
+import com.haxademic.core.audio.AudioInputWrapper;
+import com.haxademic.core.draw.shapes.Shapes;
+import com.haxademic.core.render.Renderer;
+
 import krister.Ess.AudioInput;
 import processing.core.PApplet;
 import processing.core.PConstants;
 import processing.core.PImage;
-
-import com.haxademic.core.audio.AudioInputWrapper;
-import com.haxademic.core.draw.shapes.Shapes;
-import com.haxademic.core.render.Renderer;
 
 public class JukeBoxBackground
 	extends PApplet

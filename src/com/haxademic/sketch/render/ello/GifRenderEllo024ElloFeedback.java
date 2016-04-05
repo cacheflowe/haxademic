@@ -1,41 +1,40 @@
 package com.haxademic.sketch.render.ello;
 
-import processing.core.PGraphics;
-import processing.core.PShape;
-
+import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.draw.color.ColorHaxEasing;
-import com.haxademic.core.draw.shapes.Gradients;
 import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.draw.util.OpenGLUtil;
 import com.haxademic.core.math.easing.Penner;
 import com.haxademic.core.system.FileUtil;
 
-@SuppressWarnings("serial")
+import processing.core.PGraphics;
+import processing.core.PShape;
+
 public class GifRenderEllo024ElloFeedback
 extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	protected PGraphics _texture;
 	protected PShape _logo;
 	protected float _frames = 40f;
 	
 	protected void overridePropsFile() {
-		_appConfig.setProperty( "width", "640" );
-		_appConfig.setProperty( "height", "640" );
+		p.appConfig.setProperty( AppSettings.WIDTH, "640" );
+		p.appConfig.setProperty( AppSettings.HEIGHT, "640" );
 		
-		_appConfig.setProperty( "rendering", "false" );
-		_appConfig.setProperty( "rendering_gif", "false" );
-		_appConfig.setProperty( "rendering_gif_framerate", "40" );
-		_appConfig.setProperty( "rendering_gif_quality", "1" );
-		_appConfig.setProperty( "rendering_gif_startframe", ""+ Math.round(_frames*3) );
-		_appConfig.setProperty( "rendering_gif_stopframe", ""+Math.round(_frames + _frames*3) );
+		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
+		p.appConfig.setProperty( AppSettings.RENDERING_GIF, "false" );
+		p.appConfig.setProperty( AppSettings.RENDERING_GIF_FRAMERATE, "40" );
+		p.appConfig.setProperty( AppSettings.RENDERING_GIF_QUALITY, "1" );
+		p.appConfig.setProperty( AppSettings.RENDERING_GIF_START_FRAME, ""+ Math.round(_frames*3) );
+		p.appConfig.setProperty( AppSettings.RENDERING_GIF_STOP_FRAME, ""+Math.round(_frames + _frames*3) );
 	}
 	
 	public void setup() {
 		super.setup();
 		
-		_texture = p.createGraphics( p.width, p.height, P.OPENGL );
+		_texture = p.createGraphics( p.width, p.height, P.P3D );
 		_texture.smooth(OpenGLUtil.SMOOTH_HIGH);
 		_texture.beginDraw();
 		_texture.background(0);

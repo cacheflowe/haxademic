@@ -1,30 +1,30 @@
 package com.haxademic.sketch.three_d;
 
+import com.haxademic.core.app.AppSettings;
+import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.draw.shapes.BoxBetween;
+
 import processing.core.PVector;
 import toxi.geom.Sphere;
 import toxi.geom.mesh.Face;
 import toxi.geom.mesh.WETriangleMesh;
 
-import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.draw.shapes.BoxBetween;
-import com.haxademic.core.render.JoonsWrapper;
-
-@SuppressWarnings("serial")
 public class AudioMeshBoxJoons
 extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
 	WETriangleMesh _mesh, _meshDeform;
 	PVector vec = new PVector();
 	PVector vec2 = new PVector();
 
 	protected void overridePropsFile() {
-		_appConfig.setProperty( "sunflow", "true" );
-		_appConfig.setProperty( "sunflow_active", "true" );
-		_appConfig.setProperty( "sunflow_quality", "high" );
-		_appConfig.setProperty( "sunflow_save_images", "true" );
-		_appConfig.setProperty( "width", "1300" );
-		_appConfig.setProperty( "height", "1000" );
-		_appConfig.setProperty( "rendering", "false" );
+		p.appConfig.setProperty( AppSettings.SUNFLOW, "true" );
+		p.appConfig.setProperty( AppSettings.SUNFLOW_ACTIVE, "true" );
+		p.appConfig.setProperty( AppSettings.SUNFLOW_QUALITY, "high" );
+		p.appConfig.setProperty( "sunflow_save_images", "true" );
+		p.appConfig.setProperty( AppSettings.WIDTH, "1300" );
+		p.appConfig.setProperty( AppSettings.HEIGHT, "1000" );
+		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
 	}
 
 	public void setup() {

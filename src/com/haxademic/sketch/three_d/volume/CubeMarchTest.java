@@ -3,17 +3,18 @@ package com.haxademic.sketch.three_d.volume;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 
-import processing.core.PImage;
-import processing.core.PVector;
-import toxi.geom.Vec3D;
-
+import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.shapes.MarchingCubes;
 import com.haxademic.core.hardware.kinect.KinectSize;
 
-@SuppressWarnings("serial")
+import processing.core.PImage;
+import processing.core.PVector;
+import toxi.geom.Vec3D;
+
 public class CubeMarchTest 
 extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	// from: http://iwearshorts.com/blog/bubble-boy2/
 
@@ -38,10 +39,10 @@ extends PAppletHax {
 	PrintWriter output;
 	
 	protected void overridePropsFile() {
-		_appConfig.setProperty( "rendering", "false" );
-		_appConfig.setProperty( "kinect_active", "true" );
-		_appConfig.setProperty( "width", "1024" );
-		_appConfig.setProperty( "height", "768" );
+		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
+		p.appConfig.setProperty( AppSettings.KINECT_ACTIVE, "true" );
+		p.appConfig.setProperty( AppSettings.WIDTH, "1024" );
+		p.appConfig.setProperty( AppSettings.HEIGHT, "768" );
 	}
 
 

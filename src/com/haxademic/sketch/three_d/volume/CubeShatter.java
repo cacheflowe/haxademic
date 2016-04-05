@@ -2,8 +2,10 @@ package com.haxademic.sketch.three_d.volume;
 
 import java.util.ArrayList;
 
+import com.haxademic.core.app.P;
+import com.haxademic.core.draw.util.DrawUtil;
+
 import processing.core.PApplet;
-import processing.core.PConstants;
 import toxi.geom.Vec3D;
 import toxi.geom.mesh.WETriangleMesh;
 import toxi.processing.ToxiclibsSupport;
@@ -15,9 +17,6 @@ import wblut.hemesh.creators.HEC_Box;
 import wblut.hemesh.creators.HEC_Geodesic;
 import wblut.hemesh.creators.HEMC_VoronoiCells;
 
-import com.haxademic.core.draw.util.DrawUtil;
-
-@SuppressWarnings("serial")
 public class CubeShatter
 extends PApplet
 {
@@ -39,7 +38,7 @@ extends PApplet
 		p = this;
 		// set up stage and drawing properties
 		//size( 800, 800, "hipstersinc.P5Sunflow" );
-		p.size( 800, 800, PConstants.OPENGL );				//size(screen.width,screen.height,P3D);
+		p.size( 800, 800, P.P3D );				//size(screen.width,screen.height,P3D);
 		p.frameRate( 30 );
 
 		p.shininess(1000); 

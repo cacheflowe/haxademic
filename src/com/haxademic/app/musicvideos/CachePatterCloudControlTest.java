@@ -1,17 +1,18 @@
 package com.haxademic.app.musicvideos;
 
-import processing.core.PGraphics;
-import processing.opengl.PShader;
-
+import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.util.OpenGLUtil;
 import com.haxademic.core.math.easing.EasingFloat;
 import com.haxademic.core.system.FileUtil;
 
-@SuppressWarnings("serial")
+import processing.core.PGraphics;
+import processing.opengl.PShader;
+
 public class CachePatterCloudControlTest
-extends PAppletHax{
+extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
 	PGraphics _cloudsGraphics;
 	PShader _clouds;
@@ -23,17 +24,17 @@ extends PAppletHax{
 
 	
 	protected void overridePropsFile() {
-		_appConfig.setProperty( "width", "1280" );
-		_appConfig.setProperty( "height", "720" );
-		_appConfig.setProperty( "width", "480" );
-		_appConfig.setProperty( "height", "270" );
-		_appConfig.setProperty( "rendering", "false" );
+		p.appConfig.setProperty( AppSettings.WIDTH, "1280" );
+		p.appConfig.setProperty( AppSettings.HEIGHT, "720" );
+		p.appConfig.setProperty( AppSettings.WIDTH, "480" );
+		p.appConfig.setProperty( AppSettings.HEIGHT, "270" );
+		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
 	}
 	
 	public void setup() {
 		super.setup();
 		
-		_cloudsGraphics = p.createGraphics(p.width, p.height, P.OPENGL);
+		_cloudsGraphics = p.createGraphics(p.width, p.height, P.P3D);
 		_cloudsGraphics.smooth(OpenGLUtil.SMOOTH_HIGH);
 		
 		_clouds = loadShader( FileUtil.getHaxademicDataPath()+"shaders/textures/clouds-iq.glsl" ); 

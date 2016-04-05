@@ -9,12 +9,13 @@ import org.poly2tri.geometry.polygon.PolygonPoint;
 import org.poly2tri.triangulation.TriangulationPoint;
 import org.poly2tri.triangulation.delaunay.DelaunayTriangle;
 
+import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.util.DrawUtil;
 
-@SuppressWarnings("serial")
 public class Poly2TriTest 
 extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	// code from: http://forum.processing.org/one/topic/delauney-diagram-inside-a-blob.html
 
@@ -23,9 +24,9 @@ extends PAppletHax {
 	boolean bShowTriangulation;
 
 	protected void overridePropsFile() {
-		_appConfig.setProperty( "width", "800" );
-		_appConfig.setProperty( "height", "600" );
-		_appConfig.setProperty( "rendering", "false" );
+		p.appConfig.setProperty( AppSettings.WIDTH, "800" );
+		p.appConfig.setProperty( AppSettings.HEIGHT, "600" );
+		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
 	}
 
 	public void setup() {

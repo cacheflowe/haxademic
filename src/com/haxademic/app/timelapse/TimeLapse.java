@@ -1,5 +1,6 @@
 package com.haxademic.app.timelapse;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import processing.core.PApplet;
@@ -50,18 +51,22 @@ extends PAppletHax
 	 */
 	protected int _fpi;
 	
+	public void settings() {
+		customPropsFile = FileUtil.getHaxademicDataPath() + "properties/timelapse.properties";
+		super.settings();
+	}
+
 	public void setup() {
-		_customPropsFile = FileUtil.getHaxademicDataPath() + "properties/timelapse.properties";
 		super.setup();
 		initRender();
 	}
 
 	public void initRender() {
-		_imageDir = _appConfig.getString( "image_dir", "" );
-		_imageType = _appConfig.getString( "image_type", ".png" );
+		_imageDir = p.appConfig.getString( "image_dir", "" );
+		_imageType = p.appConfig.getString( "image_type", ".png" );
 		_images = FileUtil.getFilesInDirOfType( _imageDir, _imageType ); // FileUtil.getHaxademicDataPath() + 
 		_imageIndex = 0;
-		_fpi = _appConfig.getInt( "frames_per_image", 2 );
+		_fpi = p.appConfig.getInt( "frames_per_image", 2 );
 	}
 		
 	public void drawApp() {

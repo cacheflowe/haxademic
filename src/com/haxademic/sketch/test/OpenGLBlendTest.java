@@ -1,18 +1,19 @@
 
 package com.haxademic.sketch.test;
 
+import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.draw.util.OpenGLUtil;
 
-@SuppressWarnings("serial")
 public class OpenGLBlendTest
 extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	protected void overridePropsFile() {
-		_appConfig.setProperty( "width", "800" );
-		_appConfig.setProperty( "height", "800" );
+		p.appConfig.setProperty( AppSettings.WIDTH, "800" );
+		p.appConfig.setProperty( AppSettings.HEIGHT, "800" );
 	}
 
 	public void setup() {

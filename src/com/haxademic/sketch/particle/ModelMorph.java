@@ -3,12 +3,7 @@ package com.haxademic.sketch.particle;
 import java.util.ArrayList;
 import java.util.List;
 
-import toxi.geom.mesh.Vertex;
-import toxi.geom.mesh.WETriangleMesh;
-import ProGAL.geom3d.Point;
-import ProGAL.geom3d.complex.CTriangle;
-import ProGAL.geom3d.complex.alphaComplex.AlphaComplex;
-
+import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.mesh.MeshPool;
 import com.haxademic.core.draw.mesh.MeshUtil;
@@ -17,9 +12,15 @@ import com.haxademic.core.math.easing.EasingFloat3d;
 import com.haxademic.core.math.easing.ElasticFloat3D;
 import com.haxademic.core.system.FileUtil;
 
-@SuppressWarnings("serial")
+import ProGAL.geom3d.Point;
+import ProGAL.geom3d.complex.CTriangle;
+import ProGAL.geom3d.complex.alphaComplex.AlphaComplex;
+import toxi.geom.mesh.Vertex;
+import toxi.geom.mesh.WETriangleMesh;
+
 public class ModelMorph
-extends PAppletHax{
+extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
 	MeshPool _meshPool;
 	WETriangleMesh _mesh;
@@ -33,13 +34,13 @@ extends PAppletHax{
 	int _numPoints = 400;
 
 	protected void overridePropsFile() {
-		_appConfig.setProperty( "width", "800" );
-		_appConfig.setProperty( "height", "600" );
-		_appConfig.setProperty( "rendering", "false" );
+		p.appConfig.setProperty( AppSettings.WIDTH, "800" );
+		p.appConfig.setProperty( AppSettings.HEIGHT, "600" );
+		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
 
-		_appConfig.setProperty( "sunflow", "true" );
-		_appConfig.setProperty( "sunflow_active", "false" );
-		_appConfig.setProperty( "sunflow_quality", "low" );
+		p.appConfig.setProperty( AppSettings.SUNFLOW, "true" );
+		p.appConfig.setProperty( AppSettings.SUNFLOW_ACTIVE, "false" );
+		p.appConfig.setProperty( AppSettings.SUNFLOW_QUALITY, "low" );
 	}
 	
 	public void setup() {

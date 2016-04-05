@@ -80,10 +80,14 @@ import processing.video.Movie;
 public class PAppletHax
 extends PApplet
 {
-	/**
-	 *
-	 */
-	private static final long serialVersionUID = 1L;
+//	Simplest launch:
+//	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
+
+//	Fancier launch:
+//	public static void main(String args[]) {
+//		PAppletHax.main(P.concat(args, new String[] { "--hide-stop", "--bgcolor=000000", Thread.currentThread().getStackTrace()[1].getClassName() }));
+//		PApplet.main(new String[] { "--hide-stop", "--bgcolor=000000", "--location=1920,0", "--display=1", ElloMotion.class.getName() });
+//	}
 
 	/**
 	 * Global/static ref to PApplet - any audio-reactive object should be passed this reference, or grabbed from this static ref.
@@ -93,13 +97,12 @@ extends PApplet
 	/**
 	 * Loads the project .properties file to configure several app properties externally.
 	 */
-	protected P5Properties _appConfig;	// we should move to public instance
 	public P5Properties appConfig;
 
 	/**
 	 * Loads an app-specific project .properties file.
 	 */
-	protected String _customPropsFile = null;
+	protected String customPropsFile = null;
 
 	/**
 	 * Single instance and wrapper for the ESS audio object.
@@ -123,7 +126,6 @@ extends PApplet
 	/**
 	 * Wraps up MIDI functionality with theMIDIbus library.
 	 */
-	public MidiWrapper _midi = null;
 	public MidiWrapper midi = null;
 
 	/**
@@ -142,11 +144,6 @@ extends PApplet
 	public LeapMotion leapMotion = null;
 
 	/**
-	 * A secondary system of running the visuals on the Launchpad. This should probably be integrated into Modules?
-	 */
-//	public LaunchpadViz _launchpadViz = null;
-
-	/**
 	 * Wraps up incoming OSC commands with the oscP5 library.
 	 */
 	public OscWrapper _oscWrapper = null;
@@ -160,22 +157,6 @@ extends PApplet
 	 * Single instance for minim audio library.
 	 */
 	public Minim minim;
-
-	/**
-	 * Prevents crashing from possible attempts to re-initialize.
-	 * Similar error described here: http://code.google.com/p/processing/issues/detail?id=356
-	 */
-	protected Boolean _is_setup = false;
-
-	/**
-	 * Override this in a subclass of PAppletHax in main() if you want to remove the window chrome. Must be published as an Application, not an Applet.
-	 */
-	protected static Boolean _hasChrome = true;
-
-	/**
-	 * Override this in a subclass of PAppletHax in main() if you want to go full screen. Must be published as an Application, not an Applet.
-	 */
-	protected static Boolean _isFullScreen = false;
 
 	/**
 	 * Executable's target frames per second.
@@ -202,12 +183,12 @@ extends PApplet
 	/**
 	 * Graphical render mode
 	 */
-	public String _graphicsMode;
+	public String rendererMode;
 
 	/**
 	 * Joons renderer wrapper
 	 */
-	protected JoonsWrapper _jw;
+	protected JoonsWrapper joons;
 
 	/**
 	 * Helps the Renderer object work with minimal reconfiguration. Maybe this should be moved at some point...
@@ -230,39 +211,64 @@ extends PApplet
 	 * Called by PApplet to run before the first draw() command.
 	 */
 	public void setup () {
-		P.p = p = this;
-		if ( !_is_setup ) {
-			// load external properties and set flag
-			_appConfig = new P5Properties(p);
-			appConfig = _appConfig;
-			if( _customPropsFile != null )
-				_appConfig.loadPropertiesFile( _customPropsFile );
-			overridePropsFile();
-			_is_setup = true;
-			// set screen size and renderer
-			String renderer = P.OPENGL;
-			if( _appConfig.getBoolean("fills_screen", false) == true || _appConfig.getBoolean("fullscreen", false) == true ) {
-				p.size(displayWidth,displayHeight,renderer);
-			} else {
-				p.size(_appConfig.getInt("width", 800),_appConfig.getInt("height", 600),renderer);
-			}
-		}
-		_graphicsMode = p.g.getClass().getName();
-		AppUtil.setFrameBackground(p,0,0,0);
+		if(customPropsFile != null) DebugUtil.printErr("Make sure to load custom .properties files in settings()");
+		p.rendererMode = p.g.getClass().getName();
 		setAppletProps();
 		initHaxademicObjects();
 	}
+	
+	public void settings() {
+		P.p = p = this;
+		AppUtil.setFrameBackground(p,0,0,0);
+		loadAppConfig();
+		overridePropsFile();
+		setRenderer();
+		setSmoothing();
+		setRetinaScreen();
+	}
+	
+	protected void loadAppConfig() {
+		p.appConfig = new P5Properties(p);
+		appConfig = p.appConfig;
+		if( customPropsFile != null ) p.appConfig.loadPropertiesFile( customPropsFile );
+		customPropsFile = null;
+	}
+	
+	protected void setRetinaScreen() {
+		if(p.appConfig.getBoolean(AppSettings.RETINA, false) == true) {
+			if(p.displayDensity() == 2) {
+				pixelDensity(2);
+			} else {
+				DebugUtil.printErr("Error: Attempting to set retina drawing on a non-retina screen");
+			}
+		}	
+	}
+	
+	protected void setSmoothing() {
+		if(p.appConfig.getInt(AppSettings.SMOOTHING, AppSettings.SMOOTH_HIGH) == 0) {
+			p.noSmooth();
+		} else {
+			p.smooth(p.appConfig.getInt(AppSettings.SMOOTHING, AppSettings.SMOOTH_HIGH));	
+		}
+	}
+	
+	protected void setRenderer() {
+		String renderer = P.P3D;
+		if(p.appConfig.getBoolean(AppSettings.FULLSCREEN, false) == true) {
+			p.fullScreen(renderer, p.appConfig.getInt(AppSettings.DISPLAY, 1));
+		} else if(p.appConfig.getBoolean(AppSettings.FILLS_SCREEN, false) == true) {
+			p.size(displayWidth,displayHeight,renderer);
+		} else {
+			p.size(p.appConfig.getInt(AppSettings.WIDTH, 800),p.appConfig.getInt(AppSettings.HEIGHT, 600),renderer);
+		}
+	}
 
 	protected void overridePropsFile() {
-		if( _customPropsFile == null ) P.println("YOU SHOULD OVERRIDE overridePropsFile()");
+		if( customPropsFile == null ) P.println("YOU SHOULD OVERRIDE overridePropsFile()");
 	}
 
 	protected void drawApp() {
 		P.println("YOU MUST OVERRIDE drawApp()");
-	}
-
-	public boolean sketchFullScreen() {
-		return _isFullScreen;
 	}
 
 	protected void handleInput( boolean isMidi ) {
@@ -286,28 +292,14 @@ extends PApplet
 	 * Sets some initial Applet properties for OpenGL quality, FPS, and nocursor().
 	 */
 	protected void setAppletProps() {
-		_isRendering = _appConfig.getBoolean("rendering", false);
+		_isRendering = p.appConfig.getBoolean(AppSettings.RENDERING_MOVIE, false);
 		if( _isRendering == true ) DebugUtil.printErr("When rendering, make sure to call super.keyPressed(); for esc key shutdown");
-		_isRenderingAudio = _appConfig.getBoolean("render_audio", false);
-		_isRenderingMidi = _appConfig.getBoolean("render_midi", false);
-		_showStats = _appConfig.getBoolean("show_stats", false);
-		if(_graphicsMode == P.OPENGL) {
-			if( _isRendering == true ) {
-				// prevents an error
-				// hint(DISABLE_OPENGL_2X_SMOOTH);
-			} else {
-				// OpenGLUtil.setQuality(p, OpenGLUtil.HIGH);
-			}
-		}
-
-		_fps = _appConfig.getInt("fps", 60);
+		_isRenderingAudio = p.appConfig.getBoolean(AppSettings.RENDER_AUDIO, false);
+		_isRenderingMidi = p.appConfig.getBoolean(AppSettings.RENDER_MIDI, false);
+		_showStats = p.appConfig.getBoolean(AppSettings.SHOW_STATS, false);
+		_fps = p.appConfig.getInt(AppSettings.FPS, 60);
 		frameRate(_fps);
-		if( _appConfig.getBoolean("hide_cursor", false) == true ) p.noCursor();
-	}
-
-	public void init() {
-		if(_hasChrome == false) AppUtil.removeChrome(this);
-		super.init();
+		if( p.appConfig.getBoolean(AppSettings.HIDE_CURSOR, false) == true ) p.noCursor();
 	}
 
 	/**
@@ -319,31 +311,30 @@ extends PApplet
 		if( appConfig.getBoolean("init_ess_audio", true) == true ) {
 			_audioInput = new AudioInputWrapper( p, _isRenderingAudio );
 			_waveformData = new WaveformData( p, _audioInput.bufferSize() );
-			if(appConfig.getBoolean("audio_debug", false) == true) _audioInput.debugInfo();
+			if(appConfig.getBoolean(AppSettings.AUDIO_DEBUG, false) == true) _audioInput.debugInfo();
 		}
 		if( appConfig.getBoolean("init_minim_audio", true) == true ) {
 			audioIn = new AudioInputWrapperMinim( p, _isRenderingAudio );
 			_waveformDataMinim = new WaveformData( p, audioIn.bufferSize() );
 		}
-		_renderer = new Renderer( p, _fps, Renderer.OUTPUT_TYPE_MOVIE, _appConfig.getString( "render_output_dir", FileUtil.getHaxademicOutputPath() ) );
-		if(appConfig.getBoolean("rendering_gif", false) == true) {
-			_gifRenderer = new GifRenderer(appConfig.getInt("rendering_gif_framerate", 45), appConfig.getInt("rendering_gif_quality", 15));
+		_renderer = new Renderer( p, _fps, Renderer.OUTPUT_TYPE_MOVIE, p.appConfig.getString( "render_output_dir", FileUtil.getHaxademicOutputPath() ) );
+		if(appConfig.getBoolean(AppSettings.RENDERING_GIF, false) == true) {
+			_gifRenderer = new GifRenderer(appConfig.getInt(AppSettings.RENDERING_GIF_FRAMERATE, 45), appConfig.getInt(AppSettings.RENDERING_GIF_QUALITY, 15));
 		}
-		if( _appConfig.getBoolean( "kinect_active", false ) == true ) {
-			if( _appConfig.getBoolean( "kinect_v2", false ) == true ) {
-				kinectWrapper = new KinectWrapperV2( p, _appConfig.getBoolean( "kinect_depth", true ), _appConfig.getBoolean( "kinect_rgb", true ), _appConfig.getBoolean( "kinect_depth_image", true ) );
+		if( p.appConfig.getBoolean( AppSettings.KINECT_ACTIVE, false ) == true ) {
+			if( p.appConfig.getBoolean( "kinect_v2", false ) == true ) {
+				kinectWrapper = new KinectWrapperV2( p, p.appConfig.getBoolean( "kinect_depth", true ), p.appConfig.getBoolean( "kinect_rgb", true ), p.appConfig.getBoolean( "kinect_depth_image", true ) );
 			} else {
-				kinectWrapper = new KinectWrapperV1( p, _appConfig.getBoolean( "kinect_depth", true ), _appConfig.getBoolean( "kinect_rgb", true ), _appConfig.getBoolean( "kinect_depth_image", true ) );
+				kinectWrapper = new KinectWrapperV1( p, p.appConfig.getBoolean( "kinect_depth", true ), p.appConfig.getBoolean( "kinect_rgb", true ), p.appConfig.getBoolean( "kinect_depth_image", true ) );
 			}
-			kinectWrapper.setMirror( _appConfig.getBoolean( "kinect_mirrored", true ) );
-			kinectWrapper.setFlipped( _appConfig.getBoolean( "kinect_flipped", false ) );
+			kinectWrapper.setMirror( p.appConfig.getBoolean( "kinect_mirrored", true ) );
+			kinectWrapper.setFlipped( p.appConfig.getBoolean( "kinect_flipped", false ) );
 		}
-		if( _appConfig.getBoolean( "leap_active", false ) == true ) leapMotion = new LeapMotion(this);
-//		_launchpadViz = new LaunchpadViz( p5 );
-		if( _appConfig.getBoolean( "osc_active", false ) ) _oscWrapper = new OscWrapper( p );
+		if( p.appConfig.getBoolean( "leap_active", false ) == true ) leapMotion = new LeapMotion(this);
+		if( p.appConfig.getBoolean( "osc_active", false ) ) _oscWrapper = new OscWrapper( p );
 		meshPool = new MeshPool( p );
-		_jw = ( _appConfig.getBoolean("sunflow", false ) == true ) ?
-				new JoonsWrapper( p, width, height, ( _appConfig.getString("sunflow_quality", "high" ) == "high" ) ? JoonsWrapper.QUALITY_HIGH : JoonsWrapper.QUALITY_LOW, ( _appConfig.getBoolean("sunflow_active", true ) == true ) ? true : false )
+		joons = ( p.appConfig.getBoolean(AppSettings.SUNFLOW, false ) == true ) ?
+				new JoonsWrapper( p, width, height, ( p.appConfig.getString(AppSettings.SUNFLOW_QUALITY, "high" ) == "high" ) ? JoonsWrapper.QUALITY_HIGH : JoonsWrapper.QUALITY_LOW, ( p.appConfig.getBoolean(AppSettings.SUNFLOW_ACTIVE, true ) == true ) ? true : false )
 				: null;
 		_debugText = new DebugText( p );
 		if( _showStats == true ) _stats = new Stats( p );
@@ -353,9 +344,8 @@ extends PApplet
 	protected void initializeExtraObjectsOn1stFrame() {
 		if( p.frameCount == 1 ){
 			P.println("Using Java version: "+SystemUtil.getJavaVersion());
-			if( _appConfig.getString("midi_device_in", "") != "" ) {
-				_midi = new MidiWrapper( p, _appConfig.getString("midi_device_in", ""), _appConfig.getString("midi_device_out", "") );
-				midi = _midi;
+			if( p.appConfig.getString("midi_device_in", "") != "" ) {
+				midi = new MidiWrapper( p, p.appConfig.getString("midi_device_in", ""), p.appConfig.getString("midi_device_out", "") );
 			}
 		}
 	}
@@ -366,46 +356,49 @@ extends PApplet
 		forceForeground();
 		initializeExtraObjectsOn1stFrame();	// wait until draw() happens, to avoid weird launch crash if midi signals were coming in as haxademic starts
 		handleRenderingStepthrough();
+		updateAudioData();
+		if( kinectWrapper != null ) kinectWrapper.update();
+		if( joons != null ) joons.startFrame();
+		drawApp();
+		if( joons != null ) joons.endFrame( p.appConfig.getBoolean(AppSettings.SUNFLOW_SAVE_IMAGES, false) == true );
+		renderShutdown();
+		showStats();
+		setAppDockIconAndTitle();
+	}
+	
+	protected void updateAudioData() {
 		if( _audioInput != null ) _audioInput.getBeatDetection(); // detect beats and pass through to current visual module	// 		int[] beatDetectArr =
 		if( audioIn != null ) {
 			audioIn.update(); // detect beats and pass through to current visual module	// 		int[] beatDetectArr =
 			_waveformDataMinim.updateWaveformDataMinim( audioIn.getAudioInput() );
 		}
-		if( kinectWrapper != null ) kinectWrapper.update();
-		if( _jw != null ) _jw.startFrame();
-		drawApp();
-		if( _jw != null ) _jw.endFrame( _appConfig.getBoolean("sunflow_save_images", false) == true );
-		if( _isRendering == true || _renderShutdown > 1 ) {
-			if( _renderShutdown == -1 ) {
-				_renderer.renderFrame();
-			} else if( p.frameCount >= _renderShutdown + 1 ) {
-				P.println("should exit!");
-				p.exit();
-			}
-		}
-		if( _showStats == true ) showStats();
-		if(p.frameCount == 1) {
-			AppUtil.setTitle(p, "Haxademic");
-			AppUtil.setAppToDockIcon(p);
-		}
 	}
 
 	protected void showStats() {
+		if( _showStats == false ) return; 
 		_stats.update();
-		_debugText.draw( "FPS: " + _fps + " :: ACTUAL FPS: " + _stats.getFps() );	// display some info
-		if( p.frameCount % 60 == 0 ) {
-			_stats.printStats();
-			DebugUtil.showMemoryUsage();
-		}
+		_debugText.draw(new String[]{
+			"FPS: " + _stats.getFps(),
+			"Memory Allocated: " + DebugUtil.memoryAllocated(),
+			"Memory Free: " + DebugUtil.memoryFree(),
+			"Memory Max: " + DebugUtil.memoryMax(),
+		});
 	}
 
+	protected void setAppDockIconAndTitle() {
+		if(p.frameCount == 1) {
+			AppUtil.setTitle(p, "Haxademic");
+			AppUtil.setAppToDockIcon(p);
+		}	
+	}
+	
 	protected void handleRenderingStepthrough() {
 		// step through midi file if set
 		if( _isRenderingMidi == true ) {
 			if( p.frameCount == 1 ) {
 				try {
 					_midiRenderer = new MIDISequenceRenderer(p);
-					_midiRenderer.loadMIDIFile( _appConfig.getString("render_midi_file", ""), _appConfig.getFloat("render_midi_bpm", 150f), _fps, _appConfig.getFloat("render_midi_offset", -8f) );
+					_midiRenderer.loadMIDIFile( p.appConfig.getString(AppSettings.RENDER_MIDI_FILE, ""), p.appConfig.getFloat(AppSettings.RENDER_MIDI_BPM, 150f), _fps, p.appConfig.getFloat(AppSettings.RENDER_MIDI_OFFSET, -8f) );
 				} catch (InvalidMidiDataException e) { e.printStackTrace(); } catch (IOException e) { e.printStackTrace(); }
 			}
 		}
@@ -413,7 +406,7 @@ extends PApplet
 		if( _isRendering == true ) {
 			if( p.frameCount == 1 ) {
 				if( _isRenderingAudio == true ) {
-					_renderer.startRendererForAudio( _appConfig.getString("render_audio_file", ""), _audioInput );
+					_renderer.startRendererForAudio( p.appConfig.getString(AppSettings.RENDER_AUDIO_FILE, ""), _audioInput );
 					_audioInput.gainDown();
 					_audioInput.gainDown();
 					_audioInput.gainDown();
@@ -442,25 +435,57 @@ extends PApplet
 						doneCheckingForMidi = true;
 					}
 				}
-				if( triggered == false && _midi != null ) _midi.allOff();
+				if( triggered == false && midi != null ) midi.allOff();
 			}
 		}
-		if(_gifRenderer != null && appConfig.getBoolean("rendering_gif", false) == true) {
-			if(appConfig.getInt("rendering_gif_startframe", 1) == p.frameCount) {
+		if(_gifRenderer != null && appConfig.getBoolean(AppSettings.RENDERING_GIF, false) == true) {
+			if(appConfig.getInt(AppSettings.RENDERING_GIF_START_FRAME, 1) == p.frameCount) {
+				_gifRenderer.startGifRender(this);
+			}
+		}
+	}
+	
+	protected void renderShutdown() {
+		// gives the app 1 frame to shutdown after the movie rendering stops
+		if( _isRendering == true || _renderShutdown > 1 ) {
+			if( _renderShutdown == -1 ) {
+				_renderer.renderFrame();
+			} else if( p.frameCount >= _renderShutdown + 1 ) {
+				P.println("should exit!");
+				p.exit();
+			}
+		}
+		// check for movie rendering stop frame
+		if(_isRendering == true) {
+			if(p.frameCount == appConfig.getInt(AppSettings.RENDERING_MOVIE_STOP_FRAME, 5000)) {
+				renderShutdownBeforeExit();
+			}
+		}
+		// check for gifrendering stop frame
+		if(_gifRenderer != null && appConfig.getBoolean(AppSettings.RENDERING_GIF, false) == true) {
+			if(appConfig.getInt(AppSettings.RENDERING_GIF_START_FRAME, 1) == p.frameCount) {
 				_gifRenderer.startGifRender(this);
 			}
 			DrawUtil.setColorForPImage(p);
 			_gifRenderer.renderGifFrame(p.g);
-			if(appConfig.getInt("rendering_gif_stopframe", 100) == p.frameCount) {
+			if(appConfig.getInt(AppSettings.RENDERING_GIF_STOP_FRAME, 100) == p.frameCount) {
 				_gifRenderer.finish();
 			}
 		}
 	}
+	
+	protected void renderShutdownBeforeExit() {
+		if( _isRendering ) {
+			_renderShutdown = p.frameCount;
+			_renderer.stop();
+			P.println("shutting down");
+		}
+	}
 
 	protected void forceForeground(){
-		if( p.frameCount % 30 == 0 ) {
-			if(_appConfig.getBoolean("force_foreground", false) == true) {
-				AppUtil.requestForeground();
+		if(p.focused == false) {
+			if(p.appConfig.getBoolean(AppSettings.FORCE_FOREGROUND, false) == true) {
+				AppUtil.requestForeground(p);
 			}
 		}
 	}
@@ -475,13 +500,9 @@ extends PApplet
 	 */
 	public void keyPressed() {
 		// disable esc key - subclass must call super.keyPressed()
-		if( p.key == P.ESC && ( _appConfig.getBoolean("disable_esc", false) == true || _appConfig.getBoolean("rendering", false) == true ) ) {
+		if( p.key == P.ESC && ( p.appConfig.getBoolean(AppSettings.DISABLE_ESC_KEY, false) == true || p.appConfig.getBoolean(AppSettings.RENDERING_MOVIE, false) == true ) ) {
 			key = 0;
-			if( _isRendering ) {
-				_renderShutdown = p.frameCount;
-				_renderer.stop();
-				P.println("shutting down");
-			}
+			renderShutdownBeforeExit();
 		}
 
 		handleInput( false );
@@ -507,16 +528,18 @@ extends PApplet
 	 * PApplet-level listener for Movie frame update events
 	 */
 	public void movieEvent(Movie m) {
-		m.read();
+		if(p.frameCount > 2) { // solves Processing 2.x video problem: http://forum.processing.org/two/discussion/5926/video-library-problem-in-processing-2-2-1
+			m.read();
+		}
 	}
 
 	/**
 	 * PApplet-level listener for MIDIBUS noteOn call
 	 */
 	public void noteOn(int channel, int  pitch, int velocity) {
-		if( _midi != null ) {
-			if( _midi.midiNoteIsOn( pitch ) == 0 ) {
-				_midi.noteOn( channel, pitch, velocity );
+		if( midi != null ) {
+			if( midi.midiNoteIsOn( pitch ) == 0 ) {
+				midi.noteOn( channel, pitch, velocity );
 				try{
 					handleInput( true );
 				}
@@ -529,14 +552,14 @@ extends PApplet
 	 * PApplet-level listener for MIDIBUS noteOff call
 	 */
 	public void noteOff(int channel, int  pitch, int velocity) {
-		if( _midi != null ) _midi.noteOff( channel, pitch, velocity );
+		if( midi != null ) midi.noteOff( channel, pitch, velocity );
 	}
 
 	/**
 	 * PApplet-level listener for MIDIBUS CC signal
 	 */
 	public void controllerChange(int channel, int number, int value) {
-		if( _midi != null ) _midi.controllerChange( channel, number, value );
+		if( midi != null ) midi.controllerChange( channel, number, value );
 	}
 
 	/**

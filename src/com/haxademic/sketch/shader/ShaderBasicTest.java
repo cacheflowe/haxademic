@@ -20,9 +20,9 @@ import com.haxademic.core.system.FileUtil;
 import processing.core.PGraphics;
 import processing.opengl.PShader;
 
-@SuppressWarnings("serial")
 public class ShaderBasicTest
 extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
 	protected PGraphics _buffer;
 	protected PShader _textureShader;

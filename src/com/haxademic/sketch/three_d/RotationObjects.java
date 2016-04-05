@@ -1,13 +1,14 @@
 package com.haxademic.sketch.three_d;
 
-import processing.core.PApplet;
-import processing.core.PConstants;
-import toxi.processing.ToxiclibsSupport;
-
 import com.haxademic.app.haxvisual.viz.elements.RotatorShape;
+import com.haxademic.core.app.P;
 import com.haxademic.core.draw.color.ColorGroup;
 import com.haxademic.core.draw.color.ColorHax;
 import com.haxademic.core.render.Renderer;
+
+import processing.core.PApplet;
+import processing.core.PConstants;
+import toxi.processing.ToxiclibsSupport;
 
 public class RotationObjects 
 extends PApplet
@@ -30,7 +31,7 @@ extends PApplet
 		p = this;
 		// set up stage and drawing properties
 //		p.size( 800, 600, "hipstersinc.P5Sunflow" );				//size(screen.width,screen.height,P3D);
-		p.size( 800, 600, PConstants.OPENGL );				//size(screen.width,screen.height,P3D);
+		p.size( 800, 600, P.P3D );				//size(screen.width,screen.height,P3D);
 		p.frameRate( 30 );
 		p.colorMode( PConstants.RGB, 255, 255, 255, 255 );
 		p.background( 0 );

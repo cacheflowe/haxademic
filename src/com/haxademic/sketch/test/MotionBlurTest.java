@@ -1,23 +1,24 @@
 package com.haxademic.sketch.test;
 
-import processing.core.PGraphics;
-
+import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.draw.util.OpenGLUtil;
 import com.haxademic.core.image.MotionBlurPGraphics;
 
-@SuppressWarnings("serial")
+import processing.core.PGraphics;
+
 public class MotionBlurTest
 extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	protected PGraphics _pg;
 	protected MotionBlurPGraphics _pgMotionBlur;
 
 	protected void overridePropsFile() {
-		_appConfig.setProperty( "width", "400" );
-		_appConfig.setProperty( "height", "400" );
+		p.appConfig.setProperty( AppSettings.WIDTH, "400" );
+		p.appConfig.setProperty( AppSettings.HEIGHT, "400" );
 	}
 
 	public void setup() {
@@ -26,7 +27,7 @@ extends PAppletHax {
 	}
 
 	protected void buildCanvas() {
-		_pg = p.createGraphics( p.width, p.height, P.OPENGL );
+		_pg = p.createGraphics( p.width, p.height, P.P3D );
 		_pg.smooth(OpenGLUtil.SMOOTH_HIGH);
 		_pgMotionBlur = new MotionBlurPGraphics(20);
 	}

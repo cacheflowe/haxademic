@@ -3,17 +3,14 @@ package com.haxademic.sketch.test;
 import java.awt.Robot;
 import java.awt.event.KeyEvent;
 
+import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 
-@SuppressWarnings("serial")
 public class RobotKeyPressMidi
 extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
-	public static void main(String args[]) {
-		PAppletHax.main(P.concat(args, new String[] { "--hide-stop", "--bgcolor=000000", RobotKeyPressMidi.class.getName() }));
-	}
-
 	protected Robot _robot;
 	
 	// player 1
@@ -30,8 +27,8 @@ extends PAppletHax {
 	protected MidiKeyTrigger[] midiKeyTriggers;
 
 	protected void overridePropsFile() {
-		_appConfig.setProperty( "width", "640" );
-		_appConfig.setProperty( "height", "480" );
+		p.appConfig.setProperty( AppSettings.WIDTH, "640" );
+		p.appConfig.setProperty( AppSettings.HEIGHT, "480" );
 	}
 
 	public void setup() {
@@ -62,9 +59,9 @@ extends PAppletHax {
 		for (MidiKeyTrigger trigger : midiKeyTriggers) {
 			trigger.checkNote(pitch);
 		}
-		if( _midi != null ) { 
-			if( _midi.midiNoteIsOn( pitch ) == 0 ) {
-				_midi.noteOn( channel, pitch, velocity );
+		if( midi != null ) { 
+			if( midi.midiNoteIsOn( pitch ) == 0 ) {
+				midi.noteOn( channel, pitch, velocity );
 				try{ 
 					handleInput( true );
 				}

@@ -1,9 +1,6 @@
 package com.haxademic.sketch.render.ello;
 
-import processing.core.PGraphics;
-import processing.core.PImage;
-import processing.core.PShape;
-
+import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.util.DrawUtil;
@@ -11,10 +8,13 @@ import com.haxademic.core.draw.util.OpenGLUtil;
 import com.haxademic.core.system.FileUtil;
 
 import controlP5.ControlP5;
+import processing.core.PGraphics;
+import processing.core.PImage;
+import processing.core.PShape;
 
-@SuppressWarnings("serial")
 public class GifRenderEllo022Ello3dScroll
 extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
 	public float speed = 0;
 	public float angle = 0;
@@ -33,18 +33,18 @@ extends PAppletHax {
 	PGraphics _logoG;
 
 	protected void overridePropsFile() {
-		_appConfig.setProperty( "fps", "30" );
-		_appConfig.setProperty( "fills_screen", "false" );
+		p.appConfig.setProperty( AppSettings.FPS, "30" );
+		p.appConfig.setProperty( AppSettings.FILLS_SCREEN, "false" );
 		
-		_appConfig.setProperty( "width", "640" );
-		_appConfig.setProperty( "height", "480" );
+		p.appConfig.setProperty( AppSettings.WIDTH, "640" );
+		p.appConfig.setProperty( AppSettings.HEIGHT, "480" );
 
-		_appConfig.setProperty( "rendering", "false" );
-		_appConfig.setProperty( "rendering_gif", "true" );
-		_appConfig.setProperty( "rendering_gif_framerate", "60" );
-		_appConfig.setProperty( "rendering_gif_quality", "15" );
-		_appConfig.setProperty( "rendering_gif_startframe", "2" );
-		_appConfig.setProperty( "rendering_gif_stopframe", ""+Math.round(_frames+1) );
+		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
+		p.appConfig.setProperty( AppSettings.RENDERING_GIF, "true" );
+		p.appConfig.setProperty( AppSettings.RENDERING_GIF_FRAMERATE, "60" );
+		p.appConfig.setProperty( AppSettings.RENDERING_GIF_QUALITY, "15" );
+		p.appConfig.setProperty( AppSettings.RENDERING_GIF_START_FRAME, "2" );
+		p.appConfig.setProperty( AppSettings.RENDERING_GIF_STOP_FRAME, ""+Math.round(_frames+1) );
 	}
 
 	public void setup() {
@@ -120,7 +120,7 @@ extends PAppletHax {
 		
 		
 		if( p.frameCount == _frames * 2 + 2 ) {
-			if(_appConfig.getBoolean("rendering", false) ==  true) {				
+			if(p.appConfig.getBoolean("rendering", false) ==  true) {				
 				_renderer.stop();
 				P.println("render done!");
 			}

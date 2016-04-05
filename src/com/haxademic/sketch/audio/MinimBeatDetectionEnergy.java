@@ -7,9 +7,9 @@ import ddf.minim.AudioListener;
 import ddf.minim.Minim;
 import ddf.minim.analysis.BeatDetect;
 
-@SuppressWarnings("serial")
 public class MinimBeatDetectionEnergy 
 extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	Minim minim;
 	AudioInput in;
@@ -21,7 +21,7 @@ extends PAppletHax {
 
 
 	protected void overridePropsFile() {
-		// _appConfig.setProperty( "width", "1200" );
+		// p.appConfig.setProperty( AppSettings.WIDTH, "1200" );
 	}
 
 	public void setup() {

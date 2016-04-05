@@ -16,13 +16,13 @@ import com.haxademic.app.haxmapper.textures.TextureSphereRotate;
 import com.haxademic.app.haxmapper.textures.TextureTwistingSquares;
 import com.haxademic.app.haxmapper.textures.TextureVideoPlayer;
 import com.haxademic.app.haxmapper.textures.TextureWaveformSimple;
+import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.system.FileUtil;
 
 import oscP5.OscMessage;
 import processing.core.PApplet;
 
-@SuppressWarnings("serial")
 public class CMKY2014Mapper
 extends HaxMapper{
 	
@@ -39,20 +39,19 @@ extends HaxMapper{
 	
 
 	public static void main(String args[]) {
-		_isFullScreen = true;
 		PApplet.main(new String[] { "--hide-stop", "--bgcolor=000000", CMKY2014Mapper.class.getName() });
 	}
 
 	protected void overridePropsFile() {
 		super.overridePropsFile();
-		_appConfig.setProperty( "mapping_file", FileUtil.getHaxademicDataPath() + "text/mapping/mapping-2015-08-31-20-09-27.txt" );
-		_appConfig.setProperty( "rendering", "false" );
-		_appConfig.setProperty( "fullscreen", "true" );
-		_appConfig.setProperty( "fills_screen", "true" );
-		_appConfig.setProperty( "osc_active", "false" );
-		_appConfig.setProperty( "audio_debug", "true" );
-		_appConfig.setProperty( "width", "1200" );
-		_appConfig.setProperty( "height", "1000" );
+		p.appConfig.setProperty( "mapping_file", FileUtil.getHaxademicDataPath() + "text/mapping/mapping-2015-08-31-20-09-27.txt" );
+		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
+		p.appConfig.setProperty( AppSettings.FULLSCREEN, "true" );
+		p.appConfig.setProperty( AppSettings.FILLS_SCREEN, "true" );
+		p.appConfig.setProperty( "osc_active", "false" );
+		p.appConfig.setProperty( AppSettings.AUDIO_DEBUG, "true" );
+		p.appConfig.setProperty( AppSettings.WIDTH, "1200" );
+		p.appConfig.setProperty( AppSettings.HEIGHT, "1000" );
 	}
 
 	public void oscEvent(OscMessage theOscMessage) {  

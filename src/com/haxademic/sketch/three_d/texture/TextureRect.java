@@ -7,6 +7,7 @@ import com.haxademic.core.system.FileUtil;
 
 public class TextureRect 
 extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
 	PImage img;
 	

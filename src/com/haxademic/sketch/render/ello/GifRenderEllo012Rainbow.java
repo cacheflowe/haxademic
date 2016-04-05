@@ -1,7 +1,6 @@
 package com.haxademic.sketch.render.ello;
 
-import processing.core.PShape;
-
+import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.color.ColorUtil;
@@ -11,9 +10,11 @@ import com.haxademic.core.image.AnimatedGifEncoder;
 import com.haxademic.core.math.easing.Penner;
 import com.haxademic.core.system.FileUtil;
 
-@SuppressWarnings("serial")
+import processing.core.PShape;
+
 public class GifRenderEllo012Rainbow
-extends PAppletHax{
+extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
 	AnimatedGifEncoder encoder;
 	PShape _logo;
@@ -23,15 +24,15 @@ extends PAppletHax{
 	int[] _colors;
 	
 	protected void overridePropsFile() {
-		_appConfig.setProperty( "width", "500" );
-		_appConfig.setProperty( "height", "500" );
+		p.appConfig.setProperty( AppSettings.WIDTH, "500" );
+		p.appConfig.setProperty( AppSettings.HEIGHT, "500" );
 
-		_appConfig.setProperty( "rendering", "false" );
-		_appConfig.setProperty( "rendering_gif", "false" );
-		_appConfig.setProperty( "rendering_gif_framerate", "45" );
-		_appConfig.setProperty( "rendering_gif_quality", "15" );
-		_appConfig.setProperty( "rendering_gif_startframe", "2" );
-		_appConfig.setProperty( "rendering_gif_stopframe", ""+(_frames+1) );
+		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
+		p.appConfig.setProperty( AppSettings.RENDERING_GIF, "false" );
+		p.appConfig.setProperty( AppSettings.RENDERING_GIF_FRAMERATE, "45" );
+		p.appConfig.setProperty( AppSettings.RENDERING_GIF_QUALITY, "15" );
+		p.appConfig.setProperty( AppSettings.RENDERING_GIF_START_FRAME, "2" );
+		p.appConfig.setProperty( AppSettings.RENDERING_GIF_STOP_FRAME, ""+(_frames+1) );
 	}
 	
 	public void setup() {

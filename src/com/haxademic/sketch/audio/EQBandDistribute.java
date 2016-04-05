@@ -1,16 +1,17 @@
 package com.haxademic.sketch.audio;
 
+import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.util.OpenGLUtil;
 
-@SuppressWarnings("serial")
 public class EQBandDistribute 
 extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
 	protected void overridePropsFile() {
-		p.appConfig.setProperty( "width", "800" );
-		p.appConfig.setProperty( "height", "600" );
+		p.appConfig.setProperty( AppSettings.WIDTH, "800" );
+		p.appConfig.setProperty( AppSettings.HEIGHT, "600" );
 	}
 
 

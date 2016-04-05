@@ -1,13 +1,15 @@
 package com.haxademic.core.hardware.kinect;
 
+import com.haxademic.core.app.AppSettings;
+import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.util.OpenGLUtil;
 
 import controlP5.ControlP5;
 
-@SuppressWarnings("serial")
 public class KinectConfigureApp
 extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	public int kinectLeft = 0;
 	public int kinectRight = 0;
@@ -23,14 +25,14 @@ extends PAppletHax {
 	protected boolean _isDebug = false;
 	
 	protected void overridePropsFile() {
-		_appConfig.setProperty( "width", "640" );
-		_appConfig.setProperty( "height", "480" );
-		_appConfig.setProperty( "rendering", "false" );
-		_appConfig.setProperty( "kinect_active", "true" );
-		_appConfig.setProperty( "kinect_top_pixel", "0" );
-		_appConfig.setProperty( "kinect_bottom_pixel", "480" );
-		_appConfig.setProperty( "kinect_mirrored", "false" );
-		_appConfig.setProperty( "kinect_flipped", "true" );
+		p.appConfig.setProperty( AppSettings.WIDTH, "640" );
+		p.appConfig.setProperty( AppSettings.HEIGHT, "480" );
+		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
+		p.appConfig.setProperty( AppSettings.KINECT_ACTIVE, "true" );
+		p.appConfig.setProperty( "kinect_top_pixel", "0" );
+		p.appConfig.setProperty( "kinect_bottom_pixel", "480" );
+		p.appConfig.setProperty( "kinect_mirrored", "false" );
+		p.appConfig.setProperty( "kinect_flipped", "false" );
 	}
 
 	public void setup() {
@@ -54,6 +56,10 @@ extends PAppletHax {
 	public void drawApp() {
 		background(0);
 		
+		p.pushMatrix();
+		
+		p.rotateY(P.map(p.mouseX, 0, p.width, 0f, 1f));
+		
 		p.fill(0,127);
 		p.rect(10, 10, 280, 12 * 10);
 		
@@ -61,7 +67,7 @@ extends PAppletHax {
 
 		p.fill(255f);
 		p.noStroke();
-		float pixelsize = pixelSkip * pixelDrawSize;
+		float pixelsize = (float) pixelSkip * pixelDrawSize;
 		for ( int x = kinectLeft; x < kinectRight; x += pixelSkip ) {
 			for ( int y = kinectTop; y < kinectBottom; y += pixelSkip ) {
 				int pixelDepth = p.kinectWrapper.getMillimetersDepthForKinectPixel( x, y );
@@ -83,6 +89,8 @@ extends PAppletHax {
 
 		p.fill(255);
 		p.text(numPixelsProcessed, 20, p.height - 20);
+		
+		p.popMatrix();
 	}
 	
 	protected void handleInput( boolean isMidi ) {

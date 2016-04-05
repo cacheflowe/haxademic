@@ -1,22 +1,23 @@
 package com.haxademic.sketch.hardware.leap;
 
+import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.debug.DebugUtil;
 import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.hardware.leap.LeapRegionGrid;
 
-@SuppressWarnings("serial")
 public class LeapGrid 
 extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
 
 	protected LeapRegionGrid _leapGrid;
 
 	protected void overridePropsFile() {
-		_appConfig.setProperty( "fills_screen", "false" );
-		_appConfig.setProperty( "leap_active", "true" );
-		_appConfig.setProperty( "width", "1200" );
-		_appConfig.setProperty( "height", "900" );
+		p.appConfig.setProperty( AppSettings.FILLS_SCREEN, "false" );
+		p.appConfig.setProperty( "leap_active", "true" );
+		p.appConfig.setProperty( AppSettings.WIDTH, "1200" );
+		p.appConfig.setProperty( AppSettings.HEIGHT, "900" );
 	}
 
 	public void setup() {

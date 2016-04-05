@@ -6,9 +6,9 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.system.FileUtil;
 
-@SuppressWarnings("serial")
 public class TextureCube 
 extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	PImage img;
 

@@ -1,8 +1,6 @@
 package com.haxademic.sketch.render.ello;
 
-import toxi.color.TColor;
-import toxi.geom.mesh.WETriangleMesh;
-
+import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.mesh.DrawMesh;
@@ -12,9 +10,12 @@ import com.haxademic.core.draw.util.OpenGLUtil;
 import com.haxademic.core.render.JoonsWrapper;
 import com.haxademic.core.system.FileUtil;
 
-@SuppressWarnings("serial")
+import toxi.color.TColor;
+import toxi.geom.mesh.WETriangleMesh;
+
 public class GifRenderEllo010SunflowWobble
-extends PAppletHax{
+extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
 	float _frames = 40;
 
@@ -23,20 +24,20 @@ extends PAppletHax{
 	WETriangleMesh _mesh;
 	
 	protected void overridePropsFile() {
-		_appConfig.setProperty( "width", "500" );
-		_appConfig.setProperty( "height", "500" );
+		p.appConfig.setProperty( AppSettings.WIDTH, "500" );
+		p.appConfig.setProperty( AppSettings.HEIGHT, "500" );
 		
-		_appConfig.setProperty( "sunflow", "true" );
-		_appConfig.setProperty( "sunflow_active", "false" );
-		_appConfig.setProperty( "sunflow_quality", "low" );
-		_appConfig.setProperty( "sunflow_save_images", "false" );
+		p.appConfig.setProperty( AppSettings.SUNFLOW, "true" );
+		p.appConfig.setProperty( AppSettings.SUNFLOW_ACTIVE, "false" );
+		p.appConfig.setProperty( AppSettings.SUNFLOW_QUALITY, "low" );
+		p.appConfig.setProperty( "sunflow_save_images", "false" );
 		
-		_appConfig.setProperty( "rendering", "false" );
-		_appConfig.setProperty( "rendering_gif", "false" );
-		_appConfig.setProperty( "rendering_gif_framerate", "45" );
-		_appConfig.setProperty( "rendering_gif_quality", "15" );
-		_appConfig.setProperty( "rendering_gif_startframe", "2" );
-		_appConfig.setProperty( "rendering_gif_stopframe", ""+Math.round(_frames+1) );
+		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
+		p.appConfig.setProperty( AppSettings.RENDERING_GIF, "false" );
+		p.appConfig.setProperty( AppSettings.RENDERING_GIF_FRAMERATE, "45" );
+		p.appConfig.setProperty( AppSettings.RENDERING_GIF_QUALITY, "15" );
+		p.appConfig.setProperty( AppSettings.RENDERING_GIF_START_FRAME, "2" );
+		p.appConfig.setProperty( AppSettings.RENDERING_GIF_STOP_FRAME, ""+Math.round(_frames+1) );
 	}
 	
 	public void setup() {
@@ -54,8 +55,8 @@ extends PAppletHax{
 
 
 //		_jw.jr.background(JoonsWrapper.BACKGROUND_GI);
-		_jw.jr.background(JoonsWrapper.BACKGROUND_AO);
-		_jw.jr.background(0, 0, 0); //background(gray), or (r, g, b), like Processing.
+		joons.jr.background(JoonsWrapper.BACKGROUND_AO);
+		joons.jr.background(0, 0, 0); //background(gray), or (r, g, b), like Processing.
 		setUpRoom();
 		
 		translate(0, 0, -500);
@@ -66,19 +67,19 @@ extends PAppletHax{
 		
 		// draw box bg
 		DrawUtil.setDrawCenter(p);
-		_jw.jr.fill( JoonsWrapper.MATERIAL_SHINY, 255, 255, 255 );
+		joons.jr.fill( JoonsWrapper.MATERIAL_SHINY, 255, 255, 255 );
 		p.box(p.width*10, p.width*10, 2);
 		
 		// oscillate and draw logo
 		translate(0, 0, 15 + P.sin(radiansComplete) * 15);
 		p.rotateX(0.2f * P.sin(P.PI/2f + radiansComplete));
 
-		_jw.jr.fill( JoonsWrapper.MATERIAL_SHINY, COLOR.red() * 255, COLOR.green() * 255, COLOR.blue() * 255 );
+		joons.jr.fill( JoonsWrapper.MATERIAL_SHINY, COLOR.red() * 255, COLOR.green() * 255, COLOR.blue() * 255 );
 		DrawMesh.drawToxiMeshFacesNative( p, _mesh );
 	}
 	
 	protected void makeLightSource() {
-		_jw.jr.fill("light", 255, 255, 255);
+		joons.jr.fill("light", 255, 255, 255);
 		sphere(10);
 		translate(-1000, 0, 0);
 	}
@@ -89,7 +90,7 @@ extends PAppletHax{
 		float radiance = 20;
 		int samples = 16;
 		int grey = 30;
-		_jw.jr.background("cornell_box", 
+		joons.jr.background("cornell_box", 
 				12000, 6000, 6000,	// width, height, depth
 				radiance, radiance, radiance, samples,  // radiance rgb & samples
 				grey, grey, grey, // left rgb

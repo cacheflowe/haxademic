@@ -2,10 +2,10 @@ package com.haxademic.app.hike;
 
 import java.util.ArrayList;
 
+import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.components.IMouseable;
 import com.haxademic.core.components.TextButton;
-import com.haxademic.core.components.TextInput;
 import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.net.WebSocketRelay;
 
@@ -13,9 +13,9 @@ import processing.core.PApplet;
 import processing.data.JSONObject;
 
 
-@SuppressWarnings("serial")
 public class HikeSocket 
 extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
 	protected ArrayList<IMouseable> _mouseables;
 	
@@ -24,13 +24,9 @@ extends PAppletHax {
 	
 	protected String hostName;
 	
-	public static void main(String args[]) {
-		PApplet.main(new String[] { "--hide-stop", "--bgcolor=000000", "com.haxademic.app.hike.HikeSocket" });
-	}
-
 	protected void overridePropsFile() {
-		_appConfig.setProperty( "width", "640" );
-		_appConfig.setProperty( "height", "640" );
+		p.appConfig.setProperty( AppSettings.WIDTH, "640" );
+		p.appConfig.setProperty( AppSettings.HEIGHT, "640" );
 	}
 	
 	public void setup() {

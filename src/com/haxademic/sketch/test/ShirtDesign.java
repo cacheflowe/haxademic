@@ -1,5 +1,6 @@
 package com.haxademic.sketch.test;
 
+import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.util.DrawUtil;
@@ -9,9 +10,9 @@ import com.haxademic.core.system.SystemUtil;
 
 import controlP5.ControlP5;
 
-@SuppressWarnings("serial")
 public class ShirtDesign
 extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
 	public float numLines = 0;
 	public float thickness = 0;
@@ -33,7 +34,7 @@ extends PAppletHax {
 	protected boolean _shouldPrint = false;
 
 	protected void overridePropsFile() {
-		_appConfig.setProperty( "fills_screen", "true" );
+		p.appConfig.setProperty( AppSettings.FILLS_SCREEN, "true" );
 	}
 
 	public void setup() {

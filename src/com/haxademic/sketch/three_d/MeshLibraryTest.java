@@ -1,17 +1,18 @@
 package com.haxademic.sketch.three_d;
 
+import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.mesh.Mesh;
 
-@SuppressWarnings("serial")
 public class MeshLibraryTest
 extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	protected Mesh myMesh;
 
 	protected void overridePropsFile() {
-		appConfig.setProperty( "width", "1000" );
-		appConfig.setProperty( "height", "800" );
+		appConfig.setProperty( AppSettings.WIDTH, "1000" );
+		appConfig.setProperty( AppSettings.HEIGHT, "800" );
 	}
 
 	public void setup() {

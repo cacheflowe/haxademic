@@ -8,9 +8,9 @@ import java.net.URL;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 
-@SuppressWarnings("serial")
 public class DmxTest
 extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
 	protected Runnable _asyncDmxRequest;
 	protected Thread _requestThread;
@@ -18,7 +18,7 @@ extends PAppletHax {
 	
 
 	protected void overridePropsFile() {
-		//		 _appConfig.setProperty( "osc_active", "true" );
+		//		 p.appConfig.setProperty( "osc_active", "true" );
 	}
 
 	public void setup() {

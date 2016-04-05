@@ -1,7 +1,6 @@
 package com.haxademic.sketch.render.ello;
 
-import processing.core.PShape;
-
+import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.color.ColorHaxEasing;
@@ -9,9 +8,11 @@ import com.haxademic.core.draw.shapes.Gradients;
 import com.haxademic.core.draw.util.OpenGLUtil;
 import com.haxademic.core.system.FileUtil;
 
-@SuppressWarnings("serial")
+import processing.core.PShape;
+
 public class GifRenderEllo023ElloRadialGradient
 extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	protected ColorHaxEasing _colorGradientCenter;
 	protected ColorHaxEasing _colorGradientOuter;
@@ -21,15 +22,15 @@ extends PAppletHax {
 	protected float _frames = 40;
 	
 	protected void overridePropsFile() {
-		_appConfig.setProperty( "width", "94" );
-		_appConfig.setProperty( "height", "94" );
+		p.appConfig.setProperty( AppSettings.WIDTH, "94" );
+		p.appConfig.setProperty( AppSettings.HEIGHT, "94" );
 		
-		_appConfig.setProperty( "rendering", "false" );
-		_appConfig.setProperty( "rendering_gif", "false" );
-		_appConfig.setProperty( "rendering_gif_framerate", "40" );
-		_appConfig.setProperty( "rendering_gif_quality", "1" );
-		_appConfig.setProperty( "rendering_gif_startframe", ""+ Math.round(_frames) );
-		_appConfig.setProperty( "rendering_gif_stopframe", ""+Math.round(_frames + _frames*4) );
+		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
+		p.appConfig.setProperty( AppSettings.RENDERING_GIF, "false" );
+		p.appConfig.setProperty( AppSettings.RENDERING_GIF_FRAMERATE, "40" );
+		p.appConfig.setProperty( AppSettings.RENDERING_GIF_QUALITY, "1" );
+		p.appConfig.setProperty( AppSettings.RENDERING_GIF_START_FRAME, ""+ Math.round(_frames) );
+		p.appConfig.setProperty( AppSettings.RENDERING_GIF_STOP_FRAME, ""+Math.round(_frames + _frames*4) );
 	}
 
 	public void setup() {

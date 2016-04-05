@@ -1,8 +1,6 @@
 package com.haxademic.sketch.render.ello;
 
-import processing.core.PGraphics;
-import processing.core.PImage;
-
+import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.util.OpenGLUtil;
@@ -11,9 +9,12 @@ import com.haxademic.core.math.easing.Penner;
 import com.haxademic.core.render.GifRenderer;
 import com.haxademic.core.system.FileUtil;
 
-@SuppressWarnings("serial")
+import processing.core.PGraphics;
+import processing.core.PImage;
+
 public class GifRenderEllo019EmbetterLoadingIcon
-extends PAppletHax{
+extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
 	AnimatedGifEncoder encoder;
 	PImage _icon;
@@ -22,8 +23,8 @@ extends PAppletHax{
 	boolean rendering = false;
 	
 	protected void overridePropsFile() {
-		_appConfig.setProperty( "width", "100" );
-		_appConfig.setProperty( "height", "110" );
+		p.appConfig.setProperty( AppSettings.WIDTH, "100" );
+		p.appConfig.setProperty( AppSettings.HEIGHT, "110" );
 	}
 	
 	public void setup() {
@@ -32,7 +33,7 @@ extends PAppletHax{
 		_icon = p.loadImage(FileUtil.getHaxademicDataPath()+"images/play-arrow.png");
 		
 		// special rendering situation since applet won't go as small as 110
-		_pg = p.createGraphics(46, 50, P.OPENGL);
+		_pg = p.createGraphics(46, 50, P.P3D);
 		if(rendering == true) {
 			_gifRenderer = new GifRenderer(40, 15);
 			_gifRenderer.startGifRender(this);

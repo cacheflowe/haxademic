@@ -1,13 +1,14 @@
 package com.haxademic.sketch.test;
 
+import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.color.ColorHaxEasing;
 import com.haxademic.core.draw.shapes.Gradients;
 
-@SuppressWarnings("serial")
 public class GradientRadialTest
 extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	protected ColorHaxEasing _colorGradientCenter;
 	protected ColorHaxEasing _colorGradientOuter;
@@ -15,15 +16,15 @@ extends PAppletHax {
 	protected float _frames = 120;
 	
 	protected void overridePropsFile() {
-		_appConfig.setProperty( "width", "600" );
-		_appConfig.setProperty( "height", "600" );
+		p.appConfig.setProperty( AppSettings.WIDTH, "600" );
+		p.appConfig.setProperty( AppSettings.HEIGHT, "600" );
 		
-		_appConfig.setProperty( "rendering", "false" );
-		_appConfig.setProperty( "rendering_gif", "false" );
-		_appConfig.setProperty( "rendering_gif_framerate", "40" );
-		_appConfig.setProperty( "rendering_gif_quality", "15" );
-		_appConfig.setProperty( "rendering_gif_startframe", "2" );
-		_appConfig.setProperty( "rendering_gif_stopframe", ""+Math.round(_frames*4 + 1) );
+		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
+		p.appConfig.setProperty( AppSettings.RENDERING_GIF, "false" );
+		p.appConfig.setProperty( AppSettings.RENDERING_GIF_FRAMERATE, "40" );
+		p.appConfig.setProperty( AppSettings.RENDERING_GIF_QUALITY, "15" );
+		p.appConfig.setProperty( AppSettings.RENDERING_GIF_START_FRAME, "2" );
+		p.appConfig.setProperty( AppSettings.RENDERING_GIF_STOP_FRAME, ""+Math.round(_frames*4 + 1) );
 	}
 
 	public void setup() {

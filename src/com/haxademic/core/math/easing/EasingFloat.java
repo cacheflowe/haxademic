@@ -24,6 +24,7 @@ implements IEasingValue {
 	
 	public void setCurrent( float value ) {
 		_val = value;
+		_target = value;
 	}
 	
 	public void setTarget( float value ) {

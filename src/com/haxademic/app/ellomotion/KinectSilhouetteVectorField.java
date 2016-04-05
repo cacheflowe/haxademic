@@ -3,14 +3,14 @@ package com.haxademic.app.ellomotion;
 import java.util.ArrayList;
 import java.util.Vector;
 
-import processing.core.PGraphics;
-import processing.core.PVector;
-
 import com.haxademic.core.app.P;
 import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.hardware.kinect.KinectSilhouetteBasic;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.EasingFloat;
+
+import processing.core.PGraphics;
+import processing.core.PVector;
 
 public class KinectSilhouetteVectorField 
 extends KinectSilhouetteBasic {

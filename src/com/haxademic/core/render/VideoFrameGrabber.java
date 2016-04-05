@@ -35,8 +35,11 @@ public class VideoFrameGrabber {
 		// the video stream. 
 		initMovie();
 
-		_curFrameBuffer = p.createGraphics( _movie.width, _movie.height, P.P2D );
-		_curFrameImage = p.createImage( _movie.width, _movie.height, P.ARGB );
+//		_curFrameBuffer = p.createGraphics( _movie.width, _movie.height, P.P2D );
+//		_curFrameImage = p.createImage( _movie.width, _movie.height, P.ARGB );
+
+		_curFrameBuffer = p.createGraphics( p.width, p.height, P.P2D );
+		_curFrameImage = p.createImage( p.width, p.height, P.ARGB );
 	}
 	
 	protected void initMovie() {

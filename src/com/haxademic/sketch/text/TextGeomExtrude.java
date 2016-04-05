@@ -12,7 +12,6 @@ import toxi.geom.mesh.WETriangleMesh;
 import toxi.processing.ToxiclibsSupport;
 //import toxi.volume.MeshVoxelizer;
 
-@SuppressWarnings("serial")
 public class TextGeomExtrude
 extends PApplet{
 

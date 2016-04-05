@@ -1,13 +1,14 @@
 package com.haxademic.sketch.audio;
 
+import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.system.FileUtil;
 
 import ddf.minim.AudioPlayer;
 
-@SuppressWarnings("serial")
 public class MinimLoopTest 
 extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	protected AudioPlayer _sound;
 	int loopBegin;
@@ -15,8 +16,8 @@ extends PAppletHax {
 
 
 	protected void overridePropsFile() {
-		_appConfig.setProperty( "width", "400" );
-		_appConfig.setProperty( "height", "400" );
+		p.appConfig.setProperty( AppSettings.WIDTH, "400" );
+		p.appConfig.setProperty( AppSettings.HEIGHT, "400" );
 	}
 
 	public void setup() {

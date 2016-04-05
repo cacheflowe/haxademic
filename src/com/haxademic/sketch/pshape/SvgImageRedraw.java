@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
+import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.color.ColorUtil;
@@ -18,9 +19,9 @@ import processing.core.PGraphics;
 import processing.core.PImage;
 import processing.core.PShape;
 
-@SuppressWarnings("serial")
 public class SvgImageRedraw 
 extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	protected PImage img;
 	
@@ -69,8 +70,8 @@ extends PAppletHax {
 	boolean rendering = true;
 
 	protected void overridePropsFile() {
-		_appConfig.setProperty( "width", "1000" );
-		_appConfig.setProperty( "height", "1000" );
+		p.appConfig.setProperty( AppSettings.WIDTH, "1000" );
+		p.appConfig.setProperty( AppSettings.HEIGHT, "1000" );
 	}
 
 	public void setup() {

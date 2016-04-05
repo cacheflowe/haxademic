@@ -12,7 +12,7 @@ public class KinectRegionGrid
 extends BaseJoysticksCollection
 implements IJoystickCollection {
 
-	protected PGraphics _pg;
+	protected static PGraphics _pg;
 	protected int _kinectClose = 0;
 	protected int _kinectFar = 0;
 	protected int _kinectDepth = 0;
@@ -33,7 +33,9 @@ implements IJoystickCollection {
 		super();
 
 		if(debug == true) {
-			_pg = P.p.createGraphics(KinectSize.WIDTH, KinectSize.HEIGHT, P.OPENGL);
+			if(_pg == null) {
+				_pg = P.p.createGraphics(KinectSize.WIDTH, KinectSize.HEIGHT, P.P3D);
+			}
 		}
 
 		_kinectClose = kinectClose;

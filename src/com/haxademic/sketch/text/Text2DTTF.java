@@ -4,9 +4,9 @@ package com.haxademic.sketch.text;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.text.CustomFontText2D;
 
-@SuppressWarnings("serial")
 public class Text2DTTF
 extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	CustomFontText2D _fontRenderer;
 
 	public void setup()	{

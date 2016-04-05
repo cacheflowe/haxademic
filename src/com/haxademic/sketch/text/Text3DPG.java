@@ -8,7 +8,6 @@ import processing.core.PGraphics;
 import processing.core.PImage;
 import processing.core.PVector;
 
-@SuppressWarnings("serial")
 public class Text3DPG
 extends PApplet {
 

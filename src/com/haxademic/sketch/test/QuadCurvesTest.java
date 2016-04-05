@@ -1,5 +1,6 @@
 package com.haxademic.sketch.test;
 
+import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.color.ColorUtil;
@@ -11,16 +12,16 @@ import com.haxademic.core.system.SystemUtil;
 import processing.core.PConstants;
 import processing.core.PVector;
 
-@SuppressWarnings("serial")
 public class QuadCurvesTest
 extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
 	protected PVector[] _points;
 	
 	protected void overridePropsFile() {
-		_appConfig.setProperty( "width", "1600" );
-		_appConfig.setProperty( "height", "1300" );
-		_appConfig.setProperty( "rendering", "false" );
+		p.appConfig.setProperty( AppSettings.WIDTH, "1600" );
+		p.appConfig.setProperty( AppSettings.HEIGHT, "1300" );
+		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
 	}
 	
 	public void setup() {

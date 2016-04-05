@@ -1,9 +1,6 @@
 package com.haxademic.sketch.shader;
 
-import processing.core.PGraphics;
-import processing.core.PImage;
-import processing.opengl.PShader;
-
+import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.util.DrawUtil;
@@ -11,9 +8,13 @@ import com.haxademic.core.draw.util.OpenGLUtil;
 import com.haxademic.core.math.easing.EasingFloat;
 import com.haxademic.core.system.FileUtil;
 
-@SuppressWarnings("serial")
+import processing.core.PGraphics;
+import processing.core.PImage;
+import processing.opengl.PShader;
+
 public class ShaderTest
-extends PAppletHax{
+extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 		
 	protected float CURSOR_PIE_DIAMETER = 34;
 	protected float CURSOR_RING_DIAMETER = 44;
@@ -48,10 +49,10 @@ extends PAppletHax{
 	protected float _autoTime = 0;
 	
 	protected void overridePropsFile() {
-		_appConfig.setProperty( "fills_screen", "false" );
-		_appConfig.setProperty( "width", "800" );
-		_appConfig.setProperty( "height", "600" );
-		_appConfig.setProperty( "rendering", "false" );
+		p.appConfig.setProperty( AppSettings.FILLS_SCREEN, "false" );
+		p.appConfig.setProperty( AppSettings.WIDTH, "800" );
+		p.appConfig.setProperty( AppSettings.HEIGHT, "600" );
+		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
 	}
 
 	public void setup() {

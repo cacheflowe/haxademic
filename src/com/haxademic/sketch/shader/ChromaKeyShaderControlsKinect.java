@@ -1,5 +1,6 @@
 package com.haxademic.sketch.shader;
 
+import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.shapes.Gradients;
@@ -11,9 +12,9 @@ import processing.core.PImage;
 import processing.opengl.PShader;
 
 
-@SuppressWarnings("serial")
 public class ChromaKeyShaderControlsKinect 
 extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	protected PGraphics _pg;
 
@@ -27,16 +28,16 @@ extends PAppletHax {
 
 
 	protected void overridePropsFile() {
-		_appConfig.setProperty( "rendering", "false" );
-		_appConfig.setProperty( "kinect_active", "true" );
-		_appConfig.setProperty( "width", "640" );
-		_appConfig.setProperty( "height", "480" );
+		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
+		p.appConfig.setProperty( AppSettings.KINECT_ACTIVE, "true" );
+		p.appConfig.setProperty( AppSettings.WIDTH, "640" );
+		p.appConfig.setProperty( AppSettings.HEIGHT, "480" );
 	}
 	
 	public void setup() {
 		super.setup();
 
-		_pg = p.createGraphics( p.width, p.height, P.OPENGL );
+		_pg = p.createGraphics( p.width, p.height, P.P3D );
 		setupChromakey();
 	}
 		

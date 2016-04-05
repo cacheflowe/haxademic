@@ -2,9 +2,7 @@ package com.haxademic.sketch.render.chairs;
 
 import java.util.ArrayList;
 
-import processing.core.PConstants;
-import processing.core.PImage;
-
+import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.util.DrawUtil;
@@ -12,27 +10,30 @@ import com.haxademic.core.draw.util.OpenGLUtil;
 import com.haxademic.core.math.easing.Penner;
 import com.haxademic.core.system.FileUtil;
 
-@SuppressWarnings("serial")
+import processing.core.PConstants;
+import processing.core.PImage;
+
 public class Chaircuterie
 extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 		
 	protected ArrayList<PImage> _images;
 	protected int _numImages;
 	protected int _imageIndex = 0;
 	protected float _framesPerImage = 40;
-	protected boolean _pixelated = true;
+	protected boolean _pixelated = false;
 	
 	protected void overridePropsFile() {
 		loadImages();
-		_appConfig.setProperty( "width", "360" );
-		_appConfig.setProperty( "height", "360" );
+		p.appConfig.setProperty( AppSettings.WIDTH, "360" );
+		p.appConfig.setProperty( AppSettings.HEIGHT, "360" );
 				
-		_appConfig.setProperty( "rendering", "false" );
-		_appConfig.setProperty( "rendering_gif", "true" );
-		_appConfig.setProperty( "rendering_gif_framerate", "30" );
-		_appConfig.setProperty( "rendering_gif_quality", "15" );
-		_appConfig.setProperty( "rendering_gif_startframe", "2" );
-		_appConfig.setProperty( "rendering_gif_stopframe", ""+Math.round(_framesPerImage * _images.size() - 1) );
+		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
+		p.appConfig.setProperty( AppSettings.RENDERING_GIF, "true" );
+		p.appConfig.setProperty( AppSettings.RENDERING_GIF_FRAMERATE, "30" );
+		p.appConfig.setProperty( AppSettings.RENDERING_GIF_QUALITY, "15" );
+		p.appConfig.setProperty( AppSettings.RENDERING_GIF_START_FRAME, "2" );
+		p.appConfig.setProperty( AppSettings.RENDERING_GIF_STOP_FRAME, ""+Math.round(_framesPerImage * _images.size() - 1) );
 	}
 	
 	public void setup() {
@@ -42,7 +43,8 @@ extends PAppletHax {
 	}
 	
 	protected void loadImages() {
-		String imgBase = "images/chairs/06-canvas/";
+		// String imgBase = "images/chairs/06-canvas/";
+		String imgBase = "images/cb-logos/";
 		
 		ArrayList<String> files = FileUtil.getFilesInDirOfType( FileUtil.getHaxademicDataPath() + imgBase, "jpg" );
 		files.addAll( FileUtil.getFilesInDirOfType( FileUtil.getHaxademicDataPath() + imgBase, "png" ) );

@@ -2,35 +2,34 @@ package com.haxademic.sketch.particle;
 
 import java.util.ArrayList;
 
+import com.haxademic.core.app.AppSettings;
+import com.haxademic.core.app.P;
+import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.draw.util.DrawUtil;
+import com.haxademic.core.math.MathUtil;
+import com.haxademic.core.system.FileUtil;
+
 import processing.core.PConstants;
 import processing.core.PVector;
 import processing.opengl.PShader;
 
-import com.haxademic.core.app.P;
-import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.draw.util.DrawUtil;
-import com.haxademic.core.draw.util.OpenGLUtil;
-import com.haxademic.core.math.MathUtil;
-import com.haxademic.core.system.FileUtil;
 
-
-@SuppressWarnings("serial")
 public class Flocking2DAttractors
-extends PAppletHax{
+extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	protected ArrayList<VectorFlyer2d> _particles;
 	protected ArrayList<Attractor> _attractors;
 	protected PShader _fxaa;
 
 	protected void overridePropsFile() {
-		_appConfig.setProperty( "width", "1280" );
-		_appConfig.setProperty( "height", "720" );
-		_appConfig.setProperty( "rendering", "false" );
+		p.appConfig.setProperty( AppSettings.WIDTH, "1280" );
+		p.appConfig.setProperty( AppSettings.HEIGHT, "720" );
+		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
 	}
 
 	public void setup() {
 		super.setup();
-		p.smooth(OpenGLUtil.SMOOTH_HIGH);
 		_fxaa = p.loadShader( FileUtil.getHaxademicDataPath() + "shaders/filters/fxaa.glsl" );
 	
 		_particles = new ArrayList<VectorFlyer2d>();

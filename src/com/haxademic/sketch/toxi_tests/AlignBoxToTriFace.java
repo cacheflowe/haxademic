@@ -9,9 +9,9 @@ import toxi.processing.ToxiclibsSupport;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.vendor.Toxiclibs;
 
-@SuppressWarnings("serial")
 public class AlignBoxToTriFace 
 extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	Triangle3D tri;
 	TriangleMesh mesh;

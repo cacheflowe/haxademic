@@ -2,11 +2,7 @@ package com.haxademic.app.haxmapper;
 
 import java.util.ArrayList;
 
-import processing.core.PApplet;
-import processing.core.PConstants;
-import processing.core.PShape;
-import processing.core.PVector;
-
+import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.data.ConvertUtil;
@@ -15,9 +11,14 @@ import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.system.FileUtil;
 import com.haxademic.core.system.SystemUtil;
 
-@SuppressWarnings("serial")
+import processing.core.PApplet;
+import processing.core.PConstants;
+import processing.core.PShape;
+import processing.core.PVector;
+
 public class HaxMapDrawingTool
 extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	protected PShape _curShape;
 	protected ArrayList<PShape> _shapes;
@@ -35,18 +36,11 @@ extends PAppletHax {
 	protected int curMouseX = 0;
 	protected int curMouseY = 0;
 
-	public static void main(String args[]) {
-		_isFullScreen = true;
-		PApplet.main(new String[] { "--hide-stop", "--bgcolor=000000", "com.haxademic.app.haxmapper.HaxMapDrawingTool" });
-	}
-
 	protected void overridePropsFile() {
-		_appConfig.setProperty( "rendering", "false" );
-		_appConfig.setProperty( "fills_screen", "true" );
-		_appConfig.setProperty( "fullscreen", "true" );
-		_appConfig.setProperty( "mapping_file",  FileUtil.getFile("text/mapping/mapping-2016-03-22-22-44-00.txt") );
-//		_appConfig.setProperty( "fullscreen", "false" );
-//		_appConfig.setProperty( "fills_screen", "false" );
+		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
+		p.appConfig.setProperty( AppSettings.FILLS_SCREEN, "true" );
+		p.appConfig.setProperty( AppSettings.FULLSCREEN, "true" );
+		p.appConfig.setProperty( "mapping_file",  FileUtil.getFile("text/mapping/mapping-2016-03-22-22-44-00.txt") );
 	}
 
 	public void setup() {
@@ -278,8 +272,8 @@ extends PAppletHax {
 	}
 	
 	public void loadVertices() {
-		if( _appConfig.getString("mapping_file", "") != "" ) {
-			_inputFileLines = loadStrings(_appConfig.getString("mapping_file", ""));
+		if( p.appConfig.getString("mapping_file", "") != "" ) {
+			_inputFileLines = loadStrings(p.appConfig.getString("mapping_file", ""));
 			for( int i=0; i < _inputFileLines.length; i++ ) {
 				String inputLine = _inputFileLines[i]; 
 				// count lines that contain characters

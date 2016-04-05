@@ -17,13 +17,14 @@ import org.supercsv.io.ICsvListReader;
 import org.supercsv.io.ICsvListWriter;
 import org.supercsv.prefs.CsvPreference;
 
+import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.system.FileUtil;
 
-@SuppressWarnings("serial")
 public class CsvTest
-extends PAppletHax{
+extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	protected String _csvFile = FileUtil.getHaxademicDataPath() + "csv/match-game.csv";
 	protected ArrayList<Score> _scores;
@@ -32,8 +33,8 @@ extends PAppletHax{
 	
 	
 	protected void overridePropsFile() {
-		_appConfig.setProperty( "width", "640" );
-		_appConfig.setProperty( "height", "480" );
+		p.appConfig.setProperty( AppSettings.WIDTH, "640" );
+		p.appConfig.setProperty( AppSettings.HEIGHT, "480" );
 	}
 
 	public void setup() {

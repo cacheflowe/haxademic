@@ -1,21 +1,21 @@
 
 package com.haxademic.sketch.hardware.kinect_openni;
 
-import processing.core.PGraphics;
-import processing.core.PImage;
-import toxi.geom.Vec3D;
-import SimpleOpenNI.SimpleOpenNI;
-
+import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.hardware.kinect.SkeletonsTracker;
 
+import SimpleOpenNI.SimpleOpenNI;
 import ddf.minim.AudioPlayer;
+import processing.core.PGraphics;
+import processing.core.PImage;
+import toxi.geom.Vec3D;
 
-@SuppressWarnings("serial")
 public class KinectFootMovement
 extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
 	protected SkeletonsTracker _skeletonTracker;
 	protected PGraphics _texture;
@@ -37,7 +37,7 @@ extends PAppletHax {
 		super.setup();
 		
 		// do something
-		if(_appConfig.getBoolean("kinect_active", true) == true) _skeletonTracker = new SkeletonsTracker();
+		if(p.appConfig.getBoolean("kinect_active", true) == true) _skeletonTracker = new SkeletonsTracker();
 		_texture = P.p.createGraphics( p.width, p.height, P.P3D );
 //		_sound = _minim.loadFile( "audio/bodymovements/goal.wav", 512 );
 		_ballImage = p.loadImage("images/foot-movement/ball.png");
@@ -51,10 +51,10 @@ extends PAppletHax {
 	}
 	
 	protected void overridePropsFile() {
-		_appConfig.setProperty( "rendering", "false" );
-		_appConfig.setProperty( "kinect_active", "false" );
-		_appConfig.setProperty( "width", "640" );
-		_appConfig.setProperty( "height", "480" );
+		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
+		p.appConfig.setProperty( AppSettings.KINECT_ACTIVE, "false" );
+		p.appConfig.setProperty( AppSettings.WIDTH, "640" );
+		p.appConfig.setProperty( AppSettings.HEIGHT, "480" );
 	}
 	
 	public void drawApp() {

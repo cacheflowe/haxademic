@@ -1,7 +1,6 @@
 package com.haxademic.sketch.hardware.leap;
 
-import processing.core.PVector;
-
+import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.debug.DebugUtil;
@@ -9,18 +8,18 @@ import com.haxademic.core.debug.DebugUtil;
 import de.voidplus.leapmotion.Device;
 import de.voidplus.leapmotion.Finger;
 import de.voidplus.leapmotion.Hand;
-import de.voidplus.leapmotion.LeapMotion;
 import de.voidplus.leapmotion.Tool;
+import processing.core.PVector;
 
-@SuppressWarnings("serial")
 public class LeapBasic 
 extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
 	protected void overridePropsFile() {
-		_appConfig.setProperty( "fills_screen", "false" );
-		_appConfig.setProperty( "leap_active", "true" );
-		_appConfig.setProperty( "width", "1200" );
-		_appConfig.setProperty( "height", "900" );
+		p.appConfig.setProperty( AppSettings.FILLS_SCREEN, "false" );
+		p.appConfig.setProperty( "leap_active", "true" );
+		p.appConfig.setProperty( AppSettings.WIDTH, "1200" );
+		p.appConfig.setProperty( AppSettings.HEIGHT, "900" );
 	}
 
 	public void setup() {

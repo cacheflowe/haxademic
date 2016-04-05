@@ -1,12 +1,13 @@
 package com.haxademic.sketch.audio;
 
+import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.util.OpenGLUtil;
 
-@SuppressWarnings("serial")
 public class EQBandTriggers 
 extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	float numElements;
 	float[] lastAudioFrame;
@@ -15,8 +16,8 @@ extends PAppletHax {
 	float ampThreshold = 0.2f;
 	
 	protected void overridePropsFile() {
-		p.appConfig.setProperty( "width", "600" );
-		p.appConfig.setProperty( "height", "600" );
+		p.appConfig.setProperty( AppSettings.WIDTH, "600" );
+		p.appConfig.setProperty( AppSettings.HEIGHT, "600" );
 	}
 
 	public void setup() {

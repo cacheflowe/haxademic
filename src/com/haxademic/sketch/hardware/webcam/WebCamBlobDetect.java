@@ -1,6 +1,7 @@
 package com.haxademic.sketch.hardware.webcam;
 
 
+import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.util.DrawUtil;
@@ -21,9 +22,9 @@ import toxi.geom.Vec3D;
 import toxi.geom.mesh.TriangleMesh;
 import toxi.processing.ToxiclibsSupport;
 
-@SuppressWarnings("serial")
 public class WebCamBlobDetect 
 extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	protected Triangle3D tri;
 	protected TriangleMesh mesh;
@@ -55,7 +56,7 @@ extends PAppletHax {
 	}
 
 	protected void overridePropsFile() {
-		_appConfig.setProperty( "rendering", "false" );
+		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
 	}
 
 	public void drawApp() {

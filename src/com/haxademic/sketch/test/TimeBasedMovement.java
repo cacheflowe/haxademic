@@ -1,10 +1,10 @@
 package com.haxademic.sketch.test;
 
+import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.system.TimeFactoredFps;
 
-@SuppressWarnings("serial")
 public class TimeBasedMovement
 extends PAppletHax  
 {
@@ -13,9 +13,9 @@ extends PAppletHax
 	public float moveXPerFrame = 5;
 
 	protected void overridePropsFile() {
-		_appConfig.setProperty( "width", "640" );
-		_appConfig.setProperty( "height", "480" );
-		_appConfig.setProperty( "fps", "60" );
+		p.appConfig.setProperty( AppSettings.WIDTH, "640" );
+		p.appConfig.setProperty( AppSettings.HEIGHT, "480" );
+		p.appConfig.setProperty( AppSettings.FPS, "60" );
 	}
 
 	public void setup() {

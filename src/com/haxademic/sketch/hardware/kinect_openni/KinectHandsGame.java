@@ -1,19 +1,20 @@
 
 package com.haxademic.sketch.hardware.kinect_openni;
 
-import processing.core.PGraphics;
-import toxi.geom.Vec3D;
-import SimpleOpenNI.SimpleOpenNI;
-
+import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.hardware.kinect.SkeletonsTracker;
 import com.haxademic.core.math.MathUtil;
 
-@SuppressWarnings("serial")
+import SimpleOpenNI.SimpleOpenNI;
+import processing.core.PGraphics;
+import toxi.geom.Vec3D;
+
 public class KinectHandsGame
 extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
 	protected SkeletonsTracker _skeletonTracker;
 	protected PGraphics _texture;
@@ -31,10 +32,10 @@ extends PAppletHax {
 	}
 	
 	protected void overridePropsFile() {
-		_appConfig.setProperty( "rendering", "false" );
-		_appConfig.setProperty( "kinect_active", "true" );
-		_appConfig.setProperty( "width", "640" );
-		_appConfig.setProperty( "height", "480" );
+		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
+		p.appConfig.setProperty( AppSettings.KINECT_ACTIVE, "true" );
+		p.appConfig.setProperty( AppSettings.WIDTH, "640" );
+		p.appConfig.setProperty( AppSettings.HEIGHT, "480" );
 	}
 	
 	public void drawApp() {

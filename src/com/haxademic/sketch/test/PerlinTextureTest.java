@@ -1,13 +1,14 @@
 package com.haxademic.sketch.test;
 
+import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.image.PerlinTexture;
 
 import controlP5.ControlP5;
 
-@SuppressWarnings("serial")
 public class PerlinTextureTest
 extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	protected PerlinTexture _perlinTexture;
 	
@@ -18,8 +19,8 @@ extends PAppletHax {
 	protected ControlP5 _cp5;
 
 	protected void overridePropsFile() {
-		_appConfig.setProperty( "width", "400" );
-		_appConfig.setProperty( "height", "200" );
+		p.appConfig.setProperty( AppSettings.WIDTH, "400" );
+		p.appConfig.setProperty( AppSettings.HEIGHT, "200" );
 	}
 
 	public void setup() {

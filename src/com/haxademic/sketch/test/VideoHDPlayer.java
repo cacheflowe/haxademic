@@ -1,16 +1,15 @@
 package com.haxademic.sketch.test;
 
+import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.image.ImageUtil;
 import com.haxademic.core.system.FileUtil;
 
 import processing.core.PGraphics;
-import processing.core.PImage;
 import processing.opengl.PShader;
 import processing.video.Movie;
 
-@SuppressWarnings("serial")
 public class VideoHDPlayer
 extends PAppletHax  
 {
@@ -23,8 +22,8 @@ extends PAppletHax
 
 
 	protected void overridePropsFile() {
-		_appConfig.setProperty( "width", "1920" );
-		_appConfig.setProperty( "height", "1080" );
+		p.appConfig.setProperty( AppSettings.WIDTH, "1920" );
+		p.appConfig.setProperty( AppSettings.HEIGHT, "1080" );
 	}
 
 	public void setup() {

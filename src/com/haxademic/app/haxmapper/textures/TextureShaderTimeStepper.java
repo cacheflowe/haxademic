@@ -1,7 +1,6 @@
 package com.haxademic.app.haxmapper.textures;
 
 import com.haxademic.core.app.P;
-import com.haxademic.core.image.filters.shaders.FXAAFilter;
 import com.haxademic.core.image.filters.shaders.SaturationFilter;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.EasingFloat;
@@ -48,27 +47,27 @@ extends BaseTexture {
 		_shaderFile = textureShader;
 		
 		buildGraphics( width, height );
-		_texture.noSmooth();
+		_texture.smooth();
 		loadShaders( textureShader );
 	}
 	
 	protected void loadShaders( String textureShader ) {
-		_patternShader = _texture.loadShader( FileUtil.getFile("shaders/textures/" + textureShader)); 
+		_patternShader = P.p.loadShader( FileUtil.getFile("shaders/textures/" + textureShader)); 
 		_patternShader.set("time", _timeEaser.value() );
 		_patternShader.set("mode", _mode);
 		
 		// special crap for shader day drawing learnings ---------
-		_patternShader.set("mouse", (float)P.p.mouseX, (float)P.p.mouseY);
-		locations = new float[50];
-		for(int i=0; i < locations.length; i++) {
-			locations[i] = MathUtil.randRangeDecimal(0, 640);
-		}
-		_patternShader.set("locations", locations);
-		colors = new float[75];
-		for(int i=0; i < colors.length; i++) {
-			colors[i] = MathUtil.randRangeDecimal(0, 1f);
-		}
-		_patternShader.set("colors", colors);
+//		_patternShader.set("mouse", (float)P.p.mouseX, (float)P.p.mouseY);
+//		locations = new float[50];
+//		for(int i=0; i < locations.length; i++) {
+//			locations[i] = MathUtil.randRangeDecimal(0, 640);
+//		}
+//		_patternShader.set("locations", locations);
+//		colors = new float[75];
+//		for(int i=0; i < colors.length; i++) {
+//			colors[i] = MathUtil.randRangeDecimal(0, 1f);
+//		}
+//		_patternShader.set("colors", colors);
 		// -------------------------------------------------------
 
 //		VignetteFilter.instance(P.p).setDarkness(0.7f);
@@ -169,7 +168,8 @@ extends BaseTexture {
 				_timeEaser.setTarget( _timeEaser.value() + _smallTimeStep );
 			}
 		} else if(_nonBeatTimeMode == ShaderTimeMode.DirectionSpeedShift) {
-			_nonBeatSpeed = MathUtil.randRangeDecimal(-_smallTimeStep/30f, _smallTimeStep/30f);
+			_nonBeatSpeed = MathUtil.randRangeDecimal(_smallTimeStep/60f, _smallTimeStep/20f);
+			if(MathUtil.randBoolean(P.p) == true) _nonBeatSpeed *= -1;
 		} else if(_nonBeatTimeMode == ShaderTimeMode.BeatSpeedUp) {
 			if(_nonBeatTimeMode == ShaderTimeMode.BeatSpeedUp) {
 				if(_beatSpeedUp > 0) _beatSpeedUp = 0.001f;

@@ -1,15 +1,15 @@
 package com.haxademic.sketch.test;
 
-import processing.core.PConstants;
-import processing.core.PGraphics;
-
+import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.draw.util.OpenGLUtil;
 import com.haxademic.core.math.MathUtil;
 
-@SuppressWarnings("serial")
+import processing.core.PConstants;
+import processing.core.PGraphics;
+
 public class SinSaw
 extends PAppletHax  
 {	
@@ -18,7 +18,7 @@ extends PAppletHax
 	public void setup() {
 		super.setup();
 		
-		_texture = P.p.createGraphics( 520, 120, P.OPENGL );
+		_texture = P.p.createGraphics( 520, 120, P.P3D );
 		_texture.smooth(OpenGLUtil.SMOOTH_HIGH);
 		_texture.beginDraw();
 		_texture.background(0);
@@ -26,9 +26,9 @@ extends PAppletHax
 	}
 	
 	protected void overridePropsFile() {
-		_appConfig.setProperty( "rendering", "false" );
-		_appConfig.setProperty( "width", "520" );
-		_appConfig.setProperty( "height", "120" );
+		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
+		p.appConfig.setProperty( AppSettings.WIDTH, "520" );
+		p.appConfig.setProperty( AppSettings.HEIGHT, "120" );
 	}
 		
 	public void drawApp() {

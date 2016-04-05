@@ -2,12 +2,7 @@ package com.haxademic.sketch.hardware.kinect_openni;
 
 import java.util.ArrayList;
 
-import processing.core.PGraphics;
-import processing.core.PImage;
-import processing.core.PVector;
-import toxi.geom.mesh.WETriangleMesh;
-import SimpleOpenNI.SimpleOpenNI;
-
+import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.mesh.MeshPool;
@@ -18,9 +13,15 @@ import com.haxademic.core.hardware.kinect.SkeletonsTracker;
 import com.haxademic.core.system.FileUtil;
 import com.haxademic.core.vendor.Toxiclibs;
 
-@SuppressWarnings("serial")
+import SimpleOpenNI.SimpleOpenNI;
+import processing.core.PGraphics;
+import processing.core.PImage;
+import processing.core.PVector;
+import toxi.geom.mesh.WETriangleMesh;
+
 public class KinectBoxConnections
 extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
 	protected SkeletonsTracker _skeletonTracker;
 	protected PGraphics _texture;
@@ -50,10 +51,10 @@ extends PAppletHax {
 	}
 	
 	protected void overridePropsFile() {
-		_appConfig.setProperty( "rendering", "false" );
-		_appConfig.setProperty( "kinect_active", "true" );
-		_appConfig.setProperty( "width", "1240" );
-		_appConfig.setProperty( "height", "880" );
+		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
+		p.appConfig.setProperty( AppSettings.KINECT_ACTIVE, "true" );
+		p.appConfig.setProperty( AppSettings.WIDTH, "1240" );
+		p.appConfig.setProperty( AppSettings.HEIGHT, "880" );
 	}
 	
 	public void drawApp() {

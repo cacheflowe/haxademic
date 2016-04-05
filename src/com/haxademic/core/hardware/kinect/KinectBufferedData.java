@@ -70,7 +70,7 @@ public class KinectBufferedData {
 	
 	public PImage drawDebug() {
 		if(_debugCanvas == null) {
-			_debugCanvas = P.p.createGraphics(_kinectRight - _kinectLeft, _kinectBottom - _kinectTop, P.OPENGL);
+			_debugCanvas = P.p.createGraphics(_kinectRight - _kinectLeft, _kinectBottom - _kinectTop, P.P3D);
 		}
 		
 		_debugCanvas.beginDraw();

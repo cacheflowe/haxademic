@@ -2,34 +2,29 @@ package com.haxademic.sketch.three_d;
 
 import java.util.ArrayList;
 
-import processing.core.PApplet;
-import processing.core.PShape;
-import processing.core.PVector;
-
+import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.util.OpenGLUtil;
 
-@SuppressWarnings("serial")
+import processing.core.PShape;
+import processing.core.PVector;
+
 public class MappingTest
-extends PAppletHax{
+extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
 	protected PShape _curShape;
 	protected ArrayList<PShape> _shapes;
 	protected boolean _isPressed = false;
 	protected boolean _debugging = true;
 	
-	public static void main(String args[]) {
-		_isFullScreen = true;
-		PApplet.main(new String[] { "--hide-stop", "--bgcolor=000000", "com.haxademic.sketch.three_d.MappingTest" });
-	}
-
 	protected void overridePropsFile() {
-		_appConfig.setProperty( "width", "1024" );
-		_appConfig.setProperty( "height", "768" );
-		_appConfig.setProperty( "rendering", "false" );
-		_appConfig.setProperty( "fills_screen", "true" );
-		_appConfig.setProperty( "fullscreen", "true" );
+		p.appConfig.setProperty( AppSettings.WIDTH, "1024" );
+		p.appConfig.setProperty( AppSettings.HEIGHT, "768" );
+		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
+		p.appConfig.setProperty( AppSettings.FILLS_SCREEN, "true" );
+		p.appConfig.setProperty( AppSettings.FULLSCREEN, "true" );
 	}
 	
 	public void setup() {

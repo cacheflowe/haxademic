@@ -58,6 +58,7 @@ public class AudioInputWrapperMinim {
 
 		// a beat detection object song SOUND_ENERGY mode with a sensitivity of 300 milliseconds
 		_beatDetection = new BeatDetect();
+//		_beatDetection.detectMode(BeatDetect.FREQ_ENERGY);
 		_beatDetection.setSensitivity(300);
 
 		// TODO: move this into a sketch so audio and renderer are separate

@@ -1,21 +1,18 @@
 package com.haxademic.app.musicvideos;
 
-import processing.core.PGraphics;
-import processing.opengl.PShader;
-
+import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.shapes.Superformula;
 import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.draw.util.OpenGLUtil;
-import com.haxademic.core.math.easing.EasingFloat;
-import com.haxademic.core.system.FileUtil;
 
 import controlP5.ControlP5;
+import processing.core.PGraphics;
 
-@SuppressWarnings("serial")
 public class CachePatterSuperformulaTest
-extends PAppletHax{
+extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
 	protected ControlP5 _cp5;
 	public float a;
@@ -34,9 +31,9 @@ extends PAppletHax{
 
 	
 	protected void overridePropsFile() {
-		_appConfig.setProperty( "width", "1280" );
-		_appConfig.setProperty( "height", "720" );
-		_appConfig.setProperty( "rendering", "false" );
+		p.appConfig.setProperty( AppSettings.WIDTH, "1280" );
+		p.appConfig.setProperty( AppSettings.HEIGHT, "720" );
+		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
 	}
 	
 	public void setup() {

@@ -9,9 +9,9 @@ import toxi.geom.Cone;
 import toxi.geom.Matrix4x4;
 import toxi.geom.Vec3D;
 
-@SuppressWarnings("serial")
 public class FlockingBoidsShiffmanToxi
 extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	int DIM = 200;
 	int NUM = 200;

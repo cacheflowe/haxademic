@@ -10,19 +10,9 @@ import com.haxademic.core.vendor.Toxiclibs;
 
 public class AudioMeshDeform
 extends PAppletHax {
-
-	private static final long serialVersionUID = 1L;
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
 	WETriangleMesh _mesh, _meshDeform;
-
-	/**
-	 * Auto-initialization of the main class.
-	 * @param args
-	 */
-	public static void main(String args[]) {
-		// "--present", 
-		PAppletHax.main(new String[] { "--hide-stop", "--bgcolor=000000", "com.haxademic.sketch.three_d.AudioMeshDeform" });
-	}
 
 	public void setup() {
 		super.setup();

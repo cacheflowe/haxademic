@@ -27,11 +27,6 @@ public class SystemUtil {
 		return SystemUtil.getTimestamp(p) + "-" + P.nf( p.frameCount, 8 ); 
 	}
 	
-	// Patch TAB capture ability - Processing 2.0 broke this in 3D rendering contexts
-	public static void p2TabKeyInputPatch() {
-//		if(PJOGL.canvas != null) { PJOGL.canvas.setFocusTraversalKeysEnabled(false); }
-	}
-	
 	public static void printRunningProcesses() {
 	    try {
 	        String line;

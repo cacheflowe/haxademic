@@ -1,11 +1,11 @@
 package com.haxademic.sketch.particle;
 
+import com.haxademic.core.draw.util.DrawUtil;
+
 import processing.core.PApplet;
 import processing.core.PConstants;
 import toxi.color.TColor;
 import toxi.math.noise.PerlinNoise;
-
-import com.haxademic.core.draw.util.DrawUtil;
 
 /**
  * 

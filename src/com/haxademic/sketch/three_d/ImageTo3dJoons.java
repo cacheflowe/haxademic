@@ -1,17 +1,18 @@
 package com.haxademic.sketch.three_d;
 
-import processing.core.PImage;
-import toxi.geom.Triangle3D;
-import toxi.geom.mesh.TriangleMesh;
-
+import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.image.ImageUtil;
 import com.haxademic.core.render.JoonsWrapper;
 import com.haxademic.core.system.FileUtil;
 
-@SuppressWarnings("serial")
+import processing.core.PImage;
+import toxi.geom.Triangle3D;
+import toxi.geom.mesh.TriangleMesh;
+
 public class ImageTo3dJoons 
 extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	protected Triangle3D tri;
 	protected TriangleMesh mesh;
@@ -25,13 +26,13 @@ extends PAppletHax {
 	}
 	
 	protected void overridePropsFile() {
-		_appConfig.setProperty( "sunflow", "true" );
-		_appConfig.setProperty( "sunflow_active", "false" );
-		_appConfig.setProperty( "sunflow_quality", "high" );
-		_appConfig.setProperty( "sunflow_save_images", "true" );
-		_appConfig.setProperty( "width", "1300" );
-		_appConfig.setProperty( "height", "1000" );
-		_appConfig.setProperty( "rendering", "false" );
+		p.appConfig.setProperty( AppSettings.SUNFLOW, "true" );
+		p.appConfig.setProperty( AppSettings.SUNFLOW_ACTIVE, "false" );
+		p.appConfig.setProperty( AppSettings.SUNFLOW_QUALITY, "high" );
+		p.appConfig.setProperty( "sunflow_save_images", "true" );
+		p.appConfig.setProperty( AppSettings.WIDTH, "1300" );
+		p.appConfig.setProperty( AppSettings.HEIGHT, "1000" );
+		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
 	}
 
 	public void drawApp() {
@@ -66,11 +67,11 @@ extends PAppletHax {
 				
 				// pyramids
 //				Shapes.drawPyramid( p, height, size, false );
-//				if( _appConfig.getBoolean("sunflow", false) == true ) _jw.addColorForObject( JoonsWrapper.MATERIAL_SHINY, pixelColor, 1, false );
+//				if( p.appConfig.getBoolean("sunflow", false) == true ) _jw.addColorForObject( JoonsWrapper.MATERIAL_SHINY, pixelColor, 1, false );
 				
 				// spheres
 				sphere(size*0.5f * pixelBrightness/255f);
-				if( _jw != null ) _jw.addColorForObject( JoonsWrapper.MATERIAL_DIFFUSE, pixelColor, 1, true );
+				if( joons != null ) joons.addColorForObject( JoonsWrapper.MATERIAL_DIFFUSE, pixelColor, 1, true );
 				
 				
 				p.popMatrix();

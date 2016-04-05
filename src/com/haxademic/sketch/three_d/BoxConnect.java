@@ -1,14 +1,14 @@
 package com.haxademic.sketch.three_d;
 
-import processing.core.PVector;
-
+import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.color.TColorInit;
 import com.haxademic.core.draw.shapes.BoxBetween;
 import com.haxademic.core.draw.util.DrawUtil;
 
-@SuppressWarnings("serial")
+import processing.core.PVector;
+
 public class BoxConnect
 extends PAppletHax  
 {
@@ -19,7 +19,7 @@ extends PAppletHax
 		// Sunflow needs to use colors between 0-1. Default processing color mode is 0-255. 
 		// TColor likes the former, so we normalize with TColorInit, depending on the rendering mode.
 		// This way we can always use normal 0-255 RGB color blending in either case.
-		if( _graphicsMode == P.OPENGL ) {
+		if( rendererMode == P.P3D ) {
 			p.colorMode( P.RGB, 1f, 1f, 1f, 1f );
 		} else {
 			p.colorMode( P.RGB, 255f, 255f, 255f, 255f );
@@ -32,14 +32,14 @@ extends PAppletHax
 	}
 
 	protected void overridePropsFile() {
-		_appConfig.setProperty( "sunflow", "false" );
-		_appConfig.setProperty( "rendering", "false" );
+		p.appConfig.setProperty( AppSettings.SUNFLOW, "false" );
+		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
 	}
 
 	public void drawApp() {
 
 		DrawUtil.setBasicLights( p );
-		if( _graphicsMode == P.OPENGL ) p.background(0,0,0,255);
+		if( rendererMode == P.P3D ) p.background(0,0,0,255);
 
 		p.translate(p.width/2, p.height/2, 500);
 		// rotateY(frameCount/40f);

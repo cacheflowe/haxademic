@@ -2,12 +2,7 @@ package com.haxademic.app.horrorhouse;
 
 import java.util.ArrayList;
 
-import processing.core.PApplet;
-import processing.core.PGraphics;
-import processing.core.PImage;
-import processing.opengl.PShader;
-import processing.video.Movie;
-
+import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.color.ColorHaxEasing;
@@ -18,10 +13,15 @@ import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.system.FileUtil;
 
 import ddf.minim.AudioPlayer;
+import processing.core.PApplet;
+import processing.core.PGraphics;
+import processing.core.PImage;
+import processing.opengl.PShader;
+import processing.video.Movie;
 
-@SuppressWarnings("serial")
 public class BloodSplats
-extends PAppletHax{
+extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
 	protected int _numDrips = 50;
 	protected Drip[] _drips = new Drip[_numDrips];
@@ -65,27 +65,18 @@ extends PAppletHax{
 	// end config =====================================================
 	
 	
-	/**
-	 * Auto-initialization of the main class.
-	 * @param args
-	 */
-	public static void main(String args[]) {
-		_isFullScreen = true;
-		PApplet.main(new String[] { "--hide-stop", "--bgcolor=000000", "com.haxademic.app.horrorhouse.BloodSplats" });
-	}
 	protected void overridePropsFile() {
-		_appConfig.setProperty( "width", "1000" );
-		_appConfig.setProperty( "height", "800" );
-		_appConfig.setProperty( "rendering", "false" );
-//		_appConfig.setProperty( "fps", "30" );
-		_appConfig.setProperty( "kinect_active", "true" );
-		_appConfig.setProperty( "fullscreen", "true" );
+		p.appConfig.setProperty( AppSettings.WIDTH, "1000" );
+		p.appConfig.setProperty( AppSettings.HEIGHT, "800" );
+		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
+		p.appConfig.setProperty( AppSettings.KINECT_ACTIVE, "true" );
+		p.appConfig.setProperty( AppSettings.FULLSCREEN, "true" );
 	}
 	
 	public void setup() {
 		super.setup();
 		
-		_kinectActive = _appConfig.getBoolean( "kinect_active", false );
+		_kinectActive = p.appConfig.getBoolean( "kinect_active", false );
 		
 		if( _kinectActive == true ) _kinectMonitor = new KinectAmbientActivityMonitor( 20, 500, 15000 );
 		
@@ -137,7 +128,7 @@ extends PAppletHax{
 		_blurV = loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/blur-vertical.glsl" ); 
 		_blurV.set( "v", 1f/p.height );
 
-		_pg = p.createGraphics(width, height, P.OPENGL);
+		_pg = p.createGraphics(width, height, P.P3D);
 		_pg.beginDraw();
 		_pg.background(0);
 		_pg.endDraw();

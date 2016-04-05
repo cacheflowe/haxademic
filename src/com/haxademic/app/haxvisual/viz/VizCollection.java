@@ -206,26 +206,26 @@ implements IVizModule
 			_isStressTesting = !_isStressTesting;
 			P.println("_isStressTesting = "+_isStressTesting);
 		}
-		if ( p.key == 'c' || p.key == 'C' || p._midi.midiPadIsOn( MidiWrapper.PAD_01 ) == 1 || p._midi.midiPadIsOn( MidiWrapper.NOTE_01 ) == 1 ) {
+		if ( p.key == 'c' || p.key == 'C' || p.midi.midiPadIsOn( MidiWrapper.PAD_01 ) == 1 || p.midi.midiPadIsOn( MidiWrapper.NOTE_01 ) == 1 ) {
 			pickNewColors();
 		}
-		if ( p.key == 'v' || p.key == 'V' || p._midi.midiPadIsOn( MidiWrapper.PAD_02 ) == 1 || p._midi.midiPadIsOn( MidiWrapper.NOTE_02 ) == 1 ) {
+		if ( p.key == 'v' || p.key == 'V' || p.midi.midiPadIsOn( MidiWrapper.PAD_02 ) == 1 || p.midi.midiPadIsOn( MidiWrapper.NOTE_02 ) == 1 ) {
 			newCamera();
 		}
-		if ( p.key == 'n' || p.key == 'N' || p._midi.midiPadIsOn( MidiWrapper.PAD_03 ) == 1 || p._midi.midiPadIsOn( MidiWrapper.NOTE_03 ) == 1 ) {
+		if ( p.key == 'n' || p.key == 'N' || p.midi.midiPadIsOn( MidiWrapper.PAD_03 ) == 1 || p.midi.midiPadIsOn( MidiWrapper.NOTE_03 ) == 1 ) {
 			updateTiming();
 		}
-		if ( p.key == 'm' || p.key == 'M' || p._midi.midiPadIsOn( MidiWrapper.PAD_04 ) == 1 || p._midi.midiPadIsOn( MidiWrapper.NOTE_04 ) == 1 ) {
+		if ( p.key == 'm' || p.key == 'M' || p.midi.midiPadIsOn( MidiWrapper.PAD_04 ) == 1 || p.midi.midiPadIsOn( MidiWrapper.NOTE_04 ) == 1 ) {
 			pickMode();
 			pickNewColors();
 		}
-		if ( p.key == 'f' || p.key == 'F' || p._midi.midiPadIsOn( MidiWrapper.PAD_05 ) == 1 || p._midi.midiPadIsOn( MidiWrapper.NOTE_05 ) == 1 ) {
+		if ( p.key == 'f' || p.key == 'F' || p.midi.midiPadIsOn( MidiWrapper.PAD_05 ) == 1 || p.midi.midiPadIsOn( MidiWrapper.NOTE_05 ) == 1 ) {
 			updateSection();
 		}
-		if ( p.key == 'l' || p.key == 'L' || p._midi.midiPadIsOn( MidiWrapper.PAD_08 ) == 1 || p._midi.midiPadIsOn( MidiWrapper.NOTE_08 ) == 1 ) {
+		if ( p.key == 'l' || p.key == 'L' || p.midi.midiPadIsOn( MidiWrapper.PAD_08 ) == 1 || p.midi.midiPadIsOn( MidiWrapper.NOTE_08 ) == 1 ) {
 			newLineMode();
 		}
-		if ( p.key == ' ' || p._midi.midiPadIsOn( MidiWrapper.PAD_07 ) == 1 || p._midi.midiPadIsOn( MidiWrapper.NOTE_07 ) == 1 ) {
+		if ( p.key == ' ' || p.midi.midiPadIsOn( MidiWrapper.PAD_07 ) == 1 || p.midi.midiPadIsOn( MidiWrapper.NOTE_07 ) == 1 ) {
 			pickElements();
 			pickNewColors();
 		}

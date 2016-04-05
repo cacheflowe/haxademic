@@ -1,11 +1,13 @@
 
 package com.haxademic.sketch.test;
 
+import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.PAppletHax;
 
-@SuppressWarnings("serial")
 public class JoonsTesterHax 
 extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
+
 
 	//    JoonsRenderer jr;
 	//
@@ -25,15 +27,15 @@ extends PAppletHax {
 	//    float zFar = 10000;
 
 	protected void overridePropsFile() {
-		_appConfig.setProperty( "sunflow", "true" );
-		_appConfig.setProperty( "sunflow_active", "true" );
-		_appConfig.setProperty( "sunflow_quality", "high" );
+		p.appConfig.setProperty( AppSettings.SUNFLOW, "true" );
+		p.appConfig.setProperty( AppSettings.SUNFLOW_ACTIVE, "true" );
+		p.appConfig.setProperty( AppSettings.SUNFLOW_QUALITY, "high" );
 
 
-		_appConfig.setProperty( "width", "800" );
-		_appConfig.setProperty( "height", "600" );
-		_appConfig.setProperty( "rendering", "false" );
-		_appConfig.setProperty( "fps", "30" );
+		p.appConfig.setProperty( AppSettings.WIDTH, "800" );
+		p.appConfig.setProperty( AppSettings.HEIGHT, "600" );
+		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
+		p.appConfig.setProperty( AppSettings.FPS, "30" );
 	}
 
 	//    public void setup() {
@@ -53,9 +55,9 @@ extends PAppletHax {
 		//            camera(eyeX, eyeY, eyeZ, centerX, centerY, centerZ, upX, upY, upZ);
 		//            perspective(fov, aspect, zNear, zFar);
 
-		_jw.jr.background(0, 0, 0); //background(gray), or (r, g, b), like Processing.
-		_jw.jr.background("gi_instant"); //Global illumination, normal mode.
-		_jw.jr.background("gi_ambient_occlusion"); //Global illumination, ambient occlusion mode.
+		joons.jr.background(0, 0, 0); //background(gray), or (r, g, b), like Processing.
+		joons.jr.background("gi_instant"); //Global illumination, normal mode.
+		joons.jr.background("gi_ambient_occlusion"); //Global illumination, ambient occlusion mode.
 
 //		pushMatrix();
 //		translate(0, 0, -120);
@@ -70,19 +72,19 @@ extends PAppletHax {
 		//_jw.jr.fill("light"); or
 		//_jw.jr.fill("light", r, g, b); or
 		//_jw.jr.fill("light", r, g, b, int samples);
-		_jw.jr.fill("light", 5, 5, 5);
+		joons.jr.fill("light", 5, 5, 5);
 		sphere(13);
 		translate(27, 0, 0);
 
 		//_jw.jr.fill("mirror"); or
 		//_jw.jr.fill("mirror", r, g, b);    
-		_jw.jr.fill("mirror", 255, 255, 255);
+		joons.jr.fill("mirror", 255, 255, 255);
 		sphere(13);
 		translate(27, 0, 0);
 
 		//_jw.jr.fill("diffuse"); or
 		//_jw.jr.fill("diffuse", r, g, b);
-		_jw.jr.fill("diffuse", 150, 255, 255);
+		joons.jr.fill("diffuse", 150, 255, 255);
 		sphere(13);
 //		beginShape(TRIANGLES);
 //		vertex(0, 10, 0);
@@ -94,7 +96,7 @@ extends PAppletHax {
 		//_jw.jr.fill("shiny"); or
 		//_jw.jr.fill("shiny", r, g, b);  or
 		//_jw.jr.fill("shiny", r, g, b, shininess);  or
-		_jw.jr.fill("shiny", 150, 255, 255, 0.1f);
+		joons.jr.fill("shiny", 150, 255, 255, 0.1f);
 		sphere(13);
 		translate(27, 0, 0);
 		popMatrix();
@@ -104,22 +106,22 @@ extends PAppletHax {
 		//_jw.jr.fill("ambient_occlusion"); or
 		//_jw.jr.fill("ambient_occlusion", bright r, bright g, bright b); or
 		//_jw.jr.fill("ambient occlusion", bright r, bright g, bright b, dark r, dark g, dark b, maximum distance, int samples);
-		_jw.jr.fill("ambient_occlusion", 150, 255, 255, 0, 0, 255, 50, 16);
+		joons.jr.fill("ambient_occlusion", 150, 255, 255, 0, 0, 255, 50, 16);
 		sphere(13);
 		translate(27, 0, 0);
 
 		//_jw.jr.fill("phong", r, g, b);
-		_jw.jr.fill("phong", 150, 255, 255);
+		joons.jr.fill("phong", 150, 255, 255);
 		sphere(13);
 		translate(27, 0, 0);
 
 		//_jw.jr.fill("glass", r, g, b);
-		_jw.jr.fill("glass", 255, 255, 255);
+		joons.jr.fill("glass", 255, 255, 255);
 		sphere(13);
 		translate(27, 0, 0);
 
 		//_jw.jr.fill("constant", r, g, b);
-		_jw.jr.fill("constant", 150, 255, 255);
+		joons.jr.fill("constant", 150, 255, 255);
 		sphere(13);
 		popMatrix();
 
@@ -128,7 +130,7 @@ extends PAppletHax {
 	}
 
 	public void keyPressed() {
-		if (key == 'r' || key == 'R') _jw.jr.render(); //Press 'r' key to start rendering.
+		if (key == 'r' || key == 'R') joons.jr.render(); //Press 'r' key to start rendering.
 	}
 
 }

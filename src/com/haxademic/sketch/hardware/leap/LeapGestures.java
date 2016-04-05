@@ -1,7 +1,5 @@
 package com.haxademic.sketch.hardware.leap;
 
-import processing.core.PVector;
-
 import com.haxademic.core.app.PAppletHax;
 
 import de.voidplus.leapmotion.CircleGesture;
@@ -13,10 +11,11 @@ import de.voidplus.leapmotion.LeapMotion;
 import de.voidplus.leapmotion.ScreenTapGesture;
 import de.voidplus.leapmotion.SwipeGesture;
 import de.voidplus.leapmotion.Tool;
+import processing.core.PVector;
 
-@SuppressWarnings("serial")
 public class LeapGestures
 extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
 
 	LeapMotion leap;

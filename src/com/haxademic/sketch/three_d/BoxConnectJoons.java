@@ -1,11 +1,6 @@
 package com.haxademic.sketch.three_d;
 
-import processing.core.PImage;
-import processing.core.PVector;
-import toxi.geom.Triangle3D;
-import toxi.geom.mesh.TriangleMesh;
-import toxi.geom.mesh.WETriangleMesh;
-
+import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.mesh.MeshUtil;
@@ -13,9 +8,15 @@ import com.haxademic.core.draw.shapes.BoxBetween;
 import com.haxademic.core.render.JoonsWrapper;
 import com.haxademic.core.system.FileUtil;
 
-@SuppressWarnings("serial")
+import processing.core.PImage;
+import processing.core.PVector;
+import toxi.geom.Triangle3D;
+import toxi.geom.mesh.TriangleMesh;
+import toxi.geom.mesh.WETriangleMesh;
+
 public class BoxConnectJoons 
 extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	protected Triangle3D tri;
 	protected TriangleMesh mesh;
@@ -28,13 +29,13 @@ extends PAppletHax {
 	}
 	
 	protected void overridePropsFile() {
-		_appConfig.setProperty( "sunflow", "true" );
-		_appConfig.setProperty( "sunflow_active", "false" );
-		_appConfig.setProperty( "sunflow_quality", "high" );
-		_appConfig.setProperty( "sunflow_save_images", "true" );
-		_appConfig.setProperty( "width", "1280" );
-		_appConfig.setProperty( "height", "1280" );
-		_appConfig.setProperty( "rendering", "false" );
+		p.appConfig.setProperty( AppSettings.SUNFLOW, "true" );
+		p.appConfig.setProperty( AppSettings.SUNFLOW_ACTIVE, "false" );
+		p.appConfig.setProperty( AppSettings.SUNFLOW_QUALITY, "high" );
+		p.appConfig.setProperty( "sunflow_save_images", "true" );
+		p.appConfig.setProperty( AppSettings.WIDTH, "1280" );
+		p.appConfig.setProperty( AppSettings.HEIGHT, "1280" );
+		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
 	}
 
 	public void drawApp() {
@@ -52,7 +53,7 @@ extends PAppletHax {
 		p.fill(0);
 		// _jw.drawRoomWithSizeAndColor( width, height, JoonsWrapper.MATERIAL_SHINY, p.color( 45, 55, 45 ), 1 );
 		// _jw.drawRoomSphereWithColor( JoonsWrapper.MATERIAL_SHINY, p.color( 45, 55, 45 ), 1 );
-		if( _jw != null ) _jw.drawRoomSphereWithColor( JoonsWrapper.MATERIAL_DIFFUSE, p.color( 25, 25, 25 ), -1 );
+		if( joons != null ) joons.drawRoomSphereWithColor( JoonsWrapper.MATERIAL_DIFFUSE, p.color( 25, 25, 25 ), -1 );
 		
 		// mirror ball
 		pushMatrix();
@@ -61,7 +62,7 @@ extends PAppletHax {
 		sphere(12);
 		popMatrix();
 		// always call after drawing shapes
-		if( _jw != null ) _jw.addColorForObject( JoonsWrapper.MATERIAL_MIRROR, -1, p.color( 200, 200, 200 ), true );
+		if( joons != null ) joons.addColorForObject( JoonsWrapper.MATERIAL_MIRROR, -1, p.color( 200, 200, 200 ), true );
 
 		
 		// glass model
@@ -95,7 +96,7 @@ extends PAppletHax {
 //			p.popMatrix();
 
 			// always call after drawing shapes
-			if( _jw != null ) _jw.addColorForObject( JoonsWrapper.MATERIAL_SHINY, p.color( 200, 200, 200 ), 1, false );
+			if( joons != null ) joons.addColorForObject( JoonsWrapper.MATERIAL_SHINY, p.color( 200, 200, 200 ), 1, false );
 			
 			
 			
@@ -106,7 +107,7 @@ extends PAppletHax {
 			sphere(3.5f);
 			popMatrix();
 			// always call after drawing shapes
-			if( _jw != null ) _jw.addColorForObject( JoonsWrapper.MATERIAL_SHINY, p.color( 0, 0, 0 ), 1, true );
+			if( joons != null ) joons.addColorForObject( JoonsWrapper.MATERIAL_SHINY, p.color( 0, 0, 0 ), 1, true );
 
 			
 			// glass ball
@@ -116,7 +117,7 @@ extends PAppletHax {
 			sphere(5f);
 			popMatrix();
 			// always call after drawing shapes
-			if( _jw != null ) _jw.addColorForObject( JoonsWrapper.MATERIAL_GLASS, -1, p.color( 127, 127, 127 ), true );
+			if( joons != null ) joons.addColorForObject( JoonsWrapper.MATERIAL_GLASS, -1, p.color( 127, 127, 127 ), true );
 			
 		}
 	}

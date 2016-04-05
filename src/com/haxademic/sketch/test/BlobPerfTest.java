@@ -1,22 +1,23 @@
 package com.haxademic.sketch.test;
 
-import processing.core.PGraphics;
-import processing.core.PImage;
-import processing.opengl.PShader;
-import processing.video.Movie;
-import blobDetection.Blob;
-import blobDetection.BlobDetection;
-import blobDetection.EdgeVertex;
-
+import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.util.OpenGLUtil;
 import com.haxademic.core.image.filters.FastBlurFilter;
 import com.haxademic.core.system.FileUtil;
 
-@SuppressWarnings("serial")
+import blobDetection.Blob;
+import blobDetection.BlobDetection;
+import blobDetection.EdgeVertex;
+import processing.core.PGraphics;
+import processing.core.PImage;
+import processing.opengl.PShader;
+import processing.video.Movie;
+
 public class BlobPerfTest 
 extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
 	Movie _movie;
 	
@@ -34,8 +35,8 @@ extends PAppletHax {
 
 
 	protected void overridePropsFile() {
-		_appConfig.setProperty( "width", "640" );
-		_appConfig.setProperty( "height", "640" );
+		p.appConfig.setProperty( AppSettings.WIDTH, "640" );
+		p.appConfig.setProperty( AppSettings.HEIGHT, "640" );
 	}
 
 
@@ -45,7 +46,7 @@ extends PAppletHax {
 
 		_canvasW = p.width;
 		_canvasH = p.height;
-		_canvas = P.p.createGraphics(_canvasW, _canvasH, P.OPENGL);
+		_canvas = P.p.createGraphics(_canvasW, _canvasH, P.P3D);
 		
 		initMovie();
 		initBlobDetection();
@@ -80,7 +81,7 @@ extends PAppletHax {
 		float scaleDownForBlobDetect = 0.7f;
 		blobBufferImg = new PImage( (int)(_canvasW * scaleDownForBlobDetect), (int)(_canvasH * scaleDownForBlobDetect) ); 
 
-		blobBufferGraphics = P.p.createGraphics( (int)(_canvasW * scaleDownForBlobDetect), (int)(_canvasH * scaleDownForBlobDetect), P.OPENGL);
+		blobBufferGraphics = P.p.createGraphics( (int)(_canvasW * scaleDownForBlobDetect), (int)(_canvasH * scaleDownForBlobDetect), P.P3D);
 		_blurV = loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/blur-vertical.glsl" );
 		_blurV.set( "v", 3f/p.height );
 		_blurH = loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/blur-horizontal.glsl" );

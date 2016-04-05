@@ -1,15 +1,15 @@
 package com.haxademic.sketch.test;
 
-import toxi.color.TColor;
-
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.draw.util.OpenGLUtil;
 
-@SuppressWarnings("serial")
+import toxi.color.TColor;
+
 public class DrawPieCursorsSmooth
 extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
 	protected TColor GREEN;
 	protected TColor WHITE;

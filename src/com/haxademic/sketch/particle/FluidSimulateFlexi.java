@@ -1,8 +1,10 @@
 package com.haxademic.sketch.particle;
 
+import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.PAppletHax;
 
 public class FluidSimulateFlexi extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	// from: http://www.openprocessing.org/sketch/103738
 	// built by Felix Woitzel
@@ -27,8 +29,8 @@ public class FluidSimulateFlexi extends PAppletHax {
 	boolean vectors = true;
 
 	protected void overridePropsFile() {
-		_appConfig.setProperty( "width", "512" );
-		_appConfig.setProperty( "height", "512" );
+		p.appConfig.setProperty( AppSettings.WIDTH, "512" );
+		p.appConfig.setProperty( AppSettings.HEIGHT, "512" );
 	}
 
 	public void setup() {

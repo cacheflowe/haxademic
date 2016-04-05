@@ -21,7 +21,6 @@ import com.haxademic.core.draw.mesh.MeshUtil;
 import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.math.MathUtil;
 
-@SuppressWarnings("serial")
 public class SphereTextureMap
 extends PApplet
 {

@@ -3,8 +3,7 @@ package com.haxademic.sketch.test;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 
-import processing.core.PApplet;
-
+import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.util.OpenGLUtil;
@@ -12,24 +11,20 @@ import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.system.FileUtil;
 import com.haxademic.core.system.SystemUtil;
 
-@SuppressWarnings("serial")
 public class RectangleSubdivisionTest
 extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	protected ArrayList<Rectangle> _rectangles;
 	protected int _numDivisions = 100;
 	
-	public static void main(String args[]) {
-		_isFullScreen = false;
-		PApplet.main(new String[] { "--hide-stop", "--bgcolor=000000", RectangleSubdivisionTest.class.getName() });
-	}
 
 	protected void overridePropsFile() {
-		_appConfig.setProperty( "rendering", "false" );
-		_appConfig.setProperty( "fills_screen", "false" );
-		_appConfig.setProperty( "fullscreen", "false" );
-		_appConfig.setProperty( "width", "800" );
-		_appConfig.setProperty( "height", "600" );
+		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
+		p.appConfig.setProperty( AppSettings.FILLS_SCREEN, "false" );
+		p.appConfig.setProperty( AppSettings.FULLSCREEN, "false" );
+		p.appConfig.setProperty( AppSettings.WIDTH, "800" );
+		p.appConfig.setProperty( AppSettings.HEIGHT, "600" );
 	}
 
 	public void setup() {

@@ -1,11 +1,12 @@
 package com.haxademic.sketch.three_d;
 
-import processing.core.PApplet;
-import processing.core.PConstants;
-
+import com.haxademic.core.app.P;
+import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.cameras.CameraOscillate;
 import com.haxademic.core.cameras.common.ICamera;
 import com.haxademic.core.render.Renderer;
+
+import processing.core.PConstants;
 
 /**
  * 
@@ -13,8 +14,12 @@ import com.haxademic.core.render.Renderer;
  *
  */
 public class PlusGridWave
-	extends PApplet
+extends PAppletHax
 {
+	public static void main(String args[]) {
+		PAppletHax.main(P.concat(args, new String[] { "--hide-stop", "--bgcolor=000000", Thread.currentThread().getStackTrace()[1].getClassName() }));
+	}
+	
 	// global vars
 	protected int _fps = 30;
 	protected Cube[][] _grid;

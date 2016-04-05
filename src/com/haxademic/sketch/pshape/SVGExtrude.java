@@ -3,10 +3,7 @@ package com.haxademic.sketch.pshape;
 
 import java.util.ArrayList;
 
-import processing.core.PShape;
-import processing.core.PVector;
-import toxi.color.TColor;
-
+import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.mesh.MeshUtil;
@@ -14,9 +11,13 @@ import com.haxademic.core.draw.util.OpenGLUtil;
 import com.haxademic.core.math.easing.ElasticFloat3D;
 import com.haxademic.core.system.FileUtil;
 
-@SuppressWarnings("serial")
+import processing.core.PShape;
+import processing.core.PVector;
+import toxi.color.TColor;
+
 public class SVGExtrude
-extends PAppletHax{
+extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
 	float _frames = 160;
 
@@ -29,20 +30,20 @@ extends PAppletHax{
 	protected ArrayList<ElasticFloat3D> _verticesElastic;
 	
 	protected void overridePropsFile() {
-		_appConfig.setProperty( "width", "600" );
-		_appConfig.setProperty( "height", "600" );
+		p.appConfig.setProperty( AppSettings.WIDTH, "600" );
+		p.appConfig.setProperty( AppSettings.HEIGHT, "600" );
 		
-		_appConfig.setProperty( "sunflow", "true" );
-		_appConfig.setProperty( "sunflow_active", "false" );
-		_appConfig.setProperty( "sunflow_quality", "low" );
-		_appConfig.setProperty( "sunflow_save_images", "false" );
+		p.appConfig.setProperty( AppSettings.SUNFLOW, "true" );
+		p.appConfig.setProperty( AppSettings.SUNFLOW_ACTIVE, "false" );
+		p.appConfig.setProperty( AppSettings.SUNFLOW_QUALITY, "low" );
+		p.appConfig.setProperty( "sunflow_save_images", "false" );
 		
-		_appConfig.setProperty( "rendering", "false" );
-		_appConfig.setProperty( "rendering_gif", "false" );
-		_appConfig.setProperty( "rendering_gif_framerate", "45" );
-		_appConfig.setProperty( "rendering_gif_quality", "15" );
-		_appConfig.setProperty( "rendering_gif_startframe", "2" );
-		_appConfig.setProperty( "rendering_gif_stopframe", ""+Math.round(_frames + 1) );
+		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
+		p.appConfig.setProperty( AppSettings.RENDERING_GIF, "false" );
+		p.appConfig.setProperty( AppSettings.RENDERING_GIF_FRAMERATE, "45" );
+		p.appConfig.setProperty( AppSettings.RENDERING_GIF_QUALITY, "15" );
+		p.appConfig.setProperty( AppSettings.RENDERING_GIF_START_FRAME, "2" );
+		p.appConfig.setProperty( AppSettings.RENDERING_GIF_STOP_FRAME, ""+Math.round(_frames + 1) );
 	}
 	
 	public void setup() {

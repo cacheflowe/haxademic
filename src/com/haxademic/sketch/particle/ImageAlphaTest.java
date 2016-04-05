@@ -1,13 +1,14 @@
 package com.haxademic.sketch.particle;
 
-import processing.core.PGraphics;
-import processing.core.PImage;
-import processing.core.PShape;
-
+import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.mesh.MeshPool;
 import com.haxademic.core.draw.util.DrawUtil;
+
+import processing.core.PGraphics;
+import processing.core.PImage;
+import processing.core.PShape;
 
 public class ImageAlphaTest
 extends PAppletHax  
@@ -26,9 +27,9 @@ extends PAppletHax
 	}
 	
 	protected void overridePropsFile() {
-		_appConfig.setProperty( "rendering", "false" );
-		_appConfig.setProperty( "width", "640" );
-		_appConfig.setProperty( "height", "480" );
+		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
+		p.appConfig.setProperty( AppSettings.WIDTH, "640" );
+		p.appConfig.setProperty( AppSettings.HEIGHT, "480" );
 	}
 		
 	public void drawApp() {

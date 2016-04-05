@@ -14,7 +14,6 @@ import toxi.geom.mesh.SurfaceMeshBuilder;
 import toxi.geom.mesh.TriangleMesh;
 import toxi.geom.mesh.Vertex;
 
-@SuppressWarnings("serial")
 public class Harmonics
 extends PApplet {
 	TriangleMesh mesh = new TriangleMesh();

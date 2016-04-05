@@ -1,6 +1,10 @@
 package com.haxademic.sketch.hardware.webcam;
 
-import processing.core.PApplet;
+import com.haxademic.core.app.P;
+import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.draw.util.DrawUtil;
+import com.haxademic.core.image.ImageUtil;
+
 import processing.core.PConstants;
 import processing.core.PImage;
 import processing.video.Capture;
@@ -9,16 +13,9 @@ import toxi.geom.Vec3D;
 import toxi.geom.mesh.Face;
 import toxi.geom.mesh.WETriangleMesh;
 
-import com.haxademic.core.app.P;
-import com.haxademic.core.draw.util.DrawUtil;
-import com.haxademic.core.draw.util.OpenGLUtil;
-import com.haxademic.core.image.ImageUtil;
-
-@SuppressWarnings("serial")
 public class WebCamTest 
-extends PApplet {
-
-	PApplet p;
+extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	/**
 	 * Processing web cam capture object
@@ -32,13 +29,6 @@ extends PApplet {
 	protected String camera;
 
 	public void setup () {
-		p = this;
-		// set up stage and drawing properties
-		p.size( 640, 480, PConstants.OPENGL );
-		//		OpenGLUtil.setQuality( p, OpenGLUtil.HIGH );
-		p.frameRate( 30 );
-		p.smooth();
-
 		initWebCam();
 	}
 

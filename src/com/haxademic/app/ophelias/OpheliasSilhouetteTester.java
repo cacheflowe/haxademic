@@ -1,22 +1,23 @@
 package com.haxademic.app.ophelias;
 
 import com.haxademic.app.ellomotion.KinectSilhouetteVectorField;
+import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.hardware.kinect.KinectSilhouetteBasic;
 
-@SuppressWarnings("serial")
 public class OpheliasSilhouetteTester
-extends PAppletHax{
+extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
 	protected KinectSilhouetteBasic _silhouette;
 
 	protected boolean _isDebug = false;
 	
 	protected void overridePropsFile() {
-		p.appConfig.setProperty( "width", "640" );
-		p.appConfig.setProperty( "height", "480" );
-		p.appConfig.setProperty( "rendering", "false" );
-		p.appConfig.setProperty( "kinect_active", "true" );
+		p.appConfig.setProperty( AppSettings.WIDTH, "640" );
+		p.appConfig.setProperty( AppSettings.HEIGHT, "480" );
+		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
+		p.appConfig.setProperty( AppSettings.KINECT_ACTIVE, "true" );
 		p.appConfig.setProperty( "kinect_top_pixel", "0" );
 		p.appConfig.setProperty( "kinect_bottom_pixel", "480" );
 		p.appConfig.setProperty( "kinect_left_pixel", "0" );

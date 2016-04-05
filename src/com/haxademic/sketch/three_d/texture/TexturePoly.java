@@ -2,20 +2,22 @@ package com.haxademic.sketch.three_d.texture;
 
 import java.util.ArrayList;
 
-import processing.core.PConstants;
-import processing.core.PGraphics;
-import processing.core.PImage;
-import processing.video.Capture;
-import processing.video.Movie;
-
+import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.util.OpenGLUtil;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.system.FileUtil;
 
+import processing.core.PConstants;
+import processing.core.PGraphics;
+import processing.core.PImage;
+import processing.video.Capture;
+import processing.video.Movie;
+
 public class TexturePoly
 extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
 	PImage img;
 	
@@ -28,9 +30,9 @@ extends PAppletHax {
 	ArrayList<MappedTriangle> _triangles;
 	
 	protected void overridePropsFile() {
-		_appConfig.setProperty( "width", "800" );
-		_appConfig.setProperty( "height", "800" );
-		_appConfig.setProperty( "rendering", "false" );
+		p.appConfig.setProperty( AppSettings.WIDTH, "800" );
+		p.appConfig.setProperty( AppSettings.HEIGHT, "800" );
+		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
 	}
 
 	public void setup() {
@@ -100,7 +102,7 @@ extends PAppletHax {
 		// webcam ---------------------------------------------------
 		if( _webCam != null && _webCam.available() ) { 
 			if( _webcamTexture == null && _webCam.width > 1 ) {
-				_webcamTexture = p.createGraphics( _webCam.width, _webCam.height, PConstants.OPENGL );
+				_webcamTexture = p.createGraphics( _webCam.width, _webCam.height, P.P3D );
 			}
 			_webCam.read(); 
 
@@ -121,7 +123,7 @@ extends PAppletHax {
 		}
 		if(_movie.available() == true) {
 			if(_movieTexture == null) {
-				_movieTexture = p.createGraphics( _movie.width, _movie.height, PConstants.OPENGL );
+				_movieTexture = p.createGraphics( _movie.width, _movie.height, P.P3D );
 			}
 			_movieTexture.beginDraw();
 			_movieTexture.image(_movie, 0, 0);
@@ -130,7 +132,7 @@ extends PAppletHax {
 		
 		// repeating columns ----------------------------------------
 		if( _barsTexture == null ) {
-			_barsTexture = p.createGraphics(100, 100, PConstants.OPENGL);
+			_barsTexture = p.createGraphics(100, 100, P.P3D);
 			_barsTexture.smooth(OpenGLUtil.SMOOTH_HIGH);
 		}
 		int barW = 20;
@@ -150,7 +152,7 @@ extends PAppletHax {
 
 		// eq columns ------------------------------------------------
 		if( _eqTexture == null ) {
-			_eqTexture = p.createGraphics(200, 100, PConstants.OPENGL);
+			_eqTexture = p.createGraphics(200, 100, P.P3D);
 		}
 		int numBands = 32;
 		float eqW = P.ceil( _eqTexture.width / numBands );

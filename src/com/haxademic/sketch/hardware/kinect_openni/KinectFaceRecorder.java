@@ -62,13 +62,13 @@ public class KinectFaceRecorder {
 		_playbackIndexFrame = 0;
 
 		// temporary canvas to preprocess frames before storing them. also used to display the realtime texture 
-		playbackTexture = P.p.createGraphics( 320, 240, P.OPENGL );
+		playbackTexture = P.p.createGraphics( 320, 240, P.P3D );
 		playbackTexture.smooth();
 		
-		curSessionTexture = P.p.createGraphics( 320, 240, P.OPENGL );
+		curSessionTexture = P.p.createGraphics( 320, 240, P.P3D );
 		curSessionTexture.smooth();
 
-		_realtimeTexture = P.p.createGraphics( 320, 240, P.OPENGL );
+		_realtimeTexture = P.p.createGraphics( 320, 240, P.P3D );
 		_realtimeTexture.smooth();
 		
 		_faceSessions = new ArrayList<FaceSession>();

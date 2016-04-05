@@ -1,8 +1,6 @@
 package com.haxademic.sketch.three_d;
 
-import processing.core.PApplet;
-import processing.core.PGraphics;
-
+import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.color.ColorHax;
@@ -13,9 +11,12 @@ import com.haxademic.core.image.MotionBlurPGraphics;
 import com.haxademic.core.math.easing.Penner;
 import com.haxademic.core.render.JoonsWrapper;
 
-@SuppressWarnings("serial")
+import processing.core.PApplet;
+import processing.core.PGraphics;
+
 public class DiscsBlend
 extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	protected PGraphics _pg;
 	protected MotionBlurPGraphics _pgMotionBlur;
@@ -23,22 +24,22 @@ extends PAppletHax {
 	float _frames = 40;
 	
 	protected void overridePropsFile() {
-		_appConfig.setProperty( "width", "640" );
-		_appConfig.setProperty( "height", "640" );
+		p.appConfig.setProperty( AppSettings.WIDTH, "640" );
+		p.appConfig.setProperty( AppSettings.HEIGHT, "640" );
 
-		_appConfig.setProperty( "sunflow", "false" );
-		_appConfig.setProperty( "sunflow_active", "false" );
-		_appConfig.setProperty( "sunflow_quality", "high" );
-		_appConfig.setProperty( "sunflow_save_images", "false" );
+		p.appConfig.setProperty( AppSettings.SUNFLOW, "false" );
+		p.appConfig.setProperty( AppSettings.SUNFLOW_ACTIVE, "false" );
+		p.appConfig.setProperty( AppSettings.SUNFLOW_QUALITY, "high" );
+		p.appConfig.setProperty( AppSettings.SUNFLOW_SAVE_IMAGES, "false" );
 
-		_appConfig.setProperty( "rendering", "false" );
-		_appConfig.setProperty( "rendering_gif", "false" );
-		_appConfig.setProperty( "rendering_gif_framerate", "40" );
-		_appConfig.setProperty( "rendering_gif_quality", "15" );
-		_appConfig.setProperty( "rendering_gif_startframe", ""+Math.round(_frames) );
-		_appConfig.setProperty( "rendering_gif_stopframe", ""+Math.round(_frames*2) );
-//		_appConfig.setProperty( "rendering_gif_startframe", "2" );
-//		_appConfig.setProperty( "rendering_gif_stopframe", ""+Math.round(_frames+2) );
+		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
+		p.appConfig.setProperty( AppSettings.RENDERING_GIF, "false" );
+		p.appConfig.setProperty( AppSettings.RENDERING_GIF_FRAMERATE, "40" );
+		p.appConfig.setProperty( AppSettings.RENDERING_GIF_QUALITY, "15" );
+		p.appConfig.setProperty( AppSettings.RENDERING_GIF_START_FRAME, ""+Math.round(_frames) );
+		p.appConfig.setProperty( AppSettings.RENDERING_GIF_STOP_FRAME, ""+Math.round(_frames*2) );
+//		p.appConfig.setProperty( AppSettings.RENDERING_GIF_START_FRAME, "2" );
+//		p.appConfig.setProperty( AppSettings.RENDERING_GIF_STOP_FRAME, ""+Math.round(_frames+2) );
 }
 
 	public void setup() {
@@ -48,7 +49,7 @@ extends PAppletHax {
 	}
 
 	protected void buildCanvas() {
-		_pg = p.createGraphics( p.width, p.height, P.OPENGL );
+		_pg = p.createGraphics( p.width, p.height, P.P3D );
 		_pg.smooth(OpenGLUtil.SMOOTH_HIGH);
 		_pgMotionBlur = new MotionBlurPGraphics(10);
 	}
@@ -98,8 +99,8 @@ extends PAppletHax {
 		p.noStroke();
 		DrawUtil.setDrawCenter(p);
 		
-		_jw.jr.background(JoonsWrapper.BACKGROUND_AO);
-		_jw.jr.background(0, 0, 0);
+		joons.jr.background(JoonsWrapper.BACKGROUND_AO);
+		joons.jr.background(0, 0, 0);
 
 		float frameRadians = P.TWO_PI / _frames;
 		float percentComplete = ((float)(p.frameCount%_frames)/_frames);
@@ -132,7 +133,7 @@ extends PAppletHax {
 			p.fill(discColor);
 
 			p.translate(0,0,-spacing);
-			_jw.jr.fill( JoonsWrapper.MATERIAL_SHINY, ColorHax.redFromColorInt(discColor), ColorHax.greenFromColorInt(discColor), ColorHax.blueFromColorInt(discColor) );
+			joons.jr.fill( JoonsWrapper.MATERIAL_SHINY, ColorHax.redFromColorInt(discColor), ColorHax.greenFromColorInt(discColor), ColorHax.blueFromColorInt(discColor) );
 			drawDisc3D(size, size * 0.9f - size * (P.sin(percentDone * P.TWO_PI)+1) * 0.15f, spacing * 0.25f, 140, discColor, discColor);
 //			drawDisc(size, size * 0.9f - size * (P.sin(percentDone * P.TWO_PI)+1) * 0.15f, 140); 
 		}
@@ -140,7 +141,7 @@ extends PAppletHax {
 
 
 	public void drawApp() {
-		if(_appConfig.getBoolean("sunflow", false) == false) {
+		if(p.appConfig.getBoolean("sunflow", false) == false) {
 			p.background(0);
 			drawGraphicsNative(_pg);
 			_pgMotionBlur.updateToCanvas(_pg, p.g, 1f);
@@ -155,7 +156,7 @@ extends PAppletHax {
 		float radiance = 20;
 		int samples = 16;
 		int grey = 30;
-		_jw.jr.background("cornell_box", 
+		joons.jr.background("cornell_box", 
 				12000, 6000, 6000,	// width, height, depth
 				radiance, radiance, radiance, samples,  // radiance rgb & samples
 				grey, grey, grey, // left rgb

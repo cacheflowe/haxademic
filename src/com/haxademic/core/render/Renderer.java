@@ -185,7 +185,7 @@ public class Renderer
 				}
 			
 				// make sure we're still in bounds - kept getting data run-out errors
-				if (pos >= _chn.size - 4000) {
+				if (pos >= _chn.size - 1000) {
 					if (_outputType==OUTPUT_TYPE_MOVIE)
 						_mm.finish();
 					stop();  

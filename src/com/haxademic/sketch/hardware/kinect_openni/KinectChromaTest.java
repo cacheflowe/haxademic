@@ -1,31 +1,21 @@
 package com.haxademic.sketch.hardware.kinect_openni;
 
+import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.util.DrawUtil;
-import com.haxademic.core.hardware.kinect.KinectBufferedData;
-import com.haxademic.core.hardware.kinect.KinectRegionGrid;
 import com.haxademic.core.image.ImageUtil;
-import com.haxademic.core.image.filters.shaders.BlurHFilter;
-import com.haxademic.core.image.filters.shaders.BlurVFilter;
 import com.haxademic.core.image.filters.shaders.ChromaColorFilter;
-import com.haxademic.core.math.MathUtil;
-import com.haxademic.core.net.WebSocketRelay;
 import com.haxademic.core.system.FileUtil;
 
-import blobDetection.Blob;
-import blobDetection.BlobDetection;
-import blobDetection.EdgeVertex;
 import controlP5.ControlP5;
 import processing.core.PGraphics;
-import processing.data.JSONObject;
-import processing.opengl.PShader;
 import processing.video.Movie;
 
 
-@SuppressWarnings("serial")
 public class KinectChromaTest 
 extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
 	protected Movie _movie;
 	protected float[] _cropProps = null;
@@ -40,17 +30,17 @@ extends PAppletHax {
 	public float colorToReplaceB;
 
 	protected void overridePropsFile() {
-		_appConfig.setProperty( "rendering", "false" );
-		_appConfig.setProperty( "kinect_active", "true" );
-		_appConfig.setProperty( "width", "640" );
-		_appConfig.setProperty( "height", "480" );
+		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
+		p.appConfig.setProperty( AppSettings.KINECT_ACTIVE, "true" );
+		p.appConfig.setProperty( AppSettings.WIDTH, "640" );
+		p.appConfig.setProperty( AppSettings.HEIGHT, "480" );
 	}
 	
 	public void setup() {
 		super.setup();
 				
 		// build chroma cam buffer
-		_chromaBuffer = p.createGraphics(p.width, p.height, P.OPENGL);
+		_chromaBuffer = p.createGraphics(p.width, p.height, P.P3D);
 		_chromaBuffer.smooth( 8 );
 
 		_cp5 = new ControlP5(this);

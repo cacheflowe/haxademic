@@ -4,17 +4,17 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 
-import javax.media.opengl.GL2;
-
+import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.PAppletHax;
+import com.jogamp.opengl.GL2;
 
 import processing.opengl.PGL;
 import processing.opengl.PGraphicsOpenGL;
 import processing.opengl.PJOGL;
 
-@SuppressWarnings("serial")
 public class MillionParticles
 extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	// From: https://github.com/processing/processing/wiki/Advanced-OpenGL
 	
@@ -36,8 +36,8 @@ extends PAppletHax {
 	GL2 gl2;
 
 	protected void overridePropsFile() {
-		_appConfig.setProperty( "width", "800" );
-		_appConfig.setProperty( "height", "600" );
+		p.appConfig.setProperty( AppSettings.WIDTH, "800" );
+		p.appConfig.setProperty( AppSettings.HEIGHT, "600" );
 	}
 
 	public void setup() {

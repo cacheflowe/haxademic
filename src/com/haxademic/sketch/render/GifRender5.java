@@ -3,8 +3,7 @@ package com.haxademic.sketch.render;
 
 import java.awt.image.BufferedImage;
 
-import processing.core.PImage;
-
+import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.shapes.Shapes;
@@ -15,19 +14,21 @@ import com.haxademic.core.render.JoonsWrapper;
 import com.haxademic.core.system.FileUtil;
 import com.haxademic.core.system.SystemUtil;
 
-@SuppressWarnings("serial")
+import processing.core.PImage;
+
 public class GifRender5
-extends PAppletHax{
+extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
 	AnimatedGifEncoder encoder;
 	
 	protected void overridePropsFile() {
-		_appConfig.setProperty( "width", "600" );
-		_appConfig.setProperty( "height", "600" );
-		_appConfig.setProperty( "rendering", "false" );
-		_appConfig.setProperty( "sunflow", "true" );
-		_appConfig.setProperty( "sunflow_active", "false" );
-		_appConfig.setProperty( "sunflow_quality", "high" );
+		p.appConfig.setProperty( AppSettings.WIDTH, "600" );
+		p.appConfig.setProperty( AppSettings.HEIGHT, "600" );
+		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
+		p.appConfig.setProperty( AppSettings.SUNFLOW, "true" );
+		p.appConfig.setProperty( AppSettings.SUNFLOW_ACTIVE, "false" );
+		p.appConfig.setProperty( AppSettings.SUNFLOW_QUALITY, "high" );
 	}
 	
 	public void setup() {
@@ -60,7 +61,7 @@ extends PAppletHax{
 //		p.translate( p.width/2, p.height/2, -1600 );
 		
 		p.background(0);
-		_jw.jr.background(JoonsWrapper.BACKGROUND_GI);
+		joons.jr.background(JoonsWrapper.BACKGROUND_GI);
 //		setUpRoom();
 		
 
@@ -77,10 +78,10 @@ extends PAppletHax{
 			
 			if( i % 2 == 0 ) {
 				p.fill( 0 );
-				_jw.jr.fill(JoonsWrapper.MATERIAL_DIFFUSE, 0, 0, 0);
+				joons.jr.fill(JoonsWrapper.MATERIAL_DIFFUSE, 0, 0, 0);
 			} else {
 				p.fill( 255 );
-				_jw.jr.fill(JoonsWrapper.MATERIAL_DIFFUSE, 200, 200, 200);
+				joons.jr.fill(JoonsWrapper.MATERIAL_DIFFUSE, 200, 200, 200);
 			}
 //			if( p.frameCount % 2 == 0 ) p.noFill();
 			p.noStroke();
@@ -104,7 +105,7 @@ extends PAppletHax{
 		translate(0, 0, -3000);
 		float radiance = 20;
 		int samples = 16;
-		_jw.jr.background("cornell_box", 
+		joons.jr.background("cornell_box", 
 				4000, 3000, 3000,	// width, height, depth
 				radiance, radiance, radiance, samples,  // radiance rgb & samples
 				40, 40, 40, // left rgb

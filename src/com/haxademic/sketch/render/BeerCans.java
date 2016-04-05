@@ -1,10 +1,10 @@
 package com.haxademic.sketch.render;
 
+import com.haxademic.core.render.Renderer;
+
 import processing.core.PApplet;
 import processing.core.PConstants;
 import processing.core.PImage;
-
-import com.haxademic.core.render.Renderer;
 
 public class BeerCans
 	extends PApplet

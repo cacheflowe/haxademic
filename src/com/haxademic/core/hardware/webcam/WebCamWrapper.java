@@ -32,7 +32,8 @@ public class WebCamWrapper {
 		return true;
 	}
 
-	public static PImage getImage() {		
+	public static PImage getImage() {
+		if(webCam == null) return null;
 		if( webCam.available() == true ) {
 			webCam.read();
 			lastFrame = webCam;

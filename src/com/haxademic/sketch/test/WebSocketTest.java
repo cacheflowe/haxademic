@@ -15,9 +15,9 @@ import org.java_websocket.server.WebSocketServer;
 
 import com.haxademic.core.app.PAppletHax;
 
-@SuppressWarnings("serial")
 public class WebSocketTest
 extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	public void setup() {
 		super.setup();	

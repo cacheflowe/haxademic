@@ -45,9 +45,11 @@ public class RandomLightTiming {
 	}
 
 	protected int randomColor( float mult ) {
-		float baseR = 180 + 55 * P.sin(p.frameCount/100);
-		float baseG = 180 + 55 * P.sin(p.frameCount/120);
-		float baseB = 180 + 55 * P.sin(p.frameCount/135);
+		float brightnessBase = 20;
+		float brightnessAmp = 55;
+		float baseR = brightnessBase + brightnessAmp * P.sin(p.frameCount/100);
+		float baseG = brightnessBase + brightnessAmp * P.sin(p.frameCount/120);
+		float baseB = brightnessBase + brightnessAmp * P.sin(p.frameCount/135);
 		return p.color( 
 				(baseR + p.random(-20, 20)) * mult,
 				(baseG + p.random(-20, 20)) * mult,

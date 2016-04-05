@@ -3,14 +3,7 @@ package com.haxademic.sketch.particle;
 import java.util.ArrayList;
 import java.util.List;
 
-import processing.core.PVector;
-import toxi.color.TColor;
-import ProGAL.geom3d.Point;
-import ProGAL.geom3d.complex.CTriangle;
-import ProGAL.geom3d.complex.alphaComplex.AlphaComplex;
-import ProGAL.geom3d.complex.alphaComplex.AlphaFiltration;
-
-import com.haxademic.core.app.P;
+import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.color.TColorInit;
 import com.haxademic.core.draw.particle.VectorFlyer;
@@ -19,9 +12,16 @@ import com.haxademic.core.draw.util.OpenGLUtil;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.render.JoonsWrapper;
 
-@SuppressWarnings("serial")
+import ProGAL.geom3d.Point;
+import ProGAL.geom3d.complex.CTriangle;
+import ProGAL.geom3d.complex.alphaComplex.AlphaComplex;
+import ProGAL.geom3d.complex.alphaComplex.AlphaFiltration;
+import processing.core.PVector;
+import toxi.color.TColor;
+
 public class ParticleAlphaShape
 extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	protected TColor MODE_SET_BLUE = TColorInit.newRGBA( 0, 200, 234, 255 );
 	protected TColor MODE_SET_BLUE_TRANS = TColorInit.newRGBA( 0, 200, 234, 100 );
@@ -37,15 +37,15 @@ extends PAppletHax {
 	List<Point> points;
 	
 	protected void overridePropsFile() {
-		_appConfig.setProperty( "sunflow", "true" );
-		_appConfig.setProperty( "sunflow_active", "true" );
-		_appConfig.setProperty( "sunflow_quality", "low" );
+		p.appConfig.setProperty( AppSettings.SUNFLOW, "true" );
+		p.appConfig.setProperty( AppSettings.SUNFLOW_ACTIVE, "true" );
+		p.appConfig.setProperty( AppSettings.SUNFLOW_QUALITY, "low" );
 
 		
-		_appConfig.setProperty( "width", "1280" );
-		_appConfig.setProperty( "height", "720" );
-		_appConfig.setProperty( "rendering", "true" );
-		_appConfig.setProperty( "fps", "30" );
+		p.appConfig.setProperty( AppSettings.WIDTH, "1280" );
+		p.appConfig.setProperty( AppSettings.HEIGHT, "720" );
+		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "true" );
+		p.appConfig.setProperty( AppSettings.FPS, "30" );
 	}
 
 	public void setup() {
@@ -78,11 +78,11 @@ extends PAppletHax {
 
 
 	public void drawApp() {
-		p.background(0);
+		if(joons == null) p.background(0);
 		p.lights();
 
 //		_jw.jr.background(25, 25, 25);
-		_jw.jr.background(JoonsWrapper.BACKGROUND_GI);
+		joons.jr.background(JoonsWrapper.BACKGROUND_GI);
 
 		setUpRoom();
 		
@@ -107,7 +107,7 @@ extends PAppletHax {
 		translate(0, 0, -2000);
 		float radiance = 20;
 		int samples = 16;
-		_jw.jr.background("cornell_box", 
+		joons.jr.background("cornell_box", 
 				4000, 3000, 3000,	// width, height, depth
 				radiance, radiance, radiance, samples,  // radiance rgb & samples
 				40, 40, 40, // left rgb
@@ -158,10 +158,10 @@ extends PAppletHax {
 //			} else 
 			if( Math.abs(Math.round(voxel.x / resolution)) % 2 == 0 ||  Math.abs(Math.round(voxel.y / resolution)) % 2 == 0 ) {
 				p.fill( Math.abs(voxel.x)/4, Math.abs(voxel.y)/3, Math.abs(voxel.z)/2);
-				_jw.jr.fill(JoonsWrapper.MATERIAL_SHINY, Math.abs(voxel.x)/3, Math.abs(voxel.y)/3, Math.abs(voxel.z)/2);
+				joons.jr.fill(JoonsWrapper.MATERIAL_SHINY, Math.abs(voxel.x)/3, Math.abs(voxel.y)/3, Math.abs(voxel.z)/2);
 			} else { 
 				p.fill(20, 20, 20);
-				_jw.jr.fill(JoonsWrapper.MATERIAL_SHINY, 20, 20, 20, 1);
+				joons.jr.fill(JoonsWrapper.MATERIAL_SHINY, 20, 20, 20, 1);
 			}
 			
 			p.pushMatrix();
@@ -183,9 +183,9 @@ extends PAppletHax {
 				boxCheck = boxes.get(j);
 				if( box != boxCheck ) {
 					if( box.position().dist( boxCheck.position() ) < 200 ) {
-						_jw.jr.fill(JoonsWrapper.MATERIAL_SHINY, 190, 190, 190, 0.55f);
+						joons.jr.fill(JoonsWrapper.MATERIAL_SHINY, 190, 190, 190, 0.55f);
 						BoxBetween.draw(p, box.position(), boxCheck.position(), 20 );
-						_jw.jr.fill(JoonsWrapper.MATERIAL_DIFFUSE, 90, 90, 90);
+						joons.jr.fill(JoonsWrapper.MATERIAL_DIFFUSE, 90, 90, 90);
 						p.pushMatrix();
 						p.translate(box.position().x, box.position().y, box.position().z);
 						p.sphere(15);
@@ -212,7 +212,7 @@ extends PAppletHax {
 			List<CTriangle> triangles = af.getAlphaShape(200.8);
 			for(CTriangle tri: triangles) {
 				p.fill( 50, 200, 50 );
-				_jw.jr.fill(JoonsWrapper.MATERIAL_SHINY, 50, 200, 50, 0.75f);
+				joons.jr.fill(JoonsWrapper.MATERIAL_SHINY, 50, 200, 50, 0.75f);
 				beginShape(TRIANGLES);
 
 				vertex( (float) tri.getP1().x(), (float) tri.getP1().y(), (float) tri.getP1().z() );
@@ -227,7 +227,7 @@ extends PAppletHax {
 			for(CTriangle tri: ac.getTriangles()){		
 				p.fill( 50, 200, 50 );
 //				if(MathUtil.randBoolean(p) == true) {
-					_jw.jr.fill(JoonsWrapper.MATERIAL_SHINY, 190, 210, 190, 0.25f);
+					joons.jr.fill(JoonsWrapper.MATERIAL_SHINY, 190, 210, 190, 0.25f);
 //				} else {
 //					_jw.jr.fill(JoonsWrapper.MATERIAL_GLASS, 255, 255, 255);
 //				}

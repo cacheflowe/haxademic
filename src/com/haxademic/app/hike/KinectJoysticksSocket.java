@@ -1,5 +1,6 @@
 package com.haxademic.app.hike;
 
+import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.util.DrawUtil;
@@ -19,9 +20,9 @@ import processing.opengl.PShader;
 import processing.video.Movie;
 
 
-@SuppressWarnings("serial")
 public class KinectJoysticksSocket 
 extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
 	protected KinectRegionGrid _kinectGrid;
 	protected boolean _userActive = false;
@@ -41,10 +42,10 @@ extends PAppletHax {
 	PShader _maskShader;
 
 	protected void overridePropsFile() {
-		_appConfig.setProperty( "rendering", "false" );
-		_appConfig.setProperty( "kinect_active", "true" );
-		_appConfig.setProperty( "width", "1920" );
-		_appConfig.setProperty( "height", "1080" );
+		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
+		p.appConfig.setProperty( AppSettings.KINECT_ACTIVE, "true" );
+		p.appConfig.setProperty( AppSettings.WIDTH, "1920" );
+		p.appConfig.setProperty( AppSettings.HEIGHT, "1080" );
 	}
 	
 	public void setup() {
@@ -224,12 +225,12 @@ extends PAppletHax {
 			KINECT_FAR = farDistance;
 	
 			// canvas to draw kinect pixels to. also used for blob detection
-			_kinectPixelated = P.p.createGraphics( Math.round((KINECT_RIGHT_PIXEL - KINECT_LEFT_PIXEL)/PIXEL_SIZE), Math.round((KINECT_BOTTOM_PIXEL - KINECT_TOP_PIXEL)/PIXEL_SIZE), P.OPENGL );
+			_kinectPixelated = P.p.createGraphics( Math.round((KINECT_RIGHT_PIXEL - KINECT_LEFT_PIXEL)/PIXEL_SIZE), Math.round((KINECT_BOTTOM_PIXEL - KINECT_TOP_PIXEL)/PIXEL_SIZE), P.P3D );
 			_kinectPixelated.noSmooth();
 			
 			initBlobDetection();
 			
-			_canvas = P.p.createGraphics( KINECT_RIGHT_PIXEL - KINECT_LEFT_PIXEL, KINECT_BOTTOM_PIXEL - KINECT_TOP_PIXEL, P.OPENGL );
+			_canvas = P.p.createGraphics( KINECT_RIGHT_PIXEL - KINECT_LEFT_PIXEL, KINECT_BOTTOM_PIXEL - KINECT_TOP_PIXEL, P.P3D );
 			_canvas.noSmooth();
 //			_canvas.smooth(OpenGLUtil.SMOOTH_LOW);
 //			_canvas.smooth();

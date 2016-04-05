@@ -34,7 +34,7 @@ public class FullMaskTextureOverlay {
 
 	public void drawOverlay() {
 		if(_texture == null) return;
-		DrawUtil.setPImageAlpha(pg, 0.65f); 	// light opacity overlay. 
+		DrawUtil.setPImageAlpha(pg, 0.4f); 	// light opacity overlay. 
 		DrawUtil.setDrawCorner(pg);
 //		pg.beginShape(PConstants.QUAD);
 //		pg.texture(_texture);

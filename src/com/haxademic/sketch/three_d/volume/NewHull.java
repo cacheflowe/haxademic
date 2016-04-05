@@ -1,16 +1,17 @@
 package com.haxademic.sketch.three_d.volume;
 
-import processing.core.PImage;
-import quickhull3d.Point3d;
-import quickhull3d.QuickHull3D;
-
+import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.system.FileUtil;
 
-@SuppressWarnings("serial")
+import processing.core.PImage;
+import quickhull3d.Point3d;
+import quickhull3d.QuickHull3D;
+
 public class NewHull 
 extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
 	QuickHull3D hull = new QuickHull3D(); //init quickhull
 	Point3d[] points; //init Point3d array
@@ -18,7 +19,7 @@ extends PAppletHax {
 	PImage img;
 	
 	protected void overridePropsFile() {
-		_appConfig.setProperty( "rendering", "false" );
+		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
 	}
 
 	public void setup() {

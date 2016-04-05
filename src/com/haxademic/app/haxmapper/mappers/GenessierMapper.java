@@ -13,7 +13,6 @@ import com.haxademic.app.haxmapper.textures.TextureEQGrid;
 import com.haxademic.app.haxmapper.textures.TextureVideoPlayer;
 import com.haxademic.core.system.FileUtil;
 
-@SuppressWarnings("serial")
 public class GenessierMapper
 extends HaxMapper{
 	
@@ -21,13 +20,12 @@ extends HaxMapper{
 	protected int curSideIndex = 0;
 		
 	public static void main(String args[]) {
-		_isFullScreen = true;
 		PApplet.main(new String[] { "--hide-stop", "--bgcolor=000000", "com.haxademic.app.haxmapper.mappers.GenessierMapper" });
 	}
 	
 	protected void overridePropsFile() {
 		super.overridePropsFile();
-		_appConfig.setProperty( "mapping_file", FileUtil.getHaxademicDataPath() + "text/mapping/mapping-2014-04-05-00-17-25.txt" );
+		p.appConfig.setProperty( "mapping_file", FileUtil.getHaxademicDataPath() + "text/mapping/mapping-2014-04-05-00-17-25.txt" );
 	}
 
 	public void oscEvent(OscMessage theOscMessage) {  

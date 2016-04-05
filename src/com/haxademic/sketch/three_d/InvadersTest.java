@@ -1,17 +1,16 @@
 package com.haxademic.sketch.three_d;
 
+import com.haxademic.core.app.P;
+import com.haxademic.core.audio.AudioInputWrapper;
+import com.haxademic.core.draw.mesh.DrawMesh;
+import com.haxademic.core.draw.shapes.Meshes;
+
 import krister.Ess.AudioInput;
 import processing.core.PApplet;
 import processing.core.PConstants;
 import toxi.color.TColor;
 import toxi.geom.mesh.WETriangleMesh;
 
-import com.haxademic.core.app.P;
-import com.haxademic.core.audio.AudioInputWrapper;
-import com.haxademic.core.draw.mesh.DrawMesh;
-import com.haxademic.core.draw.shapes.Meshes;
-
-@SuppressWarnings("serial")
 public class InvadersTest
 	extends PApplet
 {
@@ -22,7 +21,7 @@ public class InvadersTest
 	public void setup () {
 		// set up stage and drawing properties
 //		size( 800, 800, "hipstersinc.P5Sunflow" );
-		size( 800, 800, PConstants.OPENGL );				//size(screen.width,screen.height,P3D);
+		size( 800, 800, P.P3D );				//size(screen.width,screen.height,P3D);
 		frameRate( 30 );
 		colorMode( PConstants.RGB, 255, 255, 255, 255 );
 		background( 0 );

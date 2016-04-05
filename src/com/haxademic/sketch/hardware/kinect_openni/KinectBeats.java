@@ -3,6 +3,7 @@ package com.haxademic.sketch.hardware.kinect_openni;
 
 import java.util.ArrayList;
 
+import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.hardware.kinect.KinectSize;
@@ -13,9 +14,9 @@ import ddf.minim.Minim;
 import ddf.minim.signals.SineWave;
 
 
-@SuppressWarnings("serial")
 public class KinectBeats 
 extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	public static final float PIXEL_SIZE = 7;
 	public static final int KINECT_CLOSE = 1500;
@@ -31,11 +32,11 @@ extends PAppletHax {
 	}
 
 	protected void overridePropsFile() {
-		_appConfig.setProperty( "rendering", "false" );
-		_appConfig.setProperty( "kinect_active", "true" );
-		_appConfig.setProperty( "width", "640" );
-		_appConfig.setProperty( "height", "480" );
-		_appConfig.setProperty( "fps", "60" );
+		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
+		p.appConfig.setProperty( AppSettings.KINECT_ACTIVE, "true" );
+		p.appConfig.setProperty( AppSettings.WIDTH, "640" );
+		p.appConfig.setProperty( AppSettings.HEIGHT, "480" );
+		p.appConfig.setProperty( AppSettings.FPS, "60" );
 	}
 	
 	protected void loadSounds() {

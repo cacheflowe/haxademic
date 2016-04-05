@@ -1,15 +1,15 @@
 package com.haxademic.sketch.shader;
 
-import processing.opengl.PShader;
-
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.shapes.Shapes;
 import com.haxademic.core.draw.util.OpenGLUtil;
 import com.haxademic.core.system.FileUtil;
 
-@SuppressWarnings("serial")
+import processing.opengl.PShader;
+
 public class ShaderLightTest
 extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	protected PShader _pixlightShader;
 	protected PShader _toonShader;

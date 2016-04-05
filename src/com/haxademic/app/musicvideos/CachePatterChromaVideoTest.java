@@ -1,25 +1,22 @@
 package com.haxademic.app.musicvideos;
 
-import processing.core.PGraphics;
-import processing.core.PImage;
-import processing.opengl.PShader;
-
+import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.draw.util.OpenGLUtil;
 import com.haxademic.core.image.MotionBlurPGraphics;
 import com.haxademic.core.math.MathUtil;
-import com.haxademic.core.math.easing.EasingFloat;
-import com.haxademic.core.math.easing.LinearFloat;
 import com.haxademic.core.render.VideoFrameGrabber;
 import com.haxademic.core.system.FileUtil;
 
 import controlP5.ControlP5;
+import processing.core.PGraphics;
+import processing.core.PImage;
+import processing.opengl.PShader;
 
-@SuppressWarnings("serial")
 public class CachePatterChromaVideoTest
-extends PAppletHax{
-	
+extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
+
 	PGraphics _movieBuffer;
 	PImage _movieBufferImg;
 	
@@ -52,11 +49,11 @@ extends PAppletHax{
 	float _addMovieFrame = 0;
 
 	protected void overridePropsFile() {
-		_appConfig.setProperty( "width", "1280" );
-		_appConfig.setProperty( "height", "720" );
-		_appConfig.setProperty( "width", "960" );
-		_appConfig.setProperty( "height", "540" );
-		_appConfig.setProperty( "rendering", "false" );
+		p.appConfig.setProperty( AppSettings.WIDTH, "1280" );
+		p.appConfig.setProperty( AppSettings.HEIGHT, "720" );
+		p.appConfig.setProperty( AppSettings.WIDTH, "960" );
+		p.appConfig.setProperty( AppSettings.HEIGHT, "540" );
+		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
 	}
 	
 	public void setup() {
@@ -68,7 +65,7 @@ extends PAppletHax{
 		_movieBuffer = p.createGraphics(p.width, p.height, P.P2D);
 
 		// video scrubber
-		_videoFrames = new VideoFrameGrabber(p, "/Users/cacheflowe/Documents/workspace/plasticsoundsupply/resources/_releases/PSS020 - ambient compilation/patter-video/ultrasoft-selects-540.mp4", 30, 0);
+		_videoFrames = new VideoFrameGrabber(p, FileUtil.getHaxademicDataPath() + "video/patter/ultrasoft-selects-540.mp4", 30, 0);
 
 		_vignette = loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/vignette.glsl" );
 		_desaturate = loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/saturation.glsl" );
@@ -112,7 +109,7 @@ extends PAppletHax{
 		_chromaKeyFilter.set("smoothing", smoothing);
 		_chromaKeyFilter.set("colorToReplace", colorToReplaceR, colorToReplaceG, colorToReplaceB);
 		
-		_vignette = loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/vignette.glsl" );
+//		_vignette = loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/vignette.glsl" );
 		_vignette.set("darkness", 0.4f);
 		_vignette.set("spread", 0.35f);
 

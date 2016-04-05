@@ -1,15 +1,14 @@
 package com.haxademic.sketch.hardware.kinect_openni;
 
-import processing.core.PApplet;
-import processing.core.PFont;
-import processing.core.PVector;
-
 import com.haxademic.core.app.P;
 import com.haxademic.core.hardware.kinect.IKinectWrapper;
 import com.haxademic.core.hardware.kinect.KinectSize;
 import com.haxademic.core.hardware.kinect.KinectWrapperV1;
 
-@SuppressWarnings("serial")
+import processing.core.PApplet;
+import processing.core.PFont;
+import processing.core.PVector;
+
 public class KinectDepthWrapper 
 extends PApplet {
 

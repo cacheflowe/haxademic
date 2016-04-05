@@ -11,7 +11,6 @@ import org.sunflow.image.Color;
 
 import processing.core.PImage;
 
-@SuppressWarnings("serial")
 public class JRImagePanel extends JPanel implements Display {
 	
     private static final int[] BORDERS = {Color.RED.toRGB(),

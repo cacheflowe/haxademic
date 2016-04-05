@@ -6,7 +6,6 @@ import com.haxademic.core.draw.util.OpenGLUtil;
 import com.haxademic.core.image.filters.shaders.BrightnessFilter;
 import com.haxademic.core.image.filters.shaders.InvertFilter;
 import com.haxademic.core.image.filters.shaders.ThresholdFilter;
-import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.EasingFloat;
 import com.haxademic.core.system.FileUtil;
 
@@ -37,10 +36,10 @@ public class BaseTexture {
 	
 	protected void buildGraphics( int width, int height ) {
 		if( _texture != null ) _texture.dispose();
-		_texture = P.p.createGraphics( width, height, PConstants.OPENGL );
+		_texture = P.p.createGraphics( width, height, PConstants.P3D );
 //		_texture.smooth(OpenGLUtil.SMOOTH_MEDIUM);
 //		_texture.smooth(OpenGLUtil.SMOOTH_HIGH);
-		_texture.smooth(OpenGLUtil.SMOOTH_LOW);
+//		_texture.smooth(OpenGLUtil.SMOOTH_LOW);
 //		_texture.noSmooth();
 		OpenGLUtil.setTextureRepeat(_texture);
 

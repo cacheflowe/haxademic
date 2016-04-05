@@ -122,7 +122,7 @@ public class PlusRing
 
 		public void handleKeyboardInput()
 		{
-			if ( p.key == 'm' || p.key == 'M' || p._midi.midiPadIsOn( MidiWrapper.PAD_04 ) == 1 || p._midi.midiPadIsOn( MidiWrapper.NOTE_04 ) == 1 ) {
+			if ( p.key == 'm' || p.key == 'M' || p.midi.midiPadIsOn( MidiWrapper.PAD_04 ) == 1 || p.midi.midiPadIsOn( MidiWrapper.NOTE_04 ) == 1 ) {
 				pickMode();
 			}
 		}

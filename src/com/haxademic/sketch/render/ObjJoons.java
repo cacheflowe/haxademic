@@ -1,6 +1,7 @@
 
 package com.haxademic.sketch.render;
 
+import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.shapes.PShapeSolid;
@@ -9,24 +10,24 @@ import com.haxademic.core.system.FileUtil;
 
 import processing.core.PShape;
 
-@SuppressWarnings("serial")
 public class ObjJoons 
 extends PAppletHax {
-	
+
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	protected PShape obj;
 	protected PShapeSolid objSolid;
 	protected float _frames = 40;
 	protected float percentComplete;
 
 	protected void overridePropsFile() {
-		_appConfig.setProperty( "sunflow", "true" );
-		_appConfig.setProperty( "sunflow_active", "false" );
-		_appConfig.setProperty( "sunflow_quality", "low" );
+		p.appConfig.setProperty( AppSettings.SUNFLOW, "true" );
+		p.appConfig.setProperty( AppSettings.SUNFLOW_ACTIVE, "true" );
+		p.appConfig.setProperty( AppSettings.SUNFLOW_QUALITY, "low" );
 
 
-		_appConfig.setProperty( "width", "800" );
-		_appConfig.setProperty( "height", "800" );
-		_appConfig.setProperty( "rendering", "false" );
+		p.appConfig.setProperty( AppSettings.WIDTH, "800" );
+		p.appConfig.setProperty( AppSettings.HEIGHT, "800" );
+		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
 	}
 
 	public void setup() {
@@ -37,9 +38,9 @@ extends PAppletHax {
 		percentComplete = ((float)(p.frameCount%_frames)/_frames);
 		P.println("frameCount: ",p.frameCount);
 		
-		_jw.jr.background(0,0,0); //background(gray), or (r, g, b), like Processing.
-		_jw.jr.background("gi_ambient_occlusion"); //Global illumination, ambient occlusion mode.
-		_jw.jr.background("gi_instant"); //Global illumination, normal mode.
+		joons.jr.background(0,0,0); //background(gray), or (r, g, b), like Processing.
+		joons.jr.background("gi_ambient_occlusion"); //Global illumination, ambient occlusion mode.
+		joons.jr.background("gi_instant"); //Global illumination, normal mode.
 
 		
 		// drawGlassRoom();
@@ -69,7 +70,7 @@ extends PAppletHax {
 		float r = 200;
 		float g = 200;
 		float b = 200;
-		_jw.jr.background("cornell_box", 
+		joons.jr.background("cornell_box", 
 				12000, 6000, 6000,	// width, height, depth
 				radiance, radiance, radiance, samples,  // radiance rgb & samples
 				r,g,b, // left rgb
@@ -86,7 +87,7 @@ extends PAppletHax {
 		pushMatrix();
 		translate(0, 0, -boxDepth);
 //		_jw.jr.fill("shiny", 127, 127, 127);
-		_jw.jr.fill("mirror", 100, 120, 150);
+		joons.jr.fill("mirror", 100, 120, 150);
 		box(p.width * 2, p.height * 2, 5);
 		popMatrix();
 		
@@ -97,7 +98,7 @@ extends PAppletHax {
 		for(float x = -p.width + spacing * percentComplete; x < p.width; x += spacing) {
 			pushMatrix();
 			translate(x, 0, -boxDepth);
-			_jw.jr.fill("shiny", 215, 255, 235);
+			joons.jr.fill("shiny", 215, 255, 235);
 			box(boxSize, boxSize, boxDepth);
 			popMatrix();
 		}
@@ -107,7 +108,7 @@ extends PAppletHax {
 			pushMatrix();
 			translate(0, y, -boxDepth);
 //			_jw.jr.fill("light", 10, 10, 10);
-			_jw.jr.fill("shiny", 205, 230, 185);
+			joons.jr.fill("shiny", 205, 230, 185);
 			box(boxSize, boxSize, boxDepth);
 			popMatrix();
 		}
@@ -123,7 +124,7 @@ extends PAppletHax {
 		// draw room
 		float radiance = 20;
 		int samples = 16;
-		_jw.jr.background("cornell_box", 
+		joons.jr.background("cornell_box", 
 				12000, 6000, 6000,	// width, height, depth
 				radiance, radiance, radiance, samples,  // radiance rgb & samples
 				0,0,0, // left rgb
@@ -152,7 +153,7 @@ extends PAppletHax {
 //		// glass inner
 		pushMatrix();
 //		translate(0,0,0);
-		_jw.jr.fill("shiny", 255, 235, 235, 0.3f);
+		joons.jr.fill("shiny", 255, 235, 235, 0.3f);
 		sphere(12f + 2f * P.sin(-P.PI/2f + P.TWO_PI * percentComplete));
 		popMatrix();
 		
@@ -160,7 +161,7 @@ extends PAppletHax {
 		// draw obj
 		pushMatrix();
 //		translate(0, 0, 20);
-		_jw.jr.fill("glass", 255, 255, 255);
+		joons.jr.fill("glass", 255, 255, 255);
 		p.rotateZ(P.PI);
 //		p.rotateY(P.PI);
 		p.scale(11);
@@ -179,7 +180,7 @@ extends PAppletHax {
 		}
 		
 		// draw room
-		_jw.jr.background("cornell_box", p.width, p.height, p.height); //cornellBox(width, height, depth);
+		joons.jr.background("cornell_box", p.width, p.height, p.height); //cornellBox(width, height, depth);
 
 		// position scene center
 		translate(0, 0, -120);
@@ -190,7 +191,7 @@ extends PAppletHax {
 		pushMatrix();
 		float radius = 10;
 		translate(0,0,0);
-		_jw.jr.fill("shiny", 255, 235, 235);
+		joons.jr.fill("shiny", 255, 235, 235);
 		sphere(radius);
 		popMatrix();
 
@@ -207,7 +208,7 @@ extends PAppletHax {
 		pushMatrix();
 		translate(0, 0, 20);
 //		_jw.jr.fill("glass", 255, 255, 255);
-		_jw.jr.fill("shiny", 255, 235, 235, 0.3f);
+		joons.jr.fill("shiny", 255, 235, 235, 0.3f);
 		p.rotateZ(P.PI);
 //		p.rotateY(P.PI);
 		p.scale(11);
@@ -234,7 +235,7 @@ extends PAppletHax {
 		float r = 30;
 		float g = 30;
 		float b = 30;
-		_jw.jr.background("cornell_box", 
+		joons.jr.background("cornell_box", 
 				12000, 6000, 6000,	// width, height, depth
 				radiance, radiance, radiance, samples,  // radiance rgb & samples
 				r,g,b, // left rgb
@@ -253,14 +254,14 @@ extends PAppletHax {
 		pushMatrix();
 		p.rotateY(P.PI*0.5f);
 		translate(0, 0, -bgBoxDist);
-		_jw.jr.fill("mirror", 150, 120, 150);
+		joons.jr.fill("mirror", 150, 120, 150);
 		box(p.width * 3, p.height * 3, 5);
 		popMatrix();
 		
 		pushMatrix();
 		p.rotateY(P.PI*0.5f * 3f);
 		translate(0, 0, -bgBoxDist);
-		_jw.jr.fill("mirror", 150, 120, 150);
+		joons.jr.fill("mirror", 150, 120, 150);
 		box(p.width * 2, p.height * 2, 5);
 		popMatrix();
 		
@@ -268,7 +269,7 @@ extends PAppletHax {
 		pushMatrix();
 		p.rotateY(P.PI*0.5f);
 		translate(0, 0, 150);
-		_jw.jr.fill("light", 120, 180, 150);
+		joons.jr.fill("light", 120, 180, 150);
 		box(p.width * 2, p.height * 3, 5);
 		popMatrix();
 
@@ -281,7 +282,7 @@ extends PAppletHax {
 		pushMatrix();
 		p.rotateY(P.PI*0.5f * 3f);
 		translate(0, 0, 150);
-		_jw.jr.fill("light", 150, 120, 180);
+		joons.jr.fill("light", 150, 120, 180);
 		box(p.width * 2, p.height * 3, 5);
 		popMatrix();
 
@@ -293,7 +294,7 @@ extends PAppletHax {
 		p.scale(0.08f);
 //		_jw.jr.fill("light", 120, 180, 150);
 //		_jw.jr.fill("mirror", 150, 120, 150);
-		_jw.jr.fill("shiny", 255, 255, 255, 0.3f);
+		joons.jr.fill("shiny", 255, 255, 255, 0.3f);
 		PShapeUtil.drawTriangles(p, diamond.getTessellation());
 		popMatrix();
 
@@ -302,7 +303,7 @@ extends PAppletHax {
 		pushMatrix();
 		translate(0, 40, 20);
 //		_jw.jr.fill("glass", 255, 255, 255);
-		_jw.jr.fill("shiny", 255, 255, 255, 0.3f);
+		joons.jr.fill("shiny", 255, 255, 255, 0.3f);
 		p.rotateZ(P.PI);
 		p.rotateY(P.TWO_PI*0.75f);
 //		p.rotateX(0.5f);
@@ -315,7 +316,7 @@ extends PAppletHax {
 	}
 	
 	public void keyPressed() {
-		if (key == 'r' || key == 'R') _jw.jr.render(); //Press 'r' key to start rendering.
+		if (key == 'r' || key == 'R') joons.jr.render(); //Press 'r' key to start rendering.
 	}
 
 }

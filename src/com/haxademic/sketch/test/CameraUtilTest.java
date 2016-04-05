@@ -1,19 +1,19 @@
 package com.haxademic.sketch.test;
 
-import javax.media.opengl.GL2;
-
+import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.cameras.CameraUtil;
 import com.haxademic.core.image.PerlinTexture;
+import com.jogamp.opengl.GL2;
 
 import controlP5.ControlP5;
 import processing.opengl.PGL;
 import processing.opengl.PGraphicsOpenGL;
 import processing.opengl.PJOGL;
 
-@SuppressWarnings("serial")
 public class CameraUtilTest
 extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	protected PerlinTexture _perlinTexture;
 	
@@ -29,8 +29,8 @@ extends PAppletHax {
 
 
 	protected void overridePropsFile() {
-		_appConfig.setProperty( "width", "800" );
-		_appConfig.setProperty( "height", "600" );
+		p.appConfig.setProperty( AppSettings.WIDTH, "800" );
+		p.appConfig.setProperty( AppSettings.HEIGHT, "600" );
 	}
 
 	public void setup() {

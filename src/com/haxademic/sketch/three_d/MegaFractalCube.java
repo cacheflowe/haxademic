@@ -1,5 +1,6 @@
 package com.haxademic.sketch.three_d;
 
+import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.cameras.CameraOscillate;
@@ -7,7 +8,6 @@ import com.haxademic.core.cameras.common.ICamera;
 import com.haxademic.core.draw.util.OpenGLUtil;
 import com.haxademic.core.render.JoonsWrapper;
 
-@SuppressWarnings({ "serial" })
 public class MegaFractalCube
 extends PAppletHax
 {
@@ -20,20 +20,20 @@ extends PAppletHax
 	float percentComplete;
 
 	protected void overridePropsFile() {
-		_appConfig.setProperty( "sunflow", "true" );
-		_appConfig.setProperty( "sunflow_active", "false" );
-		_appConfig.setProperty( "sunflow_quality", "low" );
+		p.appConfig.setProperty( AppSettings.SUNFLOW, "true" );
+		p.appConfig.setProperty( AppSettings.SUNFLOW_ACTIVE, "false" );
+		p.appConfig.setProperty( AppSettings.SUNFLOW_QUALITY, "low" );
 
-		_appConfig.setProperty( "rendering_gif", "false" );
-		_appConfig.setProperty( "rendering_gif_framerate", "45" );
-		_appConfig.setProperty( "rendering_gif_quality", "15" );
-		_appConfig.setProperty( "rendering_gif_startframe", "3" );
-		_appConfig.setProperty( "rendering_gif_stopframe", ""+Math.round(_frames+2) );
+		p.appConfig.setProperty( AppSettings.RENDERING_GIF, "false" );
+		p.appConfig.setProperty( AppSettings.RENDERING_GIF_FRAMERATE, "45" );
+		p.appConfig.setProperty( AppSettings.RENDERING_GIF_QUALITY, "15" );
+		p.appConfig.setProperty( AppSettings.RENDERING_GIF_START_FRAME, "3" );
+		p.appConfig.setProperty( AppSettings.RENDERING_GIF_STOP_FRAME, ""+Math.round(_frames+2) );
 
-		_appConfig.setProperty( "width", "640" );
-		_appConfig.setProperty( "height", "640" );
+		p.appConfig.setProperty( AppSettings.WIDTH, "640" );
+		p.appConfig.setProperty( AppSettings.HEIGHT, "640" );
 		
-		_appConfig.setProperty( "rendering", "false" );
+		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
 	}
 
 	public void setup() {
@@ -41,7 +41,7 @@ extends PAppletHax
 		
 		BASE_CUBE_SIZE = p.width/4f;
 		
-		if(_appConfig.getBoolean("sunflow_active", false) == false) {
+		if(p.appConfig.getBoolean("sunflow_active", false) == false) {
 			p.smooth(OpenGLUtil.SMOOTH_HIGH);
 			lights();
 			shininess(500); 
@@ -58,10 +58,10 @@ extends PAppletHax
 		percentComplete = ((float)(p.frameCount%_frames)/_frames);
 		
 		
-		if(_appConfig.getBoolean("sunflow_active", false) == true) {
-			_jw.jr.background(255, 255, 255); //background(gray), or (r, g, b), like Processing.
-			_jw.jr.background("gi_instant"); //Global illumination, normal mode.
-			_jw.jr.background("gi_ambient_occlusion"); //Global illumination, ambient occlusion mode.
+		if(p.appConfig.getBoolean("sunflow_active", false) == true) {
+			joons.jr.background(255, 255, 255); //background(gray), or (r, g, b), like Processing.
+			joons.jr.background("gi_instant"); //Global illumination, normal mode.
+			joons.jr.background("gi_ambient_occlusion"); //Global illumination, ambient occlusion mode.
 			setUpRoom();
 		} else {
 			background( 255 );
@@ -99,7 +99,7 @@ extends PAppletHax
 		
 		
 		if( p.frameCount == _frames + 2 ) {
-			if(_appConfig.getBoolean("rendering", false) ==  true) {				
+			if(p.appConfig.getBoolean("rendering", false) ==  true) {				
 				_renderer.stop();
 				P.println("render done!");
 			}
@@ -156,11 +156,11 @@ extends PAppletHax
 			int color = P.round(255f - (_curSize / BASE_CUBE_SIZE) * 235f);  
 			int colorDark = P.round(150f - (_curSize / BASE_CUBE_SIZE) * 135f); 
 			
-			if(_appConfig.getBoolean("sunflow_active", false) == true) {
+			if(p.appConfig.getBoolean("sunflow_active", false) == true) {
 				if(_baseSize == BASE_CUBE_SIZE) {
-					_jw.jr.fill( JoonsWrapper.MATERIAL_GLASS, 60, 60, 100);
+					joons.jr.fill( JoonsWrapper.MATERIAL_GLASS, 60, 60, 100);
 				} else {
-					_jw.jr.fill( JoonsWrapper.MATERIAL_SHINY, 
+					joons.jr.fill( JoonsWrapper.MATERIAL_SHINY, 
 							color + color/5f * P.sin(percentComplete * P.TWO_PI) * _x/40f, 
 							color + color/5f * P.sin(percentComplete * P.TWO_PI + P.PI) * _y/40f,
 							color + color/5f * P.sin(percentComplete * P.TWO_PI + P.PI/2f) * _z/40f
@@ -208,7 +208,7 @@ extends PAppletHax
 		translate(0, 0, -1000);
 		float radiance = 20;
 		int samples = 16;
-		_jw.jr.background("cornell_box", 
+		joons.jr.background("cornell_box", 
 				12000, 6000, 6000,	// width, height, depth
 				radiance, radiance, radiance, samples,  // radiance rgb & samples
 				255, 255, 255, // left rgb

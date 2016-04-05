@@ -1,10 +1,10 @@
 package com.haxademic.sketch.particle;
 
-import processing.core.PConstants;
-import processing.core.PImage;
-
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.system.FileUtil;
+
+import processing.core.PConstants;
+import processing.core.PImage;
 
 /**
  * 
@@ -12,7 +12,7 @@ import com.haxademic.core.system.FileUtil;
  *
  */
 public class ImageParticleExplosion
-	extends PAppletHax
+extends PAppletHax
 {
 	// global vars
 	protected int _fps = 30;
@@ -24,7 +24,7 @@ public class ImageParticleExplosion
 	{
 		super.setup();
 		// set up stage and drawing properties
-		smooth();
+//		smooth();
 		noStroke();
 		
 		// set up image

@@ -1,5 +1,6 @@
 package com.haxademic.sketch.render;
 
+import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.shapes.BoxBetween;
@@ -7,16 +8,15 @@ import com.haxademic.core.draw.util.OpenGLUtil;
 import com.haxademic.core.image.MotionBlurPGraphics;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.EasingFloat;
-import com.haxademic.core.system.AppRestart;
 import com.haxademic.core.system.FileUtil;
 import com.haxademic.core.system.SystemUtil;
 
 import processing.core.PGraphics;
 import processing.core.PVector;
 
-@SuppressWarnings("serial")
 public class FractalPolygons
-extends PAppletHax{
+extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	protected float easing = 5f;
 	protected float _curCircleSegment = 0;
@@ -45,31 +45,27 @@ extends PAppletHax{
 	PGraphics _pg;
 	// PApplet _pg;
 	
-	public static void main(String args[]) {
-		PAppletHax.main(P.concat(args, new String[] { "--hide-stop", "--bgcolor=000000", Thread.currentThread().getStackTrace()[1].getClassName() }));
-	}
-
 	protected void overridePropsFile() {
-		_appConfig.setProperty( "width", "700" );
-		_appConfig.setProperty( "height", "700" );
-//		_appConfig.setProperty( "fills_screen", "true" );
-		_appConfig.setProperty( "rendering", "false" );
-		_appConfig.setProperty( "rendering_gif", "false" );
-		_appConfig.setProperty( "rendering_gif_framerate", "40" );
-		_appConfig.setProperty( "rendering_gif_quality", "1" );
-		_appConfig.setProperty( "rendering_gif_startframe", ""+ Math.round(2) );
-		_appConfig.setProperty( "rendering_gif_stopframe", ""+Math.round(_frames + 10) );
+		p.appConfig.setProperty( AppSettings.WIDTH, "700" );
+		p.appConfig.setProperty( AppSettings.HEIGHT, "700" );
+//		p.appConfig.setProperty( AppSettings.FILLS_SCREEN, "true" );
+		p.appConfig.setProperty( AppSettings.SMOOTHING, AppSettings.SMOOTH_HIGH );
+		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, false );
+		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, ""+Math.round(_frames + 10) );
+		p.appConfig.setProperty( AppSettings.RENDERING_GIF, false );
+		p.appConfig.setProperty( AppSettings.RENDERING_GIF_FRAMERATE, "40" );
+		p.appConfig.setProperty( AppSettings.RENDERING_GIF_QUALITY, "1" );
+		p.appConfig.setProperty( AppSettings.RENDERING_GIF_START_FRAME, Math.round(2) );
+		p.appConfig.setProperty( AppSettings.RENDERING_GIF_STOP_FRAME, Math.round(_frames + 10) );
 	}
 
 	public void setup() {
 		super.setup();
-
-		p.smooth(OpenGLUtil.SMOOTH_HIGH);
 		buildCanvas();
 	}
 
 	protected void buildCanvas() {
-		_pg = p.createGraphics( p.width, p.height, P.OPENGL );
+		_pg = p.createGraphics( p.width, p.height, P.P3D );
 		_pg.smooth(OpenGLUtil.SMOOTH_HIGH);
 		_pgMotionBlur = new MotionBlurPGraphics(6);
 	}
@@ -78,7 +74,7 @@ extends PAppletHax{
 		p.background(255);
 		_pg.beginDraw();
 		_pg.clear();
-		_pg.rotateX(p.mouseY/50f);
+//		_pg.rotateX(p.mouseY/50f);
 		drawGraphics();
 		_pg.endDraw();
 		_pgMotionBlur.updateToCanvas(_pg.get(), p.g, 0.7f);
@@ -191,7 +187,7 @@ extends PAppletHax{
 			_pg.endShape(P.CLOSE);
 			for( int i=0; i < numArms; i++ ) {
 				if(_everyOtherPoly == false || ((i+level)%2==0 && i < level)) {
-					BoxBetween.draw(_pg, new PVector(arms[i]._x, arms[i]._y), new PVector(arms[(i+1)%arms.length]._x, arms[(i+1)%arms.length]._y), 6);
+//					BoxBetween.draw(_pg, new PVector(arms[i]._x, arms[i]._y), new PVector(arms[(i+1)%arms.length]._x, arms[(i+1)%arms.length]._y), 6);
 				}
 			}
 
@@ -204,7 +200,7 @@ extends PAppletHax{
 						_pg.vertex( x, y );
 						_pg.vertex( arms[i]._x, arms[i]._y);
 						_pg.endShape();
-						BoxBetween.draw(_pg, new PVector(x, y), new PVector(arms[i]._x, arms[i]._y), 6);
+//						BoxBetween.draw(_pg, new PVector(x, y), new PVector(arms[i]._x, arms[i]._y), 6);
 					}
 				}
 			} else {
@@ -212,7 +208,7 @@ extends PAppletHax{
 					if( arms[i].clusterPolygon != null ) {
 						for( int j=0; j < numArms; j++ ) {
 							_pg.line( arms[i]._x, arms[i]._y, arms[i].clusterPolygon.arms[j]._x, arms[i].clusterPolygon.arms[j]._y );
-							BoxBetween.draw(_pg, new PVector(arms[i]._x, arms[i]._y), new PVector(arms[i].clusterPolygon.arms[j]._x, arms[i].clusterPolygon.arms[j]._y), 6);
+//							BoxBetween.draw(_pg, new PVector(arms[i]._x, arms[i]._y), new PVector(arms[i].clusterPolygon.arms[j]._x, arms[i].clusterPolygon.arms[j]._y), 6);
 						}
 					}
 				}

@@ -5,23 +5,22 @@ import com.haxademic.app.haxmapper.textures.TextureEQFloatParticles;
 import com.haxademic.app.haxmapper.textures.TextureLinesEQ;
 import com.haxademic.app.haxmapper.textures.TextureRotatingRings;
 import com.haxademic.app.haxmapper.textures.TextureShaderTimeStepper;
-import com.haxademic.app.haxmapper.textures.TextureSvgPattern;
-import com.haxademic.app.haxmapper.textures.TextureWaveformCircle;
+import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.util.OpenGLUtil;
 
-@SuppressWarnings("serial")
 public class HaxMapperTextureTester 
 extends PAppletHax {
-	
+
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	protected BaseTexture[] _textures;
 	int w = 500;
 	int h = 300;
 
 	protected void overridePropsFile() {
-		_appConfig.setProperty( "width", "1000" );
-		_appConfig.setProperty( "height", "750" );
-		_appConfig.setProperty( "rendering", "false" );
+		p.appConfig.setProperty( AppSettings.WIDTH, "1000" );
+		p.appConfig.setProperty( AppSettings.HEIGHT, "750" );
+		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
 	}
 
 

@@ -77,13 +77,13 @@ public class KinectSilhouetteBasic {
 			_kinectBufferRoomScan = new KinectBufferedData(PIXEL_SIZE, KINECT_NEAR, KINECT_FAR, KINECT_BUFFER_FRAMES, false);
 			_kinectBufferRoomScan.setKinectRect(KINECT_LEFT_PIXEL, KINECT_RIGHT_PIXEL, KINECT_TOP_PIXEL, KINECT_BOTTOM_PIXEL);
 		}
-//		_kinectPixelated = P.p.createGraphics( KINECT_RIGHT_PIXEL - KINECT_LEFT_PIXEL, KINECT_BOTTOM_PIXEL - KINECT_TOP_PIXEL, P.OPENGL );
-		_kinectPixelated = P.p.createGraphics( Math.round((KINECT_RIGHT_PIXEL - KINECT_LEFT_PIXEL)/PIXEL_SIZE), Math.round((KINECT_BOTTOM_PIXEL - KINECT_TOP_PIXEL)/PIXEL_SIZE), P.OPENGL );
+//		_kinectPixelated = P.p.createGraphics( KINECT_RIGHT_PIXEL - KINECT_LEFT_PIXEL, KINECT_BOTTOM_PIXEL - KINECT_TOP_PIXEL, P.P3D );
+		_kinectPixelated = P.p.createGraphics( Math.round((KINECT_RIGHT_PIXEL - KINECT_LEFT_PIXEL)/PIXEL_SIZE), Math.round((KINECT_BOTTOM_PIXEL - KINECT_TOP_PIXEL)/PIXEL_SIZE), P.P3D );
 		_kinectPixelated.noSmooth();
 		
 		initBlobDetection();
 		
-		_canvas = P.p.createGraphics( KINECT_RIGHT_PIXEL - KINECT_LEFT_PIXEL, KINECT_BOTTOM_PIXEL - KINECT_TOP_PIXEL, P.OPENGL );
+		_canvas = P.p.createGraphics( KINECT_RIGHT_PIXEL - KINECT_LEFT_PIXEL, KINECT_BOTTOM_PIXEL - KINECT_TOP_PIXEL, P.P3D );
 //		_canvas.noSmooth();
 //		_canvas.smooth(OpenGLUtil.SMOOTH_LOW);
 		_canvas.smooth();

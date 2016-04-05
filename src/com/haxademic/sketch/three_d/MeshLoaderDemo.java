@@ -1,26 +1,23 @@
 package com.haxademic.sketch.three_d;
 
-import geomerative.RFont;
-import geomerative.RG;
-
 import java.util.ArrayList;
-
-import processing.core.PApplet;
-import processing.core.PConstants;
-import toxi.geom.mesh.WETriangleMesh;
-import toxi.processing.ToxiclibsSupport;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.debug.DebugUtil;
 import com.haxademic.core.draw.mesh.MeshPool;
 import com.haxademic.core.draw.mesh.MeshUtil;
 import com.haxademic.core.draw.util.DrawUtil;
-import com.haxademic.core.draw.util.OpenGLUtil;
 import com.haxademic.core.math.easing.EasingFloat3d;
 import com.haxademic.core.render.Renderer;
 import com.haxademic.core.system.FileUtil;
 
-@SuppressWarnings("serial")
+import geomerative.RFont;
+import geomerative.RG;
+import processing.core.PApplet;
+import processing.core.PConstants;
+import toxi.geom.mesh.WETriangleMesh;
+import toxi.processing.ToxiclibsSupport;
+
 public class MeshLoaderDemo 
 extends PApplet
 {
@@ -46,7 +43,7 @@ extends PApplet
 		if( isSunflow == true ) {
 			p.size( 1200, 800, "hipstersinc.P5Sunflow" );				//size(screen.width,screen.height,P3D);
 		} else {
-			p.size( 1200, 800, PConstants.OPENGL );				//size(screen.width,screen.height,P3D);
+			p.size( 1200, 800, P.P3D );				//size(screen.width,screen.height,P3D);
 //			OpenGLUtil.setQuality( p, OpenGLUtil.MEDIUM );
 		}
 		p.frameRate( 30 );

@@ -2,14 +2,7 @@ package com.haxademic.app.musicvideos;
 
 import java.util.Vector;
 
-import processing.core.PGraphics;
-import processing.core.PImage;
-import processing.core.PVector;
-import processing.opengl.PShader;
-import blobDetection.Blob;
-import blobDetection.BlobDetection;
-import blobDetection.EdgeVertex;
-
+import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.shapes.Superformula;
@@ -24,11 +17,23 @@ import com.haxademic.core.math.easing.LinearFloat;
 import com.haxademic.core.render.VideoFrameGrabber;
 import com.haxademic.core.system.FileUtil;
 
+import blobDetection.Blob;
+import blobDetection.BlobDetection;
+import blobDetection.EdgeVertex;
+import processing.core.PGraphics;
+import processing.core.PImage;
+import processing.core.PVector;
+import processing.opengl.PShader;
 
-@SuppressWarnings("serial")
+
 public class CachePatterVideo
 extends PAppletHax  
 {
+	public static void main(String args[]) {
+		PAppletHax.main(P.concat(args, new String[] { "--hide-stop", "--bgcolor=000000", Thread.currentThread().getStackTrace()[1].getClassName() }));
+	}
+
+
 	/**
 	 * TODO:
 	 * - adjust chroma threshold per clip (especially mike's)
@@ -89,24 +94,24 @@ extends PAppletHax
 
 
 	protected void overridePropsFile() {
-		_appConfig.setProperty( "fps", "30" );
-		_appConfig.setProperty( "width", "1920" );
-		_appConfig.setProperty( "height", "1080" );
-		_appConfig.setProperty( "width", "1280" );
-		_appConfig.setProperty( "height", "720" );
-//		_appConfig.setProperty( "width", "960" );
-//		_appConfig.setProperty( "height", "540" );
-//		_appConfig.setProperty( "width", "480" );
-//		_appConfig.setProperty( "height", "270" );
-//		_appConfig.setProperty( "width", "240" );
-//		_appConfig.setProperty( "height", "135" );
-		_appConfig.setProperty( "rendering", "true" );
-		_appConfig.setProperty( "render_midi", "true" );
-		_appConfig.setProperty( "render_midi_file", FileUtil.getHaxademicDataPath() + "midi/patter-kick-snare-bass-synth-timing-more-snares.mid" );
-		_appConfig.setProperty( "render_midi_bpm", "132" );
-		_appConfig.setProperty( "render_midi_offset", "0" );
-		_appConfig.setProperty( "render_audio", "true" );
-		_appConfig.setProperty( "render_audio_file", "/Users/cacheflowe/Documents/workspace/plasticsoundsupply/resources/_releases/PSS020 - ambient compilation/patter-video/13. CacheFlowe - Patter - Master.wav" );
+		p.appConfig.setProperty( AppSettings.FPS, "30" );
+		p.appConfig.setProperty( AppSettings.WIDTH, "1920" );
+		p.appConfig.setProperty( AppSettings.HEIGHT, "1080" );
+		p.appConfig.setProperty( AppSettings.WIDTH, "1280" );
+		p.appConfig.setProperty( AppSettings.HEIGHT, "720" );
+//		p.appConfig.setProperty( AppSettings.WIDTH, "960" );
+//		p.appConfig.setProperty( AppSettings.HEIGHT, "540" );
+//		p.appConfig.setProperty( AppSettings.WIDTH, "480" );
+//		p.appConfig.setProperty( AppSettings.HEIGHT, "270" );
+//		p.appConfig.setProperty( AppSettings.WIDTH, "240" );
+//		p.appConfig.setProperty( AppSettings.HEIGHT, "135" );
+		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "true" );
+		p.appConfig.setProperty( AppSettings.RENDER_MIDI, "true" );
+		p.appConfig.setProperty( AppSettings.RENDER_MIDI_FILE, FileUtil.getHaxademicDataPath() + "midi/patter-kick-snare-bass-synth-timing-more-snares.mid" );
+		p.appConfig.setProperty( AppSettings.RENDER_MIDI_BPM, "132" );
+		p.appConfig.setProperty( AppSettings.RENDER_MIDI_OFFSET, "0" );
+		p.appConfig.setProperty( AppSettings.RENDER_AUDIO, "true" );
+		p.appConfig.setProperty( AppSettings.RENDER_AUDIO_FILE, FileUtil.getHaxademicDataPath() + "audio/13. CacheFlowe - Patter - Master.wav" );
 	}
 
 	/**
@@ -151,14 +156,14 @@ extends PAppletHax
 		_resaturate.set("saturation", 1.4f);
 
 		// video scrubber
-		_videoFrames = new VideoFrameGrabber(p, "/Users/cacheflowe/Documents/workspace/plasticsoundsupply/resources/_releases/PSS020 - ambient compilation/patter-video/ultrasoft-selects-1080.mp4", 30, 0);
+		_videoFrames = new VideoFrameGrabber(p, FileUtil.getHaxademicDataPath() + "video/patter/ultrasoft-selects-1080.mp4", 30, 0);
 
 		// particles
 		_blobFilter = new BlobParticles( p.width, p.height );
 	}
 
 	protected void setupClouds() {
-		_cloudsGraphics = p.createGraphics(p.width, p.height, P.OPENGL);
+		_cloudsGraphics = p.createGraphics(p.width, p.height, P.P3D);
 		_cloudsGraphics.smooth(OpenGLUtil.SMOOTH_HIGH);
 
 		_clouds = loadShader( FileUtil.getHaxademicDataPath()+"shaders/textures/clouds-iq.glsl" ); 
@@ -338,10 +343,10 @@ extends PAppletHax
 		super.handleInput( isMidi );
 		// P.println(_midi._notesOn);
 		// handle midi file input
-		if( isMidi && _midi != null ) {
-			if( _midi.midiNoteIsOn( 64 ) == 1 ) newTiming();
-			else if( _midi.midiNoteIsOn( 60 ) == 1 ) kick();
-			else if( _midi.midiNoteIsOn( 61 ) == 1 ) snare();
+		if( isMidi && midi != null ) {
+			if( midi.midiNoteIsOn( 64 ) == 1 ) newTiming();
+			else if( midi.midiNoteIsOn( 60 ) == 1 ) kick();
+			else if( midi.midiNoteIsOn( 61 ) == 1 ) snare();
 		} 
 	}
 

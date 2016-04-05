@@ -4,7 +4,6 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.system.AppRestart;
 
-@SuppressWarnings("serial")
 public class AppRestartTest
 extends PAppletHax  
 {

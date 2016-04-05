@@ -1,20 +1,21 @@
 package com.haxademic.sketch.test;
 
+import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.color.ColorHaxEasing;
 import com.haxademic.core.draw.shapes.Gradients;
 
-@SuppressWarnings("serial")
 public class GradientRectTest
 extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	protected ColorHaxEasing _colorStart;
 	protected ColorHaxEasing _colorStop;
 	
 	protected void overridePropsFile() {
-		_appConfig.setProperty( "width", "600" );
-		_appConfig.setProperty( "height", "600" );
+		p.appConfig.setProperty( AppSettings.WIDTH, "600" );
+		p.appConfig.setProperty( AppSettings.HEIGHT, "600" );
 	}
 
 	public void setup() {

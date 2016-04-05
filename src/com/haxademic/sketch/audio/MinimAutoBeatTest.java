@@ -6,9 +6,9 @@ import com.haxademic.core.system.FileUtil;
 
 import ddf.minim.AudioPlayer;
 
-@SuppressWarnings("serial")
 public class MinimAutoBeatTest 
 extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	protected AudioPlayer _kick;
 	protected AudioPlayer _snare;

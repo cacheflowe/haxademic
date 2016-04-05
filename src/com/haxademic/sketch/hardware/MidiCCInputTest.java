@@ -1,15 +1,16 @@
 package com.haxademic.sketch.hardware;
 
+import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.PAppletHax;
 
-@SuppressWarnings("serial")
 public class MidiCCInputTest 
 extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	protected void overridePropsFile() {
-		appConfig.setProperty( "width", "600" );
-		appConfig.setProperty( "height", "400" );
-		appConfig.setProperty( "fills_screen", "true" );
+		appConfig.setProperty( AppSettings.WIDTH, "600" );
+		appConfig.setProperty( AppSettings.HEIGHT, "400" );
+		appConfig.setProperty( AppSettings.FILLS_SCREEN, "true" );
 	}
 
 	public void setup() {

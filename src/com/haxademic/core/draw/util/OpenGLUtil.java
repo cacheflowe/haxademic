@@ -1,7 +1,7 @@
 package com.haxademic.core.draw.util;
 
-import javax.media.opengl.GL;
-import javax.media.opengl.GL2;
+import com.jogamp.opengl.GL;
+import com.jogamp.opengl.GL2;
 
 import processing.core.PGraphics;
 import processing.opengl.PJOGL;
@@ -9,7 +9,9 @@ import processing.opengl.Texture;
 
 public class OpenGLUtil {
 	
+	public static final int SMOOTH_NONE = 0;
 	public static final int SMOOTH_LOW = 2;
+	public static final int SMOOTH_DEFAULT = 3;
 	public static final int SMOOTH_MEDIUM = 4;
 	public static final int SMOOTH_HIGH = 8;
 
@@ -107,5 +109,43 @@ public class OpenGLUtil {
 		} else {
 			gl.glPolygonMode( GL2.GL_FRONT_AND_BACK, GL2.GL_FILL );
 		}
+	}
+	
+	public static void setFog(PGraphics pg, boolean isEnabled) {
+		GL2 gl = ((PJOGL)pg.beginPGL()).gl.getGL2();
+		// Turn On Fog
+//		float[] FogCol = {0.0f,0.8f,0.8f};  // define a nice light grey
+
+		if(isEnabled)
+			gl.glEnable(GL2.GL_FOG);
+		else
+			gl.glDisable(GL2.GL_FOG);
+		
+//		gl.glEnable(GL2.GL_FOG);
+//		gl.glFogfv(GL2.GL_FOG_COLOR, FogCol, 1); // Set the fog color
+//		gl.glFogf(GL2.GL_FOG_DENSITY,0.9f);  // Thin the fog out a little
+//		gl.glFogf(GL2.GL_FOG_MODE, GL2.GL_LINEAR); // GL_LINEAR, GL_EXP, or GL_EXP2
+//		gl.glFogf(GL2.GL_FOG_START, 0); 
+//		gl.glFogf(GL2.GL_FOG_END, 1000);
+		
+		
+		
+
+	    float[] Fog_colour = {0,0,1f,0};
+
+
+	    gl.glHint(GL2.GL_FOG_HINT, GL2.GL_NICEST);
+
+	    //gl.glFogi(GL2.GL_FOG_MODE, GL2.GL_EXP);
+	    gl.glFogi(GL2.GL_FOG_MODE, GL2.GL_EXP2);
+	    //gl.glFogi(GL2.GL_FOG_MODE, GL2.GL_LINEAR);
+
+	    gl.glFogf(GL2.GL_FOG_DENSITY, 0.005f);
+	    gl.glFogfv(GL2.GL_FOG_COLOR, Fog_colour, 0);
+	    gl.glFogf(GL2.GL_FOG_START, 300 - 30);
+	    gl.glFogf(GL2.GL_FOG_END, 300);
+
+
+		
 	}
 }

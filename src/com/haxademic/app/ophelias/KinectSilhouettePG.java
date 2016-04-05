@@ -11,18 +11,18 @@ import org.poly2tri.geometry.polygon.PolygonPoint;
 import org.poly2tri.triangulation.TriangulationPoint;
 import org.poly2tri.triangulation.delaunay.DelaunayTriangle;
 
-import processing.core.PGraphics;
-import processing.core.PImage;
-import processing.core.PVector;
-import blobDetection.Blob;
-import blobDetection.BlobDetection;
-import blobDetection.EdgeVertex;
-
 import com.haxademic.core.app.P;
 import com.haxademic.core.draw.util.OpenGLUtil;
 import com.haxademic.core.hardware.kinect.KinectSize;
 import com.haxademic.core.image.filters.FastBlurFilter;
 import com.haxademic.core.math.MathUtil;
+
+import blobDetection.Blob;
+import blobDetection.BlobDetection;
+import blobDetection.EdgeVertex;
+import processing.core.PGraphics;
+import processing.core.PImage;
+import processing.core.PVector;
 
 public class KinectSilhouettePG {
 	
@@ -55,8 +55,8 @@ public class KinectSilhouettePG {
 	
 		initBlobDetection();
 
-		_kinectPixelated = P.p.createGraphics( KinectSize.WIDTH, KinectSize.HEIGHT, P.OPENGL );
-		_canvas = P.p.createGraphics( KinectSize.WIDTH, KinectSize.HEIGHT, P.OPENGL );
+		_kinectPixelated = P.p.createGraphics( KinectSize.WIDTH, KinectSize.HEIGHT, P.P3D );
+		_canvas = P.p.createGraphics( KinectSize.WIDTH, KinectSize.HEIGHT, P.P3D );
 		
 		_particles = new Vector<FloatParticle>();
 		_inactiveParticles = new Vector<FloatParticle>();
@@ -67,7 +67,7 @@ public class KinectSilhouettePG {
 	}
 	
 	protected void initBlobDetection() {
-		_silhouette = P.p.createGraphics( (int)_canvasW, (int)_canvasH, P.OPENGL );
+		_silhouette = P.p.createGraphics( (int)_canvasW, (int)_canvasH, P.P3D );
 		
 		// BlobDetection
 		// img which will be sent to detection (a smaller copy of the image frame);

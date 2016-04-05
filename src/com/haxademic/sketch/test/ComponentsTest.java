@@ -2,24 +2,23 @@ package com.haxademic.sketch.test;
 
 import java.util.ArrayList;
 
-import processing.core.PConstants;
-
+import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.assets.AsyncImageLoader;
 import com.haxademic.core.assets.DirImageLoader;
-import com.haxademic.core.components.Button;
 import com.haxademic.core.components.IMouseable;
 import com.haxademic.core.components.TextButton;
 import com.haxademic.core.components.TextInput;
 import com.haxademic.core.draw.text.CustomFontText2D;
 import com.haxademic.core.system.FileUtil;
-import com.haxademic.core.system.SystemUtil;
 import com.haxademic.core.text.ValidateUtil;
 
-@SuppressWarnings("serial")
+import processing.core.PConstants;
+
 public class ComponentsTest
-extends PAppletHax{
+extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	protected DirImageLoader _imageLoader;
 	protected String _imagesDir;
@@ -33,18 +32,18 @@ extends PAppletHax{
 	protected TextInput _activeTextInput;
 
 	protected void overridePropsFile() {
-		_appConfig.setProperty( "images_dir", FileUtil.getHaxademicDataPath() + "images/kacheout/" );
-		_appConfig.setProperty( "width", "640" );
-		_appConfig.setProperty( "height", "480" );
-		_appConfig.setProperty( "disable_esc", "false" );
-		_appConfig.setProperty( "fills_screen", "false" );
+		p.appConfig.setProperty( "images_dir", FileUtil.getHaxademicDataPath() + "images/kacheout/" );
+		p.appConfig.setProperty( AppSettings.WIDTH, "640" );
+		p.appConfig.setProperty( AppSettings.HEIGHT, "480" );
+		p.appConfig.setProperty( "disable_esc", "false" );
+		p.appConfig.setProperty( AppSettings.FILLS_SCREEN, "false" );
 	}
 
 	public void setup() {
 		super.setup();
 
 		// monkey-patch TAB capture ability - Processing 2.0 broke this in 3D rendering contexts
-		SystemUtil.p2TabKeyInputPatch();
+//		SystemUtil.p2TabKeyInputPatch();
 
 		loadAndSaveImagesFromDir();
 
@@ -66,7 +65,7 @@ extends PAppletHax{
 
 	protected void loadAndSaveImagesFromDir() {
 		// load images from a directory
-		_imagesDir = _appConfig.getString( "images_dir", "" );
+		_imagesDir = p.appConfig.getString( "images_dir", "" );
 		_imageLoader = new DirImageLoader( p, _imagesDir, "png,gif,jpg" );
 
 		// save the first image to the output path

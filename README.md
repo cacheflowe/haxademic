@@ -69,6 +69,7 @@ While the code has been open-sourced, I haven't had time to write much (any) doc
 	* MusicVideos - A collection of Applets that render music videos, audio-reactive and otherwise
 
 ## Installing / Compiling
+* **TODO: These instructions need to be updated for Processing 3.x**
 * Download the standard Eclipse IDE for Java development, and the Java Development Kit itself:
 	* [Eclipse](http://www.eclipse.org/)
 	* [JDK](http://www.oracle.com/technetwork/java/javase/downloads/index.html)
@@ -151,13 +152,34 @@ General Use / Tips
 	* Open Eclipse and: **File -> Import -> General / Existing Projects into Workspace**
 	* Choose your new project directory and press **Finish** - the project should be ready to use in its new sandbox
 	
-## Converting .mov output
+
+## Run properties
+
+These properties can be set by editing `run.properties`, or setting your own custom .properties file by setting `_customPropsFile` in setup():
+
+```
+public void settings() {
+	_customPropsFile = FileUtil.getFile("properties/vectorfield.properties");
+	super.settings();
+}
+```
+## Converting .mov output options
+
+Convert output .mov to an mp4:
+
 ```
 $ ffmpeg -y -i input.mov -vcodec mpeg4 -b:v 10000k -f mp4 output.mp4
 $ ffmpeg -y -i output.mp4 -vcodec libx264 -b:v 10000k output-final.mp4
 ```
 
-And convert a movie to frames, then to a gif, using ffmpeg and imagemagick:
+Convert output video file to gif. The last parameter (640) is output gif width:
+
+```
+$ cd ./util
+$ ./movie2gif.sh inputfile.mov outputfile.gif 640
+```
+
+Convert a movie to frames, then to a gif, using ffmpeg and imagemagick:
 
 ```
 ffmpeg -i input -vf scale=320:-1 -r 10 frames/ffout%03d.png

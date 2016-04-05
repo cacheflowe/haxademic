@@ -61,7 +61,7 @@ implements IVizElement {
 		p.translate(0, 0, -2000);
 		p.scale(7.0f);
 
-		float sliderVal = (float)((PAppletHax)p)._midi.sliderValue;
+		float sliderVal = (float)((PAppletHax)p).midi.sliderValue;
 		if( sliderVal >= 1 ) {
 			DrawUtil.setPImageAlpha(p, sliderVal / 127f );
 			p.image(_movie, 0, 0);

@@ -2,11 +2,7 @@ package com.haxademic.app.ellomotion;
 
 import java.util.ArrayList;
 
-import processing.core.PApplet;
-import processing.core.PGraphics;
-import processing.core.PImage;
-import processing.opengl.PShader;
-
+import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.text.CustomFontText2D;
@@ -16,9 +12,13 @@ import com.haxademic.core.hardware.kinect.KinectRegionGrid;
 import com.haxademic.core.image.ImageUtil;
 import com.haxademic.core.system.FileUtil;
 
-@SuppressWarnings("serial")
+import processing.core.PApplet;
+import processing.core.PGraphics;
+import processing.core.PImage;
+
 public class ElloMotion
-extends PAppletHax{
+extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
 	protected ArrayList<String> _files;
 	protected PGraphics _movieComposite; 
@@ -39,31 +39,18 @@ extends PAppletHax{
 	protected float SCALE_DOWN = 0.65f;
 	protected float BLOB_DETECT_SCALE = 0.6f;
 	
-	public static void main(String args[]) {
-		_isFullScreen = true;
-		_hasChrome = false;
-		boolean isSecondScreen = false;
-		if( isSecondScreen ) {
-			PApplet.main(new String[] { "--hide-stop", "--bgcolor=000000", "--location=1920,0", "--display=1", ElloMotion.class.getName() });		// requires hiding os x 2nd screen menu bar: http://www.cultofmac.com/255910/hide-the-menu-bar-on-your-secondary-monitor-with-mavericks-os-x-tips/
-		} else {
-			PApplet.main(new String[] { "--hide-stop", "--bgcolor=000000", ElloMotion.class.getName() });
-		}
-
-//		PApplet.main(new String[] { "--hide-stop", "--bgcolor=000000", ElloMotion.class.getName() });
-	}
-
 	protected void overridePropsFile() {
-		p.appConfig.setProperty( "width", "1280" );
-		p.appConfig.setProperty( "height", "720" );
-//		p.appConfig.setProperty( "width", "960" );
-//		p.appConfig.setProperty( "height", "540" );
-		p.appConfig.setProperty( "fills_screen", "false" );
-		p.appConfig.setProperty( "fullscreen", "false" );
-		p.appConfig.setProperty( "rendering", "false" );
-		p.appConfig.setProperty( "hide_cursor", "true" );
+		p.appConfig.setProperty( AppSettings.WIDTH, "1280" );
+		p.appConfig.setProperty( AppSettings.HEIGHT, "720" );
+//		p.appConfig.setProperty( AppSettings.WIDTH, "960" );
+//		p.appConfig.setProperty( AppSettings.HEIGHT, "540" );
+		p.appConfig.setProperty( AppSettings.FILLS_SCREEN, "true" );
+		p.appConfig.setProperty( AppSettings.FULLSCREEN, "true" );
+		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
+		p.appConfig.setProperty( AppSettings.HIDE_CURSOR, "true" );
 		p.appConfig.setProperty( "force_foreground", "false" );
 
-		p.appConfig.setProperty( "kinect_active", "true" );
+		p.appConfig.setProperty( AppSettings.KINECT_ACTIVE, "true" );
 		p.appConfig.setProperty( "kinect_close", "500" );
 		p.appConfig.setProperty( "kinect_far", "1300" );
 		p.appConfig.setProperty( "kinect_pixel_skip", "5" );
@@ -137,7 +124,7 @@ extends PAppletHax{
 	
 	protected void buildCanvas() {
 		// build movie players & composite
-		_movieComposite = p.createGraphics(P.round(p.width * SCALE_DOWN), P.round(p.height * SCALE_DOWN), P.OPENGL);
+		_movieComposite = p.createGraphics(P.round(p.width * SCALE_DOWN), P.round(p.height * SCALE_DOWN), P.P3D);
 	}
 	
 	
@@ -170,9 +157,9 @@ extends PAppletHax{
 		}
 		
 		protected void initImageBuffer() {
-			_particleMask = p.createGraphics(_movieComposite.width, _movieComposite.height, P.OPENGL);
+			_particleMask = p.createGraphics(_movieComposite.width, _movieComposite.height, P.P3D);
 			_particleMask.smooth(OpenGLUtil.SMOOTH_LOW);
-			_galleryImg = p.createGraphics(_movieComposite.width, _movieComposite.height, P.OPENGL);
+			_galleryImg = p.createGraphics(_movieComposite.width, _movieComposite.height, P.P3D);
 			_galleryImg.smooth(OpenGLUtil.SMOOTH_LOW);
 		}
 		

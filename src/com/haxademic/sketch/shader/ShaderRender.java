@@ -1,5 +1,6 @@
 package com.haxademic.sketch.shader;
 
+import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.util.OpenGLUtil;
@@ -17,9 +18,9 @@ import com.haxademic.core.system.FileUtil;
 
 import processing.opengl.PShader;
 
-@SuppressWarnings("serial")
 public class ShaderRender
-extends PAppletHax{
+extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 
 	PShader texShader;
@@ -27,17 +28,17 @@ extends PAppletHax{
 
 
 	protected void overridePropsFile() {
-		_appConfig.setProperty( "fills_screen", "false" );
-		_appConfig.setProperty( "width", "640" );
-		_appConfig.setProperty( "height", "640" );
+		p.appConfig.setProperty( AppSettings.FILLS_SCREEN, "false" );
+		p.appConfig.setProperty( AppSettings.WIDTH, "640" );
+		p.appConfig.setProperty( AppSettings.HEIGHT, "640" );
 		
-		_appConfig.setProperty( "rendering", "false" );
+		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
 		
-		_appConfig.setProperty( "rendering_gif", "false" );
-		_appConfig.setProperty( "rendering_gif_framerate", "40" );
-		_appConfig.setProperty( "rendering_gif_quality", "15" );
-		_appConfig.setProperty( "rendering_gif_startframe", "3" );
-		_appConfig.setProperty( "rendering_gif_stopframe", ""+Math.round(_frames+2) );
+		p.appConfig.setProperty( AppSettings.RENDERING_GIF, "false" );
+		p.appConfig.setProperty( AppSettings.RENDERING_GIF_FRAMERATE, "40" );
+		p.appConfig.setProperty( AppSettings.RENDERING_GIF_QUALITY, "15" );
+		p.appConfig.setProperty( AppSettings.RENDERING_GIF_START_FRAME, "3" );
+		p.appConfig.setProperty( AppSettings.RENDERING_GIF_STOP_FRAME, ""+Math.round(_frames+2) );
 
 	}
 
@@ -100,7 +101,7 @@ extends PAppletHax{
 
 		// stop rendering
 		if( p.frameCount == _frames * 2 ) {
-			if(_appConfig.getBoolean("rendering", false) ==  true) {				
+			if(p.appConfig.getBoolean("rendering", false) ==  true) {				
 				_renderer.stop();
 				P.println("render done!");
 			}

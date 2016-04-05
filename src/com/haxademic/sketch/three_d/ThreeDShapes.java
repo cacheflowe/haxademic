@@ -1,18 +1,18 @@
 package com.haxademic.sketch.three_d;
 
-import processing.core.PApplet;
-import processing.core.PConstants;
-import toxi.geom.AABB;
-import toxi.geom.Sphere;
-import toxi.geom.Vec3D;
-import toxi.processing.ToxiclibsSupport;
-
 import com.haxademic.core.app.P;
 /*
 -d32
 -Xmx1024M
 -Xms1024M
 */
+
+import processing.core.PApplet;
+import processing.core.PConstants;
+import toxi.geom.AABB;
+import toxi.geom.Sphere;
+import toxi.geom.Vec3D;
+import toxi.processing.ToxiclibsSupport;
 
 public class ThreeDShapes
 	extends PApplet
@@ -33,8 +33,8 @@ public class ThreeDShapes
 	public void setup ()
 	{
 		// set up stage and drawing properties
-		size( displayWidth, displayHeight, P.OPENGL );				//size(screen.width,screen.height,P3D);
-		//size( 800, 600, PConstants.OPENGL );				//size(screen.width,screen.height,P3D);
+		size( displayWidth, displayHeight, P.P3D );				//size(screen.width,screen.height,P3D);
+		//size( 800, 600, P.P3D );				//size(screen.width,screen.height,P3D);
 		frameRate( _fps );
 		colorMode( PConstants.RGB, 255, 255, 255, 255 );
 		background( 0 );

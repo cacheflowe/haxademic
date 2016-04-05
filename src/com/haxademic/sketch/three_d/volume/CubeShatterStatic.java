@@ -2,18 +2,17 @@ package com.haxademic.sketch.three_d.volume;
 
 import java.util.ArrayList;
 
+import com.haxademic.core.app.P;
+import com.haxademic.core.draw.shapes.Voronoi3D;
+import com.haxademic.core.draw.util.DrawUtil;
+
 import processing.core.PApplet;
-import processing.core.PConstants;
 import toxi.geom.mesh.WETriangleMesh;
 import toxi.processing.ToxiclibsSupport;
 import wblut.core.processing.WB_Render;
 import wblut.geom.core.WB_Plane;
 import wblut.hemesh.core.HE_Mesh;
 
-import com.haxademic.core.draw.shapes.Voronoi3D;
-import com.haxademic.core.draw.util.DrawUtil;
-
-@SuppressWarnings("serial")
 public class CubeShatterStatic 
 extends PApplet
 {
@@ -35,7 +34,7 @@ extends PApplet
 		p = this;
 		// set up stage and drawing properties
 		//size( 800, 800, "hipstersinc.P5Sunflow" );
-		p.size( 800, 800, PConstants.OPENGL );				//size(screen.width,screen.height,P3D);
+		p.size( 800, 800, P.P3D );				//size(screen.width,screen.height,P3D);
 		p.frameRate( 30 );
 
 		p.shininess(1000); 

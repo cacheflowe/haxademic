@@ -22,6 +22,14 @@ implements IMappedPolygon {
 	public float y2;
 	public float x3;
 	public float y3;
+	
+	public EasingFloat _x1 = new EasingFloat(0, 5f);
+	public EasingFloat _y1 = new EasingFloat(0, 5f);
+	public EasingFloat _x2 = new EasingFloat(0, 5f);
+	public EasingFloat _y2 = new EasingFloat(0, 5f);
+	public EasingFloat _x3 = new EasingFloat(0, 5f);
+	public EasingFloat _y3 = new EasingFloat(0, 5f);
+
 	public EasingFloat _UVx1 = new EasingFloat(0, 5f);
 	public EasingFloat _UVy1 = new EasingFloat(0, 5f);
 	public EasingFloat _UVx2 = new EasingFloat(0, 5f);
@@ -39,6 +47,14 @@ implements IMappedPolygon {
 		this.y2 = y2;
 		this.x3 = x3;
 		this.y3 = y3;
+		
+		_x1.setCurrent(x1);
+		_y1.setCurrent(y1);
+		_x2.setCurrent(x2);
+		_y2.setCurrent(y2);
+		_x3.setCurrent(x3);
+		_y3.setCurrent(y3);
+		
 		_vertices = new PVector[3];
 		_vertices[0] = new PVector(x1, y1);
 		_vertices[1] = new PVector(x2, y2);
@@ -55,9 +71,6 @@ implements IMappedPolygon {
 	public void randomMappingArea() {
 		if( _texture != null ) {
 			setRandomTexturePolygonToDestPolygon(_vertices, _center, _randTriangle, _texture.width, _texture.height);
-//			_randTriangle[0].set( MathUtil.randRange(0, _texture.width ), MathUtil.randRange(0, _texture.height ) );
-//			_randTriangle[1].set( MathUtil.randRange(0, _texture.width ), MathUtil.randRange(0, _texture.height ) );
-//			_randTriangle[2].set( MathUtil.randRange(0, _texture.width ), MathUtil.randRange(0, _texture.height ) );
 		}
 	}
 	
@@ -79,25 +92,35 @@ implements IMappedPolygon {
 	}
 	
 	public void rotateTexture() {
-//		if(MathUtil.randRange(0, 4) > 1) return; // don't rotate most of the time
-		float xTemp = x1;
-		float yTemp = y1;
-		x1 = x2;
-		y1 = y2;
-		x2 = x3;
-		y2 = y3;
-		x3 = xTemp;
-		y3 = yTemp;
-
 		_numRotations++;
+//		if(MathUtil.randRange(0, 4) > 1) return; // don't rotate most of the time
+		_x1.setTarget(_vertices[_numRotations % _vertices.length].x); 
+		_y1.setTarget(_vertices[_numRotations % _vertices.length].y);
+		_x2.setTarget(_vertices[(_numRotations + 1) % _vertices.length].x); 
+		_y2.setTarget(_vertices[(_numRotations + 1) % _vertices.length].y);
+		_x3.setTarget(_vertices[(_numRotations + 2) % _vertices.length].x); 
+		_y3.setTarget(_vertices[(_numRotations + 2) % _vertices.length].y);
+//		if(_numRotations == 0) {
+//			_x1.setTarget(x1); _y1.setTarget(y1);
+//			_x2.setTarget(x2); _y2.setTarget(y2);
+//			_x3.setTarget(x3); _y3.setTarget(y3);
+//		} else if(_numRotations == 1) {
+//			_x1.setTarget(x2); _y1.setTarget(y2);
+//			_x2.setTarget(x3); _y2.setTarget(y3);
+//			_x3.setTarget(x1); _y3.setTarget(y1);
+//		} else if(_numRotations == 2) {
+//			_x1.setTarget(x3); _y1.setTarget(y3);
+//			_x2.setTarget(x1); _y2.setTarget(y1);
+//			_x3.setTarget(x2); _y3.setTarget(y2);
+//		}  
 		_mappingOrientation = MathUtil.randRange(0, 3); 
 	}
 	
 	public void rawDrawPolygon( PGraphics pg ) {
 		pg.beginShape(PConstants.TRIANGLE);
-		pg.vertex(x1, y1);
-		pg.vertex(x2, y2);
-		pg.vertex(x3, y3);
+		pg.vertex(_x1.value(), _y1.value());
+		pg.vertex(_x2.value(), _y2.value());
+		pg.vertex(_x3.value(), _y3.value());
 		pg.endShape();
 	}
 	
@@ -121,8 +144,18 @@ implements IMappedPolygon {
 		_UVy3.update();
 	}
 	
+	protected void updateVertices() {
+		_x1.update();
+		_y1.update();
+		_x2.update();
+		_y2.update();
+		_x3.update();
+		_y3.update();
+	}
+	
 	public void draw( PGraphics pg ) {
 		if( _texture != null ) {
+			updateVertices();
 			if( _mappingStyle == MAP_STYLE_CONTAIN_TEXTURE ) {
 				pg.beginShape(PConstants.TRIANGLE);
 				pg.texture(_texture);
@@ -135,9 +168,9 @@ implements IMappedPolygon {
 				} else if( _mappingOrientation == 3 ) {
 					setUVCoordinates(0, _texture.height, _texture.width/2, 0, _texture.width, _texture.height);
 				}
-				pg.vertex(x1, y1, getZ(x1, y1), 		_UVx1.value(), _UVy1.value());
-				pg.vertex(x2, y2, getZ(x2, y2), 		_UVx2.value(), _UVy2.value());
-				pg.vertex(x3, y3, getZ(x3, y3), 		_UVx3.value(), _UVy3.value());
+				pg.vertex(_x1.value(), _y1.value(), getZ(x1, y1), 		_UVx1.value(), _UVy1.value());
+				pg.vertex(_x2.value(), _y2.value(), getZ(x2, y2), 		_UVx2.value(), _UVy2.value());
+				pg.vertex(_x3.value(), _y3.value(), getZ(x3, y3), 		_UVx3.value(), _UVy3.value());
 				pg.endShape();
 			} else if( _mappingStyle == MAP_STYLE_MASK ) {
 				pg.beginShape(PConstants.TRIANGLE);
@@ -145,27 +178,27 @@ implements IMappedPolygon {
 				// map the screen coordinates to the texture coordinates
 				// crop to fill the mapped area with the current texture
 				setUVCoordinates(_maskTriangle[0].x, _maskTriangle[0].y, _maskTriangle[1].x, _maskTriangle[1].y, _maskTriangle[2].x, _maskTriangle[2].y);
-				pg.vertex(x1, y1, getZ(x1, y1), 		_UVx1.value(), _UVy1.value());
-				pg.vertex(x2, y2, getZ(x2, y2), 		_UVx2.value(), _UVy2.value());
-				pg.vertex(x3, y3, getZ(x3, y3), 		_UVx3.value(), _UVy3.value());
+				pg.vertex(_x1.value(), _y1.value(), getZ(x1, y1), 		_UVx1.value(), _UVy1.value());
+				pg.vertex(_x2.value(), _y2.value(), getZ(x2, y2), 		_UVx2.value(), _UVy2.value());
+				pg.vertex(_x3.value(), _y3.value(), getZ(x3, y3), 		_UVx3.value(), _UVy3.value());
 				pg.endShape();
 			} else if( _mappingStyle == MAP_STYLE_CONTAIN_RANDOM_TEX_AREA ) {
 				pg.beginShape(PConstants.TRIANGLE);
 				pg.texture(_texture);
 				// map the polygon coordinates to the random sampling coordinates
 				setUVCoordinates(_randTriangle[0].x, _randTriangle[0].y, _randTriangle[1].x, _randTriangle[1].y, _randTriangle[2].x, _randTriangle[2].y);
-				pg.vertex(x1, y1, getZ(x1, y1), 		_UVx1.value(), _UVy1.value());
-				pg.vertex(x2, y2, getZ(x2, y2), 		_UVx2.value(), _UVy2.value());
-				pg.vertex(x3, y3, getZ(x3, y3), 		_UVx3.value(), _UVy3.value());
+				pg.vertex(_x1.value(), _y1.value(), getZ(x1, y1), 		_UVx1.value(), _UVy1.value());
+				pg.vertex(_x2.value(), _y2.value(), getZ(x2, y2), 		_UVx2.value(), _UVy2.value());
+				pg.vertex(_x3.value(), _y3.value(), getZ(x3, y3), 		_UVx3.value(), _UVy3.value());
 				pg.endShape();
 			} else if( _mappingStyle == MAP_STYLE_EQ ) {
 				_curColor = P.p.lerpColor(_curColor, _color, 0.1f);
 				pg.beginShape(PConstants.TRIANGLE);
 				pg.fill(pg.color(_curColor, P.constrain( P.p.audioIn.getEqBand((_eqIndex)) * 255, 0, 255 )));
-				pg.vertex(x1, y1, getZ(x1, y1));
-				pg.vertex(x2, y2, getZ(x2, y2));				
+				pg.vertex(_x1.value(), _y1.value(), getZ(x1, y1));
+				pg.vertex(_x2.value(), _y2.value(), getZ(x2, y2));				
 				pg.fill(pg.color(_curColor, P.constrain( P.p.audioIn.getEqBand((_eqIndex)) * 100, 0, 190 )));
-				pg.vertex(x3, y3, getZ(x3, y3));
+				pg.vertex(_x3.value(), _y3.value(), getZ(x3, y3));
 				pg.endShape();
 			}
 			
@@ -178,10 +211,10 @@ implements IMappedPolygon {
 			pg.noStroke();
 			pg.beginShape(PConstants.TRIANGLE);
 			pg.fill(255*whiteFade,fakeLightAlpha);
-			pg.vertex(x1, y1, getZ(x1, y1));
+			pg.vertex(_x1.value(), _y1.value(), getZ(x1, y1));
 			pg.fill(255*whiteFade,0);
-			pg.vertex(x2, y2, getZ(x2, y2));				
-			pg.vertex(x3, y3, getZ(x3, y3));
+			pg.vertex(_x2.value(), _y2.value(), getZ(x2, y2));				
+			pg.vertex(_x3.value(), _y3.value(), getZ(x3, y3));
 			pg.endShape();
 
 //			// show debug info

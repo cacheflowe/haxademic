@@ -5,9 +5,8 @@ import processing.core.PApplet;
 
 import com.haxademic.core.hardware.kinect.IKinectWrapper;
 import com.haxademic.core.hardware.kinect.KinectSize;
-import com.haxademic.core.hardware.kinect.KinectWrapperV2;
+import com.haxademic.core.hardware.kinect.KinectWrapperV1;
 
-@SuppressWarnings("serial")
 public class OpenNICameraTest extends PApplet {
 
 	//	SimpleOpenNI context;
@@ -24,7 +23,8 @@ public class OpenNICameraTest extends PApplet {
 		//		super.setup();
 
 		//TODO: This is temporary. Redesign to use dependency injection of the Kinect services
-		_kinect = new KinectWrapperV2( this, true, true, true );
+		_kinect = new KinectWrapperV1( this, true, true, true );
+//		_kinect = new KinectWrapperV2( this, true, true, true );
 
 		background(200,0,0);
 		size(KinectSize.WIDTH + _kinect.rgbWidth() + 10, _kinect.rgbHeight()); 
@@ -38,6 +38,6 @@ public class OpenNICameraTest extends PApplet {
 		image(_kinect.getDepthImage(),0,0);
 
 		// draw camera
-		image(_kinect.getRgbImage(), KinectSize.WIDTH + 10,0);
+		image(_kinect.getIRImage(), KinectSize.WIDTH + 10,0);
 	}
 }

@@ -1,13 +1,13 @@
 package com.haxademic.app.musicvideos;
 
-import krister.Ess.AudioInput;
-import processing.core.PApplet;
-import processing.core.PConstants;
-
 import com.haxademic.core.audio.AudioInputWrapper;
 import com.haxademic.core.cameras.CameraOscillate;
 import com.haxademic.core.cameras.common.ICamera;
 import com.haxademic.core.render.Renderer;
+
+import krister.Ess.AudioInput;
+import processing.core.PApplet;
+import processing.core.PConstants;
 
 public class BasicAudioRender
 	extends PApplet

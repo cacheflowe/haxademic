@@ -1,27 +1,24 @@
 package com.haxademic.sketch.test;
 
+import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.draw.util.OpenGLUtil;
 import com.haxademic.core.math.MathUtil;
 
-@SuppressWarnings("serial")
 public class LightAndEqTest
 extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	protected float angle;
 
-	public static void main(String args[]) {
-		PAppletHax.main(P.concat(args, new String[] { "--hide-stop", "--bgcolor=000000", Thread.currentThread().getStackTrace()[1].getClassName() }));
-	}
-
 	protected void overridePropsFile() {
-		_appConfig.setProperty( "width", "1280" );
-		_appConfig.setProperty( "height", "1280" );
-		_appConfig.setProperty( "rendering", "false" );
-		_appConfig.setProperty( "force_foreground", "true" );
-		_appConfig.setProperty( "force_foreground", "true" );
+		p.appConfig.setProperty( AppSettings.WIDTH, "1280" );
+		p.appConfig.setProperty( AppSettings.HEIGHT, "1280" );
+		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
+		p.appConfig.setProperty( "force_foreground", "true" );
+		p.appConfig.setProperty( "force_foreground", "true" );
 	}
 
 	public void setup() {

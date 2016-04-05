@@ -2,6 +2,15 @@ package com.haxademic.app.musicvideos;
 
 import java.util.ArrayList;
 
+import com.haxademic.core.app.P;
+import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.draw.color.EasingTColor;
+import com.haxademic.core.draw.util.DrawUtil;
+import com.haxademic.core.image.ImageUtil;
+import com.haxademic.core.math.MathUtil;
+import com.haxademic.core.math.easing.EasingFloat;
+import com.haxademic.core.system.FileUtil;
+
 import processing.core.PApplet;
 import processing.core.PConstants;
 import processing.core.PImage;
@@ -12,14 +21,6 @@ import toxi.geom.Vec3D;
 import toxi.geom.mesh.Face;
 import toxi.geom.mesh.WETriangleMesh;
 import toxi.math.noise.PerlinNoise;
-
-import com.haxademic.core.app.P;
-import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.draw.color.EasingTColor;
-import com.haxademic.core.draw.util.DrawUtil;
-import com.haxademic.core.image.ImageUtil;
-import com.haxademic.core.math.MathUtil;
-import com.haxademic.core.math.easing.EasingFloat;
 
 public class BrimLiskiRepetitions
 extends PAppletHax  
@@ -88,14 +89,14 @@ extends PAppletHax
 	protected WETriangleMesh _mesh;
 	protected WETriangleMesh _meshDeform;
 	
-	public void setup() {
-		_customPropsFile = "../data/properties/brimliskirepetitions.properties";
-		super.setup();
+	public void settings() {
+		customPropsFile = FileUtil.getHaxademicDataPath() + "properties/brimliskirepetitions.properties";
+		super.settings();
 	}
 
 	// INITIALIZE OBJECTS ===================================================================================
 	public void initRender() {
-		_videoFile = _appConfig.getString( "video_file", "" );
+		_videoFile = p.appConfig.getString( "video_file", "" );
 		_frameIndex = 0;
 		_myMovie = new Movie( this, _videoFile );
 		_myMovie.play();

@@ -1,13 +1,14 @@
 package com.haxademic.sketch.three_d;
 
+import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.draw.util.OpenGLUtil;
 
-@SuppressWarnings("serial")
 public class ConcentricCubes
 extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	//	protected ControlP5 _cp5;
 
@@ -17,15 +18,15 @@ extends PAppletHax {
 	protected int _frames = 40;
 
 	protected void overridePropsFile() {
-		_appConfig.setProperty( "width", "800" );
-		_appConfig.setProperty( "height", "800" );
+		p.appConfig.setProperty( AppSettings.WIDTH, "800" );
+		p.appConfig.setProperty( AppSettings.HEIGHT, "800" );
 
-		_appConfig.setProperty( "rendering", "false" );
-		_appConfig.setProperty( "rendering_gif", "false" );
-		_appConfig.setProperty( "rendering_gif_framerate", "40" );
-		_appConfig.setProperty( "rendering_gif_quality", "15" );
-		_appConfig.setProperty( "rendering_gif_startframe", "2" );
-		_appConfig.setProperty( "rendering_gif_stopframe", ""+Math.round(_frames+1) );
+		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
+		p.appConfig.setProperty( AppSettings.RENDERING_GIF, "false" );
+		p.appConfig.setProperty( AppSettings.RENDERING_GIF_FRAMERATE, "40" );
+		p.appConfig.setProperty( AppSettings.RENDERING_GIF_QUALITY, "15" );
+		p.appConfig.setProperty( AppSettings.RENDERING_GIF_START_FRAME, "2" );
+		p.appConfig.setProperty( AppSettings.RENDERING_GIF_STOP_FRAME, ""+Math.round(_frames+1) );
 
 	}
 
@@ -49,7 +50,7 @@ extends PAppletHax {
 		p.sphereDetail(4);
 
 		//				p.blendMode(P.SCREEN);
-		p.blendMode(P.MULTIPLY);
+//		p.blendMode(P.MULTIPLY);
 //		p.blendMode(P.ADD);
 
 		float cubeSize = p.width/1f;
@@ -73,7 +74,7 @@ extends PAppletHax {
 		//		p.filter(P.BLUR);
 
 		if( p.frameCount == _frames * 2 + 2 ) {
-			if(_appConfig.getBoolean("rendering", false) ==  true) {				
+			if(p.appConfig.getBoolean("rendering", false) ==  true) {				
 				_renderer.stop();
 				P.println("render done!");
 			}

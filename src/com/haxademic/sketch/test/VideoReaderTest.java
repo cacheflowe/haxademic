@@ -2,11 +2,6 @@ package com.haxademic.sketch.test;
 
 import java.awt.image.BufferedImage;
 
-import processing.core.PApplet;
-import processing.core.PGraphics;
-import processing.core.PImage;
-import processing.video.Movie;
-
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.image.ImageUtil;
@@ -17,7 +12,11 @@ import com.haxademic.core.system.FileUtil;
 import com.jhlabs.image.ContrastFilter;
 import com.jhlabs.image.HSBAdjustFilter;
 
-@SuppressWarnings("serial")
+import processing.core.PApplet;
+import processing.core.PGraphics;
+import processing.core.PImage;
+import processing.video.Movie;
+
 public class VideoReaderTest
 extends PAppletHax  
 {

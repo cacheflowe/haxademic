@@ -2,18 +2,20 @@ package com.haxademic.sketch.toxi_tests;
 
 import java.util.ArrayList;
 
+import com.haxademic.core.app.AppSettings;
+import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.draw.util.DrawUtil;
+import com.haxademic.core.vendor.Toxiclibs;
+
 import toxi.color.TColor;
 import toxi.geom.AABB;
 import toxi.geom.Vec3D;
 import toxi.geom.ZAxisCylinder;
 import toxi.geom.mesh.TriangleMesh;
 
-import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.draw.util.DrawUtil;
-import com.haxademic.core.vendor.Toxiclibs;
-
 public class PointMeshToVec 
 extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
 	public ArrayList<MovingBox> boxes;
 	public AABB focus = new AABB(10);
@@ -31,8 +33,8 @@ extends PAppletHax {
 	}
 	
 	protected void overridePropsFile() {
-		_appConfig.setProperty( "sunflow", "false" );
-		_appConfig.setProperty( "rendering", "false" );
+		p.appConfig.setProperty( AppSettings.SUNFLOW, "false" );
+		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
 	}
 		
 	public void drawApp() {

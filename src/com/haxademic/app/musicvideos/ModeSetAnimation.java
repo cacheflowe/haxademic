@@ -2,13 +2,6 @@ package com.haxademic.app.musicvideos;
 
 import java.util.ArrayList;
 
-import processing.core.PApplet;
-import toxi.color.TColor;
-import toxi.geom.Triangle3D;
-import toxi.geom.Vec3D;
-import toxi.geom.mesh.Face;
-import toxi.geom.mesh.WETriangleMesh;
-
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.color.EasingTColor;
@@ -18,7 +11,15 @@ import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.EasingFloat;
 import com.haxademic.core.math.easing.ElasticFloat;
+import com.haxademic.core.system.FileUtil;
 import com.haxademic.core.vendor.Toxiclibs;
+
+import processing.core.PApplet;
+import toxi.color.TColor;
+import toxi.geom.Triangle3D;
+import toxi.geom.Vec3D;
+import toxi.geom.mesh.Face;
+import toxi.geom.mesh.WETriangleMesh;
 
 public class ModeSetAnimation
 extends PAppletHax  
@@ -74,8 +75,12 @@ extends PAppletHax
 	
 	protected ArrayList<ElasticFloat> _elasticVertices;
 		
+	public void settings() {
+		customPropsFile = FileUtil.getHaxademicDataPath() + "properties/modesetlogo.properties";
+		super.settings();
+	}
+
 	public void setup() {
-		_customPropsFile = "../data/properties/modesetlogo.properties";
 		super.setup();
 		initRender();
 	}
@@ -116,7 +121,7 @@ extends PAppletHax
 	public void drawApp() {
 		DrawUtil.setBasicLights( p );
 		// draw background and set to center
-		if( _graphicsMode == P.OPENGL ) p.background(0,0,0,255);
+		if( rendererMode == P.P3D ) p.background(0,0,0,255);
 		p.translate(p.width/2, p.height/2, -400);
 		
 		// update easing values

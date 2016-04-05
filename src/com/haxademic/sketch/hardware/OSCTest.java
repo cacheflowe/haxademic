@@ -1,21 +1,21 @@
 package com.haxademic.sketch.hardware;
 
+import com.haxademic.core.app.PAppletHax;
+
 import netP5.NetAddress;
 import oscP5.OscArgument;
 import oscP5.OscMessage;
 import oscP5.OscP5;
 
-import com.haxademic.core.app.PAppletHax;
-
-@SuppressWarnings("serial")
 public class OSCTest 
 extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	OscP5 oscP5;
 	NetAddress myRemoteLocation;
 
 	protected void overridePropsFile() {
-		 _appConfig.setProperty( "osc_active", "true" );
+		 p.appConfig.setProperty( "osc_active", "true" );
 	}
 
 	public void setup() {

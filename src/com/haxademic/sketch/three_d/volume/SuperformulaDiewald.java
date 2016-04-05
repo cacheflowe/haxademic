@@ -7,9 +7,9 @@ import com.haxademic.core.draw.util.OpenGLUtil;
 
 import controlP5.ControlP5;
 
-@SuppressWarnings("serial")
 public class SuperformulaDiewald 
 extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	ControlP5 _cp5;
 	public float sliderA = 0;

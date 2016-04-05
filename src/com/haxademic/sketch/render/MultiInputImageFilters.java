@@ -2,11 +2,7 @@ package com.haxademic.sketch.render;
 
 import java.awt.image.BufferedImage;
 
-import processing.core.PConstants;
-import processing.core.PImage;
-import processing.opengl.PShader;
-import processing.video.Movie;
-
+import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.util.DrawUtil;
@@ -23,7 +19,11 @@ import com.haxademic.core.system.FileUtil;
 import com.jhlabs.image.ContrastFilter;
 import com.jhlabs.image.HSBAdjustFilter;
 
-@SuppressWarnings("serial")
+import processing.core.PConstants;
+import processing.core.PImage;
+import processing.opengl.PShader;
+import processing.video.Movie;
+
 public class MultiInputImageFilters
 extends PAppletHax  
 {	
@@ -51,10 +51,10 @@ extends PAppletHax
 	}
 	
 	protected void overridePropsFile() {
-		_appConfig.setProperty( "rendering", "false" );
-		_appConfig.setProperty( "fps", "30" );
-		_appConfig.setProperty( "width", "1280" );
-		_appConfig.setProperty( "height", "720" );
+		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
+		p.appConfig.setProperty( AppSettings.FPS, "30" );
+		p.appConfig.setProperty( AppSettings.WIDTH, "1280" );
+		p.appConfig.setProperty( AppSettings.HEIGHT, "720" );
 	}
 
 	// INITIALIZE OBJECTS ===================================================================================

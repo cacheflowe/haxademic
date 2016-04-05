@@ -3,6 +3,7 @@ package com.haxademic.app.ophelias;
 import java.util.ArrayList;
 
 import com.haxademic.app.ellomotion.KinectSilhouetteVectorField;
+import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.components.IMouseable;
@@ -24,9 +25,9 @@ import processing.core.PImage;
 import processing.opengl.PShader;
 import processing.video.Movie;
 
-@SuppressWarnings("serial")
 public class OpheliasVideoPlayer
-extends PAppletHax{
+extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
 	protected ArrayList<IMouseable> _mouseables;
 	protected String _videoPath;
@@ -50,22 +51,17 @@ extends PAppletHax{
 	
 	protected float SCALE_DOWN = 0.4f;
 
-	public static void main(String args[]) {
-		_isFullScreen = false;
-		PApplet.main(new String[] { "--hide-stop", "--bgcolor=000000", OpheliasVideoPlayer.class.getName() });
-	}
-
 	protected void overridePropsFile() {
-		p.appConfig.setProperty( "width", "1280" );
-		p.appConfig.setProperty( "height", "720" );
-//		p.appConfig.setProperty( "width", "960" );
-//		p.appConfig.setProperty( "height", "540" );
-		p.appConfig.setProperty( "fullscreen", "false" );
-		p.appConfig.setProperty( "fills_screen", "true" );
-		p.appConfig.setProperty( "rendering", "false" );
-		p.appConfig.setProperty( "hide_cursor", "false" );
+		p.appConfig.setProperty( AppSettings.WIDTH, "1280" );
+		p.appConfig.setProperty( AppSettings.HEIGHT, "720" );
+//		p.appConfig.setProperty( AppSettings.WIDTH, "960" );
+//		p.appConfig.setProperty( AppSettings.HEIGHT, "540" );
+		p.appConfig.setProperty( AppSettings.FULLSCREEN, "false" );
+		p.appConfig.setProperty( AppSettings.FILLS_SCREEN, "true" );
+		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
+		p.appConfig.setProperty( AppSettings.HIDE_CURSOR, "false" );
 
-		p.appConfig.setProperty( "kinect_active", "true" );
+		p.appConfig.setProperty( AppSettings.KINECT_ACTIVE, "true" );
 		p.appConfig.setProperty( "kinect_mirrored", "false" );
 		p.appConfig.setProperty( "kinect_top_pixel", "0" );
 		p.appConfig.setProperty( "kinect_bottom_pixel", "480" );
@@ -195,9 +191,9 @@ extends PAppletHax{
 	// Video player ================ 
 	protected void buildVideoPlayer() {
 		// build movie players & composite
-		_movieComposite = p.createGraphics(P.round(p.width * SCALE_DOWN), P.round(p.height * SCALE_DOWN), P.OPENGL);
+		_movieComposite = p.createGraphics(P.round(p.width * SCALE_DOWN), P.round(p.height * SCALE_DOWN), P.P3D);
 
-		_lightLeak = p.createGraphics(P.round(p.width * SCALE_DOWN), P.round(p.height * SCALE_DOWN), P.OPENGL);
+		_lightLeak = p.createGraphics(P.round(p.width * SCALE_DOWN), P.round(p.height * SCALE_DOWN), P.P3D);
 		_lightShader = loadShader( FileUtil.getHaxademicDataPath()+"shaders/textures/light-leak.glsl" );
 
 		_movieLayer = new MovieLayer(_files);
@@ -346,7 +342,7 @@ extends PAppletHax{
 		}
 		
 		protected void initImageBuffers() {
-			_curFrame = p.createGraphics(_movieComposite.width, _movieComposite.height, P.OPENGL);
+			_curFrame = p.createGraphics(_movieComposite.width, _movieComposite.height, P.P3D);
 			_curFrame.smooth(OpenGLUtil.SMOOTH_LOW);
 		}
 

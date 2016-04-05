@@ -1,5 +1,6 @@
 package com.haxademic.sketch.test;
 
+import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.util.DrawUtil;
@@ -7,9 +8,9 @@ import com.haxademic.core.draw.util.OpenGLUtil;
 
 import controlP5.ControlP5;
 
-@SuppressWarnings("serial")
 public class TrigCircle
 extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
 	public float radians = 0;
 	public float radius = 0;
@@ -19,7 +20,7 @@ extends PAppletHax {
 	protected float _y = 0;
 
 	protected void overridePropsFile() {
-		_appConfig.setProperty( "fps", "60" );
+		p.appConfig.setProperty( AppSettings.FPS, "60" );
 	}
 
 	public void setup() {

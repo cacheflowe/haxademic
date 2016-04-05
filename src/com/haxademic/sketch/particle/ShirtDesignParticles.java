@@ -2,32 +2,31 @@ package com.haxademic.sketch.particle;
 
 import java.util.ArrayList;
 
-import processing.core.PConstants;
-import processing.core.PVector;
-import processing.opengl.PShader;
-
+import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.draw.util.OpenGLUtil;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.system.FileUtil;
-import com.haxademic.sketch.particle.Flocking2DAttractors.Attractor;
-import com.haxademic.sketch.particle.Flocking2DAttractors.VectorFlyer2d;
+
+import processing.core.PConstants;
+import processing.core.PVector;
+import processing.opengl.PShader;
 
 
-@SuppressWarnings("serial")
 public class ShirtDesignParticles
-extends PAppletHax{
+extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	protected ArrayList<ParticleTrail> _particles;
 	protected ArrayList<Attractor> _attractors;
 	protected PShader _fxaa;
 
 	protected void overridePropsFile() {
-		_appConfig.setProperty( "width", "700" );
-		_appConfig.setProperty( "height", "1000" );
-		_appConfig.setProperty( "rendering", "false" );
+		p.appConfig.setProperty( AppSettings.WIDTH, "700" );
+		p.appConfig.setProperty( AppSettings.HEIGHT, "1000" );
+		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
 	}
 
 	public void setup() {

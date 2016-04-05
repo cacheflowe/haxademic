@@ -2,12 +2,7 @@
 
 import java.util.ArrayList;
 
-import processing.core.PVector;
-import toxi.color.TColor;
-import toxi.geom.Vec3D;
-import toxi.geom.mesh.WETriangleMesh;
-import toxi.geom.mesh.subdiv.DualSubdivision;
-
+import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.color.TColorInit;
@@ -15,18 +10,24 @@ import com.haxademic.core.draw.mesh.DrawMesh;
 import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.draw.util.OpenGLUtil;
 
-@SuppressWarnings("serial")
+import processing.core.PVector;
+import toxi.color.TColor;
+import toxi.geom.Vec3D;
+import toxi.geom.mesh.WETriangleMesh;
+import toxi.geom.mesh.subdiv.DualSubdivision;
+
 public class ModeSetLogo
 extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
 	WETriangleMesh _meshCrest;
 	protected final TColor MODE_SET_BLUE = TColorInit.newRGBA( 0, 200, 234, 255 );
 
 	
 	protected void overridePropsFile() {
-		_appConfig.setProperty( "width", "800" );
-		_appConfig.setProperty( "height", "800" );
-		_appConfig.setProperty( "rendering", "false" );
+		p.appConfig.setProperty( AppSettings.WIDTH, "800" );
+		p.appConfig.setProperty( AppSettings.HEIGHT, "800" );
+		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
 	}
 	
 	public void setup() {

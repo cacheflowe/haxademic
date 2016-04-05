@@ -4,10 +4,9 @@ package com.haxademic.core.system;
 
 import java.awt.Frame;
 
-import processing.core.PApplet;
 import controlP5.ControlP5;
+import processing.core.PApplet;
 
-@SuppressWarnings("serial")
 public class ControlFrame 
 extends PApplet {
 
@@ -48,9 +47,9 @@ extends PApplet {
 
 	private void createFrame(String name) {
 		f = new Frame(name);
-		f.add(this);
-
-		this.init();
+//		f.add(this);
+//
+//		this.init();
 
 		f.setTitle(name);
 		f.setSize(w, h);

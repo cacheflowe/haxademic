@@ -2,74 +2,73 @@ package com.haxademic.app.haxmapper.mappers;
 
 import com.haxademic.app.haxmapper.HaxMapper;
 import com.haxademic.app.haxmapper.textures.TextureAudioTube;
+import com.haxademic.app.haxmapper.textures.TextureColorAudioSlide;
 import com.haxademic.app.haxmapper.textures.TextureEQColumns;
 import com.haxademic.app.haxmapper.textures.TextureEQConcentricCircles;
 import com.haxademic.app.haxmapper.textures.TextureEQFloatParticles;
 import com.haxademic.app.haxmapper.textures.TextureEQGrid;
 import com.haxademic.app.haxmapper.textures.TextureImageTimeStepper;
 import com.haxademic.app.haxmapper.textures.TextureLinesEQ;
-import com.haxademic.app.haxmapper.textures.TextureOuterSphere;
 import com.haxademic.app.haxmapper.textures.TextureRotatingRings;
 import com.haxademic.app.haxmapper.textures.TextureRotatorShape;
 import com.haxademic.app.haxmapper.textures.TextureScrollingColumns;
 import com.haxademic.app.haxmapper.textures.TextureShaderTimeStepper;
+import com.haxademic.app.haxmapper.textures.TextureSphereRotate;
 import com.haxademic.app.haxmapper.textures.TextureTwistingSquares;
 import com.haxademic.app.haxmapper.textures.TextureVideoPlayer;
 import com.haxademic.app.haxmapper.textures.TextureWaveformCircle;
 import com.haxademic.app.haxmapper.textures.TextureWaveformSimple;
+import com.haxademic.core.app.AppSettings;
+import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.system.FileUtil;
 
 import oscP5.OscMessage;
-import processing.core.PApplet;
 
-@SuppressWarnings("serial")
 public class McaMapper
 extends HaxMapper{
 		
 	/*
 	 * TODO:
+	 * - Catch MappedQuads up to Mapped Triangles: rotation lerping, uv lerping, etc 
 	 * - Refactor & organize
 	 * 		- Merge user input triggers & beat detection decisions and then start to organize automated decision making 
 	 * - Fix image cycling texture - it does weird flashy things
-	 * - Fix performance issues
-	 * 		- Does the overlayPG need to be a separate PGraphics buffer if we use a blend mode for overlays drawing?
-	 * 		- Make sure there are no texture effects that are slowing things down??
 	 * - use new triangle random coordinates for mapped quads
 	 * - interpolate polygon coordinates for animated UV maps
 	 * - is newMode() getting called on textures?
 	 * - is rotate() getting called on textures?
 	 * - Add a vertex shader to manipulate the z of all mesh vertices? since we're not using pshapes, maybe just use noise() to deform the z, then apply lighting
 	 * - triangle rotation is causing warped polygons
+	 * 		- it's also non-interpolating right now, which it should be
 	 * - Fix up switching to all one texture. clear out other textures in the current pool?
 
-	 * - test with only 1 mapping group
-	 * - reset smoothing to something nice
+	 * - test with 1-6 mapping groups
+	 * - Update LED lights to have more modes. do some oscillation/cycling across the lights
+	 * - Fill in beat detection by tracking previous beats and averaging out the recent intervals to keep the beat going - fade off if the beat stops 
 
 	 * - Add more ambient overlay shaders
-	 * - Find the video Wally wanted to import: https://www.youtube.com/watch?v=gUilOCTqPC4
 
 	 * - Add another floating audio-reactive particle overlay texture - switch the overloay textures out on an interval
 	 */
 	
 
-	public static void main(String args[]) {
-		_isFullScreen = false;
-		PApplet.main(new String[] { "--hide-stop", "--bgcolor=000000", McaMapper.class.getName() });
-	}
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	protected void overridePropsFile() {
 		super.overridePropsFile();
-		p.appConfig.setProperty( "mapping_file", FileUtil.getFile("text/mapping/mapping-2015-09-18-17-55-50.txt") );
-		p.appConfig.setProperty( "rendering", "false" );
-		p.appConfig.setProperty( "fullscreen", "false" );
-		p.appConfig.setProperty( "fills_screen", "false" );
+		p.appConfig.setProperty( "mapping_file", FileUtil.getFile("text/mapping/mapping-2016-03-26-21-20-11.txt") );
+		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
+		p.appConfig.setProperty( AppSettings.FULLSCREEN, "false" );
+		p.appConfig.setProperty( AppSettings.FILLS_SCREEN, "false" );
 		p.appConfig.setProperty( "osc_active", "false" );
-		p.appConfig.setProperty( "audio_debug", "true" );
-		p.appConfig.setProperty( "width", "1280" );
-		p.appConfig.setProperty( "height", "1024" );
+		p.appConfig.setProperty( AppSettings.AUDIO_DEBUG, true );
+		p.appConfig.setProperty( AppSettings.WIDTH, "1280" );
+		p.appConfig.setProperty( AppSettings.HEIGHT, "1024" );
 		p.appConfig.setProperty( "dmx_lights_count", "0" );
-		p.appConfig.setProperty( "hide_cursor", "false" );
-		p.appConfig.setProperty( "force_foreground", "false" );
+		p.appConfig.setProperty( AppSettings.HIDE_CURSOR, "false" );
+		p.appConfig.setProperty( AppSettings.FORCE_FOREGROUND, true );
+		p.appConfig.setProperty( AppSettings.RETINA, false );
+		p.appConfig.setProperty( AppSettings.SHOW_STATS, true );
 	}
 
 	public void oscEvent(OscMessage theOscMessage) {  
@@ -87,13 +86,13 @@ extends HaxMapper{
 		
 
 		_texturePool.add( new TextureVideoPlayer( videoW, videoH, "video/loops/smoke-loop.mov" ));
-		_texturePool.add( new TextureVideoPlayer( videoW, videoH, "video/loops/tree-loop.mp4" ));
-		_texturePool.add( new TextureVideoPlayer( videoW, videoH, "video/loops/ink-in-water.mp4" ));
-		_texturePool.add( new TextureVideoPlayer( videoW, videoH, "video/loops/ink-grow-shrink.mp4" ));
-		_texturePool.add( new TextureVideoPlayer( videoW, videoH, "video/loops/fire.mp4" ));
+//		_texturePool.add( new TextureVideoPlayer( videoW, videoH, "video/loops/tree-loop.mp4" ));
+//		_texturePool.add( new TextureVideoPlayer( videoW, videoH, "video/loops/ink-in-water.mp4" ));
+//		_texturePool.add( new TextureVideoPlayer( videoW, videoH, "video/loops/ink-grow-shrink.mp4" ));
+//		_texturePool.add( new TextureVideoPlayer( videoW, videoH, "video/loops/fire.mp4" ));
 		_texturePool.add( new TextureVideoPlayer( videoW, videoH, "video/loops/clouds-timelapse.mov" ));
-		_texturePool.add( new TextureVideoPlayer( videoW, videoH, "video/loops/water.mp4" ));
-		_texturePool.add( new TextureVideoPlayer( videoW, videoH, "video/loops/bubbles.mp4" ));	
+//		_texturePool.add( new TextureVideoPlayer( videoW, videoH, "video/loops/water.mp4" ));
+//		_texturePool.add( new TextureVideoPlayer( videoW, videoH, "video/loops/bubbles.mp4" ));	
 
 		
 		int shaderW = 512;
@@ -108,7 +107,7 @@ extends HaxMapper{
 		_texturePool.add( new TextureShaderTimeStepper( shaderW, shaderH, "basic-checker.glsl" ));
 		_texturePool.add( new TextureShaderTimeStepper( shaderW, shaderH, "basic-diagonal-stripes.glsl" ));
 		_texturePool.add( new TextureShaderTimeStepper( shaderW, shaderH, "bubbles-iq.glsl" ));
-		_texturePool.add( new TextureShaderTimeStepper( shaderW, shaderH, "bw-circles.glsl" ));
+//		_texturePool.add( new TextureShaderTimeStepper( shaderW, shaderH, "bw-circles.glsl" ));
 		_texturePool.add( new TextureShaderTimeStepper( shaderW, shaderH, "bw-clouds.glsl" ));
 		_texturePool.add( new TextureShaderTimeStepper( shaderW, shaderH, "bw-expand-loop.glsl" ));
 		_texturePool.add( new TextureShaderTimeStepper( shaderW, shaderH, "bw-eye-jacker-01.glsl" ));
@@ -164,6 +163,7 @@ extends HaxMapper{
 		
 		_texturePool.add( new TextureTwistingSquares( shaderWsm, shaderHsm ));
 		_texturePool.add( new TextureEQConcentricCircles( shaderW, shaderH ) );
+		_texturePool.add( new TextureEQConcentricCircles( shaderW, shaderH ) );
 		_texturePool.add( new TextureScrollingColumns( shaderW, shaderH ));
 		_texturePool.add( new TextureImageTimeStepper( shaderW, shaderH ));
 		_texturePool.add( new TextureEQColumns( shaderW, shaderH ));
@@ -171,12 +171,14 @@ extends HaxMapper{
 		_texturePool.add( new TextureLinesEQ( shaderW, shaderH ));
 		_texturePool.add( new TextureWaveformSimple( shaderW, shaderH ));
 		_texturePool.add( new TextureWaveformCircle( shaderW, shaderH ));
-//		_texturePool.add( new TextureSphereRotate( shaderW, shaderH ));
-		_texturePool.add( new TextureOuterSphere( shaderW, shaderH ) );
+		_texturePool.add( new TextureSphereRotate( shaderW, shaderH ));
+//		_texturePool.add( new TextureOuterSphere( shaderW, shaderH ) );
+		_texturePool.add( new TextureRotatorShape( shaderW, shaderH ) );
 		_texturePool.add( new TextureRotatorShape( shaderW, shaderH ) );
 		_texturePool.add( new TextureRotatingRings( shaderW, shaderH ) );
 		_texturePool.add( new TextureAudioTube( shaderW, shaderH ) );
-//		_texturePool.add( new TextureColorAudioSlide( shaderW, shaderH ));
+		_texturePool.add( new TextureColorAudioSlide( shaderW, shaderH ));
+		_texturePool.add( new TextureEQFloatParticles( shaderW, shaderH ));
 
 		
 		

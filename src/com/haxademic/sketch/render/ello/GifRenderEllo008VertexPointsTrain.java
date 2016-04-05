@@ -2,10 +2,7 @@ package com.haxademic.sketch.render.ello;
 
 import java.awt.image.BufferedImage;
 
-import processing.core.PImage;
-import processing.core.PShape;
-import processing.core.PVector;
-
+import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.util.DrawUtil;
@@ -15,9 +12,13 @@ import com.haxademic.core.math.easing.Penner;
 import com.haxademic.core.system.FileUtil;
 import com.haxademic.core.system.SystemUtil;
 
-@SuppressWarnings("serial")
+import processing.core.PImage;
+import processing.core.PShape;
+import processing.core.PVector;
+
 public class GifRenderEllo008VertexPointsTrain
-extends PAppletHax{
+extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
 	AnimatedGifEncoder encoder;
 	PShape _logo, _logoOrig;
@@ -25,10 +26,10 @@ extends PAppletHax{
 	float _elloSize = 2;
 	
 	protected void overridePropsFile() {
-		_appConfig.setProperty( "width", "640" );
-		_appConfig.setProperty( "height", "640" );
-		_appConfig.setProperty( "rendering", "false" );
-		_appConfig.setProperty( "rendering_gif", "false" );
+		p.appConfig.setProperty( AppSettings.WIDTH, "640" );
+		p.appConfig.setProperty( AppSettings.HEIGHT, "640" );
+		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
+		p.appConfig.setProperty( AppSettings.RENDERING_GIF, "false" );
 	}
 	
 	public void setup() {
