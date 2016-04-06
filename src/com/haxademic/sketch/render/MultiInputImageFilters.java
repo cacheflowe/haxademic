@@ -25,8 +25,9 @@ import processing.opengl.PShader;
 import processing.video.Movie;
 
 public class MultiInputImageFilters
-extends PAppletHax  
-{	
+extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
+	
 	protected int inputType;
 	protected final int WEBCAM = 0;
 	protected final int VIDEO = 1;

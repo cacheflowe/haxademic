@@ -18,8 +18,9 @@ import processing.core.PImage;
 import processing.video.Movie;
 
 public class VideoReaderTest
-extends PAppletHax  
-{
+extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
+
 	protected Movie movie;
 	protected PImage _curFrame;
 	protected PGraphics _curMov;
@@ -29,11 +30,6 @@ extends PAppletHax
 	PixelTriFilter _triPixelFilter;
 	ImageHistogramFilter _histogramFilter;
 	// PixelTriFilter, Cluster8BitRow, ImageHistogramFilter
-
-	static public void main(String args[]) {
-//		_isFullScreen = true;
-		PApplet.main( "com.haxademic.sketch.test.VideoReaderTest", new String[] { "--hide-stop", "--bgcolor=000000" } );
-	}
 
 	
 	public void setup() {

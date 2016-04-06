@@ -15,8 +15,9 @@ import processing.core.PApplet;
 import toxi.color.TColor;
 
 public class AirDrums
-extends PAppletHax  
-{
+extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
+
 	public static final float PIXEL_SIZE = 7;
 	public static int KINECT_CLOSE = 1500;
 	public static int KINECT_FAR = 1700;
@@ -26,10 +27,6 @@ extends PAppletHax
 	protected ArrayList<BeatSquare> _beats;
 	protected ColorGroup _colors;
 	protected float _drawRatio = 1;
-
-	public static void main(String args[]) {
-		PApplet.main(new String[] { "--hide-stop", "--bgcolor=000000", "com.haxademic.app.airdrums.AirDrums" });
-	}
 
 	public void settings() {
 		customPropsFile = FileUtil.getFile("properties/airdrums.properties");

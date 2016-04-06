@@ -11,8 +11,9 @@ import processing.core.PImage;
 import processing.core.PShape;
 
 public class ImageAlphaTest
-extends PAppletHax  
-{	
+extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
+	
 	protected PGraphics _texture;
 	protected MeshPool _objPool;
 	protected PShape _shape;

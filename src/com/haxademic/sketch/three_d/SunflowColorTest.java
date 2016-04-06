@@ -9,8 +9,9 @@ import com.haxademic.core.draw.color.TColorInit;
 import processing.core.PApplet;
 
 public class SunflowColorTest
-extends PAppletHax  
-{		
+extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
+		
 	public void setup() {
 		super.setup();
 		

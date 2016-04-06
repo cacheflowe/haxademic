@@ -11,8 +11,9 @@ import processing.opengl.PShader;
 import processing.video.Movie;
 
 public class VideoHDPlayer
-extends PAppletHax  
-{
+extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
+
 	protected Movie _movie;
 	protected Movie _movieColor;
 	protected float[] _cropProps = null;

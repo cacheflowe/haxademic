@@ -6,8 +6,9 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.system.TimeFactoredFps;
 
 public class TimeBasedMovement
-extends PAppletHax  
-{
+extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
+
 	public TimeFactoredFps timeFactor;
 	public float curX = 0;
 	public float moveXPerFrame = 5;

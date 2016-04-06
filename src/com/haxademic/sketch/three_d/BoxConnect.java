@@ -10,8 +10,9 @@ import com.haxademic.core.draw.util.DrawUtil;
 import processing.core.PVector;
 
 public class BoxConnect
-extends PAppletHax  
-{
+extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
+
 
 	public void setup() {
 		super.setup();

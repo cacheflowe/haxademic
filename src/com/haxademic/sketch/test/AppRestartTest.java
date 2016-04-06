@@ -1,16 +1,11 @@
 package com.haxademic.sketch.test;
 
-import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.system.AppRestart;
 
 public class AppRestartTest
-extends PAppletHax  
-{
-
-	public static void main(String args[]) {
-		PAppletHax.main(P.concat(args, new String[] { "--hide-stop", "--bgcolor=000000", Thread.currentThread().getStackTrace()[1].getClassName() }));
-	}
+extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	public void setup() {
 		super.setup();		

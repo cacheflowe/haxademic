@@ -10,8 +10,9 @@ import com.haxademic.core.math.easing.Penner;
 import processing.core.PGraphics;
 
 public class FeedbackBufferTest
-extends PAppletHax  
-{	
+extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
+	
 	protected PGraphics _texture;
 	protected float _frames = 60;
 	

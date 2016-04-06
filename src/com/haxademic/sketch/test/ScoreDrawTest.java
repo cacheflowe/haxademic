@@ -8,8 +8,9 @@ import com.haxademic.core.system.FileUtil;
 
 
 public class ScoreDrawTest
-extends PAppletHax  
-{	
+extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
+	
 	protected CustomFontText2D _scoreFontRenderer;
 	
 	public void setup() {

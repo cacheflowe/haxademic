@@ -6,8 +6,9 @@ import com.haxademic.core.data.FloatBuffer;
 import com.haxademic.core.math.MathUtil;
 
 public class FloatBufferTest
-extends PAppletHax  
-{
+extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
+
 	protected FloatBuffer buff;
 	
 	public void setup() {

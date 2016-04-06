@@ -10,8 +10,9 @@ import com.haxademic.core.draw.util.OpenGLUtil;
 import com.haxademic.core.vendor.Toxiclibs;
 
 public class GifRenderEllo000ThreeDeeRotate
-extends PAppletHax  
-{	
+extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
+	
 	protected MeshPool _objPool;
 	
 	protected int animCount = 0;

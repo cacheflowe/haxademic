@@ -11,21 +11,14 @@ import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.system.FileUtil;
 
 public class TimeLapse
-extends PAppletHax  
-{
+extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
+
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-	/**
-	 * Auto-initialization of the main class.
-	 * @param args
-	 */
-	public static void main(String args[]) {
-		PApplet.main(new String[] { "--hide-stop", "--bgcolor=000000", "com.haxademic.app.timelapse.TimeLapse" });
-	}
-	
 	/**
 	 * Image sequence
 	 */

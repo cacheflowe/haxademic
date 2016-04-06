@@ -11,8 +11,9 @@ import processing.core.PConstants;
 import processing.core.PGraphics;
 
 public class SinSaw
-extends PAppletHax  
-{	
+extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
+	
 	protected PGraphics _texture;	
 	
 	public void setup() {

@@ -5,8 +5,9 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 
 public class TenTracerSnake
-extends PAppletHax  
-{	
+extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
+	
 	Block[] blocks;
 	int numBlocks = 360;
 		

@@ -28,8 +28,9 @@ import processing.opengl.PShader;
 import processing.video.Capture;
 
 public class JumboTronix
-extends PAppletHax  
-{
+extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
+
 	protected PGraphics pg;
 	protected PGraphics _webcamTexture;
 	protected Capture _webCam;
@@ -53,10 +54,6 @@ extends PAppletHax
 	protected Rectangle _textureRect;
 	protected int _curTextureIndex = 0;
 	
-
-	public static void main(String args[]) {
-		PApplet.main(new String[] { "--hide-stop", "--bgcolor=000000", "com.haxademic.app.jumbotronix.JumboTronix" });
-	}
 
 	public void settings() {
 		customPropsFile = FileUtil.getHaxademicDataPath() + "properties/jumbotronix.properties";

@@ -22,20 +22,9 @@ import toxi.geom.mesh.Face;
 import toxi.geom.mesh.WETriangleMesh;
 
 public class ModeSetAnimation
-extends PAppletHax  
-{
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
-	/**
-	 * Auto-initialization of the main class.
-	 * @param args
-	 */
-	public static void main(String args[]) {
-		PApplet.main(new String[] { "--hide-stop", "--bgcolor=000000", "com.haxademic.sketch.render.ModeSetAnimation" });
-	}
 	
 	/**
 	 * Sequence:
