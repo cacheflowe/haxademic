@@ -17,14 +17,9 @@ extends BaseTexture {
 	public TextureVideoPlayer( int width, int height, String videoFile ) {
 		super();
 		
-		_movie = new Movie( P.p, FileUtil.getHaxademicDataPath() + videoFile );
-		_movie.speed(1f);
-		_movie.play();
-		_movie.loop();
-		_movie.volume(0);
-		_movie.pause();
-
 		buildGraphics( width, height );
+		
+		_movie = new Movie( P.p, FileUtil.getHaxademicDataPath() + videoFile );
 	}
 	
 	public BaseTexture setActive( boolean isActive ) {
@@ -50,6 +45,7 @@ extends BaseTexture {
 	public void resetOnActiveChange() {
 		if( _active == true && _wasActive == false ) {
 			_movie.jump(MathUtil.randRangeDecimal(0, _movie.duration()));
+			_movie.speed(1f);
 			_movie.play();
 			_movie.loop();
 			_movie.volume(0);
