@@ -32,25 +32,24 @@ extends PAppletHax {
 	public ArrayList<PVector> attractorsPositions;
 
 	protected float _numAttractors = 4;
-	protected float _numParticles = 500;
+	protected float _numParticles = 100;
 	
 	List<Point> points;
 	
 	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.SUNFLOW, "true" );
-		p.appConfig.setProperty( AppSettings.SUNFLOW_ACTIVE, "true" );
+		p.appConfig.setProperty( AppSettings.SUNFLOW, true );
+		p.appConfig.setProperty( AppSettings.SUNFLOW_ACTIVE, false );
 		p.appConfig.setProperty( AppSettings.SUNFLOW_QUALITY, "low" );
 
 		
-		p.appConfig.setProperty( AppSettings.WIDTH, "1280" );
-		p.appConfig.setProperty( AppSettings.HEIGHT, "720" );
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "true" );
-		p.appConfig.setProperty( AppSettings.FPS, "30" );
+		p.appConfig.setProperty( AppSettings.WIDTH, 1280 );
+		p.appConfig.setProperty( AppSettings.HEIGHT, 720 );
+		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, false );
+//		p.appConfig.setProperty( AppSettings.FPS, 30 );
 	}
 
 	public void setup() {
 		super.setup();
-		p.smooth(OpenGLUtil.SMOOTH_HIGH);
 
 		initFlyers();
 	}
@@ -97,8 +96,8 @@ extends PAppletHax {
 		}
 		for( int i=0; i < attractors.size(); i++ ) attractors.get(i).update( false );
 		
-		drawVoxels();
-//		drawProximitySticks();
+//		drawVoxels();
+		drawProximitySticks();
 //		drawAlphaShape( true );
 	}
 
