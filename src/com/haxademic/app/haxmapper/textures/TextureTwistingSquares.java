@@ -3,9 +3,12 @@ package com.haxademic.app.haxmapper.textures;
 import com.haxademic.core.app.P;
 import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.math.MathUtil;
+import com.haxademic.core.math.easing.EasingFloat;
 
 public class TextureTwistingSquares
 extends BaseTexture {
+	
+	protected EasingFloat _steps = new EasingFloat(50f, 6);
 	
 	public TextureTwistingSquares( int width, int height ) {
 		super();
@@ -16,15 +19,16 @@ extends BaseTexture {
 	
 	public void updateDraw() {
 //		_texture.clear();
+		_steps.update();
 
 		DrawUtil.setDrawCenter(_texture);
 		_texture.translate( _texture.width/2, _texture.height/2, 0 );
 
 		_texture.background(0);
 		
-		int steps = 50;
-		float oscInc = P.TWO_PI / (float)steps;
-		float lineSize = 25f + 1f * P.sin( ( P.p.frameCount ) * oscInc );
+		float steps = _steps.value();
+		float oscInc = P.TWO_PI / steps;
+		float lineSize = (steps/2) + 1f * P.sin( ( P.p.frameCount ) * oscInc );
 		
 		for( int i=100; i > 0; i-- ) {
 			
@@ -46,6 +50,7 @@ extends BaseTexture {
 	}
 	
 	public void updateTimingSection() {
+		_steps.setTarget(MathUtil.randRangeDecimal(10, 60));
 	}
 
 }
