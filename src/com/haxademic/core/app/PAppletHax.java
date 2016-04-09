@@ -362,7 +362,7 @@ extends PApplet
 		if( joons != null ) joons.startFrame();
 		drawApp();
 		if( joons != null ) joons.endFrame( p.appConfig.getBoolean(AppSettings.SUNFLOW_SAVE_IMAGES, false) == true );
-		renderShutdown();
+		renderFrame();
 		showStats();
 		setAppDockIconAndTitle();
 	}
@@ -446,7 +446,7 @@ extends PApplet
 		}
 	}
 	
-	protected void renderShutdown() {
+	protected void renderFrame() {
 		// gives the app 1 frame to shutdown after the movie rendering stops
 		if( _isRendering == true || _renderShutdown > 1 ) {
 			if( _renderShutdown == -1 ) {
