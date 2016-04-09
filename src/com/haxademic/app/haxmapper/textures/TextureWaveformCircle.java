@@ -3,6 +3,7 @@ package com.haxademic.app.haxmapper.textures;
 import com.haxademic.core.app.P;
 import com.haxademic.core.audio.WaveformData;
 import com.haxademic.core.draw.util.DrawUtil;
+import com.haxademic.core.draw.util.OpenGLUtil;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.EasingFloat;
 
@@ -20,21 +21,47 @@ extends BaseTexture {
 
 		buildGraphics( width, height );
 		
+		_texture = P.p.createGraphics( _texture.width, _texture.height, P.P3D );
+		_texture.smooth(OpenGLUtil.SMOOTH_HIGH);
+		_texture.beginDraw();
+		_texture.background(0);
+		_texture.endDraw();
+
+		
 		_waveformData = P.p._waveformData;
 		_circleInc = ( (float)Math.PI * 2.0f ) / _waveformData._waveform.length;
 		
 		// set some defaults
 		newLineMode();
 		_amp = _texture.width / 20f;
-		_strokeWeight = 3;
+		_strokeWeight = 1.5f;
 	}
 	
 	public void newLineMode() {
 		_radius.setTarget(MathUtil.randRangeDecimal(_texture.width / 10f, _texture.width / 2.7f)); 
 	}
 
+	public void feeback() {
+		// texture feedback
+		float feedback = 10f;// * P.sin(percentComplete * P.TWO_PI);
+		_texture.copy(
+			_texture, 
+			0, 
+			0, 
+			_texture.width, 
+			_texture.height, 
+			P.round(-feedback/2f), 
+			P.round(-feedback/2f), 
+			P.round(_texture.width + feedback), 
+			P.round(_texture.height + feedback)
+		);
+		_texture.fill(0, 20);
+		_texture.noStroke();
+		_texture.rect(_texture.width/2, _texture.height/2, _texture.width, _texture.height);
+	}
+	
 	public void updateDraw() {
-		_texture.clear();
+		feeback();
 		
 		_radius.update();
 		
