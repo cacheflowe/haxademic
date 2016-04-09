@@ -24,8 +24,8 @@ extends PAppletHax {
 	protected PShader _fxaa;
 
 	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, "700" );
-		p.appConfig.setProperty( AppSettings.HEIGHT, "1000" );
+		p.appConfig.setProperty( AppSettings.WIDTH, "2200" );
+		p.appConfig.setProperty( AppSettings.HEIGHT, "1200" );
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
 	}
 
@@ -46,8 +46,9 @@ extends PAppletHax {
 				new ParticleTrail(
 					new PVector(
 						p.random(p.width * 0.9f, p.width * 1.1f), 
-						p.random(p.height * 0.9f, p.height * 1.1f)
-					)
+						p.random(p.height * 0.45f, p.height * 0.55f)
+					),
+					0
 				)
 			);
 //		}
@@ -97,15 +98,15 @@ extends PAppletHax {
 	public class VectorFlyer2d {
 		public PVector position = new PVector();
   	  	protected float radians = MathUtil.randRangeDecimal( 0, P.TWO_PI );
-  	  	protected float speed = MathUtil.randRangeDecimal( 4, 8 );
+  	  	protected float speed = MathUtil.randRangeDecimal( 4, 6 );
   	  	protected float turnRadius = MathUtil.randRangeDecimal( .04f, 0.09f );
   	  	protected int color;
   	  	
   	  	
 		
-		public VectorFlyer2d( PVector newPosition ) {
+		public VectorFlyer2d( PVector newPosition, float radians ) {
 			position.set( newPosition );
-			radians = MathUtil.getRadiansToTarget( position.x, position.y, 0, 0 );
+			this.radians = (radians != 0) ? radians : MathUtil.getRadiansToTarget( position.x, position.y, 0, 0 );
 
 			color = p.color(255);
 		}
@@ -144,8 +145,8 @@ extends PAppletHax {
 		protected boolean _active = true;
 		protected int myFrameCount = 0;
 
-		public ParticleTrail( PVector newPosition ) {
-			super( newPosition );
+		public ParticleTrail( PVector newPosition, float radians ) {
+			super( newPosition, radians );
 			_positionsArr = new ArrayList<PVector>();
 		}
 		
@@ -155,26 +156,27 @@ extends PAppletHax {
 			
 			
 			// spawn children every x frames
-			if(_active && myFrameCount > 1 && myFrameCount % 30 == 0) {
+			if(_active && myFrameCount > 1 && myFrameCount % 60 == 0) {
+				PVector lastParticlePosition = _positionsArr.get(P.max(0, _positionsArr.size()-2));
 				_particles.add(
 					new ParticleTrail(
-						new PVector(position.x, position.y)
+						new PVector(lastParticlePosition.x, lastParticlePosition.y),
+						radians + p.random(-0.3f, 0.3f)
 					)
 				);
-				_particles.get(_particles.size()-1).setRadians(radians + p.random(-0.02f, 0.02f));
 			}
 			
 			// update position
 			super.update(attractorX, attractorY);
 			
 			// add points every x frames
-//			if(p.frameCount % 3 == 0) {
+			if(p.frameCount % 3 == 0) {
 				if(_active && position.x > p.width * 0.1f && position.y > p.height * 0.1f) {
 					_positionsArr.add(new PVector(position.x, position.y));
 				} else {
 					_active = false;
 				}
-//			}
+			}
 			
 			// draw trail
 			p.stroke(255);
@@ -185,7 +187,7 @@ extends PAppletHax {
 			for (int i = 0; i < _positionsArr.size(); i++) {
 				if( i == 0 ) {
 					p.vertex(_positionsArr.get(i).x, _positionsArr.get(i).y);
-				} else {	//  if(i % 2 == 0) 
+				} else { // if(i % 2 == 0)  {
 					p.quadraticVertex(
 							_positionsArr.get(i-1).x, 
 							_positionsArr.get(i-1).y, 
@@ -203,15 +205,15 @@ extends PAppletHax {
 		protected boolean autoControl = true;
 		protected float autoControlFactor = MathUtil.randRange(1, 8)/100f;
 		protected float radians = 0;
-		protected float radiansOsc = MathUtil.randRangeDecimal(0.03f, 0.2f);
-		protected float speed = 7;
+		protected float radiansOsc = MathUtil.randRangeDecimal(-0.1f, 0.1f);
+		protected float speed = MathUtil.randRange(4, 6);
 		protected int myFrameCount = 0;
 		
 		public Attractor() {
-			position.set(p.width * 0.9f, p.height * 0.9f);
-			radians = MathUtil.getRadiansToTarget( position.x, position.y, 1000, 0 );
+			position.set(p.width * 0.98f, p.height * 0.5f);
+			radians = MathUtil.getRadiansToTarget( position.x, position.y, 0, p.height * 0.5f );
 		}
-		
+			
 		public PVector position() {
 			return position;
 		}
@@ -223,7 +225,7 @@ extends PAppletHax {
 			} else {
 				// move twards top corner
 				position.set(position.x + P.sin(radians) * speed, position.y + P.cos(radians) * speed);
-				radians += P.sin(myFrameCount*0.2f) * radiansOsc;
+				radians += P.sin(myFrameCount*0.16f) * radiansOsc;
 			}
 			p.fill( 255 );
 			p.noStroke();
