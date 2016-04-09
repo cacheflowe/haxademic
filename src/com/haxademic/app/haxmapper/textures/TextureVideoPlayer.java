@@ -1,12 +1,10 @@
 package com.haxademic.app.haxmapper.textures;
 
-import processing.video.Movie;
-
 import com.haxademic.core.app.P;
-import com.haxademic.core.image.filters.shaders.BlurHFilter;
-import com.haxademic.core.image.filters.shaders.BlurVFilter;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.system.FileUtil;
+
+import processing.video.Movie;
 
 public class TextureVideoPlayer
 extends BaseTexture {
