@@ -22,11 +22,10 @@ extends PAppletHax {
 	 */
 	protected Capture _webCam;
 
-	protected int _camW = 160;
-	protected int _camH = 120;
+	protected int _camW = 1280;
+	protected int _camH = 720;
 
 	protected WETriangleMesh _mesh;
-	protected String camera;
 
 	public void setup () {
 		initWebCam();
@@ -39,14 +38,9 @@ extends PAppletHax {
 			exit();
 		} else {
 			println("Available cameras:");
-			for (int i = 0; i < cameras.length; i++) {
-				println(cameras[i]);
-			}
-			camera = cameras[0];
-			_webCam = new Capture(this, cameras[0]);
+			for (int i = 0; i < cameras.length; i++) println("["+i+"] "+cameras[i]);
+			_webCam = new Capture(this, cameras[15]);
 			_webCam.start();
-			_camW = _webCam.width;
-			_camH = _webCam.height;
 		}      
 	}
 
@@ -70,12 +64,11 @@ extends PAppletHax {
 		if (_webCam.available()) { 
 			// Reads the new frame
 			_webCam.read(); 
-//						drawDepthImage();
-			//			drawMesh();
-//						drawNativeMesh();
-			// image(_webCam, 0, 0); 
+//			drawDepthImage();
+//			drawMesh();
+			drawNativeMesh();
+//			drawImage();
 		} 
-		drawImage();
 	}
 
 	void drawImage(){
@@ -164,17 +157,17 @@ extends PAppletHax {
 		PImage img = _webCam.get();
 		int x, y, color;
 		p.beginShape(P.TRIANGLES);
-		for ( int i = 0; i < _camW - 1; i++) {
-			for ( int j = 0; j < _camH - 1; j++) {
+		int skip = 10;
+		for ( int i = 0; i < _camW - 1; i+=skip) {
+			for ( int j = 0; j < _camH - 1; j+=skip) {
 				x = i;  // x position
 				y = j;  // y position
 				color = ImageUtil.getPixelColor( img, x, y );
 
-				float z = p.brightness(color) / 10f;
+				float z = p.brightness(color);
 
 				p.fill(color);
-				p.stroke(0);
-				p.strokeWeight(1);
+				p.noStroke();
 
 				// draw grid out from center
 				x = -img.width/2 + x;
@@ -182,12 +175,12 @@ extends PAppletHax {
 
 				// draw trianges 
 				p.vertex( x, y, z );
-				p.vertex( x+1, y, z );
-				p.vertex( x+1, y+1, z );
+				p.vertex( x+skip, y, z );
+				p.vertex( x+skip, y+skip, z );
 
 				p.vertex( x, y, z );
-				p.vertex( x, y+1, z );
-				p.vertex( x+1, y+1, z );
+				p.vertex( x, y+skip, z );
+				p.vertex( x+skip, y+skip, z );
 
 			}
 		}
