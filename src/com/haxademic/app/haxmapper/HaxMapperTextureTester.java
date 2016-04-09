@@ -1,10 +1,22 @@
 package com.haxademic.app.haxmapper;
 
 import com.haxademic.app.haxmapper.textures.BaseTexture;
+import com.haxademic.app.haxmapper.textures.TextureAudioTube;
+import com.haxademic.app.haxmapper.textures.TextureBarsEQ;
+import com.haxademic.app.haxmapper.textures.TextureBlobSheet;
+import com.haxademic.app.haxmapper.textures.TextureEQConcentricCircles;
 import com.haxademic.app.haxmapper.textures.TextureEQFloatParticles;
+import com.haxademic.app.haxmapper.textures.TextureImageTimeStepper;
 import com.haxademic.app.haxmapper.textures.TextureLinesEQ;
+import com.haxademic.app.haxmapper.textures.TextureOuterSphere;
 import com.haxademic.app.haxmapper.textures.TextureRotatingRings;
 import com.haxademic.app.haxmapper.textures.TextureShaderTimeStepper;
+import com.haxademic.app.haxmapper.textures.TextureSphereAudioTextures;
+import com.haxademic.app.haxmapper.textures.TextureSphereRotate;
+import com.haxademic.app.haxmapper.textures.TextureSvgPattern;
+import com.haxademic.app.haxmapper.textures.TextureWaveformCircle;
+import com.haxademic.app.haxmapper.textures.TextureWaveformSimple;
+import com.haxademic.app.haxmapper.textures.TextureWebCam;
 import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.util.OpenGLUtil;
@@ -18,23 +30,23 @@ extends PAppletHax {
 	int h = 300;
 
 	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, "1000" );
-		p.appConfig.setProperty( AppSettings.HEIGHT, "750" );
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
+		p.appConfig.setProperty( AppSettings.WIDTH, 1000 );
+		p.appConfig.setProperty( AppSettings.HEIGHT, 750 );
 	}
 
 
 	public void setup() {
 		super.setup();
-			
-//		_tvShader = p.loadShader( FileUtil.getFile("shaders/filters/radial-ripples.glsl")); 
-//		_tvShader = p.loadShader( FileUtil.getFile("shaders/filters/bad-tv-simple.glsl")); 
-//		_tvShader = p.loadShader( FileUtil.getFile("shaders/filters/warper.glsl")); 
+		
+		w = Math.round((float) p.width / 3f);
+		h = Math.round((float) w * (9f/16f));
+		
 		OpenGLUtil.setTextureRepeat(g);
 		
 		_textures = new BaseTexture[]{
 //			new TextureShaderTimeStepper( w, h, "_drawing-stuff.glsl" ),
 				
+			new TextureWebCam( w, h ),
 			new TextureEQFloatParticles( w, h ),
 			
 			new TextureShaderTimeStepper( w, h, "sdf-01-auto.glsl" ),
@@ -45,7 +57,7 @@ extends PAppletHax {
 //			new TextureShaderTimeStepper( w, h, "bw-simple-sin.glsl" ),
 //
 //			new TextureShaderTimeStepper( w, h, "wobble-sin.glsl" ),
-//			new TextureShaderTimeStepper( w, h, "docking-tunnel.glsl" ),
+			new TextureShaderTimeStepper( w, h, "docking-tunnel.glsl" ),
 //			new TextureShaderTimeStepper( w, h, "shiny-circle-wave.glsl" ),
 //			new TextureShaderTimeStepper( w, h, "stars-nice.glsl" ),
 //			new TextureShaderTimeStepper( w, h, "triangle-perlin.glsl" ),
@@ -60,28 +72,28 @@ extends PAppletHax {
 //			new TextureShaderTimeStepper( w, h, "radial-burst.glsl" ),
 //			new TextureShaderTimeStepper( w, h, "wavy-3d-tubes.glsl" ),
 //			new TextureShaderTimeStepper( w, h, "fade-dots.glsl" ),
-//			new TextureAudioTube( w, h ),
-//			new TextureSvgPattern( w, h ),
+			new TextureAudioTube( w, h ),
+			new TextureSvgPattern( w, h ),
 //			new TextureAppFrameEq2d( w, h ),
 //			new TextureAppFrame2d( w, h ),
 //			new TextureAppFrameWaveformCircle( w, h ),
 //			new TextureBasicWindowShade( w, h ),
-//			new TextureSphereAudioTextures( w, h ),
-//			new TextureWaveformCircle( w, h ),
+			new TextureSphereAudioTextures( w, h ),
+			new TextureWaveformCircle( w, h ),
 //			new TextureRotatorShape( w, h ),
 			new TextureRotatingRings( w, h ),
 //			new TextureMeshDeform( w, h ),
 			new TextureLinesEQ( w, h ),
-//			new TextureBlobSheet( w, h ),
-//			new TextureBarsEQ( w, h ),
-//		    new TextureEQConcentricCircles( w, h ),
+			new TextureBlobSheet( w, h ),
+			new TextureBarsEQ( w, h ),
+		    new TextureEQConcentricCircles( w, h ),
 //		    new TextureColorAudioSlide( w, h ),
-//		    new TextureOuterSphere( w, h ),
+		    new TextureOuterSphere( w, h ),
 //		    new TextureEQGrid( w, h ),
-//		    new TextureWaveformSimple( w, h ),
-//		    new TextureSphereRotate( w, h ),
+		    new TextureWaveformSimple( w, h ),
+		    new TextureSphereRotate( w, h ),
 //		    new TextureTwistingSquares( w, h ),
-//		    new TextureImageTimeStepper( w, h ),
+		    new TextureImageTimeStepper( w, h ),
 //		    new TextureShaderScrubber( w, h, "cog-tunnel.glsl" ),
 //			new TextureVideoPlayer( w, h, "video/cacheflowe/render-2015-04-24-11-06-26-3x (Converted 2).mov" ),
 //			new TextureVideoPlayer( w, h, "video/cacheflowe/render-2015-07-28-10-03-01-desktop.m4v" ),
