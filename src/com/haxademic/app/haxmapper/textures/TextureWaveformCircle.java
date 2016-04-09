@@ -40,28 +40,9 @@ extends BaseTexture {
 	public void newLineMode() {
 		_radius.setTarget(MathUtil.randRangeDecimal(_texture.width / 10f, _texture.width / 2.7f)); 
 	}
-
-	public void feeback() {
-		// texture feedback
-		float feedback = 10f;// * P.sin(percentComplete * P.TWO_PI);
-		_texture.copy(
-			_texture, 
-			0, 
-			0, 
-			_texture.width, 
-			_texture.height, 
-			P.round(-feedback/2f), 
-			P.round(-feedback/2f), 
-			P.round(_texture.width + feedback), 
-			P.round(_texture.height + feedback)
-		);
-		_texture.fill(0, 20);
-		_texture.noStroke();
-		_texture.rect(_texture.width/2, _texture.height/2, _texture.width, _texture.height);
-	}
 	
 	public void updateDraw() {
-		feeback();
+		feedback(10, 0.12f);
 		
 		_radius.update();
 		

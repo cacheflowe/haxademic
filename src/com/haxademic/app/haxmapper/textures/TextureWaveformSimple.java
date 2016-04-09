@@ -20,7 +20,7 @@ extends BaseTexture {
 	}
 
 	public void updateDraw() {
-		_texture.clear();
+		feedback(10f, 0.12f);
 		
 		int waveformDataLength = P.p._waveformData._waveform.length;
 		float widthStep = (float) _texture.width / waveformDataLength;
@@ -28,7 +28,7 @@ extends BaseTexture {
 		float amp = _texture.height * 0.4f;
 		
 		_texture.stroke(_color);
-		_texture.strokeWeight(2);
+		_texture.strokeWeight(0.7f);
 
 		for(int i = 1; i < waveformDataLength; i++) {
 			_texture.line( i * widthStep, startY + P.p._waveformData._waveform[i-1] * amp, (i+1) * widthStep, startY + P.p._waveformData._waveform[i] * amp );

@@ -2,6 +2,7 @@ package com.haxademic.app.haxmapper.textures;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.draw.color.ColorHaxEasing;
+import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.draw.util.OpenGLUtil;
 import com.haxademic.core.image.filters.shaders.BrightnessFilter;
 import com.haxademic.core.image.filters.shaders.InvertFilter;
@@ -161,4 +162,23 @@ public class BaseTexture {
 	public void newRotation() {
 		// override with subclass
 	}
+	
+	public void feedback(float amp, float darkness) {
+		DrawUtil.setDrawCorner(_texture);
+		_texture.copy(
+			_texture, 
+			0, 
+			0, 
+			_texture.width, 
+			_texture.height, 
+			P.round(-amp/2f), 
+			P.round(-amp/2f), 
+			P.round(_texture.width + amp), 
+			P.round(_texture.height + amp)
+		);
+		_texture.fill(0, darkness * 255f);
+		_texture.noStroke();
+		_texture.rect(0, 0, _texture.width, _texture.height);
+	}
+
 }
