@@ -6,14 +6,14 @@ import com.haxademic.app.haxmapper.textures.TextureBarsEQ;
 import com.haxademic.app.haxmapper.textures.TextureBlobSheet;
 import com.haxademic.app.haxmapper.textures.TextureEQConcentricCircles;
 import com.haxademic.app.haxmapper.textures.TextureEQFloatParticles;
-import com.haxademic.app.haxmapper.textures.TextureImageTimeStepper;
+import com.haxademic.app.haxmapper.textures.TextureEQGrid;
 import com.haxademic.app.haxmapper.textures.TextureLinesEQ;
 import com.haxademic.app.haxmapper.textures.TextureOuterSphere;
 import com.haxademic.app.haxmapper.textures.TextureRotatingRings;
 import com.haxademic.app.haxmapper.textures.TextureShaderTimeStepper;
 import com.haxademic.app.haxmapper.textures.TextureSphereAudioTextures;
-import com.haxademic.app.haxmapper.textures.TextureSphereRotate;
 import com.haxademic.app.haxmapper.textures.TextureSvgPattern;
+import com.haxademic.app.haxmapper.textures.TextureTwistingSquares;
 import com.haxademic.app.haxmapper.textures.TextureWaveformCircle;
 import com.haxademic.app.haxmapper.textures.TextureWaveformSimple;
 import com.haxademic.app.haxmapper.textures.TextureWebCam;
@@ -32,6 +32,7 @@ extends PAppletHax {
 	protected void overridePropsFile() {
 		p.appConfig.setProperty( AppSettings.WIDTH, 1000 );
 		p.appConfig.setProperty( AppSettings.HEIGHT, 750 );
+		p.appConfig.setProperty( AppSettings.FILLS_SCREEN, true );
 	}
 
 
@@ -72,27 +73,27 @@ extends PAppletHax {
 //			new TextureShaderTimeStepper( w, h, "radial-burst.glsl" ),
 //			new TextureShaderTimeStepper( w, h, "wavy-3d-tubes.glsl" ),
 //			new TextureShaderTimeStepper( w, h, "fade-dots.glsl" ),
+			new TextureBlobSheet( w, h ),
 			new TextureOuterSphere( w, h ),
 			new TextureAudioTube( w, h ),
 			new TextureSvgPattern( w, h ),
+			new TextureWaveformCircle( w, h ),
+			new TextureRotatingRings( w, h ),
+			new TextureLinesEQ( w, h ),
+			new TextureBarsEQ( w, h ),
+			new TextureEQConcentricCircles( w, h ),
+			new TextureEQGrid( w, h ),
+			new TextureWaveformSimple( w, h ),
+			new TextureTwistingSquares( w, h ),
 //			new TextureAppFrameEq2d( w, h ),
 //			new TextureAppFrame2d( w, h ),
 //			new TextureAppFrameWaveformCircle( w, h ),
 //			new TextureBasicWindowShade( w, h ),
-			new TextureSphereAudioTextures( w, h ),
-			new TextureWaveformCircle( w, h ),
+//			new TextureSphereAudioTextures( w, h ),
 //			new TextureRotatorShape( w, h ),
-			new TextureRotatingRings( w, h ),
 //			new TextureMeshDeform( w, h ),
-			new TextureLinesEQ( w, h ),
-			new TextureBlobSheet( w, h ),
-			new TextureBarsEQ( w, h ),
-		    new TextureEQConcentricCircles( w, h ),
 //		    new TextureColorAudioSlide( w, h ),
-//		    new TextureEQGrid( w, h ),
-		    new TextureWaveformSimple( w, h ),
 //		    new TextureSphereRotate( w, h ),
-//		    new TextureTwistingSquares( w, h ),
 //		    new TextureImageTimeStepper( w, h ),
 //		    new TextureShaderScrubber( w, h, "cog-tunnel.glsl" ),
 //			new TextureVideoPlayer( w, h, "video/cacheflowe/render-2015-04-24-11-06-26-3x (Converted 2).mov" ),

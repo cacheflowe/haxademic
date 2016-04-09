@@ -89,7 +89,11 @@ extends BaseTexture {
 	}
 
 	public void updateDraw() {
-		_texture.clear();
+		DrawUtil.setDrawFlat2d(_texture, true);
+
+//		_texture.clear();
+		feedback(1f,0.3f);
+
 		
 		DrawUtil.resetGlobalProps( _texture );
 		DrawUtil.setCenterScreen( _texture );
@@ -207,7 +211,7 @@ extends BaseTexture {
 			// Color calculated using sine wave
 
 			// adjust cell z per brightness
-			z = -100 + 1 * _texture.brightness( cellColor )/2f * ( P.p._audioInput.getFFT().averages[2] + P.p._audioInput.getFFT().averages[3] );
+			z = -150 + 1 * _texture.brightness( cellColor )/2f * ( P.p._audioInput.getFFT().averages[2] + P.p._audioInput.getFFT().averages[3] );
 			_texture.pushMatrix();
 			_texture.translate( 0, 0, 0 + z );
 			

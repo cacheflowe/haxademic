@@ -28,7 +28,8 @@ extends BaseTexture {
 	}
 
 	public void updateDraw() {
-		_texture.clear();
+//		_texture.clear();
+		feedback(6f,0.1f);
 		
 		// draw grid
 		float startX = 0;

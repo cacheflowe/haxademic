@@ -68,7 +68,8 @@ extends BaseTexture {
 
 
 	public void updateDraw() {
-		_texture.clear();
+//		_texture.clear();
+		feedback(0.5f,0.2f);
 		
 		DrawUtil.resetGlobalProps(_texture);
 		DrawUtil.setDrawCenter(_texture);

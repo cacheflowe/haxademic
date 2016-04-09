@@ -26,7 +26,8 @@ extends BaseTexture {
 	}
 
 	public void updateDraw() {
-		_texture.clear();
+//		_texture.clear();
+		feedback(7f, 0.15f);
 		
 		DrawUtil.resetGlobalProps( _texture );
 		DrawUtil.setCenterScreen( _texture );
