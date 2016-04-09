@@ -1,4 +1,4 @@
-package com.haxademic.app.haxmapper;
+package com.haxademic.app.haxmapper.support;
 
 import com.haxademic.app.haxmapper.textures.BaseTexture;
 import com.haxademic.app.haxmapper.textures.TextureAudioTube;
