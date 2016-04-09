@@ -11,7 +11,6 @@ extends BaseTexture {
 	
 	public TextureWaveformSimple( int width, int height ) {
 		super();
-
 		buildGraphics( width, height );
 	}
 	
