@@ -7,9 +7,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.draw.util.OpenGLUtil;
-import com.haxademic.core.image.filters.shaders.CubicLensDistortionFilter;
-import com.haxademic.core.image.filters.shaders.SphereDistortionFilter;
-import com.haxademic.core.image.filters.shaders.VignetteFilter;
+import com.haxademic.core.image.filters.shaders.VignetteAltFilter;
 import com.haxademic.core.math.easing.EasingFloat;
 
 import processing.core.PVector;
@@ -110,21 +108,21 @@ extends PAppletHax {
 		int transition = 40;
 		DrawUtil.setDrawCorner(p);
 		if(p.frameCount <= transitionIn) {
-			VignetteFilter.instance(p).setDarkness(P.map(p.frameCount, 1f, transitionIn, -7f, -1.75f));
-			VignetteFilter.instance(p).setSpread(P.map(p.frameCount, 1f, transitionIn, -3f, -1.25f));
-			VignetteFilter.instance(p).applyTo(p);
+			VignetteAltFilter.instance(p).setDarkness(P.map(p.frameCount, 1f, transitionIn, -7f, -1.75f));
+			VignetteAltFilter.instance(p).setSpread(P.map(p.frameCount, 1f, transitionIn, -3f, -1.25f));
+			VignetteAltFilter.instance(p).applyTo(p);
 			p.fill(255, P.map(p.frameCount, 1f, transition, 255f, 0));
 			p.rect(0,0,p.width, p.height);
 		} else if(p.frameCount >= frames - transition) {
-			VignetteFilter.instance(p).setDarkness(P.map(p.frameCount, frames - transition, frames, -1.75f, -7f));
-			VignetteFilter.instance(p).setSpread(P.map(p.frameCount, frames - transition, frames, -1.25f, -3f));
-			VignetteFilter.instance(p).applyTo(p);
+			VignetteAltFilter.instance(p).setDarkness(P.map(p.frameCount, frames - transition, frames, -1.75f, -7f));
+			VignetteAltFilter.instance(p).setSpread(P.map(p.frameCount, frames - transition, frames, -1.25f, -3f));
+			VignetteAltFilter.instance(p).applyTo(p);
 			p.fill(255, P.map(p.frameCount, frames - transition, frames, 0, 255f));
 			p.rect(0,0,p.width, p.height);
 		} else {
-			VignetteFilter.instance(p).setDarkness(-1.75f);
-			VignetteFilter.instance(p).setSpread(-1.25f);
-			VignetteFilter.instance(p).applyTo(p);
+			VignetteAltFilter.instance(p).setDarkness(-1.75f);
+			VignetteAltFilter.instance(p).setSpread(-1.25f);
+			VignetteAltFilter.instance(p).applyTo(p);
 		}
 	}
 	
