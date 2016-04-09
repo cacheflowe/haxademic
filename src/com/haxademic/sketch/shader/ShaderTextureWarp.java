@@ -18,9 +18,8 @@ extends PAppletHax {
 	protected float _frames = 10;
 	
 	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, "640" );
-		p.appConfig.setProperty( AppSettings.HEIGHT, "480" );
-		
+		p.appConfig.setProperty( AppSettings.WIDTH, 640 );
+		p.appConfig.setProperty( AppSettings.HEIGHT, 640 );
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
 		p.appConfig.setProperty( AppSettings.RENDERING_GIF, "false" );
 		p.appConfig.setProperty( AppSettings.RENDERING_GIF_FRAMERATE, "40" );

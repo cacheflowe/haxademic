@@ -5,7 +5,6 @@ import com.haxademic.app.haxmapper.textures.TextureEQGrid;
 import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.draw.util.OpenGLUtil;
 import com.haxademic.core.draw.util.PShapeUtil;
 import com.haxademic.core.image.PerlinTexture;
 import com.haxademic.core.system.FileUtil;
@@ -35,9 +34,8 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.FILLS_SCREEN, "false" );
 		p.appConfig.setProperty( AppSettings.WIDTH, "640" );
 		p.appConfig.setProperty( AppSettings.HEIGHT, "640" );
-		
+		p.appConfig.setProperty( AppSettings.SMOOTHING, AppSettings.SMOOTH_HIGH );
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
-		
 		p.appConfig.setProperty( AppSettings.RENDERING_GIF, "false" );
 		p.appConfig.setProperty( AppSettings.RENDERING_GIF_FRAMERATE, "40" );
 		p.appConfig.setProperty( AppSettings.RENDERING_GIF_QUALITY, "15" );
@@ -48,7 +46,6 @@ extends PAppletHax {
 
 	public void setup() {
 		super.setup();	
-		p.smooth( OpenGLUtil.SMOOTH_HIGH );
 		
 		// create dynamic deformation texture
 		audioTexture = new TextureEQGrid(800, 800);
@@ -83,7 +80,7 @@ extends PAppletHax {
 	}
 
 	public void drawApp() {
-		background(255);
+		background(0);
 
 		// rendering
 		float percentComplete = ((float)(p.frameCount%_frames)/_frames);
@@ -119,13 +116,6 @@ extends PAppletHax {
 		p.shader(texShader);  
 		p.shape(obj);
 		p.resetShader();
-		
-		if( p.frameCount == _frames * 2 ) {
-			if(p.appConfig.getBoolean("rendering", false) ==  true) {				
-				_renderer.stop();
-				P.println("render done!");
-			}
-		}
 	}
 
 
@@ -163,28 +153,8 @@ extends PAppletHax {
 		p.textureMode(NORMAL);
 		PShape sh = p.createShape();
 		sh.beginShape(SPHERE);
-		sh.noStroke();
+		sh.stroke(255);
 		sh.noFill();
-//		sh.texture(tex);
-//		float cellW = tex.width / detail;
-//		float cellH = tex.height / detail;
-//		int numVertices = 0;
-//		for (int col = 0; col < tex.width; col += cellW) {
-//			for (int row = 0; row < tex.height; row += cellH) {
-//				float xU = col;
-//				float yV = row;
-//				float x = -tex.width/2f + xU;
-//				float y = -tex.height/2f + yV;
-//				float z = 0;
-//				sh.normal(x, y, z);
-//				sh.vertex(x, y, z, P.map(xU, 0, tex.width, 0, 1), P.map(yV, 0, tex.height, 0, 1));
-//				sh.vertex(x, y + cellH, z, P.map(xU, 0, tex.width, 0, 1), P.map(yV + cellH, 0, tex.height, 0, 1));    
-//				sh.vertex(x + cellW, y + cellH, z, P.map(xU + cellW, 0, tex.width, 0, 1), P.map(yV + cellH, 0, tex.height, 0, 1));    
-//				sh.vertex(x + cellW, y, z, P.map(xU + cellW, 0, tex.width, 0, 1), P.map(yV, 0, tex.height, 0, 1));
-//				numVertices++;
-//			}
-//		}
-//		P.println(numVertices, "vertices");
 		sh.endShape(); 
 		return sh;
 	}

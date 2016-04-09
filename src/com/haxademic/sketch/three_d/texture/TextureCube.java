@@ -23,8 +23,8 @@ extends PAppletHax {
 
 		translate(width/2, height/2, -30); 
 
-		rotateX(p.frameCount/10f); 
-		rotateY(p.frameCount/20f); 
+		rotateX(p.frameCount/40f); 
+		rotateY(p.frameCount/50f); 
 
 		scale(100);
 		beginShape(P.QUADS);

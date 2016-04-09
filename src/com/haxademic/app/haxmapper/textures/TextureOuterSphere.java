@@ -1,18 +1,17 @@
 package com.haxademic.app.haxmapper.textures;
 
+import com.haxademic.core.app.P;
+import com.haxademic.core.data.Point3D;
+import com.haxademic.core.draw.mesh.DrawMesh;
+import com.haxademic.core.draw.util.DrawUtil;
+import com.haxademic.core.math.MathUtil;
+import com.haxademic.core.system.FileUtil;
+
 import saito.objloader.OBJModel;
 import toxi.color.TColor;
 import toxi.geom.Sphere;
 import toxi.geom.Vec3D;
 import toxi.geom.mesh.WETriangleMesh;
-
-import com.haxademic.core.app.P;
-import com.haxademic.core.data.Point3D;
-import com.haxademic.core.draw.mesh.DrawMesh;
-import com.haxademic.core.draw.mesh.MeshUtil;
-import com.haxademic.core.draw.util.DrawUtil;
-import com.haxademic.core.math.MathUtil;
-import com.haxademic.core.system.FileUtil;
 
 public class TextureOuterSphere
 extends BaseTexture {
@@ -28,7 +27,7 @@ extends BaseTexture {
 	protected TColor _baseColor = new TColor(TColor.WHITE);
 	protected TColor _strokeColor = new TColor(TColor.WHITE);
 	protected WETriangleMesh _sphereMesh;
-	protected WETriangleMesh _objMesh;
+//	protected WETriangleMesh _objMesh;
 	protected boolean _makeNewMesh;
 
 	public TextureOuterSphere( int width, int height ) {
@@ -36,7 +35,7 @@ extends BaseTexture {
 		buildGraphics( width, height );
 		
 		_meshResolution = 30;
-		buildModel();
+//		buildModel();
 		reset();
 
 	}
@@ -45,8 +44,8 @@ extends BaseTexture {
 		OBJModel model = new OBJModel( P.p, FileUtil.getHaxademicDataPath() + "models/the-discovery-multiplied-seied.obj" );
 		model.disableMaterial();
 		model.disableTexture();
-		_objMesh = MeshUtil.ConvertObjModelToToxiMesh( P.p, model );
-		_objMesh.scale( _radius );
+//		_objMesh = MeshUtil.ConvertObjModelToToxiMesh( P.p, model );
+//		_objMesh.scale( _radius );
 	}
 
 	
@@ -106,11 +105,11 @@ extends BaseTexture {
 		_baseColor.setARGB(_color);
 		_strokeColor.setARGB(_color);
 		_texture.strokeWeight = 4;
-		if( _isSphere ) {
+//		if( _isSphere ) {
 			DrawMesh.drawMeshWithAudio( _texture, _sphereMesh, P.p._audioInput, _isWireframe, _baseColor, _strokeColor, 0 );
-		} else {
-			DrawMesh.drawMeshWithAudio( _texture, _objMesh, P.p._audioInput, _isWireframe, _baseColor, _strokeColor, 0 );
-		}
+//		} else {
+//			DrawMesh.drawMeshWithAudio( _texture, _objMesh, P.p._audioInput, _isWireframe, _baseColor, _strokeColor, 0 );
+//		}
 		
 		_texture.popMatrix();
 	}

@@ -38,7 +38,7 @@ extends PAppletHax {
 	public void setup() {
 		super.setup();
 		
-		w = Math.round((float) p.width / 3f);
+		w = Math.round((float) p.width / 4f);
 		h = Math.round((float) w * (9f/16f));
 		
 		OpenGLUtil.setTextureRepeat(g);
@@ -72,6 +72,7 @@ extends PAppletHax {
 //			new TextureShaderTimeStepper( w, h, "radial-burst.glsl" ),
 //			new TextureShaderTimeStepper( w, h, "wavy-3d-tubes.glsl" ),
 //			new TextureShaderTimeStepper( w, h, "fade-dots.glsl" ),
+			new TextureOuterSphere( w, h ),
 			new TextureAudioTube( w, h ),
 			new TextureSvgPattern( w, h ),
 //			new TextureAppFrameEq2d( w, h ),
@@ -88,12 +89,11 @@ extends PAppletHax {
 			new TextureBarsEQ( w, h ),
 		    new TextureEQConcentricCircles( w, h ),
 //		    new TextureColorAudioSlide( w, h ),
-		    new TextureOuterSphere( w, h ),
 //		    new TextureEQGrid( w, h ),
 		    new TextureWaveformSimple( w, h ),
-		    new TextureSphereRotate( w, h ),
+//		    new TextureSphereRotate( w, h ),
 //		    new TextureTwistingSquares( w, h ),
-		    new TextureImageTimeStepper( w, h ),
+//		    new TextureImageTimeStepper( w, h ),
 //		    new TextureShaderScrubber( w, h, "cog-tunnel.glsl" ),
 //			new TextureVideoPlayer( w, h, "video/cacheflowe/render-2015-04-24-11-06-26-3x (Converted 2).mov" ),
 //			new TextureVideoPlayer( w, h, "video/cacheflowe/render-2015-07-28-10-03-01-desktop.m4v" ),

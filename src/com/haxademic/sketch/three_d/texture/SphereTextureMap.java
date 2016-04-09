@@ -1,5 +1,17 @@
 package com.haxademic.sketch.three_d.texture;
 
+import com.haxademic.app.haxvisual.viz.IAudioTexture;
+import com.haxademic.app.haxvisual.viz.textures.ColumnAudioTexture;
+import com.haxademic.app.haxvisual.viz.textures.EQGridTexture;
+import com.haxademic.app.haxvisual.viz.textures.EQSquareTexture;
+import com.haxademic.app.haxvisual.viz.textures.WindowShadeTexture;
+import com.haxademic.core.app.P;
+import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.audio.AudioInputWrapper;
+import com.haxademic.core.draw.mesh.MeshUtil;
+import com.haxademic.core.draw.util.DrawUtil;
+import com.haxademic.core.math.MathUtil;
+
 import krister.Ess.AudioInput;
 import processing.core.PApplet;
 import processing.core.PConstants;
@@ -10,21 +22,11 @@ import toxi.geom.mesh.Face;
 import toxi.geom.mesh.WETriangleMesh;
 import toxi.processing.ToxiclibsSupport;
 
-import com.haxademic.app.haxvisual.viz.IAudioTexture;
-import com.haxademic.app.haxvisual.viz.textures.ColumnAudioTexture;
-import com.haxademic.app.haxvisual.viz.textures.EQGridTexture;
-import com.haxademic.app.haxvisual.viz.textures.EQSquareTexture;
-import com.haxademic.app.haxvisual.viz.textures.WindowShadeTexture;
-import com.haxademic.core.app.P;
-import com.haxademic.core.audio.AudioInputWrapper;
-import com.haxademic.core.draw.mesh.MeshUtil;
-import com.haxademic.core.draw.util.DrawUtil;
-import com.haxademic.core.math.MathUtil;
-
 public class SphereTextureMap
-extends PApplet
+extends PAppletHax
 {
-	
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
+
 	PApplet p;
 	ToxiclibsSupport _toxi;
 	IAudioTexture _texture;
@@ -40,8 +42,7 @@ extends PApplet
 	}
 	
 	public void setup() {
-		p.size( 800, 600, OPENGL );
-		p.frameRate( 30 );
+		super.setup();
 		p.colorMode( PConstants.RGB, 255, 255, 255, 1 );
 
 		_toxi = new ToxiclibsSupport( p );
@@ -71,7 +72,7 @@ extends PApplet
 		MeshUtil.calcTextureCoordinates( _sphereOuterMesh );
 	}
 	
-	public void draw() {
+	public void drawApp() {
 		p.background( 0 );
 		p.noStroke();
 		DrawUtil.setBasicLights( p );

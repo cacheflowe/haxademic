@@ -105,13 +105,6 @@ extends PAppletHax {
 		p.shader(texShader);  
 		p.shape(shape);
 		p.resetShader();
-		
-		if( p.frameCount == _frames * 2 ) {
-			if(p.appConfig.getBoolean("rendering", false) ==  true) {				
-				_renderer.stop();
-				P.println("render done!");
-			}
-		}
 	}
 }
 

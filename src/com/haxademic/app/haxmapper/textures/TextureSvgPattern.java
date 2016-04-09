@@ -90,7 +90,7 @@ extends BaseTexture {
 		float newW = shorterRatio * curShape.width;
 		float newH = shorterRatio * curShape.height;
 
-		_texture.fill(0);
+		_texture.fill(255);
 		_texture.noStroke();
 
 		for( float i=-quarterW; i < _texture.width + quarterW; i+= spacing ) {

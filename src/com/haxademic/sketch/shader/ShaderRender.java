@@ -28,17 +28,15 @@ extends PAppletHax {
 
 
 	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.FILLS_SCREEN, "false" );
 		p.appConfig.setProperty( AppSettings.WIDTH, "640" );
 		p.appConfig.setProperty( AppSettings.HEIGHT, "640" );
-		
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
-		
+		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, false );
+		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, Math.round(_frames) );
 		p.appConfig.setProperty( AppSettings.RENDERING_GIF, "false" );
 		p.appConfig.setProperty( AppSettings.RENDERING_GIF_FRAMERATE, "40" );
 		p.appConfig.setProperty( AppSettings.RENDERING_GIF_QUALITY, "15" );
 		p.appConfig.setProperty( AppSettings.RENDERING_GIF_START_FRAME, "3" );
-		p.appConfig.setProperty( AppSettings.RENDERING_GIF_STOP_FRAME, ""+Math.round(_frames+2) );
+		p.appConfig.setProperty( AppSettings.RENDERING_GIF_STOP_FRAME, Math.round(_frames) );
 
 	}
 
@@ -98,16 +96,6 @@ extends PAppletHax {
 
 //		SaturationFilter.instance(p).setSaturation(0);
 //		SaturationFilter.instance(p).applyTo(p);
-
-		// stop rendering
-		if( p.frameCount == _frames * 2 ) {
-			if(p.appConfig.getBoolean("rendering", false) ==  true) {				
-				_renderer.stop();
-				P.println("render done!");
-			}
-		}
 	}
-
-
 }
 
