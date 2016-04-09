@@ -79,15 +79,17 @@ extends BaseTexture {
 		// draw rings
 		for( int i = 0; i < NUM_RINGS; i++ ) {
 			// get eq val for alpha
-			float ringEQVal = P.p._audioInput.getFFT().spectrum[i + 5];
-			float alphaMultiplier = 1.3f * 255f;
+			float ringEQVal = P.p._audioInput.getFFT().spectrum[(i*10) % P.p._audioInput.getFFT().spectrum.length];
+			float alphaMultiplier = 2.3f * 255f;
 
 			// set colors
 			if( _isWireframe == false ) {
 				_texture.fill( _color, ringEQVal * alphaMultiplier );
+				_texture.noStroke();
 			}
 			if( _isWireframe == true ) {
 				_texture.stroke( _color, ringEQVal * alphaMultiplier );
+				_texture.noFill();
 			}
 			
 			// draw disc, with thickness based on eq 

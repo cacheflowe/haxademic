@@ -108,6 +108,8 @@ extends BaseTexture {
 
 		for (int i = 0; i < numCtrls; i++) {
 			cntrls[i].update( P.p._audioInput.getFFT().averages[i], P.p._audioInput.getFFT().averages[i] );
+//			_texture.fill(255);
+//			_texture.rect(cntrls[i].x, cntrls[i].y, 20, 20);
 		}
 		
 		if( _curMode ==  MODE_MESH || _curMode == MODE_TRIANGLES || _curMode == MODE_MESH_COLOR ) {
@@ -193,7 +195,7 @@ extends BaseTexture {
 		void display() {
 			// get color
 			// float centerDist = P.dist(x, y, gridW/2, gridH/2);
-			float ctrlFactor = 0.002f;
+			float ctrlFactor = 0.02f;
 			float ctrlPt1 = P.dist(x, y, cntrls[0].x, cntrls[0].y) * ctrlFactor;
 			float ctrlPt2 = P.dist(x, y, cntrls[1].x, cntrls[1].y) * ctrlFactor;
 			float ctrlPt3 = P.dist(x, y, cntrls[2].x, cntrls[2].y) * ctrlFactor;
@@ -212,17 +214,16 @@ extends BaseTexture {
 			
 			switch( _curMode ){
 				case MODE_BOXES :
-				case MODE_CIRCLES :
 					_texture.fill(cellColor, 167f);
 					_texture.noStroke();
 					_texture.rect(x,y,w*sizeMult,h*sizeMult); 
 					break;
-//				case MODE_CIRCLES :
-//					p.stroke(cellColor);
-//					p.strokeWeight(1);
-//					p.noFill();
-//					p.ellipse(x,y,w*sizeMult,h*sizeMult); 
-//					break;
+				case MODE_CIRCLES :
+					_texture.stroke(cellColor);
+					_texture.strokeWeight(1);
+					_texture.noFill();
+					_texture.ellipse(x,y,w*sizeMult,h*sizeMult); 
+					break;
 				case MODE_BOXEN :
 					_texture.fill(cellColor, 167f);
 					_texture.noStroke();
@@ -299,7 +300,7 @@ extends BaseTexture {
 			incX += xspeed * .1;
 			incY += yspeed * .2;
 			x = gridW/2 + ( gridW/2 * 1.2f * P.sin(incX) );
-			y = gridH/2 + ( gridH/2 * 1.2f * P.sin(incY) );
+			y = gridH/2 + ( gridH/2 * 1.2f * P.cos(incY) );
 		}
 
 
