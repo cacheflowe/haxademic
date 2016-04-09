@@ -3,6 +3,7 @@ package com.haxademic.sketch.shader;
 import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.draw.util.OpenGLUtil;
 import com.haxademic.core.system.FileUtil;
 
@@ -19,40 +20,39 @@ extends PAppletHax {
 	PShape mesh;
 	float angle;
 	PShader texShader;
-	float _frames = 60;
+	float _frames = 210;
+	float displaceAmp = 105f; 
 
 
 	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.FILLS_SCREEN, "false" );
-		p.appConfig.setProperty( AppSettings.WIDTH, "640" );
-		p.appConfig.setProperty( AppSettings.HEIGHT, "640" );
-		
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
-		
-		p.appConfig.setProperty( AppSettings.RENDERING_GIF, "false" );
-		p.appConfig.setProperty( AppSettings.RENDERING_GIF_FRAMERATE, "40" );
-		p.appConfig.setProperty( AppSettings.RENDERING_GIF_QUALITY, "15" );
-		p.appConfig.setProperty( AppSettings.RENDERING_GIF_START_FRAME, "3" );
-		p.appConfig.setProperty( AppSettings.RENDERING_GIF_STOP_FRAME, ""+Math.round(_frames+2) );
+		p.appConfig.setProperty( AppSettings.WIDTH, 800 );
+		p.appConfig.setProperty( AppSettings.HEIGHT, 800 );
+		p.appConfig.setProperty( AppSettings.SMOOTHING, AppSettings.SMOOTH_HIGH );
+		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, false );
+		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, (int)_frames );
+		p.appConfig.setProperty( AppSettings.RENDERING_GIF, false );
+		p.appConfig.setProperty( AppSettings.RENDERING_GIF_FRAMERATE, 40 );
+		p.appConfig.setProperty( AppSettings.RENDERING_GIF_QUALITY, 15 );
+		p.appConfig.setProperty( AppSettings.RENDERING_GIF_START_FRAME, 1 );
+		p.appConfig.setProperty( AppSettings.RENDERING_GIF_STOP_FRAME, (int)_frames );
 
 	}
 
 	public void setup() {
 		super.setup();	
-		p.smooth( OpenGLUtil.SMOOTH_HIGH );
 
-		texture = loadImage(FileUtil.getFile("images/snowblinded-mtn.jpg"));
-		mesh = createSheet(60, texture);
+		texture = loadImage(FileUtil.getFile("images/luna.jpg"));
+		mesh = createSheet(170, texture);
 		texShader = loadShader(
 			FileUtil.getFile("shaders/vertex/brightness-displace-frag-texture.glsl"), 
 			FileUtil.getFile("shaders/vertex/brightness-displace-sheet-vert.glsl")
 		);
 		texShader.set("displacementMap", texture);
-		texShader.set("displaceStrength", 100.0f);
+		texShader.set("displaceStrength", displaceAmp);
 	}
 
 	public void drawApp() {
-		background(255);
+		background(0);
 		
 		// rendering
 		float percentComplete = ((float)(p.frameCount%_frames)/_frames);
@@ -60,23 +60,17 @@ extends PAppletHax {
 
 		// set center screen & rotate
 		translate(width/2, height/2);
-		rotateX(0.3f * P.sin(percentComplete * P.TWO_PI)); 
+		scale(0.65f);
+		rotateZ(-0.3f + 0.01f * P.sin(percentComplete * 2f * P.TWO_PI)); 
+		rotateX(0.2f + 0.4f * P.sin(percentComplete * P.TWO_PI)); 
 
 		// set shader properties & set on processing context
-		texShader.set("displaceStrength", 100f + 100f * P.sin(percentComplete * P.TWO_PI));
+		texShader.set("displaceStrength", displaceAmp + displaceAmp * P.sin(percentComplete * P.TWO_PI));
 		shader(texShader);  
 		shape(mesh);
 		
 		// unset shader deformation
 		resetShader();
-
-		
-		if( p.frameCount == _frames * 2 ) {
-			if(p.appConfig.getBoolean("rendering", false) ==  true) {				
-				_renderer.stop();
-				P.println("render done!");
-			}
-		}
 	}
 
 
