@@ -1,50 +1,35 @@
 package com.haxademic.app.haxmapper.textures;
 
-import processing.opengl.PShader;
-import processing.video.Capture;
-
 import com.haxademic.core.app.P;
 import com.haxademic.core.debug.DebugUtil;
-import com.haxademic.core.system.FileUtil;
+
+import processing.video.Capture;
 
 public class TextureWebCam
 extends BaseTexture {
 
 	protected Capture _webCam;
-	protected PShader _threshold;
 
-	public TextureWebCam() {
+	public TextureWebCam( int width, int height ) {
 		super();
+		buildGraphics( width, height );
 		initWebCam();
-		_threshold = P.p.loadShader( FileUtil.getHaxademicDataPath() + "shaders/filters/threshold.glsl");
 	}
 	
 	void initWebCam() {
 		String[] cameras = Capture.list();
 		if (cameras.length == 0) {
 			DebugUtil.printErr("Couldn't find a webcam");
-			buildGraphics(100, 100);
 		} else {
 			_webCam = new Capture(P.p, cameras[6]);
 			_webCam.start();
-			buildGraphics(100, 100); 
 		}
 	}
 
 	public void updateDraw() {
-		if( _texture != null && _webCam != null && _webCam.available() == true ) { 
-			if( _texture.width != _webCam.width && _webCam.width > 100 ) {
-				buildGraphics( _webCam.width, _webCam.height ); 
-			}
-			
+		if( _texture != null && _webCam != null && _webCam.available() == true ) { 			
 			_webCam.read(); 
-
-			if( _texture != null ) {
-				_texture.image( _webCam.get(), 0, 0 );
-				_texture.filter( _threshold );
-			}
-		} else {
-			_texture.clear();
+			_texture.image( _webCam.get(), 0, 0, _texture.width, _texture.height );
 		}
 	}
 }
