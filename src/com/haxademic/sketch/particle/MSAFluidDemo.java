@@ -5,6 +5,7 @@ import java.nio.FloatBuffer;
 import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.draw.util.OpenGLUtil;
 import com.jogamp.common.nio.Buffers;
 import com.jogamp.opengl.GL;
 import com.jogamp.opengl.GL2;
@@ -165,7 +166,9 @@ extends PAppletHax {
 	boolean renderUsingVA = true;
 
 	public void fadeToColor(GL gl, float r, float g, float b, float speed) {
-		GL2 gl2 = gl.getGL2();
+//		GL2 gl2 = gl.getGL2();
+		GL2 gl2 = OpenGLUtil.getGL2(p.g);
+
 		gl2.glBlendFunc(GL.GL_SRC_ALPHA, GL.GL_ONE_MINUS_SRC_ALPHA);
 	    gl2.glColor4f(r, g, b, speed);
 	    gl2.glBegin(GL2.GL_QUADS);
@@ -200,7 +203,7 @@ extends PAppletHax {
 	    void updateAndDraw(){
 	        PGraphicsOpenGL pgl = (PGraphicsOpenGL) g;         // processings opengl graphics object
 	        GL gl = ((PJOGL)beginPGL()).gl;                // JOGL's GL object
-			GL2 gl2 = gl.getGL2();
+			GL2 gl2 = OpenGLUtil.getGL2(p.g);
 
 			gl2.glEnable( GL2.GL_BLEND );             // enable blending
 	        if(!drawFluid) fadeToColor(gl, 0, 0, 0, 0.05f);
@@ -377,7 +380,7 @@ extends PAppletHax {
 
 
 	    void drawOldSchool(GL gl) {
-			GL2 gl2 = gl.getGL2();
+			GL2 gl2 = OpenGLUtil.getGL2(p.g);
 	    	gl2.glColor3f(alpha, alpha, alpha);
 	    	gl2.glVertex2f(x-vx, y-vy);
 	    	gl2.glVertex2f(x, y);

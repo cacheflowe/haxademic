@@ -50,6 +50,10 @@ public class OpenGLUtil {
 				break;
 		}
 	}
+	
+	public static GL2 getGL2(PGraphics pg) {
+		return ((PJOGL)pg.beginPGL()).gl.getGL2();
+	}
 
 	public enum Blend {
 		DEFAULT,
