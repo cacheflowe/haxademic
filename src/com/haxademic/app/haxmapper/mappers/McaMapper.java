@@ -2,6 +2,8 @@ package com.haxademic.app.haxmapper.mappers;
 
 import com.haxademic.app.haxmapper.HaxMapper;
 import com.haxademic.app.haxmapper.textures.TextureAudioTube;
+import com.haxademic.app.haxmapper.textures.TextureBarsEQ;
+import com.haxademic.app.haxmapper.textures.TextureBlobSheet;
 import com.haxademic.app.haxmapper.textures.TextureColorAudioSlide;
 import com.haxademic.app.haxmapper.textures.TextureEQColumns;
 import com.haxademic.app.haxmapper.textures.TextureEQConcentricCircles;
@@ -9,11 +11,13 @@ import com.haxademic.app.haxmapper.textures.TextureEQFloatParticles;
 import com.haxademic.app.haxmapper.textures.TextureEQGrid;
 import com.haxademic.app.haxmapper.textures.TextureImageTimeStepper;
 import com.haxademic.app.haxmapper.textures.TextureLinesEQ;
+import com.haxademic.app.haxmapper.textures.TextureOuterSphere;
 import com.haxademic.app.haxmapper.textures.TextureRotatingRings;
 import com.haxademic.app.haxmapper.textures.TextureRotatorShape;
 import com.haxademic.app.haxmapper.textures.TextureScrollingColumns;
 import com.haxademic.app.haxmapper.textures.TextureShaderTimeStepper;
 import com.haxademic.app.haxmapper.textures.TextureSphereRotate;
+import com.haxademic.app.haxmapper.textures.TextureSvgPattern;
 import com.haxademic.app.haxmapper.textures.TextureTwistingSquares;
 import com.haxademic.app.haxmapper.textures.TextureVideoPlayer;
 import com.haxademic.app.haxmapper.textures.TextureWaveformCircle;
@@ -30,10 +34,10 @@ extends HaxMapper{
 	/*
 	 * TODO:
 	 * - Catch MappedQuads up to Mapped Triangles: rotation lerping, uv lerping, etc 
+	 * - use new triangle random coordinates for mapped quads
 	 * - Refactor & organize
 	 * 		- Merge user input triggers & beat detection decisions and then start to organize automated decision making 
 	 * - Fix image cycling texture - it does weird flashy things
-	 * - use new triangle random coordinates for mapped quads
 	 * - interpolate polygon coordinates for animated UV maps
 	 * - is newMode() getting called on textures?
 	 * - is rotate() getting called on textures?
@@ -41,12 +45,13 @@ extends HaxMapper{
 	 * - triangle rotation is causing warped polygons
 	 * 		- it's also non-interpolating right now, which it should be
 	 * - Fix up switching to all one texture. clear out other textures in the current pool?
-
+	 * When switching textures, go dark and fade back in quickly
 	 * - test with 1-6 mapping groups
 	 * - Update LED lights to have more modes. do some oscillation/cycling across the lights
 	 * - Fill in beat detection by tracking previous beats and averaging out the recent intervals to keep the beat going - fade off if the beat stops 
 
 	 * - Add more ambient overlay shaders
+	 * - Fix TextureSphereAudioTextures
 
 	 * - Add another floating audio-reactive particle overlay texture - switch the overloay textures out on an interval
 	 */
@@ -56,9 +61,9 @@ extends HaxMapper{
 
 	protected void overridePropsFile() {
 		super.overridePropsFile();
-		p.appConfig.setProperty( "mapping_file", FileUtil.getFile("text/mapping/mapping-2016-03-26-21-20-11.txt") );
+		p.appConfig.setProperty( "mapping_file", FileUtil.getFile("text/mapping/mapping-2016-04-09-20-23-29.txt") );
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
-		p.appConfig.setProperty( AppSettings.FULLSCREEN, "false" );
+		p.appConfig.setProperty( AppSettings.FULLSCREEN, true );
 		p.appConfig.setProperty( AppSettings.FILLS_SCREEN, "false" );
 		p.appConfig.setProperty( "osc_active", "false" );
 		p.appConfig.setProperty( AppSettings.AUDIO_DEBUG, true );
@@ -68,7 +73,7 @@ extends HaxMapper{
 		p.appConfig.setProperty( AppSettings.HIDE_CURSOR, "false" );
 		p.appConfig.setProperty( AppSettings.FORCE_FOREGROUND, true );
 		p.appConfig.setProperty( AppSettings.RETINA, false );
-		p.appConfig.setProperty( AppSettings.SHOW_STATS, true );
+		p.appConfig.setProperty( AppSettings.SHOW_STATS, false );
 	}
 
 	public void oscEvent(OscMessage theOscMessage) {  
@@ -162,6 +167,7 @@ extends HaxMapper{
 
 		
 		_texturePool.add( new TextureTwistingSquares( shaderWsm, shaderHsm ));
+		_texturePool.add( new TextureTwistingSquares( shaderWsm, shaderHsm ));
 		_texturePool.add( new TextureEQConcentricCircles( shaderW, shaderH ) );
 		_texturePool.add( new TextureEQConcentricCircles( shaderW, shaderH ) );
 		_texturePool.add( new TextureScrollingColumns( shaderW, shaderH ));
@@ -170,16 +176,22 @@ extends HaxMapper{
 		_texturePool.add( new TextureEQGrid( shaderW, shaderH ));
 		_texturePool.add( new TextureLinesEQ( shaderW, shaderH ));
 		_texturePool.add( new TextureWaveformSimple( shaderW, shaderH ));
+		_texturePool.add( new TextureWaveformSimple( shaderW, shaderH ));
+		_texturePool.add( new TextureWaveformCircle( shaderW, shaderH ));
 		_texturePool.add( new TextureWaveformCircle( shaderW, shaderH ));
 		_texturePool.add( new TextureSphereRotate( shaderW, shaderH ));
-//		_texturePool.add( new TextureOuterSphere( shaderW, shaderH ) );
+		_texturePool.add( new TextureOuterSphere( shaderW, shaderH ) );
+		_texturePool.add( new TextureOuterSphere( shaderW, shaderH ) );
 		_texturePool.add( new TextureRotatorShape( shaderW, shaderH ) );
 		_texturePool.add( new TextureRotatorShape( shaderW, shaderH ) );
 		_texturePool.add( new TextureRotatingRings( shaderW, shaderH ) );
 		_texturePool.add( new TextureAudioTube( shaderW, shaderH ) );
+		_texturePool.add( new TextureBlobSheet( shaderW, shaderH ) );
+		_texturePool.add( new TextureColorAudioSlide( shaderW, shaderH ));
 		_texturePool.add( new TextureColorAudioSlide( shaderW, shaderH ));
 		_texturePool.add( new TextureEQFloatParticles( shaderW, shaderH ));
-
+		_texturePool.add( new TextureEQFloatParticles( shaderW, shaderH ));
+		_texturePool.add( new TextureSvgPattern( shaderW, shaderH ));
 		
 		
 		// shuffle one time and add 1 inital texture to current array
