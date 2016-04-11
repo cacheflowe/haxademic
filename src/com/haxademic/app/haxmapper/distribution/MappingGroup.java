@@ -173,7 +173,7 @@ public class MappingGroup {
 
 
 	public void clearAllTextures() {
-		while( _curTextures.size() > 0 ) _curTextures.remove( _curTextures.size() - 1 );
+		_curTextures.clear();
 	}
 
 	public ArrayList<IMappedPolygon> polygons() {
@@ -198,30 +198,26 @@ public class MappingGroup {
 	
 	public void randomPolygonRandomMappingStyle() {
 		randomPolygon().randomTextureStyle();
-//		P.println("randomPolygonRandomMappingStyle()");
 	}
 	
 	public void randomTextureToRandomPolygon() {
 		if( _curTextures.size() == 0 ) return;
 		randomPolygon().setTexture( randomBaseTexture(), mappingBounds );
-//		P.println("randomPolygonRandomMappingStyle()");
 	}
 	
 	public void setAllPolygonsToTexture( int textureIndex ) {
 		if( _curTextures.size() == 0 ) return;
+//		P.println("setAllPolygonsToTexture()", textureIndex);
 		for(int j=0; j < _mappedPolygons.size(); j++ ) {
 			_mappedPolygons.get(j).setTexture( _curTextures.get(textureIndex), mappingBounds );
 		}
+		refreshTexturesForPolygons();
 	}
 	
 	public void setAllPolygonsToSameRandomTexture() {
 		setAllPolygonsToTexture( MathUtil.randRange(0,_curTextures.size() - 1 ) ); 
 	}
 	
-	public void setAllPolygonsToPoolTexture() {
-		setAllPolygonsToTexture( MathUtil.randRange(0,_curTextures.size() - 1 ) ); 
-	}
-
 	public void setAllPolygonsTextureStyle( int textureStyle ) {
 		for(int j=0; j < _mappedPolygons.size(); j++ ) {
 			_mappedPolygons.get(j).setTextureStyle( textureStyle );

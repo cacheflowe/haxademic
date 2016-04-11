@@ -103,9 +103,10 @@ extends PAppletHax {
 	protected int BEAT_INTERVAL_MAP_STYLE_CHANGE = (int) Math.ceil(4f / BEAT_DIVISOR);
 	protected int BEAT_INTERVAL_ROTATION = (int) Math.ceil(16f / BEAT_DIVISOR);
 	protected int BEAT_INTERVAL_TRAVERSE = (int) Math.ceil(20f / BEAT_DIVISOR);
-	protected int BEAT_INTERVAL_ALL_SAME = (int) Math.ceil(140f / BEAT_DIVISOR);
+	protected int BEAT_INTERVAL_ALL_SAME = (int) Math.ceil(88f / BEAT_DIVISOR);
 	protected int BEAT_INTERVAL_LINE_MODE = (int) Math.ceil(32f / BEAT_DIVISOR);
 	protected int BEAT_INTERVAL_NEW_TIMING_SECTION = (int) Math.ceil(40f / BEAT_DIVISOR);
+	protected int BEAT_INTERVAL_NEW_MODE = (int) Math.ceil(44f / BEAT_DIVISOR);
 	protected int BEAT_INTERVAL_NEW_TEXTURE = (int) Math.ceil(80f / BEAT_DIVISOR);
 	protected int BEAT_INTERVAL_BIG_CHANGE = (int) Math.ceil(250f / BEAT_DIVISOR);
 	protected boolean _timingDebug = false;
@@ -605,7 +606,7 @@ extends PAppletHax {
 		getRandomGroup().traverseStart();
 		
 		// now also send a random texture to a group
-		sendRandomTextureToGroups();
+//		sendRandomTextureToGroups();
 	}
 	
 	/////////////////////////////////////////////////////////////////
@@ -674,7 +675,10 @@ extends PAppletHax {
 		}
 		if ( _allSameTextureTrigger.active() == true ) {
 			resetBeatDetectMode();
-			setAllSameTexture();
+			if(MathUtil.randBoolean(p) == true) setGroupsMappingStylesToTheSame(true);
+			if(MathUtil.randBoolean(p) == true) setGroupsTextureToTheSameMaybe();
+			if(MathUtil.randBoolean(p) == true) setAllSameTexture();
+
 		}
 		if ( _audioInputUpTrigger.active() == true ) audioIn.gainUp();
 		if ( _audioInputDownTrigger.active() == true ) audioIn.gainDown();
@@ -711,8 +715,9 @@ extends PAppletHax {
 		}
 		if( numBeatsDetected % BEAT_INTERVAL_ALL_SAME == 0 ) {
 			if(_timingDebug == true) P.println("BEAT_INTERVAL_ALL_SAME");
-			setGroupsMappingStylesToTheSame(true);
-			setGroupsTextureToTheSameMaybe();
+			if(MathUtil.randBoolean(p) == true) setGroupsMappingStylesToTheSame(true);
+			if(MathUtil.randBoolean(p) == true) setGroupsTextureToTheSameMaybe();
+			if(MathUtil.randBoolean(p) == true) setAllSameTexture();
 		}
 		
 		if( numBeatsDetected % BEAT_INTERVAL_LINE_MODE == 0 ) {
@@ -721,8 +726,13 @@ extends PAppletHax {
 		}
 		
 		if( numBeatsDetected % BEAT_INTERVAL_NEW_TIMING_SECTION == 0 ) {
-			if(_timingDebug == true) P.println("BEAT_INTERVAL_NEW_TIMING");
+			if(_timingDebug == true) P.println("BEAT_INTERVAL_NEW_TIMING_SECTION");
 			updateTimingSection();
+		}
+		
+		if( numBeatsDetected % BEAT_INTERVAL_NEW_MODE == 0 ) {
+			if(_timingDebug == true) P.println("BEAT_INTERVAL_NEW_MODE");
+			newMode();
 		}
 		
 		if( numBeatsDetected % BEAT_INTERVAL_NEW_TEXTURE == 0 ) {
@@ -866,8 +876,10 @@ extends PAppletHax {
 
 
 	protected void setAllSameTexture() {
+		while(_activeTextures.size() > 1) _activeTextures.remove(0);
 		boolean mode = MathUtil.randBoolean(p);
 		BaseTexture newTexture = _texturePool.get(nextTexturePoolIndex());
+		cycleANewTexture(newTexture);
 		for( int i=0; i < _mappingGroups.size(); i++ ) {
 			_mappingGroups.get(i).clearAllTextures();
 			_mappingGroups.get(i).pushTexture( newTexture, _activeTextures );
