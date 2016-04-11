@@ -37,10 +37,10 @@ extends PAppletHax {
 	protected int curMouseY = 0;
 
 	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
-		p.appConfig.setProperty( AppSettings.FILLS_SCREEN, "true" );
-		p.appConfig.setProperty( AppSettings.FULLSCREEN, "true" );
-		p.appConfig.setProperty( "mapping_file",  FileUtil.getFile("text/mapping/mapping-2016-03-22-22-44-00.txt") );
+		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, false );
+		p.appConfig.setProperty( AppSettings.FILLS_SCREEN, true );
+		p.appConfig.setProperty( AppSettings.FULLSCREEN, true );
+		p.appConfig.setProperty( "mapping_file",  FileUtil.getFile("text/mapping/mapping-2016-04-09-20-23-29.txt") );
 	}
 
 	public void setup() {
