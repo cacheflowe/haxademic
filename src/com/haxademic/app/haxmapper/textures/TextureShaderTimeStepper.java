@@ -168,7 +168,7 @@ extends BaseTexture {
 				_timeEaser.setTarget( _timeEaser.value() + _smallTimeStep );
 			}
 		} else if(_nonBeatTimeMode == ShaderTimeMode.DirectionSpeedShift) {
-			_nonBeatSpeed = MathUtil.randRangeDecimal(_smallTimeStep/60f, _smallTimeStep/20f);
+			_nonBeatSpeed = MathUtil.randRangeDecimal(_smallTimeStep/80f, _smallTimeStep/40f);
 			if(MathUtil.randBoolean(P.p) == true) _nonBeatSpeed *= -1;
 		} else if(_nonBeatTimeMode == ShaderTimeMode.BeatSpeedUp) {
 			if(_nonBeatTimeMode == ShaderTimeMode.BeatSpeedUp) {
@@ -177,7 +177,7 @@ extends BaseTexture {
 			}
 		} else if(_nonBeatTimeMode == ShaderTimeMode.ForwardOsc) {
 			if( _timingFrame % 4 == 0 ) {
-				_nonBeatSpeed = MathUtil.randRangeDecimal(-_smallTimeStep/30f, _smallTimeStep/30f);
+				_nonBeatSpeed = MathUtil.randRangeDecimal(-_smallTimeStep/50f, _smallTimeStep/50f);
 			}
 		}
 	}
