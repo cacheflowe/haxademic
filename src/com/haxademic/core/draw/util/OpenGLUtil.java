@@ -2,8 +2,10 @@ package com.haxademic.core.draw.util;
 
 import com.jogamp.opengl.GL;
 import com.jogamp.opengl.GL2;
+import com.jogamp.opengl.GL3;
 
 import processing.core.PGraphics;
+import processing.opengl.PGL;
 import processing.opengl.PJOGL;
 import processing.opengl.Texture;
 
@@ -50,11 +52,19 @@ public class OpenGLUtil {
 				break;
 		}
 	}
-	
+		
 	public static GL2 getGL2(PGraphics pg) {
+		// only for use with Processing 2. for Processing 3, use GL3
 		return ((PJOGL)pg.beginPGL()).gl.getGL2();
 	}
 
+	public static GL3 getGL3(PGraphics pg) {
+		return (GL3) ((PJOGL) pg.beginPGL()).gl.getGL2GL3();
+	}
+	public static void closeGL3(PGraphics pg) {
+		pg.endPGL(); 
+	}
+	
 	public enum Blend {
 		DEFAULT,
 		ADDITIVE,
@@ -106,13 +116,14 @@ public class OpenGLUtil {
 		}
 	}
 
-	public static void setWireframe(PGraphics pg, boolean isWireframe) {
-		GL2 gl = ((PJOGL)pg.beginPGL()).gl.getGL2();
+	public static void setWireframe(PGraphics pg, boolean isWireframe) {  
+		GL3 gl = getGL3(pg);
 		if(isWireframe == true) {
 			gl.glPolygonMode( GL2.GL_FRONT_AND_BACK, GL2.GL_LINE );
 		} else {
 			gl.glPolygonMode( GL2.GL_FRONT_AND_BACK, GL2.GL_FILL );
 		}
+		closeGL3(pg);
 	}
 	
 	public static void setFog(PGraphics pg, boolean isEnabled) {
