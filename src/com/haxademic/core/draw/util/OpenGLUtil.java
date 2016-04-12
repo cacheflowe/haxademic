@@ -5,7 +5,6 @@ import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.GL3;
 
 import processing.core.PGraphics;
-import processing.opengl.PGL;
 import processing.opengl.PJOGL;
 import processing.opengl.Texture;
 
