@@ -26,7 +26,7 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.HEIGHT, 720 );
 		p.appConfig.setProperty( AppSettings.WIDTH, 640 );
 		p.appConfig.setProperty( AppSettings.HEIGHT, 640 );
-		p.appConfig.setProperty( AppSettings.FULLSCREEN, false );
+		p.appConfig.setProperty( AppSettings.FULLSCREEN, true );
 //		p.appConfig.setProperty( AppSettings.DISPLAY, 2 );
 		p.appConfig.setProperty( AppSettings.FILLS_SCREEN, false );
 		p.appConfig.setProperty( AppSettings.RETINA, true );
@@ -56,14 +56,14 @@ extends PAppletHax {
 		}
 		
 		_particles = new ArrayList<FieldParticle>();
-		for( int i = 0; i < 3000; i++ ) {
+		for( int i = 0; i < 5000; i++ ) {
 			_particles.add( new FieldParticle() );
 		}
 		
 	}
 
 	public void drawApp() {
-		if( p.frameCount == 1 ) p.background(255);
+		if( p.frameCount == 1 ) p.background(0);
 
 //		OpenGLUtil.setBlending(p.g, true);
 //		OpenGLUtil.setBlendMode(p.g, OpenGLUtil.Blend.ADDITIVE);
@@ -71,32 +71,34 @@ extends PAppletHax {
 		// fade out background
 		DrawUtil.setDrawCorner(p);
 		p.noStroke();
-		p.fill(255, 30);
+		p.fill(0, 20);
 		p.rect(0,0,p.width, p.height);
 		
 		// draw field
 		DrawUtil.setDrawCenter(p);
-		p.fill(255);
+		p.fill(0);
 		for (PVector vector : _vectorField) {
 			float noise = p.noise(
 					vector.x/11f + p.noise(p.frameCount/100f), 
 					vector.y/20f + p.noise(p.frameCount/50f) 
-			);
-			vector.set(vector.x, vector.y, noise * 2f * P.TWO_PI);
+					);
+			vector.set(vector.x, vector.y, noise * 4f * P.TWO_PI);
 			
 			// draw attractors
 			p.pushMatrix();
 			p.translate(vector.x, vector.y);
 			p.rotate( vector.z );	// use z for rotation!
-		    // p.rect(0, 0, 1, 10);
-		    p.popMatrix();
+			// p.rect(0, 0, 1, 10);
+			p.popMatrix();
 		}
-		
-		// draw particles
-		DrawUtil.setDrawCenter(p);
-		for( int i = 0; i < _particles.size(); i++ ) {
-			p.fill((i % 150 + 55 / 10), i % 155 + 100, i % 100 + 100);
-			_particles.get(i).update( _vectorField );
+
+		for (int j = 0; j < 3; j++) {
+			// draw particles
+			DrawUtil.setDrawCenter(p);
+			for( int i = 0; i < _particles.size(); i++ ) {
+				p.fill((i % 150 + 55 / 10), i % 155 + 100, i % 100 + 100);
+				_particles.get(i).update( _vectorField );
+			}
 		}
 		
 //		postProcessForRendering();
@@ -133,7 +135,7 @@ extends PAppletHax {
 		public float speed;
 		
 		public FieldParticle() {
-			speed = p.random(4,10);
+			speed = p.random(4,20);
 			radians = new EasingFloat(0, p.random(6,20) );
 			position = new PVector( p.random(0, p.width), p.random(0, p.height) );
 		}
@@ -155,11 +157,11 @@ extends PAppletHax {
 					radians.setTarget( -averageDirection / closeVectors );
 				}
 			}
-			
+
 			radians.update();
 			
 			// update position
-			position.set( position.x + P.sin(radians.value()) * speed, position.y + P.cos(radians.value()) * speed );
+			position.set( position.x + P.sin(radians.value()) * speed * P.map(p.mouseX, 0, p.width, 0, 2f), position.y + P.cos(radians.value()) * speed * P.map(p.mouseX, 0, p.width, 0, 2f) );
 			if( position.x < 0 ) position.set( p.width, position.y );
 			if( position.x > p.width ) position.set( 0, position.y );
 			if( position.y < 0 ) position.set( position.x, p.height );
@@ -169,7 +171,7 @@ extends PAppletHax {
 			p.pushMatrix();
 			p.translate(position.x, position.y);
 			p.rotate( -radians.value() );
-		    p.rect(0, 0, speed * 0.15f, speed * 1.3f);
+		    p.rect(0, 0, speed * 0.15f, speed * 1.3f * P.map(p.mouseX, 0, p.width, 0, 2f));
 		    p.popMatrix();
 		}
 	}
