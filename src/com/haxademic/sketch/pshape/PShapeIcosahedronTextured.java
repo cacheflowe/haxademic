@@ -7,7 +7,7 @@ import com.haxademic.core.draw.shapes.Icosahedron;
 import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.draw.util.OpenGLUtil;
 import com.haxademic.core.draw.util.PShapeUtil;
-import com.haxademic.core.image.filters.shaders.MirrorFilter;
+import com.haxademic.core.image.filters.shaders.KaleidoFilter;
 import com.haxademic.core.image.filters.shaders.RadialRipplesFilter;
 import com.haxademic.core.image.filters.shaders.VignetteFilter;
 import com.haxademic.core.system.FileUtil;
@@ -27,16 +27,15 @@ extends PAppletHax {
 	protected PShader bgShader;
 
 	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, 800 );
-		p.appConfig.setProperty( AppSettings.HEIGHT, 600 );
+		p.appConfig.setProperty( AppSettings.WIDTH, 1000 );
+		p.appConfig.setProperty( AppSettings.HEIGHT, 800 );
 		p.appConfig.setProperty( AppSettings.SMOOTHING, AppSettings.SMOOTH_HIGH );
 		p.appConfig.setProperty( AppSettings.FILLS_SCREEN, false );
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, false );
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, Math.round(_frames+1) );
+		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, Math.round(_frames) );
 		p.appConfig.setProperty( AppSettings.RENDERING_GIF, false );
 		p.appConfig.setProperty( AppSettings.RENDERING_GIF_FRAMERATE, 45 );
 		p.appConfig.setProperty( AppSettings.RENDERING_GIF_QUALITY, 1 );
-		p.appConfig.setProperty( AppSettings.RENDERING_GIF_START_FRAME, 1 );
 		p.appConfig.setProperty( AppSettings.RENDERING_GIF_STOP_FRAME, Math.round(_frames) );
 	}
 
@@ -73,9 +72,10 @@ extends PAppletHax {
 		float percentComplete = ((float)(p.frameCount%_frames)/_frames);
 		
 		// star field w/special effects
-		bgShader.set("time", P.sin(P.TWO_PI * percentComplete) );
+		bgShader.set("time", 900 + P.sin( P.TWO_PI * percentComplete) );
 		p.filter(bgShader);
-		MirrorFilter.instance(p).applyTo(p);
+//		MirrorFilter.instance(p).applyTo(p);
+		KaleidoFilter.instance(p).applyTo(p);
 		RadialRipplesFilter.instance(p).setTime(p.frameCount/50f);
 		RadialRipplesFilter.instance(p).setAmplitude(0.35f + 0.35f * P.sin(-P.PI/2f + P.TWO_PI * percentComplete));
 		RadialRipplesFilter.instance(p).applyTo(p);
