@@ -59,6 +59,7 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.HEIGHT, "720" );
 //		p.appConfig.setProperty( "disable_esc", "true" );
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "true" );
+		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, (int) _songLengthFrames );
 		p.appConfig.setProperty( AppSettings.RENDER_AUDIO, "true" );
 		p.appConfig.setProperty( AppSettings.RENDER_AUDIO_FILE, FileUtil.getHaxademicDataPath() + "video/cache-assault-master.wav" );
 		p.appConfig.setProperty( AppSettings.RENDER_MIDI, "true" );
@@ -190,9 +191,6 @@ extends PAppletHax {
 //		pg.filter(kaleido);
 		
 		p.image(pg, 0, 0, p.width, p.height);
-		
-		// finish rendering 
-		checkRenderComplete();
 	}
 	
 	protected void drawEQ(int numBands, int discReso, float radius, float spacing, float amp) {
@@ -366,17 +364,6 @@ extends PAppletHax {
 		_percs.newPerc();
 	}
 	
-	
-	protected void checkRenderComplete() {
-		// shut down after rendering length of song ======================================================
-		if( p.frameCount >= _songLengthFrames ) {
-			if( _isRendering == true ) {
-				P.println("shutting down");
-				_renderShutdown = p.frameCount;
-				_renderer.stop();
-			}
-		}
-	}
 
 	/*************************************
 	 * KICKS

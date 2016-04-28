@@ -102,6 +102,7 @@ extends PAppletHax {
 //		p.appConfig.setProperty( AppSettings.WIDTH, "240" );
 //		p.appConfig.setProperty( AppSettings.HEIGHT, "135" );
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "true" );
+		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, (int) _songLengthFrames );
 		p.appConfig.setProperty( AppSettings.RENDER_MIDI, "true" );
 		p.appConfig.setProperty( AppSettings.RENDER_MIDI_FILE, FileUtil.getHaxademicDataPath() + "midi/patter-kick-snare-bass-synth-timing-more-snares.mid" );
 		p.appConfig.setProperty( AppSettings.RENDER_MIDI_BPM, "132" );
@@ -204,7 +205,6 @@ extends PAppletHax {
 		drawSuperformula();
 		drawMovie();
 		applyPostProcessing();
-		checkRenderComplete();		
 	}
 
 	protected void drawClouds() {
@@ -318,17 +318,6 @@ extends PAppletHax {
 		_vignetteSpreadEase.update();
 		_vignette.set("spread", _vignetteSpreadEase.value() );
 		p.filter(_vignette);
-	}
-
-	protected void checkRenderComplete() {
-		// shut down after rendering length of song ======================================================
-		if( p.frameCount >= _songLengthFrames ) {
-			if( _isRendering ) {
-				_renderShutdown = p.frameCount;
-				_renderer.stop();
-				P.println("shutting down");
-			}
-		}
 	}
 
 	/**

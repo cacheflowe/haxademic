@@ -195,7 +195,7 @@ extends PApplet
 	 * Helps the Renderer object work with minimal reconfiguration. Maybe this should be moved at some point...
 	 */
 	protected Boolean _isRendering = true;
-	protected int _renderShutdown = -1;
+//	protected int _renderShutdown = -1;
 
 	/**
 	 * Helps the Renderer object work without trying to read an audio file
@@ -448,18 +448,14 @@ extends PApplet
 	
 	protected void renderFrame() {
 		// gives the app 1 frame to shutdown after the movie rendering stops
-		if( _isRendering == true || _renderShutdown > 1 ) {
-			if( _renderShutdown == -1 ) {
+		if( _isRendering == true ) {
+			if(p.frameCount >= appConfig.getInt(AppSettings.RENDERING_MOVIE_START_FRAME, 1)) {
 				_renderer.renderFrame();
-			} else if( p.frameCount >= _renderShutdown + 1 ) {
-				P.println("should exit!");
-				p.exit();
 			}
-		}
-		// check for movie rendering stop frame
-		if(_isRendering == true) {
+			// check for movie rendering stop frame
 			if(p.frameCount == appConfig.getInt(AppSettings.RENDERING_MOVIE_STOP_FRAME, 5000)) {
-				renderShutdownBeforeExit();
+				_renderer.stop();
+				P.println("shutting down renderer");
 			}
 		}
 		// check for gifrendering stop frame
@@ -475,14 +471,6 @@ extends PApplet
 		}
 	}
 	
-	protected void renderShutdownBeforeExit() {
-		if( _isRendering ) {
-			_renderShutdown = p.frameCount;
-			_renderer.stop();
-			P.println("shutting down");
-		}
-	}
-
 	protected void forceForeground(){
 		if(p.focused == false) {
 			if(p.appConfig.getBoolean(AppSettings.FORCE_FOREGROUND, false) == true) {
@@ -501,9 +489,9 @@ extends PApplet
 	 */
 	public void keyPressed() {
 		// disable esc key - subclass must call super.keyPressed()
-		if( p.key == P.ESC && ( p.appConfig.getBoolean(AppSettings.DISABLE_ESC_KEY, false) == true || p.appConfig.getBoolean(AppSettings.RENDERING_MOVIE, false) == true ) ) {
+		if( p.key == P.ESC && ( p.appConfig.getBoolean(AppSettings.DISABLE_ESC_KEY, false) == true ) ) {   //  || p.appConfig.getBoolean(AppSettings.RENDERING_MOVIE, false) == true )
 			key = 0;
-			renderShutdownBeforeExit();
+//			renderShutdownBeforeExit();
 		}
 
 		handleInput( false );
