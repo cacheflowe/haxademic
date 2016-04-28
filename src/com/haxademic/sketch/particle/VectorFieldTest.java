@@ -19,7 +19,11 @@ extends PAppletHax {
 	protected ArrayList<PVector> _vectorField;
 	protected ArrayList<FieldParticle> _particles;
 	protected int frames = 130;
-	
+	float FIELD_SPACING = 100f;
+	float NUM_PARTICLES = 7000f;
+	float ATTENTION_RADIUS = 100;
+	int DRAWS_PER_FRAME = 3;
+	boolean DEBUG_VECTORS = false;
 	
 	protected void overridePropsFile() {
 		p.appConfig.setProperty( AppSettings.WIDTH, 1280 );
@@ -31,7 +35,7 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.FILLS_SCREEN, false );
 		p.appConfig.setProperty( AppSettings.RETINA, true );
 		p.appConfig.setProperty( AppSettings.FORCE_FOREGROUND, false );
-		p.appConfig.setProperty( AppSettings.SMOOTHING, OpenGLUtil.SMOOTH_HIGH );
+		p.appConfig.setProperty( AppSettings.SMOOTHING, OpenGLUtil.SMOOTH_HIGH);
 		p.appConfig.setProperty( AppSettings.SHOW_STATS, false );
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, false);
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, frames);
@@ -48,17 +52,18 @@ extends PAppletHax {
 		super.setup();
 		
 		_vectorField = new ArrayList<PVector>();
-		float spacing = 100f;
-		for( int x = 0; x <= p.width; x += spacing ) {
-			for( int y = 0; y <= p.height; y += spacing ) {
+		
+		for( int x = 0; x <= p.width; x += FIELD_SPACING ) {
+			for( int y = 0; y <= p.height; y += FIELD_SPACING ) {
 				_vectorField.add( new PVector(x, y, 0) );
 			}
 		}
 		
 		_particles = new ArrayList<FieldParticle>();
-		for( int i = 0; i < 5000; i++ ) {
+		for( int i = 0; i < NUM_PARTICLES; i++ ) {
 			_particles.add( new FieldParticle() );
 		}
+		
 		
 	}
 
@@ -68,10 +73,12 @@ extends PAppletHax {
 //		OpenGLUtil.setBlending(p.g, true);
 //		OpenGLUtil.setBlendMode(p.g, OpenGLUtil.Blend.ADDITIVE);
 		
+//		feedback(4, 0.2f);
+		
 		// fade out background
 		DrawUtil.setDrawCorner(p);
 		p.noStroke();
-		p.fill(0, 20);
+		p.fill(0, 17);
 		p.rect(0,0,p.width, p.height);
 		
 		// draw field
@@ -79,10 +86,11 @@ extends PAppletHax {
 		p.fill(0);
 		for (PVector vector : _vectorField) {
 			float noise = p.noise(
-					vector.x/11f + p.noise(p.frameCount/100f), 
-					vector.y/20f + p.noise(p.frameCount/50f) 
+					vector.x/11f + p.noise(p.frameCount/30f), 
+					vector.y/20f + p.noise(p.frameCount/30f) 
 					);
-			vector.set(vector.x, vector.y, noise * 4f * P.TWO_PI);
+			float targetRotation = noise * 4f * P.TWO_PI;
+			vector.set(vector.x, vector.y, P.lerp(vector.z, targetRotation, 0.2f));
 			
 			// draw attractors
 			p.pushMatrix();
@@ -91,17 +99,44 @@ extends PAppletHax {
 			// p.rect(0, 0, 1, 10);
 			p.popMatrix();
 		}
+		
+		updateVectors();
 
-		for (int j = 0; j < 3; j++) {
+		for (int j = 0; j < DRAWS_PER_FRAME; j++) {
 			// draw particles
+			p.strokeWeight(2f);
 			DrawUtil.setDrawCenter(p);
 			for( int i = 0; i < _particles.size(); i++ ) {
-				p.fill((i % 150 + 55 / 10), i % 155 + 100, i % 100 + 100);
+//				p.fill((i % 150 + 55 / 10), i % 155 + 100, i % 100 + 100); // blue/green
+				p.stroke(180 + (i % 75), 200 + (i % 55), 210 + (i % 45));
 				_particles.get(i).update( _vectorField );
 			}
 		}
 		
 //		postProcessForRendering();
+	}
+	
+	public void feedback(float amp, float darkness) {
+		DrawUtil.setDrawCorner(p);
+		p.g.copy(
+			p.g, 
+			0, 
+			0, 
+			p.width, 
+			p.height, 
+			P.round(-amp/2f), 
+			P.round(-amp/2f), 
+			P.round(p.width + amp), 
+			P.round(p.height + amp)
+		);
+		p.fill(0, darkness * 255f);
+		p.noStroke();
+		p.rect(0, 0, p.width, p.height);
+	}
+
+	
+	protected void updateVectors() {
+		// override this if we want
 	}
 	
 	protected void postProcessForRendering() {
@@ -130,6 +165,7 @@ extends PAppletHax {
 	
 	public class FieldParticle {
 		
+		public PVector lastPosition;
 		public PVector position;
 		public EasingFloat radians;
 		public float speed;
@@ -138,6 +174,8 @@ extends PAppletHax {
 			speed = p.random(4,20);
 			radians = new EasingFloat(0, p.random(6,20) );
 			position = new PVector( p.random(0, p.width), p.random(0, p.height) );
+			lastPosition = new PVector();
+			lastPosition.set(position);
 		}
 		
 		public void update( ArrayList<PVector> vectorField ) {
@@ -145,7 +183,7 @@ extends PAppletHax {
 			int closeVectors = 0;
 			float averageDirection = 0;
 			for (PVector vector : _vectorField) {
-				if( vector.dist( position ) < 100 ) {
+				if( vector.dist( position ) < ATTENTION_RADIUS ) {
 					averageDirection += vector.z;
 					closeVectors++;
 				}
@@ -161,6 +199,7 @@ extends PAppletHax {
 			radians.update();
 			
 			// update position
+			lastPosition.set(position);
 			position.set( position.x + P.sin(radians.value()) * speed * P.map(p.mouseX, 0, p.width, 0, 2f), position.y + P.cos(radians.value()) * speed * P.map(p.mouseX, 0, p.width, 0, 2f) );
 			if( position.x < 0 ) position.set( p.width, position.y );
 			if( position.x > p.width ) position.set( 0, position.y );
@@ -168,11 +207,9 @@ extends PAppletHax {
 			if( position.y > p.height ) position.set( position.x, 0 );
 			
 			// draw
-			p.pushMatrix();
-			p.translate(position.x, position.y);
-			p.rotate( -radians.value() );
-		    p.rect(0, 0, speed * 0.15f, speed * 1.3f * P.map(p.mouseX, 0, p.width, 0, 2f));
-		    p.popMatrix();
+			if(position.dist(lastPosition) < speed * 2f) {
+				p.line(position.x, position.y, lastPosition.x, lastPosition.y);
+			}
 		}
 	}
 }
