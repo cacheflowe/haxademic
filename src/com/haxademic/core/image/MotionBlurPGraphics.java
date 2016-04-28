@@ -19,7 +19,7 @@ public class MotionBlurPGraphics {
 	
 	public void updateToCanvas(PImage img, PGraphics canvas, float maxAlpha) {
 		// save current frame to buffer
-		_pastFrames.add(img);
+		_pastFrames.add(img.copy());
 		if(_pastFrames.size() > _blurFrames) {
 			_pastFrames.remove(0);
 		}
