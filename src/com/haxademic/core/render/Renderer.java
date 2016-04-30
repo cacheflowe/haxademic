@@ -31,7 +31,7 @@ public class Renderer
 	/**
 	 * AudioChannel object for stepping through .wav data
 	 */
-	protected AudioChannel _chn;
+	protected AudioChannel _channel;
 	
 	/**
 	 * Keeps track of how many frames have been rendered
@@ -53,7 +53,7 @@ public class Renderer
 	/**
 	 * FPS passed in from the PApplet
 	 */
-	protected int _framesPerSecond;
+	protected float _framesPerSecond;
 	
 	/**
 	 * Current type of renderer being used
@@ -107,7 +107,7 @@ public class Renderer
 		// initialize movie renderer
 		if( _outputType == OUTPUT_TYPE_MOVIE ) {
 			if( FileUtil.fileOrPathExists(_outputDir) == false ) FileUtil.createDir(_outputDir);
-			_mm = new UMovieMaker( p, _outputDir+"render-"+_timestamp+".mov", p.width, p.height, _framesPerSecond );
+			_mm = new UMovieMaker( p, _outputDir+"render-"+_timestamp+".mov", p.width, p.height, (int)_framesPerSecond );
 			P.println("new MovieMaker success :: "+_timestamp);
 		}
 		
@@ -131,9 +131,9 @@ public class Renderer
 		startRenderer();
 		
 		// load & play audio
-		_chn = new AudioChannel( p.dataPath( audioFile ) );
-		_chn.play();
-		_chn.volume( 0 );
+		_channel = new AudioChannel( p.dataPath( audioFile ) );
+		_channel.play();
+		_channel.volume( 0 );
 	}
 
 	/**
@@ -172,28 +172,27 @@ public class Renderer
 	public void analyzeAudio() {
 		try{
 			// get position in wav file
-			if( _chn != null ) {
-				int pos = (int)( _frameNumber * _chn.sampleRate / _framesPerSecond );
-				float seconds = _frameNumber / _framesPerSecond;
-				_chn.cue(pos);
-				if ((_frameNumber%30) == 0) {
-		//			p.println( "Audio position: " + pos + " fps: " + _framesPerSecond + " seconds: " + seconds + " _chn.sampleRate = " + _chn.sampleRate + "  position in file: " + pos + " / " + _chn.samples.length );
-					P.println( "=============================" );
-					P.println( "= Audio @ seconds: " + seconds + "  Progress: " + Math.round(100f*((float)pos/(float)_chn.samples.length)) + "%" );
-					P.println( "= Rendering time: " + StringFormatter.timeFromMilliseconds( p.millis() - _timeStarted, true ) );
-					P.println( "=============================" );
-				}
-			
+			if( _channel != null ) {
+				int pos = (int)( _frameNumber * _channel.sampleRate / _framesPerSecond );
 				// make sure we're still in bounds - kept getting data run-out errors
-				if (pos >= _chn.size - 1000) {
-					if (_outputType==OUTPUT_TYPE_MOVIE)
-						_mm.finish();
+				if (pos < _channel.samples.length - (_channel.sampleRate * 0.01f)) { 
+					float seconds = _frameNumber / _framesPerSecond;
+					_channel.cue(pos);
+					if ((_frameNumber % 30) == 0) {
+						P.println( "=============================" );
+						P.println( "= Audio position: " + pos + " fps: " + _framesPerSecond + " seconds: " + seconds + " _chn.sampleRate = " + _channel.sampleRate + "  position in file: " + pos + " / " + _channel.samples.length );
+						P.println( "= Audio @ seconds: " + seconds + "  Progress: " + Math.round(100f*((float)pos/(float)_channel.samples.length)) + "%" );
+						P.println( "= Rendering time: " + StringFormatter.timeFromMilliseconds( p.millis() - _timeStarted, true ) );
+						P.println( "=============================" );
+					}
+			
+					// if still running & in-bounds, grab next data
+					_audioData.getFFT().getSpectrum( _channel.samples, pos );
+				} else {
+					if(_outputType == OUTPUT_TYPE_MOVIE) _mm.finish();
 					stop();  
 					p.exit();
 					return;
-				} else {
-					// if still running & in-bounds, grab next data
-					_audioData.getFFT().getSpectrum( _chn.samples, pos );
 				}
 			}
 		} catch (NullPointerException e) {
@@ -203,7 +202,7 @@ public class Renderer
 	}
 	
 	public AudioChannel getChannel () {
-		return _chn;
+		return _channel;
 	}
 
 	/**
