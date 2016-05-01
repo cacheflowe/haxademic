@@ -46,7 +46,7 @@ extends PAppletHax {
 	public void drawApp() {
 		p.blendMode(P.BLEND);
 		if(p.frameCount == 1) p.background(0);
-		feedback(0.03f, 0.35f);
+		DrawUtil.feedback(p.g, 0, 0.7f, 0.35f);
 //		p.ortho();
 		
 		p.blendMode(P.SCREEN);
@@ -97,22 +97,5 @@ extends PAppletHax {
 		);
 	}
 	
-	public void feedback(float amp, float darkness) {
-		DrawUtil.setDrawCorner(p.g);
-		p.g.copy(
-				p.g, 
-			0, 
-			0, 
-			p.g.width, 
-			p.g.height, 
-			P.round(-amp/2f), 
-			P.round(-amp/2f), 
-			P.round(p.g.width + amp), 
-			P.round(p.g.height + amp)
-		);
-		p.g.fill(0, darkness * 255f);
-		p.g.noStroke();
-		p.g.rect(0, 0, p.g.width, p.g.height);
-	}
 
 }

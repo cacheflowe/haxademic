@@ -3,6 +3,7 @@ package com.haxademic.sketch.three_d.texture;
 import processing.core.PImage;
 
 import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.system.FileUtil;
 
 public class TextureRect 
@@ -18,8 +19,10 @@ extends PAppletHax {
 	}
 	
 	public void drawApp() {
-		background(0);
-		float f = (float) frameCount;
+		if(p.frameCount == 1) background(0);
+		DrawUtil.feedback(p.g, 0, 0.2f, 10f);
+
+		float f = (float) frameCount * 0.1f;
 		beginShape(QUADS);
 		texture(img);
 		vertex(50+ 90f*sin(f/10f), 70+ 50f*sin(f/9f),  150f*sin(f/6f), 			0, 0);

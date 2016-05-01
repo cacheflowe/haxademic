@@ -80,6 +80,7 @@ public class DrawUtil {
 	}
 	public static void setBetterLights( PGraphics p ) {
 		// setup lighting props
+		p.ambient(127);
 		p.lightSpecular(230, 230, 230); 
 		p.directionalLight(200, 200, 200, -0.0f, -0.0f, 1); 
 		p.directionalLight(200, 200, 200, 0.0f, 0.0f, -1); 
@@ -150,4 +151,23 @@ public class DrawUtil {
 			(pg).textureWrap(Texture.CLAMP);
 	}
 	
+	public static void feedback(PGraphics pg, int color, float colorFade, float feedbackDistance) {
+		DrawUtil.setDrawCorner(pg);
+		DrawUtil.setDrawFlat2d(pg, true);
+		pg.copy(
+			pg, 
+			0, 
+			0, 
+			pg.width, 
+			pg.height, 
+			P.round(-feedbackDistance/2f), 
+			P.round(-feedbackDistance/2f), 
+			P.round(pg.width + feedbackDistance), 
+			P.round(pg.height + feedbackDistance)
+		);
+		pg.fill(color, colorFade * 255f);
+		pg.noStroke();
+		pg.rect(0, 0, pg.width, pg.height);
+		DrawUtil.setDrawFlat2d(pg, false);
+	}
 }

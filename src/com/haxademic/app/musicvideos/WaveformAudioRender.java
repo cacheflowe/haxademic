@@ -2,6 +2,7 @@ package com.haxademic.app.musicvideos;
 
 import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.system.FileUtil;
 
 public class WaveformAudioRender
@@ -15,7 +16,7 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.SMOOTHING, AppSettings.SMOOTH_HIGH );
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, true );
 		p.appConfig.setProperty( AppSettings.RENDER_AUDIO, true );
-		p.appConfig.setProperty( AppSettings.RENDER_AUDIO_FILE, FileUtil.getFile("audio/my-recording-2-loop-normalized.wav") );
+		p.appConfig.setProperty( AppSettings.RENDER_AUDIO_FILE, FileUtil.getFile("audio/cacheflowe_bigger_loop.wav") );
 	}
 
 	public void setup() {
@@ -23,8 +24,9 @@ extends PAppletHax {
 	}
 	
 	public void drawApp() {
-		p.background(0);
-		
+		if(p.frameCount == 1) p.background(0);
+		DrawUtil.feedback(p.g, 0, 0.2f, 10f);
+
 		// draw waveform
 		p.stroke(255);
 		p.strokeWeight(3);
@@ -37,6 +39,5 @@ extends PAppletHax {
 			p.vertex(startX + i * spacing, curY);
 		}
 		p.endShape();
-
 	}
 }
