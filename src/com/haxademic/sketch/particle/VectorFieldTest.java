@@ -23,6 +23,7 @@ extends PAppletHax {
 	float NUM_PARTICLES = 7000f;
 	float ATTENTION_RADIUS = 100;
 	int DRAWS_PER_FRAME = 3;
+	int OVERDRAW_FADE = 20;
 	boolean DEBUG_VECTORS = false;
 	
 	protected void overridePropsFile() {
@@ -78,7 +79,7 @@ extends PAppletHax {
 		// fade out background
 		DrawUtil.setDrawCorner(p);
 		p.noStroke();
-		p.fill(0, 17);
+		p.fill(0, OVERDRAW_FADE);
 		p.rect(0,0,p.width, p.height);
 		
 		// draw field
@@ -86,8 +87,8 @@ extends PAppletHax {
 		p.fill(0);
 		for (PVector vector : _vectorField) {
 			float noise = p.noise(
-					vector.x/11f + p.noise(p.frameCount/30f), 
-					vector.y/20f + p.noise(p.frameCount/30f) 
+					vector.x/11f + p.noise(p.frameCount/50f), 
+					vector.y/20f + p.noise(p.frameCount/50f) 
 					);
 			float targetRotation = noise * 4f * P.TWO_PI;
 			vector.set(vector.x, vector.y, P.lerp(vector.z, targetRotation, 0.2f));
