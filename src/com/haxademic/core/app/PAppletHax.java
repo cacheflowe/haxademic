@@ -519,9 +519,9 @@ extends PApplet
 	 * PApplet-level listener for Movie frame update events
 	 */
 	public void movieEvent(Movie m) {
-		if(p.frameCount > 2) { // solves Processing 2.x video problem: http://forum.processing.org/two/discussion/5926/video-library-problem-in-processing-2-2-1
+//		if(p.frameCount > 2) { // solves Processing 2.x video problem: http://forum.processing.org/two/discussion/5926/video-library-problem-in-processing-2-2-1
 			m.read();
-		}
+//		}
 	}
 
 	/**
