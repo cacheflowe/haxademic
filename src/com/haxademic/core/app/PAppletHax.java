@@ -254,7 +254,7 @@ extends PApplet
 	}
 	
 	protected void setRenderer() {
-		String renderer = P.P3D;
+		String renderer = p.appConfig.getString(AppSettings.RENDERER, P.P3D);
 		if(p.appConfig.getBoolean(AppSettings.FULLSCREEN, false) == true) {
 			p.fullScreen(renderer, p.appConfig.getInt(AppSettings.DISPLAY, 1));
 		} else if(p.appConfig.getBoolean(AppSettings.FILLS_SCREEN, false) == true) {

@@ -2,6 +2,7 @@ package com.haxademic.core.app;
 
 public class AppSettings {
 	// Canvas setup
+	public static final String RENDERER = "renderer";
 	public static final String WIDTH = "width";
 	public static final String HEIGHT = "height";
 	public static final String FULLSCREEN = "fullscreen";
