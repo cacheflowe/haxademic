@@ -3,8 +3,11 @@ package com.haxademic.sketch.test;
 import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.draw.util.PShapeUtil;
+import com.haxademic.core.system.FileUtil;
 
 import controlP5.ControlP5;
+import processing.core.PShape;
 
 public class LightsMaterialTest
 extends PAppletHax {
@@ -29,13 +32,15 @@ extends PAppletHax {
 	public float _frames = 100;
 	public float _progress = 0;
 
+	protected PShape obj;
+	
 	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, 640 );
-		p.appConfig.setProperty( AppSettings.HEIGHT, 640 );
+		p.appConfig.setProperty( AppSettings.WIDTH, 800 );
+		p.appConfig.setProperty( AppSettings.HEIGHT, 800 );
 		p.appConfig.setProperty( AppSettings.RETINA, true );
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, false );
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_START_FRAME, 1001 );
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, Math.round(1001 + _frames) );
+		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, Math.round(1001 + _frames-1) );
 		p.appConfig.setProperty( AppSettings.SMOOTHING, AppSettings.SMOOTH_HIGH );
 	}
 
@@ -45,6 +50,7 @@ extends PAppletHax {
 		centerX = p.width/2;
 		centerY = p.height/2;
 
+		// controls
 		_showControls = true;
 		_cp5 = new ControlP5(this);
 		int spacing = 30;
@@ -60,6 +66,9 @@ extends PAppletHax {
 		_cp5.addSlider("spotLightConeAngle").setPosition(20,cntrlY+=spacing).setWidth(cntrlW).setRange(0,P.TWO_PI).setValue(spotLightConeAngle);
 		_cp5.addSlider("spotLightConcentration").setPosition(20,cntrlY+=spacing).setWidth(cntrlW).setRange(1,1000f).setValue(spotLightConcentration);
 
+		// load model
+		obj = p.loadShape( FileUtil.getFile("models/skull-realistic.obj"));	
+		PShapeUtil.scaleObjToExtent(obj, p.height * 0.8f);
 	}
 	
 	protected void addDirectionalLight() {
@@ -67,13 +76,15 @@ extends PAppletHax {
 		float directionalOsc = _progress * P.TWO_PI;
 		float pointX = centerX + centerX/2 * P.sin(P.PI + directionalOsc) ;
 		float pointY = centerY + centerY/2 * P.cos(P.PI + directionalOsc) ;
-		p.directionalLight(155, 60, 60, 2f * P.sin(directionalOsc), 2f * P.cos(directionalOsc), -1);
+		p.directionalLight(155, 135, 135, 2f * P.sin(directionalOsc), 2f * P.cos(directionalOsc), -1);
 		// show debug light direction
-		p.pushMatrix();
-		p.fill(255, 0, 0);
-		p.translate(pointX, pointY, 0);
-		p.sphere(10);
-		p.popMatrix();	
+		if(_showControls == true) {
+			p.pushMatrix();
+			p.fill(255, 0, 0);
+			p.translate(pointX, pointY, 0);
+			p.sphere(10);
+			p.popMatrix();
+		}
 	}
 	
 	protected void addPointLight() {
@@ -81,24 +92,28 @@ extends PAppletHax {
 		float pointX = centerX + centerX/2 * P.sin(_progress * P.TWO_PI) ;
 		p.pointLight(51, 102, 126, pointX, centerY, 0);
 		// show debug light position
-		p.pushMatrix();
-		p.fill(51, 102, 126);
-		p.translate(pointX, p.height/2, 0);
-		p.sphere(10);
-		p.popMatrix();
+		if(_showControls == true) {
+			p.pushMatrix();
+			p.fill(51, 102, 126);
+			p.translate(pointX, p.height/2, 0);
+			p.sphere(10);
+			p.popMatrix();
+		}
 	}
 	
 	protected void addSpotLight() {
 		// adds a directional, focusable light source
 		float spotLightX = centerX + p.width * 0.1f;
 		float spotLightY = centerX + p.width * 0.1f;
-		p.spotLight(0, 255, 0, spotLightX, spotLightY, 100, 0, 0, -1, spotLightConeAngle, spotLightConcentration);
+		p.spotLight(200, 255, 200, spotLightX, spotLightY, 100, 0, 0, -1, spotLightConeAngle, spotLightConcentration);
 		// show debug light position
-		p.pushMatrix();
-		p.fill(0, 255, 0);
-		p.translate(spotLightX, centerY + p.height * 0.1f, 100);
-		p.sphere(10);
-		p.popMatrix();
+		if(_showControls == true) {
+			p.pushMatrix();
+			p.fill(0, 255, 0);
+			p.translate(spotLightX, centerY + p.height * 0.1f, 100);
+			p.sphere(10);
+			p.popMatrix();
+		}
 	}
 	
 	public void drawApp() {
@@ -135,6 +150,17 @@ extends PAppletHax {
 		////////////////////////////////
 		// position & draw shapes grid
 		////////////////////////////////
+//		drawPrimitives();
+		drawObj();
+
+
+		// reset for ControlP5
+		p.popMatrix();
+		if(_showControls == false) p.translate(9999999, 999999);
+		p.noLights();
+	}
+	
+	protected void drawPrimitives() {
 		p.pushMatrix();
 
 		p.translate(p.width/2, p.height/2, -p.width);
@@ -148,8 +174,6 @@ extends PAppletHax {
 		int spacing = gridSize / rowSize;
 		int size = spacing/3;
 		
-
-
 		for (int x = 0; x < rowSize; x++) {
 			for (int y = 0; y < rowSize; y++) {
 				p.pushMatrix();
@@ -166,12 +190,17 @@ extends PAppletHax {
 			}
 		}
 		p.popMatrix();
-
-
-		// reset for ControlP5
+	}
+	
+	protected void drawObj() {
+		p.pushMatrix();
+		p.translate(p.width/2, p.height * 0.45f, -p.width);
+		p.rotateZ(P.PI);
+		p.rotateY(P.sin(P.PI + P.TWO_PI * _progress) * 0.5f);
+		obj.disableStyle();
+		p.fill(70);
+		p.shape(obj);
 		p.popMatrix();
-		if(_showControls == false) p.translate(9999999, 999999);
-		p.noLights();
 	}
 	
 	public void keyPressed() {
