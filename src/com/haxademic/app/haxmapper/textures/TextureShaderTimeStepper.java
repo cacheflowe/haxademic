@@ -74,13 +74,17 @@ extends BaseTexture {
 //		VignetteFilter.instance(P.p).setSpread(0.15f);
 	}
 
+		
 	public void updateDraw() {
+		updateTime();
+		updateDrawWithTime(_timeEaser.value());
+	}
+	
+	public void updateDrawWithTime(float time) {
 		// updateShaders();
 		// _texture.background(0,255,0);
 		
-		updateTime();
-		
-		_patternShader.set("time", _timeEaser.value() );
+		_patternShader.set("time", time );
 		_patternShader.set("mode", _mode);
 		_texture.filter( _patternShader );
 		
