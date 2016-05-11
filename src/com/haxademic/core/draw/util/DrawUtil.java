@@ -5,6 +5,7 @@ import processing.core.PConstants;
 import processing.core.PGraphics;
 import processing.opengl.Texture;
 
+import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 
 public class DrawUtil {
@@ -149,6 +150,18 @@ public class DrawUtil {
 			(pg).textureWrap(Texture.REPEAT);
 		else 
 			(pg).textureWrap(Texture.CLAMP);
+	}
+	
+	public static void fadeInOut(PGraphics pg, int color, int startFrame, int stopFrame, int transitionFrames) {
+		int frames = stopFrame - startFrame;
+		DrawUtil.setDrawCorner(pg);
+		if(P.p.frameCount <= startFrame + transitionFrames) {
+			pg.fill(color, P.map(P.p.frameCount, 1f, transitionFrames, 255f, 0));
+			pg.rect(0,0,pg.width, pg.height);
+		} else if(P.p.frameCount >= frames - transitionFrames) {
+			pg.fill(color, P.map(P.p.frameCount, frames - transitionFrames, frames, 0, 255f));
+			pg.rect(0, 0, pg.width, pg.height);
+		} 
 	}
 	
 	public static void feedback(PGraphics pg, int color, float colorFade, float feedbackDistance) {
