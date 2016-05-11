@@ -8,9 +8,7 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.image.filters.shaders.BrightnessFilter;
 import com.haxademic.core.image.filters.shaders.SaturationFilter;
 import com.haxademic.core.system.FileUtil;
-import com.haxademic.core.system.SystemUtil;
 
-import processing.core.PImage;
 import processing.video.Movie;
 
 public class DamMultipleMoviePlayers
@@ -20,6 +18,8 @@ extends PAppletHax {
 	protected ArrayList<Movie> movies;
 	protected String movieLocation = "video/dancelab/";
 	protected String[] movieFiles = {
+		"_output-crop.mp4",
+		"_output.mp4",
 		"ghosting-example-flip-ben-fast-portrait.mp4",
 		"ghosting-example-flip-ben-pingpong-portrait.mp4",
 		"ghosting-example-justin-ghosted-portrait.mp4",

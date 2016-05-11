@@ -9,22 +9,30 @@ import org.openkinect.processing.Kinect2;
 import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.image.filters.shaders.BrightnessFilter;
-import com.haxademic.core.image.filters.shaders.SaturationFilter;
+import com.haxademic.core.image.filters.shaders.BlurBasicFilter;
+import com.haxademic.core.image.filters.shaders.BlurProcessingFilter;
+import com.haxademic.core.image.filters.shaders.EdgesFilter;
+import com.haxademic.core.image.filters.shaders.SharpenFilter;
 import com.haxademic.core.system.FileUtil;
 import com.haxademic.core.system.SystemUtil;
 
+import processing.core.PGraphics;
 import processing.core.PImage;
+import processing.video.Movie;
 
 public class DamKinectVideoCapture
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
 	protected Kinect2 kinect2;
+	protected PGraphics mask;
+	protected PGraphics movieBuffer;
 	
+	protected Movie movie;
+
 	protected int startRecordTime = -1;
 	protected int lastCaptureTime = -1;
-	protected int captureFPS = (int)(8f * 1000f/30f); // capture every 8 frames at 30fps 
+	protected int captureFPS = (int)(4f * 1000f/30f); // capture every 8 frames at 30fps 
 	
 	protected int ONE_MINUTE = 60 * 1000;
 	protected String curRenderDir;
@@ -32,20 +40,34 @@ extends PAppletHax {
 	
 	protected Process _ffmpegScript;
 	
+	protected boolean sharpening = false;
+	protected boolean dilating = false;
+	
 	protected void overridePropsFile() {
 		p.appConfig.setProperty( AppSettings.RENDERER, P.P2D ); // P.JAVA2D P.FX2D P.P2D P.P3D
 		p.appConfig.setProperty( AppSettings.WIDTH, 1280 );
 		p.appConfig.setProperty( AppSettings.HEIGHT, 720 );
-		p.appConfig.setProperty( AppSettings.SHOW_STATS, true );
+		p.appConfig.setProperty( AppSettings.FULLSCREEN, false );
+		p.appConfig.setProperty( AppSettings.SHOW_STATS, false );
 	}
 
 	public void setup() {
 		super.setup();
 		
 		// init kinect
-		kinect2 = new Kinect2(this);
-		kinect2.initVideo();
-		kinect2.initDevice();
+//		kinect2 = new Kinect2(this);
+//		kinect2.initVideo();
+//		kinect2.initDevice();
+		
+		// load movie
+		movie = new Movie(this, FileUtil.getFile("video/dancelab/15.mov")); 
+		movie.play();
+		movie.loop();
+		movie.speed(1f);
+		
+		movieBuffer = p.createGraphics(p.width, p.height, P.P2D);
+		mask = p.createGraphics(p.width, p.height, P.P2D);
+		
 		
 		// create output directory if needed
 		FileUtil.createDir(FileUtil.getHaxademicOutputPath() + "_dancelab");
@@ -53,13 +75,47 @@ extends PAppletHax {
 			
 	public void drawApp() {	
 		// draw kinect camera
-		p.image(kinect2.getVideoImage(), 0, 0, width, height);
+//		p.image(kinect2.getVideoImage(), 0, 0, width, height);
+		p.background(0);
 
+		if(movie.width > 0) {
+			// draw ghost movie overlay
+			movieBuffer.beginDraw();
+			movieBuffer.clear();
+			movieBuffer.background(255);
+			movieBuffer.endDraw();
+	
+			mask.beginDraw();
+			mask.clear();
+			mask.image(movie, 0, 0, width, height);
+			mask.endDraw();
+			EdgesFilter.instance(p).applyTo(mask);
+			BlurProcessingFilter.instance(p).applyTo(mask);
+			if(dilating == true) { 
+//				DilateFilter.instance(p).applyTo(mask);
+//				ErosionFilter.instance(p).applyTo(mask);
+				BlurBasicFilter.instance(p).applyTo(mask);
+			}
+			if(sharpening == true) { 
+				SharpenFilter.instance(p).applyTo(mask);
+			}
+			
+			movieBuffer.mask( mask );
+			p.image(movieBuffer, 0, 0);
+//			p.image(movieBuffer, -1, -1);
+//			p.image(movieBuffer, 1, 1);
+//			p.image(movieBuffer, -1, 0);
+//			p.image(movieBuffer, 1, 0);
+//			p.image(movieBuffer, 1, -1);
+//			p.image(movieBuffer, -1, 1);
+		}
+
+		
 		// special effects
-		BrightnessFilter.instance(p).setBrightness(1.5f);
-		BrightnessFilter.instance(p).applyTo(p);
-		SaturationFilter.instance(p).setSaturation(0.3f);
-		SaturationFilter.instance(p).applyTo(p);
+//		BrightnessFilter.instance(p).setBrightness(1.5f);
+//		BrightnessFilter.instance(p).applyTo(p);
+//		SaturationFilter.instance(p).setSaturation(0.3f);
+//		SaturationFilter.instance(p).applyTo(p);
 		
 		// capturing
 		captureFrame();
@@ -72,7 +128,7 @@ extends PAppletHax {
 	protected void captureFrame() {
 		if(startRecordTime != -1 && p.millis() < startRecordTime + ONE_MINUTE) {
 			if(p.millis() > lastCaptureTime + captureFPS) {
-				final PImage capturedFrame = p.get();
+				final PImage capturedFrame = kinect2.getVideoImage();
 				new Thread(new Runnable() { public void run() {
 					capturedFrame.save(curRenderDir + String.format("%05d", renderFrameCount) + ".tga");
 					renderFrameCount++;
@@ -108,6 +164,12 @@ extends PAppletHax {
 			FileUtil.createDir(curRenderDir);
 			renderFrameCount = 1;
 			startRecordTime = p.millis();
+		}
+		if(p.key == 'd') {
+			dilating = !dilating;
+		}
+		if(p.key == 's') {
+			sharpening = !sharpening;
 		}
 	}
 
