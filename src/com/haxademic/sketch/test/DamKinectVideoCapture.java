@@ -25,10 +25,12 @@ extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
 	protected Kinect2 kinect2;
+	protected boolean kinectActive = true;
 	protected PGraphics mask;
 	protected PGraphics movieBuffer;
 	
 	protected Movie movie;
+	protected boolean movieActive = false;
 
 	protected int startRecordTime = -1;
 	protected int lastCaptureTime = -1;
@@ -54,62 +56,66 @@ extends PAppletHax {
 	public void setup() {
 		super.setup();
 		
-		// init kinect
-//		kinect2 = new Kinect2(this);
-//		kinect2.initVideo();
-//		kinect2.initDevice();
+		if(kinectActive == true) {
+			// init camera
+			kinect2 = new Kinect2(this);
+			kinect2.initVideo();
+			kinect2.initDevice();
+			// create output directory if needed
+			FileUtil.createDir(FileUtil.getHaxademicOutputPath() + "_dancelab");
+		}
 		
-		// load movie
-		movie = new Movie(this, FileUtil.getFile("video/dancelab/15.mov")); 
-		movie.play();
-		movie.loop();
-		movie.speed(1f);
-		
-		movieBuffer = p.createGraphics(p.width, p.height, P.P2D);
-		mask = p.createGraphics(p.width, p.height, P.P2D);
-		
-		
-		// create output directory if needed
-		FileUtil.createDir(FileUtil.getHaxademicOutputPath() + "_dancelab");
+		if(movieActive == true) {
+			movie = new Movie(this, FileUtil.getFile("video/dancelab/15.mov")); 
+			movie.play();
+			movie.loop();
+			movie.speed(1f);
+			
+			movieBuffer = p.createGraphics(p.width, p.height, P.P2D);
+			mask = p.createGraphics(p.width, p.height, P.P2D);
+		}		
 	}
 			
 	public void drawApp() {	
 		// draw kinect camera
-//		p.image(kinect2.getVideoImage(), 0, 0, width, height);
+		if(kinectActive == true) {
+			p.image(kinect2.getVideoImage(), 0, 0, width, height);
+		}
 		p.background(0);
 
-		if(movie.width > 0) {
-			// draw ghost movie overlay
-			movieBuffer.beginDraw();
-			movieBuffer.clear();
-			movieBuffer.background(255);
-			movieBuffer.endDraw();
-	
-			mask.beginDraw();
-			mask.clear();
-			mask.image(movie, 0, 0, width, height);
-			mask.endDraw();
-			EdgesFilter.instance(p).applyTo(mask);
-			BlurProcessingFilter.instance(p).applyTo(mask);
-			if(dilating == true) { 
-//				DilateFilter.instance(p).applyTo(mask);
-//				ErosionFilter.instance(p).applyTo(mask);
-				BlurBasicFilter.instance(p).applyTo(mask);
+		if(movieActive == true) {
+			if(movie.width > 0) {
+				// draw ghost movie overlay
+				movieBuffer.beginDraw();
+				movieBuffer.clear();
+				movieBuffer.background(255);
+				movieBuffer.endDraw();
+		
+				mask.beginDraw();
+				mask.clear();
+				mask.image(movie, 0, 0, width, height);
+				mask.endDraw();
+				EdgesFilter.instance(p).applyTo(mask);
+				BlurProcessingFilter.instance(p).applyTo(mask);
+				if(dilating == true) { 
+	//				DilateFilter.instance(p).applyTo(mask);
+	//				ErosionFilter.instance(p).applyTo(mask);
+					BlurBasicFilter.instance(p).applyTo(mask);
+				}
+				if(sharpening == true) { 
+					SharpenFilter.instance(p).applyTo(mask);
+				}
+				
+				movieBuffer.mask( mask );
+				p.image(movieBuffer, 0, 0);
+	//			p.image(movieBuffer, -1, -1);
+	//			p.image(movieBuffer, 1, 1);
+	//			p.image(movieBuffer, -1, 0);
+	//			p.image(movieBuffer, 1, 0);
+	//			p.image(movieBuffer, 1, -1);
+	//			p.image(movieBuffer, -1, 1);
 			}
-			if(sharpening == true) { 
-				SharpenFilter.instance(p).applyTo(mask);
-			}
-			
-			movieBuffer.mask( mask );
-			p.image(movieBuffer, 0, 0);
-//			p.image(movieBuffer, -1, -1);
-//			p.image(movieBuffer, 1, 1);
-//			p.image(movieBuffer, -1, 0);
-//			p.image(movieBuffer, 1, 0);
-//			p.image(movieBuffer, 1, -1);
-//			p.image(movieBuffer, -1, 1);
 		}
-
 		
 		// special effects
 //		BrightnessFilter.instance(p).setBrightness(1.5f);
@@ -118,7 +124,9 @@ extends PAppletHax {
 //		SaturationFilter.instance(p).applyTo(p);
 		
 		// capturing
-		captureFrame();
+		if(kinectActive == true) {
+			captureFrame();
+		}
 	}
 	
 	////////////////////////////////
