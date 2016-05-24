@@ -2,31 +2,31 @@ package com.haxademic.sketch.three_d.volume;
 
 import java.util.ArrayList;
 
-import com.haxademic.core.app.P;
+import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.util.DrawUtil;
 
-import processing.core.PApplet;
 import toxi.geom.Vec3D;
 import toxi.geom.mesh.WETriangleMesh;
 import toxi.processing.ToxiclibsSupport;
-import wblut.core.processing.WB_Render;
-import wblut.geom.core.WB_Plane;
-import wblut.hemesh.core.HE_Face;
-import wblut.hemesh.core.HE_Mesh;
-import wblut.hemesh.creators.HEC_Box;
-import wblut.hemesh.creators.HEC_Geodesic;
-import wblut.hemesh.creators.HEMC_VoronoiCells;
+import wblut.geom.WB_Plane;
+import wblut.hemesh.HEC_Box;
+import wblut.hemesh.HEC_Geodesic;
+import wblut.hemesh.HEMC_VoronoiCells;
+import wblut.hemesh.HE_Face;
+import wblut.hemesh.HE_Mesh;
+import wblut.hemesh.HE_MeshCollection;
+import wblut.processing.WB_Render;
 
 public class CubeShatter
-extends PApplet
-{
-	PApplet p;
+extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
+
 
 	// from example: http://www.wblut.com/2010/10/20/hemesh-voronoi-example/
 	float[][] points;
 	int numpoints;
 	HE_Mesh container;
-	HE_Mesh[] cells;
+	HE_MeshCollection cells;
 	int numcells;
 	WB_Plane P1,P2;
 	WB_Render render;
@@ -35,11 +35,7 @@ extends PApplet
 	ToxiclibsSupport toxi;
 
 	public void setup () {
-		p = this;
-		// set up stage and drawing properties
-		//size( 800, 800, "hipstersinc.P5Sunflow" );
-		p.size( 800, 800, P.P3D );				//size(screen.width,screen.height,P3D);
-		p.frameRate( 30 );
+		super.setup();
 
 		p.shininess(1000); 
 		p.lights();
@@ -54,7 +50,7 @@ extends PApplet
 
 		//create a sphere
 		HEC_Geodesic sphere=new HEC_Geodesic();
-		sphere.setRadius(300).setLevel(2); 
+		sphere.setRadius(300);//.setLevel(2); 
 		// or a box
 		HEC_Box box=new HEC_Box();
 		box.setWidth( 300 );
@@ -84,7 +80,7 @@ extends PApplet
 		HEMC_VoronoiCells vcmc=new HEMC_VoronoiCells();
 		vcmc.setPoints(points).setContainer(container).setOffset(5);
 		cells=vcmc.create();
-		numcells=cells.length;
+		numcells=cells.size();
 		
 		
 		// convert to toxiclibs
@@ -92,7 +88,7 @@ extends PApplet
 		HE_Face[] faces;
 		meshes = new ArrayList<WETriangleMesh>();
 		for(int i=0;i<numcells;i++) {			
-			cell = cells[i];
+			cell = cells.getMesh(i);
 			faces = cell.getFacesAsArray();
 			
 			WETriangleMesh toxiMesh = new WETriangleMesh(); 
@@ -125,7 +121,7 @@ extends PApplet
 		}
 	}
 
-	public void draw() {
+	public void drawApp() {
 		DrawUtil.setCenter( p );
 		p.translate(0,0,-500);
 		p.background( 0, 0, 0 );
@@ -154,7 +150,7 @@ extends PApplet
 		stroke(0);
 		strokeWeight(2);
 		for(int i=0;i<numcells;i++) {
-			render.drawEdges( cells[i] );
+			render.drawEdges( cells.getMesh(i) );
 		} 
 	}
 
@@ -164,7 +160,7 @@ extends PApplet
 		for(int i=0;i<numcells;i++) {
 			//fill(100+i,i,i);
 			fill(200);
-			render.drawFaces( cells[i] );
+			render.drawFaces( cells.getMesh(i) );
 		}   
 	}
 }

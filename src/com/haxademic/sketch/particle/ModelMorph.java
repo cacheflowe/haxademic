@@ -12,11 +12,11 @@ import com.haxademic.core.math.easing.EasingFloat3d;
 import com.haxademic.core.math.easing.ElasticFloat3D;
 import com.haxademic.core.system.FileUtil;
 
-import ProGAL.geom3d.Point;
-import ProGAL.geom3d.complex.CTriangle;
-import ProGAL.geom3d.complex.alphaComplex.AlphaComplex;
 import toxi.geom.mesh.Vertex;
 import toxi.geom.mesh.WETriangleMesh;
+import wblut.external.ProGAL.AlphaComplex;
+import wblut.external.ProGAL.CTriangle;
+import wblut.external.ProGAL.Point;
 
 public class ModelMorph
 extends PAppletHax {

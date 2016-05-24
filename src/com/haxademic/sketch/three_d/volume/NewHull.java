@@ -5,9 +5,9 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.system.FileUtil;
 
+import newhull.Point3d;
+import newhull.QuickHull3D;
 import processing.core.PImage;
-import quickhull3d.Point3d;
-import quickhull3d.QuickHull3D;
 
 public class NewHull 
 extends PAppletHax {

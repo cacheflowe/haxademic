@@ -5,10 +5,11 @@ import java.util.ArrayList;
 import processing.core.PApplet;
 import toxi.geom.Vec3D;
 import toxi.geom.mesh.WETriangleMesh;
-import wblut.hemesh.core.HE_Face;
-import wblut.hemesh.core.HE_Mesh;
-import wblut.hemesh.creators.HEC_Box;
-import wblut.hemesh.creators.HEMC_VoronoiCells;
+import wblut.hemesh.HEC_Box;
+import wblut.hemesh.HEMC_VoronoiCells;
+import wblut.hemesh.HE_Face;
+import wblut.hemesh.HE_Mesh;
+import wblut.hemesh.HE_MeshCollection;
 
 public class Voronoi3D {
 	
@@ -36,15 +37,15 @@ public class Voronoi3D {
 		// generate voronoi cells
 		HEMC_VoronoiCells vcmc = new HEMC_VoronoiCells();
 		vcmc.setPoints(points).setContainer(container).setOffset(5);
-		HE_Mesh[] cells = vcmc.create();
-		int numcells = cells.length;
+		HE_MeshCollection cells = vcmc.create();
+		int numcells = cells.size();
 		
 		
 		// convert to toxiclibs mesh
 		HE_Mesh cell;
 		HE_Face[] faces;
 		for( int i=0; i < numcells; i++ ) {
-			cell = cells[i];
+			cell = cells.getMesh(i);
 			faces = cell.getFacesAsArray();
 			
 			WETriangleMesh toxiMesh = new WETriangleMesh(); 

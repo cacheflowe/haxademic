@@ -11,11 +11,10 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.system.FileUtil;
 
-import ProGAL.geom3d.Point;
-import ProGAL.geom3d.complex.CTriangle;
-import ProGAL.geom3d.complex.alphaComplex.AlphaComplex;
-import ProGAL.geom3d.complex.alphaComplex.AlphaFiltration;
 import processing.core.PImage;
+import wblut.external.ProGAL.AlphaComplex;
+import wblut.external.ProGAL.CTriangle;
+import wblut.external.ProGAL.Point;
 
 public class ProGALTest 
 extends PAppletHax {
@@ -143,22 +142,6 @@ extends PAppletHax {
 
 
 		drawAlphaComplex();
-//		drawAlphaShape();
-	}
-	
-	protected void drawAlphaShape() {
-		AlphaFiltration af = new AlphaFiltration(points);
-		List<CTriangle> triangles = af.getAlphaShape(200.8);
-		for(CTriangle tri: triangles) {
-			beginShape(TRIANGLE_STRIP);
-			texture(img);
-	
-			vertex( (float) tri.getP1().x(), (float) tri.getP1().y(), (float) tri.getP1().z(),    P.abs( (float) tri.getP1().x()*2f+1 ), P.abs( (float) tri.getP1().y()*2f+1 ) );
-			vertex( (float) tri.getP2().x(), (float) tri.getP2().y(), (float) tri.getP2().z(),    P.abs( (float) tri.getP2().x()*2f+1 ), P.abs( (float) tri.getP2().y()*2f+1 ) );
-			vertex( (float) tri.getP3().x(), (float) tri.getP3().y(), (float) tri.getP3().z(),    P.abs( (float) tri.getP3().x()*2f+1 ), P.abs( (float) tri.getP3().y()*2f+1 ) );
-	
-			endShape(CLOSE);
-		}
 	}
 	
 	protected void drawAlphaComplex() {
