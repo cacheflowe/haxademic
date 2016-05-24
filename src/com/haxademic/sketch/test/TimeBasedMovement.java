@@ -16,7 +16,7 @@ extends PAppletHax {
 	protected void overridePropsFile() {
 		p.appConfig.setProperty( AppSettings.WIDTH, "640" );
 		p.appConfig.setProperty( AppSettings.HEIGHT, "480" );
-		p.appConfig.setProperty( AppSettings.FPS, "60" );
+		p.appConfig.setProperty( AppSettings.FPS, 60 );
 	}
 
 	public void setup() {
@@ -37,7 +37,7 @@ extends PAppletHax {
 		timeFactor.update();
 		curX += P.round(moveXPerFrame * timeFactor.multiplier());
 //		P.println(curX);
-//		P.println("target_fps: "+timeFactor.targetFps()+" / actual_fps: "+timeFactor.actualFps()+" / timeFactor: "+timeFactor.multiplier());
+		P.println("target_fps: "+timeFactor.targetFps()+" / actual_fps: "+timeFactor.actualFps()+" / timeFactor: "+timeFactor.multiplier());
 		
 	}
 }
