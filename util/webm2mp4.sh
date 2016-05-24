@@ -1,3 +1,3 @@
 #!/bin/sh
 # usage: $ ./webm2mp4.sh input.webm
-ffmpeg -fflags +genpts -i $1 -r 24 "$1.mp4"
+ffmpeg -fflags +genpts -i $1 -r 30 "$1.mp4"
