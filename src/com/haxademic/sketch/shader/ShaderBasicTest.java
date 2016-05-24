@@ -6,9 +6,12 @@ import com.haxademic.core.image.filters.shaders.BadTVLinesFilter;
 import com.haxademic.core.image.filters.shaders.BrightnessFilter;
 import com.haxademic.core.image.filters.shaders.ChromaColorFilter;
 import com.haxademic.core.image.filters.shaders.ColorCorrectionFilter;
+import com.haxademic.core.image.filters.shaders.ColorDistortionFilter;
 import com.haxademic.core.image.filters.shaders.CubicLensDistortionFilter;
 import com.haxademic.core.image.filters.shaders.DeformTunnelFanFilter;
+import com.haxademic.core.image.filters.shaders.EdgesFilter;
 import com.haxademic.core.image.filters.shaders.HueFilter;
+import com.haxademic.core.image.filters.shaders.MirrorFilter;
 import com.haxademic.core.image.filters.shaders.RadialRipplesFilter;
 import com.haxademic.core.image.filters.shaders.SaturationFilter;
 import com.haxademic.core.image.filters.shaders.SphereDistortionFilter;
@@ -84,9 +87,9 @@ extends PAppletHax {
 //		KaleidoFilter.instance(p).setAngle(P.PI * P.sin(radsComplete));
 //		KaleidoFilter.instance(p).setSides(P.round(6 + 2f * P.sin(radsComplete)));
 //		KaleidoFilter.instance(p).applyTo(filterTargetCanvas);
-//		MirrorFilter.instance(p).applyTo(filterTargetCanvas);
+		MirrorFilter.instance(p).applyTo(filterTargetCanvas);
 //		InvertFilter.instance(p).applyTo(filterTargetCanvas);
-//		PixelateFilter.instance(p).setDivider(40f, 40f * filterTargetCanvas.height/filterTargetCanvas.width);
+//		PixelateFilter.instance(p).setDivider(40f, filterTargetCanvas.width, filterTargetCanvas.height);
 //		PixelateFilter.instance(p).applyTo(filterTargetCanvas);
 		RadialRipplesFilter.instance(p).setTime( _timeEaseInc / 5f);
 		RadialRipplesFilter.instance(p).setAmplitude(0.5f + 0.5f * P.sin(radsComplete));
@@ -94,11 +97,10 @@ extends PAppletHax {
 		BadTVLinesFilter.instance(p).applyTo(filterTargetCanvas);
 		DeformTunnelFanFilter.instance(p).setTime(p.frameCount / 40f);
 		DeformTunnelFanFilter.instance(p).applyTo(p);
-//		EdgesFilter.instance(p).applyTo(filterTargetCanvas);
 		SphereDistortionFilter.instance(p).applyTo(filterTargetCanvas);
-//		ColorDistortionFilter.instance(p).setTime( _timeEaseInc / 5f);
-//		ColorDistortionFilter.instance(p).setAmplitude(1.5f + 1.5f * P.sin(radsComplete));
-//		ColorDistortionFilter.instance(p).applyTo(filterTargetCanvas);
+		ColorDistortionFilter.instance(p).setTime( _timeEaseInc / 5f);
+		ColorDistortionFilter.instance(p).setAmplitude(1.5f + 1.5f * P.sin(radsComplete));
+		ColorDistortionFilter.instance(p).applyTo(filterTargetCanvas);
 //		WarperFilter.instance(p).setTime( _timeEaseInc / 5f);
 //		WarperFilter.instance(p).applyTo(filterTargetCanvas);
 //		OpenGLUtil.setTextureRepeat(_buffer);
@@ -114,6 +116,7 @@ extends PAppletHax {
 		ChromaColorFilter.instance(p).applyTo(filterTargetCanvas);
 		HueFilter.instance(p).setHue(360f * percentComplete);
 		HueFilter.instance(p).applyTo(filterTargetCanvas);
+//		EdgesFilter.instance(p).applyTo(filterTargetCanvas);
 		
 		image( _buffer, 0, 0);
 	}

@@ -9,7 +9,7 @@ extends BaseFilter {
 	
 	public PixelateFilter(PApplet p) {
 		super(p, "shaders/filters/pixelate.glsl");
-		setDivider(20f, 20f);
+		setDivider(20f, p.width, p.height);
 	}
 	
 	public static PixelateFilter instance(PApplet p) {
@@ -18,8 +18,8 @@ extends BaseFilter {
 		return instance;
 	}
 	
-	public void setDivider(float dividerX, float dividerY) {
-		shader.set("divider", dividerX, dividerY);
+	public void setDivider(float divider, float imageW, float imageH) {
+		shader.set("divider", imageW/divider, imageH/divider);
 	}
 	
 }

@@ -59,7 +59,7 @@ extends PAppletHax {
 		texShader.set("time", p.frameCount / 40f );
 		p.filter(texShader); 
 		
-//		PixelateFilter.instance(p).setDivider(64f, 64f * p.height/p.width);
+//		PixelateFilter.instance(p).setDivider(64f, p.width, p.height);
 //		PixelateFilter.instance(p).applyTo(p);
 		
 		DeformTunnelFanFilter.instance(p).setTime(p.frameCount / 40f);

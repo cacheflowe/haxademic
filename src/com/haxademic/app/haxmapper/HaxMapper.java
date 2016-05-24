@@ -528,7 +528,7 @@ extends PAppletHax {
 				} else if(_textureEffectsIndices[i] == 12) {
 					HalftoneFilter.instance(p).applyTo(pg);
 				} else if(_textureEffectsIndices[i] == 13) {
-					PixelateFilter.instance(p).setDivider(15f, 15f * pg.height/pg.width);
+					PixelateFilter.instance(p).setDivider(15f, pg.width, pg.height);
 					PixelateFilter.instance(p).applyTo(pg);
 				} else if(_textureEffectsIndices[i] == 14) {
 					DeformBloomFilter.instance(p).setTime(filterTime);
