@@ -1,24 +1,11 @@
 package com.haxademic.app.haxmapper.support;
 
 import com.haxademic.app.haxmapper.textures.BaseTexture;
-import com.haxademic.app.haxmapper.textures.TextureAudioTube;
-import com.haxademic.app.haxmapper.textures.TextureBarsEQ;
-import com.haxademic.app.haxmapper.textures.TextureBlobSheet;
-import com.haxademic.app.haxmapper.textures.TextureEQConcentricCircles;
-import com.haxademic.app.haxmapper.textures.TextureEQFloatParticles;
-import com.haxademic.app.haxmapper.textures.TextureEQGrid;
-import com.haxademic.app.haxmapper.textures.TextureLinesEQ;
-import com.haxademic.app.haxmapper.textures.TextureOuterSphere;
-import com.haxademic.app.haxmapper.textures.TextureRotatingRings;
 import com.haxademic.app.haxmapper.textures.TextureShaderTimeStepper;
-import com.haxademic.app.haxmapper.textures.TextureSphereAudioTextures;
-import com.haxademic.app.haxmapper.textures.TextureSvgPattern;
-import com.haxademic.app.haxmapper.textures.TextureTwistingSquares;
-import com.haxademic.app.haxmapper.textures.TextureWaveformCircle;
-import com.haxademic.app.haxmapper.textures.TextureWaveformSimple;
-import com.haxademic.app.haxmapper.textures.TextureWebCam;
 import com.haxademic.core.app.AppSettings;
+import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.draw.util.OpenGLUtil;
 
 public class HaxMapperTextureTester 
@@ -32,33 +19,39 @@ extends PAppletHax {
 	protected void overridePropsFile() {
 		p.appConfig.setProperty( AppSettings.WIDTH, 1000 );
 		p.appConfig.setProperty( AppSettings.HEIGHT, 750 );
-		p.appConfig.setProperty( AppSettings.FILLS_SCREEN, true );
+		p.appConfig.setProperty( AppSettings.FILLS_SCREEN, false );
+		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, false );
+		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_START_FRAME, 1);
+		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, 100);
 	}
 
 
 	public void setup() {
 		super.setup();
 		
-		w = Math.round((float) p.width / 4f);
-		h = Math.round((float) w * (9f/16f));
+		w = Math.round(p.width / 4f);
+		h = Math.round(w * (9f/16f));
+		w = p.width;
+		h = p.height;
 		
 		OpenGLUtil.setTextureRepeat(g);
 		
 		_textures = new BaseTexture[]{
 //			new TextureShaderTimeStepper( w, h, "_drawing-stuff.glsl" ),
 				
-			new TextureWebCam( w, h ),
-			new TextureEQFloatParticles( w, h ),
+//			new TextureWebCam( w, h ),
+//			new TextureEQFloatParticles( w, h ),
 			
-			new TextureShaderTimeStepper( w, h, "sdf-01-auto.glsl" ),
-			new TextureShaderTimeStepper( w, h, "sdf-02-auto.glsl" ),
+//			new TextureShaderTimeStepper( w, h, "sdf-01-auto.glsl" ),
+//			new TextureShaderTimeStepper( w, h, "sdf-02-auto.glsl" ),
+			new TextureShaderTimeStepper( w, h, "sdf-03.glsl" ),
 //			new TextureShaderTimeStepper( w, h, "sdf-02.glsl" ),
 //			new TextureShaderTimeStepper( w, h, "morphing-bokeh-shape.glsl" ),
 //			new TextureShaderTimeStepper( w, h, "bw-motion-illusion.glsl" ),
 //			new TextureShaderTimeStepper( w, h, "bw-simple-sin.glsl" ),
 //
 //			new TextureShaderTimeStepper( w, h, "wobble-sin.glsl" ),
-			new TextureShaderTimeStepper( w, h, "docking-tunnel.glsl" ),
+//			new TextureShaderTimeStepper( w, h, "docking-tunnel.glsl" ),
 //			new TextureShaderTimeStepper( w, h, "shiny-circle-wave.glsl" ),
 //			new TextureShaderTimeStepper( w, h, "stars-nice.glsl" ),
 //			new TextureShaderTimeStepper( w, h, "triangle-perlin.glsl" ),
@@ -73,18 +66,18 @@ extends PAppletHax {
 //			new TextureShaderTimeStepper( w, h, "radial-burst.glsl" ),
 //			new TextureShaderTimeStepper( w, h, "wavy-3d-tubes.glsl" ),
 //			new TextureShaderTimeStepper( w, h, "fade-dots.glsl" ),
-			new TextureBlobSheet( w, h ),
-			new TextureOuterSphere( w, h ),
-			new TextureAudioTube( w, h ),
-			new TextureSvgPattern( w, h ),
-			new TextureWaveformCircle( w, h ),
-			new TextureRotatingRings( w, h ),
-			new TextureLinesEQ( w, h ),
-			new TextureBarsEQ( w, h ),
-			new TextureEQConcentricCircles( w, h ),
-			new TextureEQGrid( w, h ),
-			new TextureWaveformSimple( w, h ),
-			new TextureTwistingSquares( w, h ),
+//			new TextureBlobSheet( w, h ),
+//			new TextureOuterSphere( w, h ),
+//			new TextureAudioTube( w, h ),
+//			new TextureSvgPattern( w, h ),
+//			new TextureWaveformCircle( w, h ),
+//			new TextureRotatingRings( w, h ),
+//			new TextureLinesEQ( w, h ),
+//			new TextureBarsEQ( w, h ),
+//			new TextureEQConcentricCircles( w, h ),
+//			new TextureEQGrid( w, h ),
+//			new TextureWaveformSimple( w, h ),
+//			new TextureTwistingSquares( w, h ),
 //			new TextureAppFrameEq2d( w, h ),
 //			new TextureAppFrame2d( w, h ),
 //			new TextureAppFrameWaveformCircle( w, h ),
@@ -132,8 +125,31 @@ extends PAppletHax {
 	}
 
 	public void drawApp() {
+		float frames = 100;
+		float frameInc = P.TWO_PI / frames;
 		background(40);
 		
+		simulateMidiAndBeats();
+		
+		int x = 0;
+		int y = 0;
+		for (int i = 0; i < _textures.length; i++) {
+			BaseTexture tex = _textures[i];
+//			tex.update();
+			((TextureShaderTimeStepper) tex).updateDrawWithTime(p.frameCount * frameInc);
+			p.image( tex.texture(), x, y );
+			
+			x += w;
+			if(x + w > p.width) {
+				x = 0;
+				y += h;
+			}
+		}
+		
+//		postProcessForRendering();
+	}
+	
+	protected void simulateMidiAndBeats() {
 		if(p.frameCount % 30 == 0) {
 			for(BaseTexture tex : _textures) {
 				tex.updateTiming();
@@ -168,26 +184,16 @@ extends PAppletHax {
 				tex.newRotation();
 			}
 		}
-		
-		int x = 0;
-		int y = 0;
-		for (int i = 0; i < _textures.length; i++) {
-			BaseTexture tex = _textures[i];
-			tex.update();
-			p.image( tex.texture(), x, y );
-			
-			x += w;
-			if(x + w > p.width) {
-				x = 0;
-				y += h;
-			}
-		}
+	}
+	
+	protected void postProcessForRendering() {
+		DrawUtil.fadeInOut(p.g, p.color(0), 1, 400, 50);
 		
 //		float time = p.millis() / 10000f;
 //		ColorDistortionFilter.instance(p).setTime(time);
 //		ColorDistortionFilter.instance(p).setAmplitude(1.5f + 1.5f * P.sin(time/10f));
 //		ColorDistortionFilter.instance(p).applyTo(p);
 //		VignetteFilter.instance(p).applyTo(p);
-
 	}
+
 }
