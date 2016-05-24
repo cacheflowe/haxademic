@@ -3,8 +3,10 @@ package com.haxademic.sketch.test;
 import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.draw.util.OpenGLUtil;
 import com.haxademic.core.image.filters.FastBlurFilter;
+import com.haxademic.core.image.filters.shaders.BlurHFilter;
+import com.haxademic.core.image.filters.shaders.BlurProcessingFilter;
+import com.haxademic.core.image.filters.shaders.BlurVFilter;
 import com.haxademic.core.system.FileUtil;
 
 import blobDetection.Blob;
@@ -42,11 +44,10 @@ extends PAppletHax {
 
 	public void setup() {
 		super.setup();	
-		p.smooth( OpenGLUtil.SMOOTH_HIGH );
 
 		_canvasW = p.width;
 		_canvasH = p.height;
-		_canvas = P.p.createGraphics(_canvasW, _canvasH, P.P3D);
+		_canvas = P.p.createGraphics(_canvasW, _canvasH, P.P2D);
 		
 		initMovie();
 		initBlobDetection();
@@ -62,11 +63,11 @@ extends PAppletHax {
 		p.image(_canvas, 0, 0);
 //		p.image(_movie, 0, 0);
 		
-//		if(_usingPimg == true) {
-//			p.image(blobBufferImg, 0, 0);
-//		} else {
-//			p.image(blobBufferGraphics, 0, 0);
-//		}
+		if(_usingPimg == true) {
+			p.image(blobBufferImg, 0, 0);
+		} else {
+			p.image(blobBufferGraphics, 0, 0);
+		}
 	}
 	
 	protected void initMovie() {
@@ -74,18 +75,21 @@ extends PAppletHax {
 		_movie.play();
 		_movie.loop();
 		_movie.jump(0);
-		_movie.speed(1.3f);
 	}
 	
 	protected void initBlobDetection() {
 		float scaleDownForBlobDetect = 0.7f;
-		blobBufferImg = new PImage( (int)(_canvasW * scaleDownForBlobDetect), (int)(_canvasH * scaleDownForBlobDetect) ); 
-
-		blobBufferGraphics = P.p.createGraphics( (int)(_canvasW * scaleDownForBlobDetect), (int)(_canvasH * scaleDownForBlobDetect), P.P3D);
-		_blurV = loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/blur-vertical.glsl" );
-		_blurV.set( "v", 3f/p.height );
-		_blurH = loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/blur-horizontal.glsl" );
-		_blurH.set( "h", 3f/p.width );
+		int blurImgW = (int)(_canvasW * scaleDownForBlobDetect);
+		int blurImgH = (int)(_canvasH * scaleDownForBlobDetect);
+		
+		blobBufferImg = new PImage(blurImgW, blurImgH); 
+		blobBufferGraphics = P.p.createGraphics(blurImgW, blurImgH, P.P2D);
+		
+		float shaderBlurAmount = 1f;
+		BlurHFilter.instance(P.p).setBlurByPercent(shaderBlurAmount, blobBufferGraphics.width);
+		BlurVFilter.instance(P.p).setBlurByPercent(shaderBlurAmount, blobBufferGraphics.width);
+		BlurProcessingFilter.instance(P.p).setSigma(10f);
+		BlurProcessingFilter.instance(P.p).setBlurSize(10);
 
 		theBlobDetection = new BlobDetection( blobBufferImg.width, blobBufferImg.height );
 		theBlobDetection.setPosDiscrimination(true);	// true if looking for bright areas
@@ -98,9 +102,17 @@ extends PAppletHax {
 			FastBlurFilter.blur(blobBufferImg, 3);
 			theBlobDetection.computeBlobs(blobBufferImg.pixels);
 		} else {
+//			blobBufferGraphics.beginDraw();
 			blobBufferGraphics.copy(source, 0, 0, source.width, source.height, 0, 0, blobBufferGraphics.width, blobBufferGraphics.height);
-			blobBufferGraphics.filter(_blurH);
-			blobBufferGraphics.filter(_blurV);
+//			blobBufferGraphics.endDraw();
+//			blobBufferImg.copy(source, 0, 0, source.width, source.height, 0, 0, blobBufferImg.width, blobBufferImg.height);
+
+//			BlurProcessingFilter.instance(P.p).applyTo(blobBufferGraphics);
+			BlurHFilter.instance(P.p).applyTo(blobBufferGraphics);
+			BlurVFilter.instance(P.p).applyTo(blobBufferGraphics);
+//			blobBufferGraphics.filter(_blurH);
+//			blobBufferGraphics.filter(_blurV);
+//			theBlobDetection.computeBlobs(blobBufferImg.pixels);
 			theBlobDetection.computeBlobs(blobBufferGraphics.get().pixels);
 		}
 	}
