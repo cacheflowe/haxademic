@@ -32,4 +32,15 @@ extends BaseFilter {
 		shader.set("colorToReplace", colorToReplaceR, colorToReplaceG, colorToReplaceB);
 	}
 	
+	public void presetGreenScreen() {
+		setThresholdSensitivity(0.73f);
+		setSmoothing(0.08f);
+		setColorToReplace(0.71f, 0.99f, 0.02f);
+	}
+	
+	public void presetBlackKnockout() {
+		setThresholdSensitivity(0.2f);
+		setSmoothing(0.1f);
+		setColorToReplace(0.0f, 0.0f, 0.0f);
+	}
 }
