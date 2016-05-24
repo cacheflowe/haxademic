@@ -8,16 +8,14 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.color.TColorInit;
 import com.haxademic.core.draw.particle.VectorFlyer;
 import com.haxademic.core.draw.shapes.BoxBetween;
-import com.haxademic.core.draw.util.OpenGLUtil;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.render.JoonsWrapper;
 
-import ProGAL.geom3d.Point;
-import ProGAL.geom3d.complex.CTriangle;
-import ProGAL.geom3d.complex.alphaComplex.AlphaComplex;
-import ProGAL.geom3d.complex.alphaComplex.AlphaFiltration;
 import processing.core.PVector;
 import toxi.color.TColor;
+import wblut.external.ProGAL.AlphaComplex;
+import wblut.external.ProGAL.CTriangle;
+import wblut.external.ProGAL.Point;
 
 public class ParticleAlphaShape
 extends PAppletHax {
@@ -32,7 +30,7 @@ extends PAppletHax {
 	public ArrayList<PVector> attractorsPositions;
 
 	protected float _numAttractors = 4;
-	protected float _numParticles = 100;
+	protected float _numParticles = 50;
 	
 	List<Point> points;
 	
@@ -97,8 +95,8 @@ extends PAppletHax {
 		for( int i=0; i < attractors.size(); i++ ) attractors.get(i).update( false );
 		
 //		drawVoxels();
-		drawProximitySticks();
-//		drawAlphaShape( true );
+//		drawProximitySticks();
+		drawAlphaShape( true );
 	}
 
 	protected void setUpRoom() {
@@ -207,7 +205,7 @@ extends PAppletHax {
 		}
 
 		if( complex == false ) {
-			AlphaFiltration af = new AlphaFiltration(points);
+			AlphaComplex af = new AlphaComplex(points);
 			List<CTriangle> triangles = af.getAlphaShape(200.8);
 			for(CTriangle tri: triangles) {
 				p.fill( 50, 200, 50 );
