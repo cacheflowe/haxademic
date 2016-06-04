@@ -50,7 +50,7 @@ extends PAppletHax {
 		p.ellipse( 0, 0, 60f, 60f );
 		
 		// draw text 
-		p.image(_scoreFontRenderer.getTextPImage(), _scoreFontRenderer.getTextPImage().width, _scoreFontRenderer.getTextPImage().height);
+		p.image(_scoreFontRenderer.getTextPImage(), 0, 0); // , _scoreFontRenderer.getTextPImage().width, _scoreFontRenderer.getTextPImage().height
 		
 		p.popMatrix();
 
