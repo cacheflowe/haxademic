@@ -1,4 +1,4 @@
-package com.haxademic.sketch.test;
+package com.haxademic.app.dancelab.prototype;
 
 import java.awt.Component;
 import java.awt.Dimension;

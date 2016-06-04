@@ -1,4 +1,4 @@
-package com.haxademic.sketch.test;
+package com.haxademic.app.dancelab.prototype;
 
 import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
@@ -43,7 +43,7 @@ extends PAppletHax {
 		
 		buffer = p.createGraphics(p.width, p.height, P.P2D);
 
-		movie = new Movie(this, FileUtil.getFile("video/dancelab/013.mov")); 
+		movie = new Movie(this, FileUtil.getFile("video/dancelab/012.mov")); 
 		movie.play();
 		movie.loop();
 		movie.speed(1.0f);

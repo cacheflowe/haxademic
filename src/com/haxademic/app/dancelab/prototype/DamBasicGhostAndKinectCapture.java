@@ -1,4 +1,4 @@
-package com.haxademic.sketch.test;
+package com.haxademic.app.dancelab.prototype;
 
 import java.io.File;
 import java.io.IOException;
@@ -20,7 +20,7 @@ import processing.core.PGraphics;
 import processing.core.PImage;
 import processing.video.Movie;
 
-public class DamKinectVideoCapture
+public class DamBasicGhostAndKinectCapture
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
@@ -46,7 +46,7 @@ extends PAppletHax {
 	protected boolean dilating = false;
 	
 	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.RENDERER, P.P2D ); // P.JAVA2D P.FX2D P.P2D P.P3D
+		p.appConfig.setProperty( AppSettings.RENDERER, P.P2D ); // 
 		p.appConfig.setProperty( AppSettings.WIDTH, 1280 );
 		p.appConfig.setProperty( AppSettings.HEIGHT, 720 );
 		p.appConfig.setProperty( AppSettings.FULLSCREEN, false );
