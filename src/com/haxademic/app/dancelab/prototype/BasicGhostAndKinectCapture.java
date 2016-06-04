@@ -20,7 +20,7 @@ import processing.core.PGraphics;
 import processing.core.PImage;
 import processing.video.Movie;
 
-public class DamBasicGhostAndKinectCapture
+public class BasicGhostAndKinectCapture
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	

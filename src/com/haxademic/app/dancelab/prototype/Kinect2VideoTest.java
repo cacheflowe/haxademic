@@ -9,7 +9,7 @@ import com.haxademic.core.system.FileUtil;
 
 import processing.video.Movie;
 
-public class DamKinect2VideoTest
+public class Kinect2VideoTest
 extends PAppletHax {
 
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }

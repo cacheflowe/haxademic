@@ -12,7 +12,7 @@ import com.haxademic.core.draw.util.DrawUtil;
 
 import processing.core.PGraphics;
 
-public class DamImageSequencePlayback
+public class ImageSequenceMultiuserPlayback
 extends PAppletHax {
 
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }

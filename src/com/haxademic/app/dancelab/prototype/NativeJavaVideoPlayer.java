@@ -29,7 +29,7 @@ import javafx.scene.shape.Rectangle;
 import processing.awt.PSurfaceAWT.SmoothCanvas;
 import processing.core.PImage;
 
-public class DamNativeVideoPlayer
+public class NativeJavaVideoPlayer
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
