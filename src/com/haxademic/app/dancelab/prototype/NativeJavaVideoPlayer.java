@@ -25,7 +25,6 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaView;
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 import processing.awt.PSurfaceAWT.SmoothCanvas;
 import processing.core.PImage;
 

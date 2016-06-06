@@ -16,8 +16,6 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.debug.DebugUtil;
 import com.haxademic.core.math.MathUtil;
 
-import jdk.nashorn.internal.runtime.regexp.joni.Regex;
-
 public class FileUtil {
 	
 	public static String DATA_PATH = null;
