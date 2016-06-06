@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import com.haxademic.app.dancelab.playback.Dancer;
 import com.haxademic.app.dancelab.playback.ImageSequencePlayer;
-import com.haxademic.app.dancelab.playback.PlaybackFramesData;
+import com.haxademic.app.dancelab.playback.DancerFramesData;
 import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
@@ -59,7 +59,7 @@ extends PAppletHax {
 			sequenceLoadId++;
 			P.println("Loading sequence "+sequenceLoadId);
 			Dancer newDancer = Dancer.AMY;
-			currentLoadingPlayer.setPlaybackFrameSequence(PlaybackFramesData.instance().getDancerFrames(newDancer));
+			currentLoadingPlayer.setPlaybackFrameSequence(DancerFramesData.instance().getDancerFrames(newDancer));
 			currentLoadingPlayer.loadImages(newDancer.path, "jpg");
 			if(sequenceLoadId >= 4) sequenceLoadId = 0;
 		}

@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 import com.haxademic.core.app.P;
 
-public class PlaybackFramesData { 
+public class DancerFramesData { 
 	
 	int[] frameIndexPlaybackSequence;
 	int[] frameIndexPlaybackSequenceDouble = new int[450*4*2];
@@ -12,15 +12,15 @@ public class PlaybackFramesData {
 	protected HashMap<Dancer, int[]> dancerData;
 
 	
-	public static PlaybackFramesData instance;
+	public static DancerFramesData instance;
 	
-	public static PlaybackFramesData instance() {
+	public static DancerFramesData instance() {
 		if(instance != null) return instance;
-		instance = new PlaybackFramesData();
+		instance = new DancerFramesData();
 		return instance;
 	}
 	
-	public PlaybackFramesData() {
+	public DancerFramesData() {
 		dancerData = new HashMap<Dancer, int[]>();
 	}
 	
@@ -161,7 +161,7 @@ public class PlaybackFramesData {
 			addSourceTimeRange(41.99f,	40.00f,	2.00f, false);
 			addSourceTimeRange(40.00f,	43.99f,	2.00f, false);
 			addSourceTimeRange(43.99f,	42.00f,	2.00f, false);
-			addSourceTimeRange(42.00f,  43.99f,	2.00f, false);
+			addSourceTimeRange(42.00f,  43.99f,	1.00f, false);
 			addSourceTimeRange(43.99f,  40.00f,	2.00f, false);
 			addSourceTimeRange(45.99f,	44.00f,	2.00f, true);
 			addSourceTimeRange(44.00f,	45.99f,	2.00f, true);
@@ -215,6 +215,7 @@ public class PlaybackFramesData {
 			addSourceTimeRange(56.00f,	59.99f,	1.00f, true);
 			break;
 		case EVAN:
+			// 011.mov
 			addSourceTimeRange(08.00f,	09.99f,	1.00f, true);
 			addSourceTimeRange(09.99f,	08.00f,	1.00f, true);
 			addSourceTimeRange(08.00f,	09.99f,	1.00f, false);
@@ -305,6 +306,7 @@ public class PlaybackFramesData {
 			addSourceTimeRange(40.00f,	51.99f,	1.00f, false);
 			break;
 		case MARIAN:
+			// 018.mov
 			addSourceTimeRange(42.00f,	43.99f,	1.00f, false);
 			addSourceTimeRange(43.99f,	42.00f,	1.00f, false);
 			addSourceTimeRange(42.00f,	43.99f,	1.00f, true);
@@ -398,6 +400,7 @@ public class PlaybackFramesData {
 			addSourceTimeRange(50.00f,	59.99f,	1.00f, false);
 			break;
 		case DAMIEN:
+			// 023.mov
 			addSourceTimeRange(49.99f,	48.00f,	1.00f, false);
 			addSourceTimeRange(48.00f,	49.99f,	1.00f, false);
 			addSourceTimeRange(49.99f,	48.00f,	1.00f, true);
@@ -435,20 +438,20 @@ public class PlaybackFramesData {
 			addSourceTimeRange(33.99f,	32.00f,	2.00f, false);
 			addSourceTimeRange(32.00f,	33.99f,	2.00f, false);
 			addSourceTimeRange(34.00f,	39.99f,	1.00f, false);
-			addSourceTimeRange(39.99f,	36.00f,	1.00f, false);
-			addSourceTimeRange(36.00f,	39.99f,	1.00f, false);
-			addSourceTimeRange(39.99f,	36.00f,	1.00f, false);
-			addSourceTimeRange(36.00f,	43.99f,	1.00f, false);
-			addSourceTimeRange(43.99f,	42.00f,	1.00f, true);
-			addSourceTimeRange(42.00f,	43.99f,	1.00f, true);
-			addSourceTimeRange(51.99f,	50.00f,	2.00f, false);
+			addSourceTimeRange(39.99f,	38.00f,	1.00f, false);
+			addSourceTimeRange(38.00f,	39.99f,	1.00f, false);
+			addSourceTimeRange(39.99f,	38.00f,	1.00f, false);
+			addSourceTimeRange(38.00f,	45.99f,	1.00f, false);
+			addSourceTimeRange(45.99f,	44.00f,	1.00f, true);
+			addSourceTimeRange(44.00f,	45.99f,	1.00f, true);
 			addSourceTimeRange(50.00f,	51.99f,	2.00f, false);
-			addSourceTimeRange(51.99f,	50.00f,	2.00f, true);
-			addSourceTimeRange(50.00f,	51.99f,	2.00f, true);
 			addSourceTimeRange(51.99f,	50.00f,	2.00f, false);
-			addSourceTimeRange(50.00f,	51.99f,	2.00f, false);
-			addSourceTimeRange(51.99f,	50.00f,	2.00f, true);
 			addSourceTimeRange(50.00f,	51.99f,	2.00f, true);
+			addSourceTimeRange(51.99f,	50.00f,	2.00f, true);
+			addSourceTimeRange(50.00f,	51.99f,	2.00f, false);
+			addSourceTimeRange(51.99f,	50.00f,	2.00f, false);
+			addSourceTimeRange(50.00f,	51.99f,	2.00f, true);
+			addSourceTimeRange(51.99f,	50.00f,	2.00f, true);
 			addSourceTimeRange(12.00f,	17.99f,	1.00f, false);
 			addSourceTimeRange(18.00f,	23.99f,	2.00f, false);
 			addSourceTimeRange(23.99f,	18.00f,	2.00f, false);
@@ -465,14 +468,15 @@ public class PlaybackFramesData {
 			addSourceTimeRange(49.99f,	48.00f,	1.00f, true);
 			addSourceTimeRange(48.00f,	49.99f,	1.00f, true);
 			addSourceTimeRange(28.00f,	49.99f,	1.00f, false);
-			addSourceTimeRange(49.99f,	48.00f,	2.00f, false);
-			addSourceTimeRange(48.00f,	49.99f,	2.00f, false);
 			addSourceTimeRange(50.00f,	53.99f,	1.00f, false);
-			addSourceTimeRange(53.99f,	50.00f,	2.00f, false);
-			addSourceTimeRange(50.00f,	53.99f,	2.00f, false);
-			addSourceTimeRange(54.00f,	57.99f,	1.00f, false);
-			addSourceTimeRange(57.99f,	54.00f,	2.00f, false);
-			addSourceTimeRange(54.00f,	57.99f,	2.00f, false);
+			addSourceTimeRange(53.99f,	52.00f,	2.00f, false);
+			addSourceTimeRange(52.00f,	53.99f,	2.00f, false);
+			addSourceTimeRange(54.00f,	55.99f,	1.00f, false);
+			addSourceTimeRange(55.99f,	54.00f,	2.00f, false);
+			addSourceTimeRange(54.00f,	55.99f,	1.00f, false);
+			addSourceTimeRange(56.00f,	57.99f,	2.00f, false);
+			addSourceTimeRange(57.99f,	56.00f,	2.00f, false);
+			addSourceTimeRange(56.00f,	57.99f,	2.00f, false);
 			addSourceTimeRange(58.00f,	59.99f,	1.00f, false);
 			addSourceTimeRange(12.00f,	13.99f,	1.00f, false);
 			addSourceTimeRange(14.00f,	15.99f,	2.00f, false);
@@ -483,6 +487,7 @@ public class PlaybackFramesData {
 			addSourceTimeRange(34.00f,	49.99f,	1.00f, false);
 			break;
 		case SARAH:
+			// 014.mov
 			addSourceTimeRange(02.00f,	03.99f,	1.00f, false);
 			addSourceTimeRange(03.99f,	02.00f,	1.00f, false);
 			addSourceTimeRange(02.00f,	03.99f,	1.00f, true);
@@ -500,21 +505,23 @@ public class PlaybackFramesData {
 			addSourceTimeRange(10.00f,	13.99f,	2.00f, false);
 			addSourceTimeRange(14.00f,	17.99f,	1.00f, false);
 			addSourceTimeRange(14.00f,	17.99f,	1.00f, true);
-			addSourceTimeRange(18.00f,	23.99f,	1.00f, false);
-			addSourceTimeRange(23.99f,	22.00f,	1.00f, false);
-			addSourceTimeRange(22.00f,	25.99f,	1.00f, false);
-			addSourceTimeRange(26.00f,	27.99f,	2.00f, false);
-			addSourceTimeRange(27.99f,	21.99f,	2.00f, false);
+			addSourceTimeRange(14.00f,	17.99f,	1.00f, false);
+			addSourceTimeRange(18.00f,	19.99f,	1.00f, false);
+			addSourceTimeRange(19.99f,	18.00f,	1.00f, false);
+			addSourceTimeRange(18.00f,	21.99f,	1.00f, false);
 			addSourceTimeRange(22.00f,	23.99f,	2.00f, false);
-			addSourceTimeRange(24.00f,	31.99f,	1.00f, false);
-			addSourceTimeRange(31.99f,	30.00f,	1.00f, false);
-			addSourceTimeRange(30.00f,	37.99f,	1.00f, false);
-			addSourceTimeRange(37.99f,	36.00f,	1.00f, false);
-			addSourceTimeRange(36.00f,	41.99f,	1.00f, false);
+			addSourceTimeRange(23.99f,	20.00f,	2.00f, false);
+			addSourceTimeRange(20.00f,	21.99f,	2.00f, false);
+			addSourceTimeRange(22.00f,	23.99f,	1.00f, false);
+			addSourceTimeRange(24.00f,	29.99f,	1.00f, false);
+			addSourceTimeRange(29.99f,	28.00f,	1.00f, false);
+			addSourceTimeRange(28.00f,	36.00f,	1.00f, false);
+			addSourceTimeRange(36.00f,	34.00f,	1.00f, false);
+			addSourceTimeRange(34.00f,	39.99f,	1.00f, false);
+			addSourceTimeRange(39.99f,	38.00f,	2.00f, false);
+			addSourceTimeRange(38.00f,	41.99f,	2.00f, false);
 			addSourceTimeRange(41.99f,	40.00f,	2.00f, false);
-			addSourceTimeRange(40.00f,	43.99f,	2.00f, false);
-			addSourceTimeRange(43.99f,	42.00f,	2.00f, false);
-			addSourceTimeRange(42.00f,	43.99f,	1.00f, false);
+			addSourceTimeRange(40.00f,	43.99f,	1.00f, false);
 			addSourceTimeRange(43.99f,	42.00f,	2.00f, false);
 			addSourceTimeRange(42.00f,	43.99f,	2.00f, false);
 			addSourceTimeRange(44.00f,	49.99f,	1.00f, false);
@@ -568,14 +575,15 @@ public class PlaybackFramesData {
 			addSourceTimeRange(54.00f,	59.99f,	1.00f, false);
 			break;
 		case CORBIN:
-			addSourceTimeRange(46.00f,	47.99f,	1.00f, true);
-			addSourceTimeRange(47.99f,	46.00f,	1.00f, true);
+			// 024.mov
 			addSourceTimeRange(46.00f,	47.99f,	1.00f, false);
 			addSourceTimeRange(47.99f,	46.00f,	1.00f, false);
 			addSourceTimeRange(46.00f,	47.99f,	1.00f, true);
 			addSourceTimeRange(47.99f,	46.00f,	1.00f, true);
 			addSourceTimeRange(46.00f,	47.99f,	1.00f, false);
 			addSourceTimeRange(47.99f,	46.00f,	1.00f, false);
+			addSourceTimeRange(46.00f,	47.99f,	1.00f, true);
+			addSourceTimeRange(47.99f,	46.00f,	1.00f, true);
 			addSourceTimeRange(02.00f,	07.99f,	1.00f, false);
 			addSourceTimeRange(07.99f,	06.00f,	1.00f, false);
 			addSourceTimeRange(06.00f,	09.99f,	1.00f, false);
@@ -661,6 +669,7 @@ public class PlaybackFramesData {
 			addSourceTimeRange(56.00f,	59.99f,	1.00f, false);
 			break;
 		case CONNER:
+			// 015.mov
 			addSourceTimeRange(08.00f,	09.99f,	1.00f, false);
 			addSourceTimeRange(09.99f,	08.00f,	1.00f, false);
 			addSourceTimeRange(08.00f,	09.99f,	1.00f, true);
@@ -749,6 +758,8 @@ public class PlaybackFramesData {
 		default:
 			break;
 		}
+		
+		P.println("======== Added "+(buildPlaybackIndex)+" frames for dancer");
 
 		// copy double array down to 1800 frames
 		for (int i = 0; i < frameIndexPlaybackSequenceDouble.length/2; i++) {

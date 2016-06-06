@@ -2,7 +2,7 @@ package com.haxademic.app.dancelab.prototype;
 
 import com.haxademic.app.dancelab.playback.Dancer;
 import com.haxademic.app.dancelab.playback.ImageSequencePlayer;
-import com.haxademic.app.dancelab.playback.PlaybackFramesData;
+import com.haxademic.app.dancelab.playback.DancerFramesData;
 import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
@@ -45,8 +45,8 @@ extends PAppletHax {
 		buffer.noSmooth();
 		
 		imageSequencePlayer = new ImageSequencePlayer(imgW, imgH);
-		Dancer newDancer = Dancer.AMY;
-		imageSequencePlayer.setPlaybackFrameSequence(PlaybackFramesData.instance().getDancerFrames(newDancer));
+		Dancer newDancer = Dancer.MORGAN;
+		imageSequencePlayer.setPlaybackFrameSequence(DancerFramesData.instance().getDancerFrames(newDancer));
 		imageSequencePlayer.loadImages(newDancer.path, "jpg");
 	}
 	

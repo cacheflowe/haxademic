@@ -12,7 +12,7 @@ import processing.core.PGraphics;
 import processing.core.PImage;
 import processing.video.Movie;
 
-public class ImageSaveFromPGraphics
+public class SaveImageSequenceFromPGraphics
 extends PAppletHax {
 
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
@@ -43,7 +43,7 @@ extends PAppletHax {
 		
 		buffer = p.createGraphics(p.width, p.height, P.P2D);
 
-		movie = new Movie(this, FileUtil.getFile("video/dancelab/012.mov")); 
+		movie = new Movie(this, FileUtil.getFile("video/dancelab/015.mov")); 
 		movie.play();
 		movie.loop();
 		movie.speed(1.0f);
