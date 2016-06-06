@@ -58,5 +58,10 @@
 	<classpathentry kind="lib" path="lib/hemesh/library/objparser.jar"/>
 	<classpathentry kind="lib" path="lib/hemesh/library/hemesh.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8">
+		<accessrules>
+			<accessrule kind="accessible" pattern="com/apple/eawt/**"/>
+		</accessrules>
+	</classpathentry>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
