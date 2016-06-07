@@ -3,8 +3,8 @@ package com.haxademic.app.dancelab.prototype;
 import java.util.ArrayList;
 
 import com.haxademic.app.dancelab.playback.Dancer;
-import com.haxademic.app.dancelab.playback.ImageSequencePlayer;
 import com.haxademic.app.dancelab.playback.DancerFramesData;
+import com.haxademic.app.dancelab.playback.ImageSequencePlayer;
 import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;

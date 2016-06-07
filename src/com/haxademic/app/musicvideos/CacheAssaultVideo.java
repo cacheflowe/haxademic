@@ -243,7 +243,7 @@ extends PAppletHax {
 		_triPixelFilter.setPixelSize( pixels );
 	}
 	
-	protected void handleInput( boolean isMidi ) {
+	public void handleInput( boolean isMidi ) {
 		super.handleInput( isMidi );
 //		 P.println(_midi._notesOn);
 		if( isMidi && midi != null ) {

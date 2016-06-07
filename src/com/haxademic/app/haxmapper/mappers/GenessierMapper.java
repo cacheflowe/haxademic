@@ -28,9 +28,9 @@ extends HaxMapper{
 		p.appConfig.setProperty( "mapping_file", FileUtil.getHaxademicDataPath() + "text/mapping/mapping-2014-04-05-00-17-25.txt" );
 	}
 
-	public void oscEvent(OscMessage theOscMessage) {  
-		super.oscEvent(theOscMessage);
-	}
+//	public void oscEvent(OscMessage theOscMessage) {  
+//		super.oscEvent(theOscMessage);
+//	}
 
 	protected void buildMappingGroups() {
 

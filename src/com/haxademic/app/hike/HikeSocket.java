@@ -9,7 +9,6 @@ import com.haxademic.core.components.TextButton;
 import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.net.WebSocketRelay;
 
-import processing.core.PApplet;
 import processing.data.JSONObject;
 
 

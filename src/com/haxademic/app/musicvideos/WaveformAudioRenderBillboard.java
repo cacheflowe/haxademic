@@ -5,8 +5,6 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.image.filters.shaders.BadTVLinesFilter;
-import com.haxademic.core.image.filters.shaders.CubicLensDistortionFilter;
-import com.haxademic.core.image.filters.shaders.SphereDistortionFilter;
 import com.haxademic.core.system.FileUtil;
 
 import processing.core.PGraphics;

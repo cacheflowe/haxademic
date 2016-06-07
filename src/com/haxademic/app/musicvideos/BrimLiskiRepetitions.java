@@ -11,7 +11,6 @@ import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.EasingFloat;
 import com.haxademic.core.system.FileUtil;
 
-import processing.core.PApplet;
 import processing.core.PConstants;
 import processing.core.PImage;
 import processing.video.Movie;

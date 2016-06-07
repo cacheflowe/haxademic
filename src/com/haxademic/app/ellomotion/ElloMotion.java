@@ -12,7 +12,6 @@ import com.haxademic.core.hardware.kinect.KinectRegionGrid;
 import com.haxademic.core.image.ImageUtil;
 import com.haxademic.core.system.FileUtil;
 
-import processing.core.PApplet;
 import processing.core.PGraphics;
 import processing.core.PImage;
 
@@ -128,7 +127,7 @@ extends PAppletHax {
 	}
 	
 	
-	protected void handleInput( boolean isMidi ) {
+	public void handleInput( boolean isMidi ) {
 		super.handleInput( isMidi );
 		
 		if( p.key == 'd' ){

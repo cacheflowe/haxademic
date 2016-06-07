@@ -19,7 +19,6 @@ import com.haxademic.core.image.filters.shaders.SaturationFilter;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.system.FileUtil;
 
-import processing.core.PApplet;
 import processing.core.PGraphics;
 import processing.core.PImage;
 import processing.opengl.PShader;
@@ -272,7 +271,7 @@ extends PAppletHax {
 //		BrightnessFilter.instance(p).applyTo(p);
 	}
 	
-	protected void handleInput( boolean isMidi ) {
+	public void handleInput( boolean isMidi ) {
 		super.handleInput( isMidi );
 		
 		if( p.key == 'd' ){

@@ -52,7 +52,7 @@ extends PAppletHax {
 		}
 	}
 	
-	protected void handleInput( boolean isMidi ) {
+	public void handleInput( boolean isMidi ) {
 		super.handleInput( isMidi );
 		
 		if( p.key == 'd' ){

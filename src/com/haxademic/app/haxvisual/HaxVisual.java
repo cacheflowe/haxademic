@@ -1,9 +1,6 @@
 package com.haxademic.app.haxvisual;
 
-import java.io.File;
 import java.util.ArrayList;
-
-import processing.core.PApplet;
 
 import com.haxademic.app.haxvisual.viz.IVizModule;
 import com.haxademic.app.haxvisual.viz.modules.AmbientViz;
@@ -23,10 +20,11 @@ import com.haxademic.app.haxvisual.viz.modules.Toxi;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.debug.DebugText;
-import com.haxademic.core.draw.util.OpenGLUtil;
 import com.haxademic.core.hardware.midi.MidiWrapper;
 import com.haxademic.core.image.ScreenUtil;
 import com.haxademic.core.system.FileUtil;
+
+import processing.core.PApplet;
 
 public class HaxVisual
 extends PAppletHax 
@@ -109,7 +107,7 @@ extends PAppletHax
 		initVizModules();
 	}
 
-	protected void handleInput( boolean isMidi ) {
+	public void handleInput( boolean isMidi ) {
 		super.handleInput( isMidi );
 		// int prevModule = _curModule;
 		

@@ -46,7 +46,6 @@ import com.haxademic.core.image.filters.shaders.WobbleFilter;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.sketch.hardware.kinect_openni.KinectFaceRecorder;
 
-import oscP5.OscMessage;
 import processing.core.PGraphics;
 
 
@@ -124,14 +123,14 @@ extends PAppletHax {
 	protected int[] _textureEffectsIndices = {0,0,0,0,0,0,0};	// store a effects number for each texture position after the first
 	protected int _numTextureEffects = 16 + 8; // +8 to give a good chance at removing the filter from the texture slot
 	
-	public void oscEvent(OscMessage theOscMessage) {  
-		super.oscEvent(theOscMessage);
-		String oscMsg = theOscMessage.addrPattern();
-		// handle brightness slider
-		if( oscMsg.indexOf("/7/fader0") != -1) {
-//			_brightnessVal = theOscMessage.get(0).floatValue() * 3.0f;
-		}		
-	}
+//	public void oscEvent(OscMessage theOscMessage) {  
+//		super.oscEvent(theOscMessage);
+//		String oscMsg = theOscMessage.addrPattern();
+//		// handle brightness slider
+//		if( oscMsg.indexOf("/7/fader0") != -1) {
+////			_brightnessVal = theOscMessage.get(0).floatValue() * 3.0f;
+//		}		
+//	}
 
 	protected void overridePropsFile() {
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
@@ -632,7 +631,7 @@ extends PAppletHax {
 	// User input
 	/////////////////////////////////////////////////////////////////
 	
-	protected void handleInput( boolean isMidi ) {
+	public void handleInput( boolean isMidi ) {
 		super.handleInput( isMidi );
 		
 //		if( p.key == 'a' || p.key == 'A' ){

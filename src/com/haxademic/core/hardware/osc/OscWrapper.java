@@ -2,13 +2,15 @@ package com.haxademic.core.hardware.osc;
 
 import java.util.Hashtable;
 
+import com.haxademic.core.app.P;
+
 import netP5.NetAddress;
+import oscP5.OscMessage;
 import oscP5.OscP5;
 import processing.core.PApplet;
 
 public class OscWrapper {
 	
-	protected PApplet p;
 	protected OscP5 _oscP5;
 	protected NetAddress _remoteLocation;
 	
@@ -22,16 +24,8 @@ public class OscWrapper {
 	public static String MSG_LINES = "/osc/lines";
 	
 	public OscWrapper(PApplet pApp) {
-		p = pApp;
-
-		init();
-	}
-	
-	public void init() {
-		/* start oscP5, listening for incoming messages at port 12000 */
-		_oscP5 = new OscP5(p,12000);
+		_oscP5 = new OscP5(this, 12000);
 		_remoteLocation = new NetAddress("127.0.0.1",12000);
-		
 		initOscMessages();
 	}
 	
@@ -60,4 +54,22 @@ public class OscWrapper {
 		}
 		return 0; 
 	}
+	
+	/**
+	 * listener for incoming OSC data
+	 */
+	public void oscEvent(OscMessage theOscMessage) {
+		float oscValue = theOscMessage.get(0).floatValue();
+		String oscMsg = theOscMessage.addrPattern();
+		// PAppletHax.println(oscMsg+": "+oscValue);
+		setOscMapItem(oscMsg, oscValue);
+
+		try {
+			if( oscValue > 0 ) {
+				P.p.handleInput( true );
+			}
+		}
+		catch( ArrayIndexOutOfBoundsException e ){P.println("noteOn BROKE!");}
+	}
+
 }

@@ -11,7 +11,6 @@ import com.haxademic.core.hardware.kinect.KinectSize;
 import com.haxademic.core.system.FileUtil;
 
 import ddf.minim.AudioPlayer;
-import processing.core.PApplet;
 import toxi.color.TColor;
 
 public class AirDrums

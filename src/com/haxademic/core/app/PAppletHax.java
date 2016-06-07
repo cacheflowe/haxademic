@@ -33,7 +33,6 @@ import SimpleOpenNI.SimpleOpenNI;
 import ddf.minim.Minim;
 import de.voidplus.leapmotion.LeapMotion;
 import krister.Ess.AudioInput;
-import oscP5.OscMessage;
 import processing.core.PApplet;
 import processing.video.Movie;
 
@@ -272,7 +271,7 @@ extends PApplet
 		P.println("YOU MUST OVERRIDE drawApp()");
 	}
 
-	protected void handleInput( boolean isMidi ) {
+	public void handleInput( boolean isMidi ) {
 //		p.println("YOU MUST OVERRIDE KEYPRESSED");
 		if( isMidi == true ) {
 
@@ -332,7 +331,7 @@ extends PApplet
 			kinectWrapper.setFlipped( p.appConfig.getBoolean( "kinect_flipped", false ) );
 		}
 		if( p.appConfig.getBoolean( "leap_active", false ) == true ) leapMotion = new LeapMotion(this);
-		if( p.appConfig.getBoolean( "osc_active", false ) ) _oscWrapper = new OscWrapper( p );
+		if( p.appConfig.getBoolean( "osc_active", false ) == true ) _oscWrapper = new OscWrapper( p );
 		meshPool = new MeshPool( p );
 		joons = ( p.appConfig.getBoolean(AppSettings.SUNFLOW, false ) == true ) ?
 				new JoonsWrapper( p, width, height, ( p.appConfig.getString(AppSettings.SUNFLOW_QUALITY, "high" ) == "high" ) ? JoonsWrapper.QUALITY_HIGH : JoonsWrapper.QUALITY_LOW, ( p.appConfig.getBoolean(AppSettings.SUNFLOW_ACTIVE, true ) == true ) ? true : false )
@@ -561,23 +560,6 @@ extends PApplet
 //		if( _launchpadViz != null ) _launchpadViz.getAudio().getFFT().getSpectrum(theInput);
 		_audioInput.detector.detect(theInput);
 		_waveformData.updateWaveformData( theInput, _audioInput._bufferSize );
-	}
-
-	/**
-	 * PApplet-level listener for OSC data from the oscP5 library
-	 */
-	public void oscEvent(OscMessage theOscMessage) {
-		float oscValue = theOscMessage.get(0).floatValue();
-		String oscMsg = theOscMessage.addrPattern();
-		// PAppletHax.println(oscMsg+": "+oscValue);
-		_oscWrapper.setOscMapItem(oscMsg, oscValue);
-
-		try {
-			if( oscValue > 0 ) {
-				handleInput( true );
-			}
-		}
-		catch( ArrayIndexOutOfBoundsException e ){println("noteOn BROKE!");}
 	}
 
 	/**

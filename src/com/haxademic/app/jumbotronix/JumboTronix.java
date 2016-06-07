@@ -22,7 +22,6 @@ import com.haxademic.core.image.ScreenUtil;
 import com.haxademic.core.image.filters.BlobOuterMeshFilter;
 import com.haxademic.core.system.FileUtil;
 
-import processing.core.PApplet;
 import processing.core.PGraphics;
 import processing.opengl.PShader;
 import processing.video.Capture;

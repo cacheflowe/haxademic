@@ -324,7 +324,7 @@ extends PAppletHax {
 	 * TIMING & SECTION CHANGES ======================================================================================
 	 */
 
-	protected void handleInput( boolean isMidi ) {
+	public void handleInput( boolean isMidi ) {
 		super.handleInput( isMidi );
 		// P.println(_midi._notesOn);
 		// handle midi file input

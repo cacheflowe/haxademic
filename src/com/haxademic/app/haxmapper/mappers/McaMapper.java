@@ -76,9 +76,9 @@ extends HaxMapper{
 		p.appConfig.setProperty( AppSettings.SHOW_STATS, false );
 	}
 
-	public void oscEvent(OscMessage theOscMessage) {  
-		super.oscEvent(theOscMessage);
-	}
+//	public void oscEvent(OscMessage theOscMessage) {  
+//		super.oscEvent(theOscMessage);
+//	}
 	
 	/////////////////////////////////////////////////////////////////
 	// required overrides to init mapping groups and texture pools 

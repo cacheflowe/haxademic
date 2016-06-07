@@ -20,7 +20,6 @@ import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.system.FileUtil;
 
-import oscP5.OscMessage;
 import processing.core.PApplet;
 
 public class CMKY2014Mapper
@@ -54,9 +53,9 @@ extends HaxMapper{
 		p.appConfig.setProperty( AppSettings.HEIGHT, "1000" );
 	}
 
-	public void oscEvent(OscMessage theOscMessage) {  
-		super.oscEvent(theOscMessage);
-	}
+//	public void oscEvent(OscMessage theOscMessage) {  
+//		super.oscEvent(theOscMessage);
+//	}
 
 	protected void buildMappingGroups() {
 		// give each group a texture to start with

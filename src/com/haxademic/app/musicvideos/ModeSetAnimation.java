@@ -14,7 +14,6 @@ import com.haxademic.core.math.easing.ElasticFloat;
 import com.haxademic.core.system.FileUtil;
 import com.haxademic.core.vendor.Toxiclibs;
 
-import processing.core.PApplet;
 import toxi.color.TColor;
 import toxi.geom.Triangle3D;
 import toxi.geom.Vec3D;
