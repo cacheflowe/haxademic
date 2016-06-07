@@ -1,9 +1,13 @@
 package com.haxademic.app.dancelab.prototype;
 
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+
 import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.util.DrawUtil;
+import com.haxademic.core.image.Base64Image;
 import com.haxademic.core.image.filters.shaders.PixelateFilter;
 import com.haxademic.core.system.FileUtil;
 import com.haxademic.core.system.SystemUtil;
@@ -18,8 +22,10 @@ extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	Movie movie;
 	PGraphics buffer;
+	PImage copyImg; // used to fix image format
 	String outputFormat = "jpg";
 	String curRenderDir;
+	boolean sendToAMQP = false;
 	protected int lastCaptureTime = -1;
 	protected int startRecordTime = -1;
 	protected float CAPTURE_SECONDS = 60f;
@@ -42,6 +48,7 @@ extends PAppletHax {
 		super.setup();
 		
 		buffer = p.createGraphics(p.width, p.height, P.P2D);
+		copyImg = p.createImage(buffer.width, buffer.height, P.RGB);
 
 		movie = new Movie(this, FileUtil.getFile("video/dancelab/015.mov")); 
 		movie.play();
@@ -92,11 +99,21 @@ extends PAppletHax {
 		if(startRecordTime != -1 && framesRendered < FRAMES_TO_CAPTURE) {
 			if(p.millis() > startRecordTime + (framesRendered * CAPTURE_FPS_MILLIS)) {
 				final int frameRenderStartTime = p.millis(); 
-				final PImage capturedFrame = buffer.get();
+				copyImg.copy(buffer, 0, 0, buffer.width, buffer.height, 0, 0, buffer.width, buffer.height);
 				new Thread(new Runnable() { public void run() {
 					if(framesRendered == FRAMES_TO_CAPTURE) return;
 					framesRendered++;
-					capturedFrame.save(curRenderDir + String.format("%05d", framesRendered) + "." + outputFormat);
+					if(sendToAMQP == false) {
+						copyImg.save(curRenderDir + String.format("%05d", framesRendered) + "." + outputFormat);
+					} else {
+						try {
+							P.println(Base64Image.encodePImageToBase64(copyImg, "jpg"));
+						} catch (UnsupportedEncodingException e) {
+							e.printStackTrace();
+						} catch (IOException e) {
+							e.printStackTrace();
+						}
+					}
 					totalRenderingTime += p.millis() - frameRenderStartTime; 
 					P.println("Saving frame: "+framesRendered);
 			    }}).start();
