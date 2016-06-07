@@ -80,10 +80,6 @@ extends PAppletHax {
 		buffer.rotate(P.PI/2f);
 		buffer.image(movie, 0, 0, height, width);
 		buffer.endDraw();
-//		PixelateFilter.instance(p).setDivider(12, buffer.width, buffer.height);
-//		PixelateFilter.instance(p).applyTo(buffer);
-		
-//		p.image(buffer, 0, 0);
 		
 		p.pushMatrix();
 		p.image(buffer, 0, 0, p.width, p.height);
@@ -107,7 +103,7 @@ extends PAppletHax {
 						copyImg.save(curRenderDir + String.format("%05d", framesRendered) + "." + outputFormat);
 					} else {
 						try {
-							P.println(Base64Image.encodePImageToBase64(copyImg, "jpg"));
+							P.println(Base64Image.encodePImageToBase64(copyImg, outputFormat));
 						} catch (UnsupportedEncodingException e) {
 							e.printStackTrace();
 						} catch (IOException e) {
