@@ -67,7 +67,4 @@ extends PAppletHax {
 			text("Orig Secs: " + (4.0f * (origFrame / 30f)), 10, 160);
 		}
 	}
-	
 }
-
-
