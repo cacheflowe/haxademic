@@ -1,10 +1,10 @@
 package com.haxademic.core.hardware.kinect;
 
+import KinectPV2.KinectPV2;
+import SimpleOpenNI.SimpleOpenNI;
 import processing.core.PApplet;
 import processing.core.PImage;
 import processing.core.PVector;
-import KinectPV2.KinectPV2;
-import SimpleOpenNI.SimpleOpenNI;
 
 //Kinect Wrapper for Microsoft Kinect V2 for Windows
 public class KinectWrapperV2 implements IKinectWrapper {
@@ -31,6 +31,7 @@ public class KinectWrapperV2 implements IKinectWrapper {
 		
 		_kinect = new KinectPV2(p);
 		_kinect.enableDepthImg(true);
+		_kinect.init();
 		
 		//TODO: Setup configurations to activate each individually
 		//_kinect.activateRawColor(true);
@@ -38,8 +39,6 @@ public class KinectWrapperV2 implements IKinectWrapper {
 		//_kinect.enableLongExposureInfraredImg(true);
 		int bufSize = _kinect.getDepthImage().height * _kinect.getDepthImage().width;
 		_depthArray = new int[bufSize];
-		_kinect.activateRawDepth(true);
-		_kinect.init();
 		setMirror(false);
 						
 		// enable depthMap generation
@@ -60,8 +59,8 @@ public class KinectWrapperV2 implements IKinectWrapper {
 	public void update() {
 		// Get the raw depth as array of integers
 		if( _kinectActive == true ) {
-			/* Commented out until we get an updated jar
-			short[] depth16Array = _kinect.getRawDepth();
+			// Commented out until we get an updated jar
+			int[] depth16Array = _kinect.getRawDepthData();
 			if(_depthArray != null && depth16Array !=null)
 			{			
 				//Convert from 2 byte short to 4 byte int.  
@@ -75,7 +74,7 @@ public class KinectWrapperV2 implements IKinectWrapper {
 				//_realWorldMap = _kinect.depthMapRealWorld();
 				//_realWorldMap = _kinect.getDepthImage();
 			}
-			*/
+			
 		}
 	}
 	

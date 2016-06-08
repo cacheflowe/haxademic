@@ -254,4 +254,26 @@ public class KinectWrapperV1 implements IKinectWrapper{
 	public void drawLimb(int userId, int skelHead, int skelNeck) {
 		_kinect.drawLimb(userId, skelHead, skelNeck);
 	}
+	
+	
+	
+	
+	
+	/*
+	// should go into any app that uses skeleton detection
+	public void onNewUser(SimpleOpenNI curContext,int userId)
+	{
+	  println("onNewUser - userId: " + userId);
+	  println("\tstart tracking skeleton");
+	  p.kinectWrapper.startTrackingSkeleton(userId);
+	}
+
+	public void onLostUser( SimpleOpenNI curContext, int userId ) {
+	  println("onLostUser - userId: " + userId);
+	}
+
+	public void onVisibleUser( SimpleOpenNI curContext, int userId ) {
+	  // println("onVisibleUser - userId: " + userId);
+	}
+	*/
 }
