@@ -101,11 +101,11 @@ extends PAppletHax {
 		p.background(0);
 		
 		_lightnings = new ArrayList<AudioPlayer>();
-		_lightnings.add(minim.loadFile( FileUtil.getHaxademicDataPath() + "/audio/halloween/lightning-strike-080807.wav", 512 ));
-		_lightnings.add(minim.loadFile( FileUtil.getHaxademicDataPath() + "/audio/halloween/lightning-strike-with-rain.wav", 512 ));
-		_lightnings.add(minim.loadFile( FileUtil.getHaxademicDataPath() + "/audio/halloween/noisenoir__lightningcrash.wav", 512 ));
-		_lightnings.add(minim.loadFile( FileUtil.getHaxademicDataPath() + "/audio/halloween/thunder-and-lightning.mp3", 512 ));
-		_lightnings.add(minim.loadFile( FileUtil.getHaxademicDataPath() + "/audio/halloween/turrus__lightning-strike.wav", 512 ));
+		_lightnings.add(p.audioIn.minim().loadFile( FileUtil.getHaxademicDataPath() + "/audio/halloween/lightning-strike-080807.wav", 512 ));
+		_lightnings.add(p.audioIn.minim().loadFile( FileUtil.getHaxademicDataPath() + "/audio/halloween/lightning-strike-with-rain.wav", 512 ));
+		_lightnings.add(p.audioIn.minim().loadFile( FileUtil.getHaxademicDataPath() + "/audio/halloween/noisenoir__lightningcrash.wav", 512 ));
+		_lightnings.add(p.audioIn.minim().loadFile( FileUtil.getHaxademicDataPath() + "/audio/halloween/thunder-and-lightning.mp3", 512 ));
+		_lightnings.add(p.audioIn.minim().loadFile( FileUtil.getHaxademicDataPath() + "/audio/halloween/turrus__lightning-strike.wav", 512 ));
 		_lightningIndex = 0;
 		buildPhysicalLighting();
 		

@@ -29,8 +29,6 @@ import com.haxademic.core.system.P5Properties;
 import com.haxademic.core.system.SystemUtil;
 import com.haxademic.core.text.StringFormatter;
 
-import SimpleOpenNI.SimpleOpenNI;
-import ddf.minim.Minim;
 import de.voidplus.leapmotion.LeapMotion;
 import krister.Ess.AudioInput;
 import processing.core.PApplet;
@@ -152,11 +150,6 @@ extends PApplet
 	 * Native Java object that simulates occasional keystrokes to prevent the system's screensaver from starting.
 	 */
 	protected Robot _robot;
-
-	/**
-	 * Single instance for minim audio library.
-	 */
-	public Minim minim;
 
 	/**
 	 * Executable's target frames per second.
@@ -307,7 +300,6 @@ extends PApplet
 	 */
 	protected void initHaxademicObjects() {
 		// save single reference for other objects
-		minim = new Minim( p );
 		if( appConfig.getBoolean("init_ess_audio", true) == true ) {
 			_audioInput = new AudioInputWrapper( p, _isRenderingAudio );
 			_waveformData = new WaveformData( p, _audioInput.bufferSize() );
@@ -579,24 +571,6 @@ extends PApplet
 	}
 	void leapOnExit(){
 	    // println("Leap Motion Exit");
-	}
-
-	/**
-	 * PApplet-level listeners for SimpleOpenNI user events
-	 */
-	public void onNewUser(SimpleOpenNI curContext,int userId)
-	{
-	  println("onNewUser - userId: " + userId);
-	  println("\tstart tracking skeleton");
-	  p.kinectWrapper.startTrackingSkeleton(userId);
-	}
-
-	public void onLostUser( SimpleOpenNI curContext, int userId ) {
-	  println("onLostUser - userId: " + userId);
-	}
-
-	public void onVisibleUser( SimpleOpenNI curContext, int userId ) {
-	  // println("onVisibleUser - userId: " + userId);
 	}
 
 	/**

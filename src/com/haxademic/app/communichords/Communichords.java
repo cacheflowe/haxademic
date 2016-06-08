@@ -364,10 +364,10 @@ extends PAppletHax {
 			_sampleFile = sampleFile;
 			
 			_gainEfx = new Gain(0);
-			_gainEfx.patch(p.minim.getLineOut());
+			_gainEfx.patch(p.audioIn.minim().getLineOut());
 			_gainDB = new LinearFloat(-50f, 2.f);
 			
-			_sampler = new Sampler(sampleFile, 1, p.minim); 
+			_sampler = new Sampler(sampleFile, 1, p.audioIn.minim()); 
 			_sampler.patch(_gainEfx);
 			_sampler.looping = true;
 			

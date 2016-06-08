@@ -26,10 +26,10 @@ extends PAppletHax {
 	public void setup() {
 		super.setup();
 		
-		_kick = p.minim.loadFile( FileUtil.getHaxademicDataPath() + "audio/kit808/kick.wav", 1024 );
-		_snare = p.minim.loadFile( FileUtil.getHaxademicDataPath() + "audio/kit808/snare.wav", 1024 );
-		_stab = p.minim.loadFile( FileUtil.getHaxademicDataPath() + "audio/drums/janet-stab.wav", 1024 );
-		_bass = p.minim.loadFile( FileUtil.getHaxademicDataPath() + "audio/kit808/bass.wav", 1024 );
+		_kick = p.audioIn.minim().loadFile( FileUtil.getHaxademicDataPath() + "audio/kit808/kick.wav", 1024 );
+		_snare = p.audioIn.minim().loadFile( FileUtil.getHaxademicDataPath() + "audio/kit808/snare.wav", 1024 );
+		_stab = p.audioIn.minim().loadFile( FileUtil.getHaxademicDataPath() + "audio/drums/janet-stab.wav", 1024 );
+		_bass = p.audioIn.minim().loadFile( FileUtil.getHaxademicDataPath() + "audio/kit808/bass.wav", 1024 );
 
 //		_beats.add( new BeatSquare(0 * drumPadW, 1 * drumPadH, drumPadW, drumPadH, _colors.getColorFromGroup(1,0), ) );
 //		_beats.add( new BeatSquare(1 * drumPadW, 1 * drumPadH, drumPadW, drumPadH, _colors.getColorFromGroup(1,1), "data/audio/kit808/snare.wav") );

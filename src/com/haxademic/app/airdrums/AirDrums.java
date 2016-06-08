@@ -109,7 +109,7 @@ extends PAppletHax {
 			_w = w;
 			_h = h;
 			_color = color;
-			_sound = minim.loadFile( file, 512 );
+			_sound = p.audioIn.minim().loadFile( file, 512 );
 		}
 		
 		public void update() {

@@ -79,14 +79,14 @@ extends PAppletHax {
 //		_beats.add( new BeatSquare(2 * drumPadW, 2 * drumPadH, drumPadW, drumPadH, _colors.getColorFromGroup(2,2), "data/audio/drums/chirp-18.wav") );
 //		_beats.add( new BeatSquare(3 * drumPadW, 2 * drumPadH, drumPadW, drumPadH, _colors.getColorFromGroup(2,3), "data/audio/drums/janet-stab.wav") );
 
-		  out   = minim.getLineOut();
+		  out   = p.audioIn.minim().getLineOut();
 		  
 		  // load all of our samples, using 4 voices for each.
 		  // this will help ensure we have enough voices to handle even
 		  // very fast tempos.
-		  kick  = new Sampler( FileUtil.getHaxademicDataPath() + "audio/kit808/kick.wav", 4, minim );
-		  snare = new Sampler( FileUtil.getHaxademicDataPath() + "audio/kit808/snare.wav", 4, minim );
-		  hat   = new Sampler( FileUtil.getHaxademicDataPath() + "audio/kit808/hi-hat.wav", 4, minim );
+		  kick  = new Sampler( FileUtil.getHaxademicDataPath() + "audio/kit808/kick.wav", 4, p.audioIn.minim() );
+		  snare = new Sampler( FileUtil.getHaxademicDataPath() + "audio/kit808/snare.wav", 4, p.audioIn.minim() );
+		  hat   = new Sampler( FileUtil.getHaxademicDataPath() + "audio/kit808/hi-hat.wav", 4, p.audioIn.minim() );
 		  
 		  // patch samplers to the output
 		  kick.patch( out );

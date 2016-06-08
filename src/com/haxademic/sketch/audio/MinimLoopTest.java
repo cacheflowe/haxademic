@@ -22,7 +22,7 @@ extends PAppletHax {
 
 	public void setup() {
 		super.setup();	
-		_sound = minim.loadFile( FileUtil.getHaxademicDataPath() + "audio/test-loop.wav", 512 );
+		_sound = p.audioIn.minim().loadFile( FileUtil.getHaxademicDataPath() + "audio/test-loop.wav", 512 );
 		_sound.loop();
 	}
 

@@ -38,10 +38,13 @@ public class AudioInputWrapperMinim {
 		_isRendering = isRendering;
 		init();
 	}
+	
+	public Minim minim() {
+		return _minim;
+	}
 
-	public void init()
-	{
-		_minim = p.minim;
+	public void init() {
+		_minim = new Minim( p );
 		_audioInput = _minim.getLineIn();
 		
 		_fft = new FFT(_audioInput.bufferSize(), _audioInput.sampleRate());
