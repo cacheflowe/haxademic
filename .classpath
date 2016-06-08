@@ -38,7 +38,6 @@
 	<classpathentry kind="lib" path="lib/udp/library/udp.jar"/>
 	<classpathentry kind="lib" path="lib/processing-2.0/libraries/dxf/library/dxf.jar"/>
 	<classpathentry kind="lib" path="lib/java_websocket/dist/java_websocket.jar"/>
-	<classpathentry kind="lib" path="lib/KinectPV2/KinectPV2.jar"/>
 	<classpathentry kind="lib" path="lib/processing-3/core/library/core.jar"/>
 	<classpathentry kind="lib" path="lib/processing-3/core/library/gluegen-rt.jar"/>
 	<classpathentry kind="lib" path="lib/processing-3/core/library/jogl-all.jar"/>
@@ -60,6 +59,11 @@
 	<classpathentry kind="lib" path="lib/processing-3/libraries/sound/library/sound.jar">
 		<attributes>
 			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="haxademic/lib/processing-3/libraries/sound/library/macosx"/>
+		</attributes>
+	</classpathentry>
+	<classpathentry kind="lib" path="lib/KinectPV2/library/KinectPV2.jar">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="haxademic/lib/KinectPV2/library"/>
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8">
