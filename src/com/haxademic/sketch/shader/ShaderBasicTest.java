@@ -1,17 +1,18 @@
 package com.haxademic.sketch.shader;
 
+import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.image.filters.shaders.BadTVLinesFilter;
 import com.haxademic.core.image.filters.shaders.BrightnessFilter;
 import com.haxademic.core.image.filters.shaders.ChromaColorFilter;
 import com.haxademic.core.image.filters.shaders.ColorCorrectionFilter;
 import com.haxademic.core.image.filters.shaders.ColorDistortionFilter;
+import com.haxademic.core.image.filters.shaders.ContrastFilter;
 import com.haxademic.core.image.filters.shaders.CubicLensDistortionFilter;
 import com.haxademic.core.image.filters.shaders.DeformTunnelFanFilter;
-import com.haxademic.core.image.filters.shaders.EdgesFilter;
-import com.haxademic.core.image.filters.shaders.HueFilter;
+import com.haxademic.core.image.filters.shaders.EdgeColorFadeFilter;
 import com.haxademic.core.image.filters.shaders.MirrorFilter;
+import com.haxademic.core.image.filters.shaders.PixelateFilter;
 import com.haxademic.core.image.filters.shaders.RadialRipplesFilter;
 import com.haxademic.core.image.filters.shaders.SaturationFilter;
 import com.haxademic.core.image.filters.shaders.SphereDistortionFilter;
@@ -34,6 +35,16 @@ extends PAppletHax {
 	protected EasingFloat _timeEaser = new EasingFloat(0, 15);
 	float _frames = 100;
 
+	protected void overridePropsFile() {
+		p.appConfig.setProperty( AppSettings.FILLS_SCREEN, false );
+		p.appConfig.setProperty( AppSettings.WIDTH, 1280 );
+		p.appConfig.setProperty( AppSettings.HEIGHT, 720 );
+		p.appConfig.setProperty( AppSettings.SMOOTHING, AppSettings.SMOOTH_HIGH );
+		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, true );
+		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_START_FRAME, 600 );
+		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, P.round(600 + _frames - 1) );
+	}
+
 	public void setup() {
 		super.setup();
 		
@@ -43,7 +54,7 @@ extends PAppletHax {
 		_buffer = createGraphics( width,  height, P2D );
 	}
 
-	public void draw() {
+	public void drawApp() {
 		background(0, 0, 0);
 	
 		// rendering progress
@@ -66,12 +77,8 @@ extends PAppletHax {
 		ColorCorrectionFilter.instance(p).setGamma(1f + 0.2f * P.sin(radsComplete));
 		ColorCorrectionFilter.instance(p).applyTo(filterTargetCanvas);
 
-		BrightnessFilter.instance(p).setBrightness(1f + 0.5f * P.sin(radsComplete));
-		BrightnessFilter.instance(p).applyTo(filterTargetCanvas);
-//		ContrastFilter.instance(p).setContrast(2f);
-//		ContrastFilter.instance(p).applyTo(filterTargetCanvas);
-		SaturationFilter.instance(p).setSaturation(1f + 1f * P.sin(radsComplete));
-		SaturationFilter.instance(p).applyTo(filterTargetCanvas);
+//		BrightnessFilter.instance(p).setBrightness(1f + 0.5f * P.sin(radsComplete));
+//		BrightnessFilter.instance(p).applyTo(filterTargetCanvas);
 		VignetteFilter.instance(p).setDarkness(-0.75f + 0.25f * P.sin(radsComplete));
 		VignetteFilter.instance(p).applyTo(filterTargetCanvas);
 //		BlurHFilter.instance(p).applyTo(filterTargetCanvas);
@@ -89,12 +96,9 @@ extends PAppletHax {
 //		KaleidoFilter.instance(p).applyTo(filterTargetCanvas);
 		MirrorFilter.instance(p).applyTo(filterTargetCanvas);
 //		InvertFilter.instance(p).applyTo(filterTargetCanvas);
-//		PixelateFilter.instance(p).setDivider(40f, filterTargetCanvas.width, filterTargetCanvas.height);
-//		PixelateFilter.instance(p).applyTo(filterTargetCanvas);
 		RadialRipplesFilter.instance(p).setTime( _timeEaseInc / 5f);
 		RadialRipplesFilter.instance(p).setAmplitude(0.5f + 0.5f * P.sin(radsComplete));
 		RadialRipplesFilter.instance(p).applyTo(filterTargetCanvas);
-		BadTVLinesFilter.instance(p).applyTo(filterTargetCanvas);
 		DeformTunnelFanFilter.instance(p).setTime(p.frameCount / 40f);
 		DeformTunnelFanFilter.instance(p).applyTo(p);
 		SphereDistortionFilter.instance(p).applyTo(filterTargetCanvas);
@@ -114,10 +118,25 @@ extends PAppletHax {
 //		RadialBlurFilter.instance(p).setTime( _timeEaseInc / 5f);
 //		RadialBlurFilter.instance(p).applyTo(filterTargetCanvas);
 		ChromaColorFilter.instance(p).applyTo(filterTargetCanvas);
-		HueFilter.instance(p).setHue(360f * percentComplete);
-		HueFilter.instance(p).applyTo(filterTargetCanvas);
+		SaturationFilter.instance(p).setSaturation(1f + 1f * P.sin(radsComplete));
+		SaturationFilter.instance(p).setSaturation(0);
+		SaturationFilter.instance(p).applyTo(filterTargetCanvas);
+
+//		HueFilter.instance(p).setHue(360f * percentComplete);
+//		HueFilter.instance(p).applyTo(filterTargetCanvas);
+//		BadTVLinesFilter.instance(p).applyTo(filterTargetCanvas);
 //		EdgesFilter.instance(p).applyTo(filterTargetCanvas);
-		
+		EdgeColorFadeFilter.instance(p).setSpreadX(0.65f);
+		EdgeColorFadeFilter.instance(p).setSpreadY(0.65f);
+		EdgeColorFadeFilter.instance(p).applyTo(filterTargetCanvas);
+//		EdgeColorDarkenFilter.instance(p).setSpreadX(0.3f);
+//		EdgeColorDarkenFilter.instance(p).setSpreadY(0.3f);
+//		EdgeColorDarkenFilter.instance(p).applyTo(filterTargetCanvas);
+		PixelateFilter.instance(p).setDivider(8f, filterTargetCanvas.width, filterTargetCanvas.height);
+		PixelateFilter.instance(p).applyTo(filterTargetCanvas);
+		ContrastFilter.instance(p).setContrast(1.2f);
+		ContrastFilter.instance(p).applyTo(filterTargetCanvas);
+
 		image( _buffer, 0, 0);
 	}
 	
