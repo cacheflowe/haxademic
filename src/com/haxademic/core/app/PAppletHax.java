@@ -17,6 +17,7 @@ import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.hardware.kinect.IKinectWrapper;
 import com.haxademic.core.hardware.kinect.KinectWrapperV1;
 import com.haxademic.core.hardware.kinect.KinectWrapperV2;
+import com.haxademic.core.hardware.kinect.KinectWrapperV2Mac;
 import com.haxademic.core.hardware.midi.MidiWrapper;
 import com.haxademic.core.hardware.osc.OscWrapper;
 import com.haxademic.core.hardware.webcam.WebCamWrapper;
@@ -313,12 +314,15 @@ extends PApplet
 		if(appConfig.getBoolean(AppSettings.RENDERING_GIF, false) == true) {
 			_gifRenderer = new GifRenderer(appConfig.getInt(AppSettings.RENDERING_GIF_FRAMERATE, 45), appConfig.getInt(AppSettings.RENDERING_GIF_QUALITY, 15));
 		}
-		if( p.appConfig.getBoolean( AppSettings.KINECT_ACTIVE, false ) == true ) {
-			if( p.appConfig.getBoolean( "kinect_v2", false ) == true ) {
-				kinectWrapper = new KinectWrapperV2( p, p.appConfig.getBoolean( "kinect_depth", true ), p.appConfig.getBoolean( "kinect_rgb", true ), p.appConfig.getBoolean( "kinect_depth_image", true ) );
-			} else {
-				kinectWrapper = new KinectWrapperV1( p, p.appConfig.getBoolean( "kinect_depth", true ), p.appConfig.getBoolean( "kinect_rgb", true ), p.appConfig.getBoolean( "kinect_depth_image", true ) );
-			}
+		
+		if( p.appConfig.getBoolean( AppSettings.KINECT_V2_WIN_ACTIVE, false ) == true ) {
+			kinectWrapper = new KinectWrapperV2( p, p.appConfig.getBoolean( "kinect_depth", true ), p.appConfig.getBoolean( "kinect_rgb", true ), p.appConfig.getBoolean( "kinect_depth_image", true ) );
+		} else if( p.appConfig.getBoolean( AppSettings.KINECT_V2_MAC_ACTIVE, false ) == true ) {
+			kinectWrapper = new KinectWrapperV2Mac( p, p.appConfig.getBoolean( "kinect_depth", true ), p.appConfig.getBoolean( "kinect_rgb", true ), p.appConfig.getBoolean( "kinect_depth_image", true ) );
+		} else if( p.appConfig.getBoolean( AppSettings.KINECT_ACTIVE, false ) == true ) {
+			kinectWrapper = new KinectWrapperV1( p, p.appConfig.getBoolean( "kinect_depth", true ), p.appConfig.getBoolean( "kinect_rgb", true ), p.appConfig.getBoolean( "kinect_depth_image", true ) );
+		}
+		if(kinectWrapper != null) {
 			kinectWrapper.setMirror( p.appConfig.getBoolean( "kinect_mirrored", true ) );
 			kinectWrapper.setFlipped( p.appConfig.getBoolean( "kinect_flipped", false ) );
 		}

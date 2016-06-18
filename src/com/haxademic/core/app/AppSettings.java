@@ -41,6 +41,8 @@ public class AppSettings {
 	public static final String HIDE_CURSOR = "hide_cursor";
 	public static final String DISABLE_ESC_KEY = "disable_esc";
 	public static final String KINECT_ACTIVE = "kinect_active";
+	public static final String KINECT_V2_WIN_ACTIVE = "kinect_v2_win_active";
+	public static final String KINECT_V2_MAC_ACTIVE = "kinect_v2_mac_active";
 	// Debugging
 	public static final String SHOW_STATS = "show_stats";
 	public static final String AUDIO_DEBUG = "audio_debug";

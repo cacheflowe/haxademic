@@ -73,7 +73,8 @@ extends PAppletHax {
 					PVector point = depthToPointCloudPos(x, y, depth[offset]);
 
 					// Draw a point
-					vertex(point.x, point.y, point.z);
+//					vertex(point.x, point.y, point.z);
+					vertex(x, y, depth[offset]);
 				}
 			}
 		}

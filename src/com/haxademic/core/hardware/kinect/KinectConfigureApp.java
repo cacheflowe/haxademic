@@ -25,23 +25,25 @@ extends PAppletHax {
 	protected boolean _isDebug = false;
 	
 	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, "640" );
-		p.appConfig.setProperty( AppSettings.HEIGHT, "480" );
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
-		p.appConfig.setProperty( AppSettings.KINECT_ACTIVE, "true" );
-		p.appConfig.setProperty( "kinect_top_pixel", "0" );
-		p.appConfig.setProperty( "kinect_bottom_pixel", "480" );
-		p.appConfig.setProperty( "kinect_mirrored", "false" );
-		p.appConfig.setProperty( "kinect_flipped", "false" );
+		p.appConfig.setProperty( AppSettings.WIDTH, 640 );
+		p.appConfig.setProperty( AppSettings.HEIGHT, 480 );
+		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, false );
+		p.appConfig.setProperty( AppSettings.KINECT_V2_MAC_ACTIVE, true );
+//		p.appConfig.setProperty( "kinect_top_pixel", "0" );
+//		p.appConfig.setProperty( "kinect_bottom_pixel", "480" );
+//		p.appConfig.setProperty( "kinect_mirrored", "false" );
+//		p.appConfig.setProperty( "kinect_flipped", "false" );
 	}
 
 	public void setup() {
-		super.setup();	
-		p.smooth(OpenGLUtil.SMOOTH_LOW);
-
+		super.setup();		
+		initControls();
+	}
+	
+	protected void initControls() {
 		int controlY = 0;
 		int controlSpace = 12;
-		_cp5 = new ControlP5(this);
+		_cp5 = new ControlP5(p);
 		_cp5.addSlider("kinectLeft").setPosition(20,controlY+=controlSpace).setWidth(200).setRange(0,KinectSize.WIDTH/2).setValue(0);
 		_cp5.addSlider("kinectRight").setPosition(20,controlY+=controlSpace).setWidth(200).setRange(KinectSize.WIDTH/2,KinectSize.WIDTH).setValue(KinectSize.WIDTH);
 		_cp5.addSlider("kinectTop").setPosition(20,controlY+=controlSpace).setWidth(200).setRange(0,KinectSize.HEIGHT/2).setValue(0);
@@ -55,9 +57,10 @@ extends PAppletHax {
 
 	public void drawApp() {
 		background(0);
-		
+
 		p.pushMatrix();
 		
+//		kinectWrapper.drawPointCloudForRect(p, true, pixelSkip, 1f, 1, kinectNear, kinectFar, kinectTop, kinectRight, kinectBottom, kinectLeft);
 		p.rotateY(P.map(p.mouseX, 0, p.width, 0f, 1f));
 		
 		p.fill(0,127);
@@ -72,16 +75,11 @@ extends PAppletHax {
 			for ( int y = kinectTop; y < kinectBottom; y += pixelSkip ) {
 				int pixelDepth = p.kinectWrapper.getMillimetersDepthForKinectPixel( x, y );
 				if( pixelDepth != 0 && pixelDepth > kinectNear && pixelDepth < kinectFar ) {
+					p.pushMatrix();
 					p.translate(0, 0, -pixelDepth/depthDivider);
-					if(_isDebug == false) {
-						if(p.appConfig.getBoolean("kinect_flipped", false) == false) {
-							p.fill(p.kinectWrapper.getRgbImage().get(x, y));
-						} else {
-							p.fill(p.kinectWrapper.getRgbImage().get(KinectSize.WIDTH - 1 - x, KinectSize.HEIGHT- 1 - y));
-						}
-					}
+					p.fill(255);
 					p.rect(x, y, pixelsize, pixelsize);
-					p.translate(0, 0, pixelDepth/depthDivider);
+					p.popMatrix();
 					numPixelsProcessed++;
 				}
 			}
