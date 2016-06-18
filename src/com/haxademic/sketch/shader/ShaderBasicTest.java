@@ -40,7 +40,7 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.WIDTH, 1280 );
 		p.appConfig.setProperty( AppSettings.HEIGHT, 720 );
 		p.appConfig.setProperty( AppSettings.SMOOTHING, AppSettings.SMOOTH_HIGH );
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, true );
+		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, false );
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_START_FRAME, 600 );
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, P.round(600 + _frames - 1) );
 	}
