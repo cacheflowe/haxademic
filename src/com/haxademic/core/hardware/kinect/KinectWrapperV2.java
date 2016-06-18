@@ -31,6 +31,7 @@ public class KinectWrapperV2 implements IKinectWrapper {
 		
 		_kinect = new KinectPV2(p);
 		_kinect.enableDepthImg(true);
+		_kinect.enableColorImg(true);
 		_kinect.init();
 		
 		//TODO: Setup configurations to activate each individually
