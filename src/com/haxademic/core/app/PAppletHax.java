@@ -374,11 +374,11 @@ extends PApplet
 		if( _showStats == false ) return; 
 		_stats.update();
 		_debugText.draw(new String[]{
-			"FPS: " + _stats.getFps(),
+			"FPS: " + _stats.getFps() + " / " + p.frameRate,
 			"Memory Allocated: " + StringFormatter.formattedInteger(DebugUtil.memoryAllocated()),
 			"Memory Free: " + StringFormatter.formattedInteger(DebugUtil.memoryFree()),
 			"Memory Max: " + StringFormatter.formattedInteger(DebugUtil.memoryMax()),
-//			"Frame: " + p.frameCount,
+			"Frame: " + p.frameCount,
 			"Time: " + StringFormatter.timeFromSeconds(p.millis() / 1000, true),
 		});
 	}
