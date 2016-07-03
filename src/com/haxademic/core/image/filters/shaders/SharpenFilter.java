@@ -9,6 +9,7 @@ extends BaseFilter {
 	
 	public SharpenFilter(PApplet p) {
 		super(p, "shaders/filters/sharpen.glsl");
+		setSharpness(1f);
 	}
 	
 	public static SharpenFilter instance(PApplet p) {
@@ -17,4 +18,8 @@ extends BaseFilter {
 		return instance;
 	}
 
+	public void setSharpness(float sharpness) {
+		shader.set("sharpness", sharpness);
+	}
+	
 }
