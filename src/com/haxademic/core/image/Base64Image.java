@@ -19,8 +19,7 @@ public class Base64Image {
 		BufferedImage buffImage = (BufferedImage)img.getNative();
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		ImageIO.write(buffImage, format, out);
-		byte[] bytes = out.toByteArray();
-		result = Base64.getEncoder().encodeToString(bytes);
+		result = Base64.getEncoder().encodeToString(out.toByteArray());
 		return result;
 	}
 
