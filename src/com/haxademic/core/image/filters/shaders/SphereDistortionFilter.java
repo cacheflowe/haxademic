@@ -9,12 +9,17 @@ extends BaseFilter {
 	
 	public SphereDistortionFilter(PApplet p) {
 		super(p, "shaders/filters/sphere-distortion.glsl");
+		setAmplitude(1f);
 	}
 	
 	public static SphereDistortionFilter instance(PApplet p) {
 		if(instance != null) return instance;
 		instance = new SphereDistortionFilter(p);
 		return instance;
+	}
+
+	public void setAmplitude(float amplitude) {
+		shader.set("amplitude", amplitude);
 	}
 
 }
