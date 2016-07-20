@@ -76,27 +76,22 @@ public class MidiWrapper
 		p = p5;
 		
 //		_midiHandler = new MidiHandler();
-		Thread t = new Thread(new MidiHandler());
-		t.setPriority(Thread.MIN_PRIORITY);
-		t.setUncaughtExceptionHandler(new UncaughtExceptionHandler() {
-            @Override
-            public void uncaughtException(Thread thread, Throwable ex) {
-                DebugUtil.printErr("UncaughtExceptionHandler on MidiHandler Thread");
-            }
-        });
-		t.start();
+		new Thread(new Runnable() { public void run() {
+			_midiHandler = new MidiHandler();
+		}}).start();
+
+//		Thread t = new Thread();
+//		t.setPriority(Thread.MIN_PRIORITY);
+//		t.setUncaughtExceptionHandler(new UncaughtExceptionHandler() {
+//            @Override
+//            public void uncaughtException(Thread thread, Throwable ex) {
+//                DebugUtil.printErr("UncaughtExceptionHandler on MidiHandler Thread");
+//            }
+//        });
+//		t.start();
 		
-//		MidiBus.list();
-		if(in_device_name != "") {
-			P.println("MIDI connection:");
-			if( in_device_name != "" || out_device_name != "" ) {
-//				myBus = new MidiBus( p, in_device_name, out_device_name);
-			} else {
-//				myBus = new MidiBus( p );
-			}
-		} else {
-			P.println("No MIDI connected");
-		}
+		P.println("MIDI connection:");
+
 		
 		// init notes on array
 		_notesOn = new int[128];
@@ -224,4 +219,9 @@ public class MidiWrapper
 		_ccOn[channel][number] = value;
 		sliderValue = value;
 	}
+	
+	public void sendMidiOut(boolean isNoteOn, int channel, int note, int velocity) {
+		_midiHandler.sendMidiOut(isNoteOn, channel, note, velocity);
+	}
+
 }

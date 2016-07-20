@@ -3,15 +3,9 @@ package com.haxademic.sketch.hardware;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 
-import netP5.NetAddress;
-import oscP5.OscP5;
-
 public class MidiTest
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
-
-	OscP5 oscP5;
-	NetAddress myRemoteLocation;
 
 	protected void overridePropsFile() {
 //		 p.appConfig.setProperty( "osc_active", "true" );
@@ -56,4 +50,16 @@ extends PAppletHax {
 		if( midi != null ) midi.controllerChange( channel, number, value );
 		P.println(channel, number, value);
 	}
+	
+	/**
+	 * Test sending a signal out
+	 */
+	public void keyPressed() {
+		super.keyPressed();
+		if(p.key == ' ') {
+			p.midi.sendMidiOut(true, 1, 58, 127);
+		}
+	}
+
+	
 }
