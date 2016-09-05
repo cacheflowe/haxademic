@@ -66,6 +66,7 @@
 			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="haxademic/lib/KinectPV2/library"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="lib/themidibus/library/themidibus.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8">
 		<accessrules>
 			<accessrule kind="accessible" pattern="com/apple/eawt/**"/>
