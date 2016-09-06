@@ -34,29 +34,10 @@ extends PAppletHax {
 		_pgPinnable = new PGraphicsKeystone( p, _pg, 12 );
 	}
 
-	protected void drawTestPattern( PGraphics pg ) {
-		// redraw pgraphics grid
-		pg.beginDraw();
-		pg.clear();
-		pg.noStroke();
-		
-		for( int x=0; x < pg.width; x+= 50) {
-			for( int y=0; y < pg.height; y+= 50) {
-				if( ( x % 100 == 0 && y % 100 == 0 ) || ( x % 100 == 50 && y % 100 == 50 ) ) {
-					pg.fill(0);
-				} else {
-					pg.fill(255);
-				}
-				pg.rect(x,y,50,50);
-			}
-		}
-		pg.endDraw();
-	}
-
 	public void drawApp() {
 		p.background(0);
 		// draw pinned pgraphics
-		drawTestPattern( _pg );
+		_pgPinnable.drawTestPattern();
 		_pgPinnable.update(p.g, true);
 	}
 

@@ -1,6 +1,7 @@
 package com.haxademic.app.haxmapper.support;
 
 import com.haxademic.app.haxmapper.textures.BaseTexture;
+import com.haxademic.app.haxmapper.textures.TextureCyclingRadialGradient;
 import com.haxademic.app.haxmapper.textures.TextureShaderTimeStepper;
 import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
@@ -31,8 +32,8 @@ extends PAppletHax {
 		
 		w = Math.round(p.width / 4f);
 		h = Math.round(w * (9f/16f));
-		w = p.width;
-		h = p.height;
+		w = P.round(p.width/3f);
+		h = P.round(p.height/3f);
 		
 		OpenGLUtil.setTextureRepeat(g);
 		
@@ -44,7 +45,11 @@ extends PAppletHax {
 			
 //			new TextureShaderTimeStepper( w, h, "sdf-01-auto.glsl" ),
 //			new TextureShaderTimeStepper( w, h, "sdf-02-auto.glsl" ),
-			new TextureShaderTimeStepper( w, h, "sdf-03.glsl" ),
+//			new TextureMeshDeform( w, h ),
+			new TextureCyclingRadialGradient( w, h ),
+			new TextureShaderTimeStepper( w, h, "bw-scroll-rows.glsl" ),
+			new TextureShaderTimeStepper( w, h, "light-leak.glsl" ),
+//			new TextureShaderTimeStepper( w, h, "sdf-03.glsl" ),
 //			new TextureShaderTimeStepper( w, h, "sdf-02.glsl" ),
 //			new TextureShaderTimeStepper( w, h, "morphing-bokeh-shape.glsl" ),
 //			new TextureShaderTimeStepper( w, h, "bw-motion-illusion.glsl" ),
@@ -136,7 +141,11 @@ extends PAppletHax {
 		for (int i = 0; i < _textures.length; i++) {
 			BaseTexture tex = _textures[i];
 //			tex.update();
-			((TextureShaderTimeStepper) tex).updateDrawWithTime(p.frameCount * frameInc);
+			if(tex.getClass().getName() == TextureShaderTimeStepper.class.getName()) {
+				((TextureShaderTimeStepper) tex).updateDrawWithTime(p.frameCount * frameInc);
+			} else {
+				tex.update();
+			}
 			p.image( tex.texture(), x, y );
 			
 			x += w;

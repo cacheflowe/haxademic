@@ -10,7 +10,7 @@ extends PAppletHax {
 	protected void overridePropsFile() {
 		appConfig.setProperty( AppSettings.WIDTH, "600" );
 		appConfig.setProperty( AppSettings.HEIGHT, "400" );
-		appConfig.setProperty( AppSettings.FILLS_SCREEN, "true" );
+		appConfig.setProperty( AppSettings.FILLS_SCREEN, false );
 	}
 
 	public void setup() {

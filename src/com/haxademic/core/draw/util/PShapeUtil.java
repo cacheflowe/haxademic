@@ -115,6 +115,13 @@ public class PShapeUtil {
 		s.scale(newExtent/modelExtent);
 	}
 	
+	public static float scaleObjToExtentReturnScale(PShape s, float newExtent) {
+		float modelExtent = getObjMaxExtent(s);
+		float newScale = newExtent / modelExtent;
+		s.scale(newScale);
+		return newScale;
+	}
+	
 	/**
 	 * Finds the maximum size in any given direction. A basic but crappy way to figure out PShape size
 	 * @param s

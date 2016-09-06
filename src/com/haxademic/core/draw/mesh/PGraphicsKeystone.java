@@ -121,4 +121,22 @@ public class PGraphicsKeystone {
 				break;
 		}
 	}
+	
+	public void drawTestPattern() {
+		pg.beginDraw();
+		pg.noStroke();
+		
+		for( int x=0; x < pg.width; x+= 50) {
+			for( int y=0; y < pg.height; y+= 50) {
+				if( ( x % 100 == 0 && y % 100 == 0 ) || ( x % 100 == 50 && y % 100 == 50 ) ) {
+					pg.fill(0, 200);
+				} else {
+					pg.fill(255, 200);
+				}
+				pg.rect(x,y,50,50);
+			}
+		}
+		pg.endDraw();
+	}
+
 }

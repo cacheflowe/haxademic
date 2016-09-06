@@ -2,9 +2,10 @@ package com.haxademic.core.math;
 
 import java.awt.Point;
 
-import processing.core.PApplet;
-
 import com.haxademic.core.app.P;
+
+import processing.core.PApplet;
+import processing.core.PVector;
 
 /**
  * A series of common, static math helper methods
@@ -254,25 +255,47 @@ public class MathUtil {
 		}
 	};
 
+	public static float averageOfThree( float one, float two, float three ) {
+		return (one + two + three) / 3f;
+	}
+	
+	public static float averageOfFour( float one, float two, float three, float four ) {
+		return (one + two + three + four) / 4f;
+	}
+	
 	public static Point triangleCenter = new Point(0,0);
 	public static Point computeTriangleCenter( float x1, float y1, float x2, float y2, float x3, float y3 ) {
 		triangleCenter.setLocation( averageOfThree( x1, x2, x3 ), averageOfThree( y1, y2, y3 ) );
 		return triangleCenter;
 	};
 
-	public static float averageOfThree( float one, float two, float three ) {
-		return (one + two + three) / 3f;
-	}
-	
 	public static Point quadCenter = new Point(0,0);
 	public static Point computeQuadCenter( float x1, float y1, float x2, float y2, float x3, float y3, float x4, float y4 ) {
 		quadCenter.setLocation( averageOfFour( x1, x2, x3, x4 ), averageOfFour( y1, y2, y3, y4 ) );
 		return quadCenter;
 	};
 
-	public static float averageOfFour( float one, float two, float three, float four ) {
-		return (one + two + three + four) / 4f;
-	}
+	public static PVector triangle3dCenter = new PVector(0,0,0);
+	public static PVector computeTriangleCenter( float x1, float y1, float z1, float x2, float y2, float z2, float x3, float y3, float z3 ) {
+		triangle3dCenter.set( averageOfThree( x1, x2, x3 ), averageOfThree( y1, y2, y3 ), averageOfThree( z1, z2, z3 ) );
+		return triangle3dCenter;
+	};
+	
+	public static PVector computeTriangleCenter( PVector v1, PVector v2, PVector v3 ) {
+		triangle3dCenter.set( averageOfThree( v1.x, v2.x, v3.x ), averageOfThree( v1.y, v2.y, v3.y ), averageOfThree( v1.z, v2.z, v3.z ) );
+		return triangle3dCenter;
+	};
+	
+	public static PVector quad3dCenter = new PVector(0,0,0);
+	public static PVector computeQuadCenter( float x1, float y1, float z1, float x2, float y2, float z2, float x3, float y3, float z3, float x4, float y4, float z4 ) {
+		quad3dCenter.set( averageOfFour( x1, x2, x3, x4 ), averageOfFour( y1, y2, y3, y4 ), averageOfFour( z1, z2, z3, z4 ) );
+		return quad3dCenter;
+	};
+	
+	public static PVector computeQuadCenter( PVector v1, PVector v2, PVector v3, PVector v4 ) {
+		quad3dCenter.set( averageOfFour( v1.x, v2.x, v3.x, v4.x ), averageOfFour( v1.y, v2.y, v3.y, v4.y ), averageOfFour( v1.z, v2.z, v3.z, v4.z ) );
+		return quad3dCenter;
+	};
 	
 	public static float saw( float rads ) {
 		rads += P.PI * 0.5f;									// add to sync up with sin(0)
