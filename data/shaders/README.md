@@ -1,5 +1,11 @@
 # GLSL Conversion notes
 
+## Resolution correction
+
+    vec2 p = vertTexCoord.xy - vec2(.5,.5);
+    p *= texOffset.y/texOffset.x;
+
+
 ## pixel position
 
 ----------------------
