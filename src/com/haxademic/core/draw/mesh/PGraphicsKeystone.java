@@ -2,6 +2,9 @@ package com.haxademic.core.draw.mesh;
 
 import java.awt.Point;
 
+import com.haxademic.core.data.ConvertUtil;
+import com.haxademic.core.system.FileUtil;
+
 import processing.core.PApplet;
 import processing.core.PConstants;
 import processing.core.PGraphics;
@@ -21,7 +24,31 @@ public class PGraphicsKeystone {
 
 	protected boolean _isPressed = false;
 	protected Point _mousePoint = new Point();
+	
+	protected String filePath = null;
 
+	public PGraphicsKeystone( PApplet p, PGraphics pg, float subDivideSteps, String filePath ) {
+		this(p, pg, subDivideSteps);
+		
+		this.filePath = filePath;
+		
+		// load stored positions if file exists
+		if(FileUtil.fileOrPathExists(filePath) == true) {
+			String[] mappingStr = FileUtil.readTextFromFile(filePath); // p.loadStrings(filePath);
+			String[] posArray = mappingStr[0].split(",");
+			_topLeft.setLocation(ConvertUtil.stringToInt(posArray[0]), ConvertUtil.stringToInt(posArray[1]));
+			_topRight.setLocation(ConvertUtil.stringToInt(posArray[2]), ConvertUtil.stringToInt(posArray[3]));
+			_bottomRight.setLocation(ConvertUtil.stringToInt(posArray[4]), ConvertUtil.stringToInt(posArray[5]));
+			_bottomLeft.setLocation(ConvertUtil.stringToInt(posArray[6]), ConvertUtil.stringToInt(posArray[7]));
+		}
+
+		// create mapping file path if it doesn't exist
+		String mappingFilePath = FileUtil.pathForFile(this.filePath);
+		if(FileUtil.fileOrPathExists(mappingFilePath) == false) {
+			FileUtil.createDir(mappingFilePath);
+		}
+	}
+	
 	public PGraphicsKeystone( PApplet p, PGraphics pg, float subDivideSteps ) {
 		this.pg = pg;
 		_subDivideSteps = subDivideSteps;
@@ -32,7 +59,7 @@ public class PGraphicsKeystone {
 		_bottomRight = new Point(pg.width,pg.height);
 		_bottomLeft = new Point(0,pg.height);
 		_points = new Point[] { _topLeft, _topRight, _bottomRight, _bottomLeft };
-
+		
 		// add delegate mouse response
 		p.registerMethod("mouseEvent", this);
 	}
@@ -113,6 +140,7 @@ public class PGraphicsKeystone {
 				break;
 			case MouseEvent.RELEASE:
 				_draggingPoint = null;
+				if(filePath != null) writeToFile();
 				break;
 			case MouseEvent.DRAG:
 				if( _draggingPoint != null ) {
@@ -139,4 +167,12 @@ public class PGraphicsKeystone {
 		pg.endDraw();
 	}
 
+	protected void writeToFile() {
+		String coordsStr = "";
+		coordsStr = coordsStr.concat(_topLeft.x + "," + _topLeft.y + ",");
+		coordsStr = coordsStr.concat(_topRight.x + "," + _topRight.y + ",");
+		coordsStr = coordsStr.concat(_bottomRight.x + "," + _bottomRight.y + ",");
+		coordsStr = coordsStr.concat(_bottomLeft.x + "," + _bottomLeft.y);
+		FileUtil.writeTextToFile(filePath, coordsStr);
+	}
 }

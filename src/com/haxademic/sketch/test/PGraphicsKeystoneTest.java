@@ -5,6 +5,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.mesh.PGraphicsKeystone;
 import com.haxademic.core.draw.util.OpenGLUtil;
+import com.haxademic.core.system.FileUtil;
 
 import processing.core.PGraphics;
 
@@ -31,7 +32,8 @@ extends PAppletHax {
 	protected void buildCanvas() {
 		_pg = p.createGraphics( p.width / 2, p.height / 2, P.P3D );
 		_pg.smooth(OpenGLUtil.SMOOTH_MEDIUM);
-		_pgPinnable = new PGraphicsKeystone( p, _pg, 12 );
+//		_pgPinnable = new PGraphicsKeystone( p, _pg, 12 );
+		_pgPinnable = new PGraphicsKeystone( p, _pg, 12, FileUtil.getFile("text/keystoning/keystone-demo.txt") );
 	}
 
 	public void drawApp() {
