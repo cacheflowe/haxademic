@@ -10,7 +10,12 @@ import java.io.FilenameFilter;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.channels.FileChannel;
+import java.nio.charset.Charset;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.List;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.debug.DebugUtil;
@@ -74,6 +79,10 @@ public class FileUtil {
 	
 	public static Boolean fileExists( String path ) {
 		return new File( path ).isFile();
+	}
+	
+	public static String pathForFile(String filePath) {
+		return filePath.substring(0, filePath.lastIndexOf(File.separator));
 	}
 	
 	/**
@@ -260,5 +269,21 @@ public class FileUtil {
 	            destination.close();
 	        }
 	    }
+	}
+	
+	public static String[] readTextFromFile(String textFilePath) {
+		String[] linesArr = null;
+		Path filePath = Paths.get(textFilePath);
+		Charset charset = Charset.forName("ISO-8859-1");
+		try {
+			List<String> lines = Files.readAllLines(filePath, charset);
+			linesArr = new String[lines.size()];
+			for (int i = 0; i < lines.size(); i++) {
+				linesArr[i] = lines.get(i);
+			}
+		} catch (IOException e) {
+			System.out.println(e);
+		}
+		return linesArr;
 	}
 }
