@@ -164,7 +164,7 @@ extends PAppletHax {
 		_pg = p.createGraphics( P.round(p.width / scaleDownPG), P.round(p.height / scaleDownPG), P.P2D );
 		OpenGLUtil.setTextureRepeat(_pg);
 //		_pg.smooth(OpenGLUtil.SMOOTH_MEDIUM);
-		_pgPinnable = new PGraphicsKeystone( p, _pg, 12 );
+		_pgPinnable = new PGraphicsKeystone( p, _pg, 12, FileUtil.getFile("text/keystoning/hax-visual-two.txt") );
 	}
 
 	protected void initDMX() {
