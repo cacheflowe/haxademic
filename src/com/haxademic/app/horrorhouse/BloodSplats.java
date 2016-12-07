@@ -6,7 +6,9 @@ import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.color.ColorHaxEasing;
+import com.haxademic.core.draw.mesh.PGraphicsKeystone;
 import com.haxademic.core.draw.util.DrawUtil;
+import com.haxademic.core.draw.util.OpenGLUtil;
 import com.haxademic.core.hardware.dmx.DmxInterface;
 import com.haxademic.core.hardware.kinect.KinectAmbientActivityMonitor;
 import com.haxademic.core.math.MathUtil;
@@ -48,6 +50,8 @@ extends PAppletHax {
 	protected DmxInterface _dmx;
 	protected ColorHaxEasing _color1;
 	protected ColorHaxEasing _color2;
+	protected ColorHaxEasing _color3;
+	protected ColorHaxEasing _color4;
 	
 	protected boolean _kinectActive = false;
 	protected int _nextLightning = 0;
@@ -56,7 +60,6 @@ extends PAppletHax {
 	protected int _nextLogoSpazLength = 0;
 	protected int _nextSplatFrame = 0;
 	// configure everything for the install here ======================
-	protected boolean _mirrored = false;
 	protected float _baseLogoScale = 1.0f;
 	protected float _kinectAcitivityLaunchThreshold = 30000f;
 	protected int _nextLightningLow = 500;
@@ -64,36 +67,43 @@ extends PAppletHax {
 	// end config =====================================================
 	
 	
+	protected PGraphics buffer;
+	protected PGraphicsKeystone _pgPinnable;
+	protected boolean debug = false;
+	
+
 	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, "1000" );
-		p.appConfig.setProperty( AppSettings.HEIGHT, "800" );
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
-		p.appConfig.setProperty( AppSettings.KINECT_ACTIVE, "true" );
-		p.appConfig.setProperty( AppSettings.FULLSCREEN, "true" );
+		p.appConfig.setProperty( AppSettings.WIDTH, 1000 );
+		p.appConfig.setProperty( AppSettings.HEIGHT, 800 );
+		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, false );
+		p.appConfig.setProperty( AppSettings.KINECT_V2_MAC_ACTIVE, true );
+		p.appConfig.setProperty( AppSettings.FULLSCREEN, true );
 	}
 	
 	public void setup() {
 		super.setup();
-		
-		_kinectActive = p.appConfig.getBoolean( "kinect_active", false );
+	}
+	
+	protected void initObjs() {
+		_kinectActive = p.kinectWrapper.isActive();
 		
 		if( _kinectActive == true ) _kinectMonitor = new KinectAmbientActivityMonitor( 20, 500, 15000 );
 		
 		_vidClips = new ArrayList<Movie>();
-		_vidClips.add( new Movie(this, "/Users/cacheflowe/Documents/workspace/haxademic/data/video/horrorhouse/MotelLondon_02.mov") );
-		_vidClips.add( new Movie(this, "/Users/cacheflowe/Documents/workspace/haxademic/data/video/horrorhouse/MotelLondon_01.mov") );
-		_vidClips.add( new Movie(this, "/Users/cacheflowe/Documents/workspace/haxademic/data/video/horrorhouse/MotelLondon_03.mov") );
-		_vidClips.add( new Movie(this, "/Users/cacheflowe/Documents/workspace/haxademic/data/video/horrorhouse/MotelLondon_04.mov") );
-		_vidClips.add( new Movie(this, "/Users/cacheflowe/Documents/workspace/haxademic/data/video/horrorhouse/MotelLondon_05.mov") );
-		_vidClips.add( new Movie(this, "/Users/cacheflowe/Documents/workspace/haxademic/data/video/horrorhouse/MotelLondon_06.mov") );
-//		_vidClips.add( new Movie(this, "/Users/cacheflowe/Documents/workspace/haxademic/data/video/horrorhouse/MotelLondon_07.mov") );
-		_vidClips.add( new Movie(this, "/Users/cacheflowe/Documents/workspace/haxademic/data/video/horrorhouse/MotelLondon_08.mov") );
+		_vidClips.add( new Movie(this, FileUtil.getFile("video/horrorhouse/MotelLondon_02.mov")) );
+		_vidClips.add( new Movie(this, FileUtil.getFile("video/horrorhouse/MotelLondon_01.mov")) );
+		_vidClips.add( new Movie(this, FileUtil.getFile("video/horrorhouse/MotelLondon_03.mov")) );
+		_vidClips.add( new Movie(this, FileUtil.getFile("video/horrorhouse/MotelLondon_04.mov")) );
+		_vidClips.add( new Movie(this, FileUtil.getFile("video/horrorhouse/MotelLondon_05.mov")) );
+		_vidClips.add( new Movie(this, FileUtil.getFile("video/horrorhouse/MotelLondon_06.mov")) );
+//		_vidClips.add( new Movie(this, FileUtil.getFile("video/horrorhouse/MotelLondon_07.mov")) );
+		_vidClips.add( new Movie(this, FileUtil.getFile("video/horrorhouse/MotelLondon_08.mov")) );
 		for(int i=0; i < _vidClips.size(); i++) {
 //			_vidClips.get(i).speed(5.4f);
 		}
 		_curClip = _vidClips.get(0);
 		
-		_horrorhouse = p.loadImage( FileUtil.getHaxademicDataPath()+"images/halloween.png" );
+		_horrorhouse = p.loadImage( FileUtil.getHaxademicDataPath()+"images/halloween-2.png" );
 //		_drop = p.loadImage("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABaCAIAAACHRsd0AAAAAXNSR0IArs4c6QAAAAZiS0dEAP8A/wD/oL2nkwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9wIARENKcscdTYAAAFbSURBVHja7ZoxTsMwFIZtN02DkooBxg6VGBArF+AArD1Fr8HWjYF7cI5K5QJdKnUqUjaEBEkxa5f3VNxgOer3b9GTnHx6v/3HiW1ZluaP+siupFLV1iaunOm5AAAAAAAAOEk2IMjoAAAHyg4vFq6cuyKd9xwsBEDsOdCVYm4Y6EAUKS1lEgOQ4stc56sQc4Bl9BgzhBkMC5HEx0ixFhYCAIDzXIX0PFLkR9Z++dSX0e/70GGXzAEAAAAAAAA6CzIlbv2Fbe4GUjV/2kil/arav14H3FHaEmAhAAAAAIAzDzIlO5SNlS2a/HZLBwAAAAAAAEh5R5ZN38XaxJsHK1aVD6fDQTwAd/kp1kbG3NiQG1Y/WAgAAAAAoCdB9h/S//AFnFZRAWZKoKqjPotP6dY+f2uxEAAAAAAAAF0lo3L0WDtTM23My06sPk6kyritfa874LEQAAAAAEBS+gXVX0Ar1x59kgAAAABJRU5ErkJggg==");
 		for(int i=0; i < _numDrips; i++) {
 			_drips[i] = new Drip();
@@ -135,23 +145,42 @@ extends PAppletHax {
 		
 		getNextLightning();
 		getNextLogoSpaz();
+		
+		buildCanvas();
+	}
+	
+	protected void buildCanvas() {
+		buffer = p.createGraphics( p.width, p.height, P.P2D );
+		buffer.smooth(OpenGLUtil.SMOOTH_MEDIUM);
+		_pgPinnable = new PGraphicsKeystone( p, buffer, 12 );
 	}
 	
 	protected void buildPhysicalLighting() {
-		_dmx = new DmxInterface(2);
+		_dmx = new DmxInterface(4);
 		_color1 = new ColorHaxEasing("#000000", 5);
 		_color2 = new ColorHaxEasing("#000000", 5);
+		_color3 = new ColorHaxEasing("#000000", 5);
+		_color4 = new ColorHaxEasing("#000000", 5);
 	}
 
 	
 	public void drawApp() {
+		if(p.frameCount == 1) initObjs();
 		p.background(0);
-		setScreenProps();
 		handleKinectInput();
-		drawBloodAndVideo();
+		
 
+		drawBloodAndVideo(); // draws on own _pg
+		
+		buffer.beginDraw();
+		buffer.image( _pg, buffer.width/2, buffer.height/2 );
 		drawLogo();
 		applyFilters();
+		buffer.endDraw();
+
+		if(debug == true) _pgPinnable.drawTestPattern();
+		_pgPinnable.update(p.g, true);
+
 		drawLights();
 	}
 	
@@ -161,22 +190,20 @@ extends PAppletHax {
 		} else if (p.key == 'm') {
 			_curClip.stop();
 			_clipPlaying = false;
+		} else if (p.key == 'd') {
+			debug = !debug;
 		}
 	}
-	
-	public void setScreenProps() {
-		DrawUtil.setDrawCorner(p);
-		if( _mirrored == true ) {
-			p.translate( p.width, 0 );
-			p.rotateY( P.PI );
-		}
-	}
-	
+		
 	public void handleKinectInput() {
 		if( _kinectActive == true ) {
 			float kinectActivity = _kinectMonitor.update( p.kinectWrapper, false );
 			if( _clipPlaying == false && kinectActivity > _kinectAcitivityLaunchThreshold && p.frameCount > 60 ) {
 				startClip();
+				_nextLightning = p.frameCount + 1;
+				if( _nextLightning % 2 != 0 ) _nextLightning++;
+				_nextLightningLength = MathUtil.randRange( 40, 70 );
+				if( _nextLightningLength % 2 != 0 ) _nextLightningLength++;
 			}
 		}
 	}
@@ -184,8 +211,12 @@ extends PAppletHax {
 	protected void drawLights() {
 		_color1.update();
 		_color2.update();
+		_color3.update();
+		_color4.update();
 		_dmx.setColorAtIndex(0, _color1.colorInt());
 		_dmx.setColorAtIndex(1, _color2.colorInt());
+		_dmx.setColorAtIndex(2, _color3.colorInt());
+		_dmx.setColorAtIndex(3, _color4.colorInt());
 		_dmx.updateColors();
 
 		
@@ -194,6 +225,10 @@ extends PAppletHax {
 //		p.rect(0, 0, 100, 100);
 //		p.fill(_color2.colorInt());
 //		p.rect(100, 0, 100, 100);
+//		p.fill(_color3.colorInt());
+//		p.rect(200, 0, 100, 100);
+//		p.fill(_color4.colorInt());
+//		p.rect(300, 0, 100, 100);
 	}
 
 	
@@ -202,19 +237,19 @@ extends PAppletHax {
 		_pg.noStroke();
 		
 		// fade out screen black
-		_pg.fill(0, 1);
+		_pg.fill(0, 2);
 		_pg.rect(0,0,_pg.width,_pg.height);
 		
 		// set blood color
-		_pg.fill(255,0,0);
+		_pg.fill(127,0,0);
 		
 		// launch new drips and splats
-		if(p.frameCount % 20 == 0) {
+		if(p.frameCount % 60 == 0) {
 			newDrip();
 		}
 		if(p.frameCount >= _nextSplatFrame) {
 			newBlood();
-			_nextSplatFrame += MathUtil.randRange(10, 100);
+			_nextSplatFrame += MathUtil.randRange(50, 150);
 		}
 		
 		//animate drips
@@ -234,37 +269,42 @@ extends PAppletHax {
 		
 		// wrap it up and draw PGraphics to scren
 		_pg.endDraw();
-		p.image( _pg, 0, 0 );
 	}
 	
 	public void drawLogo() {
-		if( _clipPlaying == false ) {
-			DrawUtil.setDrawCenter(p);
-			p.translate( p.width / 2, p.height / 2 );
+//		if( _clipPlaying == false ) {
+			DrawUtil.setDrawCenter(buffer);
+			buffer.translate( buffer.width / 2, buffer.height / 2 );
 			float scaleOsc = P.sin(p.frameCount/100f);
+			float scaleOsc2 = P.sin(p.frameCount/80f);
 			_color1.setTargetRGBA(75f * scaleOsc + 180f, 0, 0, 255);
-			p.scale(scaleOsc * (_baseLogoScale * 0.1f) + _baseLogoScale);
-			p.rotate( P.sin(p.frameCount/330f) * 0.03f );
+			_color2.setTargetRGBA(75f * scaleOsc2 + 180f, 0, 0, 255);
+			_color3.setTargetRGBA(75f * scaleOsc + 180f, 0, 0, 255);
+			_color4.setTargetRGBA(75f * scaleOsc2 + 180f, 0, 0, 255);
+			buffer.scale(scaleOsc * (_baseLogoScale * 0.1f) + _baseLogoScale);
+			buffer.rotate( P.sin(p.frameCount/330f) * 0.03f );
 			
 			if( isLightning() == true || isLogoSpaz() == true ) {
-				p.translate( MathUtil.randRange(-20, 20), MathUtil.randRange(-20, 20) );
-				p.rotate( MathUtil.randRangeDecimal(-.3f, -.3f) );
-				p.scale( MathUtil.randRangeDecimal( 0.5f, 1.5f ) );
+				buffer.translate( MathUtil.randRange(-20, 20), MathUtil.randRange(-20, 20) );
+				buffer.rotate( MathUtil.randRangeDecimal(-.3f, -.3f) );
+				buffer.scale( MathUtil.randRangeDecimal( 0.5f, 1.5f ) );
 				
 				_color2.setCurrentRGBA(255, 255, 255, 255);
+				_color4.setCurrentRGBA(255, 255, 255, 255);
 			} else {
 				if(_color2.r.value() == 255f) _color2.setCurrentRGBA(0,0,0,255);
+				if(_color4.r.value() == 255f) _color4.setCurrentRGBA(0,0,0,255);
 			}
 			
-			p.image( _horrorhouse, 0, 0 );
-		}
+			if( _clipPlaying == false ) buffer.image( _horrorhouse, 0, 0 );
+//		}
 	}
 	
 	public void applyFilters() {
-		p.filter(_vignette);
+		buffer.filter(_vignette);
 		applyBlur();
 		// p.filter(_badtv);
-		if( isLightning() == true ) p.filter( _invert );
+		if( isLightning() == true ) buffer.filter( _invert );
 	}
 	
 	public void applyBlur() {
@@ -272,10 +312,10 @@ extends PAppletHax {
 		if( frameCountOffset < 150 ) {
 			float blurOsc = (float)(Math.sin(frameCountOffset/30f));
 			if( blurOsc > 0 ) {
-				p.filter(_blurH);
-				_blurH.set( "h", blurOsc/p.width );
-				p.filter(_blurV);
-				_blurV.set( "v", blurOsc/p.height );
+				buffer.filter(_blurH);
+				_blurH.set( "h", blurOsc/buffer.width );
+				buffer.filter(_blurV);
+				_blurV.set( "v", blurOsc/buffer.height );
 			}
 		}
 	}
@@ -307,6 +347,8 @@ extends PAppletHax {
 		
 		_color2.setCurrentRGBA(253, 253, 253, 255);
 		_color2.setTargetRGBA(0,0,0,255);
+		_color4.setCurrentRGBA(253, 253, 253, 255);
+		_color4.setTargetRGBA(0,0,0,255);
 	}
 	
 	public boolean isLightning() {
@@ -403,7 +445,7 @@ extends PAppletHax {
 			_y = y;
 			_size = p.random(10, 50);
 			_speed = p.random(0.3f, 2f);
-			_color = p.color( p.random(180,255), 0, 0 );
+			_color = p.color( p.random(100,200), 0, 0 );
 		}
 		
 		public void update() {
