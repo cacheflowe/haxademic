@@ -36,6 +36,7 @@ public class AppSettings {
 	public static final String SUNFLOW = "sunflow";
 	public static final String SUNFLOW_ACTIVE = "sunflow_active";
 	public static final String SUNFLOW_QUALITY = "sunflow_quality";
+	public static final String SUNFLOW_QUALITY_HIGH = "high";
 	public static final String SUNFLOW_SAVE_IMAGES = "sunflow_save_images";
 	// Input
 	public static final String HIDE_CURSOR = "hide_cursor";
@@ -43,6 +44,9 @@ public class AppSettings {
 	public static final String KINECT_ACTIVE = "kinect_active";
 	public static final String KINECT_V2_WIN_ACTIVE = "kinect_v2_win_active";
 	public static final String KINECT_V2_MAC_ACTIVE = "kinect_v2_mac_active";
+	public static final String MIDI_DEVICE_IN_INDEX = "midi_device_in_index";
+	public static final String MIDI_DEVICE_OUT_INDEX = "midi_device_out_index";
+	public static final String MIDI_DEBUG = "midi_debug";
 	// Debugging
 	public static final String SHOW_STATS = "show_stats";
 	public static final String AUDIO_DEBUG = "audio_debug";

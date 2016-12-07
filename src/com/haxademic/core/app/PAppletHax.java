@@ -34,6 +34,7 @@ import de.voidplus.leapmotion.LeapMotion;
 import krister.Ess.AudioInput;
 import processing.core.PApplet;
 import processing.video.Movie;
+import themidibus.MidiBus;
 
 /**
  * PAppletHax is a starting point for interactive visuals, giving you a unified
@@ -126,6 +127,8 @@ extends PApplet
 	 * Wraps up MIDI functionality with theMIDIbus library.
 	 */
 	public MidiWrapper midi = null;
+	protected MidiBus midiBus;
+	protected boolean _debugMidi = false;
 
 	/**
 	 * Loads and stores a pool of WETriangleMesh objects.
@@ -326,11 +329,20 @@ extends PApplet
 			kinectWrapper.setMirror( p.appConfig.getBoolean( "kinect_mirrored", true ) );
 			kinectWrapper.setFlipped( p.appConfig.getBoolean( "kinect_flipped", false ) );
 		}
+		if( p.appConfig.getInt(AppSettings.MIDI_DEVICE_IN_INDEX, -1) >= 0 ) {
+			MidiBus.list(); // List all available Midi devices on STDOUT. This will show each device's index and name.
+			midiBus = new MidiBus(
+					this, 
+					p.appConfig.getInt(AppSettings.MIDI_DEVICE_IN_INDEX, 0), 
+					p.appConfig.getInt(AppSettings.MIDI_DEVICE_OUT_INDEX, 0)
+					);
+			_debugMidi = p.appConfig.getBoolean(AppSettings.MIDI_DEBUG, false);
+		}
 		if( p.appConfig.getBoolean( "leap_active", false ) == true ) leapMotion = new LeapMotion(this);
 		if( p.appConfig.getBoolean( "osc_active", false ) == true ) _oscWrapper = new OscWrapper( p );
 		meshPool = new MeshPool( p );
 		joons = ( p.appConfig.getBoolean(AppSettings.SUNFLOW, false ) == true ) ?
-				new JoonsWrapper( p, width, height, ( p.appConfig.getString(AppSettings.SUNFLOW_QUALITY, "high" ) == "high" ) ? JoonsWrapper.QUALITY_HIGH : JoonsWrapper.QUALITY_LOW, ( p.appConfig.getBoolean(AppSettings.SUNFLOW_ACTIVE, true ) == true ) ? true : false )
+				new JoonsWrapper( p, width, height, ( p.appConfig.getString(AppSettings.SUNFLOW_QUALITY, "low" ) == AppSettings.SUNFLOW_QUALITY_HIGH ) ? JoonsWrapper.QUALITY_HIGH : JoonsWrapper.QUALITY_LOW, ( p.appConfig.getBoolean(AppSettings.SUNFLOW_ACTIVE, true ) == true ) ? true : false )
 				: null;
 		_debugText = new DebugText( p );
 		if( _showStats == true ) _stats = new Stats( p );
@@ -340,6 +352,7 @@ extends PApplet
 	protected void initializeExtraObjectsOn1stFrame() {
 		if( p.frameCount == 1 ){
 			P.println("Using Java version: "+SystemUtil.getJavaVersion());
+			
 			if( p.appConfig.getString("midi_device_in", "") != "" ) {
 				midi = new MidiWrapper( p, p.appConfig.getString("midi_device_in", ""), p.appConfig.getString("midi_device_out", "") );
 			}
@@ -519,34 +532,32 @@ extends PApplet
 //		}
 	}
 
-	/**
-	 * PApplet-level listener for MIDIBUS noteOn call
-	 */
+	////////////////////////////////////////////////////
+	// MIDIBUS LISTENERS
+	////////////////////////////////////////////////////
 	public void noteOn(int channel, int  pitch, int velocity) {
-		if( midi != null ) {
+		if( midi != null ) { 
 			if( midi.midiNoteIsOn( pitch ) == 0 ) {
 				midi.noteOn( channel, pitch, velocity );
-				try{
+				try{ 
 					handleInput( true );
 				}
 				catch( ArrayIndexOutOfBoundsException e ){println("noteOn BROKE!");}
 			}
 		}
+		if(_debugMidi == true) P.println(channel, pitch, velocity);
 	}
-
-	/**
-	 * PApplet-level listener for MIDIBUS noteOff call
-	 */
+	
 	public void noteOff(int channel, int  pitch, int velocity) {
 		if( midi != null ) midi.noteOff( channel, pitch, velocity );
+		if(_debugMidi == true) P.println(channel, pitch, velocity);
 	}
-
-	/**
-	 * PApplet-level listener for MIDIBUS CC signal
-	 */
+	
 	public void controllerChange(int channel, int number, int value) {
 		if( midi != null ) midi.controllerChange( channel, number, value );
+		if(_debugMidi == true) P.println(channel, number, value);
 	}
+
 
 	/**
 	 * PApplet-level listener for AudioInput data from the ESS library

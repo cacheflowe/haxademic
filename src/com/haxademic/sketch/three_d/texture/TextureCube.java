@@ -1,65 +1,46 @@
 package com.haxademic.sketch.three_d.texture;
 
-import processing.core.PImage;
-
+import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.draw.shapes.Shapes;
+import com.haxademic.core.math.easing.Penner;
 import com.haxademic.core.system.FileUtil;
+
+import processing.core.PImage;
 
 public class TextureCube 
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
+	protected int _frames = 60;
 	PImage img;
+	
+	protected void overridePropsFile() {
+		p.appConfig.setProperty( AppSettings.WIDTH, 800 );
+		p.appConfig.setProperty( AppSettings.HEIGHT, 800 );
+	}
 
 	public void setup() {
 		super.setup();
-		img = loadImage(FileUtil.getHaxademicDataPath() + "images/snowblinded-beach.jpg");
+		img = loadImage(FileUtil.getHaxademicDataPath() + "images/bread-large.png");
+		img = loadImage(FileUtil.getHaxademicDataPath() + "images/todd.jpg");
 		noStroke();
 	}
 
 	public void drawApp() {
-		background(0);
+		background(255);
+		lights();
+		translate(width/2, height/2, -200);
+		
+		float percentComplete = ((float)(p.frameCount%_frames)/_frames);
+		float easedPercent = Penner.easeInOutQuart(percentComplete, 0, 1, 1);
+		float radsComplete = percentComplete * P.TWO_PI;
+		float radsCompleteEased = easedPercent * P.TWO_PI;
 
-		translate(width/2, height/2, -30); 
+		rotateX(P.PI + 0.2f * P.sin(radsComplete)); 
+		rotateY(radsCompleteEased * 0.25f); 
 
-		rotateX(p.frameCount/40f); 
-		rotateY(p.frameCount/50f); 
-
-		scale(100);
-		beginShape(P.QUADS);
-		texture(img);
-
-		vertex(-1,  1,  1, 		0, 0);
-		vertex( 1,  1,  1, 		img.width, 0);
-		vertex( 1, -1,  1,		img.width, img.height);
-		vertex(-1, -1,  1,		0, img.height);
-
-		vertex( 1,  1,  1, 		0, 0);
-		vertex( 1,  1, -1, 		img.width, 0);
-		vertex( 1, -1, -1,		img.width, img.height);
-		vertex( 1, -1,  1,		0, img.height);
-
-		vertex( 1,  1, -1, 		0, 0);
-		vertex(-1,  1, -1, 		img.width, 0);
-		vertex(-1, -1, -1,		img.width, img.height);
-		vertex( 1, -1, -1,		0, img.height);
-
-		vertex(-1,  1, -1, 		0, 0);
-		vertex(-1,  1,  1, 		img.width, 0);
-		vertex(-1, -1,  1,		img.width, img.height);
-		vertex(-1, -1, -1,		0, img.height);
-
-		vertex(-1,  1, -1, 		0, 0);
-		vertex( 1,  1, -1, 		img.width, 0);
-		vertex( 1,  1,  1,		img.width, img.height);
-		vertex(-1,  1,  1,		0, img.height);
-
-		vertex(-1, -1, -1, 		0, 0);
-		vertex( 1, -1, -1, 		img.width, 0);
-		vertex( 1, -1,  1,		img.width, img.height);
-		vertex(-1, -1,  1,		0, img.height);
-
-		endShape();
+		Shapes.drawTexturedBox(p.g, 200, img);
 	}
 }

@@ -42,4 +42,12 @@ public class StringFormatter {
 	public static String formattedInteger(int number) {
 		return NumberFormat.getInstance().format(number);
 	}
+	
+	public static String toAlphaNumericChars(String str) {
+		return str.replaceAll("[^A-Za-z0-9.]", "");
+	}
+	
+	public static String toNumericChars(String str) {
+		return str.replaceAll("[^0-9.-]", "");
+	}
 }

@@ -1,10 +1,12 @@
 package com.haxademic.core.draw.util;
 
+import com.haxademic.core.app.P;
 import com.jogamp.opengl.GL;
 import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.GL3;
 
 import processing.core.PGraphics;
+import processing.opengl.PGraphicsOpenGL;
 import processing.opengl.PJOGL;
 import processing.opengl.Texture;
 
@@ -64,6 +66,18 @@ public class OpenGLUtil {
 		pg.endPGL(); 
 	}
 	
+	// from: https://github.com/processing/processing/wiki/Advanced-OpenGL
+	
+	public static void setTextureQualityLow(PGraphics pg) {
+	    pg.hint(P.DISABLE_TEXTURE_MIPMAPS);
+	    ((PGraphicsOpenGL)pg).textureSampling(2);
+	}
+	
+	public static void setTextureQualityHigh(PGraphics pg) {
+		pg.hint(P.ENABLE_TEXTURE_MIPMAPS);
+		((PGraphicsOpenGL)pg).textureSampling(5);
+	}
+	
 	public enum Blend {
 		DEFAULT,
 		ADDITIVE,
@@ -116,7 +130,7 @@ public class OpenGLUtil {
 	}
 
 	public static void setWireframe(PGraphics pg, boolean isWireframe) {  
-		GL3 gl = getGL3(pg);
+		GL2 gl = getGL2(pg);
 		if(isWireframe == true) {
 			gl.glPolygonMode( GL2.GL_FRONT_AND_BACK, GL2.GL_LINE );
 		} else {

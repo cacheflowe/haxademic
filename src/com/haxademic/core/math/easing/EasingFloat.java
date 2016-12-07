@@ -1,7 +1,5 @@
 package com.haxademic.core.math.easing;
 
-
-
 public class EasingFloat
 implements IEasingValue {
 	
@@ -33,6 +31,10 @@ implements IEasingValue {
 	
 	public void setEaseFactor( float value ) {
 		_easeFactor = value;
+	}
+	
+	public void setCompleteThreshold( float value ) {
+		COMPLETE_THRESHOLD = value;
 	}
 	
 	public void update() {

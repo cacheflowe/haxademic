@@ -1,9 +1,10 @@
 package com.haxademic.core.draw.shapes;
 
+import com.haxademic.core.app.P;
+
 import processing.core.PApplet;
 import processing.core.PGraphics;
-
-import com.haxademic.core.app.P;
+import processing.core.PImage;
 
 public class Shapes {
 	
@@ -161,5 +162,42 @@ public class Shapes {
 		
 		p.endShape();
 		p.popMatrix();
+	}
+	
+	public static void drawTexturedBox(PGraphics pg, float size, PImage texture) {
+		pg.beginShape(P.QUADS);
+		pg.texture(texture);
+
+		pg.vertex(-size,  size,  size, 		0, 0);
+		pg.vertex( size,  size,  size, 		texture.width, 0);
+		pg.vertex( size, -size,  size,		texture.width, texture.height);
+		pg.vertex(-size, -size,  size,		0, texture.height);
+
+		pg.vertex( size,  size,  size, 		0, 0);
+		pg.vertex( size,  size, -size, 		texture.width, 0);
+		pg.vertex( size, -size, -size,		texture.width, texture.height);
+		pg.vertex( size, -size,  size,		0, texture.height);
+
+		pg.vertex( size,  size, -size, 		0, 0);
+		pg.vertex(-size,  size, -size, 		texture.width, 0);
+		pg.vertex(-size, -size, -size,		texture.width, texture.height);
+		pg.vertex( size, -size, -size,		0, texture.height);
+
+		pg.vertex(-size,  size, -size, 		0, 0);
+		pg.vertex(-size,  size,  size, 		texture.width, 0);
+		pg.vertex(-size, -size,  size,		texture.width, texture.height);
+		pg.vertex(-size, -size, -size,		0, texture.height);
+
+		pg.vertex(-size,  size, -size, 		0, 0);
+		pg.vertex( size,  size, -size, 		texture.width, 0);
+		pg.vertex( size,  size,  size,		texture.width, texture.height);
+		pg.vertex(-size,  size,  size,		0, texture.height);
+
+		pg.vertex(-size, -size, -size, 		0, 0);
+		pg.vertex( size, -size, -size, 		texture.width, 0);
+		pg.vertex( size, -size,  size,		texture.width, texture.height);
+		pg.vertex(-size, -size,  size,		0, texture.height);
+
+		pg.endShape();
 	}
 }

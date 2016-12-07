@@ -3,14 +3,15 @@ package com.haxademic.core.image;
 import java.awt.image.BufferedImage;
 import java.nio.ByteBuffer;
 
+import com.haxademic.core.app.P;
+import com.haxademic.core.draw.color.ColorHax;
+
 import processing.core.PApplet;
 import processing.core.PConstants;
 import processing.core.PGraphics;
 import processing.core.PImage;
 import processing.opengl.PGL;
-
-import com.haxademic.core.app.P;
-import com.haxademic.core.draw.color.ColorHax;
+import processing.opengl.Texture;
 
 public class ImageUtil {
 	
@@ -134,13 +135,20 @@ public class ImageUtil {
 	}
 	
 	public static PGraphics imageToGraphics(PApplet p, PImage img) {
-		PGraphics pg = p.createGraphics(img.width, img.height, P.P3D);
+		PGraphics pg = p.createGraphics(img.width, img.height, P.P2D);
 		pg.beginDraw();
 		pg.image(img,0,0);
 		pg.endDraw();
 		return pg;
 	}  
 
+	public static PGraphics imageToGraphicsCropFill(PImage img, PGraphics pg) {
+		pg.beginDraw();
+		ImageUtil.cropFillCopyImage(img, pg, true);
+		pg.endDraw();
+		return pg;
+	}  
+	
 	
 	public static void cropFillCopyImage( PImage src, PImage dest, boolean cropFill ) {
 		float containerW = dest.width;
@@ -175,6 +183,20 @@ public class ImageUtil {
 		offsetAndSize[2] = resizedW;
 		offsetAndSize[3] = resizedH;
 		return offsetAndSize;
+	}
+	
+	public static void removeImageFromGraphicsCache(PImage img, PGraphics pg) {
+		// https://forum.processing.org/two/discussion/6898/how-to-correctly-release-pimage-memory
+		// https://github.com/jeffThompson/ProcessingTeachingSketches/blob/master/Utilities/AvoidPImageMemoryLeaks/AvoidPImageMemoryLeaks.pde
+		// https://forum.processing.org/one/topic/pimage-memory-leak-example.html
+//		for (int i = 0; i < imageSequence.size(); i++) {
+			Object cache = pg.getCache(img);
+			pg.removeCache(img);
+			if (cache instanceof Texture) {
+				((Texture) cache).disposeSourceBuffer();
+			}
+//		}
+//		imageSequence.clear();
 	}
 
 
