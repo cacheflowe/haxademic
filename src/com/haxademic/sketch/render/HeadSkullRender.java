@@ -47,8 +47,8 @@ extends PAppletHax {
 	protected float maxObjExtent;
 	
 	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, 1200 );
-		p.appConfig.setProperty( AppSettings.HEIGHT, 1200 );
+		p.appConfig.setProperty( AppSettings.WIDTH, 800 );
+		p.appConfig.setProperty( AppSettings.HEIGHT, 800 );
 		p.appConfig.setProperty( AppSettings.RETINA, false );
 //		p.appConfig.setProperty( AppSettings.FPS, 60 );
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, false );
@@ -86,7 +86,6 @@ extends PAppletHax {
 		
 		PShapeUtil.scaleObjToExtentReturnScale(skullObj, p.height * 0.78f);
 		PShapeUtil.scaleObjToExtentReturnScale(obj, p.height * 0.8f);
-		
 		
 		// get centers of each face
 		objFaceCenters = new PVector[obj.getChildCount()];
@@ -182,7 +181,6 @@ extends PAppletHax {
 		////////////////////////////////
 		// position & draw shapes grid
 		////////////////////////////////
-//		drawPrimitives();
 		drawObj();
 
 		// post
@@ -201,39 +199,7 @@ extends PAppletHax {
 		if(_showControls == false) p.translate(9999999, 999999);
 		p.noLights();
 	}
-	
-	protected void drawPrimitives() {
-		p.pushMatrix();
-
-		p.translate(p.width/2, p.height/2, -p.width);
-		p.rotateX(p.mouseY * 0.01f);
-		p.rotateY(p.mouseX * 0.01f);
 		
-		// build grid of primitives
-		int rowSize = 4;
-		int gridSize = 1000;
-		int gridSizeHalf = gridSize/2;
-		int spacing = gridSize / rowSize;
-		int size = spacing/3;
-		
-		for (int x = 0; x < rowSize; x++) {
-			for (int y = 0; y < rowSize; y++) {
-				p.pushMatrix();
-				p.translate(-gridSizeHalf + spacing/2 + x * spacing, -gridSizeHalf + spacing/2 + y * spacing, 0);
-			
-				p.fill(127);
-				
-				if(x % 2 == 0) {
-					sphere(size);
-				} else {
-					box(size);
-				}
-				p.popMatrix();
-			}
-		}
-		p.popMatrix();
-	}
-	
 	protected void drawObj() {
 		p.pushMatrix();
 		p.translate(p.width/2, p.height * 0.45f, -p.width);

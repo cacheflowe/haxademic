@@ -8,6 +8,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.draw.util.OpenGLUtil;
+import com.haxademic.core.image.filters.shaders.FXAAFilter;
 
 public class HaxMapperTextureTester 
 extends PAppletHax {
@@ -16,24 +17,24 @@ extends PAppletHax {
 	protected BaseTexture[] _textures;
 	int w = 500;
 	int h = 300;
+	float frames = 275;
+
 
 	protected void overridePropsFile() {
 		p.appConfig.setProperty( AppSettings.WIDTH, 1000 );
-		p.appConfig.setProperty( AppSettings.HEIGHT, 750 );
+		p.appConfig.setProperty( AppSettings.HEIGHT, 1000 );
 		p.appConfig.setProperty( AppSettings.FILLS_SCREEN, false );
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, false );
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_START_FRAME, 1);
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, 100);
+		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, (int)frames);
 	}
 
 
 	public void setup() {
 		super.setup();
 		
-		w = Math.round(p.width / 4f);
+		w = Math.round(p.width / 2f); // p.width;// 
 		h = Math.round(w * (9f/16f));
-		w = P.round(p.width/3f);
-		h = P.round(p.height/3f);
 		
 		OpenGLUtil.setTextureRepeat(g);
 		
@@ -46,10 +47,15 @@ extends PAppletHax {
 //			new TextureShaderTimeStepper( w, h, "sdf-01-auto.glsl" ),
 //			new TextureShaderTimeStepper( w, h, "sdf-02-auto.glsl" ),
 //			new TextureMeshDeform( w, h ),
-			new TextureCyclingRadialGradient( w, h ),
-			new TextureShaderTimeStepper( w, h, "bw-scroll-rows.glsl" ),
-			new TextureShaderTimeStepper( w, h, "light-leak.glsl" ),
-//			new TextureShaderTimeStepper( w, h, "sdf-03.glsl" ),
+//			new TextureCyclingRadialGradient( w, h ),
+//			new TextureShaderTimeStepper( w, h, "bw-scroll-rows.glsl" ),
+//			new TextureShaderTimeStepper( w, h, "light-leak.glsl" ),
+//			new TextureShaderTimeStepper( w, h, "primitives-2d.glsl" ),
+			new TextureShaderTimeStepper( w, h, "bw-dazzle-voronoi.glsl" ),
+			new TextureShaderTimeStepper( w, h, "bw-radial-wave.glsl" ),
+			new TextureShaderTimeStepper( w, h, "bw-waves.glsl" ),
+			new TextureShaderTimeStepper( w, h, "cubert.glsl" ),
+//			new TextureShaderTimeStepper( w, h, "sdf-04-better.glsl" ),
 //			new TextureShaderTimeStepper( w, h, "sdf-02.glsl" ),
 //			new TextureShaderTimeStepper( w, h, "morphing-bokeh-shape.glsl" ),
 //			new TextureShaderTimeStepper( w, h, "bw-motion-illusion.glsl" ),
@@ -130,7 +136,6 @@ extends PAppletHax {
 	}
 
 	public void drawApp() {
-		float frames = 100;
 		float frameInc = P.TWO_PI / frames;
 		background(40);
 		
@@ -156,6 +161,7 @@ extends PAppletHax {
 		}
 		
 //		postProcessForRendering();
+		FXAAFilter.instance(p).applyTo(p);
 	}
 	
 	protected void simulateMidiAndBeats() {

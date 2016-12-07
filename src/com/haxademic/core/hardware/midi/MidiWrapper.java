@@ -1,12 +1,10 @@
 package com.haxademic.core.hardware.midi;
 
-import java.lang.Thread.UncaughtExceptionHandler;
 import java.util.Hashtable;
 
-import processing.core.PApplet;
-
 import com.haxademic.core.app.P;
-import com.haxademic.core.debug.DebugUtil;
+
+import processing.core.PApplet;
 
 public class MidiWrapper
 {
@@ -75,10 +73,9 @@ public class MidiWrapper
 	{
 		p = p5;
 		
-//		_midiHandler = new MidiHandler();
-		new Thread(new Runnable() { public void run() {
-			_midiHandler = new MidiHandler();
-		}}).start();
+//		new Thread(new Runnable() { public void run() {
+//			_midiHandler = new MidiHandler();
+//		}}).start();
 
 //		Thread t = new Thread();
 //		t.setPriority(Thread.MIN_PRIORITY);

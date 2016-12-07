@@ -57,8 +57,8 @@ extends PAppletHax {
 		super.setup();
 		noStroke();
 		
-		img = loadImage(FileUtil.getFile("images/intestines-shadow.png"));
-		speed = img.height * textureSegmentRatio;
+		img = loadImage(FileUtil.getFile("images/dino-pattern-3.png"));
+		speed = img.height * 4f * textureSegmentRatio;
 		textureY = img.height - speed; 
 		wrapPadding = displayW * 1.2f;
 		position = new PVector(p.width/2, 0);
@@ -186,9 +186,9 @@ extends PAppletHax {
 		float ninetyDegrees = P.PI/2f;
 		float ninetyDegreesLeft = ninetyDegrees + 0.2f * P.sin(p.frameCount/11f);
 		float ninetyDegreesRight = ninetyDegrees + 0.2f * P.cos(p.frameCount/13f);
-		float widthOsc = P.abs(P.sin(p.frameCount/8f));
+		float widthOsc = P.abs(P.sin(p.frameCount/18f));
 		float curW = displayW/2f + 10f * widthOsc;
-		float curTint = 127 + 127 * widthOsc;
+		float curTint = 127 + 50f * widthOsc;
 		lastTint = curTint;
 		
 		// update position

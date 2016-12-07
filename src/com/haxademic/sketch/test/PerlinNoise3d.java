@@ -4,6 +4,7 @@ import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.util.DrawUtil;
+import com.haxademic.core.image.PBlendModes;
 import com.haxademic.core.image.filters.shaders.BadTVLinesFilter;
 import com.haxademic.core.image.filters.shaders.CubicLensDistortionFilter;
 import com.haxademic.core.image.filters.shaders.InvertFilter;
@@ -19,17 +20,21 @@ extends PAppletHax {
 	public float detail = 0;
 	public float xProgress = 0;
 	public float yProgress = 0;
-	float noiseScale = 0.005f;
-	int octaves = 2;
+	float noiseScale = 0.003f;
+	int octaves = 3;
 	float noiseSpeed = 0.02f;
 	float falloff = 0.5f;
-	int spacing = 50;
+	int spacing = 40;
 	protected ControlP5 _cp5;
+	protected float frames = 60 * 12;
 
 	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, 1200 );
-		p.appConfig.setProperty( AppSettings.HEIGHT, 800 );
+		p.appConfig.setProperty( AppSettings.WIDTH, 1000 );
+		p.appConfig.setProperty( AppSettings.HEIGHT, 1000 );
 		p.appConfig.setProperty( AppSettings.SMOOTHING, AppSettings.SMOOTH_HIGH );
+		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, false);
+		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_START_FRAME, 1 );
+		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, Math.round(frames) );
 	}
 
 	public void setup() {
@@ -44,40 +49,44 @@ extends PAppletHax {
 	}
 
 	public void drawApp() {
-		p.blendMode(P.BLEND);
-		if(p.frameCount == 1) p.background(0);
-		DrawUtil.feedback(p.g, 0, 0.7f, 0.35f);
-//		p.ortho();
+		float progress = (p.frameCount % frames) / frames;
 		
-		p.blendMode(P.SCREEN);
+//		p.blendMode(P.BLEND);
+		p.blendMode(PBlendModes.BLEND);
+		if(p.frameCount >= 1) p.background(255);
+//		DrawUtil.feedback(p.g, p.color(255), 0.6f, 0.1f);
+		p.ortho();
+		
+		p.blendMode(PBlendModes.SUBTRACT);
 
-		DrawUtil.setDrawFlat2d(p, true);
+//		DrawUtil.setDrawFlat2d(p, true);
 		p.pushMatrix();
-		int halfSize = p.width;
+		float halfSize = p.width * 0.2f;
 
-		p.translate(p.width/2, p.height/2, -halfSize);
-		p.rotateY(p.frameCount*0.01f);
-		p.rotateX(P.sin(p.frameCount*0.01f));
+		p.translate(p.width/2, p.height/2 + spacing/4f, -halfSize);
+		p.rotateY(progress * P.TWO_PI);
+		p.rotateX(progress * P.TWO_PI);
 //		p.rotateY(P.PI/4f);
 //		p.rotateX(P.PI/4f);
 		
-		p.noiseDetail(octaves, falloff);
+		float autoFalloff = (progress < 0.5f) ? P.map(progress, 0, 0.5f, 0, 1) : P.map(progress, 0.5f, 1f, 1, 0);
+		p.noiseDetail(octaves, autoFalloff); // falloff
 
 		// For every x,y coordinate in a 2D space, calculate a noise value and produce a brightness value
 		p.stroke(255);
-		p.strokeWeight(0.5f);
-		for (int x = -halfSize; x < halfSize; x += spacing) {
-			for (int y = -halfSize; y < halfSize; y += spacing) {
-				for (int z = -halfSize; z < halfSize; z += spacing) {
-					p.stroke(p.noise(x) * 255, p.noise(y) * 255, p.noise(z) * 255);
+		p.strokeWeight(1.85f);
+		for (float x = -halfSize; x < halfSize; x += spacing) {
+			for (float y = -halfSize; y < halfSize; y += spacing) {
+				for (float z = -halfSize; z < halfSize; z += spacing) {
+					p.stroke(p.noise(x) * 127f - 0f, p.noise(y) * 127f - 0f, p.noise(z) * 127f - 0f);
 					float value = getNoise(x,y,z);
-					float valueNext = getNoise(x,y,z+spacing);
-					float valueLeft = getNoise(x-spacing,y,z);
-					float valueUp = getNoise(x,y+spacing,z);
-					if(value > 0.5f) {
-						if(valueNext > 0.5f) p.line(x, y, z, x, y, z+spacing);
-						if(valueLeft > 0.5f) p.line(x, y, z, x-spacing, y, z);
-						if(valueUp > 0.5f) p.line(x, y, z, x, y+spacing, z);
+					float valueX = getNoise(x+spacing,y,z);
+					float valueY = getNoise(x,y+spacing,z);
+					float valueZ = getNoise(x,y,z+spacing);
+					if(value >= 0.5f) {
+						if(valueX > 0.5f && x + spacing < halfSize) p.line(x, y, z, x+spacing, y, z);
+						if(valueY > 0.5f && y + spacing < halfSize) p.line(x, y, z, x, y+spacing, z);
+						if(valueZ > 0.5f && z + spacing < halfSize) p.line(x, y, z, x, y, z+spacing);
 					}
 				}
 			}
@@ -85,11 +94,14 @@ extends PAppletHax {
 		p.popMatrix();
 		
 //		CubicLensDistortionFilter.instance(p).applyTo(p);
-		BadTVLinesFilter.instance(p).applyTo(p.g);
-		VignetteFilter.instance(p).applyTo(p.g);
+//		BadTVLinesFilter.instance(p).applyTo(p.g);
+//		VignetteFilter.instance(p).applyTo(p.g);
+		
+		// hide ControlP5
+		p.translate(-1000, 0);
 	}
 	
-	protected float getNoise(int x, int y, int z ) {
+	protected float getNoise(float x, float y, float z ) {
 		return p.noise(
 				p.frameCount * noiseSpeed + x * noiseScale, 
 				p.frameCount * noiseSpeed + y * noiseScale, 

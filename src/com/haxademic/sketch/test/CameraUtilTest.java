@@ -21,6 +21,7 @@ extends PAppletHax {
 	public float fogEnd = 0;
 	public float cameraNear = 0;
 	public float cameraDist = 0;
+	public boolean orthoCamera = false;
 	protected ControlP5 _cp5;
 	
 	PGraphicsOpenGL pg; 
@@ -39,20 +40,37 @@ extends PAppletHax {
 		_cp5 = new ControlP5(this);
 		_cp5.addSlider("fogStart").setPosition(20,20).setWidth(100).setRange(0, 10000).setValue(0);
 		_cp5.addSlider("fogEnd").setPosition(20,40).setWidth(100).setRange(0, 10000).setValue(10000);
-		_cp5.addSlider("cameraNear").setPosition(20,60).setWidth(100).setRange(0, 1000).setValue(1);
-		_cp5.addSlider("cameraDist").setPosition(20,80).setWidth(100).setRange(0, 100000).setValue(100000);
+		_cp5.addSlider("cameraNear").setPosition(20,60).setWidth(100).setRange(1, 1000).setValue(1);
+		_cp5.addSlider("cameraDist").setPosition(20,80).setWidth(100).setRange(0, 30000).setValue(30000);
+		_cp5.addToggle("orthoCamera").setPosition(20,100).setWidth(100).setValue(orthoCamera);
 	}
 
 	public void drawApp() {
 		p.background(0);
 		
-		  pg = (PGraphicsOpenGL)g;
-		  pgl = beginPGL();  
-		  gl = ((PJOGL)pgl).gl.getGL2();
+		  if(orthoCamera == true) {
+			  p.ortho();
+		  } else {			  
+			  float fov = mouseX/(float)width * PI/2f;
+			  float cameraY = (float)height/2.0f;
+			  float cameraZ = cameraY / tan(fov / 2.0f);
+			  float aspect = (float)width/(float)height;
+			  if (mousePressed) {
+				  aspect = aspect / 2.0f;
+			  }
+//			  perspective(fov, aspect, cameraZ/10.0, cameraZ*10.0);
+			  p.perspective(fov, aspect, cameraNear, cameraDist);
+		  }
 		  
-		  CameraUtil.setCameraDistance(p.g, cameraNear, cameraDist);
+//		  CameraUtil.setCameraDistance(p.g, cameraNear, cameraDist);
 
 		p.fill(255);
+		
+		/*
+		pg = (PGraphicsOpenGL)g;
+		pgl = beginPGL();  
+		gl = ((PJOGL)pgl).gl.getGL2();
+		
 		if((p.frameCount/10)%2 == 0) {
 			p.ortho();
 //			OpenGLUtil.setFog(p.g, true);
@@ -72,7 +90,8 @@ extends PAppletHax {
 			p.text("fogging", 40, 40);
 		} else {
 			gl.glDisable(GL2.GL_FOG);
-		}		
+		}	
+		*/	
 		
 		p.pushMatrix();
 		

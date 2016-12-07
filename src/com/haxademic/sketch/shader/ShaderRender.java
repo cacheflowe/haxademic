@@ -32,7 +32,7 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.HEIGHT, "640" );
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, false );
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, Math.round(_frames) );
-		p.appConfig.setProperty( AppSettings.RENDERING_GIF, "false" );
+		p.appConfig.setProperty( AppSettings.RENDERING_GIF, false );
 		p.appConfig.setProperty( AppSettings.RENDERING_GIF_FRAMERATE, "40" );
 		p.appConfig.setProperty( AppSettings.RENDERING_GIF_QUALITY, "15" );
 		p.appConfig.setProperty( AppSettings.RENDERING_GIF_START_FRAME, "3" );

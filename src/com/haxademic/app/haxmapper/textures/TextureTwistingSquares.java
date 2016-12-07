@@ -50,7 +50,7 @@ extends BaseTexture {
 	}
 	
 	public void updateTimingSection() {
-		_steps.setTarget(MathUtil.randRangeDecimal(10, 60));
+		_steps.setTarget(MathUtil.randRangeDecimal(30, 80));
 	}
 
 }

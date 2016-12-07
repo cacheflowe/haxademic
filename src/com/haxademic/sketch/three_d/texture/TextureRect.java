@@ -4,6 +4,7 @@ import processing.core.PImage;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.util.DrawUtil;
+import com.haxademic.core.draw.util.OpenGLUtil;
 import com.haxademic.core.system.FileUtil;
 
 public class TextureRect 
@@ -15,7 +16,8 @@ extends PAppletHax {
 	public void setup() {
 		super.setup();
 		img = loadImage(FileUtil.getHaxademicDataPath() + "images/justin-tiny-color1.png");
-		noStroke();
+		OpenGLUtil.setTextureQualityLow(p.g);
+//		OpenGLUtil.setTextureQualityHigh(p.g);
 	}
 	
 	public void drawApp() {

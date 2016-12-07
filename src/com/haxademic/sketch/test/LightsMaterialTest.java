@@ -47,6 +47,8 @@ extends PAppletHax {
 	public void setup() {
 		super.setup();
 		
+		p.sphereDetail(100);
+		
 		centerX = p.width/2;
 		centerY = p.height/2;
 
@@ -67,7 +69,9 @@ extends PAppletHax {
 		_cp5.addSlider("spotLightConcentration").setPosition(20,cntrlY+=spacing).setWidth(cntrlW).setRange(1,1000f).setValue(spotLightConcentration);
 
 		// load model
-		obj = p.loadShape( FileUtil.getFile("models/skull-realistic.obj"));	
+		obj = p.loadShape( FileUtil.getFile("models/skull-realistic.obj"));
+		obj = p.loadShape( FileUtil.getFile("models/Trump_lowPoly.obj"));
+		P.println(obj.getChildren().length);
 		PShapeUtil.scaleObjToExtent(obj, p.height * 0.8f);
 	}
 	
@@ -90,7 +94,7 @@ extends PAppletHax {
 	protected void addPointLight() {
 		// adds a non-directional light source
 		float pointX = centerX + centerX/2 * P.sin(_progress * P.TWO_PI) ;
-		p.pointLight(51, 102, 126, pointX, centerY, 0);
+		p.pointLight(255, 102, 126, pointX, centerY, 0);
 		// show debug light position
 		if(_showControls == true) {
 			p.pushMatrix();
@@ -119,7 +123,6 @@ extends PAppletHax {
 	public void drawApp() {
 		p.background(0);
 		p.noStroke();
-		p.sphereDetail(100);
 		p.pushMatrix();
 		
 		_progress = (p.frameCount % _frames) / _frames;
@@ -197,7 +200,7 @@ extends PAppletHax {
 		p.translate(p.width/2, p.height * 0.45f, -p.width);
 		p.rotateZ(P.PI);
 		p.rotateY(P.sin(P.PI + P.TWO_PI * _progress) * 0.5f);
-		obj.disableStyle();
+//		obj.disableStyle();
 		p.fill(70);
 		p.shape(obj);
 		p.popMatrix();

@@ -48,9 +48,11 @@ extends PAppletHax {
 //		transitionShader = p.loadShader(FileUtil.getFile("shaders/transitions/dissolve.glsl"));
 //		transitionShader.set("blocksize", 6f);
 //		transitionShader = p.loadShader(FileUtil.getFile("shaders/transitions/cross-zoom.glsl"));
-		
+		transitionShader = p.loadShader(FileUtil.getFile("shaders/transitions/hsv-blend.glsl"));
+//		transitionShader = p.loadShader(FileUtil.getFile("shaders/transitions/wind.glsl"));
 //		transitionShader = p.loadShader(FileUtil.getFile("shaders/transitions/cube.glsl"));
-		transitionShader = p.loadShader(FileUtil.getFile("shaders/transitions/glitch-displace.glsl"));
+//		transitionShader = p.loadShader(FileUtil.getFile("shaders/transitions/glitch-displace.glsl"));
+		
 		transitionShader.set("from", img1);
 		transitionShader.set("to", img2);
 	}

@@ -24,7 +24,8 @@ extends PAppletHax {
 
 	protected void initMidi() {
 		MidiBus.list(); // List all available Midi devices on STDOUT. This will show each device's index and name.
-		midiBus = new MidiBus(this, MIDI_IN_INDEX, MIDI_OUT_INDEX);
+//		midiBus = new MidiBus(this, MIDI_IN_INDEX, MIDI_OUT_INDEX);
+		midiBus = new MidiBus(this);
 	}
 
 	public void drawApp() {
