@@ -2,6 +2,7 @@ package com.haxademic.core.draw.mesh;
 
 import java.awt.Point;
 
+import com.haxademic.core.app.P;
 import com.haxademic.core.data.ConvertUtil;
 import com.haxademic.core.system.FileUtil;
 
@@ -26,6 +27,8 @@ public class PGraphicsKeystone {
 	protected Point _mousePoint = new Point();
 	
 	protected String filePath = null;
+	
+	protected int lastMouseTime = 0;
 
 	public PGraphicsKeystone( PApplet p, PGraphics pg, float subDivideSteps, String filePath ) {
 		this(p, pg, subDivideSteps);
@@ -67,6 +70,7 @@ public class PGraphicsKeystone {
 	public void update( PGraphics canvas, boolean subdivide ) {
 		// draw to screen with pinned corner coords
 		canvas.noStroke();
+		canvas.fill(255);
 		canvas.beginShape(PConstants.QUAD);
 		canvas.texture(pg);
 		
@@ -122,12 +126,29 @@ public class PGraphicsKeystone {
 		}
 
 		canvas.endShape();
+		
+		// for debugging
+		showMouse(canvas);
 	}
 	
 	protected float interp( float lower, float upper, float n ) {
 		return ( ( upper - lower ) * n ) + lower;
 	}
 
+	protected void showMouse(PGraphics canvas) {
+		if(P.p.millis() < lastMouseTime + 3000) {
+			for( int i=0; i < _points.length; i++ ) {
+				if( _points[i].distance( _mousePoint.x, _mousePoint.y ) < 30 ) {
+					canvas.fill(255);
+					canvas.stroke(0);
+					canvas.strokeWeight(3);
+					float indicatorSize = 13f + 3f * P.sin(P.p.frameCount / 10f);
+					canvas.ellipse(_points[i].x, _points[i].y, indicatorSize, indicatorSize);
+				}
+			}
+		}
+	}
+	
 	public void mouseEvent(MouseEvent event) {
 		_mousePoint.setLocation( event.getX(), event.getY() );
 		switch (event.getAction()) {
@@ -142,7 +163,11 @@ public class PGraphicsKeystone {
 				_draggingPoint = null;
 				if(filePath != null) writeToFile();
 				break;
+			case MouseEvent.MOVE:
+				lastMouseTime = P.p.millis();
+				break;
 			case MouseEvent.DRAG:
+				lastMouseTime = P.p.millis();
 				if( _draggingPoint != null ) {
 					_draggingPoint.setLocation( _mousePoint );
 				}

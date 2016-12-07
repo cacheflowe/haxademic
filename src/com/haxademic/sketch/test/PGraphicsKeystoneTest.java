@@ -17,11 +17,10 @@ extends PAppletHax {
 	protected PGraphicsKeystone _pgPinnable;
 
 	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.FPS, "60" );
-		p.appConfig.setProperty( AppSettings.WIDTH, "1432" );
-		p.appConfig.setProperty( AppSettings.HEIGHT, "927" );
-		p.appConfig.setProperty( AppSettings.FILLS_SCREEN, "false" );
-		p.appConfig.setProperty( AppSettings.FULLSCREEN, "false" );
+		p.appConfig.setProperty( AppSettings.WIDTH, 1200 );
+		p.appConfig.setProperty( AppSettings.HEIGHT, 900 );
+		p.appConfig.setProperty( AppSettings.FILLS_SCREEN, false );
+		p.appConfig.setProperty( AppSettings.FULLSCREEN, false );
 	}
 
 	public void setup() {
