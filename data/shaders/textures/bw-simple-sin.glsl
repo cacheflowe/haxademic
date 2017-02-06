@@ -17,6 +17,7 @@ uniform float time;
 void main()
 {
     vec2 uv = vertTexCoord.xy - vec2(.5,.5);
+    uv.x *= texOffset.y / texOffset.x;		// Correct for aspect ratio
     float theDistance = distance(uv, texOffset.xy);
 	gl_FragColor = vec4(sin(theDistance * time * 100.0) );
 }

@@ -7,6 +7,7 @@ precision mediump int;
 #define PROCESSING_TEXTURE_SHADER
 
 uniform sampler2D texture;
+uniform vec2 texOffset;
 varying vec4 vertColor;
 varying vec4 vertTexCoord;
 
@@ -23,7 +24,8 @@ vec2 cart_polar(vec2 p) {
 }
 
 void main() {
-    vec2 position = vertTexCoord.xy - vec2(.5,.5);
+  vec2 position = vertTexCoord.xy - vec2(.5,.5);
+	position.x *= texOffset.y / texOffset.x;		// Correct for aspect ratio
 	bool hit = run( position / particleSpread, time * timeFactor);
 	if(hit) {
 		gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0);

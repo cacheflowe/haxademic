@@ -33,6 +33,27 @@ uniform float time;
 #define transverseSpeed zoom*2.0
 #define cloud 0.11 
 
+
+
+//#define iterations 10
+//#define formuparam2 0.79
+//
+//#define volsteps 15
+//#define stepsize 0.590
+//
+//#define zoom 0.200
+//#define tile   0.850
+//#define speed2  0.00
+//
+//#define brightness 0.005
+//#define darkmatter 0.400
+//#define distfading 0.560
+//#define saturation 0.990
+//
+//
+//#define transverseSpeed zoom*1.0
+//#define cloud 0.07
+
  
 float triangle(float x, float a)
 {

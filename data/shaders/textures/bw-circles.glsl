@@ -21,7 +21,8 @@ vec3 sample(vec2 pos) {
 }
 
 void main (void) {
-	vec2 pos = vertTexCoord.xy - vec2(0.5, 0.5);	
+	vec2 pos = vertTexCoord.xy - vec2(0.5, 0.5);
+	pos.x *= texOffset.y / texOffset.x;		// Correct for aspect ratio
 	vec3 color = vec3(0.0);
 	float sdist = 0.002 / float(SAMPLES);
 	for(int x = 0; x < SAMPLES; x++){

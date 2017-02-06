@@ -208,16 +208,18 @@ bool digit(vec2 p, int d, float w) {
 
 void main(void) {
     vec2 uv = vertTexCoord.xy - vec2(.5,.5);
+		uv.x *= texOffset.y / texOffset.x;		// Correct for aspect ratio
+
 	// uv.y *= resolution.y / resolution.x;
 	uv *= 12.0 + beat() * 3.0;
 	uv /= dot(uv, vec2(sin(time * 0.34), sin(time * 0.53))) * 0.1 + 2.0; // Tilting
 	uv -= time / 1.0;
-	
+
 	bool b = digit(fract(uv), int(mod(time + floor(uv.x) + floor(uv.y), 16.0)), 0.1);
-	
+
 	if (b)	gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0);
 	else gl_FragColor = vec4(0.0, 0.0, 0.0, 1.0);
-	
+
 	if (mod(gl_FragCoord.y, 2.0) < 1.0) gl_FragColor *= 0.8;
 	if (mod(uv.x, 4.0) < 2.0) gl_FragColor *= 0.85;
 }

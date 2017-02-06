@@ -32,6 +32,8 @@ void main()
 {
 	float t = time * 0.25;
 	vec2 uv = vertTexCoord.xy - vec2(.5,.5);
+  uv.x *= texOffset.y / texOffset.x;		// Correct for aspect ratio
+
     uv *= 10. + sin(t/1.0) * 5.;
      float y0 = solve(uv.y-3.,uv.y,  floor(f(uv.y))),
            y1 = solve(uv.y,uv.y+3., floor(f(uv.y))+1.);

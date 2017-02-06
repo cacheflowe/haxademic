@@ -21,6 +21,7 @@ float map(vec3 p)
 void main( void )
 {
 	vec2 uv = vertTexCoord.xy - vec2(.5,.5);
+	uv.x *= texOffset.y / texOffset.x;		// Correct for aspect ratio
 	vec3 dir = normalize(vec3(uv, 1.0));
     float timer = time * 0.3;
 	vec3 pos = vec3(sin(timer),cos(timer),timer * 5.0);

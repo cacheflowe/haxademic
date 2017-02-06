@@ -6,6 +6,7 @@ precision mediump int;
 #define PROCESSING_TEXTURE_SHADER
 
 uniform sampler2D texture;
+uniform vec2 texOffset;
 varying vec4 vertColor;
 varying vec4 vertTexCoord;
 
@@ -14,6 +15,7 @@ uniform float angle;
 
 void main() {
     vec2 p = vertTexCoord.xy - 0.5;
+    p.x *= texOffset.y / texOffset.x;		// Correct for aspect ratio
     float r = length(p);
     float a = atan(p.y, p.x) + angle;
     float tau = 2. * 3.1416 ;

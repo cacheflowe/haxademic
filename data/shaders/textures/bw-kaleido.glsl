@@ -18,8 +18,10 @@ uniform vec2 resolution;
 #define PI 3.14159
 
 void main( void ) {
-    
+
 	vec2 pos = vertTexCoord.xy - vec2(.5,.5);
+  pos.x *= texOffset.y / texOffset.x;		// Correct for aspect ratio
+
 //	vec2 pos = -1.0+2.0*( gl_FragCoord.xy / resolution.xy );
 //	pos.x *= resolution.x/resolution.y;
 	vec2 p = pos;
@@ -31,7 +33,7 @@ void main( void ) {
 		p -= color;
 		color += sin(float(i)+length(pos))*length(p);
 	}
-    
+
 	gl_FragColor = vec4( sin(color*8.0)*0.5+0.5 );
-    
+
 }

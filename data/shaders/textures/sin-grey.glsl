@@ -18,8 +18,10 @@ uniform vec2 resolution;
 #define PI 3.14159
 
 void main( void ) {
-    
+
 	vec2 p = vertTexCoord.xy - vec2(.5,.5);
+  p.x *= texOffset.y / texOffset.x;		// Correct for aspect ratio
+
 	float sx = 0.2 * (p.x + 0.5) * sin( 25.0 * p.x - 5. * time);
 	float dy = 1./ ( 100. * abs(p.y - sx));
 	//dy += 1./ (20. * length(p - vec2(p.x, 0.)));

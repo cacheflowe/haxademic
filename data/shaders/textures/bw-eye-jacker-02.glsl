@@ -17,6 +17,8 @@ uniform int mode;
 void main(void)
 {
 	vec2 p = vertTexCoord.xy - vec2(.5,.5);
+	p.x *= texOffset.y / texOffset.x;		// Correct for aspect ratio
+	p *= 0.35; // zoom in
 	float r = length(p);
 	float a = atan(p.y, p.x);
 	if(r > 0.2)

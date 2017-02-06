@@ -16,11 +16,11 @@ uniform float time;
 vec3 pin(vec3 v)
 {
 	vec3 q = vec3(0.0);
-	
+
 	q.x = sin(v.x)*0.5+0.5;
 	q.y = sin(v.y+1.0471975511965977461542144610932)*0.5+0.5;
 	q.z = sin(v.z/4.1887902047863909846168473723972)*0.5+0.5;
-	
+
 	return normalize(q);
 }
 
@@ -48,7 +48,7 @@ vec2 rot(vec2 r, float a) {
 void main( void ) {
 	// vec2 uv  = ( gl_FragCoord.xy / resolution.xy ) * 2.0 - 1.0;
 	vec2 uv = vertTexCoord.xy * 1.0 - 0.5;
-	uv.x *= texOffset.x / texOffset.y ;
+	uv.x *= texOffset.y / texOffset.x;		// Correct for aspect ratio
 	vec3 dir = normalize(vec3(uv, 0.2));
 	dir.zy = rot(dir.zy, time * 0.2);
 	dir.xz = rot(dir.xz, time * 0.15); dir = dir.yzx;
@@ -68,4 +68,3 @@ void main( void ) {
 	// gl_FragColor = vec4(tmp.r, tmp.g, tmp.b, 1.0); // color version
 	gl_FragColor = vec4(tmp.g, tmp.g, tmp.g, 1.0);
 }
-

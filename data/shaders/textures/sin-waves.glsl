@@ -26,11 +26,12 @@ void main() {
     float x, y, xpos, ypos;
     float t = time * 30.0;
     vec3 c = vec3(0.0);
-    
+
     vec2 p = vertTexCoord.xy;   //  - vec2(.5,.5)
+    uv.x *= texOffset.y / texOffset.x;		// Correct for aspect ratio
     xpos = p.x;
     ypos = p.y;
-    
+
     x = xpos;
     for (float i = 0.0; i < LINES; i += 1.0) {
         for(float j = 0.0; j < 2.0; j += 1.0){
@@ -39,16 +40,16 @@ void main() {
                + 0.300 * cos(x * 6.350 + (i  + j) * 0.2 + t * 0.050 * j)
                + 0.024 * sin(x * 12.35 + ( i + j * 4.0 ) * 0.8 + t * 0.034 * (8.0 *  j))
                + 0.5);
-            
+
             c += vec3(1.0 - pow(clamp(abs(1.0 - y) * 5.0, 0.0,1.0), 0.25));
         }
     }
-    
+
     c *= mix(
              mix(ORANGE, BLUE, xpos)
              , mix(GREEN, RED, xpos)
              ,(sin(t * 0.02) + 1.0) * 0.45
              ) * BRIGHTNESS;
-    
+
     gl_FragColor = vec4(c, 1.0);
 }

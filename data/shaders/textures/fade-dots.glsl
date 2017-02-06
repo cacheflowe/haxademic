@@ -21,7 +21,9 @@ float rand(vec2 co){
 
 void main (void) {
 	// Divide the coordinates into a grid of squares
-	vec2 v = gl_FragCoord.xy / 20.0;
+	vec2 v = gl_FragCoord.xy / 50.0;
+  v.x *= texOffset.y / texOffset.x;		// Correct for aspect ratio
+
 	// Calculate a pseudo-random brightness value for each square
 	vec3 brightness = vec3 ( fract(rand(floor(v)) + time) , fract(rand(floor(v)) + time/3.), fract(rand(floor(v)) + time/5.)) ;
 	// Reduce brightness in pixels away from the square center

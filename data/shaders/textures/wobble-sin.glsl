@@ -19,9 +19,10 @@ uniform float time;
 
 
 void main (void) {
-	vec2 uv = vertTexCoord.xy - vec2(0.5, 0.5);	
+	vec2 uv = vertTexCoord.xy - vec2(0.5, 0.5);
+	uv.x *= texOffset.y / texOffset.x;		// Correct for aspect ratio
 	float t = abs( 1.0 / (sin( uv.y + sin( time + uv.x * 10.0 ) * uv.x ) * 10.0) );
 	vec3 finalColor = vec3( t * 0.8, t * 0.8, t * 0.8 );
-	
+
 	gl_FragColor = vec4( finalColor, 1.0 );
 }

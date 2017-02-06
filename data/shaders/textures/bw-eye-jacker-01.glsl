@@ -28,10 +28,12 @@ int getPosition(vec2 p) {
 
 void main(void) {
 	vec2 p = vertTexCoord.xy - vec2(.5,.5);
+	p.x *= texOffset.y / texOffset.x;		// Correct for aspect ratio
+
 	int pp = getPosition(p);
-	
+
 	float p0,p1;
-	
+
 	if (mode == 0) {
 		p0 = pattern0(p,-time);
 		p1 = pattern0(p, time);
@@ -42,7 +44,7 @@ void main(void) {
 		p0 = pattern2(p,-time);
 		p1 = pattern2(p, time);
 	}
-	
+
 	float s = mix(p0,p1,smoothstep(0.25,0.27,length(p)));
 	gl_FragColor = vec4(vec3(s),1.0);
 }

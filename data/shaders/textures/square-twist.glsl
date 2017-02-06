@@ -37,14 +37,16 @@ float smootheststep(float edge0, float edge1, float x)
 void main(void)
 {
     vec2 uv = vertTexCoord.xy - vec2(.5,.5);
+		uv.x *= texOffset.y / texOffset.x;		// Correct for aspect ratio
+
 //	uv.x *= iResolution.x / iResolution.y;
 	uv *= 1.5;
-	
+
 	float period = 10.0;
 	float timer = time / period;
 	timer = mod(timer, 1.0);
 	timer = smootheststep(0.0, 1.0, timer);
-	
+
 	gl_FragColor = vec4(0.0, 0.0, 0.0, 1.0);
 	for (int i = 0; i < 9; i++) {
 		float n = float(i);
