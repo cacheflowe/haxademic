@@ -20,6 +20,7 @@ extends PAppletHax {
 	protected void overridePropsFile() {
 		p.appConfig.setProperty( AppSettings.WIDTH, 500 );
 		p.appConfig.setProperty( AppSettings.HEIGHT, 500 );
+		p.appConfig.setProperty( AppSettings.RETINA, false );
 	}
 
 	public void setup() {

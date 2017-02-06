@@ -1,7 +1,7 @@
 package com.haxademic.app.haxmapper.support;
 
 import com.haxademic.app.haxmapper.textures.BaseTexture;
-import com.haxademic.app.haxmapper.textures.TextureCyclingRadialGradient;
+import com.haxademic.app.haxmapper.textures.TextureFractalPolygons;
 import com.haxademic.app.haxmapper.textures.TextureShaderTimeStepper;
 import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
@@ -17,12 +17,13 @@ extends PAppletHax {
 	protected BaseTexture[] _textures;
 	int w = 500;
 	int h = 300;
-	float frames = 275;
+	float frames = 500;
 
 
 	protected void overridePropsFile() {
 		p.appConfig.setProperty( AppSettings.WIDTH, 1000 );
 		p.appConfig.setProperty( AppSettings.HEIGHT, 1000 );
+		p.appConfig.setProperty( AppSettings.FULLSCREEN, true );
 		p.appConfig.setProperty( AppSettings.FILLS_SCREEN, false );
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, false );
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_START_FRAME, 1);
@@ -33,14 +34,17 @@ extends PAppletHax {
 	public void setup() {
 		super.setup();
 		
-		w = Math.round(p.width / 2f); // p.width;// 
-		h = Math.round(w * (9f/16f));
+		w = Math.round(p.width / 5f); // p.width;// 
+		h = Math.round(p.height / 4f); // Math.round(w * (9f/16f));
+//		w = p.width; 
+//		h = p.height;
 		
 		OpenGLUtil.setTextureRepeat(g);
 		
 		_textures = new BaseTexture[]{
 //			new TextureShaderTimeStepper( w, h, "_drawing-stuff.glsl" ),
 				
+//			new TextureFractalPolygons( w, h ),
 //			new TextureWebCam( w, h ),
 //			new TextureEQFloatParticles( w, h ),
 			
@@ -51,10 +55,36 @@ extends PAppletHax {
 //			new TextureShaderTimeStepper( w, h, "bw-scroll-rows.glsl" ),
 //			new TextureShaderTimeStepper( w, h, "light-leak.glsl" ),
 //			new TextureShaderTimeStepper( w, h, "primitives-2d.glsl" ),
-			new TextureShaderTimeStepper( w, h, "bw-dazzle-voronoi.glsl" ),
-			new TextureShaderTimeStepper( w, h, "bw-radial-wave.glsl" ),
-			new TextureShaderTimeStepper( w, h, "bw-waves.glsl" ),
-			new TextureShaderTimeStepper( w, h, "cubert.glsl" ),
+//			new TextureShaderTimeStepper( w, h, "bw-eye-jacker-02.glsl" ),
+//			new TextureShaderTimeStepper( w, h, "shiny-circle-wave.glsl" ),
+//			new TextureShaderTimeStepper( w, h, "radial-waves.glsl" ),
+			new TextureShaderTimeStepper( w, h, "cacheflowe-squound-tunnel.glsl" ),
+			new TextureShaderTimeStepper( w, h, "cacheflowe-grid-noise-warp.glsl" ),
+			new TextureShaderTimeStepper( w, h, "cacheflowe-liquid-moire.glsl" ),
+			new TextureShaderTimeStepper( w, h, "cacheflowe-liquid-moire-camo-alt.glsl" ),
+			new TextureShaderTimeStepper( w, h, "cacheflowe-checkerboard-stairs.glsl" ),
+			new TextureShaderTimeStepper( w, h, "cacheflowe-folded-wrapping-paper.glsl" ),
+			new TextureShaderTimeStepper( w, h, "cacheflowe-concentric-plasma.glsl" ),
+//			new TextureShaderTimeStepper( w, h, "cacheflowe-scrolling-radial-twist.glsl" ),
+//			new TextureShaderTimeStepper( w, h, "cacheflowe-warp-vortex.glsl" ),
+//			new TextureShaderTimeStepper( w, h, "cacheflowe-distance-blobs.glsl" ),
+//			new TextureShaderTimeStepper( w, h, "cacheflowe-metaballs.glsl" ),
+//			new TextureShaderTimeStepper( w, h, "cacheflowe-drunken-holodeck.glsl" ),
+//			new TextureShaderTimeStepper( w, h, "cacheflowe-triangle-wobble-stairs.glsl" ),
+//			new TextureShaderTimeStepper( w, h, "cacheflowe-stripe-waves.glsl" ),
+//			new TextureShaderTimeStepper( w, h, "cacheflowe-concentric-hex-lines.glsl" ),
+//			new TextureShaderTimeStepper( w, h, "cacheflowe-scrolling-dashed-lines.glsl" ),
+//			new TextureShaderTimeStepper( w, h, "cacheflowe-op-wavy-rotate.glsl" ),
+//			new TextureShaderTimeStepper( w, h, "cacheflowe-repeating-circles.glsl" ),
+//			new TextureShaderTimeStepper( w, h, "cacheflowe-dots-on-planes.glsl" ),
+//			new TextureShaderTimeStepper( w, h, "cacheflowe-asterisk-wave.glsl" ),
+//			new TextureShaderTimeStepper( w, h, "cacheflowe-concentric-hypno-lines.glsl" ),
+//			new TextureShaderTimeStepper( w, h, "swirl.glsl" ),
+//			new TextureShaderTimeStepper( w, h, "bw-dazzle-voronoi.glsl" ),
+//			new TextureShaderTimeStepper( w, h, "bw-radial-wave.glsl" ),
+//			new TextureShaderTimeStepper( w, h, "supershape-2d.glsl" ),
+//			new TextureShaderTimeStepper( w, h, "bw-waves.glsl" ),
+//			new TextureShaderTimeStepper( w, h, "cubert.glsl" ),
 //			new TextureShaderTimeStepper( w, h, "sdf-04-better.glsl" ),
 //			new TextureShaderTimeStepper( w, h, "sdf-02.glsl" ),
 //			new TextureShaderTimeStepper( w, h, "morphing-bokeh-shape.glsl" ),
@@ -165,12 +195,12 @@ extends PAppletHax {
 	}
 	
 	protected void simulateMidiAndBeats() {
-		if(p.frameCount % 30 == 0) {
+		if(p.frameCount % 45 == 0) {
 			for(BaseTexture tex : _textures) {
 				tex.updateTiming();
 			}
 		}
-		if(p.frameCount % 120 == 0) {
+		if(p.frameCount % 220 == 0) {
 			for(BaseTexture tex : _textures) {
 				tex.updateTimingSection();
 			}
@@ -184,12 +214,12 @@ extends PAppletHax {
 				tex.setColor(p.color(p.random(0, 255), p.random(0, 255), p.random(0, 255)));
 			}
 		}
-		if(p.frameCount % 45 == 0) {
+		if(p.frameCount % 180 == 0) {
 			for(BaseTexture tex : _textures) {
 				tex.newLineMode();
 			}
 		}
-		if(p.frameCount % 25 == 0) {
+		if(p.frameCount % 250 == 0) {
 			for(BaseTexture tex : _textures) {
 				tex.newMode();
 			}

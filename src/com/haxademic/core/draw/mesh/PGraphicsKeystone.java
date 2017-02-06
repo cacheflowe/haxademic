@@ -69,6 +69,7 @@ public class PGraphicsKeystone {
 
 	public void update( PGraphics canvas, boolean subdivide ) {
 		// draw to screen with pinned corner coords
+		// inspired by: https://github.com/davidbouchard/keystone & http://marcinignac.com/blog/projectedquads-source-code/
 		canvas.noStroke();
 		canvas.fill(255);
 		canvas.beginShape(PConstants.QUAD);
@@ -193,11 +194,16 @@ public class PGraphicsKeystone {
 	}
 
 	protected void writeToFile() {
-		String coordsStr = "";
-		coordsStr = coordsStr.concat(_topLeft.x + "," + _topLeft.y + ",");
-		coordsStr = coordsStr.concat(_topRight.x + "," + _topRight.y + ",");
-		coordsStr = coordsStr.concat(_bottomRight.x + "," + _bottomRight.y + ",");
-		coordsStr = coordsStr.concat(_bottomLeft.x + "," + _bottomLeft.y);
+		String coordsStr = String.join(",", new String[] {
+			Integer.toString(_topLeft.x),
+			Integer.toString(_topLeft.y),
+			Integer.toString(_topRight.x),
+			Integer.toString(_topRight.y),
+			Integer.toString(_bottomRight.x),
+			Integer.toString(_bottomRight.y),
+			Integer.toString(_bottomLeft.x),
+			Integer.toString(_bottomLeft.y)
+		});
 		FileUtil.writeTextToFile(filePath, coordsStr);
 	}
 }

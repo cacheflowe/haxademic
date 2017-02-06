@@ -28,19 +28,23 @@ public class KinectWrapperV2Mac implements IKinectWrapper {
 	public KinectWrapperV2Mac( PApplet p, boolean initDepth, boolean initRGB, boolean initDepthImage ) {
 		this.p = p;
 		
-		KinectSize.setSize(KWIDTH, KHEIGHT);
-				
-		_kinect = new Kinect2(p);
-		_kinect.initVideo();
-		_kinect.initDepth();
-		_kinect.initIR();
-		_kinect.initRegistered();
-		// Start all data
-		_kinect.initDevice();
-
-		
+		new Thread(new Runnable() { public void run() {
+			
+			KinectSize.setSize(KWIDTH, KHEIGHT);
+			
+			_kinect = new Kinect2(p);
+			_kinect.initVideo();
+			_kinect.initDepth();
+			_kinect.initIR();
+			_kinect.initRegistered();
+			// Start all data
+			_kinect.initDevice();
+			
+			
 //		_depthArray = new int[_kinect.getRawDepth().length];
-		setMirror(false);
+			setMirror(false);
+			
+	    }}).start();
 	}
 	
 	/* (non-Javadoc)
@@ -49,7 +53,7 @@ public class KinectWrapperV2Mac implements IKinectWrapper {
 	@Override
 	public void update() {
 		// Get the raw depth as array of integers
-		if( _kinectActive == true ) {
+		if( _kinectActive == true && _kinect != null ) {
 			_depthArray = _kinect.getRawDepth();
 		}
 	}
@@ -242,6 +246,7 @@ public class KinectWrapperV2Mac implements IKinectWrapper {
 	 */
 	@Override
 	public int getMillimetersDepthForKinectPixel( int x, int y ) {
+		if(_kinect == null) return 0;
 		int offset = x + y * _kinect.depthWidth;
 		if( offset >= _depthArray.length ) {
 			return 0;

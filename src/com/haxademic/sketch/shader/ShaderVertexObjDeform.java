@@ -35,6 +35,7 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.WIDTH, "640" );
 		p.appConfig.setProperty( AppSettings.HEIGHT, "640" );
 		p.appConfig.setProperty( AppSettings.SMOOTHING, AppSettings.SMOOTH_HIGH );
+		p.appConfig.setProperty( AppSettings.SHOW_STATS, true );
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
 		p.appConfig.setProperty( AppSettings.RENDERING_GIF, "false" );
 		p.appConfig.setProperty( AppSettings.RENDERING_GIF_FRAMERATE, "40" );
@@ -55,7 +56,7 @@ extends PAppletHax {
 		
 		// create geometry
 		if(_is3d == true) {
-			obj = p.loadShape( FileUtil.getFile("models/skull.obj"));
+			obj = p.loadShape( FileUtil.getFile("models/unicorn-head-lowpoly.obj"));
 			PShapeUtil.scaleObjToExtent(obj, p.height * 0.25f);
 			float modelExtent = PShapeUtil.getObjMaxExtent(obj);
 			PShapeUtil.addTextureUVToObj(obj, displacementMap, modelExtent);
@@ -97,22 +98,21 @@ extends PAppletHax {
 
 		// debug audio texture draw
 //		p.image(audioTexture.texture(), 0, 0);
-		
-		// read audio data into offscreen texture
-//		OpenGLUtil.setWireframe(p.g, false);
-//		OpenGLUtil.setWireframe(p.g, true);
-		
+
 		// set center screen & rotate
 		translate(width/2, height/2, 0);
 		// rotateX(0.3f * P.sin(percentComplete * P.TWO_PI));
 //		rotateX(p.frameCount/20f);
-		rotateX(P.PI);
+		rotateZ(P.PI);
 		rotateY(P.PI);
 		rotateY(p.mouseX / 100f);
+		rotateX(p.mouseY / 100f);
 
 		
 		// set shader properties & set on processing context
 		texShader.set("displacementMap", displacementMap);
+		p.noStroke();
+//		obj.disableStyle();
 		p.shader(texShader);  
 		p.shape(obj);
 		p.resetShader();

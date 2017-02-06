@@ -3,8 +3,8 @@ package com.haxademic.sketch.test;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.util.DrawUtil;
-import com.haxademic.core.draw.util.OpenGLUtil;
 
+import processing.core.PGraphics;
 import toxi.color.TColor;
 
 public class DrawPieCursorsSmooth
@@ -24,9 +24,8 @@ extends PAppletHax {
 		super.setup();	
 		GREEN = TColor.newHex("00b159");
 		WHITE = TColor.WHITE.copy();
-		p.smooth( OpenGLUtil.SMOOTH_HIGH );
 	}
-
+	
 	public void drawApp() {
 		background(0);
 		
@@ -54,6 +53,19 @@ extends PAppletHax {
 		p.strokeWeight( CURSOR_STROKE );
 		p.arc( 100, 100, CURSOR_RING_DIAMETER, CURSOR_RING_DIAMETER, 0, (float) P.TWO_PI, P.CHORD );
 		p.arc( 200, 150, CURSOR_RING_DIAMETER, CURSOR_RING_DIAMETER, 0, (float) P.TWO_PI, P.CHORD );
+		
+		// separate: draw line arc
+		float startRads = P.PI * 1.5f;
+		float cursorRadius = 50f;
+		float cursorFrames = 100f;
+		float cursorProgress = (float)(p.frameCount % cursorFrames) / cursorFrames;
+		p.noFill();
+		p.stroke(0, 255, 0);
+		p.arc(400, 400, cursorRadius, cursorRadius, startRads, startRads + cursorProgress * P.TWO_PI, P.OPEN);
+		
+		// zoom image
+//		DrawUtil.drawTestPattern(p.g);
+		DrawUtil.zoomReTexture(p.g, 0.66f + 0.33f * P.sin(p.frameCount * 0.01f));
 	}
 
 }

@@ -183,4 +183,36 @@ public class DrawUtil {
 		pg.rect(0, 0, pg.width, pg.height);
 		DrawUtil.setDrawFlat2d(pg, false);
 	}
+	
+	public static void zoomReTexture(PGraphics pg, float amount) {
+		float w = (float) pg.width;
+		float h = (float) pg.height;
+		float newW = w * amount;
+		float newH = h * amount;
+		pg.copy(
+				(int) (w * 0.5f - newW * 0.5f), 
+				(int) (h * 0.5f - newH * 0.5f),
+				(int) newW, 
+				(int) newH, 
+				0, 0, pg.width, pg.height);
+	}
+	
+	public static void drawTestPattern(PGraphics pg) {
+		pg.beginDraw();
+		pg.noStroke();
+		
+		for( int x=0; x < pg.width; x+= 50) {
+			for( int y=0; y < pg.height; y+= 50) {
+				if( ( x % 100 == 0 && y % 100 == 0 ) || ( x % 100 == 50 && y % 100 == 50 ) ) {
+					pg.fill(0);
+				} else {
+					pg.fill(255);
+				}
+				pg.rect(x,y,50,50);
+			}
+		}
+		pg.endDraw();
+	}
+
+
 }

@@ -10,6 +10,11 @@ import com.haxademic.core.system.FileUtil;
 public class TextureShaderScrubber
 extends BaseTexture {
 
+	protected String _shaderFile;
+	public String toString() {
+		return this.getClass().getName() + " :: " + _shaderFile;
+	}
+
 	protected PGraphics _image;
 	protected PShader _patternShader;
 	protected PShader _vignette;
@@ -32,6 +37,7 @@ extends BaseTexture {
 	}
 	
 	protected void loadShaders( String textureShader ) {
+		_shaderFile = textureShader;
 		_patternShader = _texture.loadShader( FileUtil.getHaxademicDataPath()+"shaders/textures/" + textureShader ); 
 		_patternShader.set("time", _timeSpeed.value() );
 		_patternShader.set("mode", _mode);

@@ -40,6 +40,10 @@ public class MathUtil {
 		return ( p.random( 0f, 1f ) > 0.5f ) ? true : false;
 	}
 
+	public static boolean randBooleanWeighted( PApplet p, float likeliness ) {
+		return ( p.random( 0f, 1f ) < likeliness ) ? true : false;
+	}
+
 	/**
 	 *	Calculates a random number within a minimum and maximum range.
 	 *	@param	min		the value for the bottom range.

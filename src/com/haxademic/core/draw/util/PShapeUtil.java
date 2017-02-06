@@ -8,6 +8,8 @@ import toxi.geom.mesh.Face;
 import toxi.geom.mesh.WETriangleMesh;
 
 import com.haxademic.core.app.P;
+import com.haxademic.core.system.FileUtil;
+import com.haxademic.core.system.SystemUtil;
 
 public class PShapeUtil {
 	
@@ -176,6 +178,28 @@ public class PShapeUtil {
 			PShape subShape = s.getChild(j);
 			drawTriangles(p, subShape);
 		}
+	}
+	
+	// from @hamoid: https://twitter.com/hamoid/status/816682493793472512
+	// not tested yet
+	public static void exportMesh(PShape mesh) {
+		StringBuilder verts = new StringBuilder();
+		StringBuilder faces = new StringBuilder();
+		final int vertsNum = mesh.getVertexCount();
+		final PVector v = new PVector();
+		for(int i=0; i < vertsNum; i+=3) {
+			mesh.getVertex(i, v);
+			verts.append("v " + v.x + " " + v.y + " " + v.z + "\n");
+			mesh.getVertex(i+1, v);
+			verts.append("v " + v.x + " " + v.y + " " + v.z + "\n");
+			mesh.getVertex(i+2, v);
+			verts.append("v " + v.x + " " + v.y + " " + v.z + "\n");
+			faces.append("f " + (i+1) + " " + (i+2) + " " + (i+3) + "\n");
+		}
+		String outputStr = "o Sphere\n";
+		outputStr += verts;
+		outputStr += faces;
+		FileUtil.writeTextToFile(FileUtil.getHaxademicOutputPath() + "text/model-"+SystemUtil.getTimestamp(P.p)+".obj", outputStr);
 	}
 
 }

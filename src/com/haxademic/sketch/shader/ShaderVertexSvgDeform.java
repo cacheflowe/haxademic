@@ -28,7 +28,7 @@ extends PAppletHax {
 	PShader texShader;
 	float _frames = 60;
 	boolean _is3d = true;
-	boolean _isAudio = false;
+	boolean _isAudio = true;
 
 
 	protected void overridePropsFile() {

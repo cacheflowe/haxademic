@@ -23,7 +23,7 @@ extends PAppletHax {
 	PGraphics depth;
 	PShader depthShader;
 	PShader ssaoShader;
-	float _frames = 120;
+	float _frames = 420;
 	float percentComplete;
 	float progressRads;
 	
