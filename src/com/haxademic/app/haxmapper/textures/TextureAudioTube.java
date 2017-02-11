@@ -16,9 +16,7 @@ extends BaseTexture {
 
 	public TextureAudioTube( int width, int height ) {
 		super();
-
 		buildGraphics( width, height );
-		
 	}
 	
 	public void newLineMode() {
@@ -34,6 +32,9 @@ extends BaseTexture {
 		if(MathUtil.randBoolean(P.p) == true) _rotationTarget.y *= -1;
 		_rotationTarget.z = (MathUtil.randBoolean(P.p) == true) ? 0 : circleSegment;
 		if(MathUtil.randBoolean(P.p) == true) _rotationTarget.z *= -1;
+		// override for now:
+//		_rotationTarget.x = P.PI/2f;
+		_rotationTarget.y = P.PI/2f;
 	}
 	
 	protected void updateRotation() {
@@ -45,16 +46,15 @@ extends BaseTexture {
 
 	public void updateTiming() {
 		if(P.abs(_rotationTarget.y % P.PI/2f) < 0.01f) {
-			_radius.setTarget(MathUtil.randRangeDecimal(_texture.width/15f, _texture.width/10f));
+			_radius.setTarget(MathUtil.randRangeDecimal(_texture.width/25f, _texture.width/15f));
 		} else {
 			_radius.setTarget(MathUtil.randRangeDecimal(_texture.width, _texture.width * 2));
 		}
-		_spacing.setTarget(MathUtil.randRangeDecimal(_texture.width/20f, _texture.width/10f));
+		_spacing.setTarget(MathUtil.randRangeDecimal(_texture.width/10f, _texture.width/5f));
 	}
 
 	public void updateDraw() {
 		_texture.clear();
-		
 		
 		_texture.ambientLight(102, 102, 102);
 		_texture.lightSpecular(204, 204, 204);
