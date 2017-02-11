@@ -9,11 +9,13 @@ extends BaseTexture {
 
 	protected float time = 0;
 	protected float speed = 0.1f;
+	protected int size = 0;
 
 	public TextureCyclingRadialGradient( int width, int height ) {
 		super();
 
 		buildGraphics( width, height );
+		size = P.max(width, height);
 		updateTimingSection();
 	}
 	
@@ -30,8 +32,8 @@ extends BaseTexture {
 		_texture.translate(_texture.width/2, _texture.height/2);
 		Gradients.radial(
 				_texture, 
-				_texture.width * 2, 
-				_texture.height * 2, 
+				size * 2, 
+				size * 2, 
 				P.p.color(127f + 127f * P.sin(time)), 
 				P.p.color(127f + 127f * P.sin(P.PI + time)), 
 				40
