@@ -28,11 +28,14 @@ vec2 getBokehTapSampleCoord(const in vec2 o, const in float f, const float n, co
 void main(){
     // should for real usage: (fstop - fstopmin) / (fstopmax - fstopmin)
     float f = (sin(time) * 0.5) + 0.5;
-    
+
     // Diaphragm shape structure: 4.0 = box, 5.0 = pentagon, 6.0 = hexagon, 7.0 = heptagon, 8.0 = octagon etc.
     float ngon = 6.0; // 6.0 because I like hexagons :-)
-    
-    vec2 coord = (vertTexCoord.xy - vec2(0.5)) * 4.0 * vec2(1.0, texOffset.y / texOffset.x);
+
+    vec2 coord = (vertTexCoord.xy - vec2(0.5));
+    coord.x *= texOffset.y / texOffset.x;		// Correct for aspect ratio
+    coord *= 1.; // zoom
+
     float v = 0.0;
     for(float y = 0.0; y <= 1.0; y += 1.0 / 16.0){
         for(float x = 0.0; x <= 1.0; x += 1.0 / 16.0){
@@ -40,5 +43,6 @@ void main(){
             v = mix(1.0, v, pow(smoothstep(0.0, 0.05, length(coord - c)), 8.0));
         }
     }
-    gl_FragColor = vec4(v);
+    vec3 color = vec3(smoothstep(0.25, 0.75, v));
+    gl_FragColor = vec4(color, 1.);
 }

@@ -20,9 +20,9 @@ void main( ) {
 
 	float color = 0.0;
 
-	float rx = sin(dot(position,vec2(200,200)));
-	float gx = cos(dot(position,vec2(200,200)));
-	float bx = sin(dot(position,vec2(200,200)));
+	float rx = sin(0.1 * dot(position,vec2(200,200)));
+	float gx = cos(0.1 * dot(position,vec2(200,200)));
+	float bx = sin(0.1 * dot(position,vec2(200,200)));
 
 	gl_FragColor = vec4(rx,gx,bx,1.0);
 

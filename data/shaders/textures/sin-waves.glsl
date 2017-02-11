@@ -28,7 +28,7 @@ void main() {
     vec3 c = vec3(0.0);
 
     vec2 p = vertTexCoord.xy;   //  - vec2(.5,.5)
-    uv.x *= texOffset.y / texOffset.x;		// Correct for aspect ratio
+    p.x *= texOffset.y / texOffset.x;		// Correct for aspect ratio
     xpos = p.x;
     ypos = p.y;
 

@@ -69,19 +69,19 @@ float doModel( vec3 p )
     vec3 origin = vec3(0.0, 0.0, -0.5);
     float move = time * -4.0;
     float warp = 0.25;
-    
+
     for (int i = 0; i < 15; i++) {
         float I = float(i) - 5.0;
         float J = I - floor(move);
         vec3 P = p.xzy;
-        
+
         P += off.yxy * I;
         P += origin;
         P += vec3(sin(J * 0.5 + move) * warp, mod(move, 1.0), cos(J * 0.9 + move) * warp);
-        
+
         d = min(d, sdTorus82(P, vec2(1.5, 0.155)));
     }
-    
+
     return d;
 }
 
@@ -105,28 +105,28 @@ float calcSoftshadow( in vec3 ro, in vec3 rd );
 vec3 doLighting( in vec3 pos, in vec3 nor, in vec3 rd, in float dis, in vec3 mal )
 {
     vec3 lin = vec3(0.0);
-    
+
     // key light
     //-----------------------------
     vec3  lig = normalize(vec3(0.0, 0.0, 1.5)-pos);
     float dif = max(dot(nor,lig),0.0);
     float sha = 0.0; if( dif>0.01 ) sha=calcSoftshadow( pos+0.01*nor, lig );
     lin += dif*vec3(4.00,4.00,4.00)*sha;
-    
+
     // ambient light
     //-----------------------------
     lin += vec3(0.50,0.50,0.50);
-    
-    
+
+
     // surface-light interacion
     //-----------------------------
     vec3 col = mal*lin;
-    
-    
+
+
     // fog
     //-----------------------------
     //col *= exp(-0.03*dis*dis);
-    
+
     return col;
 }
 
@@ -143,7 +143,7 @@ float calcIntersection( in vec3 ro, in vec3 rd )
         h = doModel( ro+rd*t );
         t += h;
     }
-    
+
     if( t<maxd ) res = t;
     return res;
 }
@@ -151,12 +151,12 @@ float calcIntersection( in vec3 ro, in vec3 rd )
 vec3 calcNormal( in vec3 pos )
 {
     const float eps = 0.002;             // precision of the normal computation
-    
+
     const vec3 v1 = vec3( 1.0,-1.0,-1.0);
     const vec3 v2 = vec3(-1.0,-1.0, 1.0);
     const vec3 v3 = vec3(-1.0, 1.0,-1.0);
     const vec3 v4 = vec3( 1.0, 1.0, 1.0);
-    
+
     return normalize( v1*doModel( pos + v1*eps ) +
                      v2*doModel( pos + v2*eps ) +
                      v3*doModel( pos + v3*eps ) +
@@ -188,28 +188,29 @@ mat3 calcLookAtMatrix( in vec3 ro, in vec3 ta, in float roll )
 void main( void )
 {
     vec2 p = vertTexCoord.xy - vec2(.5,0);
+    p.x *= texOffset.y / texOffset.x;		// Correct for aspect ratio
     vec2 m = vec2(sin(time/250.0), sin(time/300.0));
-    
+
     //-----------------------------------------------------
     // camera
     //-----------------------------------------------------
-    
+
     // camera movement
     vec3 ro, ta;
     doCamera( ro, ta, time, m.x );
-    
+
     // camera matrix
     mat3 camMat = calcLookAtMatrix( ro, ta, 0.0 );  // 0.0 is the camera roll
-    
+
     // create view ray
     vec3 rd = normalize( camMat * vec3(p.xy,2.0) ); // 2.0 is the lens length
-    
+
     //-----------------------------------------------------
     // render
     //-----------------------------------------------------
-    
+
     vec3 col = doBackground();
-    
+
     // raymarch
     float t = calcIntersection( ro, rd );
     if( t>-0.5 )
@@ -217,13 +218,13 @@ void main( void )
         // geometry
         vec3 pos = ro + t*rd;
         vec3 nor = calcNormal(pos);
-        
+
         // materials
         vec3 mal = doMaterial( pos, nor );
-        
+
         col = mix(col, doLighting( pos, nor, rd, t, mal ), 1.0 - fogFactorExp2(t, 0.2));
     }
-    
+
     //-----------------------------------------------------
     // postprocessing
     //-----------------------------------------------------
@@ -231,6 +232,6 @@ void main( void )
     col = pow( clamp(col,0.0,1.0), vec3(0.4545) );
     col.r = smoothstep(0., 1., col.r);
     col.b = smoothstep(0., 0.8, col.b);
-	   
+
     gl_FragColor = vec4( col, 1.0 );
 }

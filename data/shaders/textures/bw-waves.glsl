@@ -18,7 +18,8 @@ void main()
 {
     vec2 p = vertTexCoord.xy - vec2(.5,.5);
     p *= 0.3; // zoom
-    p.x += sin(p.y*3.14 * 50.0)*0.1 * sin(p.y*3.14+time);;
+    float amp = 0.025;
+    p.x += sin(p.y*3.14 * 50.0) * amp * sin(p.y*3.14+time);;
     float col = sin(p.x * 3.14 * 10.0 + sin(time*1.0));
     gl_FragColor = vec4( vec3(col), 1.0 );
 }

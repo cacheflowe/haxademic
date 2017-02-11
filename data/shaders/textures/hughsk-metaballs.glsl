@@ -24,7 +24,7 @@ float blinnPhongSpecular(
                          vec3 viewDirection,
                          vec3 surfaceNormal,
                          float shininess) {
-    
+
     //Calculate Blinn-Phong power
     vec3 H = normalize(viewDirection + lightDirection);
     return pow(max(0.0, dot(surfaceNormal, H)), shininess);
@@ -45,18 +45,18 @@ float orenNayarDiffuse(
                        vec3 surfaceNormal,
                        float roughness,
                        float albedo) {
-    
+
     float LdotV = dot(lightDirection, viewDirection);
     float NdotL = dot(lightDirection, surfaceNormal);
     float NdotV = dot(surfaceNormal, viewDirection);
-    
+
     float s = LdotV - NdotL * NdotV;
     float t = mix(1.0, max(NdotL, NdotV), step(0.0, s));
-    
+
     float sigma2 = roughness * roughness;
     float A = 1.0 + sigma2 * (albedo / (sigma2 + 0.13) + 0.5 / (sigma2 + 0.33));
     float B = 0.45 * sigma2 / (sigma2 + 0.09);
-    
+
     return albedo * max(0.0, NdotL) * (A + B * s / t) / PI;
 }
 
@@ -182,26 +182,26 @@ float doModel( vec3 p )
     float t = time * 0.5;
     float swell = 1.0; //(1.0 + snoise(vec4(p * 3.0, time)) * 0.06125);
     float blend = 0.6;
-    
+
     sep.x = backOut(0.5 * (sep.x + 1.0)) * 1.5 - 0.25;
-    
+
     d = smin(d, length(p) - rad * swell, blend);
-    
+
     for (int i = 0; i < 4; i++) {
         float I = float(i);
         vec3 off = vec3(sin(I + t), cos(I + t), sin(I - t));
-        
+
         d = smin(d, length(p + off) - rad * 0.5, blend);
-        
+
         for (int j = 0; j < 6; j++) {
             float J = float(j);
             float T = t * 0.5;
             vec3 off2 = vec3(cos(J + T), sin(J + T), cos(J - T));
-            
+
             d = smin(d, length(p + off + off2), blend);
         }
     }
-    
+
     return d;
 }
 
@@ -225,7 +225,7 @@ float calcSoftshadow( in vec3 ro, in vec3 rd );
 vec3 doLighting( in vec3 pos, in vec3 nor, in vec3 rd, in float dis, in vec3 mal )
 {
     vec3 lin = vec3(0.0);
-    
+
     // key light
     //-----------------------------
     vec3  lig1 = normalize(vec3(0.5, 2.5, 2.0));
@@ -236,21 +236,21 @@ vec3 doLighting( in vec3 pos, in vec3 nor, in vec3 rd, in float dis, in vec3 mal
     float spc2 = blinnPhongSpecular(lig2, normalize(rd), nor, 0.5);
     float sha1 = 0.0; if( dif1>0.01 ) sha1=max(0.0, calcSoftshadow( pos+0.01*nor, lig1 ));
     float sha2 = 0.0; if( dif2>0.01 ) sha2=max(0.0, calcSoftshadow( pos+0.01*nor, lig2 ));
-    
+
     vec3 mal2 = vec3(0.001, 0.015, 0.04);
-    
+
     lin += mal*dif1*vec3(4.00,4.00,4.00)*sha1;
     lin += mal2*dif2*vec3(4.00,4.00,4.00)*sha2;
     lin += mal*spc1*vec3(1.0, 1.5, 2.5)*sha1;
     lin += mal2*spc2*vec3(1.0, 1.5, 2.5)*sha2;
     //lin += vec3(0.02);
-    
-    
+
+
     // surface-light interacion
     //-----------------------------
     vec3 col = lin;
     //vec3 col = mal * (length(lin) > 0.95 ? 3.0 : 0.2);
-    
+
     return col;
 }
 
@@ -267,7 +267,7 @@ float calcIntersection( in vec3 ro, in vec3 rd )
         h = doModel( ro+rd*t );
         t += h;
     }
-    
+
     if( t<maxd ) res = t;
     return res;
 }
@@ -275,12 +275,12 @@ float calcIntersection( in vec3 ro, in vec3 rd )
 vec3 calcNormal( in vec3 pos )
 {
     const float eps = 0.002;             // precision of the normal computation
-    
+
     const vec3 v1 = vec3( 1.0,-1.0,-1.0);
     const vec3 v2 = vec3(-1.0,-1.0, 1.0);
     const vec3 v3 = vec3(-1.0, 1.0,-1.0);
     const vec3 v4 = vec3( 1.0, 1.0, 1.0);
-    
+
     return normalize( v1*doModel( pos + v1*eps ) +
                      v2*doModel( pos + v2*eps ) +
                      v3*doModel( pos + v3*eps ) +
@@ -312,28 +312,29 @@ mat3 calcLookAtMatrix( in vec3 ro, in vec3 ta, in float roll )
 void main( void )
 {
     vec2 p = vertTexCoord.xy - vec2(.5,.5);
+    p.x *= texOffset.y / texOffset.x;		// Correct for aspect ratio
     vec2 m = vec2(sin(time/1500.0), sin(time/2000.0));
-    
+
     //-----------------------------------------------------
     // camera
     //-----------------------------------------------------
-    
+
     // camera movement
     vec3 ro, ta;
     doCamera( ro, ta, time, m.xy );
-    
+
     // camera matrix
     mat3 camMat = calcLookAtMatrix( ro, ta, 0.0 );  // 0.0 is the camera roll
-    
+
     // create view ray
     vec3 rd = normalize( camMat * vec3(p.xy,2.0) ); // 2.0 is the lens length
-    
+
     //-----------------------------------------------------
     // render
     //-----------------------------------------------------
-    
+
     vec3 col = doBackground();
-    
+
     // raymarch
     float t = calcIntersection( ro, rd );
     if( t>-0.5 )
@@ -341,13 +342,13 @@ void main( void )
         // geometry
         vec3 pos = ro + t*rd;
         vec3 nor = calcNormal(pos);
-        
+
         // materials
         vec3 mal = doMaterial( pos, nor );
-        
+
         col = mix(doLighting( pos, nor, rd, t, mal ), col, fogFactorExp2(t, 0.15));
     }
-    
+
     //-----------------------------------------------------
     // postprocessing
     //-----------------------------------------------------
@@ -355,6 +356,6 @@ void main( void )
     col.r = mix(pow(col.r, 1.2), pow(col.r, 0.2), col.r);
     col.b = mix(pow(col.b + 0.75, 0.5) - 0.75, pow(col.b, 1.15), col.b);
     col = mix(col, col * 3.0 * vec3(1.5, 1, 1.1), dot(p, p * 0.1));
-	   
+
     gl_FragColor = vec4( col, 1.0 );
 }
