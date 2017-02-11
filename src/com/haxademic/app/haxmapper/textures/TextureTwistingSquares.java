@@ -8,7 +8,7 @@ import com.haxademic.core.math.easing.EasingFloat;
 public class TextureTwistingSquares
 extends BaseTexture {
 	
-	protected EasingFloat _steps = new EasingFloat(50f, 6);
+	protected EasingFloat _steps = new EasingFloat(50f, 20);
 	
 	public TextureTwistingSquares( int width, int height ) {
 		super();
