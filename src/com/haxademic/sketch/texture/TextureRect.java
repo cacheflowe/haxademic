@@ -1,4 +1,4 @@
-package com.haxademic.sketch.three_d.texture;
+package com.haxademic.sketch.texture;
 
 import processing.core.PImage;
 

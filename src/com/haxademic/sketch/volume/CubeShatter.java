@@ -1,4 +1,4 @@
-package com.haxademic.sketch.three_d.volume;
+package com.haxademic.sketch.volume;
 
 import java.util.ArrayList;
 
@@ -122,7 +122,7 @@ extends PAppletHax {
 	}
 
 	public void drawApp() {
-		DrawUtil.setCenter( p );
+		DrawUtil.setCenterScreen( p );
 		p.translate(0,0,-500);
 		p.background( 0, 0, 0 );
 

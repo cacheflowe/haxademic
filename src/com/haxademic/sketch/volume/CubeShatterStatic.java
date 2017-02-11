@@ -1,4 +1,4 @@
-package com.haxademic.sketch.three_d.volume;
+package com.haxademic.sketch.volume;
 
 import java.util.ArrayList;
 
