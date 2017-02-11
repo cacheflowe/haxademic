@@ -1,15 +1,15 @@
 package com.haxademic.core.draw.util;
 
-import processing.core.PApplet;
-import processing.core.PImage;
-import processing.core.PShape;
-import processing.core.PVector;
-import toxi.geom.mesh.Face;
-import toxi.geom.mesh.WETriangleMesh;
-
 import com.haxademic.core.app.P;
 import com.haxademic.core.system.FileUtil;
 import com.haxademic.core.system.SystemUtil;
+
+import processing.core.PApplet;
+import processing.core.PConstants;
+import processing.core.PGraphics;
+import processing.core.PImage;
+import processing.core.PShape;
+import processing.core.PVector;
 
 public class PShapeUtil {
 	
@@ -53,7 +53,7 @@ public class PShapeUtil {
 	 */
 	public static void addTextureUVToObj(PShape s, PImage img, float outerExtent) {
 		s.setStroke(false);
-//		s.setTexture(img);
+		s.setFill(255);
 		s.setTextureMode(P.NORMAL);
 		for (int j = 0; j < s.getChildCount(); j++) {
 			for (int i = 0; i < s.getChild(j).getVertexCount(); i++) {
@@ -66,6 +66,7 @@ public class PShapeUtil {
 				);
 			}
 		}
+		if(img != null) s.setTexture(img);
 	}
 	
 	/**
@@ -112,9 +113,11 @@ public class PShapeUtil {
 	 * @param s
 	 * @return
 	 */
-	public static void scaleObjToExtent(PShape s, float newExtent) {
+	public static float scaleObjToExtent(PShape s, float newExtent) {
 		float modelExtent = getObjMaxExtent(s);
-		s.scale(newExtent/modelExtent);
+		float newScale = newExtent/modelExtent;
+		s.scale(newScale);
+		return newScale;
 	}
 	
 	public static float scaleObjToExtentReturnScale(PShape s, float newExtent) {
@@ -167,6 +170,9 @@ public class PShapeUtil {
 	 * @return
 	 */
 	public static void drawTriangles(PApplet p, PShape s) {
+		drawTriangles(p.g, s);
+	}
+	public static void drawTriangles(PGraphics p, PShape s) {
 		for (int i = 0; i < s.getVertexCount() - 3; i += 3) { // ugh
 			p.beginShape(P.TRIANGLES);
 			p.vertex(s.getVertex(i).x, s.getVertex(i).y, s.getVertex(i).z);
@@ -178,6 +184,41 @@ public class PShapeUtil {
 			PShape subShape = s.getChild(j);
 			drawTriangles(p, subShape);
 		}
+	}
+	
+	/**
+	 * Draws triangles instead of native draw calls
+	 * @param s
+	 * @return
+	 */
+	public static void drawTrianglesWithTexture(PGraphics p, PShape s, PImage img, float scale) {
+		p.fill(255);
+		P.println(s.getChildCount());
+		p.beginShape(PConstants.TRIANGLES);
+		p.texture(img);
+		p.textureMode(PConstants.NORMAL);
+
+		for (int j = 0; j < s.getChildCount(); j++) {
+			for (int i = 0; i < s.getChild(j).getVertexCount(); i++) {
+				if(i+2 < s.getChild(j).getVertexCount()) {	// protect against rogue vertices?
+					PVector vertex = s.getChild(j).getVertex(i);
+					PVector vertex2 = s.getChild(j).getVertex(i+1);
+					PVector vertex3 = s.getChild(j).getVertex(i+2);
+					vertex.mult(scale);
+					vertex2.mult(scale);
+					vertex3.mult(scale);
+					p.vertex(vertex.x, vertex.y, vertex.z, s.getChild(j).getTextureU(i), s.getChild(j).getTextureV(i));
+					p.vertex(vertex2.x, vertex2.y, vertex2.z, s.getChild(j).getTextureU(i+1), s.getChild(j).getTextureV(i+1));
+					p.vertex(vertex3.x, vertex3.y, vertex3.z, s.getChild(j).getTextureU(i+2), s.getChild(j).getTextureV(i+2));
+				}
+			}
+		}
+		p.endShape();
+
+//		for (int j = 0; j < s.getChildCount(); j++) {
+//			PShape subShape = s.getChild(j);
+//			drawTrianglesWithTexture(p, subShape, img);
+//		}
 	}
 	
 	// from @hamoid: https://twitter.com/hamoid/status/816682493793472512
