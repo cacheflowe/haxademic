@@ -147,9 +147,9 @@ public class DrawUtil {
 	};
 	public static void setTextureRepeat(PGraphics pg, boolean doesRepeat) {
 		if( doesRepeat == true ) 
-			(pg).textureWrap(Texture.REPEAT);
+			pg.textureWrap(Texture.REPEAT);
 		else 
-			(pg).textureWrap(Texture.CLAMP);
+			pg.textureWrap(Texture.CLAMP);
 	}
 	
 	public static void fadeInOut(PGraphics pg, int color, int startFrame, int stopFrame, int transitionFrames) {
@@ -195,6 +195,18 @@ public class DrawUtil {
 				(int) newW, 
 				(int) newH, 
 				0, 0, pg.width, pg.height);
+	}
+	
+	public static void rotateRedraw(PGraphics pg, float radians) {
+		DrawUtil.setDrawCenter(pg);
+		pg.beginDraw();
+		pg.pushMatrix();
+		DrawUtil.setCenterScreen(pg);
+		pg.rotate(radians);
+		pg.image(pg, 0, 0);
+		pg.popMatrix();
+		pg.endDraw();
+		DrawUtil.setDrawCorner(pg);
 	}
 	
 	public static void drawTestPattern(PGraphics pg) {

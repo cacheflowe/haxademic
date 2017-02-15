@@ -3,8 +3,11 @@ package com.haxademic.core.draw.util;
 import com.haxademic.core.app.P;
 import com.jogamp.opengl.GL;
 import com.jogamp.opengl.GL2;
+import com.jogamp.opengl.GL2ES2;
 import com.jogamp.opengl.GL3;
+import com.jogamp.opengl.GL4;
 
+import processing.core.PConstants;
 import processing.core.PGraphics;
 import processing.opengl.PGraphicsOpenGL;
 import processing.opengl.PJOGL;
@@ -27,8 +30,9 @@ public class OpenGLUtil {
 	}
 	
 	public static void setQuality(PGraphics pg, int quality) {
-		//		p.hint(p.DISABLE_DEPTH_SORT);
-		GL gl = ((PJOGL)pg.beginPGL()).gl.getGL();
+		//		pg.hint(p.DISABLE_DEPTH_SORT);
+		GL2ES2 gl = getGL4(pg);
+//		GL gl = ((PJOGL)pg.beginPGL()).gl.getGL();
 		switch ( quality ) {
 			case LOW :
 //				p.hint(P.DISABLE_OPENGL_2X_SMOOTH);
@@ -45,7 +49,6 @@ public class OpenGLUtil {
 				gl.glDisable(GL.GL_LINE_SMOOTH);
 				break;
 			case HIGH :
-//				p.hint(P.ENABLE_OPENGL_4X_SMOOTH);
 				gl.glHint (GL.GL_LINE_SMOOTH_HINT, GL.GL_NICEST);
 //				gl.glHint (GL.GL_POINT_SMOOTH_HINT, GL.GL_NICEST);
 //				gl.glHint (GL.GL_POLYGON_SMOOTH, GL.GL_NICEST);
@@ -54,16 +57,26 @@ public class OpenGLUtil {
 		}
 	}
 		
-	public static GL2 getGL2(PGraphics pg) {
+	public static GL2ES2 getGL2(PGraphics pg) {
 		// only for use with Processing 2. for Processing 3, use GL3
-		return ((PJOGL)pg.beginPGL()).gl.getGL2();
+		PJOGL pgl = (PJOGL) pg.beginPGL();
+		GL gl = pgl.gl;
+		P.println("gl",gl);
+		P.println("gl.getGL2()",gl.getGL2());
+		P.println("gl.getGL2ES2()",gl.getGL2ES2());
+		P.println("gl.getGL3()",gl.getGL3());
+		P.println("gl.getGL2ES2()",gl.getGL2ES2());
+		return gl.getGL2ES2();
 	}
 
 	public static GL3 getGL3(PGraphics pg) {
-		return (GL3) ((PJOGL) pg.beginPGL()).gl.getGL2GL3();
+		return (GL3) ((PJOGL) pg.beginPGL()).gl.getGL3();
 	}
 	public static void closeGL3(PGraphics pg) {
 		pg.endPGL(); 
+	}
+	public static GL4 getGL4(PGraphics pg) {
+		return (GL4) ((PJOGL) pg.beginPGL()).gl.getGL4();
 	}
 	
 	// from: https://github.com/processing/processing/wiki/Advanced-OpenGL
@@ -76,6 +89,11 @@ public class OpenGLUtil {
 	public static void setTextureQualityHigh(PGraphics pg) {
 		pg.hint(P.ENABLE_TEXTURE_MIPMAPS);
 		((PGraphicsOpenGL)pg).textureSampling(5);
+	}
+	
+	public static void optimize2D(PGraphics pg) {
+		pg.hint(PConstants.DISABLE_DEPTH_SORT);
+		DrawUtil.setDrawFlat2d(pg, true);
 	}
 	
 	public enum Blend {
@@ -130,13 +148,13 @@ public class OpenGLUtil {
 	}
 
 	public static void setWireframe(PGraphics pg, boolean isWireframe) {  
-		GL2 gl = getGL2(pg);
+		GL4 gl = getGL4(pg).getGL4();
 		if(isWireframe == true) {
-			gl.glPolygonMode( GL2.GL_FRONT_AND_BACK, GL2.GL_LINE );
+			gl.glPolygonMode( GL4.GL_FRONT_AND_BACK, GL4.GL_LINE );
 		} else {
-			gl.glPolygonMode( GL2.GL_FRONT_AND_BACK, GL2.GL_FILL );
+			gl.glPolygonMode( GL4.GL_FRONT_AND_BACK, GL4.GL_FILL );
 		}
-		closeGL3(pg);
+//		closeGL3(pg);
 	}
 	
 	public static void setFog(PGraphics pg, boolean isEnabled) {

@@ -1,6 +1,8 @@
 package com.haxademic.app.haxmapper.textures;
 
+import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
+import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.image.filters.shaders.SaturationFilter;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.EasingFloat;
@@ -47,7 +49,8 @@ extends BaseTexture {
 		_shaderFile = textureShader;
 		
 		buildGraphics( width, height );
-		_texture.smooth();
+		_texture.smooth(AppSettings.SMOOTH_LOW);
+//		DrawUtil.setDrawFlat2d(_texture, true);
 		loadShaders( textureShader );
 	}
 	
@@ -55,23 +58,6 @@ extends BaseTexture {
 		_patternShader = P.p.loadShader( FileUtil.getFile("shaders/textures/" + textureShader)); 
 		_patternShader.set("time", _timeEaser.value() );
 		_patternShader.set("mode", _mode);
-		
-		// special crap for shader day drawing learnings ---------
-//		_patternShader.set("mouse", (float)P.p.mouseX, (float)P.p.mouseY);
-//		locations = new float[50];
-//		for(int i=0; i < locations.length; i++) {
-//			locations[i] = MathUtil.randRangeDecimal(0, 640);
-//		}
-//		_patternShader.set("locations", locations);
-//		colors = new float[75];
-//		for(int i=0; i < colors.length; i++) {
-//			colors[i] = MathUtil.randRangeDecimal(0, 1f);
-//		}
-//		_patternShader.set("colors", colors);
-		// -------------------------------------------------------
-
-//		VignetteFilter.instance(P.p).setDarkness(0.7f);
-//		VignetteFilter.instance(P.p).setSpread(0.15f);
 	}
 
 		

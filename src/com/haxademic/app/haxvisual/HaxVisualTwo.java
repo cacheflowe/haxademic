@@ -25,6 +25,7 @@ import com.haxademic.app.haxmapper.textures.TextureShaderTimeStepper;
 import com.haxademic.app.haxmapper.textures.TextureSphereRotate;
 import com.haxademic.app.haxmapper.textures.TextureSvgPattern;
 import com.haxademic.app.haxmapper.textures.TextureTwistingSquares;
+import com.haxademic.app.haxmapper.textures.TextureVectorFieldEQ;
 import com.haxademic.app.haxmapper.textures.TextureVideoPlayer;
 import com.haxademic.app.haxmapper.textures.TextureWaveformCircle;
 import com.haxademic.app.haxmapper.textures.TextureWaveformSimple;
@@ -65,6 +66,22 @@ import com.haxademic.core.system.FileUtil;
 import processing.core.PGraphics;
 import processing.opengl.PShader;
 
+/**
+ * 
+ * TODO:   
+ * Add new concepts about layout, rather than just relying on displacement & mask effects 
+ * Add text cycling texture
+ * Add DrawUtil image rotation, just like the new post-draw scale function
+ * Fix keyboard / MIDI overlapping issue
+ * Add tinting to layers - maybe a shader to re-color everything with a gradient map
+ * mirror or kaleido the boring audio reactive textures
+ * do something with the unicorn .obj model
+     * 3d model layer always on top - receives current textures to apply to self
+     * can we recreate the MeshDeform class from the old viz app - yes
+     * Use DrawMesh.drawPointsWithAudio() with PShape. Also, deform style from SphereTextureLines class would be good - MeshUtil.deformMeshWithAudio()
+ * Displacement layer should act as mesh displace map
+ * Fix some old shaders - they go too fast
+ */
 
 public class HaxVisualTwo
 extends PAppletHax {
@@ -155,11 +172,11 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.FILLS_SCREEN, false );
 		p.appConfig.setProperty( "osc_active", false );
 //		p.appConfig.setProperty( "dmx_lights_count", 4 );
-		p.appConfig.setProperty( AppSettings.HIDE_CURSOR, true );
+		p.appConfig.setProperty( AppSettings.HIDE_CURSOR, false );
 		p.appConfig.setProperty( AppSettings.AUDIO_DEBUG, false );
 		p.appConfig.setProperty( AppSettings.MIDI_DEVICE_IN_INDEX, 0 );
-		p.appConfig.setProperty( AppSettings.MIDI_DEBUG, true );
-		p.appConfig.setProperty( AppSettings.SHOW_STATS, true );
+		p.appConfig.setProperty( AppSettings.MIDI_DEBUG, false );
+		p.appConfig.setProperty( AppSettings.SHOW_STATS, false );
 	}
 
 	public void setup() {
@@ -660,6 +677,7 @@ extends PAppletHax {
 		_bgTexturePool.add( new TextureRotatorShape( textureW, textureH ) );
 		_bgTexturePool.add( new TextureRotatingRings( textureW, textureH ) );
 		_bgTexturePool.add( new TextureOuterSphere( textureW, textureH ) );
+		_bgTexturePool.add( new TextureVectorFieldEQ( textureW, textureH ) );
 
 		_bgTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "sdf-01-auto.glsl" ));
 		_bgTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "sdf-02-auto.glsl" ));
@@ -723,6 +741,7 @@ extends PAppletHax {
 		_fgTexturePool.add( new TextureSphereRotate( textureW, textureH ));
 		_fgTexturePool.add( new TextureSvgPattern( textureW, textureH ));
 		_fgTexturePool.add( new TextureTwistingSquares( textureW, textureH ));
+		_fgTexturePool.add( new TextureVectorFieldEQ( textureW, textureH ) );
 		_fgTexturePool.add( new TextureWaveformSimple( textureW, textureH ));
 		_fgTexturePool.add( new TextureWaveformCircle( textureW, textureH ));
 
@@ -775,6 +794,32 @@ extends PAppletHax {
 		_fgTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "cacheflowe-warp-vortex.glsl" ));
 
 		
+
+		_overlayTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "basic-checker.glsl" ));
+		_overlayTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "basic-diagonal-stripes.glsl" ));
+		_overlayTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "bw-dazzle-voronoi.glsl" ));
+		_overlayTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "bw-expand-loop.glsl" ));
+		_overlayTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "bw-eye-jacker-01.glsl" ));
+		_overlayTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "bw-eye-jacker-02.glsl" ));
+		_overlayTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "bw-motion-illusion.glsl" ));
+		_overlayTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "bw-scroll-rows.glsl" ));
+		_overlayTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "bw-waves.glsl" ));
+		_overlayTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "circle-parts-rotate.glsl" ));
+		_overlayTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "dots-orbit.glsl" ));
+		_overlayTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "fade-dots.glsl" ));
+		_overlayTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "gradient-line.glsl" ));
+		_overlayTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "lines-scroll-diag.glsl" ));
+		_overlayTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "matrix-rain.glsl" ));
+		_overlayTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "radial-waves.glsl" ));
+		_overlayTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "shiny-circle-wave.glsl" ));
+		_overlayTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "sin-grey.glsl" ));
+		_overlayTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "square-fade.glsl" ));
+		_overlayTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "square-twist.glsl" ));
+		_overlayTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "swirl.glsl" ));
+		_overlayTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "triangle-perlin.glsl" ));
+		_overlayTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "wobble-sin.glsl" ));
+		_overlayTexturePool.add( new TextureShaderTimeStepper( textureW/2, textureH/2, "dot-grid-dof.glsl" ));
+		_overlayTexturePool.add( new TextureShaderTimeStepper( textureW/2, textureH/2, "morphing-bokeh-shape.glsl" ));
 
 		_overlayTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "cacheflowe-asterisk-wave.glsl" ));
 		_overlayTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "cacheflowe-checkerboard-stairs.glsl" ));

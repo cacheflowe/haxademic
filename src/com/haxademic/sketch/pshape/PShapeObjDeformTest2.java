@@ -1,11 +1,13 @@
 package com.haxademic.sketch.pshape;
 
+import com.haxademic.app.haxmapper.textures.BaseTexture;
+import com.haxademic.app.haxmapper.textures.TextureEQGrid;
+import com.haxademic.app.haxmapper.textures.TextureShaderTimeStepper;
 import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.shapes.PShapeSolid;
 import com.haxademic.core.draw.util.DrawUtil;
-import com.haxademic.core.draw.util.OpenGLUtil;
 import com.haxademic.core.draw.util.PShapeUtil;
 import com.haxademic.core.system.FileUtil;
 
@@ -20,10 +22,12 @@ extends PAppletHax {
 	protected PShapeSolid objSolid;
 	protected PImage img;
 	protected float _frames = 60;
+	protected BaseTexture audioTexture;
 
 	protected void overridePropsFile() {
 		p.appConfig.setProperty( AppSettings.WIDTH, 800 );
 		p.appConfig.setProperty( AppSettings.HEIGHT, 800 );
+		p.appConfig.setProperty( AppSettings.SHOW_STATS, true );
 		p.appConfig.setProperty( AppSettings.SMOOTHING, AppSettings.SMOOTH_HIGH );
 		p.appConfig.setProperty( AppSettings.FILLS_SCREEN, "false" );
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
@@ -46,25 +50,27 @@ extends PAppletHax {
 		
 		// add UV coordinates to OBJ
 		float modelExtent = PShapeUtil.getObjMaxExtent(obj);
-		PShapeUtil.addTextureUVToObj(obj, img, modelExtent);
-//		obj.setTexture(img);
+		PShapeUtil.addTextureUVToObj(obj, null, modelExtent);
 		
 		// build solid, deformable PShape object
 		objSolid = new PShapeSolid(obj);
+		
+		// load audio texture
+		audioTexture = new TextureShaderTimeStepper(800, 800, "cacheflowe-distance-blobs.glsl" );
+		audioTexture = new TextureShaderTimeStepper(800, 800, "cacheflowe-scrolling-radial-twist.glsl" );
+		audioTexture = new TextureShaderTimeStepper(800, 800, "cacheflowe-scrolling-dashed-lines.glsl" );
+		audioTexture = new TextureShaderTimeStepper(800, 800, "cacheflowe-liquid-moire.glsl" );
+		audioTexture = new TextureEQGrid(800, 800);
+
 	}
 
 	public void drawApp() {
-		background(255);
+		p.pushMatrix();
+		background(0);
 		
 		float percentComplete = ((float)(p.frameCount%_frames)/_frames);
 		
 		// setup lights
-//		p.lightSpecular(230, 230, 230); 
-//		p.directionalLight(200, 200, 200, -0.0f, -0.0f, 1); 
-//		p.directionalLight(200, 200, 200, 0.0f, 0.0f, -1); 
-//		p.specular(color(255)); 
-//		p.shininess(5.0f);
-		
 		DrawUtil.setBetterLights(p);
 
 		// rotate
@@ -76,9 +82,20 @@ extends PAppletHax {
 		
 		// draw!
 //		objSolid.updateWithTrig(true, percentComplete * 2f, 0.04f, 17.4f);
-		objSolid.updateWithAudio(true);
+//		objSolid.deformWithAudio();
+		objSolid.deformWithAudioByNormals();
 		p.noStroke();
-		p.shape(objSolid.shape());
+		
+		// pshape drawing + audioreactive
+//		objSolid.setVertexColorWithAudio(255);
+//		p.shape(objSolid.shape());
+		
+		// texture mapped with decent performance:
+		if(p.frameCount % 60 == 0) audioTexture.updateTiming();
+		audioTexture.update();
+		PShapeUtil.drawTrianglesWithTexture(p.g, objSolid.shape(), audioTexture.texture(), 3f); // img
+		
+		p.popMatrix();
 	}
 		
 }

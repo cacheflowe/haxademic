@@ -19,10 +19,10 @@ extends PAppletHax {
 	protected ArrayList<PVector> _vectorField;
 	protected ArrayList<FieldParticle> _particles;
 	protected int frames = 130;
-	float FIELD_SPACING = 100f;
-	float NUM_PARTICLES = 7000f;
+	float FIELD_SPACING = 40f;
+	float NUM_PARTICLES = 700f;
 	float ATTENTION_RADIUS = 100;
-	int DRAWS_PER_FRAME = 3;
+	int DRAWS_PER_FRAME = 1;
 	int OVERDRAW_FADE = 20;
 	boolean DEBUG_VECTORS = false;
 	
@@ -31,7 +31,7 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.HEIGHT, 720 );
 		p.appConfig.setProperty( AppSettings.WIDTH, 640 );
 		p.appConfig.setProperty( AppSettings.HEIGHT, 640 );
-		p.appConfig.setProperty( AppSettings.FULLSCREEN, true );
+		p.appConfig.setProperty( AppSettings.FULLSCREEN, false );
 //		p.appConfig.setProperty( AppSettings.DISPLAY, 2 );
 		p.appConfig.setProperty( AppSettings.FILLS_SCREEN, false );
 		p.appConfig.setProperty( AppSettings.RETINA, true );
@@ -110,7 +110,7 @@ extends PAppletHax {
 			for( int i = 0; i < _particles.size(); i++ ) {
 //				p.fill((i % 150 + 55 / 10), i % 155 + 100, i % 100 + 100); // blue/green
 				p.stroke(180 + (i % 75), 200 + (i % 55), 210 + (i % 45));
-				_particles.get(i).update( _vectorField );
+				_particles.get(i).update( _vectorField, i );
 			}
 		}
 		
@@ -172,14 +172,14 @@ extends PAppletHax {
 		public float speed;
 		
 		public FieldParticle() {
-			speed = p.random(4,20);
+			speed = p.random(2,6);
 			radians = new EasingFloat(0, p.random(6,20) );
 			position = new PVector( p.random(0, p.width), p.random(0, p.height) );
 			lastPosition = new PVector();
 			lastPosition.set(position);
 		}
 		
-		public void update( ArrayList<PVector> vectorField ) {
+		public void update( ArrayList<PVector> vectorField, int index ) {
 			// adjust to surrounding vectors
 			int closeVectors = 0;
 			float averageDirection = 0;
@@ -201,14 +201,15 @@ extends PAppletHax {
 			
 			// update position
 			lastPosition.set(position);
-			position.set( position.x + P.sin(radians.value()) * speed * P.map(p.mouseX, 0, p.width, 0, 2f), position.y + P.cos(radians.value()) * speed * P.map(p.mouseX, 0, p.width, 0, 2f) );
+			float curSpeed = speed * P.p._audioInput.getFFT().spectrum[index % 512];
+			position.set( position.x + P.sin(radians.value()) * curSpeed * P.map(p.mouseX, 0, p.width, 0, 2f), position.y + P.cos(radians.value()) * curSpeed * P.map(p.mouseX, 0, p.width, 0, 2f) );
 			if( position.x < 0 ) position.set( p.width, position.y );
 			if( position.x > p.width ) position.set( 0, position.y );
 			if( position.y < 0 ) position.set( position.x, p.height );
 			if( position.y > p.height ) position.set( position.x, 0 );
 			
 			// draw
-			if(position.dist(lastPosition) < speed * 2f) {
+			if(position.dist(lastPosition) < curSpeed * 2f) {
 				p.line(position.x, position.y, lastPosition.x, lastPosition.y);
 			}
 		}
