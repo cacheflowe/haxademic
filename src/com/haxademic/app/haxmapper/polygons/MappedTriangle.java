@@ -4,7 +4,7 @@ import java.awt.Rectangle;
 import java.util.ArrayList;
 
 import com.haxademic.core.app.P;
-import com.haxademic.core.image.ImageUtil;
+import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.EasingFloat;
 

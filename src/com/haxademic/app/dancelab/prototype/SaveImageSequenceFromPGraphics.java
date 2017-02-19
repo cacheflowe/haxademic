@@ -6,9 +6,9 @@ import java.io.UnsupportedEncodingException;
 import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.draw.image.Base64Image;
 import com.haxademic.core.draw.util.DrawUtil;
-import com.haxademic.core.image.Base64Image;
-import com.haxademic.core.system.FileUtil;
+import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.system.SystemUtil;
 
 import processing.core.PGraphics;

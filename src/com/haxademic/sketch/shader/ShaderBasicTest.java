@@ -3,11 +3,11 @@ package com.haxademic.sketch.shader;
 import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.image.filters.shaders.RadialRipplesFilter;
-import com.haxademic.core.image.filters.shaders.SphereDistortionFilter;
+import com.haxademic.core.draw.filters.shaders.RadialRipplesFilter;
+import com.haxademic.core.draw.filters.shaders.SphereDistortionFilter;
+import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.EasingFloat;
-import com.haxademic.core.system.FileUtil;
 
 import processing.core.PGraphics;
 import processing.opengl.PShader;

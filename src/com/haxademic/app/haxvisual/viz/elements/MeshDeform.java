@@ -14,8 +14,8 @@ import com.haxademic.core.draw.mesh.DrawMesh;
 import com.haxademic.core.draw.mesh.MeshPool;
 import com.haxademic.core.draw.mesh.MeshUtil;
 import com.haxademic.core.draw.util.DrawUtil;
+import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.MathUtil;
-import com.haxademic.core.system.FileUtil;
 
 public class MeshDeform 
 extends ElementBase 

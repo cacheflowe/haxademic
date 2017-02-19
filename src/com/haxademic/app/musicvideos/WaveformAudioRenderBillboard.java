@@ -3,9 +3,9 @@ package com.haxademic.app.musicvideos;
 import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.draw.filters.shaders.BadTVLinesFilter;
 import com.haxademic.core.draw.util.DrawUtil;
-import com.haxademic.core.image.filters.shaders.BadTVLinesFilter;
-import com.haxademic.core.system.FileUtil;
+import com.haxademic.core.file.FileUtil;
 
 import processing.core.PGraphics;
 import processing.core.PImage;

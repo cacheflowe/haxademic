@@ -16,9 +16,9 @@ import javax.sound.midi.Sequence;
 import javax.sound.midi.ShortMessage;
 import javax.sound.midi.Track;
 
-import processing.core.PApplet;
-
 import com.haxademic.core.app.P;
+
+import processing.core.PApplet;
 
 public class MIDISequenceRenderer {
 	protected PApplet p;

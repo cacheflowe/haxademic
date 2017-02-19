@@ -24,7 +24,7 @@ import toxi.processing.ToxiclibsSupport;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.audio.AudioInputWrapper;
-import com.haxademic.core.image.ImageUtil;
+import com.haxademic.core.draw.image.ImageUtil;
 
 public class MeshUtil {
 	

@@ -4,8 +4,8 @@ import org.openkinect.processing.Kinect2;
 
 import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.image.filters.shaders.EdgesFilter;
-import com.haxademic.core.system.FileUtil;
+import com.haxademic.core.draw.filters.shaders.EdgesFilter;
+import com.haxademic.core.file.FileUtil;
 
 import processing.video.Movie;
 

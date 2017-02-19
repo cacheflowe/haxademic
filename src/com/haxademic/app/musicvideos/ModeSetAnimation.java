@@ -8,10 +8,10 @@ import com.haxademic.core.draw.color.EasingTColor;
 import com.haxademic.core.draw.color.TColorInit;
 import com.haxademic.core.draw.mesh.MeshUtil;
 import com.haxademic.core.draw.util.DrawUtil;
+import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.EasingFloat;
 import com.haxademic.core.math.easing.ElasticFloat;
-import com.haxademic.core.system.FileUtil;
 import com.haxademic.core.vendor.Toxiclibs;
 
 import toxi.color.TColor;

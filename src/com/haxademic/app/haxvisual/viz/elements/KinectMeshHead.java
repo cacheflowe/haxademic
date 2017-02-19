@@ -20,9 +20,9 @@ import com.haxademic.core.draw.color.ColorGroup;
 import com.haxademic.core.draw.mesh.MeshPool;
 import com.haxademic.core.draw.mesh.MeshUtil;
 import com.haxademic.core.draw.util.DrawUtil;
+import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.kinect.IKinectWrapper;
 import com.haxademic.core.hardware.kinect.SkeletonsTracker;
-import com.haxademic.core.system.FileUtil;
 import com.haxademic.core.vendor.Toxiclibs;
 
 public class KinectMeshHead

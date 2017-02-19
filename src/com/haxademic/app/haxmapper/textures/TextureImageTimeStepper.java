@@ -7,9 +7,9 @@ import processing.core.PImage;
 import processing.opengl.PShader;
 
 import com.haxademic.core.app.P;
-import com.haxademic.core.image.ImageUtil;
+import com.haxademic.core.draw.image.ImageUtil;
+import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.easing.EasingFloat;
-import com.haxademic.core.system.FileUtil;
 
 public class TextureImageTimeStepper
 extends BaseTexture {

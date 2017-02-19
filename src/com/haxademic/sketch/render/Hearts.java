@@ -3,13 +3,13 @@ package com.haxademic.sketch.render;
 import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.draw.filters.shaders.VignetteFilter;
+import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.draw.util.OpenGLUtil;
-import com.haxademic.core.image.ImageUtil;
-import com.haxademic.core.image.filters.shaders.VignetteFilter;
+import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.Penner;
-import com.haxademic.core.system.FileUtil;
 
 import processing.core.PGraphics;
 import processing.core.PShape;

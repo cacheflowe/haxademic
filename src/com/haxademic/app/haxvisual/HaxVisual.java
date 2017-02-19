@@ -20,9 +20,9 @@ import com.haxademic.app.haxvisual.viz.modules.Toxi;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.debug.DebugText;
+import com.haxademic.core.draw.image.ScreenUtil;
+import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.midi.MidiWrapper;
-import com.haxademic.core.image.ScreenUtil;
-import com.haxademic.core.system.FileUtil;
 
 import processing.core.PApplet;
 

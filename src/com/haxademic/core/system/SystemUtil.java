@@ -1,11 +1,11 @@
 package com.haxademic.core.system;
 
-import processing.core.PApplet;
-
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
 import com.haxademic.core.app.P;
+
+import processing.core.PApplet;
 
 public class SystemUtil {
 	

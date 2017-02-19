@@ -1,13 +1,13 @@
 package com.haxademic.core.render;
 
 
+import com.haxademic.core.app.P;
+import com.haxademic.core.math.MathUtil;
+
 import processing.core.PApplet;
 import processing.core.PGraphics;
 import processing.core.PImage;
 import processing.video.Movie;
-
-import com.haxademic.core.app.P;
-import com.haxademic.core.math.MathUtil;
 
 public class VideoFrameGrabber {
 

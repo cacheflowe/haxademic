@@ -4,12 +4,12 @@ import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.color.ColorHax;
+import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.shapes.Shapes;
 import com.haxademic.core.draw.util.DrawUtil;
+import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.webcam.WebCamWrapper;
-import com.haxademic.core.image.ImageUtil;
 import com.haxademic.core.math.easing.Penner;
-import com.haxademic.core.system.FileUtil;
 
 import processing.core.PConstants;
 import processing.core.PImage;

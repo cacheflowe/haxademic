@@ -15,7 +15,7 @@ import javax.swing.JRootPane;
 import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.system.FileUtil;
+import com.haxademic.core.file.FileUtil;
 
 import javafx.application.Platform;
 import javafx.embed.swing.JFXPanel;

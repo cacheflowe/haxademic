@@ -5,9 +5,9 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.draw.util.OpenGLUtil;
+import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.Penner;
-import com.haxademic.core.system.FileUtil;
 
 import controlP5.ControlP5;
 import processing.core.PGraphics;

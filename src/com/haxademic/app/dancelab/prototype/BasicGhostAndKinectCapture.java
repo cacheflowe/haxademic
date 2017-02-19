@@ -9,11 +9,11 @@ import org.openkinect.processing.Kinect2;
 import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.image.filters.shaders.BlurBasicFilter;
-import com.haxademic.core.image.filters.shaders.BlurProcessingFilter;
-import com.haxademic.core.image.filters.shaders.EdgesFilter;
-import com.haxademic.core.image.filters.shaders.SharpenFilter;
-import com.haxademic.core.system.FileUtil;
+import com.haxademic.core.draw.filters.shaders.BlurBasicFilter;
+import com.haxademic.core.draw.filters.shaders.BlurProcessingFilter;
+import com.haxademic.core.draw.filters.shaders.EdgesFilter;
+import com.haxademic.core.draw.filters.shaders.SharpenFilter;
+import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.system.SystemUtil;
 
 import processing.core.PGraphics;

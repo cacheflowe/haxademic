@@ -5,8 +5,8 @@ import java.util.Random;
 import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.image.filters.shaders.BrightnessFilter;
-import com.haxademic.core.system.FileUtil;
+import com.haxademic.core.draw.filters.shaders.BrightnessFilter;
+import com.haxademic.core.file.FileUtil;
 
 import processing.core.PImage;
 import processing.core.PVector;

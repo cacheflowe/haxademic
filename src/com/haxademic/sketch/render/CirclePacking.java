@@ -5,12 +5,12 @@ import java.util.ArrayList;
 import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.draw.image.AnimatedGifEncoder;
+import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.draw.util.OpenGLUtil;
-import com.haxademic.core.image.AnimatedGifEncoder;
-import com.haxademic.core.image.ImageUtil;
+import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.MathUtil;
-import com.haxademic.core.system.FileUtil;
 
 import processing.core.PGraphics;
 import processing.core.PImage;

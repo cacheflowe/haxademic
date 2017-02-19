@@ -5,7 +5,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.draw.util.OpenGLUtil;
-import com.haxademic.core.system.FileUtil;
+import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.system.SystemUtil;
 
 import controlP5.ControlP5;

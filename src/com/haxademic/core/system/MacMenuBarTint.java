@@ -3,6 +3,7 @@ package com.haxademic.core.system;
 import java.io.IOException;
 
 import com.haxademic.core.app.P;
+import com.haxademic.core.file.FileUtil;
 
 public class MacMenuBarTint {
 

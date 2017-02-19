@@ -3,14 +3,14 @@ package com.haxademic.sketch.pshape;
 import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.draw.filters.shaders.KaleidoFilter;
+import com.haxademic.core.draw.filters.shaders.RadialRipplesFilter;
+import com.haxademic.core.draw.filters.shaders.VignetteFilter;
 import com.haxademic.core.draw.shapes.Icosahedron;
 import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.draw.util.OpenGLUtil;
 import com.haxademic.core.draw.util.PShapeUtil;
-import com.haxademic.core.image.filters.shaders.KaleidoFilter;
-import com.haxademic.core.image.filters.shaders.RadialRipplesFilter;
-import com.haxademic.core.image.filters.shaders.VignetteFilter;
-import com.haxademic.core.system.FileUtil;
+import com.haxademic.core.file.FileUtil;
 
 import processing.core.PImage;
 import processing.core.PShape;

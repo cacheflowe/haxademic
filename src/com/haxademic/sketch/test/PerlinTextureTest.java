@@ -2,7 +2,7 @@ package com.haxademic.sketch.test;
 
 import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.image.PerlinTexture;
+import com.haxademic.core.draw.image.PerlinTexture;
 
 import controlP5.ControlP5;
 

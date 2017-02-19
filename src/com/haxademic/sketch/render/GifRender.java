@@ -5,8 +5,8 @@ import java.awt.image.BufferedImage;
 import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.image.AnimatedGifEncoder;
-import com.haxademic.core.system.FileUtil;
+import com.haxademic.core.draw.image.AnimatedGifEncoder;
+import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.system.SystemUtil;
 
 import processing.core.PImage;

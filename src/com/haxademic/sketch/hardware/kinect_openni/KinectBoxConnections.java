@@ -9,8 +9,8 @@ import com.haxademic.core.draw.mesh.MeshPool;
 import com.haxademic.core.draw.mesh.MeshUtil;
 import com.haxademic.core.draw.shapes.BoxBetween;
 import com.haxademic.core.draw.util.DrawUtil;
+import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.kinect.SkeletonsTracker;
-import com.haxademic.core.system.FileUtil;
 import com.haxademic.core.vendor.Toxiclibs;
 
 import SimpleOpenNI.SimpleOpenNI;

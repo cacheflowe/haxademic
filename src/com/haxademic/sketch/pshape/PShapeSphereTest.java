@@ -7,7 +7,7 @@ import com.haxademic.core.draw.shapes.Icosahedron;
 import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.draw.util.OpenGLUtil;
 import com.haxademic.core.draw.util.PShapeUtil;
-import com.haxademic.core.system.FileUtil;
+import com.haxademic.core.file.FileUtil;
 
 import processing.core.PImage;
 import processing.core.PShape;

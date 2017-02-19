@@ -12,9 +12,9 @@ import org.poly2tri.triangulation.TriangulationPoint;
 import org.poly2tri.triangulation.delaunay.DelaunayTriangle;
 
 import com.haxademic.core.app.P;
+import com.haxademic.core.draw.filters.FastBlurFilter;
 import com.haxademic.core.draw.util.OpenGLUtil;
 import com.haxademic.core.hardware.kinect.KinectSize;
-import com.haxademic.core.image.filters.FastBlurFilter;
 import com.haxademic.core.math.MathUtil;
 
 import blobDetection.Blob;

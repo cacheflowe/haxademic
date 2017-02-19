@@ -3,9 +3,9 @@ package com.haxademic.sketch.hardware.kinect_openni;
 import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.draw.filters.PixelFilter;
 import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.hardware.kinect.KinectSize;
-import com.haxademic.core.image.filters.PixelFilter;
 
 import toxi.geom.Vec2D;
 import toxi.geom.Vec3D;

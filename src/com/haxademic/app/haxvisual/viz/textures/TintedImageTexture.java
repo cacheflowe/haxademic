@@ -10,8 +10,8 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.audio.AudioInputWrapper;
 import com.haxademic.core.draw.color.ColorGroup;
 import com.haxademic.core.draw.color.TColorBlendBetween;
+import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.MathUtil;
-import com.haxademic.core.system.FileUtil;
 
 public class TintedImageTexture
 implements IAudioTexture

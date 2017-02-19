@@ -3,9 +3,9 @@ package com.haxademic.app.haxmapper.textures;
 import java.util.ArrayList;
 
 import com.haxademic.core.app.P;
+import com.haxademic.core.draw.filters.shaders.BlurHFilter;
+import com.haxademic.core.draw.filters.shaders.BlurVFilter;
 import com.haxademic.core.draw.util.DrawUtil;
-import com.haxademic.core.image.filters.shaders.BlurHFilter;
-import com.haxademic.core.image.filters.shaders.BlurVFilter;
 
 import processing.core.PVector;
 

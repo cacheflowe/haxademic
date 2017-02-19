@@ -11,7 +11,7 @@ import toxi.color.theory.ColorTheoryRegistry;
 import toxi.color.theory.ColorTheoryStrategy;
 
 import com.haxademic.core.app.P;
-import com.haxademic.core.cameras.CameraDefault;
+import com.haxademic.core.camera.CameraDefault;
 import com.haxademic.core.draw.color.ColorGroup;
 import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.hardware.midi.MidiWrapper;

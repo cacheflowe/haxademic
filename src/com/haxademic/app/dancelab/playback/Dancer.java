@@ -1,6 +1,6 @@
 package com.haxademic.app.dancelab.playback;
 
-import com.haxademic.core.system.FileUtil;
+import com.haxademic.core.file.FileUtil;
 
 public enum Dancer {
 	MORGAN (FileUtil.getHaxademicDataPath() + "video/dancelab/image-sequence-test-morgan/"),

@@ -6,8 +6,8 @@ import processing.core.PGraphics;
 import processing.core.PImage;
 
 import com.haxademic.core.app.P;
+import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.util.OpenGLUtil;
-import com.haxademic.core.image.ImageUtil;
 
 public class CustomFontText2D {
 	

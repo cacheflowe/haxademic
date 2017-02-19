@@ -3,11 +3,11 @@ package com.haxademic.sketch.test;
 import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.image.filters.FastBlurFilter;
-import com.haxademic.core.image.filters.shaders.BlurHFilter;
-import com.haxademic.core.image.filters.shaders.BlurProcessingFilter;
-import com.haxademic.core.image.filters.shaders.BlurVFilter;
-import com.haxademic.core.system.FileUtil;
+import com.haxademic.core.draw.filters.FastBlurFilter;
+import com.haxademic.core.draw.filters.shaders.BlurHFilter;
+import com.haxademic.core.draw.filters.shaders.BlurProcessingFilter;
+import com.haxademic.core.draw.filters.shaders.BlurVFilter;
+import com.haxademic.core.file.FileUtil;
 
 import blobDetection.Blob;
 import blobDetection.BlobDetection;

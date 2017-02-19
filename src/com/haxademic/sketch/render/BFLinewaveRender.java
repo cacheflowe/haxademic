@@ -5,11 +5,11 @@ import java.util.ArrayList;
 import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.draw.image.MotionBlurPGraphics;
 import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.draw.util.OpenGLUtil;
-import com.haxademic.core.image.MotionBlurPGraphics;
+import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.easing.EasingFloat;
-import com.haxademic.core.system.FileUtil;
 
 import processing.core.PConstants;
 import processing.core.PGraphics;

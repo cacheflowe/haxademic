@@ -3,14 +3,14 @@ package com.haxademic.sketch.test;
 import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.draw.filters.shaders.ColorCorrectionFilter;
+import com.haxademic.core.draw.filters.shaders.ColorDistortionFilter;
+import com.haxademic.core.draw.filters.shaders.CubicLensDistortionFilter;
+import com.haxademic.core.draw.filters.shaders.DilateFilter;
+import com.haxademic.core.draw.filters.shaders.RadialBlurFilter;
+import com.haxademic.core.draw.filters.shaders.SphereDistortionFilter;
+import com.haxademic.core.draw.filters.shaders.VignetteAltFilter;
 import com.haxademic.core.draw.util.DrawUtil;
-import com.haxademic.core.image.filters.shaders.ColorCorrectionFilter;
-import com.haxademic.core.image.filters.shaders.ColorDistortionFilter;
-import com.haxademic.core.image.filters.shaders.CubicLensDistortionFilter;
-import com.haxademic.core.image.filters.shaders.DilateFilter;
-import com.haxademic.core.image.filters.shaders.RadialBlurFilter;
-import com.haxademic.core.image.filters.shaders.SphereDistortionFilter;
-import com.haxademic.core.image.filters.shaders.VignetteAltFilter;
 
 public class RadialTransparentGradient
 extends PAppletHax {

@@ -3,13 +3,13 @@ package com.haxademic.sketch.render.ello;
 import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.draw.image.HaxMotionBlur;
+import com.haxademic.core.draw.image.DrawCommand.Command;
 import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.draw.util.OpenGLUtil;
+import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.Penner;
-import com.haxademic.core.render.DrawCommand.Command;
-import com.haxademic.core.render.HaxMotionBlur;
-import com.haxademic.core.system.FileUtil;
 
 import processing.core.PImage;
 import processing.core.PShape;

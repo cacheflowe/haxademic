@@ -1,8 +1,8 @@
 package com.haxademic.app.musicvideos;
 
 import com.haxademic.core.audio.AudioInputWrapper;
-import com.haxademic.core.cameras.CameraOscillate;
-import com.haxademic.core.cameras.common.ICamera;
+import com.haxademic.core.camera.CameraOscillate;
+import com.haxademic.core.camera.common.ICamera;
 import com.haxademic.core.render.Renderer;
 
 import krister.Ess.AudioInput;

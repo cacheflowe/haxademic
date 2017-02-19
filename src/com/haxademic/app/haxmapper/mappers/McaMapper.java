@@ -24,7 +24,7 @@ import com.haxademic.app.haxmapper.textures.TextureWaveformCircle;
 import com.haxademic.app.haxmapper.textures.TextureWaveformSimple;
 import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.system.FileUtil;
+import com.haxademic.core.file.FileUtil;
 
 import oscP5.OscMessage;
 

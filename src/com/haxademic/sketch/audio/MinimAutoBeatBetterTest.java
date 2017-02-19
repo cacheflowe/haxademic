@@ -1,7 +1,7 @@
 package com.haxademic.sketch.audio;
 
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.system.FileUtil;
+import com.haxademic.core.file.FileUtil;
 
 import controlP5.ControlEvent;
 import controlP5.ControlP5;

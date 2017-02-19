@@ -1,15 +1,15 @@
 package com.haxademic.core.render;
 
-import krister.Ess.AudioChannel;
-import processing.core.PApplet;
-import unlekker.moviemaker.UMovieMaker;
-
 import com.haxademic.core.app.P;
 import com.haxademic.core.audio.AudioInputWrapper;
 import com.haxademic.core.debug.DebugUtil;
-import com.haxademic.core.system.FileUtil;
+import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.system.SystemUtil;
 import com.haxademic.core.text.StringFormatter;
+
+import krister.Ess.AudioChannel;
+import processing.core.PApplet;
+import unlekker.moviemaker.UMovieMaker;
 
 public class Renderer 
 {

@@ -7,6 +7,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.color.ColorHaxEasing;
 import com.haxademic.core.draw.color.ColorUtil;
+import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.dmx.DmxInterface;
 import com.haxademic.core.hardware.joystick.AutoTesterJoysticksCollection;
 import com.haxademic.core.hardware.joystick.IJoystickCollection;
@@ -17,7 +18,6 @@ import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.EasingFloat;
 import com.haxademic.core.math.easing.LinearFloat;
 import com.haxademic.core.math.easing.Penner;
-import com.haxademic.core.system.FileUtil;
 
 import ddf.minim.ugens.Gain;
 import ddf.minim.ugens.Sampler;

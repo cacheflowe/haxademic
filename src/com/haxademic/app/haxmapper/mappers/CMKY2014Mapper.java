@@ -17,8 +17,8 @@ import com.haxademic.app.haxmapper.textures.TextureTwistingSquares;
 import com.haxademic.app.haxmapper.textures.TextureVideoPlayer;
 import com.haxademic.app.haxmapper.textures.TextureWaveformSimple;
 import com.haxademic.core.app.AppSettings;
+import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.MathUtil;
-import com.haxademic.core.system.FileUtil;
 
 import processing.core.PApplet;
 

@@ -4,9 +4,9 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.management.ManagementFactory;
 
-import processing.core.PApplet;
-
 import com.haxademic.core.app.P;
+
+import processing.core.PApplet;
 
 public class AppRestart {
 

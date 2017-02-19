@@ -4,8 +4,8 @@ import processing.core.PConstants;
 
 import com.haxademic.app.haxvisual.viz.IVizModule;
 import com.haxademic.app.haxvisual.viz.ModuleBase;
-import com.haxademic.core.cameras.CameraDefault;
-import com.haxademic.core.cameras.CameraSpotter;
+import com.haxademic.core.camera.CameraDefault;
+import com.haxademic.core.camera.CameraSpotter;
 import com.haxademic.core.hardware.midi.MidiWrapper;
 import com.haxademic.core.hardware.osc.OscWrapper;
 

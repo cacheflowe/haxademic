@@ -2,9 +2,9 @@ package com.haxademic.sketch.three_d;
 
 import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.image.ImageUtil;
+import com.haxademic.core.draw.image.ImageUtil;
+import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.render.JoonsWrapper;
-import com.haxademic.core.system.FileUtil;
 
 import processing.core.PImage;
 import toxi.geom.Triangle3D;

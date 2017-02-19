@@ -7,7 +7,7 @@ import processing.core.PShape;
 import processing.core.PVector;
 
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.system.FileUtil;
+import com.haxademic.core.file.FileUtil;
 
 public class TextureSphere 
 extends PAppletHax {

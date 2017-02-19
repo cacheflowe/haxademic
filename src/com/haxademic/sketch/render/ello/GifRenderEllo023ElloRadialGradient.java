@@ -6,7 +6,7 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.color.ColorHaxEasing;
 import com.haxademic.core.draw.shapes.Gradients;
 import com.haxademic.core.draw.util.OpenGLUtil;
-import com.haxademic.core.system.FileUtil;
+import com.haxademic.core.file.FileUtil;
 
 import processing.core.PShape;
 

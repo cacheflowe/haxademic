@@ -3,9 +3,9 @@ package com.haxademic.app.haxmapper.textures;
 import processing.core.PGraphics;
 import processing.opengl.PShader;
 
+import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.EasingFloat;
-import com.haxademic.core.system.FileUtil;
 
 public class TextureShaderScrubber
 extends BaseTexture {

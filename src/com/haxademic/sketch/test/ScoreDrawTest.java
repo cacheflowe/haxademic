@@ -4,7 +4,7 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.color.ColorUtil;
 import com.haxademic.core.draw.text.CustomFontText2D;
 import com.haxademic.core.draw.util.DrawUtil;
-import com.haxademic.core.system.FileUtil;
+import com.haxademic.core.file.FileUtil;
 
 
 public class ScoreDrawTest

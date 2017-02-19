@@ -3,13 +3,13 @@ package com.haxademic.app.hike;
 import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.draw.filters.shaders.BlurHFilter;
+import com.haxademic.core.draw.filters.shaders.BlurVFilter;
+import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.util.DrawUtil;
+import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.kinect.KinectRegionGrid;
-import com.haxademic.core.image.ImageUtil;
-import com.haxademic.core.image.filters.shaders.BlurHFilter;
-import com.haxademic.core.image.filters.shaders.BlurVFilter;
 import com.haxademic.core.net.WebSocketRelay;
-import com.haxademic.core.system.FileUtil;
 
 import blobDetection.Blob;
 import blobDetection.BlobDetection;

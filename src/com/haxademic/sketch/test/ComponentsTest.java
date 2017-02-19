@@ -5,14 +5,14 @@ import java.util.ArrayList;
 import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.assets.AsyncImageLoader;
-import com.haxademic.core.assets.DirImageLoader;
-import com.haxademic.core.components.IMouseable;
-import com.haxademic.core.components.TextButton;
-import com.haxademic.core.components.TextInput;
 import com.haxademic.core.draw.text.CustomFontText2D;
-import com.haxademic.core.system.FileUtil;
+import com.haxademic.core.file.AsyncImageLoader;
+import com.haxademic.core.file.DirImageLoader;
+import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.text.ValidateUtil;
+import com.haxademic.core.ui.IMouseable;
+import com.haxademic.core.ui.TextButton;
+import com.haxademic.core.ui.TextInput;
 
 import processing.core.PConstants;
 

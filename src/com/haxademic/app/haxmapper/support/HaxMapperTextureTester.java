@@ -1,14 +1,16 @@
 package com.haxademic.app.haxmapper.support;
 
 import com.haxademic.app.haxmapper.textures.BaseTexture;
-import com.haxademic.app.haxmapper.textures.TextureFractalPolygons;
+import com.haxademic.app.haxmapper.textures.TextureMeshDeform;
 import com.haxademic.app.haxmapper.textures.TextureShaderTimeStepper;
+import com.haxademic.app.haxmapper.textures.TextureTwistingSquares;
+import com.haxademic.app.haxmapper.textures.TextureVectorFieldEQ;
 import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.draw.filters.shaders.FXAAFilter;
 import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.draw.util.OpenGLUtil;
-import com.haxademic.core.image.filters.shaders.FXAAFilter;
 
 public class HaxMapperTextureTester 
 extends PAppletHax {
@@ -26,6 +28,7 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.FULLSCREEN, true );
 		p.appConfig.setProperty( AppSettings.FILLS_SCREEN, false );
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, false );
+		p.appConfig.setProperty( AppSettings.RETINA, false );
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_START_FRAME, 1);
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, (int)frames);
 	}
@@ -34,8 +37,8 @@ extends PAppletHax {
 	public void setup() {
 		super.setup();
 		
-		w = Math.round(p.width / 5f); // p.width;// 
-		h = Math.round(p.height / 4f); // Math.round(w * (9f/16f));
+		w = Math.round(p.width / 3f); // p.width;// 
+		h = Math.round(p.height / 3f); // Math.round(w * (9f/16f));
 //		w = p.width; 
 //		h = p.height;
 		
@@ -47,24 +50,34 @@ extends PAppletHax {
 //			new TextureFractalPolygons( w, h ),
 //			new TextureWebCam( w, h ),
 //			new TextureEQFloatParticles( w, h ),
-			
+//			new TextureEQBandDistribute( w, h ),
+//			new TextureAudioTube( w, h ),
+//			new TextureTwistingSquares( w, h ),
+//		    new TextureImageTimeStepper( w, h ),
+
 //			new TextureShaderTimeStepper( w, h, "sdf-01-auto.glsl" ),
 //			new TextureShaderTimeStepper( w, h, "sdf-02-auto.glsl" ),
 //			new TextureMeshDeform( w, h ),
-//			new TextureCyclingRadialGradient( w, h ),
-//			new TextureShaderTimeStepper( w, h, "bw-scroll-rows.glsl" ),
+			new TextureMeshDeform( w, h ),
+			new TextureTwistingSquares( w, h ),
+			new TextureVectorFieldEQ( w, h ),
+			new TextureShaderTimeStepper( w, h, "bw-scroll-rows.glsl" ),
 //			new TextureShaderTimeStepper( w, h, "light-leak.glsl" ),
 //			new TextureShaderTimeStepper( w, h, "primitives-2d.glsl" ),
-//			new TextureShaderTimeStepper( w, h, "bw-eye-jacker-02.glsl" ),
+			new TextureShaderTimeStepper( w, h, "bw-tiled-moire.glsl" ),
 //			new TextureShaderTimeStepper( w, h, "shiny-circle-wave.glsl" ),
 //			new TextureShaderTimeStepper( w, h, "radial-waves.glsl" ),
-			new TextureShaderTimeStepper( w, h, "cacheflowe-squound-tunnel.glsl" ),
-			new TextureShaderTimeStepper( w, h, "cacheflowe-grid-noise-warp.glsl" ),
-			new TextureShaderTimeStepper( w, h, "cacheflowe-liquid-moire.glsl" ),
-			new TextureShaderTimeStepper( w, h, "cacheflowe-liquid-moire-camo-alt.glsl" ),
-			new TextureShaderTimeStepper( w, h, "cacheflowe-checkerboard-stairs.glsl" ),
-			new TextureShaderTimeStepper( w, h, "cacheflowe-folded-wrapping-paper.glsl" ),
-			new TextureShaderTimeStepper( w, h, "cacheflowe-concentric-plasma.glsl" ),
+//			new TextureShaderTimeStepper( w, h, "cacheflowe-checkerboard-stairs.glsl" ),
+//			new TextureShaderTimeStepper( w, h, "sin-waves.glsl" ),
+//			new TextureShaderTimeStepper( w, h, "gradient-line.glsl" ),
+//			new TextureShaderTimeStepper( w, h, "lines-scroll-diag.glsl" ),
+//			new TextureShaderTimeStepper( w, h, "cacheflowe-squound-tunnel.glsl" ),
+//			new TextureShaderTimeStepper( w, h, "cacheflowe-grid-noise-warp.glsl" ),
+//			new TextureShaderTimeStepper( w, h, "cacheflowe-liquid-moire.glsl" ),
+//			new TextureShaderTimeStepper( w, h, "cacheflowe-liquid-moire-camo-alt.glsl" ),
+//			new TextureShaderTimeStepper( w, h, "cacheflowe-checkerboard-stairs.glsl" ),
+//			new TextureShaderTimeStepper( w, h, "cacheflowe-folded-wrapping-paper.glsl" ),
+//			new TextureShaderTimeStepper( w, h, "cacheflowe-concentric-plasma.glsl" ),
 //			new TextureShaderTimeStepper( w, h, "cacheflowe-scrolling-radial-twist.glsl" ),
 //			new TextureShaderTimeStepper( w, h, "cacheflowe-warp-vortex.glsl" ),
 //			new TextureShaderTimeStepper( w, h, "cacheflowe-distance-blobs.glsl" ),
@@ -89,7 +102,7 @@ extends PAppletHax {
 //			new TextureShaderTimeStepper( w, h, "sdf-02.glsl" ),
 //			new TextureShaderTimeStepper( w, h, "morphing-bokeh-shape.glsl" ),
 //			new TextureShaderTimeStepper( w, h, "bw-motion-illusion.glsl" ),
-//			new TextureShaderTimeStepper( w, h, "bw-simple-sin.glsl" ),
+//			new TextureShaderTimeStepper( w, h, "light-leak.glsl" ),
 //
 //			new TextureShaderTimeStepper( w, h, "wobble-sin.glsl" ),
 //			new TextureShaderTimeStepper( w, h, "docking-tunnel.glsl" ),
@@ -109,7 +122,6 @@ extends PAppletHax {
 //			new TextureShaderTimeStepper( w, h, "fade-dots.glsl" ),
 //			new TextureBlobSheet( w, h ),
 //			new TextureOuterSphere( w, h ),
-//			new TextureAudioTube( w, h ),
 //			new TextureSvgPattern( w, h ),
 //			new TextureWaveformCircle( w, h ),
 //			new TextureRotatingRings( w, h ),
@@ -118,7 +130,6 @@ extends PAppletHax {
 //			new TextureEQConcentricCircles( w, h ),
 //			new TextureEQGrid( w, h ),
 //			new TextureWaveformSimple( w, h ),
-//			new TextureTwistingSquares( w, h ),
 //			new TextureAppFrameEq2d( w, h ),
 //			new TextureAppFrame2d( w, h ),
 //			new TextureAppFrameWaveformCircle( w, h ),
@@ -128,7 +139,6 @@ extends PAppletHax {
 //			new TextureMeshDeform( w, h ),
 //		    new TextureColorAudioSlide( w, h ),
 //		    new TextureSphereRotate( w, h ),
-//		    new TextureImageTimeStepper( w, h ),
 //		    new TextureShaderScrubber( w, h, "cog-tunnel.glsl" ),
 //			new TextureVideoPlayer( w, h, "video/cacheflowe/render-2015-04-24-11-06-26-3x (Converted 2).mov" ),
 //			new TextureVideoPlayer( w, h, "video/cacheflowe/render-2015-07-28-10-03-01-desktop.m4v" ),
@@ -181,6 +191,8 @@ extends PAppletHax {
 			} else {
 				tex.update();
 			}
+//			LeaveBlackFilter.instance(p).setMix(P.map(p.mouseX, 0, p.width, 0f, 1f));
+//			LeaveBlackFilter.instance(p).applyTo(tex.texture()); // test filter
 			p.image( tex.texture(), x, y );
 			
 			x += w;

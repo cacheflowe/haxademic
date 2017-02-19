@@ -3,10 +3,10 @@ package com.haxademic.app.musicvideos;
 import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.image.MotionBlurPGraphics;
+import com.haxademic.core.draw.image.MotionBlurPGraphics;
+import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.render.VideoFrameGrabber;
-import com.haxademic.core.system.FileUtil;
 
 import controlP5.ControlP5;
 import processing.core.PGraphics;

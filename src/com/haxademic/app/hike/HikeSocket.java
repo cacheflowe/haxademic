@@ -4,10 +4,10 @@ import java.util.ArrayList;
 
 import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.components.IMouseable;
-import com.haxademic.core.components.TextButton;
 import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.net.WebSocketRelay;
+import com.haxademic.core.ui.IMouseable;
+import com.haxademic.core.ui.TextButton;
 
 import processing.data.JSONObject;
 

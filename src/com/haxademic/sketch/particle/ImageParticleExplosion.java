@@ -1,7 +1,7 @@
 package com.haxademic.sketch.particle;
 
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.system.FileUtil;
+import com.haxademic.core.file.FileUtil;
 
 import processing.core.PConstants;
 import processing.core.PImage;

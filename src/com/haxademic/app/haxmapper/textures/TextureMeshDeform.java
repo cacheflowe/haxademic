@@ -1,21 +1,22 @@
 package com.haxademic.app.haxmapper.textures;
 
-import toxi.geom.mesh.WETriangleMesh;
+import java.util.ArrayList;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.data.Point3D;
-import com.haxademic.core.draw.mesh.DrawMesh;
-import com.haxademic.core.draw.mesh.MeshPool;
-import com.haxademic.core.draw.mesh.MeshUtil;
+import com.haxademic.core.draw.shapes.PShapeSolid;
 import com.haxademic.core.draw.util.DrawUtil;
+import com.haxademic.core.draw.util.PShapeUtil;
+import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.MathUtil;
-import com.haxademic.core.system.FileUtil;
+
+import processing.core.PShape;
 
 public class TextureMeshDeform 
 extends BaseTexture {
 
-	protected MeshPool _meshPool, _meshPoolDeformed;
-	protected WETriangleMesh _curMesh, _curMeshDeformed;
+	protected ArrayList<PShapeSolid> _meshPool;
+	protected PShapeSolid _curMesh;
 	protected int _meshIndex = -1;
 	protected boolean isWireFrame;
 	protected float _colorGradientDivider = 1;
@@ -35,25 +36,29 @@ extends BaseTexture {
 	}
 
 	public void init() {
-		float scaleMult = 1.0f;
-		_meshPool = new MeshPool( P.p );
-		_meshPoolDeformed = new MeshPool( P.p );
+		_meshPool = new ArrayList<PShapeSolid>();
 		
-		_meshPool.addMesh( "DISCOVERY", MeshUtil.meshFromOBJ( P.p, FileUtil.getHaxademicDataPath() + "models/the-discovery-multiplied-seied.obj", 1f ), 900 * scaleMult );
-		_meshPool.addMesh( "TOPSECRET", MeshUtil.meshFromOBJ( P.p, FileUtil.getHaxademicDataPath() + "models/topsecret-seied.obj", 1f ), 400 * scaleMult );
-		_meshPool.addMesh( "SKULL", MeshUtil.meshFromOBJ( P.p, FileUtil.getHaxademicDataPath() + "models/skull.obj", 1f ), 75 * scaleMult );
-//		_meshPool.addMesh( "ELLO", MeshUtil.getExtrudedMesh( MeshUtil.meshFromSVG( P.p, FileUtil.getHaxademicDataPath() + "svg/ello.svg", -1, 20, 0.5f ), 20), scaleMult );
-		_meshPool.addMesh( "POLY_HOLE_PENT", MeshUtil.meshFromOBJ( P.p, FileUtil.getHaxademicDataPath() + "models/poly-hole-penta.obj", 1f ), 70f * scaleMult );
-		_meshPool.addMesh( "POLY_HOLE_SQUARE", MeshUtil.meshFromOBJ( P.p, FileUtil.getHaxademicDataPath() + "models/poly-hole-square.obj", 1f ), 70f * scaleMult );
-		_meshPool.addMesh( "POLY_HOLE_TRI", MeshUtil.meshFromOBJ( P.p, FileUtil.getHaxademicDataPath() + "models/poly-hole-tri.obj", 1f ), 70f * scaleMult );
-
-		// copy models into deformed model pool
-		for( int i=0; i < _meshPool.size(); i++ ) {
-			String id = _meshPool.getIds().get( i );
-			_meshPoolDeformed.addMesh( id, _meshPool.getMesh( id ).copy(), 1f );
-		}
-
+		_meshPool.add(new PShapeSolid(prepShape(P.p.loadShape(FileUtil.getFile("models/unicorn-head-lowpoly.obj")))));
+		_meshPool.add(new PShapeSolid(prepShape(P.p.loadShape(FileUtil.getFile("models/the-discovery-multiplied-seied.obj")))));
+		_meshPool.add(new PShapeSolid(prepShape(P.p.loadShape(FileUtil.getFile("models/topsecret-seied.obj")))));
+		_meshPool.add(new PShapeSolid(prepShape(P.p.loadShape(FileUtil.getFile("models/skull.obj")))));
+		_meshPool.add(new PShapeSolid(prepShape(P.p.loadShape(FileUtil.getFile("models/poly-hole-penta.obj")))));
+		_meshPool.add(new PShapeSolid(prepShape(P.p.loadShape(FileUtil.getFile("models/poly-hole-square.obj")))));
+		_meshPool.add(new PShapeSolid(prepShape(P.p.loadShape(FileUtil.getFile("models/poly-hole-tri.obj")))));
+		
+		
 		selectNewModel();
+	}
+	
+	protected PShape prepShape(PShape shape) {
+//		for(PShapeSolid shape : _meshPool) {
+			// scale it to fit the window
+			PShapeUtil.scaleObjToExtent(shape, _texture.height * 0.7f);
+			// add UV coordinates to OBJ
+			float modelExtent = PShapeUtil.getObjMaxExtent(shape);
+			PShapeUtil.addTextureUVToObj(shape, null, modelExtent);
+//		}
+		return shape;
 	}
 	
 	public void newLineMode() {
@@ -73,10 +78,10 @@ extends BaseTexture {
 	}
 	
 	public void updateRotation() {
-		_rotation.easeToPoint( _rotationTarget, 5 );
-		_texture.rotateX( _rotation.x );
-		_texture.rotateY( _rotation.y );
-		_texture.rotateZ( _rotation.z );
+//		_rotation.easeToPoint( _rotationTarget, 5 );
+//		_texture.rotateX( _rotation.x );
+//		_texture.rotateY( _rotation.y );
+//		_texture.rotateZ( _rotation.z );
 
 		_rotationTarget.x += _rotSpeed.x;
 		_rotationTarget.y += _rotSpeed.y;
@@ -89,18 +94,20 @@ extends BaseTexture {
 	public void selectNewModel() {
 		_meshIndex++;
 		if( _meshIndex >= _meshPool.size() ) _meshIndex = 0;
-		_curMesh = _meshPool.getMesh( _meshPool.getIds().get( _meshIndex ) );
-		_curMeshDeformed = _meshPoolDeformed.getMesh( _meshPoolDeformed.getIds().get( _meshIndex ) );
+		_curMesh = _meshPool.get(_meshIndex);
 	}
 
 	public void updateDraw() {
 		_texture.clear();
 		
-		DrawUtil.resetGlobalProps( _texture );
-		DrawUtil.setCenterScreen( _texture );
+//		DrawUtil.resetGlobalProps(_texture);
+//		DrawUtil.setCenterScreen(_texture);
+		DrawUtil.setDrawCenter(_texture);
+		_texture.translate(_texture.width/2, _texture.height/2);
+		
 		_texture.pushMatrix();
 
-		_texture.translate( 0, 0, -300 );
+//		_texture.translate( 0, 0, -300 );
 
 		_rotation.x += _rotSpeed.x;
 		_rotation.y += _rotSpeed.y;
@@ -114,12 +121,19 @@ extends BaseTexture {
 			_texture.strokeWeight( 3 );
 		} else {
 			_texture.noStroke(); 
+			_texture.fill(255);
 		}
 
 		// deform and draw mesh
-		if( _curMesh != null && _curMeshDeformed != null ) {
-			MeshUtil.deformMeshWithAudio( _curMesh, _curMeshDeformed, P.p._audioInput, 1f );
-			DrawMesh.drawMeshWithAudio( _texture, _curMeshDeformed, P.p._audioInput, _isWireframe, _color, _color, 0.1f );
+		if(_curMesh != null) {
+			_curMesh.deformWithAudioByNormals();
+//			_curMesh.setVertexColorWithAudio(255);
+//			PShapeUtil.drawTriangles(_texture, _curMesh.shape()); // img
+			_curMesh.setVertexColorWithAudio(255);
+			_texture.pushMatrix();
+			_texture.translate(_texture.width / 2, _texture.height/ 2, _texture.height / -2);
+			_texture.shape(_curMesh.shape());
+			_texture.popMatrix();
 		}
 		
 		_texture.popMatrix();		

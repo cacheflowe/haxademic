@@ -3,11 +3,11 @@ package com.haxademic.sketch.render;
 import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.draw.image.HaxMotionBlur;
+import com.haxademic.core.draw.image.DrawCommand.Command;
 import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.draw.util.OpenGLUtil;
 import com.haxademic.core.math.easing.Penner;
-import com.haxademic.core.render.DrawCommand.Command;
-import com.haxademic.core.render.HaxMotionBlur;
 
 public class RoundedRectTest
 extends PAppletHax {

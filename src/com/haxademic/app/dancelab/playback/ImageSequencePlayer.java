@@ -3,8 +3,8 @@ package com.haxademic.app.dancelab.playback;
 import java.util.ArrayList;
 
 import com.haxademic.core.app.P;
+import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.MathUtil;
-import com.haxademic.core.system.FileUtil;
 
 import processing.core.PGraphics;
 import processing.core.PImage;

@@ -21,7 +21,7 @@ While the code has been open-sourced, I haven't had time to write much (any) doc
 	* Simple 3D extrusion of 2D meshes
 	* Load and convert .obj, .gif & .svg files to WETriangleMesh
 	* Mesh pool object to load and hold instance of any number of meshes
-	* Base Camera type, with simple camera subclasses (needs work) 
+	* Base Camera type, with simple camera subclasses (needs work)
 	* Draw a mesh with incoming Audio data spread across the faces
 	* Shatter a box or sphere with randomized Voronoi3D calculations (soon to work on any mesh)
 	* Some basic shape-drawing code
@@ -50,7 +50,7 @@ While the code has been open-sourced, I haven't had time to write much (any) doc
 	* Eased color interpolation
 * Output
 	* Render to Quicktime or image sequence with minimal effort
-	* High-quality rendering with the Sunflow renderer, for beautiful globally-illuminated, antialiased scenes 
+	* High-quality rendering with the Sunflow renderer, for beautiful globally-illuminated, antialiased scenes
 	* Audio playback with cached audio clip pool
 * General Environment / System utilities
 	* .properties file loader with overridable defaults
@@ -74,7 +74,7 @@ While the code has been open-sourced, I haven't had time to write much (any) doc
 	* [Eclipse](http://www.eclipse.org/)
 	* [JDK](http://www.oracle.com/technetwork/java/javase/downloads/index.html)
 * [Download](http://code.google.com/p/simple-openni/downloads/list) and install the latest SimpleOpenNI (Kinect) drivers with the [instructions](http://code.google.com/p/simple-openni/wiki/Installation) for your particular platform. This is most likely to work with the 1st-gen Kinect model 1414
-	* If you have a model 1473 Kinect camera, you might try [this build](http://intermedia.itu.dk/1473/) of the SimpleOpenNI library	
+	* If you have a model 1473 Kinect camera, you might try [this build](http://intermedia.itu.dk/1473/) of the SimpleOpenNI library
 * Clone or [download](https://github.com/cacheflowe/haxademic/archive/master.zip) the Haxademic-2 project
 * Open Eclipse and: **File -> Import -> General / Existing Projects into Workspace**
 	* Choose the `haxademic` directory that you cloned/downloaded, press **Finish**, and the project should be ready to use
@@ -93,7 +93,7 @@ While the code has been open-sourced, I haven't had time to write much (any) doc
 		* core.jar
 		* gluegen-rt.jar
 		* jogl-all.jar
-	* In the `lib/processing-2.0/libraries` directory, right click the following required .jar files and select **Build path -> Add to build path**. You can add others that you might need for your project: 
+	* In the `lib/processing-2.0/libraries` directory, right click the following required .jar files and select **Build path -> Add to build path**. You can add others that you might need for your project:
 		* minim/library/jl1.0.jar
 		* minim/library/jsminim.jar
 		* minim/library/minim.jar
@@ -134,7 +134,7 @@ Use the following VM Arguments when running the Java Application to increase mem
 * `-Xms1024M`
 
 or
- 
+
 * `-Xmx4G`
 * `-Xms2G`
 
@@ -142,7 +142,7 @@ General Use / Tips
 
 * If you want to wipe your `bin/` directory, you'll have to do a **Project -> Clean…** in Eclipse afterwards.
 
-## Copying Haxademic to a new project 
+## Copying Haxademic to a new project
 * Copy the entire **haxademic** project directory to a new one in your filesystem
 * Make sure hidden/system files are showing
 * Delete the **.git** folder
@@ -152,7 +152,7 @@ General Use / Tips
 	* Select "Import existing projects into workspace…"
 	* Open Eclipse and: **File -> Import -> General / Existing Projects into Workspace**
 	* Choose your new project directory and press **Finish** - the project should be ready to use in its new sandbox
-	
+
 
 ## Run properties
 
@@ -164,6 +164,25 @@ public void settings() {
 	super.settings();
 }
 ```
+
+* appConfig.setProperty( "width", "1280" );
+* appConfig.setProperty( "height", "720" );
+* appConfig.setProperty( "fullscreen", "true" ); // exactly what it says
+* appConfig.setProperty( "display", "2" ); // run app on a second screen (requires **fullscreen** set to true)
+	* The old way looked like this:
+	* `PApplet.main(new String[] { "--hide-stop", "--bgcolor=000000", "--location=-1280,0", "--display=1", MyApplicaition.class.getName() });`
+* appConfig.setProperty( "fills_screen", "true" ); // fills the screen with the app, but doesn't remove the chrome or go into true fullscreen
+* appConfig.setProperty( "is_retina", true ); // set retina screen mode for high-res goodness
+* appConfig.setProperty( "force_foreground", "true" ); // tries to run the app on top of everything, no matter what type of adware popups your computer launches in front of it
+* appConfig.setProperty( "disable_esc", "false" );
+* appConfig.setProperty( AppSettings.RENDERING_MOVIE, "true" ); // renders a movie while the app runs
+* appConfig.setProperty( "leap_active", "false" ); // turns on the leap motion
+* appConfig.setProperty( "kinect_active", "false" ); // turns on the kinect
+* appConfig.setProperty( "audio_debug", true); // print audio hardware info*
+* appConfig.setProperty( "smoothing", "0" ); // turn off smoothing
+* appConfig.setProperty( "smoothing", ""+OpenGLUtil.SMOOTH_DEFAULT ); // set smoothing to default
+
+
 ## Converting .mov output options
 
 Convert output .mov to an mp4:
@@ -188,15 +207,15 @@ convert -delay 5 -loop 0 frames/ffout*.png output.gif
 ```
 
 ## Publish a .jar of the /core
-```	
+```
 $ cd haxademic/bin
 $ jar cfv ../../ohheckyeah/ohheckyeah-games-java/lib/haxademic/haxademic.jar ./com/haxademic/core/*
 ```
 
-## Run your app from the command-line  or a shell script: 
+## Run your app from the command-line  or a shell script:
 * **Window -> Show View -> Other... - > Debug**
 * Open the debug window, find your recently-run app, and right click to get to Properties.  
-* Find the command uner **Command Line:**
+* Find the command under **Command Line:**
 * You could even copy this to a **script.sh** file, and run it with:
 	* `sh script.sh`
 

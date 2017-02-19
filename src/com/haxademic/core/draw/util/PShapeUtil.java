@@ -1,7 +1,7 @@
 package com.haxademic.core.draw.util;
 
 import com.haxademic.core.app.P;
-import com.haxademic.core.system.FileUtil;
+import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.system.SystemUtil;
 
 import processing.core.PApplet;

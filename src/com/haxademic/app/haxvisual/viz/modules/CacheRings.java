@@ -4,8 +4,8 @@ import processing.core.PConstants;
 
 import com.haxademic.app.haxvisual.viz.IVizModule;
 import com.haxademic.app.haxvisual.viz.ModuleBase;
-import com.haxademic.core.cameras.CameraOscillate;
-import com.haxademic.core.cameras.common.ICamera;
+import com.haxademic.core.camera.CameraOscillate;
+import com.haxademic.core.camera.common.ICamera;
 import com.haxademic.core.draw.color.ColorHax;
 import com.haxademic.core.draw.shapes.CacheFloweLogo;
 import com.haxademic.core.draw.shapes.Shapes;

@@ -9,10 +9,10 @@ import com.haxademic.core.draw.color.ColorHaxEasing;
 import com.haxademic.core.draw.mesh.PGraphicsKeystone;
 import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.draw.util.OpenGLUtil;
+import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.dmx.DmxInterface;
 import com.haxademic.core.hardware.kinect.KinectAmbientActivityMonitor;
 import com.haxademic.core.math.MathUtil;
-import com.haxademic.core.system.FileUtil;
 
 import ddf.minim.AudioPlayer;
 import processing.core.PGraphics;

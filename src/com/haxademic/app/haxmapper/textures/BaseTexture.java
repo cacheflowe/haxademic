@@ -2,13 +2,13 @@ package com.haxademic.app.haxmapper.textures;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.draw.color.ColorHaxEasing;
+import com.haxademic.core.draw.filters.shaders.BrightnessFilter;
+import com.haxademic.core.draw.filters.shaders.InvertFilter;
+import com.haxademic.core.draw.filters.shaders.ThresholdFilter;
 import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.draw.util.OpenGLUtil;
-import com.haxademic.core.image.filters.shaders.BrightnessFilter;
-import com.haxademic.core.image.filters.shaders.InvertFilter;
-import com.haxademic.core.image.filters.shaders.ThresholdFilter;
+import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.easing.EasingFloat;
-import com.haxademic.core.system.FileUtil;
 
 import processing.core.PConstants;
 import processing.core.PGraphics;

@@ -7,9 +7,9 @@ import com.haxademic.core.debug.DebugUtil;
 import com.haxademic.core.draw.mesh.MeshPool;
 import com.haxademic.core.draw.mesh.MeshUtil;
 import com.haxademic.core.draw.util.DrawUtil;
+import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.easing.EasingFloat3d;
 import com.haxademic.core.render.Renderer;
-import com.haxademic.core.system.FileUtil;
 
 import geomerative.RFont;
 import geomerative.RG;

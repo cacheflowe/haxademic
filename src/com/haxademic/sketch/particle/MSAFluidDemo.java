@@ -9,6 +9,7 @@ import com.haxademic.core.draw.util.OpenGLUtil;
 import com.jogamp.common.nio.Buffers;
 import com.jogamp.opengl.GL;
 import com.jogamp.opengl.GL2;
+import com.jogamp.opengl.GL2ES2;
 
 import de.voidplus.leapmotion.Hand;
 import processing.core.PImage;
@@ -167,16 +168,16 @@ extends PAppletHax {
 
 	public void fadeToColor(GL gl, float r, float g, float b, float speed) {
 //		GL2 gl2 = gl.getGL2();
-		GL2 gl2 = OpenGLUtil.getGL2(p.g);
+		GL2ES2 gl2 = OpenGLUtil.getGL2(p.g);
 
 		gl2.glBlendFunc(GL.GL_SRC_ALPHA, GL.GL_ONE_MINUS_SRC_ALPHA);
-	    gl2.glColor4f(r, g, b, speed);
-	    gl2.glBegin(GL2.GL_QUADS);
-	    gl2.glVertex2f(0, 0);
-	    gl2.glVertex2f(width, 0);
-	    gl2.glVertex2f(width, height);
-	    gl2.glVertex2f(0, height);
-	    gl2.glEnd();
+		gl2.getGL2().glColor4f(r, g, b, speed);
+		gl2.getGL2().glBegin(GL2.GL_QUADS);
+		gl2.getGL2().glVertex2f(0, 0);
+		gl2.getGL2().glVertex2f(width, 0);
+		gl2.getGL2().glVertex2f(width, height);
+		gl2.getGL2().glVertex2f(0, height);
+		gl2.getGL2().glEnd();
 	}
 
 	
@@ -203,7 +204,7 @@ extends PAppletHax {
 	    void updateAndDraw(){
 	        PGraphicsOpenGL pgl = (PGraphicsOpenGL) g;         // processings opengl graphics object
 	        GL gl = ((PJOGL)beginPGL()).gl;                // JOGL's GL object
-			GL2 gl2 = OpenGLUtil.getGL2(p.g);
+			GL2ES2 gl2 = OpenGLUtil.getGL2(p.g);
 
 			gl2.glEnable( GL2.GL_BLEND );             // enable blending
 	        if(!drawFluid) fadeToColor(gl, 0, 0, 0, 0.05f);
@@ -220,23 +221,23 @@ extends PAppletHax {
 	                    particles[i].updateVertexArrays(i, posArray, colArray);
 	                }
 	            }    
-	            gl2.glEnableClientState(GL2.GL_VERTEX_ARRAY);
-	            gl2.glVertexPointer(2, GL2.GL_FLOAT, 0, posArray);
+	            gl2.getGL2().glEnableClientState(GL2.GL_VERTEX_ARRAY);
+	            gl2.getGL2().glVertexPointer(2, GL2.GL_FLOAT, 0, posArray);
 
-	            gl2.glEnableClientState(GL2.GL_COLOR_ARRAY);
-	            gl2.glColorPointer(3, GL.GL_FLOAT, 0, colArray);
+	            gl2.getGL2().glEnableClientState(GL2.GL_COLOR_ARRAY);
+	            gl2.getGL2().glColorPointer(3, GL.GL_FLOAT, 0, colArray);
 
 	            gl2.glDrawArrays(GL.GL_LINES, 0, maxParticles * 2);
 	        } 
 	        else {
-	        	gl2.glBegin(GL2.GL_LINES);               // start drawing points
+	        	gl2.getGL2().glBegin(GL2.GL_LINES);               // start drawing points
 	            for(int i=0; i<maxParticles; i++) {
 	                if(particles[i].alpha > 0) {
 	                    particles[i].update();
 	                    particles[i].drawOldSchool(gl);    // use oldschool renderng
 	                }
 	            }
-	            gl2.glEnd();
+	            gl2.getGL2().glEnd();
 	        }
 
 	        gl.glDisable(GL.GL_BLEND);
@@ -380,10 +381,11 @@ extends PAppletHax {
 
 
 	    void drawOldSchool(GL gl) {
-			GL2 gl2 = OpenGLUtil.getGL2(p.g);
-	    	gl2.glColor3f(alpha, alpha, alpha);
-	    	gl2.glVertex2f(x-vx, y-vy);
-	    	gl2.glVertex2f(x, y);
+			GL2ES2 gl2 = OpenGLUtil.getGL2(p.g);
+			
+			gl2.getGL2().glColor3f(alpha, alpha, alpha);
+			gl2.getGL2().glVertex2f(x-vx, y-vy);
+			gl2.getGL2().glVertex2f(x, y);
 	    }
 
 	}
