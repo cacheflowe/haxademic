@@ -28,15 +28,25 @@ extends PAppletHax {
 		super.setup();
 		texture = new TextureShaderTimeStepper(p.width, p.height, "cacheflowe-repeating-circles.glsl");
 //		texture = new TextureMeshDeform(p.width, p.height);
+		
 		texture.texture().textureWrap(PConstants.REPEAT);
 		p.textureWrap(PConstants.REPEAT);
+//		OpenGLUtil.setWireframe(p.g, true);
+		
+		OpenGLUtil.setTextureQualityLow(p.g);
+		OpenGLUtil.setTextureQualityLow(texture.texture());
 	}
 
 	public void drawApp() {
+		if(p.frameCount == 2) {	// wait until we have a GL version
+			P.println(OpenGLUtil.getGlVersion(p.g));
+			P.println(OpenGLUtil.getGlVersion(texture.texture()));
+			OpenGLUtil.optimize2D(p.g);
+			OpenGLUtil.setQuality(p.g, OpenGLUtil.LOW);
+			OpenGLUtil.optimize2D(texture.texture());
+			OpenGLUtil.setQuality(texture.texture(), OpenGLUtil.LOW);
+		}
 		background(0);
-//		OpenGLUtil.setTextureQualityHigh(texture.texture());
-//		OpenGLUtil.setQuality(p.g, OpenGLUtil.LOW);
-//		OpenGLUtil.setWireframe(p.g, true);
 		if(p.frameCount % 60 == 0) texture.updateTiming();
 		texture.update();
 		DrawUtil.rotateRedraw(texture.texture(), 0.2f * P.sin((float) p.frameCount * 0.01f));

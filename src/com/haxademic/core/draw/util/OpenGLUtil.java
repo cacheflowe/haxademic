@@ -31,30 +31,38 @@ public class OpenGLUtil {
 	
 	public static void setQuality(PGraphics pg, int quality) {
 		//		pg.hint(p.DISABLE_DEPTH_SORT);
-		GL2ES2 gl = getGL4(pg);
+		GL4 gl = getGL4(pg);
 //		GL gl = ((PJOGL)pg.beginPGL()).gl.getGL();
 		switch ( quality ) {
 			case LOW :
 //				p.hint(P.DISABLE_OPENGL_2X_SMOOTH);
-				gl.glHint (GL.GL_LINE_SMOOTH_HINT, GL.GL_FASTEST);
-//				gl.glHint (GL.GL_POINT_SMOOTH_HINT, GL.GL_FASTEST);
+				gl.glHint (GL4.GL_LINE_SMOOTH_HINT, GL4.GL_FASTEST);
+//				gl.glHint (GL4.GL_POINT, GL.GL_FASTEST);
+				gl.glHint (GL4.GL_POLYGON_SMOOTH_HINT, GL.GL_FASTEST);
 //				gl.glHint (GL.GL_POLYGON_SMOOTH_HINT, GL.GL_FASTEST);
-				gl.glDisable(GL.GL_LINE_SMOOTH);
+				gl.glDisable(GL4.GL_LINE_SMOOTH);
 				break;
 			case MEDIUM :
 //				p.hint(P.ENABLE_OPENGL_2X_SMOOTH);
-				gl.glHint (GL.GL_LINE_SMOOTH_HINT, GL.GL_FASTEST);
+				gl.glHint (GL4.GL_LINE_SMOOTH_HINT, GL4.GL_FASTEST);
 //				gl.glHint (GL.GL_POINT_SMOOTH_HINT, GL.GL_FASTEST);
 //				gl.glHint (GL.GL_POLYGON_SMOOTH_HINT, GL.GL_FASTEST);
-				gl.glDisable(GL.GL_LINE_SMOOTH);
+				gl.glDisable(GL4.GL_LINE_SMOOTH);
 				break;
 			case HIGH :
-				gl.glHint (GL.GL_LINE_SMOOTH_HINT, GL.GL_NICEST);
+				gl.glHint (GL4.GL_LINE_SMOOTH_HINT, GL4.GL_NICEST);
 //				gl.glHint (GL.GL_POINT_SMOOTH_HINT, GL.GL_NICEST);
 //				gl.glHint (GL.GL_POLYGON_SMOOTH, GL.GL_NICEST);
-				gl.glEnable (GL.GL_LINE_SMOOTH);
+				gl.glEnable (GL4.GL_LINE_SMOOTH);
 				break;
 		}
+	}
+	
+	public static String getGlVersion(PGraphics pg) {
+		PJOGL pgl = (PJOGL) pg.beginPGL();
+		GL gl = pgl.gl;
+		if(gl != null) return ""+gl;
+		return null;
 	}
 		
 	public static GL2ES2 getGL2(PGraphics pg) {
@@ -93,7 +101,9 @@ public class OpenGLUtil {
 	
 	public static void optimize2D(PGraphics pg) {
 		pg.hint(PConstants.DISABLE_DEPTH_SORT);
-		DrawUtil.setDrawFlat2d(pg, true);
+		pg.hint(PConstants.DISABLE_DEPTH_TEST);
+		pg.hint(PConstants.DISABLE_DEPTH_MASK);
+		pg.hint(PConstants.DISABLE_OPTIMIZED_STROKE);
 	}
 	
 	public enum Blend {
