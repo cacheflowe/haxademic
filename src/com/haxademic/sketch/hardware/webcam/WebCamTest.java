@@ -2,6 +2,7 @@ package com.haxademic.sketch.hardware.webcam;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.draw.filters.shaders.FlipHFilter;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.util.DrawUtil;
 
@@ -39,7 +40,7 @@ extends PAppletHax {
 		} else {
 			println("Available cameras:");
 			for (int i = 0; i < cameras.length; i++) println("["+i+"] "+cameras[i]);
-			_webCam = new Capture(this, cameras[15]);
+			_webCam = new Capture(this, cameras[0]);
 			_webCam.start();
 		}      
 	}
