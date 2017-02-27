@@ -25,20 +25,19 @@ uniform vec2 offset = vec2(0., 20.);
 void main() {
   // get current pixel color
   vec2 uv = vertTexCoord.xy;
-  vec4 ownColor = texture2D(texture, uv);
-  if(ownColor.a > 0.99) {
-    gl_FragColor = ownColor;
+  vec4 origColor = texture2D(texture, uv);
+  if(origColor.a > 0.99) {
+    gl_FragColor = origColor;
   } else {
     // sample neighbor colors in a circle - find closest non-opaque pixel
-    // vec2 offsetPixels = offset * texOffset.xy; // normalize to pixel size
     float sampleRadians = TWO_PI / radialSamples;
     float minDist = sampleDistance;
     int looking = 1;
     for (float angle = 0.05; angle < TWO_PI; angle += sampleRadians) { // start a little off-ceneter because straight lines with distance check are really apparent
-      looking = 1;
+      looking = 1;  // try to optimize a tiny bit
       for(float distToCheck = 0; distToCheck < sampleDistance; distToCheck += sampleStep) {
         if(looking == 1) {
-          vec2 sampleLoc = uv + vec2(sin(angle), cos(angle)) * length(texOffset.xy) * distToCheck; // offsetPixels +
+          vec2 sampleLoc = uv + vec2(cos(angle), sin(angle)) * length(texOffset.xy) * distToCheck;
           vec4 curColor = texture2D(texture, sampleLoc);
           if(curColor.a > 0.99) {
             minDist = min(minDist, distance(uv, sampleLoc.xy));
@@ -53,7 +52,7 @@ void main() {
       float textureW = 1. / length(texOffset.xy);
       float falloffMult = (textureW / sampleDistance) * textureW;
       vec4 color = vec4(glowColor.rgb, glowColor.a - glowColor.a * ((minDist / sampleDistance) * textureW * 2.));
-      gl_FragColor = mix(ownColor, color, 1. - ownColor.a); // mix between calculated glow and original color using original alpha as the gradient
+      gl_FragColor = mix(origColor, color, 1. - origColor.a); // mix between calculated glow and original color using original alpha as the gradient
     }
   }
 }
