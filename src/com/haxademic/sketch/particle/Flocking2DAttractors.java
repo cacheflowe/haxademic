@@ -92,7 +92,7 @@ extends PAppletHax {
 		}
 
 		public void update(float attractorX, float attractorY) {
-			float radiansToAttractor = MathUtil.getRadiansToTarget( position.x, position.y, attractorX, attractorY );
+			float radiansToAttractor = MathUtil.getRadiansToTargetWrong( position.x, position.y, attractorX, attractorY );
 			radians += turnRadius * MathUtil.getRadiansDirectionToTarget(radians, radiansToAttractor);
 			if(radians < 0) radians += P.TWO_PI;
 			if(radians > P.TWO_PI) radians -= P.TWO_PI;

@@ -155,7 +155,7 @@ public class MeshParticles {
 				attractor.set(attractorX, attractorY);
 			}
 			
-			float radiansToAttractor = MathUtil.getRadiansToTarget( position.x, position.y, attractor.x, attractor.y );
+			float radiansToAttractor = MathUtil.getRadiansToTargetWrong( position.x, position.y, attractor.x, attractor.y );
 			radians += turnRadius * MathUtil.getRadiansDirectionToTarget(radians, radiansToAttractor);
 			if(radians < 0) radians += P.TWO_PI;
 			if(radians > P.TWO_PI) radians -= P.TWO_PI;

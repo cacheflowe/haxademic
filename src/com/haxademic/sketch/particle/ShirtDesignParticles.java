@@ -106,7 +106,7 @@ extends PAppletHax {
 		
 		public VectorFlyer2d( PVector newPosition, float radians ) {
 			position.set( newPosition );
-			this.radians = (radians != 0) ? radians : MathUtil.getRadiansToTarget( position.x, position.y, 0, 0 );
+			this.radians = (radians != 0) ? radians : MathUtil.getRadiansToTargetWrong( position.x, position.y, 0, 0 );
 
 			color = p.color(255);
 		}
@@ -120,7 +120,7 @@ extends PAppletHax {
 		}
 
 		public void update(float attractorX, float attractorY) {
-			float radiansToAttractor = MathUtil.getRadiansToTarget( position.x, position.y, attractorX, attractorY );
+			float radiansToAttractor = MathUtil.getRadiansToTargetWrong( position.x, position.y, attractorX, attractorY );
 			radians += turnRadius * MathUtil.getRadiansDirectionToTarget(radians, radiansToAttractor);
 			if(radians < 0) radians += P.TWO_PI;
 			if(radians > P.TWO_PI) radians -= P.TWO_PI;
@@ -211,7 +211,7 @@ extends PAppletHax {
 		
 		public Attractor() {
 			position.set(p.width * 0.98f, p.height * 0.5f);
-			radians = MathUtil.getRadiansToTarget( position.x, position.y, 0, p.height * 0.5f );
+			radians = MathUtil.getRadiansToTargetWrong( position.x, position.y, 0, p.height * 0.5f );
 		}
 			
 		public PVector position() {

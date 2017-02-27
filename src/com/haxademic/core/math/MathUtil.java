@@ -237,9 +237,14 @@ public class MathUtil {
 	 *  @return The radians from point 1 and 2
 	 *  @use    {@code var angle = MathUtil.getRadiansToTarget( 0, 0, 5, 5 );}
 	 */
-	public static float getRadiansToTarget( float x1, float y1, float x2, float y2 ) {
+	public static float getRadiansToTargetWrong( float x1, float y1, float x2, float y2 ) {
 		return (float) (Math.PI + Math.atan2( x1 - x2, y1 - y2 ));	// add PI to normalize between 0 - 2*pi. atan2 returnes -pi/2 - pi/2
 	};
+	
+	public static float getRadiansToTarget( float x1, float y1, float x2, float y2 ) {
+		return (P.TWO_PI + -P.PI/2f + P.atan2(x2 - x1, y2 - y1)) % P.TWO_PI;
+	};
+
 
 	/**
 	 *  Figures out which way to rotate, for the shortest path from current to target angle

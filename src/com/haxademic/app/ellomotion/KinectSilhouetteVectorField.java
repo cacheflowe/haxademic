@@ -31,7 +31,7 @@ extends KinectSilhouetteBasic {
 		float spacing = _canvas.width / 13f;
 		for( int x = 0; x <= _canvas.width; x += spacing ) {
 			for( int y = 0; y <= _canvas.height; y += spacing ) {
-				float direction = -MathUtil.getRadiansToTarget(_canvasW * 0.5f, _canvasH, x, y);
+				float direction = -MathUtil.getRadiansToTargetWrong(_canvasW * 0.5f, _canvasH, x, y);
 				_vectorFieldBase.add( new PVector(x, y, direction) );
 				_vectorFieldOffset.add( new PVector(x, y, 0) );
 			}
@@ -101,7 +101,7 @@ extends KinectSilhouetteBasic {
 		} else {
 			particle = new VectorFieldParticle(_canvas);
 		}
-		float direction = MathUtil.getRadiansToTarget(blobX, blobY, x, y);
+		float direction = MathUtil.getRadiansToTargetWrong(blobX, blobY, x, y);
 		particle.startAt( x, y, direction );
 		_particles.add( particle );
 	}

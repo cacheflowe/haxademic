@@ -100,7 +100,7 @@ extends VectorFieldTest {
 		for (PVector vector : _vectorField) {
 			int pixelColor = ImageUtil.getPixelColor(overlayKinectTexture, (int)vector.x, (int)vector.y);
 			if(pixelColor != ImageUtil.EMPTY_INT) {
-				float targetRotation = MathUtil.getRadiansToTarget(comX, comY, vector.x, vector.y);
+				float targetRotation = MathUtil.getRadiansToTargetWrong(comX, comY, vector.x, vector.y);
 				vector.set(vector.x, vector.y, P.lerp(vector.z, targetRotation, 0.5f));
 			}
 			
