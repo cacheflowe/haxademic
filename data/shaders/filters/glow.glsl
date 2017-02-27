@@ -1,8 +1,5 @@
 /**
- * GlowFilter, originally by mishaa
- * converted from PIXI.js
- * http://www.html5gamedevs.com/topic/12756-glow-filter/?hl=mishaa#entry73578
- * http://codepen.io/mishaa/pen/raKzrm
+ * glow filter by cacheflowe
  */
 
  #ifdef GL_ES
