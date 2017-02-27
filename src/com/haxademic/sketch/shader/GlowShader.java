@@ -4,6 +4,7 @@ import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.filters.shaders.GlowFilter;
+import com.haxademic.core.draw.filters.shaders.InvertFilter;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.draw.util.OpenGLUtil;
@@ -22,13 +23,13 @@ extends PAppletHax {
 	PShape shape;
 	PGraphics pg;
 	PShader glowShader;
-	int frames = 240;
+	int frames = 120;
 
 	protected void overridePropsFile() {
 		p.appConfig.setProperty( AppSettings.WIDTH, 640 * 2 );
-		p.appConfig.setProperty( AppSettings.HEIGHT, 480 * 2 );
+		p.appConfig.setProperty( AppSettings.HEIGHT, 640 * 2 );
 		p.appConfig.setProperty( AppSettings.SHOW_STATS, false );
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, true );
+		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, false );
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_START_FRAME, 1 );
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, frames );
 	}
@@ -37,6 +38,7 @@ extends PAppletHax {
 		super.setup();
 		img = p.loadImage(FileUtil.getFile("images/the-black-box-white.png"));
 		shape = p.loadShape(FileUtil.getFile("svg/cacheflowe-logotype-new.svg"));
+		shape = p.loadShape(FileUtil.getFile("svg/ello-centered.svg"));
 //		img = p.loadImage(FileUtil.getFile("images/halloween.png"));
 //		img = p.loadImage(FileUtil.getFile("images/bread-large.png"));
 		pg = p.createGraphics(p.width, p.height, P.P3D);
@@ -71,6 +73,7 @@ extends PAppletHax {
 		pg.endDraw();
 		
 		p.image(pg, 0, 0);
+//		InvertFilter.instance(p).applyTo(p);
 	}
 
 }
