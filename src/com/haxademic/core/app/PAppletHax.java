@@ -211,7 +211,6 @@ extends PApplet
 		if(customPropsFile != null) DebugUtil.printErr("Make sure to load custom .properties files in settings()");
 		p.rendererMode = p.g.getClass().getName();
 		setAppletProps();
-		initHaxademicObjects();
 	}
 	
 	public void settings() {
@@ -349,10 +348,10 @@ extends PApplet
 		try { _robot = new Robot(); } catch( Exception error ) { println("couldn't init Robot for screensaver disabling"); }
 	}
 
-	protected void initializeExtraObjectsOn1stFrame() {
-		if( p.frameCount == 1 ){
+	protected void initializeOn1stFrame() {
+		if( p.frameCount == 1 ) {
 			P.println("Using Java version: "+SystemUtil.getJavaVersion());
-			
+			initHaxademicObjects();
 			if( p.appConfig.getString("midi_device_in", "") != "" ) {
 				midi = new MidiWrapper( p, p.appConfig.getString("midi_device_in", ""), p.appConfig.getString("midi_device_out", "") );
 			}
@@ -363,7 +362,7 @@ extends PApplet
 		//if( keyPressed ) handleInput( false ); // handles overall keyboard commands
 		killScreensaver();
 		forceForeground();
-		initializeExtraObjectsOn1stFrame();	// wait until draw() happens, to avoid weird launch crash if midi signals were coming in as haxademic starts
+		initializeOn1stFrame();	// wait until draw() happens, to avoid weird launch crash if midi signals were coming in as haxademic starts
 		handleRenderingStepthrough();
 		updateAudioData();
 		if( kinectWrapper != null ) kinectWrapper.update();
