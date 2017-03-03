@@ -92,7 +92,7 @@ public class FileUtil {
 	public static void createDir( String path ) {
 		File f = new File( path );
 		try {
-		    if( f.mkdir() ) { 
+		    if( f.mkdirs() ) { 
 		        P.println("Directory created: "+path);
 		    } else {
 		        P.println("Directory was not created"+path);
