@@ -50,4 +50,8 @@ public class StringFormatter {
 	public static String toNumericChars(String str) {
 		return str.replaceAll("[^0-9.-]", "");
 	}
+	
+	public static String paddedNumberString(int size, int val) {
+		return String.format("%0"+size+"d", val);
+	}
 }
