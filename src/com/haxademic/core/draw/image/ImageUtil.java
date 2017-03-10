@@ -5,6 +5,7 @@ import java.nio.ByteBuffer;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.draw.color.ColorHax;
+import com.haxademic.core.draw.util.DrawUtil;
 
 import processing.core.PApplet;
 import processing.core.PConstants;
@@ -142,6 +143,17 @@ public class ImageUtil {
 		return pg;
 	}  
 
+	public static PGraphics imageToGraphicsWithPadding(PImage img, float fillAmount) {
+		PGraphics image = ImageUtil.imageToGraphics(img);
+		image.beginDraw();
+		DrawUtil.setDrawCenter(image);
+		image.clear();
+		image.translate(image.width/2, image.height/2);
+		image.image(img, 0, 0, img.width * fillAmount, img.height * fillAmount);
+		image.endDraw();
+		return image;
+	}  
+	
 	public static PGraphics imageToGraphicsCropFill(PImage img, PGraphics pg) {
 		pg.beginDraw();
 		ImageUtil.cropFillCopyImage(img, pg, true);
