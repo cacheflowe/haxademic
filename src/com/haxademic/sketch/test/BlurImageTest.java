@@ -32,7 +32,7 @@ extends PAppletHax {
 		img = p.loadImage(FileUtil.getFile("images/_the_grove_src_4.jpg"));
 
 		// transform to blurred img
-		PGraphics pg = ImageUtil.imageToGraphics(p, img);
+		PGraphics pg = ImageUtil.imageToGraphics(img);
 		BlurHFilter.instance(p).setBlur(0.05f);
 		BlurHFilter.instance(p).applyTo(pg);
 //		BlurVFilter.instance(p).setBlur(1000f);
@@ -46,7 +46,7 @@ extends PAppletHax {
 		img = p.loadImage(FileUtil.getFile("images/_the_grove_src_4.jpg"));
 
 		// transform to blurred img
-		PGraphics pg = ImageUtil.imageToGraphics(p, img);
+		PGraphics pg = ImageUtil.imageToGraphics(img);
 		float mousePercent = (float) p.mouseX / (float) p.width;
 		P.println(mousePercent);
 		BlurHFilter.instance(p).setBlurByPercent(mousePercent, img.width);

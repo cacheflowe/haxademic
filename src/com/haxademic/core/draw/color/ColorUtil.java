@@ -1,12 +1,10 @@
 package com.haxademic.core.draw.color;
 
-import processing.core.PApplet;
-
 import com.haxademic.core.app.P;
 
 public class ColorUtil {
 	
-	public static int colorWithIntAndAlpha( PApplet p, int color, int alpha ) {
+	public static int colorWithIntAndAlpha(int color, int alpha ) {
 		// from: http://processing.org/discourse/beta/num_1261125421.html
 		return (color & 0xffffff) | (alpha << 24); 
 	}

@@ -31,10 +31,10 @@ extends PAppletHax {
 	public void setup() {
 		super.setup();
 		
-		img1 = ImageUtil.imageToGraphics(p, p.loadImage(FileUtil.getFile("images/snowblinded-beach.jpg")));
-		img2 = ImageUtil.imageToGraphics(p, p.loadImage(FileUtil.getFile("images/snowblinded-mtn-2.jpg")));
-//		img1 = ImageUtil.imageToGraphics(p, p.loadImage(FileUtil.getFile("images/aholes-bors.png")));
-//		img2 = ImageUtil.imageToGraphics(p, p.loadImage(FileUtil.getFile("images/aholes-trmp.png")));
+		img1 = ImageUtil.imageToGraphics(p.loadImage(FileUtil.getFile("images/snowblinded-beach.jpg")));
+		img2 = ImageUtil.imageToGraphics(p.loadImage(FileUtil.getFile("images/snowblinded-mtn-2.jpg")));
+//		img1 = ImageUtil.imageToGraphics(p.loadImage(FileUtil.getFile("images/aholes-bors.png")));
+//		img2 = ImageUtil.imageToGraphics(p.loadImage(FileUtil.getFile("images/aholes-trmp.png")));
 		
 //		transitionShader = p.loadShader(FileUtil.getFile("shaders/transitions/colour-distance.glsl"));
 //		transitionShader.set("interpolationPower", 2f);

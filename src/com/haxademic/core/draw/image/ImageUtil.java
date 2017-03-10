@@ -134,8 +134,8 @@ public class ImageUtil {
 //		return dest;
 	}
 	
-	public static PGraphics imageToGraphics(PApplet p, PImage img) {
-		PGraphics pg = p.createGraphics(img.width, img.height, P.P2D);
+	public static PGraphics imageToGraphics(PImage img) {
+		PGraphics pg = P.p.createGraphics(img.width, img.height, P.P2D);
 		pg.beginDraw();
 		pg.image(img,0,0);
 		pg.endDraw();

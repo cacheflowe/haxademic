@@ -28,7 +28,7 @@ extends PAppletHax {
 	public void setup() {
 		super.setup();
 		img = p.loadImage(FileUtil.getFile("images/bread-large.png"));
-		pg = ImageUtil.imageToGraphics(p, img);
+		pg = ImageUtil.imageToGraphics(img);
 	}
 
 	public void drawApp() {

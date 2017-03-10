@@ -110,7 +110,7 @@ extends PAppletHax {
 //			numRowSplits = 2;
 			
 			// transform to blurred img
-			PGraphics pg = ImageUtil.imageToGraphics(p, img);
+			PGraphics pg = ImageUtil.imageToGraphics(img);
 			BlurHFilter.instance(p).applyTo(pg);
 			BlurHFilter.instance(p).setBlur(1f / (pg.width*0.25f));
 			BlurVFilter.instance(p).applyTo(pg);
