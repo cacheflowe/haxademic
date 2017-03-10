@@ -16,6 +16,7 @@ varying vec4 vertTexCoord;
 
 const float PI = 3.14159265358979323846264;
 const float TWO_PI = PI * 2.0;
+uniform int replaceOriginal = 0;
 uniform float sampleDistance = 20.0;
 uniform float radialSamples = 12.0;
 uniform float sampleStep = 1.0;
@@ -26,8 +27,9 @@ void main() {
   // get current pixel color
   vec2 uv = vertTexCoord.xy;
   vec4 origColor = texture2D(texture, uv);
+  vec4 replaceColor = (replaceOriginal == 1) ? glowColor : origColor;
   if(origColor.a > 0.99) {
-    gl_FragColor = origColor;
+    gl_FragColor = replaceColor;
   } else {
     // sample neighbor colors in a circle - find closest non-opaque pixel
     float sampleRadians = TWO_PI / radialSamples;
@@ -52,7 +54,7 @@ void main() {
       float textureW = 1. / length(texOffset.xy);
       float falloffMult = (textureW / sampleDistance) * textureW;
       vec4 color = vec4(glowColor.rgb, glowColor.a - glowColor.a * ((minDist / sampleDistance) * textureW * 2.));
-      gl_FragColor = mix(origColor, color, 1. - origColor.a); // mix between calculated glow and original color using original alpha as the gradient
+      gl_FragColor = mix(replaceColor, color, 1. - origColor.a); // mix between calculated glow and original color using original alpha as the gradient
     }
   }
 }

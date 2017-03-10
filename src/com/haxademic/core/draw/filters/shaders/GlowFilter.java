@@ -1,6 +1,10 @@
 package com.haxademic.core.draw.filters.shaders;
 
+import com.haxademic.core.app.P;
+import com.haxademic.core.draw.image.ImageUtil;
+
 import processing.core.PApplet;
+import processing.core.PGraphics;
 
 public class GlowFilter
 extends BaseFilter {
@@ -37,4 +41,21 @@ extends BaseFilter {
 		shader.set("glowColor", r, g, b, a);
 	}
 	
+	public void setReplaceOriginal(boolean replace) {
+		int replaceInt = (replace == true) ? 1 : 0;
+		shader.set("replaceOriginal", replaceInt);
+	}
+	
+	public PGraphics getShadowBuffer(PGraphics buffer, int blurSteps) {
+		PGraphics shadowCopy = ImageUtil.imageToGraphics(buffer);
+		setReplaceOriginal(true);
+		shadowCopy.filter(shader);
+		// additional blur for smoothness
+		for (int i = 0; i < blurSteps; i++) {
+			BlurProcessingFilter.instance(P.p).applyTo(shadowCopy);
+		}
+		// reset shader
+		setReplaceOriginal(false);
+		return shadowCopy;
+	}
 }
