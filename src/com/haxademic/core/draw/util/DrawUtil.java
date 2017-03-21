@@ -1,12 +1,11 @@
 package com.haxademic.core.draw.util;
 
+import com.haxademic.core.app.P;
+
 import processing.core.PApplet;
 import processing.core.PConstants;
 import processing.core.PGraphics;
 import processing.opengl.Texture;
-
-import com.haxademic.core.app.AppSettings;
-import com.haxademic.core.app.P;
 
 public class DrawUtil {
 	/**
@@ -182,6 +181,14 @@ public class DrawUtil {
 		pg.noStroke();
 		pg.rect(0, 0, pg.width, pg.height);
 		DrawUtil.setDrawFlat2d(pg, false);
+	}
+	
+	// from: http://p5art.tumblr.com/post/144205983628/a-small-transparency-tip
+	public static void fadeToBlack(PGraphics pg, float blackVal) {
+		pg.blendMode(P.SUBTRACT);
+		pg.fill(blackVal);
+		pg.rect(0, 0, pg.width * 3, pg.height * 3);
+		pg.blendMode(P.BLEND);
 	}
 	
 	public static void zoomReTexture(PGraphics pg, float amount) {
