@@ -303,12 +303,12 @@ extends PApplet
 	 */
 	protected void initHaxademicObjects() {
 		// save single reference for other objects
-		if( appConfig.getBoolean("init_ess_audio", true) == true ) {
+		if( appConfig.getBoolean(AppSettings.INIT_ESS_AUDIO, true) == true ) {
 			_audioInput = new AudioInputWrapper( p, _isRenderingAudio );
 			_waveformData = new WaveformData( p, _audioInput.bufferSize() );
 			if(appConfig.getBoolean(AppSettings.AUDIO_DEBUG, false) == true) _audioInput.debugInfo();
 		}
-		if( appConfig.getBoolean("init_minim_audio", true) == true ) {
+		if( appConfig.getBoolean(AppSettings.INIT_MINIM_AUDIO, true) == true ) {
 			audioIn = new AudioInputWrapperMinim( p, _isRenderingAudio );
 			_waveformDataMinim = new WaveformData( p, audioIn.bufferSize() );
 		}
