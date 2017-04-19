@@ -4,6 +4,7 @@ import java.awt.Point;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.data.ConvertUtil;
+import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.file.FileUtil;
 
 import processing.core.PApplet;
@@ -145,11 +146,13 @@ public class PGraphicsKeystone {
 		if(P.p.millis() < lastMouseTime + 3000) {
 			for( int i=0; i < _points.length; i++ ) {
 				if( _points[i].distance( _mousePoint.x, _mousePoint.y ) < 30 ) {
+					DrawUtil.setDrawCenter(canvas);
 					canvas.fill(255);
 					canvas.stroke(0);
 					canvas.strokeWeight(3);
 					float indicatorSize = 13f + 3f * P.sin(P.p.frameCount / 10f);
 					canvas.ellipse(_points[i].x, _points[i].y, indicatorSize, indicatorSize);
+					DrawUtil.setDrawCorner(canvas);
 				}
 			}
 		}
@@ -185,14 +188,17 @@ public class PGraphicsKeystone {
 		pg.beginDraw();
 		pg.noStroke();
 		
-		for( int x=0; x < pg.width; x+= 50) {
-			for( int y=0; y < pg.height; y+= 50) {
-				if( ( x % 100 == 0 && y % 100 == 0 ) || ( x % 100 == 50 && y % 100 == 50 ) ) {
+		float spacing = 50;
+		float spacing2x = spacing * 2;
+		
+		for( int x=0; x < pg.width + spacing; x += spacing) {
+			for( int y=0; y < pg.height + spacing; y += spacing) {
+				if( ( x % spacing2x == 0 && y % spacing2x == 0 ) || ( x % spacing2x == spacing && y % spacing2x == spacing ) ) {
 					pg.fill(0, 200);
 				} else {
 					pg.fill(255, 200);
 				}
-				pg.rect(x,y,50,50);
+				pg.rect(x,y,spacing,spacing);
 			}
 		}
 		pg.endDraw();
