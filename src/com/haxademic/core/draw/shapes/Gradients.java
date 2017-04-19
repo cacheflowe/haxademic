@@ -32,6 +32,30 @@ public class Gradients {
 		p.popMatrix();
 	}
 	
+	public static void quad( PApplet p, float width, float height, int colorTL, int colorTR, int colorBR, int colorBL ) {
+		quad(p.g, width, height, colorTL, colorTR, colorBR, colorBL);
+	}
+	public static void quad( PGraphics p, float width, float height, int colorTL, int colorTR, int colorBR, int colorBL )
+	{
+		p.pushMatrix();
+		
+		float halfW = width/2;
+		float halfH = height/2;
+		
+		p.beginShape();
+		p.fill(colorTL);
+		p.vertex(-halfW, -halfH);
+		p.fill(colorTR);
+		p.vertex(halfW, -halfH);
+		p.fill(colorBR);
+		p.vertex(halfW, halfH);
+		p.fill(colorBL);
+		p.vertex(-halfW, halfH);
+		p.endShape(P.CLOSE);
+		
+		p.popMatrix();
+	}
+	
 	public static void radial( PApplet p, float width, float height, int colorInner, int colorOuter, int numSegments ) {
 		radial(p.g, width, height, colorInner, colorOuter, numSegments);
 	}

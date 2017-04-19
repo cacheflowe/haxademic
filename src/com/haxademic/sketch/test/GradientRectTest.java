@@ -35,6 +35,7 @@ extends PAppletHax {
 		p.pushMatrix();
 		p.translate(p.width/2, p.height/2);
 		Gradients.linear(p, p.width, p.height, _colorStart.colorInt(), _colorStop.colorInt());
+		// Gradients.quad(p, p.width, p.height, _colorStart.colorInt(), p.color(0), _colorStop.colorInt(), p.color(255));
 		p.popMatrix();
 	}
 }
