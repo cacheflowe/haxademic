@@ -98,7 +98,7 @@ extends PAppletHax {
 //		VignetteFilter.instance(p).applyTo(p.g);
 		
 		// hide ControlP5
-		p.translate(-1000, 0);
+		// p.translate(-1000, 0);
 	}
 	
 	protected float getNoise(float x, float y, float z ) {
