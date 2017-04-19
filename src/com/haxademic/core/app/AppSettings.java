@@ -47,8 +47,11 @@ public class AppSettings {
 	public static final String MIDI_DEVICE_IN_INDEX = "midi_device_in_index";
 	public static final String MIDI_DEVICE_OUT_INDEX = "midi_device_out_index";
 	public static final String MIDI_DEBUG = "midi_debug";
+	public static final String OSC_ACTIVE = "osc_active";
 	public static final String INIT_ESS_AUDIO = "init_ess_audio";
 	public static final String INIT_MINIM_AUDIO = "init_minim_audio";
+	// Output
+	public static final String DMX_LIGHTS_COUNT = "dmx_lights_count";
 	// Debugging
 	public static final String SHOW_STATS = "show_stats";
 	public static final String AUDIO_DEBUG = "audio_debug";
