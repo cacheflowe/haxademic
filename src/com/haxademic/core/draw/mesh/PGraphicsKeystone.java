@@ -14,7 +14,7 @@ import processing.event.MouseEvent;
 public class PGraphicsKeystone {
 
 	protected PGraphics pg;
-	protected float _subDivideSteps;
+	protected float subDivideSteps;
 
 	protected Point _topLeft;
 	protected Point _topRight;
@@ -30,12 +30,21 @@ public class PGraphicsKeystone {
 	
 	protected int lastMouseTime = 0;
 
+	public PGraphicsKeystone( PApplet p, PGraphics pg, float subDivideSteps ) {
+		this.pg = pg;
+		this.subDivideSteps = subDivideSteps;
+		resetCorners(pg);
+		p.registerMethod("mouseEvent", this); // add mouse listeners
+	}
+	
 	public PGraphicsKeystone( PApplet p, PGraphics pg, float subDivideSteps, String filePath ) {
 		this(p, pg, subDivideSteps);
-		
 		this.filePath = filePath;
-		
-		// load stored positions if file exists
+		loadMappingFile();
+		createMappingFile();
+	}
+	
+	protected void loadMappingFile() {
 		if(FileUtil.fileOrPathExists(filePath) == true) {
 			String[] mappingStr = FileUtil.readTextFromFile(filePath); // p.loadStrings(filePath);
 			String[] posArray = mappingStr[0].split(",");
@@ -44,27 +53,23 @@ public class PGraphicsKeystone {
 			_bottomRight.setLocation(ConvertUtil.stringToInt(posArray[4]), ConvertUtil.stringToInt(posArray[5]));
 			_bottomLeft.setLocation(ConvertUtil.stringToInt(posArray[6]), ConvertUtil.stringToInt(posArray[7]));
 		}
-
-		// create mapping file path if it doesn't exist
+	}
+	
+	protected void createMappingFile() {
 		String mappingFilePath = FileUtil.pathForFile(this.filePath);
 		if(FileUtil.fileOrPathExists(mappingFilePath) == false) {
 			FileUtil.createDir(mappingFilePath);
 		}
 	}
 	
-	public PGraphicsKeystone( PApplet p, PGraphics pg, float subDivideSteps ) {
-		this.pg = pg;
-		_subDivideSteps = subDivideSteps;
-
-		// set up draggable corners
-		_topLeft = new Point(0,0);
-		_topRight = new Point(pg.width,0);
-		_bottomRight = new Point(pg.width,pg.height);
-		_bottomLeft = new Point(0,pg.height);
+	public void resetCorners(PGraphics p) {
+		_topLeft = new Point(0, 0);
+		_topRight = new Point(p.width, 0);
+		_bottomRight = new Point(p.width, p.height);
+		_bottomLeft = new Point(0, p.height);
 		_points = new Point[] { _topLeft, _topRight, _bottomRight, _bottomLeft };
-		
-		// add delegate mouse response
-		p.registerMethod("mouseEvent", this);
+		// save if we have a file
+		if(this.filePath != null) writeToFile();
 	}
 
 	public void update( PGraphics canvas, boolean subdivide ) {
@@ -77,8 +82,8 @@ public class PGraphicsKeystone {
 		
 		if( subdivide == true ) {
 			// subdivide quad for better resolution
-			float stepsX = _subDivideSteps;
-			float stepsY = _subDivideSteps;
+			float stepsX = subDivideSteps;
+			float stepsY = subDivideSteps;
 
 			for( float x=0; x < stepsX; x += 1f ) {
 				float xPercent = x/stepsX;

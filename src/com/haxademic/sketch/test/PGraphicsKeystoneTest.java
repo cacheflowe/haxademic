@@ -13,12 +13,13 @@ public class PGraphicsKeystoneTest
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
-	protected PGraphics _pg;
-	protected PGraphicsKeystone _pgPinnable;
+	protected PGraphics buffer;
+	protected PGraphicsKeystone pgPinnable;
+	protected boolean testPattern = true;
 
 	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, 1200 );
-		p.appConfig.setProperty( AppSettings.HEIGHT, 900 );
+		p.appConfig.setProperty( AppSettings.WIDTH, 1000 );
+		p.appConfig.setProperty( AppSettings.HEIGHT, 700 );
 		p.appConfig.setProperty( AppSettings.FILLS_SCREEN, false );
 		p.appConfig.setProperty( AppSettings.FULLSCREEN, false );
 	}
@@ -29,17 +30,23 @@ extends PAppletHax {
 	}
 
 	protected void buildCanvas() {
-		_pg = p.createGraphics( p.width / 2, p.height / 2, P.P3D );
-		_pg.smooth(OpenGLUtil.SMOOTH_MEDIUM);
+		buffer = p.createGraphics( p.width / 2, p.height / 2, P.P3D );
+		buffer.smooth(OpenGLUtil.SMOOTH_MEDIUM);
 //		_pgPinnable = new PGraphicsKeystone( p, _pg, 12 );
-		_pgPinnable = new PGraphicsKeystone( p, _pg, 12, FileUtil.getFile("text/keystoning/keystone-demo.txt") );
+		pgPinnable = new PGraphicsKeystone( p, buffer, 12, FileUtil.getFile("text/keystoning/keystone-demo.txt") );
 	}
 
 	public void drawApp() {
 		p.background(0);
 		// draw pinned pgraphics
-		_pgPinnable.drawTestPattern();
-		_pgPinnable.update(p.g, true);
+		if(testPattern == true) pgPinnable.drawTestPattern();
+		pgPinnable.update(p.g, true);
+	}
+
+	public void keyPressed() {
+		super.keyPressed();
+		if(p.key == 'd') testPattern = !testPattern;
+		if(p.keyCode == 8) pgPinnable.resetCorners(p.g);
 	}
 
 }
