@@ -3,7 +3,9 @@ package com.haxademic.core.draw.shapes;
 import java.util.ArrayList;
 
 import com.haxademic.core.app.P;
+import com.haxademic.core.draw.image.ImageUtil;
 
+import processing.core.PImage;
 import processing.core.PShape;
 import processing.core.PVector;
 
@@ -137,4 +139,61 @@ public class PShapeSolid {
 		}
 		if(disableStyle == true) shape.disableStyle();
 	}
+	
+	public void updateWithTrigGradient(float time, float ampScale, float spreadMultiplier, PImage texture) {
+		// deform from original copy, using vertexIndex as the key to find the shared index
+		int vertexIndex = 0;
+		texture.loadPixels();
+		for (int j = 0; j < shape.getChildCount(); j++) {
+			for (int i = 0; i < shape.getChild(j).getVertexCount(); i++) {
+				int sharedVertexIndex = sharedVertexIndices.get(vertexIndex);
+				PVector vOrig = vertices.get(vertexIndex);
+				float vertexIndexPercent = (float)(sharedVertexIndex + 1) / (float)(sharedVertexIndices.size() + 1);
+				float oscVal = P.sin((time * P.TWO_PI) + (spreadMultiplier * P.TWO_PI * vertexIndexPercent));
+				float amp = 1.0f + ampScale + ampScale * oscVal; 
+				shape.getChild(j).setVertex(i, vOrig.x * amp, vOrig.y * amp, vOrig.z * amp);
+				if(i < shape.getChild(j).getVertexCount() - 2) { // i % 3 == 0 &&
+					int newColor = ImageUtil.getPixelColor(texture, (int)P.map(oscVal, -1f, 1f, 1, texture.width - 2), (int)P.map(oscVal, -1f, 1f, 1, texture.height - 2));
+					shape.getChild(j).setFill(newColor);
+				}
+				vertexIndex++;
+			}
+		}
+	} 
+	
+	public void updateWithNoise(float time, float freq, float ampScale, int noiseOctaves, float noiseFalloff) {
+		// deform from original copy, using vertexIndex as the key to find the shared index
+		P.p.noiseDetail(noiseOctaves, noiseFalloff);
+		int vertexIndex = 0;
+		for (int j = 0; j < shape.getChildCount(); j++) {
+			for (int i = 0; i < shape.getChild(j).getVertexCount(); i++) {
+				PVector vOrig = vertices.get(vertexIndex);
+				float amp = 1.0f + ampScale * 2f * (-0.5f + P.p.noise(vOrig.x + P.cos(time) * freq, vOrig.y + P.sin(time) * freq, vOrig.z + P.sin(time) * freq));
+				shape.getChild(j).setVertex(i, vOrig.x * amp, vOrig.y * amp, vOrig.z * amp);
+				vertexIndex++;
+			}
+		}
+	}
+	
+	public void updateWithTrigAndNoiseCombo(float progressRadians, float trigAmpScale, float trigSpreadMultiplier, float trigIndexPercentOffset, float noiseFreq, float noiseAmpScale, int noiseOctaves, float noiseFalloff) {
+		// deform from original copy, using vertexIndex as the key to find the shared index
+		P.p.noiseDetail(noiseOctaves, noiseFalloff);
+		int vertexIndex = 0;
+		for (int j = 0; j < shape.getChildCount(); j++) {
+			for (int i = 0; i < shape.getChild(j).getVertexCount(); i++) {
+				int sharedVertexIndex = sharedVertexIndices.get(vertexIndex);
+				PVector vOrig = vertices.get(vertexIndex);
+				float vertexIndexPercent = (float)(sharedVertexIndex + 1) / (float)(sharedVertexIndices.size() + 1);
+				vertexIndexPercent = (vertexIndexPercent + trigIndexPercentOffset) % 1f; 
+				float ampTrig = 1.0f + trigAmpScale + trigAmpScale * P.sin((progressRadians) + (trigSpreadMultiplier * P.TWO_PI * vertexIndexPercent)); 
+				float ampNoise = 1.0f + noiseAmpScale * 2f * (-0.5f + P.p.noise(vOrig.x + P.cos(progressRadians) * noiseFreq, vOrig.y + P.sin(progressRadians) * noiseFreq, vOrig.z + P.sin(progressRadians) * noiseFreq));
+				// float comboAmp = P.min(ampTrig, ampNoise);
+				float comboAmp = (ampTrig + ampNoise) / 2f;
+				shape.getChild(j).setVertex(i, vOrig.x * comboAmp, vOrig.y * comboAmp, vOrig.z * comboAmp);
+				vertexIndex++;
+			}
+		}
+	}
+	
+
 }

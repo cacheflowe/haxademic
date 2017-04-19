@@ -19,7 +19,7 @@ import com.haxademic.core.file.FileUtil;
 import processing.core.PImage;
 import processing.opengl.PShader;
 
-public class DisplacementShader
+public class DisplacementMapShader
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 

@@ -120,6 +120,26 @@ public class PShapeUtil {
 		return newScale;
 	}
 	
+	
+	// re-scale by displacing actual vertices
+	public static void scaleObjToExtentVerticesAdjust(PShape s, float newExtent) {
+		float modelExtent = getObjMaxExtent(s);
+		float newScale = newExtent/modelExtent;
+		adjustVertices(s, newScale);
+	}
+	
+	public static void adjustVertices(PShape s, float scale) {
+		for (int j = 0; j < s.getChildCount(); j++) {
+			for (int i = 0; i < s.getChild(j).getVertexCount(); i++) {
+				PShape subShape = s.getChild(j);
+				PVector curVertex = subShape.getVertex(i);
+				subShape.setVertex(i, curVertex.x * scale, curVertex.y * scale, curVertex.z * scale);
+				adjustVertices(subShape, scale);
+			}
+		}
+	}
+	
+	
 	public static float scaleObjToExtentReturnScale(PShape s, float newExtent) {
 		float modelExtent = getObjMaxExtent(s);
 		float newScale = newExtent / modelExtent;
@@ -175,6 +195,7 @@ public class PShapeUtil {
 	public static void drawTriangles(PGraphics p, PShape s) {
 		for (int i = 0; i < s.getVertexCount() - 3; i += 3) { // ugh
 			p.beginShape(P.TRIANGLES);
+//			P.println(s.getVertex(i).x, s.getVertex(i).y, s.getVertex(i).z);
 			p.vertex(s.getVertex(i).x, s.getVertex(i).y, s.getVertex(i).z);
 			p.vertex(s.getVertex(i+1).x, s.getVertex(i+1).y, s.getVertex(i+1).z);
 			p.vertex(s.getVertex(i+2).x, s.getVertex(i+2).y, s.getVertex(i+2).z);
@@ -221,6 +242,27 @@ public class PShapeUtil {
 //		}
 	}
 	
+	
+	public static void drawTrianglesGrouped(PGraphics p, PShape s, float scale) {
+		p.beginShape(PConstants.TRIANGLES);
+		for (int j = 0; j < s.getChildCount(); j++) {
+			for (int i = 0; i < s.getChild(j).getVertexCount(); i++) {
+				if(i+2 < s.getChild(j).getVertexCount()) {	// protect against rogue vertices?
+					PVector vertex = s.getChild(j).getVertex(i);
+					PVector vertex2 = s.getChild(j).getVertex(i+1);
+					PVector vertex3 = s.getChild(j).getVertex(i+2);
+					vertex.mult(scale);
+					vertex2.mult(scale);
+					vertex3.mult(scale);
+					p.vertex(vertex.x, vertex.y, vertex.z, s.getChild(j).getTextureU(i), s.getChild(j).getTextureV(i));
+					p.vertex(vertex2.x, vertex2.y, vertex2.z, s.getChild(j).getTextureU(i+1), s.getChild(j).getTextureV(i+1));
+					p.vertex(vertex3.x, vertex3.y, vertex3.z, s.getChild(j).getTextureU(i+2), s.getChild(j).getTextureV(i+2));
+				}
+			}
+		}
+		p.endShape();
+	}
+
 	// from @hamoid: https://twitter.com/hamoid/status/816682493793472512
 	// not tested yet
 	public static void exportMesh(PShape mesh) {

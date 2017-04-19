@@ -3,6 +3,7 @@ package com.haxademic.sketch.pshape;
 import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.draw.shapes.Icosahedron;
 import com.haxademic.core.draw.shapes.PShapeSolid;
 import com.haxademic.core.draw.util.OpenGLUtil;
 import com.haxademic.core.draw.util.PShapeUtil;
@@ -46,12 +47,37 @@ extends PAppletHax {
 		
 		// add UV coordinates to OBJ
 		float modelExtent = PShapeUtil.getObjMaxExtent(obj);
-		PShapeUtil.addTextureUVToObj(obj, img, modelExtent);
+//		PShapeUtil.addTextureUVToObj(obj, img, modelExtent);
 		// obj.setTexture(img);
 		
 		// build solid, deformable PShape object
-		objSolid = new PShapeSolid(obj);
+//		objSolid = new PShapeSolid(obj);
+		objSolid = newSolidIcos(200, img);
+//		objSolid = newSolidSphere(200, img);
 	}
+	
+	protected PShape newSphere(float size, PImage texture) {
+		PShape shape = p.createShape(P.SPHERE, size);
+		shape.setTexture(texture);
+//		float extent = PShapeUtil.getSvgMaxExtent(shape);
+//		PShapeUtil.addUVsToPShape(shape, extent);
+		return shape;
+	}
+	
+	protected PShapeSolid newSolidSphere(float size, PImage texture) {
+		PShape group = createShape(GROUP);
+		group.addChild(newSphere(size, texture));
+		return new PShapeSolid(group);
+	}
+	
+	protected PShapeSolid newSolidIcos(float size, PImage texture) {
+		PShape group = createShape(GROUP);
+		PShape icos = Icosahedron.createIcosahedron(p, 4, texture);
+		PShapeUtil.scaleSvgToExtent(icos, size);
+		group.addChild(icos);
+		return new PShapeSolid(group);
+	}
+
 
 	public void drawApp() {
 		background(255);

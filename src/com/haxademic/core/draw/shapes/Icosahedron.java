@@ -141,7 +141,7 @@ public class Icosahedron {
 		mesh.beginShape(P.TRIANGLES); // define the PShape type: TRIANGLES
 		mesh.strokeWeight(0);
 		mesh.noStroke();
-		mesh.texture(img);
+		if(img != null) mesh.texture(img);
 
 		// put all the vertices, uv texture coordinates and normals into the PShape
 		for (int i=0; i<ico.positions.size(); i++) {
@@ -154,6 +154,39 @@ public class Icosahedron {
 
 		mesh.endShape();
 
+		return mesh; // our work is done here, return DA MESH! ;-)
+	}
+	
+	public static PShape createIcosahedronGrouped(PApplet p, int level, PImage img, int fillColor, int strokeColor, float strokeWeight) {
+		// the icosahedron is created with positions, normals and texture coordinates in the above class
+		Icosahedron ico = new Icosahedron(level);
+		p.textureMode(P.NORMAL); // set textureMode to normalized (range 0 to 1);
+		PShape mesh = p.createShape(P.GROUP); // create the initial PShape
+		
+		
+		// put all the vertices, uv texture coordinates and normals into the PShape
+		PShape triangle = null;
+		for (int i=0; i<ico.positions.size(); i++) {
+			if(i % 3 == 0) {
+				triangle = p.createShape();
+				triangle.beginShape(P.TRIANGLE); // define the PShape type: TRIANGLES
+//				triangle.strokeWeight(strokeWeight);
+//				triangle.stroke(strokeColor);
+//				triangle.fill(fillColor);
+				if(img != null) mesh.texture(img);
+			}
+			PVector pos = ico.positions.get(i);
+			PVector t = ico.texCoords.get(i);
+			PVector n = ico.normals.get(i);
+			triangle.normal(n.x, n.y, n.z);
+			triangle.vertex(pos.x, pos.y, pos.z, t.x, t.y);
+			
+			if(i % 3 == 2) {
+				triangle.endShape();
+				mesh.addChild(triangle);
+			}
+		}
+		
 		return mesh; // our work is done here, return DA MESH! ;-)
 	}
 }
