@@ -25,6 +25,8 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.HEIGHT, 484/2 );
 		p.appConfig.setProperty( AppSettings.WIDTH, 640 );
 		p.appConfig.setProperty( AppSettings.HEIGHT, 640 );
+		p.appConfig.setProperty( AppSettings.WIDTH, 1400 );
+		p.appConfig.setProperty( AppSettings.HEIGHT, 476 );
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, false );
 	}
 
@@ -33,6 +35,8 @@ extends PAppletHax {
 		
 		img1 = ImageUtil.imageToGraphics(p.loadImage(FileUtil.getFile("images/snowblinded-beach.jpg")));
 		img2 = ImageUtil.imageToGraphics(p.loadImage(FileUtil.getFile("images/snowblinded-mtn-2.jpg")));
+//		img1 = ImageUtil.imageToGraphics(p.loadImage(FileUtil.getFile("images/trmp-fuck.png")));
+//		img2 = ImageUtil.imageToGraphics(p.loadImage(FileUtil.getFile("images/trmp-trmp.png")));
 //		img1 = ImageUtil.imageToGraphics(p.loadImage(FileUtil.getFile("images/aholes-bors.png")));
 //		img2 = ImageUtil.imageToGraphics(p.loadImage(FileUtil.getFile("images/aholes-trmp.png")));
 		
@@ -40,7 +44,7 @@ extends PAppletHax {
 //		transitionShader.set("interpolationPower", 2f);
 //		transitionShader = p.loadShader(FileUtil.getFile("shaders/transitions/polka-dots-curtain.glsl"));
 //		transitionShader = p.loadShader(FileUtil.getFile("shaders/transitions/fly-eye.glsl"));
-//		transitionShader = p.loadShader(FileUtil.getFile("shaders/transitions/circle-open.glsl"));
+		transitionShader = p.loadShader(FileUtil.getFile("shaders/transitions/circle-open.glsl"));
 //		transitionShader = p.loadShader(FileUtil.getFile("shaders/transitions/directional-wipe.glsl"));
 //		transitionShader = p.loadShader(FileUtil.getFile("shaders/transitions/warp-fade.glsl"));
 //		transitionShader = p.loadShader(FileUtil.getFile("shaders/transitions/morph.glsl"));
@@ -48,7 +52,7 @@ extends PAppletHax {
 //		transitionShader = p.loadShader(FileUtil.getFile("shaders/transitions/dissolve.glsl"));
 //		transitionShader.set("blocksize", 6f);
 //		transitionShader = p.loadShader(FileUtil.getFile("shaders/transitions/cross-zoom.glsl"));
-		transitionShader = p.loadShader(FileUtil.getFile("shaders/transitions/hsv-blend.glsl"));
+//		transitionShader = p.loadShader(FileUtil.getFile("shaders/transitions/hsv-blend.glsl"));
 //		transitionShader = p.loadShader(FileUtil.getFile("shaders/transitions/wind.glsl"));
 //		transitionShader = p.loadShader(FileUtil.getFile("shaders/transitions/cube.glsl"));
 //		transitionShader = p.loadShader(FileUtil.getFile("shaders/transitions/glitch-displace.glsl"));

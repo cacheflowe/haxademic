@@ -131,7 +131,7 @@ extends PAppletHax {
 		depth.shader(depthShader);
 		drawShapes(depth, false);
 		
-		drawShapes(canvas, true);
+		drawShapes(canvas, false);
 		
 		ssaoShader.set("tDiffuse", canvas );
 		ssaoShader.set("tDepth", depth );
@@ -170,19 +170,19 @@ extends PAppletHax {
 		depthShader.set("far", 1565f );
 
 		ssaoShader.set("onlyAO", false );
-		ssaoShader.set("aoClamp", -4.6f );
-		ssaoShader.set("lumInfluence", -0.5f );
-		ssaoShader.set("cameraNear", 450f );
-		ssaoShader.set("cameraFar", 1565f );
+		ssaoShader.set("aoClamp", 1.1f );
+		ssaoShader.set("lumInfluence", 0.2f );
+		ssaoShader.set("cameraNear", 1f );
+		ssaoShader.set("cameraFar", 650f );
 		
-		ssaoShader.set("samples", 105);
-		ssaoShader.set("radius", 13f);
+		ssaoShader.set("samples", 110);
+		ssaoShader.set("radius", 29f);
 		ssaoShader.set("useNoise", false);
 		ssaoShader.set("noiseAmount", 0);
 		ssaoShader.set("diffArea", 0.65f);
-		ssaoShader.set("gDisplace", 1.7f);
-		ssaoShader.set("diffMult", 140f);
-		ssaoShader.set("gaussMult", -2f);
+		ssaoShader.set("gDisplace", 0.65f);
+		ssaoShader.set("diffMult", 420f);
+		ssaoShader.set("gaussMult", -3f);
 	}
 	
 	protected void drawCubesInGrid(PGraphics pg) {
