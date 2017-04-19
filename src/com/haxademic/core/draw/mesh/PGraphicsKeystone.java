@@ -191,8 +191,8 @@ public class PGraphicsKeystone {
 		float spacing = 50;
 		float spacing2x = spacing * 2;
 		
-		for( int x=0; x < pg.width + spacing; x += spacing) {
-			for( int y=0; y < pg.height + spacing; y += spacing) {
+		for( int x=0; x <= pg.width + spacing2x; x += spacing) {
+			for( int y=0; y <= pg.height + spacing2x; y += spacing) {
 				if( ( x % spacing2x == 0 && y % spacing2x == 0 ) || ( x % spacing2x == spacing && y % spacing2x == spacing ) ) {
 					pg.fill(0, 200);
 				} else {
