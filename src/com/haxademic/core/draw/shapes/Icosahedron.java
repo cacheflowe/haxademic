@@ -170,9 +170,11 @@ public class Icosahedron {
 			if(i % 3 == 0) {
 				triangle = p.createShape();
 				triangle.beginShape(P.TRIANGLE); // define the PShape type: TRIANGLES
-//				triangle.strokeWeight(strokeWeight);
-//				triangle.stroke(strokeColor);
-//				triangle.fill(fillColor);
+				if(fillColor != -1) {
+					triangle.strokeWeight(strokeWeight);
+					triangle.stroke(strokeColor);
+					triangle.fill(fillColor);
+				}
 				if(img != null) mesh.texture(img);
 			}
 			PVector pos = ico.positions.get(i);
