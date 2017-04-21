@@ -136,9 +136,11 @@ public class FileUtil {
 			String[] extensions = formats.split(",");
 		    for (int i=0; i < children.length; i++) {
 		        String filename = children[i];
+		        boolean added = false;
 		        for( int j=0; j < extensions.length; j++ ) {
-			        if( filename.indexOf( "." + extensions[j] ) != -1 ) {	
+			        if( filename.indexOf( "." + extensions[j] ) != -1 && added == false) {	
 			        	filesOfType.add( directory + "/" + filename );
+			        	added = true;
 			        }
 		        }
 		    }
