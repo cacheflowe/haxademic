@@ -153,6 +153,23 @@ public class ImageSequenceMovieClip {
 		startTime = -1;
 	}
 	
+	// TODO: clean this up w/reset()
+	protected void resetPlayhead() {
+		if(isLooping == true) {
+			playbackProgress = 0;
+			curFrame = 0;
+			startTime = P.p.millis();
+		} else {
+			reset();
+			isPlaying = false;
+			startTime = -1;
+		}
+	}
+
+	public void stop() {
+		reset();
+	}
+	
 	public void pause() {
 		if(pauseTime == -1) pauseTime = P.p.millis();
 	}
@@ -161,10 +178,14 @@ public class ImageSequenceMovieClip {
 		pauseTime = -1;
 	}
 	
+	public void seek(float progress) {
+		curFrame = P.round(progress * (playbackFrames() - 1));
+	}
+	
 	public float curTime() {
 		return playbackProgress;
 	}
-	
+		
 	public float duration() {
 		return playbackFrames() / fps;
 	}
@@ -251,9 +272,10 @@ public class ImageSequenceMovieClip {
 		if(preCacheFrame < imageSequence.size() && preCacheFrame != -1) {
 			P.p.image(imageSequence.get(preCacheFrame), P.p.width * 3, P.p.height * 3, 10, 10);
 //			P.p.image(imageSequence.get(preCacheFrame), 0, 0, imageSequence.get(preCacheFrame).width, imageSequence.get(preCacheFrame).height);
+			P.println("Pre-caching frame: ", preCacheFrame);
 			preCacheFrame++;
 		} else if(preCacheFrame == numImages && preCacheFrame != -1) {
-			// P.println("Done pre-caching");
+			 P.println("Done pre-caching");
 			preCacheFrame = -1;
 		}
 	}
@@ -306,16 +328,4 @@ public class ImageSequenceMovieClip {
 		pg.popMatrix();
 	}
 	
-	protected void resetPlayhead() {
-		playbackProgress = 0;
-		curFrame = 0;
-		if(isLooping == true) {
-			startTime = P.p.millis();
-		} else {
-			reset();
-			isPlaying = false;
-			startTime = -1;
-		}
-	}
-
 }
