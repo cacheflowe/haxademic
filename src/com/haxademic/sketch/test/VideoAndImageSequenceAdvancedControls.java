@@ -39,7 +39,7 @@ extends PAppletHax {
 		}
 		if(p.frameCount == 400) {
 			movieLoop();
-			imageSequenceLoop();
+			imageSequence.loop();
 		}
 		if(p.frameCount == 500) {
 			moviePause();
@@ -54,12 +54,18 @@ extends PAppletHax {
 			imageSequence.stop();
 		}
 		if(p.frameCount == 800) {
+			moviePauseOnFirstFrame();
+			imageSequencePauseOnFirstFrame();
+		}
+		if(p.frameCount == 900) {
 			movieLoop();
-			imageSequenceLoop();
+			imageSequence.loop();
 		}
 		
+		// draw movie
 		if(movieStopped == false) p.image(movie, 0, 0, 640, 640);
 		
+		// draw image sequence
 		imageSequence.update();
 		imageSequence.preCacheImages();
 		p.image(imageSequence.image(), 640, 0, 640, 640);
@@ -76,8 +82,8 @@ extends PAppletHax {
 	}
 	
 	protected void moviePauseOnFirstFrame() {
-		movie.play();
 		movie.jump(0);
+		movie.play();
 		movie.pause();
 		moviePaused = true;
 		movieStopped = false;
@@ -126,11 +132,7 @@ extends PAppletHax {
 
 	protected void imageSequencePauseOnLastFrame() {
 		imageSequence.seek(1);
+		imageSequence.pause();
 	}
-	
-	protected void imageSequenceLoop() {
-		imageSequence.loop();
-	}
-
-	
+		
 }
