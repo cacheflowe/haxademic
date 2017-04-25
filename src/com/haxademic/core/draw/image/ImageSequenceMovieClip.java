@@ -272,10 +272,10 @@ public class ImageSequenceMovieClip {
 		if(preCacheFrame < imageSequence.size() && preCacheFrame != -1) {
 			P.p.image(imageSequence.get(preCacheFrame), P.p.width * 3, P.p.height * 3, 10, 10);
 //			P.p.image(imageSequence.get(preCacheFrame), 0, 0, imageSequence.get(preCacheFrame).width, imageSequence.get(preCacheFrame).height);
-			P.println("Pre-caching frame: ", preCacheFrame);
+//			P.println("Pre-caching frame: ", preCacheFrame);
 			preCacheFrame++;
 		} else if(preCacheFrame == numImages && preCacheFrame != -1) {
-			 P.println("Done pre-caching");
+//			 P.println("Done pre-caching");
 			preCacheFrame = -1;
 		}
 	}
