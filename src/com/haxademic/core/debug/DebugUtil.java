@@ -41,12 +41,19 @@ public class DebugUtil {
 	}
 	
 	public static void printErr( String str ) {
-		System.err.println( str );  
+		System.err.println( ":[" + str );  
 	}
 
 	public static void alert( String message ) {
 		// more info: http://docs.oracle.com/javase/tutorial/uiswing/components/dialog.html
 		JOptionPane.showMessageDialog( P.p.frame, message );
 	}
+	
+	public static void printBig(String debugString) {
+		P.println("===================================");
+		P.println("== " + debugString);
+		P.println("===================================");
+	}
+
 	
 }
