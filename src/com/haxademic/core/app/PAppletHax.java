@@ -42,36 +42,18 @@ import themidibus.MidiBus;
  * libraries and wraps them up to play nicely with each other, all within the
  * context of Haxademic.
  *
- * @TODO: Add better Processing lights() situation
- * @TODO: Refactor MIDI input for easier switching between ableton & akai pad control
- * @TODO: Add MIDI debug flag in .properties
  * @TODO: Mesh traversal drawing
- * @TODO: Handle MIDI CC / Allow more than just note_on messages from PAppletHax base. should be able to respond to any midi data
- * @TODO: Implement new viz ideas from sketchbook
- * @TODO: Add SVG animation class
  * @TODO: Create PGraphics & PImage audio-reactive textures to apply to meshes across sketches/apps. See SphereTextureMap and abstracts some of the goodness. !!! - add current texture and iVizTextureDraw classes to VizCollection Module
  *
  * @TODO: Use a static Haxademic.support( PApplet ) type static instance to let us gain access to the applet without passing it everywhere. Look at Geomerative & Toxiclibs to see how they did it.
  * @TODO: ^^^ General cleanup of PAppletHax references throughout codebase
  * @TODO: Make sure it's cool to post all the 3rd-party code within. potentially rewrite these bits
- * @TODO: Address garbage collection - a larger project would be to have dispose() methods in every class, and implement disposal across the project.
- * @TODO: Come up with a single solution to be an IVizModule or an extension of PAppletHax.
- * @TODO: optimize the kinectMesh element - shit is slow
  * @TODO: MIDI signals from rendering and live should be abstracted as MIDI message objects?
  * @TODO: Mesh traversal drawing: more configurable. generative options - implement mesh drawing strategy pattern
  * @TODO: Finish converting old modules into new Elements: AudioTubes, Blobsheet, cacheRings outer rings, GridEQ w/lines, MaxCache outer rings, PlusRing, more spheres
- * @TODO: Create more abstract user/hardware input system that routes different inputs into certain types of commands.
  * @TODO: Fix stepping through audio for WaveformData - this was hacked for BNC video rendering but shouldn't have to play & cue() the audio to capture the data
  * @TODO: Don't initialize MIDI object if not defined in run.properties. Will need to prevent attempting to detect MIDI input on handleKeyboardInput() methods
- * @TODO: Figure out camera perspective stretching issues in MasterHax
- * @TODO: Improve launchpad visuals
- * @TODO: Add launchpad back in without a secondary AudioInputWrapper
  * @TODO: Improve color selecting - use test sketch to figure out how to deal with color-traversing
- * @TODO: New elements: trails, supershapes, GEARS, particles
- * @TODO: add foreground/background modes to elements that could use them.
- * @TODO: Create good input system for building up MasterHax module over time & manage flow of Elements.
- * @TODO: create more complex uses of new Elements
- * @TODO: Refine existing elements
  *
  * @author cacheflowe
  *
@@ -103,6 +85,11 @@ extends PApplet
 	 * Loads an app-specific project .properties file.
 	 */
 	protected String customPropsFile = null;
+	
+	/**
+	 * The current rendering engine
+	 */
+	protected String renderer;
 
 	/**
 	 * Single instance and wrapper for the ESS audio object.
@@ -249,13 +236,21 @@ extends PApplet
 	}
 	
 	protected void setRenderer() {
-		String renderer = p.appConfig.getString(AppSettings.RENDERER, P.P3D);
+		renderer = p.appConfig.getString(AppSettings.RENDERER, P.P3D);
 		if(p.appConfig.getBoolean(AppSettings.FULLSCREEN, false) == true) {
-			p.fullScreen(renderer, p.appConfig.getInt(AppSettings.DISPLAY, 1));
+			// run fullscreen
+			p.fullScreen(renderer, p.appConfig.getInt(AppSettings.FULLSCREEN_SCREEN_NUMBER, 1));
 		} else if(p.appConfig.getBoolean(AppSettings.FILLS_SCREEN, false) == true) {
+			// fills the screen, but not fullscreen
 			p.size(displayWidth,displayHeight,renderer);
 		} else {
-			p.size(p.appConfig.getInt(AppSettings.WIDTH, 800),p.appConfig.getInt(AppSettings.HEIGHT, 600),renderer);
+			if(renderer == PRenderers.PDF) {
+				// set headless pdf output file
+				p.size(p.appConfig.getInt(AppSettings.WIDTH, 800),p.appConfig.getInt(AppSettings.HEIGHT, 600), renderer, p.appConfig.getString(AppSettings.PDF_RENDERER_OUTPUT_FILE, "output/output.pdf"));
+			} else {
+				// run normal P3D renderer
+				p.size(p.appConfig.getInt(AppSettings.WIDTH, 800),p.appConfig.getInt(AppSettings.HEIGHT, 600), renderer);
+			}
 		}
 	}
 
@@ -281,7 +276,6 @@ extends PApplet
 			if ( p.key == '.' && audioIn != null ) audioIn.gainUp();
 			if ( p.key == ',' && audioIn != null ) audioIn.gainDown();
 		}
-
 	}
 
 	/**
@@ -343,7 +337,7 @@ extends PApplet
 		joons = ( p.appConfig.getBoolean(AppSettings.SUNFLOW, false ) == true ) ?
 				new JoonsWrapper( p, width, height, ( p.appConfig.getString(AppSettings.SUNFLOW_QUALITY, "low" ) == AppSettings.SUNFLOW_QUALITY_HIGH ) ? JoonsWrapper.QUALITY_HIGH : JoonsWrapper.QUALITY_LOW, ( p.appConfig.getBoolean(AppSettings.SUNFLOW_ACTIVE, true ) == true ) ? true : false )
 				: null;
-		_debugText = new DebugText( p );
+		if(renderer != PRenderers.PDF) _debugText = new DebugText( p );
 		if( _showStats == true ) _stats = new Stats( p );
 		try { _robot = new Robot(); } catch( Exception error ) { println("couldn't init Robot for screensaver disabling"); }
 	}
@@ -372,6 +366,7 @@ extends PApplet
 		renderFrame();
 		showStats();
 		setAppDockIconAndTitle();
+		if(renderer == PRenderers.PDF) finishPdfRender();
 	}
 	
 	protected void updateAudioData() {
@@ -396,10 +391,15 @@ extends PApplet
 	}
 
 	protected void setAppDockIconAndTitle() {
-		if(p.frameCount == 1) {
+		if(p.frameCount == 1 && renderer != PRenderers.PDF) {
 			AppUtil.setTitle(p, "Haxademic");
 			AppUtil.setAppToDockIcon(p);
 		}	
+	}
+	
+	protected void finishPdfRender() {
+		P.println("Finished PDF render.");
+		p.exit();
 	}
 	
 	protected void handleRenderingStepthrough() {

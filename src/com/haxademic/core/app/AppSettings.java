@@ -2,12 +2,13 @@ package com.haxademic.core.app;
 
 public class AppSettings {
 	// Canvas setup
-	public static final String RENDERER = "renderer";	// P.JAVA2D P.FX2D P.P2D P.P3D
+	public static final String RENDERER = "renderer";
+	public static final String PDF_RENDERER_OUTPUT_FILE = "renderer_output_file";
 	public static final String WIDTH = "width";
 	public static final String HEIGHT = "height";
 	public static final String FULLSCREEN = "fullscreen";
+	public static final String FULLSCREEN_SCREEN_NUMBER = "fullscreen_screen_number";
 	public static final String FILLS_SCREEN = "fills_screen";
-	public static final String DISPLAY = "display";
 	public static final String RETINA = "is_retina";
 	public static final String FORCE_FOREGROUND = "force_foreground";
 	public static final String SMOOTHING = "smoothing";
