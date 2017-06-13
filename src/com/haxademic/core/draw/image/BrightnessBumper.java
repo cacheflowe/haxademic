@@ -17,12 +17,24 @@ public class BrightnessBumper {
 	}
 	
 	public void keyEvent(KeyEvent e) {
-		if(e.getKey() == '-') brightness -= 0.01f;
-		if(e.getKey() == '=') brightness += 0.01f;
+		if(e.getKey() == '-') bumpDown();
+		if(e.getKey() == '=') bumpUp();
 		if(e.getKey() == '0') brightness = 1f;
 	}
 	
-	public void update(PGraphics pg) {
+	public void bumpUp() {
+		brightness += 0.01f;
+	}
+	
+	public void bumpDown() {
+		brightness -= 0.01f;
+	}
+	
+	public void reset() {
+		brightness = 1f;
+	}
+	
+	public void applyTo(PGraphics pg) {
 		if(brightness == 1f) return;
 		BrightnessFilter.instance(P.p).setBrightness(brightness);
 		BrightnessFilter.instance(P.p).applyTo(pg);

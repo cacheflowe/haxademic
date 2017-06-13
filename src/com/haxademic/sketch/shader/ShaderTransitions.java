@@ -18,7 +18,7 @@ extends PAppletHax {
 	protected PImage img1;
 	protected PImage img2;
 	protected PShader transitionShader;
-	protected float frames = 200;
+	protected float frames = 400;
 
 	protected void overridePropsFile() {
 		p.appConfig.setProperty( AppSettings.WIDTH, 372/2 );
@@ -44,7 +44,8 @@ extends PAppletHax {
 //		transitionShader.set("interpolationPower", 2f);
 //		transitionShader = p.loadShader(FileUtil.getFile("shaders/transitions/polka-dots-curtain.glsl"));
 //		transitionShader = p.loadShader(FileUtil.getFile("shaders/transitions/fly-eye.glsl"));
-		transitionShader = p.loadShader(FileUtil.getFile("shaders/transitions/circle-open.glsl"));
+//		transitionShader = p.loadShader(FileUtil.getFile("shaders/transitions/circle-open.glsl"));
+		transitionShader = p.loadShader(FileUtil.getFile("shaders/transitions/color-lerp.glsl"));
 //		transitionShader = p.loadShader(FileUtil.getFile("shaders/transitions/directional-wipe.glsl"));
 //		transitionShader = p.loadShader(FileUtil.getFile("shaders/transitions/warp-fade.glsl"));
 //		transitionShader = p.loadShader(FileUtil.getFile("shaders/transitions/morph.glsl"));

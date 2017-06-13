@@ -11,6 +11,7 @@ import processing.core.PApplet;
 import processing.core.PConstants;
 import processing.core.PGraphics;
 import processing.core.PImage;
+import processing.core.PShape;
 import processing.opengl.PGL;
 import processing.opengl.Texture;
 
@@ -143,6 +144,22 @@ public class ImageUtil {
 		return pg;
 	}  
 
+	public static PGraphics shapeToGraphics(PShape shape) {
+		PGraphics pg = P.p.createGraphics(P.ceil(shape.width), P.ceil(shape.height), P.P3D);
+		pg.beginDraw();
+		pg.shape(shape, 0, 0);
+		pg.endDraw();
+		return pg;
+	}  
+	
+	public static PGraphics shapeToGraphics(PShape shape, float scale) {
+		PGraphics pg = P.p.createGraphics(P.ceil((float) shape.width * scale), P.ceil((float) shape.height * scale), P.P3D);
+		pg.beginDraw();
+		pg.shape(shape, 0, 0, pg.width, pg.height);
+		pg.endDraw();
+		return pg;
+	}  
+	
 	public static PGraphics imageToGraphicsWithPadding(PImage img, float fillAmount) {
 		PGraphics image = ImageUtil.imageToGraphics(img);
 		image.beginDraw();

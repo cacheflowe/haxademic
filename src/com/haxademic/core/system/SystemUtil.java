@@ -17,6 +17,10 @@ public class SystemUtil {
 		return System.getProperty("os.name").contains("OS X");
 	}
 	
+	public static void runGarbageCollection() {
+		System.gc();
+	}
+	
 	public static String getTimestamp( PApplet p ) {
 		// use P.nf to pad date components to 2 digits for more consistent ordering across systems
 		return  String.valueOf( P.year() ) + "-" + 

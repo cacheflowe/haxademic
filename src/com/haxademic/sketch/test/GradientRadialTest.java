@@ -16,6 +16,7 @@ extends PAppletHax {
 	protected float _frames = 120;
 	
 	protected void overridePropsFile() {
+		p.appConfig.setProperty( AppSettings.RENDERER, P.P3D );
 		p.appConfig.setProperty( AppSettings.WIDTH, "600" );
 		p.appConfig.setProperty( AppSettings.HEIGHT, "600" );
 		

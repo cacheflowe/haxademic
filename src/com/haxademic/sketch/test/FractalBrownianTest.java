@@ -32,7 +32,6 @@ extends PAppletHax {
 				rect(i*8,j*8,8,8);
 			}
 		}
-
 	}
 
 	

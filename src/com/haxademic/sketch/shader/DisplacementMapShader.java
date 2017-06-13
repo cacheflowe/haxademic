@@ -5,6 +5,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.filters.shaders.BrightnessFilter;
 import com.haxademic.core.draw.filters.shaders.ColorDistortionFilter;
+import com.haxademic.core.draw.filters.shaders.ColorizeFilter;
 import com.haxademic.core.draw.filters.shaders.ContrastFilter;
 import com.haxademic.core.draw.filters.shaders.CubicLensDistortionFilter;
 import com.haxademic.core.draw.filters.shaders.DeformTunnelFanFilter;
