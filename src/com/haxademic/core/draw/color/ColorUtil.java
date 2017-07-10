@@ -1,8 +1,12 @@
 package com.haxademic.core.draw.color;
 
+import java.util.Random;
+
 import com.haxademic.core.app.P;
 
 public class ColorUtil {
+	
+	public static Random random = new Random();
 	
 	public static int colorWithIntAndAlpha(int color, int alpha ) {
 		// from: http://processing.org/discourse/beta/num_1261125421.html
@@ -15,6 +19,14 @@ public class ColorUtil {
 	
 	public static float componentByPercent( float percent ) {
 		return percent * 255f;
+	}
+	
+	public static String randomHex() {
+		// from: https://stackoverflow.com/a/35459935
+        // create a big random number - maximum is ffffff (hex) = 16777215 (dez)
+        int nextInt = random.nextInt(256*256*256);
+        // return String.format("%06x", nextInt);
+        return String.format("%06x", nextInt);
 	}
 	
 	// concept from: http://dev.thi.ng/gradients/
