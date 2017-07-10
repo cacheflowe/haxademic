@@ -54,4 +54,14 @@ public class StringFormatter {
 	public static String paddedNumberString(int size, int val) {
 		return String.format("%0"+size+"d", val);
 	}
+	
+	public static String uniqueCharactersInString(String input) {
+		String result = "";
+		for (int i = 0; i < input.length(); i++) {
+			char letter = input.charAt(i);
+			if(result.indexOf(letter) == -1) result = result.concat(Character.toString(letter));
+		}
+		return result;
+	}
+
 }
