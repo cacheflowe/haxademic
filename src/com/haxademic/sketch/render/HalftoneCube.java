@@ -7,7 +7,7 @@ import com.haxademic.core.draw.filters.shaders.HalftoneLinesFilter;
 import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.math.easing.Penner;
 
-public class CubeHalftone 
+public class HalftoneCube 
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 

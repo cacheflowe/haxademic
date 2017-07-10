@@ -24,7 +24,7 @@ uniform float sampleDistY = 80.0;
 uniform float rows = 50.0;
 uniform float rotation = 0.0;
 uniform float antialias = 0.1;
-uniform float mode = 3;
+uniform int mode = 3;
 
 float rgbToGray(vec4 rgba) {
 	const vec3 W = vec3(0.2125, 0.7154, 0.0721);
