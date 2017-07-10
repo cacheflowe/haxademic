@@ -29,6 +29,10 @@ public class TiledTexture {
 	float blY;
 	
 	public TiledTexture(PImage image) {
+		setSource(image);
+	}
+	
+	public void setSource(PImage image) {
 		texture = image;
 		uX = 0.5f * (float) texture.width;
 		vY = 0.5f * (float) texture.height;
