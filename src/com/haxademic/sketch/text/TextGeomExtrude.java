@@ -1,5 +1,12 @@
 package com.haxademic.sketch.text;
 
+import com.haxademic.core.app.AppSettings;
+import com.haxademic.core.app.P;
+import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.app.PBlendModes;
+import com.haxademic.core.draw.util.DrawUtil;
+import com.haxademic.core.file.FileUtil;
+
 import geomerative.RCommand;
 import geomerative.RFont;
 import geomerative.RG;
@@ -13,23 +20,28 @@ import toxi.processing.ToxiclibsSupport;
 //import toxi.volume.MeshVoxelizer;
 
 public class TextGeomExtrude
-extends PApplet{
+extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	RFont font;
 	ToxiclibsSupport toxi;
 	WETriangleMesh weMesh;
 
-	public void setup() {
-		size(1200,800,OPENGL);
-//		size(1200,800, "hipstersinc.P5Sunflow" );
+	protected void overridePropsFile() {
+		p.appConfig.setProperty( AppSettings.WIDTH, 840 );
+		p.appConfig.setProperty( AppSettings.HEIGHT, 640 );
+		p.appConfig.setProperty( AppSettings.SHOW_STATS, true );
+	}
 
-		frameRate( 30 );
+	public void setup()	{
+		super.setup();
 		smooth();
 
 		RG.init(this);
 		toxi = new ToxiclibsSupport( this );
 
-		font = new RFont( "../data/fonts/bitlow.ttf", 200, RFont.CENTER);
+		font = new RFont( FileUtil.getFile("fonts/bitlow.ttf"), 200, RFont.CENTER);
+//		buildToxiMesh3D();
 		buildToxiMesh();
 	}
 
@@ -37,7 +49,7 @@ extends PApplet{
 		RCommand.setSegmentLength(8);
 		RCommand.setSegmentator(RCommand.UNIFORMLENGTH);
 
-		RGroup grp = font.toGroup("HAI THERE");
+		RGroup grp = font.toGroup("CACHEFLOWE");
 		// RPoint[] pnts = grp.getPoints();
 
 		RMesh rMesh = grp.toMesh();
@@ -60,7 +72,7 @@ extends PApplet{
 		RCommand.setSegmentLength(8);
 		RCommand.setSegmentator(RCommand.UNIFORMLENGTH);
 
-		RGroup grp = font.toGroup("MODE SET");
+		RGroup grp = font.toGroup("CACHEFLOWE");
 		// RPoint[] pnts = grp.getPoints();
 
 		RMesh rMesh = grp.toMesh();
@@ -120,23 +132,21 @@ extends PApplet{
 	}
 
 	public void draw() {
-		background(10);
+		DrawUtil.setBetterLights(p);
+		background(0);
 		translate(width/2,height/2,-600);
-		rotateX(-mouseY/100f);
-		rotateY(mouseX/100f);
+		rotateX(P.map(p.mouseY, 0, p.height, -1f, 1f));
+		rotateY(P.map(p.mouseX, 0, p.width, -1f, 1f));
 //		println(mouseX/100f+","+(-mouseY/100f));
 //		rotateX(5.79f);
 //		rotateY(-5.95f);
 		
-		lights();
-		shininess( 1000 );
-		
-		//	    drawText2d();
+//			    drawText2d();
 		drawText3d();
 	}
 
 	public void drawText2d() {
-		RGroup grp = font.toGroup("Hx");
+		RGroup grp = font.toGroup("HX");
 
 		// die folgenden einstellungen beinflussen wieviele punkte die
 		// polygone am ende bekommen werden.
@@ -159,10 +169,13 @@ extends PApplet{
 	}
 
 	public void drawText3d() {
+//		blendMode(PBlendModes.ADD);
 		fill(255,127,0,255);
-		fill(255,249,0, 255);
+		fill(200);
+//		fill(255,249,0);
+//		stroke(255);
 		noStroke();
-//		stroke(0);
 		toxi.mesh( weMesh );
+//		blendMode(PBlendModes.BLEND);
 	}
 }
