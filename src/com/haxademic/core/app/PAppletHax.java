@@ -237,7 +237,10 @@ extends PApplet
 	
 	protected void setRenderer() {
 		renderer = p.appConfig.getString(AppSettings.RENDERER, P.P3D);
-		if(p.appConfig.getBoolean(AppSettings.FULLSCREEN, false) == true) {
+		if(p.appConfig.getBoolean(AppSettings.SPAN_SCREENS, false) == true) {
+			// run fullscreen across all screens
+			p.fullScreen(renderer, P.SPAN);
+		} else if(p.appConfig.getBoolean(AppSettings.FULLSCREEN, false) == true) {
 			// run fullscreen
 			p.fullScreen(renderer, p.appConfig.getInt(AppSettings.FULLSCREEN_SCREEN_NUMBER, 1));
 		} else if(p.appConfig.getBoolean(AppSettings.FILLS_SCREEN, false) == true) {

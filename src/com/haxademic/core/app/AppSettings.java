@@ -6,6 +6,7 @@ public class AppSettings {
 	public static final String PDF_RENDERER_OUTPUT_FILE = "renderer_output_file";
 	public static final String WIDTH = "width";
 	public static final String HEIGHT = "height";
+	public static final String SPAN_SCREENS = "span_screens";
 	public static final String FULLSCREEN = "fullscreen";
 	public static final String FULLSCREEN_SCREEN_NUMBER = "fullscreen_screen_number";
 	public static final String FILLS_SCREEN = "fills_screen";
