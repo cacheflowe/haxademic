@@ -28,6 +28,7 @@ public class FileUtil {
 	public static String BIN_PATH = null;
 	public static String HAX_PATH = null;
 	public static String UTIL_PATH = null;
+	public static String WWW_PATH = null;
 	
 	// system & haxademic paths -------------------------------------------
 	public static String getProjectAbsolutePath() {
@@ -52,6 +53,12 @@ public class FileUtil {
 		if( DATA_PATH != null ) return DATA_PATH;
 		DATA_PATH = getHaxademicPath().concat(File.separator + "data" + File.separator);
 		return DATA_PATH;
+	}
+	
+	public static String getHaxademicWebPath() {
+		if( WWW_PATH != null ) return WWW_PATH;
+		WWW_PATH = getHaxademicPath().concat(File.separator + "www" + File.separator);
+		return WWW_PATH;
 	}
 	
 	public static String getHaxademicUtilScriptsPath() {
