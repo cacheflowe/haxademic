@@ -152,16 +152,17 @@ public class ImageUtil {
 	}  
 
 	public static PGraphics shapeToGraphics(PShape shape) {
-		PGraphics pg = P.p.createGraphics(P.ceil(shape.width), P.ceil(shape.height), P.P3D);
-		pg.beginDraw();
-		pg.shape(shape, 0, 0);
-		pg.endDraw();
-		return pg;
+		return shapeToGraphics(shape, 1f);
 	}  
 	
 	public static PGraphics shapeToGraphics(PShape shape, float scale) {
+		return shapeToGraphics(shape, scale, -999);
+	}  
+	
+	public static PGraphics shapeToGraphics(PShape shape, float scale, int bgColor) {
 		PGraphics pg = P.p.createGraphics(P.ceil((float) shape.width * scale), P.ceil((float) shape.height * scale), P.P3D);
 		pg.beginDraw();
+		if(bgColor != -999) pg.background(bgColor);
 		pg.shape(shape, 0, 0, pg.width, pg.height);
 		pg.endDraw();
 		return pg;
