@@ -1,6 +1,7 @@
 package com.haxademic.sketch.test;
 
 import com.haxademic.core.app.AppSettings;
+import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.draw.util.OpenGLUtil;
@@ -16,6 +17,7 @@ extends PAppletHax {
 	public float accel = 0.5f;
 	protected ElasticFloat _elasticX = new ElasticFloat(0, fric, accel);
 	protected ElasticFloat _elasticY = new ElasticFloat(0, fric, accel);
+	protected ElasticFloat _elasticBottom = new ElasticFloat(0, fric, accel);
 	protected ControlP5 _cp5;
 
 	protected void overridePropsFile() {
@@ -37,18 +39,25 @@ extends PAppletHax {
 		
 		_elasticX.setFriction(fric);
 		_elasticY.setFriction(fric);
+		_elasticBottom.setFriction(fric);
 		_elasticX.setAccel(accel);
 		_elasticY.setAccel(accel);
+		_elasticBottom.setAccel(accel);
 		
 		_elasticX.setTarget(p.mouseX);
 		_elasticY.setTarget(p.mouseY);
+		int bottomVal = P.round(p.frameCount * 0.01f) % 2;
+		_elasticBottom.setTarget((bottomVal % 2) * p.width);
 		
 		_elasticX.update();
 		_elasticY.update();
+		_elasticBottom.update();
 		
 		DrawUtil.setDrawCenter(p);
 		p.fill(255);
 		p.ellipse(_elasticX.val(), _elasticY.val(), 40, 40);
+		p.ellipse(_elasticBottom.val(), p.height - 20, 40, 40);
+
 	}
 
 }
