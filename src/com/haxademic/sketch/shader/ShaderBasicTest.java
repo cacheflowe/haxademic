@@ -128,6 +128,13 @@ extends PAppletHax {
 //		ContrastFilter.instance(p).setContrast(1.2f);
 //		ContrastFilter.instance(p).applyTo(filterTargetCanvas);
 
+		filterTargetCanvas.textureWrap(Texture.REPEAT);
+		RotateFilter.instance(p).setAspect(filterTargetCanvas.width, filterTargetCanvas.height);
+		RotateFilter.instance(p).setRotation(p.frameCount * 0.01f);
+//		RotateFilter.instance(p).setZoom(1f + 0.75f * P.sin(p.frameCount * 0.01f));
+		RotateFilter.instance(p).setOffset(0.5f * P.cos(P.PI + p.frameCount * 0.01f), 0.5f * P.sin(p.frameCount * -0.01f));
+		RotateFilter.instance(p).applyTo(filterTargetCanvas);
+
 //		filterTargetCanvas.filter(_postFilter);
 		
 		image( _buffer, 0, 0);
