@@ -1,6 +1,8 @@
 package com.haxademic.core.math;
 
 import java.awt.Point;
+import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 import com.haxademic.core.app.P;
 
@@ -321,5 +323,23 @@ public class MathUtil {
 		percent *= 2;
 		percent -= 1;
 		return percent;
+	}
+	
+	public static int[] buildIndexArray(int size) {
+		int[] indexArray = new int[size];
+		for (int i = 0; i < size; i++) {
+			indexArray[i] = i;
+		}
+		return indexArray;
+	}
+	
+	public static void shuffleIntArray(int[] ar) {
+		Random rnd = ThreadLocalRandom.current();
+		for (int i = ar.length - 1; i > 0; i--) {
+			int index = rnd.nextInt(i + 1);
+			int a = ar[index];
+			ar[index] = ar[i];
+			ar[i] = a;
+		}
 	}
 }
