@@ -8,14 +8,16 @@ import com.haxademic.core.draw.util.OpenGLUtil;
 import com.haxademic.core.file.FileUtil;
 
 import processing.core.PGraphics;
+import processing.opengl.PShader;
 
-public class PGraphicsKeystoneTest
+public class PGraphicsKeystoneTextureUV
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
-	protected PGraphics buffer;
+	protected PGraphics externalBuffer;
 	protected PGraphicsKeystone pgPinnable;
 	protected boolean testPattern = true;
+	protected PShader shaderPattern;
 
 	protected void overridePropsFile() {
 		p.appConfig.setProperty( AppSettings.WIDTH, 1000 );
@@ -30,17 +32,21 @@ extends PAppletHax {
 	}
 
 	protected void buildCanvas() {
-		buffer = p.createGraphics( p.width / 2, p.height / 2, P.P3D );
-		buffer.smooth(OpenGLUtil.SMOOTH_HIGH);
-//		_pgPinnable = new PGraphicsKeystone( p, _pg, 12 );
-		pgPinnable = new PGraphicsKeystone( p, buffer, 12, FileUtil.getFile("text/keystoning/keystone-demo.txt") );
+		externalBuffer = p.createGraphics( p.width / 2, p.height / 2, P.P3D );
+		shaderPattern = p.loadShader(FileUtil.getFile("shaders/textures/cacheflowe-op-wavy-rotate.glsl"));
+		pgPinnable = new PGraphicsKeystone( p, externalBuffer, 12, null );
 	}
 
 	public void drawApp() {
 		p.background(0);
+		// update texture
+		shaderPattern.set("time", p.frameCount * 0.01f);
+		externalBuffer.filter(shaderPattern);
 		// draw pinned pgraphics
 		if(testPattern == true) pgPinnable.drawTestPattern();
-		pgPinnable.update(p.g, true);
+		// map a custom portion of the source
+		pgPinnable.update(p.g, true, externalBuffer, 
+				externalBuffer.width * 0.3f, externalBuffer.height * 0.3f, externalBuffer.width * 0.4f, externalBuffer.height * 0.4f);
 	}
 
 	public void keyPressed() {

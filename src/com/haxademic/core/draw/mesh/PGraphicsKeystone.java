@@ -4,13 +4,13 @@ import java.awt.Point;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.data.ConvertUtil;
-import com.haxademic.core.debug.DebugUtil;
 import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.file.FileUtil;
 
 import processing.core.PApplet;
 import processing.core.PConstants;
 import processing.core.PGraphics;
+import processing.core.PImage;
 import processing.event.KeyEvent;
 import processing.event.MouseEvent;
 
@@ -48,9 +48,11 @@ public class PGraphicsKeystone {
 	
 	public PGraphicsKeystone( PApplet p, PGraphics pg, float subDivideSteps, String filePath ) {
 		this(p, pg, subDivideSteps);
-		this.filePath = filePath;
-		loadMappingFile();
-		createMappingFile();
+		if(filePath != null) {
+			this.filePath = filePath;
+			loadMappingFile();
+			createMappingFile();
+		}
 	}
 	
 	public PGraphics pg() {
@@ -99,12 +101,32 @@ public class PGraphicsKeystone {
 	}
 
 	public void update( PGraphics canvas, boolean subdivide ) {
+		update(canvas, subdivide, pg);
+	}
+	
+	public void fillSolidColor( PGraphics canvas, int fill ) {
+		// default single mapped quad
+		canvas.noStroke();
+		canvas.fill(fill);
+		canvas.beginShape(PConstants.QUAD);
+		canvas.vertex(_topLeft.x, _topLeft.y, 0);
+		canvas.vertex(_topRight.x, _topRight.y, 0);
+		canvas.vertex(_bottomRight.x, _bottomRight.y, 0);
+		canvas.vertex(_bottomLeft.x, _bottomLeft.y, 0);
+		canvas.endShape();
+	}
+		
+	public void update( PGraphics canvas, boolean subdivide, PImage texture ) {
+		update(canvas, subdivide, texture, 0, 0, texture.width, texture.height);
+	}
+	
+	public void update( PGraphics canvas, boolean subdivide, PImage texture, float mapX, float mapY, float mapW, float mapH) {
 		// draw to screen with pinned corner coords
 		// inspired by: https://github.com/davidbouchard/keystone & http://marcinignac.com/blog/projectedquads-source-code/
 		canvas.noStroke();
 		canvas.fill(255);
 		canvas.beginShape(PConstants.QUAD);
-		canvas.texture(pg);
+		canvas.texture(texture);
 		
 		if( subdivide == true ) {
 			// subdivide quad for better resolution
@@ -143,18 +165,18 @@ public class PGraphicsKeystone {
 					float quadBotLeftY = interp(colTopY, colBotY, yPercentNext);
 					
 					// draw subdivided quads
-					canvas.vertex(quadTopLeftX, quadTopLeftY, 0, 	pg.width * xPercent, pg.height * yPercent);
-					canvas.vertex(quadTopRightX, quadTopRightY, 0, 	pg.width * xPercentNext, pg.height * yPercent);
-					canvas.vertex(quadBotRightX, quadBotRightY, 0, 	pg.width * xPercentNext, pg.height * yPercentNext);
-					canvas.vertex(quadBotLeftX, quadBotLeftY, 0, 	pg.width * xPercent, pg.height * yPercentNext);
+					canvas.vertex(quadTopLeftX, quadTopLeftY, 0, 		mapX + mapW * xPercent, 		mapY + mapH * yPercent);
+					canvas.vertex(quadTopRightX, quadTopRightY, 0, 	mapX + mapW * xPercentNext, 	mapY + mapH * yPercent);
+					canvas.vertex(quadBotRightX, quadBotRightY, 0, 	mapX + mapW * xPercentNext, 	mapY + mapH * yPercentNext);
+					canvas.vertex(quadBotLeftX, quadBotLeftY, 0, 		mapX + mapW * xPercent, 		mapY + mapH * yPercentNext);
 				}
 			}
 		} else {
 			// default single mapped quad
-			canvas.vertex(_topLeft.x, _topLeft.y, 0, 			0, 0);
-			canvas.vertex(_topRight.x, _topRight.y, 0, 			pg.width, 0);
-			canvas.vertex(_bottomRight.x, _bottomRight.y, 0, 	pg.width, pg.height);
-			canvas.vertex(_bottomLeft.x, _bottomLeft.y, 0, 	0, 	pg.height);
+			canvas.vertex(_topLeft.x, _topLeft.y, 0, 			mapX, mapY);
+			canvas.vertex(_topRight.x, _topRight.y, 0, 		mapX + mapW, mapY);
+			canvas.vertex(_bottomRight.x, _bottomRight.y, 0, 	mapX + mapW, mapY + mapH);
+			canvas.vertex(_bottomLeft.x, _bottomLeft.y, 0, 	mapX, mapY + mapH);
 		}
 
 		canvas.endShape();

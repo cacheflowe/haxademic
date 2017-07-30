@@ -11,7 +11,7 @@ import processing.core.PGraphics;
 import processing.core.PImage;
 import processing.opengl.PShader;
 
-public class ProjectionMappingGrid
+public class PGraphicsKeystoneGrid
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
@@ -86,6 +86,7 @@ extends PAppletHax {
 		// draw to screen 
 		for (int i = 0; i < keystoneQuads.length; i++) {
 			keystoneQuads[i].update(p.g, true);
+			keystoneQuads[i].fillSolidColor(p.g, p.color(255, 0, 0, 127));
 		}
 	}
 
