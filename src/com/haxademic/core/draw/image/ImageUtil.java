@@ -248,7 +248,7 @@ public class ImageUtil {
 		
 		// debug
 		if(debug) sourceImg.beginDraw();
-		if(debug) sourceImg.fill(255,0,0, 100);
+		if(debug) sourceImg.fill(255,0,0, 255);
 		
 		// find initial low-resolution bounds
 		int searchSpacing = 10;
@@ -262,15 +262,24 @@ public class ImageUtil {
 				}
 			}			
 		}
+		P.println("low res bounds:", bounds);
 		
 		// create boundary padded by spacing to search within
+		int refineX = P.max(0, bounds.x - searchSpacing);
+		int refineY = P.max(0, bounds.y - searchSpacing);
+		int refineW = P.min(sourceImg.width, bounds.width + searchSpacing * 2);
+		int refineH = P.min(sourceImg.height, bounds.height + searchSpacing * 2);
+
 		Rectangle refineBounds = new Rectangle(
-				bounds.x - searchSpacing,
-				bounds.y - searchSpacing,
-				bounds.width + searchSpacing * 2,
-				bounds.height + searchSpacing * 2
+				refineX,
+				refineY,
+				refineW,
+				refineH
 		);
-		
+		if(debug) P.println("refineBounds:", refineBounds);
+
+		if(debug) sourceImg.fill(255,255,0, 127);	 // set refine color
+
 		// move out one spacing and run through the process again per-pixel
 		// vertical
 		for(int x = refineBounds.x; x < refineBounds.x + refineBounds.width; x++) {
@@ -307,14 +316,14 @@ public class ImageUtil {
 				}
 			}
 		}
-		
+
 		// show result outline 
 		if(debug) {
 			sourceImg.noFill();
-			sourceImg.stroke(255,0,0, 127);
-			sourceImg.rect(bounds.x, bounds.y, bounds.width, bounds.height);
 			sourceImg.stroke(0,255,0, 127);
-			sourceImg.rect(refineBounds.x, refineBounds.y, refineBounds.width, refineBounds.height);
+			sourceImg.rect(bounds.x, bounds.y, bounds.width, bounds.height-1);
+			sourceImg.stroke(255,255,0, 255);
+			sourceImg.rect(refineBounds.x, refineBounds.y, refineBounds.width, refineBounds.height-1);
 		}
 		
 		// copy to cropped image buffer
@@ -327,6 +336,7 @@ public class ImageUtil {
 		destW += padding[1] + padding[3] - cropIn[1] - cropIn[3];
 		destH += padding[0] + padding[2] - cropIn[0] - cropIn[2];
 		destImg.resize(destW, destH);
+		if(debug) P.println("destW, destH", destW, destH);
 		// get size of image to crop
 		// clear destination image
 		destImg.loadPixels();
