@@ -236,7 +236,12 @@ public class ImageUtil {
 //		imageSequence.clear();
 	}
 
+	public static int[] zero4 = new int[] {0, 0, 0, 0};
 	public static void imageCroppedEmptySpace(PGraphics sourceImg, PImage destImg, int emptyColor, boolean debug) {
+		imageCroppedEmptySpace(sourceImg, destImg, emptyColor, debug, zero4, zero4, P.p.color(0,0));
+	}
+	
+	public static void imageCroppedEmptySpace(PGraphics sourceImg, PImage destImg, int emptyColor, boolean debug, int[] padding, int[] cropIn, int bgColor) {
 		if(debug) P.println("SEARCHING =======================");
 		Rectangle bounds = null;
 		sourceImg.loadPixels();
@@ -313,14 +318,28 @@ public class ImageUtil {
 		}
 		
 		// copy to cropped image buffer
-		int cropW = bounds.width + 1;
-		int cropH = bounds.height + 1;
-		destImg.resize(cropW, cropH);
-		destImg.copy(sourceImg, bounds.x, bounds.y, cropW, cropH, 0, 0, cropW, cropH);
-		if(debug)P.println(bounds);
-		if(debug)P.println(refineBounds);
+		// padding & crop arrays go top, right, bottom, left
+		// resize destination image
+		int destW = bounds.width + 1;
+		int destH = bounds.height + 1;
+		int cropW = destW - cropIn[1] - cropIn[3];
+		int cropH = destH - cropIn[0] - cropIn[2];
+		destW += padding[1] + padding[3] - cropIn[1] - cropIn[3];
+		destH += padding[0] + padding[2] - cropIn[0] - cropIn[2];
+		destImg.resize(destW, destH);
+		// get size of image to crop
+		// clear destination image
+		destImg.loadPixels();
+		int numPixels = destImg.width * destImg.height;
+		for (int i = 0; i < numPixels; i++) destImg.pixels[i] = bgColor;
+		destImg.updatePixels();
+		// copy with padding
+		destImg.copy(sourceImg, bounds.x + cropIn[3], bounds.y + cropIn[0], cropW, cropH, padding[3], padding[0], cropW, cropH);
+		if(debug) P.println(bounds);
+		if(debug) P.println(refineBounds);
 		if(debug) sourceImg.endDraw();
 	}
+
 
 	public static void chromaKeyImage( PApplet p, PImage sourceImg, PImage dest ) {
 		float threshRange = 20f;
