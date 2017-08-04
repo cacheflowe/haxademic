@@ -3,14 +3,18 @@ package com.haxademic.sketch.shader;
 import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.draw.filters.shaders.RadialRipplesFilter;
-import com.haxademic.core.draw.filters.shaders.SphereDistortionFilter;
+import com.haxademic.core.draw.filters.shaders.BadTVLinesFilter;
+import com.haxademic.core.draw.filters.shaders.ColorizeTwoColorsFilter;
+import com.haxademic.core.draw.filters.shaders.KaleidoFilter;
+import com.haxademic.core.draw.filters.shaders.MirrorFilter;
+import com.haxademic.core.draw.filters.shaders.RotateFilter;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.EasingFloat;
 
 import processing.core.PGraphics;
 import processing.opengl.PShader;
+import processing.opengl.Texture;
 
 public class ShaderBasicTest
 extends PAppletHax {
@@ -37,7 +41,7 @@ extends PAppletHax {
 	public void setup() {
 		super.setup();
 		
-		_textureShaderFile = FileUtil.getHaxademicDataPath() + "shaders/textures/basic-checker.glsl";
+		_textureShaderFile = FileUtil.getHaxademicDataPath() + "shaders/textures/bw-clouds.glsl";
 		_textureShader = p.loadShader( _textureShaderFile );
 		_postFilter = p.loadShader( FileUtil.getFile("shaders/filters/escher-repeat.glsl"));
 		
@@ -81,18 +85,18 @@ extends PAppletHax {
 //		WobbleFilter.instance(p).setStrength( 0.001f + 0.0005f * P.sin(radsComplete));
 //		WobbleFilter.instance(p).setSize( 200f + 25f * P.sin(radsComplete));
 //		WobbleFilter.instance(p).applyTo(filterTargetCanvas);
-//		KaleidoFilter.instance(p).setAngle(P.PI * P.sin(radsComplete));
+//		KaleidoFilter.instance(p).setAngle(radsComplete);
 //		KaleidoFilter.instance(p).setSides(P.round(6 + 2f * P.sin(radsComplete)));
-//		KaleidoFilter.instance(p).applyTo(filterTargetCanvas);
-//		MirrorFilter.instance(p).applyTo(filterTargetCanvas);
+		KaleidoFilter.instance(p).applyTo(filterTargetCanvas);
+		MirrorFilter.instance(p).applyTo(filterTargetCanvas);
 //		InvertFilter.instance(p).applyTo(filterTargetCanvas);
-		RadialRipplesFilter.instance(p).setTime( _timeEaseInc / 5f);
-		RadialRipplesFilter.instance(p).setAmplitude(0.4f + 0.4f * P.sin(radsComplete));
-		RadialRipplesFilter.instance(p).applyTo(filterTargetCanvas);
+//		RadialRipplesFilter.instance(p).setTime( _timeEaseInc / 5f);
+//		RadialRipplesFilter.instance(p).setAmplitude(0.4f + 0.4f * P.sin(radsComplete));
+//		RadialRipplesFilter.instance(p).applyTo(filterTargetCanvas);
 //		DeformTunnelFanFilter.instance(p).setTime(p.frameCount / 40f);
 //		DeformTunnelFanFilter.instance(p).applyTo(p);
-		SphereDistortionFilter.instance(p).setAmplitude(0.45f + 0.45f * P.sin(radsComplete));
-		SphereDistortionFilter.instance(p).applyTo(filterTargetCanvas);
+//		SphereDistortionFilter.instance(p).setAmplitude(0.45f + 0.45f * P.sin(radsComplete));
+//		SphereDistortionFilter.instance(p).applyTo(filterTargetCanvas);
 //		ColorDistortionFilter.instance(p).setTime( _timeEaseInc / 5f);
 //		ColorDistortionFilter.instance(p).setAmplitude(1.5f + 1.5f * P.sin(radsComplete));
 //		ColorDistortionFilter.instance(p).applyTo(filterTargetCanvas);
@@ -115,7 +119,7 @@ extends PAppletHax {
 
 //		HueFilter.instance(p).setHue(360f * percentComplete);
 //		HueFilter.instance(p).applyTo(filterTargetCanvas);
-//		BadTVLinesFilter.instance(p).applyTo(filterTargetCanvas);
+		BadTVLinesFilter.instance(p).applyTo(filterTargetCanvas);
 //		EdgesFilter.instance(p).applyTo(filterTargetCanvas);
 //		EdgeColorFadeFilter.instance(p).setSpreadX(0.65f);
 //		EdgeColorFadeFilter.instance(p).setSpreadY(0.65f);
@@ -128,16 +132,22 @@ extends PAppletHax {
 //		ContrastFilter.instance(p).setContrast(1.2f);
 //		ContrastFilter.instance(p).applyTo(filterTargetCanvas);
 
+		ColorizeTwoColorsFilter.instance(p).setColor1(1f, 1f, 0f);
+		ColorizeTwoColorsFilter.instance(p).setColor2(0f, 1f, 1f);
+		ColorizeTwoColorsFilter.instance(p).setCrossfade(false);
+		ColorizeTwoColorsFilter.instance(p).applyTo(filterTargetCanvas);
+		
 		filterTargetCanvas.textureWrap(Texture.REPEAT);
 		RotateFilter.instance(p).setAspect(filterTargetCanvas.width, filterTargetCanvas.height);
 		RotateFilter.instance(p).setRotation(p.frameCount * 0.01f);
-//		RotateFilter.instance(p).setZoom(1f + 0.75f * P.sin(p.frameCount * 0.01f));
+		RotateFilter.instance(p).setZoom(1f + 0.25f * P.sin(p.frameCount * 0.01f));
 		RotateFilter.instance(p).setOffset(0.5f * P.cos(P.PI + p.frameCount * 0.01f), 0.5f * P.sin(p.frameCount * -0.01f));
 		RotateFilter.instance(p).applyTo(filterTargetCanvas);
 
 //		filterTargetCanvas.filter(_postFilter);
 		
-		image( _buffer, 0, 0);
+		
+		p.image( _buffer, 0, 0);
 	}
 	
 	public void keyPressed() {

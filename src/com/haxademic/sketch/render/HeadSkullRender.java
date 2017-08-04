@@ -81,8 +81,8 @@ extends PAppletHax {
 
 		// load model
 		skullObj = p.loadShape( FileUtil.getFile("models/skull-realistic.obj"));
-		objOrig = p.loadShape( FileUtil.getFile("models/Trump_lowPoly.obj"));
-		obj = p.loadShape( FileUtil.getFile("models/Trump_lowPoly.obj"));
+		objOrig = p.loadShape( FileUtil.getFile("models/Trump_lowPoly_updated.obj"));
+		obj = p.loadShape( FileUtil.getFile("models/Trump_lowPoly_updated.obj"));
 		
 		PShapeUtil.scaleObjToExtentReturnScale(skullObj, p.height * 0.78f);
 		PShapeUtil.scaleObjToExtentReturnScale(obj, p.height * 0.8f);
@@ -111,7 +111,7 @@ extends PAppletHax {
 		// show debug light direction
 		if(_showControls == true) {
 			p.pushMatrix();
-			p.fill(255, 100, 100);
+			p.fill(100, 100, 100);
 			p.translate(pointX, pointY, 0);
 			p.sphere(10);
 			p.popMatrix();
@@ -266,7 +266,7 @@ extends PAppletHax {
 //		p.box(20);
 //		p.popMatrix();
 		
-		obj.disableStyle();
+//		obj.disableStyle();
 		p.fill(255,185,40);
 		p.shape(obj);
 		p.popMatrix();
