@@ -57,8 +57,8 @@ implements IEasingValue {
 	}
 	
 	public void update() {
-		_x.update();
-		_y.update();
-		_z.update();
+		_x.update(true);
+		_y.update(true);
+		_z.update(true);
 	}
 }

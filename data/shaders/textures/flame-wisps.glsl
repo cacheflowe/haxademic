@@ -21,7 +21,7 @@ void main (void) {
 	float inten = .05;
 
 	for (int n = 0; n < MAX_ITER; n++){
-		float t = time * (1.5 - (2.0 / float(n+1)));
+		float t = (time/2.) * (1.5 - (2.0 / float(n+1)));
 		i = p + vec2(cos(t - i.x) + sin(t + i.y), sin(t - i.y) + cos(t + i.x));
 		c += 1.0/length(vec2(p.x / (2.*sin(i.x+t)/inten),p.y / (cos(i.y+t)/inten)));
 	}

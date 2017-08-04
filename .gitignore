@@ -1,5 +1,11 @@
+src/com/haxademic/app/haiblobs
+src/com/haxademic/app/ophelias
+src/com/haxademic/app/dancelab
+src/com/haxademic/app/thegrove
+src/com/haxademic/app/hike
 bin/
 output/
 lib/
 *Thumbs.db
 .DS_Store
+bin/

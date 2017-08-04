@@ -50,7 +50,7 @@ extends PAppletHax {
 		shape.setTexture(img);
 		shapeTessellated.setTexture(img);
 		
-		shapeIcos = Icosahedron.createIcosahedron(p, 4, img);
+		shapeIcos = Icosahedron.createIcosahedron(p.g, 4, img);
 		PShapeUtil.scaleSvgToExtent(shapeIcos, extent);
 		
 		PShapeUtil.addUVsToPShape(shape, extent);

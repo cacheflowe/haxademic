@@ -14,7 +14,7 @@ import processing.core.PFont;
 import processing.core.PGraphics;
 import processing.core.PImage;
 
-public class TextWidth
+public class TextWidthImageCrop
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 

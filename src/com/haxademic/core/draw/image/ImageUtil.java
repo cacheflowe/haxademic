@@ -152,16 +152,17 @@ public class ImageUtil {
 	}  
 
 	public static PGraphics shapeToGraphics(PShape shape) {
-		PGraphics pg = P.p.createGraphics(P.ceil(shape.width), P.ceil(shape.height), P.P3D);
-		pg.beginDraw();
-		pg.shape(shape, 0, 0);
-		pg.endDraw();
-		return pg;
+		return shapeToGraphics(shape, 1f);
 	}  
 	
 	public static PGraphics shapeToGraphics(PShape shape, float scale) {
+		return shapeToGraphics(shape, scale, -999);
+	}  
+	
+	public static PGraphics shapeToGraphics(PShape shape, float scale, int bgColor) {
 		PGraphics pg = P.p.createGraphics(P.ceil((float) shape.width * scale), P.ceil((float) shape.height * scale), P.P3D);
 		pg.beginDraw();
+		if(bgColor != -999) pg.background(bgColor);
 		pg.shape(shape, 0, 0, pg.width, pg.height);
 		pg.endDraw();
 		return pg;
@@ -235,14 +236,19 @@ public class ImageUtil {
 //		imageSequence.clear();
 	}
 
+	public static int[] zero4 = new int[] {0, 0, 0, 0};
 	public static void imageCroppedEmptySpace(PGraphics sourceImg, PImage destImg, int emptyColor, boolean debug) {
+		imageCroppedEmptySpace(sourceImg, destImg, emptyColor, debug, zero4, zero4, P.p.color(0,0));
+	}
+	
+	public static void imageCroppedEmptySpace(PGraphics sourceImg, PImage destImg, int emptyColor, boolean debug, int[] padding, int[] cropIn, int bgColor) {
 		if(debug) P.println("SEARCHING =======================");
 		Rectangle bounds = null;
 		sourceImg.loadPixels();
 		
 		// debug
 		if(debug) sourceImg.beginDraw();
-		if(debug) sourceImg.fill(255,0,0, 100);
+		if(debug) sourceImg.fill(255,0,0, 255);
 		
 		// find initial low-resolution bounds
 		int searchSpacing = 10;
@@ -256,15 +262,24 @@ public class ImageUtil {
 				}
 			}			
 		}
+		P.println("low res bounds:", bounds);
 		
 		// create boundary padded by spacing to search within
+		int refineX = P.max(0, bounds.x - searchSpacing);
+		int refineY = P.max(0, bounds.y - searchSpacing);
+		int refineW = P.min(sourceImg.width, bounds.width + searchSpacing * 2);
+		int refineH = P.min(sourceImg.height, bounds.height + searchSpacing * 2);
+
 		Rectangle refineBounds = new Rectangle(
-				bounds.x - searchSpacing,
-				bounds.y - searchSpacing,
-				bounds.width + searchSpacing * 2,
-				bounds.height + searchSpacing * 2
+				refineX,
+				refineY,
+				refineW,
+				refineH
 		);
-		
+		if(debug) P.println("refineBounds:", refineBounds);
+
+		if(debug) sourceImg.fill(255,255,0, 127);	 // set refine color
+
 		// move out one spacing and run through the process again per-pixel
 		// vertical
 		for(int x = refineBounds.x; x < refineBounds.x + refineBounds.width; x++) {
@@ -301,25 +316,40 @@ public class ImageUtil {
 				}
 			}
 		}
-		
+
 		// show result outline 
 		if(debug) {
 			sourceImg.noFill();
-			sourceImg.stroke(255,0,0, 127);
-			sourceImg.rect(bounds.x, bounds.y, bounds.width, bounds.height);
 			sourceImg.stroke(0,255,0, 127);
-			sourceImg.rect(refineBounds.x, refineBounds.y, refineBounds.width, refineBounds.height);
+			sourceImg.rect(bounds.x, bounds.y, bounds.width, bounds.height-1);
+			sourceImg.stroke(255,255,0, 255);
+			sourceImg.rect(refineBounds.x, refineBounds.y, refineBounds.width, refineBounds.height-1);
 		}
 		
 		// copy to cropped image buffer
-		int cropW = bounds.width + 1;
-		int cropH = bounds.height + 1;
-		destImg.resize(cropW, cropH);
-		destImg.copy(sourceImg, bounds.x, bounds.y, cropW, cropH, 0, 0, cropW, cropH);
-		if(debug)P.println(bounds);
-		if(debug)P.println(refineBounds);
+		// padding & crop arrays go top, right, bottom, left
+		// resize destination image
+		int destW = bounds.width + 1;
+		int destH = bounds.height + 1;
+		int cropW = destW - cropIn[1] - cropIn[3];
+		int cropH = destH - cropIn[0] - cropIn[2];
+		destW += padding[1] + padding[3] - cropIn[1] - cropIn[3];
+		destH += padding[0] + padding[2] - cropIn[0] - cropIn[2];
+		destImg.resize(destW, destH);
+		if(debug) P.println("destW, destH", destW, destH);
+		// get size of image to crop
+		// clear destination image
+		destImg.loadPixels();
+		int numPixels = destImg.width * destImg.height;
+		for (int i = 0; i < numPixels; i++) destImg.pixels[i] = bgColor;
+		destImg.updatePixels();
+		// copy with padding
+		destImg.copy(sourceImg, bounds.x + cropIn[3], bounds.y + cropIn[0], cropW, cropH, padding[3], padding[0], cropW, cropH);
+		if(debug) P.println(bounds);
+		if(debug) P.println(refineBounds);
 		if(debug) sourceImg.endDraw();
 	}
+
 
 	public static void chromaKeyImage( PApplet p, PImage sourceImg, PImage dest ) {
 		float threshRange = 20f;

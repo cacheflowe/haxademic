@@ -10,6 +10,8 @@ import com.haxademic.core.file.FileUtil;
 import processing.core.PApplet;
 import processing.core.PConstants;
 import processing.core.PGraphics;
+import processing.core.PImage;
+import processing.event.KeyEvent;
 import processing.event.MouseEvent;
 
 public class PGraphicsKeystone {
@@ -22,10 +24,15 @@ public class PGraphicsKeystone {
 	protected Point _bottomRight;
 	protected Point _bottomLeft;
 	protected Point _points[];
-	protected Point _draggingPoint;
+	public static Point DRAGGING_POINT;
+	public static PGraphicsKeystone DRAGGING_QUAD;
+	protected Point _mousePressStart = new Point();
+	protected float mouseActiveDist = 15;
 
 	protected boolean _isPressed = false;
+	protected boolean _isHovered = false;
 	protected Point _mousePoint = new Point();
+	protected Point _mouseDragged = new Point();
 	
 	protected String filePath = null;
 	
@@ -36,13 +43,24 @@ public class PGraphicsKeystone {
 		this.subDivideSteps = subDivideSteps;
 		resetCorners(pg);
 		p.registerMethod("mouseEvent", this); // add mouse listeners
+		p.registerMethod("keyEvent", this);
 	}
 	
 	public PGraphicsKeystone( PApplet p, PGraphics pg, float subDivideSteps, String filePath ) {
 		this(p, pg, subDivideSteps);
-		this.filePath = filePath;
-		loadMappingFile();
-		createMappingFile();
+		if(filePath != null) {
+			this.filePath = filePath;
+			loadMappingFile();
+			createMappingFile();
+		}
+	}
+	
+	public PGraphics pg() {
+		return pg;
+	}
+	
+	public void setMouseDist(float val) {
+		mouseActiveDist = val;
 	}
 	
 	protected void loadMappingFile() {
@@ -63,6 +81,15 @@ public class PGraphicsKeystone {
 		}
 	}
 	
+	public void setPosition(float x, float y, float w, float h) {
+		_topLeft.setLocation(x - w/2f, y - h/2f);
+		_topRight.setLocation(x + w/2f, y - h/2f);
+		_bottomRight.setLocation(x + w/2f, y + h/2f);
+		_bottomLeft.setLocation(x - w/2f, y + h/2f);
+		// save if we have a file
+		if(this.filePath != null) writeToFile();
+	}
+	
 	public void resetCorners(PGraphics p) {
 		_topLeft = new Point(0, 0);
 		_topRight = new Point(p.width, 0);
@@ -74,12 +101,32 @@ public class PGraphicsKeystone {
 	}
 
 	public void update( PGraphics canvas, boolean subdivide ) {
+		update(canvas, subdivide, pg);
+	}
+	
+	public void fillSolidColor( PGraphics canvas, int fill ) {
+		// default single mapped quad
+		canvas.noStroke();
+		canvas.fill(fill);
+		canvas.beginShape(PConstants.QUAD);
+		canvas.vertex(_topLeft.x, _topLeft.y, 0);
+		canvas.vertex(_topRight.x, _topRight.y, 0);
+		canvas.vertex(_bottomRight.x, _bottomRight.y, 0);
+		canvas.vertex(_bottomLeft.x, _bottomLeft.y, 0);
+		canvas.endShape();
+	}
+		
+	public void update( PGraphics canvas, boolean subdivide, PImage texture ) {
+		update(canvas, subdivide, texture, 0, 0, texture.width, texture.height);
+	}
+	
+	public void update( PGraphics canvas, boolean subdivide, PImage texture, float mapX, float mapY, float mapW, float mapH) {
 		// draw to screen with pinned corner coords
 		// inspired by: https://github.com/davidbouchard/keystone & http://marcinignac.com/blog/projectedquads-source-code/
 		canvas.noStroke();
 		canvas.fill(255);
 		canvas.beginShape(PConstants.QUAD);
-		canvas.texture(pg);
+		canvas.texture(texture);
 		
 		if( subdivide == true ) {
 			// subdivide quad for better resolution
@@ -118,18 +165,18 @@ public class PGraphicsKeystone {
 					float quadBotLeftY = interp(colTopY, colBotY, yPercentNext);
 					
 					// draw subdivided quads
-					canvas.vertex(quadTopLeftX, quadTopLeftY, 0, 	pg.width * xPercent, pg.height * yPercent);
-					canvas.vertex(quadTopRightX, quadTopRightY, 0, 	pg.width * xPercentNext, pg.height * yPercent);
-					canvas.vertex(quadBotRightX, quadBotRightY, 0, 	pg.width * xPercentNext, pg.height * yPercentNext);
-					canvas.vertex(quadBotLeftX, quadBotLeftY, 0, 	pg.width * xPercent, pg.height * yPercentNext);
+					canvas.vertex(quadTopLeftX, quadTopLeftY, 0, 		mapX + mapW * xPercent, 		mapY + mapH * yPercent);
+					canvas.vertex(quadTopRightX, quadTopRightY, 0, 	mapX + mapW * xPercentNext, 	mapY + mapH * yPercent);
+					canvas.vertex(quadBotRightX, quadBotRightY, 0, 	mapX + mapW * xPercentNext, 	mapY + mapH * yPercentNext);
+					canvas.vertex(quadBotLeftX, quadBotLeftY, 0, 		mapX + mapW * xPercent, 		mapY + mapH * yPercentNext);
 				}
 			}
 		} else {
 			// default single mapped quad
-			canvas.vertex(_topLeft.x, _topLeft.y, 0, 			0, 0);
-			canvas.vertex(_topRight.x, _topRight.y, 0, 			pg.width, 0);
-			canvas.vertex(_bottomRight.x, _bottomRight.y, 0, 	pg.width, pg.height);
-			canvas.vertex(_bottomLeft.x, _bottomLeft.y, 0, 	0, 	pg.height);
+			canvas.vertex(_topLeft.x, _topLeft.y, 0, 			mapX, mapY);
+			canvas.vertex(_topRight.x, _topRight.y, 0, 		mapX + mapW, mapY);
+			canvas.vertex(_bottomRight.x, _bottomRight.y, 0, 	mapX + mapW, mapY + mapH);
+			canvas.vertex(_bottomLeft.x, _bottomLeft.y, 0, 	mapX, mapY + mapH);
 		}
 
 		canvas.endShape();
@@ -144,16 +191,36 @@ public class PGraphicsKeystone {
 
 	protected void showMouse(PGraphics canvas) {
 		if(P.p.millis() < lastMouseTime + 3000) {
-			for( int i=0; i < _points.length; i++ ) {
-				if( _points[i].distance( _mousePoint.x, _mousePoint.y ) < 30 ) {
-					DrawUtil.setDrawCenter(canvas);
-					canvas.fill(255);
-					canvas.stroke(0);
-					canvas.strokeWeight(3);
-					float indicatorSize = 13f + 3f * P.sin(P.p.frameCount / 10f);
-					canvas.ellipse(_points[i].x, _points[i].y, indicatorSize, indicatorSize);
-					DrawUtil.setDrawCorner(canvas);
+			// draw corner handles
+			boolean isCornerHovered = false;
+			if(DRAGGING_QUAD == null) {
+				for( int i=0; i < _points.length; i++ ) {
+					if( _points[i].distance( _mousePoint.x, _mousePoint.y ) < mouseActiveDist ) {
+						DrawUtil.setDrawCenter(canvas);
+						canvas.fill(255);
+						canvas.stroke(0, 255, 0);
+						canvas.strokeWeight(2);
+						float indicatorSize = 13f + 3f * P.sin(P.p.frameCount / 10f);
+						canvas.ellipse(_points[i].x, _points[i].y, indicatorSize, indicatorSize);
+						DrawUtil.setDrawCorner(canvas);
+						isCornerHovered = true;
+					}
 				}
+			}
+			// draw outline of hovered
+			if(_isHovered == true || isCornerHovered == true) {
+				canvas.stroke(0, 255, 0);
+				canvas.strokeWeight(1.5f);
+				canvas.fill(255, 40);
+				canvas.beginShape();
+				canvas.vertex(_points[0].x, _points[0].y);
+				canvas.vertex(_points[1].x, _points[1].y);
+				canvas.vertex(_points[2].x, _points[2].y);
+				canvas.vertex(_points[3].x, _points[3].y);
+				canvas.vertex(_points[0].x, _points[0].y);
+				canvas.endShape();
+				canvas.noStroke();
+				canvas.fill(255);
 			}
 		}
 	}
@@ -162,25 +229,79 @@ public class PGraphicsKeystone {
 		_mousePoint.setLocation( event.getX(), event.getY() );
 		switch (event.getAction()) {
 			case MouseEvent.PRESS:
-				for( int i=0; i < _points.length; i++ ) {
-					if( _points[i].distance( _mousePoint.x, _mousePoint.y ) < 30 ) {
-						_draggingPoint = _points[i]; 
+				if(DRAGGING_POINT == null) {
+					for( int i=0; i < _points.length; i++ ) {
+						if( _points[i].distance( _mousePoint.x, _mousePoint.y ) < mouseActiveDist ) {
+							DRAGGING_POINT = _points[i]; 
+						}
+					}
+				}
+				if(DRAGGING_QUAD == null && DRAGGING_POINT == null) {
+					if(_isHovered == true) {
+						DRAGGING_QUAD = this;
+						_mouseDragged.setLocation(_mousePoint.x, _mousePoint.y);
 					}
 				}
 				break;
 			case MouseEvent.RELEASE:
-				_draggingPoint = null;
+				DRAGGING_POINT = null;
+				DRAGGING_QUAD = null;
 				if(filePath != null) writeToFile();
 				break;
 			case MouseEvent.MOVE:
 				lastMouseTime = P.p.millis();
+				_isHovered = inside(_mousePoint, _points);
 				break;
 			case MouseEvent.DRAG:
 				lastMouseTime = P.p.millis();
-				if( _draggingPoint != null ) {
-					_draggingPoint.setLocation( _mousePoint );
+				if( DRAGGING_POINT != null ) {
+					DRAGGING_POINT.setLocation( _mousePoint );
+				}
+				if(DRAGGING_QUAD == this) {
+					_mouseDragged.setLocation(_mousePoint.x - _mouseDragged.x, _mousePoint.y - _mouseDragged.y);
+					for( int i=0; i < _points.length; i++ ) {
+						_points[i].translate(_mouseDragged.x, _mouseDragged.y);
+					}
+					_mouseDragged.setLocation(_mousePoint.x, _mousePoint.y);
 				}
 				break;
+		}
+	}
+	
+	protected boolean inside(Point point, Point[] vertices) {
+	    // ray-casting algorithm based on
+	    // http://www.ecse.rpi.edu/Homepages/wrf/Research/Short_Notes/pnpoly.html
+		// https://github.com/substack/point-in-polygon
+	    float x = point.x;
+	    float y = point.y;
+
+	    boolean inside = false;
+	    for (int i = 0, j = vertices.length - 1; i < vertices.length; j = i++) {
+	        float xi = vertices[i].x, yi = vertices[i].y;
+	        float xj = vertices[j].x, yj = vertices[j].y;
+	        boolean intersect = ((yi > y) != (yj > y)) && (x < (xj - xi) * (y - yi) / (yj - yi) + xi);
+	        if (intersect) inside = !inside;
+	    }
+
+	    return inside;
+	};
+	
+	public void keyEvent(KeyEvent e) {
+		if(e.getAction() == KeyEvent.PRESS) {
+			lastMouseTime = P.p.millis();
+			Point translatePoint = new Point(0, 0);
+			if(e.getKeyCode() == P.UP) translatePoint.setLocation(0, -1);
+			if(e.getKeyCode() == P.LEFT) translatePoint.setLocation(-1, 0);
+			if(e.getKeyCode() == P.RIGHT) translatePoint.setLocation(1, 0);
+			if(e.getKeyCode() == P.DOWN) translatePoint.setLocation(0, 1);
+			
+			if(DRAGGING_POINT == _points[0] || DRAGGING_POINT == _points[1] || DRAGGING_POINT == _points[2] || DRAGGING_POINT == _points[3]) {
+				DRAGGING_POINT.translate(translatePoint.x, translatePoint.y);
+			} else if(DRAGGING_QUAD == this) {
+				for( int i=0; i < _points.length; i++ ) {
+					_points[i].translate(translatePoint.x, translatePoint.y);
+				}
+			}
 		}
 	}
 	
@@ -194,9 +315,9 @@ public class PGraphicsKeystone {
 		for( int x=0; x <= pg.width + spacing2x; x += spacing) {
 			for( int y=0; y <= pg.height + spacing2x; y += spacing) {
 				if( ( x % spacing2x == 0 && y % spacing2x == 0 ) || ( x % spacing2x == spacing && y % spacing2x == spacing ) ) {
-					pg.fill(0, 200);
+					pg.fill(0, 160);
 				} else {
-					pg.fill(255, 200);
+					pg.fill(255, 160);
 				}
 				pg.rect(x,y,spacing,spacing);
 			}
