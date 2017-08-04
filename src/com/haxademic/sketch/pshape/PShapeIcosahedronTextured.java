@@ -46,7 +46,7 @@ extends PAppletHax {
 		texture = p.loadImage(FileUtil.getFile("images/jupiter-360.jpg"));
 		
 		// create icosahedron
-		shapeIcos = Icosahedron.createIcosahedron(p, 7, texture);
+		shapeIcos = Icosahedron.createIcosahedron(p.g, 7, texture);
 		PShapeUtil.scaleSvgToExtent(shapeIcos, p.height/4f);
 		
 		// sphere deformation shader. uses the sphere's texture as the displacement map

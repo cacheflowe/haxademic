@@ -2,12 +2,13 @@ package com.haxademic.core.draw.shapes;
 
 import java.util.ArrayList;
 
+import com.haxademic.core.app.P;
+
 import processing.core.PApplet;
+import processing.core.PGraphics;
 import processing.core.PImage;
 import processing.core.PShape;
 import processing.core.PVector;
-
-import com.haxademic.core.app.P;
 
 
 //ported to Processing 2.0b8 by Amnon Owed (10/05/2013)
@@ -132,11 +133,11 @@ public class Icosahedron {
 		return midpoint;
 	}
 
-	public static PShape createIcosahedron(PApplet p, int level, PImage img) {
+	public static PShape createIcosahedron(PGraphics pg, int level, PImage img) {
 		// the icosahedron is created with positions, normals and texture coordinates in the above class
 		Icosahedron ico = new Icosahedron(level);
-		p.textureMode(P.NORMAL); // set textureMode to normalized (range 0 to 1);
-		PShape mesh = p.createShape(); // create the initial PShape
+		pg.textureMode(P.NORMAL); // set textureMode to normalized (range 0 to 1);
+		PShape mesh = pg.createShape(); // create the initial PShape
 
 		mesh.beginShape(P.TRIANGLES); // define the PShape type: TRIANGLES
 		mesh.strokeWeight(0);

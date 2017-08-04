@@ -72,7 +72,7 @@ extends PAppletHax {
 	
 	protected PShapeSolid newSolidIcos(float size, PImage texture) {
 		PShape group = createShape(GROUP);
-		PShape icos = Icosahedron.createIcosahedron(p, 4, texture);
+		PShape icos = Icosahedron.createIcosahedron(p.g, 4, texture);
 		PShapeUtil.scaleSvgToExtent(icos, size);
 		group.addChild(icos);
 		return new PShapeSolid(group);
