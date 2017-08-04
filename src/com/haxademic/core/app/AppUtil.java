@@ -1,9 +1,5 @@
 package com.haxademic.core.app;
 
-import java.awt.image.BufferedImage;
-
-import com.apple.eawt.Application;
-
 import processing.core.PApplet;
 import processing.core.PImage;
 
@@ -31,20 +27,20 @@ public class AppUtil {
 
 	public static void setAppToDockIcon(PApplet p) {
 		if(System.getProperty("os.name").contains("Mac OS") == false) return;
-		Application application = Application.getApplication();
-		application.setDockIconImage((BufferedImage)p.get().getNative());
+//		Application application = Application.getApplication();
+//		application.setDockIconImage((BufferedImage)p.get().getNative());
 	}
 	
 	public static void setPImageToDockIcon(PImage img) {
 		if(System.getProperty("os.name").contains("Mac OS") == false) return;
-		Application application = Application.getApplication();
-		application.setDockIconImage((BufferedImage)img.get().getNative());
+//		Application application = Application.getApplication();
+//		application.setDockIconImage((BufferedImage)img.get().getNative());
 	}
 	
 	public static void requestForeground(final PApplet p) {
 		if(System.getProperty("os.name").contains("Mac OS") == false) return;
-		Application application = Application.getApplication();
-		application.requestForeground(true);
+//		Application application = Application.getApplication();
+//		application.requestForeground(true);
 		
 		
 		if(p.frame != null) {
