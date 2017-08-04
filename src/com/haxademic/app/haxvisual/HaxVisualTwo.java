@@ -22,7 +22,6 @@ import com.haxademic.app.haxmapper.textures.TextureShaderTimeStepper;
 import com.haxademic.app.haxmapper.textures.TextureSphereAudioTextures;
 import com.haxademic.app.haxmapper.textures.TextureSphereRotate;
 import com.haxademic.app.haxmapper.textures.TextureStarTrails;
-import com.haxademic.app.haxmapper.textures.TextureSvgPattern;
 import com.haxademic.app.haxmapper.textures.TextureTwistingSquares;
 import com.haxademic.app.haxmapper.textures.TextureVectorFieldEQ;
 import com.haxademic.app.haxmapper.textures.TextureWaveformCircle;
@@ -180,7 +179,7 @@ extends PAppletHax {
 	// keystonable screen
 	protected PGraphics _pg;
 	protected PGraphicsKeystone _pgPinnable;
-	protected float scaleDownPG = 2f;
+	protected float scaleDownPG = 1f;
 	protected static boolean SECOND_SCREEN = false;
 
 	protected void overridePropsFile() {
@@ -1009,7 +1008,7 @@ extends PAppletHax {
 //		_fgTexturePool.add( new TextureScrollingColumns( textureW, textureH ));
 		_fgTexturePool.add( new TextureSphereRotate( textureW, textureH ));
 		_fgTexturePool.add( new TextureStarTrails( textureW, textureH ));
-		_fgTexturePool.add( new TextureSvgPattern( textureW, textureH ));
+//		_fgTexturePool.add( new TextureSvgPattern( textureW, textureH ));
 		_fgTexturePool.add( new TextureTwistingSquares( textureW, textureH ));
 		_fgTexturePool.add( new TextureVectorFieldEQ( textureW, textureH ) );
 		_fgTexturePool.add( new TextureWaveformSimple( textureW, textureH ));
