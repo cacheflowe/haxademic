@@ -35,6 +35,7 @@ public class PGraphicsKeystone {
 	protected Point _mouseDragged = new Point();
 	
 	protected String filePath = null;
+	protected boolean writesToFile = false;
 	
 	protected int lastMouseTime = 0;
 
@@ -50,6 +51,7 @@ public class PGraphicsKeystone {
 		this(p, pg, subDivideSteps);
 		if(filePath != null) {
 			this.filePath = filePath;
+			writesToFile = true;
 			loadMappingFile();
 			createMappingFile();
 		}
@@ -98,6 +100,10 @@ public class PGraphicsKeystone {
 		_points = new Point[] { _topLeft, _topRight, _bottomRight, _bottomLeft };
 		// save if we have a file
 		if(this.filePath != null) writeToFile();
+	}
+	
+	public void enableFileWriting(boolean writes) {
+		writesToFile = writes;
 	}
 
 	public void update( PGraphics canvas, boolean subdivide ) {
@@ -326,6 +332,7 @@ public class PGraphicsKeystone {
 	}
 
 	protected void writeToFile() {
+		if(writesToFile == false) return;
 		String coordsStr = String.join(",", new String[] {
 			Integer.toString(_topLeft.x),
 			Integer.toString(_topLeft.y),
