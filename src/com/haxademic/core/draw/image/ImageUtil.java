@@ -262,7 +262,7 @@ public class ImageUtil {
 				}
 			}			
 		}
-		P.println("low res bounds:", bounds);
+		if(debug) P.println("low res bounds:", bounds);
 		
 		// create boundary padded by spacing to search within
 		int refineX = P.max(0, bounds.x - searchSpacing);
