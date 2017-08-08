@@ -47,6 +47,14 @@ public class StringFormatter {
 		return str.replaceAll("[^A-Za-z0-9.]", "");
 	}
 	
+	public static String toAlphaNumericCharsNoDecimal(String str) {
+		return str.replaceAll("[^A-Za-z0-9]", "");
+	}
+	
+	public static String toAlphaNumericCharsWithSpaces(String str) {
+		return str.replaceAll("[^A-Za-z0-9\\s]", "");
+	}
+	
 	public static String toNumericChars(String str) {
 		return str.replaceAll("[^0-9.-]", "");
 	}
