@@ -26,7 +26,7 @@ public class StringFormatter {
 		int h  = (int) Math.floor(seconds / 3600f);
 		int m  = (int) Math.floor(seconds % 3600f / 60f);
 		int s  = (int) Math.floor(seconds % 3600f % 60);
-		int ms = (int) Math.floor(millis % 100);
+		int ms = (int) Math.floor((millis % 1000)/10);
 		String hStr = (h < 10 ? "0" : "") + h;
 		String mStr = (m < 10 ? "0" : "") + m;
 		String sStr = (s < 10 ? "0" : "") + s;
