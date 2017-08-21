@@ -4,6 +4,7 @@ public class EasingFloat
 implements IEasingValue {
 	
 	public float _val, _target, _easeFactor, _speed;
+	protected int _delay = 0;
 	protected float COMPLETE_THRESHOLD = 0.001f;
 		   
 	public EasingFloat( float value, float easeFactor ) {
@@ -11,6 +12,7 @@ implements IEasingValue {
 		_target = value;
 		_easeFactor = easeFactor;
 		_speed = 0f;
+		_delay = 0;
 	}
 	
 	public float value() {
@@ -34,12 +36,17 @@ implements IEasingValue {
 		_easeFactor = value;
 	}
 	
+	public void setDelay( int frames ) {
+		_delay = frames;
+	}
+	
 	public void setCompleteThreshold( float value ) {
 		COMPLETE_THRESHOLD = value;
 	}
 	
 	public void update() {
 		if(_val == _target) return;
+		if(_delay > 0) { _delay--; return; }
 		_val += (_target - _val ) / _easeFactor;
 		checkThreshold();
 	}
