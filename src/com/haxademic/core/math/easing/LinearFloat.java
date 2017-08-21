@@ -4,11 +4,13 @@ public class LinearFloat
 implements IEasingValue {
 
 	public float _val, _target, _inc;
+	public int _delay;
 		   
 	public LinearFloat( float value, float inc ) {
 		_val = value;
 		_target = value;
 		_inc = inc;
+		_delay = 0;
 	}
 	
 	public float value() {
@@ -31,7 +33,12 @@ implements IEasingValue {
 		_inc = value;
 	}
 	
+	public void setDelay( int frames ) {
+		_delay = frames;
+	}
+	
 	public void update() {
+		if( _delay > 0 ) { _delay--; return; }
 		if( _val != _target ) {
 			boolean switchedSides = false;
 			if( _val < _target ) {
