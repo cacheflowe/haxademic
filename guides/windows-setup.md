@@ -93,6 +93,18 @@
   * Open Java app from Start Menu and disable from there
   * Open the system Task Manager (ctrl + alt + delete), go to the Startup tab, and disable java updater on startup
 
-Additional steps:
-* BIOS settings to resume after power loss
-* http://www.evsc.net/tech/prep-windows-machine-for-fulltime-exhibition-setup
+* Additional steps:
+  * BIOS settings to resume after power loss
+  * http://www.evsc.net/tech/prep-windows-machine-for-fulltime-exhibition-setup
+
+* Scripting help:
+  * Set a timeout: `timeout 15 > NUL`
+  * Set a timeout with a visible countdown: `timeout 15`
+  * Reference User directory: `C:%HOMEPATH%\Documents\`
+  * Remove Apple files from current dir: `del /s /q *.DS_Store`
+  * Add script to system startup:
+    * Windows Key + R
+    * `shell:startup`
+    * Copy alias into Startup folder
+  * Add custom icon to script:
+    * Make a shortcut -> right-click -> Properties -> Change Icon...
