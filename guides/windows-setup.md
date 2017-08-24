@@ -36,6 +36,8 @@
           * USB settings -> Selective suspend -> Plugged in -> Disabled
   * Turn off screensaver: Control Panel -> Appearance and Personalization -> Change Screen Saver
   * Settings -> Personalization -> Home -> Start -> Turn off: "Occasionally show suggestions in Start"
+  * Turn off system sounds:
+    * Settings -> Personalization -> Themes -> Sounds -> Sound Scheme -> No Sounds
   * Turn off notifications:
     * Settings -> System -> Notifications & actions
     * Settings -> Privacy -> Notifications -> Turn off "Let apps access my notifications"
