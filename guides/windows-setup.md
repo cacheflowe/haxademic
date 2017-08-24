@@ -102,6 +102,9 @@
   * Set a timeout with a visible countdown: `timeout 15`
   * Reference User directory: `C:%HOMEPATH%\Documents\`
   * Remove Apple files from current dir: `del /s /q *.DS_Store`
+  * List running tasks: `tasklist`
+  * Kill a task by .exe: `Taskkill /IM javaw.exe /F`
+  * Kill a task by id: `Taskkill /PID 26356 /F`
   * Add script to system startup:
     * Windows Key + R
     * `shell:startup`
