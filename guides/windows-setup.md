@@ -86,16 +86,15 @@
   * Latest GeForce drivers
   * Processing
 
-* Increase memory for Eclipse in eclipse.ini
-
 * Disable Java updates:
   * Find the Java icon in the system taskbar from the up arrow on the right and disable
   * Open Java app from Start Menu and disable from there
   * Open the system Task Manager (ctrl + alt + delete), go to the Startup tab, and disable java updater on startup
 
-* Additional steps:
+  Additional steps:
   * BIOS settings to resume after power loss
   * http://www.evsc.net/tech/prep-windows-machine-for-fulltime-exhibition-setup
+  * https://github.com/morphogencc/ofxWindowsSetup
 
 * Scripting help:
   * Set a timeout: `timeout 15 > NUL`
