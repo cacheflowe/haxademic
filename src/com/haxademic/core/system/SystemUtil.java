@@ -1,7 +1,11 @@
 package com.haxademic.core.system;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+
+import javax.swing.Timer;
 
 import com.haxademic.core.app.P;
 
@@ -33,6 +37,12 @@ public class SystemUtil {
 
 	public static String getTimestampFine( PApplet p ) {
 		return SystemUtil.getTimestamp(p) + "-" + P.nf( p.frameCount, 8 ); 
+	}
+	
+	public static void setTimeout(ActionListener callback, int delay) {
+		Timer deferredStateTimer = new Timer(delay, callback);
+		deferredStateTimer.setRepeats(false);
+		deferredStateTimer.start();
 	}
 	
 	public static void printRunningProcesses() {
