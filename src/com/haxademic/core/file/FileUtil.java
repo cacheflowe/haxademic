@@ -227,11 +227,13 @@ public class FileUtil {
 	 * @param text Text to write to the file
 	 */
 	public static final void writeTextToFile( String file, String text ) {
-		try {
-			BufferedWriter writer = new BufferedWriter(new FileWriter(file));
-            writer.write( text );
-            writer.close();
-		} catch (IOException e) { e.printStackTrace(); }
+		new Thread(new Runnable() { public void run() {
+			try {
+				BufferedWriter writer = new BufferedWriter(new FileWriter(file));
+	            writer.write( text );
+	            writer.close();
+			} catch (IOException e) { e.printStackTrace(); }
+		}}).start();
 	}
 	
 	/**
