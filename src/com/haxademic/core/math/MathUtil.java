@@ -14,6 +14,10 @@ import processing.core.PVector;
  */
 public class MathUtil {
 	
+	public static float scaleToTarget(float val, float target) {
+		return target / val;
+	}
+	
 	/**
 	 * Return the eased value of a value towards a destination, with a given easing factor
 	 * @param current		current value being eased towards target
