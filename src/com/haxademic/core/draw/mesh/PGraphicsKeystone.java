@@ -37,6 +37,7 @@ public class PGraphicsKeystone {
 	protected String filePath = null;
 	protected boolean writesToFile = false;
 	
+	protected boolean mouseShows = true;
 	protected int lastMouseTime = 0;
 
 	public PGraphicsKeystone( PApplet p, PGraphics pg, float subDivideSteps ) {
@@ -106,6 +107,10 @@ public class PGraphicsKeystone {
 		writesToFile = writes;
 	}
 
+	public void showMouse(boolean shows) {
+		mouseShows = shows;
+	}
+	
 	public void update( PGraphics canvas, boolean subdivide ) {
 		update(canvas, subdivide, pg);
 	}
@@ -188,7 +193,7 @@ public class PGraphicsKeystone {
 		canvas.endShape();
 		
 		// for debugging
-		showMouse(canvas);
+		if(mouseShows) showMouse(canvas);
 	}
 	
 	protected float interp( float lower, float upper, float n ) {
