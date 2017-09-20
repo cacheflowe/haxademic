@@ -1059,7 +1059,7 @@ extends PAppletHax {
 		_fgTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "cacheflowe-scrolling-radial-twist.glsl" ));
 		_fgTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "cacheflowe-squound-tunnel.glsl" ));
 		_fgTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "cacheflowe-stripe-waves.glsl" ));
-		_fgTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "cacheflowe-triangle-wobble-stairs.glsl" ));
+//		_fgTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "cacheflowe-triangle-wobble-stairs.glsl" ));
 		_fgTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "cacheflowe-warp-vortex.glsl" ));
 
 		
