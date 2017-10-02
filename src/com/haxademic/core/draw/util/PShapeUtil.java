@@ -79,34 +79,54 @@ public class PShapeUtil {
 		s.scale(newExtent/modelExtent);
 	}
 	
-//	/**
-//	 * Finds the maximum vertex extent to translate and center the children
-//	 * @param s
-//	 * @return
-//	 */
-//	public static void centerSvg(PShape s) {
-//		float[] extents = {0,0,0,0,0,0};
-//		PShape tellel = s.getTessellation();
-//		checkShapeExtents(tellel, extents);
-//		P.println("extents: ",extents[0],extents[1],extents[2],extents[3],extents[4],extents[5]);
-//	}
-//	
-//	public static void checkShapeExtents(PShape s, float[] extents) {
-//		for (int i = 0; i < s.getVertexCount(); i++) {
-//			PVector vertex = s.getVertex(i);
-//			if(extents[0] == 0 || vertex.x < extents[0]) extents[0] = vertex.x;
-//			if(extents[1] == 0 || vertex.x > extents[1]) extents[1] = vertex.x;
-//			if(extents[2] == 0 || vertex.y < extents[2]) extents[2] = vertex.y;
-//			if(extents[3] == 0 || vertex.y > extents[3]) extents[3] = vertex.y;
-//			if(extents[4] == 0 || vertex.z < extents[4]) extents[4] = vertex.z;
-//			if(extents[5] == 0 || vertex.z > extents[5]) extents[5] = vertex.z;
-//		}
-//		for (int i = 0; i < s.getChildCount(); i++) {
-//			PShape subShape = s.getChild(i);
-////			P.println("subShape", subShape.getWidth(), subShape.getHeight());
-//			checkShapeExtents(subShape, extents);
-//		}
-//	}
+	/**
+	 * Finds the maximum vertex extent to translate and center the children
+	 * @param s
+	 * @return
+	 */
+	public static void centerSvg(PShape s) {
+		float[] extents = {0,0,0,0,0,0};
+//		PShape tessel = s.getTessellation();
+		checkShapeExtents(s, extents);
+		P.println("extents: ",extents[0],extents[1],extents[2],extents[3],extents[4],extents[5]);
+		float offsetX = centerOffsetFromExtents(extents[0], extents[1]);
+		float offsetY = centerOffsetFromExtents(extents[2], extents[3]);
+		float offsetZ = centerOffsetFromExtents(extents[4], extents[5]);
+		offsetShapeVertices(s, offsetX, offsetY, offsetZ);
+		checkShapeExtents(s, extents);
+		P.println("extents: ",extents[0],extents[1],extents[2],extents[3],extents[4],extents[5]);
+	}
+	
+	public static float centerOffsetFromExtents(float min, float max) {
+		return -max+(max-min)/2f;
+	}
+	
+	public static void checkShapeExtents(PShape s, float[] extents) {
+		for (int i = 0; i < s.getVertexCount(); i++) {
+			PVector vertex = s.getVertex(i);
+			if(extents[0] == 0 || vertex.x < extents[0]) extents[0] = vertex.x;
+			if(extents[1] == 0 || vertex.x > extents[1]) extents[1] = vertex.x;
+			if(extents[2] == 0 || vertex.y < extents[2]) extents[2] = vertex.y;
+			if(extents[3] == 0 || vertex.y > extents[3]) extents[3] = vertex.y;
+			if(extents[4] == 0 || vertex.z < extents[4]) extents[4] = vertex.z;
+			if(extents[5] == 0 || vertex.z > extents[5]) extents[5] = vertex.z;
+		}
+		for (int i = 0; i < s.getChildCount(); i++) {
+			PShape subShape = s.getChild(i);
+			checkShapeExtents(subShape, extents);
+		}
+	}
+	
+	public static void offsetShapeVertices(PShape s, float xOffset, float yOffset, float zOffset) {
+		for (int i = 0; i < s.getVertexCount(); i++) {
+			PVector vertex = s.getVertex(i);
+			s.setVertex(i, vertex.x + xOffset, vertex.y + yOffset, vertex.z + zOffset);
+		}
+		for (int i = 0; i < s.getChildCount(); i++) {
+			PShape subShape = s.getChild(i);
+			offsetShapeVertices(subShape, xOffset, yOffset, zOffset);
+		}
+	}
 	
 	/**
 	 * Finds the maximum size in any given direction. A basic but crappy way to figure out PShape size
