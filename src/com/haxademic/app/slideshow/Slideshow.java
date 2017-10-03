@@ -42,7 +42,7 @@ extends PAppletHax
 	protected int BUFFER_H = 896;
 	
 	// CONFIG
-	public static boolean FULLSCREEN = false;	
+	public static boolean FULLSCREEN = true;	
 	public static boolean DEBUG_MODE = false;
 	protected int LOADING_INTERVAL = 5;
 	protected int STRESS_INTERVAL = 5 * 60;
@@ -86,13 +86,21 @@ extends PAppletHax
 
 	public void settings() {
 		super.settings();
-		//fullScreen(2);
+		// fullScreen(2);
 	}
 
 	public void setup() {
 		super.setup();
 	}
 
+	protected void setScreenPosition() {
+//		if(p.appConfig.getInt("screen_x", -1) != -1) {
+			surface.setSize(1920, 1080);
+			surface.setLocation(1920, 0);  // location has to happen after size, to break it out of fullscreen
+//			surface.setAlwaysOnTop(true);
+//		}	
+	}
+	
 	protected void initObjects() {
 		MouseShutdown.instance();
 		brightnessBumper = new BrightnessBumper();
@@ -177,12 +185,14 @@ extends PAppletHax
 		String[] imagesAndDirs = getFilesAndDirsInDir(imagesPath);
 		for (int i = 0; i < imagesAndDirs.length; i++) {
 			String fileName = imagesAndDirs[i];
-			P.println(fileName);
-			SlideImage newSlide = new SlideImage(fileName, slideImages.size());
-			slideImages.add(newSlide);
-			if(fileName.indexOf("background") == -1) slideImagesFg.add(newSlide);
-			else slideImagesBg.add(newSlide);
-			appStore.registerStatable(newSlide);
+			if(fileName.indexOf("\\._") == -1) {
+				P.println(fileName);
+				SlideImage newSlide = new SlideImage(fileName, slideImages.size());
+				slideImages.add(newSlide);
+				if(fileName.indexOf("background") == -1) slideImagesFg.add(newSlide);
+				else slideImagesBg.add(newSlide);
+				appStore.registerStatable(newSlide);
+			}
 		}
 	}
 
@@ -276,8 +286,9 @@ extends PAppletHax
 	public void drawApp() {
 		// deferred init
 		if(p.frameCount == 1) initObjects();
-		if(p.frameCount == 2) AppUtil.setTitle(p, "Slideshow");
-		if(p.frameCount == 3) DrawUtil.setDrawFlat2d(buffer, true);
+//		if(p.frameCount == 100) setScreenPosition();
+//		if(p.frameCount == 2) AppUtil.setTitle(p, "Slideshow");
+//		if(p.frameCount == 3) DrawUtil.setDrawFlat2d(buffer, true);
 		
 		// auto cycle slides
 		if(p.frameCount % LOADING_INTERVAL == 0 && preloaded == false) nextSlide();

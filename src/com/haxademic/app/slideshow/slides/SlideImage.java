@@ -166,6 +166,7 @@ implements IAppStoreUpdatable {
 		if(titleIndex != -1) {
 			title = imagePath.substring(titleIndex).split("-")[1];
 			title = title.replaceAll("_", " ");
+			title = title.replaceAll("qqq", "?");
 			title = title.replaceAll("newline", newline);
 		}
 	}
