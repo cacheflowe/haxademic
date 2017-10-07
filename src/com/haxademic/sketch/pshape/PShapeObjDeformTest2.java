@@ -40,7 +40,9 @@ extends PAppletHax {
 
 	public void setup() {
 		super.setup();	
-
+	}
+	
+	protected void firstFrameSetup() {
 		// load texture
 		img = p.loadImage(FileUtil.getFile("images/justin-spike-portrait-02-smaller.png"));
 		
@@ -65,6 +67,8 @@ extends PAppletHax {
 	}
 
 	public void drawApp() {
+		if(p.frameCount == 1) firstFrameSetup();
+		
 		p.pushMatrix();
 		background(0);
 		

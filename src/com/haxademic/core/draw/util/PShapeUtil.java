@@ -52,6 +52,9 @@ public class PShapeUtil {
 	 * @param outerExtent
 	 */
 	public static void addTextureUVToObj(PShape s, PImage img, float outerExtent) {
+		addTextureUVToObj(s, img, outerExtent, true);
+	}
+	public static void addTextureUVToObj(PShape s, PImage img, float outerExtent, boolean xyMapping) {
 		s.setStroke(false);
 		s.setFill(255);
 		s.setTextureMode(P.NORMAL);
@@ -59,9 +62,10 @@ public class PShapeUtil {
 			for (int i = 0; i < s.getChild(j).getVertexCount(); i++) {
 				PShape subShape = s.getChild(j);
 				PVector v = subShape.getVertex(i);
+				float uX = (xyMapping == true) ? v.x : v.z;
 				subShape.setTextureUV(
 						i, 
-						P.map(v.x, -outerExtent, outerExtent, 0, 1f), 
+						P.map(uX, -outerExtent, outerExtent, 0, 1f), 
 						P.map(v.y, outerExtent, -outerExtent, 0, 1f)
 				);
 			}
@@ -179,12 +183,25 @@ public class PShapeUtil {
 			for (int i = 0; i < s.getChild(j).getVertexCount(); i++) {
 				PShape subShape = s.getChild(j);
 				PVector vertex = subShape.getVertex(i);
-				if(vertex.x > outermostVertex) outermostVertex = vertex.x;
-				if(vertex.y > outermostVertex) outermostVertex = vertex.y;
-				if(vertex.z > outermostVertex) outermostVertex = vertex.z;
+				if(P.abs(vertex.x) > outermostVertex) outermostVertex = P.abs(vertex.x);
+				if(P.abs(vertex.y) > outermostVertex) outermostVertex = P.abs(vertex.y);
+				if(P.abs(vertex.z) > outermostVertex) outermostVertex = P.abs(vertex.z);
 			}
 		}
 		return outermostVertex;
+	}
+	
+	public static float getObjHeight(PShape s) {
+		// find mesh size height. this should only be used after centering the mesh
+		float outermostVertex = 0;
+		for (int j = 0; j < s.getChildCount(); j++) {
+			for (int i = 0; i < s.getChild(j).getVertexCount(); i++) {
+				PShape subShape = s.getChild(j);
+				PVector vertex = subShape.getVertex(i);
+				if(P.abs(vertex.y) > outermostVertex) outermostVertex = P.abs(vertex.y);
+			}
+		}
+		return outermostVertex * 2f;
 	}
 	
 	/**
@@ -234,7 +251,7 @@ public class PShapeUtil {
 	 */
 	public static void drawTrianglesWithTexture(PGraphics p, PShape s, PImage img, float scale) {
 		p.fill(255);
-		P.println(s.getChildCount());
+//		P.println(s.getChildCount());
 		p.beginShape(PConstants.TRIANGLES);
 		p.texture(img);
 		p.textureMode(PConstants.NORMAL);

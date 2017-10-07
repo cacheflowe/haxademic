@@ -71,7 +71,8 @@ public class PShapeSolid {
 			for (int i = 0; i < shape.getChild(j).getVertexCount(); i++) {
 				int sharedVertexIndex = sharedVertexIndices.get(vertexIndex);
 				PVector vOrig = vertices.get(vertexIndex);
-				float amp = 1 + 10.5f * P.p._audioInput.getFFT().spectrum[ P.floor(_spectrumInterval * sharedVertexIndex) ]; // get shared vertex deformation
+				// float amp = 1 + 10.5f * P.p._audioInput.getFFT().spectrum[ P.floor(_spectrumInterval * sharedVertexIndex) ]; // get shared vertex deformation
+				float amp = 1 + 10.5f * P.p._audioInput.getFFT().spectrum[ (P.round((float)P.p.frameCount/10f) + P.floor(_spectrumInterval * sharedVertexIndex)) % P.p._audioInput.getFFT().spectrum.length ]; // moving starting vertex
 //				float amp = 1 + 0.1f * P.p.audioIn.getEqAvgBand( P.floor(_spectrumInterval * sharedVertexIndex) ); // get shared vertex deformation
 				shape.getChild(j).setVertex(i, vOrig.x * amp, vOrig.y * amp, vOrig.z * amp);
 				vertexIndex++;
@@ -89,7 +90,8 @@ public class PShapeSolid {
 //				P.println("shape.getChild(j).getVertexCount()", shape.getChild(j).getVertexCount());
 				int sharedVertexIndex = sharedVertexIndices.get(vertexIndex);
 				PVector vOrig = vertices.get(vertexIndex);
-				float amp = 0 + 10.5f * P.p._audioInput.getFFT().spectrum[ P.floor(_spectrumInterval * sharedVertexIndex) ]; // get shared vertex deformation
+//				float amp = 0 + 200f * P.p._audioInput.getFFT().spectrum[ P.floor(_spectrumInterval * sharedVertexIndex) ]; // get shared vertex deformation
+				float amp = 0 + 500f * P.p._audioInput.getFFT().spectrum[ (P.round((float)P.p.frameCount/100f) + P.floor(_spectrumInterval * sharedVertexIndex)) % P.p._audioInput.getFFT().spectrum.length ]; // get shared vertex deformation
 //				float amp = 1 + 0.1f * P.p.audioIn.getEqAvgBand( P.floor(_spectrumInterval * sharedVertexIndex) ); // get shared vertex deformation
 				PVector normal = normals.get(vertexIndex);
 				normalTemp.set(normal).mult(amp);
