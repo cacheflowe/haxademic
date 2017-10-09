@@ -1,4 +1,4 @@
-package com.haxademic.sketch.test;
+package com.haxademic.sketch.screen;
 
 import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
