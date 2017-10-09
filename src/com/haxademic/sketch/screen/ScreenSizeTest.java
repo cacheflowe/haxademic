@@ -17,11 +17,11 @@ extends PAppletHax {
 
 	protected void overridePropsFile() {
 		p.appConfig.setProperty( AppSettings.FPS, 90 );
-		setScreenSize();
+		// setScreenSize();
 		// setFullscreen();
 		// setFullscreenSpecificMonitor();
 		// setFillAllScreens();
-		// setUndecoratedWithScreenPosition(false);
+		setUndecoratedWithScreenPosition(true);
 	}
 
 	protected void setScreenSize() {
@@ -56,7 +56,6 @@ extends PAppletHax {
 
 	public void setup() {
 		super.setup();	
-		p.smooth( OpenGLUtil.SMOOTH_HIGH );
 	}
 
 	public void drawApp() {
@@ -67,7 +66,6 @@ extends PAppletHax {
 		
 		_easingX.setTarget(p.mouseX);
 		_easingY.setTarget(p.mouseY);
-		int bottomVal = P.round(p.frameCount * 0.01f) % 2;
 
 		_easingX.update();
 		_easingY.update();
