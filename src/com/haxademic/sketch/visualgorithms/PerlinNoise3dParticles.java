@@ -220,9 +220,13 @@ extends PAppletHax {
 			// draw trail
 			float newAmp = 0.3f + p._audioInput.getFFT().averages[index % p._audioInput.getFFT().averages.length];
 			if(newAmp > amp) amp = newAmp;
-			else amp *= 0.98f;
+			else amp *= 0.8f;
+			
+			float startSize = amp * 10f;
+			float shrinkInc = startSize / (float)trail.length;
+			
 			for (int i = 0; i < trail.length - 1; i++) {
-				p.strokeWeight(amp * 2f - 0.1f * (float)i);
+				p.strokeWeight(startSize - shrinkInc * (float)i);
 //				BoxBetween.draw(p, trail[i], trail[i+1], 4f);
 //				P.println(i, trail[i].x, trail[i+1].x);
 				p.line(trail[i].x, trail[i].y, trail[i].z, trail[i+1].x, trail[i+1].y, trail[i+1].z);
