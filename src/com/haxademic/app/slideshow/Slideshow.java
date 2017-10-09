@@ -75,7 +75,6 @@ extends PAppletHax
 		p.appConfig.setProperty( AppSettings.WIDTH, 1280 );
 		p.appConfig.setProperty( AppSettings.HEIGHT, 720 );
 		p.appConfig.setProperty( AppSettings.RETINA, false );
-		p.appConfig.setProperty( AppSettings.SHOW_STATS, false );
 		p.appConfig.setProperty( AppSettings.AUDIO_DEBUG, true );
 		p.appConfig.setProperty( AppSettings.FILLS_SCREEN, false );
 		p.appConfig.setProperty( AppSettings.FULLSCREEN, FULLSCREEN );

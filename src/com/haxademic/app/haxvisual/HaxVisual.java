@@ -20,7 +20,7 @@ import com.haxademic.app.haxvisual.viz.modules.Toxi;
 import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.debug.DebugText;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.image.ScreenUtil;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.midi.MidiWrapper;
@@ -69,7 +69,7 @@ extends PAppletHax
 	/**
 	 * Helps us draw text to the screen when needed.
 	 */
-	protected DebugText _debugText;
+	protected DebugView _debugText;
 	
 	/**
 	 * Initializes all the IVizModules that we've created.
@@ -110,7 +110,6 @@ extends PAppletHax
 //		p.appConfig.setProperty( AppSettings.AUDIO_DEBUG, false );
 //		p.appConfig.setProperty( AppSettings.MIDI_DEVICE_IN_INDEX, 0 );
 //		p.appConfig.setProperty( AppSettings.MIDI_DEBUG, true );
-//		p.appConfig.setProperty( AppSettings.SHOW_STATS, false );
 	}
 
 	

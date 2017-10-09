@@ -35,7 +35,6 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.WIDTH, "640" );
 		p.appConfig.setProperty( AppSettings.HEIGHT, "640" );
 		p.appConfig.setProperty( AppSettings.SMOOTHING, AppSettings.SMOOTH_HIGH );
-		p.appConfig.setProperty( AppSettings.SHOW_STATS, true );
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
 		p.appConfig.setProperty( AppSettings.RENDERING_GIF, "false" );
 		p.appConfig.setProperty( AppSettings.RENDERING_GIF_FRAMERATE, "40" );

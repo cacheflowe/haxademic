@@ -25,7 +25,6 @@ extends VectorFieldTest {
 		p.appConfig.setProperty( AppSettings.HEIGHT, 720 );
 		p.appConfig.setProperty( AppSettings.FULLSCREEN, true );
 		p.appConfig.setProperty( AppSettings.RETINA, false );
-		p.appConfig.setProperty( AppSettings.SHOW_STATS, false );
 		p.appConfig.setProperty( AppSettings.SMOOTHING, OpenGLUtil.SMOOTH_LOW);
 	}
 	

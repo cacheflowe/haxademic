@@ -19,7 +19,6 @@ extends PAppletHax {
 	
 	protected void overridePropsFile() {
 		p.appConfig.setProperty( AppSettings.FPS, 90 );
-		p.appConfig.setProperty( AppSettings.SHOW_STATS, true );
 		p.appConfig.setProperty( AppSettings.SMOOTHING, AppSettings.SMOOTH_NONE );
 	}
 

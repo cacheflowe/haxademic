@@ -35,7 +35,6 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.HEIGHT, 1000 );
 		p.appConfig.setProperty( AppSettings.FILLS_SCREEN, true );
 		p.appConfig.setProperty( AppSettings.FULLSCREEN, false );
-		p.appConfig.setProperty( AppSettings.SHOW_STATS, true );
 		p.appConfig.setProperty( AppSettings.SMOOTHING, AppSettings.SMOOTH_NONE );
 		p.appConfig.setProperty( AppSettings.MIDI_DEVICE_IN_INDEX, 0 );
 		p.appConfig.setProperty( AppSettings.MIDI_DEBUG, true );

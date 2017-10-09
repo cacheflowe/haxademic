@@ -9,7 +9,7 @@ import javax.sound.midi.InvalidMidiDataException;
 import com.haxademic.core.audio.AudioInputWrapper;
 import com.haxademic.core.audio.AudioInputWrapperMinim;
 import com.haxademic.core.audio.WaveformData;
-import com.haxademic.core.debug.DebugText;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.debug.DebugUtil;
 import com.haxademic.core.debug.Stats;
 import com.haxademic.core.draw.mesh.MeshPool;
@@ -156,13 +156,12 @@ extends PApplet
 	/**
 	 * Flag for showing stats
 	 */
-	public boolean _showStats;
+	public boolean showStats = false;
 
 	/**
 	 * Text for showing stats
 	 */
-	public DebugText _debugText;
-
+	public DebugView debugView;
 
 	/**
 	 * Graphical render mode
@@ -190,17 +189,6 @@ extends PApplet
 	 */
 	protected Boolean _isRenderingMidi = true;
 
-	// OVERRIDE THE FOLLOWING METHODS
-	/**
-	 * Called by PApplet to run before the first draw() command.
-	 */
-	public void setup () {
-		if(customPropsFile != null) DebugUtil.printErr("Make sure to load custom .properties files in settings()");
-		p.rendererMode = p.g.getClass().getName();
-		setAppletProps();
-		checkScreenManualPosition();
-	}
-	
 	public void settings() {
 		P.p = p = this;
 		AppUtil.setFrameBackground(p,0,0,0);
@@ -209,6 +197,18 @@ extends PApplet
 		setRenderer();
 		setSmoothing();
 		setRetinaScreen();
+	}
+	
+	/**
+	 * Called by PApplet to run before the first draw() command.
+	 */
+	public void setup () {
+		if(customPropsFile != null) DebugUtil.printErr("Make sure to load custom .properties files in settings()");
+		p.rendererMode = p.g.getClass().getName();
+		setAppletProps();
+		checkScreenManualPosition();
+		if(renderer != PRenderers.PDF) debugView = new DebugView( p );
+		_stats = new Stats( p );
 	}
 	
 	protected void loadAppConfig() {
@@ -279,6 +279,8 @@ extends PApplet
 			if ( p.key == ',' && _audioInput != null ) _audioInput.gainDown();
 			if ( p.key == '.' && audioIn != null ) audioIn.gainUp();
 			if ( p.key == ',' && audioIn != null ) audioIn.gainDown();
+			
+			if (p.key == '/') showStats = !showStats;
 		}
 	}
 
@@ -290,24 +292,26 @@ extends PApplet
 		if( _isRendering == true ) DebugUtil.printErr("When rendering, make sure to call super.keyPressed(); for esc key shutdown");
 		_isRenderingAudio = p.appConfig.getBoolean(AppSettings.RENDER_AUDIO, false);
 		_isRenderingMidi = p.appConfig.getBoolean(AppSettings.RENDER_MIDI, false);
-		_showStats = p.appConfig.getBoolean(AppSettings.SHOW_STATS, false);
 		_fps = p.appConfig.getInt(AppSettings.FPS, 60);
 		if(p.appConfig.getInt(AppSettings.FPS, 60) != 60) frameRate(_fps);
 		if( p.appConfig.getBoolean(AppSettings.HIDE_CURSOR, false) == true ) p.noCursor();
 	}
 	
 	protected void checkScreenManualPosition() {
-		if(p.appConfig.getBoolean(AppSettings.FULLSCREEN, false) == false) {
-			DebugUtil.printErr("Error: Manual screen positioning requires AppSettings.FULLSCREEN = true");
-			return;
-		}
+		boolean isFullscreen = p.appConfig.getBoolean(AppSettings.FULLSCREEN, false);
 		// check for additional screen_x params to manually place the screen
 		if(p.appConfig.getInt("screen_x", -1) != -1) {
+			if(isFullscreen == false) {
+				DebugUtil.printErr("Error: Manual screen positioning requires AppSettings.FULLSCREEN = true");
+				return;
+			}
 			surface.setSize(p.appConfig.getInt(AppSettings.WIDTH, 800), p.appConfig.getInt(AppSettings.HEIGHT, 600));
 			surface.setLocation(p.appConfig.getInt("screen_x", 0), p.appConfig.getInt("screen_y", 0));  // location has to happen after size, to break it out of fullscreen
 		}
 		// check for always on top
-		surface.setAlwaysOnTop(p.appConfig.getBoolean(AppSettings.ALWAYS_ON_TOP, true));
+		if(isFullscreen == true) {
+			surface.setAlwaysOnTop(p.appConfig.getBoolean(AppSettings.ALWAYS_ON_TOP, true));
+		}
 	}
 
 	/**
@@ -355,8 +359,6 @@ extends PApplet
 		joons = ( p.appConfig.getBoolean(AppSettings.SUNFLOW, false ) == true ) ?
 				new JoonsWrapper( p, width, height, ( p.appConfig.getString(AppSettings.SUNFLOW_QUALITY, "low" ) == AppSettings.SUNFLOW_QUALITY_HIGH ) ? JoonsWrapper.QUALITY_HIGH : JoonsWrapper.QUALITY_LOW, ( p.appConfig.getBoolean(AppSettings.SUNFLOW_ACTIVE, true ) == true ) ? true : false )
 				: null;
-		if(renderer != PRenderers.PDF) _debugText = new DebugText( p );
-		if( _showStats == true ) _stats = new Stats( p );
 		try { _robot = new Robot(); } catch( Exception error ) { println("couldn't init Robot for screensaver disabling"); }
 	}
 
@@ -395,16 +397,9 @@ extends PApplet
 	}
 
 	protected void showStats() {
-		if( _showStats == false ) return; 
+		if( showStats == false ) return; 
 		_stats.update();
-		_debugText.draw(new String[]{
-			"FPS: " + _stats.getFps() + " / " + p.frameRate,
-			"Memory Allocated: " + StringFormatter.formattedInteger(DebugUtil.memoryAllocated()),
-			"Memory Free: " + StringFormatter.formattedInteger(DebugUtil.memoryFree()),
-			"Memory Max: " + StringFormatter.formattedInteger(DebugUtil.memoryMax()),
-			"Frame: " + p.frameCount,
-			"Time: " + StringFormatter.timeFromSeconds(p.millis() / 1000, true),
-		});
+		debugView.draw();
 	}
 
 	protected void setAppDockIconAndTitle() {
