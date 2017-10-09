@@ -1,4 +1,4 @@
-package com.haxademic.sketch.hardware.webcam;
+package com.haxademic.sketch.visualgorithms;
 
 
 import com.haxademic.core.app.AppSettings;
