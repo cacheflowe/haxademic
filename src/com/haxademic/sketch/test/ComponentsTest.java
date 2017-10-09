@@ -48,7 +48,7 @@ extends PAppletHax {
 		loadAndSaveImagesFromDir();
 
 		// test async image loading
-		asyncLoader = new AsyncImageLoader(p, "http://cacheflowe.com/images/site-header-single.gif");
+		asyncLoader = new AsyncImageLoader(p, "http://cacheflowe.com/images/art/physical/iteration-t-shirt-preview-wide.jpg");
 
 		// build button
 		_mouseables = new ArrayList<IMouseable>();

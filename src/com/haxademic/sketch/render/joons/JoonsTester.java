@@ -1,4 +1,4 @@
-package com.haxademic.sketch.test;
+package com.haxademic.sketch.render.joons;
 
 import com.haxademic.core.render.joons.JoonsRenderer;
 
