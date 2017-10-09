@@ -12,6 +12,7 @@ public class FastBlurFilter {
 	// <http://incubator.quasimondo.com>
 	// ==================================================
 	public static void blur(PImage img, int radius) {
+		P.println("Use a shader insted of FastBlurFilter");
 		if (radius<1){
 			return;
 		}

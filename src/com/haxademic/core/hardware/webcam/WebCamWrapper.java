@@ -11,7 +11,7 @@ public class WebCamWrapper {
 	public static Capture webCam;
 	public static PImage lastFrame;
 
-	public static boolean initWebCam( PApplet p, int width, int height ) {
+	public static boolean initWebCam( PApplet p, int cameraIndex ) {
 		if( webCam == null ) {
 			P.println("getting cameras");
 			String[] cameras = Capture.list();
@@ -24,7 +24,7 @@ public class WebCamWrapper {
 				for (int i = 0; i < cameras.length; i++) {
 					P.println(cameras[i]);
 				}
-				webCam = new Capture( p, cameras[0] );
+				webCam = new Capture( p, cameras[cameraIndex] );
 				webCam.start();
 				return true;
 			}      
@@ -39,7 +39,7 @@ public class WebCamWrapper {
 			lastFrame = webCam;
 			return webCam;
 		} else {
-			P.println("no webcam!!");
+			// since webcam won't update as fast as 60fps, return the last frame
 			return lastFrame;
 		}
 	}

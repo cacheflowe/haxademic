@@ -81,6 +81,7 @@ extends PAppletHax {
 	}
 
 	public void drawImgBoxes() {
+		image.loadPixels();
 		float size = 18f;
 		for( int x=0; x < image.width; x++ ){
 			for(int y=0; y < image.height; y++){
@@ -125,7 +126,7 @@ extends PAppletHax {
 	
 	public void drawImgWebCam() {
 		// float size = 24f;
-		WebCamWrapper.initWebCam( this, 640, 480 );
+		WebCamWrapper.initWebCam( this, 0 );
 		image = ImageUtil.getScaledImage( WebCamWrapper.getImage(), 64, 48 );
 		drawImgPyra();
 //		drawImgBoxes();

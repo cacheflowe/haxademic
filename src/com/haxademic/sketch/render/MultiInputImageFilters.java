@@ -53,7 +53,6 @@ extends PAppletHax {
 	
 	protected void overridePropsFile() {
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
-		p.appConfig.setProperty( AppSettings.FPS, "30" );
 		p.appConfig.setProperty( AppSettings.WIDTH, "1280" );
 		p.appConfig.setProperty( AppSettings.HEIGHT, "720" );
 	}
@@ -68,7 +67,7 @@ extends PAppletHax {
 		
 		switch( inputType ) {
 			case WEBCAM :
-				WebCamWrapper.initWebCam( p, w, h );
+				WebCamWrapper.initWebCam( p, 0 );
 				break;
 			case VIDEO :
 				_frameGrabber = new VideoFrameGrabber( p, "/Users/cacheflowe/Documents/workspace/haxademic/assets/media/video/Janet Jackson - Control - trimmed.mov", 30, 100 );
