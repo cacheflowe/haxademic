@@ -31,9 +31,9 @@ extends PAppletHax {
 
 	public void drawApp() {
 		background(0);
-		
-		p.debugView.addValue("p.mouseX", p.mouseX);
-		p.debugView.addValue("p.mouseY", p.mouseY);
+
+		debugView.updateInputs();
+		debugView.addValue("Max mouse", P.max(p.mouseX, p.mouseY));
 		
 		_easingX.setEaseFactor(easeFactor);
 		_easingY.setEaseFactor(easeFactor);

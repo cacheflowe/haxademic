@@ -39,6 +39,15 @@ public class DebugView {
 		debugLines.put(key, ""+val);
 	}
 	
+	public void addValue(String key, int val) {
+		debugLines.put(key, ""+val);
+	}
+	
+	public void addValue(String key, boolean val) {
+		String bool = (val == true) ? "true" : "false";
+		debugLines.put(key, ""+bool);
+	}
+	
 	public void addHelpLine(String key, String val) {
 		helpLines.put(key, val);
 	}
@@ -55,6 +64,14 @@ public class DebugView {
 		debugLines.put("Memory Max", StringFormatter.formattedInteger(DebugUtil.memoryMax()));
 		debugLines.put("", "");
 		debugLines.put("\nCUSTOM", "");
+	}
+	
+	public void updateInputs() {
+		addValue("mouseX", p.mouseX);
+		addValue("mouseY", p.mouseY);
+		addValue("key", p.key);
+		addValue("keyCode", p.keyCode);
+		addValue("keyPressed", p.keyPressed);
 	}
 	
 	protected String stringFromHashMap(LinkedHashMap<String, String> hashMap) {
