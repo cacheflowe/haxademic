@@ -1,0 +1,49 @@
+package com.haxademic.sketch.audio;
+
+import com.haxademic.core.app.AppSettings;
+import com.haxademic.core.app.PAppletHax;
+
+import processing.sound.AudioIn;
+import processing.sound.FFT;
+
+public class EQProcessingSoundLib 
+extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
+
+	FFT fft;
+	AudioIn in;
+	int bands = 512;
+	float[] spectrum = new float[bands];
+
+	protected void overridePropsFile() {
+		p.appConfig.setProperty( AppSettings.WIDTH, "800" );
+		p.appConfig.setProperty( AppSettings.HEIGHT, "600" );
+	}
+
+
+	public void setup() {
+		super.setup();	
+
+		  // Create an Input stream which is routed into the Amplitude analyzer
+		  fft = new FFT(this, bands);
+		  in = new AudioIn(this, 0);
+		  
+		  // start the Audio Input
+		  in.start();
+		  
+		  // patch the AudioIn
+		  fft.input(in);
+	}
+
+	public void drawApp() {
+		p.background(255);
+		  fft.analyze(spectrum);
+
+		  for(int i = 0; i < bands; i++){
+		  // The result of the FFT is normalized
+		  // draw the line for frequency band i scaling it up by 5 to get more amplitude.
+		  line( i, height, i, height - spectrum[i]*height*5 );
+		  } 
+	}
+}
+

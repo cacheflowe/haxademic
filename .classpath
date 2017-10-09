@@ -58,7 +58,7 @@
 	<classpathentry kind="lib" path="lib/hemesh/library/hemesh.jar"/>
 	<classpathentry kind="lib" path="lib/processing-3/libraries/sound/library/sound.jar">
 		<attributes>
-			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="haxademic/lib/processing-3/libraries/sound/library/macosx"/>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="haxademic/lib/processing-3/libraries/sound/library/windows64"/>
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="lib/KinectPV2/library/KinectPV2.jar">
