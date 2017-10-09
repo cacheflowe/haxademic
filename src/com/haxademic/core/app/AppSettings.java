@@ -10,8 +10,11 @@ public class AppSettings {
 	public static final String FULLSCREEN = "fullscreen";
 	public static final String FULLSCREEN_SCREEN_NUMBER = "fullscreen_screen_number";
 	public static final String FILLS_SCREEN = "fills_screen";
+	public static final String SCREEN_X = "screen_x";
+	public static final String SCREEN_Y = "screen_y";
+	public static final String ALWAYS_ON_TOP = "always_on_top";
 	public static final String RETINA = "is_retina";
-	public static final String FORCE_FOREGROUND = "force_foreground";
+	public static final String APP_NAME = "app_name";
 	public static final String SMOOTHING = "smoothing";
 	public static final int SMOOTH_NONE = 0;
 	public static final int SMOOTH_LOW = 2;

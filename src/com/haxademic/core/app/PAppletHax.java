@@ -198,6 +198,7 @@ extends PApplet
 		if(customPropsFile != null) DebugUtil.printErr("Make sure to load custom .properties files in settings()");
 		p.rendererMode = p.g.getClass().getName();
 		setAppletProps();
+		checkScreenManualPosition();
 	}
 	
 	public void settings() {
@@ -241,7 +242,7 @@ extends PApplet
 			// run fullscreen across all screens
 			p.fullScreen(renderer, P.SPAN);
 		} else if(p.appConfig.getBoolean(AppSettings.FULLSCREEN, false) == true) {
-			// run fullscreen
+			// run fullscreen - default to screen #1 unless another is specified
 			p.fullScreen(renderer, p.appConfig.getInt(AppSettings.FULLSCREEN_SCREEN_NUMBER, 1));
 		} else if(p.appConfig.getBoolean(AppSettings.FILLS_SCREEN, false) == true) {
 			// fills the screen, but not fullscreen
@@ -291,8 +292,22 @@ extends PApplet
 		_isRenderingMidi = p.appConfig.getBoolean(AppSettings.RENDER_MIDI, false);
 		_showStats = p.appConfig.getBoolean(AppSettings.SHOW_STATS, false);
 		_fps = p.appConfig.getInt(AppSettings.FPS, 60);
-		frameRate(_fps);
+		if(p.appConfig.getInt(AppSettings.FPS, 60) != 60) frameRate(_fps);
 		if( p.appConfig.getBoolean(AppSettings.HIDE_CURSOR, false) == true ) p.noCursor();
+	}
+	
+	protected void checkScreenManualPosition() {
+		if(p.appConfig.getBoolean(AppSettings.FULLSCREEN, false) == false) {
+			DebugUtil.printErr("Error: Manual screen positioning requires AppSettings.FULLSCREEN = true");
+			return;
+		}
+		// check for additional screen_x params to manually place the screen
+		if(p.appConfig.getInt("screen_x", -1) != -1) {
+			surface.setSize(p.appConfig.getInt(AppSettings.WIDTH, 800), p.appConfig.getInt(AppSettings.HEIGHT, 600));
+			surface.setLocation(p.appConfig.getInt("screen_x", 0), p.appConfig.getInt("screen_y", 0));  // location has to happen after size, to break it out of fullscreen
+		}
+		// check for always on top
+		surface.setAlwaysOnTop(p.appConfig.getBoolean(AppSettings.ALWAYS_ON_TOP, true));
 	}
 
 	/**
@@ -358,7 +373,6 @@ extends PApplet
 	public void draw() {
 		//if( keyPressed ) handleInput( false ); // handles overall keyboard commands
 		killScreensaver();
-		forceForeground();
 		initializeOn1stFrame();	// wait until draw() happens, to avoid weird launch crash if midi signals were coming in as haxademic starts
 		handleRenderingStepthrough();
 		updateAudioData();
@@ -395,7 +409,7 @@ extends PApplet
 
 	protected void setAppDockIconAndTitle() {
 		if(p.frameCount == 1 && renderer != PRenderers.PDF) {
-			AppUtil.setTitle(p, "Haxademic");
+			AppUtil.setTitle(p, p.appConfig.getString(AppSettings.APP_NAME, "Haxademic"));
 			AppUtil.setAppToDockIcon(p);
 		}	
 	}
@@ -479,14 +493,6 @@ extends PApplet
 			_gifRenderer.renderGifFrame(p.g);
 			if(appConfig.getInt(AppSettings.RENDERING_GIF_STOP_FRAME, 100) == p.frameCount) {
 				_gifRenderer.finish();
-			}
-		}
-	}
-	
-	protected void forceForeground(){
-		if(p.focused == false) {
-			if(p.appConfig.getBoolean(AppSettings.FORCE_FOREGROUND, false) == true) {
-				AppUtil.requestForeground(p);
 			}
 		}
 	}

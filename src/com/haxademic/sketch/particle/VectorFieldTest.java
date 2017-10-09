@@ -35,7 +35,6 @@ extends PAppletHax {
 //		p.appConfig.setProperty( AppSettings.DISPLAY, 2 );
 		p.appConfig.setProperty( AppSettings.FILLS_SCREEN, false );
 		p.appConfig.setProperty( AppSettings.RETINA, true );
-		p.appConfig.setProperty( AppSettings.FORCE_FOREGROUND, false );
 		p.appConfig.setProperty( AppSettings.SMOOTHING, OpenGLUtil.SMOOTH_HIGH);
 		p.appConfig.setProperty( AppSettings.SHOW_STATS, false );
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, false);
