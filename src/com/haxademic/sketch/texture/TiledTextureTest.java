@@ -22,7 +22,7 @@ extends PAppletHax {
 
 	public void setup() {
 		super.setup();
-		tiledImg = new TiledTexture(p.loadImage(FileUtil.getFile("images/bread.png")));
+		tiledImg = new TiledTexture(p.loadImage(FileUtil.getFile("images/smiley-big.png")));
 	}
 	
 	public void drawApp() {

@@ -16,6 +16,7 @@ public class DebugView {
 	protected PFont debugFont;	
 	protected LinkedHashMap<String, String> debugLines;
 	protected LinkedHashMap<String, String> helpLines;
+	protected float helpWidthMax = 0;
 	protected int fontSize = 14;
 
 	public DebugView( PApplet p ) {
@@ -114,11 +115,12 @@ public class DebugView {
 			p.textAlign(P.LEFT, P.TOP);
 			p.textSize(fontSize);
 			textW = p.textWidth(helpStr) + 20;
+			helpWidthMax = P.max(helpWidthMax, textW);
 			p.noStroke();
 			p.fill(0,225);
-			p.rect(p.width - textW - 10, 0, textW + 20, p.height);
+			p.rect(p.width - helpWidthMax - 10, 0, helpWidthMax + 20, p.height);
 			p.fill(255);
-			p.text(helpStr, p.width - textW, 10, textW, p.height - 20);
+			p.text(helpStr, p.width - helpWidthMax, 10, helpWidthMax, p.height - 20);
 		}
 
 		DrawUtil.setDrawFlat2d(p, false);

@@ -26,9 +26,9 @@ extends PAppletHax {
 		p.smooth(OpenGLUtil.SMOOTH_HIGH);
 
 		_cp5 = new ControlP5(this);
-		_cp5.addSlider("numPoints").setPosition(20,60).setWidth(200).setRange(1,90).setDefaultValue(3);
-		_cp5.addSlider("radius").setPosition(20,100).setWidth(200).setRange(0,300).setDefaultValue(100);
-		_cp5.addSlider("connectionDivisions").setPosition(20,140).setWidth(200).setRange(0,20).setDefaultValue(2);
+		_cp5.addSlider("numPoints").setPosition(20,60).setWidth(200).setRange(1,90).setValue(3);
+		_cp5.addSlider("radius").setPosition(20,100).setWidth(200).setRange(0,300).setValue(100);
+		_cp5.addSlider("connectionDivisions").setPosition(20,140).setWidth(200).setRange(0,20).setValue(2);
 	}
 
 	public void drawApp() {

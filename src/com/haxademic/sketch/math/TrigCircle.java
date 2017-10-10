@@ -1,10 +1,8 @@
 package com.haxademic.sketch.math;
 
-import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.util.DrawUtil;
-import com.haxademic.core.draw.util.OpenGLUtil;
 
 import controlP5.ControlP5;
 
@@ -20,12 +18,10 @@ extends PAppletHax {
 	protected float _y = 0;
 
 	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.FPS, "60" );
 	}
 
 	public void setup() {
 		super.setup();	
-		p.smooth( OpenGLUtil.SMOOTH_HIGH );
 
 		_cp5 = new ControlP5(this);
 		_cp5.addSlider("radians").setPosition(20,60).setWidth(200).setRange(0,P.TWO_PI);
@@ -36,8 +32,8 @@ extends PAppletHax {
 		background(0);
 		DrawUtil.setDrawCenter(p);
 
-		_x = p.width / 2 + P.sin(radians) * radius;
-		_y = p.height / 2 + P.cos(radians) * radius;
+		_x = p.width / 2 + P.cos(radians) * radius;
+		_y = p.height / 2 + P.sin(radians) * radius;
 		
 		p.fill(255);
 		p.ellipse(_x, _y, 40, 40);

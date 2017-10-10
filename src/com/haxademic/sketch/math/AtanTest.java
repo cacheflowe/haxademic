@@ -26,8 +26,9 @@ extends PAppletHax {
 
 	public void setup() {
 		super.setup();
-		img = p.loadImage(FileUtil.getFile("images/bread-large.png"));
+		img = p.loadImage(FileUtil.getFile("images/smiley-big.png"));
 		pg = ImageUtil.imageToGraphics(img);
+		p.showStats = true;
 	}
 
 	public void drawApp() {
@@ -36,7 +37,9 @@ extends PAppletHax {
 		DrawUtil.setDrawCenter(p);
 		p.translate(p.width/2, p.height/2);
 		float radsFromCenter = MathUtil.getRadiansToTarget(p.width/2, p.height/2, p.mouseX, p.mouseY);
-		P.println("cos (x): ",P.cos(radsFromCenter), "sin (y)",P.sin(radsFromCenter), "angle: ", MathUtil.radiansToDegrees(radsFromCenter));
+		p.debugView.addHelpLine("cos (x)", ""+P.cos(radsFromCenter));
+		p.debugView.addHelpLine("sin (y)", ""+P.sin(radsFromCenter));
+		p.debugView.addHelpLine("angle", ""+MathUtil.radiansToDegrees(radsFromCenter));
 
 		float radsFromMouse = MathUtil.getRadiansToTarget(p.mouseX, p.mouseY, p.width/2, p.height/2);
 		p.rotate(-radsFromCenter);
