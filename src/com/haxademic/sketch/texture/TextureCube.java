@@ -23,8 +23,7 @@ extends PAppletHax {
 
 	public void setup() {
 		super.setup();
-		img = loadImage(FileUtil.getHaxademicDataPath() + "images/bread-large.png");
-		img = loadImage(FileUtil.getHaxademicDataPath() + "images/todd.jpg");
+		img = loadImage(FileUtil.getHaxademicDataPath() + "images/smiley-big.png");
 		noStroke();
 	}
 
