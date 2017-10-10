@@ -2,7 +2,7 @@
 
 :CountLines
 setlocal
-cd ..
+cd ../src
 set /a totalNumLines = 0
 for /r %1 %%F in (*.java *.html *.hpp *.cs *.c) do (
   echo "%%F"
