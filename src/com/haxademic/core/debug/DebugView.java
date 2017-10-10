@@ -108,17 +108,18 @@ public class DebugView {
 		p.text(debugStr, 10, 10, textW, p.height - 20);
 		
 		// draw help lines
-		String helpStr = stringFromHashMap(helpLines);
-
-		p.textAlign(P.LEFT, P.TOP);
-		p.textSize(fontSize);
-		textW = p.textWidth(helpStr) + 20;
-		p.noStroke();
-		p.fill(0,225);
-		p.rect(p.width - textW - 10, 0, textW + 20, p.height);
-		p.fill(255);
-		p.text(helpStr, p.width - textW, 10, textW, p.height - 20);
-
+		if(helpLines.isEmpty() == false) {
+			String helpStr = stringFromHashMap(helpLines);
+	
+			p.textAlign(P.LEFT, P.TOP);
+			p.textSize(fontSize);
+			textW = p.textWidth(helpStr) + 20;
+			p.noStroke();
+			p.fill(0,225);
+			p.rect(p.width - textW - 10, 0, textW + 20, p.height);
+			p.fill(255);
+			p.text(helpStr, p.width - textW, 10, textW, p.height - 20);
+		}
 
 		DrawUtil.setDrawFlat2d(p, false);
 	}
