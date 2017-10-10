@@ -1,4 +1,4 @@
-package com.haxademic.sketch.hardware.webcam;
+package com.haxademic.sketch.hardware;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
