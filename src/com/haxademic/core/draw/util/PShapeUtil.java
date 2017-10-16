@@ -223,62 +223,73 @@ public class PShapeUtil {
 	
 	/**
 	 * Draws triangles instead of native draw calls
-	 * @param s
+	 * @param shape
 	 * @return
 	 */
-	public static void drawTriangles(PApplet p, PShape s) {
-		drawTriangles(p.g, s);
-	}
-	public static void drawTriangles(PGraphics p, PShape s) {
-		for (int i = 0; i < s.getVertexCount() - 3; i += 3) { // ugh
-			p.beginShape(P.TRIANGLES);
-//			P.println(s.getVertex(i).x, s.getVertex(i).y, s.getVertex(i).z);
-			p.vertex(s.getVertex(i).x, s.getVertex(i).y, s.getVertex(i).z);
-			p.vertex(s.getVertex(i+1).x, s.getVertex(i+1).y, s.getVertex(i+1).z);
-			p.vertex(s.getVertex(i+2).x, s.getVertex(i+2).y, s.getVertex(i+2).z);
-			p.endShape();
-		}
-		for (int j = 0; j < s.getChildCount(); j++) {
-			PShape subShape = s.getChild(j);
-			drawTriangles(p, subShape);
-		}
-	}
-	
-	/**
-	 * Draws triangles instead of native draw calls
-	 * @param s
-	 * @return
-	 */
-	public static void drawTrianglesWithTexture(PGraphics p, PShape s, PImage img, float scale) {
+	public static void drawTriangles(PGraphics p, PShape shape, PImage img, float scale) {
+		if(img != null) p.textureMode(PConstants.NORMAL);
 		p.fill(255);
-//		P.println(s.getChildCount());
-		p.beginShape(PConstants.TRIANGLES);
-		p.texture(img);
-		p.textureMode(PConstants.NORMAL);
 
-		for (int j = 0; j < s.getChildCount(); j++) {
-			for (int i = 0; i < s.getChild(j).getVertexCount(); i++) {
-				if(i+2 < s.getChild(j).getVertexCount()) {	// protect against rogue vertices?
-					PVector vertex = s.getChild(j).getVertex(i);
-					PVector vertex2 = s.getChild(j).getVertex(i+1);
-					PVector vertex3 = s.getChild(j).getVertex(i+2);
+		PShape polygon = shape;
+		int vertexCount = polygon.getVertexCount();
+		if(vertexCount == 3) {
+			int i = 0;
+			p.beginShape(PConstants.TRIANGLES);
+			if(img != null) p.texture(img);
+
+			PVector vertex = polygon.getVertex(i);
+			PVector vertex2 = polygon.getVertex(i+1);
+			PVector vertex3 = polygon.getVertex(i+2);
+			vertex.mult(scale);
+			vertex2.mult(scale);
+			vertex3.mult(scale);
+			p.vertex(vertex.x, vertex.y, vertex.z, polygon.getTextureU(i), polygon.getTextureV(i));
+			p.vertex(vertex2.x, vertex2.y, vertex2.z, polygon.getTextureU(i+1), polygon.getTextureV(i+1));
+			p.vertex(vertex3.x, vertex3.y, vertex3.z, polygon.getTextureU(i+2), polygon.getTextureV(i+2));
+			p.endShape();
+		} else if(vertexCount == 4) {
+			int i = 0;
+			p.beginShape(PConstants.QUADS);
+			if(img != null) p.texture(img);
+
+			PVector vertex = polygon.getVertex(i);
+			PVector vertex2 = polygon.getVertex(i+1);
+			PVector vertex3 = polygon.getVertex(i+2);
+			PVector vertex4 = polygon.getVertex(i+3);
+			vertex.mult(scale);
+			vertex2.mult(scale);
+			vertex3.mult(scale);
+			vertex4.mult(scale);
+			p.vertex(vertex.x, vertex.y, vertex.z, polygon.getTextureU(i), polygon.getTextureV(i));
+			p.vertex(vertex2.x, vertex2.y, vertex2.z, polygon.getTextureU(i+1), polygon.getTextureV(i+1));
+			p.vertex(vertex3.x, vertex3.y, vertex3.z, polygon.getTextureU(i+2), polygon.getTextureV(i+2));
+			p.vertex(vertex4.x, vertex4.y, vertex4.z, polygon.getTextureU(i+3), polygon.getTextureV(i+3));
+			p.endShape();
+		} else {
+			p.beginShape(PConstants.TRIANGLES);
+			if(img != null) p.texture(img);
+
+			for (int i = 0; i < vertexCount; i += 3) {
+				if(i < vertexCount - 3) {	// protect against rogue vertices?
+					PVector vertex = polygon.getVertex(i);
+					PVector vertex2 = polygon.getVertex(i+1);
+					PVector vertex3 = polygon.getVertex(i+2);
 					vertex.mult(scale);
 					vertex2.mult(scale);
 					vertex3.mult(scale);
-					p.vertex(vertex.x, vertex.y, vertex.z, s.getChild(j).getTextureU(i), s.getChild(j).getTextureV(i));
-					p.vertex(vertex2.x, vertex2.y, vertex2.z, s.getChild(j).getTextureU(i+1), s.getChild(j).getTextureV(i+1));
-					p.vertex(vertex3.x, vertex3.y, vertex3.z, s.getChild(j).getTextureU(i+2), s.getChild(j).getTextureV(i+2));
+					p.vertex(vertex.x, vertex.y, vertex.z, polygon.getTextureU(i), polygon.getTextureV(i));
+					p.vertex(vertex2.x, vertex2.y, vertex2.z, polygon.getTextureU(i+1), polygon.getTextureV(i+1));
+					p.vertex(vertex3.x, vertex3.y, vertex3.z, polygon.getTextureU(i+2), polygon.getTextureV(i+2));
 				}
 			}
+			p.endShape();
 		}
-		p.endShape();
 
-//		for (int j = 0; j < s.getChildCount(); j++) {
-//			PShape subShape = s.getChild(j);
-//			drawTrianglesWithTexture(p, subShape, img);
-//		}
+		for (int j = 0; j < shape.getChildCount(); j++) {
+			PShape subShape = shape.getChild(j);
+			drawTriangles(p, subShape, img, scale);
+		}
 	}
-	
 	
 	public static void drawTrianglesGrouped(PGraphics p, PShape s, float scale) {
 		p.beginShape(PConstants.TRIANGLES);

@@ -105,10 +105,10 @@ extends PAppletHax {
 		
 		// texture mapped with decent performance:
 		p.noStroke();
-		PShapeUtil.drawTrianglesWithTexture(p.g, gunMesh, gunTexture, 1f); // img
+		PShapeUtil.drawTriangles(p.g, gunMesh, gunTexture, 1f); // img
 		
 		p.translate(width, 0, 0);
-		PShapeUtil.drawTrianglesWithTexture(p.g, gunMesh, gunTexture, 1f); // img
+		PShapeUtil.drawTriangles(p.g, gunMesh, gunTexture, 1f); // img
 		p.popMatrix();
 		
 		

@@ -96,7 +96,7 @@ extends PAppletHax {
 		// texture mapped with decent performance:
 		if(p.frameCount % 60 == 0) audioTexture.updateTiming();
 		audioTexture.update();
-		PShapeUtil.drawTrianglesWithTexture(p.g, objSolid.shape(), audioTexture.texture(), 3f); // img
+		PShapeUtil.drawTriangles(p.g, objSolid.shape(), audioTexture.texture(), 3f); // img
 		
 		p.popMatrix();
 	}
