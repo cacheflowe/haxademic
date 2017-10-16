@@ -5,6 +5,40 @@ Haxademic is my personal Processing-based creative coding toolkit, built to run 
 ## State of affairs
 While the code has been open-sourced, I don't plan on making it easy/viable for others to use. This repository is more about sharing the interesting code within, and I fully endorse borrowing it however you see fit. I've outlined some useful code below.
 
+## Interesting code
+
+`src.com.haxademic.core.app`
+
+* `PAppletHax` - This is my base class for every Processing app I build. It initializes the app based on `AppSettings` properties that are read in via `data/properties/run.proerties`, and override .properties file, or finally in the `overridePropsFile()` method.
+* `P` - This class holds static references to the current `PAppletHax` instance, so I don't have to pass this reference around everywhere.
+
+`src.com.haxademic.core.audio`
+
+* `AudioInputWrapper` - This is intended to be a common interface between several possible Java libraries that do FFT analysis on an incoming audio signal.
+
+`src.com.haxademic.core.data`
+
+* `AppStore`, `IAppStoreUpdatable` - A singleton data store and emitter. As values are updated, subscribers are notified.
+
+* `ConvertUtil` - A collection of basic Java type conversion methods.
+
+* `FloatBuffer` - An object that keep a FIFO buffer of incoming data for smoothing purposes.
+
+* `SavedRectangle` - A text-file-backed GUI-draggable rectangle for mapping and screen subdividing purposes. *Should be moved to projection mapping tools package*
+
+`src.com.haxademic.core.debug`
+
+* `DebugUtil` - A collection of extra logging methods.
+
+* `DebugView` - Instantiated with every `PAppletHax` app, allows us to toggle and add properties to the `DebugView` HashMap to show realtime values on-screen, rather than trying to watch Java console values fly by.
+
+* `JavaInfo` - Tons of methods to print out Java-accessible system properties.
+
+`src.com.haxademic.core.draw`
+
+* More coming soon...
+
+
 ## General Eclipse/Processing Tips
 
 Use the following VM Arguments when running the Java Application to increase memory allocated to your app
