@@ -1,10 +1,11 @@
 # Haxademic
-Haxademic is a multimedia platform, built in Java and [Processing](http://processing.org/). It's a starting point for interactive visuals, giving you a unified environment for both realtime and rendering modes. It loads several Java libraries and wraps them up to play nicely with each other. It solves a number of problems faced by (potentially) thread-unsafe hardware inputs like audio, Kinect, MIDI and OSC. To view some projects created with the library, check out the [Haxademic Tumblr](http://haxademic.com/).
+
+Haxademic is my personal Processing-based creative coding toolkit, built to run in Eclipse with Java and [Processing](http://processing.org/). It's a starting point for interactive visuals, rendering and desktop/installation apps. It requires several essential Java/Processing libraries and wraps them up to play nicely with each other. It also solves a number of problems faced by (potentially) thread-unsafe hardware inputs like audio, Kinect, MIDI and OSC.
 
 ## State of affairs
-While the code has been open-sourced, I haven't had time to write much (any) documentation, but I'm trying to get it there. You can see the example apps and sketches to get an idea of how to use various features. Even without fully installing everything, there's plenty of interesting code within, and I fully endorse borrowing it however you see fit in the meantime. If you're interested in collaborating, please contact me via my [GitHub account](http://github.com/cacheflowe), or my [web site](http://cacheflowe.com/contact).
+While the code has been open-sourced, I don't plan on making it easy/viable for others to use. This repository is more about sharing the interesting code within, and I fully endorse borrowing it however you see fit. I've outlined some useful code below.
 
-## General Use / Tips
+## General Eclipse/Processing Tips
 
 Use the following VM Arguments when running the Java Application to increase memory allocated to your app
 
