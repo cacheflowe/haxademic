@@ -74,6 +74,7 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="lib/GIFAnimation/library/GifAnimation.jar"/>
+	<classpathentry kind="lib" path="lib/jetty/jetty-all-9.4.6.v20170531-uber.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER">
 		<accessrules>
 			<accessrule kind="accessible" pattern="com/apple/eawt/**"/>

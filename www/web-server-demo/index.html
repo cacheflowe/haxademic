@@ -1,0 +1,66 @@
+<html>
+<head>
+  <link rel="stylesheet" href="./css/normalize.css"/>
+  <link rel="stylesheet" href="./css/skeleton.css"/>
+  <script src="./js/fetch.js"></script>
+  <style>
+    .container {
+      /*max-width: 400px;*/
+      margin: 2rem auto;
+    }
+    .button-primary {
+      width: 100%;
+    }
+    #log-inline {
+      width: 100%;
+      height: 200px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="row">
+
+      <div class="six columns">
+        <h5>Button</h5>
+        <div class="row">
+          <button class="button-primary twelve columns" id="button1">Button 1</button>
+          <button class="button-primary twelve columns" id="button2">Button 2</button>
+        </div>
+        <h5>Slider</h5>
+        <div class="row">
+          <input id="slider" class="twelve columns" type="range" min="0" max="1" step="0.001" value="0"></input>
+        </div>
+      </div>
+
+      <div class="six columns">
+        <h5>Server response log</h5>
+        <textarea id="log-inline"></textarea>
+      </div>
+
+    </div>
+  </div>
+  <script>
+    // request helper
+    function makeRequest(url) {
+      let request = new Request(url);
+      fetch(request).then(logResult);
+    }
+
+    // logging
+    let logEl = document.getElementById('log-inline');
+    function logResult(response) {
+      return response.text().then(function(text) {
+        logEl.innerHTML += text;
+        logEl.scrollTop = 999999999;
+      });
+    }
+
+    // form listeners
+    let slider = document.getElementById('slider');
+    slider.addEventListener('input', (e) => makeRequest('/slider/' + slider.value));
+    document.getElementById('button1').addEventListener('click', (e) => makeRequest('/button/1'));
+    document.getElementById('button2').addEventListener('click', (e) => makeRequest('/button/2'));
+  </script>
+</body>
+</html>
