@@ -1,9 +1,12 @@
 package com.haxademic.core.system;
 
-import java.awt.event.ActionEvent;
+import java.awt.Desktop;
 import java.awt.event.ActionListener;
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
+import java.net.URI;
+import java.net.URISyntaxException;
 
 import javax.swing.Timer;
 
@@ -96,5 +99,12 @@ public class SystemUtil {
 		}
 	}
 	
-
+	public static void openWebPage(String url) {
+		if(Desktop.isDesktopSupported()) {
+			try {
+				Desktop.getDesktop().browse(new URI(url));
+			} catch (IOException e) { e.printStackTrace(); } 
+			  catch (URISyntaxException e) { e.printStackTrace(); }
+		}
+	}
 }
