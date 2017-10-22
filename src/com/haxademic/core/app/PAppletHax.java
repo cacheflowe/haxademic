@@ -9,8 +9,8 @@ import javax.sound.midi.InvalidMidiDataException;
 import com.haxademic.core.audio.AudioInputWrapper;
 import com.haxademic.core.audio.AudioInputWrapperMinim;
 import com.haxademic.core.audio.WaveformData;
-import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.debug.DebugUtil;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.debug.Stats;
 import com.haxademic.core.draw.mesh.MeshPool;
 import com.haxademic.core.draw.util.DrawUtil;
@@ -26,9 +26,9 @@ import com.haxademic.core.render.GifRenderer;
 import com.haxademic.core.render.JoonsWrapper;
 import com.haxademic.core.render.MIDISequenceRenderer;
 import com.haxademic.core.render.Renderer;
+import com.haxademic.core.system.JavaInfo;
 import com.haxademic.core.system.P5Properties;
 import com.haxademic.core.system.SystemUtil;
-import com.haxademic.core.text.StringFormatter;
 
 import de.voidplus.leapmotion.LeapMotion;
 import krister.Ess.AudioInput;
@@ -322,7 +322,7 @@ extends PApplet
 		if( appConfig.getBoolean(AppSettings.INIT_ESS_AUDIO, true) == true ) {
 			_audioInput = new AudioInputWrapper( p, _isRenderingAudio );
 			_waveformData = new WaveformData( p, _audioInput.bufferSize() );
-			if(appConfig.getBoolean(AppSettings.AUDIO_DEBUG, false) == true) _audioInput.debugInfo();
+			if(appConfig.getBoolean(AppSettings.AUDIO_DEBUG, false) == true) JavaInfo.debugInfo();
 		}
 		if( appConfig.getBoolean(AppSettings.INIT_MINIM_AUDIO, true) == true ) {
 			audioIn = new AudioInputWrapperMinim( p, _isRenderingAudio );
