@@ -14,7 +14,11 @@ public class ColorUtil {
 	}
 	
 	public static int colorFromHex( String hex ) {
-		return P.unhex("FF"+hex.substring(1));
+		return colorFromHex(hex, true);
+	}
+	
+	public static int colorFromHex( String hex, boolean hasHash ) {
+		return P.unhex(hex.substring(1));
 	}
 	
 	public static float componentByPercent( float percent ) {
