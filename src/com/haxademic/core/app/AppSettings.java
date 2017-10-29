@@ -58,6 +58,8 @@ public class AppSettings {
 	// Output
 	public static final String DMX_LIGHTS_COUNT = "dmx_lights_count";
 	// Debugging
+	public static final String APP_VIEWER_WINDOW = "app_viewer";
+	public static final String APP_VIEWER_SCALE = "app_viewer_scale";
 	public static final String SHOW_STATS = "show_stats";
 	public static final String AUDIO_DEBUG = "audio_debug";
 }

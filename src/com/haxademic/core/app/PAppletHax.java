@@ -28,6 +28,7 @@ import com.haxademic.core.render.MIDISequenceRenderer;
 import com.haxademic.core.render.Renderer;
 import com.haxademic.core.system.JavaInfo;
 import com.haxademic.core.system.P5Properties;
+import com.haxademic.core.system.SecondScreenViewer;
 import com.haxademic.core.system.SystemUtil;
 
 import de.voidplus.leapmotion.LeapMotion;
@@ -162,6 +163,7 @@ extends PApplet
 	 * Text for showing stats
 	 */
 	public DebugView debugView;
+	public SecondScreenViewer appViewerWindow;
 
 	/**
 	 * Graphical render mode
@@ -360,6 +362,7 @@ extends PApplet
 				new JoonsWrapper( p, width, height, ( p.appConfig.getString(AppSettings.SUNFLOW_QUALITY, "low" ) == AppSettings.SUNFLOW_QUALITY_HIGH ) ? JoonsWrapper.QUALITY_HIGH : JoonsWrapper.QUALITY_LOW, ( p.appConfig.getBoolean(AppSettings.SUNFLOW_ACTIVE, true ) == true ) ? true : false )
 				: null;
 		try { _robot = new Robot(); } catch( Exception error ) { println("couldn't init Robot for screensaver disabling"); }
+		if(p.appConfig.getBoolean(AppSettings.APP_VIEWER_WINDOW, false) == true) appViewerWindow = new SecondScreenViewer(p.g, p.appConfig.getFloat(AppSettings.APP_VIEWER_SCALE, 0.5f));
 	}
 
 	protected void initializeOn1stFrame() {
