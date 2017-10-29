@@ -95,6 +95,7 @@
   * BIOS settings to resume after power loss
   * http://www.evsc.net/tech/prep-windows-machine-for-fulltime-exhibition-setup
   * https://github.com/morphogencc/ofxWindowsSetup
+  * https://github.com/brangerbriz/up-4evr-windows-10
 
 * Scripting help:
   * Set a timeout: `timeout 15 > NUL`
