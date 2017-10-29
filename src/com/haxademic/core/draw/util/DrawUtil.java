@@ -163,6 +163,8 @@ public class DrawUtil {
 		} 
 	}
 	
+	// only works properly on PGraphics buffers
+	// feedback distance should only be even numbers
 	public static void feedback(PGraphics pg, int color, float colorFade, float feedbackDistance) {
 		DrawUtil.setDrawCorner(pg);
 		DrawUtil.setDrawFlat2d(pg, true);
@@ -172,14 +174,16 @@ public class DrawUtil {
 			0, 
 			pg.width, 
 			pg.height, 
-			P.round(-feedbackDistance/2f), 
-			P.round(-feedbackDistance/2f), 
-			P.round(pg.width + feedbackDistance), 
-			P.round(pg.height + feedbackDistance)
+			P.round(-feedbackDistance), 
+			P.round(-feedbackDistance), 
+			P.round(pg.width + feedbackDistance * 2f), 
+			P.round(pg.height + feedbackDistance * 2f)
 		);
-		pg.fill(color, colorFade * 255f);
-		pg.noStroke();
-		pg.rect(0, 0, pg.width, pg.height);
+		if(color != -1) {
+			pg.fill(color, colorFade * 255f);
+			pg.noStroke();
+			pg.rect(0, 0, pg.width, pg.height);
+		}
 		DrawUtil.setDrawFlat2d(pg, false);
 	}
 	
