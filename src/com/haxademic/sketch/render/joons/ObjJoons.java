@@ -21,7 +21,7 @@ extends PAppletHax {
 
 	protected void overridePropsFile() {
 		p.appConfig.setProperty( AppSettings.SUNFLOW, "true" );
-		p.appConfig.setProperty( AppSettings.SUNFLOW_ACTIVE, "true" );
+		p.appConfig.setProperty( AppSettings.SUNFLOW_ACTIVE, "false" );
 		p.appConfig.setProperty( AppSettings.SUNFLOW_QUALITY, "low" );
 
 
@@ -43,10 +43,10 @@ extends PAppletHax {
 		joons.jr.background("gi_instant"); //Global illumination, normal mode.
 
 		
-		// drawGlassRoom();
+		drawGlassRoom();
 		// drawBlankStare();
 		// drawInterlockingBlocksRows();
-		drawMan();
+		// drawMan();
 				
 		// render movie -------------------------------
 		if( _isRendering == true && _renderer != null ) {
@@ -168,7 +168,7 @@ extends PAppletHax {
 		obj.disableStyle();
 		p.noStroke();
 //		objSolid.updateWithTrig(true, percentComplete, 0.04f, 17.4f);
-		PShapeUtil.drawTriangles(p, obj.getTessellation());
+		PShapeUtil.drawTriangles(p.g, obj, null, 1f);
 		popMatrix();
 	}
 	
@@ -215,7 +215,7 @@ extends PAppletHax {
 		obj.disableStyle();
 		p.noStroke();
 		objSolid.updateWithTrig(true, percentComplete, 0.04f, 17.4f);
-		PShapeUtil.drawTriangles(p, objSolid.shape().getTessellation());
+		PShapeUtil.drawTriangles(p.g, objSolid.shape().getTessellation(), null, 1f);
 		popMatrix();
 	}
 
@@ -295,7 +295,7 @@ extends PAppletHax {
 //		_jw.jr.fill("light", 120, 180, 150);
 //		_jw.jr.fill("mirror", 150, 120, 150);
 		joons.jr.fill("shiny", 255, 255, 255, 0.3f);
-		PShapeUtil.drawTriangles(p, diamond.getTessellation());
+		PShapeUtil.drawTriangles(p.g, diamond.getTessellation(), null, 1f);
 		popMatrix();
 
 		
@@ -311,7 +311,7 @@ extends PAppletHax {
 		obj.disableStyle();
 		p.noStroke();
 		objSolid.updateWithTrig(true, percentComplete, 0.023f, 7.4f);
-		PShapeUtil.drawTriangles(p, objSolid.shape().getTessellation());
+		PShapeUtil.drawTriangles(p.g, objSolid.shape().getTessellation(), null, 1f);
 		popMatrix();
 	}
 	

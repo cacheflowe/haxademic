@@ -36,13 +36,16 @@ extends PAppletHax {
 	
 	protected void firstFrameSetup() {
 		// load texture
-		img = p.loadImage(FileUtil.getFile("images/jupiter-360.jpg"));
+//		img = p.loadImage(FileUtil.getFile("images/jupiter-360.jpg"));
+		img = p.loadImage(FileUtil.getFile("images/aholes-trmp.jpg"));
 		
 		// build obj PShape and scale to window
 //		obj = p.loadShape( FileUtil.getFile("models/poly-hole-square.obj"));	
 //		obj = p.loadShape( FileUtil.getFile("models/skull-realistic.obj"));	
 //		obj = p.loadShape( FileUtil.getFile("models/man-lowpoly.obj"));	
-		obj = p.loadShape( FileUtil.getFile("models/lego-man.obj"));	
+//		obj = p.loadShape( FileUtil.getFile("models/lego-man.obj"));	
+		obj = p.loadShape( FileUtil.getFile("models/bomb.obj"));	
+//		obj = obj.getTessellation();
 //		obj = p.loadShape( FileUtil.getFile("models/poly-hole-tri.obj"));	
 		PShapeUtil.centerSvg(obj);
 		PShapeUtil.scaleObjToExtentVerticesAdjust(obj, p.height);
@@ -66,19 +69,28 @@ extends PAppletHax {
 		p.pushMatrix();
 		background(0);
 		DrawUtil.setDrawCenter(p);
-		DrawUtil.setBetterLights(p);
+		
+		// lights
+		p.ambient(127);
+		p.lightSpecular(230, 230, 230); 
+		p.directionalLight(200, 100, 100, -0.0f, -0.0f, 1); 
+		p.directionalLight(200, 200, 200, 0.0f, 0.0f, -1); 
+		p.specular(p.color(230)); 
+		p.shininess(15.0f); 
+
 		
 		// rotate
-		p.translate(p.width/2f, p.height/2f, -width*2);
+		p.translate(p.width/2f, p.height/2f, -width*1.5f);
 		p.rotateZ(P.PI);
-		p.rotateY(-P.HALF_PI + P.sin(p.frameCount / 40f));
+		p.rotateY(0.1f * P.sin(p.frameCount / 40f)); // -P.HALF_PI + 
+		p.rotateX(P.map(p.mouseX, 0, p.width, -1f, 1f));
 //		p.rotateX(-P.PI/2f);
 
 		
 		// deform
 //		objSolid.updateWithTrig(true, percentComplete * 2f, 0.04f, 17.4f);
 //		objSolid.deformWithAudio();
-		objSolid.deformWithAudioByNormals();
+//		objSolid.deformWithAudioByNormals();
 
 		// draw mesh with texture or without
 		// if a texture is set, drawing with p.shape() is super slow, so we can manually draw by looping over vertices
@@ -86,7 +98,7 @@ extends PAppletHax {
 		p.noStroke();
 		if(useTexture) {
 			// texture mapped with decent performance:
-			PShapeUtil.drawTrianglesWithTexture(p.g, objSolid.shape(), img, 1f); // img			
+			PShapeUtil.drawTriangles(p.g, objSolid.shape(), img, 1f); // img			
 		} else {
 			// pshape drawing + audioreactive
 			objSolid.setVertexColorWithAudio(255);
