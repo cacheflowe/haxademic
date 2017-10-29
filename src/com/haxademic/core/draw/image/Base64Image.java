@@ -23,15 +23,21 @@ public class Base64Image {
 		return result;
 	}
 
-	public static PImage decodePImageFromBase64(String base64Str) throws IOException {
+	public static PImage decodePImageFromBase64(String base64Str) {
 		PImage result = null;
 		byte[] decodedBytes = Base64.getDecoder().decode(base64Str);
 		ByteArrayInputStream in = new ByteArrayInputStream(decodedBytes);
-		BufferedImage bImageFromConvert = ImageIO.read(in);
-		BufferedImage convertedImg = new BufferedImage(bImageFromConvert.getWidth(), bImageFromConvert.getHeight(), BufferedImage.TYPE_INT_ARGB);
-		convertedImg.getGraphics().drawImage(bImageFromConvert, 0, 0, null);
-		result = new PImage(convertedImg);
-		return result;
+		BufferedImage bImageFromConvert;
+		try {
+			bImageFromConvert = ImageIO.read(in);
+			BufferedImage convertedImg = new BufferedImage(bImageFromConvert.getWidth(), bImageFromConvert.getHeight(), BufferedImage.TYPE_INT_ARGB);
+			convertedImg.getGraphics().drawImage(bImageFromConvert, 0, 0, null);
+			result = new PImage(convertedImg);
+			return result;
+		} catch (IOException e) {
+			e.printStackTrace();
+			return null;
+		}
 	}
 	
 }
