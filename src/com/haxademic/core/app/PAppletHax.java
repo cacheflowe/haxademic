@@ -380,7 +380,9 @@ extends PApplet
 		updateAudioData();
 		if( kinectWrapper != null ) kinectWrapper.update();
 		if( joons != null ) joons.startFrame();
+		p.pushMatrix();
 		drawApp();
+		p.popMatrix();
 		if( joons != null ) joons.endFrame( p.appConfig.getBoolean(AppSettings.SUNFLOW_SAVE_IMAGES, false) == true );
 		renderFrame();
 		showStats();
