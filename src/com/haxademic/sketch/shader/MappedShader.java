@@ -22,7 +22,7 @@ extends PAppletHax {
 	protected void overridePropsFile() {
 		p.appConfig.setProperty( AppSettings.WIDTH, 1000 );
 		p.appConfig.setProperty( AppSettings.HEIGHT, 600 );
-		p.appConfig.setProperty( AppSettings.FULLSCREEN, false );
+		p.appConfig.setProperty( AppSettings.FULLSCREEN, true );
 		p.appConfig.setProperty( AppSettings.SMOOTHING, AppSettings.SMOOTH_HIGH );
 	}
 
@@ -46,7 +46,7 @@ extends PAppletHax {
 		pgKeystone = new PGraphicsKeystone(p, buffer, 12);
 		
 		// load a shader
-		textureShader = p.loadShader(FileUtil.getFile("shaders/textures/cacheflowe-asterisk-wave.glsl"));
+		textureShader = p.loadShader(FileUtil.getFile("shaders/textures/cacheflowe-down-void.glsl"));
 	}
 	
 	public void drawApp() {

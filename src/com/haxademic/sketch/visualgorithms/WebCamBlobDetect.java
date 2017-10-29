@@ -53,7 +53,7 @@ extends PAppletHax {
 		theBlobDetection.setPosDiscrimination(true);	// true if looking for dark objects
 		theBlobDetection.setThreshold(0.35f); // will detect bright areas whose luminosity > 0.2f;
 
-		WebCamWrapper.initWebCam(this, 0);
+		WebCamWrapper.initWebCam(this, 6);
 	}
 
 	public void drawApp() {
