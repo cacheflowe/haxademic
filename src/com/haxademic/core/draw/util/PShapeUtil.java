@@ -152,6 +152,13 @@ public class PShapeUtil {
 		adjustVertices(s, newScale);
 	}
 	
+	public static void scaleObjToHeight(PShape s, float newExtent) {
+		centerSvg(s);
+		float modelHeight = getObjHeight(s);
+		float newScale = newExtent/modelHeight;
+		adjustVertices(s, newScale);
+	}
+	
 	public static void adjustVertices(PShape s, float scale) {
 		for (int j = 0; j < s.getChildCount(); j++) {
 			for (int i = 0; i < s.getChild(j).getVertexCount(); i++) {
