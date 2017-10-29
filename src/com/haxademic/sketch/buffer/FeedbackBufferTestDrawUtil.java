@@ -7,6 +7,7 @@ import com.haxademic.core.draw.filters.shaders.SphereDistortionFilter;
 import com.haxademic.core.draw.filters.shaders.VignetteFilter;
 import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.draw.util.OpenGLUtil;
+import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.Penner;
 
 import processing.core.PGraphics;
@@ -16,7 +17,7 @@ extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
 	protected PGraphics _texture;
-	protected float _frames = 200;
+	protected float _frames = 360;
 	
 	public void setup() {
 		super.setup();
@@ -27,7 +28,6 @@ extends PAppletHax {
 		_texture.beginDraw();
 		_texture.background(0);
 		_texture.endDraw();
-
 	}
 	
 	protected void overridePropsFile() {
@@ -54,10 +54,14 @@ extends PAppletHax {
 		_texture.noFill();
 		_texture.stroke( 200 + 55f * P.sin(percentRads), 100 + 55f * P.cos(percentRads), 155 + 100f * P.cos(percentRads) );
 		_texture.translate(_texture.width/2, _texture.height/2);
-		_texture.rotate(P.sin(2f * percentRads));
-		_texture.rect(0, 0, 50 + 5f * P.sin(percentRads), 50 + 5f * P.sin(percentRads));
+		_texture.rotate(0.8f * P.sin(2f * percentRads));
+		
+		_texture.rect(0, 0, 50 + 25f * P.sin(percentRads), 50 + 25f * P.sin(percentRads));
 		_texture.stroke(0);
-		_texture.rect(0, 0, 100 + 5f * P.sin(percentRads), 100 + 5f * P.sin(percentRads));
+		_texture.rect(0, 0, 100 + 35f * P.cos(percentRads), 100 + 35f * P.cos(percentRads));
+		_texture.stroke(255);
+		_texture.rect(0, 0, 150 + 45f * P.sin(percentRads), 150 + 45f * P.sin(percentRads));
+		
 		_texture.endDraw();
 			
 		// draw buffer to screen

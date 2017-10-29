@@ -1,10 +1,10 @@
 package com.haxademic.core.audio;
 
+import com.haxademic.core.app.P;
+
 import krister.Ess.AudioInput;
 import krister.Ess.FFT;
 import processing.core.PApplet;
-
-import com.haxademic.core.app.P;
 
 public class BeatDetect
 {

@@ -43,13 +43,16 @@ extends PAppletHax {
 		
 		@Override
 		protected String handleCustomPaths(String path, String[] pathComponents) {
-			P.println(path, path.indexOf("button"));
-			if(path.indexOf("button") != -1) {
+			P.println("CustomWebRequestHandler path:", path);
+			
+			if(pathComponents[0].equals("button")) {
 				int buttonIndex = ConvertUtil.stringToInt(pathComponents[1]);
 				return "{\"log\": \"Button Number: "+buttonIndex+"\"}";
-			} else if(path.indexOf("slider") != -1) {
+				
+			} else if(pathComponents[0].equals("slider")) {
 				sliderVal = ConvertUtil.stringToFloat(pathComponents[1]);
 				return "{\"log\": \"Slider Val: "+sliderVal+"\"}";
+				
 			} else {
 				return null;
 			}

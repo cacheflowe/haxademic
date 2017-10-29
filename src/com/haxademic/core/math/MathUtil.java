@@ -312,15 +312,16 @@ public class MathUtil {
 		return quad3dCenter;
 	};
 	
-	public static float saw( float rads ) {
-		rads += P.PI * 0.5f;									// add to sync up with sin(0)
-		float percent = ( rads % P.PI ) / P.PI;				
-		int dir = ( rads % P.TWO_PI > P.PI ) ? -1 : 1;
-		percent *= 2 * dir;
-		percent -= dir;
-		return percent;
+	public static float fract(float f) {
+	    return f % 1f;
 	}
-
+	
+	public static float saw( float rads ) {
+	    rads = rads / P.TWO_PI + P.PI / 4f; // add quarter PI to sync with sin()
+	    rads = fract(rads); 
+	    return -1f + 2f * P.abs(rads * 2f - 1f);
+	}
+	
 	public static float sawTan( float rads ) {
 		rads += P.PI;
 		float percent = ( rads % P.TWO_PI ) / P.TWO_PI;
