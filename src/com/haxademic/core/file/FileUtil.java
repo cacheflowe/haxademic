@@ -78,7 +78,7 @@ public class FileUtil {
 		return OUTPUT_PATH;
 	}
 	
-	// existance methods ----------------------------------------
+	// existence methods ----------------------------------------
 	public static Boolean fileOrPathExists( String path ) {
 		File f = new File( path );
 		return f.exists();

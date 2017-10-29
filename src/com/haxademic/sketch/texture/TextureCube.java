@@ -19,11 +19,13 @@ extends PAppletHax {
 	protected void overridePropsFile() {
 		p.appConfig.setProperty( AppSettings.WIDTH, 800 );
 		p.appConfig.setProperty( AppSettings.HEIGHT, 800 );
+		p.appConfig.setProperty( AppSettings.APP_VIEWER_WINDOW, true );
+		p.appConfig.setProperty( AppSettings.APP_VIEWER_SCALE, 0.75f );
 	}
 
 	public void setup() {
 		super.setup();
-		img = loadImage(FileUtil.getHaxademicDataPath() + "images/smiley-big.png");
+		img = loadImage(FileUtil.getFile("images/smiley-big.png"));
 		noStroke();
 	}
 
