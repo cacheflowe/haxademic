@@ -71,6 +71,13 @@ extends PApplet
 //		PAppletHax.main(P.concat(args, new String[] { "--hide-stop", "--bgcolor=000000", Thread.currentThread().getStackTrace()[1].getClassName() }));
 //		PApplet.main(new String[] { "--hide-stop", "--bgcolor=000000", "--location=1920,0", "--display=1", ElloMotion.class.getName() });
 //	}
+	
+//	public static String arguments[];
+//	public static void main(String args[]) {
+//		arguments = args;
+//		PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName());
+//	}
+
 
 	/**
 	 * Global/static ref to PApplet - any audio-reactive object should be passed this reference, or grabbed from this static ref.
