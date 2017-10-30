@@ -1,20 +1,20 @@
 # Haxademic
 
-Haxademic is my personal Processing-based creative coding toolkit, built to run in Eclipse with Java and [Processing](http://processing.org/). It's a starting point for interactive visuals, rendering and desktop/installation apps. It requires several essential Java/Processing libraries and wraps them up to play nicely with each other. It also solves a number of problems faced by (potentially) thread-unsafe hardware inputs like audio, Kinect, MIDI and OSC.
+Haxademic is my personal Processing-based creative coding toolkit, built to run in Eclipse with Java and the latest version of [Processing](http://processing.org/). It's a starting point for interactive visuals, rendering and desktop/installation apps. It requires several essential Java/Processing libraries and wraps them up to play nicely with each other.
 
 ## State of affairs
 While the code has been open-sourced, I don't plan on making it easy/viable for others to use. This repository is more about sharing the interesting code within, and I fully endorse borrowing it however you see fit. I've outlined some useful code below.
 
-## Interesting code
+## Notable code within:
 
 `src.com.haxademic.core.app`
 
-* `PAppletHax` - This is my base class for every Processing app I build. It initializes the app based on `AppSettings` properties that are read in via `data/properties/run.proerties`, and override .properties file, or finally in the `overridePropsFile()` method.
-* `P` - This class holds static references to the current `PAppletHax` instance, so I don't have to pass this reference around everywhere.
+* __[PAppletHax](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/app/PAppletHax.java)__ - This is the base class for every Processing app that I build. It initializes the app based on `AppSettings` properties that are read in via `data/properties/run.proerties`, and override .properties file, or finally in the `overridePropsFile()` method.
+* __[P](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/app/P.java)__ - This class holds static references to the current `PAppletHax` instance, so I don't have to pass the reference to the app around everywhere.
 
 `src.com.haxademic.core.audio`
 
-* `AudioInputWrapper` - This is intended to be a common interface between several possible Java libraries that do FFT analysis on an incoming audio signal.
+* __[AudioInputWrapper](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/audio/AudioInputWrapper.java)__ - This is intended to be a common interface between several possible Java libraries that do FFT analysis on an incoming audio signal.
 
 `src.com.haxademic.core.data`
 
@@ -23,8 +23,6 @@ While the code has been open-sourced, I don't plan on making it easy/viable for 
 * `ConvertUtil` - A collection of basic Java type conversion methods.
 
 * `FloatBuffer` - An object that keep a FIFO buffer of incoming data for smoothing purposes.
-
-* `SavedRectangle` - A text-file-backed GUI-draggable rectangle for mapping and screen subdividing purposes. *Should be moved to projection mapping tools package*
 
 `src.com.haxademic.core.debug`
 
@@ -36,167 +34,287 @@ While the code has been open-sourced, I don't plan on making it easy/viable for 
 
 `src.com.haxademic.core.draw.color`
 
-ColorHaxEasing.java
-ColorUtil.java
-EasedRGBColor.java
-ImageGradient.java
+* `ColorHaxEasing` - An object that represents a single color with interpolation and helpful getter/setter methods.
+
+* `ColorUtil` - Handy color conversion methods
+
+* `EasedRGBColor`
+
+* `ImageGradient` - Loads an image and scrubs across it horizontally. This is a gradient object that can be sampled from 0-1.
 
 `src.com.haxademic.core.draw.context`
 
-DrawUtil.java
-OpenGLUtil.java
-OrientationUtil.java
+* `DrawUtil`
+
+* `OpenGLUtil`
+
+* `OrientationUtil`
 
 `src.com.haxademic.core.draw.filters.shaders`
 
-BadTVGlitchFilter.java
-BadTVLinesFilter.java
-BaseFilter.java
-BlurBasicFilter.java
-BlurHFilter.java
-BlurProcessingFilter.java
-BlurVFilter.java
-BrightnessFilter.java
-ChromaColorFilter.java
-ChromaKeyFilter.java
-ColorCorrectionFilter.java
-ColorDistortionFilter.java
-ColorizeFilter.java
-ColorizeTwoColorsFilter.java
-ContrastFilter.java
-CubicLensDistortionFilter.java
-DeformBloomFilter.java
-DeformTunnelFanFilter.java
-DilateFilter.java
-EdgeColorDarkenFilter.java
-EdgeColorFadeFilter.java
-EdgesFilter.java
-EmbossFilter.java
-ErosionFilter.java
-FlipHFilter.java
-FXAAFilter.java
-GlowFilter.java
-HalftoneFilter.java
-HalftoneLinesFilter.java
-HueFilter.java
-InvertFilter.java
-KaleidoFilter.java
-LeaveBlackFilter.java
-LiquidWarpFilter.java
-MirrorFilter.java
-PixelateFilter.java
-RadialBlurFilter.java
-RadialRipplesFilter.java
-RotateFilter.java
-SaturationFilter.java
-SharpenFilter.java
-SphereDistortionFilter.java
-ThresholdFilter.java
-VignetteAltFilter.java
-VignetteFilter.java
-WarperFilter.java
-WobbleFilter.java
+* `BadTVGlitchFilter`
+
+* `BadTVLinesFilter`
+
+* `BaseFilter`
+
+* `BlurBasicFilter`
+
+* `BlurHFilter`
+
+* `BlurProcessingFilter`
+
+* `BlurVFilter`
+
+* `BrightnessFilter`
+
+* `ChromaColorFilter`
+
+* `ChromaKeyFilter`
+
+* `ColorCorrectionFilter`
+
+* `ColorDistortionFilter`
+
+* `ColorizeFilter`
+
+* `ColorizeTwoColorsFilter`
+
+* `ContrastFilter`
+
+* `CubicLensDistortionFilter`
+
+* `DeformBloomFilter`
+
+* `DeformTunnelFanFilter`
+
+* `DilateFilter`
+
+* `EdgeColorDarkenFilter`
+
+* `EdgeColorFadeFilter`
+
+* `EdgesFilter`
+
+* `EmbossFilter`
+
+* `ErosionFilter`
+
+* `FlipHFilter`
+
+* `FXAAFilter`
+
+* `GlowFilter`
+
+* `HalftoneFilter`
+
+* `HalftoneLinesFilter`
+
+* `HueFilter`
+
+* `InvertFilter`
+
+* `KaleidoFilter`
+
+* `LeaveBlackFilter`
+
+* `LiquidWarpFilter`
+
+* `MirrorFilter`
+
+* `PixelateFilter`
+
+* `RadialBlurFilter`
+
+* `RadialRipplesFilter`
+
+* `RotateFilter`
+
+* `SaturationFilter`
+
+* `SharpenFilter`
+
+* `SphereDistortionFilter`
+
+* `ThresholdFilter`
+
+* `VignetteAltFilter`
+
+* `VignetteFilter`
+
+* `WarperFilter`
+
+* `WobbleFilter`
+
 
 `src.com.haxademic.core.draw.image`
 
-AnimatedGifEncoder.java
-Base64Image.java
-BrightnessBumper.java
-FractalBrownianMotion.java
-ImageCyclerBuffer.java
-ImageSequenceMovieClip.java
-ImageUtil.java
-MotionBlurPGraphics.java
-PerlinTexture.java
-ScreenUtil.java
-TickerScroller.java
-TiledTexture.java
+* `AnimatedGifEncoder`
+
+* `Base64Image`
+
+* `BrightnessBumper`
+
+* `FractalBrownianMotion`
+
+* `ImageCyclerBuffer`
+
+* `ImageSequenceMovieClip`
+
+* `ImageUtil`
+
+* `MotionBlurPGraphics`
+
+* `PerlinTexture`
+
+* `ScreenUtil`
+
+* `TickerScroller`
+
+* `TiledTexture`
+
 
 `src.com.haxademic.core.draw.mapping`
 
-PGraphicsKeystone.java
+* `SavedRectangle` - A text-file-backed GUI-draggable rectangle for mapping and
+ screen subdividing purposes.
+
+* `PGraphicsKeystone`
+
 
 `src.com.haxademic.core.draw.particle`
 
-ForceDirectedLayout.java
-VectorFlyer.java
+* `ForceDirectedLayout`
+
+* `VectorFlyer`
+
 
 `src.com.haxademic.core.draw.shapes`
 
-BoxBetween.java
-CacheFloweLogo.java
-Extrude2dPoints.java
-Gradients.java
-Icosahedron.java
-MarchingCubes.java
-MeshShapes.java
-PShapeSolid.java
-PShapeUtil.java
-Shapes.java
-Superformula.java
-TextToPShape.java
+* `BoxBetween`
+
+* `CacheFloweLogo`
+
+* `Extrude2dPoints`
+
+* `Gradients`
+
+* `Icosahedron`
+
+* `MarchingCubes`
+
+* `MeshShapes`
+
+* `PShapeSolid`
+
+* `PShapeUtil`
+
+* `Shapes`
+
+* `Superformula`
+
+* `TextToPShape`
+
 
 `src.com.haxademic.core.file`
 
-ConfigTextFile.java
-DirImageLoader.java
-FileUtil.java
+* `ConfigTextFile`
+
+* `DirImageLoader`
+
+* `FileUtil`
+
 
 `src.com.haxademic.core.math.easing`
 
-EasingFloat.java
-EasingFloat3d.java
-EasingPowInterp.java
-ElasticFloat.java
-ElasticFloat3D.java
-FloatBuffer.java
-IEasingValue.java
-LinearFloat.java
-Penner.java
+* `EasingFloat`
+
+* `EasingFloat3d`
+
+* `EasingPowInterp`
+
+* `ElasticFloat`
+
+* `ElasticFloat3D`
+
+* `FloatBuffer`
+
+* `IEasingValue`
+
+* `LinearFloat`
+
+* `Penner`
+
 
 `src.com.haxademic.core.math`
 
-MagicNumbers.java
-MathUtil.java
+* `MagicNumbers`
+
+* `MathUtil`
+
 
 `src.com.haxademic.core.net`
 
-JSONUtil.java
-WebServer.java
-WebServerRequestHandler.java
-WebSocketRelay.java
-WebSocketServer.java
+* `JSONUtil`
+
+* `WebServer`
+
+* `WebServerRequestHandler`
+
+* `WebSocketRelay`
+
+* `WebSocketServer`
+
 
 `src.com.haxademic.core.render`
 
-GifRenderer.java
-JoonsWrapper.java
-MIDISequenceRenderer.java
-Renderer.java
+* `GifRenderer`
+
+* `JoonsWrapper`
+
+* `MIDISequenceRenderer`
+
+* `Renderer`
+
 
 `src.com.haxademic.core.system`
 
-AppRestart.java
-JavaInfo.java
-P5Properties.java
-SecondScreenViewer.java
-SystemUtil.java
-WindowsSystemUtil.java
+* `AppRestart`
+
+* `JavaInfo`
+
+* `P5Properties`
+
+* `SecondScreenViewer`
+
+* `SystemUtil`
+
+* `WindowsSystemUtil`
+
 
 `src.com.haxademic.core.text`
 
-FontUtil.java
-RandomStringUtil.java
-StringFormatter.java
-ValidateUtil.java
+* `FontUtil`
+
+* `RandomStringUtil`
+
+* `StringFormatter`
+
+* `ValidateUtil`
+
 
 `src.com.haxademic.core.ui`
 
-Button.java
-CursorToggle.java
-IMouseable.java
-TextButton.java
-TextInput.java
+* `Button`
+
+* `CursorToggle`
+
+* `IMouseable`
+
+* `TextButton`
+
+* `TextInput`
+
 
 
 ## General Eclipse/Processing Tips
