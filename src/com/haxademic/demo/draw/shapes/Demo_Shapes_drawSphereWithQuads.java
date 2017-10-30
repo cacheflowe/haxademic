@@ -10,7 +10,7 @@ import com.haxademic.core.math.easing.Penner;
 
 import processing.core.PVector;
 
-public class Demo_Shapes_drawSphereQuads 
+public class Demo_Shapes_drawSphereWithQuads 
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
@@ -34,6 +34,6 @@ extends PAppletHax {
 		
 		p.stroke(255, 140, 200);
 		p.fill(255 * 0.2f, 140 * 0.2f, 200 * 0.2f);
-		Shapes.drawSphereQuads(p.g, p.height * 0.4f);
+		Shapes.drawSphereWithQuads(p.g, p.height * 0.4f);
 	}
 }

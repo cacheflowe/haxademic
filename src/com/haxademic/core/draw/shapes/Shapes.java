@@ -165,7 +165,7 @@ public class Shapes {
 	}
 	
 	// from: https://processing.org/discourse/beta/num_1256759256.html
-	public static void drawSphereQuads(PGraphics pg, float size) {
+	public static void drawSphereWithQuads(PGraphics pg, float size) {
 		float radius = size;
 		float rho = radius;
 		float x, y, z, u, v;
