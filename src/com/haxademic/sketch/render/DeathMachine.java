@@ -21,6 +21,7 @@ extends PAppletHax {
 	protected PShape skullMesh;
 	protected PShape gunMesh;
 	protected PImage img;
+	protected PImage flag;
 	protected PGraphics gunTexture;
 	protected TiledTexture gunTilingTexture;
 	protected TextToPShape textToPShape;
@@ -46,6 +47,7 @@ extends PAppletHax {
 	protected void firstFrameSetup() {
 		P.println("America the Indefensible");
 		// load texture
+		flag = p.loadImage(FileUtil.getFile("images/usa.png"));
 		img = p.loadImage(FileUtil.getFile("images/las-vegas-victims-nbcnews.png"));
 		gunTexture = p.createGraphics(img.width * 3, img.width * 3, P.P3D);
 		gunTexture.smooth(8);
@@ -64,6 +66,7 @@ extends PAppletHax {
 		String fontFile = FileUtil.getFile("fonts/AvantGarde-Book.ttf");
 		textAmerica = textToPShape.stringToShape3d("AMERICA", textDepth, fontFile);
 		PShapeUtil.scaleObjToHeight(textAmerica, p.width * 0.068f);
+//		PShapeUtil.addTextureUVSpherical(textAmerica, img);
 		textThe = textToPShape.stringToShape3d("THE", textDepth, fontFile);
 		PShapeUtil.scaleObjToHeight(textThe, p.width * 0.05f);
 		textIndefensible = textToPShape.stringToShape3d("INDEFENSIBLE", textDepth, fontFile);
@@ -110,6 +113,7 @@ extends PAppletHax {
 		// loop progress
 		float loopFrames = p.frameCount % _frames;
 		float percentComplete = loopFrames / _frames;
+//		percentComplete = 0.75f;
 //		percentComplete = Penner.easeInOutCirc(percentComplete % 1f, 0, 1, 1);
 		float radsComplete = percentComplete * P.TWO_PI;
 		
@@ -171,9 +175,10 @@ extends PAppletHax {
 		p.rotateY(P.HALF_PI);
 		p.translate(-209, -302, 0);
 //		p.translate(xmouse , ymouse, 0);
-		textAmerica.disableStyle();
 		p.fill(255);
+		textAmerica.disableStyle();
 		p.shape(textAmerica);
+//		PShapeUtil.drawTriangles(p.g, textAmerica, flag, 1);
 		p.popMatrix();
 		
 		// THE
@@ -182,7 +187,7 @@ extends PAppletHax {
 		p.rotateY(P.HALF_PI);
 		p.translate(-259, 51, 0);
 //		p.translate(yOffsetAM ,zOffsetAM, 0);
-		textAmerica.disableStyle();
+		textThe.disableStyle();
 		p.fill(255);
 		p.shape(textThe);
 		p.popMatrix();
@@ -193,7 +198,7 @@ extends PAppletHax {
 		p.rotateY(P.HALF_PI);
 		p.translate(337, 302, 0);
 //		p.translate(yOffsetAM ,zOffsetAM, 0);
-		textAmerica.disableStyle();
+		textIndefensible.disableStyle();
 		p.fill(255);
 		p.shape(textIndefensible);
 		p.popMatrix();
