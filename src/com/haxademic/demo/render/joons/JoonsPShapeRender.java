@@ -16,6 +16,7 @@ extends PAppletHax {
 
 	protected PShape obj;
 	protected float objHeight;
+	protected float frames = 200;
 	
 	protected void overridePropsFile() {
 		p.appConfig.setProperty( AppSettings.SUNFLOW, true );
@@ -24,9 +25,9 @@ extends PAppletHax {
 
 		p.appConfig.setProperty( AppSettings.WIDTH, 960 );
 		p.appConfig.setProperty( AppSettings.HEIGHT, 720 );
-		p.appConfig.setProperty( AppSettings.RENDERING_IMAGE_SEQUENCE, true );
-		p.appConfig.setProperty( AppSettings.RENDERING_IMAGE_SEQUENCE_START_FRAME, 2 );
-		p.appConfig.setProperty( AppSettings.RENDERING_IMAGE_SEQUENCE_STOP_FRAME, 4 );
+		p.appConfig.setProperty( AppSettings.RENDERING_IMAGE_SEQUENCE, false );
+		p.appConfig.setProperty( AppSettings.RENDERING_IMAGE_SEQUENCE_START_FRAME, 3 );
+		p.appConfig.setProperty( AppSettings.RENDERING_IMAGE_SEQUENCE_STOP_FRAME, 3 + 20 );
 	}
 
 	public void setup() {
@@ -42,13 +43,17 @@ extends PAppletHax {
 
 
 	public void drawApp() {
-		if(joons == null) {
+		if(p.appConfig.getBoolean(AppSettings.SUNFLOW_ACTIVE, false) == false) {
 			p.background(0);
 			p.lights();
+			p.noStroke();
 		}
 //		joons.jr.background(JoonsWrapper.BACKGROUND_GI);
 		joons.jr.background(JoonsWrapper.BACKGROUND_AO);
 		p.translate(0, 0, -width);
+		
+		// progress
+		float progress = (p.frameCount % frames) / frames;
 
 		// draw environment
 		p.pushMatrix();
@@ -58,24 +63,25 @@ extends PAppletHax {
 		// draw shape
 		p.pushMatrix();
 		p.rotateZ(P.PI);
+		p.rotateY(progress * P.TWO_PI);
 		joons.jr.fill(JoonsWrapper.MATERIAL_PHONG, 205, 150, 205);		p.fill( 205, 150, 205 );
 		PShapeUtil.drawTrianglesJoons(p, obj, 1);
 		p.popMatrix();
 
-		// draw box
+		// draw sphere
 		p.pushMatrix();
 //		joons.jr.fill(JoonsWrapper.MATERIAL_LIGHT, 5, 5, 5);		p.fill( 255, 255, 255 );
-		joons.jr.fill(JoonsWrapper.MATERIAL_AMBIENT_OCCLUSION, 60, 60, 60, 0, 0, 0,   50, 16);
+		joons.jr.fill(JoonsWrapper.MATERIAL_AMBIENT_OCCLUSION, 10, 10, 30 + 20f * P.sin(progress * P.TWO_PI), 0, 0, 0,   50, 16);
 		p.rotateY(1);
 		p.rotateZ(1);
-		p.sphere(200);
+		p.sphere(210);
 		p.popMatrix();
 		
 		// draw floor
 		p.pushMatrix();
 		DrawUtil.setDrawCenter(p);
 		p.translate(0, objHeight/2);
-		joons.jr.fill(JoonsWrapper.MATERIAL_PHONG, 10, 90, 10);		p.fill( 10, 90, 10 );
+		joons.jr.fill(JoonsWrapper.MATERIAL_PHONG, 10, 10, 10);		p.fill( 10, 10, 10 );
 		p.box(p.height * 3, 2, p.height * 3);
 		p.popMatrix();
 	}
