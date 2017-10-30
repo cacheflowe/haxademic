@@ -1,4 +1,4 @@
-package com.haxademic.sketch.texture;
+package com.haxademic.demo.draw.shapes;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
@@ -9,7 +9,7 @@ import com.haxademic.core.math.easing.Penner;
 
 import processing.core.PImage;
 
-public class TextureCube 
+public class Demo_Shapes_drawTexturedCube 
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
@@ -40,6 +40,6 @@ extends PAppletHax {
 		rotateX(P.PI + 0.2f * P.sin(radsComplete)); 
 		rotateY(radsCompleteEased * 0.25f); 
 		
-		Shapes.drawTexturedBox(p.g, 200, img);
+		Shapes.drawTexturedCube(p.g, 200, img);
 	}
 }

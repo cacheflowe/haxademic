@@ -55,7 +55,7 @@ extends PAppletHax {
 		p.translate(0, height * -0.2f, 0);
 		p.rotateX(-P.PI/8f);
 		p.rotateY(P.PI/4f);
-		Shapes.drawTexturedBox(p.g, p.width * 1.2f + (p.width * 0.1f) * P.sin(radsComplete), texture);
+		Shapes.drawTexturedCube(p.g, p.width * 1.2f + (p.width * 0.1f) * P.sin(radsComplete), texture);
 		p.popMatrix();
 
 		// draw black box

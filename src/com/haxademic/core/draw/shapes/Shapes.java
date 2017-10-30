@@ -203,7 +203,7 @@ public class Shapes {
 		}
 	}
 	
-	public static void drawTexturedBox(PGraphics pg, float size, PImage texture) {
+	public static void drawTexturedCube(PGraphics pg, float size, PImage texture) {
 		pg.beginShape(P.QUADS);
 		pg.texture(texture);
 

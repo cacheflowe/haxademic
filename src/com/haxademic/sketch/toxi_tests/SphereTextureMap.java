@@ -1,4 +1,4 @@
-package com.haxademic.sketch.texture;
+package com.haxademic.sketch.toxi_tests;
 
 import com.haxademic.app.haxvisual.viz.IAudioTexture;
 import com.haxademic.app.haxvisual.viz.textures.ColumnAudioTexture;

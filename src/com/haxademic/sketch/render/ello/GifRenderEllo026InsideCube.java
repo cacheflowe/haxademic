@@ -48,7 +48,7 @@ extends PAppletHax {
 			rotateZ(-radsComplete); 
 		}
 
-		Shapes.drawTexturedBox(p.g, 1200 + 0f * P.sin(P.PI + radsComplete), img);
+		Shapes.drawTexturedCube(p.g, 1200 + 0f * P.sin(P.PI + radsComplete), img);
 		
 		VignetteFilter.instance(p).applyTo(p);
 	}
