@@ -322,6 +322,66 @@ public class PShapeUtil {
 		}
 	}
 	
+	// Same as above, but uses PApplet with no UV coords, to make Joons happy
+	public static void drawTrianglesJoons(PApplet p, PShape shape, float scale) {
+		PShape polygon = shape;
+		int vertexCount = polygon.getVertexCount();
+		if(vertexCount == 3) {
+			int i = 0;
+			p.beginShape(PConstants.TRIANGLES);
+
+			PVector vertex = polygon.getVertex(i);
+			PVector vertex2 = polygon.getVertex(i+1);
+			PVector vertex3 = polygon.getVertex(i+2);
+			vertex.mult(scale);
+			vertex2.mult(scale);
+			vertex3.mult(scale);
+			p.vertex(vertex.x, vertex.y, vertex.z);
+			p.vertex(vertex2.x, vertex2.y, vertex2.z);
+			p.vertex(vertex3.x, vertex3.y, vertex3.z);
+			p.endShape();
+		} else if(vertexCount == 4) {
+			int i = 0;
+			p.beginShape(PConstants.QUADS);
+
+			PVector vertex = polygon.getVertex(i);
+			PVector vertex2 = polygon.getVertex(i+1);
+			PVector vertex3 = polygon.getVertex(i+2);
+			PVector vertex4 = polygon.getVertex(i+3);
+			vertex.mult(scale);
+			vertex2.mult(scale);
+			vertex3.mult(scale);
+			vertex4.mult(scale);
+			p.vertex(vertex.x, vertex.y, vertex.z);
+			p.vertex(vertex2.x, vertex2.y, vertex2.z);
+			p.vertex(vertex3.x, vertex3.y, vertex3.z);
+			p.vertex(vertex4.x, vertex4.y, vertex4.z);
+			p.endShape();
+		} else {
+			p.beginShape(PConstants.TRIANGLES);
+
+			for (int i = 0; i < vertexCount; i += 3) {
+				if(i < vertexCount - 3) {	// protect against rogue vertices?
+					PVector vertex = polygon.getVertex(i);
+					PVector vertex2 = polygon.getVertex(i+1);
+					PVector vertex3 = polygon.getVertex(i+2);
+					vertex.mult(scale);
+					vertex2.mult(scale);
+					vertex3.mult(scale);
+					p.vertex(vertex.x, vertex.y, vertex.z);
+					p.vertex(vertex2.x, vertex2.y, vertex2.z);
+					p.vertex(vertex3.x, vertex3.y, vertex3.z);
+				}
+			}
+			p.endShape();
+		}
+
+		for (int j = 0; j < shape.getChildCount(); j++) {
+			PShape subShape = shape.getChild(j);
+			drawTrianglesJoons(p, subShape, scale);
+		}
+	}
+	
 	public static void drawTrianglesGrouped(PGraphics p, PShape s, float scale) {
 		p.beginShape(PConstants.TRIANGLES);
 		for (int j = 0; j < s.getChildCount(); j++) {

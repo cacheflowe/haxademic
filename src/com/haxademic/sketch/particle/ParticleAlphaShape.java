@@ -36,8 +36,7 @@ extends PAppletHax {
 	
 	protected void overridePropsFile() {
 		p.appConfig.setProperty( AppSettings.SUNFLOW, true );
-		p.appConfig.setProperty( AppSettings.SUNFLOW_ACTIVE, false );
-		p.appConfig.setProperty( AppSettings.SUNFLOW_QUALITY, "low" );
+		p.appConfig.setProperty( AppSettings.SUNFLOW_ACTIVE, true );
 
 		
 		p.appConfig.setProperty( AppSettings.WIDTH, 1280 );

@@ -25,6 +25,7 @@ import com.haxademic.core.hardware.midi.MidiWrapper;
 import com.haxademic.core.hardware.osc.OscWrapper;
 import com.haxademic.core.hardware.webcam.WebCamWrapper;
 import com.haxademic.core.render.GifRenderer;
+import com.haxademic.core.render.ImageSequenceRenderer;
 import com.haxademic.core.render.JoonsWrapper;
 import com.haxademic.core.render.MIDISequenceRenderer;
 import com.haxademic.core.render.Renderer;
@@ -120,6 +121,7 @@ extends PApplet
 	public Renderer _renderer;
 	public MIDISequenceRenderer _midiRenderer;
 	public GifRenderer _gifRenderer;
+	public ImageSequenceRenderer imageSequenceRenderer;
 
 	/**
 	 * Wraps up MIDI functionality with theMIDIbus library.
@@ -344,6 +346,9 @@ extends PApplet
 		if(appConfig.getBoolean(AppSettings.RENDERING_GIF, false) == true) {
 			_gifRenderer = new GifRenderer(appConfig.getInt(AppSettings.RENDERING_GIF_FRAMERATE, 45), appConfig.getInt(AppSettings.RENDERING_GIF_QUALITY, 15));
 		}
+		if(appConfig.getBoolean(AppSettings.RENDERING_IMAGE_SEQUENCE, false) == true) {
+			imageSequenceRenderer = new ImageSequenceRenderer();
+		}
 		
 		if( p.appConfig.getBoolean( AppSettings.KINECT_V2_WIN_ACTIVE, false ) == true ) {
 			kinectWrapper = new KinectWrapperV2( p, p.appConfig.getBoolean( "kinect_depth", true ), p.appConfig.getBoolean( "kinect_rgb", true ), p.appConfig.getBoolean( "kinect_depth_image", true ) );
@@ -480,6 +485,11 @@ extends PApplet
 				_gifRenderer.startGifRender(this);
 			}
 		}
+		if(imageSequenceRenderer != null && appConfig.getBoolean(AppSettings.RENDERING_IMAGE_SEQUENCE, false) == true) {
+			if(appConfig.getInt(AppSettings.RENDERING_IMAGE_SEQUENCE_START_FRAME, 1) == p.frameCount) {
+				imageSequenceRenderer.startImageSequenceRender();;
+			}
+		}
 	}
 	
 	protected void renderFrame() {
@@ -503,6 +513,15 @@ extends PApplet
 			_gifRenderer.renderGifFrame(p.g);
 			if(appConfig.getInt(AppSettings.RENDERING_GIF_STOP_FRAME, 100) == p.frameCount) {
 				_gifRenderer.finish();
+			}
+		}
+		// check for image sequence stop frame
+		if(imageSequenceRenderer != null && appConfig.getBoolean(AppSettings.RENDERING_IMAGE_SEQUENCE, false) == true) {
+			if(p.frameCount >= appConfig.getInt(AppSettings.RENDERING_IMAGE_SEQUENCE_START_FRAME, 1)) {
+				imageSequenceRenderer.renderImageFrame(p.g);
+			}
+			if(p.frameCount == appConfig.getInt(AppSettings.RENDERING_IMAGE_SEQUENCE_STOP_FRAME, 500)) {
+				imageSequenceRenderer.finish();
 			}
 		}
 	}

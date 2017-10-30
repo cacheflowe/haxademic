@@ -26,6 +26,9 @@ public class AppSettings {
 	public static final String RENDERING_MOVIE = "rendering";
 	public static final String RENDERING_MOVIE_START_FRAME = "rendering_startframe";
 	public static final String RENDERING_MOVIE_STOP_FRAME = "rendering_stopframe";
+	public static final String RENDERING_IMAGE_SEQUENCE = "rendering_image_sequence";
+	public static final String RENDERING_IMAGE_SEQUENCE_START_FRAME = "rendering_image_sequence_startframe";
+	public static final String RENDERING_IMAGE_SEQUENCE_STOP_FRAME = "rendering_image_sequence_stopframe";
 	public static final String RENDER_AUDIO = "render_audio";
 	public static final String RENDER_AUDIO_FILE = "render_audio_file";
 	public static final String RENDER_MIDI = "render_midi";
@@ -41,6 +44,7 @@ public class AppSettings {
 	public static final String SUNFLOW = "sunflow";
 	public static final String SUNFLOW_ACTIVE = "sunflow_active";
 	public static final String SUNFLOW_QUALITY = "sunflow_quality";
+	public static final String SUNFLOW_QUALITY_LOW = "____";
 	public static final String SUNFLOW_QUALITY_HIGH = "high";
 	public static final String SUNFLOW_SAVE_IMAGES = "sunflow_save_images";
 	// Input

@@ -21,6 +21,7 @@ public class JoonsWrapper {
 	// Backgrounds ========================================================
 	public static final String BACKGROUND_GI = "gi_instant";
 	public static final String BACKGROUND_AO = "gi_ambient_occlusion";
+	public static final String CORNELL_BOX = "cornell_box";
     //jr.background(0, 255, 255); //background(gray), or (r, g, b), like Processing.
     //jr.background("gi_instant"); //Global illumination, normal mode.
     //jr.background("gi_ambient_occlusion"); //Global illumination, ambient occlusion mode.
@@ -133,6 +134,7 @@ public class JoonsWrapper {
 		DrawMesh.drawToxiMeshFacesNative(p, mesh);
 //		addColorForObject( shaderType, color, refl, false );
 	}
+	
 	
 	// internal methods during rendering -------------------------------------
 //	/**
