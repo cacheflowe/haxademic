@@ -2,10 +2,10 @@ package com.haxademic.core.draw.image;
 
 import java.util.ArrayList;
 
+import com.haxademic.core.draw.context.DrawUtil;
+
 import processing.core.PGraphics;
 import processing.core.PImage;
-
-import com.haxademic.core.draw.util.DrawUtil;
 
 public class MotionBlurPGraphics {
 	

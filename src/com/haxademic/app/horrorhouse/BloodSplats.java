@@ -2,13 +2,13 @@ package com.haxademic.app.horrorhouse;
 
 import java.util.ArrayList;
 
-import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.draw.color.ColorHaxEasing;
-import com.haxademic.core.draw.mesh.PGraphicsKeystone;
-import com.haxademic.core.draw.util.DrawUtil;
-import com.haxademic.core.draw.util.OpenGLUtil;
+import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.OpenGLUtil;
+import com.haxademic.core.draw.mapping.PGraphicsKeystone;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.dmx.DmxInterface;
 import com.haxademic.core.hardware.kinect.KinectAmbientActivityMonitor;

@@ -1,4 +1,4 @@
-package com.haxademic.core.app;
+package com.haxademic.core.constants;
 
 public class AppSettings {
 	// Canvas setup

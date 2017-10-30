@@ -1,8 +1,8 @@
 package com.haxademic.core.render;
 
 import com.haxademic.core.app.P;
-import com.haxademic.core.draw.mesh.DrawMesh;
-import com.haxademic.core.draw.util.DrawUtil;
+import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.toxi.DrawMesh;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.render.joons.JRStatics;
 import com.haxademic.core.render.joons.JoonsRenderer;

@@ -3,12 +3,12 @@ package com.haxademic.sketch.hardware.kinect_openni;
 
 import java.awt.image.BufferedImage;
 
-import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.constants.AppSettings;
+import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.image.ImageUtil;
-import com.haxademic.core.draw.mesh.VectorFlyer;
-import com.haxademic.core.draw.util.DrawUtil;
+import com.haxademic.core.draw.toxi.VectorFlyerToxi;
 import com.haxademic.core.hardware.kinect.SkeletonsTracker;
 import com.haxademic.core.vendor.Toxiclibs;
 import com.jhlabs.image.ContrastFilter;
@@ -193,7 +193,7 @@ extends PAppletHax {
 		}
 	}
 	
-	protected float particleDistanceToBodyPart( float minDist, VectorFlyer particle, Vec3D bodyPartLoc ) {
+	protected float particleDistanceToBodyPart( float minDist, VectorFlyerToxi particle, Vec3D bodyPartLoc ) {
 		if( bodyPartLoc == null ) return minDist;
 		if( bodyPartLoc.distanceTo(particle.position()) < minDist ) {
 			particle.setTarget( bodyPartLoc );

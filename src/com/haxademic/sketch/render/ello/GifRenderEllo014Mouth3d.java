@@ -2,11 +2,11 @@ package com.haxademic.sketch.render.ello;
 
 import java.util.ArrayList;
 
-import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.draw.mesh.MeshUtil;
-import com.haxademic.core.draw.util.OpenGLUtil;
+import com.haxademic.core.constants.AppSettings;
+import com.haxademic.core.draw.context.OpenGLUtil;
+import com.haxademic.core.draw.shapes.Extrude2dPoints;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.easing.ElasticFloat3D;
 import com.haxademic.core.math.easing.Penner;
@@ -20,7 +20,7 @@ public class GifRenderEllo014Mouth3d
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
-	float _frames = 100;
+	float _frames = 300;
 
 	protected TColor BLACK = TColor.newHex("000000"); // TColorInit.newRGBA( 0, 200, 234, 255 ); // TColor.newHex("FFFF00"); // DAFFCA // FED7ED
 	protected TColor WHITE = TColor.newHex("ffffff"); // TColorInit.newRGBA( 0, 200, 234, 255 ); // TColor.newHex("FFFF00"); // DAFFCA // FED7ED
@@ -111,7 +111,7 @@ extends PAppletHax {
 		joons.jr.fill( JoonsWrapper.MATERIAL_SHINY, WHITE.red() * 0, WHITE.green() * 0, WHITE.blue() * 0 );
 		joons.jr.fill( JoonsWrapper.MATERIAL_SHINY, WHITE.red() * 0, WHITE.green() * 0, WHITE.blue() * 0, 0 );
 		p.stroke(GRAY.toARGB(), 80);
-		MeshUtil.drawExtrudedPShape(p, _outerPoints, 1000 - 999 * ((percentComplete + 0.5f) % 1.0f) );
+		Extrude2dPoints.drawExtruded2dPointList(p, _outerPoints, 1000 - 999 * ((percentComplete + 0.5f) % 1.0f) );
 		p.popMatrix();
 
 		
@@ -121,7 +121,7 @@ extends PAppletHax {
 		translate(-5, -14, -5000 + easedPercent * 5000);
 		joons.jr.fill( JoonsWrapper.MATERIAL_SHINY, WHITE.red() * 255, WHITE.green() * 255, WHITE.blue() * 255 );
 		p.stroke(GRAY.toARGB(), 80);
-		MeshUtil.drawExtrudedPShape(p, _mouthPoints, 1000 - 999 * percentComplete);
+		Extrude2dPoints.drawExtruded2dPointList(p, _mouthPoints, 1000 - 999 * percentComplete);
 		p.popMatrix();
 	}
 	

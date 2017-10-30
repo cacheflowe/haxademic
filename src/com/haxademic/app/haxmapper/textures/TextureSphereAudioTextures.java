@@ -4,14 +4,14 @@ import java.util.ArrayList;
 
 import com.haxademic.app.haxvisual.HaxVisualTwo;
 import com.haxademic.core.app.P;
+import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.filters.shaders.BlurBasicFilter;
 import com.haxademic.core.draw.filters.shaders.BlurProcessingFilter;
 import com.haxademic.core.draw.filters.shaders.VignetteAltFilter;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.shapes.Gradients;
 import com.haxademic.core.draw.shapes.Icosahedron;
-import com.haxademic.core.draw.util.DrawUtil;
-import com.haxademic.core.draw.util.PShapeUtil;
+import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.EasingFloat3d;

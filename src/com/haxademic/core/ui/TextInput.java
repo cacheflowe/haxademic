@@ -4,8 +4,8 @@ import java.awt.Rectangle;
 
 import processing.core.PApplet;
 
+import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.text.CustomFontText2D;
-import com.haxademic.core.draw.util.DrawUtil;
 
 public class TextInput
 implements IMouseable {

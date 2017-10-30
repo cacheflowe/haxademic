@@ -3,11 +3,11 @@ package com.haxademic.sketch.pshape;
 
 import java.util.ArrayList;
 
-import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.draw.mesh.MeshUtil;
-import com.haxademic.core.draw.util.OpenGLUtil;
+import com.haxademic.core.constants.AppSettings;
+import com.haxademic.core.draw.context.OpenGLUtil;
+import com.haxademic.core.draw.shapes.Extrude2dPoints;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.easing.ElasticFloat3D;
 
@@ -86,7 +86,7 @@ extends PAppletHax {
 				_outerPoints.add(v);
 			}
 			p.fill(fill);
-			MeshUtil.drawExtrudedPShape(p, _outerPoints, 10 + j);
+			Extrude2dPoints.drawExtruded2dPointList(p, _outerPoints, 10 + j);
 			_outerPoints.clear();
 		}
 

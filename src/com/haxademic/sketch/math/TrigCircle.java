@@ -2,7 +2,7 @@ package com.haxademic.sketch.math;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.draw.util.DrawUtil;
+import com.haxademic.core.draw.context.DrawUtil;
 
 import controlP5.ControlP5;
 

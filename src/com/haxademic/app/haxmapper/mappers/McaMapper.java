@@ -22,8 +22,8 @@ import com.haxademic.app.haxmapper.textures.TextureTwistingSquares;
 import com.haxademic.app.haxmapper.textures.TextureVideoPlayer;
 import com.haxademic.app.haxmapper.textures.TextureWaveformCircle;
 import com.haxademic.app.haxmapper.textures.TextureWaveformSimple;
-import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.file.FileUtil;
 
 import oscP5.OscMessage;

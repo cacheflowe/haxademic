@@ -1,7 +1,7 @@
 package com.haxademic.app.haxmapper.textures;
 
 import com.haxademic.core.app.P;
-import com.haxademic.core.draw.util.DrawUtil;
+import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.EasingFloat;
 

@@ -11,10 +11,10 @@ import com.haxademic.app.haxvisual.viz.ElementBase;
 import com.haxademic.app.haxvisual.viz.IVizElement;
 import com.haxademic.core.audio.AudioInputWrapper;
 import com.haxademic.core.draw.color.ColorGroup;
-import com.haxademic.core.draw.mesh.DrawMesh;
-import com.haxademic.core.draw.mesh.MeshUtil;
-import com.haxademic.core.draw.shapes.Meshes;
-import com.haxademic.core.draw.util.DrawUtil;
+import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.toxi.DrawMesh;
+import com.haxademic.core.draw.toxi.MeshUtilToxi;
+import com.haxademic.core.draw.toxi.Meshes;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.EasingFloat3d;
 
@@ -52,7 +52,7 @@ implements IVizElement {
 		OBJModel model = new OBJModel( p, "./models/submish-horiz-rotated.obj" );
 		model.disableMaterial();
 		model.disableTexture();
-		_logoMesh = MeshUtil.ConvertObjModelToToxiMesh( p, model );
+		_logoMesh = MeshUtilToxi.ConvertObjModelToToxiMesh( p, model );
 		_logoMesh.scale( 400f );
 	}
 	

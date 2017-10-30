@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import processing.core.PConstants;
 
 import com.haxademic.core.app.P;
-import com.haxademic.core.draw.util.DrawUtil;
+import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.math.easing.EasingFloat;
 
 public class TextureAppFrame2d 

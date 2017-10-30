@@ -2,9 +2,9 @@ package com.haxademic.sketch.hardware;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.filters.shaders.FlipHFilter;
 import com.haxademic.core.draw.image.ImageUtil;
-import com.haxademic.core.draw.util.DrawUtil;
 
 import processing.core.PConstants;
 import processing.core.PImage;

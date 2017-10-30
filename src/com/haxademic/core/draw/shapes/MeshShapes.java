@@ -1,4 +1,4 @@
-package com.haxademic.core.draw.mesh;
+package com.haxademic.core.draw.shapes;
 
 import processing.core.PApplet;
 import processing.core.PGraphics;
@@ -6,7 +6,7 @@ import processing.core.PVector;
 
 import com.haxademic.core.app.P;
 
-public class Mesh {
+public class MeshShapes {
 	// M_3_3_02.pde
 	// Mesh.pde
 	// 
@@ -86,19 +86,19 @@ public class Mesh {
 
 	// ------ construktors ------
 
-	public Mesh() {
+	public MeshShapes() {
 		form = P.CUSTOM;
 		update();
 	}
 
-	public Mesh(int theForm) {
+	public MeshShapes(int theForm) {
 		if (theForm >=0) {
 			form = theForm;
 		}
 		update();
 	}
 
-	public Mesh(int theForm, int theUNum, int theVNum) {
+	public MeshShapes(int theForm, int theUNum, int theVNum) {
 		if (theForm >=0) {
 			form = theForm;
 		}
@@ -107,7 +107,7 @@ public class Mesh {
 		update();
 	}
 
-	public Mesh(int theForm, float theUMin, float theUMax, float theVMin, float theVMax) {
+	public MeshShapes(int theForm, float theUMin, float theUMax, float theVMin, float theVMax) {
 		if (theForm >=0) {
 			form = theForm;
 		}
@@ -118,7 +118,7 @@ public class Mesh {
 		update();
 	}
 
-	public Mesh(int theForm, int theUNum, int theVNum, float theUMin, float theUMax, float theVMin, float theVMax) {
+	public MeshShapes(int theForm, int theUNum, int theVNum, float theUMin, float theUMax, float theVMin, float theVMax) {
 		if (theForm >=0) {
 			form = theForm;
 		}

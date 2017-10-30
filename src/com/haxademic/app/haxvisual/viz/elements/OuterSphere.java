@@ -13,9 +13,9 @@ import com.haxademic.app.haxvisual.viz.IVizElement;
 import com.haxademic.core.audio.AudioInputWrapper;
 import com.haxademic.core.data.Point3D;
 import com.haxademic.core.draw.color.ColorGroup;
-import com.haxademic.core.draw.mesh.DrawMesh;
-import com.haxademic.core.draw.mesh.MeshUtil;
-import com.haxademic.core.draw.util.DrawUtil;
+import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.toxi.DrawMesh;
+import com.haxademic.core.draw.toxi.MeshUtilToxi;
 import com.haxademic.core.math.MathUtil;
 
 public class OuterSphere
@@ -53,7 +53,7 @@ implements IVizElement {
 		OBJModel model = new OBJModel( p, "./models/the-discovery-multiplied-seied.obj" );
 		model.disableMaterial();
 		model.disableTexture();
-		_objMesh = MeshUtil.ConvertObjModelToToxiMesh( p, model );
+		_objMesh = MeshUtilToxi.ConvertObjModelToToxiMesh( p, model );
 		_objMesh.scale( _radius * 4 );
 	}
 

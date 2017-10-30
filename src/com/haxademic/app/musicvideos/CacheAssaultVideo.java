@@ -2,16 +2,16 @@ package com.haxademic.app.musicvideos;
 
 import java.awt.image.BufferedImage;
 
-import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.constants.AppSettings;
+import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.filters.BlobOuterMeshFilter;
 import com.haxademic.core.draw.filters.Cluster8BitRow;
 import com.haxademic.core.draw.filters.ImageHistogramFilter;
 import com.haxademic.core.draw.filters.PixelTriFilter;
 import com.haxademic.core.draw.filters.ReflectionFilter;
 import com.haxademic.core.draw.image.ImageUtil;
-import com.haxademic.core.draw.util.OpenGLUtil;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.MathUtil;
 import com.jhlabs.image.ContrastFilter;

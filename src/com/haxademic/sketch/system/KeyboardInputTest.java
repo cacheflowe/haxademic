@@ -1,8 +1,8 @@
 package com.haxademic.sketch.system;
 
-import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.constants.AppSettings;
 
 public class KeyboardInputTest
 extends PAppletHax {

@@ -1,4 +1,4 @@
-package com.haxademic.core.draw.mesh;
+package com.haxademic.core.draw.toxi;
 
 import java.util.ArrayList;
 import java.util.HashMap;

@@ -1,4 +1,4 @@
-package com.haxademic.core.draw.mesh;
+package com.haxademic.core.draw.toxi;
 
 import toxi.color.TColor;
 import toxi.geom.AABB;
@@ -11,7 +11,7 @@ import com.haxademic.core.debug.DebugUtil;
 import com.haxademic.core.draw.color.TColorBlendBetween;
 import com.haxademic.core.vendor.Toxiclibs;
 
-public class VectorFlyer {
+public class VectorFlyerToxi {
 	protected PAppletHax p;
 	protected Vec3D positionLast = new Vec3D();
 	protected Vec3D position = new Vec3D();
@@ -24,7 +24,7 @@ public class VectorFlyer {
 	protected float distToDest;
 	protected TColorBlendBetween color;
 
-	public VectorFlyer( TColor colorLow, TColor colorHigh ) {
+	public VectorFlyerToxi( TColor colorLow, TColor colorHigh ) {
 		DebugUtil.printErr("This VectorFlyer class should be deprecated");
 		p = (PAppletHax) P.p;
 		accel = p.random(0.5f, 8.0f);

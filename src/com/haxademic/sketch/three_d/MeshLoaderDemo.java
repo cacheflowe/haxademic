@@ -4,9 +4,9 @@ import java.util.ArrayList;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.debug.DebugUtil;
-import com.haxademic.core.draw.mesh.MeshPool;
-import com.haxademic.core.draw.mesh.MeshUtil;
-import com.haxademic.core.draw.util.DrawUtil;
+import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.toxi.MeshPool;
+import com.haxademic.core.draw.toxi.MeshUtilToxi;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.easing.EasingFloat3d;
 import com.haxademic.core.render.Renderer;
@@ -89,13 +89,13 @@ extends PApplet
 //		_meshPool.addMesh( "COUNTDOWN_TEXT_3", MeshUtil.getExtrudedMesh( MeshUtil.mesh2dFromTextFont( p, bitLowFont, null, 200, "3", -1, 2, 3f ), 4 ), 1 );
 		
 		// .svg vectors
-		WETriangleMesh cacheSVG = MeshUtil.meshFromSVG( p, "../data/svg/cacheflowe-logo.svg", -1, 10, 1f );
+		WETriangleMesh cacheSVG = MeshUtilToxi.meshFromSVG( p, "../data/svg/cacheflowe-logo.svg", -1, 10, 1f );
 //		_meshPool.addMesh( "CACHE", cacheSVG, 0.5f );
 //		_meshPool.addMesh( "CACHE_EXTRUDE", MeshUtil.getExtrudedMesh( cacheSVG, 20 ), 1 );
 //		_meshPool.addMesh( "DIAMOND_2D", MeshUtil.getExtrudedMesh( MeshUtil.meshFromSVG( p, "../data/svg/diamond.svg", -1, 3, 0.5f ), 20 ), 1 );
 //		_meshPool.addMesh( "CACHEFLOWE_LOGOTYPE", MeshUtil.getExtrudedMesh( MeshUtil.meshFromSVG( p, "../data/svg/cacheflowe-logotype.svg", -1, 6, 0.7f ), 4 ), 1 );
 //		_meshPool.addMesh( "MODE_SET_LOGOTYPE", MeshUtil.getExtrudedMesh( MeshUtil.meshFromSVG( p, "../data/svg/modeset-logotype.svg", -1, 6, 0.7f ), 4 ), 1 );
-		_meshPool.addMesh( "WUKI", MeshUtil.getExtrudedMesh( MeshUtil.meshFromSVG( p, "../data/svg/wuki-2.svg", -1, 6, 0.7f ), 4 ), 1 );
+		_meshPool.addMesh( "WUKI", MeshUtilToxi.getExtrudedMesh( MeshUtilToxi.meshFromSVG( p, "../data/svg/wuki-2.svg", -1, 6, 0.7f ), 4 ), 1 );
 //		_meshPool.addMesh( "CDW_LOGO", MeshUtil.meshFromSVG( p, "../data/svg/create-denver-logo.svg", -1, 3, 0.6f ), 1 );
 //
 //		_meshPool.addMesh( "GUICEWORKS_LOGO", MeshUtil.getExtrudedMesh( MeshUtil.meshFromSVG( p, "../data/svg/guiceworks-logo.svg", -1, 20, 0.7f ), 20 ), 1 );
@@ -118,10 +118,10 @@ extends PApplet
 //		_meshPool.addMesh( "MODE_SET", MeshUtil.meshFromOBJ( p, "../data/models/mode-set.obj", 1f ), 150 );
 //		_meshPool.addMesh( "SPIROGRAPH", MeshUtil.meshFromOBJ( p, "../data/models/spirograph-seied.obj", 1f ), 150 );
 //		_meshPool.addMesh( "CACHEFLOWE", MeshUtil.meshFromOBJ( p, "../data/models/cacheflowe-3d.obj", 1f ), 150 );
-		_meshPool.addMesh( "chicken", MeshUtil.meshFromOBJ( p, FileUtil.getHaxademicDataPath() + "models/chicken.obj", 1f ), 50 );
-		_meshPool.addMesh( "library_chair", MeshUtil.meshFromOBJ( p, FileUtil.getHaxademicDataPath() + "models/library-chair.obj", 1f ), 50 );
-		_meshPool.addMesh( "strat.obj", MeshUtil.meshFromOBJ( p, FileUtil.getHaxademicDataPath() + "models/strat.obj", 1f ), 50 );
-		_meshPool.addMesh( "octahedron.obj", MeshUtil.meshFromOBJ( p, FileUtil.getHaxademicDataPath() + "models/octahedron.obj", 1f ), 50 );
+		_meshPool.addMesh( "chicken", MeshUtilToxi.meshFromOBJ( p, FileUtil.getHaxademicDataPath() + "models/chicken.obj", 1f ), 50 );
+		_meshPool.addMesh( "library_chair", MeshUtilToxi.meshFromOBJ( p, FileUtil.getHaxademicDataPath() + "models/library-chair.obj", 1f ), 50 );
+		_meshPool.addMesh( "strat.obj", MeshUtilToxi.meshFromOBJ( p, FileUtil.getHaxademicDataPath() + "models/strat.obj", 1f ), 50 );
+		_meshPool.addMesh( "octahedron.obj", MeshUtilToxi.meshFromOBJ( p, FileUtil.getHaxademicDataPath() + "models/octahedron.obj", 1f ), 50 );
 
 		
 //		_objPool.loadObj( "SUBMISH_HORIZ", 		200, 	"./models/submish-rotated.obj" );

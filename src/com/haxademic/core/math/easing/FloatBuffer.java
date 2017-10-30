@@ -1,4 +1,4 @@
-package com.haxademic.core.data;
+package com.haxademic.core.math.easing;
 
 /**
  * Stores an array of values, intended to be the 

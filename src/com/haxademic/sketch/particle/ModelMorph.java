@@ -3,11 +3,11 @@ package com.haxademic.sketch.particle;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.draw.mesh.MeshPool;
-import com.haxademic.core.draw.mesh.MeshUtil;
-import com.haxademic.core.draw.util.DrawUtil;
+import com.haxademic.core.constants.AppSettings;
+import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.toxi.MeshPool;
+import com.haxademic.core.draw.toxi.MeshUtilToxi;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.easing.EasingFloat3d;
 import com.haxademic.core.math.easing.ElasticFloat3D;
@@ -51,13 +51,13 @@ extends PAppletHax {
 		_meshIndex = 0;
 		_wireFrame = false;
 		
-		_meshPool.addMesh( "chicken", MeshUtil.meshFromOBJ( p, FileUtil.getHaxademicDataPath() + "models/chicken.obj", 1f ), 50 );
-		_meshPool.addMesh( "library_chair", MeshUtil.meshFromOBJ( p, FileUtil.getHaxademicDataPath() + "models/library-chair.obj", 1f ), 50 );
-		_meshPool.addMesh( "strat.obj", MeshUtil.meshFromOBJ( p, FileUtil.getHaxademicDataPath() + "models/strat.obj", 1f ), 30 );
-		_meshPool.addMesh( "skull.obj", MeshUtil.meshFromOBJ( p, FileUtil.getHaxademicDataPath() + "models/skull.obj", 1f ), 20 );
-		_meshPool.addMesh( "POLY_HOLE_PENT", MeshUtil.meshFromOBJ( p, FileUtil.getHaxademicDataPath() + "models/poly-hole-penta.obj", 1f ), 70f );
-		_meshPool.addMesh( "POLY_HOLE_SQUARE", MeshUtil.meshFromOBJ( p, FileUtil.getHaxademicDataPath() + "models/poly-hole-square.obj", 1f ), 70f );
-		_meshPool.addMesh( "POLY_HOLE_TRI", MeshUtil.meshFromOBJ( p, FileUtil.getHaxademicDataPath() + "models/poly-hole-tri.obj", 1f ), 70f );
+		_meshPool.addMesh( "chicken", MeshUtilToxi.meshFromOBJ( p, FileUtil.getHaxademicDataPath() + "models/chicken.obj", 1f ), 50 );
+		_meshPool.addMesh( "library_chair", MeshUtilToxi.meshFromOBJ( p, FileUtil.getHaxademicDataPath() + "models/library-chair.obj", 1f ), 50 );
+		_meshPool.addMesh( "strat.obj", MeshUtilToxi.meshFromOBJ( p, FileUtil.getHaxademicDataPath() + "models/strat.obj", 1f ), 30 );
+		_meshPool.addMesh( "skull.obj", MeshUtilToxi.meshFromOBJ( p, FileUtil.getHaxademicDataPath() + "models/skull.obj", 1f ), 20 );
+		_meshPool.addMesh( "POLY_HOLE_PENT", MeshUtilToxi.meshFromOBJ( p, FileUtil.getHaxademicDataPath() + "models/poly-hole-penta.obj", 1f ), 70f );
+		_meshPool.addMesh( "POLY_HOLE_SQUARE", MeshUtilToxi.meshFromOBJ( p, FileUtil.getHaxademicDataPath() + "models/poly-hole-square.obj", 1f ), 70f );
+		_meshPool.addMesh( "POLY_HOLE_TRI", MeshUtilToxi.meshFromOBJ( p, FileUtil.getHaxademicDataPath() + "models/poly-hole-tri.obj", 1f ), 70f );
 
 		_modelIds = _meshPool.getIds();
 		_mesh = _meshPool.getMesh( _modelIds.get( 0 ) );

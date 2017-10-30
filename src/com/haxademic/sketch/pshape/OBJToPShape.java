@@ -1,11 +1,11 @@
 package com.haxademic.sketch.pshape;
 
-import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.constants.AppSettings;
+import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.shapes.PShapeSolid;
-import com.haxademic.core.draw.util.DrawUtil;
-import com.haxademic.core.draw.util.PShapeUtil;
+import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.file.FileUtil;
 
 import processing.core.PImage;
@@ -20,7 +20,7 @@ extends PAppletHax {
 	protected PImage img;
 	protected boolean useTexture = true;
 	protected float modelHeight;
-	protected float _frames = 60;
+	protected float _frames = 360;
 
 	protected void overridePropsFile() {
 		p.appConfig.setProperty( AppSettings.WIDTH, 800 );
@@ -37,18 +37,20 @@ extends PAppletHax {
 	protected void firstFrameSetup() {
 		// load texture
 //		img = p.loadImage(FileUtil.getFile("images/jupiter-360.jpg"));
-		img = p.loadImage(FileUtil.getFile("images/aholes-trmp.jpg"));
+//		img = p.loadImage(FileUtil.getFile("images/nasa-01.jpg"));
+		img = p.loadImage(FileUtil.getFile("images/pluto-chandra.jpg"));
+//		img = p.loadImage(FileUtil.getFile("images/usa.png"));
 		
 		// build obj PShape and scale to window
 //		obj = p.loadShape( FileUtil.getFile("models/poly-hole-square.obj"));	
-//		obj = p.loadShape( FileUtil.getFile("models/skull-realistic.obj"));	
+		obj = p.loadShape( FileUtil.getFile("models/skull-realistic.obj"));	
 //		obj = p.loadShape( FileUtil.getFile("models/man-lowpoly.obj"));	
 //		obj = p.loadShape( FileUtil.getFile("models/lego-man.obj"));	
-		obj = p.loadShape( FileUtil.getFile("models/bomb.obj"));	
+//		obj = p.loadShape( FileUtil.getFile("models/bomb.obj"));	
 //		obj = obj.getTessellation();
 //		obj = p.loadShape( FileUtil.getFile("models/poly-hole-tri.obj"));	
 		PShapeUtil.centerSvg(obj);
-		PShapeUtil.scaleObjToExtentVerticesAdjust(obj, p.height);
+		PShapeUtil.scaleObjToExtentVerticesAdjust(obj, p.height * 0.8f);
 		
 		// add UV coordinates to OBJ based on model extents
 		float modelExtent = PShapeUtil.getObjMaxExtent(obj);
@@ -56,7 +58,8 @@ extends PAppletHax {
 		P.println("modelExtent", modelExtent);
 		P.println("getObjHeight", modelHeight);
 		if(useTexture) 
-			PShapeUtil.addTextureUVToObj(obj, img, modelExtent, true);
+//			PShapeUtil.addTextureUVToObj(obj, img, modelExtent, true);
+			PShapeUtil.addTextureUVSpherical(obj, img);
 		
 		// build solid, deformable PShape object
 		objSolid = new PShapeSolid(obj);
@@ -68,27 +71,22 @@ extends PAppletHax {
 		
 		p.pushMatrix();
 		background(0);
+		DrawUtil.setBetterLights(p);
 		DrawUtil.setDrawCenter(p);
-		
-		// lights
-		p.ambient(127);
-		p.lightSpecular(230, 230, 230); 
-		p.directionalLight(200, 100, 100, -0.0f, -0.0f, 1); 
-		p.directionalLight(200, 200, 200, 0.0f, 0.0f, -1); 
-		p.specular(p.color(230)); 
-		p.shininess(15.0f); 
-
 		
 		// rotate
 		p.translate(p.width/2f, p.height/2f, -width*1.5f);
+		
+		p.rotateY(P.HALF_PI);
 		p.rotateZ(P.PI);
-		p.rotateY(0.1f * P.sin(p.frameCount / 40f)); // -P.HALF_PI + 
-		p.rotateX(P.map(p.mouseX, 0, p.width, -1f, 1f));
+		p.rotateY(0.4f * P.sin(percentComplete * P.TWO_PI)); // -P.HALF_PI +
+//		p.rotateY(percentComplete * P.TWO_PI); // -P.HALF_PI + 
+		p.rotateY(P.map(p.mouseX, 0, p.width, -1f, 1f));
 //		p.rotateX(-P.PI/2f);
 
 		
 		// deform
-//		objSolid.updateWithTrig(true, percentComplete * 2f, 0.04f, 17.4f);
+//		objSolid.updateWithTrig(true, percentComplete, 0.35f, 5.4f);
 //		objSolid.deformWithAudio();
 //		objSolid.deformWithAudioByNormals();
 

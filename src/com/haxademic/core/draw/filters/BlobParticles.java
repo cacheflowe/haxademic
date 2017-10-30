@@ -5,8 +5,8 @@ import java.util.Vector;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.image.ImageUtil;
-import com.haxademic.core.draw.util.OpenGLUtil;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.MathUtil;
 

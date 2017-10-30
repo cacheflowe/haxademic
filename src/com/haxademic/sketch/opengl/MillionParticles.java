@@ -4,8 +4,8 @@ import java.nio.ByteBuffer;
 import java.nio.ByteOrder;
 import java.nio.FloatBuffer;
 
-import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.constants.AppSettings;
 import com.jogamp.opengl.GL2;
 
 import processing.opengl.PGL;

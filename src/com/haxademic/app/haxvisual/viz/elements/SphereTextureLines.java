@@ -16,8 +16,8 @@ import com.haxademic.app.haxvisual.viz.textures.TintedImageTexture;
 import com.haxademic.core.app.P;
 import com.haxademic.core.audio.AudioInputWrapper;
 import com.haxademic.core.draw.color.ColorGroup;
-import com.haxademic.core.draw.mesh.MeshUtil;
-import com.haxademic.core.draw.util.DrawUtil;
+import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.toxi.MeshUtilToxi;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.EasingFloat3d;
 
@@ -65,7 +65,7 @@ implements IVizElement {
 //		AABB box = new AABB( _baseRadius );
 		_sphereMesh = new WETriangleMesh();
 		_sphereMesh.addMesh( _sphere.toMesh( 30 ) );
-		MeshUtil.calcTextureCoordinates( _sphereMesh );
+		MeshUtilToxi.calcTextureCoordinates( _sphereMesh );
 		_deformMesh = _sphereMesh.copy();
 	}
 	
@@ -117,10 +117,10 @@ implements IVizElement {
 		p.rotateX( _rotation.y() );
 		p.rotateZ( _rotation.z() );
 		
-		MeshUtil.deformMeshWithAudio( _sphereMesh, _deformMesh, _audioData, _deformFactor );
+		MeshUtilToxi.deformMeshWithAudio( _sphereMesh, _deformMesh, _audioData, _deformFactor );
 	
 		// draw texture. if tinting happened, reset after drawing
-		if( _texture.getTexture() != null ) MeshUtil.drawToxiMesh( p, toxi, _deformMesh, _texture.getTexture() );
+		if( _texture.getTexture() != null ) MeshUtilToxi.drawToxiMesh( p, toxi, _deformMesh, _texture.getTexture() );
 		DrawUtil.setColorForPImage(p);
 		DrawUtil.resetPImageAlpha(p);
 		

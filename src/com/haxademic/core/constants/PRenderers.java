@@ -1,4 +1,6 @@
-package com.haxademic.core.app;
+package com.haxademic.core.constants;
+
+import com.haxademic.core.app.P;
 
 public class PRenderers {
 	public static String JAVA2D = P.JAVA2D;

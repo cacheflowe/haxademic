@@ -8,8 +8,8 @@ import com.haxademic.app.haxvisual.viz.textures.WindowShadeTexture;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.audio.AudioInputWrapper;
-import com.haxademic.core.draw.mesh.MeshUtil;
-import com.haxademic.core.draw.util.DrawUtil;
+import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.toxi.MeshUtilToxi;
 import com.haxademic.core.math.MathUtil;
 
 import krister.Ess.AudioInput;
@@ -68,8 +68,8 @@ extends PAppletHax
 		_sphereOuterMesh.addMesh( _sphereOuter.toMesh( 30 ) );
 //		_sphereOuterMesh.computeVertexNormals();
 
-		MeshUtil.calcTextureCoordinates( _sphereMesh );
-		MeshUtil.calcTextureCoordinates( _sphereOuterMesh );
+		MeshUtilToxi.calcTextureCoordinates( _sphereMesh );
+		MeshUtilToxi.calcTextureCoordinates( _sphereOuterMesh );
 	}
 	
 	public void drawApp() {
@@ -83,10 +83,10 @@ extends PAppletHax
 		p.rotateY( p.mouseX/100f );
 		p.rotateX( p.mouseY/100f );
 		
-		MeshUtil.calcTextureCoordinates( _sphereMesh );
+		MeshUtilToxi.calcTextureCoordinates( _sphereMesh );
 
-		MeshUtil.drawToxiMesh( p, _toxi, _sphereMesh, _texture.getTexture() );
-		MeshUtil.drawToxiMesh( p, _toxi, _sphereOuterMesh, _texture.getTexture() );
+		MeshUtilToxi.drawToxiMesh( p, _toxi, _sphereMesh, _texture.getTexture() );
+		MeshUtilToxi.drawToxiMesh( p, _toxi, _sphereOuterMesh, _texture.getTexture() );
 //		drawToxiFaces( p, _toxi, _sphereOuterMesh, _texture.getTexture() );
 		
 		if( p.frameCount % 150 == 0 ) newTexture();

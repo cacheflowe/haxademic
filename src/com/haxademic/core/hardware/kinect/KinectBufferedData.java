@@ -6,7 +6,7 @@ import processing.core.PGraphics;
 import processing.core.PImage;
 
 import com.haxademic.core.app.P;
-import com.haxademic.core.data.FloatBuffer;
+import com.haxademic.core.math.easing.FloatBuffer;
 
 public class KinectBufferedData {
 	

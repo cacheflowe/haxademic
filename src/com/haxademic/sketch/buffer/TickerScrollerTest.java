@@ -1,11 +1,11 @@
 package com.haxademic.sketch.buffer;
 
-import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.constants.AppSettings;
+import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.filters.shaders.BrightnessFilter;
 import com.haxademic.core.draw.filters.shaders.VignetteFilter;
 import com.haxademic.core.draw.image.TickerScroller;
-import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.file.FileUtil;
 
 import processing.core.PImage;

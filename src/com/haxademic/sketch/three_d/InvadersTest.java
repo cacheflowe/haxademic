@@ -2,8 +2,8 @@ package com.haxademic.sketch.three_d;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.audio.AudioInputWrapper;
-import com.haxademic.core.draw.mesh.DrawMesh;
-import com.haxademic.core.draw.shapes.Meshes;
+import com.haxademic.core.draw.toxi.DrawMesh;
+import com.haxademic.core.draw.toxi.Meshes;
 
 import krister.Ess.AudioInput;
 import processing.core.PApplet;

@@ -1,12 +1,12 @@
 package com.haxademic.sketch.render.ello;
 
-import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.constants.AppSettings;
+import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.image.AnimatedGifEncoder;
-import com.haxademic.core.draw.mesh.MeshUtil;
-import com.haxademic.core.draw.util.DrawUtil;
-import com.haxademic.core.draw.util.OpenGLUtil;
+import com.haxademic.core.draw.toxi.MeshUtilToxi;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.easing.Penner;
 import com.haxademic.core.vendor.Toxiclibs;
@@ -52,7 +52,7 @@ extends PAppletHax {
 //		AABB box = new AABB( _baseRadius );
 		_sphereMesh = new WETriangleMesh();
 		_sphereMesh.addMesh( _sphere.toMesh( 60 ) );
-		MeshUtil.calcTextureCoordinates( _sphereMesh );
+		MeshUtilToxi.calcTextureCoordinates( _sphereMesh );
 		_deformMesh = _sphereMesh.copy();
 
 		_texture = p.loadImage(FileUtil.getHaxademicDataPath()+"images/ello-large-fill-squish.png");
@@ -109,7 +109,7 @@ extends PAppletHax {
 //		MeshUtil.deformMeshWithAudio( _sphereMesh, _deformMesh, p._audioInput, 10 );
 	
 		// draw texture. if tinting happened, reset after drawing
-		if( _texture != null ) MeshUtil.drawToxiMesh( p, Toxiclibs.instance(p).toxi, _deformMesh, _texture );
+		if( _texture != null ) MeshUtilToxi.drawToxiMesh( p, Toxiclibs.instance(p).toxi, _deformMesh, _texture );
 		
 		p.popMatrix();
 	}

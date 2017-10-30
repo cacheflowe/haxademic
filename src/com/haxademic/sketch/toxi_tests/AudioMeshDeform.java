@@ -5,7 +5,7 @@ import toxi.geom.Sphere;
 import toxi.geom.mesh.WETriangleMesh;
 
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.draw.util.DrawUtil;
+import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.vendor.Toxiclibs;
 
 public class AudioMeshDeform

@@ -1,10 +1,10 @@
 package com.haxademic.sketch.buffer;
 
-import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.constants.AppSettings;
+import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.shapes.Gradients;
-import com.haxademic.core.draw.util.DrawUtil;
 
 public class SlowFade
 extends PAppletHax {

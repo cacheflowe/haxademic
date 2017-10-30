@@ -1,7 +1,7 @@
 package com.haxademic.sketch.audio;
 
-import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.file.FileUtil;
 
 import ddf.minim.AudioPlayer;

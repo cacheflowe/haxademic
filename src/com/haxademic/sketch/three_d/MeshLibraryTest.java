@@ -1,14 +1,14 @@
 package com.haxademic.sketch.three_d;
 
-import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.draw.mesh.Mesh;
+import com.haxademic.core.constants.AppSettings;
+import com.haxademic.core.draw.shapes.MeshShapes;
 
 public class MeshLibraryTest
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
-	protected Mesh myMesh;
+	protected MeshShapes myMesh;
 
 	protected void overridePropsFile() {
 		appConfig.setProperty( AppSettings.WIDTH, "1000" );
@@ -18,7 +18,7 @@ extends PAppletHax {
 	public void setup() {
 		super.setup();
 
-		myMesh = new Mesh(Mesh.CORKSCREW, 200, 200, -4, 4, -PI, PI);
+		myMesh = new MeshShapes(MeshShapes.CORKSCREW, 200, 200, -4, 4, -PI, PI);
 		myMesh.setColorRange(192, 192, 50, 50, 50, 50, 100);
 	}
 

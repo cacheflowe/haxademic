@@ -1,8 +1,8 @@
 package com.haxademic.sketch.shader;
 
 import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.shapes.Shapes;
-import com.haxademic.core.draw.util.OpenGLUtil;
 import com.haxademic.core.file.FileUtil;
 
 import processing.opengl.PShader;

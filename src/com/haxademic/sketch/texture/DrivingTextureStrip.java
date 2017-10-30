@@ -2,9 +2,9 @@ package com.haxademic.sketch.texture;
 
 import java.util.Random;
 
-import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.draw.filters.shaders.BrightnessFilter;
 import com.haxademic.core.file.FileUtil;
 

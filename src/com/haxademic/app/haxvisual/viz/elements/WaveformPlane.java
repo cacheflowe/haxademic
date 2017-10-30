@@ -13,7 +13,7 @@ import com.haxademic.core.audio.AudioInputWrapper;
 import com.haxademic.core.audio.WaveformData;
 import com.haxademic.core.draw.color.ColorGroup;
 import com.haxademic.core.draw.color.TColorBlendBetween;
-import com.haxademic.core.draw.util.DrawUtil;
+import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.EasingFloat;
 import com.haxademic.core.math.easing.EasingFloat3d;

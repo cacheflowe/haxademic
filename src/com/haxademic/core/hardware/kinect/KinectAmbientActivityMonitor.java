@@ -3,7 +3,7 @@ package com.haxademic.core.hardware.kinect;
 import java.util.ArrayList;
 
 import com.haxademic.core.app.P;
-import com.haxademic.core.data.FloatBuffer;
+import com.haxademic.core.math.easing.FloatBuffer;
 
 public class KinectAmbientActivityMonitor {
 	

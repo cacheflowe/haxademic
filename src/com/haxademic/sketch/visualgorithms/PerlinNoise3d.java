@@ -1,14 +1,14 @@
 package com.haxademic.sketch.visualgorithms;
 
-import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.app.PBlendModes;
+import com.haxademic.core.constants.AppSettings;
+import com.haxademic.core.constants.PBlendModes;
+import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.filters.shaders.BadTVLinesFilter;
 import com.haxademic.core.draw.filters.shaders.CubicLensDistortionFilter;
 import com.haxademic.core.draw.filters.shaders.InvertFilter;
 import com.haxademic.core.draw.filters.shaders.VignetteFilter;
-import com.haxademic.core.draw.util.DrawUtil;
 
 import controlP5.ControlP5;
 

@@ -2,11 +2,11 @@ package com.haxademic.app.airdrums;
 
 import java.util.ArrayList;
 
-import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.draw.color.ColorGroup;
-import com.haxademic.core.draw.util.DrawUtil;
+import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.kinect.KinectSize;
 

@@ -1,4 +1,4 @@
-package com.haxademic.core.draw.util;
+package com.haxademic.core.draw.shapes;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.file.FileUtil;
@@ -72,6 +72,27 @@ public class PShapeUtil {
 		}
 		if(img != null) s.setTexture(img);
 	}
+	
+	public static void addTextureUVSpherical(PShape s, PImage img) {
+		s.setStroke(false);
+		s.setFill(255);
+		s.setTextureMode(P.NORMAL);
+		PVector util = new PVector();
+		for (int j = 0; j < s.getChildCount(); j++) {
+			for (int i = 0; i < s.getChild(j).getVertexCount(); i++) {
+				PShape subShape = s.getChild(j);
+				PVector p = subShape.getVertex(i);
+				// map spherical coordinate to uv coordinate :: https://stackoverflow.com/questions/19357290/convert-3d-point-on-sphere-to-uv-coordinate
+				util.set(p.normalize()); 
+				float u = P.atan2(util.x, util.z) / P.TWO_PI + 0.5f; 
+				float v = P.asin(util.y) / P.PI + .5f;
+				subShape.setTextureUV(i, u, v);
+			}
+		}
+		if(img != null) s.setTexture(img);
+	}
+
+	
 	
 	/**
 	 * Finds the maximum size in any given direction. A basic but crappy way to figure out PShape size

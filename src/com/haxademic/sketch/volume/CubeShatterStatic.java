@@ -3,8 +3,8 @@ package com.haxademic.sketch.volume;
 import java.util.ArrayList;
 
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.draw.shapes.Voronoi3D;
-import com.haxademic.core.draw.util.DrawUtil;
+import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.toxi.Voronoi3D;
 
 import toxi.geom.mesh.WETriangleMesh;
 import toxi.processing.ToxiclibsSupport;

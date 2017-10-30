@@ -1,8 +1,8 @@
 package com.haxademic.sketch.particle;
 
-import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.constants.AppSettings;
 
 import processing.core.PFont;
 import processing.video.Capture;

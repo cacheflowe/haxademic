@@ -12,9 +12,9 @@ import com.haxademic.app.haxvisual.viz.IVizElement;
 import com.haxademic.core.audio.AudioInputWrapper;
 import com.haxademic.core.data.Point3D;
 import com.haxademic.core.draw.color.ColorGroup;
-import com.haxademic.core.draw.mesh.DrawMesh;
-import com.haxademic.core.draw.mesh.MeshUtil;
-import com.haxademic.core.draw.util.DrawUtil;
+import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.toxi.DrawMesh;
+import com.haxademic.core.draw.toxi.MeshUtilToxi;
 
 public class ObjMesh 
 extends ElementBase 
@@ -49,7 +49,7 @@ implements IVizElement {
 		OBJModel model = new OBJModel( p, "./models/lego-man.obj" );
 		model.disableMaterial();
 		model.disableTexture();
-		_objMesh = MeshUtil.ConvertObjModelToToxiMesh( p, model );
+		_objMesh = MeshUtilToxi.ConvertObjModelToToxiMesh( p, model );
 //		_objMesh.scale( 2000 );
 		_objMesh.scale( 50 );
 	}

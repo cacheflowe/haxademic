@@ -1,4 +1,4 @@
-package com.haxademic.core.draw.shapes;
+package com.haxademic.core.draw.toxi;
 
 import java.util.ArrayList;
 

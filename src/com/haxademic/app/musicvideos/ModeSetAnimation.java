@@ -6,8 +6,8 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.color.EasingTColor;
 import com.haxademic.core.draw.color.TColorInit;
-import com.haxademic.core.draw.mesh.MeshUtil;
-import com.haxademic.core.draw.util.DrawUtil;
+import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.toxi.MeshUtilToxi;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.EasingFloat;
@@ -78,9 +78,9 @@ extends PAppletHax {
 		_mode = FADE_IN;
 		
 		// get meshes
-		_mesh = MeshUtil.meshFromOBJ( p, "../data/models/mode-set.obj", 300f );
+		_mesh = MeshUtilToxi.meshFromOBJ( p, "../data/models/mode-set.obj", 300f );
 		_meshDeform = _mesh.copy();
-		_meshText = MeshUtil.getExtrudedMesh( MeshUtil.meshFromSVG( p, "../data/svg/modeset-logotype.svg", 10, -1, 0.7f ), 250 );
+		_meshText = MeshUtilToxi.getExtrudedMesh( MeshUtilToxi.meshFromSVG( p, "../data/svg/modeset-logotype.svg", 10, -1, 0.7f ), 250 );
 		_particles = new MeshParticles( _meshText.copy() );
 		
 		// set up color

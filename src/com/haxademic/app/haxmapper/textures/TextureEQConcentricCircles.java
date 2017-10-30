@@ -1,7 +1,7 @@
 package com.haxademic.app.haxmapper.textures;
 
 import com.haxademic.core.app.P;
-import com.haxademic.core.draw.util.DrawUtil;
+import com.haxademic.core.draw.context.DrawUtil;
 
 public class TextureEQConcentricCircles 
 extends BaseTexture {

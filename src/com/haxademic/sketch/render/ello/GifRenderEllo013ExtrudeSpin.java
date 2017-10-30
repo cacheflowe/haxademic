@@ -3,11 +3,11 @@ package com.haxademic.sketch.render.ello;
 
 import java.util.ArrayList;
 
-import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.draw.mesh.MeshUtil;
-import com.haxademic.core.draw.util.OpenGLUtil;
+import com.haxademic.core.constants.AppSettings;
+import com.haxademic.core.draw.context.OpenGLUtil;
+import com.haxademic.core.draw.shapes.Extrude2dPoints;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.easing.ElasticFloat3D;
 import com.haxademic.core.render.JoonsWrapper;
@@ -98,14 +98,14 @@ extends PAppletHax {
 		joons.jr.fill( JoonsWrapper.MATERIAL_SHINY, BLACK.red() * 255, BLACK.green() * 255, BLACK.blue() * 255 );
 		p.stroke(WHITE.toARGB(), 80);
 		p.fill(BLACK.toARGB());
-		MeshUtil.drawExtrudedPShape(p, _outerPoints, 5 + 2f * P.sin(P.TWO_PI * percentComplete));
+		Extrude2dPoints.drawExtruded2dPointList(p, _outerPoints, 5 + 2f * P.sin(P.TWO_PI * percentComplete));
 
 
 		// DRAW MOUTH  ---------------
 		joons.jr.fill( JoonsWrapper.MATERIAL_SHINY, WHITE.red() * 255, WHITE.green() * 255, WHITE.blue() * 255 );
 		p.stroke(BLACK.toARGB(), 80);
 		p.fill(WHITE.toARGB());
-		MeshUtil.drawExtrudedPShape(p, _mouthPoints, 9.1f + 2f * P.sin(P.PI + P.TWO_PI * percentComplete));
+		Extrude2dPoints.drawExtruded2dPointList(p, _mouthPoints, 9.1f + 2f * P.sin(P.PI + P.TWO_PI * percentComplete));
 	}
 	
 	protected void makeLightSource() {

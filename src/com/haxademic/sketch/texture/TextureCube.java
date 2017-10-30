@@ -1,8 +1,8 @@
 package com.haxademic.sketch.texture;
 
-import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.draw.shapes.Shapes;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.easing.Penner;
@@ -39,7 +39,7 @@ extends PAppletHax {
 
 		rotateX(P.PI + 0.2f * P.sin(radsComplete)); 
 		rotateY(radsCompleteEased * 0.25f); 
-
+		
 		Shapes.drawTexturedBox(p.g, 200, img);
 	}
 }

@@ -8,7 +8,7 @@ import com.haxademic.app.haxvisual.viz.ElementBase;
 import com.haxademic.app.haxvisual.viz.IVizElement;
 import com.haxademic.core.audio.AudioInputWrapper;
 import com.haxademic.core.draw.color.ColorGroup;
-import com.haxademic.core.draw.util.DrawUtil;
+import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.EasingFloat;
 

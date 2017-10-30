@@ -5,10 +5,10 @@ import java.io.File;
 import com.haxademic.app.slideshow.Slideshow;
 import com.haxademic.core.app.P;
 import com.haxademic.core.data.ConvertUtil;
-import com.haxademic.core.data.IAppStoreUpdatable;
+import com.haxademic.core.data.store.IAppStoreUpdatable;
+import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.image.ImageSequenceMovieClip;
 import com.haxademic.core.draw.image.ImageUtil;
-import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.math.easing.LinearFloat;
 import com.haxademic.core.math.easing.Penner;
 

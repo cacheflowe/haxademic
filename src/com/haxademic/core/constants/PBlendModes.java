@@ -1,4 +1,6 @@
-package com.haxademic.core.app;
+package com.haxademic.core.constants;
+
+import com.haxademic.core.app.P;
 
 public class PBlendModes {
 	public static int BLEND = P.BLEND; 				// - linear interpolation of colours: C = A*factor + B. This is the default blending mode.

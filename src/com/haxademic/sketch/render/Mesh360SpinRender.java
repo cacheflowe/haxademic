@@ -4,9 +4,9 @@ package com.haxademic.sketch.render;
 import java.util.ArrayList;
 
 import com.haxademic.core.app.P;
-import com.haxademic.core.draw.mesh.MeshPool;
-import com.haxademic.core.draw.mesh.MeshUtil;
-import com.haxademic.core.draw.util.DrawUtil;
+import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.toxi.MeshPool;
+import com.haxademic.core.draw.toxi.MeshUtilToxi;
 import com.haxademic.core.render.Renderer;
 
 import processing.core.PApplet;
@@ -64,7 +64,7 @@ extends PApplet
 		
 		_objPool = new MeshPool( p );
 //		_objPool.addMesh( "CACHEFLOWE", MeshUtil.meshFromOBJ( p, "../data/models/cacheflowe-3d.obj", 1f ), 100 );
-		_objPool.addMesh( "DIAMOND_2D", MeshUtil.getExtrudedMesh( MeshUtil.meshFromSVG( p, "../data/svg/Ello.Black.svg", 10, -1, 0.5f ), 5 ), 1 );
+		_objPool.addMesh( "DIAMOND_2D", MeshUtilToxi.getExtrudedMesh( MeshUtilToxi.meshFromSVG( p, "../data/svg/Ello.Black.svg", 10, -1, 0.5f ), 5 ), 1 );
 
 		
 		_model = new OBJModel( p, "../data/models/cacheflowe-3d.obj", OBJModel.RELATIVE );

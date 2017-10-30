@@ -4,10 +4,10 @@ import java.awt.Point;
 import java.awt.Rectangle;
 
 import com.haxademic.app.haxmapper.textures.BaseTexture;
-import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.draw.util.DrawUtil;
+import com.haxademic.core.constants.AppSettings;
+import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.math.MathUtil;
 
 import processing.core.PVector;

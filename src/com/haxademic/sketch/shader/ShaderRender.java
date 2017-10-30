@@ -1,8 +1,9 @@
 package com.haxademic.sketch.shader;
 
-import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.constants.AppSettings;
+import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.filters.shaders.BrightnessFilter;
 import com.haxademic.core.draw.filters.shaders.ColorDistortionFilter;
 import com.haxademic.core.draw.filters.shaders.ContrastFilter;
@@ -13,7 +14,6 @@ import com.haxademic.core.draw.filters.shaders.KaleidoFilter;
 import com.haxademic.core.draw.filters.shaders.RadialRipplesFilter;
 import com.haxademic.core.draw.filters.shaders.SphereDistortionFilter;
 import com.haxademic.core.draw.filters.shaders.VignetteFilter;
-import com.haxademic.core.draw.util.OpenGLUtil;
 import com.haxademic.core.file.FileUtil;
 
 import processing.opengl.PShader;

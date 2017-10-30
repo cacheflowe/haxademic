@@ -6,7 +6,7 @@ import processing.core.PApplet;
 import processing.core.PShape;
 
 import com.haxademic.core.app.P;
-import com.haxademic.core.draw.util.DrawUtil;
+import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.EasingFloat;

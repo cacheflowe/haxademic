@@ -164,6 +164,45 @@ public class Shapes {
 		p.popMatrix();
 	}
 	
+	// from: https://processing.org/discourse/beta/num_1256759256.html
+	public static void drawSphereQuads(PGraphics pg, float size) {
+		float radius = size;
+		float rho = radius;
+		float x, y, z, u, v;
+
+		float phi = 0;
+		int phiSteps = 20;
+		float phiFactor = P.PI / phiSteps;
+
+		float theta;
+		int thetaSteps = 20;
+		float thetaFactor = P.TWO_PI / thetaSteps;
+
+		for(int p = 0; p < phiSteps; p++) {
+			pg.beginShape(P.QUAD_STRIP);
+			theta = 0.0f;
+			for(int t = 0; t < thetaSteps + 1; t++) {
+				x = rho * P.sin(phi) * P.cos(theta);
+				z = rho * P.sin(phi) * P.sin(theta);
+				y = -rho * P.cos(phi);
+
+				pg.normal(x, y, z);
+				pg.vertex(x, y, z);
+
+				x = rho * P.sin(phi + phiFactor) * P.cos(theta);
+				z = rho * P.sin(phi + phiFactor) * P.sin(theta);
+				y = -rho * P.cos(phi + phiFactor);
+
+				pg.normal(x, y, z);
+				pg.vertex(x, y, z);
+
+				theta += thetaFactor;
+			}
+			phi += phiFactor;
+			pg.endShape(P.CLOSE);
+		}
+	}
+	
 	public static void drawTexturedBox(PGraphics pg, float size, PImage texture) {
 		pg.beginShape(P.QUADS);
 		pg.texture(texture);

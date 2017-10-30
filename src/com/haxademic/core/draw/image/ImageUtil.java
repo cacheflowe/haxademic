@@ -6,7 +6,7 @@ import java.nio.ByteBuffer;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.draw.color.ColorHax;
-import com.haxademic.core.draw.util.DrawUtil;
+import com.haxademic.core.draw.context.DrawUtil;
 
 import processing.core.PApplet;
 import processing.core.PConstants;

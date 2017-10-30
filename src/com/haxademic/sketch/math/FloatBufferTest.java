@@ -2,8 +2,8 @@ package com.haxademic.sketch.math;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.data.FloatBuffer;
 import com.haxademic.core.math.MathUtil;
+import com.haxademic.core.math.easing.FloatBuffer;
 
 public class FloatBufferTest
 extends PAppletHax {

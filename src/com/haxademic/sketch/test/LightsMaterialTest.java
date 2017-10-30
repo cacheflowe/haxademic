@@ -1,9 +1,9 @@
 package com.haxademic.sketch.test;
 
-import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.draw.util.PShapeUtil;
+import com.haxademic.core.constants.AppSettings;
+import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.file.FileUtil;
 
 import controlP5.ControlP5;

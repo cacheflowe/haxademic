@@ -5,10 +5,10 @@ package com.haxademic.sketch.volume;
 import java.util.Arrays;
 import java.util.List;
 
-import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.draw.util.DrawUtil;
+import com.haxademic.core.constants.AppSettings;
+import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.file.FileUtil;
 
 import processing.core.PImage;

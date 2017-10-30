@@ -1,10 +1,10 @@
 package com.haxademic.sketch.particle;
 
-import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.draw.mesh.MeshPool;
-import com.haxademic.core.draw.util.DrawUtil;
+import com.haxademic.core.constants.AppSettings;
+import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.toxi.MeshPool;
 
 import processing.core.PGraphics;
 import processing.core.PImage;

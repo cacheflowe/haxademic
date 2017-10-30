@@ -1,17 +1,17 @@
 package com.haxademic.sketch.render;
 
-import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.draw.color.ColorUtil;
+import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.image.ImageCyclerBuffer;
 import com.haxademic.core.draw.image.PerlinTexture;
 import com.haxademic.core.draw.shapes.Gradients;
 import com.haxademic.core.draw.shapes.Icosahedron;
 import com.haxademic.core.draw.shapes.PShapeSolid;
-import com.haxademic.core.draw.util.DrawUtil;
-import com.haxademic.core.draw.util.OpenGLUtil;
-import com.haxademic.core.draw.util.PShapeUtil;
+import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.easing.Penner;
 

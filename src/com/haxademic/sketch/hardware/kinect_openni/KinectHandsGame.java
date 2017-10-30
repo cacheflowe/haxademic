@@ -1,10 +1,10 @@
 
 package com.haxademic.sketch.hardware.kinect_openni;
 
-import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.draw.util.DrawUtil;
+import com.haxademic.core.constants.AppSettings;
+import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.hardware.kinect.SkeletonsTracker;
 import com.haxademic.core.math.MathUtil;
 

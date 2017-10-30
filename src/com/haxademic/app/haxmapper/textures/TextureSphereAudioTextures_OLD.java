@@ -1,8 +1,8 @@
 package com.haxademic.app.haxmapper.textures;
 
 import com.haxademic.core.app.P;
-import com.haxademic.core.draw.mesh.MeshUtil;
-import com.haxademic.core.draw.util.DrawUtil;
+import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.toxi.MeshUtilToxi;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.EasingFloat3d;
 import com.haxademic.core.vendor.Toxiclibs;
@@ -51,7 +51,7 @@ extends BaseTexture {
 //		AABB box = new AABB( _baseRadius );
 		_sphereMesh = new WETriangleMesh();
 		_sphereMesh.addMesh( _sphere.toMesh( 30 ) );
-		MeshUtil.calcTextureCoordinates( _sphereMesh );
+		MeshUtilToxi.calcTextureCoordinates( _sphereMesh );
 		_deformMesh = _sphereMesh.copy();
 	}
 	
@@ -102,11 +102,11 @@ extends BaseTexture {
 		_texture.rotateX( _rotation.y() );
 		_texture.rotateZ( _rotation.z() );
 		
-		MeshUtil.deformMeshWithAudio( _sphereMesh, _deformMesh, P.p._audioInput, _deformFactor );
+		MeshUtilToxi.deformMeshWithAudio( _sphereMesh, _deformMesh, P.p._audioInput, _deformFactor );
 	
 		// draw texture. if tinting happened, reset after drawing
 		Toxiclibs.instance(P.p).toxi.setGraphics(_texture);
-		if( _sphereTexture.texture() != null ) MeshUtil.drawToxiMesh( P.p, Toxiclibs.instance(P.p).toxi, _deformMesh, _sphereTexture.texture() );
+		if( _sphereTexture.texture() != null ) MeshUtilToxi.drawToxiMesh( P.p, Toxiclibs.instance(P.p).toxi, _deformMesh, _sphereTexture.texture() );
 		DrawUtil.setColorForPImage(_texture);
 		DrawUtil.resetPImageAlpha(_texture);
 		

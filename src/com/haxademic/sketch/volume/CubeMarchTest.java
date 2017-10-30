@@ -3,8 +3,8 @@ package com.haxademic.sketch.volume;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 
-import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.draw.shapes.MarchingCubes;
 import com.haxademic.core.hardware.kinect.KinectSize;
 

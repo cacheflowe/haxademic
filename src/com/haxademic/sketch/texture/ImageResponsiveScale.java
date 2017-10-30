@@ -2,8 +2,8 @@ package com.haxademic.sketch.texture;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.draw.util.DrawUtil;
-import com.haxademic.core.draw.util.OpenGLUtil;
+import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.MathUtil;
 

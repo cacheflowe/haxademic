@@ -1,10 +1,10 @@
 package com.haxademic.sketch.screen;
 
-import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.draw.mesh.PGraphicsKeystone;
-import com.haxademic.core.draw.util.OpenGLUtil;
+import com.haxademic.core.constants.AppSettings;
+import com.haxademic.core.draw.context.OpenGLUtil;
+import com.haxademic.core.draw.mapping.PGraphicsKeystone;
 import com.haxademic.core.file.FileUtil;
 
 import processing.core.PGraphics;

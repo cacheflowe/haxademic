@@ -2,10 +2,10 @@ package com.haxademic.sketch.hardware.kinect_openni;
 
 import java.util.ArrayList;
 
-import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.draw.mesh.VectorFlyer;
-import com.haxademic.core.draw.util.DrawUtil;
+import com.haxademic.core.constants.AppSettings;
+import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.toxi.VectorFlyerToxi;
 import com.haxademic.core.hardware.kinect.SkeletonsTracker;
 
 import SimpleOpenNI.SimpleOpenNI;
@@ -17,7 +17,7 @@ extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
 	protected SkeletonsTracker _skeletonTracker;
-	protected ArrayList<VectorFlyer> particles;
+	protected ArrayList<VectorFlyerToxi> particles;
 	
 	public void setup() {
 		super.setup();
@@ -27,9 +27,9 @@ extends PAppletHax {
 	}
 	
 	protected void initBoxes() {
-		particles = new ArrayList<VectorFlyer>();
+		particles = new ArrayList<VectorFlyerToxi>();
 		for( int i=0; i < 500; i++ ) {
-			particles.add( new VectorFlyer( TColor.newHex("dddddd"), TColor.newHex("00ff00") ) );
+			particles.add( new VectorFlyerToxi( TColor.newHex("dddddd"), TColor.newHex("00ff00") ) );
 		}
 	}
 	
@@ -90,7 +90,7 @@ extends PAppletHax {
 		}
 	}
 	
-	protected void findClosestAttractor( VectorFlyer particle ) {
+	protected void findClosestAttractor( VectorFlyerToxi particle ) {
 		// loop through attractors and store the closest & our distance for coloring
 		float minDist = 999999;	
 		int[] users = _skeletonTracker.getUserIDs();
@@ -103,7 +103,7 @@ extends PAppletHax {
 		}
 	}
 	
-	protected float particleDistanceToBodyPart( float minDist, VectorFlyer particle, Vec3D bodyPartLoc ) {
+	protected float particleDistanceToBodyPart( float minDist, VectorFlyerToxi particle, Vec3D bodyPartLoc ) {
 		// check distance
 		if( bodyPartLoc == null ) return minDist;
 		if( bodyPartLoc.distanceTo(particle.position()) < minDist ) {

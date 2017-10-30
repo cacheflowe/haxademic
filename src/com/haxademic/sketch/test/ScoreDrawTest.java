@@ -2,8 +2,8 @@ package com.haxademic.sketch.test;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.color.ColorUtil;
+import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.text.CustomFontText2D;
-import com.haxademic.core.draw.util.DrawUtil;
 import com.haxademic.core.file.FileUtil;
 
 

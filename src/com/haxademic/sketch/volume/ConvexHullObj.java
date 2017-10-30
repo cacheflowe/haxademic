@@ -5,12 +5,12 @@ package com.haxademic.sketch.volume;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.draw.filters.shaders.VignetteAltFilter;
 import com.haxademic.core.draw.filters.shaders.WobbleFilter;
-import com.haxademic.core.draw.util.PShapeUtil;
+import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.file.FileUtil;
 
 import processing.core.PImage;

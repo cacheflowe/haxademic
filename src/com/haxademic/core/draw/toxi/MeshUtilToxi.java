@@ -1,6 +1,8 @@
-package com.haxademic.core.draw.mesh;
+package com.haxademic.core.draw.toxi;
 
-import java.util.ArrayList;
+import com.haxademic.core.app.P;
+import com.haxademic.core.audio.AudioInputWrapper;
+import com.haxademic.core.draw.image.ImageUtil;
 
 import geomerative.RCommand;
 import geomerative.RFont;
@@ -10,9 +12,7 @@ import geomerative.RMesh;
 import geomerative.RPoint;
 import geomerative.RSVG;
 import processing.core.PApplet;
-import processing.core.PGraphics;
 import processing.core.PImage;
-import processing.core.PShape;
 import processing.core.PVector;
 import saito.objloader.OBJModel;
 import toxi.geom.AABB;
@@ -22,16 +22,12 @@ import toxi.geom.mesh.Face;
 import toxi.geom.mesh.WETriangleMesh;
 import toxi.processing.ToxiclibsSupport;
 
-import com.haxademic.core.app.P;
-import com.haxademic.core.audio.AudioInputWrapper;
-import com.haxademic.core.draw.image.ImageUtil;
-
-public class MeshUtil {
+public class MeshUtilToxi {
 	
 	public static WETriangleMesh meshFromOBJ( PApplet p, String file, float scale ) {
 		// load and scale the .obj file. convert to mesh and pass back 
 		OBJModel obj = new OBJModel( p, file, OBJModel.RELATIVE );
-		WETriangleMesh mesh = MeshUtil.ConvertObjModelToToxiMesh( p, obj );
+		WETriangleMesh mesh = MeshUtilToxi.ConvertObjModelToToxiMesh( p, obj );
 		mesh.scale( scale );
 		return mesh;
 	}
@@ -233,84 +229,5 @@ public class MeshUtil {
 		p.textureMode(P.NORMAL);	// P.NORMAL ??
 		toxi.texturedMesh( mesh.toWEMesh(), image, false );
 	}
-
-	public static void drawExtrudedPShape( PGraphics p, ArrayList<PVector> shape, float depth ) {
-		
-		p.beginShape();
-		PVector v;
-		
-		// draw top
-		p.beginShape();
-		for (int i = 0; i < shape.size(); i++) {
-			v = shape.get(i);
-			p.vertex(v.x, v.y, depth);
-		}
-		p.endShape();
-
-		// draw bottom
-		p.beginShape();
-		for (int i = 0; i < shape.size(); i++) {
-			v = shape.get(i);
-			p.vertex(v.x, v.y, -depth);
-		}
-		p.endShape();
-
-		// draw walls between the 2 faces - close the 2 triangles
-		p.beginShape(P.TRIANGLE_STRIP);
-		for (int i = 0; i < shape.size(); i++) {
-			v = shape.get(i);
-			p.vertex(v.x, v.y, depth);
-			p.vertex(v.x, v.y, -depth);
-		}
-		// connect the last to the first
-		v = shape.get(0);
-		p.vertex(v.x, v.y, depth);
-		p.vertex(v.x, v.y, -depth);
-
-		p.endShape();
-
-	}
 	
-	public static void drawExtrudedPShape( PApplet p, ArrayList<PVector> shape, float depth ) {
-		
-		p.beginShape();
-		PVector v, vNext;
-		
-		// draw top
-		p.beginShape();
-		for (int i = 0; i < shape.size(); i++) {
-			v = shape.get(i);
-			p.vertex(v.x, v.y, depth);
-		}
-		p.endShape();
-
-		// draw bottom
-		p.beginShape();
-		for (int i = 0; i < shape.size(); i++) {
-			v = shape.get(i);
-			p.vertex(v.x, v.y, -depth);
-		}
-		p.endShape();
-
-		// draw walls between the 2 faces - close the 2 triangles
-		for (int i = 0; i < shape.size(); i++) {
-			v = shape.get(i);
-			vNext = shape.get((i+1) % shape.size());
-			
-			p.beginShape(P.TRIANGLE);
-			p.vertex(v.x, v.y, depth);
-			p.vertex(v.x, v.y, -depth);
-			p.vertex(vNext.x, vNext.y, -depth);
-			p.endShape();
-			
-			p.beginShape(P.TRIANGLE);
-			p.vertex(v.x, v.y, depth);
-			p.vertex(vNext.x, vNext.y, depth);
-			p.vertex(vNext.x, vNext.y, -depth);
-			p.endShape();
-		}
-
-	}
-	
-
 }

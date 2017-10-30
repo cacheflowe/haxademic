@@ -1,8 +1,8 @@
 
 package com.haxademic.sketch.render.joons;
 
-import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.constants.AppSettings;
 
 public class JoonsTesterHax 
 extends PAppletHax {

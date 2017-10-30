@@ -1,7 +1,7 @@
 package com.haxademic.sketch.audio;
 
-import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.constants.AppSettings;
 
 import processing.sound.AudioIn;
 import processing.sound.FFT;
@@ -12,7 +12,7 @@ extends PAppletHax {
 
 	FFT fft;
 	AudioIn in;
-	int bands = 512;
+	int bands = 256;
 	float[] spectrum = new float[bands];
 
 	protected void overridePropsFile() {
@@ -44,5 +44,11 @@ extends PAppletHax {
 			line( i, height, i, height - spectrum[i]*height*5 );
 		} 
 	}
+	
+	//	public void exit() {
+	//		fft.dispose();
+	//		in.stop();
+	//		super.exit();
+	//	}
 }
 

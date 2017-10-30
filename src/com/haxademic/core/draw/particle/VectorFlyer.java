@@ -9,7 +9,7 @@ import toxi.color.TColor;
 import com.haxademic.core.app.P;
 import com.haxademic.core.draw.color.TColorBlendBetween;
 import com.haxademic.core.draw.color.TColorInit;
-import com.haxademic.core.draw.util.OrientationUtil;
+import com.haxademic.core.draw.context.OrientationUtil;
 
 public class VectorFlyer {
 

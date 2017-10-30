@@ -1,6 +1,6 @@
 package com.haxademic.sketch.particle;
 
-import com.haxademic.core.draw.util.DrawUtil;
+import com.haxademic.core.draw.context.DrawUtil;
 
 import processing.core.PApplet;
 import processing.core.PConstants;

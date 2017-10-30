@@ -1,12 +1,12 @@
 package com.haxademic.sketch.render.ello;
 
-import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.draw.mesh.MeshPool;
-import com.haxademic.core.draw.mesh.MeshUtil;
-import com.haxademic.core.draw.util.DrawUtil;
-import com.haxademic.core.draw.util.OpenGLUtil;
+import com.haxademic.core.constants.AppSettings;
+import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.OpenGLUtil;
+import com.haxademic.core.draw.toxi.MeshPool;
+import com.haxademic.core.draw.toxi.MeshUtilToxi;
 import com.haxademic.core.vendor.Toxiclibs;
 
 public class GifRenderEllo000ThreeDeeRotate
@@ -22,7 +22,7 @@ extends PAppletHax {
 		
 		// create ello mesh
 		_objPool = new MeshPool( p );
-		_objPool.addMesh( "ELLO_SVG", MeshUtil.getExtrudedMesh( MeshUtil.meshFromSVG( p, "../data/svg/ello.svg", -1, 20, 2f ), 5 ), 1 );
+		_objPool.addMesh( "ELLO_SVG", MeshUtilToxi.getExtrudedMesh( MeshUtilToxi.meshFromSVG( p, "../data/svg/ello.svg", -1, 20, 2f ), 5 ), 1 );
 
 		 p.smooth(OpenGLUtil.SMOOTH_HIGH);
 	}

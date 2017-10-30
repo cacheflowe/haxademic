@@ -2,13 +2,13 @@
 
 import java.util.ArrayList;
 
-import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.draw.color.TColorInit;
-import com.haxademic.core.draw.mesh.DrawMesh;
-import com.haxademic.core.draw.util.DrawUtil;
-import com.haxademic.core.draw.util.OpenGLUtil;
+import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.OpenGLUtil;
+import com.haxademic.core.draw.toxi.DrawMesh;
 
 import processing.core.PVector;
 import toxi.color.TColor;

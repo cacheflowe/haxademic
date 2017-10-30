@@ -2,9 +2,9 @@ package com.haxademic.sketch.test;
 
 import java.util.ArrayList;
 
-import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.draw.text.CustomFontText2D;
 import com.haxademic.core.file.AsyncImageLoader;
 import com.haxademic.core.file.DirImageLoader;

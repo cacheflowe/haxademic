@@ -6,7 +6,7 @@ import processing.core.PGraphics;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.draw.color.ColorHaxEasing;
-import com.haxademic.core.draw.util.DrawUtil;
+import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.math.MathUtil;
 
 public class MeshLines {

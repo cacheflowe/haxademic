@@ -1,10 +1,10 @@
 package com.haxademic.sketch.render;
 
-import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.draw.mesh.DrawMesh;
-import com.haxademic.core.draw.mesh.MeshUtil;
-import com.haxademic.core.draw.util.OpenGLUtil;
+import com.haxademic.core.constants.AppSettings;
+import com.haxademic.core.draw.context.OpenGLUtil;
+import com.haxademic.core.draw.toxi.DrawMesh;
+import com.haxademic.core.draw.toxi.MeshUtilToxi;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.render.JoonsWrapper;
 
@@ -39,7 +39,7 @@ extends PAppletHax {
 		super.setup();
 		p.smooth(OpenGLUtil.SMOOTH_HIGH);
 
-		_mesh = MeshUtil.getExtrudedMesh( MeshUtil.meshFromSVG( p, FileUtil.getFile("svg/cacheflowe-logo.svg"), -1, 20, 0.9f ), 40 );
+		_mesh = MeshUtilToxi.getExtrudedMesh( MeshUtilToxi.meshFromSVG( p, FileUtil.getFile("svg/cacheflowe-logo.svg"), -1, 20, 0.9f ), 40 );
 //		_mesh = MeshUtil.getExtrudedMesh( MeshUtil.meshFromSVG( p, "/Users/cacheflowe/Documents/workspace/haxademic/output/fractal-2014-11-19-19-57-24-01.svg", -1, 20, 1.2f ), 80 );
 //		_mesh = MeshUtil.getExtrudedMesh( MeshUtil.meshFromSVG( p, FileUtil.getHaxademicDataPath() + "svg/fractal-2013-09-26-20-11-32.svg", -1, 20, 1.2f ), 40 );
 //		_mesh = MeshUtil.getExtrudedMesh( MeshUtil.meshFromSVG( p, FileUtil.getHaxademicDataPath() + "svg/ello.svg", -1, 20, 1.2f ), 40 );

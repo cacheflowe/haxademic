@@ -1,4 +1,4 @@
-package com.haxademic.core.app;
+package com.haxademic.core.system;
 
 import processing.core.PApplet;
 import processing.core.PImage;

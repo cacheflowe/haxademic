@@ -2,9 +2,9 @@ package com.haxademic.sketch.screen;
 
 import java.awt.Frame;
 
-import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.draw.util.OpenGLUtil;
+import com.haxademic.core.constants.AppSettings;
+import com.haxademic.core.draw.context.OpenGLUtil;
 
 public class DecoratedWindowTest 
 extends PAppletHax {

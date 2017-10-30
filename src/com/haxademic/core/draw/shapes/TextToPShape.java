@@ -1,9 +1,8 @@
-package com.haxademic.core.draw.text;
+package com.haxademic.core.draw.shapes;
 
 import java.util.HashMap;
 
 import com.haxademic.core.app.P;
-import com.haxademic.core.draw.util.PShapeUtil;
 
 import geomerative.RCommand;
 import geomerative.RFont;

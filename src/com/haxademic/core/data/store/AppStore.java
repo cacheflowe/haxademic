@@ -1,4 +1,4 @@
-package com.haxademic.core.data;
+package com.haxademic.core.data.store;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;

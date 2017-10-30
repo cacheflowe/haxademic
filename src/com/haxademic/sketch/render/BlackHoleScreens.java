@@ -1,9 +1,11 @@
 package com.haxademic.sketch.render;
 
-import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.app.PBlendModes;
+import com.haxademic.core.constants.AppSettings;
+import com.haxademic.core.constants.PBlendModes;
+import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.filters.shaders.ChromaColorFilter;
 import com.haxademic.core.draw.filters.shaders.CubicLensDistortionFilter;
 import com.haxademic.core.draw.filters.shaders.RadialRipplesFilter;
@@ -13,8 +15,6 @@ import com.haxademic.core.draw.image.HaxMotionBlur;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.image.MotionBlurPGraphics;
 import com.haxademic.core.draw.image.DrawCommand.Command;
-import com.haxademic.core.draw.util.DrawUtil;
-import com.haxademic.core.draw.util.OpenGLUtil;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.easing.Penner;
 

@@ -2,13 +2,13 @@ package com.haxademic.sketch.hardware.kinect_openni;
 
 import java.util.ArrayList;
 
-import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.draw.mesh.MeshPool;
-import com.haxademic.core.draw.mesh.MeshUtil;
+import com.haxademic.core.constants.AppSettings;
+import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.shapes.BoxBetween;
-import com.haxademic.core.draw.util.DrawUtil;
+import com.haxademic.core.draw.toxi.MeshPool;
+import com.haxademic.core.draw.toxi.MeshUtilToxi;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.kinect.SkeletonsTracker;
 import com.haxademic.core.vendor.Toxiclibs;
@@ -38,14 +38,14 @@ extends PAppletHax {
 		
 		_meshPool = new MeshPool( p );
 
-		_meshPool.addMesh( "POINTER", MeshUtil.meshFromOBJ( p, FileUtil.getHaxademicDataPath() + "models/pointer_cursor_2_hollow.obj", 1f ), 1.5f );
+		_meshPool.addMesh( "POINTER", MeshUtilToxi.meshFromOBJ( p, FileUtil.getHaxademicDataPath() + "models/pointer_cursor_2_hollow.obj", 1f ), 1.5f );
 //		_meshPool.addMesh( "DIAMOND", MeshUtil.meshFromOBJ( p, FileUtil.getHaxademicDataPath() + "models/diamond.obj", 1f ), 1.2f );
-		_meshPool.addMesh( "DIAMOND_2D", MeshUtil.getExtrudedMesh( MeshUtil.meshFromSVG( p, "../data/svg/diamond.svg", -1, 3, 0.5f ), 20 ), 1 );
-		_meshPool.addMesh( "MONEY_2D", MeshUtil.getExtrudedMesh( MeshUtil.meshFromSVG( p, "../data/svg/money.svg", -1, 3, 0.5f ), 20 ), 1 );
-		_meshPool.addMesh( "MONEY_BAG_2D", MeshUtil.getExtrudedMesh( MeshUtil.meshFromSVG( p, "../data/svg/money-bag.svg", -1, 3, 0.5f ), 20 ), 1 );
-		_meshPool.addMesh( "GUN_2D", MeshUtil.getExtrudedMesh( MeshUtil.meshFromSVG( p, "../data/svg/gun.svg", -1, 3, 0.5f ), 20 ), 1 );
-		_meshPool.addMesh( "WEED_2D", MeshUtil.getExtrudedMesh( MeshUtil.meshFromSVG( p, "../data/svg/weed.svg", -1, 3, 0.5f ), 20 ), 1 );
-		_meshPool.addMesh( "CACHEFLOWE", MeshUtil.meshFromOBJ( p, "../data/models/cacheflowe-3d.obj", 1f ), 150 );
+		_meshPool.addMesh( "DIAMOND_2D", MeshUtilToxi.getExtrudedMesh( MeshUtilToxi.meshFromSVG( p, "../data/svg/diamond.svg", -1, 3, 0.5f ), 20 ), 1 );
+		_meshPool.addMesh( "MONEY_2D", MeshUtilToxi.getExtrudedMesh( MeshUtilToxi.meshFromSVG( p, "../data/svg/money.svg", -1, 3, 0.5f ), 20 ), 1 );
+		_meshPool.addMesh( "MONEY_BAG_2D", MeshUtilToxi.getExtrudedMesh( MeshUtilToxi.meshFromSVG( p, "../data/svg/money-bag.svg", -1, 3, 0.5f ), 20 ), 1 );
+		_meshPool.addMesh( "GUN_2D", MeshUtilToxi.getExtrudedMesh( MeshUtilToxi.meshFromSVG( p, "../data/svg/gun.svg", -1, 3, 0.5f ), 20 ), 1 );
+		_meshPool.addMesh( "WEED_2D", MeshUtilToxi.getExtrudedMesh( MeshUtilToxi.meshFromSVG( p, "../data/svg/weed.svg", -1, 3, 0.5f ), 20 ), 1 );
+		_meshPool.addMesh( "CACHEFLOWE", MeshUtilToxi.meshFromOBJ( p, "../data/models/cacheflowe-3d.obj", 1f ), 150 );
 		
 		_meshKeys = _meshPool.getIds();
 	}

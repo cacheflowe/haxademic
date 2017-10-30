@@ -9,8 +9,8 @@ package com.haxademic.sketch.hardware.kinect_openkinect;
 
 import org.openkinect.processing.Kinect2;
 
-import com.haxademic.core.app.AppSettings;
 import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.constants.AppSettings;
 
 import processing.core.PVector;
 //import processing.video.Movie;
