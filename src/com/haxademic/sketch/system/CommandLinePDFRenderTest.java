@@ -1,4 +1,4 @@
-package com.haxademic.sketch.pshape;
+package com.haxademic.sketch.system;
 
 import java.util.ArrayList;
 
@@ -13,7 +13,7 @@ import com.haxademic.core.math.easing.EasingFloat;
 import processing.core.PGraphics;
 import processing.core.PShape;
 
-public class PShapeManipulationTest 
+public class CommandLinePDFRenderTest 
 extends PAppletHax {
 	public static String arguments[];
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }

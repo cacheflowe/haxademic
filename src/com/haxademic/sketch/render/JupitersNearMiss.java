@@ -1,4 +1,4 @@
-package com.haxademic.sketch.pshape;
+package com.haxademic.sketch.render;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
@@ -16,7 +16,7 @@ import processing.core.PImage;
 import processing.core.PShape;
 import processing.opengl.PShader;
 
-public class PShapeIcosahedronTextured 
+public class JupitersNearMiss 
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
