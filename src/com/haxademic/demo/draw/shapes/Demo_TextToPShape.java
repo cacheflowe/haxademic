@@ -19,13 +19,12 @@ extends PAppletHax {
 	protected PShape word3d;
 
 	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, 840 );
+		p.appConfig.setProperty( AppSettings.WIDTH, 1040 );
 		p.appConfig.setProperty( AppSettings.HEIGHT, 640 );
 	}
 
 	public void setup()	{
 		super.setup();
-		smooth(8);
 		textToPShape = new TextToPShape();
 		String fontFile = FileUtil.getFile("fonts/HelloDenverDisplay-Regular.ttf");
 		word2d = textToPShape.stringToShape2d("CACHEFLOWE", fontFile);
@@ -37,7 +36,7 @@ extends PAppletHax {
 	public void draw() {
 		DrawUtil.setBetterLights(p);
 		background(0);
-		translate(width/2,height/3,-600);
+		translate(width/2,height/4,-600);
 		rotateX(P.map(p.mouseY, 0, p.height, -1f, 1f));
 		rotateY(P.map(p.mouseX, 0, p.width, -1f, 1f));
 
@@ -47,7 +46,7 @@ extends PAppletHax {
 		p.shape(word3d);
 		
 		// draw word
-		translate(0,height/3,0);
+		translate(0,height/2,0);
 		word3d.disableStyle();
 		p.fill(255);
 		p.shape(word2d);
