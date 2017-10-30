@@ -51,6 +51,9 @@ public class PShapeUtil {
 	 * @param img
 	 * @param outerExtent
 	 */
+	public static void addTextureUVToObj(PShape s, PImage img) {
+		addTextureUVToObj(s, img, PShapeUtil.getObjMaxExtent(s), true);
+	}
 	public static void addTextureUVToObj(PShape s, PImage img, float outerExtent) {
 		addTextureUVToObj(s, img, outerExtent, true);
 	}
