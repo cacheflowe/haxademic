@@ -54,6 +54,7 @@ implements IEasingValue {
 	public void update(boolean accelerates) {
 		// don't do any math if we're already at the destination
 		if(_val == _target) return;
+		if(_delay > 0) { _delay--; return; }
 		// interpolate
 		if(accelerates == false) {
 			update();

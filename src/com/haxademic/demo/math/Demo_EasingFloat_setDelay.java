@@ -24,7 +24,6 @@ extends PAppletHax {
 
 	public void setup() {
 		super.setup();	
-		p.smooth( OpenGLUtil.SMOOTH_HIGH );
 		easings = new EasingFloat[30];
 		for (int i = 0; i < easings.length; i++) {
 			easings[i] = new EasingFloat(p.width/2, 8f);
@@ -47,7 +46,7 @@ extends PAppletHax {
 		p.fill(255);
 		for (int i = 0; i < easings.length; i++) {
 			EasingFloat easer = easings[i];
-			easer.update();
+			easer.update(true);
 			p.ellipse(easer.value(), p.height / (easings.length - 1)  * i, 40, 40);
 		}
 	}
