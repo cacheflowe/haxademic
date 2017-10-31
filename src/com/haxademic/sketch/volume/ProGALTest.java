@@ -129,8 +129,7 @@ extends PAppletHax {
 		noStroke();
 //				noFill();
 //				stroke(255);
-		smooth();
-				translate(width/2f, height/2f, -500);
+		translate(width/2f, height/2f, -500);
 
 		int numPoints = points.size();
 

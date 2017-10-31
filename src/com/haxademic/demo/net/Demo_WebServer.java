@@ -1,4 +1,4 @@
-package com.haxademic.sketch.net;
+package com.haxademic.demo.net;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
@@ -8,7 +8,7 @@ import com.haxademic.core.net.WebServer;
 import com.haxademic.core.net.WebServerRequestHandler;
 import com.haxademic.core.system.SystemUtil;
 
-public class EmbeddedWebServerTest
+public class Demo_WebServer
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	

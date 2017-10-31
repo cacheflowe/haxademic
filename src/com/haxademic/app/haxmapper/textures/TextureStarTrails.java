@@ -3,13 +3,13 @@ package com.haxademic.app.haxmapper.textures;
 import java.util.ArrayList;
 
 import com.haxademic.core.app.P;
-import com.haxademic.core.data.Point3D;
 import com.haxademic.core.draw.color.ColorGroup;
 import com.haxademic.core.draw.color.TColorBlendBetween;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.EasingFloat3d;
 
+import processing.core.PVector;
 import toxi.color.TColor;
 
 public class TextureStarTrails 
@@ -68,7 +68,7 @@ extends BaseTexture {
 	class Star {
 		protected float _size, _speed;
 		protected EasingFloat3d _loc;
-		protected ArrayList<Point3D> _trailPoints;
+		protected ArrayList<PVector> _trailPoints;
 		protected int _trailIndex = 0;	// helps recycle the trails by constantly incrementing
 		protected int _numTrails = 20;
 		protected int _framesTillMove = 0;
@@ -78,9 +78,9 @@ extends BaseTexture {
 		protected TColorBlendBetween _curColor = null;
 		
 		public Star() {
-			_trailPoints = new ArrayList<Point3D>();
+			_trailPoints = new ArrayList<PVector>();
 			for( int i = 0; i < _numTrails; i++ ) {
-				_trailPoints.add( new Point3D( 0, 0, 0 ) );
+				_trailPoints.add( new PVector( 0, 0, 0 ) );
 			}
 			
 			_loc = new EasingFloat3d( 0, 0, 0, 5 );

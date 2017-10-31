@@ -1,4 +1,4 @@
-package com.haxademic.sketch.math;
+package com.haxademic.demo.math;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
@@ -10,7 +10,7 @@ import com.haxademic.core.math.MathUtil;
 import processing.core.PConstants;
 import processing.core.PGraphics;
 
-public class SinSaw
+public class Demo_MathUtil_saw
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	

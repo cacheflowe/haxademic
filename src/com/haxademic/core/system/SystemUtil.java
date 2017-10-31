@@ -50,7 +50,7 @@ public class SystemUtil {
 	
 	public static void runOSXCommand(String command) {
 		try {
-			Runtime.getRuntime().exec( new String[] { "/bin/sh", "-c", command } );
+			Process process = Runtime.getRuntime().exec( new String[] { "/bin/sh", "-c", command } );
 		} catch (IOException e) { 
 			e.printStackTrace(); 
 		}

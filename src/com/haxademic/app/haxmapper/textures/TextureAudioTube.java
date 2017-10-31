@@ -1,16 +1,17 @@
 package com.haxademic.app.haxmapper.textures;
 
 import com.haxademic.core.app.P;
-import com.haxademic.core.data.Point3D;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.EasingFloat;
 
+import processing.core.PVector;
+
 public class TextureAudioTube 
 extends BaseTexture {
 
-	protected Point3D _rotation = new Point3D( 0, 0, 0 );
-	protected Point3D _rotationTarget = new Point3D( 0, 0, 0 );
+	protected PVector _rotation = new PVector( 0, 0, 0 );
+	protected PVector _rotationTarget = new PVector( 0, 0, 0 );
 	protected EasingFloat _radius = new EasingFloat(0, 10);
 	protected EasingFloat _spacing = new EasingFloat(10, 6);
 
@@ -38,7 +39,7 @@ extends BaseTexture {
 	}
 	
 	protected void updateRotation() {
-		_rotation.easeToPoint( _rotationTarget, 6 );
+		_rotation.lerp(_rotationTarget, 0.2f );
 		_texture.rotateY( _rotation.y );
 //		_texture.rotateZ( _rotation.z );
 		_texture.rotateX( _rotation.x );

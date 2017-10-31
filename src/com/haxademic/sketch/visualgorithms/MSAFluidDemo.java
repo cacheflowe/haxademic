@@ -1,4 +1,4 @@
-package com.haxademic.sketch.particle;
+package com.haxademic.sketch.visualgorithms;
 
 import java.nio.FloatBuffer;
 

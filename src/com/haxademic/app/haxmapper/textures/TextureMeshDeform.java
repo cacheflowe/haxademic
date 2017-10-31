@@ -3,7 +3,6 @@ package com.haxademic.app.haxmapper.textures;
 import java.util.ArrayList;
 
 import com.haxademic.core.app.P;
-import com.haxademic.core.data.Point3D;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.shapes.PShapeSolid;
 import com.haxademic.core.draw.shapes.PShapeUtil;
@@ -11,6 +10,7 @@ import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.MathUtil;
 
 import processing.core.PShape;
+import processing.core.PVector;
 
 public class TextureMeshDeform 
 extends BaseTexture {
@@ -23,9 +23,9 @@ extends BaseTexture {
 
 	protected boolean _isWireframe = true;
 
-	protected Point3D _rotSpeed = new Point3D( 0, 0, 0 );
-	protected Point3D _rotation = new Point3D( 0, 0, 0 );
-	protected Point3D _rotationTarget = new Point3D( 0, 0, 0 );
+	protected PVector _rotSpeed = new PVector( 0, 0, 0 );
+	protected PVector _rotation = new PVector( 0, 0, 0 );
+	protected PVector _rotationTarget = new PVector( 0, 0, 0 );
 
 	public TextureMeshDeform( int width, int height ) {
 		super();

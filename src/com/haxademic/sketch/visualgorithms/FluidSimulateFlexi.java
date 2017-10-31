@@ -1,4 +1,4 @@
-package com.haxademic.sketch.particle;
+package com.haxademic.sketch.visualgorithms;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;

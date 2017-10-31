@@ -1,12 +1,12 @@
 package com.haxademic.app.haxmapper.textures;
 
 import com.haxademic.core.app.P;
-import com.haxademic.core.data.Point3D;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.toxi.DrawMesh;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.MathUtil;
 
+import processing.core.PVector;
 import saito.objloader.OBJModel;
 import toxi.color.TColor;
 import toxi.geom.Sphere;
@@ -21,9 +21,9 @@ extends BaseTexture {
 	protected boolean _isWireframe = true;
 	protected boolean _isSphere = true;
 	protected int _meshResolution;
-	protected Point3D _rotSpeed = new Point3D( 0, 0, 0 );
-	protected Point3D _rotation = new Point3D( 0, 0, 0 );
-	protected Point3D _rotationTarget = new Point3D( 0, 0, 0 );
+	protected PVector _rotSpeed = new PVector( 0, 0, 0 );
+	protected PVector _rotation = new PVector( 0, 0, 0 );
+	protected PVector _rotationTarget = new PVector( 0, 0, 0 );
 	protected TColor _baseColor = new TColor(TColor.WHITE);
 	protected TColor _strokeColor = new TColor(TColor.WHITE);
 	protected WETriangleMesh _sphereMesh;

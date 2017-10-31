@@ -1,21 +1,21 @@
 package com.haxademic.app.haxvisual.viz.elements;
 
-import processing.core.PApplet;
-import toxi.color.TColor;
-import toxi.geom.mesh.SphericalHarmonics;
-import toxi.geom.mesh.SurfaceMeshBuilder;
-import toxi.geom.mesh.TriangleMesh;
-import toxi.processing.ToxiclibsSupport;
-
 import com.haxademic.app.haxvisual.viz.ElementBase;
 import com.haxademic.app.haxvisual.viz.IVizElement;
 import com.haxademic.core.audio.AudioInputWrapper;
-import com.haxademic.core.data.Point3D;
 import com.haxademic.core.draw.color.ColorGroup;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.toxi.DrawMesh;
 import com.haxademic.core.draw.toxi.ThreeDeeUtil;
 import com.haxademic.core.math.MathUtil;
+
+import processing.core.PApplet;
+import processing.core.PVector;
+import toxi.color.TColor;
+import toxi.geom.mesh.SphericalHarmonics;
+import toxi.geom.mesh.SurfaceMeshBuilder;
+import toxi.geom.mesh.TriangleMesh;
+import toxi.processing.ToxiclibsSupport;
 
 public class SphericalHarmonicsOscillator
 extends ElementBase 
@@ -36,9 +36,9 @@ implements IVizElement {
 	protected boolean _isWireframe = false;
 	protected boolean _isPoints = false;
 	
-	protected Point3D _rotSpeed = new Point3D( 0, 0, 0 );
-	protected Point3D _rotation = new Point3D( 0, 0, 0 );
-	protected Point3D _rotationTarget = new Point3D( 0, 0, 0 );
+	protected PVector _rotSpeed = new PVector( 0, 0, 0 );
+	protected PVector _rotation = new PVector( 0, 0, 0 );
+	protected PVector _rotationTarget = new PVector( 0, 0, 0 );
 
 	public SphericalHarmonicsOscillator( PApplet p, ToxiclibsSupport toxi, AudioInputWrapper audioData ) {
 		super( p, toxi, audioData );
@@ -104,7 +104,7 @@ implements IVizElement {
 	}
 	
 	protected void updateRotation() {
-		_rotation.easeToPoint( _rotationTarget, 5 );
+		_rotation.lerp( _rotationTarget, 0.2f );
 		p.rotateX( _rotation.x );
 		p.rotateY( _rotation.y );
 		p.rotateZ( _rotation.z );

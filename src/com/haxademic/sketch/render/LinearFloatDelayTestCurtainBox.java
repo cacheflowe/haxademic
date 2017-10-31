@@ -1,4 +1,4 @@
-package com.haxademic.sketch.math;
+package com.haxademic.sketch.render;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
@@ -10,7 +10,7 @@ import com.haxademic.core.math.easing.Penner;
 
 import controlP5.ControlP5;
 
-public class LinearFloatDelayTest
+public class LinearFloatDelayTestCurtainBox
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
