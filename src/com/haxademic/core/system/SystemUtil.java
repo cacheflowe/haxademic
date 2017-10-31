@@ -48,6 +48,14 @@ public class SystemUtil {
 		deferredStateTimer.start();
 	}
 	
+	public static void runOSXCommand(String command) {
+		try {
+			Runtime.getRuntime().exec( new String[] { "/bin/sh", "-c", command } );
+		} catch (IOException e) { 
+			e.printStackTrace(); 
+		}
+	}
+	
 	public static void printRunningProcesses() {
 	    try {
 	        String line;
