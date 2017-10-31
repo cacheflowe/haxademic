@@ -44,21 +44,7 @@ import themidibus.MidiBus;
 /**
  * PAppletHax is a starting point for interactive visuals, giving you a unified
  * environment for both realtime and rendering modes. It loads several Java
- * libraries and wraps them up to play nicely with each other, all within the
- * context of Haxademic.
- *
- * @TODO: Mesh traversal drawing
- * @TODO: Create PGraphics & PImage audio-reactive textures to apply to meshes across sketches/apps. See SphereTextureMap and abstracts some of the goodness. !!! - add current texture and iVizTextureDraw classes to VizCollection Module
- *
- * @TODO: Use a static Haxademic.support( PApplet ) type static instance to let us gain access to the applet without passing it everywhere. Look at Geomerative & Toxiclibs to see how they did it.
- * @TODO: ^^^ General cleanup of PAppletHax references throughout codebase
- * @TODO: Make sure it's cool to post all the 3rd-party code within. potentially rewrite these bits
- * @TODO: MIDI signals from rendering and live should be abstracted as MIDI message objects?
- * @TODO: Mesh traversal drawing: more configurable. generative options - implement mesh drawing strategy pattern
- * @TODO: Finish converting old modules into new Elements: AudioTubes, Blobsheet, cacheRings outer rings, GridEQ w/lines, MaxCache outer rings, PlusRing, more spheres
- * @TODO: Fix stepping through audio for WaveformData - this was hacked for BNC video rendering but shouldn't have to play & cue() the audio to capture the data
- * @TODO: Don't initialize MIDI object if not defined in run.properties. Will need to prevent attempting to detect MIDI input on handleKeyboardInput() methods
- * @TODO: Improve color selecting - use test sketch to figure out how to deal with color-traversing
+ * libraries and wraps them up to play nicely with each other.
  *
  * @author cacheflowe
  *
