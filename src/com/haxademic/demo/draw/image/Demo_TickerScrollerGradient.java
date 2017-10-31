@@ -1,4 +1,4 @@
-package com.haxademic.sketch.buffer;
+package com.haxademic.demo.draw.image;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
@@ -11,7 +11,7 @@ import com.haxademic.core.draw.shapes.Gradients;
 
 import processing.core.PGraphics;
 
-public class TickerScrollerGradientTest
+public class Demo_TickerScrollerGradient
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	

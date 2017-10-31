@@ -1,4 +1,4 @@
-package com.haxademic.sketch.opengl;
+package com.haxademic.demo.draw.context;
 
 import com.haxademic.app.haxmapper.textures.BaseTexture;
 import com.haxademic.app.haxmapper.textures.TextureShaderTimeStepper;
@@ -11,7 +11,7 @@ import com.haxademic.core.draw.context.OpenGLUtil;
 import processing.core.PConstants;
 import processing.core.PGraphics;
 
-public class TextureQualityTests
+public class Demo_OpenGLUtil_setTextureQuality
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	

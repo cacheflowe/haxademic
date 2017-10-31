@@ -1,4 +1,4 @@
-package com.haxademic.sketch.buffer;
+package com.haxademic.demo.draw.context;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
@@ -12,7 +12,7 @@ import com.haxademic.core.math.easing.Penner;
 
 import processing.core.PGraphics;
 
-public class FeedbackBufferTestDrawUtil
+public class Demo_DrawUtil_feedback
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
