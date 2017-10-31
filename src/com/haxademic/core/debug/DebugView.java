@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.net.IPAddress;
 import com.haxademic.core.text.StringFormatter;
 
 import processing.core.PApplet;
@@ -18,9 +19,11 @@ public class DebugView {
 	protected LinkedHashMap<String, String> helpLines;
 	protected float helpWidthMax = 0;
 	protected int fontSize = 14;
+	protected String ipAddress;
 
 	public DebugView( PApplet p ) {
 		this.p = p;
+		ipAddress = IPAddress.getLocalAddress();
 		createFont();
 		debugLines = new LinkedHashMap<String, String>();
 		helpLines = new LinkedHashMap<String, String>();
@@ -63,6 +66,9 @@ public class DebugView {
 		debugLines.put("Memory Allocated", StringFormatter.formattedInteger(DebugUtil.memoryAllocated()));
 		debugLines.put("Memory Free", StringFormatter.formattedInteger(DebugUtil.memoryFree()));
 		debugLines.put("Memory Max", StringFormatter.formattedInteger(DebugUtil.memoryMax()));
+		debugLines.put("", "");
+		debugLines.put("\nNET", "");
+		debugLines.put("IP Address", ipAddress);
 		debugLines.put("", "");
 		debugLines.put("\nCUSTOM", "");
 	}

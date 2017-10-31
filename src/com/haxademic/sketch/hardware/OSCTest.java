@@ -1,6 +1,7 @@
 package com.haxademic.sketch.hardware;
 
 import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.constants.AppSettings;
 
 import netP5.NetAddress;
 import oscP5.OscArgument;
@@ -15,7 +16,7 @@ extends PAppletHax {
 	NetAddress myRemoteLocation;
 
 	protected void overridePropsFile() {
-		 p.appConfig.setProperty( "osc_active", "true" );
+		 p.appConfig.setProperty( AppSettings.OSC_ACTIVE, true );
 	}
 
 	public void setup() {
