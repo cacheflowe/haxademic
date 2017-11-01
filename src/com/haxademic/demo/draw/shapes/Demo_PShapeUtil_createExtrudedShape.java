@@ -33,6 +33,7 @@ extends PAppletHax {
 		super.setup();
 		
 		shapes = new ArrayList<PShape>();
+		shapes.add( p.loadShape( FileUtil.getFile("svg/cacheflowe-logotype-new.svg")).getTessellation() );
 		shapes.add( p.loadShape( FileUtil.getFile("svg/microphone.svg")).getTessellation() );
 		shapes.add( p.loadShape( FileUtil.getFile("svg/money.svg")).getTessellation() );
 		shapes.add( p.loadShape( FileUtil.getFile("svg/weed.svg")).getTessellation() );

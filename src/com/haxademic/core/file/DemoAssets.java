@@ -19,6 +19,12 @@ public class DemoAssets {
 		return justin;
 	}
 	
+	public static PImage grayscale = null;
+	public static PImage grayscale() {
+		if(grayscale == null) grayscale = P.p.loadImage(FileUtil.getFile("images/textures/grayscale/shader-1.jpg"));
+		return grayscale;
+	}
+	
 	public static PImage textureJupiter = null;
 	public static PImage textureJupiter() {
 		if(textureJupiter == null) textureJupiter = P.p.loadImage(FileUtil.getFile("images/textures/space/spherical/jupiter.jpg"));
