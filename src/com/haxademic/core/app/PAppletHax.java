@@ -383,11 +383,11 @@ extends PApplet
 		handleRenderingStepthrough();
 		updateAudioData();
 		if( kinectWrapper != null ) kinectWrapper.update();
-		if( joons != null ) joons.startFrame();
 		p.pushMatrix();
+		if( joons != null ) joons.startFrame();
 		drawApp();
-		p.popMatrix();
 		if( joons != null ) joons.endFrame( p.appConfig.getBoolean(AppSettings.SUNFLOW_SAVE_IMAGES, false) == true );
+		p.popMatrix();
 		renderFrame();
 		showStats();
 		setAppDockIconAndTitle();
