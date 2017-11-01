@@ -34,14 +34,14 @@ extends PAppletHax {
 		super.setup();
 		
 		// load & repair tesselated shape
-		obj = p.loadShape( FileUtil.getFile("svg/cacheflowe-logotype-new.svg")).getTessellation();
+		obj = p.loadShape( FileUtil.getFile("svg/diamond.svg")).getTessellation();
 		PShapeUtil.repairMissingSVGVertex(obj);
 			
 		// create extrusion
-		obj = PShapeUtil.createExtrudedShape( obj, 5 );
+		obj = PShapeUtil.createExtrudedShape( obj, 45 );
 		PShapeUtil.centerShape(obj);
-		objHeight = p.height * 0.4f; // PShapeUtil.getObjHeight(obj);
-		PShapeUtil.scaleShapeToExtent(obj, objHeight);
+		objHeight = p.height * 0.35f; // PShapeUtil.getObjHeight(obj);
+		PShapeUtil.scaleShapeToHeight(obj, objHeight);
 	}
 
 
@@ -51,7 +51,6 @@ extends PAppletHax {
 			p.lights();
 			p.noStroke();
 		}
-//		joons.jr.background(JoonsWrapper.BACKGROUND_GI);
 		joons.jr.background(JoonsWrapper.BACKGROUND_AO);
 		p.translate(0, 0, -width);
 		
@@ -65,27 +64,29 @@ extends PAppletHax {
 
 		// rotate room
 //		p.rotateZ(P.PI);
-		p.rotateY(-0.3f + P.sin(progress * P.TWO_PI) * 0.03f);
+//		p.rotateY(-0.3f + P.sin(progress * P.TWO_PI) * 0.03f);
 
 		// draw shape
 		p.pushMatrix();
-		joons.jr.fill(JoonsWrapper.MATERIAL_PHONG, 217, 37, 34);		p.fill( 217, 37, 34 );
+		joons.jr.fill(JoonsWrapper.MATERIAL_SHINY, 20, 20, 20, 0.7f);		p.fill( 20, 20, 20 );
 		PShapeUtil.drawTrianglesJoons(p, obj, 1);
 		p.popMatrix();
 
 		// draw floor
 		p.pushMatrix();
 		DrawUtil.setDrawCenter(p);
+//		float mult = P.map(p.mouseX, 0, p.width, 0, 1);
+////		P.println("mult", mult);
 		p.translate(0, objHeight);
-		joons.jr.fill(JoonsWrapper.MATERIAL_PHONG, 110, 130, 110);		p.fill( 110, 130, 110 );
-		p.box(p.height * 4, 2, p.height * 4);
+		joons.jr.fill(JoonsWrapper.MATERIAL_SHINY, 255, 255, 255, 0.6f);		p.fill( 255, 255, 255 );
+		p.box(p.height * 4, 2, p.height * 2f);
 		p.popMatrix();
 		
 		// draw back wall
 		p.pushMatrix();
 		DrawUtil.setDrawCenter(p);
 		p.translate(0, 0, -5);
-		joons.jr.fill(JoonsWrapper.MATERIAL_PHONG, 110, 130, 110);		p.fill( 110, 130, 110 );
+		joons.jr.fill(JoonsWrapper.MATERIAL_PHONG, 255, 255, 255);		p.fill( 255, 255, 255 );
 		p.box(p.height * 4, p.height * 4, 2);
 		p.popMatrix();
 	}
