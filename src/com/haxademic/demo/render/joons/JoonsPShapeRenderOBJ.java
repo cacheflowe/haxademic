@@ -10,7 +10,7 @@ import com.haxademic.core.render.JoonsWrapper;
 
 import processing.core.PShape;
 
-public class JoonsPShapeRender
+public class JoonsPShapeRenderOBJ
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 

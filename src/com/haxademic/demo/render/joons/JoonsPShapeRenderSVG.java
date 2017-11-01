@@ -1,0 +1,110 @@
+package com.haxademic.demo.render.joons;
+
+import com.haxademic.core.app.P;
+import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.constants.AppSettings;
+import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.shapes.PShapeUtil;
+import com.haxademic.core.file.FileUtil;
+import com.haxademic.core.render.JoonsWrapper;
+
+import processing.core.PShape;
+
+public class JoonsPShapeRenderSVG
+extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
+
+	protected PShape obj;
+	protected float objHeight;
+	protected float frames = 60;
+	
+	protected void overridePropsFile() {
+		p.appConfig.setProperty( AppSettings.SUNFLOW, true );
+		p.appConfig.setProperty( AppSettings.SUNFLOW_ACTIVE, true );
+		p.appConfig.setProperty( AppSettings.SUNFLOW_QUALITY, AppSettings.SUNFLOW_QUALITY_HIGH );
+
+		p.appConfig.setProperty( AppSettings.WIDTH, 960 );
+		p.appConfig.setProperty( AppSettings.HEIGHT, 720 );
+		p.appConfig.setProperty( AppSettings.RENDERING_IMAGE_SEQUENCE, false );
+		p.appConfig.setProperty( AppSettings.RENDERING_IMAGE_SEQUENCE_START_FRAME, 3 );
+		p.appConfig.setProperty( AppSettings.RENDERING_IMAGE_SEQUENCE_STOP_FRAME, 3 + (int) frames - 1 );
+	}
+
+	public void setup() {
+		super.setup();
+		
+		// load & repair tesselated shape
+		obj = p.loadShape( FileUtil.getFile("svg/cacheflowe-logotype-new.svg")).getTessellation();
+		PShapeUtil.repairMissingSVGVertex(obj);
+			
+		// create extrusion
+		obj = PShapeUtil.createExtrudedShape( obj, 5 );
+		PShapeUtil.centerShape(obj);
+		objHeight = p.height * 0.4f; // PShapeUtil.getObjHeight(obj);
+		PShapeUtil.scaleShapeToExtent(obj, objHeight);
+	}
+
+
+	public void drawApp() {
+		if(p.appConfig.getBoolean(AppSettings.SUNFLOW_ACTIVE, false) == false) {
+			p.background(0);
+			p.lights();
+			p.noStroke();
+		}
+//		joons.jr.background(JoonsWrapper.BACKGROUND_GI);
+		joons.jr.background(JoonsWrapper.BACKGROUND_AO);
+		p.translate(0, 0, -width);
+		
+		// progress
+		float progress = (p.frameCount % frames) / frames;
+
+		// draw environment
+		p.pushMatrix();
+		setUpRoom();
+		p.popMatrix();
+
+		// rotate room
+//		p.rotateZ(P.PI);
+		p.rotateY(-0.3f + P.sin(progress * P.TWO_PI) * 0.03f);
+
+		// draw shape
+		p.pushMatrix();
+		joons.jr.fill(JoonsWrapper.MATERIAL_PHONG, 217, 37, 34);		p.fill( 217, 37, 34 );
+		PShapeUtil.drawTrianglesJoons(p, obj, 1);
+		p.popMatrix();
+
+		// draw floor
+		p.pushMatrix();
+		DrawUtil.setDrawCenter(p);
+		p.translate(0, objHeight);
+		joons.jr.fill(JoonsWrapper.MATERIAL_PHONG, 110, 130, 110);		p.fill( 110, 130, 110 );
+		p.box(p.height * 4, 2, p.height * 4);
+		p.popMatrix();
+		
+		// draw back wall
+		p.pushMatrix();
+		DrawUtil.setDrawCenter(p);
+		p.translate(0, 0, -5);
+		joons.jr.fill(JoonsWrapper.MATERIAL_PHONG, 110, 130, 110);		p.fill( 110, 130, 110 );
+		p.box(p.height * 4, p.height * 4, 2);
+		p.popMatrix();
+	}
+
+	protected void setUpRoom() {
+		pushMatrix();
+		translate(0, 0, 0);
+		float radiance = 10;
+		int samples = 16;
+		joons.jr.background(JoonsWrapper.CORNELL_BOX, 
+				4000, 3000, 5000,						// width, height, depth
+				radiance, radiance, radiance, samples,  // radiance rgb & samples
+				40, 40, 40, 							// left rgb
+				40, 40, 40, 							// right rgb
+				0, 0, 0,	 							// back rgb
+				60, 60, 60, 							// top rgb
+				60, 60, 60  							// bottom rgb
+		); 
+		popMatrix();		
+	}
+	
+}
