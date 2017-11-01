@@ -1,18 +1,20 @@
-package com.haxademic.sketch.pshape;
+package com.haxademic.demo.draw.shapes;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
+import com.haxademic.core.debug.DebugUtil;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.shapes.Icosahedron;
 import com.haxademic.core.draw.shapes.PShapeSolid;
 import com.haxademic.core.draw.shapes.PShapeUtil;
+import com.haxademic.core.file.DemoAssets;
 import com.haxademic.core.file.FileUtil;
 
 import processing.core.PImage;
 import processing.core.PShape;
 
-public class PShapeObjDeformTest 
+public class Demo_PShapeSolid_deformMethods 
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
@@ -38,22 +40,26 @@ extends PAppletHax {
 		super.setup();	
 
 		// load texture
-		img = p.loadImage(FileUtil.getFile("images/justin-spike-portrait-02-smaller.png"));
+		img = DemoAssets.squareTexture();
 		
 		// build obj PShape and scale to window
-		obj = p.loadShape( FileUtil.getFile("models/skull-realistic.obj"));	
-		// obj = p.loadShape( FileUtil.getFile("models/skull-realistic.obj"));	
-		PShapeUtil.scaleObjToExtent(obj, p.height * 0.3f);
+		obj = DemoAssets.objSkullRealistic();
+		
+		// scale obj
+		float objHeight = p.height * 0.3f;
+		PShapeUtil.scaleShapeToExtent(obj, objHeight);
 		
 		// add UV coordinates to OBJ
-		float modelExtent = PShapeUtil.getObjMaxExtent(obj);
+//		float modelExtent = PShapeUtil.getShapeMaxExtent(obj);
 //		PShapeUtil.addTextureUVToObj(obj, img, modelExtent);
 		// obj.setTexture(img);
 		
 		// build solid, deformable PShape object
-//		objSolid = new PShapeSolid(obj);
-		objSolid = newSolidIcos(200, img);
-//		objSolid = newSolidSphere(200, img);
+		objSolid = new PShapeSolid(obj);
+		DebugUtil.printErr("Fix PShapeSolid objects created by other methods");
+//		objSolid = newSolidIcos(200, img);
+//		objSolid = newSolidSphere(200, null);
+		
 	}
 	
 	protected PShape newSphere(float size, PImage texture) {
@@ -73,21 +79,21 @@ extends PAppletHax {
 	protected PShapeSolid newSolidIcos(float size, PImage texture) {
 		PShape group = createShape(GROUP);
 		PShape icos = Icosahedron.createIcosahedron(p.g, 4, texture);
-		PShapeUtil.scaleSvgToExtent(icos, size);
+		PShapeUtil.scaleShapeToExtent(icos, size);
 		group.addChild(icos);
-		return new PShapeSolid(group);
+		return new PShapeSolid(icos);
 	}
 
 
 	public void drawApp() {
-		background(255);
+		background(0);
 		
 		float percentComplete = ((float)(p.frameCount%_frames)/_frames);
 
 		// blending test 
 //		if(P.round(p.frameCount/20) % 2 == 0) {
-			OpenGLUtil.setBlending(p.g, true);
-			OpenGLUtil.setBlendMode(p.g, OpenGLUtil.Blend.ALPHA_REVEAL);
+//			OpenGLUtil.setBlending(p.g, true);
+//			OpenGLUtil.setBlendMode(p.g, OpenGLUtil.Blend.ALPHA_REVEAL);
 //		} else {
 //			OpenGLUtil.setBlending(p.g, false);
 //			OpenGLUtil.setBlendMode(p.g, OpenGLUtil.Blend.DEFAULT);
@@ -114,17 +120,17 @@ extends PAppletHax {
 //		p.rotateY(-percentComplete * P.TWO_PI);
 		p.rotateZ(P.PI);
 
-		
+		// swap deform modes
+		int deformMode = P.round(p.frameCount / 100) % 3;
+		if(deformMode == 0) 		objSolid.updateWithTrig(true, percentComplete * 2f, 0.05f, 17.4f);
+		else if(deformMode == 1) objSolid.deformWithAudio();
+		else if(deformMode == 2) objSolid.deformWithAudioByNormals();
+
 		// draw!
-//		objSolid.updateWithAudio(true);
-//		float mouz = p.mouseX / 20f;
-//		P.println(mouz);
-		objSolid.updateWithTrig(true, percentComplete * 2f, 0.04f, 17.4f);
 		p.noStroke();
-//		p.fill(200, 255, 200);
-//		p.stroke(255);
-//		p.strokeWeight(0.4f);
+		p.fill(255);
 		p.shape(objSolid.shape());
+		
 	}
 		
 }

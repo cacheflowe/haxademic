@@ -6,6 +6,7 @@ import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.filters.shaders.BrightnessFilter;
 import com.haxademic.core.draw.filters.shaders.VignetteFilter;
 import com.haxademic.core.draw.image.TickerScroller;
+import com.haxademic.core.file.DemoAssets;
 import com.haxademic.core.file.FileUtil;
 
 import processing.core.PImage;
@@ -20,7 +21,6 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.WIDTH, 640 );
 		p.appConfig.setProperty( AppSettings.HEIGHT, 182 );
 		p.appConfig.setProperty( AppSettings.FULLSCREEN, false );
-		p.appConfig.setProperty( AppSettings.FPS, 30 );
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, false );
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_START_FRAME, 1 );
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, 311 );
@@ -28,8 +28,7 @@ extends PAppletHax {
 
 	public void setup() {
 		super.setup();
-		PImage img = p.loadImage(FileUtil.getFile("images/hbd-hazen.png"));
-		ticker = new TickerScroller(img, p.color(255), 640, 182, 4.f);
+		ticker = new TickerScroller(DemoAssets.squareTexture(), p.color(255), 640, 182, 4.f);
 	}
 	
 	public void drawApp() {

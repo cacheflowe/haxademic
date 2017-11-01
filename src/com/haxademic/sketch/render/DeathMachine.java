@@ -57,7 +57,7 @@ extends PAppletHax {
 		// build obj PShape and scale to window
 		skullMesh = p.loadShape( FileUtil.getFile("models/skull-realistic.obj"));	
 		gunMesh = p.loadShape( FileUtil.getFile("models/m4a1.obj"));	
-		normalizeMesh(skullMesh, p.height * 0.03f, null);
+		normalizeMesh(skullMesh, p.height * 0.03f, null); // 
 		normalizeMesh(gunMesh, p.height, gunTexture);
 		
 		// build texts
@@ -65,25 +65,22 @@ extends PAppletHax {
 		textToPShape = new TextToPShape();
 		String fontFile = FileUtil.getFile("fonts/AvantGarde-Book.ttf");
 		textAmerica = textToPShape.stringToShape3d("AMERICA", textDepth, fontFile);
-		PShapeUtil.scaleObjToHeight(textAmerica, p.width * 0.068f);
-//		PShapeUtil.addTextureUVSpherical(textAmerica, img);
+		PShapeUtil.scaleShapeToHeight(textAmerica, p.height * 0.068f);
 		textThe = textToPShape.stringToShape3d("THE", textDepth, fontFile);
-		PShapeUtil.scaleObjToHeight(textThe, p.width * 0.05f);
+		PShapeUtil.scaleShapeToHeight(textThe, p.height * 0.05f);
 		textIndefensible = textToPShape.stringToShape3d("INDEFENSIBLE", textDepth, fontFile);
-		PShapeUtil.scaleObjToHeight(textIndefensible, p.width * 0.06f);
+		PShapeUtil.scaleShapeToHeight(textIndefensible, p.height * 0.055f);
 		
 		// smooth more
-		OpenGLUtil.setTextureQualityHigh(p.g);
+//		OpenGLUtil.setTextureQualityHigh(p.g);
 	}
 	
 	protected void normalizeMesh(PShape s, float extent, PImage texture) {
-		PShapeUtil.centerSvg(s);
-		PShapeUtil.scaleObjToExtentVerticesAdjust(s, extent);
+		PShapeUtil.scaleShapeToExtent(s, extent);
 		
 		// add UV coordinates to OBJ
-		float modelExtent = PShapeUtil.getObjMaxExtent(s);
-		P.println("modelExtent", modelExtent);
-		if(texture != null) PShapeUtil.addTextureUVToObj(s, texture, modelExtent, false);
+		float modelExtent = PShapeUtil.getShapeMaxExtent(s);
+		if(texture != null) PShapeUtil.addTextureUVToShape(s, texture, modelExtent, false);
 	}
 
 	public void setBetterLights( PGraphics p ) {
@@ -105,17 +102,19 @@ extends PAppletHax {
 		setBetterLights(p.g);
 		
 		// mouse control
-		float xmouse = P.map(P.p.mouseX, 0, p.width, -800f, 800f);
-		float ymouse = P.map(P.p.mouseY, 0, p.height, -800f, 800f);
-		P.p.debugView.addValue("xmouse", xmouse);
-		P.p.debugView.addValue("ymouse", ymouse);
+//		float xmouse = P.map(P.p.mouseX, 0, p.width, -800f, 800f);
+//		float ymouse = P.map(P.p.mouseY, 0, p.height, -800f, 800f);
+//		P.p.debugView.addValue("xmouse", xmouse);
+//		P.p.debugView.addValue("ymouse", ymouse);
 		
 		// loop progress
 		float loopFrames = p.frameCount % _frames;
 		float percentComplete = loopFrames / _frames;
 //		percentComplete = 0.75f;
 //		percentComplete = Penner.easeInOutCirc(percentComplete % 1f, 0, 1, 1);
+//		float cameraPercent = Penner.easeInOutCirc((0.75f + percentComplete) % 1f, 0, 1, 1);
 		float radsComplete = percentComplete * P.TWO_PI;
+//		float cameraPercentRadsComplete = cameraPercent * P.TWO_PI;
 		
 		// rotate scene
 		float starXOffset = (p.width/7f + p.width/7f * P.sin(P.PI - radsComplete));

@@ -66,10 +66,10 @@ extends PAppletHax {
 		// build obj PShape and scale to window
 		obj = p.loadShape( FileUtil.getFile("models/skull-realistic.obj"));	
 //		obj = p.loadShape( FileUtil.getFile("models/lego-man.obj"));	
-		PShapeUtil.scaleObjToExtent(obj, p.height * 0.4f);
+		PShapeUtil.scaleObjToExtent_DEPRECATE(obj, p.height * 0.4f);
 		
 		// add UV coordinates to OBJ
-		modelExtent = PShapeUtil.getObjMaxExtent(obj);
+		modelExtent = PShapeUtil.getShapeMaxExtent(obj);
 		modelExtentHalf = modelExtent / 2f;
 		PShapeUtil.addTextureUVToObj(obj, img, modelExtent);
 		// obj.setTexture(img);

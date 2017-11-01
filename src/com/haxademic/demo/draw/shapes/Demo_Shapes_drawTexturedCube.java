@@ -4,6 +4,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.draw.shapes.Shapes;
+import com.haxademic.core.file.DemoAssets;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.easing.Penner;
 
@@ -23,7 +24,7 @@ extends PAppletHax {
 
 	public void setup() {
 		super.setup();
-		img = loadImage(FileUtil.getFile("images/smiley-big.png"));
+		img = DemoAssets.squareTexture();
 		noStroke();
 	}
 

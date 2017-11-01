@@ -84,8 +84,8 @@ extends PAppletHax {
 		objOrig = p.loadShape( FileUtil.getFile("models/Trump_lowPoly_updated.obj"));
 		obj = p.loadShape( FileUtil.getFile("models/Trump_lowPoly_updated.obj"));
 		
-		PShapeUtil.scaleObjToExtentReturnScale(skullObj, p.height * 0.78f);
-		PShapeUtil.scaleObjToExtentReturnScale(obj, p.height * 0.8f);
+		PShapeUtil.scaleObjToExtentReturnScale_DEPRECATE(skullObj, p.height * 0.78f);
+		PShapeUtil.scaleObjToExtentReturnScale_DEPRECATE(obj, p.height * 0.8f);
 		
 		// get centers of each face
 		objFaceCenters = new PVector[obj.getChildCount()];
@@ -98,7 +98,7 @@ extends PAppletHax {
 			}
 		}
 		
-		maxObjExtent = PShapeUtil.getObjMaxExtent(obj);
+		maxObjExtent = PShapeUtil.getShapeMaxExtent(obj);
 
 	}
 	

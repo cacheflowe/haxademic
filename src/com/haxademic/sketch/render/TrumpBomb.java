@@ -56,16 +56,16 @@ extends PAppletHax {
 		obj = p.loadShape( FileUtil.getFile("models/bomb.obj"));	
 //		obj = obj.getTessellation();
 //		obj = p.loadShape( FileUtil.getFile("models/poly-hole-tri.obj"));	
-		PShapeUtil.centerSvg(obj);
-		PShapeUtil.scaleObjToExtentVerticesAdjust(obj, p.height);
+		PShapeUtil.centerShape(obj);
+		PShapeUtil.scaleShapeToExtent(obj, p.height);
 		
 		// add UV coordinates to OBJ based on model extents
-		float modelExtent = PShapeUtil.getObjMaxExtent(obj);
+		float modelExtent = PShapeUtil.getShapeMaxExtent(obj);
 		modelHeight = PShapeUtil.getObjHeight(obj);
 		P.println("modelExtent", modelExtent);
 		P.println("getObjHeight", modelHeight);
 		if(useTexture) 
-			PShapeUtil.addTextureUVToObj(obj, img, modelExtent, true);
+			PShapeUtil.addTextureUVToShape(obj, img, modelExtent, true);
 		
 		// build solid, deformable PShape object
 		objSolid = new PShapeSolid(obj);

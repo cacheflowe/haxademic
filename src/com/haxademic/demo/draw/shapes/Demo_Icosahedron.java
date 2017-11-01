@@ -1,4 +1,4 @@
-package com.haxademic.sketch.pshape;
+package com.haxademic.demo.draw.shapes;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
@@ -7,12 +7,13 @@ import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.shapes.Icosahedron;
 import com.haxademic.core.draw.shapes.PShapeUtil;
+import com.haxademic.core.file.DemoAssets;
 import com.haxademic.core.file.FileUtil;
 
 import processing.core.PImage;
 import processing.core.PShape;
 
-public class PShapeSphereTest 
+public class Demo_Icosahedron 
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
@@ -38,20 +39,20 @@ extends PAppletHax {
 		super.setup();	
 		p.smooth(OpenGLUtil.SMOOTH_HIGH);
 
-		PImage img = p.loadImage(FileUtil.getFile("images/globe.jpg"));
+		PImage img = DemoAssets.sphericalTexture();
 		
 		p.sphereDetail(40);
 		shape = p.createShape(P.SPHERE, p.width/10f);
 		shapeTessellated = shape.getTessellation();
 		
 		
-		float extent = PShapeUtil.getSvgMaxExtent(shape);
+		float extent = PShapeUtil.getSvgMaxExtent_DEPRECATE(shape);
 		
 		shape.setTexture(img);
 		shapeTessellated.setTexture(img);
 		
 		shapeIcos = Icosahedron.createIcosahedron(p.g, 4, img);
-		PShapeUtil.scaleSvgToExtent(shapeIcos, extent);
+		PShapeUtil.scaleSvgToExtent_DEPRECATE(shapeIcos, extent);
 		
 		PShapeUtil.addUVsToPShape(shape, extent);
 		PShapeUtil.addUVsToPShape(shapeTessellated, extent);

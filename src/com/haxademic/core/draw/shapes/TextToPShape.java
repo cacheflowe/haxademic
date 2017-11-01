@@ -63,7 +63,7 @@ public class TextToPShape {
 		}
 		
 		// center it
-		PShapeUtil.centerSvg(newShape);
+		PShapeUtil.centerShape(newShape);
 		
 		// cache & return
 		shapeCache2d.put(text, newShape);
@@ -137,9 +137,10 @@ public class TextToPShape {
 		}
 		
 		// center it
-		PShapeUtil.centerSvg(newShape);
+		PShapeUtil.centerShape(newShape);
 		
 		// cache & return
 		shapeCache3d.put(text, newShape);
-		return newShape;	}
+		return newShape;
+	}
 }

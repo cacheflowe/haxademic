@@ -14,6 +14,7 @@ public class ColorUtil {
 	}
 	
 	public static int colorFromHex( String hex ) {
+		if(hex.length() == 6) hex = "FF" + hex;
 		return colorFromHex(hex, true);
 	}
 	

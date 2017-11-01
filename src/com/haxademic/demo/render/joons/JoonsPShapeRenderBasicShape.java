@@ -29,8 +29,8 @@ extends PAppletHax {
 		
 		// load & normalize shape
 		obj = p.loadShape( FileUtil.getFile("models/skull-realistic.obj"));	
-		PShapeUtil.centerSvg(obj);
-		PShapeUtil.scaleObjToExtentVerticesAdjust(obj, p.height * 0.8f);
+		PShapeUtil.centerShape(obj);
+		PShapeUtil.scaleShapeToExtent(obj, p.height * 0.8f);
 
 	}
 

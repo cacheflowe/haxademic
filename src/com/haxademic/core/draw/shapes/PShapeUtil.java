@@ -52,86 +52,116 @@ public class PShapeUtil {
 	 * @param outerExtent
 	 */
 	public static void addTextureUVToObj(PShape s, PImage img) {
-		addTextureUVToObj(s, img, PShapeUtil.getObjMaxExtent(s), true);
+		addTextureUVToShape(s, img, PShapeUtil.getShapeMaxExtent(s), true);
 	}
 	public static void addTextureUVToObj(PShape s, PImage img, float outerExtent) {
-		addTextureUVToObj(s, img, outerExtent, true);
+		addTextureUVToShape(s, img, outerExtent, true);
 	}
-	public static void addTextureUVToObj(PShape s, PImage img, float outerExtent, boolean xyMapping) {
-		s.setStroke(false);
-		s.setFill(255);
-		s.setTextureMode(P.NORMAL);
-		for (int j = 0; j < s.getChildCount(); j++) {
-			for (int i = 0; i < s.getChild(j).getVertexCount(); i++) {
-				PShape subShape = s.getChild(j);
-				PVector v = subShape.getVertex(i);
-				float uX = (xyMapping == true) ? v.x : v.z;
-				subShape.setTextureUV(
-						i, 
-						P.map(uX, -outerExtent, outerExtent, 0, 1f), 
-						P.map(v.y, outerExtent, -outerExtent, 0, 1f)
-				);
-			}
+	public static void addTextureUVToShape(PShape shape, PImage img, float outerExtent, boolean xyMapping) {
+		shape.setStroke(false);
+		shape.setFill(255);
+		shape.setTextureMode(P.NORMAL);
+		
+		for (int i = 0; i < shape.getVertexCount(); i++) {
+			PVector v = shape.getVertex(i);
+			float uX = (xyMapping == true) ? v.x : v.z;
+			shape.setTextureUV(
+					i, 
+					P.map(uX, -outerExtent, outerExtent, 0, 1f), 
+					P.map(v.y, -outerExtent, outerExtent, 0, 1f)
+					);
 		}
-		if(img != null) s.setTexture(img);
+	
+		for (int j = 0; j < shape.getChildCount(); j++) {
+			PShape subShape = shape.getChild(j);
+			addTextureUVToShape(subShape, img, outerExtent, xyMapping);
+		}
+
+		if(img != null) shape.setTexture(img);
 	}
 	
-	public static void addTextureUVSpherical(PShape s, PImage img) {
-		s.setStroke(false);
-		s.setFill(255);
-		s.setTextureMode(P.NORMAL);
+	public static void addTextureUVSpherical(PShape shape, PImage img) {
+		shape.setStroke(false);
+		shape.setFill(255);
+		shape.setTextureMode(P.NORMAL);
 		PVector util = new PVector();
-		for (int j = 0; j < s.getChildCount(); j++) {
-			for (int i = 0; i < s.getChild(j).getVertexCount(); i++) {
-				PShape subShape = s.getChild(j);
-				PVector p = subShape.getVertex(i);
-				// map spherical coordinate to uv coordinate :: https://stackoverflow.com/questions/19357290/convert-3d-point-on-sphere-to-uv-coordinate
-				util.set(p.normalize()); 
-				float u = P.atan2(util.x, util.z) / P.TWO_PI + 0.5f; 
-				float v = P.asin(util.y) / P.PI + .5f;
-				subShape.setTextureUV(i, u, v);
-			}
+		
+		for (int i = 0; i < shape.getVertexCount(); i++) {
+			PVector p = shape.getVertex(i);
+			// map spherical coordinate to uv coordinate :: https://stackoverflow.com/questions/19357290/convert-3d-point-on-sphere-to-uv-coordinate
+			util.set(p.normalize()); 
+			float u = P.atan2(util.x, util.z) / P.TWO_PI + 0.5f; 
+			float v = P.asin(util.y) / P.PI + .5f;
+			shape.setTextureUV(i, u, v);
 		}
-		if(img != null) s.setTexture(img);
+			
+		for (int j = 0; j < shape.getChildCount(); j++) {
+			PShape subShape = shape.getChild(j);
+			addTextureUVToObj(subShape, img);
+		}
+		
+		if(img != null) shape.setTexture(img);
 	}
 
 	
+	public static void repairMissingSVGVertex(PShape shape) {
+		PVector v1 = shape.getVertex(0);
+		PVector v2 = shape.getVertex(0);
+		PVector v3 = shape.getVertex(shape.getVertexCount() - 1);
+//		for (int i = 0; i < shape.getVertexCount(); i++) {
+			shape.beginShape();
+			shape.fill(0, 0, 255);
+			shape.noStroke();
+
+			shape.vertex(v1.x, v1.y, v1.z);
+			shape.vertex(v2.x, v2.y, v2.z);
+			shape.vertex(v3.x, v3.y, v3.z);
+			shape.endShape();
+//			PVector p = shape.getVertex(i);
+//			// map spherical coordinate to uv coordinate :: https://stackoverflow.com/questions/19357290/convert-3d-point-on-sphere-to-uv-coordinate
+//			util.set(p.normalize()); 
+//			float u = P.atan2(util.x, util.z) / P.TWO_PI + 0.5f; 
+//			float v = P.asin(util.y) / P.PI + .5f;
+//			shape.setTextureUV(i, u, v);
+//		}
+
+	}
 	
 	/**
 	 * Finds the maximum size in any given direction. A basic but crappy way to figure out PShape size
 	 * @param s
 	 * @return
 	 */
-	public static void scaleSvgToExtent(PShape s, float newExtent) {
-		float modelExtent = getSvgMaxExtent(s.getTessellation());
+	public static void scaleSvgToExtent_DEPRECATE(PShape s, float newExtent) {
+		float modelExtent = getSvgMaxExtent_DEPRECATE(s.getTessellation());
 		s.scale(newExtent/modelExtent);
 	}
 	
 	/**
 	 * Finds the maximum vertex extent to translate and center the children
-	 * @param s
+	 * @param shape
 	 * @return
 	 */
-	public static void centerSvg(PShape s) {
+	
+	public static void centerShape(PShape shape) {
 		float[] extents = {0,0,0,0,0,0};
-//		PShape tessel = s.getTessellation();
-		checkShapeExtents(s, extents);
-		P.println("extents: ",extents[0],extents[1],extents[2],extents[3],extents[4],extents[5]);
+		getShapeExtents(shape, extents);
+		// P.println("extents: ",extents[0],extents[1],extents[2],extents[3],extents[4],extents[5]);
 		float offsetX = centerOffsetFromExtents(extents[0], extents[1]);
 		float offsetY = centerOffsetFromExtents(extents[2], extents[3]);
 		float offsetZ = centerOffsetFromExtents(extents[4], extents[5]);
-		offsetShapeVertices(s, offsetX, offsetY, offsetZ);
-		checkShapeExtents(s, extents);
-		P.println("extents: ",extents[0],extents[1],extents[2],extents[3],extents[4],extents[5]);
+		offsetShapeVertices(shape, offsetX, offsetY, offsetZ);
+//		getShapeExtents(s, extents);
+//		P.println("extents: ",extents[0],extents[1],extents[2],extents[3],extents[4],extents[5]);
 	}
 	
 	public static float centerOffsetFromExtents(float min, float max) {
 		return -max+(max-min)/2f;
 	}
 	
-	public static void checkShapeExtents(PShape s, float[] extents) {
-		for (int i = 0; i < s.getVertexCount(); i++) {
-			PVector vertex = s.getVertex(i);
+	public static void getShapeExtents(PShape shape, float[] extents) {
+		for (int i = 0; i < shape.getVertexCount(); i++) {
+			PVector vertex = shape.getVertex(i);
 			if(extents[0] == 0 || vertex.x < extents[0]) extents[0] = vertex.x;
 			if(extents[1] == 0 || vertex.x > extents[1]) extents[1] = vertex.x;
 			if(extents[2] == 0 || vertex.y < extents[2]) extents[2] = vertex.y;
@@ -139,9 +169,9 @@ public class PShapeUtil {
 			if(extents[4] == 0 || vertex.z < extents[4]) extents[4] = vertex.z;
 			if(extents[5] == 0 || vertex.z > extents[5]) extents[5] = vertex.z;
 		}
-		for (int i = 0; i < s.getChildCount(); i++) {
-			PShape subShape = s.getChild(i);
-			checkShapeExtents(subShape, extents);
+		for (int i = 0; i < shape.getChildCount(); i++) {
+			PShape subShape = shape.getChild(i);
+			getShapeExtents(subShape, extents);
 		}
 	}
 	
@@ -161,8 +191,8 @@ public class PShapeUtil {
 	 * @param s
 	 * @return
 	 */
-	public static float scaleObjToExtent(PShape s, float newExtent) {
-		float modelExtent = getObjMaxExtent(s);
+	public static float scaleObjToExtent_DEPRECATE(PShape s, float newExtent) {
+		float modelExtent = getShapeMaxExtent(s);
 		float newScale = newExtent/modelExtent;
 		s.scale(newScale);
 		return newScale;
@@ -170,33 +200,34 @@ public class PShapeUtil {
 	
 	
 	// re-scale by displacing actual vertices
-	public static void scaleObjToExtentVerticesAdjust(PShape s, float newExtent) {
-		float modelExtent = getObjMaxExtent(s);
+	public static void scaleShapeToExtent(PShape s, float newExtent) {
+		centerShape(s);
+		float modelExtent = getShapeMaxExtent(s);
 		float newScale = newExtent/modelExtent;
 		adjustVertices(s, newScale);
 	}
 	
-	public static void scaleObjToHeight(PShape s, float newExtent) {
-		centerSvg(s);
+	public static void scaleShapeToHeight(PShape s, float newExtent) {
+		centerShape(s);
 		float modelHeight = getObjHeight(s);
 		float newScale = newExtent/modelHeight;
 		adjustVertices(s, newScale);
 	}
 	
 	public static void adjustVertices(PShape s, float scale) {
+		for (int i = 0; i < s.getVertexCount(); i++) {
+			PVector curVertex = s.getVertex(i);
+			s.setVertex(i, curVertex.x * scale, curVertex.y * scale, curVertex.z * scale);
+		}
+		
 		for (int j = 0; j < s.getChildCount(); j++) {
-			for (int i = 0; i < s.getChild(j).getVertexCount(); i++) {
-				PShape subShape = s.getChild(j);
-				PVector curVertex = subShape.getVertex(i);
-				subShape.setVertex(i, curVertex.x * scale, curVertex.y * scale, curVertex.z * scale);
-				adjustVertices(subShape, scale);
-			}
+			PShape subShape = s.getChild(j);
+			adjustVertices(subShape, scale);
 		}
 	}
 	
-	
-	public static float scaleObjToExtentReturnScale(PShape s, float newExtent) {
-		float modelExtent = getObjMaxExtent(s);
+	public static float scaleObjToExtentReturnScale_DEPRECATE(PShape s, float newExtent) {
+		float modelExtent = getShapeMaxExtent(s);
 		float newScale = newExtent / modelExtent;
 		s.scale(newScale);
 		return newScale;
@@ -207,32 +238,40 @@ public class PShapeUtil {
 	 * @param s
 	 * @return
 	 */
-	public static float getObjMaxExtent(PShape s) {
+	public static float getShapeMaxExtent(PShape shape) {
+		return getShapeMaxExtent(shape, 0);
+	}
+	
+	public static float getShapeMaxExtent(PShape shape, float outermostVertex) {
 		// find mesh size extent to responsively scale the mesh
-		float outermostVertex = 0;
-		for (int j = 0; j < s.getChildCount(); j++) {
-			for (int i = 0; i < s.getChild(j).getVertexCount(); i++) {
-				PShape subShape = s.getChild(j);
-				PVector vertex = subShape.getVertex(i);
-				if(P.abs(vertex.x) > outermostVertex) outermostVertex = P.abs(vertex.x);
-				if(P.abs(vertex.y) > outermostVertex) outermostVertex = P.abs(vertex.y);
-				if(P.abs(vertex.z) > outermostVertex) outermostVertex = P.abs(vertex.z);
-			}
+		for (int i = 0; i < shape.getVertexCount(); i++) {
+			PVector vertex = shape.getVertex(i);
+			if(P.abs(vertex.x) > outermostVertex) outermostVertex = P.abs(vertex.x);
+			if(P.abs(vertex.y) > outermostVertex) outermostVertex = P.abs(vertex.y);
+			if(P.abs(vertex.z) > outermostVertex) outermostVertex = P.abs(vertex.z);
 		}
+	
+		for (int j = 0; j < shape.getChildCount(); j++) {
+			PShape subShape = shape.getChild(j);
+			outermostVertex = getShapeMaxExtent(subShape, outermostVertex);
+		}
+
 		return outermostVertex;
 	}
 	
-	public static float getObjHeight(PShape s) {
+	public static float getObjHeight(PShape shape) {
+		return getObjHeight(shape, 0);
+	}
+
+	public static float getObjHeight(PShape shape, float maxAbsYVertex) {
 		// find mesh size height. this should only be used after centering the mesh
-		float outermostVertex = 0;
-		for (int j = 0; j < s.getChildCount(); j++) {
-			for (int i = 0; i < s.getChild(j).getVertexCount(); i++) {
-				PShape subShape = s.getChild(j);
-				PVector vertex = subShape.getVertex(i);
-				if(P.abs(vertex.y) > outermostVertex) outermostVertex = P.abs(vertex.y);
-			}
+		for (int i = 0; i < shape.getVertexCount(); i++) {
+			if(P.abs(shape.getVertex(i).y) > maxAbsYVertex) maxAbsYVertex = P.abs(shape.getVertex(i).y);
 		}
-		return outermostVertex * 2f;
+		for (int j = 0; j < shape.getChildCount(); j++) {
+			maxAbsYVertex = getObjHeight(shape.getChild(j), maxAbsYVertex);
+		}
+		return maxAbsYVertex;
 	}
 	
 	/**
@@ -240,8 +279,9 @@ public class PShapeUtil {
 	 * @param s
 	 * @return
 	 */
-	public static float getSvgMaxExtent(PShape s) {
+	public static float getSvgMaxExtent_DEPRECATE(PShape s) {
 		// find mesh size extent to responsively scale the mesh
+		// THIS DOESN"T RECURESE - Should be replaced with getObjMaxExtent()
 		float outermostVertex = 0;
 		for (int i = 0; i < s.getVertexCount(); i++) {
 			PVector vertex = s.getVertex(i);
@@ -257,16 +297,16 @@ public class PShapeUtil {
 	 * @param shape
 	 * @return
 	 */
-	public static void drawTriangles(PGraphics p, PShape shape, PImage img, float scale) {
-		if(img != null) p.textureMode(PConstants.NORMAL);
-		p.fill(255);
+	public static void drawTriangles(PGraphics pg, PShape shape, PImage img, float scale) {
+		if(img != null) pg.textureMode(PConstants.NORMAL);
+		if(img != null) pg.fill(255);
 
 		PShape polygon = shape;
 		int vertexCount = polygon.getVertexCount();
 		if(vertexCount == 3) {
 			int i = 0;
-			p.beginShape(PConstants.TRIANGLES);
-			if(img != null) p.texture(img);
+			pg.beginShape(PConstants.TRIANGLES);
+			if(img != null) pg.texture(img);
 
 			PVector vertex = polygon.getVertex(i);
 			PVector vertex2 = polygon.getVertex(i+1);
@@ -274,14 +314,14 @@ public class PShapeUtil {
 			vertex.mult(scale);
 			vertex2.mult(scale);
 			vertex3.mult(scale);
-			p.vertex(vertex.x, vertex.y, vertex.z, polygon.getTextureU(i), polygon.getTextureV(i));
-			p.vertex(vertex2.x, vertex2.y, vertex2.z, polygon.getTextureU(i+1), polygon.getTextureV(i+1));
-			p.vertex(vertex3.x, vertex3.y, vertex3.z, polygon.getTextureU(i+2), polygon.getTextureV(i+2));
-			p.endShape();
+			pg.vertex(vertex.x, vertex.y, vertex.z, polygon.getTextureU(i), polygon.getTextureV(i));
+			pg.vertex(vertex2.x, vertex2.y, vertex2.z, polygon.getTextureU(i+1), polygon.getTextureV(i+1));
+			pg.vertex(vertex3.x, vertex3.y, vertex3.z, polygon.getTextureU(i+2), polygon.getTextureV(i+2));
+			pg.endShape();
 		} else if(vertexCount == 4) {
 			int i = 0;
-			p.beginShape(PConstants.QUADS);
-			if(img != null) p.texture(img);
+			pg.beginShape(PConstants.QUADS);
+			if(img != null) pg.texture(img);
 
 			PVector vertex = polygon.getVertex(i);
 			PVector vertex2 = polygon.getVertex(i+1);
@@ -291,14 +331,14 @@ public class PShapeUtil {
 			vertex2.mult(scale);
 			vertex3.mult(scale);
 			vertex4.mult(scale);
-			p.vertex(vertex.x, vertex.y, vertex.z, polygon.getTextureU(i), polygon.getTextureV(i));
-			p.vertex(vertex2.x, vertex2.y, vertex2.z, polygon.getTextureU(i+1), polygon.getTextureV(i+1));
-			p.vertex(vertex3.x, vertex3.y, vertex3.z, polygon.getTextureU(i+2), polygon.getTextureV(i+2));
-			p.vertex(vertex4.x, vertex4.y, vertex4.z, polygon.getTextureU(i+3), polygon.getTextureV(i+3));
-			p.endShape();
+			pg.vertex(vertex.x, vertex.y, vertex.z, polygon.getTextureU(i), polygon.getTextureV(i));
+			pg.vertex(vertex2.x, vertex2.y, vertex2.z, polygon.getTextureU(i+1), polygon.getTextureV(i+1));
+			pg.vertex(vertex3.x, vertex3.y, vertex3.z, polygon.getTextureU(i+2), polygon.getTextureV(i+2));
+			pg.vertex(vertex4.x, vertex4.y, vertex4.z, polygon.getTextureU(i+3), polygon.getTextureV(i+3));
+			pg.endShape();
 		} else {
-			p.beginShape(PConstants.TRIANGLES);
-			if(img != null) p.texture(img);
+			pg.beginShape(PConstants.TRIANGLES);
+			if(img != null) pg.texture(img);
 
 			for (int i = 0; i < vertexCount; i += 3) {
 				if(i < vertexCount - 3) {	// protect against rogue vertices?
@@ -308,17 +348,17 @@ public class PShapeUtil {
 					vertex.mult(scale);
 					vertex2.mult(scale);
 					vertex3.mult(scale);
-					p.vertex(vertex.x, vertex.y, vertex.z, polygon.getTextureU(i), polygon.getTextureV(i));
-					p.vertex(vertex2.x, vertex2.y, vertex2.z, polygon.getTextureU(i+1), polygon.getTextureV(i+1));
-					p.vertex(vertex3.x, vertex3.y, vertex3.z, polygon.getTextureU(i+2), polygon.getTextureV(i+2));
+					pg.vertex(vertex.x, vertex.y, vertex.z, polygon.getTextureU(i), polygon.getTextureV(i));
+					pg.vertex(vertex2.x, vertex2.y, vertex2.z, polygon.getTextureU(i+1), polygon.getTextureV(i+1));
+					pg.vertex(vertex3.x, vertex3.y, vertex3.z, polygon.getTextureU(i+2), polygon.getTextureV(i+2));
 				}
 			}
-			p.endShape();
+			pg.endShape();
 		}
 
 		for (int j = 0; j < shape.getChildCount(); j++) {
 			PShape subShape = shape.getChild(j);
-			drawTriangles(p, subShape, img, scale);
+			drawTriangles(pg, subShape, img, scale);
 		}
 	}
 	

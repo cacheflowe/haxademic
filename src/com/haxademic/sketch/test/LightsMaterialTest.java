@@ -72,7 +72,7 @@ extends PAppletHax {
 		obj = p.loadShape( FileUtil.getFile("models/skull-realistic.obj"));
 		obj = p.loadShape( FileUtil.getFile("models/Trump_lowPoly.obj"));
 		P.println(obj.getChildren().length);
-		PShapeUtil.scaleObjToExtent(obj, p.height * 0.8f);
+		PShapeUtil.scaleObjToExtent_DEPRECATE(obj, p.height * 0.8f);
 	}
 	
 	protected void addDirectionalLight() {

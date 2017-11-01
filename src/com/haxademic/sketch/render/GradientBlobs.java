@@ -148,14 +148,14 @@ extends PAppletHax {
 	
 	protected PShape newIcosa(float size, PImage texture) {
 		PShape shape = Icosahedron.createIcosahedron(p.g, 7, texture);
-		PShapeUtil.scaleSvgToExtent(shapeIcos_2, p.height * 0.24f);
+		PShapeUtil.scaleSvgToExtent_DEPRECATE(shapeIcos_2, p.height * 0.24f);
 		return shape;
 	}
 	
 	protected PShapeSolid newSolidIcos(float size, PImage texture) {
 		PShape group = createShape(GROUP);
 		PShape icos = Icosahedron.createIcosahedron(p.g, 5, texture);
-		PShapeUtil.scaleSvgToExtent(icos, size);
+		PShapeUtil.scaleSvgToExtent_DEPRECATE(icos, size);
 		group.addChild(icos);
 		return new PShapeSolid(group);
 	}

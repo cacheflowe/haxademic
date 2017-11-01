@@ -47,7 +47,7 @@ extends PAppletHax {
 		
 		// create icosahedron
 		shapeIcos = Icosahedron.createIcosahedron(p.g, 7, texture);
-		PShapeUtil.scaleSvgToExtent(shapeIcos, p.height/4f);
+		PShapeUtil.scaleSvgToExtent_DEPRECATE(shapeIcos, p.height/4f);
 		
 		// sphere deformation shader. uses the sphere's texture as the displacement map
 		texShader = loadShader(

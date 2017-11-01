@@ -34,13 +34,13 @@ extends PAppletHax {
 		img = p.loadImage(FileUtil.getFile("images/bread-large.png"));
 		icosa = newSolidIcos(p.width * 0.3f, img);
 		icosWire = Icosahedron.createIcosahedron(p.g, 5, img);
-		PShapeUtil.scaleSvgToExtent(icosWire, p.width * 0.3f);
+		PShapeUtil.scaleSvgToExtent_DEPRECATE(icosWire, p.width * 0.3f);
 	}
 	
 	protected PShapeSolid newSolidIcos(float size, PImage texture) {
 		PShape group = createShape(GROUP);
 		PShape icos = Icosahedron.createIcosahedron(p.g, 5, texture);
-		PShapeUtil.scaleSvgToExtent(icos, size);
+		PShapeUtil.scaleSvgToExtent_DEPRECATE(icos, size);
 		group.addChild(icos);
 		return new PShapeSolid(group);
 	}

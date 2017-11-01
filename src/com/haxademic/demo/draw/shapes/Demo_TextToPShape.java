@@ -29,8 +29,8 @@ extends PAppletHax {
 		String fontFile = FileUtil.getFile("fonts/HelloDenverDisplay-Regular.ttf");
 		word2d = textToPShape.stringToShape2d("CACHEFLOWE", fontFile);
 		word3d = textToPShape.stringToShape3d("CACHEFLOWE", 100, fontFile);
-		PShapeUtil.scaleObjToExtent(word3d, 800);
-		PShapeUtil.scaleObjToExtent(word2d, 800);
+		PShapeUtil.scaleObjToExtent_DEPRECATE(word3d, 800);
+		PShapeUtil.scaleObjToExtent_DEPRECATE(word2d, 800);
 	}
 
 	public void draw() {
