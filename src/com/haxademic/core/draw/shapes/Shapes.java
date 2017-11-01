@@ -5,6 +5,7 @@ import com.haxademic.core.app.P;
 import processing.core.PApplet;
 import processing.core.PGraphics;
 import processing.core.PImage;
+import processing.core.PShape;
 
 public class Shapes {
 	
@@ -238,5 +239,23 @@ public class Shapes {
 		pg.vertex(-size, -size,  size,		0, texture.height);
 
 		pg.endShape();
+	}
+	
+	public static PShape createCan(float radius, float height, int detail) {
+		//		textureMode(NORMAL);
+		PShape sh = P.p.createShape();
+		sh.beginShape(P.QUAD_STRIP);
+		sh.noStroke();
+		for (int i = 0; i <= detail; i++) {
+			float angle = P.TWO_PI / detail;
+			float x = P.sin(i * angle);
+			float z = P.cos(i * angle);
+			float u = (float)i / detail;
+			sh.normal(x, 0, z);
+			sh.vertex(x * radius, -height/2, z * radius, u, 0);
+			sh.vertex(x * radius, +height/2, z * radius, u, 1);
+		}
+		sh.endShape();
+		return sh;
 	}
 }

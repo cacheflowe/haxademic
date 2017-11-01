@@ -40,6 +40,7 @@ extends PAppletHax {
 		
 		// build obj PShape and scale to window
 		obj = DemoAssets.objSkeleton();
+		
 		PShapeUtil.centerShape(obj);
 		PShapeUtil.scaleShapeToExtent(obj, p.height * 0.8f);
 		
