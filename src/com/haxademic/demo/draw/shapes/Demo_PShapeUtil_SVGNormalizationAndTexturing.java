@@ -21,9 +21,7 @@ extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	protected ArrayList<PShape> shapes;
-	protected int _curShapeIndex = 0;
-	protected PImage img;
-
+	protected int curShapeIndex = 0;
 	
 	protected void overridePropsFile() {
 		p.appConfig.setProperty( AppSettings.WIDTH, 1200 );
@@ -33,13 +31,7 @@ extends PAppletHax {
 	public void setup() {
 		super.setup();
 		
-		img = DemoAssets.justin();
-
 		shapes = new ArrayList<PShape>();
-		
-		// getTesselation seems to leave off the last triangle...
-		// https://github.com/processing/processing/blob/f434d2c2303c8d03e265e14972b652c595e6cdf7/core/src/processing/opengl/PShapeOpenGL.java#L2652
-		// 
 		shapes.add( p.loadShape( FileUtil.getHaxademicDataPath() + "svg/microphone.svg" ).getTessellation() );
 		shapes.add( p.loadShape( FileUtil.getHaxademicDataPath() + "svg/money.svg" ).getTessellation() );
 		shapes.add( p.loadShape( FileUtil.getHaxademicDataPath() + "svg/weed.svg" ).getTessellation() );
@@ -55,42 +47,40 @@ extends PAppletHax {
 		// normalize shapes
 		for (PShape shape : shapes) {
 			
+			// getTesselation seems to leave off the last triangle, so we can put one back :-D 
+			// https://github.com/processing/processing/blob/f434d2c2303c8d03e265e14972b652c595e6cdf7/core/src/processing/opengl/PShapeOpenGL.java#L2652
+			// 
 			PShapeUtil.repairMissingSVGVertex(shape);
+
+			// center and scale
 			PShapeUtil.centerShape(shape);
-//			 PShapeUtil.scaleObjToExtentVerticesAdjust(shape, p.height * 0.45f);
-			PShapeUtil.scaleShapeToHeight(shape, p.height * 0.45f);
+			PShapeUtil.scaleShapeToHeight(shape, p.height * 0.4f);
 			
 			// add UV coordinates to OBJ based on model extents
 			float modelExtent = PShapeUtil.getShapeMaxExtent(shape);
-			
-			PShapeUtil.addTextureUVToShape(shape, img, modelExtent, true);
+			PShapeUtil.addTextureUVToShape(shape, DemoAssets.justin(), modelExtent, true);
 		}
 	}
 	
 	public void drawApp() {
 		p.background(0);
-		
-//		DrawUtil.resetGlobalProps(p);
-		p.pushMatrix();
 
-		PShape curShape = shapes.get( _curShapeIndex );
+		// get current svg
+		PShape curShape = shapes.get( curShapeIndex );
 		curShape.disableStyle();
 
-		p.noStroke();
-//		p.stroke(255);
-//		p.noFill();
-
+		// draw
 		p.translate(p.width/2, p.height/2);
-		PShapeUtil.drawTriangles(p.g, curShape, img, 1);
-//		p.shape(curShape, 0, 0);
-		
-		p.popMatrix();
+		p.noStroke();
+		PShapeUtil.drawTriangles(p.g, curShape, DemoAssets.justin(), 1);
 	}
 	
 	public void keyPressed() {
 		super.keyPressed();
 		if(p.key == ' ') {
-			_curShapeIndex++;
-			if( _curShapeIndex >= shapes.size() ) _curShapeIndex = 0; 
+			curShapeIndex++;
+			if( curShapeIndex >= shapes.size() ) curShapeIndex = 0; 
 		}
-	}}
+	}
+	
+}
