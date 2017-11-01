@@ -58,7 +58,7 @@ extends PAppletHax {
 			obj = p.loadShape( FileUtil.getFile("models/unicorn-head-lowpoly.obj"));
 			PShapeUtil.scaleObjToExtent_DEPRECATE(obj, p.height * 0.25f);
 			float modelExtent = PShapeUtil.getShapeMaxExtent(obj);
-			PShapeUtil.addTextureUVToObj(obj, displacementMap, modelExtent);
+			PShapeUtil.addTextureUVToShape(obj, displacementMap, modelExtent);
 			obj.setTexture(displacementMap);
 			
 			// load shader

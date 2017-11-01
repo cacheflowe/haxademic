@@ -39,7 +39,7 @@ extends PAppletHax {
 		super.setup();	
 		p.smooth(OpenGLUtil.SMOOTH_HIGH);
 
-		PImage img = DemoAssets.sphericalTexture();
+		PImage img = DemoAssets.textureJupiter();
 		
 		p.sphereDetail(40);
 		shape = p.createShape(P.SPHERE, p.width/10f);

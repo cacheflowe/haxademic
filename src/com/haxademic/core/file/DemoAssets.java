@@ -19,10 +19,16 @@ public class DemoAssets {
 		return justin;
 	}
 	
-	public static PImage sphericalTexture = null;
-	public static PImage sphericalTexture() {
-		if(sphericalTexture == null) sphericalTexture = P.p.loadImage(FileUtil.getFile("images/textures/space/spherical/jupiter.jpg"));
-		return sphericalTexture;
+	public static PImage textureJupiter = null;
+	public static PImage textureJupiter() {
+		if(textureJupiter == null) textureJupiter = P.p.loadImage(FileUtil.getFile("images/textures/space/spherical/jupiter.jpg"));
+		return textureJupiter;
+	}
+	
+	public static PImage textureNebula = null;
+	public static PImage textureNebula() {
+		if(textureNebula == null) textureNebula = P.p.loadImage(FileUtil.getFile("images/textures/space/spherical/carina-nebula.jpg"));
+		return textureNebula;
 	}
 	
 	public static PImage squareTexture = null;

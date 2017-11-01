@@ -51,10 +51,10 @@ public class PShapeUtil {
 	 * @param img
 	 * @param outerExtent
 	 */
-	public static void addTextureUVToObj(PShape s, PImage img) {
+	public static void addTextureUVToShape(PShape s, PImage img) {
 		addTextureUVToShape(s, img, PShapeUtil.getShapeMaxExtent(s), true);
 	}
-	public static void addTextureUVToObj(PShape s, PImage img, float outerExtent) {
+	public static void addTextureUVToShape(PShape s, PImage img, float outerExtent) {
 		addTextureUVToShape(s, img, outerExtent, true);
 	}
 	public static void addTextureUVToShape(PShape shape, PImage img, float outerExtent, boolean xyMapping) {
@@ -97,7 +97,7 @@ public class PShapeUtil {
 			
 		for (int j = 0; j < shape.getChildCount(); j++) {
 			PShape subShape = shape.getChild(j);
-			addTextureUVToObj(subShape, img);
+			addTextureUVToShape(subShape, img);
 		}
 		
 		if(img != null) shape.setTexture(img);
@@ -108,23 +108,82 @@ public class PShapeUtil {
 		PVector v1 = shape.getVertex(0);
 		PVector v2 = shape.getVertex(0);
 		PVector v3 = shape.getVertex(shape.getVertexCount() - 1);
-//		for (int i = 0; i < shape.getVertexCount(); i++) {
-			shape.beginShape();
-			shape.fill(0, 0, 255);
-			shape.noStroke();
+		
+		shape.beginShape();
+		shape.fill(255, 255, 255);
+		shape.noStroke();
+		shape.vertex(v1.x, v1.y, v1.z);
+		shape.vertex(v2.x, v2.y, v2.z);
+		shape.vertex(v3.x, v3.y, v3.z);
+		shape.endShape();
+	}
+	
+	public static PShape createExtrudedShape(PShape shape, float depth) {
+		return createExtrudedShape(shape, depth, null);
+	}
+	public static PShape createExtrudedShape(PShape shape, float depth, PShape newShape) {
+		if(newShape == null) newShape = P.p.createShape();
 
-			shape.vertex(v1.x, v1.y, v1.z);
-			shape.vertex(v2.x, v2.y, v2.z);
-			shape.vertex(v3.x, v3.y, v3.z);
-			shape.endShape();
-//			PVector p = shape.getVertex(i);
-//			// map spherical coordinate to uv coordinate :: https://stackoverflow.com/questions/19357290/convert-3d-point-on-sphere-to-uv-coordinate
-//			util.set(p.normalize()); 
-//			float u = P.atan2(util.x, util.z) / P.TWO_PI + 0.5f; 
-//			float v = P.asin(util.y) / P.PI + .5f;
-//			shape.setTextureUV(i, u, v);
-//		}
+		newShape.beginShape(P.TRIANGLES);
+		// top
+		for (int i = 0; i < shape.getVertexCount() - 3; i+=3) {
+			PVector v1 = shape.getVertex(i);
+			PVector v2 = shape.getVertex(i+1);
+			PVector v3 = shape.getVertex(i+2);
+			float texU1 = shape.getTextureU(i);
+			float texV1 = shape.getTextureU(i);
+			float texU2 = shape.getTextureU(i+1);
+			float texV2 = shape.getTextureU(i+1);
+			float texU3 = shape.getTextureU(i+2);
+			float texV3 = shape.getTextureU(i+2);
+			
+			// top
+			newShape.vertex(v1.x, v1.y, depth/2f, texU1, texV1);
+			newShape.vertex(v2.x, v2.y, depth/2f, texU2, texV2);
+			newShape.vertex(v3.x, v3.y, depth/2f, texU3, texV3);
+			
+			// bottom
+			newShape.vertex(v1.x, v1.y, -depth/2f, texU1, texV1);
+			newShape.vertex(v2.x, v2.y, -depth/2f, texU2, texV2);
+			newShape.vertex(v3.x, v3.y, -depth/2f, texU3, texV3);
+			
+			// walls
+			// wall 1
+			newShape.vertex(v1.x, v1.y,  depth/2f, texU1, texV1);
+			newShape.vertex(v1.x, v1.y, -depth/2f, texU1, texV1);
+			newShape.vertex(v2.x, v2.y,  depth/2f, texU2, texV2);
 
+			newShape.vertex(v1.x, v1.y, -depth/2f, texU1, texV1);
+			newShape.vertex(v2.x, v2.y,  -depth/2f, texU2, texV2);
+			newShape.vertex(v2.x, v2.y,  depth/2f, texU2, texV2);
+
+			// wall 2
+			newShape.vertex(v2.x, v2.y,  depth/2f, texU2, texV2);
+			newShape.vertex(v2.x, v2.y, -depth/2f, texU2, texV2);
+			newShape.vertex(v3.x, v3.y,  depth/2f, texU3, texV3);
+			
+			newShape.vertex(v2.x, v2.y, -depth/2f, texU2, texV2);
+			newShape.vertex(v3.x, v3.y, -depth/2f, texU3, texV3);
+			newShape.vertex(v3.x, v3.y,  depth/2f, texU3, texV3);
+			
+			// wall 3
+			newShape.vertex(v3.x, v3.y,  depth/2f, texU3, texV3);
+			newShape.vertex(v3.x, v3.y, -depth/2f, texU3, texV3);
+			newShape.vertex(v1.x, v1.y,  depth/2f, texU1, texV1);
+			
+			newShape.vertex(v3.x, v3.y, -depth/2f, texU3, texV3);
+			newShape.vertex(v1.x, v1.y, -depth/2f, texU1, texV1);
+			newShape.vertex(v1.x, v1.y,  depth/2f, texU1, texV1);
+		}
+		
+		newShape.endShape();
+		
+		for (int j = 0; j < shape.getChildCount(); j++) {
+			PShape subShape = shape.getChild(j);
+			createExtrudedShape(subShape, depth, newShape);
+		}
+
+		return newShape;
 	}
 	
 	/**

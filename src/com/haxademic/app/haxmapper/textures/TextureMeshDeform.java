@@ -56,7 +56,7 @@ extends BaseTexture {
 			PShapeUtil.scaleObjToExtent_DEPRECATE(shape, _texture.height * 0.7f);
 			// add UV coordinates to OBJ
 			float modelExtent = PShapeUtil.getShapeMaxExtent(shape);
-			PShapeUtil.addTextureUVToObj(shape, null, modelExtent);
+			PShapeUtil.addTextureUVToShape(shape, null, modelExtent);
 //		}
 		return shape;
 	}

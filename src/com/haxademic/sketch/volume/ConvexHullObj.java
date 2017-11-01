@@ -71,7 +71,7 @@ extends PAppletHax {
 		// add UV coordinates to OBJ
 		modelExtent = PShapeUtil.getShapeMaxExtent(obj);
 		modelExtentHalf = modelExtent / 2f;
-		PShapeUtil.addTextureUVToObj(obj, img, modelExtent);
+		PShapeUtil.addTextureUVToShape(obj, img, modelExtent);
 		// obj.setTexture(img);
 		
 		// build solid, deformable PShape object

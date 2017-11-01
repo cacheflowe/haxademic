@@ -16,11 +16,12 @@ import com.haxademic.core.math.easing.EasingFloat;
 import processing.core.PImage;
 import processing.core.PShape;
 
-public class Demo_PShapeUtil_SVGNormalizationAndTexturing 
+public class Demo_PShapeUtil_createExtrudedShape 
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	protected ArrayList<PShape> shapes;
+	protected ArrayList<PShape> shapesExtruded;
 	protected int curShapeIndex = 0;
 	
 	protected void overridePropsFile() {
@@ -32,43 +33,46 @@ extends PAppletHax {
 		super.setup();
 		
 		shapes = new ArrayList<PShape>();
-		shapes.add( p.loadShape( FileUtil.getHaxademicDataPath() + "svg/money.svg" ).getTessellation() );
-		shapes.add( p.loadShape( FileUtil.getHaxademicDataPath() + "svg/weed.svg" ).getTessellation() );
-		shapes.add( p.loadShape( FileUtil.getHaxademicDataPath() + "svg/gun.svg" ).getTessellation() );
-		shapes.add( p.loadShape( FileUtil.getHaxademicDataPath() + "svg/gun-uzi.svg" ).getTessellation() );
-		shapes.add( p.loadShape( FileUtil.getHaxademicDataPath() + "svg/speaker.svg" ).getTessellation() );
-		shapes.add( p.loadShape( FileUtil.getHaxademicDataPath() + "svg/money-bag.svg" ).getTessellation() );
-		shapes.add( p.loadShape( FileUtil.getHaxademicDataPath() + "svg/diamond.svg" ).getTessellation() );
-		shapes.add( p.loadShape( FileUtil.getHaxademicDataPath() + "svg/car.svg" ).getTessellation() );
-		shapes.add( p.loadShape( FileUtil.getHaxademicDataPath() + "svg/coin.svg" ).getTessellation() );
-		shapes.add( p.loadShape( FileUtil.getHaxademicDataPath() + "svg/cacheflowe-logo.svg" ).getTessellation() );
+		shapes.add( p.loadShape( FileUtil.getFile("svg/microphone.svg")).getTessellation() );
+		shapes.add( p.loadShape( FileUtil.getFile("svg/money.svg")).getTessellation() );
+		shapes.add( p.loadShape( FileUtil.getFile("svg/weed.svg")).getTessellation() );
+		shapes.add( p.loadShape( FileUtil.getFile("svg/diamond.svg")).getTessellation() );
+		shapes.add( p.loadShape( FileUtil.getFile("svg/coin.svg")).getTessellation() );
+		shapes.add( p.loadShape( FileUtil.getFile("svg/cacheflowe-logo.svg")).getTessellation() );
 		
-		// normalize shapes
+		shapesExtruded = new ArrayList<PShape>();
 		for (PShape shape : shapes) {
+			// center and scale
+			PShapeUtil.centerShape(shape);
+			PShapeUtil.scaleShapeToExtent(shape, p.height * 0.4f);
 			
 			// getTesselation seems to leave off the last triangle, so we can put one back :-D 
 			// https://github.com/processing/processing/blob/f434d2c2303c8d03e265e14972b652c595e6cdf7/core/src/processing/opengl/PShapeOpenGL.java#L2652
 			// 
 			PShapeUtil.repairMissingSVGVertex(shape);
-
-			// center and scale
-			PShapeUtil.centerShape(shape);
-			PShapeUtil.scaleShapeToHeight(shape, p.height * 0.4f);
 			
+			// create extrusion
+			shapesExtruded.add(PShapeUtil.createExtrudedShape( shape, 100 ));
+		}
+		
+		// normalize shapes
+		for (PShape shape : shapesExtruded) {
 			// add UV coordinates to OBJ based on model extents
-			PShapeUtil.addTextureUVToShape(shape, DemoAssets.justin());
+			PShapeUtil.addTextureUVToShape(shape, null);
 		}
 	}
 	
 	public void drawApp() {
 		p.background(0);
+		DrawUtil.setBetterLights(p);
 
 		// draw
 		p.translate(p.width/2, p.height/2);
-		p.rotateY(P.map(p.mouseX, 0, p.width, -1f, 1f));
+//		p.rotateY(P.map(p.mouseX, 0, p.width, -1f, 1f));
+		p.rotateY(0.4f * P.sin(p.frameCount / 20f));
 		p.noStroke();
-		PShape curShape = shapes.get( curShapeIndex );
-		PShapeUtil.drawTriangles(p.g, curShape, DemoAssets.justin(), 1);
+		PShape curShape = shapesExtruded.get( curShapeIndex );
+		PShapeUtil.drawTriangles(p.g, curShape, DemoAssets.textureNebula(), 1);
 	}
 	
 	public void keyPressed() {
