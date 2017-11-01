@@ -1,6 +1,5 @@
 package com.haxademic.demo.render.joons;
 
-import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.draw.context.DrawUtil;
@@ -40,7 +39,7 @@ extends PAppletHax {
 		// create extrusion
 		obj = PShapeUtil.createExtrudedShape( obj, 45 );
 		PShapeUtil.centerShape(obj);
-		objHeight = p.height * 0.35f; // PShapeUtil.getObjHeight(obj);
+		objHeight = p.height * 0.35f;
 		PShapeUtil.scaleShapeToHeight(obj, objHeight);
 	}
 
@@ -62,10 +61,6 @@ extends PAppletHax {
 		setUpRoom();
 		p.popMatrix();
 
-		// rotate room
-//		p.rotateZ(P.PI);
-//		p.rotateY(-0.3f + P.sin(progress * P.TWO_PI) * 0.03f);
-
 		// draw shape
 		p.pushMatrix();
 		joons.jr.fill(JoonsWrapper.MATERIAL_SHINY, 20, 20, 20, 0.7f);		p.fill( 20, 20, 20 );
@@ -75,8 +70,6 @@ extends PAppletHax {
 		// draw floor
 		p.pushMatrix();
 		DrawUtil.setDrawCenter(p);
-//		float mult = P.map(p.mouseX, 0, p.width, 0, 1);
-////		P.println("mult", mult);
 		p.translate(0, objHeight);
 		joons.jr.fill(JoonsWrapper.MATERIAL_SHINY, 255, 255, 255, 0.6f);		p.fill( 255, 255, 255 );
 		p.box(p.height * 4, 2, p.height * 2f);
