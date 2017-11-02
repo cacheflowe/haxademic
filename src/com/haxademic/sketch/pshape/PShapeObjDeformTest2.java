@@ -5,6 +5,7 @@ import com.haxademic.app.haxmapper.textures.TextureEQGrid;
 import com.haxademic.app.haxmapper.textures.TextureShaderTimeStepper;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.camera.CameraUtil;
 import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.shapes.PShapeSolid;
@@ -52,6 +53,7 @@ extends PAppletHax {
 		// add UV coordinates to OBJ
 		float modelExtent = PShapeUtil.getShapeMaxExtent(obj);
 		PShapeUtil.addTextureUVToShape(obj, null, modelExtent);
+//		PShapeUtil.addTextureUVSpherical(obj, null);
 		
 		// build solid, deformable PShape object
 		objSolid = new PShapeSolid(obj);
@@ -59,9 +61,9 @@ extends PAppletHax {
 		// load audio texture
 		audioTexture = new TextureShaderTimeStepper(800, 800, "cacheflowe-distance-blobs.glsl" );
 		audioTexture = new TextureShaderTimeStepper(800, 800, "cacheflowe-scrolling-radial-twist.glsl" );
-		audioTexture = new TextureShaderTimeStepper(800, 800, "cacheflowe-scrolling-dashed-lines.glsl" );
-		audioTexture = new TextureShaderTimeStepper(800, 800, "cacheflowe-liquid-moire.glsl" );
-		audioTexture = new TextureEQGrid(800, 800);
+//		audioTexture = new TextureShaderTimeStepper(800, 800, "cacheflowe-scrolling-dashed-lines.glsl" );
+//		audioTexture = new TextureShaderTimeStepper(800, 800, "cacheflowe-liquid-moire.glsl" );
+//		audioTexture = new TextureEQGrid(800, 800);
 
 	}
 
@@ -70,7 +72,7 @@ extends PAppletHax {
 		
 		p.pushMatrix();
 		background(0);
-		
+		CameraUtil.setCameraDistance(p.g, 100, 20000);
 		float percentComplete = ((float)(p.frameCount%_frames)/_frames);
 		
 		// setup lights
@@ -81,12 +83,12 @@ extends PAppletHax {
 		p.rotateY(P.PI/2f + P.sin(p.frameCount / 40f));
 		p.rotateZ(P.PI);
 		p.rotateX(-P.PI/2f);
-
+		
 		
 		// draw!
 //		objSolid.updateWithTrig(true, percentComplete * 2f, 0.04f, 17.4f);
-//		objSolid.deformWithAudio();
-		objSolid.deformWithAudioByNormals();
+		objSolid.deformWithAudio();
+//		objSolid.deformWithAudioByNormals();
 		p.noStroke();
 		
 		// pshape drawing + audioreactive

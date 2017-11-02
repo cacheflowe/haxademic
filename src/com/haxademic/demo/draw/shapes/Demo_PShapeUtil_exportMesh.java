@@ -1,4 +1,4 @@
-package com.haxademic.sketch.pshape;
+package com.haxademic.demo.draw.shapes;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
@@ -12,12 +12,10 @@ import processing.core.PImage;
 import processing.core.PShape;
 import processing.core.PVector;
 
-public class PShapeExportTest 
+public class Demo_PShapeUtil_exportMesh 
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
-	protected PShape shape;
-	protected PShape shapeTessellated;
 	protected PShape shapeIcos;
 	protected PImage img;
 	protected float _frames = 240;
@@ -36,8 +34,7 @@ extends PAppletHax {
 		super.setup();	
 
 		p.sphereDetail(10);
-		shape = p.createShape(P.SPHERE, p.width/5f);		
-		float extent = PShapeUtil.getSvgMaxExtent_DEPRECATE(shape);
+		float extent = p.width/5f;
 		shapeIcos = Icosahedron.createIcosahedron(p.g, 4, img);
 		PShapeUtil.scaleSvgToExtent_DEPRECATE(shapeIcos, extent);
 		

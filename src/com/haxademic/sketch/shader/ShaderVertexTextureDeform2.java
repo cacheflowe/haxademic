@@ -4,18 +4,15 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.draw.context.DrawUtil;
-import com.haxademic.core.draw.filters.shaders.BadTVLinesFilter;
-import com.haxademic.core.draw.filters.shaders.ColorDistortionFilter;
 import com.haxademic.core.draw.filters.shaders.InvertFilter;
 import com.haxademic.core.draw.filters.shaders.SphereDistortionFilter;
-import com.haxademic.core.draw.filters.shaders.VignetteAltFilter;
 import com.haxademic.core.draw.filters.shaders.VignetteFilter;
 import com.haxademic.core.draw.filters.shaders.WobbleFilter;
+import com.haxademic.core.draw.shapes.Shapes;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.easing.Penner;
 
 import processing.core.PGraphics;
-import processing.core.PImage;
 import processing.core.PShape;
 import processing.opengl.PShader;
 
@@ -55,7 +52,7 @@ extends PAppletHax {
 		textureShader = P.p.loadShader( FileUtil.getFile("shaders/textures/bw-clouds.glsl")); 
 		textureShader.set("time", 0 );
 
-		mesh = createSheet(450, texture);
+		mesh = Shapes.createSheet(450, texture);
 		displacementShader = loadShader(
 			FileUtil.getFile("shaders/vertex/brightness-displace-frag-texture.glsl"), 
 			FileUtil.getFile("shaders/vertex/brightness-displace-sheet-vert.glsl")
@@ -136,36 +133,6 @@ extends PAppletHax {
 		VignetteFilter.instance(p).setDarkness(2f);
 		VignetteFilter.instance(p).setSpread(0.7f);
 		VignetteFilter.instance(p).applyTo(texture);
-	}
-
-
-	PShape createSheet(int detail, PImage tex) {
-		p.textureMode(NORMAL);
-		PShape sh = p.createShape();
-		sh.beginShape(QUADS);
-		sh.noStroke();
-		sh.texture(tex);
-		float cellW = tex.width / detail;
-		float cellH = tex.height / detail;
-		int numVertices = 0;
-		for (int col = 0; col < tex.width; col += cellW) {
-			for (int row = 0; row < tex.height; row += cellH) {
-				float xU = col;
-				float yV = row;
-				float x = -tex.width/2f + xU;
-				float y = -tex.height/2f + yV;
-				float z = 0;
-				sh.normal(x, y, z);
-				sh.vertex(x, y, z, P.map(xU, 0, tex.width, 0, 1), P.map(yV, 0, tex.height, 0, 1));
-				sh.vertex(x, y + cellH, z, P.map(xU, 0, tex.width, 0, 1), P.map(yV + cellH, 0, tex.height, 0, 1));    
-				sh.vertex(x + cellW, y + cellH, z, P.map(xU + cellW, 0, tex.width, 0, 1), P.map(yV + cellH, 0, tex.height, 0, 1));    
-				sh.vertex(x + cellW, y, z, P.map(xU + cellW, 0, tex.width, 0, 1), P.map(yV, 0, tex.height, 0, 1));
-				numVertices++;
-			}
-		}
-		P.println(numVertices, "vertices");
-		sh.endShape(); 
-		return sh;
 	}
 
 }

@@ -7,6 +7,7 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.draw.image.PerlinTexture;
 import com.haxademic.core.draw.shapes.PShapeUtil;
+import com.haxademic.core.draw.shapes.Shapes;
 import com.haxademic.core.file.FileUtil;
 
 import processing.core.PGraphics;
@@ -67,7 +68,7 @@ extends PAppletHax {
 					FileUtil.getFile("shaders/vertex/brightness-displace-sphere-vert.glsl")
 					);
 		} else {
-			obj = createSheet(10, displacementMap);			
+			obj = Shapes.createSheet(10, displacementMap);			
 			// load shader
 			texShader = loadShader(
 					FileUtil.getFile("shaders/vertex/brightness-displace-frag-texture.glsl"), 
@@ -115,47 +116,6 @@ extends PAppletHax {
 		p.shader(texShader);  
 		p.shape(obj);
 		p.resetShader();
-	}
-
-
-	PShape createSheet(int detail, PImage tex) {
-		p.textureMode(NORMAL);
-		PShape sh = p.createShape();
-		sh.beginShape(QUADS);
-		sh.noStroke();
-		sh.noFill();
-		sh.texture(tex);
-		float cellW = tex.width / detail;
-		float cellH = tex.height / detail;
-		int numVertices = 0;
-		for (int col = 0; col < tex.width; col += cellW) {
-			for (int row = 0; row < tex.height; row += cellH) {
-				float xU = col;
-				float yV = row;
-				float x = -tex.width/2f + xU;
-				float y = -tex.height/2f + yV;
-				float z = 0;
-				sh.normal(x, y, z);
-				sh.vertex(x, y, z, P.map(xU, 0, tex.width, 0, 1), P.map(yV, 0, tex.height, 0, 1));
-				sh.vertex(x, y + cellH, z, P.map(xU, 0, tex.width, 0, 1), P.map(yV + cellH, 0, tex.height, 0, 1));    
-				sh.vertex(x + cellW, y + cellH, z, P.map(xU + cellW, 0, tex.width, 0, 1), P.map(yV + cellH, 0, tex.height, 0, 1));    
-				sh.vertex(x + cellW, y, z, P.map(xU + cellW, 0, tex.width, 0, 1), P.map(yV, 0, tex.height, 0, 1));
-				numVertices++;
-			}
-		}
-		P.println(numVertices, "vertices");
-		sh.endShape(); 
-		return sh;
-	}
-
-	PShape createSphere(int detail, PImage tex) {
-		p.textureMode(NORMAL);
-		PShape sh = p.createShape();
-		sh.beginShape(SPHERE);
-		sh.stroke(255);
-		sh.noFill();
-		sh.endShape(); 
-		return sh;
 	}
 
 }

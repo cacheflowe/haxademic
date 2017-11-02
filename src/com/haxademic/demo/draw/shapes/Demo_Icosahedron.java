@@ -45,7 +45,6 @@ extends PAppletHax {
 		shape = p.createShape(P.SPHERE, p.width/10f);
 		shapeTessellated = shape.getTessellation();
 		
-		
 		float extent = PShapeUtil.getSvgMaxExtent_DEPRECATE(shape);
 		
 		shape.setTexture(img);

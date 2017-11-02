@@ -34,11 +34,11 @@ extends PAppletHax {
 		super.setup();
 		
 		// load & repair tesselated shape
-		obj = p.loadShape( FileUtil.getFile("svg/diamond.svg")).getTessellation();
+		obj = p.loadShape( FileUtil.getFile("svg/fractal-1.svg")).getTessellation();
 		PShapeUtil.repairMissingSVGVertex(obj);
 			
 		// create extrusion
-		obj = PShapeUtil.createExtrudedShape( obj, 45 );
+		obj = PShapeUtil.createExtrudedShape( obj, 175 );
 		PShapeUtil.centerShape(obj);
 		objHeight = p.height * 0.35f;
 		PShapeUtil.scaleShapeToHeight(obj, objHeight);
@@ -64,7 +64,7 @@ extends PAppletHax {
 
 		// draw shape
 		p.pushMatrix();
-		joons.jr.fill(JoonsWrapper.MATERIAL_SHINY, 20, 20, 20, 0.7f);		p.fill( 20, 20, 20 );
+		joons.jr.fill(JoonsWrapper.MATERIAL_AMBIENT_OCCLUSION, 200, 200, 200);		p.fill( 20, 20, 20 );
 		PShapeUtil.drawTrianglesJoons(p, obj, 1);
 		p.popMatrix();
 

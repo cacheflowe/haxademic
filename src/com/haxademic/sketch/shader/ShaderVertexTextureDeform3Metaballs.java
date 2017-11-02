@@ -4,12 +4,11 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.draw.context.OpenGLUtil;
-import com.haxademic.core.draw.filters.shaders.BlurProcessingFilter;
 import com.haxademic.core.draw.filters.shaders.FXAAFilter;
 import com.haxademic.core.draw.filters.shaders.InvertFilter;
 import com.haxademic.core.draw.filters.shaders.LiquidWarpFilter;
-import com.haxademic.core.draw.filters.shaders.PixelateFilter;
 import com.haxademic.core.draw.filters.shaders.VignetteFilter;
+import com.haxademic.core.draw.shapes.Shapes;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.easing.Penner;
 
@@ -40,7 +39,7 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.WIDTH, 1280 );
 		p.appConfig.setProperty( AppSettings.HEIGHT, 960 );
 		p.appConfig.setProperty( AppSettings.SMOOTHING, AppSettings.SMOOTH_HIGH );
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, true );
+		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, false );
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, (int)_frames );
 //		p.appConfig.setProperty( AppSettings.RENDERING_GIF, false );
 //		p.appConfig.setProperty( AppSettings.RENDERING_GIF_FRAMERATE, 40 );
@@ -62,7 +61,7 @@ extends PAppletHax {
 //		textureShader = P.p.loadShader( FileUtil.getFile("shaders/textures/bw-clouds.glsl")); 
 //		textureShader.set("time", 0 );
 
-		mesh = createSheet(600, texture);
+		mesh = Shapes.createSheet(600, texture);
 		displacementShader = loadShader(
 			FileUtil.getFile("shaders/vertex/brightness-displace-frag-texture.glsl"), 
 			FileUtil.getFile("shaders/vertex/brightness-displace-sheet-vert.glsl")
@@ -139,39 +138,6 @@ extends PAppletHax {
 //		DrawUtil.setDrawFlat2d(p, true);
 //		p.image(texture, 0, 0);
 	}
-
-
-
-	PShape createSheet(int detail, PImage tex) {
-		p.textureMode(NORMAL);
-		PShape sh = p.createShape();
-		sh.beginShape(QUADS);
-		sh.noStroke();
-		sh.texture(tex);
-		float cellW = tex.width / detail;
-		float cellH = tex.height / detail;
-		int numVertices = 0;
-		for (int col = 0; col < tex.width; col += cellW) {
-			for (int row = 0; row < tex.height; row += cellH) {
-				float xU = col;
-				float yV = row;
-				float x = -tex.width/2f + xU;
-				float y = -tex.height/2f + yV;
-				float z = 0;
-				sh.normal(x, y, z);
-				sh.vertex(x, y, z, P.map(xU, 0, tex.width, 0, 1), P.map(yV, 0, tex.height, 0, 1));
-				sh.vertex(x, y + cellH, z, P.map(xU, 0, tex.width, 0, 1), P.map(yV + cellH, 0, tex.height, 0, 1));    
-				sh.vertex(x + cellW, y + cellH, z, P.map(xU + cellW, 0, tex.width, 0, 1), P.map(yV + cellH, 0, tex.height, 0, 1));    
-				sh.vertex(x + cellW, y, z, P.map(xU + cellW, 0, tex.width, 0, 1), P.map(yV, 0, tex.height, 0, 1));
-				numVertices++;
-			}
-		}
-		P.println(numVertices, "vertices");
-		sh.endShape(); 
-		return sh;
-	}
-	
-	
 	
 	public class Metaballs {
 		MetaBall balls[];
