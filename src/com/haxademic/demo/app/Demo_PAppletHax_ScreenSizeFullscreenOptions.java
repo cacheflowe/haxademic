@@ -1,4 +1,4 @@
-package com.haxademic.sketch.screen;
+package com.haxademic.demo.app;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
@@ -7,7 +7,7 @@ import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.math.easing.EasingFloat;
 
-public class ScreenSizeTest
+public class Demo_PAppletHax_ScreenSizeFullscreenOptions
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	

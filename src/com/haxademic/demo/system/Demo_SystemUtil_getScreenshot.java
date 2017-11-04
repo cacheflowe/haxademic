@@ -1,14 +1,12 @@
-package com.haxademic.sketch.screen;
+package com.haxademic.demo.system;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
-import com.haxademic.core.draw.context.OpenGLUtil;
-import com.haxademic.core.draw.image.ScreenUtil;
+import com.haxademic.core.system.SystemUtil;
 
 import controlP5.ControlP5;
 
-public class ScreenGrabTest
+public class Demo_SystemUtil_getScreenshot
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
@@ -18,14 +16,13 @@ extends PAppletHax {
 	protected int _y = 0;
 
 	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, "800" );
-		p.appConfig.setProperty( AppSettings.HEIGHT, "600" );
-		p.appConfig.setProperty( AppSettings.FPS, "60" );
+		p.appConfig.setProperty( AppSettings.WIDTH, 800 );
+		p.appConfig.setProperty( AppSettings.HEIGHT, 600 );
+		p.appConfig.setProperty( AppSettings.SMOOTHING, AppSettings.SMOOTH_NONE );
 	}
 
 	public void setup() {
 		super.setup();	
-		p.smooth( OpenGLUtil.SMOOTH_HIGH );
 
 		_cp5 = new ControlP5(this);
 		_cp5.addSlider("_x").setPosition(20,60).setWidth(200).setRange(0,p.displayWidth - p.width);
@@ -34,8 +31,7 @@ extends PAppletHax {
 
 	public void drawApp() {
 		background(0);
-		DrawUtil.setDrawCorner(p);
-		p.image( ScreenUtil.getScreen(_x, _y, p.width, p.height), 0, 0 );
+		p.image( SystemUtil.getScreenshot(_x, _y, p.width, p.height), 0, 0 );
 	}
 
 }
