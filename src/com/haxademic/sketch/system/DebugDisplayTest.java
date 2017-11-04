@@ -25,15 +25,15 @@ extends PAppletHax {
 	public void setup() {
 		super.setup();
 		p.showStats = true;
-		p.debugView.addHelpLine("Test info here", "");
-		p.debugView.addHelpLine("[key]", "[Value]");
+		p.debugView.setHelpLine("Test info here", "");
+		p.debugView.setHelpLine("[key]", "[Value]");
 	}
 
 	public void drawApp() {
 		background(0);
 
 		debugView.updateInputs();
-		debugView.addValue("Max mouse", P.max(p.mouseX, p.mouseY));
+		debugView.setValue("Max mouse", P.max(p.mouseX, p.mouseY));
 		
 		_easingX.setEaseFactor(easeFactor);
 		_easingY.setEaseFactor(easeFactor);

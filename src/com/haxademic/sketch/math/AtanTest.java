@@ -37,9 +37,9 @@ extends PAppletHax {
 		DrawUtil.setDrawCenter(p);
 		p.translate(p.width/2, p.height/2);
 		float radsFromCenter = MathUtil.getRadiansToTarget(p.width/2, p.height/2, p.mouseX, p.mouseY);
-		p.debugView.addHelpLine("cos (x)", ""+P.cos(radsFromCenter));
-		p.debugView.addHelpLine("sin (y)", ""+P.sin(radsFromCenter));
-		p.debugView.addHelpLine("angle", ""+MathUtil.radiansToDegrees(radsFromCenter));
+		p.debugView.setHelpLine("cos (x)", ""+P.cos(radsFromCenter));
+		p.debugView.setHelpLine("sin (y)", ""+P.sin(radsFromCenter));
+		p.debugView.setHelpLine("angle", ""+MathUtil.radiansToDegrees(radsFromCenter));
 
 		float radsFromMouse = MathUtil.getRadiansToTarget(p.mouseX, p.mouseY, p.width/2, p.height/2);
 		p.rotate(-radsFromCenter);

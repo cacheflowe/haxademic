@@ -123,8 +123,8 @@ extends PAppletHax {
 		// sparks
 		float msX = P.map(p.mouseX, 0, p.width, -1000f, 1000f);
 		float msY = P.map(p.mouseY, 0, p.height, -1000f, 1000f);
-		debugView.addValue("msX", msX);
-		debugView.addValue("msY", msY);
+		debugView.setValue("msX", msX);
+		debugView.setValue("msY", msY);
 		p.pushMatrix();
 		p.translate(-200, 795, 0);
 		float sparkArea = 250;

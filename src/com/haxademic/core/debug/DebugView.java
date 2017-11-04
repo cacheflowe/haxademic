@@ -35,24 +35,24 @@ public class DebugView {
 		debugFont = p.createFont("Arial", fontSize);
 	}
 	
-	public void addValue(String key, String val) {
+	public void setValue(String key, String val) {
 		debugLines.put(key, val);
 	}
 	
-	public void addValue(String key, float val) {
+	public void setValue(String key, float val) {
 		debugLines.put(key, ""+val);
 	}
 	
-	public void addValue(String key, int val) {
+	public void setValue(String key, int val) {
 		debugLines.put(key, ""+val);
 	}
 	
-	public void addValue(String key, boolean val) {
+	public void setValue(String key, boolean val) {
 		String bool = (val == true) ? "true" : "false";
 		debugLines.put(key, ""+bool);
 	}
 	
-	public void addHelpLine(String key, String val) {
+	public void setHelpLine(String key, String val) {
 		helpLines.put(key, val);
 	}
 	
@@ -74,11 +74,11 @@ public class DebugView {
 	}
 	
 	public void updateInputs() {
-		addValue("mouseX", p.mouseX);
-		addValue("mouseY", p.mouseY);
-		addValue("key", p.key);
-		addValue("keyCode", p.keyCode);
-		addValue("keyPressed", p.keyPressed);
+		setValue("mouseX", p.mouseX);
+		setValue("mouseY", p.mouseY);
+		setValue("key", p.key);
+		setValue("keyCode", p.keyCode);
+		setValue("keyPressed", p.keyPressed);
 	}
 	
 	protected String stringFromHashMap(LinkedHashMap<String, String> hashMap) {
