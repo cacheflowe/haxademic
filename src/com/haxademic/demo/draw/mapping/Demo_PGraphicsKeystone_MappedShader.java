@@ -1,4 +1,4 @@
-package com.haxademic.sketch.shader;
+package com.haxademic.demo.draw.mapping;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
@@ -10,7 +10,7 @@ import com.haxademic.core.file.FileUtil;
 import processing.core.PGraphics;
 import processing.opengl.PShader;
 
-public class MappedShader
+public class Demo_PGraphicsKeystone_MappedShader
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 		
@@ -23,7 +23,6 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.WIDTH, 1000 );
 		p.appConfig.setProperty( AppSettings.HEIGHT, 600 );
 		p.appConfig.setProperty( AppSettings.FULLSCREEN, true );
-		p.appConfig.setProperty( AppSettings.SMOOTHING, AppSettings.SMOOTH_HIGH );
 	}
 
 	public void setup() {

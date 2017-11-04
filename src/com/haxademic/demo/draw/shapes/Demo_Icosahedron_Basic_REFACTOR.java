@@ -4,15 +4,11 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.draw.context.DrawUtil;
-import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.shapes.Icosahedron;
 import com.haxademic.core.draw.shapes.PShapeSolid;
 import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.file.DemoAssets;
-import com.haxademic.core.file.FileUtil;
-import com.haxademic.core.math.MathUtil;
 
-import processing.core.PGraphics;
 import processing.core.PImage;
 import processing.core.PShape;
 

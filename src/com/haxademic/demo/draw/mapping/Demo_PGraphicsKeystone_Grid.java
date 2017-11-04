@@ -1,4 +1,4 @@
-package com.haxademic.sketch.screen;
+package com.haxademic.demo.draw.mapping;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
@@ -11,7 +11,7 @@ import processing.core.PGraphics;
 import processing.core.PImage;
 import processing.opengl.PShader;
 
-public class PGraphicsKeystoneGrid
+public class Demo_PGraphicsKeystone_Grid
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 

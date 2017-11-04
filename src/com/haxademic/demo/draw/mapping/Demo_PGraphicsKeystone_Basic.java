@@ -1,4 +1,4 @@
-package com.haxademic.sketch.screen;
+package com.haxademic.demo.draw.mapping;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
@@ -9,7 +9,7 @@ import com.haxademic.core.file.FileUtil;
 
 import processing.core.PGraphics;
 
-public class PGraphicsKeystoneTest
+public class Demo_PGraphicsKeystone_Basic
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
