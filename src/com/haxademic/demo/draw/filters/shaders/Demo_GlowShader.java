@@ -1,4 +1,4 @@
-package com.haxademic.sketch.shader;
+package com.haxademic.demo.draw.filters.shaders;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
@@ -6,8 +6,6 @@ import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.filters.shaders.GlowFilter;
-import com.haxademic.core.draw.filters.shaders.InvertFilter;
-import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.file.FileUtil;
 
 import processing.core.PGraphics;
@@ -15,7 +13,7 @@ import processing.core.PImage;
 import processing.core.PShape;
 import processing.opengl.PShader;
 
-public class GlowShader
+public class Demo_GlowShader
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
@@ -26,8 +24,8 @@ extends PAppletHax {
 	int frames = 120;
 
 	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, 640 * 2 );
-		p.appConfig.setProperty( AppSettings.HEIGHT, 640 * 2 );
+		p.appConfig.setProperty( AppSettings.WIDTH, 640 );
+		p.appConfig.setProperty( AppSettings.HEIGHT, 640 );
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, false );
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_START_FRAME, 1 );
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, frames );
@@ -65,7 +63,7 @@ extends PAppletHax {
 //		GlowFilter.instance(p).setSize(30f + 20f * P.sin((float)p.frameCount * 0.05f));
 //		GlowFilter.instance(p).setRadialSamples(P.map(p.mouseX, 0, p.width, 8f, 128f));
 		GlowFilter.instance(p).setSize(26f + 14f * P.sin(progress * P.TWO_PI));
-		GlowFilter.instance(p).setRadialSamples(256f);
+		GlowFilter.instance(p).setRadialSamples(32f);
 		GlowFilter.instance(p).setGlowColor(1f, 1f, 1f, 0.6f);
 		GlowFilter.instance(p).applyTo(pg);
 		pg.popMatrix();
