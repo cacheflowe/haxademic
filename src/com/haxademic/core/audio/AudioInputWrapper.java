@@ -1,12 +1,5 @@
 package com.haxademic.core.audio;
 
-import javax.sound.sampled.AudioFormat;
-import javax.sound.sampled.AudioSystem;
-import javax.sound.sampled.Line;
-import javax.sound.sampled.LineUnavailableException;
-import javax.sound.sampled.Mixer;
-import javax.sound.sampled.SourceDataLine;
-
 import krister.Ess.AudioInput;
 import krister.Ess.Ess;
 import krister.Ess.FFT;
