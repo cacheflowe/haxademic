@@ -26,10 +26,12 @@ extends PAppletHax {
 		super.setup();
 		
 		points = new ArrayList<PVector>();
-		float vertices = 5;
+		float vertices = 36;
 		float vertexRads = P.TWO_PI / vertices;
 		float radsOffset = -P.HALF_PI;
 		float radius = p.width * 0.4f;
+		float radiusInner = p.width * 0.3f;
+		
 		for (int i = 0; i < vertices; i++) {
 			points.add(new PVector(
 					radius * P.cos(radsOffset + vertexRads * i),
@@ -37,11 +39,33 @@ extends PAppletHax {
 					0
 			));
 		}
+		// connect to very first point
+		points.add(new PVector(
+				radius * P.cos(radsOffset),
+				radius * P.sin(radsOffset),
+				0
+		));
+		
+		// inner hole in reverse
+		for (int i = 0; i < vertices; i++) {
+			points.add(new PVector(
+					radiusInner * P.cos(radsOffset - vertexRads * i),
+					radiusInner * P.sin(radsOffset - vertexRads * i),
+					0
+			));
+		}
+		// connect to inner first point
+		points.add(new PVector(
+				radiusInner * P.cos(radsOffset),
+				radiusInner * P.sin(radsOffset),
+				0
+		));
+
 	}
 
 	public void drawApp() {
 		p.background(0);
-		p.lights();
+//		p.lights();
 		p.translate(p.width/2, p.height/2, -200);
 		
 		float percentComplete = ((float)(p.frameCount%_frames)/_frames);
@@ -51,8 +75,8 @@ extends PAppletHax {
 
 		rotateY(P.sin(radsComplete) * 1.25f); 
 		
-		p.fill(255, 140, 200);
-		p.noStroke();
+		p.stroke(0);
+		p.fill(0, 255, 200);
 		Extrude2dPoints.drawExtruded2dPointList(p, points, 100);
 	}
 }
