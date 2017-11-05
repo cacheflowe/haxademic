@@ -51,7 +51,10 @@ public class DemoAssets {
 		//	obj = p.loadShape( FileUtil.getFile("models/lego-man.obj"));	
 		//	obj = p.loadShape( FileUtil.getFile("models/bomb.obj"));	
 		//	obj = p.loadShape( FileUtil.getFile("models/poly-hole-tri.obj"));	
-		if(objSkeleton == null) objSkeleton = P.p.loadShape(FileUtil.getFile("models/skeleton-lowpoly.obj"));
+		if(objSkeleton == null) {
+			objSkeleton = P.p.loadShape(FileUtil.getFile("models/skeleton-lowpoly.obj"));
+			PShapeUtil.meshRotateOnAxis(objSkeleton, P.PI, P.Z);
+		}
 		return objSkeleton;
 	}
 	

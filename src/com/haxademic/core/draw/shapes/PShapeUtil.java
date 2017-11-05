@@ -406,6 +406,20 @@ public class PShapeUtil {
 		}
 	}
 	
+	public static void verticalTwistShape(PShape shape, float amp, float freq) {
+		float height = PShapeUtil.getObjHeight(shape);
+		for (int i = 0; i < shape.getVertexCount(); i++) {
+			PVector v = shape.getVertex(i);
+			float radius = MathUtil.getDistance(v.x, v.z, 0, 0);
+			float twistAtY = ((v.y + radius) * freq) * 0.001f * amp;
+			float newRads = MathUtil.getRadiansToTarget(0, 0, v.x, v.z) + twistAtY;
+			shape.setVertex(i, radius * P.cos(-newRads), v.y, radius * P.sin(-newRads));
+		}
+		for (int j = 0; j < shape.getChildCount(); j++) {
+			verticalTwistShape(shape.getChild(j), amp, freq);
+		}
+	}
+	
 	/**
 	 * Draws triangles instead of native draw calls
 	 * @param shape
