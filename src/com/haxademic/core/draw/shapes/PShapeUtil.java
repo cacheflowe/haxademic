@@ -2,6 +2,7 @@ package com.haxademic.core.draw.shapes;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.file.FileUtil;
+import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.system.SystemUtil;
 
 import processing.core.PApplet;
@@ -380,6 +381,28 @@ public class PShapeUtil {
 		// recurse through children
 		for (int j = 0; j < origShape.getChildCount(); j++) {
 			addVerticesToPointShape(origShape.getChild(j), newShape);
+		}
+	}
+	
+	public static void meshRotateOnAxis(PShape shape, float radians, int axis) {
+		for (int i = 0; i < shape.getVertexCount(); i++) {
+			PVector v = shape.getVertex(i);
+			if(axis == P.X) {
+				float radius = MathUtil.getDistance(v.z, v.y, 0, 0);
+				float newRads = MathUtil.getRadiansToTarget(0, 0, v.z, v.y) + radians;
+				shape.setVertex(i, v.x, radius * P.sin(-newRads), radius * P.cos(-newRads));
+			} else if(axis == P.Y) {
+				float radius = MathUtil.getDistance(v.x, v.z, 0, 0);
+				float newRads = MathUtil.getRadiansToTarget(0, 0, v.x, v.z) + radians;
+				shape.setVertex(i, radius * P.cos(-newRads), v.y, radius * P.sin(-newRads));
+			} else if(axis == P.Z) {
+				float radius = MathUtil.getDistance(v.x, v.y, 0, 0);
+				float newRads = MathUtil.getRadiansToTarget(0, 0, v.x, v.y) + radians;
+				shape.setVertex(i, radius * P.cos(-newRads), radius * P.sin(-newRads), v.z);
+			}
+		}
+		for (int j = 0; j < shape.getChildCount(); j++) {
+			meshRotateOnAxis(shape.getChild(j), radians, axis);
 		}
 	}
 	

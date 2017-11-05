@@ -1,6 +1,7 @@
 package com.haxademic.core.file;
 
 import com.haxademic.core.app.P;
+import com.haxademic.core.draw.shapes.PShapeUtil;
 
 import processing.core.PImage;
 import processing.core.PShape;
@@ -56,7 +57,10 @@ public class DemoAssets {
 	
 	public static PShape objSkullRealistic = null;
 	public static PShape objSkullRealistic() {
-		if(objSkullRealistic == null) objSkullRealistic = P.p.loadShape(FileUtil.getFile("models/skull-realistic.obj"));
+		if(objSkullRealistic == null) {
+			objSkullRealistic = P.p.loadShape(FileUtil.getFile("models/skull-realistic.obj"));
+			PShapeUtil.meshRotateOnAxis(objSkullRealistic, P.PI, P.Z);
+		}
 		return objSkullRealistic;
 	}
 	
