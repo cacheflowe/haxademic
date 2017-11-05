@@ -293,8 +293,9 @@ extends PApplet
 		_isRenderingAudio = p.appConfig.getBoolean(AppSettings.RENDER_AUDIO, false);
 		_isRenderingMidi = p.appConfig.getBoolean(AppSettings.RENDER_MIDI, false);
 		_fps = p.appConfig.getInt(AppSettings.FPS, 60);
+		p.showStats = p.appConfig.getBoolean(AppSettings.SHOW_STATS, false);
 		if(p.appConfig.getInt(AppSettings.FPS, 60) != 60) frameRate(_fps);
-		if( p.appConfig.getBoolean(AppSettings.HIDE_CURSOR, false) == true ) p.noCursor();
+		if(p.appConfig.getBoolean(AppSettings.HIDE_CURSOR, false) == true ) p.noCursor();
 	}
 	
 	protected void checkScreenManualPosition() {
@@ -403,7 +404,7 @@ extends PApplet
 	}
 
 	protected void showStats() {
-		if( showStats == false ) return; 
+		if(p.showStats == false) return; 
 		_stats.update();
 		debugView.draw();
 	}

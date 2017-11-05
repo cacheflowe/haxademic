@@ -22,13 +22,13 @@ extends PAppletHax {
 	protected void overridePropsFile() {
 		p.appConfig.setProperty( AppSettings.WIDTH, 640 );
 		p.appConfig.setProperty( AppSettings.HEIGHT, 640 );
+		p.appConfig.setProperty( AppSettings.SHOW_STATS, true );
 	}
 
 	public void setup() {
 		super.setup();
 		img = p.loadImage(FileUtil.getFile("images/smiley-big.png"));
 		pg = ImageUtil.imageToGraphics(img);
-		p.showStats = true;
 	}
 
 	public void drawApp() {
