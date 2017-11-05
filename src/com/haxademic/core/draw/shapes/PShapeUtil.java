@@ -351,6 +351,38 @@ public class PShapeUtil {
 		return outermostVertex;
 	}
 	
+	// Turns a PShape mesh into an optimized POINTS version
+
+	public static PShape meshShapeToPointsShape(PShape origShape) {
+		PShape newShape = P.p.createShape();
+		newShape.beginShape(PConstants.POINTS);
+		newShape.stroke(255);
+		newShape.strokeWeight(1);
+		newShape.noFill();
+		addVerticesToPointShape(origShape, newShape);
+		newShape.endShape();
+		return newShape;
+	}
+	
+	// Add vertices to a new PShape, while ignoring duplicates. Reduces vertex count significantly
+	public static void addVerticesToPointShape(PShape origShape, PShape newShape) {
+		for (int i = 0; i < origShape.getVertexCount(); i++) {
+			// check to see if vertex has already been added
+			PVector v = origShape.getVertex(i);
+			boolean foundDuplicateVertex = false;
+			for (int j = 0; j < newShape.getVertexCount(); j++) {
+				PVector addedVertex = newShape.getVertex(j);
+				if(v.x == addedVertex.x && v.y == addedVertex.y && v.z == addedVertex.z) foundDuplicateVertex = true;
+			}
+			// if not already added, add it
+			if(foundDuplicateVertex == false) newShape.vertex(v.x, v.y, v.z);
+		}
+		// recurse through children
+		for (int j = 0; j < origShape.getChildCount(); j++) {
+			addVerticesToPointShape(origShape.getChild(j), newShape);
+		}
+	}
+	
 	/**
 	 * Draws triangles instead of native draw calls
 	 * @param shape
