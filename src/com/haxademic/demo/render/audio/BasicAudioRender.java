@@ -1,4 +1,4 @@
-package com.haxademic.app.musicvideos;
+package com.haxademic.demo.render.audio;
 
 import com.haxademic.core.audio.AudioInputWrapper;
 import com.haxademic.core.camera.CameraOscillate;
