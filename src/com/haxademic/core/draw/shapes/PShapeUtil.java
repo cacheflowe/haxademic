@@ -33,7 +33,7 @@ public class PShapeUtil {
 		return newShape;
 	}
 	
-	public static void addUVsToPShape(PShape s, float outerExtent) {
+	public static void addUVsToPShape_DEPRECATE(PShape s, float outerExtent) {
 		s.setStroke(false);
 		s.setTextureMode(P.NORMAL);
 		for (int i = 0; i < s.getVertexCount(); i++) {
@@ -60,7 +60,7 @@ public class PShapeUtil {
 	}
 	public static void addTextureUVToShape(PShape shape, PImage img, float outerExtent, boolean xyMapping) {
 		shape.setStroke(false);
-		shape.setFill(255);
+		// shape.setFill(255);	// This seems to jack up vertex shaders
 		shape.setTextureMode(P.NORMAL);
 		
 		for (int i = 0; i < shape.getVertexCount(); i++) {
@@ -83,7 +83,7 @@ public class PShapeUtil {
 	
 	public static void addTextureUVSpherical(PShape shape, PImage img) {
 		shape.setStroke(false);
-		shape.setFill(255);
+		// shape.setFill(255);	// This seems to jack up vertex shaders
 		shape.setTextureMode(P.NORMAL);
 		PVector util = new PVector();
 		

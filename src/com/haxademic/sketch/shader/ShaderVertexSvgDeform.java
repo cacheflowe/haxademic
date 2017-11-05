@@ -61,7 +61,7 @@ extends PAppletHax {
 		shape = PShapeUtil.clonePShape(this, shape.getTessellation());
 		PShapeUtil.scaleSvgToExtent_DEPRECATE(shape, p.height * 0.3f);
 		float modelExtent = PShapeUtil.getSvgMaxExtent_DEPRECATE(shape);
-		PShapeUtil.addUVsToPShape(shape, modelExtent);
+		PShapeUtil.addUVsToPShape_DEPRECATE(shape, modelExtent);
 		shape.setTexture(displacementMap);
 
 		texShader = loadShader(

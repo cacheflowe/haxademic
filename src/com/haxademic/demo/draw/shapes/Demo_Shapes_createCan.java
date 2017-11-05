@@ -34,11 +34,11 @@ extends PAppletHax {
 		rotateX(P.map(p.mouseY, 0, p.height, -1f, 1f));
 		rotateY(P.map(p.mouseX, 0, p.width, -1f, 1f));
 		
-		// draw word
+		// draw can
 		shape.disableStyle();
 		p.noStroke();
 		p.fill(255);
-		PShapeUtil.drawTriangles(p.g, shape, DemoAssets.squareTexture(), 1f); // img			
+		PShapeUtil.drawTriangles(p.g, shape, DemoAssets.squareTexture(), 1f);			
 	}
 
 }

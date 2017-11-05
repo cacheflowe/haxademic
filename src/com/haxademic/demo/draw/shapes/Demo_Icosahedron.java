@@ -52,8 +52,8 @@ extends PAppletHax {
 		shapeIcos = Icosahedron.createIcosahedron(p.g, 4, img);
 		PShapeUtil.scaleSvgToExtent_DEPRECATE(shapeIcos, extent);
 		
-		PShapeUtil.addUVsToPShape(shape, extent);
-		PShapeUtil.addUVsToPShape(shapeTessellated, extent);
+		PShapeUtil.addUVsToPShape_DEPRECATE(shape, extent);
+		PShapeUtil.addUVsToPShape_DEPRECATE(shapeTessellated, extent);
 	}
 
 	public void drawApp() {
