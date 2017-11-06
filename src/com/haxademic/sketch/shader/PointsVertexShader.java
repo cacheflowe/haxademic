@@ -53,8 +53,10 @@ extends PAppletHax {
 		
 		// load shader
 		displacementShader = loadShader(
-			FileUtil.getFile("shaders/vertex/brightness-displace-frag-color.glsl"), 
-			FileUtil.getFile("shaders/vertex/brightness-displace-sheet-vert.glsl")
+//			FileUtil.getFile("shaders/vertex/brightness-displace-frag-color.glsl"), 
+//			FileUtil.getFile("shaders/vertex/brightness-displace-sheet-vert.glsl")
+			FileUtil.getFile("shaders/point/point-frag.glsl"), 
+			FileUtil.getFile("shaders/point/point-vert.glsl")
 		);
 	}
 
@@ -73,17 +75,17 @@ extends PAppletHax {
 		p.rotateY(0.4f * P.sin(percentComplete * P.TWO_PI)); // -P.HALF_PI +
 
 		// draw mesh with texture or without
-		shape.disableStyle();
-		p.noFill();
-		p.stroke(0, 255, 0);
+//		shape.disableStyle();
+//		p.noFill();
+//		p.stroke(0, 255, 0);
 //		p.strokeWeight(0.25f);
-		if(percentComplete > 0.5) {
-			displacementShader.set("displacementMap", perlin.texture());
-			displacementShader.set("displaceStrength", 400f);
+		if(percentComplete < 0.5) {
+//			displacementShader.set("displacementMap", perlin.texture());
+//			displacementShader.set("displaceStrength", 400f);
 			p.shader(displacementShader);  
 		}
 		p.shape(shape);
-		if(percentComplete > 0.5) p.resetShader();
+		if(percentComplete < 0.5) p.resetShader();
 	}
 		
 }
