@@ -25,7 +25,7 @@ extends PAppletHax {
 	
 	protected void firstFrameSetup() {
 		// build obj PShape and scale to window
-		obj = DemoAssets.objSkeleton();
+		obj = DemoAssets.objSkullRealistic();
 		float objHeight = p.height * 0.95f;
 		PShapeUtil.centerShape(obj);
 		PShapeUtil.scaleShapeToExtent(obj, objHeight);

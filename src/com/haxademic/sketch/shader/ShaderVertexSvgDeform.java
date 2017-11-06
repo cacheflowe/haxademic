@@ -54,7 +54,7 @@ extends PAppletHax {
 //		audioTexture = new TextureEQGrid(800, 800);
 		perlinTexture = new PerlinTexture(p, 200, 200);
 		audioTexture = new TextureEQConcentricCircles(200, 200);
-		PGraphics displacementMap = (_isAudio == true) ? audioTexture.texture() : perlinTexture.canvas();
+		PGraphics displacementMap = (_isAudio == true) ? audioTexture.texture() : perlinTexture.texture();
 		
 		// create geometry
 		shape = p.loadShape( FileUtil.getFile("svg/ello-centered.svg"));
@@ -85,7 +85,7 @@ extends PAppletHax {
 			displacementMap = audioTexture.texture();
 		} else {
 			perlinTexture.update(0.01f, 0.1f, P.sin(angle), P.cos(angle));
-			displacementMap = perlinTexture.canvas();
+			displacementMap = perlinTexture.texture();
 		}
 		
 		// read audio data into offscreen texture

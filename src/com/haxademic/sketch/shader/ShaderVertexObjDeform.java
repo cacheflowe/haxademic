@@ -52,7 +52,7 @@ extends PAppletHax {
 		audioTexture = new TextureEQGrid(800, 800);
 		perlinTexture = new PerlinTexture(p, 200, 200);
 		// audioTexture = new TextureEQConcentricCircles(800, 800);
-		PGraphics displacementMap = (_isAudio == true) ? audioTexture.texture() : perlinTexture.canvas();
+		PGraphics displacementMap = (_isAudio == true) ? audioTexture.texture() : perlinTexture.texture();
 		
 		// create geometry
 		if(_is3d == true) {
@@ -93,7 +93,7 @@ extends PAppletHax {
 			displacementMap = audioTexture.texture();
 		} else {
 			perlinTexture.update(0.01f, 0.1f, P.sin(angle), P.cos(angle));
-			displacementMap = perlinTexture.canvas();
+			displacementMap = perlinTexture.texture();
 		}
 
 		// debug audio texture draw

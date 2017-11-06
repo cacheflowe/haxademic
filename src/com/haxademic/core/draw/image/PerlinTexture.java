@@ -1,5 +1,7 @@
 package com.haxademic.core.draw.image;
 
+import com.haxademic.core.app.P;
+
 import processing.core.PApplet;
 import processing.core.PGraphics;
 
@@ -14,10 +16,10 @@ public class PerlinTexture {
 
 	public PerlinTexture(PApplet p, int w, int h) {
 		this.p = p;
-		canvas = p.createGraphics(w, h);
+		canvas = p.createGraphics(w, h, P.P3D);
 	}
 
-	public PGraphics canvas() {
+	public PGraphics texture() {
 		return canvas;
 	}
 

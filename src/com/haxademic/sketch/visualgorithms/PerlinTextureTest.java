@@ -38,6 +38,6 @@ extends PAppletHax {
 	public void drawApp() {
 		p.background(0);
 		_perlinTexture.update(increment, detail, xProgress, yProgress);
-		p.image(_perlinTexture.canvas(), p.width - _perlinTexture.canvas().width, 0);
+		p.image(_perlinTexture.texture(), p.width - _perlinTexture.texture().width, 0);
 	}
 }
