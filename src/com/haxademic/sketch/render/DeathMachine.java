@@ -21,7 +21,7 @@ extends PAppletHax {
 	protected PShape skullMesh;
 	protected PShape gunMesh;
 	protected PImage img;
-	protected PImage flag;
+//	protected PImage flag;
 	protected PGraphics gunTexture;
 	protected TiledTexture gunTilingTexture;
 	protected TextToPShape textToPShape;
@@ -35,9 +35,10 @@ extends PAppletHax {
 	protected void overridePropsFile() {
 		p.appConfig.setProperty( AppSettings.WIDTH, 1280 );
 		p.appConfig.setProperty( AppSettings.HEIGHT, 720 );
-		p.appConfig.setProperty( AppSettings.SMOOTHING, AppSettings.SMOOTH_HIGH );
 		p.appConfig.setProperty( AppSettings.FILLS_SCREEN, false );
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, false );
+		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_START_FRAME, 1 );
+		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, (int)_frames );
 	}
 
 	public void setup() {
@@ -47,7 +48,7 @@ extends PAppletHax {
 	protected void firstFrameSetup() {
 		P.println("America the Indefensible");
 		// load texture
-		flag = p.loadImage(FileUtil.getFile("images/usa.png"));
+//		flag = p.loadImage(FileUtil.getFile("images/usa.png"));
 		img = p.loadImage(FileUtil.getFile("images/las-vegas-victims-nbcnews.png"));
 		gunTexture = p.createGraphics(img.width * 3, img.width * 3, P.P3D);
 		gunTexture.smooth(8);
@@ -131,7 +132,7 @@ extends PAppletHax {
 //		gunTilingTexture.setRotation(p.frameCount * 0.001f);
 		gunTilingTexture.setOffset(percentComplete, percentComplete);
 		float tileScale = 1.0f + 0.5f * P.sin(radsComplete);
-		gunTilingTexture.setSize(tileScale, tileScale);
+		gunTilingTexture.setSize(tileScale, -tileScale);
 		gunTilingTexture.drawCentered(gunTexture, gunTexture.width, gunTexture.height);
 		gunTexture.endDraw();
 
