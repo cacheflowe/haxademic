@@ -32,13 +32,59 @@ attribute vec2 offset;
 
 varying vec4 vertColor;
 
+
+// added:
+uniform mat4 transform;
+uniform mat4 texMatrix;
+uniform mat3 normalMatrix;
+
+uniform sampler2D displacementMap;
+uniform float displaceStrength = 0.;
+uniform float pointSize = 1.;
+uniform float spread = 1.;
+uniform float mixVal = 1.;
+
+attribute vec2 texCoord;
+attribute vec3 normal;
+
+varying vec4 vertTexCoord;
+varying vec3 vertNormal;
+varying vec3 vertLightDir;
+
+
 vec4 windowToClipVector(vec2 window, vec4 viewport, float clipw) {
   vec2 xypos = (window / viewport.zw) * 2.0;
   return vec4(xypos, 0.0, 0.0) * clipw;
 }
 
 void main() {
-  vec4 pos = modelview * vertex;
+  // use point's original position as its uv value
+  vec4 dv = texture2D( displacementMap, vertex.xy ); // rgba color of displacement map
+
+  // calc index of this vertex
+  float totalVerts = 256. * 256.;
+  float x = vertex.x * spread;
+  float y = vertex.y * spread;
+  float vertexIndex = x + y * 256.;
+
+  // copy vertex and adjust components
+  vec4 vertCopy = vertex;
+  vertCopy.y = vertCopy.y * spread;
+  vertCopy.x = vertCopy.x * spread;
+  vertCopy.z = vertCopy.z + displaceStrength * dv.r;
+
+  // try a different way of displacing - spiral?
+  vec4 vertSpiral = vertex;
+  vertSpiral.x = cos(vertexIndex * 0.01) * vertexIndex * 0.01;
+  vertSpiral.y = sin(vertexIndex * 0.01) * vertexIndex * 0.01;
+
+  // animate between layouts
+  vec4 mixedVert = mix(vertCopy, vertSpiral, mixVal);
+
+  // use custom vertex instead of original
+  vec4 pos = modelview * mixedVert;
+  // pos.x = pos.x * 256.;
+  // pos.y = pos.y * 256.;
   // pos.x += sin(pos.y);
   // pos.z = sin(pos.x) * 10.;
   vec4 clip = projection * pos;
@@ -46,24 +92,19 @@ void main() {
   if (0 < perspective) {
     // Perspective correction (points will look thiner as they move away
     // from the view position).
-    gl_Position = clip + projection * vec4(offset.xy, 0, 0);
+    gl_Position = clip + projection * vec4(offset.xy * pointSize, 0, 0);
   } else {
     // No perspective correction.
-    vec4 offset = windowToClipVector(offset.xy, viewport, clip.w);
+    vec4 offset = windowToClipVector(offset.xy * pointSize, viewport, clip.w);
     gl_Position = clip + offset;
   }
 
+
   vertColor = color;
-  vertColor = vec4(vec3(sin(pos.x), sin(pos.y), cos(pos.x)), 1.);
+  vertColor = dv;
+  // vertColor = vec4(sin(vertexIndex * 0.07));
+  // vertColor = vec4(vec3(sin(pos.x), sin(pos.y), cos(pos.x)), 1.);
   // vertColor = vec4(vec3(offset.x + offset.y), 1.);
+  // vertColor = vec4(vec3(1.), 1.);
+
 }
-
-/*
-vertTexCoord = texMatrix * vec4(texCoord, 1.0, 1.0);
-vertColor = color;
-
-vec4 dv = texture2D( displacementMap, vertTexCoord.xy ); // rgba color of displacement map
-float df = 0.30*dv.r + 0.59*dv.g + 0.11*dv.b; // brightness calculation to create displacement float from rgb values
-float offset = 1.0 + displaceStrength * df;
-gl_Position = transform * vec4(vertex.x * offset, vertex.y * offset, vertex.z * offset, 1.0);
-*/
