@@ -12,7 +12,7 @@ import com.haxademic.core.file.DemoAssets;
 import processing.core.PImage;
 import processing.core.PShape;
 
-public class Demo_PShapeSolid_deformMethods 
+public class Demo_PShapeSolid_deformMethods_REFACTOR 
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 

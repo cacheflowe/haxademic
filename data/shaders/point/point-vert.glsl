@@ -42,6 +42,8 @@ uniform sampler2D displacementMap;
 uniform float displaceStrength = 0.;
 uniform float pointSize = 1.;
 uniform float spread = 1.;
+uniform float width = 256.;
+uniform float height = 256.;
 uniform float mixVal = 1.;
 
 attribute vec2 texCoord;
@@ -62,40 +64,46 @@ void main() {
   vec4 dv = texture2D( displacementMap, vertex.xy ); // rgba color of displacement map
 
   // calc index of this vertex
-  float totalVerts = 256. * 256.;
-  float x = vertex.x * spread;
-  float y = vertex.y * spread;
-  float vertexIndex = x + y * 256.;
+  float totalVerts = width * height;
+  float x = vertex.x * width;
+  float y = vertex.y * height;
+  float vertexIndex = x + y * width;
 
   // copy vertex and adjust components
   vec4 vertCopy = vertex;
-  vertCopy.y = vertCopy.y * spread;
-  vertCopy.x = vertCopy.x * spread;
+  float heightSpread = height * spread;
+  float widthSpread = width * spread;
+  vertCopy.y = -heightSpread/2. + vertCopy.y * heightSpread;
+  vertCopy.x = -widthSpread/2. + vertCopy.x * widthSpread;
   vertCopy.z = vertCopy.z + displaceStrength * dv.r;
 
   // try a different way of displacing - spiral?
   vec4 vertSpiral = vertex;
-  vertSpiral.x = cos(vertexIndex * 0.01) * vertexIndex * 0.01;
-  vertSpiral.y = sin(vertexIndex * 0.01) * vertexIndex * 0.01;
+  float pointRads = vertexIndex * 0.01;
+  float pointRadius = vertexIndex * 0.01;
+  vertSpiral.x = cos(pointRads) * pointRadius;
+  vertSpiral.y = sin(pointRads) * pointRadius;
+  vertSpiral.z = vertSpiral.z;// + displaceStrength * dv.r;
 
   // animate between layouts
-  vec4 mixedVert = mix(vertCopy, vertSpiral, mixVal);
+  // float mixValOffset = mixVal + sin(vertexIndex * 0.001);
+  float easedMix = smoothstep(0.1, 0.9, mixVal);
+  vec4 mixedVert = mix(vertCopy, vertSpiral, easedMix);
 
-  // use custom vertex instead of original
+  // custom point size
+  float finalPointSize = pointSize * (1. + (easedMix * (dv.r * 4.)));
+
+  // use custom vertex instead of original (vertex)
   vec4 pos = modelview * mixedVert;
-  // pos.x = pos.x * 256.;
-  // pos.y = pos.y * 256.;
-  // pos.x += sin(pos.y);
-  // pos.z = sin(pos.x) * 10.;
   vec4 clip = projection * pos;
 
   if (0 < perspective) {
     // Perspective correction (points will look thiner as they move away
     // from the view position).
-    gl_Position = clip + projection * vec4(offset.xy * pointSize, 0, 0);
+    gl_Position = clip + projection * vec4(offset.xy * finalPointSize, 0, 0);
   } else {
     // No perspective correction.
-    vec4 offset = windowToClipVector(offset.xy * pointSize, viewport, clip.w);
+    vec4 offset = windowToClipVector(offset.xy * finalPointSize, viewport, clip.w);
     gl_Position = clip + offset;
   }
 
