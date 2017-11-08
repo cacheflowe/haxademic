@@ -19,7 +19,7 @@ import processing.core.PImage;
 import processing.core.PShape;
 import processing.opengl.PShader;
 
-public class Demo_VertexShader_PointsPShapeAndTextureMapDeform_REFACTOR 
+public class Demo_VertexShader_PointsPShapeAndTextureMapDeform 
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
