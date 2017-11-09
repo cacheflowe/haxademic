@@ -1,5 +1,6 @@
 /*
-  Part of the Processing project - http://processing.org
+  Originally part of the Processing project - http://processing.org
+  https://github.com/processing/processing/blob/master/core/src/processing/opengl/shaders/PointFrag.glsl
 
   Copyright (c) 2011-13 Ben Fry and Casey Reas
 
@@ -25,14 +26,6 @@ precision mediump int;
 
 varying vec4 vertColor;
 
-// added:
-// uniform sampler2D texture;
-//
-// varying vec4 vertColor;
-// varying vec4 vertTexCoord;
-
-
 void main() {
   gl_FragColor = vertColor;
-  // gl_FragColor = texture2D(texture, vertTexCoord.st) * vertColor;
 }
