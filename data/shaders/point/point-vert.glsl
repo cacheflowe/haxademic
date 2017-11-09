@@ -54,6 +54,27 @@ varying vec4 vertTexCoord;
 varying vec3 vertNormal;
 varying vec3 vertLightDir;
 
+#define PI radians(180.)
+
+// adapted from http://stackoverflow.com/a/26127012/128511
+// https://www.vertexshaderart.com/art/79HqSrQH4meL63aAo/revision/9c9YN5LwBQKLDa4Aa
+
+vec3 fibonacciSphere(float samples, float i) {
+  float rnd = 1.;
+  float offset = 2. / samples;
+  float increment = PI * (3. - sqrt(5.));
+
+  //  for i in range(samples):
+  float y = ((i * offset) - 1.) + (offset / 2.);
+  float r = sqrt(1. - pow(y ,2.));
+
+  float phi = mod(i + rnd, samples) * increment;
+
+  float x = cos(phi) * r;
+  float z = sin(phi) * r;
+
+  return vec3(x, y, z);
+}
 
 vec4 windowToClipVector(vec2 window, vec4 viewport, float clipw) {
   vec2 xypos = (window / viewport.zw) * 2.0;
@@ -71,12 +92,12 @@ void main() {
   float vertexIndex = x + y * width;
 
   // copy original vertex (0-1) and mult components to fit the defined width/height as a 2d sheet
-  vec4 vertCopy = vertex;
+  vec4 vertGrid = vertex;
   float heightSpread = height * spread;
   float widthSpread = width * spread;
-  vertCopy.y = -heightSpread/2. + vertCopy.y * heightSpread;
-  vertCopy.x = -widthSpread/2. + vertCopy.x * widthSpread;
-  vertCopy.z = vertCopy.z + displaceStrength * textureColor.r;
+  vertGrid.y = -heightSpread/2. + vertGrid.y * heightSpread;
+  vertGrid.x = -widthSpread/2. + vertGrid.x * widthSpread;
+  vertGrid.z = vertGrid.z + displaceStrength * textureColor.r;
 
   // try a different way of displacing - spiral?
   vec4 vertSpiral = vertex;
@@ -86,9 +107,14 @@ void main() {
   vertSpiral.y = sin(pointRads) * pointRadius;
   vertSpiral.z = vertSpiral.z; // + displaceStrength * textureColor.r;
 
+  // or a sphere :-D
+  vec4 vertSphere = vec4(fibonacciSphere(totalVerts, vertexIndex) * height * 0.5 * textureColor.r, vertex.a);
+  vertSphere.z = vertSphere.z * 0.2; // squish it - how do we get the camera to see more depth?
+
   // animate between layouts
   float easedMix = smoothstep(0.1, 0.9, mixVal);
-  vec4 mixedVert = mix(vertCopy, vertSpiral, easedMix);
+  // vec4 mixedVert = mix(vertGrid, vertSpiral, easedMix);
+  vec4 mixedVert = mix(vertSphere, vertSpiral, easedMix);
 
   // custom point size - use color to grow point
   float finalPointSize = pointSize * (1. + (easedMix * (textureColor.r * 4.)));
