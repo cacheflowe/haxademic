@@ -1,5 +1,6 @@
 /*
-  Part of the Processing project - http://processing.org
+  Originally part of the Processing project - http://processing.org
+  https://github.com/processing/processing/blob/master/core/src/processing/opengl/shaders/PointVert.glsl
 
   Copyright (c) 2011-13 Ben Fry and Casey Reas
 
@@ -93,10 +94,12 @@ void main() {
   // custom point size
   float finalPointSize = pointSize * (1. + (easedMix * (dv.r * 4.)));
 
-  // use custom vertex instead of original (vertex)
+  // use custom vertex instead of Processing default (`vertex` uniform)
+  // Processing default shader positioning:
   vec4 pos = modelview * mixedVert;
   vec4 clip = projection * pos;
 
+  // Processing default shader positioning:
   if (0 < perspective) {
     // Perspective correction (points will look thiner as they move away
     // from the view position).
@@ -107,12 +110,9 @@ void main() {
     gl_Position = clip + offset;
   }
 
+  // use original vertex color
+  // vertColor = color;
 
-  vertColor = color;
+  // use texture-mapped color
   vertColor = dv;
-  // vertColor = vec4(sin(vertexIndex * 0.07));
-  // vertColor = vec4(vec3(sin(pos.x), sin(pos.y), cos(pos.x)), 1.);
-  // vertColor = vec4(vec3(offset.x + offset.y), 1.);
-  // vertColor = vec4(vec3(1.), 1.);
-
 }
