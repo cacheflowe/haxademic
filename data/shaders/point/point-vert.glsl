@@ -61,22 +61,22 @@ vec4 windowToClipVector(vec2 window, vec4 viewport, float clipw) {
 }
 
 void main() {
-  // use point's original position as its uv value
-  vec4 dv = texture2D( displacementMap, vertex.xy ); // rgba color of displacement map
+  // use point's original position (0-1) as its uv value
+  vec4 textureColor = texture2D( displacementMap, vertex.xy ); // rgba color of displacement map
 
-  // calc index of this vertex
+  // calc index of this vertex for positioning use
   float totalVerts = width * height;
   float x = vertex.x * width;
   float y = vertex.y * height;
   float vertexIndex = x + y * width;
 
-  // copy vertex and adjust components
+  // copy original vertex (0-1) and mult components to fit the defined width/height as a 2d sheet
   vec4 vertCopy = vertex;
   float heightSpread = height * spread;
   float widthSpread = width * spread;
   vertCopy.y = -heightSpread/2. + vertCopy.y * heightSpread;
   vertCopy.x = -widthSpread/2. + vertCopy.x * widthSpread;
-  vertCopy.z = vertCopy.z + displaceStrength * dv.r;
+  vertCopy.z = vertCopy.z + displaceStrength * textureColor.r;
 
   // try a different way of displacing - spiral?
   vec4 vertSpiral = vertex;
@@ -84,15 +84,14 @@ void main() {
   float pointRadius = vertexIndex * 0.01;
   vertSpiral.x = cos(pointRads) * pointRadius;
   vertSpiral.y = sin(pointRads) * pointRadius;
-  vertSpiral.z = vertSpiral.z;// + displaceStrength * dv.r;
+  vertSpiral.z = vertSpiral.z; // + displaceStrength * textureColor.r;
 
   // animate between layouts
-  // float mixValOffset = mixVal + sin(vertexIndex * 0.001);
   float easedMix = smoothstep(0.1, 0.9, mixVal);
   vec4 mixedVert = mix(vertCopy, vertSpiral, easedMix);
 
-  // custom point size
-  float finalPointSize = pointSize * (1. + (easedMix * (dv.r * 4.)));
+  // custom point size - use color to grow point
+  float finalPointSize = pointSize * (1. + (easedMix * (textureColor.r * 4.)));
 
   // use custom vertex instead of Processing default (`vertex` uniform)
   // Processing default shader positioning:
@@ -112,7 +111,6 @@ void main() {
 
   // use original vertex color
   // vertColor = color;
-
-  // use texture-mapped color
-  vertColor = dv;
+  // or instead, use texture-mapped color :)
+  vertColor = textureColor;
 }
