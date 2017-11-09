@@ -9,12 +9,22 @@ import javax.swing.Timer;
 
 public class AppStore {
 	
+	public static AppStore instance;
+	
 	protected HashMap<String, Number> store;
+	protected HashMap<String, String> stringStore;
 	protected ArrayList<IAppStoreUpdatable> updatables;
 
 	public AppStore() {
 		store = new HashMap<String, Number>();
+		stringStore = new HashMap<String, String>();
 		updatables = new ArrayList<IAppStoreUpdatable>();
+	}
+	
+	public static AppStore instance() {
+		if(instance != null) return instance;
+		instance = new AppStore();
+		return instance;
 	}
 	
 	public void registerStatable(IAppStoreUpdatable obj) {
@@ -23,6 +33,13 @@ public class AppStore {
 	
 	public void setValue(String storeKey, Number val) {
 		store.put(storeKey, val);
+		for (IAppStoreUpdatable obj : updatables) {
+			obj.updatedAppStoreValue(storeKey, val);
+		}
+	}
+	
+	public void setValue(String storeKey, String val) {
+		stringStore.put(storeKey, val);
 		for (IAppStoreUpdatable obj : updatables) {
 			obj.updatedAppStoreValue(storeKey, val);
 		}
@@ -42,6 +59,10 @@ public class AppStore {
 		return store.get(storeKey);
 	}
 
+	public String getValueS(String storeKey) {
+		return stringStore.get(storeKey);
+	}
+	
 	public float getValueF(String storeKey) {
 		return store.get(storeKey).floatValue();
 	}

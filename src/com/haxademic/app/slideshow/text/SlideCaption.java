@@ -97,4 +97,10 @@ implements IAppStoreUpdatable {
 			}
 		}		
 	}
+
+	@Override
+	public void updatedAppStoreValue(String key, String val) {
+		// TODO Auto-generated method stub
+		
+	}
 }

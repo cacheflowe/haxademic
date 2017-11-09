@@ -508,4 +508,10 @@ implements IAppStoreUpdatable {
 		else if(appIndex >= slideIndex + waitsFrames && waitsFrames != 0 && isShowing() == true) setState(SlideState.FADE_OUT);
 		else if(appIndex < slideIndex && (isShowing() == true || state == SlideState.QUEUED)) setState(SlideState.REMOVE);
 	}
+
+	@Override
+	public void updatedAppStoreValue(String key, String val) {
+		// TODO Auto-generated method stub
+		
+	}
 }
