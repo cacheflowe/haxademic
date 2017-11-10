@@ -37,7 +37,7 @@ extends PAppletHax {
 		p.rect(0, 0, P.map(sliderVal, 0, 1, 0, p.width), p.height);
 	}
 	
-	// Example 
+	// Example custom web server responder
 	
 	public class CustomWebRequestHandler extends WebServerRequestHandler {
 		

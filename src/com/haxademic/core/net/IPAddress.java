@@ -17,4 +17,16 @@ public class IPAddress {
 		return localAddress;
 	}
 	
+	public static String getIP() {
+		String localAddress = "";
+		InetAddress addr;
+		try {
+			addr = InetAddress.getLocalHost();
+			localAddress = addr.getHostAddress();
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		}
+		return localAddress;
+	}
+	
 }

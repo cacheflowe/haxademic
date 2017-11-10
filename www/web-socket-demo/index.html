@@ -1,0 +1,125 @@
+<html>
+<head>
+  <title>WebSocket Test</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      transition: all 0.2s ease;
+      font-family: 'Avenir-Heavy', Helvetica, sans-serif;
+    }
+    #debug {
+      padding: 20px;
+      padding-top: 200px;
+    }
+    #debug > div {
+      white-space: nowrap;
+    }
+    #send-messages {
+      position: fixed;
+      top: 0;
+      left: 0;
+      background: #999;
+      padding: 20px;
+    }
+    #send-messages > button {
+      white-space: nowrap;
+      padding: 8px 4px;
+      margin-bottom: 8px;
+      color: #fff;
+      border: 1px solid rgba(0,0,0,0.8);
+      border-radius: 2px;
+    }
+  </style>
+</head>
+<body>
+  <div id="debug">
+    <div>Debug:</div>
+  </div>
+  <div id="send-messages">
+    <div>Send a test message:</div>
+    <button style="background-color: #36B1BF;" onclick='javascript:sendJsonData({"service":"process","command":"room_active"});'>process: room_active</button>
+    <button style="background-color: #36B1BF;" onclick='javascript:sendJsonData({"service":"process","command":"room_inactive"});'>process: room_inactive</button>
+    <button style="background-color: #36B1BF;" onclick='javascript:sendJsonData({"service":"process","command":"user_capture_active"});'>process: user_capture_active</button>
+    <button style="background-color: #36B1BF;" onclick='javascript:sendJsonData({"service":"process","command":"user_capture_inactive"});'>process: user_capture_inactive</button>
+    <button style="background-color: #36B1BF;" onclick='javascript:sendJsonData({"service":"process","command":"capture"});'>process: capture</button>
+    <button style="background-color: #36B1BF;" onclick='javascript:sendJsonData({"service":"process","command":"countdown_tick", "data":"3"});'>process: countdown_tick</button>
+    <button style="background-color: #36B1BF;" onclick='javascript:sendJsonData({"service":"process","command":"countdown_canceled"});'>process: countdown_canceled</button>
+    <button style="background-color: #D95E32;" onclick='javascript:sendJsonData({"service":"start","command":"shoe_selected","shoe":"shoe-02"});'>start: shoe_selected</button>
+    <button style="background-color: #304200;" onclick='javascript:sendJsonData({"service":"capture","command":"busy"});'>capture: busy</button>
+    <button style="background-color: #859C94;" onclick='javascript:sendJsonData({"service":"server","command":"complete_processing_images"});'>server: complete_processing_images</button>
+    <button style="background-color: #859C94;" onclick='javascript:sendJsonData({"service":"server","command":"complete_user_video"});'>server: complete_user_video</button>
+    <button style="background-color: #859C94;" onclick='javascript:sendJsonData({"service":"server","command":"video_ready","gif":"/tmp/gif/final.gif"});'>server: video_ready</button>
+    <button style="background-color: #1E1615;" onclick='javascript:sendJsonData({"service":"finish","command":"email_entered","address":"matt.wiggins@gmail.com"});'>finish: email_entered</button>
+    <button style="background-color: #D95E32;" onclick='javascript:sendJsonData({"service":"start","command":"reset"});'>start: reset</button>
+  </div>
+  <script type="text/javascript" src="./solid-socket.js"></script>
+  <script type="text/javascript">
+    // globals
+    var debug = document.getElementById('debug');
+    var MAX_LOGS = 100;
+
+    /////////////////////
+    // connected
+    /////////////////////
+    var onopen = function (event) {
+      solidSocket.socket().send(JSON.stringify({
+        type: "setup",
+        text: "Debug browser connected",
+        date: ""+Date.now()
+      }));
+    };
+    /////////////////////
+    // receive
+    /////////////////////
+    var onmessage = function (event) {
+      if(!event.data) return;
+      var jsonData = window.JSON.parse(event.data);
+
+      // add event to screen
+      var div = document.createElement('div');
+      div.innerHTML = event.data;
+      // start, capture, finish, process, server
+      if(jsonData.service != null) {
+        if(jsonData.service == 'start') div.style.backgroundColor = "#D95E32";
+        if(jsonData.service == 'capture') div.style.backgroundColor = "#304200";
+        if(jsonData.service == 'finish') div.style.backgroundColor = "#1E1615";
+        if(jsonData.service == 'process') div.style.backgroundColor = "#36B1BF";
+        if(jsonData.service == 'server') div.style.backgroundColor = "#859C94";
+        div.style.color = '#ffffff';
+        div.style.padding = '2px 10px';
+      } else {
+        div.style.fontSize = '10px';
+      }
+      document.getElementById('debug').appendChild(div);
+      // cut off log length
+      while(debug.childNodes.length > MAX_LOGS) {
+        var el = debug.childNodes[0];
+        el.parentNode.removeChild(el);
+      }
+      // scroll to bottom of screen
+      window.scrollTo(0,debug.clientHeight);
+    };
+    var solidSocket = new SolidWebsocket("ws://"+document.location.hostname+":8887", onopen, onmessage, null, null);
+
+    /////////////////////
+    // send
+    /////////////////////
+    var sendJsonData = function (data) {
+      solidSocket.socket().send(JSON.stringify(data));
+    };
+    // document.body.addEventListener('click', function(e) {
+    //   solidSocket.socket().send(JSON.stringify({
+    //     type: "web-input",
+    //     text: 'click'
+    //   }));
+    // })
+    // document.body.addEventListener('touchend', function(e) {
+    //   solidSocket.socket().send(JSON.stringify({
+    //     type: "mobile-input",
+    //     text: 'click'
+    //   }));
+    // })
+  </script>
+</body>
+</html>
