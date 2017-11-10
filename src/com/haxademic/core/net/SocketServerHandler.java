@@ -26,13 +26,14 @@ public class SocketServerHandler extends WebSocketServer {
 	
 	@Override
 	public void onOpen( WebSocket conn, ClientHandshake handshake ) {
-		if(SocketServer.FORWARDS_ALL_MESSAGES) this.sendToAll( "{\"message\":\"new connection: " + handshake.getResourceDescriptor()+"\"}" );
+		// handshake.getResourceDescriptor()
+		if(SocketServer.FORWARDS_ALL_MESSAGES) this.sendToAll( "{\"message\":\"new connection: " + connAddress(conn) + " has entered the room.\"}" );
 		if(SocketServer.DEBUG == true) P.println( connAddress(conn) + " entered the room!" );
 	}
 	
 	@Override
 	public void onClose( WebSocket conn, int code, String reason, boolean remote ) {
-		if(SocketServer.FORWARDS_ALL_MESSAGES) this.sendToAll( "{\"message\":\"" + connAddress(conn) + " has left the room!\"}" );
+		if(SocketServer.FORWARDS_ALL_MESSAGES) this.sendToAll( "{\"message\":\"" + connAddress(conn) + " has left the room.\"}" );
 		if(SocketServer.DEBUG == true) P.println( connAddress(conn) + " has left the room!" );
 	}
 	

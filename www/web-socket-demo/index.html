@@ -40,17 +40,6 @@
     <div>Send a test message:</div>
     <button style="background-color: #36B1BF;" onclick='javascript:sendJsonData({"service":"process","command":"room_active"});'>process: room_active</button>
     <button style="background-color: #36B1BF;" onclick='javascript:sendJsonData({"service":"process","command":"room_inactive"});'>process: room_inactive</button>
-    <button style="background-color: #36B1BF;" onclick='javascript:sendJsonData({"service":"process","command":"user_capture_active"});'>process: user_capture_active</button>
-    <button style="background-color: #36B1BF;" onclick='javascript:sendJsonData({"service":"process","command":"user_capture_inactive"});'>process: user_capture_inactive</button>
-    <button style="background-color: #36B1BF;" onclick='javascript:sendJsonData({"service":"process","command":"capture"});'>process: capture</button>
-    <button style="background-color: #36B1BF;" onclick='javascript:sendJsonData({"service":"process","command":"countdown_tick", "data":"3"});'>process: countdown_tick</button>
-    <button style="background-color: #36B1BF;" onclick='javascript:sendJsonData({"service":"process","command":"countdown_canceled"});'>process: countdown_canceled</button>
-    <button style="background-color: #D95E32;" onclick='javascript:sendJsonData({"service":"start","command":"shoe_selected","shoe":"shoe-02"});'>start: shoe_selected</button>
-    <button style="background-color: #304200;" onclick='javascript:sendJsonData({"service":"capture","command":"busy"});'>capture: busy</button>
-    <button style="background-color: #859C94;" onclick='javascript:sendJsonData({"service":"server","command":"complete_processing_images"});'>server: complete_processing_images</button>
-    <button style="background-color: #859C94;" onclick='javascript:sendJsonData({"service":"server","command":"complete_user_video"});'>server: complete_user_video</button>
-    <button style="background-color: #859C94;" onclick='javascript:sendJsonData({"service":"server","command":"video_ready","gif":"/tmp/gif/final.gif"});'>server: video_ready</button>
-    <button style="background-color: #1E1615;" onclick='javascript:sendJsonData({"service":"finish","command":"email_entered","address":"matt.wiggins@gmail.com"});'>finish: email_entered</button>
     <button style="background-color: #D95E32;" onclick='javascript:sendJsonData({"service":"start","command":"reset"});'>start: reset</button>
   </div>
   <script type="text/javascript" src="./solid-socket.js"></script>
@@ -82,10 +71,7 @@
       // start, capture, finish, process, server
       if(jsonData.service != null) {
         if(jsonData.service == 'start') div.style.backgroundColor = "#D95E32";
-        if(jsonData.service == 'capture') div.style.backgroundColor = "#304200";
-        if(jsonData.service == 'finish') div.style.backgroundColor = "#1E1615";
         if(jsonData.service == 'process') div.style.backgroundColor = "#36B1BF";
-        if(jsonData.service == 'server') div.style.backgroundColor = "#859C94";
         div.style.color = '#ffffff';
         div.style.padding = '2px 10px';
       } else {
@@ -108,18 +94,6 @@
     var sendJsonData = function (data) {
       solidSocket.socket().send(JSON.stringify(data));
     };
-    // document.body.addEventListener('click', function(e) {
-    //   solidSocket.socket().send(JSON.stringify({
-    //     type: "web-input",
-    //     text: 'click'
-    //   }));
-    // })
-    // document.body.addEventListener('touchend', function(e) {
-    //   solidSocket.socket().send(JSON.stringify({
-    //     type: "mobile-input",
-    //     text: 'click'
-    //   }));
-    // })
   </script>
 </body>
 </html>
