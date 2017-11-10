@@ -55,6 +55,7 @@ varying vec3 vertNormal;
 varying vec3 vertLightDir;
 
 #define PI radians(180.)
+#define TWO_PI radians(360.)
 
 // adapted from http://stackoverflow.com/a/26127012/128511
 // https://www.vertexshaderart.com/art/79HqSrQH4meL63aAo/revision/9c9YN5LwBQKLDa4Aa
@@ -102,10 +103,18 @@ void main() {
   // try a different way of displacing - spiral?
   vec4 vertSpiral = vertex;
   float pointRads = vertexIndex * 0.01;
-  float pointRadius = vertexIndex * 0.01;
+  float pointRadius = vertexIndex * 0.001;
   vertSpiral.x = cos(pointRads) * pointRadius;
   vertSpiral.y = sin(pointRads) * pointRadius;
   vertSpiral.z = vertSpiral.z; // + displaceStrength * textureColor.r;
+
+  // try a different way of displacing - spiral?
+  vec4 vertPolar = vertex;
+  float polarRads = vertex.x * TWO_PI;
+  float polarRadius = vertex.y * height;
+  vertPolar.x = cos(polarRads) * polarRadius;
+  vertPolar.y = sin(polarRads) * polarRadius;
+  vertPolar.z = vertPolar.z + displaceStrength * textureColor.r;
 
   // or a sphere :-D
   vec4 vertSphere = vec4(fibonacciSphere(totalVerts, vertexIndex) * height * 0.5 * textureColor.r, vertex.a);
@@ -114,7 +123,8 @@ void main() {
   // animate between layouts
   float easedMix = smoothstep(0.1, 0.9, mixVal);
   // vec4 mixedVert = mix(vertGrid, vertSpiral, easedMix);
-  vec4 mixedVert = mix(vertSphere, vertSpiral, easedMix);
+  vec4 mixedVert = mix(vertPolar, vertGrid, easedMix);
+  // vec4 mixedVert = mix(vertSphere, vertSpiral, easedMix);
 
   // custom point size - use color to grow point
   float finalPointSize = pointSize * (1. + (easedMix * (textureColor.r * 4.)));
