@@ -31,7 +31,7 @@ extends PAppletHax {
 	
 	public void drawApp() {
 		background(0);
-		if(p.frameCount == 200) SystemUtil.openWebPage("http://localhost:8080/web-server-demo/index.html");
+		if(p.frameCount == 200) SystemUtil.openWebPage("http://localhost:8080/web-server-demo/");
 		// draw slider val
 		p.fill(255);
 		p.rect(0, 0, P.map(sliderVal, 0, 1, 0, p.width), p.height);
