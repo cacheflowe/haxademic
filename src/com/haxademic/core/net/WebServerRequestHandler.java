@@ -51,22 +51,32 @@ public class WebServerRequestHandler extends AbstractHandler
 		if(FileUtil.fileExists(fileCheck)) {
 			if(WebServer.DEBUG == true) P.println("Found static file:", fileCheck);
 			// RETURN STATIC HTML/TEXT FILES
-			if(fileCheck.indexOf(".html") != -1 || fileCheck.indexOf(".css") != -1 || fileCheck.indexOf(".js") != -1) {
+			if(fileCheck.indexOf(".html") != -1 || fileCheck.indexOf(".css") != -1 || fileCheck.indexOf(".js") != -1 || fileCheck.indexOf(".svg") != -1) {
 				String fileContents = new String(Files.readAllBytes(Paths.get(fileCheck)));
+				if(fileCheck.indexOf(".css") != -1) response.setContentType("text/css");
+				if(fileCheck.indexOf(".js") != -1) response.setContentType("application/javascript");
+				if(fileCheck.indexOf(".html") != -1) response.setContentType("text/html");
+				if(fileCheck.indexOf(".svg") != -1) response.setContentType("image/svg+xml");
 				response.getWriter().println(fileContents);
-				// RETURN STATIC PNG FILES
+			// RETURN TTF/OTF FILES
+			} else if(fileCheck.indexOf(".ttf") != -1 || fileCheck.indexOf(".otf") != -1) {
+				Path path = Paths.get(fileCheck);
+				byte[] binaryData = Files.readAllBytes(path);
+				response.setContentType("application/font-sfnt");
+				response.getOutputStream().write(binaryData);
+			// RETURN STATIC PNG FILES
 			} else if(fileCheck.indexOf(".png") != -1) {
 				Path path = Paths.get(fileCheck);
 				byte[] imageData = Files.readAllBytes(path);
 				response.setContentType("image/png");
 				response.getOutputStream().write(imageData);
-				// RETURN STATIC JPG FILES
+			// RETURN STATIC JPG FILES
 			} else if(fileCheck.indexOf(".jpg") != -1) {
 				Path path = Paths.get(fileCheck);
 				byte[] imageData = Files.readAllBytes(path);
 				response.setContentType("image/jpeg");
 				response.getOutputStream().write(imageData);
-				// RETURN STATIC TGA FILES
+			// RETURN STATIC TGA FILES
 			} else if(fileCheck.indexOf(".tga") != -1) {
 				Path path = Paths.get(fileCheck);
 				byte[] imageData = Files.readAllBytes(path);

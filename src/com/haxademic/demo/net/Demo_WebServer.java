@@ -31,7 +31,7 @@ extends PAppletHax {
 	
 	public void drawApp() {
 		background(0);
-		if(p.frameCount == 200) SystemUtil.openWebPage("http://localhost:8080/web-server-demo/");
+		if(p.frameCount == 200) SystemUtil.openWebPage(WebServer.getServerAddress() + "web-server-demo/");
 		// draw slider val
 		p.fill(255);
 		p.rect(0, 0, P.map(sliderVal, 0, 1, 0, p.width), p.height);
@@ -41,6 +41,12 @@ extends PAppletHax {
 	
 	public class CustomWebRequestHandler extends WebServerRequestHandler {
 		
+		protected PAppletHax delegate;
+		
+		public void setDelegate(PAppletHax delegate) {
+			this.delegate = delegate;
+		}
+
 		@Override
 		protected String handleCustomPaths(String path, String[] pathComponents) {
 			P.println("CustomWebRequestHandler path:", path);

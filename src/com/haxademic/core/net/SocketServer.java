@@ -12,7 +12,7 @@ import com.haxademic.core.app.P;
 public class SocketServer {
 	
 	public static boolean DEBUG = false;
-	public static int PORT = 8887;
+	public static int PORT = 3001;
 	public static boolean FORWARDS_ALL_MESSAGES = true;
 
 	SocketServerHandler server;

@@ -106,5 +106,11 @@ extends PAppletHax {
 				}
 			}
 		}
+
+		@Override
+		public void onStart() {
+			// TODO Auto-generated method stub
+			
+		}
 	}
 }

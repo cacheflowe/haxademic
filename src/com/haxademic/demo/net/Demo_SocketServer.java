@@ -8,7 +8,6 @@ import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.net.IPAddress;
 import com.haxademic.core.net.SocketServer;
 import com.haxademic.core.net.SocketServerHandler;
-import com.haxademic.core.system.SystemUtil;
 
 public class Demo_SocketServer
 extends PAppletHax {
@@ -28,6 +27,7 @@ extends PAppletHax {
 	
 	protected void buildSocketServer() {
 		try {
+			// SocketServer.PORT = 3000;
 			server = new SocketServer(new CustomSocketHandler(SocketServer.PORT), true);
 			p.debugView.setValue("WS Server", "ws://" + IPAddress.getIP() + ":" + SocketServer.PORT);
 		} catch (UnknownHostException e) {
@@ -46,10 +46,16 @@ extends PAppletHax {
 
 	public class CustomSocketHandler extends SocketServerHandler {
 
+		protected PAppletHax delegate;
+		
 		public CustomSocketHandler(int port) throws UnknownHostException {
 			super(port);
 		}
 
+		public void setDelegate(PAppletHax delegate) {
+			this.delegate = delegate;
+		}
+		
 		protected void receiveMessage(String message) {
 			P.println("CustomSocketHandler.receiveMessage() : ", message);
 		}

@@ -72,4 +72,10 @@ public class SocketServerHandler extends WebSocketServer {
 			}
 		}
 	}
+
+	@Override
+	public void onStart() {
+		// TODO Auto-generated method stub
+		
+	}
 }
