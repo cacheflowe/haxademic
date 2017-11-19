@@ -21,27 +21,40 @@ public class SocketServerHandler extends WebSocketServer {
 	}
 	
 	protected String connAddress(WebSocket conn) {
-		return conn.getRemoteSocketAddress().getHostName();
+		if(conn != null && conn.getRemoteSocketAddress() != null && conn.getRemoteSocketAddress().getHostName() != null) {
+			return conn.getRemoteSocketAddress().getHostName();
+		} else {
+			return "Error: no connAddress";
+		}
 	}
 	
 	@Override
 	public void onOpen( WebSocket conn, ClientHandshake handshake ) {
 		// handshake.getResourceDescriptor()
-		if(SocketServer.FORWARDS_ALL_MESSAGES) this.sendToAll( "{\"message\":\"new connection: " + connAddress(conn) + " has entered the room.\"}" );
-		if(SocketServer.DEBUG == true) P.println( connAddress(conn) + " entered the room!" );
+		if(conn != null) {
+			if(SocketServer.FORWARDS_ALL_MESSAGES) this.sendToAll( "{\"message\":\"new connection: " + connAddress(conn) + " has entered the room.\"}" );
+			if(SocketServer.DEBUG == true) {
+				P.println( connAddress(conn) + " entered the room!" );
+				P.println("Connections: "+connections().size());
+			}
+		}
 	}
 	
 	@Override
 	public void onClose( WebSocket conn, int code, String reason, boolean remote ) {
-		if(SocketServer.FORWARDS_ALL_MESSAGES) this.sendToAll( "{\"message\":\"" + connAddress(conn) + " has left the room.\"}" );
-		if(SocketServer.DEBUG == true) P.println( connAddress(conn) + " has left the room!" );
+		if(conn != null) {
+			if(SocketServer.FORWARDS_ALL_MESSAGES) this.sendToAll( "{\"message\":\"" + connAddress(conn) + " has left the room.\"}" );
+			if(SocketServer.DEBUG == true) P.println( connAddress(conn) + " has left the room!" );
+		}
 	}
 	
 	@Override
 	public void onMessage( WebSocket conn, String message ) {
-		if(SocketServer.FORWARDS_ALL_MESSAGES) this.sendToAll( message );
-		receiveMessage( message );
-		if(SocketServer.DEBUG == true) P.println( connAddress(conn) + ": " + message );
+		if(conn != null) {
+			if(SocketServer.FORWARDS_ALL_MESSAGES) this.sendToAll( message );
+			receiveMessage( message );
+			if(SocketServer.DEBUG == true) P.println( connAddress(conn) + ": " + message );
+		}
 	}
 	
 	@Override
@@ -68,7 +81,9 @@ public class SocketServerHandler extends WebSocketServer {
 		Collection<WebSocket> con = connections();
 		synchronized ( con ) {
 			for( WebSocket c : con ) {
-				c.send( text );
+				if(c.isOpen()) {
+					c.send( text );
+				}
 			}
 		}
 	}
