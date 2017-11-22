@@ -5,12 +5,19 @@
     body {
       margin: 0;
       padding: 0;
+      opacity: 0.5;
       transition: all 0.2s ease;
       font-family: 'Avenir-Heavy', Helvetica, sans-serif;
     }
+    body.has-socket {
+      opacity: 1;
+    }
+    body.no-socket {
+      background: #ff0000;
+    }
     #debug {
       padding: 20px;
-      padding-top: 200px;
+      padding-top: 120px;
     }
     #debug > div {
       white-space: nowrap;
@@ -38,62 +45,76 @@
   </div>
   <div id="send-messages">
     <div>Send a test message:</div>
-    <button style="background-color: #36B1BF;" onclick='javascript:sendJsonData({"service":"process","command":"room_active"});'>process: room_active</button>
-    <button style="background-color: #36B1BF;" onclick='javascript:sendJsonData({"service":"process","command":"room_inactive"});'>process: room_inactive</button>
-    <button style="background-color: #D95E32;" onclick='javascript:sendJsonData({"service":"start","command":"reset"});'>start: reset</button>
+    <button style="background-color: #36B1BF;" onclick='javascript:sendJsonData({"event":"web-event","command":"start"});'>Web Event: Start</button>
+    <button style="background-color: #D95E32;" onclick='javascript:sendJsonData({"event":"web-event","command":"stop"});'>Web Event: Stop</button>
   </div>
   <script type="text/javascript" src="./solid-socket.js"></script>
+  <script type="text/javascript" src="./socket-monitor.js"></script>
   <script type="text/javascript">
     // globals
     var debug = document.getElementById('debug');
-    var MAX_LOGS = 100;
+    var MAX_LOGS = 20;
 
-    /////////////////////
-    // connected
-    /////////////////////
+    //////////////////////////
+    // WEBSOCKET SETUP
+    //////////////////////////
+
     var onopen = function (event) {
-      solidSocket.socket().send(JSON.stringify({
-        type: "setup",
-        text: "Debug browser connected",
+      solidSocket.sendMessage(JSON.stringify({
+        event: "connect",
+        machine: "products-ipad",
         date: ""+Date.now()
       }));
     };
-    /////////////////////
-    // receive
-    /////////////////////
+
     var onmessage = function (event) {
       if(!event.data) return;
       var jsonData = window.JSON.parse(event.data);
-
-      // add event to screen
-      var div = document.createElement('div');
-      div.innerHTML = event.data;
-      // start, capture, finish, process, server
-      if(jsonData.service != null) {
-        if(jsonData.service == 'start') div.style.backgroundColor = "#D95E32";
-        if(jsonData.service == 'process') div.style.backgroundColor = "#36B1BF";
-        div.style.color = '#ffffff';
-        div.style.padding = '2px 10px';
-      } else {
-        div.style.fontSize = '10px';
-      }
-      document.getElementById('debug').appendChild(div);
-      // cut off log length
-      while(debug.childNodes.length > MAX_LOGS) {
-        var el = debug.childNodes[0];
-        el.parentNode.removeChild(el);
-      }
-      // scroll to bottom of screen
-      window.scrollTo(0,debug.clientHeight);
+      checkJSON(jsonData);
     };
-    var solidSocket = new SolidWebsocket("ws://"+document.location.hostname+":3001", onopen, onmessage, null, null);
 
-    /////////////////////
-    // send
-    /////////////////////
+    var solidSocket = new SolidSocket("ws://"+document.location.hostname+":3001");
+    solidSocket.setOpenCallback(onopen);
+    solidSocket.setMessageCallback(onmessage);
+
     var sendJsonData = function (data) {
-      solidSocket.socket().send(JSON.stringify(data));
+      solidSocket.sendMessage(JSON.stringify(data));
     };
+
+    //////////////////////////
+    // WEBSOCKET INCOMING EVENTS
+    //////////////////////////
+
+    function checkJSON(jsonData) {
+      // check for specific message data
+      if(jsonData['event'] && jsonData['event'] == 'frame-count') {
+        // add event to screen
+        var div = document.createElement('div');
+        div.innerHTML = event.data;
+        document.getElementById('debug').appendChild(div);
+      }
+      if(jsonData['event'] && jsonData['event'] == 'web-event') {
+        var div = document.createElement('div');
+        div.innerHTML = event.data;
+        // start, capture, finish, process, server
+        if(jsonData['command'] != null) {
+          if(jsonData['command'] == 'start') div.style.backgroundColor = "#D95E32";
+          if(jsonData['command'] == 'stop') div.style.backgroundColor = "#36B1BF";
+          div.style.color = '#ffffff';
+          div.style.padding = '2px 10px';
+        } else {
+          div.style.fontSize = '10px';
+        }
+        // add event to screen
+        document.getElementById('debug').appendChild(div);
+        // cut off log length
+        while(debug.childNodes.length > MAX_LOGS) {
+          var el = debug.childNodes[0];
+          el.parentNode.removeChild(el);
+        }
+      }
+    }
+
   </script>
 </body>
 </html>

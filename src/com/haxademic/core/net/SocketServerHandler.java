@@ -20,12 +20,13 @@ public class SocketServerHandler extends WebSocketServer {
 		super( address );
 	}
 	
+	protected static final String connAddressError = "Error: no connAddress"; 
 	protected String connAddress(WebSocket conn) {
-		if(conn != null && conn.getRemoteSocketAddress() != null && conn.getRemoteSocketAddress().getHostName() != null) {
-			return conn.getRemoteSocketAddress().getHostName();
-		} else {
-			return "Error: no connAddress";
-		}
+		if(conn == null) return connAddressError;
+		if(conn.getRemoteSocketAddress() == null) return connAddressError;
+		if(conn.isClosed()) return connAddressError;
+		if(conn.getRemoteSocketAddress().getHostName() == null) return connAddressError;
+		return conn.getRemoteSocketAddress().getHostName();
 	}
 	
 	@Override
@@ -81,7 +82,7 @@ public class SocketServerHandler extends WebSocketServer {
 		Collection<WebSocket> con = connections();
 		synchronized ( con ) {
 			for( WebSocket c : con ) {
-				if(c.isOpen()) {
+				if(c != null && c.isOpen() == true && c.isClosed() == false && c.isClosing() == false) {
 					c.send( text );
 				}
 			}
