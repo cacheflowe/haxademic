@@ -37,7 +37,6 @@
 	<classpathentry kind="lib" path="lib/poly2tri/slf4j-api-1.6.3.jar"/>
 	<classpathentry kind="lib" path="lib/udp/library/udp.jar"/>
 	<classpathentry kind="lib" path="lib/processing-2.0/libraries/dxf/library/dxf.jar"/>
-	<classpathentry kind="lib" path="lib/java_websocket/dist/java_websocket.jar"/>
 	<classpathentry kind="lib" path="lib/processing-3/core/library/core.jar"/>
 	<classpathentry kind="lib" path="lib/processing-3/core/library/gluegen-rt.jar"/>
 	<classpathentry kind="lib" path="lib/processing-3/core/library/jogl-all.jar"/>
@@ -58,7 +57,7 @@
 	<classpathentry kind="lib" path="lib/hemesh/library/hemesh.jar"/>
 	<classpathentry kind="lib" path="lib/processing-3/libraries/sound/library/sound.jar">
 		<attributes>
-			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="haxademic/lib/processing-3/libraries/sound/library/windows64"/>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="haxademic/lib/processing-3/libraries/sound/library/macosx"/>
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="lib/KinectPV2/library/KinectPV2.jar">
@@ -74,7 +73,8 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="lib/GIFAnimation/library/GifAnimation.jar"/>
-	<classpathentry kind="lib" path="lib/jetty/jetty-all-9.4.6.v20170531-uber.jar"/>
+	<classpathentry kind="lib" path="lib/jetty/jetty-all-9.4.7.v20170914-uber.jar"/>
+	<classpathentry kind="lib" path="lib/java_websocket/java_websocket.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER">
 		<accessrules>
 			<accessrule kind="accessible" pattern="com/apple/eawt/**"/>
