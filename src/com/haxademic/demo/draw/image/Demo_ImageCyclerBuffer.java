@@ -1,4 +1,4 @@
-package com.haxademic.sketch.buffer;
+package com.haxademic.demo.draw.image;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
@@ -7,7 +7,7 @@ import com.haxademic.core.file.FileUtil;
 
 import processing.core.PImage;
 
-public class ImageSwapperBufferTest
+public class Demo_ImageCyclerBuffer
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
@@ -25,8 +25,9 @@ extends PAppletHax {
 		super.setup();
 		
 		PImage[] images = new PImage[] {
-				p.loadImage(FileUtil.getFile("images/justin-home.jpg")),
-				p.loadImage(FileUtil.getFile("images/justin-home.png")),
+				p.loadImage(FileUtil.getFile("images/textures/space/sun.jpg")),
+				p.loadImage(FileUtil.getFile("images/textures/space/sun-nasa.jpg")),
+				p.loadImage(FileUtil.getFile("images/textures/grayscale/shader-1.jpg")),
 		};
 
 		imageCycler = new ImageCyclerBuffer(640, 280, images, 300, 0.5f);
