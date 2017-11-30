@@ -1,4 +1,4 @@
-package com.haxademic.sketch.system;
+package com.haxademic.demo.system;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -8,7 +8,7 @@ import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.system.SystemUtil;
 
-public class SetTimeoutTest
+public class Demo_SystemUtil_setTimeout
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
