@@ -129,8 +129,8 @@ public class TiledTexture {
 		// draw image
 		pg.image(texture, 0, 0, texture.width, texture.height);
 		// show texture grab area
-		float halfSizeX = (sizeX * (float) texture.width) / 2f;
-		float halfSizeY = (sizeY * (float) texture.height) / 2f;
+//		float halfSizeX = (sizeX * (float) texture.width) / 2f;
+//		float halfSizeY = (sizeY * (float) texture.height) / 2f;
 		pg.stroke(255, 0, 0, 200);
 		pg.noFill();
 		pg.beginShape();

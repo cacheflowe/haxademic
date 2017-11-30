@@ -155,7 +155,7 @@ extends PApplet
 	/**
 	 * Flag for showing stats
 	 */
-	public boolean showStats = false;
+	public boolean showDebug = false;
 
 	/**
 	 * Text for showing stats
@@ -280,7 +280,7 @@ extends PApplet
 			if ( p.key == '.' && audioIn != null ) audioIn.gainUp();
 			if ( p.key == ',' && audioIn != null ) audioIn.gainDown();
 			
-			if (p.key == '/') showStats = !showStats;
+			if (p.key == '/') showDebug = !showDebug;
 		}
 	}
 
@@ -293,7 +293,7 @@ extends PApplet
 		_isRenderingAudio = p.appConfig.getBoolean(AppSettings.RENDER_AUDIO, false);
 		_isRenderingMidi = p.appConfig.getBoolean(AppSettings.RENDER_MIDI, false);
 		_fps = p.appConfig.getInt(AppSettings.FPS, 60);
-		p.showStats = p.appConfig.getBoolean(AppSettings.SHOW_STATS, false);
+		p.showDebug = p.appConfig.getBoolean(AppSettings.SHOW_DEBUG, false);
 		if(p.appConfig.getInt(AppSettings.FPS, 60) != 60) frameRate(_fps);
 		if(p.appConfig.getBoolean(AppSettings.HIDE_CURSOR, false) == true ) p.noCursor();
 	}
@@ -404,7 +404,7 @@ extends PApplet
 	}
 
 	protected void showStats() {
-		if(p.showStats == false) return; 
+		if(showDebug == false) return; 
 		_stats.update();
 		debugView.draw();
 	}

@@ -17,7 +17,9 @@ public class DebugView {
 	protected PFont debugFont;	
 	protected LinkedHashMap<String, String> debugLines;
 	protected LinkedHashMap<String, String> helpLines;
-	protected float helpWidthMax = 0;
+	protected float padding = 20;
+	protected float debugPanelW = 0;
+	protected float helpPanelW = 0;
 	protected int fontSize = 14;
 	protected String ipAddress;
 
@@ -54,6 +56,14 @@ public class DebugView {
 	
 	public void setHelpLine(String key, String val) {
 		helpLines.put(key, val);
+	}
+	
+	public float debugPanelW() {
+		return debugPanelW + padding;
+	}
+	
+	public float helpPanelW() {
+		return helpPanelW + padding;
 	}
 	
 	protected void updateAppInfo() {
@@ -107,12 +117,13 @@ public class DebugView {
 		p.textFont( debugFont );
 		p.textAlign(P.LEFT, P.TOP);
 		p.textSize(fontSize);
-		float textW = p.textWidth(debugStr) + 20;
+		float textW = p.textWidth(debugStr) + padding;
+		debugPanelW = P.max(debugPanelW, textW);
 		p.noStroke();
 		p.fill(0,225);
-		p.rect(0, 0, textW + 20, p.height);
+		p.rect(0, 0, textW + padding, p.height);
 		p.fill(255);
-		p.text(debugStr, 10, 10, textW, p.height - 20);
+		p.text(debugStr, 10, 10, textW, p.height - padding);
 		
 		// draw help lines
 		if(helpLines.isEmpty() == false) {
@@ -120,13 +131,13 @@ public class DebugView {
 	
 			p.textAlign(P.LEFT, P.TOP);
 			p.textSize(fontSize);
-			textW = p.textWidth(helpStr) + 20;
-			helpWidthMax = P.max(helpWidthMax, textW);
+			textW = p.textWidth(helpStr) + padding;
+			helpPanelW = P.max(helpPanelW, textW);
 			p.noStroke();
 			p.fill(0,225);
-			p.rect(p.width - helpWidthMax - 10, 0, helpWidthMax + 20, p.height);
+			p.rect(p.width - helpPanelW - 10, 0, helpPanelW + padding, p.height);
 			p.fill(255);
-			p.text(helpStr, p.width - helpWidthMax, 10, helpWidthMax, p.height - 20);
+			p.text(helpStr, p.width - helpPanelW, 10, helpPanelW, p.height - padding);
 		}
 
 		DrawUtil.setDrawFlat2d(p, false);

@@ -24,7 +24,7 @@ extends PAppletHax {
 
 	public void setup() {
 		super.setup();
-		p.showStats = true;
+		p.showDebug = true;
 		p.debugView.setHelpLine("Test info here", "");
 		p.debugView.setHelpLine("[key]", "[Value]");
 	}

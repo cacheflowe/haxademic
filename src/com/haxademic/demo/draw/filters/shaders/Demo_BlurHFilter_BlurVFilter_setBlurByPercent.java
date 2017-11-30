@@ -22,7 +22,7 @@ extends PAppletHax {
 	protected void overridePropsFile() {
 		p.appConfig.setProperty( AppSettings.WIDTH, 800 );
 		p.appConfig.setProperty( AppSettings.HEIGHT, 800 );
-		p.appConfig.setProperty( AppSettings.SHOW_STATS, true );
+		p.appConfig.setProperty( AppSettings.SHOW_DEBUG, true );
 	}
 
 

@@ -1,17 +1,14 @@
 package com.haxademic.core.draw.image;
 
 import java.awt.AWTException;
-import java.awt.GraphicsDevice;
-import java.awt.GraphicsEnvironment;
 import java.awt.Rectangle;
 import java.awt.Robot;
-import java.awt.image.BufferedImage;
+
+import com.haxademic.core.system.SystemUtil;
 
 import processing.core.PApplet;
 import processing.core.PGraphics;
 import processing.core.PImage;
-
-import com.haxademic.core.system.SystemUtil;
 
 public class ScreenUtil {
 	

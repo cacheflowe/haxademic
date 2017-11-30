@@ -18,7 +18,7 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.WIDTH, 800 );
 		p.appConfig.setProperty( AppSettings.HEIGHT, 800 );
 		p.appConfig.setProperty( AppSettings.RETINA, false );
-		p.appConfig.setProperty( AppSettings.SHOW_STATS, false);
+		p.appConfig.setProperty( AppSettings.SHOW_DEBUG, false);
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, false);
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_START_FRAME, 1);
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, 830);

@@ -233,7 +233,7 @@ extends PAppletHax {
 		p.image(buffer, 0, 0);
 
 		// debug draw
-//		p.image(map, 0, 0, 128, 128);
+		if(p.showDebug) p.image(map, p.debugView.debugPanelW(), 0, 128, 128);
 	}
 }
 
