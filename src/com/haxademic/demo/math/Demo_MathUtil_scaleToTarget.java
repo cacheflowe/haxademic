@@ -1,4 +1,4 @@
-package com.haxademic.sketch.texture;
+package com.haxademic.demo.math;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
@@ -9,7 +9,7 @@ import com.haxademic.core.math.MathUtil;
 
 import processing.core.PImage;
 
-public class ImageResponsiveScale 
+public class Demo_MathUtil_scaleToTarget 
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
