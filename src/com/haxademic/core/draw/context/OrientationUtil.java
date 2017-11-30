@@ -7,14 +7,14 @@ import com.haxademic.core.app.P;
 
 public class OrientationUtil {
 	
+	public static PVector lookAt = new PVector();
+	
 	public static void setRotationTowards( PApplet p, PVector point1, PVector point2 ) {
-		// Rotation vectors
-		// use to perform orientation to velocity vector
-		PVector new_dir = PVector.sub(point1,point2);
-		float r = P.sqrt(new_dir.x * new_dir.x + new_dir.y * new_dir.y + new_dir.z * new_dir.z);
-		float theta = P.atan2(new_dir.y, new_dir.x);
-		float phi = P.acos(new_dir.z / r);
-		
+		lookAt.set(point1);
+		lookAt.sub(point2);
+		float r = P.sqrt(lookAt.x * lookAt.x + lookAt.y * lookAt.y + lookAt.z * lookAt.z);
+		float theta = P.atan2(lookAt.y, lookAt.x);
+		float phi = P.acos(lookAt.z / r);
 		p.rotateZ(theta);
 		p.rotateY(phi);
 		p.rotateX(P.HALF_PI);
