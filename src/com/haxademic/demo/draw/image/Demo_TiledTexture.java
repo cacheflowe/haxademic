@@ -1,4 +1,4 @@
-package com.haxademic.sketch.texture;
+package com.haxademic.demo.draw.image;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
@@ -6,7 +6,7 @@ import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.draw.image.TiledTexture;
 import com.haxademic.core.file.FileUtil;
 
-public class TiledTextureTest
+public class Demo_TiledTexture
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 		
