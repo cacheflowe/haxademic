@@ -1,4 +1,4 @@
-package com.haxademic.sketch.texture;
+package com.haxademic.demo.draw.shapes.shader;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
@@ -14,7 +14,7 @@ import processing.core.PImage;
 import processing.core.PShape;
 import processing.opengl.PShader;
 
-public class SphereDeformByTextureBrightness 
+public class Demo_VertexShader_IcosaDeformByBrightness 
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 

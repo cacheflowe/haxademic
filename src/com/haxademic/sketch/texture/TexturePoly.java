@@ -117,9 +117,9 @@ extends PAppletHax {
 		if( _movie == null ) {
 			_movie = DemoAssets.movieFractalCube();
 			_movie.play();
-			_movie.loop();
-			_movie.volume(0);
-			_movie.speed(1f);
+//			_movie.loop();
+//			_movie.volume(0);
+//			_movie.speed(1f);
 		}
 		if(_movie.width > 10 && _movie.available() == true) {
 			if(_movieTexture == null) {
