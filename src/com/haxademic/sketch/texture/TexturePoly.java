@@ -6,6 +6,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.draw.context.OpenGLUtil;
+import com.haxademic.core.file.DemoAssets;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.MathUtil;
 
@@ -40,7 +41,6 @@ extends PAppletHax {
 		img = loadImage(FileUtil.getHaxademicDataPath() + "images/justin-tiny-color1.png");
 		// img = loadImage(FileUtil.getHaxademicDataPath() + "images/sphere-map-test-2.jpg");
 		noStroke();
-		p.smooth(OpenGLUtil.SMOOTH_HIGH);
 		
 		_triangles = new ArrayList<MappedTriangle>();
 		for(int i=0; i < 100; i++ ) {
@@ -115,15 +115,16 @@ extends PAppletHax {
 		
 		// video ----------------------------------------------------
 		if( _movie == null ) {
-			_movie = new Movie( p, FileUtil.getHaxademicDataPath() + "video/da-dip.mp4" );
+			_movie = DemoAssets.movieFractalCube();
 			_movie.play();
 			_movie.loop();
 			_movie.volume(0);
 			_movie.speed(1f);
 		}
-		if(_movie.available() == true) {
+		if(_movie.width > 10 && _movie.available() == true) {
 			if(_movieTexture == null) {
 				_movieTexture = p.createGraphics( _movie.width, _movie.height, P.P3D );
+				_movie.play();
 			}
 			_movieTexture.beginDraw();
 			_movieTexture.image(_movie, 0, 0);

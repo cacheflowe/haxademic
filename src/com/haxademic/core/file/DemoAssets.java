@@ -5,6 +5,7 @@ import com.haxademic.core.draw.shapes.PShapeUtil;
 
 import processing.core.PImage;
 import processing.core.PShape;
+import processing.video.Movie;
 
 public class DemoAssets {
 
@@ -84,6 +85,15 @@ public class DemoAssets {
 		}
 		return objSkullRealistic;
 	}
+	
+	// VIDEO
+	
+	public static Movie movieFractalCube = null;
+	public static Movie movieFractalCube() {
+		if(movieFractalCube == null) movieFractalCube = new Movie(P.p, FileUtil.getFile("video/fractal-cube.mp4"));
+		return movieFractalCube;
+	}
+
 	
 
 }
