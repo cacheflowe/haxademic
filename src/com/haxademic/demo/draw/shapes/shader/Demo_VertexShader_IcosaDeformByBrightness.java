@@ -3,13 +3,12 @@ package com.haxademic.demo.draw.shapes.shader;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
-import com.haxademic.core.draw.filters.shaders.ContrastFilter;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.shapes.Icosahedron;
 import com.haxademic.core.draw.shapes.PShapeUtil;
+import com.haxademic.core.file.DemoAssets;
 import com.haxademic.core.file.FileUtil;
 
-import processing.core.PGraphics;
 import processing.core.PImage;
 import processing.core.PShape;
 import processing.opengl.PShader;
@@ -33,13 +32,11 @@ extends PAppletHax {
 		super.setup();	
 
 		// load texture
-		texture = ImageUtil.imageToGraphics(p.loadImage(FileUtil.getFile("images/moon.png")));
-		ContrastFilter.instance(p).setContrast(3);
-		ContrastFilter.instance(p).applyTo((PGraphics)texture);
+		texture = ImageUtil.imageToGraphics(DemoAssets.textureJupiter());
 		
 		// create icosahedron
 		shapeIcos = Icosahedron.createIcosahedron(p.g, 7, texture);
-		PShapeUtil.scaleSvgToExtent_DEPRECATE(shapeIcos, p.height/4f);
+		PShapeUtil.scaleShapeToExtent(shapeIcos, p.height/4f);
 		
 		// sphere deformation shader. uses the sphere's texture as the displacement map
 		texShader = loadShader(
@@ -48,7 +45,6 @@ extends PAppletHax {
 		);
 		texShader.set("displacementMap", texture);
 		texShader.set("displaceStrength", 0.3f);
-		
 	}
 
 	public void drawApp() {
