@@ -9,6 +9,7 @@ extends BaseFilter {
 	
 	public ThresholdFilter(PApplet p) {
 		super(p, "shaders/filters/threshold.glsl");
+		setCutoff(0.5f);
 	}
 	
 	public static ThresholdFilter instance(PApplet p) {
@@ -17,4 +18,8 @@ extends BaseFilter {
 		return instance;
 	}
 
+	public void setCutoff(float cutoff) {
+		shader.set("cutoff", cutoff);
+	}
+	
 }

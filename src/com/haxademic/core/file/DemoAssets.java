@@ -8,6 +8,8 @@ import processing.core.PShape;
 
 public class DemoAssets {
 
+	// IMAGES
+	
 	public static PImage smallTexture = null;
 	public static PImage smallTexture() {
 		if(smallTexture == null) smallTexture = P.p.loadImage(FileUtil.getFile("images/smiley-big.png"));
@@ -43,6 +45,22 @@ public class DemoAssets {
 		if(squareTexture == null) squareTexture = P.p.loadImage(FileUtil.getFile("images/textures/space/sun.jpg"));
 		return squareTexture;
 	}
+	
+	// SVG
+	
+	public static PShape shapeX = null;
+	public static PShape shapeX() {
+		if(shapeX == null) shapeX = P.p.loadShape(FileUtil.getFile("svg/x.svg"));
+		return shapeX;
+	}
+	
+	public static PShape shapeFractal = null;
+	public static PShape shapeFractal() {
+		if(shapeFractal == null) shapeFractal = P.p.loadShape(FileUtil.getFile("svg/fractal-2013-09-15-20-27-38-01.svg"));
+		return shapeFractal;
+	}
+	
+	// MODELS
 	
 	public static PShape objSkeleton = null;
 	public static PShape objSkeleton() {

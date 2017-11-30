@@ -5,9 +5,14 @@ import java.net.UnknownHostException;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
+import com.haxademic.core.debug.DebugUtil;
 import com.haxademic.core.net.IPAddress;
+import com.haxademic.core.net.JSONUtil;
 import com.haxademic.core.net.SocketServer;
 import com.haxademic.core.net.SocketServerHandler;
+import com.haxademic.core.system.SystemUtil;
+
+import processing.data.JSONObject;
 
 public class Demo_SocketServer
 extends PAppletHax {
@@ -22,7 +27,7 @@ extends PAppletHax {
 	public void setup() {
 		super.setup();	
 		buildSocketServer();
-		// open www/web-socket-demo/index.html to try it out
+		SystemUtil.openWebPage("http://localhost/_open-source/haxademic/www/web-socket-demo/");
 	}
 	
 	protected void buildSocketServer() {
@@ -39,7 +44,21 @@ extends PAppletHax {
 		background(0);
 		p.fill(255);
 		// send a simple message to clients
-		if(p.frameCount % 100 == 0) server.sendMessage("{\"frameCount\": \""+ p.frameCount + "\"}");
+		if(p.frameCount % 100 == 0) sendFrameMessage(); 
+	}
+	
+	protected void sendFrameMessage() {
+	    JSONObject jsonOut = new JSONObject();
+	    jsonOut.setString("event", "frame-count");
+	    jsonOut.setInt("frame", p.frameCount);
+		server.sendMessage(JSONUtil.jsonToSingleLine(jsonOut));
+	}
+	
+	protected void receiveWebMessage(String messageJSON) {
+		JSONObject eventData = JSONObject.parse(messageJSON);
+	    String event = eventData.getString("event");	
+	    String command = eventData.getString("command");	
+	    DebugUtil.printBig("Incoming WS message: " + event + " / " + command);
 	}
 	
 	// Example custom WebSocket server responder
@@ -58,6 +77,7 @@ extends PAppletHax {
 		
 		protected void receiveMessage(String message) {
 			P.println("CustomSocketHandler.receiveMessage() : ", message);
+			if(message.indexOf("web-event") != -1) receiveWebMessage(message);
 		}
 	}
 

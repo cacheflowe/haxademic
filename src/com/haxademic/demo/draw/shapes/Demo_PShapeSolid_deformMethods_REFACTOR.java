@@ -108,7 +108,6 @@ extends PAppletHax {
 //		p.translate(0, 0, -1000);
 		p.rotateX(P.sin(-percentComplete * P.TWO_PI) * 0.3f);
 //		p.rotateY(-percentComplete * P.TWO_PI);
-		p.rotateZ(P.PI);
 
 		// swap deform modes
 		int deformMode = P.round(p.frameCount / 100) % 3;

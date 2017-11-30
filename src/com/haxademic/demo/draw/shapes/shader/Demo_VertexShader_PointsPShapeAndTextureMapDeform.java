@@ -1,13 +1,14 @@
 package com.haxademic.demo.draw.shapes.shader;
 
 import com.haxademic.app.haxmapper.textures.BaseTexture;
+import com.haxademic.app.haxmapper.textures.TextureEQGrid;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.constants.PRenderers;
 import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.filters.shaders.MirrorFilter;
 import com.haxademic.core.draw.image.PerlinTexture;
-import com.haxademic.core.file.DemoAssets;
 import com.haxademic.core.file.FileUtil;
 
 import processing.core.PConstants;
@@ -47,10 +48,10 @@ extends PAppletHax {
 	protected void firstFrameSetup() {
 		// load & set texture
 		// perlin = new PerlinTexture(p, (int) w, (int) h);
-		// audioTexture = new TextureEQGrid((int) w, (int) h);
-		// texture = audioTexture.texture();
+		audioTexture = new TextureEQGrid((int) w, (int) h);
+		texture = audioTexture.texture();
 		// texture = perlin.texture();
-		texture = DemoAssets.textureNebula();
+		// texture = DemoAssets.textureNebula();
 
 		// build offsecreen buffer (thing don't work the same on the main drawing surface)
 		buffer = p.createGraphics(p.width, p.height, PRenderers.P3D);
@@ -91,11 +92,12 @@ extends PAppletHax {
 		
 		// update displacement texture
 		// perlin.update(0.15f, 0.05f, p.frameCount/ 10f, 0);
-		// audioTexture.update();
+		audioTexture.update();
+		MirrorFilter.instance(p).applyTo(audioTexture.texture());
 		
 		// fade background
 		buffer.beginDraw();
-		DrawUtil.fadeToBlack(buffer, 6);
+		DrawUtil.fadeToBlack(buffer, 60);
 		
 		// move to screen center
 		buffer.translate(p.width/2f, p.height/2f, 0);
@@ -107,9 +109,9 @@ extends PAppletHax {
 		pointsTexturedShader.set("pointSize", 1f); // 2.5f + 1.5f * P.sin(P.TWO_PI * percentComplete));
 		pointsTexturedShader.set("width", w);
 		pointsTexturedShader.set("height", h);
-		pointsTexturedShader.set("spread", 0.75f + 0.25f * P.sin(P.PI + P.TWO_PI * percentComplete));
+		pointsTexturedShader.set("spread", 2.5f + 0.5f * P.sin(P.PI + 2f * P.TWO_PI * percentComplete));
 		pointsTexturedShader.set("mixVal", 0.5f + 0.5f * P.sin(P.TWO_PI * percentComplete));
-		pointsTexturedShader.set("displaceStrength", 0);//30f + 30f * P.sin(2f * P.PI + P.TWO_PI * percentComplete));
+		pointsTexturedShader.set("displaceStrength", 130f);//130f + 130f * P.sin(P.PI + P.TWO_PI * percentComplete));
 		buffer.shader(pointsTexturedShader);  
 		buffer.shape(shape);
 		buffer.resetShader();
