@@ -1,7 +1,15 @@
 package com.haxademic.core.system;
 
+import java.io.File;
+import java.lang.management.ManagementFactory;
+
+import com.haxademic.core.app.P;
+import com.haxademic.core.file.FileUtil;
+import com.sun.javafx.binding.StringFormatter;
+
 import processing.core.PApplet;
 import processing.core.PImage;
+import sun.misc.Regexp;
 
 public class AppUtil {
 	
@@ -63,6 +71,64 @@ public class AppUtil {
 			});
 		}
 
+	}
+	
+	/** 
+	 * Sun property pointing the main class and its arguments. 
+	 * Might not be defined on non Hotspot VM implementations.
+	 */
+	public static final String SUN_JAVA_COMMAND = "sun.java.command";
+	
+	public static String getAppRunCommand() {
+		// java binary
+		// String java = System.getProperty("java.home") + "/bin/java";
+		String java = "java";
+		// vm arguments
+		//			List<String> vmArguments = ManagementFactory.getRuntimeMXBean().getInputArguments();
+		StringBuffer vmArgsOneLine = new StringBuffer();
+		for (String arg : ManagementFactory.getRuntimeMXBean().getInputArguments()) {
+			// if it's the agent argument : we ignore it otherwise the
+			// address of the old application and the new one will be in conflict
+			if (!arg.contains("-agentlib")) {
+				vmArgsOneLine.append(arg);
+				vmArgsOneLine.append(" ");
+			}
+		}
+		// init the command to execute, add the vm args
+		final StringBuffer cmd = new StringBuffer("" + java + " " + vmArgsOneLine);
+
+		// program main and program arguments
+		String[] mainCommand = System.getProperty(SUN_JAVA_COMMAND).split(" ");
+		// program main is a jar
+		if (mainCommand[0].endsWith(".jar")) {
+			// if it's a jar, add -jar mainJar
+			cmd.append("-jar " + new File(mainCommand[0]).getPath());
+		} else {
+			// else it's a .class, add the classpath and mainClass
+			cmd.append("-cp " + System.getProperty("java.class.path") + " " + mainCommand[0]);
+		}
+		// finally add program arguments
+		for (int i = 1; i < mainCommand.length; i++) {
+			cmd.append(" ");
+			cmd.append(mainCommand[i]);
+		}
+		return cmd.toString();
+	}
+	
+	public static String getAppRunCommandRelative() {
+		String absoluteRunCommand = AppUtil.getAppRunCommand();
+		String projectPath = FileUtil.getHaxademicPath() + File.separator;
+		return absoluteRunCommand.replace(projectPath, "");
+	}
+	
+	public static void writeRunScript(String scriptDestinationPath) {
+		String scriptStr = "REM @echo off" + "\n";
+		scriptStr += "cd .." + "\n";
+		scriptStr += "timeout 3" + "\n\n";
+		scriptStr += AppUtil.getAppRunCommand() + "\n\n";
+		scriptStr += "cd scripts" + "\n";
+		scriptStr += "pause" + "\n\n";
+		FileUtil.writeTextToFile(FileUtil.getHaxademicPath() + File.separator + scriptDestinationPath, scriptStr);
 	}
 	
 }

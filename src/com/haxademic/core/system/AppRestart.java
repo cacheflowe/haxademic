@@ -63,7 +63,6 @@ public class AppRestart {
 				cmd.append(" ");
 				cmd.append(mainCommand[i]);
 			}
-			
 
 			// execute the command in a shutdown hook, to be sure that all the
 			// resources have been disposed before restarting the application
