@@ -1,11 +1,11 @@
-package com.haxademic.app.musicvideos;
+package com.haxademic.demo.audio;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.file.FileUtil;
 
-public class WaveformAudioRender
+public class Demo_WaveformAudioRender
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
