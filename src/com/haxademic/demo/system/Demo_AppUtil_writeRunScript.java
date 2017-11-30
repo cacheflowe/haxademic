@@ -8,15 +8,10 @@ public class Demo_AppUtil_writeRunScript
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
-	protected boolean DEBUG_MODE = true;
-
-	protected void overridePropsFile() {
-		appConfig.setProperty( AppSettings.FPS, 90 );
-	}
-
 	public void setup() {
 		super.setup();
-		AppUtil.writeRunScript("scripts/write-test-run.cmd");
+		// Don't include run script file extension - platform detection inside will do that
+		AppUtil.writeRunScript("scripts/write-test-run");	
 	}
 
 	public void drawApp() {

@@ -8,6 +8,7 @@ import com.haxademic.core.file.FileUtil;
 import com.sun.javafx.binding.StringFormatter;
 
 import processing.core.PApplet;
+import processing.core.PConstants;
 import processing.core.PImage;
 import sun.misc.Regexp;
 
@@ -122,13 +123,31 @@ public class AppUtil {
 	}
 	
 	public static void writeRunScript(String scriptDestinationPath) {
+		boolean isWindows = P.platform == PConstants.WINDOWS;
+		if(isWindows) writeRunScriptForWindows(scriptDestinationPath);
+		else writeRunScriptForBash(scriptDestinationPath);
+	}
+	
+	public static void writeRunScriptForWindows(String scriptDestinationPath) {
+		String fileExtension = ".cmd";
+		String runScriptPath = FileUtil.getHaxademicPath() + File.separator + scriptDestinationPath + fileExtension;
 		String scriptStr = "REM @echo off" + "\n";
 		scriptStr += "cd .." + "\n";
 		scriptStr += "timeout 3" + "\n\n";
-		scriptStr += AppUtil.getAppRunCommand() + "\n\n";
+		scriptStr += AppUtil.getAppRunCommandRelative() + "\n\n";
 		scriptStr += "cd scripts" + "\n";
 		scriptStr += "pause" + "\n\n";
-		FileUtil.writeTextToFile(FileUtil.getHaxademicPath() + File.separator + scriptDestinationPath, scriptStr);
+		FileUtil.writeTextToFile(runScriptPath, scriptStr);
+	}
+	
+	public static void writeRunScriptForBash(String scriptDestinationPath) {
+		String fileExtension = ".sh";
+		String runScriptPath = FileUtil.getHaxademicPath() + File.separator + scriptDestinationPath + fileExtension;
+		String scriptStr = "";
+		scriptStr += "cd .." + "\n\n";
+		scriptStr += AppUtil.getAppRunCommandRelative() + "\n\n";
+		FileUtil.writeTextToFile(runScriptPath, scriptStr);
+		SystemUtil.runOSXCommand("chmod 777 "+runScriptPath);
 	}
 	
 }
