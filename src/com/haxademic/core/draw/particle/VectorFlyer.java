@@ -76,7 +76,7 @@ public class VectorFlyer {
 			// point and position
 			p.pushMatrix();
 			p.translate(position.x, position.y, position.z);
-			OrientationUtil.setRotationTowards( p, new PVector(position.x, position.y, position.z), new PVector(positionLast.x, positionLast.y, positionLast.z) );
+			OrientationUtil.setRotationTowards( p.g, new PVector(position.x, position.y, position.z), new PVector(positionLast.x, positionLast.y, positionLast.z) );
 			p.box(20, 50, 20);
 			p.popMatrix();
 		}

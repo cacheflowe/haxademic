@@ -56,7 +56,7 @@ extends PAppletHax {
 			// draw pointed at center
 			p.pushMatrix();
 			p.translate(points[i].x, points[i].y, points[i].z);
-			OrientationUtil.setRotationTowards(p, points[i], center);
+			OrientationUtil.setRotationTowards(p.g, points[i], center);
 			p.box(10, 50, 10);
 			p.popMatrix();
 		}
