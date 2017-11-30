@@ -1,16 +1,16 @@
-package com.haxademic.sketch.screen;
+package com.haxademic.demo.system;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.context.OpenGLUtil;
-import com.haxademic.core.system.SecondScreenViewer;
 
-public class SecondScreenViewerTest 
+public class Demo_SecondScreenViewer 
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	protected void overridePropsFile() {
+		// The magic happens here - configure the 2nd screen viewer with AppSettings
 		p.appConfig.setProperty( AppSettings.APP_VIEWER_WINDOW, true );
 		p.appConfig.setProperty( AppSettings.APP_VIEWER_SCALE, 0.75f );
 	}

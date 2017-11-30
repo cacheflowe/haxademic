@@ -107,11 +107,11 @@
         }
         // add event to screen
         document.getElementById('debug').appendChild(div);
-        // cut off log length
-        while(debug.childNodes.length > MAX_LOGS) {
-          var el = debug.childNodes[0];
-          el.parentNode.removeChild(el);
-        }
+      }
+      // cut off log length
+      while(debug.childNodes.length > MAX_LOGS) {
+        var el = debug.childNodes[0];
+        el.parentNode.removeChild(el);
       }
     }
 

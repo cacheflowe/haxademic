@@ -6,7 +6,7 @@ precision mediump int;
 #define PROCESSING_TEXTURE_SHADER
 
 uniform sampler2D texture;
-uniform float cutoff;
+uniform float cutoff = 0.5;
 
 varying vec4 vertColor;
 varying vec4 vertTexCoord;
@@ -20,5 +20,5 @@ void main() {
     gl_FragColor = vertColor;
   } else {
     gl_FragColor = vec4(0, 0, 0, 1);
-  }     
+  }
 }

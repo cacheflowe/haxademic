@@ -1,4 +1,4 @@
-package com.haxademic.sketch.shader;
+package com.haxademic.demo.draw.filters.shaders;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
@@ -20,7 +20,7 @@ import com.haxademic.core.file.FileUtil;
 import processing.core.PImage;
 import processing.opengl.PShader;
 
-public class DisplacementMapShader
+public class Demo_DisplacementMapShader
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
