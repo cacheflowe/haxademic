@@ -1,6 +1,5 @@
 package com.haxademic.core.net;
 
-import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -22,13 +21,11 @@ public class WebServerRequestHandler extends AbstractHandler
 	public void handle( String target,
 			Request baseRequest,
 			HttpServletRequest request,
-			HttpServletResponse response ) throws IOException,
-	ServletException
+			HttpServletResponse response ) throws IOException, ServletException
 	{
-		// Print request path
-		// P.println("getHttpURI()", baseRequest.getHttpURI());
+		// Get request path and check to see if it looks like a file
 		String requestPath = baseRequest.getPathInfo();
-
+		
 		// if path ends with a slash, append index.html
 		if(requestPath.lastIndexOf("/") == requestPath.length() - 1) {
 			requestPath += "index.html";
@@ -37,51 +34,43 @@ public class WebServerRequestHandler extends AbstractHandler
 		// get path without initial slash
 		String requestPathNoSlash = requestPath.substring(1);
 		if(WebServer.DEBUG == true) P.println("requestPath", requestPath);
-
 		
 		// Set response props
-		response.addHeader("Access-Control-Allow-Origin", "*"); // Disable CORS
+		response.addHeader("Access-Control-Allow-Origin", "*"); 	// Disable CORS
 		response.setStatus(HttpServletResponse.SC_OK);			// set 200
-		response.setContentType("text/html; charset=utf-8");	// default to text
+		response.setContentType("text/html; charset=utf-8");		// default to text
 		
 		// look for static files on the www filesystem
-		String fileCheck = FileUtil.getHaxademicWebPath() + requestPathNoSlash;
+		String filePathToCheck = FileUtil.getHaxademicWebPath() + requestPathNoSlash;
 		
+		// check to redirect if no trailing slash, but has index.html
+		if(FileUtil.fileExists(filePathToCheck + "/index.html") == true) {
+			requestPath += "/";
+			response.sendRedirect(requestPath);
+			baseRequest.setHandled(true);
+			return;
+		}
+
 		// CHECK FOR (& SERVE) STATIC FILES
-		if(FileUtil.fileExists(fileCheck)) {
-			if(WebServer.DEBUG == true) P.println("Found static file:", fileCheck);
-			// RETURN STATIC HTML/TEXT FILES
-			if(fileCheck.indexOf(".html") != -1 || fileCheck.indexOf(".css") != -1 || fileCheck.indexOf(".js") != -1 || fileCheck.indexOf(".svg") != -1) {
-				String fileContents = new String(Files.readAllBytes(Paths.get(fileCheck)));
-				if(fileCheck.indexOf(".css") != -1) response.setContentType("text/css");
-				if(fileCheck.indexOf(".js") != -1) response.setContentType("application/javascript");
-				if(fileCheck.indexOf(".html") != -1) response.setContentType("text/html");
-				if(fileCheck.indexOf(".svg") != -1) response.setContentType("image/svg+xml");
-				response.getWriter().println(fileContents);
-			// RETURN TTF/OTF FILES
-			} else if(fileCheck.indexOf(".ttf") != -1 || fileCheck.indexOf(".otf") != -1) {
-				Path path = Paths.get(fileCheck);
-				byte[] binaryData = Files.readAllBytes(path);
-				response.setContentType("application/font-sfnt");
-				response.getOutputStream().write(binaryData);
-			// RETURN STATIC PNG FILES
-			} else if(fileCheck.indexOf(".png") != -1) {
-				Path path = Paths.get(fileCheck);
-				byte[] imageData = Files.readAllBytes(path);
-				response.setContentType("image/png");
-				response.getOutputStream().write(imageData);
-			// RETURN STATIC JPG FILES
-			} else if(fileCheck.indexOf(".jpg") != -1) {
-				Path path = Paths.get(fileCheck);
-				byte[] imageData = Files.readAllBytes(path);
-				response.setContentType("image/jpeg");
-				response.getOutputStream().write(imageData);
-			// RETURN STATIC TGA FILES
-			} else if(fileCheck.indexOf(".tga") != -1) {
-				Path path = Paths.get(fileCheck);
-				byte[] imageData = Files.readAllBytes(path);
-				response.setContentType("image/targa");
-				response.getOutputStream().write(imageData);
+		if(FileUtil.fileExists(filePathToCheck)) {
+			String filePath = filePathToCheck;
+			if(WebServer.DEBUG == true) P.println("Found static file:", filePath);
+			if(filePath.indexOf(".html") != -1) {
+				writeTextFileFromPath(response, filePath, "text/html");
+			} else if(filePath.indexOf(".css") != -1) {
+				writeTextFileFromPath(response, filePath, "text/css");
+			} else if(filePath.indexOf(".js") != -1) {
+				writeTextFileFromPath(response, filePath, "application/javascript");
+			} else if(filePath.indexOf(".svg") != -1) {
+				writeTextFileFromPath(response, filePath, "image/svg+xml");
+			} else if(filePath.indexOf(".ttf") != -1 || filePath.indexOf(".otf") != -1) {
+				writeBinaryFileFromPath(response, filePath, "application/font-sfnt");
+			} else if(filePath.indexOf(".png") != -1) {
+				writeBinaryFileFromPath(response, filePath, "image/png");
+			} else if(filePath.indexOf(".jpg") != -1) {
+				writeBinaryFileFromPath(response, filePath, "image/jpeg");
+			} else if(filePath.indexOf(".tga") != -1) {
+				writeBinaryFileFromPath(response, filePath, "image/targa");
 			}
 		} else {
 			String[] pathComponents = requestPathNoSlash.split("/");
@@ -95,6 +84,19 @@ public class WebServerRequestHandler extends AbstractHandler
 		}
 		// Inform jetty that this request has now been handled
 		baseRequest.setHandled(true);
+	}
+	
+	protected void writeTextFileFromPath(HttpServletResponse response, String pathStr, String contentType) throws IOException {
+		String fileContents = new String(Files.readAllBytes(Paths.get(pathStr)));
+		response.setContentType(contentType);
+		response.getWriter().println(fileContents);
+	}
+	
+	protected void writeBinaryFileFromPath(HttpServletResponse response, String pathStr, String contentType) throws IOException {
+		Path path = Paths.get(pathStr);
+		byte[] imageData = Files.readAllBytes(path);
+		response.setContentType(contentType);
+		response.getOutputStream().write(imageData);
 	}
 	
 	protected String handleCustomPaths(String path, String[] pathComponents) {
