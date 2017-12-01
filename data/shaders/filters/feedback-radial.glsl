@@ -22,7 +22,8 @@ void main() {
   vec2 center = vec2(0.5);
   float distFromCenter = distance(uv, center);
   float curRads = atan(center.y - uv.y, center.x - uv.x);			// get current pixel's angle to center
-  float wobbleAmp = amp * (1. + 0.2 * sin(distFromCenter * 100.));
+  float ampByDist = amp * (1. + distFromCenter * 130.); // speed up when further from center
+  float wobbleAmp = ampByDist * (1. + 0.2 * sin(distFromCenter * 100.));
   curRads += 0.9 * sin(distFromCenter * 30.);
   vec2 displace = uv + vec2(wobbleAmp * cos(curRads), wobbleAmp * sin(curRads));
   vec4 sampleColor = texture2D(texture, displace) * vec4(vec3(samplemult), 1.);

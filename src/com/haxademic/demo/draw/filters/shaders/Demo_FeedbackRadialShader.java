@@ -38,7 +38,7 @@ extends PAppletHax {
 		
 		buffer = P.p.createGraphics(W, H, PRenderers.P3D); 
 		
-		xShape = DemoAssets.shapeX().getTessellation();
+		xShape = DemoAssets.shapeFractal().getTessellation();
 		PShapeUtil.centerShape(xShape);
 		PShapeUtil.scaleShapeToHeight(xShape, p.height * 0.25f);
 
