@@ -43,4 +43,10 @@ extends BaseFilter {
 		setSmoothing(0.1f);
 		setColorToReplace(0.0f, 0.0f, 0.0f);
 	}
+
+	public void presetWhiteKnockout() {
+		setThresholdSensitivity(0.2f);
+		setSmoothing(0.1f);
+		setColorToReplace(1.0f, 1.0f, 1.0f);
+	}
 }

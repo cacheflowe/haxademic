@@ -7,7 +7,7 @@ import processing.core.PGraphics;
 import processing.core.PImage;
 import processing.video.Movie;
 
-public class VideoChromaMovieClip {
+public class ChromaMovie {
 
 	static public PImage BLANK_IMAGE;
 
@@ -35,13 +35,13 @@ public class VideoChromaMovieClip {
 	 * 	VideoChromaMovieClip clip = new VideoChromaMovieClip("video/test/blast_hole_no_alpha.mov"); 
 	 **/
 
-	public VideoChromaMovieClip(String videoPath, float fps, boolean loadAsync) {
+	public ChromaMovie(String videoPath, float fps, boolean loadAsync) {
 		this.fps = fps;
 		if(BLANK_IMAGE == null) BLANK_IMAGE = P.p.createImage(32, 32, P.ARGB);
 		loadVideo(videoPath, loadAsync);
 	}
 	
-	public VideoChromaMovieClip(String videoPath) {
+	public ChromaMovie(String videoPath) {
 		this(videoPath, DEFAULT_FPS, false);
 	}
 
@@ -172,7 +172,7 @@ public class VideoChromaMovieClip {
 			buffer.clear();
 			buffer.image(movie, 0, 0);
 			buffer.endDraw();
-			ChromaColorFilter.instance(P.p).presetBlackKnockout();
+			ChromaColorFilter.instance(P.p).presetWhiteKnockout();
 			ChromaColorFilter.instance(P.p).setThresholdSensitivity(chromaThreshold);
 			ChromaColorFilter.instance(P.p).setSmoothing(chromaSmoothing);
 			ChromaColorFilter.instance(P.p).applyTo(buffer);
