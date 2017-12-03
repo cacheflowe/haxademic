@@ -3,7 +3,6 @@ package com.haxademic.core.system;
 import com.haxademic.core.app.P;
 import com.haxademic.core.draw.image.Base64Image;
 import com.haxademic.core.draw.image.ImageUtil;
-import com.haxademic.core.file.FileUtil;
 
 import processing.core.PApplet;
 import processing.core.PGraphics;
@@ -26,7 +25,7 @@ public class SecondScreenViewer {
 	
 	public void post() {
 		if(viewerWindow == null && P.p.frameCount >= 10) viewerWindow = new SecondScreenViewerWindow();
-		if(viewerWindow != null) {
+		if(active == true && viewerWindow != null) {
 			scaledBuffer.copy(srcBuffer, 0, 0, srcBuffer.width, srcBuffer.height, 0, 0, scaledBuffer.width, scaledBuffer.height);
 			viewerWindow.setImage(scaledBuffer);
 			viewerWindow.setMousePos(P.p.mouseX * windowScale, P.p.mouseY * windowScale);
