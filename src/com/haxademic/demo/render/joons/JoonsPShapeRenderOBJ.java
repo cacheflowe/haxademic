@@ -16,6 +16,7 @@ extends PAppletHax {
 
 	protected PShape obj;
 	protected float objHeight;
+	protected int FRAMES = 60;
 	
 	protected void overridePropsFile() {
 		p.appConfig.setProperty( AppSettings.LOOP_FRAMES, 60 );
@@ -28,7 +29,7 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.HEIGHT, 720 );
 		p.appConfig.setProperty( AppSettings.RENDERING_IMAGE_SEQUENCE, false );
 		p.appConfig.setProperty( AppSettings.RENDERING_IMAGE_SEQUENCE_START_FRAME, 3 );
-		p.appConfig.setProperty( AppSettings.RENDERING_IMAGE_SEQUENCE_STOP_FRAME, 3 + (int) frames - );
+		p.appConfig.setProperty( AppSettings.RENDERING_IMAGE_SEQUENCE_STOP_FRAME, 3 + FRAMES );
 	}
 
 	public void setup() {
@@ -69,7 +70,7 @@ extends PAppletHax {
 		// draw sphere
 		p.pushMatrix();
 //		joons.jr.fill(JoonsWrapper.MATERIAL_LIGHT, 5, 5, 5);		p.fill( 255, 255, 255 );
-		joons.jr.fill(JoonsWrapper.MATERIAL_AMBIENT_OCCLUSION, 10, 10, 30 + 20f * P.sin(progress * P.TWO_PI), 0, 0, 0,   50, 16);
+		joons.jr.fill(JoonsWrapper.MATERIAL_AMBIENT_OCCLUSION, 10, 10, 30 + 20f * P.sin(loop.progressRads()), 0, 0, 0,   50, 16);
 		p.rotateY(1);
 		p.rotateZ(1);
 		p.sphere(210);
