@@ -47,8 +47,6 @@ extends PAppletHax {
 		p.pushMatrix();
 		background(255);
 		CameraUtil.setCameraDistance(p.g, 100, 20000);
-		float percentComplete = ((float)(p.frameCount%_frames)/_frames);
-		float radsComplete = percentComplete * P.TWO_PI;
 		
 //		p.ortho();
 		
