@@ -53,11 +53,6 @@ extends PAppletHax {
 	
 	public void drawApp() {
 		background(0);
-//		p.noFill();
-//		p.stroke(0);
-//		p.strokeWeight(3);
-//		p.noStroke();
-		
 		p.translate(p.width / 2, p.height / 2);
 		p.rotate(P.PI);
 		

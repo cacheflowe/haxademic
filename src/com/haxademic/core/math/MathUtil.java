@@ -92,6 +92,17 @@ public class MathUtil {
 	public static float pythagDistance( float a, float b ) {
 		return Math.abs( (float)Math.sqrt(a*a + b*b) );
 	}
+	
+	public static float polygonClosestPoint(float vertices, float radius) {
+		float segmentRads = P.TWO_PI / vertices;
+		float point1x = radius * P.cos(segmentRads);
+		float point1y = radius * P.sin(segmentRads);
+		float point2x = radius * P.cos(0);
+		float point2y = radius * P.sin(0);
+		float midpointX = (point1x + point2x) / 2f;
+		float midpointY = (point1y + point2y) / 2f;
+		return MathUtil.getDistance(0, 0, midpointX, midpointY);
+	}
 
 	/**
 	 *  Get distance between 2 points with the pythagorean theorem.

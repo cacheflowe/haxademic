@@ -18,6 +18,7 @@ extends PAppletHax {
 	
 	protected void overridePropsFile() {
 		p.appConfig.setProperty( AppSettings.LOOP_FRAMES, 240 );
+		p.appConfig.setProperty( AppSettings.FILLS_SCREEN, true );
 	}
 
 	public void drawApp() {
@@ -31,15 +32,18 @@ extends PAppletHax {
 		p.fill(255, 140, 200);
 		
 		// rotate to flat bottom
-		float vertices = 5f + P.round(2f * P.sin(loop.progressRads()));
+		float vertices = 7f + P.round(4f * P.sin(loop.progressRads()));
 		p.rotate(-P.HALF_PI);
 		float rot = P.TWO_PI / vertices;
 		if(vertices % 2 == 0) p.rotate(-rot/2f);
 		
 		// draw shape
-		Shapes.drawDisc(p, 440, 390, (int) vertices);
-		Shapes.drawDisc(p, 370, 330, (int) vertices);
-		Shapes.drawDisc(p, 300, 270, (int) vertices);
-		Shapes.drawDisc(p, 230, 210, (int) vertices);
+		Shapes.drawDisc(p, 450, 410, (int) vertices);
+		Shapes.drawDisc(p, 400, 365, (int) vertices);
+		Shapes.drawDisc(p, 350, 320, (int) vertices);
+		Shapes.drawDisc(p, 300, 275, (int) vertices);
+		Shapes.drawDisc(p, 250, 230, (int) vertices);
+		Shapes.drawDisc(p, 200, 185, (int) vertices);
+		Shapes.drawDisc(p, 150, 140, (int) vertices);
 	}
 }
