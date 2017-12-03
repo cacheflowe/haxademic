@@ -2,7 +2,6 @@ package com.haxademic.demo.audio;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.file.FileUtil;
 
 public class Demo_WaveformAudioRender
@@ -13,18 +12,13 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.FPS, 30 );
 		p.appConfig.setProperty( AppSettings.WIDTH, 1280 );
 		p.appConfig.setProperty( AppSettings.HEIGHT, 720 );
-		p.appConfig.setProperty( AppSettings.SMOOTHING, AppSettings.SMOOTH_HIGH );
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, true );
 		p.appConfig.setProperty( AppSettings.RENDER_AUDIO, true );
 		p.appConfig.setProperty( AppSettings.RENDER_AUDIO_FILE, FileUtil.getFile("audio/cacheflowe_bigger_loop.wav") );
 	}
-
-	public void setupFirstFrame() {
-		p.background(0);
-	}
 	
 	public void drawApp() {
-		DrawUtil.feedback(p.g, 0, 0.2f, 10f);
+		p.background(0);
 
 		// draw waveform
 		p.stroke(255);
