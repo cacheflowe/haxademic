@@ -43,7 +43,7 @@ extends PAppletHax {
 		// normalize model
 		PShapeUtil.meshRotateOnAxis(obj, P.PI, P.Z);
 		PShapeUtil.meshRotateOnAxis(obj, -P.HALF_PI, P.Y);
-		PShapeUtil.scaleShapeToExtent(obj, p.height * 0.1f);
+		PShapeUtil.scaleShapeToExtent(obj, p.height * 0.05f);
 		modelSize = new PVector(PShapeUtil.getObjWidth(obj), PShapeUtil.getObjHeight(obj), PShapeUtil.getObjDepth(obj));
 	}
 
@@ -64,21 +64,22 @@ extends PAppletHax {
 		 p.noStroke();
 
 		// rotate
-		p.translate(p.width/2f, p.height * 0.5f);
+		p.translate(p.width/2f, p.height * 0.7f);
 		p.rotateX(-0.6f);
 		
 		// texture mapped with decent performance:
-		boolean wire = (percentComplete > .5f);
-		OpenGLUtil.setWireframe(p.g, wire);
 		p.translate(-300, 0, 0);
 		int numChicks = 0;
 		for (int z = 0; z < 10000; z+=modelSize.z) {
 			for (int x = 0; x < 600; x+=modelSize.x) {
-				p.pushMatrix();
-				p.translate(x, 0, -z);
-				p.shape(obj);				
-				p.popMatrix();
-				numChicks++;
+				if(numChicks < 1000) {
+					p.pushMatrix();
+					p.translate(x, 0, -z);
+					p.rotateY(p.noise(x * 10f, numChicks, z));
+					p.shape(obj);				
+					p.popMatrix();
+					numChicks++;
+				}
 			}
 		}
 		p.debugView.setValue("numChicks", numChicks);
