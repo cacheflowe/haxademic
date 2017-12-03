@@ -1,6 +1,5 @@
 package com.haxademic.demo.draw.shapes;
 
-import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.draw.context.DrawUtil;
@@ -18,12 +17,11 @@ extends PAppletHax {
 
 	protected PShape shapeIcos;
 	protected PImage img;
-	protected float _frames = 240;
 
 	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, "800" );
-		p.appConfig.setProperty( AppSettings.HEIGHT, "800" );
-		p.appConfig.setProperty( AppSettings.FILLS_SCREEN, "false" );
+		p.appConfig.setProperty( AppSettings.LOOP_FRAMES, 240 );
+		p.appConfig.setProperty( AppSettings.WIDTH, 800 );
+		p.appConfig.setProperty( AppSettings.HEIGHT, 800 );
 	}
 
 	public void setup() {
@@ -63,15 +61,13 @@ extends PAppletHax {
 	public void drawApp() {
 		background(255);
 		
-		float percentComplete = ((float)(p.frameCount%_frames)/_frames);
-
 		// setup lights
 		DrawUtil.setBetterLights(p);
 		
 		// icosahedron
 		p.pushMatrix();
 		p.translate(p.width/2f, p.height/2f);
-		p.rotateY(percentComplete * P.TWO_PI);
+		p.rotateY(loop.progressRads());
 		shapeIcos.disableStyle();
 		p.fill(20);
 		p.noStroke();

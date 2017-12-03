@@ -19,13 +19,12 @@ extends PAppletHax {
 
 	protected PShape shapeIcos;
 	protected PImage texture;
-	protected float _frames = 360;
 	protected PShader texShader;
 
 	protected void overridePropsFile() {
+		p.appConfig.setProperty( AppSettings.LOOP_FRAMES, 360 );
 		p.appConfig.setProperty( AppSettings.WIDTH, 1000 );
 		p.appConfig.setProperty( AppSettings.HEIGHT, 800 );
-		p.appConfig.setProperty( AppSettings.FILLS_SCREEN, false );
 	}
 
 	public void setup() {
@@ -50,17 +49,14 @@ extends PAppletHax {
 	public void drawApp() {
 		background(0);
 		
-		// loop progress
-		float percentComplete = ((float)(p.frameCount%_frames)/_frames);
-		
 		// draw icosahedron
 		p.pushMatrix();
 		p.translate(p.width/2f, p.height/2f);
-		p.rotateY(percentComplete * P.TWO_PI);
-		p.rotateZ(0.05f + 0.05f * P.sin(-P.PI/2f + P.TWO_PI * percentComplete));
+		p.rotateY(loop.progressRads());
+		p.rotateZ(0.05f + 0.05f * P.sin(-P.PI/2f + loop.progressRads()));
 		
 		// apply vertex shader & draw icosahedron
-		texShader.set("displaceStrength", 0.3f + 0.3f * P.sin(-P.PI/2f + P.TWO_PI * percentComplete));
+		texShader.set("displaceStrength", 0.3f + 0.3f * P.sin(-P.PI/2f + loop.progressRads()));
 		p.shader(texShader);  
 		p.shape(shapeIcos);
 		p.resetShader();

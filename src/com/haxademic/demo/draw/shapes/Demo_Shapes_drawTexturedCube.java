@@ -13,17 +13,16 @@ public class Demo_Shapes_drawTexturedCube
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
-	protected int _frames = 60;
-	PImage img;
+	protected PImage img;
 	
 	protected void overridePropsFile() {
+		p.appConfig.setProperty( AppSettings.LOOP_FRAMES, 60 );
 		p.appConfig.setProperty( AppSettings.WIDTH, 800 );
 		p.appConfig.setProperty( AppSettings.HEIGHT, 800 );
 	}
 
 	public void setup() {
 		super.setup();
-		img = DemoAssets.squareTexture();
 		noStroke();
 	}
 
@@ -32,14 +31,12 @@ extends PAppletHax {
 		lights();
 		translate(width/2, height/2, -200);
 		
-		float percentComplete = ((float)(p.frameCount%_frames)/_frames);
-		float easedPercent = Penner.easeInOutQuart(percentComplete, 0, 1, 1);
-		float radsComplete = percentComplete * P.TWO_PI;
+		float easedPercent = Penner.easeInOutQuart(loop.progress(), 0, 1, 1);
 		float radsCompleteEased = easedPercent * P.TWO_PI;
 
-		rotateX(P.PI + 0.2f * P.sin(radsComplete)); 
+		rotateX(P.PI + 0.2f * P.sin(loop.progressRads())); 
 		rotateY(radsCompleteEased * 0.25f); 
 		
-		Shapes.drawTexturedCube(p.g, 200, img);
+		Shapes.drawTexturedCube(p.g, 200, DemoAssets.squareTexture());
 	}
 }

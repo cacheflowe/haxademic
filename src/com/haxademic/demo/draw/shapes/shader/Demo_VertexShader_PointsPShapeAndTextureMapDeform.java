@@ -23,7 +23,6 @@ extends PAppletHax {
 
 	protected PerlinTexture perlin;
 	protected BaseTexture audioTexture;
-	protected float _frames = 360;
 
 	protected PShape shape;
 	protected PImage texture;
@@ -31,14 +30,16 @@ extends PAppletHax {
 	protected PGraphics buffer;
 	float w = 1024;
 	float h = 512;
+	int FRAMES = 300;
 
 	protected void overridePropsFile() {
+		p.appConfig.setProperty(AppSettings.LOOP_FRAMES, FRAMES);
 		p.appConfig.setProperty(AppSettings.WIDTH, 1024);
 		p.appConfig.setProperty(AppSettings.HEIGHT, 512);
 		p.appConfig.setProperty(AppSettings.FULLSCREEN, false);
 		p.appConfig.setProperty(AppSettings.RENDERING_MOVIE, false);
-		p.appConfig.setProperty(AppSettings.RENDERING_MOVIE_START_FRAME, (int) _frames);
-		p.appConfig.setProperty(AppSettings.RENDERING_MOVIE_STOP_FRAME, (int) (_frames * 2));
+		p.appConfig.setProperty(AppSettings.RENDERING_MOVIE_START_FRAME, 1 + FRAMES);
+		p.appConfig.setProperty(AppSettings.RENDERING_MOVIE_STOP_FRAME, 1 + FRAMES * 2);
 		p.appConfig.setProperty(AppSettings.APP_VIEWER_WINDOW, true);
 	}
 
@@ -83,9 +84,6 @@ extends PAppletHax {
 	}
 
 	public void drawApp() {
-		// calculate loop
-		float percentComplete = ((float)(p.frameCount%_frames)/_frames);
-		
 		// update displacement texture
 		// perlin.update(0.15f, 0.05f, p.frameCount/ 10f, 0);
 		audioTexture.update();
@@ -105,8 +103,8 @@ extends PAppletHax {
 		pointsTexturedShader.set("pointSize", 1f); // 2.5f + 1.5f * P.sin(P.TWO_PI * percentComplete));
 		pointsTexturedShader.set("width", w);
 		pointsTexturedShader.set("height", h);
-		pointsTexturedShader.set("spread", 2.5f + 0.5f * P.sin(P.PI + 2f * P.TWO_PI * percentComplete));
-		pointsTexturedShader.set("mixVal", 0.5f + 0.5f * P.sin(P.TWO_PI * percentComplete));
+		pointsTexturedShader.set("spread", 2.5f + 0.5f * P.sin(P.PI + 2f * loop.progressRads()));
+		pointsTexturedShader.set("mixVal", 0.5f + 0.5f * P.sin(loop.progressRads()));
 		pointsTexturedShader.set("displaceStrength", 130f);//130f + 130f * P.sin(P.PI + P.TWO_PI * percentComplete));
 		buffer.shader(pointsTexturedShader);  
 		buffer.shape(shape);

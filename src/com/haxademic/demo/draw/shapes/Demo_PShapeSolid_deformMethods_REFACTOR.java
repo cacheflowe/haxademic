@@ -18,19 +18,15 @@ extends PAppletHax {
 
 	protected PShape obj;
 	protected PShapeSolid objSolid;
-	protected PImage img;
-	protected float _frames = 60;
 
 	protected void overridePropsFile() {
+		p.appConfig.setProperty( AppSettings.LOOP_FRAMES, 60 );
 		p.appConfig.setProperty( AppSettings.WIDTH, 800 );
 		p.appConfig.setProperty( AppSettings.HEIGHT, 800 );
 	}
 
 	public void setup() {
 		super.setup();	
-
-		// load texture
-		img = DemoAssets.squareTexture();
 		
 		// build obj PShape
 		obj = DemoAssets.objSkullRealistic();
@@ -78,8 +74,6 @@ extends PAppletHax {
 	public void drawApp() {
 		background(0);
 		
-		float percentComplete = ((float)(p.frameCount%_frames)/_frames);
-
 		// blending test 
 //		if(P.round(p.frameCount/20) % 2 == 0) {
 //			OpenGLUtil.setBlending(p.g, true);
@@ -106,12 +100,12 @@ extends PAppletHax {
 		// rotate
 		p.translate(p.width/2f, p.height/2.1f);
 //		p.translate(0, 0, -1000);
-		p.rotateX(P.sin(-percentComplete * P.TWO_PI) * 0.3f);
+		p.rotateX(P.sin(-loop.progressRads()) * 0.3f);
 //		p.rotateY(-percentComplete * P.TWO_PI);
 
 		// swap deform modes
 		int deformMode = P.round(p.frameCount / 100) % 3;
-		if(deformMode == 0)		objSolid.updateWithTrig(true, percentComplete * 2f, 0.05f, 17.4f);
+		if(deformMode == 0)		objSolid.updateWithTrig(true, loop.progress() * 2f, 0.05f, 17.4f);
 		else if(deformMode == 1) objSolid.deformWithAudio();
 		else if(deformMode == 2) objSolid.deformWithAudioByNormals();
 

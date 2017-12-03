@@ -14,7 +14,6 @@ extends PAppletHax {
 
 	protected PShape obj;
 	protected float modelHeight;
-	protected float _frames = 360;
 	
 	protected void setupFirstFrame() {
 		// build obj PShape and scale to window

@@ -24,6 +24,7 @@ import com.haxademic.core.hardware.kinect.KinectWrapperV2Mac;
 import com.haxademic.core.hardware.midi.MidiWrapper;
 import com.haxademic.core.hardware.osc.OscWrapper;
 import com.haxademic.core.hardware.webcam.WebCamWrapper;
+import com.haxademic.core.render.AnimationLoop;
 import com.haxademic.core.render.GifRenderer;
 import com.haxademic.core.render.ImageSequenceRenderer;
 import com.haxademic.core.render.JoonsWrapper;
@@ -188,6 +189,7 @@ extends PApplet
 	 * Helps the Renderer object work without trying to read a MIDI file
 	 */
 	protected Boolean _isRenderingMidi = true;
+	protected AnimationLoop loop = null;
 
 	public void settings() {
 		P.p = p = this;
@@ -323,6 +325,7 @@ extends PApplet
 	 * Initializes app-wide support objects for hardware interaction and rendering purposes.
 	 */
 	protected void initHaxademicObjects() {
+		if(p.appConfig.getFloat(AppSettings.LOOP_FRAMES, 0) != 0) loop = new AnimationLoop(p.appConfig.getFloat(AppSettings.LOOP_FRAMES, 0));
 		// save single reference for other objects
 		if( appConfig.getBoolean(AppSettings.INIT_ESS_AUDIO, true) == true ) {
 			_audioInput = new AudioInputWrapper( p, _isRenderingAudio );
@@ -386,6 +389,7 @@ extends PApplet
 		//if( keyPressed ) handleInput( false ); // handles overall keyboard commands
 		killScreensaver();
 		initializeOn1stFrame();	// wait until draw() happens, to avoid weird launch crash if midi signals were coming in as haxademic starts
+		if(loop != null) loop.update();
 		handleRenderingStepthrough();
 		updateAudioData();
 		if( kinectWrapper != null ) kinectWrapper.update();

@@ -16,9 +16,10 @@ extends PAppletHax {
 
 	protected PShape obj;
 	protected float objHeight;
-	protected float frames = 60;
 	
 	protected void overridePropsFile() {
+		p.appConfig.setProperty( AppSettings.LOOP_FRAMES, 60 );
+		
 		p.appConfig.setProperty( AppSettings.SUNFLOW, true );
 		p.appConfig.setProperty( AppSettings.SUNFLOW_ACTIVE, false );
 		p.appConfig.setProperty( AppSettings.SUNFLOW_QUALITY, AppSettings.SUNFLOW_QUALITY_HIGH );
@@ -27,7 +28,7 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.HEIGHT, 720 );
 		p.appConfig.setProperty( AppSettings.RENDERING_IMAGE_SEQUENCE, false );
 		p.appConfig.setProperty( AppSettings.RENDERING_IMAGE_SEQUENCE_START_FRAME, 3 );
-		p.appConfig.setProperty( AppSettings.RENDERING_IMAGE_SEQUENCE_STOP_FRAME, 3 + (int) frames - 1 );
+		p.appConfig.setProperty( AppSettings.RENDERING_IMAGE_SEQUENCE_STOP_FRAME, 3 + (int) frames - );
 	}
 
 	public void setup() {
@@ -52,9 +53,6 @@ extends PAppletHax {
 		joons.jr.background(JoonsWrapper.BACKGROUND_AO);
 		p.translate(0, 0, -width);
 		
-		// progress
-		float progress = (p.frameCount % frames) / frames;
-
 		// draw environment
 		p.pushMatrix();
 		setUpRoom();
@@ -63,7 +61,7 @@ extends PAppletHax {
 		// draw shape
 		p.pushMatrix();
 		p.rotateZ(P.PI);
-		p.rotateY(progress * P.TWO_PI / 5f); // divide by 5 for pentagon
+		p.rotateY(loop.progressRads() / 5f); // divide by 5 for pentagon
 		joons.jr.fill(JoonsWrapper.MATERIAL_PHONG, 205, 150, 205);		p.fill( 205, 150, 205 );
 		PShapeUtil.drawTrianglesJoons(p, obj, 1);
 		p.popMatrix();

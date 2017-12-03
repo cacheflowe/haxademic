@@ -2,11 +2,9 @@ package com.haxademic.demo.draw.shapes;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.shapes.Icosahedron;
-import com.haxademic.core.draw.shapes.PShapeSolid;
 import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.file.DemoAssets;
 
@@ -17,13 +15,8 @@ public class Demo_Icosahedron_Basic
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
-	PImage texture;
-	PShape icosa;
-
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, 640 );
-		p.appConfig.setProperty( AppSettings.HEIGHT, 640 );
-	}
+	protected PImage texture;
+	protected PShape icosa;
 
 	public void setup() {
 		super.setup();

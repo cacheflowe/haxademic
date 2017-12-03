@@ -16,11 +16,6 @@ extends PAppletHax {
 
 	protected PShape shape;
 	
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, 800 );
-		p.appConfig.setProperty( AppSettings.HEIGHT, 800 );
-	}
-
 	public void setup()	{
 		super.setup();
 		shape = 	Shapes.createCan(p.width * 2, p.height * 2, 140).getTessellation();

@@ -2,6 +2,7 @@ package com.haxademic.demo.draw.shapes.shader;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.draw.image.PerlinTexture;
 import com.haxademic.core.draw.shapes.Shapes;
 import com.haxademic.core.file.FileUtil;
@@ -19,13 +20,9 @@ extends PAppletHax {
 	protected PImage texture;
 	protected PerlinTexture perlin;
 	protected PShader displacementShader;
-	protected float _frames = 360;
 
 	protected void overridePropsFile() {
-	}
-
-	public void setup() {
-		super.setup();	
+		p.appConfig.setProperty(AppSettings.LOOP_FRAMES, 160);
 	}
 	
 	protected void setupFirstFrame() {
@@ -45,8 +42,6 @@ extends PAppletHax {
 	}
 
 	public void drawApp() {
-		float percentComplete = ((float)(p.frameCount%_frames)/_frames);
-		
 		background(0);
 		
 		// update displacement texture
@@ -54,7 +49,7 @@ extends PAppletHax {
 		
 		// rotate
 		p.translate(p.width/2f, p.height/2f, 0);
-		p.rotateY(0.4f * P.sin(percentComplete * P.TWO_PI)); // -P.HALF_PI +
+		p.rotateY(0.4f * P.sin(loop.progressRads())); // -P.HALF_PI +
 
 		// draw mesh with texture or without
 		displacementShader.set("displacementMap", perlin.texture());
