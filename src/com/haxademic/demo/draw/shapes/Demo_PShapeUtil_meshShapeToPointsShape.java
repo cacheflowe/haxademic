@@ -16,14 +16,7 @@ extends PAppletHax {
 	protected float modelHeight;
 	protected float _frames = 360;
 
-	protected void overridePropsFile() {
-	}
-
-	public void setup() {
-		super.setup();	
-	}
-	
-	protected void firstFrameSetup() {
+	protected void setupFirstFrame() {
 		// build obj PShape and scale to window
 		obj = DemoAssets.objSkullRealistic();
 		float objHeight = p.height * 0.8f;
@@ -35,7 +28,6 @@ extends PAppletHax {
 	}
 
 	public void drawApp() {
-		if(p.frameCount == 1) firstFrameSetup();
 		float percentComplete = ((float)(p.frameCount%_frames)/_frames);
 		
 		background(0);

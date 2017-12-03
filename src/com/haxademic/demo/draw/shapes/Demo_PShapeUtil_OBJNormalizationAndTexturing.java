@@ -33,7 +33,7 @@ extends PAppletHax {
 		super.setup();	
 	}
 	
-	protected void firstFrameSetup() {
+	protected void setupFirstFrame() {
 		// load texture
 		img = DemoAssets.squareTexture();
 		
@@ -55,7 +55,6 @@ extends PAppletHax {
 	}
 
 	public void drawApp() {
-		if(p.frameCount == 1) firstFrameSetup();
 		float percentComplete = ((float)(p.frameCount%_frames)/_frames);
 		
 		background(0);

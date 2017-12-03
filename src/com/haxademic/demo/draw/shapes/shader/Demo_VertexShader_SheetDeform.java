@@ -28,7 +28,7 @@ extends PAppletHax {
 		super.setup();	
 	}
 	
-	protected void firstFrameSetup() {
+	protected void setupFirstFrame() {
 		// load texture
 		perlin = new PerlinTexture(p, 256, 256);
 		texture = perlin.texture();
@@ -45,7 +45,6 @@ extends PAppletHax {
 	}
 
 	public void drawApp() {
-		if(p.frameCount == 1) firstFrameSetup();
 		float percentComplete = ((float)(p.frameCount%_frames)/_frames);
 		
 		background(0);

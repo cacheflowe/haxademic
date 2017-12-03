@@ -23,11 +23,7 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, P.round(1 + _frames) );
 	}
 
-	public void setup() {
-		super.setup();	
-	}
-	
-	protected void firstFrameSetup() {
+	protected void setupFirstFrame() {
 		// build obj PShape and scale to window
 		obj = DemoAssets.objSkullRealistic();
 		float objHeight = p.height * 0.95f;
@@ -36,7 +32,6 @@ extends PAppletHax {
 	}
 
 	public void drawApp() {
-		if(p.frameCount == 1) firstFrameSetup();
 		// progress
 		float percentComplete = ((float)(p.frameCount%_frames)/_frames);
 		float radsComplete = percentComplete * P.TWO_PI;

@@ -32,11 +32,7 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, P.round(1 + _frames) );
 	}
 
-	public void setup() {
-		super.setup();	
-	}
-	
-	protected void firstFrameSetup() {
+	protected void setupFirstFrame() {
 		// build obj PShape and scale to window
 		obj = p.loadShape( FileUtil.getFile("models/poly/chicken/Chicken_01.obj"));
 		
@@ -48,8 +44,6 @@ extends PAppletHax {
 	}
 
 	public void drawApp() {
-		if(p.frameCount == 1) firstFrameSetup();
-		
 		p.pushMatrix();
 		background(255);
 		CameraUtil.setCameraDistance(p.g, 100, 20000);

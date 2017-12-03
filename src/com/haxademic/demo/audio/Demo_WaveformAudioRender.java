@@ -19,12 +19,11 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.RENDER_AUDIO_FILE, FileUtil.getFile("audio/cacheflowe_bigger_loop.wav") );
 	}
 
-	public void setup() {
-		super.setup();
+	public void setupFirstFrame() {
+		p.background(0);
 	}
 	
 	public void drawApp() {
-		if(p.frameCount == 1) p.background(0);
 		DrawUtil.feedback(p.g, 0, 0.2f, 10f);
 
 		// draw waveform
