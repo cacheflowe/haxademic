@@ -1,10 +1,8 @@
 package com.haxademic.demo.app;
 
-import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.draw.context.DrawUtil;
-import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.math.easing.EasingFloat;
 
 public class Demo_PAppletHax_ScreenSizeFullscreenOptions
