@@ -40,7 +40,6 @@ extends PAppletHax {
 		p.appConfig.setProperty(AppSettings.RENDERING_MOVIE, false);
 		p.appConfig.setProperty(AppSettings.RENDERING_MOVIE_START_FRAME, 1 + FRAMES);
 		p.appConfig.setProperty(AppSettings.RENDERING_MOVIE_STOP_FRAME, 1 + FRAMES * 2);
-		p.appConfig.setProperty(AppSettings.APP_VIEWER_WINDOW, true);
 	}
 
 	protected void setupFirstFrame() {

@@ -91,6 +91,7 @@ void main() {
   float x = vertex.x * width;
   float y = vertex.y * height;
   float vertexIndex = x + y * width;
+  vertexIndex = gl_VertexID;
 
   // copy original vertex (0-1) and mult components to fit the defined width/height as a 2d sheet
   vec4 vertGrid = vertex;
