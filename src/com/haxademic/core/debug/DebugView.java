@@ -121,7 +121,7 @@ public class DebugView {
 		debugPanelW = P.max(debugPanelW, textW);
 		p.noStroke();
 		p.fill(0,225);
-		p.rect(0, 0, textW + padding, p.height);
+		p.rect(0, 0, debugPanelW + padding, p.height);
 		p.fill(255);
 		p.text(debugStr, 10, 10, textW, p.height - padding);
 		

@@ -413,7 +413,8 @@ extends PApplet
 	}
 
 	protected void showStats() {
-		if(showDebug == false) return; 
+		if(showDebug == false) return;
+		p.noLights();
 		_stats.update();
 		debugView.draw();
 	}
