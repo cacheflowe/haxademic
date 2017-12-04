@@ -13,7 +13,7 @@ public class Shapes {
 		// draw triangles
 		p.beginShape(P.TRIANGLES);
 		
-		float segmentCircumference = (2f*P.PI) / numSegments;
+		float segmentRads = P.TWO_PI / numSegments;
 		float halfHeight = cylinderHeight / 2;
 		
 		for( int i = 0; i < numSegments; i++ )
@@ -21,45 +21,45 @@ public class Shapes {
 			if( color > 0 ) p.fill( color );
 			
 			// top disc
-			p.vertex( P.sin( i * segmentCircumference ) * innerRadius, P.cos( i * segmentCircumference ) * innerRadius, halfHeight );
-			p.vertex( P.sin( i * segmentCircumference ) * radius, P.cos( i * segmentCircumference ) * radius, halfHeight );
-			p.vertex( P.sin( (i + 1) * segmentCircumference ) * radius, P.cos( (i + 1) * segmentCircumference ) * radius, halfHeight );
+			p.vertex( P.cos( i * segmentRads ) * innerRadius, P.sin( i * segmentRads ) * innerRadius, halfHeight );
+			p.vertex( P.cos( i * segmentRads ) * radius, P.sin( i * segmentRads ) * radius, halfHeight );
+			p.vertex( P.cos( (i + 1) * segmentRads ) * radius, P.sin( (i + 1) * segmentRads ) * radius, halfHeight );
 			
-			p.vertex( P.sin( i * segmentCircumference ) * innerRadius, P.cos( i * segmentCircumference ) * innerRadius, halfHeight );
-			p.vertex( P.sin( (i + 1) * segmentCircumference ) * innerRadius, P.cos( (i + 1) * segmentCircumference ) * innerRadius, halfHeight );
-			p.vertex( P.sin( (i + 1) * segmentCircumference ) * radius, P.cos( (i + 1) * segmentCircumference ) * radius, halfHeight );
+			p.vertex( P.cos( i * segmentRads ) * innerRadius, P.sin( i * segmentRads ) * innerRadius, halfHeight );
+			p.vertex( P.cos( (i + 1) * segmentRads ) * innerRadius, P.sin( (i + 1) * segmentRads ) * innerRadius, halfHeight );
+			p.vertex( P.cos( (i + 1) * segmentRads ) * radius, P.sin( (i + 1) * segmentRads ) * radius, halfHeight );
 			
 			// bottom disc
-			p.vertex( P.sin( i * segmentCircumference ) * innerRadius, P.cos( i * segmentCircumference ) * innerRadius, -halfHeight );
-			p.vertex( P.sin( i * segmentCircumference ) * radius, P.cos( i * segmentCircumference ) * radius, -halfHeight );
-			p.vertex( P.sin( (i + 1) * segmentCircumference ) * radius, P.cos( (i + 1) * segmentCircumference ) * radius, -halfHeight );
+			p.vertex( P.cos( i * segmentRads ) * innerRadius, P.sin( i * segmentRads ) * innerRadius, -halfHeight );
+			p.vertex( P.cos( i * segmentRads ) * radius, P.sin( i * segmentRads ) * radius, -halfHeight );
+			p.vertex( P.cos( (i + 1) * segmentRads ) * radius, P.sin( (i + 1) * segmentRads ) * radius, -halfHeight );
 			
-			p.vertex( P.sin( i * segmentCircumference ) * innerRadius, P.cos( i * segmentCircumference ) * innerRadius, -halfHeight );
-			p.vertex( P.sin( (i + 1) * segmentCircumference ) * innerRadius, P.cos( (i + 1) * segmentCircumference ) * innerRadius, -halfHeight );
-			p.vertex( P.sin( (i + 1) * segmentCircumference ) * radius, P.cos( (i + 1) * segmentCircumference ) * radius, -halfHeight );
+			p.vertex( P.cos( i * segmentRads ) * innerRadius, P.sin( i * segmentRads ) * innerRadius, -halfHeight );
+			p.vertex( P.cos( (i + 1) * segmentRads ) * innerRadius, P.sin( (i + 1) * segmentRads ) * innerRadius, -halfHeight );
+			p.vertex( P.cos( (i + 1) * segmentRads ) * radius, P.sin( (i + 1) * segmentRads ) * radius, -halfHeight );
 			
 			if( wallcolor > 0 ) p.fill( wallcolor );
 			// outer wall
-			p.vertex( P.sin( i * segmentCircumference ) * radius, P.cos( i * segmentCircumference ) * radius, halfHeight );
-			p.vertex( P.sin( i * segmentCircumference ) * radius, P.cos( i * segmentCircumference ) * radius, -halfHeight );
-			p.vertex( P.sin( (i + 1) * segmentCircumference ) * radius, P.cos( (i + 1) * segmentCircumference ) * radius, halfHeight );
+			p.vertex( P.cos( i * segmentRads ) * radius, P.sin( i * segmentRads ) * radius, halfHeight );
+			p.vertex( P.cos( i * segmentRads ) * radius, P.sin( i * segmentRads ) * radius, -halfHeight );
+			p.vertex( P.cos( (i + 1) * segmentRads ) * radius, P.sin( (i + 1) * segmentRads ) * radius, halfHeight );
 			
-			p.vertex( P.sin( i * segmentCircumference ) * radius, P.cos( i * segmentCircumference ) * radius, -halfHeight );
-			p.vertex( P.sin( (i + 1) * segmentCircumference ) * radius, P.cos( (i + 1) * segmentCircumference ) * radius, halfHeight );
-			p.vertex( P.sin( (i + 1) * segmentCircumference ) * radius, P.cos( (i + 1) * segmentCircumference ) * radius, -halfHeight );
+			p.vertex( P.cos( i * segmentRads ) * radius, P.sin( i * segmentRads ) * radius, -halfHeight );
+			p.vertex( P.cos( (i + 1) * segmentRads ) * radius, P.sin( (i + 1) * segmentRads ) * radius, halfHeight );
+			p.vertex( P.cos( (i + 1) * segmentRads ) * radius, P.sin( (i + 1) * segmentRads ) * radius, -halfHeight );
 			
 			// only draw inner radius if needed
 			if( innerRadius > 0 )
 			{
 				if( wallcolor > 0 ) p.fill(wallcolor);
 				// inner wall
-				p.vertex( P.sin( i * segmentCircumference ) * innerRadius, P.cos( i * segmentCircumference ) * innerRadius, halfHeight );
-				p.vertex( P.sin( i * segmentCircumference ) * innerRadius, P.cos( i * segmentCircumference ) * innerRadius, -halfHeight );
-				p.vertex( P.sin( (i + 1) * segmentCircumference ) * innerRadius, P.cos( (i + 1) * segmentCircumference ) * innerRadius, halfHeight );
+				p.vertex( P.cos( i * segmentRads ) * innerRadius, P.sin( i * segmentRads ) * innerRadius, halfHeight );
+				p.vertex( P.cos( i * segmentRads ) * innerRadius, P.sin( i * segmentRads ) * innerRadius, -halfHeight );
+				p.vertex( P.cos( (i + 1) * segmentRads ) * innerRadius, P.sin( (i + 1) * segmentRads ) * innerRadius, halfHeight );
 				
-				p.vertex( P.sin( i * segmentCircumference ) * innerRadius, P.cos( i * segmentCircumference ) * innerRadius, -halfHeight );
-				p.vertex( P.sin( (i + 1) * segmentCircumference ) * innerRadius, P.cos( (i + 1) * segmentCircumference ) * innerRadius, halfHeight );
-				p.vertex( P.sin( (i + 1) * segmentCircumference ) * innerRadius, P.cos( (i + 1) * segmentCircumference ) * innerRadius, -halfHeight );
+				p.vertex( P.cos( i * segmentRads ) * innerRadius, P.sin( i * segmentRads ) * innerRadius, -halfHeight );
+				p.vertex( P.cos( (i + 1) * segmentRads ) * innerRadius, P.sin( (i + 1) * segmentRads ) * innerRadius, halfHeight );
+				p.vertex( P.cos( (i + 1) * segmentRads ) * innerRadius, P.sin( (i + 1) * segmentRads ) * innerRadius, -halfHeight );
 			}
 		}
 		
