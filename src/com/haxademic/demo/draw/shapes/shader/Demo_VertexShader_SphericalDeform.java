@@ -32,7 +32,7 @@ extends PAppletHax {
 		super.setup();	
 	}
 	
-	protected void firstFrameSetup() {
+	protected void setupFirstFrame() {
 		// build obj PShape and scale to window
 		// Note: Without getTesselation(), PShape.setTexture(PImage) is SUPER slow. 
 		obj = DemoAssets.objSkullRealistic().getTessellation();
@@ -59,8 +59,6 @@ extends PAppletHax {
 	}
 
 	public void drawApp() {
-		if(p.frameCount == 1) firstFrameSetup();
-		
 		DrawUtil.setBetterLights(p);
 		background(0);
 		p.translate(p.width/2f, p.height/2f, -width*1.5f);

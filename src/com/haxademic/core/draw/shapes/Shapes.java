@@ -289,14 +289,14 @@ public class Shapes {
 		return sh;
 	}
 	
-	public static PShape createSphere(int detail, PImage tex) {
-		P.p.textureMode(P.NORMAL);
-		PShape sh = P.p.createShape();
-		sh.beginShape(P.SPHERE);
-		sh.stroke(255);
-		sh.noFill();
-		sh.endShape(); 
-		return sh;
-	}
+//	public static PShape createSphere(int detail, PImage tex) {
+//		P.p.textureMode(P.NORMAL);
+//		PShape sh = P.p.createShape();
+//		sh.beginShape(P.SPHERE);
+//		sh.stroke(255);
+//		sh.noFill();
+//		sh.endShape(); 
+//		return sh;
+//	}
 
 }

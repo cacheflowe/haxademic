@@ -33,7 +33,7 @@ extends PAppletHax {
 		super.setup();	
 	}
 	
-	protected void firstFrameSetup() {
+	protected void setupFirstFrame() {
 		// load texture
 		img = DemoAssets.squareTexture();
 		
@@ -55,7 +55,6 @@ extends PAppletHax {
 	}
 
 	public void drawApp() {
-		if(p.frameCount == 1) firstFrameSetup();
 		float percentComplete = ((float)(p.frameCount%_frames)/_frames);
 		
 		background(0);
@@ -64,7 +63,6 @@ extends PAppletHax {
 		
 		// rotate
 		p.translate(p.width/2f, p.height/2f, -width*1.5f);
-		p.rotateZ(P.PI);
 		p.rotateY(0.4f * P.sin(percentComplete * P.TWO_PI)); // -P.HALF_PI +
 
 		
@@ -82,10 +80,10 @@ extends PAppletHax {
 		}
 		
 		// draw ground
-		p.translate(0, -modelHeight, 0);
+		p.translate(0, modelHeight/2f, 0);
 		p.rotateX(P.HALF_PI);
 		p.fill(80);
-		p.rect(0, 0, modelHeight * 2, modelHeight * 2);
+		p.rect(0, 0, modelHeight, modelHeight);
 	}
 		
 }

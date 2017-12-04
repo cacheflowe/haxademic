@@ -39,13 +39,10 @@ extends PAppletHax {
 		p.appConfig.setProperty(AppSettings.RENDERING_MOVIE, false);
 		p.appConfig.setProperty(AppSettings.RENDERING_MOVIE_START_FRAME, (int) _frames);
 		p.appConfig.setProperty(AppSettings.RENDERING_MOVIE_STOP_FRAME, (int) (_frames * 2));
+		p.appConfig.setProperty(AppSettings.APP_VIEWER_WINDOW, true);
 	}
 
-	public void setup() {
-		super.setup();	
-	}
-	
-	protected void firstFrameSetup() {
+	protected void setupFirstFrame() {
 		// load & set texture
 		// perlin = new PerlinTexture(p, (int) w, (int) h);
 		audioTexture = new TextureEQGrid((int) w, (int) h);
@@ -87,7 +84,6 @@ extends PAppletHax {
 
 	public void drawApp() {
 		// calculate loop
-		if(p.frameCount == 1) firstFrameSetup();
 		float percentComplete = ((float)(p.frameCount%_frames)/_frames);
 		
 		// update displacement texture

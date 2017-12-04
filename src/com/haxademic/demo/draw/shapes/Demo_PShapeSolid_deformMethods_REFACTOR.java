@@ -111,7 +111,7 @@ extends PAppletHax {
 
 		// swap deform modes
 		int deformMode = P.round(p.frameCount / 100) % 3;
-		if(deformMode == 0) 		objSolid.updateWithTrig(true, percentComplete * 2f, 0.05f, 17.4f);
+		if(deformMode == 0)		objSolid.updateWithTrig(true, percentComplete * 2f, 0.05f, 17.4f);
 		else if(deformMode == 1) objSolid.deformWithAudio();
 		else if(deformMode == 2) objSolid.deformWithAudioByNormals();
 

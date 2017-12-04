@@ -259,13 +259,17 @@ extends PApplet
 	}
 
 	protected void overridePropsFile() {
-		if( customPropsFile == null ) P.println("YOU SHOULD OVERRIDE overridePropsFile()");
+		if( customPropsFile == null ) P.println("YOU SHOULD OVERRIDE overridePropsFile(). Using run.properties");
+	}
+
+	protected void setupFirstFrame() {
+		// YOU SHOULD OVERRIDE setupFirstFrame() to avoid 5000ms Processing/Java timeout in setup()
 	}
 
 	protected void drawApp() {
 		P.println("YOU MUST OVERRIDE drawApp()");
 	}
-
+	
 	public void handleInput( boolean isMidi ) {
 //		p.println("YOU MUST OVERRIDE KEYPRESSED");
 		if( isMidi == true ) {
@@ -374,6 +378,7 @@ extends PApplet
 			if( p.appConfig.getString("midi_device_in", "") != "" ) {
 				midi = new MidiWrapper( p, p.appConfig.getString("midi_device_in", ""), p.appConfig.getString("midi_device_out", "") );
 			}
+			setupFirstFrame();
 		}
 	}
 

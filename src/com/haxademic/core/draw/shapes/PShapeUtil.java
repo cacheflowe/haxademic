@@ -320,7 +320,7 @@ public class PShapeUtil {
 	}
 	
 	public static float getObjHeight(PShape shape) {
-		return getObjHeight(shape, 0);
+		return getObjHeight(shape, 0) * 2f;
 	}
 
 	public static float getObjHeight(PShape shape, float maxAbsYVertex) {
@@ -332,6 +332,36 @@ public class PShapeUtil {
 			maxAbsYVertex = getObjHeight(shape.getChild(j), maxAbsYVertex);
 		}
 		return maxAbsYVertex;
+	}
+	
+	public static float getObjWidth(PShape shape) {
+		return getObjWidth(shape, 0) * 2f;
+	}
+	
+	public static float getObjWidth(PShape shape, float maxAbsXVertex) {
+		// find mesh size height. this should only be used after centering the mesh
+		for (int i = 0; i < shape.getVertexCount(); i++) {
+			if(P.abs(shape.getVertex(i).x) > maxAbsXVertex) maxAbsXVertex = P.abs(shape.getVertex(i).x);
+		}
+		for (int j = 0; j < shape.getChildCount(); j++) {
+			maxAbsXVertex = getObjWidth(shape.getChild(j), maxAbsXVertex);
+		}
+		return maxAbsXVertex;
+	}
+	
+	public static float getObjDepth(PShape shape) {
+		return getObjWidth(shape, 0) * 2f;
+	}
+	
+	public static float getObjDepth(PShape shape, float maxAbsZVertex) {
+		// find mesh size height. this should only be used after centering the mesh
+		for (int i = 0; i < shape.getVertexCount(); i++) {
+			if(P.abs(shape.getVertex(i).z) > maxAbsZVertex) maxAbsZVertex = P.abs(shape.getVertex(i).z);
+		}
+		for (int j = 0; j < shape.getChildCount(); j++) {
+			maxAbsZVertex = getObjDepth(shape.getChild(j), maxAbsZVertex);
+		}
+		return maxAbsZVertex;
 	}
 	
 	/**
