@@ -64,6 +64,7 @@ extends PAppletHax
 	protected CursorToggle cursorToggle;
 	protected SecondScreenViewer viewer;
 
+	// Crossfade: 1st slide: `-no_fade_out-` (and don't `-no_exit_delay-`) -> 2nd slide: `-no_queue_delay-` (and don't `-no_fade_in-`)
 
 	/////////////////////////////////////////////////////////////
 	// SETUP
@@ -97,9 +98,9 @@ extends PAppletHax
 			surface.setSize(1920, 1080);
 			surface.setLocation(1920, 0);  // location has to happen after size, to break it out of fullscreen
 //			surface.setAlwaysOnTop(true);
-//		}	
+//		}
 	}
-	
+
 	protected void initObjects() {
 		MouseShutdown.instance();
 		brightnessBumper = new BrightnessBumper();
@@ -164,9 +165,9 @@ extends PAppletHax
 		String[] directories = FileUtil.getDirsInDir(FileUtil.getFile("images/slideshow/twf"));
 		for (int i = 0; i < directories.length; i++) {
 			loadSlidesFromDir(directories[i]);
-		}	
+		}
 	}
-	
+
 //	protected void loadSlidesFromDir(String imagesPath) {
 //		ArrayList<String> images = FileUtil.getFilesInDirOfTypes(imagesPath, "png,mp4,mov,gif");
 //		for (int i = 0; i < images.size(); i++) {
