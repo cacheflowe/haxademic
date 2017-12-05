@@ -1,4 +1,4 @@
-package com.haxademic.sketch.hardware;
+package com.haxademic.demo.hardware.midi;
 
 import java.util.HashMap;
 
@@ -7,7 +7,7 @@ import com.haxademic.core.app.PAppletHax;
 
 import themidibus.MidiBus;
 
-public class MidibusTest
+public class Demo_MidiBus
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
