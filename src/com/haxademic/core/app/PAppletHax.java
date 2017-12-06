@@ -375,7 +375,6 @@ extends PApplet
 	}
 
 	public void draw() {
-		//if( keyPressed ) handleInput( false ); // handles overall keyboard commands
 		killScreensaver();
 		initializeOn1stFrame();	// wait until draw() happens, to avoid weird launch crash if midi signals were coming in as haxademic starts
 		if(loop != null) loop.update();
@@ -392,7 +391,7 @@ extends PApplet
 		setAppDockIconAndTitle();
 		keyboardState.update();
 		midi.update();
-		oscWrapper.update();
+		if(oscWrapper != null) oscWrapper.update();
 		if(renderer == PRenderers.PDF) finishPdfRender();
 	}
 	
@@ -569,32 +568,6 @@ extends PApplet
 //		}
 	}
 
-	////////////////////////////////////////////////////
-	// MIDIBUS LISTENERS
-	////////////////////////////////////////////////////
-//	public void noteOn(int channel, int  pitch, int velocity) {
-//		if( midi != null ) { 
-//			if( midi.midiNoteIsOn( pitch ) == 0 ) {
-//				midi.noteOn( channel, pitch, velocity );
-//				try{ 
-//					handleInput( true );
-//				}
-//				catch( ArrayIndexOutOfBoundsException e ){println("noteOn BROKE!");}
-//			}
-//		}
-//		if(_debugMidi == true) P.println(channel, pitch, velocity);
-//	}
-//	
-//	public void noteOff(int channel, int  pitch, int velocity) {
-//		if( midi != null ) midi.noteOff( channel, pitch, velocity );
-//		if(_debugMidi == true) P.println(channel, pitch, velocity);
-//	}
-//	
-//	public void controllerChange(int channel, int number, int value) {
-//		if( midi != null ) midi.controllerChange( channel, number, value );
-//		if(_debugMidi == true) P.println(channel, number, value);
-//	}
-
 
 	/**
 	 * PApplet-level listener for AudioInput data from the ESS library
@@ -629,7 +602,7 @@ extends PApplet
 	 * Getters / Setters
 	 */
 	// instance of audio wrapper -------------------------------------------------
-	public AudioInputWrapper getAudio() { return _audioInput; }
+//	public AudioInputWrapper getAudio() { return _audioInput; }
 	// get fps of app -------------------------------------------------
 	public int getFps() { return _fps; }
 	// get fps factor of app -------------------------------------------------

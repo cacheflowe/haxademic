@@ -17,7 +17,7 @@ public class ModuleBase {
 	public ModuleBase() {
 		p = P.p;
 		toxi = Toxiclibs.instance(P.p).toxi;
-		_audioData = p.getAudio();
+		_audioData = p._audioInput;
 	}
 	
 	public void dispose() {

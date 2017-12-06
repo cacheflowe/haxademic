@@ -238,7 +238,7 @@ extends PAppletHax {
 		for( int i = 0; i < mesh.faces.size(); i++ ) {
 			float eq = 1;
 			if( eqStep != 0 ) {
-				eq = p.getAudio().getFFT().spectrum[Math.round(i*eqStep) % 512];
+				eq = p._audioInput.getFFT().spectrum[Math.round(i*eqStep) % 512];
 				eq *= 15f;
 			}
 //			if(i == 10) P.println(eq);
@@ -277,7 +277,7 @@ extends PAppletHax {
 		for( int i = 0; i < numVertices; i++ ) {
 			float eq = 1;
 			if( eqStep != 0 ) {
-				eq = p.getAudio().getFFT().spectrum[Math.round(i*eqStep) % 512];
+				eq = p._audioInput.getFFT().spectrum[Math.round(i*eqStep) % 512];
 				eq *= _audioLightener.value();
 			}
 			_elasticVertices.get( i ).update();
@@ -305,7 +305,7 @@ extends PAppletHax {
 		int numVertices = _mesh.getNumVertices();
 		int eqStep = Math.round( (float) numVertices / 512f );
 		for( int i = 0; i < numVertices; i++ ) {
-			float eq = p.getAudio().getFFT().spectrum[Math.round(i/eqStep) % 64];	// only use bottom 64 eq bands
+			float eq = p._audioInput.getFFT().spectrum[Math.round(i/eqStep) % 64];	// only use bottom 64 eq bands
 			eq *= 2f;
 			
 			if( _mesh.getVertexForID( i ) != null ) {

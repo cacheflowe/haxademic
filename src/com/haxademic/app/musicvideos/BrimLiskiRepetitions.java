@@ -266,7 +266,7 @@ extends PAppletHax {
 			_color.setTargetColor( TColor.newARGB( ImageUtil.getPixelColor( _myMovie, Math.round( _x ), Math.round( _y ) ) ) );
 			_color.update();
 			
-			float amp = 0.2f + p.getAudio().getFFT().spectrum[_index % 512] * 5;
+			float amp = 0.2f + p._audioInput.getFFT().spectrum[_index % 512] * 5;
 			
 			p.fill( _color.color().toARGB() );
 			// draw 2d circle
@@ -402,7 +402,7 @@ extends PAppletHax {
 		int numVertices = _mesh.getNumVertices();
 		int eqStep = Math.round( (float) numVertices / 512f );
 		for( int i = 0; i < numVertices; i++ ) {
-			float eq = p.getAudio().getFFT().spectrum[Math.round(i/eqStep) % 64];
+			float eq = p._audioInput.getFFT().spectrum[Math.round(i/eqStep) % 64];
 			eq *= 2f;
 			
 			if( _mesh.getVertexForID( i ) != null ) {
