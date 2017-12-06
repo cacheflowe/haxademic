@@ -41,7 +41,7 @@ import com.haxademic.core.draw.filters.shaders.WobbleFilter;
 import com.haxademic.core.hardware.midi.devices.AbletonNotes;
 import com.haxademic.core.hardware.midi.devices.AkaiMpdPads;
 import com.haxademic.core.hardware.midi.devices.LaunchControl;
-import com.haxademic.core.hardware.osc.TouchOscPads;
+import com.haxademic.core.hardware.osc.devices.TouchOscPads;
 import com.haxademic.core.hardware.shared.InputTrigger;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.sketch.hardware.kinect_openni.KinectFaceRecorder;
@@ -123,15 +123,6 @@ extends PAppletHax {
 	protected int[] _textureEffectsIndices = {0,0,0,0,0,0,0};	// store a effects number for each texture position after the first
 	protected int _numTextureEffects = 16 + 8; // +8 to give a good chance at removing the filter from the texture slot
 	
-//	public void oscEvent(OscMessage theOscMessage) {  
-//		super.oscEvent(theOscMessage);
-//		String oscMsg = theOscMessage.addrPattern();
-//		// handle brightness slider
-//		if( oscMsg.indexOf("/7/fader0") != -1) {
-////			_brightnessVal = theOscMessage.get(0).floatValue() * 3.0f;
-//		}		
-//	}
-
 	protected void overridePropsFile() {
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
 		p.appConfig.setProperty( AppSettings.FULLSCREEN, "true" );
@@ -300,6 +291,7 @@ extends PAppletHax {
 	/////////////////////////////////////////////////////////////////
 
 	public void drawApp() {
+		handleInputTriggers();
 		background(0);
 		if(_faceRecorder != null) updateFaceRecorder();
 		checkBeat();
@@ -631,8 +623,7 @@ extends PAppletHax {
 	// User input
 	/////////////////////////////////////////////////////////////////
 	
-	public void handleInput( boolean isMidi ) {
-		super.handleInput( isMidi );
+	public void handleInputTriggers() {
 		
 //		if( p.key == 'a' || p.key == 'A' ){
 //			_isAutoPilot = !_isAutoPilot;

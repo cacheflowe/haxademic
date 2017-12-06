@@ -1,75 +1,85 @@
 package com.haxademic.core.hardware.osc;
 
-import java.util.Hashtable;
+import java.util.HashMap;
 
 import com.haxademic.core.app.P;
+import com.haxademic.core.hardware.shared.ButtonState;
 
 import netP5.NetAddress;
 import oscP5.OscMessage;
 import oscP5.OscP5;
-import processing.core.PApplet;
 
 public class OscWrapper {
 	
 	protected OscP5 _oscP5;
 	protected NetAddress _remoteLocation;
 	
-	protected Hashtable<String, Float> oscMsgMap;
+	protected HashMap<String, Float> oscMsgMap;
+	protected HashMap<String, ButtonState> oscMsgState;
 	
-	public static String MSG_COLOR = "/osc/color";
-	public static String MSG_CAMERA = "/osc/camera";
-	public static String MSG_MODE = "/osc/mode";
-	public static String MSG_FOLLOW = "/osc/follow";
-	public static String MSG_BLOCKSIZE = "/osc/blocksize";
-	public static String MSG_LINES = "/osc/lines";
-	
-	public OscWrapper(PApplet pApp) {
+	public OscWrapper() {
 		_oscP5 = new OscP5(this, 12000);
 		_remoteLocation = new NetAddress("127.0.0.1",12000);
-		initOscMessages();
+		oscMsgMap = new HashMap<String, Float>();
+		oscMsgState = new HashMap<String, ButtonState>();
 	}
 	
-	protected void initOscMessages()
-	{
-		oscMsgMap = new Hashtable<String, Float>();
-		oscMsgMap.put(MSG_COLOR, 0f);
-		oscMsgMap.put(MSG_CAMERA, 0f);
-		oscMsgMap.put(MSG_MODE, 0f);
-		oscMsgMap.put(MSG_FOLLOW, 0f);
-		oscMsgMap.put(MSG_BLOCKSIZE, 0f);
-		oscMsgMap.put(MSG_LINES, 0f);
-	}
-	
-	public void setOscMapItem( String oscMessage, float floatValue ) {
-		oscMsgMap.put( oscMessage, floatValue );
-	}
-	
-	public int oscMsgIsOn( String oscMessage ) {
-//		P.print("check: "+oscMessage);
+	///////////////////////////////
+	// PUBLIC INTERFACE
+	///////////////////////////////
+
+	public float getValue( String oscMessage ) {
 		if( oscMsgMap.containsKey( oscMessage ) ) {
-			if( oscMsgMap.get( oscMessage ) > 0 ) {
-				oscMsgMap.put( oscMessage, 0.0f );
-				return 1;
-			}
+			return oscMsgMap.get(oscMessage);
+		} else {
+			return 0;
 		}
-		return 0; 
 	}
 	
-	/**
-	 * listener for incoming OSC data
-	 */
+	public boolean isValueTriggered( String oscMessage ) {
+		if( oscMsgState.containsKey( oscMessage ) ) {
+			return oscMsgState.get(oscMessage) == ButtonState.TRIGGER;
+		} else {
+			return false;
+		}
+	}
+	
+	///////////////////////////////
+	// INCOMING EVENT CALLBACK
+	///////////////////////////////
+
 	public void oscEvent(OscMessage theOscMessage) {
 		float oscValue = theOscMessage.get(0).floatValue();
 		String oscMsg = theOscMessage.addrPattern();
-		// PAppletHax.println(oscMsg+": "+oscValue);
-		setOscMapItem(oscMsg, oscValue);
-
-		try {
-			if( oscValue > 0 ) {
-				P.p.handleInput( true );
-			}
-		}
-		catch( ArrayIndexOutOfBoundsException e ){P.println("noteOn BROKE!");}
+		if(P.p.showDebug) P.println(oscMsg+": "+oscValue);
+		oscMsgMap.put(oscMsg, oscValue);
+		ButtonState newState = (oscValue == 0) ? ButtonState.OFF : ButtonState.TRIGGER;
+		oscMsgState.put(oscMsg, newState);
 	}
+	
+	///////////////////////////////
+	// AUTO-SWITCH `TRIGGER` TO `ON`
+	///////////////////////////////
+	
+	public void update() {
+		for (String key : oscMsgState.keySet()) {
+			if(oscMsgState.get(key) == ButtonState.TRIGGER) oscMsgState.put(key, ButtonState.ON);
+		}
+	}
+
+	///////////////////////////////
+	// DEBUG
+	///////////////////////////////
+
+	public void printButtons() {
+		P.p.noStroke();
+		P.p.fill(255);
+		String debugStr = "";
+		for (String key : oscMsgMap.keySet()) {
+			debugStr += key + ": " + oscMsgMap.get(key) + "\n";
+		}
+		P.p.text(debugStr, 520, 20, P.p.width - 40, P.p.height - 40);
+	}
+
 
 }

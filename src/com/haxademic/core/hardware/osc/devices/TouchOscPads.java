@@ -1,4 +1,4 @@
-package com.haxademic.core.hardware.osc;
+package com.haxademic.core.hardware.osc.devices;
 
 public class TouchOscPads {
 	public static String PAD_01 = "/7/push1";

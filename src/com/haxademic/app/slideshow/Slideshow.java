@@ -234,12 +234,6 @@ extends PAppletHax
 		super.mouseClicked();
 	}
 
-	// input handler
-
-	public void handleInput(boolean isMidi) {
-		super.handleInput(isMidi);
-	}
-
 	/////////////////////////////////////////////////////////////
 	// CYCLE THROUGH SLIDES
 	/////////////////////////////////////////////////////////////

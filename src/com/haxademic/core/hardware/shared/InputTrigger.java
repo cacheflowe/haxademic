@@ -33,11 +33,11 @@ public class InputTrigger {
 		for( int i=0; i < _keys.length; i++ ) {
 			if( P.p.keyboardState.isKeyTriggered(_keys[i]) ) return true;
 		}
-//		if(P.p._oscWrapper != null) {
-//			for( int i=0; i < _oscMessages.length; i++ ) {
-//				if( P.p._oscWrapper.oscMsgIsOn( _oscMessages[i] ) == 1 ) return true;
-//			}
-//		}
+		if(P.p.oscWrapper != null) {
+			for( int i=0; i < _oscMessages.length; i++ ) {
+				if( P.p.oscWrapper.isValueTriggered(_oscMessages[i])) return true;
+			}
+		}
 		for( int i=0; i < _midiNotes.length; i++ ) {
 			if( P.p.midi.isMidiButtonTriggered(_midiNotes[i])) return true;
 		}
@@ -48,11 +48,11 @@ public class InputTrigger {
 		for( int i=0; i < _keys.length; i++ ) {
 			if( P.p.keyboardState.isKeyOn(_keys[i]) ) return true;
 		}
-//		if(P.p._oscWrapper != null) {
-//			for( int i=0; i < _oscMessages.length; i++ ) {
-//				if( P.p._oscWrapper.oscMsgIsOn( _oscMessages[i] ) == 1 ) return true;
-//			}
-//		}
+		if(P.p.oscWrapper != null) {
+			for( int i=0; i < _oscMessages.length; i++ ) {
+				if( P.p.oscWrapper.getValue(_oscMessages[i]) > 0 ) return true;
+			}
+		}
 		for( int i=0; i < _midiNotes.length; i++ ) {
 			if( P.p.midi.isMidiButtonOn(_midiNotes[i])) return true;
 		}

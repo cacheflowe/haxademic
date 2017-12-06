@@ -132,7 +132,7 @@ extends PApplet
 	/**
 	 * Wraps up incoming OSC commands with the oscP5 library.
 	 */
-	public OscWrapper _oscWrapper = null;
+	public OscWrapper oscWrapper = null;
 
 	/**
 	 * Native Java object that simulates occasional keystrokes to prevent the system's screensaver from starting.
@@ -358,7 +358,7 @@ extends PApplet
 		midi = new MidiState();
 		keyboardState = new KeyboardState();
 		if( p.appConfig.getBoolean( "leap_active", false ) == true ) leapMotion = new LeapMotion(this);
-		if( p.appConfig.getBoolean( "osc_active", false ) == true ) _oscWrapper = new OscWrapper( p );
+		if( p.appConfig.getBoolean( AppSettings.OSC_ACTIVE, false ) == true ) oscWrapper = new OscWrapper();
 		joons = ( p.appConfig.getBoolean(AppSettings.SUNFLOW, false ) == true ) ?
 				new JoonsWrapper( p, width, height, ( p.appConfig.getString(AppSettings.SUNFLOW_QUALITY, "low" ) == AppSettings.SUNFLOW_QUALITY_HIGH ) ? JoonsWrapper.QUALITY_HIGH : JoonsWrapper.QUALITY_LOW, ( p.appConfig.getBoolean(AppSettings.SUNFLOW_ACTIVE, true ) == true ) ? true : false )
 				: null;
@@ -392,6 +392,7 @@ extends PApplet
 		setAppDockIconAndTitle();
 		keyboardState.update();
 		midi.update();
+		oscWrapper.update();
 		if(renderer == PRenderers.PDF) finishPdfRender();
 	}
 	

@@ -120,6 +120,7 @@ extends PAppletHax {
 	
 	public void drawApp() {
 		if( p.frameCount == 1 ) initRender();
+		handleInputTriggers();
 		p.background(0);
 		
 		// seek video
@@ -243,10 +244,9 @@ extends PAppletHax {
 		_triPixelFilter.setPixelSize( pixels );
 	}
 	
-	public void handleInput( boolean isMidi ) {
-		super.handleInput( isMidi );
+	public void handleInputTriggers() {
 //		 P.println(_midi._notesOn);
-		if( isMidi && midi != null ) {
+		if( midi != null ) {
 			if( midi.isMidiButtonOn( 58 ) ) newSection();
 			else if( midi.isMidiButtonOn( 57 ) ) newMeasure();
 			else if( midi.isMidiButtonOn( 65 ) ) timer();

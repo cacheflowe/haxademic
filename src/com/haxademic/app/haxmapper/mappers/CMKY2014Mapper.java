@@ -53,10 +53,6 @@ extends HaxMapper{
 		p.appConfig.setProperty( AppSettings.HEIGHT, "1000" );
 	}
 
-//	public void oscEvent(OscMessage theOscMessage) {  
-//		super.oscEvent(theOscMessage);
-//	}
-
 	protected void buildMappingGroups() {
 		// give each group a texture to start with
 		for( int i=0; i < _mappingGroups.size(); i++ ) {

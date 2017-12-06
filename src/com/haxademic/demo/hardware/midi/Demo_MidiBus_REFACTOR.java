@@ -52,10 +52,10 @@ extends PAppletHax {
 		if( midi != null ) { 
 			if( midi.isMidiButtonOn( pitch ) == false ) {
 				midi.noteOn( channel, pitch, velocity );
-				try{ 
-					handleInput( true );
-				}
-				catch( ArrayIndexOutOfBoundsException e ){println("noteOn BROKE!");}
+//				try{ 
+//					handleInput( true );
+//				}
+//				catch( ArrayIndexOutOfBoundsException e ){println("noteOn BROKE!");}
 			}
 		}
 	}

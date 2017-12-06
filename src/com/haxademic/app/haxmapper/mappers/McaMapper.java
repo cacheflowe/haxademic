@@ -74,10 +74,6 @@ extends HaxMapper{
 		p.appConfig.setProperty( AppSettings.RETINA, false );
 	}
 
-//	public void oscEvent(OscMessage theOscMessage) {  
-//		super.oscEvent(theOscMessage);
-//	}
-	
 	/////////////////////////////////////////////////////////////////
 	// required overrides to init mapping groups and texture pools 
 	/////////////////////////////////////////////////////////////////

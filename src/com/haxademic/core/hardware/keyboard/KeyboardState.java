@@ -10,8 +10,6 @@ import themidibus.MidiListener;
 
 public class KeyboardState {
 
-	public static boolean DEBUG = true;
-		
 	protected HashMap<Integer, ButtonState> keyboardButtons = new HashMap<Integer, ButtonState>();
 
 	public KeyboardState() {
@@ -60,6 +58,10 @@ public class KeyboardState {
 	public void setKeyOff(int keyCode) {
 		keyboardButtons.put(keyCode, ButtonState.OFF);
 	}
+	
+	///////////////////////////////
+	// DEBUG
+	///////////////////////////////
 	
 	public void printKeys() {
 		P.p.noStroke();

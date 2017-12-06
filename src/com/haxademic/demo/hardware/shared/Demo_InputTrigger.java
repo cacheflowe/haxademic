@@ -13,6 +13,7 @@ extends PAppletHax {
 	
 	protected InputTrigger trigger = new InputTrigger(
 			new char[]{'c', 'v'},
+			new String[]{"/toggleC_2"},
 			new Integer[]{LaunchControl.PAD_01, LaunchControl.PAD_03}
 	);
 	
@@ -20,19 +21,24 @@ extends PAppletHax {
 	
 	protected void overridePropsFile() {
 		p.appConfig.setProperty(AppSettings.MIDI_DEVICE_IN_INDEX, 0 );
+		p.appConfig.setProperty(AppSettings.OSC_ACTIVE, true );
 	}
 	
 	public void drawApp() {
+		// show triggering - TODO: add CC changes to trigger
 		// if(hardwareButtons.isKeyOn(triggerKey) || hardwareButtons.isMidiButtonOn(26)) {
 		if(trigger.triggered()) P.println("trigger");
 		if(trigger.on()) {
-			p.background(0, 255, 0);
+			p.background(0, 255, 255f * p.oscWrapper.getValue("/1/faderC"));
 		} else {
 			p.background(0);
 		}
-		keyboardState.printKeys();
-		midi.printButtons();
-		midi.printCC();
+		
+		// debug print maps
+		p.keyboardState.printKeys();
+		p.midi.printButtons();
+		p.midi.printCC();
+		p.oscWrapper.printButtons();
 	}
 	
 }

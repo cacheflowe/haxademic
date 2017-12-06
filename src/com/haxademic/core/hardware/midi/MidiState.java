@@ -10,8 +10,6 @@ import themidibus.SimpleMidiListener;
 
 public class MidiState implements SimpleMidiListener {
 	
-	public static boolean DEBUG = true;
-
 	protected HashMap<Integer, ButtonState> midiButtons = new HashMap<Integer, ButtonState>();
 	protected HashMap<Integer, Integer> midiCC = new HashMap<Integer, Integer>();
 	
@@ -71,21 +69,21 @@ public class MidiState implements SimpleMidiListener {
 	@Override
 	public void controllerChange(int channel, int  pitch, int velocity) {
 		// TODO Auto-generated method stub
-		if(DEBUG) P.println("controllerChange", channel, pitch, velocity);
+		if(P.p.showDebug) P.println("controllerChange", channel, pitch, velocity);
 		midiCC.put(pitch, velocity);
 	}
 
 	@Override
 	public void noteOff(int channel, int  pitch, int velocity) {
 		// TODO Auto-generated method stub
-		if(DEBUG) P.println("noteOff", channel, pitch, velocity);
+		if(P.p.showDebug) P.println("noteOff", channel, pitch, velocity);
 		midiButtons.put(pitch, ButtonState.OFF);
 	}
 
 	@Override
 	public void noteOn(int channel, int pitch, int velocity) {
 		// TODO Auto-generated method stub
-		if(DEBUG) P.println("noteOn", channel, pitch, velocity);
+		if(P.p.showDebug) P.println("noteOn", channel, pitch, velocity);
 		midiButtons.put(pitch, ButtonState.TRIGGER);
 
 	}

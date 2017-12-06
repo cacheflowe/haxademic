@@ -56,7 +56,7 @@ import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.midi.devices.AbletonNotes;
 import com.haxademic.core.hardware.midi.devices.AkaiMpdPads;
 import com.haxademic.core.hardware.midi.devices.LaunchControl;
-import com.haxademic.core.hardware.osc.TouchOscPads;
+import com.haxademic.core.hardware.osc.devices.TouchOscPads;
 import com.haxademic.core.hardware.shared.InputTrigger;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.ui.CursorToggle;

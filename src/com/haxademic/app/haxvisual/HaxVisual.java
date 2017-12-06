@@ -113,12 +113,8 @@ extends PAppletHax
 	}
 
 	
-	public void setup () {
-		super.setup();
-	}
-
-	public void handleInput( boolean isMidi ) {
-		super.handleInput( isMidi );
+	public void keyPressed() {
+		super.keyPressed();
 		// int prevModule = _curModule;
 		
 		// change programs with midi pads
@@ -153,7 +149,7 @@ extends PAppletHax
 //		else if( midi.midiPadIsOn( MidiWrapper.PROGRAM_11 ) == 1 ) _readyForProgramChangeInt = 10;
 //		else if( midi.midiPadIsOn( MidiWrapper.PROGRAM_12 ) == 1 ) _readyForProgramChangeInt = 11;
 		
-		if( !isMidi ) {
+//		if( !isMidi ) {
 			// change programs with keyboard
 			if ( key == '!' ) _readyForProgramChangeInt = 0;
 			if ( key == '@' ) _readyForProgramChangeInt = 1;
@@ -172,7 +168,7 @@ extends PAppletHax
 			if ( key == '\\' ) { 
 				ScreenUtil.screenshotHiRes( p, 3, P.P3D, FileUtil.getHaxademicOutputPath() + "saved_img/" );
 			}
-		}
+//		}
 		
 		// pass input on to module
 		_modules.get( _curModule ).handleKeyboardInput();

@@ -127,8 +127,8 @@ extends PAppletHax {
 	}
 	
 	
-	public void handleInput( boolean isMidi ) {
-		super.handleInput( isMidi );
+	public void keyPressed() {
+		super.keyPressed();
 		
 		if( p.key == 'd' ){
 			_isDebug = !_isDebug;

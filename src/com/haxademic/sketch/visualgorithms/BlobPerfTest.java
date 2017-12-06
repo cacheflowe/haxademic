@@ -155,8 +155,8 @@ extends PAppletHax {
 		_canvas.endDraw();
 	}
 	
-	public void handleInput( boolean isMidi ) {
-		super.handleInput( isMidi );
+	public void keyPressed() {
+		super.keyPressed();
 		if( p.key == 'd' ){
 			_usingPimg = !_usingPimg;
 		}

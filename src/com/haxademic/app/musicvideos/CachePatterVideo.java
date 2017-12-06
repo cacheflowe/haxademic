@@ -200,6 +200,7 @@ extends PAppletHax {
 	 */
 
 	public void drawApp() {
+		handleInputTriggers();
 		p.background(0,0,0);
 		drawClouds();
 		drawSuperformula();
@@ -324,11 +325,10 @@ extends PAppletHax {
 	 * TIMING & SECTION CHANGES ======================================================================================
 	 */
 
-	public void handleInput( boolean isMidi ) {
-		super.handleInput( isMidi );
+	public void handleInputTriggers() {
 		// P.println(_midi._notesOn);
 		// handle midi file input
-		if( isMidi && midi != null ) {
+		if( midi != null ) {
 			if( midi.isMidiButtonOn( 64 ) ) newTiming();
 			else if( midi.isMidiButtonOn( 60 ) ) kick();
 			else if( midi.isMidiButtonOn( 61 ) ) snare();
