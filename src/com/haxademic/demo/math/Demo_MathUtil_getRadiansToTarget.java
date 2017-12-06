@@ -5,19 +5,16 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.image.ImageUtil;
-import com.haxademic.core.file.FileUtil;
+import com.haxademic.core.file.DemoAssets;
 import com.haxademic.core.math.MathUtil;
 
 import processing.core.PGraphics;
-import processing.core.PImage;
 
 public class Demo_MathUtil_getRadiansToTarget
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
-	PImage img;
 	PGraphics pg;
-
 
 	protected void overridePropsFile() {
 		p.appConfig.setProperty( AppSettings.WIDTH, 640 );
@@ -27,8 +24,7 @@ extends PAppletHax {
 
 	public void setup() {
 		super.setup();
-		img = p.loadImage(FileUtil.getFile("images/smiley-big.png"));
-		pg = ImageUtil.imageToGraphics(img);
+		pg = ImageUtil.imageToGraphics(DemoAssets.smallTexture());
 	}
 
 	public void drawApp() {
@@ -41,7 +37,6 @@ extends PAppletHax {
 		p.debugView.setHelpLine("sin (y)", ""+P.sin(radsFromCenter));
 		p.debugView.setHelpLine("angle", ""+MathUtil.radiansToDegrees(radsFromCenter));
 
-		float radsFromMouse = MathUtil.getRadiansToTarget(p.mouseX, p.mouseY, p.width/2, p.height/2);
 		p.rotate(-radsFromCenter);
 		p.image(pg, 0, 0);
 		p.popMatrix();
