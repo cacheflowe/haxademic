@@ -8,4 +8,7 @@ public class PRenderers {
 	public static String P2D = P.P2D;
 	public static String P3D = P.P3D;
 	public static String PDF = P.PDF;
+	public static String currentRenderer() {
+		return P.p.g.getClass().getName();
+	}
 }

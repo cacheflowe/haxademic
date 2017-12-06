@@ -3,6 +3,7 @@ package com.haxademic.sketch.three_d;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
+import com.haxademic.core.constants.PRenderers;
 import com.haxademic.core.draw.color.TColorInit;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.shapes.BoxBetween;
@@ -20,7 +21,7 @@ extends PAppletHax {
 		// Sunflow needs to use colors between 0-1. Default processing color mode is 0-255. 
 		// TColor likes the former, so we normalize with TColorInit, depending on the rendering mode.
 		// This way we can always use normal 0-255 RGB color blending in either case.
-		if( rendererMode == P.P3D ) {
+		if( PRenderers.currentRenderer() == P.P3D ) {
 			p.colorMode( P.RGB, 1f, 1f, 1f, 1f );
 		} else {
 			p.colorMode( P.RGB, 255f, 255f, 255f, 255f );
@@ -40,7 +41,7 @@ extends PAppletHax {
 	public void drawApp() {
 
 		DrawUtil.setBasicLights( p );
-		if( rendererMode == P.P3D ) p.background(0,0,0,255);
+		if( PRenderers.currentRenderer() == P.P3D ) p.background(0,0,0,255);
 
 		p.translate(p.width/2, p.height/2, 500);
 		// rotateY(frameCount/40f);

@@ -69,125 +69,49 @@ extends PApplet
 //		PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName());
 //	}
 
+	// app
+	protected static PAppletHax p;				// Global/static ref to PApplet - any audio-reactive object should be passed this reference, or grabbed from this static ref.
+	public P5Properties appConfig;				// Loads the project .properties file to configure several app properties externally.
+	protected String customPropsFile = null;		// Loads an app-specific project .properties file.
+	protected String renderer; 					// The current rendering engine
+	protected Robot _robot;
 
-	/**
-	 * Global/static ref to PApplet - any audio-reactive object should be passed this reference, or grabbed from this static ref.
-	 */
-	protected static PAppletHax p;
-
-	/**
-	 * Loads the project .properties file to configure several app properties externally.
-	 */
-	public P5Properties appConfig;
-
-	/**
-	 * Loads an app-specific project .properties file.
-	 */
-	protected String customPropsFile = null;
-	
-	/**
-	 * The current rendering engine
-	 */
-	protected String renderer;
-
-	/**
-	 * Single instance and wrapper for the ESS audio object.
-	 */
+	// audio
 	public AudioInputWrapper _audioInput;
 	public AudioInputWrapperMinim audioIn;
-
-	/**
-	 * Single instance of the data needed to draw a realtime waveform / oscilloscpe.
-	 */
 	public WaveformData _waveformData;
 	public WaveformData _waveformDataMinim;
 
-	/**
-	 * Renderer object for saving frames and rendering movies & gifs.
-	 */
+	// rendering
 	public Renderer _renderer;
 	public MIDISequenceRenderer _midiRenderer;
 	public GifRenderer _gifRenderer;
 	public ImageSequenceRenderer imageSequenceRenderer;
+	protected Boolean _isRendering = true;
+	protected Boolean _isRenderingAudio = true;
+	protected Boolean _isRenderingMidi = true;
+	protected AnimationLoop loop = null;
+	protected JoonsWrapper joons;
 
-	/**
-	 * Wraps up MIDI functionality with theMIDIbus library.
-	 */
+	// input
 	public MidiState midi = null;
 	public MidiBus midiBus;
-	protected boolean _debugMidi = false;
 	public KeyboardState keyboardState;
-
-
-	/**
-	 * Wraps up Kinect functionality.
-	 */
 	public IKinectWrapper kinectWrapper = null;
-
-	/**
-	 * Wraps up Leap Motion functionality.
-	 */
 	public LeapMotion leapMotion = null;
-
-	/**
-	 * Wraps up incoming OSC commands with the oscP5 library.
-	 */
 	public OscWrapper oscWrapper = null;
 
-	/**
-	 * Native Java object that simulates occasional keystrokes to prevent the system's screensaver from starting.
-	 */
-	protected Robot _robot;
-
-	/**
-	 * Executable's target frames per second.
-	 * This value is set in .properties file.
-	 */
+	// debug
 	public int _fps;
-
-	/**
-	 * Stats debug class
-	 */
 	public Stats _stats;
-
-	/**
-	 * Flag for showing stats
-	 */
 	public boolean showDebug = false;
-
-	/**
-	 * Text for showing stats
-	 */
 	public DebugView debugView;
 	public SecondScreenViewer appViewerWindow;
 
-	/**
-	 * Graphical render mode
-	 */
-	public String rendererMode;
-
-	/**
-	 * Joons renderer wrapper
-	 */
-	protected JoonsWrapper joons;
-
-	/**
-	 * Helps the Renderer object work with minimal reconfiguration. Maybe this should be moved at some point...
-	 */
-	protected Boolean _isRendering = true;
-//	protected int _renderShutdown = -1;
-
-	/**
-	 * Helps the Renderer object work without trying to read an audio file
-	 */
-	protected Boolean _isRenderingAudio = true;
-
-	/**
-	 * Helps the Renderer object work without trying to read a MIDI file
-	 */
-	protected Boolean _isRenderingMidi = true;
-	protected AnimationLoop loop = null;
-
+	////////////////////////
+	// INIT
+	////////////////////////
+	
 	public void settings() {
 		P.p = p = this;
 		AppUtil.setFrameBackground(p,0,0,0);
@@ -198,12 +122,8 @@ extends PApplet
 		setRetinaScreen();
 	}
 	
-	/**
-	 * Called by PApplet to run before the first draw() command.
-	 */
 	public void setup () {
 		if(customPropsFile != null) DebugUtil.printErr("Make sure to load custom .properties files in settings()");
-		p.rendererMode = p.g.getClass().getName();
 		setAppletProps();
 		checkScreenManualPosition();
 		if(renderer != PRenderers.PDF) debugView = new DebugView( p );
@@ -216,6 +136,10 @@ extends PApplet
 		if( customPropsFile != null ) p.appConfig.loadPropertiesFile( customPropsFile );
 		customPropsFile = null;
 	}
+	
+	////////////////////////
+	// INIT GRAPHICS
+	////////////////////////
 	
 	protected void setRetinaScreen() {
 		if(p.appConfig.getBoolean(AppSettings.RETINA, false) == true) {
@@ -256,32 +180,6 @@ extends PApplet
 			}
 		}
 	}
-
-	protected void overridePropsFile() {
-		if( customPropsFile == null ) P.println("YOU SHOULD OVERRIDE overridePropsFile(). Using run.properties");
-	}
-
-	protected void setupFirstFrame() {
-		// YOU SHOULD OVERRIDE setupFirstFrame() to avoid 5000ms Processing/Java timeout in setup()
-	}
-
-	protected void drawApp() {
-		P.println("YOU MUST OVERRIDE drawApp()");
-	}
-
-	/**
-	 * Sets some initial Applet properties for OpenGL quality, FPS, and nocursor().
-	 */
-	protected void setAppletProps() {
-		_isRendering = p.appConfig.getBoolean(AppSettings.RENDERING_MOVIE, false);
-		if( _isRendering == true ) DebugUtil.printErr("When rendering, make sure to call super.keyPressed(); for esc key shutdown");
-		_isRenderingAudio = p.appConfig.getBoolean(AppSettings.RENDER_AUDIO, false);
-		_isRenderingMidi = p.appConfig.getBoolean(AppSettings.RENDER_MIDI, false);
-		_fps = p.appConfig.getInt(AppSettings.FPS, 60);
-		p.showDebug = p.appConfig.getBoolean(AppSettings.SHOW_DEBUG, false);
-		if(p.appConfig.getInt(AppSettings.FPS, 60) != 60) frameRate(_fps);
-		if(p.appConfig.getBoolean(AppSettings.HIDE_CURSOR, false) == true ) p.noCursor();
-	}
 	
 	protected void checkScreenManualPosition() {
 		boolean isFullscreen = p.appConfig.getBoolean(AppSettings.FULLSCREEN, false);
@@ -300,9 +198,21 @@ extends PApplet
 		}
 	}
 
-	/**
-	 * Initializes app-wide support objects for hardware interaction and rendering purposes.
-	 */
+	////////////////////////
+	// INIT OBJECTS
+	////////////////////////
+	
+	protected void setAppletProps() {
+		_isRendering = p.appConfig.getBoolean(AppSettings.RENDERING_MOVIE, false);
+		if( _isRendering == true ) DebugUtil.printErr("When rendering, make sure to call super.keyPressed(); for esc key shutdown");
+		_isRenderingAudio = p.appConfig.getBoolean(AppSettings.RENDER_AUDIO, false);
+		_isRenderingMidi = p.appConfig.getBoolean(AppSettings.RENDER_MIDI, false);
+		_fps = p.appConfig.getInt(AppSettings.FPS, 60);
+		p.showDebug = p.appConfig.getBoolean(AppSettings.SHOW_DEBUG, false);
+		if(p.appConfig.getInt(AppSettings.FPS, 60) != 60) frameRate(_fps);
+		if(p.appConfig.getBoolean(AppSettings.HIDE_CURSOR, false) == true ) p.noCursor();
+	}
+	
 	protected void initHaxademicObjects() {
 		if(p.appConfig.getFloat(AppSettings.LOOP_FRAMES, 0) != 0) loop = new AnimationLoop(p.appConfig.getFloat(AppSettings.LOOP_FRAMES, 0));
 		// save single reference for other objects
@@ -341,7 +251,6 @@ extends PApplet
 					p.appConfig.getInt(AppSettings.MIDI_DEVICE_IN_INDEX, 0), 
 					p.appConfig.getInt(AppSettings.MIDI_DEVICE_OUT_INDEX, 0)
 					);
-			_debugMidi = p.appConfig.getBoolean(AppSettings.MIDI_DEBUG, false);
 		}
 		midi = new MidiState();
 		keyboardState = new KeyboardState();
@@ -361,6 +270,26 @@ extends PApplet
 			setupFirstFrame();
 		}
 	}
+	
+	////////////////////////
+	// OVERRIDES
+	////////////////////////
+
+	protected void overridePropsFile() {
+		if( customPropsFile == null ) P.println("YOU SHOULD OVERRIDE overridePropsFile(). Using run.properties");
+	}
+
+	protected void setupFirstFrame() {
+		// YOU SHOULD OVERRIDE setupFirstFrame() to avoid 5000ms Processing/Java timeout in setup()
+	}
+
+	protected void drawApp() {
+		P.println("YOU MUST OVERRIDE drawApp()");
+	}
+	
+	////////////////////////
+	// DRAW
+	////////////////////////
 
 	public void draw() {
 		killScreensaver();
@@ -383,6 +312,10 @@ extends PApplet
 		if(renderer == PRenderers.PDF) finishPdfRender();
 	}
 	
+	////////////////////////
+	// UPDATE OBJECTS
+	////////////////////////	
+
 	protected void updateAudioData() {
 		if( _audioInput != null ) _audioInput.getBeatDetection(); // detect beats and pass through to current visual module	// 		int[] beatDetectArr =
 		if( audioIn != null ) {
@@ -404,6 +337,10 @@ extends PApplet
 			AppUtil.setAppToDockIcon(p);
 		}	
 	}
+	
+	////////////////////////
+	// RENDERING
+	////////////////////////
 	
 	protected void finishPdfRender() {
 		P.println("Finished PDF render.");
@@ -502,15 +439,16 @@ extends PApplet
 		}
 	}
 	
+	////////////////////////
+	// INPUT
+	////////////////////////
+	
 	protected void killScreensaver(){
 		// keep screensaver off - hit shift every 1000 frames
 		if( p.frameCount % 1000 == 10 ) _robot.keyPress(KeyEvent.VK_SHIFT);
 		if( p.frameCount % 1000 == 11 ) _robot.keyRelease(KeyEvent.VK_SHIFT);
 	}
 
-	/**
-	 * Called by PApplet as the keyboard input listener.
-	 */
 	public void keyPressed() {
 		// disable esc key - subclass must call super.keyPressed()
 		if( p.key == P.ESC && ( p.appConfig.getBoolean(AppSettings.DISABLE_ESC_KEY, false) == true ) ) {   //  || p.appConfig.getBoolean(AppSettings.RENDERING_MOVIE, false) == true )
@@ -531,10 +469,10 @@ extends PApplet
 		keyboardState.setKeyOff(p.keyCode);
 	}
 
-	/**
-	 * Called by PApplet to shut down the Applet.
-	 * We stop rendering if applicable, and clean up hardware connections that might barf if left open.
-	 */
+	////////////////////////
+	// SHUTDOWN
+	////////////////////////
+	
 	public void stop() {
 		WebCamWrapper.dispose();
 //		if( _launchpadViz != null ) _launchpadViz.dispose();
@@ -546,30 +484,26 @@ extends PApplet
 		super.stop();
 	}
 
-	// PApplet-level listeners ------------------------------------------------
-	/**
-	 * PApplet-level listener for Movie frame update events
-	 */
+	////////////////////////
+	// PAPPLET LISTENERS
+	////////////////////////
+	
+	// Movie playback
 	public void movieEvent(Movie m) {
-//		if(p.frameCount > 2) { // solves Processing 2.x video problem: http://forum.processing.org/two/discussion/5926/video-library-problem-in-processing-2-2-1
-			m.read();
-//		}
+		if(p.frameCount <= 2) return; // solves Processing 2.x video problem: http://forum.processing.org/two/discussion/5926/video-library-problem-in-processing-2-2-1
+		m.read();
 	}
 
 
-	/**
-	 * PApplet-level listener for AudioInput data from the ESS library
-	 */
+	// ESS audio input
 	public void audioInputData(AudioInput theInput) {
 		_audioInput.getFFT().getSpectrum(theInput);
-//		if( _launchpadViz != null ) _launchpadViz.getAudio().getFFT().getSpectrum(theInput);
+		// if( _launchpadViz != null ) _launchpadViz.getAudio().getFFT().getSpectrum(theInput);
 		_audioInput.detector.detect(theInput);
 		_waveformData.updateWaveformData( theInput, _audioInput._bufferSize );
 	}
 
-	/**
-	 * PApplet-level listeners for LeapMotion events
-	 */
+	// LEAP MOTION EVENTS
 	void leapOnInit(){
 	    // println("Leap Motion Init");
 	}
@@ -585,12 +519,5 @@ extends PApplet
 	void leapOnExit(){
 	    // println("Leap Motion Exit");
 	}
-
-	/**
-	 * Getters / Setters
-	 */
-	// instance of audio wrapper -------------------------------------------------
-	// get fps factor of app -------------------------------------------------
-//	public float getFpsFactor() { return 30f / _fps; }
 
 }
