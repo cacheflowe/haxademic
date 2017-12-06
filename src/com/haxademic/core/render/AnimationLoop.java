@@ -28,7 +28,7 @@ public class AnimationLoop {
 		float loopFrames = (float) P.p.frameCount % frames;
 		progress = loopFrames / frames;
 		progressRads = progress * P.TWO_PI;
-		P.p.debugView.setValue("AnimationLoop.progress()", progress);
+		if(P.p.debugView != null) P.p.debugView.setValue("AnimationLoop.progress()", progress);
 	}
 	
 }
