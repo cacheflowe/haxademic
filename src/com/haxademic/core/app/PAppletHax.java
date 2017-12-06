@@ -269,23 +269,17 @@ extends PApplet
 		P.println("YOU MUST OVERRIDE drawApp()");
 	}
 	
-	public void handleInput( boolean isMidi ) {
-//		p.println("YOU MUST OVERRIDE KEYPRESSED");
-		if( isMidi == true ) {
-
-		} else {
-//			P.println("p.key = "+p.key);
-			// audio gain
-//			if ( p.key == '.' || _midi.midiPadIsOn( MidiWrapper.PAD_14 ) == 1 ) _audioInput.gainUp();
-//			if ( p.key == ',' || _midi.midiPadIsOn( MidiWrapper.PAD_13 ) == 1 ) _audioInput.gainDown();
-			if ( p.key == '.' && _audioInput != null ) _audioInput.gainUp();
-			if ( p.key == ',' && _audioInput != null ) _audioInput.gainDown();
-			if ( p.key == '.' && audioIn != null ) audioIn.gainUp();
-			if ( p.key == ',' && audioIn != null ) audioIn.gainDown();
-			
-			if (p.key == '/') showDebug = !showDebug;
-		}
-	}
+//	public void handleInput( boolean isMidi ) {
+////		p.println("YOU MUST OVERRIDE KEYPRESSED");
+//		if( isMidi == true ) {
+//
+//		} else {
+////			P.println("p.key = "+p.key);
+//			// audio gain
+////			if ( p.key == '.' || _midi.midiPadIsOn( MidiWrapper.PAD_14 ) == 1 ) _audioInput.gainUp();
+////			if ( p.key == ',' || _midi.midiPadIsOn( MidiWrapper.PAD_13 ) == 1 ) _audioInput.gainDown();
+//		}
+//	}
 
 	/**
 	 * Sets some initial Applet properties for OpenGL quality, FPS, and nocursor().
@@ -522,7 +516,8 @@ extends PApplet
 	
 	protected void killScreensaver(){
 		// keep screensaver off - hit shift every 1000 frames
-		if( p.frameCount % 1000 == 0 ) _robot.keyRelease(KeyEvent.VK_SHIFT);
+		if( p.frameCount % 1000 == 10 ) _robot.keyPress(KeyEvent.VK_SHIFT);
+		if( p.frameCount % 1000 == 11 ) _robot.keyRelease(KeyEvent.VK_SHIFT);
 	}
 
 	/**
@@ -534,12 +529,18 @@ extends PApplet
 			key = 0;
 //			renderShutdownBeforeExit();
 		}
-		keyboardState.setKeyOn(p.key);
-		handleInput( false );
+		keyboardState.setKeyOn(p.keyCode);
+		
+		// special core app key commands
+		if ( p.key == '.' && _audioInput != null ) _audioInput.gainUp();
+		if ( p.key == ',' && _audioInput != null ) _audioInput.gainDown();
+		if ( p.key == '.' && audioIn != null ) audioIn.gainUp();
+		if ( p.key == ',' && audioIn != null ) audioIn.gainDown();
+		if (p.key == '/') showDebug = !showDebug;
 	}
 	
 	public void keyReleased() {
-		keyboardState.setKeyOff(p.key);
+		keyboardState.setKeyOff(p.keyCode);
 	}
 
 	/**

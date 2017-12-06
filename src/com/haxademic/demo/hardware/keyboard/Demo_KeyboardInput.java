@@ -1,26 +1,19 @@
-package com.haxademic.sketch.system;
+package com.haxademic.demo.hardware.keyboard;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
 
-public class KeyboardInputTest
+public class Demo_KeyboardInput
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
-	protected boolean DEBUG_MODE = true;
-
 	protected void overridePropsFile() {
 		appConfig.setProperty( AppSettings.FPS, 90 );
 	}
 
-	public void setup() {
-		super.setup();
-	}
-	
 	public void keyPressed() {
 		super.keyPressed();
-		if(p.key == 'd') DEBUG_MODE = !DEBUG_MODE;
 		if(p.keyCode == 8) P.println("DELETE");
 		if (p.key == P.CODED && p.keyCode == P.RIGHT) P.println("RIGHT ARROW");
 		if (p.key == P.CODED && p.keyCode == P.LEFT) P.println("LEFT ARROW");
@@ -29,6 +22,7 @@ extends PAppletHax {
 
 	public void drawApp() {
 		p.background(0);
+		p.text("key: " + p.key + " keyCode: " + p.keyCode, 20, 20);
 	}
 
 }
