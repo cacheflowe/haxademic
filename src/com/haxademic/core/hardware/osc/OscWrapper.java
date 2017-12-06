@@ -44,6 +44,14 @@ public class OscWrapper {
 		}
 	}
 	
+	public boolean isValueOn( String oscMessage ) {
+		if( oscMsgMap.containsKey( oscMessage ) ) {
+			return oscMsgMap.get(oscMessage).floatValue() > 0;
+		} else {
+			return false;
+		}
+	}
+	
 	///////////////////////////////
 	// INCOMING EVENT CALLBACK
 	///////////////////////////////
@@ -76,7 +84,11 @@ public class OscWrapper {
 		P.p.fill(255);
 		String debugStr = "";
 		for (String key : oscMsgMap.keySet()) {
-			debugStr += key + ": " + oscMsgMap.get(key) + "\n";
+			if(oscMsgState.get(key) == ButtonState.TRIGGER) {
+				debugStr += key + ": TRIGGER \n";
+			} else {
+				debugStr += key + ": " + oscMsgMap.get(key) + "\n";
+			}
 		}
 		P.p.text(debugStr, 520, 20, P.p.width - 40, P.p.height - 40);
 	}

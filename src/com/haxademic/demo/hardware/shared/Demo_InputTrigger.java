@@ -13,7 +13,7 @@ extends PAppletHax {
 	
 	protected InputTrigger trigger = new InputTrigger(
 			new char[]{'c', 'v'},
-			new String[]{"/toggleC_2"},
+			new String[]{"/toggleC_2", "/1/faderC"},
 			new Integer[]{LaunchControl.PAD_01, LaunchControl.PAD_03}
 	);
 	
@@ -26,8 +26,8 @@ extends PAppletHax {
 	
 	public void drawApp() {
 		// show triggering - TODO: add CC changes to trigger
-		// if(hardwareButtons.isKeyOn(triggerKey) || hardwareButtons.isMidiButtonOn(26)) {
-		if(trigger.triggered()) P.println("trigger");
+		if(p.keyboardState.isKeyOn(triggerKey) || p.midi.isMidiButtonOn(LaunchControl.PAD_01) || p.oscWrapper.isValueOn("/toggleC_2")) P.println("trigger 1"); 
+		if(trigger.triggered()) P.println("trigger 2");
 		if(trigger.on()) {
 			p.background(0, 255, 255f * p.oscWrapper.getValue("/1/faderC"));
 		} else {
