@@ -9,7 +9,7 @@ import com.haxademic.app.haxvisual.viz.IVizModule;
 import com.haxademic.app.haxvisual.viz.ModuleBase;
 import com.haxademic.core.camera.CameraOscillate;
 import com.haxademic.core.camera.common.ICamera;
-import com.haxademic.core.hardware.midi.MidiWrapper;
+import com.haxademic.core.hardware.midi.MidiState;
 
 public class PlusRing
 	extends ModuleBase
@@ -122,7 +122,7 @@ public class PlusRing
 
 		public void handleKeyboardInput()
 		{
-			if ( p.key == 'm' || p.key == 'M' || p.midi.midiPadIsOn( MidiWrapper.PAD_04 ) == 1 || p.midi.midiPadIsOn( MidiWrapper.NOTE_04 ) == 1 ) {
+			if ( p.key == 'm' || p.key == 'M') {
 				pickMode();
 			}
 		}

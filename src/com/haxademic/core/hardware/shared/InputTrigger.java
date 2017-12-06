@@ -1,17 +1,25 @@
 package com.haxademic.core.hardware.shared;
 
 import com.haxademic.core.app.P;
+import com.haxademic.core.hardware.keyboard.Keyboard;
 
 
 public class InputTrigger {
 	
-	protected char[] _keys;
+	protected Integer[] _keys;
 	protected String[] _oscMessages;
 	protected Integer[] _midiNotes;
 	protected Integer[] _midiCC;
 	
+	public InputTrigger( char[] charList, Integer[] midiNotes ) {
+		this( charList, null, midiNotes );
+	}
+	
 	public InputTrigger( char[] charList, String[] oscMessages, Integer[] midiNotes ) {
-		_keys = charList;
+		_keys = new Integer[charList.length];
+		for (int i = 0; i < charList.length; i++) {
+			_keys[i] = Keyboard.keyCodeFromChar(charList[i]);
+		}
 		_oscMessages = oscMessages;
 		_midiNotes = midiNotes;
 	}
@@ -21,20 +29,32 @@ public class InputTrigger {
 		_midiCC = midiCCNotes;
 	}
 	
-	public boolean active() {
+	public boolean triggered() {
 		for( int i=0; i < _keys.length; i++ ) {
-			if( P.p.key == _keys[i] ) return true;
+			if( P.p.keyboardState.isKeyTriggered(_keys[i]) ) return true;
 		}
-		if(P.p._oscWrapper != null) {
-			for( int i=0; i < _oscMessages.length; i++ ) {
-				if( P.p._oscWrapper.oscMsgIsOn( _oscMessages[i] ) == 1 ) return true;
-			}
-		}
+//		if(P.p._oscWrapper != null) {
+//			for( int i=0; i < _oscMessages.length; i++ ) {
+//				if( P.p._oscWrapper.oscMsgIsOn( _oscMessages[i] ) == 1 ) return true;
+//			}
+//		}
 		for( int i=0; i < _midiNotes.length; i++ ) {
-			if( P.p.midi.midiNoteIsOn( _midiNotes[i] ) == 1 ) return true;
+			if( P.p.midi.isMidiButtonTriggered(_midiNotes[i])) return true;
 		}
+		return false;
+	}
+
+	public boolean on() {
+		for( int i=0; i < _keys.length; i++ ) {
+			if( P.p.keyboardState.isKeyOn(_keys[i]) ) return true;
+		}
+//		if(P.p._oscWrapper != null) {
+//			for( int i=0; i < _oscMessages.length; i++ ) {
+//				if( P.p._oscWrapper.oscMsgIsOn( _oscMessages[i] ) == 1 ) return true;
+//			}
+//		}
 		for( int i=0; i < _midiNotes.length; i++ ) {
-			if( P.p.midi.midiNoteIsOn( _midiNotes[i] ) == 1 ) return true;
+			if( P.p.midi.isMidiButtonOn(_midiNotes[i])) return true;
 		}
 		return false;
 	}

@@ -247,12 +247,12 @@ extends PAppletHax {
 		super.handleInput( isMidi );
 //		 P.println(_midi._notesOn);
 		if( isMidi && midi != null ) {
-			if( midi.midiNoteIsOn( 58 ) == 1 ) newSection();
-			else if( midi.midiNoteIsOn( 57 ) == 1 ) newMeasure();
-			else if( midi.midiNoteIsOn( 65 ) == 1 ) timer();
-			else if( midi.midiNoteIsOn( 60 ) == 1 ) kick();
-			else if( midi.midiNoteIsOn( 61 ) == 1 ) snare();
-			else if( midi.midiNoteIsOn( 62 ) == 1 ) perc();
+			if( midi.isMidiButtonOn( 58 ) ) newSection();
+			else if( midi.isMidiButtonOn( 57 ) ) newMeasure();
+			else if( midi.isMidiButtonOn( 65 ) ) timer();
+			else if( midi.isMidiButtonOn( 60 ) ) kick();
+			else if( midi.isMidiButtonOn( 61 ) ) snare();
+			else if( midi.isMidiButtonOn( 62 ) ) perc();
 		} 
 	}
 

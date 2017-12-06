@@ -38,9 +38,9 @@ import com.haxademic.core.draw.filters.shaders.PixelateFilter;
 import com.haxademic.core.draw.filters.shaders.RadialRipplesFilter;
 import com.haxademic.core.draw.filters.shaders.SphereDistortionFilter;
 import com.haxademic.core.draw.filters.shaders.WobbleFilter;
-import com.haxademic.core.hardware.midi.AbletonNotes;
-import com.haxademic.core.hardware.midi.AkaiMpdPads;
-import com.haxademic.core.hardware.midi.LaunchControl;
+import com.haxademic.core.hardware.midi.devices.AbletonNotes;
+import com.haxademic.core.hardware.midi.devices.AkaiMpdPads;
+import com.haxademic.core.hardware.midi.devices.LaunchControl;
 import com.haxademic.core.hardware.osc.TouchOscPads;
 import com.haxademic.core.hardware.shared.InputTrigger;
 import com.haxademic.core.math.MathUtil;
@@ -642,48 +642,48 @@ extends PAppletHax {
 //			_isStressTesting = !_isStressTesting;
 //			P.println("_isStressTesting = "+_isStressTesting);
 //		}
-		if ( _colorTrigger.active() == true ) {
+		if ( _colorTrigger.triggered() == true ) {
 			resetBeatDetectMode();
 			updateColor();
 		}
-		if ( _modeTrigger.active() == true ) {
+		if ( _modeTrigger.triggered() == true ) {
 			newMode();
 			traverseTrigger();
 		}
-		if ( _lineModeTrigger.active() == true ) {
+		if ( _lineModeTrigger.triggered() == true ) {
 			resetBeatDetectMode();
 			updateLineMode();
 		}
-		if ( _rotationTrigger.active() == true ) {
+		if ( _rotationTrigger.triggered() == true ) {
 			resetBeatDetectMode();
 			updateRotation();
 		}
-		if ( _timingTrigger.active() == true ) {
+		if ( _timingTrigger.triggered() == true ) {
 			resetBeatDetectMode();
 			updateTiming();
 		}
-		if ( _timingSectionTrigger.active() == true ) {
+		if ( _timingSectionTrigger.triggered() == true ) {
 			updateTimingSection();
 		}
-		if ( _newTextureTrigger.active() == true ) {
+		if ( _newTextureTrigger.triggered() == true ) {
 			cycleANewTexture(null);
 		}
-		if ( _bigChangeTrigger.active() == true ) {
+		if ( _bigChangeTrigger.triggered() == true ) {
 			resetBeatDetectMode();
 			bigChangeTrigger();
 		}
-		if ( _allSameTextureTrigger.active() == true ) {
+		if ( _allSameTextureTrigger.triggered() == true ) {
 			resetBeatDetectMode();
 			if(MathUtil.randBoolean(p) == true) setGroupsMappingStylesToTheSame(true);
 			if(MathUtil.randBoolean(p) == true) setGroupsTextureToTheSameMaybe();
 			if(MathUtil.randBoolean(p) == true) setAllSameTexture();
 
 		}
-		if ( _audioInputUpTrigger.active() == true ) audioIn.gainUp();
-		if ( _audioInputDownTrigger.active() == true ) audioIn.gainDown();
-		if ( _brightnessUpTrigger.active() == true ) p.midi.controllerChange(3, 41, Math.round(127f * p.midi.midiCCPercent(3, 41) + 1));
-		if ( _brightnessDownTrigger.active() == true ) p.midi.controllerChange(3, 41, Math.round(127f * p.midi.midiCCPercent(3, 41) - 1));
-		if ( _debugTexturesTrigger.active() == true ) _debugTextures = !_debugTextures;
+		if ( _audioInputUpTrigger.triggered() == true ) audioIn.gainUp();
+		if ( _audioInputDownTrigger.triggered() == true ) audioIn.gainDown();
+		if ( _brightnessUpTrigger.triggered() == true ) p.midi.controllerChange(3, 41, Math.round(127f * p.midi.midiCCPercent(3, 41) + 1));
+		if ( _brightnessDownTrigger.triggered() == true ) p.midi.controllerChange(3, 41, Math.round(127f * p.midi.midiCCPercent(3, 41) - 1));
+		if ( _debugTexturesTrigger.triggered() == true ) _debugTextures = !_debugTextures;
 	}
 	
 	protected void updateTiming() {

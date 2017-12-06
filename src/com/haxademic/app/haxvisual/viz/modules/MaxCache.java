@@ -14,7 +14,7 @@ import com.haxademic.core.camera.CameraBasic;
 import com.haxademic.core.camera.CameraOscillate;
 import com.haxademic.core.draw.shapes.Shapes;
 import com.haxademic.core.hardware.kinect.IKinectWrapper;
-import com.haxademic.core.hardware.midi.MidiWrapper;
+import com.haxademic.core.hardware.midi.MidiState;
 
 public class MaxCache extends ModuleBase implements IVizModule {
 	
@@ -326,43 +326,43 @@ public class MaxCache extends ModuleBase implements IVizModule {
 
 	public void handleKeyboardInput()
 	{
-		if ( p.key == 'c' || p.key == 'C' || p.midi.midiPadIsOn( MidiWrapper.PAD_01 ) == 1 || p.midi.midiPadIsOn( MidiWrapper.NOTE_01 ) == 1 ) {
+		if ( p.key == 'c' || p.key == 'C') {
 			newBaseColors();
 		}
-		if ( p.key == 'v' || p.key == 'V' || p.midi.midiPadIsOn( MidiWrapper.PAD_02 ) == 1 || p.midi.midiPadIsOn( MidiWrapper.NOTE_02 ) == 1 ) {
+		if ( p.key == 'v' || p.key == 'V') {
 			newCamera();
 		}
-		if ( p.key == 'b' || p.key == 'B' || p.midi.midiPadIsOn( MidiWrapper.PAD_03 ) == 1 || p.midi.midiPadIsOn( MidiWrapper.NOTE_03 ) == 1 ) {
+		if ( p.key == 'b' || p.key == 'B') {
 			swapRowBased();
 		}
-		if ( p.key == 'f' || p.key == 'F' || p.midi.midiPadIsOn( MidiWrapper.PAD_05 ) == 1 || p.midi.midiPadIsOn( MidiWrapper.NOTE_05 ) == 1 ) {
+		if ( p.key == 'f' || p.key == 'F') {
 //			newFollowObject();
 		}
-		if ( p.key == 'm' || p.key == 'M' || p.midi.midiPadIsOn( MidiWrapper.PAD_04 ) == 1 || p.midi.midiPadIsOn( MidiWrapper.NOTE_04 ) == 1 ) {
+		if ( p.key == 'm' || p.key == 'M') {
 			newBaseColors();
 			newCamera();
 			_mode = P.round( p.random( 0, 2 ) );
 			updateMode();
 		}
-		if ( p.key == '1' || p.midi.midiPadIsOn( MidiWrapper.PAD_09 ) == 1 || p.midi.midiPadIsOn( MidiWrapper.NOTE_09 ) == 1 ) {
+		if ( p.key == '1') {
 			_mode = MAPPING;
 			updateMode();
-		} else if ( p.key == '2' || p.midi.midiPadIsOn( MidiWrapper.PAD_10 ) == 1 || p.midi.midiPadIsOn( MidiWrapper.NOTE_10 ) == 1 ) {
+		} else if ( p.key == '2') {
 			_mode = BOXES;
 			updateMode();
-		} else if ( p.key == '3' || p.midi.midiPadIsOn( MidiWrapper.PAD_11 ) == 1 || p.midi.midiPadIsOn( MidiWrapper.NOTE_11 ) == 1 ) {
+		} else if ( p.key == '3') {
 			_mode = MESH;
 			updateMode();
-		} else if ( p.midi.midiPadIsOn( MidiWrapper.PAD_05 ) == 1 || p.midi.midiPadIsOn( MidiWrapper.NOTE_05 ) == 1 ) {
-			_pixelsSkip--;
-			_pixelsSkip = P.constrain(_pixelsSkip,5,15);
-		} else if ( p.midi.midiPadIsOn( MidiWrapper.PAD_06 ) == 1 || p.midi.midiPadIsOn( MidiWrapper.NOTE_06 ) == 1 ) {
-			_pixelsSkip++;
-			_pixelsSkip = P.constrain(_pixelsSkip,5,15);
-		} else if ( p.midi.midiPadIsOn( MidiWrapper.PAD_07 ) == 1 || p.midi.midiPadIsOn( MidiWrapper.NOTE_07 ) == 1 ) {
-			_kinectinterface.tiltDown();
-		} else if ( p.midi.midiPadIsOn( MidiWrapper.PAD_08 ) == 1 || p.midi.midiPadIsOn( MidiWrapper.NOTE_08 ) == 1 ) {
-			_kinectinterface.tiltUp();
+//		} else if ( p.midi.midiPadIsOn( MidiWrapper.PAD_05 ) == 1 || p.midi.midiPadIsOn( MidiWrapper.NOTE_05 ) == 1 ) {
+//			_pixelsSkip--;
+//			_pixelsSkip = P.constrain(_pixelsSkip,5,15);
+//		} else if ( p.midi.midiPadIsOn( MidiWrapper.PAD_06 ) == 1 || p.midi.midiPadIsOn( MidiWrapper.NOTE_06 ) == 1 ) {
+//			_pixelsSkip++;
+//			_pixelsSkip = P.constrain(_pixelsSkip,5,15);
+//		} else if ( p.midi.midiPadIsOn( MidiWrapper.PAD_07 ) == 1 || p.midi.midiPadIsOn( MidiWrapper.NOTE_07 ) == 1 ) {
+//			_kinectinterface.tiltDown();
+//		} else if ( p.midi.midiPadIsOn( MidiWrapper.PAD_08 ) == 1 || p.midi.midiPadIsOn( MidiWrapper.NOTE_08 ) == 1 ) {
+//			_kinectinterface.tiltUp();
 		}
 
 		if (p.key == ' ') {

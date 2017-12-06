@@ -299,7 +299,7 @@ public class PGraphicsKeystone {
 	
 	public void keyEvent(KeyEvent e) {
 		if(e.getAction() == KeyEvent.PRESS) {
-			lastMouseTime = P.p.millis();
+			if(e.getKeyCode() == P.UP || e.getKeyCode() == P.LEFT || e.getKeyCode() == P.RIGHT || e.getKeyCode() == P.DOWN) lastMouseTime = P.p.millis();
 			Point translatePoint = new Point(0, 0);
 			if(e.getKeyCode() == P.UP) translatePoint.setLocation(0, -1);
 			if(e.getKeyCode() == P.LEFT) translatePoint.setLocation(-1, 0);

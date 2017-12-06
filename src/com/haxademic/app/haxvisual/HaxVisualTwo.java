@@ -53,9 +53,9 @@ import com.haxademic.core.draw.filters.shaders.WobbleFilter;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.mapping.PGraphicsKeystone;
 import com.haxademic.core.file.FileUtil;
-import com.haxademic.core.hardware.midi.AbletonNotes;
-import com.haxademic.core.hardware.midi.AkaiMpdPads;
-import com.haxademic.core.hardware.midi.LaunchControl;
+import com.haxademic.core.hardware.midi.devices.AbletonNotes;
+import com.haxademic.core.hardware.midi.devices.AkaiMpdPads;
+import com.haxademic.core.hardware.midi.devices.LaunchControl;
 import com.haxademic.core.hardware.osc.TouchOscPads;
 import com.haxademic.core.hardware.shared.InputTrigger;
 import com.haxademic.core.math.MathUtil;
@@ -213,8 +213,9 @@ extends PAppletHax {
 		//_pg = p.createGraphics( P.round(p.width / scaleDownPG), P.round(p.height / scaleDownPG), P.P3D );
 		int w = P.round(p.width * scaleDownPG);
 		int h = w / 4;
+		_pg = p.createGraphics(p.width, p.height, P.P3D);
 //		_pg = p.createGraphics(w, h, P.P3D);
-		_pg = p.createGraphics(2048, 512, P.P3D);
+//		_pg = p.createGraphics(2048, 512, P.P3D);
 		OpenGLUtil.setTextureRepeat(_pg);
 		_pg.noSmooth();
 		_pgPinnable = new PGraphicsKeystone( p, _pg, 12, FileUtil.getFile("text/keystoning/hax-visual-two.txt") );
@@ -282,6 +283,7 @@ extends PAppletHax {
 
 	public void drawApp() {
 		if(p.frameCount == 1) setupDeferred();
+		handleInputTriggers();
 		background(0);
 		getDisplacementLayer();
 		checkBeat();
@@ -536,9 +538,12 @@ extends PAppletHax {
 		numBeatsDetected = 1;
 	}
 
-	public void handleInput( boolean isMidi ) {
-		super.handleInput( isMidi );
+	public void keyPressed() {
+		super.keyPressed();
 		if(p.keyCode == 8) _pgPinnable.resetCorners(p.g);
+	}
+	
+	public void handleInputTriggers() {
 
 //		if( p.key == 'a' || p.key == 'A' ){
 //			_isAutoPilot = !_isAutoPilot;
@@ -548,35 +553,35 @@ extends PAppletHax {
 //			_isStressTesting = !_isStressTesting;
 //			P.println("_isStressTesting = "+_isStressTesting);
 //		}
-		if ( _colorTrigger.active() == true ) {
+		if ( _colorTrigger.triggered() == true ) {
 			resetBeatDetectMode();
 			updateColor();
 			_lastInputMillis = p.millis();
 		}
-		if ( _modeTrigger.active() == true ) {
+		if ( _modeTrigger.triggered() == true ) {
 			newMode();
 			_lastInputMillis = p.millis();
 		}
-		if ( _lineModeTrigger.active() == true ) {
+		if ( _lineModeTrigger.triggered() == true ) {
 			resetBeatDetectMode();
 			updateLineMode();
 			_lastInputMillis = p.millis();
 		}
-		if ( _rotationTrigger.active() == true ) {
+		if ( _rotationTrigger.triggered() == true ) {
 			resetBeatDetectMode();
 			updateRotation();
 			_lastInputMillis = p.millis();
 		}
-		if ( _timingTrigger.active() == true ) {
+		if ( _timingTrigger.triggered() == true ) {
 			resetBeatDetectMode();
 			updateTiming();
 			_lastInputMillis = p.millis();
 		}
-		if ( _timingSectionTrigger.active() == true ) {
+		if ( _timingSectionTrigger.triggered() == true ) {
 			updateTimingSection();
 			_lastInputMillis = p.millis();
 		}
-		if ( _bigChangeTrigger.active() == true ) {
+		if ( _bigChangeTrigger.triggered() == true ) {
 			resetBeatDetectMode();
 			bigChangeTrigger();
 			_lastInputMillis = p.millis();
@@ -586,11 +591,11 @@ extends PAppletHax {
 //			randomLayers();
 //			_lastInputMillis = p.millis();
 //		}
-		if ( _audioInputUpTrigger.active() == true ) P.p._audioInput.gainUp();
-		if ( _audioInputDownTrigger.active() == true ) P.p._audioInput.gainDown();
-		if ( _brightnessUpTrigger.active() == true ) _brightnessVal += 0.1f;
-		if ( _brightnessDownTrigger.active() == true ) _brightnessVal -= 0.1f;
-		if ( _debugTexturesTrigger.active() == true ) _debugTextures = !_debugTextures;
+		if ( _audioInputUpTrigger.triggered() == true ) P.p._audioInput.gainUp();
+		if ( _audioInputDownTrigger.triggered() == true ) P.p._audioInput.gainDown();
+		if ( _brightnessUpTrigger.triggered() == true ) _brightnessVal += 0.1f;
+		if ( _brightnessDownTrigger.triggered() == true ) _brightnessVal -= 0.1f;
+		if ( _debugTexturesTrigger.triggered() == true ) _debugTextures = !_debugTextures;
 
 		/*
 		if ( _programDownTrigger.active() == true ) {

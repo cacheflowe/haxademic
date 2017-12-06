@@ -1,4 +1,4 @@
-package com.haxademic.core.hardware.midi;
+package com.haxademic.core.hardware.midi.devices;
 
 public class AkaiMpdPads {
 	public static int PAD_01 = 72;

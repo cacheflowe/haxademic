@@ -6,7 +6,7 @@ import com.haxademic.app.haxvisual.viz.IVizModule;
 import com.haxademic.app.haxvisual.viz.ModuleBase;
 import com.haxademic.core.camera.CameraBasic;
 import com.haxademic.core.camera.CameraOscillate;
-import com.haxademic.core.hardware.midi.MidiWrapper;
+import com.haxademic.core.hardware.midi.MidiState;
 
 public class Boxen3D 
 extends ModuleBase
@@ -261,25 +261,25 @@ implements IVizModule
 
 	public void handleKeyboardInput()
 	{
-		if ( p.key == 'c' || p.key == 'C' || p.midi.midiPadIsOn( MidiWrapper.PAD_01 ) == 1 || p.midi.midiPadIsOn( MidiWrapper.NOTE_01 ) == 1 ) {
+		if ( p.key == 'c' || p.key == 'C') {
 			pickNewColors();
 		}
-		if ( p.key == 'v' || p.key == 'V' || p.midi.midiPadIsOn( MidiWrapper.PAD_02 ) == 1 || p.midi.midiPadIsOn( MidiWrapper.NOTE_02 ) == 1 ) {
+		if ( p.key == 'v' || p.key == 'V') {
 			newCamera();
 		}
-		if ( p.key == 'b' || p.key == 'B' || p.midi.midiPadIsOn( MidiWrapper.PAD_03 ) == 1 || p.midi.midiPadIsOn( MidiWrapper.NOTE_03 ) == 1 ) {
+		if ( p.key == 'b' || p.key == 'B') {
 			newBoxSize();
 		}
-		if ( p.key == 'l' || p.key == 'L' || p.midi.midiPadIsOn( MidiWrapper.PAD_08 ) == 1 || p.midi.midiPadIsOn( MidiWrapper.NOTE_08 ) == 1 ) {
+		if ( p.key == 'l' || p.key == 'L') {
 			toggleStroke();
 		}
-		if ( p.key == 'f' || p.key == 'F' || p.midi.midiPadIsOn( MidiWrapper.PAD_05 ) == 1 || p.midi.midiPadIsOn( MidiWrapper.NOTE_05 ) == 1 ) {
+		if ( p.key == 'f' || p.key == 'F') {
 			newFollowObject();
 		}
-		if ( p.key == 'm' || p.key == 'M' || p.midi.midiPadIsOn( MidiWrapper.PAD_04 ) == 1 || p.midi.midiPadIsOn( MidiWrapper.NOTE_04 ) == 1 ) {
+		if ( p.key == 'm' || p.key == 'M') {
 			newMode();
 		}
-		if ( p.key == ' ' || p.midi.midiPadIsOn( MidiWrapper.PAD_07 ) == 1 || p.midi.midiPadIsOn( MidiWrapper.NOTE_07 ) == 1 ) {
+		if ( p.key == ' ') {
 			bounceBlocks();
 			_rotZinc = p.random( 0.00000002f, 0.00000003f );
 		}

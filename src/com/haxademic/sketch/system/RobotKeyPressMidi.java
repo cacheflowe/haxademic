@@ -60,13 +60,13 @@ extends PAppletHax {
 			trigger.checkNote(pitch);
 		}
 		if( midi != null ) { 
-			if( midi.midiNoteIsOn( pitch ) == 0 ) {
-				midi.noteOn( channel, pitch, velocity );
-				try{ 
-					handleInput( true );
-				}
-				catch( ArrayIndexOutOfBoundsException e ){println("noteOn BROKE!");}
-			}
+//			if( midi.isMidiButtonOn( pitch ) == 0 ) {
+//				midi.noteOn( channel, pitch, velocity );
+//				try{ 
+//					handleInput( true );
+//				}
+//				catch( ArrayIndexOutOfBoundsException e ){println("noteOn BROKE!");}
+//			}
 		}
 	}
 

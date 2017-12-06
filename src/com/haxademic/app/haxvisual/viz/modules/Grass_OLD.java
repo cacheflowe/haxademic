@@ -4,7 +4,7 @@ import processing.core.PConstants;
 
 import com.haxademic.app.haxvisual.viz.IVizModule;
 import com.haxademic.app.haxvisual.viz.ModuleBase;
-import com.haxademic.core.hardware.midi.MidiWrapper;
+import com.haxademic.core.hardware.midi.MidiState;
 
 public class Grass_OLD 
 extends ModuleBase
@@ -85,10 +85,10 @@ implements IVizModule
 
 	public void handleKeyboardInput()
 	{
-		if ( p.key == 'm' || p.key == 'M' || p.midi.midiPadIsOn( MidiWrapper.PAD_04 ) == 1 || p.midi.midiPadIsOn( MidiWrapper.NOTE_04 ) == 1 ) {
+		if ( p.key == 'm' || p.key == 'M') {
 			pickMode();
 		}
-		if ( p.key == 'c' || p.key == 'C' || p.midi.midiPadIsOn( MidiWrapper.PAD_01 ) == 1 || p.midi.midiPadIsOn( MidiWrapper.NOTE_01 ) == 1 ) {
+		if ( p.key == 'c' || p.key == 'C') {
 			pickNewColors();
 		}
 	}

@@ -329,9 +329,9 @@ extends PAppletHax {
 		// P.println(_midi._notesOn);
 		// handle midi file input
 		if( isMidi && midi != null ) {
-			if( midi.midiNoteIsOn( 64 ) == 1 ) newTiming();
-			else if( midi.midiNoteIsOn( 60 ) == 1 ) kick();
-			else if( midi.midiNoteIsOn( 61 ) == 1 ) snare();
+			if( midi.isMidiButtonOn( 64 ) ) newTiming();
+			else if( midi.isMidiButtonOn( 60 ) ) kick();
+			else if( midi.isMidiButtonOn( 61 ) ) snare();
 		} 
 	}
 

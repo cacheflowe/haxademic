@@ -1,4 +1,4 @@
-package com.haxademic.core.hardware.midi;
+package com.haxademic.core.hardware.midi.devices;
 
 public class LaunchControl {
 	public static int PAD_01 = 9;

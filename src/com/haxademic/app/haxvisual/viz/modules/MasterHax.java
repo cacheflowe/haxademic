@@ -13,7 +13,6 @@ import com.haxademic.app.haxvisual.viz.elements.GlowwaveShader;
 import com.haxademic.app.haxvisual.viz.elements.GridEQ;
 import com.haxademic.app.haxvisual.viz.elements.KinectMeshHead;
 import com.haxademic.app.haxvisual.viz.elements.LinesEQ;
-import com.haxademic.app.haxvisual.viz.elements.MeshDeform;
 import com.haxademic.app.haxvisual.viz.elements.OuterSphere;
 import com.haxademic.app.haxvisual.viz.elements.RotatingRings;
 import com.haxademic.app.haxvisual.viz.elements.RotatorShapes;
@@ -21,7 +20,6 @@ import com.haxademic.app.haxvisual.viz.elements.SphereClouds;
 import com.haxademic.app.haxvisual.viz.elements.SphericalHarmonicsOscillator;
 import com.haxademic.app.haxvisual.viz.elements.StarField;
 import com.haxademic.app.haxvisual.viz.elements.SvgPattern2d;
-import com.haxademic.app.haxvisual.viz.elements.VideoScrubberLayer;
 import com.haxademic.app.haxvisual.viz.elements.WarpedImagesBackdrop;
 import com.haxademic.app.haxvisual.viz.elements.WaveformPlane;
 import com.haxademic.app.haxvisual.viz.elements.WaveformShapes;
@@ -52,7 +50,6 @@ implements IVizModule {
 		_fgElements.add( new SphericalHarmonicsOscillator( p, toxi, _audioData ) );
 //		_fgElements.add( new KinectMesh( p, toxi, _audioData, p.kinectWrapper ) );
 		
-		_bgElements.add( new VideoScrubberLayer( p, toxi, _audioData ) );
 		_bgElements.add( new GlowwaveShader( p, toxi, _audioData ) );
 		_bgElements.add( new BwMotionIllusion( p, toxi, _audioData ) );
 		_bgElements.add( new BwShaderBg( p, toxi, _audioData ) );

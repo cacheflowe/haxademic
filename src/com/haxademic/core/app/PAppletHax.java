@@ -15,13 +15,13 @@ import com.haxademic.core.debug.DebugUtil;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.debug.Stats;
 import com.haxademic.core.draw.context.DrawUtil;
-import com.haxademic.core.draw.toxi.MeshPool;
 import com.haxademic.core.file.FileUtil;
+import com.haxademic.core.hardware.keyboard.KeyboardState;
 import com.haxademic.core.hardware.kinect.IKinectWrapper;
 import com.haxademic.core.hardware.kinect.KinectWrapperV1;
 import com.haxademic.core.hardware.kinect.KinectWrapperV2;
 import com.haxademic.core.hardware.kinect.KinectWrapperV2Mac;
-import com.haxademic.core.hardware.midi.MidiWrapper;
+import com.haxademic.core.hardware.midi.MidiState;
 import com.haxademic.core.hardware.osc.OscWrapper;
 import com.haxademic.core.hardware.webcam.WebCamWrapper;
 import com.haxademic.core.render.AnimationLoop;
@@ -113,14 +113,11 @@ extends PApplet
 	/**
 	 * Wraps up MIDI functionality with theMIDIbus library.
 	 */
-	public MidiWrapper midi = null;
-	protected MidiBus midiBus;
+	public MidiState midi = null;
+	public MidiBus midiBus;
 	protected boolean _debugMidi = false;
+	public KeyboardState keyboardState;
 
-	/**
-	 * Loads and stores a pool of WETriangleMesh objects.
-	 */
-	public MeshPool meshPool = null;
 
 	/**
 	 * Wraps up Kinect functionality.
@@ -364,9 +361,10 @@ extends PApplet
 					);
 			_debugMidi = p.appConfig.getBoolean(AppSettings.MIDI_DEBUG, false);
 		}
+		midi = new MidiState();
+		keyboardState = new KeyboardState();
 		if( p.appConfig.getBoolean( "leap_active", false ) == true ) leapMotion = new LeapMotion(this);
 		if( p.appConfig.getBoolean( "osc_active", false ) == true ) _oscWrapper = new OscWrapper( p );
-		meshPool = new MeshPool( p );
 		joons = ( p.appConfig.getBoolean(AppSettings.SUNFLOW, false ) == true ) ?
 				new JoonsWrapper( p, width, height, ( p.appConfig.getString(AppSettings.SUNFLOW_QUALITY, "low" ) == AppSettings.SUNFLOW_QUALITY_HIGH ) ? JoonsWrapper.QUALITY_HIGH : JoonsWrapper.QUALITY_LOW, ( p.appConfig.getBoolean(AppSettings.SUNFLOW_ACTIVE, true ) == true ) ? true : false )
 				: null;
@@ -378,9 +376,6 @@ extends PApplet
 		if( p.frameCount == 1 ) {
 			P.println("Using Java version: "+SystemUtil.getJavaVersion());
 			initHaxademicObjects();
-			if( p.appConfig.getString("midi_device_in", "") != "" ) {
-				midi = new MidiWrapper( p, p.appConfig.getString("midi_device_in", ""), p.appConfig.getString("midi_device_out", "") );
-			}
 			setupFirstFrame();
 		}
 	}
@@ -401,6 +396,8 @@ extends PApplet
 		renderFrame();
 		showStats();
 		setAppDockIconAndTitle();
+		keyboardState.update();
+		midi.update();
 		if(renderer == PRenderers.PDF) finishPdfRender();
 	}
 	
@@ -468,13 +465,13 @@ extends PApplet
 				while( doneCheckingForMidi == false ) {
 					int rendererNote = _midiRenderer.checkForCurrentFrameNoteEvents();
 					if( rendererNote != -1 ) {
-						noteOn( 0, rendererNote, 100 );
+						midi.noteOn( 0, rendererNote, 100 );
 						triggered = true;
 					} else {
 						doneCheckingForMidi = true;
 					}
 				}
-				if( triggered == false && midi != null ) midi.allOff();
+//				if( triggered == false && midi != null ) midi.allOff();
 			}
 		}
 		if(_gifRenderer != null && appConfig.getBoolean(AppSettings.RENDERING_GIF, false) == true) {
@@ -537,8 +534,12 @@ extends PApplet
 			key = 0;
 //			renderShutdownBeforeExit();
 		}
-
+		keyboardState.setKeyOn(p.key);
 		handleInput( false );
+	}
+	
+	public void keyReleased() {
+		keyboardState.setKeyOff(p.key);
 	}
 
 	/**
@@ -569,28 +570,28 @@ extends PApplet
 	////////////////////////////////////////////////////
 	// MIDIBUS LISTENERS
 	////////////////////////////////////////////////////
-	public void noteOn(int channel, int  pitch, int velocity) {
-		if( midi != null ) { 
-			if( midi.midiNoteIsOn( pitch ) == 0 ) {
-				midi.noteOn( channel, pitch, velocity );
-				try{ 
-					handleInput( true );
-				}
-				catch( ArrayIndexOutOfBoundsException e ){println("noteOn BROKE!");}
-			}
-		}
-		if(_debugMidi == true) P.println(channel, pitch, velocity);
-	}
-	
-	public void noteOff(int channel, int  pitch, int velocity) {
-		if( midi != null ) midi.noteOff( channel, pitch, velocity );
-		if(_debugMidi == true) P.println(channel, pitch, velocity);
-	}
-	
-	public void controllerChange(int channel, int number, int value) {
-		if( midi != null ) midi.controllerChange( channel, number, value );
-		if(_debugMidi == true) P.println(channel, number, value);
-	}
+//	public void noteOn(int channel, int  pitch, int velocity) {
+//		if( midi != null ) { 
+//			if( midi.midiNoteIsOn( pitch ) == 0 ) {
+//				midi.noteOn( channel, pitch, velocity );
+//				try{ 
+//					handleInput( true );
+//				}
+//				catch( ArrayIndexOutOfBoundsException e ){println("noteOn BROKE!");}
+//			}
+//		}
+//		if(_debugMidi == true) P.println(channel, pitch, velocity);
+//	}
+//	
+//	public void noteOff(int channel, int  pitch, int velocity) {
+//		if( midi != null ) midi.noteOff( channel, pitch, velocity );
+//		if(_debugMidi == true) P.println(channel, pitch, velocity);
+//	}
+//	
+//	public void controllerChange(int channel, int number, int value) {
+//		if( midi != null ) midi.controllerChange( channel, number, value );
+//		if(_debugMidi == true) P.println(channel, number, value);
+//	}
 
 
 	/**

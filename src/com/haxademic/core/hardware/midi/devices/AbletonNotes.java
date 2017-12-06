@@ -1,4 +1,4 @@
-package com.haxademic.core.hardware.midi;
+package com.haxademic.core.hardware.midi.devices;
 
 public class AbletonNotes {
 	public static int NOTE_01 = 48;

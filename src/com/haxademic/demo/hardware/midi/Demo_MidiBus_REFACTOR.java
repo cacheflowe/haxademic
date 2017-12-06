@@ -7,7 +7,7 @@ import com.haxademic.core.app.PAppletHax;
 
 import themidibus.MidiBus;
 
-public class Demo_MidiBus
+public class Demo_MidiBus_REFACTOR
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
@@ -50,7 +50,7 @@ extends PAppletHax {
 	public void noteOn(int channel, int  pitch, int velocity) {
 		midiMap.put(channel+"-"+pitch, velocity);
 		if( midi != null ) { 
-			if( midi.midiNoteIsOn( pitch ) == 0 ) {
+			if( midi.isMidiButtonOn( pitch ) == false ) {
 				midi.noteOn( channel, pitch, velocity );
 				try{ 
 					handleInput( true );
@@ -84,7 +84,7 @@ extends PAppletHax {
 		if(p.key == ' ') {
 			P.println("sending midi");
 //			midiHandler.sendMidiOut(true, 1, 58, 127);
-			p.midi.sendMidiOut(true, 1, 58, 127);
+//			p.midi.sendMidiOut(true, 1, 58, 127);
 		}
 	}
 

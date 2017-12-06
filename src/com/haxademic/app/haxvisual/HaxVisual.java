@@ -23,7 +23,7 @@ import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.image.ScreenUtil;
 import com.haxademic.core.file.FileUtil;
-import com.haxademic.core.hardware.midi.MidiWrapper;
+import com.haxademic.core.hardware.midi.MidiState;
 
 import processing.core.PApplet;
 
@@ -122,36 +122,36 @@ extends PAppletHax
 		// int prevModule = _curModule;
 		
 		// change programs with midi pads
-		if( _readyForProgramChange ) {
-			if( midi.midiPadIsOn( MidiWrapper.PAD_01 ) == 1 ) _readyForProgramChangeInt = 0;
-			else if( midi.midiPadIsOn( MidiWrapper.PAD_02 ) == 1 ) _readyForProgramChangeInt = 1;
-			else if( midi.midiPadIsOn( MidiWrapper.PAD_03 ) == 1 ) _readyForProgramChangeInt = 2;
-			else if( midi.midiPadIsOn( MidiWrapper.PAD_04 ) == 1 ) _readyForProgramChangeInt = 3;
-			else if( midi.midiPadIsOn( MidiWrapper.PAD_05 ) == 1 ) _readyForProgramChangeInt = 4;
-			else if( midi.midiPadIsOn( MidiWrapper.PAD_06 ) == 1 ) _readyForProgramChangeInt = 5;
-			else if( midi.midiPadIsOn( MidiWrapper.PAD_07 ) == 1 ) _readyForProgramChangeInt = 6;
-			else if( midi.midiPadIsOn( MidiWrapper.PAD_08 ) == 1 ) _readyForProgramChangeInt = 7;
-			else if( midi.midiPadIsOn( MidiWrapper.PAD_09 ) == 1 ) _readyForProgramChangeInt = 8;
-			else if( midi.midiPadIsOn( MidiWrapper.PAD_10 ) == 1 ) _readyForProgramChangeInt = 9;
-			else if( midi.midiPadIsOn( MidiWrapper.PAD_11 ) == 1 ) _readyForProgramChangeInt = 10;
-//			else if( _midi.midiPadIsOn( MidiWrapper.PAD_12 ) == 1 ) _readyForProgramChangeInt = 11;
-		} else if( midi != null && midi.midiPadIsOn( MidiWrapper.PAD_16 ) == 1 ) {
-			_readyForProgramChange = true;
-		}
+//		if( _readyForProgramChange ) {
+//			if( midi.midiPadIsOn( MidiWrapper.PAD_01 ) == 1 ) _readyForProgramChangeInt = 0;
+//			else if( midi.midiPadIsOn( MidiWrapper.PAD_02 ) == 1 ) _readyForProgramChangeInt = 1;
+//			else if( midi.midiPadIsOn( MidiWrapper.PAD_03 ) == 1 ) _readyForProgramChangeInt = 2;
+//			else if( midi.midiPadIsOn( MidiWrapper.PAD_04 ) == 1 ) _readyForProgramChangeInt = 3;
+//			else if( midi.midiPadIsOn( MidiWrapper.PAD_05 ) == 1 ) _readyForProgramChangeInt = 4;
+//			else if( midi.midiPadIsOn( MidiWrapper.PAD_06 ) == 1 ) _readyForProgramChangeInt = 5;
+//			else if( midi.midiPadIsOn( MidiWrapper.PAD_07 ) == 1 ) _readyForProgramChangeInt = 6;
+//			else if( midi.midiPadIsOn( MidiWrapper.PAD_08 ) == 1 ) _readyForProgramChangeInt = 7;
+//			else if( midi.midiPadIsOn( MidiWrapper.PAD_09 ) == 1 ) _readyForProgramChangeInt = 8;
+//			else if( midi.midiPadIsOn( MidiWrapper.PAD_10 ) == 1 ) _readyForProgramChangeInt = 9;
+//			else if( midi.midiPadIsOn( MidiWrapper.PAD_11 ) == 1 ) _readyForProgramChangeInt = 10;
+////			else if( _midi.midiPadIsOn( MidiWrapper.PAD_12 ) == 1 ) _readyForProgramChangeInt = 11;
+//		} else if( midi != null && midi.midiPadIsOn( MidiWrapper.PAD_16 ) == 1 ) {
+//			_readyForProgramChange = true;
+//		}
 		
 		// handle midi loop program changes
-		if( midi.midiPadIsOn( MidiWrapper.PROGRAM_01 ) == 1 ) _readyForProgramChangeInt = 0;
-		else if( midi.midiPadIsOn( MidiWrapper.PROGRAM_02 ) == 1 ) _readyForProgramChangeInt = 1;
-		else if( midi.midiPadIsOn( MidiWrapper.PROGRAM_03 ) == 1 ) _readyForProgramChangeInt = 2;
-		else if( midi.midiPadIsOn( MidiWrapper.PROGRAM_04 ) == 1 ) _readyForProgramChangeInt = 3;
-		else if( midi.midiPadIsOn( MidiWrapper.PROGRAM_05 ) == 1 ) _readyForProgramChangeInt = 4;
-		else if( midi.midiPadIsOn( MidiWrapper.PROGRAM_06 ) == 1 ) _readyForProgramChangeInt = 5;
-		else if( midi.midiPadIsOn( MidiWrapper.PROGRAM_07 ) == 1 ) _readyForProgramChangeInt = 6;
-		else if( midi.midiPadIsOn( MidiWrapper.PROGRAM_08 ) == 1 ) _readyForProgramChangeInt = 7;
-		else if( midi.midiPadIsOn( MidiWrapper.PROGRAM_09 ) == 1 ) _readyForProgramChangeInt = 8;
-		else if( midi.midiPadIsOn( MidiWrapper.PROGRAM_10 ) == 1 ) _readyForProgramChangeInt = 9;
-		else if( midi.midiPadIsOn( MidiWrapper.PROGRAM_11 ) == 1 ) _readyForProgramChangeInt = 10;
-		else if( midi.midiPadIsOn( MidiWrapper.PROGRAM_12 ) == 1 ) _readyForProgramChangeInt = 11;
+//		if( midi.midiPadIsOn( MidiWrapper.PROGRAM_01 ) == 1 ) _readyForProgramChangeInt = 0;
+//		else if( midi.midiPadIsOn( MidiWrapper.PROGRAM_02 ) == 1 ) _readyForProgramChangeInt = 1;
+//		else if( midi.midiPadIsOn( MidiWrapper.PROGRAM_03 ) == 1 ) _readyForProgramChangeInt = 2;
+//		else if( midi.midiPadIsOn( MidiWrapper.PROGRAM_04 ) == 1 ) _readyForProgramChangeInt = 3;
+//		else if( midi.midiPadIsOn( MidiWrapper.PROGRAM_05 ) == 1 ) _readyForProgramChangeInt = 4;
+//		else if( midi.midiPadIsOn( MidiWrapper.PROGRAM_06 ) == 1 ) _readyForProgramChangeInt = 5;
+//		else if( midi.midiPadIsOn( MidiWrapper.PROGRAM_07 ) == 1 ) _readyForProgramChangeInt = 6;
+//		else if( midi.midiPadIsOn( MidiWrapper.PROGRAM_08 ) == 1 ) _readyForProgramChangeInt = 7;
+//		else if( midi.midiPadIsOn( MidiWrapper.PROGRAM_09 ) == 1 ) _readyForProgramChangeInt = 8;
+//		else if( midi.midiPadIsOn( MidiWrapper.PROGRAM_10 ) == 1 ) _readyForProgramChangeInt = 9;
+//		else if( midi.midiPadIsOn( MidiWrapper.PROGRAM_11 ) == 1 ) _readyForProgramChangeInt = 10;
+//		else if( midi.midiPadIsOn( MidiWrapper.PROGRAM_12 ) == 1 ) _readyForProgramChangeInt = 11;
 		
 		if( !isMidi ) {
 			// change programs with keyboard

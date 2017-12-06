@@ -73,8 +73,8 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="lib/GIFAnimation/library/GifAnimation.jar"/>
-	<classpathentry kind="lib" path="lib/jetty/jetty-all-9.4.7.v20170914-uber.jar"/>
 	<classpathentry kind="lib" path="lib/java_websocket/java_websocket.jar"/>
+	<classpathentry kind="lib" path="lib/jetty/jetty-all-9.4.7.v20170914-uber.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER">
 		<accessrules>
 			<accessrule kind="accessible" pattern="com/apple/eawt/**"/>

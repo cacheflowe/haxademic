@@ -25,13 +25,13 @@ extends PAppletHax {
 	public void noteOn(int channel, int  pitch, int velocity) {
 		P.println(channel, pitch, velocity);
 		if( midi != null ) { 
-			if( midi.midiNoteIsOn( pitch ) == 0 ) {
-				midi.noteOn( channel, pitch, velocity );
-				try{ 
-					handleInput( true );
-				}
-				catch( ArrayIndexOutOfBoundsException e ){println("noteOn BROKE!");}
-			}
+//			if( midi.isMidiButtonOn( pitch ) == 0 ) {
+//				midi.noteOn( channel, pitch, velocity );
+//				try{ 
+//					handleInput( true );
+//				}
+//				catch( ArrayIndexOutOfBoundsException e ){println("noteOn BROKE!");}
+//			}
 		}
 	}
 	
@@ -57,7 +57,7 @@ extends PAppletHax {
 	public void keyPressed() {
 		super.keyPressed();
 		if(p.key == ' ') {
-			p.midi.sendMidiOut(true, 1, 58, 127);
+//			p.midi.sendMidiOut(true, 1, 58, 127);
 		}
 	}
 

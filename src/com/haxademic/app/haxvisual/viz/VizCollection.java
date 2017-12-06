@@ -14,7 +14,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.camera.CameraDefault;
 import com.haxademic.core.draw.color.ColorGroup;
 import com.haxademic.core.draw.context.DrawUtil;
-import com.haxademic.core.hardware.midi.MidiWrapper;
+import com.haxademic.core.hardware.midi.MidiState;
 import com.haxademic.core.math.MathUtil;
 
 public class VizCollection 
@@ -206,26 +206,26 @@ implements IVizModule
 			_isStressTesting = !_isStressTesting;
 			P.println("_isStressTesting = "+_isStressTesting);
 		}
-		if ( p.key == 'c' || p.key == 'C' || p.midi.midiPadIsOn( MidiWrapper.PAD_01 ) == 1 || p.midi.midiPadIsOn( MidiWrapper.NOTE_01 ) == 1 ) {
+		if ( p.key == 'c' || p.key == 'C') {
 			pickNewColors();
 		}
-		if ( p.key == 'v' || p.key == 'V' || p.midi.midiPadIsOn( MidiWrapper.PAD_02 ) == 1 || p.midi.midiPadIsOn( MidiWrapper.NOTE_02 ) == 1 ) {
+		if ( p.key == 'v' || p.key == 'V') {
 			newCamera();
 		}
-		if ( p.key == 'n' || p.key == 'N' || p.midi.midiPadIsOn( MidiWrapper.PAD_03 ) == 1 || p.midi.midiPadIsOn( MidiWrapper.NOTE_03 ) == 1 ) {
+		if ( p.key == 'n' || p.key == 'N') {
 			updateTiming();
 		}
-		if ( p.key == 'm' || p.key == 'M' || p.midi.midiPadIsOn( MidiWrapper.PAD_04 ) == 1 || p.midi.midiPadIsOn( MidiWrapper.NOTE_04 ) == 1 ) {
+		if ( p.key == 'm' || p.key == 'M') {
 			pickMode();
 			pickNewColors();
 		}
-		if ( p.key == 'f' || p.key == 'F' || p.midi.midiPadIsOn( MidiWrapper.PAD_05 ) == 1 || p.midi.midiPadIsOn( MidiWrapper.NOTE_05 ) == 1 ) {
+		if ( p.key == 'f' || p.key == 'F') {
 			updateSection();
 		}
-		if ( p.key == 'l' || p.key == 'L' || p.midi.midiPadIsOn( MidiWrapper.PAD_08 ) == 1 || p.midi.midiPadIsOn( MidiWrapper.NOTE_08 ) == 1 ) {
+		if ( p.key == 'l' || p.key == 'L') {
 			newLineMode();
 		}
-		if ( p.key == ' ' || p.midi.midiPadIsOn( MidiWrapper.PAD_07 ) == 1 || p.midi.midiPadIsOn( MidiWrapper.NOTE_07 ) == 1 ) {
+		if ( p.key == ' ') {
 			pickElements();
 			pickNewColors();
 		}
