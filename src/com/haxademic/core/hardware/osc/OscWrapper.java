@@ -3,7 +3,7 @@ package com.haxademic.core.hardware.osc;
 import java.util.HashMap;
 
 import com.haxademic.core.app.P;
-import com.haxademic.core.hardware.shared.ButtonState;
+import com.haxademic.core.hardware.shared.InputState;
 
 import netP5.NetAddress;
 import oscP5.OscMessage;
@@ -15,13 +15,13 @@ public class OscWrapper {
 	protected NetAddress _remoteLocation;
 	
 	protected HashMap<String, Float> oscMsgMap;
-	protected HashMap<String, ButtonState> oscMsgState;
+	protected HashMap<String, InputState> oscMsgState;
 	
 	public OscWrapper() {
 		_oscP5 = new OscP5(this, 12000);
 		_remoteLocation = new NetAddress("127.0.0.1",12000);
 		oscMsgMap = new HashMap<String, Float>();
-		oscMsgState = new HashMap<String, ButtonState>();
+		oscMsgState = new HashMap<String, InputState>();
 	}
 	
 	///////////////////////////////
@@ -38,7 +38,7 @@ public class OscWrapper {
 	
 	public boolean isValueTriggered( String oscMessage ) {
 		if( oscMsgState.containsKey( oscMessage ) ) {
-			return oscMsgState.get(oscMessage) == ButtonState.TRIGGER;
+			return oscMsgState.get(oscMessage) == InputState.TRIGGER;
 		} else {
 			return false;
 		}
@@ -61,7 +61,7 @@ public class OscWrapper {
 		String oscMsg = theOscMessage.addrPattern();
 		if(P.p.showDebug) P.println(oscMsg+": "+oscValue);
 		oscMsgMap.put(oscMsg, oscValue);
-		ButtonState newState = (oscValue == 0) ? ButtonState.OFF : ButtonState.TRIGGER;
+		InputState newState = (oscValue == 0) ? InputState.OFF : InputState.TRIGGER;
 		oscMsgState.put(oscMsg, newState);
 	}
 	
@@ -71,7 +71,7 @@ public class OscWrapper {
 	
 	public void update() {
 		for (String key : oscMsgState.keySet()) {
-			if(oscMsgState.get(key) == ButtonState.TRIGGER) oscMsgState.put(key, ButtonState.ON);
+			if(oscMsgState.get(key) == InputState.TRIGGER) oscMsgState.put(key, InputState.ON);
 		}
 	}
 
@@ -84,7 +84,7 @@ public class OscWrapper {
 		P.p.fill(255);
 		String debugStr = "";
 		for (String key : oscMsgMap.keySet()) {
-			if(oscMsgState.get(key) == ButtonState.TRIGGER) {
+			if(oscMsgState.get(key) == InputState.TRIGGER) {
 				debugStr += key + ": TRIGGER \n";
 			} else {
 				debugStr += key + ": " + oscMsgMap.get(key) + "\n";

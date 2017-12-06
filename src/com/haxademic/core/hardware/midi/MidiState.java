@@ -3,7 +3,7 @@ package com.haxademic.core.hardware.midi;
 import java.util.HashMap;
 
 import com.haxademic.core.app.P;
-import com.haxademic.core.hardware.shared.ButtonState;
+import com.haxademic.core.hardware.shared.InputState;
 
 import themidibus.MidiListener;
 import themidibus.SimpleMidiListener;
@@ -11,9 +11,9 @@ import themidibus.SimpleMidiListener;
 public class MidiState implements SimpleMidiListener {
 	
 	protected HashMap<Integer, Integer> midiButtonVal = new HashMap<Integer, Integer>();
-	protected HashMap<Integer, ButtonState> midiButtons = new HashMap<Integer, ButtonState>();
+	protected HashMap<Integer, InputState> midiButtons = new HashMap<Integer, InputState>();
 	protected HashMap<Integer, Integer> midiCC = new HashMap<Integer, Integer>();
-	protected HashMap<Integer, ButtonState> midiCCState = new HashMap<Integer, ButtonState>();
+	protected HashMap<Integer, InputState> midiCCState = new HashMap<Integer, InputState>();
 	
 	public MidiState() {
 		if(P.p.midiBus != null) P.p.midiBus.addMidiListener((MidiListener)this);
@@ -47,10 +47,10 @@ public class MidiState implements SimpleMidiListener {
 	
 	public void update() {
 		for (Integer key : midiButtons.keySet()) {
-			if(midiButtons.get(key) == ButtonState.TRIGGER) midiButtons.put(key, ButtonState.ON);
+			if(midiButtons.get(key) == InputState.TRIGGER) midiButtons.put(key, InputState.ON);
 		}
 		for (Integer key : midiCCState.keySet()) {
-			if(midiCCState.get(key) == ButtonState.TRIGGER) midiCCState.put(key, ButtonState.ON);
+			if(midiCCState.get(key) == InputState.TRIGGER) midiCCState.put(key, InputState.ON);
 		}
 	}
 	
@@ -59,15 +59,15 @@ public class MidiState implements SimpleMidiListener {
 	///////////////////////////////
 	
 	public boolean isMidiButtonTriggered(int pitch) {
-		return (midiButtons.containsKey(pitch) && midiButtons.get(pitch) == ButtonState.TRIGGER);
+		return (midiButtons.containsKey(pitch) && midiButtons.get(pitch) == InputState.TRIGGER);
 	}
 	
 	public boolean isMidiButtonOn(int pitch) {
-		return (midiButtons.containsKey(pitch) && (midiButtons.get(pitch) == ButtonState.TRIGGER || midiButtons.get(pitch) == ButtonState.ON));
+		return (midiButtons.containsKey(pitch) && (midiButtons.get(pitch) == InputState.TRIGGER || midiButtons.get(pitch) == InputState.ON));
 	}
 
 	public boolean isMidiCCTriggered(int pitch) {
-		return (midiCCState.containsKey(pitch) && midiCCState.get(pitch) == ButtonState.TRIGGER);
+		return (midiCCState.containsKey(pitch) && midiCCState.get(pitch) == InputState.TRIGGER);
 	}
 
 	
@@ -80,7 +80,7 @@ public class MidiState implements SimpleMidiListener {
 		// TODO Auto-generated method stub
 		if(P.p.showDebug) P.println("controllerChange", channel, pitch, velocity);
 		midiCC.put(pitch, velocity);
-		ButtonState newState = (velocity == 0) ? ButtonState.OFF : ButtonState.TRIGGER;
+		InputState newState = (velocity == 0) ? InputState.OFF : InputState.TRIGGER;
 		midiCCState.put(pitch, newState);
 	}
 
@@ -89,7 +89,7 @@ public class MidiState implements SimpleMidiListener {
 		// TODO Auto-generated method stub
 		if(P.p.showDebug) P.println("noteOff", channel, pitch, velocity);
 		midiButtonVal.put(pitch, velocity);
-		midiButtons.put(pitch, ButtonState.OFF);
+		midiButtons.put(pitch, InputState.OFF);
 	}
 
 	@Override
@@ -97,7 +97,7 @@ public class MidiState implements SimpleMidiListener {
 		// TODO Auto-generated method stub
 		if(P.p.showDebug) P.println("noteOn", channel, pitch, velocity);
 		midiButtonVal.put(pitch, velocity);
-		midiButtons.put(pitch, ButtonState.TRIGGER);
+		midiButtons.put(pitch, InputState.TRIGGER);
 
 	}
 	
@@ -120,7 +120,7 @@ public class MidiState implements SimpleMidiListener {
 		P.p.fill(255);
 		String debugStr = "";
 		for (Integer key : midiCC.keySet()) {
-			if(midiCCState.get(key) == ButtonState.TRIGGER) {
+			if(midiCCState.get(key) == InputState.TRIGGER) {
 				debugStr += key + ": TRIGGER \n";
 			} else {
 				debugStr += key + ": " + midiCC.get(key) + "\n";

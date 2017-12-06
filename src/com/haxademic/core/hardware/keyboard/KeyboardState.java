@@ -3,14 +3,14 @@ package com.haxademic.core.hardware.keyboard;
 import java.util.HashMap;
 
 import com.haxademic.core.app.P;
-import com.haxademic.core.hardware.shared.ButtonState;
+import com.haxademic.core.hardware.shared.InputState;
 
 import processing.event.KeyEvent;
 import themidibus.MidiListener;
 
 public class KeyboardState {
 
-	protected HashMap<Integer, ButtonState> keyboardButtons = new HashMap<Integer, ButtonState>();
+	protected HashMap<Integer, InputState> keyboardButtons = new HashMap<Integer, InputState>();
 
 	public KeyboardState() {
 	}
@@ -21,7 +21,7 @@ public class KeyboardState {
 		
 	public void update() {
 		for (Integer key : keyboardButtons.keySet()) {
-			if(keyboardButtons.get(key) == ButtonState.TRIGGER) keyboardButtons.put(key, ButtonState.ON);
+			if(keyboardButtons.get(key) == InputState.TRIGGER) keyboardButtons.put(key, InputState.ON);
 		}
 	}
 	
@@ -30,11 +30,11 @@ public class KeyboardState {
 	///////////////////////////////
 	
 	public boolean isKeyTriggered(int keyCode) {
-		return (keyboardButtons.containsKey(keyCode) && keyboardButtons.get(keyCode) == ButtonState.TRIGGER);
+		return (keyboardButtons.containsKey(keyCode) && keyboardButtons.get(keyCode) == InputState.TRIGGER);
 	}
 	
 	public boolean isKeyOn(int keyCode) {
-		return (keyboardButtons.containsKey(keyCode) && (keyboardButtons.get(keyCode) == ButtonState.TRIGGER || keyboardButtons.get(keyCode) == ButtonState.ON));
+		return (keyboardButtons.containsKey(keyCode) && (keyboardButtons.get(keyCode) == InputState.TRIGGER || keyboardButtons.get(keyCode) == InputState.ON));
 	}
 	
 	
@@ -52,11 +52,11 @@ public class KeyboardState {
 	}
 	
 	public void setKeyOn(int keyCode) {
-		keyboardButtons.put(keyCode, ButtonState.TRIGGER);
+		keyboardButtons.put(keyCode, InputState.TRIGGER);
 	}
 
 	public void setKeyOff(int keyCode) {
-		keyboardButtons.put(keyCode, ButtonState.OFF);
+		keyboardButtons.put(keyCode, InputState.OFF);
 	}
 	
 	///////////////////////////////
