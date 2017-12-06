@@ -207,7 +207,7 @@ implements IVizModule
 
 		}
 		// always increment z
-		rotZ += _rotZinc * p.getFpsFactor();
+		rotZ += _rotZinc;
 		// increment timer for bouncing blocks
 		next_view++;
 		//switch_view_count++;

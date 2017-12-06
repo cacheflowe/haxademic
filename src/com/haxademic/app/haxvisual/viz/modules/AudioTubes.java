@@ -195,8 +195,8 @@ implements IVizModule
 		public void update() {
 			// use some perlin noise with the sin for some natural waviness
 			//			float curY = y + p.noise(waveIncrementer*.2f) * 20 + PApplet.sin(waveIncrementer) * 10;
-			y += _dirY * yVelocity + _audioData.getFFT().averages[grassIndex] * 5 * p.getFpsFactor();
-			x += _dirX * xVelocity + _audioData.getFFT().averages[grassIndex] * 5 * p.getFpsFactor();
+			y += _dirY * yVelocity + _audioData.getFFT().averages[grassIndex] * 5;
+			x += _dirX * xVelocity + _audioData.getFFT().averages[grassIndex] * 5;
 
 			// increment properties
 			curLength -= xVelocity;

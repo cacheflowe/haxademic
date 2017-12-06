@@ -268,18 +268,6 @@ extends PApplet
 	protected void drawApp() {
 		P.println("YOU MUST OVERRIDE drawApp()");
 	}
-	
-//	public void handleInput( boolean isMidi ) {
-////		p.println("YOU MUST OVERRIDE KEYPRESSED");
-//		if( isMidi == true ) {
-//
-//		} else {
-////			P.println("p.key = "+p.key);
-//			// audio gain
-////			if ( p.key == '.' || _midi.midiPadIsOn( MidiWrapper.PAD_14 ) == 1 ) _audioInput.gainUp();
-////			if ( p.key == ',' || _midi.midiPadIsOn( MidiWrapper.PAD_13 ) == 1 ) _audioInput.gainDown();
-//		}
-//	}
 
 	/**
 	 * Sets some initial Applet properties for OpenGL quality, FPS, and nocursor().
@@ -602,10 +590,7 @@ extends PApplet
 	 * Getters / Setters
 	 */
 	// instance of audio wrapper -------------------------------------------------
-//	public AudioInputWrapper getAudio() { return _audioInput; }
-	// get fps of app -------------------------------------------------
-	public int getFps() { return _fps; }
 	// get fps factor of app -------------------------------------------------
-	public float getFpsFactor() { return 30f / _fps; }
+//	public float getFpsFactor() { return 30f / _fps; }
 
 }
