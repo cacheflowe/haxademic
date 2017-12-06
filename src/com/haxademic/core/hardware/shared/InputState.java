@@ -1,6 +1,6 @@
 package com.haxademic.core.hardware.shared;
 
-public enum ButtonState {
+public enum InputState {
 	TRIGGER,
 	ON,
 	OFF

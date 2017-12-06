@@ -83,7 +83,7 @@ extends PApplet
 	public WaveformData _waveformDataMinim;
 
 	// rendering
-	public Renderer _renderer;
+	public Renderer movieRenderer;
 	public MIDISequenceRenderer _midiRenderer;
 	public GifRenderer _gifRenderer;
 	public ImageSequenceRenderer imageSequenceRenderer;
@@ -94,12 +94,12 @@ extends PApplet
 	protected JoonsWrapper joons;
 
 	// input
-	public MidiState midi = null;
+	public MidiState midiState = null;
 	public MidiBus midiBus;
 	public KeyboardState keyboardState;
 	public IKinectWrapper kinectWrapper = null;
 	public LeapMotion leapMotion = null;
-	public OscWrapper oscWrapper = null;
+	public OscWrapper oscState = null;
 
 	// debug
 	public int _fps;
@@ -225,7 +225,7 @@ extends PApplet
 			audioIn = new AudioInputWrapperMinim( p, _isRenderingAudio );
 			_waveformDataMinim = new WaveformData( p, audioIn.bufferSize() );
 		}
-		_renderer = new Renderer( p, _fps, Renderer.OUTPUT_TYPE_MOVIE, p.appConfig.getString( "render_output_dir", FileUtil.getHaxademicOutputPath() ) );
+		movieRenderer = new Renderer( p, _fps, Renderer.OUTPUT_TYPE_MOVIE, p.appConfig.getString( "render_output_dir", FileUtil.getHaxademicOutputPath() ) );
 		if(appConfig.getBoolean(AppSettings.RENDERING_GIF, false) == true) {
 			_gifRenderer = new GifRenderer(appConfig.getInt(AppSettings.RENDERING_GIF_FRAMERATE, 45), appConfig.getInt(AppSettings.RENDERING_GIF_QUALITY, 15));
 		}
@@ -252,10 +252,10 @@ extends PApplet
 					p.appConfig.getInt(AppSettings.MIDI_DEVICE_OUT_INDEX, 0)
 					);
 		}
-		midi = new MidiState();
+		midiState = new MidiState();
 		keyboardState = new KeyboardState();
 		if( p.appConfig.getBoolean( "leap_active", false ) == true ) leapMotion = new LeapMotion(this);
-		if( p.appConfig.getBoolean( AppSettings.OSC_ACTIVE, false ) == true ) oscWrapper = new OscWrapper();
+		if( p.appConfig.getBoolean( AppSettings.OSC_ACTIVE, false ) == true ) oscState = new OscWrapper();
 		joons = ( p.appConfig.getBoolean(AppSettings.SUNFLOW, false ) == true ) ?
 				new JoonsWrapper( p, width, height, ( p.appConfig.getString(AppSettings.SUNFLOW_QUALITY, "low" ) == AppSettings.SUNFLOW_QUALITY_HIGH ) ? JoonsWrapper.QUALITY_HIGH : JoonsWrapper.QUALITY_LOW, ( p.appConfig.getBoolean(AppSettings.SUNFLOW_ACTIVE, true ) == true ) ? true : false )
 				: null;
@@ -307,8 +307,8 @@ extends PApplet
 		showStats();
 		setAppDockIconAndTitle();
 		keyboardState.update();
-		midi.update();
-		if(oscWrapper != null) oscWrapper.update();
+		midiState.update();
+		if(oscState != null) oscState.update();
 		if(renderer == PRenderers.PDF) finishPdfRender();
 	}
 	
@@ -361,20 +361,20 @@ extends PApplet
 		if( _isRendering == true ) {
 			if( p.frameCount == 1 ) {
 				if( _isRenderingAudio == true ) {
-					_renderer.startRendererForAudio( p.appConfig.getString(AppSettings.RENDER_AUDIO_FILE, ""), _audioInput );
+					movieRenderer.startRendererForAudio( p.appConfig.getString(AppSettings.RENDER_AUDIO_FILE, ""), _audioInput );
 					_audioInput.gainDown();
 					_audioInput.gainDown();
 					_audioInput.gainDown();
 				} else {
-					_renderer.startRenderer();
+					movieRenderer.startRenderer();
 				}
 			}
 
 //			if( p.frameCount > 1 ) {
 				// have renderer step through audio, then special call to update the single WaveformData storage object
 				if( _isRenderingAudio == true ) {
-					_renderer.analyzeAudio();
-					_waveformData.updateWaveformDataForRender( _renderer, _audioInput.getAudioInput(), _audioInput.bufferSize() );
+					movieRenderer.analyzeAudio();
+					_waveformData.updateWaveformDataForRender( movieRenderer, _audioInput.getAudioInput(), _audioInput.bufferSize() );
 				}
 //			}
 
@@ -384,7 +384,7 @@ extends PApplet
 				while( doneCheckingForMidi == false ) {
 					int rendererNote = _midiRenderer.checkForCurrentFrameNoteEvents();
 					if( rendererNote != -1 ) {
-						midi.noteOn( 0, rendererNote, 100 );
+						midiState.noteOn( 0, rendererNote, 100 );
 						triggered = true;
 					} else {
 						doneCheckingForMidi = true;
@@ -409,11 +409,11 @@ extends PApplet
 		// gives the app 1 frame to shutdown after the movie rendering stops
 		if( _isRendering == true ) {
 			if(p.frameCount >= appConfig.getInt(AppSettings.RENDERING_MOVIE_START_FRAME, 1)) {
-				_renderer.renderFrame();
+				movieRenderer.renderFrame();
 			}
 			// check for movie rendering stop frame
 			if(p.frameCount == appConfig.getInt(AppSettings.RENDERING_MOVIE_STOP_FRAME, 5000)) {
-				_renderer.stop();
+				movieRenderer.stop();
 				P.println("shutting down renderer");
 			}
 		}

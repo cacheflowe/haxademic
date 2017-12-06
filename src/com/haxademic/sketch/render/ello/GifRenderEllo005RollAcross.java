@@ -82,8 +82,8 @@ extends PAppletHax {
 		if(p.appConfig.getBoolean("rendering_gif", false) == true) renderGifFrame();
 		if( p.frameCount == _frames * 4 + 5 ) {
 			if(p.appConfig.getBoolean("rendering_gif", false) ==  true) encoder.finish();
-			if(_renderer != null) {				
-				_renderer.stop();
+			if(movieRenderer != null) {				
+				movieRenderer.stop();
 				P.println("render done!");
 			}
 		}

@@ -18,7 +18,7 @@ extends PAppletHax {
 	}
 
 	public void drawApp() {
-		background(p.midi.midiCCPercent(0, 7) * 255, p.midi.midiCCPercent(1, 7) * 255, p.midi.midiCCPercent(2, 7) * 255 );
+		background(p.midiState.midiCCPercent(0, 7) * 255, p.midiState.midiCCPercent(1, 7) * 255, p.midiState.midiCCPercent(2, 7) * 255 );
 	}
 
 }

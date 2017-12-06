@@ -13,7 +13,7 @@ extends PAppletHax {
 
 	public void drawApp() {
 		p.background(0);
-		p.oscWrapper.printButtons();
+		p.oscState.printButtons();
 	}
 
 }

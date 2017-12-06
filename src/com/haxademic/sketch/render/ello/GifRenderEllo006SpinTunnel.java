@@ -95,7 +95,7 @@ extends PAppletHax {
 		if( p.frameCount == _frames * 8 ) {
 			if(p.appConfig.getBoolean("rendering_gif", false) ==  true) encoder.finish();
 			if(_isRendering == true) {				
-				_renderer.stop();
+				movieRenderer.stop();
 				P.println("render done!");
 			}
 		}

@@ -277,7 +277,7 @@ extends PAppletHax {
 		displacementShader = loadShader(FileUtil.getFile("shaders/filters/displacement-map.glsl"));
 		maskShader = loadShader(FileUtil.getFile("shaders/filters/three-texture-opposite-mask.glsl"));
 		
-		p.midi.controllerChange(midiInChannel, vignetteKnob, (int) 40);
+		p.midiState.controllerChange(midiInChannel, vignetteKnob, (int) 40);
 
 	}
 
@@ -352,8 +352,8 @@ extends PAppletHax {
 	}
 
 	protected void getDisplacementLayer() {		
-		displacementLayer = P.round(P.map(p.midi.midiCCPercent(midiInChannel, displaceMapLayerKnob), 0, 1, 0, 3));
-		overlayMode = P.round(P.map(p.midi.midiCCPercent(midiInChannel, overlayModeKnob), 0, 1, 0, 3));
+		displacementLayer = P.round(P.map(p.midiState.midiCCPercent(midiInChannel, displaceMapLayerKnob), 0, 1, 0, 3));
+		overlayMode = P.round(P.map(p.midiState.midiCCPercent(midiInChannel, overlayModeKnob), 0, 1, 0, 3));
 	}
 	
 	protected void postProcessFilters() {
@@ -404,27 +404,27 @@ extends PAppletHax {
 		}
 		
 		// CONTRAST ////////////////////////
-		if( p.midi.midiCCPercent(midiInChannel, contrastKnob) != 0 ) {
-			contrast.set("contrast", p.midi.midiCCPercent(midiInChannel, contrastKnob) * 7 );
-			if(p.midi.midiCCPercent(midiInChannel, contrastKnob) > 0.1f) _pg.filter(contrast);
+		if( p.midiState.midiCCPercent(midiInChannel, contrastKnob) != 0 ) {
+			contrast.set("contrast", p.midiState.midiCCPercent(midiInChannel, contrastKnob) * 7 );
+			if(p.midiState.midiCCPercent(midiInChannel, contrastKnob) > 0.1f) _pg.filter(contrast);
 		}
 
 		// MULTIPLE EFFECTS KNOB ////////////////////////
-		boolean halftone = ( p.midi.midiCCPercent(midiInChannel, effectsKnob) > 0.25f && p.midi.midiCCPercent(midiInChannel, effectsKnob) < 0.5f );
+		boolean halftone = ( p.midiState.midiCCPercent(midiInChannel, effectsKnob) > 0.25f && p.midiState.midiCCPercent(midiInChannel, effectsKnob) < 0.5f );
 		if( halftone ) _pg.filter(dotScreen);
 
-		boolean edged = ( p.midi.midiCCPercent(midiInChannel, effectsKnob) > 0.5f && p.midi.midiCCPercent(midiInChannel, effectsKnob) < 0.75f );
+		boolean edged = ( p.midiState.midiCCPercent(midiInChannel, effectsKnob) > 0.5f && p.midiState.midiCCPercent(midiInChannel, effectsKnob) < 0.75f );
 		if( edged ) _pg.filter(edge);
 
-		boolean pixelated = ( p.midi.midiCCPercent(midiInChannel, effectsKnob) > 0.75f );
+		boolean pixelated = ( p.midiState.midiCCPercent(midiInChannel, effectsKnob) > 0.75f );
 		if( pixelated ) {
-			float pixAmout = P.round(p.midi.midiCCPercent(midiInChannel, pixelateKnob) * 40f);
+			float pixAmout = P.round(p.midiState.midiCCPercent(midiInChannel, pixelateKnob) * 40f);
 			pixelate.set("divider", p.width/pixAmout, p.height/pixAmout);
-			if(p.midi.midiCCPercent(midiInChannel, pixelateKnob) > 0) _pg.filter(pixelate);
+			if(p.midiState.midiCCPercent(midiInChannel, pixelateKnob) > 0) _pg.filter(pixelate);
 		}
 
 		// INVERT ////////////////////////
-		boolean inverted = ( p.midi.midiCCPercent(midiInChannel, invertKnob) > 0.5f );
+		boolean inverted = ( p.midiState.midiCCPercent(midiInChannel, invertKnob) > 0.5f );
 		if( inverted ) _pg.filter(invert);
 
 
@@ -435,13 +435,13 @@ extends PAppletHax {
 		float distFrames = 100f;
 		if(distAutoFrame <= distFrames) {
 			float distAmpAuto = P.sin(distAutoFrame/distFrames * P.PI);
-			p.midi.controllerChange(0, distAmpKnob, P.round(127 * distAmpAuto));
-			p.midi.controllerChange(0, distTimeKnob, P.round(127 * distAmpAuto));
+			p.midiState.controllerChange(0, distAmpKnob, P.round(127 * distAmpAuto));
+			p.midiState.controllerChange(0, distTimeKnob, P.round(127 * distAmpAuto));
 		}
 		
 		// color distortion
-		float colorDistortionAmp = p.midi.midiCCPercent(midiInChannel, distAmpKnob) * 2.5f;
-		float colorDistortionTimeMult = p.midi.midiCCPercent(midiInChannel, distTimeKnob);
+		float colorDistortionAmp = p.midiState.midiCCPercent(midiInChannel, distAmpKnob) * 2.5f;
+		float colorDistortionTimeMult = p.midiState.midiCCPercent(midiInChannel, distTimeKnob);
 		if(colorDistortionAmp > 0) {
 			float prevTime = ColorDistortionFilter.instance(p).getTime();
 			ColorDistortionFilter.instance(p).setTime(prevTime + 1/100f * colorDistortionTimeMult);
@@ -458,8 +458,8 @@ extends PAppletHax {
 //			p.midi.controllerChange(0, warpKnobFreq, P.round(0.1f * P.round(127 * warpAmpAuto)));
 //		}
 
-		float warpAmp = p.midi.midiCCPercent(midiInChannel, warpKnobAmp) * 0.1f;
-		float warpFreq = p.midi.midiCCPercent(midiInChannel, warpKnobFreq) * 10f;
+		float warpAmp = p.midiState.midiCCPercent(midiInChannel, warpKnobAmp) * 0.1f;
+		float warpFreq = p.midiState.midiCCPercent(midiInChannel, warpKnobFreq) * 10f;
 		if(warpAmp > 0) {
 			LiquidWarpFilter.instance(p).setAmplitude(warpAmp);
 			LiquidWarpFilter.instance(p).setFrequency(warpFreq);
@@ -468,7 +468,7 @@ extends PAppletHax {
 		}
 
 		// KALEIDOSCOPE ////////////////////////
-		float kaleidoSides = P.round( p.midi.midiCCPercent(midiInChannel, kaledioKnob) * 12f );
+		float kaleidoSides = P.round( p.midiState.midiCCPercent(midiInChannel, kaledioKnob) * 12f );
 		kaleido.set("sides", kaleidoSides );
 		if( kaleidoSides > 0 ) {
 			if( kaleidoSides == 3 ) {
@@ -479,7 +479,7 @@ extends PAppletHax {
 		}
 
 		// VIGNETTE ////////////////////////
-		float vignetteVal = p.midi.midiCCPercent(midiInChannel, vignetteKnob);
+		float vignetteVal = p.midiState.midiCCPercent(midiInChannel, vignetteKnob);
 		float vignetteDarkness = P.map(vignetteVal, 0, 1, 13f, -13f);
 		VignetteAltFilter.instance(p).setSpread(0.5f);
 		VignetteAltFilter.instance(p).setDarkness(1f); // vignetteDarkness
@@ -488,7 +488,7 @@ extends PAppletHax {
 
 	protected void postBrightness() {
 		// BRIGHTNESS ////////////////////////
-		if(p.midi.midiCCPercent(midiInChannel, brightnessKnob) != 0) _brightnessVal = p.midi.midiCCPercent(midiInChannel, brightnessKnob) * 5f;
+		if(p.midiState.midiCCPercent(midiInChannel, brightnessKnob) != 0) _brightnessVal = p.midiState.midiCCPercent(midiInChannel, brightnessKnob) * 5f;
 		BrightnessFilter.instance(p).setBrightness(_brightnessVal);
 		BrightnessFilter.instance(p).applyTo(_pg);	
 	}
@@ -503,18 +503,18 @@ extends PAppletHax {
 	}
 
 	protected float dmxMultiplier() {
-		return p.midi.midiCCPercent(midiInChannel, 41) * 1.5f;
+		return p.midiState.midiCCPercent(midiInChannel, 41) * 1.5f;
 	}
 
 	protected void sendDmxLights() {
 		int dmxKnob = 47;
 		if(_dmxLights != null) {
 			_dmxLights.update();
-			float knobValue = p.midi.midiCCPercent(midiInChannel, dmxKnob);
+			float knobValue = p.midiState.midiCCPercent(midiInChannel, dmxKnob);
 			if(knobValue == 0) {
 				_dmxLights.setBrightness(1);
 			} else if(knobValue > 0.1f) {
-				_dmxLights.setBrightness((p.midi.midiCCPercent(midiInChannel, dmxKnob)-0.1f) * 50f);
+				_dmxLights.setBrightness((p.midiState.midiCCPercent(midiInChannel, dmxKnob)-0.1f) * 50f);
 			} else {
 				_dmxLights.setBrightness(0);
 			}
@@ -700,8 +700,8 @@ extends PAppletHax {
 		// swap displacement filter option
 		displacementLayer = MathUtil.randRange(0, 3);
 		overlayMode = MathUtil.randRange(0, 3);	
-		p.midi.controllerChange(midiInChannel, displaceMapLayerKnob, P.round((127f/3.1f) * displacementLayer));
-		p.midi.controllerChange(midiInChannel, overlayModeKnob, P.round((127f/3.1f) * overlayMode));
+		p.midiState.controllerChange(midiInChannel, displaceMapLayerKnob, P.round((127f/3.1f) * displacementLayer));
+		p.midiState.controllerChange(midiInChannel, overlayModeKnob, P.round((127f/3.1f) * overlayMode));
 		// P.println(P.round((127f/3.1f) * displacementLayer), P.round((127f/3.1f) * overlayMode));
 		
 		// change kaleido
@@ -710,7 +710,7 @@ extends PAppletHax {
 		else if(kaleidoSides < 0.7f) kaleidoSides = 0.25f * 127f;
 		else if(kaleidoSides < 0.85f) kaleidoSides = 0.3f * 127f;
 		else kaleidoSides = 0.5f * 127f;
-		p.midi.controllerChange(midiInChannel, kaledioKnob, (int) kaleidoSides);
+		p.midiState.controllerChange(midiInChannel, kaledioKnob, (int) kaleidoSides);
 	}
 
 	protected void bigChangeTrigger() {

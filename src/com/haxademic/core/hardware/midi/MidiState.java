@@ -33,6 +33,19 @@ public class MidiState implements SimpleMidiListener {
 //		t.start();
 	}
 	
+	public void sendMidiOut(boolean isNoteOn, int channel, int note, int velocity) {
+		if(isNoteOn) {
+			P.p.midiBus.sendNoteOn(channel, note, velocity);
+		} else {
+			P.p.midiBus.sendNoteOff(channel, note, velocity);
+		}
+	}
+
+
+	///////////////////////////////
+	// GETTERS
+	///////////////////////////////
+	
 	public float midiButtonValue( int pitch ) {
 		return (midiButtonVal.containsKey(pitch)) ? (float) midiButtonVal.get(pitch) / 127f : 0;
 	}
@@ -131,8 +144,4 @@ public class MidiState implements SimpleMidiListener {
 	
 
 	
-//	public void sendMidiOut(boolean isNoteOn, int channel, int note, int velocity) {
-//		_midiHandler.sendMidiOut(isNoteOn, channel, note, velocity);
-//	}
-
 }

@@ -37,24 +37,24 @@ public class InputTrigger {
 		for( int i=0; i < keyCodes.length; i++ ) {
 			if( P.p.keyboardState.isKeyTriggered(keyCodes[i]) ) return true;
 		}
-		if(P.p.oscWrapper != null) {
+		if(P.p.oscState != null) {
 			for( int i=0; i < oscMessages.length; i++ ) {
-				if( P.p.oscWrapper.isValueTriggered(oscMessages[i])) {
-					curValue = P.p.oscWrapper.getValue(oscMessages[i]);
+				if( P.p.oscState.isValueTriggered(oscMessages[i])) {
+					curValue = P.p.oscState.getValue(oscMessages[i]);
 					return true;
 				}
 			}
 		}
 		for( int i=0; i < midiNotes.length; i++ ) {
-			if( P.p.midi.isMidiButtonTriggered(midiNotes[i])) {
-				curValue = P.p.midi.midiButtonValue(midiNotes[i]);
+			if( P.p.midiState.isMidiButtonTriggered(midiNotes[i])) {
+				curValue = P.p.midiState.midiButtonValue(midiNotes[i]);
 				return true;
 			}
 		}
 		if(midiCC != null) {
 			for( int i=0; i < midiCC.length; i++ ) {
-				if( P.p.midi.isMidiCCTriggered(midiNotes[i])) {
-					curValue = P.p.midi.midiCCPercent(0, midiNotes[i]);
+				if( P.p.midiState.isMidiCCTriggered(midiNotes[i])) {
+					curValue = P.p.midiState.midiCCPercent(0, midiNotes[i]);
 					return true;
 				}
 			}
@@ -66,13 +66,13 @@ public class InputTrigger {
 		for( int i=0; i < keyCodes.length; i++ ) {
 			if( P.p.keyboardState.isKeyOn(keyCodes[i]) ) return true;
 		}
-		if(P.p.oscWrapper != null) {
+		if(P.p.oscState != null) {
 			for( int i=0; i < oscMessages.length; i++ ) {
-				if( P.p.oscWrapper.isValueOn(oscMessages[i])) return true;
+				if( P.p.oscState.isValueOn(oscMessages[i])) return true;
 			}
 		}
 		for( int i=0; i < midiNotes.length; i++ ) {
-			if( P.p.midi.isMidiButtonOn(midiNotes[i])) return true;
+			if( P.p.midiState.isMidiButtonOn(midiNotes[i])) return true;
 		}
 		return false;
 	}

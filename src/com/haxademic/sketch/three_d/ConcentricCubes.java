@@ -75,7 +75,7 @@ extends PAppletHax {
 
 		if( p.frameCount == _frames * 2 + 2 ) {
 			if(p.appConfig.getBoolean("rendering", false) ==  true) {				
-				_renderer.stop();
+				movieRenderer.stop();
 				P.println("render done!");
 			}
 		}

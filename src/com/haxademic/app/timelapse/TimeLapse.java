@@ -58,7 +58,7 @@ extends PAppletHax {
 		
 		// stop when done
 		if( _imageIndex == _images.size() ) {
-			_renderer.stop();
+			movieRenderer.stop();
 		} else if( _imageIndex == _images.size() + 1 ) {
 			p.exit();
 		}

@@ -59,7 +59,7 @@ extends PAppletHax {
 		for (MidiKeyTrigger trigger : midiKeyTriggers) {
 			trigger.checkNote(pitch);
 		}
-		if( midi != null ) { 
+		if( midiState != null ) { 
 //			if( midi.isMidiButtonOn( pitch ) == 0 ) {
 //				midi.noteOn( channel, pitch, velocity );
 //				try{ 

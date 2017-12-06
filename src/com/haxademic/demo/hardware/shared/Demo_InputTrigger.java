@@ -26,19 +26,19 @@ extends PAppletHax {
 	
 	public void drawApp() {
 		// show triggering - TODO: add CC changes to trigger
-		if(p.keyboardState.isKeyOn(triggerKey) || p.midi.isMidiButtonOn(LaunchControl.PAD_01) || p.oscWrapper.isValueOn("/toggleC_2")) P.println("trigger 1"); 
+		if(p.keyboardState.isKeyOn(triggerKey) || p.midiState.isMidiButtonOn(LaunchControl.PAD_01) || p.oscState.isValueOn("/toggleC_2")) P.println("trigger 1"); 
 		if(trigger.triggered()) P.println("trigger 2");
 		if(trigger.on()) {
-			p.background(0, 255, 255f * p.oscWrapper.getValue("/1/faderC"));
+			p.background(0, 255, 255f * p.oscState.getValue("/1/faderC"));
 		} else {
 			p.background(0);
 		}
 		
 		// debug print maps
 		p.keyboardState.printKeys();
-		p.midi.printButtons();
-		p.midi.printCC();
-		p.oscWrapper.printButtons();
+		p.midiState.printButtons();
+		p.midiState.printCC();
+		p.oscState.printButtons();
 	}
 	
 }

@@ -246,13 +246,13 @@ extends PAppletHax {
 	
 	public void handleInputTriggers() {
 //		 P.println(_midi._notesOn);
-		if( midi != null ) {
-			if( midi.isMidiButtonOn( 58 ) ) newSection();
-			else if( midi.isMidiButtonOn( 57 ) ) newMeasure();
-			else if( midi.isMidiButtonOn( 65 ) ) timer();
-			else if( midi.isMidiButtonOn( 60 ) ) kick();
-			else if( midi.isMidiButtonOn( 61 ) ) snare();
-			else if( midi.isMidiButtonOn( 62 ) ) perc();
+		if( midiState != null ) {
+			if( midiState.isMidiButtonOn( 58 ) ) newSection();
+			else if( midiState.isMidiButtonOn( 57 ) ) newMeasure();
+			else if( midiState.isMidiButtonOn( 65 ) ) timer();
+			else if( midiState.isMidiButtonOn( 60 ) ) kick();
+			else if( midiState.isMidiButtonOn( 61 ) ) snare();
+			else if( midiState.isMidiButtonOn( 62 ) ) perc();
 		} 
 	}
 

@@ -548,8 +548,8 @@ extends PAppletHax {
 	protected void postProcessFilters() {
 		// brightness
 		float brightMult = 2.8f;
-		if(p.frameCount < 3) p.midi.controllerChange(3, 41, P.round(127f/brightMult));	// default to 1.0, essentially, with room to get up to 2.8f
-		float brightnessVal = p.midi.midiCCPercent(3, 41) * brightMult;
+		if(p.frameCount < 3) p.midiState.controllerChange(3, 41, P.round(127f/brightMult));	// default to 1.0, essentially, with room to get up to 2.8f
+		float brightnessVal = p.midiState.midiCCPercent(3, 41) * brightMult;
 		BrightnessFilter.instance(p).setBrightness(brightnessVal);
 		BrightnessFilter.instance(p).applyTo(p);
 		
@@ -557,8 +557,8 @@ extends PAppletHax {
 //		SaturationFilter.instance(p).applyTo(p);
 		
 		float contrastMult = 2.5f;
-		if(p.frameCount < 3) p.midi.controllerChange(3, 44, P.round(127f/contrastMult));	// default to 1.0, essentially, with room to get up to 2.8f
-		float contrastVal = p.midi.midiCCPercent(3, 44) * contrastMult;
+		if(p.frameCount < 3) p.midiState.controllerChange(3, 44, P.round(127f/contrastMult));	// default to 1.0, essentially, with room to get up to 2.8f
+		float contrastVal = p.midiState.midiCCPercent(3, 44) * contrastMult;
 		ContrastFilter.instance(p).setContrast(contrastVal);
 		ContrastFilter.instance(p).applyTo(p);
 
@@ -578,13 +578,13 @@ extends PAppletHax {
 		float distFrames = 100f;
 		if(distAutoFrame <= distFrames) {
 			float distAmpAuto = P.sin(distAutoFrame/distFrames * P.PI);
-			p.midi.controllerChange(3, 42, P.round(127 * distAmpAuto));
-			p.midi.controllerChange(3, 43, P.round(127 * distAmpAuto));
+			p.midiState.controllerChange(3, 42, P.round(127 * distAmpAuto));
+			p.midiState.controllerChange(3, 43, P.round(127 * distAmpAuto));
 		}
 		
 		// color distortion
-		float colorDistortionAmp = p.midi.midiCCPercent(3, 42) * 0.5f;
-		float colorDistortionTimeMult = p.midi.midiCCPercent(3, 43);
+		float colorDistortionAmp = p.midiState.midiCCPercent(3, 42) * 0.5f;
+		float colorDistortionTimeMult = p.midiState.midiCCPercent(3, 43);
 		if(colorDistortionAmp > 0) {
 			float prevTime = ColorDistortionFilter.instance(p).getTime();
 			ColorDistortionFilter.instance(p).setTime(prevTime + 1/100f * colorDistortionTimeMult);
@@ -672,8 +672,8 @@ extends PAppletHax {
 		}
 		if ( _audioInputUpTrigger.triggered() == true ) audioIn.gainUp();
 		if ( _audioInputDownTrigger.triggered() == true ) audioIn.gainDown();
-		if ( _brightnessUpTrigger.triggered() == true ) p.midi.controllerChange(3, 41, Math.round(127f * p.midi.midiCCPercent(3, 41) + 1));
-		if ( _brightnessDownTrigger.triggered() == true ) p.midi.controllerChange(3, 41, Math.round(127f * p.midi.midiCCPercent(3, 41) - 1));
+		if ( _brightnessUpTrigger.triggered() == true ) p.midiState.controllerChange(3, 41, Math.round(127f * p.midiState.midiCCPercent(3, 41) + 1));
+		if ( _brightnessDownTrigger.triggered() == true ) p.midiState.controllerChange(3, 41, Math.round(127f * p.midiState.midiCCPercent(3, 41) - 1));
 		if ( _debugTexturesTrigger.triggered() == true ) _debugTextures = !_debugTextures;
 	}
 	

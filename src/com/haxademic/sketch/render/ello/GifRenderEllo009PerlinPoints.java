@@ -96,7 +96,7 @@ extends PAppletHax {
 //		filter(BLUR);
 		if( p.frameCount == _frames * 3 ) {
 			if(_isRendering == true) {				
-				_renderer.stop();
+				movieRenderer.stop();
 				P.println("render done!");
 			}
 		}
