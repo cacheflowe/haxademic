@@ -8,6 +8,7 @@ public class InputTrigger {
 	
 	protected Integer[] keyCodes;
 	protected String[] oscMessages;
+	protected String[] webControls;
 	protected Integer[] midiNotes;
 	protected Integer[] midiCC;
 	protected float curValue = 0;
@@ -17,8 +18,10 @@ public class InputTrigger {
 	}
 	
 	public InputTrigger( char[] charList, String[] oscMessages, Integer[] midiNotes ) {
-		keyCodes = new Integer[charList.length];
-		for (int i = 0; i < charList.length; i++) keyCodes[i] = Keyboard.keyCodeFromChar(charList[i]);
+		if(charList != null) {
+			keyCodes = new Integer[charList.length];
+			for (int i = 0; i < charList.length; i++) keyCodes[i] = Keyboard.keyCodeFromChar(charList[i]);
+		}
 		this.oscMessages = oscMessages;
 		this.midiNotes = midiNotes;
 	}
@@ -28,14 +31,22 @@ public class InputTrigger {
 		this.midiCC = midiCCNotes;
 	}
 	
+	public InputTrigger( char[] charList, String[] oscMessages, Integer[] midiNotes, Integer[] midiCCNotes, String[] webControls ) {
+		this( charList, oscMessages, midiNotes );
+		this.midiCC = midiCCNotes;
+		this.webControls = webControls;
+	}
+	
 	public float value() {
 		return curValue;
 	}
 	
 	public boolean triggered() {
 		// if triggered, also store the latest value
-		for( int i=0; i < keyCodes.length; i++ ) {
-			if( P.p.keyboardState.isKeyTriggered(keyCodes[i]) ) return true;
+		if(keyCodes != null) {
+			for( int i=0; i < keyCodes.length; i++ ) {
+				if( P.p.keyboardState.isKeyTriggered(keyCodes[i]) ) return true;
+			}
 		}
 		if(P.p.oscState != null) {
 			for( int i=0; i < oscMessages.length; i++ ) {
@@ -43,6 +54,13 @@ public class InputTrigger {
 					curValue = P.p.oscState.getValue(oscMessages[i]);
 					return true;
 				}
+			}
+		}
+		for( int i=0; i < webControls.length; i++ ) {
+			if( P.p.browserInputState.isValueTriggered(webControls[i])) {
+				P.println("found WebControl:",webControls[i], P.p.browserInputState.getValue(webControls[i]));
+				curValue = P.p.browserInputState.getValue(webControls[i]);
+				return true;
 			}
 		}
 		for( int i=0; i < midiNotes.length; i++ ) {
@@ -63,8 +81,10 @@ public class InputTrigger {
 	}
 
 	public boolean on() {
-		for( int i=0; i < keyCodes.length; i++ ) {
-			if( P.p.keyboardState.isKeyOn(keyCodes[i]) ) return true;
+		if(keyCodes != null) {
+			for( int i=0; i < keyCodes.length; i++ ) {
+				if( P.p.keyboardState.isKeyOn(keyCodes[i]) ) return true;
+			}
 		}
 		if(P.p.oscState != null) {
 			for( int i=0; i < oscMessages.length; i++ ) {

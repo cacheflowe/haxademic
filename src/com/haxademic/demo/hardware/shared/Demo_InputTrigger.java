@@ -6,15 +6,21 @@ import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.hardware.keyboard.Keyboard;
 import com.haxademic.core.hardware.midi.devices.LaunchControl;
 import com.haxademic.core.hardware.shared.InputTrigger;
+import com.haxademic.core.net.WebServer;
+import com.haxademic.core.net.WebServerRequestHandlerUIControls;
 
 public class Demo_InputTrigger
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
+	protected WebServer server;
+	
 	protected InputTrigger trigger = new InputTrigger(
 			new char[]{'c', 'v'},
 			new String[]{"/toggleC_2", "/1/faderC"},
-			new Integer[]{LaunchControl.PAD_01, LaunchControl.PAD_03}
+			new Integer[]{LaunchControl.PAD_01, LaunchControl.PAD_03},
+			null,
+			new String[]{"slider1", "slider2"}
 	);
 	
 	protected int triggerKey = Keyboard.keyCodeFromChar('c');
@@ -22,6 +28,12 @@ extends PAppletHax {
 	protected void overridePropsFile() {
 		p.appConfig.setProperty(AppSettings.MIDI_DEVICE_IN_INDEX, 0 );
 		p.appConfig.setProperty(AppSettings.OSC_ACTIVE, true );
+	}
+	
+	
+	public void setup() {
+		super.setup();	
+		server = new WebServer(new WebServerRequestHandlerUIControls(), true);
 	}
 	
 	public void drawApp() {
@@ -39,6 +51,7 @@ extends PAppletHax {
 		p.midiState.printButtons();
 		p.midiState.printCC();
 		p.oscState.printButtons();
+		p.browserInputState.printButtons();
 	}
 	
 }

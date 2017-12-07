@@ -50,8 +50,13 @@ public class MidiState implements SimpleMidiListener {
 		return (midiButtonVal.containsKey(pitch)) ? (float) midiButtonVal.get(pitch) / 127f : 0;
 	}
 	
-	public float midiCCPercent( int channel, int pitch ) {
+	public float midiCCPercent(int pitch) {
 		return (midiCC.containsKey(pitch)) ? (float) midiCC.get(pitch) / 127f : 0;
+	}
+	
+	public float midiCCPercent(int channel, int pitch) {
+		P.println("TODO: add midi channel handling in MidiState");
+		return midiCCPercent(pitch);
 	}
 	
 	///////////////////////////////
@@ -139,9 +144,7 @@ public class MidiState implements SimpleMidiListener {
 				debugStr += key + ": " + midiCC.get(key) + "\n";
 			}
 		}
-		P.p.text(debugStr, 420, 20, P.p.width - 40, P.p.height - 40);
+		P.p.text(debugStr, 320, 20, P.p.width - 40, P.p.height - 40);
 	}
-	
-
 	
 }

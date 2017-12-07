@@ -2,10 +2,8 @@ package com.haxademic.demo.net;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.constants.AppSettings;
-import com.haxademic.core.data.ConvertUtil;
 import com.haxademic.core.net.WebServer;
-import com.haxademic.core.net.WebServerRequestHandler;
+import com.haxademic.core.net.WebServerRequestHandlerUIControls;
 import com.haxademic.core.system.SystemUtil;
 
 public class Demo_WebServer
@@ -14,19 +12,9 @@ extends PAppletHax {
 	
 	protected WebServer server;
 	
-	protected float sliderVal = 0;
-	
-	protected void overridePropsFile() {
-		p.appConfig.setProperty(AppSettings.FPS, 90);
-	}
-
 	public void setup() {
 		super.setup();	
-		buildWebServer();
-	}
-	
-	protected void buildWebServer() {
-		server = new WebServer(new CustomWebRequestHandler(), true);
+		server = new WebServer(new WebServerRequestHandlerUIControls(), true);
 	}
 	
 	public void drawApp() {
@@ -34,35 +22,7 @@ extends PAppletHax {
 		if(p.frameCount == 200) SystemUtil.openWebPage(WebServer.getServerAddress() + "web-server-demo/");
 		// draw slider val
 		p.fill(255);
-		p.rect(0, 0, P.map(sliderVal, 0, 1, 0, p.width), p.height);
+		p.rect(0, 0, P.map(P.p.browserInputState.getValue("slider1"), 0, 1, 0, p.width), p.height);
 	}
 	
-	// Example custom web server responder
-	
-	public class CustomWebRequestHandler extends WebServerRequestHandler {
-		
-		protected PAppletHax delegate;
-		
-		public void setDelegate(PAppletHax delegate) {
-			this.delegate = delegate;
-		}
-
-		@Override
-		protected String handleCustomPaths(String path, String[] pathComponents) {
-			P.println("CustomWebRequestHandler path:", path);
-			
-			if(pathComponents[0].equals("button")) {
-				int buttonIndex = ConvertUtil.stringToInt(pathComponents[1]);
-				return "{\"log\": \"Button Number: "+buttonIndex+"\"}";
-				
-			} else if(pathComponents[0].equals("slider")) {
-				sliderVal = ConvertUtil.stringToFloat(pathComponents[1]);
-				return "{\"log\": \"Slider Val: "+sliderVal+"\"}";
-				
-			} else {
-				return null;
-			}
-		}
-	}
-
 }

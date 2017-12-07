@@ -82,8 +82,8 @@ extends PAppletHax {
 	}
 
 	protected void panWithMidi() {
-		controlX = p.midiState.midiCCPercent(midiInChannel, 21);
-		controlY = p.midiState.midiCCPercent(midiInChannel, 22);
+		controlX = p.midiState.midiCCPercent(21);
+		controlY = p.midiState.midiCCPercent(22);
 	}
 	
 	protected void panImageToBuffers() {

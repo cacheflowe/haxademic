@@ -20,6 +20,12 @@
     .button-primary {
       width: 100%;
     }
+    .button-primary[data-value="1"],
+    .button-primary[data-value="1"]:active,
+    .button-primary[data-value="1"]:focus,
+    .button-primary[data-value="1"]:hover {
+      background-color: #000;
+    }
     #log-inline {
       width: 100%;
       height: 200px;
@@ -33,12 +39,35 @@
       <div class="six columns">
         <h5>Button</h5>
         <div class="row">
-          <button class="button-primary twelve columns" id="button1">Button 1</button>
-          <button class="button-primary twelve columns" id="button2">Button 2</button>
+          <button class="button-primary twelve columns" id="button1" data-value="0">Button 1</button>
+          <button class="button-primary twelve columns" id="button2" data-value="0">Button 2</button>
+          <button class="button-primary twelve columns" id="button3" data-value="0">Button 3</button>
+          <button class="button-primary twelve columns" id="button4" data-value="0">Button 4</button>
+          <button class="button-primary twelve columns" id="button5" data-value="0">Button 5</button>
+          <button class="button-primary twelve columns" id="button6" data-value="0">Button 6</button>
+          <button class="button-primary twelve columns" id="button7" data-value="0">Button 7</button>
+          <button class="button-primary twelve columns" id="button8" data-value="0">Button 8</button>
+          <button class="button-primary twelve columns" id="button9" data-value="0">Button 9</button>
+          <button class="button-primary twelve columns" id="button10" data-value="0">Button 10</button>
+          <button class="button-primary twelve columns" id="button11" data-value="0">Button 11</button>
+          <button class="button-primary twelve columns" id="button12" data-value="0">Button 12</button>
         </div>
+      </div>
+      <div class="six columns">
         <h5>Slider</h5>
         <div class="row">
-          <input id="slider" class="twelve columns" type="range" min="0" max="1" step="0.001" value="0"></input>
+          <input id="slider1" class="twelve columns" type="range" min="0" max="1" step="0.001" value="0"></input>
+          <input id="slider2" class="twelve columns" type="range" min="0" max="1" step="0.001" value="0"></input>
+          <input id="slider3" class="twelve columns" type="range" min="0" max="1" step="0.001" value="0"></input>
+          <input id="slider4" class="twelve columns" type="range" min="0" max="1" step="0.001" value="0"></input>
+          <input id="slider5" class="twelve columns" type="range" min="0" max="1" step="0.001" value="0"></input>
+          <input id="slider6" class="twelve columns" type="range" min="0" max="1" step="0.001" value="0"></input>
+          <input id="slider7" class="twelve columns" type="range" min="0" max="1" step="0.001" value="0"></input>
+          <input id="slider8" class="twelve columns" type="range" min="0" max="1" step="0.001" value="0"></input>
+          <input id="slider9" class="twelve columns" type="range" min="0" max="1" step="0.001" value="0"></input>
+          <input id="slider10" class="twelve columns" type="range" min="0" max="1" step="0.001" value="0"></input>
+          <input id="slider11" class="twelve columns" type="range" min="0" max="1" step="0.001" value="0"></input>
+          <input id="slider12" class="twelve columns" type="range" min="0" max="1" step="0.001" value="0"></input>
         </div>
       </div>
 
@@ -73,10 +102,30 @@
     }
 
     // form listeners
-    let slider = document.getElementById('slider');
-    slider.addEventListener('input', (e) => makeRequest('/slider/' + slider.value));
-    document.getElementById('button1').addEventListener('click', (e) => makeRequest('/button/1'));
-    document.getElementById('button2').addEventListener('click', (e) => makeRequest('/button/2'));
+    let slider1 = document.getElementById('slider1'); slider1.addEventListener('input', (e) => makeRequest('/slider/1/' + slider1.value));
+    let slider2 = document.getElementById('slider2'); slider2.addEventListener('input', (e) => makeRequest('/slider/2/' + slider2.value));
+    let slider3 = document.getElementById('slider3'); slider3.addEventListener('input', (e) => makeRequest('/slider/3/' + slider3.value));
+    let slider4 = document.getElementById('slider4'); slider4.addEventListener('input', (e) => makeRequest('/slider/4/' + slider4.value));
+    let slider5 = document.getElementById('slider5'); slider5.addEventListener('input', (e) => makeRequest('/slider/5/' + slider5.value));
+    let slider6 = document.getElementById('slider6'); slider6.addEventListener('input', (e) => makeRequest('/slider/6/' + slider6.value));
+    let slider7 = document.getElementById('slider7'); slider7.addEventListener('input', (e) => makeRequest('/slider/7/' + slider7.value));
+    let slider8 = document.getElementById('slider8'); slider8.addEventListener('input', (e) => makeRequest('/slider/8/' + slider8.value));
+    let slider9 = document.getElementById('slider9'); slider9.addEventListener('input', (e) => makeRequest('/slider/9/' + slider9.value));
+    let slider10 = document.getElementById('slider10'); slider10.addEventListener('input', (e) => makeRequest('/slider/10/' + slider10.value));
+    let slider11 = document.getElementById('slider11'); slider11.addEventListener('input', (e) => makeRequest('/slider/11/' + slider11.value));
+    let slider12 = document.getElementById('slider12'); slider12.addEventListener('input', (e) => makeRequest('/slider/12/' + slider12.value));
+    document.getElementById('button1').addEventListener('click', (e) => {e.target.setAttribute('data-value', (e.target.getAttribute('data-value') == 0) ? 1 : 0); makeRequest('/button/1/'+e.target.getAttribute('data-value')) } );
+    document.getElementById('button2').addEventListener('click', (e) => {e.target.setAttribute('data-value', (e.target.getAttribute('data-value') == 0) ? 1 : 0); makeRequest('/button/2/'+e.target.getAttribute('data-value')) } );
+    document.getElementById('button3').addEventListener('click', (e) => {e.target.setAttribute('data-value', (e.target.getAttribute('data-value') == 0) ? 1 : 0); makeRequest('/button/3/'+e.target.getAttribute('data-value')) } );
+    document.getElementById('button4').addEventListener('click', (e) => {e.target.setAttribute('data-value', (e.target.getAttribute('data-value') == 0) ? 1 : 0); makeRequest('/button/4/'+e.target.getAttribute('data-value')) } );
+    document.getElementById('button5').addEventListener('click', (e) => {e.target.setAttribute('data-value', (e.target.getAttribute('data-value') == 0) ? 1 : 0); makeRequest('/button/5/'+e.target.getAttribute('data-value')) } );
+    document.getElementById('button6').addEventListener('click', (e) => {e.target.setAttribute('data-value', (e.target.getAttribute('data-value') == 0) ? 1 : 0); makeRequest('/button/6/'+e.target.getAttribute('data-value')) } );
+    document.getElementById('button7').addEventListener('click', (e) => {e.target.setAttribute('data-value', (e.target.getAttribute('data-value') == 0) ? 1 : 0); makeRequest('/button/7/'+e.target.getAttribute('data-value')) } );
+    document.getElementById('button8').addEventListener('click', (e) => {e.target.setAttribute('data-value', (e.target.getAttribute('data-value') == 0) ? 1 : 0); makeRequest('/button/8/'+e.target.getAttribute('data-value')) } );
+    document.getElementById('button9').addEventListener('click', (e) => {e.target.setAttribute('data-value', (e.target.getAttribute('data-value') == 0) ? 1 : 0); makeRequest('/button/9/'+e.target.getAttribute('data-value')) } );
+    document.getElementById('button10').addEventListener('click', (e) => {e.target.setAttribute('data-value', (e.target.getAttribute('data-value') == 0) ? 1 : 0); makeRequest('/button/10/'+e.target.getAttribute('data-value')) } );
+    document.getElementById('button11').addEventListener('click', (e) => {e.target.setAttribute('data-value', (e.target.getAttribute('data-value') == 0) ? 1 : 0); makeRequest('/button/11/'+e.target.getAttribute('data-value')) } );
+    document.getElementById('button12').addEventListener('click', (e) => {e.target.setAttribute('data-value', (e.target.getAttribute('data-value') == 0) ? 1 : 0); makeRequest('/button/12/'+e.target.getAttribute('data-value')) } );
   </script>
 </body>
 </html>

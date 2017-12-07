@@ -16,6 +16,7 @@ import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.debug.Stats;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.file.FileUtil;
+import com.haxademic.core.hardware.browser.BrowserInputState;
 import com.haxademic.core.hardware.keyboard.KeyboardState;
 import com.haxademic.core.hardware.kinect.IKinectWrapper;
 import com.haxademic.core.hardware.kinect.KinectWrapperV1;
@@ -100,6 +101,7 @@ extends PApplet
 	public IKinectWrapper kinectWrapper = null;
 	public LeapMotion leapMotion = null;
 	public OscWrapper oscState = null;
+	public BrowserInputState browserInputState = null;
 
 	// debug
 	public int _fps;
@@ -254,6 +256,7 @@ extends PApplet
 		}
 		midiState = new MidiState();
 		keyboardState = new KeyboardState();
+		browserInputState = new BrowserInputState();
 		if( p.appConfig.getBoolean( "leap_active", false ) == true ) leapMotion = new LeapMotion(this);
 		if( p.appConfig.getBoolean( AppSettings.OSC_ACTIVE, false ) == true ) oscState = new OscWrapper();
 		joons = ( p.appConfig.getBoolean(AppSettings.SUNFLOW, false ) == true ) ?
@@ -308,6 +311,7 @@ extends PApplet
 		setAppDockIconAndTitle();
 		keyboardState.update();
 		midiState.update();
+		browserInputState.update();
 		if(oscState != null) oscState.update();
 		if(renderer == PRenderers.PDF) finishPdfRender();
 	}
