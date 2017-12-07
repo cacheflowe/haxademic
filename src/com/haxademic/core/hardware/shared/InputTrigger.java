@@ -58,7 +58,6 @@ public class InputTrigger {
 		}
 		for( int i=0; i < webControls.length; i++ ) {
 			if( P.p.browserInputState.isValueTriggered(webControls[i])) {
-				P.println("found WebControl:",webControls[i], P.p.browserInputState.getValue(webControls[i]));
 				curValue = P.p.browserInputState.getValue(webControls[i]);
 				return true;
 			}
