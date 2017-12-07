@@ -7,6 +7,8 @@ import com.haxademic.core.constants.PRenderers;
 import com.haxademic.core.draw.color.ImageGradient;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.shared.InputTrigger;
+import com.haxademic.core.math.MathUtil;
+import com.haxademic.core.math.easing.EasingFloat;
 import com.haxademic.core.net.WebServer;
 import com.haxademic.core.net.WebServerRequestHandlerUIControls;
 import com.haxademic.core.system.SystemUtil;
@@ -18,33 +20,31 @@ extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	/**
-	 * @TODO: Convert the rest of the controls to InputTrigger
-	 * @TODO: Add concentric polygons
+  	 * @TODO: Add concentric polygons
 	 * @TODO: Make animation config array
-	 * @TODO: Eased all values instead of setting immediately
 	 */
 	
 	protected WebServer server;
 	protected ImageGradient imageGradient;
 	protected boolean shouldRecord = false;
 
-	protected InputTrigger knob1 = new InputTrigger(null, null, new Integer[]{21}, null, new String[]{"slider1"});
+	float easingVal = 10f;
+	protected InputTrigger knob1 = new InputTrigger(null, null, new Integer[]{21}, null, new String[]{"slider1"}); 
+	protected EasingFloat radius = new EasingFloat(50, easingVal);
 	protected InputTrigger knob2 = new InputTrigger(null, null, new Integer[]{22}, null, new String[]{"slider2"});
+	protected EasingFloat vertices = new EasingFloat(3, easingVal);
 	protected InputTrigger knob3 = new InputTrigger(null, null, new Integer[]{23}, null, new String[]{"slider3"});
+	protected EasingFloat maxLevels = new EasingFloat(1, easingVal);
 	protected InputTrigger knob4 = new InputTrigger(null, null, new Integer[]{24}, null, new String[]{"slider4"});
+	protected EasingFloat iterateShrink = new EasingFloat(0.1f, easingVal);
 	protected InputTrigger knob5 = new InputTrigger(null, null, new Integer[]{25}, null, new String[]{"slider5"});
+	protected EasingFloat lineWeight = new EasingFloat(1, easingVal);
 	protected InputTrigger knob6 = new InputTrigger(null, null, new Integer[]{26}, null, new String[]{"slider6"});
+	protected EasingFloat offsetRotation = new EasingFloat(0, easingVal);
 	protected InputTrigger knob7 = new InputTrigger(null, null, new Integer[]{27}, null, new String[]{"slider7"});
+	protected EasingFloat childDistanceAmp = new EasingFloat(1, easingVal);
 	protected InputTrigger knob8 = new InputTrigger(null, null, new Integer[]{28}, null, new String[]{"slider8"});
-	
-	protected float radius = 50;
-	protected float vertices = 3f;
-	protected float iterateShrink = 0.1f;
-	protected float lineWeight = 1;
-	protected int maxLevels = 1;
-	protected float circleRadius = 0f;
-	protected float childDistanceAmp = 1f;
-	protected boolean toggleChildRotation = false;
+	protected EasingFloat circleRadius = new EasingFloat(0, easingVal);
 	
 	protected void overridePropsFile() {
 		int FRAMES = 140;
@@ -75,45 +75,53 @@ extends PAppletHax {
 //		if(p.midiState.midiCCPercent(KNOB_1) > 0) radius = P.map(p.midiState.midiCCPercent(KNOB_1), 0, 1, 100, 500);
 
 		// num vertices
-		if(knob2.triggered()) vertices = P.round(3f + P.map(knob2.value(), 0, 1, 0, 5));
+		if(knob2.triggered()) vertices.setTarget(3f + P.map(knob2.value(), 0, 1, 0, 5));
+		vertices.update();
 
 		// rotate polygon to sit on a flat bottom
+		// offset y
+		float radiusClosest = MathUtil.polygonClosestPoint(P.floor(vertices.value()), radius.value());
+		float radiusDiff = radius.value() - radiusClosest;
 		p.translate(p.width/2, p.height/2);
-		float segmentRads = P.TWO_PI / vertices;
+		p.translate(0, radiusDiff/2f);
+		float segmentRads = P.TWO_PI / (float) P.floor(vertices.value());
 		p.rotate(P.HALF_PI);
 		p.rotate(segmentRads / 2f);
 		
 		// draw shape
 		
 		// set up concentric polygon config
-//		if(p.midiState.midiCCPercent(KNOB_1) > 0) radius = P.map(p.midiState.midiCCPercent(KNOB_1), 0, 1, 50, 500);
-		if(knob1.triggered()) radius = P.map(knob1.value(), 0, 1, 50, 500);
+		if(knob1.triggered()) radius.setTarget(P.map(knob1.value(), 0, 1, 50, 500));
+		radius.update();
 
 		// line weight
-//		if(p.midiState.midiCCPercent(KNOB_5) > 0) lineWeight = P.round(3f + P.map(p.midiState.midiCCPercent(KNOB_5), 0, 1, 1, 20));
-		if(knob5.triggered()) lineWeight = P.round(3f + P.map(knob5.value(), 0, 1, 1, 20));
+		if(knob5.triggered()) lineWeight.setTarget(P.round(3f + P.map(knob5.value(), 0, 1, 1, 20)));
+		lineWeight.update();
 
 		// number of children
-//		if(p.midiState.midiCCPercent(KNOB_3) > 0) maxLevels = (int) P.map(p.midiState.midiCCPercent(KNOB_3), 0, 1, 1, 5);
-		if(knob3.triggered()) maxLevels = (int) P.map(knob3.value(), 0, 1, 1, 5);
+		if(knob3.triggered()) maxLevels.setTarget(P.map(knob3.value(), 0, 1, 1, 5));
+		maxLevels.update();
 		
 		// set shrink amount
-		if(knob4.triggered()) iterateShrink = P.map(knob4.value(), 0, 1, 0.1f, 1f);
+		if(knob4.triggered()) iterateShrink.setTarget(P.map(knob4.value(), 0, 1, 0.1f, 1f));
+		iterateShrink.update();
 		
 		// set toggleChildRotation
-		knob6.triggered();  // call knob to update latest values
-//		if(knob6.triggered()) toggleChildRotation = knob6.value() > 0.5f;
+		if(knob6.triggered()) offsetRotation.setTarget(P.map(knob6.value(), 0, 1, 0, 1f));
+		offsetRotation.update();
 		
 		// set childDistanceAmp
-		if(knob7.triggered()) childDistanceAmp = P.map(knob7.value(), 0, 1, 0.1f, 2f);
+		if(knob7.triggered()) childDistanceAmp.setTarget(P.map(knob7.value(), 0, 1, 0.1f, 2f));
+		childDistanceAmp.update();
 		
 		// set circleRadius
-		if(knob8.triggered()) circleRadius = P.map(knob8.value(), 0, 1, 0.1f, 1f);
+		if(knob8.triggered()) circleRadius.setTarget(P.map(knob8.value(), 0, 1, 0.1f, 1f));
+		circleRadius.update();
 		
 		// draw mesh
 		p.pushMatrix();
 		p.fill(255);
-		drawDisc(p, radius, radius - lineWeight, (int) vertices, 0, childDistanceAmp, 0);
+		drawDisc(p, radius.value(), radius.value() - lineWeight.value(), (int) vertices.value(), 0, childDistanceAmp.value(), 0);
 		p.popMatrix();
 		
 		// save file
@@ -125,11 +133,11 @@ extends PAppletHax {
 		
 		float segmentRads = P.TWO_PI / numSegments;
 		
-		float nextRadius = radius * iterateShrink;
-		float nextInnerRadius = innerRadius * iterateShrink;
-		nextInnerRadius = nextRadius - lineWeight;
+		float nextRadius = radius * iterateShrink.value();
+		float nextInnerRadius = innerRadius * iterateShrink.value();
+		nextInnerRadius = nextRadius - lineWeight.value();
 		
-		offsetRads = (offsetRads == 0) ? (segmentRads / 2f) * knob6.value() : 0;
+		offsetRads = (offsetRads == 0) ? (segmentRads / 2f) * offsetRotation.value() : 0;
 		
 		for( int i = 0; i < numSegments; i++ ) {
 			
@@ -148,16 +156,16 @@ extends PAppletHax {
 			p.endShape();
 			
 			// draw circle
-			if(circleRadius > 0.2f && level < 99) {
-				float circleR = radius * circleRadius;
-				float circleInnerR = circleR - lineWeight / 2f;
+			if(circleRadius.value() > 0.2f && level < 99) {
+				float circleR = radius * circleRadius.value();
+				float circleInnerR = circleR - lineWeight.value() / 2f;
 				drawDisc(p, circleR, circleInnerR, 60, offsetRads, 999, 999);
 			}
 			
 			// draw children 
-			if(level < maxLevels) {
+			if(level < P.floor(maxLevels.value()) && radius > 10) {
 				p.pushMatrix();
-				float radiusFromParent = (radius - ((radius - innerRadius) / 2f));
+				float radiusFromParent = (radius - ((radius - innerRadius)));
 				radiusFromParent *= childDistAmp;
 				float x = P.cos( curRads ) * radiusFromParent;
 				float y = P.sin( curRads ) * radiusFromParent;
@@ -170,8 +178,6 @@ extends PAppletHax {
 		p.popMatrix();
 	}
 
-	
-	
 	protected void preparePDFRender() {
 		if(shouldRecord == true) {
 			p.beginRecord(P.PDF, FileUtil.getHaxademicOutputPath() + "/pdf/frame-"+SystemUtil.getTimestamp(p)+".pdf");
@@ -190,19 +196,5 @@ extends PAppletHax {
 			shouldRecord = true;
 		}
 	}
-
-	
-	
-	
-	// draw concentric shapes
-	//	while(radius < 1000 && lineWeight > 5) {
-	//		p.pushMatrix();
-	//		p.fill(255);
-	//		drawDisc(p, radius, radius - lineWeight, (int) vertices);  // Shapes.
-	//		radius += lineWeight + spacing;
-	//		lineWeight *= 0.85f;
-	//		p.popMatrix();
-	//	}
-		
 
 }
