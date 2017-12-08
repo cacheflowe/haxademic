@@ -26,7 +26,8 @@ extends PAppletHax {
 
 	/**
   	 * @TODO: Add concentric polygons
-  	 * Add resposive extent tracking to keep shape centered
+  	 * @TODO: Add sticks between parents/children
+  	 * @TODO: Add sticks from center to vertices
 	 */
 	
 	protected WebServer server;
@@ -62,7 +63,7 @@ extends PAppletHax {
 	protected InputTrigger nextTrigger = new InputTrigger(new char[]{'2'}, null, new Integer[]{LaunchControl.PAD_05}, null, new String[]{"button5"});
 	
 	protected ArrayList<float[]> animationStops = new ArrayList<float[]>();
-	protected boolean isAnimating = false;
+	protected boolean isAnimating = true;
 	protected int animateIndex = -1;
 	
 	// draw analysis
@@ -82,8 +83,8 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.MIDI_DEVICE_IN_INDEX, 0 );
 		p.appConfig.setProperty( AppSettings.FILLS_SCREEN, false );
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, false );
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_START_FRAME, 1 );
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, 1 + FRAMES );
+		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_START_FRAME, 1 + FRAMES );
+		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, 1 + FRAMES * 20 );		// num animations + 1. 4 will render a loop of 3 shapes
 	}
 	
 	public void setupFirstFrame() {
@@ -98,6 +99,7 @@ extends PAppletHax {
 		animationStops.add(new float[] {424.29422f, 3.108566f, 5.0f, 0.50608444f, 4.0f, 0.0f, 0.503937f, 0.0f});
 		animationStops.add(new float[] {253.04224f, 3.108566f, 1.6913227f, 0.5848246f, 11.0f, 0, 0.685278f, 0.9856836f});
 		animationStops.add(new float[] {253.04224f, 3.108566f, 1.7867653f, 0.5848246f, 8.0f, 1.0f, 0.59460753f, 1.0f});
+		animationStops.add(new float[] {122.76751f, 5.4946313f, 2.3276067f, 0.7494632f, 9.0f, 1.0f, 1.3350831f, 0.09806729f});
 		animationStops.add(new float[] {253.04224f, 4.579973f, 2.2957926f, 0.70651394f, 4.0f, 1.0f, 0.6097192f, 0.20544022f});
 		animationStops.add(new float[] {156.40659f, 3.7448502f, 3.2502189f, 0.51324266f, 4.0f, 0, 1.3048596f, 0.2412312f});
 		animationStops.add(new float[] {292.4123f, 4.222063f, 1.1504812f, 0.5776664f, 5.0f, 1.0f, 0.6097192f, 0.48460987f});
@@ -108,6 +110,9 @@ extends PAppletHax {
 		animationStops.add(new float[] {142.0902f, 3.010101f, 2.3912354f, 0.6778812f, 7.0f, 0, 1.3955301f, 0.49176806f});
 		animationStops.add(new float[] {199.2112f, 6.568361f, 2.4230494f, 0.34144592f, 4.0f, 0, 1.3350831f, 0.0f});
 		animationStops.add(new float[] {97.58435f, 3.9039211f, 2.8366342f, 1.0f, 4.0f, 1.0f, 1.7582121f, 0.49892625f});
+		animationStops.add(new float[] {260.44373f, 5.4946313f, 1.59588f, 0.87115246f, 7.0f, 0, 0.4132665f, 0.09806729f});
+		
+		if(isAnimating) nextAnimation(1);
 	}
 	
 	protected void updateControls() {
@@ -229,7 +234,7 @@ extends PAppletHax {
 		
 		// responsive height
 		shapeHeight = maxY - minY;
-		if(responsiveHeight == true) radius.setTarget(radius.value() * MathUtil.scaleToTarget(shapeHeight, p.height * 0.8f));
+		if(responsiveHeight == true) radius.setTarget(radius.value() * MathUtil.scaleToTarget(shapeHeight, p.height * 0.75f));
 		
 		// save file
 		finishPDFRender();
