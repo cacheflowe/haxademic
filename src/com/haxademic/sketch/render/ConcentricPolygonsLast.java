@@ -9,6 +9,7 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.constants.PRenderers;
 import com.haxademic.core.draw.color.ImageGradient;
+import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.midi.devices.LaunchControl;
 import com.haxademic.core.hardware.shared.InputTrigger;
@@ -55,6 +56,10 @@ extends PAppletHax {
 	protected EasingFloat childDistanceAmp = new EasingFloat(1, easingVal);
 	protected InputTrigger knob8 = new InputTrigger(null, null, null, new Integer[]{28}, new String[]{"slider8"});
 	protected EasingFloat circleRadius = new EasingFloat(0, easingVal);
+	protected InputTrigger knob9 = new InputTrigger(null, null, null, new Integer[]{LaunchControl.KNOB_01}, new String[]{"slider9"});
+	protected EasingFloat radialConnections = new EasingFloat(0, easingVal);
+	protected InputTrigger knob10 = new InputTrigger(null, null, null, new Integer[]{LaunchControl.KNOB_02}, new String[]{"slider10"});
+	protected EasingFloat circleLevelDisplay = new EasingFloat(0, 1);
 	
 	protected InputTrigger renderTrigger = new InputTrigger(new char[]{'r'}, null, new Integer[]{LaunchControl.PAD_01}, null, new String[]{"button1"});
 	protected InputTrigger saveConfigTrigger = new InputTrigger(new char[]{'s'}, null, new Integer[]{LaunchControl.PAD_02}, null, new String[]{"button2"});
@@ -84,7 +89,7 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.FILLS_SCREEN, false );
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, false );
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_START_FRAME, 1 + FRAMES );
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, 1 + FRAMES * 20 );		// num animations + 1. 4 will render a loop of 3 shapes
+		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, 1 + FRAMES * 7 );		// num animations + 1. 4 will render a loop of 3 shapes
 	}
 	
 	public void setupFirstFrame() {
@@ -92,26 +97,41 @@ extends PAppletHax {
 		if(PRenderers.currentRenderer() == PRenderers.PDF) shouldRecord = true;
 		imageGradient = new ImageGradient(ImageGradient.BLACK_HOLE());
 		
-		animationStops.add(new float[] {223.62204f, 6.4251966f, 1.031496f, 0.6102362f, 4.0f, 0, 0.69842523f, 0.0f});
-		animationStops.add(new float[] {174.30208f, 3.4664757f, 1.8185794f, 1.0f, 4.0f, 1.0f, 0.8212837f, 1.0f});
-		animationStops.add(new float[] {256.62134f, 3.0f, 3.4092898f, 0.8067287f, 6.0f, 1.0f, 0.383043f, 0.0f});
-		animationStops.add(new float[] {210.09306f, 6.4251966f, 2.963891f, 0.5776664f, 4.0f, 1.0f, 0.6701663f, 0.0f});
-		animationStops.add(new float[] {424.29422f, 3.108566f, 5.0f, 0.50608444f, 4.0f, 0.0f, 0.503937f, 0.0f});
-		animationStops.add(new float[] {253.04224f, 3.108566f, 1.6913227f, 0.5848246f, 11.0f, 0, 0.685278f, 0.9856836f});
-		animationStops.add(new float[] {253.04224f, 3.108566f, 1.7867653f, 0.5848246f, 8.0f, 1.0f, 0.59460753f, 1.0f});
-		animationStops.add(new float[] {122.76751f, 5.4946313f, 2.3276067f, 0.7494632f, 9.0f, 1.0f, 1.3350831f, 0.09806729f});
-		animationStops.add(new float[] {253.04224f, 4.579973f, 2.2957926f, 0.70651394f, 4.0f, 1.0f, 0.6097192f, 0.20544022f});
-		animationStops.add(new float[] {156.40659f, 3.7448502f, 3.2502189f, 0.51324266f, 4.0f, 0, 1.3048596f, 0.2412312f});
-		animationStops.add(new float[] {292.4123f, 4.222063f, 1.1504812f, 0.5776664f, 5.0f, 1.0f, 0.6097192f, 0.48460987f});
-		animationStops.add(new float[] {195.77667f, 4.222063f, 2.1685357f, 0.8067287f, 5.0f, 1.0f, 0.6097192f, 0.23407301f});
-		animationStops.add(new float[] {102.02553f, 3.5062437f, 3.1865902f, 0.634932f, 4.0f, 1.0f, 2.0f, 1.0f});
-		animationStops.add(new float[] {127.7738f, 6.329754f, 2.7730055f, 0.599141f, 4.0f, 0, 1.0479599f, 0.0f});
-		animationStops.add(new float[] {206.51396f, 6.091148f, 1.7867653f, 0.72798854f, 23.0f, 1.0f, 0.94217765f, 0.0f});
-		animationStops.add(new float[] {142.0902f, 3.010101f, 2.3912354f, 0.6778812f, 7.0f, 0, 1.3955301f, 0.49176806f});
-		animationStops.add(new float[] {199.2112f, 6.568361f, 2.4230494f, 0.34144592f, 4.0f, 0, 1.3350831f, 0.0f});
-		animationStops.add(new float[] {97.58435f, 3.9039211f, 2.8366342f, 1.0f, 4.0f, 1.0f, 1.7582121f, 0.49892625f});
-		animationStops.add(new float[] {260.44373f, 5.4946313f, 1.59588f, 0.87115246f, 7.0f, 0, 0.4132665f, 0.09806729f});
-		
+		// david selects
+		animationStops.add(new float[] {271.9227f, 3.8200908f, 3.2502189f, 0.32259604f, 20.0f, 1.0f, 1.0781834f, 1.099141f, 0.0f, 1f});
+		animationStops.add(new float[] {299.5558f, 3.8200908f, 3.7274318f, 0.29237255f, 20.0f, 1.0f, 0.9119542f, 1.2438956f, 0.0f, 1f});
+		animationStops.add(new float[] {278.70633f, 3.8200908f, 3.6956174f, 0.20170206f, 18.0f, 0, 1.1990775f, 1.1659509f, 0.0f, 1f});
+		animationStops.add(new float[] {245.33487f, 3.8200908f, 4.045574f, 0.2772608f, 20.0f, 1.0f, 1.1990775f, 1.4331902f, 0.0f, 1f});
+		animationStops.add(new float[] {224.85864f, 3.8200908f, 4.045574f, 0.383043f, 20.0f, 0, 1.1990775f, 1.3441104f, 0.0f, 1f});
+		animationStops.add(new float[] {198.92818f, 3.6530662f, 4.1728306f, 0.35281953f, 15.0f, 0, 1.3955301f, 1.5315359f, 0.0f, 1f});
+
+
+		// justin selects
+		animationStops.add(new float[] {290.46152f, 3.8200908f, 3.8546886f, 0.54927224f, 16.0f, 1.0f, 0.70038974f, 0.10812853f, 0.0f, 0.0f});
+		animationStops.add(new float[] {223.62204f, 6.4251966f, 1.031496f, 0.6102362f, 4.0f, 0, 0.69842523f, 0.0f, 0, 0.0f});
+		animationStops.add(new float[] {81.90229f, 3.4860415f, 3.3456614f, 1.576871f, 13.0f, 1.0f, 0.20170206f, 0.0f, 0.12510936f, 0.0f});
+		animationStops.add(new float[] {174.30208f, 3.4664757f, 1.8185794f, 1.0f, 4.0f, 1.0f, 0.8212837f, 1.0f, 0, 0.0f});
+		animationStops.add(new float[] {256.62134f, 3.0f, 3.4092898f, 0.8067287f, 6.0f, 1.0f, 0.383043f, 0.0f, 0, 0.0f});
+		animationStops.add(new float[] {210.09306f, 6.4251966f, 2.963891f, 0.5776664f, 4.0f, 1.0f, 0.6701663f, 0.0f, 0, 0.0f});
+		animationStops.add(new float[] {424.29422f, 3.108566f, 5.0f, 0.50608444f, 4.0f, 0.0f, 0.503937f, 0.0f, 0, 0.0f});
+		animationStops.add(new float[] {253.04224f, 3.108566f, 1.6913227f, 0.5848246f, 11.0f, 0, 0.685278f, 0.9856836f, 0.5f, 0.0f});
+		animationStops.add(new float[] {253.04224f, 3.108566f, 1.7867653f, 0.5848246f, 8.0f, 1.0f, 0.59460753f, 1.0f, 0, 0.0f});
+		animationStops.add(new float[] {122.76751f, 5.4946313f, 2.3276067f, 0.7494632f, 9.0f, 1.0f, 1.3350831f, 0.09806729f, 0, 0.0f});
+		animationStops.add(new float[] {253.04224f, 4.579973f, 2.2957926f, 0.70651394f, 4.0f, 1.0f, 0.6097192f, 0.20544022f, 0, 0.0f});
+		animationStops.add(new float[] {156.40659f, 3.7448502f, 3.2502189f, 0.51324266f, 4.0f, 0, 1.3048596f, 0.2412312f, 0, 0.0f});
+		animationStops.add(new float[] {399.99997f, 3.8200908f, 2.8366342f, 0.3074843f, 23.0f, 0.0f, 0.36793125f, 0.0f, 0, 0.0f});
+		animationStops.add(new float[] {292.4123f, 4.222063f, 1.1504812f, 0.5776664f, 5.0f, 1.0f, 0.6097192f, 0.48460987f, 0, 0.0f});
+		animationStops.add(new float[] {195.77667f, 4.222063f, 2.1685357f, 0.8067287f, 5.0f, 1.0f, 0.6097192f, 0.23407301f, 0, 0.0f});
+		animationStops.add(new float[] {102.02553f, 3.5062437f, 3.1865902f, 0.634932f, 4.0f, 1.0f, 2.0f, 1.0f, 0, 0.0f});
+		animationStops.add(new float[] {127.7738f, 6.329754f, 2.7730055f, 0.599141f, 4.0f, 0, 1.0479599f, 0.0f, 0, 0.0f});
+		animationStops.add(new float[] {206.51396f, 6.091148f, 1.7867653f, 0.72798854f, 23.0f, 1.0f, 0.94217765f, 0.0f, 0, 0.0f});
+		animationStops.add(new float[] {399.99994f, 3.8200908f, 2.8366342f, 0.18659031f, 18.0f, 1.0f, 0.35281953f, 1.0657362f, 0, 1.0f});
+		animationStops.add(new float[] {142.0902f, 3.010101f, 2.3912354f, 0.6778812f, 7.0f, 0, 1.3955301f, 0.49176806f, 0, 0.0f});
+		animationStops.add(new float[] {199.2112f, 6.568361f, 2.4230494f, 0.34144592f, 4.0f, 0, 1.3350831f, 0.0f, 0, 0.0f});
+		animationStops.add(new float[] {97.58435f, 3.9039211f, 2.8366342f, 1.0f, 4.0f, 1.0f, 1.7582121f, 0.49892625f, 0, 0.0f});
+		animationStops.add(new float[] {260.44373f, 5.4946313f, 1.59588f, 0.87115246f, 7.0f, 0, 0.4132665f, 0.09806729f, 0, 0.0f});
+		animationStops.add(new float[] {107.44368f, 3.8200908f, 3.7274318f, 1.0026246f, 20.0f, 1.0f, 1.1084069f, 0.09699356f, 0.0f, 0.0f});
+
 		if(isAnimating) nextAnimation(1);
 	}
 	
@@ -121,7 +141,7 @@ extends PAppletHax {
 		radius.update(true);
 
 		// num vertices
-		if(knob2.triggered()) vertices.setTarget(3f + P.map(knob2.value(), 0.01f, 1, 0, 5));
+		if(knob2.triggered()) vertices.setTarget(3f + P.map(knob2.value(), 0.01f, 1, 0, 7));
 		vertices.update(easingEaseIn);
 		
 		// number of children
@@ -129,7 +149,7 @@ extends PAppletHax {
 		maxLevels.update(easingEaseIn);
 		
 		// set shrink amount
-		if(knob4.triggered()) iterateShrink.setTarget(P.map(knob4.value(), 0.01f, 1, 0.1f, 1f));
+		if(knob4.triggered()) iterateShrink.setTarget(P.map(knob4.value(), 0.01f, 1, 0.1f, 2f));
 		iterateShrink.update(easingEaseIn);
 		
 		// line weight
@@ -145,8 +165,16 @@ extends PAppletHax {
 		childDistanceAmp.update(easingEaseIn);
 		
 		// set circleRadius
-		if(knob8.triggered()) circleRadius.setTarget(P.map(knob8.value(), 0.01f, 1, 0.1f, 1f));
+		if(knob8.triggered()) circleRadius.setTarget(P.map(knob8.value(), 0.01f, 1, 0.1f, 2.0f));
 		circleRadius.update(easingEaseIn);
+		
+		// set radialConnections
+		if(knob9.triggered()) radialConnections.setTarget(P.map(knob9.value(), 0.01f, 1, 0f, 1f));
+		radialConnections.update(easingEaseIn);
+		
+		// set circleLevelCutoff
+		if(knob10.triggered()) circleLevelDisplay.setTarget(P.round(P.map(knob10.value(), 0.01f, 1, 0f, 5)));
+		circleLevelDisplay.update();
 		
 		// animation index
 		if(prevTrigger.triggered()) nextAnimation(-1);
@@ -172,6 +200,8 @@ extends PAppletHax {
 				offsetRotation.target(),
 				childDistanceAmp.target(),
 				circleRadius.target(),
+				radialConnections.target(),
+				circleLevelDisplay.target(),
 		};
 		animationStops.add(paramsArray);
 		String toStr = "animationStops.add(new float[] {";
@@ -196,6 +226,8 @@ extends PAppletHax {
 		offsetRotation.setTarget(paramsArray[5]);
 		childDistanceAmp.setTarget(paramsArray[6]);
 		circleRadius.setTarget(paramsArray[7]);
+		radialConnections.setTarget(paramsArray[8]);
+		circleLevelDisplay.setTarget(paramsArray[9]);
 	}
 	
 	public void drawApp() {
@@ -203,6 +235,7 @@ extends PAppletHax {
 		p.background(0);
 		preparePDFRender();
 		p.noStroke();
+		DrawUtil.setDrawCenter(p);
 		
 		// handle input
 		updateControls();
@@ -244,12 +277,14 @@ extends PAppletHax {
 		p.pushMatrix();
 		
 		float segmentRads = P.TWO_PI / numSegments;
+//		float halfThickness = lineWeight.value() / 2f;
 		
 		float nextRadius = radius * iterateShrink.value();
 		float nextInnerRadius = innerRadius * iterateShrink.value();
 		nextInnerRadius = nextRadius - lineWeight.value();
 		
 		offsetRads = (offsetRads == 0) ? (segmentRads / 2f) * offsetRotation.value() : 0;
+		if(level < 2) offsetRads = 0;
 		
 		for( int i = 0; i < numSegments; i++ ) {
 			
@@ -273,15 +308,34 @@ extends PAppletHax {
 			minY = P.min(minY, y + P.sin( curRads ) * radius);
 			maxY = P.max(maxY, y + P.sin( curRads ) * radius);
 			
+			// draw radial sticks
+			if(radialConnections.value() > 0 && level < 99) {
+				p.pushStyle();
+				p.stroke(255);
+				p.strokeWeight(lineWeight.value() * radialConnections.value());
+				p.line(0, 0, P.cos( curRads ) * innerRadius, P.sin( curRads ) * innerRadius);
+				p.popStyle();
+			}
+			
 			// draw circle
-			if(circleRadius.value() > 0.2f && level < 99) {
+			if(circleRadius.value() > 0.2f && (level == circleLevelDisplay.value() || circleLevelDisplay.value() == 0) && level < 99) {
 				float circleR = radius * circleRadius.value();
 				float circleInnerR = circleR - lineWeight.value() / 2f;
+				
+//				p.pushStyle();
+//				p.stroke(255);
+//				p.noFill();
+//				p.strokeWeight(lineWeight.value());
+////				p.ellipse(0, 0, innerRadius * 2f + lineWeight.value() / 2f, innerRadius * 2f + lineWeight.value() / 2f);
+//				p.ellipse(0, 0, circleR * 2f, circleR * 2f);
+//				p.popStyle();
+
 				if(numVertices < 300000) drawDisc(p, circleR, circleInnerR, 60, offsetRads, 999, 999, x, y);
 			}
 			
 			// draw children 
-			if(level < P.floor(maxLevels.value()) && radius > 10) {
+			if(level < P.floor(maxLevels.value()) && radius > 5) {
+				// draw child polygon at vertices
 				float radiusFromParent = (radius - ((radius - innerRadius)));
 				radiusFromParent *= childDistAmp;
 				float xAdd = P.cos( curRads ) * radiusFromParent;
@@ -290,6 +344,15 @@ extends PAppletHax {
 				p.translate(xAdd, yAdd);	// recursion makes this additive
 				if(numVertices < 300000) drawDisc(p, nextRadius, nextInnerRadius, numSegments, offsetRads, childDistAmp, level + 1, x + xAdd, y + yAdd);
 				p.popMatrix();
+				
+				// draw stick from parent to child
+//				if(radialConnections.value() > 0 && level < 99) {
+//					p.pushStyle();
+//					p.stroke(255);
+//					p.strokeWeight(lineWeight.value() * radialConnections.value());
+//					p.line(0, 0, xAdd, yAdd);
+//					p.popStyle();
+//				}
 			}
 		}
 		
