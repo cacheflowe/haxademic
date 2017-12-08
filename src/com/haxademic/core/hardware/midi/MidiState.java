@@ -14,7 +14,8 @@ public class MidiState implements SimpleMidiListener {
 	protected HashMap<Integer, InputState> midiButtons = new HashMap<Integer, InputState>();
 	protected HashMap<Integer, Integer> midiCC = new HashMap<Integer, Integer>();
 	protected HashMap<Integer, InputState> midiCCState = new HashMap<Integer, InputState>();
-	
+	protected int lastUpdatedFrame = 0;
+
 	public MidiState() {
 		if(P.p.midiBus != null) P.p.midiBus.addMidiListener((MidiListener)this);
 
@@ -55,7 +56,7 @@ public class MidiState implements SimpleMidiListener {
 	}
 	
 	public float midiCCPercent(int channel, int pitch) {
-		P.println("TODO: add midi channel handling in MidiState");
+		// P.println("TODO: add midi channel handling in MidiState");
 		return midiCCPercent(pitch);
 	}
 	
@@ -64,6 +65,7 @@ public class MidiState implements SimpleMidiListener {
 	///////////////////////////////
 	
 	public void update() {
+		if(P.p.frameCount == lastUpdatedFrame) return;
 		for (Integer key : midiButtons.keySet()) {
 			if(midiButtons.get(key) == InputState.TRIGGER) midiButtons.put(key, InputState.ON);
 		}
@@ -96,10 +98,11 @@ public class MidiState implements SimpleMidiListener {
 	@Override
 	public void controllerChange(int channel, int  pitch, int velocity) {
 		// TODO Auto-generated method stub
-		if(P.p.showDebug) P.println("controllerChange", channel, pitch, velocity);
 		midiCC.put(pitch, velocity);
 		InputState newState = (velocity == 0) ? InputState.OFF : InputState.TRIGGER;
 		midiCCState.put(pitch, newState);
+		if(P.p.showDebug) P.println("controllerChange", channel, pitch, velocity, newState);
+		lastUpdatedFrame = P.p.frameCount;
 	}
 
 	@Override
@@ -108,6 +111,7 @@ public class MidiState implements SimpleMidiListener {
 		if(P.p.showDebug) P.println("noteOff", channel, pitch, velocity);
 		midiButtonVal.put(pitch, velocity);
 		midiButtons.put(pitch, InputState.OFF);
+		lastUpdatedFrame = P.p.frameCount;
 	}
 
 	@Override
@@ -116,7 +120,7 @@ public class MidiState implements SimpleMidiListener {
 		if(P.p.showDebug) P.println("noteOn", channel, pitch, velocity);
 		midiButtonVal.put(pitch, velocity);
 		midiButtons.put(pitch, InputState.TRIGGER);
-
+		lastUpdatedFrame = P.p.frameCount;
 	}
 	
 	///////////////////////////////

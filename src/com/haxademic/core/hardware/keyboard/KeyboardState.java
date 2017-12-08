@@ -11,6 +11,7 @@ import themidibus.MidiListener;
 public class KeyboardState {
 
 	protected HashMap<Integer, InputState> keyboardButtons = new HashMap<Integer, InputState>();
+	protected int lastUpdatedFrame = 0;
 
 	public KeyboardState() {
 	}
@@ -20,6 +21,7 @@ public class KeyboardState {
 	///////////////////////////////
 		
 	public void update() {
+		if(P.p.frameCount == lastUpdatedFrame) return; 
 		for (Integer key : keyboardButtons.keySet()) {
 			if(keyboardButtons.get(key) == InputState.TRIGGER) keyboardButtons.put(key, InputState.ON);
 		}
@@ -53,10 +55,12 @@ public class KeyboardState {
 	
 	public void setKeyOn(int keyCode) {
 		keyboardButtons.put(keyCode, InputState.TRIGGER);
+		lastUpdatedFrame = P.p.frameCount;
 	}
 
 	public void setKeyOff(int keyCode) {
 		keyboardButtons.put(keyCode, InputState.OFF);
+		lastUpdatedFrame = P.p.frameCount;
 	}
 	
 	///////////////////////////////

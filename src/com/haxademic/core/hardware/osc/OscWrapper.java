@@ -16,7 +16,8 @@ public class OscWrapper {
 	
 	protected HashMap<String, Float> oscMsgMap;
 	protected HashMap<String, InputState> oscMsgState;
-	
+	protected int lastUpdatedFrame = 0;
+
 	public OscWrapper() {
 		_oscP5 = new OscP5(this, 12000);
 		_remoteLocation = new NetAddress("127.0.0.1",12000);
@@ -63,6 +64,7 @@ public class OscWrapper {
 		oscMsgMap.put(oscMsg, oscValue);
 		InputState newState = (oscValue == 0) ? InputState.OFF : InputState.TRIGGER;
 		oscMsgState.put(oscMsg, newState);
+		lastUpdatedFrame = P.p.frameCount;
 	}
 	
 	///////////////////////////////
@@ -70,6 +72,7 @@ public class OscWrapper {
 	///////////////////////////////
 	
 	public void update() {
+		if(P.p.frameCount == lastUpdatedFrame) return; 
 		for (String key : oscMsgState.keySet()) {
 			if(oscMsgState.get(key) == InputState.TRIGGER) oscMsgState.put(key, InputState.ON);
 		}

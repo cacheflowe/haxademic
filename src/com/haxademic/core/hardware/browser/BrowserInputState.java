@@ -9,6 +9,7 @@ public class BrowserInputState {
 
 	protected HashMap<String, Float> webControlValues;
 	protected HashMap<String, InputState> webControlState;
+	protected int lastUpdatedFrame = 0;
 	
 	public BrowserInputState() {
 		webControlValues = new HashMap<String, Float>();
@@ -48,10 +49,10 @@ public class BrowserInputState {
 	///////////////////////////////
 
 	public void setControlValue(String controlId, float controlValue) {
-		if(P.p.showDebug) P.println(controlId+": "+controlValue);
 		webControlValues.put(controlId, controlValue);
 		InputState newState = (controlValue == 0) ? InputState.OFF : InputState.TRIGGER;
 		webControlState.put(controlId, newState);
+		lastUpdatedFrame = P.p.frameCount;
 	}
 	
 	///////////////////////////////
@@ -59,6 +60,7 @@ public class BrowserInputState {
 	///////////////////////////////
 	
 	public void update() {
+		if(P.p.frameCount == lastUpdatedFrame) return; 
 		for (String key : webControlState.keySet()) {
 			if(webControlState.get(key) == InputState.TRIGGER) webControlState.put(key, InputState.ON);
 		}

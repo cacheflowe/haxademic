@@ -62,16 +62,18 @@ public class InputTrigger {
 				return true;
 			}
 		}
-		for( int i=0; i < midiNotes.length; i++ ) {
-			if( P.p.midiState.isMidiButtonTriggered(midiNotes[i])) {
-				curValue = P.p.midiState.midiButtonValue(midiNotes[i]);
-				return true;
+		if(midiNotes != null) {
+			for( int i=0; i < midiNotes.length; i++ ) {
+				if( P.p.midiState.isMidiButtonTriggered(midiNotes[i])) {
+					curValue = P.p.midiState.midiButtonValue(midiNotes[i]);
+					return true;
+				}
 			}
 		}
 		if(midiCC != null) {
 			for( int i=0; i < midiCC.length; i++ ) {
-				if( P.p.midiState.isMidiCCTriggered(midiNotes[i])) {
-					curValue = P.p.midiState.midiCCPercent(0, midiNotes[i]);
+				if( P.p.midiState.isMidiCCTriggered(midiCC[i])) {
+					curValue = P.p.midiState.midiCCPercent(0, midiCC[i]);
 					return true;
 				}
 			}
@@ -90,8 +92,10 @@ public class InputTrigger {
 				if( P.p.oscState.isValueOn(oscMessages[i])) return true;
 			}
 		}
-		for( int i=0; i < midiNotes.length; i++ ) {
-			if( P.p.midiState.isMidiButtonOn(midiNotes[i])) return true;
+		if(midiNotes != null) {
+			for( int i=0; i < midiNotes.length; i++ ) {
+				if( P.p.midiState.isMidiButtonOn(midiNotes[i])) return true;
+			}
 		}
 		return false;
 	}
