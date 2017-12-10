@@ -72,6 +72,7 @@ extends PAppletHax {
 	protected int animateIndex = -1;
 	
 	// draw analysis
+	protected int circleResolution = 60;
 	protected int numVertices = 0;
 	protected float minY = -1;
 	protected float maxY = 1;
@@ -233,6 +234,7 @@ extends PAppletHax {
 	public void drawApp() {
 		// context setup
 		p.background(0);
+		if(renderTrigger.triggered()) shouldRecord = true;
 		preparePDFRender();
 		p.noStroke();
 		DrawUtil.setDrawCenter(p);
@@ -330,7 +332,7 @@ extends PAppletHax {
 //				p.ellipse(0, 0, circleR * 2f, circleR * 2f);
 //				p.popStyle();
 
-				if(numVertices < 300000) drawDisc(p, circleR, circleInnerR, 60, offsetRads, 999, 999, x, y);
+				if(numVertices < 300000) drawDisc(p, circleR, circleInnerR, circleResolution, offsetRads, 999, 999, x, y);
 			}
 			
 			// draw children 
