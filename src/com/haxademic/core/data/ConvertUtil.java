@@ -15,7 +15,7 @@ public class ConvertUtil {
 	}
 	
 	public static boolean stringToBoolean( String bool ) {
-		return (bool == "true") ? true : false;
+		return (bool.equals("true")) ? true : false;
 	}
 }
 
