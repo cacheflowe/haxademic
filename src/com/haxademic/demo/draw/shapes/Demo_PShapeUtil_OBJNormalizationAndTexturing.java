@@ -38,7 +38,7 @@ extends PAppletHax {
 		img = DemoAssets.squareTexture();
 		
 		// build obj PShape and scale to window
-		obj = DemoAssets.objSkeleton();
+		obj = DemoAssets.objHumanoid();
 		
 		PShapeUtil.centerShape(obj);
 		PShapeUtil.scaleShapeToExtent(obj, p.height * 0.8f);

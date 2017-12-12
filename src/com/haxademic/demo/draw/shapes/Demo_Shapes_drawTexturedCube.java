@@ -16,7 +16,7 @@ extends PAppletHax {
 	protected PImage img;
 	
 	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.LOOP_FRAMES, 60 );
+		p.appConfig.setProperty( AppSettings.LOOP_FRAMES, 160 );
 		p.appConfig.setProperty( AppSettings.WIDTH, 800 );
 		p.appConfig.setProperty( AppSettings.HEIGHT, 800 );
 	}
@@ -34,9 +34,9 @@ extends PAppletHax {
 		float easedPercent = Penner.easeInOutQuart(loop.progress(), 0, 1, 1);
 		float radsCompleteEased = easedPercent * P.TWO_PI;
 
-		rotateX(P.PI + 0.2f * P.sin(loop.progressRads())); 
-		rotateY(radsCompleteEased * 0.25f); 
+		rotateX(0.2f * P.sin(loop.progressRads())); 
+		rotateY(radsCompleteEased); 
 		
-		Shapes.drawTexturedCube(p.g, 200, DemoAssets.squareTexture());
+		Shapes.drawTexturedCube(p.g, 200, DemoAssets.smallTexture());
 	}
 }

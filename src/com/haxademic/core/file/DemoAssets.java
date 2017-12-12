@@ -66,11 +66,6 @@ public class DemoAssets {
 	
 	public static PShape objSkeleton = null;
 	public static PShape objSkeleton() {
-		//	obj = p.loadShape( FileUtil.getFile("models/poly-hole-square.obj"));	
-		//	obj = p.loadShape( FileUtil.getFile("models/man-lowpoly.obj"));	
-		//	obj = p.loadShape( FileUtil.getFile("models/lego-man.obj"));	
-		//	obj = p.loadShape( FileUtil.getFile("models/bomb.obj"));	
-		//	obj = p.loadShape( FileUtil.getFile("models/poly-hole-tri.obj"));	
 		if(objSkeleton == null) {
 			objSkeleton = P.p.loadShape(FileUtil.getFile("models/skeleton-lowpoly.obj"));
 			PShapeUtil.meshRotateOnAxis(objSkeleton, P.PI, P.Z);
@@ -85,6 +80,16 @@ public class DemoAssets {
 			PShapeUtil.meshRotateOnAxis(objSkullRealistic, P.PI, P.Z);
 		}
 		return objSkullRealistic;
+	}
+	
+	public static PShape objHumanoid = null;
+	public static PShape objHumanoid() {
+		if(objHumanoid == null) {
+			objHumanoid = P.p.loadShape(FileUtil.getFile("models/man-lowpoly.obj"));
+			PShapeUtil.meshRotateOnAxis(objHumanoid, P.PI, P.Z);
+			PShapeUtil.meshRotateOnAxis(objHumanoid, P.HALF_PI, P.Y);
+		}
+		return objHumanoid;
 	}
 	
 	// VIDEO

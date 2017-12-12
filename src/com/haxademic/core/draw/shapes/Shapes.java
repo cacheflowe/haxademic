@@ -203,31 +203,38 @@ public class Shapes {
 		pg.beginShape(P.QUADS);
 		pg.texture(texture);
 
-		pg.vertex(-size,  size,  size, 		0, 0);
-		pg.vertex( size,  size,  size, 		texture.width, 0);
-		pg.vertex( size, -size,  size,		texture.width, texture.height);
-		pg.vertex(-size, -size,  size,		0, texture.height);
+		// BL, BR, TR, TL
+		// front
+		pg.vertex(-size,  size,  size, 		0, texture.height);
+		pg.vertex( size,  size,  size, 		texture.width, texture.height);
+		pg.vertex( size, -size,  size,		texture.width, 0);
+		pg.vertex(-size, -size,  size,		0, 0);
 
-		pg.vertex( size,  size,  size, 		0, 0);
-		pg.vertex( size,  size, -size, 		texture.width, 0);
-		pg.vertex( size, -size, -size,		texture.width, texture.height);
-		pg.vertex( size, -size,  size,		0, texture.height);
+		// back
+		pg.vertex( size,  size, -size, 		0, texture.height);
+		pg.vertex(-size,  size, -size, 		texture.width, texture.height);
+		pg.vertex(-size, -size, -size,		texture.width, 0);
+		pg.vertex( size, -size, -size,		0, 0);
 
-		pg.vertex( size,  size, -size, 		0, 0);
-		pg.vertex(-size,  size, -size, 		texture.width, 0);
-		pg.vertex(-size, -size, -size,		texture.width, texture.height);
-		pg.vertex( size, -size, -size,		0, texture.height);
+		// left
+		pg.vertex(-size,  size, -size, 		0, texture.height);
+		pg.vertex(-size,  size,  size, 		texture.width, texture.height);
+		pg.vertex(-size, -size,  size,		texture.width, 0);
+		pg.vertex(-size, -size, -size,		0, 0);
 
-		pg.vertex(-size,  size, -size, 		0, 0);
-		pg.vertex(-size,  size,  size, 		texture.width, 0);
-		pg.vertex(-size, -size,  size,		texture.width, texture.height);
-		pg.vertex(-size, -size, -size,		0, texture.height);
-
+		// right
+		pg.vertex( size,  size,  size, 		0, texture.height);
+		pg.vertex( size,  size, -size, 		texture.width, texture.height);
+		pg.vertex( size, -size, -size,		texture.width, 0);
+		pg.vertex( size, -size,  size,		0, 0);
+		
+		// floor
 		pg.vertex(-size,  size, -size, 		0, 0);
 		pg.vertex( size,  size, -size, 		texture.width, 0);
 		pg.vertex( size,  size,  size,		texture.width, texture.height);
 		pg.vertex(-size,  size,  size,		0, texture.height);
 
+		// ceiling
 		pg.vertex(-size, -size, -size, 		0, 0);
 		pg.vertex( size, -size, -size, 		texture.width, 0);
 		pg.vertex( size, -size,  size,		texture.width, texture.height);
@@ -235,6 +242,63 @@ public class Shapes {
 
 		pg.endShape();
 	}
+	
+	public static void drawTexturedCubeInside(PGraphics pg, float w, float h, float d, PImage texture1, PImage texture2, PImage texture3, PImage texture4, PImage floor, PImage ceiling) {
+		// front - BR, BL, TL, TR
+		pg.beginShape(P.QUAD);
+		pg.texture(texture1);
+		pg.vertex(-w,  h,  d, 		texture1.width, texture1.height);
+		pg.vertex( w,  h,  d, 		0, texture1.height);
+		pg.vertex( w, -h,  d,		0, 0);
+		pg.vertex(-w, -h,  d,		texture1.width, 0);
+		pg.endShape();
+
+		// right
+		pg.beginShape(P.QUAD);
+		pg.texture(texture4);
+		pg.vertex( w,  h,  d, 		texture4.width, texture4.height);
+		pg.vertex( w,  h, -d, 		0, texture4.height);
+		pg.vertex( w, -h, -d,		0, 0);
+		pg.vertex( w, -h,  d,		texture4.width, 0);
+		pg.endShape();
+
+		// back
+		pg.beginShape(P.QUAD);
+		pg.texture(texture3);
+		pg.vertex( w,  h, -d, 		texture3.width, texture3.height);
+		pg.vertex(-w,  h, -d, 		0, texture3.height);
+		pg.vertex(-w, -h, -d,		0, 0);
+		pg.vertex( w, -h, -d,		texture3.width, 0);
+		pg.endShape();
+
+		// left
+		pg.beginShape(P.QUAD);
+		pg.texture(texture2);
+		pg.vertex(-w,  h, -d, 		texture2.width, texture2.height);
+		pg.vertex(-w,  h,  d, 		0, texture2.height);
+		pg.vertex(-w, -h,  d,		0, 0);
+		pg.vertex(-w, -h, -d,		texture2.width, 0);
+		pg.endShape();
+
+		// floor
+		pg.beginShape(P.QUAD);
+		pg.texture(floor);
+		pg.vertex(-w,  h, -d, 		floor.width, floor.height);
+		pg.vertex( w,  h, -d, 		0, floor.height);
+		pg.vertex( w,  h,  d,		0, 0);
+		pg.vertex(-w,  h,  d,		floor.width, 0);
+		pg.endShape();
+
+		// ceiling
+		pg.beginShape(P.QUAD);
+		pg.texture(ceiling);
+		pg.vertex(-w, -h, -d, 		ceiling.width, ceiling.height);
+		pg.vertex( w, -h, -d, 		0, ceiling.height);
+		pg.vertex( w, -h,  d,		0, 0);
+		pg.vertex(-w, -h,  d,		ceiling.width, 0);
+		pg.endShape();
+	}
+
 	
 	public static PShape createCan(float radius, float height, int detail) {
 		//		textureMode(NORMAL);
