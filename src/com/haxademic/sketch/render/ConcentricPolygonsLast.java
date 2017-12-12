@@ -1,8 +1,6 @@
 package com.haxademic.sketch.render;
 
-import java.awt.List;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
@@ -26,9 +24,7 @@ extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	/**
-  	 * @TODO: Add concentric polygons
-  	 * @TODO: Add sticks between parents/children
-  	 * @TODO: Add sticks from center to vertices
+  	 * @TODO: Add concentric polygons?
 	 */
 	
 	protected WebServer server;
@@ -323,15 +319,6 @@ extends PAppletHax {
 			if(circleRadius.value() > 0.2f && (level == circleLevelDisplay.value() || circleLevelDisplay.value() == 0) && level < 99) {
 				float circleR = radius * circleRadius.value();
 				float circleInnerR = circleR - lineWeight.value() / 2f;
-				
-//				p.pushStyle();
-//				p.stroke(255);
-//				p.noFill();
-//				p.strokeWeight(lineWeight.value());
-////				p.ellipse(0, 0, innerRadius * 2f + lineWeight.value() / 2f, innerRadius * 2f + lineWeight.value() / 2f);
-//				p.ellipse(0, 0, circleR * 2f, circleR * 2f);
-//				p.popStyle();
-
 				if(numVertices < 300000) drawDisc(p, circleR, circleInnerR, circleResolution, offsetRads, 999, 999, x, y);
 			}
 			
