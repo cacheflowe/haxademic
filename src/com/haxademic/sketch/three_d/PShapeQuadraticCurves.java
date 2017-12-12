@@ -2,6 +2,7 @@ package com.haxademic.sketch.three_d;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
+import com.haxademic.core.constants.PBlendModes;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.shapes.Icosahedron;
 import com.haxademic.core.draw.shapes.PShapeUtil;
@@ -18,7 +19,13 @@ extends PAppletHax {
 	protected PShape obj;
 
 	protected void overridePropsFile() {
-		p.appConfig.setProperty(AppSettings.LOOP_FRAMES, 640);
+		int FRAMES = 640;
+		p.appConfig.setProperty(AppSettings.WIDTH, 1280);
+		p.appConfig.setProperty(AppSettings.HEIGHT, 720);
+		p.appConfig.setProperty(AppSettings.LOOP_FRAMES, FRAMES);
+		p.appConfig.setProperty(AppSettings.RENDERING_MOVIE, false);
+		p.appConfig.setProperty(AppSettings.RENDERING_MOVIE_START_FRAME, 1 + FRAMES);
+		p.appConfig.setProperty(AppSettings.RENDERING_MOVIE_STOP_FRAME, 1 + FRAMES * 2);
 	}
 	
 	protected void setupFirstFrame() {
@@ -31,16 +38,15 @@ extends PAppletHax {
 	public void drawApp() {		
 		background(0);
 		p.noFill();
-		DrawUtil.setBetterLights(p);
+//		DrawUtil.setBetterLights(p);
 		
 		// rotate
 		float z = Penner.easeInOutExpo(0.5f + 0.5f * MathUtil.saw(loop.progressRads()), 0, 1, 1);
-		p.translate(p.width/2f, p.height/2f, z * -p.width); // -p.width
+		p.translate(p.width/2f, p.height/2f, 100 + z * -p.width); // -p.width
 
 		// draw mesh with texture or without
-		obj.disableStyle();
 		p.stroke(255);
-		p.strokeWeight(1.8f);
+		p.strokeWeight(0.8f);
 		
 		// draw curves
 		p.pushMatrix();
@@ -58,6 +64,11 @@ extends PAppletHax {
 			
 			float eqAmp = 1f + p._audioInput.getFFT().spectrum[ i % p._audioInput.getFFT().spectrum.length ];
 			p.stroke(255f * (-0.75f + eqAmp));
+			
+			// override for render
+			// p.blendMode(PBlendModes.ADD);
+			eqAmp = 1;
+			p.stroke(185);
 
 			p.beginShape();
 			p.vertex(v1.x, v1.y, v1.z);
