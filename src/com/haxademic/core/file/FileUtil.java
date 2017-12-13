@@ -15,6 +15,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import com.haxademic.core.app.P;
@@ -118,6 +119,7 @@ public class FileUtil {
 		type = "."+type;
 		File dir = new File( directory );
 		String[] children = dir.list();
+		Arrays.sort(children);
 		ArrayList<String> filesOfType = new ArrayList<String>();
 		if (children == null) {
 			P.println("FileUtil error: couldn't find file or directory");
@@ -125,8 +127,8 @@ public class FileUtil {
 		    for (int i=0; i < children.length; i++) {
 		        String filename = children[i];
 		        if( filename.indexOf( type ) != -1 ) {	
-		        	// P.println(filename);
-		        	filesOfType.add( filename );
+			        	P.println(filename);
+			        	filesOfType.add( filename );
 		        }
 		    }
 		}
