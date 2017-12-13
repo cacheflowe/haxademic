@@ -6,6 +6,9 @@ src/com/haxademic/app/hike
 bin/
 output/
 lib/
+*ignore*
+*_sketch*
 *Thumbs.db
 .DS_Store
 bin/
+captured.png
