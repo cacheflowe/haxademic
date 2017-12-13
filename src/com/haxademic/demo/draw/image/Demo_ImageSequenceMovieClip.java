@@ -1,4 +1,4 @@
-package com.haxademic.sketch.test;
+package com.haxademic.demo.draw.image;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
@@ -7,7 +7,7 @@ import com.haxademic.core.file.FileUtil;
 
 import processing.core.PImage;
 
-public class ImageSequenceMovieClipTest
+public class Demo_ImageSequenceMovieClip
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
@@ -17,27 +17,23 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.WIDTH, 1344 );
 		p.appConfig.setProperty( AppSettings.HEIGHT, 600 );
 		p.appConfig.setProperty( AppSettings.FULLSCREEN, false );
-		p.appConfig.setProperty( AppSettings.SMOOTHING, AppSettings.SMOOTH_HIGH );
-		p.appConfig.setProperty( AppSettings.RETINA, false );
+		p.appConfig.setProperty( AppSettings.SHOW_DEBUG, true );
 	}
 
-	public void setup() {
-		super.setup();
-		
-		String imagePath = FileUtil.getFile("images/floaty-blob.anim/"); // File.separator
+	public void setupFirstFrame() {
+		String imagePath = FileUtil.getFile("images/floaty-blob.anim/");
 		imageSequence = new ImageSequenceMovieClip(imagePath, "png", 18);
 	}
 	
 	public void drawApp() {
 		p.background(0);
 		
+		if(p.frameCount % 100 == 50) imageSequence.play();
 		imageSequence.preCacheImages();
-		if(p.frameCount == 100) imageSequence.play();
-		
 		imageSequence.update();
-		PImage frameImg = (imageSequence.isPlaying() == true) ? imageSequence.image() : imageSequence.getFrame(imageSequence.numImageFiles() - 1);
-		p.image(frameImg, 0, 0);
-		p.text(""+imageSequence.isFinished(), 20, 20);
+		
+		p.image(imageSequence.image(), 0, 0);
+		p.debugView.setValue("imageSequence.isFinished()", imageSequence.isFinished());
 	}
 	
 }
