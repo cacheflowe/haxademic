@@ -7,6 +7,7 @@ import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.shapes.PShapeSolid;
 import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.file.DemoAssets;
+import com.haxademic.core.file.FileUtil;
 
 import processing.core.PImage;
 import processing.core.PShape;

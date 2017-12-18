@@ -33,6 +33,7 @@ extends PAppletHax {
 		// build sheet mesh
 		shape = Shapes.createSheet(100, texture);
 		shape.setTexture(texture);
+		p.debugView.setValue("shape.getVertexCount();", shape.getVertexCount());
 		
 		// load shader
 		displacementShader = loadShader(
