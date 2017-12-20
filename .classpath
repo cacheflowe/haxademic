@@ -17,12 +17,6 @@
 	<classpathentry kind="lib" path="lib/super-csv/super-csv-2.1.0.jar"/>
 	<classpathentry kind="lib" path="lib/joons/library/janino.jar"/>
 	<classpathentry kind="lib" path="lib/joons/library/sunflow73.jar"/>
-	<classpathentry kind="lib" path="lib/processing-2.0/libraries/minim/library/jl1.0.jar"/>
-	<classpathentry kind="lib" path="lib/processing-2.0/libraries/minim/library/jsminim.jar"/>
-	<classpathentry kind="lib" path="lib/processing-2.0/libraries/minim/library/minim.jar"/>
-	<classpathentry kind="lib" path="lib/processing-2.0/libraries/minim/library/mp3spi1.9.4.jar"/>
-	<classpathentry kind="lib" path="lib/processing-2.0/libraries/minim/library/tritonus_aos.jar"/>
-	<classpathentry kind="lib" path="lib/processing-2.0/libraries/minim/library/tritonus_share.jar"/>
 	<classpathentry kind="lib" path="lib/newhull/library/newhull.jar"/>
 	<classpathentry kind="lib" path="lib/processing-2.0/libraries/net/library/net.jar"/>
 	<classpathentry kind="lib" path="lib/LeapMotionForProcessing/library/LeapJava.jar"/>
@@ -75,6 +69,12 @@
 	<classpathentry kind="lib" path="lib/GIFAnimation/library/GifAnimation.jar"/>
 	<classpathentry kind="lib" path="lib/java_websocket/java_websocket.jar"/>
 	<classpathentry kind="lib" path="lib/jetty/jetty-all-9.4.7.v20170914-uber.jar"/>
+	<classpathentry kind="lib" path="lib/minim/library/jl1.0.jar"/>
+	<classpathentry kind="lib" path="lib/minim/library/jsminim.jar"/>
+	<classpathentry kind="lib" path="lib/minim/library/minim.jar"/>
+	<classpathentry kind="lib" path="lib/minim/library/mp3spi1.9.4.jar"/>
+	<classpathentry kind="lib" path="lib/minim/library/tritonus_aos.jar"/>
+	<classpathentry kind="lib" path="lib/minim/library/tritonus_share.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER">
 		<accessrules>
 			<accessrule kind="accessible" pattern="com/apple/eawt/**"/>
