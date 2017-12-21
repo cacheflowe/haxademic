@@ -6,6 +6,9 @@ import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.Rectangle;
 import java.awt.Robot;
+import java.awt.Toolkit;
+import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.StringSelection;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
@@ -112,6 +115,12 @@ public class SystemUtil {
 		} catch (Exception err) {
 			err.printStackTrace();
 		}
+	}
+	
+	public static void copyStringToClipboard(String str) {
+	    StringSelection selection = new StringSelection(str);
+	    Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+	    clipboard.setContents(selection, selection);
 	}
 	
 	public static void openWebPage(String url) {
