@@ -37,6 +37,11 @@ implements IEasingValue {
 		_delay = frames;
 	}
 	
+	// mask to be swappable with EasingFloat
+	public void update(boolean bool) {
+		update();
+	}
+	
 	public void update() {
 		if( _delay > 0 ) { _delay--; return; }
 		if( _val != _target ) {
@@ -51,7 +56,6 @@ implements IEasingValue {
 			if( switchedSides == true ) {
 				_val = _target;
 			}
-			
 		}
 	}
 
