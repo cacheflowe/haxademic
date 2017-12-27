@@ -141,6 +141,12 @@ extends PAppletHax { public static void main(String args[]) { PAppletHax.main(Th
 		TextureShader curShader = textures[textureIndex];
 		curShader.updateTime();
 		p.filter(curShader.shader());
+		
+		// specific controls - refactor this into shader subclasses
+		if(curShader.shaderPath().equals(TextureShader.cacheflowe_concentric_rectwist)) {
+			curShader.setAmp(P.map(p.mouseX, 0, p.width, 0, 2f));
+			curShader.setFreq(P.map(p.mouseY, 0, p.height, 0, 2f));
+		}
 
 		// show shader name
 		p.noStroke();

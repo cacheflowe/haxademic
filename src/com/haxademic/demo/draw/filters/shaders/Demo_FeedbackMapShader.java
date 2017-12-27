@@ -12,6 +12,7 @@ import com.haxademic.core.draw.filters.shaders.BlurProcessingFilter;
 import com.haxademic.core.draw.filters.shaders.MirrorFilter;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.image.PerlinTexture;
+import com.haxademic.core.draw.shaders.textures.TextureShader;
 import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.file.DemoAssets;
 import com.haxademic.core.file.FileUtil;
@@ -39,7 +40,7 @@ extends PAppletHax {
 	int mode = 0;
 	protected PerlinTexture perlin;
 	protected BaseTexture audioTexture;
-	protected PShader textureShader;
+	protected TextureShader textureShader;
 
 	protected void overridePropsFile() {
 		p.appConfig.setProperty( AppSettings.WIDTH, W );
@@ -72,7 +73,9 @@ extends PAppletHax {
 		feedbackShader = loadShader(FileUtil.getFile("shaders/filters/feedback-map.glsl"));
 		
 //		WebCamWrapper.initWebCam(p, 3);
-		textureShader = p.loadShader(FileUtil.getFile("shaders/textures/bw-voronoi.glsl"));
+		textureShader = new TextureShader(TextureShader.bw_voronoi);
+		textureShader = new TextureShader(TextureShader.bw_clouds);
+		textureShader = new TextureShader(TextureShader.BWNoiseInfiniteZoom, 0.005f);
 	}
 	
 	protected void drawImgImg() {
@@ -87,47 +90,7 @@ extends PAppletHax {
 		buffer.image(img, buffer.width/2, buffer.height/2, img.width/2, img.height/2);
 		buffer.endDraw();
 	}
-	
-	protected void drawImgOLD(boolean drawMap) {
-		buffer.beginDraw();
-		DrawUtil.setDrawCenter(buffer);
-
 		
-		float progress = p.frameCount * 0.01f;
-		
-		for (int i = 0; i < 6; i++) {			
-			buffer.pushMatrix();
-			buffer.noStroke();
-			buffer.fill(
-					127 + 127 * P.sin(progress),
-					127 + 127 * P.sin(progress * 1.5f),
-					127 + 127 * P.sin(progress * 2f)
-					);
-			buffer.translate(
-					buffer.width/2 + 200 * P.cos(progress), 
-					buffer.height/2 + 200 * P.sin(progress)
-					);
-			buffer.rotate(progress);
-			buffer.ellipse(
-					0,
-					0,
-					100 + 30 * P.sin(progress),
-					100 + 30 * P.sin(progress)
-					);
-			buffer.popMatrix();
-			progress += P.TWO_PI/6f;
-		}
-
-		// draw current frame on top at low opacity
-		if(drawMap == true) {
-			DrawUtil.setPImageAlpha(buffer, 0.05f);
-			DrawUtil.setDrawCorner(buffer);
-			buffer.image(map, 0, 0);
-		}
-		
-		buffer.endDraw();
-	}
-	
 	protected void drawImg(boolean black) {
 		buffer.beginDraw();
 		xShape.disableStyle();
@@ -185,16 +148,12 @@ extends PAppletHax {
 		map.beginDraw();
 		if(WebCamWrapper.getImage() != null) ImageUtil.cropFillCopyImage(WebCamWrapper.getImage(), map, true);
 		map.endDraw();
-		for(int i=0; i < 5; i++) BlurBasicFilter.instance(p).applyTo(map);
-//		MirrorFilter.instance(p).applyTo(map);
 	}
 	
 	protected void updateMapShader() {
-		textureShader.set("time", progressRads);
-		map.filter(textureShader);
-		BlurProcessingFilter.instance(p).setBlurSize(10);
-		for(int i=0; i < 25; i++) BlurProcessingFilter.instance(p).applyTo(map);
-//		MirrorFilter.instance(p).applyTo(map);
+		if(textureShader.shaderPath().equals(TextureShader.bw_voronoi)) textureShader.setTime(progressRads);
+		else textureShader.updateTime();
+		map.filter(textureShader.shader());
 	}
 	
 	
@@ -203,6 +162,12 @@ extends PAppletHax {
 		// feedbackShader.set("samplemult", P.map(p.mouseY, 0, p.height, 0.85f, 1.15f) );
 		feedbackShader.set("amp", P.map(p.mouseX, 0, p.width, 0.0001f, 0.01f) );
 		for (int i = 0; i < 1; i++) buffer.filter(feedbackShader); 
+	}
+	
+	protected void blurMap() {
+		BlurProcessingFilter.instance(p).setBlurSize(10);
+		for(int i=0; i < 5; i++) BlurProcessingFilter.instance(p).applyTo(map);
+//		MirrorFilter.instance(p).applyTo(map);
 	}
 
 	public void drawApp() {
@@ -222,6 +187,8 @@ extends PAppletHax {
 //		updateMapShapes();
 //		updateMapWebcam();
 		updateMapShader();
+		
+		blurMap();
 
 		// apply feedback
 		applyFeedbackToBuffer();

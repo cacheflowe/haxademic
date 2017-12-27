@@ -18,7 +18,7 @@ public class TextureShader {
 	public TextureShader(String shaderPath, float timeMult) {
 		this.shaderPath = shaderPath;
 		fragShader = TextureShader.loadShader(shaderPath);
-		this.timeMult = timeMult;
+		setTimeMult(timeMult);;
 	}
 
 	public String shaderPath() {
@@ -34,14 +34,26 @@ public class TextureShader {
 		return P.p.loadShader(FileUtil.getFile("shaders/textures/" + shaderPath));
 	}
 
+	public void setTimeMult(float mult) {
+		timeMult = mult;
+	}
+	
 	public void updateTime() {
-		fragShader.set( "time", P.p.frameCount * timeMult );
+		fragShader.set("time", P.p.frameCount * timeMult);
 	}
 
-	public void applySpecificTime(float time) {
-		fragShader.set( "time", time );
+	public void setTime(float time) {
+		fragShader.set("time", time);
+	}
+	
+	public void setAmp(float amp) {
+		fragShader.set("amp", amp);
 	}
 
+	public void setFreq(float freq) {
+		fragShader.set("freq", freq);
+	}
+	
 	// SHADER PATHS
 
 	public static String basic_checker = "basic_checker.glsl";

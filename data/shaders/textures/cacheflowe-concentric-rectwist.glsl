@@ -9,7 +9,10 @@ uniform sampler2D texture;
 uniform vec2 texOffset;
 varying vec4 vertColor;
 varying vec4 vertTexCoord;
+
 uniform float time;
+uniform float amp = 0.;
+uniform float freq = 0.5;
 
 #define PI     3.14159265358
 #define TWO_PI (PI * 2.)
@@ -27,10 +30,10 @@ void main()
     // uv *= 0.5; // zoom in
 
     uv *= 10.;
-    // uv = rotateCoord(uv, length(uv) * 0.11 * sin(time * 0.5));
+    if(amp > 0.) uv = rotateCoord(uv, amp * length(uv) * sin(time * freq));
     float lines = 60. + 20. * sin(time);
     float col = 0.5 + 0.5 * sin(max(abs(uv.x), abs(uv.y)) * lines - time * 5.);
-    // float aa = 100. / iResolution.y;
-    gl_FragColor = vec4(vec3(smoothstep(0.45, 0.55, col)), 1.);
+    gl_FragColor = vec4(vec3(smoothstep(0.15, 0.85, col)), 1.);
+    // float aa = 0.1;
     // gl_FragColor = vec4(vec3(smoothstep(0.5 - aa, 0.5 + aa, col)), 1.);
 }
