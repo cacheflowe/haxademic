@@ -156,7 +156,7 @@ public class DebugView {
 		// draw textures
 		float texHeight = 100;
 		for (int i = 0; i < textures.size(); i++) {
-			float texW = textures.get(i).height * MathUtil.scaleToTarget(textures.get(i).width, texHeight);
+			float texW = textures.get(i).width * MathUtil.scaleToTarget(textures.get(i).height, texHeight);
 			p.image(textures.get(i), debugPanelW(), texHeight * i, texW, texHeight);
 		}
 
