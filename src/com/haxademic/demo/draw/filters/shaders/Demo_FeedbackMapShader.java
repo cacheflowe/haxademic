@@ -7,7 +7,6 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.constants.PRenderers;
 import com.haxademic.core.draw.context.DrawUtil;
-import com.haxademic.core.draw.filters.shaders.BlurBasicFilter;
 import com.haxademic.core.draw.filters.shaders.BlurProcessingFilter;
 import com.haxademic.core.draw.filters.shaders.MirrorFilter;
 import com.haxademic.core.draw.image.ImageUtil;
@@ -17,6 +16,7 @@ import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.file.DemoAssets;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.webcam.WebCamWrapper;
+import com.haxademic.core.math.MathUtil;
 
 import processing.core.PGraphics;
 import processing.core.PImage;
@@ -33,7 +33,6 @@ extends PAppletHax {
 	int W = 800;
 	int H = 800;
 	PGraphics buffer;
-	PImage img;
 	PGraphics map;
 	PShape xShape;
 	PShader feedbackShader;
@@ -45,6 +44,7 @@ extends PAppletHax {
 	protected void overridePropsFile() {
 		p.appConfig.setProperty( AppSettings.WIDTH, W );
 		p.appConfig.setProperty( AppSettings.HEIGHT, H );
+		p.appConfig.setProperty( AppSettings.HIDE_CURSOR, true);
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, false );
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_START_FRAME, P.round(1 + frames * 3) );
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, P.round(1 + frames * 4) );
@@ -77,20 +77,23 @@ extends PAppletHax {
 		textureShader = new TextureShader(TextureShader.BWNoiseInfiniteZoom, 0.005f);
 	}
 	
-	protected void drawImgImg() {
-		buffer.beginDraw();
-		DrawUtil.setPImageAlpha(buffer, 0.5f);
-		DrawUtil.setDrawCenter(buffer);
-		buffer.tint(
-				127 + 127 * P.sin(p.frameCount/50f),
-				127 + 127 * P.sin(p.frameCount/80f),
-				127 + 127 * P.sin(p.frameCount/90f)
-				);
-		buffer.image(img, buffer.width/2, buffer.height/2, img.width/2, img.height/2);
-		buffer.endDraw();
+	protected void drawImg(PImage img) {
+		if(img != null) {
+			buffer.beginDraw();
+//			DrawUtil.setPImageAlpha(buffer, 0.5f);
+			DrawUtil.setDrawCenter(buffer);
+			buffer.tint(
+					300 + 155 * P.sin(p.frameCount/50f),
+					300 + 155 * P.sin(p.frameCount/80f),
+					300 + 155 * P.sin(p.frameCount/90f),
+					10);
+			float scaleHeight = MathUtil.scaleToTarget(img.height, buffer.height);
+			buffer.image(img, buffer.width/2, buffer.height/2, img.width * scaleHeight, img.height * scaleHeight);
+			buffer.endDraw();
+		}
 	}
 		
-	protected void drawImg(boolean black) {
+	protected void drawXShape(boolean black) {
 		buffer.beginDraw();
 		xShape.disableStyle();
 		buffer.fill(127f + 127f * P.sin(progressRads * 30));
@@ -103,7 +106,7 @@ extends PAppletHax {
 	
 	public void keyPressed() {
 		super.keyPressed();
-		if(key == ' ') drawImg(true);
+		if(key == ' ') drawXShape(true);
 	}
 	
 	protected void updateMapAudio() {
@@ -155,8 +158,7 @@ extends PAppletHax {
 		background(255);
 		
 		// draw on top of image
-		drawImg(false);
-//		drawImgImg();
+		drawXShape(false);
 		
 		// draw map
 //		updateMapPerlin();
@@ -171,7 +173,8 @@ extends PAppletHax {
 		applyFeedbackToBuffer();
 		
 		// draw again to see the full image on top
-		drawImg(true);
+		drawXShape(true);
+//		drawImg(WebCamWrapper.getImage());
 
 		// draw to screen
 		p.image(buffer, 0, 0);

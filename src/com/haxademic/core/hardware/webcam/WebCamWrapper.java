@@ -22,7 +22,7 @@ public class WebCamWrapper {
 			} else {
 				P.println("Available cameras:");
 				for (int i = 0; i < cameras.length; i++) {
-					P.println(cameras[i]);
+					P.println("["+i+"] "+cameras[i]);
 				}
 				webCam = new Capture( p, cameras[cameraIndex] );
 				webCam.start();

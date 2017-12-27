@@ -32,7 +32,7 @@ void main() {
 	vec2 p = vertTexCoord.xy;
   vec4 texColor = texture2D(map, p);
   float grayColor = rgbToGray(texColor);
-  float rotate = grayColor * TWO_PI;// * 3.;
+  float rotate = grayColor * TWO_PI * 3.;
   vec2 displace = p + vec2(amp * cos(rotate), amp * sin(rotate));
   // displace = wrappedPos(displace);
   vec4 sampleColor = texture2D(texture, displace) * vec4(vec3(samplemult), 1.);

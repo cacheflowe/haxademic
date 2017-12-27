@@ -12,6 +12,13 @@ varying vec4 vertTexCoord;
 uniform sampler2D map;
 uniform int mode = 0;
 
+float TWO_PI = radians(360);
+
+float rgbToGray(vec4 rgba) {
+	const vec3 W = vec3(0.2125, 0.7154, 0.0721);
+  return dot(rgba.xyz, W);
+}
+
 void main() {
 	vec2 p = vertTexCoord.xy;
 	if(mode == 0) {
@@ -26,5 +33,11 @@ void main() {
 		float displace = dot(obump, vec3(0.3, 0.6, 0.1));
 		displace = (displace - 0.5)*0.1;
 		gl_FragColor = texture2D(texture, p + vec2(displace));
+	} else if(mode == 3) {
+		// cacheflowe origina, based on feedback-map.glsl
+		float amp = 0.05;
+		float rotate = rgbToGray(texture2D(map, p)) * TWO_PI;// * 3.;
+		vec2 displace = p + vec2(amp * cos(rotate), amp * sin(rotate));
+		gl_FragColor = texture2D(texture, displace);
 	}
 }

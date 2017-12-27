@@ -15,7 +15,6 @@ public class ReflectionFilter {
 	protected int _height;
 	protected PGraphics _pg;
 	protected PImage _image;
-	BlobDetection theBlobDetection;
 	PImage blobBufferImg;
 
 	

@@ -1,22 +1,14 @@
 package com.haxademic.demo.draw.filters.shaders;
 
-import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
-import com.haxademic.core.draw.context.OpenGLUtil;
-import com.haxademic.core.draw.filters.shaders.BrightnessFilter;
-import com.haxademic.core.draw.filters.shaders.ColorDistortionFilter;
-import com.haxademic.core.draw.filters.shaders.ColorizeFilter;
-import com.haxademic.core.draw.filters.shaders.ContrastFilter;
-import com.haxademic.core.draw.filters.shaders.CubicLensDistortionFilter;
-import com.haxademic.core.draw.filters.shaders.DeformTunnelFanFilter;
-import com.haxademic.core.draw.filters.shaders.EdgesFilter;
-import com.haxademic.core.draw.filters.shaders.KaleidoFilter;
-import com.haxademic.core.draw.filters.shaders.RadialRipplesFilter;
-import com.haxademic.core.draw.filters.shaders.SphereDistortionFilter;
-import com.haxademic.core.draw.filters.shaders.VignetteFilter;
+import com.haxademic.core.constants.PRenderers;
+import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.image.ImageUtil;
+import com.haxademic.core.file.DemoAssets;
 import com.haxademic.core.file.FileUtil;
 
+import processing.core.PGraphics;
 import processing.core.PImage;
 import processing.opengl.PShader;
 
@@ -25,39 +17,53 @@ extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	PImage base;
-	PImage map;
+	PImage mapSource;
+	PGraphics map;
 	PShader texShader;
 	int mode = 0;
 
 
 	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, "640" );
-		p.appConfig.setProperty( AppSettings.HEIGHT, "640" );
+		p.appConfig.setProperty( AppSettings.WIDTH, 640 );
+		p.appConfig.setProperty( AppSettings.HEIGHT, 640 );
 	}
 
 	public void setup() {
 		super.setup();	
-		base = p.loadImage(FileUtil.getFile("images/snowblinded-beach.jpg"));
-		map = p.loadImage(FileUtil.getFile("images/snowblinded-mtn-2.jpg"));
+		base = DemoAssets.textureJupiter();
+		mapSource = DemoAssets.textureNebula();
+		map = p.createGraphics(p.width, p.height, PRenderers.P3D);
 		texShader = loadShader(FileUtil.getFile("shaders/filters/displacement-map.glsl"));
 	}
 
 	public void drawApp() {
 		background(255);
-//		OpenGLUtil.setTextureRepeat(g);
 		
+		// rotate map for visibility
+		map.beginDraw();
+		DrawUtil.setDrawCenter(map);
+		DrawUtil.setCenterScreen(map);
+		map.rotate(p.frameCount * 0.01f);
+		map.image(mapSource, 0, 0, mapSource.width * 2, mapSource.height * 2);
+		map.endDraw();
+
+		// set mode
 		if(p.frameCount % 200 == 0) {
 			mode++;
-			if(mode > 2) mode = 0;
+			if(mode > 3) mode = 0;
 		}
-		
-		p.image(base, 0, 0);
 		texShader.set("map", map );
 		texShader.set("mode", mode );
+		
+		// draw image and apply displacement map
+		p.image(base, 0, 0);
 		p.filter(texShader); 
 		
-		p.fill(255);
-		p.text("Mode "+mode, 20, 20);
+		// debug
+		p.debugView.setValue("Mode ", mode);
+		p.debugView.setTexture(base);
+		p.debugView.setTexture(map);
+		p.debugView.setTexture(mapSource);
 	}
 }
 
