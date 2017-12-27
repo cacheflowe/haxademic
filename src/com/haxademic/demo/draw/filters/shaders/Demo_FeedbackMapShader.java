@@ -55,7 +55,6 @@ extends PAppletHax {
 		
 		buffer = P.p.createGraphics(W, H, PRenderers.P3D); 
 		map = P.p.createGraphics(W, H, PRenderers.P3D);
-		map.smooth(8);
 		
 		xShape = DemoAssets.shapeX().getTessellation();
 		PShapeUtil.centerShape(xShape);
@@ -123,27 +122,6 @@ extends PAppletHax {
 		ImageUtil.cropFillCopyImage(perlin.texture(), map, true);
 	}
 	
-	protected void updateMapShapes() {
-		map.beginDraw();
-		DrawUtil.setDrawCenter(map);
-
-		if(p.frameCount % 3 == 0) {			
-			map.pushMatrix();
-			map.noStroke();
-			map.fill(p.random(0, 255f));
-			map.translate(p.random(0, map.width), p.random(0, map.height));
-			map.rotate(p.random(0, P.TWO_PI));
-			map.rect(0, 0, p.random(0, map.width/2f), p.random(0, map.height/2f));
-			map.popMatrix();
-		}
-		DrawUtil.fadeToBlack(map, 1);
-		map.endDraw();
-		BlurBasicFilter.instance(p).applyTo(map);
-		BlurBasicFilter.instance(p).applyTo(map);
-		BlurBasicFilter.instance(p).applyTo(map);
-		MirrorFilter.instance(p).applyTo(map);
-	}
-
 	protected void updateMapWebcam() {
 		map.beginDraw();
 		if(WebCamWrapper.getImage() != null) ImageUtil.cropFillCopyImage(WebCamWrapper.getImage(), map, true);
@@ -156,9 +134,8 @@ extends PAppletHax {
 		map.filter(textureShader.shader());
 	}
 	
-	
 	protected void applyFeedbackToBuffer() {
-		feedbackShader.set("map", map );
+		feedbackShader.set("map", map);
 		// feedbackShader.set("samplemult", P.map(p.mouseY, 0, p.height, 0.85f, 1.15f) );
 		feedbackShader.set("amp", P.map(p.mouseX, 0, p.width, 0.0001f, 0.01f) );
 		for (int i = 0; i < 1; i++) buffer.filter(feedbackShader); 
@@ -184,10 +161,10 @@ extends PAppletHax {
 		// draw map
 //		updateMapPerlin();
 //		updateMapAudio();
-//		updateMapShapes();
 //		updateMapWebcam();
 		updateMapShader();
 		
+		// blur the map
 		blurMap();
 
 		// apply feedback
@@ -200,7 +177,8 @@ extends PAppletHax {
 		p.image(buffer, 0, 0);
 
 		// debug draw
-		if(p.showDebug) p.image(map, p.debugView.debugPanelW(), 0, 128, 128);
+		p.debugView.setTexture(buffer);
+		p.debugView.setTexture(map);
 	}
 }
 

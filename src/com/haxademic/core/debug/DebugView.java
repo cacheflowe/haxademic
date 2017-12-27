@@ -1,15 +1,18 @@
 package com.haxademic.core.debug;
 
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.net.IPAddress;
 import com.haxademic.core.text.StringFormatter;
 
 import processing.core.PApplet;
 import processing.core.PFont;
+import processing.core.PImage;
 
 public class DebugView {
 	
@@ -17,6 +20,7 @@ public class DebugView {
 	protected PFont debugFont;	
 	protected LinkedHashMap<String, String> debugLines;
 	protected LinkedHashMap<String, String> helpLines;
+	protected ArrayList<PImage> textures;
 	protected float padding = 20;
 	protected float debugPanelW = 0;
 	protected float helpPanelW = 0;
@@ -29,6 +33,7 @@ public class DebugView {
 		createFont();
 		debugLines = new LinkedHashMap<String, String>();
 		helpLines = new LinkedHashMap<String, String>();
+		textures = new ArrayList<PImage>();
 		updateAppInfo();
 	}
 	
@@ -56,6 +61,14 @@ public class DebugView {
 	
 	public void setHelpLine(String key, String val) {
 		helpLines.put(key, val);
+	}
+	
+	public void setTexture(PImage texture) {
+		if(textures.contains(texture) == false) textures.add(texture);
+	}
+	
+	public void removeTexture(PImage texture) {
+		if(textures.contains(texture) == true) textures.remove(texture);
 	}
 	
 	public float debugPanelW() {
@@ -138,6 +151,13 @@ public class DebugView {
 			p.rect(p.width - helpPanelW - 10, 0, helpPanelW + padding, p.height);
 			p.fill(255);
 			p.text(helpStr, p.width - helpPanelW, 10, helpPanelW, p.height - padding);
+		}
+		
+		// draw textures
+		float texHeight = 100;
+		for (int i = 0; i < textures.size(); i++) {
+			float texW = textures.get(i).height * MathUtil.scaleToTarget(textures.get(i).width, texHeight);
+			p.image(textures.get(i), debugPanelW(), texHeight * i, texW, texHeight);
 		}
 
 		DrawUtil.setDrawFlat2d(p, false);
