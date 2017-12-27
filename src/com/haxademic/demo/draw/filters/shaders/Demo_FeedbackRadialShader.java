@@ -61,8 +61,11 @@ extends PAppletHax {
 	}
 	
 	protected void applyFeedbackToBuffer() {
-		feedbackShader.set("samplemult", P.map(p.mouseY, 0, p.height, 0.85f, 1.15f) );
-		feedbackShader.set("amp", P.map(p.mouseX, 0, p.width, 0f, 0.001f) );
+//		feedbackShader.set("samplemult", P.map(p.mouseY, 0, p.height, 0.85f, 1.15f) );
+//		feedbackShader.set("amp", P.map(p.mouseX, 0, p.width, 0f, 0.0001f) );
+//		feedbackShader.set("amp", 0.0001f);
+		feedbackShader.set("waveAmp", P.map(p.mouseX, 0, p.width, 0f, 0.005f) );
+		feedbackShader.set("waveFreq", P.map(p.mouseY, 0, p.height, 0f, 10f) );
 		for (int i = 0; i < 1; i++) buffer.filter(feedbackShader); 
 	}
 
