@@ -100,7 +100,7 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.FILLS_SCREEN, false );
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, RENDERING );
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_START_FRAME, 1 + FRAMES );
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, 1 + FRAMES * 53 );		// num animations + 1. 4 will render a loop of 3 shapes
+		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, 1 + FRAMES * 75 );		// num animations + 1. 4 will render a loop of 3 shapes
 	}
 	
 	public void setupFirstFrame() {
@@ -109,6 +109,7 @@ extends PAppletHax {
 		
 		// video 1080p selects
 		// triangle
+		/*
 		animationStops.add(new float[] {113.457405f, 3.5973911f, 1, 0.09591983f, 4.0f, 0, 0.09591983f, 0, 0, 0.0f});
 		animationStops.add(new float[] {137.03651f, 3.5973911f, 2, 0.20170206f, 4.0f, 0, 0.09591983f, 0, 0, 0.0f});
 		animationStops.add(new float[] {117.03651f, 3.5973911f, 2, 0.44349f, 25.0f, 0.0f, 0.18659031f, 0.0f, 0.0f, 0.0f});
@@ -194,20 +195,178 @@ extends PAppletHax {
 		animationStops.add(new float[] {267.35864f, 3.3746917f, 5.0f, 0.383043f, 45.0f, 0.0f, 1.4257536f, 1.4486041f, 0.0f, 1.0f});
 		animationStops.add(new float[] {267.35864f, 3.3746917f, 5.0f, 0.383043f, 26.0f, 0.0f, 1.5164242f, 1.5989263f, 0.0f, 1.0f});
 		animationStops.add(new float[] {267.35864f, 3.3746917f, 5.0f, 0.383043f, 26.0f, 0.0f, 1.0177364f, 1.9496778f, 0.0f, 1.0f});
-
+		*/
 		
+		// square
+		/*
+		animationStops.add(new float[] {0, 4.4881887f, 1.0f, 0.1f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 0.0f});
+		animationStops.add(new float[] {159.98569f, 4.4881887f, 1.0f, 0.1f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 0.0f});
+		animationStops.add(new float[] {159.98569f, 4.4881887f, 2.0f, 0.70038974f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 0.0f});
+		animationStops.add(new float[] {159.98569f, 4.4881887f, 2.0f, 1.0177364f, 11.0f, 1.0f, 1.0479599f, 0.0f, 0.0f, 0.0f});
+		animationStops.add(new float[] {181.46028f, 4.4881887f, 2.0f, 1.1235187f, 8.0f, 1.0f, 0.3074843f, 0.0f, 0.0f, 0.0f});
+		animationStops.add(new float[] {181.46028f, 4.4881887f, 2.0f, 1.4408654f, 12.0f, 1.0f, 0.54927224f, 0.0f, 0.0f, 0.0f});
+		animationStops.add(new float[] {181.46028f, 4.4881887f, 2.0f, 1.4559771f, 6.0f, 1.0f, 0.5341605f, 0.7805058f, 0.0f, 1.0f});
+		animationStops.add(new float[] {181.46028f, 4.4881887f, 2.0f, 1.4106419f, 6.0f, 1.0f, 1.0177364f, 0.49656403f, 0.0f, 1.0f});
+		animationStops.add(new float[] {159.98569f, 4.4881887f, 2.0f, 1.4106419f, 6.0f, 1.0f, 1.7431003f, 0.49656403f, 0.0f, 1.0f});
+		animationStops.add(new float[] {70.50823f, 4.4881887f, 3.0f, 1.4106419f, 6.0f, 1.0f, 1.5466477f, 1.9663802f, 0.0f, 1.0f});
+		animationStops.add(new float[] {70.50823f, 4.4881887f, 3.0f, 1.2293009f, 4.0f, 1.0f, 1.4862006f, 1.9663802f, 0.0f, 1.0f});
+		animationStops.add(new float[] {77.66643f, 4.4881887f, 3.0f, 1.3955301f, 4.0f, 1.0f, 1.5466477f, 0.99763775f, 0.0f, 1.0f});
+		animationStops.add(new float[] {52.612743f, 4.4881887f, 4.0f, 1.3955301f, 4.0f, 1.0f, 1.5164242f, 0.2460272f, 0.0f, 1.0f});
+		animationStops.add(new float[] {49.03364f, 4.4881887f, 4.0f, 1.3501949f, 6.0f, 1.0f, 2.0f, 0.0f, 0.0f, 1.0f});
+		animationStops.add(new float[] {49.03364f, 4.4881887f, 4.0f, 1.6675416f, 4.0f, 1.0f, 1.0328481f, 0.0f, 0.0f, 1.0f});
+		animationStops.add(new float[] {49.03364f, 4.4881887f, 4.0f, 1.8639942f, 4.0f, 1.0f, 0.57949567f, 0.0f, 0.0f, 1.0f});
+		animationStops.add(new float[] {49.03364f, 4.4881887f, 4.0f, 1.8488824f, 4.0f, 1.0f, 0.383043f, 0.0f, 0.6420902f, 2.0f});
+		animationStops.add(new float[] {91.98282f, 4.4881887f, 3.0f, 1.939553f, 4.0f, 0.0f, 0.3377078f, 0.0f, 0.6420902f, 2.0f});
+		animationStops.add(new float[] {113.457405f, 4.4881887f, 3.0f, 1.6070945f, 4.0f, 0.0f, 0.624831f, 0.0f, 0.6420902f, 2.0f});
+		animationStops.add(new float[] {106.29921f, 4.4881887f, 3.0f, 1.6222062f, 4.0f, 0.0f, 0.86661905f, 0.41305175f, 0.6420902f, 0.0f});
+		animationStops.add(new float[] {66.92914f, 4.4881887f, 4.0f, 1.5617594f, 6.0f, 0.0f, 0.987513f, 0.0f, 0.6420902f, 0.0f});
+		animationStops.add(new float[] {163.56477f, 4.4881887f, 4.0f, 1.576871f, 4.0f, 0.0f, 1.3653066f, 0.0f, 0.6420902f, 0.0f});
+		animationStops.add(new float[] {163.56477f, 4.4881887f, 4.0f, 1.9848883f, 4.0f, 0.0f, 1.3653066f, 0.079002626f, 0.6420902f, 0.0f});
+		animationStops.add(new float[] {163.56477f, 4.4881887f, 4.0f, 1.6070945f, 4.0f, 0.0f, 1.0630716f, 0.079002626f, 0.6420902f, 0.0f});
+		animationStops.add(new float[] {84.82463f, 4.4881887f, 5.0f, 2.0f, 4.0f, 0.0f, 0.80617195f, 0.0f, 0.6420902f, 0.0f});
+		animationStops.add(new float[] {84.82463f, 4.4881887f, 5.0f, 2.0f, 4.0f, 0.0f, 0.503937f, 0.0f, 0.6420902f, 0.0f});
+		animationStops.add(new float[] {149.24838f, 4.4881887f, 5.0f, 1.6070945f, 4.0f, 0.0f, 0.503937f, 0.0f, 0.6420902f, 0.0f});
+		animationStops.add(new float[] {149.24838f, 4.4881887f, 5.0f, 1.7128769f, 4.0f, 0.0f, 0.36793125f, 0.0f, 0.6420902f, 0.0f});
+		animationStops.add(new float[] {149.24838f, 4.4881887f, 5.0f, 1.939553f, 4.0f, 0.0f, 0.09591983f, 0.0f, 0.6420902f, 0.0f});
+		animationStops.add(new float[] {185.03938f, 4.4881887f, 4.0f, 1.7128769f, 34.0f, 0.0f, 0.09591983f, 0.0f, 0.6420902f, 0.0f});
+		animationStops.add(new float[] {149.24838f, 4.4881887f, 3.0f, 1.939553f, 4.0f, 0.0f, 0.12614332f, 0.0f, 0.6420902f, 0.0f});
+		animationStops.add(new float[] {227.98854f, 4.7108884f, 3.0f, 1.4710889f, 4.0f, 0.0f, 0.12614332f, 0.0f, 0.6420902f, 0.0f});
+		animationStops.add(new float[] {421.25986f, 4.7108884f, 3.0f, 1.0026246f, 4.0f, 0.0f, 0.15636683f, 0.0f, 0.6420902f, 0.0f});
+		animationStops.add(new float[] {342.51968f, 4.7108884f, 3.0f, 1.0026246f, 4.0f, 0.0f, 0.3377078f, 0.0f, 0.6420902f, 0.0f});
+		animationStops.add(new float[] {263.77954f, 4.7108884f, 3.0f, 0.86661905f, 4.0f, 0.0f, 0.7608368f, 0.0f, 0.6420902f, 0.0f});
+		animationStops.add(new float[] {249.46313f, 4.7108884f, 3.0f, 1.0026246f, 18.0f, 0.0f, 0.7608368f, 0.0f, 0.6420902f, 0.0f});
+		animationStops.add(new float[] {149.24838f, 4.7108884f, 3.0f, 1.0026246f, 7.0f, 0.0f, 1.4862006f, 0.0f, 0.6420902f, 0.0f});
+		animationStops.add(new float[] {131.3529f, 4.7108884f, 4.0f, 1.0026246f, 29.0f, 0.0f, 1.4862006f, 0.0f, 0.0f, 0.0f});
+		animationStops.add(new float[] {131.3529f, 4.7108884f, 5.0f, 0.7155015f, 4.0f, 1.0f, 1.5315359f, 0.0f, 0.0f, 0.0f});
+		animationStops.add(new float[] {138.5111f, 4.7108884f, 5.0f, 0.51904875f, 4.0f, 1.0f, 2.0f, 0.0f, 0.0f, 0.0f});
+		animationStops.add(new float[] {138.5111f, 4.6552134f, 4.0f, 0.48882526f, 4.0f, 1.0f, 2.0f, 0.42975423f, 0.0f, 0.0f});
+		animationStops.add(new float[] {163.56477f, 4.6552134f, 4.0f, 0.48882526f, 21.0f, 1.0f, 2.0f, 0.4631591f, 0.0f, 0.0f});
+		animationStops.add(new float[] {163.56477f, 4.6552134f, 4.0f, 0.4737135f, 46.0f, 1.0f, 2.0f, 0.4798616f, 0.0f, 0.0f});
+		animationStops.add(new float[] {192.19757f, 4.6552134f, 4.0f, 0.29237255f, 29.0f, 1.0f, 2.0f, 0.0f, 0.0f, 0.0f});
+		animationStops.add(new float[] {217.25125f, 4.6552134f, 4.0f, 0.29237255f, 4.0f, 1.0f, 1.6524298f, 0.0f, 0.0f, 0.0f});
+		animationStops.add(new float[] {206.51396f, 4.6552134f, 4.0f, 0.39815477f, 4.0f, 0.0f, 1.6524298f, 0.0f, 0.0f, 0.0f});
+		animationStops.add(new float[] {134.93199f, 4.6552134f, 4.0f, 0.6550545f, 4.0f, 0.0f, 1.6826533f, 0.0f, 0.0f, 0.0f});
+		animationStops.add(new float[] {134.93199f, 4.6552134f, 3.0f, 0.6550545f, 4.0f, 0.0f, 1.6675416f, 0.0f, 0.0f, 0.0f});
+		animationStops.add(new float[] {131.3529f, 4.6552134f, 3.0f, 0.6550545f, 53.0f, 0.0f, 1.637318f, 0.0f, 0.0f, 0.0f});
+		animationStops.add(new float[] {131.3529f, 4.6552134f, 3.0f, 1.0781834f, 52.0f, 0.0f, 1.637318f, 0.0f, 0.0f, 0.0f});
+		animationStops.add(new float[] {145.66928f, 4.6552134f, 3.0f, 1.0026246f, 52.0f, 0.0f, 2.0f, 0.0f, 0.0f, 0.0f});
+		animationStops.add(new float[] {145.66928f, 4.6552134f, 3.0f, 1.0026246f, 33.0f, 0.0f, 1.6826533f, 0.2460272f, 0.0f, 0.0f});
+		animationStops.add(new float[] {106.29921f, 4.6552134f, 4.0f, 1.0026246f, 4.0f, 0.0f, 1.6826533f, 0.2460272f, 0.0f, 0.0f});
+		animationStops.add(new float[] {102.720116f, 4.6552134f, 4.0f, 1.2293009f, 7.0f, 0.0f, 0.88173074f, 0.04559771f, 0.0f, 0.0f});
+		animationStops.add(new float[] {102.720116f, 4.6552134f, 4.0f, 1.0026246f, 7.0f, 1.0f, 0.88173074f, 0.0f, 0.0f, 0.0f});
+		animationStops.add(new float[] {74.087326f, 4.6552134f, 4.0f, 1.4106419f, 7.0f, 1.0f, 0.70038974f, 0.0f, 0.0f, 0.0f});
+		animationStops.add(new float[] {95.56192f, 4.6552134f, 4.0f, 1.2897478f, 4.0f, 1.0f, 0.503937f, 0.0f, 0.0f, 0.0f});
+		animationStops.add(new float[] {95.56192f, 4.6552134f, 4.0f, 1.3955301f, 5.0f, 1.0f, 0.503937f, 0.012192794f, 0.6341366f, 0.0f});
+		animationStops.add(new float[] {49.03364f, 4.6552134f, 4.0f, 1.8639942f, 4.0f, 1.0f, 0.44349f, 0.0f, 0.6341366f, 0.0f});
+		animationStops.add(new float[] {159.98569f, 4.6552134f, 3.0f, 1.3804183f, 7.0f, 1.0f, 0.39815477f, 0.0f, 0.6341366f, 0.0f});
+		animationStops.add(new float[] {124.1947f, 4.6552134f, 3.0f, 1.8337708f, 4.0f, 1.0f, 0.39815477f, 0.0f, 0.6341366f, 0.0f});
+		animationStops.add(new float[] {95.56192f, 4.6552134f, 3.0f, 1.8337708f, 4.0f, 1.0f, 0.745725f, 0.0f, 0.6341366f, 0.0f});
+		animationStops.add(new float[] {95.56192f, 4.6552134f, 2.0f, 2.0f, 4.0f, 1.0f, 1.9697765f, 0.34624192f, 0.6341366f, 0.0f});
+		animationStops.add(new float[] {95.56192f, 4.6552134f, 2.0f, 2.0f, 4.0f, 0.0f, 1.4559771f, 0.21262228f, 0.6341366f, 0.0f});
+		animationStops.add(new float[] {88.40372f, 4.6552134f, 3.0f, 1.939553f, 10.0f, 0.0f, 1.0328481f, 0.21262228f, 0.6341366f, 0.0f});
+		animationStops.add(new float[] {88.40372f, 4.6552134f, 3.0f, 1.6675416f, 4.0f, 0.0f, 1.0630716f, 0.44645664f, 0.41939077f, 0.0f});
+		animationStops.add(new float[] {99.14102f, 4.6552134f, 3.0f, 1.6675416f, 4.0f, 0.0f, 1.2444127f, 0.34624192f, 0.41939077f, 0.0f});
+		animationStops.add(new float[] {49.03364f, 4.6552134f, 4.0f, 2.0f, 4.0f, 0.0f, 1.0177364f, 0.079002626f, 0.41939077f, 0.0f});
+		animationStops.add(new float[] {138.5111f, 4.6552134f, 4.0f, 1.9848883f, 4.0f, 0.0f, 1.2141892f, 0.062300164f, 1.0f, 0.0f});
+		animationStops.add(new float[] {138.5111f, 4.6552134f, 5.0f, 1.6070945f, 4.0f, 0.0f, 1.168854f, 0.0f, 1.0f, 0.0f});
+		animationStops.add(new float[] {138.5111f, 4.6552134f, 5.0f, 1.818659f, 4.0f, 0.0f, 1.4408654f, 0.0f, 1.0f, 0.0f});
+		animationStops.add(new float[] {138.5111f, 4.6552134f, 5.0f, 1.818659f, 8.0f, 0.0f, 1.5617594f, 0.0f, 1.0f, 0.0f});
+		animationStops.add(new float[] {138.5111f, 4.6552134f, 5.0f, 1.3955301f, 4.0f, 0.0f, 1.5617594f, 0.0f, 0.0f, 0.0f});
+		animationStops.add(new float[] {84.82463f, 4.6552134f, 5.0f, 1.3955301f, 4.0f, 0.0f, 1.8639942f, 0.0f, 0.0f, 0.0f});
+		animationStops.add(new float[] {163.56477f, 4.6552134f, 5.0f, 1.0177364f, 4.0f, 0.0f, 1.8639942f, 0.0f, 0.0f, 0.0f});
+		animationStops.add(new float[] {213.67216f, 4.6552134f, 5.0f, 1.0026246f, 4.0f, 0.0f, 1.3955301f, 0.0f, 0.0f, 0.0f});
+		animationStops.add(new float[] {442.73444f, 4.6552134f, 5.0f, 0.54927224f, 4.0f, 0.0f, 1.5617594f, 0.0f, 0.0f, 0.0f});
+		animationStops.add(new float[] {245.88405f, 4.6552134f, 5.0f, 0.44349f, 4.0f, 0.0f, 1.4408654f, 0.0f, 0.0f, 0.0f});
+		animationStops.add(new float[] {245.88405f, 4.6552134f, 4.0f, 0.42837825f, 4.0f, 0.0f, 1.4408654f, 0.42975423f, 0.0f, 0.0f});
+		animationStops.add(new float[] {224.40945f, 4.6552134f, 3.0f, 0.51904875f, 4.0f, 0.0f, 1.5164242f, 0.42975423f, 0.0f, 0.0f});
+		animationStops.add(new float[] {224.40945f, 4.6552134f, 3.0f, 0.624831f, 4.0f, 0.0f, 1.2595243f, 0.26272964f, 0.0f, 0.0f});
+		animationStops.add(new float[] {181.46028f, 4.6552134f, 3.0f, 0.7155015f, 4.0f, 1.0f, 1.1839657f, 0.26272964f, 0.0f, 0.0f});
+		animationStops.add(new float[] {181.46028f, 4.6552134f, 3.0f, 0.7155015f, 8.0f, 1.0f, 0.79106027f, 0.14581245f, 0.0f, 0.0f});
+		animationStops.add(new float[] {199.35576f, 4.6552134f, 2.0f, 0.94217765f, 8.0f, 1.0f, 0.80617195f, 0.16251491f, 0.0f, 0.0f});
+		animationStops.add(new float[] {174.30208f, 4.6552134f, 2.0f, 1.1084069f, 8.0f, 1.0f, 0.80617195f, 0.0f, 0.0f, 0.0f});
+		animationStops.add(new float[] {149.24838f, 4.6552134f, 2.0f, 0.7155015f, 8.0f, 1.0f, 0.80617195f, 0.0f, 0.0f, 0.0f});
+		animationStops.add(new float[] {109.87831f, 4.933588f, 1.0f, 0.7155015f, 8.0f, 1.0f, 0.80617195f, 0.0f, 0.0f, 0.0f});
+		animationStops.add(new float[] {0, 4.4881887f, 1.0f, 0.1f, 1.0f, 1.0f, 1.0f, 0.0f, 0.0f, 0.0f});
+		*/
 		
 		
 		// hex
-//		animationStops.add(new float[] {117.03651f, 6.269785f, 4.0f, 1.0026246f, 4.0f, 0.0f, 1.0177364f, 0.012192794f, 0.0f, 2.0f});
-//		animationStops.add(new float[] {52.612743f, 6.269785f, 3.0f, 2.0f, 4.0f, 0.0f, 1.0479599f, 0.012192794f, 1.0f, 2.0f});
-//		animationStops.add(new float[] {188.61847f, 6.269785f, 3.0f, 1.0177364f, 4.0f, 0.0f, 0.4737135f, 0.012192794f, 0.0f, 2.0f});
-//		animationStops.add(new float[] {134.93199f, 6.269785f, 3.0f, 1.4710889f, 4.0f, 0.0f, 0.4737135f, 0.012192794f, 0.0f, 2.0f});
-//		animationStops.add(new float[] {84.82463f, 6.269785f, 3.0f, 2.0f, 36.0f, 0.0f, 0.09591983f, 0.012192794f, 0.0f, 2.0f});
-//		animationStops.add(new float[] {84.82463f, 6.269785f, 3.0f, 1.939553f, 4.0f, 0.0f, 0.4737135f, 0.012192794f, 0.0f, 2.0f});
-//		animationStops.add(new float[] {56.19184f, 6.269785f, 3.0f, 1.939553f, 4.0f, 0.0f, 1.3350831f, 0.32953948f, 0.0f, 2.0f});
-//		animationStops.add(new float[] {56.19184f, 6.436809f, 3.0f, 1.939553f, 4.0f, 0.0f, 2.0f, 0.49656403f, 0.7852541f, 2.0f});
-
+		/*
+		animationStops.add(new float[] {0, 6f, 1.0f, 1.0026246f, 4.0f, 0.0f, 1.0177364f, 0.0f, 0.0f, 0.0f});
+		animationStops.add(new float[] {49.03364f, 6.937883f, 1.0f, 1.0026246f, 4.0f, 0.0f, 1.0177364f, 0.0f, 0.0f, 0.0f});
+		animationStops.add(new float[] {49.03364f, 6.937883f, 1.0f, 1.0026246f, 36.0f, 0.0f, 1.0177364f, 0.0f, 0.0f, 0.0f});
+		animationStops.add(new float[] {124.1947f, 6.937883f, 1.0f, 1.0026246f, 53.0f, 0.0f, 1.0177364f, 0.6134813f, 0.0f, 0.0f});
+		animationStops.add(new float[] {124.1947f, 6.937883f, 2.0f, 1.0026246f, 53.0f, 0.0f, 1.0177364f, 0.5967788f, 0.0f, 0.0f});
+		animationStops.add(new float[] {127.7738f, 6.937883f, 2.0f, 1.0026246f, 4.0f, 0.0f, 1.0177364f, 0.5967788f, 0.0f, 0.0f});
+		animationStops.add(new float[] {127.7738f, 6.937883f, 2.0f, 1.0026246f, 4.0f, 0.0f, 1.0177364f, 0.99763775f, 0.0f, 0.0f});
+		animationStops.add(new float[] {106.29921f, 6.937883f, 3.0f, 1.0026246f, 4.0f, 0.0f, 1.0177364f, 0.99763775f, 0.0f, 0.0f});
+		animationStops.add(new float[] {106.29921f, 6.937883f, 3.0f, 0.987513f, 18.0f, 0.0f, 1.0026246f, 0.8306132f, 0.0f, 0.0f});
+		animationStops.add(new float[] {106.29921f, 6.937883f, 3.0f, 0.987513f, 4.0f, 0.0f, 1.2444127f, 0.8640181f, 0.0f, 0.0f});
+		animationStops.add(new float[] {149.24838f, 6.937883f, 3.0f, 0.6550545f, 4.0f, 0.0f, 1.2141892f, 0.99763775f, 0.0f, 0.0f});
+		animationStops.add(new float[] {149.24838f, 6.937883f, 3.0f, 0.6550545f, 6.0f, 0.0f, 1.3501949f, 0.42975423f, 0.0f, 0.0f});
+		animationStops.add(new float[] {117.03651f, 6.937883f, 3.0f, 0.987513f, 6.0f, 0.0f, 1.3501949f, 0.312837f, 0.0f, 0.0f});
+		animationStops.add(new float[] {117.03651f, 6.937883f, 3.0f, 0.79106027f, 6.0f, 0.0f, 1.6524298f, 0.12911001f, 0.0f, 0.0f});
+		animationStops.add(new float[] {117.03651f, 6.937883f, 3.0f, 0.70038974f, 6.0f, 0.0f, 2.0f, 0.012192794f, 0.0f, 0.0f});
+		animationStops.add(new float[] {117.03651f, 6.937883f, 3.0f, 0.7759485f, 6.0f, 0.0f, 1.8791059f, 0.012192794f, 0.0f, 0.0f});
+		animationStops.add(new float[] {99.14102f, 6.937883f, 3.0f, 0.79106027f, 4.0f, 0.0f, 1.8791059f, 0.012192794f, 0.769347f, 0.0f});
+		animationStops.add(new float[] {117.03651f, 6.937883f, 2.0f, 1.4559771f, 5.0f, 0.0f, 1.8791059f, 0.012192794f, 0.769347f, 0.0f});
+		animationStops.add(new float[] {117.03651f, 6.937883f, 2.0f, 1.2293009f, 11.0f, 0.0f, 1.5617594f, 0.012192794f, 0.769347f, 0.0f});
+		animationStops.add(new float[] {117.03651f, 6.937883f, 2.0f, 1.4559771f, 4.0f, 0.0f, 2.0f, 0.012192794f, 1.0f, 0.0f});
+		animationStops.add(new float[] {145.66928f, 6.937883f, 2.0f, 0.92706597f, 12.0f, 0.0f, 2.0f, 0.012192794f, 1.0f, 0.0f});
+		animationStops.add(new float[] {88.40372f, 6.937883f, 3.0f, 0.987513f, 4.0f, 0.0f, 2.0f, 0.012192794f, 0.0f, 0.0f});
+		animationStops.add(new float[] {109.87831f, 6.937883f, 3.0f, 0.987513f, 7.0f, 0.0f, 1.5315359f, 0.012192794f, 0.0f, 0.0f});
+		animationStops.add(new float[] {109.87831f, 6.937883f, 3.0f, 1.0026246f, 4.0f, 0.0f, 1.5315359f, 0.3629444f, 0.0f, 0.0f});
+		animationStops.add(new float[] {106.29921f, 6.937883f, 3.0f, 1.0026246f, 4.0f, 1.0f, 1.7733238f, 0.3629444f, 0.0f, 0.0f});
+		animationStops.add(new float[] {95.56192f, 6.937883f, 3.0f, 1.3350831f, 4.0f, 1.0f, 1.3501949f, 0.26272964f, 0.0f, 0.0f});
+		animationStops.add(new float[] {95.56192f, 6.937883f, 3.0f, 1.2444127f, 5.0f, 1.0f, 1.4710889f, 0.0f, 0.0f, 0.0f});
+		animationStops.add(new float[] {117.03651f, 6.937883f, 3.0f, 1.0026246f, 5.0f, 1.0f, 1.3653066f, 0.0f, 0.0f, 0.0f});
+		animationStops.add(new float[] {117.03651f, 6.937883f, 3.0f, 0.7759485f, 4.0f, 1.0f, 1.1839657f, 0.0f, 0.0f, 0.0f});
+		animationStops.add(new float[] {156.40659f, 6.937883f, 4.0f, 0.54927224f, 4.0f, 1.0f, 1.5013124f, 0.0f, 0.0f, 0.0f});
+		animationStops.add(new float[] {263.77954f, 6.937883f, 4.0f, 0.503937f, 4.0f, 1.0f, 0.88173074f, 0.0f, 0.0f, 0.0f});
+		animationStops.add(new float[] {263.77954f, 6.937883f, 3.0f, 0.503937f, 4.0f, 1.0f, 0.86661905f, 0.16251491f, 0.0f, 0.0f});
+		animationStops.add(new float[] {253.04224f, 6.937883f, 3.0f, 0.503937f, 4.0f, 1.0f, 1.0026246f, 0.64688617f, 0.0f, 0.0f});
+		animationStops.add(new float[] {195.77667f, 6.937883f, 3.0f, 0.57949567f, 4.0f, 1.0f, 1.168854f, 1.482009f, 0.0f, 0.0f});
+		animationStops.add(new float[] {117.03651f, 6.937883f, 3.0f, 1.0026246f, 4.0f, 1.0f, 1.1386304f, 1.4653065f, 0.0f, 0.0f});
+		animationStops.add(new float[] {117.03651f, 6.937883f, 3.0f, 1.1839657f, 4.0f, 1.0f, 1.1386304f, 0.8640181f, 0.0f, 0.0f});
+		animationStops.add(new float[] {113.457405f, 6.937883f, 2.0f, 1.8488824f, 11.0f, 1.0f, 2.0f, 0.99763775f, 0.0f, 0.0f});
+		animationStops.add(new float[] {113.457405f, 6.937883f, 2.0f, 1.9848883f, 4.0f, 1.0f, 1.0026246f, 0.8640181f, 0.0f, 0.0f});
+		animationStops.add(new float[] {210.09306f, 6.937883f, 2.0f, 1.0026246f, 4.0f, 1.0f, 1.0177364f, 0.8640181f, 0.0f, 0.0f});
+		animationStops.add(new float[] {152.82748f, 6.937883f, 3.0f, 1.0026246f, 4.0f, 1.0f, 1.0177364f, 0.49656403f, 0.0f, 0.0f});
+		animationStops.add(new float[] {152.82748f, 6.937883f, 3.0f, 1.0026246f, 4.0f, 1.0f, 1.0177364f, 0.27943212f, 0.20464487f, 0.0f});
+		animationStops.add(new float[] {152.82748f, 6.937883f, 3.0f, 1.0026246f, 4.0f, 0.0f, 1.0177364f, 0.64688617f, 0.20464487f, 0.0f});
+		animationStops.add(new float[] {142.0902f, 6.937883f, 3.0f, 0.6701663f, 4.0f, 0.021713195f, 1.3501949f, 0.0f, 0.22850552f, 0.0f});
+		animationStops.add(new float[] {142.0902f, 6.937883f, 3.0f, 0.7608368f, 4.0f, 0.021713195f, 1.3501949f, 0.0f, 0.69776505f, 0.0f});
+		animationStops.add(new float[] {134.93199f, 6.937883f, 3.0f, 0.7155015f, 4.0f, 0.021713195f, 1.7128769f, 0.0f, 0.69776505f, 0.0f});
+		animationStops.add(new float[] {113.457405f, 6.937883f, 3.0f, 1.0026246f, 4.0f, 0.021713195f, 1.7128769f, 0.0f, 0.69776505f, 0.0f});
+		animationStops.add(new float[] {113.457405f, 6.937883f, 3.0f, 0.7155015f, 4.0f, 0.021713195f, 1.7128769f, 2.1f, 0.66595083f, 1.0f});
+		animationStops.add(new float[] {113.457405f, 6.937883f, 3.0f, 1.0026246f, 4.0f, 0.021713195f, 1.7128769f, 1.665736f, 0.66595083f, 1.0f});
+		animationStops.add(new float[] {113.457405f, 6.937883f, 3.0f, 1.0026246f, 8.0f, 0.0f, 1.5013124f, 1.632331f, 0.66595083f, 1.0f});
+		animationStops.add(new float[] {109.87831f, 6.937883f, 3.0f, 1.0026246f, 8.0f, 0.0f, 1.576871f, 1.298282f, 0.66595083f, 2.0f});
+		animationStops.add(new float[] {109.87831f, 6.937883f, 3.0f, 1.0026246f, 12.0f, 0.0f, 1.576871f, 0.44645664f, 0.66595083f, 2.0f});
+		animationStops.add(new float[] {109.87831f, 6.937883f, 3.0f, 1.0026246f, 4.0f, 1.0f, 1.3501949f, 0.44645664f, 0.66595083f, 2.0f});
+		animationStops.add(new float[] {109.87831f, 6.937883f, 3.0f, 0.80617195f, 4.0f, 1.0f, 1.8942177f, 0.26272964f, 0.66595083f, 2.0f});
+		animationStops.add(new float[] {102.720116f, 6.937883f, 4.0f, 0.6097192f, 4.0f, 1.0f, 2.0f, 0.04559771f, 0.0f, 2.0f});
+		animationStops.add(new float[] {152.82748f, 6.937883f, 4.0f, 0.51904875f, 4.0f, 1.0f, 1.8639942f, 0.04559771f, 0.0f, 2.0f});
+		animationStops.add(new float[] {152.82748f, 6.937883f, 4.0f, 0.36793125f, 4.0f, 1.0f, 2.0f, 0.4631591f, 0.0f, 2.0f});
+		animationStops.add(new float[] {152.82748f, 6.937883f, 4.0f, 0.35281953f, 8.0f, 1.0f, 2.0f, 1.6156286f, 0.0f, 2.0f});
+		animationStops.add(new float[] {199.35576f, 6.937883f, 3.0f, 0.4132665f, 14.0f, 1.0f, 1.4408654f, 0.5967788f, 0.0f, 2.0f});
+		animationStops.add(new float[] {149.24838f, 6.937883f, 3.0f, 0.6550545f, 4.0f, 1.0f, 1.6070945f, 0.0f, 0.0f, 2.0f});
+		animationStops.add(new float[] {149.24838f, 6.937883f, 3.0f, 0.59460753f, 4.0f, 1.0f, 1.818659f, 0.0f, 0.49892628f, 0.0f});
+		animationStops.add(new float[] {74.087326f, 6.937883f, 4.0f, 1.0026246f, 4.0f, 1.0f, 1.9244413f, 0.0f, 0.0f, 0.0f});
+		animationStops.add(new float[] {70.50823f, 6.937883f, 4.0f, 1.2897478f, 4.0f, 1.0f, 1.0479599f, 0.0f, 0.0f, 0.0f});
+		animationStops.add(new float[] {113.457405f, 6.937883f, 4.0f, 1.5013124f, 11.0f, 1.0f, 0.09591983f, 0.0f, 0.0f, 0.0f});
+		animationStops.add(new float[] {117.03651f, 6.937883f, 4.0f, 1.5013124f, 11.0f, 0.013759644f, 0.09591983f, 0.0f, 0.0f, 0.0f});
+		animationStops.add(new float[] {74.087326f, 6.937883f, 4.0f, 1.5013124f, 39.0f, 0.0f, 0.9119542f, 0.0f, 0.0f, 0.0f});
+		animationStops.add(new float[] {109.87831f, 6.937883f, 3.0f, 1.3653066f, 4.0f, 0.0f, 1.0177364f, 0.0f, 0.0f, 0.0f});
+		animationStops.add(new float[] {117.03651f, 6.269785f, 4.0f, 1.0026246f, 4.0f, 0.0f, 1.0177364f, 0.012192794f, 0.0f, 2.0f});
+		animationStops.add(new float[] {52.612743f, 6.269785f, 3.0f, 2.0f, 4.0f, 0.0f, 1.0479599f, 0.012192794f, 1.0f, 2.0f});
+		animationStops.add(new float[] {188.61847f, 6.269785f, 3.0f, 1.0177364f, 4.0f, 0.0f, 0.4737135f, 0.012192794f, 0.0f, 2.0f});
+		animationStops.add(new float[] {134.93199f, 6.269785f, 3.0f, 1.4710889f, 4.0f, 0.0f, 0.4737135f, 0.012192794f, 0.0f, 2.0f});
+		animationStops.add(new float[] {84.82463f, 6.269785f, 3.0f, 2.0f, 36.0f, 0.0f, 0.09591983f, 0.012192794f, 0.0f, 2.0f});
+		animationStops.add(new float[] {84.82463f, 6.269785f, 3.0f, 1.939553f, 4.0f, 0.0f, 0.4737135f, 0.012192794f, 0.0f, 2.0f});
+		animationStops.add(new float[] {56.19184f, 6.269785f, 3.0f, 1.939553f, 4.0f, 0.0f, 1.3350831f, 0.32953948f, 0.0f, 2.0f});
+		animationStops.add(new float[] {56.19184f, 6.436809f, 3.0f, 1.939553f, 4.0f, 0.0f, 2.0f, 0.49656403f, 0.7852541f, 2.0f});
+		*/
 		
 		// david selects
 //		animationStops.add(new float[] {271.9227f, 3.8200908f, 3.2502189f, 0.32259604f, 20.0f, 1.0f, 1.0781834f, 1.099141f, 0.0f, 1f});
@@ -391,6 +550,7 @@ extends PAppletHax {
 		for (int i = 0; i < paramsArray.length; i++) toStr += (i == 0) ? paramsArray[i] + "f" : ", " + paramsArray[i] + "f";
 		toStr += "});";
 		P.println(toStr);
+		SystemUtil.copyStringToClipboard(toStr);
 	}
 	
 	protected void nextAnimation(int step) {
@@ -488,7 +648,7 @@ extends PAppletHax {
 		nextInnerRadius = nextRadius - lineWeight.value() * leveActiveAmp;
 		
 		offsetRads = (offsetRads == 0) ? (segmentRads / 2f) * offsetRotation.value() : 0;
-		if(level < 2) offsetRads = 0;
+		if(level < 1) offsetRads = 0;
 		
 		for( int i = 0; i < numSegments; i++ ) {
 			
@@ -522,14 +682,14 @@ extends PAppletHax {
 			}
 			
 			// draw circle
-			if(circleRadius.value() > 0.0f && (level == circleLevelDisplay.value() || circleLevelDisplay.value() == 0) && level < 99) {
+			if(circleRadius.value() > 0.0f && (level == circleLevelDisplay.target() || circleLevelDisplay.target() == 0) && level < 99) {
 				float circleR = radius * circleRadius.value();
 				float circleInnerR = circleR - lineWeight.value() / 2f;
-				if(numVertices < 300000 && circleR > 5) drawDisc(p, circleR, circleInnerR, circleResolution, offsetRads, 999, 999, x, y);
+				if((numVertices < 300000 || RENDERING == true) && circleR > 1) drawDisc(p, circleR, circleInnerR, circleResolution, offsetRads, 999, 999, x, y);
 			}
 			
 			// draw children 
-			if(level < maxLevels.target() && radius > 5) {
+			if(level < maxLevels.target() && radius > 1) {
 				// draw child polygon at vertices
 				float radiusFromParent = (radius - ((radius - innerRadius)));
 				radiusFromParent *= childDistAmp;
@@ -537,7 +697,7 @@ extends PAppletHax {
 				float yAdd = P.sin( curRads ) * radiusFromParent;
 				p.pushMatrix();
 				p.translate(xAdd, yAdd);	// recursion makes this additive
-				if(numVertices < 300000) drawDisc(p, nextRadius, nextInnerRadius, numSegments, offsetRads, childDistAmp, level + 1, x + xAdd, y + yAdd);
+				if(numVertices < 300000 || RENDERING == true) drawDisc(p, nextRadius, nextInnerRadius, numSegments, offsetRads, childDistAmp, level + 1, x + xAdd, y + yAdd);
 				p.popMatrix();
 				
 				// draw stick from parent to child
