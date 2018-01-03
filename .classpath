@@ -73,6 +73,14 @@
 	<classpathentry kind="lib" path="lib/minim/library/mp3spi1.9.4.jar"/>
 	<classpathentry kind="lib" path="lib/minim/library/tritonus_aos.jar"/>
 	<classpathentry kind="lib" path="lib/minim/library/tritonus_share.jar"/>
+	<classpathentry kind="lib" path="lib/beads/library/beads.jar"/>
+	<classpathentry kind="lib" path="lib/beads/library/jarjar-1.0.jar"/>
+	<classpathentry kind="lib" path="lib/beads/library/jl1.0.1.jar"/>
+	<classpathentry kind="lib" path="lib/beads/library/org-jaudiolibs-audioservers-jack.jar"/>
+	<classpathentry kind="lib" path="lib/beads/library/org-jaudiolibs-audioservers-javasound.jar"/>
+	<classpathentry kind="lib" path="lib/beads/library/org-jaudiolibs-audioservers.jar"/>
+	<classpathentry kind="lib" path="lib/beads/library/org-jaudiolibs-jnajack.jar"/>
+	<classpathentry kind="lib" path="lib/beads/library/tools.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER">
 		<accessrules>
 			<accessrule kind="accessible" pattern="com/apple/eawt/**"/>

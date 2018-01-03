@@ -14,12 +14,6 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.HEIGHT, "600" );
 	}
 
-
-	public void setup() {
-		super.setup();	
-		p.smooth( OpenGLUtil.SMOOTH_HIGH );
-	}
-
 	public void drawApp() {
 		background(0);
 		p.noStroke();

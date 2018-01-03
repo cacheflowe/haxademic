@@ -1,5 +1,7 @@
 package com.haxademic.core.audio;
 
+import com.haxademic.core.audio.analysis.BeatDetect;
+
 import krister.Ess.AudioInput;
 import krister.Ess.Ess;
 import krister.Ess.FFT;
@@ -48,8 +50,8 @@ public class AudioInputWrapper
 		setNumAverages( 13 );
 		_limitDiff = _maxLimit - _minLimit;
 
-		detector = new BeatDetect(p,_bufferSize,44100);
-		detector.detectMode("SOUND_ENERGY");//FREQ_ENERGY
+		detector = new BeatDetect(_bufferSize,44100);
+		detector.detectMode(BeatDetect.SOUND_ENERGY); // BeatDetect.FREQ_ENERGY
 
 		// TODO: move this into a sketch so audio and renderer are separate
 		// listen realtime if not rendering
