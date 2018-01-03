@@ -133,9 +133,8 @@ extends PApplet
 	}
 	
 	protected void loadAppConfig() {
-		p.appConfig = new P5Properties(p);
-		appConfig = p.appConfig;
-		if( customPropsFile != null ) p.appConfig.loadPropertiesFile( customPropsFile );
+		appConfig = new P5Properties(p);
+		if( customPropsFile != null ) appConfig.loadPropertiesFile( customPropsFile );
 		customPropsFile = null;
 	}
 	
