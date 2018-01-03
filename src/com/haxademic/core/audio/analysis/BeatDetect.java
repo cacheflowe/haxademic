@@ -1,6 +1,7 @@
-package com.haxademic.core.audio;
+package com.haxademic.core.audio.analysis;
 
 import com.haxademic.core.app.P;
+import com.haxademic.core.debug.DebugUtil;
 
 import krister.Ess.AudioInput;
 import krister.Ess.FFT;
@@ -10,7 +11,6 @@ public class BeatDetect
 {
 	PApplet p;
 
-	private int algorithm;
 	private boolean isOnset;
 	private FFT spect;
 	private int bins;
@@ -18,7 +18,11 @@ public class BeatDetect
 	private int currFrame;
 	private int valCnt;
 	private float[] valGraph;
-
+	
+	public static final int SOUND_ENERGY = 0;
+	public static final int FREQ_ENERGY = 1;
+	private int algorithm;
+	
 	// vars for sEnergy
 	private float[] eBuffer;
 	private float[] dBuffer;
@@ -36,17 +40,17 @@ public class BeatDetect
 		init(1024, 44100);
 	}
 
-	BeatDetect( PApplet p5, int s, float r)
+	public BeatDetect(int s, float r)
 	{
-		p = p5;
+		p = P.p;
 		init(s, r);
 	}
 
-	private void init(int s, float r)
-	{
+	private void init(int s, float r) {
+		DebugUtil.printErr("Convert BeatDetect to use AudioStreamData, not just ESS");
 		bins = s;
 		sampleRate = r;
-		algorithm = 1;
+		algorithm = FREQ_ENERGY;
 		isOnset = false;
 		currFrame = p.frameCount;
 		spect = new FFT(bins*2);
@@ -108,14 +112,14 @@ public class BeatDetect
 		return num > threshold;
 	}
 
-	public void detectMode( String algo )
+	public void detectMode( int algo )
 	{
-		if ( algo == "SOUND_ENERGY" ) 
+		if ( algo == SOUND_ENERGY ) 
 		{
 			algorithm = 1;
 			fIsOnset = new boolean[feNum];
 		}
-		else if ( algo == "FREQ_ENERGY" ) 
+		else if ( algo == FREQ_ENERGY ) 
 		{
 			algorithm = 2;
 			valCnt = varCnt = 0;
@@ -228,7 +232,7 @@ public class BeatDetect
 
 	private void shift(float[] arr, float val)
 	{
-		P.arraycopy(arr, 0, arr, 1, arr.length-1);
+		System.arraycopy(arr, 0, arr, 1, arr.length-1);
 		arr[0] = val;
 	}
 
