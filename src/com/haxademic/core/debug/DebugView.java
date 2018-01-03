@@ -30,7 +30,7 @@ public class DebugView {
 	public DebugView( PApplet p ) {
 		this.p = p;
 		ipAddress = IPAddress.getLocalAddress();
-		createFont();
+		debugFont = p.createFont("Arial", fontSize);
 		debugLines = new LinkedHashMap<String, String>();
 		helpLines = new LinkedHashMap<String, String>();
 		textures = new ArrayList<PImage>();
@@ -38,8 +38,6 @@ public class DebugView {
 	}
 	
 	protected void createFont() {
-		p.textMode( P.SCREEN );
-		debugFont = p.createFont("Arial", fontSize);
 	}
 	
 	public void setValue(String key, String val) {
