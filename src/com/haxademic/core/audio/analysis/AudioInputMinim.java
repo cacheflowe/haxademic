@@ -13,7 +13,6 @@ public class AudioInputMinim {
 	protected Minim minim;
 	protected AudioInput audioInput;
 	protected FFT _fft;
-	protected String windowName;
 	protected BeatDetect _beatDetection;
 	protected float spectrumDampened[];
 	protected float spectrumMinim[];
@@ -38,8 +37,6 @@ public class AudioInputMinim {
 			if(i < spectrumMinim.length) spectrumMinim[i] = 0;
 			spectrumDb[i] = 0;
 		}
-
-		windowName = "Rectangular Window";
 
 		// a beat detection object song SOUND_ENERGY mode with a sensitivity of 300 milliseconds
 		_beatDetection = new BeatDetect();
