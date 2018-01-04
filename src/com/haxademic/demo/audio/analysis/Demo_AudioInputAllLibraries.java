@@ -27,8 +27,8 @@ extends PAppletHax { public static void main(String args[]) { PAppletHax.main(Th
 
 	public void setupFirstFrame() {
 		audioInputESS = new AudioInputESS();
-		audioInputMinim = new AudioInputMinim();
-		audioInputBeads = new AudioInputBeads();
+//		audioInputMinim = new AudioInputMinim();
+//		audioInputBeads = new AudioInputBeads();
 		// audioInputProcessingSound = new AudioInputProcessingSound();
 	}
 	
@@ -36,19 +36,19 @@ extends PAppletHax { public static void main(String args[]) { PAppletHax.main(Th
 		background(0);
 		
 		// ESS
-		audioInputESS.update(p.g);
+		if(audioInputESS != null) audioInputESS.update(p.g);
 		
 		// Minim
 		p.g.translate(AudioStreamData.debugW, 0);
-		audioInputMinim.update(p.g);
+		if(audioInputMinim != null) audioInputMinim.update(p.g);
 
 		// Beads
 		p.g.translate(-AudioStreamData.debugW, AudioStreamData.debugH);
-		audioInputBeads.update(p.g);
+		if(audioInputBeads != null) audioInputBeads.update(p.g);
 
 		// Processing sound lib
-		// p.g.translate(AudioStreamData.debugW, 0);
-		// audioInputProcessingSound.update(p.g);
+		p.g.translate(AudioStreamData.debugW, 0);
+		if(audioInputProcessingSound != null) audioInputProcessingSound.update(p.g);
 	}
 	
 	////////////////////////////

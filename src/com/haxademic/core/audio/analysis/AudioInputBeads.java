@@ -65,6 +65,8 @@ public class AudioInputBeads {
 		// update audio data object
 		if(features != null) audioStreamData.setFFTFrequencies(features);
 		audioStreamData.setWaveformOffsets(ac.out.getOutBuffer(0));
+		// audioStreamData.setAmp(od.getLastOnsetValue());
+		audioStreamData.calcAmpAverage();
 		audioStreamData.update();
 
 		// debug draw

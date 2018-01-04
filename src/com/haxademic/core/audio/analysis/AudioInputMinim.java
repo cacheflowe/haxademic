@@ -12,62 +12,65 @@ public class AudioInputMinim {
 
 	protected Minim minim;
 	protected AudioInput audioInput;
-	protected FFT _fft;
-	protected BeatDetect _beatDetection;
+	protected FFT fft;
+	protected BeatDetect beatDetection;
 	protected float spectrumDampened[];
-	protected float spectrumMinim[];
+	protected float spectrum[];
 	protected float spectrumAvgDampened[];
 	protected float spectrumDb[];
 	protected float dampening = 0.75f;
-	protected int _averages = 32;
+	protected int averages = 32;
 	protected AudioStreamData audioStreamData = new AudioStreamData();
 
 	public AudioInputMinim() {
 		minim = new Minim( P.p );
 		audioInput = minim.getLineIn();
 		
-		_fft = new FFT(audioInput.bufferSize(), audioInput.sampleRate());
-		_fft.linAverages( _averages );
-		spectrumAvgDampened = new float[_averages];
+		fft = new FFT(audioInput.bufferSize(), audioInput.sampleRate());
+		fft.linAverages( averages );
+		spectrumAvgDampened = new float[averages];
 		spectrumDampened = new float[audioInput.bufferSize()];
-		spectrumMinim = new float[audioInput.bufferSize() / 2];
+		spectrum = new float[audioInput.bufferSize() / 2];
 		spectrumDb = new float[audioInput.bufferSize()];
-		for(int i = 0; i < _fft.specSize(); i++) {
+		for(int i = 0; i < fft.specSize(); i++) {
 			spectrumDampened[i] = 0;
-			if(i < spectrumMinim.length) spectrumMinim[i] = 0;
+			if(i < spectrum.length) spectrum[i] = 0;
 			spectrumDb[i] = 0;
 		}
 
 		// a beat detection object song SOUND_ENERGY mode with a sensitivity of 300 milliseconds
-		_beatDetection = new BeatDetect();
-		_beatDetection.detectMode(BeatDetect.SOUND_ENERGY);
-		_beatDetection.setSensitivity(300);
+		beatDetection = new BeatDetect();
+		beatDetection.detectMode(BeatDetect.SOUND_ENERGY);
+		beatDetection.setSensitivity(300);
 	}
 	
 	public void update(PGraphics pg) {
-		_fft.forward( audioInput.mix );
-		_beatDetection.detect( audioInput.mix );
-		if( _beatDetection.isOnset() == true ) audioStreamData.setBeat();
+		// analyze
+		fft.forward( audioInput.mix );
+		beatDetection.detect( audioInput.mix );
 		
-		float timeSize = _fft.timeSize() * ( _fft.timeSize() / P.p._fps );
 		
-		  // calculate levels
-//			float volMax = _audioInput.mix.level();  
-		for(int i = 0; i < _fft.specSize(); i++) {
-			spectrumDampened[i] = ( spectrumDampened[i] < _fft.getBand(i) ) ? _fft.getBand(i) : spectrumDampened[i] * dampening;
-			if(i < spectrumMinim.length) spectrumMinim[i] = _fft.getBand(i);
+		float timeSize = fft.timeSize() * ( fft.timeSize() / P.p._fps );
+		
+		// calculate levels
+		for(int i = 0; i < fft.specSize(); i++) {
+			spectrumDampened[i] = ( spectrumDampened[i] < fft.getBand(i) ) ? fft.getBand(i) : spectrumDampened[i] * dampening;
+			if(i < spectrum.length) spectrum[i] = fft.getBand(i);
 //				spectrumDampened[i] = P.constrain( spectrumDampened[i] / volMax, 0, 1 );
 			spectrumDb[i] = 10 - -1f * P.log( 1 * spectrumDampened[i] / timeSize );
 		}
-		for(int i = 0; i < _fft.avgSize(); i++) {
-			spectrumAvgDampened[i] = ( spectrumAvgDampened[i] < _fft.getAvg(i) ) ? _fft.getAvg(i) : spectrumAvgDampened[i] * dampening;
+		for(int i = 0; i < fft.avgSize(); i++) {
+			spectrumAvgDampened[i] = ( spectrumAvgDampened[i] < fft.getAvg(i) ) ? fft.getAvg(i) : spectrumAvgDampened[i] * dampening;
 		}
 		
 		// update audio data arrays
 		//		audioInputDataMinim.setFFTFrequencies(spectrumDampened);
-		audioStreamData.setFFTFrequencies(spectrumMinim);
+		audioStreamData.setFFTFrequencies(spectrum);
+//		audioStreamData.setFFTFrequencies(fft.getSpectrumReal());
 		audioStreamData.setWaveformOffsets(audioInput.mix.toArray());
 		audioStreamData.setAmp(audioInput.mix.level());
+		audioStreamData.calcFreqsDampened();
+		if( beatDetection.isOnset() == true ) audioStreamData.setBeat();
 		audioStreamData.update();
 
 		// debug draw

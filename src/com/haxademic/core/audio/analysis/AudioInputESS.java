@@ -37,6 +37,7 @@ public class AudioInputESS {
 		// update audio data object
 		audioStreamData.setFFTFrequencies(fft.spectrum);
 		audioStreamData.setWaveformOffsets(audioInput.buffer);
+		audioStreamData.setAmp(fft.max);
 		audioStreamData.update();
 
 		// debug draw

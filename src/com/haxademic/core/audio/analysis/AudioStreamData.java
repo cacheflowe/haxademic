@@ -8,9 +8,13 @@ import processing.core.PGraphics;
 public class AudioStreamData {
 	
 	protected float[] frequencies = null;
+	protected float[] freqsDampened = null;
 	protected float[] waveform = null;
 	protected float amp = 0;
+	protected float gain = 1;
 	protected EasingFloat beatOnset = new EasingFloat(0, 8);
+	protected int beatFrame = 0;
+	protected float progress = 0;
 	
 	public static float debugW = 300;
 	public static float debugH = 300;
@@ -21,8 +25,13 @@ public class AudioStreamData {
 	}
 	
 	public void setFFTFrequencies(float[] freqs) {
-		if(frequencies == null) frequencies = new float[freqs.length];
+		if(frequencies == null) {
+			frequencies = new float[freqs.length];
+			freqsDampened = new float[freqs.length];
+			for(int i=0; i < freqsDampened.length; i++) freqsDampened[i] = 0;
+		}
 		System.arraycopy(freqs, 0, frequencies, 0, freqs.length);
+		for(int i=0; i < frequencies.length; i++) frequencies[i] = P.abs(frequencies[i]);
 	}
 	
 	public void setWaveformOffsets(float[] buffer) {
@@ -30,8 +39,30 @@ public class AudioStreamData {
 		System.arraycopy(buffer, 0, waveform, 0, buffer.length);
 	}
 	
+	public void calcFreqsDampened() {
+		for(int i=0; i < frequencies.length; i++) {
+			float lerpVal = (freqsDampened[i] < frequencies[i]) ? 0.3f : 0.15f;
+			freqsDampened[i] = P.lerp(freqsDampened[i], frequencies[i], lerpVal);	
+		}
+	}
+	
+	public void calcAmpAverage() {
+		if(frequencies == null) return;
+		amp = 0;
+		for(int i=0; i < frequencies.length; i++) amp += P.abs(frequencies[i]);
+		amp /= (float) frequencies.length;
+	}
+	
 	public void setAmp(float newAmp) {
 		amp = newAmp;
+	}
+	
+	public void setProgress(float prog) {
+		progress = prog;
+	}
+	
+	public void setGain(float newGain) {
+		gain = newGain;
 	}
 	
 	public void setBeat() {
@@ -41,6 +72,11 @@ public class AudioStreamData {
 	
 	public void update() {
 		beatOnset.update();
+		if(gain != 1) {
+			for(int i=0; i < frequencies.length; i++) frequencies[i] *= gain;
+			for(int i=0; i < freqsDampened.length; i++) freqsDampened[i] *= gain;
+			for(int i=0; i < waveform.length; i++) waveform[i] *= gain;
+		}
 	}
 	
 	public void setWaveformAmp(float newAmp) {
@@ -58,14 +94,17 @@ public class AudioStreamData {
 		pg.strokeWeight(2);
 		pg.rect(0, 0, debugW, rowHeight);
 		pg.rect(0, rowHeight, debugW, rowHeight);
-		pg.rect(0, rowHeight * 2, debugW / 2, rowHeight);
-		pg.rect(debugW / 2, rowHeight * 2, debugW / 2, rowHeight);
+		pg.rect(0, rowHeight * 2, debugW / 2, rowHeight * 0.5f);
+		pg.rect(debugW / 2, rowHeight * 2, debugW / 2, rowHeight * 0.5f);
+		pg.rect(0, rowHeight * 2.5f, debugW, rowHeight * 0.5f);
 		
 		// draw FFT
+		pg.noFill();
 		if(frequencies != null) {
 			float fftLineW = (float) debugW / (float) frequencies.length; 
 			pg.strokeWeight(fftLineW);
-			pg.fill(0,255,0);
+			pg.stroke(0,255,0);
+			pg.noFill();
 			for (int i = 0; i < frequencies.length; i++) {
 				float fftVal = frequencies[i];
 				float fftLineH = P.min(rowHeight, fftVal * rowHeight);
@@ -77,12 +116,31 @@ public class AudioStreamData {
 			pg.text(""+frequencies.length, 0, 0, debugW, rowHeight);
 		}
 		
+		if(freqsDampened != null) {
+			float fftLineW = (float) debugW / (float) freqsDampened.length; 
+			pg.strokeWeight(fftLineW);
+			pg.stroke(255, 127);
+			pg.noFill();
+			for (int i = 0; i < freqsDampened.length; i++) {
+				float fftVal = freqsDampened[i];
+				float fftLineH = P.min(rowHeight, fftVal * rowHeight);
+				pg.rect(i * fftLineW, rowHeight - fftLineH, fftLineW, fftLineH);
+			}
+			
+			// # FFT values
+			pg.fill(255);
+			pg.text(""+freqsDampened.length, 0, 0, debugW, rowHeight);
+		}
+		
+		
+		
 		// draw waveform
 		// should be values: -1 - 1
 		if(waveform != null) {
 			float waveformLineW = (float) debugW / (float) waveform.length; 
 			pg.strokeWeight(waveformLineW);
-			pg.fill(0,255,0);
+			pg.stroke(0,255,0);
+			pg.noFill();
 			for(int i=1; i < waveform.length; i++) {
 				pg.line(
 					(i-1) * waveformLineW, 
@@ -98,11 +156,16 @@ public class AudioStreamData {
 		}
 		
 		// draw beat detection
+		pg.noStroke();
 		pg.fill(255, 255 * beatOnset.value());
-		pg.rect(0, rowHeight * 2, debugW / 2, rowHeight);
+		pg.rect(0, rowHeight * 2, debugW / 2, rowHeight / 2);
 
 		// draw overall amp
 		pg.fill(255);
-		pg.rect(debugW / 2, rowHeight, debugW / 2, -rowHeight * amp);
+		pg.rect(debugW / 2, rowHeight * 2.5f, debugW / 2, -rowHeight * 0.5f * amp);
+		
+		// draw progress
+		pg.fill(0,255 * gain,0);
+		pg.rect(0, rowHeight * 2.5f, debugW * progress, rowHeight * 0.5f);
 	}
 }

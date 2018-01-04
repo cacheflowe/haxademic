@@ -1,5 +1,6 @@
 package com.haxademic.core.audio.analysis;
 
+import com.haxademic.core.app.P;
 import com.haxademic.core.file.FileUtil;
 
 import beads.AudioContext;
@@ -22,6 +23,10 @@ public class AudioPlayerBeads {
 	protected PowerSpectrum powerSpectrum;
 	protected PeakDetector od;
 	protected AudioStreamData audioData = new AudioStreamData();
+	protected float progress = 0;
+	protected double lastPosition = 0;
+	protected float length = 0;
+	protected boolean looped = true;
 
 	public AudioPlayerBeads(AudioContext ac, String audioFile) {
 		// store global audio context
@@ -41,6 +46,10 @@ public class AudioPlayerBeads {
 	
 	public AudioStreamData audioData() {
 		return audioData;
+	}
+	
+	public boolean looped() {
+		return looped;
 	}
 	
 	public void start() {
@@ -80,9 +89,17 @@ public class AudioPlayerBeads {
 	}
 
 	public void update() {
+		// check loop
+		looped = (player.getPosition() < lastPosition);
+		lastPosition = player.getPosition();
+		length = P.max(length, (float) lastPosition);		// does Beads give us length? if not, track the max progress
+		progress = (float) player.getPosition() / length;
+		
+		// set analysis data
 		float[] features = powerSpectrum.getFeatures();
 		if(features != null) audioData.setFFTFrequencies(features);
 		audioData.setWaveformOffsets(player.getOutBuffer(0));
+		audioData.setProgress(progress);
 		audioData.update();
 	}
 	
