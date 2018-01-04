@@ -14,7 +14,7 @@ public class AudioStreamData {
 	
 	public static float debugW = 300;
 	public static float debugH = 300;
-	protected float waveformAmp = 5;
+	protected float waveformAmp = 1;
 
 	public AudioStreamData() {
 		
@@ -41,6 +41,10 @@ public class AudioStreamData {
 	
 	public void update() {
 		beatOnset.update();
+	}
+	
+	public void setWaveformAmp(float newAmp) {
+		waveformAmp = newAmp;
 	}
 	
 	public void drawDebug(PGraphics pg) {

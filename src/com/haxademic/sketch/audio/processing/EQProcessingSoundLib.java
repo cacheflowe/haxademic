@@ -1,4 +1,4 @@
-package com.haxademic.sketch.audio;
+package com.haxademic.sketch.audio.processing;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;

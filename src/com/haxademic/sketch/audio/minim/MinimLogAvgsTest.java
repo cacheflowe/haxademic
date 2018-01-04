@@ -1,4 +1,4 @@
-package com.haxademic.sketch.audio;
+package com.haxademic.sketch.audio.minim;
 
 import com.haxademic.core.app.PAppletHax;
 
