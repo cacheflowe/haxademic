@@ -1,4 +1,4 @@
-package com.haxademic.core.draw.shapes;
+package com.haxademic.core.draw.color;
 
 import processing.core.PApplet;
 import processing.core.PGraphics;

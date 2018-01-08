@@ -4,9 +4,9 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.draw.color.ColorUtil;
+import com.haxademic.core.draw.color.Gradients;
 import com.haxademic.core.draw.filters.shaders.BlurHFilter;
 import com.haxademic.core.draw.image.TickerScroller;
-import com.haxademic.core.draw.shapes.Gradients;
 
 import processing.core.PGraphics;
 

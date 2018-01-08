@@ -4,8 +4,8 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.draw.color.ColorHaxEasing;
+import com.haxademic.core.draw.color.Gradients;
 import com.haxademic.core.draw.context.OpenGLUtil;
-import com.haxademic.core.draw.shapes.Gradients;
 import com.haxademic.core.file.FileUtil;
 
 import processing.core.PShape;

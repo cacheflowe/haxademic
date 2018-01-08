@@ -1,7 +1,7 @@
 package com.haxademic.app.haxmapper.textures;
 
 import com.haxademic.core.app.P;
-import com.haxademic.core.draw.shapes.Gradients;
+import com.haxademic.core.draw.color.Gradients;
 import com.haxademic.core.math.MathUtil;
 
 public class TextureCyclingRadialGradient

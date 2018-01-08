@@ -1,11 +1,11 @@
-package com.haxademic.sketch.visualgorithms;
+package com.haxademic.demo.draw.image;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.draw.image.FractalBrownianMotion;
 
-public class FractalBrownianTest
+public class Demo_FractalBrownianMotion
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 		
