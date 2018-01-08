@@ -1,5 +1,6 @@
 package com.haxademic.demo.audio.analysis;
 
+import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.audio.analysis.AudioPlayerBeads;
 import com.haxademic.core.audio.analysis.AudioStreamData;
@@ -7,7 +8,7 @@ import com.haxademic.core.constants.AppSettings;
 
 import beads.AudioContext;
 
-public class Demo_AudioLooperWithAnalysis
+public class Demo_AudioLooperWithAnalysisBeads
 extends PAppletHax { public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	protected AudioContext ac;
@@ -32,20 +33,7 @@ extends PAppletHax { public static void main(String args[]) { PAppletHax.main(Th
 				new AudioPlayerBeads(ac, "audio/crusher-loops/contender.wav"),
 		};
 		
-//		player.setEndListener(new Bead() {
-//			public void messageReceived(Bead message) {
-////		        System.out.println("I've been triggered!"); 
-//		        loopEnded();
-//		     }
-//		});
 	}
-	
-	
-//	public void loopEnded() {
-//		P.println("loopEnded");
-////		player.reTrigger();
-//		player1.start(0);
-//	}
 	
 	public void keyPressed() {
 		super.keyPressed();
@@ -63,6 +51,7 @@ extends PAppletHax { public static void main(String args[]) { PAppletHax.main(Th
 		// update analysis
 		for(int i=0; i < loops.length; i++) {
 			loops[i].update();
+			if(loops[i].looped()) P.println("LOOPED:", i);
 		}
 		
 		// draw debug
@@ -77,8 +66,6 @@ extends PAppletHax { public static void main(String args[]) { PAppletHax.main(Th
 		loops[4].audioData().drawDebug(p.g);
 		p.translate(AudioStreamData.debugW, 0);
 		loops[5].audioData().drawDebug(p.g);
-		
-//		p.debugView.setValue("player", player1.inLoop());
 	}
 
 }

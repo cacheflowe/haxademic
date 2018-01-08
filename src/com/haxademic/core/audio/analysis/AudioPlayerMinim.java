@@ -50,8 +50,14 @@ public class AudioPlayerMinim {
 		return loopStepped;
 	}
 	
+	public int loopCurStep() {
+		return loopCurStep;
+	}
+	
 	public void start() {
 		player.rewind();
+		player.loop();
+		player.cue(0);
 	}
 	
 	public void setVolume(float vol) {

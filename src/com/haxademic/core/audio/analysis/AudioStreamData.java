@@ -24,6 +24,8 @@ public class AudioStreamData {
 		
 	}
 	
+	// setters
+	
 	public void setFFTFrequencies(float[] freqs) {
 		if(frequencies == null) {
 			frequencies = new float[freqs.length];
@@ -42,6 +44,7 @@ public class AudioStreamData {
 	public void calcFreqsDampened() {
 		for(int i=0; i < frequencies.length; i++) {
 			float lerpVal = (freqsDampened[i] < frequencies[i]) ? 0.3f : 0.15f;
+			lerpVal = 0.2f;
 			freqsDampened[i] = P.lerp(freqsDampened[i], frequencies[i], lerpVal);	
 		}
 	}
@@ -68,7 +71,37 @@ public class AudioStreamData {
 	public void setBeat() {
 		beatOnset.setCurrent(1);		
 		beatOnset.setTarget(0);
+		beatFrame = P.p.frameCount;
 	}
+	
+	public void setWaveformAmp(float newAmp) {
+		waveformAmp = newAmp;
+	}
+	
+	// getters
+	
+	public float[] getFrequencies() {
+		if(freqsDampened != null) return freqsDampened;
+		else return frequencies;
+	}
+	
+	public float[] getWaveform() {
+		return waveform;
+	}
+	
+	public float getAmp() {
+		return amp;
+	}
+	
+	public float getProgress() {
+		return progress;
+	}
+	
+	public boolean getIsBeat() {
+		return P.p.frameCount == beatFrame;
+	}
+	
+	// private
 	
 	public void update() {
 		beatOnset.update();
@@ -77,10 +110,6 @@ public class AudioStreamData {
 			for(int i=0; i < freqsDampened.length; i++) freqsDampened[i] *= gain;
 			for(int i=0; i < waveform.length; i++) waveform[i] *= gain;
 		}
-	}
-	
-	public void setWaveformAmp(float newAmp) {
-		waveformAmp = newAmp;
 	}
 	
 	public void drawDebug(PGraphics pg) {
