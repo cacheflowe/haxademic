@@ -61,18 +61,13 @@ public class DrawUtil {
 	}
 
 	public static void setBasicLights( PApplet p ) {
-		// setup lighting props
-		p.shininess(500); 
-		p.lights();
-		p.ambientLight(0.2f,0.2f,0.2f, 0, 0, 6000);
-		p.ambientLight(0.2f,0.2f,0.2f, 0, 0, -6000);
+		setBasicLights(p.g);
 	}
-	public static void setBasicLights( PGraphics p ) {
-		// setup lighting props
-		p.shininess(500); 
-		p.lights();
-		p.ambientLight(0.2f,0.2f,0.2f, 0, 0, 6000);
-		p.ambientLight(0.2f,0.2f,0.2f, 0, 0, -6000);
+	public static void setBasicLights( PGraphics pg ) {
+		pg.shininess(500); 
+		pg.lights();
+		pg.ambientLight(25, 25, 25, 0, 0, 6000);
+		pg.ambientLight(10, 10, 10, 0, 0, -6000);
 	}
 
 	public static void setBetterLights( PApplet p ) {
