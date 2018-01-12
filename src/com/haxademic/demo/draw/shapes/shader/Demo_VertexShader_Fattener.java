@@ -32,6 +32,8 @@ extends PAppletHax {
 		int FRAMES = 340;
 		p.appConfig.setProperty(AppSettings.WIDTH, 600);
 		p.appConfig.setProperty(AppSettings.HEIGHT, 700);
+//		p.appConfig.setProperty(AppSettings.WIDTH, 1920);
+//		p.appConfig.setProperty(AppSettings.HEIGHT, 1080);
 		p.appConfig.setProperty(AppSettings.LOOP_FRAMES, FRAMES);
 		p.appConfig.setProperty(AppSettings.RENDERING_MOVIE, false );
 		p.appConfig.setProperty(AppSettings.RENDERING_MOVIE_START_FRAME, 1 + FRAMES * 3);
@@ -47,7 +49,7 @@ extends PAppletHax {
 
 		// normalize shape
 		PShapeUtil.centerShape(obj);
-		PShapeUtil.scaleShapeToExtent(obj, p.width * 0.35f);
+		PShapeUtil.scaleShapeToExtent(obj, p.height * 0.30f);
 		
 		// load shader
 		fattenerVertShader = p.loadShader(
@@ -62,7 +64,7 @@ extends PAppletHax {
 
 		// clear background
 		background(0);
-		feedbackShader = loadShader(FileUtil.getFile("shaders/filters/feedback-radial.glsl"));
+		feedbackShader = loadShader(FileUtil.getFile("shaders/filters/feedback-radial-fattener-render.glsl"));
 	}
 
 	public void drawApp() {
@@ -85,13 +87,13 @@ extends PAppletHax {
 		
 		// do feedback & draw buffer to screen
 		feedbackShader.set("amp", 0.00003f);
-//		feedbackShader.set("samplemult", 0.97f);
+		feedbackShader.set("samplemult", 0.998f);
 		p.filter(feedbackShader); p.filter(feedbackShader); p.filter(feedbackShader); 
 		p.image(buffer, 0, 0);
 	
-		ContrastFilter.instance(p).setContrast(1.02f);
+		ContrastFilter.instance(p).setContrast(1.01f);
 		ContrastFilter.instance(p).applyTo(p);
-		VignetteFilter.instance(p).setDarkness(0.4f);
+		VignetteFilter.instance(p).setDarkness(0.3f);
 		VignetteFilter.instance(p).applyTo(p);
 	}
 		

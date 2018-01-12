@@ -1,31 +1,23 @@
 package com.haxademic.sketch.three_d;
 
-import com.haxademic.core.app.P;
+import com.haxademic.core.app.PAppletHax;
 
 import processing.core.PApplet;
-import processing.core.PConstants;
 
 public class SphericalCoordinates
-	extends PApplet
+extends PAppletHax
 {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
+
 	float lat = 0;
 	float lon = 0;
 	float radius = 250;
 	
-	public void setup () {
-		// set up stage and drawing properties
-//		size( 800, 800, "hipstersinc.P5Sunflow" );
-		size( 800, 800, P.P3D );				//size(screen.width,screen.height,P3D);
-		frameRate( 30 );
-		colorMode( PConstants.RGB, 255, 255, 255, 255 );
+	public void drawApp() {
 		background( 0 );
 		shininess(1000); 
 		lights();
 		noStroke();
-	}
-
-	public void draw() {
-		background( 0 );
 		
 		translate( width/2, height/2, 50 );
 		rotateX(2f*PI/6f);
