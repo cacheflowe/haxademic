@@ -31,6 +31,14 @@ public class ColorHaxEasing {
 		this.a.setTarget( a );
 	}
 	
+	public void setTargetHex( String hex ) {
+		int color = ColorUtil.colorFromHex(hex);
+		this.r.setTarget( redFromColorInt(color) );
+		this.g.setTarget( greenFromColorInt(color) );
+		this.b.setTarget( blueFromColorInt(color) );
+		this.a.setTarget( 255 );
+	}
+	
 	public void setCurrentRGBA( float r, float g, float b, float a ) {
 		this.r.setCurrent( r );
 		this.g.setCurrent( g );
