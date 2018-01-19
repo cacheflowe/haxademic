@@ -32,6 +32,9 @@ public class KinectWrapperV2 implements IKinectWrapper {
 		_kinect = new KinectPV2(p);
 		_kinect.enableDepthImg(true);
 		_kinect.enableColorImg(true);
+		_kinect.enableDepthMaskImg(true);
+		_kinect.enableBodyTrackImg(true);
+		_kinect.enableInfraredImg(true);
 		_kinect.init();
 		
 		//TODO: Setup configurations to activate each individually
@@ -97,6 +100,7 @@ public class KinectWrapperV2 implements IKinectWrapper {
 	@Override
 	public PImage getIRImage() {
 		return _kinect.getInfraredImage();
+//		return _kinect.getBodyTrackImage();
 	}
 	
 	/* (non-Javadoc)
