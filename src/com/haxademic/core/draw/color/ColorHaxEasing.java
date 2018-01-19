@@ -89,10 +89,10 @@ public class ColorHaxEasing {
 	}
 	
 	public void update() {
-		r.update();
-		g.update();
-		b.update();
-		a.update();
+		r.update(true);
+		g.update(true);
+		b.update(true);
+		a.update(true);
 	}
 
 	public final int alphaFromColorInt( int c ) { return (c >> 24) & 0xFF; }
