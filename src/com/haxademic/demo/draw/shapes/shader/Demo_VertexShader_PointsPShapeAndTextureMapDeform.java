@@ -50,11 +50,11 @@ extends PAppletHax {
 		// texture = perlin.texture();
 		// texture = DemoAssets.textureNebula();
 
-		// build offsecreen buffer (thing don't work the same on the main drawing surface)
+		// build offsecreen buffer (things don't work the same on the main drawing surface)
 		buffer = p.createGraphics(p.width, p.height, PRenderers.P3D);
 
 		// count vertices for debugView
-		int vertices = P.round( w * h); 
+		int vertices = P.round(w * h); 
 		p.debugView.setValue("Vertices", vertices);
 		
 		// Build points vertices

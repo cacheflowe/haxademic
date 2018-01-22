@@ -6,6 +6,7 @@ import com.jogamp.opengl.GL2;
 import com.jogamp.opengl.GL2ES2;
 import com.jogamp.opengl.GL3;
 import com.jogamp.opengl.GL4;
+import com.jogamp.opengl.GLProfile;
 
 import processing.core.PConstants;
 import processing.core.PGraphics;
@@ -21,9 +22,9 @@ public class OpenGLUtil {
 	public static final int SMOOTH_MEDIUM = 4;
 	public static final int SMOOTH_HIGH = 8;
 
-	public static final int LOW = 0;
-	public static final int MEDIUM = 1;
-	public static final int HIGH = 2;
+	public static final int GL_QUALITY_LOW = 0;
+	public static final int GL_QUALITY_MEDIUM = 1;
+	public static final int GL_QUALITY_HIGH = 2;
 
 	public static void setTextureRepeat(PGraphics pg) {
 		pg.textureWrap(Texture.REPEAT);
@@ -34,55 +35,50 @@ public class OpenGLUtil {
 		GL4 gl = getGL4(pg);
 //		GL gl = ((PJOGL)pg.beginPGL()).gl.getGL();
 		switch ( quality ) {
-			case LOW :
+			case GL_QUALITY_LOW :
 //				p.hint(P.DISABLE_OPENGL_2X_SMOOTH);
 				gl.glHint (GL4.GL_LINE_SMOOTH_HINT, GL4.GL_FASTEST);
-//				gl.glHint (GL4.GL_POINT, GL.GL_FASTEST);
+				gl.glHint (GL4.GL_POINT, GL.GL_FASTEST);
 				gl.glHint (GL4.GL_POLYGON_SMOOTH_HINT, GL.GL_FASTEST);
 //				gl.glHint (GL.GL_POLYGON_SMOOTH_HINT, GL.GL_FASTEST);
 				gl.glDisable(GL4.GL_LINE_SMOOTH);
 				break;
-			case MEDIUM :
+			case GL_QUALITY_MEDIUM :
 //				p.hint(P.ENABLE_OPENGL_2X_SMOOTH);
 				gl.glHint (GL4.GL_LINE_SMOOTH_HINT, GL4.GL_FASTEST);
-//				gl.glHint (GL.GL_POINT_SMOOTH_HINT, GL.GL_FASTEST);
-//				gl.glHint (GL.GL_POLYGON_SMOOTH_HINT, GL.GL_FASTEST);
+//				gl.glHint (GL4.GL_POINT_SMOOTH_HINT, GL4.GL_FASTEST);
+				gl.glHint (GL4.GL_POLYGON_SMOOTH_HINT, GL4.GL_FASTEST);
 				gl.glDisable(GL4.GL_LINE_SMOOTH);
 				break;
-			case HIGH :
+			case GL_QUALITY_HIGH :
 				gl.glHint (GL4.GL_LINE_SMOOTH_HINT, GL4.GL_NICEST);
-//				gl.glHint (GL.GL_POINT_SMOOTH_HINT, GL.GL_NICEST);
-//				gl.glHint (GL.GL_POLYGON_SMOOTH, GL.GL_NICEST);
+//				gl.glHint (GL4.GL_POINT_SMOOTH_HINT, GL4.GL_NICEST);
+				gl.glHint (GL4.GL_POLYGON_SMOOTH, GL4.GL_NICEST);
 				gl.glEnable (GL4.GL_LINE_SMOOTH);
 				break;
 		}
 	}
 	
+	public static void listAvailableProfiles() {
+		String blah[] = GLProfile.GL_PROFILE_LIST_ALL;
+		for (int i = 0; i < blah.length; i++) {
+			P.println("Profile ", i, blah[i], GLProfile.isAvailable(blah[i]));
+		}
+	}
+	
+	public static void printProfile(PGraphics pg) {
+		P.println("GLProfile = ", getGlVersion(pg));
+	}
+	
 	public static String getGlVersion(PGraphics pg) {
-		PJOGL pgl = (PJOGL) pg.beginPGL();
-		GL gl = pgl.gl;
-		if(gl != null) return ""+gl;
-		return null;
+		PJOGL pjogl = (PJOGL) pg.beginPGL();
+		return pjogl.gl.getGLProfile().getName();
 	}
 		
-	public static GL2ES2 getGL2(PGraphics pg) {
-		// only for use with Processing 2. for Processing 3, use GL3
-		PJOGL pgl = (PJOGL) pg.beginPGL();
-		GL gl = pgl.gl;
-		P.println("gl",gl);
-		P.println("gl.getGL2()",gl.getGL2());
-		P.println("gl.getGL2ES2()",gl.getGL2ES2());
-		P.println("gl.getGL3()",gl.getGL3());
-		P.println("gl.getGL2ES2()",gl.getGL2ES2());
-		return gl.getGL2ES2();
-	}
-
 	public static GL3 getGL3(PGraphics pg) {
 		return (GL3) ((PJOGL) pg.beginPGL()).gl.getGL3();
 	}
-	public static void closeGL3(PGraphics pg) {
-		pg.endPGL(); 
-	}
+	
 	public static GL4 getGL4(PGraphics pg) {
 		return (GL4) ((PJOGL) pg.beginPGL()).gl.getGL4();
 	}

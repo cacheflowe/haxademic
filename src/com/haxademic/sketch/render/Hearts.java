@@ -35,7 +35,7 @@ extends PAppletHax {
 	public void setup() {
 		super.setup();
 		noStroke();
-		OpenGLUtil.setQuality(p.g, OpenGLUtil.HIGH);
+		OpenGLUtil.setQuality(p.g, OpenGLUtil.GL_QUALITY_HIGH);
 		heartShape = p.loadShape(FileUtil.getFile("svg/heart.svg"));
 		baseScale = p.height * 0.03f / heartShape.height;
 		

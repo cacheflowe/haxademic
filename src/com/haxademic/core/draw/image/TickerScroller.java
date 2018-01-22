@@ -21,7 +21,7 @@ public class TickerScroller {
 		scrolledImage = img;
 		bgColor = bg;
 		scrollSpeed = speed;
-		tickerBuffer = P.p.createGraphics(w, h, P.P2D);
+		tickerBuffer = P.p.createGraphics(w, h, P.P3D);
 		tickerBuffer.smooth(8);
 		// calculate scaled image size 
 		imgScale = (float) tickerBuffer.height / (float) scrolledImage.height;

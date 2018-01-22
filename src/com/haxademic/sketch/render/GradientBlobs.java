@@ -81,7 +81,7 @@ extends PAppletHax {
 		super.setup();
 		p.noStroke();
 		p.noiseSeed(noiseSeed);
-		OpenGLUtil.setQuality(p.g, OpenGLUtil.HIGH);
+		OpenGLUtil.setQuality(p.g, OpenGLUtil.GL_QUALITY_HIGH);
 	}
 	
 	public void mouseMoved() {

@@ -15,6 +15,7 @@ import com.haxademic.core.debug.DebugUtil;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.debug.Stats;
 import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.browser.BrowserInputState;
 import com.haxademic.core.hardware.keyboard.KeyboardState;
@@ -267,7 +268,7 @@ extends PApplet
 
 	protected void initializeOn1stFrame() {
 		if( p.frameCount == 1 ) {
-			P.println("Using Java version: "+SystemUtil.getJavaVersion());
+			P.println("Using Java version: " + SystemUtil.getJavaVersion() + " and GL version: " + OpenGLUtil.getGlVersion(p.g));
 			initHaxademicObjects();
 			setupFirstFrame();
 		}
@@ -294,11 +295,12 @@ extends PApplet
 	////////////////////////
 
 	public void draw() {
+		initializeOn1stFrame();
 		killScreensaver();
-		initializeOn1stFrame();	// wait until draw() happens, to avoid weird launch crash if midi signals were coming in as haxademic starts
 		if(loop != null) loop.update();
 		handleRenderingStepthrough();
 		updateAudioData();
+		midiState.update();
 		if( kinectWrapper != null ) kinectWrapper.update();
 		p.pushMatrix();
 		if( joons != null ) joons.startFrame();

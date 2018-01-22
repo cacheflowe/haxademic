@@ -41,9 +41,9 @@ extends PAppletHax {
 			P.println(OpenGLUtil.getGlVersion(p.g).toString());
 			P.println(OpenGLUtil.getGlVersion(texture.texture()).toString());
 			OpenGLUtil.optimize2D(p.g);
-			OpenGLUtil.setQuality(p.g, OpenGLUtil.LOW);
+			OpenGLUtil.setQuality(p.g, OpenGLUtil.GL_QUALITY_LOW);
 			OpenGLUtil.optimize2D(texture.texture());
-			OpenGLUtil.setQuality(texture.texture(), OpenGLUtil.LOW);
+			OpenGLUtil.setQuality(texture.texture(), OpenGLUtil.GL_QUALITY_LOW);
 		}
 		background(0);
 		if(p.frameCount % 60 == 0) texture.updateTiming();
