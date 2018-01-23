@@ -110,13 +110,24 @@ extends PApplet
 	public boolean showDebug = false;
 	public DebugView debugView;
 	public SecondScreenViewer appViewerWindow;
+	
+	// performance fix
+	protected long timestamp = 0;
+	protected int elapsedTime = 0;
 
 	////////////////////////
 	// INIT
 	////////////////////////
 	
+	protected void checkElapsedTime(String label) {
+		elapsedTime = Math.round(System.currentTimeMillis() - timestamp); 
+		timestamp = System.currentTimeMillis(); 
+		P.println(label, ": ", elapsedTime);
+	}
+	
 	public void settings() {
 		P.p = p = this;
+		timestamp = System.currentTimeMillis();
 		AppUtil.setFrameBackground(p,0,0,0);
 		loadAppConfig();
 		overridePropsFile();
@@ -146,7 +157,7 @@ extends PApplet
 	protected void setRetinaScreen() {
 		if(p.appConfig.getBoolean(AppSettings.RETINA, false) == true) {
 			if(p.displayDensity() == 2) {
-				pixelDensity(2);
+				p.pixelDensity(2);
 			} else {
 				DebugUtil.printErr("Error: Attempting to set retina drawing on a non-retina screen");
 			}
@@ -308,12 +319,11 @@ extends PApplet
 		if( joons != null ) joons.endFrame( p.appConfig.getBoolean(AppSettings.SUNFLOW_SAVE_IMAGES, false) == true );
 		p.popMatrix();
 		renderFrame();
-		showStats();
-		setAppDockIconAndTitle();
 		keyboardState.update();
-		midiState.update();
 		browserInputState.update();
 		if(oscState != null) oscState.update();
+		showStats();
+		setAppDockIconAndTitle();
 		if(renderer == PRenderers.PDF) finishPdfRender();
 	}
 	
