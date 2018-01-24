@@ -18,9 +18,9 @@ public class DebugView {
 	
 	protected PApplet p;
 	protected PFont debugFont;	
-	protected LinkedHashMap<String, String> debugLines;
-	protected LinkedHashMap<String, String> helpLines;
-	protected ArrayList<PImage> textures;
+	protected LinkedHashMap<String, String> debugLines = new LinkedHashMap<String, String>();
+	protected LinkedHashMap<String, String> helpLines = new LinkedHashMap<String, String>();
+	protected ArrayList<PImage> textures = new ArrayList<PImage>();
 	protected float padding = 20;
 	protected float debugPanelW = 0;
 	protected float helpPanelW = 0;
@@ -29,12 +29,11 @@ public class DebugView {
 
 	public DebugView( PApplet p ) {
 		this.p = p;
-		ipAddress = IPAddress.getLocalAddress();
-		debugFont = p.createFont("Arial", fontSize);
-		debugLines = new LinkedHashMap<String, String>();
-		helpLines = new LinkedHashMap<String, String>();
-		textures = new ArrayList<PImage>();
-		updateAppInfo();
+		// for some reason, these were tanking app launches
+		new Thread(new Runnable() { public void run() {
+			debugFont = p.createFont("Arial", fontSize);
+			ipAddress = IPAddress.getLocalAddress();
+		}}).start();
 	}
 	
 	protected void createFont() {
@@ -108,13 +107,17 @@ public class DebugView {
 		for (Map.Entry<String, String> item : hashMap.entrySet()) {
 		    String key = item.getKey();
 		    String value = item.getValue();
-		    if(value.length() > 0) 	string += key + ": " + value + "\n";
-		    else 					string += key + "\n";
+		    if(key != null && value != null) {
+			    	if(value.length() > 0) 	string += key + ": " + value + "\n";
+			    	else 					string += key + "\n";
+		    }
 		}
 		return string;
 	}
 	
 	public void draw() {
+		if(debugFont == null) return;
+		
 		// update core app stats
 		updateAppInfo();
 		

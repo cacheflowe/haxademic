@@ -15,6 +15,7 @@ import com.haxademic.core.debug.DebugUtil;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.debug.Stats;
 import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.browser.BrowserInputState;
 import com.haxademic.core.hardware.keyboard.KeyboardState;
@@ -109,13 +110,24 @@ extends PApplet
 	public boolean showDebug = false;
 	public DebugView debugView;
 	public SecondScreenViewer appViewerWindow;
+	
+	// performance fix
+	protected long timestamp = 0;
+	protected int elapsedTime = 0;
 
 	////////////////////////
 	// INIT
 	////////////////////////
 	
+	protected void checkElapsedTime(String label) {
+		elapsedTime = Math.round(System.currentTimeMillis() - timestamp); 
+		timestamp = System.currentTimeMillis(); 
+		P.println(label, ": ", elapsedTime);
+	}
+	
 	public void settings() {
 		P.p = p = this;
+		timestamp = System.currentTimeMillis();
 		AppUtil.setFrameBackground(p,0,0,0);
 		loadAppConfig();
 		overridePropsFile();
@@ -145,7 +157,7 @@ extends PApplet
 	protected void setRetinaScreen() {
 		if(p.appConfig.getBoolean(AppSettings.RETINA, false) == true) {
 			if(p.displayDensity() == 2) {
-				pixelDensity(2);
+				p.pixelDensity(2);
 			} else {
 				DebugUtil.printErr("Error: Attempting to set retina drawing on a non-retina screen");
 			}
@@ -267,7 +279,7 @@ extends PApplet
 
 	protected void initializeOn1stFrame() {
 		if( p.frameCount == 1 ) {
-			P.println("Using Java version: "+SystemUtil.getJavaVersion());
+			P.println("Using Java version: " + SystemUtil.getJavaVersion() + " and GL version: " + OpenGLUtil.getGlVersion(p.g));
 			initHaxademicObjects();
 			setupFirstFrame();
 		}
@@ -294,11 +306,12 @@ extends PApplet
 	////////////////////////
 
 	public void draw() {
+		initializeOn1stFrame();
 		killScreensaver();
-		initializeOn1stFrame();	// wait until draw() happens, to avoid weird launch crash if midi signals were coming in as haxademic starts
 		if(loop != null) loop.update();
 		handleRenderingStepthrough();
 		updateAudioData();
+		midiState.update();
 		if( kinectWrapper != null ) kinectWrapper.update();
 		p.pushMatrix();
 		if( joons != null ) joons.startFrame();
@@ -306,12 +319,11 @@ extends PApplet
 		if( joons != null ) joons.endFrame( p.appConfig.getBoolean(AppSettings.SUNFLOW_SAVE_IMAGES, false) == true );
 		p.popMatrix();
 		renderFrame();
-		showStats();
-		setAppDockIconAndTitle();
 		keyboardState.update();
-		midiState.update();
 		browserInputState.update();
 		if(oscState != null) oscState.update();
+		showStats();
+		setAppDockIconAndTitle();
 		if(renderer == PRenderers.PDF) finishPdfRender();
 	}
 	
