@@ -28,7 +28,7 @@ extends PAppletHax {
 
 	protected WETriangleMesh _mesh;
 
-	public void setup () {
+	public void setupFirstFrame () {
 		initWebCam();
 	}
 
@@ -45,7 +45,7 @@ extends PAppletHax {
 		}      
 	}
 
-	public void draw() {
+	public void drawApp() {
 		//		if(p.frameCount == 1) _webCam = new Capture(this, camera);
 
 		p.background( 0 );

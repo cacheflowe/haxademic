@@ -9,7 +9,8 @@ import com.haxademic.core.app.P;
 public class WebCamWrapper {
 
 	public static Capture webCam;
-	public static PImage lastFrame;
+	public static PImage lastFrame = new PImage(32, 32);
+	public static IWebCamCallback callbacks;
 
 	public static boolean initWebCam( PApplet p, int cameraIndex ) {
 		if( webCam == null ) {
@@ -24,6 +25,7 @@ public class WebCamWrapper {
 				for (int i = 0; i < cameras.length; i++) {
 					P.println("["+i+"] "+cameras[i]);
 				}
+				P.println("Selected camera:", cameras[cameraIndex]);
 				webCam = new Capture( p, cameras[cameraIndex] );
 				webCam.start();
 				return true;
@@ -32,16 +34,20 @@ public class WebCamWrapper {
 		return true;
 	}
 
-	public static PImage getImage() {
-		if(webCam == null) return null;
+	public static void update() {
 		if( webCam.available() == true ) {
 			webCam.read();
 			lastFrame = webCam;
-			return webCam;
-		} else {
-			// since webcam won't update as fast as 60fps, return the last frame
-			return lastFrame;
+			if(callbacks != null) callbacks.newFrame(lastFrame);
 		}
+	}
+	
+	public static PImage getImage() {
+		return lastFrame;
+	}
+	
+	public static void addWebCamCallback(IWebCamCallback obj) {
+		callbacks = obj;
 	}
 
 	public static void drawImage( PApplet p, int x, int y ){
