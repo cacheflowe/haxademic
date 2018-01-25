@@ -6,14 +6,13 @@ import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.constants.PRenderers;
 import com.haxademic.core.draw.filters.shaders.BlurHFilter;
 import com.haxademic.core.draw.filters.shaders.BlurVFilter;
+import com.haxademic.core.draw.filters.shaders.LeaveBlackFilter;
 import com.haxademic.core.draw.filters.shaders.SaturationFilter;
 import com.haxademic.core.draw.filters.shaders.SharpenFilter;
 import com.haxademic.core.draw.image.ImageUtil;
-import com.haxademic.core.file.FileUtil;
 
 import KinectPV2.KinectPV2;
 import processing.core.PGraphics;
-import processing.opengl.PShader;
 
 public class Kinect2SilhouetteRD
 extends PAppletHax {
@@ -22,7 +21,6 @@ extends PAppletHax {
 	
 	protected KinectPV2 kinect;
 	protected PGraphics buffer;
-	protected PShader leaveBlackShader;
 	protected int RD_ITERATIONS = 2;
 	
 	protected void overridePropsFile() {
@@ -39,8 +37,6 @@ extends PAppletHax {
 		kinect.enableBodyTrackImg(true);
 		kinect.enableInfraredImg(true);
 		kinect.init();
-		
-		leaveBlackShader = p.loadShader(FileUtil.getFile("shaders/filters/leave-black.glsl"));
 	}
 
 	protected void createBuffer() {
@@ -64,25 +60,27 @@ extends PAppletHax {
 	}
 	
 	public void drawApp() {
-		if(p.frameCount < 10  || p.frameCount % 200 == 0) p.background(20);
+		// only draw background at the start. also flash/reset screen every few seconds with almost-black (this still resolves to b&w from the RD functions);
+		if(p.frameCount < 10 || p.frameCount % 200 == 0) p.background(20);
 		
-//		p.debugView.setTexture(kinect.getColorImage());
-//		p.debugView.setTexture(kinect.getInfraredImage());
-//		p.debugView.setTexture(kinect.getDepthImage());
-//		p.debugView.setTexture(kinect.getBodyTrackImage());
-		
+		// lazy-init buffer when camera is ready
 		if(kinect.getBodyTrackImage().width > 10 && buffer == null) createBuffer();
+		
 		if(buffer != null) {
+			// set kinect silhouette on buffer
 			buffer.beginDraw();
 			buffer.clear();
 			buffer.image(kinect.getBodyTrackImage(), 0, 0);
 			buffer.endDraw();
-			buffer.filter(leaveBlackShader);
+			
+			// turn buffer white pixels to transparent 
+			LeaveBlackFilter.instance(p).applyTo(buffer);
 			p.debugView.setTexture(buffer);
 			
+			// fill transparent silhouette buffer to screen 
 			ImageUtil.cropFillCopyImage(buffer, p.g, true);
-//			p.image(buffer, 0, 0);
-			
+
+			// do reaction-diffusion feedback
 			applyRD();
 			
 			// ensure black & white
