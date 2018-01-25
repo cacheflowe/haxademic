@@ -68,7 +68,7 @@ extends PAppletHax {
 	protected InputTrigger nextTrigger = new InputTrigger(new char[]{'2'}, null, new Integer[]{LaunchControl.PAD_05}, null, new String[]{"button5"});
 	
 	protected ArrayList<float[]> animationStops = new ArrayList<float[]>();
-	protected boolean isAnimating = true;
+	protected boolean isAnimating = false;
 	protected int animateIndex = -1;
 	
 	// tempo-based animation
