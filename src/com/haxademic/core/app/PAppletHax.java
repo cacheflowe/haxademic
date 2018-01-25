@@ -96,6 +96,7 @@ extends PApplet
 	protected JoonsWrapper joons;
 
 	// input
+	public WebCamWrapper webCamWrapper = null;
 	public MidiState midiState = null;
 	public MidiBus midiBus;
 	public KeyboardState keyboardState;
@@ -229,6 +230,7 @@ extends PApplet
 	protected void initHaxademicObjects() {
 		if(p.appConfig.getFloat(AppSettings.LOOP_FRAMES, 0) != 0) loop = new AnimationLoop(p.appConfig.getFloat(AppSettings.LOOP_FRAMES, 0));
 		// save single reference for other objects
+		if( appConfig.getInt(AppSettings.WEBCAM_INDEX, -1) >= 0 ) webCamWrapper = new WebCamWrapper(appConfig.getInt(AppSettings.WEBCAM_INDEX, -1));
 		if( appConfig.getBoolean(AppSettings.INIT_ESS_AUDIO, true) == true ) {
 			_audioInput = new AudioInputWrapper( p, _isRenderingAudio );
 			_waveformData = new WaveformData( p, _audioInput.bufferSize() );
@@ -489,7 +491,7 @@ extends PApplet
 	////////////////////////
 	
 	public void stop() {
-		WebCamWrapper.dispose();
+		if(p.webCamWrapper != null) p.webCamWrapper.dispose();
 //		if( _launchpadViz != null ) _launchpadViz.dispose();
 		if( kinectWrapper != null ) {
 			kinectWrapper.stop();

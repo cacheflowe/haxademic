@@ -55,6 +55,7 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
 		p.appConfig.setProperty( AppSettings.WIDTH, "1280" );
 		p.appConfig.setProperty( AppSettings.HEIGHT, "720" );
+		p.appConfig.setProperty( AppSettings.WEBCAM_INDEX, 6 );
 	}
 
 	// INITIALIZE OBJECTS ===================================================================================
@@ -66,9 +67,6 @@ extends PAppletHax {
 //		blur = loadShader( FileUtil.getHaxademicDataPath()+"shaders/blur.glsl" ); 
 		
 		switch( inputType ) {
-			case WEBCAM :
-				WebCamWrapper.initWebCam( p, 0 );
-				break;
 			case VIDEO :
 				_frameGrabber = new VideoFrameGrabber( p, "/Users/cacheflowe/Documents/workspace/haxademic/assets/media/video/Janet Jackson - Control - trimmed.mov", 30, 100 );
 				break;
@@ -105,7 +103,7 @@ extends PAppletHax {
 		// capture source image
 		switch( inputType ) {
 			case WEBCAM :
-				_curFrame = WebCamWrapper.getImage();
+				_curFrame = p.webCamWrapper.getImage();
 				_curFrame = ImageUtil.getReversePImageFast( _curFrame );	// mirror mode
 				break;
 			case VIDEO :

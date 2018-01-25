@@ -36,6 +36,7 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
 		
 
+//		p.appConfig.setProperty( AppSettings.WEBCAM_INDEX, 6 );
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, ""+Math.round(_frames) );
 		p.appConfig.setProperty( AppSettings.RENDERING_GIF, "false" );
@@ -126,8 +127,7 @@ extends PAppletHax {
 	
 	public void drawImgWebCam() {
 		// float size = 24f;
-		WebCamWrapper.initWebCam( this, 0 );
-		image = ImageUtil.getScaledImage( WebCamWrapper.getImage(), 64, 48 );
+		image = ImageUtil.getScaledImage( p.webCamWrapper.getImage(), 64, 48 );
 		drawImgPyra();
 //		drawImgBoxes();
 	}

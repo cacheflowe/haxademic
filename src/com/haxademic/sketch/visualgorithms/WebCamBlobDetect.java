@@ -37,6 +37,7 @@ extends PAppletHax {
 	protected void overridePropsFile() {
 		p.appConfig.setProperty( AppSettings.WIDTH, 1280 );
 		p.appConfig.setProperty( AppSettings.HEIGHT, 720 );
+		p.appConfig.setProperty( AppSettings.WEBCAM_INDEX, 6 );
 		p.appConfig.setProperty( AppSettings.FULLSCREEN, false );
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, false );
 	}
@@ -52,30 +53,26 @@ extends PAppletHax {
 		theBlobDetection = new BlobDetection(img.width, img.height);
 		theBlobDetection.setPosDiscrimination(true);	// true if looking for dark objects
 		theBlobDetection.setThreshold(0.35f); // will detect bright areas whose luminosity > 0.2f;
-
-		WebCamWrapper.initWebCam(this, 5);
 	}
 
 	public void drawApp() {
 		background(0);
 
-		curFrame = WebCamWrapper.getImage();
-		if(curFrame != null) {
-			p.image(WebCamWrapper.webCam, 0, 0, p.width, p.height);
-	
-			// copy source to blob buffer, and blur it
-			img.copy(WebCamWrapper.webCam, 0, 0, curFrame.width, curFrame.height, 0, 0, img.width, img.height);
-			BlurHFilter.instance(p).setBlurByPercent(0.8f, img.width);
-			BlurHFilter.instance(p).applyTo(img);
-			BlurVFilter.instance(p).setBlurByPercent(0.8f, img.height);
-			BlurVFilter.instance(p).applyTo(img);
+		curFrame = p.webCamWrapper.getImage();
+		p.image(WebCamWrapper.webCam, 0, 0, p.width, p.height);
 
-			img.loadPixels();
-			// theBlobDetection.setThreshold(P.map(p.mouseX, 0, p.width, 0, 1));
-			theBlobDetection.computeBlobs(img.pixels);
-			
-			drawEdges2(true,true);
-		}
+		// copy source to blob buffer, and blur it
+		img.copy(WebCamWrapper.webCam, 0, 0, curFrame.width, curFrame.height, 0, 0, img.width, img.height);
+		BlurHFilter.instance(p).setBlurByPercent(0.8f, img.width);
+		BlurHFilter.instance(p).applyTo(img);
+		BlurVFilter.instance(p).setBlurByPercent(0.8f, img.height);
+		BlurVFilter.instance(p).applyTo(img);
+
+		img.loadPixels();
+		// theBlobDetection.setThreshold(P.map(p.mouseX, 0, p.width, 0, 1));
+		theBlobDetection.computeBlobs(img.pixels);
+		
+		drawEdges2(true,true);
 	}
 
 	// ==================================================
