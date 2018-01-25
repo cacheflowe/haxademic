@@ -65,5 +65,3 @@ implements IWebCamCallback {
 	}
 
 }
-
-//		p.image(WebCamWrapper.getImage(), 0, 0);
