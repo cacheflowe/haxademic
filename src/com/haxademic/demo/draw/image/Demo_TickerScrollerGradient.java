@@ -15,36 +15,48 @@ extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
 	protected TickerScroller ticker;
-	
+	int FRAMES = 400;
+		
 	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, 640 );
-		p.appConfig.setProperty( AppSettings.HEIGHT, 640 );
+		p.appConfig.setProperty(AppSettings.LOOP_FRAMES, FRAMES);
+		p.appConfig.setProperty(AppSettings.RENDERING_MOVIE, false);
+		p.appConfig.setProperty(AppSettings.RENDERING_MOVIE_START_FRAME, 1 );
+		p.appConfig.setProperty(AppSettings.RENDERING_MOVIE_STOP_FRAME, 1 + FRAMES);
 	}
 
-	public void setup() {
-		super.setup();
-		int COLOR_1 = p.color(0);
-		int COLOR_2 = p.color(127,0,127,0);
-		int COLOR_3 = p.color(127,0,0);
-		int COLOR_4 = p.color(0,127,127);
+	public void setupFirstFrame() {
+		int[] colors = new int[] {
+			ColorUtil.colorFromHex("#ff000000"),
+			ColorUtil.colorFromHex("#ff471D6C"),
+			ColorUtil.colorFromHex("#ffF5AB2C"),
+		};
 		
-		PGraphics img = p.createGraphics(p.width * 4, p.height, P.P2D);
+		int gradientW = P.round(p.width * 0.25f);
+		
+		PGraphics img = p.createGraphics(gradientW * colors.length, p.height, P.P3D);
+		img.smooth(8);
+		
 		img.beginDraw();
 		img.noStroke();
-		img.translate(p.width/2, p.height/2);
-		Gradients.linear(img, p.width, p.height, COLOR_1, COLOR_3);
-		img.translate(p.width, 0);
-		Gradients.linear(img, p.width, p.height, COLOR_3, COLOR_2);
-		img.translate(p.width, 0);
-		Gradients.linear(img, p.width, p.height, COLOR_2, COLOR_4);
-		img.translate(p.width, 0);
-		Gradients.linear(img, p.width, p.height, COLOR_4, COLOR_1);
+		img.translate(gradientW/2, p.height/2);
+		
+		for (int i = 0; i < colors.length; i++) {
+			Gradients.linear(img, gradientW, p.height, colors[i], colors[(i+1) % colors.length]);
+			img.translate(gradientW, 0);
+		}
+		
 		img.endDraw();
-		BlurHFilter.instance(p).setBlurByPercent(0.5f, img.width);
-		BlurHFilter.instance(p).setBlurByPercent(0.5f, img.width);
-		BlurHFilter.instance(p).setBlurByPercent(0.5f, img.width);
-		BlurHFilter.instance(p).setBlurByPercent(0.5f, img.width);
-		ticker = new TickerScroller(img, p.color(255), p.width, p.height, 4.f);
+		
+		// apply blur
+		BlurHFilter.instance(p).setBlurByPercent(0.15f, img.width);
+		for (int i = 0; i < 10; i++) BlurHFilter.instance(p).applyTo(img);
+		
+		// add to debug display
+		p.debugView.setTexture(img);
+		
+		// build ticker
+		float tickerLoopSpeed = (float) img.width / (float) FRAMES;
+		ticker = new TickerScroller(img, p.color(255), gradientW, p.height, tickerLoopSpeed);
 	}
 	
 	public void drawApp() {
@@ -53,8 +65,7 @@ extends PAppletHax {
 		
 		// draw buffer to screen
 		ticker.update();
-		p.image(ticker.image(), 0, 0);
+		p.image(ticker.image(), 0, 0, p.width, p.height);
 	}	
-
 }
 

@@ -18,7 +18,7 @@ implements IWebCamCallback {
 	protected ImageSequenceRecorder recorder;
 	
 	protected void overridePropsFile() {
-		p.appConfig.setProperty(AppSettings.WEBCAM_INDEX, 5 );
+		p.appConfig.setProperty(AppSettings.WEBCAM_INDEX, 6 );
 		p.appConfig.setProperty(AppSettings.SHOW_DEBUG, true );
 		p.appConfig.setProperty(AppSettings.FILLS_SCREEN, true );
 	}
