@@ -7,7 +7,6 @@ import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.webcam.IWebCamCallback;
-import com.haxademic.core.hardware.webcam.WebCamWrapper;
 
 import processing.core.PGraphics;
 import processing.core.PImage;
@@ -27,11 +26,11 @@ implements IWebCamCallback {
 	protected void overridePropsFile() {
 		p.appConfig.setProperty(AppSettings.WIDTH, 1280 );
 		p.appConfig.setProperty(AppSettings.HEIGHT, 720 );
+		p.appConfig.setProperty(AppSettings.WEBCAM_INDEX, 6 );
 	}
 		
 	public void setupFirstFrame () {
-		WebCamWrapper.initWebCam(p, 6);
-		WebCamWrapper.addWebCamCallback(this);
+		p.webCamWrapper.setDelegate(this);
 		
 		buffer1 = p.createGraphics(p.width, p.height, PRenderers.P3D);
 		buffer2 = p.createGraphics(p.width, p.height, PRenderers.P3D);
@@ -48,8 +47,7 @@ implements IWebCamCallback {
 		DrawUtil.setCenterScreen(p);
 		
 		// set debug info
-		WebCamWrapper.update();
-		p.debugView.setTexture(WebCamWrapper.getImage());
+		p.debugView.setTexture(p.webCamWrapper.getImage());
 		
 		p.filter(differenceShader);
 	}
@@ -59,7 +57,7 @@ implements IWebCamCallback {
 		// copy webcam to current buffer
 		curBuffer = (curBuffer == buffer1) ? buffer2 : buffer1;
 		lastBuffer = (curBuffer == buffer1) ? buffer2 : buffer1;
-		ImageUtil.cropFillCopyImage(WebCamWrapper.getImage(), curBuffer, true);
+		ImageUtil.cropFillCopyImage(p.webCamWrapper.getImage(), curBuffer, true);
 		
 		// run difference shader & draw to screen
 		differenceShader.set("tex1", curBuffer);
@@ -67,5 +65,3 @@ implements IWebCamCallback {
 	}
 
 }
-
-//		p.image(WebCamWrapper.getImage(), 0, 0);

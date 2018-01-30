@@ -16,6 +16,8 @@ extends PAppletHax {
 	
 	protected void overridePropsFile() {
 		int FRAMES = 140;
+//		p.appConfig.setProperty( AppSettings.SUNFLOW, true );
+//		p.appConfig.setProperty( AppSettings.SUNFLOW_ACTIVE, false );
 		p.appConfig.setProperty( AppSettings.LOOP_FRAMES, FRAMES );
 		p.appConfig.setProperty( AppSettings.WIDTH, 1000 );
 		p.appConfig.setProperty( AppSettings.HEIGHT, 800 );

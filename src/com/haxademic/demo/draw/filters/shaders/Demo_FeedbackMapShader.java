@@ -44,6 +44,7 @@ extends PAppletHax {
 	protected void overridePropsFile() {
 		p.appConfig.setProperty( AppSettings.WIDTH, W );
 		p.appConfig.setProperty( AppSettings.HEIGHT, H );
+		p.appConfig.setProperty( AppSettings.WEBCAM_INDEX, 3);
 		p.appConfig.setProperty( AppSettings.HIDE_CURSOR, true);
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, false );
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_START_FRAME, P.round(1 + frames * 3) );
@@ -127,7 +128,7 @@ extends PAppletHax {
 	
 	protected void updateMapWebcam() {
 		map.beginDraw();
-		if(WebCamWrapper.getImage() != null) ImageUtil.cropFillCopyImage(WebCamWrapper.getImage(), map, true);
+		ImageUtil.cropFillCopyImage(p.webCamWrapper.getImage(), map, true);
 		map.endDraw();
 	}
 	
