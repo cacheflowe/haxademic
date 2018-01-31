@@ -1,20 +1,18 @@
 package com.haxademic.demo.draw.shapes.shader;
 
 import com.haxademic.app.haxmapper.textures.BaseTexture;
-import com.haxademic.app.haxmapper.textures.TextureEQGrid;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.constants.PRenderers;
-import com.haxademic.core.draw.context.DrawUtil;
-import com.haxademic.core.draw.filters.shaders.MirrorFilter;
 import com.haxademic.core.draw.image.PerlinTexture;
 import com.haxademic.core.file.FileUtil;
 
 import processing.core.PConstants;
 import processing.core.PGraphics;
-import processing.core.PImage;
 import processing.core.PShape;
+import processing.opengl.PGraphicsOpenGL;
+import processing.opengl.PJOGL;
 import processing.opengl.PShader;
 
 public class Demo_VertexShader_PointsParticles_WIP 
@@ -25,14 +23,17 @@ extends PAppletHax {
 	protected BaseTexture audioTexture;
 
 	protected PShape shape;
-//	protected PImage texture;
 	protected PGraphics bufferPositions;
 	protected PGraphics bufferDirection;
+	protected PGraphics bufferAmp;
 	protected PShader positionMover;
 	protected PShader directionGenerator;
-	protected PGraphics bufferParticles;
+	protected PShader ampGenerator;
+	protected PGraphics bufferRenderedParticles;
 	protected PShader pointsParticleVertices;
-	float w = 1024;
+	protected PGraphics colorBuffer;
+	protected PShader colorMapShader;
+	float w = 512;
 	float h = 512;
 	int FRAMES = 300;
 
@@ -40,28 +41,39 @@ extends PAppletHax {
 		p.appConfig.setProperty(AppSettings.LOOP_FRAMES, FRAMES);
 		p.appConfig.setProperty(AppSettings.WIDTH, 768);
 		p.appConfig.setProperty(AppSettings.HEIGHT, 768);
-		p.appConfig.setProperty(AppSettings.FILLS_SCREEN, true);
+		p.appConfig.setProperty(AppSettings.FILLS_SCREEN, false);
 		p.appConfig.setProperty(AppSettings.RENDERING_MOVIE, false);
 		p.appConfig.setProperty(AppSettings.RENDERING_MOVIE_START_FRAME, 1 + FRAMES);
 		p.appConfig.setProperty(AppSettings.RENDERING_MOVIE_STOP_FRAME, 1 + FRAMES * 2);
 		p.appConfig.setProperty(AppSettings.SHOW_DEBUG, true);
 	}
+	
+	protected void setTextureQualityLow(PGraphics pg) {
+	    pg.hint(P.DISABLE_TEXTURE_MIPMAPS);
+	    ((PGraphicsOpenGL)pg).textureSampling(2);
+	}
 
 	protected void setupFirstFrame() {
+		PJOGL.profile = 4;
+		
 		// build offsecreen buffer (thing don't work the same on the main drawing surface)
 		bufferPositions = p.createGraphics((int) w, (int) h, PRenderers.P3D);
-		bufferPositions.smooth(8);
+		setTextureQualityLow(bufferPositions);
 		bufferDirection = p.createGraphics((int) w, (int) h, PRenderers.P3D);
-		bufferDirection.smooth(8);
-		bufferParticles = p.createGraphics(p.width, p.height, PRenderers.P3D);
-		bufferParticles.smooth(8);
+		bufferDirection.noSmooth();
+		bufferAmp = p.createGraphics((int) w, (int) h, PRenderers.P3D);
+		bufferRenderedParticles = p.createGraphics(p.width, p.height, PRenderers.P3D);
+		bufferRenderedParticles.smooth(8);
+		colorBuffer = p.createGraphics(p.width, p.height, PRenderers.P3D);
+		colorBuffer.smooth(8);
 		
 		// build displacement maps
 //		directionGenerator = p.loadShader(FileUtil.getFile("shaders/textures/cacheflowe-liquid-moire.glsl"));
 //		directionGenerator = p.loadShader(FileUtil.getFile("shaders/textures/iq-voronoise.glsl"));
-		directionGenerator = p.loadShader(FileUtil.getFile("shaders/textures/square-fade.glsl"));
+//		directionGenerator = p.loadShader(FileUtil.getFile("shaders/textures/square-fade.glsl"));
 		directionGenerator = p.loadShader(FileUtil.getFile("shaders/textures/noise-simplex-2d-iq.glsl"));
-//		directionGenerator = p.loadShader(FileUtil.getFile("shaders/textures/light-leak.glsl"));
+		ampGenerator = p.loadShader(FileUtil.getFile("shaders/textures/noise-simplex-2d-iq.glsl"));
+		colorMapShader = p.loadShader(FileUtil.getFile("shaders/textures/light-leak.glsl"));
 
 		// build particle mover shader - uses displacement map to move particles
 		positionMover = p.loadShader(FileUtil.getFile("shaders/point/particle-mover-frag.glsl"));
@@ -96,7 +108,6 @@ extends PAppletHax {
 	public void resetParticlePositions() {
 		bufferPositions.beginDraw();
 		bufferPositions.background(127);					// start in center
-		bufferPositions.filter(directionGenerator);		// start randomized positions with noise
 		bufferPositions.endDraw();
 	}
 	
@@ -109,44 +120,50 @@ extends PAppletHax {
 		// clear the screen
 		background(0);
 		
-		// update displacement texture
-		directionGenerator.set("time", p.frameCount * 0.02f);
+		// update colors
+		colorMapShader.set("time", p.frameCount * 0.004f);
+		colorBuffer.filter(colorMapShader);
+		p.debugView.setTexture(colorBuffer);
+
+		// update direction texture
+		directionGenerator.set("time", p.frameCount * 0.004f);
+		directionGenerator.set("zoom", 3f + 1f * P.sin(p.frameCount * 0.01f));
 		bufferDirection.filter(directionGenerator);				// noise to change directions
 		p.debugView.setTexture(bufferDirection);
 
-		// override direction with basic black-white gradient for debugging
-//		bufferDirection.beginDraw();
-//		int color = P.round(127f + 127f * P.sin((float)p.frameCount * 0.01f));
-//		p.debugView.setValue("direction color", color);
-//		bufferDirection.background(color);
-//		bufferDirection.endDraw();
-
+		// update amp texture
+		ampGenerator.set("zoom", 2f);
+		ampGenerator.set("time", (p.frameCount + 1000) * 0.004f);
+		bufferAmp.filter(ampGenerator);				// noise to change directions
+		p.debugView.setTexture(bufferAmp);
+		
 		// update particle positions
 		positionMover.set("directionMap", bufferDirection);
+		positionMover.set("ampMap", bufferAmp);
 		positionMover.set("amp", P.map(p.mouseX, 0, p.width, 0.001f, 0.05f));
 		bufferPositions.filter(positionMover);
 		p.debugView.setTexture(bufferPositions);
 		
 		// move to screen center
-		bufferParticles.beginDraw();
-		bufferParticles.background(0);
+		bufferRenderedParticles.beginDraw();
+		bufferRenderedParticles.background(0);
 //		bufferParticles.translate(bufferParticles.width/2f, bufferParticles.height/2f, 0);
-		
 		// draw vertex points. strokeWeight w/disableStyle works here for point size
-		shape.disableStyle();
-		bufferParticles.strokeWeight(1f);
+//		shape.disableStyle();
+		bufferRenderedParticles.strokeWeight(1f);
 		pointsParticleVertices.set("positionMap", bufferPositions);
-		pointsParticleVertices.set("pointSize", 1f); // 2.5f + 1.5f * P.sin(P.TWO_PI * percentComplete));
+		pointsParticleVertices.set("colorMap", colorBuffer);
+		pointsParticleVertices.set("pointSize", 2f); // 2.5f + 1.5f * P.sin(P.TWO_PI * percentComplete));
 		pointsParticleVertices.set("width", (float) p.width);
 		pointsParticleVertices.set("height", (float) p.height);
-		bufferParticles.shader(pointsParticleVertices);  	// update positions
-		bufferParticles.shape(shape);					// draw vertices
-		bufferParticles.resetShader();
-		bufferParticles.endDraw();
-		p.debugView.setTexture(bufferParticles);
+		bufferRenderedParticles.shader(pointsParticleVertices);  	// update positions
+		bufferRenderedParticles.shape(shape);					// draw vertices
+		bufferRenderedParticles.resetShader();
+		bufferRenderedParticles.endDraw();
+		p.debugView.setTexture(bufferRenderedParticles);
 
 		// draw buffer to screen
-		p.image(bufferParticles, 0, 0);
+		p.image(bufferRenderedParticles, 0, 0);
 	}
 		
 }

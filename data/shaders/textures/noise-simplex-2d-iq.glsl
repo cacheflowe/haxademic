@@ -12,6 +12,7 @@ varying vec4 vertColor;
 varying vec4 vertTexCoord;
 
 uniform float time;
+uniform float zoom = 2.;
 uniform vec2 resolution;
 
 
@@ -58,7 +59,7 @@ void main()
 {
     vec2 p = vertTexCoord.xy;
 	vec2 uv = p*vec2((texOffset.x)/texOffset.y,1.0);
-
+	uv *= zoom;
 	uv.x += time;
 
 	float f = 0.0;

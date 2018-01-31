@@ -43,6 +43,7 @@ uniform sampler2D positionMap;
 uniform float pointSize = 1.;
 uniform float width = 256.;
 uniform float height = 256.;
+uniform sampler2D colorMap;
 
 attribute vec2 texCoord;
 attribute vec3 normal;
@@ -63,6 +64,7 @@ vec4 windowToClipVector(vec2 window, vec4 viewport, float clipw) {
 void main() {
   // use point's original position (0-1) as its uv value
   vec4 textureColor = texture2D( positionMap, vertex.xy ); // rgba color of displacement map
+  vec4 color = texture2D( colorMap, vertex.xy ); // rgba color of displacement map
 
   // calc index of this vertex for positioning use
   float totalVerts = width * height;
@@ -73,9 +75,9 @@ void main() {
 
   // custom vertex manipulation?
   vec4 mixedVert = vertex;
-  mixedVert.x = x;
-  mixedVert.y = y;
-  mixedVert.z = 0;
+  mixedVert.x = x + color.g * 30.; // use color components to shift slightly to obscure grid
+  mixedVert.y = y + color.b * 30.;
+  mixedVert.z = (color.r - 0.5) * width * 0.75;
 
   // custom point size - use color to grow point
   float finalPointSize = pointSize;
@@ -99,6 +101,6 @@ void main() {
   // use original vertex color
   // vertColor = color;
   // or instead, use texture-mapped color :)
-  vertColor = textureColor;
-  // vertColor = vec4(1.);
+  vertColor = vec4(color.r * 5., color.g * 5, color.b * 5, 0.5);
+  // vertColor = vec4(1., 1., 1., 0.4);
 }
