@@ -64,8 +64,22 @@ void main()
 	float f = 0.0;
 
     // left: value noise
+	if( p.x<0.6 )
+	{
 		f = noise( 1.0*uv );
-		f = 0.5 + 0.5*f;
+	}
+    // right: fractal noise (4 octaves)
+    else
+	{
+		uv *= 5.0;
+        mat2 m = mat2( 1.6,  1.2, -1.2,  1.6 );
+		f  = 0.5000*noise( uv ); uv = m*uv;
+		f += 0.2500*noise( uv ); uv = m*uv;
+		f += 0.1250*noise( uv ); uv = m*uv;
+		f += 0.0625*noise( uv ); uv = m*uv;
+	}
+
+	f = 0.5 + 0.5*f;
 
     f *= smoothstep( 0.0, 0.005, abs(p.x-0.6) );
 
