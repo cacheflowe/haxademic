@@ -66,7 +66,7 @@ extends PAppletHax { public static void main(String args[]) { PAppletHax.main(Th
 			new TextureShader(TextureShader.cacheflowe_scrolling_radial_twist),
 			new TextureShader(TextureShader.cacheflowe_squound_tunnel),
 			new TextureShader(TextureShader.cacheflowe_stripe_waves),
-			new TextureShader(TextureShader.cacheflowe_triangle_wobble_stairs),
+//			new TextureShader(TextureShader.cacheflowe_triangle_wobble_stairs),
 			new TextureShader(TextureShader.cacheflowe_warp_vortex),
 			new TextureShader(TextureShader.circle_parts_rotate),
 //			new TextureShader(TextureShader.clouds_iq),
