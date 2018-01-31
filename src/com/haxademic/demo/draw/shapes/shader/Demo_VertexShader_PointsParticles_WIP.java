@@ -29,18 +29,18 @@ extends PAppletHax {
 	protected PGraphics bufferPositions;
 	protected PGraphics bufferDirection;
 	protected PShader positionMover;
-	protected PShader displacementGenerator;
+	protected PShader directionGenerator;
 	protected PGraphics bufferParticles;
 	protected PShader pointsParticleVertices;
-	float w = 32;//1024;
-	float h = 32;//512;
+	float w = 1024;
+	float h = 512;
 	int FRAMES = 300;
 
 	protected void overridePropsFile() {
 		p.appConfig.setProperty(AppSettings.LOOP_FRAMES, FRAMES);
-		p.appConfig.setProperty(AppSettings.WIDTH, 1024);
-		p.appConfig.setProperty(AppSettings.HEIGHT, 512);
-		p.appConfig.setProperty(AppSettings.FULLSCREEN, false);
+		p.appConfig.setProperty(AppSettings.WIDTH, 768);
+		p.appConfig.setProperty(AppSettings.HEIGHT, 768);
+		p.appConfig.setProperty(AppSettings.FILLS_SCREEN, true);
 		p.appConfig.setProperty(AppSettings.RENDERING_MOVIE, false);
 		p.appConfig.setProperty(AppSettings.RENDERING_MOVIE_START_FRAME, 1 + FRAMES);
 		p.appConfig.setProperty(AppSettings.RENDERING_MOVIE_STOP_FRAME, 1 + FRAMES * 2);
@@ -57,11 +57,11 @@ extends PAppletHax {
 		bufferParticles.smooth(8);
 		
 		// build displacement maps
-//		displacementGenerator = p.loadShader(FileUtil.getFile("shaders/textures/cacheflowe-liquid-moire.glsl"));
-//		displacementGenerator = p.loadShader(FileUtil.getFile("shaders/textures/iq-voronoise.glsl"));
-		displacementGenerator = p.loadShader(FileUtil.getFile("shaders/textures/square-fade.glsl"));
-		displacementGenerator = p.loadShader(FileUtil.getFile("shaders/textures/noise-simplex-2d-iq.glsl"));
-//		displacementGenerator = p.loadShader(FileUtil.getFile("shaders/textures/light-leak.glsl"));
+//		directionGenerator = p.loadShader(FileUtil.getFile("shaders/textures/cacheflowe-liquid-moire.glsl"));
+//		directionGenerator = p.loadShader(FileUtil.getFile("shaders/textures/iq-voronoise.glsl"));
+		directionGenerator = p.loadShader(FileUtil.getFile("shaders/textures/square-fade.glsl"));
+		directionGenerator = p.loadShader(FileUtil.getFile("shaders/textures/noise-simplex-2d-iq.glsl"));
+//		directionGenerator = p.loadShader(FileUtil.getFile("shaders/textures/light-leak.glsl"));
 
 		// build particle mover shader - uses displacement map to move particles
 		positionMover = p.loadShader(FileUtil.getFile("shaders/point/particle-mover-frag.glsl"));
@@ -95,7 +95,8 @@ extends PAppletHax {
 
 	public void resetParticlePositions() {
 		bufferPositions.beginDraw();
-		bufferPositions.background(127);	// start in center
+		bufferPositions.background(127);					// start in center
+		bufferPositions.filter(directionGenerator);		// start randomized positions with noise
 		bufferPositions.endDraw();
 	}
 	
@@ -109,12 +110,20 @@ extends PAppletHax {
 		background(0);
 		
 		// update displacement texture
-		displacementGenerator.set("time", p.frameCount * 0.001f);
-		bufferDirection.filter(displacementGenerator);
+		directionGenerator.set("time", p.frameCount * 0.02f);
+		bufferDirection.filter(directionGenerator);				// noise to change directions
 		p.debugView.setTexture(bufferDirection);
-		
+
+		// override direction with basic black-white gradient for debugging
+//		bufferDirection.beginDraw();
+//		int color = P.round(127f + 127f * P.sin((float)p.frameCount * 0.01f));
+//		p.debugView.setValue("direction color", color);
+//		bufferDirection.background(color);
+//		bufferDirection.endDraw();
+
 		// update particle positions
 		positionMover.set("directionMap", bufferDirection);
+		positionMover.set("amp", P.map(p.mouseX, 0, p.width, 0.001f, 0.05f));
 		bufferPositions.filter(positionMover);
 		p.debugView.setTexture(bufferPositions);
 		
@@ -127,7 +136,7 @@ extends PAppletHax {
 		shape.disableStyle();
 		bufferParticles.strokeWeight(1f);
 		pointsParticleVertices.set("positionMap", bufferPositions);
-		pointsParticleVertices.set("pointSize", 5f); // 2.5f + 1.5f * P.sin(P.TWO_PI * percentComplete));
+		pointsParticleVertices.set("pointSize", 1f); // 2.5f + 1.5f * P.sin(P.TWO_PI * percentComplete));
 		pointsParticleVertices.set("width", (float) p.width);
 		pointsParticleVertices.set("height", (float) p.height);
 		bufferParticles.shader(pointsParticleVertices);  	// update positions

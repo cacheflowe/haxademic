@@ -1,5 +1,5 @@
 #ifdef GL_ES
-precision mediump float;
+precision highp float;
 precision mediump int;
 #endif
 
@@ -10,7 +10,7 @@ varying vec4 vertColor;
 varying vec4 vertTexCoord;
 
 uniform sampler2D directionMap;
-uniform float amp = 0.0025;
+uniform float amp = 0.05;
 
 float TWO_PI = radians(360);
 
@@ -26,6 +26,10 @@ vec2 wrappedPos(vec2 pos) {
   if(pos.y < 0.) pos.y += 1.;
   return pos;
 }
+vec2 resetPos(vec2 pos) {
+  if(pos.x > 1. || pos.x < 0. || pos.y > 1. || pos.y < 0.) pos = vec2(0.5);
+  return pos;
+}
 
 void main() {
 	vec2 p = vertTexCoord.xy;
@@ -35,8 +39,8 @@ void main() {
 
   // get map color -> rotation
   vec4 dir = texture2D(directionMap, p);
-  float rotation = rgbToGray(dir) * TWO_PI;
-  // float rotation = dir.r; // * TWO_PI;
+  float rotation = rgbToGray(dir) * TWO_PI * 3.;
+  // float rotation = dir.r * TWO_PI;
 
   // move
   // float curAmp = rgbToGray(dir) * amp;
@@ -47,6 +51,7 @@ void main() {
   // pos.x += amp;
   // pos.y += 0.01 * rgbToGray(dir) * sin(dir.y * TWO_PI);
 
-  pos = wrappedPos(pos);
+	// pos = wrappedPos(pos);
+	pos = resetPos(pos);
   gl_FragColor = vec4(pos.x, pos.y, 0., 1.);
 }
