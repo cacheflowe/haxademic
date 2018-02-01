@@ -5,8 +5,10 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.constants.PRenderers;
+import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.image.PerlinTexture;
 import com.haxademic.core.file.FileUtil;
+import com.jogamp.opengl.GL;
 
 import processing.core.PConstants;
 import processing.core.PGraphics;
@@ -15,7 +17,7 @@ import processing.opengl.PGraphicsOpenGL;
 import processing.opengl.PJOGL;
 import processing.opengl.PShader;
 
-public class Demo_VertexShader_PointsParticles_WIP 
+public class Demo_VertexShader_GPUParticles 
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
@@ -48,17 +50,18 @@ extends PAppletHax {
 		p.appConfig.setProperty(AppSettings.SHOW_DEBUG, true);
 	}
 	
-	protected void setTextureQualityLow(PGraphics pg) {
-	    pg.hint(P.DISABLE_TEXTURE_MIPMAPS);
-	    ((PGraphicsOpenGL)pg).textureSampling(2);
-	}
-
 	protected void setupFirstFrame() {
 		PJOGL.profile = 4;
 		
-		// build offsecreen buffer (thing don't work the same on the main drawing surface)
+		// build offscreen buffer (thing don't work the same on the main drawing surface)
+		// We need a 32-bit float texture!
+		// GL.GL_RGBA32F - but how?
+		// int format = GL.GL_RGBA32F;
+		// - https://github.com/processing/processing/issues/3321
+		// - https://www.javatips.net/api/com.jogamp.opengl.gl2
+		// - http://forum.jogamp.org/GL-RGBA32F-with-glTexImage2D-td4035766.html
 		bufferPositions = p.createGraphics((int) w, (int) h, PRenderers.P3D);
-		setTextureQualityLow(bufferPositions);
+		OpenGLUtil.setTextureQualityLow(bufferPositions);		// necessary for proper texel lookup!
 		bufferDirection = p.createGraphics((int) w, (int) h, PRenderers.P3D);
 		bufferDirection.noSmooth();
 		bufferAmp = p.createGraphics((int) w, (int) h, PRenderers.P3D);
