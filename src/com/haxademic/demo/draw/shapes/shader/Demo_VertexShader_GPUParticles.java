@@ -4,6 +4,7 @@ import com.haxademic.app.haxmapper.textures.BaseTexture;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
+import com.haxademic.core.constants.PBlendModes;
 import com.haxademic.core.constants.PRenderers;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.image.PerlinTexture;
@@ -35,8 +36,8 @@ extends PAppletHax {
 	protected PShader pointsParticleVertices;
 	protected PGraphics colorBuffer;
 	protected PShader colorMapShader;
-	float w = 512;
-	float h = 512;
+	float w = 1024;
+	float h = 1024;
 	int FRAMES = 300;
 
 	protected void overridePropsFile() {
@@ -153,10 +154,13 @@ extends PAppletHax {
 //		bufferParticles.translate(bufferParticles.width/2f, bufferParticles.height/2f, 0);
 		// draw vertex points. strokeWeight w/disableStyle works here for point size
 //		shape.disableStyle();
+		bufferRenderedParticles.translate(0, -p.height * 0.3f, -p.height);
+		bufferRenderedParticles.rotateX(1.2f);
 		bufferRenderedParticles.strokeWeight(1f);
+		bufferRenderedParticles.blendMode(PBlendModes.ADD);
 		pointsParticleVertices.set("positionMap", bufferPositions);
 		pointsParticleVertices.set("colorMap", colorBuffer);
-		pointsParticleVertices.set("pointSize", 2f); // 2.5f + 1.5f * P.sin(P.TWO_PI * percentComplete));
+		pointsParticleVertices.set("pointSize", 1f); // 2.5f + 1.5f * P.sin(P.TWO_PI * percentComplete));
 		pointsParticleVertices.set("width", (float) p.width);
 		pointsParticleVertices.set("height", (float) p.height);
 		bufferRenderedParticles.shader(pointsParticleVertices);  	// update positions

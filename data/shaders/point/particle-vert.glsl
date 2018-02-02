@@ -75,9 +75,12 @@ void main() {
 
   // custom vertex manipulation?
   vec4 mixedVert = vertex;
-  mixedVert.x = x + color.g * 30.; // use color components to shift slightly to obscure grid
-  mixedVert.y = y + color.b * 30.;
-  mixedVert.z = (color.r - 0.5) * width * 0.75;
+  mixedVert.x = x + color.g; // use color components to shift slightly to obscure grid
+  mixedVert.y = y + color.b;
+  mixedVert.z = (color.r - 0.5) * width * 2.; // (color.r - 0.5) * width * 0.75;
+
+  // adjust to reduce pixelation
+  mixedVert += vec4(color.r * 10., color.g * 10., 0., 0.);
 
   // custom point size - use color to grow point
   float finalPointSize = pointSize;
@@ -101,6 +104,7 @@ void main() {
   // use original vertex color
   // vertColor = color;
   // or instead, use texture-mapped color :)
-  vertColor = vec4(color.r * 5., color.g * 5, color.b * 5, 0.5);
+  float colorMult = 3.;
+  vertColor = vec4(color.rgb * colorMult, 0.5);
   // vertColor = vec4(1., 1., 1., 0.4);
 }

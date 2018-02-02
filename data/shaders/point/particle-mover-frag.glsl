@@ -36,7 +36,8 @@ void main() {
   float rot = texelColor.b;
 
   // get map color -> rotation
-  float ampFromMap = (0.25 + 0.75 * texture2D(ampMap, p).r) * 0.025;
+	float ampCol = texture2D(ampMap, p).r;
+  float ampFromMap = (0.25 + 0.75 * ampCol) * 0.025;
   vec4 targetDir = texture2D(directionMap, pos); // texture2D(directionMap, p)			// now getting direction from current position in direction map
   float rotEased = mix(rot, targetDir.r, 0.2);
 	float rotation = rotEased * TWO_PI * 2.;
@@ -44,9 +45,10 @@ void main() {
   // move
   pos.x = pos.x + ampFromMap * cos(rotation);
   pos.y = pos.y + ampFromMap * sin(rotation);
+	float z = 1.; // 0.5 + 0.5 * sin(ampCol * TWO_PI * 4.);
 
 	// wrap position and write back to texture
 	pos = wrappedPos(pos);
 	// pos = resetPos(pos);
-  gl_FragColor = vec4(pos.x, pos.y, rotEased, 1.);
+  gl_FragColor = vec4(pos.x, pos.y, rotEased, z);
 }
