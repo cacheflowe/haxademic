@@ -41,6 +41,7 @@ import com.haxademic.core.system.SystemUtil;
 import de.voidplus.leapmotion.LeapMotion;
 import krister.Ess.AudioInput;
 import processing.core.PApplet;
+import processing.opengl.PJOGL;
 import processing.video.Movie;
 import themidibus.MidiBus;
 
@@ -180,6 +181,7 @@ extends PApplet
 	}
 	
 	protected void setRenderer() {
+		PJOGL.profile = 4;
 		renderer = p.appConfig.getString(AppSettings.RENDERER, P.P3D);
 		if(p.appConfig.getBoolean(AppSettings.SPAN_SCREENS, false) == true) {
 			// run fullscreen across all screens
