@@ -25,7 +25,7 @@ extends PAppletHax {
 	protected float _tileSize = 160;
 
 	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.FPS, "30" );
+//		p.appConfig.setProperty( AppSettings.FPS, "30" );
 		p.appConfig.setProperty( AppSettings.FILLS_SCREEN, "false" );
 		
 		p.appConfig.setProperty( AppSettings.WIDTH, "640" );

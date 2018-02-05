@@ -13,3 +13,4 @@ varying vec4 vertTexCoord;
 void main() {
   gl_FragColor = vec4(2.0 * abs(sin(vertTexCoord.x * 2.0)), 2.0 * abs(sin(vertTexCoord.y * 2.0)), 2.0 * abs(sin(vertTexCoord.x * 2.0 - vertTexCoord.y * 2.0)), 1.0);
 }
+
