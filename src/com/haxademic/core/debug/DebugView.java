@@ -30,6 +30,7 @@ public class DebugView {
 	public DebugView( PApplet p ) {
 		this.p = p;
 		// for some reason, these were tanking app launches
+		updateAppInfo();
 		new Thread(new Runnable() { public void run() {
 			debugFont = p.createFont("Arial", fontSize);
 			ipAddress = IPAddress.getLocalAddress();
