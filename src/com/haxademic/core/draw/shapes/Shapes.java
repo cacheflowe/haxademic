@@ -318,9 +318,39 @@ public class Shapes {
 		return sh;
 	}
 	
+	public static PShape createSheet(int detail, float width, float height) {
+		P.p.textureMode(P.NORMAL); 
+		P.println("Shapes.createSheet() setting textureMode is weird to do here... Maybe should be PAppletHax default?");
+		PShape sh = P.p.createShape();
+		sh.beginShape(P.QUADS);
+		sh.noStroke();
+//		sh.texture(tex);
+		float cellW = width / detail;
+		float cellH = height / detail;
+		int numVertices = 0;
+		for (int col = 0; col < width; col += cellW) {
+			for (int row = 0; row < height; row += cellH) {
+				float xU = col;
+				float yV = row;
+				float x = -width/2f + xU;
+				float y = -height/2f + yV;
+				float z = 0;
+				sh.normal(x, y, z);
+				sh.vertex(x, y, z, P.map(xU, 0, width, 0, 1), P.map(yV, 0, height, 0, 1));
+				sh.vertex(x, y + cellH, z, P.map(xU, 0, width, 0, 1), P.map(yV + cellH, 0, height, 0, 1));    
+				sh.vertex(x + cellW, y + cellH, z, P.map(xU + cellW, 0, width, 0, 1), P.map(yV + cellH, 0, height, 0, 1));    
+				sh.vertex(x + cellW, y, z, P.map(xU + cellW, 0, width, 0, 1), P.map(yV, 0, height, 0, 1));
+				numVertices += 4;
+			}
+		}
+		P.println("createSheet() vertices:", numVertices);
+		sh.endShape(); 
+		return sh;
+	}
+	
 	public static PShape createSheet(int detail, PImage tex) {
 		P.p.textureMode(P.NORMAL); 
-		P.println("Shapes.createSheet() setting textureMode is weird... Maybe should be PAppletHax default?");
+		P.println("Shapes.createSheet() setting textureMode is weird to do here... Maybe should be PAppletHax default?");
 		PShape sh = P.p.createShape();
 		sh.beginShape(P.QUADS);
 		sh.noStroke();
