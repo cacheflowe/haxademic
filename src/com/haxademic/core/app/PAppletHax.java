@@ -132,9 +132,21 @@ extends PApplet
 		AppUtil.setFrameBackground(p,0,0,0);
 		loadAppConfig();
 		overridePropsFile();
+		setAppIcon();
 		setRenderer();
 		setSmoothing();
 		setRetinaScreen();
+	}
+	
+	protected void loadAppConfig() {
+		appConfig = new P5Properties(p);
+		if( customPropsFile != null ) appConfig.loadPropertiesFile( customPropsFile );
+		customPropsFile = null;
+	}
+	
+	public void setAppIcon() {
+		String appIconFile = p.appConfig.getString(AppSettings.APP_ICON, "haxademic/images/haxademic-logo.png");
+		PJOGL.setIcon(FileUtil.getFile(appIconFile));
 	}
 	
 	public void setup () {
@@ -143,12 +155,6 @@ extends PApplet
 		checkScreenManualPosition();
 		if(renderer != PRenderers.PDF) debugView = new DebugView( p );
 		_stats = new Stats( p );
-	}
-	
-	protected void loadAppConfig() {
-		appConfig = new P5Properties(p);
-		if( customPropsFile != null ) appConfig.loadPropertiesFile( customPropsFile );
-		customPropsFile = null;
 	}
 	
 	////////////////////////

@@ -15,6 +15,7 @@ public class AppSettings {
 	public static final String ALWAYS_ON_TOP = "always_on_top";
 	public static final String RETINA = "is_retina";
 	public static final String APP_NAME = "app_name";
+	public static final String APP_ICON = "app_icon";
 	public static final String SMOOTHING = "smoothing";
 	public static final int SMOOTH_NONE = 0;
 	public static final int SMOOTH_LOW = 2;
