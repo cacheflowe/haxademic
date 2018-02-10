@@ -1,13 +1,11 @@
 package com.haxademic.demo.draw.shapes.shader;
 
-import com.haxademic.app.haxmapper.textures.BaseTexture;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.constants.PBlendModes;
 import com.haxademic.core.constants.PRenderers;
 import com.haxademic.core.draw.context.OpenGLUtil;
-import com.haxademic.core.draw.image.PerlinTexture;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.MathUtil;
 
@@ -19,9 +17,6 @@ import processing.opengl.PShader;
 public class Demo_VertexShader_GPUParticlesSimple 
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
-
-	protected PerlinTexture perlin;
-	protected BaseTexture audioTexture;
 
 	protected PShape shape;
 	protected PGraphics bufferPositions;

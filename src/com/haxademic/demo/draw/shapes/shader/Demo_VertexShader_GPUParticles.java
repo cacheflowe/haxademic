@@ -52,8 +52,6 @@ extends PAppletHax {
 	}
 	
 	protected void setupFirstFrame() {
-		PJOGL.profile = 4;
-		
 		// build offscreen buffer (thing don't work the same on the main drawing surface)
 		// We need a 32-bit float texture!
 		// GL.GL_RGBA32F - but how?
