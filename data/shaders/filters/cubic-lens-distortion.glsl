@@ -35,7 +35,7 @@ vec2 computeUV( vec2 uv, float k, float kcube ){
 void main() {
   vec2 uv = vertTexCoord.xy;
   uv.y = 1. - uv.y; // flip y
-  uv.x *= texOffset.y / texOffset.x;		// Correct for aspect ratio
+  // uv.x *= texOffset.y / texOffset.x;		// Correct for aspect ratio
 
   float k = 1.0 * (amp * (.9 * separation));
   float kcube = .5 * (amp);
