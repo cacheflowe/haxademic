@@ -35,7 +35,7 @@ import com.haxademic.core.draw.filters.shaders.BadTVLinesFilter;
 import com.haxademic.core.draw.filters.shaders.BlurProcessingFilter;
 import com.haxademic.core.draw.filters.shaders.BrightnessFilter;
 import com.haxademic.core.draw.filters.shaders.ColorDistortionFilter;
-import com.haxademic.core.draw.filters.shaders.CubicLensDistortionFilter;
+import com.haxademic.core.draw.filters.shaders.CubicLensDistortionFilterOscillate;
 import com.haxademic.core.draw.filters.shaders.DeformBloomFilter;
 import com.haxademic.core.draw.filters.shaders.DeformTunnelFanFilter;
 import com.haxademic.core.draw.filters.shaders.EdgesFilter;
@@ -878,8 +878,8 @@ extends PAppletHax {
 //			} else if(textureEffectIndex == 9) {
 //				EdgesFilter.instance(p).applyTo(pg);
 		} else if(textureEffectIndex == 10) {
-			CubicLensDistortionFilter.instance(p).setTime(filterTime);
-			CubicLensDistortionFilter.instance(p).applyTo(pg);
+			CubicLensDistortionFilterOscillate.instance(p).setTime(filterTime);
+			CubicLensDistortionFilterOscillate.instance(p).applyTo(pg);
 		} else if(textureEffectIndex == 11) {
 			SphereDistortionFilter.instance(p).applyTo(pg);
 		} else if(textureEffectIndex == 12) {

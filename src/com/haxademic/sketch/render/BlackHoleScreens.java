@@ -7,7 +7,7 @@ import com.haxademic.core.constants.PBlendModes;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.filters.shaders.ChromaColorFilter;
-import com.haxademic.core.draw.filters.shaders.CubicLensDistortionFilter;
+import com.haxademic.core.draw.filters.shaders.CubicLensDistortionFilterOscillate;
 import com.haxademic.core.draw.filters.shaders.RadialRipplesFilter;
 import com.haxademic.core.draw.filters.shaders.SphereDistortionFilter;
 import com.haxademic.core.draw.filters.shaders.VignetteFilter;

@@ -7,7 +7,7 @@ import com.haxademic.core.constants.PBlendModes;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.filters.shaders.ChromaColorFilter;
-import com.haxademic.core.draw.filters.shaders.CubicLensDistortionFilter;
+import com.haxademic.core.draw.filters.shaders.CubicLensDistortionFilterOscillate;
 import com.haxademic.core.draw.filters.shaders.RadialRipplesFilter;
 import com.haxademic.core.draw.filters.shaders.SphereDistortionFilter;
 import com.haxademic.core.draw.filters.shaders.VignetteFilter;
@@ -174,8 +174,8 @@ extends PAppletHax {
 		RadialRipplesFilter.instance(p).setAmplitude(-0.2f);
 		RadialRipplesFilter.instance(p).applyTo(pg);
 
-		CubicLensDistortionFilter.instance(p).setTime(-1.0f + 1f * P.sin(radsComplete));
-		CubicLensDistortionFilter.instance(p).applyTo(pg);
+		CubicLensDistortionFilterOscillate.instance(p).setTime(-1.0f + 1f * P.sin(radsComplete));
+		CubicLensDistortionFilterOscillate.instance(p).applyTo(pg);
 		
 		pg.endDraw();
 	}
