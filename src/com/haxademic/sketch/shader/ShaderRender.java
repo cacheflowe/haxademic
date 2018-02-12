@@ -7,7 +7,7 @@ import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.filters.shaders.BrightnessFilter;
 import com.haxademic.core.draw.filters.shaders.ColorDistortionFilter;
 import com.haxademic.core.draw.filters.shaders.ContrastFilter;
-import com.haxademic.core.draw.filters.shaders.CubicLensDistortionFilter;
+import com.haxademic.core.draw.filters.shaders.CubicLensDistortionFilterOscillate;
 import com.haxademic.core.draw.filters.shaders.DeformTunnelFanFilter;
 import com.haxademic.core.draw.filters.shaders.EdgesFilter;
 import com.haxademic.core.draw.filters.shaders.KaleidoFilter;
@@ -75,8 +75,8 @@ extends PAppletHax {
 		RadialRipplesFilter.instance(p).setAmplitude(0.5f + 0.5f * P.sin(radsComplete));
 		RadialRipplesFilter.instance(p).applyTo(p);
 
-		CubicLensDistortionFilter.instance(p).setTime(1f + P.sin(radsComplete));
-		CubicLensDistortionFilter.instance(p).applyTo(p);
+		CubicLensDistortionFilterOscillate.instance(p).setTime(1f + P.sin(radsComplete));
+		CubicLensDistortionFilterOscillate.instance(p).applyTo(p);
 		
 //		DeformBloomFilter.instance(p).setTime(p.frameCount / 40f);
 //		DeformBloomFilter.instance(p).applyTo(p);

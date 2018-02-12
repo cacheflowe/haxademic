@@ -62,6 +62,14 @@ becomes:
 
 ### Shaders to convert:
 
+* https://www.shadertoy.com/view/MlsXDr
+* https://www.shadertoy.com/view/ltBXDd
+* https://www.shadertoy.com/view/4scXWB
+* https://www.shadertoy.com/view/XdGSW3
+* https://www.shadertoy.com/view/4tlfRB
+* https://www.shadertoy.com/view/XljBRh
+* https://www.shadertoy.com/view/XtjfDy
+
 * http://glslsandbox.com/e#38684.0
 * http://glslsandbox.com/e#1419.0
 * http://glslsandbox.com/e#1329.0

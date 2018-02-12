@@ -104,25 +104,25 @@ public class DemoAssets {
 	
 	public static PFont fontBitlow = null;
 	public static PFont fontBitlow(float fontSize) {
-		if(fontBitlow == null) fontBitlow = P.p.createFont( FileUtil.getFile("fonts/bitlow.ttf"), fontSize );
+		if(fontBitlow == null) fontBitlow = P.p.createFont( FileUtil.getFile("haxademic/fonts/bitlow.ttf"), fontSize );
 		return fontBitlow;
 	}
 	
 	public static PFont fontHelloDenver = null;
 	public static PFont fontHelloDenver(float fontSize) {
-		if(fontHelloDenver == null) fontHelloDenver = P.p.createFont( FileUtil.getFile("fonts/HelloDenverDisplay-Regular.ttf"), fontSize );
+		if(fontHelloDenver == null) fontHelloDenver = P.p.createFont( FileUtil.getFile("haxademic/fonts/HelloDenverDisplay-Regular.ttf"), fontSize );
 		return fontHelloDenver;
 	}
 	
 	public static PFont fontOhmegaSans = null;
 	public static PFont fontOhmegaSans(float fontSize) {
-		if(fontOhmegaSans == null) fontOhmegaSans = P.p.createFont( FileUtil.getFile("fonts/OhmegaSans-Regular.ttf"), fontSize );
+		if(fontOhmegaSans == null) fontOhmegaSans = P.p.createFont( FileUtil.getFile("haxademic/fonts/OhmegaSans-Regular.ttf"), fontSize );
 		return fontOhmegaSans;
 	}
 	
 	public static PFont fontDSEG7 = null;
 	public static PFont fontDSEG7(float fontSize) {
-		if(fontDSEG7 == null) fontDSEG7 = P.p.createFont( FileUtil.getFile("fonts/DSEG7ClassicMini-Regular.ttf"), fontSize );
+		if(fontDSEG7 == null) fontDSEG7 = P.p.createFont( FileUtil.getFile("haxademic/fonts/DSEG7ClassicMini-Regular.ttf"), fontSize );
 		return fontDSEG7;
 	}
 
