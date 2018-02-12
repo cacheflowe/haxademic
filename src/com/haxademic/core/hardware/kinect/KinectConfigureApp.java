@@ -1,9 +1,7 @@
 package com.haxademic.core.hardware.kinect;
 
-import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
-import com.haxademic.core.draw.context.OpenGLUtil;
 
 import controlP5.ControlP5;
 
@@ -25,18 +23,17 @@ extends PAppletHax {
 	protected boolean _isDebug = false;
 	
 	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, 640 );
-		p.appConfig.setProperty( AppSettings.HEIGHT, 480 );
+//		p.appConfig.setProperty( AppSettings.WIDTH, 640 );
+//		p.appConfig.setProperty( AppSettings.HEIGHT, 480 );
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, false );
-		p.appConfig.setProperty( AppSettings.KINECT_V2_MAC_ACTIVE, true );
+		p.appConfig.setProperty( AppSettings.KINECT_V2_WIN_ACTIVE, true );
 //		p.appConfig.setProperty( "kinect_top_pixel", "0" );
 //		p.appConfig.setProperty( "kinect_bottom_pixel", "480" );
 //		p.appConfig.setProperty( "kinect_mirrored", "false" );
 //		p.appConfig.setProperty( "kinect_flipped", "false" );
 	}
 
-	public void setup() {
-		super.setup();		
+	public void setupFirstFrame() {
 		initControls();
 	}
 	
@@ -61,7 +58,7 @@ extends PAppletHax {
 		p.pushMatrix();
 		
 //		kinectWrapper.drawPointCloudForRect(p, true, pixelSkip, 1f, 1, kinectNear, kinectFar, kinectTop, kinectRight, kinectBottom, kinectLeft);
-		p.rotateY(P.map(p.mouseX, 0, p.width, 0f, 1f));
+//		p.rotateY(P.map(p.mouseX, 0, p.width, 0f, 1f));
 		
 		p.fill(0,127);
 		p.rect(10, 10, 280, 12 * 10);
@@ -85,14 +82,14 @@ extends PAppletHax {
 			}
 		}
 
-		p.fill(255);
-		p.text(numPixelsProcessed, 20, p.height - 20);
+		p.debugView.setTexture(p.kinectWrapper.getDepthImage());
+		p.debugView.setValue("numPixelsProcessed", numPixelsProcessed);
 		
 		p.popMatrix();
 	}
 	
 	public void keyPressed() {
-		super.keyPressed();
+		super.keyPressed();	
 		if( p.key == 'd' ){
 			_isDebug = !_isDebug;
 		}
