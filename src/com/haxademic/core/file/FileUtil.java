@@ -29,6 +29,7 @@ public class FileUtil {
 	public static String BIN_PATH = null;
 	public static String HAX_PATH = null;
 	public static String UTIL_PATH = null;
+	public static String SCRIPTS_PATH = null;
 	public static String WWW_PATH = null;
 	
 	// system & haxademic paths -------------------------------------------
@@ -68,9 +69,19 @@ public class FileUtil {
 		return UTIL_PATH;
 	}
 	
+	public static String getHaxademicScriptsPath() {
+		if( SCRIPTS_PATH != null ) return SCRIPTS_PATH;
+		SCRIPTS_PATH = getHaxademicPath().concat(File.separator + "scripts" + File.separator);
+		return SCRIPTS_PATH;
+	}
+	
 	public static String getFile(String path) {
 //		path = path.replaceAll("/", File.separator);
 		return getHaxademicDataPath() + path;
+	}
+	
+	public static String getScript(String path) {
+		return getHaxademicScriptsPath() + path;
 	}
 	
 	public static String getHaxademicOutputPath() {
