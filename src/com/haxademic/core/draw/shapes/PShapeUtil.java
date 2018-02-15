@@ -4,6 +4,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.system.SystemUtil;
+import com.sun.corba.se.impl.encoding.OSFCodeSetRegistry;
 
 import processing.core.PApplet;
 import processing.core.PConstants;
@@ -14,13 +15,10 @@ import processing.core.PVector;
 
 public class PShapeUtil {
 	
-	/**
-	 * Clone based on a pshape.getTessellation() for a flattened copy of an svg
-	 * @param p
-	 * @param tesselation
-	 * @param texture
-	 * @return
-	 */
+	///////////////////////////
+	// CLONE A FLATTENED COPY
+	///////////////////////////
+
 	public static PShape clonePShape(PApplet p, PShape tesselation) {
 		PShape newShape = p.createShape();
 		newShape.beginShape(P.TRIANGLES);
@@ -33,25 +31,10 @@ public class PShapeUtil {
 		return newShape;
 	}
 	
-	public static void addUVsToPShape_DEPRECATE(PShape s, float outerExtent) {
-		s.setStroke(false);
-		s.setTextureMode(P.NORMAL);
-		for (int i = 0; i < s.getVertexCount(); i++) {
-			PVector v = s.getVertex(i);
-			s.setTextureUV(
-					i, 
-					P.map(v.x, -outerExtent, outerExtent, 0, 1f), 
-					P.map(v.y, outerExtent, -outerExtent, 0, 1f)
-			);
-		}
-	}
+	///////////////////////////
+	// ADD UV COORDINATES
+	///////////////////////////
 
-	/**
-	 * Adds UV coordinates to an .obj PShape based on a texture and outer extent
-	 * @param s
-	 * @param img
-	 * @param outerExtent
-	 */
 	public static void addTextureUVToShape(PShape s, PImage img) {
 		addTextureUVToShape(s, img, PShapeUtil.getMaxExtent(s), true);
 	}
@@ -104,6 +87,9 @@ public class PShapeUtil {
 		if(img != null) shape.setTexture(img);
 	}
 
+	///////////////////////////
+	// SVG getTesselation() fix
+	///////////////////////////
 	
 	public static void repairMissingSVGVertex(PShape shape) {
 		PVector v1 = shape.getVertex(0);
@@ -118,6 +104,10 @@ public class PShapeUtil {
 		shape.vertex(v3.x, v3.y, v3.z);
 		shape.endShape();
 	}
+	
+	///////////////////////////
+	// EXTRUDE
+	///////////////////////////
 	
 	public static PShape createExtrudedShape(PShape shape, float depth) {
 		return createExtrudedShape(shape, depth, null);
@@ -187,21 +177,9 @@ public class PShapeUtil {
 		return newShape;
 	}
 	
-	/**
-	 * Finds the maximum size in any given direction. A basic but crappy way to figure out PShape size
-	 * @param s
-	 * @return
-	 */
-//	public static void scaleSvgToExtent_DEPRECATE(PShape s, float newExtent) {
-//		float modelExtent = getSvgMaxExtent_DEPRECATE(s.getTessellation());
-//		s.scale(newExtent/modelExtent);
-//	}
-	
-	/**
-	 * Finds the maximum vertex extent to translate and center the children
-	 * @param shape
-	 * @return
-	 */
+	///////////////////////////
+	// CENTERING
+	///////////////////////////
 	
 	public static void centerShape(PShape shape) {
 		float[] extents = {0,0,0,0,0,0};
@@ -235,6 +213,22 @@ public class PShapeUtil {
 		}
 	}
 	
+	///////////////////////////
+	// CHANGE REGISTRATION
+	///////////////////////////
+	
+	public static void setRegistrationOffset(PShape shape, float offsetX, float offsetY, float offsetZ) {
+		float w = getWidth(shape);
+		float h = getHeight(shape);
+		float d = getDepth(shape);
+		offsetShapeVertices(shape, w * offsetX, h * offsetY, d * offsetZ);
+	}
+	
+	public static void setOnGround(PShape shape) {
+		// required to center model before this call
+		setRegistrationOffset(shape, 0, -0.5f, 0);
+	}
+	
 	public static void offsetShapeVertices(PShape s, float xOffset, float yOffset, float zOffset) {
 		for (int i = 0; i < s.getVertexCount(); i++) {
 			PVector vertex = s.getVertex(i);
@@ -246,7 +240,10 @@ public class PShapeUtil {
 		}
 	}
 	
-	// re-scale by displacing actual vertices
+	///////////////////////////
+	// RE-SCALE
+	///////////////////////////
+	
 	public static void scaleShapeToExtent(PShape s, float newExtent) {
 		centerShape(s);
 		float modelExtent = getMaxExtent(s);
@@ -288,18 +285,10 @@ public class PShapeUtil {
 		}
 	}
 	
-	public static float scaleObjToExtentReturnScale_DEPRECATE(PShape s, float newExtent) {
-		float modelExtent = getMaxExtent(s);
-		float newScale = newExtent / modelExtent;
-		s.scale(newScale);
-		return newScale;
-	}
+	///////////////////////////
+	// GET BOUNDS / DIMENSIONS
+	///////////////////////////
 	
-	/**
-	 * Finds the maximum size in any given direction. A basic but crappy way to figure out PShape size
-	 * @param s
-	 * @return
-	 */
 	public static float getMaxExtent(PShape shape) {
 		return getMaxExtent(shape, 0);
 	}
@@ -414,9 +403,9 @@ public class PShapeUtil {
 		}
 	}
 	
-
-	
-	// Turns a PShape mesh into an optimized POINTS version
+	///////////////////////////
+	// MESH VERTICES TO POINTS PSHAPE
+	///////////////////////////
 
 	public static PShape meshShapeToPointsShape(PShape origShape) {
 		PShape newShape = P.p.createShape();
@@ -448,6 +437,10 @@ public class PShapeUtil {
 		}
 	}
 	
+	///////////////////////////
+	// MESH ROTATION
+	///////////////////////////
+
 	public static void meshRotateOnAxis(PShape shape, float radians, int axis) {
 		for (int i = 0; i < shape.getVertexCount(); i++) {
 			PVector v = shape.getVertex(i);
@@ -470,6 +463,10 @@ public class PShapeUtil {
 		}
 	}
 	
+	///////////////////////////
+	// MESH TWIST
+	///////////////////////////
+
 	public static void verticalTwistShape(PShape shape, float amp, float freq) {
 		float height = PShapeUtil.getMaxAbsY(shape);
 		for (int i = 0; i < shape.getVertexCount(); i++) {
@@ -484,11 +481,10 @@ public class PShapeUtil {
 		}
 	}
 	
-	/**
-	 * Draws triangles instead of native draw calls
-	 * @param shape
-	 * @return
-	 */
+	///////////////////////////
+	// DRAW MESH WITH RAW TRIANGLES
+	///////////////////////////
+
 	public static void drawTriangles(PGraphics pg, PShape shape, PImage img, float scale) {
 		if(img != null) pg.textureMode(PConstants.NORMAL);
 		if(img != null) pg.fill(255);
@@ -554,7 +550,7 @@ public class PShapeUtil {
 		}
 	}
 	
-	// Same as above, but uses PApplet with no UV coords, to make Joons happy
+	// Same as above, but uses PApplet with no UV coords. This makes Joons happy, but me sad about code duplication :( 
 	public static void drawTrianglesJoons(PApplet p, PShape shape, float scale) {
 		PShape polygon = shape;
 		int vertexCount = polygon.getVertexCount();
@@ -614,28 +610,11 @@ public class PShapeUtil {
 		}
 	}
 	
-	public static void drawTrianglesGrouped(PGraphics p, PShape s, float scale) {
-		p.beginShape(PConstants.TRIANGLES);
-		for (int j = 0; j < s.getChildCount(); j++) {
-			for (int i = 0; i < s.getChild(j).getVertexCount(); i++) {
-				if(i+2 < s.getChild(j).getVertexCount()) {	// protect against rogue vertices?
-					PVector vertex = s.getChild(j).getVertex(i);
-					PVector vertex2 = s.getChild(j).getVertex(i+1);
-					PVector vertex3 = s.getChild(j).getVertex(i+2);
-					vertex.mult(scale);
-					vertex2.mult(scale);
-					vertex3.mult(scale);
-					p.vertex(vertex.x, vertex.y, vertex.z, s.getChild(j).getTextureU(i), s.getChild(j).getTextureV(i));
-					p.vertex(vertex2.x, vertex2.y, vertex2.z, s.getChild(j).getTextureU(i+1), s.getChild(j).getTextureV(i+1));
-					p.vertex(vertex3.x, vertex3.y, vertex3.z, s.getChild(j).getTextureU(i+2), s.getChild(j).getTextureV(i+2));
-				}
-			}
-		}
-		p.endShape();
-	}
-
+	///////////////////////////
+	// EXPORT MESH
 	// from @hamoid: https://twitter.com/hamoid/status/816682493793472512
-	// not tested yet
+	///////////////////////////
+
 	public static void exportMesh(PShape mesh) {
 		StringBuilder verts = new StringBuilder();
 		StringBuilder faces = new StringBuilder();
