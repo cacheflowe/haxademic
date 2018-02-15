@@ -58,8 +58,6 @@ extends PAppletHax { public static void main(String args[]) { PAppletHax.main(Th
 		p.filter(texture.shader());
 		
 		// draw some text to make sure we know orientation
-		p.stroke(0);
-		p.strokeWeight(5f);
 		p.fill(127 + 127f * P.sin(p.frameCount * 0.01f));
 		p.textFont(DemoAssets.fontBitlow(100));
 		p.textAlign(P.CENTER, P.CENTER);
