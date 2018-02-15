@@ -22,7 +22,7 @@ extends PAppletHax {
 		super.setup();
 		int detail = 4;
 		icosa = Icosahedron.createIcosahedron(p.g, detail, DemoAssets.textureJupiter());
-		PShapeUtil.scaleShapeToHeight(icosa, p.height * 0.75f);
+		PShapeUtil.scaleShapeToMaxAbsY(icosa, p.height * 0.75f);
 	}
 	
 	public void drawApp() {

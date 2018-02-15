@@ -41,7 +41,7 @@ extends PAppletHax {
 		obj = PShapeUtil.createExtrudedShape( obj, 175 );
 		PShapeUtil.centerShape(obj);
 		objHeight = p.height * 0.35f;
-		PShapeUtil.scaleShapeToHeight(obj, objHeight);
+		PShapeUtil.scaleShapeToMaxAbsY(obj, objHeight);
 	}
 
 

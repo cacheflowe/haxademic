@@ -40,7 +40,7 @@ extends PAppletHax {
 		PShapeUtil.meshRotateOnAxis(obj, P.PI, P.Z);
 		PShapeUtil.meshRotateOnAxis(obj, -P.HALF_PI, P.Y);
 		PShapeUtil.scaleShapeToExtent(obj, p.height * 0.05f);
-		modelSize = new PVector(PShapeUtil.getObjWidth(obj), PShapeUtil.getObjHeight(obj), PShapeUtil.getObjDepth(obj));
+		modelSize = new PVector(PShapeUtil.getMaxAbsX(obj), PShapeUtil.getMaxAbsY(obj), PShapeUtil.getMaxAbsZ(obj));
 	}
 
 	public void drawApp() {

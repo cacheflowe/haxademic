@@ -59,7 +59,7 @@ extends PAppletHax {
 		
 		xShape = DemoAssets.shapeX().getTessellation();
 		PShapeUtil.centerShape(xShape);
-		PShapeUtil.scaleShapeToHeight(xShape, p.height * 0.35f);
+		PShapeUtil.scaleShapeToMaxAbsY(xShape, p.height * 0.35f);
 
 //		xShape = p.loadShape(FileUtil.getFile("svg/ello-type.svg")).getTessellation();
 //		PShapeUtil.centerShape(xShape);

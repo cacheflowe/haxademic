@@ -30,7 +30,7 @@ extends PAppletHax {
 		p.sphereDetail(10);
 		float extent = p.width/5f;
 		shapeIcos = Icosahedron.createIcosahedron(p.g, 4, img);
-		PShapeUtil.scaleSvgToExtent_DEPRECATE(shapeIcos, extent);
+		PShapeUtil.scaleShapeToExtent(shapeIcos, extent);
 		
 		
 		PShape newIcos = p.createShape();

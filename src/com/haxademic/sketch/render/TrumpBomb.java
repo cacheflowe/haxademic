@@ -60,8 +60,8 @@ extends PAppletHax {
 		PShapeUtil.scaleShapeToExtent(obj, p.height);
 		
 		// add UV coordinates to OBJ based on model extents
-		float modelExtent = PShapeUtil.getShapeMaxExtent(obj);
-		modelHeight = PShapeUtil.getObjHeight(obj);
+		float modelExtent = PShapeUtil.getMaxExtent(obj);
+		modelHeight = PShapeUtil.getMaxAbsY(obj);
 		P.println("modelExtent", modelExtent);
 		P.println("getObjHeight", modelHeight);
 		if(useTexture) 

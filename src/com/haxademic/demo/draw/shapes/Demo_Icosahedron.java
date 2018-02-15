@@ -35,13 +35,13 @@ extends PAppletHax {
 		shape = p.createShape(P.SPHERE, p.width/10f);
 		shapeTessellated = shape.getTessellation();
 		
-		float extent = PShapeUtil.getSvgMaxExtent_DEPRECATE(shape);
+		float extent = PShapeUtil.getMaxExtent(shape);
 		
 		shape.setTexture(img);
 		shapeTessellated.setTexture(img);
 		
 		shapeIcos = Icosahedron.createIcosahedron(p.g, 4, img);
-		PShapeUtil.scaleSvgToExtent_DEPRECATE(shapeIcos, extent);
+		PShapeUtil.scaleShapeToExtent(shapeIcos, extent);
 		
 		PShapeUtil.addUVsToPShape_DEPRECATE(shape, extent);
 		PShapeUtil.addUVsToPShape_DEPRECATE(shapeTessellated, extent);

@@ -48,10 +48,10 @@ extends PAppletHax {
 		
 		// build obj PShape and scale to window
 		obj = p.loadShape( FileUtil.getFile("models/unicorn-head-lowpoly.obj"));	
-		PShapeUtil.scaleObjToExtent_DEPRECATE(obj, p.height * 0.4f);
+		PShapeUtil.scaleShapeToExtent(obj, p.height * 0.4f);
 		
 		// add UV coordinates to OBJ
-		float modelExtent = PShapeUtil.getShapeMaxExtent(obj);
+		float modelExtent = PShapeUtil.getMaxExtent(obj);
 		PShapeUtil.addTextureUVToShape(obj, null, modelExtent);
 //		PShapeUtil.addTextureUVSpherical(obj, null);
 		

@@ -53,7 +53,7 @@ public class PShapeUtil {
 	 * @param outerExtent
 	 */
 	public static void addTextureUVToShape(PShape s, PImage img) {
-		addTextureUVToShape(s, img, PShapeUtil.getShapeMaxExtent(s), true);
+		addTextureUVToShape(s, img, PShapeUtil.getMaxExtent(s), true);
 	}
 	public static void addTextureUVToShape(PShape s, PImage img, float outerExtent) {
 		addTextureUVToShape(s, img, outerExtent, true);
@@ -192,10 +192,10 @@ public class PShapeUtil {
 	 * @param s
 	 * @return
 	 */
-	public static void scaleSvgToExtent_DEPRECATE(PShape s, float newExtent) {
-		float modelExtent = getSvgMaxExtent_DEPRECATE(s.getTessellation());
-		s.scale(newExtent/modelExtent);
-	}
+//	public static void scaleSvgToExtent_DEPRECATE(PShape s, float newExtent) {
+//		float modelExtent = getSvgMaxExtent_DEPRECATE(s.getTessellation());
+//		s.scale(newExtent/modelExtent);
+//	}
 	
 	/**
 	 * Finds the maximum vertex extent to translate and center the children
@@ -246,35 +246,37 @@ public class PShapeUtil {
 		}
 	}
 	
-	/**
-	 * Finds the maximum size in any given direction. A basic but crappy way to figure out PShape size
-	 * @param s
-	 * @return
-	 */
-	public static float scaleObjToExtent_DEPRECATE(PShape s, float newExtent) {
-		float modelExtent = getShapeMaxExtent(s);
-		float newScale = newExtent/modelExtent;
-		s.scale(newScale);
-		return newScale;
-	}
-	
-	
 	// re-scale by displacing actual vertices
 	public static void scaleShapeToExtent(PShape s, float newExtent) {
 		centerShape(s);
-		float modelExtent = getShapeMaxExtent(s);
+		float modelExtent = getMaxExtent(s);
 		float newScale = newExtent/modelExtent;
-		adjustVertices(s, newScale);
+		scaleVertices(s, newScale);
 	}
 	
-	public static void scaleShapeToHeight(PShape s, float newExtent) {
+	public static void scaleShapeToMaxAbsY(PShape s, float newExtent) {
 		centerShape(s);
-		float modelHeight = getObjHeight(s);
+		float modelHeight = getMaxAbsY(s);
 		float newScale = newExtent/modelHeight;
-		adjustVertices(s, newScale);
+		scaleVertices(s, newScale);
 	}
 	
-	public static void adjustVertices(PShape s, float scale) {
+	public static void scaleShapeToHeight(PShape s, float newHeight) {
+		float newScale = newHeight / getHeight(s);
+		scaleVertices(s, newScale);
+	}
+	
+	public static void scaleShapeToWidth(PShape s, float newWidth) {
+		float newScale = newWidth / getWidth(s);
+		scaleVertices(s, newScale);
+	}
+	
+	public static void scaleShapeToDepth(PShape s, float newDepth) {
+		float newScale = newDepth / getDepth(s);
+		scaleVertices(s, newScale);
+	}
+	
+	public static void scaleVertices(PShape s, float scale) {
 		for (int i = 0; i < s.getVertexCount(); i++) {
 			PVector curVertex = s.getVertex(i);
 			s.setVertex(i, curVertex.x * scale, curVertex.y * scale, curVertex.z * scale);
@@ -282,12 +284,12 @@ public class PShapeUtil {
 		
 		for (int j = 0; j < s.getChildCount(); j++) {
 			PShape subShape = s.getChild(j);
-			adjustVertices(subShape, scale);
+			scaleVertices(subShape, scale);
 		}
 	}
 	
 	public static float scaleObjToExtentReturnScale_DEPRECATE(PShape s, float newExtent) {
-		float modelExtent = getShapeMaxExtent(s);
+		float modelExtent = getMaxExtent(s);
 		float newScale = newExtent / modelExtent;
 		s.scale(newScale);
 		return newScale;
@@ -298,11 +300,11 @@ public class PShapeUtil {
 	 * @param s
 	 * @return
 	 */
-	public static float getShapeMaxExtent(PShape shape) {
-		return getShapeMaxExtent(shape, 0);
+	public static float getMaxExtent(PShape shape) {
+		return getMaxExtent(shape, 0);
 	}
 	
-	public static float getShapeMaxExtent(PShape shape, float outermostVertex) {
+	public static float getMaxExtent(PShape shape, float outermostVertex) {
 		// find mesh size extent to responsively scale the mesh
 		for (int i = 0; i < shape.getVertexCount(); i++) {
 			PVector vertex = shape.getVertex(i);
@@ -313,74 +315,106 @@ public class PShapeUtil {
 	
 		for (int j = 0; j < shape.getChildCount(); j++) {
 			PShape subShape = shape.getChild(j);
-			outermostVertex = getShapeMaxExtent(subShape, outermostVertex);
+			outermostVertex = getMaxExtent(subShape, outermostVertex);
 		}
 
 		return outermostVertex;
 	}
 	
-	public static float getObjHeight(PShape shape) {
-		return getObjHeight(shape, 0) * 2f;
-	}
-
-	public static float getObjHeight(PShape shape, float maxAbsYVertex) {
-		// find mesh size height. this should only be used after centering the mesh
-		for (int i = 0; i < shape.getVertexCount(); i++) {
-			if(P.abs(shape.getVertex(i).y) > maxAbsYVertex) maxAbsYVertex = P.abs(shape.getVertex(i).y);
-		}
-		for (int j = 0; j < shape.getChildCount(); j++) {
-			maxAbsYVertex = getObjHeight(shape.getChild(j), maxAbsYVertex);
-		}
-		return maxAbsYVertex;
+	public static float getMaxAbsX(PShape shape) {
+		return getMaxAbsX(shape, 0);
 	}
 	
-	public static float getObjWidth(PShape shape) {
-		return getObjWidth(shape, 0) * 2f;
-	}
-	
-	public static float getObjWidth(PShape shape, float maxAbsXVertex) {
+	public static float getMaxAbsX(PShape shape, float maxAbsXVertex) {
 		// find mesh size height. this should only be used after centering the mesh
 		for (int i = 0; i < shape.getVertexCount(); i++) {
 			if(P.abs(shape.getVertex(i).x) > maxAbsXVertex) maxAbsXVertex = P.abs(shape.getVertex(i).x);
 		}
 		for (int j = 0; j < shape.getChildCount(); j++) {
-			maxAbsXVertex = getObjWidth(shape.getChild(j), maxAbsXVertex);
+			maxAbsXVertex = getMaxAbsX(shape.getChild(j), maxAbsXVertex);
 		}
 		return maxAbsXVertex;
 	}
 	
-	public static float getObjDepth(PShape shape) {
-		return getObjWidth(shape, 0) * 2f;
+	public static float getWidth(PShape shape) {
+		float[] minMax = new float[] {9999, -9999};
+		getWidth(shape, minMax);
+		return minMax[1] - minMax[0]; // max minus min
 	}
 	
-	public static float getObjDepth(PShape shape, float maxAbsZVertex) {
+	public static void getWidth(PShape shape, float[] minMax) {
+		for (int i = 0; i < shape.getVertexCount(); i++) {
+			if(shape.getVertex(i).x < minMax[0]) minMax[0] = shape.getVertex(i).x;
+			if(shape.getVertex(i).x > minMax[1]) minMax[1] = shape.getVertex(i).x;
+		}
+		for (int j = 0; j < shape.getChildCount(); j++) {
+			getWidth(shape.getChild(j), minMax);
+		}
+	}
+	
+	public static float getMaxAbsY(PShape shape) {
+		return getMaxAbsY(shape, 0);
+	}
+
+	public static float getMaxAbsY(PShape shape, float maxAbsYVertex) {
+		// find mesh size height. this should only be used after centering the mesh
+		for (int i = 0; i < shape.getVertexCount(); i++) {
+			if(P.abs(shape.getVertex(i).y) > maxAbsYVertex) maxAbsYVertex = P.abs(shape.getVertex(i).y);
+		}
+		for (int j = 0; j < shape.getChildCount(); j++) {
+			maxAbsYVertex = getMaxAbsY(shape.getChild(j), maxAbsYVertex);
+		}
+		return maxAbsYVertex;
+	}
+	
+	public static float getHeight(PShape shape) {
+		float[] minMax = new float[] {9999, -9999};
+		getHeight(shape, minMax);
+		return minMax[1] - minMax[0]; // max minus min
+	}
+	
+	public static void getHeight(PShape shape, float[] minMax) {
+		for (int i = 0; i < shape.getVertexCount(); i++) {
+			if(shape.getVertex(i).y < minMax[0]) minMax[0] = shape.getVertex(i).y;
+			if(shape.getVertex(i).y > minMax[1]) minMax[1] = shape.getVertex(i).y;
+		}
+		for (int j = 0; j < shape.getChildCount(); j++) {
+			getHeight(shape.getChild(j), minMax);
+		}
+	}
+	
+	public static float getMaxAbsZ(PShape shape) {
+		return getMaxAbsZ(shape, 0);
+	}
+	
+	public static float getMaxAbsZ(PShape shape, float maxAbsZVertex) {
 		// find mesh size height. this should only be used after centering the mesh
 		for (int i = 0; i < shape.getVertexCount(); i++) {
 			if(P.abs(shape.getVertex(i).z) > maxAbsZVertex) maxAbsZVertex = P.abs(shape.getVertex(i).z);
 		}
 		for (int j = 0; j < shape.getChildCount(); j++) {
-			maxAbsZVertex = getObjDepth(shape.getChild(j), maxAbsZVertex);
+			maxAbsZVertex = getMaxAbsZ(shape.getChild(j), maxAbsZVertex);
 		}
 		return maxAbsZVertex;
 	}
 	
-	/**
-	 * Finds the maximum size in any given direction. A basic but crappy way to figure out PShape size
-	 * @param s
-	 * @return
-	 */
-	public static float getSvgMaxExtent_DEPRECATE(PShape s) {
-		// find mesh size extent to responsively scale the mesh
-		// THIS DOESN"T RECURESE - Should be replaced with getObjMaxExtent()
-		float outermostVertex = 0;
-		for (int i = 0; i < s.getVertexCount(); i++) {
-			PVector vertex = s.getVertex(i);
-			if(vertex.x > outermostVertex) outermostVertex = vertex.x;
-			if(vertex.y > outermostVertex) outermostVertex = vertex.y;
-			if(vertex.z > outermostVertex) outermostVertex = vertex.z;
-		}
-		return outermostVertex;
+	public static float getDepth(PShape shape) {
+		float[] minMax = new float[] {9999, -9999};
+		getDepth(shape, minMax);
+		return minMax[1] - minMax[0]; // max minus min
 	}
+	
+	public static void getDepth(PShape shape, float[] minMax) {
+		for (int i = 0; i < shape.getVertexCount(); i++) {
+			if(shape.getVertex(i).z < minMax[0]) minMax[0] = shape.getVertex(i).z;
+			if(shape.getVertex(i).z > minMax[1]) minMax[1] = shape.getVertex(i).z;
+		}
+		for (int j = 0; j < shape.getChildCount(); j++) {
+			getDepth(shape.getChild(j), minMax);
+		}
+	}
+	
+
 	
 	// Turns a PShape mesh into an optimized POINTS version
 
@@ -437,7 +471,7 @@ public class PShapeUtil {
 	}
 	
 	public static void verticalTwistShape(PShape shape, float amp, float freq) {
-		float height = PShapeUtil.getObjHeight(shape);
+		float height = PShapeUtil.getMaxAbsY(shape);
 		for (int i = 0; i < shape.getVertexCount(); i++) {
 			PVector v = shape.getVertex(i);
 			float radius = MathUtil.getDistance(v.x, v.z, 0, 0);

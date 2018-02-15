@@ -3,6 +3,7 @@ package com.haxademic.demo.draw.shapes;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
+import com.haxademic.core.constants.PBlendModes;
 import com.haxademic.core.draw.shapes.Shapes;
 import com.haxademic.core.file.DemoAssets;
 import com.haxademic.core.math.easing.Penner;
@@ -27,16 +28,17 @@ extends PAppletHax {
 	}
 
 	public void drawApp() {
-		background(255);
+		background(0);
 		lights();
 		translate(width/2, height/2, -200);
 		
 		float easedPercent = Penner.easeInOutQuart(loop.progress(), 0, 1, 1);
 		float radsCompleteEased = easedPercent * P.TWO_PI;
 
-		rotateX(0.2f * P.sin(loop.progressRads())); 
-		rotateY(radsCompleteEased); 
+		p.rotateY(P.map(p.mouseX, 0, p.width, 0, P.TWO_PI * 2));
+		p.rotateX(P.map(p.mouseY, 0, p.height, P.TWO_PI * 2, 0));
+		// rotateY(radsCompleteEased); 
 		
-		Shapes.drawTexturedCube(p.g, 200, DemoAssets.smallTexture());
+		Shapes.drawTexturedCube(p.g, 200, DemoAssets.justin());
 	}
 }

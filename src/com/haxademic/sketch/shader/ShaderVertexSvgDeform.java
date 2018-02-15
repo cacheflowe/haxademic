@@ -59,8 +59,8 @@ extends PAppletHax {
 		// create geometry
 		shape = p.loadShape( FileUtil.getFile("svg/ello-centered.svg"));
 		shape = PShapeUtil.clonePShape(this, shape.getTessellation());
-		PShapeUtil.scaleSvgToExtent_DEPRECATE(shape, p.height * 0.3f);
-		float modelExtent = PShapeUtil.getSvgMaxExtent_DEPRECATE(shape);
+		PShapeUtil.scaleShapeToExtent(shape, p.height * 0.3f);
+		float modelExtent = PShapeUtil.getMaxExtent(shape);
 		PShapeUtil.addUVsToPShape_DEPRECATE(shape, modelExtent);
 		shape.setTexture(displacementMap);
 

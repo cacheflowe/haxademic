@@ -45,7 +45,7 @@ extends PAppletHax {
 		obj = DemoAssets.objSkullRealistic();
 		obj = DemoAssets.objHumanoid();
 		PShapeUtil.centerShape(obj);
-		PShapeUtil.scaleShapeToHeight(obj, p.height * 0.25f);
+		PShapeUtil.scaleShapeToMaxAbsY(obj, p.height * 0.25f);
 		obj.disableStyle();
 	}
 	

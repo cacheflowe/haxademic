@@ -40,7 +40,7 @@ extends PAppletHax {
 		obj = p.loadShape( FileUtil.getFile("models/poly-hole-penta.obj"));	
 		PShapeUtil.centerShape(obj);
 		PShapeUtil.scaleShapeToExtent(obj, p.height * 0.4f);
-		objHeight = PShapeUtil.getObjHeight(obj);
+		objHeight = PShapeUtil.getMaxAbsY(obj);
 	}
 
 

@@ -66,11 +66,11 @@ extends PAppletHax {
 		textToPShape = new TextToPShape();
 		String fontFile = FileUtil.getFile("fonts/AvantGarde-Book.ttf");
 		textAmerica = textToPShape.stringToShape3d("AMERICA", textDepth, fontFile);
-		PShapeUtil.scaleShapeToHeight(textAmerica, p.height * 0.068f);
+		PShapeUtil.scaleShapeToMaxAbsY(textAmerica, p.height * 0.068f);
 		textThe = textToPShape.stringToShape3d("THE", textDepth, fontFile);
-		PShapeUtil.scaleShapeToHeight(textThe, p.height * 0.05f);
+		PShapeUtil.scaleShapeToMaxAbsY(textThe, p.height * 0.05f);
 		textIndefensible = textToPShape.stringToShape3d("INDEFENSIBLE", textDepth, fontFile);
-		PShapeUtil.scaleShapeToHeight(textIndefensible, p.height * 0.055f);
+		PShapeUtil.scaleShapeToMaxAbsY(textIndefensible, p.height * 0.055f);
 		
 		// smooth more
 //		OpenGLUtil.setTextureQualityHigh(p.g);
@@ -80,7 +80,7 @@ extends PAppletHax {
 		PShapeUtil.scaleShapeToExtent(s, extent);
 		
 		// add UV coordinates to OBJ
-		float modelExtent = PShapeUtil.getShapeMaxExtent(s);
+		float modelExtent = PShapeUtil.getMaxExtent(s);
 		if(texture != null) PShapeUtil.addTextureUVToShape(s, texture, modelExtent, false);
 	}
 

@@ -53,9 +53,9 @@ extends BaseTexture {
 	protected PShape prepShape(PShape shape) {
 //		for(PShapeSolid shape : _meshPool) {
 			// scale it to fit the window
-			PShapeUtil.scaleObjToExtent_DEPRECATE(shape, _texture.height * 0.7f);
+			PShapeUtil.scaleShapeToExtent(shape, _texture.height * 0.7f);
 			// add UV coordinates to OBJ
-			float modelExtent = PShapeUtil.getShapeMaxExtent(shape);
+			float modelExtent = PShapeUtil.getMaxExtent(shape);
 			PShapeUtil.addTextureUVToShape(shape, null, modelExtent);
 //		}
 		return shape;

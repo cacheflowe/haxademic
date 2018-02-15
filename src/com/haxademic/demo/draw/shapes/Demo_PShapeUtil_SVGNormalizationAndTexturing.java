@@ -48,7 +48,7 @@ extends PAppletHax {
 
 			// center and scale
 			PShapeUtil.centerShape(shape);
-			PShapeUtil.scaleShapeToHeight(shape, p.height * 0.4f);
+			PShapeUtil.scaleShapeToMaxAbsY(shape, p.height * 0.4f);
 			
 			// add UV coordinates to OBJ based on model extents
 			PShapeUtil.addTextureUVToShape(shape, DemoAssets.justin());

@@ -67,13 +67,13 @@ extends BaseTexture {
 		shape = P.p.createShape(P.SPHERE, _texture.height/3f);
 		shapeTessellated = shape.getTessellation();
 		
-		float extent = PShapeUtil.getSvgMaxExtent_DEPRECATE(shape);
+		float extent = PShapeUtil.getMaxExtent(shape);
 		
 //		shape.setTexture(sphereTexture);
 //		shapeTessellated.setTexture(sphereTexture);
 		
 		shapeIcos = Icosahedron.createIcosahedron(_texture, 7, sphereTexture);
-		PShapeUtil.scaleSvgToExtent_DEPRECATE(shapeIcos, extent);
+		PShapeUtil.scaleShapeToExtent(shapeIcos, extent);
 		
 //		objSolid = new PShapeSolid(shapeIcos);
 

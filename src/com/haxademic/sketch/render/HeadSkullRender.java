@@ -98,7 +98,7 @@ extends PAppletHax {
 			}
 		}
 		
-		maxObjExtent = PShapeUtil.getShapeMaxExtent(obj);
+		maxObjExtent = PShapeUtil.getMaxExtent(obj);
 
 	}
 	
