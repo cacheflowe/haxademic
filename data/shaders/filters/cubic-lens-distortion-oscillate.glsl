@@ -36,6 +36,7 @@ vec2 computeUV( vec2 uv, float k, float kcube ){
 void main() {
 
 	vec2 uv = vertTexCoord.xy;
+  uv.y = 1. - uv.y; // flip y
     float k = 1.0 * sin( time * .9 );
     float kcube = .5 * sin( time );
 
