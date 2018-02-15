@@ -18,6 +18,12 @@ public class DemoAssets {
 		return smallTexture;
 	}
 	
+	public static PImage particle = null;
+	public static PImage particle() {
+		if(particle == null) particle = P.p.loadImage(FileUtil.getFile("haxademic/images/textures/particle.png"));
+		return particle;
+	}
+	
 	public static PImage justin = null;
 	public static PImage justin() {
 		if(justin == null) justin = P.p.loadImage(FileUtil.getFile("images/textures/justin-spike-portrait.png"));
