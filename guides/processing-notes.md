@@ -18,3 +18,25 @@ public void draw() {
   background(127 + 127 * sin(frameCount * 0.01));
 }
 ```
+
+Run a thread inline
+
+```
+new Thread(new Runnable() { public void run() {
+  doSomething();
+}}).start();	
+
+```
+
+Sort an array
+
+```
+Arrays.sort(myArray, compare);
+	
+public static Comparator<CustomObject> compare = new Comparator<CustomObject>() {
+  @Override
+  public int compare(CustomObject a, CustomObject b){
+  return (a.z() < b.z()) ? -1 : (a.z() > b.z()) ? 1 : 0;
+  }
+};
+```
