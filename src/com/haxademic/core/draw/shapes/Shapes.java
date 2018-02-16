@@ -301,7 +301,7 @@ public class Shapes {
 
 	
 	public static PShape createCan(float radius, float height, int detail) {
-		//		textureMode(NORMAL);
+		P.p.textureMode(P.NORMAL); 
 		PShape sh = P.p.createShape();
 		sh.beginShape(P.QUAD_STRIP);
 		sh.noStroke();
@@ -315,6 +315,7 @@ public class Shapes {
 			sh.vertex(x * radius, +height/2, z * radius, u, 1);
 		}
 		sh.endShape();
+		P.p.textureMode(P.IMAGE); 	// reset 
 		return sh;
 	}
 	
@@ -345,6 +346,7 @@ public class Shapes {
 		}
 		P.println("createSheet() vertices:", numVertices);
 		sh.endShape(); 
+		P.p.textureMode(P.IMAGE); 	// reset 
 		return sh;
 	}
 	
@@ -375,6 +377,7 @@ public class Shapes {
 		}
 		P.println("createSheet() vertices:", numVertices);
 		sh.endShape(); 
+		P.p.textureMode(P.IMAGE); 	// reset 
 		return sh;
 	}
 	
