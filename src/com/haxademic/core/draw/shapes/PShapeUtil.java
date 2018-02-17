@@ -86,6 +86,27 @@ public class PShapeUtil {
 		
 		if(img != null) shape.setTexture(img);
 	}
+	
+	///////////////////////////
+	// FIND A COLOR & ADD TRANSPARENCY
+	///////////////////////////
+	
+	public static void setShapeMaterialTransparent(PShape shape, float searchR, float searchG, float searchB, float alphaReplace) {
+		for (int i = 0; i < shape.getVertexCount(); i++) {
+			// get normalized material components
+			float red = P.p.red(shape.getFill(i)) / 255f;
+			float green = P.p.green(shape.getFill(i)) / 255f;
+			float blue = P.p.blue(shape.getFill(i)) / 255f;
+			// check distance from supplied color
+			float thresh = 0.02f;
+			if(P.abs(red - searchR) < thresh && P.abs(green - searchG) < thresh && P.abs(blue - searchB) < thresh) {
+				shape.setFill(i, P.p.color(red, green, blue, alphaReplace * 255f));
+			}
+		}
+		for (int j = 0; j < shape.getChildCount(); j++) {
+			setShapeMaterialTransparent(shape.getChild(j), searchR, searchG, searchB, alphaReplace);
+		}
+	}
 
 	///////////////////////////
 	// SVG getTesselation() fix
