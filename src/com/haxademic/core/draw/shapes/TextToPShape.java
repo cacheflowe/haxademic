@@ -17,8 +17,17 @@ public class TextToPShape {
 	protected HashMap<String, RFont> fontsCache;
 	protected HashMap<String, PShape> shapeCache2d;
 	protected HashMap<String, PShape> shapeCache3d;
+	
+	public static final float QUALITY_HIGH = 0.1f;
+	public static final float QUALITY_MEDIUM = 0.2f;
+	protected float quality = QUALITY_MEDIUM;
 
 	public TextToPShape() {
+		this(QUALITY_MEDIUM);
+	}
+	
+	public TextToPShape(float quality) {
+		this.quality = quality;
 		initGeomerative();
 		initCache();
 	}
@@ -32,7 +41,7 @@ public class TextToPShape {
 	protected void initGeomerative() {
 		RG.init(P.p);
 		RCommand.setSegmentator(RCommand.ADAPTATIVE);
-		RCommand.setSegmentAngle(0.2f);
+		RCommand.setSegmentAngle(quality);
 	}
 
 	public PShape stringToShape2d(String text, String fontFile) {
