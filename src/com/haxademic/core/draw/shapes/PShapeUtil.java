@@ -89,22 +89,38 @@ public class PShapeUtil {
 	
 	///////////////////////////
 	// FIND A COLOR & ADD TRANSPARENCY
+	// transparent face must be drawn last, and so might need to be rearranged in the obj file. 
+	// ...Move said faces to the end of the file:
+	// usemtl Light Cast
+	// f 4/4/1 5/3/2 2/2/2 1/1/1
 	///////////////////////////
 	
 	public static void setShapeMaterialTransparent(PShape shape, float searchR, float searchG, float searchB, float alphaReplace) {
 		float thresh = 0.02f;
 		for (int i = 0; i < shape.getVertexCount(); i++) {
 			// get normalized material components
-			float red = P.p.red(shape.getFill(i)) / 255f;
-			float green = P.p.green(shape.getFill(i)) / 255f;
-			float blue = P.p.blue(shape.getFill(i)) / 255f;
+			float red = P.p.red(shape.getFill(i));
+			float green = P.p.green(shape.getFill(i));
+			float blue = P.p.blue(shape.getFill(i));
 			// check distance from supplied color
-			if(P.abs(red - searchR) < thresh && P.abs(green - searchG) < thresh && P.abs(blue - searchB) < thresh) {
+			if(P.abs(red / 255f - searchR) < thresh && P.abs(green / 255f - searchG) < thresh && P.abs(blue / 255f - searchB) < thresh) {
 				shape.setFill(i, P.p.color(red, green, blue, alphaReplace * 255f));
 			}
 		}
 		for (int j = 0; j < shape.getChildCount(); j++) {
 			setShapeMaterialTransparent(shape.getChild(j), searchR, searchG, searchB, alphaReplace);
+		}
+	}
+	
+	// overwrite all colors
+	
+	protected static void setShapeMaterialColor(PShape shape, int newColor) {
+		for (int i = 0; i < shape.getVertexCount(); i++) {
+			shape.setFill(i, newColor);
+			shape.setStroke(false);
+		}
+		for (int j = 0; j < shape.getChildCount(); j++) {
+			setShapeMaterialColor(shape.getChild(j), newColor);
 		}
 	}
 
