@@ -114,16 +114,29 @@ public class PShapeUtil {
 	
 	// overwrite all colors
 	
-	protected static void setShapeMaterialColor(PShape shape, int newColor) {
+	public static void setMaterialColor(PShape shape, int newColor) {
 		for (int i = 0; i < shape.getVertexCount(); i++) {
 			shape.setFill(i, newColor);
 			shape.setStroke(false);
 		}
 		for (int j = 0; j < shape.getChildCount(); j++) {
-			setShapeMaterialColor(shape.getChild(j), newColor);
+			setMaterialColor(shape.getChild(j), newColor);
 		}
 	}
 
+	public static void setWireframeColor(PShape shape, int faceColor, int lineColor) {
+		for (int i = 0; i < shape.getVertexCount(); i++) {
+			shape.setFill(true);
+			shape.setFill(i, faceColor);
+			shape.setStroke(true);
+			shape.setStroke(i, lineColor);
+			shape.setStrokeWeight(1.2f);
+		}
+		for (int j = 0; j < shape.getChildCount(); j++) {
+			setWireframeColor(shape.getChild(j), faceColor, lineColor);
+		}
+	}
+	
 	///////////////////////////
 	// SVG getTesselation() fix
 	///////////////////////////
@@ -497,6 +510,26 @@ public class PShapeUtil {
 		}
 		for (int j = 0; j < shape.getChildCount(); j++) {
 			meshRotateOnAxis(shape.getChild(j), radians, axis);
+		}
+	}
+	
+	///////////////////////////
+	// MESH FLIP
+	///////////////////////////
+	
+	public static void meshFlipOnAxis(PShape shape, int axis) {
+		for (int i = 0; i < shape.getVertexCount(); i++) {
+			PVector v = shape.getVertex(i);
+			if(axis == P.X) {
+				shape.setVertex(i, v.x * -1f, v.y, v.z);
+			} else if(axis == P.Y) {
+				shape.setVertex(i, v.x, v.y * -1f, v.z);
+			} else if(axis == P.Z) {
+				shape.setVertex(i, v.x, v.y, v.z * -1f);
+			}
+		}
+		for (int j = 0; j < shape.getChildCount(); j++) {
+			meshFlipOnAxis(shape.getChild(j), axis);
 		}
 	}
 	
