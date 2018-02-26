@@ -9,7 +9,7 @@ import com.haxademic.core.hardware.webcam.IWebCamCallback;
 import processing.video.Capture;
 import processing.video.Movie;
 
-public class Demo_WebCamWrapperTwoCameras 
+public class Demo_WebCamTwoCameras 
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
