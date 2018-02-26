@@ -493,7 +493,15 @@ extends PApplet
 	public void keyReleased() {
 		keyboardState.setKeyOff(p.keyCode);
 	}
+	
+	public float mousePercentX() {
+		return P.map(p.mouseX, 0, p.width, 0, 1);
+	}
 
+	public float mousePercentY() {
+		return P.map(p.mouseY, 0, p.height, 0, 1);
+	}
+	
 	////////////////////////
 	// SHUTDOWN
 	////////////////////////

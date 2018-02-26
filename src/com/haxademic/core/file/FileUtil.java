@@ -32,10 +32,7 @@ public class FileUtil {
 	public static String SCRIPTS_PATH = null;
 	public static String WWW_PATH = null;
 	
-	// system & haxademic paths -------------------------------------------
-	public static String getProjectAbsolutePath() {
-		return new java.io.File("").getAbsolutePath();
-	}
+	// HAXADEMIC PATHS
 	
 	public static String getHaxademicPath() {
 		if( HAX_PATH != null ) return HAX_PATH;
@@ -75,6 +72,22 @@ public class FileUtil {
 		return SCRIPTS_PATH;
 	}
 	
+	public static String getHaxademicOutputPath() {
+		if( OUTPUT_PATH != null ) return OUTPUT_PATH;
+		OUTPUT_PATH = getHaxademicPath().concat(File.separator + "output" + File.separator);
+		return OUTPUT_PATH;
+	}
+	
+	// PATH HELPERS
+	
+	public static String pathForFile(String filePath) {
+		return filePath.substring(0, filePath.lastIndexOf(File.separator));
+	}
+
+	public static String getProjectAbsolutePath() {
+		return new java.io.File("").getAbsolutePath();
+	}
+	
 	public static String getFile(String path) {
 //		path = path.replaceAll("/", File.separator);
 		return getHaxademicDataPath() + path;
@@ -84,13 +97,8 @@ public class FileUtil {
 		return getHaxademicScriptsPath() + path;
 	}
 	
-	public static String getHaxademicOutputPath() {
-		if( OUTPUT_PATH != null ) return OUTPUT_PATH;
-		OUTPUT_PATH = getHaxademicPath().concat(File.separator + "output" + File.separator);
-		return OUTPUT_PATH;
-	}
+	// CHECK FILE EXISTENCE
 	
-	// existence methods ----------------------------------------
 	public static Boolean fileOrPathExists( String path ) {
 		File f = new File( path );
 		return f.exists();
@@ -100,26 +108,7 @@ public class FileUtil {
 		return new File( path ).isFile();
 	}
 	
-	public static String pathForFile(String filePath) {
-		return filePath.substring(0, filePath.lastIndexOf(File.separator));
-	}
-	
-	/**
-	 * Creates a new directory on the machine's filesystem
-	 * @param path Directory to create
-	 */
-	public static void createDir( String path ) {
-		File f = new File( path );
-		try {
-		    if( f.mkdirs() ) { 
-		        P.println("Directory created: "+path);
-		    } else {
-		        P.println("Directory was not created"+path);
-		    }
-		} catch(Exception e){
-		    e.printStackTrace();
-		} 
-	}
+	// LIST FILES / DIRS
 	
 	/**
 	 * Finds files of a specific type within a directory
@@ -138,7 +127,7 @@ public class FileUtil {
 		    for (int i=0; i < children.length; i++) {
 		        String filename = children[i];
 		        if( filename.indexOf( type ) != -1 ) {	
-			        	P.println(filename);
+			        	// P.println(filename);
 			        	filesOfType.add( filename );
 		        }
 		    }
@@ -234,6 +223,25 @@ public class FileUtil {
 		return fileNames;
 	}
 	
+	// CREATE / APPEND
+
+	/**
+	 * Creates a new directory on the machine's filesystem
+	 * @param path Directory to create
+	 */
+	public static void createDir( String path ) {
+		File f = new File( path );
+		try {
+		    if( f.mkdirs() ) { 
+		        P.println("Directory created: "+path);
+		    } else {
+		        P.println("Directory was not created"+path);
+		    }
+		} catch(Exception e){
+		    e.printStackTrace();
+		} 
+	}
+	
 	/**
 	 * Simple method to write text to a file
 	 * @param file The filename (with full path) to write to
@@ -294,6 +302,8 @@ public class FileUtil {
 	        }
 	    }
 	}
+
+	// READ FILE
 	
 	public static String[] readTextFromFile(String textFilePath) {
 		String[] linesArr = null;
@@ -310,4 +320,12 @@ public class FileUtil {
 		}
 		return linesArr;
 	}
+	
+	// DELETION
+	
+	public static void deleteFile(String filePath) {
+		File file = new File(filePath);
+		file.delete();
+	}
+	
 }

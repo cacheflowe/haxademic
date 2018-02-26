@@ -321,7 +321,7 @@ public class Shapes {
 	
 	public static PShape createSheet(int detail, float width, float height) {
 		P.p.textureMode(P.NORMAL); 
-		P.println("Shapes.createSheet() setting textureMode is weird to do here... Maybe should be PAppletHax default?");
+		// P.println("Shapes.createSheet() setting textureMode is weird to do here... Maybe should be PAppletHax default?");
 		PShape sh = P.p.createShape();
 		sh.beginShape(P.QUADS);
 		sh.noStroke();
@@ -344,7 +344,7 @@ public class Shapes {
 				numVertices += 4;
 			}
 		}
-		P.println("createSheet() vertices:", numVertices);
+		// P.println("createSheet() vertices:", numVertices);
 		sh.endShape(); 
 		P.p.textureMode(P.IMAGE); 	// reset 
 		return sh;
@@ -352,7 +352,7 @@ public class Shapes {
 	
 	public static PShape createSheet(int detail, PImage tex) {
 		P.p.textureMode(P.NORMAL); 
-		P.println("Shapes.createSheet() setting textureMode is weird to do here... Maybe should be PAppletHax default?");
+		// P.println("Shapes.createSheet() setting textureMode is weird to do here... Maybe should be PAppletHax default?");
 		PShape sh = P.p.createShape();
 		sh.beginShape(P.QUADS);
 		sh.noStroke();
@@ -375,7 +375,7 @@ public class Shapes {
 				numVertices++;
 			}
 		}
-		P.println("createSheet() vertices:", numVertices);
+		// P.println("createSheet() vertices:", numVertices);
 		sh.endShape(); 
 		P.p.textureMode(P.IMAGE); 	// reset 
 		return sh;

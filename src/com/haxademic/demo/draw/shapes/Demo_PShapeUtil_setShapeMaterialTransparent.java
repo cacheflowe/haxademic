@@ -32,6 +32,10 @@ extends PAppletHax {
 		PShapeUtil.meshRotateOnAxis(shape, P.PI, P.Z);
 		
 		// inspect materials to set target color transparent
+		// transparent face must be drawn last, and so might need to be rearranged in the obj file. 
+		// ...Move said faces to the end of the file:
+		// usemtl Light Cast
+		// f 4/4/1 5/3/2 2/2/2 1/1/1
 		PShapeUtil.setShapeMaterialTransparent(shape, 0.079f, 0.13f, 0.4f, 0.5f);
 	}
 			
