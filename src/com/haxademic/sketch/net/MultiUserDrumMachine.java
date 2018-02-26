@@ -8,7 +8,6 @@ import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.net.WebServer;
 import com.haxademic.core.net.WebServerRequestHandler;
-import com.haxademic.core.system.SystemUtil;
 
 import processing.sound.SoundFile;
 
