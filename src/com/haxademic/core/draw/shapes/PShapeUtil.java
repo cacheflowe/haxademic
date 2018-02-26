@@ -4,7 +4,6 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.system.SystemUtil;
-import com.sun.corba.se.impl.encoding.OSFCodeSetRegistry;
 
 import processing.core.PApplet;
 import processing.core.PConstants;
@@ -16,9 +15,22 @@ import processing.core.PVector;
 public class PShapeUtil {
 	
 	///////////////////////////
+	// VERTEX COUNT
+	///////////////////////////
+	
+	public static int vertexCount(PShape shape) {
+		int numVertices = shape.getVertexCount();
+		for (int j = 0; j < shape.getChildCount(); j++) {
+			numVertices += vertexCount(shape.getChild(j));
+		}
+		return numVertices;
+	}
+
+	
+	///////////////////////////
 	// CLONE A FLATTENED COPY
 	///////////////////////////
-
+	
 	public static PShape clonePShape(PApplet p, PShape tesselation) {
 		PShape newShape = p.createShape();
 		newShape.beginShape(P.TRIANGLES);
