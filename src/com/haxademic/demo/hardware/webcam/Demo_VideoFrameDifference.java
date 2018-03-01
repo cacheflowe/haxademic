@@ -1,4 +1,4 @@
-package com.haxademic.demo.draw.filters.shaders;
+package com.haxademic.demo.hardware.webcam;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
