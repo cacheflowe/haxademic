@@ -50,6 +50,8 @@
     * Settings -> Update & Security -> Windows Defender -> Enhanced notifications -> Off
     * But turn off notifications
       * Task Manager -> Startup -> Disable Windows Defender Notifications
+  * Turn off power management for wifi connection: 
+    * Control Panel -> Network and Internet -> Network and Sharing Center -> Change Adapter Settings -> Right-click Wifi -> Properties -> Configure -> Power Management -> Uncheck "Allow ... turn off power:
 
 * Performance boost:
   * Defrag Hard drive:
@@ -91,7 +93,9 @@
   * Open Java app from Start Menu and disable from there
   * Open the system Task Manager (ctrl + alt + delete), go to the Startup tab, and disable java updater on startup
 
-  Additional steps:
+* Set a static [IP address](https://portforward.com/networking/static-ip-windows-10.htm)
+
+Additional steps:
   * BIOS settings to resume after power loss
   * http://www.evsc.net/tech/prep-windows-machine-for-fulltime-exhibition-setup
   * https://github.com/morphogencc/ofxWindowsSetup
