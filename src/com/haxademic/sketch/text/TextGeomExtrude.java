@@ -130,7 +130,7 @@ extends PAppletHax {
 		weMesh.addFace( pt3, pt4, pt1 );
 	}
 
-	public void draw() {
+	public void drawApp() {
 		DrawUtil.setBetterLights(p);
 		background(0);
 		translate(width/2,height/2,-600);

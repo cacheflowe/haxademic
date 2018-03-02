@@ -94,7 +94,7 @@ extends PAppletHax {
 				float xDir = (r + g) - 0.5f;
 				float yDir = (b + a) - 0.5f;
 				float rotation = -1f * (r * -P.TWO_PI); // MathUtil.getRadiansToTarget(0, 0, xDir, yDir);
-				if(xDir + yDir > 0.1f) { 
+				if(xDir + yDir > 0.01f) { 
 					p.pushMatrix();
 					p.translate(x, y);
 					p.rotate(rotation);
