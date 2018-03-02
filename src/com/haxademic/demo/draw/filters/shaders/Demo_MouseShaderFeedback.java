@@ -1,4 +1,4 @@
-package com.haxademic.sketch.shader;
+package com.haxademic.demo.draw.filters.shaders;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
@@ -18,7 +18,7 @@ import processing.core.PImage;
 import processing.opengl.PShader;
 import processing.video.Movie;
 
-public class MouseShader
+public class Demo_MouseShaderFeedback
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 

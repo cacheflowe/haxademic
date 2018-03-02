@@ -1,13 +1,14 @@
-package com.haxademic.sketch.texture;
+package com.haxademic.demo.draw.image;
 
 import processing.core.PImage;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.context.OpenGLUtil;
+import com.haxademic.core.file.DemoAssets;
 import com.haxademic.core.file.FileUtil;
 
-public class TextureRect 
+public class Demo_TexturedQuad 
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
@@ -15,7 +16,7 @@ extends PAppletHax {
 	
 	public void setup() {
 		super.setup();
-		img = loadImage(FileUtil.getHaxademicDataPath() + "images/justin-tiny-color1.png");
+		img = DemoAssets.justin();
 		OpenGLUtil.setTextureQualityHigh(p.g);
 	}
 	

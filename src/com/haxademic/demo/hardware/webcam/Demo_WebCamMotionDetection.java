@@ -15,7 +15,7 @@ import processing.core.PGraphics;
 import processing.core.PImage;
 import processing.opengl.PShader;
 
-public class Demo_WebCamMotion 
+public class Demo_WebCamMotionDetection 
 extends PAppletHax
 implements IWebCamCallback {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
