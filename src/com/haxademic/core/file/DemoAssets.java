@@ -14,43 +14,37 @@ public class DemoAssets {
 	
 	public static PImage smallTexture = null;
 	public static PImage smallTexture() {
-		if(smallTexture == null) smallTexture = P.p.loadImage(FileUtil.getFile("images/smiley-big.png"));
+		if(smallTexture == null) smallTexture = P.p.loadImage(FileUtil.getFile("haxademic/images/smiley.png"));
 		return smallTexture;
 	}
 	
 	public static PImage particle = null;
 	public static PImage particle() {
-		if(particle == null) particle = P.p.loadImage(FileUtil.getFile("haxademic/images/textures/particle.png"));
+		if(particle == null) particle = P.p.loadImage(FileUtil.getFile("haxademic/images/particle.png"));
 		return particle;
 	}
 	
 	public static PImage justin = null;
 	public static PImage justin() {
-		if(justin == null) justin = P.p.loadImage(FileUtil.getFile("images/textures/justin-spike-portrait.png"));
+		if(justin == null) justin = P.p.loadImage(FileUtil.getFile("haxademic/images/justin-spike-portrait.png"));
 		return justin;
-	}
-	
-	public static PImage grayscale = null;
-	public static PImage grayscale() {
-		if(grayscale == null) grayscale = P.p.loadImage(FileUtil.getFile("images/textures/grayscale/shader-1.jpg"));
-		return grayscale;
 	}
 	
 	public static PImage textureJupiter = null;
 	public static PImage textureJupiter() {
-		if(textureJupiter == null) textureJupiter = P.p.loadImage(FileUtil.getFile("images/textures/space/spherical/jupiter.jpg"));
+		if(textureJupiter == null) textureJupiter = P.p.loadImage(FileUtil.getFile("haxademic/images/spherical/jupiter.jpg"));
 		return textureJupiter;
 	}
 	
 	public static PImage textureNebula = null;
 	public static PImage textureNebula() {
-		if(textureNebula == null) textureNebula = P.p.loadImage(FileUtil.getFile("images/textures/space/spherical/carina-nebula.jpg"));
+		if(textureNebula == null) textureNebula = P.p.loadImage(FileUtil.getFile("haxademic/images/space/carina-nebula.jpg"));
 		return textureNebula;
 	}
 	
 	public static PImage squareTexture = null;
 	public static PImage squareTexture() {
-		if(squareTexture == null) squareTexture = P.p.loadImage(FileUtil.getFile("images/textures/space/sun.jpg"));
+		if(squareTexture == null) squareTexture = P.p.loadImage(FileUtil.getFile("haxademic/images/space/sun.jpg"));
 		return squareTexture;
 	}
 	
@@ -58,13 +52,13 @@ public class DemoAssets {
 	
 	public static PShape shapeX = null;
 	public static PShape shapeX() {
-		if(shapeX == null) shapeX = P.p.loadShape(FileUtil.getFile("svg/x.svg"));
+		if(shapeX == null) shapeX = P.p.loadShape(FileUtil.getFile("haxademic/svg/x.svg"));
 		return shapeX;
 	}
 	
 	public static PShape shapeFractal = null;
 	public static PShape shapeFractal() {
-		if(shapeFractal == null) shapeFractal = P.p.loadShape(FileUtil.getFile("svg/fractal-2013-09-15-20-27-38-01.svg"));
+		if(shapeFractal == null) shapeFractal = P.p.loadShape(FileUtil.getFile("haxademic/svg/fractal-2013-09-15-20-27-38-01.svg"));
 		return shapeFractal;
 	}
 	
@@ -73,7 +67,7 @@ public class DemoAssets {
 	public static PShape objSkeleton = null;
 	public static PShape objSkeleton() {
 		if(objSkeleton == null) {
-			objSkeleton = P.p.loadShape(FileUtil.getFile("models/skeleton-lowpoly.obj"));
+			objSkeleton = P.p.loadShape(FileUtil.getFile("haxademic/models/skeleton-lowpoly.obj"));
 			PShapeUtil.meshRotateOnAxis(objSkeleton, P.PI, P.Z);
 		}
 		return objSkeleton;
@@ -82,7 +76,7 @@ public class DemoAssets {
 	public static PShape objSkullRealistic = null;
 	public static PShape objSkullRealistic() {
 		if(objSkullRealistic == null) {
-			objSkullRealistic = P.p.loadShape(FileUtil.getFile("models/skull-realistic.obj"));
+			objSkullRealistic = P.p.loadShape(FileUtil.getFile("haxademic/models/skull-realistic.obj"));
 			PShapeUtil.meshRotateOnAxis(objSkullRealistic, P.PI, P.Z);
 		}
 		return objSkullRealistic;
@@ -91,7 +85,7 @@ public class DemoAssets {
 	public static PShape objHumanoid = null;
 	public static PShape objHumanoid() {
 		if(objHumanoid == null) {
-			objHumanoid = P.p.loadShape(FileUtil.getFile("models/man-lowpoly.obj"));
+			objHumanoid = P.p.loadShape(FileUtil.getFile("haxademic/models/man-lowpoly.obj"));
 			PShapeUtil.meshRotateOnAxis(objHumanoid, P.PI, P.Z);
 			PShapeUtil.meshRotateOnAxis(objHumanoid, P.HALF_PI, P.Y);
 		}
@@ -102,8 +96,14 @@ public class DemoAssets {
 	
 	public static Movie movieFractalCube = null;
 	public static Movie movieFractalCube() {
-		if(movieFractalCube == null) movieFractalCube = new Movie(P.p, FileUtil.getFile("video/fractal-cube.mp4"));
+		if(movieFractalCube == null) movieFractalCube = new Movie(P.p, FileUtil.getFile("haxademic/video/fractal-cube.mp4"));
 		return movieFractalCube;
+	}
+	
+	public static Movie movieKinectSilhouette = null;
+	public static Movie movieKinectSilhouette() {
+		if(movieKinectSilhouette == null) movieKinectSilhouette = new Movie(P.p, FileUtil.getFile("haxademic/video/fractal-cube.mp4"));
+		return movieKinectSilhouette;
 	}
 
 	// FONTS
