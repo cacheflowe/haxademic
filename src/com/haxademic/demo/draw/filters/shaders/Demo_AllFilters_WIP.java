@@ -6,6 +6,7 @@ import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.filters.shaders.CubicLensDistortionFilter;
 import com.haxademic.core.draw.filters.shaders.CubicLensDistortionFilterOscillate;
+import com.haxademic.core.draw.filters.shaders.EdgeColorDarkenFilter;
 import com.haxademic.core.draw.filters.shaders.GodRays;
 import com.haxademic.core.draw.shaders.textures.TextureShader;
 import com.haxademic.core.file.DemoAssets;
@@ -72,6 +73,9 @@ extends PAppletHax { public static void main(String args[]) { PAppletHax.main(Th
 //		// old distortion
 //		CubicLensDistortionFilterOscillate.instance(p).setTime(p.frameCount * 0.01f);
 //		CubicLensDistortionFilterOscillate.instance(p).applyTo(p);
+		
+		EdgeColorDarkenFilter.instance(p).setSpreadX(0.2f);
+		EdgeColorDarkenFilter.instance(p).applyTo(p);
 		
 		// godrays
 		if(triggerToggle.on() == false) {

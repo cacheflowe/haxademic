@@ -8,9 +8,12 @@ import com.haxademic.core.data.ConvertUtil;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.file.FileUtil;
 
+import processing.core.PConstants;
 import processing.core.PGraphics;
+import processing.core.PImage;
 import processing.event.KeyEvent;
 import processing.event.MouseEvent;
+import processing.opengl.PShader;
 
 public class CaptureKeystoneToRectBuffer {
 	
@@ -18,6 +21,7 @@ public class CaptureKeystoneToRectBuffer {
 	protected PGraphics dest;
 	protected int destW;
 	protected int destH;
+//	protected PShader quadMapper;
 	
 	protected Point _topLeft;
 	protected Point _topRight;
@@ -47,6 +51,7 @@ public class CaptureKeystoneToRectBuffer {
 		dest = P.p.createGraphics(destW, destH, PRenderers.P3D);
 		// build points
 		resetCorners();
+//		quadMapper = P.p.loadShader(FileUtil.getFile("shaders/filters/map-quad-to-texture.glsl"));
 		// listeners
 		P.p.registerMethod("mouseEvent", this); // add mouse listeners
 		P.p.registerMethod("keyEvent", this);
@@ -75,7 +80,15 @@ public class CaptureKeystoneToRectBuffer {
 	
 	public void update(boolean debug) {
 		this.debug = debug;
+		// attempt at shader option:
 		// draw mapped capture to buffer
+		//		quadMapper.set("sourceTexture", sourceBuffer);
+		//		quadMapper.set("topLeft", (float) _topLeft.x / (float) sourceBuffer.width, (float) _topLeft.y / (float) sourceBuffer.height);
+		//		quadMapper.set("botLeft", (float) _bottomLeft.x / (float) sourceBuffer.width, (float) _bottomLeft.y / (float) sourceBuffer.height);
+		//		quadMapper.set("topRight", 1f + 1f * (float) _topRight.x / (float) sourceBuffer.width, 1f + 1f * (float) _topRight.y / (float) sourceBuffer.height);
+		//		quadMapper.set("botRight", (float) _bottomRight.x / (float) sourceBuffer.width, 1f - (float) _bottomRight.y / (float) sourceBuffer.height);
+		//		dest.filter(quadMapper);
+		// textured vertices
 		dest.beginDraw();
 		dest.beginShape(P.QUADS);
 		dest.texture(sourceBuffer);
@@ -85,6 +98,77 @@ public class CaptureKeystoneToRectBuffer {
 		dest.vertex(0, dest.height, 0, 			_bottomLeft.x, _bottomLeft.y);
 		dest.endShape();
 		dest.endDraw();
+	}
+	
+//	public void update(boolean debug) {
+//		this.debug = debug;
+//
+//		// draw to screen with pinned corner coords
+//		// inspired by: https://github.com/davidbouchard/keystone & http://marcinignac.com/blog/projectedquads-source-code/
+//		dest.beginDraw();
+//		dest.beginShape(P.QUADS);
+//		dest.texture(sourceBuffer);
+//		dest.noStroke();
+//		
+//		float mapX = 0;
+//		float mapY = 0;
+//		float mapW = dest.width;
+//		float mapH = dest.height;
+//		
+//			// subdivide quad for better resolution
+//			float subDivideSteps = 8f;
+//			float stepsX = subDivideSteps;
+//			float stepsY = subDivideSteps;
+//
+//			for( float x=0; x < stepsX; x += 1f ) {
+//				float xPercent = x/stepsX;
+//				float xPercentNext = (x+1f)/stepsX;
+//				if( xPercentNext > 1 ) xPercentNext = 1;
+//				
+//				for( float y=0; y < stepsY; y += 1f ) {
+//					float yPercent = y/stepsY;
+//					float yPercentNext = (y+1f)/stepsY;
+//					if( yPercentNext > 1 ) yPercentNext = 1;
+//
+//					// calc grid positions based on interpolating columns between corners
+//					float colTopX = interp(_topLeft.x, _topRight.x, xPercent);
+//					float colTopY = interp(_topLeft.y, _topRight.y, xPercent);
+//					float colBotX = interp(_bottomLeft.x, _bottomRight.x, xPercent);
+//					float colBotY = interp(_bottomLeft.y, _bottomRight.y, xPercent);
+//					
+//					float nextColTopX = interp(_topLeft.x, _topRight.x, xPercentNext);
+//					float nextColTopY = interp(_topLeft.y, _topRight.y, xPercentNext);
+//					float nextColBotX = interp(_bottomLeft.x, _bottomRight.x, xPercentNext);
+//					float nextColBotY = interp(_bottomLeft.y, _bottomRight.y, xPercentNext);
+//					
+//					// calc quad coords
+//					float quadTopLeftX = interp(colTopX, colBotX, yPercent);
+//					float quadTopLeftY = interp(colTopY, colBotY, yPercent);
+//					float quadTopRightX = interp(nextColTopX, nextColBotX, yPercent);
+//					float quadTopRightY = interp(nextColTopY, nextColBotY, yPercent);
+//					float quadBotRightX = interp(nextColTopX, nextColBotX, yPercentNext);
+//					float quadBotRightY = interp(nextColTopY, nextColBotY, yPercentNext);
+//					float quadBotLeftX = interp(colTopX, colBotX, yPercentNext);
+//					float quadBotLeftY = interp(colTopY, colBotY, yPercentNext);
+//					
+//					// draw subdivided quads
+//					dest.vertex(quadTopLeftX, quadTopLeftY, 0, 		_topLeft.x, _topLeft.y);
+//					dest.vertex(quadTopRightX, quadTopRightY, 0, 	_topRight.x, _topRight.y);
+//					dest.vertex(quadBotRightX, quadBotRightY, 0, 	_bottomRight.x, _bottomRight.y);
+//					dest.vertex(quadBotLeftX, quadBotLeftY, 0, 		_bottomLeft.x, _bottomLeft.y);
+//
+//					dest.vertex(quadTopLeftX, quadTopLeftY, 0, 		mapW * xPercent, 		mapY + mapH * yPercent);
+//					dest.vertex(quadTopRightX, quadTopRightY, 0, 	mapX + mapW * xPercentNext, 	mapY + mapH * yPercent);
+//					dest.vertex(quadBotRightX, quadBotRightY, 0, 	mapX + mapW * xPercentNext, 	mapY + mapH * yPercentNext);
+//					dest.vertex(quadBotLeftX, quadBotLeftY, 0, 		mapX + mapW * xPercent, 		mapY + mapH * yPercentNext);
+//				}
+//			}
+//			dest.endShape();
+//			dest.endDraw();
+//	}
+	
+	protected float interp( float lower, float upper, float n ) {
+		return ( ( upper - lower ) * n ) + lower;
 	}
 	
 	public void drawDebug(PGraphics pg) {

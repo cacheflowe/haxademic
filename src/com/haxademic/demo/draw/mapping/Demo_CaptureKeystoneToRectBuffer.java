@@ -8,6 +8,7 @@ import com.haxademic.core.file.FileUtil;
 
 import processing.core.PGraphics;
 import processing.core.PImage;
+import processing.opengl.PShader;
 
 public class Demo_CaptureKeystoneToRectBuffer
 extends PAppletHax {
@@ -21,7 +22,7 @@ extends PAppletHax {
 	protected void overridePropsFile() {
 		p.appConfig.setProperty( AppSettings.WIDTH, 1280 );
 		p.appConfig.setProperty( AppSettings.HEIGHT, 720 );
-		p.appConfig.setProperty(AppSettings.WEBCAM_INDEX, 6 );
+//		p.appConfig.setProperty(AppSettings.WEBCAM_INDEX, 6 );
 	}
 
 	protected void setupFirstFrame() {

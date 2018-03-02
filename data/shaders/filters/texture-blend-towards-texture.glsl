@@ -10,7 +10,7 @@ varying vec4 vertColor;
 varying vec4 vertTexCoord;
 
 uniform sampler2D targetTexture;
-float blendLerp = 0.2;//0.04;
+uniform float blendLerp = 0.2;//0.04;
 
 void main() {
 	vec2 uv = vertTexCoord.xy;
