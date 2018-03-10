@@ -11,17 +11,25 @@ public class WebCamWrapper {
 	public static PImage lastFrame = new PImage(32, 32);
 	public static IWebCamCallback delegate;
 
-	public WebCamWrapper(int cameraIndex) {
+	public WebCamWrapper(int cameraIndex, boolean threaded) {
 		if(webCam == null) {
-			new Thread(new Runnable() { public void run() {
+			if(threaded) {
+				new Thread(new Runnable() { public void run() {
+					initCamera(cameraIndex);
+				}}).start();	
+			} else {
 				initCamera(cameraIndex);
-			}}).start();	
+			}
 			P.p.registerMethod("pre", this);
 		}
 	}
 	
+	public WebCamWrapper(int cameraIndex) {
+		this(cameraIndex, true);
+	}
+	
 	protected void initCamera(int cameraIndex) {
-		P.println("getting cameras");
+		P.println("WebCamWrapper: listing cameras");
 		String[] cameras = Capture.list();
 		P.println("cameras: "+cameras);
 		if (cameras.length == 0) {
