@@ -49,8 +49,10 @@ public class ImageSequenceMovieClip {
 		if(BLANK_IMAGE == null) BLANK_IMAGE = P.p.createImage(32, 32, P.ARGB);
 		imageSequence = new ArrayList<PImage>();
 		tint = P.p.color(255);
-		if(debug == true) P.println("Loading for:", imagesDir);
-		loadImages(imagesDir, format);
+		if(imagesDir != null) {
+			if(debug == true) P.println("Loading for:", imagesDir);
+			loadImages(imagesDir, format);
+		}
 	}
 	
 	public ImageSequenceMovieClip(String imagesDir, String format, float fps) {
@@ -63,6 +65,12 @@ public class ImageSequenceMovieClip {
 	
 	public ImageSequenceMovieClip(String imagesDir, String format) {
 		this(imagesDir, format, DEFAULT_FPS, null);
+	}
+
+	public ImageSequenceMovieClip(ArrayList<PImage> images, float fps) {
+		this(null, null, fps, null);
+		imageSequence = images;
+		imagesLoaded = numImages = imageSequence.size();
 	}
 	
 	public void setFramesSequence(int[] framesSequence) {
@@ -318,6 +326,10 @@ public class ImageSequenceMovieClip {
 				curFrame = P.floor(playbackProgress * fps);
 			}
 		}
+	}
+	
+	public void setFrameByProgress(float progress) {
+		curFrame = P.floor(progress * (float) numImages) % numImages;
 	}
 	
 	public void drawToPGraphics(PGraphics pg, float x, float y, float scale) {
