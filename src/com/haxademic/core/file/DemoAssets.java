@@ -102,7 +102,7 @@ public class DemoAssets {
 	
 	public static Movie movieKinectSilhouette = null;
 	public static Movie movieKinectSilhouette() {
-		if(movieKinectSilhouette == null) movieKinectSilhouette = new Movie(P.p, FileUtil.getFile("haxademic/video/fractal-cube.mp4"));
+		if(movieKinectSilhouette == null) movieKinectSilhouette = new Movie(P.p, FileUtil.getFile("haxademic/video/kinect-silhouette.mp4"));
 		return movieKinectSilhouette;
 	}
 

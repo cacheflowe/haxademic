@@ -30,8 +30,9 @@ public class ImageSequenceRecorder {
 		}
 	}
 	
-	public void addFrame(PImage img) {
+	public int addFrame(PImage img) {
 		ImageUtil.cropFillCopyImage(img, getNextBuffer(), true);
+		return frameIndex;
 	}
 	
 	public PGraphics getCurFrame() {

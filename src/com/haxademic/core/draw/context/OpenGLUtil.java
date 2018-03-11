@@ -121,6 +121,7 @@ public class OpenGLUtil {
 	}
 	
 	// See: http://www.andersriggelsen.dk/glblendfunc.php
+	// Also: https://threejs.org/examples/webgl_materials_blending_custom.html#
 	public static void setBlendMode(PGraphics pg, Blend blendMode) {
 		GL gl = ((PJOGL)pg.beginPGL()).gl.getGL();
 		switch ( blendMode ) {
@@ -147,9 +148,11 @@ public class OpenGLUtil {
 			case LIGHT_ADD :
 				gl.glBlendFunc(GL.GL_SRC_COLOR, GL.GL_SRC_ALPHA);
 				gl.glBlendEquation(GL.GL_FUNC_ADD);
+				break;
 			case SATURATE :
-				gl.glBlendFunc(GL.GL_SRC_COLOR, GL.GL_SRC_ALPHA_SATURATE);
+				gl.glBlendFunc(GL.GL_SRC_COLOR, GL.GL_DST_ALPHA);
 				gl.glBlendEquation(GL.GL_FUNC_ADD);
+				break;
 		}
 	}
 

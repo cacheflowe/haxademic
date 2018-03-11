@@ -14,6 +14,7 @@ implements IWebCamCallback {
 
 	protected void overridePropsFile() {
 		p.appConfig.setProperty(AppSettings.WEBCAM_INDEX, 3 );
+		p.appConfig.setProperty(AppSettings.WEBCAM_THREADED, false );
 		p.appConfig.setProperty(AppSettings.SHOW_DEBUG, true );
 	}
 		
