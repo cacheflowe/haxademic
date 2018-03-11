@@ -15,10 +15,11 @@ import com.haxademic.core.math.easing.EasingFloat;
 
 import processing.core.PGraphics;
 import processing.core.PImage;
+import processing.core.PShape;
 import processing.core.PVector;
 import processing.video.Movie;
 
-public class Demo_TexturedStrips
+public class Demo_TexturedStripsPShape
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
@@ -28,7 +29,7 @@ extends PAppletHax {
 	protected PGraphics bwMap;
 	protected boolean videoMap = false;
 	protected ArrayList<Particle> particles;
-	protected int numParticles = 100;
+	protected int numParticles = 200;
 	protected boolean debug = false;
 
 	protected void overridePropsFile() {
@@ -61,6 +62,7 @@ extends PAppletHax {
 		for (int i = 0; i < numParticles; i++) {
 			particles.add(new Particle());
 		}
+		
 	}
 
 	
@@ -68,7 +70,6 @@ extends PAppletHax {
 		background(0);
 		
 		// update map
-		// draw movie
 		if(videoMap) {
 			if(testMovie.width > 10) {
 				ImageUtil.cropFillCopyImage(testMovie.get(), bwMap, true);
@@ -99,25 +100,54 @@ extends PAppletHax {
 	
 	public class Particle {
 		
+		protected int TAIL_SEGMENTS = 40;
 		protected float BORDER = 10;
 		protected float TAIL_W = 2;
 		protected float TAIL_LERP_BLACK = 0.9f;
 		protected float TAIL_LERP_SLOW = 0.3f;
 		protected float TURN_LERP_LOW = 2f;
 		protected float TURN_LERP_HIGH = 5f;
+		protected float SPEED_LOW = 20f;
+		protected float SPEED_HIGH = 35f;
 		protected float SPEED_SLOW = 5f;
 		protected PVector pos = new PVector();
 		protected PVector tailEnd = new PVector();
-		protected PVector[] tail = new PVector[50];
-		protected EasingFloat easedDir = new EasingFloat(0, 4);
-		protected EasingFloat easedSpeed = new EasingFloat(0, 4);
-		protected EasingFloat tailLerp = new EasingFloat(0.8f, 8);
+		protected PVector[] tail = new PVector[TAIL_SEGMENTS];
+		protected EasingFloat easedDir = new EasingFloat(0, 3);
+		protected EasingFloat easedSpeed = new EasingFloat(0, 3);
+		protected EasingFloat tailLerp = new EasingFloat(TAIL_LERP_BLACK, 8);
 		protected float activeSpeed;
 		protected boolean onBlack;
 		protected PImage texture;
+		protected PShape shape;
+
 		
 		public Particle() {
+			buildShape();
 			reset();
+		}
+		
+		protected void buildShape() {
+			// build pshape strip
+			PImage stripTexture = threads[0];
+			float segments = TAIL_SEGMENTS;
+			float stripW = 10;
+			float stripH = 500;
+			float textureStepY = (float) stripTexture.height / segments;
+			float stepY = stripH / segments;
+			float textureUV_Y = 0;
+			float curY = 0;
+			shape = createShape();
+			shape.beginShape(TRIANGLE_STRIP);
+			shape.noStroke();
+			shape.texture(stripTexture);
+			for (int i = 0; i < segments; i++) {
+				shape.vertex(0, curY, 0, textureUV_Y);
+				shape.vertex(stripW, curY, stripTexture.width, textureUV_Y);
+				textureUV_Y += textureStepY;
+				curY += stepY;
+			}
+			shape.endShape();
 		}
 		
 		protected void reset() {
@@ -126,11 +156,12 @@ extends PAppletHax {
 			newStartLocation();
 			resetTail();
 			resetDirection();
-			texture = threads[MathUtil.randRange(0, threads.length - 1)];
+			texture = threads[MathUtil.randRange(0, threads.length - 2)];
+			shape.setTexture(threads[0]);
 		}
 		
 		protected void resetSpeed() {
-			activeSpeed = MathUtil.randRangeDecimal(12f, 25f);	
+			activeSpeed = MathUtil.randRangeDecimal(SPEED_LOW, SPEED_HIGH);	
 			easedSpeed.setCurrent(activeSpeed);
 			easedSpeed.setTarget(activeSpeed);
 		}
@@ -207,47 +238,35 @@ extends PAppletHax {
 			easedDir.update(true);
 			tailLerp.update(true);
 
-			// copy up tail
+			// copy up tail from the end
 			for (int i = tail.length - 2; i >= 0; i--) {
 				tail[i+1].lerp(tail[i], tailLerp.value());
 			}
 			
-			// draw tail!
-			// pg.point(pos.x, pos.y, pos.z);
-			pg.fill(255);
-			pg.noStroke();
-			pg.beginShape(P.QUADS);
-			pg.texture(texture);
-			
-			float textureY = 0;
+			// update tail vertices
+			// start with current direction
 			float segmentDir = easedDir.value();
 
-			for (int i = 0; i < tail.length - 2; i++) {
-				// get rect points
+			for (int i = 0; i < TAIL_SEGMENTS; i++) {
+				// get direction to prev segment
+				if(i > 0) {
+					segmentDir = -MathUtil.getRadiansToTarget(tail[i].x, tail[i].y, tail[i-1].x, tail[i-1].y);
+				}
+				
+				// get rect points from tail segment vectors
 				float leftXCur = tail[i].x + TAIL_W * P.cos(segmentDir - P.HALF_PI);
 				float leftYCur = tail[i].y + TAIL_W * P.sin(segmentDir - P.HALF_PI);
 				float rightXCur = tail[i].x + TAIL_W * P.cos(segmentDir + P.HALF_PI);
 				float rightYCur = tail[i].y + TAIL_W * P.sin(segmentDir + P.HALF_PI);
-				
-				segmentDir = -MathUtil.getRadiansToTarget(tail[i].x, tail[i].y, tail[i+1].x, tail[i+1].y);
-				float leftXNext = tail[i+1].x + TAIL_W * P.cos(segmentDir - P.HALF_PI);
-				float leftYNext = tail[i+1].y + TAIL_W * P.sin(segmentDir - P.HALF_PI);
-				float rightXNext = tail[i+1].x + TAIL_W * P.cos(segmentDir + P.HALF_PI);
-				float rightYNext = tail[i+1].y + TAIL_W * P.sin(segmentDir + P.HALF_PI);
-				
-				pg.vertex(leftXCur,  leftYCur,  			0, textureY);
-				pg.vertex(rightXCur, rightYCur, 			texture.width, textureY);
-				textureY += (float) texture.height / (float) tail.length;
-				pg.vertex(rightXNext, rightYNext, 		texture.width, textureY);
-				pg.vertex(leftXNext, leftYNext, 			0, textureY);
-
-				
-				// old test draw
-//				pg.line(leftXCur, leftYCur, rightXCur, rightYCur);
-//				pg.line(tail[i].x, tail[i].y, tail[i].z, tail[i+1].x, tail[i+1].y, tail[i+1].z);
+								
+				// update triangle strip vertices - 2 per tail segment
+				int vertIndex = i * 2;
+				shape.setVertex(vertIndex,   leftXCur, leftYCur, 0);
+				shape.setVertex(vertIndex+1, rightXCur, rightYCur, 0);
 			}
-			pg.endShape();
-
+			
+			// draw PShape
+			p.shape(shape);
 		}
 	}
 }
