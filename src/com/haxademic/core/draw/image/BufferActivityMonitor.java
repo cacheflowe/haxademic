@@ -3,6 +3,7 @@ package com.haxademic.core.draw.image;
 import com.haxademic.core.app.P;
 import com.haxademic.core.constants.PRenderers;
 import com.haxademic.core.draw.color.ColorUtil;
+import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.easing.FloatBuffer;
 
@@ -26,6 +27,10 @@ public class BufferActivityMonitor {
 		prevFrame = P.p.createGraphics(w, h, PRenderers.P2D);
 		curFrame = P.p.createGraphics(w, h, PRenderers.P2D);
 		differenceBuffer = P.p.createGraphics(w, h, PRenderers.P2D);
+		
+		OpenGLUtil.setTextureQualityLow(prevFrame);
+		OpenGLUtil.setTextureQualityLow(curFrame);
+		OpenGLUtil.setTextureQualityLow(differenceBuffer);
 		
 		// frame diff buffer/shader
 		differenceShader = P.p.loadShader(FileUtil.getFile("shaders/filters/texture-difference-threshold.glsl"));

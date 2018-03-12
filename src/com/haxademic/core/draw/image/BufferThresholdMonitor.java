@@ -3,6 +3,7 @@ package com.haxademic.core.draw.image;
 import com.haxademic.core.app.P;
 import com.haxademic.core.constants.PRenderers;
 import com.haxademic.core.draw.color.ColorUtil;
+import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.filters.shaders.ThresholdFilter;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.easing.FloatBuffer;
@@ -23,6 +24,7 @@ public class BufferThresholdMonitor {
 		
 		// frame buffers
 		thresholdBuffer = P.p.createGraphics(w, h, PRenderers.P2D);
+		OpenGLUtil.setTextureQualityLow(thresholdBuffer);
 	}
 	
 	public BufferThresholdMonitor() {

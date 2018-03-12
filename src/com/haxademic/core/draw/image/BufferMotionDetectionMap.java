@@ -3,6 +3,7 @@ package com.haxademic.core.draw.image;
 import com.haxademic.core.app.P;
 import com.haxademic.core.constants.PRenderers;
 import com.haxademic.core.draw.color.ColorUtil;
+import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.filters.shaders.BlurHFilter;
 import com.haxademic.core.draw.filters.shaders.BlurVFilter;
 import com.haxademic.core.draw.filters.shaders.ThresholdFilter;
@@ -42,6 +43,11 @@ public class BufferMotionDetectionMap {
 		newFrameBuffer = P.p.createGraphics(bufferW, bufferH, PRenderers.P3D);
 		differenceBuffer = P.p.createGraphics(bufferW, bufferH, PRenderers.P3D);
 		bwBuffer = P.p.createGraphics(bufferW, bufferH, PRenderers.P3D);
+		
+		OpenGLUtil.setTextureQualityLow(backplate);
+		OpenGLUtil.setTextureQualityLow(newFrameBuffer);
+		OpenGLUtil.setTextureQualityLow(differenceBuffer);
+		OpenGLUtil.setTextureQualityLow(bwBuffer);
 		
 		blendTowardsShader = P.p.loadShader(FileUtil.getFile("shaders/filters/texture-blend-towards-texture.glsl"));
 		//		uniform float blendLerp = 0.2;//0.04;
