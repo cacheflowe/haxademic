@@ -1,4 +1,4 @@
-package com.haxademic.sketch.hardware.kinect_v2_windows;
+package com.haxademic.app.silhouect;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
@@ -14,10 +14,20 @@ import com.haxademic.core.draw.image.ImageUtil;
 import KinectPV2.KinectPV2;
 import processing.core.PGraphics;
 
-public class Kinect2SilhouetteRD
+public class Silhouect
 extends PAppletHax {
-
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
+	
+	/**
+	 * TODO:
+	 * - Slideshow mode - detect no user and timeout to switch over
+	 *   - "Come Closer" attract image
+	 *   - History of previous user frames
+	 * - Corporate logo in lower corner if it exists
+	 * - Draw to PGraphicsKeystone and set up for HD screens
+	 * - Draw user silhouette to crop fill main canvas?
+	 * - Add desktop icon for easy install launching
+	 */
 	
 	protected KinectPV2 kinect;
 	protected PGraphics buffer;
