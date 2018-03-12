@@ -19,7 +19,7 @@ public class BufferThresholdMonitor {
 
 	public BufferThresholdMonitor(int w, int h, int bufferAvgSize) {
 		// smoothed activity average
-		thresholdCalc = new FloatBuffer(60);
+		thresholdCalc = new FloatBuffer(bufferAvgSize);
 		
 		// frame buffers
 		thresholdBuffer = P.p.createGraphics(w, h, PRenderers.P2D);
