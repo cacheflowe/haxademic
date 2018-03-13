@@ -299,7 +299,16 @@ public class Shapes {
 		pg.endShape();
 	}
 
-	
+	public static void drawTexturedRect(PGraphics pg, PImage texture) {
+		pg.beginShape(P.QUAD);
+		pg.texture(texture);
+		pg.vertex(-texture.width/2, -texture.height/2, 			0, 0);
+		pg.vertex( texture.width/2, -texture.height/2, 			texture.width, 0);
+		pg.vertex( texture.width/2,  texture.height/2, 			texture.width, texture.height);
+		pg.vertex(-texture.width/2,  texture.height/2, 			0, texture.height);
+		pg.endShape();
+	}
+
 	public static PShape createCan(float radius, float height, int detail) {
 		P.p.textureMode(P.NORMAL); 
 		PShape sh = P.p.createShape();
