@@ -105,6 +105,8 @@ extends PApplet
 	public LeapMotion leapMotion = null;
 	public OscWrapper oscState = null;
 	public BrowserInputState browserInputState = null;
+	public int lastMouseTime = 0;
+	public boolean mouseShowing = true;
 
 	// debug
 	public int _fps;
@@ -331,6 +333,7 @@ extends PApplet
 		renderFrame();
 		keyboardState.update();
 		browserInputState.update();
+		autoHideMouse();
 		if(oscState != null) oscState.update();
 		showStats();
 		setAppDockIconAndTitle();
@@ -468,7 +471,25 @@ extends PApplet
 	// INPUT
 	////////////////////////
 	
-	protected void killScreensaver(){
+	protected void autoHideMouse() {
+		// show mouse
+		if(p.mouseX != p.pmouseX || p.mouseY != p.pmouseY) {
+			lastMouseTime = p.millis();
+			if(p.mouseShowing == false) {
+				p.mouseShowing = true;
+				p.cursor();
+			}
+		}
+		// hide mouse
+		if(p.mouseShowing == true) {
+			if(p.millis() > lastMouseTime + 5000) {
+				p.noCursor();
+				mouseShowing = false;
+			}
+		}
+	}
+	
+	protected void killScreensaver() {
 		// keep screensaver off - hit shift every 1000 frames
 		if( p.frameCount % 1000 == 10 ) _robot.keyPress(KeyEvent.VK_SHIFT);
 		if( p.frameCount % 1000 == 11 ) _robot.keyRelease(KeyEvent.VK_SHIFT);
