@@ -20,7 +20,7 @@ extends PAppletHax {
 	}
 		
 	public void setupFirstFrame () {
-		movieToImageSequence = new MovieToImageSequence(DemoAssets.movieFractalCube());
+		movieToImageSequence = new MovieToImageSequence(DemoAssets.movieFractalCube(), 0.5f);
 	}
 	
 	protected void convertToMoviePlayer() {
@@ -42,7 +42,7 @@ extends PAppletHax {
 		
 		// show looped movieclip after capture
 		if(movieClip != null) {
-			// movieClip.update();
+			movieClip.update();
 			movieClip.setFrameByProgress(p.mousePercentX() * 4f);
 			p.image(movieClip.image(), 700, 0);
 		}

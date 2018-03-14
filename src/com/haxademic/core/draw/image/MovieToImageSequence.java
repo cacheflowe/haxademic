@@ -15,13 +15,19 @@ public class MovieToImageSequence {
 	protected Movie movie;
 	protected PGraphics movieBuffer;
 	protected ArrayList<PImage> imageSequence;
+	protected float scale = 1;
 	protected int[] pixels = new int[0];
 	protected boolean capturing = true;
 	
-	public MovieToImageSequence(Movie movie) {
+	public MovieToImageSequence(Movie movie, float scale) {
+		this.scale = scale;
 		this.movie = movie;
 		movie.speed(0.3f);
 		movie.play();
+	}
+	
+	public MovieToImageSequence(Movie movie) {
+		this(movie, 1f);
 	}
 	
 	public boolean complete() {
@@ -38,7 +44,7 @@ public class MovieToImageSequence {
 	
 	protected void initCaptureBuffer() {
 		imageSequence = new ArrayList<PImage>();
-		movieBuffer = P.p.createGraphics(movie.width, movie.height, PRenderers.P2D);
+		movieBuffer = P.p.createGraphics(P.round(movie.width * scale), P.round(movie.height * scale), PRenderers.P2D);
 		movie.jump(0);
 		movie.play();
 	}
