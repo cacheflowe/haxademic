@@ -20,8 +20,8 @@ public class MovieToImageSequence {
 	
 	public MovieToImageSequence(Movie movie) {
 		this.movie = movie;
-		movie.speed(0.7f);
-		movie.loop();
+		movie.speed(0.3f);
+		movie.play();
 	}
 	
 	public boolean complete() {
@@ -61,7 +61,7 @@ public class MovieToImageSequence {
 		if(movie.width > 20) {
 			if(movieBuffer == null) initCaptureBuffer();
 			if(capturing) captureFrame();
-			if(movie != null && movie.time() >= movie.duration() - 0.001f) finishMovieCapture();
+			if(movie != null && movie.time() >= movie.duration() - 0.01f) finishMovieCapture();
 		}
 	}
 	
