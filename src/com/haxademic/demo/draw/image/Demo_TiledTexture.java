@@ -2,9 +2,8 @@ package com.haxademic.demo.draw.image;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.draw.image.TiledTexture;
-import com.haxademic.core.file.FileUtil;
+import com.haxademic.core.file.DemoAssets;
 
 public class Demo_TiledTexture
 extends PAppletHax {
@@ -13,16 +12,9 @@ extends PAppletHax {
 	protected TiledTexture tiledImg;
 	protected int frames = 1220;
 
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, 1000 );
-		p.appConfig.setProperty( AppSettings.HEIGHT, 600 );
-		p.appConfig.setProperty( AppSettings.FULLSCREEN, false );
-		p.appConfig.setProperty( AppSettings.SMOOTHING, AppSettings.SMOOTH_HIGH );
-	}
-
 	public void setup() {
 		super.setup();
-		tiledImg = new TiledTexture(p.loadImage(FileUtil.getFile("images/smiley-big.png")));
+		tiledImg = new TiledTexture(DemoAssets.smallTexture());
 	}
 	
 	public void drawApp() {
