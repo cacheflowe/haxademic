@@ -93,8 +93,8 @@ extends PApplet
 	protected Boolean _isRendering = true;
 	protected Boolean _isRenderingAudio = true;
 	protected Boolean _isRenderingMidi = true;
-	protected AnimationLoop loop = null;
 	protected JoonsWrapper joons;
+	public AnimationLoop loop = null;
 
 	// input
 	public WebCamWrapper webCamWrapper = null;
