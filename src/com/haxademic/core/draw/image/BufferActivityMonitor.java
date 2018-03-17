@@ -21,7 +21,7 @@ public class BufferActivityMonitor {
 
 	public BufferActivityMonitor(int w, int h, int bufferAvgSize) {
 		// smoothed activity average
-		activityAmp = new FloatBuffer(60);
+		activityAmp = new FloatBuffer(bufferAvgSize);
 		
 		// frame buffers
 		prevFrame = P.p.createGraphics(w, h, PRenderers.P2D);
