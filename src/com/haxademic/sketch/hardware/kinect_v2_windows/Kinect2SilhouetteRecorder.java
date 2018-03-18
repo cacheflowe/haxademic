@@ -52,6 +52,9 @@ extends PAppletHax {
 		DrawUtil.setDrawCenter(p);
 		DrawUtil.setCenterScreen(p);
 		p.image(kinect.getBodyTrackImage(), 0, 0);
+		DrawUtil.setPImageAlpha(p, 0.5f);
+		float rgbImgScale = (float) kinect.getBodyTrackImage().height / (float) kinect.getColorImage().height; 
+		p.image(kinect.getColorImage(), 0, 0, kinect.getColorImage().width * rgbImgScale, kinect.getColorImage().height * rgbImgScale);
 		p.popMatrix();
 		
 		DrawUtil.setDrawCorner(p);

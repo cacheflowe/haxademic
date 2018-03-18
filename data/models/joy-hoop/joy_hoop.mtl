@@ -1,0 +1,22 @@
+# MTL
+
+newmtl hoop_mtl
+	map_Kd joy_hoop_hoop.png
+
+
+newmtl eyes_mtl
+	map_Kd joy_hoop_eyes.png
+
+
+newmtl lips_mtl
+	map_Kd joy_hoop_lips.png
+
+
+newmtl nose_mtl
+	map_Kd joy_hoop_nose.png
+
+
+newmtl teeth_mtl
+	map_Kd joy_hoop_teeth.png
+
+

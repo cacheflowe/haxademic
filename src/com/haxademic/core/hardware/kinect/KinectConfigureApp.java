@@ -2,6 +2,7 @@ package com.haxademic.core.hardware.kinect;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
+import com.haxademic.core.draw.context.DrawUtil;
 
 import controlP5.ControlP5;
 
@@ -23,9 +24,11 @@ extends PAppletHax {
 	protected boolean _isDebug = false;
 	
 	protected void overridePropsFile() {
-//		p.appConfig.setProperty( AppSettings.WIDTH, 640 );
-//		p.appConfig.setProperty( AppSettings.HEIGHT, 480 );
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, false );
+		p.appConfig.setProperty( AppSettings.WIDTH, 1280 );
+		p.appConfig.setProperty( AppSettings.HEIGHT, 720 );
+		p.appConfig.setProperty( AppSettings.RENDERING_IMAGE_SEQUENCE, false );
+		p.appConfig.setProperty( AppSettings.RENDERING_IMAGE_SEQUENCE_START_FRAME, 2000 );
+		p.appConfig.setProperty( AppSettings.RENDERING_IMAGE_SEQUENCE_STOP_FRAME, 2200 );
 		p.appConfig.setProperty( AppSettings.KINECT_V2_WIN_ACTIVE, true );
 //		p.appConfig.setProperty( "kinect_top_pixel", "0" );
 //		p.appConfig.setProperty( "kinect_bottom_pixel", "480" );
@@ -54,19 +57,33 @@ extends PAppletHax {
 
 	public void drawApp() {
 		background(0);
+		DrawUtil.setDrawCorner(p);
 
 		p.pushMatrix();
 		
 //		kinectWrapper.drawPointCloudForRect(p, true, pixelSkip, 1f, 1, kinectNear, kinectFar, kinectTop, kinectRight, kinectBottom, kinectLeft);
 //		p.rotateY(P.map(p.mouseX, 0, p.width, 0f, 1f));
 		
+		// draw controls background
+		p.noStroke();
 		p.fill(0,127);
 		p.rect(10, 10, 280, 12 * 10);
 		
-		int numPixelsProcessed = 0;
+		// move kinect depth pixels over
+		p.translate(290, 20);
+		
+		// draw frame
+		p.noFill();
+		p.stroke(0, 255, 0);
+		p.strokeWeight(0.5f);
+		p.rect(0, 0, KinectSize.WIDTH, KinectSize.HEIGHT);
 
+		// set depth pixel color
 		p.fill(255f);
 		p.noStroke();
+				
+		// draw kinect depth
+		int numPixelsProcessed = 0;
 		float pixelsize = (float) pixelSkip * pixelDrawSize;
 		for ( int x = kinectLeft; x < kinectRight; x += pixelSkip ) {
 			for ( int y = kinectTop; y < kinectBottom; y += pixelSkip ) {
@@ -82,6 +99,7 @@ extends PAppletHax {
 			}
 		}
 
+		// debug view
 		p.debugView.setTexture(p.kinectWrapper.getDepthImage());
 		p.debugView.setValue("numPixelsProcessed", numPixelsProcessed);
 		

@@ -186,6 +186,9 @@ public class ImageUtil {
 		return pg;
 	}  
 	
+	public static void copyImage(PImage src, PImage dest) {
+		dest.copy(src, 0, 0, src.width, src.height, 0, 0, dest.width, dest.height);
+	}
 	
 	public static void cropFillCopyImage( PImage src, PImage dest, boolean cropFill ) {
 		float containerW = dest.width;
