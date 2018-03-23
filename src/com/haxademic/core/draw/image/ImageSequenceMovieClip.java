@@ -86,6 +86,7 @@ public class ImageSequenceMovieClip {
 	}
 	
 	public PImage getFrame(int index) {
+		index = index % imageSequence.size();
 		if(index < imageSequence.size()) {
 			return imageSequence.get(index);
 		} else {
@@ -211,20 +212,21 @@ public class ImageSequenceMovieClip {
 	}
 	
 	public PImage image() {
-		if(isPlaying == false || playbackFrames() <= curFrame) {
+		int safeCurFrame = (imageSequence.size() > 0) ? curFrame % imageSequence.size() : 0;
+		if(isPlaying == false || playbackFrames() <= safeCurFrame) {
 			return BLANK_IMAGE;
 		} else {
 			if(frameIndexPlaybackSequence != null) {
-				isFlipped = (frameIndexPlaybackSequence[curFrame] < 0);
-				int frameIndex = P.abs(frameIndexPlaybackSequence[curFrame]);
+				isFlipped = (frameIndexPlaybackSequence[safeCurFrame] < 0);
+				int frameIndex = P.abs(frameIndexPlaybackSequence[safeCurFrame]);
 				if(frameIndex < imageSequence.size()) {
 					return imageSequence.get(frameIndex);
 				} else {
 					return BLANK_IMAGE;	
 				}
 			} else {
-				if(curFrame < imageSequence.size()) {
-					return imageSequence.get(curFrame);
+				if(safeCurFrame < imageSequence.size()) {
+					return imageSequence.get(safeCurFrame);
 				} else {
 					return BLANK_IMAGE;
 				}
