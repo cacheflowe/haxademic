@@ -7,6 +7,7 @@ import java.nio.ByteBuffer;
 import com.haxademic.core.app.P;
 import com.haxademic.core.draw.color.ColorHax;
 import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.math.MathUtil;
 
 import processing.core.PApplet;
 import processing.core.PConstants;
@@ -206,6 +207,16 @@ public class ImageUtil {
 		float offsetY = (float)Math.ceil((containerH - resizedH) * 0.5f);
 		
 		dest.copy( src, 0, 0, (int) imageW, (int) imageH, (int) offsetX, (int) offsetY, (int) resizedW, (int) resizedH );
+	}
+	
+	public static void drawImageCropFill(PImage img, PGraphics dest, boolean cropFill) {
+		float ratioW = MathUtil.scaleToTarget(img.width, dest.width);
+		float ratioH = MathUtil.scaleToTarget(img.height, dest.height);
+		float scale = (ratioH < ratioW) ? ratioH : ratioW;			// letterbox
+		if(cropFill) scale = (ratioH > ratioW) ? ratioH : ratioW;		// crop fill
+		DrawUtil.setDrawCenter(dest);
+		dest.image(img, dest.width/2, dest.height/2, img.width * scale, img.height * scale);
+		DrawUtil.setDrawCorner(dest);
 	}
 	
 	public static void flipH(PImage img) {
