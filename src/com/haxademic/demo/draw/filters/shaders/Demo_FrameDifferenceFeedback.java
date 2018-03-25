@@ -37,8 +37,8 @@ implements IWebCamCallback {
 
 	
 	protected void overridePropsFile() {
-		p.appConfig.setProperty(AppSettings.WIDTH, 1280 );
-		p.appConfig.setProperty(AppSettings.HEIGHT, 720 );
+		p.appConfig.setProperty(AppSettings.WIDTH, 640 );
+		p.appConfig.setProperty(AppSettings.HEIGHT, 360 );
 		p.appConfig.setProperty(AppSettings.WEBCAM_INDEX, 17 ); // 18
 		p.appConfig.setProperty(AppSettings.SHOW_DEBUG, true );
 	}

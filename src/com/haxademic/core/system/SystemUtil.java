@@ -2,6 +2,7 @@ package com.haxademic.core.system;
 
 import java.awt.AWTException;
 import java.awt.Desktop;
+import java.awt.DisplayMode;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.Rectangle;
