@@ -116,6 +116,24 @@ public class JavaInfo {
                 out.println("\talt display mode #"+(++m)+" bit width "+d.getWidth()+" height "+d.getHeight()+" bit depth "+d.getBitDepth()+" refresh rate "+d.getRefreshRate());    
         }
     }
+    
+	public static int numScreens() {
+		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+		GraphicsDevice[] gs = ge.getScreenDevices();
+		return gs.length;
+	}
+
+	public static int totalScreenHeight() {
+		int h = 0;
+		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
+		GraphicsDevice[] gs = ge.getScreenDevices();
+		for(GraphicsDevice curGs : gs)
+		{
+			DisplayMode dm = curGs.getDisplayMode();
+			h += dm.getHeight();
+		}
+		return h;
+	}
 
     public static void printFontsInfo() {
         out.println("available fonts: "+String.join(",", GraphicsEnvironment.getLocalGraphicsEnvironment().getAvailableFontFamilyNames()));
