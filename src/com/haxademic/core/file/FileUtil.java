@@ -31,6 +31,8 @@ public class FileUtil {
 	public static String UTIL_PATH = null;
 	public static String SCRIPTS_PATH = null;
 	public static String WWW_PATH = null;
+
+	public static final String NEWLINE = "\r\n";	// works on windows, where "\n" doesn't
 	
 	// HAXADEMIC PATHS
 	
