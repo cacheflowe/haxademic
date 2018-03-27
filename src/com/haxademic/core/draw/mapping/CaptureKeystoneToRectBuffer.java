@@ -8,12 +8,10 @@ import com.haxademic.core.data.ConvertUtil;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.file.FileUtil;
 
-import processing.core.PConstants;
 import processing.core.PGraphics;
-import processing.core.PImage;
+import processing.core.PVector;
 import processing.event.KeyEvent;
 import processing.event.MouseEvent;
-import processing.opengl.PShader;
 
 public class CaptureKeystoneToRectBuffer {
 	
@@ -28,8 +26,7 @@ public class CaptureKeystoneToRectBuffer {
 	protected Point _bottomRight;
 	protected Point _bottomLeft;
 	protected Point _points[];
-	public static Point DRAGGING_POINT;
-	public static PGraphicsKeystone DRAGGING_QUAD;
+	public static Point SELECTED_POINT;
 	protected Point _mousePressStart = new Point();
 	protected float mouseActiveDist = 15;
 
@@ -41,7 +38,8 @@ public class CaptureKeystoneToRectBuffer {
 	protected String filePath = null;
 	protected boolean writesToFile = false;
 	
-	protected int lastMouseTime = 0;
+	protected int lastInteractTime = 0;
+	protected int INTERACTION_TIMEOUT = 5000;
 	protected boolean debug = false;
 
 	
@@ -173,33 +171,28 @@ public class CaptureKeystoneToRectBuffer {
 	
 	public void drawDebug(PGraphics pg) {
 		sourceBuffer.beginDraw();
-		showMouse(sourceBuffer);
-		if(P.p.millis() < lastMouseTime + 3000) showMappedRect(sourceBuffer);
+		showSelectedPoint(sourceBuffer);
+		if(P.p.millis() < lastInteractTime + INTERACTION_TIMEOUT) showMappedRect(sourceBuffer);
 		sourceBuffer.endDraw();
 	}
 	
 	// USER INTERFACE ////////////////////////////////////////////
 	
-	protected void showMouse(PGraphics pg) {
+	protected void showSelectedPoint(PGraphics pg) {
 		if(debug == false) return;
-		if(P.p.millis() < lastMouseTime + 3000) {
-			// draw corner handles
-			boolean isCornerHovered = false;
-			if(DRAGGING_QUAD == null) {
-				for( int i=0; i < _points.length; i++ ) {
-					if( _points[i].distance( _mousePoint.x, _mousePoint.y ) < mouseActiveDist ) {
-						DrawUtil.setDrawCenter(pg);
-						pg.fill(255);
-						pg.stroke(0, 255, 0);
-						pg.strokeWeight(2);
-						float indicatorSize = 13f + 3f * P.sin(P.p.frameCount / 10f);
-						pg.ellipse(_points[i].x, _points[i].y, indicatorSize, indicatorSize);
-						DrawUtil.setDrawCorner(pg);
-						isCornerHovered = true;
-					}
-				}
-			}
+		if(P.p.millis() < lastInteractTime + INTERACTION_TIMEOUT) {
+			if(SELECTED_POINT != null) drawPoint(pg, SELECTED_POINT);
 		}
+	}
+	
+	protected void drawPoint(PGraphics pg, Point point) {
+		DrawUtil.setDrawCenter(pg);
+		pg.fill(255, 75);
+		pg.stroke(0, 255, 0);
+		pg.strokeWeight(2);
+		float indicatorSize = 20f + 3f * P.sin(P.p.frameCount / 10f);
+		pg.ellipse(point.x, point.y, indicatorSize, indicatorSize);
+		DrawUtil.setDrawCorner(pg);
 	}
 	
 	protected void showMappedRect(PGraphics pg) {
@@ -212,31 +205,37 @@ public class CaptureKeystoneToRectBuffer {
 		pg.line(_bottomLeft.x, _bottomLeft.y, _topLeft.x, _topLeft.y);
 	}
 	
+	protected void checkMouseHover() {
+//		if(SELECTED_POINT == null) {
+			boolean hoveredPoint = false;
+			for( int i=0; i < _points.length; i++ ) {
+				if(_points[i].distance( _mousePoint.x, _mousePoint.y ) < mouseActiveDist) {
+					SELECTED_POINT = _points[i]; 
+					hoveredPoint = true;
+				}
+			}
+//			if(hoveredPoint == false)
+//		}
+	}
+	
 	public void mouseEvent(MouseEvent event) {
 		if(debug == false) return;
 		_mousePoint.setLocation( event.getX(), event.getY() );
 		switch (event.getAction()) {
 		case MouseEvent.PRESS:
-			if(DRAGGING_POINT == null) {
-				for( int i=0; i < _points.length; i++ ) {
-					if( _points[i].distance( _mousePoint.x, _mousePoint.y ) < mouseActiveDist ) {
-						DRAGGING_POINT = _points[i]; 
-					}
-				}
-			}
 			break;
 		case MouseEvent.RELEASE:
-			DRAGGING_POINT = null;
-			DRAGGING_QUAD = null;
+			SELECTED_POINT = null;
 			if(filePath != null) writeToFile();
 			break;
 		case MouseEvent.MOVE:
-			lastMouseTime = P.p.millis();
+			resetInteractionTimeout();
+			checkMouseHover();
 			break;
 		case MouseEvent.DRAG:
-			lastMouseTime = P.p.millis();
-			if( DRAGGING_POINT != null ) {
-				DRAGGING_POINT.setLocation( _mousePoint );
+			resetInteractionTimeout();
+			if( SELECTED_POINT != null ) {
+				SELECTED_POINT.setLocation( _mousePoint );
 			}
 			break;
 		}
@@ -245,17 +244,31 @@ public class CaptureKeystoneToRectBuffer {
 	public void keyEvent(KeyEvent e) {
 		if(debug == false) return;
 		if(e.getAction() == KeyEvent.PRESS) {
-			if(e.getKeyCode() == P.UP || e.getKeyCode() == P.LEFT || e.getKeyCode() == P.RIGHT || e.getKeyCode() == P.DOWN) lastMouseTime = P.p.millis();
+			// reset timeout
+			if(e.getKeyCode() == P.UP || e.getKeyCode() == P.LEFT || e.getKeyCode() == P.RIGHT || e.getKeyCode() == P.DOWN || e.getKeyCode() == P.TAB) resetInteractionTimeout();
+			// translate if arrow key
 			Point translatePoint = new Point(0, 0);
 			if(e.getKeyCode() == P.UP) translatePoint.setLocation(0, -1);
 			if(e.getKeyCode() == P.LEFT) translatePoint.setLocation(-1, 0);
 			if(e.getKeyCode() == P.RIGHT) translatePoint.setLocation(1, 0);
 			if(e.getKeyCode() == P.DOWN) translatePoint.setLocation(0, 1);
-			
-			if(DRAGGING_POINT == _points[0] || DRAGGING_POINT == _points[1] || DRAGGING_POINT == _points[2] || DRAGGING_POINT == _points[3]) {
-				DRAGGING_POINT.translate(translatePoint.x, translatePoint.y);
+			// tab to next point
+			if(e.getKeyCode() == P.TAB) {
+				if(SELECTED_POINT == _points[0]) SELECTED_POINT = _points[1];
+				else if(SELECTED_POINT == _points[1]) SELECTED_POINT = _points[2];
+				else if(SELECTED_POINT == _points[2]) SELECTED_POINT = _points[3];
+				else SELECTED_POINT = _points[0];
+				resetInteractionTimeout();
+			}
+			// apply transformation if needed
+			if(SELECTED_POINT == _points[0] || SELECTED_POINT == _points[1] || SELECTED_POINT == _points[2] || SELECTED_POINT == _points[3]) {
+				SELECTED_POINT.translate(translatePoint.x, translatePoint.y);
 			} 
 		}
+	}
+	
+	protected void resetInteractionTimeout() {
+		lastInteractTime = P.p.millis();
 	}
 	
 	// SAVE TO FILE //////////////////////////////////
