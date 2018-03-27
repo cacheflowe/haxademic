@@ -72,10 +72,6 @@ extends PAppletHax {
 			FileUtil.getFile("shaders/point/point-frag.glsl"), 
 			FileUtil.getFile("shaders/point/particle-warp-vert.glsl")
 		);	
-		
-		// !test - processing bug :( https://github.com/processing/processing-docs/issues/172
-		//shape.attrib("test_att", 1.0f); // doesn't work
-
 	}
 	
 	protected void newPositions() {
@@ -89,13 +85,18 @@ extends PAppletHax {
 	public void drawApp() {
 		p.background(0);
 		DrawUtil.setCenterScreen(p);
+		p.translate(0, 0, -p.height);
+		
+		// camera
+		p.rotateY(P.map(p.mousePercentX(), 0, 1, -P.PI, P.PI));
+		p.rotateX(P.map(p.mousePercentY(), 0, 1, P.PI, -P.PI));
 		
 		// update particle positions
 		bufferPositions.filter(particleMoverShader);
 		p.debugView.setTexture(bufferPositions);
 
 		// draw shape w/shader
-		float particlesScale = p.mousePercentX() * 100f;
+		float particlesScale = 3f; // p.mousePercentX() * 100f;
 		particlesDrawShader.set("width", (float) bufferPositions.width);
 		particlesDrawShader.set("height", (float) bufferPositions.height);
 		particlesDrawShader.set("scale", particlesScale);
