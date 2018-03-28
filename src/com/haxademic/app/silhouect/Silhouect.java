@@ -226,9 +226,9 @@ extends PAppletHax {
 
 		// run shaders
 		for (int i = 0; i < RD_ITERATIONS; i++) {			
-			BlurHFilter.instance(p).setBlurByPercent(blurAmp, p.width);
+			BlurHFilter.instance(p).setBlurByPercent(blurAmp, rdBuffer.width);
 			BlurHFilter.instance(p).applyTo(rdBuffer);
-			BlurVFilter.instance(p).setBlurByPercent(blurAmp, p.height);
+			BlurVFilter.instance(p).setBlurByPercent(blurAmp, rdBuffer.height);
 			BlurVFilter.instance(p).applyTo(rdBuffer);
 			SharpenFilter.instance(p).setSharpness(sharpAmp);
 			SharpenFilter.instance(p).applyTo(rdBuffer);
