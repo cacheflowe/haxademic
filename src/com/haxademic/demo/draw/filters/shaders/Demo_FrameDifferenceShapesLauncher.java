@@ -10,9 +10,6 @@ import com.haxademic.core.constants.PRenderers;
 import com.haxademic.core.draw.color.ColorUtil;
 import com.haxademic.core.draw.color.ImageGradient;
 import com.haxademic.core.draw.context.DrawUtil;
-import com.haxademic.core.draw.filters.shaders.BlurHFilter;
-import com.haxademic.core.draw.filters.shaders.BlurVFilter;
-import com.haxademic.core.draw.filters.shaders.ThresholdFilter;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.webcam.IWebCamCallback;
@@ -86,7 +83,7 @@ implements IWebCamCallback {
 		// set difference shader textures
 		differenceShader.set("tex1", curFrame);
 		differenceShader.set("tex2", prevFrame);
-		differenceShader.set("falloffBW", 0.05f);
+		differenceShader.set("falloffBW", 0.25f);
 		differenceShader.set("diffThresh", 0.06f);
 		differenceBuffer.filter(differenceShader);
 	}

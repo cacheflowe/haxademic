@@ -20,6 +20,9 @@ public class BufferMotionDetectionMap {
 	protected float scale = 1;
 	protected float blur = 0.5f;
 	protected float thresholdCutoff = 0.2f;
+	protected float blendLerp = 0.1f;
+	protected float diffThresh = 0.035f;
+	protected float falloffBW = 0.05f;
 	protected int bufferW;
 	protected int bufferH;
 	protected PGraphics backplate;
@@ -50,10 +53,7 @@ public class BufferMotionDetectionMap {
 		OpenGLUtil.setTextureQualityLow(bwBuffer);
 		
 		blendTowardsShader = P.p.loadShader(FileUtil.getFile("shaders/filters/texture-blend-towards-texture.glsl"));
-		//		uniform float blendLerp = 0.2;//0.04;
 		differenceShader = P.p.loadShader(FileUtil.getFile("shaders/filters/texture-difference-threshold.glsl"));
-		//		uniform float diffThresh = 0.035;
-		//		uniform float falloffBW = 0.06;
 	}
 	
 	public PGraphics newFrameBuffer() { return newFrameBuffer; }
@@ -61,13 +61,11 @@ public class BufferMotionDetectionMap {
 	public PGraphics differenceBuffer() { return differenceBuffer; }
 	public PGraphics bwBuffer() { return bwBuffer; }
 	
-	public void setThresholdCutoff(float thresholdCutoff) {
-		this.thresholdCutoff = thresholdCutoff;
-	}
-	
-	public void setBlur(float blur) {
-		this.blur = blur;
-	}
+	public void setThresholdCutoff(float thresholdCutoff) { this.thresholdCutoff = thresholdCutoff; }
+	public void setBlur(float blur) { this.blur = blur; }
+	public void setBlendLerp(float blendLerp) { this.blendLerp = blendLerp; }
+	public void setDiffThresh(float diffThresh) { this.diffThresh = diffThresh; }
+	public void setFalloffBW(float falloffBW) { this.falloffBW = falloffBW; }
 	
 	public void loadPixels() {
 		bwBuffer.loadPixels();
@@ -85,14 +83,14 @@ public class BufferMotionDetectionMap {
 
 		// run target blend shader on backplate
 		blendTowardsShader.set("targetTexture", newFrameBuffer);
-		blendTowardsShader.set("blendLerp", 0.1f);
+		blendTowardsShader.set("blendLerp", blendLerp);
 		backplate.filter(blendTowardsShader);
 
 		// set difference shader textures
 		differenceShader.set("tex1", backplate);
 		differenceShader.set("tex2", newFrameBuffer);
-		differenceShader.set("diffThresh", 0.035f);
-		differenceShader.set("falloffBW", 0.05f);
+		differenceShader.set("diffThresh", diffThresh);
+		differenceShader.set("falloffBW", falloffBW);
 		
 		// update difference calculation
 		differenceBuffer.filter(differenceShader);

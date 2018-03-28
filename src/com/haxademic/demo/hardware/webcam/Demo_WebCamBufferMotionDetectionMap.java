@@ -23,7 +23,7 @@ implements IWebCamCallback {
 	protected void overridePropsFile() {
 		p.appConfig.setProperty(AppSettings.WIDTH, 720 );
 		p.appConfig.setProperty(AppSettings.HEIGHT, 720 );
-		p.appConfig.setProperty(AppSettings.WEBCAM_INDEX, 17 ); // 18
+		p.appConfig.setProperty(AppSettings.WEBCAM_INDEX, 3 );
 	}
 		
 	public void setupFirstFrame () {
@@ -60,6 +60,13 @@ implements IWebCamCallback {
 		if(motionDetectionMap == null) {
 			motionDetectionMap = new BufferMotionDetectionMap(webcamBuffer, 0.15f);
 		}
+		// float mouseX = p.mousePercentX();
+		// p.debugView.setValue("mouseX", mouseX);
+		motionDetectionMap.setBlendLerp(0.05f);
+		motionDetectionMap.setDiffThresh(0.03f);
+		motionDetectionMap.setFalloffBW(0.2f);
+		motionDetectionMap.setThresholdCutoff(0.5f);
+		motionDetectionMap.setBlur(1f);
 		motionDetectionMap.updateSource(webcamBuffer);
 		
 		// set textures for debug view
