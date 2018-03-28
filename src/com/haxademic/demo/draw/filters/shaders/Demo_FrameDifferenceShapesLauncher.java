@@ -86,8 +86,8 @@ implements IWebCamCallback {
 		// set difference shader textures
 		differenceShader.set("tex1", curFrame);
 		differenceShader.set("tex2", prevFrame);
-		differenceShader.set("falloffBW", 0.15f);
-		differenceShader.set("diffThresh", 0.03f);
+		differenceShader.set("falloffBW", 0.05f);
+		differenceShader.set("diffThresh", 0.06f);
 		differenceBuffer.filter(differenceShader);
 	}
 
@@ -109,18 +109,21 @@ implements IWebCamCallback {
 			shapesLayer.fill(255);
 			shapesLayer.noStroke();
 			
-			int numLaunched = 0;
-			for (int i = 0; i < 500; i++) {
-				int checkX = MathUtil.randRange(0, differenceBuffer.width);
-				int checkY = MathUtil.randRange(0, differenceBuffer.height);
-				int pixelColor = ImageUtil.getPixelColor(differenceBuffer, checkX, checkY);
-				float redColor = (float) ColorUtil.redFromColorInt(pixelColor) / 255f;
-				if(redColor > 0.5f && numLaunched < 2) {
-					// shapesLayer.rect(checkX, checkY, 2, 2);	// show launchpoints
-					launchShape(checkX, checkY);
-					numLaunched++;
+			if(p.frameCount % 4 == 0) {
+				int numLaunched = 0;
+				for (int i = 0; i < 2000; i++) {
+					int checkX = MathUtil.randRange(0, differenceBuffer.width);
+					int checkY = MathUtil.randRange(0, differenceBuffer.height);
+					int pixelColor = ImageUtil.getPixelColor(differenceBuffer, checkX, checkY);
+					float redColor = (float) ColorUtil.redFromColorInt(pixelColor) / 255f;
+					if(redColor > 0.5f && numLaunched < 2) {
+						// shapesLayer.rect(checkX, checkY, 2, 2);	// show launchpoints
+						launchShape(checkX, checkY);
+						numLaunched++;
+					}
 				}
 			}
+			
 			// update/draw particles
 //			p.blendMode(PBlendModes.ADD);
 			for (int i = 0; i < shapes.size(); i++) {
@@ -172,6 +175,7 @@ implements IWebCamCallback {
 			// update size
 			sizeProgress.update();
 			float curSize = size * Penner.easeOutBack(sizeProgress.value(), 0, 1, 1);
+			if(sizeProgress.value() == 1) sizeProgress.setTarget(0);
 			// draw shape
 			float segmentRads = P.TWO_PI / vertices;
 			pg.fill(color); // , 150);
@@ -197,7 +201,7 @@ implements IWebCamCallback {
 			pos.set(x, y, 0);
 			speed.set(0, 0, 0);
 			rotation = P.p.random(P.TWO_PI);
-			gravity.set(MathUtil.randRangeDecimal(-0.02f, 0.02f), MathUtil.randRangeDecimal(-0.2f, -0.6f), MathUtil.randRangeDecimal(-0.01f, 0.01f));
+			gravity.set(MathUtil.randRangeDecimal(-0.02f, 0.02f), MathUtil.randRangeDecimal(-0.1f, -0.35f), MathUtil.randRangeDecimal(-0.01f, 0.01f));
 			
 			color = imageGradient.getColorAtProgress(P.p.random(1f));
 		}
