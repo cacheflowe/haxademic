@@ -50,8 +50,8 @@ public class BufferActivityMonitor {
 	
 	public float update(PImage newFrame) {			
 		// copy previous frame, and current frame to buffer
-		prevFrame.copy(curFrame, 0, 0, curFrame.width, curFrame.height, 0, 0, curFrame.width, curFrame.height);
-		curFrame.copy(newFrame, 0, 0, newFrame.width, newFrame.height, 0, 0, curFrame.width, curFrame.height);
+		ImageUtil.copyImage(curFrame, prevFrame);
+		ImageUtil.copyImage(newFrame, curFrame);
 
 		// set difference shader textures
 		differenceShader.set("tex1", curFrame);
