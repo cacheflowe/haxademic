@@ -30,6 +30,9 @@ public class BufferFrameDifference {
 		return differenceBuffer;
 	}
 	
+	public void falloffBW(float newFalloff) { falloffBW = newFalloff; }
+	public void diffThresh(float newThresh) { diffThresh = newThresh; }
+	
 	public void update(PImage newFrame) {	
 		pingPong = !pingPong;
 		
