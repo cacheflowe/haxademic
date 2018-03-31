@@ -70,13 +70,14 @@ implements IWebCamCallback {
 	@Override
 	public void newFrame(PImage frame) {
 		// set textures for debug view
-		p.debugView.setTexture(p.webCamWrapper.getImage());
+		p.debugView.setTexture(webcamBuffer);
 		p.debugView.setTexture(backplate);
 		p.debugView.setTexture(differenceBuffer);
 		p.debugView.setTexture(bwBuffer);
 		
 		// copy webcam to current buffer
 		ImageUtil.cropFillCopyImage(p.webCamWrapper.getImage(), webcamBuffer, true);
+		ImageUtil.flipH(webcamBuffer);
 
 		// run target blend shader
 		blendTowardsShader.set("targetTexture", webcamBuffer);

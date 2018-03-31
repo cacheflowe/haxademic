@@ -219,6 +219,10 @@ public class ImageUtil {
 		DrawUtil.setDrawCorner(dest);
 	}
 	
+	public static void copyImageFlipH(PImage src, PImage dest) {
+		dest.copy(src, 0, 0, src.width, src.height, dest.width, 0, -dest.width, dest.height);
+	}
+	
 	public static void flipH(PImage img) {
 		img.copy(0, 0, img.width, img.height, img.width, 0, -img.width, img.height);
 	}

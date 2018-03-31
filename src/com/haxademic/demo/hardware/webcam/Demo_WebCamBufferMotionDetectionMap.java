@@ -54,7 +54,7 @@ implements IWebCamCallback {
 	public void newFrame(PImage frame) {
 		// copy webcam and create motion detection at size of cropped webcam (and downscaling)
 		ImageUtil.cropFillCopyImage(frame, webcamBuffer, true);
-		webcamBuffer.copy(0, 0, webcamBuffer.width, webcamBuffer.height, webcamBuffer.width, 0, -webcamBuffer.width, webcamBuffer.height); // flip h
+		ImageUtil.flipH(webcamBuffer);
 		
 		// lazy init and update motion detection buffers/calcs
 		if(motionDetectionMap == null) {

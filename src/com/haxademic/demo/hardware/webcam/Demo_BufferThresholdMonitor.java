@@ -40,7 +40,7 @@ implements IWebCamCallback {
 		// p.webCamWrapper.getImage()
 		// lazy-init flipped camera buffer
 		if(flippedCamera == null) flippedCamera = p.createGraphics(frame.width, frame.height, PRenderers.P2D);
-		flippedCamera.copy(frame, 0, 0, frame.width, frame.height, frame.width, 0, -frame.width, frame.height);
+		ImageUtil.copyImageFlipH(frame, flippedCamera);	
 		
 		// calculate activity monitor with new frame
 		thresholdMonitor.update(flippedCamera);
