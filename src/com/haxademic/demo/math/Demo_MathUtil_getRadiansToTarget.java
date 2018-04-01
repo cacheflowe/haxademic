@@ -36,6 +36,7 @@ extends PAppletHax {
 		p.debugView.setHelpLine("cos (x)", ""+P.cos(radsFromCenter));
 		p.debugView.setHelpLine("sin (y)", ""+P.sin(radsFromCenter));
 		p.debugView.setHelpLine("angle", ""+MathUtil.radiansToDegrees(radsFromCenter));
+		p.debugView.setHelpLine("rads", ""+radsFromCenter);
 
 		p.rotate(-radsFromCenter);
 		p.image(pg, 0, 0);

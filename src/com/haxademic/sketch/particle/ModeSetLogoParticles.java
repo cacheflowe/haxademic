@@ -45,8 +45,6 @@ extends PAppletHax {
 		manualBuildTriangleMesh();
 		
 		initFlyers();
-		
-		p.smooth(OpenGLUtil.SMOOTH_HIGH);
 	}
 	
 	protected void initFlyers() {
@@ -59,7 +57,7 @@ extends PAppletHax {
 
 		boxes = new ArrayList<VectorFlyer>();
 		for( int i=0; i < 150; i++ ) {
-			boxes.add( new VectorFlyer( p.random(2.5f, 3.5f), p.random(18f, 35f) ) );
+			boxes.add( new VectorFlyer( p.random(0.15f, 0.7f), p.random(18f, 35f) ) );
 		}
 	}
 
@@ -69,6 +67,7 @@ extends PAppletHax {
 		DrawUtil.setCenterScreen(p);
 		p.translate(0, 0, -1000);
 		p.background(0);
+		p.rotateX(P.PI * (p.mousePercentY() - 0.5f));
 		
 		// set target of particle to closest attractor
 		for( int i=0; i < boxes.size(); i++ ) {
