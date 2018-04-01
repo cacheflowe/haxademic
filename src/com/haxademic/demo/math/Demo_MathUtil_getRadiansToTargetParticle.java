@@ -28,14 +28,20 @@ extends PAppletHax {
 	}
 
 	public void setupFirstFrame() {
-		for (int i = 0; i < 200; i++) {
+		for (int i = 0; i < 10000; i++) {
 			partis.add(new Parti());
 		}
 	}
 
 	public void drawApp() {
-		background(100,100,255);
+		// fade background
+		DrawUtil.setDrawCorner(p);
+		p.fill(110,70,215,40);
+		p.rect(0, 0, p.width, p.height);
+		
+		// draw particles
 		DrawUtil.setDrawCenter(p);
+		p.fill(255);
 		for (int i = 0; i < partis.size(); i++) {
 			partis.get(i).update();
 		}
@@ -44,8 +50,8 @@ extends PAppletHax {
 	public class Parti {
 		
 		public PVector pos = new PVector();
-		public EasingFloat rads = new EasingFloat(0, MathUtil.randRangeDecimal(8f, 30f));
-		public float speed = MathUtil.randRangeDecimal(3f, 24f);
+		public EasingFloat rads = new EasingFloat(0, MathUtil.randRangeDecimal(4f, 30f));
+		public float speed = MathUtil.randRangeDecimal(3f, 14f);
 		
 		public Parti() {
 			rads.setCurrent(MathUtil.randRangeDecimal(0, P.TWO_PI));
@@ -65,8 +71,9 @@ extends PAppletHax {
 		    // if lerp update wraps around, loop that
 		    if(rads.value() > P.TWO_PI) rads.setCurrent(rads.value() - P.TWO_PI);
 		    if(rads.value() < 0) rads.setCurrent(rads.value() + P.TWO_PI);
+			float moveRads = -rads.value();
+			pos.add(speed * P.cos(moveRads), speed * P.sin(moveRads));
 			
-			pos.add(speed * P.cos(rads.value()), -speed * P.sin(rads.value()));
 			p.pushMatrix();
 			p.translate(pos.x, pos.y);
 			p.rotate(-rads.value());
