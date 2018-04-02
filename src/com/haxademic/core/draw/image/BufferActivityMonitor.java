@@ -68,7 +68,7 @@ public class BufferActivityMonitor {
 			for (int y = 0; y < differenceBuffer.height; y++) {
 				int pixelColor = ImageUtil.getPixelColor(differenceBuffer, x, y);
 				float r = ColorUtil.redFromColorInt(pixelColor) / 255f;
-				curActivity += r;
+				if(r > 0.5f) curActivity += r;
 			}			
 		}
 		
