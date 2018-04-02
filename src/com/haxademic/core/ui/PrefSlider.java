@@ -60,6 +60,9 @@ public class PrefSlider {
 		else pg.stroke(0,0,255);
 		pg.noFill();
 		pg.rect(x, y, w, h);
+		// draw current value
+		float mappedX = P.map(value, low, high, x, x + w);
+		pg.rect(mappedX - 0.5f, y, 1, h);
 		// set active if drawing
 		activeTime = P.p.millis();
 	}
