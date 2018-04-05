@@ -25,9 +25,6 @@ extends BaseTexture {
 	protected EasingFloat _brightEaser = new EasingFloat(0, 10);
 	protected float _time = 0f;
 	protected int _mode = 0;
-	protected float _smallTimeStep = 1f;
-	protected float _largeTimeStep = 3f;
-	protected float _reverseThreshold = 100f;
 
 	public TextureShaderScrubber( int width, int height, String textureShader ) {
 		super();
@@ -94,7 +91,7 @@ extends BaseTexture {
 			_brightEaser.setCurrent(1.0f);
 		}
 		_brightEaser.setTarget(0.25f);
-		_timeSpeed.setTarget( MathUtil.randRangeDecimal(-0.5f, 0.5f) );
+		_timeSpeed.setTarget( MathUtil.randRangeDecimal(-0.15f, 0.15f) );
 	}
 	
 	public void updateTimingSection() {

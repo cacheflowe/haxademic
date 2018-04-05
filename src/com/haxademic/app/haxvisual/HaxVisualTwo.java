@@ -30,6 +30,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.constants.PBlendModes;
+import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.filters.shaders.BadTVLinesFilter;
 import com.haxademic.core.draw.filters.shaders.BlurProcessingFilter;
@@ -50,6 +51,7 @@ import com.haxademic.core.draw.filters.shaders.RadialRipplesFilter;
 import com.haxademic.core.draw.filters.shaders.SphereDistortionFilter;
 import com.haxademic.core.draw.filters.shaders.VignetteAltFilter;
 import com.haxademic.core.draw.filters.shaders.WobbleFilter;
+import com.haxademic.core.draw.image.ImageCyclerBuffer;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.mapping.PGraphicsKeystone;
 import com.haxademic.core.file.FileUtil;
@@ -61,6 +63,7 @@ import com.haxademic.core.hardware.shared.InputTrigger;
 import com.haxademic.core.math.MathUtil;
 
 import processing.core.PGraphics;
+import processing.core.PImage;
 import processing.opengl.PShader;
 
 /**
@@ -127,6 +130,7 @@ extends PAppletHax {
 	protected int pixelateKnob = 26;
 	protected int contrastKnob = 28;
 	protected int brightnessKnob = 48;
+	protected int interstitialKnob = 47;
 
 	protected InputTrigger _colorTrigger = new InputTrigger(new char[]{'c'},new String[]{TouchOscPads.PAD_01},new Integer[]{AkaiMpdPads.PAD_01, LaunchControl.PAD_03, AbletonNotes.NOTE_01});
 	protected InputTrigger _rotationTrigger = new InputTrigger(new char[]{'v'},new String[]{TouchOscPads.PAD_02},new Integer[]{AkaiMpdPads.PAD_02, LaunchControl.PAD_04, AbletonNotes.NOTE_02});
@@ -180,6 +184,10 @@ extends PAppletHax {
 	protected PGraphicsKeystone _pgPinnable;
 	protected float scaleDownPG = 1f;
 	protected static boolean SECOND_SCREEN = false;
+	
+	//////////////////////////////////////////////////
+	// INIT
+	//////////////////////////////////////////////////
 
 	protected void overridePropsFile() {
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, false );
@@ -201,12 +209,14 @@ extends PAppletHax {
 		if(SECOND_SCREEN == true) p.fullScreen(2);
 	}
 	
-//	public void setup() {
-//		super.setup();
-//		noStroke();
-////		CursorToggle toggle = new CursorToggle(false);
-//	}
-
+	protected void setupFirstFrame() {
+		initDMX();
+		buildCanvas();
+		buildTextures();
+		buildPostProcessingChain();
+		buildInterstitial();
+	}
+	
 	protected void buildCanvas() {
 		//_pg = p.createGraphics( P.round(p.width / scaleDownPG), P.round(p.height / scaleDownPG), P.P3D );
 		int w = P.round(p.width * scaleDownPG);
@@ -225,13 +235,6 @@ extends PAppletHax {
 		}
 	}
 	
-	protected void setupFirstFrame() {
-		initDMX();
-		buildCanvas();
-		buildTextures();
-		buildPostProcessingChain();
-	}
-
 	protected void buildTextures() {
 		_bgTexturePool = new ArrayList<BaseTexture>();
 		_fgTexturePool = new ArrayList<BaseTexture>();
@@ -276,26 +279,38 @@ extends PAppletHax {
 		maskShader = loadShader(FileUtil.getFile("shaders/filters/three-texture-opposite-mask.glsl"));
 		
 		p.midiState.controllerChange(midiInChannel, vignetteKnob, (int) 40);
-
 	}
+	
+	protected ImageCyclerBuffer imageCycler;
+	protected void buildInterstitial() {
+		String imagesPath = "images/_sketch/glissline-interstitials/";
+		ArrayList<String> imageFiles = FileUtil.getFilesInDirOfType(FileUtil.getFile(imagesPath), "jpg");
+		PImage[] images = new PImage[imageFiles.size()];
+		for (int i = 0; i < imageFiles.size(); i++) {
+			images[i] = p.loadImage(imagesPath + imageFiles.get(i));
+			P.println(imageFiles.get(i));
+		}
+		imageCycler = new ImageCyclerBuffer(1398, 1080, images, 500, 0.5f);
+	}
+	
+	//////////////////////////////////////////////
+	// DRAW
+	//////////////////////////////////////////////
 
 	public void drawApp() {
-		handleInputTriggers();
 		background(0);
-		getDisplacementLayer();
+		handleInputTriggers();
 		checkBeat();
+		getDisplacementLayer();
 		drawLayers();
 //		filterActiveTextures();
 		drawTopLayer();
 		postProcessFilters();
 		postBrightness();
+		drawInterstitial();
 		// draw pinned pgraphics
 		if(_debugTextures == true) _pgPinnable.drawTestPattern();
 		_pgPinnable.update(p.g, true);
-		if(_debugTextures == true) {
-			_pgPinnable.drawTestPattern();
-			debugTextures();
-		}
 		sendDmxLights();
 	}
 
@@ -308,7 +323,7 @@ extends PAppletHax {
 				// kaleido audio layer
 				if(i == _curTexturePool.size() - 1) {
 					tex.texture();
-					kaleido.set("sides", 6f );
+					kaleido.set("sides", 4f );
 					tex.texture().filter(kaleido);
 				}
 			}
@@ -490,14 +505,26 @@ extends PAppletHax {
 		BrightnessFilter.instance(p).applyTo(_pg);	
 	}
 	
-	protected void debugTextures() {
-		// debug current textures
-		int i=0;
-		for( i=0; i < _curTexturePool.size(); i++ ) {
-			p.image(_curTexturePool.get(i).texture(), i * 200, 0, 200, 100);
+	protected void drawInterstitial() {
+		float interstitialAlpha = (p.midiState.midiCCPercent(midiInChannel, interstitialKnob) != 0) ? p.midiState.midiCCPercent(midiInChannel, interstitialKnob) : 0;
+		if(interstitialAlpha > 0) {
+			imageCycler.update();
+			_pg.beginDraw();
+			DrawUtil.setPImageAlpha(_pg, interstitialAlpha);
+			ImageUtil.drawImageCropFill(imageCycler.image(), _pg, false);
+			DrawUtil.resetPImageAlpha(_pg);
+			_pg.endDraw();
 		}
-		if(_dmxLights != null) _dmxLights.drawDebug(p.g);
 	}
+	
+//	protected void debugTextures() {
+//		// debug current textures
+////		int i=0;
+////		for( i=0; i < _curTexturePool.size(); i++ ) {
+////			p.image(_curTexturePool.get(i).texture(), i * 200, 0, 200, 100);
+////		}
+////		if(_dmxLights != null) _dmxLights.drawDebug(p.g);
+//	}
 
 	protected float dmxMultiplier() {
 		return p.midiState.midiCCPercent(midiInChannel, 41) * 1.5f;
@@ -724,6 +751,12 @@ extends PAppletHax {
 		reloadLayers();
 		// add new effects to each layer
 		selectNewActiveTextureFilters();
+		
+		// debug values
+		p.debugView.setValue("layerSwapIndex", layerSwapIndex);
+		p.debugView.setValue("poolCurTextureIndexes[0]", poolCurTextureIndexes[0]);
+		p.debugView.setValue("poolCurTextureIndexes[1]", poolCurTextureIndexes[1]);
+		p.debugView.setValue("poolCurTextureIndexes[2]", poolCurTextureIndexes[2]);
 	}
 
 	protected int randomColor( float mult ) {
@@ -773,6 +806,9 @@ extends PAppletHax {
 		for(BaseTexture tex : _curTexturePool) tex.setActive(false);
 		for(BaseTexture tex : _curTexturePool) tex.setKnockoutBlack(false);
 //		for(BaseTexture tex : _curTexturePool) tex.setAsOverlay(false);
+		for (int i = 0; i < _curTexturePool.size(); i++) {
+			p.debugView.removeTexture(_curTexturePool.get(i).texture());
+		}
 		_curTexturePool.clear();
 	}
 	
@@ -782,6 +818,9 @@ extends PAppletHax {
 		// reload current 3 layers
 		for (int i = 0; i < texturePools.length; i++) {
 			_curTexturePool.add( texturePools[i].get(poolCurTextureIndexes[i]) );
+			// debug info
+			p.debugView.setTexture(texturePools[i].get(poolCurTextureIndexes[i]).texture());
+			p.debugView.setValue("texture "+i, texturePools[i].get(poolCurTextureIndexes[i]).toString());
 		}
 		
 //		_curTexturePool.add( _bgTexturePool.get(_programIndex % _bgTexturePool.size()) );
@@ -789,27 +828,29 @@ extends PAppletHax {
 ////		_curTexturePool.get(_curTexturePool.size()-1).setKnockoutBlack(true); // set mid layer as overlay
 //		_curTexturePool.add( _fgTexturePool.get((_programIndex + 3) % _fgTexturePool.size()) );
 ////		_curTexturePool.add( _overlayTexturePool.get(_programIndex % _overlayTexturePool.size()) );
-		if(_debugTextures == true) P.println("== New Textures: ==============="); 
+//		if(_debugTextures == true) P.println("== New Textures: ==============="); 
 		for(BaseTexture tex : _curTexturePool) { 
 			tex.setActive(true); 
-			if(_debugTextures == true) P.println(tex.toString()); 
+//			if(_debugTextures == true) P.println(tex.toString()); 
 		}
 		
 		// tell the top layer
 		topLayer.setCurTexturePool(_curTexturePool);
+		
+		p.debugView.setValue("_curTexturePool.size()", _curTexturePool.size());
 	}
 
-	protected void randomLayers() {
-		clearCurrentLayers();
-		
-		_curTexturePool.add( randomTexture( _bgTexturePool ) );
-		_curTexturePool.add( randomTexture( _fgTexturePool ) );
-//		_curTexturePool.get(_curTexturePool.size()-1).setKnockoutBlack(true); // set mid layer as overlay
-		_curTexturePool.add( randomTexture( _overlayTexturePool ) );
+//	protected void randomLayers() {
+//		clearCurrentLayers();
+//		
+//		_curTexturePool.add( randomTexture( _bgTexturePool ) );
+//		_curTexturePool.add( randomTexture( _fgTexturePool ) );
+////		_curTexturePool.get(_curTexturePool.size()-1).setKnockoutBlack(true); // set mid layer as overlay
 //		_curTexturePool.add( randomTexture( _overlayTexturePool ) );
-		
-		for(BaseTexture tex : _curTexturePool) { tex.setActive(true); P.println(tex.toString()); }
-	}
+////		_curTexturePool.add( randomTexture( _overlayTexturePool ) );
+//		
+//		for(BaseTexture tex : _curTexturePool) { tex.setActive(true); P.println(tex.toString()); }
+//	}
 
 
 	protected BaseTexture randomTexture(ArrayList<BaseTexture> pool) {
@@ -1076,7 +1117,7 @@ extends PAppletHax {
 		_overlayTexturePool.add( new TextureOuterSphere( textureW, textureH ) );
 //		_overlayTexturePool.add( new TextureScrollingColumns( textureW, textureH ));
 		_overlayTexturePool.add( new TextureSphereRotate( textureW, textureH ));
-		_overlayTexturePool.add( new TextureStarTrails( textureW, textureH ));
+//		_overlayTexturePool.add( new TextureStarTrails( textureW, textureH ));
 //		_overlayTexturePool.add( new TextureSvgPattern( textureW, textureH ));
 //		_overlayTexturePool.add( new TextureTwistingSquares( textureW, textureH ));
 		_overlayTexturePool.add( new TextureVectorFieldEQ( textureW, textureH ) );

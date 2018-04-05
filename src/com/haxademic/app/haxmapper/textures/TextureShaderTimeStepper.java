@@ -31,8 +31,8 @@ extends BaseTexture {
 	protected int _mode = 0;
 
 	protected EasingFloat _timeEaser = new EasingFloat(0, 15);
-	protected float _smallTimeStep = 1f;
-	protected float _largeTimeStep = 3f;
+	protected float _smallTimeStep = 0.5f;
+	protected float _largeTimeStep = 2f;
 	protected float _nonBeatSpeed = 0.1f;
 	protected float _beatSpeedUp = 0.1f;
 	protected float _beatSpeedUpMax = 0.055f;
@@ -158,7 +158,7 @@ extends BaseTexture {
 				_timeEaser.setTarget( _timeEaser.value() + _smallTimeStep );
 			}
 		} else if(_nonBeatTimeMode == ShaderTimeMode.DirectionSpeedShift) {
-			_nonBeatSpeed = MathUtil.randRangeDecimal(_smallTimeStep/80f, _smallTimeStep/40f);
+			_nonBeatSpeed = MathUtil.randRangeDecimal(_smallTimeStep/120f, _smallTimeStep/80f);
 			if(MathUtil.randBoolean(P.p) == true) _nonBeatSpeed *= -1;
 		} else if(_nonBeatTimeMode == ShaderTimeMode.BeatSpeedUp) {
 			if(_nonBeatTimeMode == ShaderTimeMode.BeatSpeedUp) {
@@ -167,7 +167,7 @@ extends BaseTexture {
 			}
 		} else if(_nonBeatTimeMode == ShaderTimeMode.ForwardOsc) {
 			if( _timingFrame % 4 == 0 ) {
-				_nonBeatSpeed = MathUtil.randRangeDecimal(-_smallTimeStep/50f, _smallTimeStep/50f);
+				_nonBeatSpeed = MathUtil.randRangeDecimal(-_smallTimeStep/80f, _smallTimeStep/80f);
 			}
 		}
 	}
