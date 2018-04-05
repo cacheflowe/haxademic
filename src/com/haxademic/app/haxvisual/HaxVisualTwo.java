@@ -323,7 +323,7 @@ extends PAppletHax {
 				// kaleido audio layer
 				if(i == _curTexturePool.size() - 1) {
 					tex.texture();
-					kaleido.set("sides", 4f );
+					kaleido.set("sides", 6f );
 					tex.texture().filter(kaleido);
 				}
 			}
@@ -1105,24 +1105,18 @@ extends PAppletHax {
 		_fgTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "cacheflowe-warp-vortex.glsl" ));
 
 		
-
-//		_overlayTexturePool.add( new TextureCyclingRadialGradient( textureW, textureH ));
+		
+		_overlayTexturePool.add( new TextureVectorFieldEQ( textureW, textureH ) );
+		_overlayTexturePool.add( new TextureWaveformSimple( textureW, textureH ));
+		_overlayTexturePool.add( new TextureWaveformCircle( textureW, textureH ));
 		_overlayTexturePool.add( new TextureEQBandDistribute( textureW, textureH ));
 		_overlayTexturePool.add( new TextureEQConcentricCircles( textureW, textureH ) );
 		_overlayTexturePool.add( new TextureEQColumns( textureW, textureH ));
 		_overlayTexturePool.add( new TextureEQFloatParticles( textureW, textureH ));
 		_overlayTexturePool.add( new TextureEQGrid( textureW, textureH ));
-//		_overlayTexturePool.add( new TextureFractalPolygons( textureW, textureH ));
 		_overlayTexturePool.add( new TextureLinesEQ( textureW, textureH ));
 		_overlayTexturePool.add( new TextureOuterSphere( textureW, textureH ) );
-//		_overlayTexturePool.add( new TextureScrollingColumns( textureW, textureH ));
 		_overlayTexturePool.add( new TextureSphereRotate( textureW, textureH ));
-//		_overlayTexturePool.add( new TextureStarTrails( textureW, textureH ));
-//		_overlayTexturePool.add( new TextureSvgPattern( textureW, textureH ));
-//		_overlayTexturePool.add( new TextureTwistingSquares( textureW, textureH ));
-		_overlayTexturePool.add( new TextureVectorFieldEQ( textureW, textureH ) );
-		_overlayTexturePool.add( new TextureWaveformSimple( textureW, textureH ));
-		_overlayTexturePool.add( new TextureWaveformCircle( textureW, textureH ));
 
 //		_overlayTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "basic-checker.glsl" ));
 //		_overlayTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "basic-diagonal-stripes.glsl" ));
