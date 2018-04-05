@@ -39,9 +39,6 @@ extends BaseTexture {
 	protected PShape shapeIcos;
 	
 	PShader texShader;
-	PShader vignette;
-
-
 
 	public TextureSphereAudioTextures( int width, int height ) {
 		super();
@@ -53,8 +50,6 @@ extends BaseTexture {
 //		buildAudioTextures();
 //		pickRandomTexture();
 		createNewSphere();
-		
-		vignette = P.p.loadShader(FileUtil.getFile("shaders/filters/vignette-inverse.glsl"));
 	}
 	
 	public void setCurTexturePool(ArrayList<BaseTexture> curTexturePool) {

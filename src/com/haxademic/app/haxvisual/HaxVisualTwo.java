@@ -59,7 +59,6 @@ import com.haxademic.core.hardware.midi.devices.LaunchControl;
 import com.haxademic.core.hardware.osc.devices.TouchOscPads;
 import com.haxademic.core.hardware.shared.InputTrigger;
 import com.haxademic.core.math.MathUtil;
-import com.haxademic.core.ui.CursorToggle;
 
 import processing.core.PGraphics;
 import processing.opengl.PShader;
@@ -185,17 +184,16 @@ extends PAppletHax {
 	protected void overridePropsFile() {
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, false );
 		p.appConfig.setProperty( AppSettings.FULLSCREEN, true );
-		p.appConfig.setProperty( AppSettings.FILLS_SCREEN, true );
+		p.appConfig.setProperty( AppSettings.FILLS_SCREEN, false );
 		p.appConfig.setProperty( AppSettings.OSC_ACTIVE, false );
 		p.appConfig.setProperty( AppSettings.DMX_LIGHTS_COUNT, 0 );
-		p.appConfig.setProperty( AppSettings.HIDE_CURSOR, false );
 		p.appConfig.setProperty( AppSettings.AUDIO_DEBUG, false );
 		p.appConfig.setProperty( AppSettings.INIT_ESS_AUDIO, true );
 		p.appConfig.setProperty( AppSettings.INIT_MINIM_AUDIO, true );
 		p.appConfig.setProperty( AppSettings.MIDI_DEVICE_IN_INDEX, 0 );
 		p.appConfig.setProperty( AppSettings.MIDI_DEBUG, false );
 		p.appConfig.setProperty( AppSettings.RETINA, false );
-		p.appConfig.setProperty( AppSettings.SMOOTHING, AppSettings.SMOOTH_NONE );
+//		p.appConfig.setProperty( AppSettings.SMOOTHING, AppSettings.SMOOTH_NONE );
 	}
 
 	public void settings() {
@@ -203,11 +201,11 @@ extends PAppletHax {
 		if(SECOND_SCREEN == true) p.fullScreen(2);
 	}
 	
-	public void setup() {
-		super.setup();
-		noStroke();
-		CursorToggle toggle = new CursorToggle(false);
-	}
+//	public void setup() {
+//		super.setup();
+//		noStroke();
+////		CursorToggle toggle = new CursorToggle(false);
+//	}
 
 	protected void buildCanvas() {
 		//_pg = p.createGraphics( P.round(p.width / scaleDownPG), P.round(p.height / scaleDownPG), P.P3D );
@@ -227,7 +225,7 @@ extends PAppletHax {
 		}
 	}
 	
-	protected void setupDeferred() {
+	protected void setupFirstFrame() {
 		initDMX();
 		buildCanvas();
 		buildTextures();
@@ -282,15 +280,14 @@ extends PAppletHax {
 	}
 
 	public void drawApp() {
-		if(p.frameCount == 1) setupDeferred();
 		handleInputTriggers();
 		background(0);
 		getDisplacementLayer();
 		checkBeat();
 		drawLayers();
 //		filterActiveTextures();
-		postProcessFilters();
 		drawTopLayer();
+		postProcessFilters();
 		postBrightness();
 		// draw pinned pgraphics
 		if(_debugTextures == true) _pgPinnable.drawTestPattern();
