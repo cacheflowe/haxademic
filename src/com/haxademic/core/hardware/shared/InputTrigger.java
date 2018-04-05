@@ -50,10 +50,12 @@ public class InputTrigger {
 		for( int i=0; i < keyCodes.length; i++ ) {
 			if( P.p.keyboardState.isKeyTriggered(keyCodes[i]) ) return true;
 		}
-		for( int i=0; i < oscMessages.length; i++ ) {
-			if( P.p.oscState.isValueTriggered(oscMessages[i])) {
-				curValue = P.p.oscState.getValue(oscMessages[i]);
-				return true;
+		if(P.p.oscState != null) {
+			for( int i=0; i < oscMessages.length; i++ ) {
+				if( P.p.oscState.isValueTriggered(oscMessages[i])) {
+					curValue = P.p.oscState.getValue(oscMessages[i]);
+					return true;
+				}
 			}
 		}
 		for( int i=0; i < webControls.length; i++ ) {
