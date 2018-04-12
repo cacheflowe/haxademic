@@ -1,6 +1,8 @@
 package com.haxademic.core.app;
 
 import java.awt.Robot;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
 
@@ -41,6 +43,7 @@ import com.haxademic.core.system.SystemUtil;
 import de.voidplus.leapmotion.LeapMotion;
 import krister.Ess.AudioInput;
 import processing.core.PApplet;
+import processing.core.PSurface;
 import processing.opengl.PJOGL;
 import processing.video.Movie;
 import themidibus.MidiBus;
@@ -216,10 +219,6 @@ extends PApplet
 			surface.setSize(p.appConfig.getInt(AppSettings.WIDTH, 800), p.appConfig.getInt(AppSettings.HEIGHT, 600));
 			surface.setLocation(p.appConfig.getInt("screen_x", 0), p.appConfig.getInt("screen_y", 0));  // location has to happen after size, to break it out of fullscreen
 		}
-		// check for always on top
-		if(isFullscreen == true) {
-			surface.setAlwaysOnTop(p.appConfig.getBoolean(AppSettings.ALWAYS_ON_TOP, true));
-		}
 	}
 
 	////////////////////////
@@ -287,6 +286,11 @@ extends PApplet
 				: null;
 		try { _robot = new Robot(); } catch( Exception error ) { println("couldn't init Robot for screensaver disabling"); }
 		if(p.appConfig.getBoolean(AppSettings.APP_VIEWER_WINDOW, false) == true) appViewerWindow = new SecondScreenViewer(p.g, p.appConfig.getFloat(AppSettings.APP_VIEWER_SCALE, 0.5f));
+		// check for always on top
+		boolean isFullscreen = p.appConfig.getBoolean(AppSettings.FULLSCREEN, false);
+		if(isFullscreen == true) {
+			surface.setAlwaysOnTop(p.appConfig.getBoolean(AppSettings.ALWAYS_ON_TOP, true));
+		}
 	}
 
 	protected void initializeOn1stFrame() {
@@ -314,9 +318,22 @@ extends PApplet
 	}
 	
 	////////////////////////
-	// DRAW
+	// GETTERS
 	////////////////////////
 
+	public PSurface getSurface() {
+		return surface;
+	}
+	
+	public void setAlwaysOnTop() {
+		surface.setAlwaysOnTop(false);
+		surface.setAlwaysOnTop(true);
+	}
+	
+	////////////////////////
+	// DRAW
+	////////////////////////
+	
 	public void draw() {
 		initializeOn1stFrame();
 		killScreensaver();

@@ -214,7 +214,7 @@ public class CaptureKeystoneToRectBuffer {
 					hoveredPoint = true;
 				}
 			}
-//			if(hoveredPoint == false)
+			if(hoveredPoint == false) SELECTED_POINT = null; // 
 //		}
 	}
 	
