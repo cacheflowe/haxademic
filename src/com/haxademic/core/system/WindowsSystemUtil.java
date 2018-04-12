@@ -1,7 +1,14 @@
 package com.haxademic.core.system;
 
+import java.awt.AWTException;
+import java.awt.Robot;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+
+import com.haxademic.core.app.P;
 
 public class WindowsSystemUtil {
 
@@ -51,4 +58,45 @@ public class WindowsSystemUtil {
             e.printStackTrace(System.err);
         }
 	}
+	
+	public static void closeModalWindowAndSetOnTop(int delay) {
+		SystemUtil.setTimeout(tabAndEnterPress, delay);
+	}
+	
+	public static ActionListener tabAndEnterPress = new ActionListener() {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			Robot r;
+			try {
+				r = new Robot();
+				
+				// switch focus
+				r.keyPress(KeyEvent.VK_ALT);
+				r.keyPress(KeyEvent.VK_TAB);
+				r.keyRelease(KeyEvent.VK_TAB);
+	            r.delay(200);
+	            
+				r.keyPress(KeyEvent.VK_TAB);
+	            r.keyRelease(KeyEvent.VK_TAB);
+	            r.delay(200);
+	            
+				r.keyRelease(KeyEvent.VK_ALT);
+	            r.delay(500);
+	            
+				r.keyPress(KeyEvent.VK_ENTER);
+				
+				SystemUtil.setTimeout(requestAppOnTop, 1000);
+			} catch (AWTException e1) {
+				e1.printStackTrace();
+			}
+		}
+	};
+	
+	public static ActionListener requestAppOnTop = new ActionListener() {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			P.p.setAlwaysOnTop();
+		}
+	};
+
 }

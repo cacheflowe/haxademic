@@ -222,7 +222,7 @@ public class PGraphicsKeystone {
 			if(_isHovered == true || isCornerHovered == true) {
 				canvas.stroke(0, 255, 0);
 				canvas.strokeWeight(1.5f);
-				canvas.fill(255, 40);
+				canvas.noFill(); // canvas.fill(255, 40);
 				canvas.beginShape();
 				canvas.vertex(_points[0].x, _points[0].y);
 				canvas.vertex(_points[1].x, _points[1].y);

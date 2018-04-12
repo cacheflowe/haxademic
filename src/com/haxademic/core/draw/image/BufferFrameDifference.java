@@ -33,6 +33,7 @@ public class BufferFrameDifference {
 	public void falloffBW(float newFalloff) { falloffBW = newFalloff; }
 	public void diffThresh(float newThresh) { diffThresh = newThresh; }
 	
+	// ping pong - always store the newset and previous frames
 	public void update(PImage newFrame) {	
 		pingPong = !pingPong;
 		
@@ -43,6 +44,15 @@ public class BufferFrameDifference {
 		// set difference shader textures
 		differenceShader.set("tex1", frame2);
 		differenceShader.set("tex2", frame1);
+		differenceShader.set("falloffBW", falloffBW);
+		differenceShader.set("diffThresh", diffThresh);
+		differenceBuffer.filter(differenceShader);
+	}
+
+	// set both frames manually
+	public void update(PImage frame1, PImage frame2) {	
+		differenceShader.set("tex1", frame1);
+		differenceShader.set("tex2", frame2);
 		differenceShader.set("falloffBW", falloffBW);
 		differenceShader.set("diffThresh", diffThresh);
 		differenceBuffer.filter(differenceShader);

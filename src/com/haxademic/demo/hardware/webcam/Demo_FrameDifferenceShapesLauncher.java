@@ -1,4 +1,4 @@
-package com.haxademic.demo.draw.filters.shaders;
+package com.haxademic.demo.hardware.webcam;
 
 import java.util.ArrayList;
 
@@ -48,6 +48,7 @@ implements IWebCamCallback {
 		p.webCamWrapper.setDelegate(this);
 		// build particles array
 		imageGradient = new ImageGradient(ImageGradient.PASTELS());
+		imageGradient = new ImageGradient(ImageGradient.randomCoolor());
 		shapes = new ArrayList<ShapeParticle>();
 	}
 	
@@ -154,7 +155,7 @@ implements IWebCamCallback {
 		protected PVector speed = new PVector(0, 0, 0);
 		protected PVector gravity = new PVector(0, 0, 0);
 		protected float vertices = 3f;
-		protected float size = 30f;
+		protected float size = 10f;
 		protected float rotation = 30f;
 		protected LinearFloat sizeProgress = new LinearFloat(0, 0.04f);
 		protected int color;
@@ -191,14 +192,14 @@ implements IWebCamCallback {
 		
 		public void launch(float x, float y) {
 			vertices = MathUtil.randRange(3, 6);
-			size = MathUtil.randRangeDecimal(20, 40);
+			size = MathUtil.randRangeDecimal(10, 20);
 			sizeProgress.setCurrent(0);
 			sizeProgress.setTarget(1);
 			
 			pos.set(x, y, 0);
-			speed.set(0, 0, 0);
+			speed.set(0, -5f, 0);
 			rotation = P.p.random(P.TWO_PI);
-			gravity.set(MathUtil.randRangeDecimal(-0.02f, 0.02f), MathUtil.randRangeDecimal(-0.1f, -0.35f), MathUtil.randRangeDecimal(-0.01f, 0.01f));
+			gravity.set(MathUtil.randRangeDecimal(-0.02f, 0.02f), MathUtil.randRangeDecimal(0.2f, 0.4f), MathUtil.randRangeDecimal(-0.01f, 0.01f));
 			
 			color = imageGradient.getColorAtProgress(P.p.random(1f));
 		}
