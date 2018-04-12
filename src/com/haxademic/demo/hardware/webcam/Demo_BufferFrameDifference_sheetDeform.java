@@ -30,13 +30,13 @@ implements IWebCamCallback {
 	protected void overridePropsFile() {
 		p.appConfig.setProperty(AppSettings.WIDTH, 800);
 		p.appConfig.setProperty(AppSettings.HEIGHT, 800);
-		p.appConfig.setProperty(AppSettings.WEBCAM_INDEX, 3 ); 
+		p.appConfig.setProperty(AppSettings.WEBCAM_INDEX, 15 ); 
 	}
 	
 	protected void setupFirstFrame() {
 		// build sheet mesh
 		texture = DemoAssets.squareTexture();
-		shape = Shapes.createSheet(200, texture);
+		shape = Shapes.createSheet(250, texture);
 		shape.setTexture(texture);
 		
 		// load shader
@@ -55,8 +55,8 @@ implements IWebCamCallback {
 		// lazy init frame difference object
 		if(bufferFrameDifference == null) {
 			bufferFrameDifference = new BufferFrameDifference(frame.width, frame.height);
-			bufferFrameDifference.diffThresh(0.1f);
-			bufferFrameDifference.falloffBW(0.08f);
+			bufferFrameDifference.diffThresh(0.15f);
+			bufferFrameDifference.falloffBW(0.18f);
 			textureFlipped = p.createGraphics(frame.width, frame.height, PRenderers.P2D);
 		}
 		
