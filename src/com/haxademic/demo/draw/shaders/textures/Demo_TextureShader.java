@@ -110,6 +110,7 @@ extends PAppletHax { public static void main(String args[]) { PAppletHax.main(Th
 			new TextureShader(TextureShader.shiny_circle_wave),
 			new TextureShader(TextureShader.sin_grey),
 			new TextureShader(TextureShader.sin_waves),
+			new TextureShader(TextureShader.sky_clouds_01),
 			new TextureShader(TextureShader.space_swirl),
 			new TextureShader(TextureShader.spinning_iq),
 			new TextureShader(TextureShader.square_fade),

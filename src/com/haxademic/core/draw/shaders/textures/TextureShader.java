@@ -144,6 +144,7 @@ public class TextureShader {
 	public static String shiny_circle_wave = "shiny_circle_wave.glsl";
 	public static String sin_grey = "sin_grey.glsl";
 	public static String sin_waves = "sin_waves.glsl";
+	public static String sky_clouds_01 = "sky-clouds-01.glsl";
 	public static String space_swirl = "space_swirl.glsl";
 	public static String spinning_iq = "spinning_iq.glsl";
 	public static String square_fade = "square_fade.glsl";
