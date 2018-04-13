@@ -35,11 +35,13 @@ implements IWebCamCallback {
 	protected PShader differenceShader;
 	protected ArrayList<ShapeParticle> shapes;
 	protected ImageGradient imageGradient;
+	protected int FRAME_LAUNCH_INTERVAL = 2;
+	protected int MAX_LAUNCHED_PER_FRAME = 5;
 	
 	protected void overridePropsFile() {
-		p.appConfig.setProperty(AppSettings.WIDTH, 1280 );
-		p.appConfig.setProperty(AppSettings.HEIGHT, 720 );
-		p.appConfig.setProperty(AppSettings.WEBCAM_INDEX, 3 ); // 18
+		p.appConfig.setProperty(AppSettings.WIDTH, 640 );
+		p.appConfig.setProperty(AppSettings.HEIGHT, 480 );
+		p.appConfig.setProperty(AppSettings.WEBCAM_INDEX, 22 ); // 18
 		p.appConfig.setProperty(AppSettings.SHOW_DEBUG, true );
 	}
 		
@@ -85,7 +87,7 @@ implements IWebCamCallback {
 		differenceShader.set("tex1", curFrame);
 		differenceShader.set("tex2", prevFrame);
 		differenceShader.set("falloffBW", 0.25f);
-		differenceShader.set("diffThresh", 0.06f);
+		differenceShader.set("diffThresh", 0.15f);
 		differenceBuffer.filter(differenceShader);
 	}
 
@@ -107,14 +109,14 @@ implements IWebCamCallback {
 			shapesLayer.fill(255);
 			shapesLayer.noStroke();
 			
-			if(p.frameCount % 4 == 0) {
+			if(p.frameCount % FRAME_LAUNCH_INTERVAL == 0) {
 				int numLaunched = 0;
 				for (int i = 0; i < 2000; i++) {
 					int checkX = MathUtil.randRange(0, differenceBuffer.width);
 					int checkY = MathUtil.randRange(0, differenceBuffer.height);
 					int pixelColor = ImageUtil.getPixelColor(differenceBuffer, checkX, checkY);
 					float redColor = (float) ColorUtil.redFromColorInt(pixelColor) / 255f;
-					if(redColor > 0.5f && numLaunched < 2) {
+					if(redColor > 0.5f && numLaunched < MAX_LAUNCHED_PER_FRAME) {
 						// shapesLayer.rect(checkX, checkY, 2, 2);	// show launchpoints
 						launchShape(checkX, checkY);
 						numLaunched++;
@@ -149,6 +151,11 @@ implements IWebCamCallback {
 		}
 	}
 	
+	public void keyPressed() {
+		super.keyPressed();
+		if(p.key == ' ') imageGradient = new ImageGradient(ImageGradient.randomCoolor());
+	}
+	
 	public class ShapeParticle {
 		
 		protected PVector pos = new PVector(0, -100, 0);
@@ -167,6 +174,7 @@ implements IWebCamCallback {
 		public void update(PGraphics pg) {
 			if(available()) return;
 			// update position
+			gravity.x *= 0.97f;
 			speed.add(gravity);
 			pos.add(speed);
 			rotation += gravity.z;
@@ -199,7 +207,7 @@ implements IWebCamCallback {
 			pos.set(x, y, 0);
 			speed.set(0, -5f, 0);
 			rotation = P.p.random(P.TWO_PI);
-			gravity.set(MathUtil.randRangeDecimal(-0.02f, 0.02f), MathUtil.randRangeDecimal(0.2f, 0.4f), MathUtil.randRangeDecimal(-0.01f, 0.01f));
+			gravity.set(MathUtil.randRangeDecimal(-0.1f, 0.1f), MathUtil.randRangeDecimal(0.2f, 0.4f), MathUtil.randRangeDecimal(-0.02f, 0.02f)); // z is rotation!
 			
 			color = imageGradient.getColorAtProgress(P.p.random(1f));
 		}
