@@ -1,14 +1,17 @@
-package com.haxademic.sketch.three_d;
+package com.haxademic.demo.draw.shapes;
 
+import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
+import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.shapes.MeshShapes;
 
-public class MeshLibraryTest
+public class Demo_MeshShapes
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
-	protected MeshShapes myMesh;
+	protected MeshShapes meshes[];
+	protected int meshIndex = 0;
 
 	protected void overridePropsFile() {
 		appConfig.setProperty( AppSettings.WIDTH, "1000" );
@@ -17,36 +20,48 @@ extends PAppletHax {
 
 	public void setup() {
 		super.setup();
-
-		myMesh = new MeshShapes(MeshShapes.CORKSCREW, 200, 200, -4, 4, -PI, PI);
-		myMesh.setColorRange(192, 192, 50, 50, 50, 50, 100);
+		// init all shapes
+		meshes = new MeshShapes[] {
+				new MeshShapes(MeshShapes.PLANE, 200, 200, -4, 4, -PI, PI),
+				new MeshShapes(MeshShapes.TUBE, 200, 200, -4, 4, -PI, PI),
+				new MeshShapes(MeshShapes.SPHERE, 200, 200, -4, 4, -PI, PI),
+				new MeshShapes(MeshShapes.TORUS, 200, 200, -4, 4, -PI, PI),
+				new MeshShapes(MeshShapes.PARABOLOID, 200, 200, -4, 4, -PI, PI),
+				new MeshShapes(MeshShapes.STEINBACHSCREW, 200, 200, -4, 4, -PI, PI),
+				new MeshShapes(MeshShapes.SINE, 200, 200, -4, 4, -PI, PI),
+				new MeshShapes(MeshShapes.FIGURE8TORUS, 200, 200, -4, 4, -PI, PI),
+				new MeshShapes(MeshShapes.ELLIPTICTORUS, 200, 200, -4, 4, -PI, PI),
+				new MeshShapes(MeshShapes.BOHEMIANDOME, 200, 200, -4, 4, -PI, PI),
+				new MeshShapes(MeshShapes.BOW, 200, 200, -4, 4, -PI, PI),
+				new MeshShapes(MeshShapes.MAEDERSOWL, 200, 200, -4, 4, -PI, PI),
+				new MeshShapes(MeshShapes.ASTROIDALELLIPSOID, 200, 200, -4, 4, -PI, PI),
+				new MeshShapes(MeshShapes.TRIAXIALTRITORUS, 200, 200, -4, 4, -PI, PI),
+				new MeshShapes(MeshShapes.LIMPETTORUS, 200, 200, -4, 4, -PI, PI),
+				new MeshShapes(MeshShapes.HORN, 200, 200, -4, 4, -PI, PI),
+				new MeshShapes(MeshShapes.SHELL, 200, 200, -4, 4, -PI, PI),
+				new MeshShapes(MeshShapes.KIDNEY, 200, 200, -4, 4, -PI, PI),
+				new MeshShapes(MeshShapes.LEMNISCAPE, 200, 200, -4, 4, -PI, PI),
+				new MeshShapes(MeshShapes.TRIANGULOID, 200, 200, -4, 4, -PI, PI),
+				new MeshShapes(MeshShapes.SUPERFORMULA, 200, 200, -4, 4, -PI, PI),
+		};
+		// set colors
+		for (int i = 0; i < meshes.length; i++) {
+			meshes[i].setColorRange(192, 192, 50, 50, 50, 50, 100);
+		}
 	}
 
 	public void drawApp() {
 		p.background(0);
-
-
-		// setup drawing style 
 		noStroke();
-//		strokeWeight(1);
-//		stroke(255);
 		fill(0);
-
-		// setup lights
-		lightSpecular(230, 230, 230); 
-		directionalLight(200, 200, 200, -0.0f, -0.0f, 1); 
-		directionalLight(200, 200, 200, 0.0f, 0.0f, -1); 
-		specular(color(200)); 
-		shininess(5.0f); 
-
-		// setup view
-		translate(width*0.5f, height*0.5f);
+		DrawUtil.setBetterLights(p);
+		DrawUtil.setCenterScreen(p);
 		rotateX(0.5f); 
-		rotateY(frameCount/20f); 
-
-		scale(100);
-		myMesh.draw(p.g);
-//		p.box(100);
+		rotateY(p.mousePercentX() * 10f); 
+		meshIndex = P.floor(p.mousePercentY() * meshes.length); 
+		// draw shape
+		scale(80);
+		meshes[meshIndex].draw(p.g);
 	}
 
 }
