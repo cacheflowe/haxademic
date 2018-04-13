@@ -10,6 +10,7 @@ import toxi.processing.ToxiclibsSupport;
 
 import com.haxademic.app.haxvisual.viz.ElementBase;
 import com.haxademic.app.haxvisual.viz.IVizElement;
+import com.haxademic.core.app.P;
 import com.haxademic.core.audio.AudioInputWrapper;
 import com.haxademic.core.draw.color.ColorGroup;
 import com.haxademic.core.draw.color.TColorBlendBetween;
@@ -61,7 +62,7 @@ implements IVizElement {
 		_color.lightenColor( 0.3f );
 	}
 
-	public synchronized void update() {
+	public void update() {
 		// rotate beginning z
 		_baseRotZAdd = MathUtil.easeTo( _baseRotZAdd, _baseRotZTarget, 20 );
 		p.rotateZ( _rotDir * p.frameCount - _baseRotZAdd );
@@ -76,7 +77,7 @@ implements IVizElement {
 		p.noStroke();
 		DrawUtil.setColorForPImage(p);
 		for( int i = 0; i < _numRotations; i++ ) {
-			spectrumData = _audioData.getFFT().spectrum[ 20 + (int) (i * (255f/_numRotations)) ];
+			spectrumData = 0.8f;// p._audioData.getFFT().spectrum[ 20 + (int) (i * (255f/_numRotations)) ];
 			p.fill( _color.argbWithPercent( spectrumData ) );
 //			p.fill( _baseColor.lighten( spectrumData * 255 * 30 ).toARGB() );
 //			p.stroke( spectrumData * 255, spectrumData * 127 );
@@ -131,7 +132,7 @@ implements IVizElement {
 			_posBase.setTargetZ( p.round( p.random( -COORD_MAX, COORD_MAX ) ) );
 			_inc = p.random( 0, 1f );
 			_incSpeed = p.random( -0.005f, 0.005f );
-			_radius = p.random( 500f, 800f );
+			_radius = p.random( 200f, 400f );
 		}
 		
 		public void update() {

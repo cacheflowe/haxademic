@@ -2,19 +2,21 @@ package com.haxademic.sketch.three_d;
 
 import com.haxademic.app.haxvisual.viz.elements.RotatorShape;
 import com.haxademic.core.app.P;
+import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.color.ColorGroup;
 import com.haxademic.core.draw.color.ColorHax;
-import com.haxademic.core.render.Renderer;
+import com.haxademic.core.draw.context.DrawUtil;
 
 import processing.core.PApplet;
 import processing.core.PConstants;
 import toxi.processing.ToxiclibsSupport;
 
 public class RotationObjects 
-extends PApplet
+extends PAppletHax
 {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
+
 	ToxiclibsSupport toxi;
-	PApplet p;
 	
 	RotatorShape _rotator;
 	RotatorShape _rotatorBG;
@@ -24,21 +26,9 @@ extends PApplet
 	int _numRotations = 6;
 	float[] _fakeAudioData;
 	
-	Renderer _render;
-
-	public void setup ()
+	public void setupFirstFrame ()
 	{
-		p = this;
-		// set up stage and drawing properties
-//		p.size( 800, 600, "hipstersinc.P5Sunflow" );				//size(screen.width,screen.height,P3D);
-		p.size( 800, 600, P.P3D );				//size(screen.width,screen.height,P3D);
-		p.frameRate( 30 );
-		p.colorMode( PConstants.RGB, 255, 255, 255, 255 );
-		p.background( 0 );
-		//p.shininess(1000); 
-		p.lights();
 		p.noStroke();
-		//p.noLoop();
 		p.smooth();
 		toxi = new ToxiclibsSupport( p );
 		
@@ -62,13 +52,13 @@ extends PApplet
 //		_render.startRenderer();
 	}
 
-	public void draw() 
+	public void drawApp() 
 	{
 		
 		p.rectMode(PConstants.CENTER);
 		p.noStroke();
 		p.background(0,0,0,255);
-
+		DrawUtil.setBetterLights(p);
 		p.translate(p.width/2, p.height/2);
 		
 //		p.fill( _r, _g, _b, 0.1f );
@@ -90,18 +80,5 @@ extends PApplet
 //		_rotatorBG.updateEQArray( _fakeAudioData );
 		_rotatorBG.update();
 		p.popMatrix();
-
-		
-		 // render movie
-		if( _render != null ) {
-			_render.renderFrame();
-			if( p.frameCount == 300 ) {
-				p.println( "done!" );
-				_render.stop();
-				exit();
-			} else {
-				for( int i = 0; i < 100; i++ ) p.println( "rendering frame: " + p.frameCount );
-			}
-		}
 	}
 }

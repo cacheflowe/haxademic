@@ -1,14 +1,15 @@
-package com.haxademic.sketch.three_d;
+package com.haxademic.sketch.render;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.camera.CameraOscillate;
 import com.haxademic.core.camera.common.ICamera;
 import com.haxademic.core.constants.AppSettings;
+import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.render.JoonsWrapper;
 
-public class MegaFractalCube
+public class FractalCube
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
@@ -17,24 +18,16 @@ extends PAppletHax {
 	protected FractCube _cube;
 	protected ICamera camera;
 	protected float BASE_CUBE_SIZE = 200;
-	protected float MIN_CUBE_SIZE = 3;
+	protected float MIN_CUBE_SIZE = 6;
+	protected float CHILD_RATIO = 0.5f;
 	float percentComplete;
 
 	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.SUNFLOW, "true" );
-		p.appConfig.setProperty( AppSettings.SUNFLOW_ACTIVE, "false" );
-		p.appConfig.setProperty( AppSettings.SUNFLOW_QUALITY, "low" );
-
-		p.appConfig.setProperty( AppSettings.RENDERING_GIF, "false" );
-		p.appConfig.setProperty( AppSettings.RENDERING_GIF_FRAMERATE, "45" );
-		p.appConfig.setProperty( AppSettings.RENDERING_GIF_QUALITY, "15" );
-		p.appConfig.setProperty( AppSettings.RENDERING_GIF_START_FRAME, "3" );
-		p.appConfig.setProperty( AppSettings.RENDERING_GIF_STOP_FRAME, ""+Math.round(_frames+2) );
-
-		p.appConfig.setProperty( AppSettings.WIDTH, "640" );
-		p.appConfig.setProperty( AppSettings.HEIGHT, "640" );
-		
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
+		p.appConfig.setProperty( AppSettings.SUNFLOW, true );
+		p.appConfig.setProperty( AppSettings.SUNFLOW_ACTIVE, false );
+		p.appConfig.setProperty( AppSettings.SUNFLOW_QUALITY, AppSettings.SUNFLOW_QUALITY_LOW );
+		p.appConfig.setProperty( AppSettings.WIDTH, 640 );
+		p.appConfig.setProperty( AppSettings.HEIGHT, 640 );
 	}
 
 	public void setup() {
@@ -42,10 +35,7 @@ extends PAppletHax {
 		
 		BASE_CUBE_SIZE = p.width/4f;
 		
-		if(p.appConfig.getBoolean("sunflow_active", false) == false) {
-			p.smooth(OpenGLUtil.SMOOTH_HIGH);
-			lights();
-			shininess(500); 
+		if(p.appConfig.getBoolean(AppSettings.SUNFLOW_ACTIVE, false) == false) {
 			background(255);
 			noStroke();
 		}
@@ -55,57 +45,26 @@ extends PAppletHax {
 	}
 
 	public void drawApp() {
-		
+//		CHILD_RATIO = 0.25f + 0.1f * P.sin(p.frameCount * 0.01f);
 		percentComplete = ((float)(p.frameCount%_frames)/_frames);
 		
-		
-		if(p.appConfig.getBoolean("sunflow_active", false) == true) {
+		if(p.appConfig.getBoolean(AppSettings.SUNFLOW_ACTIVE, false) == true) {
 			joons.jr.background(255, 255, 255); //background(gray), or (r, g, b), like Processing.
 			joons.jr.background("gi_instant"); //Global illumination, normal mode.
 			joons.jr.background("gi_ambient_occlusion"); //Global illumination, ambient occlusion mode.
 			setUpRoom();
 		} else {
-			background( 255 );
-			
-			p.ambientLight(102, 102, 122);
-			p.lightSpecular(100, 100, 150);
-			p.directionalLight(102, 132, 102, 0, 0, -1);
-			p.specular(100, 150, 100);
-			p.emissive(81, 51, 51);
-			p.ambient(200, 200, 200);
-			
-			p.shininess(20.0f); 
-			
-			p.pointLight(0, 255, 255, 0, 0, -500);
-			p.pointLight(255, 255, 0, 0, 0, -500);
-			p.pointLight(0, 0, 0, 255, 500, 3000);
+			background( 0 );
+			DrawUtil.setBetterLights(p);
 		}
 		
-		
-		
-//		camera( width/2, 700, 600, 400, 300, 0, 0, 1, 0);
-//		translate(width/2, height/2, -800);
+		// camera 
 		translate(0, 0, -p.width);
-
-		// angled view!
-		translate(0, 0, p.width/1.7f);
-		p.rotateX(-P.PI/4f * 10f);
-		p.rotateZ(-P.PI/4f * 6f);
-
+		p.rotateY(P.map(p.mouseX, 0, p.width, -P.TWO_PI, P.TWO_PI));
+		p.rotateX(P.map(p.mouseY, 0, p.height, P.TWO_PI, -P.TWO_PI));
 		
-		p.rotateY(P.PI/2f * percentComplete);
-		
-//		if(camera != null) camera.update();
+		// draw cube
 		_cube.update( 0, 0, 0 );
-		
-		
-		if( p.frameCount == _frames + 2 ) {
-			if(p.appConfig.getBoolean("rendering", false) ==  true) {				
-				movieRenderer.stop();
-				P.println("render done!");
-			}
-		}
-
 	}
 	
 	public class FractCube {
@@ -113,11 +72,10 @@ extends PAppletHax {
 		float _curSize;
 		float _x, _y, _z;
 		protected FractCube[] _childrens;
-		protected float CHILD_RATIO = 0.5f;
 		
 		public FractCube( float size ) {
 			_baseSize = size;
-			_curSize = _baseSize;	//0;// _baseSize * 1f 
+			_curSize = _baseSize;
 			
 			if( _baseSize > MIN_CUBE_SIZE ) {
 				_childrens = new FractCube[ 6 ];
@@ -147,7 +105,7 @@ extends PAppletHax {
 			_z = z;
 			
 			// ease up the size
-			if( _curSize < _baseSize ) _curSize += ( _baseSize - _curSize ) / 75;
+//			if( _curSize < _baseSize ) _curSize += ( _baseSize - _curSize ) / 75;
 			
 			pushMatrix();
 			
@@ -157,7 +115,7 @@ extends PAppletHax {
 			int color = P.round(255f - (_curSize / BASE_CUBE_SIZE) * 235f);  
 			int colorDark = P.round(150f - (_curSize / BASE_CUBE_SIZE) * 135f); 
 			
-			if(p.appConfig.getBoolean("sunflow_active", false) == true) {
+			if(p.appConfig.getBoolean(AppSettings.SUNFLOW_ACTIVE, false) == true) {
 				if(_baseSize == BASE_CUBE_SIZE) {
 					joons.jr.fill( JoonsWrapper.MATERIAL_GLASS, 60, 60, 100);
 				} else {
@@ -175,7 +133,7 @@ extends PAppletHax {
 					color + color/5f * P.sin(percentComplete * P.TWO_PI + P.PI/2f) * _z/40f
 				);
 				stroke(p.color(colorDark));
-				strokeWeight(0.2f);
+				strokeWeight(0.5f);
 			}
 
 			box(_curSize);
@@ -188,7 +146,7 @@ extends PAppletHax {
 		}
 		
 		void updateChildrenBoxen() {
-			// half size of 
+			// half size of both boxes
 			float distance = ( _curSize / 2 ) + ( _curSize * CHILD_RATIO ) / 2;
 			
 			// update 6 sides
