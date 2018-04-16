@@ -11,6 +11,7 @@ import com.haxademic.core.draw.color.ColorUtil;
 import com.haxademic.core.draw.color.ImageGradient;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.image.ImageUtil;
+import com.haxademic.core.file.DemoAssets;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.webcam.IWebCamCallback;
 import com.haxademic.core.math.MathUtil;
@@ -37,6 +38,7 @@ implements IWebCamCallback {
 	protected ImageGradient imageGradient;
 	protected int FRAME_LAUNCH_INTERVAL = 2;
 	protected int MAX_LAUNCHED_PER_FRAME = 5;
+	protected PImage[] particleImages;
 	
 	protected void overridePropsFile() {
 		p.appConfig.setProperty(AppSettings.WIDTH, 640 );
@@ -52,6 +54,9 @@ implements IWebCamCallback {
 		imageGradient = new ImageGradient(ImageGradient.PASTELS());
 		imageGradient = new ImageGradient(ImageGradient.randomCoolor());
 		shapes = new ArrayList<ShapeParticle>();
+		particleImages = new PImage[] {
+			DemoAssets.particle()
+		};
 	}
 	
 	@Override
@@ -166,6 +171,7 @@ implements IWebCamCallback {
 		protected float rotation = 30f;
 		protected LinearFloat sizeProgress = new LinearFloat(0, 0.04f);
 		protected int color;
+		protected PImage image;
 		
 		public ShapeParticle() {
 			
@@ -182,23 +188,35 @@ implements IWebCamCallback {
 			sizeProgress.update();
 			float curSize = size * Penner.easeOutBack(sizeProgress.value(), 0, 1, 1);
 			if(sizeProgress.value() == 1) sizeProgress.setTarget(0);
-			// draw shape
-			float segmentRads = P.TWO_PI / vertices;
-			pg.fill(color); // , 150);
-			pg.stroke(255);
-			pg.pushMatrix();
-			pg.translate(pos.x, pos.y);
-			pg.rotate(rotation);
-			pg.beginShape(P.POLYGON);
-			for(float i = 0; i <= vertices; i++) {
-				pg.vertex(P.cos(segmentRads * i) * curSize, P.sin(segmentRads * i) * curSize);
+			// draw image or polygon
+			if(image != null) {
+				// draw image
+				pg.pushMatrix();
+				pg.translate(pos.x, pos.y);
+				pg.rotate(rotation);
+				pg.image(image, 0, 0, curSize * 2f, curSize * 2f);
+				pg.popMatrix();
+			} else {
+				// draw shape
+				float segmentRads = P.TWO_PI / vertices;
+				pg.fill(color); // , 150);
+				pg.stroke(255);
+				pg.pushMatrix();
+				pg.translate(pos.x, pos.y);
+				pg.rotate(rotation);
+				pg.beginShape(P.POLYGON);
+				for(float i = 0; i <= vertices; i++) {
+					pg.vertex(P.cos(segmentRads * i) * curSize, P.sin(segmentRads * i) * curSize);
+				}
+				pg.endShape();
+				pg.popMatrix();
+				// pg.rect(pos.x, pos.y, 2, 2);
 			}
-			pg.endShape();
-			pg.popMatrix();
-			// pg.rect(pos.x, pos.y, 2, 2);
 		}
 		
 		public void launch(float x, float y) {
+			if(particleImages != null) image = particleImages[MathUtil.randRange(0, particleImages.length - 1)];
+			
 			vertices = MathUtil.randRange(3, 6);
 			size = MathUtil.randRangeDecimal(10, 20);
 			sizeProgress.setCurrent(0);
