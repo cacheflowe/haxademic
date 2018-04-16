@@ -1,4 +1,4 @@
-package com.haxademic.sketch.three_d;
+package com.haxademic.sketch.render;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
