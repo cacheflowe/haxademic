@@ -135,7 +135,6 @@ extends PAppletHax
 		
 		// keystone the off-screen buffer
 		pgKeystone = new PGraphicsKeystone(p, buffer, 12, FileUtil.getFile("text/keystone-slideshow.txt"));
-		pgKeystone.showMouse(false);
 		
 		// 2nd screen viewer
 		viewer = new SecondScreenViewer(p.g, 0.5f);
@@ -223,7 +222,7 @@ extends PAppletHax
 		if(p.key == 'd') DEBUG_MODE = !DEBUG_MODE;
 		if(p.key == 's') stressTesting = !stressTesting;
 		if(p.key == ' ') if(!waitingForAutoAdvance()) nextSlide();
-		if(p.keyCode == 8) pgKeystone.resetCorners(p.g);
+		if(p.keyCode == 8) pgKeystone.resetCorners();
 		if (p.key == P.CODED && keyCode == P.RIGHT) if(!waitingForAutoAdvance()) nextSlide();
 		if (p.key == P.CODED && keyCode == P.DOWN) if(!waitingForAutoAdvance()) nextSlide();
 		if (p.key == P.CODED && keyCode == P.LEFT) prevSlide();

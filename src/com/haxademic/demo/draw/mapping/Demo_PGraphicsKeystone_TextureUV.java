@@ -15,7 +15,7 @@ extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	protected PGraphics externalBuffer;
-	protected PGraphicsKeystone pgPinnable;
+	protected PGraphicsKeystone keystonePG;
 	protected boolean testPattern = true;
 	protected PShader shaderPattern;
 
@@ -26,15 +26,14 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.FULLSCREEN, false );
 	}
 
-	public void setup() {
-		super.setup();	
+	public void setupFirstFrame() {
 		buildCanvas();
 	}
 
 	protected void buildCanvas() {
 		externalBuffer = p.createGraphics( p.width / 2, p.height / 2, P.P3D );
 		shaderPattern = p.loadShader(FileUtil.getFile("shaders/textures/cacheflowe-op-wavy-rotate.glsl"));
-		pgPinnable = new PGraphicsKeystone( p, externalBuffer, 12, null );
+		keystonePG = new PGraphicsKeystone( p, externalBuffer, 12, null );
 	}
 
 	public void drawApp() {
@@ -43,16 +42,16 @@ extends PAppletHax {
 		shaderPattern.set("time", p.frameCount * 0.01f);
 		externalBuffer.filter(shaderPattern);
 		// draw pinned pgraphics
-		if(testPattern == true) pgPinnable.drawTestPattern();
+		if(testPattern == true) keystonePG.drawTestPattern();
 		// map a custom portion of the source
-		pgPinnable.update(p.g, true, externalBuffer, 
+		keystonePG.update(p.g, true, externalBuffer, 
 				externalBuffer.width * 0.3f, externalBuffer.height * 0.3f, externalBuffer.width * 0.4f, externalBuffer.height * 0.4f);
 	}
 
 	public void keyPressed() {
 		super.keyPressed();
-		if(p.key == 'd') testPattern = !testPattern;
-		if(p.keyCode == 8) pgPinnable.resetCorners(p.g);
+		if(p.key == 't') testPattern = !testPattern;
+		if(p.key == 'r') keystonePG.resetCorners();
 	}
 
 }

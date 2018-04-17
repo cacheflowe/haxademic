@@ -16,7 +16,7 @@ extends PAppletHax {
 		
 	protected PGraphics buffer;
 	protected PGraphicsKeystone pgKeystone;
-	protected boolean DEBUG_MODE = false;
+	protected boolean drawTestPattern = false;
 	protected PShader textureShader;
 	
 	protected void overridePropsFile() {
@@ -25,8 +25,7 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.FULLSCREEN, true );
 	}
 
-	public void setup() {
-		super.setup();
+	public void setupFirstFrame() {
 		buildDrawingSurface();
 	}
 	
@@ -42,7 +41,7 @@ extends PAppletHax {
 		OpenGLUtil.setTextureQualityHigh(buffer);
 		
 		// map it
-		pgKeystone = new PGraphicsKeystone(p, buffer, 12);
+		pgKeystone = new PGraphicsKeystone(p, buffer, 12, FileUtil.getFile("text/keystoning/keystone-mapped-shader.txt") );
 		
 		// load a shader
 		textureShader = p.loadShader(FileUtil.getFile("shaders/textures/cacheflowe-down-void.glsl"));
@@ -57,14 +56,14 @@ extends PAppletHax {
 		buffer.filter(textureShader);
 		
 		// draw buffer to screen
-		if(DEBUG_MODE == true) pgKeystone.drawTestPattern();
-		pgKeystone.update(p.g, true);
+		if(drawTestPattern == true) pgKeystone.drawTestPattern();
+		pgKeystone.update(p.g);
 	}	
 	
 	public void keyPressed() {
 		super.keyPressed();
-		if(p.key == 'd') DEBUG_MODE = !DEBUG_MODE;
-		if(p.keyCode == 8) pgKeystone.resetCorners(p.g);
+		if(p.key == 't') drawTestPattern = !drawTestPattern;
+		if(p.key == 'r') pgKeystone.resetCorners();
 	}
 	
 }

@@ -564,7 +564,7 @@ extends PAppletHax {
 
 	public void keyPressed() {
 		super.keyPressed();
-		if(p.keyCode == 8) _pgPinnable.resetCorners(p.g);
+		if(p.keyCode == 8) _pgPinnable.resetCorners();
 	}
 	
 	public void handleInputTriggers() {

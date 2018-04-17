@@ -283,7 +283,7 @@ extends PAppletHax {
 	public void keyPressed() {
 		super.keyPressed();
 		if(p.key == 'd') testPattern = !testPattern;
-		if(p.key == 'r') keystone.resetCorners(p.g);
+		if(p.key == 'r') keystone.resetCorners();
 	}
 
 }

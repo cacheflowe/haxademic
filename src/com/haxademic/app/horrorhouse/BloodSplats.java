@@ -152,7 +152,7 @@ extends PAppletHax {
 	protected void buildCanvas() {
 		buffer = p.createGraphics( p.width, p.height, P.P2D );
 		buffer.smooth(OpenGLUtil.SMOOTH_MEDIUM);
-		_pgPinnable = new PGraphicsKeystone( p, buffer, 12 );
+		_pgPinnable = new PGraphicsKeystone( p, buffer, 12, FileUtil.getFile("text/keystoning/bloodsplats-keystone.txt") );
 	}
 	
 	protected void buildPhysicalLighting() {
