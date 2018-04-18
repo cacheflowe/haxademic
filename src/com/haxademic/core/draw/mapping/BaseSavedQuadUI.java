@@ -1,6 +1,7 @@
 package com.haxademic.core.draw.mapping;
 
 import java.awt.Point;
+import java.awt.geom.Point2D;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.data.ConvertUtil;
@@ -23,6 +24,7 @@ public class BaseSavedQuadUI {
 	public static Point SELECTED_POINT;
 	public static BaseSavedQuadUI DRAGGING_QUAD;
 	protected float mouseActiveDist = 15;
+	protected Point2D.Float center = new Point2D.Float();
 
 	protected boolean isPressed = false;
 	protected boolean isHovered = false;
@@ -54,6 +56,7 @@ public class BaseSavedQuadUI {
 			loadMappingFile();
 			createMappingFile();
 		}
+		updateCenter();
 	}
 	
 	// public points setters
@@ -79,6 +82,7 @@ public class BaseSavedQuadUI {
 		bottomRight = new Point(w, h);
 		bottomLeft = new Point(0, h);
 		points = new Point[] { topLeft, topRight, bottomRight, bottomLeft };
+		if(filePath != null) save(); // only save after init
 	}
 	
 	public void setPosition(float x, float y, float w, float h) {
@@ -86,8 +90,7 @@ public class BaseSavedQuadUI {
 		topRight.setLocation(x + w/2f, y - h/2f);
 		bottomRight.setLocation(x + w/2f, y + h/2f);
 		bottomLeft.setLocation(x - w/2f, y + h/2f);
-		// save if we have a file
-		if(this.filePath != null) writeToFile();
+		save();
 	}
 	
 	// state getters
@@ -96,6 +99,14 @@ public class BaseSavedQuadUI {
 		return isHovered;
 	}
 
+	public float centerX() {
+		return center.x;
+	}
+	
+	public float centerY() {
+		return center.y;
+	}
+	
 	// USER INTERFACE ////////////////////////////////////////////
 	
 	public void drawDebug(PGraphics pg, boolean offscreen) {
@@ -130,6 +141,7 @@ public class BaseSavedQuadUI {
 		pg.line(topRight.x, topRight.y, bottomRight.x, bottomRight.y);
 		pg.line(bottomRight.x, bottomRight.y, bottomLeft.x, bottomLeft.y);
 		pg.line(bottomLeft.x, bottomLeft.y, topLeft.x, topLeft.y);
+		pg.ellipse(center.x - 4, center.y - 4, 8, 8);
 	}
 	
 	public void mouseEvent(MouseEvent event) {
@@ -146,7 +158,7 @@ public class BaseSavedQuadUI {
 		case MouseEvent.PRESS:
 			break;
 		case MouseEvent.RELEASE:
-			if(SELECTED_POINT != null && filePath != null) writeToFile();
+			if(SELECTED_POINT != null) save();
 			SELECTED_POINT = null;
 			break;
 		case MouseEvent.MOVE:
@@ -155,6 +167,7 @@ public class BaseSavedQuadUI {
 		case MouseEvent.DRAG:
 			if( SELECTED_POINT != null ) {
 				SELECTED_POINT.setLocation( mousePoint );
+				updateCenter();
 			}
 			break;
 		}
@@ -186,10 +199,11 @@ public class BaseSavedQuadUI {
 			if(isHovered == true && SELECTED_POINT == null) {
 				DRAGGING_QUAD = this;
 				mouseDragged.setLocation(mousePoint.x, mousePoint.y);
+				updateCenter();
 			}
 			break;
 		case MouseEvent.RELEASE:
-			if(DRAGGING_QUAD != null && filePath != null) writeToFile();
+			if(DRAGGING_QUAD != null) save();
 			DRAGGING_QUAD = null;
 			break;
 		case MouseEvent.DRAG:
@@ -199,6 +213,7 @@ public class BaseSavedQuadUI {
 					points[i].translate(mouseDragged.x, mouseDragged.y);
 				}
 				mouseDragged.setLocation(mousePoint.x, mousePoint.y);
+				updateCenter();
 			}
 			break;
 		}
@@ -252,6 +267,7 @@ public class BaseSavedQuadUI {
 					points[i].translate(translatePoint.x, translatePoint.y);
 				}
 			}
+			updateCenter();
 		}
 		if(e.getAction() == KeyEvent.RELEASE) {
 			if(e.getKeyCode() == P.SHIFT) shiftDown = false;
@@ -282,6 +298,19 @@ public class BaseSavedQuadUI {
 		if(FileUtil.fileOrPathExists(mappingFilePath) == false) {
 			FileUtil.createDir(mappingFilePath);
 		}
+	}
+	
+	protected void updateCenter() {
+		center.setLocation(
+			(float) (topLeft.x + topRight.x + bottomRight.x + bottomLeft.x) / 4f, 
+			(float) (topLeft.y + topRight.y + bottomRight.y + bottomLeft.y) / 4f
+		);	
+	}
+	
+	protected void save() {
+		updateCenter();
+		if(this.filePath != null) writeToFile();	
+		
 	}
 	
 	protected void writeToFile() {
