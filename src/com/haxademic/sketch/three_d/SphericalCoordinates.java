@@ -5,8 +5,7 @@ import com.haxademic.core.app.PAppletHax;
 import processing.core.PApplet;
 
 public class SphericalCoordinates
-extends PAppletHax
-{
+extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	float lat = 0;

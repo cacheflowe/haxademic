@@ -16,9 +16,13 @@ extends PAppletHax {
 	
 	protected PGraphics _texture;	
 	
-	public void setup() {
-		super.setup();
+	protected void overridePropsFile() {
+		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
+		p.appConfig.setProperty( AppSettings.WIDTH, "520" );
+		p.appConfig.setProperty( AppSettings.HEIGHT, "120" );
+	}
 		
+	public void setupFirstFrame() {
 		_texture = P.p.createGraphics( 520, 120, P.P3D );
 		_texture.smooth(OpenGLUtil.SMOOTH_HIGH);
 		_texture.beginDraw();
@@ -26,12 +30,6 @@ extends PAppletHax {
 		_texture.endDraw();
 	}
 	
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
-		p.appConfig.setProperty( AppSettings.WIDTH, "520" );
-		p.appConfig.setProperty( AppSettings.HEIGHT, "120" );
-	}
-		
 	public void drawApp() {
 		p.background(0);
 
