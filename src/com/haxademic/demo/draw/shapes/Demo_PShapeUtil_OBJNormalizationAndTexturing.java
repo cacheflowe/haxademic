@@ -35,9 +35,6 @@ extends PAppletHax {
 	}
 	
 	protected void setupFirstFrame() {
-		// load texture
-		img = DemoAssets.squareTexture();
-		
 		// build obj PShape and scale to window
 		obj = DemoAssets.objHumanoid();
 		
