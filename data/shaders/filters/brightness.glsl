@@ -14,6 +14,6 @@ varying vec4 vertTexCoord;
 uniform float brightness;
 
 void main() {
-    vec4 recolored = texture2D( texture, vec2( vertTexCoord.x, vertTexCoord.y ) ) * brightness;
-    gl_FragColor = vec4( recolored.r, recolored.g, recolored.b, 1.0 );
+    vec4 recolored = texture2D( texture, vec2( vertTexCoord.x, vertTexCoord.y ) );
+    gl_FragColor = vec4( recolored.r * brightness, recolored.g * brightness, recolored.b * brightness, recolored.a );
 }
