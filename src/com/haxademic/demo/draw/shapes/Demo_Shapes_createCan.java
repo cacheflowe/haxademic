@@ -24,8 +24,7 @@ extends PAppletHax {
 		DrawUtil.setBetterLights(p);
 		background(0);
 		translate(width/2,height/2);
-		rotateX(P.map(p.mouseY, 0, p.height, -1f, 1f));
-		rotateY(P.map(p.mouseX, 0, p.width, -1f, 1f));
+		DrawUtil.basicCameraFromMouse(p.g);
 		
 		// draw can
 		shape.disableStyle();

@@ -146,6 +146,11 @@ public class DrawUtil {
 			pg.textureWrap(Texture.CLAMP);
 	}
 	
+	public static void basicCameraFromMouse(PGraphics pg) {
+		pg.rotateX(P.map(P.p.mousePercentY(), 0, 1, P.PI, -P.PI));
+		pg.rotateY(P.map(P.p.mousePercentX(), 0, 1, -P.PI, P.PI));
+	}
+	
 	public static void fadeInOut(PGraphics pg, int color, int startFrame, int stopFrame, int transitionFrames) {
 		int frames = stopFrame - startFrame;
 		DrawUtil.setDrawCorner(pg);
