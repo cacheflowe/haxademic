@@ -18,6 +18,7 @@ import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.debug.Stats;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.context.OpenGLUtil;
+import com.haxademic.core.draw.image.MovieBuffer;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.browser.BrowserInputState;
 import com.haxademic.core.hardware.keyboard.KeyboardState;
@@ -561,10 +562,9 @@ extends PApplet
 	
 	// Movie playback
 	public void movieEvent(Movie m) {
-		if(p.frameCount <= 2) return; // solves Processing 2.x video problem: http://forum.processing.org/two/discussion/5926/video-library-problem-in-processing-2-2-1
 		m.read();
+		MovieBuffer.moviesEventFrames.put(m, p.frameCount);
 	}
-
 
 	// ESS audio input
 	public void audioInputData(AudioInput theInput) {
