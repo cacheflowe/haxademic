@@ -15,7 +15,6 @@ extends PAppletHax {
 	
 	protected void setupFirstFrame() {
 		movieBuffer = new MovieBuffer(FileUtil.getFile("haxademic/video/fractal-cube.mp4"));
-		movieBuffer.movie.play();
 		movieBuffer.movie.loop();
 	}
 
@@ -24,9 +23,4 @@ extends PAppletHax {
 		if(movieBuffer.buffer != null) ImageUtil.cropFillCopyImage(movieBuffer.buffer, p.g, false);
 	}
 	
-	public void movieEvent(Movie m) {
-		m.read();
-		MovieBuffer.moviesEventFrames.put(m, p.frameCount);
-	}
-
 }
