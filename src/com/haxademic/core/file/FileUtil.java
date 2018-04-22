@@ -83,6 +83,7 @@ public class FileUtil {
 	// PATH HELPERS
 	
 	public static String pathForFile(String filePath) {
+		filePath = safePath(filePath);
 		return filePath.substring(0, filePath.lastIndexOf(File.separator));
 	}
 
@@ -91,12 +92,18 @@ public class FileUtil {
 	}
 	
 	public static String getFile(String path) {
-//		path = path.replaceAll("/", File.separator);
+		path = safePath(path);
 		return getHaxademicDataPath() + path;
 	}
 	
 	public static String getScript(String path) {
 		return getHaxademicScriptsPath() + path;
+	}
+	
+	public static String safePath(String path) {
+		path = path.replace("/", File.separator);
+		path = path.replace("\\", File.separator);
+		return path;
 	}
 	
 	// CHECK FILE EXISTENCE
