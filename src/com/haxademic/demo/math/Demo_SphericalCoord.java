@@ -17,7 +17,7 @@ extends PAppletHax {
 	
 	protected float sphereRadius;
 	protected ArrayList<SpherePoint> spheres = new ArrayList<SpherePoint>();
-	PVector[] spherePointsFib;
+	protected PVector[] spherePointsFib;
 
 	protected void overridePropsFile() {
 		p.appConfig.setProperty(AppSettings.WIDTH, 800);
