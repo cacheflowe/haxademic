@@ -32,8 +32,8 @@ extends PAppletHax {
 		sourceTexture = DemoAssets.justin();
 		sourceBuffer = ImageUtil.imageToGraphics(sourceTexture);
 		mappedCapture = new CaptureKeystoneToRectBuffer[] {
-				new CaptureKeystoneToRectBuffer(sourceBuffer, 450, 200, "text/keystoning/capture-map-demo.txt"),
-				new CaptureKeystoneToRectBuffer(sourceBuffer, 450, 200, "text/keystoning/capture-map-demo-2.txt"),
+				new CaptureKeystoneToRectBuffer(sourceBuffer, 450, 200, FileUtil.getFile("text/keystoning/capture-map-demo.txt")),
+				new CaptureKeystoneToRectBuffer(sourceBuffer, 450, 200, FileUtil.getFile("text/keystoning/capture-map-demo-2.txt")),
 		};
 		setActiveRect();
 	}

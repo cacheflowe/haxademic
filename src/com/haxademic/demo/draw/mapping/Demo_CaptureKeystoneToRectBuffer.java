@@ -5,6 +5,7 @@ import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.mapping.CaptureKeystoneToRectBuffer;
 import com.haxademic.core.file.DemoAssets;
+import com.haxademic.core.file.FileUtil;
 
 import processing.core.PGraphics;
 import processing.core.PImage;
@@ -28,7 +29,7 @@ extends PAppletHax {
 		// load source image
 		sourceTexture = DemoAssets.justin();
 		sourceBuffer = ImageUtil.imageToGraphics(sourceTexture);
-		mappedCapture = new CaptureKeystoneToRectBuffer(sourceBuffer, 450, 200, "text/keystoning/capture-map-demo.txt");
+		mappedCapture = new CaptureKeystoneToRectBuffer(sourceBuffer, 450, 200, FileUtil.getFile("text/keystoning/capture-map-demo.txt"));
 	}
 	
 	public void keyPressed() {

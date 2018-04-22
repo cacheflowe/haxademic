@@ -51,7 +51,6 @@ public class BaseSavedQuadUI {
 		
 		// prep txt file
 		if(filePath != null) {
-			filePath = FileUtil.getFile(filePath);
 			writesToFile = true;
 			loadMappingFile();
 			createMappingFile();
