@@ -36,7 +36,7 @@ public class BaseSavedQuadUI {
 	
 	protected int lastInteractTime = 0;
 	protected int INTERACTION_TIMEOUT = 5000;
-	protected boolean debugActive = true;
+	protected boolean active = true;
 	protected boolean shiftDown = false;
 
 	public BaseSavedQuadUI(int w, int h, String filePath) {
@@ -62,9 +62,9 @@ public class BaseSavedQuadUI {
 	// public points setters
 	
 	public void setActive(boolean debug) {
-		if(debugActive != debug) {		// only toggle when dirty
-			debugActive = debug;
-			if(debugActive) {
+		if(active != debug) {		// only toggle when dirty
+			active = debug;
+			if(active) {
 				resetInteractionTimeout();
 				DRAGGING_QUAD = this;
 				SELECTED_POINT = null;
@@ -95,6 +95,10 @@ public class BaseSavedQuadUI {
 	
 	// state getters
 	
+	public boolean isActive() {
+		return active;
+	}
+	
 	public boolean isHovered() {
 		return isHovered;
 	}
@@ -110,7 +114,7 @@ public class BaseSavedQuadUI {
 	// USER INTERFACE ////////////////////////////////////////////
 	
 	public void drawDebug(PGraphics pg, boolean offscreen) {
-		if(debugActive && P.p.millis() < lastInteractTime + INTERACTION_TIMEOUT)  {
+		if(active && P.p.millis() < lastInteractTime + INTERACTION_TIMEOUT)  {
 			if(offscreen) pg.beginDraw();
 			showSelectedPoint(pg);
 			showMappedRect(pg);
@@ -119,7 +123,7 @@ public class BaseSavedQuadUI {
 	}
 
 	protected void showSelectedPoint(PGraphics pg) {
-		if(debugActive == false) return;
+		if(active == false) return;
 		if(SELECTED_POINT != null) drawPoint(pg, SELECTED_POINT);
 	}
 	
@@ -147,7 +151,7 @@ public class BaseSavedQuadUI {
 	public void mouseEvent(MouseEvent event) {
 		mousePoint.setLocation( event.getX(), event.getY() );
 		checkHoverQuad(event);
-		if(debugActive == false) return;
+		if(active == false) return;
 		resetInteractionTimeout();
 		checkMouseDragPoint(event);
 		checkMouseDragQuad(event);
@@ -238,7 +242,7 @@ public class BaseSavedQuadUI {
 	};
 	
 	public void keyEvent(KeyEvent e) {
-		if(debugActive == false) return;
+		if(active == false) return;
 		if(e.getAction() == KeyEvent.PRESS) {
 			// shift
 			if(e.getKeyCode() == P.SHIFT) shiftDown = true;
@@ -260,14 +264,16 @@ public class BaseSavedQuadUI {
 				resetInteractionTimeout();
 			}
 			// apply transformation if needed
-			if(SELECTED_POINT == points[0] || SELECTED_POINT == points[1] || SELECTED_POINT == points[2] || SELECTED_POINT == points[3]) {
-				SELECTED_POINT.translate(translatePoint.x, translatePoint.y);
-				save();
-			} else if(DRAGGING_QUAD == this) {
-				for( int i=0; i < points.length; i++ ) {
-					points[i].translate(translatePoint.x, translatePoint.y);
+			if(translatePoint.x != 0 || translatePoint.y != 0) {
+				if(SELECTED_POINT == points[0] || SELECTED_POINT == points[1] || SELECTED_POINT == points[2] || SELECTED_POINT == points[3]) {
+					SELECTED_POINT.translate(translatePoint.x, translatePoint.y);
+					save();
+				} else if(DRAGGING_QUAD == this) {
+					for( int i=0; i < points.length; i++ ) {
+						points[i].translate(translatePoint.x, translatePoint.y);
+					}
+					save();
 				}
-				save();
 			}
 			updateCenter();
 		}
