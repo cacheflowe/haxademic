@@ -262,10 +262,12 @@ public class BaseSavedQuadUI {
 			// apply transformation if needed
 			if(SELECTED_POINT == points[0] || SELECTED_POINT == points[1] || SELECTED_POINT == points[2] || SELECTED_POINT == points[3]) {
 				SELECTED_POINT.translate(translatePoint.x, translatePoint.y);
+				save();
 			} else if(DRAGGING_QUAD == this) {
 				for( int i=0; i < points.length; i++ ) {
 					points[i].translate(translatePoint.x, translatePoint.y);
 				}
+				save();
 			}
 			updateCenter();
 		}
