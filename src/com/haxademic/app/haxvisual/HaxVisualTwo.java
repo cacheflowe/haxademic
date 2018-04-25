@@ -15,7 +15,6 @@ import com.haxademic.app.haxmapper.textures.TextureEQFloatParticles;
 import com.haxademic.app.haxmapper.textures.TextureEQGrid;
 import com.haxademic.app.haxmapper.textures.TextureFractalPolygons;
 import com.haxademic.app.haxmapper.textures.TextureLinesEQ;
-import com.haxademic.app.haxmapper.textures.TextureOuterSphere;
 import com.haxademic.app.haxmapper.textures.TextureRotatingRings;
 import com.haxademic.app.haxmapper.textures.TextureRotatorShape;
 import com.haxademic.app.haxmapper.textures.TextureShaderTimeStepper;
@@ -962,7 +961,7 @@ extends PAppletHax {
 		_bgTexturePool.add( new TextureBlobSheet( textureW, textureH ) );
 		_bgTexturePool.add( new TextureRotatorShape( textureW, textureH ) );
 		_bgTexturePool.add( new TextureRotatingRings( textureW, textureH ) );
-		_bgTexturePool.add( new TextureOuterSphere( textureW, textureH ) );
+//		_bgTexturePool.add( new TextureOuterSphere( textureW, textureH ) );
 		_bgTexturePool.add( new TextureVectorFieldEQ( textureW, textureH ) );
 
 		_fgTexturePool.add( new TextureEQBandDistribute( textureW, textureH ));
@@ -986,7 +985,7 @@ extends PAppletHax {
 		_bgTexturePool.add( new TextureBlobSheet( textureW, textureH ) );
 		_bgTexturePool.add( new TextureRotatorShape( textureW, textureH ) );
 		_bgTexturePool.add( new TextureRotatingRings( textureW, textureH ) );
-		_bgTexturePool.add( new TextureOuterSphere( textureW, textureH ) );
+//		_bgTexturePool.add( new TextureOuterSphere( textureW, textureH ) );
 		_bgTexturePool.add( new TextureVectorFieldEQ( textureW, textureH ) );
 
 		_bgTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "sdf-01-auto.glsl" ));
@@ -1046,7 +1045,7 @@ extends PAppletHax {
 		_fgTexturePool.add( new TextureEQGrid( textureW, textureH ));
 		_fgTexturePool.add( new TextureFractalPolygons( textureW, textureH ));
 		_fgTexturePool.add( new TextureLinesEQ( textureW, textureH ));
-		_fgTexturePool.add( new TextureOuterSphere( textureW, textureH ) );
+//		_fgTexturePool.add( new TextureOuterSphere( textureW, textureH ) );
 //		_fgTexturePool.add( new TextureScrollingColumns( textureW, textureH ));
 		_fgTexturePool.add( new TextureSphereRotate( textureW, textureH ));
 		_fgTexturePool.add( new TextureStarTrails( textureW, textureH ));
@@ -1115,7 +1114,7 @@ extends PAppletHax {
 		_overlayTexturePool.add( new TextureEQFloatParticles( textureW, textureH ));
 		_overlayTexturePool.add( new TextureEQGrid( textureW, textureH ));
 		_overlayTexturePool.add( new TextureLinesEQ( textureW, textureH ));
-		_overlayTexturePool.add( new TextureOuterSphere( textureW, textureH ) );
+//		_overlayTexturePool.add( new TextureOuterSphere( textureW, textureH ) );
 		_overlayTexturePool.add( new TextureSphereRotate( textureW, textureH ));
 
 //		_overlayTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "basic-checker.glsl" ));

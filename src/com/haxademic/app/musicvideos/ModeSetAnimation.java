@@ -79,7 +79,7 @@ extends PAppletHax {
 		_mode = FADE_IN;
 		
 		// get meshes
-		_mesh = MeshUtilToxi.meshFromOBJ( p, "../data/models/mode-set.obj", 300f );
+//		_mesh = MeshUtilToxi.meshFromOBJ( p, "../data/models/mode-set.obj", 300f );
 		_meshDeform = _mesh.copy();
 		_meshText = MeshUtilToxi.getExtrudedMesh( MeshUtilToxi.meshFromSVG( p, "../data/svg/modeset-logotype.svg", 10, -1, 0.7f ), 250 );
 		_particles = new MeshParticles( _meshText.copy() );

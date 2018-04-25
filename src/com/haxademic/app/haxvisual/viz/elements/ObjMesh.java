@@ -6,11 +6,9 @@ import com.haxademic.core.audio.AudioInputWrapper;
 import com.haxademic.core.draw.color.ColorGroup;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.toxi.DrawMesh;
-import com.haxademic.core.draw.toxi.MeshUtilToxi;
 
 import processing.core.PApplet;
 import processing.core.PVector;
-import saito.objloader.OBJModel;
 import toxi.color.TColor;
 import toxi.geom.mesh.TriangleMesh;
 import toxi.geom.mesh.WETriangleMesh;
@@ -46,12 +44,12 @@ implements IVizElement {
 	protected void buildModel() {
 //		OBJModel model = new OBJModel( p, "./models/THEDISCOVERYMULTIPLIED.obj" );
 //		OBJModel model = new OBJModel( p, "./models/car65.obj" );
-		OBJModel model = new OBJModel( p, "./models/lego-man.obj" );
-		model.disableMaterial();
-		model.disableTexture();
-		_objMesh = MeshUtilToxi.ConvertObjModelToToxiMesh( p, model );
+//		OBJModel model = new OBJModel( p, "./models/lego-man.obj" );
+//		model.disableMaterial();
+//		model.disableTexture();
+//		_objMesh = MeshUtilToxi.ConvertObjModelToToxiMesh( p, model );
 //		_objMesh.scale( 2000 );
-		_objMesh.scale( 50 );
+//		_objMesh.scale( 50 );
 	}
 	
 	public void setDrawProps() {

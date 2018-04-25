@@ -7,7 +7,6 @@ import com.haxademic.core.debug.DebugUtil;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.toxi.MeshPool;
 import com.haxademic.core.draw.toxi.MeshUtilToxi;
-import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.easing.EasingFloat3d;
 import com.haxademic.core.render.Renderer;
 
@@ -118,10 +117,10 @@ extends PApplet
 //		_meshPool.addMesh( "MODE_SET", MeshUtil.meshFromOBJ( p, "../data/models/mode-set.obj", 1f ), 150 );
 //		_meshPool.addMesh( "SPIROGRAPH", MeshUtil.meshFromOBJ( p, "../data/models/spirograph-seied.obj", 1f ), 150 );
 //		_meshPool.addMesh( "CACHEFLOWE", MeshUtil.meshFromOBJ( p, "../data/models/cacheflowe-3d.obj", 1f ), 150 );
-		_meshPool.addMesh( "chicken", MeshUtilToxi.meshFromOBJ( p, FileUtil.getHaxademicDataPath() + "models/chicken.obj", 1f ), 50 );
-		_meshPool.addMesh( "library_chair", MeshUtilToxi.meshFromOBJ( p, FileUtil.getHaxademicDataPath() + "models/library-chair.obj", 1f ), 50 );
-		_meshPool.addMesh( "strat.obj", MeshUtilToxi.meshFromOBJ( p, FileUtil.getHaxademicDataPath() + "models/strat.obj", 1f ), 50 );
-		_meshPool.addMesh( "octahedron.obj", MeshUtilToxi.meshFromOBJ( p, FileUtil.getHaxademicDataPath() + "models/octahedron.obj", 1f ), 50 );
+//		_meshPool.addMesh( "chicken", MeshUtilToxi.meshFromOBJ( p, FileUtil.getHaxademicDataPath() + "models/chicken.obj", 1f ), 50 );
+//		_meshPool.addMesh( "library_chair", MeshUtilToxi.meshFromOBJ( p, FileUtil.getHaxademicDataPath() + "models/library-chair.obj", 1f ), 50 );
+//		_meshPool.addMesh( "strat.obj", MeshUtilToxi.meshFromOBJ( p, FileUtil.getHaxademicDataPath() + "models/strat.obj", 1f ), 50 );
+//		_meshPool.addMesh( "octahedron.obj", MeshUtilToxi.meshFromOBJ( p, FileUtil.getHaxademicDataPath() + "models/octahedron.obj", 1f ), 50 );
 
 		
 //		_objPool.loadObj( "SUBMISH_HORIZ", 		200, 	"./models/submish-rotated.obj" );

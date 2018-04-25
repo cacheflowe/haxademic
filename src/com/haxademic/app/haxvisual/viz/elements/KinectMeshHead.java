@@ -56,14 +56,14 @@ implements IVizElement {
 		
 		_meshPool = new MeshPool( p );
 
-		_meshPool.addMesh( "POINTER", MeshUtilToxi.meshFromOBJ( p, FileUtil.getHaxademicDataPath() + "models/pointer_cursor_2_hollow.obj", 1f ), 1.5f );
+//		_meshPool.addMesh( "POINTER", MeshUtilToxi.meshFromOBJ( p, FileUtil.getHaxademicDataPath() + "models/pointer_cursor_2_hollow.obj", 1f ), 1.5f );
 //		_meshPool.addMesh( "DIAMOND", MeshUtil.meshFromOBJ( p, FileUtil.getHaxademicDataPath() + "models/diamond.obj", 1f ), 1.2f );
 		_meshPool.addMesh( "DIAMOND_2D", MeshUtilToxi.getExtrudedMesh( MeshUtilToxi.meshFromSVG( p, "../data/svg/diamond.svg", -1, 3, 0.5f ), 20 ), 1 );
 		_meshPool.addMesh( "MONEY_2D", MeshUtilToxi.getExtrudedMesh( MeshUtilToxi.meshFromSVG( p, "../data/svg/money.svg", -1, 3, 0.5f ), 20 ), 1 );
 		_meshPool.addMesh( "MONEY_BAG_2D", MeshUtilToxi.getExtrudedMesh( MeshUtilToxi.meshFromSVG( p, "../data/svg/money-bag.svg", -1, 3, 0.5f ), 20 ), 1 );
 		_meshPool.addMesh( "GUN_2D", MeshUtilToxi.getExtrudedMesh( MeshUtilToxi.meshFromSVG( p, "../data/svg/gun.svg", -1, 3, 0.5f ), 20 ), 1 );
 		_meshPool.addMesh( "WEED_2D", MeshUtilToxi.getExtrudedMesh( MeshUtilToxi.meshFromSVG( p, "../data/svg/weed.svg", -1, 3, 0.5f ), 20 ), 1 );
-		_meshPool.addMesh( "CACHEFLOWE", MeshUtilToxi.meshFromOBJ( p, "../data/models/cacheflowe-3d.obj", 1f ), 150 );
+//		_meshPool.addMesh( "CACHEFLOWE", MeshUtilToxi.meshFromOBJ( p, "../data/models/cacheflowe-3d.obj", 1f ), 150 );
 		
 		_meshKeys = _meshPool.getIds();
 

@@ -2,7 +2,6 @@ package com.haxademic.app.haxmapper.mappers;
 
 import com.haxademic.app.haxmapper.HaxMapper;
 import com.haxademic.app.haxmapper.textures.TextureAudioTube;
-import com.haxademic.app.haxmapper.textures.TextureBarsEQ;
 import com.haxademic.app.haxmapper.textures.TextureBlobSheet;
 import com.haxademic.app.haxmapper.textures.TextureColorAudioSlide;
 import com.haxademic.app.haxmapper.textures.TextureEQColumns;
@@ -11,7 +10,6 @@ import com.haxademic.app.haxmapper.textures.TextureEQFloatParticles;
 import com.haxademic.app.haxmapper.textures.TextureEQGrid;
 import com.haxademic.app.haxmapper.textures.TextureImageTimeStepper;
 import com.haxademic.app.haxmapper.textures.TextureLinesEQ;
-import com.haxademic.app.haxmapper.textures.TextureOuterSphere;
 import com.haxademic.app.haxmapper.textures.TextureRotatingRings;
 import com.haxademic.app.haxmapper.textures.TextureRotatorShape;
 import com.haxademic.app.haxmapper.textures.TextureScrollingColumns;
@@ -25,8 +23,6 @@ import com.haxademic.app.haxmapper.textures.TextureWaveformSimple;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.file.FileUtil;
-
-import oscP5.OscMessage;
 
 public class McaMapper
 extends HaxMapper{
@@ -176,8 +172,8 @@ extends HaxMapper{
 		_texturePool.add( new TextureWaveformCircle( shaderW, shaderH ));
 		_texturePool.add( new TextureWaveformCircle( shaderW, shaderH ));
 		_texturePool.add( new TextureSphereRotate( shaderW, shaderH ));
-		_texturePool.add( new TextureOuterSphere( shaderW, shaderH ) );
-		_texturePool.add( new TextureOuterSphere( shaderW, shaderH ) );
+//		_texturePool.add( new TextureOuterSphere( shaderW, shaderH ) );
+//		_texturePool.add( new TextureOuterSphere( shaderW, shaderH ) );
 		_texturePool.add( new TextureRotatorShape( shaderW, shaderH ) );
 		_texturePool.add( new TextureRotatorShape( shaderW, shaderH ) );
 		_texturePool.add( new TextureRotatingRings( shaderW, shaderH ) );

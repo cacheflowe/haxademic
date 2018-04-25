@@ -4,8 +4,6 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.draw.shapes.BoxBetween;
-import com.haxademic.core.draw.toxi.MeshUtilToxi;
-import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.render.JoonsWrapper;
 
 import processing.core.PImage;
@@ -25,7 +23,7 @@ extends PAppletHax {
 
 	public void setup() {
 		super.setup();		
-		_mesh = MeshUtilToxi.meshFromOBJ( p, FileUtil.getHaxademicDataPath() + "models/cacheflowe-3d.obj", 16f );
+//		_mesh = MeshUtilToxi.meshFromOBJ( p, FileUtil.getHaxademicDataPath() + "models/cacheflowe-3d.obj", 16f );
 	}
 	
 	protected void overridePropsFile() {

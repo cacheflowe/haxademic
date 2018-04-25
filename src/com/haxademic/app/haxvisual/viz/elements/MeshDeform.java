@@ -50,14 +50,14 @@ implements IVizElement {
 //		_meshPool.addMesh( "INVADER", MeshUtil.meshFromOBJ( p, FileUtil.getHaxademicDataPath() + "models/invader.obj", 1f ), 45 * scaleMult );
 //		_meshPool.addMesh( "LEGO_MAN", MeshUtil.meshFromOBJ( p, FileUtil.getHaxademicDataPath() + "models/lego-man.obj", 1f ), 30 * scaleMult );
 		
-		_meshPool.addMesh( "DISCOVERY", MeshUtilToxi.meshFromOBJ( p, FileUtil.getHaxademicDataPath() + "models/the-discovery-multiplied-seied.obj", 1f ), 900 * scaleMult );
-		_meshPool.addMesh( "TOPSECRET", MeshUtilToxi.meshFromOBJ( p, FileUtil.getHaxademicDataPath() + "models/topsecret-seied.obj", 1f ), 400 * scaleMult );
-		_meshPool.addMesh( "SKULL", MeshUtilToxi.meshFromOBJ( p, FileUtil.getHaxademicDataPath() + "models/skull.obj", 1f ), 50 * scaleMult );
+//		_meshPool.addMesh( "DISCOVERY", MeshUtilToxi.meshFromOBJ( p, FileUtil.getHaxademicDataPath() + "models/the-discovery-multiplied-seied.obj", 1f ), 900 * scaleMult );
+//		_meshPool.addMesh( "TOPSECRET", MeshUtilToxi.meshFromOBJ( p, FileUtil.getHaxademicDataPath() + "models/topsecret-seied.obj", 1f ), 400 * scaleMult );
+//		_meshPool.addMesh( "SKULL", MeshUtilToxi.meshFromOBJ( p, FileUtil.getHaxademicDataPath() + "models/skull.obj", 1f ), 50 * scaleMult );
 //		_meshPool.addMesh( "MODE_SET", MeshUtil.meshFromOBJ( p, FileUtil.getHaxademicDataPath() + "models/mode-set.obj", 1f ), 250 * scaleMult );
 		
-		_meshPool.addMesh( "POLY_HOLE_PENT", MeshUtilToxi.meshFromOBJ( p, FileUtil.getHaxademicDataPath() + "models/poly-hole-penta.obj", 1f ), 70f * scaleMult );
-		_meshPool.addMesh( "POLY_HOLE_SQUARE", MeshUtilToxi.meshFromOBJ( p, FileUtil.getHaxademicDataPath() + "models/poly-hole-square.obj", 1f ), 70f * scaleMult );
-		_meshPool.addMesh( "POLY_HOLE_TRI", MeshUtilToxi.meshFromOBJ( p, FileUtil.getHaxademicDataPath() + "models/poly-hole-tri.obj", 1f ), 70f * scaleMult );
+//		_meshPool.addMesh( "POLY_HOLE_PENT", MeshUtilToxi.meshFromOBJ( p, FileUtil.getHaxademicDataPath() + "models/poly-hole-penta.obj", 1f ), 70f * scaleMult );
+//		_meshPool.addMesh( "POLY_HOLE_SQUARE", MeshUtilToxi.meshFromOBJ( p, FileUtil.getHaxademicDataPath() + "models/poly-hole-square.obj", 1f ), 70f * scaleMult );
+//		_meshPool.addMesh( "POLY_HOLE_TRI", MeshUtilToxi.meshFromOBJ( p, FileUtil.getHaxademicDataPath() + "models/poly-hole-tri.obj", 1f ), 70f * scaleMult );
 
 		
 		

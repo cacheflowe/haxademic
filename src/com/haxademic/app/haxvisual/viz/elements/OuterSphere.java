@@ -6,12 +6,10 @@ import com.haxademic.core.audio.AudioInputWrapper;
 import com.haxademic.core.draw.color.ColorGroup;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.toxi.DrawMesh;
-import com.haxademic.core.draw.toxi.MeshUtilToxi;
 import com.haxademic.core.math.MathUtil;
 
 import processing.core.PApplet;
 import processing.core.PVector;
-import saito.objloader.OBJModel;
 import toxi.color.TColor;
 import toxi.geom.Sphere;
 import toxi.geom.Vec3D;
@@ -50,11 +48,11 @@ implements IVizElement {
 	}
 	
 	protected void buildModel() {
-		OBJModel model = new OBJModel( p, "./models/the-discovery-multiplied-seied.obj" );
-		model.disableMaterial();
-		model.disableTexture();
-		_objMesh = MeshUtilToxi.ConvertObjModelToToxiMesh( p, model );
-		_objMesh.scale( _radius * 4 );
+//		OBJModel model = new OBJModel( p, "./models/the-discovery-multiplied-seied.obj" );
+//		model.disableMaterial();
+//		model.disableTexture();
+//		_objMesh = MeshUtilToxi.ConvertObjModelToToxiMesh( p, model );
+//		_objMesh.scale( _radius * 4 );
 	}
 
 	public void updateColorSet( ColorGroup colors ) {

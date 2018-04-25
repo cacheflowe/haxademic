@@ -13,8 +13,6 @@ import geomerative.RPoint;
 import geomerative.RSVG;
 import processing.core.PApplet;
 import processing.core.PImage;
-import processing.core.PVector;
-import saito.objloader.OBJModel;
 import toxi.geom.AABB;
 import toxi.geom.Vec2D;
 import toxi.geom.Vec3D;
@@ -24,27 +22,27 @@ import toxi.processing.ToxiclibsSupport;
 
 public class MeshUtilToxi {
 	
-	public static WETriangleMesh meshFromOBJ( PApplet p, String file, float scale ) {
-		// load and scale the .obj file. convert to mesh and pass back 
-		OBJModel obj = new OBJModel( p, file, OBJModel.RELATIVE );
-		WETriangleMesh mesh = MeshUtilToxi.ConvertObjModelToToxiMesh( p, obj );
-		mesh.scale( scale );
-		return mesh;
-	}
-	
-	public static WETriangleMesh ConvertObjModelToToxiMesh( PApplet p, OBJModel model ) {
-		WETriangleMesh mesh = new WETriangleMesh();
-		
-		for( int i = 0; i < model.getFaceCount(); i++ ) {
-			PVector[] facePoints = model.getFaceVertices( i );
-			mesh.addFace( 
-					new Vec3D( facePoints[0].x, facePoints[0].y, facePoints[0].z ), 
-					new Vec3D( facePoints[1].x, facePoints[1].y, facePoints[1].z ), 
-					new Vec3D( facePoints[2].x, facePoints[2].y, facePoints[2].z )
-			);
-		}	
-		return mesh;
-	}
+//	public static WETriangleMesh meshFromOBJ( PApplet p, String file, float scale ) {
+//		// load and scale the .obj file. convert to mesh and pass back 
+//		OBJModel obj = new OBJModel( p, file, OBJModel.RELATIVE );
+//		WETriangleMesh mesh = MeshUtilToxi.ConvertObjModelToToxiMesh( p, obj );
+//		mesh.scale( scale );
+//		return mesh;
+//	}
+//	
+//	public static WETriangleMesh ConvertObjModelToToxiMesh( PApplet p, OBJModel model ) {
+//		WETriangleMesh mesh = new WETriangleMesh();
+//		
+//		for( int i = 0; i < model.getFaceCount(); i++ ) {
+//			PVector[] facePoints = model.getFaceVertices( i );
+//			mesh.addFace( 
+//					new Vec3D( facePoints[0].x, facePoints[0].y, facePoints[0].z ), 
+//					new Vec3D( facePoints[1].x, facePoints[1].y, facePoints[1].z ), 
+//					new Vec3D( facePoints[2].x, facePoints[2].y, facePoints[2].z )
+//			);
+//		}	
+//		return mesh;
+//	}
 
 	public static WETriangleMesh meshFromImg( PApplet p, String file, float scale ) {
 		WETriangleMesh mesh = new WETriangleMesh();
