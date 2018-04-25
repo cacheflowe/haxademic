@@ -1,4 +1,4 @@
-package com.haxademic.sketch.three_d;
+package com.haxademic.demo.draw.image;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
@@ -14,7 +14,7 @@ import com.haxademic.core.render.JoonsWrapper;
 import processing.core.PApplet;
 import processing.core.PGraphics;
 
-public class DiscsBlend
+public class Demo_MotionBlurPGraphics
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
@@ -24,13 +24,13 @@ extends PAppletHax {
 	float _frames = 40;
 	
 	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, "640" );
-		p.appConfig.setProperty( AppSettings.HEIGHT, "640" );
+		p.appConfig.setProperty( AppSettings.WIDTH, 640 );
+		p.appConfig.setProperty( AppSettings.HEIGHT, 640 );
 
-		p.appConfig.setProperty( AppSettings.SUNFLOW, "false" );
-		p.appConfig.setProperty( AppSettings.SUNFLOW_ACTIVE, "false" );
-		p.appConfig.setProperty( AppSettings.SUNFLOW_QUALITY, "high" );
-		p.appConfig.setProperty( AppSettings.SUNFLOW_SAVE_IMAGES, "false" );
+		p.appConfig.setProperty( AppSettings.SUNFLOW, true );
+		p.appConfig.setProperty( AppSettings.SUNFLOW_ACTIVE, true );
+		p.appConfig.setProperty( AppSettings.SUNFLOW_QUALITY, AppSettings.SUNFLOW_QUALITY_LOW );
+		p.appConfig.setProperty( AppSettings.SUNFLOW_SAVE_IMAGES, false );
 
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
 		p.appConfig.setProperty( AppSettings.RENDERING_GIF, "false" );
