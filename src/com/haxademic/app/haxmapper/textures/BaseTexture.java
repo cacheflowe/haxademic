@@ -1,7 +1,7 @@
 package com.haxademic.app.haxmapper.textures;
 
 import com.haxademic.core.app.P;
-import com.haxademic.core.draw.color.ColorHaxEasing;
+import com.haxademic.core.draw.color.EasingColor;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.filters.shaders.BrightnessFilter;
@@ -20,7 +20,7 @@ public class BaseTexture {
 	protected boolean _active;
 	protected int _useCount = 0;
 	protected int _color;
-	protected ColorHaxEasing _colorEase;
+	protected EasingColor _colorEase;
 	protected int _timingFrame = 0;
 	
 	public static PShader _chroma;
@@ -32,7 +32,7 @@ public class BaseTexture {
 	public BaseTexture() {
 		_active = false;
 		_color = P.p.color(255);
-		_colorEase = new ColorHaxEasing( "#ffffff", 5 );
+		_colorEase = new EasingColor( "#ffffff", 5 );
 	}
 	
 	protected void buildGraphics( int width, int height ) {
@@ -124,7 +124,7 @@ public class BaseTexture {
 	
 	public void setColor( int color ) {
 		_color = color;
-		_colorEase.setTargetColorInt( color );
+		_colorEase.setTargetInt( color );
 	}
 	
 	public void update() {

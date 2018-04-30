@@ -4,7 +4,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.constants.PRenderers;
-import com.haxademic.core.draw.color.ColorHaxEasing;
+import com.haxademic.core.draw.color.EasingColor;
 
 import processing.core.PGraphics;
 import processing.opengl.PShader;
@@ -16,7 +16,7 @@ extends PAppletHax {
 	protected PGraphics gradientBuffer;
 	protected PShader gradientShader;
 	protected float numColors = 3;
-	protected ColorHaxEasing[] colorStops = new ColorHaxEasing[3];
+	protected EasingColor[] colorStops = new EasingColor[3];
 	protected int FRAMES = 200;
 	
 	protected void overridePropsFile() {
@@ -37,7 +37,7 @@ extends PAppletHax {
 
 	protected void buildColors() {
 		for (int i = 0; i < colorStops.length; i++) {
-			colorStops[i] = new ColorHaxEasing("#ff000000", 20);
+			colorStops[i] = new EasingColor("#ff000000", 20);
 		}
 		setColors("#ffbd03d0", "#ffe8d74d", "#ffec3a6f");
 	}

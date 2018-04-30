@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import processing.core.PGraphics;
 
 import com.haxademic.core.app.P;
-import com.haxademic.core.draw.color.ColorHaxEasing;
+import com.haxademic.core.draw.color.EasingColor;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.math.MathUtil;
 
@@ -13,7 +13,7 @@ public class MeshLines {
 
 	protected ArrayList<MeshLineSegment> _meshLineSegments;
 	protected PGraphics _texture;
-	protected ColorHaxEasing _colorEase;
+	protected EasingColor _colorEase;
 
 	public enum MODE {
 		MODE_PERLIN,
@@ -34,7 +34,7 @@ public class MeshLines {
 	public MeshLines( PGraphics pg ) {
 		_texture = pg;
 		_meshLineSegments = new ArrayList<MeshLineSegment>();
-		_colorEase = new ColorHaxEasing( "#ffffff", 5 );
+		_colorEase = new EasingColor( "#ffffff", 5 );
 		_modeIndex = 0;
 	}
 
@@ -87,7 +87,7 @@ public class MeshLines {
 	}
 
 	public void setColor( int color ) {
-		_colorEase.setTargetColorInt( color );
+		_colorEase.setTargetInt( color );
 	}
 
 }

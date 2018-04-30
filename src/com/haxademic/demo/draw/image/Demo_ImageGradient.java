@@ -23,6 +23,7 @@ extends PAppletHax {
 	public void setup() {
 		super.setup();
 		imageGradient = new ImageGradient(ImageGradient.PASTELS());
+		imageGradient = new ImageGradient(ImageGradient.randomCoolor());
 	}
 
 	public void drawApp() {

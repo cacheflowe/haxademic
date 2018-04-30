@@ -3,7 +3,7 @@ package com.haxademic.sketch.render.ello;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
-import com.haxademic.core.draw.color.ColorHaxEasing;
+import com.haxademic.core.draw.color.EasingColor;
 import com.haxademic.core.draw.color.Gradients;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.file.FileUtil;
@@ -14,8 +14,8 @@ public class GifRenderEllo023ElloRadialGradient
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
-	protected ColorHaxEasing _colorGradientCenter;
-	protected ColorHaxEasing _colorGradientOuter;
+	protected EasingColor _colorGradientCenter;
+	protected EasingColor _colorGradientOuter;
 	protected PShape _logo;
 	
 	
@@ -38,8 +38,8 @@ extends PAppletHax {
 		
 		p.smooth(OpenGLUtil.SMOOTH_HIGH);
 		
-		_colorGradientCenter = new ColorHaxEasing("#000000", 9f);
-		_colorGradientOuter = new ColorHaxEasing("#000000", 9f);
+		_colorGradientCenter = new EasingColor("#000000", 9f);
+		_colorGradientOuter = new EasingColor("#000000", 9f);
 		
 		_logo = p.loadShape(FileUtil.getHaxademicDataPath()+"svg/ello-mouth-only.svg");
 	}
@@ -50,9 +50,9 @@ extends PAppletHax {
 		// rendering
 		float percentComplete = ((float)(p.frameCount%_frames)/_frames);
 		
-		_colorGradientCenter.setTargetColorInt( p.color(127f + 127f * P.sin(P.TWO_PI * percentComplete), 127f + 127f * P.sin(P.TWO_PI * percentComplete * 2f), 127f + 127f * P.sin(P.TWO_PI * percentComplete * 4f)) );
+		_colorGradientCenter.setTargetInt( p.color(127f + 127f * P.sin(P.TWO_PI * percentComplete), 127f + 127f * P.sin(P.TWO_PI * percentComplete * 2f), 127f + 127f * P.sin(P.TWO_PI * percentComplete * 4f)) );
 		_colorGradientCenter.update();
-		_colorGradientOuter.setTargetColorInt( p.color(127f + 127f * P.sin(P.TWO_PI * percentComplete * 2f), 127f + 127f * P.sin(P.TWO_PI * percentComplete * 4f), 127f + 127f * P.sin(P.TWO_PI * percentComplete)) );
+		_colorGradientOuter.setTargetInt( p.color(127f + 127f * P.sin(P.TWO_PI * percentComplete * 2f), 127f + 127f * P.sin(P.TWO_PI * percentComplete * 4f), 127f + 127f * P.sin(P.TWO_PI * percentComplete)) );
 		_colorGradientOuter.update();
 
 		

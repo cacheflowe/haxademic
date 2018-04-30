@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
-import com.haxademic.core.draw.color.ColorHaxEasing;
+import com.haxademic.core.draw.color.EasingColor;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.mapping.PGraphicsKeystone;
@@ -48,10 +48,10 @@ extends PAppletHax {
 	protected int _lightningIndex;
 	
 	protected DmxInterface _dmx;
-	protected ColorHaxEasing _color1;
-	protected ColorHaxEasing _color2;
-	protected ColorHaxEasing _color3;
-	protected ColorHaxEasing _color4;
+	protected EasingColor _color1;
+	protected EasingColor _color2;
+	protected EasingColor _color3;
+	protected EasingColor _color4;
 	
 	protected boolean _kinectActive = false;
 	protected int _nextLightning = 0;
@@ -157,10 +157,10 @@ extends PAppletHax {
 	
 	protected void buildPhysicalLighting() {
 		_dmx = new DmxInterface(4);
-		_color1 = new ColorHaxEasing("#000000", 5);
-		_color2 = new ColorHaxEasing("#000000", 5);
-		_color3 = new ColorHaxEasing("#000000", 5);
-		_color4 = new ColorHaxEasing("#000000", 5);
+		_color1 = new EasingColor("#000000", 5);
+		_color2 = new EasingColor("#000000", 5);
+		_color3 = new EasingColor("#000000", 5);
+		_color4 = new EasingColor("#000000", 5);
 	}
 
 	

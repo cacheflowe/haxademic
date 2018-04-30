@@ -2,7 +2,6 @@ package com.haxademic.sketch.audio.beads;
 
 import java.util.Arrays;
 
-import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.MathUtil;

@@ -6,7 +6,7 @@ import processing.core.PGraphics;
 import processing.core.PVector;
 
 import com.haxademic.core.app.P;
-import com.haxademic.core.draw.color.ColorHaxEasing;
+import com.haxademic.core.draw.color.EasingColor;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.math.MathUtil;
 
@@ -15,7 +15,7 @@ public class MeshParticles {
 	protected ArrayList<PVector> _meshVertices;
 	protected ArrayList<VectorFlyer2d> _particles;
 	protected PGraphics pg;
-	protected ColorHaxEasing _colorEase;
+	protected EasingColor _colorEase;
 
 	protected int NUM_PARTICLES = 100;
 	protected int _curNumParticles = NUM_PARTICLES;
@@ -28,7 +28,7 @@ public class MeshParticles {
 	public MeshParticles( PGraphics pg ) {
 		this.pg = pg;
 		_meshVertices = new ArrayList<PVector>();
-		_colorEase = new ColorHaxEasing( "#ffffff", 5 );
+		_colorEase = new EasingColor( "#ffffff", 5 );
 	}
 
 	public PGraphics texture() {
@@ -121,7 +121,7 @@ public class MeshParticles {
 	}
 
 	public void setColor( int color ) {
-		_colorEase.setTargetColorInt( color );
+		_colorEase.setTargetInt( color );
 	}
 
 	

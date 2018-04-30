@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
-import com.haxademic.core.draw.color.ColorHaxEasing;
+import com.haxademic.core.draw.color.EasingColor;
 import com.haxademic.core.draw.color.ColorUtil;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.dmx.DmxInterface;
@@ -224,7 +224,7 @@ extends PAppletHax {
 		protected int _highColor;
 		protected float _notes;
 		protected LinearFloat _brightness;
-		protected ColorHaxEasing _color;
+		protected EasingColor _color;
 		protected IJoystickControl _joystick;
 		
 		protected TonePlayer _tonePlayer;
@@ -237,7 +237,7 @@ extends PAppletHax {
 			_brightness = new LinearFloat(0, 0.04f);
 			_lowColor = ColorUtil.colorFromHex(lowColor);
 			_highColor = ColorUtil.colorFromHex(highColor);
-			_color = new ColorHaxEasing(lowColor, 3f);
+			_color = new EasingColor(lowColor, 3f);
 		}
 		
 		public void setTonePlayer(TonePlayer player) {
