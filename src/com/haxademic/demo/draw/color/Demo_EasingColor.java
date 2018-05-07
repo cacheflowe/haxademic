@@ -36,6 +36,7 @@ extends PAppletHax {
 		if(p.key == ' ') {
 			int newColor = ColorUtil.colorFromHex(ColorUtil.randomHex());
 			p.debugView.setValue("newHex", newColor);
+			colorHaxEasing.setCurrentInt(0xffffffff);
 			colorHaxEasing.setTargetInt(newColor);
 		}
 	}

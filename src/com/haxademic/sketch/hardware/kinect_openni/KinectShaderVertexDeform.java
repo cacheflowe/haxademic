@@ -3,6 +3,7 @@ package com.haxademic.sketch.hardware.kinect_openni;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
+import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.kinect.KinectSize;
@@ -24,10 +25,11 @@ extends PAppletHax {
 	PShader texShader;
 	float _frames = 240;
 
+	// uv coordinates
 	public float kinectLeft = 0;
-	public float kinectRight = 0;
+	public float kinectRight = 1;
 	public float kinectTop = 0;
-	public float kinectBottom = 0;
+	public float kinectBottom = 1;
 	
 	protected ControlP5 _cp5;
 	
@@ -39,14 +41,6 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.KINECT_ACTIVE, "true" );
 		p.appConfig.setProperty( AppSettings.WIDTH, "640" );
 		p.appConfig.setProperty( AppSettings.HEIGHT, "480" );
-		
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
-		
-		p.appConfig.setProperty( AppSettings.RENDERING_GIF, "false" );
-		p.appConfig.setProperty( AppSettings.RENDERING_GIF_FRAMERATE, "40" );
-		p.appConfig.setProperty( AppSettings.RENDERING_GIF_QUALITY, "15" );
-		p.appConfig.setProperty( AppSettings.RENDERING_GIF_START_FRAME, "3" );
-		p.appConfig.setProperty( AppSettings.RENDERING_GIF_STOP_FRAME, ""+Math.round(_frames+2) );
 	}
 
 	public void setup() {
@@ -57,10 +51,10 @@ extends PAppletHax {
 		int controlSpace = 12;
 		_cp5 = new ControlP5(this);
 
-		_cp5.addSlider("kinectLeft").setPosition(20,controlY+=controlSpace).setWidth(200).setRange(-1.0f,1.0f).setValue(-0.08f);
-		_cp5.addSlider("kinectRight").setPosition(20,controlY+=controlSpace).setWidth(200).setRange(0f,2f).setValue(1.06f);
-		_cp5.addSlider("kinectTop").setPosition(20,controlY+=controlSpace).setWidth(200).setRange(-1.0f,1.0f).setValue(-0.08f);
-		_cp5.addSlider("kinectBottom").setPosition(20,controlY+=controlSpace).setWidth(200).setRange(0,2f).setValue(1.04f);
+		_cp5.addSlider("kinectLeft").setPosition(20,controlY+=controlSpace).setWidth(100).setRange(-1.0f,1.0f).setValue(-0.08f);
+		_cp5.addSlider("kinectRight").setPosition(20,controlY+=controlSpace).setWidth(100).setRange(0f,2f).setValue(1.06f);
+		_cp5.addSlider("kinectTop").setPosition(20,controlY+=controlSpace).setWidth(100).setRange(-1.0f,1.0f).setValue(-0.08f);
+		_cp5.addSlider("kinectBottom").setPosition(20,controlY+=controlSpace).setWidth(100).setRange(0,2f).setValue(1.04f);
 
 		tex = p.createGraphics(KinectSize.WIDTH, KinectSize.HEIGHT);
 	}
@@ -77,7 +71,7 @@ extends PAppletHax {
 				);
 		
 		texShader.set("displacementMap", p.kinectWrapper.getDepthImage());
-		texShader.set("displaceStrength", 300.0f);
+		texShader.set("displaceStrength", 500.0f);
 	}
 
 	public void drawApp() {
@@ -98,7 +92,8 @@ extends PAppletHax {
 		translate(width/2, height/2, -300);
 //		rotateY(P.PI);
 //		rotateY(p.mouseX / 100f);
-		rotateY(0.3f * P.sin(percentComplete * P.TWO_PI));
+		DrawUtil.basicCameraFromMouse(p.g);
+//		rotateY(0.3f * P.sin(percentComplete * P.TWO_PI));
 
 		
 		// obj.texture(p.kinectWrapper.getDepthImage());
@@ -117,12 +112,6 @@ extends PAppletHax {
 		p.shape(obj);
 		p.resetShader();
 		
-		if( p.frameCount == _frames * 2 ) {
-			if(p.appConfig.getBoolean("rendering", false) ==  true) {				
-				movieRenderer.stop();
-				P.println("render done!");
-			}
-		}
 		p.popMatrix();
 	}
 
