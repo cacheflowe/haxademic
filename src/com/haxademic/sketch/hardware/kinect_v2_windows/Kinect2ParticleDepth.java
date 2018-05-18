@@ -61,7 +61,7 @@ extends PAppletHax {
 
 		  kinect.init();
 
-		  sh = loadShader(FileUtil.getFile("shaders/vertex/kinect-points-frag.glsl"), FileUtil.getFile("shaders/vertex/kinect-points-vert.glsl"));
+		  sh = loadShader(FileUtil.getFile("haxademic/shaders/vertex/kinect-points-frag.glsl"), FileUtil.getFile("haxademic/shaders/vertex/kinect-points-vert.glsl"));
 
 		  PGL pgl = beginPGL();
 

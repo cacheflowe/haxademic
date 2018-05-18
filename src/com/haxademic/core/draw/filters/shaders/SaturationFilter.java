@@ -1,5 +1,7 @@
 package com.haxademic.core.draw.filters.shaders;
 
+import com.haxademic.core.draw.filters.shaders.shared.BaseFilter;
+
 import processing.core.PApplet;
 
 public class SaturationFilter
@@ -8,7 +10,7 @@ extends BaseFilter {
 	public static SaturationFilter instance;
 	
 	public SaturationFilter(PApplet p) {
-		super(p, "shaders/filters/saturation.glsl");
+		super(p, "haxademic/shaders/filters/saturation.glsl");
 		setSaturation(1f);
 	}
 	

@@ -40,23 +40,23 @@ extends PAppletHax {
 //		img1 = ImageUtil.imageToGraphics(p.loadImage(FileUtil.getFile("images/aholes-bors.png")));
 //		img2 = ImageUtil.imageToGraphics(p.loadImage(FileUtil.getFile("images/aholes-trmp.png")));
 		
-//		transitionShader = p.loadShader(FileUtil.getFile("shaders/transitions/colour-distance.glsl"));
+//		transitionShader = p.loadShader(FileUtil.getFile("haxademic/shaders/transitions/colour-distance.glsl"));
 //		transitionShader.set("interpolationPower", 2f);
-//		transitionShader = p.loadShader(FileUtil.getFile("shaders/transitions/polka-dots-curtain.glsl"));
-//		transitionShader = p.loadShader(FileUtil.getFile("shaders/transitions/fly-eye.glsl"));
-//		transitionShader = p.loadShader(FileUtil.getFile("shaders/transitions/circle-open.glsl"));
-		transitionShader = p.loadShader(FileUtil.getFile("shaders/transitions/color-lerp.glsl"));
-//		transitionShader = p.loadShader(FileUtil.getFile("shaders/transitions/directional-wipe.glsl"));
-//		transitionShader = p.loadShader(FileUtil.getFile("shaders/transitions/warp-fade.glsl"));
-//		transitionShader = p.loadShader(FileUtil.getFile("shaders/transitions/morph.glsl"));
-//		transitionShader = p.loadShader(FileUtil.getFile("shaders/transitions/swap.glsl"));
-//		transitionShader = p.loadShader(FileUtil.getFile("shaders/transitions/dissolve.glsl"));
+//		transitionShader = p.loadShader(FileUtil.getFile("haxademic/shaders/transitions/polka-dots-curtain.glsl"));
+//		transitionShader = p.loadShader(FileUtil.getFile("haxademic/shaders/transitions/fly-eye.glsl"));
+//		transitionShader = p.loadShader(FileUtil.getFile("haxademic/shaders/transitions/circle-open.glsl"));
+		transitionShader = p.loadShader(FileUtil.getFile("haxademic/shaders/transitions/color-lerp.glsl"));
+//		transitionShader = p.loadShader(FileUtil.getFile("haxademic/shaders/transitions/directional-wipe.glsl"));
+//		transitionShader = p.loadShader(FileUtil.getFile("haxademic/shaders/transitions/warp-fade.glsl"));
+//		transitionShader = p.loadShader(FileUtil.getFile("haxademic/shaders/transitions/morph.glsl"));
+//		transitionShader = p.loadShader(FileUtil.getFile("haxademic/shaders/transitions/swap.glsl"));
+//		transitionShader = p.loadShader(FileUtil.getFile("haxademic/shaders/transitions/dissolve.glsl"));
 //		transitionShader.set("blocksize", 6f);
-//		transitionShader = p.loadShader(FileUtil.getFile("shaders/transitions/cross-zoom.glsl"));
-//		transitionShader = p.loadShader(FileUtil.getFile("shaders/transitions/hsv-blend.glsl"));
-//		transitionShader = p.loadShader(FileUtil.getFile("shaders/transitions/wind.glsl"));
-//		transitionShader = p.loadShader(FileUtil.getFile("shaders/transitions/cube.glsl"));
-//		transitionShader = p.loadShader(FileUtil.getFile("shaders/transitions/glitch-displace.glsl"));
+//		transitionShader = p.loadShader(FileUtil.getFile("haxademic/shaders/transitions/cross-zoom.glsl"));
+//		transitionShader = p.loadShader(FileUtil.getFile("haxademic/shaders/transitions/hsv-blend.glsl"));
+//		transitionShader = p.loadShader(FileUtil.getFile("haxademic/shaders/transitions/wind.glsl"));
+//		transitionShader = p.loadShader(FileUtil.getFile("haxademic/shaders/transitions/cube.glsl"));
+//		transitionShader = p.loadShader(FileUtil.getFile("haxademic/shaders/transitions/glitch-displace.glsl"));
 		
 		transitionShader.set("from", img1);
 		transitionShader.set("to", img2);

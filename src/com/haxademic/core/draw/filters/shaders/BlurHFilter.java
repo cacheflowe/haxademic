@@ -1,5 +1,7 @@
 package com.haxademic.core.draw.filters.shaders;
 
+import com.haxademic.core.draw.filters.shaders.shared.BaseFilter;
+
 import processing.core.PApplet;
 
 public class BlurHFilter
@@ -8,7 +10,7 @@ extends BaseFilter {
 	public static BlurHFilter instance;
 	
 	public BlurHFilter(PApplet p) {
-		super(p, "shaders/filters/blur-horizontal.glsl");
+		super(p, "haxademic/shaders/filters/blur-horizontal.glsl");
 		setBlur(0f);
 	}
 	

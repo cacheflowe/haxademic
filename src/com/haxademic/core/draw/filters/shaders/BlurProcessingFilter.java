@@ -1,5 +1,7 @@
 package com.haxademic.core.draw.filters.shaders;
 
+import com.haxademic.core.draw.filters.shaders.shared.BaseFilter;
+
 import processing.core.PApplet;
 import processing.core.PGraphics;
 
@@ -9,7 +11,7 @@ extends BaseFilter {
 	public static BlurProcessingFilter instance;
 	
 	public BlurProcessingFilter(PApplet p) {
-		super(p, "shaders/filters/blur-processing.glsl");
+		super(p, "haxademic/shaders/filters/blur-processing.glsl");
 		setBlurSize(2);
 		setSigma(2f);
 	}

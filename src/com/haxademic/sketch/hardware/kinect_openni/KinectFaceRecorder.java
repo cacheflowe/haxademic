@@ -102,7 +102,7 @@ public class KinectFaceRecorder {
 //		_cp5.addSlider("colorToReplaceG").setPosition(cp5X,cp5Y+=cp5YSpace).setWidth(cp5W).setRange(0,1f).setValue(0.93f);
 //		_cp5.addSlider("colorToReplaceB").setPosition(cp5X,cp5Y+=cp5YSpace).setWidth(cp5W).setRange(0,1f).setValue(0.14f);
 
-		_chromaKeyFilter = P.p.loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/chroma-color.glsl" );
+		_chromaKeyFilter = P.p.loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/chroma-color.glsl" );
 		_chromaKeyFilter.set("thresholdSensitivity", 0.75f);
 		_chromaKeyFilter.set("smoothing", 0.25f);
 		_chromaKeyFilter.set("colorToReplace", 0.2f, 0.4f, 0.1f);

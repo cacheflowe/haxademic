@@ -32,7 +32,7 @@ extends PAppletHax {
 
 	protected void buildCanvas() {
 		externalBuffer = p.createGraphics( p.width / 2, p.height / 2, P.P3D );
-		shaderPattern = p.loadShader(FileUtil.getFile("shaders/textures/cacheflowe-op-wavy-rotate.glsl"));
+		shaderPattern = p.loadShader(FileUtil.getFile("haxademic/shaders/textures/cacheflowe-op-wavy-rotate.glsl"));
 		keystonePG = new PGraphicsKeystone( p, externalBuffer, 12, null );
 	}
 

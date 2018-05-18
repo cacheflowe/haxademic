@@ -1,5 +1,7 @@
 package com.haxademic.core.draw.filters.shaders;
 
+import com.haxademic.core.draw.filters.shaders.shared.BaseFilter;
+
 import processing.core.PApplet;
 
 public class EdgeColorFadeFilter
@@ -8,7 +10,7 @@ extends BaseFilter {
 	public static EdgeColorFadeFilter instance;
 	
 	public EdgeColorFadeFilter(PApplet p) {
-		super(p, "shaders/filters/edge-color-fade.glsl");
+		super(p, "haxademic/shaders/filters/edge-color-fade.glsl");
 		setSpreadX(0.05f);
 		setSpreadY(0.05f);
 		setEdgeColor(255f, 255f, 255f);

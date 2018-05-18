@@ -30,7 +30,7 @@ extends PAppletHax {
 
 	public void setup() {
 		super.setup();
-		_fxaa = p.loadShader( FileUtil.getHaxademicDataPath() + "shaders/filters/fxaa.glsl" );
+		_fxaa = p.loadShader( FileUtil.getHaxademicDataPath() + "haxademic/shaders/filters/fxaa.glsl" );
 	
 		_particles = new ArrayList<VectorFlyer2d>();
 		for(int i=0; i < 30000; i++) _particles.add(new VectorFlyer2d(new PVector(p.random(p.width), p.random(p.height))));

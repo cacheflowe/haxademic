@@ -1,5 +1,7 @@
 package com.haxademic.core.draw.filters.shaders;
 
+import com.haxademic.core.draw.filters.shaders.shared.BaseFilter;
+
 import processing.core.PApplet;
 
 public class BrightnessFilter
@@ -8,7 +10,7 @@ extends BaseFilter {
 	public static BrightnessFilter instance;
 	
 	public BrightnessFilter(PApplet p) {
-		super(p, "shaders/filters/brightness.glsl");
+		super(p, "haxademic/shaders/filters/brightness.glsl");
 		setBrightness(1f);
 	}
 	

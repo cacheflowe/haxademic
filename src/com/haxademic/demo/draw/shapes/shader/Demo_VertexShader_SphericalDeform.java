@@ -47,8 +47,8 @@ extends PAppletHax {
 		
 		// load shader
 		displaceVertShader = loadShader(
-			FileUtil.getFile("shaders/vertex/brightness-displace-frag-texture.glsl"), 
-			FileUtil.getFile("shaders/vertex/brightness-displace-sphere-vert.glsl")
+			FileUtil.getFile("haxademic/shaders/vertex/brightness-displace-frag-texture.glsl"), 
+			FileUtil.getFile("haxademic/shaders/vertex/brightness-displace-sphere-vert.glsl")
 		);
 		
 		// build 2 displacement maps

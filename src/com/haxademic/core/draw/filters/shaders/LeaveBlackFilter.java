@@ -1,5 +1,7 @@
 package com.haxademic.core.draw.filters.shaders;
 
+import com.haxademic.core.draw.filters.shaders.shared.BaseFilter;
+
 import processing.core.PApplet;
 
 public class LeaveBlackFilter
@@ -8,7 +10,7 @@ extends BaseFilter {
 	public static LeaveBlackFilter instance;
 	
 	public LeaveBlackFilter(PApplet p) {
-		super(p, "shaders/filters/leave-black.glsl");
+		super(p, "haxademic/shaders/filters/leave-black.glsl");
 		setMix(1f);
 	}
 	

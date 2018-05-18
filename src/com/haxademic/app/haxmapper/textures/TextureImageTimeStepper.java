@@ -43,20 +43,20 @@ extends BaseTexture {
 	}
 	
 	protected void loadShaders() {
-		_vignette = P.p.loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/vignette.glsl" );
+		_vignette = P.p.loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/vignette.glsl" );
 		_vignette.set("darkness", 0.7f);
 		_vignette.set("spread", 0.15f);
 
-		_brightness = P.p.loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/brightness.glsl" );
+		_brightness = P.p.loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/brightness.glsl" );
 		_brightness.set("brightness", _brightEaser.value() );
 
-		_saturation = P.p.loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/saturation.glsl" );
+		_saturation = P.p.loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/saturation.glsl" );
 		_saturation.set("saturation", 0.25f );
 
 	
-		_blurH = P.p.loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/blur-horizontal.glsl" ); 
+		_blurH = P.p.loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/blur-horizontal.glsl" ); 
 		_blurH.set( "h", 1f/_texture.width );
-		_blurV = P.p.loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/blur-vertical.glsl" ); 
+		_blurV = P.p.loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/blur-vertical.glsl" ); 
 		_blurV.set( "v", 1f/_texture.height );
 		
 	}

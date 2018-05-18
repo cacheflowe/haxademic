@@ -41,9 +41,9 @@ extends PAppletHax {
 	public void setup() {
 		super.setup();
 		
-		_textureShaderFile = FileUtil.getHaxademicDataPath() + "shaders/textures/bw-clouds.glsl";
+		_textureShaderFile = FileUtil.getHaxademicDataPath() + "haxademic/shaders/textures/bw-clouds.glsl";
 		_textureShader = p.loadShader( _textureShaderFile );
-		_postFilter = p.loadShader( FileUtil.getFile("shaders/filters/escher-repeat.glsl"));
+		_postFilter = p.loadShader( FileUtil.getFile("haxademic/shaders/filters/escher-repeat.glsl"));
 		
 		_buffer = createGraphics( width,  height, P2D );
 	}
@@ -180,7 +180,7 @@ extends PAppletHax {
 
 	
 			
-	public static final String FILTER_TEXTURE_TUNNEL = "shaders/textures/to-convert/bw-checker-tunnel.glsl";
+	public static final String FILTER_TEXTURE_TUNNEL = "haxademic/shaders/textures/to-convert/bw-checker-tunnel.glsl";
 	public void updateTestureTunnelFilter( PShader shader ) {
 		shader.set("time", _timeEaseInc);
 		shader.set("texture", _buffer);
@@ -188,7 +188,7 @@ extends PAppletHax {
 			
 	// TEXTURES =====================================================================
 
-	public static final String TEXTURE_BW_EYE_JACKER_01 = "shaders/textures/bw-eye-jacker-01.glsl";
+	public static final String TEXTURE_BW_EYE_JACKER_01 = "haxademic/shaders/textures/bw-eye-jacker-01.glsl";
 	public void updateBwEyeJacker01( PShader shader ) {
 		shader.set("time", millis() / 1000.0f);
 		shader.set("mode", 2);

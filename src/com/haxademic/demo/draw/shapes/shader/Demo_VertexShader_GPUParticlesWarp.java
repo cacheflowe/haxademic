@@ -40,9 +40,9 @@ extends PAppletHax {
 	
 	protected void setupFirstFrame() {
 		// build random particle placement shader
-		randomColorShader = p.loadShader(FileUtil.getFile("shaders/textures/random-pixel-color.glsl"));
-		speedShader = p.loadShader(FileUtil.getFile("shaders/textures/noise-simplex-2d-iq.glsl"));
-		particleMoverShader = p.loadShader(FileUtil.getFile("shaders/point/particle-warp-z-mover.glsl"));
+		randomColorShader = p.loadShader(FileUtil.getFile("haxademic/shaders/textures/random-pixel-color.glsl"));
+		speedShader = p.loadShader(FileUtil.getFile("haxademic/shaders/textures/noise-simplex-2d-iq.glsl"));
+		particleMoverShader = p.loadShader(FileUtil.getFile("haxademic/shaders/point/particle-warp-z-mover.glsl"));
 
 		// create texture to store positions
 		int positionBufferSize = 256;
@@ -69,8 +69,8 @@ extends PAppletHax {
 		
 		// load shader
 		particlesDrawShader = p.loadShader(
-			FileUtil.getFile("shaders/point/point-frag.glsl"), 
-			FileUtil.getFile("shaders/point/particle-warp-vert.glsl")
+			FileUtil.getFile("haxademic/shaders/point/point-frag.glsl"), 
+			FileUtil.getFile("haxademic/shaders/point/particle-warp-vert.glsl")
 		);	
 	}
 	

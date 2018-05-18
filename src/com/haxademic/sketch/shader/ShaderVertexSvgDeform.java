@@ -65,8 +65,8 @@ extends PAppletHax {
 		shape.setTexture(displacementMap);
 
 		texShader = loadShader(
-				FileUtil.getFile("shaders/vertex/brightness-displace-frag-texture.glsl"), 
-				FileUtil.getFile("shaders/vertex/brightness-displace-sphere-vert.glsl")
+				FileUtil.getFile("haxademic/shaders/vertex/brightness-displace-frag-texture.glsl"), 
+				FileUtil.getFile("haxademic/shaders/vertex/brightness-displace-sphere-vert.glsl")
 				);
 		texShader.set("displacementMap", displacementMap);
 		texShader.set("displaceStrength", 0.7f);

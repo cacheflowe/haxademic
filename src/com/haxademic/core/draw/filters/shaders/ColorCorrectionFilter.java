@@ -1,5 +1,7 @@
 package com.haxademic.core.draw.filters.shaders;
 
+import com.haxademic.core.draw.filters.shaders.shared.BaseFilter;
+
 import processing.core.PApplet;
 
 public class ColorCorrectionFilter
@@ -8,7 +10,7 @@ extends BaseFilter {
 	public static ColorCorrectionFilter instance;
 	
 	public ColorCorrectionFilter(PApplet p) {
-		super(p, "shaders/filters/color-correction.glsl");
+		super(p, "haxademic/shaders/filters/color-correction.glsl");
 		setBrightness(0f);
 		setContrast(1f);
 		setGamma(1f);

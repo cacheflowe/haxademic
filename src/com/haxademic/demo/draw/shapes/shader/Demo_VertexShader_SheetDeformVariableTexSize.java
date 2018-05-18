@@ -32,7 +32,7 @@ extends PAppletHax {
 		perlinBuffer = p.createGraphics(p.width, p.height, PRenderers.P3D);
 		materialBuffer = p.createGraphics(p.width, p.height, PRenderers.P3D);
 		OpenGLUtil.setTextureRepeat(perlinBuffer);
-		perlinShader = p.loadShader(FileUtil.getFile("shaders/textures/noise-simplex-2d-iq.glsl"));
+		perlinShader = p.loadShader(FileUtil.getFile("haxademic/shaders/textures/noise-simplex-2d-iq.glsl"));
 		
 		// build sheet mesh
 		shape = Shapes.createSheet(150, 20000, 20000);
@@ -41,8 +41,8 @@ extends PAppletHax {
 		
 		// load shader
 		displacementShader = loadShader(
-			FileUtil.getFile("shaders/vertex/brightness-displace-frag-other-texture.glsl"), 
-			FileUtil.getFile("shaders/vertex/brightness-displace-sheet-vert.glsl")
+			FileUtil.getFile("haxademic/shaders/vertex/brightness-displace-frag-other-texture.glsl"), 
+			FileUtil.getFile("haxademic/shaders/vertex/brightness-displace-sheet-vert.glsl")
 		);
 	}
 

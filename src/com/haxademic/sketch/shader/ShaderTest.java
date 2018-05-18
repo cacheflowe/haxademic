@@ -62,43 +62,43 @@ extends PAppletHax {
 		_bg = p.createGraphics(p.width, p.height, P.P2D);
 		_bg.smooth( OpenGLUtil.SMOOTH_HIGH );
 		
-		invert = loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/invert.glsl" ); 
+		invert = loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/invert.glsl" ); 
 		
-		kaleido = loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/kaleido.glsl" ); 
+		kaleido = loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/kaleido.glsl" ); 
 		kaleido.set("sides", 6.0f);
 		kaleido.set("angle", 0.0f);
 		
-		vignette = loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/vignette.glsl" );
+		vignette = loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/vignette.glsl" );
 		vignette.set("darkness", 0.85f);
 		vignette.set("spread", 0.15f);
 
-		edge = loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/edge.glsl" ); 
+		edge = loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/edge.glsl" ); 
 		
-		dotScreen = loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/dotscreen.glsl" ); 
+		dotScreen = loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/dotscreen.glsl" ); 
 		dotScreen.set("tSize", 256f, 256f);
 		dotScreen.set("center", 0.5f, 0.5f);
 		dotScreen.set("angle", 1.57f);
 		dotScreen.set("scale", 1f);
 
-		pixelate = loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/pixelate.glsl" ); 
+		pixelate = loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/pixelate.glsl" ); 
 		pixelate.set("divider", p.width/20f, p.height/20f);
 
-		radialBlur = loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/radial-blur-iq.glsl" ); 
+		radialBlur = loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/radial-blur-iq.glsl" ); 
 		radialBlur.set("time", _timeEaseInc );
 		radialBlur.set("resolution", 1f, (float)(p.width/p.height));
 		
-		warping = loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/warping-iq.glsl" ); 
+		warping = loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/warping-iq.glsl" ); 
 		warping.set("time", _timeEaseInc );
 
-		deformHoles = loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/deform-holes-iq.glsl" ); 
+		deformHoles = loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/deform-holes-iq.glsl" ); 
 		deformHoles.set("time", _timeEaseInc );
 		deformHoles.set("resolution", 1f, (float)(p.width/p.height));
 		deformHoles.set("mouse", 0.5f, 0.5f);
 
-		deformRelief = loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/fisheye.glsl" ); 
+		deformRelief = loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/fisheye.glsl" ); 
 		deformRelief.set("time", _timeEaseInc );
 
-		badtv = loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/badtv.glsl" ); 
+		badtv = loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/badtv.glsl" ); 
 		badtv.set("time", p.frameCount * 0.1f);
 		badtv.set("grayscale", 0);
 		badtv.set("nIntensity", 0.75f);
@@ -108,10 +108,10 @@ extends PAppletHax {
 		_image = p.loadImage( FileUtil.getHaxademicDataPath() + "images/green-screen-2.png" );
 
 		
-		glowwave = loadShader( FileUtil.getHaxademicDataPath()+"shaders/textures/glowwave.glsl" ); 
-		swirl = loadShader( FileUtil.getHaxademicDataPath()+"shaders/textures/swirl.glsl" ); 
-		coffeeswirl = loadShader( FileUtil.getHaxademicDataPath()+"shaders/textures/inversion-iq.glsl" ); 
-		clouds = loadShader( FileUtil.getHaxademicDataPath()+"shaders/textures/clouds-iq.glsl" ); 
+		glowwave = loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/textures/glowwave.glsl" ); 
+		swirl = loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/textures/swirl.glsl" ); 
+		coffeeswirl = loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/textures/inversion-iq.glsl" ); 
+		clouds = loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/textures/clouds-iq.glsl" ); 
 
 		//		glowwave.set("mouse", float(mouseX), float(mouseY));
 	}
@@ -145,7 +145,7 @@ extends PAppletHax {
 		_bg.resetShader();
 //		_bg.clear();
 
-		glowwave = loadShader( FileUtil.getHaxademicDataPath()+"shaders/textures/glowwave.glsl" ); 
+		glowwave = loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/textures/glowwave.glsl" ); 
 		glowwave.set("time", _timeEaseInc);
 		_bg.filter(glowwave);
 		
@@ -162,7 +162,7 @@ extends PAppletHax {
 //		clouds.set("mouse", (float)mouseX/p.width, (float)mouseY/p.height - 0.5f);		
 //		p.filter(clouds);
 		
-//		stars = loadShader( FileUtil.getHaxademicDataPath()+"shaders/textures/to-convert/star-field.glsl" );
+//		stars = loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/textures/to-convert/star-field.glsl" );
 //		stars.set("time", _timeEaseInc);
 //		_bg.filter(stars);
 

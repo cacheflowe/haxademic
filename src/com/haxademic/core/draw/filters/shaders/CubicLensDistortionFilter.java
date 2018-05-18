@@ -1,5 +1,7 @@
 package com.haxademic.core.draw.filters.shaders;
 
+import com.haxademic.core.draw.filters.shaders.shared.BaseFilter;
+
 import processing.core.PApplet;
 
 public class CubicLensDistortionFilter
@@ -8,7 +10,7 @@ extends BaseFilter {
 	public static CubicLensDistortionFilter instance;
 	
 	public CubicLensDistortionFilter(PApplet p) {
-		super(p, "shaders/filters/cubic-lens-distortion.glsl");
+		super(p, "haxademic/shaders/filters/cubic-lens-distortion.glsl");
 		setAmplitude(0);
 	}
 	

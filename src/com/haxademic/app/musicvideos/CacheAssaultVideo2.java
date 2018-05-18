@@ -95,21 +95,21 @@ extends PAppletHax {
 	}
 	
 	protected void loadShaders() {
-		kaleido = loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/kaleido.glsl" ); 
+		kaleido = loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/kaleido.glsl" ); 
 		kaleido.set("sides", 6.0f);
 		kaleido.set("angle", 0.0f);
 		
-		vignette = loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/vignette.glsl" );
+		vignette = loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/vignette.glsl" );
 		vignette.set("darkness", 0.35f);
 		vignette.set("spread", 0.15f);
 
-//		edge = loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/edges.glsl" ); 
+//		edge = loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/edges.glsl" ); 
 		
-		badtv = loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/badtv.glsl" ); 
+		badtv = loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/badtv.glsl" ); 
 		badtv.set("nIntensity", 0.1f);
 		badtv.set("sIntensity", 0.8f);
 
-		toon = loadShader(FileUtil.getHaxademicDataPath() + "shaders/lights/toon/frag.glsl", FileUtil.getHaxademicDataPath() + "shaders/lights/toon/vert.glsl");
+		toon = loadShader(FileUtil.getHaxademicDataPath() + "haxademic/shaders/lights/toon/frag.glsl", FileUtil.getHaxademicDataPath() + "haxademic/shaders/lights/toon/vert.glsl");
 		toon.set("fraction", 1.0f);
 	}
 	

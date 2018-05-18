@@ -55,7 +55,7 @@ extends BaseTexture {
 	}
 	
 	protected void loadShaders( String textureShader ) {
-		_patternShader = P.p.loadShader( FileUtil.getFile("shaders/textures/" + textureShader)); 
+		_patternShader = P.p.loadShader( FileUtil.getFile("haxademic/shaders/textures/" + textureShader)); 
 		_patternShader.set("time", _timeEaser.value() );
 		_patternShader.set("mode", _mode);
 	}

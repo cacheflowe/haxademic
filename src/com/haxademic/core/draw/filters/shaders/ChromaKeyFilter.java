@@ -1,5 +1,7 @@
 package com.haxademic.core.draw.filters.shaders;
 
+import com.haxademic.core.draw.filters.shaders.shared.BaseFilter;
+
 import processing.core.PApplet;
 
 public class ChromaKeyFilter
@@ -8,7 +10,7 @@ extends BaseFilter {
 	public static ChromaKeyFilter instance;
 	
 	public ChromaKeyFilter(PApplet p) {
-		super(p, "shaders/filters/chroma-gpu.glsl");
+		super(p, "haxademic/shaders/filters/chroma-gpu.glsl");
 		setSpeed(1f);
 		setStrength(0.001f);
 		setSize(100f);

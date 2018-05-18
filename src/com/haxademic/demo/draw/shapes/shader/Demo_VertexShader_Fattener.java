@@ -53,8 +53,8 @@ extends PAppletHax {
 		
 		// load shader
 		fattenerVertShader = p.loadShader(
-			FileUtil.getFile("shaders/vertex/fattener-frag.glsl"), 
-			FileUtil.getFile("shaders/vertex/fattener-vert.glsl")
+			FileUtil.getFile("haxademic/shaders/vertex/fattener-frag.glsl"), 
+			FileUtil.getFile("haxademic/shaders/vertex/fattener-vert.glsl")
 		);
 		
 		// Set UV coords & set texture on obj.
@@ -64,7 +64,7 @@ extends PAppletHax {
 
 		// clear background
 		background(0);
-		feedbackShader = loadShader(FileUtil.getFile("shaders/filters/feedback-radial-fattener-render.glsl"));
+		feedbackShader = loadShader(FileUtil.getFile("haxademic/shaders/filters/feedback-radial-fattener-render.glsl"));
 	}
 
 	public void drawApp() {

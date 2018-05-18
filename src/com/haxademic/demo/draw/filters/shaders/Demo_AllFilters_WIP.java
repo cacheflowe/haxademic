@@ -34,7 +34,7 @@ extends PAppletHax { public static void main(String args[]) { PAppletHax.main(Th
 	public void setupFirstFrame() {
 		texture = new TextureShader(TextureShader.bw_clouds);
 		
-//		customShader = p.loadShader(FileUtil.getFile("shaders/filters/godrays.glsl"));
+//		customShader = p.loadShader(FileUtil.getFile("haxademic/shaders/filters/godrays.glsl"));
 	}
 	
 	protected float mouseXPercent() {

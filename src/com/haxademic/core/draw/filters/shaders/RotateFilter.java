@@ -1,5 +1,7 @@
 package com.haxademic.core.draw.filters.shaders;
 
+import com.haxademic.core.draw.filters.shaders.shared.BaseFilter;
+
 import processing.core.PApplet;
 
 public class RotateFilter
@@ -8,7 +10,7 @@ extends BaseFilter {
 	public static RotateFilter instance;
 	
 	public RotateFilter(PApplet p) {
-		super(p, "shaders/filters/rotate.glsl");
+		super(p, "haxademic/shaders/filters/rotate.glsl");
 		setRotation(0);
 		setAspect(1f, 1f);
 		setZoom(1f);

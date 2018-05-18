@@ -88,8 +88,8 @@ extends PAppletHax {
 		
 		// load shader
 		fattenerVertShader = p.loadShader(
-			FileUtil.getFile("shaders/vertex/joy-displacer-frag.glsl"), 
-			FileUtil.getFile("shaders/vertex/joy-displacer-vert.glsl")
+			FileUtil.getFile("haxademic/shaders/vertex/joy-displacer-frag.glsl"), 
+			FileUtil.getFile("haxademic/shaders/vertex/joy-displacer-vert.glsl")
 		);
 	}
 	

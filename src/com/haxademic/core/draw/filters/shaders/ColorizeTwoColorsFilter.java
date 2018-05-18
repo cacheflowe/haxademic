@@ -1,5 +1,7 @@
 package com.haxademic.core.draw.filters.shaders;
 
+import com.haxademic.core.draw.filters.shaders.shared.BaseFilter;
+
 import processing.core.PApplet;
 
 public class ColorizeTwoColorsFilter
@@ -8,7 +10,7 @@ extends BaseFilter {
 	public static ColorizeTwoColorsFilter instance;
 	
 	public ColorizeTwoColorsFilter(PApplet p) {
-		super(p, "shaders/filters/colorize-two-colors.glsl");
+		super(p, "haxademic/shaders/filters/colorize-two-colors.glsl");
 		setColor1(1f, 1f, 1f);
 		setColor2(0f, 0f, 0f);
 		setCrossfade(true);

@@ -1,5 +1,7 @@
 package com.haxademic.core.draw.filters.shaders;
 
+import com.haxademic.core.draw.filters.shaders.shared.BaseFilter;
+
 import processing.core.PApplet;
 
 public class GodRays
@@ -8,7 +10,7 @@ extends BaseFilter {
 	public static GodRays instance;
 	
 	public GodRays(PApplet p) {
-		super(p, "shaders/filters/godrays.glsl");
+		super(p, "haxademic/shaders/filters/godrays.glsl");
 		setDecay(0.97f);
 		setDensity(0.5f);
 		setWeight(0.1f);

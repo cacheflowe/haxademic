@@ -35,8 +35,8 @@ extends PAppletHax {
 	}
 
 	public void setupFirstFrame() {
-		shaderPattern = p.loadShader(FileUtil.getFile("shaders/textures/cacheflowe-scrolling-dashed-lines.glsl"));
-		shaderPattern2 = p.loadShader(FileUtil.getFile("shaders/textures/cacheflowe-op-wavy-rotate.glsl"));
+		shaderPattern = p.loadShader(FileUtil.getFile("haxademic/shaders/textures/cacheflowe-scrolling-dashed-lines.glsl"));
+		shaderPattern2 = p.loadShader(FileUtil.getFile("haxademic/shaders/textures/cacheflowe-op-wavy-rotate.glsl"));
 		overlayImage = DemoAssets.particle();
 		buildCanvas();
 	}

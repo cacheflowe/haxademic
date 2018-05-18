@@ -31,7 +31,7 @@ public class TextureShader {
 
 	public static PShader loadShader(String shaderPath) {
 		shaderPath = shaderPath.replaceAll("_", "-");
-		return P.p.loadShader(FileUtil.getFile("shaders/textures/" + shaderPath));
+		return P.p.loadShader(FileUtil.getFile("haxademic/shaders/textures/" + shaderPath));
 	}
 
 	public void setTimeMult(float mult) {

@@ -35,18 +35,18 @@ extends BaseTexture {
 	
 	protected void loadShaders( String textureShader ) {
 		_shaderFile = textureShader;
-		_patternShader = _texture.loadShader( FileUtil.getHaxademicDataPath()+"shaders/textures/" + textureShader ); 
+		_patternShader = _texture.loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/textures/" + textureShader ); 
 		_patternShader.set("time", _timeSpeed.value() );
 		_patternShader.set("mode", _mode);
 
-		_vignette = _texture.loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/vignette.glsl" );
+		_vignette = _texture.loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/vignette.glsl" );
 		_vignette.set("darkness", 0.7f);
 		_vignette.set("spread", 0.15f);
 
-		_brightness = _texture.loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/brightness.glsl" );
+		_brightness = _texture.loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/brightness.glsl" );
 		_brightness.set("brightness", _brightEaser.value() );
 
-		_saturation = _texture.loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/saturation.glsl" );
+		_saturation = _texture.loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/saturation.glsl" );
 		_saturation.set("saturation", 0.25f );
 	}
 

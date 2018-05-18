@@ -40,7 +40,7 @@ extends PAppletHax {
 		
 		// buffer
 		buffer = p.createGraphics(p.width, p.height, PRenderers.P3D);
-		feedbackShader = p.loadShader(FileUtil.getFile("shaders/filters/feedback-radial.glsl"));
+		feedbackShader = p.loadShader(FileUtil.getFile("haxademic/shaders/filters/feedback-radial.glsl"));
 	}
 
 	public void keyPressed() {

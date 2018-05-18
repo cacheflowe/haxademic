@@ -38,15 +38,15 @@ implements IVizElement  {
 	}
 	
 	protected void loadShaders() {
-		_patternShader = p.loadShader( FileUtil.getHaxademicDataPath()+"shaders/textures/bw-eye-jacker-01.glsl" ); 
+		_patternShader = p.loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/textures/bw-eye-jacker-01.glsl" ); 
 		_patternShader.set("time", _timeEaser.value() );
 		_patternShader.set("mode", _mode);
 
-		_vignette = p.loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/vignette.glsl" );
+		_vignette = p.loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/vignette.glsl" );
 		_vignette.set("darkness", 0.7f);
 		_vignette.set("spread", 0.15f);
 
-		_brightness = p.loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/brightness.glsl" );
+		_brightness = p.loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/brightness.glsl" );
 		_brightness.set("brightness", _brightEaser.value() );
 	}
 

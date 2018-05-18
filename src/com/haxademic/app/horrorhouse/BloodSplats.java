@@ -119,22 +119,22 @@ extends PAppletHax {
 		_lightningIndex = 0;
 		buildPhysicalLighting();
 		
-		_invert = loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/invert.glsl" ); 
+		_invert = loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/invert.glsl" ); 
 
-		_badtv = loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/badtv.glsl" ); 
+		_badtv = loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/badtv.glsl" ); 
 		_badtv.set("time", p.frameCount * 0.1f);
 		_badtv.set("grayscale", 0);
 		_badtv.set("nIntensity", 0.75f);
 		_badtv.set("sIntensity", 0.55f);
 		_badtv.set("sCount", 4096.0f);
 
-		_vignette = loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/vignette.glsl" );
+		_vignette = loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/vignette.glsl" );
 		_vignette.set("darkness", 0.85f);
 		_vignette.set("spread", 0.15f);
 		
-		_blurH = loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/blur-horizontal.glsl" ); 
+		_blurH = loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/blur-horizontal.glsl" ); 
 		_blurH.set( "h", 1f/p.width );
-		_blurV = loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/blur-vertical.glsl" ); 
+		_blurV = loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/blur-vertical.glsl" ); 
 		_blurV.set( "v", 1f/p.height );
 
 		_pg = p.createGraphics(width, height, P.P3D);

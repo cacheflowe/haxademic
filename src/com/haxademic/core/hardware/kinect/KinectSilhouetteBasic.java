@@ -110,9 +110,9 @@ public class KinectSilhouetteBasic {
 	}
 	
 	protected void initBlobDetection() {
-		_blurV = P.p.loadShader(FileUtil.getFile("shaders/filters/blur-vertical.glsl"));
+		_blurV = P.p.loadShader(FileUtil.getFile("haxademic/shaders/filters/blur-vertical.glsl"));
 		_blurV.set( "v", 3f/_canvasH );
-		_blurH = P.p.loadShader(FileUtil.getFile("shaders/filters/blur-horizontal.glsl"));
+		_blurH = P.p.loadShader(FileUtil.getFile("haxademic/shaders/filters/blur-horizontal.glsl"));
 		_blurH.set( "h", 3f/_canvasW );
 
 		theBlobDetection = new BlobDetection( _kinectPixelated.width, _kinectPixelated.height );

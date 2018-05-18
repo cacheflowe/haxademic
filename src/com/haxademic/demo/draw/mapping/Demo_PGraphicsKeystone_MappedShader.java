@@ -44,7 +44,7 @@ extends PAppletHax {
 		pgKeystone = new PGraphicsKeystone(p, buffer, 12, FileUtil.getFile("text/keystoning/keystone-mapped-shader.txt") );
 		
 		// load a shader
-		textureShader = p.loadShader(FileUtil.getFile("shaders/textures/cacheflowe-down-void.glsl"));
+		textureShader = p.loadShader(FileUtil.getFile("haxademic/shaders/textures/cacheflowe-down-void.glsl"));
 	}
 	
 	public void drawApp() {

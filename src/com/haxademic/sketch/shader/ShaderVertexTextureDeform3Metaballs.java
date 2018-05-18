@@ -58,13 +58,13 @@ extends PAppletHax {
 		
 		metaballs = new Metaballs();
 		
-//		textureShader = P.p.loadShader( FileUtil.getFile("shaders/textures/bw-clouds.glsl")); 
+//		textureShader = P.p.loadShader( FileUtil.getFile("haxademic/shaders/textures/bw-clouds.glsl")); 
 //		textureShader.set("time", 0 );
 
 		mesh = Shapes.createSheet(600, texture);
 		displacementShader = loadShader(
-			FileUtil.getFile("shaders/vertex/brightness-displace-frag-texture.glsl"), 
-			FileUtil.getFile("shaders/vertex/brightness-displace-sheet-vert.glsl")
+			FileUtil.getFile("haxademic/shaders/vertex/brightness-displace-frag-texture.glsl"), 
+			FileUtil.getFile("haxademic/shaders/vertex/brightness-displace-sheet-vert.glsl")
 		);
 		displacementShader.set("displacementMap", texture);
 		displacementShader.set("displaceStrength", displaceAmp);

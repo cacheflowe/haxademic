@@ -1,5 +1,7 @@
 package com.haxademic.core.draw.filters.shaders;
 
+import com.haxademic.core.draw.filters.shaders.shared.BaseFilter;
+
 import processing.core.PApplet;
 
 public class ColorizeFilter
@@ -8,7 +10,7 @@ extends BaseFilter {
 	public static ColorizeFilter instance;
 	
 	public ColorizeFilter(PApplet p) {
-		super(p, "shaders/filters/colorize.glsl");
+		super(p, "haxademic/shaders/filters/colorize.glsl");
 		setTargetR(1f);
 		setTargetG(1f);
 		setTargetB(1f);

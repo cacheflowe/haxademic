@@ -1,5 +1,7 @@
 package com.haxademic.core.draw.filters.shaders;
 
+import com.haxademic.core.draw.filters.shaders.shared.BaseFilter;
+
 import processing.core.PApplet;
 
 public class SharpenFilter
@@ -8,7 +10,7 @@ extends BaseFilter {
 	public static SharpenFilter instance;
 	
 	public SharpenFilter(PApplet p) {
-		super(p, "shaders/filters/sharpen.glsl");
+		super(p, "haxademic/shaders/filters/sharpen.glsl");
 		setSharpness(1f);
 	}
 	

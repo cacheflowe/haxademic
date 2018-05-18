@@ -247,35 +247,35 @@ extends PAppletHax {
 
 
 	protected void buildPostProcessingChain() {
-		_blurH = p.loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/blur-horizontal.glsl" );
+		_blurH = p.loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/blur-horizontal.glsl" );
 		_blurH.set("h", 1.0f );
-		_blurV = p.loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/blur-vertical.glsl" );
+		_blurV = p.loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/blur-vertical.glsl" );
 		_blurV.set("v", 1.0f );
 
-		invert = loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/invert.glsl" );
+		invert = loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/invert.glsl" );
 
-		kaleido = loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/kaleido.glsl" );
+		kaleido = loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/kaleido.glsl" );
 		kaleido.set("sides", 2.0f);
 		kaleido.set("angle", 0.0f);
 
-		edge = loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/edges.glsl" );
+		edge = loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/edges.glsl" );
 
-		dotScreen = loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/halftone.glsl" );
+		dotScreen = loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/halftone.glsl" );
 		dotScreen.set("tSize", 256f, 256f);
 		dotScreen.set("center", 0.5f, 0.5f);
 		dotScreen.set("angle", 1.57f);
 		dotScreen.set("scale", 1f);
 
-		mirror = loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/mirror.glsl" );
+		mirror = loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/mirror.glsl" );
 
-		pixelate = loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/pixelate.glsl" );
+		pixelate = loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/pixelate.glsl" );
 		pixelate.set("divider", p.width/20f, p.height/20f);
 
-		contrast = loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/contrast.glsl" );
+		contrast = loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/contrast.glsl" );
 		contrast.set("contrast", 2f);
 
-		displacementShader = loadShader(FileUtil.getFile("shaders/filters/displacement-map.glsl"));
-		maskShader = loadShader(FileUtil.getFile("shaders/filters/three-texture-opposite-mask.glsl"));
+		displacementShader = loadShader(FileUtil.getFile("haxademic/shaders/filters/displacement-map.glsl"));
+		maskShader = loadShader(FileUtil.getFile("haxademic/shaders/filters/three-texture-opposite-mask.glsl"));
 		
 		p.midiState.controllerChange(midiInChannel, vignetteKnob, (int) 40);
 	}

@@ -64,10 +64,10 @@ implements IWebCamCallback {
 			p.debugView.setTexture(feedbackSeedBuffer);
 			
 			// frame diff buffer/shader
-			differenceShader = P.p.loadShader(FileUtil.getFile("shaders/filters/texture-difference-threshold.glsl"));
+			differenceShader = P.p.loadShader(FileUtil.getFile("haxademic/shaders/filters/texture-difference-threshold.glsl"));
 			
 			// feedback shader & map
-			feedbackShader = loadShader(FileUtil.getFile("shaders/filters/feedback-map.glsl"));
+			feedbackShader = loadShader(FileUtil.getFile("haxademic/shaders/filters/feedback-map.glsl"));
 			textureShader = new TextureShader(TextureShader.noise_simplex_2d_iq, 0.0015f);
 			feedbackMap = P.p.createGraphics(flippedCamera.width, flippedCamera.height, PRenderers.P2D);
 			p.debugView.setTexture(feedbackMap);

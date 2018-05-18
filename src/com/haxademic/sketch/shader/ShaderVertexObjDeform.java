@@ -64,15 +64,15 @@ extends PAppletHax {
 			
 			// load shader
 			texShader = loadShader(
-					FileUtil.getFile("shaders/vertex/brightness-displace-frag-texture.glsl"), 
-					FileUtil.getFile("shaders/vertex/brightness-displace-sphere-vert.glsl")
+					FileUtil.getFile("haxademic/shaders/vertex/brightness-displace-frag-texture.glsl"), 
+					FileUtil.getFile("haxademic/shaders/vertex/brightness-displace-sphere-vert.glsl")
 					);
 		} else {
 			obj = Shapes.createSheet(10, displacementMap);			
 			// load shader
 			texShader = loadShader(
-					FileUtil.getFile("shaders/vertex/brightness-displace-frag-texture.glsl"), 
-					FileUtil.getFile("shaders/vertex/brightness-displace-sheet-vert.glsl")
+					FileUtil.getFile("haxademic/shaders/vertex/brightness-displace-frag-texture.glsl"), 
+					FileUtil.getFile("haxademic/shaders/vertex/brightness-displace-sheet-vert.glsl")
 					);
 		}
 		

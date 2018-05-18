@@ -46,11 +46,9 @@ extends PAppletHax {
 		pg.endDraw();
 		
 		// apply blur
-		float mousePercent = (float) p.mouseX / (float) p.width;
-		p.debugView.setValue("Blur percent", mousePercent);
-		BlurHFilter.instance(p).setBlurByPercent(mousePercent, img.width);
+		BlurHFilter.instance(p).setBlurByPercent(p.mousePercentX() * 2f, img.width);
 		BlurHFilter.instance(p).applyTo(pg);
-		BlurVFilter.instance(p).setBlurByPercent(mousePercent, img.height);
+		BlurVFilter.instance(p).setBlurByPercent(p.mousePercentY() * 2f, img.height);
 		BlurVFilter.instance(p).applyTo(pg);
 		
 		// draw result to screen

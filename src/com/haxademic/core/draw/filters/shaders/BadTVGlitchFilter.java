@@ -1,5 +1,7 @@
 package com.haxademic.core.draw.filters.shaders;
 
+import com.haxademic.core.draw.filters.shaders.shared.BaseFilter;
+
 import processing.core.PApplet;
 
 public class BadTVGlitchFilter
@@ -8,7 +10,7 @@ extends BaseFilter {
 	public static BadTVGlitchFilter instance;
 	
 	public BadTVGlitchFilter(PApplet p) {
-		super(p, "shaders/filters/badtv2.glsl");
+		super(p, "haxademic/shaders/filters/badtv2.glsl");
 //		setGrayscale(0);
 //		setIntensityN(0.55f);
 //		setIntensityS(0.45f);

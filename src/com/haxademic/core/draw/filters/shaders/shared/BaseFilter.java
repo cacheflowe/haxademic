@@ -1,4 +1,4 @@
-package com.haxademic.core.draw.filters.shaders;
+package com.haxademic.core.draw.filters.shaders.shared;
 
 import com.haxademic.core.file.FileUtil;
 

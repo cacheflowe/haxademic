@@ -1,5 +1,7 @@
 package com.haxademic.core.draw.filters.shaders;
 
+import com.haxademic.core.draw.filters.shaders.shared.BaseFilter;
+
 import processing.core.PApplet;
 
 public class PixelateFilter
@@ -8,7 +10,7 @@ extends BaseFilter {
 	public static PixelateFilter instance;
 	
 	public PixelateFilter(PApplet p) {
-		super(p, "shaders/filters/pixelate.glsl");
+		super(p, "haxademic/shaders/filters/pixelate.glsl");
 		setDivider(20f, p.width, p.height);
 	}
 	

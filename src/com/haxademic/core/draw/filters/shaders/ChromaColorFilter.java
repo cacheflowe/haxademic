@@ -1,5 +1,7 @@
 package com.haxademic.core.draw.filters.shaders;
 
+import com.haxademic.core.draw.filters.shaders.shared.BaseFilter;
+
 import processing.core.PApplet;
 
 public class ChromaColorFilter
@@ -8,7 +10,7 @@ extends BaseFilter {
 	public static ChromaColorFilter instance;
 	
 	public ChromaColorFilter(PApplet p) {
-		super(p, "shaders/filters/chroma-color.glsl");
+		super(p, "haxademic/shaders/filters/chroma-color.glsl");
 		setThresholdSensitivity(0.1f);
 		setSmoothing(0.7f);
 		setColorToReplace(0, 0, 0);

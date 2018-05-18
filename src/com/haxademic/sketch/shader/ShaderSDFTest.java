@@ -39,7 +39,7 @@ extends PAppletHax {
 		_bg = p.createGraphics(p.width, p.height, P.P2D);
 		_bg.smooth( OpenGLUtil.SMOOTH_HIGH );
 				
-		sdfShader = loadShader( FileUtil.getFile("shaders/textures/sdf-01.glsl") ); 
+		sdfShader = loadShader( FileUtil.getFile("haxademic/shaders/textures/sdf-01.glsl") ); 
 	}
 
 	public void drawApp() {

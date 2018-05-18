@@ -52,8 +52,8 @@ public class BufferMotionDetectionMap {
 		OpenGLUtil.setTextureQualityLow(differenceBuffer);
 		OpenGLUtil.setTextureQualityLow(bwBuffer);
 		
-		blendTowardsShader = P.p.loadShader(FileUtil.getFile("shaders/filters/texture-blend-towards-texture.glsl"));
-		differenceShader = P.p.loadShader(FileUtil.getFile("shaders/filters/texture-difference-threshold.glsl"));
+		blendTowardsShader = P.p.loadShader(FileUtil.getFile("haxademic/shaders/filters/texture-blend-towards-texture.glsl"));
+		differenceShader = P.p.loadShader(FileUtil.getFile("haxademic/shaders/filters/texture-difference-threshold.glsl"));
 	}
 	
 	public PGraphics newFrameBuffer() { return newFrameBuffer; }

@@ -1,5 +1,7 @@
 package com.haxademic.core.draw.filters.shaders;
 
+import com.haxademic.core.draw.filters.shaders.shared.BaseFilter;
+
 import processing.core.PApplet;
 
 public class ThresholdFilter
@@ -8,7 +10,7 @@ extends BaseFilter {
 	public static ThresholdFilter instance;
 	
 	public ThresholdFilter(PApplet p) {
-		super(p, "shaders/filters/threshold.glsl");
+		super(p, "haxademic/shaders/filters/threshold.glsl");
 		setCutoff(0.5f);
 	}
 	

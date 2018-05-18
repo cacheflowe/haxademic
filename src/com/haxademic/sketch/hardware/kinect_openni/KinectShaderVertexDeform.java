@@ -66,8 +66,8 @@ extends PAppletHax {
 		
 		// load shader
 		texShader = loadShader(
-				FileUtil.getFile("shaders/vertex/kinect-displace-frag-texture.glsl"), 
-				FileUtil.getFile("shaders/vertex/kinect-displace-sheet-vert.glsl")
+				FileUtil.getFile("haxademic/shaders/vertex/kinect-displace-frag-texture.glsl"), 
+				FileUtil.getFile("haxademic/shaders/vertex/kinect-displace-sheet-vert.glsl")
 				);
 		
 		texShader.set("displacementMap", p.kinectWrapper.getDepthImage());

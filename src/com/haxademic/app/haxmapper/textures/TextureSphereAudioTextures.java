@@ -76,8 +76,8 @@ extends BaseTexture {
 //		PShapeUtil.addUVsToPShape(shapeTessellated, extent);
 		
 		texShader = P.p.loadShader(
-				FileUtil.getFile("shaders/vertex/brightness-displace-frag-texture.glsl"), 
-				FileUtil.getFile("shaders/vertex/brightness-displace-sphere-vert.glsl")
+				FileUtil.getFile("haxademic/shaders/vertex/brightness-displace-frag-texture.glsl"), 
+				FileUtil.getFile("haxademic/shaders/vertex/brightness-displace-sphere-vert.glsl")
 				);
 		texShader.set("displacementMap", _texture);
 

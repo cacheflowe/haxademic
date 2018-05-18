@@ -1,5 +1,7 @@
 package com.haxademic.core.draw.filters.shaders;
 
+import com.haxademic.core.draw.filters.shaders.shared.BaseFilter;
+
 import processing.core.PApplet;
 
 public class RadialRipplesFilter
@@ -8,7 +10,7 @@ extends BaseFilter {
 	public static RadialRipplesFilter instance;
 	
 	public RadialRipplesFilter(PApplet p) {
-		super(p, "shaders/filters/radial-ripples.glsl");
+		super(p, "haxademic/shaders/filters/radial-ripples.glsl");
 		setAmplitude(1f);
 	}
 	

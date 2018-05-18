@@ -31,7 +31,7 @@ extends PAppletHax {
 	protected void setupFirstFrame() {
 		// create noise buffer
 		gradientBuffer = p.createGraphics(p.width, p.height, PRenderers.P3D);
-		gradientShader = p.loadShader("shaders/textures/cacheflowe-three-color-repeating-gradient.glsl");
+		gradientShader = p.loadShader("haxademic/shaders/textures/cacheflowe-three-color-repeating-gradient.glsl");
 		buildColors();
 	}
 

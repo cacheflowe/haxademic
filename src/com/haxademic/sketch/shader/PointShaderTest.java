@@ -58,8 +58,8 @@ extends PAppletHax {
 //		((PGraphics)g).textureWrap(Texture.REPEAT);
 
 		pointShader = p.loadShader(
-				FileUtil.getFile("shaders/point/default-point-frag.glsl"), 
-				FileUtil.getFile("shaders/point/default-point-vert.glsl")
+				FileUtil.getFile("haxademic/shaders/point/default-point-frag.glsl"), 
+				FileUtil.getFile("haxademic/shaders/point/default-point-vert.glsl")
 		);
 		pointShader.set("textureInput", perlinTexture.texture());
 

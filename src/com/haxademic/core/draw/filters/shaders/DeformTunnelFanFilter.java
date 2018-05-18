@@ -1,5 +1,7 @@
 package com.haxademic.core.draw.filters.shaders;
 
+import com.haxademic.core.draw.filters.shaders.shared.BaseFilter;
+
 import processing.core.PApplet;
 
 public class DeformTunnelFanFilter
@@ -8,7 +10,7 @@ extends BaseFilter {
 	public static DeformTunnelFanFilter instance;
 	
 	public DeformTunnelFanFilter(PApplet p) {
-		super(p, "shaders/filters/deform-tunnel-fan.glsl");
+		super(p, "haxademic/shaders/filters/deform-tunnel-fan.glsl");
 	}
 	
 	public static DeformTunnelFanFilter instance(PApplet p) {

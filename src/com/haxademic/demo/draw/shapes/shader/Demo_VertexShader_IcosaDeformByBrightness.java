@@ -39,8 +39,8 @@ extends PAppletHax {
 		
 		// sphere deformation shader. uses the sphere's texture as the displacement map
 		texShader = loadShader(
-			FileUtil.getFile("shaders/vertex/brightness-displace-frag-texture.glsl"), 
-			FileUtil.getFile("shaders/vertex/brightness-displace-sphere-vert.glsl")
+			FileUtil.getFile("haxademic/shaders/vertex/brightness-displace-frag-texture.glsl"), 
+			FileUtil.getFile("haxademic/shaders/vertex/brightness-displace-sphere-vert.glsl")
 		);
 		texShader.set("displacementMap", texture);
 		texShader.set("displaceStrength", 0.3f);

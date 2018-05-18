@@ -64,7 +64,7 @@ extends PAppletHax {
 		int w = 680;
 		int h = 680;
 		
-//		blur = loadShader( FileUtil.getHaxademicDataPath()+"shaders/blur.glsl" ); 
+//		blur = loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/blur.glsl" ); 
 		
 		switch( inputType ) {
 			case VIDEO :

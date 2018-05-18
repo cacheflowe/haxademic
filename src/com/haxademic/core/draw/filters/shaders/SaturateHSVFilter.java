@@ -1,5 +1,7 @@
 package com.haxademic.core.draw.filters.shaders;
 
+import com.haxademic.core.draw.filters.shaders.shared.BaseFilter;
+
 import processing.core.PApplet;
 
 public class SaturateHSVFilter
@@ -8,7 +10,7 @@ extends BaseFilter {
 	public static SaturateHSVFilter instance;
 	
 	public SaturateHSVFilter(PApplet p) {
-		super(p, "shaders/filters/saturate-hsv.glsl");
+		super(p, "haxademic/shaders/filters/saturate-hsv.glsl");
 		setSaturation(0.5f);
 	}
 	

@@ -1,5 +1,7 @@
 package com.haxademic.core.draw.filters.shaders;
 
+import com.haxademic.core.draw.filters.shaders.shared.BaseFilter;
+
 import processing.core.PApplet;
 
 public class LeaveWhiteFilter
@@ -8,7 +10,7 @@ extends BaseFilter {
 	public static LeaveWhiteFilter instance;
 	
 	public LeaveWhiteFilter(PApplet p) {
-		super(p, "shaders/filters/leave-white.glsl");
+		super(p, "haxademic/shaders/filters/leave-white.glsl");
 		setMix(1f);
 	}
 	

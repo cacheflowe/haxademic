@@ -1,6 +1,7 @@
 package com.haxademic.core.draw.filters.shaders;
 
 import com.haxademic.core.app.P;
+import com.haxademic.core.draw.filters.shaders.shared.BaseFilter;
 import com.haxademic.core.draw.image.ImageUtil;
 
 import processing.core.PApplet;
@@ -12,7 +13,7 @@ extends BaseFilter {
 	public static GlowFilter instance;
 	
 	public GlowFilter(PApplet p) {
-		super(p, "shaders/filters/glow.glsl");
+		super(p, "haxademic/shaders/filters/glow.glsl");
 		setSize(20f);
 		setRadialSamples(64f);
 		setSampleStep(1f);

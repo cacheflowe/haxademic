@@ -1,5 +1,7 @@
 package com.haxademic.core.draw.filters.shaders;
 
+import com.haxademic.core.draw.filters.shaders.shared.BaseFilter;
+
 import processing.core.PApplet;
 
 public class HalftoneFilter
@@ -8,7 +10,7 @@ extends BaseFilter {
 	public static HalftoneFilter instance;
 	
 	public HalftoneFilter(PApplet p) {
-		super(p, "shaders/filters/halftone.glsl");
+		super(p, "haxademic/shaders/filters/halftone.glsl");
 		setAngle(1.57f);
 		setScale(1f);
 		setCenter(0.5f, 0.5f);

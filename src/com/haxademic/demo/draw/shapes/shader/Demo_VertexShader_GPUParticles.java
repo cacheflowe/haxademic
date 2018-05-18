@@ -70,15 +70,15 @@ extends PAppletHax {
 		colorBuffer.smooth(8);
 		
 		// build displacement maps
-//		directionGenerator = p.loadShader(FileUtil.getFile("shaders/textures/cacheflowe-liquid-moire.glsl"));
-//		directionGenerator = p.loadShader(FileUtil.getFile("shaders/textures/iq-voronoise.glsl"));
-//		directionGenerator = p.loadShader(FileUtil.getFile("shaders/textures/square-fade.glsl"));
-		directionGenerator = p.loadShader(FileUtil.getFile("shaders/textures/noise-simplex-2d-iq.glsl"));
-		ampGenerator = p.loadShader(FileUtil.getFile("shaders/textures/noise-simplex-2d-iq.glsl"));
-		colorMapShader = p.loadShader(FileUtil.getFile("shaders/textures/light-leak.glsl"));
+//		directionGenerator = p.loadShader(FileUtil.getFile("haxademic/shaders/textures/cacheflowe-liquid-moire.glsl"));
+//		directionGenerator = p.loadShader(FileUtil.getFile("haxademic/shaders/textures/iq-voronoise.glsl"));
+//		directionGenerator = p.loadShader(FileUtil.getFile("haxademic/shaders/textures/square-fade.glsl"));
+		directionGenerator = p.loadShader(FileUtil.getFile("haxademic/shaders/textures/noise-simplex-2d-iq.glsl"));
+		ampGenerator = p.loadShader(FileUtil.getFile("haxademic/shaders/textures/noise-simplex-2d-iq.glsl"));
+		colorMapShader = p.loadShader(FileUtil.getFile("haxademic/shaders/textures/light-leak.glsl"));
 
 		// build particle mover shader - uses displacement map to move particles
-		positionMover = p.loadShader(FileUtil.getFile("shaders/point/particle-mover-frag.glsl"));
+		positionMover = p.loadShader(FileUtil.getFile("haxademic/shaders/point/particle-mover-frag.glsl"));
 		resetParticlePositions();
 		
 		// count vertices for debugView
@@ -102,8 +102,8 @@ extends PAppletHax {
 		
 		// load shader
 		pointsParticleVertices = loadShader(
-			FileUtil.getFile("shaders/point/point-frag.glsl"), 
-			FileUtil.getFile("shaders/point/particle-vert.glsl")
+			FileUtil.getFile("haxademic/shaders/point/point-frag.glsl"), 
+			FileUtil.getFile("haxademic/shaders/point/particle-vert.glsl")
 		);
 	}
 

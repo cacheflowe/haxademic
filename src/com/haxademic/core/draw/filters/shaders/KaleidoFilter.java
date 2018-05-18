@@ -1,5 +1,7 @@
 package com.haxademic.core.draw.filters.shaders;
 
+import com.haxademic.core.draw.filters.shaders.shared.BaseFilter;
+
 import processing.core.PApplet;
 
 public class KaleidoFilter
@@ -8,7 +10,7 @@ extends BaseFilter {
 	public static KaleidoFilter instance;
 	
 	public KaleidoFilter(PApplet p) {
-		super(p, "shaders/filters/kaleido.glsl");
+		super(p, "haxademic/shaders/filters/kaleido.glsl");
 		setSides(6f);
 		setAngle(0);
 	}

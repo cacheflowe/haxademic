@@ -1,5 +1,7 @@
 package com.haxademic.core.draw.filters.shaders;
 
+import com.haxademic.core.draw.filters.shaders.shared.BaseFilter;
+
 import processing.core.PApplet;
 
 public class ColorDistortionFilter
@@ -8,7 +10,7 @@ extends BaseFilter {
 	public static ColorDistortionFilter instance;
 	
 	public ColorDistortionFilter(PApplet p) {
-		super(p, "shaders/filters/color-distortion.glsl");
+		super(p, "haxademic/shaders/filters/color-distortion.glsl");
 		setAmplitude(1f);
 	}
 	

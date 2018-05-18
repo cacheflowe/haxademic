@@ -21,7 +21,7 @@ extends PAppletHax {
 
 	public void setup() {
 		super.setup();	
-		pointShader = loadShader(FileUtil.getFile("shaders/point/point-frag.glsl"), FileUtil.getFile("shaders/point/point-vert.glsl"));
+		pointShader = loadShader(FileUtil.getFile("haxademic/shaders/point/point-frag.glsl"), FileUtil.getFile("haxademic/shaders/point/point-vert.glsl"));
 		stroke(255);
 		strokeWeight(50);
 

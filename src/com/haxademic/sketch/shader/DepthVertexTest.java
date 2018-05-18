@@ -41,7 +41,7 @@ extends PAppletHax {
 		canvas.endDraw();
 		
 		backImage = loadImage("http" + "://upload.wikimedia.org/wikipedia/commons/thumb/5/59/Processing_Logo_Clipped.svg/256px-Processing_Logo_Clipped.svg.png");
-		depthShader = new PShader(this, FileUtil.getFile("shaders/vertex/depth-vert.glsl"), FileUtil.getFile("shaders/vertex/depth-frag.glsl"));
+		depthShader = new PShader(this, FileUtil.getFile("haxademic/shaders/vertex/depth-vert.glsl"), FileUtil.getFile("haxademic/shaders/vertex/depth-frag.glsl"));
 		canvas.shader(depthShader);
 		
 	}

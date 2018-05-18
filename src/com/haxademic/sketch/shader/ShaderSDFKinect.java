@@ -46,7 +46,7 @@ extends PAppletHax {
 				
 		_kinectGrid = new KinectRegionGrid(1, 1, 500, 2000, 0, 0, 480, 20, 10, false);
 
-		sdfShader = loadShader( FileUtil.getFile("shaders/textures/sdf-01.glsl") ); 
+		sdfShader = loadShader( FileUtil.getFile("haxademic/shaders/textures/sdf-01.glsl") ); 
 	}
 
 	public void drawApp() {

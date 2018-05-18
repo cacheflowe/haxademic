@@ -1,5 +1,7 @@
 package com.haxademic.core.draw.filters.shaders;
 
+import com.haxademic.core.draw.filters.shaders.shared.BaseFilter;
+
 import processing.core.PApplet;
 
 public class EdgeColorDarkenFilter
@@ -8,7 +10,7 @@ extends BaseFilter {
 	public static EdgeColorDarkenFilter instance;
 	
 	public EdgeColorDarkenFilter(PApplet p) {
-		super(p, "shaders/filters/edge-color-darken.glsl");
+		super(p, "haxademic/shaders/filters/edge-color-darken.glsl");
 		setSpreadX(0.05f);
 		setSpreadY(0.05f);
 	}

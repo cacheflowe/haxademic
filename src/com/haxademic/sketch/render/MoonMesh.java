@@ -42,8 +42,8 @@ extends PAppletHax {
 		texture = loadImage(FileUtil.getFile("images/luna.jpg"));
 		mesh = createSheet(170, texture);
 		texShader = loadShader(
-			FileUtil.getFile("shaders/vertex/brightness-displace-frag-texture.glsl"), 
-			FileUtil.getFile("shaders/vertex/brightness-displace-sheet-vert.glsl")
+			FileUtil.getFile("haxademic/shaders/vertex/brightness-displace-frag-texture.glsl"), 
+			FileUtil.getFile("haxademic/shaders/vertex/brightness-displace-sheet-vert.glsl")
 		);
 		texShader.set("displacementMap", texture);
 		texShader.set("displaceStrength", displaceAmp);

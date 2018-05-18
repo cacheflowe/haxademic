@@ -70,7 +70,7 @@ extends PAppletHax {
 		
 		audioTexture = new TextureEQGrid(128, 128);
 		
-		feedbackShader = loadShader(FileUtil.getFile("shaders/filters/feedback-map.glsl"));
+		feedbackShader = loadShader(FileUtil.getFile("haxademic/shaders/filters/feedback-map.glsl"));
 		
 //		WebCamWrapper.initWebCam(p, 3);
 		textureShader = new TextureShader(TextureShader.bw_voronoi);

@@ -54,7 +54,7 @@ extends PAppletHax {
 		
 		buildModel();
 		
-		bgShader = p.loadShader(FileUtil.getFile("shaders/textures/basic-diagonal-stripes.glsl"));
+		bgShader = p.loadShader(FileUtil.getFile("haxademic/shaders/textures/basic-diagonal-stripes.glsl"));
 		
 		points= new ArrayList<Point>();
 	}  

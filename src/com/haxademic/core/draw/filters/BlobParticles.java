@@ -41,7 +41,7 @@ public class BlobParticles {
 		_particles = new Vector<BlobParticle>();
 		_inactiveParticles = new Vector<BlobParticle>();
 		
-		_desaturate = p.loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/saturation.glsl" );
+		_desaturate = p.loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/saturation.glsl" );
 		_desaturate.set("saturation", 0.75f);
 
 	}

@@ -67,9 +67,9 @@ extends PAppletHax {
 		// video scrubber
 		_videoFrames = new VideoFrameGrabber(p, FileUtil.getHaxademicDataPath() + "video/patter/ultrasoft-selects-540.mp4", 30, 0);
 
-		_vignette = loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/vignette.glsl" );
-		_desaturate = loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/saturation.glsl" );
-		_resaturate = loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/saturation.glsl" );
+		_vignette = loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/vignette.glsl" );
+		_desaturate = loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/saturation.glsl" );
+		_resaturate = loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/saturation.glsl" );
 
 		_videoFrames.setFrameIndex(_startMovieFrame);
 
@@ -95,7 +95,7 @@ extends PAppletHax {
 		P.println(_startMovieFrame + _addMovieFrame);
 
 		// shaders
-		_chromaKeyFilter = loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/chroma-gpu.glsl" );
+		_chromaKeyFilter = loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/chroma-gpu.glsl" );
 		
 		_chromaKeyFilter.set("thresholdSensitivity", 0.65f);
 		_chromaKeyFilter.set("smoothing", 0.19f);
@@ -109,7 +109,7 @@ extends PAppletHax {
 		_chromaKeyFilter.set("smoothing", smoothing);
 		_chromaKeyFilter.set("colorToReplace", colorToReplaceR, colorToReplaceG, colorToReplaceB);
 		
-//		_vignette = loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/vignette.glsl" );
+//		_vignette = loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/vignette.glsl" );
 		_vignette.set("darkness", 0.4f);
 		_vignette.set("spread", 0.35f);
 

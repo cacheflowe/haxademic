@@ -1,6 +1,7 @@
 package com.haxademic.core.draw.filters.shaders;
 
 import com.haxademic.core.app.P;
+import com.haxademic.core.draw.filters.shaders.shared.BaseFilter;
 
 import processing.core.PApplet;
 
@@ -10,7 +11,7 @@ extends BaseFilter {
 	public static HueFilter instance;
 	
 	public HueFilter(PApplet p) {
-		super(p, "shaders/filters/hue.glsl");
+		super(p, "haxademic/shaders/filters/hue.glsl");
 		setHue(90f);
 	}
 	

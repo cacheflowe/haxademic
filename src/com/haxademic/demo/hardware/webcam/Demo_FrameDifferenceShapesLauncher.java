@@ -74,7 +74,7 @@ implements IWebCamCallback {
 			p.debugView.setTexture(differenceBuffer);
 			
 			// frame diff buffer/shader
-			differenceShader = P.p.loadShader(FileUtil.getFile("shaders/filters/texture-difference-threshold.glsl"));
+			differenceShader = P.p.loadShader(FileUtil.getFile("haxademic/shaders/filters/texture-difference-threshold.glsl"));
 
 			// shapes layer
 			shapesLayer = P.p.createGraphics(cameraW, cameraH, PRenderers.P3D);

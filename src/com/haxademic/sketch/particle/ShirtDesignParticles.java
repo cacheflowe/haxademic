@@ -32,7 +32,7 @@ extends PAppletHax {
 	public void setup() {
 		super.setup();
 		p.smooth(OpenGLUtil.SMOOTH_HIGH);
-		_fxaa = p.loadShader( FileUtil.getHaxademicDataPath() + "shaders/filters/fxaa.glsl" );
+		_fxaa = p.loadShader( FileUtil.getHaxademicDataPath() + "haxademic/shaders/filters/fxaa.glsl" );
 		reset();
 	}
 	

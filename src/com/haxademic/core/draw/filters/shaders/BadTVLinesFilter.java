@@ -1,5 +1,7 @@
 package com.haxademic.core.draw.filters.shaders;
 
+import com.haxademic.core.draw.filters.shaders.shared.BaseFilter;
+
 import processing.core.PApplet;
 
 public class BadTVLinesFilter
@@ -8,7 +10,7 @@ extends BaseFilter {
 	public static BadTVLinesFilter instance;
 	
 	public BadTVLinesFilter(PApplet p) {
-		super(p, "shaders/filters/badtv.glsl");
+		super(p, "haxademic/shaders/filters/badtv.glsl");
 		setGrayscale(0);
 		setIntensityN(0.55f);
 		setIntensityS(0.45f);

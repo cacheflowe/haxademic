@@ -43,7 +43,7 @@ extends PAppletHax {
 		_maskImage = createGraphics(p.width, p.height, P2D);
 		_maskImage.noSmooth();
 
-		_maskShader = loadShader(FileUtil.getFile("shaders/filters/mask.glsl"));
+		_maskShader = loadShader(FileUtil.getFile("haxademic/shaders/filters/mask.glsl"));
 		_maskShader.set("mask", _maskImage);
 
 

@@ -45,7 +45,7 @@ public class BaseTexture {
 		OpenGLUtil.setTextureRepeat(_texture);
 
 		// postprocessing - only create 1 shader for all instances
-		if(_chroma == null) _chroma = P.p.loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/chroma-color.glsl" );
+		if(_chroma == null) _chroma = P.p.loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/chroma-color.glsl" );
 		_chroma.set("thresholdSensitivity", 0.0f);
 		_chroma.set("smoothing", 0.5f);
 		_chroma.set("colorToReplace", 0.0f,0.0f,0.0f);
