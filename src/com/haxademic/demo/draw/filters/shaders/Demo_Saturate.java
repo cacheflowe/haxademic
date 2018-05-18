@@ -21,13 +21,13 @@ extends PAppletHax {
 		ImageUtil.drawImageCropFill(DemoAssets.squareTexture(), p.g, true);
 		
 		// apply saturation methods
-//		if(p.mousePercentY() > 0.5f) {
-//			SaturationFilter.instance(p).setSaturation(p.mousePercentY() * 3f);
-//			SaturationFilter.instance(p).applyTo(p.g);
-//		} else {
-//			SaturateHSVFilter.instance(p).setSaturation(p.mousePercentY() * 3f);
-//			SaturateHSVFilter.instance(p).applyTo(p.g);
-//		}
+		//		if(p.mousePercentY() > 0.5f) {
+		//			SaturationFilter.instance(p).setSaturation(p.mousePercentY() * 3f);
+		//			SaturationFilter.instance(p).applyTo(p.g);
+		//		} else {
+		//			SaturateHSVFilter.instance(p).setSaturation(p.mousePercentY() * 3f);
+		//			SaturateHSVFilter.instance(p).applyTo(p.g);
+		//		}
 		
 		// use old saturation for < 1, and HSV saturation for > 1
 		float saturate = p.mousePercentY() * 3f;
