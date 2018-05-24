@@ -35,11 +35,12 @@ void main() {
   vec4 textureColor = texture2D(texture, vertTexCoord.xy);
   vec3 hsv = rgb2hsv(textureColor.rgb);
   // mix with 1 being original, and remap to each side of the HSV 's' value (0-1+)
-  float originalSaturation = hsv.g;
+  // float originalSaturation = hsv.g;
   // float finalSaturation = (saturation < 0.5) ?
   //   mix(0., originalSaturation, saturation * 2.) :
   //   mix(originalSaturation, 1., -0.5 + saturation * 2.);
-  if(originalSaturation > 0.01) hsv.g *= saturation;
+  // if(originalSaturation > 0.01)
+    hsv.g *= saturation;
   // convert back to rgb & draw
   vec3 rgb = hsv2rgb(hsv);
   gl_FragColor = vec4(rgb.r, rgb.g, rgb.b, textureColor.a);
