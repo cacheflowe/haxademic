@@ -43,7 +43,7 @@ implements IWebCamCallback {
 	protected void overridePropsFile() {
 		p.appConfig.setProperty(AppSettings.WIDTH, 640 );
 		p.appConfig.setProperty(AppSettings.HEIGHT, 480 );
-		p.appConfig.setProperty(AppSettings.WEBCAM_INDEX, 3 ); // 18
+		p.appConfig.setProperty(AppSettings.WEBCAM_INDEX, 18 ); // 18
 		p.appConfig.setProperty(AppSettings.SHOW_DEBUG, true );
 	}
 		
@@ -52,7 +52,8 @@ implements IWebCamCallback {
 		p.webCamWrapper.setDelegate(this);
 		// build particles array
 		imageGradient = new ImageGradient(ImageGradient.PASTELS());
-		imageGradient = new ImageGradient(ImageGradient.randomCoolor());
+		imageGradient.addTexturesFromPath(ImageGradient.COOLORS_PATH);
+		imageGradient.randomGradientTexture();
 		shapes = new ArrayList<ShapeParticle>();
 		particleImages = new PImage[] {
 			DemoAssets.particle()
@@ -158,7 +159,7 @@ implements IWebCamCallback {
 	
 	public void keyPressed() {
 		super.keyPressed();
-		if(p.key == ' ') imageGradient = new ImageGradient(ImageGradient.randomCoolor());
+		if(p.key == ' ') imageGradient.randomGradientTexture();
 	}
 	
 	public class ShapeParticle {

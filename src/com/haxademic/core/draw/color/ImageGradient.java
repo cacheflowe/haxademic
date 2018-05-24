@@ -16,8 +16,13 @@ public class ImageGradient {
 	protected float gradientProgress;
 	protected int sampleX;
 	protected int sampleY;
+	public ArrayList<String> filenamesArray = null;
 
 	public ImageGradient(PImage texture) {
+		texture(texture);
+	}
+
+	public void texture(PImage texture) {
 		gradientImg = texture;
 		gradientImg.loadPixels();
 		sampleY = P.floor(gradientImg.height * 0.5f);
@@ -62,18 +67,24 @@ public class ImageGradient {
 		return SPARKS_FLAMES;
 	}
 	
-	public static ArrayList<String> coolors = null; 	
-	public static void getCoolorFilenames() {
-		String imagesPath = FileUtil.getFile("haxademic/images/palettes/coolors/");
-		coolors = FileUtil.getFilesInDirOfType(imagesPath, "png");
-		for (int i = 0; i < coolors.size(); i++) {
-			coolors.set(i, imagesPath + coolors.get(i)); 
+	// Palette collections /////////////////////////////////////////////////////////////////////////////////////////////////
+	
+	public static String COOLORS_PATH = "haxademic/images/palettes/coolors/";
+	
+	public void addTexturesFromPath(String path) {
+		// lazy-init array
+		if(filenamesArray == null) filenamesArray = new ArrayList<String>();
+		
+		String imagesPath = FileUtil.getFile(path);
+		filenamesArray = FileUtil.getFilesInDirOfType(imagesPath, "png");
+		for (int i = 0; i < filenamesArray.size(); i++) {
+			filenamesArray.set(i, imagesPath + filenamesArray.get(i)); 
 		}
 	}
 	
-	public static PImage randomCoolor() {
-		if(coolors == null) getCoolorFilenames();
-		return P.p.loadImage(coolors.get(MathUtil.randRange(0, coolors.size() - 1)));
+	public void randomGradientTexture() {
+		if(filenamesArray == null) return;
+		texture(P.p.loadImage(filenamesArray.get(MathUtil.randRange(0, filenamesArray.size() - 1))));
 	}
 
 }

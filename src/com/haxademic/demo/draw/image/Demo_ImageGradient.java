@@ -4,7 +4,6 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.draw.color.ImageGradient;
-import com.haxademic.core.file.FileUtil;
 
 public class Demo_ImageGradient
 extends PAppletHax {
@@ -23,12 +22,13 @@ extends PAppletHax {
 	public void setup() {
 		super.setup();
 		imageGradient = new ImageGradient(ImageGradient.PASTELS());
-		imageGradient = new ImageGradient(ImageGradient.randomCoolor());
+//		imageGradient.addTexturesFromPath(ImageGradient.COOLORS_PATH);
 	}
 
 	public void drawApp() {
 		float colorProgress = 0.5f + 0.5f * P.sin(p.frameCount * 0.01f);
 		p.background(imageGradient.getColorAtProgress(colorProgress));
+		if(p.frameCount % 100 == 1) imageGradient.randomGradientTexture();
 		
 		p.pushMatrix();
 		p.translate(p.width/2 - imageGradient.texture().width/2, p.height/2);
