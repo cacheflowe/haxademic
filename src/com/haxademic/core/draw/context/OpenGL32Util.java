@@ -9,6 +9,7 @@ import com.thomasdiewald.pixelflow.java.imageprocessing.filter.DwFilter;
 
 import processing.core.PConstants;
 import processing.opengl.PGraphics2D;
+import processing.opengl.PGraphicsOpenGL;
 
 public class OpenGL32Util {
 	
@@ -23,6 +24,12 @@ public class OpenGL32Util {
 	}
 	
 	public static DwGLTexture newTexture32(int w, int h) {
+		DwGLTexture texture32 = new DwGLTexture();
+	    texture32.resize(context(), GL.GL_RGBA32F, w, h, GL.GL_RGBA, GL.GL_FLOAT, GL.GL_LINEAR, 4, 4);
+		return texture32;
+	}
+	
+	public static DwGLTexture newTexture32Data(int w, int h) {
 		DwGLTexture texture32 = new DwGLTexture();
 	    texture32.resize(context(), GL.GL_RGBA32F, w, h, GL.GL_RGBA, GL.GL_FLOAT, GL.GL_NEAREST, 4, 4);
 		return texture32;
