@@ -1,4 +1,4 @@
-package com.haxademic.demo.draw.shaders.textures;
+package com.haxademic.demo.draw.filters.shaders.float32;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.context.OpenGL32Util;

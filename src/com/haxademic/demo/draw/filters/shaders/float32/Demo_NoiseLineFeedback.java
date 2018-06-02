@@ -1,4 +1,4 @@
-package com.haxademic.sketch.render;
+package com.haxademic.demo.draw.filters.shaders.float32;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
@@ -13,7 +13,7 @@ import com.thomasdiewald.pixelflow.java.dwgl.DwGLTexture;
 
 import processing.opengl.PGraphics2D;
 
-public class NoiseLineFeedback 
+public class Demo_NoiseLineFeedback 
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
@@ -43,6 +43,7 @@ extends PAppletHax {
 	    // create buffers for simplex noise
 	    textureNoise = OpenGL32Util.newTexture32(p.width, p.height);
 		noiseTexture = new TextureShader(TextureShader.noise_simplex_2d_iq);
+//		noiseTexture = new TextureShader(TextureShader.BWNoiseInfiniteZoom);
 	    noiseBuffer = (PGraphics2D) createGraphics(p.width, p.height, P2D);
 	}
 
@@ -65,7 +66,7 @@ extends PAppletHax {
 		float noiseSpeed = 0.01f;// + 0.001f * P.sin(p.loop.progressRads());
 		float noiseStart = p.frameCount * 0.01f;
 		for (int x = 0; x < p.width; x++) {
-			float audioAmp = 0.3f + 7f * p._audioInput.getFFT().spectrum[x % p._audioInput.getFFT().averages.length];
+			float audioAmp = 1f; // 0.3f + 7f * p._audioInput.getFFT().spectrum[x % p._audioInput.getFFT().averages.length];
 			buffer8.stroke(
 					audioAmp * (127 + 127 * P.sin((float)x * 0.002f + p.loop.progressRads())),
 					audioAmp * (127 + 127 * P.sin((float)x * 0.005f + p.loop.progressRads())),
