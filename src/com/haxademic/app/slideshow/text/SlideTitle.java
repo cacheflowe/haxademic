@@ -28,7 +28,7 @@ implements IAppStoreUpdatable {
 		p = (Slideshow) P.p;
 		height = p.height;
 		fontSize = height * 0.1f;
-		font = P.p.createFont( FileUtil.getFile("fonts/CenturyGothic.ttf"), fontSize );
+		font = P.p.createFont( FileUtil.getFile("fonts/_sketch/CenturyGothic.ttf"), fontSize );
 	}
 	
 	protected boolean isShowing() {

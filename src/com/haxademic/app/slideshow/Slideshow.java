@@ -3,6 +3,7 @@ package com.haxademic.app.slideshow;
 import java.io.File;
 import java.io.FileFilter;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 import com.haxademic.app.slideshow.slides.SlideImage;
 import com.haxademic.app.slideshow.slides.SlideshowState;
@@ -22,8 +23,6 @@ import com.haxademic.core.hardware.mouse.MouseShutdown;
 import com.haxademic.core.math.easing.EasingFloat;
 import com.haxademic.core.math.easing.LinearFloat;
 import com.haxademic.core.math.easing.Penner;
-import com.haxademic.core.system.AppUtil;
-import com.haxademic.core.system.SecondScreenViewer;
 import com.haxademic.core.ui.CursorToggle;
 
 import processing.core.PGraphics;
@@ -62,7 +61,6 @@ extends PAppletHax
 	protected boolean stressTesting = false;
 	protected BrightnessBumper brightnessBumper;
 	protected CursorToggle cursorToggle;
-	protected SecondScreenViewer viewer;
 
 	// Crossfade: 1st slide: `-no_fade_out-` (and don't `-no_exit_delay-`) -> 2nd slide: `-no_queue_delay-` (and don't `-no_fade_in-`)
 
@@ -77,20 +75,8 @@ extends PAppletHax
 		p.appConfig.setProperty( AppSettings.HEIGHT, 720 );
 		p.appConfig.setProperty( AppSettings.RETINA, false );
 		p.appConfig.setProperty( AppSettings.AUDIO_DEBUG, true );
-		p.appConfig.setProperty( AppSettings.FILLS_SCREEN, false );
 		p.appConfig.setProperty( AppSettings.FULLSCREEN, FULLSCREEN );
-		p.appConfig.setProperty( AppSettings.SMOOTHING, AppSettings.SMOOTH_HIGH );
 		p.appConfig.setProperty( AppSettings.MIDI_DEVICE_IN_INDEX, 0 );
-		p.appConfig.setProperty( AppSettings.HIDE_CURSOR, true );
-	}
-
-	public void settings() {
-		super.settings();
-		// fullScreen(2);
-	}
-
-	public void setup() {
-		super.setup();
 	}
 
 	protected void setScreenPosition() {
@@ -101,7 +87,7 @@ extends PAppletHax
 //		}
 	}
 
-	protected void initObjects() {
+	protected void setupFirstFrame() {
 		MouseShutdown.instance();
 		brightnessBumper = new BrightnessBumper();
 		cursorToggle = new CursorToggle(p.appConfig.getBoolean(AppSettings.HIDE_CURSOR, false));
@@ -135,9 +121,6 @@ extends PAppletHax
 		
 		// keystone the off-screen buffer
 		pgKeystone = new PGraphicsKeystone(p, buffer, 12, FileUtil.getFile("text/keystone-slideshow.txt"));
-		
-		// 2nd screen viewer
-		viewer = new SecondScreenViewer(p.g, 0.5f);
 	}
 	
 	protected void buildState() {
@@ -161,7 +144,8 @@ extends PAppletHax
 		slideImages = new ArrayList<SlideImage>();
 		slideImagesBg = new ArrayList<SlideImage>();
 		slideImagesFg = new ArrayList<SlideImage>();
-		String[] directories = FileUtil.getDirsInDir(FileUtil.getFile("images/slideshow/twf"));
+		String[] directories = FileUtil.getDirsInDir(FileUtil.getFile("images/_sketch/slideshow/wave"));
+		Arrays.sort(directories);
 		for (int i = 0; i < directories.length; i++) {
 			loadSlidesFromDir(directories[i]);
 		}
@@ -182,6 +166,7 @@ extends PAppletHax
 	protected void loadSlidesFromDir(String imagesPath) {
 		
 		String[] imagesAndDirs = getFilesAndDirsInDir(imagesPath);
+		Arrays.sort(imagesAndDirs);
 		for (int i = 0; i < imagesAndDirs.length; i++) {
 			String fileName = imagesAndDirs[i];
 			if(fileName.indexOf("\\._") == -1) {
@@ -198,7 +183,6 @@ extends PAppletHax
 	
 	public String[] getFilesAndDirsInDir( String directory ) {
 		File dir = new File( directory );
-		// This filter only returns directories
 		FileFilter fileFilter = new FileFilter() {
 		    public boolean accept(File file) {
 		        return file.isDirectory() || file.getName().endsWith("png") || file.getName().endsWith("gif") || file.getName().endsWith("jpg") || file.getName().endsWith("mov") || file.getName().endsWith("mp4");
@@ -278,7 +262,6 @@ extends PAppletHax
 
 	public void drawApp() {
 		// deferred init
-		if(p.frameCount == 1) initObjects();
 //		if(p.frameCount == 100) setScreenPosition();
 //		if(p.frameCount == 2) AppUtil.setTitle(p, "Slideshow");
 //		if(p.frameCount == 3) DrawUtil.setDrawFlat2d(buffer, true);
@@ -294,7 +277,8 @@ extends PAppletHax
 		
 		// keystone
 		if(DEBUG_MODE == true) pgKeystone.drawTestPattern();
-		pgKeystone.update(p.g, true);
+//		pgKeystone.update(p.g, true);
+		p.g.image(buffer, 0, 0);
 		brightnessBumper.applyTo(p.g);
 		
 		// debug
@@ -400,12 +384,6 @@ extends PAppletHax
 		int textX = 20;
 		int textY = p.height - 140;
 		p.text("Slide index = "+appStore.getValue(SlideshowState.SLIDE_INDEX.id()), textX, textY-=20);
-	}
-
-	protected void printBig(String debugString) {
-		P.println("===================================");
-		P.println("== " + debugString);
-		P.println("===================================");
 	}
 
 }

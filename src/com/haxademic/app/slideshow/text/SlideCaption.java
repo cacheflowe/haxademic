@@ -29,7 +29,7 @@ implements IAppStoreUpdatable {
 		height = P.round(p.height * 0.07f);
 		fontSize = height * 0.5f;
 		textOffsetY = height * 0.1f;
-		font = P.p.createFont( FileUtil.getFile("fonts/CenturyGothic.ttf"), fontSize );
+		font = P.p.createFont( FileUtil.getFile("fonts/_sketch/CenturyGothic.ttf"), fontSize );
 	}
 	
 	protected boolean isShowing() {
