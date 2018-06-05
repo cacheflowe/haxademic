@@ -134,6 +134,9 @@ extends PAppletHax {
 		@Override public void updatedAppStoreValue(String key, String val) {
 		}
 		
+		@Override public void updatedAppStoreValue(String key, Boolean val) {
+		}
+		
 	}
 	
 }

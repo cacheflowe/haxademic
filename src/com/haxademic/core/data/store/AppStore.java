@@ -13,11 +13,13 @@ public class AppStore {
 	
 	protected HashMap<String, Number> store;
 	protected HashMap<String, String> stringStore;
+	protected HashMap<String, Boolean> boolStore;
 	protected ArrayList<IAppStoreUpdatable> updatables;
 
 	public AppStore() {
 		store = new HashMap<String, Number>();
 		stringStore = new HashMap<String, String>();
+		boolStore = new HashMap<String, Boolean>();
 		updatables = new ArrayList<IAppStoreUpdatable>();
 	}
 	
@@ -40,6 +42,13 @@ public class AppStore {
 	
 	public void setValue(String storeKey, String val) {
 		stringStore.put(storeKey, val);
+		for (IAppStoreUpdatable obj : updatables) {
+			obj.updatedAppStoreValue(storeKey, val);
+		}
+	}
+	
+	public void setValue(String storeKey, Boolean val) {
+		boolStore.put(storeKey, val);
 		for (IAppStoreUpdatable obj : updatables) {
 			obj.updatedAppStoreValue(storeKey, val);
 		}
@@ -71,4 +80,8 @@ public class AppStore {
 		return store.get(storeKey).intValue();
 	}
 
+	public boolean getValueB(String storeKey) {
+		return boolStore.get(storeKey).booleanValue();
+	}
+	
 }
