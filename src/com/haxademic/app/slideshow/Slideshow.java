@@ -95,9 +95,9 @@ extends PAppletHax
 		buildState();
 		loadImages();
 		slideCaption = new SlideCaption();
-		appStore.registerStatable(slideCaption);
+		appStore.addListener(slideCaption);
 		slideTitle = new SlideTitle();
-		appStore.registerStatable(slideTitle);
+		appStore.addListener(slideTitle);
 	}
 	
 	protected void buildDrawingSurface() {
@@ -125,7 +125,7 @@ extends PAppletHax
 	
 	protected void buildState() {
 		appStore = new AppStore();
-		appStore.setValue(SlideshowState.SLIDE_INDEX.id(), -1);
+		appStore.setNumber(SlideshowState.SLIDE_INDEX.id(), -1);
 	}
 	
 	/////////////////////////////////////////////////////////////
@@ -175,7 +175,7 @@ extends PAppletHax
 				slideImages.add(newSlide);
 				if(fileName.indexOf("background") == -1) slideImagesFg.add(newSlide);
 				else slideImagesBg.add(newSlide);
-				appStore.registerStatable(newSlide);
+				appStore.addListener(newSlide);
 			}
 		}
 	}
@@ -222,7 +222,7 @@ extends PAppletHax
 	/////////////////////////////////////////////////////////////
 	
 	protected boolean waitingForAutoAdvance() {
-		int curIndex = appStore.getValue(SlideshowState.SLIDE_INDEX.id()).intValue();
+		int curIndex = appStore.getNumber(SlideshowState.SLIDE_INDEX.id()).intValue();
 		if(curIndex >= 0) {
 			return slideImages.get(curIndex).willAutoAdvance();
 		} else {
@@ -231,12 +231,12 @@ extends PAppletHax
 	}
 	
 	public int getSlideIndex() {
-		return appStore.getValueI(SlideshowState.SLIDE_INDEX.id());
+		return appStore.getInt(SlideshowState.SLIDE_INDEX.id());
 	}
 	
 	public void nextSlide() {
 		// check current slide
-		int curIndex = appStore.getValue(SlideshowState.SLIDE_INDEX.id()).intValue();
+		int curIndex = appStore.getNumber(SlideshowState.SLIDE_INDEX.id()).intValue();
 		if(curIndex >= 0 && preloaded == true && slideImages.get(curIndex).canAdvanceAfterLoop() == true) {					// queue up the current slide to advance the show if it's configured for that
 			slideImages.get(curIndex).advanceAfterComplete();
 		} else {																											// normal slide incrementing below
@@ -245,15 +245,15 @@ extends PAppletHax
 				curIndex = -1;
 				if(stressTesting == false) preloaded = true;
 			}
-			appStore.setValue(SlideshowState.SLIDE_INDEX.id(), curIndex);
+			appStore.setNumber(SlideshowState.SLIDE_INDEX.id(), curIndex);
 		}
 	}
 	
 	public void prevSlide() {
-		int curIndex = appStore.getValue(SlideshowState.SLIDE_INDEX.id()).intValue();
+		int curIndex = appStore.getNumber(SlideshowState.SLIDE_INDEX.id()).intValue();
 		curIndex--;
 		if(curIndex < -1) curIndex = slideImages.size() - 1;
-		appStore.setValue(SlideshowState.SLIDE_INDEX.id(), curIndex);
+		appStore.setNumber(SlideshowState.SLIDE_INDEX.id(), curIndex);
 	}
 	
 	/////////////////////////////////////////////////////////////
@@ -343,7 +343,7 @@ extends PAppletHax
 		preloadX.update();
 		preloadBarOff.update();
 
-		int curIndex = appStore.getValue(SlideshowState.SLIDE_INDEX.id()).intValue();
+		int curIndex = appStore.getNumber(SlideshowState.SLIDE_INDEX.id()).intValue();
 		float loadProgress = (preloaded) ? 1f : (float) curIndex / (float) slideImages.size();
 		preloadX.setTarget(p.width * loadProgress);
 		if(loadProgress == 1) preloadBarOff.setTarget(1);
@@ -383,7 +383,7 @@ extends PAppletHax
 		p.fill(255);
 		int textX = 20;
 		int textY = p.height - 140;
-		p.text("Slide index = "+appStore.getValue(SlideshowState.SLIDE_INDEX.id()), textX, textY-=20);
+		p.text("Slide index = "+appStore.getNumber(SlideshowState.SLIDE_INDEX.id()), textX, textY-=20);
 	}
 
 }

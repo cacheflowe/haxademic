@@ -4,7 +4,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.data.store.AppStore;
-import com.haxademic.core.data.store.IAppStoreUpdatable;
+import com.haxademic.core.data.store.IAppStoreListener;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.file.FileUtil;
 
@@ -47,8 +47,8 @@ extends PAppletHax {
 	}
 	
 	protected void buildState() {
-		AppStore.instance().setValue(Interphase.PROGRESS, 0);
-		AppStore.instance().setValue(Interphase.LAST_PROGRESS, 0);
+		AppStore.instance().setNumber(Interphase.PROGRESS, 0);
+		AppStore.instance().setNumber(Interphase.LAST_PROGRESS, 0);
 	}
 	
 	protected void buildSteps() {
@@ -69,14 +69,14 @@ extends PAppletHax {
 		playheadProgress = curMillis / loopLength;
 		
 		// dispatch timing
-		AppStore.instance().setValue(Interphase.LAST_PROGRESS, AppStore.instance().getValueF(Interphase.PROGRESS));
-		AppStore.instance().setValue(Interphase.PROGRESS, playheadProgress);
+		AppStore.instance().setNumber(Interphase.LAST_PROGRESS, AppStore.instance().getFloat(Interphase.PROGRESS));
+		AppStore.instance().setNumber(Interphase.PROGRESS, playheadProgress);
 	}
 	
 	public void drawApp() {
 		updateTiming();
 		p.background(0);
-		AppStore.instance().setValue(Interphase.DRAW, p.frameCount);
+		AppStore.instance().setNumber(Interphase.DRAW, p.frameCount);
 		drawProgress();
 	}
 	
@@ -91,7 +91,7 @@ extends PAppletHax {
 	// OBJECTS
 	////////////////////////////////////////////////
 	
-	public class AudioStep implements IAppStoreUpdatable {
+	public class AudioStep implements IAppStoreListener {
 		
 		protected int width = 50;
 		protected int height = 200;
@@ -101,14 +101,14 @@ extends PAppletHax {
 		protected SoundFile sound;
 		
 		public AudioStep(float triggerProgress) {
-			AppStore.instance().registerStatable(this);
+			AppStore.instance().addListener(this);
 			this.triggerProgress = triggerProgress;
 			sound = new SoundFile(P.p, FileUtil.getFile("audio/kit808/kick.wav"));
 		}
 		
 		protected void checkTrigger() {
-			if((AppStore.instance().getValueF(Interphase.LAST_PROGRESS) < triggerProgress || AppStore.instance().getValueF(Interphase.LAST_PROGRESS) > AppStore.instance().getValueF(Interphase.PROGRESS)) && 
-			   AppStore.instance().getValueF(Interphase.PROGRESS) >= triggerProgress) {
+			if((AppStore.instance().getFloat(Interphase.LAST_PROGRESS) < triggerProgress || AppStore.instance().getFloat(Interphase.LAST_PROGRESS) > AppStore.instance().getFloat(Interphase.PROGRESS)) && 
+			   AppStore.instance().getFloat(Interphase.PROGRESS) >= triggerProgress) {
 				trigger();
 			}
 		}
@@ -126,15 +126,15 @@ extends PAppletHax {
 		
 		// events
 
-		@Override public void updatedAppStoreValue(String key, Number val) {
+		@Override public void updatedNumber(String key, Number val) {
 			if(key == Interphase.PROGRESS) checkTrigger();
 			if(key == Interphase.DRAW) draw();
 		}
 
-		@Override public void updatedAppStoreValue(String key, String val) {
+		@Override public void updatedString(String key, String val) {
 		}
 		
-		@Override public void updatedAppStoreValue(String key, Boolean val) {
+		@Override public void updatedBoolean(String key, Boolean val) {
 		}
 		
 	}
