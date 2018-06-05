@@ -22,6 +22,7 @@ public class ImageUtil {
 	public static final int BLACK_INT = -16777216;
 	public static final int WHITE_INT = 16777215;
 	public static final int CLEAR_INT = 48356;
+	public static final int CLEAR_INT_PG = 13421772;
 	public static final int EMPTY_INT = 0;
 	public static final int EMPTY_WHITE_INT = -1;
 	
