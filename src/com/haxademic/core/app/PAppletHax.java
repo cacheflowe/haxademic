@@ -1,8 +1,6 @@
 package com.haxademic.core.app;
 
 import java.awt.Robot;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.io.IOException;
 
@@ -40,6 +38,7 @@ import com.haxademic.core.system.JavaInfo;
 import com.haxademic.core.system.P5Properties;
 import com.haxademic.core.system.SecondScreenViewer;
 import com.haxademic.core.system.SystemUtil;
+import com.haxademic.core.ui.PrefsSliders;
 
 import de.voidplus.leapmotion.LeapMotion;
 import krister.Ess.AudioInput;
@@ -117,6 +116,7 @@ extends PApplet
 	public Stats _stats;
 	public boolean showDebug = false;
 	public DebugView debugView;
+	public PrefsSliders prefsSliders;
 	public SecondScreenViewer appViewerWindow;
 	
 	// performance fix
@@ -160,7 +160,10 @@ extends PApplet
 		if(customPropsFile != null) DebugUtil.printErr("Make sure to load custom .properties files in settings()");
 		setAppletProps();
 		checkScreenManualPosition();
-		if(renderer != PRenderers.PDF) debugView = new DebugView( p );
+		if(renderer != PRenderers.PDF) {
+			debugView = new DebugView( p );
+			prefsSliders = new PrefsSliders();
+		}
 		_stats = new Stats( p );
 	}
 	
@@ -371,10 +374,10 @@ extends PApplet
 	}
 
 	protected void showStats() {
-		if(showDebug == false) return;
 		p.noLights();
 		_stats.update();
-		debugView.draw();
+		if(showDebug) debugView.draw();
+		prefsSliders.update();
 	}
 
 	protected void setAppDockIconAndTitle() {
@@ -527,6 +530,7 @@ extends PApplet
 		if ( p.key == '.' && audioIn != null ) audioIn.gainUp();
 		if ( p.key == ',' && audioIn != null ) audioIn.gainDown();
 		if (p.key == '/') showDebug = !showDebug;
+		if (p.key == '\\') prefsSliders.active(!prefsSliders.active());
 	}
 	
 	public void keyReleased() {

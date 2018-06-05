@@ -1,4 +1,4 @@
-package com.haxademic.demo.file;
+package com.haxademic.demo.ui;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.ui.PrefSlider;
