@@ -10,7 +10,7 @@ implements IEasingValue {
 	public EasingFloat( float value, float easeFactor ) {
 		_val = value;
 		_target = value;
-		_easeFactor = easeFactor;
+		_easeFactor = (easeFactor <= 1) ? 1f / easeFactor : easeFactor;
 		_speed = 0f;
 		_delay = 0;
 	}
@@ -33,7 +33,7 @@ implements IEasingValue {
 	}
 	
 	public void setEaseFactor( float value ) {
-		_easeFactor = value;
+		_easeFactor = (value <= 1) ? 1f / value : value;
 	}
 	
 	public void setDelay( int frames ) {
