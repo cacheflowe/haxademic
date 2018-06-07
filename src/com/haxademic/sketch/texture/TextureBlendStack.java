@@ -32,7 +32,7 @@ extends PAppletHax {
 		PBlendModes.EXCLUSION,
 		PBlendModes.LIGHTEST,
 		PBlendModes.MULTIPLY,
-		PBlendModes.REPLACE,
+//		PBlendModes.REPLACE,
 		PBlendModes.SCREEN,
 		PBlendModes.SUBTRACT,
 	};
@@ -44,7 +44,7 @@ extends PAppletHax {
 		"EXCLUSION",
 		"LIGHTEST",
 		"MULTIPLY",
-		"REPLACE",
+//		"REPLACE",
 		"SCREEN",
 		"SUBTRACT",
 	};
@@ -52,7 +52,7 @@ extends PAppletHax {
 	protected void overridePropsFile() {
 		p.appConfig.setProperty( AppSettings.WIDTH, 1000 );
 		p.appConfig.setProperty( AppSettings.HEIGHT, 600 );
-		p.appConfig.setProperty( AppSettings.WEBCAM_INDEX, 3 );
+		p.appConfig.setProperty( AppSettings.WEBCAM_INDEX, 18 );
 	}
 
 	public void setupFirstFrame() {
