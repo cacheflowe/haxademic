@@ -6,6 +6,7 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.constants.PBlendModes;
 import com.haxademic.core.constants.PRenderers;
+import com.haxademic.core.draw.filters.shaders.LeaveWhiteFilter;
 import com.haxademic.core.draw.image.BufferMotionDetectionMap;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.hardware.webcam.IWebCamCallback;
@@ -34,7 +35,7 @@ implements IWebCamCallback {
 	protected void overridePropsFile() {
 		p.appConfig.setProperty(AppSettings.WIDTH, 1280 );
 		p.appConfig.setProperty(AppSettings.HEIGHT, 480 );
-		p.appConfig.setProperty(AppSettings.WEBCAM_INDEX, 18 );
+		p.appConfig.setProperty(AppSettings.WEBCAM_INDEX, 3 );
 	}
 
 	public void setupFirstFrame () {
@@ -122,7 +123,9 @@ implements IWebCamCallback {
 			p.g.noStroke();
 			p.g.image(webcamBuffer, 0, 0);
 			
-			p.blendMode(PBlendModes.ADD);
+			LeaveWhiteFilter.instance(p).applyTo(motionDetectionMap.bwBuffer());
+			p.blendMode(PBlendModes.EXCLUSION);
+//			p.g.tint(0,255,0);
 			p.g.image(motionDetectionMap.bwBuffer(), 0, 0, 640, 480);
 			p.blendMode(PBlendModes.BLEND);
 
