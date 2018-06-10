@@ -50,6 +50,13 @@ public class EasingColor {
 		return P.p.color(r.target(), g.target(), b.target(), a.target());
 	}
 	
+	public void setTargetEasingColor( EasingColor color ) {
+		this.r.setTarget( color.r() );
+		this.g.setTarget( color.g() );
+		this.b.setTarget( color.b() );
+		this.a.setTarget( color.a() );
+	}
+	
 	public void setTargetRGBA( float r, float g, float b, float a ) {
 		this.r.setTarget( r );
 		this.g.setTarget( g );
@@ -104,6 +111,13 @@ public class EasingColor {
 	}
 	
 	// CURRENT
+	
+	public void setCurrentEasingColor( EasingColor color ) {
+		this.r.setCurrent( color.r() );
+		this.g.setCurrent( color.g() );
+		this.b.setCurrent( color.b() );
+		this.a.setCurrent( color.a() );
+	}
 	
 	public void setCurrentRGBA( float r, float g, float b, float a ) {
 		this.r.setCurrent( r );
