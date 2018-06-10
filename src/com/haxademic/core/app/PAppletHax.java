@@ -11,6 +11,7 @@ import com.haxademic.core.audio.AudioInputWrapperMinim;
 import com.haxademic.core.audio.WaveformData;
 import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.constants.PRenderers;
+import com.haxademic.core.data.store.AppStore;
 import com.haxademic.core.debug.DebugUtil;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.debug.Stats;
@@ -135,8 +136,9 @@ extends PApplet
 	
 	public void settings() {
 		P.p = p = this;
+		P.store = AppStore.instance();
 		timestamp = System.currentTimeMillis();
-		AppUtil.setFrameBackground(p,0,0,0);
+		AppUtil.setFrameBackground(p,0,255,0);
 		loadAppConfig();
 		overridePropsFile();
 		setAppIcon();
