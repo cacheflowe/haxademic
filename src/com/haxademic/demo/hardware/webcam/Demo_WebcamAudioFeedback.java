@@ -14,7 +14,7 @@ import processing.core.PGraphics;
 import processing.core.PImage;
 import processing.opengl.PShader;
 
-public class Demo_WebcamFeedbackSingleFrame 
+public class Demo_WebcamAudioFeedback 
 extends PAppletHax
 implements IWebCamCallback {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
