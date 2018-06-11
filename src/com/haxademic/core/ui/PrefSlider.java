@@ -56,6 +56,7 @@ public class PrefSlider {
 		pg.text(property + ": " + value, x + 4, y + 3, w, 20);
 		uiRect.setBounds(x, y, w, h);
 		// outline
+		pg.strokeWeight(1);
 		if(mouseHovered) pg.stroke(0,255,0);
 		else pg.stroke(0,0,255);
 		pg.noFill();
