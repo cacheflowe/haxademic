@@ -44,7 +44,7 @@ extends PAppletHax {
 		_bg = p.createGraphics(p.width, p.height, P.P2D);
 		_bg.smooth( OpenGLUtil.SMOOTH_HIGH );
 				
-		_kinectGrid = new KinectRegionGrid(1, 1, 500, 2000, 0, 0, 480, 20, 10, false);
+		_kinectGrid = new KinectRegionGrid(1, 1, 500, 2000, 0, 0, 480, 20, 10);
 
 		sdfShader = loadShader( FileUtil.getFile("haxademic/shaders/textures/sdf-01.glsl") ); 
 	}

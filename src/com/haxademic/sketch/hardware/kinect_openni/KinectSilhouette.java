@@ -57,6 +57,7 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.KINECT_ACTIVE, "true" );
 		p.appConfig.setProperty( "kinect_mirrored", "true" );
 		p.appConfig.setProperty( AppSettings.FULLSCREEN, "false" );
+		p.appConfig.setProperty( AppSettings.INIT_ESS_AUDIO, false );
 	}
 	
 	public void setup() {

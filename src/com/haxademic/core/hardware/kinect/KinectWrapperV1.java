@@ -39,7 +39,7 @@ public class KinectWrapperV1 implements IKinectWrapper{
 		if(initRGB == true) _kinect.enableRGB();
 //		_kinect.enableIR();	// IR doesn't like being enabled off the bat - it kills the RGB camera?!
 		_kinect.setMirror(false);
-				
+		
 		// enable depthMap generation 
 		if(depthEnabled == false && KINECT_ERROR_SHOWN == false) {
 			DebugUtil.alert("Can't access the Kinect. Make sure it's plugged into the computer and a power outlet.");
