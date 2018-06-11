@@ -14,13 +14,15 @@ public class ColorUtil {
 	}
 	
 	public static int colorFromHex( String hex ) {
+		if(hex.length() == 9) hex = hex.substring(1);
 		if(hex.length() == 7) hex = hex.substring(1);
 		if(hex.length() == 6) hex = "FF" + hex;
-		return colorFromHex(hex, true);
+		return colorFromHex(hex, false);
 	}
 	
 	public static int colorFromHex( String hex, boolean hasHash ) {
-		return P.unhex(hex.substring(1));
+		if(hasHash) return P.unhex(hex.substring(1));
+		else return P.unhex(hex);
 	}
 	
 	public static float componentByPercent( float percent ) {

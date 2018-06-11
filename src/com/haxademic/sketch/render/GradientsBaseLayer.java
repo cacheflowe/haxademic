@@ -22,7 +22,7 @@ extends PAppletHax {
 
 	public void setup() {
 		super.setup();	
-		_colorStart = new EasingColor("#BB0022", 50f);
+		_colorStart = new EasingColor("#ffBB0022", 50f);
 		_colorStop = new EasingColor("#0B1630", 50f);
 		
 		// Team 1: #BB0022 / #0B1630
