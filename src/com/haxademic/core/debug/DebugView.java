@@ -141,7 +141,7 @@ public class DebugView {
 		p.rect(0, 0, debugPanelW + padding, p.height);
 		
 		// scroll text - offset w/mouse y if too big to fit on screen
-		float textH = debugLines.size() * fontSize * debugFont.ascent() * 2f;
+		float textH = debugLines.size() * fontSize * debugFont.ascent() * 3f;
 		if(textH > p.height) {
 			float heightDiff = p.height - textH;
 			p.translate(0, P.map(P.p.mousePercentY(), 0, 1, 0, heightDiff));
