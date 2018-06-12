@@ -18,8 +18,8 @@ extends PAppletHax {
 	}
 	
 	public void setupFirstFrame() {
-		int KINECT_MIN_DIST = 	p.appConfig.getInt( "kinect_min_mm", 1500 );
-		int KINECT_MAX_DIST = 	p.appConfig.getInt( "kinect_max_mm", 2000 );
+		int KINECT_MIN_DIST = 	p.appConfig.getInt( "kinect_min_mm", 500 );
+		int KINECT_MAX_DIST = 	p.appConfig.getInt( "kinect_max_mm", 1000 );
 		int KINECT_TOP = 		p.appConfig.getInt( "kinect_top_pixel", 0 );
 		int KINECT_BOTTOM = 	p.appConfig.getInt( "kinect_bottom_pixel", KinectSize.HEIGHT );
 		int KINECT_PLAYER_GAP = p.appConfig.getInt( "kinect_player_gap", 0 );

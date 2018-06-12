@@ -72,7 +72,7 @@ implements IJoystickCollection {
 
 	public void updateDebug() {
 		debugBuffer.beginDraw();
-		debugBuffer.clear();
+		debugBuffer.background(0);
 
 		debugBuffer.shininess(1000f);
 		debugBuffer.lights();
