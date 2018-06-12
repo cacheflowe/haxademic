@@ -1,4 +1,4 @@
-package com.haxademic.sketch.hardware.kinect_v2_windows;
+package com.haxademic.demo.hardware.kinect.pv2;
 
 import java.nio.FloatBuffer;
 import java.nio.IntBuffer;
@@ -11,7 +11,7 @@ import KinectPV2.KinectPV2;
 import processing.opengl.PGL;
 import processing.opengl.PShader;
 
-public class Kinect2ParticleDepth
+public class Demo_KinectV2_ParticleDepth
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	

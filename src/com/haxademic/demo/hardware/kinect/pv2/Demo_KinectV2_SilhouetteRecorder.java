@@ -1,22 +1,14 @@
-package com.haxademic.sketch.hardware.kinect_v2_windows;
+package com.haxademic.demo.hardware.kinect.pv2;
 
-import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
-import com.haxademic.core.constants.PRenderers;
 import com.haxademic.core.draw.context.DrawUtil;
-import com.haxademic.core.draw.filters.shaders.BlurHFilter;
-import com.haxademic.core.draw.filters.shaders.BlurVFilter;
-import com.haxademic.core.draw.filters.shaders.LeaveBlackFilter;
-import com.haxademic.core.draw.filters.shaders.SaturationFilter;
-import com.haxademic.core.draw.filters.shaders.SharpenFilter;
 import com.haxademic.core.draw.image.ImageSequenceRecorder;
-import com.haxademic.core.draw.image.ImageUtil;
 
 import KinectPV2.KinectPV2;
 import processing.core.PGraphics;
 
-public class Kinect2SilhouetteRecorder
+public class Demo_KinectV2_SilhouetteRecorder
 extends PAppletHax {
 
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }

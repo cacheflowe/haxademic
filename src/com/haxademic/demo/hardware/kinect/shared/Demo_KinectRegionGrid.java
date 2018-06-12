@@ -1,9 +1,10 @@
-package com.haxademic.demo.hardware.kinect.openni;
+package com.haxademic.demo.hardware.kinect.shared;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.hardware.kinect.KinectRegionGrid;
+import com.haxademic.core.hardware.kinect.KinectSize;
 
 public class Demo_KinectRegionGrid
 extends PAppletHax {
@@ -12,16 +13,15 @@ extends PAppletHax {
 	protected KinectRegionGrid kinectRegionGrid;
 	
 	protected void overridePropsFile() {
-		p.appConfig.setProperty(AppSettings.WIDTH, 800 );
-		p.appConfig.setProperty(AppSettings.HEIGHT, 600 );
-		p.appConfig.setProperty(AppSettings.KINECT_ACTIVE, true );
+		p.appConfig.setProperty( AppSettings.KINECT_V2_WIN_ACTIVE, true );
+//		p.appConfig.setProperty( AppSettings.KINECT_ACTIVE, true );
 	}
 	
 	public void setupFirstFrame() {
 		int KINECT_MIN_DIST = 	p.appConfig.getInt( "kinect_min_mm", 1500 );
 		int KINECT_MAX_DIST = 	p.appConfig.getInt( "kinect_max_mm", 2000 );
 		int KINECT_TOP = 		p.appConfig.getInt( "kinect_top_pixel", 0 );
-		int KINECT_BOTTOM = 	p.appConfig.getInt( "kinect_bottom_pixel", 480 );
+		int KINECT_BOTTOM = 	p.appConfig.getInt( "kinect_bottom_pixel", KinectSize.HEIGHT );
 		int KINECT_PLAYER_GAP = p.appConfig.getInt( "kinect_player_gap", 0 );
 		int NUM_PLAYERS = 		p.appConfig.getInt( "num_players", 2 );
 		int KINECT_PIXEL_SKIP = p.appConfig.getInt( "kinect_pixel_skip", 20 );

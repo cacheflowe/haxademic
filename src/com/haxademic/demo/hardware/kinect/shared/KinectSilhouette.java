@@ -1,4 +1,4 @@
-package com.haxademic.sketch.hardware.kinect_openni;
+package com.haxademic.demo.hardware.kinect.shared;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,7 +54,8 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.WIDTH, "1024" );
 		p.appConfig.setProperty( AppSettings.HEIGHT, "768" );
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
-		p.appConfig.setProperty( AppSettings.KINECT_ACTIVE, "true" );
+		p.appConfig.setProperty( AppSettings.KINECT_V2_WIN_ACTIVE, true );
+//		p.appConfig.setProperty( AppSettings.KINECT_ACTIVE, true );
 		p.appConfig.setProperty( "kinect_mirrored", "true" );
 		p.appConfig.setProperty( AppSettings.FULLSCREEN, "false" );
 		p.appConfig.setProperty( AppSettings.INIT_ESS_AUDIO, false );

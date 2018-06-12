@@ -1,4 +1,4 @@
-package com.haxademic.demo.hardware.kinect.openni;
+package com.haxademic.demo.hardware.kinect.shared;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
@@ -15,15 +15,13 @@ extends PAppletHax {
 		
 	protected KinectAmbientActivityMonitor kinectMonitor;
 	
+	protected void overridePropsFile() {
+		p.appConfig.setProperty( AppSettings.KINECT_V2_WIN_ACTIVE, true );
+//		p.appConfig.setProperty( AppSettings.KINECT_ACTIVE, true );
+	}
+	
 	public void setupFirstFrame() {
 		kinectMonitor = new KinectAmbientActivityMonitor( PIXEL_SIZE, KINECT_CLOSE, KINECT_FAR );
-	}
-
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
-		p.appConfig.setProperty( AppSettings.KINECT_ACTIVE, "true" );
-		p.appConfig.setProperty( AppSettings.WIDTH, "640" );
-		p.appConfig.setProperty( AppSettings.HEIGHT, "480" );
 	}
 	
 	public void drawApp() {

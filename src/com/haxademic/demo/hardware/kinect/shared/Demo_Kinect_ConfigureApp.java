@@ -1,12 +1,13 @@
-package com.haxademic.core.hardware.kinect;
+package com.haxademic.demo.hardware.kinect.shared;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.hardware.kinect.KinectSize;
 
 import controlP5.ControlP5;
 
-public class KinectConfigureApp
+public class Demo_Kinect_ConfigureApp
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
@@ -26,14 +27,8 @@ extends PAppletHax {
 	protected void overridePropsFile() {
 		p.appConfig.setProperty( AppSettings.WIDTH, 1280 );
 		p.appConfig.setProperty( AppSettings.HEIGHT, 720 );
-		p.appConfig.setProperty( AppSettings.RENDERING_IMAGE_SEQUENCE, false );
-		p.appConfig.setProperty( AppSettings.RENDERING_IMAGE_SEQUENCE_START_FRAME, 2000 );
-		p.appConfig.setProperty( AppSettings.RENDERING_IMAGE_SEQUENCE_STOP_FRAME, 2200 );
 		p.appConfig.setProperty( AppSettings.KINECT_V2_WIN_ACTIVE, true );
-//		p.appConfig.setProperty( "kinect_top_pixel", "0" );
-//		p.appConfig.setProperty( "kinect_bottom_pixel", "480" );
-//		p.appConfig.setProperty( "kinect_mirrored", "false" );
-//		p.appConfig.setProperty( "kinect_flipped", "false" );
+//		p.appConfig.setProperty( AppSettings.KINECT_ACTIVE, true );
 	}
 
 	public void setupFirstFrame() {

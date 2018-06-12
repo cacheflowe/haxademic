@@ -1,5 +1,5 @@
 
-package com.haxademic.sketch.hardware.kinect_openni;
+package com.haxademic.demo.hardware.kinect.openni;
 
 import java.awt.image.BufferedImage;
 
@@ -20,7 +20,7 @@ import processing.core.PImage;
 import toxi.geom.Triangle3D;
 import toxi.geom.Vec3D;
 
-public class Kinect2dConnections
+public class Demo_KinectV1_2dConnections
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	

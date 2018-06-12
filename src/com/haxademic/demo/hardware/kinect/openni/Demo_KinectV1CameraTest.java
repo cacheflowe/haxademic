@@ -14,10 +14,6 @@ extends PAppletHax {
 		p.appConfig.setProperty(AppSettings.SHOW_DEBUG, true );
 	}
 	
-	public void setupFirstFrame() {
-		
-	}
-	
 	public void drawApp() {
 		p.image(p.kinectWrapper.getRgbImage(), 0, 0);
 		p.image(p.kinectWrapper.getDepthImage(), 640, 0);

@@ -1,4 +1,4 @@
-package com.haxademic.sketch.hardware.kinect_v2_windows;
+package com.haxademic.demo.hardware.kinect.pv2;
 
 import java.util.ArrayList;
 
@@ -10,7 +10,7 @@ import KinectPV2.KinectPV2;
 import processing.core.PGraphics;
 import processing.opengl.PShader;
 
-public class Kinect2HDFaceVertices
+public class Demo_KinectV2_HDFaceVertices
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
@@ -48,7 +48,6 @@ extends PAppletHax {
 		for (int j = 0; j < hdFaceData.size(); j++) {
 			//obtain a the HDFace object with all the vertex data
 			HDFaceData HDfaceData = (HDFaceData)hdFaceData.get(j);
-
 			if (HDfaceData.isTracked()) {
 				p.debugView.setValue("isTracked", "true");
 				//draw the vertex points
