@@ -26,10 +26,15 @@ public class PrefSlider {
 	protected Rectangle uiRect = new Rectangle();
 	protected boolean mouseHovered = false;
 	protected boolean mousePressed = false;
+	protected boolean saves = false;
 
 	public PrefSlider(String property, float value, float low, float high, float dragStep, int x, int y, int w, int h) {
+		this(property, value, low, high, dragStep, x, y, w, h, true);
+	}
+	
+	public PrefSlider(String property, float value, float low, float high, float dragStep, int x, int y, int w, int h, boolean saves) {
 		this.property = property;
-		this.value = PrefToText.getValueF(property, value);
+		this.value = (saves) ? PrefToText.getValueF(property, value) : value;
 		this.low = low;
 		this.high = high;
 		this.dragStep = dragStep;
@@ -37,6 +42,7 @@ public class PrefSlider {
 		this.y = y;
 		this.w = w;
 		this.h = h;
+		this.saves = saves;
 		P.p.registerMethod("mouseEvent", this);
 		P.p.registerMethod("keyEvent", this);
 	}
@@ -87,7 +93,7 @@ public class PrefSlider {
 		case MouseEvent.RELEASE:
 			if(mousePressed) {
 				mousePressed = false;
-				PrefToText.setValue(property, value);
+				if(saves) PrefToText.setValue(property, value);
 			}
 			break;
 		case MouseEvent.MOVE:

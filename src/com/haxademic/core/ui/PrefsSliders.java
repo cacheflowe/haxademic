@@ -25,12 +25,20 @@ public class PrefsSliders {
 	}
 	
 	public void addSlider(String key, float value, float valueLow, float valueHigh, float dragStep) {
-		prefSliders.put(key, new PrefSlider(key, value, valueLow, valueHigh, dragStep, sliderX, sliderY, sliderW, sliderH));
+		addSlider(key, value, valueLow, valueHigh, dragStep, true);
+	}
+	
+	public void addSlider(String key, float value, float valueLow, float valueHigh, float dragStep, boolean saves) {
+		prefSliders.put(key, new PrefSlider(key, value, valueLow, valueHigh, dragStep, sliderX, sliderY, sliderW, sliderH, saves));
 		sliderY += sliderSpacing;
 	}
 	
 	public float value(String key) {
 		return prefSliders.get(key).value();
+	}
+	
+	public int valueInt(String key) {
+		return P.round(prefSliders.get(key).value());
 	}
 	
 	public void update() {
