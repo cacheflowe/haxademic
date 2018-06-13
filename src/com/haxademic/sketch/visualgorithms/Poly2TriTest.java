@@ -47,7 +47,7 @@ extends PAppletHax {
 			}
 		}
 		background(128);
-		fill(255);
+		noFill();
 		stroke(0,70,255);
 		strokeWeight(4);
 		if (points.size() < 3)

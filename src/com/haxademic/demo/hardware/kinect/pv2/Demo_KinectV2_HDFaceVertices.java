@@ -20,6 +20,8 @@ extends PAppletHax {
 	protected PGraphics buffer;
 	protected PShader leaveBlackShader;
 	protected int RD_ITERATIONS = 2;
+	protected String startIndex = "startIndex";
+	protected String endIndex = "endIndex";
 	
 	protected void overridePropsFile() {
 		p.appConfig.setProperty( AppSettings.WIDTH, 1000 );
@@ -28,10 +30,15 @@ extends PAppletHax {
 	}
 
 	public void setupFirstFrame() {
+		// init kinect
 		kinect = new KinectPV2(p);
 		kinect.enableHDFaceDetection(true);
 		kinect.enableColorImg(true); //to draw the color image
 		kinect.init();
+		
+		// init ui
+		p.prefsSliders.addSlider(startIndex, 0, 0, KinectPV2.HDFaceVertexCount, 1, false);
+		p.prefsSliders.addSlider(endIndex, 100, 0, KinectPV2.HDFaceVertexCount, 1, false);
 	}
 
 	public void drawApp() {
@@ -40,7 +47,7 @@ extends PAppletHax {
 		// Draw the color Image
 		image(kinect.getColorImage(), 0, 0);
 
-		//Obtain the Vertex Face Points
+		// Obtain the Vertex Face Points
 		// 1347 Vertex Points for each user.
 		ArrayList<HDFaceData> hdFaceData = kinect.getHDFaceVertex();
 		p.debugView.setValue("hdFaceData.size()", hdFaceData.size());
@@ -48,19 +55,17 @@ extends PAppletHax {
 		for (int j = 0; j < hdFaceData.size(); j++) {
 			//obtain a the HDFace object with all the vertex data
 			HDFaceData HDfaceData = (HDFaceData)hdFaceData.get(j);
+			p.debugView.setValue("isTracked", HDfaceData.isTracked());
 			if (HDfaceData.isTracked()) {
-				p.debugView.setValue("isTracked", "true");
 				//draw the vertex points
 				stroke(0, 255, 0);
 				beginShape(POINTS);
-				for (int i = 0; i < KinectPV2.HDFaceVertexCount; i++) {
+				for (int i = p.prefsSliders.valueInt(startIndex); i < p.prefsSliders.valueInt(endIndex) - 1; i++) {
 					float x = HDfaceData.getX(i);
 					float y = HDfaceData.getY(i);
 					vertex(x, y);
 				}
 				endShape();
-			} else {
-				p.debugView.setValue("isTracked", "false");
 			}
 		}
 	}
