@@ -50,7 +50,7 @@ public class GLBlendModes {
 			GLBlendModes.EQ_FUNC_REVERSE_SUBTRACT,
 			GLBlendModes.EQ_FUNC_SUBTRACT,
 	};
-	
+
 	public static void setBlendModeFromPreset(PGraphics pg, int presetIndex) {
 		int[] preset = presets[presetIndex];
 		GL gl = ((PJOGL)pg.beginPGL()).gl.getGL();
@@ -58,6 +58,104 @@ public class GLBlendModes {
 		gl.glBlendEquation(GLBlendModes.blendEquations[preset[2]]);
 	}
 
+	public static void setBlendModeFromPresetNoAlpha(PGraphics pg, int presetIndex) {
+		int[] preset = presetsNoAlpha[presetIndex];
+		GL gl = ((PJOGL)pg.beginPGL()).gl.getGL();
+		gl.glBlendFunc(GLBlendModes.blendFunctions[preset[0]], GLBlendModes.blendFunctions[preset[1]]);
+		gl.glBlendEquation(GLBlendModes.blendEquations[preset[2]]);
+	}
+	
+	// to be used without alpha
+	public static int[][] presetsNoAlpha = new int[][] {
+		new int[] {7, 2, 1},
+		new int[] {6, 3, 2},
+		new int[] {3, 8, 1},
+		new int[] {2, 4, 0},
+		new int[] {8, 3, 2},
+		new int[] {1, 8, 0},
+		new int[] {1, 1, 0},
+		new int[] {3, 1, 0},
+		new int[] {6, 3, 2},
+		new int[] {4, 7, 2},
+		new int[] {2, 3, 0},
+		new int[] {1, 2, 0},
+		new int[] {0, 2, 0},
+		new int[] {5, 8, 0},
+		new int[] {3, 1, 1},
+		new int[] {6, 4, 0},
+		new int[] {6, 3, 2},
+		new int[] {2, 6, 0},
+		new int[] {3, 6, 1},
+		new int[] {8, 3, 0},
+		new int[] {5, 2, 1},
+		new int[] {3, 6, 0},
+		new int[] {6, 5, 2},
+		new int[] {4, 7, 0},
+		new int[] {10, 2, 0},
+		new int[] {2, 6, 0},
+		new int[] {0, 2, 1},
+		new int[] {1, 4, 0},
+		new int[] {8, 4, 0},
+		new int[] {2, 4, 0},
+		new int[] {6, 4, 0},
+		new int[] {5, 2, 1},
+		new int[] {9, 2, 1},
+		new int[] {6, 3, 2},
+		new int[] {4, 5, 0},
+		new int[] {5, 1, 0},
+		new int[] {8, 1, 0},
+		new int[] {4, 3, 2},
+		new int[] {6, 3, 2},
+		new int[] {5, 1, 0},
+		new int[] {3, 6, 0},
+		new int[] {1, 5, 0},
+		new int[] {4, 2, 0},
+		new int[] {5, 10, 0},
+		new int[] {4, 0, 2},
+		new int[] {5, 4, 0},
+		new int[] {8, 5, 0},
+		new int[] {1, 8, 0},
+		new int[] {6, 2, 0},
+		new int[] {6, 3, 0},
+		new int[] {3, 6, 1},
+		new int[] {5, 4, 0},
+		new int[] {8, 6, 0},
+		new int[] {3, 4, 1},
+		new int[] {3, 4, 0},
+		new int[] {6, 4, 0},
+		new int[] {5, 8, 0},
+		new int[] {2, 1, 0},
+		new int[] {6, 8, 0},
+		new int[] {3, 2, 1},
+		new int[] {0, 2, 1},
+		new int[] {6, 3, 2},
+		new int[] {1, 6, 0},
+		new int[] {3, 8, 1},
+		new int[] {6, 4, 0},
+		new int[] {3, 1, 0},
+		new int[] {6, 6, 0},
+		new int[] {7, 2, 0},
+		new int[] {6, 6, 0},
+		new int[] {1, 6, 0},
+		new int[] {9, 2, 1},
+		new int[] {4, 0, 2},
+		new int[] {6, 3, 2},
+		new int[] {4, 7, 0},
+		new int[] {4, 9, 0},
+		new int[] {7, 2, 1},
+		new int[] {4, 3, 2},
+		new int[] {4, 7, 2},
+		new int[] {5, 2, 1},
+		new int[] {0, 2, 1},
+		new int[] {0, 2, 1},
+		new int[] {3, 2, 1},
+		new int[] {2, 5, 0},
+		new int[] {4, 7, 2},
+		new int[] {5, 8, 0},
+		new int[] {7, 2, 0},
+	};
+
+	// work best with lower alpha transparencyon fill or image
 	public static int[][] presets = new int[][] {
 		new int[] {2, 3, 0},
 		new int[] {2, 6, 2},
