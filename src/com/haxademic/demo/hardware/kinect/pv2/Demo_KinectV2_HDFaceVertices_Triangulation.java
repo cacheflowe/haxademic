@@ -7,12 +7,16 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.constants.PRenderers;
 import com.haxademic.core.draw.image.ImageUtil;
-import com.haxademic.core.math.MathUtil;
+import com.haxademic.core.draw.shapes.PShapeUtil;
+import com.haxademic.core.file.DemoAssets;
+import com.haxademic.core.file.FileUtil;
 
 import KinectPV2.HDFaceData;
 import KinectPV2.KinectPV2;
 import processing.core.PGraphics;
+import processing.core.PImage;
 import processing.core.PShape;
+import processing.core.PVector;
 import processing.opengl.PShader;
 import wblut.geom.WB_Point;
 import wblut.geom.WB_Triangulate;
@@ -40,6 +44,7 @@ extends PAppletHax {
 	boolean dirtyRegen = false;
 	boolean doTriangulate = true;
 	int numTriangles = 0;
+	PImage texture;
 
 
 	protected void overridePropsFile() {
@@ -59,6 +64,10 @@ extends PAppletHax {
 		p.prefsSliders.addSlider(startIndex, 0, 0, KinectPV2.HDFaceVertexCount, 1, false);
 		p.prefsSliders.addSlider(endIndex, KinectPV2.HDFaceVertexCount, 0, KinectPV2.HDFaceVertexCount, 1, false);
 
+		// load texture
+		texture = p.loadImage(FileUtil.getFile("images/_sketch/the-opening-mask.png"));
+//		texture = DemoAssets.textureJupiter();
+		p.debugView.setTexture(texture);
 	}
 	
 	public void keyPressed() {
@@ -79,7 +88,7 @@ extends PAppletHax {
 		// COPY rgb image
 		if(bufferrgb == null && kinect.getColorImage() != null) bufferrgb = p.createGraphics(kinect.getColorImage().width, kinect.getColorImage().height, PRenderers.P2D);
 		ImageUtil.copyImage(kinect.getColorImage(), bufferrgb);
-		bufferrgb.loadPixels();
+//		bufferrgb.loadPixels();
 
 		// prep delaunay points
 //		points = null;
@@ -113,6 +122,7 @@ extends PAppletHax {
 					}
 					
 					// he_mesh triangulation
+					p.debugView.setValue("doTriangulate", doTriangulate);
 					if(doTriangulate) {
 						WB_Triangulation2D triangulation=WB_Triangulate.triangulate2D(points);	
 						triangles = triangulation.getTriangles();
@@ -133,8 +143,9 @@ extends PAppletHax {
 						// create PShape
 						shape = p.createShape();
 						shape.beginShape(P.TRIANGLES);
-						shape.fill(255,100);
+						shape.fill(255);
 						shape.stroke(0);
+						shape.noStroke();
 						for(int i=0; i < savedTriangles.length; i += 3){
 //							p.fill(ImageUtil.getPixelColor(bufferrgb, (int)points[triangles[i]].xf(), (int)points[triangles[i]].yf()));
 							float zDisp = 0;
@@ -143,22 +154,25 @@ extends PAppletHax {
 							shape.vertex(points[savedTriangles[i+2]].xf(), points[savedTriangles[i+2]].yf(), zDisp);
 						}
 						shape.endShape();
+						
+						// normalize & apply texture
+						PShapeUtil.centerShape(shape);
+						PShapeUtil.addTextureUVToShape(shape, texture);
+//						PShapeUtil.addTextureUVSpherical(shape, texture);
 					}
 					
 					if(shape != null) {
 						p.debugView.setValue("vertexCount", shape.getVertexCount());
-//						P.println("==================");
+						PVector utilVecSource = new PVector();
+						PVector utilVecDest = new PVector();
 						// update shape vertices
 						for(int i=0; i < shape.getVertexCount() - 1; i ++) {
-//							shape.setVertex(i, v.x, radius * P.sin(-newRads), radius * P.cos(-newRads));
-
-//							shape.setVertex(savedTriangles[i], points[savedTriangles[i]].xf(), points[savedTriangles[i]].yf());
-//							P.println(savedTriangles[i]);
-							shape.setVertex(i, points[savedTriangles[i]].xf(), points[savedTriangles[i]].yf());
-							
+							utilVecSource.set(shape.getVertex(i));
+							utilVecDest.set(points[savedTriangles[i]].xf(), points[savedTriangles[i]].yf());
+							utilVecSource.lerp(utilVecDest, 0.25f);
+							shape.setVertex(i, utilVecSource.x, utilVecSource.y);
 //							shape.setVertex(i, points[savedTriangles[i]].xf(), points[savedTriangles[i]].yf());
 						}
-						
 					}
 					
 					// draw triangles
@@ -173,7 +187,13 @@ extends PAppletHax {
 //					}
 
 					// draw shape
-					if(shape != null) p.shape(shape);
+					if(shape != null) {
+//						p.shape(shape);
+						p.fill(255);
+						p.noStroke();
+						
+						PShapeUtil.drawTriangles(p.g, shape, texture, 1);
+					}
 				}
 			}
 		}
