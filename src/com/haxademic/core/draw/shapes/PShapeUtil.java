@@ -615,9 +615,11 @@ public class PShapeUtil {
 					PVector vertex = polygon.getVertex(i);
 					PVector vertex2 = polygon.getVertex(i+1);
 					PVector vertex3 = polygon.getVertex(i+2);
-					vertex.mult(scale);
-					vertex2.mult(scale);
-					vertex3.mult(scale);
+					if(scale != 1) {
+						vertex.mult(scale);
+						vertex2.mult(scale);
+						vertex3.mult(scale);
+					}
 					pg.vertex(vertex.x, vertex.y, vertex.z, polygon.getTextureU(i), polygon.getTextureV(i));
 					pg.vertex(vertex2.x, vertex2.y, vertex2.z, polygon.getTextureU(i+1), polygon.getTextureV(i+1));
 					pg.vertex(vertex3.x, vertex3.y, vertex3.z, polygon.getTextureU(i+2), polygon.getTextureV(i+2));
