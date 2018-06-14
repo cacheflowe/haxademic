@@ -56,8 +56,8 @@ extends PAppletHax {
 			p.popMatrix();
 		}
 
+		// reset blend
 		OpenGLUtil.setBlending( p.g, false );
-		OpenGLUtil.setBlendMode( p.g, OpenGLUtil.Blend.DEFAULT );
 	}
 
 }
