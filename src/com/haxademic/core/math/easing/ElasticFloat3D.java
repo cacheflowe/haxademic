@@ -11,21 +11,21 @@ public class ElasticFloat3D {
 	}
 	
 	public float x() {
-		return _x.val();
+		return _x.value();
 	};
 
 	public float y() {
-		return _y.val();
+		return _y.value();
 	};
 
 	public float z() {
-		return _z.val();
+		return _z.value();
 	};
 
 	public void setLoc( float x, float y, float z ) {
-		_x.setValue( x );
-		_y.setValue( y );
-		_z.setValue( z );
+		_x.setCurrent( x );
+		_y.setCurrent( y );
+		_z.setCurrent( z );
 	};
 
 	public void setCurrent( float x, float y, float z ) {

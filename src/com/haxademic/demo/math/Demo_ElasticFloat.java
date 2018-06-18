@@ -55,8 +55,8 @@ extends PAppletHax {
 		
 		DrawUtil.setDrawCenter(p);
 		p.fill(255);
-		p.ellipse(_elasticX.val(), _elasticY.val(), 40, 40);
-		p.ellipse(_elasticBottom.val(), p.height - 20, 40, 40);
+		p.ellipse(_elasticX.value(), _elasticY.value(), 40, 40);
+		p.ellipse(_elasticBottom.value(), p.height - 20, 40, 40);
 
 	}
 

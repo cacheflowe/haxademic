@@ -264,9 +264,9 @@ extends PAppletHax {
 		for( int i = 0; i < numVertices; i++ ) {
 			_elasticVertices.get( i ).update();
 			if( _mesh.getVertexForID( i ) != null ) {
-				_meshDeform.getVertexForID( i ).x = _mesh.getVertexForID( i ).x * _elasticVertices.get( i ).val();
-				_meshDeform.getVertexForID( i ).y = _mesh.getVertexForID( i ).y * _elasticVertices.get( i ).val();
-				_meshDeform.getVertexForID( i ).z = _mesh.getVertexForID( i ).z * _elasticVertices.get( i ).val() * 0.9f;
+				_meshDeform.getVertexForID( i ).x = _mesh.getVertexForID( i ).x * _elasticVertices.get( i ).value();
+				_meshDeform.getVertexForID( i ).y = _mesh.getVertexForID( i ).y * _elasticVertices.get( i ).value();
+				_meshDeform.getVertexForID( i ).z = _mesh.getVertexForID( i ).z * _elasticVertices.get( i ).value() * 0.9f;
 			}
 		}
 	}
@@ -283,10 +283,10 @@ extends PAppletHax {
 			}
 			_elasticVertices.get( i ).update();
 			if( _mesh.getVertexForID( i ) != null ) {
-				_meshDeform.getVertexForID( i ).x = _mesh.getVertexForID( i ).x * _elasticVertices.get( i ).val();
-				_meshDeform.getVertexForID( i ).y = _mesh.getVertexForID( i ).y * _elasticVertices.get( i ).val();
+				_meshDeform.getVertexForID( i ).x = _mesh.getVertexForID( i ).x * _elasticVertices.get( i ).value();
+				_meshDeform.getVertexForID( i ).y = _mesh.getVertexForID( i ).y * _elasticVertices.get( i ).value();
 //				_meshDeform.getVertexForID( i ).z = _mesh.getVertexForID( i ).z * _elasticVertices.get( i ).val() * 0.9f + eq;
-				_meshDeform.getVertexForID( i ).z = MathUtil.easeTo( _meshDeform.getVertexForID( i ).z, _mesh.getVertexForID( i ).z * _elasticVertices.get( i ).val() * 0.9f + eq, 2.2f );
+				_meshDeform.getVertexForID( i ).z = MathUtil.easeTo( _meshDeform.getVertexForID( i ).z, _mesh.getVertexForID( i ).z * _elasticVertices.get( i ).value() * 0.9f + eq, 2.2f );
 			}
 		}
 	}

@@ -45,15 +45,15 @@ implements IEasingValue {
 	public void update() {
 		if( _delay > 0 ) { _delay--; return; }
 		if( _val != _target ) {
-			boolean switchedSides = false;
+			boolean passedTarget = false;
 			if( _val < _target ) {
 				_val += _inc;
-				if( _val > _target ) switchedSides = true;
+				if( _val > _target ) passedTarget = true;
 			} else {
 				_val -= _inc;
-				if( _val < _target ) switchedSides = true;
+				if( _val < _target ) passedTarget = true;
 			}
-			if( switchedSides == true ) {
+			if( passedTarget == true ) {
 				_val = _target;
 			}
 		}
