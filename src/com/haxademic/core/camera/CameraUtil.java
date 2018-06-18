@@ -1,8 +1,9 @@
 package com.haxademic.core.camera;
 
-import processing.core.PGraphics;
-
 import com.haxademic.core.app.P;
+import com.haxademic.core.debug.DebugUtil;
+
+import processing.core.PGraphics;
 
 public class CameraUtil {
 	
@@ -11,10 +12,14 @@ public class CameraUtil {
 	}
 	
 	public static void setCameraDistance(PGraphics pg, float near, float far) {
-		// extend camera view distance
+		if(near < 0 || far < 0) DebugUtil.printErr("[ERROR]: CameraUtil.setCameraDistance() can only use positive numbers");
 		float fov = P.PI/3.0f;
-		float cameraZ = (pg.height/2.0f) / P.tan(fov/2.0f);
 		pg.perspective(fov, (float)pg.width/(float)pg.height, near, far);
+	}
+
+	public static void setCameraDistanceGood(PGraphics pg, float near, float far) {
+		float fov = P.PI/3.0f;
+		pg.perspective(fov, pg.width / pg.height, near, far);
 	}
 
 }
