@@ -4,6 +4,7 @@ import java.awt.Point;
 import java.awt.Rectangle;
 
 import com.haxademic.core.app.P;
+import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.file.PrefToText;
 
 import processing.core.PGraphics;
@@ -52,6 +53,7 @@ public class PrefSlider {
 	}
 	
 	public void update(PGraphics pg) {
+		DrawUtil.setDrawCorner(pg);
 		// background
 		pg.fill(50);
 		pg.noStroke();
