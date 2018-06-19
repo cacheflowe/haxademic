@@ -17,7 +17,6 @@ public class PixelTriFilter {
 	protected float _pixelSize;
 	protected PGraphics _pg;
 	protected PImage _image;
-	BlobDetection theBlobDetection;
 	PImage blobBufferImg;
 
 	

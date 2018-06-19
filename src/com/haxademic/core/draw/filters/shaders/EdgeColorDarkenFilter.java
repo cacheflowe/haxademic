@@ -20,7 +20,7 @@ extends BaseFilter {
 		instance = new EdgeColorDarkenFilter(p);
 		return instance;
 	}
-
+	
 	public void setSpreadX(float spreadX) {
 		shader.set("spreadX", spreadX);
 	}

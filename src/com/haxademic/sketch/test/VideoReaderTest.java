@@ -7,6 +7,7 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.filters.ImageHistogramFilter;
 import com.haxademic.core.draw.filters.PixelTriFilter;
 import com.haxademic.core.draw.image.ImageUtil;
+import com.haxademic.core.file.DemoAssets;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.MathUtil;
 import com.jhlabs.image.ContrastFilter;
@@ -38,7 +39,7 @@ extends PAppletHax {
 		_curMov = p.createGraphics(width, height, P.P3D);
 		_curFrame = p.createImage(width, height, P.ARGB);
 //		movie = new Movie(this, "/Users/cacheflowe/Documents/workspace/haxademic/assets/media/video/Janet Jackson - Control - trimmed.mov");
-		movie = new Movie( p, FileUtil.getHaxademicDataPath() + "video/da-dip.mov" );
+		movie = DemoAssets.movieFractalCube();
 		curBase = (int) (movie.duration() * (float) Math.random());
 
 		_triPixelFilter = new PixelTriFilter( _curFrame.width, _curFrame.height, 10 );

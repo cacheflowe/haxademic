@@ -4,7 +4,6 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.draw.context.DrawUtil;
-import com.haxademic.core.draw.context.OpenGLUtil;
 
 import controlP5.ControlP5;
 
@@ -17,7 +16,6 @@ extends PAppletHax {
 	protected ControlP5 _cp5;
 	
 	float _frames = 200;
-
 	
 	protected float _x = 0;
 	protected float _y = 0;
@@ -25,29 +23,13 @@ extends PAppletHax {
 	protected float _tileSize = 160;
 
 	protected void overridePropsFile() {
-//		p.appConfig.setProperty( AppSettings.FPS, "30" );
 		p.appConfig.setProperty( AppSettings.FILLS_SCREEN, "false" );
 		
 		p.appConfig.setProperty( AppSettings.WIDTH, "640" );
 		p.appConfig.setProperty( AppSettings.HEIGHT, "480" );
-
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
-		p.appConfig.setProperty( AppSettings.RENDERING_GIF, "false" );
-		p.appConfig.setProperty( AppSettings.RENDERING_GIF_FRAMERATE, "60" );
-		p.appConfig.setProperty( AppSettings.RENDERING_GIF_QUALITY, "15" );
-		p.appConfig.setProperty( AppSettings.RENDERING_GIF_START_FRAME, "2" );
-		p.appConfig.setProperty( AppSettings.RENDERING_GIF_STOP_FRAME, ""+Math.round(_frames+1) );
-
 	}
 
-	public void setup() {
-		super.setup();	
-		p.smooth( OpenGLUtil.SMOOTH_HIGH );
-
-//		_cp5 = new ControlP5(this);
-//		_cp5.addSlider("speed").setPosition(20,20).setWidth(200).setRange(0,30);
-//		_cp5.addSlider("angle").setPosition(20,50).setWidth(200).setRange(0.55f,1f);
-		
+	public void setupFirstFrame() {
 		_x = p.width / 2;
 		_z = 0;
 	}
@@ -55,8 +37,6 @@ extends PAppletHax {
 	public void drawApp() {
 		background(0);
 		DrawUtil.setDrawCenter(p);
-
-
 		
 		float frameRadians = P.TWO_PI / _frames;
 		float percentComplete = ((float)(p.frameCount%_frames)/_frames);
@@ -112,15 +92,6 @@ extends PAppletHax {
 		}
 		
 		p.popMatrix();
-		
-		
-		if( p.frameCount == _frames * 2 + 2 ) {
-			if(p.appConfig.getBoolean("rendering", false) ==  true) {				
-				movieRenderer.stop();
-				P.println("render done!");
-			}
-		}
-
 	}
 
 }
