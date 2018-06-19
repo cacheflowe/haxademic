@@ -33,6 +33,10 @@ public class PrefsSliders {
 		sliderY += sliderSpacing;
 	}
 	
+	public void removeSlider(String key) {
+		prefSliders.remove(key);
+	}
+	
 	public float value(String key) {
 		return prefSliders.get(key).value();
 	}
