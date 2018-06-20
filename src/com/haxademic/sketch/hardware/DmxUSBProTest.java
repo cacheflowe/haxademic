@@ -35,9 +35,9 @@ extends PAppletHax {
 		background(0);
 		if(audioActive) {
 			// audio eq
-			dmx.set(1, P.round(255 * p._audioInput.getFFT().spectrum[10]));
-			dmx.set(2, P.round(255 * p._audioInput.getFFT().spectrum[20]));
-			dmx.set(3, P.round(255 * p._audioInput.getFFT().spectrum[40]));
+			dmx.set(1, P.round(255 * p.audioFreq(10)));
+			dmx.set(2, P.round(255 * p.audioFreq(20)));
+			dmx.set(3, P.round(255 * p.audioFreq(40)));
 		} else {
 			// color cycle
 			dmx.set(1, round(127 + 127 * P.sin(p.frameCount * 0.2f)));

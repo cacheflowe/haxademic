@@ -1,4 +1,4 @@
-package com.haxademic.core.audio.analysis;
+package com.haxademic.core.audio.analysis.input;
 
 import beads.AudioContext;
 import beads.Bead;
@@ -9,7 +9,8 @@ import beads.ShortFrameSegmenter;
 import beads.SpectralDifference;
 import processing.core.PGraphics;
 
-public class AudioInputBeads {
+public class AudioInputBeads
+implements IAudioInput {
 
 	protected AudioContext ac;
 	protected PowerSpectrum ps;
@@ -55,6 +56,10 @@ public class AudioInputBeads {
 		  
 		  ac.start();
 //		  ac.out.setGain(-1);
+	}
+	
+	public AudioStreamData audioData() {
+		return audioStreamData;
 	}
 	
 	public void update(PGraphics pg) {

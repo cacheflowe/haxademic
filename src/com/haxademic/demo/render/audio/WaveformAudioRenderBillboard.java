@@ -52,11 +52,12 @@ extends PAppletHax {
 		waveform.noFill();
 		float startX = 0;
 		float spacing = waveform.width / 512f;
-		waveform.beginShape();
-		for (int i = 0; i < _waveformData._waveform.length; i++ ) {
-			float curY = waveform.height * 0.5f + _waveformData._waveform[i] * 80f;
-			waveform.vertex(startX + i * spacing, curY);
-		}
+		// THIS NEED FIXING VIA THE NEW SHARED AUDIO DATA OBJECTS
+//		waveform.beginShape();
+//		for (int i = 0; i < _waveformData._waveform.length; i++ ) {
+//			float curY = waveform.height * 0.5f + _waveformData._waveform[i] * 80f;
+//			waveform.vertex(startX + i * spacing, curY);
+//		}
 		waveform.endShape();
 		waveform.endDraw();
 				

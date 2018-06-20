@@ -2,12 +2,12 @@ package com.haxademic.app.haxmapper.overlays;
 
 import java.util.ArrayList;
 
-import processing.core.PGraphics;
-
 import com.haxademic.core.app.P;
 import com.haxademic.core.draw.color.EasingColor;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.math.MathUtil;
+
+import processing.core.PGraphics;
 
 public class MeshLines {
 
@@ -71,7 +71,7 @@ public class MeshLines {
 		float spectrumInterval = (int) ( 256 / _meshLineSegments.size() );	// 256 keeps it in the bottom half of the spectrum since the high ends is so overrun
 
 		for( int i=0; i < _meshLineSegments.size(); i++ ) {
-			_meshLineSegments.get(i).update( _texture, mode(), _colorEase.colorInt(), P.p.audioIn.getEqAvgBand( 15 ), P.p.audioIn.getEqBand( 20 + P.floor(i*spectrumInterval) ) );
+			_meshLineSegments.get(i).update( _texture, mode(), _colorEase.colorInt(), P.p.audioFreq( 15 ), P.p.audioFreq( 20 + P.floor(i*spectrumInterval) ) );
 		}
 
 //		_texture.endDraw();

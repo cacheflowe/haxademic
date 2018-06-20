@@ -3,7 +3,7 @@ package com.haxademic.demo.audio.analysis;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.audio.analysis.AudioPlayerBeads;
-import com.haxademic.core.audio.analysis.AudioStreamData;
+import com.haxademic.core.audio.analysis.input.AudioStreamData;
 import com.haxademic.core.constants.AppSettings;
 
 import beads.AudioContext;

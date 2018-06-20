@@ -73,8 +73,8 @@ extends PAppletHax {
 		buffer.beginDraw();
 		buffer.blendMode(PBlendModes.BLEND);
 
-		feedbackShader.set("waveAmp", 0.0015f + 0.002f * bass.audioData().getAmp());
-		feedbackShader.set("waveFreq", 2f + 160f * bass.audioData().getAmp());
+		feedbackShader.set("waveAmp", 0.0015f + 0.002f * bass.audioData().amp());
+		feedbackShader.set("waveFreq", 2f + 160f * bass.audioData().amp());
 		feedbackShader.set("samplemult", 0.95f );
 		for (int i = 0; i < 1; i++) buffer.filter(feedbackShader); 
 
@@ -83,7 +83,7 @@ extends PAppletHax {
 		buffer.blendMode(PBlendModes.ADD);
 		
 		// draw EQ lines for kick
-		float freqs[] = kicks.audioData().getFrequencies();
+		float freqs[] = kicks.audioData().frequencies();
 		float numFreqs = freqs.length;
 		float segmentRads = P.TWO_PI / numFreqs;
 		int freqsWrap = P.ceil(numFreqs / 6f);
@@ -92,7 +92,7 @@ extends PAppletHax {
 			float radiusStart = (buffer.height * 0.2f);
 			float radiusEnd = radiusStart + radiusStart * amp;
 			float curRads = i * segmentRads;
-			buffer.stroke(255 - 255 * kicks.audioData().getAmp(), 255, 127 - 127 * amp);
+			buffer.stroke(255 - 255 * kicks.audioData().amp(), 255, 127 - 127 * amp);
 			buffer.line(
 				P.cos(curRads) * radiusStart, P.sin(curRads) * radiusStart, 
 				P.cos(curRads) * radiusEnd, P.sin(curRads) * radiusEnd
@@ -100,7 +100,7 @@ extends PAppletHax {
 		}
 		
 		// draw kicks waveform
-		float waveform[] = kicks.audioData().getWaveform();
+		float waveform[] = kicks.audioData().waveform();
 		numFreqs = waveform.length;
 		segmentRads = P.TWO_PI / numFreqs;
 		float baseRadius = buffer.height * 0.1f;
@@ -113,7 +113,7 @@ extends PAppletHax {
 			float radius = baseRadius + radiusAmp * amp;
 			float nextRads = iNext * segmentRads;
 			float nextRadius = baseRadius + radiusAmp * ampNext;
-			buffer.stroke(255 - 127 * kicks.audioData().getAmp(), 255, 255 - 255 * kicks.audioData().getAmp());
+			buffer.stroke(255 - 127 * kicks.audioData().amp(), 255, 255 - 255 * kicks.audioData().amp());
 			buffer.line(
 					P.cos(curRads) * radius, P.sin(curRads) * radius, 
 					P.cos(nextRads) * nextRadius, P.sin(nextRads) * nextRadius
@@ -121,7 +121,7 @@ extends PAppletHax {
 		}
 		
 		// draw EQ lines for snares
-		freqs = snares.audioData().getFrequencies();
+		freqs = snares.audioData().frequencies();
 		numFreqs = freqs.length;
 		freqsWrap = P.ceil(numFreqs / 12f);
 		segmentRads = P.TWO_PI / numFreqs;
@@ -138,7 +138,7 @@ extends PAppletHax {
 		}
 		
 		// draw snares waveform
-		waveform = snares.audioData().getWaveform();
+		waveform = snares.audioData().waveform();
 		numFreqs = waveform.length;
 		segmentRads = P.TWO_PI / numFreqs;
 		baseRadius = buffer.height * 0.15f;
@@ -159,7 +159,7 @@ extends PAppletHax {
 		}
 		
 		// draw EQ lines for bass
-		freqs = bass.audioData().getFrequencies();
+		freqs = bass.audioData().frequencies();
 		numFreqs = freqs.length;
 		freqsWrap = P.ceil(numFreqs / 4f);
 		segmentRads = P.TWO_PI / numFreqs;
@@ -176,13 +176,13 @@ extends PAppletHax {
 		}
 		
 		// draw bass waveform
-		waveform = bass.audioData().getWaveform();
+		waveform = bass.audioData().waveform();
 		numFreqs = waveform.length;
 		segmentRads = P.TWO_PI / numFreqs;
 		baseRadius = buffer.height * 0.05f;
 		radiusAmp = baseRadius * 0.005f;
 		buffer.noStroke();
-		buffer.fill(100 * bass.audioData().getAmp(), 127, 255 - 255 * bass.audioData().getAmp());
+		buffer.fill(100 * bass.audioData().amp(), 127, 255 - 255 * bass.audioData().amp());
 		buffer.beginShape();
 		for(int i=0; i < numFreqs; i++) {
 			int iNext = (i + 1) % (int) numFreqs;

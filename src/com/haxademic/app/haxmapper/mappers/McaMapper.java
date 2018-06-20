@@ -66,7 +66,6 @@ extends HaxMapper{
 		p.appConfig.setProperty( AppSettings.WIDTH, 1280 );
 		p.appConfig.setProperty( AppSettings.HEIGHT, 1024 );
 		p.appConfig.setProperty( AppSettings.DMX_LIGHTS_COUNT, 0 );
-		p.appConfig.setProperty( AppSettings.HIDE_CURSOR, false );
 		p.appConfig.setProperty( AppSettings.RETINA, false );
 	}
 

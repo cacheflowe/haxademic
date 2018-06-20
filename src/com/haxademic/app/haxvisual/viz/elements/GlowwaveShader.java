@@ -1,17 +1,16 @@
 package com.haxademic.app.haxvisual.viz.elements;
 
+import com.haxademic.app.haxvisual.viz.ElementBase;
+import com.haxademic.app.haxvisual.viz.IVizElement;
+import com.haxademic.core.app.P;
+import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.file.FileUtil;
+import com.haxademic.core.math.easing.EasingFloat;
+
 import processing.core.PApplet;
 import processing.core.PGraphics;
 import processing.opengl.PShader;
 import toxi.processing.ToxiclibsSupport;
-
-import com.haxademic.app.haxvisual.viz.ElementBase;
-import com.haxademic.app.haxvisual.viz.IVizElement;
-import com.haxademic.core.app.P;
-import com.haxademic.core.audio.AudioInputWrapper;
-import com.haxademic.core.draw.context.DrawUtil;
-import com.haxademic.core.file.FileUtil;
-import com.haxademic.core.math.easing.EasingFloat;
 
 public class GlowwaveShader 
 extends ElementBase 
@@ -25,8 +24,8 @@ implements IVizElement  {
 	protected EasingFloat _brightEaser = new EasingFloat(0, 10);
 	protected int _mode = 0;
 
-	public GlowwaveShader( PApplet p, ToxiclibsSupport toxi, AudioInputWrapper audioData ) {
-		super( p, toxi, audioData );
+	public GlowwaveShader( PApplet p, ToxiclibsSupport toxi ) {
+		super( p, toxi );
 		init();
 	}
 

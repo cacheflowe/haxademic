@@ -1,13 +1,12 @@
 package com.haxademic.app.haxvisual.viz.modules;
 
-import processing.core.PConstants;
-
 import com.haxademic.app.haxvisual.viz.IVizModule;
 import com.haxademic.app.haxvisual.viz.ModuleBase;
+import com.haxademic.core.app.P;
 import com.haxademic.core.camera.CameraDefault;
 import com.haxademic.core.camera.CameraSpotter;
-import com.haxademic.core.hardware.midi.MidiState;
-import com.haxademic.core.hardware.osc.OscWrapper;
+
+import processing.core.PConstants;
 
 public class GridAndLinesEQ 
 extends ModuleBase
@@ -67,8 +66,8 @@ implements IVizModule
 
 	public void initAudio()
 	{
-		_audioData.setNumAverages( _numAverages );
-		_audioData.setDampening( .13f );
+//		audioData.setNumAverages( _numAverages );
+//		audioData.setDampening( .13f );
 	}
 
 	public void focus() {
@@ -116,10 +115,10 @@ implements IVizModule
 		for(int i=0; i<_cols; i++) {
 			// red bottom row
 			p.fill( _r, _g, _b, 1 );
-			p.rect( i * cellW, p.height, cellW, _audioData.getFFT().averages[i] * -500 );
+			p.rect( i * cellW, p.height, cellW, P.p.audioFreq(i) * -500 );
 			// green top row
 			p.fill( _r, _g, _b, 1 );
-			p.rect( i * cellW, 0, cellW, _audioData.getFFT().averages[i] * 500 );
+			p.rect( i * cellW, 0, cellW, P.p.audioFreq(i) * 500 );
 		}
 
 		p.popMatrix();
@@ -224,7 +223,7 @@ implements IVizModule
 		void update() {
 
 			// amount of alpha depends on EQ value
-			float alphaVal = _audioData.getFFT().spectrum[index];
+			float alphaVal = P.p.audioFreq(index);
 			switch( _curMode ){
 			case MODE_DEFAULT :
 				alphaVal *= 5;

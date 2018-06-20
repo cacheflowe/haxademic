@@ -199,7 +199,7 @@ extends PAppletHax {
 			
 			// update position
 			lastPosition.set(position);
-			float curSpeed = speed * P.p._audioInput.getFFT().spectrum[index % 512];
+			float curSpeed = speed * p.audioFreq(index);
 			position.set( position.x + P.sin(radians.value()) * curSpeed * P.map(p.mouseX, 0, p.width, 0, 2f), position.y + P.cos(radians.value()) * curSpeed * P.map(p.mouseX, 0, p.width, 0, 2f) );
 			if( position.x < 0 ) position.set( p.width, position.y );
 			if( position.x > p.width ) position.set( 0, position.y );

@@ -102,7 +102,8 @@ extends BaseTexture {
 		_texture.rotateX( _rotation.y() );
 		_texture.rotateZ( _rotation.z() );
 		
-		MeshUtilToxi.deformMeshWithAudio( _sphereMesh, _deformMesh, P.p._audioInput, _deformFactor );
+		// Now broken since the PAppletHax audio data updates
+//		MeshUtilToxi.deformMeshWithAudio( _sphereMesh, _deformMesh, P.p._audioInput, _deformFactor );
 	
 		// draw texture. if tinting happened, reset after drawing
 		Toxiclibs.instance(P.p).toxi.setGraphics(_texture);

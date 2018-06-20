@@ -1,16 +1,14 @@
 package com.haxademic.app.haxvisual.viz.elements;
 
-import processing.core.PApplet;
-import processing.video.Movie;
-import toxi.processing.ToxiclibsSupport;
-
 import com.haxademic.app.haxvisual.viz.ElementBase;
 import com.haxademic.app.haxvisual.viz.IVizElement;
-import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.audio.AudioInputWrapper;
 import com.haxademic.core.draw.color.ColorGroup;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.file.FileUtil;
+
+import processing.core.PApplet;
+import processing.video.Movie;
+import toxi.processing.ToxiclibsSupport;
 
 public class VideoScrubberLayer
 extends ElementBase 
@@ -22,8 +20,8 @@ implements IVizElement {
 	protected int _timingFrame = 0;
 	protected boolean _active = false;
 
-	public VideoScrubberLayer( PApplet p, ToxiclibsSupport toxi, AudioInputWrapper audioData ) {
-		super( p, toxi, audioData );
+	public VideoScrubberLayer( PApplet p, ToxiclibsSupport toxi ) {
+		super( p, toxi );
 		init();
 	}
 
@@ -85,7 +83,6 @@ implements IVizElement {
 	}
 
 	public void dispose() {
-		_audioData = null;
 	}
 	
 	public void updateTiming() {

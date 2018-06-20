@@ -5,7 +5,6 @@ import com.haxademic.app.haxvisual.viz.ModuleBase;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.camera.CameraDefault;
-import com.haxademic.core.hardware.midi.MidiState;
 
 import processing.core.PApplet;
 import processing.core.PConstants;
@@ -57,8 +56,8 @@ implements IVizModule
 
 	public void initAudio()
 	{
-		_audioData.setNumAverages( _numAverages );
-		_audioData.setDampening( .12f );
+//		audioData.setNumAverages( _numAverages );
+//		audioData.setDampening( .12f );
 	}
 
 	public void focus() {
@@ -195,13 +194,13 @@ implements IVizModule
 		public void update() {
 			// use some perlin noise with the sin for some natural waviness
 			//			float curY = y + p.noise(waveIncrementer*.2f) * 20 + PApplet.sin(waveIncrementer) * 10;
-			y += _dirY * yVelocity + _audioData.getFFT().averages[grassIndex] * 5;
-			x += _dirX * xVelocity + _audioData.getFFT().averages[grassIndex] * 5;
+			y += _dirY * yVelocity + P.p.audioFreq(grassIndex) * 5;
+			x += _dirX * xVelocity + P.p.audioFreq(grassIndex) * 5;
 
 			// increment properties
 			curLength -= xVelocity;
 			curSize -= sizeVelocity;
-			curSize = _audioData.getFFT().averages[grassIndex] * 200;
+			curSize = P.p.audioFreq(grassIndex) * 200;
 			if(curSize > 100)
 			{
 				curSize = 10; 

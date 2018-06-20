@@ -63,7 +63,7 @@ extends BaseTexture {
 		
 		// set colors and alphas
 		_texture.noStroke();
-		int spectrumInterval = P.round( P.p._audioInput.getFFT().spectrum.length / _numLines);
+		int spectrumInterval = P.round( P.p.audioData.frequencies().length / _numLines);
 		
 		// double lines
 		lineH = _height / _numLines;
@@ -87,7 +87,7 @@ extends BaseTexture {
 	
 	protected void drawLines( int fillColor, float lineH, int spectrumInterval ) {
 		for( int i = 0; i < _numLines; i++ ) {
-			float alpha = 2f * P.p._audioInput.getFFT().spectrum[i*spectrumInterval % 512];
+			float alpha = 2f * P.p.audioFreq(i*spectrumInterval);
 			_texture.fill( fillColor, alpha * 255 );
 			_texture.rect( 0, i * lineH, _width, lineH );
 		}

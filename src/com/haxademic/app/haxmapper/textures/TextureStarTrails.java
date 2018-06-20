@@ -60,7 +60,7 @@ extends BaseTexture {
 		_texture.noStroke();
 		
 		for( int i = 0; i < _numStars; i++ ) {
-			_stars.get( i ).update( P.p._audioInput.getFFT().spectrum[i] );
+			_stars.get( i ).update( P.p.audioFreq(i) );
 		}
 		_texture.popMatrix();
 	}

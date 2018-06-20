@@ -1,4 +1,4 @@
-package com.haxademic.core.audio.analysis;
+package com.haxademic.core.audio.analysis.input;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.math.easing.EasingFloat;
@@ -7,9 +7,9 @@ import processing.core.PGraphics;
 
 public class AudioStreamData {
 	
-	protected float[] frequencies = null;
-	protected float[] freqsDampened = null;
-	protected float[] waveform = null;
+	protected float[] frequencies = new float[] {0};
+	protected float[] freqsDampened = new float[] {0};
+	protected float[] waveform = new float[] {0};
 	protected float amp = 0;
 	protected float gain = 1;
 	protected EasingFloat beatOnset = new EasingFloat(0, 8);
@@ -27,7 +27,7 @@ public class AudioStreamData {
 	// setters
 	
 	public void setFFTFrequencies(float[] freqs) {
-		if(frequencies == null) {
+		if(frequencies.length != freqs.length) {
 			frequencies = new float[freqs.length];
 			freqsDampened = new float[freqs.length];
 			for(int i=0; i < freqsDampened.length; i++) freqsDampened[i] = 0;
@@ -37,8 +37,18 @@ public class AudioStreamData {
 	}
 	
 	public void setWaveformOffsets(float[] buffer) {
-		if(waveform == null) waveform = new float[buffer.length];
+		if(waveform.length != buffer.length) waveform = new float[buffer.length];
 		System.arraycopy(buffer, 0, waveform, 0, buffer.length);
+	}
+	
+	public void lerpWaveformOffsets(float[] buffer, float lerpAmount) {
+		if(waveform.length != buffer.length) {
+			waveform = new float[buffer.length];
+			System.arraycopy(buffer, 0, waveform, 0, buffer.length);
+		}
+		for(int i=0; i < waveform.length; i++) {
+			waveform[i] = P.lerp(waveform[i], buffer[i], lerpAmount);
+		}
 	}
 	
 	public void calcFreqsDampened() {
@@ -46,6 +56,13 @@ public class AudioStreamData {
 			float lerpVal = (freqsDampened[i] < frequencies[i]) ? 0.3f : 0.15f;
 			lerpVal = 0.2f;
 			freqsDampened[i] = P.lerp(freqsDampened[i], frequencies[i], lerpVal);	
+		}
+	}
+	
+	public void freqsCopyDampened() {
+		// if frequencies are pre-deampeded, just copy them to the dampened array
+		for(int i=0; i < frequencies.length; i++) {
+			freqsDampened[i] = frequencies[i];	
 		}
 	}
 	
@@ -80,24 +97,28 @@ public class AudioStreamData {
 	
 	// getters
 	
-	public float[] getFrequencies() {
+	public float[] frequencies() {
 		if(freqsDampened != null) return freqsDampened;
 		else return frequencies;
 	}
 	
-	public float[] getWaveform() {
+	public float[] waveform() {
 		return waveform;
 	}
 	
-	public float getAmp() {
+	public float amp() {
 		return amp;
 	}
 	
-	public float getProgress() {
+	public float progress() {
 		return progress;
 	}
 	
-	public boolean getIsBeat() {
+	public float gain() {
+		return gain;
+	}
+	
+	public boolean isBeat() {
 		return P.p.frameCount == beatFrame;
 	}
 	

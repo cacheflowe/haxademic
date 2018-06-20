@@ -4,18 +4,17 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.Vector;
 
+import com.haxademic.core.app.P;
+import com.haxademic.core.camera.CameraDefault;
+import com.haxademic.core.draw.color.ColorGroup;
+import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.math.MathUtil;
+
 import toxi.color.ColorList;
 import toxi.color.ColorRange;
 import toxi.color.TColor;
 import toxi.color.theory.ColorTheoryRegistry;
 import toxi.color.theory.ColorTheoryStrategy;
-
-import com.haxademic.core.app.P;
-import com.haxademic.core.camera.CameraDefault;
-import com.haxademic.core.draw.color.ColorGroup;
-import com.haxademic.core.draw.context.DrawUtil;
-import com.haxademic.core.hardware.midi.MidiState;
-import com.haxademic.core.math.MathUtil;
 
 public class VizCollection 
 extends ModuleBase
@@ -57,7 +56,7 @@ implements IVizModule
 	
 	public VizCollection() {
 		super();
-		initAudio();
+//		initAudio();
 		init();
 	}
 
@@ -84,13 +83,13 @@ implements IVizModule
 		P.println("make sure to override addElements()");
 	}
 
-	public void initAudio() {
-		_audioData.setNumAverages( _numAverages );
-		_audioData.setDampening( .13f );
-	}
+//	public void initAudio() {
+//		audioData.setNumAverages( _numAverages );
+//		audioData.setDampening( .13f );
+//	}
 
 	public void focus() {
-		initAudio();
+//		initAudio();
 	}
 
 	public void update() {

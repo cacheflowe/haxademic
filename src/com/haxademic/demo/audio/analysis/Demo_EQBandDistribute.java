@@ -1,18 +1,12 @@
-package com.haxademic.sketch.audio.ess;
+package com.haxademic.demo.audio.analysis;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.constants.AppSettings;
 
-public class EQBandDistribute 
+public class Demo_EQBandDistribute 
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, "800" );
-		p.appConfig.setProperty( AppSettings.HEIGHT, "600" );
-	}
-
 	public void drawApp() {
 		background(0);
 		p.noStroke();
@@ -23,7 +17,7 @@ extends PAppletHax {
 		int eqIndex = 0;
 		for(int i=0; i < numElements; i++) {
 			eqIndex = P.floor(i * eqStep);
-			float eq = _audioInput.getFFT().spectrum[eqIndex];
+			float eq = p.audioFreq(eqIndex);
 			p.fill(255f * eq);
 			p.rect(i * barW, 0, barW, p.height);
 		}

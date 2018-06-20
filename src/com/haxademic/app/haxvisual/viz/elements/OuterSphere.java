@@ -2,10 +2,8 @@ package com.haxademic.app.haxvisual.viz.elements;
 
 import com.haxademic.app.haxvisual.viz.ElementBase;
 import com.haxademic.app.haxvisual.viz.IVizElement;
-import com.haxademic.core.audio.AudioInputWrapper;
 import com.haxademic.core.draw.color.ColorGroup;
 import com.haxademic.core.draw.context.DrawUtil;
-import com.haxademic.core.draw.toxi.DrawMesh;
 import com.haxademic.core.math.MathUtil;
 
 import processing.core.PApplet;
@@ -35,8 +33,8 @@ implements IVizElement {
 	protected boolean _makeNewMesh;
 	
 
-	public OuterSphere( PApplet p, ToxiclibsSupport toxi, AudioInputWrapper audioData ) {
-		super( p, toxi, audioData );
+	public OuterSphere( PApplet p, ToxiclibsSupport toxi ) {
+		super( p, toxi );
 		init();
 	}
 
@@ -89,9 +87,9 @@ implements IVizElement {
 	
 		// draw outer spheres
 		if( _isSphere ) {
-			DrawMesh.drawMeshWithAudio( p, _sphereMesh, _audioData, _isWireframe, _baseColor, _strokeColor, 0 );
+//			DrawMesh.drawMeshWithAudio( p, _sphereMesh, _audioData, _isWireframe, _baseColor, _strokeColor, 0 );
 		} else {
-			DrawMesh.drawMeshWithAudio( p, _objMesh, _audioData, _isWireframe, _baseColor, _strokeColor, 0 );
+//			DrawMesh.drawMeshWithAudio( p, _objMesh, _audioData, _isWireframe, _baseColor, _strokeColor, 0 );
 		}
 		
 		p.popMatrix();
@@ -125,7 +123,6 @@ implements IVizElement {
 
 
 	public void dispose() {
-		_audioData = null;
 	}
 
 }

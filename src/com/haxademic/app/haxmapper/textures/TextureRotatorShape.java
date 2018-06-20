@@ -1,11 +1,11 @@
 package com.haxademic.app.haxmapper.textures;
 
-import toxi.geom.Vec3D;
-
 import com.haxademic.core.app.P;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.EasingFloat3d;
+
+import toxi.geom.Vec3D;
 
 public class TextureRotatorShape 
 extends BaseTexture {
@@ -75,7 +75,7 @@ extends BaseTexture {
 		_texture.noStroke();
 //		DrawUtil.setColorForPImage(_texture);
 		for( int i = 0; i < _numRotations; i++ ) {
-			spectrumData = P.p._audioInput.getFFT().spectrum[ 20 + (int) (i * (255f/_numRotations)) ];
+			spectrumData = P.p.audioFreq( 20 + (int) (i * (255f/_numRotations)) );
 			_texture.fill( _color, 255f * spectrumData );
 //			_texture.fill( _baseColor.lighten( spectrumData * 255 * 30 ).toARGB() );
 //			_texture.stroke( spectrumData * 255, spectrumData * 127 );

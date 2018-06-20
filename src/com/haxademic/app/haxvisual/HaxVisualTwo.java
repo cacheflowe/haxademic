@@ -196,7 +196,7 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.DMX_LIGHTS_COUNT, 0 );
 		p.appConfig.setProperty( AppSettings.AUDIO_DEBUG, false );
 		p.appConfig.setProperty( AppSettings.INIT_ESS_AUDIO, true );
-		p.appConfig.setProperty( AppSettings.INIT_MINIM_AUDIO, true );
+//		p.appConfig.setProperty( AppSettings.INIT_MINIM_AUDIO, true );
 		p.appConfig.setProperty( AppSettings.MIDI_DEVICE_IN_INDEX, 0 );
 		p.appConfig.setProperty( AppSettings.MIDI_DEBUG, false );
 		p.appConfig.setProperty( AppSettings.RETINA, false );
@@ -213,7 +213,7 @@ extends PAppletHax {
 		buildCanvas();
 		buildTextures();
 		buildPostProcessingChain();
-		buildInterstitial();
+//		buildInterstitial();
 	}
 	
 	protected void buildCanvas() {
@@ -505,6 +505,7 @@ extends PAppletHax {
 	}
 	
 	protected void drawInterstitial() {
+		if(imageCycler == null) return;
 		float interstitialAlpha = (p.midiState.midiCCPercent(midiInChannel, interstitialKnob) != 0) ? p.midiState.midiCCPercent(midiInChannel, interstitialKnob) : 0;
 		if(interstitialAlpha > 0) {
 			imageCycler.update();
@@ -547,7 +548,7 @@ extends PAppletHax {
 
 
 	protected void checkBeat() {
-		if( audioIn.isBeat() == true && isBeatDetectMode() == true ) {
+		if( p.audioData.isBeat() == true && isBeatDetectMode() == true ) {
 			updateTiming();
 		}
 	}
@@ -614,8 +615,8 @@ extends PAppletHax {
 //			randomLayers();
 //			_lastInputMillis = p.millis();
 //		}
-		if ( _audioInputUpTrigger.triggered() == true ) P.p._audioInput.gainUp();
-		if ( _audioInputDownTrigger.triggered() == true ) P.p._audioInput.gainDown();
+		if ( _audioInputUpTrigger.triggered() == true ) p.audioData.setGain(p.audioData.gain() + 0.05f);
+		if ( _audioInputDownTrigger.triggered() == true ) p.audioData.setGain(p.audioData.gain() - 0.05f);
 		if ( _brightnessUpTrigger.triggered() == true ) _brightnessVal += 0.1f;
 		if ( _brightnessDownTrigger.triggered() == true ) _brightnessVal -= 0.1f;
 		if ( _debugTexturesTrigger.triggered() == true ) _debugTextures = !_debugTextures;

@@ -45,8 +45,8 @@ extends BaseTexture {
 		_texture.beginShape();
 		float size = 10;
 		for( int i=0; i < points.length; i+=3 ) {
-			float amp = P.p.audioIn.getEqBand( i%512 );
-			amp = P.p._audioInput.getFFT().spectrum[i%512];
+			float amp = P.p.audioFreq( i%512 );
+			amp = P.p.audioFreq(i);
 
 			_texture.pushMatrix();
 			_texture.translate(points[i], points[i+1], points[i+2]);

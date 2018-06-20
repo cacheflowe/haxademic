@@ -23,7 +23,6 @@ import com.haxademic.core.hardware.mouse.MouseShutdown;
 import com.haxademic.core.math.easing.EasingFloat;
 import com.haxademic.core.math.easing.LinearFloat;
 import com.haxademic.core.math.easing.Penner;
-import com.haxademic.core.ui.CursorToggle;
 
 import processing.core.PGraphics;
 
@@ -60,7 +59,6 @@ extends PAppletHax
 	protected LinearFloat preloadBarOff = new LinearFloat(0, 0.01f);
 	protected boolean stressTesting = false;
 	protected BrightnessBumper brightnessBumper;
-	protected CursorToggle cursorToggle;
 
 	// Crossfade: 1st slide: `-no_fade_out-` (and don't `-no_exit_delay-`) -> 2nd slide: `-no_queue_delay-` (and don't `-no_fade_in-`)
 
@@ -90,7 +88,6 @@ extends PAppletHax
 	protected void setupFirstFrame() {
 		MouseShutdown.instance();
 		brightnessBumper = new BrightnessBumper();
-		cursorToggle = new CursorToggle(p.appConfig.getBoolean(AppSettings.HIDE_CURSOR, false));
 		buildDrawingSurface();
 		buildState();
 		loadImages();

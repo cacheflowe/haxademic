@@ -1,15 +1,15 @@
 package com.haxademic.app.haxvisual.viz.modules;
 
-import processing.core.PConstants;
-
 import com.haxademic.app.haxvisual.viz.IVizModule;
 import com.haxademic.app.haxvisual.viz.ModuleBase;
+import com.haxademic.core.app.P;
 import com.haxademic.core.camera.CameraOscillate;
 import com.haxademic.core.camera.common.ICamera;
 import com.haxademic.core.draw.color.ColorHax;
 import com.haxademic.core.draw.shapes.CacheFloweLogo;
 import com.haxademic.core.draw.shapes.Shapes;
-import com.haxademic.core.hardware.midi.MidiState;
+
+import processing.core.PConstants;
 
 public class CacheRings
 	extends ModuleBase
@@ -77,8 +77,8 @@ public class CacheRings
 
 		public void initAudio()
 		{
-			_audioData.setNumAverages( NUM_RINGS * 2 );
-			_audioData.setDampening( .13f );
+//			audioData.setNumAverages( NUM_RINGS * 2 );
+//			audioData.setDampening( .13f );
 		}
 
 		public void focus() {
@@ -110,7 +110,7 @@ public class CacheRings
 			//float thickness = 100 + 50 * p.cos( p.frameCount * 0.03f );
 						
 			// DRAW CACHEFLOWE LOGO... "c" radii : 25, 55   outer ring radii: 89, 118
-			float logoThickness = ( _audioData.getFFT().averages[0] + _audioData.getFFT().averages[1] + _audioData.getFFT().averages[2] ) * 4000;
+			float logoThickness = ( P.p.audioFreq(0) + P.p.audioFreq(1) + P.p.audioFreq(2) ) * 4000;
 			float logoAlpha = ( _mode == MODE_WIREFRAME ) ? 0 : _fillAlpha;
 			if( _mode == MODE_WIREFRAME ) p.stroke( _curColor.colorInt() );
 			CacheFloweLogo.drawCacheFloweLogo( p, 5, logoThickness, _curColor.colorIntWithAlpha(logoAlpha, 0), _curColor.colorIntWithAlpha(logoAlpha, wallOffset) );		
@@ -123,7 +123,7 @@ public class CacheRings
 			{
 				int ringSpacingIndex = i+1;
 				
-				float ringEQVal = _audioData.getFFT().averages[i + 5];
+				float ringEQVal = P.p.audioFreq(i + 5);
 				float ringAlpha = ( _mode == MODE_ALPHA ) ? ringEQVal : _fillAlpha;
 				
 				if( _mode == MODE_WIREFRAME ) p.stroke( _ringColors[i].colorInt() );
@@ -291,29 +291,29 @@ public class CacheRings
 
 		}
 
-		protected void drawWaveform ()
-		{
-			// draw waveform
-			p.pushMatrix();
-			p.translate( 0, 0, 256 );
-			p.rotateY(p.radians(90));
-			p.stroke(255/255f, 249/255f, 0);
-			int interp = (int)p.max( 0, (( ( p.millis() - p._audioInput._myInput.bufferStartTime)/(float)p._audioInput._myInput.duration) * p._audioInput._myInput.size));
-			//p.println(p._audioInput._myInput.buffer2.length);
-			for (int i=0;i<p._audioInput._bufferSize;i++) {
-				int segmentLength = i;
-				
-				float left=0;
-				float right=0;
-			
-				if (i+interp+1<p._audioInput._myInput.buffer2.length) {
-					left -= p._audioInput._myInput.buffer2[segmentLength+interp]*150.0;
-					right -= p._audioInput._myInput.buffer2[segmentLength*2+interp]*150.0;
-				}
-				
-				p.line(i,left,i+1,right);
-			}
-			p.popMatrix();
-		}
+//		protected void drawWaveform ()
+//		{
+//			// draw waveform
+//			p.pushMatrix();
+//			p.translate( 0, 0, 256 );
+//			p.rotateY(p.radians(90));
+//			p.stroke(255/255f, 249/255f, 0);
+//			int interp = (int)p.max( 0, (( ( p.millis() - p._audioInput._myInput.bufferStartTime)/(float)p._audioInput._myInput.duration) * p._audioInput._myInput.size));
+//			//p.println(p._audioInput._myInput.buffer2.length);
+//			for (int i=0;i<p._audioInput._bufferSize;i++) {
+//				int segmentLength = i;
+//				
+//				float left=0;
+//				float right=0;
+//			
+//				if (i+interp+1<p._audioInput._myInput.buffer2.length) {
+//					left -= p._audioInput._myInput.buffer2[segmentLength+interp]*150.0;
+//					right -= p._audioInput._myInput.buffer2[segmentLength*2+interp]*150.0;
+//				}
+//				
+//				p.line(i,left,i+1,right);
+//			}
+//			p.popMatrix();
+//		}
 		
 	}

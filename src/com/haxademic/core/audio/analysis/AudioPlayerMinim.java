@@ -1,6 +1,7 @@
 package com.haxademic.core.audio.analysis;
 
 import com.haxademic.core.app.P;
+import com.haxademic.core.audio.analysis.input.AudioStreamData;
 
 import ddf.minim.AudioPlayer;
 import ddf.minim.Minim;

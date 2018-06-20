@@ -1,18 +1,18 @@
 package com.haxademic.app.haxvisual.viz.modules;
 
+import com.haxademic.app.haxvisual.viz.IVizModule;
+import com.haxademic.app.haxvisual.viz.ModuleBase;
+import com.haxademic.app.haxvisual.viz.modules.BlobSheet.Cell;
+import com.haxademic.app.haxvisual.viz.modules.BlobSheet.ControlPoint;
+import com.haxademic.core.app.P;
+import com.haxademic.core.camera.CameraBasic;
+import com.haxademic.core.camera.CameraSpotter;
+
 import processing.core.PConstants;
 import toxi.geom.AABB;
 import toxi.geom.Sphere;
 import toxi.geom.Vec3D;
 import toxi.processing.ToxiclibsSupport;
-
-import com.haxademic.app.haxvisual.viz.IVizModule;
-import com.haxademic.app.haxvisual.viz.ModuleBase;
-import com.haxademic.app.haxvisual.viz.modules.BlobSheet.Cell;
-import com.haxademic.app.haxvisual.viz.modules.BlobSheet.ControlPoint;
-import com.haxademic.core.camera.CameraBasic;
-import com.haxademic.core.camera.CameraSpotter;
-import com.haxademic.core.hardware.midi.MidiState;
 
 public class CubeStrand extends ModuleBase implements IVizModule {
 	
@@ -68,8 +68,8 @@ public class CubeStrand extends ModuleBase implements IVizModule {
 
 	public void initAudio()
 	{
-		_audioData.setNumAverages( _numAverages );
-		_audioData.setDampening( .13f );
+//		audioData.setNumAverages( _numAverages );
+//		audioData.setDampening( .13f );
 	}
 
 	public void focus() {
@@ -165,7 +165,7 @@ public class CubeStrand extends ModuleBase implements IVizModule {
 		curB = startB;
 
 		for (int i = 0; i < numCtrls; i++) {
-			cntrls[i].update( _audioData.getFFT().averages[i], _audioData.getFFT().averages[i] );
+			cntrls[i].update( P.p.audioFreq(i), P.p.audioFreq(i) );
 		}
 
 		for (int i = 0; i < cols; i++) {

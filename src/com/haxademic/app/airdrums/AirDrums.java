@@ -11,6 +11,7 @@ import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.kinect.KinectSize;
 
 import ddf.minim.AudioPlayer;
+import ddf.minim.Minim;
 import toxi.color.TColor;
 
 public class AirDrums
@@ -26,6 +27,7 @@ extends PAppletHax {
 	protected ArrayList<BeatSquare> _beats;
 	protected ColorGroup _colors;
 	protected float _drawRatio = 1;
+	protected Minim minim;
 
 	public void settings() {
 		customPropsFile = FileUtil.getFile("properties/airdrums.properties");
@@ -42,6 +44,8 @@ extends PAppletHax {
 	}
 
 	public void initDrums() {
+		minim = new Minim(this);
+		
 		KINECT_CLOSE = p.appConfig.getInt( "kinect_min_mm", 1500 );
 		KINECT_FAR = p.appConfig.getInt( "kinect_max_mm", 1700 );
 
@@ -109,7 +113,7 @@ extends PAppletHax {
 			_w = w;
 			_h = h;
 			_color = color;
-			_sound = p.audioIn.minim().loadFile( file, 512 );
+			_sound = minim.loadFile( file, 512 );
 		}
 		
 		public void update() {

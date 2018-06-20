@@ -217,7 +217,7 @@ extends HaxMapper{
 	}
 	
 	protected void checkBeat() {
-		if( audioIn.isBeat() == true && isBeatDetectMode() == true ) {
+		if( p.audioData.isBeat() == true && isBeatDetectMode() == true ) {
 			updateTiming();
 		}
 	}

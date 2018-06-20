@@ -36,8 +36,8 @@ extends BaseTexture {
 		_texture.strokeWeight(_circleRadiusStep);
 		DrawUtil.setDrawCenter(_texture);
 		for (int i = 0; i < _numCircles; i++) {
-			float alphaVal = 0.1f * P.p.audioIn.getEqBand( P.floor(_spectrumInterval * i) );
-			alphaVal = P.p._audioInput.getFFT().spectrum[P.floor(i * _spectrumInterval)];
+			float alphaVal = 0.1f * P.p.audioFreq( P.floor(_spectrumInterval * i) );
+			alphaVal = P.p.audioFreq(P.floor(i * _spectrumInterval));
 //			_texture.stroke( _colorEase.colorInt(), P.constrain( alphaVal * 255f, 0, 255 ) );
 			if( i % 2 == 0 ) _texture.stroke( white, P.constrain( alphaVal * 255f, 0, 255 ) );
 			_texture.ellipse( startX, startY, i * _circleRadiusStep, i * _circleRadiusStep );	

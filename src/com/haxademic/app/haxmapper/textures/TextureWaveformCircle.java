@@ -10,7 +10,7 @@ import com.haxademic.core.math.easing.EasingFloat;
 public class TextureWaveformCircle 
 extends BaseTexture {
 
-	protected WaveformData _waveformData;
+//	protected WaveformData _waveformData;
 	protected float _circleInc;
 	protected float _amp;
 	protected float _strokeWeight;
@@ -28,8 +28,8 @@ extends BaseTexture {
 		_texture.endDraw();
 
 		
-		_waveformData = P.p._waveformData;
-		_circleInc = ( (float)Math.PI * 2.0f ) / _waveformData._waveform.length;
+//		_waveformData = P.p._waveformData;
+		_circleInc = ( (float)Math.PI * 2.0f ) / P.p.audioData.waveform().length;
 		
 		// set some defaults
 		newLineMode();
@@ -49,7 +49,7 @@ extends BaseTexture {
 		DrawUtil.resetGlobalProps( _texture );
 		DrawUtil.setCenterScreen( _texture );
 
-		int numPoints = _waveformData._waveform.length;
+		int numPoints = P.p.audioData.waveform().length;
 		
 		// draw 3 concentric circles
 		for (int j = 0; j < 3; j++) {
@@ -64,12 +64,12 @@ extends BaseTexture {
 			float radius;
 			for (int i = 0; i < numPoints; i++ ) {
 				float concentricMult = 0.5f * (float) j;
-				radius =   concentricMult * _radius.value() + _waveformData._waveform[i] * _amp;
+				radius =   concentricMult * _radius.value() + P.p.audioData.waveform()[i] * _amp;
 				_texture.vertex( P.sin( _circleInc * i ) * radius , P.cos( _circleInc * i ) * radius );
 			}
 
 			// connect 1st and last points
-			radius = _radius.value() + _waveformData._waveform[0] * _amp;
+			radius = _radius.value() + P.p.audioData.waveform()[0] * _amp;
 			_texture.vertex( P.sin( _circleInc * 0 ) * radius , P.cos( _circleInc * 0 ) * radius );
 			_texture.endShape();
 		}

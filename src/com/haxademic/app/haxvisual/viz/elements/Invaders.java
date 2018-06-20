@@ -2,10 +2,8 @@ package com.haxademic.app.haxvisual.viz.elements;
 
 import com.haxademic.app.haxvisual.viz.ElementBase;
 import com.haxademic.app.haxvisual.viz.IVizElement;
-import com.haxademic.core.audio.AudioInputWrapper;
 import com.haxademic.core.draw.color.ColorGroup;
 import com.haxademic.core.draw.context.DrawUtil;
-import com.haxademic.core.draw.toxi.DrawMesh;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.EasingFloat3d;
 
@@ -30,8 +28,8 @@ implements IVizElement {
 	protected float TOTAL_LINE_WIDTH = 5900;
 	protected float SCROLL_SPEED = 20;
 
-	public Invaders( PApplet p, ToxiclibsSupport toxi, AudioInputWrapper audioData ) {
-		super( p, toxi, audioData );
+	public Invaders( PApplet p, ToxiclibsSupport toxi ) {
+		super( p, toxi );
 		init();
 	}
 
@@ -94,20 +92,20 @@ implements IVizElement {
 		p.pushMatrix();
 
 		// draw logo
-		DrawMesh.drawMeshWithAudio( p, _logoMesh, _audioData, false, _logo_color, _logo_color, 0.25f );
-		p.translate(1900f, 0, 0);
+//		DrawMesh.drawMeshWithAudio( p, _logoMesh, _audioData, false, _logo_color, _logo_color, 0.25f );
+//		p.translate(1900f, 0, 0);
 
 		// draw invaders
 		WETriangleMesh mesh2 = ( p.round( p.frameCount / 30f ) % 2 == 0 ) ? _invaderMesh_02 : _invaderMesh_02_alt;
-		DrawMesh.drawMeshWithAudio( p, mesh2, _audioData, _invader_02_wireframe, _invader_02_color, _invader_02_color, 0.25f );
+//		DrawMesh.drawMeshWithAudio( p, mesh2, _audioData, _invader_02_wireframe, _invader_02_color, _invader_02_color, 0.25f );
 		p.translate(1000f, 0, 0);
 		
 		WETriangleMesh mesh3 = ( p.round( p.frameCount / 30f ) % 2 == 0 ) ? _invaderMesh_03 : _invaderMesh_03_alt;
-		DrawMesh.drawMeshWithAudio( p, mesh3, _audioData, _invader_03_wireframe, _invader_03_color, _invader_03_color, 0.25f );
+//		DrawMesh.drawMeshWithAudio( p, mesh3, _audioData, _invader_03_wireframe, _invader_03_color, _invader_03_color, 0.25f );
 		p.translate(1000f, 0, 0);
 		
 		WETriangleMesh mesh1 = ( p.round( p.frameCount / 30f ) % 2 == 0 ) ? _invaderMesh_01 : _invaderMesh_01_alt;
-		DrawMesh.drawMeshWithAudio( p, mesh1, _audioData, _invader_01_wireframe, _invader_01_color, _invader_01_color, 0.25f );
+//		DrawMesh.drawMeshWithAudio( p, mesh1, _audioData, _invader_01_wireframe, _invader_01_color, _invader_01_color, 0.25f );
 
 		p.popMatrix();
 	}
@@ -132,7 +130,6 @@ implements IVizElement {
 	}
 	
 	public void dispose() {
-		_audioData = null;
 	}
 	
 }

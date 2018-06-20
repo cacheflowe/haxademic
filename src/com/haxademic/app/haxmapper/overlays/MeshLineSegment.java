@@ -2,7 +2,6 @@ package com.haxademic.app.haxmapper.overlays;
 
 import com.haxademic.app.haxmapper.overlays.MeshLines.MODE;
 import com.haxademic.core.app.P;
-import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.math.MathUtil;
 
 import processing.core.PGraphics;
@@ -41,7 +40,7 @@ public class MeshLineSegment {
 			waveformShape.strokeWeight(1);
 			float spacing = (float) width / 10;//P.p._waveformData._waveform.length;
 			float startX = 0f;
-			for (int i = 0; i < P.p._waveformData._waveform.length-23; i+=30 ) {	
+			for (int i = 0; i <  P.p.audioData.waveform().length-23; i+=30 ) {	
 				waveformShape.vertex(startX + i * spacing, 0);
 			}
 			waveformShape.endShape();

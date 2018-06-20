@@ -57,7 +57,7 @@ extends BaseTexture {
 		_texture.beginShape();
 		_texture.vertex( cellX, -halfH );
 		for (int i = 0; i < _cols; i++) {
-			float eqAmp = P.p._audioInput.getFFT().spectrum[i*spectrumInterval] * cellH;
+			float eqAmp = P.p.audioFreq(i*spectrumInterval) * cellH;
 			_texture.vertex( cellX, eqAmp );
 			cellX += cellW;
 		}		

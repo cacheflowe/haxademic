@@ -193,7 +193,7 @@ extends PAppletHax {
 		}
 		
 		// beat detection texture updates
-		if( audioIn.isBeat() == true ) _texturePool.get(_curTextureIndex).updateTiming();
+		if( p.audioData.isBeat() == true ) _texturePool.get(_curTextureIndex).updateTiming();
 		_texturePool.get(_curTextureIndex).update();
 
 		// update shaders with midi

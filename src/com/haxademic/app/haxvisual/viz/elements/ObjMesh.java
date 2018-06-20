@@ -2,10 +2,9 @@ package com.haxademic.app.haxvisual.viz.elements;
 
 import com.haxademic.app.haxvisual.viz.ElementBase;
 import com.haxademic.app.haxvisual.viz.IVizElement;
-import com.haxademic.core.audio.AudioInputWrapper;
+import com.haxademic.core.app.P;
 import com.haxademic.core.draw.color.ColorGroup;
 import com.haxademic.core.draw.context.DrawUtil;
-import com.haxademic.core.draw.toxi.DrawMesh;
 
 import processing.core.PApplet;
 import processing.core.PVector;
@@ -32,8 +31,8 @@ implements IVizElement {
 	protected PVector _rotation = new PVector( 0, 0, 0 );
 	protected PVector _rotationTarget = new PVector( 0, 0, 0 );
 
-	public ObjMesh( PApplet p, ToxiclibsSupport toxi, AudioInputWrapper audioData ) {
-		super( p, toxi, audioData );
+	public ObjMesh( PApplet p, ToxiclibsSupport toxi ) {
+		super( p, toxi );
 		init();
 	}
 
@@ -85,9 +84,9 @@ implements IVizElement {
 		
 		// draw outer spheres
 		if( _isPoints == true ) {
-			DrawMesh.drawPointsWithAudio( p, _objMesh, _audioData, _colorGradientDivider, 15, _baseColor, _strokeColor, 0f );
+//			DrawMesh.drawPointsWithAudio( p, _objMesh, _audioData, _colorGradientDivider, 15, _baseColor, _strokeColor, 0f );
 		} else {
-			DrawMesh.drawMeshWithAudio( p, _objMesh, _audioData, _isWireframe, _baseColor, _strokeColor, 0 );
+//			DrawMesh.drawMeshWithAudio( p, _objMesh, _audioData, _isWireframe, _baseColor, _strokeColor, 0 );
 		}
 		
 		p.popMatrix();
@@ -111,7 +110,7 @@ implements IVizElement {
 	}
 	
 	public void updateLineMode() {
-		int linesMode = p.round( p.random( 0, 1 ) );
+		int linesMode = P.round( p.random( 0, 1 ) );
 		if( linesMode == 0 ) {
 			_isWireframe = true;
 			_isPoints = false;
@@ -137,6 +136,5 @@ implements IVizElement {
 	}
 
 	public void dispose() {
-		_audioData = null;
 	}
 }

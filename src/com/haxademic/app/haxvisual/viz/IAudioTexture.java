@@ -6,7 +6,7 @@ import com.haxademic.core.audio.AudioInputWrapper;
 
 public interface IAudioTexture
 extends IVizElement {
-	public void updateTexture( AudioInputWrapper audioInput );
+//	public void updateTexture( AudioInputWrapper audioInput );
 	public PImage getTexture();
 	public void dispose();
 }

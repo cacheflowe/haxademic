@@ -28,8 +28,9 @@ implements IWebCamCallback {
 	protected void overridePropsFile() {
 		p.appConfig.setProperty(AppSettings.WIDTH, 1280 );
 		p.appConfig.setProperty(AppSettings.HEIGHT, 720 );
-		p.appConfig.setProperty(AppSettings.WEBCAM_INDEX, 18 ); // 18
+		p.appConfig.setProperty(AppSettings.WEBCAM_INDEX, 3 ); // 18
 		p.appConfig.setProperty(AppSettings.INIT_ESS_AUDIO, true );
+//		p.appConfig.setProperty(AppSettings.INIT_MINIM_AUDIO, true );
 //		p.appConfig.setProperty(AppSettings.SHOW_DEBUG, true );
 	}
 		
@@ -60,7 +61,8 @@ implements IWebCamCallback {
 		feedbackMap.filter(textureShader.shader());
 		
 		// apply feedback texture to main buffer
-		float audioIn = P.p._audioInput.getFFT().spectrum[100] * 0.01f;
+		float audioIn = P.p.audioFreq(100) * 0.01f;
+		p.debugView.setValue("audioIn", audioIn);
 //		p.debugView.setValue("audioIn", audioIn);
 		feedbackShader.set("map", feedbackMap);
 		feedbackShader.set("samplemult", P.map(p.mouseY, 0, p.height, 0.85f, 1.15f) );

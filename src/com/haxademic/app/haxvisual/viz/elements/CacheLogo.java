@@ -1,18 +1,17 @@
 package com.haxademic.app.haxvisual.viz.elements;
 
-import processing.core.PApplet;
-import toxi.color.TColor;
-import toxi.processing.ToxiclibsSupport;
-
 import com.haxademic.app.haxvisual.viz.ElementBase;
 import com.haxademic.app.haxvisual.viz.IVizElement;
 import com.haxademic.core.app.P;
-import com.haxademic.core.audio.AudioInputWrapper;
 import com.haxademic.core.draw.color.ColorGroup;
 import com.haxademic.core.draw.color.ColorHax;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.shapes.CacheFloweLogo;
 import com.haxademic.core.math.MathUtil;
+
+import processing.core.PApplet;
+import toxi.color.TColor;
+import toxi.processing.ToxiclibsSupport;
 
 public class CacheLogo
 extends ElementBase 
@@ -47,8 +46,8 @@ implements IVizElement {
 
 
 
-	public CacheLogo( PApplet p, ToxiclibsSupport toxi, AudioInputWrapper audioData ) {
-		super( p, toxi, audioData );
+	public CacheLogo( PApplet p, ToxiclibsSupport toxi ) {
+		super( p, toxi );
 		init();
 	}
 
@@ -73,9 +72,9 @@ implements IVizElement {
 		p.translate( 0, 0, -300 );
 		easeParameters();
 		
-		_targetThickness = ( _audioData.getFFT().spectrum[100] ) * 400;
+		_targetThickness = ( P.p.audioFreq(100) ) * 400;
 		_thickness = MathUtil.easeTo( _thickness, _targetThickness, 4 );
-		float logoAlpha = ( P.constrain( _audioData.getFFT().averages[2] * 1.7f, 0f, 1f ) );	//  * 255 + 127
+		float logoAlpha = ( P.constrain( P.p.audioFreq(2) * 1.7f, 0f, 1f ) );	//  * 255 + 127
 		
 		TColor fillColor = null;
 		
@@ -121,7 +120,6 @@ implements IVizElement {
 	}
 
 	public void dispose() {
-		_audioData = null;
 	}
 
 

@@ -62,7 +62,7 @@ extends PAppletHax {
 			PVector v2 = shape.getVertex(i+1);
 			PVector v3 = shape.getVertex(i+2);
 			
-			float eqAmp = 1f + p._audioInput.getFFT().spectrum[ i % p._audioInput.getFFT().spectrum.length ];
+			float eqAmp = 1f + p.audioFreq(i);
 			p.stroke(255f * (-0.75f + eqAmp));
 			
 			// override for render

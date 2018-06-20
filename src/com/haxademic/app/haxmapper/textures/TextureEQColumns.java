@@ -41,15 +41,15 @@ extends BaseTexture {
 
 		if( _barsGrow == true ) {
 			for( int i=0; i < _numLines; i++ ) {
-				float eqAmp = P.p.audioIn.getEqAvgBand( P.floor(i*avergeInterval) );
-				eqAmp = P.p._audioInput.getFFT().spectrum[P.floor(i * _spectrumInterval)];
+				float eqAmp = P.p.audioFreq( P.floor(i*avergeInterval) );
+				eqAmp = P.p.audioFreq(P.floor(i * _spectrumInterval));
 				_texture.fill( _colorEase.colorInt() );
 				_texture.rect(i * eqW, 0, eqW, eqAmp * _texture.height * 0.8f );  //  P.p.audioIn.getEqBand( P.floor(i*spectrumInterval)%512 ) * 50
 			}
 		} else {
 			for( int i=0; i < _numLines; i++ ) {
-				float eqAmp =  P.p.audioIn.getEqAvgBand( P.floor(i*avergeInterval) );
-				eqAmp = P.p._audioInput.getFFT().spectrum[P.floor(i * _spectrumInterval)];
+				float eqAmp = P.p.audioFreq( P.floor(i*avergeInterval) );
+				eqAmp = P.p.audioFreq(P.floor(i * _spectrumInterval));
 				_texture.fill( _colorEase.colorInt(), P.constrain( eqAmp * 255, 0, 255 ) );
 				_texture.rect(i * eqW, 0, eqW, _texture.height );  //  P.p.audioIn.getEqBand( P.floor(i*spectrumInterval)%512 ) * 50
 			}

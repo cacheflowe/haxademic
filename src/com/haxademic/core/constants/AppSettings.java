@@ -50,7 +50,6 @@ public class AppSettings {
 	public static final String SUNFLOW_QUALITY_HIGH = "high";
 	public static final String SUNFLOW_SAVE_IMAGES = "sunflow_save_images";
 	// Input
-	public static final String HIDE_CURSOR = "hide_cursor";
 	public static final String DISABLE_ESC_KEY = "disable_esc";
 	public static final String WEBCAM_INDEX = "webcam_index";
 	public static final String WEBCAM_THREADED = "webcam_threaded";
@@ -63,6 +62,7 @@ public class AppSettings {
 	public static final String OSC_ACTIVE = "osc_active";
 	public static final String INIT_ESS_AUDIO = "init_ess_audio";
 	public static final String INIT_MINIM_AUDIO = "init_minim_audio";
+	public static final String INIT_BEADS_AUDIO = "init_beads_audio";
 	// Output
 	public static final String DMX_LIGHTS_COUNT = "dmx_lights_count";
 	// Debugging

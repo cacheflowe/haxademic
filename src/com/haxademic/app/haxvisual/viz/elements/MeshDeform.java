@@ -3,13 +3,9 @@ package com.haxademic.app.haxvisual.viz.elements;
 import com.haxademic.app.haxvisual.viz.ElementBase;
 import com.haxademic.app.haxvisual.viz.IVizElement;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.audio.AudioInputWrapper;
 import com.haxademic.core.draw.color.ColorGroup;
 import com.haxademic.core.draw.context.DrawUtil;
-import com.haxademic.core.draw.toxi.DrawMesh;
 import com.haxademic.core.draw.toxi.MeshPool;
-import com.haxademic.core.draw.toxi.MeshUtilToxi;
-import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.MathUtil;
 
 import processing.core.PVector;
@@ -35,8 +31,8 @@ implements IVizElement {
 	protected PVector _rotation = new PVector( 0, 0, 0 );
 	protected PVector _rotationTarget = new PVector( 0, 0, 0 );
 
-	public MeshDeform( PAppletHax p, ToxiclibsSupport toxi, AudioInputWrapper audioData ) {
-		super( p, toxi, audioData );
+	public MeshDeform( PAppletHax p, ToxiclibsSupport toxi ) {
+		super( p, toxi );
 		init();
 	}
 
@@ -114,8 +110,8 @@ implements IVizElement {
 
 		// deform and draw mesh
 		if( _curMesh != null && _curMeshDeformed != null ) {
-			MeshUtilToxi.deformMeshWithAudio( _curMesh, _curMeshDeformed, _audioData, 1f );
-			DrawMesh.drawMeshWithAudio( p, _curMeshDeformed, _audioData, _isWireframe, _baseColor, _strokeColor, 0.1f );
+//			MeshUtilToxi.deformMeshWithAudio( _curMesh, _curMeshDeformed, _audioData, 1f );
+//			DrawMesh.drawMeshWithAudio( p, _curMeshDeformed, _audioData, _isWireframe, _baseColor, _strokeColor, 0.1f );
 		}
 		
 		p.popMatrix();
@@ -162,6 +158,5 @@ implements IVizElement {
 	}
 
 	public void dispose() {
-		_audioData = null;
 	}
 }

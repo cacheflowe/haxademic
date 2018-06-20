@@ -15,7 +15,6 @@ import com.haxademic.core.draw.shaders.textures.TextureShader;
 import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.file.DemoAssets;
 import com.haxademic.core.file.FileUtil;
-import com.haxademic.core.hardware.webcam.WebCamWrapper;
 import com.haxademic.core.math.MathUtil;
 
 import processing.core.PGraphics;
@@ -45,7 +44,6 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.WIDTH, W );
 		p.appConfig.setProperty( AppSettings.HEIGHT, H );
 		p.appConfig.setProperty( AppSettings.WEBCAM_INDEX, 3);
-		p.appConfig.setProperty( AppSettings.HIDE_CURSOR, true);
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, false );
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_START_FRAME, P.round(1 + frames * 3) );
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, P.round(1 + frames * 4) );

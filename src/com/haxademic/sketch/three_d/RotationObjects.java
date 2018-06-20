@@ -1,13 +1,11 @@
 package com.haxademic.sketch.three_d;
 
 import com.haxademic.app.haxvisual.viz.elements.RotatorShape;
-import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.color.ColorGroup;
 import com.haxademic.core.draw.color.ColorHax;
 import com.haxademic.core.draw.context.DrawUtil;
 
-import processing.core.PApplet;
 import processing.core.PConstants;
 import toxi.processing.ToxiclibsSupport;
 
@@ -34,8 +32,8 @@ extends PAppletHax
 		
 //		p.colorMode( PConstants.RGB, 1, 1, 1, 1 );
 		
-		_rotator = new RotatorShape( p, toxi, null, _numRotations );
-		_rotatorBG = new RotatorShape( p, toxi, null, _numRotations );
+		_rotator = new RotatorShape( p, toxi, _numRotations );
+		_rotatorBG = new RotatorShape( p, toxi, _numRotations );
 		_color = new ColorHax( 255, 255, 155, 255 );
 		_colorBG = new ColorHax( 255, 155, 255, 255 );
 		_fakeAudioData = new float[ _numRotations ];

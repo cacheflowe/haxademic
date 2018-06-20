@@ -69,7 +69,7 @@ public class MeshParticles {
 		_curNumParticles = halfNumParticles + P.round(halfNumParticles * P.sin(P.p.frameCount/1000f));
 		
 		for(int i=0; i < _curNumParticles; i++) {
-			float amp = P.p.audioIn.getEqBand( i % 32 ) / 20f;
+			float amp = P.p.audioFreq( i % 32 ) / 20f;
 			PVector closestAttractor = getOneOfTheClosestVertexToParticle( _particles.get(i) );
 			_particles.get(i).update(closestAttractor.x, closestAttractor.y, amp);
 		}

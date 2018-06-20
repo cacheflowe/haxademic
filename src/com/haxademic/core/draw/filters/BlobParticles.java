@@ -198,7 +198,7 @@ public class BlobParticles {
 		public void startAt( float x, float y, float speedX, float speedY, int color ) {
 			_position.set( x, y );
 			_speed.set( speedX * 15 * p.random(2f) + p.random(-0.2f,0.2f), speedY * 5 * p.random(3f) );	// add a little extra x variance
-			_speed.mult( 1 + p._audioInput.getFFT().spectrum[_audioIndex] ); // speed multiplied by audio
+			_speed.mult( 1 + p.audioFreq(_audioIndex) ); // speed multiplied by audio
 			_color = color;
 			_opacity = 0.8f;
 			_opacityFadeSpeed = p.random(50f, 500f) / 10000f; // 0.005 - 0.05
@@ -217,7 +217,7 @@ public class BlobParticles {
 			} else {
 				p.fill( _color, 127f * _opacity );
 				p.noStroke();
-				float size = 1 + p._audioInput.getFFT().spectrum[_audioIndex] * 10; // was 3
+				float size = 1 + p.audioFreq(_audioIndex) * 10; // was 3
 				p.rect( _position.x - size/2f, _position.y - size/2f, size, size );
 			}
 		}

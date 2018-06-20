@@ -2,6 +2,11 @@ package com.haxademic.app.haxvisual.viz.modules;
 
 import java.util.Iterator;
 
+import com.haxademic.app.haxvisual.viz.IVizModule;
+import com.haxademic.app.haxvisual.viz.ModuleBase;
+import com.haxademic.core.camera.CameraOscillate;
+import com.haxademic.core.camera.common.ICamera;
+
 import processing.core.PConstants;
 import processing.core.PGraphics;
 import toxi.geom.AABB;
@@ -15,12 +20,6 @@ import toxi.geom.mesh.SphericalHarmonics;
 import toxi.geom.mesh.SurfaceMeshBuilder;
 import toxi.geom.mesh.TriangleMesh;
 import toxi.processing.ToxiclibsSupport;
-
-import com.haxademic.app.haxvisual.viz.IVizModule;
-import com.haxademic.app.haxvisual.viz.ModuleBase;
-import com.haxademic.core.camera.CameraOscillate;
-import com.haxademic.core.camera.common.ICamera;
-import com.haxademic.core.hardware.midi.MidiState;
 
 
 public class Toxi
@@ -85,8 +84,8 @@ public class Toxi
 
 		public void initAudio()
 		{
-			_audioData.setNumAverages( NUM_BLOCKS );
-			_audioData.setDampening( .13f );
+//			audioData.setNumAverages( NUM_BLOCKS );
+//			audioData.setDampening( .13f );
 		}
 
 		public void focus() {
@@ -125,7 +124,7 @@ public class Toxi
 			p.rotateY(p.mouseX*0.01f);
 			p.noStroke();
 			 
-			float test = -_audioData.getFFT().averages[10]*20*baseSize;
+			float test = -p.audioFreq(10)*20*baseSize;
 			
 			cone=new Cone(new Vec3D(0,test + 200,0), new Vec3D(0,-test,0), 50, 100, 50);
 			gfx.cone(cone,10,false);
@@ -154,7 +153,7 @@ public class Toxi
 			// Oscillate and display each object
 			p.noStroke();
 			for (int i = 0; i < NUM_BLOCKS; i++) {
-				_blocks[i].update( i, NUM_BLOCKS, _audioData.getFFT().averages[i] * 100 );
+				_blocks[i].update( i, NUM_BLOCKS, p.audioFreq(i) * 100 );
 			}
 		  	p.popMatrix();
 			// center ball

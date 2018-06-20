@@ -1,4 +1,4 @@
-package com.haxademic.core.audio.analysis;
+package com.haxademic.core.audio.analysis.input;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.debug.DebugUtil;
@@ -7,7 +7,7 @@ import krister.Ess.AudioInput;
 import krister.Ess.FFT;
 import processing.core.PApplet;
 
-public class BeatDetect
+public class AudioInputESSBeatDetect
 {
 	PApplet p;
 
@@ -35,12 +35,12 @@ public class BeatDetect
 	private int varCnt;
 	private int feNum;
 
-	BeatDetect()
+	AudioInputESSBeatDetect()
 	{
 		init(1024, 44100);
 	}
 
-	public BeatDetect(int s, float r)
+	public AudioInputESSBeatDetect(int s, float r)
 	{
 		p = P.p;
 		init(s, r);

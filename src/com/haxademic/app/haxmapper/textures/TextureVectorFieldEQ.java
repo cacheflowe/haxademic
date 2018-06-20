@@ -132,7 +132,7 @@ extends BaseTexture {
 			
 			// update position
 			lastPosition.set(position);
-			float curSpeed = speed * (0.15f + P.p._audioInput.getFFT().spectrum[index % 512]);
+			float curSpeed = speed * (0.15f + P.p.audioFreq(index));
 			position.set( position.x + P.sin(radians.value()) * curSpeed, position.y + P.cos(radians.value()) * curSpeed );
 			if( position.x < 0 ) position.set( _texture.width, position.y );
 			if( position.x > _texture.width ) position.set( 0, position.y );

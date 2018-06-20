@@ -8,7 +8,6 @@ import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.shared.InputTrigger;
 
 import beads.AudioContext;
-import beads.Gain;
 import beads.Sample;
 import beads.SampleManager;
 import beads.SamplePlayer;
@@ -103,12 +102,12 @@ extends PAppletHax {
 			dmx.set(5, (int)color2.g());
 			dmx.set(6, (int)color2.b());
 		} else {
-			dmx.set(1, P.round(255 * p._audioInput.getFFT().spectrum[10]));
-			dmx.set(2, P.round(255 * p._audioInput.getFFT().spectrum[20]));
-			dmx.set(3, P.round(255 * p._audioInput.getFFT().spectrum[40]));
-			dmx.set(4, P.round(255 * p._audioInput.getFFT().spectrum[60]));
-			dmx.set(5, P.round(255 * p._audioInput.getFFT().spectrum[80]));
-			dmx.set(6, P.round(255 * p._audioInput.getFFT().spectrum[100]));
+			dmx.set(1, P.round(255 * p.audioFreq(10)));
+			dmx.set(2, P.round(255 * p.audioFreq(20)));
+			dmx.set(3, P.round(255 * p.audioFreq(40)));
+			dmx.set(4, P.round(255 * p.audioFreq(60)));
+			dmx.set(5, P.round(255 * p.audioFreq(80)));
+			dmx.set(6, P.round(255 * p.audioFreq(100)));
 		}
 	}
 	

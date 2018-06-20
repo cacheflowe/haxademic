@@ -2,18 +2,17 @@ package com.haxademic.app.haxvisual.viz.elements;
 
 import java.util.ArrayList;
 
+import com.haxademic.app.haxvisual.viz.ElementBase;
+import com.haxademic.app.haxvisual.viz.IVizElement;
+import com.haxademic.core.app.P;
+import com.haxademic.core.draw.color.ColorGroup;
+import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.math.easing.EasingFloat;
+
 import processing.core.PApplet;
 import processing.core.PConstants;
 import toxi.color.TColor;
 import toxi.processing.ToxiclibsSupport;
-
-import com.haxademic.app.haxvisual.viz.ElementBase;
-import com.haxademic.app.haxvisual.viz.IVizElement;
-import com.haxademic.core.app.P;
-import com.haxademic.core.audio.AudioInputWrapper;
-import com.haxademic.core.draw.color.ColorGroup;
-import com.haxademic.core.draw.context.DrawUtil;
-import com.haxademic.core.math.easing.EasingFloat;
 
 public class AppFrame2d
 extends ElementBase 
@@ -27,8 +26,8 @@ implements IVizElement {
 	protected ArrayList<EasingFloat> _radii;
 
 
-	public AppFrame2d( PApplet p, ToxiclibsSupport toxi, AudioInputWrapper audioData ) {
-		super( p, toxi, audioData );
+	public AppFrame2d( PApplet p, ToxiclibsSupport toxi ) {
+		super( p, toxi );
 		init();
 	}
 
@@ -123,7 +122,6 @@ implements IVizElement {
 	}
 
 	public void dispose() {
-		_audioData = null;
 	}
 	
 }

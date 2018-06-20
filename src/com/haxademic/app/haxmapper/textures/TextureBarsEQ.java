@@ -1,9 +1,9 @@
 package com.haxademic.app.haxmapper.textures;
 
-import processing.core.PConstants;
-
 import com.haxademic.core.app.P;
 import com.haxademic.core.draw.context.DrawUtil;
+
+import processing.core.PConstants;
 
 public class TextureBarsEQ 
 extends BaseTexture {
@@ -55,7 +55,7 @@ extends BaseTexture {
 		float startX = -P.p.width/2f;
 		int spectrumInterval = (int) ( 256f / _cols );	// 256 keeps it in the bottom half of the spectrum since the high ends is so overrun
 		for (int i = 0; i < _cols; i++) {
-			_texture.rect( startX + i * cellW, 0, cellW, P.p._audioInput.getFFT().spectrum[i*spectrumInterval] * cellH );
+			_texture.rect( startX + i * cellW, 0, cellW, P.p.audioFreq(i*spectrumInterval) * cellH );
 		}		
 	}
 

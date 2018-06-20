@@ -1,9 +1,9 @@
 package com.haxademic.app.haxmapper.textures;
 
-import processing.core.PConstants;
-
 import com.haxademic.core.app.P;
 import com.haxademic.core.draw.context.DrawUtil;
+
+import processing.core.PConstants;
 
 public class TextureBlobSheet 
 extends BaseTexture {
@@ -111,7 +111,7 @@ extends BaseTexture {
 		float curB = startB;
 
 		for (int i = 0; i < numCtrls; i++) {
-			cntrls[i].update( P.p._audioInput.getFFT().averages[i], P.p._audioInput.getFFT().averages[i] );
+			cntrls[i].update( P.p.audioFreq(i), P.p.audioFreq(i) );
 //			_texture.fill(255);
 //			_texture.rect(cntrls[i].x, cntrls[i].y, 20, 20);
 		}
@@ -211,7 +211,7 @@ extends BaseTexture {
 			// Color calculated using sine wave
 
 			// adjust cell z per brightness
-			z = -150 + 1 * _texture.brightness( cellColor )/2f * ( P.p._audioInput.getFFT().averages[2] + P.p._audioInput.getFFT().averages[3] );
+			z = -150 + 1 * _texture.brightness( cellColor )/2f * ( P.p.audioFreq(2) + P.p.audioFreq(3) );
 			_texture.pushMatrix();
 			_texture.translate( 0, 0, 0 + z );
 			

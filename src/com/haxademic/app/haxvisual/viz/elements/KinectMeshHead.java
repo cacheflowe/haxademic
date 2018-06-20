@@ -3,27 +3,25 @@ package com.haxademic.app.haxvisual.viz.elements;
 import java.util.ArrayList;
 import java.util.Vector;
 
+import com.haxademic.app.haxvisual.viz.ElementBase;
+import com.haxademic.app.haxvisual.viz.IVizElement;
+import com.haxademic.core.app.P;
+import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.draw.color.ColorGroup;
+import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.toxi.MeshPool;
+import com.haxademic.core.draw.toxi.MeshUtilToxi;
+import com.haxademic.core.hardware.kinect.IKinectWrapper;
+import com.haxademic.core.hardware.kinect.SkeletonsTracker;
+import com.haxademic.core.vendor.Toxiclibs;
+
+import SimpleOpenNI.SimpleOpenNI;
 import processing.core.PApplet;
 import processing.core.PGraphics;
 import processing.core.PVector;
 import toxi.color.TColor;
 import toxi.geom.mesh.WETriangleMesh;
 import toxi.processing.ToxiclibsSupport;
-import SimpleOpenNI.SimpleOpenNI;
-
-import com.haxademic.app.haxvisual.viz.ElementBase;
-import com.haxademic.app.haxvisual.viz.IVizElement;
-import com.haxademic.core.app.P;
-import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.audio.AudioInputWrapper;
-import com.haxademic.core.draw.color.ColorGroup;
-import com.haxademic.core.draw.context.DrawUtil;
-import com.haxademic.core.draw.toxi.MeshPool;
-import com.haxademic.core.draw.toxi.MeshUtilToxi;
-import com.haxademic.core.file.FileUtil;
-import com.haxademic.core.hardware.kinect.IKinectWrapper;
-import com.haxademic.core.hardware.kinect.SkeletonsTracker;
-import com.haxademic.core.vendor.Toxiclibs;
 
 public class KinectMeshHead
 extends ElementBase 
@@ -46,8 +44,8 @@ implements IVizElement {
 	
 	protected PAppletHax pHax;
 	
-	public KinectMeshHead( PApplet p, ToxiclibsSupport toxi, AudioInputWrapper audioData, IKinectWrapper kinectWrapper ) {
-		super( p, toxi, audioData );
+	public KinectMeshHead( PApplet p, ToxiclibsSupport toxi, IKinectWrapper kinectWrapper ) {
+		super( p, toxi );
 		init();
 	}
 
@@ -236,7 +234,6 @@ implements IVizElement {
 	}
 
 	public void dispose() {
-		_audioData = null;
 	}
 
 }

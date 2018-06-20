@@ -1,13 +1,12 @@
 package com.haxademic.app.haxvisual.viz.elements;
 
-import processing.core.PApplet;
-import toxi.processing.ToxiclibsSupport;
-
 import com.haxademic.app.haxvisual.viz.ElementBase;
 import com.haxademic.app.haxvisual.viz.IVizElement;
-import com.haxademic.core.audio.AudioInputWrapper;
 import com.haxademic.core.draw.color.ColorGroup;
 import com.haxademic.core.draw.context.DrawUtil;
+
+import processing.core.PApplet;
+import toxi.processing.ToxiclibsSupport;
 
 public class RotatorShapes 
 extends ElementBase 
@@ -16,14 +15,14 @@ implements IVizElement {
 	RotatorShape _rotator;
 	RotatorShape _rotatorBG;
 
-	public RotatorShapes( PApplet p, ToxiclibsSupport toxi, AudioInputWrapper audioData ) {
-		super( p, toxi, audioData );
+	public RotatorShapes( PApplet p, ToxiclibsSupport toxi ) {
+		super( p, toxi );
 		init();
 	}
 	
 	public void init() {
-		_rotator = new RotatorShape( p, toxi, _audioData, 12 );
-		_rotatorBG = new RotatorShape( p, toxi, _audioData, 12 );
+		_rotator = new RotatorShape( p, toxi, 12 );
+		_rotatorBG = new RotatorShape( p, toxi, 12 );
 		reset();
 	}
 

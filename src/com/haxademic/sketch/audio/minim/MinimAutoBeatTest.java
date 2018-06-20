@@ -5,10 +5,13 @@ import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.MathUtil;
 
 import ddf.minim.AudioPlayer;
+import ddf.minim.Minim;
 
 public class MinimAutoBeatTest 
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
+
+	Minim minim;
 
 	protected AudioPlayer _kick;
 	protected AudioPlayer _snare;
@@ -26,10 +29,12 @@ extends PAppletHax {
 	public void setup() {
 		super.setup();
 		
-		_kick = p.audioIn.minim().loadFile( FileUtil.getHaxademicDataPath() + "audio/kit808/kick.wav", 1024 );
-		_snare = p.audioIn.minim().loadFile( FileUtil.getHaxademicDataPath() + "audio/kit808/snare.wav", 1024 );
-		_stab = p.audioIn.minim().loadFile( FileUtil.getHaxademicDataPath() + "audio/drums/janet-stab.wav", 1024 );
-		_bass = p.audioIn.minim().loadFile( FileUtil.getHaxademicDataPath() + "audio/kit808/bass.wav", 1024 );
+		minim = new Minim(this);
+
+		_kick = minim.loadFile( FileUtil.getHaxademicDataPath() + "audio/kit808/kick.wav", 1024 );
+		_snare = minim.loadFile( FileUtil.getHaxademicDataPath() + "audio/kit808/snare.wav", 1024 );
+		_stab = minim.loadFile( FileUtil.getHaxademicDataPath() + "audio/drums/janet-stab.wav", 1024 );
+		_bass = minim.loadFile( FileUtil.getHaxademicDataPath() + "audio/kit808/bass.wav", 1024 );
 
 //		_beats.add( new BeatSquare(0 * drumPadW, 1 * drumPadH, drumPadW, drumPadH, _colors.getColorFromGroup(1,0), ) );
 //		_beats.add( new BeatSquare(1 * drumPadW, 1 * drumPadH, drumPadW, drumPadH, _colors.getColorFromGroup(1,1), "data/audio/kit808/snare.wav") );

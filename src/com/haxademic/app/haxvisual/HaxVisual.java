@@ -7,7 +7,6 @@ import com.haxademic.app.haxvisual.viz.modules.AmbientViz;
 import com.haxademic.app.haxvisual.viz.modules.AudioTubes;
 import com.haxademic.app.haxvisual.viz.modules.BlobSheet;
 import com.haxademic.app.haxvisual.viz.modules.Boxen3D;
-import com.haxademic.app.haxvisual.viz.modules.BrimLiski;
 import com.haxademic.app.haxvisual.viz.modules.CacheRings;
 import com.haxademic.app.haxvisual.viz.modules.GridAndLinesEQ;
 import com.haxademic.app.haxvisual.viz.modules.HorizLines;
@@ -19,11 +18,9 @@ import com.haxademic.app.haxvisual.viz.modules.Spheres;
 import com.haxademic.app.haxvisual.viz.modules.Toxi;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.image.ScreenUtil;
 import com.haxademic.core.file.FileUtil;
-import com.haxademic.core.hardware.midi.MidiState;
 
 import processing.core.PApplet;
 
@@ -79,7 +76,7 @@ extends PAppletHax
 		_modules = new ArrayList<IVizModule>();
 		_modules.add( new MasterHax() );
 		_modules.add( new AmbientViz() );
-		_modules.add( new BrimLiski() );
+//		_modules.add( new BrimLiski() );
 		_modules.add( new KaraokeViz() );
 		_modules.add( new Boxen3D() );
 		_modules.add( new Toxi() );
@@ -190,8 +187,8 @@ extends PAppletHax
 		}
 		
 //		// detect beats and pass through to current visual module
-		int[] beatDetectArr = _audioInput.getBeatDetection();
-		_modules.get( _curModule ).beatDetect( beatDetectArr[0], beatDetectArr[1], beatDetectArr[2], beatDetectArr[3] );
+//		int[] beatDetectArr = _audioInput.getBeatDetection();
+//		_modules.get( _curModule ).beatDetect( beatDetectArr[0], beatDetectArr[1], beatDetectArr[2], beatDetectArr[3] );
 		
 		// update current visual module
 		try{ _modules.get( _curModule ).update(); }

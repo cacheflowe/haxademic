@@ -1,6 +1,6 @@
 package com.haxademic.core.audio;
 
-import com.haxademic.core.audio.analysis.BeatDetect;
+import com.haxademic.core.audio.analysis.input.AudioInputESSBeatDetect;
 
 import krister.Ess.AudioInput;
 import krister.Ess.Ess;
@@ -10,7 +10,7 @@ import processing.core.PApplet;
 public class AudioInputWrapper
 {
 
-	public BeatDetect detector;
+	public AudioInputESSBeatDetect detector;
 
 	PApplet p;
 	public int _bufferSize=512;
@@ -50,8 +50,8 @@ public class AudioInputWrapper
 		setNumAverages( 13 );
 		_limitDiff = _maxLimit - _minLimit;
 
-		detector = new BeatDetect(_bufferSize,44100);
-		detector.detectMode(BeatDetect.SOUND_ENERGY); // BeatDetect.FREQ_ENERGY
+		detector = new AudioInputESSBeatDetect(_bufferSize,44100);
+		detector.detectMode(AudioInputESSBeatDetect.SOUND_ENERGY); // BeatDetect.FREQ_ENERGY
 
 		// TODO: move this into a sketch so audio and renderer are separate
 		// listen realtime if not rendering
@@ -130,7 +130,7 @@ public class AudioInputWrapper
 		return curBeats;
 	}
 	
-	public BeatDetect getDetector()
+	public AudioInputESSBeatDetect getDetector()
 	{
 		return detector;
 	}

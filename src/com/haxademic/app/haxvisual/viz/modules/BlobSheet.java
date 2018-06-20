@@ -1,12 +1,12 @@
 package com.haxademic.app.haxvisual.viz.modules;
 
-import processing.core.PConstants;
-
 import com.haxademic.app.haxvisual.viz.IVizModule;
 import com.haxademic.app.haxvisual.viz.ModuleBase;
+import com.haxademic.core.app.P;
 import com.haxademic.core.camera.CameraBasic;
 import com.haxademic.core.camera.CameraSpotter;
-import com.haxademic.core.hardware.midi.MidiState;
+
+import processing.core.PConstants;
 
 public class BlobSheet
 extends ModuleBase 
@@ -96,8 +96,8 @@ implements IVizModule
 
 	public void initAudio()
 	{
-		_audioData.setNumAverages( _numAverages );
-		_audioData.setDampening( .13f );
+//		audioData.setNumAverages( _numAverages );
+//		audioData.setDampening( .13f );
 	}
 
 	public void focus() {
@@ -126,7 +126,7 @@ implements IVizModule
 		float curB = startB;
 
 		for (int i = 0; i < numCtrls; i++) {
-			cntrls[i].update( _audioData.getFFT().averages[i], _audioData.getFFT().averages[i] );
+			cntrls[i].update( P.p.audioFreq(i), P.p.audioFreq(i) );
 		}
 		
 		p.beginShape(p.TRIANGLES);
@@ -260,7 +260,7 @@ implements IVizModule
 			// Color calculated using sine wave
 
 			// adjust cell z per brightness
-			z = 10*p.brightness( cellColor ) * ( 1000 * ( _audioData.getFFT().averages[1] + _audioData.getFFT().averages[2] )  );
+			z = 10*p.brightness( cellColor ) * ( 1000 * ( P.p.audioFreq(1) + P.p.audioFreq(2) )  );
 			p.pushMatrix();
 			p.translate( 0, 0, 0 + z );
 									//p.rotateZ( _audioData.getFFT().averages[1] * .01f );

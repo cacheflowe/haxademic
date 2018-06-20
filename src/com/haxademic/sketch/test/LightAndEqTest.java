@@ -76,8 +76,8 @@ extends PAppletHax {
 		// draw EQ
 		float radSegment = P.TWO_PI / discReso;
 		for (int i = 1; i < numBands; i++) {
-			float lastEqVal = radius + radius * amp * _audioInput.getFFT().spectrum[i-1];
-			float eqVal = radius + radius * amp * _audioInput.getFFT().spectrum[i];
+			float lastEqVal = radius + radius * amp * p.audioFreq(i-1);
+			float eqVal = radius + radius * amp * p.audioFreq(i);
 			float curX = startX + i * spacing;
 			float lastX = startX + (i-1) * spacing;
 			
@@ -112,8 +112,8 @@ extends PAppletHax {
 		float radSegment = P.TWO_PI / discReso;
 		for (int i = 1; i < numBands; i++) {
 			
-			float lastEqVal = radius + radius * amp * _audioInput.getFFT().spectrum[i-1];
-			float eqVal = radius + radius * amp * _audioInput.getFFT().spectrum[i];
+			float lastEqVal = radius + radius * amp * p.audioFreq(i-1);
+			float eqVal = radius + radius * amp * p.audioFreq(i);
 			float curX = startX + i * spacing;
 			float lastX = startX + (i-1) * spacing;
 			

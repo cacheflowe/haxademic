@@ -2,13 +2,13 @@ package com.haxademic.app.haxmapper.overlays;
 
 import java.util.ArrayList;
 
-import processing.core.PGraphics;
-import processing.core.PVector;
-
 import com.haxademic.core.app.P;
 import com.haxademic.core.draw.color.EasingColor;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.math.MathUtil;
+
+import processing.core.PGraphics;
+import processing.core.PVector;
 
 public class MeshSegmentScanners {
 
@@ -49,7 +49,7 @@ public class MeshSegmentScanners {
 		//		float spectrumInterval = (int) ( 256 / _meshVertices.size() );	// 256 keeps it in the bottom half of the spectrum since the high ends is so overrun
 
 		for(int i=0; i < NUM_PARTICLES; i++) {
-			float amp = P.p.audioIn.getEqBand( i % 32 ) / 20f;
+			float amp = P.p.audioFreq( i % 32 ) / 20f;
 			_particles.get(i).update(amp);
 		}
 	}

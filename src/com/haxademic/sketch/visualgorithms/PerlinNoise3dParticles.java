@@ -218,7 +218,7 @@ extends PAppletHax {
 			p.popMatrix();
 			
 			// draw trail
-			float newAmp = 0.3f + p._audioInput.getFFT().averages[index % p._audioInput.getFFT().averages.length];
+			float newAmp = 0.3f + p.audioFreq(index);
 			if(newAmp > amp) amp = newAmp;
 			else amp *= 0.8f;
 			

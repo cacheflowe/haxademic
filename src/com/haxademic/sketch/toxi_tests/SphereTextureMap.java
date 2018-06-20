@@ -77,7 +77,7 @@ extends PAppletHax
 		p.noStroke();
 		DrawUtil.setBasicLights( p );
 		
-		if( _useAudio == true ) updateWithAudio();
+//		if( _useAudio == true ) updateWithAudio();
 				
 		p.translate( p.width/2f, p.height/2f );
 		p.rotateY( p.mouseX/100f );
@@ -112,7 +112,7 @@ extends PAppletHax
 	}
 	
 	public void updateWithAudio() {
-		_texture.updateTexture( _audioInput );
+//		_texture.updateTexture( _audioInput );
 	}
 	
 	public void drawToxiFaces( PApplet p, ToxiclibsSupport toxi, WETriangleMesh mesh, PImage image ) {

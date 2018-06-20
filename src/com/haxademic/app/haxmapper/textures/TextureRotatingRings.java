@@ -80,7 +80,7 @@ extends BaseTexture {
 		// draw rings
 		for( int i = 0; i < NUM_RINGS; i++ ) {
 			// get eq val for alpha
-			float ringEQVal = P.p._audioInput.getFFT().spectrum[(i*10) % P.p._audioInput.getFFT().spectrum.length];
+			float ringEQVal = P.p.audioFreq(i*10);
 			float alphaMultiplier = 2.3f * 255f;
 
 			// set colors

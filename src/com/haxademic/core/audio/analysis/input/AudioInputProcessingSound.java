@@ -1,4 +1,4 @@
-package com.haxademic.core.audio.analysis;
+package com.haxademic.core.audio.analysis.input;
 
 import com.haxademic.core.app.P;
 
@@ -7,7 +7,8 @@ import processing.sound.Amplitude;
 import processing.sound.AudioIn;
 import processing.sound.FFT;
 
-public class AudioInputProcessingSound {
+public class AudioInputProcessingSound
+implements IAudioInput {
 
 	// protected AudioDevice device;
 	protected AudioIn audioInput;
@@ -27,6 +28,10 @@ public class AudioInputProcessingSound {
 		rms.input(audioInput);
 		fft.input(audioInput);
 		audioInput.start();
+	}
+	
+	public AudioStreamData audioData() {
+		return audioStreamData;
 	}
 	
 	public void update(PGraphics pg) {

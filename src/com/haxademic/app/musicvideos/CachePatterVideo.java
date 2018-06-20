@@ -248,12 +248,12 @@ extends PAppletHax {
 //		_superFormGfx.rotateZ(p.frameCount/50f);
 
 		float audioRange = 0.1f;
-		_superForm.a( _superFormSettings[0] + (audioRange * 100f * p._audioInput.getFFT().averages[0]));
-		_superForm.b( _superFormSettings[1] + (audioRange * 10f * p._audioInput.getFFT().averages[1]));
-		_superForm.m( _superFormSettings[2]);// + (audioRange * 10f * p._audioInput.getFFT().averages[2]));
-		_superForm.n1( _superFormSettings[3] + (audioRange * 20f * p._audioInput.getFFT().averages[3]));
-		_superForm.n2( _superFormSettings[4] + (audioRange * 50f * p._audioInput.getFFT().averages[4]));
-		_superForm.n3( _superFormSettings[5] + (audioRange * 40f * p._audioInput.getFFT().averages[5]));
+		_superForm.a( _superFormSettings[0] + (audioRange * 100f * p.audioFreq(0)));
+		_superForm.b( _superFormSettings[1] + (audioRange * 10f * p.audioFreq(1)));
+		_superForm.m( _superFormSettings[2]);// + (audioRange * 10f * p.audioFreq(2)));
+		_superForm.n1( _superFormSettings[3] + (audioRange * 20f * p.audioFreq(3)));
+		_superForm.n2( _superFormSettings[4] + (audioRange * 50f * p.audioFreq(4)));
+		_superForm.n3( _superFormSettings[5] + (audioRange * 40f * p.audioFreq(5)));
 
 		_superForm.update();
 		_superForm.drawMesh(_superFormGfx, true, true, false, true, _camPos );
@@ -715,7 +715,7 @@ extends PAppletHax {
 			public void startAt( float x, float y, float speedX, float speedY, int color ) {
 				_position.set( x, y );
 				_speed.set( speedX * 15 * p.random(2f) + p.random(-0.2f,0.2f), speedY * 5 * p.random(3f) );	// add a little extra x variance
-				_speed.mult( 1 + p._audioInput.getFFT().spectrum[_audioIndex] ); // speed multiplied by audio
+				_speed.mult( 1 + p.audioFreq(_audioIndex) ); // speed multiplied by audio
 				_color = color;
 				_opacity = 0.8f;
 				
@@ -741,7 +741,7 @@ extends PAppletHax {
 				} else {
 					_pg.fill( _color, 127f * _opacity );
 					_pg.noStroke();
-					float size = _baseSize + (p._audioInput.getFFT().spectrum[_audioIndex] * 5f); // was 3
+					float size = _baseSize + (p.audioFreq(_audioIndex) * 5f); // was 3
 //					_pg.rect(_position.x - size/2f, _position.y - size/2f, size, size);
 					_pg.ellipse(_position.x - size/2f, _position.y - size/2f, size, size);
 				}

@@ -1,11 +1,5 @@
 package com.haxademic.app.haxvisual.viz.modules;
 
-import toxi.color.ColorList;
-import toxi.color.ColorRange;
-import toxi.color.TColor;
-import toxi.color.theory.ColorTheoryStrategy;
-import toxi.color.theory.CompoundTheoryStrategy;
-
 import com.haxademic.app.haxvisual.viz.IVizModule;
 import com.haxademic.app.haxvisual.viz.VizCollection;
 import com.haxademic.app.haxvisual.viz.elements.GridEQ;
@@ -16,9 +10,13 @@ import com.haxademic.app.haxvisual.viz.elements.RotatingRings;
 import com.haxademic.app.haxvisual.viz.elements.RotatorShapes;
 import com.haxademic.app.haxvisual.viz.elements.SphereClouds;
 import com.haxademic.app.haxvisual.viz.elements.SphericalHarmonicsOscillator;
-import com.haxademic.app.haxvisual.viz.elements.WaveformPlane;
-import com.haxademic.app.haxvisual.viz.elements.WaveformShapes;
 import com.haxademic.core.draw.color.ColorGroup;
+
+import toxi.color.ColorList;
+import toxi.color.ColorRange;
+import toxi.color.TColor;
+import toxi.color.theory.ColorTheoryStrategy;
+import toxi.color.theory.CompoundTheoryStrategy;
 
 public class KaraokeViz
 extends VizCollection
@@ -29,20 +27,20 @@ implements IVizModule {
 	}
 	
 	public void addElements() {
-		_fgElements.add( new MeshDeform( p, toxi, _audioData ) );
-		_fgElements.add( new WaveformPlane( p, toxi, _audioData ) );
-		_fgElements.add( new WaveformShapes( p, toxi, _audioData ) );
-		_fgElements.add( new RotatorShapes( p, toxi, _audioData ) );
-		_fgElements.add( new SphericalHarmonicsOscillator( p, toxi, _audioData ) );
+		_fgElements.add( new MeshDeform( p, toxi ) );
+//		_fgElements.add( new WaveformPlane( p, toxi ) );
+//		_fgElements.add( new WaveformShapes( p, toxi ) );
+		_fgElements.add( new RotatorShapes( p, toxi ) );
+		_fgElements.add( new SphericalHarmonicsOscillator( p, toxi ) );
 		
-		_bgElements.add( new RotatingRings( p, toxi, _audioData ) );
+		_bgElements.add( new RotatingRings( p, toxi ) );
 //		_bgElements.add( new BarsEQ( p, toxi, _audioData ) );
-		_bgElements.add( new LinesEQ( p, toxi, _audioData ) );
-		_bgElements.add( new GridEQ( p, toxi, _audioData ) );
+		_bgElements.add( new LinesEQ( p, toxi ) );
+		_bgElements.add( new GridEQ( p, toxi ) );
 
-		_ambientElements.add( new SphereClouds( p, toxi, _audioData ) );
+		_ambientElements.add( new SphereClouds( p, toxi ) );
 
-		_outerElements.add( new OuterSphere( p, toxi, _audioData ) );
+		_outerElements.add( new OuterSphere( p, toxi ) );
 	}
 	
 	protected void pickNewColors() {

@@ -100,9 +100,9 @@ extends PAppletHax {
 
 
 
-		for(int i = 0; i < fft.specSize(); i++) {
-			line(i, height, i, height -  P.p.audioIn.getEqBand( i ) * 10f );
-		}
+//		for(int i = 0; i < fft.specSize(); i++) {
+//			line(i, height, i, height -  P.p.audioIn.getEqBand( i ) * 10f );
+//		}
 
 //		// perform a forward FFT on the samples in jingle's left buffer ---------
 //		// note that if jingle were a MONO file, 

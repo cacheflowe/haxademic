@@ -6,9 +6,11 @@ import java.io.IOException;
 
 import javax.sound.midi.InvalidMidiDataException;
 
-import com.haxademic.core.audio.AudioInputWrapper;
-import com.haxademic.core.audio.AudioInputWrapperMinim;
-import com.haxademic.core.audio.WaveformData;
+import com.haxademic.core.audio.analysis.input.AudioInputBeads;
+import com.haxademic.core.audio.analysis.input.AudioInputESS;
+import com.haxademic.core.audio.analysis.input.AudioInputMinim;
+import com.haxademic.core.audio.analysis.input.AudioStreamData;
+import com.haxademic.core.audio.analysis.input.IAudioInput;
 import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.constants.PRenderers;
 import com.haxademic.core.data.store.AppStore;
@@ -44,6 +46,7 @@ import com.haxademic.core.ui.PrefsSliders;
 import de.voidplus.leapmotion.LeapMotion;
 import krister.Ess.AudioInput;
 import processing.core.PApplet;
+import processing.core.PGraphics;
 import processing.core.PSurface;
 import processing.opengl.PJOGL;
 import processing.video.Movie;
@@ -84,10 +87,9 @@ extends PApplet
 	protected Robot _robot;
 
 	// audio
-	public AudioInputWrapper _audioInput;
-	public AudioInputWrapperMinim audioIn;
-	public WaveformData _waveformData;
-	public WaveformData _waveformDataMinim;
+	public IAudioInput audioInput;
+	public AudioStreamData audioData = new AudioStreamData();
+	public PGraphics audioInputDebugBuffer;
 
 	// rendering
 	public Renderer movieRenderer;
@@ -120,24 +122,13 @@ extends PApplet
 	public PrefsSliders prefsSliders;
 	public SecondScreenViewer appViewerWindow;
 	
-	// performance fix
-	protected long timestamp = 0;
-	protected int elapsedTime = 0;
-
 	////////////////////////
 	// INIT
 	////////////////////////
 	
-	protected void checkElapsedTime(String label) {
-		elapsedTime = Math.round(System.currentTimeMillis() - timestamp); 
-		timestamp = System.currentTimeMillis(); 
-		P.println(label, ": ", elapsedTime);
-	}
-	
 	public void settings() {
 		P.p = p = this;
 		P.store = AppStore.instance();
-		timestamp = System.currentTimeMillis();
 		AppUtil.setFrameBackground(p,0,255,0);
 		loadAppConfig();
 		overridePropsFile();
@@ -239,22 +230,13 @@ extends PApplet
 		_fps = p.appConfig.getInt(AppSettings.FPS, 60);
 		p.showDebug = p.appConfig.getBoolean(AppSettings.SHOW_DEBUG, false);
 		if(p.appConfig.getInt(AppSettings.FPS, 60) != 60) frameRate(_fps);
-		if(p.appConfig.getBoolean(AppSettings.HIDE_CURSOR, false) == true ) p.noCursor();
 	}
 	
 	protected void initHaxademicObjects() {
+		initAudioInput();
 		if(p.appConfig.getFloat(AppSettings.LOOP_FRAMES, 0) != 0) loop = new AnimationLoop(p.appConfig.getFloat(AppSettings.LOOP_FRAMES, 0));
 		// save single reference for other objects
 		if( appConfig.getInt(AppSettings.WEBCAM_INDEX, -1) >= 0 ) webCamWrapper = new WebCamWrapper(appConfig.getInt(AppSettings.WEBCAM_INDEX, -1), appConfig.getBoolean(AppSettings.WEBCAM_THREADED, true));
-		if( appConfig.getBoolean(AppSettings.INIT_ESS_AUDIO, true) == true ) {
-			_audioInput = new AudioInputWrapper( p, _isRenderingAudio );
-			_waveformData = new WaveformData( p, _audioInput.bufferSize() );
-			if(appConfig.getBoolean(AppSettings.AUDIO_DEBUG, false) == true) JavaInfo.debugInfo();
-		}
-		if( appConfig.getBoolean(AppSettings.INIT_MINIM_AUDIO, true) == true ) {
-			audioIn = new AudioInputWrapperMinim( p, _isRenderingAudio );
-			_waveformDataMinim = new WaveformData( p, audioIn.bufferSize() );
-		}
 		movieRenderer = new Renderer( p, _fps, Renderer.OUTPUT_TYPE_MOVIE, p.appConfig.getString( "render_output_dir", FileUtil.getHaxademicOutputPath() ) );
 		if(appConfig.getBoolean(AppSettings.RENDERING_GIF, false) == true) {
 			_gifRenderer = new GifRenderer(appConfig.getInt(AppSettings.RENDERING_GIF_FRAMERATE, 45), appConfig.getInt(AppSettings.RENDERING_GIF_QUALITY, 15));
@@ -298,6 +280,25 @@ extends PApplet
 			surface.setAlwaysOnTop(p.appConfig.getBoolean(AppSettings.ALWAYS_ON_TOP, true));
 		}
 	}
+	
+	protected void initAudioInput() {
+		if(appConfig.getBoolean(AppSettings.AUDIO_DEBUG, false) == true) JavaInfo.debugInfo();
+		if( appConfig.getBoolean(AppSettings.INIT_MINIM_AUDIO, false) == true ) {
+			audioInput = new AudioInputMinim();
+		} else if( appConfig.getBoolean(AppSettings.INIT_BEADS_AUDIO, false) == true ) {
+			DebugUtil.printErr("Fix AudioInputBeads passthrough output");
+			audioInput = new AudioInputBeads();
+		} else if( appConfig.getBoolean(AppSettings.INIT_ESS_AUDIO, true) == true ) {
+			// Default to ESS being on, unless a different audio library is selected
+			audioInput = new AudioInputESS();
+			DebugUtil.printErr("Fix AudioInputESS amp: audioStreamData.setAmp(fft.max);");
+		}
+		// if we've initialized an audio input, let's build an audio buffer
+		if(audioInput != null) {
+			audioInputDebugBuffer = p.createGraphics((int)AudioStreamData.debugW, (int)AudioStreamData.debugW, PRenderers.P3D);
+			debugView.setTexture(audioInputDebugBuffer);
+		}
+	}
 
 	protected void initializeOn1stFrame() {
 		if( p.frameCount == 1 ) {
@@ -327,6 +328,8 @@ extends PApplet
 	// GETTERS
 	////////////////////////
 
+	// app surface
+	
 	public PSurface getSurface() {
 		return surface;
 	}
@@ -336,6 +339,16 @@ extends PApplet
 		surface.setAlwaysOnTop(true);
 	}
 	
+	// audio
+	
+	public float[] audioFreqs() {
+		return audioInput.audioData().frequencies();
+	}
+	
+	public float audioFreq(int index) {
+		return audioFreqs()[index % audioFreqs().length];
+	}
+		
 	////////////////////////
 	// DRAW
 	////////////////////////
@@ -344,8 +357,8 @@ extends PApplet
 		initializeOn1stFrame();
 		killScreensaver();
 		if(loop != null) loop.update();
-		handleRenderingStepthrough();
 		updateAudioData();
+		handleRenderingStepthrough();
 		midiState.update();
 		if( kinectWrapper != null ) kinectWrapper.update();
 		p.pushMatrix();
@@ -368,10 +381,15 @@ extends PApplet
 	////////////////////////	
 
 	protected void updateAudioData() {
-		if( _audioInput != null ) _audioInput.getBeatDetection(); // detect beats and pass through to current visual module	// 		int[] beatDetectArr =
-		if( audioIn != null ) {
-			audioIn.update(); // detect beats and pass through to current visual module	// 		int[] beatDetectArr =
-			_waveformDataMinim.updateWaveformDataMinim( audioIn.getAudioInput() );
+		if(audioInput != null) {
+			PGraphics audioBuffer = (showDebug == true) ? audioInputDebugBuffer : null;	// only draw if debugging
+			if(audioBuffer != null) {
+				audioBuffer.beginDraw();
+				audioBuffer.background(0);
+			}
+			audioInput.update(audioBuffer);
+			audioData = audioInput.audioData();
+			if(audioBuffer != null) audioBuffer.endDraw();
 		}
 	}
 
@@ -412,10 +430,7 @@ extends PApplet
 		if( _isRendering == true ) {
 			if( p.frameCount == 1 ) {
 				if( _isRenderingAudio == true ) {
-					movieRenderer.startRendererForAudio( p.appConfig.getString(AppSettings.RENDER_AUDIO_FILE, ""), _audioInput );
-					_audioInput.gainDown();
-					_audioInput.gainDown();
-					_audioInput.gainDown();
+					movieRenderer.startRendererForAudio( p.appConfig.getString(AppSettings.RENDER_AUDIO_FILE, "") );
 				} else {
 					movieRenderer.startRenderer();
 				}
@@ -425,7 +440,6 @@ extends PApplet
 				// have renderer step through audio, then special call to update the single WaveformData storage object
 				if( _isRenderingAudio == true ) {
 					movieRenderer.analyzeAudio();
-					_waveformData.updateWaveformDataForRender( movieRenderer, _audioInput.getAudioInput(), _audioInput.bufferSize() );
 				}
 //			}
 
@@ -527,10 +541,16 @@ extends PApplet
 		keyboardState.setKeyOn(p.keyCode);
 		
 		// special core app key commands
-		if ( p.key == '.' && _audioInput != null ) _audioInput.gainUp();
-		if ( p.key == ',' && _audioInput != null ) _audioInput.gainDown();
-		if ( p.key == '.' && audioIn != null ) audioIn.gainUp();
-		if ( p.key == ',' && audioIn != null ) audioIn.gainDown();
+		// audio input gain
+		if ( p.key == '.' ) {
+			p.audioData.setGain(p.audioData.gain() + 0.05f);
+			p.debugView.setValue("audioData.gain()", p.audioData.gain());
+		}
+		if ( p.key == ',' ) {
+			p.audioData.setGain(p.audioData.gain() - 0.05f);
+			p.debugView.setValue("audioData.gain()", p.audioData.gain());
+		}
+		// show debug & prefs sliders
 		if (p.key == '/') showDebug = !showDebug;
 		if (p.key == '\\') prefsSliders.active(!prefsSliders.active());
 	}
@@ -553,7 +573,6 @@ extends PApplet
 	
 	public void stop() {
 		if(p.webCamWrapper != null) p.webCamWrapper.dispose();
-//		if( _launchpadViz != null ) _launchpadViz.dispose();
 		if( kinectWrapper != null ) {
 			kinectWrapper.stop();
 			kinectWrapper = null;
@@ -574,10 +593,9 @@ extends PApplet
 
 	// ESS audio input
 	public void audioInputData(AudioInput theInput) {
-		_audioInput.getFFT().getSpectrum(theInput);
-		// if( _launchpadViz != null ) _launchpadViz.getAudio().getFFT().getSpectrum(theInput);
-		_audioInput.detector.detect(theInput);
-		_waveformData.updateWaveformData( theInput, _audioInput._bufferSize );
+		if(audioInput instanceof AudioInputESS) {
+			((AudioInputESS) audioInput).audioInputCallback(theInput);
+		}
 	}
 
 	// LEAP MOTION EVENTS

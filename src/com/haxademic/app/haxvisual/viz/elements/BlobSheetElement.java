@@ -1,16 +1,15 @@
 package com.haxademic.app.haxvisual.viz.elements;
 
+import com.haxademic.app.haxvisual.viz.ElementBase;
+import com.haxademic.app.haxvisual.viz.IVizElement;
+import com.haxademic.core.app.P;
+import com.haxademic.core.draw.color.ColorGroup;
+import com.haxademic.core.draw.context.DrawUtil;
+
 import processing.core.PApplet;
 import processing.core.PConstants;
 import toxi.color.TColor;
 import toxi.processing.ToxiclibsSupport;
-
-import com.haxademic.app.haxvisual.viz.ElementBase;
-import com.haxademic.app.haxvisual.viz.IVizElement;
-import com.haxademic.core.app.P;
-import com.haxademic.core.audio.AudioInputWrapper;
-import com.haxademic.core.draw.color.ColorGroup;
-import com.haxademic.core.draw.context.DrawUtil;
 
 public class BlobSheetElement 
 extends ElementBase 
@@ -59,8 +58,8 @@ implements IVizElement {
 	int numCtrls = _numAverages;
 
 
-	public BlobSheetElement( PApplet p, ToxiclibsSupport toxi, AudioInputWrapper audioData ) {
-		super( p, toxi, audioData );
+	public BlobSheetElement( PApplet p, ToxiclibsSupport toxi ) {
+		super( p, toxi );
 		init();
 	}
 	
@@ -121,7 +120,7 @@ implements IVizElement {
 		float curB = startB;
 
 		for (int i = 0; i < numCtrls; i++) {
-			cntrls[i].update( _audioData.getFFT().averages[i], _audioData.getFFT().averages[i] );
+			cntrls[i].update( P.p.audioFreq(i), P.p.audioFreq(i) );
 		}
 		
 		if( _curMode ==  MODE_MESH || _curMode == MODE_TRIANGLES || _curMode == MODE_MESH_COLOR ) p.beginShape(P.TRIANGLES);
@@ -239,7 +238,7 @@ implements IVizElement {
 			// Color calculated using sine wave
 
 			// adjust cell z per brightness
-			z = -9000 + 20f * p.brightness( cellColor ) * ( _audioData.getFFT().averages[2] + _audioData.getFFT().averages[3] );
+			z = -9000 + 20f * p.brightness( cellColor ) * ( P.p.audioFreq(2) + P.p.audioFreq(3) );
 			p.pushMatrix();
 			p.translate( 0, 0, 0 + z );
 			

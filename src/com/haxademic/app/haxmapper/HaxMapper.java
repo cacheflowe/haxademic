@@ -605,7 +605,7 @@ extends PAppletHax {
 	/////////////////////////////////////////////////////////////////
 	
 	protected void checkBeat() {
-		if( audioIn.isBeat() == true && isBeatDetectMode() == true ) {
+		if( p.audioData.isBeat() == true && isBeatDetectMode() == true ) {
 			updateTiming();
 		}
 	}
@@ -670,8 +670,8 @@ extends PAppletHax {
 			if(MathUtil.randBoolean(p) == true) setAllSameTexture();
 
 		}
-		if ( _audioInputUpTrigger.triggered() == true ) audioIn.gainUp();
-		if ( _audioInputDownTrigger.triggered() == true ) audioIn.gainDown();
+		if ( _audioInputUpTrigger.triggered() == true ) p.audioData.setGain(p.audioData.gain() + 0.05f);
+		if ( _audioInputDownTrigger.triggered() == true ) p.audioData.setGain(p.audioData.gain() - 0.05f);
 		if ( _brightnessUpTrigger.triggered() == true ) p.midiState.controllerChange(3, 41, Math.round(127f * p.midiState.midiCCPercent(3, 41) + 1));
 		if ( _brightnessDownTrigger.triggered() == true ) p.midiState.controllerChange(3, 41, Math.round(127f * p.midiState.midiCCPercent(3, 41) - 1));
 		if ( _debugTexturesTrigger.triggered() == true ) _debugTextures = !_debugTextures;

@@ -28,7 +28,7 @@ extends BaseTexture {
 		_texture.noStroke();
 		_texture.noSmooth();
 		for( int i=0; i < eqBands; i++ ) {
-			eqVal = P.p._audioInput.getFFT().spectrum[ Math.round( i ) % 256 ];			
+			eqVal = P.p.audioFreq(Math.round( i ) % 256);
 			_texture.fill( _color );
 			_texture.rect( i * eqStep, _texture.height/2, eqStep, _texture.height * eqVal);
 		}

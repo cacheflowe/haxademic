@@ -66,7 +66,7 @@ public class BasicAudioRender
 			// set up renderer
 			_render = new Renderer( this, _fps, Renderer.OUTPUT_TYPE_MOVIE, "bin/output/" );
 	//		_render.startRenderer();
-			_render.startRendererForAudio( "cock_holster.wav", _audioInput );
+			_render.startRendererForAudio( "cock_holster.wav" );
 		}
 	}
 

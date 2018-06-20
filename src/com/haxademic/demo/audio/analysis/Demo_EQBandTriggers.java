@@ -1,11 +1,9 @@
-package com.haxademic.sketch.audio.ess;
+package com.haxademic.demo.audio.analysis;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.constants.AppSettings;
-import com.haxademic.core.draw.context.OpenGLUtil;
 
-public class EQBandTriggers 
+public class Demo_EQBandTriggers 
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
@@ -15,14 +13,7 @@ extends PAppletHax {
 	int[] eqBandTrigger;
 	float ampThreshold = 0.2f;
 	
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, "600" );
-		p.appConfig.setProperty( AppSettings.HEIGHT, "600" );
-	}
-
-	public void setup() {
-		super.setup();	
-		p.smooth( OpenGLUtil.SMOOTH_HIGH );
+	public void setupFirstFrame() {
 		numElements = 40; // p.width;
 		
 		lastAudioFrame = new float[512];
@@ -41,7 +32,7 @@ extends PAppletHax {
 		
 		// set triggers if difference between last frame is above threshold
 		for(int i=0; i < 512; i++) {
-			if(_audioInput.getFFT().spectrum[i] - lastAudioFrame[i] > ampThreshold) {
+			if(p.audioFreq(i) - lastAudioFrame[i] > ampThreshold) {
 				bufferedValues[i] = 1.0f;
 			}
 		}
@@ -64,7 +55,7 @@ extends PAppletHax {
 		
 		// copy audio buffer
 		for(int i=0; i < 512; i++) {
-			lastAudioFrame[i] = _audioInput.getFFT().spectrum[i];
+			lastAudioFrame[i] = p.audioFreq(i) ;
 		}
 	}
 }

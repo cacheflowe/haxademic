@@ -1,4 +1,4 @@
-package com.haxademic.core.audio.analysis;
+package com.haxademic.core.audio.analysis.input;
 
 import com.haxademic.core.app.P;
 
@@ -8,7 +8,8 @@ import ddf.minim.analysis.BeatDetect;
 import ddf.minim.analysis.FFT;
 import processing.core.PGraphics;
 
-public class AudioInputMinim {
+public class AudioInputMinim
+implements IAudioInput {
 
 	protected Minim minim;
 	protected AudioInput audioInput;
@@ -42,6 +43,10 @@ public class AudioInputMinim {
 		beatDetection = new BeatDetect();
 		beatDetection.detectMode(BeatDetect.SOUND_ENERGY);
 		beatDetection.setSensitivity(300);
+	}
+	
+	public AudioStreamData audioData() {
+		return audioStreamData;
 	}
 	
 	public void update(PGraphics pg) {
