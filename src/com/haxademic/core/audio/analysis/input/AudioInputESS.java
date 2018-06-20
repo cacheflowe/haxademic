@@ -15,10 +15,8 @@ implements IAudioInput {
 	protected AudioInput audioInput;
 	protected AudioInputESSBeatDetect detector;
 	protected int bufferSize = 512;
-	protected int gain = 0;
-	protected final int GAIN_STEP = 3;
-	protected int[] beats = { 0, 0, 0, 0 }; 
-	protected int[] curBeats = new int[4];
+	protected int beatTimeThresh = 300;
+	protected int lastBeatTime = 0;
 	protected AudioStreamData audioStreamData = new AudioStreamData();
 	protected boolean rendering = false;
 	
@@ -48,7 +46,8 @@ implements IAudioInput {
 		// update audio data object
 		audioStreamData.setFFTFrequencies(fft.spectrum);
 		audioStreamData.setWaveformOffsets(audioInput.buffer);
-		audioStreamData.setAmp(fft.max);
+		audioStreamData.setAmp(fft.max * 20f);
+		P.p.debugView.setValue("fft.max", fft.max * 20f);
 		audioStreamData.freqsCopyDampened();
 		audioStreamData.update();
 
@@ -67,7 +66,7 @@ implements IAudioInput {
 		audioStreamData.lerpWaveformOffsets(audioPlayer.buffer2, 0.03f);	// buffer ?? 
 		// set level
 		fft.getLevel(audioPlayer);
-		audioStreamData.setAmp(fft.max);
+		audioStreamData.setAmp(fft.max * 20f);
 		// copy & update
 		audioStreamData.freqsCopyDampened();
 		audioStreamData.update();
@@ -77,6 +76,9 @@ implements IAudioInput {
 		if(rendering) return;
 		fft.getSpectrum(theInput);
 		detector.detect(theInput);
-		if(detector.isOnset()) audioStreamData.setBeat();
+		if(detector.isOnset() && P.p.millis() > lastBeatTime + beatTimeThresh) {
+			lastBeatTime = P.p.millis();
+			audioStreamData.setBeat();
+		}
 	}
 }
