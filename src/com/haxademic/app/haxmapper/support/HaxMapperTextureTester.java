@@ -1,8 +1,9 @@
 package com.haxademic.app.haxmapper.support;
 
 import com.haxademic.app.haxmapper.textures.BaseTexture;
+import com.haxademic.app.haxmapper.textures.TextureEQBandDistribute;
+import com.haxademic.app.haxmapper.textures.TexturePixelatedAudio;
 import com.haxademic.app.haxmapper.textures.TextureShaderTimeStepper;
-import com.haxademic.app.haxmapper.textures.TextureSphereAudioTextures;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
@@ -54,13 +55,14 @@ extends PAppletHax {
 //			new TextureWebCam( w, h ),
 //			new TextureEQFloatParticles( w, h ),
 //			new TextureEQBandDistribute( w, h ),
+			new TexturePixelatedAudio( w, h ),
 //			new TextureAudioTube( w, h ),
 //			new TextureTwistingSquares( w, h ),
 //		    new TextureImageTimeStepper( w, h ),
 //		    new TextureStarTrails( w, h ),
 
 			// new TextureShaderTimeStepper( w, h, "cacheflowe-down-void.glsl" ),
-			new TextureSphereAudioTextures( w, h ),
+//			new TextureSphereAudioTextures( w, h ),
 //			new TextureShaderTimeStepper( w, h, "cacheflowe-diagonal-stripes.glsl" ),
 //			new TextureShaderTimeStepper( w, h, "iq-voronoise.glsl" ),
 //			new TextureShaderTimeStepper( w, h, "sdf-01-auto.glsl" ),
