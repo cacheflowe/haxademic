@@ -47,7 +47,6 @@ implements IAudioInput {
 		audioStreamData.setFFTFrequencies(fft.spectrum);
 		audioStreamData.setWaveformOffsets(audioInput.buffer);
 		audioStreamData.setAmp(fft.max * 20f);
-		P.p.debugView.setValue("fft.max", fft.max * 20f);
 		audioStreamData.freqsCopyDampened();
 		audioStreamData.update();
 
