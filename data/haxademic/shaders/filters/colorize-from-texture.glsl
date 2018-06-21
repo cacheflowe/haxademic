@@ -12,6 +12,7 @@ varying vec4 vertColor;
 varying vec4 vertTexCoord;
 
 uniform sampler2D colorMap;
+uniform int lumaMult = 0;
 
 float rgbToGray(vec4 rgba) {
 	const vec3 W = vec3(0.2125, 0.7154, 0.0721);
@@ -22,5 +23,9 @@ void main() {
   vec4 color = texture2D(texture, vertTexCoord.xy);
   float luma = rgbToGray(color);
   vec4 colorizedColor = texture2D(colorMap, vec2(luma, 0.5));
-	gl_FragColor = colorizedColor;
+  if(lumaMult == 0) {
+    gl_FragColor = colorizedColor;
+  } else {
+    gl_FragColor = vec4(colorizedColor.r * luma, colorizedColor.g * luma, colorizedColor.b * luma, colorizedColor.a);
+  }
 }

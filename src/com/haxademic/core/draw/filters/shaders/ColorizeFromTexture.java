@@ -14,6 +14,7 @@ extends BaseFilter {
 	public ColorizeFromTexture(PApplet p) {
 		super(p, "haxademic/shaders/filters/colorize-from-texture.glsl");
 		setTexture(ImageGradient.PASTELS());
+		setLumaMult(false);
 	}
 	
 	public static ColorizeFromTexture instance(PApplet p) {
@@ -24,6 +25,10 @@ extends BaseFilter {
 	
 	public void setTexture(PImage texture) {
 		shader.set("colorMap", texture);
+	}
+	
+	public void setLumaMult(boolean lumaMult) {
+		shader.set("lumaMult", lumaMult);
 	}
 	
 }

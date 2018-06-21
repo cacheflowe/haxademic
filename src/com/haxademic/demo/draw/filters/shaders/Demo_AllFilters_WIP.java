@@ -134,10 +134,8 @@ extends PAppletHax { public static void main(String args[]) { PAppletHax.main(Th
 			filterName = "ColorCorrectionFilter";
 		} else if(filterIndex == 11) {
 			ColorizeFromTexture.instance(p).setTexture(ImageGradient.PASTELS());
+			ColorizeFromTexture.instance(p).setLumaMult(p.mousePercentX() > 0.5f);
 			ColorizeFromTexture.instance(p).applyTo(p);
-//			imageGradient = new ImageGradient(ImageGradient.PASTELS());
-//			imageGradient.addTexturesFromPath(ImageGradient.COOLORS_PATH);
-//			imageGradient.randomGradientTexture();
 			filterName = "ColorizeFromTexture";
 		}
 		p.text(filterName, 20, p.height - 30);
