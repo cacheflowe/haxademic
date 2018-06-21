@@ -18,7 +18,7 @@
 	<classpathentry kind="lib" path="lib/processing-3/libraries/serial/library/jssc.jar"/>
 	<classpathentry kind="lib" path="lib/processing-3/libraries/serial/library/serial.jar">
 		<attributes>
-			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="haxademic/lib/processing-3/libraries/serial/library/macosx"/>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="haxademic/lib/processing-3/libraries/serial/library/windows64"/>
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="lib/Ess/library/Ess.jar"/>

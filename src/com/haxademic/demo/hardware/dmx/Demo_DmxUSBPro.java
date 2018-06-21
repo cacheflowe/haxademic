@@ -4,6 +4,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 
 import dmxP512.DmxP512;
+import processing.serial.Serial;
 
 public class Demo_DmxUSBPro
 extends PAppletHax {
@@ -11,7 +12,13 @@ extends PAppletHax {
 	
 	DmxP512 dmx;
 	
-	// On Windows, port should be an actual serial port, and probably needs to be uppercase - something like "COM1"
+	// Make sure the Processing Serial library is pointing to the correct native library
+	
+	// On Windows, port should be an actual serial port, and probably needs to be upper case - something like "COM1"
+	// - Open Device Manager and go to Ports (COM & LPT)
+	// - If plugged in, should be able to find something like "USB Serial Port (COM3)" 
+	// - Right-click for properties, and you can look up the baud rate 
+	
 	// On OS X, port will likely be a virtual serial port via USB, looking like "/dev/tty.usbserial-EN158815"
 	// - To make this work, you need to install something like the Plugable driver: 
 	// - https://plugable.com/2011/07/12/installing-a-usb-serial-adapter-on-mac-os-x/
@@ -24,12 +31,18 @@ extends PAppletHax {
 	protected boolean audioActive = false;
 
 	protected void overridePropsFile() {
+		// mac
 		p.appConfig.setProperty(DMXPRO_PORT, "/dev/tty.usbserial-EN158815");
+		p.appConfig.setProperty(DMXPRO_BAUDRATE, 115000);
+		// win
+		p.appConfig.setProperty(DMXPRO_PORT, "COM3");
+		p.appConfig.setProperty(DMXPRO_BAUDRATE, 9600);
 	}
 
 	public void setupFirstFrame() {
-		  dmx = new DmxP512(P.p, p.appConfig.getInt(DMXPRO_UNIVERSE_SIZE, 128), false);
-		  dmx.setupDmxPro(p.appConfig.getString(DMXPRO_PORT, "COM1"), p.appConfig.getInt(DMXPRO_BAUDRATE, 115000));
+		Serial.list();
+		dmx = new DmxP512(P.p, p.appConfig.getInt(DMXPRO_UNIVERSE_SIZE, 256), false);
+		dmx.setupDmxPro(p.appConfig.getString(DMXPRO_PORT, "COM1"), p.appConfig.getInt(DMXPRO_BAUDRATE, 115000));
 	}
 
 	public void drawApp() {
@@ -47,6 +60,9 @@ extends PAppletHax {
 			dmx.set(1, round(127 + 127 * P.sin(p.frameCount * 0.2f)));
 			dmx.set(2, round(127 + 127 * P.sin(p.frameCount * 0.08f)));
 			dmx.set(3, round(127 + 127 * P.sin(p.frameCount * 0.02f)));
+			dmx.set(4, round(127 + 127 * P.sin(p.frameCount * 0.1f)));
+			dmx.set(5, round(127 + 127 * P.sin(p.frameCount * 0.07f)));
+			dmx.set(6, round(127 + 127 * P.sin(p.frameCount * 0.04f)));
 		}
 	}
 	
