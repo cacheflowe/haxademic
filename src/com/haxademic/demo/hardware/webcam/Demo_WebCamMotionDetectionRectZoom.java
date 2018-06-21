@@ -22,7 +22,7 @@ implements IWebCamCallback {
 
 	protected PGraphics webcamBuffer;
 	protected BufferMotionDetectionMap motionDetectionMap;
-	protected float motionBufferScale = 0.25f;
+	protected float motionBufferScale = 0.2f;
 	protected EasingFloat[] rectSize;
 	
 	protected String BLEND_LERP = "BLEND_LERP";
@@ -33,14 +33,16 @@ implements IWebCamCallback {
 	protected String RECT_LERP = "RECT_LERP";
 
 	protected void overridePropsFile() {
-		p.appConfig.setProperty(AppSettings.WIDTH, 1280 );
+		p.appConfig.setProperty(AppSettings.WIDTH, 640 + 320 );
 		p.appConfig.setProperty(AppSettings.HEIGHT, 480 );
 		p.appConfig.setProperty(AppSettings.WEBCAM_INDEX, 3 );
+		p.appConfig.setProperty(AppSettings.SMOOTHING, AppSettings.SMOOTH_NONE );
 	}
 
 	public void setupFirstFrame () {
 		p.webCamWrapper.setDelegate(this);
 		webcamBuffer = p.createGraphics(640, 480, PRenderers.P2D);
+		webcamBuffer.noSmooth();
 
 		// lerping rect size
 		float lerpSpeed = 0.06f;
@@ -70,8 +72,9 @@ implements IWebCamCallback {
 
 			// check motion buffer grid for active pixels, and create a rectangle 
 			motionDetectionMap.loadPixels();
-			for (int x = 0; x < webcamBuffer.width; x++) {
-				for (int y = 0; y < webcamBuffer.height; y++) {
+			int pixelSkip = 2;
+			for (int x = 0; x < webcamBuffer.width; x+=pixelSkip) {
+				for (int y = 0; y < webcamBuffer.height; y+=pixelSkip) {
 					if(motionDetectionMap.pixelActive(x, y)) {
 						if(rect == null) {
 							rect = new Rectangle(x, y, 1, 1);
@@ -97,6 +100,15 @@ implements IWebCamCallback {
 					rect.height += addHeight;
 				}
 				
+				// make rectangle a little bigger to cover the subject
+				float inflateAmp = 0.2f;
+				float rectAddW = rect.width * inflateAmp;
+				float rectAddH = rect.height * inflateAmp;
+				rect.x -= rectAddW / 2;
+				rect.y -= rectAddH / 2;
+				rect.width += rectAddW;
+				rect.height += rectAddH;
+				
 				// minimum rect size
 				if(rect.width < 80) {
 					float addWidth = 80 - rect.width;
@@ -114,21 +126,6 @@ implements IWebCamCallback {
 				if(rect.y + rect.height > webcamBuffer.height) rect.y = webcamBuffer.height - rect.height;
 			}
 			
-			// copy rect to display zoomed portion
-			float[] imageCropSize = ImageUtil.getOffsetAndSizeToCrop(p.width, p.height, rectSize[2].value(), rectSize[3].value(), false);
-			p.copy(webcamBuffer, (int) rectSize[0].value(), (int) rectSize[1].value(), (int) rectSize[2].value(), (int) rectSize[3].value(), 320 + (int) imageCropSize[0], (int) imageCropSize[1], (int) imageCropSize[2], (int) imageCropSize[3]);
-
-			// draw webcam & motion map
-			p.g.fill(255);
-			p.g.noStroke();
-			p.g.image(webcamBuffer, 0, 0);
-			
-			LeaveWhiteFilter.instance(p).applyTo(motionDetectionMap.bwBuffer());
-			p.blendMode(PBlendModes.EXCLUSION);
-//			p.g.tint(0,255,0);
-			p.g.image(motionDetectionMap.bwBuffer(), 0, 0, 640, 480);
-			p.blendMode(PBlendModes.BLEND);
-
 			// update rect size
 			if(rect != null) {
 				// lerp rect
@@ -147,18 +144,42 @@ implements IWebCamCallback {
 			for (int i = 0; i < rectSize.length; i++) rectSize[i].setEaseFactor(p.prefsSliders.value(RECT_LERP));
 			for (int i = 0; i < rectSize.length; i++) rectSize[i].update(true);
 
+			// debug draw
+			float debugW = 640f/2f;
+			float debugH = 480f/2f;
+			
+			// copy rect to display zoomed portion
+			float[] imageCropSize = ImageUtil.getOffsetAndSizeToCrop(p.width, p.height, rectSize[2].value(), rectSize[3].value(), false);
+			p.copy(webcamBuffer, (int) rectSize[0].value(), (int) rectSize[1].value(), (int) rectSize[2].value(), (int) rectSize[3].value(), 320/2 + (int) imageCropSize[0], (int) imageCropSize[1], (int) imageCropSize[2], (int) imageCropSize[3]);
+
+			// draw webcam & motion map
+			p.g.fill(255);
+			p.g.noStroke();
+			p.g.image(webcamBuffer, 0, 0, debugW, debugH);
+			
+			LeaveWhiteFilter.instance(p).applyTo(motionDetectionMap.bwBuffer());
+			p.blendMode(PBlendModes.EXCLUSION);
+			p.g.image(motionDetectionMap.bwBuffer(), 0, 0, debugW, debugH);
+			p.blendMode(PBlendModes.BLEND);
+
 			// draw rect
 			p.g.noFill();
-			p.g.stroke(0,255,0);
-			p.g.rect(rectSize[0].value(), rectSize[1].value(), rectSize[2].value(), rectSize[3].value());
+			p.g.strokeWeight(4);
+			p.g.stroke(255,0,0);
+			p.g.rect(rectSize[0].value() / 2f, rectSize[1].value() / 2f, rectSize[2].value() / 2f, rectSize[3].value() / 2f);
+			
+			// draw more textures
+			p.g.image(motionDetectionMap.differenceBuffer(), 0, debugH, debugW, debugH);
 		}
 	}
 
 	@Override
 	public void newFrame(PImage frame) {
 		// copy webcam and create motion detection at size of cropped webcam (and downscaling)
-		ImageUtil.cropFillCopyImage(frame, webcamBuffer, true);
-		ImageUtil.flipH(webcamBuffer);
+		// ImageUtil.cropFillCopyImage(frame, webcamBuffer, true);
+		ImageUtil.copyImageFlipH(frame, webcamBuffer);
+//		ImageUtil.copyImage(frame, webcamBuffer);
+//		ImageUtil.flipH(webcamBuffer);
 
 		// lazy init and update motion detection buffers/calcs
 		if(motionDetectionMap == null) {
@@ -172,10 +193,10 @@ implements IWebCamCallback {
 		motionDetectionMap.updateSource(webcamBuffer);
 
 		// set textures for debug view
-		p.debugView.setTexture(frame);
-		p.debugView.setTexture(motionDetectionMap.backplate());
-		p.debugView.setTexture(motionDetectionMap.differenceBuffer());
-		p.debugView.setTexture(motionDetectionMap.bwBuffer());
+		//		p.debugView.setTexture(frame);
+		//		p.debugView.setTexture(motionDetectionMap.backplate());
+		//		p.debugView.setTexture(motionDetectionMap.differenceBuffer());
+		//		p.debugView.setTexture(motionDetectionMap.bwBuffer());
 	}
 
 }
