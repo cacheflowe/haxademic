@@ -3,6 +3,7 @@ package com.haxademic.demo.draw.filters.shaders;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
+import com.haxademic.core.draw.color.ImageGradient;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.filters.shaders.BadTVGlitchFilter;
 import com.haxademic.core.draw.filters.shaders.BadTVLinesFilter;
@@ -12,6 +13,7 @@ import com.haxademic.core.draw.filters.shaders.BlurProcessingFilter;
 import com.haxademic.core.draw.filters.shaders.BlurVFilter;
 import com.haxademic.core.draw.filters.shaders.BrightnessFilter;
 import com.haxademic.core.draw.filters.shaders.ColorCorrectionFilter;
+import com.haxademic.core.draw.filters.shaders.ColorizeFromTexture;
 import com.haxademic.core.draw.filters.shaders.CubicLensDistortionFilter;
 import com.haxademic.core.draw.filters.shaders.CubicLensDistortionFilterOscillate;
 import com.haxademic.core.draw.filters.shaders.EdgeColorDarkenFilter;
@@ -51,7 +53,7 @@ extends PAppletHax { public static void main(String args[]) { PAppletHax.main(Th
 	
 	public void drawApp() {
 		// cycle
-		int numEffects = 11;
+		int numEffects = 12;
 		if(triggerPrev.triggered()) filterIndex = (filterIndex > 0) ? filterIndex - 1 : numEffects - 1;
 		if(triggerNext.triggered()) filterIndex = (filterIndex < numEffects - 1) ? filterIndex + 1 : 0;
 
@@ -130,6 +132,13 @@ extends PAppletHax { public static void main(String args[]) { PAppletHax.main(Th
 			ColorCorrectionFilter.instance(p).setGamma(p.mousePercentY() * 10f);
 			ColorCorrectionFilter.instance(p).applyTo(p);
 			filterName = "ColorCorrectionFilter";
+		} else if(filterIndex == 11) {
+			ColorizeFromTexture.instance(p).setTexture(ImageGradient.PASTELS());
+			ColorizeFromTexture.instance(p).applyTo(p);
+//			imageGradient = new ImageGradient(ImageGradient.PASTELS());
+//			imageGradient.addTexturesFromPath(ImageGradient.COOLORS_PATH);
+//			imageGradient.randomGradientTexture();
+			filterName = "ColorizeFromTexture";
 		}
 		p.text(filterName, 20, p.height - 30);
 		
