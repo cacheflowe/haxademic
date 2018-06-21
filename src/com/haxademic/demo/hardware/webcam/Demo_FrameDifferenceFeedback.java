@@ -39,8 +39,9 @@ implements IWebCamCallback {
 	protected void overridePropsFile() {
 		p.appConfig.setProperty(AppSettings.WIDTH, 1280 );
 		p.appConfig.setProperty(AppSettings.HEIGHT, 720 );
-		p.appConfig.setProperty(AppSettings.WEBCAM_INDEX, 3 ); // 18
-		p.appConfig.setProperty(AppSettings.SHOW_DEBUG, true );
+		p.appConfig.setProperty(AppSettings.WEBCAM_INDEX, 6 );
+		p.appConfig.setProperty(AppSettings.SHOW_DEBUG, false );
+		p.appConfig.setProperty(AppSettings.FULLSCREEN, true );
 	}
 		
 	public void setupFirstFrame () {
@@ -118,14 +119,22 @@ implements IWebCamCallback {
 			feedbackShader.set("amp", P.map(p.mouseX, 0, p.width, 0.004f, 0.01f) );
 			for (int i = 0; i < 1; i++) feedbackFinalBuffer.filter(feedbackShader); 
 			
-			// draw to screen
-			DrawUtil.setDrawCenter(p);
+//			// draw to screen
+//			DrawUtil.setDrawCenter(p);
+//			DrawUtil.setPImageAlpha(p, 1f);
+//			p.blendMode(PBlendModes.BLEND);
+//			p.image(curFrame, p.width/2, p.height/2);
+//			DrawUtil.setPImageAlpha(p, 0.5f);
+//			p.blendMode(PBlendModes.ADD);
+//			p.image(feedbackFinalBuffer, p.width/2, p.height/2);
+			
+			// fullscreen overdraw
 			DrawUtil.setPImageAlpha(p, 1f);
 			p.blendMode(PBlendModes.BLEND);
-			p.image(curFrame, p.width/2, p.height/2);
+			ImageUtil.drawImageCropFill(curFrame, p.g, true);
 			DrawUtil.setPImageAlpha(p, 0.5f);
 			p.blendMode(PBlendModes.ADD);
-			p.image(feedbackFinalBuffer, p.width/2, p.height/2);
+			ImageUtil.drawImageCropFill(feedbackFinalBuffer, p.g, true);
 		}
 	}
 	
