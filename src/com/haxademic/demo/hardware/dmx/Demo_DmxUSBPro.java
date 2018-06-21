@@ -1,11 +1,11 @@
-package com.haxademic.sketch.hardware;
+package com.haxademic.demo.hardware.dmx;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 
 import dmxP512.DmxP512;
 
-public class DmxUSBProTest
+public class Demo_DmxUSBPro
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
@@ -15,6 +15,7 @@ extends PAppletHax {
 	// On OS X, port will likely be a virtual serial port via USB, looking like "/dev/tty.usbserial-EN158815"
 	// - To make this work, you need to install something like the Plugable driver: 
 	// - https://plugable.com/2011/07/12/installing-a-usb-serial-adapter-on-mac-os-x/
+	// - And on my current MacBook Pro setup, I seem to have to keep installing it over again...
 	
 	String DMXPRO_PORT = "DMXPRO_PORT";
 	String DMXPRO_BAUDRATE = "DMXPRO_BAUDRATE";
@@ -35,9 +36,12 @@ extends PAppletHax {
 		background(0);
 		if(audioActive) {
 			// audio eq
-			dmx.set(1, P.round(255 * p.audioFreq(10)));
-			dmx.set(2, P.round(255 * p.audioFreq(20)));
-			dmx.set(3, P.round(255 * p.audioFreq(40)));
+			dmx.set(1, P.constrain(P.round(255 * p.audioFreq(10)), 0, 255));
+			dmx.set(2, P.constrain(P.round(255 * p.audioFreq(20)), 0, 255));
+			dmx.set(3, P.constrain(P.round(255 * p.audioFreq(40)), 0, 255));
+			dmx.set(4, P.constrain(P.round(255 * p.audioFreq(60)), 0, 255));
+			dmx.set(5, P.constrain(P.round(255 * p.audioFreq(80)), 0, 255));
+			dmx.set(6, P.constrain(P.round(255 * p.audioFreq(100)), 0, 255));
 		} else {
 			// color cycle
 			dmx.set(1, round(127 + 127 * P.sin(p.frameCount * 0.2f)));
