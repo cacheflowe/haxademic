@@ -1,4 +1,4 @@
-package com.haxademic.sketch.hardware;
+package com.haxademic.demo.hardware.dmx;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
@@ -13,7 +13,7 @@ import beads.SampleManager;
 import beads.SamplePlayer;
 import dmxP512.DmxP512;
 
-public class DmxUSBProMIDIFeet
+public class Demo_DmxUSBProMIDIFeet
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
