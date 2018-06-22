@@ -135,6 +135,7 @@ extends PAppletHax { public static void main(String args[]) { PAppletHax.main(Th
 		} else if(filterIndex == 11) {
 			ColorizeFromTexture.instance(p).setTexture(ImageGradient.PASTELS());
 			ColorizeFromTexture.instance(p).setLumaMult(p.mousePercentX() > 0.5f);
+			ColorizeFromTexture.instance(p).setCrossfade(p.mousePercentY());
 			ColorizeFromTexture.instance(p).applyTo(p);
 			filterName = "ColorizeFromTexture";
 		}
