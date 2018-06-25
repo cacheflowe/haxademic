@@ -15,6 +15,7 @@ import com.haxademic.app.haxmapper.textures.TextureEQFloatParticles;
 import com.haxademic.app.haxmapper.textures.TextureEQGrid;
 import com.haxademic.app.haxmapper.textures.TextureFractalPolygons;
 import com.haxademic.app.haxmapper.textures.TextureLinesEQ;
+import com.haxademic.app.haxmapper.textures.TexturePixelatedAudio;
 import com.haxademic.app.haxmapper.textures.TextureRotatingRings;
 import com.haxademic.app.haxmapper.textures.TextureRotatorShape;
 import com.haxademic.app.haxmapper.textures.TextureShaderTimeStepper;
@@ -23,18 +24,20 @@ import com.haxademic.app.haxmapper.textures.TextureSphereRotate;
 import com.haxademic.app.haxmapper.textures.TextureStarTrails;
 import com.haxademic.app.haxmapper.textures.TextureTwistingSquares;
 import com.haxademic.app.haxmapper.textures.TextureVectorFieldEQ;
-import com.haxademic.app.haxmapper.textures.TextureWaveformCircle;
+//import com.haxademic.app.haxmapper.textures.TextureWaveformCircle;
 import com.haxademic.app.haxmapper.textures.TextureWaveformSimple;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.constants.PBlendModes;
+import com.haxademic.core.draw.color.ImageGradient;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.filters.shaders.BadTVLinesFilter;
 import com.haxademic.core.draw.filters.shaders.BlurProcessingFilter;
 import com.haxademic.core.draw.filters.shaders.BrightnessFilter;
 import com.haxademic.core.draw.filters.shaders.ColorDistortionFilter;
+import com.haxademic.core.draw.filters.shaders.ColorizeFromTexture;
 import com.haxademic.core.draw.filters.shaders.CubicLensDistortionFilterOscillate;
 import com.haxademic.core.draw.filters.shaders.DeformBloomFilter;
 import com.haxademic.core.draw.filters.shaders.DeformTunnelFanFilter;
@@ -49,6 +52,7 @@ import com.haxademic.core.draw.filters.shaders.PixelateFilter;
 import com.haxademic.core.draw.filters.shaders.RadialRipplesFilter;
 import com.haxademic.core.draw.filters.shaders.SphereDistortionFilter;
 import com.haxademic.core.draw.filters.shaders.VignetteAltFilter;
+import com.haxademic.core.draw.filters.shaders.VignetteFilter;
 import com.haxademic.core.draw.filters.shaders.WobbleFilter;
 import com.haxademic.core.draw.image.ImageCyclerBuffer;
 import com.haxademic.core.draw.image.ImageUtil;
@@ -91,11 +95,11 @@ extends PAppletHax {
 
 	protected float BEAT_DIVISOR = 1; // 10 to test, 1 by default
 	protected int BEAT_INTERVAL_COLOR = (int) Math.ceil(6f / BEAT_DIVISOR);
-	protected int BEAT_INTERVAL_ROTATION = (int) Math.ceil(8f / BEAT_DIVISOR);
+	protected int BEAT_INTERVAL_ROTATION = (int) Math.ceil(6f / BEAT_DIVISOR);
 	protected int BEAT_INTERVAL_TRAVERSE = (int) Math.ceil(20f / BEAT_DIVISOR);
 	protected int BEAT_INTERVAL_ALL_SAME = (int) Math.ceil(150f / BEAT_DIVISOR);
 	protected int BEAT_INTERVAL_NEW_MODE = (int) Math.ceil(80f / BEAT_DIVISOR);
-	protected int BEAT_INTERVAL_NEW_TIMING = (int) Math.ceil(40f / BEAT_DIVISOR);
+	protected int BEAT_INTERVAL_NEW_TIMING = (int) Math.ceil(10f / BEAT_DIVISOR);
 	protected int BEAT_INTERVAL_BIG_CHANGE = (int) Math.ceil(120f / BEAT_DIVISOR);
 
 
@@ -170,6 +174,9 @@ extends PAppletHax {
 	protected PShader contrast;
 	protected PShader displacementShader;
 	protected PShader maskShader;
+	protected ImageGradient imageGradient;
+	protected boolean imageGradientLuma = false;
+	protected boolean imageGradientFilter = false;
 	
 	protected int displacementLayer = 0;
 	protected int overlayMode = 0;
@@ -181,7 +188,7 @@ extends PAppletHax {
 	// keystonable screen
 	protected PGraphics _pg;
 	protected PGraphicsKeystone _pgPinnable;
-	protected float scaleDownPG = 1f;
+	protected float scaleDownPG = 1.3f;
 	protected static boolean SECOND_SCREEN = false;
 	
 	//////////////////////////////////////////////////
@@ -191,11 +198,12 @@ extends PAppletHax {
 	protected void overridePropsFile() {
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, false );
 		p.appConfig.setProperty( AppSettings.FULLSCREEN, true );
+		p.appConfig.setProperty( AppSettings.ALWAYS_ON_TOP, false );
 		p.appConfig.setProperty( AppSettings.FILLS_SCREEN, false );
 		p.appConfig.setProperty( AppSettings.OSC_ACTIVE, false );
 		p.appConfig.setProperty( AppSettings.DMX_LIGHTS_COUNT, 0 );
-		p.appConfig.setProperty( AppSettings.AUDIO_DEBUG, false );
-		p.appConfig.setProperty( AppSettings.INIT_ESS_AUDIO, true );
+		p.appConfig.setProperty( AppSettings.AUDIO_DEBUG, true );
+//		p.appConfig.setProperty( AppSettings.INIT_ESS_AUDIO, true );
 //		p.appConfig.setProperty( AppSettings.INIT_MINIM_AUDIO, true );
 		p.appConfig.setProperty( AppSettings.MIDI_DEVICE_IN_INDEX, 0 );
 		p.appConfig.setProperty( AppSettings.MIDI_DEBUG, false );
@@ -277,7 +285,7 @@ extends PAppletHax {
 		displacementShader = loadShader(FileUtil.getFile("haxademic/shaders/filters/displacement-map.glsl"));
 		maskShader = loadShader(FileUtil.getFile("haxademic/shaders/filters/three-texture-opposite-mask.glsl"));
 		
-		p.midiState.controllerChange(midiInChannel, vignetteKnob, (int) 40);
+		p.midiState.controllerChange(midiInChannel, vignetteKnob, (int) 70);
 	}
 	
 	protected ImageCyclerBuffer imageCycler;
@@ -488,13 +496,29 @@ extends PAppletHax {
 				_pg.filter(kaleido);
 			}
 		}
+		
+		// COLORIZE FROM TEXTURE ////////////////////////
+		// build palette
+		if(imageGradient == null) {
+			imageGradient = new ImageGradient(ImageGradient.PASTELS());
+			imageGradient.addTexturesFromPath(ImageGradient.COOLORS_PATH);
+		}
+		if(imageGradientFilter) {
+			ColorizeFromTexture.instance(p).setTexture(imageGradient.texture());
+			ColorizeFromTexture.instance(p).setLumaMult(imageGradientLuma);
+			ColorizeFromTexture.instance(p).applyTo(_pg);
+		}
 
-		// VIGNETTE ////////////////////////
+		// VIGNETTE FROM CENTER ////////////////////////
 		float vignetteVal = p.midiState.midiCCPercent(midiInChannel, vignetteKnob);
 		float vignetteDarkness = P.map(vignetteVal, 0, 1, 13f, -13f);
 		VignetteAltFilter.instance(p).setSpread(0.5f);
 		VignetteAltFilter.instance(p).setDarkness(1f); // vignetteDarkness
 		VignetteAltFilter.instance(p).applyTo(_pg);
+
+		// normal vignette
+		VignetteFilter.instance(p).setDarkness(0.56f);
+		VignetteFilter.instance(p).applyTo(_pg);
 	}
 
 	protected void postBrightness() {
@@ -646,6 +670,9 @@ extends PAppletHax {
 			_curTexturePool.get(i).setColor( randomColor(1) );
 		}
 		topLayer.setColor( randomColor(1) );
+		if(MathUtil.randBooleanWeighted(p, 0.2f)) imageGradient.randomGradientTexture();
+		imageGradientLuma = true; // MathUtil.randBoolean(p);
+		imageGradientFilter = true; // MathUtil.randBoolean(p);
 	}
 
 	protected void updateLineMode() {
@@ -678,7 +705,7 @@ extends PAppletHax {
 
 	protected void autoBeatMode() {
 		if( isBeatDetectMode() == true ) numBeatsDetected++;
-
+		
 		if( numBeatsDetected % BEAT_INTERVAL_COLOR == 0 ) {
 //			P.println("BEAT_INTERVAL_COLOR");
 			updateColor();
@@ -1046,6 +1073,7 @@ extends PAppletHax {
 		_fgTexturePool.add( new TextureEQGrid( textureW, textureH ));
 		_fgTexturePool.add( new TextureFractalPolygons( textureW, textureH ));
 		_fgTexturePool.add( new TextureLinesEQ( textureW, textureH ));
+		_fgTexturePool.add( new TexturePixelatedAudio( textureW, textureH ));
 //		_fgTexturePool.add( new TextureOuterSphere( textureW, textureH ) );
 //		_fgTexturePool.add( new TextureScrollingColumns( textureW, textureH ));
 		_fgTexturePool.add( new TextureSphereRotate( textureW, textureH ));
@@ -1054,7 +1082,7 @@ extends PAppletHax {
 		_fgTexturePool.add( new TextureTwistingSquares( textureW, textureH ));
 		_fgTexturePool.add( new TextureVectorFieldEQ( textureW, textureH ) );
 		_fgTexturePool.add( new TextureWaveformSimple( textureW, textureH ));
-		_fgTexturePool.add( new TextureWaveformCircle( textureW, textureH ));
+//		_fgTexturePool.add( new TextureWaveformCircle( textureW, textureH ));
 
 		_fgTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "basic-checker.glsl" ));
 		_fgTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "basic-diagonal-stripes.glsl" ));
@@ -1108,13 +1136,14 @@ extends PAppletHax {
 		
 		_overlayTexturePool.add( new TextureVectorFieldEQ( textureW, textureH ) );
 		_overlayTexturePool.add( new TextureWaveformSimple( textureW, textureH ));
-		_overlayTexturePool.add( new TextureWaveformCircle( textureW, textureH ));
+//		_overlayTexturePool.add( new TextureWaveformCircle( textureW, textureH ));
 		_overlayTexturePool.add( new TextureEQBandDistribute( textureW, textureH ));
 		_overlayTexturePool.add( new TextureEQConcentricCircles( textureW, textureH ) );
 		_overlayTexturePool.add( new TextureEQColumns( textureW, textureH ));
 		_overlayTexturePool.add( new TextureEQFloatParticles( textureW, textureH ));
 		_overlayTexturePool.add( new TextureEQGrid( textureW, textureH ));
 		_overlayTexturePool.add( new TextureLinesEQ( textureW, textureH ));
+		_overlayTexturePool.add( new TexturePixelatedAudio( textureW, textureH ));
 //		_overlayTexturePool.add( new TextureOuterSphere( textureW, textureH ) );
 		_overlayTexturePool.add( new TextureSphereRotate( textureW, textureH ));
 
