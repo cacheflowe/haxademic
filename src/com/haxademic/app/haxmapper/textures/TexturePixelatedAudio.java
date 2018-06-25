@@ -122,21 +122,21 @@ extends BaseTexture {
 		textureShader.shader().set("rotation", noiseRot.value());
 		textureShader.shader().set("offset", noiseOffsetX.value(), noiseOffsetY.value());
 		noiseMap.filter(textureShader.shader());
-		P.p.debugView.setTexture(noiseMap);
+//		P.p.debugView.setTexture(noiseMap);
 
 		// update noise map #2
 		textureShader.shader().set("zoom", 10f * noiseZoom.value());
 		textureShader.shader().set("rotation", noiseRot.value());
 		textureShader.shader().set("offset", noiseOffsetX.value(), noiseOffsetY.value());
 		noiseMapZoomed.filter(textureShader.shader());
-		P.p.debugView.setTexture(noiseMapZoomed);
+//		P.p.debugView.setTexture(noiseMapZoomed);
 
 		// update noise map #3
 		textureShader.shader().set("zoom", 100f);
 		textureShader.shader().set("rotation", noiseRot.value() * 0.01f);
 		textureShader.shader().set("offset", noiseOffsetX.value() * 0.01f, noiseOffsetY.value() * 0.01f);
 		noiseMapFine.filter(textureShader.shader());
-		P.p.debugView.setTexture(noiseMapFine);
+//		P.p.debugView.setTexture(noiseMapFine);
 		
 		// blend 2 maps together
 		BlendTowardsTexture.instance(P.p).setSourceTexture(noiseMapZoomed);
