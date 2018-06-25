@@ -63,6 +63,7 @@ implements IWebCamCallback {
 			ImageUtil.cropFillCopyImage(flippedCamera, p.g, true);
 			ColorizeFromTexture.instance(p).setTexture(imageGradient.texture());
 			ColorizeFromTexture.instance(p).setLumaMult(p.mousePercentX() > 0.5f);
+			ColorizeFromTexture.instance(p).setCrossfade(p.mousePercentY());
 			ColorizeFromTexture.instance(p).applyTo(p);
 		}
 	}

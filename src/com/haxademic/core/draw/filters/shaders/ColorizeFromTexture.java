@@ -14,6 +14,7 @@ extends BaseFilter {
 	public ColorizeFromTexture(PApplet p) {
 		super(p, "haxademic/shaders/filters/colorize-from-texture.glsl");
 		setTexture(ImageGradient.PASTELS());
+		setCrossfade(1f);
 		setLumaMult(false);
 	}
 	
@@ -29,6 +30,10 @@ extends BaseFilter {
 	
 	public void setLumaMult(boolean lumaMult) {
 		shader.set("lumaMult", lumaMult);
+	}
+	
+	public void setCrossfade(float crossfade) {
+		shader.set("crossfade", crossfade);
 	}
 	
 }
