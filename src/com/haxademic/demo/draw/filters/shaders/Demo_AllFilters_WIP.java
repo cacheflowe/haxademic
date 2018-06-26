@@ -13,11 +13,25 @@ import com.haxademic.core.draw.filters.shaders.BlurProcessingFilter;
 import com.haxademic.core.draw.filters.shaders.BlurVFilter;
 import com.haxademic.core.draw.filters.shaders.BrightnessFilter;
 import com.haxademic.core.draw.filters.shaders.ColorCorrectionFilter;
+import com.haxademic.core.draw.filters.shaders.ColorizeFilter;
 import com.haxademic.core.draw.filters.shaders.ColorizeFromTexture;
+import com.haxademic.core.draw.filters.shaders.ColorizeTwoColorsFilter;
+import com.haxademic.core.draw.filters.shaders.ContrastFilter;
 import com.haxademic.core.draw.filters.shaders.CubicLensDistortionFilter;
 import com.haxademic.core.draw.filters.shaders.CubicLensDistortionFilterOscillate;
+import com.haxademic.core.draw.filters.shaders.DeformBloomFilter;
+import com.haxademic.core.draw.filters.shaders.DilateFilter;
 import com.haxademic.core.draw.filters.shaders.EdgeColorDarkenFilter;
+import com.haxademic.core.draw.filters.shaders.EdgeColorFadeFilter;
+import com.haxademic.core.draw.filters.shaders.EdgesFilter;
+import com.haxademic.core.draw.filters.shaders.EmbossFilter;
+import com.haxademic.core.draw.filters.shaders.ErosionFilter;
+import com.haxademic.core.draw.filters.shaders.FXAAFilter;
 import com.haxademic.core.draw.filters.shaders.GodRays;
+import com.haxademic.core.draw.filters.shaders.GradientCoverWipe;
+import com.haxademic.core.draw.filters.shaders.HalftoneFilter;
+import com.haxademic.core.draw.filters.shaders.InvertFilter;
+import com.haxademic.core.draw.filters.shaders.shared.BaseFilter;
 import com.haxademic.core.draw.shaders.textures.TextureShader;
 import com.haxademic.core.file.DemoAssets;
 import com.haxademic.core.hardware.shared.InputTrigger;
@@ -34,6 +48,7 @@ extends PAppletHax { public static void main(String args[]) { PAppletHax.main(Th
 	protected InputTrigger triggerNext = new InputTrigger(new char[]{'2'});
 	protected InputTrigger triggerToggle = new InputTrigger(new char[]{' '});
 	
+	protected BaseFilter[] filters;
 	protected int filterIndex = 0;
 
 	protected void overridePropsFile() {
@@ -42,6 +57,33 @@ extends PAppletHax { public static void main(String args[]) { PAppletHax.main(Th
 	}
 
 	public void setupFirstFrame() {
+		filters = new BaseFilter[] {
+			CubicLensDistortionFilter.instance(p),
+			CubicLensDistortionFilterOscillate.instance(p),
+			EdgeColorDarkenFilter.instance(p),
+			GodRays.instance(p),
+			BadTVGlitchFilter.instance(p),
+			BadTVLinesFilter.instance(p),
+			BlurBasicFilter.instance(p),
+			BlurHFilter.instance(p),
+			BlurProcessingFilter.instance(p),
+			BrightnessFilter.instance(p),
+			ColorCorrectionFilter.instance(p),
+			ColorizeFilter.instance(p),
+			ColorizeFromTexture.instance(p),
+			ColorizeTwoColorsFilter.instance(p),
+			ContrastFilter.instance(p),
+			DeformBloomFilter.instance(p),
+			DilateFilter.instance(p),
+			EdgesFilter.instance(p),
+			EmbossFilter.instance(p),
+			ErosionFilter.instance(p),
+			FXAAFilter.instance(p),
+			HalftoneFilter.instance(p),
+			InvertFilter.instance(p),
+			GradientCoverWipe.instance(p),
+		};
+
 		texture = new TextureShader(TextureShader.bw_clouds);
 		
 //		customShader = p.loadShader(FileUtil.getFile("haxademic/shaders/filters/godrays.glsl"));
@@ -52,11 +94,15 @@ extends PAppletHax { public static void main(String args[]) { PAppletHax.main(Th
 	}
 	
 	public void drawApp() {
-		// cycle
-		int numEffects = 12;
+		// cycle through effects
+		int numEffects = filters.length;
 		if(triggerPrev.triggered()) filterIndex = (filterIndex > 0) ? filterIndex - 1 : numEffects - 1;
 		if(triggerNext.triggered()) filterIndex = (filterIndex < numEffects - 1) ? filterIndex + 1 : 0;
 
+		// debug log mouse position
+		p.debugView.setValue("p.mousePercentX()", p.mousePercentX());
+		p.debugView.setValue("p.mousePercentY()", p.mousePercentY());
+		
 		// update cur shader & draw to screen
 		texture.updateTime();
 		p.filter(texture.shader());
@@ -73,76 +119,108 @@ extends PAppletHax { public static void main(String args[]) { PAppletHax.main(Th
 		p.textFont(DemoAssets.fontRaleway(20));
 		String filterName = "";
 		
-		// apply some filters
+		// apply active filter
 		DrawUtil.setTextureRepeat(p, true);
-		if(filterIndex == 0) {
+		
+		BaseFilter curFilter = filters[filterIndex];
+		if(curFilter == CubicLensDistortionFilter.instance(p)) {
 	 		CubicLensDistortionFilter.instance(p).setAmplitude(P.map(p.mouseX, 0, p.width, -20f, 20f));
 			CubicLensDistortionFilter.instance(p).setSeparation(P.map(p.mouseY, 0, p.height, 0, 3f));
 			CubicLensDistortionFilter.instance(p).applyTo(p);
-			filterName = "CubicLensDistortionFilter";
-		} else if(filterIndex == 1) {
+		} else if(curFilter == CubicLensDistortionFilterOscillate.instance(p)) {
 			// old distortion
 			CubicLensDistortionFilterOscillate.instance(p).setTime(p.frameCount * 0.01f);
 			CubicLensDistortionFilterOscillate.instance(p).applyTo(p);
-			filterName = "CubicLensDistortionFilterOscillate";
-		} else if(filterIndex == 2) {
+		} else if(curFilter == EdgeColorDarkenFilter.instance(p)) {
 			EdgeColorDarkenFilter.instance(p).setSpreadX(p.mousePercentX());
 			EdgeColorDarkenFilter.instance(p).setSpreadY(p.mousePercentY());
 			EdgeColorDarkenFilter.instance(p).applyTo(p);
-			filterName = "EdgeColorDarkenFilter";
-		} else if(filterIndex == 3) {
+		} else if(curFilter == GodRays.instance(p)) {
 			GodRays.instance(p).setDecay(p.mousePercentX());
 			GodRays.instance(p).setWeight(p.mousePercentY());
 			GodRays.instance(p).setRotation(oscillate());
 			GodRays.instance(p).setAmp(0.5f + 0.5f * oscillate());
 			GodRays.instance(p).applyTo(p);
-			filterName = "GodRays";
-		} else if(filterIndex == 4) {
+		} else if(curFilter == BadTVGlitchFilter.instance(p)) {
 			BadTVGlitchFilter.instance(p).setTime(p.frameCount * 0.01f);
 			BadTVGlitchFilter.instance(p).applyTo(p);
-			filterName = "BadTVGlitchFilter";
-		} else if(filterIndex == 5) {
+		} else if(curFilter == BadTVLinesFilter.instance(p)) {
 			BadTVLinesFilter.instance(p).setTime(p.frameCount * 0.01f);
 			BadTVLinesFilter.instance(p).setGrayscale(0);
 			BadTVLinesFilter.instance(p).setIntensityN(p.mousePercentX());
 			BadTVLinesFilter.instance(p).setIntensityS(p.mousePercentY());
 			BadTVLinesFilter.instance(p).setCountS(4096.0f);
 			BadTVLinesFilter.instance(p).applyTo(p);
-			filterName = "BadTVLinesFilter";
-		} else if(filterIndex == 6) {
+		} else if(curFilter == BlurBasicFilter.instance(p)) {
 			BlurBasicFilter.instance(p).applyTo(p);
-			filterName = "BlurBasicFilter";
-		} else if(filterIndex == 7) {
+		} else if(curFilter == BlurHFilter.instance(p)) {
 			BlurHFilter.instance(p).setBlurByPercent(p.mousePercentX() * 2f, p.width);
 			BlurHFilter.instance(p).applyTo(p);
 			BlurVFilter.instance(p).setBlurByPercent(p.mousePercentY() * 2f, p.height);
 			BlurVFilter.instance(p).applyTo(p);
-			filterName = "BlurHFilter + BlurVFilter";
-		} else if(filterIndex == 8) {
+		} else if(curFilter == BlurProcessingFilter.instance(p)) {
 			BlurProcessingFilter.instance(p).setBlurSize(P.round(p.mousePercentY() * 10f));
 			BlurProcessingFilter.instance(p).setSigma(p.mousePercentX() * 10f);
 			BlurProcessingFilter.instance(p).applyTo(p);
-			filterName = "BlurProcessingFilter";
-		} else if(filterIndex == 9) {
+		} else if(curFilter == BrightnessFilter.instance(p)) {
 			BrightnessFilter.instance(p).setBrightness(p.mousePercentY() * 10f);
 			BrightnessFilter.instance(p).applyTo(p);
-			filterName = "BrightnessFilter";
-		} else if(filterIndex == 10) {
+		} else if(curFilter == ColorCorrectionFilter.instance(p)) {
 			ColorCorrectionFilter.instance(p).setContrast(p.mousePercentX() * 10f);
 			ColorCorrectionFilter.instance(p).setGamma(p.mousePercentY() * 10f);
 			ColorCorrectionFilter.instance(p).applyTo(p);
-			filterName = "ColorCorrectionFilter";
-		} else if(filterIndex == 11) {
+		} else if(curFilter == ColorizeFilter.instance(p)) {
+			ColorizeFilter.instance(p).setTargetR(p.mousePercentX());
+			ColorizeFilter.instance(p).setTargetG(p.mousePercentY());
+			ColorizeFilter.instance(p).setTargetB(p.mousePercentX());
+			ColorizeFilter.instance(p).applyTo(p);
+		} else if(curFilter == ColorizeFromTexture.instance(p)) {
 			ColorizeFromTexture.instance(p).setTexture(ImageGradient.PASTELS());
 			ColorizeFromTexture.instance(p).setLumaMult(p.mousePercentX() > 0.5f);
 			ColorizeFromTexture.instance(p).setCrossfade(p.mousePercentY());
 			ColorizeFromTexture.instance(p).applyTo(p);
-			filterName = "ColorizeFromTexture";
+		} else if(curFilter == ColorizeTwoColorsFilter.instance(p)) {
+			ColorizeTwoColorsFilter.instance(p).setColor1(1f, 0f, 1f);
+			ColorizeTwoColorsFilter.instance(p).setColor2(0f, 1f, 1f);
+			ColorizeTwoColorsFilter.instance(p).applyTo(p);
+		} else if(curFilter == ContrastFilter.instance(p)) {
+			ContrastFilter.instance(p).setContrast(p.mousePercentX() * 3);
+			ContrastFilter.instance(p).applyTo(p);
+//		} else if(curFilter == DeformBloomFilter.instance(p)) {
+//			DeformBloomFilter.instance(p).applyTo(p);
+		} else if(curFilter == DilateFilter.instance(p)) {
+			DilateFilter.instance(p).applyTo(p);
+		} else if(curFilter == EdgeColorFadeFilter.instance(p)) {
+			EdgeColorFadeFilter.instance(p).setEdgeColor(1f, 0f, 0f);
+			EdgeColorFadeFilter.instance(p).setSpreadX(p.mousePercentX());
+			EdgeColorFadeFilter.instance(p).setSpreadY(p.mousePercentY());
+			EdgeColorFadeFilter.instance(p).applyTo(p);
+		} else if(curFilter == EdgesFilter.instance(p)) {
+			EdgesFilter.instance(p).applyTo(p);
+		} else if(curFilter == EmbossFilter.instance(p)) {
+			EmbossFilter.instance(p).applyTo(p);
+		} else if(curFilter == ErosionFilter.instance(p)) {
+			ErosionFilter.instance(p).applyTo(p);
+		} else if(curFilter == FXAAFilter.instance(p)) {
+			FXAAFilter.instance(p).applyTo(p);
+		} else if(curFilter == HalftoneFilter.instance(p)) {
+			HalftoneFilter.instance(p).setAngle(p.mousePercentX() * P.TWO_PI);
+			HalftoneFilter.instance(p).setScale(p.mousePercentX() * 3f);
+			HalftoneFilter.instance(p).setSizeT(p.mousePercentY() * 1024f, p.mousePercentY() * 1024f);
+			HalftoneFilter.instance(p).setCenter(p.mousePercentX(), p.mousePercentY());
+			HalftoneFilter.instance(p).applyTo(p);
+		} else if(curFilter == InvertFilter.instance(p)) {
+			InvertFilter.instance(p).applyTo(p);
+		} else if(curFilter == GradientCoverWipe.instance(p)) {
+			GradientCoverWipe.instance(p).setColorTop(1f, 0f, 1f, 1f);
+			GradientCoverWipe.instance(p).setColorBot(0f, 1f, 1f, 1f);
+			GradientCoverWipe.instance(p).setProgress(p.mousePercentX());
+			GradientCoverWipe.instance(p).applyTo(p);
 		}
+		filterName = curFilter.getClass().getName();
 		p.text(filterName, 20, p.height - 30);
 		
 		// custom filter
-		// customShader.set("rotation", P.sin(p.frameCount * 0.01f));
 		if(customShader != null && triggerToggle.on() == false) p.filter(customShader);
 	}
 
