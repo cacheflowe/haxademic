@@ -32,9 +32,13 @@ import com.haxademic.core.draw.filters.shaders.GradientCoverWipe;
 import com.haxademic.core.draw.filters.shaders.HalftoneFilter;
 import com.haxademic.core.draw.filters.shaders.HalftoneLinesFilter;
 import com.haxademic.core.draw.filters.shaders.InvertFilter;
+import com.haxademic.core.draw.filters.shaders.KaleidoFilter;
+import com.haxademic.core.draw.filters.shaders.LiquidWarpFilter;
 import com.haxademic.core.draw.filters.shaders.PixelateFilter;
 import com.haxademic.core.draw.filters.shaders.RadialRipplesFilter;
 import com.haxademic.core.draw.filters.shaders.RotateFilter;
+import com.haxademic.core.draw.filters.shaders.SaturateHSVFilter;
+import com.haxademic.core.draw.filters.shaders.SaturationFilter;
 import com.haxademic.core.draw.filters.shaders.SharpenFilter;
 import com.haxademic.core.draw.filters.shaders.SphereDistortionFilter;
 import com.haxademic.core.draw.filters.shaders.ThresholdFilter;
@@ -93,9 +97,13 @@ extends PAppletHax { public static void main(String args[]) { PAppletHax.main(Th
 			HalftoneFilter.instance(p),
 			HalftoneLinesFilter.instance(p),
 			InvertFilter.instance(p),
+			LiquidWarpFilter.instance(p),
+			KaleidoFilter.instance(p),
 			PixelateFilter.instance(p),
 			RadialRipplesFilter.instance(p),
 			RotateFilter.instance(p),
+			SaturateHSVFilter.instance(p),
+			SaturationFilter.instance(p),
 			SharpenFilter.instance(p),
 			SphereDistortionFilter.instance(p),
 			ThresholdFilter.instance(p),
@@ -242,6 +250,17 @@ extends PAppletHax { public static void main(String args[]) { PAppletHax.main(Th
 			HalftoneLinesFilter.instance(p).applyTo(p);
 		} else if(curFilter == InvertFilter.instance(p)) {
 			InvertFilter.instance(p).applyTo(p);
+		} else if(curFilter == KaleidoFilter.instance(p)) {
+			KaleidoFilter.instance(p).setAngle(p.mousePercentX() * P.TWO_PI);
+			KaleidoFilter.instance(p).setSides(p.mousePercentY() * 16f);
+			KaleidoFilter.instance(p).applyTo(p);
+		} else if(curFilter == LiquidWarpFilter.instance(p)) {
+//			setAmplitude(0.02f);
+//			setFrequency(6.0f);
+			LiquidWarpFilter.instance(p).setTime(p.frameCount * 0.01f);
+			LiquidWarpFilter.instance(p).setAmplitude(p.mousePercentX() * 0.1f);
+			LiquidWarpFilter.instance(p).setFrequency(p.mousePercentY() * 20f);
+			LiquidWarpFilter.instance(p).applyTo(p);
 		} else if(curFilter == PixelateFilter.instance(p)) {
 			PixelateFilter.instance(p).setDivider(P.round(p.mousePercentX() * 100f), p.width, p.height);
 			PixelateFilter.instance(p).applyTo(p);
@@ -252,6 +271,12 @@ extends PAppletHax { public static void main(String args[]) { PAppletHax.main(Th
 		} else if(curFilter == RotateFilter.instance(p)) {
 			RotateFilter.instance(p).setRotation(p.mousePercentX() * P.TWO_PI);
 			RotateFilter.instance(p).applyTo(p);
+		} else if(curFilter == SaturationFilter.instance(p)) {
+			SaturationFilter.instance(p).setSaturation(p.mousePercentX() * 4f);
+			SaturationFilter.instance(p).applyTo(p);
+		} else if(curFilter == SaturateHSVFilter.instance(p)) {
+			SaturateHSVFilter.instance(p).setSaturation(p.mousePercentX() * 4f);
+			SaturateHSVFilter.instance(p).applyTo(p);
 		} else if(curFilter == SharpenFilter.instance(p)) {
 			SharpenFilter.instance(p).setSharpness(p.mousePercentX() * 10f);
 			SharpenFilter.instance(p).applyTo(p);
