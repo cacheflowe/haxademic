@@ -30,7 +30,18 @@ import com.haxademic.core.draw.filters.shaders.FXAAFilter;
 import com.haxademic.core.draw.filters.shaders.GodRays;
 import com.haxademic.core.draw.filters.shaders.GradientCoverWipe;
 import com.haxademic.core.draw.filters.shaders.HalftoneFilter;
+import com.haxademic.core.draw.filters.shaders.HalftoneLinesFilter;
 import com.haxademic.core.draw.filters.shaders.InvertFilter;
+import com.haxademic.core.draw.filters.shaders.PixelateFilter;
+import com.haxademic.core.draw.filters.shaders.RadialRipplesFilter;
+import com.haxademic.core.draw.filters.shaders.RotateFilter;
+import com.haxademic.core.draw.filters.shaders.SharpenFilter;
+import com.haxademic.core.draw.filters.shaders.SphereDistortionFilter;
+import com.haxademic.core.draw.filters.shaders.ThresholdFilter;
+import com.haxademic.core.draw.filters.shaders.VignetteAltFilter;
+import com.haxademic.core.draw.filters.shaders.VignetteFilter;
+import com.haxademic.core.draw.filters.shaders.WarperFilter;
+import com.haxademic.core.draw.filters.shaders.WobbleFilter;
 import com.haxademic.core.draw.filters.shaders.shared.BaseFilter;
 import com.haxademic.core.draw.shaders.textures.TextureShader;
 import com.haxademic.core.file.DemoAssets;
@@ -80,7 +91,18 @@ extends PAppletHax { public static void main(String args[]) { PAppletHax.main(Th
 			ErosionFilter.instance(p),
 			FXAAFilter.instance(p),
 			HalftoneFilter.instance(p),
+			HalftoneLinesFilter.instance(p),
 			InvertFilter.instance(p),
+			PixelateFilter.instance(p),
+			RadialRipplesFilter.instance(p),
+			RotateFilter.instance(p),
+			SharpenFilter.instance(p),
+			SphereDistortionFilter.instance(p),
+			ThresholdFilter.instance(p),
+			VignetteAltFilter.instance(p),
+			VignetteFilter.instance(p),
+			WarperFilter.instance(p),
+			WobbleFilter.instance(p),
 			GradientCoverWipe.instance(p),
 		};
 
@@ -205,19 +227,66 @@ extends PAppletHax { public static void main(String args[]) { PAppletHax.main(Th
 			FXAAFilter.instance(p).applyTo(p);
 		} else if(curFilter == HalftoneFilter.instance(p)) {
 			HalftoneFilter.instance(p).setAngle(p.mousePercentX() * P.TWO_PI);
-			HalftoneFilter.instance(p).setScale(p.mousePercentX() * 3f);
-			HalftoneFilter.instance(p).setSizeT(p.mousePercentY() * 1024f, p.mousePercentY() * 1024f);
+//			HalftoneFilter.instance(p).setScale(p.mousePercentY() * 3f);
+//			HalftoneFilter.instance(p).setSizeT(p.mousePercentY() * 1024f, p.mousePercentY() * 1024f);
 			HalftoneFilter.instance(p).setCenter(p.mousePercentX(), p.mousePercentY());
 			HalftoneFilter.instance(p).applyTo(p);
+		} else if(curFilter == HalftoneLinesFilter.instance(p)) {
+//			setSampleDistX(200f);   // divisions for kernel sampling (width)
+//			setSampleDistY(80f);	// divisions for kernel sampling (height)
+			HalftoneLinesFilter.instance(p).setRows(p.mousePercentY() * 150f);
+			HalftoneLinesFilter.instance(p).setRotation(p.mousePercentX() * P.TWO_PI);
+//			setRotation(0f);
+//			setAntiAlias(0.1f);
+//			setMode(3);
+			HalftoneLinesFilter.instance(p).applyTo(p);
 		} else if(curFilter == InvertFilter.instance(p)) {
 			InvertFilter.instance(p).applyTo(p);
+		} else if(curFilter == PixelateFilter.instance(p)) {
+			PixelateFilter.instance(p).setDivider(P.round(p.mousePercentX() * 100f), p.width, p.height);
+			PixelateFilter.instance(p).applyTo(p);
+		} else if(curFilter == RadialRipplesFilter.instance(p)) {
+			RadialRipplesFilter.instance(p).setTime(p.frameCount * 0.01f);
+			RadialRipplesFilter.instance(p).setAmplitude(p.mousePercentX() * 4f);
+			RadialRipplesFilter.instance(p).applyTo(p);
+		} else if(curFilter == RotateFilter.instance(p)) {
+			RotateFilter.instance(p).setRotation(p.mousePercentX() * P.TWO_PI);
+			RotateFilter.instance(p).applyTo(p);
+		} else if(curFilter == SharpenFilter.instance(p)) {
+			SharpenFilter.instance(p).setSharpness(p.mousePercentX() * 10f);
+			SharpenFilter.instance(p).applyTo(p);
+		} else if(curFilter == SphereDistortionFilter.instance(p)) {
+			SphereDistortionFilter.instance(p).setAmplitude(P.map(p.mouseX, 0, p.width, -20f, 20f));
+			SphereDistortionFilter.instance(p).applyTo(p);
+		} else if(curFilter == ThresholdFilter.instance(p)) {
+			ThresholdFilter.instance(p).setCutoff(p.mousePercentX());
+			ThresholdFilter.instance(p).applyTo(p);
+		} else if(curFilter == VignetteAltFilter.instance(p)) {
+			VignetteAltFilter.instance(p).setDarkness(-5f + 10f * p.mousePercentX());
+			VignetteAltFilter.instance(p).setSpread(p.mousePercentY() * 5f);
+			VignetteAltFilter.instance(p).applyTo(p);
+		} else if(curFilter == VignetteFilter.instance(p)) {
+			VignetteFilter.instance(p).setDarkness(-5f + 10f * p.mousePercentX());
+			VignetteFilter.instance(p).setSpread(p.mousePercentY() * 5f);
+			VignetteFilter.instance(p).applyTo(p);
+		} else if(curFilter == WarperFilter.instance(p)) {
+			WarperFilter.instance(p).applyTo(p);
+		} else if(curFilter == WobbleFilter.instance(p)) {
+//			setSpeed(1f);
+//			setStrength(0.001f);
+//			setSize(100f);
+			WobbleFilter.instance(p).setTime(p.frameCount * 0.01f);
+			WobbleFilter.instance(p).setSpeed(2f); // p.mousePercentX() * 3f);
+			WobbleFilter.instance(p).setStrength(p.mousePercentX());
+			WobbleFilter.instance(p).setSize(p.mousePercentY() * 5f);
+			WobbleFilter.instance(p).applyTo(p);
 		} else if(curFilter == GradientCoverWipe.instance(p)) {
 			GradientCoverWipe.instance(p).setColorTop(1f, 0f, 1f, 1f);
 			GradientCoverWipe.instance(p).setColorBot(0f, 1f, 1f, 1f);
 			GradientCoverWipe.instance(p).setProgress(p.mousePercentX());
 			GradientCoverWipe.instance(p).applyTo(p);
 		}
-		filterName = curFilter.getClass().getName();
+		filterName = curFilter.getClass().getSimpleName();
 		p.text(filterName, 20, p.height - 30);
 		
 		// custom filter
