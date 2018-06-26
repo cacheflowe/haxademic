@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?xml version="1.0" encoding="WINDOWS-1252" standalone="no"?>
 <jardesc>
     <jar path="haxademic/lib/haxademic/haxademic.jar"/>
     <options buildIfNeeded="true" compress="true" descriptionLocation="/haxademic/haxademic.jardesc" exportErrors="true" exportWarnings="true" includeDirectoryEntries="false" overwrite="false" saveDescription="true" storeRefactorings="false" useSourceFolders="false"/>
@@ -14,9 +14,9 @@
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.hardware.midi.devices"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.hardware.browser"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.hardware.kinect"/>
-        <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.data"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.data.store"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.text"/>
+        <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.data"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.hardware.webcam"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.hardware.osc.devices"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.draw.mapping"/>
@@ -25,12 +25,13 @@
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.math.easing"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.app"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.draw.color"/>
-        <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.system"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.ui"/>
+        <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.system"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.camera"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.hardware.joystick"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.hardware.mouse"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.vendor"/>
+        <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.audio.analysis.input"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.net"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.draw.filters.shaders"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.camera.common"/>
@@ -43,17 +44,17 @@
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.debug"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.audio"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.draw.text"/>
-        <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.audio.analysis"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.hardware.dmx"/>
+        <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.audio.analysis"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.draw.context"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.hardware.keyboard"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.hardware.midi"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.render"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.draw.filters.shaders.shared"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.draw.filters"/>
-        <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.draw.particle"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.file"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.math"/>
+        <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.draw.particle"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.draw.toxi"/>
     </selectedElements>
 </jardesc>
