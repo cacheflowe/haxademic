@@ -234,10 +234,11 @@ extends PAppletHax { public static void main(String args[]) { PAppletHax.main(Th
 		} else if(curFilter == FXAAFilter.instance(p)) {
 			FXAAFilter.instance(p).applyTo(p);
 		} else if(curFilter == HalftoneFilter.instance(p)) {
+			float halftoneSize = p.mousePercentX() * 1024f;
 			HalftoneFilter.instance(p).setAngle(p.mousePercentX() * P.TWO_PI);
-//			HalftoneFilter.instance(p).setScale(p.mousePercentY() * 3f);
-//			HalftoneFilter.instance(p).setSizeT(p.mousePercentY() * 1024f, p.mousePercentY() * 1024f);
-			HalftoneFilter.instance(p).setCenter(p.mousePercentX(), p.mousePercentY());
+			HalftoneFilter.instance(p).setScale(p.mousePercentY() * 3f);
+			HalftoneFilter.instance(p).setSizeT(halftoneSize, halftoneSize);
+			HalftoneFilter.instance(p).setCenter(halftoneSize/2f, halftoneSize/2f);
 			HalftoneFilter.instance(p).applyTo(p);
 		} else if(curFilter == HalftoneLinesFilter.instance(p)) {
 //			setSampleDistX(200f);   // divisions for kernel sampling (width)
