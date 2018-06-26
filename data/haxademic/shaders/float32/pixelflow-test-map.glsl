@@ -18,8 +18,8 @@ uniform float time;
 void main() {
   // get texture colors
   vec2 uv = gl_FragCoord.xy / resolution;
-  vec4 color = texture(texture, uv);
-  vec4 mapCol = texture(map, uv);
+  vec4 color = texture2D(texture, uv);
+  vec4 mapCol = texture2D(map, uv);
   // set color based on trig from map
   color.r += sin(mapCol.r * 6.28 + time) * 0.01;
   color.g += sin(mapCol.g * 6.28 + time) * 0.01;
