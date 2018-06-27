@@ -1,7 +1,5 @@
 package com.haxademic.core.draw.image;
 
-import java.util.ArrayList;
-
 import com.haxademic.core.app.P;
 import com.haxademic.core.constants.PRenderers;
 
