@@ -228,6 +228,10 @@ public class ImageUtil {
 		img.copy(0, 0, img.width, img.height, img.width, 0, -img.width, img.height);
 	}
 	
+	public static void flipV(PImage img) {
+		img.copy(0, 0, img.width, img.height, 0, img.height, img.width, -img.height);
+	}
+	
 	public static float[] offsetAndSize = new float[]{0,0,0,0};
 	public static float[] getOffsetAndSizeToCrop( float containerW, float containerH, float imageW, float imageH, boolean cropFill ) {
 		float ratioW = containerW / imageW;
