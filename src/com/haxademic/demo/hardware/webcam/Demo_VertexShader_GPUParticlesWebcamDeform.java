@@ -39,7 +39,7 @@ implements IWebCamCallback {
 	protected void overridePropsFile() {
 		p.appConfig.setProperty(AppSettings.WIDTH, (int) w);
 		p.appConfig.setProperty(AppSettings.HEIGHT, (int) h);
-		p.appConfig.setProperty(AppSettings.WEBCAM_INDEX, 5);
+		p.appConfig.setProperty(AppSettings.WEBCAM_INDEX, 15);
 	}
 
 	protected void setupFirstFrame() {
@@ -51,8 +51,7 @@ implements IWebCamCallback {
 		
 		// load & set texture
 		displacementMap = p.createGraphics((int) w, (int) h, PRenderers.P2D);
-		colorMap = p.loadImage(FileUtil.getFile("images/_sketch/reebok-delta.png"));// DemoAssets.textureNebula();
-//		colorMap = DemoAssets.textureNebula();
+		colorMap = DemoAssets.textureNebula();  // p.loadImage(FileUtil.getFile("images/_sketch/logo.png"));
 
 		// build offsecreen buffer (things don't work the same on the main drawing surface)
 		pg = p.createGraphics((int) w, (int) h, PRenderers.P3D);
