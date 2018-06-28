@@ -20,6 +20,8 @@ implements IWebCamCallback {
 
 	protected ImageSequenceRecorder recorder;
 	protected PGraphics camBuffer;
+	protected int numFrames = 40;
+	protected int spacing = 40;
 
 	protected void overridePropsFile() {
 		p.appConfig.setProperty(AppSettings.WEBCAM_INDEX, 3 );
@@ -28,8 +30,8 @@ implements IWebCamCallback {
 	}
 
 	public void setupFirstFrame () {
-		camBuffer = p.createGraphics(540, 960, PRenderers.P2D);
-		recorder = new ImageSequenceRecorder(camBuffer.width, camBuffer.height, 100);
+		camBuffer = p.createGraphics(1280/2, 720/2, PRenderers.P2D);
+		recorder = new ImageSequenceRecorder(camBuffer.width, camBuffer.height, numFrames);
 		p.webCamWrapper.setDelegate(this);
 	}
 
@@ -42,7 +44,7 @@ implements IWebCamCallback {
 		for (int i = 0; i < recorder.images().length; i++) {
 			int shaderFrame = (recorder.frameIndex() + i) % recorder.images().length;
 
-			float imageScale = MathUtil.scaleToTarget(camBuffer.height, p.height - 10 * i);
+			float imageScale = MathUtil.scaleToTarget(camBuffer.height, p.height - spacing * i);
 			p.image(recorder.images()[shaderFrame], 0, 0, camBuffer.width * imageScale, camBuffer.height * imageScale);
 			
 		}
