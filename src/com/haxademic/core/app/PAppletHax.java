@@ -277,7 +277,7 @@ extends PApplet
 		// check for always on top
 		boolean isFullscreen = p.appConfig.getBoolean(AppSettings.FULLSCREEN, false);
 		if(isFullscreen == true) {
-			surface.setAlwaysOnTop(p.appConfig.getBoolean(AppSettings.ALWAYS_ON_TOP, true));
+			if(p.appConfig.getBoolean(AppSettings.ALWAYS_ON_TOP, true)) surface.setAlwaysOnTop(true);
 		}
 	}
 	
