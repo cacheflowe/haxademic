@@ -21,45 +21,48 @@ implements IWebCamCallback {
 	protected ImageSequenceRecorder recorder;
 	protected PGraphics camBuffer;
 	protected int numFrames = 40;
-	protected int spacing = 40;
+	protected int spacing = 20;
 
 	protected void overridePropsFile() {
-		p.appConfig.setProperty(AppSettings.WEBCAM_INDEX, 3 );
+		p.appConfig.setProperty(AppSettings.WEBCAM_INDEX, 18 );
 		p.appConfig.setProperty(AppSettings.SHOW_DEBUG, true );
 		p.appConfig.setProperty(AppSettings.FILLS_SCREEN, true );
 	}
 
 	public void setupFirstFrame () {
-		camBuffer = p.createGraphics(1280/2, 720/2, PRenderers.P2D);
+		camBuffer = p.createGraphics(800, 600, PRenderers.P2D);
 		recorder = new ImageSequenceRecorder(camBuffer.width, camBuffer.height, numFrames);
 		p.webCamWrapper.setDelegate(this);
 	}
 
 	public void drawApp() {
+		// set up context
 		p.background( 0 );
-
 		p.pushMatrix();
 		DrawUtil.setDrawCenter(p);
 		DrawUtil.setCenterScreen(p);
+		
+		// draw tunnel
 		for (int i = 0; i < recorder.images().length; i++) {
-			int shaderFrame = (recorder.frameIndex() + i) % recorder.images().length;
-
+			int shaderFrame = (recorder.frameIndex() + 1 + i) % recorder.images().length;
 			float imageScale = MathUtil.scaleToTarget(camBuffer.height, p.height - spacing * i);
 			p.image(recorder.images()[shaderFrame], 0, 0, camBuffer.width * imageScale, camBuffer.height * imageScale);
-			
 		}
+		
+		// pop context
 		p.popMatrix();
-
 		DrawUtil.setDrawCorner(p);
+		
+		// draw debug
 		recorder.drawDebug(p.g);
 	}
 
 	@Override
 	public void newFrame(PImage frame) {
 		// set recorder frame - use buffer as intermediary to fix aspect ratio
-//		ImageUtil.copyImageFlipH(p.webCamWrapper.getImage(), camBuffer);
-		ImageUtil.cropFillCopyImage(p.webCamWrapper.getImage(), camBuffer, true);
-		ImageUtil.flipH(camBuffer);
+		ImageUtil.copyImageFlipH(p.webCamWrapper.getImage(), camBuffer);
+//		ImageUtil.cropFillCopyImage(p.webCamWrapper.getImage(), camBuffer, true);
+//		ImageUtil.flipH(camBuffer);
 		recorder.addFrame(camBuffer);
 		// do some post-processing
 		SaturationFilter.instance(p).setSaturation(0);
