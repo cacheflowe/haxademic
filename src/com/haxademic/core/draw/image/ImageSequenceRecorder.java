@@ -25,6 +25,7 @@ public class ImageSequenceRecorder {
 		images = new PGraphics[numFrames];
 		for (int i = 0; i < numFrames; i++) {
 			images[i] = P.p.createGraphics(width, height, PRenderers.P2D);
+			images[i].noSmooth();
 		}
 	}
 	
