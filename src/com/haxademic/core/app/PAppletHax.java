@@ -290,8 +290,12 @@ extends PApplet
 			audioInput = new AudioInputBeads();
 		} else if( appConfig.getBoolean(AppSettings.INIT_ESS_AUDIO, true) == true ) {
 			// Default to ESS being on, unless a different audio library is selected
-			audioInput = new AudioInputESS();
-			DebugUtil.printErr("Fix AudioInputESS amp: audioStreamData.setAmp(fft.max);");
+			try {
+				audioInput = new AudioInputESS();
+				DebugUtil.printErr("Fix AudioInputESS amp: audioStreamData.setAmp(fft.max);");
+			} catch (IllegalArgumentException e) {
+				DebugUtil.printErr("ESS Audio not initialized. Check your sound card settings.");
+			}
 		}
 		// if we've initialized an audio input, let's build an audio buffer
 		if(audioInput != null) {
