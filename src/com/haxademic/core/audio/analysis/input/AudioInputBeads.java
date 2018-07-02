@@ -68,7 +68,10 @@ implements IAudioInput {
 		float[] features = ps.getFeatures();
 		
 		// update audio data object
-		if(features != null) audioStreamData.setFFTFrequencies(features);
+		if(features != null) {
+			audioStreamData.setFFTFrequencies(features);
+			audioStreamData.calcFreqsDampened();
+		}
 		audioStreamData.setWaveformOffsets(ac.out.getOutBuffer(0));
 		// audioStreamData.setAmp(od.getLastOnsetValue());
 		audioStreamData.calcAmpAverage();
