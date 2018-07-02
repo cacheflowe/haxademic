@@ -81,6 +81,7 @@ extends PApplet
 
 	// app
 	protected static PAppletHax p;				// Global/static ref to PApplet - any audio-reactive object should be passed this reference, or grabbed from this static ref.
+	protected PGraphics pg;						// Offscreen buffer that matches the app size
 	public P5Properties appConfig;				// Loads the project .properties file to configure several app properties externally.
 	protected String customPropsFile = null;		// Loads an app-specific project .properties file.
 	protected String renderer; 					// The current rendering engine
@@ -233,7 +234,12 @@ extends PApplet
 	}
 	
 	protected void initHaxademicObjects() {
+		// create offscreen buffer
+		pg = p.createGraphics(p.width, p.height, P.P3D);
+		DrawUtil.setTextureRepeat(pg, true);
+		// audio input
 		initAudioInput();
+		// animation loop
 		if(p.appConfig.getFloat(AppSettings.LOOP_FRAMES, 0) != 0) loop = new AnimationLoop(p.appConfig.getFloat(AppSettings.LOOP_FRAMES, 0));
 		// save single reference for other objects
 		if( appConfig.getInt(AppSettings.WEBCAM_INDEX, -1) >= 0 ) webCamWrapper = new WebCamWrapper(appConfig.getInt(AppSettings.WEBCAM_INDEX, -1), appConfig.getBoolean(AppSettings.WEBCAM_THREADED, true));
