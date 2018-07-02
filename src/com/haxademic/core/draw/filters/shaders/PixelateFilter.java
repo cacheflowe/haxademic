@@ -1,5 +1,6 @@
 package com.haxademic.core.draw.filters.shaders;
 
+import com.haxademic.core.app.P;
 import com.haxademic.core.draw.filters.shaders.shared.BaseFilter;
 
 import processing.core.PApplet;
@@ -21,7 +22,7 @@ extends BaseFilter {
 	}
 	
 	public void setDivider(float divider, float imageW, float imageH) {
-		shader.set("divider", imageW/divider, imageH/divider);
+		shader.set("divider", (float)P.round(imageW/divider), (float)P.round(imageH/divider));
 	}
 	
 }

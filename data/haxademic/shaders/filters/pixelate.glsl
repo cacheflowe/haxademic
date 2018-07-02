@@ -14,6 +14,7 @@ uniform vec2 divider;
 void main()
 {
 	vec2 uv = vertTexCoord.xy;
-	uv = floor(uv * divider)/ divider;
-	gl_FragColor = texture2D(texture, uv);
+	uv = floor(uv * divider) / divider;
+	gl_FragColor = texture2D(texture, uv + divider/0.5);
+	gl_FragColor.a = 1.;
 }

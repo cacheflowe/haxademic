@@ -4,22 +4,24 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.draw.color.ImageGradient;
-import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.filters.shaders.BadTVGlitchFilter;
 import com.haxademic.core.draw.filters.shaders.BadTVLinesFilter;
+import com.haxademic.core.draw.filters.shaders.BlendTowardsTexture;
 import com.haxademic.core.draw.filters.shaders.BlurBasicFilter;
 import com.haxademic.core.draw.filters.shaders.BlurHFilter;
 import com.haxademic.core.draw.filters.shaders.BlurProcessingFilter;
 import com.haxademic.core.draw.filters.shaders.BlurVFilter;
 import com.haxademic.core.draw.filters.shaders.BrightnessFilter;
+import com.haxademic.core.draw.filters.shaders.ChromaColorFilter;
+import com.haxademic.core.draw.filters.shaders.ChromaKeyFilter;
 import com.haxademic.core.draw.filters.shaders.ColorCorrectionFilter;
+import com.haxademic.core.draw.filters.shaders.ColorDistortionFilter;
 import com.haxademic.core.draw.filters.shaders.ColorizeFilter;
 import com.haxademic.core.draw.filters.shaders.ColorizeFromTexture;
 import com.haxademic.core.draw.filters.shaders.ColorizeTwoColorsFilter;
 import com.haxademic.core.draw.filters.shaders.ContrastFilter;
 import com.haxademic.core.draw.filters.shaders.CubicLensDistortionFilter;
 import com.haxademic.core.draw.filters.shaders.CubicLensDistortionFilterOscillate;
-import com.haxademic.core.draw.filters.shaders.DeformBloomFilter;
 import com.haxademic.core.draw.filters.shaders.DilateFilter;
 import com.haxademic.core.draw.filters.shaders.EdgeColorDarkenFilter;
 import com.haxademic.core.draw.filters.shaders.EdgeColorFadeFilter;
@@ -31,10 +33,15 @@ import com.haxademic.core.draw.filters.shaders.GodRays;
 import com.haxademic.core.draw.filters.shaders.GradientCoverWipe;
 import com.haxademic.core.draw.filters.shaders.HalftoneFilter;
 import com.haxademic.core.draw.filters.shaders.HalftoneLinesFilter;
+import com.haxademic.core.draw.filters.shaders.HueFilter;
 import com.haxademic.core.draw.filters.shaders.InvertFilter;
 import com.haxademic.core.draw.filters.shaders.KaleidoFilter;
+import com.haxademic.core.draw.filters.shaders.LeaveBlackFilter;
+import com.haxademic.core.draw.filters.shaders.LeaveWhiteFilter;
 import com.haxademic.core.draw.filters.shaders.LiquidWarpFilter;
+import com.haxademic.core.draw.filters.shaders.MirrorFilter;
 import com.haxademic.core.draw.filters.shaders.PixelateFilter;
+import com.haxademic.core.draw.filters.shaders.RadialBlurFilter;
 import com.haxademic.core.draw.filters.shaders.RadialRipplesFilter;
 import com.haxademic.core.draw.filters.shaders.RotateFilter;
 import com.haxademic.core.draw.filters.shaders.SaturateHSVFilter;
@@ -56,6 +63,13 @@ import processing.opengl.PShader;
 public class Demo_AllFilters_WIP
 extends PAppletHax { public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
+	// TODO: 
+	// - Add commented-out filters
+	// - Draw to off-screen buffer so the transparency-based filters work: (ChromaColor/ChromaKey/LeaveBleck/LeaveWhite/Glow)
+	// - Grab previous frame for BlendTowardsTexture
+	// - Add PrefsSliders for shaders with 3+ params
+
+
 	protected TextureShader texture;
 	protected PShader customShader;
 
@@ -73,33 +87,45 @@ extends PAppletHax { public static void main(String args[]) { PAppletHax.main(Th
 
 	public void setupFirstFrame() {
 		filters = new BaseFilter[] {
-			CubicLensDistortionFilter.instance(p),
-			CubicLensDistortionFilterOscillate.instance(p),
-			EdgeColorDarkenFilter.instance(p),
-			GodRays.instance(p),
-			BadTVGlitchFilter.instance(p),
-			BadTVLinesFilter.instance(p),
-			BlurBasicFilter.instance(p),
-			BlurHFilter.instance(p),
-			BlurProcessingFilter.instance(p),
-			BrightnessFilter.instance(p),
-			ColorCorrectionFilter.instance(p),
-			ColorizeFilter.instance(p),
-			ColorizeFromTexture.instance(p),
-			ColorizeTwoColorsFilter.instance(p),
-			ContrastFilter.instance(p),
-			DeformBloomFilter.instance(p),
-			DilateFilter.instance(p),
-			EdgesFilter.instance(p),
-			EmbossFilter.instance(p),
-			ErosionFilter.instance(p),
-			FXAAFilter.instance(p),
-			HalftoneFilter.instance(p),
-			HalftoneLinesFilter.instance(p),
-			InvertFilter.instance(p),
-			LiquidWarpFilter.instance(p),
-			KaleidoFilter.instance(p),
+//			BadTVGlitchFilter.instance(p),
+//			BadTVLinesFilter.instance(p),
+//			BlendTowardsTexture.instance(p),
+//			BlurBasicFilter.instance(p),
+//			BlurHFilter.instance(p),
+//			BlurProcessingFilter.instance(p),
+//			BrightnessFilter.instance(p),
+//			ChromaColorFilter.instance(p),
+////			ChromaKeyFilter.instance(p),
+//			ColorCorrectionFilter.instance(p),
+//			ColorDistortionFilter.instance(p),
+//			ColorizeFilter.instance(p),
+//			ColorizeFromTexture.instance(p),
+//			ColorizeTwoColorsFilter.instance(p),
+//			ContrastFilter.instance(p),
+//			CubicLensDistortionFilter.instance(p),
+//			CubicLensDistortionFilterOscillate.instance(p),
+////			DeformBloomFilter.instance(p),
+////			DeformTunnelFanFilter.instance(p),
+//			DilateFilter.instance(p),
+//			EdgeColorDarkenFilter.instance(p),
+//			EdgeColorFadeFilter.instance(p),
+//			EdgesFilter.instance(p),
+//			EmbossFilter.instance(p),
+//			ErosionFilter.instance(p),
+//			FXAAFilter.instance(p),
+//			GodRays.instance(p),
+//			GradientCoverWipe.instance(p),
+//			HalftoneFilter.instance(p),
+//			HalftoneLinesFilter.instance(p),
+//			HueFilter.instance(p),
+//			InvertFilter.instance(p),
+//			LeaveBlackFilter.instance(p),
+//			LeaveWhiteFilter.instance(p),
+//			LiquidWarpFilter.instance(p),
+//			KaleidoFilter.instance(p),
+//			MirrorFilter.instance(p),
 			PixelateFilter.instance(p),
+			RadialBlurFilter.instance(p),
 			RadialRipplesFilter.instance(p),
 			RotateFilter.instance(p),
 			SaturateHSVFilter.instance(p),
@@ -111,7 +137,6 @@ extends PAppletHax { public static void main(String args[]) { PAppletHax.main(Th
 			VignetteFilter.instance(p),
 			WarperFilter.instance(p),
 			WobbleFilter.instance(p),
-			GradientCoverWipe.instance(p),
 		};
 
 		texture = new TextureShader(TextureShader.bw_clouds);
@@ -124,6 +149,10 @@ extends PAppletHax { public static void main(String args[]) { PAppletHax.main(Th
 	}
 	
 	public void drawApp() {
+		// show red background for transparency-relevant shaders
+		p.background(255, 0, 0);
+		p.noStroke();
+		
 		// cycle through effects
 		int numEffects = filters.length;
 		if(triggerPrev.triggered()) filterIndex = (filterIndex > 0) ? filterIndex - 1 : numEffects - 1;
@@ -132,114 +161,131 @@ extends PAppletHax { public static void main(String args[]) { PAppletHax.main(Th
 		// debug log mouse position
 		p.debugView.setValue("p.mousePercentX()", p.mousePercentX());
 		p.debugView.setValue("p.mousePercentY()", p.mousePercentY());
-		
-		// update cur shader & draw to screen
-		texture.updateTime();
-		p.filter(texture.shader());
-		
-		// draw some text to make sure we know orientation
-		p.fill(127 + 127f * P.sin(p.frameCount * 0.01f));
-		p.textFont(DemoAssets.fontBitlow(100));
-		p.textAlign(P.CENTER, P.CENTER);
-		p.text("FILTER", 0, 0, p.width, p.height);
-		
-		// set up context for more text
-		p.fill(255);
-		p.textAlign(P.LEFT, P.CENTER);
-		p.textFont(DemoAssets.fontRaleway(20));
 		String filterName = "";
 		
-		// apply active filter
-		DrawUtil.setTextureRepeat(p, true);
+		// update cur shader as image processing basis
+		texture.updateTime();
+		pg.beginDraw();
+		pg.filter(texture.shader());
 		
+		// draw some text to make sure we know shader orientation (i.e., doesn't flip y axis)
+		pg.fill(127 + 127f * P.sin(p.frameCount * 0.01f));
+		pg.textFont(DemoAssets.fontBitlow(100));
+		pg.textAlign(P.CENTER, P.CENTER);
+		pg.text("FILTER", 0, 0, pg.width, pg.height);
+		pg.endDraw();
+		
+		// apply active filter
 		BaseFilter curFilter = filters[filterIndex];
-		if(curFilter == CubicLensDistortionFilter.instance(p)) {
-	 		CubicLensDistortionFilter.instance(p).setAmplitude(P.map(p.mouseX, 0, p.width, -20f, 20f));
-			CubicLensDistortionFilter.instance(p).setSeparation(P.map(p.mouseY, 0, p.height, 0, 3f));
-			CubicLensDistortionFilter.instance(p).applyTo(p);
-		} else if(curFilter == CubicLensDistortionFilterOscillate.instance(p)) {
-			// old distortion
-			CubicLensDistortionFilterOscillate.instance(p).setTime(p.frameCount * 0.01f);
-			CubicLensDistortionFilterOscillate.instance(p).applyTo(p);
-		} else if(curFilter == EdgeColorDarkenFilter.instance(p)) {
-			EdgeColorDarkenFilter.instance(p).setSpreadX(p.mousePercentX());
-			EdgeColorDarkenFilter.instance(p).setSpreadY(p.mousePercentY());
-			EdgeColorDarkenFilter.instance(p).applyTo(p);
-		} else if(curFilter == GodRays.instance(p)) {
-			GodRays.instance(p).setDecay(p.mousePercentX());
-			GodRays.instance(p).setWeight(p.mousePercentY());
-			GodRays.instance(p).setRotation(oscillate());
-			GodRays.instance(p).setAmp(0.5f + 0.5f * oscillate());
-			GodRays.instance(p).applyTo(p);
-		} else if(curFilter == BadTVGlitchFilter.instance(p)) {
+		if(curFilter == BadTVGlitchFilter.instance(p)) {
 			BadTVGlitchFilter.instance(p).setTime(p.frameCount * 0.01f);
-			BadTVGlitchFilter.instance(p).applyTo(p);
+			BadTVGlitchFilter.instance(p).applyTo(pg);
 		} else if(curFilter == BadTVLinesFilter.instance(p)) {
 			BadTVLinesFilter.instance(p).setTime(p.frameCount * 0.01f);
 			BadTVLinesFilter.instance(p).setGrayscale(0);
 			BadTVLinesFilter.instance(p).setIntensityN(p.mousePercentX());
 			BadTVLinesFilter.instance(p).setIntensityS(p.mousePercentY());
 			BadTVLinesFilter.instance(p).setCountS(4096.0f);
-			BadTVLinesFilter.instance(p).applyTo(p);
+			BadTVLinesFilter.instance(p).applyTo(pg);
+		} else if(curFilter == BlendTowardsTexture.instance(p)) {
+			BlendTowardsTexture.instance(p).setBlendLerp(p.mousePercentX());
+			BlendTowardsTexture.instance(p).setSourceTexture(DemoAssets.textureJupiter());
+			BlendTowardsTexture.instance(p).applyTo(pg);
 		} else if(curFilter == BlurBasicFilter.instance(p)) {
-			BlurBasicFilter.instance(p).applyTo(p);
+			BlurBasicFilter.instance(p).applyTo(pg);
 		} else if(curFilter == BlurHFilter.instance(p)) {
 			BlurHFilter.instance(p).setBlurByPercent(p.mousePercentX() * 2f, p.width);
-			BlurHFilter.instance(p).applyTo(p);
+			BlurHFilter.instance(p).applyTo(pg);
 			BlurVFilter.instance(p).setBlurByPercent(p.mousePercentY() * 2f, p.height);
-			BlurVFilter.instance(p).applyTo(p);
+			BlurVFilter.instance(p).applyTo(pg);
 		} else if(curFilter == BlurProcessingFilter.instance(p)) {
 			BlurProcessingFilter.instance(p).setBlurSize(P.round(p.mousePercentY() * 10f));
 			BlurProcessingFilter.instance(p).setSigma(p.mousePercentX() * 10f);
-			BlurProcessingFilter.instance(p).applyTo(p);
+			BlurProcessingFilter.instance(p).applyTo(pg);
 		} else if(curFilter == BrightnessFilter.instance(p)) {
 			BrightnessFilter.instance(p).setBrightness(p.mousePercentY() * 10f);
-			BrightnessFilter.instance(p).applyTo(p);
+			BrightnessFilter.instance(p).applyTo(pg);
+		} else if(curFilter == ChromaColorFilter.instance(p)) {
+			ChromaColorFilter.instance(p).presetBlackKnockout();
+			ChromaColorFilter.instance(p).setThresholdSensitivity(p.mousePercentX());
+			ChromaColorFilter.instance(p).setSmoothing(p.mousePercentY());
+			ChromaColorFilter.instance(p).setColorToReplace(0, 0, 0);
+			ChromaColorFilter.instance(p).applyTo(pg);
+//		} else if(curFilter == ChromaKeyFilter.instance(p)) {
+//			ChromaKeyFilter.instance(p).setStrength(strength);
+//			ChromaKeyFilter.instance(p).applyTo(pg);
 		} else if(curFilter == ColorCorrectionFilter.instance(p)) {
 			ColorCorrectionFilter.instance(p).setContrast(p.mousePercentX() * 10f);
 			ColorCorrectionFilter.instance(p).setGamma(p.mousePercentY() * 10f);
-			ColorCorrectionFilter.instance(p).applyTo(p);
+			ColorCorrectionFilter.instance(p).applyTo(pg);
+		} else if(curFilter == ColorDistortionFilter.instance(p)) {
+			ColorDistortionFilter.instance(p).setAmplitude(p.mousePercentX() * 2f);
+			ColorDistortionFilter.instance(p).setTime(p.frameCount * 0.05f * p.mousePercentY());
+			ColorDistortionFilter.instance(p).applyTo(pg);
 		} else if(curFilter == ColorizeFilter.instance(p)) {
 			ColorizeFilter.instance(p).setTargetR(p.mousePercentX());
 			ColorizeFilter.instance(p).setTargetG(p.mousePercentY());
 			ColorizeFilter.instance(p).setTargetB(p.mousePercentX());
-			ColorizeFilter.instance(p).applyTo(p);
+			ColorizeFilter.instance(p).applyTo(pg);
 		} else if(curFilter == ColorizeFromTexture.instance(p)) {
 			ColorizeFromTexture.instance(p).setTexture(ImageGradient.PASTELS());
 			ColorizeFromTexture.instance(p).setLumaMult(p.mousePercentX() > 0.5f);
 			ColorizeFromTexture.instance(p).setCrossfade(p.mousePercentY());
-			ColorizeFromTexture.instance(p).applyTo(p);
+			ColorizeFromTexture.instance(p).applyTo(pg);
 		} else if(curFilter == ColorizeTwoColorsFilter.instance(p)) {
 			ColorizeTwoColorsFilter.instance(p).setColor1(1f, 0f, 1f);
 			ColorizeTwoColorsFilter.instance(p).setColor2(0f, 1f, 1f);
-			ColorizeTwoColorsFilter.instance(p).applyTo(p);
+			ColorizeTwoColorsFilter.instance(p).applyTo(pg);
 		} else if(curFilter == ContrastFilter.instance(p)) {
 			ContrastFilter.instance(p).setContrast(p.mousePercentX() * 3);
-			ContrastFilter.instance(p).applyTo(p);
+			ContrastFilter.instance(p).applyTo(pg);
+		} else if(curFilter == CubicLensDistortionFilter.instance(p)) {
+	 		CubicLensDistortionFilter.instance(p).setAmplitude(P.map(p.mouseX, 0, p.width, -20f, 20f));
+			CubicLensDistortionFilter.instance(p).setSeparation(P.map(p.mouseY, 0, p.height, 0, 3f));
+			CubicLensDistortionFilter.instance(p).applyTo(pg);
+		} else if(curFilter == CubicLensDistortionFilterOscillate.instance(p)) {
+			// old distortion
+			CubicLensDistortionFilterOscillate.instance(p).setTime(p.frameCount * 0.01f);
+			CubicLensDistortionFilterOscillate.instance(p).applyTo(pg);
 //		} else if(curFilter == DeformBloomFilter.instance(p)) {
-//			DeformBloomFilter.instance(p).applyTo(p);
+//			DeformBloomFilter.instance(p).applyTo(pg);
 		} else if(curFilter == DilateFilter.instance(p)) {
-			DilateFilter.instance(p).applyTo(p);
+			DilateFilter.instance(p).applyTo(pg);
+		} else if(curFilter == EdgeColorDarkenFilter.instance(p)) {
+			EdgeColorDarkenFilter.instance(p).setSpreadX(p.mousePercentX());
+			EdgeColorDarkenFilter.instance(p).setSpreadY(p.mousePercentY());
+			EdgeColorDarkenFilter.instance(p).applyTo(pg);
 		} else if(curFilter == EdgeColorFadeFilter.instance(p)) {
 			EdgeColorFadeFilter.instance(p).setEdgeColor(1f, 0f, 0f);
 			EdgeColorFadeFilter.instance(p).setSpreadX(p.mousePercentX());
 			EdgeColorFadeFilter.instance(p).setSpreadY(p.mousePercentY());
-			EdgeColorFadeFilter.instance(p).applyTo(p);
+			EdgeColorFadeFilter.instance(p).applyTo(pg);
 		} else if(curFilter == EdgesFilter.instance(p)) {
-			EdgesFilter.instance(p).applyTo(p);
+			EdgesFilter.instance(p).applyTo(pg);
 		} else if(curFilter == EmbossFilter.instance(p)) {
-			EmbossFilter.instance(p).applyTo(p);
+			EmbossFilter.instance(p).applyTo(pg);
 		} else if(curFilter == ErosionFilter.instance(p)) {
-			ErosionFilter.instance(p).applyTo(p);
+			ErosionFilter.instance(p).applyTo(pg);
 		} else if(curFilter == FXAAFilter.instance(p)) {
-			FXAAFilter.instance(p).applyTo(p);
+			FXAAFilter.instance(p).applyTo(pg);
+		} else if(curFilter == GodRays.instance(p)) {
+			GodRays.instance(p).setDecay(p.mousePercentX());
+			GodRays.instance(p).setWeight(p.mousePercentY());
+			GodRays.instance(p).setRotation(oscillate());
+			GodRays.instance(p).setAmp(0.5f + 0.5f * oscillate());
+			GodRays.instance(p).applyTo(pg);
+		} else if(curFilter == GradientCoverWipe.instance(p)) {
+			GradientCoverWipe.instance(p).setColorTop(1f, 0f, 1f, 1f);
+			GradientCoverWipe.instance(p).setColorBot(0f, 1f, 1f, 1f);
+			GradientCoverWipe.instance(p).setProgress(p.mousePercentY());
+			GradientCoverWipe.instance(p).applyTo(pg);
 		} else if(curFilter == HalftoneFilter.instance(p)) {
 			float halftoneSize = p.mousePercentX() * 1024f;
 			HalftoneFilter.instance(p).setAngle(p.mousePercentX() * P.TWO_PI);
 			HalftoneFilter.instance(p).setScale(p.mousePercentY() * 3f);
 			HalftoneFilter.instance(p).setSizeT(halftoneSize, halftoneSize);
 			HalftoneFilter.instance(p).setCenter(halftoneSize/2f, halftoneSize/2f);
-			HalftoneFilter.instance(p).applyTo(p);
+			HalftoneFilter.instance(p).applyTo(pg);
 		} else if(curFilter == HalftoneLinesFilter.instance(p)) {
 //			setSampleDistX(200f);   // divisions for kernel sampling (width)
 //			setSampleDistY(80f);	// divisions for kernel sampling (height)
@@ -248,55 +294,74 @@ extends PAppletHax { public static void main(String args[]) { PAppletHax.main(Th
 //			setRotation(0f);
 //			setAntiAlias(0.1f);
 //			setMode(3);
-			HalftoneLinesFilter.instance(p).applyTo(p);
+			HalftoneLinesFilter.instance(p).applyTo(pg);
+		} else if(curFilter == HueFilter.instance(p)) {
+			ColorizeFromTexture.instance(p).setTexture(ImageGradient.PASTELS());
+			ColorizeFromTexture.instance(p).setLumaMult(false);
+			ColorizeFromTexture.instance(p).setCrossfade(1f);
+			ColorizeFromTexture.instance(p).applyTo(pg);
+			
+			HueFilter.instance(p).setHue(p.mousePercentX() * 360f);
+			HueFilter.instance(p).applyTo(pg);
 		} else if(curFilter == InvertFilter.instance(p)) {
-			InvertFilter.instance(p).applyTo(p);
+			InvertFilter.instance(p).applyTo(pg);
 		} else if(curFilter == KaleidoFilter.instance(p)) {
 			KaleidoFilter.instance(p).setAngle(p.mousePercentX() * P.TWO_PI);
 			KaleidoFilter.instance(p).setSides(p.mousePercentY() * 16f);
-			KaleidoFilter.instance(p).applyTo(p);
+			KaleidoFilter.instance(p).applyTo(pg);
+		} else if(curFilter == LeaveBlackFilter.instance(p)) {
+			LeaveBlackFilter.instance(p).setMix(p.mousePercentX());
+			LeaveBlackFilter.instance(p).applyTo(pg);
+		} else if(curFilter == LeaveWhiteFilter.instance(p)) {
+			LeaveWhiteFilter.instance(p).setMix(p.mousePercentX());
+			LeaveWhiteFilter.instance(p).applyTo(pg);
 		} else if(curFilter == LiquidWarpFilter.instance(p)) {
 //			setAmplitude(0.02f);
 //			setFrequency(6.0f);
 			LiquidWarpFilter.instance(p).setTime(p.frameCount * 0.01f);
 			LiquidWarpFilter.instance(p).setAmplitude(p.mousePercentX() * 0.1f);
 			LiquidWarpFilter.instance(p).setFrequency(p.mousePercentY() * 20f);
-			LiquidWarpFilter.instance(p).applyTo(p);
-		} else if(curFilter == PixelateFilter.instance(p)) {
-			PixelateFilter.instance(p).setDivider(P.round(p.mousePercentX() * 100f), p.width, p.height);
-			PixelateFilter.instance(p).applyTo(p);
+			LiquidWarpFilter.instance(p).applyTo(pg);
+		} else if(curFilter == MirrorFilter.instance(p)) {
+			MirrorFilter.instance(p).applyTo(pg);
+		} else 
+			if(curFilter == PixelateFilter.instance(p)) {
+			PixelateFilter.instance(p).setDivider(p.mousePercentX() * 100f, p.width, p.height);
+			PixelateFilter.instance(p).applyTo(pg);
+		} else if(curFilter == RadialBlurFilter.instance(p)) {
+			RadialBlurFilter.instance(p).applyTo(pg);
 		} else if(curFilter == RadialRipplesFilter.instance(p)) {
 			RadialRipplesFilter.instance(p).setTime(p.frameCount * 0.01f);
 			RadialRipplesFilter.instance(p).setAmplitude(p.mousePercentX() * 4f);
-			RadialRipplesFilter.instance(p).applyTo(p);
+			RadialRipplesFilter.instance(p).applyTo(pg);
 		} else if(curFilter == RotateFilter.instance(p)) {
 			RotateFilter.instance(p).setRotation(p.mousePercentX() * P.TWO_PI);
-			RotateFilter.instance(p).applyTo(p);
-		} else if(curFilter == SaturationFilter.instance(p)) {
-			SaturationFilter.instance(p).setSaturation(p.mousePercentX() * 4f);
-			SaturationFilter.instance(p).applyTo(p);
+			RotateFilter.instance(p).applyTo(pg);
 		} else if(curFilter == SaturateHSVFilter.instance(p)) {
 			SaturateHSVFilter.instance(p).setSaturation(p.mousePercentX() * 4f);
-			SaturateHSVFilter.instance(p).applyTo(p);
+			SaturateHSVFilter.instance(p).applyTo(pg);
+		} else if(curFilter == SaturationFilter.instance(p)) {
+			SaturationFilter.instance(p).setSaturation(p.mousePercentX() * 4f);
+			SaturationFilter.instance(p).applyTo(pg);
 		} else if(curFilter == SharpenFilter.instance(p)) {
 			SharpenFilter.instance(p).setSharpness(p.mousePercentX() * 10f);
-			SharpenFilter.instance(p).applyTo(p);
+			SharpenFilter.instance(p).applyTo(pg);
 		} else if(curFilter == SphereDistortionFilter.instance(p)) {
 			SphereDistortionFilter.instance(p).setAmplitude(P.map(p.mouseX, 0, p.width, -20f, 20f));
-			SphereDistortionFilter.instance(p).applyTo(p);
+			SphereDistortionFilter.instance(p).applyTo(pg);
 		} else if(curFilter == ThresholdFilter.instance(p)) {
 			ThresholdFilter.instance(p).setCutoff(p.mousePercentX());
-			ThresholdFilter.instance(p).applyTo(p);
+			ThresholdFilter.instance(p).applyTo(pg);
 		} else if(curFilter == VignetteAltFilter.instance(p)) {
 			VignetteAltFilter.instance(p).setDarkness(-5f + 10f * p.mousePercentX());
 			VignetteAltFilter.instance(p).setSpread(p.mousePercentY() * 5f);
-			VignetteAltFilter.instance(p).applyTo(p);
+			VignetteAltFilter.instance(p).applyTo(pg);
 		} else if(curFilter == VignetteFilter.instance(p)) {
 			VignetteFilter.instance(p).setDarkness(-5f + 10f * p.mousePercentX());
 			VignetteFilter.instance(p).setSpread(p.mousePercentY() * 5f);
-			VignetteFilter.instance(p).applyTo(p);
+			VignetteFilter.instance(p).applyTo(pg);
 		} else if(curFilter == WarperFilter.instance(p)) {
-			WarperFilter.instance(p).applyTo(p);
+			WarperFilter.instance(p).applyTo(pg);
 		} else if(curFilter == WobbleFilter.instance(p)) {
 //			setSpeed(1f);
 //			setStrength(0.001f);
@@ -305,18 +370,24 @@ extends PAppletHax { public static void main(String args[]) { PAppletHax.main(Th
 			WobbleFilter.instance(p).setSpeed(2f); // p.mousePercentX() * 3f);
 			WobbleFilter.instance(p).setStrength(p.mousePercentX());
 			WobbleFilter.instance(p).setSize(p.mousePercentY() * 5f);
-			WobbleFilter.instance(p).applyTo(p);
-		} else if(curFilter == GradientCoverWipe.instance(p)) {
-			GradientCoverWipe.instance(p).setColorTop(1f, 0f, 1f, 1f);
-			GradientCoverWipe.instance(p).setColorBot(0f, 1f, 1f, 1f);
-			GradientCoverWipe.instance(p).setProgress(p.mousePercentX());
-			GradientCoverWipe.instance(p).applyTo(p);
-		}
+			WobbleFilter.instance(p).applyTo(pg);
+		} 
+		
+		// draw custom filter for testing
+		if(customShader != null && triggerToggle.on() == false) pg.filter(customShader);
+		
+		// draw offscreen buffer to app
+		p.image(pg, 0, 0);
+		
+		// draw current filter name
+		// set up context for more text
+		p.fill(0, 100);
+		p.rect(0, p.height - 60, p.width, 60);
+		p.fill(255);
+		p.textAlign(P.LEFT, P.CENTER);
+		p.textFont(DemoAssets.fontRaleway(20));
 		filterName = curFilter.getClass().getSimpleName();
 		p.text(filterName, 20, p.height - 30);
-		
-		// custom filter
-		if(customShader != null && triggerToggle.on() == false) p.filter(customShader);
 	}
 
 }

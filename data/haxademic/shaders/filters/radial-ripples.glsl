@@ -18,9 +18,9 @@ varying vec4 vertTexCoord;
 
 
 void main() {
-	vec2 cPos = vertTexCoord.xy - vec2(0.5, 0.5); // wtf?
+	vec2 cPos = vertTexCoord.xy - 0.5;
 	float cLength = length(cPos);
-	
+
 	float spread = 10.0;
 	vec2 uv = vertTexCoord.xy + (cPos/cLength) * cos(cLength*spread-time*14.0) * (0.04 * amplitude);
 	vec3 col = texture2D(texture,uv).xyz;
