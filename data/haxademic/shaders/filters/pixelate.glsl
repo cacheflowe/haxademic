@@ -1,5 +1,5 @@
 #ifdef GL_ES
-precision mediump float;
+precision highp float;
 precision mediump int;
 #endif
 
@@ -15,6 +15,7 @@ void main()
 {
 	vec2 uv = vertTexCoord.xy;
 	uv = floor(uv * divider) / divider;
-	gl_FragColor = texture2D(texture, uv + divider/0.5);
-	gl_FragColor.a = 1.;
+	vec4 color = texture2D( texture, uv );
+	color.a = 1.;
+	gl_FragColor = color;
 }
