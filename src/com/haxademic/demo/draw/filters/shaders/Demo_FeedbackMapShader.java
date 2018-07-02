@@ -1,7 +1,5 @@
 package com.haxademic.demo.draw.filters.shaders;
 
-import com.haxademic.app.haxmapper.textures.BaseTexture;
-import com.haxademic.app.haxmapper.textures.TextureEQGrid;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
@@ -11,8 +9,10 @@ import com.haxademic.core.draw.filters.shaders.BlurProcessingFilter;
 import com.haxademic.core.draw.filters.shaders.MirrorFilter;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.image.PerlinTexture;
-import com.haxademic.core.draw.shaders.textures.TextureShader;
 import com.haxademic.core.draw.shapes.PShapeUtil;
+import com.haxademic.core.draw.textures.pgraphics.TextureEQGrid;
+import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
+import com.haxademic.core.draw.textures.pshader.TextureShader;
 import com.haxademic.core.file.DemoAssets;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.MathUtil;

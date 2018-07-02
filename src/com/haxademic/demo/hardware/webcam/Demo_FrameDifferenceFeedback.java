@@ -11,7 +11,7 @@ import com.haxademic.core.draw.filters.shaders.BlurVFilter;
 import com.haxademic.core.draw.filters.shaders.LeaveWhiteFilter;
 import com.haxademic.core.draw.filters.shaders.ThresholdFilter;
 import com.haxademic.core.draw.image.ImageUtil;
-import com.haxademic.core.draw.shaders.textures.TextureShader;
+import com.haxademic.core.draw.textures.pshader.TextureShader;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.webcam.IWebCamCallback;
 

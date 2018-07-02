@@ -13,7 +13,6 @@ import com.haxademic.core.draw.filters.shaders.BlurProcessingFilter;
 import com.haxademic.core.draw.filters.shaders.BlurVFilter;
 import com.haxademic.core.draw.filters.shaders.BrightnessFilter;
 import com.haxademic.core.draw.filters.shaders.ChromaColorFilter;
-import com.haxademic.core.draw.filters.shaders.ChromaKeyFilter;
 import com.haxademic.core.draw.filters.shaders.ColorCorrectionFilter;
 import com.haxademic.core.draw.filters.shaders.ColorDistortionFilter;
 import com.haxademic.core.draw.filters.shaders.ColorizeFilter;
@@ -23,12 +22,14 @@ import com.haxademic.core.draw.filters.shaders.ContrastFilter;
 import com.haxademic.core.draw.filters.shaders.CubicLensDistortionFilter;
 import com.haxademic.core.draw.filters.shaders.CubicLensDistortionFilterOscillate;
 import com.haxademic.core.draw.filters.shaders.DilateFilter;
+import com.haxademic.core.draw.filters.shaders.DisplacementMapFilter;
 import com.haxademic.core.draw.filters.shaders.EdgeColorDarkenFilter;
 import com.haxademic.core.draw.filters.shaders.EdgeColorFadeFilter;
 import com.haxademic.core.draw.filters.shaders.EdgesFilter;
 import com.haxademic.core.draw.filters.shaders.EmbossFilter;
 import com.haxademic.core.draw.filters.shaders.ErosionFilter;
 import com.haxademic.core.draw.filters.shaders.FXAAFilter;
+import com.haxademic.core.draw.filters.shaders.GlowFilter;
 import com.haxademic.core.draw.filters.shaders.GodRays;
 import com.haxademic.core.draw.filters.shaders.GradientCoverWipe;
 import com.haxademic.core.draw.filters.shaders.HalftoneFilter;
@@ -39,6 +40,7 @@ import com.haxademic.core.draw.filters.shaders.KaleidoFilter;
 import com.haxademic.core.draw.filters.shaders.LeaveBlackFilter;
 import com.haxademic.core.draw.filters.shaders.LeaveWhiteFilter;
 import com.haxademic.core.draw.filters.shaders.LiquidWarpFilter;
+import com.haxademic.core.draw.filters.shaders.MaskThreeTextureFilter;
 import com.haxademic.core.draw.filters.shaders.MirrorFilter;
 import com.haxademic.core.draw.filters.shaders.PixelateFilter;
 import com.haxademic.core.draw.filters.shaders.RadialBlurFilter;
@@ -54,7 +56,7 @@ import com.haxademic.core.draw.filters.shaders.VignetteFilter;
 import com.haxademic.core.draw.filters.shaders.WarperFilter;
 import com.haxademic.core.draw.filters.shaders.WobbleFilter;
 import com.haxademic.core.draw.filters.shaders.shared.BaseFilter;
-import com.haxademic.core.draw.shaders.textures.TextureShader;
+import com.haxademic.core.draw.textures.pshader.TextureShader;
 import com.haxademic.core.file.DemoAssets;
 import com.haxademic.core.hardware.shared.InputTrigger;
 
@@ -106,12 +108,14 @@ extends PAppletHax { public static void main(String args[]) { PAppletHax.main(Th
 //			DeformBloomFilter.instance(p),
 //			DeformTunnelFanFilter.instance(p),
 			DilateFilter.instance(p),
+			DisplacementMapFilter.instance(p),
 			EdgeColorDarkenFilter.instance(p),
 			EdgeColorFadeFilter.instance(p),
 			EdgesFilter.instance(p),
 			EmbossFilter.instance(p),
 			ErosionFilter.instance(p),
 			FXAAFilter.instance(p),
+			GlowFilter.instance(p),
 			GodRays.instance(p),
 			GradientCoverWipe.instance(p),
 			HalftoneFilter.instance(p),
@@ -122,6 +126,7 @@ extends PAppletHax { public static void main(String args[]) { PAppletHax.main(Th
 			LeaveWhiteFilter.instance(p),
 			LiquidWarpFilter.instance(p),
 			KaleidoFilter.instance(p),
+			MaskThreeTextureFilter.instance(p),
 			MirrorFilter.instance(p),
 			PixelateFilter.instance(p),
 			RadialBlurFilter.instance(p),
@@ -173,6 +178,12 @@ extends PAppletHax { public static void main(String args[]) { PAppletHax.main(Th
 		pg.textAlign(P.CENTER, P.CENTER);
 		pg.text("FILTER", 0, 0, pg.width, pg.height);
 		pg.endDraw();
+		
+		// helper pre=processing shaders
+		ColorizeFromTexture.instance(p).setTexture(ImageGradient.PASTELS());
+		ColorizeFromTexture.instance(p).setLumaMult(false);
+		ColorizeFromTexture.instance(p).setCrossfade(1f);
+
 		
 		// apply active filter
 		BaseFilter curFilter = filters[filterIndex];
@@ -247,6 +258,10 @@ extends PAppletHax { public static void main(String args[]) { PAppletHax.main(Th
 //			DeformBloomFilter.instance(p).applyTo(pg);
 		} else if(curFilter == DilateFilter.instance(p)) {
 			DilateFilter.instance(p).applyTo(pg);
+		} else if(curFilter == DisplacementMapFilter.instance(p)) {
+			DisplacementMapFilter.instance(p).setMap(DemoAssets.textureNebula());
+			DisplacementMapFilter.instance(p).setMode(P.floor(p.mousePercentX() * 3f));
+			DisplacementMapFilter.instance(p).applyTo(pg);
 		} else if(curFilter == EdgeColorDarkenFilter.instance(p)) {
 			EdgeColorDarkenFilter.instance(p).setSpreadX(p.mousePercentX());
 			EdgeColorDarkenFilter.instance(p).setSpreadY(p.mousePercentY());
@@ -264,6 +279,14 @@ extends PAppletHax { public static void main(String args[]) { PAppletHax.main(Th
 			ErosionFilter.instance(p).applyTo(pg);
 		} else if(curFilter == FXAAFilter.instance(p)) {
 			FXAAFilter.instance(p).applyTo(pg);
+		} else if(curFilter == GlowFilter.instance(p)) {
+			LeaveBlackFilter.instance(p).setMix(1f);
+			LeaveBlackFilter.instance(p).applyTo(pg);
+
+			GlowFilter.instance(p).setSize(100f * p.mousePercentX());
+			GlowFilter.instance(p).setRadialSamples(16f);
+			GlowFilter.instance(p).setGlowColor(0f, 0f, 0f, 1f);
+			GlowFilter.instance(p).applyTo(pg);
 		} else if(curFilter == GodRays.instance(p)) {
 			GodRays.instance(p).setDecay(p.mousePercentX());
 			GodRays.instance(p).setWeight(p.mousePercentY());
@@ -292,9 +315,6 @@ extends PAppletHax { public static void main(String args[]) { PAppletHax.main(Th
 //			setMode(3);
 			HalftoneLinesFilter.instance(p).applyTo(pg);
 		} else if(curFilter == HueFilter.instance(p)) {
-			ColorizeFromTexture.instance(p).setTexture(ImageGradient.PASTELS());
-			ColorizeFromTexture.instance(p).setLumaMult(false);
-			ColorizeFromTexture.instance(p).setCrossfade(1f);
 			ColorizeFromTexture.instance(p).applyTo(pg);
 			
 			HueFilter.instance(p).setHue(p.mousePercentX() * 360f);
@@ -318,6 +338,14 @@ extends PAppletHax { public static void main(String args[]) { PAppletHax.main(Th
 			LiquidWarpFilter.instance(p).setAmplitude(p.mousePercentX() * 0.1f);
 			LiquidWarpFilter.instance(p).setFrequency(p.mousePercentY() * 20f);
 			LiquidWarpFilter.instance(p).applyTo(pg);
+		} else if(curFilter == MaskThreeTextureFilter.instance(p)) {
+			ThresholdFilter.instance(p).setCutoff(0.5f);
+			ThresholdFilter.instance(p).applyTo(pg);
+
+			MaskThreeTextureFilter.instance(p).setMask(pg);
+			MaskThreeTextureFilter.instance(p).setTexture1(DemoAssets.justin());
+			MaskThreeTextureFilter.instance(p).setTexture2(DemoAssets.textureNebula());
+			MaskThreeTextureFilter.instance(p).applyTo(pg);
 		} else if(curFilter == MirrorFilter.instance(p)) {
 			MirrorFilter.instance(p).applyTo(pg);
 		} else 
@@ -334,10 +362,14 @@ extends PAppletHax { public static void main(String args[]) { PAppletHax.main(Th
 			RotateFilter.instance(p).setRotation(p.mousePercentX() * P.TWO_PI);
 			RotateFilter.instance(p).applyTo(pg);
 		} else if(curFilter == SaturateHSVFilter.instance(p)) {
-			SaturateHSVFilter.instance(p).setSaturation(p.mousePercentX() * 4f);
+			ColorizeFromTexture.instance(p).applyTo(pg);
+			
+			SaturateHSVFilter.instance(p).setSaturation(p.mousePercentX() * 10f);
 			SaturateHSVFilter.instance(p).applyTo(pg);
 		} else if(curFilter == SaturationFilter.instance(p)) {
-			SaturationFilter.instance(p).setSaturation(p.mousePercentX() * 4f);
+			ColorizeFromTexture.instance(p).applyTo(pg);
+			
+			SaturationFilter.instance(p).setSaturation(p.mousePercentX() * 10f);
 			SaturationFilter.instance(p).applyTo(pg);
 		} else if(curFilter == SharpenFilter.instance(p)) {
 			SharpenFilter.instance(p).setSharpness(p.mousePercentX() * 10f);

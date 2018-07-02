@@ -6,7 +6,7 @@ import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.draw.context.OpenGL32Util;
 import com.haxademic.core.draw.filters.shaders.BlurHFilter;
 import com.haxademic.core.draw.filters.shaders.BlurVFilter;
-import com.haxademic.core.draw.shaders.textures.TextureShader;
+import com.haxademic.core.draw.textures.pshader.TextureShader;
 import com.haxademic.core.file.FileUtil;
 import com.thomasdiewald.pixelflow.java.dwgl.DwGLSLProgram;
 import com.thomasdiewald.pixelflow.java.dwgl.DwGLTexture;

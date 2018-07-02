@@ -37,7 +37,7 @@ public class BufferMotionDetectionMap {
 		this.scale = scale;
 		bufferW = P.round(scale * source.width);
 		bufferH = P.round(scale * source.height);
-		P.println("Motion detection buffer size: ", bufferW, ", ", bufferH);
+		// P.println("Motion detection buffer size: ", bufferW, ", ", bufferH);
 		buildBuffers();
 	}
 	
@@ -47,8 +47,11 @@ public class BufferMotionDetectionMap {
 		differenceBuffer = P.p.createGraphics(bufferW, bufferH, PRenderers.P3D);
 		bwBuffer = P.p.createGraphics(bufferW, bufferH, PRenderers.P3D);
 		
+		backplate.noSmooth();
 		OpenGLUtil.setTextureQualityLow(backplate);
+		newFrameBuffer.noSmooth();
 		OpenGLUtil.setTextureQualityLow(newFrameBuffer);
+		differenceBuffer.noSmooth();
 		OpenGLUtil.setTextureQualityLow(differenceBuffer);
 		OpenGLUtil.setTextureQualityLow(bwBuffer);
 		

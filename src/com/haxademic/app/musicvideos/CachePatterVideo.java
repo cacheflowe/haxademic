@@ -7,7 +7,7 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.context.OpenGLUtil;
-import com.haxademic.core.draw.filters.FastBlurFilter;
+import com.haxademic.core.draw.filters.pgraphics.FastBlurFilter;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.image.MotionBlurPGraphics;
 import com.haxademic.core.draw.shapes.Superformula;

@@ -11,10 +11,10 @@ import com.haxademic.app.haxmapper.overlays.MeshLines.MODE;
 import com.haxademic.app.haxmapper.overlays.MeshParticles;
 import com.haxademic.app.haxmapper.overlays.MeshSegmentScanners;
 import com.haxademic.app.haxmapper.polygons.IMappedPolygon;
-import com.haxademic.app.haxmapper.textures.BaseTexture;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.color.EasingColor;
+import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
 import com.haxademic.core.math.MathUtil;
 
 import processing.core.PApplet;

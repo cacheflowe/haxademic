@@ -1,12 +1,12 @@
 package com.haxademic.demo.draw.shapes.shader;
 
-import com.haxademic.app.haxmapper.textures.BaseTexture;
-import com.haxademic.app.haxmapper.textures.TextureEQGrid;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.shapes.PShapeUtil;
+import com.haxademic.core.draw.textures.pgraphics.TextureEQGrid;
+import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
 import com.haxademic.core.file.DemoAssets;
 import com.haxademic.core.file.FileUtil;
 

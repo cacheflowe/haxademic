@@ -9,7 +9,7 @@ import com.haxademic.core.draw.filters.shaders.BlurVFilter;
 import com.haxademic.core.draw.filters.shaders.BrightnessFilter;
 import com.haxademic.core.draw.filters.shaders.ContrastFilter;
 import com.haxademic.core.draw.filters.shaders.VignetteFilter;
-import com.haxademic.core.draw.shaders.textures.TextureShader;
+import com.haxademic.core.draw.textures.pshader.TextureShader;
 import com.haxademic.core.file.FileUtil;
 import com.thomasdiewald.pixelflow.java.dwgl.DwGLSLProgram;
 import com.thomasdiewald.pixelflow.java.dwgl.DwGLTexture;

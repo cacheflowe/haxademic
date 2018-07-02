@@ -9,7 +9,7 @@ import com.haxademic.core.draw.filters.shaders.ContrastFilter;
 import com.haxademic.core.draw.filters.shaders.SaturationFilter;
 import com.haxademic.core.draw.image.ImageSequenceRecorder;
 import com.haxademic.core.draw.image.ImageUtil;
-import com.haxademic.core.draw.shaders.textures.TextureShader;
+import com.haxademic.core.draw.textures.pshader.TextureShader;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.webcam.IWebCamCallback;
 

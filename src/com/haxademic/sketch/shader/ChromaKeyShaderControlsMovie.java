@@ -1,10 +1,10 @@
 package com.haxademic.sketch.shader;
 
-import com.haxademic.app.haxmapper.textures.TextureShaderTimeStepper;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.draw.filters.shaders.ChromaColorFilter;
+import com.haxademic.core.draw.textures.pgraphics.TextureShaderTimeStepper;
 import com.haxademic.core.file.FileUtil;
 
 import controlP5.ControlP5;

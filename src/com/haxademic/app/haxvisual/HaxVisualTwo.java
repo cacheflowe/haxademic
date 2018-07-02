@@ -4,28 +4,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import com.haxademic.app.haxmapper.dmxlights.RandomLightTiming;
-import com.haxademic.app.haxmapper.textures.BaseTexture;
-import com.haxademic.app.haxmapper.textures.TextureAudioTube;
-import com.haxademic.app.haxmapper.textures.TextureBlobSheet;
-import com.haxademic.app.haxmapper.textures.TextureCyclingRadialGradient;
-import com.haxademic.app.haxmapper.textures.TextureEQBandDistribute;
-import com.haxademic.app.haxmapper.textures.TextureEQColumns;
-import com.haxademic.app.haxmapper.textures.TextureEQConcentricCircles;
-import com.haxademic.app.haxmapper.textures.TextureEQFloatParticles;
-import com.haxademic.app.haxmapper.textures.TextureEQGrid;
-import com.haxademic.app.haxmapper.textures.TextureFractalPolygons;
-import com.haxademic.app.haxmapper.textures.TextureLinesEQ;
-import com.haxademic.app.haxmapper.textures.TexturePixelatedAudio;
-import com.haxademic.app.haxmapper.textures.TextureRotatingRings;
-import com.haxademic.app.haxmapper.textures.TextureRotatorShape;
-import com.haxademic.app.haxmapper.textures.TextureShaderTimeStepper;
-import com.haxademic.app.haxmapper.textures.TextureSphereAudioTextures;
-import com.haxademic.app.haxmapper.textures.TextureSphereRotate;
-import com.haxademic.app.haxmapper.textures.TextureStarTrails;
-import com.haxademic.app.haxmapper.textures.TextureTwistingSquares;
-import com.haxademic.app.haxmapper.textures.TextureVectorFieldEQ;
-//import com.haxademic.app.haxmapper.textures.TextureWaveformCircle;
-import com.haxademic.app.haxmapper.textures.TextureWaveformSimple;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
@@ -38,15 +16,19 @@ import com.haxademic.core.draw.filters.shaders.BlurProcessingFilter;
 import com.haxademic.core.draw.filters.shaders.BrightnessFilter;
 import com.haxademic.core.draw.filters.shaders.ColorDistortionFilter;
 import com.haxademic.core.draw.filters.shaders.ColorizeFromTexture;
+import com.haxademic.core.draw.filters.shaders.ContrastFilter;
 import com.haxademic.core.draw.filters.shaders.CubicLensDistortionFilterOscillate;
 import com.haxademic.core.draw.filters.shaders.DeformBloomFilter;
 import com.haxademic.core.draw.filters.shaders.DeformTunnelFanFilter;
+import com.haxademic.core.draw.filters.shaders.DisplacementMapFilter;
 import com.haxademic.core.draw.filters.shaders.EdgesFilter;
 import com.haxademic.core.draw.filters.shaders.HalftoneFilter;
 import com.haxademic.core.draw.filters.shaders.HueFilter;
+import com.haxademic.core.draw.filters.shaders.InvertFilter;
 import com.haxademic.core.draw.filters.shaders.KaleidoFilter;
 import com.haxademic.core.draw.filters.shaders.LeaveBlackFilter;
 import com.haxademic.core.draw.filters.shaders.LiquidWarpFilter;
+import com.haxademic.core.draw.filters.shaders.MaskThreeTextureFilter;
 import com.haxademic.core.draw.filters.shaders.MirrorFilter;
 import com.haxademic.core.draw.filters.shaders.PixelateFilter;
 import com.haxademic.core.draw.filters.shaders.RadialRipplesFilter;
@@ -57,6 +39,27 @@ import com.haxademic.core.draw.filters.shaders.WobbleFilter;
 import com.haxademic.core.draw.image.ImageCyclerBuffer;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.mapping.PGraphicsKeystone;
+import com.haxademic.core.draw.textures.pgraphics.TextureAudioTube;
+import com.haxademic.core.draw.textures.pgraphics.TextureBlobSheet;
+import com.haxademic.core.draw.textures.pgraphics.TextureCyclingRadialGradient;
+import com.haxademic.core.draw.textures.pgraphics.TextureEQBandDistribute;
+import com.haxademic.core.draw.textures.pgraphics.TextureEQColumns;
+import com.haxademic.core.draw.textures.pgraphics.TextureEQConcentricCircles;
+import com.haxademic.core.draw.textures.pgraphics.TextureEQFloatParticles;
+import com.haxademic.core.draw.textures.pgraphics.TextureEQGrid;
+import com.haxademic.core.draw.textures.pgraphics.TextureFractalPolygons;
+import com.haxademic.core.draw.textures.pgraphics.TextureLinesEQ;
+import com.haxademic.core.draw.textures.pgraphics.TexturePixelatedAudio;
+import com.haxademic.core.draw.textures.pgraphics.TextureRotatingRings;
+import com.haxademic.core.draw.textures.pgraphics.TextureRotatorShape;
+import com.haxademic.core.draw.textures.pgraphics.TextureShaderTimeStepper;
+import com.haxademic.core.draw.textures.pgraphics.TextureSphereAudioTextures;
+import com.haxademic.core.draw.textures.pgraphics.TextureSphereRotate;
+import com.haxademic.core.draw.textures.pgraphics.TextureStarTrails;
+import com.haxademic.core.draw.textures.pgraphics.TextureTwistingSquares;
+import com.haxademic.core.draw.textures.pgraphics.TextureVectorFieldEQ;
+import com.haxademic.core.draw.textures.pgraphics.TextureWaveformSimple;
+import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.midi.devices.AbletonNotes;
 import com.haxademic.core.hardware.midi.devices.AkaiMpdPads;
@@ -162,18 +165,18 @@ extends PAppletHax {
 	protected RandomLightTiming _dmxLights;
 
 	protected float _brightnessVal = 1f;
-	protected PShader _blurH;
-	protected PShader _blurV;
+//	protected PShader _blurH;
+//	protected PShader _blurV;
 
-	protected PShader invert;
+//	protected PShader invert;
 	protected PShader kaleido;
-	protected PShader edge;
+//	protected PShader edge;
 	protected PShader dotScreen;
 	protected PShader mirror;
 	protected PShader pixelate;
-	protected PShader contrast;
-	protected PShader displacementShader;
-	protected PShader maskShader;
+//	protected PShader contrast;
+//	protected PShader displacementShader;
+//	protected PShader maskShader;
 	protected ImageGradient imageGradient;
 	protected boolean imageGradientLuma = false;
 	protected boolean imageGradientFilter = false;
@@ -197,7 +200,7 @@ extends PAppletHax {
 
 	protected void overridePropsFile() {
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, false );
-		p.appConfig.setProperty( AppSettings.FULLSCREEN, true );
+		p.appConfig.setProperty( AppSettings.FULLSCREEN, false );
 		p.appConfig.setProperty( AppSettings.ALWAYS_ON_TOP, false );
 		p.appConfig.setProperty( AppSettings.FILLS_SCREEN, false );
 		p.appConfig.setProperty( AppSettings.OSC_ACTIVE, false );
@@ -205,9 +208,11 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.AUDIO_DEBUG, true );
 //		p.appConfig.setProperty( AppSettings.INIT_ESS_AUDIO, true );
 //		p.appConfig.setProperty( AppSettings.INIT_MINIM_AUDIO, true );
+		p.appConfig.setProperty( AppSettings.INIT_BEADS_AUDIO, true );
 		p.appConfig.setProperty( AppSettings.MIDI_DEVICE_IN_INDEX, 0 );
 		p.appConfig.setProperty( AppSettings.MIDI_DEBUG, false );
 		p.appConfig.setProperty( AppSettings.RETINA, false );
+		p.appConfig.setProperty( AppSettings.WIDTH, 1200 );
 //		p.appConfig.setProperty( AppSettings.SMOOTHING, AppSettings.SMOOTH_NONE );
 	}
 
@@ -255,18 +260,12 @@ extends PAppletHax {
 
 
 	protected void buildPostProcessingChain() {
-		_blurH = p.loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/blur-horizontal.glsl" );
-		_blurH.set("h", 1.0f );
-		_blurV = p.loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/blur-vertical.glsl" );
-		_blurV.set("v", 1.0f );
-
-		invert = loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/invert.glsl" );
 
 		kaleido = loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/kaleido.glsl" );
 		kaleido.set("sides", 2.0f);
 		kaleido.set("angle", 0.0f);
 
-		edge = loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/edges.glsl" );
+//		edge = loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/edges.glsl" );
 
 		dotScreen = loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/halftone.glsl" );
 		dotScreen.set("tSize", 256f, 256f);
@@ -279,11 +278,10 @@ extends PAppletHax {
 		pixelate = loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/pixelate.glsl" );
 		pixelate.set("divider", p.width/20f, p.height/20f);
 
-		contrast = loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/contrast.glsl" );
-		contrast.set("contrast", 2f);
+//		contrast = loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/contrast.glsl" );
+//		contrast.set("contrast", 2f);
 
-		displacementShader = loadShader(FileUtil.getFile("haxademic/shaders/filters/displacement-map.glsl"));
-		maskShader = loadShader(FileUtil.getFile("haxademic/shaders/filters/three-texture-opposite-mask.glsl"));
+//		maskShader = loadShader(FileUtil.getFile("haxademic/shaders/filters/three-texture-opposite-mask.glsl"));
 		
 		p.midiState.controllerChange(midiInChannel, vignetteKnob, (int) 70);
 	}
@@ -351,8 +349,7 @@ extends PAppletHax {
 					BaseTexture tex = _curTexturePool.get(i);
 					if(tex != null && tex.texture() != null) {
 						PGraphics textue = tex.texture();
-						float[] offsetAndSize = ImageUtil.getOffsetAndSizeToCrop(_pg.width, _pg.height, textue.width, textue.height, true);
-						_pg.image(tex.texture(), offsetAndSize[0], offsetAndSize[1], offsetAndSize[2], offsetAndSize[3]);
+						ImageUtil.drawImageCropFill(tex.texture(), _pg, true);
 					}
 				}
 			}
@@ -365,8 +362,7 @@ extends PAppletHax {
 	
 	protected void drawTopLayer() {
 		_pg.beginDraw();
-		float[] offsetAndSize = ImageUtil.getOffsetAndSizeToCrop(_pg.width, _pg.height, topLayer.texture().width, topLayer.texture().height, true);
-		_pg.image(topLayer.texture(), offsetAndSize[0], offsetAndSize[1], offsetAndSize[2], offsetAndSize[3]);
+		ImageUtil.drawImageCropFill(topLayer.texture(), _pg, true);
 		_pg.endDraw();
 	}
 
@@ -388,23 +384,21 @@ extends PAppletHax {
 				BlurProcessingFilter.instance(p).setSigma(2);
 				BlurProcessingFilter.instance(p).applyTo(_curTexturePool.get(displacementLayer).texture());
 				// set current layer as displacer & apply effect
-				displacementShader.set("map", _curTexturePool.get(displacementLayer).texture() );
-				displacementShader.set("mode", 0 );
-				_pg.filter(displacementShader);
+				DisplacementMapFilter.instance(p).setMap(_curTexturePool.get(displacementLayer).texture());
+				DisplacementMapFilter.instance(p).setMode(0);
+				DisplacementMapFilter.instance(p).applyTo(_pg);
 			} else if(overlayMode == 1) {
 				PGraphics textue = _curTexturePool.get(displacementLayer).texture();
 				LeaveBlackFilter.instance(p).setMix(1f);
 				LeaveBlackFilter.instance(p).applyTo(textue);
-				float[] offsetAndSize = ImageUtil.getOffsetAndSizeToCrop(_pg.width, _pg.height, textue.width, textue.height, true);
 				_pg.beginDraw();
-				_pg.image(textue, offsetAndSize[0], offsetAndSize[1], offsetAndSize[2], offsetAndSize[3]);
+				ImageUtil.drawImageCropFill(textue, _pg, true);
 				_pg.endDraw();
 			} else if(overlayMode == 2) {
 				PGraphics textue = _curTexturePool.get(displacementLayer).texture();
-				float[] offsetAndSize = ImageUtil.getOffsetAndSizeToCrop(_pg.width, _pg.height, textue.width, textue.height, true);
 				_pg.beginDraw();
 				_pg.blendMode(PBlendModes.EXCLUSION);
-				_pg.image(textue, offsetAndSize[0], offsetAndSize[1], offsetAndSize[2], offsetAndSize[3]);
+				ImageUtil.drawImageCropFill(textue, _pg, true);
 				_pg.blendMode(PBlendModes.BLEND);
 				_pg.endDraw();
 			} else if(overlayMode == 3) {
@@ -415,17 +409,18 @@ extends PAppletHax {
 				if(displacementLayer == 0) { 		tex1 = _curTexturePool.get(1).texture(); tex2 = _curTexturePool.get(2).texture(); }
 				else if(displacementLayer == 1) { 	tex1 = _curTexturePool.get(0).texture(); tex2 = _curTexturePool.get(2).texture(); }
 				else { 								tex1 = _curTexturePool.get(0).texture(); tex2 = _curTexturePool.get(1).texture(); }
-				maskShader.set("mask", maskTexture );
-				maskShader.set("tex1", tex1 );
-				maskShader.set("tex2", tex2 );
-				_pg.filter(maskShader);
+				MaskThreeTextureFilter.instance(p).setMask(maskTexture);
+				MaskThreeTextureFilter.instance(p).setTexture1(tex1);
+				MaskThreeTextureFilter.instance(p).setTexture2(tex2);
+				MaskThreeTextureFilter.instance(p).applyTo(_pg);
 			}
 		}
 		
 		// CONTRAST ////////////////////////
 		if( p.midiState.midiCCPercent(midiInChannel, contrastKnob) != 0 ) {
-			contrast.set("contrast", p.midiState.midiCCPercent(midiInChannel, contrastKnob) * 7 );
-			if(p.midiState.midiCCPercent(midiInChannel, contrastKnob) > 0.1f) _pg.filter(contrast);
+			if(p.midiState.midiCCPercent(midiInChannel, contrastKnob) > 0.1f) {
+				ContrastFilter.instance(p).setContrast(p.midiState.midiCCPercent(midiInChannel, contrastKnob) * 7f);
+			}
 		}
 
 		// MULTIPLE EFFECTS KNOB ////////////////////////
@@ -433,7 +428,7 @@ extends PAppletHax {
 		if( halftone ) _pg.filter(dotScreen);
 
 		boolean edged = ( p.midiState.midiCCPercent(midiInChannel, effectsKnob) > 0.5f && p.midiState.midiCCPercent(midiInChannel, effectsKnob) < 0.75f );
-		if( edged ) _pg.filter(edge);
+		if( edged ) EdgesFilter.instance(p).applyTo(_pg);
 
 		boolean pixelated = ( p.midiState.midiCCPercent(midiInChannel, effectsKnob) > 0.75f );
 		if( pixelated ) {
@@ -444,7 +439,7 @@ extends PAppletHax {
 
 		// INVERT ////////////////////////
 		boolean inverted = ( p.midiState.midiCCPercent(midiInChannel, invertKnob) > 0.5f );
-		if( inverted ) _pg.filter(invert);
+		if( inverted ) InvertFilter.instance(p).applyTo(_pg);
 
 
 		

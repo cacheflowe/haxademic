@@ -11,6 +11,7 @@ import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.text.CustomFontText2D;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.kinect.KinectRegionGrid;
+import com.haxademic.core.hardware.kinect.KinectSilhouetteVectorField;
 
 import processing.core.PGraphics;
 import processing.core.PImage;

@@ -2,9 +2,9 @@ package com.haxademic.app.haxmapper.overlays;
 
 import java.awt.Rectangle;
 
-import com.haxademic.app.haxmapper.textures.BaseTexture;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.image.ImageUtil;
+import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
 
 import processing.core.PConstants;
 import processing.core.PGraphics;

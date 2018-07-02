@@ -4,8 +4,8 @@ import java.awt.image.BufferedImage;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.draw.filters.ImageHistogramFilter;
-import com.haxademic.core.draw.filters.PixelTriFilter;
+import com.haxademic.core.draw.filters.pgraphics.ImageHistogramFilter;
+import com.haxademic.core.draw.filters.pgraphics.PixelTriFilter;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.file.DemoAssets;
 import com.haxademic.core.file.FileUtil;
