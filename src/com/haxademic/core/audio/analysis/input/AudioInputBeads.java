@@ -19,6 +19,7 @@ implements IAudioInput {
 	protected PowerSpectrum ps;
 	protected PeakDetector od;
 	protected AudioStreamData audioStreamData = new AudioStreamData();
+	protected boolean beatDirty = false;
 	
 	public AudioInputBeads() {
 		  ac = new AudioContext();
@@ -46,10 +47,9 @@ implements IAudioInput {
 		  od.setThreshold(0.2f);
 		  od.setAlpha(.9f);
 		  od.addMessageListener(
-		  	new Bead(){
-		  		protected void messageReceived(Bead b)
-		  		{
-		  			audioStreamData.setBeat();
+		  	new Bead() {
+		  		protected void messageReceived(Bead b) {
+		  			beatDirty = true;
 		  		}
 		  	}
 		  );
@@ -82,6 +82,10 @@ implements IAudioInput {
 			audioStreamData.calcFreqsDampened();
 		}
 		audioStreamData.setWaveformOffsets(ac.out.getOutBuffer(0));
+		if(beatDirty) {
+			beatDirty = false;
+  			audioStreamData.setBeat();
+		}
 		// audioStreamData.setAmp(od.getLastOnsetValue());
 		audioStreamData.calcAmpAverage();
 		audioStreamData.update();
