@@ -38,6 +38,12 @@ extends PAppletHax {
 	public void drawApp() {
 		p.background(0);
 		
+		buffer.beginDraw();
+		buffer.background(0,255,0);
+		buffer.fill(0);
+		buffer.rect(40, 40, 100, 100);
+		buffer.endDraw();
+		
 		if(testPattern == true) keystonedPG.drawTestPattern();
 		keystonedPG.update(p.g);
 	}
