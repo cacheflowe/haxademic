@@ -2,7 +2,7 @@ package com.haxademic.sketch.three_d;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.audio.AudioInputWrapper;
-import com.haxademic.core.draw.toxi.DrawMesh;
+import com.haxademic.core.draw.toxi.DrawToxiMesh;
 import com.haxademic.core.draw.toxi.Meshes;
 
 import krister.Ess.AudioInput;
@@ -59,17 +59,17 @@ public class InvadersTest
 		rotateY((float)mouseX/100f);
 		
 		WETriangleMesh mesh2 = ( P.round( this.frameCount / 30f ) % 2 == 0 ) ? _invaderMesh_02 : _invaderMesh_02_alt;
-		DrawMesh.drawMeshWithAudio( this, mesh2, _audioInput, false, _fill, _stroke, 0.25f );
+		DrawToxiMesh.drawMeshWithAudio( this, mesh2, _audioInput, false, _fill, _stroke, 0.25f );
 
 		translate(-800f, 0, 0);
 		
 		WETriangleMesh mesh3 = ( P.round( this.frameCount / 30f ) % 2 == 0 ) ? _invaderMesh_03 : _invaderMesh_03_alt;
-		DrawMesh.drawMeshWithAudio( this, mesh3, _audioInput, false, _fill, _stroke, 0.25f );
+		DrawToxiMesh.drawMeshWithAudio( this, mesh3, _audioInput, false, _fill, _stroke, 0.25f );
 		
 		translate(1600f, 0, 0);
 		
 		WETriangleMesh mesh1 = ( P.round( this.frameCount / 30f ) % 2 == 0 ) ? _invaderMesh_01 : _invaderMesh_01_alt;
-		DrawMesh.drawMeshWithAudio( this, mesh1, _audioInput, false, _fill, _stroke, 0.25f );
+		DrawToxiMesh.drawMeshWithAudio( this, mesh1, _audioInput, false, _fill, _stroke, 0.25f );
 }
 	
 	// PApp-level listener for audio input data ------------------------ 

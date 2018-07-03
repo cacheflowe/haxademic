@@ -2,7 +2,7 @@ package com.haxademic.core.render;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.draw.context.DrawUtil;
-import com.haxademic.core.draw.toxi.DrawMesh;
+import com.haxademic.core.draw.toxi.DrawToxiMesh;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.render.joons.JRStatics;
 import com.haxademic.core.render.joons.JoonsRenderer;
@@ -131,7 +131,7 @@ public class JoonsWrapper {
 	public void drawRoomSphereWithColor( String shaderType, int color, int refl ) {
 		WETriangleMesh mesh = new WETriangleMesh();
 		mesh.addMesh( (new Sphere(400)).toMesh( 10 ) );
-		DrawMesh.drawToxiMeshFacesNative(p, mesh);
+		DrawToxiMesh.drawToxiMeshFacesNative(p, mesh);
 //		addColorForObject( shaderType, color, refl, false );
 	}
 	

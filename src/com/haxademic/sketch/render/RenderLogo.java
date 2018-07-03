@@ -3,7 +3,7 @@ package com.haxademic.sketch.render;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.draw.context.OpenGLUtil;
-import com.haxademic.core.draw.toxi.DrawMesh;
+import com.haxademic.core.draw.toxi.DrawToxiMesh;
 import com.haxademic.core.draw.toxi.MeshUtilToxi;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.render.JoonsWrapper;
@@ -77,7 +77,7 @@ extends PAppletHax {
 			}
 			p.pushMatrix();
 			p.rotateX(0.2f);
-			DrawMesh.drawToxiMeshFacesNative( p, _mesh );
+			DrawToxiMesh.drawToxiMeshFacesNative( p, _mesh );
 			p.popMatrix();
 			scale(1.115f);
 //			scale(0.9f);

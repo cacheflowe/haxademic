@@ -16,7 +16,7 @@ import toxi.geom.mesh.Face;
 import toxi.geom.mesh.WETriangleMesh;
 import toxi.processing.ToxiclibsSupport;
 
-public class DrawMesh {
+public class DrawToxiMesh {
 	public static Matrix4x4 normalMap = new Matrix4x4().translateSelf(128,128,128).scaleSelf(127);
 
 	public static void drawMeshWithAudio( PApplet p, WETriangleMesh mesh, AudioInputWrapper audioInput, boolean isWireframe, TColor fillColor, TColor strokeColor, float baseAlpha ) {
