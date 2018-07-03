@@ -13,6 +13,8 @@ import com.haxademic.core.draw.textures.pgraphics.TextureEQFloatParticles;
 import com.haxademic.core.draw.textures.pgraphics.TextureEQGrid;
 import com.haxademic.core.draw.textures.pgraphics.TextureFractalPolygons;
 import com.haxademic.core.draw.textures.pgraphics.TextureLinesEQ;
+import com.haxademic.core.draw.textures.pgraphics.TextureMeshAudioDeform;
+import com.haxademic.core.draw.textures.pgraphics.TextureOuterCube;
 import com.haxademic.core.draw.textures.pgraphics.TextureOuterSphere;
 import com.haxademic.core.draw.textures.pgraphics.TexturePixelatedAudio;
 import com.haxademic.core.draw.textures.pgraphics.TextureRotatingRings;
@@ -22,6 +24,7 @@ import com.haxademic.core.draw.textures.pgraphics.TextureSphereRotate;
 import com.haxademic.core.draw.textures.pgraphics.TextureStarTrails;
 import com.haxademic.core.draw.textures.pgraphics.TextureTwistingSquares;
 import com.haxademic.core.draw.textures.pgraphics.TextureVectorFieldEQ;
+import com.haxademic.core.draw.textures.pgraphics.TextureWaveformCircle;
 import com.haxademic.core.draw.textures.pgraphics.TextureWaveformSimple;
 import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
 
@@ -34,7 +37,8 @@ public class HaxVisualTexturesAll {
 		int textureH = P.round(_pg.height);
 		
 		// complex textures in the back
-		_bgTexturePool.add( new TextureOuterSphere( textureW, textureH ) );
+//		_bgTexturePool.add( new TextureOuterSphere( textureW, textureH ) );
+		_bgTexturePool.add( new TextureOuterCube( textureW, textureH ) );
 
 //		_bgTexturePool.add( new TextureAudioTube( textureW, textureH ) );
 //		_bgTexturePool.add( new TextureBlobSheet( textureW, textureH ) );
@@ -43,8 +47,10 @@ public class HaxVisualTexturesAll {
 ////		_bgTexturePool.add( new TextureOuterSphere( textureW, textureH ) );
 //		_bgTexturePool.add( new TextureVectorFieldEQ( textureW, textureH ) );
 
-		_fgTexturePool.add( new TextureEQBandDistribute( textureW, textureH ));
+//		_fgTexturePool.add( new TextureMeshAudioDeform( textureW, textureH ));
+//		_fgTexturePool.add( new TextureEQBandDistribute( textureW, textureH ));
 		_fgTexturePool.add( new TextureEQConcentricCircles( textureW, textureH ) );
+		_fgTexturePool.add( new TextureWaveformCircle( textureW, textureH ));
 
 //		_overlayTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "cacheflowe-liquid-moire.glsl" ));
 		_overlayTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "cacheflowe-metaballs.glsl" ));
@@ -64,8 +70,10 @@ public class HaxVisualTexturesAll {
 		_bgTexturePool.add( new TextureBlobSheet( textureW, textureH ) );
 		_bgTexturePool.add( new TextureRotatorShape( textureW, textureH ) );
 		_bgTexturePool.add( new TextureRotatingRings( textureW, textureH ) );
+		_bgTexturePool.add( new TextureOuterCube( textureW, textureH ) );
 		_bgTexturePool.add( new TextureOuterSphere( textureW, textureH ) );
 		_bgTexturePool.add( new TextureVectorFieldEQ( textureW, textureH ) );
+		_bgTexturePool.add( new TextureMeshAudioDeform( textureW, textureH ));
 
 		_bgTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "sdf-01-auto.glsl" ));
 		_bgTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "sdf-02-auto.glsl" ));
@@ -125,7 +133,8 @@ public class HaxVisualTexturesAll {
 		_fgTexturePool.add( new TextureFractalPolygons( textureW, textureH ));
 		_fgTexturePool.add( new TextureLinesEQ( textureW, textureH ));
 		_fgTexturePool.add( new TexturePixelatedAudio( textureW, textureH ));
-//		_fgTexturePool.add( new TextureOuterSphere( textureW, textureH ) );
+		_fgTexturePool.add( new TextureOuterCube( textureW, textureH ) );
+		_fgTexturePool.add( new TextureOuterSphere( textureW, textureH ) );
 //		_fgTexturePool.add( new TextureScrollingColumns( textureW, textureH ));
 		_fgTexturePool.add( new TextureSphereRotate( textureW, textureH ));
 		_fgTexturePool.add( new TextureStarTrails( textureW, textureH ));
@@ -133,7 +142,7 @@ public class HaxVisualTexturesAll {
 		_fgTexturePool.add( new TextureTwistingSquares( textureW, textureH ));
 		_fgTexturePool.add( new TextureVectorFieldEQ( textureW, textureH ) );
 		_fgTexturePool.add( new TextureWaveformSimple( textureW, textureH ));
-//		_fgTexturePool.add( new TextureWaveformCircle( textureW, textureH ));
+		_fgTexturePool.add( new TextureWaveformCircle( textureW, textureH ));
 
 		_fgTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "basic-checker.glsl" ));
 		_fgTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "basic-diagonal-stripes.glsl" ));
@@ -185,18 +194,19 @@ public class HaxVisualTexturesAll {
 
 		
 		
-		_overlayTexturePool.add( new TextureVectorFieldEQ( textureW, textureH ) );
-		_overlayTexturePool.add( new TextureWaveformSimple( textureW, textureH ));
-//		_overlayTexturePool.add( new TextureWaveformCircle( textureW, textureH ));
 		_overlayTexturePool.add( new TextureEQBandDistribute( textureW, textureH ));
 		_overlayTexturePool.add( new TextureEQConcentricCircles( textureW, textureH ) );
 		_overlayTexturePool.add( new TextureEQColumns( textureW, textureH ));
 		_overlayTexturePool.add( new TextureEQFloatParticles( textureW, textureH ));
 		_overlayTexturePool.add( new TextureEQGrid( textureW, textureH ));
 		_overlayTexturePool.add( new TextureLinesEQ( textureW, textureH ));
+		_overlayTexturePool.add( new TextureMeshAudioDeform( textureW, textureH ));
+		_overlayTexturePool.add( new TextureOuterSphere( textureW, textureH ) );
 		_overlayTexturePool.add( new TexturePixelatedAudio( textureW, textureH ));
-//		_overlayTexturePool.add( new TextureOuterSphere( textureW, textureH ) );
 		_overlayTexturePool.add( new TextureSphereRotate( textureW, textureH ));
+		_overlayTexturePool.add( new TextureVectorFieldEQ( textureW, textureH ) );
+		_overlayTexturePool.add( new TextureWaveformSimple( textureW, textureH ));
+		_overlayTexturePool.add( new TextureWaveformCircle( textureW, textureH ));
 
 //		_overlayTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "basic-checker.glsl" ));
 //		_overlayTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "basic-diagonal-stripes.glsl" ));

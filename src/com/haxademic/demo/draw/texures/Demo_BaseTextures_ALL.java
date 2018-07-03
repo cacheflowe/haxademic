@@ -7,8 +7,8 @@ import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.filters.shaders.FXAAFilter;
 import com.haxademic.core.draw.filters.shaders.SaturationFilter;
-import com.haxademic.core.draw.textures.pgraphics.TextureOuterSphere;
 import com.haxademic.core.draw.textures.pgraphics.TextureShaderTimeStepper;
+import com.haxademic.core.draw.textures.pgraphics.TextureWaveformCircle;
 import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
 
 public class Demo_BaseTextures_ALL 
@@ -24,7 +24,7 @@ extends PAppletHax {
 	protected void overridePropsFile() {
 //		p.appConfig.setProperty( AppSettings.WIDTH, 1500 );
 //		p.appConfig.setProperty( AppSettings.HEIGHT, 1000 );
-		p.appConfig.setProperty( AppSettings.INIT_BEADS_AUDIO, true );
+//		p.appConfig.setProperty( AppSettings.INIT_BEADS_AUDIO, true );
 		p.appConfig.setProperty( AppSettings.FULLSCREEN, false );
 		p.appConfig.setProperty( AppSettings.FILLS_SCREEN, false );
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, false );
@@ -52,7 +52,7 @@ extends PAppletHax {
 //			new TextureWebCam( w, h ),
 //			new TextureEQFloatParticles( w, h ),
 //			new TextureEQBandDistribute( w, h ),
-			new TextureOuterSphere( w, h ),
+//			new TextureOuterSphere( w, h ),
 //			new TextureWaveformSimple( w, h ),
 //			new TexturePixelatedAudio( w, h ),
 //			new TextureAudioTube( w, h ),
@@ -144,7 +144,9 @@ extends PAppletHax {
 //			new TextureAppFrameWaveformCircle( w, h ),
 //			new TextureBasicWindowShade( w, h ),
 //			new TextureRotatorShape( w, h ),
-//			new TextureMeshDeform( w, h ),
+			new TextureWaveformCircle( w, h ),
+
+//			new TextureMeshAudioDeform( w, h ),
 //		    new TextureColorAudioSlide( w, h ),
 //		    new TextureSphereRotate( w, h ),
 //		    new TextureShaderScrubber( w, h, "cog-tunnel.glsl" ),

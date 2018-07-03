@@ -18,7 +18,7 @@ public class TextureShader {
 	public TextureShader(String shaderPath, float timeMult) {
 		this.shaderPath = shaderPath;
 		fragShader = TextureShader.loadShader(shaderPath);
-		setTimeMult(timeMult);;
+		setTimeMult(timeMult);
 	}
 
 	public String shaderPath() {

@@ -11,7 +11,6 @@ import com.haxademic.core.math.easing.EasingFloat;
 public class TextureWaveformCircle 
 extends BaseTexture {
 
-//	protected WaveformData _waveformData;
 	protected float _circleInc;
 	protected float _amp;
 	protected float _strokeWeight;
@@ -23,7 +22,6 @@ extends BaseTexture {
 		buildGraphics( width, height );
 		
 		_texture = P.p.createGraphics( _texture.width, _texture.height, P.P3D );
-		_texture.smooth(OpenGLUtil.SMOOTH_HIGH);
 		_texture.beginDraw();
 		_texture.background(0);
 		_texture.endDraw();
@@ -47,7 +45,6 @@ extends BaseTexture {
 		
 		_radius.update();
 		
-		DrawUtil.resetGlobalProps( _texture );
 		DrawUtil.setCenterScreen( _texture );
 
 		int numPoints = P.p.audioData.waveform().length;
@@ -65,7 +62,7 @@ extends BaseTexture {
 			float radius;
 			for (int i = 0; i < numPoints; i++ ) {
 				float concentricMult = 0.5f * (float) j;
-				radius =   concentricMult * _radius.value() + P.p.audioData.waveform()[i] * _amp;
+				radius = concentricMult * _radius.value() + P.p.audioData.waveform()[i] * _amp;
 				_texture.vertex( P.sin( _circleInc * i ) * radius , P.cos( _circleInc * i ) * radius );
 			}
 

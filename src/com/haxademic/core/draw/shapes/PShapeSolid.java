@@ -117,7 +117,7 @@ public class PShapeSolid {
 //				pg.vertex(vertex2.x, vertex2.y, vertex2.z);
 //				pg.vertex(vertex3.x, vertex3.y, vertex3.z);
 //				pg.endShape();
-				float eq = P.p.audioFreq(faceIndex % 512) * 1f;
+				float eq = P.p.audioFreq(faceIndex) * 1f;
 				shape.getChild(j).setFill(P.p.color(color, P.round(255f * eq)));
 				faceIndex++;
 			}

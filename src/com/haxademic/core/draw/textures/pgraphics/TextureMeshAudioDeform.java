@@ -13,59 +13,52 @@ import com.haxademic.core.math.MathUtil;
 import processing.core.PShape;
 import processing.core.PVector;
 
-public class TextureMeshDeform 
+public class TextureMeshAudioDeform 
 extends BaseTexture {
 
 	protected ArrayList<PShapeSolid> _meshPool;
 	protected PShapeSolid _curMesh;
 	protected int _meshIndex = -1;
-	protected boolean isWireFrame;
-	protected float _colorGradientDivider = 1;
-
 	protected boolean _isWireframe = true;
 
 	protected PVector _rotSpeed = new PVector( 0, 0, 0 );
 	protected PVector _rotation = new PVector( 0, 0, 0 );
 	protected PVector _rotationTarget = new PVector( 0, 0, 0 );
 
-	public TextureMeshDeform( int width, int height ) {
+	public TextureMeshAudioDeform( int width, int height ) {
 		super();
-
 		buildGraphics( width, height );
-		
 		init();
 	}
 
 	public void init() {
 		_meshPool = new ArrayList<PShapeSolid>();
-		
-		_meshPool.add(new PShapeSolid(prepShape(P.p.loadShape(FileUtil.getFile("models/unicorn-head-lowpoly.obj")))));
-		_meshPool.add(new PShapeSolid(prepShape(P.p.loadShape(FileUtil.getFile("models/the-discovery-multiplied-seied.obj")))));
-		_meshPool.add(new PShapeSolid(prepShape(P.p.loadShape(FileUtil.getFile("models/topsecret-seied.obj")))));
-		_meshPool.add(new PShapeSolid(prepShape(P.p.loadShape(FileUtil.getFile("models/skull.obj")))));
-		_meshPool.add(new PShapeSolid(prepShape(P.p.loadShape(FileUtil.getFile("models/poly-hole-penta.obj")))));
-		_meshPool.add(new PShapeSolid(prepShape(P.p.loadShape(FileUtil.getFile("models/poly-hole-square.obj")))));
-		_meshPool.add(new PShapeSolid(prepShape(P.p.loadShape(FileUtil.getFile("models/poly-hole-tri.obj")))));
-		
-		
+		_meshPool.add(prepShape(P.p.loadShape(FileUtil.getFile("models/unicorn-head-lowpoly.obj"))));
+		_meshPool.add(prepShape(P.p.loadShape(FileUtil.getFile("models/the-discovery-multiplied-seied.obj"))));
+		_meshPool.add(prepShape(P.p.loadShape(FileUtil.getFile("models/topsecret-seied.obj"))));
+		_meshPool.add(prepShape(P.p.loadShape(FileUtil.getFile("models/skull.obj"))));
+		_meshPool.add(prepShape(P.p.loadShape(FileUtil.getFile("models/poly-hole-penta.obj"))));
+		_meshPool.add(prepShape(P.p.loadShape(FileUtil.getFile("models/poly-hole-square.obj"))));
+		_meshPool.add(prepShape(P.p.loadShape(FileUtil.getFile("models/poly-hole-tri.obj"))));
 		selectNewModel();
 	}
-	
-	protected PShape prepShape(PShape shape) {
-//		for(PShapeSolid shape : _meshPool) {
-			// scale it to fit the window
-			PShapeUtil.scaleShapeToExtent(shape, _texture.height * 0.7f);
-			// add UV coordinates to OBJ
-			float modelExtent = PShapeUtil.getMaxExtent(shape);
-			PShapeUtil.addTextureUVToShape(shape, null, modelExtent);
-//		}
-		return shape;
+
+	protected PShapeSolid prepShape(PShape shape) {
+		// scale it to fit the window
+//		shape = shape.getTessellation();
+//		PShapeUtil.repairMissingSVGVertex(shape);
+		PShapeUtil.centerShape(shape);
+		PShapeUtil.scaleShapeToHeight(shape, _texture.height * 0.5f);
+		// add UV coordinates to OBJ
+		PShapeUtil.addTextureUVSpherical(shape, null);
+		// create PShapeSolid
+		return new PShapeSolid(shape);
 	}
-	
+
 	public void newLineMode() {
 		_isWireframe = MathUtil.randBoolean( P.p );
 	}
-	
+
 	public void newRotation() {
 		// rotate
 		float circleSegment = (float) ( Math.PI * 2f );
@@ -77,12 +70,12 @@ extends BaseTexture {
 		_rotSpeed.y = MathUtil.randRangeDecimal( 0.001f, 0.01f );
 		_rotSpeed.z = MathUtil.randRangeDecimal( 0.001f, 0.01f );
 	}
-	
+
 	public void updateRotation() {
-//		_rotation.easeToPoint( _rotationTarget, 5 );
-//		_texture.rotateX( _rotation.x );
-//		_texture.rotateY( _rotation.y );
-//		_texture.rotateZ( _rotation.z );
+		//		_rotation.easeToPoint( _rotationTarget, 5 );
+		//		_texture.rotateX( _rotation.x );
+		//		_texture.rotateY( _rotation.y );
+		//		_texture.rotateZ( _rotation.z );
 
 		_rotationTarget.x += _rotSpeed.x;
 		_rotationTarget.y += _rotSpeed.y;
@@ -100,15 +93,9 @@ extends BaseTexture {
 
 	public void updateDraw() {
 		_texture.clear();
-		
-//		DrawUtil.resetGlobalProps(_texture);
-//		DrawUtil.setCenterScreen(_texture);
-		DrawUtil.setDrawCenter(_texture);
-		_texture.translate(_texture.width/2, _texture.height/2);
-		
+		DrawUtil.setDrawCorner(_texture);
+		DrawUtil.setCenterScreen(_texture);
 		_texture.pushMatrix();
-
-//		_texture.translate( 0, 0, -300 );
 
 		_rotation.x += _rotSpeed.x;
 		_rotation.y += _rotSpeed.y;
@@ -127,17 +114,14 @@ extends BaseTexture {
 
 		// deform and draw mesh
 		if(_curMesh != null) {
-			_curMesh.deformWithAudioByNormals();
-//			_curMesh.setVertexColorWithAudio(255);
-//			PShapeUtil.drawTriangles(_texture, _curMesh.shape()); // img
+			// _curMesh.deformWithAudioByNormals();
+			_curMesh.deformWithAudio();
 			_curMesh.setVertexColorWithAudio(255);
-			_texture.pushMatrix();
-			_texture.translate(_texture.width / 2, _texture.height/ 2, _texture.height / -2);
 			_texture.shape(_curMesh.shape());
-			_texture.popMatrix();
+			// PShapeUtil.drawTriangles(_texture, _curMesh.shape(), null, 1f); // img
 		}
-		
+
 		_texture.popMatrix();		
 	}
-	
+
 }
