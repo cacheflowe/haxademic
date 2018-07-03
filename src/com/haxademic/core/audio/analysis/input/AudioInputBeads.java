@@ -81,7 +81,7 @@ implements IAudioInput {
 			audioStreamData.setFFTFrequencies(freqs);
 			audioStreamData.calcFreqsDampened();
 		}
-		audioStreamData.setWaveformOffsets(ac.out.getOutBuffer(0));
+		audioStreamData.setWaveformOffsets(gain.getOutBuffer(0));
 		if(beatDirty) {
 			beatDirty = false;
   			audioStreamData.setBeat();
