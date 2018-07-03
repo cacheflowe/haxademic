@@ -3,6 +3,7 @@ package com.haxademic.core.audio.analysis.input;
 import beads.AudioContext;
 import beads.Bead;
 import beads.FFT;
+import beads.Gain;
 import beads.PeakDetector;
 import beads.PowerSpectrum;
 import beads.ShortFrameSegmenter;
@@ -13,6 +14,7 @@ public class AudioInputBeads
 implements IAudioInput {
 
 	protected AudioContext ac;
+	protected Gain gain;
 	protected PowerSpectrum ps;
 	protected PeakDetector od;
 	protected AudioStreamData audioStreamData = new AudioStreamData();
@@ -21,10 +23,11 @@ implements IAudioInput {
 		  ac = new AudioContext();
 		  ShortFrameSegmenter sfs = new ShortFrameSegmenter(ac);
 		  FFT fft = new FFT();
+		  gain = new Gain(ac, 2);
 		  ps = new PowerSpectrum();
 		  sfs.setChunkSize(2048);
 		  sfs.setHopSize(441);
-		  sfs.addInput(ac.out);
+		  sfs.addInput(gain);   // sfs.addInput(ac.out);
 		  sfs.addListener(fft);
 		  fft.addListener(ps);
 		  
@@ -52,10 +55,9 @@ implements IAudioInput {
 
 		  // common setup and stream init
 		  ac.out.addDependent(sfs);
-		  ac.out.addInput(ac.getAudioInput());
+		  gain.addInput(ac.getAudioInput());
 		  
 		  ac.start();
-//		  ac.out.setGain(-1);
 	}
 	
 	public AudioStreamData audioData() {

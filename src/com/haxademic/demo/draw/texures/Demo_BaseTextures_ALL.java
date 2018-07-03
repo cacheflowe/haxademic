@@ -23,16 +23,13 @@ extends PAppletHax {
 
 
 	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, 1500 );
-		p.appConfig.setProperty( AppSettings.HEIGHT, 1000 );
+//		p.appConfig.setProperty( AppSettings.WIDTH, 1500 );
+//		p.appConfig.setProperty( AppSettings.HEIGHT, 1000 );
 		p.appConfig.setProperty( AppSettings.FULLSCREEN, false );
 		p.appConfig.setProperty( AppSettings.FILLS_SCREEN, false );
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, false );
-		p.appConfig.setProperty( AppSettings.RETINA, false );
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_START_FRAME, 1);
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, (int)frames);
-		p.appConfig.setProperty( "init_ess_audio", true);
-		p.appConfig.setProperty( "init_minim_audio", true);
 	}
 
 

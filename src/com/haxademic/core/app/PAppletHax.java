@@ -292,7 +292,6 @@ extends PApplet
 		if( appConfig.getBoolean(AppSettings.INIT_MINIM_AUDIO, false) == true ) {
 			audioInput = new AudioInputMinim();
 		} else if( appConfig.getBoolean(AppSettings.INIT_BEADS_AUDIO, false) == true ) {
-			DebugUtil.printErr("Fix AudioInputBeads passthrough output");
 			audioInput = new AudioInputBeads();
 		} else if( appConfig.getBoolean(AppSettings.INIT_ESS_AUDIO, true) == true ) {
 			// Default to ESS being on, unless a different audio library is selected
