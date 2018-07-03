@@ -75,7 +75,7 @@ implements IAudioInput {
 			// make a lower-amplitude copy
 			if(freqs == null) freqs = new float[features.length];
 			for (int i = 0; i < features.length; i++) {
-				freqs[i] = features[i] * 0.1f;
+				freqs[i] = features[i] * 0.05f;
 			}
 			
 			audioStreamData.setFFTFrequencies(freqs);
