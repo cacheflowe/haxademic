@@ -95,13 +95,13 @@ void main() {
     if(centerDistX > repeatThresh - aaX) alphaX = map(centerDistX, repeatThresh - aaX, repeatThresh + aaX, 1., 0.);
     if(centerDistY > repeatThresh - aaY) alphaY = map(centerDistY, repeatThresh - aaY, repeatThresh + aaY, 1., 0.);
     float alpha = min(alphaX, alphaY);
-    color = texture(repeatImg, uvRepeat);
+    color = texture2D(repeatImg, uvRepeat);
 
 		vec4 baseColorFinal = (uvRepeat.y <= 0.5) ? vec4(1.) : vec4(0.);
 		if(centerDistY > repeatThresh - aaY) {
 			baseColorFinal = (uvRepeat.y <= 0.5) ?
-					texture(repeatImg, vec2(uvRepeat.x, 0.01)) :
-					texture(repeatImg, vec2(uvRepeat.x, 0.99));
+					texture2D(repeatImg, vec2(uvRepeat.x, 0.01)) :
+					texture2D(repeatImg, vec2(uvRepeat.x, 0.99));
 		}
 		if(centerDistX > repeatThresh - aaX) {
 			baseColorFinal = (uvRepeat.y <= 0.5) ? vec4(1.) : vec4(0.);

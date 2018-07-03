@@ -48,7 +48,7 @@ void main() {
     // add padding and only draw once per cell
     uvRepeat *= 1. + padding * 2.;
     uvRepeat -= padding;
-    if(uvRepeat.x >= 0. && uvRepeat.x <= 1. && uvRepeat.y >= 0. && uvRepeat.y <= 1.) color = texture(texture, uvRepeat);
+    if(uvRepeat.x >= 0. && uvRepeat.x <= 1. && uvRepeat.y >= 0. && uvRepeat.y <= 1.) color = texture2D(texture, uvRepeat);
 
     // draw repeating texture
     gl_FragColor = color;

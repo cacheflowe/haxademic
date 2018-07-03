@@ -12,14 +12,13 @@ import com.haxademic.core.draw.color.ImageGradient;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.filters.shaders.BadTVLinesFilter;
-import com.haxademic.core.draw.filters.shaders.BlurProcessingFilter;
+import com.haxademic.core.draw.filters.shaders.BlurHFilter;
+import com.haxademic.core.draw.filters.shaders.BlurVFilter;
 import com.haxademic.core.draw.filters.shaders.BrightnessFilter;
 import com.haxademic.core.draw.filters.shaders.ColorDistortionFilter;
 import com.haxademic.core.draw.filters.shaders.ColorizeFromTexture;
 import com.haxademic.core.draw.filters.shaders.ContrastFilter;
 import com.haxademic.core.draw.filters.shaders.CubicLensDistortionFilterOscillate;
-import com.haxademic.core.draw.filters.shaders.DeformBloomFilter;
-import com.haxademic.core.draw.filters.shaders.DeformTunnelFanFilter;
 import com.haxademic.core.draw.filters.shaders.DisplacementMapFilter;
 import com.haxademic.core.draw.filters.shaders.EdgesFilter;
 import com.haxademic.core.draw.filters.shaders.HalftoneFilter;
@@ -74,13 +73,10 @@ import processing.core.PImage;
 /**
  * 
  * TODO:  
- * Add audio debug panel - show input * audio gain controls
- * Build Debug panel a la NikePatterns project 
  * Add new texture shaders and special effects like two-color shader and screen repeating & rotation shaders  
  * Add new concepts about layout, rather than just relying on displacement & mask effects 
  * Add text cycling texture
  * Add DrawUtil image rotation, just like the new post-draw scale function
- * Fix keyboard / MIDI overlapping issue
  * Add tinting to layers - maybe a shader to re-color everything with a gradient map
  * mirror or kaleido the boring audio reactive textures
  * do something with the unicorn .obj model
@@ -103,7 +99,6 @@ extends PAppletHax {
 	protected int BEAT_INTERVAL_NEW_MODE = (int) Math.ceil(80f / BEAT_DIVISOR);
 	protected int BEAT_INTERVAL_NEW_TIMING = (int) Math.ceil(10f / BEAT_DIVISOR);
 	protected int BEAT_INTERVAL_BIG_CHANGE = (int) Math.ceil(120f / BEAT_DIVISOR);
-
 
 	protected String _inputFileLines[];
 	protected ArrayList<BaseTexture> _bgTexturePool;
@@ -157,8 +152,8 @@ extends PAppletHax {
 	protected int lastTimingUpdateTime = 0;
 	protected int lastTimingUpdateDelay = 500;
 
-	protected InputTrigger _programDownTrigger = new InputTrigger(new char[]{'1'},new String[]{TouchOscPads.PAD_15},new Integer[]{AkaiMpdPads.PAD_15, 27});
-	protected InputTrigger _programUpTrigger = new InputTrigger(new char[]{'2'},new String[]{TouchOscPads.PAD_16},new Integer[]{AkaiMpdPads.PAD_16, 28});
+//	protected InputTrigger _programDownTrigger = new InputTrigger(new char[]{'1'},new String[]{TouchOscPads.PAD_15},new Integer[]{AkaiMpdPads.PAD_15, 27});
+//	protected InputTrigger _programUpTrigger = new InputTrigger(new char[]{'2'},new String[]{TouchOscPads.PAD_16},new Integer[]{AkaiMpdPads.PAD_16, 28});
 //	protected int _programIndex = 0;
 
 	protected RandomLightTiming _dmxLights;
@@ -284,7 +279,7 @@ extends PAppletHax {
 		checkBeat();
 		getDisplacementLayer();
 		drawLayers();
-//		filterActiveTextures();
+		filterActiveTextures();
 		drawTopLayer();
 		postProcessFilters();
 		postBrightness();
@@ -350,42 +345,46 @@ extends PAppletHax {
 	protected void postProcessFilters() {
 		// DISPLACEMENT MAP ////////////////////////
 		// which layer to use for displacement?
+		p.debugView.setValue("overlayMode", overlayMode);
 		if(displacementLayer < 3) {
 			if(displacementLayer >= _curTexturePool.size()) displacementLayer = _curTexturePool.size() - 1; // protection!
+			PGraphics displacementBuffer = _curTexturePool.get(displacementLayer).texture();
 			if(overlayMode == 0) {
 				// zoom into displacement image
 	//			DrawUtil.zoomReTexture(_curTexturePool.get(displacementLayer).texture(), 0.66f + 0.33f * P.sin(p.frameCount * 0.01f));
 				// add blur to displacement image
-				BlurProcessingFilter.instance(p).setBlurSize(4);
-				BlurProcessingFilter.instance(p).setSigma(2);
-				BlurProcessingFilter.instance(p).applyTo(_curTexturePool.get(displacementLayer).texture());
+//				BlurProcessingFilter.instance(p).setBlurSize(10);
+//				BlurProcessingFilter.instance(p).setSigma(2);
+//				BlurProcessingFilter.instance(p).applyTo(_curTexturePool.get(displacementLayer).texture());
+				float blurPercent = 3f; // p.mousePercentX() * 10f;
+				BlurHFilter.instance(p).setBlurByPercent(blurPercent, _pg.width);
+				BlurVFilter.instance(p).setBlurByPercent(blurPercent, _pg.height);
+				BlurHFilter.instance(p).applyTo(displacementBuffer);
+				BlurVFilter.instance(p).applyTo(displacementBuffer);
 				// set current layer as displacer & apply effect
-				DisplacementMapFilter.instance(p).setMap(_curTexturePool.get(displacementLayer).texture());
-				DisplacementMapFilter.instance(p).setMode(0);
+				DisplacementMapFilter.instance(p).setMap(displacementBuffer);
+				DisplacementMapFilter.instance(p).setMode(3);
 				DisplacementMapFilter.instance(p).applyTo(_pg);
 			} else if(overlayMode == 1) {
-				PGraphics textue = _curTexturePool.get(displacementLayer).texture();
 				LeaveBlackFilter.instance(p).setMix(1f);
-				LeaveBlackFilter.instance(p).applyTo(textue);
+				LeaveBlackFilter.instance(p).applyTo(displacementBuffer);
 				_pg.beginDraw();
-				ImageUtil.drawImageCropFill(textue, _pg, true);
+				ImageUtil.drawImageCropFill(displacementBuffer, _pg, true);
 				_pg.endDraw();
 			} else if(overlayMode == 2) {
-				PGraphics textue = _curTexturePool.get(displacementLayer).texture();
 				_pg.beginDraw();
 				_pg.blendMode(PBlendModes.EXCLUSION);
-				ImageUtil.drawImageCropFill(textue, _pg, true);
+				ImageUtil.drawImageCropFill(displacementBuffer, _pg, true);
 				_pg.blendMode(PBlendModes.BLEND);
 				_pg.endDraw();
 			} else if(overlayMode == 3) {
 				// ADD SHADER TO MASK & REVERSE MASK THE OPPOSITE 2 TEXTURES
-				PGraphics maskTexture = _curTexturePool.get(displacementLayer).texture();
 				PGraphics tex1;
 				PGraphics tex2;
 				if(displacementLayer == 0) { 		tex1 = _curTexturePool.get(1).texture(); tex2 = _curTexturePool.get(2).texture(); }
 				else if(displacementLayer == 1) { 	tex1 = _curTexturePool.get(0).texture(); tex2 = _curTexturePool.get(2).texture(); }
 				else { 								tex1 = _curTexturePool.get(0).texture(); tex2 = _curTexturePool.get(1).texture(); }
-				MaskThreeTextureFilter.instance(p).setMask(maskTexture);
+				MaskThreeTextureFilter.instance(p).setMask(displacementBuffer);
 				MaskThreeTextureFilter.instance(p).setTexture1(tex1);
 				MaskThreeTextureFilter.instance(p).setTexture2(tex2);
 				MaskThreeTextureFilter.instance(p).applyTo(_pg);
@@ -416,8 +415,6 @@ extends PAppletHax {
 		// INVERT ////////////////////////
 		boolean inverted = ( p.midiState.midiCCPercent(midiInChannel, invertKnob) > 0.5f );
 		if( inverted ) InvertFilter.instance(p).applyTo(_pg);
-
-
 		
 		// COLOR DISTORTION ///////////////////////
 		// color distortion auto
@@ -534,6 +531,7 @@ extends PAppletHax {
 
 
 	protected void checkBeat() {
+		p.debugView.setValue("p.audioData.isBeat()", p.audioData.isBeat());
 		if( p.audioData.isBeat() == true && isBeatDetectMode() == true ) {
 			updateTiming();
 		}
@@ -667,6 +665,8 @@ extends PAppletHax {
 
 	protected void autoBeatMode() {
 		if( isBeatDetectMode() == true ) numBeatsDetected++;
+		p.debugView.setValue("isBeatDetectMode()", isBeatDetectMode());
+		p.debugView.setValue("numBeatsDetected", numBeatsDetected);
 		
 		if( numBeatsDetected % BEAT_INTERVAL_COLOR == 0 ) {
 //			P.println("BEAT_INTERVAL_COLOR");
@@ -881,9 +881,9 @@ extends PAppletHax {
 			KaleidoFilter.instance(p).setSides(4);
 			KaleidoFilter.instance(p).setAngle(filterTime / 10f);
 			KaleidoFilter.instance(p).applyTo(pg);
-		} else if(textureEffectIndex == 2) {
-			DeformTunnelFanFilter.instance(p).setTime(filterTime);
-			DeformTunnelFanFilter.instance(p).applyTo(pg);
+//		} else if(textureEffectIndex == 2) {
+//			DeformTunnelFanFilter.instance(p).setTime(filterTime);
+//			DeformTunnelFanFilter.instance(p).applyTo(pg);
 		} else if(textureEffectIndex == 3) {
 			EdgesFilter.instance(p).applyTo(pg);
 		} else if(textureEffectIndex == 4) {
@@ -909,17 +909,17 @@ extends PAppletHax {
 			CubicLensDistortionFilterOscillate.instance(p).applyTo(pg);
 		} else if(textureEffectIndex == 11) {
 			SphereDistortionFilter.instance(p).applyTo(pg);
-		} else if(textureEffectIndex == 12) {
-			HalftoneFilter.instance(p).applyTo(pg);
+//		} else if(textureEffectIndex == 12) {
+//			HalftoneFilter.instance(p).applyTo(pg);
 		} else if(textureEffectIndex == 13) {
 			PixelateFilter.instance(p).setDivider(15f, pg.width, pg.height);
 			PixelateFilter.instance(p).applyTo(pg);
-		} else if(textureEffectIndex == 14) {
-			DeformBloomFilter.instance(p).setTime(filterTime);
-			DeformBloomFilter.instance(p).applyTo(pg);
-		} else if(textureEffectIndex == 15) {
-			DeformTunnelFanFilter.instance(p).setTime(filterTime);
-			DeformTunnelFanFilter.instance(p).applyTo(pg);
+//		} else if(textureEffectIndex == 14) {
+//			DeformBloomFilter.instance(p).setTime(filterTime);
+//			DeformBloomFilter.instance(p).applyTo(pg);
+//		} else if(textureEffectIndex == 15) {
+//			DeformTunnelFanFilter.instance(p).setTime(filterTime);
+//			DeformTunnelFanFilter.instance(p).applyTo(pg);
 		} else if(textureEffectIndex == 16) {
 			HueFilter.instance(p).setTime(filterTime);
 			HueFilter.instance(p).applyTo(pg);

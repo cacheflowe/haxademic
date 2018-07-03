@@ -22,10 +22,10 @@ uniform vec2 offset = vec2(0.);
 
 void main() {
     vec2 uv = vertTexCoord.xy - 0.5;
-    uv.x *= texOffset.y / texOffset.x;		// Correct for aspect ratio
+    // uv.x *= texOffset.y / texOffset.x;		// Correct for aspect ratio
 	  uv *= zoom;
-    uv *= mat2(cos(rotation), sin(rotation), -sin(rotation), cos(rotation));
-    uv.y *= aspect;
-    vec4 color = texture(texture, uv - 0.5 + offset);
-    gl_FragColor = vec4(color.rgb, 1.);
+    // uv *= mat2(cos(rotation), sin(rotation), -sin(rotation), cos(rotation));
+    // uv.y *= aspect;
+    vec4 color = texture2D(texture, uv - 0.5 + offset);
+    gl_FragColor = color;
 }

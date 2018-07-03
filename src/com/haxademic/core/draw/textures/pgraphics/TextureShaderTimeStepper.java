@@ -2,7 +2,6 @@ package com.haxademic.core.draw.textures.pgraphics;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.constants.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.filters.shaders.SaturationFilter;
 import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
 import com.haxademic.core.file.FileUtil;
@@ -17,7 +16,7 @@ extends BaseTexture {
 	
 	protected String _shaderFile;
 	public String toString() {
-		return this.getClass().getName() + " :: " + _shaderFile;
+		return this.getClass().getSimpleName() + " :: " + _shaderFile;
 	}
 
 	public enum ShaderTimeMode {

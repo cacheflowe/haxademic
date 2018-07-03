@@ -29,7 +29,7 @@ extends BaseTexture {
 		
 		float steps = _steps.value();
 		float oscInc = P.TWO_PI / steps;
-		float lineSize = (steps/2) + 1f * P.sin( ( P.p.frameCount ) * oscInc );
+		float lineSize = (steps/2f) + 1f * P.sin( ( P.p.frameCount ) * oscInc );
 		
 		for( int i=100; i > 0; i-- ) {
 			

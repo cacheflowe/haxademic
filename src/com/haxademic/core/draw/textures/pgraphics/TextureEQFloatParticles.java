@@ -60,7 +60,7 @@ extends BaseTexture {
 		protected int _color;
 		protected PVector _pos;
 		protected PVector _speed;
-		protected float maxSize = 20;
+		protected float maxSize = 10;
 		protected float _amp = 0;
 		protected float _ampDecay = 0.95f;
 		

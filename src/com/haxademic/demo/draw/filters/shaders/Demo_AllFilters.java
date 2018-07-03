@@ -33,6 +33,7 @@ import com.haxademic.core.draw.filters.shaders.FXAAFilter;
 import com.haxademic.core.draw.filters.shaders.GlowFilter;
 import com.haxademic.core.draw.filters.shaders.GodRays;
 import com.haxademic.core.draw.filters.shaders.GradientCoverWipe;
+import com.haxademic.core.draw.filters.shaders.HalftoneCamoFilter;
 import com.haxademic.core.draw.filters.shaders.HalftoneFilter;
 import com.haxademic.core.draw.filters.shaders.HalftoneLinesFilter;
 import com.haxademic.core.draw.filters.shaders.HueFilter;
@@ -59,12 +60,13 @@ import com.haxademic.core.draw.filters.shaders.WobbleFilter;
 import com.haxademic.core.draw.filters.shaders.shared.BaseFilter;
 import com.haxademic.core.draw.textures.pshader.TextureShader;
 import com.haxademic.core.file.DemoAssets;
+import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.shared.InputTrigger;
 
 import processing.core.PGraphics;
 import processing.opengl.PShader;
 
-public class Demo_AllFilters_WIP
+public class Demo_AllFilters
 extends PAppletHax { public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	// TODO: 
@@ -127,6 +129,7 @@ extends PAppletHax { public static void main(String args[]) { PAppletHax.main(Th
 			GlowFilter.instance(p),
 			GodRays.instance(p),
 			GradientCoverWipe.instance(p),
+			HalftoneCamoFilter.instance(p),
 			HalftoneFilter.instance(p),
 			HalftoneLinesFilter.instance(p),
 			HueFilter.instance(p),
@@ -154,7 +157,7 @@ extends PAppletHax { public static void main(String args[]) { PAppletHax.main(Th
 
 		texture = new TextureShader(TextureShader.bw_clouds);
 		
-//		customShader = p.loadShader(FileUtil.getFile("haxademic/shaders/filters/godrays.glsl"));
+		customShader = p.loadShader(FileUtil.getFile("haxademic/shaders/filters/image-repeat-herringbone-levels.glsl"));
 	}
 	
 	protected float oscillate() {
@@ -186,6 +189,7 @@ extends PAppletHax { public static void main(String args[]) { PAppletHax.main(Th
 		// update cur shader as image processing basis
 		texture.updateTime();
 		pg.beginDraw();
+		pg.background(0);
 		pg.filter(texture.shader());
 		
 		// draw some text to make sure we know shader orientation (i.e., doesn't flip y axis)
@@ -322,6 +326,10 @@ extends PAppletHax { public static void main(String args[]) { PAppletHax.main(Th
 			HalftoneFilter.instance(p).setSizeT(halftoneSize, halftoneSize);
 			HalftoneFilter.instance(p).setCenter(halftoneSize/2f, halftoneSize/2f);
 			HalftoneFilter.instance(p).applyTo(pg);
+		} else if(curFilter == HalftoneCamoFilter.instance(p)) {
+			HalftoneCamoFilter.instance(p).setTime(p.frameCount * 0.01f * p.mousePercentY());
+			HalftoneCamoFilter.instance(p).setScale(p.mousePercentX() * 3f);
+			HalftoneCamoFilter.instance(p).applyTo(pg);
 		} else if(curFilter == HalftoneLinesFilter.instance(p)) {
 //			setSampleDistX(200f);   // divisions for kernel sampling (width)
 //			setSampleDistY(80f);	// divisions for kernel sampling (height)
@@ -365,8 +373,7 @@ extends PAppletHax { public static void main(String args[]) { PAppletHax.main(Th
 			MaskThreeTextureFilter.instance(p).applyTo(pg);
 		} else if(curFilter == MirrorFilter.instance(p)) {
 			MirrorFilter.instance(p).applyTo(pg);
-		} else 
-			if(curFilter == PixelateFilter.instance(p)) {
+		} else if(curFilter == PixelateFilter.instance(p)) {
 			PixelateFilter.instance(p).setDivider(p.mousePercentX() * 100f, p.width, p.height);
 			PixelateFilter.instance(p).applyTo(pg);
 		} else if(curFilter == RadialBlurFilter.instance(p)) {
@@ -377,6 +384,8 @@ extends PAppletHax { public static void main(String args[]) { PAppletHax.main(Th
 			RadialRipplesFilter.instance(p).applyTo(pg);
 		} else if(curFilter == RotateFilter.instance(p)) {
 			RotateFilter.instance(p).setRotation(p.mousePercentX() * P.TWO_PI);
+			RotateFilter.instance(p).setAspect(pg.width, pg.height);
+			RotateFilter.instance(p).setZoom(p.mousePercentY() * 15f);
 			RotateFilter.instance(p).applyTo(pg);
 		} else if(curFilter == SaturateHSVFilter.instance(p)) {
 			ColorizeFromTexture.instance(p).applyTo(pg);

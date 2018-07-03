@@ -11,7 +11,7 @@ varying vec4 vertTexCoord;
 uniform vec2 texOffset;
 uniform float time = 0.;
 
-uniform sampler2D repeatImg;
+// uniform sampler2D repeatImg;
 uniform float rows = 4.0;
 uniform float padding = 0.0;
 uniform float aspect = 1.5;
@@ -34,7 +34,7 @@ void main() {
 		uv = rotateCoord(uv, rotation);
 		uv.y *= aspect;												// apply image repeat aspect ratio
 
-    vec4 origColor = texture(repeatImg, uv);
+    vec4 origColor = texture2D(texture, uv);
 		vec4 color = baseColor;
 
     // calc row index to offset x of every other row
@@ -53,9 +53,9 @@ void main() {
     float paddingAspect = aspect * padding;
     uvRepeat *= 1. + vec2(paddingAspect, paddingAspect) * 2.;
     if(uvRepeat.x >= 0. && uvRepeat.x <= 1. && uvRepeat.y >= 0. && uvRepeat.y <= 1.) {
-      color = texture(repeatImg, uvRepeat);
+      color = texture2D(texture, uvRepeat);
     }
-    
+
     // draw repeating texture
     gl_FragColor = color;
 }
