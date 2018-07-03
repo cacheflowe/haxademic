@@ -15,6 +15,7 @@ implements IAudioInput {
 
 	protected AudioContext ac;
 	protected Gain gain;
+	protected float[] freqs;
 	protected PowerSpectrum ps;
 	protected PeakDetector od;
 	protected AudioStreamData audioStreamData = new AudioStreamData();
@@ -71,7 +72,13 @@ implements IAudioInput {
 		
 		// update audio data object
 		if(features != null) {
-			audioStreamData.setFFTFrequencies(features);
+			// make a lower-amplitude copy
+			if(freqs == null) freqs = new float[features.length];
+			for (int i = 0; i < features.length; i++) {
+				freqs[i] = features[i] * 0.1f;
+			}
+			
+			audioStreamData.setFFTFrequencies(freqs);
 			audioStreamData.calcFreqsDampened();
 		}
 		audioStreamData.setWaveformOffsets(ac.out.getOutBuffer(0));
