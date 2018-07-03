@@ -634,6 +634,75 @@ public class PShapeUtil {
 		}
 	}
 	
+	public static void drawTrianglesAudio(PGraphics pg, PShape shape, float scale, int color) {
+		drawTrianglesAudio(pg, shape, scale, color, 0);	
+	}
+	
+	public static void drawTrianglesAudio(PGraphics pg, PShape shape, float scale, int color, int faceIndex) {
+		PShape polygon = shape;
+		int vertexCount = polygon.getVertexCount();
+		if(vertexCount == 3) {
+			int i = 0;
+			pg.beginShape(PConstants.TRIANGLES);
+			pg.fill(color, 255f * P.p.audioFreq(faceIndex));
+			PVector vertex = polygon.getVertex(i);
+			PVector vertex2 = polygon.getVertex(i+1);
+			PVector vertex3 = polygon.getVertex(i+2);
+			vertex.mult(scale);
+			vertex2.mult(scale);
+			vertex3.mult(scale);
+			pg.vertex(vertex.x, vertex.y, vertex.z, polygon.getTextureU(i), polygon.getTextureV(i));
+			pg.vertex(vertex2.x, vertex2.y, vertex2.z, polygon.getTextureU(i+1), polygon.getTextureV(i+1));
+			pg.vertex(vertex3.x, vertex3.y, vertex3.z, polygon.getTextureU(i+2), polygon.getTextureV(i+2));
+			pg.endShape();
+			faceIndex++;
+		} else if(vertexCount == 4) {
+			int i = 0;
+			pg.beginShape(PConstants.QUADS);
+			pg.fill(color, 255f * P.p.audioFreq(faceIndex));
+			PVector vertex = polygon.getVertex(i);
+			PVector vertex2 = polygon.getVertex(i+1);
+			PVector vertex3 = polygon.getVertex(i+2);
+			PVector vertex4 = polygon.getVertex(i+3);
+			vertex.mult(scale);
+			vertex2.mult(scale);
+			vertex3.mult(scale);
+			vertex4.mult(scale);
+			pg.vertex(vertex.x, vertex.y, vertex.z, polygon.getTextureU(i), polygon.getTextureV(i));
+			pg.vertex(vertex2.x, vertex2.y, vertex2.z, polygon.getTextureU(i+1), polygon.getTextureV(i+1));
+			pg.vertex(vertex3.x, vertex3.y, vertex3.z, polygon.getTextureU(i+2), polygon.getTextureV(i+2));
+			pg.vertex(vertex4.x, vertex4.y, vertex4.z, polygon.getTextureU(i+3), polygon.getTextureV(i+3));
+			pg.endShape();
+			faceIndex++;
+		} else {
+			pg.beginShape(PConstants.TRIANGLES);
+			
+			for (int i = 0; i < vertexCount; i += 3) {
+				if(i < vertexCount - 3) {	// protect against rogue vertices?
+					pg.fill(color, 255f * P.p.audioFreq(faceIndex));
+					PVector vertex = polygon.getVertex(i);
+					PVector vertex2 = polygon.getVertex(i+1);
+					PVector vertex3 = polygon.getVertex(i+2);
+					if(scale != 1) {
+						vertex.mult(scale);
+						vertex2.mult(scale);
+						vertex3.mult(scale);
+					}
+					pg.vertex(vertex.x, vertex.y, vertex.z, polygon.getTextureU(i), polygon.getTextureV(i));
+					pg.vertex(vertex2.x, vertex2.y, vertex2.z, polygon.getTextureU(i+1), polygon.getTextureV(i+1));
+					pg.vertex(vertex3.x, vertex3.y, vertex3.z, polygon.getTextureU(i+2), polygon.getTextureV(i+2));
+					faceIndex++;
+				}
+			}
+			pg.endShape();
+		}
+		
+		for (int j = 0; j < shape.getChildCount(); j++) {
+			PShape subShape = shape.getChild(j);
+			drawTrianglesAudio(pg, subShape, scale, faceIndex);
+		}
+	}
+	
 	// Same as above, but uses PApplet with no UV coords. This makes Joons happy, but me sad about code duplication :( 
 	public static void drawTrianglesJoons(PApplet p, PShape shape, float scale) {
 		PShape polygon = shape;
