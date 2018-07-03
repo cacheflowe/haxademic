@@ -16,7 +16,7 @@ extends PAppletHax {
 	public void setup() {
 		super.setup();	
 		
-		String fontFile = FileUtil.getHaxademicDataPath() + "fonts/GothamBold.ttf";
+		String fontFile = FileUtil.getHaxademicDataPath() + "haxademic/fonts/Raleway-Regular.ttf";
 		_scoreFontRenderer = new CustomFontText2D( p, fontFile, 36, ColorUtil.colorFromHex("#ff00ff"), CustomFontText2D.ALIGN_CENTER, 80, 80 );
 
 	}

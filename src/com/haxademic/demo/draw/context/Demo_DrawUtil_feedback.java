@@ -42,7 +42,6 @@ extends PAppletHax {
 	public void drawApp() {
 		// loop
 		float percentComplete = ((float)(p.frameCount%_frames)/_frames);
-		float easedPercent = Penner.easeInOutSine(percentComplete, 0, 1, 1);
 		float percentRads = percentComplete * P.TWO_PI;
 		
 		// run feedback

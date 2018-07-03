@@ -32,7 +32,7 @@ extends PAppletHax {
 	protected TextInput _activeTextInput;
 
 	protected void overridePropsFile() {
-		p.appConfig.setProperty( "images_dir", FileUtil.getHaxademicDataPath() + "images/kacheout/" );
+		p.appConfig.setProperty( "images_dir", FileUtil.getHaxademicDataPath() + "haxademic/images/" );
 		p.appConfig.setProperty( AppSettings.WIDTH, "640" );
 		p.appConfig.setProperty( AppSettings.HEIGHT, "480" );
 		p.appConfig.setProperty( "disable_esc", "false" );
@@ -48,7 +48,7 @@ extends PAppletHax {
 		loadAndSaveImagesFromDir();
 
 		// test async image loading
-		asyncLoader = new AsyncImageLoader(p, "http://cacheflowe.com/images/art/physical/iteration-t-shirt-preview-wide.jpg");
+		asyncLoader = new AsyncImageLoader(p, "http://cacheflowe.com/images/code/installation/cacheflowe-interphase-07.jpg");
 
 		// build button
 		_mouseables = new ArrayList<IMouseable>();
@@ -56,7 +56,7 @@ extends PAppletHax {
 		_mouseables.add( new TextButton( p, "TWO", "2", 20, 120, 180, 60 ) );
 
 		// build text input
-		String fontFile = FileUtil.getHaxademicDataPath() + "fonts/GothamBold.ttf";
+		String fontFile = FileUtil.getFile("haxademic/fonts/bitlow.ttf");
 		_emailInput = new TextInput( p, "email", 20, fontFile, p.color( 255, 255, 255 ), 30, CustomFontText2D.ALIGN_LEFT, 20, 220, 380, 60 );
 		_initialsInput = new TextInput( p, "initials", 40, fontFile, p.color( 255, 255, 255 ), 10, CustomFontText2D.ALIGN_CENTER, 20, 300, 120, 60 );
 		_mouseables.add( _emailInput );
@@ -70,13 +70,13 @@ extends PAppletHax {
 
 		// save the first image to the output path
 		// make sure the output directory is there first.
-		FileUtil.createDir( FileUtil.getHaxademicOutputPath() );
+//		FileUtil.createDir( FileUtil.getHaxademicOutputPath() );
 		//		_imageLoader.images.get(0).save( FileUtil.getHaxademicOutputPath() + "image-" + SystemUtil.getTimestampFine( p ) + ".png" );
 	}
 
 	public void drawApp() {
 		// draw async-loaded image
-		p.image( asyncLoader.image(), 220, 20 );
+		if(asyncLoader.image() != null) p.image( asyncLoader.image(), 220, 20 );
 
 		// deal with buttons and text inputs
 		for( int i=0; i < _mouseables.size(); i++ ) {
@@ -85,6 +85,7 @@ extends PAppletHax {
 	}
 
 	public void mouseReleased() {
+		super.mouseReleased();
 		for( int i=0; i < _mouseables.size(); i++ ) {
 			if( _mouseables.get(i).checkRelease( p.mouseX, p.mouseY ) ) {
 				if( _mouseables.get(i) instanceof TextInput ) {
@@ -95,6 +96,7 @@ extends PAppletHax {
 	}
 
 	public void mousePressed() {
+		super.mousePressed();
 		for( int i=0; i < _mouseables.size(); i++ ) {
 			_mouseables.get(i).checkPress( p.mouseX, p.mouseY );
 		}
@@ -102,6 +104,7 @@ extends PAppletHax {
 	}
 
 	public void mouseMoved() {
+		super.mouseMoved();
 		for( int i=0; i < _mouseables.size(); i++ ) {
 			_mouseables.get(i).checkOver( p.mouseX, p.mouseY );
 		}

@@ -165,6 +165,10 @@ public class DrawUtil {
 	
 	// only works properly on PGraphics buffers
 	// feedback distance should only be even numbers
+	public static void feedback(PGraphics pg, float feedbackDistance) {
+		feedback(pg, -1, -1, feedbackDistance);
+	}
+	
 	public static void feedback(PGraphics pg, int color, float colorFade, float feedbackDistance) {
 		DrawUtil.setDrawCorner(pg);
 		DrawUtil.setDrawFlat2d(pg, true);

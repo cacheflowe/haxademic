@@ -229,8 +229,8 @@ extends PApplet
 		_isRenderingAudio = p.appConfig.getBoolean(AppSettings.RENDER_AUDIO, false);
 		_isRenderingMidi = p.appConfig.getBoolean(AppSettings.RENDER_MIDI, false);
 		_fps = p.appConfig.getInt(AppSettings.FPS, 60);
-		p.showDebug = p.appConfig.getBoolean(AppSettings.SHOW_DEBUG, false);
 		if(p.appConfig.getInt(AppSettings.FPS, 60) != 60) frameRate(_fps);
+		p.showDebug = p.appConfig.getBoolean(AppSettings.SHOW_DEBUG, false);
 	}
 	
 	protected void initHaxademicObjects() {

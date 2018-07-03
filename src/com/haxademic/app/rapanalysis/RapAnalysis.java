@@ -100,7 +100,7 @@ extends PAppletHax {
 
 		_lines = loadStrings(file);
 
-		_fontRenderer = new CustomFontText2D( this, FileUtil.getHaxademicDataPath() + "fonts/GothamBold.ttf", _fontSize, color(255,255,255), CustomFontText2D.ALIGN_CENTER, width, _fontSize + 20 );
+		_fontRenderer = new CustomFontText2D( this, FileUtil.getHaxademicDataPath() + "haxademic/fonts/Raleway-Regular.ttf", _fontSize, color(255,255,255), CustomFontText2D.ALIGN_CENTER, width, _fontSize + 20 );
 		p.smooth( OpenGLUtil.SMOOTH_HIGH );
 
 		_mouseables = new ArrayList<IMouseable>();
