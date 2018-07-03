@@ -2,11 +2,9 @@ package com.haxademic.core.draw.textures.pgraphics;
 
 import java.util.ArrayList;
 
-import com.haxademic.app.haxvisual.HaxVisualTwo;
 import com.haxademic.core.app.P;
 import com.haxademic.core.draw.color.Gradients;
 import com.haxademic.core.draw.context.DrawUtil;
-import com.haxademic.core.draw.filters.shaders.BlurBasicFilter;
 import com.haxademic.core.draw.filters.shaders.BlurProcessingFilter;
 import com.haxademic.core.draw.filters.shaders.VignetteAltFilter;
 import com.haxademic.core.draw.image.ImageUtil;
@@ -108,8 +106,7 @@ extends BaseTexture {
 		ImageUtil.cropFillCopyImage(_curTexturePool.get(texturePoolIndex).texture(), sphereTexture, true);
 		
 		// effects
-		sphereTexture.filter(_chroma);
-//		HaxVisualTwo.applyFilterToTexture(sphereTexture, 0);
+		applyChromaBlackKnockout(sphereTexture);
 		VignetteAltFilter.instance(P.p).setSpread(0.95f);
 		VignetteAltFilter.instance(P.p).setDarkness(3.f);
 		VignetteAltFilter.instance(P.p).applyTo(sphereTexture);

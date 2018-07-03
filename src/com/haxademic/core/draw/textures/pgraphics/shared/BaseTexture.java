@@ -5,6 +5,7 @@ import com.haxademic.core.draw.color.EasingColor;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.filters.shaders.BrightnessFilter;
+import com.haxademic.core.draw.filters.shaders.ChromaColorFilter;
 import com.haxademic.core.draw.filters.shaders.InvertFilter;
 import com.haxademic.core.draw.filters.shaders.ThresholdFilter;
 import com.haxademic.core.file.FileUtil;
@@ -23,7 +24,7 @@ public class BaseTexture {
 	protected EasingColor _colorEase;
 	protected int _timingFrame = 0;
 	
-	public static PShader _chroma;
+//	public static PShader _chroma;
 	protected int _brightMode = -1;
 	protected EasingFloat _brightEaser = new EasingFloat(1, 10);
 	protected boolean _makeOverlay;
@@ -43,12 +44,6 @@ public class BaseTexture {
 //		_texture.smooth(OpenGLUtil.SMOOTH_LOW);
 //		_texture.noSmooth();
 		OpenGLUtil.setTextureRepeat(_texture);
-
-		// postprocessing - only create 1 shader for all instances
-		if(_chroma == null) _chroma = P.p.loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/chroma-color.glsl" );
-		_chroma.set("thresholdSensitivity", 0.0f);
-		_chroma.set("smoothing", 0.5f);
-		_chroma.set("colorToReplace", 0.0f,0.0f,0.0f);
 	}
 	
 	public String toString() {
@@ -78,14 +73,24 @@ public class BaseTexture {
 		_knockoutBlack = knockoutBlack;
 	}
 	
+	protected void applyChromaBlackKnockout(PGraphics pg) {
+		// set black knockout chroma shader 
+		ChromaColorFilter.instance(P.p).setColorToReplace(0f, 0f, 0f);
+		ChromaColorFilter.instance(P.p).setThresholdSensitivity(0.2f);
+		ChromaColorFilter.instance(P.p).setSmoothing(0.5f);
+		ChromaColorFilter.instance(P.p).applyTo(pg);
+	}
+	
 	public void postProcess() {
+
+		
 		if( _makeOverlay == true ) {
+			ThresholdFilter.instance(P.p).setCutoff(0.5f);
 			ThresholdFilter.instance(P.p).applyTo(_texture);
 			InvertFilter.instance(P.p).applyTo(_texture);
-			_texture.filter( _chroma );
-		}
-		if( _knockoutBlack == true ) {
-			_texture.filter( _chroma );
+			applyChromaBlackKnockout(_texture);
+		} else if( _knockoutBlack == true ) {
+			applyChromaBlackKnockout(_texture);
 		}
 		
 		if( _brightMode > -1 ) {
