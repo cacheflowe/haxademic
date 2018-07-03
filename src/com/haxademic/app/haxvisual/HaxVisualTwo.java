@@ -22,6 +22,7 @@ import com.haxademic.core.draw.filters.shaders.ContrastFilter;
 import com.haxademic.core.draw.filters.shaders.CubicLensDistortionFilterOscillate;
 import com.haxademic.core.draw.filters.shaders.DisplacementMapFilter;
 import com.haxademic.core.draw.filters.shaders.EdgesFilter;
+import com.haxademic.core.draw.filters.shaders.HalftoneCamoFilter;
 import com.haxademic.core.draw.filters.shaders.HalftoneFilter;
 import com.haxademic.core.draw.filters.shaders.HueFilter;
 import com.haxademic.core.draw.filters.shaders.InvertFilter;
@@ -32,6 +33,7 @@ import com.haxademic.core.draw.filters.shaders.MaskThreeTextureFilter;
 import com.haxademic.core.draw.filters.shaders.MirrorFilter;
 import com.haxademic.core.draw.filters.shaders.PixelateFilter;
 import com.haxademic.core.draw.filters.shaders.RadialRipplesFilter;
+import com.haxademic.core.draw.filters.shaders.RotateFilter;
 import com.haxademic.core.draw.filters.shaders.SphereDistortionFilter;
 import com.haxademic.core.draw.filters.shaders.VignetteAltFilter;
 import com.haxademic.core.draw.filters.shaders.VignetteFilter;
@@ -135,10 +137,6 @@ extends PAppletHax {
 	protected int lastTimingUpdateTime = 0;
 	protected int lastTimingUpdateDelay = 500;
 
-//	protected InputTrigger _programDownTrigger = new InputTrigger(new char[]{'1'},new String[]{TouchOscPads.PAD_15},new Integer[]{AkaiMpdPads.PAD_15, 27});
-//	protected InputTrigger _programUpTrigger = new InputTrigger(new char[]{'2'},new String[]{TouchOscPads.PAD_16},new Integer[]{AkaiMpdPads.PAD_16, 28});
-//	protected int _programIndex = 0;
-
 	protected RandomLightTiming _dmxLights;
 
 	protected float _brightnessVal = 1f;
@@ -172,7 +170,7 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.AUDIO_DEBUG, true );
 //		p.appConfig.setProperty( AppSettings.INIT_ESS_AUDIO, true );
 //		p.appConfig.setProperty( AppSettings.INIT_MINIM_AUDIO, true );
-		p.appConfig.setProperty( AppSettings.INIT_BEADS_AUDIO, true );
+//		p.appConfig.setProperty( AppSettings.INIT_BEADS_AUDIO, true );
 		p.appConfig.setProperty( AppSettings.MIDI_DEVICE_IN_INDEX, 0 );
 		p.appConfig.setProperty( AppSettings.MIDI_DEBUG, false );
 		p.appConfig.setProperty( AppSettings.RETINA, false );
@@ -804,11 +802,11 @@ extends PAppletHax {
 
 	protected void selectNewActiveTextureFilters() {
 		for(int i=0; i < _textureEffectsIndices.length; i++) {
-			if(MathUtil.randRange(0, 10) > 8) {
+			if(MathUtil.randBooleanWeighted(p, 0.2f)) {
 				_textureEffectsIndices[i] = MathUtil.randRange(0, _numTextureEffects);
 			}
 		}
-//		P.println("_textureEffectsIndices", _textureEffectsIndices.toString());
+		p.debugView.setValue("_textureEffectsIndices", _textureEffectsIndices.toString());
 	}
 	
 	protected void filterActiveTextures() {
@@ -861,23 +859,15 @@ extends PAppletHax {
 		} else if(textureEffectIndex == 13) {
 			PixelateFilter.instance(p).setDivider(15f, pg.width, pg.height);
 			PixelateFilter.instance(p).applyTo(pg);
-//		} else if(textureEffectIndex == 14) {
-//			DeformBloomFilter.instance(p).setTime(filterTime);
-//			DeformBloomFilter.instance(p).applyTo(pg);
-//		} else if(textureEffectIndex == 15) {
-//			DeformTunnelFanFilter.instance(p).setTime(filterTime);
-//			DeformTunnelFanFilter.instance(p).applyTo(pg);
+		} else if(textureEffectIndex == 14) {
+			HalftoneCamoFilter.instance(p).applyTo(pg);
+		} else if(textureEffectIndex == 15) {
+			RotateFilter.instance(p).setRotation(filterTime / 10f);
+			RotateFilter.instance(p).applyTo(pg);
 		} else if(textureEffectIndex == 16) {
 			HueFilter.instance(p).setTime(filterTime);
 			HueFilter.instance(p).applyTo(pg);
 		}
-//			WarperFilter.instance(p).setTime( _timeEaseInc / 5f);
-//			WarperFilter.instance(p).applyTo(pg);
-//			ColorDistortionFilter.instance(p).setTime( _timeEaseInc / 5f);
-//			ColorDistortionFilter.instance(p).setAmplitude(1.5f + 1.5f * P.sin(radsComplete));
-//			ColorDistortionFilter.instance(p).applyTo(pg);
-//			OpenGLUtil.setTextureRepeat(_buffer);
-
 	}
 	
 	/////////////////////////////////////////////////////////////////
@@ -901,7 +891,6 @@ extends PAppletHax {
 	// Debug textures
 	/////////////////////////////////////////////////////////////////
 
-
 	protected void outputTestImages(ArrayList<BaseTexture> texturePool) {
 		for(BaseTexture tex : texturePool) {
 			tex.update();
@@ -911,6 +900,5 @@ extends PAppletHax {
 			P.println("output: ", tex.toString());
 		}
 	}
-
 
 }

@@ -7,8 +7,7 @@ import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.filters.shaders.FXAAFilter;
 import com.haxademic.core.draw.filters.shaders.SaturationFilter;
-import com.haxademic.core.draw.textures.pgraphics.TextureEQBandDistribute;
-import com.haxademic.core.draw.textures.pgraphics.TexturePixelatedAudio;
+import com.haxademic.core.draw.textures.pgraphics.TextureOuterSphere;
 import com.haxademic.core.draw.textures.pgraphics.TextureShaderTimeStepper;
 import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
 
@@ -25,6 +24,7 @@ extends PAppletHax {
 	protected void overridePropsFile() {
 //		p.appConfig.setProperty( AppSettings.WIDTH, 1500 );
 //		p.appConfig.setProperty( AppSettings.HEIGHT, 1000 );
+		p.appConfig.setProperty( AppSettings.INIT_BEADS_AUDIO, true );
 		p.appConfig.setProperty( AppSettings.FULLSCREEN, false );
 		p.appConfig.setProperty( AppSettings.FILLS_SCREEN, false );
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, false );
@@ -52,7 +52,9 @@ extends PAppletHax {
 //			new TextureWebCam( w, h ),
 //			new TextureEQFloatParticles( w, h ),
 //			new TextureEQBandDistribute( w, h ),
-			new TexturePixelatedAudio( w, h ),
+			new TextureOuterSphere( w, h ),
+//			new TextureWaveformSimple( w, h ),
+//			new TexturePixelatedAudio( w, h ),
 //			new TextureAudioTube( w, h ),
 //			new TextureTwistingSquares( w, h ),
 //		    new TextureImageTimeStepper( w, h ),
