@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import com.haxademic.app.haxmapper.dmxlights.RandomLightTiming;
+import com.haxademic.app.haxvisual.pools.HaxVisualTexturesAll;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
@@ -38,26 +39,7 @@ import com.haxademic.core.draw.filters.shaders.WobbleFilter;
 import com.haxademic.core.draw.image.ImageCyclerBuffer;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.mapping.PGraphicsKeystone;
-import com.haxademic.core.draw.textures.pgraphics.TextureAudioTube;
-import com.haxademic.core.draw.textures.pgraphics.TextureBlobSheet;
-import com.haxademic.core.draw.textures.pgraphics.TextureCyclingRadialGradient;
-import com.haxademic.core.draw.textures.pgraphics.TextureEQBandDistribute;
-import com.haxademic.core.draw.textures.pgraphics.TextureEQColumns;
-import com.haxademic.core.draw.textures.pgraphics.TextureEQConcentricCircles;
-import com.haxademic.core.draw.textures.pgraphics.TextureEQFloatParticles;
-import com.haxademic.core.draw.textures.pgraphics.TextureEQGrid;
-import com.haxademic.core.draw.textures.pgraphics.TextureFractalPolygons;
-import com.haxademic.core.draw.textures.pgraphics.TextureLinesEQ;
-import com.haxademic.core.draw.textures.pgraphics.TexturePixelatedAudio;
-import com.haxademic.core.draw.textures.pgraphics.TextureRotatingRings;
-import com.haxademic.core.draw.textures.pgraphics.TextureRotatorShape;
-import com.haxademic.core.draw.textures.pgraphics.TextureShaderTimeStepper;
 import com.haxademic.core.draw.textures.pgraphics.TextureSphereAudioTextures;
-import com.haxademic.core.draw.textures.pgraphics.TextureSphereRotate;
-import com.haxademic.core.draw.textures.pgraphics.TextureStarTrails;
-import com.haxademic.core.draw.textures.pgraphics.TextureTwistingSquares;
-import com.haxademic.core.draw.textures.pgraphics.TextureVectorFieldEQ;
-import com.haxademic.core.draw.textures.pgraphics.TextureWaveformSimple;
 import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.midi.devices.AbletonNotes;
@@ -146,7 +128,8 @@ extends PAppletHax {
 	protected InputTrigger _audioInputDownTrigger = new InputTrigger(new char[]{},new String[]{"/7/nav2"},new Integer[]{25});
 	protected InputTrigger _brightnessUpTrigger = new InputTrigger(new char[]{']'},new String[]{},new Integer[]{});
 	protected InputTrigger _brightnessDownTrigger = new InputTrigger(new char[]{'['},new String[]{},new Integer[]{});
-//	protected InputTrigger _debugTexturesTrigger = new InputTrigger(new char[]{'d'},new String[]{},new Integer[]{});
+	protected InputTrigger _keystoneResetTrigger = new InputTrigger(new char[]{'k'},new String[]{},new Integer[]{});
+	protected InputTrigger _debugTexturesTrigger = new InputTrigger(new char[]{'d'},new String[]{},new Integer[]{});
 	protected int _lastInputMillis = 0;
 	protected int numBeatsDetected = 0;
 	protected int lastTimingUpdateTime = 0;
@@ -211,7 +194,6 @@ extends PAppletHax {
 		int h = P.round(p.height * scaleDownPG);
 		_pg = p.createGraphics(w, h, P.P3D);
 		OpenGLUtil.setTextureRepeat(_pg);
-//		_pg.noSmooth();
 		_pgPinnable = new PGraphicsKeystone( p, _pg, 12, FileUtil.getFile("text/keystoning/hax-visual-two.txt") );
 	}
 
@@ -228,7 +210,8 @@ extends PAppletHax {
 		topLayer = new TextureSphereAudioTextures( _pg.width, _pg.height );
 		texturePools = new ArrayList[]{_bgTexturePool, _fgTexturePool, _overlayTexturePool};
 		_curTexturePool = new ArrayList<BaseTexture>();
-		addTexturesToPool();
+		HaxVisualTexturesAll.addTexturesToPoolMinimal(_pg, _bgTexturePool, _fgTexturePool, _overlayTexturePool);
+//		HaxVisualTexturesAll.addTexturesToPool(_pg, _bgTexturePool, _fgTexturePool, _overlayTexturePool);
 		prepareTexturePools();
 	}
 
@@ -237,22 +220,12 @@ extends PAppletHax {
 		KaleidoFilter.instance(p).setAngle(0f);
 		KaleidoFilter.instance(p).setSides(2f);
 
-//		edge = loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/edges.glsl" );
-
 		HalftoneFilter.instance(p).setSizeT(256f, 256f);
 		HalftoneFilter.instance(p).setAngle(P.HALF_PI);
 		HalftoneFilter.instance(p).setCenter(0.5f, 0.5f);
 		HalftoneFilter.instance(p).setScale(1f);
 
-//		mirror = loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/mirror.glsl" );
 		PixelateFilter.instance(p).setDivider(20f, _pg.width, _pg.height);
-//		pixelate = loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/pixelate.glsl" );
-//		pixelate.set("divider", p.width/20f, p.height/20f);
-
-//		contrast = loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/contrast.glsl" );
-//		contrast.set("contrast", 2f);
-
-//		maskShader = loadShader(FileUtil.getFile("haxademic/shaders/filters/three-texture-opposite-mask.glsl"));
 		
 		p.midiState.controllerChange(midiInChannel, vignetteKnob, (int) 70);
 	}
@@ -283,10 +256,11 @@ extends PAppletHax {
 		drawTopLayer();
 		postProcessFilters();
 		postBrightness();
-		drawInterstitial();
+		if(imageCycler != null) drawInterstitial();
 		// draw pinned pgraphics
 		if(_debugTextures == true) _pgPinnable.drawTestPattern();
-		_pgPinnable.update(p.g, true);
+		p.debugView.setTexture(_pg);
+		_pgPinnable.update(p.g);
 		sendDmxLights();
 	}
 
@@ -296,14 +270,13 @@ extends PAppletHax {
 			BaseTexture tex = _curTexturePool.get(i);
 			if(tex != null && tex.texture() != null) {
 				tex.update();
-				// kaleido audio layer
-				if(i == _curTexturePool.size() - 1) {
-					tex.texture();
-					KaleidoFilter.instance(p).setSides(6f);
-					KaleidoFilter.instance(p).applyTo(tex.texture());
-				}
 			}
 		}
+		
+		// set kaleido on audio layer
+		PGraphics audioLayer = _curTexturePool.get(_curTexturePool.size() - 1).texture();
+		KaleidoFilter.instance(p).setSides(6f);
+		KaleidoFilter.instance(p).applyTo(audioLayer);
 
 		// custom update for the sphere
 		topLayer.update();
@@ -319,7 +292,6 @@ extends PAppletHax {
 				if(i != displacementLayer) {	// don't draw displacement layer
 					BaseTexture tex = _curTexturePool.get(i);
 					if(tex != null && tex.texture() != null) {
-						PGraphics textue = tex.texture();
 						ImageUtil.drawImageCropFill(tex.texture(), _pg, true);
 					}
 				}
@@ -337,6 +309,10 @@ extends PAppletHax {
 		_pg.endDraw();
 	}
 
+	/////////////////////////////////////////////////////////////////
+	// POST PROCESSING EFFECTS
+	/////////////////////////////////////////////////////////////////
+	
 	protected void getDisplacementLayer() {		
 		displacementLayer = P.round(P.map(p.midiState.midiCCPercent(midiInChannel, displaceMapLayerKnob), 0, 1, 0, 3));
 		overlayMode = P.round(P.map(p.midiState.midiCCPercent(midiInChannel, overlayModeKnob), 0, 1, 0, 3));
@@ -353,12 +329,11 @@ extends PAppletHax {
 				// zoom into displacement image
 	//			DrawUtil.zoomReTexture(_curTexturePool.get(displacementLayer).texture(), 0.66f + 0.33f * P.sin(p.frameCount * 0.01f));
 				// add blur to displacement image
-//				BlurProcessingFilter.instance(p).setBlurSize(10);
-//				BlurProcessingFilter.instance(p).setSigma(2);
-//				BlurProcessingFilter.instance(p).applyTo(_curTexturePool.get(displacementLayer).texture());
-				float blurPercent = 3f; // p.mousePercentX() * 10f;
+				float blurPercent = 2f; // p.mousePercentX() * 10f;
 				BlurHFilter.instance(p).setBlurByPercent(blurPercent, _pg.width);
 				BlurVFilter.instance(p).setBlurByPercent(blurPercent, _pg.height);
+				BlurHFilter.instance(p).applyTo(displacementBuffer);
+				BlurVFilter.instance(p).applyTo(displacementBuffer);
 				BlurHFilter.instance(p).applyTo(displacementBuffer);
 				BlurVFilter.instance(p).applyTo(displacementBuffer);
 				// set current layer as displacer & apply effect
@@ -496,18 +471,9 @@ extends PAppletHax {
 		BrightnessFilter.instance(p).applyTo(_pg);	
 	}
 	
-	protected void drawInterstitial() {
-		if(imageCycler == null) return;
-		float interstitialAlpha = (p.midiState.midiCCPercent(midiInChannel, interstitialKnob) != 0) ? p.midiState.midiCCPercent(midiInChannel, interstitialKnob) : 0;
-		if(interstitialAlpha > 0) {
-			imageCycler.update();
-			_pg.beginDraw();
-			DrawUtil.setPImageAlpha(_pg, interstitialAlpha);
-			ImageUtil.drawImageCropFill(imageCycler.image(), _pg, false);
-			DrawUtil.resetPImageAlpha(_pg);
-			_pg.endDraw();
-		}
-	}
+	/////////////////////////////////////////////////////////////////
+	// DMX LIGHTING
+	/////////////////////////////////////////////////////////////////
 	
 	protected float dmxMultiplier() {
 		return p.midiState.midiCCPercent(midiInChannel, 41) * 1.5f;
@@ -529,9 +495,11 @@ extends PAppletHax {
 		}
 	}
 
+	/////////////////////////////////////////////////////////////////
+	// BEAT DETECTION 
+	/////////////////////////////////////////////////////////////////
 
 	protected void checkBeat() {
-		p.debugView.setValue("p.audioData.isBeat()", p.audioData.isBeat());
 		if( p.audioData.isBeat() == true && isBeatDetectMode() == true ) {
 			updateTiming();
 		}
@@ -546,10 +514,9 @@ extends PAppletHax {
 		numBeatsDetected = 1;
 	}
 
-	public void keyPressed() {
-		super.keyPressed();
-		if(p.keyCode == 8) _pgPinnable.resetCorners();
-	}
+	/////////////////////////////////////////////////////////////////
+	// INPUT 
+	/////////////////////////////////////////////////////////////////
 	
 	public void handleInputTriggers() {
 
@@ -603,21 +570,14 @@ extends PAppletHax {
 		if ( _audioInputDownTrigger.triggered() == true ) p.audioData.setGain(p.audioData.gain() - 0.05f);
 		if ( _brightnessUpTrigger.triggered() == true ) _brightnessVal += 0.1f;
 		if ( _brightnessDownTrigger.triggered() == true ) _brightnessVal -= 0.1f;
-//		if ( _debugTexturesTrigger.triggered() == true ) _debugTextures = !_debugTextures;
-
-		/*
-		if ( _programDownTrigger.active() == true ) {
-			if(_programIndex > 0) _programIndex--;
-			reloadLayers();
-		}
-		if ( _programUpTrigger.active() == true ) {
-//			_programIndex = (_programIndex < _bgTexturePool.size() - 1) ? _programIndex + 1 : 0;
-			_programIndex++;
-			reloadLayers();
-		}
-*/
+		if ( _keystoneResetTrigger.triggered() == true ) _pgPinnable.resetCorners();
+		if ( _debugTexturesTrigger.triggered() == true ) _debugTextures = !_debugTextures;
 	}
 
+	/////////////////////////////////////////////////////////////////
+	// TIMING & PARAMETER UPDATES 
+	/////////////////////////////////////////////////////////////////
+	
 	protected void newMode() {
 		for( int i=0; i < _curTexturePool.size(); i++ ) {
 			_curTexturePool.get(i).newMode();
@@ -703,7 +663,6 @@ extends PAppletHax {
 		}
 	}
 
-
 	protected void updateTimingSection() {
 		for( int i=0; i < _curTexturePool.size(); i++ ) {
 			_curTexturePool.get(i).updateTimingSection();
@@ -746,7 +705,14 @@ extends PAppletHax {
 		p.debugView.setValue("poolCurTextureIndexes[0]", poolCurTextureIndexes[0]);
 		p.debugView.setValue("poolCurTextureIndexes[1]", poolCurTextureIndexes[1]);
 		p.debugView.setValue("poolCurTextureIndexes[2]", poolCurTextureIndexes[2]);
+		
+		// make sure time steppers don't go wild
+		updateTiming();
 	}
+
+	/////////////////////////////////////////////////////////////////
+	// COLORS?
+	/////////////////////////////////////////////////////////////////
 
 	protected int randomColor( float mult ) {
 		float baseR = 180 + 55 * P.sin(p.frameCount/100);
@@ -758,6 +724,10 @@ extends PAppletHax {
 			(baseB + p.random(-20, 20)) * mult
 		);
 	}
+	
+	/////////////////////////////////////////////////////////////////
+	// TEXTURE POOL MANAGEMENT
+	/////////////////////////////////////////////////////////////////
 	
 	protected void prepareTexturePools() {
 		// make sure all textures are not playing videos, etc
@@ -781,20 +751,11 @@ extends PAppletHax {
 		}
 	}
 	
-	protected void outputTestImages(ArrayList<BaseTexture> texturePool) {
-		for(BaseTexture tex : texturePool) {
-			tex.update();
-			tex.update();
-			tex.update();
-			tex.texture().save(FileUtil.getHaxademicOutputPath() + "hax-visual-textures/" + tex.toString());
-			P.println("output: ", tex.toString());
-		}
-	}
-
 	protected void clearCurrentLayers() {
 		for(BaseTexture tex : _curTexturePool) tex.setActive(false);
 		for(BaseTexture tex : _curTexturePool) tex.setKnockoutBlack(false);
 //		for(BaseTexture tex : _curTexturePool) tex.setAsOverlay(false);
+		// remove from debug panel
 		for (int i = 0; i < _curTexturePool.size(); i++) {
 			p.debugView.removeTexture(_curTexturePool.get(i).texture());
 		}
@@ -812,15 +773,9 @@ extends PAppletHax {
 			p.debugView.setValue("texture "+i, texturePools[i].get(poolCurTextureIndexes[i]).toString());
 		}
 		
-//		_curTexturePool.add( _bgTexturePool.get(_programIndex % _bgTexturePool.size()) );
-//		_curTexturePool.add( _fgTexturePool.get(_programIndex % _fgTexturePool.size()) );
-////		_curTexturePool.get(_curTexturePool.size()-1).setKnockoutBlack(true); // set mid layer as overlay
-//		_curTexturePool.add( _fgTexturePool.get((_programIndex + 3) % _fgTexturePool.size()) );
-////		_curTexturePool.add( _overlayTexturePool.get(_programIndex % _overlayTexturePool.size()) );
-//		if(_debugTextures == true) P.println("== New Textures: ==============="); 
+		// set current textures as active
 		for(BaseTexture tex : _curTexturePool) { 
 			tex.setActive(true); 
-//			if(_debugTextures == true) P.println(tex.toString()); 
 		}
 		
 		// tell the top layer
@@ -828,19 +783,6 @@ extends PAppletHax {
 		
 		p.debugView.setValue("_curTexturePool.size()", _curTexturePool.size());
 	}
-
-//	protected void randomLayers() {
-//		clearCurrentLayers();
-//		
-//		_curTexturePool.add( randomTexture( _bgTexturePool ) );
-//		_curTexturePool.add( randomTexture( _fgTexturePool ) );
-////		_curTexturePool.get(_curTexturePool.size()-1).setKnockoutBlack(true); // set mid layer as overlay
-//		_curTexturePool.add( randomTexture( _overlayTexturePool ) );
-////		_curTexturePool.add( randomTexture( _overlayTexturePool ) );
-//		
-//		for(BaseTexture tex : _curTexturePool) { tex.setActive(true); P.println(tex.toString()); }
-//	}
-
 
 	protected BaseTexture randomTexture(ArrayList<BaseTexture> pool) {
 		BaseTexture newTexture = pool.get( MathUtil.randRange(0, pool.size()-1 ) );
@@ -851,8 +793,13 @@ extends PAppletHax {
 	}
 	
 	
+	
+	
+	
+	
+	
 	/////////////////////////////////////////////////////////////////
-	// Texture-level post-processing effects
+	// TEXTURE-SPECIFIC POST-PROCESSING
 	/////////////////////////////////////////////////////////////////
 
 	protected void selectNewActiveTextureFilters() {
@@ -933,237 +880,37 @@ extends PAppletHax {
 
 	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	protected void addTexturesToPoolMinimal() {
-		int textureW = P.round(_pg.width);
-		int textureH = P.round(_pg.height);
-		
-		// complex textures in the back
-		_bgTexturePool.add( new TextureAudioTube( textureW, textureH ) );
-		_bgTexturePool.add( new TextureBlobSheet( textureW, textureH ) );
-		_bgTexturePool.add( new TextureRotatorShape( textureW, textureH ) );
-		_bgTexturePool.add( new TextureRotatingRings( textureW, textureH ) );
-//		_bgTexturePool.add( new TextureOuterSphere( textureW, textureH ) );
-		_bgTexturePool.add( new TextureVectorFieldEQ( textureW, textureH ) );
+	/////////////////////////////////////////////////////////////////
+	// SPECIAL INTERSTITIAL MODE 
+	/////////////////////////////////////////////////////////////////
 
-		_fgTexturePool.add( new TextureEQBandDistribute( textureW, textureH ));
-		_fgTexturePool.add( new TextureEQConcentricCircles( textureW, textureH ) );
-
-//		_overlayTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "cacheflowe-liquid-moire.glsl" ));
-		_overlayTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "cacheflowe-metaballs.glsl" ));
-//		_overlayTexturePool.add( );
-	}
-	
-	protected void addTexturesToPool() {
-
-		int videoW = 640;
-		int videoH = 360;
-		int textureW = P.round(_pg.width/2);
-		int textureH = P.round(_pg.height/2);
-		
-		
-		// complex textures in the back
-		_bgTexturePool.add( new TextureAudioTube( textureW, textureH ) );
-		_bgTexturePool.add( new TextureBlobSheet( textureW, textureH ) );
-		_bgTexturePool.add( new TextureRotatorShape( textureW, textureH ) );
-		_bgTexturePool.add( new TextureRotatingRings( textureW, textureH ) );
-//		_bgTexturePool.add( new TextureOuterSphere( textureW, textureH ) );
-		_bgTexturePool.add( new TextureVectorFieldEQ( textureW, textureH ) );
-
-		_bgTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "sdf-01-auto.glsl" ));
-		_bgTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "sdf-02-auto.glsl" ));
-		_bgTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "sdf-03.glsl" ));
-		_bgTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "bubbles-iq.glsl" ));
-		_bgTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "bw-clouds.glsl" ));
-		_bgTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "bw-kaleido.glsl" ));
-		_bgTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "bw-radial-wave.glsl" ));
-		_bgTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "bw-tiled-moire.glsl" ));
-		_bgTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "cog-tunnel.glsl" ));
-		_bgTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "cubert.glsl" ));
-		_bgTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "firey-spiral.glsl" ));
-		_bgTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "flame-wisps.glsl" ));
-		_bgTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "flexi-spiral.glsl" ));
-		_bgTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "glowwave.glsl" ));
-		_bgTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "hex-alphanumerics.glsl" ));
-		_bgTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "inversion-iq.glsl" ));
-		_bgTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "iq-iterations-shiny.glsl" ));
-		_bgTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "light-leak.glsl" ));
-		_bgTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "radial-burst.glsl" ));
-		_bgTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "sin-waves.glsl" ));
-		_bgTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "spinning-iq.glsl" ));
-		_bgTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "star-field.glsl" ));
-		_bgTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "stars-fractal-field.glsl" ));
-		_bgTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "stars-nice.glsl" ));
-		_bgTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "stars-screensaver.glsl" ));
-		_bgTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "stars-scroll.glsl" ));
-		_bgTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "supershape-2d.glsl" ));
-		_bgTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "warped-tunnel.glsl" ));
-		_bgTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "water-smoke.glsl" ));
-		_bgTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "wavy-3d-tubes.glsl" ));
-		_bgTexturePool.add( new TextureShaderTimeStepper( textureW/2, textureH/2, "space-swirl.glsl" ));
-//		_bgTexturePool.add( new TextureShaderTimeStepper( textureW/2, textureH/2, "docking-tunnel.glsl" ));
-		_bgTexturePool.add( new TextureShaderTimeStepper( textureW/2, textureH/2, "hughsk-metaballs.glsl" ));
-//		_bgTexturePool.add( new TextureShaderTimeStepper( textureW/2, textureH/2, "hughsk-tunnel.glsl" ));
-
-//		_bgTexturePool.add( new TextureVideoPlayer( videoW, videoH, "video/NudesInLimbo-1983.mp4" ));
-//		_bgTexturePool.add( new TextureVideoPlayer( videoW, videoH, "video/Microworld 1980 with William Shatner.mp4" ));
-//
-//		_bgTexturePool.add( new TextureVideoPlayer( videoW, videoH, "video/loops/smoke-loop.mov" ));
-//		_bgTexturePool.add( new TextureVideoPlayer( videoW, videoH, "video/loops/tree-loop.mp4" ));
-//		_bgTexturePool.add( new TextureVideoPlayer( videoW, videoH, "video/loops/ink-in-water.mp4" ));
-//		_bgTexturePool.add( new TextureVideoPlayer( videoW, videoH, "video/loops/ink-grow-shrink.mp4" ));
-//		_bgTexturePool.add( new TextureVideoPlayer( videoW, videoH, "video/loops/fire.mp4" ));
-//		_bgTexturePool.add( new TextureVideoPlayer( videoW, videoH, "video/loops/bubbles.mp4" ));
-//		_bgTexturePool.add( new TextureVideoPlayer( videoW, videoH, "video/loops/clouds-timelapse.mov" ));
-//		_bgTexturePool.add( new TextureVideoPlayer( videoW, videoH, "video/loops/water.mp4" ));
-
-		
-		
-		_fgTexturePool.add( new TextureCyclingRadialGradient( textureW, textureH ));
-		_fgTexturePool.add( new TextureEQBandDistribute( textureW, textureH ));
-		_fgTexturePool.add( new TextureEQConcentricCircles( textureW, textureH ) );
-		_fgTexturePool.add( new TextureEQColumns( textureW, textureH ));
-		_fgTexturePool.add( new TextureEQFloatParticles( textureW, textureH ));
-		_fgTexturePool.add( new TextureEQGrid( textureW, textureH ));
-		_fgTexturePool.add( new TextureFractalPolygons( textureW, textureH ));
-		_fgTexturePool.add( new TextureLinesEQ( textureW, textureH ));
-		_fgTexturePool.add( new TexturePixelatedAudio( textureW, textureH ));
-//		_fgTexturePool.add( new TextureOuterSphere( textureW, textureH ) );
-//		_fgTexturePool.add( new TextureScrollingColumns( textureW, textureH ));
-		_fgTexturePool.add( new TextureSphereRotate( textureW, textureH ));
-		_fgTexturePool.add( new TextureStarTrails( textureW, textureH ));
-//		_fgTexturePool.add( new TextureSvgPattern( textureW, textureH ));
-		_fgTexturePool.add( new TextureTwistingSquares( textureW, textureH ));
-		_fgTexturePool.add( new TextureVectorFieldEQ( textureW, textureH ) );
-		_fgTexturePool.add( new TextureWaveformSimple( textureW, textureH ));
-//		_fgTexturePool.add( new TextureWaveformCircle( textureW, textureH ));
-
-		_fgTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "basic-checker.glsl" ));
-		_fgTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "basic-diagonal-stripes.glsl" ));
-		_fgTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "bw-dazzle-voronoi.glsl" ));
-		_fgTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "bw-expand-loop.glsl" ));
-		_fgTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "bw-eye-jacker-01.glsl" ));
-		_fgTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "bw-eye-jacker-02.glsl" ));
-		_fgTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "bw-motion-illusion.glsl" ));
-		_fgTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "bw-scroll-rows.glsl" ));
-		_fgTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "bw-waves.glsl" ));
-		_fgTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "circle-parts-rotate.glsl" ));
-		_fgTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "dots-orbit.glsl" ));
-		_fgTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "fade-dots.glsl" ));
-		_fgTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "gradient-line.glsl" ));
-		_fgTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "lines-scroll-diag.glsl" ));
-		_fgTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "matrix-rain.glsl" ));
-		_fgTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "radial-waves.glsl" ));
-		_fgTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "shiny-circle-wave.glsl" ));
-		_fgTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "sin-grey.glsl" ));
-		_fgTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "square-fade.glsl" ));
-		_fgTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "square-twist.glsl" ));
-		_fgTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "swirl.glsl" ));
-		_fgTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "triangle-perlin.glsl" ));
-		_fgTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "wobble-sin.glsl" ));
-		_fgTexturePool.add( new TextureShaderTimeStepper( textureW/2, textureH/2, "dot-grid-dof.glsl" ));
-		_fgTexturePool.add( new TextureShaderTimeStepper( textureW/2, textureH/2, "morphing-bokeh-shape.glsl" ));
-
-		_fgTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "cacheflowe-asterisk-wave.glsl" ));
-		_fgTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "cacheflowe-checkerboard-stairs.glsl" ));
-		_fgTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "cacheflowe-concentric-hex-lines.glsl" ));
-		_fgTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "cacheflowe-concentric-hypno-lines.glsl" ));
-		_fgTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "cacheflowe-concentric-plasma.glsl" ));
-		_fgTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "cacheflowe-distance-blobs.glsl" ));
-		_fgTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "cacheflowe-dots-on-planes.glsl" ));
-		_fgTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "cacheflowe-drunken-holodeck.glsl" ));
-		_fgTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "cacheflowe-folded-wrapping-paper.glsl" ));
-		_fgTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "cacheflowe-grid-noise-warp.glsl" ));
-		_fgTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "cacheflowe-liquid-moire-camo-alt.glsl" ));
-		_fgTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "cacheflowe-liquid-moire.glsl" ));
-		_fgTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "cacheflowe-metaballs.glsl" ));
-		_fgTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "cacheflowe-op-wavy-rotate.glsl" ));
-		_fgTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "cacheflowe-repeating-circles.glsl" ));
-		_fgTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "cacheflowe-scrolling-dashed-lines.glsl" ));
-		_fgTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "cacheflowe-scrolling-radial-twist.glsl" ));
-		_fgTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "cacheflowe-squound-tunnel.glsl" ));
-		_fgTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "cacheflowe-stripe-waves.glsl" ));
-//		_fgTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "cacheflowe-triangle-wobble-stairs.glsl" ));
-		_fgTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "cacheflowe-warp-vortex.glsl" ));
-
-		
-		
-		_overlayTexturePool.add( new TextureVectorFieldEQ( textureW, textureH ) );
-		_overlayTexturePool.add( new TextureWaveformSimple( textureW, textureH ));
-//		_overlayTexturePool.add( new TextureWaveformCircle( textureW, textureH ));
-		_overlayTexturePool.add( new TextureEQBandDistribute( textureW, textureH ));
-		_overlayTexturePool.add( new TextureEQConcentricCircles( textureW, textureH ) );
-		_overlayTexturePool.add( new TextureEQColumns( textureW, textureH ));
-		_overlayTexturePool.add( new TextureEQFloatParticles( textureW, textureH ));
-		_overlayTexturePool.add( new TextureEQGrid( textureW, textureH ));
-		_overlayTexturePool.add( new TextureLinesEQ( textureW, textureH ));
-		_overlayTexturePool.add( new TexturePixelatedAudio( textureW, textureH ));
-//		_overlayTexturePool.add( new TextureOuterSphere( textureW, textureH ) );
-		_overlayTexturePool.add( new TextureSphereRotate( textureW, textureH ));
-
-//		_overlayTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "basic-checker.glsl" ));
-//		_overlayTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "basic-diagonal-stripes.glsl" ));
-//		_overlayTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "bw-dazzle-voronoi.glsl" ));
-//		_overlayTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "bw-expand-loop.glsl" ));
-//		_overlayTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "bw-eye-jacker-01.glsl" ));
-//		_overlayTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "bw-eye-jacker-02.glsl" ));
-//		_overlayTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "bw-motion-illusion.glsl" ));
-//		_overlayTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "bw-scroll-rows.glsl" ));
-//		_overlayTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "bw-waves.glsl" ));
-//		_overlayTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "circle-parts-rotate.glsl" ));
-//		_overlayTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "dots-orbit.glsl" ));
-//		_overlayTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "fade-dots.glsl" ));
-//		_overlayTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "gradient-line.glsl" ));
-//		_overlayTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "lines-scroll-diag.glsl" ));
-//		_overlayTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "matrix-rain.glsl" ));
-//		_overlayTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "radial-waves.glsl" ));
-//		_overlayTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "shiny-circle-wave.glsl" ));
-//		_overlayTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "sin-grey.glsl" ));
-//		_overlayTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "square-fade.glsl" ));
-//		_overlayTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "square-twist.glsl" ));
-//		_overlayTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "swirl.glsl" ));
-//		_overlayTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "triangle-perlin.glsl" ));
-//		_overlayTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "wobble-sin.glsl" ));
-//		_overlayTexturePool.add( new TextureShaderTimeStepper( textureW/2, textureH/2, "dot-grid-dof.glsl" ));
-//		_overlayTexturePool.add( new TextureShaderTimeStepper( textureW/2, textureH/2, "morphing-bokeh-shape.glsl" ));
-//
-//		_overlayTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "cacheflowe-asterisk-wave.glsl" ));
-//		_overlayTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "cacheflowe-checkerboard-stairs.glsl" ));
-//		_overlayTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "cacheflowe-concentric-hex-lines.glsl" ));
-//		_overlayTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "cacheflowe-concentric-hypno-lines.glsl" ));
-//		_overlayTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "cacheflowe-concentric-plasma.glsl" ));
-//		_overlayTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "cacheflowe-distance-blobs.glsl" ));
-//		_overlayTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "cacheflowe-dots-on-planes.glsl" ));
-//		_overlayTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "cacheflowe-drunken-holodeck.glsl" ));
-//		_overlayTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "cacheflowe-folded-wrapping-paper.glsl" ));
-//		_overlayTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "cacheflowe-grid-noise-warp.glsl" ));
-//		_overlayTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "cacheflowe-liquid-moire-camo-alt.glsl" ));
-//		_overlayTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "cacheflowe-liquid-moire.glsl" ));
-//		_overlayTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "cacheflowe-metaballs.glsl" ));
-//		_overlayTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "cacheflowe-op-wavy-rotate.glsl" ));
-//		_overlayTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "cacheflowe-repeating-circles.glsl" ));
-//		_overlayTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "cacheflowe-scrolling-dashed-lines.glsl" ));
-//		_overlayTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "cacheflowe-scrolling-radial-twist.glsl" ));
-//		_overlayTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "cacheflowe-squound-tunnel.glsl" ));
-//		_overlayTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "cacheflowe-stripe-waves.glsl" ));
-//		_overlayTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "cacheflowe-triangle-wobble-stairs.glsl" ));
-//		_overlayTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "cacheflowe-warp-vortex.glsl" ));
-		
-//		_overlayTexturePool.add( new TextureAppFrameEq2d( textureW, textureH ));
-
-//		_bgTexturePool.add( new TextureSphereAudioTextures( videoW, videoH ));
-//		_bgTexturePool.add( new TextureWebCam( videoW, videoH ));
-//		_bgTexturePool.add( new TextureImageTimeStepper( textureW, textureH ));
-//		_fgTexturePool.add( new TextureMeshDeform( textureW, textureH ));
+	protected void drawInterstitial() {
+		float interstitialAlpha = (p.midiState.midiCCPercent(midiInChannel, interstitialKnob) != 0) ? p.midiState.midiCCPercent(midiInChannel, interstitialKnob) : 0;
+		if(interstitialAlpha > 0) {
+			imageCycler.update();
+			_pg.beginDraw();
+			DrawUtil.setPImageAlpha(_pg, interstitialAlpha);
+			ImageUtil.drawImageCropFill(imageCycler.image(), _pg, false);
+			DrawUtil.resetPImageAlpha(_pg);
+			_pg.endDraw();
+		}
 	}
 	
 	
+	/////////////////////////////////////////////////////////////////
+	// Debug textures
+	/////////////////////////////////////////////////////////////////
+
+
+	protected void outputTestImages(ArrayList<BaseTexture> texturePool) {
+		for(BaseTexture tex : texturePool) {
+			tex.update();
+			tex.update();
+			tex.update();
+			tex.texture().save(FileUtil.getHaxademicOutputPath() + "hax-visual-textures/" + tex.toString());
+			P.println("output: ", tex.toString());
+		}
+	}
+
+
 }
