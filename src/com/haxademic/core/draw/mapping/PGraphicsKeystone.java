@@ -48,6 +48,7 @@ extends BaseSavedQuadUI {
 	public void update( PGraphics canvas, boolean subdivide, PImage texture, float mapX, float mapY, float mapW, float mapH) {
 		// draw to screen with pinned corner coords
 		// inspired by: https://github.com/davidbouchard/keystone & http://marcinignac.com/blog/projectedquads-source-code/
+		canvas.textureMode(PConstants.IMAGE);
 		canvas.noStroke();
 		canvas.fill(255);
 		canvas.beginShape(PConstants.QUAD);
@@ -90,10 +91,10 @@ extends BaseSavedQuadUI {
 					float quadBotLeftY = interp(colTopY, colBotY, yPercentNext);
 					
 					// draw subdivided quads
-					canvas.vertex(quadTopLeftX, quadTopLeftY, 0, 		mapX + mapW * xPercent, 		mapY + mapH * yPercent);
+					canvas.vertex(quadTopLeftX, quadTopLeftY, 0, 	mapX + mapW * xPercent, 		mapY + mapH * yPercent);
 					canvas.vertex(quadTopRightX, quadTopRightY, 0, 	mapX + mapW * xPercentNext, 	mapY + mapH * yPercent);
 					canvas.vertex(quadBotRightX, quadBotRightY, 0, 	mapX + mapW * xPercentNext, 	mapY + mapH * yPercentNext);
-					canvas.vertex(quadBotLeftX, quadBotLeftY, 0, 		mapX + mapW * xPercent, 		mapY + mapH * yPercentNext);
+					canvas.vertex(quadBotLeftX, quadBotLeftY, 0, 	mapX + mapW * xPercent, 		mapY + mapH * yPercentNext);
 				}
 			}
 		} else {
