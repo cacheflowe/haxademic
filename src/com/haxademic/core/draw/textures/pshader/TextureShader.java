@@ -67,6 +67,8 @@ public class TextureShader {
 	public static String bw_eye_jacker_02 = "bw_eye_jacker_02.glsl";
 	public static String bw_kaleido = "bw_kaleido.glsl";
 	public static String bw_motion_illusion = "bw_motion_illusion.glsl";
+	public static String bw_radial_stripes = "bw_radial_stripes.glsl";
+	public static String bw_wavy_lines = "bw_wavy_lines.glsl";
 	public static String BWNoiseInfiniteZoom = "bw_noise_infinite_zoom.glsl";
 	public static String bw_radial_wave = "bw_radial_wave.glsl";
 	public static String bw_scroll_rows = "bw_scroll_rows.glsl";
