@@ -21,8 +21,6 @@ extends PAppletHax { public static void main(String args[]) { PAppletHax.main(Th
 	protected void overridePropsFile() {
 		p.appConfig.setProperty( AppSettings.WIDTH, 600);
 		p.appConfig.setProperty( AppSettings.HEIGHT, 600);
-		p.appConfig.setProperty( AppSettings.INIT_ESS_AUDIO, false);
-		p.appConfig.setProperty( AppSettings.INIT_MINIM_AUDIO, false);
 	}
 
 	public void setupFirstFrame() {
