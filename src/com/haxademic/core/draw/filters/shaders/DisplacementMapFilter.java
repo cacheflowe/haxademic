@@ -14,6 +14,7 @@ extends BaseFilter {
 	public DisplacementMapFilter(PApplet p) {
 		super(p, "haxademic/shaders/filters/displacement-map.glsl");
 		setMap(DemoAssets.smallTexture());
+		setAmp(0.1f);
 		setMode(1);
 	}
 	
@@ -25,6 +26,10 @@ extends BaseFilter {
 	
 	public void setMap(PImage texture) {
 		shader.set("map", texture);
+	}
+	
+	public void setAmp(float amp) {
+		shader.set("amp", amp);
 	}
 	
 	public void setMode(int mode) {

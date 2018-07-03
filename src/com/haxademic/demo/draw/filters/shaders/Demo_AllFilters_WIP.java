@@ -3,6 +3,7 @@ package com.haxademic.demo.draw.filters.shaders;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
+import com.haxademic.core.constants.PRenderers;
 import com.haxademic.core.draw.color.ImageGradient;
 import com.haxademic.core.draw.filters.shaders.BadTVGlitchFilter;
 import com.haxademic.core.draw.filters.shaders.BadTVLinesFilter;
@@ -60,6 +61,7 @@ import com.haxademic.core.draw.textures.pshader.TextureShader;
 import com.haxademic.core.file.DemoAssets;
 import com.haxademic.core.hardware.shared.InputTrigger;
 
+import processing.core.PGraphics;
 import processing.opengl.PShader;
 
 public class Demo_AllFilters_WIP
@@ -75,6 +77,10 @@ extends PAppletHax { public static void main(String args[]) { PAppletHax.main(Th
 	protected TextureShader texture;
 	protected PShader customShader;
 
+	protected TextureShader noiseTexture;
+	protected PGraphics noiseBuffer;
+	
+
 	protected InputTrigger triggerPrev = new InputTrigger(new char[]{'1'});
 	protected InputTrigger triggerNext = new InputTrigger(new char[]{'2'});
 	protected InputTrigger triggerToggle = new InputTrigger(new char[]{' '});
@@ -88,6 +94,9 @@ extends PAppletHax { public static void main(String args[]) { PAppletHax.main(Th
 	}
 
 	public void setupFirstFrame() {
+		noiseTexture = new TextureShader(TextureShader.noise_simplex_2d_iq);
+		noiseBuffer = p.createGraphics(p.width, p.height, PRenderers.P2D);
+		
 		filters = new BaseFilter[] {
 			BadTVGlitchFilter.instance(p),
 			BadTVLinesFilter.instance(p),
@@ -167,6 +176,13 @@ extends PAppletHax { public static void main(String args[]) { PAppletHax.main(Th
 		p.debugView.setValue("p.mousePercentY()", p.mousePercentY());
 		String filterName = "";
 		
+		// secondary noise
+		noiseTexture.updateTime();
+		noiseTexture.shader().set("offset", 0f, p.frameCount * 0.01f);
+		noiseTexture.shader().set("rotation", 0f, p.frameCount * 0.01f);
+		noiseTexture.shader().set("zoom", 1f);
+		noiseBuffer.filter(noiseTexture.shader());
+		
 		// update cur shader as image processing basis
 		texture.updateTime();
 		pg.beginDraw();
@@ -199,7 +215,7 @@ extends PAppletHax { public static void main(String args[]) { PAppletHax.main(Th
 			BadTVLinesFilter.instance(p).applyTo(pg);
 		} else if(curFilter == BlendTowardsTexture.instance(p)) {
 			BlendTowardsTexture.instance(p).setBlendLerp(p.mousePercentX());
-			BlendTowardsTexture.instance(p).setSourceTexture(DemoAssets.textureJupiter());
+			BlendTowardsTexture.instance(p).setSourceTexture(noiseBuffer);
 			BlendTowardsTexture.instance(p).applyTo(pg);
 		} else if(curFilter == BlurBasicFilter.instance(p)) {
 			BlurBasicFilter.instance(p).applyTo(pg);
@@ -259,8 +275,9 @@ extends PAppletHax { public static void main(String args[]) { PAppletHax.main(Th
 		} else if(curFilter == DilateFilter.instance(p)) {
 			DilateFilter.instance(p).applyTo(pg);
 		} else if(curFilter == DisplacementMapFilter.instance(p)) {
-			DisplacementMapFilter.instance(p).setMap(DemoAssets.textureNebula());
-			DisplacementMapFilter.instance(p).setMode(P.floor(p.mousePercentX() * 3f));
+			DisplacementMapFilter.instance(p).setMap(noiseBuffer);
+			DisplacementMapFilter.instance(p).setMode(P.floor(p.mousePercentX() * 3.99f));
+			DisplacementMapFilter.instance(p).setAmp(p.mousePercentY() * 0.2f);
 			DisplacementMapFilter.instance(p).applyTo(pg);
 		} else if(curFilter == EdgeColorDarkenFilter.instance(p)) {
 			EdgeColorDarkenFilter.instance(p).setSpreadX(p.mousePercentX());

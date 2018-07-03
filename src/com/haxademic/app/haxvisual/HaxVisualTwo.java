@@ -70,7 +70,6 @@ import com.haxademic.core.math.MathUtil;
 
 import processing.core.PGraphics;
 import processing.core.PImage;
-import processing.opengl.PShader;
 
 /**
  * 
@@ -152,7 +151,7 @@ extends PAppletHax {
 	protected InputTrigger _audioInputDownTrigger = new InputTrigger(new char[]{},new String[]{"/7/nav2"},new Integer[]{25});
 	protected InputTrigger _brightnessUpTrigger = new InputTrigger(new char[]{']'},new String[]{},new Integer[]{});
 	protected InputTrigger _brightnessDownTrigger = new InputTrigger(new char[]{'['},new String[]{},new Integer[]{});
-	protected InputTrigger _debugTexturesTrigger = new InputTrigger(new char[]{'d'},new String[]{},new Integer[]{});
+//	protected InputTrigger _debugTexturesTrigger = new InputTrigger(new char[]{'d'},new String[]{},new Integer[]{});
 	protected int _lastInputMillis = 0;
 	protected int numBeatsDetected = 0;
 	protected int lastTimingUpdateTime = 0;
@@ -165,18 +164,6 @@ extends PAppletHax {
 	protected RandomLightTiming _dmxLights;
 
 	protected float _brightnessVal = 1f;
-//	protected PShader _blurH;
-//	protected PShader _blurV;
-
-//	protected PShader invert;
-	protected PShader kaleido;
-//	protected PShader edge;
-	protected PShader dotScreen;
-	protected PShader mirror;
-	protected PShader pixelate;
-//	protected PShader contrast;
-//	protected PShader displacementShader;
-//	protected PShader maskShader;
 	protected ImageGradient imageGradient;
 	protected boolean imageGradientLuma = false;
 	protected boolean imageGradientFilter = false;
@@ -191,8 +178,7 @@ extends PAppletHax {
 	// keystonable screen
 	protected PGraphics _pg;
 	protected PGraphicsKeystone _pgPinnable;
-	protected float scaleDownPG = 1.3f;
-	protected static boolean SECOND_SCREEN = false;
+	protected float scaleDownPG = 1f;
 	
 	//////////////////////////////////////////////////
 	// INIT
@@ -216,11 +202,6 @@ extends PAppletHax {
 //		p.appConfig.setProperty( AppSettings.SMOOTHING, AppSettings.SMOOTH_NONE );
 	}
 
-	public void settings() {
-		super.settings();
-		if(SECOND_SCREEN == true) p.fullScreen(2);
-	}
-	
 	protected void setupFirstFrame() {
 		initDMX();
 		buildCanvas();
@@ -232,12 +213,10 @@ extends PAppletHax {
 	protected void buildCanvas() {
 		//_pg = p.createGraphics( P.round(p.width / scaleDownPG), P.round(p.height / scaleDownPG), P.P3D );
 		int w = P.round(p.width * scaleDownPG);
-		int h = w / 4;
-		_pg = p.createGraphics(p.width, p.height, P.P3D);
-//		_pg = p.createGraphics(w, h, P.P3D);
-//		_pg = p.createGraphics(2048, 512, P.P3D);
+		int h = P.round(p.height * scaleDownPG);
+		_pg = p.createGraphics(w, h, P.P3D);
 		OpenGLUtil.setTextureRepeat(_pg);
-		_pg.noSmooth();
+//		_pg.noSmooth();
 		_pgPinnable = new PGraphicsKeystone( p, _pg, 12, FileUtil.getFile("text/keystoning/hax-visual-two.txt") );
 	}
 
@@ -260,23 +239,20 @@ extends PAppletHax {
 
 
 	protected void buildPostProcessingChain() {
-
-		kaleido = loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/kaleido.glsl" );
-		kaleido.set("sides", 2.0f);
-		kaleido.set("angle", 0.0f);
+		KaleidoFilter.instance(p).setAngle(0f);
+		KaleidoFilter.instance(p).setSides(2f);
 
 //		edge = loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/edges.glsl" );
 
-		dotScreen = loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/halftone.glsl" );
-		dotScreen.set("tSize", 256f, 256f);
-		dotScreen.set("center", 0.5f, 0.5f);
-		dotScreen.set("angle", 1.57f);
-		dotScreen.set("scale", 1f);
+		HalftoneFilter.instance(p).setSizeT(256f, 256f);
+		HalftoneFilter.instance(p).setAngle(P.HALF_PI);
+		HalftoneFilter.instance(p).setCenter(0.5f, 0.5f);
+		HalftoneFilter.instance(p).setScale(1f);
 
-		mirror = loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/mirror.glsl" );
-
-		pixelate = loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/pixelate.glsl" );
-		pixelate.set("divider", p.width/20f, p.height/20f);
+//		mirror = loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/mirror.glsl" );
+		PixelateFilter.instance(p).setDivider(20f, _pg.width, _pg.height);
+//		pixelate = loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/pixelate.glsl" );
+//		pixelate.set("divider", p.width/20f, p.height/20f);
 
 //		contrast = loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/contrast.glsl" );
 //		contrast.set("contrast", 2f);
@@ -328,8 +304,8 @@ extends PAppletHax {
 				// kaleido audio layer
 				if(i == _curTexturePool.size() - 1) {
 					tex.texture();
-					kaleido.set("sides", 6f );
-					tex.texture().filter(kaleido);
+					KaleidoFilter.instance(p).setSides(6f);
+					KaleidoFilter.instance(p).applyTo(tex.texture());
 				}
 			}
 		}
@@ -425,7 +401,7 @@ extends PAppletHax {
 
 		// MULTIPLE EFFECTS KNOB ////////////////////////
 		boolean halftone = ( p.midiState.midiCCPercent(midiInChannel, effectsKnob) > 0.25f && p.midiState.midiCCPercent(midiInChannel, effectsKnob) < 0.5f );
-		if( halftone ) _pg.filter(dotScreen);
+		if( halftone ) HalftoneFilter.instance(p).applyTo(_pg);
 
 		boolean edged = ( p.midiState.midiCCPercent(midiInChannel, effectsKnob) > 0.5f && p.midiState.midiCCPercent(midiInChannel, effectsKnob) < 0.75f );
 		if( edged ) EdgesFilter.instance(p).applyTo(_pg);
@@ -433,8 +409,8 @@ extends PAppletHax {
 		boolean pixelated = ( p.midiState.midiCCPercent(midiInChannel, effectsKnob) > 0.75f );
 		if( pixelated ) {
 			float pixAmout = P.round(p.midiState.midiCCPercent(midiInChannel, pixelateKnob) * 40f);
-			pixelate.set("divider", p.width/pixAmout, p.height/pixAmout);
-			if(p.midiState.midiCCPercent(midiInChannel, pixelateKnob) > 0) _pg.filter(pixelate);
+			PixelateFilter.instance(p).setDivider(p.width/pixAmout, _pg.width, _pg.height);
+			if(p.midiState.midiCCPercent(midiInChannel, pixelateKnob) > 0) PixelateFilter.instance(p).applyTo(_pg);
 		}
 
 		// INVERT ////////////////////////
@@ -483,12 +459,12 @@ extends PAppletHax {
 
 		// KALEIDOSCOPE ////////////////////////
 		float kaleidoSides = P.round( p.midiState.midiCCPercent(midiInChannel, kaledioKnob) * 12f );
-		kaleido.set("sides", kaleidoSides );
 		if( kaleidoSides > 0 ) {
 			if( kaleidoSides == 3 ) {
-				_pg.filter(mirror);
+				MirrorFilter.instance(p).applyTo(_pg);
 			} else {
-				_pg.filter(kaleido);
+				KaleidoFilter.instance(p).setSides(kaleidoSides);
+				KaleidoFilter.instance(p).applyTo(_pg);
 			}
 		}
 		
@@ -536,15 +512,6 @@ extends PAppletHax {
 		}
 	}
 	
-//	protected void debugTextures() {
-//		// debug current textures
-////		int i=0;
-////		for( i=0; i < _curTexturePool.size(); i++ ) {
-////			p.image(_curTexturePool.get(i).texture(), i * 200, 0, 200, 100);
-////		}
-////		if(_dmxLights != null) _dmxLights.drawDebug(p.g);
-//	}
-
 	protected float dmxMultiplier() {
 		return p.midiState.midiCCPercent(midiInChannel, 41) * 1.5f;
 	}
@@ -638,7 +605,7 @@ extends PAppletHax {
 		if ( _audioInputDownTrigger.triggered() == true ) p.audioData.setGain(p.audioData.gain() - 0.05f);
 		if ( _brightnessUpTrigger.triggered() == true ) _brightnessVal += 0.1f;
 		if ( _brightnessDownTrigger.triggered() == true ) _brightnessVal -= 0.1f;
-		if ( _debugTexturesTrigger.triggered() == true ) _debugTextures = !_debugTextures;
+//		if ( _debugTexturesTrigger.triggered() == true ) _debugTextures = !_debugTextures;
 
 		/*
 		if ( _programDownTrigger.active() == true ) {
