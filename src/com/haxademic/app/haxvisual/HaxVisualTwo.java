@@ -1,6 +1,9 @@
 package com.haxademic.app.haxvisual;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 
 import com.haxademic.app.haxmapper.dmxlights.RandomLightTiming;
@@ -50,6 +53,7 @@ import com.haxademic.core.hardware.midi.devices.LaunchControl;
 import com.haxademic.core.hardware.osc.devices.TouchOscPads;
 import com.haxademic.core.hardware.shared.InputTrigger;
 import com.haxademic.core.math.MathUtil;
+import com.haxademic.core.system.SystemUtil;
 
 import processing.core.PGraphics;
 import processing.core.PImage;
@@ -175,7 +179,6 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.MIDI_DEBUG, false );
 		p.appConfig.setProperty( AppSettings.RETINA, false );
 		p.appConfig.setProperty( AppSettings.WIDTH, 1200 );
-//		p.appConfig.setProperty( AppSettings.SMOOTHING, AppSettings.SMOOTH_NONE );
 	}
 
 	protected void setupFirstFrame() {
@@ -208,8 +211,8 @@ extends PAppletHax {
 		topLayer = new TextureSphereAudioTextures( _pg.width, _pg.height );
 		texturePools = new ArrayList[]{_bgTexturePool, _fgTexturePool, _overlayTexturePool};
 		_curTexturePool = new ArrayList<BaseTexture>();
-		HaxVisualTexturesAll.addTexturesToPoolMinimal(_pg, _bgTexturePool, _fgTexturePool, _overlayTexturePool);
-//		HaxVisualTexturesAll.addTexturesToPool(_pg, _bgTexturePool, _fgTexturePool, _overlayTexturePool);
+//		HaxVisualTexturesAll.addTexturesToPoolMinimal(_pg, _bgTexturePool, _fgTexturePool, _overlayTexturePool);
+		HaxVisualTexturesAll.addTexturesToPool(_pg, _bgTexturePool, _fgTexturePool, _overlayTexturePool);
 		prepareTexturePools();
 	}
 
@@ -273,6 +276,7 @@ extends PAppletHax {
 		
 		// set kaleido on audio layer
 		PGraphics audioLayer = _curTexturePool.get(_curTexturePool.size() - 1).texture();
+		KaleidoFilter.instance(p).setAngle(0f);
 		KaleidoFilter.instance(p).setSides(6f);
 		KaleidoFilter.instance(p).applyTo(audioLayer);
 
@@ -433,6 +437,7 @@ extends PAppletHax {
 			if( kaleidoSides == 3 ) {
 				MirrorFilter.instance(p).applyTo(_pg);
 			} else {
+				KaleidoFilter.instance(p).setAngle(0f);
 				KaleidoFilter.instance(p).setSides(kaleidoSides);
 				KaleidoFilter.instance(p).applyTo(_pg);
 			}
@@ -705,8 +710,14 @@ extends PAppletHax {
 		p.debugView.setValue("poolCurTextureIndexes[2]", poolCurTextureIndexes[2]);
 		
 		// make sure time steppers don't go wild
-		updateTiming();
+		SystemUtil.setTimeout(updateTimingCallback, 1);
 	}
+	
+	protected ActionListener updateTimingCallback = new ActionListener() {
+		@Override public void actionPerformed(ActionEvent e) {
+			updateTiming();
+		}
+	};
 
 	/////////////////////////////////////////////////////////////////
 	// COLORS?
@@ -806,7 +817,7 @@ extends PAppletHax {
 				_textureEffectsIndices[i] = MathUtil.randRange(0, _numTextureEffects);
 			}
 		}
-		p.debugView.setValue("_textureEffectsIndices", _textureEffectsIndices.toString());
+		p.debugView.setValue("_textureEffectsIndices", Arrays.toString(_textureEffectsIndices));
 	}
 	
 	protected void filterActiveTextures() {
@@ -823,8 +834,8 @@ extends PAppletHax {
 		
 		int textureEffectIndex = _textureEffectsIndices[effectIndex];
 		if(textureEffectIndex == 1) {
-			KaleidoFilter.instance(p).setSides(4);
 			KaleidoFilter.instance(p).setAngle(filterTime / 10f);
+			KaleidoFilter.instance(p).setSides(4);
 			KaleidoFilter.instance(p).applyTo(pg);
 //		} else if(textureEffectIndex == 2) {
 //			DeformTunnelFanFilter.instance(p).setTime(filterTime);
@@ -888,7 +899,7 @@ extends PAppletHax {
 	
 	
 	/////////////////////////////////////////////////////////////////
-	// Debug textures
+	// DEBUG TEXTURES
 	/////////////////////////////////////////////////////////////////
 
 	protected void outputTestImages(ArrayList<BaseTexture> texturePool) {
