@@ -2,6 +2,7 @@ package com.haxademic.demo.camera;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.camera.CameraUtil;
+import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.draw.context.DrawUtil;
 
 public class Demo_CameraUtil_setCameraDistance 
@@ -11,6 +12,10 @@ extends PAppletHax {
 	protected String DIST = "DIST";
 	protected String NEAR = "NEAR";
 	
+	protected void overridePropsFile() {
+		p.appConfig.setProperty(AppSettings.SHOW_SLIDERS, true );
+	}
+
 	public void setupFirstFrame() {
 		p.prefsSliders.addSlider(DIST, 4000, 100, 20000, 100, false);
 		p.prefsSliders.addSlider(NEAR, 100, 100, 10000, 10, false);

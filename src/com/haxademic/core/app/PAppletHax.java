@@ -150,13 +150,16 @@ extends PApplet
 		PJOGL.setIcon(FileUtil.getFile(appIconFile));
 	}
 	
-	public void setup () {
+	public void setup() {
 		if(customPropsFile != null) DebugUtil.printErr("Make sure to load custom .properties files in settings()");
 		setAppletProps();
 		checkScreenManualPosition();
 		if(renderer != PRenderers.PDF) {
 			debugView = new DebugView( p );
 			prefsSliders = new PrefsSliders();
+			if(p.appConfig.getBoolean(AppSettings.SHOW_SLIDERS, false) == true) {
+				prefsSliders.active(!prefsSliders.active());
+			}
 		}
 		_stats = new Stats( p );
 	}
