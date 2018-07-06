@@ -18,9 +18,8 @@ void main()
 	vec2 uv = vertTexCoord.xy - 0.5;            // center coords
     uv *= 2. * zoom;						    // scale down. use 2 as base to make fit quad (4x)
     // uv = fract(abs(uv));					    // always positive values for p coords (old/basic style)
-    uv = fract(uv);								// repeat
+    uv = fract(uv - 0.5);						// repeat
     uv = abs((uv - 0.5) * 2.);		            // remap to center of repeated coords
-    vec4 color = texture2D(textureDupe, uv);	// grab texture pixels
-    gl_FragColor = color;
+    gl_FragColor = texture2D(textureDupe, uv);	// grab texture pixels
 }
 
