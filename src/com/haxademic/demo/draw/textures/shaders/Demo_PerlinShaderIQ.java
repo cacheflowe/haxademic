@@ -1,4 +1,4 @@
-package com.haxademic.demo.draw.texures.shaders;
+package com.haxademic.demo.draw.textures.shaders;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
