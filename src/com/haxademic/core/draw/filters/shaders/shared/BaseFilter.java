@@ -16,6 +16,10 @@ public class BaseFilter {
 		setTime(0);
 	}
 
+	public PShader shader() {
+		return shader;
+	}
+	
 	public void applyTo(PGraphics pg) {
 		pg.filter(shader);
 	}

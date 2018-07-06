@@ -45,9 +45,11 @@ import com.haxademic.core.draw.filters.shaders.LeaveWhiteFilter;
 import com.haxademic.core.draw.filters.shaders.LiquidWarpFilter;
 import com.haxademic.core.draw.filters.shaders.MaskThreeTextureFilter;
 import com.haxademic.core.draw.filters.shaders.MirrorFilter;
+import com.haxademic.core.draw.filters.shaders.MirrorQuadFilter;
 import com.haxademic.core.draw.filters.shaders.PixelateFilter;
 import com.haxademic.core.draw.filters.shaders.RadialBlurFilter;
 import com.haxademic.core.draw.filters.shaders.RadialRipplesFilter;
+import com.haxademic.core.draw.filters.shaders.RepeatFilter;
 import com.haxademic.core.draw.filters.shaders.RotateFilter;
 import com.haxademic.core.draw.filters.shaders.SaturateHSVFilter;
 import com.haxademic.core.draw.filters.shaders.SaturationFilter;
@@ -77,6 +79,7 @@ extends PAppletHax { public static void main(String args[]) { PAppletHax.main(Th
 
 
 	protected TextureShader texture;
+	protected PGraphics textureBuffer;
 	protected PShader customShader;
 
 	protected TextureShader noiseTexture;
@@ -92,7 +95,7 @@ extends PAppletHax { public static void main(String args[]) { PAppletHax.main(Th
 
 	protected void overridePropsFile() {
 		p.appConfig.setProperty( AppSettings.WIDTH, 800 );
-		p.appConfig.setProperty( AppSettings.HEIGHT, 800 );
+		p.appConfig.setProperty( AppSettings.HEIGHT, 400 );
 	}
 
 	public void setupFirstFrame() {
@@ -141,9 +144,11 @@ extends PAppletHax { public static void main(String args[]) { PAppletHax.main(Th
 			KaleidoFilter.instance(p),
 			MaskThreeTextureFilter.instance(p),
 			MirrorFilter.instance(p),
+			MirrorQuadFilter.instance(p),
 			PixelateFilter.instance(p),
 			RadialBlurFilter.instance(p),
 			RadialRipplesFilter.instance(p),
+			RepeatFilter.instance(p),
 			RotateFilter.instance(p),
 			SaturateHSVFilter.instance(p),
 			SaturationFilter.instance(p),
@@ -156,7 +161,9 @@ extends PAppletHax { public static void main(String args[]) { PAppletHax.main(Th
 			WobbleFilter.instance(p),
 		};
 
+		textureBuffer = p.createGraphics(pg.width, pg.height, PRenderers.P3D);
 		texture = new TextureShader(TextureShader.bw_clouds);
+//		texture = new TextureShader(TextureShader.bw_radial_stripes);
 		
 //		customShader = p.loadShader(FileUtil.getFile("haxademic/shaders/filters/image-repeat-herringbone.glsl"));
 //		customShader = p.loadShader(FileUtil.getFile("haxademic/shaders/filters/repeat.glsl"));
@@ -190,9 +197,15 @@ extends PAppletHax { public static void main(String args[]) { PAppletHax.main(Th
 		
 		// update cur shader as image processing basis
 		texture.updateTime();
+		textureBuffer.filter(texture.shader());
+		p.debugView.setTexture(textureBuffer);
+		
+		// draw to main offscreen buffer
 		pg.beginDraw();
+//		pg.clear();
 		pg.background(0);
-		pg.filter(texture.shader());
+		pg.fill(255);
+		pg.image(textureBuffer, 0, 0);
 		
 		// draw some text to make sure we know shader orientation (i.e., doesn't flip y axis)
 		pg.fill(127 + 127f * P.sin(p.frameCount * 0.01f));
@@ -378,6 +391,9 @@ extends PAppletHax { public static void main(String args[]) { PAppletHax.main(Th
 			MaskThreeTextureFilter.instance(p).applyTo(pg);
 		} else if(curFilter == MirrorFilter.instance(p)) {
 			MirrorFilter.instance(p).applyTo(pg);
+		} else if(curFilter == MirrorQuadFilter.instance(p)) {
+			MirrorQuadFilter.instance(p).setZoom(p.mousePercentY() * 5f);
+			MirrorQuadFilter.instance(p).applyTo(pg);
 		} else if(curFilter == PixelateFilter.instance(p)) {
 			PixelateFilter.instance(p).setDivider(p.mousePercentX() * 100f, p.width, p.height);
 			PixelateFilter.instance(p).applyTo(pg);
@@ -388,10 +404,12 @@ extends PAppletHax { public static void main(String args[]) { PAppletHax.main(Th
 			RadialRipplesFilter.instance(p).setAmplitude(p.mousePercentX() * 4f);
 			RadialRipplesFilter.instance(p).applyTo(pg);
 		} else if(curFilter == RotateFilter.instance(p)) {
-			RotateFilter.instance(p).setRotation(p.mousePercentX() * P.TWO_PI);
-			RotateFilter.instance(p).setAspect(pg.width, pg.height);
+			RotateFilter.instance(p).setRotation(p.mousePercentX() * 2f * P.TWO_PI);
 			RotateFilter.instance(p).setZoom(p.mousePercentY() * 15f);
 			RotateFilter.instance(p).applyTo(pg);
+		} else if(curFilter == RepeatFilter.instance(p)) {
+			RepeatFilter.instance(p).setZoom(p.mousePercentY() * 15f);
+			RepeatFilter.instance(p).applyTo(pg);
 		} else if(curFilter == SaturateHSVFilter.instance(p)) {
 			ColorizeFromTexture.instance(p).applyTo(pg);
 			
@@ -433,11 +451,11 @@ extends PAppletHax { public static void main(String args[]) { PAppletHax.main(Th
 		} 
 		
 		// draw custom filter for testing
-		if(customShader != null && triggerToggle.on() == false) {
-			customShader.set("test", (p.mousePercentX() > 0.5f) ? 1 : 0);
-			customShader.set("time", p.frameCount * 0.03f);
-			pg.filter(customShader);
-		}
+//		if(customShader != null && triggerToggle.on() == false) {
+//			customShader.set("test", (p.mousePercentX() > 0.5f) ? 1 : 0);
+//			customShader.set("time", p.frameCount * 0.03f);
+//			pg.filter(customShader);
+//		}
 		
 		// draw offscreen buffer to app
 		p.image(pg, 0, 0);

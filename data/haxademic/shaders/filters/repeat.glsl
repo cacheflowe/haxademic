@@ -1,3 +1,4 @@
+
 // by cacheflowe
 // rotate & repeat. the PGraphics instance should have repeat mode turned on:
 // pg.textureWrap(Texture.REPEAT);
@@ -15,14 +16,12 @@ uniform vec2 texOffset;
 varying vec4 vertColor;
 varying vec4 vertTexCoord;
 
+uniform float time = 0;
 uniform float zoom = 1.;
-uniform float rotation = 0.;
 uniform vec2 offset = vec2(0.);
 
 void main() {
     vec2 uv = vertTexCoord.xy - 0.5;
-	uv *= zoom;
-    // uv.y *= texOffset.y / texOffset.x;		// Correct for aspect ratio
-    uv *= mat2(cos(rotation), sin(rotation), -sin(rotation), cos(rotation));
-    gl_FragColor = texture2D(textureDupe, uv - 0.5 + offset);
+    uv *= zoom;
+    gl_FragColor = texture(textureDupe, fract(uv - 0.5 + offset));
 }

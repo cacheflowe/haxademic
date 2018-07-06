@@ -138,7 +138,7 @@ extends PAppletHax {
 		ColorizeTwoColorsFilter.instance(p).applyTo(filterTargetCanvas);
 		
 		filterTargetCanvas.textureWrap(Texture.REPEAT);
-		RotateFilter.instance(p).setAspect(filterTargetCanvas.width, filterTargetCanvas.height);
+//		RotateFilter.instance(p).setAspect(filterTargetCanvas.width, filterTargetCanvas.height);
 		RotateFilter.instance(p).setRotation(p.frameCount * 0.01f);
 		RotateFilter.instance(p).setZoom(1f + 0.25f * P.sin(p.frameCount * 0.01f));
 		RotateFilter.instance(p).setOffset(0.5f * P.cos(P.PI + p.frameCount * 0.01f), 0.5f * P.sin(p.frameCount * -0.01f));
