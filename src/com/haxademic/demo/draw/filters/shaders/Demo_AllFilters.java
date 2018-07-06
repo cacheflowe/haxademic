@@ -13,6 +13,7 @@ import com.haxademic.core.draw.filters.shaders.BlurHFilter;
 import com.haxademic.core.draw.filters.shaders.BlurProcessingFilter;
 import com.haxademic.core.draw.filters.shaders.BlurVFilter;
 import com.haxademic.core.draw.filters.shaders.BrightnessFilter;
+import com.haxademic.core.draw.filters.shaders.BrightnessToAlphaFilter;
 import com.haxademic.core.draw.filters.shaders.ChromaColorFilter;
 import com.haxademic.core.draw.filters.shaders.ColorCorrectionFilter;
 import com.haxademic.core.draw.filters.shaders.ColorDistortionFilter;
@@ -60,7 +61,6 @@ import com.haxademic.core.draw.filters.shaders.WobbleFilter;
 import com.haxademic.core.draw.filters.shaders.shared.BaseFilter;
 import com.haxademic.core.draw.textures.pshader.TextureShader;
 import com.haxademic.core.file.DemoAssets;
-import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.shared.InputTrigger;
 
 import processing.core.PGraphics;
@@ -107,6 +107,7 @@ extends PAppletHax { public static void main(String args[]) { PAppletHax.main(Th
 			BlurHFilter.instance(p),
 			BlurProcessingFilter.instance(p),
 			BrightnessFilter.instance(p),
+			BrightnessToAlphaFilter.instance(p),
 			ChromaColorFilter.instance(p),
 			ColorCorrectionFilter.instance(p),
 			ColorDistortionFilter.instance(p),
@@ -157,7 +158,8 @@ extends PAppletHax { public static void main(String args[]) { PAppletHax.main(Th
 
 		texture = new TextureShader(TextureShader.bw_clouds);
 		
-		customShader = p.loadShader(FileUtil.getFile("haxademic/shaders/filters/image-repeat-herringbone-levels.glsl"));
+//		customShader = p.loadShader(FileUtil.getFile("haxademic/shaders/filters/image-repeat-herringbone.glsl"));
+//		customShader = p.loadShader(FileUtil.getFile("haxademic/shaders/filters/repeat.glsl"));
 	}
 	
 	protected float oscillate() {
@@ -235,6 +237,9 @@ extends PAppletHax { public static void main(String args[]) { PAppletHax.main(Th
 		} else if(curFilter == BrightnessFilter.instance(p)) {
 			BrightnessFilter.instance(p).setBrightness(p.mousePercentY() * 10f);
 			BrightnessFilter.instance(p).applyTo(pg);
+		} else if(curFilter == BrightnessToAlphaFilter.instance(p)) {
+			BrightnessToAlphaFilter.instance(p).setFlip(p.mousePercentX() > 0.5f);
+			BrightnessToAlphaFilter.instance(p).applyTo(pg);
 		} else if(curFilter == ChromaColorFilter.instance(p)) {
 			ChromaColorFilter.instance(p).presetBlackKnockout();
 			ChromaColorFilter.instance(p).setThresholdSensitivity(p.mousePercentX());
@@ -428,7 +433,11 @@ extends PAppletHax { public static void main(String args[]) { PAppletHax.main(Th
 		} 
 		
 		// draw custom filter for testing
-		if(customShader != null && triggerToggle.on() == false) pg.filter(customShader);
+		if(customShader != null && triggerToggle.on() == false) {
+			customShader.set("test", (p.mousePercentX() > 0.5f) ? 1 : 0);
+			customShader.set("time", p.frameCount * 0.03f);
+			pg.filter(customShader);
+		}
 		
 		// draw offscreen buffer to app
 		p.image(pg, 0, 0);
