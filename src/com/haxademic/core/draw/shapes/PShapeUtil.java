@@ -5,6 +5,9 @@ import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.system.SystemUtil;
 
+import geomerative.RG;
+import geomerative.RPoint;
+import geomerative.RShape;
 import processing.core.PApplet;
 import processing.core.PConstants;
 import processing.core.PGraphics;
@@ -478,6 +481,31 @@ public class PShapeUtil {
 		addVerticesToPointShape(origShape, newShape);
 		newShape.endShape();
 		return newShape;
+	}
+	
+	public static PShape svgToUniformPointsShape(String fileName, float spacing) {
+		// load svg and polygonize with Geomerative
+		if(!RG.initialized()) RG.init(P.p);
+		RShape rShape = RG.loadShape(fileName);
+		rShape = RG.centerIn(rShape, P.p.g);
+
+		RG.setPolygonizer(RG.UNIFORMLENGTH);
+		RG.setPolygonizerLength(spacing);
+		RPoint[] points = rShape.getPoints();
+
+		// create PShape
+		PShape svg = P.p.createShape();
+		svg.beginShape(PConstants.POINTS);
+		svg.stroke(255);
+		svg.strokeWeight(1);
+		svg.noFill();
+
+		for(int i=0; i < points.length; i++){
+			svg.vertex(points[i].x, points[i].y);
+		}
+		svg.endShape(P.CLOSE);
+
+		return svg;
 	}
 	
 	// Add vertices to a new PShape, while ignoring duplicates. Reduces vertex count significantly
