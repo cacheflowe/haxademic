@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="WINDOWS-1252" standalone="no"?>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <jardesc>
     <jar path="haxademic/lib/haxademic/haxademic.jar"/>
     <options buildIfNeeded="true" compress="true" descriptionLocation="/haxademic/haxademic.jardesc" exportErrors="true" exportWarnings="true" includeDirectoryEntries="false" overwrite="false" saveDescription="true" storeRefactorings="false" useSourceFolders="false"/>
     <storedRefactorings deprecationInfo="true" structuralOnly="false"/>
     <selectedProjects/>
-    <manifest generateManifest="true" manifestLocation="" manifestVersion="1.0" reuseManifest="false" saveManifest="false" usesManifest="true">
+    <manifest generateManifest="true" manifestLocation="/haxademic/haxademic.jardesc" manifestVersion="1.0" reuseManifest="false" saveManifest="true" usesManifest="true">
         <sealing sealJar="false">
             <packagesToSeal/>
             <packagesToUnSeal/>
@@ -22,6 +22,8 @@
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.draw.mapping"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.constants"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.hardware.shared"/>
+        <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.draw.filters.pgraphics"/>
+        <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.draw.textures.pgraphics"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.math.easing"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.app"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.draw.color"/>
@@ -33,14 +35,15 @@
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.vendor"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.audio.analysis.input"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.net"/>
+        <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.draw.textures.pshader"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.draw.filters.shaders"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.camera.common"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.hardware.osc"/>
-        <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.draw.shaders.textures"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.draw.shapes"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.draw.image"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.render.joons"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.hardware.leap"/>
+        <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.draw.textures.pgraphics.shared"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.debug"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.audio"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.draw.text"/>
