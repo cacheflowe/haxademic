@@ -76,7 +76,8 @@ extends PAppletHax {
 		// update textures & switch between audio & noise
 		audioTexture.update();
 		if(p.mousePercentY() > 0.5f) {
-			noiseTexture.shader().set("offset", 0f, P.p.frameCount * 0.005f);
+//			noiseTexture.shader().set("offset", 0f, P.p.frameCount * 0.005f);
+			noiseTexture.shader().set("rotation", p.loop.progressRads());
 			audioTexture.texture().filter(noiseTexture.shader());
 		}
 		// blur texture for smooothness
