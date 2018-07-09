@@ -145,6 +145,15 @@ public class ImageUtil {
 //		return dest;
 	}
 	
+	public static BufferedImage newBufferedImage( int w, int h ) {
+		return new BufferedImage( w, h, BufferedImage.TYPE_INT_ARGB );
+//		Graphics2D g2 = dest.createGraphics();
+//		g2.drawImage( pimg.getImage(), 0, 0, null );
+//		g2.finalize();
+//		g2.dispose();
+//		return dest;
+	}
+	
 	public static PGraphics imageToGraphics(PImage img) {
 		PGraphics pg = P.p.createGraphics(img.width, img.height, P.P3D);
 		pg.beginDraw();
@@ -179,6 +188,17 @@ public class ImageUtil {
 		image.image(img, 0, 0, img.width * fillAmount, img.height * fillAmount);
 		image.endDraw();
 		return image;
+	}  
+	
+	public static PImage imageToImageWithPadding(PImage img, float scaleCanvasUp) {
+		PGraphics pg = P.p.createGraphics(P.ceil((float) img.width * scaleCanvasUp), P.ceil((float) img.height * scaleCanvasUp), P.P2D);
+		pg.beginDraw();
+		DrawUtil.setDrawCenter(pg);
+		pg.clear();
+		pg.translate(pg.width/2, pg.height/2);
+		pg.image(img, 0, 0);
+		pg.endDraw();
+		return pg.copy();
 	}  
 	
 	public static PGraphics imageToGraphicsCropFill(PImage img, PGraphics pg) {
