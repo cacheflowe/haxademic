@@ -30,7 +30,7 @@ extends BaseTexture {
 
 	public void updateDraw() {
 //		_texture.clear();
-		feedback(6f,0.1f);
+		feedback(2f,0.1f);
 		
 		// draw grid
 		float startX = 0;
@@ -44,12 +44,14 @@ extends BaseTexture {
 					scaleVal = P.p.audioFreq(P.floor(i * _spectrumInterval));
 
 					_texture.fill( _colorEase.colorInt() );
-					_texture.rect( 
-						startX + i*_cellW + _cellW * 0.5f - (_cellW * scaleVal * 0.5f), 
-						startY + j*_cellH + _cellH * 0.5f - (_cellH * scaleVal * 0.5f), 
-						_cellW * scaleVal, 
-						_cellH * scaleVal 
-					);	
+//					_texture.rect( 
+//						startX + i*_cellW + _cellW * 0.5f - (_cellW * scaleVal * 0.5f), 
+//						startY + j*_cellH + _cellH * 0.5f - (_cellH * scaleVal * 0.5f), 
+//						_cellW * scaleVal, 
+//						_cellH * scaleVal 
+//					);	
+					_texture.rect( startX + i*_cellW, startY + j*_cellH, _cellW/2f, _cellH/2f );	
+
 					spectrumIndex++;
 				} else {
 					float alphaVal = 0.25f * P.p.audioFreq( P.floor(_spectrumInterval * spectrumIndex) );

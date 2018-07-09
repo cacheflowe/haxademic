@@ -2,6 +2,7 @@ package com.haxademic.demo.draw.shapes.shader;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.shapes.PShapeUtil;
@@ -26,12 +27,9 @@ extends PAppletHax {
 	protected BaseTexture audioTexture;
 
 	protected void overridePropsFile() {
+		p.appConfig.setProperty( AppSettings.INIT_MINIM_AUDIO, true );
 	}
 
-	public void setup() {
-		super.setup();	
-	}
-	
 	protected void setupFirstFrame() {
 		// build obj PShape and scale to window
 		// Note: Without getTesselation(), PShape.setTexture(PImage) is SUPER slow. 
@@ -67,6 +65,7 @@ extends PAppletHax {
 		// update displacement texture - this must be set for shader to work
 		audioTexture.update();
 		PImage displacementMap = (p.frameCount % 200 < 100) ? displacementMap1 : displacementMap2;
+		p.debugView.setTexture(displacementMap);
 		if(p.frameCount % 100 == 0) obj.setTexture(displacementMap);
 		
 		// apply deform shader and draw mesh - CANNOT HAVE PROCESSING LIGHTS TURNED ON!

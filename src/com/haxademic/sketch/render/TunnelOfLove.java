@@ -1,4 +1,4 @@
-package com.haxademic.demo.draw.shapes;
+package com.haxademic.sketch.render;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
@@ -17,7 +17,7 @@ import processing.core.PConstants;
 import processing.core.PShape;
 import processing.core.PVector;
 
-public class Demo_PShapeUtil_svgToUniformPointsShape2 
+public class TunnelOfLove 
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
@@ -27,7 +27,7 @@ extends PAppletHax {
 	protected void overridePropsFile() {
 		int FRAMES = 320;
 		p.appConfig.setProperty(AppSettings.LOOP_FRAMES, FRAMES);
-		p.appConfig.setProperty(AppSettings.RENDERING_MOVIE, true);
+		p.appConfig.setProperty(AppSettings.RENDERING_MOVIE, false);
 		p.appConfig.setProperty(AppSettings.RENDERING_MOVIE_START_FRAME, 1 + FRAMES);
 		p.appConfig.setProperty(AppSettings.RENDERING_MOVIE_STOP_FRAME, 1 + FRAMES * 2);
 	}

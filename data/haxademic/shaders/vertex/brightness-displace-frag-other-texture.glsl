@@ -39,7 +39,7 @@ vec3 materialColor = vec3(1., 1., 1.);
 
 // MULTIPLY WITH DISPLACEMENT TEXTURE:
 void main() {
-  vec3 materialColor = texture2D(textureMap, fract(vertTexCoord.st + textureOffset)).rgb;
-  vec3 displaceColor = texture2D(texture, fract(vertTexCoord.st)).rgb;
+  vec3 materialColor = texture2D(textureMap, fract(vertTexCoord.xy + textureOffset)).rgb;
+  vec3 displaceColor = texture2D(texture, fract(vertTexCoord.xy)).rgb;
   gl_FragColor = vec4(materialColor * displaceColor, 1.0);
 }
