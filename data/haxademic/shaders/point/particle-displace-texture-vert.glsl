@@ -45,6 +45,7 @@ uniform float displaceAmp = 0.;
 uniform float pointSize = 1.;
 uniform float modelMaxExtent = 500.;
 uniform int sheet = 0;
+uniform int pointSizeAudio = 0;
 
 attribute vec2 texCoord;
 attribute vec3 normal;
@@ -83,7 +84,9 @@ void main() {
   vec4 vertexFinal = mix(vertex, vertexDisplaced, displacementColor.r);
 
   // custom point size - use color to grow point
-  float finalPointSize = pointSize * (1. + textureColor.r * 4.);
+  float finalPointSize = (pointSizeAudio == 1) ?
+    pointSize * (1. + textureColor.r * 4.) :
+    pointSize * (1. + displacementColor.r * 4.);
 
   // use custom vertex instead of Processing default (`vertex` uniform)
   // Processing default shader positioning:

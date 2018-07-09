@@ -4,6 +4,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.filters.shaders.BlurProcessingFilter;
 import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.draw.textures.pgraphics.TextureEQConcentricCircles;
 import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
@@ -78,6 +79,9 @@ extends PAppletHax {
 			noiseTexture.shader().set("offset", 0f, P.p.frameCount * 0.005f);
 			audioTexture.texture().filter(noiseTexture.shader());
 		}
+		// blur texture for smooothness
+		BlurProcessingFilter.instance(p).setBlurSize(5);
+		BlurProcessingFilter.instance(p).applyTo(audioTexture.texture());
 		
 		// apply deform & texture shader
 		pointsDeformAndTexture.set("colorMap", DemoAssets.textureNebula()); // audioTexture.texture()
@@ -87,9 +91,11 @@ extends PAppletHax {
 		if(p.mousePercentX() > 0.5f) {
 			pointsDeformAndTexture.set("modelMaxExtent", objExtent * 2f);
 			pointsDeformAndTexture.set("sheet", 0);
+			pointsDeformAndTexture.set("pointSizeAudio", 0);
 		} else {
 			pointsDeformAndTexture.set("modelMaxExtent", svgExtent * 2f);
 			pointsDeformAndTexture.set("sheet", 1);
+			pointsDeformAndTexture.set("pointSizeAudio", 1);
 		}
 		p.debugView.setTexture(audioTexture.texture());
 		
