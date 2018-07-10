@@ -18,6 +18,7 @@ extends PAppletHax { public static void main(String args[]) { PAppletHax.main(Th
 	protected void overridePropsFile() {
 		p.appConfig.setProperty( AppSettings.WIDTH, 800 );
 		p.appConfig.setProperty( AppSettings.HEIGHT, 800 );
+		p.appConfig.setProperty( AppSettings.FULLSCREEN, false );
 	}
 
 	public void setupFirstFrame() {
@@ -142,6 +143,7 @@ extends PAppletHax { public static void main(String args[]) { PAppletHax.main(Th
 
 		// run cur shader
 		TextureShader curShader = textures[textureIndex];
+		curShader.setTimeMult(p.mousePercentX() * 0.07f);
 		curShader.updateTime();
 		p.filter(curShader.shader());
 		
