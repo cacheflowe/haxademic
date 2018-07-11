@@ -16,7 +16,7 @@ extends PAppletHax {
 	protected PShape shape;
 	
 	protected void setupFirstFrame() {
-		shape = 	Shapes.createCan(p.width * 2, p.height * 2, 140).getTessellation();
+		shape = Shapes.createCan(p.width * 2, p.height * 2, 140).getTessellation();
 		PShapeUtil.repairMissingSVGVertex(shape);
 	}
 
