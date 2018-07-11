@@ -20,6 +20,8 @@ uniform sampler2D colorMap;
 uniform sampler2D displacementMap;
 uniform float displaceStrength;
 uniform float modelMaxExtent = 500.;
+uniform int colorThickness = 0;
+uniform int sheet = 0;
 
 
 vec3 clipToWindow(vec4 clip, vec4 viewport) {
@@ -32,18 +34,27 @@ void main() {
   // copy incoming vertex position and alter/use the copy
   vec4 posUpdated = position;
 
+  // get/pass colors
   vertTexCoord = texMatrix * vec4(texCoord, 1.0, 1.0);
   vec4 texDisplace = texture2D( displacementMap, 0.5 + position.xy / modelMaxExtent ); // rgba color
   vec4 texColor = texture2D( colorMap, 0.5 + position.xy / modelMaxExtent ); // displacement color
   // texColor = vec4(0., 1., 0., 1.);
   vertColor = texColor;
 
-  posUpdated.z = displaceStrength * texDisplace.r;
+  // displace
+  if(sheet == 1) {
+    posUpdated.z = displaceStrength * texDisplace.r;
+  } else {
+    posUpdated.x *= 1. + displaceStrength * texDisplace.r;
+    posUpdated.y *= 1. + displaceStrength * texDisplace.r;
+    posUpdated.z *= 1. + displaceStrength * texDisplace.r;
+  }
 
   // default line rendering shader code ------------------
   vec4 clip0 = transform * posUpdated;
   vec4 clip1 = clip0 + transform * vec4(direction.xyz, 0);
   float thickness = direction.w * weight;  // weight added by @cacheflowe
+  if(colorThickness == 1) thickness *= texColor.r;
 
   vec3 win0 = clipToWindow(clip0, viewport);
   vec3 win1 = clipToWindow(clip1, viewport);
