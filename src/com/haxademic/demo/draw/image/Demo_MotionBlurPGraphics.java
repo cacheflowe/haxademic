@@ -28,7 +28,7 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.HEIGHT, 640 );
 
 		p.appConfig.setProperty( AppSettings.SUNFLOW, true );
-		p.appConfig.setProperty( AppSettings.SUNFLOW_ACTIVE, true );
+		p.appConfig.setProperty( AppSettings.SUNFLOW_ACTIVE, false );
 		p.appConfig.setProperty( AppSettings.SUNFLOW_QUALITY, AppSettings.SUNFLOW_QUALITY_LOW );
 		p.appConfig.setProperty( AppSettings.SUNFLOW_SAVE_IMAGES, false );
 
