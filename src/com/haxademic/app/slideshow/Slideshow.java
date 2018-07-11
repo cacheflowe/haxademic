@@ -40,7 +40,6 @@ extends PAppletHax
 	protected int BUFFER_H = 896;
 	
 	// CONFIG
-	public static boolean FULLSCREEN = true;	
 	public static boolean DEBUG_MODE = false;
 	protected int LOADING_INTERVAL = 5;
 	protected int STRESS_INTERVAL = 5 * 60;
@@ -73,7 +72,7 @@ extends PAppletHax
 		p.appConfig.setProperty( AppSettings.HEIGHT, 720 );
 		p.appConfig.setProperty( AppSettings.RETINA, false );
 		p.appConfig.setProperty( AppSettings.AUDIO_DEBUG, true );
-		p.appConfig.setProperty( AppSettings.FULLSCREEN, FULLSCREEN );
+		p.appConfig.setProperty( AppSettings.FULLSCREEN, true );
 		p.appConfig.setProperty( AppSettings.MIDI_DEVICE_IN_INDEX, 0 );
 	}
 
@@ -212,6 +211,7 @@ extends PAppletHax
 
 	public void mouseClicked() {
 		super.mouseClicked();
+		if(!waitingForAutoAdvance()) nextSlide();
 	}
 
 	/////////////////////////////////////////////////////////////
@@ -280,7 +280,7 @@ extends PAppletHax
 		
 		// debug
 		if(DEBUG_MODE == true || preloaded == false) {
-			printDebugInfo();
+			p.debugView.setValue("Slide index", appStore.getNumber(SlideshowState.SLIDE_INDEX.id()).intValue());
 			// debugDrawSlides();
 		}
 		
@@ -373,14 +373,4 @@ extends PAppletHax
 		}
 	}
 	
-	protected void printDebugInfo() {
-		p.fill(0,100);
-		p.rect(0, 0, 200, 200);
-		p.rect(0, p.height - 200, 400, 200);
-		p.fill(255);
-		int textX = 20;
-		int textY = p.height - 140;
-		p.text("Slide index = "+appStore.getNumber(SlideshowState.SLIDE_INDEX.id()), textX, textY-=20);
-	}
-
 }

@@ -29,7 +29,7 @@ implements IAppStoreListener {
 		height = P.round(p.height * 0.07f);
 		fontSize = height * 0.5f;
 		textOffsetY = height * 0.1f;
-		font = P.p.createFont( FileUtil.getFile("fonts/_sketch/CenturyGothic.ttf"), fontSize );
+		font = P.p.createFont( FileUtil.getFile("haxademic/fonts/Raleway-Regular.ttf"), fontSize );
 	}
 	
 	protected boolean isShowing() {
