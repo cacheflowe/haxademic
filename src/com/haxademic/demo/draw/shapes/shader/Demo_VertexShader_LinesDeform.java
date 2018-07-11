@@ -6,11 +6,9 @@ import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.image.PerlinTexture;
 import com.haxademic.core.draw.shapes.PShapeUtil;
-import com.haxademic.core.draw.shapes.Shapes;
 import com.haxademic.core.file.DemoAssets;
 import com.haxademic.core.file.FileUtil;
 
-import processing.core.PConstants;
 import processing.core.PImage;
 import processing.core.PShape;
 import processing.opengl.PShader;
