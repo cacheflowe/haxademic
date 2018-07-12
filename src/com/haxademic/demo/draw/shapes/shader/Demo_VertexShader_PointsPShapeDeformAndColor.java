@@ -1,5 +1,6 @@
 package com.haxademic.demo.draw.shapes.shader;
 
+import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.draw.context.DrawUtil;
@@ -29,11 +30,11 @@ extends PAppletHax {
 	protected TextureShader noiseTexture;
 
 	protected void overridePropsFile() {
-		int FRAMES = 320;
+		int FRAMES = 358;
 		p.appConfig.setProperty(AppSettings.LOOP_FRAMES, FRAMES);
-//		p.appConfig.setProperty(AppSettings.RENDERING_MOVIE, true);
-//		p.appConfig.setProperty(AppSettings.RENDERING_MOVIE_START_FRAME, 1 + FRAMES);
-//		p.appConfig.setProperty(AppSettings.RENDERING_MOVIE_STOP_FRAME, 1 + FRAMES * 2);
+		p.appConfig.setProperty(AppSettings.RENDERING_MOVIE, false);
+		p.appConfig.setProperty(AppSettings.RENDERING_MOVIE_START_FRAME, 1 + FRAMES);
+		p.appConfig.setProperty(AppSettings.RENDERING_MOVIE_STOP_FRAME, 1 + FRAMES * 2);
 	}
 	
 	protected void setupFirstFrame() {
@@ -47,16 +48,20 @@ extends PAppletHax {
 		// create mesh shape
 //		svg = PShapeUtil.svgToUniformPointsShape(FileUtil.getFile("haxademic/svg/x.svg"), 5);
 //		svg = PShapeUtil.svgToUniformPointsShape(FileUtil.getFile("haxademic/svg/hexagon.svg"), 5);
-		svg = Shapes.createSheetPoints(100, p.width, p.height);
+//		svg = PShapeUtil.svgToUniformPointsShape(FileUtil.getFile("svg/fractal-2013-09-15-20-27-38-01.svg"), 5);
+//		svg = PShapeUtil.svgToUniformPointsShape(FileUtil.getFile("svg/fractal-1.svg"), 5);
+		svg = Shapes.createSheetPoints(160, p.width, p.height);
 		svg.disableStyle();
 		PShapeUtil.centerShape(svg);
-		PShapeUtil.scaleShapeToHeight(svg, p.height * 0.6f);
+		PShapeUtil.scaleShapeToHeight(svg, p.height * 0.9f);
 		PShapeUtil.addTextureUVSpherical(svg, audioTexture.texture());		// necessary for vertex shader `varying vertTexCoord`
 		svgExtent = PShapeUtil.getMaxExtent(svg);
 		// build obj PShape and scale to window
 		obj = DemoAssets.objSkullRealistic();
 		PShapeUtil.centerShape(obj);
 		PShapeUtil.scaleShapeToHeight(obj, p.height * 0.7f);
+		// debug
+		p.debugView.setValue("svg vertices", PShapeUtil.vertexCount(svg));
 		
 		// replace with a points version
 		obj = PShapeUtil.meshShapeToPointsShape(obj);
@@ -76,8 +81,9 @@ extends PAppletHax {
 		
 		// update textures & switch between audio & noise
 		audioTexture.update();
-		if(p.mousePercentY() > 0.5f) {
+		if(p.mousePercentY() < 0.5f) {
 //			noiseTexture.shader().set("offset", 0f, P.p.frameCount * 0.005f);
+			noiseTexture.shader().set("zoom", 4f + 3f * P.sin(p.loop.progressRads()));
 			noiseTexture.shader().set("rotation", p.loop.progressRads());
 			audioTexture.texture().filter(noiseTexture.shader());
 		}
@@ -86,18 +92,19 @@ extends PAppletHax {
 		BlurProcessingFilter.instance(p).applyTo(audioTexture.texture());
 		
 		// apply deform & texture shader
-		pointsDeformAndTexture.set("colorMap", DemoAssets.textureNebula()); // audioTexture.texture()
+		pointsDeformAndTexture.set("colorMap", audioTexture.texture()); // DemoAssets.textureNebula()); // audioTexture.texture()
 		pointsDeformAndTexture.set("displacementMap", audioTexture.texture());
-		pointsDeformAndTexture.set("displaceAmp", 1.5f);
+		pointsDeformAndTexture.set("displaceAmp", 1.0f);
+		pointsDeformAndTexture.set("maxPointSize", 2.0f);
 		// change params per flat/3d model
 		if(p.mousePercentX() > 0.5f) {
-			pointsDeformAndTexture.set("modelMaxExtent", objExtent * 2f);
+			pointsDeformAndTexture.set("modelMaxExtent", objExtent * 2.1f);
 			pointsDeformAndTexture.set("sheet", 0);
-			pointsDeformAndTexture.set("pointSizeAudio", 0);
+			pointsDeformAndTexture.set("colorPointSize", 1);
 		} else {
-			pointsDeformAndTexture.set("modelMaxExtent", svgExtent * 2f);
+			pointsDeformAndTexture.set("modelMaxExtent", svgExtent * 2.1f);
 			pointsDeformAndTexture.set("sheet", 1);
-			pointsDeformAndTexture.set("pointSizeAudio", 1);
+			pointsDeformAndTexture.set("colorPointSize", 0);
 		}
 		p.debugView.setTexture(audioTexture.texture());
 		

@@ -45,7 +45,8 @@ uniform float displaceAmp = 0.;
 uniform float pointSize = 1.;
 uniform float modelMaxExtent = 500.;
 uniform int sheet = 0;
-uniform int pointSizeAudio = 0;
+uniform int colorPointSize = 0;
+uniform float maxPointSize = 4;
 
 attribute vec2 texCoord;
 attribute vec3 normal;
@@ -77,16 +78,16 @@ void main() {
 
   // copy original vertex (0-1) and mult components
   vec4 vertexDisplaced = (sheet == 1) ?
-    vec4(vertex.x * displaceAmp, vertex.y * displaceAmp, modelMaxExtent/2., vertex.w) :
+    vec4(vertex.x * displaceAmp, vertex.y * displaceAmp, modelMaxExtent/2., vertex.w) :       // modelMaxExtent is multiplied by the mix() function below
     vec4(vertex.x * displaceAmp, vertex.y * displaceAmp, vertex.z * displaceAmp, vertex.w);
 
   // displace amp based on displacement map
   vec4 vertexFinal = mix(vertex, vertexDisplaced, displacementColor.r);
 
   // custom point size - use color to grow point
-  float finalPointSize = (pointSizeAudio == 1) ?
-    pointSize * (1. + textureColor.r * 4.) :
-    pointSize * (1. + displacementColor.r * 4.);
+  float finalPointSize = (colorPointSize == 1) ?
+    pointSize * (1. + textureColor.r * maxPointSize) :
+    pointSize * (1. + displacementColor.r * maxPointSize);
 
   // use custom vertex instead of Processing default (`vertex` uniform)
   // Processing default shader positioning:
