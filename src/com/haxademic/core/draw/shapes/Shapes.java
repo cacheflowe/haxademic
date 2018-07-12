@@ -3,6 +3,7 @@ package com.haxademic.core.draw.shapes;
 import com.haxademic.core.app.P;
 
 import processing.core.PApplet;
+import processing.core.PConstants;
 import processing.core.PGraphics;
 import processing.core.PImage;
 import processing.core.PShape;
@@ -389,6 +390,34 @@ public class Shapes {
 		P.p.textureMode(P.IMAGE); 	// reset 
 		return sh;
 	}
+	
+	public static PShape createSheetPoints(int detail, float width, float height) {
+		PShape sh = P.p.createShape();
+		sh.beginShape(PConstants.POINTS);
+		sh.stroke(255);
+		sh.strokeWeight(1);
+		sh.noFill();
+		float cellW = width / detail;
+		float cellH = height / detail;
+		int numVertices = 0;
+		for (int col = 0; col < width; col += cellW) {
+			for (int row = 0; row < height; row += cellH) {
+				float xU = col;
+				float yV = row;
+				float x = -width/2f + xU;
+				float y = -height/2f + yV;
+				float z = 0;
+				sh.normal(x, y, z);
+				sh.vertex(x, y, z, P.map(xU, 0, width, 0, 1), P.map(yV, 0, height, 0, 1));
+				numVertices += 1;
+			}
+		}
+		// P.println("createSheet() vertices:", numVertices);
+		sh.endShape(); 
+		return sh;
+	}
+	
+
 	
 //	public static PShape createSphere(int detail, PImage tex) {
 //		P.p.textureMode(P.NORMAL);

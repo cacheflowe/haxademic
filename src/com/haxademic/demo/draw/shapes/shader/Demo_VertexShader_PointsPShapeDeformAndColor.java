@@ -1,11 +1,11 @@
 package com.haxademic.demo.draw.shapes.shader;
 
-import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.filters.shaders.BlurProcessingFilter;
 import com.haxademic.core.draw.shapes.PShapeUtil;
+import com.haxademic.core.draw.shapes.Shapes;
 import com.haxademic.core.draw.textures.pgraphics.TextureEQConcentricCircles;
 import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
 import com.haxademic.core.draw.textures.pshader.TextureShader;
@@ -45,8 +45,9 @@ extends PAppletHax {
 		noiseTexture = new TextureShader(TextureShader.noise_simplex_2d_iq, 0.0005f);
 		
 		// create mesh shape
-		svg = PShapeUtil.svgToUniformPointsShape(FileUtil.getFile("haxademic/svg/x.svg"), 5);
-		svg = PShapeUtil.svgToUniformPointsShape(FileUtil.getFile("haxademic/svg/hexagon.svg"), 5);
+//		svg = PShapeUtil.svgToUniformPointsShape(FileUtil.getFile("haxademic/svg/x.svg"), 5);
+//		svg = PShapeUtil.svgToUniformPointsShape(FileUtil.getFile("haxademic/svg/hexagon.svg"), 5);
+		svg = Shapes.createSheetPoints(100, p.width, p.height);
 		svg.disableStyle();
 		PShapeUtil.centerShape(svg);
 		PShapeUtil.scaleShapeToHeight(svg, p.height * 0.6f);
