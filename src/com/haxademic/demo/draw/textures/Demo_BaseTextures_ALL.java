@@ -5,11 +5,15 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.context.OpenGLUtil;
-import com.haxademic.core.draw.filters.shaders.FXAAFilter;
-import com.haxademic.core.draw.filters.shaders.SaturationFilter;
+import com.haxademic.core.draw.textures.pgraphics.TextureEQGrid;
 import com.haxademic.core.draw.textures.pgraphics.TextureShaderTimeStepper;
-import com.haxademic.core.draw.textures.pgraphics.TextureWaveformCircle;
+import com.haxademic.core.draw.textures.pgraphics.TextureSvg3dExtruded;
 import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
+import com.haxademic.core.hardware.midi.devices.AbletonNotes;
+import com.haxademic.core.hardware.midi.devices.AkaiMpdPads;
+import com.haxademic.core.hardware.midi.devices.LaunchControl;
+import com.haxademic.core.hardware.osc.devices.TouchOscPads;
+import com.haxademic.core.hardware.shared.InputTrigger;
 
 public class Demo_BaseTextures_ALL 
 extends PAppletHax {
@@ -20,11 +24,20 @@ extends PAppletHax {
 	int h = 300;
 	float frames = 500;
 
+	protected InputTrigger _colorTrigger = new InputTrigger(new char[]{'c'},new String[]{TouchOscPads.PAD_01},new Integer[]{AkaiMpdPads.PAD_01, LaunchControl.PAD_03, AbletonNotes.NOTE_01});
+	protected InputTrigger _rotationTrigger = new InputTrigger(new char[]{'v'},new String[]{TouchOscPads.PAD_02},new Integer[]{AkaiMpdPads.PAD_02, LaunchControl.PAD_04, AbletonNotes.NOTE_02});
+	protected InputTrigger _timingTrigger = new InputTrigger(new char[]{'n'},new String[]{TouchOscPads.PAD_03},new Integer[]{AkaiMpdPads.PAD_03, LaunchControl.PAD_01, AbletonNotes.NOTE_03});
+	protected InputTrigger _modeTrigger = new InputTrigger(new char[]{'m'},new String[]{TouchOscPads.PAD_04},new Integer[]{AkaiMpdPads.PAD_04, LaunchControl.PAD_05, AbletonNotes.NOTE_04});
+	protected InputTrigger _timingSectionTrigger = new InputTrigger(new char[]{'f'},new String[]{TouchOscPads.PAD_05},new Integer[]{AkaiMpdPads.PAD_05, LaunchControl.PAD_02, AbletonNotes.NOTE_05});
+	protected InputTrigger _bigChangeTrigger = new InputTrigger(new char[]{' '},new String[]{TouchOscPads.PAD_07},new Integer[]{AkaiMpdPads.PAD_07, LaunchControl.PAD_08, AbletonNotes.NOTE_07});
+	protected InputTrigger _lineModeTrigger = new InputTrigger(new char[]{'l'},new String[]{TouchOscPads.PAD_08},new Integer[]{AkaiMpdPads.PAD_08, LaunchControl.PAD_06, AbletonNotes.NOTE_08});
+
 
 	protected void overridePropsFile() {
 //		p.appConfig.setProperty( AppSettings.WIDTH, 1500 );
 //		p.appConfig.setProperty( AppSettings.HEIGHT, 1000 );
 //		p.appConfig.setProperty( AppSettings.INIT_BEADS_AUDIO, true );
+		p.appConfig.setProperty( AppSettings.INIT_MINIM_AUDIO, true );
 		p.appConfig.setProperty( AppSettings.FULLSCREEN, false );
 		p.appConfig.setProperty( AppSettings.FILLS_SCREEN, false );
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, false );
@@ -47,7 +60,6 @@ extends PAppletHax {
 		
 		_textures = new BaseTexture[]{
 //			new TextureShaderTimeStepper( w, h, "_drawing-stuff.glsl" ),
-				
 //			new TextureFractalPolygons( w, h ),
 //			new TextureWebCam( w, h ),
 //			new TextureEQFloatParticles( w, h ),
@@ -55,12 +67,15 @@ extends PAppletHax {
 //			new TextureOuterSphere( w, h ),
 //			new TextureWaveformSimple( w, h ),
 //			new TexturePixelatedAudio( w, h ),
+				
+			new TextureSvg3dExtruded( w, h ),
+//			new TextureSvgExtruded( w, h ),
+			
 //			new TextureAudioTube( w, h ),
 //			new TextureTwistingSquares( w, h ),
 //		    new TextureImageTimeStepper( w, h ),
 //		    new TextureStarTrails( w, h ),
-
-			// new TextureShaderTimeStepper( w, h, "cacheflowe-down-void.glsl" ),
+//			new TextureShaderTimeStepper( w, h, "cacheflowe-down-void.glsl" ),
 //			new TextureSphereAudioTextures( w, h ),
 //			new TextureShaderTimeStepper( w, h, "cacheflowe-diagonal-stripes.glsl" ),
 //			new TextureShaderTimeStepper( w, h, "iq-voronoise.glsl" ),
@@ -137,14 +152,14 @@ extends PAppletHax {
 //			new TextureLinesEQ( w, h ),
 //			new TextureBarsEQ( w, h ),
 //			new TextureEQConcentricCircles( w, h ),
-//			new TextureEQGrid( w, h ),
+			new TextureEQGrid( w, h ),
 //			new TextureWaveformSimple( w, h ),
 //			new TextureAppFrameEq2d( w, h ),
 //			new TextureAppFrame2d( w, h ),
 //			new TextureAppFrameWaveformCircle( w, h ),
 //			new TextureBasicWindowShade( w, h ),
 //			new TextureRotatorShape( w, h ),
-			new TextureWaveformCircle( w, h ),
+//			new TextureWaveformCircle( w, h ),
 
 //			new TextureMeshAudioDeform( w, h ),
 //		    new TextureColorAudioSlide( w, h ),
@@ -214,18 +229,18 @@ extends PAppletHax {
 		}
 		
 //		postProcessForRendering();
-		SaturationFilter.instance(p).setSaturation(2.5f);
-		SaturationFilter.instance(p).applyTo(p);
-		FXAAFilter.instance(p).applyTo(p);
+//		SaturationFilter.instance(p).setSaturation(2.5f);
+//		SaturationFilter.instance(p).applyTo(p);
+//		FXAAFilter.instance(p).applyTo(p);
 	}
 	
 	protected void simulateMidiAndBeats() {
-		if(p.frameCount % 45 == 0) {
+		if(p.frameCount % 45 == 0 || _timingTrigger.triggered()) {
 			for(BaseTexture tex : _textures) {
 				tex.updateTiming();
 			}
 		}
-		if(p.frameCount % 220 == 0) {
+		if(p.frameCount % 220 == 0 || _timingSectionTrigger.triggered()) {
 			for(BaseTexture tex : _textures) {
 				tex.updateTimingSection();
 			}
@@ -234,22 +249,22 @@ extends PAppletHax {
 				tex.setActive(true);
 			}
 		}
-		if(p.frameCount % 60 == 0) {
+		if(p.frameCount % 60 == 0 || _colorTrigger.triggered()) {
 			for(BaseTexture tex : _textures) {
 				tex.setColor(p.color(p.random(0, 255), p.random(0, 255), p.random(0, 255)));
 			}
 		}
-		if(p.frameCount % 180 == 0) {
+		if(p.frameCount % 180 == 0 || _lineModeTrigger.triggered()) {
 			for(BaseTexture tex : _textures) {
 				tex.newLineMode();
 			}
 		}
-		if(p.frameCount % 250 == 0) {
+		if(p.frameCount % 250 == 0 || _modeTrigger.triggered()) {
 			for(BaseTexture tex : _textures) {
 				tex.newMode();
 			}
 		}
-		if(p.frameCount % 75 == 0) {
+		if(p.frameCount % 75 == 0 || _rotationTrigger.triggered()) {
 			for(BaseTexture tex : _textures) {
 				tex.newRotation();
 			}
