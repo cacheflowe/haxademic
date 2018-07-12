@@ -147,8 +147,12 @@ public class DrawUtil {
 	}
 	
 	public static void basicCameraFromMouse(PGraphics pg) {
-		pg.rotateX(P.map(P.p.mousePercentY(), 0, 1, P.PI, -P.PI));
-		pg.rotateY(P.map(P.p.mousePercentX(), 0, 1, -P.PI, P.PI));
+		basicCameraFromMouse(pg, 1f);
+	}
+	
+	public static void basicCameraFromMouse(PGraphics pg, float amp) {
+		pg.rotateX(P.map(P.p.mousePercentY(), 0, 1, P.PI * amp, -P.PI * amp));
+		pg.rotateY(P.map(P.p.mousePercentX(), 0, 1, -P.PI * amp, P.PI * amp));
 	}
 	
 	public static void fadeInOut(PGraphics pg, int color, int startFrame, int stopFrame, int transitionFrames) {
