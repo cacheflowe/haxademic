@@ -52,7 +52,6 @@ implements IVizElement {
 
 	public void update() {
 		DrawUtil.resetGlobalProps( p );
-		DrawUtil.setCenter( p );
 		p.pushMatrix();
 		
 		// TODO: if background mode, draw back and huge

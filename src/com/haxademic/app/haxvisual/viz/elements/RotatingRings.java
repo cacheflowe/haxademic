@@ -48,7 +48,6 @@ implements IVizElement {
 
 	public void update() {
 		DrawUtil.resetGlobalProps( p );
-		DrawUtil.setCenter( p );
 		p.pushMatrix();
 		
 		// rotation for entire scene

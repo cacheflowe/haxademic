@@ -128,7 +128,7 @@ extends BaseTexture {
 	}
 	
 	public void preDraw() {
-		drawMode = DrawMode.Points;
+//		drawMode = DrawMode.Points;
 		switch (drawMode) {
 		case Color:
 			break;

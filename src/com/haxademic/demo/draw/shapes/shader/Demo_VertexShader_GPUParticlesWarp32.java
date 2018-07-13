@@ -76,7 +76,7 @@ extends PAppletHax {
 		
 		// load particle shader
 		particlesDrawShader = p.loadShader(
-			FileUtil.getFile("haxademic/shaders/point/point-frag.glsl"), 
+			FileUtil.getFile("haxademic/shaders/point/points-default-frag.glsl"), 
 			FileUtil.getFile("haxademic/shaders/point/particle-warp-vert.glsl")
 		);	
 	}

@@ -39,7 +39,7 @@ extends PAppletHax {
 		
 	public void drawApp() {
 		DrawUtil.resetGlobalProps( p );
-		DrawUtil.setCenter( p );
+		DrawUtil.setCenterScreen(p);
 
 		p.shininess(1000f); 
 		p.lights();

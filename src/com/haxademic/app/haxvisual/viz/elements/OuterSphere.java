@@ -60,7 +60,6 @@ implements IVizElement {
 	
 	public void update() {
 		DrawUtil.resetGlobalProps( p );
-		DrawUtil.setCenter( p );
 		p.pushMatrix();
 
 		_rotation.x += _rotSpeed.x;

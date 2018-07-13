@@ -49,9 +49,8 @@ extends PAppletHax {
 		//		if(p.frameCount == 1) _webCam = new Capture(this, camera);
 
 		p.background( 0 );
-		p.rectMode(PConstants.CENTER);
+		DrawUtil.setDrawCenter(p);
 		DrawUtil.resetGlobalProps( p );
-		DrawUtil.setCenter( p );
 		DrawUtil.setBasicLights( p );
 
 		p.fill( 0, 0, 0, 255 );

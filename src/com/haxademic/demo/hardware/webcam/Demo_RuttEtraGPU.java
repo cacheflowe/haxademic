@@ -9,6 +9,8 @@ import com.haxademic.core.draw.filters.shaders.BlendTowardsTexture;
 import com.haxademic.core.draw.filters.shaders.BrightnessFilter;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.shapes.PShapeUtil;
+import com.haxademic.core.draw.shapes.pshader.LinesDeformAndTextureFilter;
+import com.haxademic.core.file.DemoAssets;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.webcam.IWebCamCallback;
 
@@ -17,7 +19,7 @@ import processing.core.PImage;
 import processing.core.PShape;
 import processing.opengl.PShader;
 
-public class Demo_VertexShader_LinesDeformWebcam 
+public class Demo_RuttEtraGPU 
 extends PAppletHax
 implements IWebCamCallback {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
@@ -26,7 +28,6 @@ implements IWebCamCallback {
 	protected PGraphics webcamLerped;
 
 	protected PShape shape;
-	protected PShader displacementShader;
 	protected float shapeExtent = 100;
 
 	protected void overridePropsFile() {
@@ -60,15 +61,10 @@ implements IWebCamCallback {
 		PShapeUtil.scaleShapeToHeight(shape, p.height * 0.5f);
 		PShapeUtil.addTextureUVToShape(shape, webcamBuffer);
 		shapeExtent = PShapeUtil.getMaxExtent(shape);
+		shape.disableStyle();
 
 		shape.setTexture(webcamBuffer);
 		p.debugView.setValue("shape.getVertexCount();", PShapeUtil.vertexCount(shape));
-		
-		// load shader
-		displacementShader = loadShader(
-			FileUtil.getFile("haxademic/shaders/vertex/line-frag.glsl"), 
-			FileUtil.getFile("haxademic/shaders/vertex/line-vert.glsl")
-		);
 	}
 
 	public void drawApp() {
@@ -78,29 +74,26 @@ implements IWebCamCallback {
 		DrawUtil.setCenterScreen(p);
 		DrawUtil.basicCameraFromMouse(p.g, 0.1f);
 
-		// draw mesh
-		shape.disableStyle();
-		p.stroke(255);
-		displacementShader.set("displacementMap", webcamLerped);
-		displacementShader.set("colorMap", webcamLerped);
-		displacementShader.set("weight", p.mousePercentX() * 10f);
-		displacementShader.set("modelMaxExtent", shapeExtent * 2f);
+		// draw shader-displaced mesh
+		LinesDeformAndTextureFilter.instance(p).setDisplacementMap(webcamLerped);
+		LinesDeformAndTextureFilter.instance(p).setColorMap(webcamLerped);
+		LinesDeformAndTextureFilter.instance(p).setWeight(p.mousePercentX() * 10f);
+		LinesDeformAndTextureFilter.instance(p).setModelMaxExtent(shapeExtent * 2.1f);
+		LinesDeformAndTextureFilter.instance(p).setColorThicknessMode((p.mousePercentY() > 0.5f));
 		if(p.mousePercentX() > 0.5f) {
-			displacementShader.set("sheet", 1);
-			displacementShader.set("displaceStrength", p.mousePercentY() * pg.height * 0.7f);
-			displacementShader.set("colorThickness", 1);
+			LinesDeformAndTextureFilter.instance(p).setSheetMode(true);
+			LinesDeformAndTextureFilter.instance(p).setDisplaceAmp(p.mousePercentY() * pg.height * 0.7f);
 		} else {
-			displacementShader.set("sheet", 0);
-			displacementShader.set("displaceStrength", p.mousePercentY() * pg.height * 0.01f);
-			displacementShader.set("colorThickness", 0);
+			LinesDeformAndTextureFilter.instance(p).setSheetMode(false);
+			LinesDeformAndTextureFilter.instance(p).setDisplaceAmp(p.mousePercentY() * pg.height * 0.01f);
 		}
-		p.shader(displacementShader, P.LINES);  
+		//		p.shader(displacementShader, P.LINES);
+		LinesDeformAndTextureFilter.instance(p).applyVertexShader(p);
+
+		// draw shape
+		p.stroke(255);
 		p.shape(shape);
 		p.resetShader();
-		
-		// post
-		// FXAAFilter.instance(p).applyTo(p.g);
-		// BlurBasicFilter.instance(p).applyTo(p.g);
 	}
 	
 	@Override

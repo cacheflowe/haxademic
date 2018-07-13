@@ -62,7 +62,6 @@ implements IVizElement {
 	
 	public void update() {
 		DrawUtil.resetGlobalProps( p );
-		DrawUtil.setCenter( p );
 		p.pushMatrix();
 
 		p.translate( 0, 0, -600 );

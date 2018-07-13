@@ -48,7 +48,6 @@ extends BaseTexture {
 		_texture.clear();
 		
 		DrawUtil.resetGlobalProps( _texture );
-		DrawUtil.setCenter( _texture );
 		DrawUtil.setBasicLights( _texture );
 
 		_texture.pushMatrix();

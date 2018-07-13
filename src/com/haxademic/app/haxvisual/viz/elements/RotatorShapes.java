@@ -33,7 +33,6 @@ implements IVizElement {
 
 	public void update() {
 		DrawUtil.resetGlobalProps( p );
-		DrawUtil.setCenter( p );
 		DrawUtil.setBasicLights( p );
 		p.strokeWeight(1);
 

@@ -106,7 +106,6 @@ implements IVizElement {
 
 	public void update() {
 		DrawUtil.resetGlobalProps( p );
-		DrawUtil.setCenter( p );
 		
 		p.rectMode(PConstants.CORNER);
 		

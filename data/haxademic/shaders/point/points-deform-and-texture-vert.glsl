@@ -78,13 +78,15 @@ void main() {
 
   // copy original vertex (0-1) and mult components
   vec4 vertexDisplaced = (sheet == 1) ?
-    vec4(vertex.x * displaceAmp, vertex.y * displaceAmp, modelMaxExtent/2., vertex.w) :       // modelMaxExtent is multiplied by the mix() function below
+    vec4(vertex.x, vertex.y, modelMaxExtent/2., vertex.w) :       // modelMaxExtent is multiplied by the mix() function below
     vec4(vertex.x * displaceAmp, vertex.y * displaceAmp, vertex.z * displaceAmp, vertex.w);
 
   // displace amp based on displacement map
   vec4 vertexFinal = mix(vertex, vertexDisplaced, displacementColor.r);
 
   // custom point size - use color to grow point
+  // if colorPointSize, use color texture for point size.
+  // otherwise, use displacement map color for point size
   float finalPointSize = (colorPointSize == 1) ?
     pointSize * (1. + textureColor.r * maxPointSize) :
     pointSize * (1. + displacementColor.r * maxPointSize);

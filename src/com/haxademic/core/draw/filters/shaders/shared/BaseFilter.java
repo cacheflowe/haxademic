@@ -16,6 +16,11 @@ public class BaseFilter {
 		setTime(0);
 	}
 
+	public BaseFilter(PApplet p, String shaderFragPath, String shaderVertPath) {
+		shader = p.loadShader(FileUtil.getFile(shaderFragPath), FileUtil.getFile(shaderVertPath));
+		setTime(0);
+	}
+	
 	public PShader shader() {
 		return shader;
 	}
@@ -26,6 +31,14 @@ public class BaseFilter {
 	
 	public void applyTo(PApplet p) {
 		p.filter(shader);
+	}
+	
+	public void applyVertexShader(PGraphics pg) {
+		pg.shader(shader);
+	}
+	
+	public void applyVertexShader(PApplet p) {
+		p.shader(shader);
 	}
 	
 	public void setTime(float time) {

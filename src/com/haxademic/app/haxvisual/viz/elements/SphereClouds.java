@@ -37,7 +37,6 @@ implements IVizElement {
 
 	public void update() {
 		DrawUtil.resetGlobalProps( p );
-		DrawUtil.setCenter( p );
 		
 		// draw center sphere
 		p.pushMatrix();

@@ -4,24 +4,21 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.draw.context.DrawUtil;
-import com.haxademic.core.draw.filters.shaders.BlurBasicFilter;
 import com.haxademic.core.draw.image.PerlinTexture;
 import com.haxademic.core.draw.shapes.PShapeUtil;
+import com.haxademic.core.draw.shapes.pshader.LinesDeformAndTextureFilter;
 import com.haxademic.core.file.DemoAssets;
-import com.haxademic.core.file.FileUtil;
 
 import processing.core.PImage;
 import processing.core.PShape;
-import processing.opengl.PShader;
 
-public class Demo_VertexShader_LinesDeform 
+public class Demo_LinesDeformAndTextureFilter 
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	protected PShape shape;
 	protected PImage texture;
 	protected PerlinTexture perlin;
-	protected PShader displacementShader;
 	protected float shapeExtent = 100;
 
 	protected void overridePropsFile() {
@@ -54,15 +51,10 @@ extends PAppletHax {
 		PShapeUtil.scaleShapeToHeight(shape, p.height * 2f);
 		PShapeUtil.addTextureUVToShape(shape, texture);
 		shapeExtent = PShapeUtil.getMaxExtent(shape);
+		shape.disableStyle();
 
 		shape.setTexture(texture);
 		p.debugView.setValue("shape.getVertexCount();", PShapeUtil.vertexCount(shape));
-		
-		// load shader
-		displacementShader = loadShader(
-			FileUtil.getFile("haxademic/shaders/vertex/line-frag.glsl"), 
-			FileUtil.getFile("haxademic/shaders/vertex/line-vert.glsl")
-		);
 	}
 
 	public void drawApp() {
@@ -75,28 +67,25 @@ extends PAppletHax {
 		DrawUtil.setCenterScreen(p);
 		DrawUtil.basicCameraFromMouse(p.g);
 
-		// draw mesh
-		shape.disableStyle();
-		p.stroke(255);
-		displacementShader.set("displacementMap", perlin.texture());
-		displacementShader.set("colorMap", DemoAssets.textureNebula());
-		displacementShader.set("weight", p.mousePercentX() * 20f);
-		displacementShader.set("modelMaxExtent", shapeExtent * 2f);
+		// draw shader-displaced mesh
+		LinesDeformAndTextureFilter.instance(p).setDisplacementMap(perlin.texture());
+		LinesDeformAndTextureFilter.instance(p).setColorMap(DemoAssets.textureNebula());
+		LinesDeformAndTextureFilter.instance(p).setWeight(p.mousePercentX() * 20f);
+		LinesDeformAndTextureFilter.instance(p).setModelMaxExtent(shapeExtent * 2f);
+		LinesDeformAndTextureFilter.instance(p).setColorThicknessMode((p.mousePercentY() > 0.5f));
 		if(p.mousePercentX() > 0.5f) {
-			displacementShader.set("sheet", 1);
-			displacementShader.set("displaceStrength", p.mousePercentY() * pg.height * 0.7f);
+			LinesDeformAndTextureFilter.instance(p).setSheetMode(true);
+			LinesDeformAndTextureFilter.instance(p).setDisplaceAmp(p.mousePercentY() * pg.height * 0.7f);
 		} else {
-			displacementShader.set("sheet", 0);
-			displacementShader.set("displaceStrength", p.mousePercentY() * pg.height * 0.01f);
+			LinesDeformAndTextureFilter.instance(p).setSheetMode(false);
+			LinesDeformAndTextureFilter.instance(p).setDisplaceAmp(p.mousePercentY() * pg.height * 0.01f);
 		}
-		displacementShader.set("colorThickness", (p.mousePercentY() > 0.5f) ? 1 : 0);
-		p.shader(displacementShader, P.LINES);  
+		//		p.shader(displacementShader, P.LINES);
+		LinesDeformAndTextureFilter.instance(p).applyVertexShader(p);
+
+		p.stroke(255);
 		p.shape(shape);
 		p.resetShader();
-		
-		// post
-		// FXAAFilter.instance(p).applyTo(p.g);
-		// BlurBasicFilter.instance(p).applyTo(p.g);
 	}
 		
 }

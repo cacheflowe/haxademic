@@ -12,7 +12,7 @@ import com.haxademic.core.file.FileUtil;
 import processing.core.PShape;
 import processing.opengl.PShader;
 
-public class Demo_VertexShader_NoiseTest_WIP 
+public class Demo_VertexShader_LightsNoiseTest_WIP 
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
@@ -40,8 +40,8 @@ extends PAppletHax {
 		
 		// load shader
 		shader = p.loadShader(
-			FileUtil.getFile("haxademic/shaders/vertex/noise-frag.glsl"), 
-			FileUtil.getFile("haxademic/shaders/vertex/noise-vert.glsl")
+			FileUtil.getFile("haxademic/shaders/vertex/noise-light-frag.glsl"), 
+			FileUtil.getFile("haxademic/shaders/vertex/noise-light-vert.glsl")
 		);
 		
 		// Set UV coords & set texture on obj.
@@ -54,7 +54,7 @@ extends PAppletHax {
 
 		// use shader
 		shader.set("time", loop.progressRads());
-		shader.set("lightDir", 0.5f, 0.5f * P.sin(loop.progressRads()), 0.9f);
+		shader.set("lightDir", p.mousePercentX(), p.mousePercentY(), 0.9f);
 		shader.set("lightsOn", 0);
 		shader.set("lightAmbient", 0.1f, 0.1f * P.sin(loop.progressRads()), 0.5f);
 		p.shader(shader);

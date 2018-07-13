@@ -54,7 +54,6 @@ implements IVizElement {
 
 	public void update() {
 		DrawUtil.resetGlobalProps( p );
-		DrawUtil.setCenter( p );
 		
 		int scaleMult = 3;
 		setDrawProps(p.width*scaleMult, p.height*scaleMult);

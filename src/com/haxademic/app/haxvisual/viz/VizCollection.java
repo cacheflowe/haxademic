@@ -95,7 +95,6 @@ implements IVizModule
 	public void update() {
 		// start drawing at center
 		DrawUtil.resetGlobalProps( p );
-		DrawUtil.setCenter( p );
 		
 		// clear screen and set camera
 		p.background(0,0,0,255f);

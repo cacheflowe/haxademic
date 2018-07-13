@@ -52,7 +52,6 @@ implements IVizElement {
 
 	public void update() {
 		DrawUtil.resetGlobalProps( p );
-		DrawUtil.setCenter( p );
 		DrawUtil.setBasicLights( p );
 
 		p.pushMatrix();
@@ -74,7 +73,6 @@ implements IVizElement {
 		// double lines
 		_height *= 2;
 		lineH = _height / _numLines;
-		DrawUtil.setCenter( p );
 		p.translate( 0, -_height/2, -3000 );
 		p.rotateX( _curRotX );
 //		float rotation = _curRotation;//(float)(Math.PI*2f)/18f;

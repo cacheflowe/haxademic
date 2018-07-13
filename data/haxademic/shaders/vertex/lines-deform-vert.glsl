@@ -18,11 +18,12 @@ varying vec4 vertTexCoord;
 uniform float weight = 10.;
 uniform sampler2D colorMap;
 uniform sampler2D displacementMap;
-uniform float displaceStrength;
+uniform float displaceAmp;
 uniform float modelMaxExtent = 500.;
 uniform int colorThickness = 0;
 uniform int sheet = 0;
 
+#define PROCESSING_LINE_SHADER
 
 vec3 clipToWindow(vec4 clip, vec4 viewport) {
   vec3 dclip = clip.xyz / clip.w;
@@ -43,11 +44,11 @@ void main() {
 
   // displace
   if(sheet == 1) {
-    posUpdated.z = displaceStrength * texDisplace.r;
+    posUpdated.z = displaceAmp * texDisplace.r;
   } else {
-    posUpdated.x *= 1. + displaceStrength * texDisplace.r;
-    posUpdated.y *= 1. + displaceStrength * texDisplace.r;
-    posUpdated.z *= 1. + displaceStrength * texDisplace.r;
+    posUpdated.x *= 1. + displaceAmp * texDisplace.r;
+    posUpdated.y *= 1. + displaceAmp * texDisplace.r;
+    posUpdated.z *= 1. + displaceAmp * texDisplace.r;
   }
 
   // default line rendering shader code ------------------
@@ -56,6 +57,8 @@ void main() {
   float thickness = direction.w * weight;  // weight added by @cacheflowe
   if(colorThickness == 1) thickness *= texColor.r;
 
+  // clip0.z = 10.;
+  // clip1.z = 500.;
   vec3 win0 = clipToWindow(clip0, viewport);
   vec3 win1 = clipToWindow(clip1, viewport);
   vec2 tangent = win1.xy - win0.xy;

@@ -70,7 +70,6 @@ extends PAppletHax {
 	
 	protected void setupScene() {
 		DrawUtil.resetGlobalProps( p );
-		DrawUtil.setCenter( p );
 
 		p.shininess(1000f); 
 		p.lights();
