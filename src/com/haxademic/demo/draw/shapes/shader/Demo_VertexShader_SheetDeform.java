@@ -1,6 +1,5 @@
 package com.haxademic.demo.draw.shapes.shader;
 
-import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.draw.context.DrawUtil;
@@ -9,7 +8,6 @@ import com.haxademic.core.draw.shapes.Shapes;
 import com.haxademic.core.file.DemoAssets;
 import com.haxademic.core.file.FileUtil;
 
-import processing.core.PConstants;
 import processing.core.PImage;
 import processing.core.PShape;
 import processing.opengl.PShader;
@@ -29,12 +27,12 @@ extends PAppletHax {
 	
 	protected void setupFirstFrame() {
 		// load texture
-		perlin = new PerlinTexture(p, 256, 256);
+		perlin = new PerlinTexture(p, 128, 64);
 		texture = perlin.texture();
 		
 		// build sheet mesh
-		shape = Shapes.createSheet(100, texture);
-		shape.setTexture(DemoAssets.justin());
+		shape = Shapes.createSheet(60, texture);
+		shape.setTexture(DemoAssets.textureNebula());
 		p.debugView.setValue("shape.getVertexCount();", shape.getVertexCount());
 		
 		// load shader
@@ -53,12 +51,12 @@ extends PAppletHax {
 		// rotate
 		DrawUtil.setCenterScreen(p.g);
 		DrawUtil.basicCameraFromMouse(p.g);
-		// p.rotateY(0.4f * P.sin(loop.progressRads())); // -P.HALF_PI +
 
 		// draw mesh with texture or without
 		displacementShader.set("displacementMap", perlin.texture());
-		displacementShader.set("displaceStrength", 400f);
-		p.shader(displacementShader);  
+		displacementShader.set("displaceStrength", 100f);
+		p.shader(displacementShader);
+		p.scale(4f);
 		p.shape(shape);
 		p.resetShader();
 	}

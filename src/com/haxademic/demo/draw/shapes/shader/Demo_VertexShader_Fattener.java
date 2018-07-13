@@ -49,7 +49,7 @@ extends PAppletHax {
 
 		// normalize shape
 		PShapeUtil.centerShape(obj);
-		PShapeUtil.scaleShapeToExtent(obj, p.height * 0.30f);
+		PShapeUtil.scaleShapeToHeight(obj, p.height * 0.8f);
 		
 		// load shader
 		fattenerVertShader = p.loadShader(

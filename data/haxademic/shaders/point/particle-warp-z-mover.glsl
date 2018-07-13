@@ -20,8 +20,8 @@ void main() {
 	vec4 texelColor = texture2D(texture, p);
   vec2 pos = texelColor.rg;
   float z = texelColor.b;
-  z += 1./256.;
-  if(z > 1.) z = 0.;
+  z += 1./255.;
+  if(z > 1.) z -= 1.;
 
 	// wrap position and write back to texture
   gl_FragColor = vec4(pos.x, pos.y, z, 1.);

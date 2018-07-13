@@ -27,7 +27,7 @@ extends PAppletHax {
 	protected BaseTexture audioTexture;
 
 	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.INIT_MINIM_AUDIO, true );
+//		p.appConfig.setProperty( AppSettings.INIT_MINIM_AUDIO, true );
 	}
 
 	protected void setupFirstFrame() {

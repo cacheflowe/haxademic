@@ -33,16 +33,13 @@ extends PAppletHax {
 		_fxaa = p.loadShader( FileUtil.getHaxademicDataPath() + "haxademic/shaders/filters/fxaa.glsl" );
 	
 		_particles = new ArrayList<VectorFlyer2d>();
-		for(int i=0; i < 30000; i++) _particles.add(new VectorFlyer2d(new PVector(p.random(p.width), p.random(p.height))));
+		for(int i=0; i < 10000; i++) _particles.add(new VectorFlyer2d(new PVector(p.random(p.width), p.random(p.height))));
 		_attractors = new ArrayList<Attractor>();
 		for(int i=0; i < 5; i++) _attractors.add(new Attractor(new PVector(p.width/2, p.height/2)));
 	}
 
 	public void drawApp() {
 		p.background(0);
-//		DrawUtil.setDrawCorner(p);
-//		p.fill(0, 20);
-//		p.rect(0, 0, p.width, p.height);
 		DrawUtil.setDrawCenter(p);
 		
 		p.blendMode(PConstants.ADD);
@@ -51,12 +48,6 @@ extends PAppletHax {
 			_particles.get(i).update(closestAttractor.position.x, closestAttractor.position.y);
 		}
 		for(int i=0; i < _attractors.size(); i++) _attractors.get(i).update();
-
-		// post-process effects
-//		p.filter(_fxaa);
-//		p.filter(_fxaa);
-//		p.filter(_fxaa);
-//		p.filter(_fxaa);
 	}
 	
 	public Attractor getClosestAttractorToParticle(VectorFlyer2d particle) {
@@ -79,7 +70,7 @@ extends PAppletHax {
 		public PVector position = new PVector();
   	  	protected float radians = MathUtil.randRangeDecimal( 0, P.TWO_PI );
   	  	protected float speed = MathUtil.randRangeDecimal( 2, 18 );
-  	  	protected float turnRadius = MathUtil.randRangeDecimal( .01f, 0.2f );
+  	  	protected float turnRadius = MathUtil.randRangeDecimal( .01f, 0.1f );
   	  	protected int color;
 		
 		public VectorFlyer2d( PVector newPosition ) {

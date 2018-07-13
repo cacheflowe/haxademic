@@ -24,7 +24,6 @@ extends PAppletHax {
 	protected PShader randomColorShader;
 	protected PShader particleMoverShader;
 	protected PShader particlesDrawShader;
-	protected PShader speedShader;
 	int FRAMES = 300;
 
 	protected void overridePropsFile() {
@@ -41,7 +40,6 @@ extends PAppletHax {
 	protected void setupFirstFrame() {
 		// build random particle placement shader
 		randomColorShader = p.loadShader(FileUtil.getFile("haxademic/shaders/textures/random-pixel-color.glsl"));
-		speedShader = p.loadShader(FileUtil.getFile("haxademic/shaders/textures/noise-simplex-2d-iq.glsl"));
 		particleMoverShader = p.loadShader(FileUtil.getFile("haxademic/shaders/point/particle-warp-z-mover.glsl"));
 
 		// create texture to store positions
@@ -96,7 +94,7 @@ extends PAppletHax {
 		p.debugView.setTexture(bufferPositions);
 
 		// draw shape w/shader
-		float particlesScale = 3f; // p.mousePercentX() * 100f;
+		float particlesScale = p.mousePercentX() * 10f;
 		particlesDrawShader.set("width", (float) bufferPositions.width);
 		particlesDrawShader.set("height", (float) bufferPositions.height);
 		particlesDrawShader.set("scale", particlesScale);
