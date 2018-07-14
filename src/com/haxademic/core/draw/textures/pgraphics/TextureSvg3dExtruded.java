@@ -13,6 +13,7 @@ import com.haxademic.core.draw.filters.shaders.DisplacementMapFilter;
 import com.haxademic.core.draw.filters.shaders.RotateFilter;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.shapes.PShapeUtil;
+import com.haxademic.core.draw.shapes.pshader.PointsDeformAndTextureFilter;
 import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
 import com.haxademic.core.draw.textures.pshader.TextureShader;
 import com.haxademic.core.file.FileUtil;
@@ -30,6 +31,7 @@ extends BaseTexture {
 	protected PShape logoSvg; 
 	protected PShape logo3d;
 	protected PShape logoPoints;
+	protected float logoPointsExtent;
 	protected PGraphics logoTexture;
 	protected EasingFloat colorLogoProgress = new EasingFloat(0, 0.1f);
 	protected EasingFloat logoScale = new EasingFloat(1, 0.1f);
@@ -40,8 +42,6 @@ extends BaseTexture {
 	// textures to apply
 	protected TextureShader noiseTexture;
 	protected BaseTexture audioTexture;
-	
-	protected PShader displaceVertShader;
 	
 	protected float thickness = 40;
 	
@@ -83,12 +83,6 @@ extends BaseTexture {
 		
 		// create logo
 		buildLogo();
-		
-		// load  displacement vertex shader
-		displaceVertShader = P.p.loadShader(
-			FileUtil.getFile("haxademic/shaders/vertex/brightness-displace-frag-texture.glsl"), 
-			FileUtil.getFile("haxademic/shaders/vertex/brightness-displace-sphere-vert.glsl")
-		);
 	}
 	
 	protected void buildLogo() {
@@ -113,6 +107,7 @@ extends BaseTexture {
 //		logoPoints = PShapeUtil.createExtrudedShape( logoSvg, thickness );
 		PShapeUtil.scaleShapeToHeight(logoPoints, _texture.height * 0.15f);
 		logoPoints.disableStyle();
+		logoPointsExtent = PShapeUtil.getMaxExtent(logoPoints);
 		PShapeUtil.addTextureUVSpherical(logoPoints, audioTexture.texture());
 	}
 
@@ -223,8 +218,14 @@ extends BaseTexture {
 			_texture.fill(_colorEase.colorInt());
 			
 			// apply deform shader and draw mesh - CANNOT HAVE PROCESSING LIGHTS TURNED ON!
-			displaceVertShader.set("displacementMap", audioTexture.texture());
-			displaceVertShader.set("displaceStrength", 2f); // 0.5f + 0.5f * P.sin(p.frameCount * 0.02f));
+			// apply points deform/texture shader
+			PointsDeformAndTextureFilter.instance(P.p).setColorMap(audioTexture.texture());
+			PointsDeformAndTextureFilter.instance(P.p).setDisplacementMap(audioTexture.texture());
+			PointsDeformAndTextureFilter.instance(P.p).setMaxPointSize(6f);
+			PointsDeformAndTextureFilter.instance(P.p).setDisplaceAmp(2f);			// multiplied by obj extent
+			PointsDeformAndTextureFilter.instance(P.p).setModelMaxExtent(logoPointsExtent * 2.1f);
+			PointsDeformAndTextureFilter.instance(P.p).setSheetMode(true);
+			PointsDeformAndTextureFilter.instance(P.p).setColorPointSizeMode(false);		// if color point size, use original color texture for point size. otherwise use displacement map color for point size
 			_texture.noLights();
 			logoPoints.setTexture(audioTexture.texture());
 //			_texture.shape(obj);
@@ -237,7 +238,7 @@ extends BaseTexture {
 				_texture.pushMatrix();
 				_texture.strokeWeight(3f - thickSpacing * i);
 				_texture.translate(0, 0, numLayers/2f * spacing - spacing * i);
-				_texture.shader(displaceVertShader);  
+				PointsDeformAndTextureFilter.instance(P.p).applyVertexShader(_texture);
 				_texture.shape(logoPoints);
 				_texture.resetShader();
 				_texture.popMatrix();

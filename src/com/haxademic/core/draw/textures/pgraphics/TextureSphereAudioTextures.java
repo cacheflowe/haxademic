@@ -10,14 +10,13 @@ import com.haxademic.core.draw.filters.shaders.VignetteAltFilter;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.shapes.Icosahedron;
 import com.haxademic.core.draw.shapes.PShapeUtil;
+import com.haxademic.core.draw.shapes.pshader.MeshDeformAndTextureFilter;
 import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
-import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.EasingFloat3d;
 
 import processing.core.PGraphics;
 import processing.core.PShape;
-import processing.opengl.PShader;
 
 public class TextureSphereAudioTextures
 extends BaseTexture {
@@ -37,8 +36,6 @@ extends BaseTexture {
 	protected PShape shapeTessellated;
 	protected PShape shapeIcos;
 	
-	PShader texShader;
-
 	public TextureSphereAudioTextures( int width, int height ) {
 		super();
 
@@ -73,13 +70,6 @@ extends BaseTexture {
 
 //		PShapeUtil.addUVsToPShape(shape, extent);
 //		PShapeUtil.addUVsToPShape(shapeTessellated, extent);
-		
-		texShader = P.p.loadShader(
-				FileUtil.getFile("haxademic/shaders/vertex/brightness-displace-frag-texture.glsl"), 
-				FileUtil.getFile("haxademic/shaders/vertex/brightness-displace-sphere-vert.glsl")
-				);
-		texShader.set("displacementMap", _texture);
-
 	}
 	
 	protected void pickRandomTexture() {
@@ -145,14 +135,18 @@ extends BaseTexture {
 
 		float scaleOsc = P.p.frameCount * 0.001f;
 		
-		texShader.set("displacementMap", sphereTexture);
-		texShader.set("displaceStrength", 0.75f + 0.5f * P.sin(scaleOsc));
-
-		_texture.shader(texShader);  
+		// deform mesh
+		MeshDeformAndTextureFilter.instance(P.p).setDisplacementMap(sphereTexture);
+		MeshDeformAndTextureFilter.instance(P.p).setDisplaceAmp(0.75f + 0.5f * P.sin(scaleOsc));
+		MeshDeformAndTextureFilter.instance(P.p).setSheetMode(false);
+		MeshDeformAndTextureFilter.instance(P.p).applyVertexShader(_texture);
+//		// set texture using PShape method
+//		shape.setTexture(textureFlipped);
 
 //		_texture.scale(0.65f + 0.45f * P.sin(P.PI + scaleOsc));
 		_texture.scale(0.65f + 0.2f * P.sin(P.PI + scaleOsc));
 		_texture.shape(shapeIcos);
+		_texture.resetShader();
 //		_texture.shape(shape);
 //		_texture.shape(shapeTessellated);
 		_texture.popMatrix();

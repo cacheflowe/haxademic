@@ -3,13 +3,13 @@ package com.haxademic.sketch.render;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.filters.shaders.KaleidoFilter;
 import com.haxademic.core.draw.filters.shaders.RadialRipplesFilter;
 import com.haxademic.core.draw.filters.shaders.VignetteFilter;
 import com.haxademic.core.draw.shapes.Icosahedron;
 import com.haxademic.core.draw.shapes.PShapeUtil;
+import com.haxademic.core.draw.shapes.pshader.MeshDeformAndTextureFilter;
 import com.haxademic.core.file.FileUtil;
 
 import processing.core.PImage;
@@ -23,7 +23,6 @@ extends PAppletHax {
 	protected PShape shapeIcos;
 	protected PImage texture;
 	protected float _frames = 170;
-	protected PShader texShader;
 	protected PShader bgShader;
 
 	protected void overridePropsFile() {
@@ -43,19 +42,11 @@ extends PAppletHax {
 		super.setup();	
 
 		// load texture
-		texture = p.loadImage(FileUtil.getFile("images/jupiter-360.jpg"));
+		texture = p.loadImage(FileUtil.getFile("haxademic/images/spherical/jupiter.jpg"));
 		
 		// create icosahedron
 		shapeIcos = Icosahedron.createIcosahedron(p.g, 7, texture);
 		PShapeUtil.scaleShapeToExtent(shapeIcos, p.height/4f);
-		
-		// sphere deformation shader. uses the sphere's texture as the displacement map
-		texShader = loadShader(
-			FileUtil.getFile("haxademic/shaders/vertex/brightness-displace-frag-texture.glsl"), 
-			FileUtil.getFile("haxademic/shaders/vertex/brightness-displace-sphere-vert.glsl")
-		);
-		texShader.set("displacementMap", texture);
-		texShader.set("displaceStrength", 0.3f);
 		
 		// start field generative texture
 		bgShader = P.p.loadShader( FileUtil.getFile("haxademic/shaders/textures/stars-scroll.glsl")); 
@@ -87,14 +78,18 @@ extends PAppletHax {
 		p.rotateZ(0.05f + 0.05f * P.sin(-P.PI/2f + P.TWO_PI * percentComplete));
 		
 		// apply vertex shader & draw icosahedron
-		texShader.set("displaceStrength", 0.2f + 0.2f * P.sin(-P.PI/2f + P.TWO_PI * percentComplete));
-		p.shader(texShader);  
+		// deform mesh
+		MeshDeformAndTextureFilter.instance(p).setDisplacementMap(texture);
+		MeshDeformAndTextureFilter.instance(p).setDisplaceAmp(0.2f + 0.2f * P.sin(-P.PI/2f + P.TWO_PI * percentComplete));
+		MeshDeformAndTextureFilter.instance(p).setSheetMode(false);
+		MeshDeformAndTextureFilter.instance(p).applyVertexShader(p);
+
+		// draw mesh
 		p.shape(shapeIcos);
 		p.resetShader();
 		p.popMatrix();
 		
 		// a little light & vignetter effect
-		DrawUtil.setBetterLights(p);
 		VignetteFilter.instance(p).applyTo(p);
 	}
 		

@@ -6,8 +6,8 @@ import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.shapes.Icosahedron;
 import com.haxademic.core.draw.shapes.PShapeUtil;
+import com.haxademic.core.draw.shapes.pshader.MeshDeformAndTextureFilter;
 import com.haxademic.core.file.DemoAssets;
-import com.haxademic.core.file.FileUtil;
 
 import processing.core.PImage;
 import processing.core.PShape;
@@ -36,14 +36,6 @@ extends PAppletHax {
 		// create icosahedron
 		shapeIcos = Icosahedron.createIcosahedron(p.g, 7, texture);
 		PShapeUtil.scaleShapeToExtent(shapeIcos, p.height/4f);
-		
-		// sphere deformation shader. uses the sphere's texture as the displacement map
-		texShader = loadShader(
-			FileUtil.getFile("haxademic/shaders/vertex/brightness-displace-frag-texture.glsl"), 
-			FileUtil.getFile("haxademic/shaders/vertex/brightness-displace-sphere-vert.glsl")
-		);
-		texShader.set("displacementMap", texture);
-		texShader.set("displaceStrength", 0.3f);
 	}
 
 	public void drawApp() {
@@ -56,8 +48,13 @@ extends PAppletHax {
 		p.rotateZ(0.05f + 0.05f * P.sin(-P.PI/2f + loop.progressRads()));
 		
 		// apply vertex shader & draw icosahedron
-		texShader.set("displaceStrength", 0.3f + 0.3f * P.sin(-P.PI/2f + loop.progressRads()));
-		p.shader(texShader);  
+		MeshDeformAndTextureFilter.instance(p).setDisplacementMap(texture);
+		MeshDeformAndTextureFilter.instance(p).setDisplaceAmp(0.3f + 0.3f * P.sin(-P.PI/2f + loop.progressRads()));
+		MeshDeformAndTextureFilter.instance(p).setSheetMode(false);
+		MeshDeformAndTextureFilter.instance(p).applyVertexShader(p);
+		// set texture using PShape method
+		shapeIcos.setTexture(texture);
+		
 		p.shape(shapeIcos);
 		p.resetShader();
 		p.popMatrix();

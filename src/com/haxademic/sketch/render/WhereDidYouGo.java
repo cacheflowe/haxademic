@@ -1,4 +1,4 @@
-package com.haxademic.sketch.shader;
+package com.haxademic.sketch.render;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
@@ -9,6 +9,7 @@ import com.haxademic.core.draw.filters.shaders.SphereDistortionFilter;
 import com.haxademic.core.draw.filters.shaders.VignetteFilter;
 import com.haxademic.core.draw.filters.shaders.WobbleFilter;
 import com.haxademic.core.draw.shapes.Shapes;
+import com.haxademic.core.draw.shapes.pshader.MeshDeformAndTextureFilter;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.easing.Penner;
 
@@ -16,7 +17,7 @@ import processing.core.PGraphics;
 import processing.core.PShape;
 import processing.opengl.PShader;
 
-public class ShaderVertexTextureDeform2
+public class WhereDidYouGo
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
@@ -53,12 +54,6 @@ extends PAppletHax {
 		textureShader.set("time", 0 );
 
 		mesh = Shapes.createSheet(450, texture);
-		displacementShader = loadShader(
-			FileUtil.getFile("haxademic/shaders/vertex/brightness-displace-frag-texture.glsl"), 
-			FileUtil.getFile("haxademic/shaders/vertex/brightness-displace-sheet-vert.glsl")
-		);
-		displacementShader.set("displacementMap", texture);
-		displacementShader.set("displaceStrength", displaceAmp);
 	}
 
 	public void drawApp() {
@@ -94,18 +89,21 @@ extends PAppletHax {
 		texture.endDraw();
 
 		// set shader properties & set on processing context
+		// deform mesh
 //		displacementShader.set("displaceStrength", displaceAmp + displaceAmp * P.sin(percentComplete * P.TWO_PI));
-		displacementShader.set("displaceStrength", displaceAmp);
-		shader(displacementShader);  
-		shape(mesh);
-		
-		// unset shader deformation
+		MeshDeformAndTextureFilter.instance(p).setDisplacementMap(texture);
+		MeshDeformAndTextureFilter.instance(p).setDisplaceAmp(displaceAmp);
+		MeshDeformAndTextureFilter.instance(p).setSheetMode(true);
+		MeshDeformAndTextureFilter.instance(p).applyVertexShader(p);
+
+		// draw mesh
+		p.shape(mesh);
 		resetShader();
 		
+		// post-process
 //		BadTVLinesFilter.instance(p).setTime(percentComplete * 3f);
 //		BadTVLinesFilter.instance(p).applyTo(p.g);
 		SphereDistortionFilter.instance(p).applyTo(p.g);
-		
 		InvertFilter.instance(p).applyTo(p.g);
 	}
 

@@ -6,28 +6,26 @@ import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.shapes.PShapeUtil;
+import com.haxademic.core.draw.shapes.pshader.MeshDeformAndTextureFilter;
+import com.haxademic.core.draw.textures.pgraphics.TextureEQConcentricCircles;
 import com.haxademic.core.draw.textures.pgraphics.TextureEQGrid;
 import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
 import com.haxademic.core.file.DemoAssets;
-import com.haxademic.core.file.FileUtil;
 
 import processing.core.PImage;
 import processing.core.PShape;
-import processing.opengl.PShader;
 
-public class Demo_VertexShader_SphericalDeform 
+public class Demo_MeshDeformAndTextureFilter_SimpleSpherical 
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	protected PShape obj;
-	protected float modelHeight;
-	protected PShader displaceVertShader;
 	protected PImage displacementMap1;
 	protected PImage displacementMap2;
 	protected BaseTexture audioTexture;
 
 	protected void overridePropsFile() {
-//		p.appConfig.setProperty( AppSettings.INIT_MINIM_AUDIO, true );
+		p.appConfig.setProperty( AppSettings.INIT_MINIM_AUDIO, true );
 	}
 
 	protected void setupFirstFrame() {
@@ -35,44 +33,39 @@ extends PAppletHax {
 		// Note: Without getTesselation(), PShape.setTexture(PImage) is SUPER slow. 
 		obj = DemoAssets.objSkullRealistic().getTessellation();
 		
-		// normalize shape
-		modelHeight = p.height * 0.95f;
+		// normalize shape & set UV coords & texture
 		PShapeUtil.centerShape(obj);
-		PShapeUtil.scaleShapeToExtent(obj, modelHeight);
-		
-		// Set UV coords & add texture
+		PShapeUtil.scaleShapeToHeight(obj, p.height * 0.75f);
 		PShapeUtil.addTextureUVSpherical(obj, null);
-		
-		// load shader
-		displaceVertShader = loadShader(
-			FileUtil.getFile("haxademic/shaders/vertex/brightness-displace-frag-texture.glsl"), 
-			FileUtil.getFile("haxademic/shaders/vertex/brightness-displace-sphere-vert.glsl")
-		);
+		obj.setTexture(displacementMap1);
 		
 		// build 2 displacement maps
-		audioTexture = new TextureEQGrid(800, 800);
+		audioTexture = new TextureEQConcentricCircles(800, 800);
 		displacementMap1 = ImageUtil.imageToGraphics(DemoAssets.textureJupiter());
-		obj.setTexture(displacementMap1);
 		displacementMap2 = audioTexture.texture();
 	}
 
 	public void drawApp() {
-		DrawUtil.setBetterLights(p);
 		background(0);
-		p.translate(p.width/2f, p.height/2f, -width*1.5f);
-		p.rotateY(P.map(p.mouseX, 0, p.width, -1f, 1f));
+		DrawUtil.setBetterLights(p);
+		DrawUtil.setCenterScreen(p);
+		DrawUtil.basicCameraFromMouse(p.g);
 		
 		// update displacement texture - this must be set for shader to work
 		audioTexture.update();
 		PImage displacementMap = (p.frameCount % 200 < 100) ? displacementMap1 : displacementMap2;
 		p.debugView.setTexture(displacementMap);
-		if(p.frameCount % 100 == 0) obj.setTexture(displacementMap);
 		
-		// apply deform shader and draw mesh - CANNOT HAVE PROCESSING LIGHTS TURNED ON!
-		displaceVertShader.set("displacementMap", displacementMap);
-		displaceVertShader.set("displaceStrength", 0.5f + 0.5f * P.sin(p.frameCount * 0.02f));
+		// deform mesh
+		MeshDeformAndTextureFilter.instance(p).setDisplacementMap(displacementMap);
+		MeshDeformAndTextureFilter.instance(p).setDisplaceAmp(0.5f + 0.5f * P.sin(p.frameCount * 0.02f));
+		MeshDeformAndTextureFilter.instance(p).setSheetMode(false);
+		MeshDeformAndTextureFilter.instance(p).applyVertexShader(p);
+		// set texture using PShape method
+		if(p.frameCount % 100 == 1) obj.setTexture(displacementMap);
+		
+		// draw mesh
 		p.noLights();
-		p.shader(displaceVertShader);  
 		p.shape(obj);
 		p.resetShader();
 	}
