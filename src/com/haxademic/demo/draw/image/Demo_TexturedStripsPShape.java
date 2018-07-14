@@ -25,7 +25,8 @@ extends PAppletHax {
 
 	protected Movie testMovie;
 	protected PImage staticImg;
-	protected PImage[] threads;
+	protected PImage[] threadTexturesSource;
+	protected PGraphics[] threadTextures;
 	protected PGraphics bwMap;
 	protected boolean videoMap = false;
 	protected ArrayList<Particle> particles;
@@ -51,11 +52,21 @@ extends PAppletHax {
 		bwMap = p.createGraphics(p.width, p.height, PRenderers.P3D);
 		
 		// load thread textures
-		threads = new PImage[] {
+		threadTexturesSource = new PImage[] {
 				DemoAssets.textureJupiter(),
 				DemoAssets.textureNebula(),
 				DemoAssets.squareTexture(),
+				DemoAssets.justin(),
 		};
+		threadTextures = new PGraphics[] {
+				p.createGraphics(8, 512, P.P2D),
+				p.createGraphics(8, 512, P.P2D),
+				p.createGraphics(8, 512, P.P2D),
+				p.createGraphics(8, 512, P.P2D),
+		};
+		for (int i = 0; i < threadTextures.length; i++) {
+			ImageUtil.cropFillCopyImage(threadTexturesSource[i], threadTextures[i], true);
+		}
 		
 		// build particles
 		particles = new ArrayList<Particle>();
@@ -129,7 +140,7 @@ extends PAppletHax {
 		
 		protected void buildShape() {
 			// build pshape strip
-			PImage stripTexture = threads[0];
+			PImage stripTexture = threadTextures[0];
 			float segments = TAIL_SEGMENTS;
 			float stripW = 10;
 			float stripH = 500;
@@ -156,8 +167,8 @@ extends PAppletHax {
 			newStartLocation();
 			resetTail();
 			resetDirection();
-			texture = threads[MathUtil.randRange(0, threads.length - 2)];
-			shape.setTexture(threads[0]);
+			texture = threadTextures[MathUtil.randRange(0, threadTextures.length - 2)];
+			shape.setTexture(texture);
 		}
 		
 		protected void resetSpeed() {

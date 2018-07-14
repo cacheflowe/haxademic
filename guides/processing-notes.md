@@ -40,3 +40,12 @@ public static Comparator<CustomObject> compare = new Comparator<CustomObject>() 
   }
 };
 ```
+
+Errors
+
+```
+java.lang.ArrayIndexOutOfBoundsException:
+	at processing.opengl.PShapeOpenGL.scaleTextureUV(PShapeOpenGL.java:838)
+```
+
+* This is likely a result of swapping textures of different sizes. Use a PGraphics instance, and update that instead of swapping image objects for a PShape texture.
