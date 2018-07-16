@@ -1,6 +1,12 @@
-## Processing notes
+# Processing notes
 
-Run an app with an undecorated window. More under-the-hood code [here](https://github.com/praxis-live/praxis/blob/master/praxis.video.pgl/src/net/neilcsmith/praxis/video/pgl/PGLPlayer.java#L251)
+#### Notes on Advanced OpenGL in Processing:
+
+* [https://github.com/processing/processing/wiki/Advanced-OpenGL](https://github.com/processing/processing/wiki/Advanced-OpenGL)
+
+#### Run an app with an undecorated window
+
+More under-the-hood code [here](https://github.com/praxis-live/praxis/blob/master/praxis.video.pgl/src/net/neilcsmith/praxis/video/pgl/PGLPlayer.java#L251)
 
 ```
 public void settings() {
@@ -19,7 +25,7 @@ public void draw() {
 }
 ```
 
-Run a thread inline
+#### Run a thread inline
 
 ```
 new Thread(new Runnable() { public void run() {
@@ -28,7 +34,7 @@ new Thread(new Runnable() { public void run() {
 
 ```
 
-Sort an array
+#### Sort an array
 
 ```
 Arrays.sort(myArray, compare);
@@ -41,7 +47,7 @@ public static Comparator<CustomObject> compare = new Comparator<CustomObject>() 
 };
 ```
 
-Errors
+#### Errors
 
 ```
 java.lang.ArrayIndexOutOfBoundsException:
@@ -50,7 +56,7 @@ java.lang.ArrayIndexOutOfBoundsException:
 
 * This is likely a result of swapping textures of different sizes. Use a PGraphics instance, and update that instead of swapping image objects for a PShape texture.
 
-## General Eclipse/Processing Tips
+#### General Eclipse/Processing Tips
 
 Use the following VM Arguments when running the Java Application to increase memory allocated to your app
 
@@ -64,7 +70,7 @@ or
 
 * If you want to wipe your `bin/` directory, you'll have to do a **Project -> Clean…** in Eclipse afterwards.
 
-## Publish a .jar library
+#### Publish a .jar library
 
 In Eclipse:
 
