@@ -49,3 +49,37 @@ java.lang.ArrayIndexOutOfBoundsException:
 ```
 
 * This is likely a result of swapping textures of different sizes. Use a PGraphics instance, and update that instead of swapping image objects for a PShape texture.
+
+## General Eclipse/Processing Tips
+
+Use the following VM Arguments when running the Java Application to increase memory allocated to your app
+
+* `-Xmx2048M`
+* `-Xms1024M`
+
+or
+
+* `-Xmx4G`
+* `-Xms2G`
+
+* If you want to wipe your `bin/` directory, you'll have to do a **Project -> Clean…** in Eclipse afterwards.
+
+## Publish a .jar library
+
+In Eclipse:
+
+* Go to `File` -> `Export...`
+* Select `Java` -> `Jar File`
+* Select the src files that you want to package up. In this case, everything in `com.haxademic.core`
+* Select the save location & jar name
+* Click `Next`
+* Check `Save the description file...` as a `.jardesc` config file
+* Click `Finish`
+* Next time, if package files haven't been added or removed, you can just double-click the new `.jardesc` file in Eclipse, and it will republish the .jar
+
+This used to work, but not anymore (for me):
+
+```
+$ cd haxademic/bin
+$ jar cfv ../../ohheckyeah/ohheckyeah-games-java/lib/haxademic/haxademic.jar ./com/haxademic/core/*
+```
