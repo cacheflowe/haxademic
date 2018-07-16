@@ -329,6 +329,112 @@ public class Shapes {
 		return sh;
 	}
 	
+	public static PShape createBox(float size) {
+		PShape sh = P.p.createShape();
+		sh.beginShape(P.QUADS);
+		
+		// BL, BR, TR, TL
+		// front
+		sh.vertex(-size,  size,  size, 		0, 1);
+		sh.vertex( size,  size,  size, 		1, 1);
+		sh.vertex( size, -size,  size,		1, 0);
+		sh.vertex(-size, -size,  size,		0, 0);
+
+		// back
+		sh.vertex( size,  size, -size, 		0, 1);
+		sh.vertex(-size,  size, -size, 		1, 1);
+		sh.vertex(-size, -size, -size,		1, 0);
+		sh.vertex( size, -size, -size,		0, 0);
+
+		// left
+		sh.vertex(-size,  size, -size, 		0, 1);
+		sh.vertex(-size,  size,  size, 		1, 1);
+		sh.vertex(-size, -size,  size,		1, 0);
+		sh.vertex(-size, -size, -size,		0, 0);
+
+		// right
+		sh.vertex( size,  size,  size, 		0, 1);
+		sh.vertex( size,  size, -size, 		1, 1);
+		sh.vertex( size, -size, -size,		1, 0);
+		sh.vertex( size, -size,  size,		0, 0);
+		
+		// floor
+		sh.vertex(-size,  size, -size, 		0, 0);
+		sh.vertex( size,  size, -size, 		1, 0);
+		sh.vertex( size,  size,  size,		1, 1);
+		sh.vertex(-size,  size,  size,		0, 1);
+
+		// ceiling
+		sh.vertex(-size, -size, -size, 		0, 0);
+		sh.vertex( size, -size, -size, 		1, 0);
+		sh.vertex( size, -size,  size,		1, 1);
+		sh.vertex(-size, -size,  size,		0, 1);
+
+		sh.endShape();
+		return sh;
+	}
+	
+	public static PShape createBoxSingleUV(float size, float uvX, float uvY) {
+		PShape sh = P.p.createShape();
+		sh.beginShape(P.QUADS);
+		sh.textureMode(P.NORMAL);
+		
+		// BL, BR, TR, TL
+		// front
+		sh.vertex(-size,  size,  size, 		uvX, uvY);
+		sh.vertex( size,  size,  size, 		uvX, uvY);
+		sh.vertex( size, -size,  size,		uvX, uvY);
+		sh.vertex(-size, -size,  size,		uvX, uvY);
+		
+		// back
+		sh.vertex( size,  size, -size, 		uvX, uvY);
+		sh.vertex(-size,  size, -size, 		uvX, uvY);
+		sh.vertex(-size, -size, -size,		uvX, uvY);
+		sh.vertex( size, -size, -size,		uvX, uvY);
+		
+		// left
+		sh.vertex(-size,  size, -size, 		uvX, uvY);
+		sh.vertex(-size,  size,  size, 		uvX, uvY);
+		sh.vertex(-size, -size,  size,		uvX, uvY);
+		sh.vertex(-size, -size, -size,		uvX, uvY);
+		
+		// right
+		sh.vertex( size,  size,  size, 		uvX, uvY);
+		sh.vertex( size,  size, -size, 		uvX, uvY);
+		sh.vertex( size, -size, -size,		uvX, uvY);
+		sh.vertex( size, -size,  size,		uvX, uvY);
+		
+		// floor
+		sh.vertex(-size,  size, -size, 		uvX, uvY);
+		sh.vertex( size,  size, -size, 		uvX, uvY);
+		sh.vertex( size,  size,  size,		uvX, uvY);
+		sh.vertex(-size,  size,  size,		uvX, uvY);
+		
+		// ceiling
+		sh.vertex(-size, -size, -size, 		uvX, uvY);
+		sh.vertex( size, -size, -size, 		uvX, uvY);
+		sh.vertex( size, -size,  size,		uvX, uvY);
+		sh.vertex(-size, -size,  size,		uvX, uvY);
+		
+		sh.endShape();
+		return sh;
+	}
+	
+	public static PShape createRectSingleUV(float size, float uvX, float uvY) {
+		PShape sh = P.p.createShape();
+		sh.beginShape(P.QUADS);
+		sh.textureMode(P.NORMAL);
+		
+		// BL, BR, TR, TL
+		sh.vertex(-size,  size,  0, 		uvX, uvY);
+		sh.vertex( size,  size,  0, 		uvX, uvY);
+		sh.vertex( size, -size,  0,		uvX, uvY);
+		sh.vertex(-size, -size,  0,		uvX, uvY);
+		
+		sh.endShape();
+		return sh;
+	}
+	
 	public static PShape createSheet(int detail, float width, float height) {
 		P.p.textureMode(P.NORMAL); 
 		// P.println("Shapes.createSheet() setting textureMode is weird to do here... Maybe should be PAppletHax default?");
