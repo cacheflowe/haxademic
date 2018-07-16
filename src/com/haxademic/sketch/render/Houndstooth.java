@@ -109,6 +109,7 @@ extends PAppletHax {
 			int rowIndex = P.floor(i/4);
 			cells[i] = new HoundstoothCell(rowIndex, colIndex, cellSize);
 		}
+		p.debugView.setTexture(houndsTooth4x4);
 	}
 	
 	public void keyPressed() {
