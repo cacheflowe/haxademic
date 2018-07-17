@@ -16,7 +16,6 @@ import com.haxademic.core.math.easing.EasingFloat;
 
 import processing.core.PConstants;
 import processing.core.PGraphics;
-import processing.core.PShape;
 
 public class TexturePixelatedAudio 
 extends BaseTexture {
@@ -25,7 +24,7 @@ extends BaseTexture {
 	protected float colW;
 	protected float rows;
 	protected float rowH;
-	protected int mapDivide = 10;
+	protected float cellCover = 3f;
 	protected PGraphics noiseMap;
 	protected PGraphics noiseMapZoomed;
 	protected PGraphics noiseMapFine;
@@ -37,18 +36,8 @@ extends BaseTexture {
 	protected AudioCell[] cells;
 	protected TextureShader textureShader;
 	protected ImageGradient gradient;
-	
-	protected PShape logoSvg; 
-	protected PShape logo3d;
-	protected EasingFloat colorLogoProgress = new EasingFloat(0, 0.1f);
-	protected EasingFloat logoScale = new EasingFloat(1, 0.1f);
-	protected EasingFloat logoRotY = new EasingFloat(0, 0.1f);
-	protected EasingFloat logoRotX = new EasingFloat(0, 0.1f);
-	protected EasingFloat logoRotZ = new EasingFloat(0, 0.1f);
-	
-	protected float cellCover = 3f;
 
-
+	
 	public TexturePixelatedAudio( int width, int height ) {
 		super();
 		buildGraphics( width, height );
@@ -68,6 +57,7 @@ extends BaseTexture {
 		OpenGLUtil.setTextureQualityLow(noiseMapZoomed);
 		OpenGLUtil.setTextureQualityLow(noiseMapFine);
 		OpenGLUtil.setTextureQualityLow(noiseComposite);
+		
 		// simplex noise shader
 		textureShader = new TextureShader(TextureShader.noise_simplex_2d_iq, 0.0005f);
 		
@@ -99,10 +89,6 @@ extends BaseTexture {
 		}
 	}
 	
-	public void newLineMode() {
-
-	}
-	
 	public void newRotation() {
 		noiseRot.setTarget(noiseRot.target() + MathUtil.randRangeDecimal(-0.6f, 0.6f));
 		noiseOffsetX.setTarget(noiseOffsetX.target() + MathUtil.randRangeDecimal(-0.6f, 0.6f));
@@ -111,8 +97,6 @@ extends BaseTexture {
 	}
 	
 	public void preDraw() {
-		int startTime = P.p.millis();
-
 		// update noise params
 		if(P.p.audioData.isBeat()) newRotation();
 		noiseRot.update(true);
@@ -176,20 +160,14 @@ extends BaseTexture {
 		BlendTowardsTexture.instance(P.p).setSourceTexture(noiseMap);
 		BlendTowardsTexture.instance(P.p).setBlendLerp(0.5f);
 		BlendTowardsTexture.instance(P.p).applyTo(noiseComposite);
-
-		// prep for pixel-reading
-//		P.p.debugView.setValue("predraw Time", P.p.millis() - startTime);
 	}
 
 	public void updateDraw() {
-		int startTime = P.p.millis();
 		_texture.clear();
 		_texture.noStroke();
 		DrawUtil.setDrawCorner(_texture);
 		// draw image
 		ImageUtil.drawImageCropFill(noiseComposite, _texture, true);
-		
-//		P.p.debugView.setValue("draw Time", P.p.millis() - startTime);
 	}
 	
 	public class AudioCell {
