@@ -3,7 +3,7 @@ package com.haxademic.core.draw.textures.pgraphics;
 import com.haxademic.core.app.P;
 import com.haxademic.core.draw.color.ImageGradient;
 import com.haxademic.core.draw.context.DrawUtil;
-import com.haxademic.core.draw.filters.shaders.DisplacementMapFilter;
+import com.haxademic.core.draw.filters.pshader.DisplacementMapFilter;
 import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
 import com.haxademic.core.draw.textures.pshader.TextureShader;

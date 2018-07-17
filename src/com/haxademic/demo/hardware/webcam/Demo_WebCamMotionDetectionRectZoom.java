@@ -6,7 +6,7 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.constants.PBlendModes;
 import com.haxademic.core.constants.PRenderers;
-import com.haxademic.core.draw.filters.shaders.LeaveWhiteFilter;
+import com.haxademic.core.draw.filters.pshader.LeaveWhiteFilter;
 import com.haxademic.core.draw.image.BufferMotionDetectionMap;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.hardware.webcam.IWebCamCallback;

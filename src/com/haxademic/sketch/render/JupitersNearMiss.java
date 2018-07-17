@@ -4,9 +4,9 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.draw.context.OpenGLUtil;
-import com.haxademic.core.draw.filters.shaders.KaleidoFilter;
-import com.haxademic.core.draw.filters.shaders.RadialRipplesFilter;
-import com.haxademic.core.draw.filters.shaders.VignetteFilter;
+import com.haxademic.core.draw.filters.pshader.KaleidoFilter;
+import com.haxademic.core.draw.filters.pshader.RadialRipplesFilter;
+import com.haxademic.core.draw.filters.pshader.VignetteFilter;
 import com.haxademic.core.draw.shapes.Icosahedron;
 import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.draw.shapes.pshader.MeshDeformAndTextureFilter;
@@ -82,7 +82,7 @@ extends PAppletHax {
 		MeshDeformAndTextureFilter.instance(p).setDisplacementMap(texture);
 		MeshDeformAndTextureFilter.instance(p).setDisplaceAmp(0.2f + 0.2f * P.sin(-P.PI/2f + P.TWO_PI * percentComplete));
 		MeshDeformAndTextureFilter.instance(p).setSheetMode(false);
-		MeshDeformAndTextureFilter.instance(p).applyVertexShader(p);
+		MeshDeformAndTextureFilter.instance(p).applyTo(p);
 
 		// draw mesh
 		p.shape(shapeIcos);

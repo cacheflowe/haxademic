@@ -4,9 +4,9 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.draw.color.ImageGradient;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.context.OpenGLUtil;
-import com.haxademic.core.draw.filters.shaders.BlendTowardsTexture;
-import com.haxademic.core.draw.filters.shaders.BlurProcessingFilter;
-import com.haxademic.core.draw.filters.shaders.ColorizeFromTexture;
+import com.haxademic.core.draw.filters.pshader.BlendTowardsTexture;
+import com.haxademic.core.draw.filters.pshader.BlurProcessingFilter;
+import com.haxademic.core.draw.filters.pshader.ColorizeFromTexture;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
 import com.haxademic.core.draw.textures.pshader.TextureShader;
@@ -54,31 +54,33 @@ extends BaseTexture {
 		buildGraphics( width, height );
 		
 		// grid size
-		cols = 80;
-		rows = 46;
-//		colW = _texture.width / cols;
-//		rowH = _texture.height / rows;
+		cols = 100;
+		rows = 60;
+		int bufferW = (int) cols;
+		int bufferH = (int) rows;
 		
-		int bufferW = (int) cols; // width/mapDivide;
-		int bufferH = (int) rows; // height/mapDivide;
-		
+		// create texture steps
 		noiseMap = P.p.createGraphics( bufferW, bufferH, PConstants.P2D );
 		noiseMapZoomed = P.p.createGraphics( bufferW, bufferH, PConstants.P2D );
 		noiseMapFine = P.p.createGraphics( bufferW, bufferH, PConstants.P2D );
 		noiseComposite = P.p.createGraphics( bufferW, bufferH, PConstants.P2D );
-		noiseMap.noSmooth();
-		noiseComposite.noSmooth();
 		OpenGLUtil.setTextureQualityLow(noiseMap);
+		OpenGLUtil.setTextureQualityLow(noiseMapZoomed);
+		OpenGLUtil.setTextureQualityLow(noiseMapFine);
 		OpenGLUtil.setTextureQualityLow(noiseComposite);
+		// simplex noise shader
 		textureShader = new TextureShader(TextureShader.noise_simplex_2d_iq, 0.0005f);
 		
+		// debug textures
 		P.p.debugView.setTexture(noiseMap);
 		P.p.debugView.setTexture(noiseMapZoomed);
 		P.p.debugView.setTexture(noiseMapFine);
+		P.p.debugView.setTexture(noiseComposite);
 		
+		// create gradients
 		gradient = new ImageGradient(ImageGradient.BLACK_HOLE());
 		gradient = new ImageGradient(ImageGradient.PASTELS());
-		gradient = new ImageGradient(P.p.loadImage(FileUtil.getFile("images/textures/palette-sendgrid.png")));
+		gradient = new ImageGradient(P.p.loadImage(FileUtil.getFile("images/_sketch/sendgrid/palette-sendgrid.png")));
 		
 		// build grid
 		createCells();
@@ -176,7 +178,7 @@ extends BaseTexture {
 		BlendTowardsTexture.instance(P.p).applyTo(noiseComposite);
 
 		// prep for pixel-reading
-		P.p.debugView.setValue("predraw Time", P.p.millis() - startTime);
+//		P.p.debugView.setValue("predraw Time", P.p.millis() - startTime);
 	}
 
 	public void updateDraw() {
@@ -187,7 +189,7 @@ extends BaseTexture {
 		// draw image
 		ImageUtil.drawImageCropFill(noiseComposite, _texture, true);
 		
-		P.p.debugView.setValue("draw Time", P.p.millis() - startTime);
+//		P.p.debugView.setValue("draw Time", P.p.millis() - startTime);
 	}
 	
 	public class AudioCell {

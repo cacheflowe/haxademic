@@ -53,7 +53,7 @@ extends PAppletHax {
 		MeshDeformAndTextureFilter.instance(p).setDisplacementMap(texture);
 		MeshDeformAndTextureFilter.instance(p).setDisplaceAmp(displaceAmp + displaceAmp * P.sin(percentComplete * P.TWO_PI));
 		MeshDeformAndTextureFilter.instance(p).setSheetMode(true);
-		MeshDeformAndTextureFilter.instance(p).applyVertexShader(p);
+		MeshDeformAndTextureFilter.instance(p).applyTo(p);
 
 		// draw mesh
 		shape(mesh);

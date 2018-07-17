@@ -4,10 +4,10 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.draw.context.DrawUtil;
-import com.haxademic.core.draw.filters.shaders.InvertFilter;
-import com.haxademic.core.draw.filters.shaders.SphereDistortionFilter;
-import com.haxademic.core.draw.filters.shaders.VignetteFilter;
-import com.haxademic.core.draw.filters.shaders.WobbleFilter;
+import com.haxademic.core.draw.filters.pshader.InvertFilter;
+import com.haxademic.core.draw.filters.pshader.SphereDistortionFilter;
+import com.haxademic.core.draw.filters.pshader.VignetteFilter;
+import com.haxademic.core.draw.filters.pshader.WobbleFilter;
 import com.haxademic.core.draw.shapes.Shapes;
 import com.haxademic.core.draw.shapes.pshader.MeshDeformAndTextureFilter;
 import com.haxademic.core.file.FileUtil;
@@ -94,7 +94,7 @@ extends PAppletHax {
 		MeshDeformAndTextureFilter.instance(p).setDisplacementMap(texture);
 		MeshDeformAndTextureFilter.instance(p).setDisplaceAmp(displaceAmp);
 		MeshDeformAndTextureFilter.instance(p).setSheetMode(true);
-		MeshDeformAndTextureFilter.instance(p).applyVertexShader(p);
+		MeshDeformAndTextureFilter.instance(p).applyTo(p);
 
 		// draw mesh
 		p.shape(mesh);

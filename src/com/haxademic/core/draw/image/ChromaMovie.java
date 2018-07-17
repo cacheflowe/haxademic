@@ -1,7 +1,7 @@
 package com.haxademic.core.draw.image;
 
 import com.haxademic.core.app.P;
-import com.haxademic.core.draw.filters.shaders.ChromaColorFilter;
+import com.haxademic.core.draw.filters.pshader.ChromaColorFilter;
 
 import processing.core.PGraphics;
 import processing.core.PImage;

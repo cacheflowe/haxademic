@@ -4,7 +4,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.draw.context.DrawUtil;
-import com.haxademic.core.draw.filters.shaders.BlurProcessingFilter;
+import com.haxademic.core.draw.filters.pshader.BlurProcessingFilter;
 import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.draw.shapes.Shapes;
 import com.haxademic.core.draw.shapes.pshader.PointsDeformAndTextureFilter;
@@ -106,7 +106,7 @@ extends PAppletHax {
 		
 		// draw points mesh 
 		p.stroke(255);	// make sure to reset stroke
-		PointsDeformAndTextureFilter.instance(p).applyVertexShader(p);
+		PointsDeformAndTextureFilter.instance(p).applyTo(p);
 		if(p.mousePercentX() > 0.5f) {
 			p.shape(obj);
 		} else {

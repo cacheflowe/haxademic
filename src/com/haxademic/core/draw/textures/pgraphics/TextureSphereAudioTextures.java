@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import com.haxademic.core.app.P;
 import com.haxademic.core.draw.color.Gradients;
 import com.haxademic.core.draw.context.DrawUtil;
-import com.haxademic.core.draw.filters.shaders.BlurProcessingFilter;
-import com.haxademic.core.draw.filters.shaders.VignetteAltFilter;
+import com.haxademic.core.draw.filters.pshader.BlurProcessingFilter;
+import com.haxademic.core.draw.filters.pshader.VignetteAltFilter;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.shapes.Icosahedron;
 import com.haxademic.core.draw.shapes.PShapeUtil;
@@ -139,7 +139,7 @@ extends BaseTexture {
 		MeshDeformAndTextureFilter.instance(P.p).setDisplacementMap(sphereTexture);
 		MeshDeformAndTextureFilter.instance(P.p).setDisplaceAmp(0.75f + 0.5f * P.sin(scaleOsc));
 		MeshDeformAndTextureFilter.instance(P.p).setSheetMode(false);
-		MeshDeformAndTextureFilter.instance(P.p).applyVertexShader(_texture);
+		MeshDeformAndTextureFilter.instance(P.p).applyTo(_texture);
 //		// set texture using PShape method
 //		shape.setTexture(textureFlipped);
 

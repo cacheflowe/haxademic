@@ -6,7 +6,7 @@ import com.haxademic.core.camera.CameraUtil;
 import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.constants.PRenderers;
 import com.haxademic.core.draw.context.DrawUtil;
-import com.haxademic.core.draw.filters.shaders.BlurProcessingFilter;
+import com.haxademic.core.draw.filters.pshader.BlurProcessingFilter;
 import com.haxademic.core.draw.image.PerlinTexture;
 import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.draw.shapes.pshader.LinesDeformAndTextureFilter;
@@ -101,7 +101,7 @@ extends PAppletHax {
 			LinesDeformAndTextureFilter.instance(p).setDisplaceAmp(p.mousePercentY() * pg.height * 0.01f);
 		}
 		//		p.shader(displacementShader, P.LINES);
-		LinesDeformAndTextureFilter.instance(p).applyVertexShader(p);
+		LinesDeformAndTextureFilter.instance(p).applyTo(p);
 		p.stroke(255);
 		p.shape(shape);
 		p.resetShader();

@@ -60,7 +60,7 @@ extends PAppletHax {
 		MeshDeformAndTextureFilter.instance(p).setDisplacementMap(displacementMap);
 		MeshDeformAndTextureFilter.instance(p).setDisplaceAmp(0.5f + 0.5f * P.sin(p.frameCount * 0.02f));
 		MeshDeformAndTextureFilter.instance(p).setSheetMode(false);
-		MeshDeformAndTextureFilter.instance(p).applyVertexShader(p);
+		MeshDeformAndTextureFilter.instance(p).applyTo(p);
 		// set texture using PShape method
 		if(p.frameCount % 100 == 1) obj.setTexture(displacementMap);
 		

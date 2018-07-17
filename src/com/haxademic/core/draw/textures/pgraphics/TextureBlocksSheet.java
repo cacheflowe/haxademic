@@ -3,9 +3,9 @@ package com.haxademic.core.draw.textures.pgraphics;
 import com.haxademic.core.app.P;
 import com.haxademic.core.draw.color.ImageGradient;
 import com.haxademic.core.draw.context.DrawUtil;
-import com.haxademic.core.draw.filters.shaders.BlurProcessingFilter;
-import com.haxademic.core.draw.filters.shaders.ColorizeFilter;
-import com.haxademic.core.draw.filters.shaders.ContrastFilter;
+import com.haxademic.core.draw.filters.pshader.BlurProcessingFilter;
+import com.haxademic.core.draw.filters.pshader.ColorizeFilter;
+import com.haxademic.core.draw.filters.pshader.ContrastFilter;
 import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.draw.shapes.Shapes;
 import com.haxademic.core.draw.shapes.pshader.MeshDeformAndTextureFilter;
@@ -173,7 +173,7 @@ extends BaseTexture {
 		MeshDeformAndTextureFilter.instance(P.p).setDisplacementMap(audioTexture.texture());
 		MeshDeformAndTextureFilter.instance(P.p).setDisplaceAmp(10f);
 		MeshDeformAndTextureFilter.instance(P.p).setSheetMode(true);
-		MeshDeformAndTextureFilter.instance(P.p).applyVertexShader(_texture);
+		MeshDeformAndTextureFilter.instance(P.p).applyTo(_texture);
 		// set texture using PShape method
 //		gridShape.setTexture(DemoAssets.textureNebula());
 

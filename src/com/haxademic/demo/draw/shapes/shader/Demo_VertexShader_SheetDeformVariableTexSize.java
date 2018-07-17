@@ -5,7 +5,7 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.camera.CameraUtil;
 import com.haxademic.core.constants.PRenderers;
 import com.haxademic.core.draw.context.OpenGLUtil;
-import com.haxademic.core.draw.filters.shaders.ContrastFilter;
+import com.haxademic.core.draw.filters.pshader.ContrastFilter;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.image.PerlinTexture;
 import com.haxademic.core.draw.shapes.Shapes;
