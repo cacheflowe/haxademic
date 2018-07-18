@@ -20,6 +20,7 @@ import com.haxademic.core.draw.textures.pgraphics.TexturePixelatedAudio;
 import com.haxademic.core.draw.textures.pgraphics.TextureRotatingRings;
 import com.haxademic.core.draw.textures.pgraphics.TextureRotatorShape;
 import com.haxademic.core.draw.textures.pgraphics.TextureShaderTimeStepper;
+import com.haxademic.core.draw.textures.pgraphics.TextureSphereAudioTextures;
 import com.haxademic.core.draw.textures.pgraphics.TextureSphereRotate;
 import com.haxademic.core.draw.textures.pgraphics.TextureStarTrails;
 import com.haxademic.core.draw.textures.pgraphics.TextureTwistingSquares;
@@ -30,9 +31,9 @@ import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
 
 import processing.core.PGraphics;
 
-public class HaxVisualTexturesAll {
+public class HaxVisualTexturePools {
 
-	public static void addTexturesToPoolMinimal(PGraphics _pg, ArrayList<BaseTexture> _bgTexturePool, ArrayList<BaseTexture> _fgTexturePool, ArrayList<BaseTexture> _overlayTexturePool) {
+	public static void addTexturesToPoolMinimal(PGraphics _pg, ArrayList<BaseTexture> _bgTexturePool, ArrayList<BaseTexture> _fgTexturePool, ArrayList<BaseTexture> _overlayTexturePool, ArrayList<BaseTexture> _topLayerPool) {
 		int textureW = P.round(_pg.width);
 		int textureH = P.round(_pg.height);
 		
@@ -55,9 +56,11 @@ public class HaxVisualTexturesAll {
 //		_overlayTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "cacheflowe-liquid-moire.glsl" ));
 		_overlayTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "cacheflowe-metaballs.glsl" ));
 //		_overlayTexturePool.add( );
+		
+		_topLayerPool.add( new TextureSphereAudioTextures( _pg.width, _pg.height ) );
 	}
 	
-	public static void addTexturesToPool(PGraphics _pg, ArrayList<BaseTexture> _bgTexturePool, ArrayList<BaseTexture> _fgTexturePool, ArrayList<BaseTexture> _overlayTexturePool) {
+	public static void addTexturesToPool(PGraphics _pg, ArrayList<BaseTexture> _bgTexturePool, ArrayList<BaseTexture> _fgTexturePool, ArrayList<BaseTexture> _overlayTexturePool, ArrayList<BaseTexture> _topLayerPool) {
 
 		int videoW = 640;
 		int videoH = 360;
@@ -262,6 +265,10 @@ public class HaxVisualTexturesAll {
 //		_bgTexturePool.add( new TextureWebCam( videoW, videoH ));
 //		_bgTexturePool.add( new TextureImageTimeStepper( textureW, textureH ));
 //		_fgTexturePool.add( new TextureMeshDeform( textureW, textureH ));
+		
+		
+		_topLayerPool.add( new TextureSphereAudioTextures( _pg.width, _pg.height ) );
+
 	}
 	
 }

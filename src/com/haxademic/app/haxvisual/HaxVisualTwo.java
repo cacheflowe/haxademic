@@ -7,7 +7,7 @@ import java.util.Arrays;
 import java.util.Collections;
 
 import com.haxademic.app.haxmapper.dmxlights.RandomLightTiming;
-import com.haxademic.app.haxvisual.pools.HaxVisualTexturesAll;
+import com.haxademic.app.haxvisual.pools.HaxVisualTexturePools;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
@@ -17,6 +17,7 @@ import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.filters.pshader.BadTVLinesFilter;
 import com.haxademic.core.draw.filters.pshader.BlurHFilter;
+import com.haxademic.core.draw.filters.pshader.BlurProcessingFilter;
 import com.haxademic.core.draw.filters.pshader.BlurVFilter;
 import com.haxademic.core.draw.filters.pshader.BrightnessFilter;
 import com.haxademic.core.draw.filters.pshader.ColorDistortionFilter;
@@ -34,6 +35,7 @@ import com.haxademic.core.draw.filters.pshader.LeaveBlackFilter;
 import com.haxademic.core.draw.filters.pshader.LiquidWarpFilter;
 import com.haxademic.core.draw.filters.pshader.MaskThreeTextureFilter;
 import com.haxademic.core.draw.filters.pshader.MirrorFilter;
+import com.haxademic.core.draw.filters.pshader.MirrorQuadFilter;
 import com.haxademic.core.draw.filters.pshader.PixelateFilter;
 import com.haxademic.core.draw.filters.pshader.RadialRipplesFilter;
 import com.haxademic.core.draw.filters.pshader.RotateFilter;
@@ -44,7 +46,6 @@ import com.haxademic.core.draw.filters.pshader.WobbleFilter;
 import com.haxademic.core.draw.image.ImageCyclerBuffer;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.mapping.PGraphicsKeystone;
-import com.haxademic.core.draw.textures.pgraphics.TextureSphereAudioTextures;
 import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.midi.devices.AbletonNotes;
@@ -61,24 +62,16 @@ import processing.core.PImage;
 /**
  * 
  * TODO:  
- * Add new texture shaders and special effects like two-color shader and screen repeating & rotation shaders  
  * Add new concepts about layout, rather than just relying on displacement & mask effects 
  * Add text cycling texture
- * Add DrawUtil image rotation, just like the new post-draw scale function
- * Add tinting to layers - maybe a shader to re-color everything with a gradient map
- * mirror or kaleido the boring audio reactive textures
- * do something with the unicorn .obj model
-     * 3d model layer always on top - receives current textures to apply to self
-     * can we recreate the MeshDeform class from the old viz app - yes
-     * Use DrawMesh.drawPointsWithAudio() with PShape. Also, deform style from SphereTextureLines class would be good - MeshUtil.deformMeshWithAudio()
- * Displacement layer should act as mesh displace map
- * Fix some old shaders - they go too fast
  */
 
 public class HaxVisualTwo
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
+	// BEAT TRIGGER TIMING
+	
 	protected float BEAT_DIVISOR = 1; // 10 to test, 1 by default
 	protected int BEAT_INTERVAL_COLOR = (int) Math.ceil(6f / BEAT_DIVISOR);
 	protected int BEAT_INTERVAL_ROTATION = (int) Math.ceil(6f / BEAT_DIVISOR);
@@ -88,23 +81,25 @@ extends PAppletHax {
 	protected int BEAT_INTERVAL_NEW_TIMING = (int) Math.ceil(10f / BEAT_DIVISOR);
 	protected int BEAT_INTERVAL_BIG_CHANGE = (int) Math.ceil(120f / BEAT_DIVISOR);
 
-	protected String _inputFileLines[];
-	protected ArrayList<BaseTexture> _bgTexturePool;
-	protected ArrayList<BaseTexture> _fgTexturePool;
-	protected ArrayList<BaseTexture> _overlayTexturePool;
-	protected TextureSphereAudioTextures topLayer;
+	// TEXTURE POOLS
 	
-	protected ArrayList<BaseTexture> _curTexturePool;
-	
-	protected int layerSwapIndex = 0;
-	protected int[] poolCurTextureIndexes = new int[]{0,0,0};
+	protected ArrayList<BaseTexture> bgTexturePool;
+	protected ArrayList<BaseTexture> fgTexturePool;
+	protected ArrayList<BaseTexture> audioTexturePool;
+	protected ArrayList<BaseTexture> topLayerPool;
 	protected ArrayList<BaseTexture>[] texturePools;
+	protected ArrayList<BaseTexture> _curTexturePool;
+	protected int layerSwapIndex = 0;	// which texture pool to swap on next big change trigger (x/4)
+	protected int[] poolCurTextureIndexes;
 
+	// TEXTURE DEBUG
+	
 	protected boolean _debugTextures = false;
 	protected boolean DEBUG_TEXTURE_SAVE_IMAGE_PREVIEWS = false;
 	
-	protected int midiInChannel = 0;
+	// MIDI CONFIG
 	
+	protected int midiInChannel = 0;
 	protected int displaceMapLayerKnob = 21;
 	protected int overlayModeKnob = 41;
 	protected int invertKnob = 22;
@@ -120,6 +115,8 @@ extends PAppletHax {
 	protected int brightnessKnob = 48;
 	protected int interstitialKnob = 47;
 
+	// MULTI-INPUT CONFIG
+	
 	protected InputTrigger _colorTrigger = new InputTrigger(new char[]{'c'},new String[]{TouchOscPads.PAD_01},new Integer[]{AkaiMpdPads.PAD_01, LaunchControl.PAD_03, AbletonNotes.NOTE_01});
 	protected InputTrigger _rotationTrigger = new InputTrigger(new char[]{'v'},new String[]{TouchOscPads.PAD_02},new Integer[]{AkaiMpdPads.PAD_02, LaunchControl.PAD_04, AbletonNotes.NOTE_02});
 	protected InputTrigger _timingTrigger = new InputTrigger(new char[]{'n'},new String[]{TouchOscPads.PAD_03},new Integer[]{AkaiMpdPads.PAD_03, LaunchControl.PAD_01, AbletonNotes.NOTE_03});
@@ -129,33 +126,42 @@ extends PAppletHax {
 	protected InputTrigger _bigChangeTrigger = new InputTrigger(new char[]{' '},new String[]{TouchOscPads.PAD_07},new Integer[]{AkaiMpdPads.PAD_07, LaunchControl.PAD_08, AbletonNotes.NOTE_07});
 	protected InputTrigger _lineModeTrigger = new InputTrigger(new char[]{'l'},new String[]{TouchOscPads.PAD_08},new Integer[]{AkaiMpdPads.PAD_08, LaunchControl.PAD_06, AbletonNotes.NOTE_08});
 
-
 	protected InputTrigger _audioInputUpTrigger = new InputTrigger(new char[]{},new String[]{"/7/nav1"},new Integer[]{26});
 	protected InputTrigger _audioInputDownTrigger = new InputTrigger(new char[]{},new String[]{"/7/nav2"},new Integer[]{25});
 	protected InputTrigger _brightnessUpTrigger = new InputTrigger(new char[]{']'},new String[]{},new Integer[]{});
 	protected InputTrigger _brightnessDownTrigger = new InputTrigger(new char[]{'['},new String[]{},new Integer[]{});
 	protected InputTrigger _keystoneResetTrigger = new InputTrigger(new char[]{'k'},new String[]{},new Integer[]{});
 	protected InputTrigger _debugTexturesTrigger = new InputTrigger(new char[]{'d'},new String[]{},new Integer[]{});
+	
+	// USER INPUT OVERRIDE/TIMEOUT
+	
 	protected int _lastInputMillis = 0;
 	protected int numBeatsDetected = 0;
 	protected int lastTimingUpdateTime = 0;
 	protected int lastTimingUpdateDelay = 500;
 
+	// DMX LIGHTS
+	
 	protected RandomLightTiming _dmxLights;
 
-	protected float _brightnessVal = 1f;
+	// COLORIZE COMPOSITION
+	
 	protected ImageGradient imageGradient;
 	protected boolean imageGradientLuma = false;
 	protected boolean imageGradientFilter = false;
 	
+	// DISPLACEMENT LAYER
+	
 	protected int displacementLayer = 0;
 	protected int overlayMode = 0;
+	protected float brightnessVal = 1f;
 		
-	// global effects processing
-	protected static int[] _textureEffectsIndices = {0,0,0,0,0,0,0};	// store a effects number for each texture position after the first
-	protected int _numTextureEffects = 16 + 8; // +8 to give a good chance at removing the filter from the texture slot
+	// PER-TEXTURE POST EFFECTS
+	protected int[] textureEffectsIndices;	// store a effects number for each texture position after the first
+	protected int numTextureEffects = 16 + 8; // +8 to give a good chance at removing the filter from the texture slot
 
-	// keystonable screen
+	// CORNER-PINNED BUFFER
+	
 	protected PGraphics _pg;
 	protected PGraphicsKeystone _pgPinnable;
 	protected float scaleDownPG = 1f;
@@ -173,7 +179,7 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.DMX_LIGHTS_COUNT, 0 );
 		p.appConfig.setProperty( AppSettings.AUDIO_DEBUG, true );
 //		p.appConfig.setProperty( AppSettings.INIT_ESS_AUDIO, true );
-//		p.appConfig.setProperty( AppSettings.INIT_MINIM_AUDIO, true );
+		p.appConfig.setProperty( AppSettings.INIT_MINIM_AUDIO, true );
 //		p.appConfig.setProperty( AppSettings.INIT_BEADS_AUDIO, true );
 		p.appConfig.setProperty( AppSettings.MIDI_DEVICE_IN_INDEX, 0 );
 		p.appConfig.setProperty( AppSettings.MIDI_DEBUG, false );
@@ -186,36 +192,17 @@ extends PAppletHax {
 		buildCanvas();
 		buildTextures();
 		buildPostProcessingChain();
-//		buildInterstitial();
+		// buildInterstitial();
 	}
 	
 	protected void buildCanvas() {
-		//_pg = p.createGraphics( P.round(p.width / scaleDownPG), P.round(p.height / scaleDownPG), P.P3D );
 		int w = P.round(p.width * scaleDownPG);
 		int h = P.round(p.height * scaleDownPG);
 		_pg = p.createGraphics(w, h, P.P3D);
+		_pg.noSmooth();
 		OpenGLUtil.setTextureRepeat(_pg);
 		_pgPinnable = new PGraphicsKeystone( p, _pg, 12, FileUtil.getFile("text/keystoning/hax-visual-two.txt") );
 	}
-
-	protected void initDMX() {
-		if(p.appConfig.getInt(AppSettings.DMX_LIGHTS_COUNT, 0) > 0) {
-			_dmxLights = new RandomLightTiming(p.appConfig.getInt(AppSettings.DMX_LIGHTS_COUNT, 0));
-		}
-	}
-	
-	protected void buildTextures() {
-		_bgTexturePool = new ArrayList<BaseTexture>();
-		_fgTexturePool = new ArrayList<BaseTexture>();
-		_overlayTexturePool = new ArrayList<BaseTexture>();
-		topLayer = new TextureSphereAudioTextures( _pg.width, _pg.height );
-		texturePools = new ArrayList[]{_bgTexturePool, _fgTexturePool, _overlayTexturePool};
-		_curTexturePool = new ArrayList<BaseTexture>();
-//		HaxVisualTexturesAll.addTexturesToPoolMinimal(_pg, _bgTexturePool, _fgTexturePool, _overlayTexturePool);
-		HaxVisualTexturesAll.addTexturesToPool(_pg, _bgTexturePool, _fgTexturePool, _overlayTexturePool);
-		prepareTexturePools();
-	}
-
 
 	protected void buildPostProcessingChain() {
 		KaleidoFilter.instance(p).setAngle(0f);
@@ -230,30 +217,37 @@ extends PAppletHax {
 		
 		p.midiState.controllerChange(midiInChannel, vignetteKnob, (int) 70);
 	}
-	
-	protected ImageCyclerBuffer imageCycler;
-	protected void buildInterstitial() {
-		String imagesPath = "images/_sketch/glissline-interstitials/";
-		ArrayList<String> imageFiles = FileUtil.getFilesInDirOfType(FileUtil.getFile(imagesPath), "jpg");
-		PImage[] images = new PImage[imageFiles.size()];
-		for (int i = 0; i < imageFiles.size(); i++) {
-			images[i] = p.loadImage(imagesPath + imageFiles.get(i));
-			P.println(imageFiles.get(i));
+		
+	protected void initDMX() {
+		if(p.appConfig.getInt(AppSettings.DMX_LIGHTS_COUNT, 0) > 0) {
+			_dmxLights = new RandomLightTiming(p.appConfig.getInt(AppSettings.DMX_LIGHTS_COUNT, 0));
 		}
-		imageCycler = new ImageCyclerBuffer(1398, 1080, images, 500, 0.5f);
+	}
+	
+	//////////////////////////////////////////////
+	// GETTERS
+	//////////////////////////////////////////////
+
+	protected BaseTexture topLayer() {
+		return _curTexturePool.get(_curTexturePool.size() - 1);
+	}
+	
+	protected BaseTexture audioLayer() {
+		return _curTexturePool.get(_curTexturePool.size() - 2);
 	}
 	
 	//////////////////////////////////////////////
 	// DRAW
 	//////////////////////////////////////////////
-
+	
 	public void drawApp() {
 		background(0);
 		handleInputTriggers();
 		checkBeat();
-		getDisplacementLayer();
-		drawLayers();
+//		getDisplacementLayer();
 		filterActiveTextures();
+		updateTextures();
+		drawLayers();
 		drawTopLayer();
 		postProcessFilters();
 		postBrightness();
@@ -265,24 +259,16 @@ extends PAppletHax {
 		sendDmxLights();
 	}
 
-	protected void drawLayers() {
-		// update textures
+	protected void updateTextures() {
 		for( int i=0; i < _curTexturePool.size(); i++ ) {
 			BaseTexture tex = _curTexturePool.get(i);
 			if(tex != null && tex.texture() != null) {
 				tex.update();
 			}
-		}
-		
-		// set kaleido on audio layer
-		PGraphics audioLayer = _curTexturePool.get(_curTexturePool.size() - 1).texture();
-		KaleidoFilter.instance(p).setAngle(0f);
-		KaleidoFilter.instance(p).setSides(6f);
-		KaleidoFilter.instance(p).applyTo(audioLayer);
-
-		// custom update for the sphere
-		topLayer.update();
-		
+		}	
+	}
+	
+	protected void drawLayers() {
 		// composite textures
 		if(overlayMode != 3 || displacementLayer == 3) {	// we'll use the mask shader if 3, and no need to draw here
 			_pg.beginDraw();
@@ -290,7 +276,7 @@ extends PAppletHax {
 			_pg.blendMode(PBlendModes.EXCLUSION);
 	//		OpenGLUtil.setBlending(p.g, true);
 	//		OpenGLUtil.setBlendMode(p.g, OpenGLUtil.Blend.DARK_INVERSE);
-			for( int i=0; i < _curTexturePool.size() - 1; i++ ) {	// don't draw the current filter layer
+			for( int i=0; i < _curTexturePool.size() - 1; i++ ) {	
 				if(i != displacementLayer) {	// don't draw displacement layer
 					BaseTexture tex = _curTexturePool.get(i);
 					if(tex != null && tex.texture() != null) {
@@ -299,15 +285,14 @@ extends PAppletHax {
 				}
 			}
 			_pg.blendMode(PBlendModes.BLEND);
-//			float[] offsetAndSize = ImageUtil.getOffsetAndSizeToCrop(_pg.width, _pg.height, topLayer.texture().width, topLayer.texture().height, true);
-//			_pg.image(topLayer.texture(), offsetAndSize[0], offsetAndSize[1], offsetAndSize[2], offsetAndSize[3]);
 			_pg.endDraw();
 		}
 	}
 	
 	protected void drawTopLayer() {
 		_pg.beginDraw();
-		ImageUtil.drawImageCropFill(topLayer.texture(), _pg, true);
+		_pg.blendMode(PBlendModes.BLEND);
+		ImageUtil.drawImageCropFill(topLayer().texture(), _pg, true);
 		_pg.endDraw();
 	}
 
@@ -316,20 +301,20 @@ extends PAppletHax {
 	/////////////////////////////////////////////////////////////////
 	
 	protected void getDisplacementLayer() {		
-		displacementLayer = P.round(P.map(p.midiState.midiCCPercent(midiInChannel, displaceMapLayerKnob), 0, 1, 0, 3));
+		displacementLayer = P.floor(P.map(p.midiState.midiCCPercent(midiInChannel, displaceMapLayerKnob), 0, 1, 0, 2.9f));
 		overlayMode = P.round(P.map(p.midiState.midiCCPercent(midiInChannel, overlayModeKnob), 0, 1, 0, 3));
+		p.debugView.setValue("displacementLayer", displacementLayer);
+		p.debugView.setValue("overlayMode", overlayMode);
 	}
 	
 	protected void postProcessFilters() {
 		// DISPLACEMENT MAP ////////////////////////
 		// which layer to use for displacement?
-		p.debugView.setValue("overlayMode", overlayMode);
 		if(displacementLayer < 3) {
 			if(displacementLayer >= _curTexturePool.size()) displacementLayer = _curTexturePool.size() - 1; // protection!
 			PGraphics displacementBuffer = _curTexturePool.get(displacementLayer).texture();
 			if(overlayMode == 0) {
-				// zoom into displacement image
-	//			DrawUtil.zoomReTexture(_curTexturePool.get(displacementLayer).texture(), 0.66f + 0.33f * P.sin(p.frameCount * 0.01f));
+				// DISPLACEMENT MAP FILTER
 				// add blur to displacement image
 				float blurPercent = 2f; // p.mousePercentX() * 10f;
 				BlurHFilter.instance(p).setBlurByPercent(blurPercent, _pg.width);
@@ -343,12 +328,14 @@ extends PAppletHax {
 				DisplacementMapFilter.instance(p).setMode(3);
 				DisplacementMapFilter.instance(p).applyTo(_pg);
 			} else if(overlayMode == 1) {
+				// OVERLAY WITH ONLY BLACK
 				LeaveBlackFilter.instance(p).setMix(1f);
 				LeaveBlackFilter.instance(p).applyTo(displacementBuffer);
 				_pg.beginDraw();
 				ImageUtil.drawImageCropFill(displacementBuffer, _pg, true);
 				_pg.endDraw();
 			} else if(overlayMode == 2) {
+				// DRAW DISPLACEMENT BUFFER NORMALLY
 				_pg.beginDraw();
 				_pg.blendMode(PBlendModes.EXCLUSION);
 				ImageUtil.drawImageCropFill(displacementBuffer, _pg, true);
@@ -414,14 +401,6 @@ extends PAppletHax {
 		}
 
 		// WARP /////////////////////////
-//		int warpAutoFrame = p.frameCount % 200;
-//		float warpFrames = 100f;
-//		if(warpAutoFrame <= warpFrames) {
-//			float warpAmpAuto = P.sin(warpAutoFrame/warpFrames * P.PI);
-//			p.midi.controllerChange(0, warpKnobAmp, 86);
-//			p.midi.controllerChange(0, warpKnobFreq, P.round(0.1f * P.round(127 * warpAmpAuto)));
-//		}
-
 		float warpAmp = p.midiState.midiCCPercent(midiInChannel, warpKnobAmp) * 0.1f;
 		float warpFreq = p.midiState.midiCCPercent(midiInChannel, warpKnobFreq) * 10f;
 		if(warpAmp > 0) {
@@ -468,36 +447,11 @@ extends PAppletHax {
 	}
 
 	protected void postBrightness() {
-		// BRIGHTNESS ////////////////////////
-		if(p.midiState.midiCCPercent(midiInChannel, brightnessKnob) != 0) _brightnessVal = p.midiState.midiCCPercent(midiInChannel, brightnessKnob) * 5f;
-		BrightnessFilter.instance(p).setBrightness(_brightnessVal);
+		if(p.midiState.midiCCPercent(midiInChannel, brightnessKnob) != 0) brightnessVal = p.midiState.midiCCPercent(midiInChannel, brightnessKnob) * 5f;
+		BrightnessFilter.instance(p).setBrightness(brightnessVal);
 		BrightnessFilter.instance(p).applyTo(_pg);	
 	}
 	
-	/////////////////////////////////////////////////////////////////
-	// DMX LIGHTING
-	/////////////////////////////////////////////////////////////////
-	
-	protected float dmxMultiplier() {
-		return p.midiState.midiCCPercent(midiInChannel, 41) * 1.5f;
-	}
-
-	protected void sendDmxLights() {
-		int dmxKnob = 47;
-		if(_dmxLights != null) {
-			_dmxLights.update();
-			float knobValue = p.midiState.midiCCPercent(midiInChannel, dmxKnob);
-			if(knobValue == 0) {
-				_dmxLights.setBrightness(1);
-			} else if(knobValue > 0.1f) {
-				_dmxLights.setBrightness((p.midiState.midiCCPercent(midiInChannel, dmxKnob)-0.1f) * 50f);
-			} else {
-				_dmxLights.setBrightness(0);
-			}
-			if(_debugTextures == true) _dmxLights.drawDebug(p.g);
-		}
-	}
-
 	/////////////////////////////////////////////////////////////////
 	// BEAT DETECTION 
 	/////////////////////////////////////////////////////////////////
@@ -514,7 +468,7 @@ extends PAppletHax {
 
 	public void resetBeatDetectMode() {
 		_lastInputMillis = p.millis();
-		numBeatsDetected = 1;
+//		numBeatsDetected = 1;
 	}
 
 	/////////////////////////////////////////////////////////////////
@@ -571,8 +525,8 @@ extends PAppletHax {
 //		}
 		if ( _audioInputUpTrigger.triggered() == true ) p.audioData.setGain(p.audioData.gain() + 0.05f);
 		if ( _audioInputDownTrigger.triggered() == true ) p.audioData.setGain(p.audioData.gain() - 0.05f);
-		if ( _brightnessUpTrigger.triggered() == true ) _brightnessVal += 0.1f;
-		if ( _brightnessDownTrigger.triggered() == true ) _brightnessVal -= 0.1f;
+		if ( _brightnessUpTrigger.triggered() == true ) brightnessVal += 0.1f;
+		if ( _brightnessDownTrigger.triggered() == true ) brightnessVal -= 0.1f;
 		if ( _keystoneResetTrigger.triggered() == true ) _pgPinnable.resetCorners();
 		if ( _debugTexturesTrigger.triggered() == true ) _debugTextures = !_debugTextures;
 	}
@@ -585,14 +539,12 @@ extends PAppletHax {
 		for( int i=0; i < _curTexturePool.size(); i++ ) {
 			_curTexturePool.get(i).newMode();
 		}
-		topLayer.newMode();
 	}
 
 	protected void updateColor() {
 		for( int i=0; i < _curTexturePool.size(); i++ ) {
 			_curTexturePool.get(i).setColor( randomColor(1) );
 		}
-		topLayer.setColor( randomColor(1) );
 		if(MathUtil.randBooleanWeighted(p, 0.2f)) imageGradient.randomGradientTexture();
 		imageGradientLuma = true; // MathUtil.randBoolean(p);
 		imageGradientFilter = true; // MathUtil.randBoolean(p);
@@ -602,14 +554,12 @@ extends PAppletHax {
 		for( int i=0; i < _curTexturePool.size(); i++ ) {
 			_curTexturePool.get(i).newLineMode();
 		}
-		topLayer.newLineMode();
 	}
 
 	protected void updateRotation() {
 		for( int i=0; i < _curTexturePool.size(); i++ ) {
 			_curTexturePool.get(i).newRotation();
 		}
-		topLayer.newRotation();
 	}
 
 	protected void updateTiming() {
@@ -618,9 +568,8 @@ extends PAppletHax {
 			for( int i=0; i < _curTexturePool.size(); i++ ) {
 				_curTexturePool.get(i).updateTiming();
 			}
-			topLayer.updateTiming();
 			lastTimingUpdateTime = p.millis();
-			// run auto beat mode
+			// run beat-counted mode triggers on each beat
 			autoBeatMode();
 		}
 		if(_dmxLights != null) _dmxLights.updateDmxLightsOnBeat();
@@ -642,7 +591,6 @@ extends PAppletHax {
 		if( numBeatsDetected % BEAT_INTERVAL_TRAVERSE == 0 ) {
 //			P.println("BEAT_INTERVAL_TRAVERSE");
 		}
-//		updateColor();
 
 		if( numBeatsDetected % BEAT_INTERVAL_ALL_SAME == 0 ) {
 //			P.println("BEAT_INTERVAL_ALL_SAME");
@@ -670,7 +618,6 @@ extends PAppletHax {
 		for( int i=0; i < _curTexturePool.size(); i++ ) {
 			_curTexturePool.get(i).updateTimingSection();
 		}
-		topLayer.updateTimingSection();
 		
 		// swap displacement filter option
 		displacementLayer = MathUtil.randRange(0, 3);
@@ -705,9 +652,7 @@ extends PAppletHax {
 		
 		// debug values
 		p.debugView.setValue("layerSwapIndex", layerSwapIndex);
-		p.debugView.setValue("poolCurTextureIndexes[0]", poolCurTextureIndexes[0]);
-		p.debugView.setValue("poolCurTextureIndexes[1]", poolCurTextureIndexes[1]);
-		p.debugView.setValue("poolCurTextureIndexes[2]", poolCurTextureIndexes[2]);
+		p.debugView.setValue("poolCurTextureIndexes", Arrays.toString(poolCurTextureIndexes));
 		
 		// make sure time steppers don't go wild
 		SystemUtil.setTimeout(updateTimingCallback, 1);
@@ -738,25 +683,45 @@ extends PAppletHax {
 	// TEXTURE POOL MANAGEMENT
 	/////////////////////////////////////////////////////////////////
 	
-	protected void prepareTexturePools() {
+	protected void buildTextures() {
+		bgTexturePool = new ArrayList<BaseTexture>();
+		fgTexturePool = new ArrayList<BaseTexture>();
+		audioTexturePool = new ArrayList<BaseTexture>();
+		topLayerPool = new ArrayList<BaseTexture>();
+		texturePools = new ArrayList[]{bgTexturePool, fgTexturePool, audioTexturePool, topLayerPool};
+		_curTexturePool = new ArrayList<BaseTexture>();
+
+//		HaxVisualTexturePools.addTexturesToPoolMinimal(_pg, bgTexturePool, fgTexturePool, audioTexturePool, topLayerPool);
+		HaxVisualTexturePools.addTexturesToPool(_pg, bgTexturePool, fgTexturePool, audioTexturePool, topLayerPool);
+//		HaxVisualTexturePools.addTexturesToPoolClient(_pg, bgTexturePool, fgTexturePool, audioTexturePool, topLayerPool);
+
 		// make sure all textures are not playing videos, etc
-		for(BaseTexture tex : _bgTexturePool) tex.setActive(false);
-		for(BaseTexture tex : _fgTexturePool) tex.setActive(false);
-		for(BaseTexture tex : _overlayTexturePool) tex.setActive(false);
+		for(BaseTexture tex : bgTexturePool) tex.setActive(false);
+		for(BaseTexture tex : fgTexturePool) tex.setActive(false);
+		for(BaseTexture tex : audioTexturePool) tex.setActive(false);
+		for(BaseTexture tex : topLayerPool) tex.setActive(false);
 
 		// randomize all pools
-		Collections.shuffle(_bgTexturePool);
-		Collections.shuffle(_fgTexturePool);
-		Collections.shuffle(_overlayTexturePool);
+		Collections.shuffle(bgTexturePool);
+		Collections.shuffle(fgTexturePool);
+		Collections.shuffle(audioTexturePool);
+		Collections.shuffle(topLayerPool);
+		
+		// build cur texture indexes and per-texture effect indexes
+		poolCurTextureIndexes = new int[texturePools.length];
+		for (int i = 0; i < poolCurTextureIndexes.length; i++) poolCurTextureIndexes[i] = 0;
+		textureEffectsIndices = new int[texturePools.length];
+		for (int i = 0; i < textureEffectsIndices.length; i++) textureEffectsIndices[i] = 0;
 
 		// add inital textures to current array
 		reloadLayers();
 
 		// output to images
 		if(DEBUG_TEXTURE_SAVE_IMAGE_PREVIEWS == true) {
-			outputTestImages(_bgTexturePool);
-			outputTestImages(_fgTexturePool);
-			outputTestImages(_overlayTexturePool);
+			outputTestImages(bgTexturePool);
+			outputTestImages(fgTexturePool);
+			outputTestImages(audioTexturePool);
+			outputTestImages(topLayerPool);
 		}
 	}
 	
@@ -774,7 +739,7 @@ extends PAppletHax {
 	protected void reloadLayers() {
 		clearCurrentLayers();
 		
-		// reload current 3 layers
+		// reload current 4 layers
 		for (int i = 0; i < texturePools.length; i++) {
 			_curTexturePool.add( texturePools[i].get(poolCurTextureIndexes[i]) );
 			// debug info
@@ -788,60 +753,57 @@ extends PAppletHax {
 		}
 		
 		// tell the top layer
-		topLayer.setCurTexturePool(_curTexturePool);
-		
+		topLayer().setCurTexturePool(_curTexturePool);
 		p.debugView.setValue("_curTexturePool.size()", _curTexturePool.size());
 	}
 
-	protected BaseTexture randomTexture(ArrayList<BaseTexture> pool) {
-		BaseTexture newTexture = pool.get( MathUtil.randRange(0, pool.size()-1 ) );
-//		if(newTexture instanceof TextureVideoPlayer) {
-//			newTexture.setActive(true);
-//		}
-		return newTexture;
-	}
-	
-	
-	
-	
-	
-	
-	
 	/////////////////////////////////////////////////////////////////
 	// TEXTURE-SPECIFIC POST-PROCESSING
 	/////////////////////////////////////////////////////////////////
 
 	protected void selectNewActiveTextureFilters() {
-		for(int i=0; i < _textureEffectsIndices.length; i++) {
+		for(int i=0; i < textureEffectsIndices.length; i++) {
 			if(MathUtil.randBooleanWeighted(p, 0.2f)) {
-				_textureEffectsIndices[i] = MathUtil.randRange(0, _numTextureEffects);
+				textureEffectsIndices[i] = MathUtil.randRange(0, numTextureEffects);
+			} else {
+				textureEffectsIndices[i] = 0;
 			}
 		}
-		p.debugView.setValue("_textureEffectsIndices", Arrays.toString(_textureEffectsIndices));
+		p.debugView.setValue("textureEffectsIndices", Arrays.toString(textureEffectsIndices));
 	}
 	
 	protected void filterActiveTextures() {
-		for( int i=0; i < _curTexturePool.size(); i++ ) {
+		// loop through textures and apply per-texture effect via `textureEffectsIndices`
+		for( int i=0; i < _curTexturePool.size() - 1; i++ ) {
 			if(_curTexturePool.get(i).isActive() == true) {
 				PGraphics pg = _curTexturePool.get(i).texture();
 				applyFilterToTexture(pg, i);
 			}
 		}
+		
+		// set kaleido on audio layer
+		PGraphics audioLayer = _curTexturePool.get(_curTexturePool.size() - 2).texture();
+		KaleidoFilter.instance(p).setAngle(0f);
+		KaleidoFilter.instance(p).setSides(6f);
+		KaleidoFilter.instance(p).applyTo(audioLayer);
 	}
 	
-	public static void applyFilterToTexture(PGraphics pg, int effectIndex) {
+	public void applyFilterToTexture(PGraphics pg, int effectIndex) {
 		float filterTime = p.frameCount / 40f;
 		
-		int textureEffectIndex = _textureEffectsIndices[effectIndex];
+		int textureEffectIndex = textureEffectsIndices[effectIndex];
 		if(textureEffectIndex == 1) {
 			KaleidoFilter.instance(p).setAngle(filterTime / 10f);
 			KaleidoFilter.instance(p).setSides(4);
 			KaleidoFilter.instance(p).applyTo(pg);
-//		} else if(textureEffectIndex == 2) {
-//			DeformTunnelFanFilter.instance(p).setTime(filterTime);
-//			DeformTunnelFanFilter.instance(p).applyTo(pg);
+		} else if(textureEffectIndex == 2) {
+			MirrorQuadFilter.instance(p).applyTo(pg);
 		} else if(textureEffectIndex == 3) {
 			EdgesFilter.instance(p).applyTo(pg);
+			// smooth out edges with a blur
+			BlurProcessingFilter.instance(p).setBlurSize(3);
+			BlurProcessingFilter.instance(p).setSigma(2f);
+			BlurProcessingFilter.instance(p).applyTo(pg);
 		} else if(textureEffectIndex == 4) {
 			MirrorFilter.instance(p).applyTo(pg);
 		} else if(textureEffectIndex == 5) {
@@ -858,22 +820,21 @@ extends PAppletHax {
 			RadialRipplesFilter.instance(p).applyTo(pg);
 		} else if(textureEffectIndex == 8) {
 			BadTVLinesFilter.instance(p).applyTo(pg);
-//			} else if(textureEffectIndex == 9) {
-//				EdgesFilter.instance(p).applyTo(pg);
 		} else if(textureEffectIndex == 10) {
 			CubicLensDistortionFilterOscillate.instance(p).setTime(filterTime);
 			CubicLensDistortionFilterOscillate.instance(p).applyTo(pg);
 		} else if(textureEffectIndex == 11) {
 			SphereDistortionFilter.instance(p).applyTo(pg);
-//		} else if(textureEffectIndex == 12) {
-//			HalftoneFilter.instance(p).applyTo(pg);
+		} else if(textureEffectIndex == 12) {
+			HalftoneFilter.instance(p).applyTo(pg);
 		} else if(textureEffectIndex == 13) {
 			PixelateFilter.instance(p).setDivider(15f, pg.width, pg.height);
 			PixelateFilter.instance(p).applyTo(pg);
 		} else if(textureEffectIndex == 14) {
 			HalftoneCamoFilter.instance(p).applyTo(pg);
 		} else if(textureEffectIndex == 15) {
-			RotateFilter.instance(p).setRotation(filterTime / 10f);
+			RotateFilter.instance(p).setRotation(effectIndex + filterTime / 10f);
+			RotateFilter.instance(p).setZoom(2f + P.sin(effectIndex + p.frameCount * 0.05f));
 			RotateFilter.instance(p).applyTo(pg);
 		} else if(textureEffectIndex == 16) {
 			HueFilter.instance(p).setTime(filterTime);
@@ -884,6 +845,18 @@ extends PAppletHax {
 	/////////////////////////////////////////////////////////////////
 	// SPECIAL INTERSTITIAL MODE 
 	/////////////////////////////////////////////////////////////////
+
+	protected ImageCyclerBuffer imageCycler;
+	protected void buildInterstitial() {
+		String imagesPath = "images/_sketch/glissline-interstitials/";
+		ArrayList<String> imageFiles = FileUtil.getFilesInDirOfType(FileUtil.getFile(imagesPath), "jpg");
+		PImage[] images = new PImage[imageFiles.size()];
+		for (int i = 0; i < imageFiles.size(); i++) {
+			images[i] = p.loadImage(imagesPath + imageFiles.get(i));
+			P.println(imageFiles.get(i));
+		}
+		imageCycler = new ImageCyclerBuffer(1398, 1080, images, 500, 0.5f);
+	}
 
 	protected void drawInterstitial() {
 		float interstitialAlpha = (p.midiState.midiCCPercent(midiInChannel, interstitialKnob) != 0) ? p.midiState.midiCCPercent(midiInChannel, interstitialKnob) : 0;
@@ -897,9 +870,32 @@ extends PAppletHax {
 		}
 	}
 	
-	
 	/////////////////////////////////////////////////////////////////
-	// DEBUG TEXTURES
+	// DMX LIGHTING
+	/////////////////////////////////////////////////////////////////
+	
+	protected float dmxMultiplier() {
+		return p.midiState.midiCCPercent(midiInChannel, 41) * 1.5f;
+	}
+
+	protected void sendDmxLights() {
+		int dmxKnob = 47;
+		if(_dmxLights != null) {
+			_dmxLights.update();
+			float knobValue = p.midiState.midiCCPercent(midiInChannel, dmxKnob);
+			if(knobValue == 0) {
+				_dmxLights.setBrightness(1);
+			} else if(knobValue > 0.1f) {
+				_dmxLights.setBrightness((p.midiState.midiCCPercent(midiInChannel, dmxKnob)-0.1f) * 50f);
+			} else {
+				_dmxLights.setBrightness(0);
+			}
+			if(_debugTextures == true) _dmxLights.drawDebug(p.g);
+		}
+	}
+
+	/////////////////////////////////////////////////////////////////
+	// DEBUG TEXTURES TO IMAGE FILES
 	/////////////////////////////////////////////////////////////////
 
 	protected void outputTestImages(ArrayList<BaseTexture> texturePool) {

@@ -28,7 +28,6 @@ extends BaseTexture {
 
 		
 //		_waveformData = P.p._waveformData;
-		_circleInc = ( (float)Math.PI * 2.0f ) / P.p.audioData.waveform().length;
 		
 		// set some defaults
 		newLineMode();
@@ -47,6 +46,7 @@ extends BaseTexture {
 		
 		DrawUtil.setCenterScreen( _texture );
 
+		_circleInc = P.TWO_PI / (float) P.p.audioData.waveform().length;
 		int numPoints = P.p.audioData.waveform().length;
 		
 		// draw 3 concentric circles

@@ -27,8 +27,6 @@ extends BaseTexture {
 	protected final float _ninteyDeg = P.PI / 6f;
 	
 	protected BaseTexture[] audioTextures;
-	protected int audioTexIndex = 0;
-	protected ArrayList<BaseTexture> _curTexturePool;
 	protected int texturePoolIndex = 0;
 	protected boolean audioMode = false;
 	
@@ -46,11 +44,6 @@ extends BaseTexture {
 //		buildAudioTextures();
 //		pickRandomTexture();
 		createNewSphere();
-	}
-	
-	public void setCurTexturePool(ArrayList<BaseTexture> curTexturePool) {
-		_curTexturePool = curTexturePool;
-		pickRandomTexture();
 	}
 	
 	protected void createNewSphere() {
@@ -73,7 +66,12 @@ extends BaseTexture {
 	}
 	
 	protected void pickRandomTexture() {
-		texturePoolIndex = MathUtil.randRange(0, _curTexturePool.size() - 1);
+		texturePoolIndex = MathUtil.randRange(0, _curTexturePool.size() - 2);
+	}
+	
+	public void setCurTexturePool(ArrayList<BaseTexture> curTexturePool) {
+		super.setCurTexturePool(curTexturePool);
+		pickRandomTexture();
 	}
 	
 	public void newRotation() {

@@ -24,7 +24,7 @@ extends BaseTexture {
 		feedback(10f, 0.12f);
 		
 		int waveformDataLength = P.p.audioData.waveform().length;
-		float widthStep = (float) _texture.width / waveformDataLength;
+		float widthStep = (float) _texture.width / (float) waveformDataLength;
 		float startY = _texture.height * 0.5f;
 		float amp = _texture.height * 0.4f;
 		

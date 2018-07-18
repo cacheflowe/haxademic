@@ -62,10 +62,10 @@ extends BaseTexture {
 		textureShader = new TextureShader(TextureShader.noise_simplex_2d_iq, 0.0005f);
 		
 		// debug textures
-		P.p.debugView.setTexture(noiseMap);
-		P.p.debugView.setTexture(noiseMapZoomed);
-		P.p.debugView.setTexture(noiseMapFine);
-		P.p.debugView.setTexture(noiseComposite);
+//		P.p.debugView.setTexture(noiseMap);
+//		P.p.debugView.setTexture(noiseMapZoomed);
+//		P.p.debugView.setTexture(noiseMapFine);
+//		P.p.debugView.setTexture(noiseComposite);
 		
 		// create gradients
 		gradient = new ImageGradient(ImageGradient.BLACK_HOLE());
