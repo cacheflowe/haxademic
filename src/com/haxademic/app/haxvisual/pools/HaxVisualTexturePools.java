@@ -3,14 +3,18 @@ package com.haxademic.app.haxvisual.pools;
 import java.util.ArrayList;
 
 import com.haxademic.core.app.P;
+import com.haxademic.core.draw.textures.pgraphics.TextureAudioBlocksDeform;
+import com.haxademic.core.draw.textures.pgraphics.TextureAudioSheetDeform;
 import com.haxademic.core.draw.textures.pgraphics.TextureAudioTube;
 import com.haxademic.core.draw.textures.pgraphics.TextureBlobSheet;
+import com.haxademic.core.draw.textures.pgraphics.TextureBlocksSheet;
 import com.haxademic.core.draw.textures.pgraphics.TextureCyclingRadialGradient;
 import com.haxademic.core.draw.textures.pgraphics.TextureEQBandDistribute;
 import com.haxademic.core.draw.textures.pgraphics.TextureEQColumns;
 import com.haxademic.core.draw.textures.pgraphics.TextureEQConcentricCircles;
 import com.haxademic.core.draw.textures.pgraphics.TextureEQFloatParticles;
 import com.haxademic.core.draw.textures.pgraphics.TextureEQGrid;
+import com.haxademic.core.draw.textures.pgraphics.TextureEQLines3d;
 import com.haxademic.core.draw.textures.pgraphics.TextureFractalPolygons;
 import com.haxademic.core.draw.textures.pgraphics.TextureLinesEQ;
 import com.haxademic.core.draw.textures.pgraphics.TextureMeshAudioDeform;
@@ -23,6 +27,7 @@ import com.haxademic.core.draw.textures.pgraphics.TextureShaderTimeStepper;
 import com.haxademic.core.draw.textures.pgraphics.TextureSphereAudioTextures;
 import com.haxademic.core.draw.textures.pgraphics.TextureSphereRotate;
 import com.haxademic.core.draw.textures.pgraphics.TextureStarTrails;
+import com.haxademic.core.draw.textures.pgraphics.TextureSvg3dExtruded;
 import com.haxademic.core.draw.textures.pgraphics.TextureTwistingSquares;
 import com.haxademic.core.draw.textures.pgraphics.TextureVectorFieldEQ;
 import com.haxademic.core.draw.textures.pgraphics.TextureWaveformCircle;
@@ -33,6 +38,44 @@ import processing.core.PGraphics;
 
 public class HaxVisualTexturePools {
 
+	public static void addTexturesToPoolSG(PGraphics _pg, ArrayList<BaseTexture> _bgTexturePool, ArrayList<BaseTexture> _fgTexturePool, ArrayList<BaseTexture> _overlayTexturePool, ArrayList<BaseTexture> _topLayerPool) {
+		int textureW = P.round(_pg.width);
+		int textureH = P.round(_pg.height);
+		
+//		new TextureAudioBlocksDeform( w, h ),
+//		new TextureBlocksSheet( w, h ),
+//		new TextureSvg3dExtruded( w, h ),
+
+		
+		// complex textures in the back
+		_bgTexturePool.add( new TextureOuterSphere( textureW, textureH ) );
+		_bgTexturePool.add( new TextureOuterCube( textureW, textureH ) );
+		
+//		_bgTexturePool.add( new TextureAudioTube( textureW, textureH ) );
+		_bgTexturePool.add( new TextureBlobSheet( textureW, textureH ) );
+		_bgTexturePool.add( new TextureRotatorShape( textureW, textureH ) );
+//		_bgTexturePool.add( new TextureRotatingRings( textureW, textureH ) );
+////		_bgTexturePool.add( new TextureOuterSphere( textureW, textureH ) );
+//		_bgTexturePool.add( new TextureVectorFieldEQ( textureW, textureH ) );
+		
+		_fgTexturePool.add( new TextureEQFloatParticles( textureW, textureH ));
+		_fgTexturePool.add( new TextureLinesEQ( textureW, textureH ));
+		_fgTexturePool.add( new TextureAudioSheetDeform( textureW, textureH ));
+		_fgTexturePool.add( new TextureMeshAudioDeform( textureW, textureH ));
+		_fgTexturePool.add( new TextureEQBandDistribute( textureW, textureH ));
+		_fgTexturePool.add( new TextureBlocksSheet( textureW, textureH ) );
+		_fgTexturePool.add( new TextureWaveformCircle( textureW, textureH ));
+		_fgTexturePool.add( new TexturePixelatedAudio( textureW, textureH ));
+		_fgTexturePool.add( new TextureEQLines3d( textureW, textureH ));
+		
+//		_overlayTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "cacheflowe-liquid-moire.glsl" ));
+		_overlayTexturePool.add( new TextureAudioBlocksDeform( textureW, textureH ));
+		_overlayTexturePool.add( new TexturePixelatedAudio( textureW, textureH ));
+//		_overlayTexturePool.add( );
+		
+		_topLayerPool.add( new TextureSvg3dExtruded( textureW, textureH ) );
+	}
+	
 	public static void addTexturesToPoolMinimal(PGraphics _pg, ArrayList<BaseTexture> _bgTexturePool, ArrayList<BaseTexture> _fgTexturePool, ArrayList<BaseTexture> _overlayTexturePool, ArrayList<BaseTexture> _topLayerPool) {
 		int textureW = P.round(_pg.width);
 		int textureH = P.round(_pg.height);

@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Random;
 
 import com.haxademic.core.app.P;
+import com.haxademic.core.debug.DebugUtil;
 import com.haxademic.core.draw.color.ImageGradient;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.filters.pshader.ColorizeFilter;
@@ -43,6 +44,9 @@ extends BaseTexture {
 	protected TextureShader noiseTexture;
 	protected BaseTexture audioTexture;
 	
+	protected EasingFloat rotateZoom = new EasingFloat(1f, 0.1f);
+	protected EasingFloat rotateRot = new EasingFloat(0f, 0.1f);
+	
 	protected float thickness = 40;
 	
 	// draw modes & random getters
@@ -73,8 +77,9 @@ extends BaseTexture {
 		
 		// build textures
 		noiseTexture = new TextureShader(TextureShader.noise_simplex_2d_iq, 0.0005f);
-//		audioTexture = new TextureEQGrid(200, 200);
-		audioTexture = new TextureEQBandDistribute(200, 200);
+		audioTexture = new TextureEQGrid(200, 200);
+//		audioTexture = new TextureEQBandDistribute(200, 200);
+//		audioTexture = new TextureEQConcentricCircles(200, 200);
 
 		// build color
 //		gradient = new ImageGradient(ImageGradient.BLACK_HOLE());
@@ -86,15 +91,16 @@ extends BaseTexture {
 	}
 	
 	protected void buildLogo() {
-		logoSvg = P.p.loadShape( FileUtil.getFile("svg/sendgrid.svg")).getTessellation();
+		logoSvg = P.p.loadShape( FileUtil.getFile("images/_sketch/sendgrid/svg/sendgrid-logo-01.svg")).getTessellation();
 		PShapeUtil.repairMissingSVGVertex(logoSvg);
 		
 		PShapeUtil.centerShape(logoSvg);
 		PShapeUtil.scaleShapeToHeight(logoSvg, _texture.height * 0.15f);
 		
-		PShape logoForTex = P.p.loadShape( FileUtil.getFile("svg/sendgrid.svg"));
+		PShape logoForTex = P.p.loadShape( FileUtil.getFile("images/_sketch/sendgrid/svg/sendgrid-logo-01.svg"));
 		float scaleToTex = MathUtil.scaleToTarget(logoForTex.height, _texture.height * 0.15f);
 		logoTexture = ImageUtil.shapeToGraphics(logoForTex, scaleToTex);
+		DebugUtil.printErr("Load more logoTextures and swap out");
 		
 		// create extrusion
 		// add UV coordinates to OBJ based on model extents
@@ -103,7 +109,7 @@ extends BaseTexture {
 		PShapeUtil.addTextureUVToShape(logo3d, audioTexture.texture());
 		
 		// create points version
-		logoPoints = PShapeUtil.svgToUniformPointsShape(FileUtil.getFile("svg/sendgrid.svg"), 13);
+		logoPoints = PShapeUtil.svgToUniformPointsShape(FileUtil.getFile("images/_sketch/sendgrid/svg/sendgrid-logo-01.svg"), 4);
 //		logoPoints = PShapeUtil.createExtrudedShape( logoSvg, thickness );
 		PShapeUtil.scaleShapeToHeight(logoPoints, _texture.height * 0.15f);
 		logoPoints.disableStyle();
@@ -120,6 +126,11 @@ extends BaseTexture {
 		int newColor = gradient.getColorAtProgress(MathUtil.randRangeDecimal(0, 1));
 		super.setColor(newColor);
 		audioTexture.setColor(newColor);
+		
+		if(MathUtil.randBooleanWeighted(P.p, 0.3f)) {
+			rotateZoom.setTarget(MathUtil.randRange(1f, 4f));
+			rotateRot.setTarget(MathUtil.randRangeDecimal(-0.3f, 0.3f));
+		}
 	}
 	
 	public void preDraw() {
@@ -129,11 +140,11 @@ extends BaseTexture {
 			break;
 		case Textured:
 		case AudioTriangles:
-		case Points:
 			audioTexture.update();
 			break;
 		case TextureRepeat:
 			break;
+		case Points:
 		case Displacement2d:
 			noiseTexture.shader().set("offset", 0f, P.p.frameCount * 0.025f);
 			audioTexture.texture().filter(noiseTexture.shader());
@@ -221,10 +232,11 @@ extends BaseTexture {
 			// apply points deform/texture shader
 			PointsDeformAndTextureFilter.instance(P.p).setColorMap(audioTexture.texture());
 			PointsDeformAndTextureFilter.instance(P.p).setDisplacementMap(audioTexture.texture());
-			PointsDeformAndTextureFilter.instance(P.p).setMaxPointSize(6f);
-			PointsDeformAndTextureFilter.instance(P.p).setDisplaceAmp(2f);			// multiplied by obj extent
+			PointsDeformAndTextureFilter.instance(P.p).setMaxPointSize(1.f);
 			PointsDeformAndTextureFilter.instance(P.p).setModelMaxExtent(logoPointsExtent * 2.1f);
+			PointsDeformAndTextureFilter.instance(P.p).setDisplaceAmp(100f);			// multiplied by obj extent
 			PointsDeformAndTextureFilter.instance(P.p).setSheetMode(true);
+//			PointsDeformAndTextureFilter.instance(P.p).setSheetMode(false);
 			PointsDeformAndTextureFilter.instance(P.p).setColorPointSizeMode(false);		// if color point size, use original color texture for point size. otherwise use displacement map color for point size
 			_texture.noLights();
 			logoPoints.setTexture(audioTexture.texture());
@@ -233,10 +245,10 @@ extends BaseTexture {
 			
 			float numLayers = 6;
 			float thickSpacing = -0.2f; // thickness / (numLayers - 1);
-			float spacing = thickness / numLayers;
-			for (float i = 0; i < numLayers; i++) {
+			float spacing = thickness / numLayers / 4f;
+			for (float i = 0; i < 1; i++) {
 				_texture.pushMatrix();
-				_texture.strokeWeight(3f - thickSpacing * i);
+				_texture.strokeWeight(2f - thickSpacing * i);
 				_texture.translate(0, 0, numLayers/2f * spacing - spacing * i);
 				PointsDeformAndTextureFilter.instance(P.p).applyTo(_texture);
 				_texture.shape(logoPoints);
@@ -277,8 +289,10 @@ extends BaseTexture {
 		_texture.popMatrix();
 
 		// post-processing
-		RotateFilter.instance(P.p).setZoom(P.p.mousePercentY() * 3f + 0.5f);
-		RotateFilter.instance(P.p).setRotation(P.p.mousePercentX() * 2f * P.TWO_PI);
+		rotateZoom.update(true);
+		rotateRot.update(true);
+		RotateFilter.instance(P.p).setZoom(rotateZoom.value());
+		RotateFilter.instance(P.p).setRotation(rotateRot.value());
 		RotateFilter.instance(P.p).applyTo(_texture);
 		
 		// black to transparent

@@ -68,7 +68,7 @@ extends BaseTexture {
 
 			// connect 1st and last points
 			radius = _radius.value() + P.p.audioData.waveform()[0] * _amp;
-			_texture.vertex( P.sin( _circleInc * 0 ) * radius , P.cos( _circleInc * 0 ) * radius );
+//			_texture.vertex( P.sin( _circleInc * 0 ) * radius , P.cos( _circleInc * 0 ) * radius );
 			_texture.endShape();
 		}
 	}

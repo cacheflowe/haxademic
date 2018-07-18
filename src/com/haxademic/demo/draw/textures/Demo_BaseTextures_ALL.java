@@ -68,8 +68,11 @@ extends PAppletHax {
 //			new TextureWaveformSimple( w, h ),
 //			new TexturePixelatedAudio( w, h ),
 				
+//			new TextureAudioBlocksDeform( w, h ),
+//			new TextureBlocksSheet( w, h ),
 			new TextureSvg3dExtruded( w, h ),
 //			new TextureSvgExtruded( w, h ),
+			
 			
 //			new TextureAudioTube( w, h ),
 //			new TextureTwistingSquares( w, h ),

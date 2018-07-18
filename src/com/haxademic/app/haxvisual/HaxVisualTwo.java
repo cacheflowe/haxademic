@@ -76,7 +76,7 @@ extends PAppletHax {
 	protected int BEAT_INTERVAL_COLOR = (int) Math.ceil(6f / BEAT_DIVISOR);
 	protected int BEAT_INTERVAL_ROTATION = (int) Math.ceil(6f / BEAT_DIVISOR);
 	protected int BEAT_INTERVAL_TRAVERSE = (int) Math.ceil(20f / BEAT_DIVISOR);
-	protected int BEAT_INTERVAL_ALL_SAME = (int) Math.ceil(150f / BEAT_DIVISOR);
+	protected int BEAT_INTERVAL_LINE_MODE = (int) Math.ceil(13f / BEAT_DIVISOR);
 	protected int BEAT_INTERVAL_NEW_MODE = (int) Math.ceil(80f / BEAT_DIVISOR);
 	protected int BEAT_INTERVAL_NEW_TIMING = (int) Math.ceil(10f / BEAT_DIVISOR);
 	protected int BEAT_INTERVAL_BIG_CHANGE = (int) Math.ceil(120f / BEAT_DIVISOR);
@@ -149,6 +149,7 @@ extends PAppletHax {
 	protected ImageGradient imageGradient;
 	protected boolean imageGradientLuma = false;
 	protected boolean imageGradientFilter = false;
+	protected boolean colorizeWithGradient = false;
 	
 	// DISPLACEMENT LAYER
 	
@@ -159,12 +160,13 @@ extends PAppletHax {
 	// PER-TEXTURE POST EFFECTS
 	protected int[] textureEffectsIndices;	// store a effects number for each texture position after the first
 	protected int numTextureEffects = 16 + 8; // +8 to give a good chance at removing the filter from the texture slot
+	protected boolean perTextureEffects = false;
 
 	// CORNER-PINNED BUFFER
 	
 	protected PGraphics _pg;
 	protected PGraphicsKeystone _pgPinnable;
-	protected float scaleDownPG = 1f;
+	protected float scaleDownPG = 1f; // 0.5f;
 	
 	//////////////////////////////////////////////////
 	// INIT
@@ -205,6 +207,11 @@ extends PAppletHax {
 	}
 
 	protected void buildPostProcessingChain() {
+		if(colorizeWithGradient) {
+			imageGradient = new ImageGradient(ImageGradient.PASTELS());
+			imageGradient.addTexturesFromPath(ImageGradient.COOLORS_PATH);
+		}
+
 		KaleidoFilter.instance(p).setAngle(0f);
 		KaleidoFilter.instance(p).setSides(2f);
 
@@ -244,12 +251,13 @@ extends PAppletHax {
 		background(0);
 		handleInputTriggers();
 		checkBeat();
-//		getDisplacementLayer();
-		filterActiveTextures();
+		getDisplacementLayer();
+		if(perTextureEffects) filterActiveTextures();
 		updateTextures();
 		drawLayers();
+		drawAltTopLayerOrDisplacement();
 		drawTopLayer();
-		postProcessFilters();
+//		postProcessFilters();
 		postBrightness();
 		if(imageCycler != null) drawInterstitial();
 		// draw pinned pgraphics
@@ -301,14 +309,15 @@ extends PAppletHax {
 	/////////////////////////////////////////////////////////////////
 	
 	protected void getDisplacementLayer() {		
-		displacementLayer = P.floor(P.map(p.midiState.midiCCPercent(midiInChannel, displaceMapLayerKnob), 0, 1, 0, 2.9f));
+		displacementLayer = P.round(P.map(p.midiState.midiCCPercent(midiInChannel, displaceMapLayerKnob), 0, 1, 0, 3));
 		overlayMode = P.round(P.map(p.midiState.midiCCPercent(midiInChannel, overlayModeKnob), 0, 1, 0, 3));
 		p.debugView.setValue("displacementLayer", displacementLayer);
 		p.debugView.setValue("overlayMode", overlayMode);
 	}
 	
-	protected void postProcessFilters() {
+	protected void drawAltTopLayerOrDisplacement() {	
 		// DISPLACEMENT MAP ////////////////////////
+		// This does special drawing modes if layers weren't drawn 
 		// which layer to use for displacement?
 		if(displacementLayer < 3) {
 			if(displacementLayer >= _curTexturePool.size()) displacementLayer = _curTexturePool.size() - 1; // protection!
@@ -354,7 +363,9 @@ extends PAppletHax {
 				MaskThreeTextureFilter.instance(p).applyTo(_pg);
 			}
 		}
-		
+	}
+	
+	protected void postProcessFilters() {		
 		// CONTRAST ////////////////////////
 		if( p.midiState.midiCCPercent(midiInChannel, contrastKnob) != 0 ) {
 			if(p.midiState.midiCCPercent(midiInChannel, contrastKnob) > 0.1f) {
@@ -423,11 +434,6 @@ extends PAppletHax {
 		}
 		
 		// COLORIZE FROM TEXTURE ////////////////////////
-		// build palette
-		if(imageGradient == null) {
-			imageGradient = new ImageGradient(ImageGradient.PASTELS());
-			imageGradient.addTexturesFromPath(ImageGradient.COOLORS_PATH);
-		}
 		if(imageGradientFilter) {
 			ColorizeFromTexture.instance(p).setTexture(imageGradient.texture());
 			ColorizeFromTexture.instance(p).setLumaMult(imageGradientLuma);
@@ -488,40 +494,34 @@ extends PAppletHax {
 		if ( _colorTrigger.triggered() == true ) {
 			resetBeatDetectMode();
 			updateColor();
-			_lastInputMillis = p.millis();
 		}
 		if ( _modeTrigger.triggered() == true ) {
+			resetBeatDetectMode();
 			newMode();
-			_lastInputMillis = p.millis();
 		}
 		if ( _lineModeTrigger.triggered() == true ) {
 			resetBeatDetectMode();
 			updateLineMode();
-			_lastInputMillis = p.millis();
 		}
 		if ( _rotationTrigger.triggered() == true ) {
 			resetBeatDetectMode();
 			updateRotation();
-			_lastInputMillis = p.millis();
 		}
 		if ( _timingTrigger.triggered() == true ) {
 			resetBeatDetectMode();
 			updateTiming();
-			_lastInputMillis = p.millis();
 		}
 		if ( _timingSectionTrigger.triggered() == true ) {
+			resetBeatDetectMode();
 			updateTimingSection();
-			_lastInputMillis = p.millis();
 		}
 		if ( _bigChangeTrigger.triggered() == true ) {
 			resetBeatDetectMode();
 			bigChangeTrigger();
-			_lastInputMillis = p.millis();
 		}
 //		if ( _allSameTextureTrigger.active() == true ) {
 //			resetBeatDetectMode();
 //			randomLayers();
-//			_lastInputMillis = p.millis();
 //		}
 		if ( _audioInputUpTrigger.triggered() == true ) p.audioData.setGain(p.audioData.gain() + 0.05f);
 		if ( _audioInputDownTrigger.triggered() == true ) p.audioData.setGain(p.audioData.gain() - 0.05f);
@@ -545,9 +545,11 @@ extends PAppletHax {
 		for( int i=0; i < _curTexturePool.size(); i++ ) {
 			_curTexturePool.get(i).setColor( randomColor(1) );
 		}
-		if(MathUtil.randBooleanWeighted(p, 0.2f)) imageGradient.randomGradientTexture();
-		imageGradientLuma = true; // MathUtil.randBoolean(p);
-		imageGradientFilter = true; // MathUtil.randBoolean(p);
+		if(imageGradientFilter) {
+			if(imageGradientFilter && MathUtil.randBooleanWeighted(p, 0.2f)) imageGradient.randomGradientTexture();
+			imageGradientLuma = true; // MathUtil.randBoolean(p);
+			imageGradientFilter = true; // MathUtil.randBoolean(p);
+		}
 	}
 
 	protected void updateLineMode() {
@@ -592,7 +594,7 @@ extends PAppletHax {
 //			P.println("BEAT_INTERVAL_TRAVERSE");
 		}
 
-		if( numBeatsDetected % BEAT_INTERVAL_ALL_SAME == 0 ) {
+		if( numBeatsDetected % BEAT_INTERVAL_LINE_MODE == 0 ) {
 //			P.println("BEAT_INTERVAL_ALL_SAME");
 			updateLineMode();
 		}
@@ -647,8 +649,11 @@ extends PAppletHax {
 			Collections.shuffle(texturePools[layerSwapIndex]);	// shuffle after showing all textures in pool
 		}
 		reloadLayers();
+		
 		// add new effects to each layer
-		selectNewActiveTextureFilters();
+		if(perTextureEffects) {
+			selectNewActiveTextureFilters();
+		}
 		
 		// debug values
 		p.debugView.setValue("layerSwapIndex", layerSwapIndex);
@@ -692,7 +697,8 @@ extends PAppletHax {
 		_curTexturePool = new ArrayList<BaseTexture>();
 
 //		HaxVisualTexturePools.addTexturesToPoolMinimal(_pg, bgTexturePool, fgTexturePool, audioTexturePool, topLayerPool);
-		HaxVisualTexturePools.addTexturesToPool(_pg, bgTexturePool, fgTexturePool, audioTexturePool, topLayerPool);
+//		HaxVisualTexturePools.addTexturesToPool(_pg, bgTexturePool, fgTexturePool, audioTexturePool, topLayerPool);
+		HaxVisualTexturePools.addTexturesToPoolSG(_pg, bgTexturePool, fgTexturePool, audioTexturePool, topLayerPool);
 //		HaxVisualTexturePools.addTexturesToPoolClient(_pg, bgTexturePool, fgTexturePool, audioTexturePool, topLayerPool);
 
 		// make sure all textures are not playing videos, etc
