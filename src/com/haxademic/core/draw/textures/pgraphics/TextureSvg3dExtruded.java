@@ -253,8 +253,8 @@ extends BaseTexture {
 			break;
 		case Textured:
 			_texture.fill(255);
-			_texture.lights();
-//			DrawUtil.setBetterLights(_texture);
+//			_texture.lights();
+			DrawUtil.setBetterLights(_texture);
 //			DrawUtil.setBasicLights(_texture);
 			PShapeUtil.drawTriangles(_texture, logo3d, audioTexture.texture(), logoScale.value());
 			break;
