@@ -147,9 +147,9 @@ extends PAppletHax {
 	// COLORIZE COMPOSITION
 	
 	protected ImageGradient imageGradient;
+	protected boolean colorizeWithGradient = true;
 	protected boolean imageGradientLuma = false;
-	protected boolean imageGradientFilter = false;
-	protected boolean colorizeWithGradient = false;
+	protected boolean imageGradientFilter = colorizeWithGradient;
 	
 	// DISPLACEMENT LAYER
 	
@@ -256,8 +256,10 @@ extends PAppletHax {
 		updateTextures();
 		drawLayers();
 		drawAltTopLayerOrDisplacement();
+		// postProcessFilters();
+		colorizeFilter();
+		vignetteFilter();
 		drawTopLayer();
-//		postProcessFilters();
 		postBrightness();
 		if(imageCycler != null) drawInterstitial();
 		// draw pinned pgraphics
@@ -432,14 +434,18 @@ extends PAppletHax {
 				KaleidoFilter.instance(p).applyTo(_pg);
 			}
 		}
-		
+	}
+
+	protected void colorizeFilter() {
 		// COLORIZE FROM TEXTURE ////////////////////////
-		if(imageGradientFilter) {
+		if(colorizeWithGradient) {
 			ColorizeFromTexture.instance(p).setTexture(imageGradient.texture());
 			ColorizeFromTexture.instance(p).setLumaMult(imageGradientLuma);
 			ColorizeFromTexture.instance(p).applyTo(_pg);
-		}
-
+		}	
+	}
+	
+	protected void vignetteFilter() {
 		// VIGNETTE FROM CENTER ////////////////////////
 		float vignetteVal = p.midiState.midiCCPercent(midiInChannel, vignetteKnob);
 		float vignetteDarkness = P.map(vignetteVal, 0, 1, 13f, -13f);
@@ -451,7 +457,7 @@ extends PAppletHax {
 		VignetteFilter.instance(p).setDarkness(0.56f);
 		VignetteFilter.instance(p).applyTo(_pg);
 	}
-
+	
 	protected void postBrightness() {
 		if(p.midiState.midiCCPercent(midiInChannel, brightnessKnob) != 0) brightnessVal = p.midiState.midiCCPercent(midiInChannel, brightnessKnob) * 5f;
 		BrightnessFilter.instance(p).setBrightness(brightnessVal);
@@ -654,6 +660,7 @@ extends PAppletHax {
 		if(perTextureEffects) {
 			selectNewActiveTextureFilters();
 		}
+		colorizeWithGradient = MathUtil.randBoolean(p);
 		
 		// debug values
 		p.debugView.setValue("layerSwapIndex", layerSwapIndex);

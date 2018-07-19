@@ -14,7 +14,7 @@ import com.haxademic.core.draw.textures.pgraphics.TextureEQColumns;
 import com.haxademic.core.draw.textures.pgraphics.TextureEQConcentricCircles;
 import com.haxademic.core.draw.textures.pgraphics.TextureEQFloatParticles;
 import com.haxademic.core.draw.textures.pgraphics.TextureEQGrid;
-import com.haxademic.core.draw.textures.pgraphics.TextureEQLines3d;
+import com.haxademic.core.draw.textures.pgraphics.TextureEQLinesTerrain;
 import com.haxademic.core.draw.textures.pgraphics.TextureFractalPolygons;
 import com.haxademic.core.draw.textures.pgraphics.TextureLinesEQ;
 import com.haxademic.core.draw.textures.pgraphics.TextureMeshAudioDeform;
@@ -66,7 +66,7 @@ public class HaxVisualTexturePools {
 		_fgTexturePool.add( new TextureBlocksSheet( textureW, textureH ) );
 		_fgTexturePool.add( new TextureWaveformCircle( textureW, textureH ));
 		_fgTexturePool.add( new TexturePixelatedAudio( textureW, textureH ));
-		_fgTexturePool.add( new TextureEQLines3d( textureW, textureH ));
+		_fgTexturePool.add( new TextureEQLinesTerrain( textureW, textureH ));
 		
 //		_overlayTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "cacheflowe-liquid-moire.glsl" ));
 		_overlayTexturePool.add( new TextureAudioBlocksDeform( textureW, textureH ));
@@ -74,6 +74,7 @@ public class HaxVisualTexturePools {
 //		_overlayTexturePool.add( );
 		
 		_topLayerPool.add( new TextureSvg3dExtruded( textureW, textureH ) );
+		_topLayerPool.add( new TextureSphereAudioTextures( _pg.width, _pg.height ) );
 	}
 	
 	public static void addTexturesToPoolMinimal(PGraphics _pg, ArrayList<BaseTexture> _bgTexturePool, ArrayList<BaseTexture> _fgTexturePool, ArrayList<BaseTexture> _overlayTexturePool, ArrayList<BaseTexture> _topLayerPool) {

@@ -79,7 +79,7 @@ public class BaseTexture {
 		// set black knockout chroma shader 
 		ChromaColorFilter.instance(P.p).setColorToReplace(0f, 0f, 0f);
 		ChromaColorFilter.instance(P.p).setThresholdSensitivity(0.2f);
-		ChromaColorFilter.instance(P.p).setSmoothing(0.5f);
+		ChromaColorFilter.instance(P.p).setSmoothing(0.25f);
 		ChromaColorFilter.instance(P.p).applyTo(pg);
 	}
 	

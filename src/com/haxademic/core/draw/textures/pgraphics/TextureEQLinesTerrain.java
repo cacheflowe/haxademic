@@ -14,7 +14,7 @@ import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
 import processing.core.PGraphics;
 import processing.core.PShape;
 
-public class TextureEQLines3d 
+public class TextureEQLinesTerrain 
 extends BaseTexture {
 
 	protected PGraphics eqHistory; 
@@ -23,7 +23,7 @@ extends BaseTexture {
 	protected PShape shape; 
 	protected float shapeExtent;
 
-	public TextureEQLines3d( int width, int height ) {
+	public TextureEQLinesTerrain( int width, int height ) {
 		super();
 		buildGraphics( width, height );
 		_texture.smooth(OpenGLUtil.SMOOTH_HIGH);
