@@ -55,8 +55,15 @@ extends PAppletHax {
 
 
 	protected void overridePropsFile() {
-		p.appConfig.setProperty(DMXPRO_PORT, "/dev/tty.usbserial-EN158815");
-		p.appConfig.setProperty(AppSettings.MIDI_DEVICE_IN_INDEX, 0 );
+		if(P.platform == P.MACOSX) {
+			// mac
+			p.appConfig.setProperty(DMXPRO_PORT, "/dev/tty.usbserial-EN158815");
+			p.appConfig.setProperty(DMXPRO_BAUDRATE, 115000);
+		} else {
+			// win
+			p.appConfig.setProperty(DMXPRO_PORT, "COM3");
+			p.appConfig.setProperty(DMXPRO_BAUDRATE, 9600);
+		}
 	}
 
 	public void setupFirstFrame() {
