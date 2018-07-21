@@ -8,6 +8,7 @@ import com.haxademic.core.draw.color.ImageGradient;
 import com.haxademic.core.draw.filters.pshader.BadTVGlitchFilter;
 import com.haxademic.core.draw.filters.pshader.BadTVLinesFilter;
 import com.haxademic.core.draw.filters.pshader.BlendTowardsTexture;
+import com.haxademic.core.draw.filters.pshader.BloomFilter;
 import com.haxademic.core.draw.filters.pshader.BlurBasicFilter;
 import com.haxademic.core.draw.filters.pshader.BlurHFilter;
 import com.haxademic.core.draw.filters.pshader.BlurProcessingFilter;
@@ -107,6 +108,7 @@ extends PAppletHax { public static void main(String args[]) { PAppletHax.main(Th
 			BadTVGlitchFilter.instance(p),
 			BadTVLinesFilter.instance(p),
 			BlendTowardsTexture.instance(p),
+			BloomFilter.instance(p),
 			BlurBasicFilter.instance(p),
 			BlurHFilter.instance(p),
 			BlurProcessingFilter.instance(p),
@@ -238,6 +240,11 @@ extends PAppletHax { public static void main(String args[]) { PAppletHax.main(Th
 			BlendTowardsTexture.instance(p).setBlendLerp(p.mousePercentX());
 			BlendTowardsTexture.instance(p).setSourceTexture(noiseBuffer);
 			BlendTowardsTexture.instance(p).applyTo(pg);
+		} else if(curFilter == BloomFilter.instance(p)) {
+			BloomFilter.instance(p).setStrength(p.mousePercentX() * 2f);
+			BloomFilter.instance(p).setBlurIterations(P.round(p.mousePercentY() * 10f));
+			BloomFilter.instance(p).setBlendMode(P.round(p.frameCount / 100f) % 3);
+			BloomFilter.instance(p).applyTo(pg);
 		} else if(curFilter == BlurBasicFilter.instance(p)) {
 			BlurBasicFilter.instance(p).applyTo(pg);
 		} else if(curFilter == BlurHFilter.instance(p)) {
