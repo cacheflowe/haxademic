@@ -34,6 +34,7 @@ import com.haxademic.core.draw.filters.pshader.FXAAFilter;
 import com.haxademic.core.draw.filters.pshader.GlowFilter;
 import com.haxademic.core.draw.filters.pshader.GodRays;
 import com.haxademic.core.draw.filters.pshader.GradientCoverWipe;
+import com.haxademic.core.draw.filters.pshader.GrainFilter;
 import com.haxademic.core.draw.filters.pshader.HalftoneCamoFilter;
 import com.haxademic.core.draw.filters.pshader.HalftoneFilter;
 import com.haxademic.core.draw.filters.pshader.HalftoneLinesFilter;
@@ -133,6 +134,7 @@ extends PAppletHax { public static void main(String args[]) { PAppletHax.main(Th
 			GlowFilter.instance(p),
 			GodRays.instance(p),
 			GradientCoverWipe.instance(p),
+			GrainFilter.instance(p),
 			HalftoneCamoFilter.instance(p),
 			HalftoneFilter.instance(p),
 			HalftoneLinesFilter.instance(p),
@@ -337,6 +339,10 @@ extends PAppletHax { public static void main(String args[]) { PAppletHax.main(Th
 			GradientCoverWipe.instance(p).setColorBot(0f, 1f, 1f, 1f);
 			GradientCoverWipe.instance(p).setProgress(p.mousePercentY());
 			GradientCoverWipe.instance(p).applyTo(pg);
+		} else if(curFilter == GrainFilter.instance(p)) {
+			GrainFilter.instance(p).setTime(p.frameCount * 0.01f * p.mousePercentY());
+			GrainFilter.instance(p).setCrossfade(p.mousePercentX());
+			GrainFilter.instance(p).applyTo(pg);
 		} else if(curFilter == HalftoneFilter.instance(p)) {
 			float halftoneSize = p.mousePercentX() * 1024f;
 			HalftoneFilter.instance(p).setAngle(p.mousePercentX() * P.TWO_PI);
