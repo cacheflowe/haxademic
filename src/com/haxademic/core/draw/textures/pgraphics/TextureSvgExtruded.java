@@ -52,7 +52,7 @@ extends BaseTexture {
 	}
 	
 	protected void buildLogo() {
-		logoSvg = P.p.loadShape( FileUtil.getFile("svg/sendgrid.svg")).getTessellation();
+		logoSvg = P.p.loadShape( FileUtil.getFile("images/_sketch/sendgrid/svg/sendgrid-logo-01.svg")).getTessellation();
 		PShapeUtil.repairMissingSVGVertex(logoSvg);
 		
 		PShapeUtil.centerShape(logoSvg);

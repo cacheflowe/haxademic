@@ -16,6 +16,7 @@ import com.haxademic.core.draw.color.ImageGradient;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.filters.pshader.BadTVLinesFilter;
+import com.haxademic.core.draw.filters.pshader.BloomFilter;
 import com.haxademic.core.draw.filters.pshader.BlurHFilter;
 import com.haxademic.core.draw.filters.pshader.BlurProcessingFilter;
 import com.haxademic.core.draw.filters.pshader.BlurVFilter;
@@ -26,6 +27,7 @@ import com.haxademic.core.draw.filters.pshader.ContrastFilter;
 import com.haxademic.core.draw.filters.pshader.CubicLensDistortionFilterOscillate;
 import com.haxademic.core.draw.filters.pshader.DisplacementMapFilter;
 import com.haxademic.core.draw.filters.pshader.EdgesFilter;
+import com.haxademic.core.draw.filters.pshader.GodRays;
 import com.haxademic.core.draw.filters.pshader.HalftoneCamoFilter;
 import com.haxademic.core.draw.filters.pshader.HalftoneFilter;
 import com.haxademic.core.draw.filters.pshader.HueFilter;
@@ -146,10 +148,16 @@ extends PAppletHax {
 
 	// COLORIZE COMPOSITION
 	
+	protected int COLORIZE_NONE = 0;
+	protected int COLORIZE_BLUE = 1;
+	protected int COLORIZE_RANDOM = 2;
+	protected int COLORIZE_MODES = 3;
+	protected int colorizeMode = COLORIZE_RANDOM;
 	protected ImageGradient imageGradient;
-	protected boolean colorizeWithGradient = true;
+	protected ImageGradient imageGradientBlue;
+//	protected boolean colorizeWithGradient = true;
 	protected boolean imageGradientLuma = false;
-	protected boolean imageGradientFilter = colorizeWithGradient;
+	protected boolean imageGradientFilter = true;
 	
 	// DISPLACEMENT LAYER
 	
@@ -207,10 +215,11 @@ extends PAppletHax {
 	}
 
 	protected void buildPostProcessingChain() {
-		if(colorizeWithGradient) {
+//		if(colorizeWithGradient) {
+			imageGradientBlue = new ImageGradient(P.p.loadImage(FileUtil.getFile("images/_sketch/sendgrid/palette-sendgrid.png")));
 			imageGradient = new ImageGradient(ImageGradient.PASTELS());
 			imageGradient.addTexturesFromPath(ImageGradient.COOLORS_PATH);
-		}
+//		}
 
 		KaleidoFilter.instance(p).setAngle(0f);
 		KaleidoFilter.instance(p).setSides(2f);
@@ -258,6 +267,7 @@ extends PAppletHax {
 		drawAltTopLayerOrDisplacement();
 		// postProcessFilters();
 		colorizeFilter();
+		bloomFilter();
 		vignetteFilter();
 		drawTopLayer();
 		postBrightness();
@@ -438,11 +448,26 @@ extends PAppletHax {
 
 	protected void colorizeFilter() {
 		// COLORIZE FROM TEXTURE ////////////////////////
-		if(colorizeWithGradient) {
-			ColorizeFromTexture.instance(p).setTexture(imageGradient.texture());
+		p.debugView.setValue("colorizeMode", colorizeMode);
+		if(colorizeMode != COLORIZE_NONE) {
+			if(colorizeMode == COLORIZE_BLUE) ColorizeFromTexture.instance(p).setTexture(imageGradientBlue.texture());
+			if(colorizeMode == COLORIZE_RANDOM) ColorizeFromTexture.instance(p).setTexture(imageGradient.texture());
 			ColorizeFromTexture.instance(p).setLumaMult(imageGradientLuma);
 			ColorizeFromTexture.instance(p).applyTo(_pg);
 		}	
+	}
+	
+	protected void bloomFilter() {
+//		BloomFilter.instance(p).setStrength(1f);
+//		BloomFilter.instance(p).setBlurIterations(10);
+//		BloomFilter.instance(p).setBlendMode(BloomFilter.BLEND_SCREEN);
+//		BloomFilter.instance(p).applyTo(_pg);
+		
+//		GodRays.instance(p).setDecay(0.5f);
+//		GodRays.instance(p).setWeight(0.5f);
+//		GodRays.instance(p).setRotation(P.sin(p.frameCount * 0.1f));
+//		GodRays.instance(p).setAmp(0.5f + 0.5f * P.sin(p.frameCount * 0.1f));
+//		GodRays.instance(p).applyTo(_pg);
 	}
 	
 	protected void vignetteFilter() {
@@ -551,11 +576,12 @@ extends PAppletHax {
 		for( int i=0; i < _curTexturePool.size(); i++ ) {
 			_curTexturePool.get(i).setColor( randomColor(1) );
 		}
-		if(imageGradientFilter) {
+		if(colorizeMode == COLORIZE_RANDOM) {
 			if(imageGradientFilter && MathUtil.randBooleanWeighted(p, 0.2f)) imageGradient.randomGradientTexture();
-			imageGradientLuma = true; // MathUtil.randBoolean(p);
-			imageGradientFilter = true; // MathUtil.randBoolean(p);
 		}
+		imageGradientLuma = true; // MathUtil.randBoolean(p);
+		imageGradientFilter = true; // MathUtil.randBoolean(p);
+//		}
 	}
 
 	protected void updateLineMode() {
@@ -660,7 +686,8 @@ extends PAppletHax {
 		if(perTextureEffects) {
 			selectNewActiveTextureFilters();
 		}
-		colorizeWithGradient = MathUtil.randBoolean(p);
+		colorizeMode = MathUtil.randRange(0, COLORIZE_MODES - 1);
+//		colorizeWithGradient = MathUtil.randBoolean(p);
 		
 		// debug values
 		p.debugView.setValue("layerSwapIndex", layerSwapIndex);

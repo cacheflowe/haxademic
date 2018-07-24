@@ -6,6 +6,7 @@ import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.textures.pgraphics.TextureEQGrid;
+import com.haxademic.core.draw.textures.pgraphics.TextureEQLinesTerrain;
 import com.haxademic.core.draw.textures.pgraphics.TextureShaderTimeStepper;
 import com.haxademic.core.draw.textures.pgraphics.TextureSvg3dExtruded;
 import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
@@ -37,7 +38,7 @@ extends PAppletHax {
 //		p.appConfig.setProperty( AppSettings.WIDTH, 1500 );
 //		p.appConfig.setProperty( AppSettings.HEIGHT, 1000 );
 //		p.appConfig.setProperty( AppSettings.INIT_BEADS_AUDIO, true );
-		p.appConfig.setProperty( AppSettings.INIT_MINIM_AUDIO, true );
+//		p.appConfig.setProperty( AppSettings.INIT_MINIM_AUDIO, true );
 		p.appConfig.setProperty( AppSettings.FULLSCREEN, false );
 		p.appConfig.setProperty( AppSettings.FILLS_SCREEN, false );
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, false );
@@ -70,6 +71,7 @@ extends PAppletHax {
 				
 //			new TextureAudioBlocksDeform( w, h ),
 //			new TextureBlocksSheet( w, h ),
+//			new TextureEQLinesTerrain( w, h ),
 			new TextureSvg3dExtruded( w, h ),
 //			new TextureSvgExtruded( w, h ),
 			

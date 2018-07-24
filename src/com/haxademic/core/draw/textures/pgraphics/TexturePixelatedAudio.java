@@ -69,7 +69,7 @@ extends BaseTexture {
 		
 		// create gradients
 		gradient = new ImageGradient(ImageGradient.BLACK_HOLE());
-		gradient = new ImageGradient(ImageGradient.PASTELS());
+//		gradient = new ImageGradient(ImageGradient.PASTELS());
 		gradient = new ImageGradient(P.p.loadImage(FileUtil.getFile("images/_sketch/sendgrid/palette-sendgrid.png")));
 		
 		// build grid
