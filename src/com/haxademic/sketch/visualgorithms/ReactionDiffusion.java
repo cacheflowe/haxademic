@@ -4,9 +4,9 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.draw.context.DrawUtil;
-import com.haxademic.core.draw.filters.shaders.BlurHFilter;
-import com.haxademic.core.draw.filters.shaders.BlurVFilter;
-import com.haxademic.core.draw.filters.shaders.SharpenFilter;
+import com.haxademic.core.draw.filters.pshader.BlurHFilter;
+import com.haxademic.core.draw.filters.pshader.BlurVFilter;
+import com.haxademic.core.draw.filters.pshader.SharpenFilter;
 import com.haxademic.core.math.MathUtil;
 
 public class ReactionDiffusion

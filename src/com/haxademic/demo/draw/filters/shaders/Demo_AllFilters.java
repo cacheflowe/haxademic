@@ -5,62 +5,64 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.constants.PRenderers;
 import com.haxademic.core.draw.color.ImageGradient;
-import com.haxademic.core.draw.filters.shaders.BadTVGlitchFilter;
-import com.haxademic.core.draw.filters.shaders.BadTVLinesFilter;
-import com.haxademic.core.draw.filters.shaders.BlendTowardsTexture;
-import com.haxademic.core.draw.filters.shaders.BlurBasicFilter;
-import com.haxademic.core.draw.filters.shaders.BlurHFilter;
-import com.haxademic.core.draw.filters.shaders.BlurProcessingFilter;
-import com.haxademic.core.draw.filters.shaders.BlurVFilter;
-import com.haxademic.core.draw.filters.shaders.BrightnessFilter;
-import com.haxademic.core.draw.filters.shaders.BrightnessToAlphaFilter;
-import com.haxademic.core.draw.filters.shaders.ChromaColorFilter;
-import com.haxademic.core.draw.filters.shaders.ColorCorrectionFilter;
-import com.haxademic.core.draw.filters.shaders.ColorDistortionFilter;
-import com.haxademic.core.draw.filters.shaders.ColorizeFilter;
-import com.haxademic.core.draw.filters.shaders.ColorizeFromTexture;
-import com.haxademic.core.draw.filters.shaders.ColorizeTwoColorsFilter;
-import com.haxademic.core.draw.filters.shaders.ContrastFilter;
-import com.haxademic.core.draw.filters.shaders.CubicLensDistortionFilter;
-import com.haxademic.core.draw.filters.shaders.CubicLensDistortionFilterOscillate;
-import com.haxademic.core.draw.filters.shaders.DilateFilter;
-import com.haxademic.core.draw.filters.shaders.DisplacementMapFilter;
-import com.haxademic.core.draw.filters.shaders.EdgeColorDarkenFilter;
-import com.haxademic.core.draw.filters.shaders.EdgeColorFadeFilter;
-import com.haxademic.core.draw.filters.shaders.EdgesFilter;
-import com.haxademic.core.draw.filters.shaders.EmbossFilter;
-import com.haxademic.core.draw.filters.shaders.ErosionFilter;
-import com.haxademic.core.draw.filters.shaders.FXAAFilter;
-import com.haxademic.core.draw.filters.shaders.GlowFilter;
-import com.haxademic.core.draw.filters.shaders.GodRays;
-import com.haxademic.core.draw.filters.shaders.GradientCoverWipe;
-import com.haxademic.core.draw.filters.shaders.HalftoneCamoFilter;
-import com.haxademic.core.draw.filters.shaders.HalftoneFilter;
-import com.haxademic.core.draw.filters.shaders.HalftoneLinesFilter;
-import com.haxademic.core.draw.filters.shaders.HueFilter;
-import com.haxademic.core.draw.filters.shaders.InvertFilter;
-import com.haxademic.core.draw.filters.shaders.KaleidoFilter;
-import com.haxademic.core.draw.filters.shaders.LeaveBlackFilter;
-import com.haxademic.core.draw.filters.shaders.LeaveWhiteFilter;
-import com.haxademic.core.draw.filters.shaders.LiquidWarpFilter;
-import com.haxademic.core.draw.filters.shaders.MaskThreeTextureFilter;
-import com.haxademic.core.draw.filters.shaders.MirrorFilter;
-import com.haxademic.core.draw.filters.shaders.MirrorQuadFilter;
-import com.haxademic.core.draw.filters.shaders.PixelateFilter;
-import com.haxademic.core.draw.filters.shaders.RadialBlurFilter;
-import com.haxademic.core.draw.filters.shaders.RadialRipplesFilter;
-import com.haxademic.core.draw.filters.shaders.RepeatFilter;
-import com.haxademic.core.draw.filters.shaders.RotateFilter;
-import com.haxademic.core.draw.filters.shaders.SaturateHSVFilter;
-import com.haxademic.core.draw.filters.shaders.SaturationFilter;
-import com.haxademic.core.draw.filters.shaders.SharpenFilter;
-import com.haxademic.core.draw.filters.shaders.SphereDistortionFilter;
-import com.haxademic.core.draw.filters.shaders.ThresholdFilter;
-import com.haxademic.core.draw.filters.shaders.VignetteAltFilter;
-import com.haxademic.core.draw.filters.shaders.VignetteFilter;
-import com.haxademic.core.draw.filters.shaders.WarperFilter;
-import com.haxademic.core.draw.filters.shaders.WobbleFilter;
-import com.haxademic.core.draw.filters.shaders.shared.BaseFilter;
+import com.haxademic.core.draw.filters.pshader.BadTVGlitchFilter;
+import com.haxademic.core.draw.filters.pshader.BadTVLinesFilter;
+import com.haxademic.core.draw.filters.pshader.BlendTowardsTexture;
+import com.haxademic.core.draw.filters.pshader.BloomFilter;
+import com.haxademic.core.draw.filters.pshader.BlurBasicFilter;
+import com.haxademic.core.draw.filters.pshader.BlurHFilter;
+import com.haxademic.core.draw.filters.pshader.BlurProcessingFilter;
+import com.haxademic.core.draw.filters.pshader.BlurVFilter;
+import com.haxademic.core.draw.filters.pshader.BrightnessFilter;
+import com.haxademic.core.draw.filters.pshader.BrightnessToAlphaFilter;
+import com.haxademic.core.draw.filters.pshader.ChromaColorFilter;
+import com.haxademic.core.draw.filters.pshader.ColorCorrectionFilter;
+import com.haxademic.core.draw.filters.pshader.ColorDistortionFilter;
+import com.haxademic.core.draw.filters.pshader.ColorizeFilter;
+import com.haxademic.core.draw.filters.pshader.ColorizeFromTexture;
+import com.haxademic.core.draw.filters.pshader.ColorizeTwoColorsFilter;
+import com.haxademic.core.draw.filters.pshader.ContrastFilter;
+import com.haxademic.core.draw.filters.pshader.CubicLensDistortionFilter;
+import com.haxademic.core.draw.filters.pshader.CubicLensDistortionFilterOscillate;
+import com.haxademic.core.draw.filters.pshader.DilateFilter;
+import com.haxademic.core.draw.filters.pshader.DisplacementMapFilter;
+import com.haxademic.core.draw.filters.pshader.EdgeColorDarkenFilter;
+import com.haxademic.core.draw.filters.pshader.EdgeColorFadeFilter;
+import com.haxademic.core.draw.filters.pshader.EdgesFilter;
+import com.haxademic.core.draw.filters.pshader.EmbossFilter;
+import com.haxademic.core.draw.filters.pshader.ErosionFilter;
+import com.haxademic.core.draw.filters.pshader.FXAAFilter;
+import com.haxademic.core.draw.filters.pshader.GlowFilter;
+import com.haxademic.core.draw.filters.pshader.GodRays;
+import com.haxademic.core.draw.filters.pshader.GradientCoverWipe;
+import com.haxademic.core.draw.filters.pshader.GrainFilter;
+import com.haxademic.core.draw.filters.pshader.HalftoneCamoFilter;
+import com.haxademic.core.draw.filters.pshader.HalftoneFilter;
+import com.haxademic.core.draw.filters.pshader.HalftoneLinesFilter;
+import com.haxademic.core.draw.filters.pshader.HueFilter;
+import com.haxademic.core.draw.filters.pshader.InvertFilter;
+import com.haxademic.core.draw.filters.pshader.KaleidoFilter;
+import com.haxademic.core.draw.filters.pshader.LeaveBlackFilter;
+import com.haxademic.core.draw.filters.pshader.LeaveWhiteFilter;
+import com.haxademic.core.draw.filters.pshader.LiquidWarpFilter;
+import com.haxademic.core.draw.filters.pshader.MaskThreeTextureFilter;
+import com.haxademic.core.draw.filters.pshader.MirrorFilter;
+import com.haxademic.core.draw.filters.pshader.MirrorQuadFilter;
+import com.haxademic.core.draw.filters.pshader.PixelateFilter;
+import com.haxademic.core.draw.filters.pshader.RadialBlurFilter;
+import com.haxademic.core.draw.filters.pshader.RadialRipplesFilter;
+import com.haxademic.core.draw.filters.pshader.RepeatFilter;
+import com.haxademic.core.draw.filters.pshader.RotateFilter;
+import com.haxademic.core.draw.filters.pshader.SaturateHSVFilter;
+import com.haxademic.core.draw.filters.pshader.SaturationFilter;
+import com.haxademic.core.draw.filters.pshader.SharpenFilter;
+import com.haxademic.core.draw.filters.pshader.SphereDistortionFilter;
+import com.haxademic.core.draw.filters.pshader.ThresholdFilter;
+import com.haxademic.core.draw.filters.pshader.VignetteAltFilter;
+import com.haxademic.core.draw.filters.pshader.VignetteFilter;
+import com.haxademic.core.draw.filters.pshader.WarperFilter;
+import com.haxademic.core.draw.filters.pshader.WobbleFilter;
+import com.haxademic.core.draw.filters.pshader.shared.BaseFragmentShader;
 import com.haxademic.core.draw.textures.pshader.TextureShader;
 import com.haxademic.core.file.DemoAssets;
 import com.haxademic.core.hardware.shared.InputTrigger;
@@ -90,7 +92,7 @@ extends PAppletHax { public static void main(String args[]) { PAppletHax.main(Th
 	protected InputTrigger triggerNext = new InputTrigger(new char[]{'2'});
 	protected InputTrigger triggerToggle = new InputTrigger(new char[]{' '});
 	
-	protected BaseFilter[] filters;
+	protected BaseFragmentShader[] filters;
 	protected int filterIndex = 0;
 
 	protected void overridePropsFile() {
@@ -102,10 +104,11 @@ extends PAppletHax { public static void main(String args[]) { PAppletHax.main(Th
 		noiseTexture = new TextureShader(TextureShader.noise_simplex_2d_iq);
 		noiseBuffer = p.createGraphics(p.width, p.height, PRenderers.P2D);
 		
-		filters = new BaseFilter[] {
+		filters = new BaseFragmentShader[] {
 			BadTVGlitchFilter.instance(p),
 			BadTVLinesFilter.instance(p),
 			BlendTowardsTexture.instance(p),
+			BloomFilter.instance(p),
 			BlurBasicFilter.instance(p),
 			BlurHFilter.instance(p),
 			BlurProcessingFilter.instance(p),
@@ -133,6 +136,7 @@ extends PAppletHax { public static void main(String args[]) { PAppletHax.main(Th
 			GlowFilter.instance(p),
 			GodRays.instance(p),
 			GradientCoverWipe.instance(p),
+			GrainFilter.instance(p),
 			HalftoneCamoFilter.instance(p),
 			HalftoneFilter.instance(p),
 			HalftoneLinesFilter.instance(p),
@@ -221,7 +225,7 @@ extends PAppletHax { public static void main(String args[]) { PAppletHax.main(Th
 
 		
 		// apply active filter
-		BaseFilter curFilter = filters[filterIndex];
+		BaseFragmentShader curFilter = filters[filterIndex];
 		if(curFilter == BadTVGlitchFilter.instance(p)) {
 			BadTVGlitchFilter.instance(p).setTime(p.frameCount * 0.01f);
 			BadTVGlitchFilter.instance(p).applyTo(pg);
@@ -236,6 +240,11 @@ extends PAppletHax { public static void main(String args[]) { PAppletHax.main(Th
 			BlendTowardsTexture.instance(p).setBlendLerp(p.mousePercentX());
 			BlendTowardsTexture.instance(p).setSourceTexture(noiseBuffer);
 			BlendTowardsTexture.instance(p).applyTo(pg);
+		} else if(curFilter == BloomFilter.instance(p)) {
+			BloomFilter.instance(p).setStrength(p.mousePercentX() * 2f);
+			BloomFilter.instance(p).setBlurIterations(P.round(p.mousePercentY() * 10f));
+			BloomFilter.instance(p).setBlendMode(P.round(p.frameCount / 100f) % 3);
+			BloomFilter.instance(p).applyTo(pg);
 		} else if(curFilter == BlurBasicFilter.instance(p)) {
 			BlurBasicFilter.instance(p).applyTo(pg);
 		} else if(curFilter == BlurHFilter.instance(p)) {
@@ -337,6 +346,10 @@ extends PAppletHax { public static void main(String args[]) { PAppletHax.main(Th
 			GradientCoverWipe.instance(p).setColorBot(0f, 1f, 1f, 1f);
 			GradientCoverWipe.instance(p).setProgress(p.mousePercentY());
 			GradientCoverWipe.instance(p).applyTo(pg);
+		} else if(curFilter == GrainFilter.instance(p)) {
+			GrainFilter.instance(p).setTime(p.frameCount * 0.01f * p.mousePercentY());
+			GrainFilter.instance(p).setCrossfade(p.mousePercentX());
+			GrainFilter.instance(p).applyTo(pg);
 		} else if(curFilter == HalftoneFilter.instance(p)) {
 			float halftoneSize = p.mousePercentX() * 1024f;
 			HalftoneFilter.instance(p).setAngle(p.mousePercentX() * P.TWO_PI);

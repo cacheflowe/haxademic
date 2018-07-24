@@ -81,7 +81,7 @@ extends PAppletHax {
 			LinesDeformAndTextureFilter.instance(p).setDisplaceAmp(p.mousePercentY() * pg.height * 0.01f);
 		}
 		//		p.shader(displacementShader, P.LINES);
-		LinesDeformAndTextureFilter.instance(p).applyVertexShader(p);
+		LinesDeformAndTextureFilter.instance(p).applyTo(p);
 
 		p.stroke(255);
 		p.shape(shape);

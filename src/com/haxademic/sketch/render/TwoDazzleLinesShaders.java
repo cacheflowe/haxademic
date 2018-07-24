@@ -4,7 +4,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.constants.PBlendModes;
-import com.haxademic.core.draw.filters.shaders.VignetteFilter;
+import com.haxademic.core.draw.filters.pshader.VignetteFilter;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.image.TiledTexture;
 import com.haxademic.core.file.FileUtil;

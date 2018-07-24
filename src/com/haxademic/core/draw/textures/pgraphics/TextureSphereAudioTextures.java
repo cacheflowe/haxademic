@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import com.haxademic.core.app.P;
 import com.haxademic.core.draw.color.Gradients;
 import com.haxademic.core.draw.context.DrawUtil;
-import com.haxademic.core.draw.filters.shaders.BlurProcessingFilter;
-import com.haxademic.core.draw.filters.shaders.VignetteAltFilter;
+import com.haxademic.core.draw.filters.pshader.BlurProcessingFilter;
+import com.haxademic.core.draw.filters.pshader.VignetteAltFilter;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.shapes.Icosahedron;
 import com.haxademic.core.draw.shapes.PShapeUtil;
@@ -27,8 +27,6 @@ extends BaseTexture {
 	protected final float _ninteyDeg = P.PI / 6f;
 	
 	protected BaseTexture[] audioTextures;
-	protected int audioTexIndex = 0;
-	protected ArrayList<BaseTexture> _curTexturePool;
 	protected int texturePoolIndex = 0;
 	protected boolean audioMode = false;
 	
@@ -46,11 +44,6 @@ extends BaseTexture {
 //		buildAudioTextures();
 //		pickRandomTexture();
 		createNewSphere();
-	}
-	
-	public void setCurTexturePool(ArrayList<BaseTexture> curTexturePool) {
-		_curTexturePool = curTexturePool;
-		pickRandomTexture();
 	}
 	
 	protected void createNewSphere() {
@@ -73,7 +66,12 @@ extends BaseTexture {
 	}
 	
 	protected void pickRandomTexture() {
-		texturePoolIndex = MathUtil.randRange(0, _curTexturePool.size() - 1);
+		texturePoolIndex = MathUtil.randRange(0, _curTexturePool.size() - 2);
+	}
+	
+	public void setCurTexturePool(ArrayList<BaseTexture> curTexturePool) {
+		super.setCurTexturePool(curTexturePool);
+		pickRandomTexture();
 	}
 	
 	public void newRotation() {
@@ -123,7 +121,7 @@ extends BaseTexture {
 		
 		// shadow
 		Gradients.radial(_texture, _texture.height * 2.5f, _texture.height * 2.5f, P.p.color(0,200), P.p.color(1, 0), 50);
-		Gradients.radial(_texture, _texture.height * 1.5f, _texture.height * 1.5f, P.p.color(0,200), P.p.color(1, 0), 50);
+		Gradients.radial(_texture, _texture.height * 1.5f, _texture.height * 1.5f, P.p.color(0,100), P.p.color(1, 0), 50);
 		
 		_rotation.update();
 		_texture.rotateY( -P.HALF_PI + _rotation.x() );
@@ -139,7 +137,7 @@ extends BaseTexture {
 		MeshDeformAndTextureFilter.instance(P.p).setDisplacementMap(sphereTexture);
 		MeshDeformAndTextureFilter.instance(P.p).setDisplaceAmp(0.75f + 0.5f * P.sin(scaleOsc));
 		MeshDeformAndTextureFilter.instance(P.p).setSheetMode(false);
-		MeshDeformAndTextureFilter.instance(P.p).applyVertexShader(_texture);
+		MeshDeformAndTextureFilter.instance(P.p).applyTo(_texture);
 //		// set texture using PShape method
 //		shape.setTexture(textureFlipped);
 

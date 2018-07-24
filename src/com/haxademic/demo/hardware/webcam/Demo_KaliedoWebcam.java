@@ -5,7 +5,7 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.constants.PRenderers;
 import com.haxademic.core.draw.context.DrawUtil;
-import com.haxademic.core.draw.filters.shaders.KaleidoFilter;
+import com.haxademic.core.draw.filters.pshader.KaleidoFilter;
 import com.haxademic.core.draw.image.BufferActivityMonitor;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.image.TiledTexture;

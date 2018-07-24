@@ -40,12 +40,15 @@ extends PAppletHax {
 	protected LinearFloat dimmer = new LinearFloat(0, 0.05f);
 
 	protected void overridePropsFile() {
-		// mac
-		p.appConfig.setProperty(DMXPRO_PORT, "/dev/tty.usbserial-EN158815");
-		p.appConfig.setProperty(DMXPRO_BAUDRATE, 115000);
-		// win
-		p.appConfig.setProperty(DMXPRO_PORT, "COM3");
-		p.appConfig.setProperty(DMXPRO_BAUDRATE, 9600);
+		if(P.platform == P.MACOSX) {
+			// mac
+			p.appConfig.setProperty(DMXPRO_PORT, "/dev/tty.usbserial-EN158815");
+			p.appConfig.setProperty(DMXPRO_BAUDRATE, 115000);
+		} else {
+			// win
+			p.appConfig.setProperty(DMXPRO_PORT, "COM3");
+			p.appConfig.setProperty(DMXPRO_BAUDRATE, 9600);
+		}
 		// kinect init
 		p.appConfig.setProperty(AppSettings.KINECT_V2_WIN_ACTIVE, true);
 	}

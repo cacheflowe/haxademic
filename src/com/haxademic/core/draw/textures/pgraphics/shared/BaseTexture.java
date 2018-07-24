@@ -1,19 +1,19 @@
 package com.haxademic.core.draw.textures.pgraphics.shared;
 
+import java.util.ArrayList;
+
 import com.haxademic.core.app.P;
 import com.haxademic.core.draw.color.EasingColor;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.context.OpenGLUtil;
-import com.haxademic.core.draw.filters.shaders.BrightnessFilter;
-import com.haxademic.core.draw.filters.shaders.ChromaColorFilter;
-import com.haxademic.core.draw.filters.shaders.InvertFilter;
-import com.haxademic.core.draw.filters.shaders.ThresholdFilter;
-import com.haxademic.core.file.FileUtil;
+import com.haxademic.core.draw.filters.pshader.BrightnessFilter;
+import com.haxademic.core.draw.filters.pshader.ChromaColorFilter;
+import com.haxademic.core.draw.filters.pshader.InvertFilter;
+import com.haxademic.core.draw.filters.pshader.ThresholdFilter;
 import com.haxademic.core.math.easing.EasingFloat;
 
 import processing.core.PConstants;
 import processing.core.PGraphics;
-import processing.opengl.PShader;
 
 public class BaseTexture {
 	
@@ -29,6 +29,8 @@ public class BaseTexture {
 	protected EasingFloat _brightEaser = new EasingFloat(1, 10);
 	protected boolean _makeOverlay;
 	protected boolean _knockoutBlack;
+	
+	protected ArrayList<BaseTexture> _curTexturePool;
 
 	public BaseTexture() {
 		_active = false;
@@ -77,13 +79,16 @@ public class BaseTexture {
 		// set black knockout chroma shader 
 		ChromaColorFilter.instance(P.p).setColorToReplace(0f, 0f, 0f);
 		ChromaColorFilter.instance(P.p).setThresholdSensitivity(0.2f);
-		ChromaColorFilter.instance(P.p).setSmoothing(0.5f);
+		ChromaColorFilter.instance(P.p).setSmoothing(0.25f);
 		ChromaColorFilter.instance(P.p).applyTo(pg);
+	}
+	
+	public void setCurTexturePool(ArrayList<BaseTexture> curTexturePool) {
+		_curTexturePool = curTexturePool;
 	}
 	
 	public void postProcess() {
 
-		
 		if( _makeOverlay == true ) {
 			ThresholdFilter.instance(P.p).setCutoff(0.5f);
 			ThresholdFilter.instance(P.p).applyTo(_texture);

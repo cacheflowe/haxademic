@@ -78,7 +78,7 @@ void main() {
 
   // copy original vertex (0-1) and mult components
   vec4 vertexDisplaced = (sheet == 1) ?
-    vec4(vertex.x, vertex.y, modelMaxExtent/2., vertex.w) :       // modelMaxExtent is multiplied by the mix() function below
+    vec4(vertex.x, vertex.y, displaceAmp, vertex.w) :       // modelMaxExtent is multiplied by the mix() function below
     vec4(vertex.x * displaceAmp, vertex.y * displaceAmp, vertex.z * displaceAmp, vertex.w);
 
   // displace amp based on displacement map

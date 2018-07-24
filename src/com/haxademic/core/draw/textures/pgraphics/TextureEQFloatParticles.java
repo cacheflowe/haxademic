@@ -4,8 +4,8 @@ import java.util.ArrayList;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.draw.context.DrawUtil;
-import com.haxademic.core.draw.filters.shaders.BlurHFilter;
-import com.haxademic.core.draw.filters.shaders.BlurVFilter;
+import com.haxademic.core.draw.filters.pshader.BlurHFilter;
+import com.haxademic.core.draw.filters.pshader.BlurVFilter;
 import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
 
 import processing.core.PVector;

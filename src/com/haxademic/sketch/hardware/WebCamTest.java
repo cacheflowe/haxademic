@@ -3,7 +3,7 @@ package com.haxademic.sketch.hardware;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.context.DrawUtil;
-import com.haxademic.core.draw.filters.shaders.FlipHFilter;
+import com.haxademic.core.draw.filters.pshader.FlipHFilter;
 import com.haxademic.core.draw.image.ImageUtil;
 
 import processing.core.PConstants;

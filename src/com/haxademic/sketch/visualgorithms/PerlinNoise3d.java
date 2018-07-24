@@ -5,10 +5,10 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.constants.PBlendModes;
 import com.haxademic.core.draw.context.DrawUtil;
-import com.haxademic.core.draw.filters.shaders.BadTVLinesFilter;
-import com.haxademic.core.draw.filters.shaders.CubicLensDistortionFilterOscillate;
-import com.haxademic.core.draw.filters.shaders.InvertFilter;
-import com.haxademic.core.draw.filters.shaders.VignetteFilter;
+import com.haxademic.core.draw.filters.pshader.BadTVLinesFilter;
+import com.haxademic.core.draw.filters.pshader.CubicLensDistortionFilterOscillate;
+import com.haxademic.core.draw.filters.pshader.InvertFilter;
+import com.haxademic.core.draw.filters.pshader.VignetteFilter;
 
 import controlP5.ControlP5;
 

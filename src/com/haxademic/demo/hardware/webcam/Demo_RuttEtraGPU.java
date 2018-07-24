@@ -5,8 +5,8 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.constants.PRenderers;
 import com.haxademic.core.draw.context.DrawUtil;
-import com.haxademic.core.draw.filters.shaders.BlendTowardsTexture;
-import com.haxademic.core.draw.filters.shaders.BrightnessFilter;
+import com.haxademic.core.draw.filters.pshader.BlendTowardsTexture;
+import com.haxademic.core.draw.filters.pshader.BrightnessFilter;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.draw.shapes.pshader.LinesDeformAndTextureFilter;
@@ -88,7 +88,7 @@ implements IWebCamCallback {
 			LinesDeformAndTextureFilter.instance(p).setDisplaceAmp(p.mousePercentY() * pg.height * 0.01f);
 		}
 		//		p.shader(displacementShader, P.LINES);
-		LinesDeformAndTextureFilter.instance(p).applyVertexShader(p);
+		LinesDeformAndTextureFilter.instance(p).applyTo(p);
 
 		// draw shape
 		p.stroke(255);

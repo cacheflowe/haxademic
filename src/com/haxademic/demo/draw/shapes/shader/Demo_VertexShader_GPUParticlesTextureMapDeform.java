@@ -5,7 +5,7 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.constants.PRenderers;
 import com.haxademic.core.draw.context.DrawUtil;
-import com.haxademic.core.draw.filters.shaders.MirrorFilter;
+import com.haxademic.core.draw.filters.pshader.MirrorFilter;
 import com.haxademic.core.draw.image.PerlinTexture;
 import com.haxademic.core.draw.textures.pgraphics.TextureEQGrid;
 import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;

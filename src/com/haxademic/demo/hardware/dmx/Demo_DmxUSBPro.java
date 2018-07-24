@@ -31,12 +31,15 @@ extends PAppletHax {
 	protected boolean audioActive = false;
 
 	protected void overridePropsFile() {
-		// mac
-		p.appConfig.setProperty(DMXPRO_PORT, "/dev/tty.usbserial-EN158815");
-		p.appConfig.setProperty(DMXPRO_BAUDRATE, 115000);
-		// win
-		p.appConfig.setProperty(DMXPRO_PORT, "COM3");
-		p.appConfig.setProperty(DMXPRO_BAUDRATE, 9600);
+		if(P.platform == P.MACOSX) {
+			// mac
+			p.appConfig.setProperty(DMXPRO_PORT, "/dev/tty.usbserial-EN158815");
+			p.appConfig.setProperty(DMXPRO_BAUDRATE, 115000);
+		} else {
+			// win
+			p.appConfig.setProperty(DMXPRO_PORT, "COM3");
+			p.appConfig.setProperty(DMXPRO_BAUDRATE, 9600);
+		}
 	}
 
 	public void setupFirstFrame() {

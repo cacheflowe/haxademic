@@ -81,7 +81,7 @@ extends PApplet
 
 	// app
 	protected static PAppletHax p;				// Global/static ref to PApplet - any audio-reactive object should be passed this reference, or grabbed from this static ref.
-	protected PGraphics pg;						// Offscreen buffer that matches the app size
+	public PGraphics pg;							// Offscreen buffer that matches the app size
 	public P5Properties appConfig;				// Loads the project .properties file to configure several app properties externally.
 	protected String customPropsFile = null;		// Loads an app-specific project .properties file.
 	protected String renderer; 					// The current rendering engine

@@ -4,9 +4,9 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.draw.filters.pgraphics.FastBlurFilter;
-import com.haxademic.core.draw.filters.shaders.BlurHFilter;
-import com.haxademic.core.draw.filters.shaders.BlurProcessingFilter;
-import com.haxademic.core.draw.filters.shaders.BlurVFilter;
+import com.haxademic.core.draw.filters.pshader.BlurHFilter;
+import com.haxademic.core.draw.filters.pshader.BlurProcessingFilter;
+import com.haxademic.core.draw.filters.pshader.BlurVFilter;
 import com.haxademic.core.file.DemoAssets;
 import com.haxademic.core.file.FileUtil;
 

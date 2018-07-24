@@ -79,6 +79,28 @@ public class PShapeUtil {
 		if(img != null) shape.setTexture(img);
 	}
 	
+	public static void addTextureUVExactWidthHeight(PShape shape, PImage img, float width, float height) {
+		shape.setStroke(false);
+		// shape.setFill(255);	// This seems to jack up vertex shaders
+		shape.setTextureMode(P.NORMAL);
+		
+		for (int i = 0; i < shape.getVertexCount(); i++) {
+			PVector v = shape.getVertex(i);
+			shape.setTextureUV(
+					i, 
+					P.map(v.x, -width/2f, width/2f, 0, 1f), 
+					P.map(v.y, -height/2f, height/2f, 0, 1f)
+					);
+		}
+		
+		for (int j = 0; j < shape.getChildCount(); j++) {
+			PShape subShape = shape.getChild(j);
+			addTextureUVExactWidthHeight(subShape, img, width, height);
+		}
+		
+		if(img != null) shape.setTexture(img);
+	}
+	
 	public static void addTextureUVSpherical(PShape shape, PImage img) {
 		shape.setStroke(false);
 		// shape.setFill(255);	// This seems to jack up vertex shaders

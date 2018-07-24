@@ -6,7 +6,7 @@ import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.constants.PRenderers;
 import com.haxademic.core.draw.color.ColorUtil;
 import com.haxademic.core.draw.context.DrawUtil;
-import com.haxademic.core.draw.filters.shaders.BlurProcessingFilter;
+import com.haxademic.core.draw.filters.pshader.BlurProcessingFilter;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.image.PerlinTexture;
 import com.haxademic.core.draw.shapes.PShapeUtil;
@@ -93,10 +93,10 @@ extends PAppletHax {
 		PointsDeformAndTextureFilter.instance(p).setDisplacementMap(noiseBuffer);
 		PointsDeformAndTextureFilter.instance(p).setMaxPointSize(6f);
 		PointsDeformAndTextureFilter.instance(p).setDisplaceAmp(0.2f + 0.2f * P.sin(p.loop.progressRads()));			// multiplied by obj extent
-		PointsDeformAndTextureFilter.instance(p).setModelMaxExtent(objExtent * 2.1f);
+		PointsDeformAndTextureFilter.instance(p).setModelMaxExtent(objExtent * 2.1f);		// texture mapping UV
 		PointsDeformAndTextureFilter.instance(p).setSheetMode(true);
 		PointsDeformAndTextureFilter.instance(p).setColorPointSizeMode(false);		// if color point size, use original color texture for point size. otherwise use displacement map color for point size
-		PointsDeformAndTextureFilter.instance(p).applyVertexShader(p);
+		PointsDeformAndTextureFilter.instance(p).applyTo(p);
 		
 		// draw shape
 		p.stroke(255); // make sure we reset stroke

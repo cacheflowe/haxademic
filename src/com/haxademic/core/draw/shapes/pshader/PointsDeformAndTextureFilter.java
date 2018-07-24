@@ -1,13 +1,13 @@
 package com.haxademic.core.draw.shapes.pshader;
 
-import com.haxademic.core.draw.filters.shaders.shared.BaseFilter;
+import com.haxademic.core.draw.shapes.pshader.shared.BaseVertexShader;
 import com.haxademic.core.file.DemoAssets;
 
 import processing.core.PApplet;
 import processing.core.PImage;
 
 public class PointsDeformAndTextureFilter
-extends BaseFilter {
+extends BaseVertexShader {
 
 	public static PointsDeformAndTextureFilter instance;
 	

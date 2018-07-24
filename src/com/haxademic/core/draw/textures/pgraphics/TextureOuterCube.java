@@ -2,14 +2,9 @@ package com.haxademic.core.draw.textures.pgraphics;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.draw.context.DrawUtil;
-import com.haxademic.core.draw.shapes.Icosahedron;
-import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.draw.shapes.Shapes;
 import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
-import com.haxademic.core.file.DemoAssets;
-import com.haxademic.core.math.MathUtil;
 
-import processing.core.PShape;
 import processing.core.PVector;
 
 public class TextureOuterCube
