@@ -87,6 +87,10 @@ public class FileUtil {
 		return filePath.substring(0, filePath.lastIndexOf(File.separator));
 	}
 
+	public static String fileFromPath(String filePath) {
+		return (new File(filePath)).getName();
+	}
+	
 	public static String getProjectAbsolutePath() {
 		return new java.io.File("").getAbsolutePath();
 	}
