@@ -347,7 +347,7 @@ extends PAppletHax { public static void main(String args[]) { PAppletHax.main(Th
 			GradientCoverWipe.instance(p).setProgress(p.mousePercentY());
 			GradientCoverWipe.instance(p).applyTo(pg);
 		} else if(curFilter == GrainFilter.instance(p)) {
-			GrainFilter.instance(p).setTime(p.frameCount * 0.01f * p.mousePercentY());
+			GrainFilter.instance(p).setTime(p.frameCount * 0.01f * p.mousePercentY() * 10f);
 			GrainFilter.instance(p).setCrossfade(p.mousePercentX());
 			GrainFilter.instance(p).applyTo(pg);
 		} else if(curFilter == HalftoneFilter.instance(p)) {
