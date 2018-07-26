@@ -6,6 +6,7 @@ src/com/haxademic/app/hike
 bin/
 output/
 lib/
+data/text/prefs
 *ignore*
 *_sketch*
 *Thumbs.db

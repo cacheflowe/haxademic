@@ -46,7 +46,7 @@ extends PAppletHax {
 //		PShapeUtil.centerShape(xShape);
 //		PShapeUtil.scaleShapeToExtent(xShape, p.width * 0.4f);
 		
-		feedbackShader = loadShader(FileUtil.getFile("shaders/filters/feedback-radial.glsl"));
+		feedbackShader = loadShader(FileUtil.getFile("haxademic/shaders/filters/feedback-radial.glsl"));
 	}
 	
 	protected void drawImg(boolean black) {

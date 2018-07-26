@@ -24,9 +24,11 @@ extends PAppletHax {
 	
 	protected ArrayList<BeatSquare> _beats;
 	protected SynthHand _synth;
+	Minim minim;
 	
 	public void setup() {
 		super.setup();
+		minim = new Minim(this);
 		loadSounds();
 		_synth = new SynthHand();
 	}
@@ -79,7 +81,7 @@ extends PAppletHax {
 			_y = y;
 			_w = w; 
 			_h = h;
-			_sound = p.audioIn.minim().loadFile( file, 512 );
+			_sound = minim.loadFile( file, 512 );
 		}
 		
 		public void update() {
@@ -159,7 +161,7 @@ extends PAppletHax {
 
 		@SuppressWarnings("deprecation")
 		public SynthHand() {
-			_audioOut = p.audioIn.minim().getLineOut(Minim.STEREO, 512);
+			_audioOut = minim.getLineOut(Minim.STEREO, 512);
 			_oscillator = new SineWave(200, 1, _audioOut.sampleRate());
 			_oscillator.setAmp(0);
 			_audioOut.addSignal(_oscillator);

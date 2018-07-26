@@ -3,6 +3,7 @@ package com.haxademic.core.draw.shapes;
 import com.haxademic.core.app.P;
 
 import processing.core.PApplet;
+import processing.core.PConstants;
 import processing.core.PGraphics;
 import processing.core.PImage;
 import processing.core.PShape;
@@ -328,6 +329,112 @@ public class Shapes {
 		return sh;
 	}
 	
+	public static PShape createBox(float size) {
+		PShape sh = P.p.createShape();
+		sh.beginShape(P.QUADS);
+		
+		// BL, BR, TR, TL
+		// front
+		sh.vertex(-size,  size,  size, 		0, 1);
+		sh.vertex( size,  size,  size, 		1, 1);
+		sh.vertex( size, -size,  size,		1, 0);
+		sh.vertex(-size, -size,  size,		0, 0);
+
+		// back
+		sh.vertex( size,  size, -size, 		0, 1);
+		sh.vertex(-size,  size, -size, 		1, 1);
+		sh.vertex(-size, -size, -size,		1, 0);
+		sh.vertex( size, -size, -size,		0, 0);
+
+		// left
+		sh.vertex(-size,  size, -size, 		0, 1);
+		sh.vertex(-size,  size,  size, 		1, 1);
+		sh.vertex(-size, -size,  size,		1, 0);
+		sh.vertex(-size, -size, -size,		0, 0);
+
+		// right
+		sh.vertex( size,  size,  size, 		0, 1);
+		sh.vertex( size,  size, -size, 		1, 1);
+		sh.vertex( size, -size, -size,		1, 0);
+		sh.vertex( size, -size,  size,		0, 0);
+		
+		// floor
+		sh.vertex(-size,  size, -size, 		0, 0);
+		sh.vertex( size,  size, -size, 		1, 0);
+		sh.vertex( size,  size,  size,		1, 1);
+		sh.vertex(-size,  size,  size,		0, 1);
+
+		// ceiling
+		sh.vertex(-size, -size, -size, 		0, 0);
+		sh.vertex( size, -size, -size, 		1, 0);
+		sh.vertex( size, -size,  size,		1, 1);
+		sh.vertex(-size, -size,  size,		0, 1);
+
+		sh.endShape();
+		return sh;
+	}
+	
+	public static PShape createBoxSingleUV(float size, float uvX, float uvY) {
+		PShape sh = P.p.createShape();
+		sh.beginShape(P.QUADS);
+		sh.textureMode(P.NORMAL);
+		
+		// BL, BR, TR, TL
+		// front
+		sh.vertex(-size,  size,  size, 		uvX, uvY);
+		sh.vertex( size,  size,  size, 		uvX, uvY);
+		sh.vertex( size, -size,  size,		uvX, uvY);
+		sh.vertex(-size, -size,  size,		uvX, uvY);
+		
+		// back
+		sh.vertex( size,  size, -size, 		uvX, uvY);
+		sh.vertex(-size,  size, -size, 		uvX, uvY);
+		sh.vertex(-size, -size, -size,		uvX, uvY);
+		sh.vertex( size, -size, -size,		uvX, uvY);
+		
+		// left
+		sh.vertex(-size,  size, -size, 		uvX, uvY);
+		sh.vertex(-size,  size,  size, 		uvX, uvY);
+		sh.vertex(-size, -size,  size,		uvX, uvY);
+		sh.vertex(-size, -size, -size,		uvX, uvY);
+		
+		// right
+		sh.vertex( size,  size,  size, 		uvX, uvY);
+		sh.vertex( size,  size, -size, 		uvX, uvY);
+		sh.vertex( size, -size, -size,		uvX, uvY);
+		sh.vertex( size, -size,  size,		uvX, uvY);
+		
+		// floor
+		sh.vertex(-size,  size, -size, 		uvX, uvY);
+		sh.vertex( size,  size, -size, 		uvX, uvY);
+		sh.vertex( size,  size,  size,		uvX, uvY);
+		sh.vertex(-size,  size,  size,		uvX, uvY);
+		
+		// ceiling
+		sh.vertex(-size, -size, -size, 		uvX, uvY);
+		sh.vertex( size, -size, -size, 		uvX, uvY);
+		sh.vertex( size, -size,  size,		uvX, uvY);
+		sh.vertex(-size, -size,  size,		uvX, uvY);
+		
+		sh.endShape();
+		return sh;
+	}
+	
+	public static PShape createRectSingleUV(float size, float uvX, float uvY) {
+		PShape sh = P.p.createShape();
+		sh.beginShape(P.QUADS);
+		sh.textureMode(P.NORMAL);
+		
+		// BL, BR, TR, TL
+		sh.vertex(-size,  size,  0, 		uvX, uvY);
+		sh.vertex( size,  size,  0, 		uvX, uvY);
+		sh.vertex( size, -size,  0,		uvX, uvY);
+		sh.vertex(-size, -size,  0,		uvX, uvY);
+		
+		sh.endShape();
+		return sh;
+	}
+	
 	public static PShape createSheet(int detail, float width, float height) {
 		P.p.textureMode(P.NORMAL); 
 		// P.println("Shapes.createSheet() setting textureMode is weird to do here... Maybe should be PAppletHax default?");
@@ -389,6 +496,34 @@ public class Shapes {
 		P.p.textureMode(P.IMAGE); 	// reset 
 		return sh;
 	}
+	
+	public static PShape createSheetPoints(int detail, float width, float height) {
+		PShape sh = P.p.createShape();
+		sh.beginShape(PConstants.POINTS);
+		sh.stroke(255);
+		sh.strokeWeight(1);
+		sh.noFill();
+		float cellW = width / detail;
+		float cellH = height / detail;
+		int numVertices = 0;
+		for (int col = 0; col < width; col += cellW) {
+			for (int row = 0; row < height; row += cellH) {
+				float xU = col;
+				float yV = row;
+				float x = -width/2f + xU;
+				float y = -height/2f + yV;
+				float z = 0;
+				sh.normal(x, y, z);
+				sh.vertex(x, y, z, P.map(xU, 0, width, 0, 1), P.map(yV, 0, height, 0, 1));
+				numVertices += 1;
+			}
+		}
+		// P.println("createSheet() vertices:", numVertices);
+		sh.endShape(); 
+		return sh;
+	}
+	
+
 	
 //	public static PShape createSphere(int detail, PImage tex) {
 //		P.p.textureMode(P.NORMAL);

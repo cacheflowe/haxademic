@@ -2,7 +2,7 @@ package com.haxademic.app.haxmapper.polygons;
 
 import java.awt.Rectangle;
 
-import com.haxademic.app.haxmapper.textures.BaseTexture;
+import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
 
 import processing.core.PGraphics;
 import processing.core.PVector;

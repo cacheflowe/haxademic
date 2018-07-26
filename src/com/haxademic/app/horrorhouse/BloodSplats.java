@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
-import com.haxademic.core.draw.color.ColorHaxEasing;
+import com.haxademic.core.draw.color.EasingColor;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.mapping.PGraphicsKeystone;
@@ -15,6 +15,7 @@ import com.haxademic.core.hardware.kinect.KinectAmbientActivityMonitor;
 import com.haxademic.core.math.MathUtil;
 
 import ddf.minim.AudioPlayer;
+import ddf.minim.Minim;
 import processing.core.PGraphics;
 import processing.core.PImage;
 import processing.opengl.PShader;
@@ -39,6 +40,7 @@ extends PAppletHax {
 	protected PShader _blurH;
 	protected PShader _blurV;
 	
+	protected Minim minim;
 	protected KinectAmbientActivityMonitor _kinectMonitor;
 	
 	protected PImage _horrorhouse;
@@ -48,10 +50,10 @@ extends PAppletHax {
 	protected int _lightningIndex;
 	
 	protected DmxInterface _dmx;
-	protected ColorHaxEasing _color1;
-	protected ColorHaxEasing _color2;
-	protected ColorHaxEasing _color3;
-	protected ColorHaxEasing _color4;
+	protected EasingColor _color1;
+	protected EasingColor _color2;
+	protected EasingColor _color3;
+	protected EasingColor _color4;
 	
 	protected boolean _kinectActive = false;
 	protected int _nextLightning = 0;
@@ -82,6 +84,7 @@ extends PAppletHax {
 	
 	public void setup() {
 		super.setup();
+		minim = new Minim(this);
 	}
 	
 	protected void initObjs() {
@@ -111,30 +114,30 @@ extends PAppletHax {
 		p.background(0);
 		
 		_lightnings = new ArrayList<AudioPlayer>();
-		_lightnings.add(p.audioIn.minim().loadFile( FileUtil.getHaxademicDataPath() + "/audio/halloween/lightning-strike-080807.wav", 512 ));
-		_lightnings.add(p.audioIn.minim().loadFile( FileUtil.getHaxademicDataPath() + "/audio/halloween/lightning-strike-with-rain.wav", 512 ));
-		_lightnings.add(p.audioIn.minim().loadFile( FileUtil.getHaxademicDataPath() + "/audio/halloween/noisenoir__lightningcrash.wav", 512 ));
-		_lightnings.add(p.audioIn.minim().loadFile( FileUtil.getHaxademicDataPath() + "/audio/halloween/thunder-and-lightning.mp3", 512 ));
-		_lightnings.add(p.audioIn.minim().loadFile( FileUtil.getHaxademicDataPath() + "/audio/halloween/turrus__lightning-strike.wav", 512 ));
+		_lightnings.add(minim.loadFile( FileUtil.getHaxademicDataPath() + "/audio/halloween/lightning-strike-080807.wav", 512 ));
+		_lightnings.add(minim.loadFile( FileUtil.getHaxademicDataPath() + "/audio/halloween/lightning-strike-with-rain.wav", 512 ));
+		_lightnings.add(minim.loadFile( FileUtil.getHaxademicDataPath() + "/audio/halloween/noisenoir__lightningcrash.wav", 512 ));
+		_lightnings.add(minim.loadFile( FileUtil.getHaxademicDataPath() + "/audio/halloween/thunder-and-lightning.mp3", 512 ));
+		_lightnings.add(minim.loadFile( FileUtil.getHaxademicDataPath() + "/audio/halloween/turrus__lightning-strike.wav", 512 ));
 		_lightningIndex = 0;
 		buildPhysicalLighting();
 		
-		_invert = loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/invert.glsl" ); 
+		_invert = loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/invert.glsl" ); 
 
-		_badtv = loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/badtv.glsl" ); 
+		_badtv = loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/badtv.glsl" ); 
 		_badtv.set("time", p.frameCount * 0.1f);
 		_badtv.set("grayscale", 0);
 		_badtv.set("nIntensity", 0.75f);
 		_badtv.set("sIntensity", 0.55f);
 		_badtv.set("sCount", 4096.0f);
 
-		_vignette = loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/vignette.glsl" );
+		_vignette = loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/vignette.glsl" );
 		_vignette.set("darkness", 0.85f);
 		_vignette.set("spread", 0.15f);
 		
-		_blurH = loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/blur-horizontal.glsl" ); 
+		_blurH = loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/blur-horizontal.glsl" ); 
 		_blurH.set( "h", 1f/p.width );
-		_blurV = loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/blur-vertical.glsl" ); 
+		_blurV = loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/blur-vertical.glsl" ); 
 		_blurV.set( "v", 1f/p.height );
 
 		_pg = p.createGraphics(width, height, P.P3D);
@@ -152,15 +155,15 @@ extends PAppletHax {
 	protected void buildCanvas() {
 		buffer = p.createGraphics( p.width, p.height, P.P2D );
 		buffer.smooth(OpenGLUtil.SMOOTH_MEDIUM);
-		_pgPinnable = new PGraphicsKeystone( p, buffer, 12 );
+		_pgPinnable = new PGraphicsKeystone( p, buffer, 12, FileUtil.getFile("text/keystoning/bloodsplats-keystone.txt") );
 	}
 	
 	protected void buildPhysicalLighting() {
 		_dmx = new DmxInterface(4);
-		_color1 = new ColorHaxEasing("#000000", 5);
-		_color2 = new ColorHaxEasing("#000000", 5);
-		_color3 = new ColorHaxEasing("#000000", 5);
-		_color4 = new ColorHaxEasing("#000000", 5);
+		_color1 = new EasingColor("#000000", 5);
+		_color2 = new EasingColor("#000000", 5);
+		_color3 = new EasingColor("#000000", 5);
+		_color4 = new EasingColor("#000000", 5);
 	}
 
 	

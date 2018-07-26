@@ -1,5 +1,7 @@
 package com.haxademic.core.math.easing;
 
+import com.haxademic.core.app.P;
+
 public class EasingFloat
 implements IEasingValue {
 	
@@ -10,7 +12,7 @@ implements IEasingValue {
 	public EasingFloat( float value, float easeFactor ) {
 		_val = value;
 		_target = value;
-		_easeFactor = easeFactor;
+		_easeFactor = (easeFactor <= 1) ? 1f / easeFactor : easeFactor;
 		_speed = 0f;
 		_delay = 0;
 	}
@@ -33,7 +35,7 @@ implements IEasingValue {
 	}
 	
 	public void setEaseFactor( float value ) {
-		_easeFactor = value;
+		_easeFactor = (value <= 1) ? 1f / value : value;
 	}
 	
 	public void setDelay( int frames ) {
@@ -70,6 +72,22 @@ implements IEasingValue {
 		}
 		// set the _value to the target if we're close enough
 		checkThreshold();
+	}
+	
+	public void updateRadians() {
+		if(_val == _target) return;
+		if(_delay > 0) { _delay--; return; }
+		float angleDifference = _target - _val;
+		float addToLoop = 0;
+		if( angleDifference > Math.PI) {
+			addToLoop = -P.TWO_PI;
+		} else if(angleDifference < -Math.PI ) {
+			addToLoop = P.TWO_PI;
+		}
+		_val += ((_target - _val + addToLoop) / _easeFactor);
+		if(Math.abs( _val - _target ) < COMPLETE_THRESHOLD) {
+			_val = _target;
+		}
 	}
 
 	protected void checkThreshold() {

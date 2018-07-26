@@ -4,8 +4,8 @@ import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 
-import com.haxademic.app.haxmapper.textures.BaseTexture;
 import com.haxademic.core.app.P;
+import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
 import com.haxademic.core.math.MathUtil;
 
 import processing.core.PGraphics;

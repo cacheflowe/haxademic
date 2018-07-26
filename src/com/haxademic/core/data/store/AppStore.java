@@ -7,18 +7,22 @@ import java.util.HashMap;
 
 import javax.swing.Timer;
 
+import com.haxademic.core.app.P;
+
 public class AppStore {
 	
 	public static AppStore instance;
 	
 	protected HashMap<String, Number> store;
 	protected HashMap<String, String> stringStore;
-	protected ArrayList<IAppStoreUpdatable> updatables;
+	protected HashMap<String, Boolean> boolStore;
+	protected ArrayList<IAppStoreListener> listeners;
 
 	public AppStore() {
 		store = new HashMap<String, Number>();
 		stringStore = new HashMap<String, String>();
-		updatables = new ArrayList<IAppStoreUpdatable>();
+		boolStore = new HashMap<String, Boolean>();
+		listeners = new ArrayList<IAppStoreListener>();
 	}
 	
 	public static AppStore instance() {
@@ -27,48 +31,70 @@ public class AppStore {
 		return instance;
 	}
 	
-	public void registerStatable(IAppStoreUpdatable obj) {
-		updatables.add(obj);
+	public void addListener(IAppStoreListener obj) {
+		listeners.add(obj);
 	}
 	
-	public void setValue(String storeKey, Number val) {
+	public void setNumber(String storeKey, Number val) {
 		store.put(storeKey, val);
-		for (IAppStoreUpdatable obj : updatables) {
-			obj.updatedAppStoreValue(storeKey, val);
+		for (IAppStoreListener obj : listeners) {
+			obj.updatedNumber(storeKey, val);
 		}
 	}
 	
-	public void setValue(String storeKey, String val) {
+	public void setString(String storeKey, String val) {
 		stringStore.put(storeKey, val);
-		for (IAppStoreUpdatable obj : updatables) {
-			obj.updatedAppStoreValue(storeKey, val);
+		for (IAppStoreListener obj : listeners) {
+			obj.updatedString(storeKey, val);
+		}
+	}
+	
+	public void setBoolean(String storeKey, Boolean val) {
+		boolStore.put(storeKey, val);
+		for (IAppStoreListener obj : listeners) {
+			obj.updatedBoolean(storeKey, val);
 		}
 	}
 	
 	public void setValueWithDelay(String storeKey, Number val, int delay) {
 		Timer deferredStateTimer = new Timer(delay, new ActionListener() {
 			@Override public void actionPerformed(ActionEvent arg0) {
-				setValue(storeKey, val);
+				setNumber(storeKey, val);
 			}
 		});
 		deferredStateTimer.setRepeats(false);
 		deferredStateTimer.start();
 	}
 	
-	public Number getValue(String storeKey) {
+	public Number getNumber(String storeKey) {
 		return store.get(storeKey);
 	}
 
-	public String getValueS(String storeKey) {
+	public String getString(String storeKey) {
 		return stringStore.get(storeKey);
 	}
 	
-	public float getValueF(String storeKey) {
+	public float getFloat(String storeKey) {
 		return store.get(storeKey).floatValue();
 	}
 
-	public int getValueI(String storeKey) {
+	public int getInt(String storeKey) {
 		return store.get(storeKey).intValue();
 	}
 
+	public boolean getBoolean(String storeKey) {
+		return boolStore.get(storeKey).booleanValue();
+	}
+
+	public void showStoreValuesInDebugView() {
+		for (String key : store.keySet()) {
+			P.p.debugView.setValue(key, store.get(key).floatValue());
+		}
+		for (String key : stringStore.keySet()) {
+			P.p.debugView.setValue(key, stringStore.get(key));
+		}
+		for (String key : boolStore.keySet()) {
+			P.p.debugView.setValue(key, boolStore.get(key));
+		}
+	}
 }

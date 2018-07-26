@@ -1,15 +1,15 @@
 package com.haxademic.app.haxvisual.viz.elements;
 
+import com.haxademic.app.haxvisual.viz.ElementBase;
+import com.haxademic.app.haxvisual.viz.IVizElement;
+import com.haxademic.core.app.P;
+import com.haxademic.core.draw.color.ColorGroup;
+import com.haxademic.core.draw.context.DrawUtil;
+
 import processing.core.PApplet;
 import processing.core.PConstants;
 import toxi.color.TColor;
 import toxi.processing.ToxiclibsSupport;
-
-import com.haxademic.app.haxvisual.viz.ElementBase;
-import com.haxademic.app.haxvisual.viz.IVizElement;
-import com.haxademic.core.audio.AudioInputWrapper;
-import com.haxademic.core.draw.color.ColorGroup;
-import com.haxademic.core.draw.context.DrawUtil;
 
 public class BarsEQ
 extends ElementBase 
@@ -24,8 +24,8 @@ implements IVizElement {
 	protected TColor _fillColor = null;
 
 
-	public BarsEQ( PApplet p, ToxiclibsSupport toxi, AudioInputWrapper audioData ) {
-		super( p, toxi, audioData );
+	public BarsEQ( PApplet p, ToxiclibsSupport toxi ) {
+		super( p, toxi );
 		init();
 	}
 
@@ -48,7 +48,6 @@ implements IVizElement {
 	
 	public void update() {
 		DrawUtil.resetGlobalProps( p );
-		DrawUtil.setCenter( p );
 		p.pushMatrix();
 		
 		p.rectMode(PConstants.CORNER);
@@ -77,7 +76,7 @@ implements IVizElement {
 		float startX = -_width/2;
 		int spectrumInterval = (int) ( 256 / _cols );	// 256 keeps it in the bottom half of the spectrum since the high ends is so overrun
 		for (int i = 0; i < _cols; i++) {
-			p.rect( startX + i * cellW, 0, cellW, _audioData.getFFT().spectrum[i*spectrumInterval] * cellH );
+			p.rect( startX + i * cellW, 0, cellW, P.p.audioFreq(i*spectrumInterval) * cellH );
 		}		
 	}
 
@@ -86,7 +85,6 @@ implements IVizElement {
 	}
 
 	public void dispose() {
-		_audioData = null;
 	}
 	
 }

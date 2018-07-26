@@ -1,12 +1,5 @@
 package com.haxademic.app.haxvisual.viz.modules;
 
-import processing.core.PConstants;
-import processing.core.PImage;
-import processing.core.PVector;
-import toxi.geom.Sphere;
-import toxi.geom.Vec3D;
-import toxi.processing.ToxiclibsSupport;
-
 import com.haxademic.app.haxvisual.viz.IVizModule;
 import com.haxademic.app.haxvisual.viz.ModuleBase;
 import com.haxademic.core.app.P;
@@ -14,7 +7,13 @@ import com.haxademic.core.camera.CameraBasic;
 import com.haxademic.core.camera.CameraOscillate;
 import com.haxademic.core.draw.shapes.Shapes;
 import com.haxademic.core.hardware.kinect.IKinectWrapper;
-import com.haxademic.core.hardware.midi.MidiState;
+
+import processing.core.PConstants;
+import processing.core.PImage;
+import processing.core.PVector;
+import toxi.geom.Sphere;
+import toxi.geom.Vec3D;
+import toxi.processing.ToxiclibsSupport;
 
 public class MaxCache extends ModuleBase implements IVizModule {
 	
@@ -110,8 +109,8 @@ public class MaxCache extends ModuleBase implements IVizModule {
 
 	public void initAudio()
 	{
-		_audioData.setNumAverages( _numAverages );
-		_audioData.setDampening( .13f );
+//		audioData.setNumAverages( _numAverages );
+//		audioData.setDampening( .13f );
 	}
 
 	public void focus() {
@@ -128,37 +127,37 @@ public class MaxCache extends ModuleBase implements IVizModule {
 		_kinectinterface.update();
 		
 		// draw rings
-		p.stroke(255, 200*_audioData.getFFT().spectrum[127]*_audioBoost);
+		p.stroke(255, 200*p.audioFreq(127)*_audioBoost);
 		p.noStroke();
 		p.pushMatrix();
-		p.translate(p.width / 2, (p.height / 5) * 2 - _audioData.getFFT().spectrum[50]*_audioBoost*1000, 0);
+		p.translate(p.width / 2, (p.height / 5) * 2 - p.audioFreq(50)*_audioBoost*1000, 0);
 		p.rotateX(P.PI/2);
-		Shapes.drawDisc3D( p, 2000 + _audioData.getFFT().spectrum[50]*_audioBoost*20000, 10000, 50 + _audioData.getFFT().spectrum[50]*_audioBoost*50, 50, p.color(_curR, _curG, _curB, _audioData.getFFT().spectrum[50]*_audioBoost * 100), p.color(_curR, _curG, _curB, _audioData.getFFT().spectrum[50]*_audioBoost * 100) );
+		Shapes.drawDisc3D( p, 2000 + p.audioFreq(50)*_audioBoost*20000, 10000, 50 + p.audioFreq(50)*_audioBoost*50, 50, p.color(_curR, _curG, _curB, p.audioFreq(50)*_audioBoost * 100), p.color(_curR, _curG, _curB, p.audioFreq(50)*_audioBoost * 100) );
 		p.popMatrix();
 		p.pushMatrix();
 		p.translate(p.width / 2, (p.height / 5) * 3, 0);
 		p.rotateX(P.PI/2);
-		Shapes.drawDisc3D( p, 2000 + _audioData.getFFT().spectrum[150]*_audioBoost*20000, 10000, 50 + _audioData.getFFT().spectrum[150]*_audioBoost*50, 50, p.color(_curR, _curG, _curB, _audioData.getFFT().spectrum[150]*_audioBoost * 100), p.color(_curR, _curG, _curB, _audioData.getFFT().spectrum[150]*_audioBoost * 100) );
+		Shapes.drawDisc3D( p, 2000 + p.audioFreq(150)*_audioBoost*20000, 10000, 50 + p.audioFreq(150)*_audioBoost*50, 50, p.color(_curR, _curG, _curB, p.audioFreq(150)*_audioBoost * 100), p.color(_curR, _curG, _curB, p.audioFreq(150)*_audioBoost * 100) );
 		p.popMatrix();
 		p.pushMatrix();
-		p.translate(p.width / 2, (p.height / 5) * 4 + _audioData.getFFT().spectrum[200]*_audioBoost*1000, 0);
+		p.translate(p.width / 2, (p.height / 5) * 4 + p.audioFreq(200)*_audioBoost*1000, 0);
 		p.rotateX(P.PI/2);
-		Shapes.drawDisc3D( p, 2000 + _audioData.getFFT().spectrum[200]*_audioBoost*20000, 10000, 50 + _audioData.getFFT().spectrum[200]*_audioBoost*50, 50, p.color(_curR, _curG, _curB, _audioData.getFFT().spectrum[200]*_audioBoost * 100), p.color(_curR, _curG, _curB, _audioData.getFFT().spectrum[200]*_audioBoost * 100) );
+		Shapes.drawDisc3D( p, 2000 + p.audioFreq(200)*_audioBoost*20000, 10000, 50 + p.audioFreq(200)*_audioBoost*50, 50, p.color(_curR, _curG, _curB, p.audioFreq(200)*_audioBoost * 100), p.color(_curR, _curG, _curB, p.audioFreq(200)*_audioBoost * 100) );
 		p.popMatrix();
 		
 		// draw outer spheres
 		p.noFill();
-		p.stroke(255, 100*_audioData.getFFT().spectrum[127]*_audioBoost);
-		_gfx.sphere(new Sphere(new Vec3D(0,0,0),10000 + (_audioData.getFFT().spectrum[127]*_audioBoost)*2000 ), 30);
+		p.stroke(255, 100*p.audioFreq(127)*_audioBoost);
+		_gfx.sphere(new Sphere(new Vec3D(0,0,0),10000 + (p.audioFreq(127)*_audioBoost)*2000 ), 30);
 //		p.pushMatrix();
 //		p.rotateY(p.frameCount/1000f);
-//		_gfx.sphere(new Sphere(new Vec3D(0,0,0),8000 + (_audioData.getFFT().spectrum[200]*_audioBoost)*2000 ), 30);
+//		_gfx.sphere(new Sphere(new Vec3D(0,0,0),8000 + (_p.audioFreq(200)*_audioBoost)*2000 ), 30);
 //		p.pushMatrix();
 //		p.rotateY(p.frameCount/1000f);
-//		_gfx.sphere(new Sphere(new Vec3D(0,0,0),6000 + (_audioData.getFFT().spectrum[220]*_audioBoost)*2000 ), 30);
+//		_gfx.sphere(new Sphere(new Vec3D(0,0,0),6000 + (_p.audioFreq(220)*_audioBoost)*2000 ), 30);
 //		p.pushMatrix();
 //		p.rotateY(p.frameCount/1000f);
-//		_gfx.sphere(new Sphere(new Vec3D(0,0,0),4000 + (_audioData.getFFT().spectrum[100]*_audioBoost)*2000 ), 30);
+//		_gfx.sphere(new Sphere(new Vec3D(0,0,0),4000 + (_p.audioFreq(100)*_audioBoost)*2000 ), 30);
 //		p.popMatrix();
 //		p.popMatrix();
 //		p.popMatrix();
@@ -244,25 +243,25 @@ public class MaxCache extends ModuleBase implements IVizModule {
 //									p.vertex(_rightDownPixelDepth.x * _drawGridSizeFactor, _rightDownPixelDepth.y * _drawGridSizeFactor, _zOffset - _rightDownPixelDepth.z * _zFactor, _U, _V);
 									
 									
-									p.fill(305*_audioData.getFFT().spectrum[x%512]);
+									p.fill(305*p.audioFreq(x));
 									
-									p.vertex(_curPixelDepth.x * _drawGridSizeFactor, _curPixelDepth.y * _drawGridSizeFactor, _zOffset - _curPixelDepth.z * _zFactor - 2550*_audioData.getFFT().spectrum[x%512] );
-									p.vertex(_rightDownPixelDepth.x * _drawGridSizeFactor, _rightDownPixelDepth.y * _drawGridSizeFactor, _zOffset - _rightDownPixelDepth.z * _zFactor - 2550*_audioData.getFFT().spectrum[x%512] );
-									p.vertex(_downPixelDepth.x * _drawGridSizeFactor, _downPixelDepth.y * _drawGridSizeFactor, _zOffset - _downPixelDepth.z * _zFactor - 2550*_audioData.getFFT().spectrum[x%512] );
+									p.vertex(_curPixelDepth.x * _drawGridSizeFactor, _curPixelDepth.y * _drawGridSizeFactor, _zOffset - _curPixelDepth.z * _zFactor - 2550*p.audioFreq(x) );
+									p.vertex(_rightDownPixelDepth.x * _drawGridSizeFactor, _rightDownPixelDepth.y * _drawGridSizeFactor, _zOffset - _rightDownPixelDepth.z * _zFactor - 2550*p.audioFreq(x) );
+									p.vertex(_downPixelDepth.x * _drawGridSizeFactor, _downPixelDepth.y * _drawGridSizeFactor, _zOffset - _downPixelDepth.z * _zFactor - 2550*p.audioFreq(x) );
 									
-									p.vertex(_curPixelDepth.x * _drawGridSizeFactor, _curPixelDepth.y * _drawGridSizeFactor, _zOffset - _curPixelDepth.z * _zFactor - 2550*_audioData.getFFT().spectrum[x%512] );
-									p.vertex(_rightPixelDepth.x * _drawGridSizeFactor, _rightPixelDepth.y * _drawGridSizeFactor, _zOffset - _rightPixelDepth.z * _zFactor - 2550*_audioData.getFFT().spectrum[x%512] );
-									p.vertex(_rightDownPixelDepth.x * _drawGridSizeFactor, _rightDownPixelDepth.y * _drawGridSizeFactor, _zOffset - _rightDownPixelDepth.z * _zFactor - 2550*_audioData.getFFT().spectrum[x%512] );
+									p.vertex(_curPixelDepth.x * _drawGridSizeFactor, _curPixelDepth.y * _drawGridSizeFactor, _zOffset - _curPixelDepth.z * _zFactor - 2550*p.audioFreq(x) );
+									p.vertex(_rightPixelDepth.x * _drawGridSizeFactor, _rightPixelDepth.y * _drawGridSizeFactor, _zOffset - _rightPixelDepth.z * _zFactor - 2550*p.audioFreq(x) );
+									p.vertex(_rightDownPixelDepth.x * _drawGridSizeFactor, _rightDownPixelDepth.y * _drawGridSizeFactor, _zOffset - _rightDownPixelDepth.z * _zFactor - 2550*p.audioFreq(x) );
 
 									break;
 								case MESH :
 									// set color
 									if( _isRowBased ) {
-										p.fill(_curR + 255*_audioData.getFFT().spectrum[y%512]*_audioBoost,_curG + 255*_audioData.getFFT().spectrum[y%512]*_audioBoost,_curB + 255*_audioData.getFFT().spectrum[y%512]*_audioBoost,255*_audioData.getFFT().spectrum[x%512]*_audioBoost);
+										p.fill(_curR + 255*p.audioFreq(y)*_audioBoost,_curG + 255*p.audioFreq(y)*_audioBoost,_curB + 255*p.audioFreq(y)*_audioBoost,255*p.audioFreq(x)*_audioBoost);
 									} else {
-										p.fill(_curR + 255*_audioData.getFFT().spectrum[numPixelsDrawn%512]*_audioBoost,_curG + 255*_audioData.getFFT().spectrum[numPixelsDrawn%512]*_audioBoost,_curB + 255*_audioData.getFFT().spectrum[numPixelsDrawn%512]*_audioBoost,255*_audioData.getFFT().spectrum[numPixelsDrawn%512]*_audioBoost);
+										p.fill(_curR + 255*p.audioFreq(numPixelsDrawn)*_audioBoost,_curG + 255*p.audioFreq(numPixelsDrawn)*_audioBoost,_curB + 255*p.audioFreq(numPixelsDrawn)*_audioBoost,255*p.audioFreq(numPixelsDrawn)*_audioBoost);
 									}
-									p.stroke(255*_audioData.getFFT().spectrum[x%512]);
+									p.stroke(255*p.audioFreq(x));
 									//noFill();
 									p.noStroke();
 									
@@ -281,14 +280,14 @@ public class MaxCache extends ModuleBase implements IVizModule {
 								case BOXES :
 									// set color
 									if( _isRowBased ) {
-										p.fill(_curR + 255*_audioData.getFFT().spectrum[y%512]*_audioBoost*1.6f,_curG + 255*_audioData.getFFT().spectrum[y%512]*_audioBoost*1.6f,_curB + 255*_audioData.getFFT().spectrum[y%512]*_audioBoost*1.6f,255*_audioData.getFFT().spectrum[x%512]*_audioBoost*1.6f);
+										p.fill(_curR + 255*p.audioFreq(y)*_audioBoost*1.6f,_curG + 255*p.audioFreq(y)*_audioBoost*1.6f,_curB + 255*p.audioFreq(y)*_audioBoost*1.6f,255*p.audioFreq(x)*_audioBoost*1.6f);
 									} else {
-										p.fill(_curR + 255*_audioData.getFFT().spectrum[numPixelsDrawn%512]*_audioBoost*1.6f,_curG + 255*_audioData.getFFT().spectrum[numPixelsDrawn%512]*_audioBoost*1.6f,_curB + 255*_audioData.getFFT().spectrum[numPixelsDrawn%512]*_audioBoost*1.6f,255*_audioData.getFFT().spectrum[numPixelsDrawn%512]*_audioBoost*1.6f);
+										p.fill(_curR + 255*p.audioFreq(numPixelsDrawn)*_audioBoost*1.6f,_curG + 255*p.audioFreq(numPixelsDrawn)*_audioBoost*1.6f,_curB + 255*p.audioFreq(numPixelsDrawn)*_audioBoost*1.6f,255*p.audioFreq(numPixelsDrawn)*_audioBoost*1.6f);
 									}
 									p.noStroke();
 									p.pushMatrix();
 									p.translate( _curPixelDepth.x * _drawGridSizeFactor, _curPixelDepth.y * _drawGridSizeFactor, _zOffset + _curPixelDepth.z * -_zFactor );
-									p.box( _audioData.getFFT().spectrum[y%512]*_audioBoost*1.6f * 70 );
+									p.box( p.audioFreq(y)*_audioBoost*1.6f * 70 );
 									p.popMatrix();
 									
 									break;

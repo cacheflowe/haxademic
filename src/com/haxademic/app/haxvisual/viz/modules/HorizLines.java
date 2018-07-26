@@ -1,14 +1,14 @@
 package com.haxademic.app.haxvisual.viz.modules;
 
-import processing.core.PConstants;
-
 import com.haxademic.app.haxvisual.viz.IVizModule;
 import com.haxademic.app.haxvisual.viz.ModuleBase;
+import com.haxademic.core.app.P;
 import com.haxademic.core.camera.CameraBasic;
 import com.haxademic.core.camera.CameraDefault;
 import com.haxademic.core.camera.CameraOscillate;
 import com.haxademic.core.camera.CameraSpotter;
-import com.haxademic.core.hardware.midi.MidiState;
+
+import processing.core.PConstants;
 
 public class HorizLines 
 extends ModuleBase
@@ -39,8 +39,8 @@ implements IVizModule
 
 	public void initAudio()
 	{
-		_audioData.setNumAverages( _numAverages );
-		_audioData.setDampening( .13f );
+//		audioData.setNumAverages( _numAverages );
+//		audioData.setDampening( .13f );
 	}
 
 	public void focus() {
@@ -74,7 +74,7 @@ implements IVizModule
 		float cellH = p.height/_rows;
 		for(int i=0; i<_rows; i++) {
 			// red bottom row
-			float curAlpha = 1.6f * _audioData.getFFT().averages[i];
+			float curAlpha = 1.6f * P.p.audioFreq(i);
 			p.fill( _r, _g, _b, curAlpha );
 			p.rect( -500, i*cellH, p.width + 1000, cellH );
 		}
@@ -118,7 +118,7 @@ implements IVizModule
 	void newBlocks()
 	{
 		_rows = _numAverages = p.round( p.random(20, 100) );
-		_audioData.setNumAverages( _numAverages );
+//		audioData.setNumAverages( _numAverages );
 	}
 
 	public void beatDetect( int isKickCount, int isSnareCount, int isHatCount, int isOnsetCount )

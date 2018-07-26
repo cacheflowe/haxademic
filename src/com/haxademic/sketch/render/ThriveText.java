@@ -60,9 +60,9 @@ extends PAppletHax {
 		
 		tiledImg = new TiledTexture(textImg);
 		
-		maskShader = loadShader(FileUtil.getFile("shaders/filters/three-texture-opposite-mask.glsl"));
+		maskShader = loadShader(FileUtil.getFile("haxademic/shaders/filters/three-texture-opposite-mask.glsl"));
 		
-		stripes = p.loadShader(FileUtil.getFile("shaders/textures/cacheflowe-rotating-stripes.glsl"));
+		stripes = p.loadShader(FileUtil.getFile("haxademic/shaders/textures/cacheflowe-rotating-stripes.glsl"));
 	}
 
 	public void drawApp() {

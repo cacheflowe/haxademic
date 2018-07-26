@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import com.haxademic.app.haxvisual.viz.ElementBase;
 import com.haxademic.app.haxvisual.viz.IVizElement;
 import com.haxademic.core.app.P;
-import com.haxademic.core.audio.AudioInputWrapper;
 import com.haxademic.core.draw.color.ColorGroup;
 import com.haxademic.core.draw.color.TColorBlendBetween;
 import com.haxademic.core.draw.context.DrawUtil;
@@ -28,8 +27,8 @@ implements IVizElement {
 	protected ArrayList<Star> _stars;
 	protected boolean _wireframe = false;
 	
-	public StarField( PApplet p, ToxiclibsSupport toxi, AudioInputWrapper audioData ) {
-		super( p, toxi, audioData );
+	public StarField( PApplet p, ToxiclibsSupport toxi ) {
+		super( p, toxi );
 		init();
 	}
 
@@ -38,7 +37,7 @@ implements IVizElement {
 		float scaleMult = 0.5f;
 		setDrawProps(p.width*scaleMult, p.height*scaleMult);
 		
-		_numStars = _audioData.getFFT().spectrum.length / 8;
+		_numStars = P.p.audioData.frequencies().length / 8;
 		_stars = new ArrayList<Star>();
 		for( int i = 0; i < _numStars; i++ ) {
 			_stars.add( new Star() );
@@ -58,7 +57,6 @@ implements IVizElement {
 
 	public void update() {
 		DrawUtil.resetGlobalProps( p );
-		DrawUtil.setCenter( p );
 		p.pushMatrix();
 		
 		p.translate( 0f, -p.height/2, -p.height * 0.5f );
@@ -70,7 +68,7 @@ implements IVizElement {
 		p.rotateX( p.frameCount/1000f );
 		
 		for( int i = 0; i < _numStars; i++ ) {
-			_stars.get( i ).update( _audioData.getFFT().spectrum[i] );
+			_stars.get( i ).update( P.p.audioFreq(i) );
 		}
 		
 		
@@ -98,7 +96,6 @@ implements IVizElement {
 	}
 	
 	public void dispose() {
-		_audioData = null;
 	}
 	
 	class Star {

@@ -70,14 +70,11 @@ extends PAppletHax {
 	
 	protected void setupScene() {
 		DrawUtil.resetGlobalProps( p );
-		DrawUtil.setCenter( p );
-
-		p.shininess(1000f); 
-		p.lights();
+		DrawUtil.setCenterScreen(p);
 		p.background(0);
-		p.smooth();
+		DrawUtil.setBetterLights(p);
 
-		p.translate( 0, 0, -700 );
+//		p.translate( 0, 0, -700 );
 		
 		TColor fill = new TColor( TColor.WHITE ).setAlpha( 1.0f );
 		TColor stroke = TColor.newRGB( 200, 200, 200 ).setAlpha( 0.3f );

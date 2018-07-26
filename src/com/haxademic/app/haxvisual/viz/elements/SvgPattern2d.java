@@ -2,20 +2,19 @@ package com.haxademic.app.haxvisual.viz.elements;
 
 import java.util.ArrayList;
 
-import processing.core.PApplet;
-import processing.core.PShape;
-import toxi.color.TColor;
-import toxi.processing.ToxiclibsSupport;
-
 import com.haxademic.app.haxvisual.viz.ElementBase;
 import com.haxademic.app.haxvisual.viz.IVizElement;
 import com.haxademic.core.app.P;
-import com.haxademic.core.audio.AudioInputWrapper;
 import com.haxademic.core.draw.color.ColorGroup;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.EasingFloat;
+
+import processing.core.PApplet;
+import processing.core.PShape;
+import toxi.color.TColor;
+import toxi.processing.ToxiclibsSupport;
 
 public class SvgPattern2d
 extends ElementBase 
@@ -34,8 +33,8 @@ implements IVizElement {
 	protected int _timingFrame = 0;
 
 
-	public SvgPattern2d( PApplet p, ToxiclibsSupport toxi, AudioInputWrapper audioData ) {
-		super( p, toxi, audioData );
+	public SvgPattern2d( PApplet p, ToxiclibsSupport toxi ) {
+		super( p, toxi );
 		init();
 	}
 
@@ -118,7 +117,6 @@ implements IVizElement {
 	}
 
 	public void dispose() {
-		_audioData = null;
 	}
 	
 	public void updateTiming() {

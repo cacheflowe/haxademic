@@ -78,20 +78,17 @@ public class DebugView {
 	}
 	
 	protected void updateAppInfo() {
-		debugLines.put("RUN TIME", "");
+		debugLines.put("___ RUN TIME", "");
 		debugLines.put("Frame", ""+p.frameCount);
 		debugLines.put("Time", StringFormatter.timeFromSeconds(p.millis() / 1000, true));
-		debugLines.put("", "");
-		debugLines.put("PERFORMANCE", "");
+		debugLines.put("___ PERFORMANCE", "");
 		debugLines.put("FPS", ""+P.round(p.frameRate));
 		debugLines.put("Memory Allocated", StringFormatter.formattedInteger(DebugUtil.memoryAllocated()));
 		debugLines.put("Memory Free", StringFormatter.formattedInteger(DebugUtil.memoryFree()));
 		debugLines.put("Memory Max", StringFormatter.formattedInteger(DebugUtil.memoryMax()));
-		debugLines.put("", "");
-		debugLines.put("\nNET", "");
+		debugLines.put("___ NET", "");
 		debugLines.put("IP Address", ipAddress);
-		debugLines.put("", "");
-		debugLines.put("\nCUSTOM", "");
+		debugLines.put("___ CUSTOM", "");
 	}
 	
 	public void updateInputs() {
@@ -129,16 +126,33 @@ public class DebugView {
 		// draw debug text block
 		String debugStr = stringFromHashMap(debugLines);
 		
-		p.textFont( debugFont );
+		p.textFont(debugFont);
 		p.textAlign(P.LEFT, P.TOP);
 		p.textSize(fontSize);
 		float textW = p.textWidth(debugStr) + padding;
 		debugPanelW = P.max(debugPanelW, textW);
+		
+		// push to scroll
+		p.pushMatrix();
+
+		// draw bg
 		p.noStroke();
 		p.fill(0,225);
 		p.rect(0, 0, debugPanelW + padding, p.height);
+		
+		// scroll text - offset w/mouse y if too big to fit on screen
+		float textH = debugLines.size() * fontSize * debugFont.ascent() * 3f;
+		if(textH > p.height) {
+			float heightDiff = p.height - textH;
+			p.translate(0, P.map(P.p.mousePercentY(), 0, 1, 0, heightDiff));
+		}
+		
+		// draw text
 		p.fill(255);
-		p.text(debugStr, 10, 10, textW, p.height - padding);
+		p.text(debugStr, 10, 10, textW, textH);
+		
+		// pop scroll
+		p.popMatrix();
 		
 		// draw help lines
 		if(helpLines.isEmpty() == false) {

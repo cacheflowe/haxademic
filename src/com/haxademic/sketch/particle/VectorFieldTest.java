@@ -7,7 +7,7 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.context.OpenGLUtil;
-import com.haxademic.core.draw.filters.shaders.VignetteAltFilter;
+import com.haxademic.core.draw.filters.pshader.VignetteAltFilter;
 import com.haxademic.core.math.easing.EasingFloat;
 
 import processing.core.PVector;
@@ -34,16 +34,9 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.FULLSCREEN, false );
 //		p.appConfig.setProperty( AppSettings.DISPLAY, 2 );
 		p.appConfig.setProperty( AppSettings.FILLS_SCREEN, false );
-		p.appConfig.setProperty( AppSettings.RETINA, true );
-		p.appConfig.setProperty( AppSettings.SMOOTHING, OpenGLUtil.SMOOTH_HIGH);
+		p.appConfig.setProperty( AppSettings.RETINA, false );
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, false);
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, frames);
-		p.appConfig.setProperty( AppSettings.RENDERING_GIF, false);
-		p.appConfig.setProperty( AppSettings.RENDERING_GIF_FRAMERATE, 45 );
-		p.appConfig.setProperty( AppSettings.RENDERING_GIF_QUALITY, 15 );
-		p.appConfig.setProperty( AppSettings.RENDERING_GIF_START_FRAME, 1 );
-		p.appConfig.setProperty( AppSettings.RENDERING_GIF_STOP_FRAME, frames );
-//		p.appConfig.setProperty( AppSettings.FPS, 30 );
 
 	}
 	
@@ -199,7 +192,7 @@ extends PAppletHax {
 			
 			// update position
 			lastPosition.set(position);
-			float curSpeed = speed * P.p._audioInput.getFFT().spectrum[index % 512];
+			float curSpeed = speed * p.audioFreq(index);
 			position.set( position.x + P.sin(radians.value()) * curSpeed * P.map(p.mouseX, 0, p.width, 0, 2f), position.y + P.cos(radians.value()) * curSpeed * P.map(p.mouseX, 0, p.width, 0, 2f) );
 			if( position.x < 0 ) position.set( p.width, position.y );
 			if( position.x > p.width ) position.set( 0, position.y );

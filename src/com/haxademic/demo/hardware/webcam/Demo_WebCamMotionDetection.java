@@ -4,9 +4,9 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.constants.PRenderers;
 import com.haxademic.core.draw.context.DrawUtil;
-import com.haxademic.core.draw.filters.shaders.BlurHFilter;
-import com.haxademic.core.draw.filters.shaders.BlurVFilter;
-import com.haxademic.core.draw.filters.shaders.ThresholdFilter;
+import com.haxademic.core.draw.filters.pshader.BlurHFilter;
+import com.haxademic.core.draw.filters.pshader.BlurVFilter;
+import com.haxademic.core.draw.filters.pshader.ThresholdFilter;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.webcam.IWebCamCallback;
@@ -41,8 +41,8 @@ implements IWebCamCallback {
 		differenceBuffer = p.createGraphics(p.width, p.height, PRenderers.P3D);
 		bwBuffer = p.createGraphics(p.width, p.height, PRenderers.P3D);
 		
-		blendTowardsShader = p.loadShader(FileUtil.getFile("shaders/filters/texture-blend-towards-texture.glsl"));
-		differenceShader = p.loadShader(FileUtil.getFile("shaders/filters/texture-difference-threshold.glsl"));
+		blendTowardsShader = p.loadShader(FileUtil.getFile("haxademic/shaders/filters/texture-blend-towards-texture.glsl"));
+		differenceShader = p.loadShader(FileUtil.getFile("haxademic/shaders/filters/texture-difference-threshold.glsl"));
 	}
 
 	public void drawApp() {

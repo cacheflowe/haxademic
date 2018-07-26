@@ -79,7 +79,7 @@ extends PAppletHax {
 		_mode = FADE_IN;
 		
 		// get meshes
-		_mesh = MeshUtilToxi.meshFromOBJ( p, "../data/models/mode-set.obj", 300f );
+//		_mesh = MeshUtilToxi.meshFromOBJ( p, "../data/models/mode-set.obj", 300f );
 		_meshDeform = _mesh.copy();
 		_meshText = MeshUtilToxi.getExtrudedMesh( MeshUtilToxi.meshFromSVG( p, "../data/svg/modeset-logotype.svg", 10, -1, 0.7f ), 250 );
 		_particles = new MeshParticles( _meshText.copy() );
@@ -239,7 +239,7 @@ extends PAppletHax {
 		for( int i = 0; i < mesh.faces.size(); i++ ) {
 			float eq = 1;
 			if( eqStep != 0 ) {
-				eq = p._audioInput.getFFT().spectrum[Math.round(i*eqStep) % 512];
+				eq = p.audioFreq(Math.round(i*eqStep));
 				eq *= 15f;
 			}
 //			if(i == 10) P.println(eq);
@@ -264,9 +264,9 @@ extends PAppletHax {
 		for( int i = 0; i < numVertices; i++ ) {
 			_elasticVertices.get( i ).update();
 			if( _mesh.getVertexForID( i ) != null ) {
-				_meshDeform.getVertexForID( i ).x = _mesh.getVertexForID( i ).x * _elasticVertices.get( i ).val();
-				_meshDeform.getVertexForID( i ).y = _mesh.getVertexForID( i ).y * _elasticVertices.get( i ).val();
-				_meshDeform.getVertexForID( i ).z = _mesh.getVertexForID( i ).z * _elasticVertices.get( i ).val() * 0.9f;
+				_meshDeform.getVertexForID( i ).x = _mesh.getVertexForID( i ).x * _elasticVertices.get( i ).value();
+				_meshDeform.getVertexForID( i ).y = _mesh.getVertexForID( i ).y * _elasticVertices.get( i ).value();
+				_meshDeform.getVertexForID( i ).z = _mesh.getVertexForID( i ).z * _elasticVertices.get( i ).value() * 0.9f;
 			}
 		}
 	}
@@ -278,15 +278,15 @@ extends PAppletHax {
 		for( int i = 0; i < numVertices; i++ ) {
 			float eq = 1;
 			if( eqStep != 0 ) {
-				eq = p._audioInput.getFFT().spectrum[Math.round(i*eqStep) % 512];
+				eq = p.audioFreq(Math.round(i*eqStep));
 				eq *= _audioLightener.value();
 			}
 			_elasticVertices.get( i ).update();
 			if( _mesh.getVertexForID( i ) != null ) {
-				_meshDeform.getVertexForID( i ).x = _mesh.getVertexForID( i ).x * _elasticVertices.get( i ).val();
-				_meshDeform.getVertexForID( i ).y = _mesh.getVertexForID( i ).y * _elasticVertices.get( i ).val();
+				_meshDeform.getVertexForID( i ).x = _mesh.getVertexForID( i ).x * _elasticVertices.get( i ).value();
+				_meshDeform.getVertexForID( i ).y = _mesh.getVertexForID( i ).y * _elasticVertices.get( i ).value();
 //				_meshDeform.getVertexForID( i ).z = _mesh.getVertexForID( i ).z * _elasticVertices.get( i ).val() * 0.9f + eq;
-				_meshDeform.getVertexForID( i ).z = MathUtil.easeTo( _meshDeform.getVertexForID( i ).z, _mesh.getVertexForID( i ).z * _elasticVertices.get( i ).val() * 0.9f + eq, 2.2f );
+				_meshDeform.getVertexForID( i ).z = MathUtil.easeTo( _meshDeform.getVertexForID( i ).z, _mesh.getVertexForID( i ).z * _elasticVertices.get( i ).value() * 0.9f + eq, 2.2f );
 			}
 		}
 	}
@@ -306,7 +306,7 @@ extends PAppletHax {
 		int numVertices = _mesh.getNumVertices();
 		int eqStep = Math.round( (float) numVertices / 512f );
 		for( int i = 0; i < numVertices; i++ ) {
-			float eq = p._audioInput.getFFT().spectrum[Math.round(i/eqStep) % 64];	// only use bottom 64 eq bands
+			float eq = p.audioFreq(Math.round(i/eqStep) % 64);	// only use bottom 64 eq bands
 			eq *= 2f;
 			
 			if( _mesh.getVertexForID( i ) != null ) {

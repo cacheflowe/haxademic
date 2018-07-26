@@ -1,7 +1,5 @@
 package com.haxademic.core.draw.image;
 
-import java.util.ArrayList;
-
 import com.haxademic.core.app.P;
 import com.haxademic.core.constants.PRenderers;
 
@@ -14,7 +12,7 @@ public class ImageSequenceRecorder {
 	protected int height;
 	protected int numFrames;
 	protected int frameIndex = 0;
-	protected ArrayList<PGraphics> images;
+	protected PGraphics[] images;
 	
 	public ImageSequenceRecorder(int width, int height, int frames) {
 		this.width = width;
@@ -24,10 +22,19 @@ public class ImageSequenceRecorder {
 	}
 	
 	protected void buildFrames() {
-		images = new ArrayList<PGraphics>();
+		images = new PGraphics[numFrames];
 		for (int i = 0; i < numFrames; i++) {
-			images.add(P.p.createGraphics(width, height, PRenderers.P2D));
+			images[i] = P.p.createGraphics(width, height, PRenderers.P2D);
+			images[i].noSmooth();
 		}
+	}
+	
+	public PGraphics[] images() {
+		return images;
+	}
+	
+	public int frameIndex() {
+		return frameIndex;
 	}
 	
 	public int addFrame(PImage img) {
@@ -36,12 +43,12 @@ public class ImageSequenceRecorder {
 	}
 	
 	public PGraphics getCurFrame() {
-		return images.get(frameIndex);
+		return images[frameIndex];
 	}
 	
 	protected PImage getNextBuffer() {
 		frameIndex = (frameIndex < numFrames-1) ? frameIndex + 1 : 0;
-		return images.get(frameIndex);
+		return images[frameIndex];
 	}
 	
 	public void drawDebug(PGraphics pg) {
@@ -52,7 +59,7 @@ public class ImageSequenceRecorder {
 			float x = frameW * i;
 			int curIndex = (frameIndex - i) % numFrames;
 			while(curIndex < 0) curIndex += numFrames; 
-			pg.image(images.get(curIndex), x, 0, frameW, frameH);
+			pg.image(images[curIndex], x, 0, frameW, frameH);
 		}
 		pg.endDraw();
 	}

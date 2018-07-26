@@ -6,11 +6,11 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.draw.context.OpenGLUtil;
-import com.haxademic.core.draw.filters.BlobOuterMeshFilter;
-import com.haxademic.core.draw.filters.Cluster8BitRow;
-import com.haxademic.core.draw.filters.ImageHistogramFilter;
-import com.haxademic.core.draw.filters.PixelTriFilter;
-import com.haxademic.core.draw.filters.ReflectionFilter;
+import com.haxademic.core.draw.filters.pgraphics.BlobOuterMeshFilter;
+import com.haxademic.core.draw.filters.pgraphics.Cluster8BitRow;
+import com.haxademic.core.draw.filters.pgraphics.ImageHistogramFilter;
+import com.haxademic.core.draw.filters.pgraphics.PixelTriFilter;
+import com.haxademic.core.draw.filters.pgraphics.ReflectionFilter;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.MathUtil;
@@ -102,17 +102,17 @@ extends PAppletHax {
 		_blobFilter = new BlobOuterMeshFilter( _curFrame.width, _curFrame.height );
 		_8bitFilter = new Cluster8BitRow( _curFrame.width, _curFrame.height, (int) 10, false );
 		
-		kaleido = loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/kaleido.glsl" ); 
+		kaleido = loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/kaleido.glsl" ); 
 		kaleido.set("sides", 6.0f);
 		kaleido.set("angle", 0.0f);
 		
-		vignette = loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/vignette.glsl" );
+		vignette = loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/vignette.glsl" );
 		vignette.set("darkness", 0.85f);
 		vignette.set("spread", 0.15f);
 
-//		edge = loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/edges.glsl" ); 
+//		edge = loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/edges.glsl" ); 
 		
-		badtv = loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/badtv.glsl" ); 
+		badtv = loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/badtv.glsl" ); 
 		badtv.set("nIntensity", 0.1f);
 		badtv.set("sIntensity", 0.8f);
 
@@ -150,7 +150,7 @@ extends PAppletHax {
 		int spectrumIndex = 0;
 		for (int i = 0; i < cols; i++) {
 			for (int j = 0; j < rows; j++) {
-				float alphaVal = _audioAlphaStart - _audioInput.getFFT().spectrum[spectrumIndex % 512] * _audioAlphaMult;
+				float alphaVal = _audioAlphaStart - p.audioFreq(spectrumIndex) * _audioAlphaMult;
 				if( alphaVal > 0 ) {
 					_curMov.fill( 0, alphaVal * 255f );
 					_curMov.rect( startX + i*cellW, startY + j*cellH, cellW, cellH );
@@ -164,11 +164,11 @@ extends PAppletHax {
 		_curMov.fill(0);
 		float rowH = p.height / 256f;
 		for (int i = 0; i < 256; i++) {
-			float amp = _audioInput.getFFT().spectrum[i] * 150f;
+			float amp = p.audioFreq(i) * 150f;
 			_curMov.rect( 0, i * rowH, amp, rowH );
 		}
 		for (int i = 256; i < 512; i++) {
-			float amp = _audioInput.getFFT().spectrum[i] * 150f;
+			float amp = p.audioFreq(i) * 150f;
 			_curMov.rect( p.width, (i-256) * rowH, -amp, rowH );
 		}
 
@@ -181,16 +181,16 @@ extends PAppletHax {
 		startX = 0;
 		float spacing = p.width / 512f;
 		_curMov.beginShape();
-		for (int i = 0; i < _waveformData._waveform.length; i++ ) {
-			float curY = _waveformData._waveform[i] * 300;
+		for (int i = 0; i < p.audioData.waveform().length; i++ ) {
+			float curY =  p.audioData.waveform()[i] * 300;
 			_curMov.vertex(startX + i * spacing, curY);
 		}
 		_curMov.vertex(p.width, -200);
 		_curMov.vertex(0, -200);
 		_curMov.endShape();
 		_curMov.beginShape();
-		for (int i = 0; i < _waveformData._waveform.length; i++ ) {
-			float curY = p.height + _waveformData._waveform[i] * 300;
+		for (int i = 0; i <  p.audioData.waveform().length; i++ ) {
+			float curY = p.height +  p.audioData.waveform()[i] * 300;
 			_curMov.vertex(startX + i * spacing, curY);
 		}
 		_curMov.vertex(p.width, p.height + 200);

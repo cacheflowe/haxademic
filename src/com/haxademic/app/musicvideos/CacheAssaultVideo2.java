@@ -95,21 +95,21 @@ extends PAppletHax {
 	}
 	
 	protected void loadShaders() {
-		kaleido = loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/kaleido.glsl" ); 
+		kaleido = loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/kaleido.glsl" ); 
 		kaleido.set("sides", 6.0f);
 		kaleido.set("angle", 0.0f);
 		
-		vignette = loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/vignette.glsl" );
+		vignette = loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/vignette.glsl" );
 		vignette.set("darkness", 0.35f);
 		vignette.set("spread", 0.15f);
 
-//		edge = loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/edges.glsl" ); 
+//		edge = loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/edges.glsl" ); 
 		
-		badtv = loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/badtv.glsl" ); 
+		badtv = loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/badtv.glsl" ); 
 		badtv.set("nIntensity", 0.1f);
 		badtv.set("sIntensity", 0.8f);
 
-		toon = loadShader(FileUtil.getHaxademicDataPath() + "shaders/lights/toon/frag.glsl", FileUtil.getHaxademicDataPath() + "shaders/lights/toon/vert.glsl");
+		toon = loadShader(FileUtil.getHaxademicDataPath() + "haxademic/shaders/lights/toon/frag.glsl", FileUtil.getHaxademicDataPath() + "haxademic/shaders/lights/toon/vert.glsl");
 		toon.set("fraction", 1.0f);
 	}
 	
@@ -210,8 +210,8 @@ extends PAppletHax {
 		// draw EQ
 		float radSegment = P.TWO_PI / discReso;
 		for (int i = 1; i < numBands; i++) {
-			float lastEqVal = radius + radius * amp * _audioInput.getFFT().spectrum[i-1];
-			float eqVal = radius + radius * amp * _audioInput.getFFT().spectrum[i];
+			float lastEqVal = radius + radius * amp * p.audioFreq(i-1);
+			float eqVal = radius + radius * amp * p.audioFreq(i);
 			float curX = startX + i * spacing;
 			float lastX = startX + (i-1) * spacing;
 			
@@ -249,8 +249,8 @@ extends PAppletHax {
 		float radSegment = P.TWO_PI / discReso;
 		for (int i = 1; i < numBands; i++) {
 			
-			float lastEqVal = radius + radius * amp * _audioInput.getFFT().spectrum[i-1];
-			float eqVal = radius + radius * amp * _audioInput.getFFT().spectrum[i];
+			float lastEqVal = radius + radius * amp * p.audioFreq(i-1);
+			float eqVal = radius + radius * amp * p.audioFreq(i);
 			float curX = startX + i * spacing;
 			float lastX = startX + (i-1) * spacing;
 			
@@ -716,14 +716,14 @@ extends PAppletHax {
 			pg.translate(-_x, P.sin(_radians - P.PI) * _radius, P.cos(_radians - P.PI) * _radius);
 			pg.rotateX(-_radians - P.PI);
 //			pg.sphere(_size);
-			Shapes.drawPyramid(pg, _size * (1 + _audioInput.getFFT().spectrum[_index]), _size, true);
+			Shapes.drawPyramid(pg, _size * (1 + p.audioFreq(_index)), _size, true);
 			pg.popMatrix();
 			
 			pg.pushMatrix();
 			pg.translate(_x, P.sin(_radians) * _radius, P.cos(_radians) * _radius);
 //			pg.sphere(_size);
 			pg.rotateX(-_radians);
-			Shapes.drawPyramid(pg, _size * (1 + _audioInput.getFFT().spectrum[_index]), _size, true);
+			Shapes.drawPyramid(pg, _size * (1 + p.audioFreq(_index)), _size, true);
 			pg.popMatrix();
 		}
 	}

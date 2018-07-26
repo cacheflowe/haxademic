@@ -2,20 +2,19 @@ package com.haxademic.app.haxvisual.viz.elements;
 
 import java.util.ArrayList;
 
+import com.haxademic.app.haxvisual.viz.ElementBase;
+import com.haxademic.app.haxvisual.viz.IVizElement;
+import com.haxademic.core.app.P;
+import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.image.ImageUtil;
+import com.haxademic.core.file.FileUtil;
+import com.haxademic.core.math.easing.EasingFloat;
+
 import processing.core.PApplet;
 import processing.core.PGraphics;
 import processing.core.PImage;
 import processing.opengl.PShader;
 import toxi.processing.ToxiclibsSupport;
-
-import com.haxademic.app.haxvisual.viz.ElementBase;
-import com.haxademic.app.haxvisual.viz.IVizElement;
-import com.haxademic.core.app.P;
-import com.haxademic.core.audio.AudioInputWrapper;
-import com.haxademic.core.draw.context.DrawUtil;
-import com.haxademic.core.draw.image.ImageUtil;
-import com.haxademic.core.file.FileUtil;
-import com.haxademic.core.math.easing.EasingFloat;
 
 public class WarpedImagesBackdrop
 extends ElementBase 
@@ -36,8 +35,8 @@ implements IVizElement  {
 	protected EasingFloat _timeEaser = new EasingFloat(0, 5);
 	protected EasingFloat _brightEaser = new EasingFloat(0, 10);
 
-	public WarpedImagesBackdrop( PApplet p, ToxiclibsSupport toxi, AudioInputWrapper audioData ) {
-		super( p, toxi, audioData );
+	public WarpedImagesBackdrop( PApplet p, ToxiclibsSupport toxi ) {
+		super( p, toxi );
 		init();
 	}
 
@@ -55,23 +54,23 @@ implements IVizElement  {
 		_image = p.createGraphics(p.width, p.height, P.P2D);// new PImage( p.width, p.height );
 		nextImage();
 		
-		_pixelate = p.loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/pixelate.glsl" ); 
+		_pixelate = p.loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/pixelate.glsl" ); 
 		_pixelate.set("divider", _image.width/10f, _image.height/10f);
 		
-		_blurH = p.loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/blur-horizontal.glsl" ); 
+		_blurH = p.loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/blur-horizontal.glsl" ); 
 		_blurH.set( "h", 1f/p.width );
-		_blurV = p.loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/blur-vertical.glsl" ); 
+		_blurV = p.loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/blur-vertical.glsl" ); 
 		_blurV.set( "v", 1f/p.height );
 		
-		_vignette = p.loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/vignette.glsl" );
+		_vignette = p.loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/vignette.glsl" );
 		_vignette.set("darkness", 0.75f);
 		_vignette.set("spread", 0.3f);
 
-		_kaleido = p.loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/kaleido.glsl" ); 
+		_kaleido = p.loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/kaleido.glsl" ); 
 		_kaleido.set("sides", 6.0f);
 		_kaleido.set("angle", P.PI/2f);
 
-		_brightness = p.loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/brightness.glsl" );
+		_brightness = p.loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/brightness.glsl" );
 		_brightness.set("brightness", 0.98f );
 
 	}

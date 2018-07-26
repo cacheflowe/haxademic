@@ -29,7 +29,7 @@ public class VectorFlyer {
 
 	
 	public VectorFlyer( float accel, float speed ) {
-		baseAccel = accel;
+		baseAccel = this.accel = accel;
 		maxSpeed = speed;
 		
 		color = new TColorBlendBetween( BLACK, MODE_SET_BLUE );
@@ -37,7 +37,7 @@ public class VectorFlyer {
 
 	public VectorFlyer( float accel, float speed, PVector startPos ) {
 		position.set( startPos );
-		baseAccel = accel;
+		baseAccel = this.accel = accel;
 		maxSpeed = speed;
 		
 		color = new TColorBlendBetween( BLACK, MODE_SET_BLUE );

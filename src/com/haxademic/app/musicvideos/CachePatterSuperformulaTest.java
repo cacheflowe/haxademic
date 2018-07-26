@@ -76,12 +76,12 @@ extends PAppletHax {
 //		_superFormGfx.rotateZ(p.frameCount/50f);
 
 		float audioRange = 0.1f;
-		_superForm.a( a + (audioRange * 100f * p._audioInput.getFFT().averages[0]));
-		_superForm.b( b + (audioRange * 10f * p._audioInput.getFFT().averages[1]));
-		_superForm.m( m + (audioRange * 10f * p._audioInput.getFFT().averages[2]));
-		_superForm.n1( n1 + (audioRange * 20f * p._audioInput.getFFT().averages[3]));
-		_superForm.n2( n2 + (audioRange * 50f * p._audioInput.getFFT().averages[4]));
-		_superForm.n3( n3 + (audioRange * 40f * p._audioInput.getFFT().averages[5]));
+		_superForm.a( a + (audioRange * 100f * p.audioFreq(0)));
+		_superForm.b( b + (audioRange * 10f * p.audioFreq(1)));
+		_superForm.m( m + (audioRange * 10f * p.audioFreq(2)));
+		_superForm.n1( n1 + (audioRange * 20f * p.audioFreq(3)));
+		_superForm.n2( n2 + (audioRange * 50f * p.audioFreq(4)));
+		_superForm.n3( n3 + (audioRange * 40f * p.audioFreq(5)));
 
 		_superForm.update();
 		_superForm.drawMesh(_superFormGfx, true, true, false, true, _camPos );

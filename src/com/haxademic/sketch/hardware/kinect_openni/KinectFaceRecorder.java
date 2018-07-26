@@ -4,10 +4,10 @@ import java.util.ArrayList;
 
 import com.haxademic.app.haxmapper.HaxMapper;
 import com.haxademic.core.app.P;
-import com.haxademic.core.draw.color.ColorHaxEasing;
-import com.haxademic.core.draw.filters.shaders.BadTVLinesFilter;
-import com.haxademic.core.draw.filters.shaders.BrightnessFilter;
-import com.haxademic.core.draw.filters.shaders.WobbleFilter;
+import com.haxademic.core.draw.color.EasingColor;
+import com.haxademic.core.draw.filters.pshader.BadTVLinesFilter;
+import com.haxademic.core.draw.filters.pshader.BrightnessFilter;
+import com.haxademic.core.draw.filters.pshader.WobbleFilter;
 import com.haxademic.core.draw.image.MotionBlurPGraphics;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.dmx.DmxInterface;
@@ -50,8 +50,8 @@ public class KinectFaceRecorder {
 //	public float colorToReplaceB;
 	
 	protected DmxInterface _dmxInterface;
-	protected ColorHaxEasing _lightColor1;
-	protected ColorHaxEasing _lightColor2;
+	protected EasingColor _lightColor1;
+	protected EasingColor _lightColor2;
 	
 	protected HaxMapper haxMapper;
 
@@ -86,8 +86,8 @@ public class KinectFaceRecorder {
 		
 	protected void setupDmxLights() {
 		_dmxInterface = new DmxInterface(2);
-		_lightColor1 = new ColorHaxEasing(0, 0, 0, 1, 10);
-		_lightColor2 = new ColorHaxEasing(0, 0, 0, 1, 10);
+		_lightColor1 = new EasingColor(0, 0, 0, 1, 10);
+		_lightColor2 = new EasingColor(0, 0, 0, 1, 10);
 	}
 	
 	protected void setupChromakey() {
@@ -102,7 +102,7 @@ public class KinectFaceRecorder {
 //		_cp5.addSlider("colorToReplaceG").setPosition(cp5X,cp5Y+=cp5YSpace).setWidth(cp5W).setRange(0,1f).setValue(0.93f);
 //		_cp5.addSlider("colorToReplaceB").setPosition(cp5X,cp5Y+=cp5YSpace).setWidth(cp5W).setRange(0,1f).setValue(0.14f);
 
-		_chromaKeyFilter = P.p.loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/chroma-color.glsl" );
+		_chromaKeyFilter = P.p.loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/chroma-color.glsl" );
 		_chromaKeyFilter.set("thresholdSensitivity", 0.75f);
 		_chromaKeyFilter.set("smoothing", 0.25f);
 		_chromaKeyFilter.set("colorToReplace", 0.2f, 0.4f, 0.1f);
@@ -176,8 +176,8 @@ public class KinectFaceRecorder {
 				_faceSessions.get(0).disposeFrames();
 				_faceSessions.remove(0);
 			}
-			_lightColor1.setTargetColorInt(newDmxColor());
-			_lightColor2.setTargetColorInt(newDmxColor());
+			_lightColor1.setTargetInt(newDmxColor());
+			_lightColor2.setTargetInt(newDmxColor());
 			
 			if(haxMapper != null) haxMapper.startFaceRecording();
 		}
@@ -189,8 +189,8 @@ public class KinectFaceRecorder {
 			_curFaceSession.endRecordSession();
 			_faceSessions.add(_curFaceSession);
 			_curFaceSession = null;
-			_lightColor1.setTargetColorInt(P.p.color(0));
-			_lightColor2.setTargetColorInt(P.p.color(0));
+			_lightColor1.setTargetInt(P.p.color(0));
+			_lightColor2.setTargetInt(P.p.color(0));
 			
 			if(haxMapper != null) haxMapper.stopFaceRecording();
 		}

@@ -3,23 +3,23 @@ package com.haxademic.app.jumbotronix;
 import java.awt.Rectangle;
 import java.util.ArrayList;
 
-import com.haxademic.app.haxmapper.textures.BaseTexture;
-import com.haxademic.app.haxmapper.textures.TextureEQColumns;
-import com.haxademic.app.haxmapper.textures.TextureEQConcentricCircles;
-import com.haxademic.app.haxmapper.textures.TextureEQGrid;
-import com.haxademic.app.haxmapper.textures.TextureImageTimeStepper;
-import com.haxademic.app.haxmapper.textures.TextureScrollingColumns;
-import com.haxademic.app.haxmapper.textures.TextureShaderTimeStepper;
-import com.haxademic.app.haxmapper.textures.TextureSphereRotate;
-import com.haxademic.app.haxmapper.textures.TextureTwistingSquares;
-import com.haxademic.app.haxmapper.textures.TextureVideoPlayer;
-import com.haxademic.app.haxmapper.textures.TextureWaveformSimple;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
-import com.haxademic.core.draw.filters.BlobOuterMeshFilter;
+import com.haxademic.core.draw.filters.pgraphics.BlobOuterMeshFilter;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.image.ScreenUtil;
+import com.haxademic.core.draw.textures.pgraphics.TextureEQColumns;
+import com.haxademic.core.draw.textures.pgraphics.TextureEQConcentricCircles;
+import com.haxademic.core.draw.textures.pgraphics.TextureEQGrid;
+import com.haxademic.core.draw.textures.pgraphics.TextureImageTimeStepper;
+import com.haxademic.core.draw.textures.pgraphics.TextureScrollingColumns;
+import com.haxademic.core.draw.textures.pgraphics.TextureShaderTimeStepper;
+import com.haxademic.core.draw.textures.pgraphics.TextureSphereRotate;
+import com.haxademic.core.draw.textures.pgraphics.TextureTwistingSquares;
+import com.haxademic.core.draw.textures.pgraphics.TextureVideoPlayer;
+import com.haxademic.core.draw.textures.pgraphics.TextureWaveformSimple;
+import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
 import com.haxademic.core.file.FileUtil;
 
 import processing.core.PGraphics;
@@ -136,36 +136,36 @@ extends PAppletHax {
 	}
 	
 	protected void initShaders() {
-		invert = loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/invert.glsl" ); 
+		invert = loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/invert.glsl" ); 
 		
-		kaleido = loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/kaleido.glsl" ); 
+		kaleido = loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/kaleido.glsl" ); 
 		kaleido.set("sides", 2.0f);
 		kaleido.set("angle", 0.0f);
 		
-		vignette = loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/vignette.glsl" );
+		vignette = loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/vignette.glsl" );
 		vignette.set("darkness", 0.85f);
 		vignette.set("spread", 0.15f);
 
-		edge = loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/edges.glsl" ); 
+		edge = loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/edges.glsl" ); 
 		
-		dotScreen = loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/dotscreen.glsl" ); 
+		dotScreen = loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/dotscreen.glsl" ); 
 		dotScreen.set("tSize", 256f, 256f);
 		dotScreen.set("center", 0.5f, 0.5f);
 		dotScreen.set("angle", 1.57f);
 		dotScreen.set("scale", 1f);
 
-		mirror = loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/mirror.glsl" ); 
+		mirror = loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/mirror.glsl" ); 
 
-		pixelate = loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/pixelate.glsl" ); 
+		pixelate = loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/pixelate.glsl" ); 
 		pixelate.set("divider", p.width/20f, p.height/20f);
 		
-		brightness = loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/brightness.glsl" ); 
+		brightness = loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/brightness.glsl" ); 
 		brightness.set("brightness", 2f);
 		
-		contrast = loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/contrast.glsl" ); 
+		contrast = loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/contrast.glsl" ); 
 		contrast.set("contrast", 2f);
 		
-		_chromaKeyFilter = loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/chroma-gpu.glsl" );
+		_chromaKeyFilter = loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/chroma-gpu.glsl" );
 		_chromaKeyFilter.set("thresholdSensitivity", 0.65f);
 		_chromaKeyFilter.set("smoothing", 0.19f);
 		_chromaKeyFilter.set("colorToReplace", 0.48f,0.8f,0.2f);
@@ -193,7 +193,7 @@ extends PAppletHax {
 		}
 		
 		// beat detection texture updates
-		if( audioIn.isBeat() == true ) _texturePool.get(_curTextureIndex).updateTiming();
+		if( p.audioData.isBeat() == true ) _texturePool.get(_curTextureIndex).updateTiming();
 		_texturePool.get(_curTextureIndex).update();
 
 		// update shaders with midi

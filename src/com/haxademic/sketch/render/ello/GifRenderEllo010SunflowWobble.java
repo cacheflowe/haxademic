@@ -5,7 +5,7 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.context.OpenGLUtil;
-import com.haxademic.core.draw.toxi.DrawMesh;
+import com.haxademic.core.draw.toxi.DrawToxiMesh;
 import com.haxademic.core.draw.toxi.MeshUtilToxi;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.render.JoonsWrapper;
@@ -75,7 +75,7 @@ extends PAppletHax {
 		p.rotateX(0.2f * P.sin(P.PI/2f + radiansComplete));
 
 		joons.jr.fill( JoonsWrapper.MATERIAL_SHINY, COLOR.red() * 255, COLOR.green() * 255, COLOR.blue() * 255 );
-		DrawMesh.drawToxiMeshFacesNative( p, _mesh );
+		DrawToxiMesh.drawToxiMeshFacesNative( p, _mesh );
 	}
 	
 	protected void makeLightSource() {

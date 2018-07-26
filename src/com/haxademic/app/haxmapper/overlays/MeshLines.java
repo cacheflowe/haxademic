@@ -2,18 +2,18 @@ package com.haxademic.app.haxmapper.overlays;
 
 import java.util.ArrayList;
 
-import processing.core.PGraphics;
-
 import com.haxademic.core.app.P;
-import com.haxademic.core.draw.color.ColorHaxEasing;
+import com.haxademic.core.draw.color.EasingColor;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.math.MathUtil;
+
+import processing.core.PGraphics;
 
 public class MeshLines {
 
 	protected ArrayList<MeshLineSegment> _meshLineSegments;
 	protected PGraphics _texture;
-	protected ColorHaxEasing _colorEase;
+	protected EasingColor _colorEase;
 
 	public enum MODE {
 		MODE_PERLIN,
@@ -34,7 +34,7 @@ public class MeshLines {
 	public MeshLines( PGraphics pg ) {
 		_texture = pg;
 		_meshLineSegments = new ArrayList<MeshLineSegment>();
-		_colorEase = new ColorHaxEasing( "#ffffff", 5 );
+		_colorEase = new EasingColor( "#ffffff", 5 );
 		_modeIndex = 0;
 	}
 
@@ -71,7 +71,7 @@ public class MeshLines {
 		float spectrumInterval = (int) ( 256 / _meshLineSegments.size() );	// 256 keeps it in the bottom half of the spectrum since the high ends is so overrun
 
 		for( int i=0; i < _meshLineSegments.size(); i++ ) {
-			_meshLineSegments.get(i).update( _texture, mode(), _colorEase.colorInt(), P.p.audioIn.getEqAvgBand( 15 ), P.p.audioIn.getEqBand( 20 + P.floor(i*spectrumInterval) ) );
+			_meshLineSegments.get(i).update( _texture, mode(), _colorEase.colorInt(), P.p.audioFreq( 15 ), P.p.audioFreq( 20 + P.floor(i*spectrumInterval) ) );
 		}
 
 //		_texture.endDraw();
@@ -87,7 +87,7 @@ public class MeshLines {
 	}
 
 	public void setColor( int color ) {
-		_colorEase.setTargetColorInt( color );
+		_colorEase.setTargetInt( color );
 	}
 
 }

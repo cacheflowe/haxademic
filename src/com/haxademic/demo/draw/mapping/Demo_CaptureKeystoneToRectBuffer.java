@@ -4,11 +4,11 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.mapping.CaptureKeystoneToRectBuffer;
+import com.haxademic.core.file.DemoAssets;
 import com.haxademic.core.file.FileUtil;
 
 import processing.core.PGraphics;
 import processing.core.PImage;
-import processing.opengl.PShader;
 
 public class Demo_CaptureKeystoneToRectBuffer
 extends PAppletHax {
@@ -27,14 +27,17 @@ extends PAppletHax {
 
 	protected void setupFirstFrame() {
 		// load source image
-		sourceTexture = p.loadImage(FileUtil.getFile("images/_sketch/computers/macportable.jpg"));
+		sourceTexture = DemoAssets.justin();
 		sourceBuffer = ImageUtil.imageToGraphics(sourceTexture);
-		mappedCapture = new CaptureKeystoneToRectBuffer(sourceBuffer, 450, 200, "text/keystoning/capture-map-demo.txt");
+		mappedCapture = new CaptureKeystoneToRectBuffer(sourceBuffer, 450, 200, FileUtil.getFile("text/keystoning/capture-map-demo.txt"));
 	}
 	
 	public void keyPressed() {
 		super.keyPressed();
-		if(p.key == 'd') debug = !debug;
+		if(p.key == 'd') {
+			debug = !debug;
+			mappedCapture.setActive(debug);
+		}
 		if(p.key == 'r') mappedCapture.resetCorners();
 	}
 
@@ -42,16 +45,14 @@ extends PAppletHax {
 		p.background(0);
 		
 		// update mapped source to buffer
-		mappedCapture.update(debug);
+		mappedCapture.update();
 		
-		// draw debug view
+		// draw mapping UI
 		if(p.webCamWrapper != null) sourceTexture = p.webCamWrapper.getImage();	// draw webcam if exists
-		ImageUtil.cropFillCopyImage(sourceTexture, sourceBuffer, true);
-		if(debug == true) {
-			mappedCapture.drawDebug(sourceBuffer);
-		}
+		ImageUtil.cropFillCopyImage(sourceTexture, sourceBuffer, true);			// reset source buffer image
+		if(debug == true) mappedCapture.drawDebug(sourceBuffer, true);			// then draw mapping UI on top
 		
-		// draw mapped result
+		// draw mapped source & result
 		p.image(sourceBuffer, 0, 0);
 		p.image(mappedCapture.mappedBuffer(), 0, sourceBuffer.height);
 	}

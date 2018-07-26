@@ -19,7 +19,6 @@ extends PAppletHax {
 	protected PShape obj;
 	protected PShapeSolid objSolid;
 	protected PImage img;
-	protected boolean useTexture = true;
 	protected float modelHeight;
 	protected float _frames = 360;
 
@@ -35,20 +34,19 @@ extends PAppletHax {
 	}
 	
 	protected void setupFirstFrame() {
-		// load texture
-		img = DemoAssets.squareTexture();
-		
 		// build obj PShape and scale to window
+		img = DemoAssets.textureJupiter();
 		obj = DemoAssets.objHumanoid();
+		obj = DemoAssets.objSkullRealistic();
 		
 		PShapeUtil.centerShape(obj);
-		PShapeUtil.scaleShapeToExtent(obj, p.height * 0.8f);
+		PShapeUtil.scaleShapeToHeight(obj, p.height * 0.5f);
 		
 		// add UV coordinates to OBJ based on model extents
 		float modelExtent = PShapeUtil.getMaxExtent(obj);
 		modelHeight = PShapeUtil.getMaxAbsY(obj);
-		if(useTexture) 
-			PShapeUtil.addTextureUVToShape(obj, img, modelExtent, true);
+		PShapeUtil.addTextureUVToShape(obj, img, modelExtent, true);
+		obj.setTexture(img);
 //			PShapeUtil.addTextureUVSpherical(obj, img);
 		
 		// build solid, deformable PShape object
@@ -60,10 +58,10 @@ extends PAppletHax {
 		
 		background(0);
 		DrawUtil.setBetterLights(p);
-		DrawUtil.setDrawCenter(p);
+		DrawUtil.setDrawCorner(p);
 		
 		// rotate
-		p.translate(p.width/2f, p.height/2f, -width*1.5f);
+		p.translate(p.width/2f, p.height/2f, 0);
 		p.rotateY(0.4f * P.sin(percentComplete * P.TWO_PI)); // -P.HALF_PI +
 
 		
@@ -71,20 +69,22 @@ extends PAppletHax {
 		// if a texture is set, drawing with p.shape() is super slow, so we can manually draw by looping over vertices
 		// if no texture, p.shape() is fine
 		p.noStroke();
-		if(useTexture) {
+		p.fill(255);
+		if(p.mousePercentX() < 0.5f) {
 			// texture mapped with decent performance:
 			PShapeUtil.drawTriangles(p.g, objSolid.shape(), img, 1f); // img			
 		} else {
 			// pshape drawing + audioreactive
-			objSolid.setVertexColorWithAudio(255);
+//			objSolid.setVertexColorWithAudio(255);
 			p.shape(objSolid.shape());
 		}
 		
 		// draw ground
-		p.translate(0, modelHeight/2f, 0);
+		DrawUtil.setDrawCenter(p);
+		p.translate(0, modelHeight, 0);
 		p.rotateX(P.HALF_PI);
-		p.fill(80);
-		p.rect(0, 0, modelHeight, modelHeight);
+		p.fill(255);
+		p.rect(0, 0, modelHeight * 3f, modelHeight * 3f);
 	}
 		
 }

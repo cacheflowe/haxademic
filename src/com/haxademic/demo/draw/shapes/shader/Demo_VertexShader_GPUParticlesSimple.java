@@ -39,7 +39,7 @@ extends PAppletHax {
 	
 	protected void setupFirstFrame() {
 		// build random particle placement shader
-		positionShader = p.loadShader(FileUtil.getFile("shaders/textures/random-pixel-color.glsl"));
+		positionShader = p.loadShader(FileUtil.getFile("haxademic/shaders/textures/random-pixel-color.glsl"));
 
 		// create texture to store positions
 		int positionBufferSize = 64;
@@ -69,8 +69,8 @@ extends PAppletHax {
 		
 		// load shader
 		particleVerticesShader = p.loadShader(
-			FileUtil.getFile("shaders/point/point-frag.glsl"), 
-			FileUtil.getFile("shaders/point/particle-vert-simple.glsl")
+			FileUtil.getFile("haxademic/shaders/point/points-default-frag.glsl"), 
+			FileUtil.getFile("haxademic/shaders/point/particle-vert-simple.glsl")
 		);
 	}
 	

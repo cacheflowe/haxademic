@@ -18,7 +18,7 @@
 	<classpathentry kind="lib" path="lib/processing-3/libraries/serial/library/jssc.jar"/>
 	<classpathentry kind="lib" path="lib/processing-3/libraries/serial/library/serial.jar">
 		<attributes>
-			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="haxademic/lib/processing-3/libraries/serial/library/macosx"/>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="haxademic/lib/processing-3/libraries/serial/library/windows64"/>
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="lib/Ess/library/Ess.jar"/>
@@ -27,7 +27,6 @@
 	<classpathentry kind="lib" path="lib/toxiclibs-complete-0020/volumeutils/library/volumeutils.jar"/>
 	<classpathentry kind="lib" path="lib/toxiclibs-complete-0020/colorutils/library/colorutils.jar"/>
 	<classpathentry kind="lib" path="lib/oscP5/library/oscP5.jar"/>
-	<classpathentry kind="lib" path="lib/OBJLoader/library/OBJLoader.jar"/>
 	<classpathentry kind="lib" path="lib/geomerative/library/batikfont.jar"/>
 	<classpathentry kind="lib" path="lib/geomerative/library/geomerative.jar"/>
 	<classpathentry kind="lib" path="lib/SimpleOpenNI/library/SimpleOpenNI.jar"/>
@@ -81,6 +80,8 @@
 	<classpathentry kind="lib" path="lib/beads/library/org-jaudiolibs-audioservers.jar"/>
 	<classpathentry kind="lib" path="lib/beads/library/org-jaudiolibs-jnajack.jar"/>
 	<classpathentry kind="lib" path="lib/beads/library/tools.jar"/>
+	<classpathentry kind="lib" path="lib/PixelFlow/library/PixelFlow.jar"/>
+	<classpathentry kind="lib" path="lib/dmxP512/library/dmxP512.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER">
 		<accessrules>
 			<accessrule kind="accessible" pattern="com/apple/eawt/**"/>

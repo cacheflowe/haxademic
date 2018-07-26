@@ -1,5 +1,13 @@
 package com.haxademic.app.haxvisual.viz.elements;
 
+import com.haxademic.app.haxvisual.viz.ElementBase;
+import com.haxademic.app.haxvisual.viz.IVizElement;
+import com.haxademic.core.draw.color.ColorGroup;
+import com.haxademic.core.draw.color.TColorBlendBetween;
+import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.math.MathUtil;
+import com.haxademic.core.math.easing.EasingFloat3d;
+
 import processing.core.PApplet;
 import toxi.color.TColor;
 import toxi.geom.Line3D;
@@ -7,15 +15,6 @@ import toxi.geom.Triangle3D;
 import toxi.geom.Vec3D;
 import toxi.geom.mesh.WETriangleMesh;
 import toxi.processing.ToxiclibsSupport;
-
-import com.haxademic.app.haxvisual.viz.ElementBase;
-import com.haxademic.app.haxvisual.viz.IVizElement;
-import com.haxademic.core.audio.AudioInputWrapper;
-import com.haxademic.core.draw.color.ColorGroup;
-import com.haxademic.core.draw.color.TColorBlendBetween;
-import com.haxademic.core.draw.context.DrawUtil;
-import com.haxademic.core.math.MathUtil;
-import com.haxademic.core.math.easing.EasingFloat3d;
 
 public class RotatorShape 
 extends ElementBase 
@@ -37,8 +36,8 @@ implements IVizElement {
 	protected TColorBlendBetween _color;
 	
 	
-	public RotatorShape( PApplet p, ToxiclibsSupport toxi, AudioInputWrapper audioData, int numRotations ) {
-		super( p, toxi, audioData );
+	public RotatorShape( PApplet p, ToxiclibsSupport toxi, int numRotations ) {
+		super( p, toxi );
 
 		_numRotations = numRotations;//p.round( p.random( ROTATION_MIN, ROTATION_MAX ) );
 		if( _numRotations % 2 != 0 ) _numRotations++;	// keep even numbers for proper reflection
@@ -61,7 +60,7 @@ implements IVizElement {
 		_color.lightenColor( 0.3f );
 	}
 
-	public synchronized void update() {
+	public void update() {
 		// rotate beginning z
 		_baseRotZAdd = MathUtil.easeTo( _baseRotZAdd, _baseRotZTarget, 20 );
 		p.rotateZ( _rotDir * p.frameCount - _baseRotZAdd );
@@ -76,7 +75,7 @@ implements IVizElement {
 		p.noStroke();
 		DrawUtil.setColorForPImage(p);
 		for( int i = 0; i < _numRotations; i++ ) {
-			spectrumData = _audioData.getFFT().spectrum[ 20 + (int) (i * (255f/_numRotations)) ];
+			spectrumData = 0.8f;// p._audioData.getFFT().spectrum[ 20 + (int) (i * (255f/_numRotations)) ];
 			p.fill( _color.argbWithPercent( spectrumData ) );
 //			p.fill( _baseColor.lighten( spectrumData * 255 * 30 ).toARGB() );
 //			p.stroke( spectrumData * 255, spectrumData * 127 );
@@ -131,7 +130,7 @@ implements IVizElement {
 			_posBase.setTargetZ( p.round( p.random( -COORD_MAX, COORD_MAX ) ) );
 			_inc = p.random( 0, 1f );
 			_incSpeed = p.random( -0.005f, 0.005f );
-			_radius = p.random( 500f, 800f );
+			_radius = p.random( 200f, 400f );
 		}
 		
 		public void update() {

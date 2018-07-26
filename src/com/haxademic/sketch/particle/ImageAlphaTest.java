@@ -5,6 +5,7 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.toxi.MeshPool;
+import com.haxademic.core.file.DemoAssets;
 
 import processing.core.PGraphics;
 import processing.core.PImage;
@@ -21,10 +22,8 @@ extends PAppletHax {
 	
 	protected int animCount = 0;
 	
-	public void setup() {
-		super.setup();
-		
-		_image = p.loadImage("../data/images/Ello.Black.png");
+	public void setupFirstFrame() {
+		_image = DemoAssets.justin();
 	}
 	
 	protected void overridePropsFile() {
@@ -40,7 +39,7 @@ extends PAppletHax {
 		
 		DrawUtil.setColorForPImage(p);
 		DrawUtil.setDrawCenter(p);
-		DrawUtil.setCenter( p );
+		DrawUtil.setCenterScreen(p);
 		DrawUtil.setBasicLights( p );
 		
 		if(p.mouseX < p.width/2f) {
@@ -55,7 +54,7 @@ extends PAppletHax {
 			
 			p.pushMatrix();
 			p.translate(0, 0, -300);
-			p.scale(0.2f);
+//			p.scale(0.2f);
 			p.image(_image, 0, 0);
 			p.popMatrix();
 			
@@ -64,7 +63,7 @@ extends PAppletHax {
 			// draw rect after image - alpha is jacked
 			p.pushMatrix();
 			p.translate(0, 0, -300);
-			p.scale(0.2f);
+//			p.scale(0.2f);
 			p.image(_image, 0, 0);
 			p.popMatrix();
 			

@@ -5,8 +5,8 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.context.OpenGLUtil;
-import com.haxademic.core.draw.filters.shaders.SphereDistortionFilter;
-import com.haxademic.core.draw.filters.shaders.VignetteFilter;
+import com.haxademic.core.draw.filters.pshader.SphereDistortionFilter;
+import com.haxademic.core.draw.filters.pshader.VignetteFilter;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.Penner;
 
@@ -42,7 +42,6 @@ extends PAppletHax {
 	public void drawApp() {
 		// loop
 		float percentComplete = ((float)(p.frameCount%_frames)/_frames);
-		float easedPercent = Penner.easeInOutSine(percentComplete, 0, 1, 1);
 		float percentRads = percentComplete * P.TWO_PI;
 		
 		// run feedback

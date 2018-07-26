@@ -5,18 +5,18 @@ import java.util.ArrayList;
 import com.haxademic.app.haxmapper.HaxMapper;
 import com.haxademic.app.haxmapper.overlays.MeshLines.MODE;
 import com.haxademic.app.haxmapper.polygons.IMappedPolygon;
-import com.haxademic.app.haxmapper.textures.TextureColorAudioSlide;
-import com.haxademic.app.haxmapper.textures.TextureEQColumns;
-import com.haxademic.app.haxmapper.textures.TextureEQConcentricCircles;
-import com.haxademic.app.haxmapper.textures.TextureEQGrid;
-import com.haxademic.app.haxmapper.textures.TextureImageTimeStepper;
-import com.haxademic.app.haxmapper.textures.TextureScrollingColumns;
-import com.haxademic.app.haxmapper.textures.TextureShaderTimeStepper;
-import com.haxademic.app.haxmapper.textures.TextureSphereRotate;
-import com.haxademic.app.haxmapper.textures.TextureTwistingSquares;
-import com.haxademic.app.haxmapper.textures.TextureVideoPlayer;
-import com.haxademic.app.haxmapper.textures.TextureWaveformSimple;
 import com.haxademic.core.constants.AppSettings;
+import com.haxademic.core.draw.textures.pgraphics.TextureColorAudioSlide;
+import com.haxademic.core.draw.textures.pgraphics.TextureEQColumns;
+import com.haxademic.core.draw.textures.pgraphics.TextureEQConcentricCircles;
+import com.haxademic.core.draw.textures.pgraphics.TextureEQGrid;
+import com.haxademic.core.draw.textures.pgraphics.TextureImageTimeStepper;
+import com.haxademic.core.draw.textures.pgraphics.TextureScrollingColumns;
+import com.haxademic.core.draw.textures.pgraphics.TextureShaderTimeStepper;
+import com.haxademic.core.draw.textures.pgraphics.TextureSphereRotate;
+import com.haxademic.core.draw.textures.pgraphics.TextureTwistingSquares;
+import com.haxademic.core.draw.textures.pgraphics.TextureVideoPlayer;
+import com.haxademic.core.draw.textures.pgraphics.TextureWaveformSimple;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.MathUtil;
 
@@ -217,7 +217,7 @@ extends HaxMapper{
 	}
 	
 	protected void checkBeat() {
-		if( audioIn.isBeat() == true && isBeatDetectMode() == true ) {
+		if( p.audioData.isBeat() == true && isBeatDetectMode() == true ) {
 			updateTiming();
 		}
 	}

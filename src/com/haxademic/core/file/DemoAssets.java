@@ -108,6 +108,12 @@ public class DemoAssets {
 
 	// FONTS
 	
+	public static PFont fontRaleway = null;
+	public static PFont fontRaleway(float fontSize) {
+		if(fontRaleway == null) fontRaleway = P.p.createFont( FileUtil.getFile("haxademic/fonts/Raleway-Regular.ttf"), fontSize );
+		return fontRaleway;
+	}
+	
 	public static PFont fontBitlow = null;
 	public static PFont fontBitlow(float fontSize) {
 		if(fontBitlow == null) fontBitlow = P.p.createFont( FileUtil.getFile("haxademic/fonts/bitlow.ttf"), fontSize );

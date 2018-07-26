@@ -5,6 +5,9 @@ import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.system.SystemUtil;
 
+import geomerative.RG;
+import geomerative.RPoint;
+import geomerative.RShape;
 import processing.core.PApplet;
 import processing.core.PConstants;
 import processing.core.PGraphics;
@@ -73,6 +76,28 @@ public class PShapeUtil {
 			addTextureUVToShape(subShape, img, outerExtent, xyMapping);
 		}
 
+		if(img != null) shape.setTexture(img);
+	}
+	
+	public static void addTextureUVExactWidthHeight(PShape shape, PImage img, float width, float height) {
+		shape.setStroke(false);
+		// shape.setFill(255);	// This seems to jack up vertex shaders
+		shape.setTextureMode(P.NORMAL);
+		
+		for (int i = 0; i < shape.getVertexCount(); i++) {
+			PVector v = shape.getVertex(i);
+			shape.setTextureUV(
+					i, 
+					P.map(v.x, -width/2f, width/2f, 0, 1f), 
+					P.map(v.y, -height/2f, height/2f, 0, 1f)
+					);
+		}
+		
+		for (int j = 0; j < shape.getChildCount(); j++) {
+			PShape subShape = shape.getChild(j);
+			addTextureUVExactWidthHeight(subShape, img, width, height);
+		}
+		
 		if(img != null) shape.setTexture(img);
 	}
 	
@@ -480,6 +505,31 @@ public class PShapeUtil {
 		return newShape;
 	}
 	
+	public static PShape svgToUniformPointsShape(String fileName, float spacing) {
+		// load svg and polygonize with Geomerative
+		if(!RG.initialized()) RG.init(P.p);
+		RShape rShape = RG.loadShape(fileName);
+		rShape = RG.centerIn(rShape, P.p.g);
+
+		RG.setPolygonizer(RG.UNIFORMLENGTH);
+		RG.setPolygonizerLength(spacing);
+		RPoint[] points = rShape.getPoints();
+
+		// create PShape
+		PShape svg = P.p.createShape();
+		svg.beginShape(PConstants.POINTS);
+		svg.stroke(255);
+		svg.strokeWeight(1);
+		svg.noFill();
+
+		for(int i=0; i < points.length; i++){
+			svg.vertex(points[i].x, points[i].y);
+		}
+		svg.endShape(P.CLOSE);
+
+		return svg;
+	}
+	
 	// Add vertices to a new PShape, while ignoring duplicates. Reduces vertex count significantly
 	public static void addVerticesToPointShape(PShape origShape, PShape newShape) {
 		for (int i = 0; i < origShape.getVertexCount(); i++) {
@@ -615,9 +665,11 @@ public class PShapeUtil {
 					PVector vertex = polygon.getVertex(i);
 					PVector vertex2 = polygon.getVertex(i+1);
 					PVector vertex3 = polygon.getVertex(i+2);
-					vertex.mult(scale);
-					vertex2.mult(scale);
-					vertex3.mult(scale);
+					if(scale != 1) {
+						vertex.mult(scale);
+						vertex2.mult(scale);
+						vertex3.mult(scale);
+					}
 					pg.vertex(vertex.x, vertex.y, vertex.z, polygon.getTextureU(i), polygon.getTextureV(i));
 					pg.vertex(vertex2.x, vertex2.y, vertex2.z, polygon.getTextureU(i+1), polygon.getTextureV(i+1));
 					pg.vertex(vertex3.x, vertex3.y, vertex3.z, polygon.getTextureU(i+2), polygon.getTextureV(i+2));
@@ -629,6 +681,75 @@ public class PShapeUtil {
 		for (int j = 0; j < shape.getChildCount(); j++) {
 			PShape subShape = shape.getChild(j);
 			drawTriangles(pg, subShape, img, scale);
+		}
+	}
+	
+	public static void drawTrianglesAudio(PGraphics pg, PShape shape, float scale, int color) {
+		drawTrianglesAudio(pg, shape, scale, color, 0);	
+	}
+	
+	public static void drawTrianglesAudio(PGraphics pg, PShape shape, float scale, int color, int faceIndex) {
+		PShape polygon = shape;
+		int vertexCount = polygon.getVertexCount();
+		if(vertexCount == 3) {
+			int i = 0;
+			pg.beginShape(PConstants.TRIANGLES);
+			pg.fill(color, 255f * P.p.audioFreq(faceIndex));
+			PVector vertex = polygon.getVertex(i);
+			PVector vertex2 = polygon.getVertex(i+1);
+			PVector vertex3 = polygon.getVertex(i+2);
+			vertex.mult(scale);
+			vertex2.mult(scale);
+			vertex3.mult(scale);
+			pg.vertex(vertex.x, vertex.y, vertex.z, polygon.getTextureU(i), polygon.getTextureV(i));
+			pg.vertex(vertex2.x, vertex2.y, vertex2.z, polygon.getTextureU(i+1), polygon.getTextureV(i+1));
+			pg.vertex(vertex3.x, vertex3.y, vertex3.z, polygon.getTextureU(i+2), polygon.getTextureV(i+2));
+			pg.endShape();
+			faceIndex++;
+		} else if(vertexCount == 4) {
+			int i = 0;
+			pg.beginShape(PConstants.QUADS);
+			pg.fill(color, 255f * P.p.audioFreq(faceIndex));
+			PVector vertex = polygon.getVertex(i);
+			PVector vertex2 = polygon.getVertex(i+1);
+			PVector vertex3 = polygon.getVertex(i+2);
+			PVector vertex4 = polygon.getVertex(i+3);
+			vertex.mult(scale);
+			vertex2.mult(scale);
+			vertex3.mult(scale);
+			vertex4.mult(scale);
+			pg.vertex(vertex.x, vertex.y, vertex.z, polygon.getTextureU(i), polygon.getTextureV(i));
+			pg.vertex(vertex2.x, vertex2.y, vertex2.z, polygon.getTextureU(i+1), polygon.getTextureV(i+1));
+			pg.vertex(vertex3.x, vertex3.y, vertex3.z, polygon.getTextureU(i+2), polygon.getTextureV(i+2));
+			pg.vertex(vertex4.x, vertex4.y, vertex4.z, polygon.getTextureU(i+3), polygon.getTextureV(i+3));
+			pg.endShape();
+			faceIndex++;
+		} else {
+			pg.beginShape(PConstants.TRIANGLES);
+			
+			for (int i = 0; i < vertexCount; i += 3) {
+				if(i < vertexCount - 3) {	// protect against rogue vertices?
+					pg.fill(color, 255f * P.p.audioFreq(faceIndex));
+					PVector vertex = polygon.getVertex(i);
+					PVector vertex2 = polygon.getVertex(i+1);
+					PVector vertex3 = polygon.getVertex(i+2);
+					if(scale != 1) {
+						vertex.mult(scale);
+						vertex2.mult(scale);
+						vertex3.mult(scale);
+					}
+					pg.vertex(vertex.x, vertex.y, vertex.z, polygon.getTextureU(i), polygon.getTextureV(i));
+					pg.vertex(vertex2.x, vertex2.y, vertex2.z, polygon.getTextureU(i+1), polygon.getTextureV(i+1));
+					pg.vertex(vertex3.x, vertex3.y, vertex3.z, polygon.getTextureU(i+2), polygon.getTextureV(i+2));
+					faceIndex++;
+				}
+			}
+			pg.endShape();
+		}
+		
+		for (int j = 0; j < shape.getChildCount(); j++) {
+			PShape subShape = shape.getChild(j);
+			drawTrianglesAudio(pg, subShape, scale, faceIndex);
 		}
 	}
 	

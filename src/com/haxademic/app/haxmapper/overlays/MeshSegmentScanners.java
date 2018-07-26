@@ -2,20 +2,20 @@ package com.haxademic.app.haxmapper.overlays;
 
 import java.util.ArrayList;
 
-import processing.core.PGraphics;
-import processing.core.PVector;
-
 import com.haxademic.core.app.P;
-import com.haxademic.core.draw.color.ColorHaxEasing;
+import com.haxademic.core.draw.color.EasingColor;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.math.MathUtil;
+
+import processing.core.PGraphics;
+import processing.core.PVector;
 
 public class MeshSegmentScanners {
 
 	protected ArrayList<MeshLineSegment> _meshLineSegments;
 	protected ArrayList<ScannerParticle> _particles;
 	protected PGraphics pg;
-	protected ColorHaxEasing _colorEase;
+	protected EasingColor _colorEase;
 
 	protected int NUM_PARTICLES = 30;
 	protected enum ScannerMode {
@@ -27,7 +27,7 @@ public class MeshSegmentScanners {
 		this.pg = pg;
 		_meshLineSegments = meshLineSegments;
 		NUM_PARTICLES = _meshLineSegments.size() * 1;
-		_colorEase = new ColorHaxEasing( "#ffffff", 5 );
+		_colorEase = new EasingColor( "#ffffff", 5 );
 	}
 
 	public PGraphics texture() {
@@ -49,13 +49,13 @@ public class MeshSegmentScanners {
 		//		float spectrumInterval = (int) ( 256 / _meshVertices.size() );	// 256 keeps it in the bottom half of the spectrum since the high ends is so overrun
 
 		for(int i=0; i < NUM_PARTICLES; i++) {
-			float amp = P.p.audioIn.getEqBand( i % 32 ) / 20f;
+			float amp = P.p.audioFreq( i % 32 ) / 20f;
 			_particles.get(i).update(amp);
 		}
 	}
 
 	public void setColor( int color ) {
-		_colorEase.setTargetColorInt( color );
+		_colorEase.setTargetInt( color );
 	}
 
 	public MeshLineSegment randomSegmentPosition() {

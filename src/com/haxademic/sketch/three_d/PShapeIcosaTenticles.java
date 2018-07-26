@@ -26,7 +26,7 @@ extends PAppletHax {
 		// build obj PShape and scale to window
 		obj = Icosahedron.createIcosahedron(p.g, 2, null);
 		PShapeUtil.centerShape(obj);
-		PShapeUtil.scaleShapeToExtent(obj, p.height * 0.8f);
+		PShapeUtil.scaleShapeToHeight(obj, p.height * 0.8f);
 	}
 
 	public void drawApp() {		
@@ -60,7 +60,7 @@ extends PAppletHax {
 	
 	int PLANES = 0;
 	int TENTICLES = 1;
-	int drawMode = 1;
+	int drawMode = PLANES;
 
 	public void drawCurves(PShape shape) {
 		// loop over every 3 vertices
@@ -69,7 +69,7 @@ extends PAppletHax {
 			PVector v2 = shape.getVertex(i+1);
 			PVector v3 = shape.getVertex(i+2);
 			
-			float eqAmp = 1f + p._audioInput.getFFT().spectrum[ i % p._audioInput.getFFT().spectrum.length ];
+			float eqAmp = 1f + p.audioFreq(i);
 			p.stroke(255, 255f * (-0.75f + eqAmp));
 
 			// get center

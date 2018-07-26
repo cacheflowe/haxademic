@@ -3,7 +3,6 @@ package com.haxademic.app.haxvisual.viz.elements;
 import com.haxademic.app.haxvisual.viz.ElementBase;
 import com.haxademic.app.haxvisual.viz.IVizElement;
 import com.haxademic.core.app.P;
-import com.haxademic.core.audio.AudioInputWrapper;
 import com.haxademic.core.draw.color.ColorGroup;
 import com.haxademic.core.draw.color.TColorBlendBetween;
 import com.haxademic.core.draw.context.DrawUtil;
@@ -31,8 +30,8 @@ implements IVizElement {
 	protected PVector _rotation = new PVector( 0, 0, 0 );
 	protected PVector _rotationTarget = new PVector( 0, 0, 0 );
 
-	public BarsModEQ( PApplet p, ToxiclibsSupport toxi, AudioInputWrapper audioData ) {
-		super( p, toxi, audioData );
+	public BarsModEQ( PApplet p, ToxiclibsSupport toxi ) {
+		super( p, toxi );
 		init();
 	}
 
@@ -55,7 +54,6 @@ implements IVizElement {
 
 	public void update() {
 		DrawUtil.resetGlobalProps( p );
-		DrawUtil.setCenter( p );
 		
 		int scaleMult = 3;
 		setDrawProps(p.width*scaleMult, p.height*scaleMult);
@@ -95,7 +93,7 @@ implements IVizElement {
 		
 
 		for (int i = 0; i < _cols * 4; i++) {
-			float eqAmp = _audioData.getFFT().spectrum[i];
+			float eqAmp = P.p.audioFreq(i);
 			col = (int) ( i % _cols );
 			row = eqAmp * 2.0f * _rows;
 				
@@ -130,7 +128,6 @@ implements IVizElement {
 	}
 	
 	public void dispose() {
-		_audioData = null;
 	}
 	
 }

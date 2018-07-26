@@ -1,10 +1,10 @@
 package com.haxademic.app.haxvisual.viz.modules;
 
-import processing.core.PConstants;
-
 import com.haxademic.app.haxvisual.viz.IVizModule;
 import com.haxademic.app.haxvisual.viz.ModuleBase;
-import com.haxademic.core.hardware.midi.MidiState;
+import com.haxademic.core.app.P;
+
+import processing.core.PConstants;
 
 public class Grass_OLD 
 extends ModuleBase
@@ -49,8 +49,8 @@ implements IVizModule
 
 	public void initAudio()
 	{
-		_audioData.setNumAverages( _numAverages );
-		_audioData.setDampening( .13f );
+//		audioData.setNumAverages( _numAverages );
+//		audioData.setDampening( .13f );
 	}
 
 	public void focus() {
@@ -67,7 +67,7 @@ implements IVizModule
 
 		// draw graphics
 		for(int i = 0; i < NUM_BLADES; i++)
-			blades[i].update( _audioData.getFFT().averages[i] * 2 );   
+			blades[i].update( P.p.audioFreq(i) * 2 );   
 		
 		
 		p.translate(p.width/2, p.height/2);

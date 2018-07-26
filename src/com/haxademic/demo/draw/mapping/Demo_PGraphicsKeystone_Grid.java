@@ -5,6 +5,7 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.mapping.PGraphicsKeystone;
+import com.haxademic.core.file.DemoAssets;
 import com.haxademic.core.file.FileUtil;
 
 import processing.core.PGraphics;
@@ -21,6 +22,8 @@ extends PAppletHax {
 	protected PShader shaderPattern;
 	protected PShader shaderPattern2;
 	protected PImage overlayImage;
+	protected int quadIndex = 0;
+	protected boolean debug = true;
 	protected int rows = 4;
 	protected int cols = 5;
 
@@ -31,11 +34,10 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.FULLSCREEN, false );
 	}
 
-	public void setup() {
-		super.setup();	
-		shaderPattern = p.loadShader(FileUtil.getFile("shaders/textures/cacheflowe-scrolling-dashed-lines.glsl"));
-		shaderPattern2 = p.loadShader(FileUtil.getFile("shaders/textures/cacheflowe-op-wavy-rotate.glsl"));
-		overlayImage = p.loadImage(FileUtil.getFile("images/test-sneaker-silhouette.png"));
+	public void setupFirstFrame() {
+		shaderPattern = p.loadShader(FileUtil.getFile("haxademic/shaders/textures/cacheflowe-scrolling-dashed-lines.glsl"));
+		shaderPattern2 = p.loadShader(FileUtil.getFile("haxademic/shaders/textures/cacheflowe-op-wavy-rotate.glsl"));
+		overlayImage = DemoAssets.particle();
 		buildCanvas();
 	}
 
@@ -85,16 +87,43 @@ extends PAppletHax {
 		
 		// draw to screen 
 		for (int i = 0; i < keystoneQuads.length; i++) {
-			keystoneQuads[i].update(p.g, true);
+			keystoneQuads[i].update(p.g);
 			keystoneQuads[i].fillSolidColor(p.g, p.color(255, 0, 0, 127));
 		}
+
 	}
 
 	public void keyPressed() {
 		super.keyPressed();
-		if(p.key == 'd') testPattern = !testPattern;
+		if(p.key == 'd') debug = !debug;
+		if(p.key == 't') testPattern = !testPattern;
 		if(p.key == 'r') resetQuads();
-//		if(p.keyCode == 8) pgPinnable.resetCorners(p.g);
+		if(p.key == ']') {
+			quadIndex++;
+			if(quadIndex >= keystoneQuads.length) quadIndex = 0;
+			setActiveRect();
+		}
+		if(p.key == '[') {
+			quadIndex--;
+			if(quadIndex < 0) quadIndex = keystoneQuads.length - 1;
+			setActiveRect();
+		}
+	}
+	
+	public void mouseMoved() {
+		super.mouseMoved();
+		for (int i = 0; i < keystoneQuads.length; i++) {
+			if(keystoneQuads[i].isHovered()) {
+				quadIndex = i;
+			}
+		}
+		setActiveRect();
+	}
+	
+	protected void setActiveRect() {
+		for (int i = 0; i < keystoneQuads.length; i++) {
+			keystoneQuads[i].setActive(i == quadIndex && debug);
+		}
 	}
 
 }

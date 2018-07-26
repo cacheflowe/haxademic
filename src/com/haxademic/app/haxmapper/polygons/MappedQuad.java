@@ -148,11 +148,11 @@ implements IMappedPolygon {
 				pg.endShape();
 			} else if( _mappingStyle == MAP_STYLE_EQ ) {
 				pg.beginShape(PConstants.QUAD);
-				pg.fill(pg.color(_color, P.constrain( P.p.audioIn.getEqBand((_eqIndex)) * 255, 0, 255 )));
+				pg.fill(pg.color(_color, P.constrain( P.p.audioFreq(_eqIndex) * 255, 0, 255 )));
 				pg.vertex(x1, y1, 0);
 				pg.vertex(x2, y2, 0);
 				pg.vertex(x3, y3, 0);
-				pg.fill(pg.color(_color, P.constrain( P.p.audioIn.getEqBand((_eqIndex)) * 100, 0, 190 )));
+				pg.fill(pg.color(_color, P.constrain( P.p.audioFreq(_eqIndex) * 100, 0, 190 )));
 				pg.vertex(x4, y4, 0);
 				pg.endShape();
 			}

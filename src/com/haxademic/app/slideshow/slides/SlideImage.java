@@ -5,7 +5,7 @@ import java.io.File;
 import com.haxademic.app.slideshow.Slideshow;
 import com.haxademic.core.app.P;
 import com.haxademic.core.data.ConvertUtil;
-import com.haxademic.core.data.store.IAppStoreUpdatable;
+import com.haxademic.core.data.store.IAppStoreListener;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.image.ImageSequenceMovieClip;
 import com.haxademic.core.draw.image.ImageUtil;
@@ -19,7 +19,7 @@ import processing.core.PVector;
 import processing.video.Movie;
 
 public class SlideImage
-implements IAppStoreUpdatable {
+implements IAppStoreListener {
 
 	protected Slideshow p;
 
@@ -497,7 +497,7 @@ implements IAppStoreUpdatable {
 		buffer.popMatrix();
 	}
 
-	public void updatedAppStoreValue(String storeKey, Number val) {
+	public void updatedNumber(String storeKey, Number val) {
 		if(storeKey == SlideshowState.SLIDE_INDEX.id()) {
 			checkAppSlideIndex(val.intValue());
 		}
@@ -510,7 +510,13 @@ implements IAppStoreUpdatable {
 	}
 
 	@Override
-	public void updatedAppStoreValue(String key, String val) {
+	public void updatedString(String key, String val) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	@Override
+	public void updatedBoolean(String key, Boolean val) {
 		// TODO Auto-generated method stub
 		
 	}

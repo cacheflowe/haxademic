@@ -1,16 +1,15 @@
 package com.haxademic.app.haxvisual.viz.elements;
 
+import com.haxademic.app.haxvisual.viz.ElementBase;
+import com.haxademic.app.haxvisual.viz.IVizElement;
+import com.haxademic.core.app.P;
+import com.haxademic.core.draw.color.ColorGroup;
+import com.haxademic.core.draw.context.DrawUtil;
+
 import processing.core.PApplet;
 import processing.core.PConstants;
 import toxi.color.TColor;
 import toxi.processing.ToxiclibsSupport;
-
-import com.haxademic.app.haxvisual.viz.ElementBase;
-import com.haxademic.app.haxvisual.viz.IVizElement;
-import com.haxademic.core.app.P;
-import com.haxademic.core.audio.AudioInputWrapper;
-import com.haxademic.core.draw.color.ColorGroup;
-import com.haxademic.core.draw.context.DrawUtil;
 
 public class BarsEQ2d
 extends ElementBase 
@@ -23,8 +22,8 @@ implements IVizElement {
 	protected TColor _fillColor = null;
 
 
-	public BarsEQ2d( PApplet p, ToxiclibsSupport toxi, AudioInputWrapper audioData ) {
-		super( p, toxi, audioData );
+	public BarsEQ2d( PApplet p, ToxiclibsSupport toxi ) {
+		super( p, toxi );
 		init();
 	}
 
@@ -79,7 +78,7 @@ implements IVizElement {
 		p.beginShape();
 		p.vertex( cellX, -halfH );
 		for (int i = 0; i < _cols; i++) {
-			float eqAmp = _audioData.getFFT().spectrum[i*spectrumInterval] * cellH;
+			float eqAmp = P.p.audioFreq(i*spectrumInterval) * cellH;
 			p.vertex( cellX, eqAmp );
 			cellX += cellW;
 		}		
@@ -94,7 +93,6 @@ implements IVizElement {
 	}
 
 	public void dispose() {
-		_audioData = null;
 	}
 	
 }

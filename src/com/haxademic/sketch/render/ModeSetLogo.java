@@ -8,7 +8,7 @@ import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.draw.color.TColorInit;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.context.OpenGLUtil;
-import com.haxademic.core.draw.toxi.DrawMesh;
+import com.haxademic.core.draw.toxi.DrawToxiMesh;
 
 import processing.core.PVector;
 import toxi.color.TColor;
@@ -59,7 +59,7 @@ extends PAppletHax {
 		
 		p.strokeWeight(3);
 		p.strokeJoin(P.BEVEL); // MITER, ROUND
-		DrawMesh.drawToxiMeshFacesNative2d( p, _meshCrest );
+		DrawToxiMesh.drawToxiMeshFacesNative2d( p, _meshCrest );
 		
 //		if( p.frameCount == 1 ) p.endRecord();
 	}

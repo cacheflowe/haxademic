@@ -4,7 +4,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.constants.PBlendModes;
-import com.haxademic.core.draw.filters.shaders.VignetteFilter;
+import com.haxademic.core.draw.filters.pshader.VignetteFilter;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.image.TiledTexture;
 import com.haxademic.core.file.FileUtil;
@@ -53,9 +53,9 @@ extends PAppletHax {
 		tiledBuffer = p.createGraphics(p.width, p.height, P.P3D);
 		tiledBuffer.smooth(8);
 		
-		maskShader = loadShader(FileUtil.getFile("shaders/filters/three-texture-opposite-mask.glsl"));
+		maskShader = loadShader(FileUtil.getFile("haxademic/shaders/filters/three-texture-opposite-mask.glsl"));
 		
-		stripes = p.loadShader(FileUtil.getFile("shaders/textures/cacheflowe-rotating-stripes.glsl"));
+		stripes = p.loadShader(FileUtil.getFile("haxademic/shaders/textures/cacheflowe-rotating-stripes.glsl"));
 	}
 
 	public void drawApp() {

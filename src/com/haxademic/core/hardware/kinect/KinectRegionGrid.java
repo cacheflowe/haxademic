@@ -1,18 +1,19 @@
 package com.haxademic.core.hardware.kinect;
 
-import processing.core.PGraphics;
-
 import com.haxademic.core.app.P;
 import com.haxademic.core.hardware.joystick.BaseJoysticksCollection;
 import com.haxademic.core.hardware.joystick.IJoystickCollection;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.EasingFloat;
 
+import processing.core.PGraphics;
+import processing.core.PImage;
+
 public class KinectRegionGrid
 extends BaseJoysticksCollection
 implements IJoystickCollection {
 
-	protected static PGraphics _pg;
+	protected static PGraphics debugBuffer;
 	protected int _kinectClose = 0;
 	protected int _kinectFar = 0;
 	protected int _kinectDepth = 0;
@@ -25,18 +26,7 @@ implements IJoystickCollection {
 
 
 	public KinectRegionGrid(int cols, int rows, int kinectClose, int kinectFar, int padding, int kinectTop, int kinectBottom, int kinectPixelSkip, int minPixels) {
-		this(cols, rows, kinectClose, kinectFar, padding, kinectTop, kinectBottom, kinectPixelSkip, minPixels, false);
-	}
-
-
-	public KinectRegionGrid(int cols, int rows, int kinectClose, int kinectFar, int padding, int kinectTop, int kinectBottom, int kinectPixelSkip, int minPixels, boolean debug) {
 		super();
-
-		if(debug == true) {
-			if(_pg == null) {
-				_pg = P.p.createGraphics(KinectSize.WIDTH, KinectSize.HEIGHT, P.P3D);
-			}
-		}
 
 		_kinectClose = kinectClose;
 		_kinectFar = kinectFar;
@@ -65,26 +55,27 @@ implements IJoystickCollection {
 		}
 	}
 
-	public void update() {
-		if(_pg == null) {
+	public void update(boolean debug) {
+		if(debug == false) {
 			updateRegions();
 		} else {
+			if(debugBuffer == null) debugBuffer = P.p.createGraphics(KinectSize.WIDTH, KinectSize.HEIGHT, P.P3D);
 			updateDebug();
 		}
 	}
 
 	public void updateRegions() {
 		for( int i=0; i < _joysticks.size(); i++ ) {
-			_joysticks.get(i).detect(_pg);
+			_joysticks.get(i).detect(debugBuffer);
 		}
 	}
 
 	public void updateDebug() {
-		_pg.beginDraw();
-		_pg.clear();
+		debugBuffer.beginDraw();
+		debugBuffer.background(0);
 
-		_pg.shininess(1000f);
-		_pg.lights();
+		debugBuffer.shininess(1000f);
+		debugBuffer.lights();
 
 		// lazy-init debugging camera easing
 		if( _sceneRot == null ) {
@@ -94,42 +85,46 @@ implements IJoystickCollection {
 		}
 
 		// move scene towards front of kinect range
-		_pg.pushMatrix();
-		_pg.translate(0,0,_kinectClose);
+		debugBuffer.pushMatrix();
+		debugBuffer.translate(0,0,_kinectClose);
 
 		// rotate scene for debugging
 		_sceneTranslateZ.update();
 		_sceneRot.update();
 		_sceneTranslateZ2.update();
 
-		_pg.translate(0,0,_sceneTranslateZ.value());
-		_pg.rotateX(_sceneRot.value());
-		_pg.translate(0,0,_sceneTranslateZ2.value());
+		debugBuffer.translate(0,0,_sceneTranslateZ.value());
+		debugBuffer.rotateX(_sceneRot.value());
+		debugBuffer.translate(0,0,_sceneTranslateZ2.value());
 
 		// loop through kinect data within rectangles ----------
 		updateRegions();
 
 		// draw regions' rectangles ----------------------------
-		_pg.pushMatrix();
+		debugBuffer.pushMatrix();
 
-		_pg.rotateX(-P.PI/2f);
-		_pg.translate(0,0,460);
+		debugBuffer.rotateX(-P.PI/2f);
+		debugBuffer.translate(0,0,460);
 
 		for( int i=0; i < _joysticks.size(); i++ ) {
-			_joysticks.get(i).drawDebug(_pg);
+			_joysticks.get(i).drawDebug(debugBuffer);
 		}
-		_pg.popMatrix();
-		_pg.popMatrix();
+		debugBuffer.popMatrix();
+		debugBuffer.popMatrix();
 
-		_pg.endDraw();
+		debugBuffer.endDraw();
+	}
+	
+	public PImage debugImage() {
+		return debugBuffer;
 	}
 
 	public void toggleDebugOverhead() {
-		if(_pg == null) return;
+		if(debugBuffer == null) return;
 		_overheadView = !_overheadView;
 
 		if(_overheadView == true) {
-			_sceneTranslateZ.setTarget(_kinectDepth * -2f);
+			_sceneTranslateZ.setTarget(_kinectDepth * -3f);
 			_sceneRot.setTarget(-P.PI/2f);
 			_sceneTranslateZ2.setTarget(_kinectClose + _kinectDepth);
 		} else {
@@ -137,11 +132,6 @@ implements IJoystickCollection {
 			_sceneRot.setTarget(0);
 			_sceneTranslateZ2.setTarget(0);
 		}
-	}
-
-	public void drawDebug(PGraphics pg) {
-		if(_pg == null) return;
-		pg.image(_pg, 0, 0);
 	}
 
 }

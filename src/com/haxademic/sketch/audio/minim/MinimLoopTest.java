@@ -5,11 +5,13 @@ import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.file.FileUtil;
 
 import ddf.minim.AudioPlayer;
+import ddf.minim.Minim;
 
 public class MinimLoopTest 
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
+	Minim minim;
 	protected AudioPlayer _sound;
 	int loopBegin;
 	int loopEnd;
@@ -22,7 +24,9 @@ extends PAppletHax {
 
 	public void setup() {
 		super.setup();	
-		_sound = p.audioIn.minim().loadFile( FileUtil.getHaxademicDataPath() + "audio/test-loop.wav", 512 );
+		minim = new Minim(this);
+
+		_sound = minim.loadFile( FileUtil.getHaxademicDataPath() + "audio/test-loop.wav", 512 );
 		_sound.loop();
 	}
 

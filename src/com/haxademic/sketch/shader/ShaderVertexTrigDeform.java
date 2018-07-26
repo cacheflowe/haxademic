@@ -47,8 +47,8 @@ extends PAppletHax {
 		mesh = createCylinder(100, 200, 1000, texture);
 
 		texShader = loadShader(
-			FileUtil.getFile("shaders/vertex/trig-displace-frag.glsl"), 
-			FileUtil.getFile("shaders/vertex/trig-displace-cylinder-vert.glsl")
+			FileUtil.getFile("haxademic/shaders/vertex/trig-displace-frag.glsl"), 
+			FileUtil.getFile("haxademic/shaders/vertex/trig-displace-cylinder-vert.glsl")
 		);
 	}
 

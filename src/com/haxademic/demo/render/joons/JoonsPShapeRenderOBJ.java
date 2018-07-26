@@ -23,7 +23,7 @@ extends PAppletHax {
 		
 		p.appConfig.setProperty( AppSettings.SUNFLOW, true );
 		p.appConfig.setProperty( AppSettings.SUNFLOW_ACTIVE, false );
-		p.appConfig.setProperty( AppSettings.SUNFLOW_QUALITY, AppSettings.SUNFLOW_QUALITY_HIGH );
+		p.appConfig.setProperty( AppSettings.SUNFLOW_QUALITY, AppSettings.SUNFLOW_QUALITY_LOW );
 
 		p.appConfig.setProperty( AppSettings.WIDTH, 960 );
 		p.appConfig.setProperty( AppSettings.HEIGHT, 720 );
@@ -39,8 +39,8 @@ extends PAppletHax {
 		obj = p.loadShape( FileUtil.getFile("models/skull-realistic.obj"));	
 		obj = p.loadShape( FileUtil.getFile("models/poly-hole-penta.obj"));	
 		PShapeUtil.centerShape(obj);
-		PShapeUtil.scaleShapeToExtent(obj, p.height * 0.4f);
-		objHeight = PShapeUtil.getMaxAbsY(obj);
+		PShapeUtil.scaleShapeToHeight(obj, p.height * 0.8f);
+		objHeight = PShapeUtil.getHeight(obj);
 	}
 
 

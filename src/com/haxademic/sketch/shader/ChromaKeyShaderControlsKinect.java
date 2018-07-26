@@ -53,7 +53,7 @@ extends PAppletHax {
 		_cp5.addSlider("colorToReplace_G").setPosition(cp5X,cp5Y+=cp5YSpace).setWidth(cp5W).setRange(0,1f).setValue(0.93f);
 		_cp5.addSlider("colorToReplace_B").setPosition(cp5X,cp5Y+=cp5YSpace).setWidth(cp5W).setRange(0,1f).setValue(0.14f);
 
-		_chromaKeyFilter = loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/chroma-color.glsl" );
+		_chromaKeyFilter = loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/chroma-color.glsl" );
 		_chromaKeyFilter.set("thresholdSensitivity", thresholdSensitivity);
 		_chromaKeyFilter.set("smoothing", smoothing);
 		_chromaKeyFilter.set("colorToReplace", colorToReplace_R, colorToReplace_G, colorToReplace_B);

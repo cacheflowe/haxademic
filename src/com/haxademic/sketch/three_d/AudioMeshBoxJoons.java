@@ -113,7 +113,7 @@ extends PAppletHax {
 		int numVertices = _mesh.getNumVertices();
 		int eqStep = Math.round( 512f / (float) numVertices );
 		for( int i = 0; i < numVertices; i++ ) {
-			float eq = 1 + p._audioInput.getFFT().spectrum[(i*eqStep)%512];
+			float eq = 1 + p.audioFreq(i*eqStep);
 			
 			if( _mesh.getVertexForID( i ) != null ) {
 				_meshDeform.getVertexForID( i ).x = _mesh.getVertexForID( i ).x * eq;

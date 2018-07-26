@@ -35,7 +35,7 @@ extends PAppletHax {
 		  if(orthoCamera == true) {
 			  p.ortho();
 		  } else {			  
-			  float fov = mouseX/(float)width * PI/2f;
+			  float fov = PI/2f;// mouseY/(float)width * PI/2f;
 			  float cameraY = (float)height/2.0f;
 			  float cameraZ = cameraY / tan(fov / 2.0f);
 			  float aspect = (float)width/(float)height;

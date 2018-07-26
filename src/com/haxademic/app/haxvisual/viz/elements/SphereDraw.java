@@ -1,13 +1,13 @@
 package com.haxademic.app.haxvisual.viz.elements;
 
-import processing.core.PApplet;
-import toxi.processing.ToxiclibsSupport;
-
 import com.haxademic.app.haxvisual.viz.ElementBase;
 import com.haxademic.app.haxvisual.viz.IVizElement;
-import com.haxademic.core.audio.AudioInputWrapper;
+import com.haxademic.core.app.P;
 import com.haxademic.core.draw.color.ColorGroup;
 import com.haxademic.core.draw.shapes.Shapes;
+
+import processing.core.PApplet;
+import toxi.processing.ToxiclibsSupport;
 
 public class SphereDraw
 extends ElementBase 
@@ -21,8 +21,8 @@ implements IVizElement {
 	protected float startPhi = 0;
 //	protected PImage _image;
 
-	public SphereDraw( PApplet p, ToxiclibsSupport toxi, AudioInputWrapper audioData ) {
-		super( p, toxi, audioData );
+	public SphereDraw( PApplet p, ToxiclibsSupport toxi ) {
+		super( p, toxi );
 		init();
 	}
 
@@ -69,8 +69,8 @@ implements IVizElement {
      		pointZ = _baseRadius * p.cos(phi);
 
      		// get size and alpha and draw cube
-     		float fillAlpha = 0f + _audioData.getFFT().spectrum[i + 20];
-     		float size = 1 + 40 * _audioData.getFFT().spectrum[i + 20];
+     		float fillAlpha = 0f + P.p.audioFreq(i + 20);
+     		float size = 1 + 40 * P.p.audioFreq(i + 20);
      		p.noStroke();
      		
 //     		p.pushMatrix();

@@ -3,7 +3,6 @@ package com.haxademic.core.draw.context;
 import com.haxademic.core.app.P;
 import com.jogamp.opengl.GL;
 import com.jogamp.opengl.GL2;
-import com.jogamp.opengl.GL2ES2;
 import com.jogamp.opengl.GL3;
 import com.jogamp.opengl.GL4;
 import com.jogamp.opengl.GLProfile;
@@ -154,6 +153,12 @@ public class OpenGLUtil {
 				gl.glBlendEquation(GL.GL_FUNC_ADD);
 				break;
 		}
+	}
+	
+	public static void setBlendModeCustom(PGraphics pg, int blendSrc, int blendDest, int blendEquation) {
+		GL gl = ((PJOGL)pg.beginPGL()).gl.getGL();
+		gl.glBlendFunc(blendSrc, blendDest);
+		gl.glBlendEquation(blendEquation);
 	}
 
 	public static void setWireframe(PGraphics pg, boolean isWireframe) {  

@@ -2,18 +2,17 @@ package com.haxademic.app.haxvisual.viz.elements;
 
 import java.util.ArrayList;
 
-import processing.core.PApplet;
-import toxi.color.TColor;
-import toxi.processing.ToxiclibsSupport;
-
 import com.haxademic.app.haxvisual.viz.ElementBase;
 import com.haxademic.app.haxvisual.viz.IVizElement;
-import com.haxademic.core.audio.AudioInputWrapper;
 import com.haxademic.core.draw.color.ColorGroup;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.text.CustomFontText2D;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.MathUtil;
+
+import processing.core.PApplet;
+import toxi.color.TColor;
+import toxi.processing.ToxiclibsSupport;
 
 public class WordsOverlay2d
 extends ElementBase 
@@ -31,8 +30,8 @@ implements IVizElement {
 	protected int _wordIndex = 0;
 
 
-	public WordsOverlay2d( PApplet p, ToxiclibsSupport toxi, AudioInputWrapper audioData ) {
-		super( p, toxi, audioData );
+	public WordsOverlay2d( PApplet p, ToxiclibsSupport toxi ) {
+		super( p, toxi );
 		init();
 	}
 
@@ -69,7 +68,6 @@ implements IVizElement {
 	
 	public void update() {
 		DrawUtil.resetGlobalProps( p );
-		DrawUtil.setCenter( p );
 		p.pushMatrix();
 
 		p.translate(0, 0, -1000);
@@ -97,7 +95,6 @@ implements IVizElement {
 	}
 
 	public void dispose() {
-		_audioData = null;
 	}
 	
 }

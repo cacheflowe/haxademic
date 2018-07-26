@@ -1,16 +1,15 @@
 package com.haxademic.app.haxvisual.viz.modules;
 
+import com.haxademic.app.haxvisual.viz.IVizModule;
+import com.haxademic.app.haxvisual.viz.ModuleBase;
+import com.haxademic.core.camera.CameraBasic;
+import com.haxademic.core.camera.CameraOscillate;
+
 import processing.core.PConstants;
 import toxi.geom.AABB;
 import toxi.geom.Sphere;
 import toxi.geom.Vec3D;
 import toxi.processing.ToxiclibsSupport;
-
-import com.haxademic.app.haxvisual.viz.IVizModule;
-import com.haxademic.app.haxvisual.viz.ModuleBase;
-import com.haxademic.core.camera.CameraBasic;
-import com.haxademic.core.camera.CameraOscillate;
-import com.haxademic.core.hardware.midi.MidiState;
 
 public class Spheres 
 extends ModuleBase
@@ -79,8 +78,8 @@ implements IVizModule
 
 	public void initAudio()
 	{
-		_audioData.setNumAverages( _numAverages );
-		_audioData.setDampening( .13f );
+//		audioData.setNumAverages( _numAverages );
+//		audioData.setDampening( .13f );
 	}
 
 	public void focus() {
@@ -254,7 +253,7 @@ implements IVizModule
 						if( pointInc < _numAverages )
 						{
 							grid[pointInc].oscillate( curR, curG, curB );
-							grid[pointInc].setPosition( pointX, pointY, pointZ, 400  + _audioData.getFFT().averages[pointInc%511]*1300, follow, minus1Cell, minus2Cell );
+							grid[pointInc].setPosition( pointX, pointY, pointZ, 400  + p.audioFreq(pointInc)*1300, follow, minus1Cell, minus2Cell );
 						}
 					}
 	
@@ -268,7 +267,7 @@ implements IVizModule
 			if( _curMode != 5 ) {
 				// cycle colors
 				grid[i].oscillate( curR, curG, curB );
-				grid[i].setPosition( pointX, pointY, pointZ, 400  + _audioData.getFFT().averages[i%511]*250, follow, minus1Cell, minus2Cell );
+				grid[i].setPosition( pointX, pointY, pointZ, 400  + p.audioFreq(i)*250, follow, minus1Cell, minus2Cell );
 								
 				curR += incR;
 				curG += incG;

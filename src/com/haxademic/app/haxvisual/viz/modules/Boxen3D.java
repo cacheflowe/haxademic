@@ -1,12 +1,12 @@
 package com.haxademic.app.haxvisual.viz.modules;
 
-import processing.core.PConstants;
-
 import com.haxademic.app.haxvisual.viz.IVizModule;
 import com.haxademic.app.haxvisual.viz.ModuleBase;
+import com.haxademic.core.app.P;
 import com.haxademic.core.camera.CameraBasic;
 import com.haxademic.core.camera.CameraOscillate;
-import com.haxademic.core.hardware.midi.MidiState;
+
+import processing.core.PConstants;
 
 public class Boxen3D 
 extends ModuleBase
@@ -63,8 +63,8 @@ implements IVizModule
 
 	public void initAudio()
 	{
-		_audioData.setNumAverages( _numAverages );
-		_audioData.setDampening( .17f );
+//		audioData.setNumAverages( _numAverages );
+//		audioData.setDampening( .17f );
 	}
 
 	public void focus() {
@@ -112,10 +112,10 @@ implements IVizModule
 						p.translate(0,currBoxSpacing, 10);
 						break;
 					case 1 :
-						p.translate(0,currBoxSpacing * _audioData.getFFT().spectrum[curIndex] * 2, 10);
+						p.translate(0,currBoxSpacing * P.p.audioFreq(curIndex) * 2, 10);
 						break;
 					case 2 :
-						p.translate(currBoxSpacing * _audioData.getFFT().spectrum[curIndex] * 2,_audioData.getFFT().spectrum[curIndex], 20);
+						p.translate(currBoxSpacing * P.p.audioFreq(curIndex) * 2,P.p.audioFreq(curIndex), 20);
 						break;
 					case 3 :
 						p.translate(0,0, 20);
@@ -151,9 +151,9 @@ implements IVizModule
 						break;
 				}
 				// increment color
-				float curR = 0.75f + _audioData.getFFT().spectrum[curIndex] * ( _r + p.sin( color_inc * _rMult ) );
-				float curG = 0.75f + _audioData.getFFT().spectrum[curIndex] * ( _g + p.cos( color_inc * _gMult ) );
-				float curB = 0.75f + _audioData.getFFT().spectrum[curIndex] * ( _b + p.sin( color_inc * _bMult ) );
+				float curR = 0.75f + P.p.audioFreq(curIndex) * ( _r + p.sin( color_inc * _rMult ) );
+				float curG = 0.75f + P.p.audioFreq(curIndex) * ( _g + p.cos( color_inc * _gMult ) );
+				float curB = 0.75f + P.p.audioFreq(curIndex) * ( _b + p.sin( color_inc * _bMult ) );
 				p.fill( curR, curG, curB );
 				//p.rect(0, 0, box_size, box_size);
 
@@ -163,19 +163,19 @@ implements IVizModule
 				switch( _boxStretchMode )
 				{
 					case 0 : 
-						tmpW = p.round( box_size + _audioData.getFFT().spectrum[curIndex] * box_size * 220 );
-						tmpH = p.round( box_size + _audioData.getFFT().spectrum[curIndex] * box_size * 20 );
-						tmpD = p.round( box_size + _audioData.getFFT().spectrum[curIndex] * box_size * 4 );
+						tmpW = P.round( box_size + P.p.audioFreq(curIndex) * box_size * 220 );
+						tmpH = P.round( box_size + P.p.audioFreq(curIndex) * box_size * 20 );
+						tmpD = P.round( box_size + P.p.audioFreq(curIndex) * box_size * 4 );
 						break;
 					case 1 : 
-						tmpW = p.round( box_size + _audioData.getFFT().spectrum[curIndex] * box_size * 40 );
-						tmpH = p.round( box_size + _audioData.getFFT().spectrum[curIndex] * box_size * 320 );
-						tmpD = p.round( box_size + _audioData.getFFT().spectrum[curIndex] * box_size * 5 );
+						tmpW = P.round( box_size + P.p.audioFreq(curIndex) * box_size * 40 );
+						tmpH = P.round( box_size + P.p.audioFreq(curIndex) * box_size * 320 );
+						tmpD = P.round( box_size + P.p.audioFreq(curIndex) * box_size * 5 );
 						p.box( tmpW, tmpH, tmpD );
 						break;
 					default : 
-						tmpW = tmpH = box_size + _audioData.getFFT().spectrum[curIndex] * box_size * 200;
-						tmpD = p.round( box_size + _audioData.getFFT().spectrum[curIndex] * box_size * 5 );
+						tmpW = tmpH = box_size + P.p.audioFreq(curIndex) * box_size * 200;
+						tmpD = P.round( box_size + P.p.audioFreq(curIndex) * box_size * 5 );
 						break; 
 				}
 				p.box( tmpW, tmpH, tmpD );
@@ -251,7 +251,7 @@ implements IVizModule
 
 	void newCamera()
 	{
-		int randCamera = p.round( p.random( 0, 1 ) );
+		int randCamera = P.round( p.random( 0, 1 ) );
 		int newZ = 40000;//round( p.random( -80000, -50000 ) );
 		if( randCamera == 0 ) _curCamera = new CameraBasic( p, 1000, 1000, newZ );
 		else if( randCamera == 1 ) _curCamera = new CameraOscillate( p, 1000, 1000, newZ, 100 );
@@ -288,7 +288,7 @@ implements IVizModule
 	void newBoxSize() 
 	{
 		box_size = p.random( box_space / 3, box_space );
-		_boxStretchMode = p.round( p.random( 0, 3 ) );
+		_boxStretchMode = P.round( p.random( 0, 3 ) );
 	}
 
 	void toggleStroke()
@@ -309,8 +309,8 @@ implements IVizModule
 
 	void newFollowObject()
 	{
-		_followRow = p.round( p.random( 0, gridSize - 1 ) );
-		_followCol = p.round( p.random( 0, gridSize - 1 ) );
+		_followRow = P.round( p.random( 0, gridSize - 1 ) );
+		_followCol = P.round( p.random( 0, gridSize - 1 ) );
 	}
 
 	//  p.PIck new p.random colors
@@ -326,8 +326,8 @@ implements IVizModule
 
 	void newMode()
 	{
-		_hasStroke = p.round( p.random( 0, 1 ) );
-		_curMode = p.round( p.random( 0, 3 ) );
+		_hasStroke = P.round( p.random( 0, 1 ) );
+		_curMode = P.round( p.random( 0, 3 ) );
 		// p.println(_curMode);
 		newBoxSize();
 		_rotZinc = p.random( 0.00000002f, 0.000002f );

@@ -14,12 +14,15 @@ public class ColorUtil {
 	}
 	
 	public static int colorFromHex( String hex ) {
+		if(hex.length() == 9) hex = hex.substring(1);
+		if(hex.length() == 7) hex = hex.substring(1);
 		if(hex.length() == 6) hex = "FF" + hex;
-		return colorFromHex(hex, true);
+		return colorFromHex(hex, false);
 	}
 	
 	public static int colorFromHex( String hex, boolean hasHash ) {
-		return P.unhex(hex.substring(1));
+		if(hasHash) return P.unhex(hex.substring(1));
+		else return P.unhex(hex);
 	}
 	
 	public static float componentByPercent( float percent ) {
@@ -31,7 +34,7 @@ public class ColorUtil {
         // create a big random number - maximum is ffffff (hex) = 16777215 (dez)
         int nextInt = random.nextInt(256*256*256);
         // return String.format("%06x", nextInt);
-        return String.format("%06x", nextInt);
+        return "#ff"+ String.format("%06x", nextInt);	// leading #ff for alpha value
 	}
 	
 	// concept from: http://dev.thi.ng/gradients/

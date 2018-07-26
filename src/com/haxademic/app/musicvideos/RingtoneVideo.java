@@ -85,7 +85,7 @@ public class RingtoneVideo
 		_render5 = new Renderer( this, _fps, Renderer.OUTPUT_TYPE_IMAGE, "bin/output/" );
 		_render6 = new Renderer( this, _fps, Renderer.OUTPUT_TYPE_IMAGE, "bin/output/" );
 		_renderFinal = new Renderer( this, _fps, Renderer.OUTPUT_TYPE_MOVIE, "bin/output/" );
-		_renderFinal.startRendererForAudio( "wav/ringtones/ringtone-01.wav", new AudioInputWrapper( this, false ) );
+//		_renderFinal.startRendererForAudio( "wav/ringtones/ringtone-01.wav", new AudioInputWrapper( this, false ) );
 		
 		// store renderers for cycling 
 		_renderers = new Renderer[ _numWavs ];
@@ -104,7 +104,7 @@ public class RingtoneVideo
 			_eqColumn[i] = new EQColumn( i, "img/ringtones/0"+(i+1)+".png" );
 			
 			// create corresponding audio inputs
-			_renderers[i].startRendererForAudio( "wav/ringtones/ringtone-0"+(i+1)+".wav", _audioInputs[i] );
+//			_renderers[i].startRendererForAudio( "wav/ringtones/ringtone-0"+(i+1)+".wav", _audioInputs[i] );
 		}
 		
 	}

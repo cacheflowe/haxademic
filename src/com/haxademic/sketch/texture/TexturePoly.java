@@ -163,7 +163,7 @@ extends PAppletHax {
 		_eqTexture.clear();
 		
 		for( int i=0; i < numBands; i++ ) {
-			_eqTexture.fill( 255 * p._audioInput.getFFT().spectrum[P.floor(i*spectrumInterval)] * 2, 255 );
+			_eqTexture.fill( 255 * p.audioFreq(P.floor(i*spectrumInterval)) * 2, 255 );
 			_eqTexture.rect(i * eqW, 0, eqW, _eqTexture.height );
 		}
 		

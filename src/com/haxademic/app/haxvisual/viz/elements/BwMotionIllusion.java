@@ -1,17 +1,16 @@
 package com.haxademic.app.haxvisual.viz.elements;
 
+import com.haxademic.app.haxvisual.viz.ElementBase;
+import com.haxademic.app.haxvisual.viz.IVizElement;
+import com.haxademic.core.app.P;
+import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.file.FileUtil;
+import com.haxademic.core.math.easing.EasingFloat;
+
 import processing.core.PApplet;
 import processing.core.PGraphics;
 import processing.opengl.PShader;
 import toxi.processing.ToxiclibsSupport;
-
-import com.haxademic.app.haxvisual.viz.ElementBase;
-import com.haxademic.app.haxvisual.viz.IVizElement;
-import com.haxademic.core.app.P;
-import com.haxademic.core.audio.AudioInputWrapper;
-import com.haxademic.core.draw.context.DrawUtil;
-import com.haxademic.core.file.FileUtil;
-import com.haxademic.core.math.easing.EasingFloat;
 
 public class BwMotionIllusion 
 extends ElementBase 
@@ -25,8 +24,8 @@ implements IVizElement  {
 	protected EasingFloat _brightEaser = new EasingFloat(0, 10);
 	protected int _mode = 0;
 
-	public BwMotionIllusion( PApplet p, ToxiclibsSupport toxi, AudioInputWrapper audioData ) {
-		super( p, toxi, audioData );
+	public BwMotionIllusion( PApplet p, ToxiclibsSupport toxi ) {
+		super( p, toxi );
 		init();
 	}
 
@@ -37,14 +36,14 @@ implements IVizElement  {
 	}
 	
 	protected void loadShaders() {
-		_patternShader = p.loadShader( FileUtil.getHaxademicDataPath() + "shaders/textures/bw-motion-illusion.glsl" ); 
+		_patternShader = p.loadShader( FileUtil.getHaxademicDataPath() + "haxademic/shaders/textures/bw-motion-illusion.glsl" ); 
 		_patternShader.set("time", _timeEaser.value() );
 
-		_vignette = p.loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/vignette.glsl" );
+		_vignette = p.loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/vignette.glsl" );
 		_vignette.set("darkness", 0.7f);
 		_vignette.set("spread", 0.15f);
 
-		_brightness = p.loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/brightness.glsl" );
+		_brightness = p.loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/brightness.glsl" );
 		_brightness.set("brightness", _brightEaser.value() );
 }
 

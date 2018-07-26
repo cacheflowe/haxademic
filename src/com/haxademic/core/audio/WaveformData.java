@@ -35,17 +35,17 @@ public class WaveformData {
 		}
 	}
 	
-	public void updateWaveformDataForRender ( Renderer renderer, krister.Ess.AudioInput audioInput, int bufferSize ) {
-		// store waveform data from Channel that's playing the audio file
-		int buffer2Length = renderer.getChannel().buffer2.length;
-		AudioChannel channel = renderer.getChannel();
-		int interp = (int) P.max( 0, (( ( p.millis() - channel.bufferStartTime) / (float)channel.ms(channel.buffer.length) ) * bufferSize));
-		for (int i=0;i<512;i++) {
-			if( i+interp < buffer2Length ) {
-				_waveform[i] = channel.buffer2[i+interp];
-			}
-		}
-	}
+//	public void updateWaveformDataForRender ( Renderer renderer, krister.Ess.AudioInput audioInput, int bufferSize ) {
+//		// store waveform data from Channel that's playing the audio file
+////		int buffer2Length = renderer.getChannel().buffer2.length;
+////		AudioChannel channel = renderer.getChannel();
+//		int interp = (int) P.max( 0, (( ( p.millis() - channel.bufferStartTime) / (float)channel.ms(channel.buffer.length) ) * bufferSize));
+//		for (int i=0;i<512;i++) {
+//			if( i+interp < buffer2Length ) {
+//				_waveform[i] = channel.buffer2[i+interp];
+//			}
+//		}
+//	}
 	
 	public void copyFromOtherWaveformData( WaveformData other, int bufferSize ) {
 		_waveform = new float[bufferSize];

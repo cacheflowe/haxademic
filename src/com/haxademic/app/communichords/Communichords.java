@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
-import com.haxademic.core.draw.color.ColorHaxEasing;
 import com.haxademic.core.draw.color.ColorUtil;
+import com.haxademic.core.draw.color.EasingColor;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.dmx.DmxInterface;
 import com.haxademic.core.hardware.joystick.AutoTesterJoysticksCollection;
@@ -19,6 +19,7 @@ import com.haxademic.core.math.easing.EasingFloat;
 import com.haxademic.core.math.easing.LinearFloat;
 import com.haxademic.core.math.easing.Penner;
 
+import ddf.minim.Minim;
 import ddf.minim.ugens.Gain;
 import ddf.minim.ugens.Sampler;
 
@@ -53,6 +54,7 @@ extends PAppletHax {
 	protected boolean _dmxActive;
 	protected boolean _isScreensaverMode = true;
 	protected int _screenSaverStartFrame = 0;
+	protected Minim minim;
 	
 	// http://en.wikipedia.org/wiki/Piano_key_frequencies
 	protected float[] _frequenciesFromMiddleC4 = {
@@ -88,6 +90,7 @@ extends PAppletHax {
 
 	public void setup() {
 		super.setup();
+		minim = new Minim(this);
 		// hardware config
 		if(p.appConfig.getBoolean("leap_active", false) == true) {
 			_joysticks = new LeapRegionGrid(NUM_PLAYERS, 1, 1, 0f);
@@ -224,7 +227,7 @@ extends PAppletHax {
 		protected int _highColor;
 		protected float _notes;
 		protected LinearFloat _brightness;
-		protected ColorHaxEasing _color;
+		protected EasingColor _color;
 		protected IJoystickControl _joystick;
 		
 		protected TonePlayer _tonePlayer;
@@ -237,7 +240,7 @@ extends PAppletHax {
 			_brightness = new LinearFloat(0, 0.04f);
 			_lowColor = ColorUtil.colorFromHex(lowColor);
 			_highColor = ColorUtil.colorFromHex(highColor);
-			_color = new ColorHaxEasing(lowColor, 3f);
+			_color = new EasingColor(lowColor, 3f);
 		}
 		
 		public void setTonePlayer(TonePlayer player) {
@@ -364,10 +367,10 @@ extends PAppletHax {
 			_sampleFile = sampleFile;
 			
 			_gainEfx = new Gain(0);
-			_gainEfx.patch(p.audioIn.minim().getLineOut());
+			_gainEfx.patch(minim.getLineOut());
 			_gainDB = new LinearFloat(-50f, 2.f);
 			
-			_sampler = new Sampler(sampleFile, 1, p.audioIn.minim()); 
+			_sampler = new Sampler(sampleFile, 1, minim); 
 			_sampler.patch(_gainEfx);
 			_sampler.looping = true;
 			

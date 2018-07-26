@@ -51,13 +51,13 @@ extends PAppletHax {
 		_meshIndex = 0;
 		_wireFrame = false;
 		
-		_meshPool.addMesh( "chicken", MeshUtilToxi.meshFromOBJ( p, FileUtil.getHaxademicDataPath() + "models/chicken.obj", 1f ), 50 );
-		_meshPool.addMesh( "library_chair", MeshUtilToxi.meshFromOBJ( p, FileUtil.getHaxademicDataPath() + "models/library-chair.obj", 1f ), 50 );
-		_meshPool.addMesh( "strat.obj", MeshUtilToxi.meshFromOBJ( p, FileUtil.getHaxademicDataPath() + "models/strat.obj", 1f ), 30 );
-		_meshPool.addMesh( "skull.obj", MeshUtilToxi.meshFromOBJ( p, FileUtil.getHaxademicDataPath() + "models/skull.obj", 1f ), 20 );
-		_meshPool.addMesh( "POLY_HOLE_PENT", MeshUtilToxi.meshFromOBJ( p, FileUtil.getHaxademicDataPath() + "models/poly-hole-penta.obj", 1f ), 70f );
-		_meshPool.addMesh( "POLY_HOLE_SQUARE", MeshUtilToxi.meshFromOBJ( p, FileUtil.getHaxademicDataPath() + "models/poly-hole-square.obj", 1f ), 70f );
-		_meshPool.addMesh( "POLY_HOLE_TRI", MeshUtilToxi.meshFromOBJ( p, FileUtil.getHaxademicDataPath() + "models/poly-hole-tri.obj", 1f ), 70f );
+//		_meshPool.addMesh( "chicken", MeshUtilToxi.meshFromOBJ( p, FileUtil.getHaxademicDataPath() + "models/chicken.obj", 1f ), 50 );
+//		_meshPool.addMesh( "library_chair", MeshUtilToxi.meshFromOBJ( p, FileUtil.getHaxademicDataPath() + "models/library-chair.obj", 1f ), 50 );
+//		_meshPool.addMesh( "strat.obj", MeshUtilToxi.meshFromOBJ( p, FileUtil.getHaxademicDataPath() + "models/strat.obj", 1f ), 30 );
+//		_meshPool.addMesh( "skull.obj", MeshUtilToxi.meshFromOBJ( p, FileUtil.getHaxademicDataPath() + "models/skull.obj", 1f ), 20 );
+//		_meshPool.addMesh( "POLY_HOLE_PENT", MeshUtilToxi.meshFromOBJ( p, FileUtil.getHaxademicDataPath() + "models/poly-hole-penta.obj", 1f ), 70f );
+//		_meshPool.addMesh( "POLY_HOLE_SQUARE", MeshUtilToxi.meshFromOBJ( p, FileUtil.getHaxademicDataPath() + "models/poly-hole-square.obj", 1f ), 70f );
+//		_meshPool.addMesh( "POLY_HOLE_TRI", MeshUtilToxi.meshFromOBJ( p, FileUtil.getHaxademicDataPath() + "models/poly-hole-tri.obj", 1f ), 70f );
 
 		_modelIds = _meshPool.getIds();
 		_mesh = _meshPool.getMesh( _modelIds.get( 0 ) );

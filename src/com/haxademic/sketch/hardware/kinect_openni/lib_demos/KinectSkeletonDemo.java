@@ -1,16 +1,19 @@
 package com.haxademic.sketch.hardware.kinect_openni.lib_demos;
 
-import processing.core.PApplet;
-import processing.core.PVector;
-import SimpleOpenNI.SimpleOpenNI;
+import com.haxademic.core.app.PAppletHax;
 
-public class KinectSkeletonDemo extends PApplet {
+import SimpleOpenNI.SimpleOpenNI;
+import processing.core.PVector;
+
+public class KinectSkeletonDemo 
+extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 
 
 	public SimpleOpenNI  context;
 
-	public void setup()
+	public void setupFirstFrame()
 	{
 		// context = new SimpleOpenNI(this);
 		context = new SimpleOpenNI(this,SimpleOpenNI.RUN_MODE_MULTI_THREADED);
@@ -21,17 +24,14 @@ public class KinectSkeletonDemo extends PApplet {
 		// enable skeleton generation for all joints
 		context.enableUser(0);
 
-		background(200,0,0);
 
 		stroke(0,0,255);
 		strokeWeight(3);
-		smooth();
-
-		size(context.depthWidth(), context.depthHeight()); 
 	}
 
-	public void draw()
+	public void drawApp()
 	{
+		background(200,0,0);
 		// update the cam
 		context.update();
 

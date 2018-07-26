@@ -1,11 +1,11 @@
 package com.haxademic.demo.audio.analysis;
 
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.audio.analysis.AudioInputBeads;
-import com.haxademic.core.audio.analysis.AudioInputESS;
-import com.haxademic.core.audio.analysis.AudioInputMinim;
-import com.haxademic.core.audio.analysis.AudioInputProcessingSound;
-import com.haxademic.core.audio.analysis.AudioStreamData;
+import com.haxademic.core.audio.analysis.input.AudioInputBeads;
+import com.haxademic.core.audio.analysis.input.AudioInputESS;
+import com.haxademic.core.audio.analysis.input.AudioInputMinim;
+import com.haxademic.core.audio.analysis.input.AudioInputProcessingSound;
+import com.haxademic.core.audio.analysis.input.AudioStreamData;
 import com.haxademic.core.constants.AppSettings;
 
 import krister.Ess.AudioInput;
@@ -21,14 +21,12 @@ extends PAppletHax { public static void main(String args[]) { PAppletHax.main(Th
 	protected void overridePropsFile() {
 		p.appConfig.setProperty( AppSettings.WIDTH, 600);
 		p.appConfig.setProperty( AppSettings.HEIGHT, 600);
-		p.appConfig.setProperty( AppSettings.INIT_ESS_AUDIO, false);
-		p.appConfig.setProperty( AppSettings.INIT_MINIM_AUDIO, false);
 	}
 
 	public void setupFirstFrame() {
 		audioInputESS = new AudioInputESS();
-//		audioInputMinim = new AudioInputMinim();
-//		audioInputBeads = new AudioInputBeads();
+		audioInputMinim = new AudioInputMinim();
+		audioInputBeads = new AudioInputBeads();
 		// audioInputProcessingSound = new AudioInputProcessingSound();
 	}
 	

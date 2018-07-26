@@ -4,7 +4,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.draw.context.DrawUtil;
-import com.haxademic.core.draw.filters.shaders.VignetteFilter;
+import com.haxademic.core.draw.filters.pshader.VignetteFilter;
 import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.draw.shapes.Shapes;
 import com.haxademic.core.file.DemoAssets;
@@ -58,8 +58,8 @@ extends PAppletHax {
 		boxFloor = p.createGraphics(p.width, p.width, P.P3D);
 		boxCeiling = p.createGraphics(p.width, p.width, P.P3D);
 		
-		stripes = p.loadShader(FileUtil.getFile("shaders/textures/cacheflowe-rotating-stripes.glsl"));
-		twist = p.loadShader(FileUtil.getFile("shaders/textures/cacheflowe-concentric-rectwist.glsl"));
+		stripes = p.loadShader(FileUtil.getFile("haxademic/shaders/textures/cacheflowe-rotating-stripes.glsl"));
+		twist = p.loadShader(FileUtil.getFile("haxademic/shaders/textures/cacheflowe-concentric-rectwist.glsl"));
 		
 		person = DemoAssets.objHumanoid();
 		PShapeUtil.scaleShapeToExtent(person, boxH / 2);

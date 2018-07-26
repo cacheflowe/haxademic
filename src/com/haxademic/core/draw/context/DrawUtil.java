@@ -33,15 +33,6 @@ public class DrawUtil {
 		setDrawCenter(p);
 	}
 
-	public static void setCenter( PApplet p ) {
-		// p.resetMatrix();
-		p.translate( 0, 0, 0 );
-	}
-	public static void setCenter(PGraphics p) {
-		// p.resetMatrix();
-		p.translate( 0, 0, 0 );
-	}
-
 	public static void setCenterScreen( PApplet p ) {
 		// p.resetMatrix();
 		p.translate( p.width/2, p.height/2, 0 );
@@ -146,6 +137,15 @@ public class DrawUtil {
 			pg.textureWrap(Texture.CLAMP);
 	}
 	
+	public static void basicCameraFromMouse(PGraphics pg) {
+		basicCameraFromMouse(pg, 1f);
+	}
+	
+	public static void basicCameraFromMouse(PGraphics pg, float amp) {
+		pg.rotateX(P.map(P.p.mousePercentY(), 0, 1, P.PI * amp, -P.PI * amp));
+		pg.rotateY(P.map(P.p.mousePercentX(), 0, 1, -P.PI * amp, P.PI * amp));
+	}
+	
 	public static void fadeInOut(PGraphics pg, int color, int startFrame, int stopFrame, int transitionFrames) {
 		int frames = stopFrame - startFrame;
 		DrawUtil.setDrawCorner(pg);
@@ -160,6 +160,10 @@ public class DrawUtil {
 	
 	// only works properly on PGraphics buffers
 	// feedback distance should only be even numbers
+	public static void feedback(PGraphics pg, float feedbackDistance) {
+		feedback(pg, -1, -1, feedbackDistance);
+	}
+	
 	public static void feedback(PGraphics pg, int color, float colorFade, float feedbackDistance) {
 		DrawUtil.setDrawCorner(pg);
 		DrawUtil.setDrawFlat2d(pg, true);

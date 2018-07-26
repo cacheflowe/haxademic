@@ -7,6 +7,7 @@ import controlP5.ControlEvent;
 import controlP5.ControlP5;
 import controlP5.Toggle;
 import ddf.minim.AudioOutput;
+import ddf.minim.Minim;
 import ddf.minim.ugens.Instrument;
 import ddf.minim.ugens.Sampler;
 
@@ -15,7 +16,8 @@ extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
 	// from: // https://github.com/ddf/Minim/blob/master/examples/Advanced/DrumMachine/DrumMachine.pde
-	
+	Minim minim;
+
 	Sampler     kick;
 	Sampler     snare;
 	Sampler     hat;
@@ -62,8 +64,8 @@ extends PAppletHax {
 	}
 
 
-	public void setup() {
-		super.setup();
+	public void setupFirstFrame() {
+		minim = new Minim(this);
 		
 //		_kick = p.minim.loadFile( FileUtil.getHaxademicDataPath() + "audio/kit808/kick.wav", 1024 );
 //		_snare = p.minim.loadFile( FileUtil.getHaxademicDataPath() + "audio/kit808/snare.wav", 1024 );
@@ -79,14 +81,14 @@ extends PAppletHax {
 //		_beats.add( new BeatSquare(2 * drumPadW, 2 * drumPadH, drumPadW, drumPadH, _colors.getColorFromGroup(2,2), "data/audio/drums/chirp-18.wav") );
 //		_beats.add( new BeatSquare(3 * drumPadW, 2 * drumPadH, drumPadW, drumPadH, _colors.getColorFromGroup(2,3), "data/audio/drums/janet-stab.wav") );
 
-		  out   = p.audioIn.minim().getLineOut();
+		  out   = minim.getLineOut();
 		  
 		  // load all of our samples, using 4 voices for each.
 		  // this will help ensure we have enough voices to handle even
 		  // very fast tempos.
-		  kick  = new Sampler( FileUtil.getHaxademicDataPath() + "audio/kit808/kick.wav", 4, p.audioIn.minim() );
-		  snare = new Sampler( FileUtil.getHaxademicDataPath() + "audio/kit808/snare.wav", 4, p.audioIn.minim() );
-		  hat   = new Sampler( FileUtil.getHaxademicDataPath() + "audio/kit808/hi-hat.wav", 4, p.audioIn.minim() );
+		  kick  = new Sampler( FileUtil.getHaxademicDataPath() + "audio/kit808/kick.wav", 4, minim );
+		  snare = new Sampler( FileUtil.getHaxademicDataPath() + "audio/kit808/snare.wav", 4, minim );
+		  hat   = new Sampler( FileUtil.getHaxademicDataPath() + "audio/kit808/hi-hat.wav", 4, minim );
 		  
 		  // patch samplers to the output
 		  kick.patch( out );

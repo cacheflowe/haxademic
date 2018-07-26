@@ -2,11 +2,9 @@ package com.haxademic.app.haxvisual.viz.elements;
 
 import com.haxademic.app.haxvisual.viz.ElementBase;
 import com.haxademic.app.haxvisual.viz.IVizElement;
-import com.haxademic.core.audio.AudioInputWrapper;
+import com.haxademic.core.app.P;
 import com.haxademic.core.draw.color.ColorGroup;
 import com.haxademic.core.draw.context.DrawUtil;
-import com.haxademic.core.draw.toxi.DrawMesh;
-import com.haxademic.core.draw.toxi.ThreeDeeUtil;
 import com.haxademic.core.math.MathUtil;
 
 import processing.core.PApplet;
@@ -40,8 +38,8 @@ implements IVizElement {
 	protected PVector _rotation = new PVector( 0, 0, 0 );
 	protected PVector _rotationTarget = new PVector( 0, 0, 0 );
 
-	public SphericalHarmonicsOscillator( PApplet p, ToxiclibsSupport toxi, AudioInputWrapper audioData ) {
-		super( p, toxi, audioData );
+	public SphericalHarmonicsOscillator( PApplet p, ToxiclibsSupport toxi ) {
+		super( p, toxi );
 		init();
 	}
 
@@ -60,13 +58,12 @@ implements IVizElement {
 	
 	public void update() {
 		DrawUtil.resetGlobalProps( p );
-		DrawUtil.setCenter( p );
 		p.pushMatrix();
 		p.translate( 0, 0, -550 );
 		
 		updateRotation();
 		
-		_targetAudioIndexVal = _audioData.getFFT().spectrum[200] * 9;
+		_targetAudioIndexVal = P.p.audioFreq(200) * 9;
 		_audioIndexVal = MathUtil.easeTo( _audioIndexVal, _targetAudioIndexVal, 4 );
 		
 		// cycle through harmonics, with one index responding to audio EQ and another responding to frameCount oscillation 
@@ -95,9 +92,9 @@ implements IVizElement {
 		p.stroke( _baseColor.toARGB(), _baseColor.alpha );
 		
 		if( _isPoints == true ) {
-			DrawMesh.drawPointsWithAudio( p, ThreeDeeUtil.GetWETriangleMeshFromTriangleMesh(mesh), _audioData, _colorGradientDivider, 15, _baseColor, _strokeColor, 0.3f );
+//			DrawMesh.drawPointsWithAudio( p, ThreeDeeUtil.GetWETriangleMeshFromTriangleMesh(mesh), _audioData, _colorGradientDivider, 15, _baseColor, _strokeColor, 0.3f );
 		} else {
-			DrawMesh.drawMeshWithAudio( p, ThreeDeeUtil.GetWETriangleMeshFromTriangleMesh(mesh), _audioData, _isWireframe, _baseColor, _strokeColor, 0.1f );
+//			DrawMesh.drawMeshWithAudio( p, ThreeDeeUtil.GetWETriangleMeshFromTriangleMesh(mesh), _audioData, _isWireframe, _baseColor, _strokeColor, 0.1f );
 		}
 		
 		p.popMatrix();
@@ -155,6 +152,5 @@ implements IVizElement {
 	}
 
 	public void dispose() {
-		_audioData = null;
 	}
 }

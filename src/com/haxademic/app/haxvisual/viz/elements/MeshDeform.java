@@ -3,13 +3,9 @@ package com.haxademic.app.haxvisual.viz.elements;
 import com.haxademic.app.haxvisual.viz.ElementBase;
 import com.haxademic.app.haxvisual.viz.IVizElement;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.audio.AudioInputWrapper;
 import com.haxademic.core.draw.color.ColorGroup;
 import com.haxademic.core.draw.context.DrawUtil;
-import com.haxademic.core.draw.toxi.DrawMesh;
 import com.haxademic.core.draw.toxi.MeshPool;
-import com.haxademic.core.draw.toxi.MeshUtilToxi;
-import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.MathUtil;
 
 import processing.core.PVector;
@@ -35,8 +31,8 @@ implements IVizElement {
 	protected PVector _rotation = new PVector( 0, 0, 0 );
 	protected PVector _rotationTarget = new PVector( 0, 0, 0 );
 
-	public MeshDeform( PAppletHax p, ToxiclibsSupport toxi, AudioInputWrapper audioData ) {
-		super( p, toxi, audioData );
+	public MeshDeform( PAppletHax p, ToxiclibsSupport toxi ) {
+		super( p, toxi );
 		init();
 	}
 
@@ -50,14 +46,14 @@ implements IVizElement {
 //		_meshPool.addMesh( "INVADER", MeshUtil.meshFromOBJ( p, FileUtil.getHaxademicDataPath() + "models/invader.obj", 1f ), 45 * scaleMult );
 //		_meshPool.addMesh( "LEGO_MAN", MeshUtil.meshFromOBJ( p, FileUtil.getHaxademicDataPath() + "models/lego-man.obj", 1f ), 30 * scaleMult );
 		
-		_meshPool.addMesh( "DISCOVERY", MeshUtilToxi.meshFromOBJ( p, FileUtil.getHaxademicDataPath() + "models/the-discovery-multiplied-seied.obj", 1f ), 900 * scaleMult );
-		_meshPool.addMesh( "TOPSECRET", MeshUtilToxi.meshFromOBJ( p, FileUtil.getHaxademicDataPath() + "models/topsecret-seied.obj", 1f ), 400 * scaleMult );
-		_meshPool.addMesh( "SKULL", MeshUtilToxi.meshFromOBJ( p, FileUtil.getHaxademicDataPath() + "models/skull.obj", 1f ), 50 * scaleMult );
+//		_meshPool.addMesh( "DISCOVERY", MeshUtilToxi.meshFromOBJ( p, FileUtil.getHaxademicDataPath() + "models/the-discovery-multiplied-seied.obj", 1f ), 900 * scaleMult );
+//		_meshPool.addMesh( "TOPSECRET", MeshUtilToxi.meshFromOBJ( p, FileUtil.getHaxademicDataPath() + "models/topsecret-seied.obj", 1f ), 400 * scaleMult );
+//		_meshPool.addMesh( "SKULL", MeshUtilToxi.meshFromOBJ( p, FileUtil.getHaxademicDataPath() + "models/skull.obj", 1f ), 50 * scaleMult );
 //		_meshPool.addMesh( "MODE_SET", MeshUtil.meshFromOBJ( p, FileUtil.getHaxademicDataPath() + "models/mode-set.obj", 1f ), 250 * scaleMult );
 		
-		_meshPool.addMesh( "POLY_HOLE_PENT", MeshUtilToxi.meshFromOBJ( p, FileUtil.getHaxademicDataPath() + "models/poly-hole-penta.obj", 1f ), 70f * scaleMult );
-		_meshPool.addMesh( "POLY_HOLE_SQUARE", MeshUtilToxi.meshFromOBJ( p, FileUtil.getHaxademicDataPath() + "models/poly-hole-square.obj", 1f ), 70f * scaleMult );
-		_meshPool.addMesh( "POLY_HOLE_TRI", MeshUtilToxi.meshFromOBJ( p, FileUtil.getHaxademicDataPath() + "models/poly-hole-tri.obj", 1f ), 70f * scaleMult );
+//		_meshPool.addMesh( "POLY_HOLE_PENT", MeshUtilToxi.meshFromOBJ( p, FileUtil.getHaxademicDataPath() + "models/poly-hole-penta.obj", 1f ), 70f * scaleMult );
+//		_meshPool.addMesh( "POLY_HOLE_SQUARE", MeshUtilToxi.meshFromOBJ( p, FileUtil.getHaxademicDataPath() + "models/poly-hole-square.obj", 1f ), 70f * scaleMult );
+//		_meshPool.addMesh( "POLY_HOLE_TRI", MeshUtilToxi.meshFromOBJ( p, FileUtil.getHaxademicDataPath() + "models/poly-hole-tri.obj", 1f ), 70f * scaleMult );
 
 		
 		
@@ -93,7 +89,6 @@ implements IVizElement {
 
 	public void update() {
 		DrawUtil.resetGlobalProps( p );
-		DrawUtil.setCenter( p );
 		p.pushMatrix();
 
 		p.translate( 0, 0, -600 );
@@ -114,8 +109,8 @@ implements IVizElement {
 
 		// deform and draw mesh
 		if( _curMesh != null && _curMeshDeformed != null ) {
-			MeshUtilToxi.deformMeshWithAudio( _curMesh, _curMeshDeformed, _audioData, 1f );
-			DrawMesh.drawMeshWithAudio( p, _curMeshDeformed, _audioData, _isWireframe, _baseColor, _strokeColor, 0.1f );
+//			MeshUtilToxi.deformMeshWithAudio( _curMesh, _curMeshDeformed, _audioData, 1f );
+//			DrawMesh.drawMeshWithAudio( p, _curMeshDeformed, _audioData, _isWireframe, _baseColor, _strokeColor, 0.1f );
 		}
 		
 		p.popMatrix();
@@ -162,6 +157,5 @@ implements IVizElement {
 	}
 
 	public void dispose() {
-		_audioData = null;
 	}
 }

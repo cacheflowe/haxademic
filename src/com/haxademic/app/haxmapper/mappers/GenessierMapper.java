@@ -8,9 +8,9 @@ import processing.core.PApplet;
 import com.haxademic.app.haxmapper.HaxMapper;
 import com.haxademic.app.haxmapper.distribution.MappingGroup;
 import com.haxademic.app.haxmapper.polygons.IMappedPolygon;
-import com.haxademic.app.haxmapper.textures.TextureEQColumns;
-import com.haxademic.app.haxmapper.textures.TextureEQGrid;
-import com.haxademic.app.haxmapper.textures.TextureVideoPlayer;
+import com.haxademic.core.draw.textures.pgraphics.TextureEQColumns;
+import com.haxademic.core.draw.textures.pgraphics.TextureEQGrid;
+import com.haxademic.core.draw.textures.pgraphics.TextureVideoPlayer;
 import com.haxademic.core.file.FileUtil;
 
 public class GenessierMapper

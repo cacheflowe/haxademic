@@ -1,19 +1,18 @@
 package com.haxademic.app.haxvisual.viz.elements;
 
-import processing.core.PApplet;
-import toxi.color.TColor;
-import toxi.processing.ToxiclibsSupport;
-
 import com.haxademic.app.haxvisual.viz.ElementBase;
 import com.haxademic.app.haxvisual.viz.IVizElement;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.audio.AudioInputWrapper;
 import com.haxademic.core.draw.color.ColorGroup;
 import com.haxademic.core.draw.context.DrawUtil;
-import com.haxademic.core.draw.filters.PixelFilter;
+import com.haxademic.core.draw.filters.pgraphics.PixelFilter;
 import com.haxademic.core.hardware.kinect.IKinectWrapper;
 import com.haxademic.core.hardware.kinect.KinectSize;
+
+import processing.core.PApplet;
+import toxi.color.TColor;
+import toxi.processing.ToxiclibsSupport;
 
 public class KinectMesh
 extends ElementBase 
@@ -40,8 +39,8 @@ implements IVizElement {
 	
 	protected PAppletHax pHax;
 	
-	public KinectMesh( PApplet p, ToxiclibsSupport toxi, AudioInputWrapper audioData, IKinectWrapper kinectWrapper ) {
-		super( p, toxi, audioData );
+	public KinectMesh( PApplet p, ToxiclibsSupport toxi, IKinectWrapper kinectWrapper ) {
+		super( p, toxi );
 		pHax = (PAppletHax) p;
 		_pixelFilter = new PixelFilter(KinectSize.WIDTH, KinectSize.WIDTH, (int)PIXEL_SIZE);
 		init();
@@ -112,7 +111,6 @@ implements IVizElement {
 
 
 	public void dispose() {
-		_audioData = null;
 	}
 
 }

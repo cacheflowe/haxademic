@@ -3,11 +3,11 @@ package com.haxademic.sketch.shader;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
-import com.haxademic.core.draw.filters.shaders.BadTVLinesFilter;
-import com.haxademic.core.draw.filters.shaders.ColorizeTwoColorsFilter;
-import com.haxademic.core.draw.filters.shaders.KaleidoFilter;
-import com.haxademic.core.draw.filters.shaders.MirrorFilter;
-import com.haxademic.core.draw.filters.shaders.RotateFilter;
+import com.haxademic.core.draw.filters.pshader.BadTVLinesFilter;
+import com.haxademic.core.draw.filters.pshader.ColorizeTwoColorsFilter;
+import com.haxademic.core.draw.filters.pshader.KaleidoFilter;
+import com.haxademic.core.draw.filters.pshader.MirrorFilter;
+import com.haxademic.core.draw.filters.pshader.RotateFilter;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.EasingFloat;
@@ -41,9 +41,9 @@ extends PAppletHax {
 	public void setup() {
 		super.setup();
 		
-		_textureShaderFile = FileUtil.getHaxademicDataPath() + "shaders/textures/bw-clouds.glsl";
+		_textureShaderFile = FileUtil.getHaxademicDataPath() + "haxademic/shaders/textures/bw-clouds.glsl";
 		_textureShader = p.loadShader( _textureShaderFile );
-		_postFilter = p.loadShader( FileUtil.getFile("shaders/filters/escher-repeat.glsl"));
+		_postFilter = p.loadShader( FileUtil.getFile("haxademic/shaders/filters/escher-repeat.glsl"));
 		
 		_buffer = createGraphics( width,  height, P2D );
 	}
@@ -138,7 +138,7 @@ extends PAppletHax {
 		ColorizeTwoColorsFilter.instance(p).applyTo(filterTargetCanvas);
 		
 		filterTargetCanvas.textureWrap(Texture.REPEAT);
-		RotateFilter.instance(p).setAspect(filterTargetCanvas.width, filterTargetCanvas.height);
+//		RotateFilter.instance(p).setAspect(filterTargetCanvas.width, filterTargetCanvas.height);
 		RotateFilter.instance(p).setRotation(p.frameCount * 0.01f);
 		RotateFilter.instance(p).setZoom(1f + 0.25f * P.sin(p.frameCount * 0.01f));
 		RotateFilter.instance(p).setOffset(0.5f * P.cos(P.PI + p.frameCount * 0.01f), 0.5f * P.sin(p.frameCount * -0.01f));
@@ -180,7 +180,7 @@ extends PAppletHax {
 
 	
 			
-	public static final String FILTER_TEXTURE_TUNNEL = "shaders/textures/to-convert/bw-checker-tunnel.glsl";
+	public static final String FILTER_TEXTURE_TUNNEL = "haxademic/shaders/textures/to-convert/bw-checker-tunnel.glsl";
 	public void updateTestureTunnelFilter( PShader shader ) {
 		shader.set("time", _timeEaseInc);
 		shader.set("texture", _buffer);
@@ -188,7 +188,7 @@ extends PAppletHax {
 			
 	// TEXTURES =====================================================================
 
-	public static final String TEXTURE_BW_EYE_JACKER_01 = "shaders/textures/bw-eye-jacker-01.glsl";
+	public static final String TEXTURE_BW_EYE_JACKER_01 = "haxademic/shaders/textures/bw-eye-jacker-01.glsl";
 	public void updateBwEyeJacker01( PShader shader ) {
 		shader.set("time", millis() / 1000.0f);
 		shader.set("mode", 2);

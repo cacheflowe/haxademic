@@ -5,12 +5,10 @@ import java.lang.management.ManagementFactory;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.file.FileUtil;
-import com.sun.javafx.binding.StringFormatter;
 
 import processing.core.PApplet;
 import processing.core.PConstants;
 import processing.core.PImage;
-import sun.misc.Regexp;
 
 public class AppUtil {
 	

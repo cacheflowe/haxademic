@@ -11,6 +11,7 @@ import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.text.CustomFontText2D;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.kinect.KinectRegionGrid;
+import com.haxademic.core.hardware.kinect.KinectSilhouetteVectorField;
 
 import processing.core.PGraphics;
 import processing.core.PImage;
@@ -46,7 +47,6 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.FILLS_SCREEN, "true" );
 		p.appConfig.setProperty( AppSettings.FULLSCREEN, "true" );
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
-		p.appConfig.setProperty( AppSettings.HIDE_CURSOR, "true" );
 		p.appConfig.setProperty( "force_foreground", "false" );
 
 		p.appConfig.setProperty( AppSettings.KINECT_ACTIVE, "true" );

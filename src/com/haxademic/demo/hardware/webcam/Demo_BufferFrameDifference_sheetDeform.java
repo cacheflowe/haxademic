@@ -3,13 +3,14 @@ package com.haxademic.demo.hardware.webcam;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.constants.PRenderers;
-import com.haxademic.core.draw.filters.shaders.BlurHFilter;
-import com.haxademic.core.draw.filters.shaders.BlurVFilter;
+import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.filters.pshader.BlurHFilter;
+import com.haxademic.core.draw.filters.pshader.BlurVFilter;
 import com.haxademic.core.draw.image.BufferFrameDifference;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.shapes.Shapes;
+import com.haxademic.core.draw.shapes.pshader.MeshDeformAndTextureFilter;
 import com.haxademic.core.file.DemoAssets;
-import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.webcam.IWebCamCallback;
 
 import processing.core.PImage;
@@ -36,14 +37,8 @@ implements IWebCamCallback {
 	protected void setupFirstFrame() {
 		// build sheet mesh
 		texture = DemoAssets.squareTexture();
-		shape = Shapes.createSheet(200, texture);
+		shape = Shapes.createSheet(250, texture);
 		shape.setTexture(texture);
-		
-		// load shader
-		displacementShader = loadShader(
-			FileUtil.getFile("shaders/vertex/brightness-displace-frag-texture.glsl"), 
-			FileUtil.getFile("shaders/vertex/brightness-displace-sheet-vert.glsl")
-		);
 		
 		// webcam callback
 		p.webCamWrapper.setDelegate(this);
@@ -55,8 +50,8 @@ implements IWebCamCallback {
 		// lazy init frame difference object
 		if(bufferFrameDifference == null) {
 			bufferFrameDifference = new BufferFrameDifference(frame.width, frame.height);
-			bufferFrameDifference.diffThresh(0.1f);
-			bufferFrameDifference.falloffBW(0.08f);
+			bufferFrameDifference.diffThresh(0.15f);
+			bufferFrameDifference.falloffBW(0.18f);
 			textureFlipped = p.createGraphics(frame.width, frame.height, PRenderers.P2D);
 		}
 		
@@ -78,15 +73,21 @@ implements IWebCamCallback {
 	}
 
 	public void drawApp() {
+		// set context
 		p.background(0);
+		DrawUtil.setCenterScreen(p);
 		
 		// update shader & draw mesh
 		if(bufferFrameDifference != null) {
-			shape.setTexture(textureFlipped);	// set texture to webcam
-			displacementShader.set("displacementMap", bufferFrameDifference.differenceBuffer());
-			displacementShader.set("displaceStrength", 300f);
-			p.shader(displacementShader);  
-			p.translate(p.width/2f, p.height/2f, -100);
+			// deform mesh
+			MeshDeformAndTextureFilter.instance(p).setDisplacementMap(bufferFrameDifference.differenceBuffer());
+			MeshDeformAndTextureFilter.instance(p).setDisplaceAmp(300f);
+			MeshDeformAndTextureFilter.instance(p).setSheetMode(true);
+			MeshDeformAndTextureFilter.instance(p).applyTo(p);
+			// set texture using PShape method
+			shape.setTexture(textureFlipped);
+
+			// draw shape
 			p.shape(shape);
 			p.resetShader();
 		}

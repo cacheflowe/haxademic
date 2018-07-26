@@ -6,12 +6,12 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.draw.context.DrawUtil;
-import com.haxademic.core.draw.filters.BlobOuterMeshFilter;
-import com.haxademic.core.draw.filters.Cluster8BitRow;
-import com.haxademic.core.draw.filters.ImageHistogramFilter;
-import com.haxademic.core.draw.filters.PixelFilter;
-import com.haxademic.core.draw.filters.PixelTriFilter;
-import com.haxademic.core.draw.filters.ReflectionFilter;
+import com.haxademic.core.draw.filters.pgraphics.BlobOuterMeshFilter;
+import com.haxademic.core.draw.filters.pgraphics.Cluster8BitRow;
+import com.haxademic.core.draw.filters.pgraphics.ImageHistogramFilter;
+import com.haxademic.core.draw.filters.pgraphics.PixelFilter;
+import com.haxademic.core.draw.filters.pgraphics.PixelTriFilter;
+import com.haxademic.core.draw.filters.pgraphics.ReflectionFilter;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.webcam.WebCamWrapper;
@@ -64,7 +64,7 @@ extends PAppletHax {
 		int w = 680;
 		int h = 680;
 		
-//		blur = loadShader( FileUtil.getHaxademicDataPath()+"shaders/blur.glsl" ); 
+//		blur = loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/blur.glsl" ); 
 		
 		switch( inputType ) {
 			case VIDEO :

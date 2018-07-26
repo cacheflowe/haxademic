@@ -3,15 +3,15 @@ package com.haxademic.demo.draw.color;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
-import com.haxademic.core.draw.color.ColorHaxEasing;
+import com.haxademic.core.draw.color.EasingColor;
 import com.haxademic.core.draw.color.Gradients;
 
 public class Demo_Gradients_Radial
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
-	protected ColorHaxEasing _colorGradientCenter;
-	protected ColorHaxEasing _colorGradientOuter;
+	protected EasingColor _colorGradientCenter;
+	protected EasingColor _colorGradientOuter;
 	
 	protected float _frames = 120;
 	
@@ -30,8 +30,8 @@ extends PAppletHax {
 
 	public void setup() {
 		super.setup();	
-		_colorGradientCenter = new ColorHaxEasing("#000000", 20f);
-		_colorGradientOuter = new ColorHaxEasing("#000000", 20f);
+		_colorGradientCenter = new EasingColor("#000000", 20f);
+		_colorGradientOuter = new EasingColor("#000000", 20f);
 	}
 
 	public void drawApp() {
@@ -40,9 +40,9 @@ extends PAppletHax {
 		// rendering
 		float percentComplete = ((float)(p.frameCount%_frames)/_frames);
 		
-		_colorGradientCenter.setTargetColorInt( p.color(127f + 127f * P.sin(P.TWO_PI/0.25f * percentComplete), 127f + 127f * P.sin(P.TWO_PI/0.75f * percentComplete), 127f + 127f * P.sin(P.TWO_PI/0.5f * percentComplete)) );
+		_colorGradientCenter.setTargetInt( p.color(127f + 127f * P.sin(P.TWO_PI/0.25f * percentComplete), 127f + 127f * P.sin(P.TWO_PI/0.75f * percentComplete), 127f + 127f * P.sin(P.TWO_PI/0.5f * percentComplete)) );
 		_colorGradientCenter.update();
-		_colorGradientOuter.setTargetColorInt( p.color(127f + 127f * P.sin(P.TWO_PI/0.5f * percentComplete), 127f + 127f * P.sin(P.TWO_PI/0.25f * percentComplete), 127f + 127f * P.sin(P.TWO_PI/0.75f * percentComplete)) );
+		_colorGradientOuter.setTargetInt( p.color(127f + 127f * P.sin(P.TWO_PI/0.5f * percentComplete), 127f + 127f * P.sin(P.TWO_PI/0.25f * percentComplete), 127f + 127f * P.sin(P.TWO_PI/0.75f * percentComplete)) );
 		_colorGradientOuter.update();
 
 		// endless cycle

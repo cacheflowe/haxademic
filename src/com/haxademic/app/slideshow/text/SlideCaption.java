@@ -3,7 +3,7 @@ package com.haxademic.app.slideshow.text;
 import com.haxademic.app.slideshow.Slideshow;
 import com.haxademic.app.slideshow.slides.SlideshowState;
 import com.haxademic.core.app.P;
-import com.haxademic.core.data.store.IAppStoreUpdatable;
+import com.haxademic.core.data.store.IAppStoreListener;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.easing.LinearFloat;
@@ -13,7 +13,7 @@ import processing.core.PFont;
 import processing.core.PGraphics;
 
 public class SlideCaption
-implements IAppStoreUpdatable {
+implements IAppStoreListener {
 
 	protected String caption = null;
 	protected String captionQueued = null;
@@ -29,7 +29,7 @@ implements IAppStoreUpdatable {
 		height = P.round(p.height * 0.07f);
 		fontSize = height * 0.5f;
 		textOffsetY = height * 0.1f;
-		font = P.p.createFont( FileUtil.getFile("fonts/CenturyGothic.ttf"), fontSize );
+		font = P.p.createFont( FileUtil.getFile("haxademic/fonts/Raleway-Regular.ttf"), fontSize );
 	}
 	
 	protected boolean isShowing() {
@@ -87,7 +87,7 @@ implements IAppStoreUpdatable {
 	}
 
 	@Override
-	public void updatedAppStoreValue(String storeKey, Number val) {
+	public void updatedNumber(String storeKey, Number val) {
 		if(storeKey == SlideshowState.SLIDE_INDEX.id()) {
 			int slideIndex = val.intValue();
 			if(slideIndex >= 0 && slideIndex < p.slides().size()) {
@@ -99,7 +99,13 @@ implements IAppStoreUpdatable {
 	}
 
 	@Override
-	public void updatedAppStoreValue(String key, String val) {
+	public void updatedString(String key, String val) {
+		// TODO Auto-generated method stub
+		
+	}
+	
+	@Override
+	public void updatedBoolean(String key, Boolean val) {
 		// TODO Auto-generated method stub
 		
 	}

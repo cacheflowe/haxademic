@@ -6,16 +6,20 @@ import java.io.IOException;
 
 import javax.sound.midi.InvalidMidiDataException;
 
-import com.haxademic.core.audio.AudioInputWrapper;
-import com.haxademic.core.audio.AudioInputWrapperMinim;
-import com.haxademic.core.audio.WaveformData;
+import com.haxademic.core.audio.analysis.input.AudioInputBeads;
+import com.haxademic.core.audio.analysis.input.AudioInputESS;
+import com.haxademic.core.audio.analysis.input.AudioInputMinim;
+import com.haxademic.core.audio.analysis.input.AudioStreamData;
+import com.haxademic.core.audio.analysis.input.IAudioInput;
 import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.constants.PRenderers;
+import com.haxademic.core.data.store.AppStore;
 import com.haxademic.core.debug.DebugUtil;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.debug.Stats;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.context.OpenGLUtil;
+import com.haxademic.core.draw.image.MovieBuffer;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.browser.BrowserInputState;
 import com.haxademic.core.hardware.keyboard.KeyboardState;
@@ -37,10 +41,13 @@ import com.haxademic.core.system.JavaInfo;
 import com.haxademic.core.system.P5Properties;
 import com.haxademic.core.system.SecondScreenViewer;
 import com.haxademic.core.system.SystemUtil;
+import com.haxademic.core.ui.PrefsSliders;
 
 import de.voidplus.leapmotion.LeapMotion;
 import krister.Ess.AudioInput;
 import processing.core.PApplet;
+import processing.core.PGraphics;
+import processing.core.PSurface;
 import processing.opengl.PJOGL;
 import processing.video.Movie;
 import themidibus.MidiBus;
@@ -74,16 +81,16 @@ extends PApplet
 
 	// app
 	protected static PAppletHax p;				// Global/static ref to PApplet - any audio-reactive object should be passed this reference, or grabbed from this static ref.
+	public PGraphics pg;							// Offscreen buffer that matches the app size
 	public P5Properties appConfig;				// Loads the project .properties file to configure several app properties externally.
 	protected String customPropsFile = null;		// Loads an app-specific project .properties file.
 	protected String renderer; 					// The current rendering engine
 	protected Robot _robot;
 
 	// audio
-	public AudioInputWrapper _audioInput;
-	public AudioInputWrapperMinim audioIn;
-	public WaveformData _waveformData;
-	public WaveformData _waveformDataMinim;
+	public IAudioInput audioInput;
+	public AudioStreamData audioData = new AudioStreamData();
+	public PGraphics audioInputDebugBuffer;
 
 	// rendering
 	public Renderer movieRenderer;
@@ -113,26 +120,17 @@ extends PApplet
 	public Stats _stats;
 	public boolean showDebug = false;
 	public DebugView debugView;
+	public PrefsSliders prefsSliders;
 	public SecondScreenViewer appViewerWindow;
 	
-	// performance fix
-	protected long timestamp = 0;
-	protected int elapsedTime = 0;
-
 	////////////////////////
 	// INIT
 	////////////////////////
 	
-	protected void checkElapsedTime(String label) {
-		elapsedTime = Math.round(System.currentTimeMillis() - timestamp); 
-		timestamp = System.currentTimeMillis(); 
-		P.println(label, ": ", elapsedTime);
-	}
-	
 	public void settings() {
 		P.p = p = this;
-		timestamp = System.currentTimeMillis();
-		AppUtil.setFrameBackground(p,0,0,0);
+		P.store = AppStore.instance();
+		AppUtil.setFrameBackground(p,0,255,0);
 		loadAppConfig();
 		overridePropsFile();
 		setAppIcon();
@@ -152,11 +150,17 @@ extends PApplet
 		PJOGL.setIcon(FileUtil.getFile(appIconFile));
 	}
 	
-	public void setup () {
+	public void setup() {
 		if(customPropsFile != null) DebugUtil.printErr("Make sure to load custom .properties files in settings()");
 		setAppletProps();
 		checkScreenManualPosition();
-		if(renderer != PRenderers.PDF) debugView = new DebugView( p );
+		if(renderer != PRenderers.PDF) {
+			debugView = new DebugView( p );
+			prefsSliders = new PrefsSliders();
+			if(p.appConfig.getBoolean(AppSettings.SHOW_SLIDERS, false) == true) {
+				prefsSliders.active(!prefsSliders.active());
+			}
+		}
 		_stats = new Stats( p );
 	}
 	
@@ -216,10 +220,6 @@ extends PApplet
 			surface.setSize(p.appConfig.getInt(AppSettings.WIDTH, 800), p.appConfig.getInt(AppSettings.HEIGHT, 600));
 			surface.setLocation(p.appConfig.getInt("screen_x", 0), p.appConfig.getInt("screen_y", 0));  // location has to happen after size, to break it out of fullscreen
 		}
-		// check for always on top
-		if(isFullscreen == true) {
-			surface.setAlwaysOnTop(p.appConfig.getBoolean(AppSettings.ALWAYS_ON_TOP, true));
-		}
 	}
 
 	////////////////////////
@@ -232,24 +232,20 @@ extends PApplet
 		_isRenderingAudio = p.appConfig.getBoolean(AppSettings.RENDER_AUDIO, false);
 		_isRenderingMidi = p.appConfig.getBoolean(AppSettings.RENDER_MIDI, false);
 		_fps = p.appConfig.getInt(AppSettings.FPS, 60);
-		p.showDebug = p.appConfig.getBoolean(AppSettings.SHOW_DEBUG, false);
 		if(p.appConfig.getInt(AppSettings.FPS, 60) != 60) frameRate(_fps);
-		if(p.appConfig.getBoolean(AppSettings.HIDE_CURSOR, false) == true ) p.noCursor();
+		p.showDebug = p.appConfig.getBoolean(AppSettings.SHOW_DEBUG, false);
 	}
 	
 	protected void initHaxademicObjects() {
+		// create offscreen buffer
+		pg = p.createGraphics(p.width, p.height, P.P3D);
+		DrawUtil.setTextureRepeat(pg, true);
+		// audio input
+		initAudioInput();
+		// animation loop
 		if(p.appConfig.getFloat(AppSettings.LOOP_FRAMES, 0) != 0) loop = new AnimationLoop(p.appConfig.getFloat(AppSettings.LOOP_FRAMES, 0));
 		// save single reference for other objects
 		if( appConfig.getInt(AppSettings.WEBCAM_INDEX, -1) >= 0 ) webCamWrapper = new WebCamWrapper(appConfig.getInt(AppSettings.WEBCAM_INDEX, -1), appConfig.getBoolean(AppSettings.WEBCAM_THREADED, true));
-		if( appConfig.getBoolean(AppSettings.INIT_ESS_AUDIO, true) == true ) {
-			_audioInput = new AudioInputWrapper( p, _isRenderingAudio );
-			_waveformData = new WaveformData( p, _audioInput.bufferSize() );
-			if(appConfig.getBoolean(AppSettings.AUDIO_DEBUG, false) == true) JavaInfo.debugInfo();
-		}
-		if( appConfig.getBoolean(AppSettings.INIT_MINIM_AUDIO, true) == true ) {
-			audioIn = new AudioInputWrapperMinim( p, _isRenderingAudio );
-			_waveformDataMinim = new WaveformData( p, audioIn.bufferSize() );
-		}
 		movieRenderer = new Renderer( p, _fps, Renderer.OUTPUT_TYPE_MOVIE, p.appConfig.getString( "render_output_dir", FileUtil.getHaxademicOutputPath() ) );
 		if(appConfig.getBoolean(AppSettings.RENDERING_GIF, false) == true) {
 			_gifRenderer = new GifRenderer(appConfig.getInt(AppSettings.RENDERING_GIF_FRAMERATE, 45), appConfig.getInt(AppSettings.RENDERING_GIF_QUALITY, 15));
@@ -287,6 +283,33 @@ extends PApplet
 				: null;
 		try { _robot = new Robot(); } catch( Exception error ) { println("couldn't init Robot for screensaver disabling"); }
 		if(p.appConfig.getBoolean(AppSettings.APP_VIEWER_WINDOW, false) == true) appViewerWindow = new SecondScreenViewer(p.g, p.appConfig.getFloat(AppSettings.APP_VIEWER_SCALE, 0.5f));
+		// check for always on top
+		boolean isFullscreen = p.appConfig.getBoolean(AppSettings.FULLSCREEN, false);
+		if(isFullscreen == true) {
+			if(p.appConfig.getBoolean(AppSettings.ALWAYS_ON_TOP, true)) surface.setAlwaysOnTop(true);
+		}
+	}
+	
+	protected void initAudioInput() {
+		if(appConfig.getBoolean(AppSettings.AUDIO_DEBUG, false) == true) JavaInfo.debugInfo();
+		if( appConfig.getBoolean(AppSettings.INIT_MINIM_AUDIO, false) == true ) {
+			audioInput = new AudioInputMinim();
+		} else if( appConfig.getBoolean(AppSettings.INIT_BEADS_AUDIO, false) == true ) {
+			audioInput = new AudioInputBeads();
+		} else if( appConfig.getBoolean(AppSettings.INIT_ESS_AUDIO, true) == true ) {
+			// Default to ESS being on, unless a different audio library is selected
+			try {
+				audioInput = new AudioInputESS();
+				DebugUtil.printErr("Fix AudioInputESS amp: audioStreamData.setAmp(fft.max);");
+			} catch (IllegalArgumentException e) {
+				DebugUtil.printErr("ESS Audio not initialized. Check your sound card settings.");
+			}
+		}
+		// if we've initialized an audio input, let's build an audio buffer
+		if(audioInput != null) {
+			audioInputDebugBuffer = p.createGraphics((int)AudioStreamData.debugW, (int)AudioStreamData.debugW, PRenderers.P3D);
+			debugView.setTexture(audioInputDebugBuffer);
+		}
 	}
 
 	protected void initializeOn1stFrame() {
@@ -314,15 +337,40 @@ extends PApplet
 	}
 	
 	////////////////////////
-	// DRAW
+	// GETTERS
 	////////////////////////
 
+	// app surface
+	
+	public PSurface getSurface() {
+		return surface;
+	}
+	
+	public void setAlwaysOnTop() {
+		surface.setAlwaysOnTop(false);
+		surface.setAlwaysOnTop(true);
+	}
+	
+	// audio
+	
+	public float[] audioFreqs() {
+		return audioInput.audioData().frequencies();
+	}
+	
+	public float audioFreq(int index) {
+		return audioFreqs()[index % audioFreqs().length];
+	}
+		
+	////////////////////////
+	// DRAW
+	////////////////////////
+	
 	public void draw() {
 		initializeOn1stFrame();
 		killScreensaver();
 		if(loop != null) loop.update();
-		handleRenderingStepthrough();
 		updateAudioData();
+		handleRenderingStepthrough();
 		midiState.update();
 		if( kinectWrapper != null ) kinectWrapper.update();
 		p.pushMatrix();
@@ -345,18 +393,23 @@ extends PApplet
 	////////////////////////	
 
 	protected void updateAudioData() {
-		if( _audioInput != null ) _audioInput.getBeatDetection(); // detect beats and pass through to current visual module	// 		int[] beatDetectArr =
-		if( audioIn != null ) {
-			audioIn.update(); // detect beats and pass through to current visual module	// 		int[] beatDetectArr =
-			_waveformDataMinim.updateWaveformDataMinim( audioIn.getAudioInput() );
+		if(audioInput != null) {
+			PGraphics audioBuffer = (showDebug == true) ? audioInputDebugBuffer : null;	// only draw if debugging
+			if(audioBuffer != null) {
+				audioBuffer.beginDraw();
+				audioBuffer.background(0);
+			}
+			audioInput.update(audioBuffer);
+			audioData = audioInput.audioData();
+			if(audioBuffer != null) audioBuffer.endDraw();
 		}
 	}
 
 	protected void showStats() {
-		if(showDebug == false) return;
 		p.noLights();
 		_stats.update();
-		debugView.draw();
+		if(showDebug) debugView.draw();
+		prefsSliders.update();
 	}
 
 	protected void setAppDockIconAndTitle() {
@@ -389,10 +442,7 @@ extends PApplet
 		if( _isRendering == true ) {
 			if( p.frameCount == 1 ) {
 				if( _isRenderingAudio == true ) {
-					movieRenderer.startRendererForAudio( p.appConfig.getString(AppSettings.RENDER_AUDIO_FILE, ""), _audioInput );
-					_audioInput.gainDown();
-					_audioInput.gainDown();
-					_audioInput.gainDown();
+					movieRenderer.startRendererForAudio( p.appConfig.getString(AppSettings.RENDER_AUDIO_FILE, "") );
 				} else {
 					movieRenderer.startRenderer();
 				}
@@ -402,7 +452,6 @@ extends PApplet
 				// have renderer step through audio, then special call to update the single WaveformData storage object
 				if( _isRenderingAudio == true ) {
 					movieRenderer.analyzeAudio();
-					_waveformData.updateWaveformDataForRender( movieRenderer, _audioInput.getAudioInput(), _audioInput.bufferSize() );
 				}
 //			}
 
@@ -504,11 +553,19 @@ extends PApplet
 		keyboardState.setKeyOn(p.keyCode);
 		
 		// special core app key commands
-		if ( p.key == '.' && _audioInput != null ) _audioInput.gainUp();
-		if ( p.key == ',' && _audioInput != null ) _audioInput.gainDown();
-		if ( p.key == '.' && audioIn != null ) audioIn.gainUp();
-		if ( p.key == ',' && audioIn != null ) audioIn.gainDown();
+		// audio input gain
+		if ( p.key == '.' ) {
+			p.audioData.setGain(p.audioData.gain() + 0.05f);
+			p.debugView.setValue("audioData.gain()", p.audioData.gain());
+		}
+		if ( p.key == ',' ) {
+			p.audioData.setGain(p.audioData.gain() - 0.05f);
+			p.debugView.setValue("audioData.gain()", p.audioData.gain());
+		}
+		// show debug & prefs sliders
+		if (p.key == '|') p.save(FileUtil.getHaxademicOutputPath() + "_screenshots/" + SystemUtil.getTimestamp(p) + ".png");
 		if (p.key == '/') showDebug = !showDebug;
+		if (p.key == '\\') prefsSliders.active(!prefsSliders.active());
 	}
 	
 	public void keyReleased() {
@@ -529,7 +586,6 @@ extends PApplet
 	
 	public void stop() {
 		if(p.webCamWrapper != null) p.webCamWrapper.dispose();
-//		if( _launchpadViz != null ) _launchpadViz.dispose();
 		if( kinectWrapper != null ) {
 			kinectWrapper.stop();
 			kinectWrapper = null;
@@ -544,17 +600,15 @@ extends PApplet
 	
 	// Movie playback
 	public void movieEvent(Movie m) {
-		if(p.frameCount <= 2) return; // solves Processing 2.x video problem: http://forum.processing.org/two/discussion/5926/video-library-problem-in-processing-2-2-1
 		m.read();
+		MovieBuffer.moviesEventFrames.put(m, p.frameCount);
 	}
-
 
 	// ESS audio input
 	public void audioInputData(AudioInput theInput) {
-		_audioInput.getFFT().getSpectrum(theInput);
-		// if( _launchpadViz != null ) _launchpadViz.getAudio().getFFT().getSpectrum(theInput);
-		_audioInput.detector.detect(theInput);
-		_waveformData.updateWaveformData( theInput, _audioInput._bufferSize );
+		if(audioInput instanceof AudioInputESS) {
+			((AudioInputESS) audioInput).audioInputCallback(theInput);
+		}
 	}
 
 	// LEAP MOTION EVENTS

@@ -1,13 +1,12 @@
 package com.haxademic.app.haxvisual.viz.elements;
 
 
-import processing.core.PApplet;
-import toxi.processing.ToxiclibsSupport;
-
 import com.haxademic.app.haxvisual.viz.ElementBase;
 import com.haxademic.app.haxvisual.viz.IVizElement;
-import com.haxademic.core.audio.AudioInputWrapper;
 import com.haxademic.core.draw.color.ColorGroup;
+
+import processing.core.PApplet;
+import toxi.processing.ToxiclibsSupport;
 
 public class _ElementTemplate
 extends ElementBase 
@@ -16,8 +15,8 @@ implements IVizElement {
 	protected float _width;
 	protected float _height;
 
-	public _ElementTemplate( PApplet p, ToxiclibsSupport toxi, AudioInputWrapper audioData ) {
-		super( p, toxi, audioData );
+	public _ElementTemplate( PApplet p, ToxiclibsSupport toxi ) {
+		super( p, toxi );
 		init();
 	}
 
@@ -39,7 +38,6 @@ implements IVizElement {
 	}
 
 	public void dispose() {
-		_audioData = null;
 	}
 
 	public void updateColorSet( ColorGroup colors ) {

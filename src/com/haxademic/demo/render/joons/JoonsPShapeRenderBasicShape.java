@@ -38,7 +38,7 @@ extends PAppletHax {
 		// draw box
 		p.rotateY(1);
 		p.rotateZ(1);
-		box(50);
+		box(2);
 	}
 
 	protected void setUpRoom() {

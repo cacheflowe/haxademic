@@ -30,6 +30,10 @@ public class KinectAmbientActivityMonitor {
 		}
 	}
 	
+	public float activityLevel() {
+		return _activityLevel;
+	}
+	
 	public float update( IKinectWrapper kinectWrapper, boolean debugDraw ) {
 		int gridIndex = 0;
 		float depth = 0;

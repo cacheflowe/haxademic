@@ -7,5 +7,5 @@ public interface IVizModule
 	public void focus();
 	public void handleKeyboardInput();
 //	public void hasFocus();
-	public void beatDetect( int isKickCount, int isSnareCount, int isHatCount, int isOnsetCount );
+//	public void beatDetect( int isKickCount, int isSnareCount, int isHatCount, int isOnsetCount );
 }

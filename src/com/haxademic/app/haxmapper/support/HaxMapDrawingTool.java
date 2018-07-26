@@ -94,7 +94,7 @@ extends PAppletHax {
 		for (int i=0; i < _shapes.size(); i++) {
 			// get shape and set audio-reactive fill --------------
 			PShape shape = _shapes.get(i);
-			shape.setFill(p.color(255, p.audioIn.getEqAvgBand((i * 10 + 10) % 512) * 2000));
+			shape.setFill(p.color(255, p.audioFreq((i * 10 + 10)) * 2000));
 			p.shape( shape );
 
 

@@ -34,10 +34,10 @@ public class ImageCyclerBuffer {
 			ImageUtil.cropFillCopyImage(images[i], imageFrames[i], true);
 		}
 
-//		transitionShader = P.p.loadShader(FileUtil.getFile("shaders/transitions/dissolve.glsl"));
-		transitionShader = P.p.loadShader(FileUtil.getFile("shaders/transitions/directional-wipe.glsl"));
-//		transitionShader = P.p.loadShader(FileUtil.getFile("shaders/transitions/hsv-blend.glsl"));
-//		transitionShader = P.p.loadShader(FileUtil.getFile("shaders/transitions/colour-distance.glsl"));
+//		transitionShader = P.p.loadShader(FileUtil.getFile("haxademic/shaders/transitions/dissolve.glsl"));
+		transitionShader = P.p.loadShader(FileUtil.getFile("haxademic/shaders/transitions/directional-wipe.glsl"));
+//		transitionShader = P.p.loadShader(FileUtil.getFile("haxademic/shaders/transitions/hsv-blend.glsl"));
+//		transitionShader = P.p.loadShader(FileUtil.getFile("haxademic/shaders/transitions/colour-distance.glsl"));
 		
 		transitionShader.set("from", imageFrames[imageIndex]);
 		transitionShader.set("to", imageFrames[nextIndex]);

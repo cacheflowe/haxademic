@@ -1,13 +1,15 @@
 package com.haxademic.sketch.shader;
 
-import com.haxademic.app.haxmapper.textures.BaseTexture;
-import com.haxademic.app.haxmapper.textures.TextureEQConcentricCircles;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
+import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.image.PerlinTexture;
 import com.haxademic.core.draw.shapes.PShapeUtil;
+import com.haxademic.core.draw.shapes.pshader.MeshDeformAndTextureFilter;
+import com.haxademic.core.draw.textures.pgraphics.TextureEQConcentricCircles;
+import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
 import com.haxademic.core.file.FileUtil;
 
 import processing.core.PGraphics;
@@ -60,16 +62,8 @@ extends PAppletHax {
 		shape = p.loadShape( FileUtil.getFile("svg/ello-centered.svg"));
 		shape = PShapeUtil.clonePShape(this, shape.getTessellation());
 		PShapeUtil.scaleShapeToExtent(shape, p.height * 0.3f);
-		float modelExtent = PShapeUtil.getMaxExtent(shape);
 		PShapeUtil.addTextureUVToShape(shape, displacementMap);
 		shape.setTexture(displacementMap);
-
-		texShader = loadShader(
-				FileUtil.getFile("shaders/vertex/brightness-displace-frag-texture.glsl"), 
-				FileUtil.getFile("shaders/vertex/brightness-displace-sphere-vert.glsl")
-				);
-		texShader.set("displacementMap", displacementMap);
-		texShader.set("displaceStrength", 0.7f);
 	}
 
 	public void drawApp() {
@@ -93,16 +87,16 @@ extends PAppletHax {
 //		OpenGLUtil.setWireframe(p.g, true);
 		
 		// set center screen & rotate
-		translate(width/2, height/2, 0);
-		// rotateX(0.3f * P.sin(percentComplete * P.TWO_PI));
-//		rotateX(p.frameCount/20f);
-//		rotateX(P.PI);
-//		rotateY(P.PI);
-		rotateY(p.mouseX / 100f);
+		DrawUtil.setCenterScreen(p);
+		DrawUtil.basicCameraFromMouse(p.g);
 		
-		// set shader properties & set on processing context
-		texShader.set("displacementMap", displacementMap);
-		p.shader(texShader);  
+		// deform mesh
+		MeshDeformAndTextureFilter.instance(p).setDisplacementMap(displacementMap);
+		MeshDeformAndTextureFilter.instance(p).setDisplaceAmp(100f);
+		MeshDeformAndTextureFilter.instance(p).setSheetMode(true);
+		MeshDeformAndTextureFilter.instance(p).applyTo(p);
+
+		// draw shape
 		p.shape(shape);
 		p.resetShader();
 	}

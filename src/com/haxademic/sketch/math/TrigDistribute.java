@@ -42,7 +42,7 @@ extends PAppletHax {
 		int centerY = p.height / 2;
 		float segmentRadians = P.TWO_PI / numPoints;
 		for( int i=0; i < numPoints; i++ ) {
-			float amp = 1 + 1*_audioInput.getFFT().spectrum[i%numPoints];
+			float amp = 1 + 1*p.audioFreq(i%numPoints);
 			float x = centerX + P.sin(segmentRadians * i) * radius * amp;
 			float y = centerY + P.cos(segmentRadians * i) * radius * amp;			
 			p.ellipse(x, y, 10, 10);

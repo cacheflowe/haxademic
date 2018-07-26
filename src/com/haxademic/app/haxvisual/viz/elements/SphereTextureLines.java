@@ -1,11 +1,5 @@
 package com.haxademic.app.haxvisual.viz.elements;
 
-import processing.core.PApplet;
-import toxi.color.TColor;
-import toxi.geom.Sphere;
-import toxi.geom.mesh.WETriangleMesh;
-import toxi.processing.ToxiclibsSupport;
-
 import com.haxademic.app.haxvisual.viz.ElementBase;
 import com.haxademic.app.haxvisual.viz.IAudioTexture;
 import com.haxademic.app.haxvisual.viz.IVizElement;
@@ -14,12 +8,17 @@ import com.haxademic.app.haxvisual.viz.textures.EQGridTexture;
 import com.haxademic.app.haxvisual.viz.textures.EQSquareTexture;
 import com.haxademic.app.haxvisual.viz.textures.TintedImageTexture;
 import com.haxademic.core.app.P;
-import com.haxademic.core.audio.AudioInputWrapper;
 import com.haxademic.core.draw.color.ColorGroup;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.toxi.MeshUtilToxi;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.EasingFloat3d;
+
+import processing.core.PApplet;
+import toxi.color.TColor;
+import toxi.geom.Sphere;
+import toxi.geom.mesh.WETriangleMesh;
+import toxi.processing.ToxiclibsSupport;
 
 public class SphereTextureLines 
 extends ElementBase 
@@ -40,8 +39,8 @@ implements IVizElement {
 	protected IAudioTexture _eqSquare;
 	protected IAudioTexture _imageTexture;
 
-	public SphereTextureLines( PApplet p, ToxiclibsSupport toxi, AudioInputWrapper audioData ) {
-		super( p, toxi, audioData );
+	public SphereTextureLines( PApplet p, ToxiclibsSupport toxi ) {
+		super( p, toxi );
 		init();
 	}
 
@@ -103,12 +102,12 @@ implements IVizElement {
 	}
 	
 	public void update() {
-		if( _audioData == null || _texture == null ) return;
+//		if( _texture == null ) return;
 		p.pushMatrix();
 		
 		DrawUtil.setColorForPImage(p);
 		p.noStroke();
-		_texture.updateTexture( _audioData );
+//		_texture.updateTexture( _audioData );
 
 		
 		p.translate( 0, 0, -400 );
@@ -117,7 +116,7 @@ implements IVizElement {
 		p.rotateX( _rotation.y() );
 		p.rotateZ( _rotation.z() );
 		
-		MeshUtilToxi.deformMeshWithAudio( _sphereMesh, _deformMesh, _audioData, _deformFactor );
+//		MeshUtilToxi.deformMeshWithAudio( _sphereMesh, _deformMesh, _audioData, _deformFactor );
 	
 		// draw texture. if tinting happened, reset after drawing
 		if( _texture.getTexture() != null ) MeshUtilToxi.drawToxiMesh( p, toxi, _deformMesh, _texture.getTexture() );

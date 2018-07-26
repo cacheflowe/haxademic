@@ -33,7 +33,7 @@ public class BufferActivityMonitor {
 		OpenGLUtil.setTextureQualityLow(differenceBuffer);
 		
 		// frame diff buffer/shader
-		differenceShader = P.p.loadShader(FileUtil.getFile("shaders/filters/texture-difference-threshold.glsl"));
+		differenceShader = P.p.loadShader(FileUtil.getFile("haxademic/shaders/filters/texture-difference-threshold.glsl"));
 	}
 	
 	public BufferActivityMonitor() {
@@ -68,7 +68,7 @@ public class BufferActivityMonitor {
 			for (int y = 0; y < differenceBuffer.height; y++) {
 				int pixelColor = ImageUtil.getPixelColor(differenceBuffer, x, y);
 				float r = ColorUtil.redFromColorInt(pixelColor) / 255f;
-				curActivity += r;
+				if(r > 0.5f) curActivity += r;
 			}			
 		}
 		

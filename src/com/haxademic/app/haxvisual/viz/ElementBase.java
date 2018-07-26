@@ -1,27 +1,23 @@
 package com.haxademic.app.haxvisual.viz;
 
+import com.haxademic.core.draw.color.ColorGroup;
+
 import processing.core.PApplet;
 import toxi.processing.ToxiclibsSupport;
-
-import com.haxademic.core.audio.AudioInputWrapper;
-import com.haxademic.core.draw.color.ColorGroup;
 
 public class ElementBase {
 
 	protected PApplet p;
 	protected ToxiclibsSupport toxi;
-	public AudioInputWrapper _audioData;
 
-	public ElementBase( PApplet p5, ToxiclibsSupport toxiclibs, AudioInputWrapper audioData ) {
+	public ElementBase( PApplet p5, ToxiclibsSupport toxiclibs ) {
 		p = p5;
 		toxi = toxiclibs;
-		_audioData = audioData;
 	}
 	
 	public void dispose() {
 		p = null;
 		toxi = null;
-		_audioData = null;
 	}
 
 	public void pause() {}

@@ -1,8 +1,7 @@
 package com.haxademic.core.math.easing;
 
 
-public class EasingFloat3d
-implements IEasingValue {
+public class EasingFloat3d {
 	
 	public EasingFloat _x, _y, _z;
 	public float _easeFactor;

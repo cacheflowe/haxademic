@@ -27,11 +27,6 @@ extends PAppletHax {
 	public void setup() {
 		super.setup();
 		_superForm = new Superformula( 200, 200, 10, 1, 6, 20, 7, 18);
-		p.smooth(OpenGLUtil.SMOOTH_HIGH);
-		
-		// set averages
-		p._audioInput.getFFT().averages(2);
-		p._audioInput.setGain(10);
 		
 		// setup controls
 	  _cp5 = new ControlP5(this);
@@ -51,7 +46,7 @@ extends PAppletHax {
 		p.background(0);
 		
 		p.pushMatrix();
-		p.translate( p.width/2, p.height/2, -3000 );
+		p.translate( p.width/2, p.height/2, -300 );
 
 		// debug mouse position
 		float x = (float) p.mouseX * 0.1f; // 10 + 6f * ( (float) p.mouseX / (float) p.width );
@@ -88,10 +83,10 @@ extends PAppletHax {
 			
 			float audioRange = 0.1f;
 //			_superForm.a( x + (audioRange * 300f * p._audioInput.getFFT().averages[0]));
-			_superForm.b( 8 + (audioRange * 10f * p._audioInput.getFFT().averages[0]));
+			_superForm.b( 8 + (audioRange * 10f * p.audioFreq(0)));
 //			_superForm.m( 15 + (audioRange * 10f * p._audioInput.getFFT().averages[2]));
 //			_superForm.n1( y + (audioRange * 20f * p._audioInput.getFFT().averages[1]));
-			_superForm.n2( 15 + (audioRange * 50f * p._audioInput.getFFT().averages[1]));
+			_superForm.n2( 15 + (audioRange * 50f * p.audioFreq(1)));
 //			_superForm.n3( 6 + (audioRange * 40f * p._audioInput.getFFT().averages[5]));
 		}
 	

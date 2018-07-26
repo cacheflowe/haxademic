@@ -100,7 +100,7 @@ public class JukeBoxBackground
 			if( RENDERING ) {
 				_render = new Renderer( this, _fps, Renderer.OUTPUT_TYPE_MOVIE, "bin/output/" );
 				//		_render.startRenderer();
-				_render.startRendererForAudio( "wav/cache-money.wav", _audioInput );
+				_render.startRendererForAudio( "wav/cache-money.wav" );
 			}
 			
 			// prevent re-initialization

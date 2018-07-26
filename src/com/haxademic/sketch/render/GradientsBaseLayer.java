@@ -2,15 +2,15 @@ package com.haxademic.sketch.render;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
-import com.haxademic.core.draw.color.ColorHaxEasing;
+import com.haxademic.core.draw.color.EasingColor;
 import com.haxademic.core.draw.color.Gradients;
 
 public class GradientsBaseLayer
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
-	protected ColorHaxEasing _colorStart;
-	protected ColorHaxEasing _colorStop;
+	protected EasingColor _colorStart;
+	protected EasingColor _colorStop;
 	protected int FRAMES = 400;
 	
 	
@@ -22,8 +22,8 @@ extends PAppletHax {
 
 	public void setup() {
 		super.setup();	
-		_colorStart = new ColorHaxEasing("#BB0022", 50f);
-		_colorStop = new ColorHaxEasing("#0B1630", 50f);
+		_colorStart = new EasingColor("#ffBB0022", 50f);
+		_colorStop = new EasingColor("#0B1630", 50f);
 		
 		// Team 1: #BB0022 / #0B1630
 		// Team 2: #F5AB2C / #471D6C

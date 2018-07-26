@@ -4,11 +4,11 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.constants.PBlendModes;
-import com.haxademic.core.draw.filters.shaders.BlurProcessingFilter;
-import com.haxademic.core.draw.filters.shaders.DilateFilter;
-import com.haxademic.core.draw.filters.shaders.EdgesFilter;
-import com.haxademic.core.draw.filters.shaders.InvertFilter;
-import com.haxademic.core.draw.filters.shaders.SaturationFilter;
+import com.haxademic.core.draw.filters.pshader.BlurProcessingFilter;
+import com.haxademic.core.draw.filters.pshader.DilateFilter;
+import com.haxademic.core.draw.filters.pshader.EdgesFilter;
+import com.haxademic.core.draw.filters.pshader.InvertFilter;
+import com.haxademic.core.draw.filters.pshader.SaturationFilter;
 import com.haxademic.core.file.FileUtil;
 
 import processing.core.PGraphics;
@@ -51,7 +51,7 @@ extends PAppletHax {
 		
 		canvas = p.createGraphics(p.width/2, p.height/2, P.P3D);
 		ssaoBuffer = p.createGraphics(p.width/2, p.height/2, P.P2D);
-		ssao = p.loadShader(FileUtil.getFile("shaders/filters/ssao-test.glsl"));
+		ssao = p.loadShader(FileUtil.getFile("haxademic/shaders/filters/ssao-test.glsl"));
 	}
 	
 	protected void drawShapes() {

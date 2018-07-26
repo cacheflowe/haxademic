@@ -1,7 +1,7 @@
 package com.haxademic.app.haxmapper.dmxlights;
 
 import com.haxademic.core.app.P;
-import com.haxademic.core.draw.color.ColorHaxEasing;
+import com.haxademic.core.draw.color.EasingColor;
 import com.haxademic.core.hardware.dmx.DmxInterface;
 import com.haxademic.core.math.MathUtil;
 
@@ -12,15 +12,15 @@ public class RandomLightTiming {
 	
 	protected PApplet p;
 	protected DmxInterface _dmx;
-	protected ColorHaxEasing[] _colors;
+	protected EasingColor[] _colors;
 	protected float brightness = 1f;
 	
 	public RandomLightTiming(int numLights) {
 		p = P.p;
 		_dmx = new DmxInterface(numLights);
-		_colors = new ColorHaxEasing[numLights];
+		_colors = new EasingColor[numLights];
 		for (int i = 0; i < _colors.length; i++) {
-			_colors[i] = new ColorHaxEasing("#000000", 5);
+			_colors[i] = new EasingColor("#000000", 5);
 		}
 	}
 	
@@ -28,10 +28,10 @@ public class RandomLightTiming {
 		for (int i = 0; i < _colors.length; i++) {
 			if(MathUtil.randBoolean(p) == true) {
 				if(MathUtil.randBoolean(p) == true) {
-					_colors[i].setCurrentColorInt( randomColor(0.7f) );
-					_colors[i].setTargetColorInt(p.color(0));
+					_colors[i].setCurrentInt( randomColor(0.7f) );
+					_colors[i].setTargetInt(p.color(0));
 				} else {
-					_colors[i].setTargetColorInt( randomColor( p.random( 0.2f, 0.7f ) ) );
+					_colors[i].setTargetInt( randomColor( p.random( 0.2f, 0.7f ) ) );
 				}
 			}
 		}

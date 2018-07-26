@@ -1,16 +1,16 @@
 package com.haxademic.app.haxvisual.viz.elements;
 
+import com.haxademic.app.haxvisual.viz.ElementBase;
+import com.haxademic.app.haxvisual.viz.IVizElement;
+import com.haxademic.core.app.P;
+import com.haxademic.core.draw.color.ColorGroup;
+import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.math.MathUtil;
+
 import processing.core.PApplet;
 import processing.core.PConstants;
 import toxi.color.TColor;
 import toxi.processing.ToxiclibsSupport;
-
-import com.haxademic.app.haxvisual.viz.ElementBase;
-import com.haxademic.app.haxvisual.viz.IVizElement;
-import com.haxademic.core.audio.AudioInputWrapper;
-import com.haxademic.core.draw.color.ColorGroup;
-import com.haxademic.core.draw.context.DrawUtil;
-import com.haxademic.core.math.MathUtil;
 
 public class LinesEQ
 extends ElementBase 
@@ -25,8 +25,8 @@ implements IVizElement {
 	protected float _curRotX;
 	protected TColor _baseColor;
 
-	public LinesEQ( PApplet p, ToxiclibsSupport toxi, AudioInputWrapper audioData ) {
-		super( p, toxi, audioData );
+	public LinesEQ( PApplet p, ToxiclibsSupport toxi ) {
+		super( p, toxi );
 		init();
 	}
 
@@ -52,7 +52,6 @@ implements IVizElement {
 
 	public void update() {
 		DrawUtil.resetGlobalProps( p );
-		DrawUtil.setCenter( p );
 		DrawUtil.setBasicLights( p );
 
 		p.pushMatrix();
@@ -68,13 +67,12 @@ implements IVizElement {
 		
 		// set colors and alphas
 		p.noStroke();
-		int spectrumInterval = p.round( _audioData.getFFT().spectrum.length / _numLines);
+		int spectrumInterval = P.round( P.p.audioData.frequencies().length / _numLines);
 //		TColor fillColor = _baseColor;
 		
 		// double lines
 		_height *= 2;
 		lineH = _height / _numLines;
-		DrawUtil.setCenter( p );
 		p.translate( 0, -_height/2, -3000 );
 		p.rotateX( _curRotX );
 //		float rotation = _curRotation;//(float)(Math.PI*2f)/18f;
@@ -95,7 +93,7 @@ implements IVizElement {
 	
 	protected void drawLines( int fillColor, float lineH, int spectrumInterval ) {
 		for( int i = 0; i < _numLines; i++ ) {
-			float spectrumData = _audioData.getFFT().spectrum[i*spectrumInterval % 512];
+			float spectrumData = P.p.audioFreq(i*spectrumInterval);
 			float alpha = spectrumData * .7f;	//  * 255
 			p.fill( fillColor, alpha * 255 );
 			p.rect( 0, i * lineH, _width, lineH );
@@ -118,7 +116,6 @@ implements IVizElement {
 	}
 
 	public void dispose() {
-		_audioData = null;
 	}
 
 }

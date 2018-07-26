@@ -29,8 +29,8 @@ extends PAppletHax {
 		
 		// load shader
 		shader = p.loadShader(
-			FileUtil.getFile("shaders/vertex/light-test-frag.glsl"), 
-			FileUtil.getFile("shaders/vertex/light-test-vert.glsl")
+			FileUtil.getFile("haxademic/shaders/vertex/light-test-frag.glsl"), 
+			FileUtil.getFile("haxademic/shaders/vertex/light-test-vert.glsl")
 		);
 		
 		// Set UV coords & set texture on obj.

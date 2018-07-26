@@ -3,8 +3,7 @@ package com.haxademic.core.math.easing;
 import com.haxademic.core.math.MathUtil;
 
 
-public class EasingPowInterp
-implements IEasingValue {
+public class EasingPowInterp {
 	
 	public float _val, _low, _high, _progress, _easeFactor;
 		   

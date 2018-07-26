@@ -4,8 +4,8 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.context.OpenGLUtil;
-import com.haxademic.core.draw.filters.shaders.BlurHFilter;
-import com.haxademic.core.draw.filters.shaders.BlurVFilter;
+import com.haxademic.core.draw.filters.pshader.BlurHFilter;
+import com.haxademic.core.draw.filters.pshader.BlurVFilter;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.file.DemoAssets;
 
@@ -46,11 +46,9 @@ extends PAppletHax {
 		pg.endDraw();
 		
 		// apply blur
-		float mousePercent = (float) p.mouseX / (float) p.width;
-		p.debugView.setValue("Blur percent", mousePercent);
-		BlurHFilter.instance(p).setBlurByPercent(mousePercent, img.width);
+		BlurHFilter.instance(p).setBlurByPercent(p.mousePercentX() * 2f, img.width);
 		BlurHFilter.instance(p).applyTo(pg);
-		BlurVFilter.instance(p).setBlurByPercent(mousePercent, img.height);
+		BlurVFilter.instance(p).setBlurByPercent(p.mousePercentY() * 2f, img.height);
 		BlurVFilter.instance(p).applyTo(pg);
 		
 		// draw result to screen

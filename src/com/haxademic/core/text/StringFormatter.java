@@ -55,7 +55,17 @@ public class StringFormatter {
 		DecimalFormat formatter = new DecimalFormat("#,###.00");
 		return formatter.format(amount);
 	}
-	
+
+	public String roundToPrecision( float value, int numDecimalPlaces ) {
+		String decimalPlaces = "";
+		for (int i = 0; i < numDecimalPlaces; i++) decimalPlaces += "#";
+		DecimalFormat df = new DecimalFormat("#."+decimalPlaces);
+		String output = df.format(value);
+		if(output.length() < numDecimalPlaces + 2) output += ".0";
+		while(output.length() < numDecimalPlaces + 2) output += "0";
+		return output;
+	}
+
 	public static String formattedInteger(int number) {
 		return NumberFormat.getInstance().format(number);
 	}

@@ -11,10 +11,6 @@ import com.haxademic.app.haxmapper.overlays.MeshLines.MODE;
 import com.haxademic.app.haxmapper.polygons.IMappedPolygon;
 import com.haxademic.app.haxmapper.polygons.MappedQuad;
 import com.haxademic.app.haxmapper.polygons.MappedTriangle;
-import com.haxademic.app.haxmapper.textures.BaseTexture;
-import com.haxademic.app.haxmapper.textures.TextureKinectFacePlayback;
-import com.haxademic.app.haxmapper.textures.TextureKinectFaceRecording;
-import com.haxademic.app.haxmapper.textures.TextureVideoPlayer;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
@@ -22,22 +18,26 @@ import com.haxademic.core.data.ConvertUtil;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.context.OpenGLUtil.Blend;
-import com.haxademic.core.draw.filters.shaders.BadTVLinesFilter;
-import com.haxademic.core.draw.filters.shaders.BrightnessFilter;
-import com.haxademic.core.draw.filters.shaders.ColorDistortionFilter;
-import com.haxademic.core.draw.filters.shaders.ContrastFilter;
-import com.haxademic.core.draw.filters.shaders.CubicLensDistortionFilterOscillate;
-import com.haxademic.core.draw.filters.shaders.DeformBloomFilter;
-import com.haxademic.core.draw.filters.shaders.DeformTunnelFanFilter;
-import com.haxademic.core.draw.filters.shaders.EdgesFilter;
-import com.haxademic.core.draw.filters.shaders.HalftoneFilter;
-import com.haxademic.core.draw.filters.shaders.HueFilter;
-import com.haxademic.core.draw.filters.shaders.KaleidoFilter;
-import com.haxademic.core.draw.filters.shaders.MirrorFilter;
-import com.haxademic.core.draw.filters.shaders.PixelateFilter;
-import com.haxademic.core.draw.filters.shaders.RadialRipplesFilter;
-import com.haxademic.core.draw.filters.shaders.SphereDistortionFilter;
-import com.haxademic.core.draw.filters.shaders.WobbleFilter;
+import com.haxademic.core.draw.filters.pshader.BadTVLinesFilter;
+import com.haxademic.core.draw.filters.pshader.BrightnessFilter;
+import com.haxademic.core.draw.filters.pshader.ColorDistortionFilter;
+import com.haxademic.core.draw.filters.pshader.ContrastFilter;
+import com.haxademic.core.draw.filters.pshader.CubicLensDistortionFilterOscillate;
+import com.haxademic.core.draw.filters.pshader.DeformBloomFilter;
+import com.haxademic.core.draw.filters.pshader.DeformTunnelFanFilter;
+import com.haxademic.core.draw.filters.pshader.EdgesFilter;
+import com.haxademic.core.draw.filters.pshader.HalftoneFilter;
+import com.haxademic.core.draw.filters.pshader.HueFilter;
+import com.haxademic.core.draw.filters.pshader.KaleidoFilter;
+import com.haxademic.core.draw.filters.pshader.MirrorFilter;
+import com.haxademic.core.draw.filters.pshader.PixelateFilter;
+import com.haxademic.core.draw.filters.pshader.RadialRipplesFilter;
+import com.haxademic.core.draw.filters.pshader.SphereDistortionFilter;
+import com.haxademic.core.draw.filters.pshader.WobbleFilter;
+import com.haxademic.core.draw.textures.pgraphics.TextureKinectFacePlayback;
+import com.haxademic.core.draw.textures.pgraphics.TextureKinectFaceRecording;
+import com.haxademic.core.draw.textures.pgraphics.TextureVideoPlayer;
+import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
 import com.haxademic.core.hardware.midi.devices.AbletonNotes;
 import com.haxademic.core.hardware.midi.devices.AkaiMpdPads;
 import com.haxademic.core.hardware.midi.devices.LaunchControl;
@@ -605,7 +605,7 @@ extends PAppletHax {
 	/////////////////////////////////////////////////////////////////
 	
 	protected void checkBeat() {
-		if( audioIn.isBeat() == true && isBeatDetectMode() == true ) {
+		if( p.audioData.isBeat() == true && isBeatDetectMode() == true ) {
 			updateTiming();
 		}
 	}
@@ -670,8 +670,8 @@ extends PAppletHax {
 			if(MathUtil.randBoolean(p) == true) setAllSameTexture();
 
 		}
-		if ( _audioInputUpTrigger.triggered() == true ) audioIn.gainUp();
-		if ( _audioInputDownTrigger.triggered() == true ) audioIn.gainDown();
+		if ( _audioInputUpTrigger.triggered() == true ) p.audioData.setGain(p.audioData.gain() + 0.05f);
+		if ( _audioInputDownTrigger.triggered() == true ) p.audioData.setGain(p.audioData.gain() - 0.05f);
 		if ( _brightnessUpTrigger.triggered() == true ) p.midiState.controllerChange(3, 41, Math.round(127f * p.midiState.midiCCPercent(3, 41) + 1));
 		if ( _brightnessDownTrigger.triggered() == true ) p.midiState.controllerChange(3, 41, Math.round(127f * p.midiState.midiCCPercent(3, 41) - 1));
 		if ( _debugTexturesTrigger.triggered() == true ) _debugTextures = !_debugTextures;

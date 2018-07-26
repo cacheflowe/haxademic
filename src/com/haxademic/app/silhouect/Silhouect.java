@@ -7,12 +7,12 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.constants.PRenderers;
 import com.haxademic.core.draw.context.DrawUtil;
-import com.haxademic.core.draw.filters.shaders.BlurHFilter;
-import com.haxademic.core.draw.filters.shaders.BlurVFilter;
-import com.haxademic.core.draw.filters.shaders.LeaveBlackFilter;
-import com.haxademic.core.draw.filters.shaders.LeaveWhiteFilter;
-import com.haxademic.core.draw.filters.shaders.SaturationFilter;
-import com.haxademic.core.draw.filters.shaders.SharpenFilter;
+import com.haxademic.core.draw.filters.pshader.BlurHFilter;
+import com.haxademic.core.draw.filters.pshader.BlurVFilter;
+import com.haxademic.core.draw.filters.pshader.LeaveBlackFilter;
+import com.haxademic.core.draw.filters.pshader.LeaveWhiteFilter;
+import com.haxademic.core.draw.filters.pshader.SaturationFilter;
+import com.haxademic.core.draw.filters.pshader.SharpenFilter;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.mapping.PGraphicsKeystone;
 import com.haxademic.core.file.FileUtil;
@@ -285,7 +285,7 @@ extends PAppletHax {
 	public void keyPressed() {
 		super.keyPressed();
 		if(p.key == 'd') testPattern = !testPattern;
-		if(p.key == 'r') keystone.resetCorners(p.g);
+		if(p.key == 'r') keystone.resetCorners();
 	}
 
 }

@@ -7,7 +7,7 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.context.OpenGLUtil;
-import com.haxademic.core.draw.filters.FastBlurFilter;
+import com.haxademic.core.draw.filters.pgraphics.FastBlurFilter;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.image.MotionBlurPGraphics;
 import com.haxademic.core.draw.shapes.Superformula;
@@ -139,17 +139,17 @@ extends PAppletHax {
 		_movieMotionBlurBuffer.smooth(OpenGLUtil.SMOOTH_HIGH);
 		
 		// shaders
-		_chromaKeyFilter = loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/chroma-gpu.glsl" );
+		_chromaKeyFilter = loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/chroma-gpu.glsl" );
 		_chromaKeyFilter.set("thresholdSensitivity", 0.65f);
 		_chromaKeyFilter.set("smoothing", 0.26f);
 		_chromaKeyFilter.set("colorToReplace", 0.29f,0.93f,0.14f);
 
 		_movieOpacityEaser = new LinearFloat(0, 0.02f);
 
-		_desaturate = loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/saturation.glsl" );
+		_desaturate = loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/saturation.glsl" );
 		_desaturate.set("saturation", 0.0f);
 
-		_resaturate = loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/saturation.glsl" );
+		_resaturate = loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/saturation.glsl" );
 		_resaturate.set("saturation", 1.4f);
 
 		// video scrubber
@@ -163,11 +163,11 @@ extends PAppletHax {
 		_cloudsGraphics = p.createGraphics(p.width, p.height, P.P3D);
 		_cloudsGraphics.smooth(OpenGLUtil.SMOOTH_HIGH);
 
-		_clouds = loadShader( FileUtil.getHaxademicDataPath()+"shaders/textures/clouds-iq.glsl" ); 
+		_clouds = loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/textures/clouds-iq.glsl" ); 
 	}
 
 	protected void setupSuperformula() {
-		_opacity = loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/opacity.glsl" );
+		_opacity = loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/opacity.glsl" );
 		_opacity.set("opacity", 0.3f);
 
 		_superForm = new Superformula(100,100, 1, 1,   6, 20,  7, 18);
@@ -178,20 +178,20 @@ extends PAppletHax {
 	}
 
 	protected void setupPostEffects() {
-		_fxaa = loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/fxaa.glsl" ); 
+		_fxaa = loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/fxaa.glsl" ); 
 		_fxaa.set("resolution", 1f, (float)(p.width/p.height));
 
-		_brightness = loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/brightness.glsl" );
+		_brightness = loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/brightness.glsl" );
 		_brightness.set("brightness", 1.5f);
 		_overallBrightnessEaser.setCurrent(1.5f);
 		_overallBrightnessEaser.setTarget(1.0f);
 
-		_vignette = loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/vignette.glsl" );
+		_vignette = loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/vignette.glsl" );
 		_vignette.set("darkness", 0.0f);
 		_vignetteDarknessEaser.setTarget(0.5f);
 		_vignette.set("spread", 0.15f);
 
-		_contrast = loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/contrast.glsl" );
+		_contrast = loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/contrast.glsl" );
 		_contrast.set("contrast", 1.2f);
 	}
 
@@ -216,7 +216,7 @@ extends PAppletHax {
 		float cloudControlY = ((float)-p.height * 0.3f) + P.cos(cloudControlRadians - P.HALF_PI) * (float)p.width/2f * 1.f;
 
 		_cloudTimeEaser.update();
-		//		_clouds = loadShader( FileUtil.getHaxademicDataPath()+"shaders/textures/clouds-iq.glsl" ); 
+		//		_clouds = loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/textures/clouds-iq.glsl" ); 
 		_clouds.set("resolution", 1f, (float)(p.width/p.height));
 		_clouds.set("time", p.frameCount * _timeConstantInc + _cloudTimeEaser.value() );
 		//		_clouds.set("mouse", 0.5f + p.frameCount/4000f, 0.9f - p.frameCount/4000f);		
@@ -248,12 +248,12 @@ extends PAppletHax {
 //		_superFormGfx.rotateZ(p.frameCount/50f);
 
 		float audioRange = 0.1f;
-		_superForm.a( _superFormSettings[0] + (audioRange * 100f * p._audioInput.getFFT().averages[0]));
-		_superForm.b( _superFormSettings[1] + (audioRange * 10f * p._audioInput.getFFT().averages[1]));
-		_superForm.m( _superFormSettings[2]);// + (audioRange * 10f * p._audioInput.getFFT().averages[2]));
-		_superForm.n1( _superFormSettings[3] + (audioRange * 20f * p._audioInput.getFFT().averages[3]));
-		_superForm.n2( _superFormSettings[4] + (audioRange * 50f * p._audioInput.getFFT().averages[4]));
-		_superForm.n3( _superFormSettings[5] + (audioRange * 40f * p._audioInput.getFFT().averages[5]));
+		_superForm.a( _superFormSettings[0] + (audioRange * 100f * p.audioFreq(0)));
+		_superForm.b( _superFormSettings[1] + (audioRange * 10f * p.audioFreq(1)));
+		_superForm.m( _superFormSettings[2]);// + (audioRange * 10f * p.audioFreq(2)));
+		_superForm.n1( _superFormSettings[3] + (audioRange * 20f * p.audioFreq(3)));
+		_superForm.n2( _superFormSettings[4] + (audioRange * 50f * p.audioFreq(4)));
+		_superForm.n3( _superFormSettings[5] + (audioRange * 40f * p.audioFreq(5)));
 
 		_superForm.update();
 		_superForm.drawMesh(_superFormGfx, true, true, false, true, _camPos );
@@ -262,7 +262,7 @@ extends PAppletHax {
 		_superFormGfx.endDraw();
 
 		_superShapeOpacityEaser.update();
-		//		_opacity = loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/opacity.glsl" );
+		//		_opacity = loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/opacity.glsl" );
 		//		_opacity.set("opacity", _opacityEaser.value());
 		//		_superFormGfx.filter(_opacity);
 		DrawUtil.setPImageAlpha(p, _superShapeOpacityEaser.value());
@@ -552,7 +552,7 @@ extends PAppletHax {
 			_particles = new Vector<BlobParticle>();
 			_inactiveParticles = new Vector<BlobParticle>();
 
-			_desaturate = p.loadShader( FileUtil.getHaxademicDataPath()+"shaders/filters/saturation.glsl" );
+			_desaturate = p.loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/saturation.glsl" );
 			_desaturate.set("saturation", 0.75f);
 
 		}
@@ -715,7 +715,7 @@ extends PAppletHax {
 			public void startAt( float x, float y, float speedX, float speedY, int color ) {
 				_position.set( x, y );
 				_speed.set( speedX * 15 * p.random(2f) + p.random(-0.2f,0.2f), speedY * 5 * p.random(3f) );	// add a little extra x variance
-				_speed.mult( 1 + p._audioInput.getFFT().spectrum[_audioIndex] ); // speed multiplied by audio
+				_speed.mult( 1 + p.audioFreq(_audioIndex) ); // speed multiplied by audio
 				_color = color;
 				_opacity = 0.8f;
 				
@@ -741,7 +741,7 @@ extends PAppletHax {
 				} else {
 					_pg.fill( _color, 127f * _opacity );
 					_pg.noStroke();
-					float size = _baseSize + (p._audioInput.getFFT().spectrum[_audioIndex] * 5f); // was 3
+					float size = _baseSize + (p.audioFreq(_audioIndex) * 5f); // was 3
 //					_pg.rect(_position.x - size/2f, _position.y - size/2f, size, size);
 					_pg.ellipse(_position.x - size/2f, _position.y - size/2f, size, size);
 				}

@@ -69,8 +69,8 @@ public class PlusRing
 
 		public void initAudio()
 		{
-			_audioData.setNumAverages( NUM_BLOCKS );
-			_audioData.setDampening( .13f );
+//			audioData.setNumAverages( NUM_BLOCKS );
+//			audioData.setDampening( .13f );
 		}
 
 		public void focus() {
@@ -109,7 +109,7 @@ public class PlusRing
 			
 			// Oscillate and display each object
 			for (int i = 0; i < NUM_BLOCKS; i++) {
-				_blocks[i].update( i, NUM_BLOCKS, _audioData.getFFT().averages[i] );
+				_blocks[i].update( i, NUM_BLOCKS, p.audioFreq(i) );
 			}
 			
 			camera.update();

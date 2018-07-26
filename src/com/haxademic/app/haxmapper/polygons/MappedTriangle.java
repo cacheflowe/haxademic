@@ -194,10 +194,10 @@ implements IMappedPolygon {
 			} else if( _mappingStyle == MAP_STYLE_EQ ) {
 				_curColor = P.p.lerpColor(_curColor, _color, 0.1f);
 				pg.beginShape(PConstants.TRIANGLE);
-				pg.fill(pg.color(_curColor, P.constrain( P.p.audioIn.getEqBand((_eqIndex)) * 255, 0, 255 )));
+				pg.fill(pg.color(_curColor, P.constrain( P.p.audioFreq(_eqIndex) * 255, 0, 255 )));
 				pg.vertex(_x1.value(), _y1.value(), getZ(x1, y1));
 				pg.vertex(_x2.value(), _y2.value(), getZ(x2, y2));				
-				pg.fill(pg.color(_curColor, P.constrain( P.p.audioIn.getEqBand((_eqIndex)) * 100, 0, 190 )));
+				pg.fill(pg.color(_curColor, P.constrain( P.p.audioFreq(_eqIndex) * 100, 0, 190 )));
 				pg.vertex(_x3.value(), _y3.value(), getZ(x3, y3));
 				pg.endShape();
 			}

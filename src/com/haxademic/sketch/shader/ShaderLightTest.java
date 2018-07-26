@@ -19,8 +19,8 @@ extends PAppletHax {
 	public void setup() {
 		super.setup();
 		p.smooth(OpenGLUtil.SMOOTH_HIGH);
-		_pixlightShader = p.loadShader(FileUtil.getHaxademicDataPath() + "shaders/lights/lightfrag/lightfrag.glsl", FileUtil.getHaxademicDataPath() + "shaders/lights/lightfrag/lightvert.glsl");
-		_toonShader = p.loadShader(FileUtil.getHaxademicDataPath() + "shaders/lights/toon/frag.glsl", FileUtil.getHaxademicDataPath() + "shaders/lights/toon/vert.glsl");
+		_pixlightShader = p.loadShader(FileUtil.getHaxademicDataPath() + "haxademic/shaders/lights/lightfrag/lightfrag.glsl", FileUtil.getHaxademicDataPath() + "haxademic/shaders/lights/lightfrag/lightvert.glsl");
+		_toonShader = p.loadShader(FileUtil.getHaxademicDataPath() + "haxademic/shaders/lights/toon/frag.glsl", FileUtil.getHaxademicDataPath() + "haxademic/shaders/lights/toon/vert.glsl");
 		_toonShader.set("fraction", 4.0f);
 	}
 

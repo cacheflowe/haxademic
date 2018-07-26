@@ -3,7 +3,7 @@ package com.haxademic.sketch.hardware;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.context.DrawUtil;
-import com.haxademic.core.draw.filters.shaders.FlipHFilter;
+import com.haxademic.core.draw.filters.pshader.FlipHFilter;
 import com.haxademic.core.draw.image.ImageUtil;
 
 import processing.core.PConstants;
@@ -49,9 +49,8 @@ extends PAppletHax {
 		//		if(p.frameCount == 1) _webCam = new Capture(this, camera);
 
 		p.background( 0 );
-		p.rectMode(PConstants.CENTER);
+		DrawUtil.setDrawCenter(p);
 		DrawUtil.resetGlobalProps( p );
-		DrawUtil.setCenter( p );
 		DrawUtil.setBasicLights( p );
 
 		p.fill( 0, 0, 0, 255 );

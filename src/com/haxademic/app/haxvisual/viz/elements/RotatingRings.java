@@ -4,7 +4,6 @@ package com.haxademic.app.haxvisual.viz.elements;
 import com.haxademic.app.haxvisual.viz.ElementBase;
 import com.haxademic.app.haxvisual.viz.IVizElement;
 import com.haxademic.core.app.P;
-import com.haxademic.core.audio.AudioInputWrapper;
 import com.haxademic.core.draw.color.ColorGroup;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.shapes.Shapes;
@@ -31,8 +30,8 @@ implements IVizElement {
 	protected TColor _strokeColor;
 	protected ColorGroup _curColors;
 
-	public RotatingRings( PApplet p, ToxiclibsSupport toxi, AudioInputWrapper audioData ) {
-		super( p, toxi, audioData );
+	public RotatingRings( PApplet p, ToxiclibsSupport toxi ) {
+		super( p, toxi );
 		init();
 	}
 
@@ -49,7 +48,6 @@ implements IVizElement {
 
 	public void update() {
 		DrawUtil.resetGlobalProps( p );
-		DrawUtil.setCenter( p );
 		p.pushMatrix();
 		
 		// rotation for entire scene
@@ -70,7 +68,7 @@ implements IVizElement {
 		// draw rings
 		for( int i = 0; i < NUM_RINGS; i++ ) {
 			// get eq val for alpha
-			float ringEQVal = _audioData.getFFT().spectrum[i + 5];
+			float ringEQVal = P.p.audioFreq(i + 5);
 			float alphaMultiplier = 1.3f;
 
 			// set colors
@@ -133,7 +131,6 @@ implements IVizElement {
 	}
 
 	public void dispose() {
-		_audioData = null;
 	}
 
 }

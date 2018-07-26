@@ -4,9 +4,9 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.constants.PRenderers;
 import com.haxademic.core.draw.color.ColorUtil;
 import com.haxademic.core.draw.context.OpenGLUtil;
-import com.haxademic.core.draw.filters.shaders.BlurHFilter;
-import com.haxademic.core.draw.filters.shaders.BlurVFilter;
-import com.haxademic.core.draw.filters.shaders.ThresholdFilter;
+import com.haxademic.core.draw.filters.pshader.BlurHFilter;
+import com.haxademic.core.draw.filters.pshader.BlurVFilter;
+import com.haxademic.core.draw.filters.pshader.ThresholdFilter;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.file.FileUtil;
 
@@ -37,7 +37,7 @@ public class BufferMotionDetectionMap {
 		this.scale = scale;
 		bufferW = P.round(scale * source.width);
 		bufferH = P.round(scale * source.height);
-		P.println("Motion detection buffer size: ", bufferW, ", ", bufferH);
+		// P.println("Motion detection buffer size: ", bufferW, ", ", bufferH);
 		buildBuffers();
 	}
 	
@@ -47,13 +47,16 @@ public class BufferMotionDetectionMap {
 		differenceBuffer = P.p.createGraphics(bufferW, bufferH, PRenderers.P3D);
 		bwBuffer = P.p.createGraphics(bufferW, bufferH, PRenderers.P3D);
 		
+		backplate.noSmooth();
 		OpenGLUtil.setTextureQualityLow(backplate);
+		newFrameBuffer.noSmooth();
 		OpenGLUtil.setTextureQualityLow(newFrameBuffer);
+		differenceBuffer.noSmooth();
 		OpenGLUtil.setTextureQualityLow(differenceBuffer);
 		OpenGLUtil.setTextureQualityLow(bwBuffer);
 		
-		blendTowardsShader = P.p.loadShader(FileUtil.getFile("shaders/filters/texture-blend-towards-texture.glsl"));
-		differenceShader = P.p.loadShader(FileUtil.getFile("shaders/filters/texture-difference-threshold.glsl"));
+		blendTowardsShader = P.p.loadShader(FileUtil.getFile("haxademic/shaders/filters/texture-blend-towards-texture.glsl"));
+		differenceShader = P.p.loadShader(FileUtil.getFile("haxademic/shaders/filters/texture-difference-threshold.glsl"));
 	}
 	
 	public PGraphics newFrameBuffer() { return newFrameBuffer; }

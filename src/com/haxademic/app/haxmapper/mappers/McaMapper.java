@@ -1,32 +1,28 @@
 package com.haxademic.app.haxmapper.mappers;
 
 import com.haxademic.app.haxmapper.HaxMapper;
-import com.haxademic.app.haxmapper.textures.TextureAudioTube;
-import com.haxademic.app.haxmapper.textures.TextureBarsEQ;
-import com.haxademic.app.haxmapper.textures.TextureBlobSheet;
-import com.haxademic.app.haxmapper.textures.TextureColorAudioSlide;
-import com.haxademic.app.haxmapper.textures.TextureEQColumns;
-import com.haxademic.app.haxmapper.textures.TextureEQConcentricCircles;
-import com.haxademic.app.haxmapper.textures.TextureEQFloatParticles;
-import com.haxademic.app.haxmapper.textures.TextureEQGrid;
-import com.haxademic.app.haxmapper.textures.TextureImageTimeStepper;
-import com.haxademic.app.haxmapper.textures.TextureLinesEQ;
-import com.haxademic.app.haxmapper.textures.TextureOuterSphere;
-import com.haxademic.app.haxmapper.textures.TextureRotatingRings;
-import com.haxademic.app.haxmapper.textures.TextureRotatorShape;
-import com.haxademic.app.haxmapper.textures.TextureScrollingColumns;
-import com.haxademic.app.haxmapper.textures.TextureShaderTimeStepper;
-import com.haxademic.app.haxmapper.textures.TextureSphereRotate;
-import com.haxademic.app.haxmapper.textures.TextureSvgPattern;
-import com.haxademic.app.haxmapper.textures.TextureTwistingSquares;
-import com.haxademic.app.haxmapper.textures.TextureVideoPlayer;
-import com.haxademic.app.haxmapper.textures.TextureWaveformCircle;
-import com.haxademic.app.haxmapper.textures.TextureWaveformSimple;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
+import com.haxademic.core.draw.textures.pgraphics.TextureAudioTube;
+import com.haxademic.core.draw.textures.pgraphics.TextureBlobSheet;
+import com.haxademic.core.draw.textures.pgraphics.TextureColorAudioSlide;
+import com.haxademic.core.draw.textures.pgraphics.TextureEQColumns;
+import com.haxademic.core.draw.textures.pgraphics.TextureEQConcentricCircles;
+import com.haxademic.core.draw.textures.pgraphics.TextureEQFloatParticles;
+import com.haxademic.core.draw.textures.pgraphics.TextureEQGrid;
+import com.haxademic.core.draw.textures.pgraphics.TextureImageTimeStepper;
+import com.haxademic.core.draw.textures.pgraphics.TextureLinesEQ;
+import com.haxademic.core.draw.textures.pgraphics.TextureRotatingRings;
+import com.haxademic.core.draw.textures.pgraphics.TextureRotatorShape;
+import com.haxademic.core.draw.textures.pgraphics.TextureScrollingColumns;
+import com.haxademic.core.draw.textures.pgraphics.TextureShaderTimeStepper;
+import com.haxademic.core.draw.textures.pgraphics.TextureSphereRotate;
+import com.haxademic.core.draw.textures.pgraphics.TextureSvgPattern;
+import com.haxademic.core.draw.textures.pgraphics.TextureTwistingSquares;
+import com.haxademic.core.draw.textures.pgraphics.TextureVideoPlayer;
+import com.haxademic.core.draw.textures.pgraphics.TextureWaveformCircle;
+import com.haxademic.core.draw.textures.pgraphics.TextureWaveformSimple;
 import com.haxademic.core.file.FileUtil;
-
-import oscP5.OscMessage;
 
 public class McaMapper
 extends HaxMapper{
@@ -61,17 +57,17 @@ extends HaxMapper{
 
 	protected void overridePropsFile() {
 		super.overridePropsFile();
-		p.appConfig.setProperty( "mapping_file", FileUtil.getFile("text/mapping/mapping-2016-04-09-20-23-29.txt") );
+//		p.appConfig.setProperty( "mapping_file", FileUtil.getFile("text/mapping/mapping-2016-04-09-20-23-29.txt") );
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
-		p.appConfig.setProperty( AppSettings.FULLSCREEN, true );
+		p.appConfig.setProperty( AppSettings.FULLSCREEN, false );
 		p.appConfig.setProperty( AppSettings.FILLS_SCREEN, "false" );
 		p.appConfig.setProperty( AppSettings.OSC_ACTIVE, "false" );
 		p.appConfig.setProperty( AppSettings.AUDIO_DEBUG, true );
 		p.appConfig.setProperty( AppSettings.WIDTH, 1280 );
 		p.appConfig.setProperty( AppSettings.HEIGHT, 1024 );
 		p.appConfig.setProperty( AppSettings.DMX_LIGHTS_COUNT, 0 );
-		p.appConfig.setProperty( AppSettings.HIDE_CURSOR, false );
 		p.appConfig.setProperty( AppSettings.RETINA, false );
+		p.appConfig.setProperty( AppSettings.INIT_BEADS_AUDIO, true );
 	}
 
 	/////////////////////////////////////////////////////////////////
@@ -84,14 +80,14 @@ extends HaxMapper{
 		int videoH = 288;// 334;
 		
 
-		_texturePool.add( new TextureVideoPlayer( videoW, videoH, "video/loops/smoke-loop.mov" ));
-		_texturePool.add( new TextureVideoPlayer( videoW, videoH, "video/loops/tree-loop.mp4" ));
-		_texturePool.add( new TextureVideoPlayer( videoW, videoH, "video/loops/ink-in-water.mp4" ));
-		_texturePool.add( new TextureVideoPlayer( videoW, videoH, "video/loops/ink-grow-shrink.mp4" ));
-		_texturePool.add( new TextureVideoPlayer( videoW, videoH, "video/loops/fire.mp4" ));
-		_texturePool.add( new TextureVideoPlayer( videoW, videoH, "video/loops/clouds-timelapse.mov" ));
-		_texturePool.add( new TextureVideoPlayer( videoW, videoH, "video/loops/water.mp4" ));
-		_texturePool.add( new TextureVideoPlayer( videoW, videoH, "video/loops/bubbles.mp4" ));	
+//		_texturePool.add( new TextureVideoPlayer( videoW, videoH, "video/loops/smoke-loop.mov" ));
+//		_texturePool.add( new TextureVideoPlayer( videoW, videoH, "video/loops/tree-loop.mp4" ));
+//		_texturePool.add( new TextureVideoPlayer( videoW, videoH, "video/loops/ink-in-water.mp4" ));
+//		_texturePool.add( new TextureVideoPlayer( videoW, videoH, "video/loops/ink-grow-shrink.mp4" ));
+//		_texturePool.add( new TextureVideoPlayer( videoW, videoH, "video/loops/fire.mp4" ));
+//		_texturePool.add( new TextureVideoPlayer( videoW, videoH, "video/loops/clouds-timelapse.mov" ));
+//		_texturePool.add( new TextureVideoPlayer( videoW, videoH, "video/loops/water.mp4" ));
+//		_texturePool.add( new TextureVideoPlayer( videoW, videoH, "video/loops/bubbles.mp4" ));	
 
 		
 		int shaderW = 512;
@@ -167,7 +163,7 @@ extends HaxMapper{
 		_texturePool.add( new TextureEQConcentricCircles( shaderW, shaderH ) );
 		_texturePool.add( new TextureEQConcentricCircles( shaderW, shaderH ) );
 		_texturePool.add( new TextureScrollingColumns( shaderW, shaderH ));
-		_texturePool.add( new TextureImageTimeStepper( shaderW, shaderH ));
+//		_texturePool.add( new TextureImageTimeStepper( shaderW, shaderH ));
 		_texturePool.add( new TextureEQColumns( shaderW, shaderH ));
 		_texturePool.add( new TextureEQGrid( shaderW, shaderH ));
 		_texturePool.add( new TextureLinesEQ( shaderW, shaderH ));
@@ -176,8 +172,8 @@ extends HaxMapper{
 		_texturePool.add( new TextureWaveformCircle( shaderW, shaderH ));
 		_texturePool.add( new TextureWaveformCircle( shaderW, shaderH ));
 		_texturePool.add( new TextureSphereRotate( shaderW, shaderH ));
-		_texturePool.add( new TextureOuterSphere( shaderW, shaderH ) );
-		_texturePool.add( new TextureOuterSphere( shaderW, shaderH ) );
+//		_texturePool.add( new TextureOuterSphere( shaderW, shaderH ) );
+//		_texturePool.add( new TextureOuterSphere( shaderW, shaderH ) );
 		_texturePool.add( new TextureRotatorShape( shaderW, shaderH ) );
 		_texturePool.add( new TextureRotatorShape( shaderW, shaderH ) );
 		_texturePool.add( new TextureRotatingRings( shaderW, shaderH ) );

@@ -1,5 +1,10 @@
 package com.haxademic.app.haxvisual.viz.elements;
 
+import com.haxademic.app.haxvisual.viz.ElementBase;
+import com.haxademic.app.haxvisual.viz.IVizElement;
+import com.haxademic.core.draw.color.ColorGroup;
+import com.haxademic.core.hardware.kinect.IKinectWrapper;
+
 import processing.core.PApplet;
 import processing.core.PConstants;
 import toxi.color.TColor;
@@ -7,14 +12,6 @@ import toxi.geom.Vec2D;
 import toxi.geom.Vec3D;
 import toxi.geom.mesh.WETriangleMesh;
 import toxi.processing.ToxiclibsSupport;
-
-import com.haxademic.app.haxvisual.viz.ElementBase;
-import com.haxademic.app.haxvisual.viz.IVizElement;
-import com.haxademic.core.audio.AudioInputWrapper;
-import com.haxademic.core.draw.color.ColorGroup;
-import com.haxademic.core.draw.toxi.DrawMesh;
-import com.haxademic.core.draw.toxi.ThreeDeeUtil;
-import com.haxademic.core.hardware.kinect.IKinectWrapper;
 
 public class KinectMeshOld
 extends ElementBase 
@@ -60,8 +57,8 @@ implements IVizElement {
 	protected TColor _fillColor;
 	protected TColor _strokeColor;
 
-	public KinectMeshOld( PApplet p, ToxiclibsSupport toxi, AudioInputWrapper audioData, IKinectWrapper kinectWrapper ) {
-		super( p, toxi, audioData );
+	public KinectMeshOld( PApplet p, ToxiclibsSupport toxi, IKinectWrapper kinectWrapper ) {
+		super( p, toxi );
 		_kinectInterface = kinectWrapper;
 		init();
 	}
@@ -92,10 +89,10 @@ implements IVizElement {
 			toxi.texturedMesh(_mesh, _kinectInterface.getRgbImage(), false);
 		} else {
 			if( _isPoints == true ) {
-				DrawMesh.drawPointsWithAudio( p, ThreeDeeUtil.GetWETriangleMeshFromTriangleMesh( _mesh ), _audioData, 20, 40, _fillColor, _strokeColor, 0.2f );				
+//				DrawMesh.drawPointsWithAudio( p, ThreeDeeUtil.GetWETriangleMeshFromTriangleMesh( _mesh ), _audioData, 20, 40, _fillColor, _strokeColor, 0.2f );				
 			} else {
 				if( _isWireframe == true ) p.strokeWeight( 3 );
-				DrawMesh.drawMeshWithAudio( p, ThreeDeeUtil.GetWETriangleMeshFromTriangleMesh( _mesh ), _audioData, _isWireframe, _fillColor, _strokeColor, 0.2f );				
+//				DrawMesh.drawMeshWithAudio( p, ThreeDeeUtil.GetWETriangleMeshFromTriangleMesh( _mesh ), _audioData, _isWireframe, _fillColor, _strokeColor, 0.2f );				
 			}
 		}
 		
@@ -200,7 +197,6 @@ implements IVizElement {
 
 
 	public void dispose() {
-		_audioData = null;
 	}
 
 }

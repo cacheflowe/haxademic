@@ -1,14 +1,14 @@
 package com.haxademic.app.haxvisual.viz.modules;
 
-import processing.core.PConstants;
-import processing.core.PImage;
-
 import com.haxademic.app.haxvisual.viz.IVizModule;
 import com.haxademic.app.haxvisual.viz.ModuleBase;
+import com.haxademic.core.app.P;
 import com.haxademic.core.camera.CameraBasic;
 import com.haxademic.core.camera.CameraOscillate;
 import com.haxademic.core.camera.CameraSpotter;
-import com.haxademic.core.hardware.midi.MidiState;
+
+import processing.core.PConstants;
+import processing.core.PImage;
 
 public class ImageMunger 
 extends ModuleBase
@@ -55,8 +55,8 @@ implements IVizModule
 
 	public void initAudio()
 	{
-		_audioData.setNumAverages( _numAverages );
-		_audioData.setDampening( .13f );
+//		audioData.setNumAverages( _numAverages );
+//		audioData.setDampening( .13f );
 	}
 
 	public void focus() {
@@ -86,20 +86,20 @@ implements IVizModule
 				{
 					case 0 :
 						int index = p.round( p.brightness(img.pixels[loc]) * 511 );
-						z = _audioData.getFFT().spectrum[index] * 800 + 250;
+						z = P.p.audioFreq(index) * 800 + 250;
 						break;
 					case 1 :
-						z = p.brightness(img.pixels[loc]) * _audioData.getFFT().averages[5] * 800 + 250;
+						z = p.brightness(img.pixels[loc]) * P.p.audioFreq(5) * 800 + 250;
 						break;
 					case 2 :
 						int roundedBrightnesss = p.round( p.brightness(img.pixels[loc]) * 20 );
 						roundedBrightnesss = p.constrain( roundedBrightnesss, 0, numBrightnesLevels - 1 );
-						z = _audioData.getFFT().averages[roundedBrightnesss] * 800 + 250;
+						z = P.p.audioFreq(roundedBrightnesss) * 800 + 250;
 						break;
 					default :
 						int roundedBrightness = p.round( p.brightness(img.pixels[loc]) * 10 );
 						roundedBrightness = p.constrain( roundedBrightness, 0, numBrightnesLevels - 1 );
-						z = _audioData.getFFT().averages[roundedBrightness] * 800 + 250;
+						z = P.p.audioFreq(roundedBrightness) * 800 + 250;
 						break;
 				}
 

@@ -2,7 +2,6 @@ package com.haxademic.app.haxvisual.viz.elements;
 
 import com.haxademic.app.haxvisual.viz.ElementBase;
 import com.haxademic.app.haxvisual.viz.IVizElement;
-import com.haxademic.core.audio.AudioInputWrapper;
 import com.haxademic.core.draw.color.ColorGroup;
 import com.haxademic.core.draw.context.DrawUtil;
 
@@ -22,13 +21,13 @@ implements IVizElement {
 	protected PVector _rotation = new PVector( 0, 0, 0 );
 	protected PVector _rotationTarget = new PVector( 0, 0, 0 );
 
-	public SphereClouds( PApplet p, ToxiclibsSupport toxi, AudioInputWrapper audioData ) {
-		super( p, toxi, audioData );
+	public SphereClouds( PApplet p, ToxiclibsSupport toxi ) {
+		super( p, toxi );
 		init();
 	}
 	
 	public void init() {
-		_sphere = new SphereDraw( p, toxi, _audioData );
+		_sphere = new SphereDraw( p, toxi );
 		reset();
 	}
 
@@ -38,7 +37,6 @@ implements IVizElement {
 
 	public void update() {
 		DrawUtil.resetGlobalProps( p );
-		DrawUtil.setCenter( p );
 		
 		// draw center sphere
 		p.pushMatrix();

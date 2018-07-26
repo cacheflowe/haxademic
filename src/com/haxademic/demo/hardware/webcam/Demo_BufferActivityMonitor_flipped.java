@@ -28,7 +28,7 @@ implements IWebCamCallback {
 		
 	public void setupFirstFrame () {
 		// build activity monitor
-		activityMonitor = new BufferActivityMonitor();
+		activityMonitor = new BufferActivityMonitor(32, 32, 10);
 		
 		// capture webcam frames
 		p.webCamWrapper.setDelegate(this);

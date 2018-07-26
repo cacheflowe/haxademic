@@ -1,13 +1,14 @@
 package com.haxademic.sketch.shader;
 
-import com.haxademic.app.haxmapper.textures.BaseTexture;
-import com.haxademic.app.haxmapper.textures.TextureEQGrid;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.draw.image.PerlinTexture;
 import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.draw.shapes.Shapes;
+import com.haxademic.core.draw.shapes.pshader.MeshDeformAndTextureFilter;
+import com.haxademic.core.draw.textures.pgraphics.TextureEQGrid;
+import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
 import com.haxademic.core.file.FileUtil;
 
 import processing.core.PGraphics;
@@ -28,13 +29,14 @@ extends PAppletHax {
 	PShader texShader;
 	float _frames = 60;
 	boolean _is3d = true;
-	boolean _isAudio = true;
+	boolean _isAudio = false;
 
 
 	protected void overridePropsFile() {
 		p.appConfig.setProperty( AppSettings.FILLS_SCREEN, "false" );
 		p.appConfig.setProperty( AppSettings.WIDTH, "640" );
 		p.appConfig.setProperty( AppSettings.HEIGHT, "640" );
+		p.appConfig.setProperty( AppSettings.INIT_MINIM_AUDIO, true );
 		p.appConfig.setProperty( AppSettings.SMOOTHING, AppSettings.SMOOTH_HIGH );
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
 		p.appConfig.setProperty( AppSettings.RENDERING_GIF, "false" );
@@ -50,34 +52,22 @@ extends PAppletHax {
 		
 		// create dynamic deformation texture
 		audioTexture = new TextureEQGrid(800, 800);
-		perlinTexture = new PerlinTexture(p, 200, 200);
+		perlinTexture = new PerlinTexture(p, 64, 64);
 		// audioTexture = new TextureEQConcentricCircles(800, 800);
 		PGraphics displacementMap = (_isAudio == true) ? audioTexture.texture() : perlinTexture.texture();
 		
 		// create geometry
 		if(_is3d == true) {
 			obj = p.loadShape( FileUtil.getFile("models/unicorn-head-lowpoly.obj"));
+			obj = obj.getTessellation();
 			PShapeUtil.scaleShapeToExtent(obj, p.height * 0.25f);
 			float modelExtent = PShapeUtil.getMaxExtent(obj);
 			PShapeUtil.addTextureUVToShape(obj, displacementMap, modelExtent);
 			obj.setTexture(displacementMap);
-			
-			// load shader
-			texShader = loadShader(
-					FileUtil.getFile("shaders/vertex/brightness-displace-frag-texture.glsl"), 
-					FileUtil.getFile("shaders/vertex/brightness-displace-sphere-vert.glsl")
-					);
 		} else {
 			obj = Shapes.createSheet(10, displacementMap);			
-			// load shader
-			texShader = loadShader(
-					FileUtil.getFile("shaders/vertex/brightness-displace-frag-texture.glsl"), 
-					FileUtil.getFile("shaders/vertex/brightness-displace-sheet-vert.glsl")
-					);
 		}
 		
-		texShader.set("displacementMap", displacementMap);
-		texShader.set("displaceStrength", 1.0f);
 	}
 
 	public void drawApp() {
@@ -110,10 +100,17 @@ extends PAppletHax {
 
 		
 		// set shader properties & set on processing context
-		texShader.set("displacementMap", displacementMap);
+		// deform mesh
+		MeshDeformAndTextureFilter.instance(p).setDisplacementMap(displacementMap);
+		MeshDeformAndTextureFilter.instance(p).setDisplaceAmp(1.3f);
+		MeshDeformAndTextureFilter.instance(p).setSheetMode(!_is3d);
+		MeshDeformAndTextureFilter.instance(p).applyTo(p);
+		// set texture using PShape method
+//		obj.setTexture(displacementMap);
+
+		// draw mesh
 		p.noStroke();
 //		obj.disableStyle();
-		p.shader(texShader);  
 		p.shape(obj);
 		p.resetShader();
 	}

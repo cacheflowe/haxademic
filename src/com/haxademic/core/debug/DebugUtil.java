@@ -16,7 +16,7 @@ public class DebugUtil {
 		System.out.println("-- MEMORY USAGE -----------------");  
 		System.out.println("-- free memory: " + freeMemory / 1024);  
 		System.out.println("-- allocated memory: " + allocatedMemory / 1024);  
-		System.out.println("-- max memory: " + maxMemory /1024);  
+		System.out.println("-- max memory: " + maxMemory / 1024);  
 		System.out.println("-- total free memory: " + (freeMemory + (maxMemory - allocatedMemory)) / 1024);
 		System.out.println("---------------------------------");  
 	}
