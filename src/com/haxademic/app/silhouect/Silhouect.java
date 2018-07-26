@@ -72,6 +72,8 @@ extends PAppletHax {
 //		p.appConfig.setProperty( AppSettings.HEIGHT, 540 );
 		p.appConfig.setProperty( AppSettings.FULLSCREEN, true );
 		p.appConfig.setProperty( AppSettings.SHOW_DEBUG, false );
+		p.appConfig.setProperty( AppSettings.INIT_MINIM_AUDIO, false );
+		p.appConfig.setProperty( AppSettings.INIT_ESS_AUDIO, false );
 	}
 
 	public void setupFirstFrame() {
