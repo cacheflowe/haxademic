@@ -563,6 +563,7 @@ extends PApplet
 			p.debugView.setValue("audioData.gain()", p.audioData.gain());
 		}
 		// show debug & prefs sliders
+		if (p.key == '|') p.save(FileUtil.getHaxademicOutputPath() + "_screenshots/" + SystemUtil.getTimestamp(p) + ".png");
 		if (p.key == '/') showDebug = !showDebug;
 		if (p.key == '\\') prefsSliders.active(!prefsSliders.active());
 	}
