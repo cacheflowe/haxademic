@@ -187,9 +187,9 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.FILLS_SCREEN, false );
 		p.appConfig.setProperty( AppSettings.OSC_ACTIVE, false );
 		p.appConfig.setProperty( AppSettings.DMX_LIGHTS_COUNT, 0 );
-		p.appConfig.setProperty( AppSettings.AUDIO_DEBUG, true );
+//		p.appConfig.setProperty( AppSettings.AUDIO_DEBUG, true );
 //		p.appConfig.setProperty( AppSettings.INIT_ESS_AUDIO, true );
-		p.appConfig.setProperty( AppSettings.INIT_MINIM_AUDIO, true );
+//		p.appConfig.setProperty( AppSettings.INIT_MINIM_AUDIO, true );
 //		p.appConfig.setProperty( AppSettings.INIT_BEADS_AUDIO, true );
 		p.appConfig.setProperty( AppSettings.MIDI_DEVICE_IN_INDEX, 0 );
 		p.appConfig.setProperty( AppSettings.MIDI_DEBUG, false );
@@ -459,7 +459,7 @@ extends PAppletHax {
 	
 	protected void bloomFilter() {
 //		BloomFilter.instance(p).setStrength(1f);
-//		BloomFilter.instance(p).setBlurIterations(10);
+//		BloomFilter.instance(p).setBlurIterations(4);
 //		BloomFilter.instance(p).setBlendMode(BloomFilter.BLEND_SCREEN);
 //		BloomFilter.instance(p).applyTo(_pg);
 		

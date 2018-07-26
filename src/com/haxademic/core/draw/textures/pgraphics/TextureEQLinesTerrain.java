@@ -4,6 +4,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.filters.pshader.BlurProcessingFilter;
+import com.haxademic.core.draw.filters.pshader.InvertFilter;
 import com.haxademic.core.draw.filters.pshader.MirrorFilter;
 import com.haxademic.core.draw.filters.pshader.VignetteAltFilter;
 import com.haxademic.core.draw.image.ImageUtil;
@@ -125,6 +126,6 @@ extends BaseTexture {
 		BlurProcessingFilter.instance(P.p).setSigma(6);
 		BlurProcessingFilter.instance(P.p).setBlurSize(1);
 		BlurProcessingFilter.instance(P.p).applyTo(_texture);
-//		InvertFilter.instance(P.p).applyTo(_texture);
+		InvertFilter.instance(P.p).applyTo(_texture);
 	}
 }

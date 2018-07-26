@@ -120,7 +120,7 @@ extends BaseTexture {
 		_texture.translate(_texture.width/2f, _texture.height/2f);
 		
 		// shadow
-		Gradients.radial(_texture, _texture.height * 2.5f, _texture.height * 2.5f, P.p.color(0,200), P.p.color(1, 0), 50);
+		Gradients.radial(_texture, _texture.height * 2.5f, _texture.height * 2.5f, P.p.color(0,150), P.p.color(1, 0), 50);
 		Gradients.radial(_texture, _texture.height * 1.5f, _texture.height * 1.5f, P.p.color(0,100), P.p.color(1, 0), 50);
 		
 		_rotation.update();
