@@ -12,16 +12,23 @@ import com.haxademic.core.draw.filters.pshader.BlurHFilter;
 import com.haxademic.core.draw.filters.pshader.BlurVFilter;
 import com.haxademic.core.draw.filters.pshader.BrightnessFilter;
 import com.haxademic.core.draw.filters.pshader.ContrastFilter;
+import com.haxademic.core.draw.filters.pshader.DisplacementMapFilter;
 import com.haxademic.core.draw.filters.pshader.LeaveBlackFilter;
 import com.haxademic.core.draw.filters.pshader.LeaveWhiteFilter;
 import com.haxademic.core.draw.filters.pshader.SaturationFilter;
 import com.haxademic.core.draw.filters.pshader.SharpenFilter;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.mapping.PGraphicsKeystone;
-import com.haxademic.core.draw.textures.pgraphics.TextureEQFloatParticles;
+import com.haxademic.core.draw.textures.pgraphics.TextureBarsEQ;
+import com.haxademic.core.draw.textures.pgraphics.TextureEQConcentricCircles;
+import com.haxademic.core.draw.textures.pgraphics.TextureEQGrid;
+import com.haxademic.core.draw.textures.pgraphics.TextureLinesEQ;
 import com.haxademic.core.draw.textures.pgraphics.TextureOuterCube;
+import com.haxademic.core.draw.textures.pgraphics.TextureOuterSphere;
+import com.haxademic.core.draw.textures.pgraphics.TextureVectorFieldEQ;
 import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
 import com.haxademic.core.file.FileUtil;
+import com.haxademic.core.math.MathUtil;
 
 import KinectPV2.KinectPV2;
 import processing.core.PGraphics;
@@ -74,11 +81,18 @@ extends PAppletHax {
 	protected PImage sponsorImg;
 	
 	// audio texture
-	protected BaseTexture audioTexture;
+	protected BaseTexture audioTextures[];
+	protected int audioTextureIndex = 0;
+	protected boolean deformMode = true;
 	
 	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, 1920 );
-		p.appConfig.setProperty( AppSettings.HEIGHT, 1080 );
+		if(P.platform != P.MACOSX) {
+			p.appConfig.setProperty( AppSettings.WIDTH, 1920 );
+			p.appConfig.setProperty( AppSettings.HEIGHT, 1080 );
+		} else {
+			p.appConfig.setProperty( AppSettings.WIDTH, 1280 );
+			p.appConfig.setProperty( AppSettings.HEIGHT, 720 );
+		}
 		p.appConfig.setProperty( AppSettings.FULLSCREEN, false );
 		p.appConfig.setProperty( AppSettings.SHOW_DEBUG, false );
 		p.appConfig.setProperty( AppSettings.INIT_MINIM_AUDIO, false );
@@ -93,13 +107,15 @@ extends PAppletHax {
 		keystone = new PGraphicsKeystone(p, mainBuffer, 10, FileUtil.getFile("text/keystoning/silhouect.txt"));
 		
 		// init kinect
-		kinect = new KinectPV2(p);
-		kinect.enableDepthImg(true);
-		kinect.enableDepthMaskImg(true);
-		kinect.enableBodyTrackImg(true);
-		kinect.enableInfraredImg(true);
-		// kinect.enableColorImg(true);
-		kinect.init();
+		if(P.platform != P.MACOSX) {
+			kinect = new KinectPV2(p);
+			kinect.enableDepthImg(true);
+			kinect.enableDepthMaskImg(true);
+			kinect.enableBodyTrackImg(true);
+			kinect.enableInfraredImg(true);
+			// kinect.enableColorImg(true);
+			kinect.init();
+		}
 		
 		// init instructions/slideshow
 		String imagesPath = FileUtil.getFile("images/silhouect/slideshow");
@@ -120,9 +136,12 @@ extends PAppletHax {
 		}
 		
 		// load audio texture
-		audioTexture = new TextureOuterCube(mainBuffer.width, mainBuffer.height);
-//		audioTexture = new TextureEQFloatParticles(mainBuffer.width, mainBuffer.height);
-		p.debugView.setTexture(audioTexture.texture());
+		audioTextures = new BaseTexture[] {
+			new TextureOuterCube(mainBuffer.width, mainBuffer.height),
+			new TextureOuterSphere(mainBuffer.width, mainBuffer.height),
+			new TextureEQConcentricCircles(mainBuffer.width, mainBuffer.height),
+			new TextureLinesEQ(mainBuffer.width, mainBuffer.height),
+		};
 		
 		// init help menu
 		p.debugView.setHelpLine("Key Commands:", "");
@@ -135,7 +154,7 @@ extends PAppletHax {
 	///////////////////////////////////////
 
 	protected void lazyCreateBuffer() {
-		if(kinect.getBodyTrackImage().width > 10 && userBuffer == null) {
+		if(userBuffer == null && kinect != null && kinect.getBodyTrackImage().width > 10) {
 			userBuffer = p.createGraphics(kinect.getBodyTrackImage().width, kinect.getBodyTrackImage().height, PRenderers.P3D);
 		}
 	}
@@ -157,7 +176,7 @@ extends PAppletHax {
 	}
 	
 	protected int numUsers() {
-		return kinect.getNumOfUsers();
+		return (kinect != null) ? kinect.getNumOfUsers() : 0;
 	}
 	
 	protected void drawUser() {
@@ -265,16 +284,60 @@ extends PAppletHax {
 	}
 	
 	///////////////////////////////////////
-	// AUDIO UPDATE
+	// AUDIO TEXTURE
 	///////////////////////////////////////
 	
 	protected void updateAudioTexture() {
+		// update audio texture
 		if(flashFrame == true) {
-			audioTexture.newRotation();
+			if(MathUtil.randBooleanWeighted(p, 0.65f)) deformMode = !deformMode;
+			if(MathUtil.randBooleanWeighted(p, 0.65f)) nextAudioTexture();
+			curAudioTexture().newRotation();
 		}
-		audioTexture.update();
-		BrightnessFilter.instance(p).setBrightness(0.5f);
-		BrightnessFilter.instance(p).applyTo(audioTexture.texture());
+		curAudioTexture().update();
+		
+		// post-process audio texture
+		if(deformMode == false) {
+			BrightnessFilter.instance(p).setBrightness(0.5f);
+			BrightnessFilter.instance(p).applyTo(curAudioTexture().texture());
+		} else {
+			BlurHFilter.instance(p).setBlurByPercent(3f, curAudioTexture().texture().width);
+			BlurVFilter.instance(p).setBlurByPercent(3f, curAudioTexture().texture().height);
+			BlurHFilter.instance(p).applyTo(curAudioTexture().texture());
+			BlurVFilter.instance(p).applyTo(curAudioTexture().texture());
+			BlurHFilter.instance(p).applyTo(curAudioTexture().texture());
+			BlurVFilter.instance(p).applyTo(curAudioTexture().texture());
+			BlurHFilter.instance(p).applyTo(curAudioTexture().texture());
+			BlurVFilter.instance(p).applyTo(curAudioTexture().texture());
+			ContrastFilter.instance(p).setContrast(1.5f);
+			ContrastFilter.instance(p).applyTo(curAudioTexture().texture());
+		}
+	}
+	
+	protected void drawAudioTextureToBuffer() {
+		if(deformMode == true) {
+			// deform main buffer
+			DisplacementMapFilter.instance(p).setMap(curAudioTexture().texture());
+			DisplacementMapFilter.instance(p).setAmp(0.009f);
+			DisplacementMapFilter.instance(p).setMode(3);
+			DisplacementMapFilter.instance(p).applyTo(mainBuffer);
+		} else {
+			// just blend it
+			mainBuffer.blendMode(PBlendModes.SUBTRACT);
+			ImageUtil.drawImageCropFill(curAudioTexture().texture(), mainBuffer, true);
+			mainBuffer.blendMode(PBlendModes.BLEND);
+			ContrastFilter.instance(p).setContrast(1.5f);
+			ContrastFilter.instance(p).applyTo(mainBuffer);
+		}
+	}
+	
+	protected BaseTexture curAudioTexture() {
+		return audioTextures[audioTextureIndex];
+	}
+	
+	protected void nextAudioTexture() {
+		audioTextureIndex++;
+		if(audioTextureIndex >= audioTextures.length) audioTextureIndex = 0;
 	}
 	
 	///////////////////////////////////////
@@ -285,7 +348,7 @@ extends PAppletHax {
 		p.background(0);
 		lazyCreateBuffer();
 		if(userBuffer != null) updateUserBuffer();
-		updateAudioTexture();
+		if(audioTextures != null) updateAudioTexture();
 		drawSilhouetteGraphics();
 		drawMainBuffer();
 		storeUserFrame();
@@ -298,18 +361,11 @@ extends PAppletHax {
 		mainBuffer.beginDraw();
 		mainBuffer.noStroke();
 		ImageUtil.cropFillCopyImage(rdBuffer, mainBuffer, true);
-		drawAudioTextureToBuffer();
+		if(audioTextures != null) drawAudioTextureToBuffer();
 		if(sponsorImg != null) mainBuffer.image(sponsorImg, mainBuffer.width - sponsorImg.width, mainBuffer.height - sponsorImg.height);
 		drawProgressBar();
+		if(p.showDebug && audioTextures != null) mainBuffer.image(curAudioTexture().texture(), 0, mainBuffer.height - 90, 160, 90);
 		mainBuffer.endDraw();
-	}
-	
-	protected void drawAudioTextureToBuffer() {
-		mainBuffer.blendMode(PBlendModes.SUBTRACT);
-		if(audioTexture != null) ImageUtil.drawImageCropFill(audioTexture.texture(), mainBuffer, true);
-		mainBuffer.blendMode(PBlendModes.BLEND);
-		ContrastFilter.instance(p).setContrast(1.5f);
-		ContrastFilter.instance(p).applyTo(mainBuffer);
 	}
 	
 	protected void drawProgressBar() {
@@ -327,7 +383,13 @@ extends PAppletHax {
 	public void keyPressed() {
 		super.keyPressed();
 		if(p.key == 'd') testPattern = !testPattern;
+		if(p.key == 'm') deformMode = !deformMode;
 		if(p.key == 'r') keystone.resetCorners();
+		if(p.key == ']') nextAudioTexture();
+		if(p.key == '[') {
+			audioTextureIndex--;
+			if(audioTextureIndex < 0) audioTextureIndex = audioTextures.length - 1;
+		}
 	}
 
 }
