@@ -5,16 +5,22 @@ import java.util.ArrayList;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
+import com.haxademic.core.constants.PBlendModes;
 import com.haxademic.core.constants.PRenderers;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.filters.pshader.BlurHFilter;
 import com.haxademic.core.draw.filters.pshader.BlurVFilter;
+import com.haxademic.core.draw.filters.pshader.BrightnessFilter;
+import com.haxademic.core.draw.filters.pshader.ContrastFilter;
 import com.haxademic.core.draw.filters.pshader.LeaveBlackFilter;
 import com.haxademic.core.draw.filters.pshader.LeaveWhiteFilter;
 import com.haxademic.core.draw.filters.pshader.SaturationFilter;
 import com.haxademic.core.draw.filters.pshader.SharpenFilter;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.mapping.PGraphicsKeystone;
+import com.haxademic.core.draw.textures.pgraphics.TextureEQFloatParticles;
+import com.haxademic.core.draw.textures.pgraphics.TextureOuterCube;
+import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
 import com.haxademic.core.file.FileUtil;
 
 import KinectPV2.KinectPV2;
@@ -67,13 +73,17 @@ extends PAppletHax {
 	// sponsor image
 	protected PImage sponsorImg;
 	
+	// audio texture
+	protected BaseTexture audioTexture;
+	
 	protected void overridePropsFile() {
-//		p.appConfig.setProperty( AppSettings.WIDTH, 960 );
-//		p.appConfig.setProperty( AppSettings.HEIGHT, 540 );
-		p.appConfig.setProperty( AppSettings.FULLSCREEN, true );
+		p.appConfig.setProperty( AppSettings.WIDTH, 1920 );
+		p.appConfig.setProperty( AppSettings.HEIGHT, 1080 );
+		p.appConfig.setProperty( AppSettings.FULLSCREEN, false );
 		p.appConfig.setProperty( AppSettings.SHOW_DEBUG, false );
 		p.appConfig.setProperty( AppSettings.INIT_MINIM_AUDIO, false );
-		p.appConfig.setProperty( AppSettings.INIT_ESS_AUDIO, false );
+		p.appConfig.setProperty( AppSettings.INIT_ESS_AUDIO, true );
+		p.appConfig.setProperty( AppSettings.AUDIO_DEBUG, true );
 	}
 
 	public void setupFirstFrame() {
@@ -108,6 +118,11 @@ extends PAppletHax {
 		if(FileUtil.fileExists(sponsorImgPath)) {
 			sponsorImg = p.loadImage(sponsorImgPath);
 		}
+		
+		// load audio texture
+		audioTexture = new TextureOuterCube(mainBuffer.width, mainBuffer.height);
+//		audioTexture = new TextureEQFloatParticles(mainBuffer.width, mainBuffer.height);
+		p.debugView.setTexture(audioTexture.texture());
 		
 		// init help menu
 		p.debugView.setHelpLine("Key Commands:", "");
@@ -241,12 +256,25 @@ extends PAppletHax {
 		SaturationFilter.instance(p).applyTo(rdBuffer); 
 	}
 	
-	protected void drawGraphics() {
+	protected void drawSilhouetteGraphics() {
 		rdBuffer.beginDraw();
 		flashScreen();
 		drawUser();
 		applyRD();	// do reaction-diffusion feedback
 		rdBuffer.endDraw();
+	}
+	
+	///////////////////////////////////////
+	// AUDIO UPDATE
+	///////////////////////////////////////
+	
+	protected void updateAudioTexture() {
+		if(flashFrame == true) {
+			audioTexture.newRotation();
+		}
+		audioTexture.update();
+		BrightnessFilter.instance(p).setBrightness(0.5f);
+		BrightnessFilter.instance(p).applyTo(audioTexture.texture());
 	}
 	
 	///////////////////////////////////////
@@ -257,7 +285,8 @@ extends PAppletHax {
 		p.background(0);
 		lazyCreateBuffer();
 		if(userBuffer != null) updateUserBuffer();
-		drawGraphics();
+		updateAudioTexture();
+		drawSilhouetteGraphics();
 		drawMainBuffer();
 		storeUserFrame();
 		// draw to screen
@@ -269,9 +298,18 @@ extends PAppletHax {
 		mainBuffer.beginDraw();
 		mainBuffer.noStroke();
 		ImageUtil.cropFillCopyImage(rdBuffer, mainBuffer, true);
+		drawAudioTextureToBuffer();
 		if(sponsorImg != null) mainBuffer.image(sponsorImg, mainBuffer.width - sponsorImg.width, mainBuffer.height - sponsorImg.height);
 		drawProgressBar();
 		mainBuffer.endDraw();
+	}
+	
+	protected void drawAudioTextureToBuffer() {
+		mainBuffer.blendMode(PBlendModes.SUBTRACT);
+		if(audioTexture != null) ImageUtil.drawImageCropFill(audioTexture.texture(), mainBuffer, true);
+		mainBuffer.blendMode(PBlendModes.BLEND);
+		ContrastFilter.instance(p).setContrast(1.5f);
+		ContrastFilter.instance(p).applyTo(mainBuffer);
 	}
 	
 	protected void drawProgressBar() {
@@ -281,6 +319,10 @@ extends PAppletHax {
 		mainBuffer.fill(255);
 		mainBuffer.rect(0, 0, mainBuffer.width * flashProgress, 8);
 	}
+	
+	///////////////////////////////////////
+	// KEYBOARD INPUT
+	///////////////////////////////////////
 	
 	public void keyPressed() {
 		super.keyPressed();
