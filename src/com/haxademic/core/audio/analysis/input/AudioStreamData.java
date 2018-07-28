@@ -12,6 +12,7 @@ public class AudioStreamData {
 	protected float[] waveform = new float[] {0};
 	protected float amp = 0;
 	protected float gain = 1;
+	float dampening = 0.2f; //  (freqsDampened[i] < frequencies[i]) ? 0.3f : 0.15f; // older attempt to lerp faster on the way up
 	protected EasingFloat beatOnset = new EasingFloat(0, 8);
 	protected int beatFrame = 0;
 	protected float progress = 0;
@@ -32,19 +33,21 @@ public class AudioStreamData {
 			freqsDampened = new float[freqs.length];
 			for(int i=0; i < freqsDampened.length; i++) freqsDampened[i] = 0;
 		}
-		System.arraycopy(freqs, 0, frequencies, 0, freqs.length);
-		for(int i=0; i < frequencies.length; i++) frequencies[i] = P.abs(frequencies[i]);
+//		System.arraycopy(freqs, 0, frequencies, 0, freqs.length);
+		for(int i=0; i < frequencies.length; i++) frequencies[i] = P.abs(freqs[i]);
 	}
 	
 	public void setWaveformOffsets(float[] buffer) {
 		if(waveform.length != buffer.length) waveform = new float[buffer.length];
-		System.arraycopy(buffer, 0, waveform, 0, buffer.length);
+//		System.arraycopy(buffer, 0, waveform, 0, buffer.length);
+		for(int i=0; i < waveform.length; i++) waveform[i] = buffer[i];
 	}
 	
 	public void lerpWaveformOffsets(float[] buffer, float lerpAmount) {
 		if(waveform.length != buffer.length) {
 			waveform = new float[buffer.length];
-			System.arraycopy(buffer, 0, waveform, 0, buffer.length);
+//			System.arraycopy(buffer, 0, waveform, 0, buffer.length);
+			for(int i=0; i < waveform.length; i++) waveform[i] = buffer[i];
 		}
 		for(int i=0; i < waveform.length; i++) {
 			waveform[i] = P.lerp(waveform[i], buffer[i], lerpAmount);
@@ -53,9 +56,7 @@ public class AudioStreamData {
 	
 	public void calcFreqsDampened() {
 		for(int i=0; i < frequencies.length; i++) {
-			float lerpVal = (freqsDampened[i] < frequencies[i]) ? 0.3f : 0.15f;
-			lerpVal = 0.2f;
-			freqsDampened[i] = P.lerp(freqsDampened[i], frequencies[i], lerpVal);	
+			freqsDampened[i] = P.lerp(freqsDampened[i], frequencies[i], dampening);	
 		}
 	}
 	
