@@ -18,7 +18,16 @@ extends PApplet {
 	
 	// helper methods
 	
+	// image loading 
+	
 	public static PImage getImage(String file) {
 		return P.p.loadImage(FileUtil.getFile(file));
+	}
+	
+	// logging
+	
+	public static boolean logging = true;
+	public static void out(Object... objs) {
+		if(logging) P.println(objs);
 	}
 }
