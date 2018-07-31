@@ -9,6 +9,7 @@ import com.haxademic.core.constants.PBlendModes;
 import com.haxademic.core.constants.PRenderers;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.filters.pshader.BlurHFilter;
+import com.haxademic.core.draw.filters.pshader.BlurProcessingFilter;
 import com.haxademic.core.draw.filters.pshader.BlurVFilter;
 import com.haxademic.core.draw.filters.pshader.BrightnessFilter;
 import com.haxademic.core.draw.filters.pshader.ContrastFilter;
@@ -93,7 +94,7 @@ extends PAppletHax {
 			p.appConfig.setProperty( AppSettings.WIDTH, 1280 );
 			p.appConfig.setProperty( AppSettings.HEIGHT, 720 );
 		}
-		p.appConfig.setProperty( AppSettings.FULLSCREEN, false );
+		p.appConfig.setProperty( AppSettings.FULLSCREEN, true );
 		p.appConfig.setProperty( AppSettings.SHOW_DEBUG, false );
 		p.appConfig.setProperty( AppSettings.INIT_MINIM_AUDIO, false );
 		p.appConfig.setProperty( AppSettings.INIT_ESS_AUDIO, true );
@@ -107,7 +108,7 @@ extends PAppletHax {
 		keystone = new PGraphicsKeystone(p, mainBuffer, 10, FileUtil.getFile("text/keystoning/silhouect.txt"));
 		
 		// init kinect
-		if(P.platform != P.MACOSX) {
+//		if(P.platform != P.MACOSX) {
 			kinect = new KinectPV2(p);
 			kinect.enableDepthImg(true);
 			kinect.enableDepthMaskImg(true);
@@ -115,7 +116,7 @@ extends PAppletHax {
 			kinect.enableInfraredImg(true);
 			// kinect.enableColorImg(true);
 			kinect.init();
-		}
+//		}
 		
 		// init instructions/slideshow
 		String imagesPath = FileUtil.getFile("images/silhouect/slideshow");
@@ -137,10 +138,10 @@ extends PAppletHax {
 		
 		// load audio texture
 		audioTextures = new BaseTexture[] {
-			new TextureOuterCube(mainBuffer.width, mainBuffer.height),
-			new TextureOuterSphere(mainBuffer.width, mainBuffer.height),
-			new TextureEQConcentricCircles(mainBuffer.width, mainBuffer.height),
-			new TextureLinesEQ(mainBuffer.width, mainBuffer.height),
+			new TextureOuterCube(mainBuffer.width/4, mainBuffer.height/4),
+			new TextureOuterSphere(mainBuffer.width/4, mainBuffer.height/4),
+			new TextureEQConcentricCircles(mainBuffer.width/4, mainBuffer.height/4),
+			new TextureLinesEQ(mainBuffer.width/4, mainBuffer.height/4),
 		};
 		
 		// init help menu
@@ -298,17 +299,21 @@ extends PAppletHax {
 		
 		// post-process audio texture
 		if(deformMode == false) {
-			BrightnessFilter.instance(p).setBrightness(0.5f);
+			BrightnessFilter.instance(p).setBrightness(0.75f);
 			BrightnessFilter.instance(p).applyTo(curAudioTexture().texture());
 		} else {
-			BlurHFilter.instance(p).setBlurByPercent(3f, curAudioTexture().texture().width);
-			BlurVFilter.instance(p).setBlurByPercent(3f, curAudioTexture().texture().height);
-			BlurHFilter.instance(p).applyTo(curAudioTexture().texture());
-			BlurVFilter.instance(p).applyTo(curAudioTexture().texture());
-			BlurHFilter.instance(p).applyTo(curAudioTexture().texture());
-			BlurVFilter.instance(p).applyTo(curAudioTexture().texture());
-			BlurHFilter.instance(p).applyTo(curAudioTexture().texture());
-			BlurVFilter.instance(p).applyTo(curAudioTexture().texture());
+			BlurHFilter.instance(p).setBlurByPercent(2f, curAudioTexture().texture().width);
+			BlurVFilter.instance(p).setBlurByPercent(2f, curAudioTexture().texture().height);
+//			BlurHFilter.instance(p).applyTo(curAudioTexture().texture());
+//			BlurVFilter.instance(p).applyTo(curAudioTexture().texture());
+//			BlurHFilter.instance(p).applyTo(curAudioTexture().texture());
+//			BlurVFilter.instance(p).applyTo(curAudioTexture().texture());
+//			BlurHFilter.instance(p).applyTo(curAudioTexture().texture());
+//			BlurVFilter.instance(p).applyTo(curAudioTexture().texture());
+			BlurProcessingFilter.instance(p).setBlurSize(10);
+			BlurProcessingFilter.instance(p).setSigma(10f);
+			BlurProcessingFilter.instance(p).applyTo(curAudioTexture().texture());
+
 			ContrastFilter.instance(p).setContrast(1.5f);
 			ContrastFilter.instance(p).applyTo(curAudioTexture().texture());
 		}
@@ -318,7 +323,7 @@ extends PAppletHax {
 		if(deformMode == true) {
 			// deform main buffer
 			DisplacementMapFilter.instance(p).setMap(curAudioTexture().texture());
-			DisplacementMapFilter.instance(p).setAmp(0.009f);
+			DisplacementMapFilter.instance(p).setAmp(0.02f);
 			DisplacementMapFilter.instance(p).setMode(3);
 			DisplacementMapFilter.instance(p).applyTo(mainBuffer);
 		} else {
