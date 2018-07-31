@@ -40,10 +40,12 @@ extends PAppletHax {
 		pg.endDraw();
 
 		// run bloom on off-screen buffer
+		int bloomBlendMode = P.round(p.frameCount / 200f) % 3;
 		BloomFilter.instance(p).setStrength(p.mousePercentX() * 5f);
 		BloomFilter.instance(p).setBlurIterations(P.round(p.mousePercentY() * 4f));
-		BloomFilter.instance(p).setBlendMode(P.round(p.frameCount / 100f) % 3);
+		BloomFilter.instance(p).setBlendMode(bloomBlendMode);
 		BloomFilter.instance(p).applyTo(pg);
+		p.debugView.setValue("Bloom blend mode", bloomBlendMode);
 		
 		// draw to screen
 		p.image(pg, 0, 0);
