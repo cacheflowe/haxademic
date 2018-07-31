@@ -384,7 +384,7 @@ extends PApplet
 		autoHideMouse();
 		if(oscState != null) oscState.update();
 		showStats();
-		setAppDockIconAndTitle();
+		setAppDockIconAndTitle(false);
 		if(renderer == PRenderers.PDF) finishPdfRender();
 	}
 	
