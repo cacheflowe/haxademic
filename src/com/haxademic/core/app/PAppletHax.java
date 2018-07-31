@@ -412,10 +412,14 @@ extends PApplet
 		prefsSliders.update();
 	}
 
-	protected void setAppDockIconAndTitle() {
-		if(p.frameCount == 1 && renderer != PRenderers.PDF) {
-			AppUtil.setTitle(p, p.appConfig.getString(AppSettings.APP_NAME, "Haxademic"));
-			AppUtil.setAppToDockIcon(p);
+	protected void setAppDockIconAndTitle(boolean showFPS) {
+		if(renderer != PRenderers.PDF) {
+			if(p.frameCount == 1) {
+				AppUtil.setTitle(p, p.appConfig.getString(AppSettings.APP_NAME, "Haxademic | " + this.getClass().getSimpleName()));
+				AppUtil.setAppToDockIcon(p);
+			} else if(showFPS) {
+				AppUtil.setTitle(p, p.appConfig.getString(AppSettings.APP_NAME, "Haxademic | " + this.getClass().getSimpleName()) + " | " + P.round(p.frameRate) + "fps");
+			}
 		}	
 	}
 	
