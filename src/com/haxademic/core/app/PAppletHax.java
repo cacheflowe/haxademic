@@ -417,7 +417,7 @@ extends PApplet
 			if(p.frameCount == 1) {
 				AppUtil.setTitle(p, p.appConfig.getString(AppSettings.APP_NAME, "Haxademic | " + this.getClass().getSimpleName()));
 				AppUtil.setAppToDockIcon(p);
-			} else if(showFPS) {
+			} else if(appConfig.getBoolean(AppSettings.SHOW_FPS_IN_TITLE, false)) {
 				AppUtil.setTitle(p, p.appConfig.getString(AppSettings.APP_NAME, "Haxademic | " + this.getClass().getSimpleName()) + " | " + P.round(p.frameRate) + "fps");
 			}
 		}	

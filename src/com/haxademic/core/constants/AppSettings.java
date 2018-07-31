@@ -71,4 +71,5 @@ public class AppSettings {
 	public static final String SHOW_DEBUG = "show_stats";
 	public static final String SHOW_SLIDERS = "show_sliders";
 	public static final String AUDIO_DEBUG = "audio_debug";
+	public static final String SHOW_FPS_IN_TITLE = "show_fps_in_title";
 }

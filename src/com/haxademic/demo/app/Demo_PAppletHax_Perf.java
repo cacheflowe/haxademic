@@ -12,6 +12,7 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.WIDTH, 540 );
 		p.appConfig.setProperty( AppSettings.HEIGHT, 320 );
 		p.appConfig.setProperty( AppSettings.SHOW_DEBUG, true );
+		p.appConfig.setProperty( AppSettings.SHOW_FPS_IN_TITLE, false );
 	}
 	
 	public void drawApp() {
