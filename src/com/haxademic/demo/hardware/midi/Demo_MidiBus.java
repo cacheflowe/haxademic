@@ -4,6 +4,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.hardware.midi.devices.LaunchControl;
+import com.haxademic.core.hardware.midi.devices.NovationColors;
 
 public class Demo_MidiBus
 extends PAppletHax {
@@ -30,6 +31,10 @@ extends PAppletHax {
 		p.midiState.sendMidiOut(true, 0, LaunchControl.PAD_06, P.round(P.p.audioFreq(7) * 150f));
 		p.midiState.sendMidiOut(true, 0, LaunchControl.PAD_07, P.round(P.p.audioFreq(8) * 150f));
 		p.midiState.sendMidiOut(true, 0, LaunchControl.PAD_08, P.round(P.p.audioFreq(9) * 150f));
+//		p.midiState.sendMidiOut(true, 0, LaunchControl.PAD_08, P.round(127f * p.mousePercentX()));
+		
+		p.midiState.sendMidiOut(true, 0, LaunchControl.PAD_08, NovationColors.colors[P.round((NovationColors.colors.length - 1) * p.mousePercentX())]);
+
 	}
 	
 }
