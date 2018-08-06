@@ -205,6 +205,7 @@ public class PShapeUtil {
 		newShape.beginShape(P.TRIANGLES);
 		// top
 		for (int i = 0; i < shape.getVertexCount() - 3; i+=3) {
+			// copy triangle vertices & UV coords
 			PVector v1 = shape.getVertex(i);
 			PVector v2 = shape.getVertex(i+1);
 			PVector v3 = shape.getVertex(i+2);
@@ -215,43 +216,46 @@ public class PShapeUtil {
 			float texU3 = shape.getTextureU(i+2);
 			float texV3 = shape.getTextureU(i+2);
 			
+			// half depth to keep new model centered on z-axis
+			float halfDepth = depth / 2f;
+			
 			// top
-			newShape.vertex(v1.x, v1.y, depth/2f, texU1, texV1);
-			newShape.vertex(v2.x, v2.y, depth/2f, texU2, texV2);
-			newShape.vertex(v3.x, v3.y, depth/2f, texU3, texV3);
+			newShape.vertex(v1.x, v1.y, halfDepth, texU1, texV1);
+			newShape.vertex(v2.x, v2.y, halfDepth, texU2, texV2);
+			newShape.vertex(v3.x, v3.y, halfDepth, texU3, texV3);
 			
 			// bottom
-			newShape.vertex(v1.x, v1.y, -depth/2f, texU1, texV1);
-			newShape.vertex(v2.x, v2.y, -depth/2f, texU2, texV2);
-			newShape.vertex(v3.x, v3.y, -depth/2f, texU3, texV3);
+			newShape.vertex(v1.x, v1.y, -halfDepth, texU1, texV1);
+			newShape.vertex(v2.x, v2.y, -halfDepth, texU2, texV2);
+			newShape.vertex(v3.x, v3.y, -halfDepth, texU3, texV3);
 			
 			// walls
 			// wall 1
-			newShape.vertex(v1.x, v1.y,  depth/2f, texU1, texV1);
-			newShape.vertex(v1.x, v1.y, -depth/2f, texU1, texV1);
-			newShape.vertex(v2.x, v2.y,  depth/2f, texU2, texV2);
+			newShape.vertex(v1.x, v1.y,  halfDepth, texU1, texV1);
+			newShape.vertex(v1.x, v1.y, -halfDepth, texU1, texV1);
+			newShape.vertex(v2.x, v2.y,  halfDepth, texU2, texV2);
 
-			newShape.vertex(v1.x, v1.y, -depth/2f, texU1, texV1);
-			newShape.vertex(v2.x, v2.y,  -depth/2f, texU2, texV2);
-			newShape.vertex(v2.x, v2.y,  depth/2f, texU2, texV2);
+			newShape.vertex(v1.x, v1.y, -halfDepth, texU1, texV1);
+			newShape.vertex(v2.x, v2.y, -halfDepth, texU2, texV2);
+			newShape.vertex(v2.x, v2.y,  halfDepth, texU2, texV2);
 
 			// wall 2
-			newShape.vertex(v2.x, v2.y,  depth/2f, texU2, texV2);
-			newShape.vertex(v2.x, v2.y, -depth/2f, texU2, texV2);
-			newShape.vertex(v3.x, v3.y,  depth/2f, texU3, texV3);
+			newShape.vertex(v2.x, v2.y,  halfDepth, texU2, texV2);
+			newShape.vertex(v2.x, v2.y, -halfDepth, texU2, texV2);
+			newShape.vertex(v3.x, v3.y,  halfDepth, texU3, texV3);
 			
-			newShape.vertex(v2.x, v2.y, -depth/2f, texU2, texV2);
-			newShape.vertex(v3.x, v3.y, -depth/2f, texU3, texV3);
-			newShape.vertex(v3.x, v3.y,  depth/2f, texU3, texV3);
+			newShape.vertex(v2.x, v2.y, -halfDepth, texU2, texV2);
+			newShape.vertex(v3.x, v3.y, -halfDepth, texU3, texV3);
+			newShape.vertex(v3.x, v3.y,  halfDepth, texU3, texV3);
 			
 			// wall 3
-			newShape.vertex(v3.x, v3.y,  depth/2f, texU3, texV3);
-			newShape.vertex(v3.x, v3.y, -depth/2f, texU3, texV3);
-			newShape.vertex(v1.x, v1.y,  depth/2f, texU1, texV1);
+			newShape.vertex(v3.x, v3.y,  halfDepth, texU3, texV3);
+			newShape.vertex(v3.x, v3.y, -halfDepth, texU3, texV3);
+			newShape.vertex(v1.x, v1.y,  halfDepth, texU1, texV1);
 			
-			newShape.vertex(v3.x, v3.y, -depth/2f, texU3, texV3);
-			newShape.vertex(v1.x, v1.y, -depth/2f, texU1, texV1);
-			newShape.vertex(v1.x, v1.y,  depth/2f, texU1, texV1);
+			newShape.vertex(v3.x, v3.y, -halfDepth, texU3, texV3);
+			newShape.vertex(v1.x, v1.y, -halfDepth, texU1, texV1);
+			newShape.vertex(v1.x, v1.y,  halfDepth, texU1, texV1);
 		}
 		
 		newShape.endShape();
