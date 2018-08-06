@@ -30,7 +30,7 @@ extends PAppletHax {
 		timer = new Timer();
 		timer.schedule(new TimerTask() { public void run() {
 			killTimer();
-		}}, 4000, 1000);	 // delay, repeat
+		}}, 4000, 1000);	 // delay, [repeat]
 	}
 	
 	protected void killTimer() {
