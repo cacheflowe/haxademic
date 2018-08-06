@@ -1,10 +1,8 @@
 package com.haxademic.core.audio;
 
-import krister.Ess.AudioChannel;
-import processing.core.PApplet;
-
 import com.haxademic.core.app.P;
-import com.haxademic.core.render.Renderer;
+
+import processing.core.PApplet;
 
 public class WaveformData {
 	
