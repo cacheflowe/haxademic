@@ -260,6 +260,7 @@ public class PShapeUtil {
 		
 		newShape.endShape();
 		
+		// recurse through original shape children if nested shapes
 		for (int j = 0; j < shape.getChildCount(); j++) {
 			PShape subShape = shape.getChild(j);
 			createExtrudedShape(subShape, depth, newShape);
