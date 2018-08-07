@@ -2,9 +2,46 @@ package com.haxademic.core.hardware.midi.devices;
 
 public class NovationColors {
 
-	// from: http://forum.launchpad-pro.com/viewtopic.php?pid=3078#p3078
+	public static int NONE = 76;
+	public static int RED_WEAK = 77;
+	public static int RED_MEDIUM = 78;
+	public static int RED_RED_STRONG = 79;
+	public static int ORANGE_WEAKER = 93;
+	public static int ORANGE_WEAK = 94;
+	public static int ORANGE_MEDIUM = 111;
+	public static int ORANGE_STRONG = 95;
+	public static int GREEN_WEAK = 92;
+	public static int GREEN_MEDIUM = 108;
+	public static int GREEN_STRONG = 124;
+	public static int GREEN_LIME_2 = 125;
+	public static int GREEN_LIME_WEAK = 109;
+	public static int GREEN_LIME_1 = 126;
+	public static int YELLOW_MEDIUM = 110;
+	public static int YELLOW_STRONG = 127;
 	
+	public static final int[] colors = new int[] {
+			NONE,
+			RED_WEAK,
+			RED_MEDIUM,
+			RED_RED_STRONG,
+			ORANGE_WEAKER,
+			ORANGE_WEAK,
+			ORANGE_MEDIUM,
+			ORANGE_STRONG,
+			GREEN_WEAK,
+			GREEN_MEDIUM,
+			GREEN_STRONG,
+			GREEN_LIME_2,
+			GREEN_LIME_WEAK,
+			GREEN_LIME_1,
+			YELLOW_MEDIUM,
+			YELLOW_STRONG,
+	};
+}
+
 	/*
+	
+	// from: http://forum.launchpad-pro.com/viewtopic.php?pid=3078#p3078
 
 	FULL CHART:
 
@@ -42,26 +79,4 @@ public class NovationColors {
 
 	None - 76 / 72 / 68 / 64 / 12 / 8 / 4 / 0
 
-	*/
-
-	
-	public static final int[] colors = new int[] {
-			76, // - No Color
-			77, // - Weak Red
-			78, // - Medium Red
-			79, // - Strong Red
-			93, // - Weaker Orange
-			94, // - Weak Orange
-			111, // - Medium Orange
-			95, // - Strong Orange
-			92, // - Weak Green
-			108, // - Medium Green
-			124, // - Strong Green
-			125, // - Lime 2
-			109, // - Weak Lime 1
-			126, // - Lime 1
-			110, // - Medium Yellow
-			127, // - Strong Yellow
-	};
-}
-
+	 */
