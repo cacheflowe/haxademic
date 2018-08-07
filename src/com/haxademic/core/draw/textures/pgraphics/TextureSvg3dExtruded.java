@@ -57,7 +57,7 @@ extends BaseTexture {
 		Color,
 		Textured,
 //		TextureRepeat,
-		AudioTriangles,
+//		AudioTriangles,
 		Displacement2d,
 		Points,
 	}
@@ -104,10 +104,9 @@ extends BaseTexture {
 			buildTextureFromSvg(P.p.loadShape( FileUtil.getFile("images/_sketch/sendgrid/svg/sendgrid-logo-02.svg"))),
 			buildTextureFromSvg(P.p.loadShape( FileUtil.getFile("images/_sketch/sendgrid/svg/sendgrid-logo-03.svg"))),
 //			buildTextureFromSvg(P.p.loadShape( FileUtil.getFile("images/_sketch/sendgrid/svg/sendgrid-logo-04.svg"))),
-			buildTextureFromSvg(P.p.loadShape( FileUtil.getFile("images/_sketch/sendgrid/svg/sendgrid-logo-05.svg"))),
+//			buildTextureFromSvg(P.p.loadShape( FileUtil.getFile("images/_sketch/sendgrid/svg/sendgrid-logo-05.svg"))),
 		};
 		curMeshTexture = meshTextures[0];
-		DebugUtil.printErr("Load more logoTextures and swap out");
 		
 		// build audio texture to size of logo texture
 //		audioTexture = new TextureEQGrid(logoTexture.width, logoTexture.height);
@@ -182,7 +181,7 @@ extends BaseTexture {
 		case Color:
 			break;
 		case Textured:
-		case AudioTriangles:
+//		case AudioTriangles:
 			audioTexture.update();
 			// add slight bit of original texture
 			BlendTowardsTexture.instance(P.p).setBlendLerp(0.5f);
@@ -258,12 +257,12 @@ extends BaseTexture {
 //			DrawUtil.setBasicLights(_texture);
 			PShapeUtil.drawTriangles(_texture, logo3d, audioTexture.texture(), logoScale.value());
 			break;
-		case AudioTriangles:
-			DrawUtil.setBasicLights(_texture);
-			_texture.fill(_colorEase.colorInt(0.2f));
-			PShapeUtil.drawTriangles(_texture, logo3d, curMeshTexture, logoScale.value());
-			PShapeUtil.drawTrianglesAudio(_texture, logo3d, logoScale.value() + 0.01f, _colorEase.colorInt());
-			break;
+//		case AudioTriangles:
+//			DrawUtil.setBasicLights(_texture);
+//			_texture.fill(_colorEase.colorInt(0.2f));
+//			PShapeUtil.drawTriangles(_texture, logo3d, curMeshTexture, logoScale.value());
+//			PShapeUtil.drawTrianglesAudio(_texture, logo3d, logoScale.value() + 0.01f, _colorEase.colorInt());
+//			break;
 		case Displacement2d:
 //			DrawUtil.setBetterLights(_texture);
 			DrawUtil.setBasicLights(_texture);

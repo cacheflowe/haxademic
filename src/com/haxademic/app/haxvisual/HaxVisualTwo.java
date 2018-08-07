@@ -277,6 +277,8 @@ extends PAppletHax {
 		p.debugView.setTexture(_pg);
 		_pgPinnable.update(p.g);
 		sendDmxLights();
+		// debug render Time
+		for (int i = 0; i < texturePools.length; i++) p.debugView.setValue("texture "+i, texturePools[i].get(poolCurTextureIndexes[i]).toString());
 	}
 
 	protected void updateTextures() {

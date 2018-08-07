@@ -15,7 +15,7 @@ extends BaseTexture {
 	protected ArrayList<PVector> _vectorField;
 	protected ArrayList<FieldParticle> _particles;
 	float FIELD_SPACING = 30f;
-	float NUM_PARTICLES = 700f;
+	float NUM_PARTICLES = 500f;
 	float ATTENTION_RADIUS = 40;
 	int DRAWS_PER_FRAME = 1;
 	int OVERDRAW_FADE = 20;

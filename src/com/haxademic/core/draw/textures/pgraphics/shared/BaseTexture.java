@@ -23,6 +23,7 @@ public class BaseTexture {
 	protected int _color;
 	protected EasingColor _colorEase;
 	protected int _timingFrame = 0;
+	protected int renderTime = 0;
 	
 //	public static PShader _chroma;
 	protected int _brightMode = -1;
@@ -50,7 +51,7 @@ public class BaseTexture {
 	
 	public String toString() {
 		// return this.getClass().getName();
-		return this.getClass().getSimpleName();
+		return this.getClass().getSimpleName() + " (" + renderTime + "ms)";
 	}
 	
 	public PGraphics texture() {
@@ -139,6 +140,7 @@ public class BaseTexture {
 	}
 	
 	public void update() {
+		int startRender = P.p.millis();
 		_colorEase.update();
 		resetUseCount(); // this should be the last thing that happens in a frame, to help with texture pool optimization
 		preDraw();
@@ -146,6 +148,7 @@ public class BaseTexture {
 		updateDraw();
 		_texture.endDraw();
 		postProcess();
+		renderTime = P.p.millis() - startRender;
 	}
 	
 	public void preDraw() {

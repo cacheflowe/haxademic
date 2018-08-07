@@ -48,7 +48,7 @@ extends BaseTexture {
 		// build the blocks
 		int cols = 20;
 		int rows = 10;
-		float blockSize = 10f;
+		float blockSize = 20f;
 		float blockSpacing = blockSize * 2f;
 		float halfW = cols/2 * blockSpacing;
 		float halfH = rows/2 * blockSpacing;

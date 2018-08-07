@@ -30,8 +30,8 @@ extends BaseTexture {
 
 
 	// Number of columns and rows in the grid
-	int cols = 40;
-	int rows = 30;
+	int cols = 30;
+	int rows = 20;
 	float startR = P.p.random(0,2*P.PI);
 	float startIncR = P.p.random(.001f,.05f);
 	float incR = P.p.random(.0001f,.001f);

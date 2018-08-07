@@ -11,7 +11,7 @@ extends BaseTexture {
 	
 	protected float _amp = 20;
 	protected float _maxRadius = 0;
-	protected float _numCircles = 100;
+	protected float _numCircles = 50;
 	protected float _circleRadiusStep = 0;
 	protected float _spectrumInterval = 512f / _numCircles;
 
@@ -21,7 +21,7 @@ extends BaseTexture {
 
 		buildGraphics( width, height );
 		
-		_maxRadius = width + height;
+		_maxRadius = width;
 		_circleRadiusStep = _maxRadius / _numCircles;
 	}
 	

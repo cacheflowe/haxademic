@@ -39,7 +39,7 @@ extends BaseTexture {
 		noiseTexture = new TextureShader(TextureShader.noise_simplex_2d_iq, 0.0005f);
 //		audioTexture = new TextureEQGrid(200, 200);
 //		audioTexture = new TextureEQBandDistribute(200, 200);
-		audioTexture = new TextureEQConcentricCircles(200, 200);
+		audioTexture = new TextureEQConcentricCircles(200, 100);
 		
 		_texture.noSmooth();
 		
