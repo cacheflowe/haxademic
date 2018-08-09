@@ -3,7 +3,7 @@ package com.haxademic.demo.system;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.system.AppRestart;
 
-public class Demo_AppRestart_REFACTOR
+public class Demo_AppRestart
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 

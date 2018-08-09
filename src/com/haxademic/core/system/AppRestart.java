@@ -81,7 +81,7 @@ public class AppRestart {
 				runBeforeRestart.run();
 			}
 			// exit
-			System.exit(0);
+			P.p.exit();
 		} catch (Exception e) {
 			// something went wrong
 			throw new IOException("Error while trying to restart the application", e);
