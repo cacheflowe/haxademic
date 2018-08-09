@@ -8,7 +8,7 @@ import com.haxademic.core.hardware.shared.InputState;
 import themidibus.MidiListener;
 import themidibus.SimpleMidiListener;
 
-public class MidiState implements SimpleMidiListener {
+public class MidiDevice implements SimpleMidiListener {
 	
 	protected HashMap<Integer, Integer> midiButtonVal = new HashMap<Integer, Integer>();
 	protected HashMap<Integer, InputState> midiButtons = new HashMap<Integer, InputState>();
@@ -16,7 +16,7 @@ public class MidiState implements SimpleMidiListener {
 	protected HashMap<Integer, InputState> midiCCState = new HashMap<Integer, InputState>();
 	protected int lastUpdatedFrame = 0;
 
-	public MidiState() {
+	public MidiDevice() {
 		if(P.p.midiBus != null) P.p.midiBus.addMidiListener((MidiListener)this);
 
 //		new Thread(new Runnable() { public void run() {

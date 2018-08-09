@@ -9,7 +9,7 @@ import com.haxademic.app.haxvisual.viz.IVizModule;
 import com.haxademic.app.haxvisual.viz.ModuleBase;
 import com.haxademic.core.camera.CameraOscillate;
 import com.haxademic.core.camera.common.ICamera;
-import com.haxademic.core.hardware.midi.MidiState;
+import com.haxademic.core.hardware.midi.MidiDevice;
 
 public class PlusRing
 	extends ModuleBase

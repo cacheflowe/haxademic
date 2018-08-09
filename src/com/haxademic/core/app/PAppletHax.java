@@ -27,7 +27,7 @@ import com.haxademic.core.hardware.kinect.IKinectWrapper;
 import com.haxademic.core.hardware.kinect.KinectWrapperV1;
 import com.haxademic.core.hardware.kinect.KinectWrapperV2;
 import com.haxademic.core.hardware.kinect.KinectWrapperV2Mac;
-import com.haxademic.core.hardware.midi.MidiState;
+import com.haxademic.core.hardware.midi.MidiDevice;
 import com.haxademic.core.hardware.osc.OscWrapper;
 import com.haxademic.core.hardware.webcam.WebCamWrapper;
 import com.haxademic.core.render.AnimationLoop;
@@ -105,7 +105,7 @@ extends PApplet
 
 	// input
 	public WebCamWrapper webCamWrapper = null;
-	public MidiState midiState = null;
+	public MidiDevice midiState = null;
 	public MidiBus midiBus;
 	public KeyboardState keyboardState;
 	public IKinectWrapper kinectWrapper = null;
@@ -273,7 +273,7 @@ extends PApplet
 					p.appConfig.getInt(AppSettings.MIDI_DEVICE_OUT_INDEX, 0)
 					);
 		}
-		midiState = new MidiState();
+		midiState = new MidiDevice();
 		keyboardState = new KeyboardState();
 		browserInputState = new BrowserInputState();
 		if( p.appConfig.getBoolean( "leap_active", false ) == true ) leapMotion = new LeapMotion(this);
