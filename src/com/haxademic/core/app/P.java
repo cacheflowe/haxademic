@@ -27,7 +27,7 @@ extends PApplet {
 	// logging
 	
 	public static boolean logging = true;
-	public static void out(Object... args) {
+	public static void out(Object ...args) {
 		if(logging) P.println(args);
 	}
 }
