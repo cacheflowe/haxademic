@@ -14,8 +14,11 @@ implements IScriptCallback {
 	protected ScriptRunner scriptRunner;
 	
 	public void setupFirstFrame() {
-		scriptRunner = new ScriptRunner("image-sequence-to-video", this);
-		scriptRunner.runWithParams(FileUtil.getFile("haxademic/images/floaty-blob.anim"));
+//		scriptRunner = new ScriptRunner("image-sequence-to-video", this);
+//		scriptRunner.runWithParams(FileUtil.getFile("haxademic/images/floaty-blob.anim"));
+		
+		scriptRunner = new ScriptRunner("normalize-wav-file", this);
+		scriptRunner.runWithParams(FileUtil.getFile("audio/drums/bass.wav"), 0);
 	}
 
 	public void drawApp() {
@@ -24,7 +27,7 @@ implements IScriptCallback {
 	
 	@Override
 	public void scriptComplete() {
-		P.out("Image sequence to video script complete!");
+		P.out("Script complete!");
 	}
 
 }

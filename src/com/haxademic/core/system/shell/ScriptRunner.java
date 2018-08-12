@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.stream.Stream;
 
 import com.haxademic.core.app.P;
+import com.haxademic.core.debug.DebugUtil;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.system.SystemUtil;
 
@@ -23,7 +24,12 @@ public class ScriptRunner {
 		// create string args array
 		String[] argz = new String[args.length];
 		for (int i = 0; i < argz.length; i++) {
-			argz[i] = (String) args[i];
+			if(args[i] instanceof String) {
+				argz[i] = (String) args[i];
+			} else {
+				DebugUtil.printErr("[ERROR]: ScriptRunner arg is not a String: " + args[i]);
+				argz[i] = "";
+			}
 		}
 		
 		// run script
