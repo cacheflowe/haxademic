@@ -15,6 +15,7 @@ del %filePath%
 
 echo "============== Renaming normalized file back to source: %filePath%"
 For %%A in ("%filePath%") do (
+    Set fileLocation=%%~dpA
     Set fileName=%%~nxA
 )
 ren %fileNormPath% %fileName%
