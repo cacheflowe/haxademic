@@ -336,9 +336,9 @@ public class FileUtil {
 	
 	// DELETION
 	
-	public static void deleteFile(String filePath) {
+	public static boolean deleteFile(String filePath) {
 		File file = new File(filePath);
-		file.delete();
+		return file.delete();
 	}
 	
 }
