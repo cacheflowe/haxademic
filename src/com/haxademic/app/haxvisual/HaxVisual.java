@@ -160,11 +160,6 @@ extends PAppletHax
 			if ( key == ')' ) _readyForProgramChangeInt = 9; 
 			if ( key == '_' ) _readyForProgramChangeInt = 10; 
 			//if ( key == '+' ) _readyForProgramChangeInt = 11; 
-			
-			// big screenshot
-			if ( key == '\\' ) { 
-				ScreenUtil.screenshotHiRes( p, 3, P.P3D, FileUtil.getHaxademicOutputPath() + "saved_img/" );
-			}
 //		}
 		
 		// pass input on to module

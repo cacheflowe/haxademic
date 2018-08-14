@@ -11,7 +11,6 @@ import java.awt.geom.Rectangle2D;
 import com.haxademic.core.system.SystemUtil;
 
 import processing.core.PApplet;
-import processing.core.PGraphics;
 import processing.core.PImage;
 
 public class ScreenUtil {
@@ -20,20 +19,6 @@ public class ScreenUtil {
 		String filename = outputDir + SystemUtil.getTimestampFine( p ) + ".png";
 		p.saveFrame( filename );
 		return filename;
-	}
-
-	public static void screenshotHiRes( PApplet p, int scaleFactor, String p5Renderer, String outputDir ) {
-		// from: http://amnonp5.wordpress.com/2012/01/28/25-life-saving-tips-for-processing/
-		PGraphics hires = p.createGraphics(p.width*scaleFactor, p.height*scaleFactor, p5Renderer );
-		hires.beginDraw();
-		p.beginRecord(hires);
-		hires.scale(scaleFactor);
-		p.smooth();
-		p.draw();
-		p.endRecord();
-		hires.endDraw();
-		hires.save( outputDir + SystemUtil.getTimestamp(p) + "-hires.png" );
-		p.noSmooth();
 	}
 
 	public static PImage getScreenShotAsPImage( PApplet p ) {
