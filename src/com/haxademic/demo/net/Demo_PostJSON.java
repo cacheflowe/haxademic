@@ -1,5 +1,6 @@
 package com.haxademic.demo.net;
 
+import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.Arrays;
@@ -12,11 +13,13 @@ import com.haxademic.core.constants.PRenderers;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.image.Base64Image;
 import com.haxademic.core.draw.image.ImageUtil;
+import com.haxademic.core.draw.image.ScreenUtil;
 import com.haxademic.core.net.IPostJSONCallback;
 import com.haxademic.core.net.PostJSON;
 import com.haxademic.core.text.StringFormatter;
 
 import processing.core.PGraphics;
+import processing.core.PImage;
 import processing.data.JSONObject;
 
 public class Demo_PostJSON
@@ -26,6 +29,8 @@ implements IPostJSONCallback {
 	
 	protected PostJSON postJSON;
 	protected PGraphics scaledPG;
+	protected PGraphics screenshotPG;
+	protected PImage screenshot;
 //	protected String serverPostPath = "http://localhost/_open-source/haxademic/www/post-json/";
 	protected String serverPostPath = "http://localhost/_open-source/haxademic/www/dashboard/";
 	
@@ -53,9 +58,12 @@ implements IPostJSONCallback {
 		// draw to screen
 		pg.endDraw();
 		p.image(pg, 0, 0);
+		
+		// if screenshot is queued, send off to dashboard
+		checkQueuedScreenshot();
  	}
 	
-	protected void submitJSON() {
+	protected void submitJSON(BufferedImage img1, BufferedImage img2) {
 		// build JSON object & set a string
 		// jsonOut.setString("date", P.year() + "-" + P.month() + "-" + P.day());
 		// jsonOut.setString("time", P.hour() + ":" + P.minute() + ":" + P.second());
@@ -68,15 +76,23 @@ implements IPostJSONCallback {
         
         // add image to json
 		String base64Img = "";
+		String base64Screenshot = "";
 		try {
-			ImageUtil.copyImage(pg, scaledPG);
-			base64Img = Base64Image.encodePImageToBase64(scaledPG, "png");
+			// send a scaled-down image from the app
+			base64Img = Base64Image.encodePImageToBase64(img1, "png");
+			
+			// send a screenshot of the machine
+//			PImage screenshot = ScreenUtil.getScreenShotAllMonitors();
+//			if(screenshotPG == null) screenshotPG = p.createGraphics(screenshot.width / 4, screenshot.height / 4, PRenderers.P2D);
+//			ImageUtil.copyImage(screenshot, screenshotPG);
+			base64Screenshot = Base64Image.encodePImageToBase64(img2, "png");
 		} catch (UnsupportedEncodingException e1) {
 			e1.printStackTrace();
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
         jsonOut.setString("imageBase64", base64Img);
+        jsonOut.setString("screenshotBase64", base64Screenshot);
 
         // send json to server
         try {
@@ -86,9 +102,32 @@ implements IPostJSONCallback {
 		}
 	}
 	
+	protected void takeThreadedScreenshot() {
+		new Thread(new Runnable() { public void run() {
+			screenshot = ScreenUtil.getScreenShotAllMonitors();
+			if(screenshotPG == null) screenshotPG = p.createGraphics(screenshot.width / 1, screenshot.height / 1, PRenderers.P2D);
+		}}).start();	
+	}
+	
+	protected void checkQueuedScreenshot() {
+		if(screenshot == null) return;
+		
+		ImageUtil.copyImage(pg, scaledPG);
+		ImageUtil.copyImage(screenshot, screenshotPG);
+		screenshot = null;
+		BufferedImage img1 = (BufferedImage)scaledPG.getNative();
+		BufferedImage img2 = (BufferedImage)screenshotPG.getNative();
+		new Thread(new Runnable() { public void run() {
+			submitJSON(img1, img2);
+		}}).start();
+	}
+	
 	public void keyPressed() {
 		super.keyPressed();
-		if(p.key == ' ') submitJSON();
+		if(p.key == ' ') {
+//			submitJSON();
+			takeThreadedScreenshot();
+		}
 	}
 	
 	//////////////////////////////

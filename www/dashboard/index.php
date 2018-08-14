@@ -1,6 +1,7 @@
 <?php
 
 // TODO LATER:
+// Thread the desktop screenshot
 // Cache locally on app machine, then upload JSON files and delete on success
 // Organize data:
 // - Check-ins (Store as array per-day: performance, uptime, screenshot of the app running)
@@ -56,7 +57,8 @@ if (strlen($json_params) > 0 && isValidJSON($json_params)) {
     $dateDataDir = $dateDir . 'data/';
     $dataFile = $dateDataDir . $timestamp . '.json';
     $dateImagesDir = $dateDir . 'images/';
-    $screenshotFile = $dateImagesDir . $timestamp . '.png';
+    $appImage = $dateImagesDir . $timestamp . '.png';
+    $screenshotImage = $dateImagesDir . $timestamp . '-screenshot.png';
 
     // create project dir
     makeDirs($projectDir);
@@ -70,12 +72,22 @@ if (strlen($json_params) > 0 && isValidJSON($json_params)) {
 
     // write image to file and replace base64 image with new file path
     if(isset($json_obj['imageBase64'])) {
-      base64_to_png($json_obj['imageBase64'], $screenshotFile);
-      $json_obj['image'] = $screenshotFile;
+      base64_to_png($json_obj['imageBase64'], $appImage);
+      $json_obj['image'] = $appImage;
       unset($json_obj['imageBase64']);
-      echo "Image saved to: \n" . $screenshotFile . "\n";
-      print_r($json_obj);
+      echo "Image saved to: \n" . $appImage . "\n";
     }
+
+    // write image to file and replace base64 image with new file path
+    if(isset($json_obj['screenshotBase64'])) {
+      base64_to_png($json_obj['screenshotBase64'], $screenshotImage);
+      $json_obj['screenshot'] = $screenshotImage;
+      unset($json_obj['screenshotBase64']);
+      echo "Screenshot saved to: \n" . $screenshotImage . "\n";
+    }
+
+    // debug print newly-written json file
+    print_r($json_obj);
 
     // write json data to file
     file_put_contents($dataFile, json_encode($json_obj, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT) );
