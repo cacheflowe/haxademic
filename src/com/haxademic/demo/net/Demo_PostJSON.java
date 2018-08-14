@@ -57,10 +57,14 @@ implements IPostJSONCallback {
 	
 	protected void submitJSON() {
 		// build JSON object & set a string
+		// jsonOut.setString("date", P.year() + "-" + P.month() + "-" + P.day());
+		// jsonOut.setString("time", P.hour() + ":" + P.minute() + ":" + P.second());
         JSONObject jsonOut = new JSONObject();
         jsonOut.setString("project", "haxademic");
         jsonOut.setString("frameCount", p.frameCount + "");
+        jsonOut.setString("uptime", StringFormatter.timeFromSeconds(P.p.millis() / 1000, true) + "");
         jsonOut.setString("frameRate", P.round(p.frameRate)+"");
+        jsonOut.setString("resolution", P.p.width + "x" + P.p.height);
         
         // add image to json
 		String base64Img = "";
