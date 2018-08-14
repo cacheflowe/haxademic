@@ -13,7 +13,10 @@ import processing.core.PImage;
 
 public class Base64Image {
 	// adapted from: https://forum.processing.org/two/discussion/6958/pimage-base64-encode-and-decode
-
+	// more info: https://docs.oracle.com/javase/tutorial/2d/images/saveimage.html
+	// String writerNames[] = ImageIO.getWriterFormatNames();
+	// [JPG, jpg, bmp, BMP, gif, GIF, WBMP, png, PNG, wbmp, jpeg, JPEG]
+	
 	public static String encodePImageToBase64(PImage img, String format) throws UnsupportedEncodingException, IOException {
 		String result = null;
 		BufferedImage buffImage = (BufferedImage)img.getNative();

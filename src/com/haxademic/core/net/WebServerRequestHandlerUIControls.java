@@ -4,7 +4,8 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.data.ConvertUtil;
 
-public class WebServerRequestHandlerUIControls extends WebServerRequestHandler {
+public class WebServerRequestHandlerUIControls 
+extends WebServerRequestHandler {
 	
 	protected PAppletHax delegate;
 	
