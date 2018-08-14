@@ -80,11 +80,6 @@ implements IPostJSONCallback {
 		try {
 			// send a scaled-down image from the app
 			base64Img = Base64Image.encodePImageToBase64(img1, "png");
-			
-			// send a screenshot of the machine
-//			PImage screenshot = ScreenUtil.getScreenShotAllMonitors();
-//			if(screenshotPG == null) screenshotPG = p.createGraphics(screenshot.width / 4, screenshot.height / 4, PRenderers.P2D);
-//			ImageUtil.copyImage(screenshot, screenshotPG);
 			base64Screenshot = Base64Image.encodePImageToBase64(img2, "png");
 		} catch (UnsupportedEncodingException e1) {
 			e1.printStackTrace();
