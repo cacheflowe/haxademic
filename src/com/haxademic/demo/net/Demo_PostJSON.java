@@ -14,7 +14,6 @@ import com.haxademic.core.draw.image.Base64Image;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.net.IPostJSONCallback;
 import com.haxademic.core.net.PostJSON;
-import com.haxademic.core.net.WebServer;
 import com.haxademic.core.text.StringFormatter;
 
 import processing.core.PGraphics;
@@ -25,7 +24,6 @@ extends PAppletHax
 implements IPostJSONCallback {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
-	protected WebServer server;
 	protected PostJSON postJSON;
 	protected PGraphics scaledPG;
 //	protected String serverPostPath = "http://localhost/_open-source/haxademic/www/post-json/";
