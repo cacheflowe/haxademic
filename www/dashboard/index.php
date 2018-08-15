@@ -2,8 +2,7 @@
 
 // TODO LATER:
 // Cache locally on app machine, then upload JSON files and delete on success
-// Organize data:
-// - Interactions (Store as array per-day so we can parse/sort/chart later)
+// User interaction tracking (Store as array per-day so we can parse/sort/chart later?)
 // - Crash alert (Also sends an email?)
 
 // Notes:

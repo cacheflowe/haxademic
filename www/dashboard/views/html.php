@@ -8,10 +8,14 @@
     <title>Project Dashboard</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-green.min.css">
+    <!-- https://getmdl.io/components/index.html -->
     <style>
       body {
         background: #222;
         color: #eee;
+      }
+      .mdl-card {
+        min-height: 0;
       }
       .mdl-card__media {
         background-color: #000;
@@ -58,6 +62,13 @@
           <span class="mdl-layout-title">Project Dashboard</span>
           <nav class="mdl-navigation">
             <a class="mdl-navigation__link" href="./">Home</a>
+            <hr>
+            <?php
+              $projectDirs = get_files_chrono("./projects", false);
+              foreach($projectDirs as $projectId) {
+                echo '<a class="mdl-navigation__link" href="./?project=' . $projectId . '">' . ucwords($projectId) . '</a>';
+              }
+            ?>
           </nav>
         </div>
 

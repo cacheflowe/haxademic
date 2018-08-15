@@ -4,9 +4,8 @@
 <div class="mdl-grid portfolio-max-width">
   <?php
   // project list links
-  $path = "./projects";
-  $files = get_files_chrono($path, false);
-  foreach($files as $projectId) {
+  $projectDirs = get_files_chrono("./projects", false);
+  foreach($projectDirs as $projectId) {
     $projectName = ucwords($projectId);
     $mostRecentJsonFile = last_checkin_data_for_project($projectId);
     $json_data = file_get_contents($mostRecentJsonFile);
