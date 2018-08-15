@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <jardesc>
     <jar path="haxademic/lib/haxademic/haxademic.jar"/>
-    <options buildIfNeeded="true" compress="true" descriptionLocation="/haxademic/haxademic.jardesc" exportErrors="true" exportWarnings="true" includeDirectoryEntries="false" overwrite="false" saveDescription="true" storeRefactorings="false" useSourceFolders="false"/>
+    <options buildIfNeeded="true" compress="true" descriptionLocation="/haxademic/haxademic.jardesc" exportErrors="true" exportWarnings="true" includeDirectoryEntries="false" overwrite="true" saveDescription="true" storeRefactorings="false" useSourceFolders="false"/>
     <storedRefactorings deprecationInfo="true" structuralOnly="false"/>
     <selectedProjects/>
     <manifest generateManifest="true" manifestLocation="/haxademic/haxademic.jardesc" manifestVersion="1.0" reuseManifest="false" saveManifest="true" usesManifest="true">
@@ -50,6 +50,7 @@
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.system"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.vendor"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.audio.analysis.input"/>
+        <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.system.shell"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.draw.shapes"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.render.joons"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.hardware.leap"/>
