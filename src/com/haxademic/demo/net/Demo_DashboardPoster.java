@@ -3,6 +3,7 @@ package com.haxademic.demo.net;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.net.DashboardPoster;
+import com.haxademic.core.net.PostJSON;
 
 public class Demo_DashboardPoster
 extends PAppletHax {
@@ -11,7 +12,7 @@ extends PAppletHax {
 	protected DashboardPoster dashboardPoster;
 	
 	public void setupFirstFrame() {
-		dashboardPoster = new DashboardPoster("test", "http://localhost/_open-source/haxademic/www/dashboard/", 60, 0.5f, 0.5f);
+		dashboardPoster = new DashboardPoster("test", "http://localhost/_open-source/haxademic/www/dashboard/", 20, 0.5f, 0.5f);
 		dashboardPoster.setImage(p.g);
 	}
 	
@@ -32,6 +33,8 @@ extends PAppletHax {
 		// draw to screen
 		pg.endDraw();
 		p.image(pg, 0, 0);
+		
+		PostJSON.DEBUG = true;
  	}
 	
 }
