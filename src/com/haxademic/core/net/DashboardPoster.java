@@ -1,4 +1,4 @@
-package com.haxademic.core.system;
+package com.haxademic.core.net;
 
 import java.awt.image.BufferedImage;
 import java.io.IOException;
@@ -9,8 +9,6 @@ import com.haxademic.core.constants.PRenderers;
 import com.haxademic.core.draw.image.Base64Image;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.image.ScreenUtil;
-import com.haxademic.core.net.IPostJSONCallback;
-import com.haxademic.core.net.PostJSON;
 import com.haxademic.core.text.StringFormatter;
 
 import processing.core.PGraphics;

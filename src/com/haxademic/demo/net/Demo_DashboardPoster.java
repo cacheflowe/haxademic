@@ -2,7 +2,7 @@ package com.haxademic.demo.net;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.context.DrawUtil;
-import com.haxademic.core.system.DashboardPoster;
+import com.haxademic.core.net.DashboardPoster;
 
 public class Demo_DashboardPoster
 extends PAppletHax {
