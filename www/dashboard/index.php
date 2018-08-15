@@ -3,7 +3,6 @@
 // TODO LATER:
 // Cache locally on app machine, then upload JSON files and delete on success
 // Organize data:
-// - Check-ins (Store as array per-day: performance, uptime, screenshot of the app running)
 // - Interactions (Store as array per-day so we can parse/sort/chart later)
 // - Crash alert (Also sends an email?)
 
@@ -20,9 +19,15 @@ include './views/functions.php';
 // check for JSON post
 $jsonPosted = file_get_contents("php://input");
 
+// get props
+$projectPath = dirName($_SERVER['SCRIPT_FILENAME']);
+$detailDate = $_GET['date'];
+$projectId = $_GET['project'];
+$projectName = ucwords($projectId);
+
 if (isValidJSON($jsonPosted)) {
   // save file 
-  include './views/new-post.php'; 
+  include './views/json-request.php'; 
 } else {
   // list projects
   include './views/html.php'; 

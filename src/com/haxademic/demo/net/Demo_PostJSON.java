@@ -69,7 +69,7 @@ implements IPostJSONCallback {
 		// jsonOut.setString("date", P.year() + "-" + P.month() + "-" + P.day());
 		// jsonOut.setString("time", P.hour() + ":" + P.minute() + ":" + P.second());
         JSONObject jsonOut = new JSONObject();
-        jsonOut.setString("project", "haxademic");
+        jsonOut.setString("project", "test");
         jsonOut.setString("frameCount", p.frameCount + "");
         jsonOut.setString("uptime", StringFormatter.timeFromSeconds(P.p.millis() / 1000, true) + "");
         jsonOut.setString("frameRate", P.round(p.frameRate)+"");

@@ -22,6 +22,7 @@ if(isset($json_obj['project'])) {
   $screenshotImage = $dateImagesDir . $timestamp . '-screenshot.png';
 
   // create project dir
+  chmod($projectDir, 0755);
   makeDirs($projectDir);
   makeDirs($checkinsDir);
   makeDirs($dateDir);
