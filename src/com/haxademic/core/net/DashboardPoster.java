@@ -65,7 +65,7 @@ implements IPostJSONCallback {
 	protected void submitJSON(BufferedImage img1, BufferedImage img2) {
 		// build JSON object & set basic stats
         JSONObject jsonOut = new JSONObject();
-        jsonOut.setString("project", "test");
+        jsonOut.setString("project", projectName);
         jsonOut.setString("frameCount", P.p.frameCount + "");
         jsonOut.setString("uptime", StringFormatter.timeFromSeconds(P.p.millis() / 1000, true) + "");
         jsonOut.setString("frameRate", P.round(P.p.frameRate)+"");
