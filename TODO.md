@@ -5,7 +5,9 @@
   * Sphinx4 speech recognition
     * VOICE ACTIVATED DMX LIGHT COLORS in a room! "red!" "blue!"
     * Copy / paste + Robot for tired hands
-  * Interphase + Launchmad direct interface
+  * Interphase
+    * Integrate HaxVisualTwo
+    * Integrate Launchpad direct interface
 * Audio
   * Is ESS getting initialized when MIDI input is turned on???
   * Turn off Beads audio input object output - this should not pass through
@@ -18,7 +20,7 @@
 * DMX
   * Bring nike timeclock into Haxademic as a new, more robust video-to-dmx demo/app
 * GLSL
-  * Convert Obrit noise: https://www.shadertoy.com/view/4t3yDn
+  * Convert Orbit noise: https://www.shadertoy.com/view/4t3yDn
   * Figure out `particle-displace-curl.glsl`
   * Add `feedback-map.glsl` & `feedback-radial.glsl` shader wrapper classes
   * Build a post-processing library: https://github.com/processing/processing/wiki/Library-Basics
