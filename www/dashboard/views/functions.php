@@ -42,26 +42,26 @@ function get_files_chrono($path, $reverse=true) {
 }
 
 // get most recent project date
-function last_checkin_date_for_project($projectId) {
-  $dateDirs = get_files_chrono("./projects/$projectId/checkins", false);
+function last_checkin_date_for_project($project_id) {
+  $dateDirs = get_files_chrono("./projects/$project_id/checkins", false);
   return end($dateDirs); // return last element in non-reversed array
 }
 
 // get most recent project data
-function last_checkin_data_for_project($projectId) {
-  $recentDate = last_checkin_date_for_project($projectId);
-  $projectDatePath = "./projects/$projectId/checkins/$recentDate/data/";
+function last_checkin_data_for_project($project_id) {
+  $recentDate = last_checkin_date_for_project($project_id);
+  $projectDatePath = "./projects/$project_id/checkins/$recentDate/data/";
   $jsonFiles = get_files_chrono($projectDatePath, false);
   return $projectDatePath . end($jsonFiles);
 }
 
-function html_checkin_detail($checkinJSON, $projectId, $showTitle) {
+function html_checkin_detail($checkinJSON, $project_id, $showTitle) {
   $relaunchClass = (isset($checkinJSON['relaunch'])) ? 'relaunched' : '';
   $html = "" .
           '<div class="mdl-cell mdl-card mdl-shadow--2dp portfolio-card ' . $relaunchClass . '">';
           if($showTitle == true) {
     $html .='  <div class="mdl-card__title">' .
-            '    <h2 class="mdl-card__title-text">' . ucwords($projectId) . '</h2>' .
+            '    <h2 class="mdl-card__title-text">' . ucwords($project_id) . '</h2>' .
             '  </div>';
           } else {
     $html .='  <div class="mdl-card__title">' .
@@ -89,7 +89,7 @@ function html_checkin_detail($checkinJSON, $projectId, $showTitle) {
   $html .='  </div>';
           if($showTitle) {
             $html .='<div class="mdl-card__actions mdl-card--border">';
-            $html .='  <a class="mdl-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" href="./?project=' . $projectId . '">Go<span class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span></a>';
+            $html .='  <a class="mdl-button mdl-button--raised mdl-js-ripple-effect mdl-button--accent" href="./?project=' . $project_id . '">Go<span class="mdl-button__ripple-container"><span class="mdl-ripple"></span></span></a>';
             $html .='</div>';
           }
   $html .='</div>';
