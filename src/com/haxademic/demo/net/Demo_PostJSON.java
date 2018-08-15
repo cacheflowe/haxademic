@@ -31,6 +31,7 @@ implements IPostJSONCallback {
 	protected PGraphics scaledPG;
 	protected PGraphics screenshotPG;
 	protected PImage screenshot;
+	protected boolean firstPost = true;
 //	protected String serverPostPath = "http://localhost/_open-source/haxademic/www/post-json/";
 	protected String serverPostPath = "http://localhost/_open-source/haxademic/www/dashboard/";
 	
@@ -74,6 +75,9 @@ implements IPostJSONCallback {
         jsonOut.setString("frameRate", P.round(p.frameRate)+"");
         jsonOut.setString("resolution", P.p.width + "x" + P.p.height);
         
+        if(firstPost) jsonOut.setBoolean("relaunch", true);
+        firstPost = false;
+        
         // add image to json
 		String base64Img = "";
 		String base64Screenshot = "";
@@ -100,27 +104,29 @@ implements IPostJSONCallback {
 	protected void takeThreadedScreenshot() {
 		new Thread(new Runnable() { public void run() {
 			screenshot = ScreenUtil.getScreenShotAllMonitors();
-			if(screenshotPG == null) screenshotPG = p.createGraphics(screenshot.width / 1, screenshot.height / 1, PRenderers.P2D);
+			if(screenshotPG == null) screenshotPG = p.createGraphics(screenshot.width / 2, screenshot.height / 2, PRenderers.P2D);
 		}}).start();	
 	}
 	
 	protected void checkQueuedScreenshot() {
 		if(screenshot == null) return;
 		
+		// copy images and get native buffers on UI thread
 		ImageUtil.copyImage(pg, scaledPG);
 		ImageUtil.copyImage(screenshot, screenshotPG);
-		screenshot = null;
 		BufferedImage img1 = (BufferedImage)scaledPG.getNative();
 		BufferedImage img2 = (BufferedImage)screenshotPG.getNative();
 		new Thread(new Runnable() { public void run() {
 			submitJSON(img1, img2);
 		}}).start();
+		
+		// clear queue
+		screenshot = null;
 	}
 	
 	public void keyPressed() {
 		super.keyPressed();
 		if(p.key == ' ') {
-//			submitJSON();
 			takeThreadedScreenshot();
 		}
 	}
