@@ -9,15 +9,9 @@ extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	protected AppMonitor appMonitor;
-	
-//	protected void overridePropsFile() {
-//		// The magic happens here - configure the 2nd screen viewer with AppSettings
-//		p.appConfig.setProperty( AppSettings.APP_VIEWER_WINDOW, true );
-//		p.appConfig.setProperty( AppSettings.APP_VIEWER_SCALE, 0.75f );
-//	}
 
 	public void setupFirstFrame() {
-		appMonitor = new AppMonitor();
+		appMonitor = new AppMonitor(true, 5000);
 	}
 
 	public void drawApp() {

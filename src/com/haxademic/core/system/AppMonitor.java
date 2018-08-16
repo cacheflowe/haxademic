@@ -13,14 +13,22 @@ public class AppMonitor {
 	// - Send an email daily with stats?? This should be a different object that includes user sessions, average framerate, system reports, etc. Maybe this negates the need to the drop in performance email 
 	
 	public AppMonitorWindow monitorApp = null;
+	public boolean showWindow;
+	public int timeAfterCrash;
 	
 	public AppMonitor() {
+		this(false, 5000);
+	}
+	
+	public AppMonitor(boolean showWindow, int timeAfterCrash) {
+		this.showWindow = showWindow;
+		this.timeAfterCrash = timeAfterCrash;
 		P.p.registerMethod("post", this);	 // update texture to 2nd window after main draw() execution
 	}
 	
 	public void post() {
 		if(monitorApp == null && P.p.frameCount >= 2) {
-			monitorApp = new AppMonitorWindow(P.p, 5000, true);
+			monitorApp = new AppMonitorWindow(P.p, timeAfterCrash, showWindow);
 		}
 		if(monitorApp != null) {
 //			if(P.p.frameCount % 20 == 0) {
@@ -33,8 +41,8 @@ public class AppMonitor {
 
 		PAppletHax p;
 		public boolean showing;
-		public int updateTime;
 		public int timeout;
+		public int updateTime;
 		public int lastUpdateTime;
 		public boolean attemptRestart = false;
 
@@ -81,7 +89,7 @@ public class AppMonitor {
 				}
 			}
 			noStroke();
-			// show mouse
+			// show debug text
 			fill(255);
 			textAlign(P.CENTER, P.CENTER);
 			text("Frame Update:\n"+lastUpdateTime+" / "+millis(), 0, 0, width, height);
