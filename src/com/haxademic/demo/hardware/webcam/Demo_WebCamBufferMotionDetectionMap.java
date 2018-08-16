@@ -61,11 +61,13 @@ implements IWebCamCallback {
 		if(p.frameCount % FRAME_LAUNCH_INTERVAL == 0) {
 			int numLaunched = 0;
 			for (int i = 0; i < 1000; i++) {
-				int checkX = MathUtil.randRange(0, webcamBuffer.width);
-				int checkY = MathUtil.randRange(0, webcamBuffer.height);
-				if(motionDetectionMap.pixelActive(checkX, checkY) && numLaunched < MAX_LAUNCHED_PER_FRAME) {
-					p.rect(checkX, checkY, 4, 4); // 4 because of 0.25 motion detection scale
-					numLaunched++;
+				if(numLaunched < MAX_LAUNCHED_PER_FRAME) {
+					int checkX = MathUtil.randRange(0, webcamBuffer.width);
+					int checkY = MathUtil.randRange(0, webcamBuffer.height);
+					if(motionDetectionMap.pixelActive(checkX, checkY)) {
+						p.rect(checkX, checkY, 4, 4); // 4 because of 0.25 motion detection scale
+						numLaunched++;
+					}
 				}
 			}
 		}
