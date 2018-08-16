@@ -61,7 +61,7 @@ function html_checkin_detail($checkinJSON, $project_id, $showTitle) {
           '<div class="mdl-cell mdl-card mdl-shadow--2dp portfolio-card ' . $relaunchClass . '">';
           if($showTitle == true) {
     $html .='  <div class="mdl-card__title">' .
-            '    <h2 class="mdl-card__title-text">' . ucwords($project_id) . '</h2>' .
+            '    <h2 class="mdl-card__title-text">' . ucwords(str_replace("-", " ", $project_id)) . '</h2>' .
             '  </div>';
           } else {
     $html .='  <div class="mdl-card__title">' .

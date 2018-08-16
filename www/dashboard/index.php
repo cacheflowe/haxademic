@@ -25,7 +25,7 @@ $jsonPosted = file_get_contents("php://input");
 $_projectPath = dirName($_SERVER['SCRIPT_FILENAME']);
 $_detailDate = $_GET['date'];
 $_projectId = $_GET['project'];
-$_projectName = ucwords($_projectId);
+$_projectName = ucwords(str_replace("-", " ", $_projectId)); //ucwords($_projectId);
 
 if (isValidJSON($jsonPosted)) {
   // save file 

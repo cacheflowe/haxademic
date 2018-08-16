@@ -5,6 +5,7 @@
     <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
     <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible" />
     <meta content="no" name="imagetoolbar" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Project Dashboard</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
     <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-green.min.css">
@@ -28,8 +29,10 @@
         width: 100%;
         max-height: 100%;
       }
-      .mdl-cell {
-        width: calc(25% - 16px);
+      @media (min-width: 1000px) {
+        .mdl-cell {
+          width: calc(25% - 16px);
+        }
       }
       .mdl-cell-full-width {
         width: 100%;
@@ -67,7 +70,7 @@
             <?php
               $projectDirs = get_files_chrono("./projects", false);
               foreach($projectDirs as $projectId) {
-                echo '<a class="mdl-navigation__link" href="./?project=' . $projectId . '">' . ucwords($projectId) . '</a>';
+                echo '<a class="mdl-navigation__link" href="./?project=' . $projectId . '">' . ucwords(str_replace("-", " ", $projectId)) . '</a>';
               }
             ?>
           </nav>
