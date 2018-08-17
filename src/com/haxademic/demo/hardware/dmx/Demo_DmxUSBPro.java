@@ -2,6 +2,8 @@ package com.haxademic.demo.hardware.dmx;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.draw.color.ColorUtil;
+import com.haxademic.core.draw.color.EasingColor;
 
 import dmxP512.DmxP512;
 import processing.serial.Serial;
@@ -28,7 +30,14 @@ extends PAppletHax {
 	String DMXPRO_BAUDRATE = "DMXPRO_BAUDRATE";
 	String DMXPRO_UNIVERSE_SIZE = "DMXPRO_UNIVERSE_SIZE";
 	
+	int numLights = 7;
+	int numColors = 3;
+	int numChannels = numLights * numColors;
+
 	protected boolean audioActive = false;
+	
+	protected EasingColor[] colors;
+	protected EasingColor targetColor;
 
 	protected void overridePropsFile() {
 		if(P.platform == P.MACOSX) {
@@ -43,29 +52,60 @@ extends PAppletHax {
 	}
 
 	public void setupFirstFrame() {
+		// init dmx hardware connection
 		Serial.list();
-		dmx = new DmxP512(P.p, p.appConfig.getInt(DMXPRO_UNIVERSE_SIZE, 256), false);
+		dmx = new DmxP512(P.p, p.appConfig.getInt(DMXPRO_UNIVERSE_SIZE, 256), true);
 		dmx.setupDmxPro(p.appConfig.getString(DMXPRO_PORT, "COM1"), p.appConfig.getInt(DMXPRO_BAUDRATE, 115000));
+		
+		// init easing colors
+		colors = new EasingColor[numLights];
+		for (int i = 0; i < numLights; i++) {
+			colors[i] = new EasingColor(0x000000, 0.15f);
+		}
+		targetColor = new EasingColor(0x00ff00, 0.5f);
 	}
 
 	public void drawApp() {
+		p.debugView.setValue("audioActive", audioActive);
 		background(0);
 		if(audioActive) {
 			// audio eq
-			dmx.set(1, P.constrain(P.round(255 * p.audioFreq(10)), 0, 255));
-			dmx.set(2, P.constrain(P.round(255 * p.audioFreq(20)), 0, 255));
-			dmx.set(3, P.constrain(P.round(255 * p.audioFreq(40)), 0, 255));
-			dmx.set(4, P.constrain(P.round(255 * p.audioFreq(60)), 0, 255));
-			dmx.set(5, P.constrain(P.round(255 * p.audioFreq(80)), 0, 255));
-			dmx.set(6, P.constrain(P.round(255 * p.audioFreq(100)), 0, 255));
+			for (int i = 0; i < numChannels; i++) {
+				dmx.set(i+1, P.constrain(P.round(255 * p.audioFreq(5 + 5 * i)), 0, 255));
+			}
 		} else {
-			// color cycle
-			dmx.set(1, round(127 + 127 * P.sin(p.frameCount * 0.2f)));
-			dmx.set(2, round(127 + 127 * P.sin(p.frameCount * 0.08f)));
-			dmx.set(3, round(127 + 127 * P.sin(p.frameCount * 0.02f)));
-			dmx.set(4, round(127 + 127 * P.sin(p.frameCount * 0.1f)));
-			dmx.set(5, round(127 + 127 * P.sin(p.frameCount * 0.07f)));
-			dmx.set(6, round(127 + 127 * P.sin(p.frameCount * 0.04f)));
+			// easing color zone
+			for (int i = 0; i < numLights; i++) {
+				colors[i].update();
+			}
+			targetColor.update();
+			
+			// step through lights every x frames
+			int frameInterval = P.round(p.mousePercentX() * 10 + 1);
+			if(p.frameCount % frameInterval == 0) {
+				int frameDivided = P.floor(p.frameCount / frameInterval);
+				int curLightIndex = frameDivided % numLights;
+//				if(curLightIndex == 0) targetColor.setCurrentHex(ColorUtil.randomHex());
+				colors[curLightIndex].setCurrentInt(targetColor.colorInt());
+				colors[curLightIndex].setTargetInt(0x000000);
+			}
+			
+			// send light rgb colors
+			for (int i = 0; i < numChannels; i+=3) {
+				int curLightIndex = P.floor(i / 3);
+				int channelR = curLightIndex * numColors + 1;
+				int channelG = curLightIndex * numColors + 2;
+				int channelB = curLightIndex * numColors + 3;
+				dmx.set(channelR, round(colors[curLightIndex].r()));
+				dmx.set(channelG, round(colors[curLightIndex].g()));
+				dmx.set(channelB, round(colors[curLightIndex].b()));
+			}
+
+//			// color cycle
+//			for (int i = 0; i < numChannels; i++) {
+//				float osc = (0.5f + 0.4f * P.sin(i)) * 0.15f;
+//				dmx.set(i+1, round(127 + 127 * P.sin(p.frameCount * osc)));
+//			}
 		}
 	}
 	
