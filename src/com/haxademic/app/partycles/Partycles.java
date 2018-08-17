@@ -6,6 +6,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.constants.PRenderers;
+import com.haxademic.core.draw.color.EasingColor;
 import com.haxademic.core.draw.color.ImageGradient;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.filters.pshader.BlurHFilter;
@@ -23,9 +24,11 @@ import com.haxademic.core.math.easing.Penner;
 import com.haxademic.core.system.SystemUtil;
 import com.haxademic.demo.hardware.webcam.Demo_FrameDifferenceShapesLauncher.ShapeParticle;
 
+import dmxP512.DmxP512;
 import processing.core.PGraphics;
 import processing.core.PImage;
 import processing.core.PVector;
+import processing.serial.Serial;
 
 public class Partycles
 extends PAppletHax {
@@ -58,12 +61,23 @@ extends PAppletHax {
 	// auto screenshots
 	protected int lastScreenshotTime = 0;
 	
+	// dmx
+	protected boolean dmxMode = true;
+	protected DmxP512 dmx;
+	protected String DMXPRO_PORT = "DMXPRO_PORT";
+	protected String DMXPRO_BAUDRATE = "DMXPRO_BAUDRATE";
+	protected String DMXPRO_UNIVERSE_SIZE = "DMXPRO_UNIVERSE_SIZE";
+	protected int numLights = 7;
+	protected int numColors = 3;
+	protected int numChannels = numLights * numColors;
+	protected boolean audioActive = false;
+	protected EasingColor[] colorsDMX;
+	
 	// TODO:
-	// Particle launch from Kinect layer
 	// - DMX lights via audio and/or motion
 	// 		- Light should also use Futuristic colors
 	// - refine particles
-	// 
+	// - Pull particle textures from a directory to be skinnable
 
 
 	protected void overridePropsFile() {
@@ -73,6 +87,17 @@ extends PAppletHax {
 		} else {
 			p.appConfig.setProperty( AppSettings.WIDTH, 1280 );
 			p.appConfig.setProperty( AppSettings.HEIGHT, 720 );
+		}
+		if(dmxMode) {
+			if(P.platform == P.MACOSX) {
+				// mac
+				p.appConfig.setProperty(DMXPRO_PORT, "/dev/tty.usbserial-EN158815");
+				p.appConfig.setProperty(DMXPRO_BAUDRATE, 115000);
+			} else {
+				// win
+				p.appConfig.setProperty(DMXPRO_PORT, "COM3");
+				p.appConfig.setProperty(DMXPRO_BAUDRATE, 9600);
+			}
 		}
 //		p.appConfig.setProperty( AppSettings.FULLSCREEN, true );
 		p.appConfig.setProperty( AppSettings.SHOW_DEBUG, false );
@@ -121,6 +146,20 @@ extends PAppletHax {
 			sponsorImg = p.loadImage(sponsorImgPath);
 		}
 		
+		// dmx 
+		if(dmxMode) {
+			// init dmx hardware connection
+			Serial.list();
+			dmx = new DmxP512(P.p, p.appConfig.getInt(DMXPRO_UNIVERSE_SIZE, 256), true);
+			dmx.setupDmxPro(p.appConfig.getString(DMXPRO_PORT, "COM1"), p.appConfig.getInt(DMXPRO_BAUDRATE, 115000));
+			
+			// init easing colors
+			colorsDMX = new EasingColor[numLights];
+			for (int i = 0; i < numLights; i++) {
+				colorsDMX[i] = new EasingColor(0x000000, 0.15f);
+			}
+		}
+		
 		// init help menu
 		p.debugView.setHelpLine("Key Commands:", "");
 		p.debugView.setHelpLine("[R]", "Reset keystone");
@@ -130,6 +169,7 @@ extends PAppletHax {
 	public void drawApp() {
 		// set up context
 		p.background(0);
+		if(dmxMode) updateDMX();
 		updateKinect();
 		drawParticles();
 		drawMainBuffer();
@@ -337,7 +377,8 @@ extends PAppletHax {
 				// draw shape
 				float segmentRads = P.TWO_PI / vertices;
 				pg.fill(color); // , 150);
-				pg.stroke(255);
+//				pg.stroke(255);
+				pg.noStroke();
 				pg.pushMatrix();
 				pg.translate(pos.x, pos.y);
 				pg.rotate(rotation);
@@ -380,8 +421,47 @@ extends PAppletHax {
 		}
 	}
 
-
 	
+	///////////////////////////////
+	// DMX
+	///////////////////////////////
+
+	protected void updateDMX() {
+		// easing color zone
+		for (int i = 0; i < numLights; i++) {
+			colorsDMX[i].update();
+		}
+		
+		// step through lights every x frames
+		int frameInterval = 20; // P.round(p.mousePercentX() * 10 + 1);
+		if(p.frameCount % frameInterval == 0) {
+			int frameDivided = P.floor(p.frameCount / frameInterval);
+			int curLightIndex = frameDivided % numLights;
+			int nextColorIndex = frameDivided % (particleColors.length - 3);
+			int randColor = particleColors[nextColorIndex];
+//			colorsDMX[curLightIndex].setCurrentInt(randColor);
+			colorsDMX[curLightIndex].setTargetInt(randColor);
+		}
+		
+		// send light rgb colors
+		float activityMult = activityMonitor.activityAmp() * 10f;
+		for (int i = 0; i < numLights; i++) {
+			// alternate motion vs. audio amp
+			float lightAmp = (i % 2 == 0) ?
+					activityMult : 
+					p.audioFreq(10 + i * 20) * 10f * activityMult;
+			// P.out(lightAmp);
+			
+			// set light colors
+			int lightColor = colorsDMX[i].colorInt(lightAmp);
+			int channelR = i * numColors + 1;
+			int channelG = i * numColors + 2;
+			int channelB = i * numColors + 3;
+			dmx.set(channelR, P.constrain(round(EasingColor.redFromColorInt(lightColor)), 0, 255));
+			dmx.set(channelG, P.constrain(round(EasingColor.greenFromColorInt(lightColor)), 0, 255));
+			dmx.set(channelB, P.constrain(round(EasingColor.blueFromColorInt(lightColor)), 0, 255));
+		}
+	}
 	
 	
 	
