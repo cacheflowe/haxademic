@@ -520,6 +520,10 @@ extends PApplet
 		}
 	}
 	
+	public void saveScreenshot(PGraphics savePG) {
+		savePG.save(FileUtil.getHaxademicOutputPath() + "_screenshots/" + SystemUtil.getTimestamp(p) + ".png");
+	}
+	
 	////////////////////////
 	// INPUT
 	////////////////////////
@@ -567,7 +571,7 @@ extends PApplet
 			p.debugView.setValue("audioData.gain()", p.audioData.gain());
 		}
 		// show debug & prefs sliders
-		if (p.key == '|') p.save(FileUtil.getHaxademicOutputPath() + "_screenshots/" + SystemUtil.getTimestamp(p) + ".png");
+		if (p.key == '|') saveScreenshot(p.g);
 		if (p.key == '/') showDebug = !showDebug;
 		if (p.key == '\\') prefsSliders.active(!prefsSliders.active());
 	}
