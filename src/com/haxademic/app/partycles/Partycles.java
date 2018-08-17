@@ -1,0 +1,441 @@
+package com.haxademic.app.partycles;
+
+import java.util.ArrayList;
+
+import com.haxademic.core.app.P;
+import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.constants.AppSettings;
+import com.haxademic.core.constants.PRenderers;
+import com.haxademic.core.draw.color.ImageGradient;
+import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.filters.pshader.BlurHFilter;
+import com.haxademic.core.draw.filters.pshader.BlurVFilter;
+import com.haxademic.core.draw.image.BufferActivityMonitor;
+import com.haxademic.core.draw.image.BufferMotionDetectionMap;
+import com.haxademic.core.draw.image.ImageUtil;
+import com.haxademic.core.draw.mapping.PGraphicsKeystone;
+import com.haxademic.core.file.DemoAssets;
+import com.haxademic.core.file.FileUtil;
+import com.haxademic.core.hardware.kinect.KinectDepthSilhouetteSmoothed;
+import com.haxademic.core.math.MathUtil;
+import com.haxademic.core.math.easing.LinearFloat;
+import com.haxademic.core.math.easing.Penner;
+import com.haxademic.core.system.SystemUtil;
+import com.haxademic.demo.hardware.webcam.Demo_FrameDifferenceShapesLauncher.ShapeParticle;
+
+import processing.core.PGraphics;
+import processing.core.PImage;
+import processing.core.PVector;
+
+public class Partycles
+extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
+
+	// buffers
+	protected PGraphics mainBuffer;
+	protected PGraphics cameraBuffer;
+	protected PGraphicsKeystone keystone;
+	protected boolean testPattern = false;
+
+	// kinect 
+	protected BufferMotionDetectionMap motionDetectionMap;
+	protected KinectDepthSilhouetteSmoothed kinectSilhouetteSmoothed;
+	protected PGraphics motionBuffer;	// copy kinect silhouette to match the size of the RGB camera
+	protected BufferActivityMonitor activityMonitor;
+
+	// particles
+	protected PGraphics shapesLayer;
+	protected ArrayList<ShapeParticle> shapes;
+	protected ImageGradient imageGradient;
+	protected int FRAME_LAUNCH_INTERVAL = 2;
+	protected int MAX_LAUNCHED_PER_FRAME = 5;
+	protected PImage[] particleImages;
+	protected int[] particleColors;
+
+	// sponsor image
+	protected PImage sponsorImg;
+	
+	// auto screenshots
+	protected int lastScreenshotTime = 0;
+	
+	// TODO:
+	// Particle launch from Kinect layer
+	// - DMX lights via audio and/or motion
+	// 		- Light should also use Futuristic colors
+	// - refine particles
+	// 
+
+
+	protected void overridePropsFile() {
+		if(P.platform != P.MACOSX) {
+			p.appConfig.setProperty( AppSettings.WIDTH, 1920 );
+			p.appConfig.setProperty( AppSettings.HEIGHT, 1080 );
+		} else {
+			p.appConfig.setProperty( AppSettings.WIDTH, 1280 );
+			p.appConfig.setProperty( AppSettings.HEIGHT, 720 );
+		}
+//		p.appConfig.setProperty( AppSettings.FULLSCREEN, true );
+		p.appConfig.setProperty( AppSettings.SHOW_DEBUG, false );
+		p.appConfig.setProperty( AppSettings.INIT_MINIM_AUDIO, false );
+		p.appConfig.setProperty( AppSettings.INIT_ESS_AUDIO, true );
+		p.appConfig.setProperty( AppSettings.AUDIO_DEBUG, true );
+		p.appConfig.setProperty( AppSettings.KINECT_V2_WIN_ACTIVE, true );
+	}
+
+	public void setupFirstFrame() {
+		// main buffer
+		mainBuffer = p.createGraphics(1920, 1080, PRenderers.P2D);
+		cameraBuffer = p.createGraphics(1920, 1080, PRenderers.P2D);
+		shapesLayer = P.p.createGraphics(1920, 1080, PRenderers.P3D);
+		keystone = new PGraphicsKeystone(p, mainBuffer, 10, FileUtil.getFile("text/keystoning/partycles.txt"));
+		
+		// camera/kinect
+		kinectSilhouetteSmoothed = new KinectDepthSilhouetteSmoothed(6);
+		KinectDepthSilhouetteSmoothed.KINECT_FAR = 2000;
+		activityMonitor = new BufferActivityMonitor(32, 16, 10);
+
+		// init particles
+		imageGradient = new ImageGradient(ImageGradient.PASTELS());
+		imageGradient.addTexturesFromPath(ImageGradient.COOLORS_PATH);
+		imageGradient.randomGradientTexture();
+		
+		shapes = new ArrayList<ShapeParticle>();
+		
+		particleImages = new PImage[] {
+			DemoAssets.particle(),
+			P.getImage("images/partycles/futuristic-robot-white.png"),
+		};
+		
+		particleColors = new int[] {
+				0xfff0ff1c,
+				0xffff278a,
+				0xff7cffd5,
+				0xff74cee5,
+				0xffffffff,
+				0xffffffff,
+		};
+		
+		// load sponsor image if it exists
+		String sponsorImgPath = FileUtil.getFile("images/partycles/sponsor.png");
+		if(FileUtil.fileExists(sponsorImgPath)) {
+			sponsorImg = p.loadImage(sponsorImgPath);
+		}
+		
+		// init help menu
+		p.debugView.setHelpLine("Key Commands:", "");
+		p.debugView.setHelpLine("[R]", "Reset keystone");
+		p.debugView.setHelpLine("[D]", "Keystone test pattern");
+	}
+
+	public void drawApp() {
+		// set up context
+		p.background(0);
+		updateKinect();
+		drawParticles();
+		drawMainBuffer();
+		// draw to screen
+		if(testPattern == true) keystone.drawTestPattern();
+		keystone.update(p.g, true);
+		// occasional screenshot
+		if(activityMonitor.activityAmp() > 0.1f && p.millis() > lastScreenshotTime + (10 * 1000)) {
+			mainBuffer.save(FileUtil.getHaxademicOutputPath() + "_screenshots/" + SystemUtil.getTimestamp(p) + ".jpg");
+			lastScreenshotTime = p.millis();
+		}
+	}
+	
+	protected void updateKinect() {
+		// update silhouette
+		kinectSilhouetteSmoothed.update();
+
+		PImage depthImage = kinectWrapper.getDepthImage();
+		PImage cameraImage = kinectWrapper.getRgbImage();
+		
+		// copy camera frame to buffer
+		ImageUtil.cropFillCopyImage(cameraImage, cameraBuffer, true);
+		
+		// lazy-init motion detection to pass Kinect into
+		if(motionDetectionMap == null && depthImage != null) {
+			motionBuffer = P.p.createGraphics(cameraImage.width, cameraImage.height, P.P2D);
+			motionDetectionMap = new BufferMotionDetectionMap(motionBuffer, 0.05f);
+		}
+		
+		if(motionDetectionMap != null) {
+			ImageUtil.cropFillCopyImage(kinectSilhouetteSmoothed.image(), motionBuffer, true);
+			BlurHFilter.instance(P.p).setBlurByPercent(0.5f, motionBuffer.width);
+			BlurHFilter.instance(P.p).applyTo(motionBuffer);
+			BlurVFilter.instance(P.p).setBlurByPercent(0.5f, motionBuffer.height);
+			BlurVFilter.instance(P.p).applyTo(motionBuffer);
+			
+			motionDetectionMap.setBlendLerp(0.25f);
+			motionDetectionMap.setDiffThresh(0.025f);
+			motionDetectionMap.setFalloffBW(0.25f);
+			motionDetectionMap.setThresholdCutoff(0.5f);
+			motionDetectionMap.setBlur(1f);
+			motionDetectionMap.updateSource(motionBuffer);
+			
+			p.debugView.setTexture(kinectSilhouetteSmoothed.image());
+			p.debugView.setTexture(motionDetectionMap.backplate());
+			p.debugView.setTexture(motionDetectionMap.differenceBuffer());
+			p.debugView.setTexture(motionDetectionMap.bwBuffer());
+		}
+		
+		// update activity monitor
+		activityMonitor.update(kinectSilhouetteSmoothed.image());
+		p.debugView.setValue("ACTIVITY", activityMonitor.activityAmp());
+		// p.debugView.setTexture(activityMonitor.differenceBuffer());
+	}
+	
+	protected void drawMainBuffer() {
+		// setup context
+		mainBuffer.beginDraw();
+		mainBuffer.noStroke();
+		mainBuffer.background(0);
+		mainBuffer.pushMatrix();
+		DrawUtil.setDrawCenter(mainBuffer);
+		mainBuffer.translate(mainBuffer.width/2, mainBuffer.height/2);
+
+		// draw camera - compensate for depth image size (scale) and alignment (x & y)
+		float cameraScale = 1.18f; // p.mousePercentX() * 3;
+		p.debugView.setValue("cameraScale", cameraScale);
+		mainBuffer.image(cameraBuffer, cameraBuffer.width * -0.025f, cameraBuffer.height * -0.05f, cameraBuffer.width * cameraScale, cameraBuffer.height * cameraScale);
+		
+		// draw debug motion buffer
+		if(p.showDebug) {
+			DrawUtil.setPImageAlpha(mainBuffer, 0.5f);
+			if(motionBuffer != null) mainBuffer.image(motionBuffer, 0, 0);
+			DrawUtil.setPImageAlpha(mainBuffer, 1f);
+		}
+
+		// draw shapes & sponsor
+		mainBuffer.image(shapesLayer, 0, 0);
+		if(sponsorImg != null) mainBuffer.image(sponsorImg, mainBuffer.width - sponsorImg.width, mainBuffer.height - sponsorImg.height);
+		
+		// close context
+		mainBuffer.popMatrix();
+		mainBuffer.endDraw();
+	}
+	
+	protected void drawParticles() {
+		// load motion detection map pixels
+		motionDetectionMap.loadPixels();
+		
+		// draw shapes - find launch points
+		shapesLayer.beginDraw();
+		shapesLayer.clear();
+		shapesLayer.fill(255);
+		shapesLayer.noStroke();
+
+		// draw shapes - find launch points
+		p.fill(255, 0, 0);
+		p.noStroke();
+		
+		int FRAME_LAUNCH_INTERVAL = 1;
+		int MAX_LAUNCHED_PER_FRAME = 4;
+		int LAUNCH_ATTEMPTS = 500;
+		if(p.frameCount % FRAME_LAUNCH_INTERVAL == 0) {
+			int numLaunched = 0;
+			for (int i = 0; i < LAUNCH_ATTEMPTS; i++) {
+				if(numLaunched < MAX_LAUNCHED_PER_FRAME) {
+					int checkX = MathUtil.randRange(0, motionBuffer.width);
+					int checkY = MathUtil.randRange(0, motionBuffer.height);
+					if(motionDetectionMap.pixelActive(checkX, checkY)) {
+						// shapesLayer.rect(checkX, checkY, 4, 4); // 4 because of 0.25 motion detection scale
+						launchShape(checkX, checkY);
+						numLaunched++;
+					}
+				}
+			}
+		}
+
+		// update/draw particles
+		//			p.blendMode(PBlendModes.ADD);
+		for (int i = 0; i < shapes.size(); i++) {
+			shapes.get(i).update(shapesLayer);
+		}
+		shapesLayer.endDraw();
+		p.debugView.setValue("shapes.size()", shapes.size());
+	}
+
+	protected void launchShape(float x, float y) {
+		// look for an available shape
+		for (int i = 0; i < shapes.size(); i++) {
+			if(shapes.get(i).available()) {
+				shapes.get(i).launch(x, y);
+				return;
+			}
+		}
+		// didn't find one
+		if(shapes.size() < 10000) {
+			ShapeParticle newShape = new ShapeParticle();
+			newShape.launch(x, y);
+			shapes.add(newShape);
+		}
+	}
+
+	///////////////////////////////////////
+	// KEYBOARD INPUT
+	///////////////////////////////////////
+	
+	public void keyPressed() {
+		super.keyPressed();
+		if(p.key == 'd') testPattern = !testPattern;
+		if(p.key == 'r') keystone.resetCorners();
+//		if(p.key == ' ') imageGradient.randomGradientTexture();
+	}
+
+	///////////////////////////////////////
+	// PARTICLE CLASS
+	///////////////////////////////////////
+	
+	public class ShapeParticle {
+
+		protected PVector pos = new PVector(0, -100, 0);
+		protected PVector speed = new PVector(0, 0, 0);
+		protected PVector gravity = new PVector(0, 0, 0);
+		protected float vertices = 3f;
+		protected float size = 30f;
+		protected float shrink = 1;
+		protected float rotation = 30f;
+		protected LinearFloat sizeProgress = new LinearFloat(0, 0.1f);
+		protected int color;
+		protected PImage image;
+		protected int audioIndex;
+		
+		public ShapeParticle() {
+			audioIndex = MathUtil.randRange(0, 511);
+		}
+
+		public void update(PGraphics pg) {
+			if(available()) return;
+			
+			// update position
+			gravity.x *= 0.97f;
+			speed.add(gravity);
+			pos.add(speed);
+			rotation += gravity.z;
+			
+			// update size
+			sizeProgress.update();
+			float audioAmp = (1f + 1f * p.audioFreq(audioIndex));
+			if(sizeProgress.value() == 1) shrink -= 0.01f;
+			float curSize = (sizeProgress.value() == 1) ?
+					size * shrink * audioAmp:
+					size * Penner.easeOutQuad(sizeProgress.value(), 0, 1, 1) * audioAmp;
+//			if(sizeProgress.value() == 1) sizeProgress.setTarget(0);
+			
+			// draw image or polygon
+			if(image != null) {
+				// draw image
+				pg.pushMatrix();
+				pg.translate(pos.x, pos.y);
+				pg.rotate(rotation);
+				pg.tint(color);
+				pg.image(image, 0, 0, curSize * 2f, curSize * 2f);
+				pg.tint(255);
+				pg.popMatrix();
+			} else {
+				// draw shape
+				float segmentRads = P.TWO_PI / vertices;
+				pg.fill(color); // , 150);
+				pg.stroke(255);
+				pg.pushMatrix();
+				pg.translate(pos.x, pos.y);
+				pg.rotate(rotation);
+				pg.beginShape(P.POLYGON);
+				for(float i = 0; i <= vertices; i++) {
+					pg.vertex(P.cos(segmentRads * i) * curSize, P.sin(segmentRads * i) * curSize);
+				}
+				pg.endShape();
+				pg.popMatrix();
+				// pg.rect(pos.x, pos.y, 2, 2);
+			}
+			pg.tint(255);
+		}
+
+		public void launch(float x, float y) {
+			if(particleImages != null) {
+				image = particleImages[MathUtil.randRange(0, particleImages.length - 1)];
+				if(MathUtil.randBooleanWeighted(P.p, 0.2f)) {
+					image = null;
+				}
+			}
+
+			vertices = MathUtil.randRange(3, 4);
+			size = MathUtil.randRangeDecimal(20, 50);
+			sizeProgress.setCurrent(0);
+			sizeProgress.setTarget(1);
+			shrink = 1;
+
+			pos.set(x, y, 0);
+			speed.set(0, MathUtil.randRangeDecimal(-1f, -4f), 0);
+			rotation = P.p.random(P.TWO_PI);
+			gravity.set(MathUtil.randRangeDecimal(-0.2f, 0.2f), MathUtil.randRangeDecimal(0.2f, 0.9f), MathUtil.randRangeDecimal(-0.02f, 0.02f)); // z is rotation!
+
+//			color = imageGradient.getColorAtProgress(P.p.random(1f));
+			color = particleColors[MathUtil.randRange(0, particleColors.length - 1)];
+		}
+
+		public boolean available() {
+			return pos.y < -100 || pos.y > shapesLayer.height + 100;
+		}
+	}
+
+
+	
+	
+	
+	
+	
+	
+	
+	///////////////////////////////
+	// old webcam methods
+	///////////////////////////////
+	
+	/*
+	// old webcam stuff
+	protected PGraphics flippedCamera;
+	protected PGraphics prevFrame;
+	protected PGraphics curFrame;
+	protected PGraphics differenceBuffer;
+	protected PShader differenceShader;
+	
+
+	@Override
+	public void newFrame(PImage frame) {
+		// lazy-init flipped camera buffer
+		if(flippedCamera == null) {
+			int cameraW = 640;	// frame.width (these are jacked up on OS X)
+			int cameraH = 480;	// frame.height
+			flippedCamera = p.createGraphics(cameraW, cameraH, PRenderers.P2D);
+
+			// frame buffers
+			prevFrame = P.p.createGraphics(cameraW, cameraH, PRenderers.P2D);
+			curFrame = P.p.createGraphics(cameraW, cameraH, PRenderers.P2D);
+			differenceBuffer = P.p.createGraphics(cameraW, cameraH, PRenderers.P2D);
+			p.debugView.setTexture(differenceBuffer);
+
+			// frame diff buffer/shader
+			differenceShader = P.p.loadShader(FileUtil.getFile("haxademic/shaders/filters/texture-difference-threshold.glsl"));
+
+			// shapes layer
+			shapesLayer.smooth(8);
+		}
+		// copy flipped
+		flippedCamera.copy(frame, 0, 0, frame.width, frame.height, flippedCamera.width, 0, -flippedCamera.width, flippedCamera.height);
+
+		// copy previous frame, and current frame to buffer
+		ImageUtil.copyImage(curFrame, prevFrame);
+		ImageUtil.copyImage(flippedCamera, curFrame);
+		p.debugView.setTexture(curFrame);
+
+		// set difference shader textures
+		differenceShader.set("tex1", curFrame);
+		differenceShader.set("tex2", prevFrame);
+		differenceShader.set("falloffBW", 0.25f);
+		differenceShader.set("diffThresh", 0.15f);
+		differenceBuffer.filter(differenceShader);
+	}
+	*/
+
+}
