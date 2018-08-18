@@ -1,9 +1,10 @@
 <?php
 
 // TODO LATER:
-// Show current server time in dashboard UI
-// Auto-refresh page every couple of minutes
+// Add a purge button
+// Add a real timestamp and compare with current time for last checkin diff ("3 hours ago")
 // On date list, show number of checkins for each mini date card
+// [BUG] Why isn't the first image getting encoded properly?
 // Cache JSON locally on app machine, then upload JSON files and delete on success
 // User interaction tracking (Store as array per-day so we can parse/sort/chart later?)
 // - Crash alert (Also sends an email?)
