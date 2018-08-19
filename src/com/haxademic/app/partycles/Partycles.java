@@ -74,8 +74,6 @@ extends PAppletHax {
 	protected EasingColor[] colorsDMX;
 	
 	// TODO:
-	// - DMX lights via audio and/or motion
-	// 		- Light should also use Futuristic colors
 	// - refine particles
 	// - Pull particle textures from a directory to be skinnable
 
@@ -99,7 +97,7 @@ extends PAppletHax {
 				p.appConfig.setProperty(DMXPRO_BAUDRATE, 9600);
 			}
 		}
-//		p.appConfig.setProperty( AppSettings.FULLSCREEN, true );
+		p.appConfig.setProperty( AppSettings.FULLSCREEN, true );
 		p.appConfig.setProperty( AppSettings.SHOW_DEBUG, false );
 		p.appConfig.setProperty( AppSettings.INIT_MINIM_AUDIO, false );
 		p.appConfig.setProperty( AppSettings.INIT_ESS_AUDIO, true );
@@ -184,6 +182,7 @@ extends PAppletHax {
 	}
 	
 	protected void updateKinect() {
+		KinectDepthSilhouetteSmoothed.KINECT_FAR = P.round(4000 * p.mousePercentX());
 		// update silhouette
 		kinectSilhouetteSmoothed.update();
 
@@ -448,8 +447,8 @@ extends PAppletHax {
 		for (int i = 0; i < numLights; i++) {
 			// alternate motion vs. audio amp
 			float lightAmp = (i % 2 == 0) ?
-					activityMult : 
-					p.audioFreq(10 + i * 20) * 10f * activityMult;
+					p.audioFreq(10 + i * 20) * 10f * activityMult : 
+					activityMult; 
 			// P.out(lightAmp);
 			
 			// set light colors
