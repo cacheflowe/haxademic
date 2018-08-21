@@ -36,6 +36,8 @@ extends PAppletHax
 	protected PGraphics bufferBg;
 	protected PGraphicsKeystone pgKeystone;
 	protected int backgroundColor = ColorUtil.colorFromHex("#000000");
+	public static String fontFile = "fonts/_sketch/AkzidenzGroteskBQ-Reg.ttf";
+	public static String slidesDir = "images/_sketch/slideshow/hovercraft-dev";
 	protected int BUFFER_W = 2688;
 	protected int BUFFER_H = 896;
 	
@@ -140,7 +142,7 @@ extends PAppletHax
 		slideImages = new ArrayList<SlideImage>();
 		slideImagesBg = new ArrayList<SlideImage>();
 		slideImagesFg = new ArrayList<SlideImage>();
-		String[] directories = FileUtil.getDirsInDir(FileUtil.getFile("images/_sketch/slideshow/wave"));
+		String[] directories = FileUtil.getDirsInDir(FileUtil.getFile(slidesDir));
 		Arrays.sort(directories);
 		for (int i = 0; i < directories.length; i++) {
 			loadSlidesFromDir(directories[i]);
