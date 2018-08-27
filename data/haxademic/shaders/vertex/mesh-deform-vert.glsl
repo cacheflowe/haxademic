@@ -6,6 +6,7 @@ uniform mat3 normalMatrix;
 uniform sampler2D displacementMap;
 uniform float displaceAmp = 1.;
 uniform int sheet = 0;
+uniform int yAxisOnly = 0;
 
 attribute vec4 vertex;
 attribute vec4 color;
@@ -36,7 +37,11 @@ void main() {
 	vec4 dv = texture2D( displacementMap, vertTexCoord.xy ); // rgba color of displacement map
   float luma = rgbToGray(dv);
   if(sheet == 1) {
-  	gl_Position = transform * vec4(vertex.x, vertex.y, displaceAmp * luma, 1.0);
+		if(yAxisOnly == 0) {
+  		gl_Position = transform * vec4(vertex.x, vertex.y, displaceAmp * luma, 1.0);
+		} else {
+	  	gl_Position = transform * vec4(vertex.x, vertex.y + displaceAmp * (-0.5 + luma), vertex.z, 1.0);
+		}
   } else {
     float offset = 1.0 + displaceAmp * luma;
 	  gl_Position = transform * vec4(vertex.x * offset, vertex.y * offset, vertex.z * offset, 1.0);

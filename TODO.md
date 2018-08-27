@@ -9,7 +9,7 @@
     * Integrate HaxVisualTwo
     * Integrate Launchpad direct interface
 * Audio
-  * Is ESS getting initialized when MIDI input is turned on???
+  * Test basic audio input. why is audio getting delayed after hours of running?
   * Turn off Beads audio input object output - this should not pass through
   * Split audio stepthrough rendering from Renderer.java, which should just save movies. MIDIStepthrough renderer is a good example of splitting
   * Make demos for rendering at a specific bpm

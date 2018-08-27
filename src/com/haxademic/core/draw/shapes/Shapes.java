@@ -329,6 +329,25 @@ public class Shapes {
 		return sh;
 	}
 	
+	public static PShape createStrip(float width, float height, int detail) {
+		P.p.textureMode(P.NORMAL); 
+		PShape sh = P.p.createShape();
+		sh.beginShape(P.QUAD_STRIP);
+		sh.noStroke();
+		float xStart = -width / 2f;
+		float yStart = -height / 2f;
+		float xSegment = width / (float) detail;
+		for (int i = 0; i <= detail; i++) {
+			float x = xStart + i * xSegment;
+			float u = (float)i / (float)detail; // x progress
+			sh.vertex(x, yStart, 		  0, u, 0);
+			sh.vertex(x, yStart + height, 0, u, 1);
+		}
+		sh.endShape();
+		P.p.textureMode(P.IMAGE); 	// reset 
+		return sh;
+	}
+	
 	public static PShape createBox(float size) {
 		PShape sh = P.p.createShape();
 		sh.beginShape(P.QUADS);

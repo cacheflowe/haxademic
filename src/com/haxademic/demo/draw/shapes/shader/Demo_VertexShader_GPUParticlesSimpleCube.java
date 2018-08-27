@@ -14,12 +14,13 @@ import processing.core.PGraphics;
 import processing.core.PShape;
 import processing.opengl.PShader;
 
-public class Demo_VertexShader_GPUParticlesSimple 
+public class Demo_VertexShader_GPUParticlesSimpleCube 
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
+	protected int positionBufferSize = 32;
 	protected PShape shape;
-	protected PGraphics bufferPositions;
+	protected PGraphics positionsBuffer;
 	protected PShader positionShader;
 	protected PShader randomShader;
 	protected PGraphics renderedParticles;
@@ -42,10 +43,9 @@ extends PAppletHax {
 		positionShader = p.loadShader(FileUtil.getFile("haxademic/shaders/textures/random-pixel-color.glsl"));
 
 		// create texture to store positions
-		int positionBufferSize = 64;
-		bufferPositions = p.createGraphics(positionBufferSize, positionBufferSize, PRenderers.P3D);
-		OpenGLUtil.setTextureQualityLow(bufferPositions);		// necessary for proper texel lookup!
-		p.debugView.setTexture(bufferPositions);
+		positionsBuffer = p.createGraphics(positionBufferSize, positionBufferSize, PRenderers.P3D);
+		OpenGLUtil.setTextureQualityLow(positionsBuffer);		// necessary for proper texel lookup!
+		p.debugView.setTexture(positionsBuffer);
 		newPositions();
 		
 		// build final draw buffer
@@ -54,7 +54,7 @@ extends PAppletHax {
 		p.debugView.setTexture(renderedParticles);
 
 		// count vertices for debugView
-		int vertices = P.round(bufferPositions.width * bufferPositions.height); 
+		int vertices = P.round(positionsBuffer.width * positionsBuffer.height); 
 		p.debugView.setValue("Vertices", vertices);
 		
 		// Build points vertices
@@ -76,7 +76,7 @@ extends PAppletHax {
 	
 	protected void newPositions() {
 		positionShader.set("offset", MathUtil.randRangeDecimal(0, 100), MathUtil.randRangeDecimal(0, 100));
-		bufferPositions.filter(positionShader);
+		positionsBuffer.filter(positionShader);
 	}
 
 	public void keyPressed() {
@@ -89,11 +89,13 @@ extends PAppletHax {
 		background(0);
 		
 		// draw shape w/shader
-		particleVerticesShader.set("width", (float) bufferPositions.width);
-		particleVerticesShader.set("height", (float) bufferPositions.height);
-		particleVerticesShader.set("scale", 6f + 1f * P.sin(p.frameCount * 0.01f));
-		particleVerticesShader.set("positionMap", bufferPositions);
-		particleVerticesShader.set("pointSize", 6f);
+		particleVerticesShader.set("width", (float) positionBufferSize);
+		particleVerticesShader.set("height", (float) positionBufferSize);
+		particleVerticesShader.set("scale", (p.width / positionBufferSize) * 0.5f * (1f + 0.1f * P.sin(p.frameCount * 0.01f)));
+		particleVerticesShader.set("positionMap", positionsBuffer);
+		particleVerticesShader.set("pointSize", 6f + 2f * P.sin(p.frameCount * 0.01f));
+		particleVerticesShader.set("mode", p.mousePercentY());	// test gl_VertexID method of accessing texture positions
+		particleVerticesShader.set("vertIndexDivisor", (float) P.floor(p.mousePercentX() * 100f));	// test gl_VertexID method of accessing texture positions
 
 		renderedParticles.beginDraw();
 		renderedParticles.background(0);

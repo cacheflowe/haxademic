@@ -39,12 +39,13 @@ uniform mat4 transform;
 uniform mat4 texMatrix;
 uniform mat3 normalMatrix;
 
-uniform sampler2D positionMap;
+uniform sampler2D colorTexture;
+uniform sampler2D progressTexture;
 uniform float pointSize = 1.;
 uniform float width = 256.;
 uniform float height = 256.;
 uniform float scale = 1.;
-uniform float vertIndexDivisor = 1.;
+uniform float particleOffsetDistance = 30.;
 uniform float mode = 0.;
 
 attribute vec2 texCoord;
@@ -67,27 +68,35 @@ void main() {
   // each point has 21 vertices?! apparently. 
   // this only works up to 1024 particles (32x32) for some reason
   float vertexIndex = float(floor(float(gl_VertexID) / 21.)); 
-  // float vertexIndex = float(floor(float(gl_VertexID) / vertIndexDivisor));
 
   // use vertex index to look up position in texture
   float lookupX = mod(vertexIndex, width) / width;
   float lookupY = floor(vertexIndex / height) / height;
+  lookupY = 1. - lookupY;   // flip y
 
-  vec4 textureColor = texture2D( positionMap, vec2(lookupX, lookupY) ); // rgba color of displacement map
-  if(mode > 0.5) {
-    textureColor = texture2D( positionMap, vec2(vertex.x, vertex.y) ); // rgba color of displacement map
-  }
+  vec4 textureColor = texture2D( colorTexture, vec2(lookupX, lookupY) ); // rgba color of displacement map
+  vec4 particleProgress = texture2D( progressTexture, vec2(lookupX, lookupY) ); // rgba color of displacement map
 
-  // use vertex color for positioning use - here we're putting points in a cube
-  float w = width * scale;
-  float h = height * scale;
-  float x = -w / 2. + textureColor.x * w;
-  float y = -h / 2. + textureColor.y * h;
-  float z = -h / 2. + textureColor.z * h;
-  vec4 vertPosition = vec4(x, y, z, 1.);
+  // get PShape vertex position
+  vec4 vertPosition = vec4(vertex.x, vertex.y, 0., 1.);
+  // offset it via progress texture
+  // move. speed should be half of progress, because overall amplitude in any direction is 0.5
+  float size = particleProgress.g;
+  float rotation = particleProgress.b * TWO_PI;
+  float distAmp = particleProgress.r;
+  float progress = 1. - particleProgress.a;
+  float gravityProgress = progress * particleOffsetDistance * 1.;
+  // float speed = 1./255.;
+  // posOffset.x = posOffset.x + speed * cos(rotation);
+  // posOffset.y = posOffset.y + speed * sin(rotation);
+
+  vertPosition.x += progress * particleOffsetDistance * distAmp * cos(rotation);
+  vertPosition.y += progress * particleOffsetDistance * distAmp * sin(rotation) + gravityProgress;
+  // vertPosition.xy += (-0.5 + particleProgress.rg) * particleOffsetDistance;  // TODO: make this configurable. offset is from 0.5
+
 
   // custom point size - use color to grow point
-  float finalPointSize = pointSize;
+  float finalPointSize = pointSize * size * particleProgress.a;
 
   // use custom vertex instead of Processing default (`vertex` uniform)
   // Processing default shader positioning:
@@ -108,7 +117,7 @@ void main() {
   // use original vertex color
   // vertColor = color;
   // or instead, use texture-mapped color :)
-  float colorMult = 1.;
+  float colorMult = particleProgress.a;
   vertColor = vec4(textureColor.rgb * colorMult, 1.);
   // vertColor = vec4(1., 1., 1., 0.4);
 }

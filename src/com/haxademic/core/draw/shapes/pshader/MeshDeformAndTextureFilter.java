@@ -45,4 +45,8 @@ extends BaseVertexShader {
 		shader.set("sheet", (sheet) ? 1 : 0);
 	}
 	
+	public void setYAxisOnly(boolean yAxisOnly) {
+		shader.set("yAxisOnly", (yAxisOnly) ? 1 : 0);
+	}
+	
 }	
