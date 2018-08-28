@@ -26,7 +26,7 @@ void main() {
   float progress = texelColor.a;
 
   // move progress
-  progress -= 2./255.;
+  progress -= 3./255.;
   // posOffset.g += 1./255.;   // fall
 
   // get map color -> speedation

@@ -9,6 +9,7 @@ import com.haxademic.core.constants.PBlendModes;
 import com.haxademic.core.constants.PRenderers;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.context.OpenGLUtil;
+import com.haxademic.core.file.DemoAssets;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.MathUtil;
 
@@ -43,7 +44,7 @@ extends PAppletHax {
 		// build multiple particles launchers
 		particleLaunchers = new ArrayList<ParticleLauncher>();
 		int totalVertices = 0;
-		for (int i = 0; i < 50; i++) {
+		for (int i = 0; i < 40; i++) {
 			ParticleLauncher particles = new ParticleLauncher();
 			particleLaunchers.add(particles);
 			totalVertices += particles.vertices();
@@ -60,15 +61,13 @@ extends PAppletHax {
 		// clear the screen
 		background(0);
 		
-		// launch! x5 for each particle obj
+		// launch! 
 		int particleLauncherIndex = p.frameCount % particleLaunchers.size();
-//		for (int i = 0; i < particles.length; i++) {
 		particleLaunchers.get(particleLauncherIndex).beginLaunch();
-			for (int j = 0; j < 400; j++) {
-				particleLaunchers.get(particleLauncherIndex).launch(p.mouseX, p.mouseY);
-			}
-//		}
-			particleLaunchers.get(particleLauncherIndex).endLaunch();
+		for (int j = 0; j < 420; j++) {		// -2 rows (64)
+			particleLaunchers.get(particleLauncherIndex).launch(p.mouseX, p.mouseY);
+		}
+		particleLaunchers.get(particleLauncherIndex).endLaunch();
 
 		// update particles launcher buffers
 		for (int i = 0; i < particleLaunchers.size(); i++) {
@@ -174,7 +173,7 @@ extends PAppletHax {
 //			p.debugView.setValue("launch x,y", getGridX(positionBufferSize, launchIndex) + ", " + getGridY(positionBufferSize, launchIndex));
 			
 			// reset progress
-			progressBuffer.fill(MathUtil.randRangeDecimal(127f, 255f), MathUtil.randRangeDecimal(0, 255), MathUtil.randRangeDecimal(0f, 255f), 255);	// rgba = distAmp, size, rotation, progress
+			progressBuffer.fill(MathUtil.randRangeDecimal(127f, 255f), MathUtil.randRangeDecimal(127, 255), MathUtil.randRangeDecimal(0f, 255f), 255);	// rgba = distAmp, size, rotation, progress
 			progressBuffer.rect(getGridX(positionBufferSize, launchIndex), getGridY(positionBufferSize, launchIndex), 1, 1);
 			
 			// set particle color
@@ -198,9 +197,10 @@ extends PAppletHax {
 			particlesRenderShader.set("width", (float) positionBufferSize);
 			particlesRenderShader.set("height", (float) positionBufferSize);
 			particlesRenderShader.set("colorTexture", colorBuffer);
+			particlesRenderShader.set("colorTexture", DemoAssets.justin());
 			particlesRenderShader.set("progressTexture", progressBuffer);
-			particlesRenderShader.set("pointSize", 12f);
-			particlesRenderShader.set("particleOffsetDistance", 300f);
+			particlesRenderShader.set("pointSize", 7f);
+			particlesRenderShader.set("particleOffsetDistance", (float) p.width * 0.3f);
 			particlesRenderShader.set("mode", p.mousePercentY());	// test gl_VertexID method of accessing texture positions
 		}
 		
