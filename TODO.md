@@ -4,6 +4,7 @@
   * Moire sphere/shader for MW prototying
   * Sphinx4 speech recognition
     * VOICE ACTIVATED DMX LIGHT COLORS in a room! "red!" "blue!"
+      * only look for certain words: https://stackoverflow.com/a/41426932
     * Copy / paste + Robot for tired hands
   * Interphase
     * Integrate HaxVisualTwo
