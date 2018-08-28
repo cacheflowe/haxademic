@@ -1,5 +1,7 @@
 package com.haxademic.demo.draw.shapes.shader;
 
+import java.util.ArrayList;
+
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
@@ -7,7 +9,6 @@ import com.haxademic.core.constants.PBlendModes;
 import com.haxademic.core.constants.PRenderers;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.context.OpenGLUtil;
-import com.haxademic.core.draw.filters.pshader.BrightnessFilter;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.MathUtil;
 
@@ -21,17 +22,14 @@ extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	protected PGraphics renderedParticles;
-	protected ParticleLauncher[] particles;
-	int FRAMES = 300;
+	protected ArrayList<ParticleLauncher> particleLaunchers;
+
+	// TODO: optimize launching: beginDraw/endDraw calls are super slow. can both be copied to a single canvas, then copied back after drawn into?
+
 
 	protected void overridePropsFile() {
-		p.appConfig.setProperty(AppSettings.LOOP_FRAMES, FRAMES);
 		p.appConfig.setProperty(AppSettings.WIDTH, 768);
 		p.appConfig.setProperty(AppSettings.HEIGHT, 768);
-		p.appConfig.setProperty(AppSettings.FILLS_SCREEN, false);
-		p.appConfig.setProperty(AppSettings.RENDERING_MOVIE, false);
-		p.appConfig.setProperty(AppSettings.RENDERING_MOVIE_START_FRAME, 1 + FRAMES);
-		p.appConfig.setProperty(AppSettings.RENDERING_MOVIE_STOP_FRAME, 1 + FRAMES * 2);
 		p.appConfig.setProperty(AppSettings.SHOW_DEBUG, true);
 	}
 	
@@ -43,18 +41,14 @@ extends PAppletHax {
 //		p.debugView.setTexture(renderedParticles);
 		
 		// build multiple particles launchers
-		particles = new ParticleLauncher[] {
-				new ParticleLauncher(),
-				new ParticleLauncher(),
-				new ParticleLauncher(),
-				new ParticleLauncher(),
-				new ParticleLauncher(),
-				new ParticleLauncher(),
-				new ParticleLauncher(),
-				new ParticleLauncher(),
-				new ParticleLauncher(),
-				new ParticleLauncher(),
-		};
+		particleLaunchers = new ArrayList<ParticleLauncher>();
+		int totalVertices = 0;
+		for (int i = 0; i < 50; i++) {
+			ParticleLauncher particles = new ParticleLauncher();
+			particleLaunchers.add(particles);
+			totalVertices += particles.vertices();
+		}
+		p.debugView.setValue("totalVertices", totalVertices);
 	}
 	
 	public void keyPressed() {
@@ -67,16 +61,18 @@ extends PAppletHax {
 		background(0);
 		
 		// launch! x5 for each particle obj
-		int particleLauncherIndex = p.frameCount % particles.length;
+		int particleLauncherIndex = p.frameCount % particleLaunchers.size();
 //		for (int i = 0; i < particles.length; i++) {
-			for (int j = 0; j < 100; j++) {
-				particles[particleLauncherIndex].launch(p.mouseX, p.mouseY);
+		particleLaunchers.get(particleLauncherIndex).beginLaunch();
+			for (int j = 0; j < 400; j++) {
+				particleLaunchers.get(particleLauncherIndex).launch(p.mouseX, p.mouseY);
 			}
 //		}
-		
+			particleLaunchers.get(particleLauncherIndex).endLaunch();
+
 		// update particles launcher buffers
-		for (int i = 0; i < particles.length; i++) {
-			particles[i].update();
+		for (int i = 0; i < particleLaunchers.size(); i++) {
+			particleLaunchers.get(i).update();
 		}
 
 		// render!
@@ -85,8 +81,8 @@ extends PAppletHax {
 		renderedParticles.background(0);
 		renderedParticles.fill(255);
 		renderedParticles.blendMode(PBlendModes.ADD);
-		for (int i = 0; i < particles.length; i++) {
-			particles[i].renderTo(renderedParticles);
+		for (int i = 0; i < particleLaunchers.size(); i++) {
+			particleLaunchers.get(i).renderTo(renderedParticles);
 		}
 		renderedParticles.endDraw();
 
@@ -95,12 +91,13 @@ extends PAppletHax {
 	}
 	
 	public class ParticleLauncher {
-		
+				
 		protected int positionBufferSize = 32;
 		protected PShape shape;
 		protected PGraphics colorBuffer;
 		protected PGraphics progressBuffer;
 		protected PShader positionShader;
+		protected int vertices = 0;
 
 		protected PShader particlesRenderShader;
 		protected int launchIndex = 0;
@@ -113,6 +110,10 @@ extends PAppletHax {
 			colorBuffer = p.createGraphics(positionBufferSize, positionBufferSize, PRenderers.P3D);
 			OpenGLUtil.setTextureQualityLow(colorBuffer);		// necessary for proper texel lookup!
 //			p.debugView.setTexture(colorBuffer);
+			colorBuffer.beginDraw();
+			colorBuffer.background(255);
+			colorBuffer.noStroke();
+			colorBuffer.endDraw();
 			
 			progressBuffer = p.createGraphics(positionBufferSize, positionBufferSize, PRenderers.P3D);
 			OpenGLUtil.setTextureQualityLow(progressBuffer);		// necessary for proper texel lookup!
@@ -124,8 +125,7 @@ extends PAppletHax {
 			p.debugView.setTexture(progressBuffer);
 			
 			// count vertices for debugView
-			int vertices = P.round(positionBufferSize * positionBufferSize); 
-			p.debugView.setValue("Vertices", vertices);
+			vertices = P.round(positionBufferSize * positionBufferSize); 
 			
 			// Build points vertices
 			shape = P.p.createShape();
@@ -142,7 +142,10 @@ extends PAppletHax {
 				FileUtil.getFile("haxademic/shaders/point/points-default-frag.glsl"), 
 				FileUtil.getFile("haxademic/shaders/point/particle-launcher-vert.glsl")
 			);
-
+		}
+		
+		public int vertices() {
+			return vertices;
 		}
 		
 		protected float getGridX(float size, float index) {
@@ -151,6 +154,14 @@ extends PAppletHax {
 		
 		protected float getGridY(float size, float index) {
 			return P.floor(index / size);
+		}
+		
+		public void beginLaunch() {
+			progressBuffer.beginDraw();
+		}
+		
+		public void endLaunch() {
+			progressBuffer.endDraw();
 		}
 		
 		public void launch(float x, float y) {
@@ -163,17 +174,15 @@ extends PAppletHax {
 //			p.debugView.setValue("launch x,y", getGridX(positionBufferSize, launchIndex) + ", " + getGridY(positionBufferSize, launchIndex));
 			
 			// reset progress
-			progressBuffer.beginDraw();
 			progressBuffer.fill(MathUtil.randRangeDecimal(127f, 255f), MathUtil.randRangeDecimal(0, 255), MathUtil.randRangeDecimal(0f, 255f), 255);	// rgba = distAmp, size, rotation, progress
 			progressBuffer.rect(getGridX(positionBufferSize, launchIndex), getGridY(positionBufferSize, launchIndex), 1, 1);
-			progressBuffer.endDraw();
 			
 			// set particle color
-			colorBuffer.beginDraw();
-			colorBuffer.noStroke();
-			colorBuffer.fill(255f * (0.75f + 0.25f * P.sin(launchIndex * 0.1f)), 255f * (0.75f + 0.25f * P.sin(launchIndex * 0.3f)), 255f * (0.75f + 0.25f * P.sin(launchIndex * 0.2f)));
-			colorBuffer.rect(getGridX(positionBufferSize, launchIndex), getGridY(positionBufferSize, launchIndex), 1, 1);
-			colorBuffer.endDraw();
+//			coloffer.beginDraw();
+//			colorBuffer.noStroke();
+//			colorBuffer.fill(255f * (0.75f + 0.25f * P.sin(launchIndex * 0.1f)), 255f * (0.75f + 0.25f * P.sin(launchIndex * 0.3f)), 255f * (0.75f + 0.25f * P.sin(launchIndex * 0.2f)));
+//			colorBuffer.rect(getGridX(positionBufferSize, launchIndex), getGridY(positionBufferSize, launchIndex), 1, 1);
+//			colorBurBuffer.endDraw();
 			
 			// iterate through vertices and place on mouse
 			int vertexIndex = (launchIndex + positionBufferSize) % shape.getVertexCount();	// offset for some reason... this has something to do with launchIndex skipping the last row
@@ -190,8 +199,8 @@ extends PAppletHax {
 			particlesRenderShader.set("height", (float) positionBufferSize);
 			particlesRenderShader.set("colorTexture", colorBuffer);
 			particlesRenderShader.set("progressTexture", progressBuffer);
-			particlesRenderShader.set("pointSize", 13f);
-			particlesRenderShader.set("particleOffsetDistance", 200f);
+			particlesRenderShader.set("pointSize", 12f);
+			particlesRenderShader.set("particleOffsetDistance", 300f);
 			particlesRenderShader.set("mode", p.mousePercentY());	// test gl_VertexID method of accessing texture positions
 		}
 		
