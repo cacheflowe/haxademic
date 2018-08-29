@@ -22,6 +22,7 @@ implements IAppStoreListener {
 	protected float height = 100;
 	protected float fontSize = 50;
 	protected float textOffsetY = 10;
+	protected float opacity = 170; // of 255
 	protected PFont font;
 
 	public SlideTitle() {
@@ -69,7 +70,7 @@ implements IAppStoreListener {
 			pg.pushMatrix();
 			
 			// draw bg
-			pg.fill(0, 127 * easedProgress);
+			pg.fill(0, opacity * easedProgress);
 			pg.rect(0, 0, pg.width, pg.height); 
 
 			// draw text

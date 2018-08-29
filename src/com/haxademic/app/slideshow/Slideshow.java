@@ -37,7 +37,8 @@ extends PAppletHax
 	protected PGraphicsKeystone pgKeystone;
 	protected int backgroundColor = ColorUtil.colorFromHex("#000000");
 	public static String fontFile = "fonts/_sketch/AkzidenzGroteskBQ-Reg.ttf";
-	public static String slidesDir = "images/_sketch/slideshow/hovercraft-dev";
+//	public static String slidesDir = FileUtil.getFile("images/_sketch/slideshow/hovercraft-dev");
+	public static String slidesDir = "/Users/cacheflowe/Documents/workspace/presentations/aiga-freelance";
 	protected int BUFFER_W = 2688;
 	protected int BUFFER_H = 896;
 	
@@ -74,7 +75,8 @@ extends PAppletHax
 		p.appConfig.setProperty( AppSettings.HEIGHT, 720 );
 		p.appConfig.setProperty( AppSettings.RETINA, false );
 		p.appConfig.setProperty( AppSettings.AUDIO_DEBUG, true );
-		p.appConfig.setProperty( AppSettings.FULLSCREEN, true );
+//		p.appConfig.setProperty( AppSettings.FULLSCREEN, false );
+//		p.appConfig.setProperty( AppSettings.FILLS_SCREEN, true );
 		p.appConfig.setProperty( AppSettings.MIDI_DEVICE_IN_INDEX, 0 );
 	}
 
@@ -142,7 +144,7 @@ extends PAppletHax
 		slideImages = new ArrayList<SlideImage>();
 		slideImagesBg = new ArrayList<SlideImage>();
 		slideImagesFg = new ArrayList<SlideImage>();
-		String[] directories = FileUtil.getDirsInDir(FileUtil.getFile(slidesDir));
+		String[] directories = FileUtil.getDirsInDir(slidesDir);
 		Arrays.sort(directories);
 		for (int i = 0; i < directories.length; i++) {
 			loadSlidesFromDir(directories[i]);
