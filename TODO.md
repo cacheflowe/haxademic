@@ -10,6 +10,12 @@
   * Interphase
     * Integrate HaxVisualTwo
     * Integrate Launchpad direct interface
+  * Grass cutout - laser cut w/Seied
+  * GPU particle launcher mirror
+  * Make a dmx gif loop
+  * Motion detection point-of-interest motion capture by small rectangles - figure out how to zoom out and create multiple zones
+  * Turn client snake mirror into its own thing
+  * Turn client TiledTexture mirror into a motion-reactive mirror that changes when you move
 * Audio
   * Test basic audio input. why is audio getting delayed after hours of running?
   * Turn off Beads audio input object output - this should not pass through
@@ -23,6 +29,7 @@
   * Bring nike timeclock into Haxademic as a new, more robust video-to-dmx demo/app
 * GLSL
   * Convert Orbit noise: https://www.shadertoy.com/view/4t3yDn
+  * Convert some postprocessing effects: https://github.com/libretro/glsl-shaders
   * Figure out `particle-displace-curl.glsl`
   * Add `feedback-map.glsl` & `feedback-radial.glsl` shader wrapper classes
   * Build a post-processing library: https://github.com/processing/processing/wiki/Library-Basics
@@ -30,6 +37,18 @@
     * make a trexture that does audioreactive stripes emitting from the top down
   * Delete old displacement shaders since we have a new wrapper object
   * Optical flow glsl port - ported glsl file (with 2nd reference) is ready to fix up
+  * Notes from book
+    * Shader uniform updates should check if dirty before sending to shader
+    * Look into structs and output from a fragment shader
+    * Look at vertex attributes - Is that an array of values?
+    * Data exits vertex processing by user-defined varying variables
+    * gl_Position can be null and not be rendered?
+    * gl_PointSize can be written to in vertex shader
+    * gl_fragCoord.z has depth data for the fragment?!
+    * Build a basic demo that uses vertex depth to fade to a color- probably already have something similar
+    * Does textureSize(Sampler2D) give us the texture size???
+    * Doing calculations in the vertex shader should always be faster than the fragment shader, since there are fewer vertices than fragments.
+    * Use the ‘discard’ keyword to *not* update a fragment, anywhere in a fragment shader. 
 * SystemUtil:
   * Merge Windows & normal SystemUtil - make sure Java-killing code works on both OS X & Windows
 * net
