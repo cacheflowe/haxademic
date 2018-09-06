@@ -24,7 +24,7 @@ implements IWebCamCallback {
 	protected int spacing = 10;
 
 	protected void overridePropsFile() {
-		p.appConfig.setProperty(AppSettings.WEBCAM_INDEX, 18 );
+		p.appConfig.setProperty(AppSettings.WEBCAM_INDEX, 3 );
 		p.appConfig.setProperty(AppSettings.SHOW_DEBUG, true );
 		p.appConfig.setProperty(AppSettings.FILLS_SCREEN, false );
 	}
