@@ -2,14 +2,16 @@ package com.haxademic.core.system;
 
 import java.awt.AWTException;
 import java.awt.Desktop;
-import java.awt.DisplayMode;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
 import java.awt.Rectangle;
 import java.awt.Robot;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
+import java.awt.datatransfer.DataFlavor;
 import java.awt.datatransfer.StringSelection;
+import java.awt.datatransfer.Transferable;
+import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
@@ -122,6 +124,24 @@ public class SystemUtil {
 	    StringSelection selection = new StringSelection(str);
 	    Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
 	    clipboard.setContents(selection, selection);
+	}
+	
+	public String getClipboardContents() {
+	    String result = "";
+	    Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
+	    Transferable contents = clipboard.getContents(null);
+	    boolean hasTransferableText = (contents != null) && contents.isDataFlavorSupported(DataFlavor.stringFlavor);
+	    if (hasTransferableText) {
+	        try {
+	            result = (String)contents.getTransferData(DataFlavor.stringFlavor);
+	        }
+	        catch (UnsupportedFlavorException e){
+	            P.out(e.getLocalizedMessage());
+	        } catch(IOException e){
+	        	P.out(e.getLocalizedMessage());
+	        }
+	    }
+	    return result;
 	}
 	
 	public static void openWebPage(String url) {
