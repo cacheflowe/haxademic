@@ -2,7 +2,7 @@
 
 * Art projects
   * Moire sphere/shader for MW prototying
-  * VOICE ACTIVATED DMX LIGHT COLORS in a room! "red!" "blue!"
+  * VOICE ACTIVATED DMX LIGHT COLORS in a room!
   * Interphase
     * Integrate HaxVisualTwo
     * Integrate Launchpad direct interface
@@ -14,7 +14,6 @@
   * Turn client TiledTexture mirror into a motion-reactive mirror that changes when you move
 * Audio
   * Sphinx4 speech recognition
-    * Launch as javafx app - look at system demo for doing that
     * Copy / paste + Robot for tired hands
   * Test basic audio input. why is audio getting delayed after hours of running?
   * Turn off Beads audio input object output - this should not pass through
@@ -25,7 +24,7 @@
   * InputTrigger should merge MIDI buttons and CC controls, just like OSC commands
   * Check MIDI rendering now that MIDI code has been revamped
 * DMX
-  * Bring nike timeclock into Haxademic as a new, more robust video-to-dmx demo/app
+  * Bring timeclock app into Haxademic as a new, more robust video-to-dmx demo/app
 * GLSL
   * Convert Orbit noise: https://www.shadertoy.com/view/4t3yDn
   * Convert some postprocessing effects: https://github.com/libretro/glsl-shaders
