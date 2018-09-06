@@ -15,7 +15,8 @@ import javafx.scene.web.WebEngine;
 import javafx.scene.web.WebView;
 import javafx.stage.Stage;
 
-public class Demo_WebViewTestApp extends Application {
+public class Demo_WebViewTestApp 
+extends Application {
 
 	public static Demo_WebViewTestApp instance = null;
 	

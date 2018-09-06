@@ -2,11 +2,7 @@
 
 * Art projects
   * Moire sphere/shader for MW prototying
-  * Sphinx4 speech recognition
-    * VOICE ACTIVATED DMX LIGHT COLORS in a room! "red!" "blue!"
-    * Launch as javafx app - look at system demo for doing that
-      * only look for certain words: https://stackoverflow.com/a/41426932
-    * Copy / paste + Robot for tired hands
+  * VOICE ACTIVATED DMX LIGHT COLORS in a room! "red!" "blue!"
   * Interphase
     * Integrate HaxVisualTwo
     * Integrate Launchpad direct interface
@@ -17,6 +13,9 @@
   * Turn client snake mirror into its own thing
   * Turn client TiledTexture mirror into a motion-reactive mirror that changes when you move
 * Audio
+  * Sphinx4 speech recognition
+    * Launch as javafx app - look at system demo for doing that
+    * Copy / paste + Robot for tired hands
   * Test basic audio input. why is audio getting delayed after hours of running?
   * Turn off Beads audio input object output - this should not pass through
   * Split audio stepthrough rendering from Renderer.java, which should just save movies. MIDIStepthrough renderer is a good example of splitting
@@ -48,7 +47,7 @@
     * Build a basic demo that uses vertex depth to fade to a color- probably already have something similar
     * Does textureSize(Sampler2D) give us the texture size???
     * Doing calculations in the vertex shader should always be faster than the fragment shader, since there are fewer vertices than fragments.
-    * Use the ‘discard’ keyword to *not* update a fragment, anywhere in a fragment shader. 
+    * Use the ‘discard’ keyword to *not* update a fragment, anywhere in a fragment shader.
 * SystemUtil:
   * Merge Windows & normal SystemUtil - make sure Java-killing code works on both OS X & Windows
 * net

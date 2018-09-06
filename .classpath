@@ -82,6 +82,8 @@
 	<classpathentry kind="lib" path="lib/beads/library/tools.jar"/>
 	<classpathentry kind="lib" path="lib/PixelFlow/library/PixelFlow.jar"/>
 	<classpathentry kind="lib" path="lib/dmxP512/library/dmxP512.jar"/>
+	<classpathentry kind="lib" path="lib/sphinx4/sphinx4-core-5prealpha.jar"/>
+	<classpathentry kind="lib" path="lib/sphinx4/sphinx4-data-1.0.0.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER">
 		<accessrules>
 			<accessrule kind="accessible" pattern="com/apple/eawt/**"/>
