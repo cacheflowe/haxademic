@@ -30,7 +30,7 @@ public void draw() {
 ```
 new Thread(new Runnable() { public void run() {
   doSomething();
-}}).start();	
+}}).start();
 
 ```
 
@@ -38,13 +38,47 @@ new Thread(new Runnable() { public void run() {
 
 ```
 Arrays.sort(myArray, compare);
-	
+
 public static Comparator<CustomObject> compare = new Comparator<CustomObject>() {
   @Override
   public int compare(CustomObject a, CustomObject b){
   return (a.z() < b.z()) ? -1 : (a.z() > b.z()) ? 1 : 0;
   }
 };
+```
+
+#### Create a HashMap literal (almost)
+
+```
+protected static HashMap<String, String> colors;
+static
+  {
+  colors = new HashMap<String, String>();
+  colors.put("blue", "#0000ff");
+  colors.put("red", "#ff0000");
+  colors.put("yellow", "#ffff00");
+  }
+```
+
+#### Pick a random enum
+
+```
+enum DrawMode {
+  Color,
+  Textured,
+  Points,
+}
+protected DrawMode drawMode;
+
+private static final List<DrawMode> VALUES = Collections.unmodifiableList(Arrays.asList(DrawMode.values()));
+private static final int SIZE = VALUES.size();
+private static final Random RANDOM = new Random();
+public static DrawMode randomDrawMode()  {
+  return VALUES.get(RANDOM.nextInt(SIZE));
+}
+
+// choose a random mode
+drawMode = randomDrawMode();
 ```
 
 #### Errors
