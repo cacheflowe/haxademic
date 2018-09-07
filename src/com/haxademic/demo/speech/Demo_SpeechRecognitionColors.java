@@ -149,10 +149,8 @@ implements ISpeechRecognizer {
 		protected ISpeechRecognizer delegate;
 
 	    public FrameWithBorderLayout() {
-	        // Call super class constructor with a title
-	        super("SPeech frame");
-	        // Set when the close button is clicked, the application exits
-	        setDefaultCloseOperation(EXIT_ON_CLOSE);
+			super("Speech frame");  					// Call super class constructor with a title
+			setDefaultCloseOperation(EXIT_ON_CLOSE);  	// Set when the close button is clicked, the application exits
 	    }
 	    
 	    public void initWithDelegate(ISpeechRecognizer delegate) {

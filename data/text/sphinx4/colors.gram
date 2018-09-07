@@ -1,0 +1,4 @@
+#JSGF V1.0;
+
+grammar colors;
+public <color> = blue | red | yellow | banana | orange | green | purple | white | black | pink | brown | coral | salmon | crimson | brick | pink | tomato | orange | gold | yellow | lemon | papaya | moccasin | peach | khaki | lavender | thistle | plum | violet | orchid | fuchsia | magenta | purple | indigo | chartreuse | grass | lime | seagreen | forest | green | olive | teal | aqua | cyan | aquamarine | turquoise | skyblue | royalblue | blue | navy | midnight | cornsilk | bisque | wheat | burlyWood | tan | sand | peru | chocolate | sienna | brown | maroon | white | snow | honeydew | azure | seashell | beige | ivory | linen | gainsboro | silver | darkgray | gray | slate | black;
