@@ -1,5 +1,6 @@
 package com.haxademic.demo.app;
 
+import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.draw.context.DrawUtil;
@@ -14,12 +15,12 @@ extends PAppletHax {
 	protected EasingFloat _easingY = new EasingFloat(0, 6f);
 
 	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.FPS, 90 );
-		// setScreenSize();
-		// setFullscreen();
+		// p.appConfig.setProperty( AppSettings.FPS, 90 );
+		setScreenSize();
+		// setFullscreen(true);
 		// setFullscreenSpecificMonitor();
 		// setFillAllScreens();
-		setUndecoratedWithScreenPosition(true);
+		// setUndecoratedWithScreenPosition(false);
 	}
 
 	protected void setScreenSize() {
@@ -28,8 +29,9 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.APP_NAME, "Screen Size Tests" );
 	}
 	
-	protected void setFullscreen() {
+	protected void setFullscreen(boolean alwaysOnTop) {
 		p.appConfig.setProperty( AppSettings.FULLSCREEN, true );
+		p.appConfig.setProperty( AppSettings.ALWAYS_ON_TOP, alwaysOnTop );
 	}
 	
 	protected void setFullscreenSpecificMonitor() {
@@ -43,21 +45,15 @@ extends PAppletHax {
 	
 	protected void setUndecoratedWithScreenPosition(boolean alwaysOnTop) {
 		p.appConfig.setProperty( AppSettings.FULLSCREEN, true );
-		p.appConfig.setProperty( AppSettings.SCREEN_X, 100 );
-		p.appConfig.setProperty( AppSettings.SCREEN_Y, 100 );
-		p.appConfig.setProperty( AppSettings.WIDTH, 540 );
-		p.appConfig.setProperty( AppSettings.HEIGHT, 320 );
+		p.appConfig.setProperty( AppSettings.SCREEN_X, 1920 );
+		p.appConfig.setProperty( AppSettings.SCREEN_Y, 0 );
+		p.appConfig.setProperty( AppSettings.WIDTH, 1920 );
+		p.appConfig.setProperty( AppSettings.HEIGHT, 1080 );
 		p.appConfig.setProperty( AppSettings.ALWAYS_ON_TOP, alwaysOnTop );
 	}
 	
-	
-
-	public void setup() {
-		super.setup();	
-	}
-
 	public void drawApp() {
-		background(0);
+		background(0, 255, 0);
 		
 		_easingX.setEaseFactor(easeFactor);
 		_easingY.setEaseFactor(easeFactor);
@@ -71,6 +67,10 @@ extends PAppletHax {
 		DrawUtil.setDrawCenter(p);
 		p.fill(255);
 		p.ellipse(_easingX.value(), _easingY.value(), 40, 40);
+		
+		if(p.appConfig.getBoolean(AppSettings.ALWAYS_ON_TOP, false) == true) {
+			if(p.frameCount % 300 == 0) P.p.setAlwaysOnTop();
+		}
 	}
 
 }

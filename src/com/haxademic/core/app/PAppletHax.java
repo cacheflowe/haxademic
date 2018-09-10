@@ -153,7 +153,6 @@ extends PApplet
 	public void setup() {
 		if(customPropsFile != null) DebugUtil.printErr("Make sure to load custom .properties files in settings()");
 		setAppletProps();
-		checkScreenManualPosition();
 		if(renderer != PRenderers.PDF) {
 			debugView = new DebugView( p );
 			prefsSliders = new PrefsSliders();
@@ -194,7 +193,8 @@ extends PApplet
 			p.fullScreen(renderer, P.SPAN);
 		} else if(p.appConfig.getBoolean(AppSettings.FULLSCREEN, false) == true) {
 			// run fullscreen - default to screen #1 unless another is specified
-			p.fullScreen(renderer, p.appConfig.getInt(AppSettings.FULLSCREEN_SCREEN_NUMBER, 1));
+			if(p.appConfig.getInt(AppSettings.FULLSCREEN_SCREEN_NUMBER, 1) != 1) DebugUtil.printErr("AppSettings.FULLSCREEN_SCREEN_NUMBER is busted if not screen #1. Use AppSettings.SCREEN_X, etc.");
+			p.fullScreen(renderer); // , p.appConfig.getInt(AppSettings.FULLSCREEN_SCREEN_NUMBER, 1)
 		} else if(p.appConfig.getBoolean(AppSettings.FILLS_SCREEN, false) == true) {
 			// fills the screen, but not fullscreen
 			p.size(displayWidth,displayHeight,renderer);
@@ -218,7 +218,7 @@ extends PApplet
 				return;
 			}
 			surface.setSize(p.appConfig.getInt(AppSettings.WIDTH, 800), p.appConfig.getInt(AppSettings.HEIGHT, 600));
-			surface.setLocation(p.appConfig.getInt("screen_x", 0), p.appConfig.getInt("screen_y", 0));  // location has to happen after size, to break it out of fullscreen
+			surface.setLocation(p.appConfig.getInt(AppSettings.SCREEN_X, 0), p.appConfig.getInt(AppSettings.SCREEN_Y, 0));  // location has to happen after size, to break it out of fullscreen
 		}
 	}
 
@@ -317,6 +317,10 @@ extends PApplet
 			P.println("Using Java version: " + SystemUtil.getJavaVersion() + " and GL version: " + OpenGLUtil.getGlVersion(p.g));
 			initHaxademicObjects();
 			setupFirstFrame();
+		}
+		if(p.frameCount == 2) {
+			// move screen after first frame is rendered. this prevents weird issues (i.e. the app not even starting)
+			checkScreenManualPosition();
 		}
 	}
 	
