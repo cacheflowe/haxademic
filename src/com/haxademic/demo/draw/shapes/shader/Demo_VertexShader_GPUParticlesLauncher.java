@@ -29,9 +29,10 @@ extends PAppletHax {
 
 
 	protected void overridePropsFile() {
-		p.appConfig.setProperty(AppSettings.WIDTH, 768);
-		p.appConfig.setProperty(AppSettings.HEIGHT, 768);
+		p.appConfig.setProperty(AppSettings.WIDTH, 1080);
+		p.appConfig.setProperty(AppSettings.HEIGHT, 1080);
 		p.appConfig.setProperty(AppSettings.SHOW_DEBUG, true);
+//		p.appConfig.setProperty(AppSettings.FPS, 120);
 	}
 	
 	protected void setupFirstFrame() {

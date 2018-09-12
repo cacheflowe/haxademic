@@ -154,7 +154,7 @@ extends PAppletHax {
 	protected int COLORIZE_MODES = 3;
 	protected int colorizeMode = COLORIZE_RANDOM;
 	protected ImageGradient imageGradient;
-	protected ImageGradient imageGradientBlue;
+//	protected ImageGradient imageGradientBlue;
 //	protected boolean colorizeWithGradient = true;
 	protected boolean imageGradientLuma = false;
 	protected boolean imageGradientFilter = true;
@@ -216,7 +216,7 @@ extends PAppletHax {
 
 	protected void buildPostProcessingChain() {
 //		if(colorizeWithGradient) {
-			imageGradientBlue = new ImageGradient(P.p.loadImage(FileUtil.getFile("images/_sketch/sendgrid/palette-sendgrid.png")));
+//			imageGradientBlue = new ImageGradient(P.p.loadImage(FileUtil.getFile("images/_sketch/sendgrid/palette-sendgrid.png")));
 			imageGradient = new ImageGradient(ImageGradient.PASTELS());
 			imageGradient.addTexturesFromPath(ImageGradient.COOLORS_PATH);
 //		}
@@ -452,7 +452,7 @@ extends PAppletHax {
 		// COLORIZE FROM TEXTURE ////////////////////////
 		p.debugView.setValue("colorizeMode", colorizeMode);
 		if(colorizeMode != COLORIZE_NONE) {
-			if(colorizeMode == COLORIZE_BLUE) ColorizeFromTexture.instance(p).setTexture(imageGradientBlue.texture());
+//			if(colorizeMode == COLORIZE_BLUE) ColorizeFromTexture.instance(p).setTexture(imageGradientBlue.texture());
 			if(colorizeMode == COLORIZE_RANDOM) ColorizeFromTexture.instance(p).setTexture(imageGradient.texture());
 			ColorizeFromTexture.instance(p).setLumaMult(imageGradientLuma);
 			ColorizeFromTexture.instance(p).applyTo(_pg);

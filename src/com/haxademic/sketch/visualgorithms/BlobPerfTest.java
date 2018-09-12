@@ -8,14 +8,12 @@ import com.haxademic.core.draw.filters.pshader.BlurHFilter;
 import com.haxademic.core.draw.filters.pshader.BlurProcessingFilter;
 import com.haxademic.core.draw.filters.pshader.BlurVFilter;
 import com.haxademic.core.file.DemoAssets;
-import com.haxademic.core.file.FileUtil;
 
 import blobDetection.Blob;
 import blobDetection.BlobDetection;
 import blobDetection.EdgeVertex;
 import processing.core.PGraphics;
 import processing.core.PImage;
-import processing.opengl.PShader;
 import processing.video.Movie;
 
 public class BlobPerfTest 
@@ -24,9 +22,6 @@ extends PAppletHax {
 	
 	Movie _movie;
 	
-	protected PShader _blurH;
-	protected PShader _blurV;
-
 	BlobDetection theBlobDetection;
 	PImage blobBufferImg;
 	PGraphics blobBufferGraphics;
@@ -79,7 +74,7 @@ extends PAppletHax {
 	}
 	
 	protected void initBlobDetection() {
-		float scaleDownForBlobDetect = 0.7f;
+		float scaleDownForBlobDetect = 0.2f;
 		int blurImgW = (int)(_canvasW * scaleDownForBlobDetect);
 		int blurImgH = (int)(_canvasH * scaleDownForBlobDetect);
 		
