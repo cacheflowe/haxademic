@@ -34,7 +34,7 @@ implements IWebCamCallback {
 	protected ArrayList<ParticleLauncher> particleLaunchers;
 	
 	protected void overridePropsFile() {
-		p.appConfig.setProperty(AppSettings.WIDTH, 1600 );
+		p.appConfig.setProperty(AppSettings.WIDTH, 800 );
 		p.appConfig.setProperty(AppSettings.HEIGHT, 600 );
 		p.appConfig.setProperty(AppSettings.WEBCAM_INDEX, 5 ); // 18
 		p.appConfig.setProperty(AppSettings.SHOW_DEBUG, true );
@@ -45,7 +45,7 @@ implements IWebCamCallback {
 		p.webCamWrapper.setDelegate(this);
 		
 		// build final draw buffer
-		renderedParticles = p.createGraphics(800, 600, PRenderers.P3D);
+		renderedParticles = p.createGraphics(p.width, p.height, PRenderers.P3D);
 		renderedParticles.smooth(8);
 		p.debugView.setTexture(renderedParticles);
 		
@@ -72,9 +72,9 @@ implements IWebCamCallback {
 			motionBuffer = p.createGraphics(cameraW, cameraH, PRenderers.P2D);
 		}
 		// copy flipped
-		flippedCamera.copy(frame, 0, 0, frame.width, frame.height, flippedCamera.width, 0, -flippedCamera.width, flippedCamera.height);
+		ImageUtil.copyImageFlipH(frame, flippedCamera);
 		
-		// lazy-init motion detection to pass Kinect into
+		// lazy-init motion detection 
 		if(motionDetectionMap == null) {
 			motionDetectionMap = new BufferMotionDetectionMap(flippedCamera, 0.05f);
 		}
@@ -99,11 +99,10 @@ implements IWebCamCallback {
 
 	public void drawApp() {
 		// clear the screen
+		if(motionDetectionMap == null) return;
 		background(0);
 		
-		if(motionDetectionMap == null) return;
-		
-		// launch! 
+		// launch particles from random places within the motion detection zones
 		motionDetectionMap.loadPixels();
 
 		int particleLauncherIndex = p.frameCount % particleLaunchers.size();
@@ -128,7 +127,6 @@ implements IWebCamCallback {
 
 		particleLaunchers.get(particleLauncherIndex).endLaunch();
 
-
 		// update particles launcher buffers
 		for (int i = 0; i < particleLaunchers.size(); i++) {
 			particleLaunchers.get(i).update();
@@ -149,19 +147,15 @@ implements IWebCamCallback {
 		renderedParticles.blendMode(PBlendModes.BLEND);
 		DrawUtil.setPImageAlpha(p, 0.9f);
 		p.image(flippedCamera, 0, 0);
-		DrawUtil.setPImageAlpha(p, 0.4f);
-		p.image(motionDetectionMap.bwBuffer(), flippedCamera.width, 0, flippedCamera.width, flippedCamera.height);
+		DrawUtil.setPImageAlpha(p, 0.1f);
+		p.image(motionDetectionMap.bwBuffer(), 0, 0, flippedCamera.width, flippedCamera.height);
 		DrawUtil.setPImageAlpha(p, 1f);
 		renderedParticles.blendMode(PBlendModes.ADD);
-		p.image(renderedParticles, flippedCamera.width, 0);
+		p.image(renderedParticles, 0, 0);
 		
 		// desaturate
-		SaturationFilter.instance(p).setSaturation(0);
-		SaturationFilter.instance(p).applyTo(p);
-	}
-	
-	public void keyPressed() {
-		super.keyPressed();
+//		SaturationFilter.instance(p).setSaturation(0);
+//		SaturationFilter.instance(p).applyTo(p);
 	}
 	
 }
