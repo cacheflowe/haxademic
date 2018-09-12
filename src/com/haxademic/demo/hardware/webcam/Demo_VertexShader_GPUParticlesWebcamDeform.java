@@ -3,11 +3,11 @@ package com.haxademic.demo.hardware.webcam;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
+import com.haxademic.core.constants.PBlendModes;
 import com.haxademic.core.constants.PRenderers;
 import com.haxademic.core.draw.filters.pshader.BlendTowardsTexture;
 import com.haxademic.core.draw.image.BufferMotionDetectionMap;
 import com.haxademic.core.draw.image.ImageUtil;
-import com.haxademic.core.file.DemoAssets;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.webcam.IWebCamCallback;
 
@@ -32,14 +32,13 @@ implements IWebCamCallback {
 	protected PShape shape;
 	protected PImage colorMap;
 	protected PShader pointsTexturedShader;
-	protected PGraphics pg;
 	protected float w = 1024;
 	protected float h = 512;
 
 	protected void overridePropsFile() {
 		p.appConfig.setProperty(AppSettings.WIDTH, (int) w);
 		p.appConfig.setProperty(AppSettings.HEIGHT, (int) h);
-		p.appConfig.setProperty(AppSettings.WEBCAM_INDEX, 3);
+		p.appConfig.setProperty(AppSettings.WEBCAM_INDEX, 5);
 	}
 
 	protected void setupFirstFrame() {
@@ -48,13 +47,9 @@ implements IWebCamCallback {
 		webcamBuffer = p.createGraphics((int) w, (int) h, PRenderers.P2D);
 		webcamMirror = p.createGraphics((int) w, (int) h, PRenderers.P2D);
 
-		
 		// load & set texture
 		displacementMap = p.createGraphics((int) w, (int) h, PRenderers.P2D);
-		colorMap = DemoAssets.textureNebula();  // p.loadImage(FileUtil.getFile("images/_sketch/logo.png"));
-
-		// build offsecreen buffer (things don't work the same on the main drawing surface)
-		pg = p.createGraphics((int) w, (int) h, PRenderers.P3D);
+		colorMap = webcamBuffer;//DemoAssets.textureNebula();  // p.loadImage(FileUtil.getFile("images/_sketch/logo.png"));
 
 		// count vertices for debugView
 		int vertices = P.round(w * h); 
@@ -86,15 +81,8 @@ implements IWebCamCallback {
 	}
 
 	public void drawApp() {
-		// update displacement texture
-		// perlin.update(0.15f, 0.05f, p.frameCount/ 10f, 0);
-//		audioTexture.update();
-//		MirrorFilter.instance(p).applyTo(audioTexture.texture());
-		
-//		texture = p.webCamWrapper.getImage();
 		if(motionDetectionMap != null) {
-//			displacementMap = motionDetectionMap.differenceBuffer();
-			BlendTowardsTexture.instance(p).setBlendLerp(0.1f);
+			BlendTowardsTexture.instance(p).setBlendLerp(0.2f);
 			BlendTowardsTexture.instance(p).setSourceTexture(motionDetectionMap.bwBuffer());
 			BlendTowardsTexture.instance(p).applyTo(displacementMap);
 			p.debugView.setTexture(displacementMap);
@@ -103,7 +91,6 @@ implements IWebCamCallback {
 		// fade background
 		pg.beginDraw();
 		pg.clear();
-//		DrawUtil.fadeToBlack(pg, 60);
 		
 		// move to screen center
 		pg.translate(p.width/2f, p.height/2f, 0);
@@ -113,13 +100,11 @@ implements IWebCamCallback {
 		pg.strokeWeight(1.0f);
 		pointsTexturedShader.set("displacementMap", displacementMap);
 		pointsTexturedShader.set("colorMap", colorMap);
-//		if(movie != null && movie.width > 20) pointsTexturedShader.set("colorMap", movie);
-		pointsTexturedShader.set("pointSize", 0.5f + p.mousePercentX() * 2f); // 2.5f + 1.5f * P.sin(P.TWO_PI * percentComplete));
+		pointsTexturedShader.set("pointSize", 1.5f);//0.5f + p.mousePercentX() * 2f); // 2.5f + 1.5f * P.sin(P.TWO_PI * percentComplete));
 		pointsTexturedShader.set("width", w);
 		pointsTexturedShader.set("height", h);
-		pointsTexturedShader.set("spread", 0.5f + p.mousePercentY() * 2f);//2.5f + 0.5f * P.sin(P.PI + 2f * loop.progressRads()));
-		pointsTexturedShader.set("displaceStrength", 150f);//130f + 130f * P.sin(P.PI + P.TWO_PI * percentComplete));
-//		pg.rotateX(P.sin(p.frameCount * 0.01f) * 0.2f);
+		pointsTexturedShader.set("spread", 1f);//0.5f + p.mousePercentY() * 2f);//2.5f + 0.5f * P.sin(P.PI + 2f * loop.progressRads()));
+		pointsTexturedShader.set("displaceStrength", 80f);//130f + 130f * P.sin(P.PI + P.TWO_PI * percentComplete));
 		pg.shader(pointsTexturedShader);  
 		pg.shape(shape);
 		pg.resetShader();
@@ -127,7 +112,9 @@ implements IWebCamCallback {
 		
 		// draw buffer to screen
 		p.image(webcamMirror, 0, 0);
+		p.blendMode(PBlendModes.REPLACE);
 		p.image(pg, 0, 0);
+		p.blendMode(PBlendModes.BLEND);
 	}
 
 	@Override
@@ -145,8 +132,8 @@ implements IWebCamCallback {
 		}
 		// float mouseX = p.mousePercentX();
 		// p.debugView.setValue("mouseX", mouseX);
-		motionDetectionMap.setBlendLerp(0.05f);
-		motionDetectionMap.setDiffThresh(0.03f);
+		motionDetectionMap.setBlendLerp(0.2f);
+		motionDetectionMap.setDiffThresh(0.05f);
 		motionDetectionMap.setFalloffBW(0.2f);
 		motionDetectionMap.setThresholdCutoff(0.5f);
 		motionDetectionMap.setBlur(1f);
@@ -154,15 +141,6 @@ implements IWebCamCallback {
 		
 		// set textures for debug view
 		p.debugView.setTexture(frame);
-//		p.debugView.setTexture(motionDetectionMap.backplate());
-//		p.debugView.setTexture(motionDetectionMap.differenceBuffer());
-//		p.debugView.setTexture(motionDetectionMap.bwBuffer());
-		
-//		if(movie == null) {
-//			movie = new Movie(p, FileUtil.getFile("images/_sketch/attract-loop.mp4"));
-//			movie.play();
-//			movie.loop();
-//		}
 	}
 
 		
