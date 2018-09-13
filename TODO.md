@@ -26,6 +26,7 @@
 * DMX
   * Bring timeclock app into Haxademic as a new, more robust video-to-dmx demo/app
 * GLSL
+  * Fix up GPU particle launcher to store colors per-particle
   * Convert Orbit noise: https://www.shadertoy.com/view/4t3yDn
   * Convert some postprocessing effects: https://github.com/libretro/glsl-shaders
   * Figure out `particle-displace-curl.glsl`
@@ -54,11 +55,9 @@
   * WebServer and SocketServer should be more stylistically similar. See PORT in WebServer, and DEBUG static boolean - should be passed in?
   * Replace JavaWebsocket with Jetty WebSocket server??
 * Demos:
+  * Replicate indpendent 40k shape demo from Processing examples - update with GPU
   * Make a little planet generator with icosahedron deformation and colorized texture map of depth
     * https://github.com/ashima/webgl-noise/wiki
-  * GLSL particle launcher - write new/recycled particles to next pixel in texture
-    * GPU particles that launch from Kinect or Optical flow
-  * GLSL particles - use 2 textures for position/motion. Wrap around screen from 0-1
   * Finish icosa hair w/triangle tentacles!
   * Distill more demos for `core` code
   * Make a Demo based on Eutopia that runs via command line & passes args in
@@ -74,6 +73,7 @@
     * Demo_VertexShader_NoiseTest_WIP
     * Demo_VertexShader_Fattener
 * General / tools
+  * Convert mirrors into realtime video filters
   * BufferActivityMonitor should use FrameDifferenceBuffer object
   * Replace ColorHax with EasingColor
   * Clean up /data directory with assets that can be used across demos, and move sketch assets into their own location
