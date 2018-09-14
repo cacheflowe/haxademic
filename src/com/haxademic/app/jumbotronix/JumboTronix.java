@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
-import com.haxademic.core.draw.filters.pgraphics.BlobOuterMeshFilter;
+import com.haxademic.core.draw.filters.pgraphics.archive.BlobOuterMeshFilter;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.image.ScreenUtil;
 import com.haxademic.core.draw.textures.pgraphics.TextureEQColumns;

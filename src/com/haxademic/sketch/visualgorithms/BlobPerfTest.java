@@ -3,7 +3,7 @@ package com.haxademic.sketch.visualgorithms;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
-import com.haxademic.core.draw.filters.pgraphics.FastBlurFilter;
+import com.haxademic.core.draw.filters.pgraphics.archive.FastBlurFilter;
 import com.haxademic.core.draw.filters.pshader.BlurHFilter;
 import com.haxademic.core.draw.filters.pshader.BlurProcessingFilter;
 import com.haxademic.core.draw.filters.pshader.BlurVFilter;

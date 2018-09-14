@@ -14,7 +14,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.draw.context.OpenGLUtil;
-import com.haxademic.core.draw.filters.pgraphics.FastBlurFilter;
+import com.haxademic.core.draw.filters.pgraphics.archive.FastBlurFilter;
 import com.haxademic.core.hardware.kinect.KinectSize;
 import com.haxademic.core.math.MathUtil;
 

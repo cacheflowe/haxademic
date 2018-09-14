@@ -1,13 +1,13 @@
 # TODO
 
 * Art projects
+  * Convert all webcam VFX to generalized video filters that can accept any incoming texture
   * Moire sphere/shader for MW prototying
-  * VOICE ACTIVATED DMX LIGHT COLORS in a room!
+  * Voice-activated color room: What Say Hue?
   * Interphase
     * Integrate HaxVisualTwo
     * Integrate Launchpad direct interface
   * Grass cutout - laser cut w/Seied
-  * GPU particle launcher mirror
   * Make a dmx gif loop
   * Motion detection point-of-interest motion capture by small rectangles - figure out how to zoom out and create multiple zones
   * Turn client snake mirror into its own thing

@@ -6,7 +6,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.color.ColorGroup;
 import com.haxademic.core.draw.context.DrawUtil;
-import com.haxademic.core.draw.filters.pgraphics.PixelFilter;
+import com.haxademic.core.draw.filters.pgraphics.archive.PixelFilter;
 import com.haxademic.core.hardware.kinect.IKinectWrapper;
 import com.haxademic.core.hardware.kinect.KinectSize;
 

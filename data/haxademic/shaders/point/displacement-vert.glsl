@@ -46,6 +46,7 @@ uniform float pointSize = 1.;
 uniform float spread = 1.;
 uniform float width = 256.;
 uniform float height = 256.;
+uniform int flipY = 0;
 
 attribute vec2 texCoord;
 attribute vec3 normal;
@@ -64,8 +65,10 @@ vec4 windowToClipVector(vec2 window, vec4 viewport, float clipw) {
 
 void main() {
   // use point's original position (0-1) as its uv value
-  vec4 textureColor = texture2D( colorMap, vertex.xy ); // rgba color of displacement map
-  vec4 displacementColor = texture2D( displacementMap, vertex.xy ); // rgba color of displacement map
+  vec2 uv = vertex.xy;
+  if(flipY == 1) uv.y = 1. - uv.y;
+  vec4 textureColor = texture2D( colorMap, uv ); // rgba color of displacement map
+  vec4 displacementColor = texture2D( displacementMap, uv ); // rgba color of displacement map
 
   // calc index of this vertex for positioning use
   float totalVerts = width * height;
@@ -84,7 +87,7 @@ void main() {
 
   // custom point size - use color to grow point
   // float finalPointSize = pointSize * (1. + (textureColor.r * 4.));
-  float finalPointSize = pointSize;
+  float finalPointSize = pointSize * displacementColor.r;
 
   // use custom vertex instead of Processing default (`vertex` uniform)
   // Processing default shader positioning:

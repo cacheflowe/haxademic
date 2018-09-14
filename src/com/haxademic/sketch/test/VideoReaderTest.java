@@ -4,8 +4,8 @@ import java.awt.image.BufferedImage;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.draw.filters.pgraphics.ImageHistogramFilter;
 import com.haxademic.core.draw.filters.pgraphics.PixelTriFilter;
+import com.haxademic.core.draw.filters.pgraphics.archive.ImageHistogramFilter;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.file.DemoAssets;
 import com.haxademic.core.file.FileUtil;
@@ -88,7 +88,7 @@ extends PAppletHax {
 
 
 		// draw filtered image
-		if( _curMov != null ) image( _triPixelFilter.updateWithPImage( _histogramFilter.updateWithPImage( _curFrame ) ), 0, 0, width, height);
+//		if( _curMov != null ) image( _triPixelFilter.updateWithPImage( _histogramFilter.updateWithPImage( _curFrame ) ), 0, 0, width, height);
 
 	}
 	

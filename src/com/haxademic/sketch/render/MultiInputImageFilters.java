@@ -6,12 +6,12 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.draw.context.DrawUtil;
-import com.haxademic.core.draw.filters.pgraphics.BlobOuterMeshFilter;
-import com.haxademic.core.draw.filters.pgraphics.Cluster8BitRow;
-import com.haxademic.core.draw.filters.pgraphics.ImageHistogramFilter;
-import com.haxademic.core.draw.filters.pgraphics.PixelFilter;
 import com.haxademic.core.draw.filters.pgraphics.PixelTriFilter;
-import com.haxademic.core.draw.filters.pgraphics.ReflectionFilter;
+import com.haxademic.core.draw.filters.pgraphics.archive.BlobOuterMeshFilter;
+import com.haxademic.core.draw.filters.pgraphics.archive.Cluster8BitRow;
+import com.haxademic.core.draw.filters.pgraphics.archive.ImageHistogramFilter;
+import com.haxademic.core.draw.filters.pgraphics.archive.PixelFilter;
+import com.haxademic.core.draw.filters.pgraphics.archive.ReflectionFilter;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.webcam.WebCamWrapper;
@@ -129,8 +129,8 @@ extends PAppletHax {
 //		_curFrame = _pixelTriFilter.updateWithPImage( _curFrame );	// _clusterRowFilter.updateWithPImage( 
 //		_curFrame = _pixelTriFilter.updateWithPImage( _histogramFilter.updateWithPImage( _curFrame ) );
 //		_curFrame = _blobFilter.updateWithPImage( _curFrame );	// _pixelFilter.updateWithPImage( 
-		_curFrame = _pixelTriFilter.updateWithPImage( _histogramFilter.updateWithPImage( _reflectionFilter.updateWithPImage( _curFrame ) ) );
-//		_curFrame = _blobFilter.updateWithPImage( _pixelFilter.updateWithPImage( _curFrame ) );
+//		_curFrame = _pixelTriFilter.updateWithPImage( _histogramFilter.updateWithPImage( _reflectionFilter.updateWithPImage( _curFrame ) ) );
+		_curFrame = _blobFilter.updateWithPImage( _pixelFilter.updateWithPImage( _curFrame ) );
 //		_curFrame = _pixelFilter.updateWithPImage( _curFrame );
 	}
 	
