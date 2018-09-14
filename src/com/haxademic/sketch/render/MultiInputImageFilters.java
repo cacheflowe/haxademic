@@ -8,13 +8,11 @@ import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.filters.pgraphics.PixelTriFilter;
 import com.haxademic.core.draw.filters.pgraphics.archive.BlobOuterMeshFilter;
-import com.haxademic.core.draw.filters.pgraphics.archive.Cluster8BitRow;
 import com.haxademic.core.draw.filters.pgraphics.archive.ImageHistogramFilter;
 import com.haxademic.core.draw.filters.pgraphics.archive.PixelFilter;
 import com.haxademic.core.draw.filters.pgraphics.archive.ReflectionFilter;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.file.FileUtil;
-import com.haxademic.core.hardware.webcam.WebCamWrapper;
 import com.haxademic.core.render.VideoFrameGrabber;
 import com.jhlabs.image.ContrastFilter;
 import com.jhlabs.image.HSBAdjustFilter;
@@ -40,7 +38,7 @@ extends PAppletHax {
 	protected ReflectionFilter _reflectionFilter;
 	protected PixelTriFilter _pixelTriFilter;
 	protected PixelFilter _pixelFilter;
-	protected Cluster8BitRow _clusterRowFilter;
+//	protected Cluster8BitRow _clusterRowFilter;
 	protected ImageHistogramFilter _histogramFilter;
 	
 	protected PShader blur;
@@ -79,7 +77,7 @@ extends PAppletHax {
 		_blobFilter = new BlobOuterMeshFilter( w, h );
 		_reflectionFilter = new ReflectionFilter( w, h );
 		_pixelFilter = new PixelFilter( w, h, 2 );
-		_clusterRowFilter = new Cluster8BitRow( w, h, 8, false );
+//		_clusterRowFilter = new Cluster8BitRow( w, h, 8, false );
 		_histogramFilter = new ImageHistogramFilter( w, h, 6 );
 		_pixelTriFilter = new PixelTriFilter( w, h, 6 );
 	}

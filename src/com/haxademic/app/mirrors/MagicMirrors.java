@@ -3,8 +3,8 @@ package com.haxademic.app.mirrors;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.constants.PRenderers;
-import com.haxademic.core.draw.filters.pgraphics.GPUParticlesSheetDisplacer;
-import com.haxademic.core.draw.filters.pgraphics.PixelTriFilter;
+import com.haxademic.core.draw.filters.pgraphics.BlobLinesFeedback;
+import com.haxademic.core.draw.filters.pgraphics.HalftoneCamo;
 import com.haxademic.core.draw.filters.pgraphics.shared.BaseVideoFilter;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.hardware.webcam.IWebCamCallback;
@@ -19,6 +19,7 @@ implements IWebCamCallback {
 
 	protected float w = 1280;
 	protected float h = 720;
+	protected BaseVideoFilter vfxPre;
 	protected BaseVideoFilter vfx;
 	
 	protected int webcamW = 640;
@@ -33,14 +34,23 @@ implements IWebCamCallback {
 
 	protected void setupFirstFrame() {
 		p.webCamWrapper.setDelegate(this);
-		vfx = new GPUParticlesSheetDisplacer(p.width, p.height, 0.5f);
-		vfx = new PixelTriFilter(p.width, p.height, 20);
+//		vfx = new GPUParticlesSheetDisplacer(p.width, p.height, 0.5f);
+//		vfx = new PixelTriFilter(p.width, p.height, 20);
+//		vfx = new ColorDiff8BitRows(p.width, p.height, 20);
+//		vfx = new BlobLinesFeedback(p.width, p.height);
+//		vfx = new BlobLinesFeedback(p.width, p.height);
+		vfx = new HalftoneCamo(p.width, p.height);
 		webcamBuffer = p.createGraphics(webcamW, webcamH, PRenderers.P2D);
 	}
 
 	public void drawApp() {
 		background(0);
-		vfx.update();
+		if(vfxPre != null) {
+			vfxPre.update();
+			vfx.newFrame(vfxPre.image());
+		} else {
+			vfx.update();
+		}
 		p.image(vfx.image(), 0, 0);
 	}
 
@@ -50,8 +60,13 @@ implements IWebCamCallback {
 		ImageUtil.cropFillCopyImage(frame, webcamBuffer, true);
 		ImageUtil.flipH(webcamBuffer);
 		
-		// send new webcam mirror frame to vfx
-		vfx.newFrame(webcamBuffer);
+		if(vfxPre != null) {
+			// chain it up
+			vfxPre.newFrame(webcamBuffer);
+		} else {
+			// send new webcam mirror frame to vfx
+			vfx.newFrame(webcamBuffer);
+		}
 	}
 
 		

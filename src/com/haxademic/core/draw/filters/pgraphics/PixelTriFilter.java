@@ -24,6 +24,8 @@ extends BaseVideoFilter {
 	}
 	
 	public void update() {
+		sourceBuffer.loadPixels();
+		
 		destBuffer.beginDraw();
 		ImageUtil.clearPGraphics( destBuffer );
 		destBuffer.clear();
@@ -31,8 +33,6 @@ extends BaseVideoFilter {
 		
 		float pixelSizeHalf = _pixelSize / 2f;
 		int row = 0;
-		
-		sourceBuffer.loadPixels();
 		
 		for( int x=0; x <= sourceBuffer.width; x += _pixelSize ) {
 			row = 0;

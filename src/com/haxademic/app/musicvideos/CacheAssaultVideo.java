@@ -8,7 +8,6 @@ import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.filters.pgraphics.PixelTriFilter;
 import com.haxademic.core.draw.filters.pgraphics.archive.BlobOuterMeshFilter;
-import com.haxademic.core.draw.filters.pgraphics.archive.Cluster8BitRow;
 import com.haxademic.core.draw.filters.pgraphics.archive.ImageHistogramFilter;
 import com.haxademic.core.draw.filters.pgraphics.archive.ReflectionFilter;
 import com.haxademic.core.draw.image.ImageUtil;
@@ -40,7 +39,7 @@ extends PAppletHax {
 	ImageHistogramFilter _histogramFilter;
 	ReflectionFilter _reflectionFilter;
 	BlobOuterMeshFilter _blobFilter;
-	Cluster8BitRow _8bitFilter;
+//	Cluster8BitRow _8bitFilter;
 	
 	protected PShader vignette;
 	protected PShader kaleido;
@@ -100,7 +99,7 @@ extends PAppletHax {
 		_histogramFilter = new ImageHistogramFilter( _curFrame.width, _curFrame.height, 4 );
 		_reflectionFilter = new ReflectionFilter( _curFrame.width, _curFrame.height );
 		_blobFilter = new BlobOuterMeshFilter( _curFrame.width, _curFrame.height );
-		_8bitFilter = new Cluster8BitRow( _curFrame.width, _curFrame.height, (int) 10, false );
+//		_8bitFilter = new Cluster8BitRow( _curFrame.width, _curFrame.height, (int) 10, false );
 		
 		kaleido = loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/kaleido.glsl" ); 
 		kaleido.set("sides", 6.0f);

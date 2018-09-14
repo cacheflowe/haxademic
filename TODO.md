@@ -1,7 +1,7 @@
 # TODO
 
 * Art projects
-  * Convert all webcam VFX to generalized video filters that can accept any incoming texture
+  * Convert all webcam VFX apps (and old video filters) to BaseVideoFilter subclasses
   * Moire sphere/shader for MW prototying
   * Voice-activated color room: What Say Hue?
   * Interphase
