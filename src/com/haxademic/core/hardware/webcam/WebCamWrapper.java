@@ -1,6 +1,8 @@
 package com.haxademic.core.hardware.webcam;
 
 import com.haxademic.core.app.P;
+import com.haxademic.core.data.ConvertUtil;
+import com.haxademic.core.text.StringFormatter;
 
 import processing.core.PImage;
 import processing.video.Capture;
@@ -37,7 +39,19 @@ public class WebCamWrapper {
 		} else {
 			P.println("Available cameras:");
 			for (int i = 0; i < cameras.length; i++) {
-				P.println("["+i+"] "+cameras[i]);
+				// parse webcam string
+				String[] cameraNameParts = cameras[i].split(",");
+				// get fps
+				String fpsStr = cameraNameParts[2].split("=")[1];
+				int fps = ConvertUtil.stringToInt(StringFormatter.toAlphaNumericChars(fpsStr)); 
+				// get size
+				String sizeStr = cameraNameParts[1].split("=")[1];
+				String widthStr = sizeStr.split("x")[0];
+				int width = ConvertUtil.stringToInt(widthStr);
+				// ditch cameras that are very not-awesome
+				if(fps > 20 && width > 600) {
+					P.println("["+i+"] " + cameras[i]);
+				}
 			}
 			P.println("Selected camera:", cameras[cameraIndex]);
 			webCam = new Capture( P.p, cameras[cameraIndex] );
