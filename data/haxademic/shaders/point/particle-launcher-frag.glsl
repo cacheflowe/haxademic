@@ -11,7 +11,7 @@ varying vec4 vertTexCoord;
 
 uniform sampler2D ampMap;
 uniform sampler2D directionMap;
-uniform float amp = 0.05;
+uniform float progressSpeed = 1./255.;
 
 float TWO_PI = radians(360);
 
@@ -26,7 +26,8 @@ void main() {
   float progress = texelColor.a;
 
   // move progress
-  progress -= 3./255.;
+  progress -= progressSpeed;
+	if(progress < 0.) progress = 0.;
   // posOffset.g += 1./255.;   // fall
 
   // get map color -> speedation

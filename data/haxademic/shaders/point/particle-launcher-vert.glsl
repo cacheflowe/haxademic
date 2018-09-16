@@ -45,7 +45,8 @@ uniform float pointSize = 1.;
 uniform float width = 256.;
 uniform float height = 256.;
 uniform float scale = 1.;
-uniform float particleOffsetDistance = 30.;
+uniform float progressDistance = 30.;
+uniform float gravity = 0.;
 uniform float mode = 0.;
 
 attribute vec2 texCoord;
@@ -64,10 +65,18 @@ vec4 windowToClipVector(vec2 window, vec4 viewport, float clipw) {
   return vec4(xypos, 0.0, 0.0) * clipw;
 }
 
+float exponentialIn(float t) {
+  return t == 0.0 ? t : pow(2.0, 10.0 * (t - 1.0));
+}
+
+float cubicIn(float t) {
+  return t * t * t;
+}
+
 void main() {
-  // each point has 21 vertices?! apparently. 
+  // each point has 21 vertices?! apparently.
   // this only works up to 1024 particles (32x32) for some reason
-  float vertexIndex = float(floor(float(gl_VertexID) / 21.)); 
+  float vertexIndex = float(floor(float(gl_VertexID) / 21.));
 
   // use vertex index to look up position in texture
   float lookupX = mod(vertexIndex, width) / width;
@@ -85,14 +94,14 @@ void main() {
   float rotation = particleProgress.b * TWO_PI;
   float distAmp = particleProgress.r;
   float progress = 1. - particleProgress.a;
-  float gravityProgress = progress * particleOffsetDistance * 1.;
+  float gravityProgress = cubicIn(progress) * progressDistance * gravity;
   // float speed = 1./255.;
   // posOffset.x = posOffset.x + speed * cos(rotation);
   // posOffset.y = posOffset.y + speed * sin(rotation);
 
-  vertPosition.x += progress * particleOffsetDistance * distAmp * cos(rotation);
-  vertPosition.y += progress * particleOffsetDistance * distAmp * sin(rotation) + gravityProgress;
-  // vertPosition.xy += (-0.5 + particleProgress.rg) * particleOffsetDistance;  // TODO: make this configurable. offset is from 0.5
+  vertPosition.x += progress * progressDistance * distAmp * cos(rotation);
+  vertPosition.y += progress * progressDistance * distAmp * sin(rotation) + gravityProgress;
+  // vertPosition.xy += (-0.5 + particleProgress.rg) * progressDistance;  // TODO: make this configurable. offset is from 0.5
 
 
   // custom point size - use color to grow point
@@ -118,6 +127,6 @@ void main() {
   // vertColor = color;
   // or instead, use texture-mapped color :)
   float colorMult = particleProgress.a;
-  vertColor = vec4(textureColor.rgb * colorMult, 1.);
+  vertColor = vec4(textureColor.rgb * colorMult, particleProgress.a);
   // vertColor = vec4(1., 1., 1., 0.4);
 }

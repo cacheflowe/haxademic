@@ -118,17 +118,18 @@ public class ParticleLauncher {
 	
 	public void update() {
 		// update particle movement
+		positionShader.set("progressSpeed", (1f / 255f) * 3.5f);
 		progressBuffer.filter(positionShader);
 		
 		// update vertex/rendering shader props
 		particlesRenderShader.set("width", (float) positionBufferSize);
 		particlesRenderShader.set("height", (float) positionBufferSize);
 		particlesRenderShader.set("colorTexture", colorBuffer);
-		particlesRenderShader.set("colorTexture", DemoAssets.justin());
+//		particlesRenderShader.set("colorTexture", DemoAssets.justin());
 		particlesRenderShader.set("progressTexture", progressBuffer);
-		particlesRenderShader.set("pointSize", 6f);
-		particlesRenderShader.set("particleOffsetDistance", (float) P.p.width * 0.07f);
-		particlesRenderShader.set("gravity", 0f);
+		particlesRenderShader.set("pointSize", 4f);
+		particlesRenderShader.set("progressDistance", (float) P.p.width * 0.1f);
+		particlesRenderShader.set("gravity", 2f);
 		particlesRenderShader.set("mode", P.p.mousePercentY());	// test gl_VertexID method of accessing texture positions
 	}
 	

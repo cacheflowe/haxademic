@@ -3,9 +3,7 @@ package com.haxademic.app.mirrors;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.constants.PRenderers;
-import com.haxademic.core.draw.filters.pgraphics.BlobLinesFeedback;
-import com.haxademic.core.draw.filters.pgraphics.HalftoneCamo;
-import com.haxademic.core.draw.filters.pgraphics.RadialHistory;
+import com.haxademic.core.draw.filters.pgraphics.GPUParticlesLauncher;
 import com.haxademic.core.draw.filters.pgraphics.shared.BaseVideoFilter;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.hardware.webcam.IWebCamCallback;
@@ -40,7 +38,8 @@ implements IWebCamCallback {
 //		vfx = new ColorDiff8BitRows(p.width, p.height, 20);
 //		vfx = new BlobLinesFeedback(p.width, p.height);
 //		vfx = new HalftoneCamo(p.width, p.height);
-		vfx = new RadialHistory(p.width, p.height);
+//		vfx = new RadialHistory(p.width, p.height);
+		vfx = new GPUParticlesLauncher(p.width, p.height);
 		webcamBuffer = p.createGraphics(webcamW, webcamH, PRenderers.P2D);
 	}
 
