@@ -21,8 +21,10 @@ public class BufferColorObjectDetection {
 	protected int colorCompare;
 	protected float scale = 1;
 	protected float colorClosenessThreshold = 0.95f;
+	protected int minPointsThreshold = 10;
 	protected int bufferW;
 	protected int bufferH;
+	protected boolean debugging = false;
 	protected PShader colorDistanceFilter;
 	protected EasingFloat x = new EasingFloat(0.5f, 0.5f);
 	protected EasingFloat y = new EasingFloat(0.5f, 0.5f);
@@ -35,6 +37,26 @@ public class BufferColorObjectDetection {
 		bufferOutput = P.p.createGraphics(bufferW, bufferH, PRenderers.P2D);
 		colorDistanceFilter = P.p.loadShader(FileUtil.getFile("haxademic/shaders/filters/color-distance.glsl"));
 		setColorCompare(1f, 1f, 1f);
+	}
+	
+	public void colorClosenessThreshold(float colorClosenessThreshold) {
+		this.colorClosenessThreshold = colorClosenessThreshold;
+	}
+	
+	public float colorClosenessThreshold() {
+		return colorClosenessThreshold;
+	}
+	
+	public void minPointsThreshold(int minPointsThreshold) {
+		this.minPointsThreshold = minPointsThreshold;
+	}
+	
+	public int minPointsThreshold() {
+		return minPointsThreshold;
+	}
+	
+	public void debugging(boolean debugging) {
+		this.debugging = debugging;
 	}
 	
 	public PGraphics outputBuffer() {
@@ -91,7 +113,7 @@ public class BufferColorObjectDetection {
 		ErosionFilter.instance(P.p).applyTo(bufferOutput);
 		
 		// loop through pixels
-		float totalChecked = 0;
+		// float totalChecked = 0;
 		float totalCounted = 0;
 		float totalX = 0;
 		float totalY = 0;
@@ -105,13 +127,13 @@ public class BufferColorObjectDetection {
 					totalX += x;
 					totalY += y;
 				}
-				totalChecked++;
+				// totalChecked++;
 			}
 		}
-		P.p.debugView.setValue("totalChecked", totalChecked);
+		// P.p.debugView.setValue("totalChecked", totalChecked);
 		
 		// calc normalized center of mass / position
-		if(totalCounted > 10) {
+		if(totalCounted > minPointsThreshold) {
 			float avgX = totalX / totalCounted;
 			float avgY = totalY / totalCounted;
 			x.setTarget(avgX / bufferOutput.width);
@@ -123,11 +145,13 @@ public class BufferColorObjectDetection {
 		y.update();
 		
 		// draw debug output
-		bufferOutput.beginDraw();
-		bufferOutput.stroke(255, 0, 0);
-		bufferOutput.noFill();
-		bufferOutput.ellipse(x.value() * bufferOutput.width - 3, y.value() * bufferOutput.height - 3, 6, 6);
-		bufferOutput.endDraw();
+		if(debugging) {
+			bufferOutput.beginDraw();
+			bufferOutput.fill(0, 255, 0);
+			bufferOutput.noStroke();
+			bufferOutput.ellipse(x.value() * bufferOutput.width - 5, y.value() * bufferOutput.height - 5, 10, 10);
+			bufferOutput.endDraw();
+		}
 	}
 }
 
