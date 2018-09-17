@@ -32,13 +32,17 @@ extends PAppletHax {
 	public float pixelDrawSize = 1;
 	protected ControlP5 _cp5;
 	
-	public int pixelSkip = 5;
 	protected PGraphics roomScanBuffer;
 	protected PGraphics depthBuffer;
 	protected PGraphics depthBufferSmoothed;
 
 	protected PShader colorDistanceFilter;
 	protected PGraphics depthDifference;
+	
+	public int pixelSkip = 6;
+	protected float distanceDiffThreshold = 0.05f;
+	protected float diffSmoothBlur = 0.75f;
+	protected float depthBufferSmoothLerp = 0.2f;
 
 	
 	protected void overridePropsFile() {
@@ -109,7 +113,7 @@ extends PAppletHax {
 		
 		// lerp current depth buffer for smoothness (is this even needed?)
 		BlendTowardsTexture.instance(p).setSourceTexture(depthBuffer);
-		BlendTowardsTexture.instance(p).setBlendLerp(0.35f);
+		BlendTowardsTexture.instance(p).setBlendLerp(depthBufferSmoothLerp);
 		BlendTowardsTexture.instance(p).applyTo(depthBufferSmoothed);
 		
 		// do room vs current depth buffer difference
@@ -121,11 +125,11 @@ extends PAppletHax {
 		ErosionFilter.instance(p).applyTo(depthDifference);
 		
 		// smooth diff
-		BlurHFilter.instance(P.p).setBlurByPercent(1f, (float) depthDifference.width);
+		BlurHFilter.instance(P.p).setBlurByPercent(diffSmoothBlur, (float) depthDifference.width);
 		BlurHFilter.instance(P.p).applyTo(depthDifference);
-		BlurVFilter.instance(P.p).setBlurByPercent(1f, (float) depthDifference.height);
+		BlurVFilter.instance(P.p).setBlurByPercent(diffSmoothBlur, (float) depthDifference.height);
 		BlurVFilter.instance(P.p).applyTo(depthDifference);
-		ThresholdFilter.instance(p).setCutoff(0.05f);
+		ThresholdFilter.instance(p).setCutoff(distanceDiffThreshold);
 		ThresholdFilter.instance(p).applyTo(depthDifference);
 		
 		// draw all
