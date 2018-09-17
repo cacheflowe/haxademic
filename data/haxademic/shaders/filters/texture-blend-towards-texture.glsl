@@ -16,5 +16,5 @@ void main() {
 	vec2 uv = vertTexCoord.xy;
   vec4 colorCurrent = texture2D(texture, uv);
   vec4 colorTarget = texture2D(targetTexture, uv);
-	gl_FragColor = vec4(mix(colorCurrent.rgb, colorTarget.rgb, blendLerp), 1.);
+	gl_FragColor = mix(colorCurrent, colorTarget, blendLerp);
 }

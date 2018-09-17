@@ -1,5 +1,6 @@
 package com.haxademic.demo.hardware.kinect.shared;
 
+import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.draw.context.DrawUtil;
@@ -27,8 +28,8 @@ extends PAppletHax {
 	protected void overridePropsFile() {
 		p.appConfig.setProperty( AppSettings.WIDTH, 1280 );
 		p.appConfig.setProperty( AppSettings.HEIGHT, 720 );
-		p.appConfig.setProperty( AppSettings.KINECT_V2_WIN_ACTIVE, true );
-//		p.appConfig.setProperty( AppSettings.KINECT_ACTIVE, true );
+//		p.appConfig.setProperty( AppSettings.KINECT_V2_WIN_ACTIVE, true );
+		p.appConfig.setProperty( AppSettings.KINECT_ACTIVE, true );
 	}
 
 	public void setupFirstFrame() {
@@ -36,7 +37,7 @@ extends PAppletHax {
 	}
 	
 	protected void initControls() {
-		int controlY = 0;
+		int controlY = 300;
 		int controlSpace = 12;
 		_cp5 = new ControlP5(p);
 		_cp5.addSlider("kinectLeft").setPosition(20,controlY+=controlSpace).setWidth(200).setRange(0,KinectSize.WIDTH/2).setValue(0);
@@ -86,7 +87,7 @@ extends PAppletHax {
 				if( pixelDepth != 0 && pixelDepth > kinectNear && pixelDepth < kinectFar ) {
 					p.pushMatrix();
 					p.translate(0, 0, -pixelDepth/depthDivider);
-					p.fill(255);
+					p.fill(P.map(pixelDepth, kinectNear, kinectFar, 255, 0));
 					p.rect(x, y, pixelsize, pixelsize);
 					p.popMatrix();
 					numPixelsProcessed++;
