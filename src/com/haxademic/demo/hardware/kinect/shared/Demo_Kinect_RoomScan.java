@@ -14,7 +14,6 @@ import com.haxademic.core.draw.filters.pshader.ThresholdFilter;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.kinect.KinectSize;
 
-import controlP5.ControlP5;
 import processing.core.PGraphics;
 import processing.opengl.PShader;
 
@@ -22,15 +21,8 @@ public class Demo_Kinect_RoomScan
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
-	public int kinectLeft = 0;
-	public int kinectRight = 0;
-	public int kinectTop = 0;
-	public int kinectBottom = 0;
 	public int kinectNear = 300;
 	public int kinectFar = 4000;
-	public int depthDivider = 1;
-	public float pixelDrawSize = 1;
-	protected ControlP5 _cp5;
 	
 	protected PGraphics roomScanBuffer;
 	protected PGraphics depthBuffer;
@@ -39,7 +31,8 @@ extends PAppletHax {
 	protected PShader colorDistanceFilter;
 	protected PGraphics depthDifference;
 	
-	public int pixelSkip = 6;
+	protected int pixelSkip = 6;
+	protected int roomMapCaptureFrames = 400;
 	protected float distanceDiffThreshold = 0.05f;
 	protected float diffSmoothBlur = 0.75f;
 	protected float depthBufferSmoothLerp = 0.2f;
@@ -70,7 +63,7 @@ extends PAppletHax {
 		DrawUtil.setDrawCorner(p);
 		p.noStroke();
 		
-		if(p.frameCount < 200) {
+		if(p.frameCount < roomMapCaptureFrames) {
 			// store kinect depth map
 			roomScanBuffer.beginDraw();
 			roomScanBuffer.noStroke();
@@ -122,7 +115,7 @@ extends PAppletHax {
 		depthDifference.filter(colorDistanceFilter);
 		
 		// remove noise on diff
-		ErosionFilter.instance(p).applyTo(depthDifference);
+//		ErosionFilter.instance(p).applyTo(depthDifference);
 		
 		// smooth diff
 		BlurHFilter.instance(P.p).setBlurByPercent(diffSmoothBlur, (float) depthDifference.width);
@@ -138,7 +131,6 @@ extends PAppletHax {
 		p.image(depthBuffer, roomScanBuffer.width, 0);
 		p.image(depthBufferSmoothed, roomScanBuffer.width * 2, 0);
 		p.image(depthDifference, roomScanBuffer.width * 3, 0);
-		
 	}
 	
 }
