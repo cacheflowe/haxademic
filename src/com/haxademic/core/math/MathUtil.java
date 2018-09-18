@@ -271,14 +271,12 @@ public class MathUtil {
 	 *  @use    {@code var direction = MathUtil.getRadiansDirectionToTarget( 90, 180 );}
 	 */
 	public static float getRadiansDirectionToTarget( float curRadians, float targetRadians ) {
-		// calculate the difference between the current angle and destination angle
-		float angleDifference = Math.abs( curRadians - targetRadians );
-		// turn left or right to get to the target
-		if( curRadians > targetRadians ){
-			return (angleDifference < P.PI) ? -1 : 1;
-		} else {
-			return (angleDifference < P.PI) ? 1 : -1;
-		}
+		while(curRadians < P.TWO_PI) curRadians += P.TWO_PI;
+		while(targetRadians < P.TWO_PI) targetRadians += P.TWO_PI;
+		float rotDiff = curRadians - targetRadians;
+		while(rotDiff < 0) rotDiff += P.TWO_PI;
+		if(rotDiff < P.PI) return -1;
+		else return 1;
 	};
 
 	public static float averageOfThree( float one, float two, float three ) {

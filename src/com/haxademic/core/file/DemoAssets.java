@@ -24,6 +24,12 @@ public class DemoAssets {
 		return particle;
 	}
 	
+	public static PImage arrow = null;
+	public static PImage arrow() {
+		if(arrow == null) arrow = P.p.loadImage(FileUtil.getFile("haxademic/images/arrow-right.png"));
+		return arrow;
+	}
+	
 	public static PImage justin = null;
 	public static PImage justin() {
 		if(justin == null) justin = P.p.loadImage(FileUtil.getFile("haxademic/images/justin-spike-portrait.png"));
