@@ -3,7 +3,6 @@ package com.haxademic.core.draw.particle;
 import com.haxademic.core.app.P;
 import com.haxademic.core.constants.PRenderers;
 import com.haxademic.core.draw.context.OpenGLUtil;
-import com.haxademic.core.file.DemoAssets;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.MathUtil;
 
@@ -29,7 +28,7 @@ public class ParticleLauncher {
 		positionShader = P.p.loadShader(FileUtil.getFile("haxademic/shaders/point/particle-launcher-frag.glsl"));
 		
 		// create texture to store positions
-		colorBuffer = P.p.createGraphics(positionBufferSize, positionBufferSize, PRenderers.P3D);
+		colorBuffer = P.p.createGraphics(positionBufferSize, positionBufferSize, PRenderers.P2D);
 		OpenGLUtil.setTextureQualityLow(colorBuffer);		// necessary for proper texel lookup!
 //		p.debugView.setTexture(colorBuffer);
 		colorBuffer.beginDraw();

@@ -31,13 +31,14 @@ extends BaseVideoFilter {
 
 		// build final draw buffer
 		renderedParticles = P.p.createGraphics(width, height, PRenderers.P3D);
-		motionBuffer = P.p.createGraphics(width, height, PRenderers.P3D);
+		motionBuffer = P.p.createGraphics(width / 4, height / 4, PRenderers.P3D);
+		motionBuffer.noSmooth();
 //		renderedParticles.smooth(8);
 		
 		// build multiple particles launchers
 		particleLaunchers = new ArrayList<ParticleLauncher>();
 		int totalVertices = 0;
-		for (int i = 0; i < 40; i++) {
+		for (int i = 0; i < 20; i++) {
 			ParticleLauncher particles = new ParticleLauncher();
 			particleLaunchers.add(particles);
 			totalVertices += particles.vertices();
@@ -47,7 +48,6 @@ extends BaseVideoFilter {
 		P.p.debugView.setTexture(renderedParticles);
 		P.p.debugView.setValue("totalVertices", totalVertices);
 		P.p.debugView.setTexture(particleLaunchers.get(0).progressBuffer());
-
 	}
 	
 	public void newFrame(PImage frame) {
@@ -56,7 +56,12 @@ extends BaseVideoFilter {
 		
 		// lazy init and update motion detection buffers/calcs
 		if(motionDetectionMap == null) {
-			motionDetectionMap = new BufferMotionDetectionMap(sourceBuffer, 0.25f);
+			motionDetectionMap = new BufferMotionDetectionMap(sourceBuffer, 0.1f);
+			motionDetectionMap.setBlendLerp(0.2f);
+			motionDetectionMap.setDiffThresh(0.05f);
+			motionDetectionMap.setFalloffBW(0.2f);
+			motionDetectionMap.setThresholdCutoff(0.5f);
+			motionDetectionMap.setBlur(1f);
 			P.p.debugView.setTexture(sourceBuffer);
 		}
 		
@@ -68,11 +73,6 @@ extends BaseVideoFilter {
 		BlurVFilter.instance(P.p).applyTo(motionBuffer);
 
 		// run motion detection
-		motionDetectionMap.setBlendLerp(0.2f);
-		motionDetectionMap.setDiffThresh(0.05f);
-		motionDetectionMap.setFalloffBW(0.2f);
-		motionDetectionMap.setThresholdCutoff(0.5f);
-		motionDetectionMap.setBlur(1f);
 		motionDetectionMap.updateSource(motionBuffer);
 	}
 	
@@ -84,7 +84,7 @@ extends BaseVideoFilter {
 
 		int particleLauncherIndex = P.p.frameCount % particleLaunchers.size();
 		int FRAME_LAUNCH_INTERVAL = 1;
-		int MAX_LAUNCHED_PER_FRAME = 300;
+		int MAX_LAUNCHED_PER_FRAME = 200;
 		int LAUNCH_ATTEMPTS = 1500;
 
 		particleLaunchers.get(particleLauncherIndex).beginLaunch();
@@ -98,6 +98,8 @@ extends BaseVideoFilter {
 						particleLaunchers.get(particleLauncherIndex).launch(checkX, checkY);
 						numLaunched++;
 					}
+				} else {
+					break;
 				}
 			}
 		}

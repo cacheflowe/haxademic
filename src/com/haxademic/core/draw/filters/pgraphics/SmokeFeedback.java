@@ -32,8 +32,10 @@ extends BaseVideoFilter {
 		super(width, height);
 
 		noiseTexture = new SimplexNoiseTexture(width, height);
-		feedbackSeedBuffer = P.p.createGraphics(width, height, PRenderers.P2D);
+		feedbackSeedBuffer = P.p.createGraphics(width / 4, height / 4, PRenderers.P2D);
+//		feedbackSeedBuffer.noSmooth();
 		feedbackFinalBuffer = P.p.createGraphics(width, height, PRenderers.P2D);
+//		feedbackFinalBuffer.noSmooth();
 		P.p.debugView.setTexture(feedbackSeedBuffer);
 		
 		// feedback shader & map
@@ -46,15 +48,15 @@ extends BaseVideoFilter {
 		
 		// lazy init and update motion detection buffers/calcs
 		if(motionDetectionMap == null) {
-			motionDetectionMap = new BufferMotionDetectionMap(sourceBuffer, 0.25f);
+			motionDetectionMap = new BufferMotionDetectionMap(sourceBuffer, 0.1f);
+			motionDetectionMap.setBlendLerp(0.2f);
+			motionDetectionMap.setDiffThresh(0.05f);
+			motionDetectionMap.setFalloffBW(0.2f);
+			motionDetectionMap.setThresholdCutoff(0.5f);
+			motionDetectionMap.setBlur(1f);
 		}
 		
 		// run motion detection
-		motionDetectionMap.setBlendLerp(0.2f);
-		motionDetectionMap.setDiffThresh(0.05f);
-		motionDetectionMap.setFalloffBW(0.2f);
-		motionDetectionMap.setThresholdCutoff(0.5f);
-		motionDetectionMap.setBlur(1f);
 		motionDetectionMap.updateSource(sourceBuffer);
 	}
 	
@@ -76,7 +78,7 @@ extends BaseVideoFilter {
 		// draw white noise on top of feedback buffer
 		feedbackFinalBuffer.beginDraw();
 		DrawUtil.setPImageAlpha(feedbackFinalBuffer, 0.4f);
-		feedbackFinalBuffer.image(feedbackSeedBuffer, 0, 0);
+		feedbackFinalBuffer.image(feedbackSeedBuffer, 0, 0, feedbackFinalBuffer.width, feedbackFinalBuffer.height);	// scaling up since seed buffer is scaled down
 		feedbackFinalBuffer.endDraw();
 
 		// apply feedback texture to main buffer

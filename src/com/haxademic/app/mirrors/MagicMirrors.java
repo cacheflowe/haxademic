@@ -4,8 +4,8 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.constants.PRenderers;
 import com.haxademic.core.draw.filters.pgraphics.GPUParticlesLauncher;
+import com.haxademic.core.draw.filters.pgraphics.SmokeFeedback;
 import com.haxademic.core.draw.filters.pgraphics.shared.BaseVideoFilter;
-import com.haxademic.core.draw.filters.pshader.BloomFilter;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.hardware.webcam.IWebCamCallback;
 
@@ -29,7 +29,9 @@ implements IWebCamCallback {
 	protected void overridePropsFile() {
 		p.appConfig.setProperty(AppSettings.WIDTH, (int) w);
 		p.appConfig.setProperty(AppSettings.HEIGHT, (int) h);
-		p.appConfig.setProperty(AppSettings.WEBCAM_INDEX, 5);
+		p.appConfig.setProperty(AppSettings.WEBCAM_INDEX, 13);
+		p.appConfig.setProperty(AppSettings.FULLSCREEN, false);
+		p.appConfig.setProperty(AppSettings.ALWAYS_ON_TOP, false);
 	}
 
 	protected void setupFirstFrame() {
@@ -41,7 +43,7 @@ implements IWebCamCallback {
 //		vfx = new HalftoneCamo(p.width, p.height);
 //		vfx = new RadialHistory(p.width, p.height);
 		vfx = new GPUParticlesLauncher(p.width, p.height);
-//		vfx = new SmokeFeedback(p.width, p.height);
+		vfxPre = new SmokeFeedback(p.width, p.height);
 		webcamBuffer = p.createGraphics(webcamW, webcamH, PRenderers.P2D);
 	}
 
@@ -59,8 +61,8 @@ implements IWebCamCallback {
 		pg.beginDraw();
 		pg.image(vfx.image(), 0, 0);
 		pg.endDraw();
-		BloomFilter.instance(p).setStrength(3f);
-		BloomFilter.instance(p).applyTo(pg);
+//		BloomFilter.instance(p).setStrength(1f);
+//		BloomFilter.instance(p).applyTo(pg);
 		
 		// draw to screen
 		p.image(pg, 0, 0);
