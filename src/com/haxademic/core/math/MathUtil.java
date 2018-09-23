@@ -278,6 +278,11 @@ public class MathUtil {
 		if(rotDiff < P.PI) return -1;
 		else return 1;
 	};
+	
+	// from: https://stackoverflow.com/a/2007279
+	public static float getRadiansDiff(float radians1, float radians2) {
+		return P.atan2(P.sin(radians2-radians1), P.cos(radians2-radians1));
+	};
 
 	public static float averageOfThree( float one, float two, float three ) {
 		return (one + two + three) / 3f;
