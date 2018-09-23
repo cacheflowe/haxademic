@@ -13,8 +13,7 @@ public class BlobFinder {
 	protected PGraphics blobSourceBuffer;
 	protected PGraphics blobOutputBuffer;
 
-
-	protected BlobFinder(PGraphics sourceBuffer, float scale) {
+	public BlobFinder(PGraphics sourceBuffer, float scale) {
 		// store source buffer
 		this.sourceBuffer = sourceBuffer;
 		
