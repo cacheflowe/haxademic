@@ -4,7 +4,9 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.constants.PRenderers;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.filters.pshader.BlendTowardsTexture;
+import com.haxademic.core.draw.filters.pshader.BlurHFilter;
+import com.haxademic.core.draw.filters.pshader.BlurVFilter;
 import com.haxademic.core.draw.image.BlobFinder;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.hardware.webcam.IWebCamCallback;
@@ -25,6 +27,7 @@ implements IWebCamCallback {
 	protected int webcamW = 640;
 	protected int webcamH = 480;
 	protected PGraphics webcamBuffer;
+	protected PGraphics webcamBufferLerped;
 
 	protected void overridePropsFile() {
 		p.appConfig.setProperty(AppSettings.WIDTH, webcamW);
@@ -38,21 +41,35 @@ implements IWebCamCallback {
 		// setup webcam
 		p.webCamWrapper.setDelegate(this);
 		webcamBuffer = p.createGraphics(webcamW, webcamH, PRenderers.P2D);
+		webcamBufferLerped = p.createGraphics(webcamW, webcamH, PRenderers.P2D);
 		
 		// init blob detection
-		blobFinder = new BlobFinder(webcamBuffer, 0.1f);
+		blobFinder = new BlobFinder(webcamBufferLerped, 0.2f);
 	}
 	
 	@Override
 	public void newFrame(PImage frame) {
 		ImageUtil.cropFillCopyImage(frame, webcamBuffer, true);
+		
+		float shaderBlurAmount = 1f;
+		BlurHFilter.instance(P.p).setBlurByPercent(shaderBlurAmount, webcamBuffer.width);
+		BlurVFilter.instance(P.p).setBlurByPercent(shaderBlurAmount, webcamBuffer.height);
+		BlurHFilter.instance(P.p).applyTo(webcamBuffer);
+		BlurVFilter.instance(P.p).applyTo(webcamBuffer);
+		
+		BlendTowardsTexture.instance(p).setSourceTexture(webcamBuffer);
+		BlendTowardsTexture.instance(p).setBlendLerp(0.25f);
+		BlendTowardsTexture.instance(p).applyTo(webcamBufferLerped);
 	}
 	
 	public void drawApp() {
 		background(255);
-		p.image(webcamBuffer, 0, 0);
+//		p.image(webcamBufferLerped, 0, 0);
+		p.image(blobFinder.blobOutputBuffer(), 0, 0);
 		
-		float iterations = 15;
+		webcamBufferLerped.loadPixels();
+		
+		float iterations = 10;
 		for (int x = 0; x < iterations; x++) {
 			
 			// update blob detection
@@ -64,7 +81,7 @@ implements IWebCamCallback {
 			// draw blobs
 			// draw to offscreen buffer so we can do ffedback & blending
 			p.stroke(255);
-			p.strokeWeight(1);
+			p.strokeWeight(1.5f);
 			p.noFill();
 	
 			// draw edges. scale up to screen size
@@ -90,16 +107,28 @@ implements IWebCamCallback {
 						// get average position of blob segments for center of mass
 						float totalX = 0;
 						float totalY = 0;
+//						p.beginShape();
 						for (int m = 0; m < numBlobSegments; m++) {
 	//						int safeIndex = (m * segmentsToSkip) % numBlobSegments;
 							eA = blob.getEdgeVertexA(m);
 							eB = blob.getEdgeVertexB(m);
-							totalX += eA.x * blobScaleW;
-							totalY += eA.y * blobScaleH;
+							float segmentX = eA.x * blobScaleW;
+							float segmentY = eA.y * blobScaleH;
+							float segment2X = eB.x * blobScaleW;
+							float segment2Y = eB.y * blobScaleH;
+							
+							p.stroke(ImageUtil.getPixelColor(webcamBufferLerped, (int) segmentX, (int) segmentY));
+//							p.strokeWeight(1.5f);
+//							p.noFill();
+
+							totalX += segmentX;
+							totalY += segmentY;
 							// draw vertex
 	//						p.ellipse(eA.x * blobScaleW, eA.y * blobScaleH, 5, 5);
-							p.line(eA.x * blobScaleW, eA.y * blobScaleH, eB.x * blobScaleW, eB.y * blobScaleH);
+							p.line(segmentX, segmentY, segment2X, segment2Y);
+//							p.vertex(segmentX, segmentY);
 						}
+//						p.endShape(P.CLOSE);
 						float centerX = totalX / (float) numSegmentsToProcess;
 						float centerY = totalY / (float) numSegmentsToProcess;
 						

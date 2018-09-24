@@ -23,7 +23,6 @@ public class BlobFinder {
 		blobSourceBuffer = P.p.createGraphics(blurImgW, blurImgH, P.P2D);
 		blobOutputBuffer = P.p.createGraphics(blurImgW, blurImgH, P.P2D);
 
-		
 //		// set up blur shader for blob pre-processing
 //		float shaderBlurAmount = 1f;
 //		BlurHFilter.instance(P.p).setBlurByPercent(shaderBlurAmount, blurImgW);
@@ -37,6 +36,10 @@ public class BlobFinder {
 	
 	public BlobDetection blobDetection() {
 		return blobDetection;
+	}
+	
+	public PGraphics blobOutputBuffer() {
+		return blobOutputBuffer;
 	}
 	
 	public void update() {
