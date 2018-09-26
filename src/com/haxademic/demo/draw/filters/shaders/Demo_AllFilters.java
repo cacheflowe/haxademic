@@ -15,6 +15,7 @@ import com.haxademic.core.draw.filters.pshader.BlurProcessingFilter;
 import com.haxademic.core.draw.filters.pshader.BlurVFilter;
 import com.haxademic.core.draw.filters.pshader.BrightnessFilter;
 import com.haxademic.core.draw.filters.pshader.BrightnessToAlphaFilter;
+import com.haxademic.core.draw.filters.pshader.BulgeLinearFilter;
 import com.haxademic.core.draw.filters.pshader.ChromaColorFilter;
 import com.haxademic.core.draw.filters.pshader.ColorCorrectionFilter;
 import com.haxademic.core.draw.filters.pshader.ColorDistortionFilter;
@@ -114,6 +115,7 @@ extends PAppletHax { public static void main(String args[]) { PAppletHax.main(Th
 			BlurProcessingFilter.instance(p),
 			BrightnessFilter.instance(p),
 			BrightnessToAlphaFilter.instance(p),
+			BulgeLinearFilter.instance(p),
 			ChromaColorFilter.instance(p),
 			ColorCorrectionFilter.instance(p),
 			ColorDistortionFilter.instance(p),
@@ -262,6 +264,12 @@ extends PAppletHax { public static void main(String args[]) { PAppletHax.main(Th
 		} else if(curFilter == BrightnessToAlphaFilter.instance(p)) {
 			BrightnessToAlphaFilter.instance(p).setFlip(p.mousePercentX() > 0.5f);
 			BrightnessToAlphaFilter.instance(p).applyTo(pg);
+		} else if(curFilter == BulgeLinearFilter.instance(p)) {
+			BulgeLinearFilter.instance(p).setControlX(p.mousePercentX());
+			BulgeLinearFilter.instance(p).setMixAmp(p.mousePercentY());
+			BulgeLinearFilter.instance(p).setGainCurve(p.mousePercentX() * 2f);
+			BulgeLinearFilter.instance(p).setDebug(p.mousePercentX() > 0.9f);
+			BulgeLinearFilter.instance(p).applyTo(pg);
 		} else if(curFilter == ChromaColorFilter.instance(p)) {
 			ChromaColorFilter.instance(p).presetBlackKnockout();
 			ChromaColorFilter.instance(p).setThresholdSensitivity(p.mousePercentX());
