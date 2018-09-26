@@ -50,6 +50,7 @@ extends BaseSavedQuadUI {
 		// inspired by: https://github.com/davidbouchard/keystone & http://marcinignac.com/blog/projectedquads-source-code/
 		canvas.textureMode(PConstants.IMAGE);
 		canvas.noStroke();
+		canvas.stroke(255);
 		canvas.fill(255);
 		canvas.beginShape(PConstants.QUAD);
 		canvas.texture(texture);
@@ -119,17 +120,18 @@ extends BaseSavedQuadUI {
 		pg.beginDraw();
 		pg.noStroke();
 		
-		float spacing = 50;
-		float spacing2x = spacing * 2;
+		float spacingX = (float) pg.width / (float) subDivideSteps;
+		float spacingY = (float) pg.height / (float) subDivideSteps;
+		float spacing2x = spacingX * 2f;
 		
-		for( int x=0; x <= pg.width + spacing2x; x += spacing) {
-			for( int y=0; y <= pg.height + spacing2x; y += spacing) {
-				if( ( x % spacing2x == 0 && y % spacing2x == 0 ) || ( x % spacing2x == spacing && y % spacing2x == spacing ) ) {
+		for( int x=0; x < subDivideSteps; x++) {
+			for( int y=0; y < subDivideSteps; y++) {
+				if( ( x % 2 == 0 && y % 2 == 1 ) || ( y % 2 == 0 && x % 2 == 1 ) ) {
 					pg.fill(0, 160);
 				} else {
 					pg.fill(255, 160);
 				}
-				pg.rect(x,y,spacing,spacing);
+				pg.rect(x * spacingX, y * spacingY, spacingX, spacingY);
 			}
 		}
 		pg.endDraw();
