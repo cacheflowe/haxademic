@@ -22,6 +22,9 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.debug.DebugUtil;
 import com.haxademic.core.math.MathUtil;
 
+import processing.core.PApplet;
+import processing.core.PImage;
+
 public class FileUtil {
 	
 	public static String DATA_PATH = null;
@@ -235,6 +238,24 @@ public class FileUtil {
 		}
 		return fileNames;
 	}
+	
+	public static ArrayList<PImage> loadImagesFromDir(String directory, String formats) {
+		ArrayList<PImage> images = new ArrayList<PImage>();
+				
+		// parse and loop through the format/extensions and load from the directory each time (there's certainly a better way to do this)
+		String[] extensions = formats.split(",");
+		for( int i=0; i < extensions.length; i++ ) {
+			// P.println("--- loading "+extensions[i] + " images ---");
+			ArrayList<String> imageFiles = FileUtil.getFilesInDirOfType( directory, extensions[i] );
+			for( int j=0; j < imageFiles.size(); j++ ) {
+				// P.println("--- "+directory + imageFiles.get(j));
+				images.add( P.p.loadImage( directory + imageFiles.get(j) ) );
+			}
+		}
+		// Arrays.sort(children);
+		return images;
+	}
+
 	
 	// CREATE / APPEND
 

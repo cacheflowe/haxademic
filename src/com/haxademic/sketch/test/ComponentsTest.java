@@ -7,7 +7,6 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.draw.text.CustomFontText2D;
 import com.haxademic.core.file.AsyncImageLoader;
-import com.haxademic.core.file.DirImageLoader;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.text.ValidateUtil;
 import com.haxademic.core.ui.IMouseable;
@@ -20,7 +19,6 @@ public class ComponentsTest
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
-	protected DirImageLoader _imageLoader;
 	protected String _imagesDir;
 
 	protected AsyncImageLoader asyncLoader;
@@ -66,7 +64,7 @@ extends PAppletHax {
 	protected void loadAndSaveImagesFromDir() {
 		// load images from a directory
 		_imagesDir = p.appConfig.getString( "images_dir", "" );
-		_imageLoader = new DirImageLoader( p, _imagesDir, "png,gif,jpg" );
+//		_imageLoader = new DirImageLoader( p, _imagesDir, "png,gif,jpg" );
 
 		// save the first image to the output path
 		// make sure the output directory is there first.
