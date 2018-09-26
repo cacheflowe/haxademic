@@ -10,6 +10,8 @@ extends BaseSavedQuadUI {
 
 	protected PGraphics pg;
 	protected float subDivideSteps;
+	protected float[] offsetsX = null;
+	protected float[] offsetsY = null;
 
 	public PGraphicsKeystone( PApplet p, PGraphics pg, float subDivideSteps, String filePath ) {
 		super(p.width, p.height, filePath);
@@ -33,6 +35,14 @@ extends BaseSavedQuadUI {
 		canvas.endShape();
 	}
 		
+	public void setOffsetsX(float[] offsetsX) {
+		this.offsetsX = offsetsX;
+	}
+	
+	public void setOffsetsY(float[] offsetsY) {
+		this.offsetsY = offsetsY;
+	}
+	
 	public void update( PGraphics canvas ) {
 		update(canvas, true, pg);
 	}
@@ -50,26 +60,44 @@ extends BaseSavedQuadUI {
 		// inspired by: https://github.com/davidbouchard/keystone & http://marcinignac.com/blog/projectedquads-source-code/
 		canvas.textureMode(PConstants.IMAGE);
 		canvas.noStroke();
-		canvas.stroke(255);
+		// canvas.stroke(255);
 		canvas.fill(255);
 		canvas.beginShape(PConstants.QUAD);
 		canvas.texture(texture);
-		
+				
 		if( subdivide == true ) {
 			// subdivide quad for better resolution
 			float stepsX = subDivideSteps;
 			float stepsY = subDivideSteps;
 
 			for( float x=0; x < stepsX; x += 1f ) {
+				// calculate spread of mesh grid and uv coordinates
 				float xPercent = x/stepsX;
 				float xPercentNext = (x+1f)/stepsX;
 				if( xPercentNext > 1 ) xPercentNext = 1;
+				float uPercent = xPercent;
+				float uPercentNext = xPercentNext;
+
+				// add x offsets
+				if(offsetsX != null) {
+					if(offsetsX[(int) x] != 0) xPercent += offsetsX[(int) x]; 
+					if(x < stepsX - 1 && offsetsX[(int) x + 1] != 0) xPercentNext += offsetsX[(int) x + 1];
+				}
 				
 				for( float y=0; y < stepsY; y += 1f ) {
+					// calculate spread of mesh grid and uv coordinates
 					float yPercent = y/stepsY;
 					float yPercentNext = (y+1f)/stepsY;
 					if( yPercentNext > 1 ) yPercentNext = 1;
+					float vPercent = yPercent;
+					float vPercentNext = yPercentNext;
 
+					// add y offsets
+					if(offsetsY != null) {
+						if(offsetsY[(int) y] != 0) yPercent += offsetsY[(int) y]; 
+						if(y < stepsY - 1 && offsetsY[(int) y + 1] != 0) yPercentNext += offsetsY[(int) y + 1];
+					}
+					
 					// calc grid positions based on interpolating columns between corners
 					float colTopX = interp(topLeft.x, topRight.x, xPercent);
 					float colTopY = interp(topLeft.y, topRight.y, xPercent);
@@ -92,10 +120,10 @@ extends BaseSavedQuadUI {
 					float quadBotLeftY = interp(colTopY, colBotY, yPercentNext);
 					
 					// draw subdivided quads
-					canvas.vertex(quadTopLeftX, quadTopLeftY, 0, 	mapX + mapW * xPercent, 		mapY + mapH * yPercent);
-					canvas.vertex(quadTopRightX, quadTopRightY, 0, 	mapX + mapW * xPercentNext, 	mapY + mapH * yPercent);
-					canvas.vertex(quadBotRightX, quadBotRightY, 0, 	mapX + mapW * xPercentNext, 	mapY + mapH * yPercentNext);
-					canvas.vertex(quadBotLeftX, quadBotLeftY, 0, 	mapX + mapW * xPercent, 		mapY + mapH * yPercentNext);
+					canvas.vertex(quadTopLeftX, quadTopLeftY, 0, 	mapX + mapW * uPercent, 		mapY + mapH * vPercent);
+					canvas.vertex(quadTopRightX, quadTopRightY, 0, 	mapX + mapW * uPercentNext, 	mapY + mapH * vPercent);
+					canvas.vertex(quadBotRightX, quadBotRightY, 0, 	mapX + mapW * uPercentNext, 	mapY + mapH * vPercentNext);
+					canvas.vertex(quadBotLeftX, quadBotLeftY, 0, 	mapX + mapW * uPercent, 		mapY + mapH * vPercentNext);
 				}
 			}
 		} else {
