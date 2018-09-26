@@ -1,3 +1,14 @@
+<?php
+  // Simple password protection
+  $loggedIn = false;
+  if (isset($_COOKIE['password']) && $_COOKIE['password'] === 'YOUR_PASSWORD') {
+    $loggedIn = true;
+  }
+  if (isset($_POST['password']) && $_POST['password'] == 'YOUR_PASSWORD') {
+    setcookie("password", 'YOUR_PASSWORD', strtotime('+30 days'));
+    $loggedIn = true;
+  }
+?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -68,9 +79,11 @@
             <a class="mdl-navigation__link" href="./">Home</a>
             <hr>
             <?php
-              $projectDirs = get_files_chrono("./projects", false);
-              foreach($projectDirs as $projectId) {
-                echo '<a class="mdl-navigation__link" href="./?project=' . $projectId . '">' . ucwords(str_replace("-", " ", $projectId)) . '</a>';
+              if($loggedIn == true) {
+                $projectDirs = get_files_chrono("./projects", false);
+                foreach($projectDirs as $projectId) {
+                  echo '<a class="mdl-navigation__link" href="./?project=' . $projectId . '">' . ucwords(str_replace("-", " ", $projectId)) . '</a>';
+                }
               }
             ?>
           </nav>
@@ -79,12 +92,29 @@
         <!-- CONTENT -->
         <main class="mdl-layout__content">
           <?php
-            if(isset($_GET['project']) && isset($_GET['date'])) {
-              include './views/project-date-details.php'; 
-            } else if(isset($_GET['project'])) {
-              include './views/project-dates-list.php'; 
+            if($loggedIn == true) {
+              if(isset($_GET['project']) && isset($_GET['date'])) {
+                include './views/project-date-details.php';
+              } else if(isset($_GET['project'])) {
+                include './views/project-dates-list.php';
+              } else {
+                include './views/projects-list.php';
+              }
             } else {
-              include './views/projects-list.php'; 
+          ?>
+          <div class="mdl-grid portfolio-max-width">
+            <div class="mdl-cell mdl-card mdl-shadow--2dp portfolio-card">
+            <div class="mdl-card__title">
+              <form action="#" method="POST">
+                <div class="mdl-textfield mdl-js-textfield">
+                  <input class="mdl-textfield__input" type="text" name="password" id="password">
+                  <label class="mdl-textfield__label" for="password">Password</label>
+                </div>
+              </form>
+            </div>
+            </div>
+          </div>
+          <?php
             }
           ?>
         </main>
