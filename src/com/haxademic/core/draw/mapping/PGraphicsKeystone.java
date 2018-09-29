@@ -261,7 +261,7 @@ extends BaseSavedQuadUI {
 				float offset = ConvertUtil.stringToFloat(numbersStrArrayX[i]);
 				if(i < offsetsX.length) offsetsX[i] = offset;
 			}
-			String[] numbersStrArrayY = textLines[0].split(",");
+			String[] numbersStrArrayY = textLines[1].split(",");
 			for (int i = 0; i < numbersStrArrayY.length; i++) {
 				float offset = ConvertUtil.stringToFloat(numbersStrArrayY[i]);
 				if(i < offsetsY.length) offsetsY[i] = offset;
@@ -306,10 +306,10 @@ extends BaseSavedQuadUI {
 				selectedRowIndex++;
 				if(selectedRowIndex >= offsetsY.length) selectedRowIndex = -1;
 			}
-			if(e.getKey() == '{')  fineControlAdjust(offsetsX, selectedColIndex, -1f);
-			if(e.getKey() == '}') fineControlAdjust(offsetsX, selectedColIndex, 1f);
-			if(e.getKey() == ':') fineControlAdjust(offsetsY, selectedRowIndex, -1f);
-			if(e.getKey() == '"') fineControlAdjust(offsetsY, selectedRowIndex, 1f);
+			if(e.getKey() == 'O')  fineControlAdjust(offsetsX, selectedColIndex, -1f);
+			if(e.getKey() == 'P') fineControlAdjust(offsetsX, selectedColIndex, 1f);
+			if(e.getKey() == '{') fineControlAdjust(offsetsY, selectedRowIndex, -1f);
+			if(e.getKey() == '}') fineControlAdjust(offsetsY, selectedRowIndex, 1f);
 			if(e.getKey() == 'E') saveConfig();
 		}
 	}
