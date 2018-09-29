@@ -1,5 +1,7 @@
 package com.haxademic.core.audio;
 
+import java.util.HashMap;
+
 import com.haxademic.core.app.P;
 import com.haxademic.core.debug.DebugUtil;
 
@@ -13,7 +15,8 @@ import beads.SamplePlayer;
 public class WavPlayer {
 
 	protected AudioContext audioContext;
-	protected SamplePlayer player;
+	protected HashMap<String, SamplePlayer> players = new HashMap<String, SamplePlayer>();
+	protected HashMap<String, Gain> gains = new HashMap<String, Gain>();
 	
 	public static int PAN_CENTER = 0;
 	public static float PAN_LEFT = -1;
@@ -27,27 +30,37 @@ public class WavPlayer {
 	}
 	
 	public boolean playWav(String filePath) {
-		return playWav(filePath, PAN_CENTER);
+		return playWav(filePath, PAN_CENTER, false);
 	}
 	
-	public boolean playWav(String filePath, float panAmp) {
+	public boolean loopWav(String filePath) {
+		return playWav(filePath, PAN_CENTER, true);
+	}
+	
+	public boolean playWav(String filePath, float panAmp, boolean loops) {
 		boolean success = false;
 		
 		// load sound
 		P.println("Playing:", filePath);
 		Sample audioSample = SampleManager.sample(filePath);
 		if(audioSample != null) {
-			player = new SamplePlayer(audioContext, audioSample);
-			player.start(0);
+			if(players.containsKey(filePath) == false) {
+				players.put(filePath, new SamplePlayer(audioContext, audioSample));
+				getPlayer(filePath).setKillOnEnd(false);
+				
+				// pan it!
+				Panner pan = new Panner(audioContext, panAmp);
+				pan.addInput(getPlayer(filePath));
+				
+				// play it!
+				gains.put(filePath, new Gain(audioContext, 2, 1f));		// 2 channel, 1f volume
+				gains.get(filePath).addInput(pan);
+				audioContext.out.addInput(gains.get(filePath));
+			}
 			
-			// pan it!
-			Panner pan = new Panner(audioContext, panAmp);
-			pan.addInput(player);
-			
-			// play it!
-			Gain gain = new Gain(audioContext, 2, 1f);		// 1 channel, 1f volume
-			gain.addInput(pan);
-			audioContext.out.addInput(gain);
+			// play it
+			getPlayer(filePath).start(0);
+			if(loops) getPlayer(filePath).setLoopType(SamplePlayer.LoopType.LOOP_FORWARDS);
 			
 			success = true;
 		} else {
@@ -56,27 +69,40 @@ public class WavPlayer {
 		return success;
 	}
 	
-	public void restart() {
-		if(player != null) player.start(0);
+	public SamplePlayer getPlayer(String id) {
+		return players.get(id);
 	}
 	
-	public void stop() {
-		if(player != null) player.pause(true);
-		player = null;
+	public Gain getGain(String id) {
+		return gains.get(id);
 	}
 	
-	public float progress() {
-		return position() / duration();
+	public void restart(String id) {
+		if(getPlayer(id) != null) getPlayer(id).start(0);
 	}
 	
-	public float position() {
-		if(player == null) return 0;
-		return (float) player.getPosition();
+	public void stop(String id) {
+		if(getPlayer(id) != null) getPlayer(id).pause(true);
 	}
 	
-	public float duration() {
-		if(player == null) return 1;
-		return (float) player.getSample().getLength();
+	public float progress(String id) {
+		return position(id) / duration(id);
+	}
+	
+	public float position(String id) {
+		if(getPlayer(id) == null) return 0;
+		return (float) getPlayer(id).getPosition();
+	}
+	
+	public float duration(String id) {
+		if(getPlayer(id) == null) return 1;
+		return (float) getPlayer(id).getSample().getLength();
+	}
+	
+	public void setVolume(String id, float gain) {
+		if(gains.containsKey(id)) {
+			gains.get(id).setGain(gain);
+		}
 	}
 	
 }
