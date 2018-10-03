@@ -22,6 +22,7 @@ public class BufferColorObjectDetection {
 	protected float scale = 1;
 	protected float colorClosenessThreshold = 0.95f;
 	protected int minPointsThreshold = 10;
+	protected float totalCounted = 0;
 	protected int bufferW;
 	protected int bufferH;
 	protected boolean debugging = false;
@@ -53,6 +54,10 @@ public class BufferColorObjectDetection {
 	
 	public int minPointsThreshold() {
 		return minPointsThreshold;
+	}
+	
+	public boolean isActive() {
+		return totalCounted >= minPointsThreshold;
 	}
 	
 	public void debugging(boolean debugging) {
@@ -114,7 +119,7 @@ public class BufferColorObjectDetection {
 		
 		// loop through pixels
 		// float totalChecked = 0;
-		float totalCounted = 0;
+		totalCounted = 0;
 		float totalX = 0;
 		float totalY = 0;
 		bufferOutput.loadPixels();

@@ -17,7 +17,7 @@ implements IWebCamCallback {
 	protected String COLOR_MIN_POINTS_DETECT_THRESHOLD = "COLOR_MIN_POINTS_DETECT_THRESHOLD";
 	
 	protected void overridePropsFile() {
-		p.appConfig.setProperty(AppSettings.WEBCAM_INDEX, 5 );
+		p.appConfig.setProperty(AppSettings.WEBCAM_INDEX, 3 );
 	}
 		
 	public void setupFirstFrame () {
@@ -50,6 +50,7 @@ implements IWebCamCallback {
 		colorObjectDetection.minPointsThreshold((int) p.prefsSliders.value(COLOR_MIN_POINTS_DETECT_THRESHOLD));
 		colorObjectDetection.debugging(true);
 		colorObjectDetection.update(frame);
+		p.debugView.setValue("colorObjectDetection.isActive()", colorObjectDetection.isActive());
 	}
 	
 	public void mousePressed() {
