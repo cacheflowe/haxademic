@@ -45,8 +45,10 @@
   </div>
   <div id="send-messages">
     <div>Send a test message:</div>
-    <button style="background-color: #36B1BF;" onclick='javascript:sendJsonData({"event":"web-event","command":"start"});'>Web Event: Start</button>
-    <button style="background-color: #D95E32;" onclick='javascript:sendJsonData({"event":"web-event","command":"stop"});'>Web Event: Stop</button>
+    <button style="background-color: #36B1BF;" onclick='javascript:sendJsonData({"event":"WEB_EVENT","command":"start"});'>Web Event: Start</button>
+    <button style="background-color: #D95E32;" onclick='javascript:sendJsonData({"event":"WEB_EVENT","command":"stop"});'>Web Event: Stop</button>
+    <button style="background-color: #5ED932;" onclick='javascript:sendJsonData({"store":true, "type":"number", "key":"WEB_EVENT","value":"1"});'>Web Event: 1</button>
+    <button style="background-color: #32D95E;" onclick='javascript:sendJsonData({"store":true, "type":"number", "key":"WEB_EVENT","value":"2"});'>Web Event: 2</button>
   </div>
   <script type="text/javascript" src="./solid-socket.js"></script>
   <script type="text/javascript" src="./socket-monitor.js"></script>
@@ -87,6 +89,14 @@
 
     function checkJSON(jsonData) {
       console.log(jsonData, jsonData['event']);
+      if(jsonData['store'] && jsonData['type']) {
+        var div = document.createElement('div');
+        div.innerHTML = JSON.stringify(jsonData);
+        div.style.backgroundColor = "#D95E32";
+        div.style.color = '#ffffff';
+        div.style.padding = '2px 10px';
+        document.getElementById('debug').appendChild(div);
+      }
       // check for specific message data
       if(jsonData['event'] && jsonData['event'] == 'frame-count') {
         // add event to screen
@@ -94,7 +104,7 @@
         div.innerHTML = JSON.stringify(jsonData);
         document.getElementById('debug').appendChild(div);
       }
-      if(jsonData['event'] && jsonData['event'] == 'web-event') {
+      if(jsonData['event'] && jsonData['event'] == 'WEB_EVENT') {
         var div = document.createElement('div');
         div.innerHTML = JSON.stringify(jsonData);
         // start, capture, finish, process, server

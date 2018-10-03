@@ -1,6 +1,7 @@
 package com.haxademic.core.app;
 
 import com.haxademic.core.data.store.AppStore;
+import com.haxademic.core.data.store.AppStoreDistributed;
 import com.haxademic.core.file.FileUtil;
 import com.jogamp.opengl.GL;
 
@@ -15,6 +16,7 @@ extends PApplet {
 	public static PAppletHax p;
 	public static GL gl;	
 	public static AppStore store;	
+	public static AppStoreDistributed storeDistributed;	
 	
 	// helper methods
 	
