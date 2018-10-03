@@ -22,7 +22,6 @@ implements IAppStoreListener {
 		P.storeDistributed.startServer();
 		P.storeDistributed.startClient(null);
 		P.store.addListener(this);
-		P.println("MAKE SOCKET CLIENT RECONNETING LIKE SOLID SOCKET");
 	}
 	
 	public void drawApp() {
