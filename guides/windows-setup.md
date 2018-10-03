@@ -21,7 +21,9 @@
 
 * Run Windows system updates:
   * Settings -> Update & Security -> Windows Update -> Check for Updates
-
+  * Restart/Repeat until there are really no more updates
+  * Disable update service: Windows button + "R" -> "services.msc" + Run -> Select "Windows Update Service" ->  General tab > Startup Type > select Disable
+  	* https://windowsreport.com/windows-10-update-alert-disable/
 * Update video card drivers
 
 * Enable network sharing
