@@ -61,7 +61,7 @@ extends PAppletHax {
 			keystone2.drawTestPattern();
 			DrawUtil.setPImageAlpha(p, 0.6f);
 		} else {
-			DrawUtil.setPImageAlpha(p, 0.6f);
+			DrawUtil.setPImageAlpha(p, 1f);
 		}
 		
 		// draw to screen
