@@ -67,10 +67,11 @@ public class AppMonitor {
 		}
 
 		public void setup() {
-			super.surface.setResizable(true);
-			super.surface.setLocation(0, 0);
+			int windowX = (showing) ? 0 : -220;
+			super.surface.setResizable(true);	// needed for setLocation()
+			super.surface.setLocation(windowX, 0);
 			super.surface.setTitle("App Monitor");
-			super.surface.setVisible(showing);
+			// super.surface.setVisible(showing);
 		}
 		
 		public void setUpdateTime(int updateTime) {

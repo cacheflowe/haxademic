@@ -33,37 +33,39 @@ public class AppRestart {
 	public static void restartApplication( PApplet p, Runnable runBeforeRestart) throws IOException {
 		try {
 			// java binary
-			String java = System.getProperty("java.home") + "/bin/java";
-			// vm arguments
-			//			List<String> vmArguments = ManagementFactory.getRuntimeMXBean().getInputArguments();
-			StringBuffer vmArgsOneLine = new StringBuffer();
-			for (String arg : ManagementFactory.getRuntimeMXBean().getInputArguments()) {
-				// if it's the agent argument : we ignore it otherwise the
-				// address of the old application and the new one will be in conflict
-				if (!arg.contains("-agentlib")) {
-					vmArgsOneLine.append(arg);
-					vmArgsOneLine.append(" ");
-				}
-			}
-			// init the command to execute, add the vm args
-			final StringBuffer cmd = new StringBuffer("" + java + " " + vmArgsOneLine);
-
-			// program main and program arguments
-			String[] mainCommand = System.getProperty(SUN_JAVA_COMMAND).split(" ");
-			// program main is a jar
-			if (mainCommand[0].endsWith(".jar")) {
-				// if it's a jar, add -jar mainJar
-				cmd.append("-jar " + new File(mainCommand[0]).getPath());
-			} else {
-				// else it's a .class, add the classpath and mainClass
-				cmd.append("-cp " + System.getProperty("java.class.path") + " " + mainCommand[0]);
-			}
-			// finally add program arguments
-			for (int i = 1; i < mainCommand.length; i++) {
-				cmd.append(" ");
-				cmd.append(mainCommand[i]);
-			}
-
+//			String java = System.getProperty("java.home") + "/bin/java";
+//			// vm arguments
+//			//			List<String> vmArguments = ManagementFactory.getRuntimeMXBean().getInputArguments();
+//			StringBuffer vmArgsOneLine = new StringBuffer();
+//			for (String arg : ManagementFactory.getRuntimeMXBean().getInputArguments()) {
+//				// if it's the agent argument : we ignore it otherwise the
+//				// address of the old application and the new one will be in conflict
+//				if (!arg.contains("-agentlib")) {
+//					vmArgsOneLine.append(arg);
+//					vmArgsOneLine.append(" ");
+//				}
+//			}
+//			// init the command to execute, add the vm args
+//			final StringBuffer cmd = new StringBuffer("" + java + " " + vmArgsOneLine);
+//
+//			// program main and program arguments
+//			String[] mainCommand = System.getProperty(SUN_JAVA_COMMAND).split(" ");
+//			// program main is a jar
+//			if (mainCommand[0].endsWith(".jar")) {
+//				// if it's a jar, add -jar mainJar
+//				cmd.append("-jar " + new File(mainCommand[0]).getPath());
+//			} else {
+//				// else it's a .class, add the classpath and mainClass
+//				cmd.append("-cp " + System.getProperty("java.class.path") + " " + mainCommand[0]);
+//			}
+//			// finally add program arguments
+//			for (int i = 1; i < mainCommand.length; i++) {
+//				cmd.append(" ");
+//				cmd.append(mainCommand[i]);
+//			}
+			
+			final String cmd = AppUtil.getAppRunCommandRelative();
+			P.out(cmd);
 			// execute the command in a shutdown hook, to be sure that all the
 			// resources have been disposed before restarting the application
 			Runtime.getRuntime().addShutdownHook(new Thread() {

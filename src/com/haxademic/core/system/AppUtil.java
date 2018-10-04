@@ -81,7 +81,10 @@ public class AppUtil {
 	public static String getAppRunCommand() {
 		// java binary
 		// String java = System.getProperty("java.home") + "/bin/java";
-		String java = "java";
+//		String java = "java";
+		
+		String java = "\"" + System.getProperty("java.home") + "/bin/java" + "\"";
+
 		// vm arguments
 		//			List<String> vmArguments = ManagementFactory.getRuntimeMXBean().getInputArguments();
 		StringBuffer vmArgsOneLine = new StringBuffer();
@@ -104,7 +107,8 @@ public class AppUtil {
 			cmd.append("-jar " + new File(mainCommand[0]).getPath());
 		} else {
 			// else it's a .class, add the classpath and mainClass
-			cmd.append("-cp " + System.getProperty("java.class.path") + " " + mainCommand[0]);
+			// crap the classpath with quotes, in case there are spaces
+			cmd.append("-cp \"" + System.getProperty("java.class.path") + "\" " + mainCommand[0]);
 		}
 		// finally add program arguments
 		for (int i = 1; i < mainCommand.length; i++) {
