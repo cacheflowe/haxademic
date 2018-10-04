@@ -4,14 +4,12 @@ import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.UnknownHostException;
 
-import org.java_websocket.WebSocket;
 import org.java_websocket.client.WebSocketClient;
 import org.java_websocket.drafts.Draft_6455;
 import org.java_websocket.handshake.ServerHandshake;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.debug.DebugUtil;
 import com.haxademic.core.net.IPAddress;
 import com.haxademic.core.net.JSONUtil;
 import com.haxademic.core.net.SocketServer;
@@ -174,7 +172,7 @@ public class AppStoreDistributed {
 	protected void buildSocketClient(String serverAddress) {
 		if(serverAddress == null) WEBSOCKET_SERVER_ADDRESS = localSocketServerAddress();
 		else WEBSOCKET_SERVER_ADDRESS = serverAddress;
-		WEBSOCKET_SERVER_ADDRESS = "ws://" + IPAddress.getIP() + ":" + SocketServer.PORT;
+//		WEBSOCKET_SERVER_ADDRESS = "ws://" + IPAddress.getIP() + ":" + SocketServer.PORT;
 		_lastConnectAttemptTime = P.p.millis();
 		try {
 			client = new WebSocketClient( new URI( WEBSOCKET_SERVER_ADDRESS ), new Draft_6455() ) {
