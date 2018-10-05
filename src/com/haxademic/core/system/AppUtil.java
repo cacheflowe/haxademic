@@ -1,10 +1,13 @@
 package com.haxademic.core.system;
 
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.io.File;
 import java.lang.management.ManagementFactory;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.file.FileUtil;
+import com.jogamp.newt.opengl.GLWindow;
 
 import processing.core.PApplet;
 import processing.core.PConstants;
@@ -24,6 +27,13 @@ public class AppUtil {
 			p.frame.setUndecorated(true);
 			p.frame.addNotify();
 		}
+	}
+	
+	protected void setGLWindowChromeless(PApplet p) {
+		GLWindow window = (GLWindow) p.getSurface().getNative();
+		window.setUndecorated(true);
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		window.setSurfaceSize((int) screenSize.getWidth() - 5, (int) screenSize.getHeight() - 28);
 	}
 	
 	public static void setTitle(PApplet p, String title) {
