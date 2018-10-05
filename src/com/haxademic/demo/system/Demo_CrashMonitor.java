@@ -1,17 +1,23 @@
 package com.haxademic.demo.system;
 
 import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.draw.context.DrawUtil;
-import com.haxademic.core.system.AppMonitor;
+import com.haxademic.core.system.CrashMonitor;
 
-public class Demo_AppMonitor 
+public class Demo_CrashMonitor 
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
-	protected AppMonitor appMonitor;
+	protected CrashMonitor appMonitor;
+
+	protected void overridePropsFile() {
+//		p.appConfig.setProperty( AppSettings.FULLSCREEN, true );
+		p.appConfig.setProperty( AppSettings.APP_NAME, "CrashMonitor Test" );
+	}
 
 	public void setupFirstFrame() {
-		appMonitor = new AppMonitor(true, 5000);
+		appMonitor = new CrashMonitor(true, 5000);
 	}
 
 	public void drawApp() {

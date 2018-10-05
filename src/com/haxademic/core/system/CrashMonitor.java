@@ -5,7 +5,7 @@ import com.haxademic.core.app.PAppletHax;
 
 import processing.core.PApplet;
 
-public class AppMonitor {
+public class CrashMonitor {
 
 	// TODO:
 	// - Before restarting, attempt to hit a URL that sends an email? Make this configurable
@@ -16,11 +16,11 @@ public class AppMonitor {
 	public boolean showWindow;
 	public int timeAfterCrash;
 	
-	public AppMonitor() {
+	public CrashMonitor() {
 		this(false, 5000);
 	}
 	
-	public AppMonitor(boolean showWindow, int timeAfterCrash) {
+	public CrashMonitor(boolean showWindow, int timeAfterCrash) {
 		this.showWindow = showWindow;
 		this.timeAfterCrash = timeAfterCrash;
 		P.p.registerMethod("post", this);	 // update texture to 2nd window after main draw() execution
