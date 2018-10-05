@@ -13,6 +13,7 @@ import java.awt.datatransfer.StringSelection;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.event.ActionListener;
+import java.awt.event.InputEvent;
 import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -168,6 +169,17 @@ public class SystemUtil {
 		}
 
 		return new PImage(desktop);
+	}
+
+	public static void clickScreen(int x, int y) {
+		try {
+			Robot clickRobot = new Robot();
+			clickRobot.mouseMove(x, y);
+			clickRobot.mousePress(InputEvent.BUTTON1_DOWN_MASK);
+			clickRobot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 
 }
