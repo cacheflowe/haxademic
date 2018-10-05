@@ -31,6 +31,11 @@ implements IPostJSONCallback {
 	protected int lastPostTime = 0;
 	public static boolean firstPost = true; // static in case of multiple instances
 
+	// TODO:
+	// - Before restarting, attempt to hit a URL that sends an email? Make this configurable
+	// - Send an email on poor framerate performance [optional]
+	// - Send an email daily with stats?? This should be a different object that includes user sessions, average framerate, system reports, etc. Maybe this negates the need to the drop in performance email 
+
 	public DashboardPoster(String projectName, String serverPostPath) {
 		this(projectName, serverPostPath, 60 * 60, 0.5f, 0.5f);
 	}

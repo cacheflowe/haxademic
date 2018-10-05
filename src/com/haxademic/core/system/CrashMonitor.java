@@ -6,11 +6,6 @@ import com.haxademic.core.app.PAppletHax;
 import processing.core.PApplet;
 
 public class CrashMonitor {
-
-	// TODO:
-	// - Before restarting, attempt to hit a URL that sends an email? Make this configurable
-	// - Send an email on poor framerate performance [optional]
-	// - Send an email daily with stats?? This should be a different object that includes user sessions, average framerate, system reports, etc. Maybe this negates the need to the drop in performance email 
 	
 	public AppMonitorWindow monitorApp = null;
 	public boolean showWindow;
