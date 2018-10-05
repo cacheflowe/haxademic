@@ -117,10 +117,8 @@ function html_checkin_detail($jsonFile, $project_id, $showTitle, $isMostRecent=f
           '  </div>';
           }
   $html .='  <div class="mdl-card__supporting-text">';
-      // if(isset($checkinJSON['time'])) echo "<li>Time: " . $checkinJSON['time'] . "</li>";
-      if(isset($checkinJSON['time'])) $html .= "<strong>Last update</strong>: " . $strAgo . "<br>";
-      // if(isset($checkinJSON['time'])) $html .= "<strong>Last update</strong>: " . timeago($date) . ' -- ' . $checkinJSON['time'] . "<br>";
-      if(isset($checkinJSON['time'])) $html .= "<strong>Last update</strong>: " . date_format($date,"Y/m/d H:i:s") . "<br>";
+      if(isset($checkinJSON['time'])) $html .= "<strong>Updated</strong>: " . $strAgo . "<br>";
+      if(isset($checkinJSON['time'])) $html .= "<strong>Update time</strong>: " . date_format($date,"Y/m/d H:i:s") . "<br>";
       if(isset($checkinJSON['uptime'])) $html .= "<strong>Uptime</strong>: " . $checkinJSON['uptime'] . "<br>";
       if(isset($checkinJSON['frameRate'])) $html .= "<strong>Framerate</strong>: " . $checkinJSON['frameRate'] . "<br>";
       if(isset($checkinJSON['frameCount'])) $html .= "<strong>Frame count</strong>: " . $checkinJSON['frameCount'] . "<br>";
