@@ -1,11 +1,12 @@
 <?php
   // Simple password protection
   $loggedIn = false;
-  if (isset($_COOKIE['password']) && $_COOKIE['password'] === 'YOUR_PASSWORD') {
+  $pass = 'YOUR_PASSWORD';
+  if (isset($_COOKIE['password']) && $_COOKIE['password'] === $pass) {
     $loggedIn = true;
   }
-  if (isset($_POST['password']) && $_POST['password'] == 'YOUR_PASSWORD') {
-    setcookie("password", 'YOUR_PASSWORD', strtotime('+30 days'));
+  if (isset($_POST['password']) && $_POST['password'] == $pass) {
+    setcookie("password", $pass, strtotime('+30 days'));
     $loggedIn = true;
   }
 ?>
@@ -50,6 +51,9 @@
       }
       .relaunched {
         background-color: #99ff99;
+      }
+      .offline {
+        background-color: #ff9999;
       }
       /* lightbox */
       .lightbox,.lightbox-image-holder{width:100%;height:100%;box-sizing:border-box}.lightbox{position:fixed;top:0;left:0;background:rgba(255,255,255,.9);z-index:9999;opacity:0;transition:opacity .2s linear}.lightbox.showing{opacity:1}.lightbox-image-holder{position:relative;background-position:center;background-size:contain;background-repeat:no-repeat}.lightbox-image-holder.lightbox-image-contained{background-size:auto}.imagexpander,.lightbox,.lightbox-image-holder,img[rel]{cursor:pointer}

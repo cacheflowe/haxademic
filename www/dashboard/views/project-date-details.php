@@ -12,9 +12,8 @@
     $files = get_files_chrono($path);
     foreach($files as $dayJSONPath) {
       // show day info!
-      $json_data = file_get_contents($path . '/' . $dayJSONPath);
-      $checkinJSON = json_decode($json_data, true); 
-      echo html_checkin_detail($checkinJSON, $_projectId, false);
+      $jsonCheckinFile = $path . '/' . $dayJSONPath;
+      echo html_checkin_detail($jsonCheckinFile, $_projectId, false);
     }
   }
 ?>

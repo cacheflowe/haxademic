@@ -6,11 +6,8 @@
   // project list links
   $projectDirs = get_files_chrono("./projects", false);
   foreach($projectDirs as $projectId) {
-    $projectName = ucwords($projectId);
-    $mostRecentJsonFile = last_checkin_data_for_project($projectId);
-    $json_data = file_get_contents($mostRecentJsonFile);
-    $checkinJSON = json_decode($json_data, true); 
-    echo html_checkin_detail($checkinJSON, $projectId, true);
+    $mostRecentJsonFileName = last_checkin_data_for_project($projectId);
+    echo html_checkin_detail($mostRecentJsonFileName, $projectId, true, true);
   }
   ?>
 </div>

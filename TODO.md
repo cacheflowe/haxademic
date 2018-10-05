@@ -73,7 +73,7 @@
     * Demo_VertexShader_NoiseTest_WIP
     * Demo_VertexShader_Fattener
 * General / tools
-  * Convert mirrors into realtime video filters
+  * Update JoonsRenderer - it looks like it's a regular Processing library now
   * BufferActivityMonitor should use FrameDifferenceBuffer object
   * Replace ColorHax with EasingColor
   * Clean up /data directory with assets that can be used across demos, and move sketch assets into their own location
