@@ -23,11 +23,13 @@ implements IJoystickCollection {
 	protected EasingFloat _sceneTranslateZ;
 	protected EasingFloat _sceneTranslateZ2;
 	protected boolean _overheadView = false;
+	protected int rows = 1;
 
 
 	public KinectRegionGrid(int cols, int rows, int kinectClose, int kinectFar, int padding, int kinectTop, int kinectBottom, int kinectPixelSkip, int minPixels) {
 		super();
-
+		
+		this.rows = rows;
 		_kinectClose = kinectClose;
 		_kinectFar = kinectFar;
 		_kinectDepth = _kinectFar - _kinectClose;
@@ -93,9 +95,9 @@ implements IJoystickCollection {
 		_sceneRot.update();
 		_sceneTranslateZ2.update();
 
-		debugBuffer.translate(0,0,_sceneTranslateZ.value());
+		debugBuffer.translate(0, 0, _sceneTranslateZ.value());
 		debugBuffer.rotateX(_sceneRot.value());
-		debugBuffer.translate(0,0,_sceneTranslateZ2.value());
+		debugBuffer.translate(0, 0, _sceneTranslateZ2.value());
 
 		// loop through kinect data within rectangles ----------
 		updateRegions();
@@ -124,7 +126,7 @@ implements IJoystickCollection {
 		_overheadView = !_overheadView;
 
 		if(_overheadView == true) {
-			_sceneTranslateZ.setTarget(_kinectDepth * -3f);
+			_sceneTranslateZ.setTarget(debugBuffer.width * -1f);
 			_sceneRot.setTarget(-P.PI/2f);
 			_sceneTranslateZ2.setTarget(_kinectClose + _kinectDepth);
 		} else {
