@@ -74,6 +74,7 @@
     * Demo_VertexShader_Fattener
 * General / tools
   * Update JoonsRenderer - it looks like it's a regular Processing library now
+  * Kix overhead view of KinectRegionGrid - with larger grids it's off-screen
   * BufferActivityMonitor should use FrameDifferenceBuffer object
   * Replace ColorHax with EasingColor
   * Clean up /data directory with assets that can be used across demos, and move sketch assets into their own location

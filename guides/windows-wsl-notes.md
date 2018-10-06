@@ -1,0 +1,209 @@
+# Windows 10 Subsystem for Linux and bash setup
+
+## Install Ubuntu from the Windows Store
+
+I'm using Ubuntu and the Bash shell, so everything here relates to that particular setup. Follow the instructions here to enable WSL and download a Linux distribution:
+
+* [How to Get Started Using WSL in Windows 10](https://www.linux.com/blog/learn/2018/2/how-get-started-using-wsl-windows-10)
+
+## Opening the WSL shell
+
+There are [multiple ways](https://blogs.msdn.microsoft.com/commandline/2017/11/28/a-guide-to-invoking-wsl/) to open the WSL bash shell :
+
+* Open `Ubuntu` from the Windows Start menu
+* Type `Windows key + R`, type `wsl` and hit Enter
+* Open a Windows Command Prompt window, type `bash` and hit Enter
+
+Be sure to update your Ubuntu installation using the following commands:
+
+```
+sudo apt-get update
+sudo apt-get dist-upgrade
+```
+
+## Navigating the WSL shell
+
+* Your Windows filesystem shows up as a mounted drive, like `/mnt/c/`
+  * Since the Ubuntu path and your Windows path are different, there's a built-in tool called `wslpath` to help convert paths from one to the other. Unfortunately, dragging a file into the shell currently uses the Windows path, but hopefully there's an auto-translation in the future. Find some usage documentation [here](https://github.com/Microsoft/WSL/issues/2715).
+    * For example, the command:
+      * `wslpath "D:\workspace\data\2018-09-27-12-30-37.json"`
+    * Outputs:
+      * `/mnt/d/workspace/data/2018-09-27-12-30-37.json`
+* The Linux filesystem is in a weird place on your Windows hard drive, and I would recommend not storing files here beyond those relating to your Linux installation. I just use Linux/bash as a way to control my Windows files
+* You can right-click to paste your Windows clipboard contents into the WSL shell
+
+## Installing packages
+
+I mostly use the Bash shell for processing media files, so tools like `imagemagick` and `ffmpeg` are essential to my workflow. With Ubuntu, the common way of installing these tools is with the `apt` (Advanced Packaging Tool) package manager. For example:
+
+`sudo apt install ffmpeg`
+
+If you're coming from OS X, you might be used to Homebrew, which is a widely-used package manager for Macs. There's a fork for Linux called [Linuxbrew](http://linuxbrew.sh/), but it didn't seem to work as seamlessly as `apt-get`. If you want to give that a try, run:
+
+`sudo apt install linuxbrew-wrapper`
+
+## Running bash scripts
+
+One gotcha that I ran into was that a lot of my bash scripts had non-unix carriage returns. I thought something was wrong with my bash setup, but I simply had to convert my scripts to use the unix version. There's a nice little helper for this called `dos2unix`. Install it using:
+
+* `sudo apt install dos2unix`
+
+## Customizing the WSL shell
+
+There are a bunch of options to customize your bash shell, as with any Linux distribution. Here are a couple that I found:
+
+* https://github.com/Bash-it/bash-it#install-options
+* https://github.com/goreliu/wsl-terminal
+
+If you want to reload your bash shell with any changes you might have made to your [dotfiles](https://www.quora.com/What-are-dotfiles), call:
+
+`. ~/.bashrc` or `source ~/.bashrc`
+
+You can customize Bash to a great extent by modifying dot files in your user directory, which is located at `/home/username` or with the shortcut `~/`.
+
+Here's my `/home/cacheflowe/.bash_profile`, which provides me with lots of useful shortcuts. Some of these are relate to running Apache, which I describe below.
+
+```
+##########################################
+# Add to system PATH
+##########################################
+
+PATH="/mnt/d/workspace/media-utility-scripts/:$PATH"
+PATH="$HOME/.linuxbrew/bin:$HOME/.linuxbrew/sbin:$PATH"
+
+##########################################
+# Add aliases/shortcuts
+##########################################
+
+alias workspace="cd /mnt/d/workspace"
+
+alias reload=". ~/.bashrc"
+alias backupbash="cp ~/.* /mnt/d/workspace/cacheflowe-wsl/user-cacheflowe/"
+
+alias loadbashfromwindows="cp /mnt/d/workspace/cacheflowe-wsl/user-cacheflowe/.*  ~/"
+alias loadvhostsfromwindows="sudo cp /mnt/d/workspace/cacheflowe-wsl/sites-enabled/*.* /etc/apache2/sites-enabled"
+alias loadhostsfromwindows="sudo cp /mnt/d/workspace/cacheflowe-wsl/etc/hosts /mnt/c/Windows/System32/drivers/etc/hosts"
+
+alias apachestart="sudo service apache2 start"
+alias apacherestart="sudo service apache2 restart"
+alias apachestop="sudo service apache2 stop"
+alias apacheopen="cd /etc/apache2"
+
+alias mysqlstart="sudo service mysql start"
+alias mysqlrun="/usr/bin/mysql -u root -p"
+# alias edithosts="atom /mnt/d/workspace/cacheflowe-wsl/etc/hosts"
+# alias edithosts="vi /etc/hosts"
+alias phpinfo="php --ini"
+alias phpsettings="sudo nano /etc/php/7.1/cli/php.ini"
+
+##########################################
+# Init WSL bash settings when terminal window opens, and navigate to projects directory
+##########################################
+
+reload
+workspace
+```
+
+## Install Apache on WSL / Ubuntu
+
+I use Apache as a basic web server, and also use php as a quick & easy web server scripting language. Below you'll find some helpful info to get these set up quickly.
+
+Here are some helpful articles on getting the LAMP stack running:
+
+* https://medium.com/@fiqriismail/how-to-setup-apache-mysql-and-php-in-linux-subsystem-for-windows-10-e03e67afe6ee
+* https://www.digitalocean.com/community/tutorials/how-to-set-up-apache-virtual-hosts-on-ubuntu-16-04
+* https://www.nextofwindows.com/allow-server-running-inside-wsl-to-be-accessible-outside-windows-10-host
+
+Start Apache with:
+
+`sudo service apache2 start`
+
+The Apache installation resides at:
+
+`/etc/apache2`
+
+### Enable Apache vhosts to create named local web servers
+
+* https://www.digitalocean.com/community/tutorials/how-to-rewrite-urls-with-mod_rewrite-for-apache-on-ubuntu-16-04
+
+Vhost configuration files need to be created in `/etc/apache2/sites-enabled`, and seem to need more settings than my Apache setup on OS X did. Here's an example of my `localhost.conf` file, which sets up Apache to work locally and be reachable from another computer using my chosen port of 3333. I use the `D:\workspace` directory on Windows as the root of my server. Be sure To restart Apache if you change these files.
+
+```
+<VirtualHost *:80>
+    ServerAlias localhost
+    ServerName localhost
+    DocumentRoot /mnt/d/workspace
+    <Directory /mnt/d/workspace>
+      Options Indexes FollowSymLinks
+      AllowOverride All
+      Require all granted
+    </Directory>
+</VirtualHost>
+
+Listen 3333
+<VirtualHost *:3333>
+    ServerAdmin user@example.com
+    ServerAlias localhost
+    ServerName localhost
+    DocumentRoot /mnt/d/workspace
+    <Directory /mnt/d/workspace>
+      Options Indexes FollowSymLinks
+      AllowOverride All
+      Order allow,deny
+      Allow from all
+      Require all granted
+    </Directory>
+</VirtualHost>
+
+<VirtualHost _default_:*>
+    DocumentRoot "/mnt/d/workspace"
+</VirtualHost>
+```
+
+I also like to set up websites with a virtual host, so I can treat them like the production server. Here's a configuration that sets my own website up as `http://localhost.cacheflowe.com` for my development environment:
+
+```
+<VirtualHost *:80>
+ServerAdmin user@example.com
+    DocumentRoot "/mnt/d/workspace/cacheflowe.com"
+    ServerName localhost.cacheflowe.com
+    <Directory /mnt/d/workspace/cacheflowe.com>
+      Options Indexes FollowSymLinks
+      AllowOverride All
+      Order allow,deny
+      Allow from all
+      Require all granted
+    </Directory>
+</VirtualHost>
+```
+
+#### Edit your hosts file
+
+Working in tandem with vhost configurations, you need to edit your hosts file for your computer to recognize the virtual hosts. In this situation, the hosts file that matters is the __Windows__ hosts file, located here:
+
+* `C:/Windows/System32/drivers/etc/hosts`
+
+### More php configuration
+
+Install the php xml package (there may be others you'll want, and make sure you're targeting the php version you're using)
+`sudo apt-get install php7.0-xml`
+
+Install php7.1 (I had a project that required it)
+* https://websiteforstudents.com/downgrade-php-7-2-to-php-7-1-with-apache2-http-server-on-ubuntu-16-04-17-10-18-04/
+
+### Install & use mysql
+
+* https://support.rackspace.com/how-to/installing-mysql-server-on-ubuntu/
+* https://github.com/Microsoft/WSL/issues/2941
+* https://github.com/Microsoft/WSL/issues/2087
+
+* Start the mysql service: `sudo service mysql start`
+* Run the mysql terminal: `/usr/bin/mysql -u root -p`
+
+## Install Git
+
+`sudo apt install git`
+
+* https://help.github.com/articles/set-up-git/
+* https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/
+* https://help.github.com/articles/adding-a-new-ssh-key-to-your-github-account/

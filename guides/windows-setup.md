@@ -3,18 +3,18 @@
 * Set up Windows normally during blue setup screens, but turn off non-essential services
 
 * Uninstall non-essential apps & bloatware
-  * Delete Program Files (x86) -> ASUS -> APRP
   * Right-click Start Menu -> Control Panel -> Programs / Uninstall a program
+  * Delete any apps in Program Files (x86) that seem suspect and aren't in the Control Panel list (and aren't likely essential drivers) 
   * Settings -> System -> Apps & Features
     * Microsoft OneDrive
   * Settings -> System -> Default Apps
-    * Set Web Browser to Chrome
+    * Set Web Browser to or Firefox
 
 * Clean up Windows UI
   * System Taskbar
     * Unpin apps
     * Hide Cortana
-  * Click notification icon in taskbar and "clear all" up top
+  * Click notification icon in taskbar and "clear all notifications" at bottom
   * Start menu
     * Unpin live tiles and collapse width of start menu
   * Change background image
@@ -36,20 +36,18 @@
         * Show additional plans -> High Performance -> Change plan settings -> Change advanced power settings
           * Select "High Performance" from dropdown
           * USB settings -> Selective suspend -> Plugged in -> Disabled
-  * Turn off screensaver: Control Panel -> Appearance and Personalization -> Change Screen Saver
-  * Settings -> Personalization -> Home -> Start -> Turn off: "Occasionally show suggestions in Start"
+  * Turn off screensaver: Settings -> Personalization -> Lock screen -> Screen saver settings
+  * Settings -> Personalization -> Start -> Turn off: "Occasionally show suggestions in Start"
   * Turn off system sounds:
     * Settings -> Personalization -> Themes -> Sounds -> Sound Scheme -> No Sounds
   * Turn off notifications:
     * Settings -> System -> Notifications & actions
     * Settings -> Privacy -> Notifications -> Turn off "Let apps access my notifications"
-    * Settings -> Network & Internet -> Windows Firewall -> Change notification settings
+    * Settings -> Network & Internet -> Windows Firewall -> Firewall notification settings
       * Uncheck both "Notify me" boxes
     * Control Panel -> System & Security -> Security & Maintenance -> Change Security & Maintenance settings
       * Uncheck all boxes
   * Turn on Windows Defender
-    * Settings -> Update & Security -> Windows Defender -> Open Windows Defender
-    * Settings -> Update & Security -> Windows Defender -> Enhanced notifications -> Off
     * But turn off notifications
       * Task Manager -> Startup -> Disable Windows Defender Notifications
   * Turn off power management for wifi connection: 
