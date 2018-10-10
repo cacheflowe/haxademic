@@ -44,7 +44,7 @@ public class SocketServer {
 	}
 	
 	public void sendMessage(String msg) {
-		if(SocketServer.DEBUG == true) P.println("sending:");
+		if(SocketServer.DEBUG == true) P.println("sending (to " + server.getConnections().size() + " clients):");
 		if(SocketServer.DEBUG == true) P.println(msg);
 		server.sendToAll( msg );
 	}
