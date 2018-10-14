@@ -22,8 +22,6 @@
 * Run Windows system updates:
   * Settings -> Update & Security -> Windows Update -> Check for Updates
   * Restart/Repeat until there are really no more updates
-  * Disable update service: Windows button + "R" -> "services.msc" + Run -> Select "Windows Update Service" ->  General tab > Startup Type > select Disable
-  	* https://windowsreport.com/windows-10-update-alert-disable/
 * Update video card drivers
 
 * Enable network sharing
@@ -84,6 +82,9 @@
 		* https://techgage.com/article/taking-back-control-of-windows-10-updates/
 		* https://winaero.com/blog/disable-updates-available-windows-10/
 		* https://superuser.com/questions/972038/how-to-get-rid-of-updates-are-available-message-in-windows-10/1006199#1006199 - referenced [here](https://social.technet.microsoft.com/Forums/en-US/7d117c05-7b6b-47a3-bb60-8908c4eff127/disable-windows-update-popups-as-we-are-using-sccm?forum=win10itprogeneral)
+	* Disable update service (this doesn't disable notifications, so it blocks updates but not the pop-up window): 
+		* Windows button + "R" -> "services.msc" + Run -> Select "Windows Update Service" ->  General tab > Startup Type > select Disable
+  		* https://windowsreport.com/windows-10-update-alert-disable/
 	* Disable script (run as administrator):
 	  	```
 		cd /d "%Windir%\System32"
