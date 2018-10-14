@@ -78,6 +78,35 @@
     * Windows button + "R" -> "netplwiz" + Run
       * Uncheck "Users must enter..." -> Apply -> Type password twice
 
+* Disable Windows update notifications
+	* More info below, but there's a disable/enable script in `/scripts` that can be run as administrator from Windows Explorer
+	* Info:
+		* https://techgage.com/article/taking-back-control-of-windows-10-updates/
+		* https://winaero.com/blog/disable-updates-available-windows-10/
+		* https://superuser.com/questions/972038/how-to-get-rid-of-updates-are-available-message-in-windows-10/1006199#1006199 - referenced [here](https://social.technet.microsoft.com/Forums/en-US/7d117c05-7b6b-47a3-bb60-8908c4eff127/disable-windows-update-popups-as-we-are-using-sccm?forum=win10itprogeneral)
+	* Disable script (run as administrator):
+	  	```
+		cd /d "%Windir%\System32"
+		takeown /f musnotification.exe
+		icacls musnotification.exe /deny Everyone:(X)
+		takeown /f musnotificationux.exe
+		icacls musnotificationux.exe /deny Everyone:(X)
+	  	```
+	* Enable script:
+		```
+		cd /d "%Windir%\System32"
+		icacls musnotification.exe /remove:d Everyone
+		icacls musnotification.exe /grant Everyone:F
+		icacls musnotification.exe /setowner "NT SERVICE\TrustedInstaller"
+		icacls musnotification.exe /remove:g Everyone
+		icacls musnotificationux.exe /remove:d Everyone
+		icacls musnotificationux.exe /grant Everyone:F
+		icacls musnotificationux.exe /setowner "NT SERVICE\TrustedInstaller"
+		icacls musnotificationux.exe /remove:g Everyone
+		```
+
+
+
 * Download essential apps & pin to taskbar
   * Chrome
   * Atom
@@ -93,7 +122,7 @@
   * Open Java app from Start Menu and disable from there
   * Open the system Task Manager (ctrl + alt + delete), go to the Startup tab, and disable java updater on startup
 
-* Set a static [IP address](https://portforward.com/networking/static-ip-windows-10.htm)
+* Set a static [IP address](https://portforward.com/networking/static-ip-windows-10.htm) - only needed for multi-machine networking situations
 
 Additional steps:
   * BIOS settings to resume after power loss
