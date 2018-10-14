@@ -5,21 +5,21 @@ import com.haxademic.core.app.P;
 public class AnimationLoop {
 
 	protected float frames;
-	protected float loopFrames;
+	protected float loopCurFrame;
 	protected float progress;
 	protected float progressRads;
 	
 	public AnimationLoop(float frames) {
 		this.frames = frames;
-		loopFrames = 0;
+		loopCurFrame = 0;
 	}
 	
 	public float frames() {
 		return frames;
 	}
 	
-	public float loopFrames() {
-		return loopFrames;
+	public float loopCurFrame() {
+		return loopCurFrame;
 	}
 	
 	public float progress() {
@@ -31,8 +31,8 @@ public class AnimationLoop {
 	}
 	
 	public void update() {
-		loopFrames = (float) P.p.frameCount % frames;
-		progress = loopFrames / frames;
+		loopCurFrame = (float) P.p.frameCount % frames;
+		progress = loopCurFrame / frames;
 		progressRads = progress * P.TWO_PI;
 		if(P.p.debugView != null) P.p.debugView.setValue("AnimationLoop.progress()", progress);
 	}

@@ -114,10 +114,10 @@ extends BaseVideoFilter {
 		// draw to offscreen buffer so we can do ffedback & blending
 		blobOutputBuffer.beginDraw();
 		DrawUtil.feedback(blobOutputBuffer, 2f);
-		DrawUtil.fadeToBlack(blobOutputBuffer, 10);
+		DrawUtil.fadeToBlack(blobOutputBuffer, 6);
 		blobOutputBuffer.stroke(127, 127, 0);
 		blobOutputBuffer.fill(255, 0);
-		blobOutputBuffer.strokeWeight(4);
+		blobOutputBuffer.strokeWeight(2);
 
 		// draw edges. scale up to screen size
 		Blob b;

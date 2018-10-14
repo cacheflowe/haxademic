@@ -56,11 +56,11 @@ extends PAppletHax {
 //		}
 		
 		// single team
-		if(loop.loopFrames() == 1) {
+		if(loop.loopCurFrame() == 1) {
 			_colorStart.setTargetHex("#BB0022");
 			_colorStop.setTargetHex("#0B1630");
 		}
-		if(loop.loopFrames() == 200) {
+		if(loop.loopCurFrame() == 200) {
 			_colorStart.setTargetHex("#0B1630");
 			_colorStop.setTargetHex("#BB0022");
 		}
