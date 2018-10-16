@@ -265,7 +265,7 @@ extends PAppletHax {
 		updateTextures();
 		drawLayers();
 		drawAltTopLayerOrDisplacement();
-		// postProcessFilters();
+		postProcessFilters();
 		colorizeFilter();
 		bloomFilter();
 		vignetteFilter();
@@ -733,8 +733,8 @@ extends PAppletHax {
 		_curTexturePool = new ArrayList<BaseTexture>();
 
 //		HaxVisualTexturePools.addTexturesToPoolMinimal(_pg, bgTexturePool, fgTexturePool, audioTexturePool, topLayerPool);
-//		HaxVisualTexturePools.addTexturesToPool(_pg, bgTexturePool, fgTexturePool, audioTexturePool, topLayerPool);
-		HaxVisualTexturePools.addTexturesToPoolSG(_pg, bgTexturePool, fgTexturePool, audioTexturePool, topLayerPool);
+		HaxVisualTexturePools.addTexturesToPool(_pg, bgTexturePool, fgTexturePool, audioTexturePool, topLayerPool);
+//		HaxVisualTexturePools.addTexturesToPoolSG(_pg, bgTexturePool, fgTexturePool, audioTexturePool, topLayerPool);
 //		HaxVisualTexturePools.addTexturesToPoolClient(_pg, bgTexturePool, fgTexturePool, audioTexturePool, topLayerPool);
 
 		// make sure all textures are not playing videos, etc

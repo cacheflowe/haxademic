@@ -119,6 +119,24 @@ public class HaxVisualTexturePools {
 		_bgTexturePool.add( new TextureVectorFieldEQ( textureW, textureH ) );
 		_bgTexturePool.add( new TextureMeshAudioDeform( textureW, textureH ));
 
+		_bgTexturePool.add( new TextureAudioSheetDeform( textureW, textureH ));
+		_bgTexturePool.add( new TextureAudioBlocksDeform( textureW, textureH ));
+		_bgTexturePool.add( new TextureBlocksSheet( textureW, textureH ) );
+		_bgTexturePool.add( new TextureEQBandDistribute( textureW, textureH ));
+		_bgTexturePool.add( new TextureEQConcentricCircles( textureW, textureH ) );
+		_bgTexturePool.add( new TextureEQColumns( textureW, textureH ));
+		_bgTexturePool.add( new TextureEQFloatParticles( textureW, textureH ));
+		_bgTexturePool.add( new TextureEQGrid( textureW, textureH ));
+		_bgTexturePool.add( new TextureEQLinesTerrain( textureW, textureH ));
+		_bgTexturePool.add( new TextureLinesEQ( textureW, textureH ));
+		_bgTexturePool.add( new TextureMeshAudioDeform( textureW, textureH ));
+		_bgTexturePool.add( new TextureOuterSphere( textureW, textureH ) );
+		_bgTexturePool.add( new TexturePixelatedAudio( textureW, textureH ));
+		_bgTexturePool.add( new TextureSphereRotate( textureW, textureH ));
+		_bgTexturePool.add( new TextureVectorFieldEQ( textureW, textureH ) );
+		_bgTexturePool.add( new TextureWaveformSimple( textureW, textureH ));
+		_bgTexturePool.add( new TextureWaveformCircle( textureW, textureH ));
+
 		_bgTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "sdf-01-auto.glsl" ));
 		_bgTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "sdf-02-auto.glsl" ));
 		_bgTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "sdf-03.glsl" ));
@@ -238,11 +256,15 @@ public class HaxVisualTexturePools {
 
 		
 		
+		_overlayTexturePool.add( new TextureAudioSheetDeform( textureW, textureH ));
+		_overlayTexturePool.add( new TextureAudioBlocksDeform( textureW, textureH ));
+		_overlayTexturePool.add( new TextureBlocksSheet( textureW, textureH ) );
 		_overlayTexturePool.add( new TextureEQBandDistribute( textureW, textureH ));
 		_overlayTexturePool.add( new TextureEQConcentricCircles( textureW, textureH ) );
 		_overlayTexturePool.add( new TextureEQColumns( textureW, textureH ));
 		_overlayTexturePool.add( new TextureEQFloatParticles( textureW, textureH ));
 		_overlayTexturePool.add( new TextureEQGrid( textureW, textureH ));
+		_overlayTexturePool.add( new TextureEQLinesTerrain( textureW, textureH ));
 		_overlayTexturePool.add( new TextureLinesEQ( textureW, textureH ));
 		_overlayTexturePool.add( new TextureMeshAudioDeform( textureW, textureH ));
 		_overlayTexturePool.add( new TextureOuterSphere( textureW, textureH ) );
