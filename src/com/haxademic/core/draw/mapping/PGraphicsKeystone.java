@@ -288,6 +288,7 @@ extends BaseSavedQuadUI {
 	public void keyEvent(KeyEvent e) {
 		super.keyEvent(e);
 		if(active == false) return;
+		if(offsetsX == null || offsetsY == null) return;
 		if(e.getAction() == KeyEvent.PRESS) {
 			// fine controls
 			if(e.getKey() == 'Z') {
