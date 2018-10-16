@@ -40,6 +40,7 @@
     * Shader uniform updates should check if dirty before sending to shader
     * Look into structs and output from a fragment shader
     * Look at vertex attributes - Is that an array of values?
+    	* Example here: https://github.com/gohai/processing-glvideo/blob/master/examples/VideoMappingWithShader/VideoMappingWithShader.pde
     * Data exits vertex processing by user-defined varying variables
     * gl_Position can be null and not be rendered?
     * gl_PointSize can be written to in vertex shader
