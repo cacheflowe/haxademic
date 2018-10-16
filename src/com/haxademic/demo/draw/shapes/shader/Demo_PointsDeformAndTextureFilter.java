@@ -89,7 +89,7 @@ extends PAppletHax {
 		PointsDeformAndTextureFilter.instance(p).setMaxPointSize(2f);
 		// change params per flat/3d model
 		if(p.mousePercentX() < 0.5f) {
-			PointsDeformAndTextureFilter.instance(p).setDisplaceAmp(1f);			// multiplied by obj extent
+			PointsDeformAndTextureFilter.instance(p).setDisplaceAmp(100f);			// multiplied by obj extent
 			PointsDeformAndTextureFilter.instance(p).setModelMaxExtent(svgExtent * 2.1f);		// texture mapping UV
 			PointsDeformAndTextureFilter.instance(p).setSheetMode(true);
 			PointsDeformAndTextureFilter.instance(p).setColorPointSizeMode(true);

@@ -464,12 +464,12 @@ public class Shapes {
 		float cellW = width / detail;
 		float cellH = height / detail;
 		int numVertices = 0;
-		for (int col = 0; col < width; col += cellW) {
-			for (int row = 0; row < height; row += cellH) {
-				float xU = col;
-				float yV = row;
-				float x = -width/2f + xU;
-				float y = -height/2f + yV;
+		for (int col = 0; col < detail; col++) {
+			for (int row = 0; row < detail; row++) {
+				float xU = col * cellW;
+				float yV = row * cellH;
+				float x = -width/2f + col * cellW;
+				float y = -height/2f + row * cellH;
 				float z = 0;
 				sh.normal(x, y, z);
 				sh.vertex(x, y, z, P.map(xU, 0, width, 0, 1), P.map(yV, 0, height, 0, 1));
@@ -477,6 +477,37 @@ public class Shapes {
 				sh.vertex(x + cellW, y + cellH, z, P.map(xU + cellW, 0, width, 0, 1), P.map(yV + cellH, 0, height, 0, 1));    
 				sh.vertex(x + cellW, y, z, P.map(xU + cellW, 0, width, 0, 1), P.map(yV, 0, height, 0, 1));
 				numVertices += 4;
+			}
+		}
+		// P.println("createSheet() vertices:", numVertices);
+		sh.endShape(); 
+		P.p.textureMode(P.IMAGE); 	// reset 
+		return sh;
+	}
+	
+	public static PShape createSheet(int cols, int rows, PImage tex) {
+		P.p.textureMode(P.NORMAL); 
+		// P.println("Shapes.createSheet() setting textureMode is weird to do here... Maybe should be PAppletHax default?");
+		PShape sh = P.p.createShape();
+		sh.beginShape(P.QUADS);
+		sh.noStroke();
+		sh.texture(tex);
+		float cellW = (float) tex.width / (float) cols;
+		float cellH = (float) tex.height / (float) rows;
+		int numVertices = 0;
+		for (int col = 0; col < cols; col++) {
+			for (int row = 0; row < rows; row++) {
+				float xU = col * cellW;
+				float yV = row * cellH;
+				float x = -tex.width/2f + col * cellW;
+				float y = -tex.height/2f + row * cellH;
+				float z = 0;
+				sh.normal(x, y, z);
+				sh.vertex(x, y, z, 					P.map(xU, 0, tex.width, 0, 1), 			P.map(yV, 0, tex.height, 0, 1));
+				sh.vertex(x, y + cellH, z, 			P.map(xU, 0, tex.width, 0, 1), 			P.map(yV + cellH, 0, tex.height, 0, 1));    
+				sh.vertex(x + cellW, y + cellH, z, 	P.map(xU + cellW, 0, tex.width, 0, 1), 	P.map(yV + cellH, 0, tex.height, 0, 1));    
+				sh.vertex(x + cellW, y, z, 			P.map(xU + cellW, 0, tex.width, 0, 1), 	P.map(yV, 0, tex.height, 0, 1));
+				numVertices++;
 			}
 		}
 		// P.println("createSheet() vertices:", numVertices);
@@ -495,12 +526,12 @@ public class Shapes {
 		float cellW = tex.width / detail;
 		float cellH = tex.height / detail;
 		int numVertices = 0;
-		for (int col = 0; col < tex.width; col += cellW) {
-			for (int row = 0; row < tex.height; row += cellH) {
-				float xU = col;
-				float yV = row;
-				float x = -tex.width/2f + xU;
-				float y = -tex.height/2f + yV;
+		for (int col = 0; col < detail; col++) {
+			for (int row = 0; row < detail; row++) {
+				float xU = col * cellW;
+				float yV = row * cellH;
+				float x = -tex.width/2f + col * cellW;
+				float y = -tex.height/2f + row * cellH;
 				float z = 0;
 				sh.normal(x, y, z);
 				sh.vertex(x, y, z, P.map(xU, 0, tex.width, 0, 1), P.map(yV, 0, tex.height, 0, 1));
@@ -525,12 +556,12 @@ public class Shapes {
 		float cellW = width / detail;
 		float cellH = height / detail;
 		int numVertices = 0;
-		for (int col = 0; col < width; col += cellW) {
-			for (int row = 0; row < height; row += cellH) {
-				float xU = col;
-				float yV = row;
-				float x = -width/2f + xU;
-				float y = -height/2f + yV;
+		for (int col = 0; col < detail; col++) {
+			for (int row = 0; row < detail; row++) {
+				float xU = col * cellW;
+				float yV = row * cellH;
+				float x = -width/2f + col * cellW;
+				float y = -height/2f + row * cellH;
 				float z = 0;
 				sh.normal(x, y, z);
 				sh.vertex(x, y, z, P.map(xU, 0, width, 0, 1), P.map(yV, 0, height, 0, 1));
