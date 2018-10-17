@@ -48,6 +48,16 @@ One gotcha that I ran into was that a lot of my bash scripts had non-unix carria
 
 * `sudo apt install dos2unix`
 
+And convert your script by calling:
+
+* `dos2unix scriptFile.sh`
+
+## Make sure Git works
+
+Related to the bash script carriage return issue noted above, Git has a similar problem by default, which manifests as every file in `git status` being marked as "modified", when this really isn't the case. Info from this [WSL GitHub issue](https://github.com/Microsoft/WSL/issues/184#issuecomment-209913528) reveals the solution via your Git configuration:
+
+* `git config --global core.autocrlf true`
+
 ## Customizing the WSL shell
 
 There are a bunch of options to customize your bash shell, as with any Linux distribution. Here are a couple that I found:
