@@ -118,6 +118,10 @@ public class MathUtil {
 		float b = y1 - y2;
 		return Math.abs( (float) Math.sqrt(a*a + b*b) );
 	};
+	
+	public static float distance3d(float x1, float y1, float z1, float x2, float y2, float z2) {
+	    return P.sqrt(P.pow(x1 - x2, 2f) + P.pow(y1 - y2, 2f) + P.pow(z1 - z2, 2f));
+	}
 
 	/**
 	 *  Convert a number from Degrees to Radians.
