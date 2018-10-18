@@ -43,7 +43,10 @@ extends PAppletHax {
 
 	public void setupFirstFrame () {
 		//		doPrintDemo();
-		printBuffer = p.createGraphics(2550, 3300, PRenderers.P3D);
+		
+		// printable size seems to be: 468 648
+//		printBuffer = p.createGraphics(2550, 3300, PRenderers.P3D); // apparent size of an 8.5 x 11 paper
+		printBuffer = p.createGraphics(468 * 5, 648 * 5, PRenderers.P3D);
 		printBuffer.smooth(8);
 	}
 
@@ -53,6 +56,8 @@ extends PAppletHax {
 		printBuffer.fill(255);
 		printBuffer.stroke(0);
 		printBuffer.strokeWeight(6);
+		DrawUtil.setDrawCorner(printBuffer);
+		printBuffer.rect(0, 0, printBuffer.width, printBuffer.height);
 		DrawUtil.setCenterScreen(printBuffer);
 		DrawUtil.setDrawCenter(printBuffer);
 		for (int i = 0; i < 200; i++) {
@@ -200,6 +205,7 @@ extends PAppletHax {
 			
 			
 			// draw an image
+			P.out("pageFormat imageable size: ", (int) pageFormat.getImageableWidth(), (int) pageFormat.getImageableHeight());
 			g2d.drawImage((BufferedImage) printBuffer.getNative(), 0, 0, (int) pageFormat.getImageableWidth(), (int) pageFormat.getImageableHeight(), null);
 			
 			return (PAGE_EXISTS);
