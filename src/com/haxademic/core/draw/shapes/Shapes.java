@@ -1,6 +1,7 @@
 package com.haxademic.core.draw.shapes;
 
 import com.haxademic.core.app.P;
+import com.haxademic.core.math.MathUtil;
 
 import processing.core.PApplet;
 import processing.core.PConstants;
@@ -573,6 +574,59 @@ public class Shapes {
 		return sh;
 	}
 	
+	public static void drawDashedCube(PGraphics pg, float cubeSize, float dashLength, boolean dashRounds) {
+		float halfSize = cubeSize / 2f;
+
+		// set stroke params
+		pg.noFill();
+		pg.stroke(255);
+		pg.strokeWeight(2f);
+		pg.strokeCap(P.ROUND);	// SQUARE, PROJECT, or ROUND
+
+		// front face: top, right, bottom, left
+		float frontFaceZ = halfSize;
+		drawDashedLine(pg, -halfSize, -halfSize, frontFaceZ, halfSize, -halfSize, frontFaceZ, dashLength, dashRounds);
+		drawDashedLine(pg, halfSize, -halfSize, frontFaceZ, halfSize, halfSize, frontFaceZ, dashLength, dashRounds);
+		drawDashedLine(pg, halfSize, halfSize, frontFaceZ, -halfSize, halfSize, frontFaceZ, dashLength, dashRounds);
+		drawDashedLine(pg, -halfSize, halfSize, frontFaceZ, -halfSize, -halfSize, frontFaceZ, dashLength, dashRounds);
+		
+		// back face: top, right, bottom, left
+		float backFaceZ = -halfSize;
+		drawDashedLine(pg, -halfSize, -halfSize, backFaceZ, halfSize, -halfSize, backFaceZ, dashLength, dashRounds);
+		drawDashedLine(pg, halfSize, -halfSize, backFaceZ, halfSize, halfSize, backFaceZ, dashLength, dashRounds);
+		drawDashedLine(pg, halfSize, halfSize, backFaceZ, -halfSize, halfSize, backFaceZ, dashLength, dashRounds);
+		drawDashedLine(pg, -halfSize, halfSize, backFaceZ, -halfSize, -halfSize, backFaceZ, dashLength, dashRounds);
+		
+		// connect front & back faces, start at top left, clockwise, front to back
+		drawDashedLine(pg, -halfSize, -halfSize, frontFaceZ, -halfSize, -halfSize, backFaceZ, dashLength, dashRounds);
+		drawDashedLine(pg, halfSize, -halfSize, frontFaceZ, halfSize, -halfSize, backFaceZ, dashLength, dashRounds);
+		drawDashedLine(pg, halfSize, halfSize, frontFaceZ, halfSize, halfSize, backFaceZ, dashLength, dashRounds);
+		drawDashedLine(pg, -halfSize, halfSize, frontFaceZ, -halfSize, halfSize, backFaceZ, dashLength, dashRounds);
+	}
+		
+	public static void drawDashedLine(PGraphics pg, float x1, float y1, float z1, float x2, float y2, float z2, float dashLength) {
+		drawDashedLine(pg, x1, y1, z1, x2, y2, z2, dashLength, true);
+	}
+	
+	public static void drawDashedLine(PGraphics pg, float x1, float y1, float z1, float x2, float y2, float z2, float dashLength, boolean rounds) {
+		float lineLength = MathUtil.distance3d(x1, y1, z1, x2, y2, z2);
+		float numDashes = (rounds) ? P.round(lineLength / dashLength) : lineLength / dashLength;
+		float numSegments = (numDashes * 2) - 1;
+		for (float i = 0; i < numSegments; i++) {
+			if(i % 2 == 0) {
+				float lineProgress = i / numSegments;
+				float curX = P.lerp(x1, x2, lineProgress);
+				float curY = P.lerp(y1, y2, lineProgress);
+				float curZ = P.lerp(z1, z2, lineProgress);
+				float nextProgress = (i + 1) / numSegments;
+				if(nextProgress > 1) nextProgress = 1;
+				float nextX = P.lerp(x1, x2, nextProgress);
+				float nextY = P.lerp(y1, y2, nextProgress);
+				float nextZ = P.lerp(z1, z2, nextProgress);
+				pg.line(curX, curY, curZ, nextX, nextY, nextZ);
+			}
+		}
+	}
 
 	
 //	public static PShape createSphere(int detail, PImage tex) {
