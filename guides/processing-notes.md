@@ -92,9 +92,11 @@ drawMode = randomDrawMode();
 	* See mjpeg options: `ffmpeg -h encoder=mjpeg`
 		* https://stackoverflow.com/a/32151594
 	* h264 was 2nd in performance and smooth playback, but there was a pretty big gain by using mjpeg, which results in a much larger filesize (and might not be able to play audio)
+	* BUT! mjpeg has bad compression, so I'm recommending h264
 	* https://blog.angelcam.com/what-is-the-difference-between-mjpeg-and-h-264/
 * Upgrade the Processing video library to this beta version for far better performance and more supported codecs
 	* https://github.com/processing/processing-video/releases/tag/r3-v2.0-beta1
+	* It seems like using `jna.jar` from the current-release video library is helpful for stability... 
 * I also heard that uncompressed video could perform better because compressed codec decoding is slow. ProRes videos performed terribly, even with several different encoding methods.
 
 #### Errors

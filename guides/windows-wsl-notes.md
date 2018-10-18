@@ -58,6 +58,17 @@ Related to the bash script carriage return issue noted above, Git has a similar 
 
 * `git config --global core.autocrlf true`
 
+Make sure to also store your git passphrase with the ssh tool 
+
+* https://stackoverflow.com/a/49942440
+
+Store your git credentials if you keep getting asked for your username & password (and make sure the password on the CLI is actually your 'personal access token'):
+
+* https://stackoverflow.com/a/22652170
+* https://stackoverflow.com/a/34919582
+
+More Git config for WSL here: [https://peteoshea.co.uk/setup-git-in-wsl/](https://peteoshea.co.uk/setup-git-in-wsl/)
+
 ## Customizing the WSL shell
 
 There are a bunch of options to customize your bash shell, as with any Linux distribution. Here are a couple that I found:
