@@ -60,6 +60,19 @@ static
   }
 ```
 
+#### Iterate over a HashMap 
+
+```
+HashMap<Rectangle, PGraphics> screenBuffers = new HashMap<Rectangle, PGraphics>();
+// ...
+
+for (HashMap.Entry<Rectangle, PGraphics> entry : screenBuffers.entrySet()) {
+	Rectangle rect = entry.getKey();
+	PGraphics buffer = entry.getValue();
+	// do something with the key/value
+}
+```
+
 #### Pick a random enum
 
 ```
