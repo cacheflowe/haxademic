@@ -183,7 +183,7 @@ extends HaxMapper{
 		_texturePool.add( new TextureColorAudioSlide( shaderW, shaderH ));
 		_texturePool.add( new TextureEQFloatParticles( shaderW, shaderH ));
 		_texturePool.add( new TextureEQFloatParticles( shaderW, shaderH ));
-		_texturePool.add( new TextureSvgPattern( shaderW, shaderH ));
+//		_texturePool.add( new TextureSvgPattern( shaderW, shaderH ));
 		
 		
 		// shuffle one time and add 1 inital texture to current array
