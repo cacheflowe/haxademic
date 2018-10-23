@@ -19,8 +19,9 @@ public class OscWrapper {
 	protected int lastUpdatedFrame = 0;
 
 	public OscWrapper() {
-		_oscP5 = new OscP5(this, 12000);
-		_remoteLocation = new NetAddress("127.0.0.1",12000);
+//		_oscP5 = new OscP5(this, 12000);
+		_oscP5 = new OscP5(this,"239.0.0.1",7777);	// multicast! check the demo for more info
+//		_remoteLocation = new NetAddress("127.0.0.1",12000);
 		oscMsgMap = new HashMap<String, Float>();
 		oscMsgState = new HashMap<String, InputState>();
 	}
