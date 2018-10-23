@@ -8,6 +8,8 @@ import com.haxademic.core.data.store.IAppStoreListener;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.file.FileUtil;
 
+import processing.core.PGraphics;
+import processing.core.PImage;
 import processing.sound.SoundFile;
 
 public class Interphase
@@ -131,11 +133,10 @@ extends PAppletHax {
 			if(key == Interphase.DRAW) draw();
 		}
 
-		@Override public void updatedString(String key, String val) {
-		}
-		
-		@Override public void updatedBoolean(String key, Boolean val) {
-		}
+		public void updatedString(String key, String val) {}
+		public void updatedBoolean(String key, Boolean val) {}
+		public void updatedImage(String key, PImage val) {}
+		public void updatedBuffer(String key, PGraphics val) {}
 		
 	}
 	

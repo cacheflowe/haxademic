@@ -9,6 +9,9 @@ import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.hardware.shared.InputTrigger;
 
+import processing.core.PGraphics;
+import processing.core.PImage;
+
 public class ExampleApp
 extends PAppletHax
 implements IAppStoreListener {
@@ -108,15 +111,10 @@ implements IAppStoreListener {
 		}
 	}
 
-	@Override
-	public void updatedString(String key, String val) {
-		
-	}
-
-	@Override
-	public void updatedBoolean(String key, Boolean val) {
-		
-	}
+	public void updatedString(String key, String val) {}
+	public void updatedBoolean(String key, Boolean val) {}
+	public void updatedImage(String key, PImage val) {}
+	public void updatedBuffer(String key, PGraphics val) {}
 	
 	public class App {
 		

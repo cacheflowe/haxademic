@@ -6,6 +6,9 @@ import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.data.store.AppStoreDistributed;
 import com.haxademic.core.data.store.IAppStoreListener;
 
+import processing.core.PGraphics;
+import processing.core.PImage;
+
 public class Demo_AppStoreDistributed
 extends PAppletHax
 implements IAppStoreListener {
@@ -58,6 +61,14 @@ implements IAppStoreListener {
 	public void updatedBoolean(String key, Boolean val) {
 //		p.debugView.setValue(key, val);
 	}	
+
+	public void updatedImage(String key, PImage val) {
+		
+	}
+	
+	public void updatedBuffer(String key, PGraphics val) {
+		
+	}
 
 
 }

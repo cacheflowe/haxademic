@@ -4,6 +4,10 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.data.store.AppStore;
 import com.haxademic.core.data.store.IAppStoreListener;
+import com.haxademic.core.file.DemoAssets;
+
+import processing.core.PGraphics;
+import processing.core.PImage;
 
 public class Demo_AppStore
 extends PAppletHax
@@ -22,10 +26,14 @@ implements IAppStoreListener {
 		background(0);
 		AppStore.instance().setNumber("frameCount", p.frameCount);
 		AppStore.instance().setBoolean("Frame over 100", (p.frameCount % 200) > 100);
-		AppStore.instance().setNumber("mousePercentX()", p.mousePercentX());
-		AppStore.instance().setNumber("mousePercentY()", p.mousePercentY());
+		AppStore.instance().setNumber("mousePercentX", p.mousePercentX());
+		AppStore.instance().setNumber("mousePercentY", p.mousePercentY());
+		AppStore.instance().setImage("image", DemoAssets.justin());
 		// for (int i = 0; i < 50; i++) { AppStore.instance().setNumber("test_"+i, i); }
 		AppStore.instance().showStoreValuesInDebugView();
+		
+		// draw image from buffer
+		p.image(AppStore.instance().getImage("image"), p.width * AppStore.instance().getFloat("mousePercentX"), p.height * AppStore.instance().getFloat("mousePercentY"));
 	}
 
 	@Override
@@ -42,6 +50,14 @@ implements IAppStoreListener {
 	public void updatedBoolean(String key, Boolean val) {
 //		p.debugView.setValue(key, val);
 	}	
+
+	public void updatedImage(String key, PImage val) {
+		
+	}
+	
+	public void updatedBuffer(String key, PGraphics val) {
+		
+	}
 
 }
 

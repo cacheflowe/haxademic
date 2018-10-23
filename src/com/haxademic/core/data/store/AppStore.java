@@ -9,6 +9,9 @@ import javax.swing.Timer;
 
 import com.haxademic.core.app.P;
 
+import processing.core.PGraphics;
+import processing.core.PImage;
+
 public class AppStore {
 	
 	public static AppStore instance;
@@ -16,12 +19,16 @@ public class AppStore {
 	protected HashMap<String, Number> store;
 	protected HashMap<String, String> stringStore;
 	protected HashMap<String, Boolean> boolStore;
+	protected HashMap<String, PImage> imageStore;
+	protected HashMap<String, PGraphics> bufferStore;
 	protected ArrayList<IAppStoreListener> listeners;
 
 	public AppStore() {
 		store = new HashMap<String, Number>();
 		stringStore = new HashMap<String, String>();
 		boolStore = new HashMap<String, Boolean>();
+		imageStore = new HashMap<String, PImage>();
+		bufferStore = new HashMap<String, PGraphics>();
 		listeners = new ArrayList<IAppStoreListener>();
 	}
 	
@@ -56,6 +63,20 @@ public class AppStore {
 		}
 	}
 	
+	public void setImage(String storeKey, PImage val) {
+		imageStore.put(storeKey, val);
+		for (IAppStoreListener obj : listeners) {
+			obj.updatedImage(storeKey, val);
+		}
+	}
+	
+	public void setBuffer(String storeKey, PGraphics val) {
+		bufferStore.put(storeKey, val);
+		for (IAppStoreListener obj : listeners) {
+			obj.updatedBuffer(storeKey, val);
+		}
+	}
+	
 	public void setValueWithDelay(String storeKey, Number val, int delay) {
 		Timer deferredStateTimer = new Timer(delay, new ActionListener() {
 			@Override public void actionPerformed(ActionEvent arg0) {
@@ -86,6 +107,14 @@ public class AppStore {
 		return boolStore.get(storeKey).booleanValue();
 	}
 
+	public PImage getImage(String storeKey) {
+		return imageStore.get(storeKey);
+	}
+	
+	public PGraphics getBuffer(String storeKey) {
+		return bufferStore.get(storeKey);
+	}
+	
 	public void showStoreValuesInDebugView() {
 		for (String key : store.keySet()) {
 			P.p.debugView.setValue(key, store.get(key).floatValue());

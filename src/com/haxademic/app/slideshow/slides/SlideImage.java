@@ -509,15 +509,8 @@ implements IAppStoreListener {
 		else if(appIndex < slideIndex && (isShowing() == true || state == SlideState.QUEUED)) setState(SlideState.REMOVE);
 	}
 
-	@Override
-	public void updatedString(String key, String val) {
-		// TODO Auto-generated method stub
-		
-	}
-	
-	@Override
-	public void updatedBoolean(String key, Boolean val) {
-		// TODO Auto-generated method stub
-		
-	}
+	public void updatedString(String key, String val) {}
+	public void updatedBoolean(String key, Boolean val) {}
+	public void updatedImage(String key, PImage val) {}
+	public void updatedBuffer(String key, PGraphics val) {}
 }
