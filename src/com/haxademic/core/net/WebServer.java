@@ -2,14 +2,8 @@ package com.haxademic.core.net;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
-import java.util.ArrayList;
 
 import org.eclipse.jetty.server.Server;
-
-import com.haxademic.core.app.P;
-import com.haxademic.core.file.FileUtil;
-
-import processing.core.PImage;
 
 public class WebServer {
 	
@@ -45,9 +39,9 @@ public class WebServer {
 		try {
 			addr = InetAddress.getLocalHost();
 			// Get IP Address
-			byte[] ipAddr = addr.getAddress();
+			// byte[] ipAddr = addr.getAddress();
 			// Get hostname
-			String hostname = addr.getHostName();
+			// String hostname = addr.getHostName();
 			serverBase = "http://" + addr.getHostAddress() + ":" + WebServer.PORT + "/";
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
