@@ -36,7 +36,7 @@ public class SocketServerHandler extends WebSocketServer {
 			if(SocketServer.FORWARDS_ALL_MESSAGES) this.sendToAll( "{\"message\":\"new connection: " + connAddress(conn) + " has entered the room.\"}" );
 			if(SocketServer.DEBUG == true) {
 				P.println( connAddress(conn) + " entered the room!" );
-				P.println("Connections: "+connections().size());
+				P.println("Connections: "+getConnections().size());
 			}
 		}
 	}
@@ -79,7 +79,7 @@ public class SocketServerHandler extends WebSocketServer {
 	 *             When socket related I/O errors occur.
 	 */
 	public void sendToAll( String text ) {
-		Collection<WebSocket> con = connections();
+		Collection<WebSocket> con = getConnections();
 		synchronized ( con ) {
 			for( WebSocket c : con ) {
 				if(c != null && c.isOpen() == true && c.isClosed() == false && c.isClosing() == false) {
