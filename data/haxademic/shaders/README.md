@@ -55,8 +55,7 @@ becomes:
 
 becomes:
 
-	uniform vec2 texOffset
-
+  vec2 resolution = vec2(1./texOffset.x, 1./texOffset.y);
 
 
 

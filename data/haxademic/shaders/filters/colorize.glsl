@@ -8,6 +8,7 @@ precision mediump int;
 #define PROCESSING_TEXTURE_SHADER
 
 uniform sampler2D texture;
+uniform vec2 texOffset; // resolution
 varying vec4 vertColor;
 varying vec4 vertTexCoord;
 

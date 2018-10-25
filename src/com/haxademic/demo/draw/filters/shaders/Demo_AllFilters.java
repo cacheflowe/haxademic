@@ -33,6 +33,10 @@ import com.haxademic.core.draw.filters.pshader.EdgesFilter;
 import com.haxademic.core.draw.filters.pshader.EmbossFilter;
 import com.haxademic.core.draw.filters.pshader.ErosionFilter;
 import com.haxademic.core.draw.filters.pshader.FXAAFilter;
+import com.haxademic.core.draw.filters.pshader.GlitchImageGlitcherFilter;
+import com.haxademic.core.draw.filters.pshader.GlitchPseudoPixelSortingFilter;
+import com.haxademic.core.draw.filters.pshader.GlitchShaderAFilter;
+import com.haxademic.core.draw.filters.pshader.GlitchShakeFilter;
 import com.haxademic.core.draw.filters.pshader.GlowFilter;
 import com.haxademic.core.draw.filters.pshader.GodRays;
 import com.haxademic.core.draw.filters.pshader.GradientCoverWipe;
@@ -49,6 +53,7 @@ import com.haxademic.core.draw.filters.pshader.LiquidWarpFilter;
 import com.haxademic.core.draw.filters.pshader.MaskThreeTextureFilter;
 import com.haxademic.core.draw.filters.pshader.MirrorFilter;
 import com.haxademic.core.draw.filters.pshader.MirrorQuadFilter;
+import com.haxademic.core.draw.filters.pshader.Pixelate2Filter;
 import com.haxademic.core.draw.filters.pshader.PixelateFilter;
 import com.haxademic.core.draw.filters.pshader.RadialBlurFilter;
 import com.haxademic.core.draw.filters.pshader.RadialRipplesFilter;
@@ -66,6 +71,7 @@ import com.haxademic.core.draw.filters.pshader.WobbleFilter;
 import com.haxademic.core.draw.filters.pshader.shared.BaseFragmentShader;
 import com.haxademic.core.draw.textures.pshader.TextureShader;
 import com.haxademic.core.file.DemoAssets;
+import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.shared.InputTrigger;
 
 import processing.core.PGraphics;
@@ -135,6 +141,10 @@ extends PAppletHax { public static void main(String args[]) { PAppletHax.main(Th
 			EmbossFilter.instance(p),
 			ErosionFilter.instance(p),
 			FXAAFilter.instance(p),
+			GlitchImageGlitcherFilter.instance(p),
+			GlitchPseudoPixelSortingFilter.instance(p),
+			GlitchShaderAFilter.instance(p),
+			GlitchShakeFilter.instance(p),
 			GlowFilter.instance(p),
 			GodRays.instance(p),
 			GradientCoverWipe.instance(p),
@@ -152,6 +162,7 @@ extends PAppletHax { public static void main(String args[]) { PAppletHax.main(Th
 			MirrorFilter.instance(p),
 			MirrorQuadFilter.instance(p),
 			PixelateFilter.instance(p),
+			Pixelate2Filter.instance(p),
 			RadialBlurFilter.instance(p),
 			RadialRipplesFilter.instance(p),
 			RepeatFilter.instance(p),
@@ -171,7 +182,7 @@ extends PAppletHax { public static void main(String args[]) { PAppletHax.main(Th
 		texture = new TextureShader(TextureShader.bw_clouds);
 //		texture = new TextureShader(TextureShader.bw_radial_stripes);
 		
-//		customShader = p.loadShader(FileUtil.getFile("haxademic/shaders/filters/image-repeat-herringbone.glsl"));
+		customShader = p.loadShader(FileUtil.getFile("haxademic/shaders/filters/pixelate2.glsl"));
 //		customShader = p.loadShader(FileUtil.getFile("haxademic/shaders/filters/repeat.glsl"));
 	}
 	
@@ -288,6 +299,7 @@ extends PAppletHax { public static void main(String args[]) { PAppletHax.main(Th
 			ColorizeFilter.instance(p).setTargetR(p.mousePercentX());
 			ColorizeFilter.instance(p).setTargetG(p.mousePercentY());
 			ColorizeFilter.instance(p).setTargetB(p.mousePercentX());
+			ColorizeFilter.instance(p).setPosterSteps(p.mousePercentY() * 20f);
 			ColorizeFilter.instance(p).applyTo(pg);
 		} else if(curFilter == ColorizeFromTexture.instance(p)) {
 			ColorizeFromTexture.instance(p).setTexture(ImageGradient.PASTELS());
@@ -335,6 +347,31 @@ extends PAppletHax { public static void main(String args[]) { PAppletHax.main(Th
 			ErosionFilter.instance(p).applyTo(pg);
 		} else if(curFilter == FXAAFilter.instance(p)) {
 			FXAAFilter.instance(p).applyTo(pg);
+		} else if(curFilter == GlitchImageGlitcherFilter.instance(p)) {
+			GlitchImageGlitcherFilter.instance(p).setTime(p.frameCount * 0.01f);
+			GlitchImageGlitcherFilter.instance(p).setAmp(p.mousePercentX());
+			GlitchImageGlitcherFilter.instance(p).setCrossfade(p.mousePercentY());
+			GlitchImageGlitcherFilter.instance(p).setColorSeparation((p.mousePercentY() > 0.5f));
+			GlitchImageGlitcherFilter.instance(p).setBarSize(p.mousePercentY());
+			GlitchImageGlitcherFilter.instance(p).setGlitchSpeed(p.mousePercentX());
+			GlitchImageGlitcherFilter.instance(p).setNumSlices(p.mousePercentY() * 200f);
+			GlitchImageGlitcherFilter.instance(p).applyTo(pg);
+		} else if(curFilter == GlitchPseudoPixelSortingFilter.instance(p)) {
+			GlitchPseudoPixelSortingFilter.instance(p).setThresholdLow(p.mousePercentX());
+			GlitchPseudoPixelSortingFilter.instance(p).setThresholdHigh(p.mousePercentY());
+			GlitchPseudoPixelSortingFilter.instance(p).applyTo(pg);
+		} else if(curFilter == GlitchShaderAFilter.instance(p)) {
+			GlitchShaderAFilter.instance(p).setAmp(p.mousePercentX() * 2f);
+			GlitchShaderAFilter.instance(p).setCrossfade(p.mousePercentY());
+			GlitchShaderAFilter.instance(p).applyTo(pg);
+		} else if(curFilter == GlitchShakeFilter.instance(p)) {
+			GlitchShakeFilter.instance(p).setTime(p.frameCount * 0.01f);
+			GlitchShakeFilter.instance(p).setGlitchSpeed(p.mousePercentX());
+			GlitchShakeFilter.instance(p).setAmp(p.mousePercentX() * 2f);
+			GlitchShakeFilter.instance(p).setCrossfade(p.mousePercentY());
+			GlitchShakeFilter.instance(p).setSubdivide1(p.mousePercentX() * 256f);
+			GlitchShakeFilter.instance(p).setSubdivide2(p.mousePercentY() * 256f);
+			GlitchShakeFilter.instance(p).applyTo(pg);
 		} else if(curFilter == GlowFilter.instance(p)) {
 			LeaveBlackFilter.instance(p).setMix(1f);
 			LeaveBlackFilter.instance(p).applyTo(pg);
@@ -418,6 +455,9 @@ extends PAppletHax { public static void main(String args[]) { PAppletHax.main(Th
 		} else if(curFilter == PixelateFilter.instance(p)) {
 			PixelateFilter.instance(p).setDivider(p.mousePercentX() * 100f, p.width, p.height);
 			PixelateFilter.instance(p).applyTo(pg);
+		} else if(curFilter == Pixelate2Filter.instance(p)) {
+			Pixelate2Filter.instance(p).setDivider(p.mousePercentX() * 10f);
+			Pixelate2Filter.instance(p).applyTo(pg);
 		} else if(curFilter == RadialBlurFilter.instance(p)) {
 			RadialBlurFilter.instance(p).applyTo(pg);
 		} else if(curFilter == RadialRipplesFilter.instance(p)) {
@@ -472,11 +512,22 @@ extends PAppletHax { public static void main(String args[]) { PAppletHax.main(Th
 		} 
 		
 		// draw custom filter for testing
-//		if(customShader != null && triggerToggle.on() == false) {
+		if(customShader != null) { //  && triggerToggle.on() == false) {
 //			customShader.set("test", (p.mousePercentX() > 0.5f) ? 1 : 0);
-//			customShader.set("time", p.frameCount * 0.03f);
+			
+//			uniform bool colorSeparation = false;
+//			uniform float glitchSpeed = 0.16;
+//			uniform float barSize = 0.25;
+//			uniform float numSlices = 10.0;
+
+//			customShader.set("colorSeparation", true);
+			customShader.set("time", p.frameCount * 0.001f);
+			customShader.set("divider", p.mousePercentX() * 10f);
+//			customShader.set("subdivide2", p.mousePercentY() * 128f);
+//			customShader.set("glitchSpeed", p.mousePercentX() * 1f);
+//			customShader.set("crossfade", p.mousePercentY());
 //			pg.filter(customShader);
-//		}
+		}
 		
 		// draw offscreen buffer to app
 		p.image(pg, 0, 0);

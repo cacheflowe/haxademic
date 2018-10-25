@@ -14,6 +14,7 @@ extends BaseFragmentShader {
 		setTargetR(1f);
 		setTargetG(1f);
 		setTargetB(1f);
+		setPosterSteps(1f);
 	}
 	
 	public static ColorizeFilter instance(PApplet p) {
@@ -34,4 +35,8 @@ extends BaseFragmentShader {
 		shader.set("targetB", targetB);
 	}
 
+	public void setPosterSteps(float posterSteps) {
+		shader.set("posterSteps", posterSteps);
+	}
+	
 }
