@@ -37,7 +37,7 @@ extends PAppletHax {
 
 	public void setupFirstFrame() {
 		img = DemoAssets.textureNebula();
-		img = p.loadImage(FileUtil.getFile("images/textures/space/eagle-nebula-pillars-of-creation.jpg"));
+//		img = p.loadImage(FileUtil.getFile("images/textures/space/eagle-nebula-pillars-of-creation.jpg"));
 		mouseBuffer = p.createGraphics(p.width, p.height, PRenderers.P3D);
 		mouseBuffer.smooth(8);
 		mouseBuffer.beginDraw(); mouseBuffer.background(0); mouseBuffer.endDraw();
