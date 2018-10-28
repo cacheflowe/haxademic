@@ -20,16 +20,14 @@ extends PAppletHax {
 		for (float i = 0; i < segments; i++) {
 			// plot circle
 			float curRads = i * segmentRads;
-			float x = P.cos(curRads) * radius;
-			float y = P.sin(curRads) * radius;
+			float x = P.cos(curRads);
+			float y = P.sin(curRads);
 			p.fill(255);
-			p.ellipse(x, y, 6, 6);
+			p.ellipse(x * radius, y * radius, 6, 6);
 			
 			// plot arc sine & arc cosine
-			x = P.acos(P.cos(curRads)) * radius;
-			y = P.asin(P.sin(curRads)) * radius;
 			p.fill(255, 0, 0);
-			p.ellipse(x, y, 10, 10);
+			p.ellipse(P.acos(x) * radius, P.asin(y) * radius, 10, 10);
 		}
 	
 		// show radius for y using arc sine
@@ -38,7 +36,7 @@ extends PAppletHax {
 		p.fill(0, 255, 0);
 		p.ellipse(xMouse * radius, yMouse * radius, 15, 15);
 		
-		// even distribution of vertical circle slices
+		// plot even distribution of vertical circle slices
 		float vertSpacings = 10f;
 		for (int i = 0; i <= vertSpacings; i++) {
 			float y = (-1 + 2f * (1f/vertSpacings) * i);
