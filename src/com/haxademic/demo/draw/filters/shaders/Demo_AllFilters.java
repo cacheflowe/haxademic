@@ -50,6 +50,7 @@ import com.haxademic.core.draw.filters.pshader.KaleidoFilter;
 import com.haxademic.core.draw.filters.pshader.LeaveBlackFilter;
 import com.haxademic.core.draw.filters.pshader.LeaveWhiteFilter;
 import com.haxademic.core.draw.filters.pshader.LiquidWarpFilter;
+import com.haxademic.core.draw.filters.pshader.LumaColorReplaceFilter;
 import com.haxademic.core.draw.filters.pshader.MaskThreeTextureFilter;
 import com.haxademic.core.draw.filters.pshader.MirrorFilter;
 import com.haxademic.core.draw.filters.pshader.MirrorQuadFilter;
@@ -157,6 +158,7 @@ extends PAppletHax { public static void main(String args[]) { PAppletHax.main(Th
 			LeaveBlackFilter.instance(p),
 			LeaveWhiteFilter.instance(p),
 			LiquidWarpFilter.instance(p),
+			LumaColorReplaceFilter.instance(p),
 			KaleidoFilter.instance(p),
 			MaskThreeTextureFilter.instance(p),
 			MirrorFilter.instance(p),
@@ -182,7 +184,7 @@ extends PAppletHax { public static void main(String args[]) { PAppletHax.main(Th
 		texture = new TextureShader(TextureShader.bw_clouds);
 //		texture = new TextureShader(TextureShader.bw_radial_stripes);
 		
-		customShader = p.loadShader(FileUtil.getFile("haxademic/shaders/filters/pixelate2.glsl"));
+		customShader = p.loadShader(FileUtil.getFile("haxademic/shaders/filters/luma-color-replace.glsl"));
 //		customShader = p.loadShader(FileUtil.getFile("haxademic/shaders/filters/repeat.glsl"));
 	}
 	
@@ -439,6 +441,11 @@ extends PAppletHax { public static void main(String args[]) { PAppletHax.main(Th
 			LiquidWarpFilter.instance(p).setAmplitude(p.mousePercentX() * 0.1f);
 			LiquidWarpFilter.instance(p).setFrequency(p.mousePercentY() * 20f);
 			LiquidWarpFilter.instance(p).applyTo(pg);
+		} else if(curFilter == LumaColorReplaceFilter.instance(p)) {
+			LumaColorReplaceFilter.instance(p).setTargetColor(p.mousePercentX(), 1f, 1f, p.mousePercentY());
+			LumaColorReplaceFilter.instance(p).setDiffRange(p.mousePercentX());
+			LumaColorReplaceFilter.instance(p).setLumaTarget(p.mousePercentY());
+			LumaColorReplaceFilter.instance(p).applyTo(pg);
 		} else if(curFilter == MaskThreeTextureFilter.instance(p)) {
 			ThresholdFilter.instance(p).setCutoff(0.5f);
 			ThresholdFilter.instance(p).applyTo(pg);
@@ -514,18 +521,9 @@ extends PAppletHax { public static void main(String args[]) { PAppletHax.main(Th
 		// draw custom filter for testing
 		if(customShader != null) { //  && triggerToggle.on() == false) {
 //			customShader.set("test", (p.mousePercentX() > 0.5f) ? 1 : 0);
-			
-//			uniform bool colorSeparation = false;
-//			uniform float glitchSpeed = 0.16;
-//			uniform float barSize = 0.25;
-//			uniform float numSlices = 10.0;
-
-//			customShader.set("colorSeparation", true);
-			customShader.set("time", p.frameCount * 0.001f);
-			customShader.set("divider", p.mousePercentX() * 10f);
-//			customShader.set("subdivide2", p.mousePercentY() * 128f);
-//			customShader.set("glitchSpeed", p.mousePercentX() * 1f);
-//			customShader.set("crossfade", p.mousePercentY());
+			customShader.set("diffRange", p.mousePercentX());
+			customShader.set("lumaTarget", p.mousePercentY());
+			customShader.set("targetColor", 1f, 1f, 0f, 1f);
 //			pg.filter(customShader);
 		}
 		
