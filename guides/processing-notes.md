@@ -73,6 +73,14 @@ for (HashMap.Entry<Rectangle, PGraphics> entry : screenBuffers.entrySet()) {
 }
 ```
 
+or 
+
+```
+for (Iterator<Entry<Rectangle, PGraphics>> iterator = screenSources.entrySet().iterator(); iterator.hasNext();) {
+	HashMap.Entry<Rectangle, PGraphics> entry = iterator.next();
+}
+```
+
 #### Pick a random enum
 
 ```
