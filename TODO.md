@@ -74,8 +74,10 @@
     * Demo_VertexShader_NoiseTest_WIP
     * Demo_VertexShader_Fattener
 * General / tools
+  * Add print page object for Kalishr project
   * Update JoonsRenderer - it looks like it's a regular Processing library now
-  * Kix overhead view of KinectRegionGrid - with larger grids it's off-screen
+  * Web interface to control PrefsSliders: Add JSON interface for PrefsSliders & WebServer/WebSockets?
+  * Fix overhead view of KinectRegionGrid - with larger grids it's off-screen
   * BufferActivityMonitor should use FrameDifferenceBuffer object
   * Replace ColorHax with EasingColor
   * Clean up /data directory with assets that can be used across demos, and move sketch assets into their own location

@@ -1,7 +1,6 @@
 package com.haxademic.sketch.render.joons;
 
-import com.haxademic.core.render.joons.JoonsRenderer;
-
+import joons.JoonsRenderer;
 import processing.core.PApplet;
 
 public class JoonsTester extends PApplet {

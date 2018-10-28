@@ -8,61 +8,26 @@ public class JoonsTesterHax
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
-
-	//    JoonsRenderer jr;
-	//
-	//    //camera declarations
-	//    float eyeX = 0;
-	//    float eyeY = 0;
-	//    float eyeZ = 0;
-	//    float centerX = 0;
-	//    float centerY = 0;
-	//    float centerZ = -1;
-	//    float upX = 0;
-	//    float upY = 1;
-	//    float upZ = 0;
-	//    float fov = PI / 4; 
-	//    float aspect = 4/3f;  
-	//    float zNear = 5;
-	//    float zFar = 10000;
-
 	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.SUNFLOW, "true" );
-		p.appConfig.setProperty( AppSettings.SUNFLOW_ACTIVE, "true" );
-		p.appConfig.setProperty( AppSettings.SUNFLOW_QUALITY, "high" );
+		p.appConfig.setProperty( AppSettings.SUNFLOW, true );
+		p.appConfig.setProperty( AppSettings.SUNFLOW_ACTIVE, true );
+		p.appConfig.setProperty( AppSettings.SUNFLOW_QUALITY, AppSettings.SUNFLOW_QUALITY_HIGH );
 
-
-		p.appConfig.setProperty( AppSettings.WIDTH, "800" );
-		p.appConfig.setProperty( AppSettings.HEIGHT, "600" );
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
-		p.appConfig.setProperty( AppSettings.FPS, "30" );
+		p.appConfig.setProperty( AppSettings.WIDTH, 800 );
+		p.appConfig.setProperty( AppSettings.HEIGHT, 600 );
+		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, false );
+		p.appConfig.setProperty( AppSettings.FPS, 30 );
 	}
 
-	//    public void setup() {
-	//            size(800, 600, P3D);
-	//            jr = new JoonsRenderer(this);
-	//            _jw.jr.setSampler("bucket"); //Rendering mode, either "ipr" or "bucket".
-	//            _jw.jr.setSizeMultiplier(1); //Set size of the .PNG file as a multiple of the Processing sketch size.
-	//            _jw.jr.setAA(-2, 0, 1); //Set anti-aliasing, (min, max, samples). -2 < min, max < 2, samples = 1,2,3,4..
-	//            _jw.jr.setCaustics(1); //Set caustics. 1 ~ 100. affects quality of light scattered through glass.
-	//            //_jw.jr.setTraceDepth(1,4,4); //Set trace depth, (diffraction, reflection, refraction). Affects glass. (1,4,4) is good.
-	//            //_jw.jr.setDOF(170, 5); //Set depth of field of camera, (focus distance, lens radius). Larger radius => more blurry.
-	//    }
-
 	public void drawApp() {
-		//    	if( p.frameCount >= 4 ) _jw.jr.render();
-		//            _jw.jr.beginRecord(); //Make sure to include methods you want rendered.
-		//            camera(eyeX, eyeY, eyeZ, centerX, centerY, centerZ, upX, upY, upZ);
-		//            perspective(fov, aspect, zNear, zFar);
-
 		joons.jr.background(0, 0, 0); //background(gray), or (r, g, b), like Processing.
 		joons.jr.background("gi_instant"); //Global illumination, normal mode.
 		joons.jr.background("gi_ambient_occlusion"); //Global illumination, ambient occlusion mode.
 
-//		pushMatrix();
-//		translate(0, 0, -120);
-//		_jw.jr.background("cornell_box", 100, 100, 100); //cornellBox(width, height, depth);
-//		popMatrix();
+		pushMatrix();
+		translate(0, 0, -120);
+		joons.jr.background("cornell_box", 100, 100, 100); //cornellBox(width, height, depth);
+		popMatrix();
 
 		pushMatrix();
 		translate(-40, 20, -140);
@@ -86,11 +51,6 @@ extends PAppletHax {
 		//_jw.jr.fill("diffuse", r, g, b);
 		joons.jr.fill("diffuse", 150, 255, 255);
 		sphere(13);
-//		beginShape(TRIANGLES);
-//		vertex(0, 10, 0);
-//		vertex(10, -10, 0);
-//		vertex(-10, -15, 0);
-//		endShape();
 		translate(27, 0, 0);
 
 		//_jw.jr.fill("shiny"); or
@@ -124,9 +84,6 @@ extends PAppletHax {
 		joons.jr.fill("constant", 150, 255, 255);
 		sphere(13);
 		popMatrix();
-
-		//            _jw.jr.endRecord(); //Make sure to end record.
-		//            _jw.jr.displayRendered(true); //Display rendered image if rendering completed, and the argument is true.
 	}
 
 	public void keyPressed() {

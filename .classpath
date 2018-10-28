@@ -35,6 +35,7 @@
 	<classpathentry kind="lib" path="lib/super-csv/super-csv-2.1.0.jar"/>
 	<classpathentry kind="lib" path="lib/joons/library/janino.jar"/>
 	<classpathentry kind="lib" path="lib/joons/library/sunflow73.jar"/>
+	<classpathentry kind="lib" path="lib/joons/library/joons.jar"/>
 	<classpathentry kind="lib" path="lib/newhull/library/newhull.jar"/>
 	<classpathentry kind="lib" path="lib/LeapMotionForProcessing/library/LeapJava.jar"/>
 	<classpathentry kind="lib" path="lib/LeapMotionForProcessing/library/LeapMotionForProcessing.jar" sourcepath="lib/LeapMotionForProcessing/src">
