@@ -24,7 +24,7 @@ extends PAppletHax {
 
 	public void setup() {
 		super.setup();
-		pg = ImageUtil.imageToGraphics(DemoAssets.smallTexture());
+		pg = ImageUtil.imageToGraphics(DemoAssets.arrow());
 	}
 
 	public void drawApp() {

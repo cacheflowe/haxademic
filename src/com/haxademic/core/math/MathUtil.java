@@ -263,7 +263,7 @@ public class MathUtil {
 	};
 	
 	public static float getRadiansToTarget( float x1, float y1, float x2, float y2 ) {
-		return (P.TWO_PI + -P.PI/2f + P.atan2(x2 - x1, y2 - y1)) % P.TWO_PI;
+		return -P.atan2(y2 - y1, x2 - x1) % P.TWO_PI;
 	};
 
 
