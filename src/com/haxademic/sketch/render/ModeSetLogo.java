@@ -5,13 +5,12 @@ import java.util.ArrayList;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
-import com.haxademic.core.draw.color.TColorInit;
+import com.haxademic.core.draw.color.EasingColor;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.toxi.DrawToxiMesh;
 
 import processing.core.PVector;
-import toxi.color.TColor;
 import toxi.geom.Vec3D;
 import toxi.geom.mesh.WETriangleMesh;
 import toxi.geom.mesh.subdiv.DualSubdivision;
@@ -21,13 +20,13 @@ extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
 	WETriangleMesh _meshCrest;
-	protected final TColor MODE_SET_BLUE = TColorInit.newRGBA( 0, 200, 234, 255 );
+	protected final EasingColor MODE_SET_BLUE = new EasingColor( 0, 200, 234, 255 );
 
 	
 	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, "800" );
-		p.appConfig.setProperty( AppSettings.HEIGHT, "800" );
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
+		p.appConfig.setProperty( AppSettings.WIDTH, 800 );
+		p.appConfig.setProperty( AppSettings.HEIGHT, 800 );
+		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, false );
 	}
 	
 	public void setup() {
@@ -52,7 +51,7 @@ extends PAppletHax {
 //		p.rotateY(((float)p.mouseX - (float)p.width/2f) * 0.01f);
 		
 		p.noFill();
-		p.stroke( MODE_SET_BLUE.toARGB() );
+		p.stroke( MODE_SET_BLUE.colorInt() );
 //		p.noStroke();
 //		p.fill( MODE_SET_BLUE.toARGB() );
 //		p.toxi.mesh( _meshCrest );

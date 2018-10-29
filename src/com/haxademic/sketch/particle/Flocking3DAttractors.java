@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
-import com.haxademic.core.draw.color.TColorBlendBetween;
+import com.haxademic.core.draw.color.EasingColor;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.math.easing.EasingFloat3d;
 import com.haxademic.core.vendor.Toxiclibs;
@@ -123,13 +123,15 @@ extends PAppletHax {
 
 		protected TriangleMesh mesh;
 		protected float distToDest;
-		protected TColorBlendBetween color;
+		protected EasingColor color;
+		protected EasingColor colorClose;
 
 		public MovingBox() {
 			accel = p.random(0.5f, 2.0f);
 			maxSpeed = p.random(8f, 25f);
 			
-			color = new TColorBlendBetween( TColor.newHex("dddddd"), TColor.newHex("00ff00") );
+			color = new EasingColor("dddddd");//, TColor.newHex("00ff00") );
+			colorClose = new EasingColor("00ff00");
 			float size = p.random(20f,50f);
 			ZAxisCylinder cylinder = new ZAxisCylinder(new Vec3D(), size/8, size ); 
 			mesh = (TriangleMesh)cylinder.toMesh();
@@ -141,9 +143,9 @@ extends PAppletHax {
 			// color - if closer than threshold, ease towards saturated color
 			p.noStroke();
 			if( distToDest < 200 ) {
-				p.fill(color.argbWithPercent(1f - distToDest/200f));
+				p.fill(color.colorIntMixedWith(colorClose, 1f - distToDest/200f));
 			} else {
-				p.fill(color.argbWithPercent(0));
+				p.fill(color.colorInt());
 			}
 			
 			// make sure we're moving towards the closest attractor

@@ -173,6 +173,10 @@ public class EasingColor {
 		return P.p.color(r.value() * multiplier, g.value() * multiplier, b.value() * multiplier, a.value());
 	}
 	
+	public int colorIntMixedWith( EasingColor color2, float mix ) {
+		return P.p.lerpColor(colorInt(), color2.colorInt(), mix);
+	}
+	
 	// UTIL
 	
 	public static final int alphaFromColorInt( int c ) { return (c >> 24) & 0xFF; }

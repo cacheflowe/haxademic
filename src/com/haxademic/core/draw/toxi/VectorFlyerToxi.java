@@ -1,15 +1,15 @@
 package com.haxademic.core.draw.toxi;
 
+import com.haxademic.core.app.P;
+import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.debug.DebugUtil;
+import com.haxademic.core.draw.color.EasingColor;
+import com.haxademic.core.vendor.Toxiclibs;
+
 import toxi.color.TColor;
 import toxi.geom.AABB;
 import toxi.geom.Vec3D;
 import toxi.geom.mesh.TriangleMesh;
-
-import com.haxademic.core.app.P;
-import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.debug.DebugUtil;
-import com.haxademic.core.draw.color.TColorBlendBetween;
-import com.haxademic.core.vendor.Toxiclibs;
 
 public class VectorFlyerToxi {
 	protected PAppletHax p;
@@ -22,7 +22,7 @@ public class VectorFlyerToxi {
 
 	protected TriangleMesh mesh;
 	protected float distToDest;
-	protected TColorBlendBetween color;
+	protected EasingColor color;
 
 	public VectorFlyerToxi( TColor colorLow, TColor colorHigh ) {
 		DebugUtil.printErr("This VectorFlyer class should be deprecated");
@@ -30,7 +30,7 @@ public class VectorFlyerToxi {
 		accel = p.random(0.5f, 8.0f);
 		maxSpeed = p.random(5f, 45f);
 		
-		color = new TColorBlendBetween( colorLow, colorHigh );
+		color = new EasingColor( colorLow.red(), colorLow.green(), colorLow.blue() );
 		float size = p.random(10f,35f);
 		
 //		ZAxisCylinder cylinder = new ZAxisCylinder(new Vec3D(), size/8, size ); 
@@ -44,7 +44,7 @@ public class VectorFlyerToxi {
 	public void update() {
 		// color - if closer than threshold, ease towards saturated color
 		p.noStroke();
-		p.fill(color.argbWithPercent(1f));
+		p.fill(color.colorInt());
 		
 		// store last position for pointing towards heading
 		positionLast.set(position);

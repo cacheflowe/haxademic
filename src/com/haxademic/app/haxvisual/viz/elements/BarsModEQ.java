@@ -4,13 +4,12 @@ import com.haxademic.app.haxvisual.viz.ElementBase;
 import com.haxademic.app.haxvisual.viz.IVizElement;
 import com.haxademic.core.app.P;
 import com.haxademic.core.draw.color.ColorGroup;
-import com.haxademic.core.draw.color.TColorBlendBetween;
+import com.haxademic.core.draw.color.EasingColor;
 import com.haxademic.core.draw.context.DrawUtil;
 
 import processing.core.PApplet;
 import processing.core.PConstants;
 import processing.core.PVector;
-import toxi.color.TColor;
 import toxi.processing.ToxiclibsSupport;
 
 public class BarsModEQ
@@ -21,7 +20,8 @@ implements IVizElement {
 	protected float _height;
 	protected float _amp;
 	protected int _numLines;
-	protected TColorBlendBetween _color;
+	protected EasingColor _color;
+	protected EasingColor _white;
 	protected boolean _is3D = false;
 	
 	protected float _cols = 32;
@@ -40,7 +40,8 @@ implements IVizElement {
 		_width = p.width;
 		_height = p.height;
 		_amp = 20;
-		_color = new TColorBlendBetween( TColor.BLACK.copy(), TColor.BLACK.copy() );
+		_color = new EasingColor( 0, 0, 0 );
+		_white = new EasingColor( 255, 255, 255 );
 	}
 	
 	public void setDrawProps(float width, float height) {
@@ -49,7 +50,7 @@ implements IVizElement {
 	}
 
 	public void updateColorSet( ColorGroup colors ) {
-		_color.setColors( TColor.BLACK.copy(), colors.getRandomColor() );
+//		_color.setColors( TColor.BLACK.copy(), colors.getRandomColor() );
 	}
 
 	public void update() {
@@ -98,7 +99,7 @@ implements IVizElement {
 			row = eqAmp * 2.0f * _rows;
 				
 			if( eqAmp > 0.01f ) {
-				p.fill( _color.argbWithPercent( eqAmp * 0.85f ) );
+				p.fill( _color.colorIntMixedWith(_white, eqAmp * 0.85f ) );
 				p.pushMatrix();
 	
 				p.translate( startX + col*cellW, 0, 0 );

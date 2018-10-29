@@ -1,13 +1,12 @@
 package com.haxademic.app.haxvisual.viz.textures;
 
-import processing.core.PImage;
-import toxi.color.TColor;
-
 import com.haxademic.app.haxvisual.viz.IAudioTexture;
 import com.haxademic.core.app.P;
 import com.haxademic.core.audio.AudioInputWrapper;
 import com.haxademic.core.draw.color.ColorGroup;
-import com.haxademic.core.draw.color.TColorBlendBetween;
+import com.haxademic.core.draw.color.EasingColor;
+
+import processing.core.PImage;
 
 public class EQSquareTexture
 implements IAudioTexture
@@ -16,7 +15,8 @@ implements IAudioTexture
 //	protected PGraphics _graphics;
 	protected PImage _image;
 	protected int _width, _height;
-	protected TColorBlendBetween _color;
+	protected EasingColor _color;
+	protected EasingColor _white;
 	
 	public EQSquareTexture( int width, int height ) {
 //		DebugUtil.printErr("EQSquareTexture: Fix performance issues by converting PGraphics to PImage");
@@ -24,7 +24,8 @@ implements IAudioTexture
 		_height = height;
 //		_graphics = P.p.createGraphics( _width, _height, P.P3D );
 		_image = new PImage( _width, _height, P.ARGB );
-		_color = new TColorBlendBetween( TColor.BLACK.copy(), TColor.BLACK.copy() );
+		_color = new EasingColor(0, 0, 0);
+		_white = new EasingColor(255, 255, 255);
 	}
 	
 	public void updateTexture( AudioInputWrapper audioInput ) {
@@ -40,7 +41,7 @@ implements IAudioTexture
 //				_graphics.endDraw();
 				
 				if( j < _height * eqVal )
-					_image.set( i, j, _color.argbWithPercent( eqVal ) );
+					_image.set( i, j, _color.colorIntMixedWith(_white, eqVal ) );
 				else
 					_image.set( i, j, P.p.color( 0 ) ); // , 80
 			}
@@ -72,8 +73,8 @@ implements IAudioTexture
 	}
 
 	public void updateColorSet( ColorGroup colors ) {
-		_color.setColors( TColor.BLACK.copy(), colors.getRandomColor() );
-		_color.lightenColor( 0.3f );
+//		_color.setColors( TColor.BLACK.copy(), colors.getRandomColor() );
+//		_color.lightenColor( 0.3f );
 	}
 
 	public void updateLineMode() {

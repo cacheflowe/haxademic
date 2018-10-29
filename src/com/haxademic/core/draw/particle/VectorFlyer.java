@@ -2,14 +2,12 @@ package com.haxademic.core.draw.particle;
 
 import java.util.ArrayList;
 
+import com.haxademic.core.app.P;
+import com.haxademic.core.draw.color.EasingColor;
+import com.haxademic.core.draw.context.OrientationUtil;
+
 import processing.core.PApplet;
 import processing.core.PVector;
-import toxi.color.TColor;
-
-import com.haxademic.core.app.P;
-import com.haxademic.core.draw.color.TColorBlendBetween;
-import com.haxademic.core.draw.color.TColorInit;
-import com.haxademic.core.draw.context.OrientationUtil;
 
 public class VectorFlyer {
 
@@ -22,25 +20,20 @@ public class VectorFlyer {
 	protected float maxSpeed = 1;
 
 	protected float distToDest;
-	protected TColorBlendBetween color;
+	protected EasingColor color;
+	protected EasingColor color2;
 
-	protected TColor BLACK = TColor.WHITE.copy();
-	protected TColor MODE_SET_BLUE = TColorInit.newRGBA( 0, 200, 234, 255 );
-
-	
 	public VectorFlyer( float accel, float speed ) {
 		baseAccel = this.accel = accel;
 		maxSpeed = speed;
 		
-		color = new TColorBlendBetween( BLACK, MODE_SET_BLUE );
+		color = new EasingColor(255, 255, 255);
+		color2 = new EasingColor(0, 200, 234);
 	}
 
 	public VectorFlyer( float accel, float speed, PVector startPos ) {
+		this(accel, speed);
 		position.set( startPos );
-		baseAccel = this.accel = accel;
-		maxSpeed = speed;
-		
-		color = new TColorBlendBetween( BLACK, MODE_SET_BLUE );
 	}
 
 	public void update( PApplet p ) {
@@ -51,10 +44,10 @@ public class VectorFlyer {
 		// color - if closer than threshold, ease towards saturated color
 		p.noStroke();
 		if( distToDest < 200 ) {
-			p.fill(color.argbWithPercent(1f - distToDest/200f));
+			p.fill(color.colorIntMixedWith(color2, 1f - distToDest/200f));
 			// if( target != null ) BoxBetween.draw( p, new PVector(position.x, position.y, position.z), new PVector(target.x, target.y, target.z), 10 );
 		} else {
-			p.fill(color.argbWithPercent(0));
+			p.fill(color.colorInt());
 		}
 		
 		// store last position for rotation towards heading

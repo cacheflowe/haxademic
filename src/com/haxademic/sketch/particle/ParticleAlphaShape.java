@@ -5,14 +5,12 @@ import java.util.List;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
-import com.haxademic.core.draw.color.TColorInit;
 import com.haxademic.core.draw.particle.VectorFlyer;
 import com.haxademic.core.draw.shapes.BoxBetween;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.render.JoonsWrapper;
 
 import processing.core.PVector;
-import toxi.color.TColor;
 import wblut.external.ProGAL.AlphaComplex;
 import wblut.external.ProGAL.CTriangle;
 import wblut.external.ProGAL.Point;
@@ -20,10 +18,6 @@ import wblut.external.ProGAL.Point;
 public class ParticleAlphaShape
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
-
-	protected TColor MODE_SET_BLUE = TColorInit.newRGBA( 0, 200, 234, 255 );
-	protected TColor MODE_SET_BLUE_TRANS = TColorInit.newRGBA( 0, 200, 234, 100 );
-	protected TColor BLACK = TColor.BLACK.copy();
 
 	public ArrayList<VectorFlyer> boxes;
 	public ArrayList<Attractor> attractors;

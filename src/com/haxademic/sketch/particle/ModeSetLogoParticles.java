@@ -5,9 +5,8 @@ import java.util.ArrayList;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
-import com.haxademic.core.draw.color.TColorInit;
+import com.haxademic.core.draw.color.EasingColor;
 import com.haxademic.core.draw.context.DrawUtil;
-import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.particle.VectorFlyer;
 import com.haxademic.core.vendor.Toxiclibs;
 
@@ -23,9 +22,9 @@ extends PAppletHax {
 	
 	WETriangleMesh _meshCrest;
 	ArrayList<PVector> outerPoints;
-	protected TColor MODE_SET_BLUE = TColorInit.newRGBA( 0, 200, 234, 255 );
-	protected TColor MODE_SET_BLUE_TRANS = TColorInit.newRGBA( 0, 200, 234, 100 );
-	protected TColor BLACK = TColor.BLACK.copy();
+	protected EasingColor MODE_SET_BLUE = new EasingColor( 0, 200, 234, 255 );
+	protected EasingColor MODE_SET_BLUE_TRANS = new EasingColor( 0, 200, 234, 100 );
+	protected EasingColor BLACK = new EasingColor(0,0,0);
 
 	public ArrayList<VectorFlyer> boxes;
 	public ArrayList<Attractor> attractors;
@@ -79,7 +78,7 @@ extends PAppletHax {
 //		p.rotateY(((float)p.mouseX - (float)p.width/2f) * 0.01f);
 		
 		p.noFill();
-		p.stroke( MODE_SET_BLUE.toARGB() );
+		p.stroke( MODE_SET_BLUE.colorInt() );
 //		p.noStroke();
 //		p.fill( MODE_SET_BLUE.toARGB() );
 		p.strokeWeight(3);
@@ -96,7 +95,7 @@ extends PAppletHax {
 		
 //		DrawMesh.drawToxiMeshFacesNative( p, _meshCrest );
 		
-		p.stroke( MODE_SET_BLUE.toARGB() );
+		p.stroke( MODE_SET_BLUE.colorInt() );
 
 		for( int i=0; i < attractors.size(); i++ ) attractors.get(i).update();
 		for( int i=0; i < boxes.size(); i++ ) boxes.get(i).update( p );

@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.PRenderers;
+import com.haxademic.core.draw.color.EasingColor;
 import com.haxademic.core.draw.color.EasingTColor;
-import com.haxademic.core.draw.color.TColorInit;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.toxi.MeshUtilToxi;
 import com.haxademic.core.file.FileUtil;
@@ -47,12 +47,12 @@ extends PAppletHax {
 	protected WETriangleMesh _mesh;
 	protected WETriangleMesh _meshDeform;
 	protected WETriangleMesh _meshText;
-	protected final TColor MODE_SET_BLUE = TColorInit.newRGBA( 0, 200, 234, 255 );
-	protected final TColor MODE_SET_GREY = TColorInit.newRGBA( 96, 96, 96, 255 );
-	protected final TColor BLACK = 		   TColorInit.newRGBA( 0, 0, 0, 255 );
-	protected EasingTColor _logoColor;
-	protected EasingTColor _textColor;
-	protected EasingTColor _particleColor;
+	protected final EasingColor MODE_SET_BLUE = new EasingColor( 0, 200, 234, 255 );
+	protected final EasingColor MODE_SET_GREY = new EasingColor( 96, 96, 96, 255 );
+	protected final EasingColor BLACK = 		new EasingColor( 0, 0, 0, 255 );
+	protected EasingColor _logoColor;
+	protected EasingColor _textColor;
+	protected EasingColor _particleColor;
 	protected float _textZ = 0;
 	protected float _textXRot = 0;
 	protected float _textZIncrementer = 0;
@@ -85,9 +85,9 @@ extends PAppletHax {
 		_particles = new MeshParticles( _meshText.copy() );
 		
 		// set up color
-		_logoColor = new EasingTColor( BLACK, 0.05f );
-		_textColor = new EasingTColor( MODE_SET_BLUE, 0.025f );
-		_particleColor = new EasingTColor( MODE_SET_GREY, 0.05f );
+		_logoColor = new EasingColor( MODE_SET_BLUE.r(), MODE_SET_BLUE.g(), MODE_SET_BLUE.b() );
+		_textColor = new EasingColor( MODE_SET_BLUE.r(), MODE_SET_BLUE.g(), MODE_SET_BLUE.b() );
+		_particleColor = new EasingColor( MODE_SET_GREY.r(), MODE_SET_GREY.g(), MODE_SET_GREY.b() );
 		
 		// store elastic points per vertex
 		int numVertices = _mesh.getNumVertices();
@@ -121,7 +121,7 @@ extends PAppletHax {
 		if( _mode == FADE_IN ) {
 			p.rotateX( _baseRotX.value() );
 			if( _curModeFrames == 1 ) {
-				_logoColor.setTargetColor( MODE_SET_BLUE );
+				_logoColor.setTargetInt( MODE_SET_BLUE.colorInt() );
 			}
 			if( _curModeFrames == 30 ) switchMode( TEXT_SHOW );
 		} else if( _mode == TEXT_SHOW ) {
@@ -155,7 +155,7 @@ extends PAppletHax {
 			_elasticVertices.get( curVert ).setTarget( 10f );
 			if( _curModeFrames == 50 ) switchMode( FADE_OUT );
 		} else if( _mode == FADE_OUT ) {
-			if( _curModeFrames == 1 ) _logoColor.setTargetColor( BLACK );
+			if( _curModeFrames == 1 ) _logoColor.setTargetInt( BLACK.colorInt() );
 			if( _curModeFrames == 70 ) p.exit();
 		}
 		_curModeFrames++;
@@ -194,11 +194,11 @@ extends PAppletHax {
 		// draw to screen
 //		p.rotateY( p.frameCount / 100f );
 		if( _wireframe == false ) {
-			p.fill( _logoColor.color().toARGB() );
+			p.fill( _logoColor.colorInt() );
 			p.noStroke();
 		} else {
-			p.stroke( _logoColor.color().toARGB() );
-			p.fill( BLACK.toARGB() );
+			p.stroke( _logoColor.colorInt() );
+			p.fill( BLACK.colorInt() );
 		}
 		Toxiclibs.instance(p).toxi.mesh( _meshDeform );
 //		drawToxiFaces( _meshDeform, _logoColor.color() );
@@ -206,12 +206,12 @@ extends PAppletHax {
 	}
 	
 	protected void drawText() {
-		if( _curModeFrames == 40 ) _textColor.setTargetColor( MODE_SET_GREY );
+		if( _curModeFrames == 40 ) _textColor.setTargetInt( MODE_SET_GREY.colorInt() );
 		_textColor.update();
 		p.pushMatrix();
 		p.translate( 0, 0, _textZ );
 //		p.rotateX( _textXRot );
-		p.fill( _textColor.color().toARGB() );	// mode set blue
+		p.fill( _textColor.colorInt() );	// mode set blue
 		Toxiclibs.instance(p).toxi.mesh( _meshText );
 //		drawToxiFaces( _meshText, _textColor.color() );
 		p.popMatrix();
@@ -221,7 +221,7 @@ extends PAppletHax {
 		_particleColor.update();
 		p.pushMatrix();
 		p.translate( 0, 0, _textZ );
-		if( _mode == TEXT_SHOW && _curModeFrames == 75 ) _particleColor.setTargetColor( BLACK );
+		if( _mode == TEXT_SHOW && _curModeFrames == 75 ) _particleColor.setTargetInt( BLACK.colorInt() );
 		if( ( _mode == TEXT_SHOW && _curModeFrames > 75 ) || _mode == LOGO_VERTEXES ) _particles.update();
 		p.popMatrix();
 	}
@@ -336,7 +336,7 @@ extends PAppletHax {
 		}
 		
 		public void update() {
-			p.fill( _particleColor.color().toARGB() );
+			p.fill( _particleColor.colorInt() );
 			for( int i = 0; i < _numVertices; i++ ) {
 				_particles.get( i ).update();
 			}

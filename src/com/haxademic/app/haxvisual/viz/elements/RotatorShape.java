@@ -3,13 +3,12 @@ package com.haxademic.app.haxvisual.viz.elements;
 import com.haxademic.app.haxvisual.viz.ElementBase;
 import com.haxademic.app.haxvisual.viz.IVizElement;
 import com.haxademic.core.draw.color.ColorGroup;
-import com.haxademic.core.draw.color.TColorBlendBetween;
+import com.haxademic.core.draw.color.EasingColor;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.EasingFloat3d;
 
 import processing.core.PApplet;
-import toxi.color.TColor;
 import toxi.geom.Line3D;
 import toxi.geom.Triangle3D;
 import toxi.geom.Vec3D;
@@ -33,7 +32,8 @@ implements IVizElement {
 	protected float _baseRotZTarget = 0;
 	protected float _rotDir = 0;
 	
-	protected TColorBlendBetween _color;
+	protected EasingColor _color;
+	protected EasingColor _white;
 	
 	
 	public RotatorShape( PApplet p, ToxiclibsSupport toxi, int numRotations ) {
@@ -49,15 +49,16 @@ implements IVizElement {
 		reset();
 		_curPointGroup = new PointGroup( _pointsPerGroup );
 		_curPointGroup.reset();
-		_color = new TColorBlendBetween( TColor.BLACK.copy(), TColor.BLACK.copy() );
+		_color = new EasingColor( 0, 0, 0 );
+		_white = new EasingColor( 255, 255, 255 );
 	}
 
 	public void updateColorSet( ColorGroup colors ) {
 //		if( p.frameCount % 2 == 0 )
-		_color.setColors( TColor.BLACK.copy(), colors.getRandomColor() );
+//		_color.setColors( TColor.BLACK.copy(), colors.getRandomColor() );
 //		else
 //			_color.setColors( colors.getRandomColor(), TColor.WHITE.copy() );
-		_color.lightenColor( 0.3f );
+//		_color.lightenColor( 0.3f );
 	}
 
 	public void update() {
@@ -76,7 +77,7 @@ implements IVizElement {
 		DrawUtil.setColorForPImage(p);
 		for( int i = 0; i < _numRotations; i++ ) {
 			spectrumData = 0.8f;// p._audioData.getFFT().spectrum[ 20 + (int) (i * (255f/_numRotations)) ];
-			p.fill( _color.argbWithPercent( spectrumData ) );
+			p.fill( _color.colorIntMixedWith(_white, spectrumData ) );
 //			p.fill( _baseColor.lighten( spectrumData * 255 * 30 ).toARGB() );
 //			p.stroke( spectrumData * 255, spectrumData * 127 );
 			p.pushMatrix();

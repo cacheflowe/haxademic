@@ -2,16 +2,15 @@ package com.haxademic.app.haxvisual.viz.textures;
 
 import java.util.ArrayList;
 
-import processing.core.PImage;
-import toxi.color.TColor;
-
 import com.haxademic.app.haxvisual.viz.IAudioTexture;
 import com.haxademic.core.app.P;
 import com.haxademic.core.audio.AudioInputWrapper;
 import com.haxademic.core.draw.color.ColorGroup;
-import com.haxademic.core.draw.color.TColorBlendBetween;
+import com.haxademic.core.draw.color.EasingColor;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.MathUtil;
+
+import processing.core.PImage;
 
 public class TintedImageTexture
 implements IAudioTexture
@@ -20,7 +19,8 @@ implements IAudioTexture
 	protected AudioInputWrapper _audioInput;
 	protected PImage _image;
 	protected ArrayList<PImage> _images;
-	protected TColorBlendBetween _color;
+	protected EasingColor _color;
+	protected EasingColor _white;
 	protected float _alpha = 0;
 	protected int _imageIndex = 0;
 	
@@ -33,7 +33,7 @@ implements IAudioTexture
 		}
 
 		_image = new PImage( 512, 512 );
-		_color = new TColorBlendBetween( TColor.BLACK.copy(), TColor.BLACK.copy() );
+		_color = new EasingColor( 0, 0, 0 );
 	}
 	
 	public void updateTexture( AudioInputWrapper audioInput ) {
@@ -41,7 +41,7 @@ implements IAudioTexture
 	}
 	
 	public PImage getTexture() {
-		P.p.tint( _color.argbWithPercent( _alpha ), 255 );
+		P.p.tint( _color.colorIntMixedWith(_white, _alpha ), 255 );
 		return _images.get( _imageIndex );
 	}
 	
@@ -49,8 +49,8 @@ implements IAudioTexture
 		if( P.p.frameCount % 3 == 0 ) {
 			_imageIndex = MathUtil.randRange( 0, _images.size() - 1 );
 		}
-		_color.setColors( TColor.BLACK.copy(), colors.getRandomColor() );
-		_color.lightenColor( 0.3f );
+//		_color.setColors( TColor.BLACK.copy(), colors.getRandomColor() );
+//		_color.lightenColor( 0.3f );
 	}
 	
 	public void dispose() {

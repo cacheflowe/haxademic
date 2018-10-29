@@ -1,13 +1,12 @@
 package com.haxademic.app.haxvisual.viz.textures;
 
-import processing.core.PImage;
-import toxi.color.TColor;
-
 import com.haxademic.app.haxvisual.viz.IAudioTexture;
 import com.haxademic.core.app.P;
 import com.haxademic.core.audio.AudioInputWrapper;
 import com.haxademic.core.draw.color.ColorGroup;
-import com.haxademic.core.draw.color.TColorBlendBetween;
+import com.haxademic.core.draw.color.EasingColor;
+
+import processing.core.PImage;
 
 public class EQGridTexture
 implements IAudioTexture
@@ -19,7 +18,8 @@ implements IAudioTexture
 	protected int _cols, _rows;
 	protected int _colW, _rowH;
 	
-	protected TColorBlendBetween _color;
+	protected EasingColor _color;
+	protected EasingColor _white;
 
 	public EQGridTexture( int width, int height ) {
 		_width = 32; //width;
@@ -30,8 +30,9 @@ implements IAudioTexture
 		_rowH = _height / _rows;
 //		_graphics = P.p.createGraphics( _width, _height, P.P3D );
 		_image = new PImage( _width, _height, P.ARGB );
-		_color = new TColorBlendBetween( TColor.BLACK.copy(), TColor.BLACK.copy() );
-		
+		_color = new EasingColor( 0, 0, 0 );
+		_white = new EasingColor( 255, 255, 255 );
+
 		/*
 		for( int i=0; i < _rows; i++ ) {
 			_image.set( 0, i, _color.argbWithPercent( audioInput.getFFT().spectrum[ ( i * eqStep ) % 512 ] ) );
@@ -52,7 +53,7 @@ implements IAudioTexture
 //				_graphics.rect( i*_colW, j*_rowH, _colW, _rowH );
 //				_graphics.endDraw();
 				
-				_image.set( i, j, _color.argbWithPercent( audioInput.getFFT().spectrum[ ( index * eqStep ) % 512 ] ) );
+				_image.set( i, j, _color.colorIntMixedWith(_white, audioInput.getFFT().spectrum[ ( index * eqStep ) % 512 ] ) );
 				
 				index++;
 			}
@@ -84,8 +85,8 @@ implements IAudioTexture
 	}
 
 	public void updateColorSet( ColorGroup colors ) {
-		_color.setColors( TColor.BLACK.copy(), colors.getRandomColor() );
-		_color.lightenColor( 0.3f );
+//		_color.setColors( TColor.BLACK.copy(), colors.getRandomColor() );
+//		_color.lightenColor( 0.3f );
 	}
 
 	public void updateLineMode() {

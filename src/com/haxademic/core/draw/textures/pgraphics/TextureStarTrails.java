@@ -4,14 +4,13 @@ import java.util.ArrayList;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.draw.color.ColorGroup;
-import com.haxademic.core.draw.color.TColorBlendBetween;
+import com.haxademic.core.draw.color.EasingColor;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.EasingFloat3d;
 
 import processing.core.PVector;
-import toxi.color.TColor;
 
 public class TextureStarTrails 
 extends BaseTexture {
@@ -76,7 +75,7 @@ extends BaseTexture {
 		protected Boolean _isStrafing = false;
 		protected int _zRange = 800;
 		protected ColorGroup _colors = null;
-		protected TColorBlendBetween _curColor = null;
+		protected EasingColor _curColor = null;
 		
 		public Star() {
 			_trailPoints = new ArrayList<PVector>();
@@ -85,17 +84,17 @@ extends BaseTexture {
 			}
 			
 			_loc = new EasingFloat3d( 0, 0, 0, 5 );
-			_curColor = new TColorBlendBetween( TColor.BLACK.copy(), TColor.WHITE.copy() );
+			_curColor = new EasingColor(0, 0, 0);
 			reset();
 		}
 		
-		public void updateColorSet( ColorGroup colors ) {
-			_colors = colors;
-			_curColor.setColors( TColor.BLACK.copy(), _colors.getRandomColor().copy() );
-		}
+//		public void updateColorSet( ColorGroup colors ) {
+//			_colors = colors;
+////			_curColor.setColors( TColor.BLACK.copy(), _colors.getRandomColor().copy() );
+//		}
 		
 		public void reset() {
-			if( _colors != null ) updateColorSet( _colors );
+//			if( _colors != null ) updateColorSet( _colors );
 			_loc.setCurrentX( MathUtil.randRangeDecimal( -_width/2, _width/2 ) );
 			_loc.setTargetX( MathUtil.randRangeDecimal( -_width/2, _width/2 ) );
 			_loc.setCurrentY( MathUtil.randRangeDecimal( -_height/2, _height/2 ) );
@@ -153,7 +152,7 @@ extends BaseTexture {
 			float baseSize = _size * amp;
 			int indx = _trailIndex;
 			int alpha = 255;
-			int fillColor = _curColor.argbWithPercent( amp );
+			int fillColor = _curColor.colorInt(amp);
 
 
 			if( _wireframe == false ) {

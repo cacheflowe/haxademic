@@ -6,7 +6,7 @@ import com.haxademic.app.haxvisual.viz.ElementBase;
 import com.haxademic.app.haxvisual.viz.IVizElement;
 import com.haxademic.core.app.P;
 import com.haxademic.core.draw.color.ColorGroup;
-import com.haxademic.core.draw.color.TColorBlendBetween;
+import com.haxademic.core.draw.color.EasingColor;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.EasingFloat3d;
@@ -14,7 +14,6 @@ import com.haxademic.core.math.easing.EasingFloat3d;
 import processing.core.PApplet;
 import processing.core.PConstants;
 import processing.core.PVector;
-import toxi.color.TColor;
 import toxi.processing.ToxiclibsSupport;
 
 public class StarField
@@ -108,7 +107,8 @@ implements IVizElement {
 		protected Boolean _isStrafing = false;
 		protected int _zRange = 1000;
 		protected ColorGroup _colors = null;
-		protected TColorBlendBetween _curColor = null;
+		protected EasingColor _curColor = null;
+		protected EasingColor _white = null;
 		
 		public Star() {
 			_trailPoints = new ArrayList<PVector>();
@@ -117,13 +117,14 @@ implements IVizElement {
 			}
 			
 			_loc = new EasingFloat3d( 0, 0, 0, 5 );
-			_curColor = new TColorBlendBetween( TColor.BLACK.copy(), TColor.WHITE.copy() );
+			_curColor = new EasingColor( 0, 0, 0 );
+			_white = new EasingColor( 255, 255, 255 );
 			reset();
 		}
 		
 		public void updateColorSet( ColorGroup colors ) {
 			_colors = colors;
-			_curColor.setColors( TColor.BLACK.copy(), _colors.getRandomColor().copy() );
+//			_curColor.setColors( TColor.BLACK.copy(), _colors.getRandomColor().copy() );
 //			float lighten = 0.3f;
 //			_baseColor.adjustRGB( lighten, lighten, lighten );
 		}
@@ -192,7 +193,7 @@ implements IVizElement {
 			float baseSize = _size * amp;
 			int indx = _trailIndex;
 			int alpha = 255;
-			int fillColor = _curColor.argbWithPercent( amp );
+			int fillColor = _curColor.colorIntMixedWith(_white, amp );
 
 			
 //			p.fill( 255, 255 );
