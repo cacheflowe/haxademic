@@ -5,7 +5,7 @@ import java.awt.image.BufferedImage;
 import java.nio.ByteBuffer;
 
 import com.haxademic.core.app.P;
-import com.haxademic.core.draw.color.ColorHax;
+import com.haxademic.core.draw.color.ColorUtil;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.math.MathUtil;
 
@@ -407,9 +407,9 @@ public class ImageUtil {
 			for( int y=0; y < sourceImg.height; y++ ){
 				int pixelColor = ImageUtil.getPixelColor( sourceImg, x, y );
 				
-				r = ColorHax.redFromColorInt( pixelColor );
-				g = ColorHax.greenFromColorInt( pixelColor );
-				b = ColorHax.blueFromColorInt( pixelColor );
+				r = ColorUtil.redFromColorInt( pixelColor );
+				g = ColorUtil.greenFromColorInt( pixelColor );
+				b = ColorUtil.blueFromColorInt( pixelColor );
 				
 				// if green is greater than both other color components, black it out
 				if( g > r && g > b ) {

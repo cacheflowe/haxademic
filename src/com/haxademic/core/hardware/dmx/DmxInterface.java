@@ -6,7 +6,7 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 
 import com.haxademic.core.app.P;
-import com.haxademic.core.draw.color.ColorHax;
+import com.haxademic.core.draw.color.EasingColor;
 
 public class DmxInterface {
 	// We use Pro-Manager's web server. This is a hack but it works.
@@ -71,9 +71,9 @@ public class DmxInterface {
 				String outputString = REQUEST_PREFIX;
 				for (int i = 0; i < _numLights; i++) {
 					int curColor = _colors[i];
-					outputString += ColorHax.redFromColorInt(curColor) + ",";
-					outputString += ColorHax.greenFromColorInt(curColor) + ",";
-					outputString += ColorHax.blueFromColorInt(curColor) + ",";
+					outputString += EasingColor.redFromColorInt(curColor) + ",";
+					outputString += EasingColor.greenFromColorInt(curColor) + ",";
+					outputString += EasingColor.blueFromColorInt(curColor) + ",";
 				}
 				outputString += REQUEST_SUFFIX;
 				

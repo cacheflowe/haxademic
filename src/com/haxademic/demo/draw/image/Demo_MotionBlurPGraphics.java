@@ -3,7 +3,7 @@ package com.haxademic.demo.draw.image;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
-import com.haxademic.core.draw.color.ColorHax;
+import com.haxademic.core.draw.color.ColorUtil;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.image.MotionBlurPGraphics;
@@ -133,7 +133,7 @@ extends PAppletHax {
 			p.fill(discColor);
 
 			p.translate(0,0,-spacing);
-			joons.jr.fill( JoonsWrapper.MATERIAL_SHINY, ColorHax.redFromColorInt(discColor), ColorHax.greenFromColorInt(discColor), ColorHax.blueFromColorInt(discColor) );
+			joons.jr.fill( JoonsWrapper.MATERIAL_SHINY, ColorUtil.redFromColorInt(discColor), ColorUtil.greenFromColorInt(discColor), ColorUtil.blueFromColorInt(discColor) );
 			drawDisc3D(size, size * 0.9f - size * (P.sin(percentDone * P.TWO_PI)+1) * 0.15f, spacing * 0.25f, 140, discColor, discColor);
 //			drawDisc(size, size * 0.9f - size * (P.sin(percentDone * P.TWO_PI)+1) * 0.15f, 140); 
 		}

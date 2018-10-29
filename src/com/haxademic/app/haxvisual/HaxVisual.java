@@ -7,7 +7,6 @@ import com.haxademic.app.haxvisual.viz.modules.AmbientViz;
 import com.haxademic.app.haxvisual.viz.modules.AudioTubes;
 import com.haxademic.app.haxvisual.viz.modules.BlobSheet;
 import com.haxademic.app.haxvisual.viz.modules.Boxen3D;
-import com.haxademic.app.haxvisual.viz.modules.CacheRings;
 import com.haxademic.app.haxvisual.viz.modules.GridAndLinesEQ;
 import com.haxademic.app.haxvisual.viz.modules.HorizLines;
 import com.haxademic.app.haxvisual.viz.modules.KaraokeViz;
@@ -16,10 +15,8 @@ import com.haxademic.app.haxvisual.viz.modules.MaxCache;
 import com.haxademic.app.haxvisual.viz.modules.PlusRing;
 import com.haxademic.app.haxvisual.viz.modules.Spheres;
 import com.haxademic.app.haxvisual.viz.modules.Toxi;
-import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.debug.DebugView;
-import com.haxademic.core.draw.image.ScreenUtil;
 import com.haxademic.core.file.FileUtil;
 
 import processing.core.PApplet;
@@ -83,7 +80,6 @@ extends PAppletHax
 		_modules.add( new Spheres() );
 		_modules.add( new BlobSheet() );
 		_modules.add( new GridAndLinesEQ() );
-		_modules.add( new CacheRings() );
 		_modules.add( new PlusRing() );
 		_modules.add( new HorizLines() );
 		_modules.add( new AudioTubes() );

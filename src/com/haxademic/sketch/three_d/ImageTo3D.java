@@ -3,12 +3,11 @@ package com.haxademic.sketch.three_d;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
-import com.haxademic.core.draw.color.ColorHax;
+import com.haxademic.core.draw.color.EasingColor;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.shapes.Shapes;
 import com.haxademic.core.file.FileUtil;
-import com.haxademic.core.hardware.webcam.WebCamWrapper;
 import com.haxademic.core.math.easing.Penner;
 
 import processing.core.PConstants;
@@ -95,8 +94,8 @@ extends PAppletHax {
 					float yScaled  = -image.height*size/2 + y * size;
 					p.translate(xScaled, yScaled);
 					float osc = (float) p.frameCount/(float) _frames;
-					p.fill( ColorHax.redFromColorInt(pixelColor), ColorHax.greenFromColorInt(pixelColor), ColorHax.blueFromColorInt(pixelColor), 255 );
-					if(joons != null) joons.jr.fill("shiny", ColorHax.redFromColorInt(pixelColor), ColorHax.greenFromColorInt(pixelColor), ColorHax.blueFromColorInt(pixelColor));
+					p.fill( EasingColor.redFromColorInt(pixelColor), EasingColor.greenFromColorInt(pixelColor), EasingColor.blueFromColorInt(pixelColor), 255 );
+					if(joons != null) joons.jr.fill("shiny", EasingColor.redFromColorInt(pixelColor), EasingColor.greenFromColorInt(pixelColor), EasingColor.blueFromColorInt(pixelColor));
 					if(pixelBrightness > 0) p.box(size, size, pixelBrightness * 1.5f + 0f * P.sin((x+y)/3f + (P.TWO_PI * osc)));
 					p.popMatrix();
 				}

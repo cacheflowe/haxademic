@@ -11,7 +11,6 @@
   * Make a dmx gif loop
   * Motion detection point-of-interest motion capture by small rectangles - figure out how to zoom out and create multiple zones
   * Turn client snake mirror into its own thing
-  * Turn client TiledTexture mirror into a motion-reactive mirror that changes when you move
 * Audio
   * Sphinx4 speech recognition
     * Copy / paste + Robot for tired hands
@@ -78,7 +77,7 @@
   * Web interface to control PrefsSliders: Add JSON interface for PrefsSliders & WebServer/WebSockets?
   * Fix overhead view of KinectRegionGrid - with larger grids it's off-screen
   * BufferActivityMonitor should use FrameDifferenceBuffer object
-  * Replace ColorHax with EasingColor
+  * Replace ColorUtil with EasingColor
   * Clean up /data directory with assets that can be used across demos, and move sketch assets into their own location
   * ImageSequence -> ffmpeg rendering from a class. Would make rendering easier on both platforms
   * Start moving all apps towards objects that can receive a PGraphics instance. decoupling from PApplet will help move visuals into HaxVisualTwo

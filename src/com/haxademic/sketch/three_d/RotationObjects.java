@@ -3,7 +3,7 @@ package com.haxademic.sketch.three_d;
 import com.haxademic.app.haxvisual.viz.elements.RotatorShape;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.color.ColorGroup;
-import com.haxademic.core.draw.color.ColorHax;
+import com.haxademic.core.draw.color.EasingColor;
 import com.haxademic.core.draw.context.DrawUtil;
 
 import processing.core.PConstants;
@@ -18,8 +18,8 @@ extends PAppletHax
 	
 	RotatorShape _rotator;
 	RotatorShape _rotatorBG;
-	ColorHax _color;
-	ColorHax _colorBG;
+	EasingColor _color;
+	EasingColor _colorBG;
 	
 	int _numRotations = 6;
 	float[] _fakeAudioData;
@@ -34,8 +34,8 @@ extends PAppletHax
 		
 		_rotator = new RotatorShape( p, toxi, _numRotations );
 		_rotatorBG = new RotatorShape( p, toxi, _numRotations );
-		_color = new ColorHax( 255, 255, 155, 255 );
-		_colorBG = new ColorHax( 255, 155, 255, 255 );
+		_color = new EasingColor( 255, 255, 155, 255 );
+		_colorBG = new EasingColor( 255, 155, 255, 255 );
 		_fakeAudioData = new float[ _numRotations ];
 		
 		for( int i = 0; i < _numRotations; i++ ) {
