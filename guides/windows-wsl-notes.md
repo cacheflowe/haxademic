@@ -58,7 +58,7 @@ Related to the bash script carriage return issue noted above, Git has a similar 
 
 * `git config --global core.autocrlf true`
 
-Make sure to also store your git passphrase with the ssh tool 
+Make sure to also store your git passphrase with the ssh tool
 
 * https://stackoverflow.com/a/49942440
 
@@ -99,6 +99,7 @@ PATH="$HOME/.linuxbrew/bin:$HOME/.linuxbrew/sbin:$PATH"
 
 alias workspace="cd /mnt/d/workspace"
 
+alias openexplorer="explorer.exe ."
 alias reload=". ~/.bashrc"
 alias backupbash="cp ~/.* /mnt/d/workspace/cacheflowe-wsl/user-cacheflowe/"
 
