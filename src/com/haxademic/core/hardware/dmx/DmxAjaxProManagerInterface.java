@@ -8,7 +8,7 @@ import java.net.URL;
 import com.haxademic.core.app.P;
 import com.haxademic.core.draw.color.EasingColor;
 
-public class DmxInterface {
+public class DmxAjaxProManagerInterface {
 	// We use Pro-Manager's web server. This is a hack but it works.
 	protected String PRO_MANAGER_ENDPOINT = "http://localhost:55555/dmxfader";
 	protected String REQUEST_PREFIX = "[0,";
@@ -20,7 +20,7 @@ public class DmxInterface {
 	protected int[] _colors;
 	protected int _color2 = 0;
 	
-	public DmxInterface(int numLights) {
+	public DmxAjaxProManagerInterface(int numLights) {
 		_numLights = numLights;
 		_colors = new int[_numLights];
 		P.println("substr start index: "+((_numLights * 2)));

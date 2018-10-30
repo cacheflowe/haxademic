@@ -54,7 +54,6 @@
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.audio.analysis.input"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.system.shell"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.draw.shapes"/>
-        <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.render.joons"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.hardware.leap"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.draw.textures.pgraphics.shared"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.debug"/>
@@ -62,6 +61,7 @@
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.draw.text"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.audio.analysis"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.hardware.keyboard"/>
+        <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.hardware.printer"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.draw.particle"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.draw.toxi"/>
     </selectedElements>
