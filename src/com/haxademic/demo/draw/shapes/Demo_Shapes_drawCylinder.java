@@ -1,0 +1,23 @@
+package com.haxademic.demo.draw.shapes;
+
+import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.shapes.Shapes;
+
+public class Demo_Shapes_drawCylinder
+extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
+
+	public void drawApp() {
+		background(0);
+		DrawUtil.setCenterScreen(p);
+		DrawUtil.setBetterLights(p);
+		DrawUtil.basicCameraFromMouse(p.g);
+		
+		// draw can
+		p.stroke(255);
+		p.fill(0, 255, 0);
+		Shapes.drawCylinder(p.g, 100, p.width * 0.2f, p.height * 0.5f);	
+	}
+
+}
