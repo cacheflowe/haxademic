@@ -8,7 +8,7 @@ import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.draw.color.ColorUtil;
 import com.haxademic.core.draw.color.EasingColor;
 import com.haxademic.core.file.FileUtil;
-import com.haxademic.core.hardware.dmx.DmxInterface;
+import com.haxademic.core.hardware.dmx.DmxAjaxProManagerInterface;
 import com.haxademic.core.hardware.joystick.AutoTesterJoysticksCollection;
 import com.haxademic.core.hardware.joystick.IJoystickCollection;
 import com.haxademic.core.hardware.joystick.IJoystickControl;
@@ -39,7 +39,7 @@ extends PAppletHax {
 	 * - Tarp for waterproofness
 	 */
 	
-	protected DmxInterface _dmx;
+	protected DmxAjaxProManagerInterface _dmx;
 	protected ArrayList<TonePlayer> _bassTones;
 	protected int _bassToneIndex = 0;
 	protected ArrayList<TonePlayer> _midTones;
@@ -136,7 +136,7 @@ extends PAppletHax {
 	}
 	
 	protected void buildPhysicalLighting() {
-		_dmx = new DmxInterface(NUM_PLAYERS);
+		_dmx = new DmxAjaxProManagerInterface(NUM_PLAYERS);
 		_players = new ArrayList<Player>();
 		_players.add(new Player(0, "#f0695c", "#845da5"));
 		_players.add(new Player(1, "#845da5", "#00bbd1"));

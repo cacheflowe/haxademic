@@ -10,7 +10,7 @@ import com.haxademic.core.draw.filters.pshader.BrightnessFilter;
 import com.haxademic.core.draw.filters.pshader.WobbleFilter;
 import com.haxademic.core.draw.image.MotionBlurPGraphics;
 import com.haxademic.core.file.FileUtil;
-import com.haxademic.core.hardware.dmx.DmxInterface;
+import com.haxademic.core.hardware.dmx.DmxAjaxProManagerInterface;
 import com.haxademic.core.hardware.kinect.KinectSize;
 import com.haxademic.core.math.MathUtil;
 
@@ -49,7 +49,7 @@ public class KinectFaceRecorder {
 //	public float colorToReplaceG;
 //	public float colorToReplaceB;
 	
-	protected DmxInterface _dmxInterface;
+	protected DmxAjaxProManagerInterface _dmxInterface;
 	protected EasingColor _lightColor1;
 	protected EasingColor _lightColor2;
 	
@@ -85,7 +85,7 @@ public class KinectFaceRecorder {
 	}
 		
 	protected void setupDmxLights() {
-		_dmxInterface = new DmxInterface(2);
+		_dmxInterface = new DmxAjaxProManagerInterface(2);
 		_lightColor1 = new EasingColor(0, 0, 0, 1, 10);
 		_lightColor2 = new EasingColor(0, 0, 0, 1, 10);
 	}

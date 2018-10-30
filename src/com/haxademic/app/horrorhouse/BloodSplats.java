@@ -10,7 +10,7 @@ import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.mapping.PGraphicsKeystone;
 import com.haxademic.core.file.FileUtil;
-import com.haxademic.core.hardware.dmx.DmxInterface;
+import com.haxademic.core.hardware.dmx.DmxAjaxProManagerInterface;
 import com.haxademic.core.hardware.kinect.KinectAmbientActivityMonitor;
 import com.haxademic.core.math.MathUtil;
 
@@ -49,7 +49,7 @@ extends PAppletHax {
 	protected ArrayList<AudioPlayer> _lightnings;
 	protected int _lightningIndex;
 	
-	protected DmxInterface _dmx;
+	protected DmxAjaxProManagerInterface _dmx;
 	protected EasingColor _color1;
 	protected EasingColor _color2;
 	protected EasingColor _color3;
@@ -159,7 +159,7 @@ extends PAppletHax {
 	}
 	
 	protected void buildPhysicalLighting() {
-		_dmx = new DmxInterface(4);
+		_dmx = new DmxAjaxProManagerInterface(4);
 		_color1 = new EasingColor("#000000", 5);
 		_color2 = new EasingColor("#000000", 5);
 		_color3 = new EasingColor("#000000", 5);

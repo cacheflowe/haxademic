@@ -2,7 +2,7 @@ package com.haxademic.app.haxmapper.dmxlights;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.draw.color.EasingColor;
-import com.haxademic.core.hardware.dmx.DmxInterface;
+import com.haxademic.core.hardware.dmx.DmxAjaxProManagerInterface;
 import com.haxademic.core.math.MathUtil;
 
 import processing.core.PApplet;
@@ -11,13 +11,13 @@ import processing.core.PGraphics;
 public class RandomLightTiming {
 	
 	protected PApplet p;
-	protected DmxInterface _dmx;
+	protected DmxAjaxProManagerInterface _dmx;
 	protected EasingColor[] _colors;
 	protected float brightness = 1f;
 	
 	public RandomLightTiming(int numLights) {
 		p = P.p;
-		_dmx = new DmxInterface(numLights);
+		_dmx = new DmxAjaxProManagerInterface(numLights);
 		_colors = new EasingColor[numLights];
 		for (int i = 0; i < _colors.length; i++) {
 			_colors[i] = new EasingColor("#000000", 5);
