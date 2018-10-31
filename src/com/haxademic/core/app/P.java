@@ -14,7 +14,6 @@ extends PApplet {
 	// static app object refs
 	
 	public static PAppletHax p;
-	public static GL gl;	
 	public static AppStore store;	
 	public static AppStoreDistributed storeDistributed;	
 	
@@ -31,5 +30,13 @@ extends PApplet {
 	public static boolean logging = true;
 	public static void out(Object ...args) {
 		if(logging) P.println(args);
+	}
+	public static void error(Object ...args) {
+		if(logging) {
+			for (int i = 0; i < args.length; i++) {
+				System.err.print(args[i] + " ");
+			}
+			System.err.print("\n");
+		}
 	}
 }
