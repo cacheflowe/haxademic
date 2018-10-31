@@ -115,6 +115,7 @@ public class DebugView {
 	
 	public void draw() {
 		if(debugFont == null) return;
+		p.pushStyle();
 		
 		// update core app stats
 		updateAppInfo();
@@ -177,5 +178,6 @@ public class DebugView {
 		}
 
 		DrawUtil.setDrawFlat2d(p, false);
+		p.popStyle();
 	}
 }
