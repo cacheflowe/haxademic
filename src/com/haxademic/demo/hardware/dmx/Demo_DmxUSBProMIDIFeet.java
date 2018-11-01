@@ -2,31 +2,21 @@ package com.haxademic.demo.hardware.dmx;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.draw.color.EasingColor;
 import com.haxademic.core.file.FileUtil;
+import com.haxademic.core.hardware.dmx.DMXWrapper;
 import com.haxademic.core.hardware.shared.InputTrigger;
 
 import beads.AudioContext;
 import beads.Sample;
 import beads.SampleManager;
 import beads.SamplePlayer;
-import dmxP512.DmxP512;
 
 public class Demo_DmxUSBProMIDIFeet
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
-	DmxP512 dmx;
-	
-	// On Windows, port should be an actual serial port, and probably needs to be uppercase - something like "COM1"
-	// On OS X, port will likely be a virtual serial port via USB, looking like "/dev/tty.usbserial-EN158815"
-	// - To make this work, you need to install something like the Plugable driver: 
-	// - https://plugable.com/2011/07/12/installing-a-usb-serial-adapter-on-mac-os-x/
-	
-	String DMXPRO_PORT = "DMXPRO_PORT";
-	String DMXPRO_BAUDRATE = "DMXPRO_BAUDRATE";
-	String DMXPRO_UNIVERSE_SIZE = "DMXPRO_UNIVERSE_SIZE";
+	protected DMXWrapper dmx;
 	
 	protected boolean audioActive = false;
 	
@@ -54,21 +44,8 @@ extends PAppletHax {
 	protected EasingColor color2 = new EasingColor(0xffff0000, 8);
 
 
-	protected void overridePropsFile() {
-		if(P.platform == P.MACOSX) {
-			// mac
-			p.appConfig.setProperty(DMXPRO_PORT, "/dev/tty.usbserial-EN158815");
-			p.appConfig.setProperty(DMXPRO_BAUDRATE, 115000);
-		} else {
-			// win
-			p.appConfig.setProperty(DMXPRO_PORT, "COM3");
-			p.appConfig.setProperty(DMXPRO_BAUDRATE, 9600);
-		}
-	}
-
 	public void setupFirstFrame() {
-		dmx = new DmxP512(P.p, p.appConfig.getInt(DMXPRO_UNIVERSE_SIZE, 128), false);
-		dmx.setupDmxPro(p.appConfig.getString(DMXPRO_PORT, "COM1"), p.appConfig.getInt(DMXPRO_BAUDRATE, 115000));
+		dmx = new DMXWrapper();
 
 		ac = new AudioContext();
 		sample01 = SampleManager.sample(FileUtil.getFile("audio/kit808/kick.wav"));
@@ -102,19 +79,19 @@ extends PAppletHax {
 		color2.update();
 		
 		if(!audioActive) {
-			dmx.set(1, (int)color1.r());
-			dmx.set(2, (int)color1.g());
-			dmx.set(3, (int)color1.b());
-			dmx.set(4, (int)color2.r());
-			dmx.set(5, (int)color2.g());
-			dmx.set(6, (int)color2.b());
+			dmx.setValue(1, (int)color1.r());
+			dmx.setValue(2, (int)color1.g());
+			dmx.setValue(3, (int)color1.b());
+			dmx.setValue(4, (int)color2.r());
+			dmx.setValue(5, (int)color2.g());
+			dmx.setValue(6, (int)color2.b());
 		} else {
-			dmx.set(1, P.round(255 * p.audioFreq(10)));
-			dmx.set(2, P.round(255 * p.audioFreq(20)));
-			dmx.set(3, P.round(255 * p.audioFreq(40)));
-			dmx.set(4, P.round(255 * p.audioFreq(60)));
-			dmx.set(5, P.round(255 * p.audioFreq(80)));
-			dmx.set(6, P.round(255 * p.audioFreq(100)));
+			dmx.setValue(1, P.round(255 * p.audioFreq(10)));
+			dmx.setValue(2, P.round(255 * p.audioFreq(20)));
+			dmx.setValue(3, P.round(255 * p.audioFreq(40)));
+			dmx.setValue(4, P.round(255 * p.audioFreq(60)));
+			dmx.setValue(5, P.round(255 * p.audioFreq(80)));
+			dmx.setValue(6, P.round(255 * p.audioFreq(100)));
 		}
 	}
 	

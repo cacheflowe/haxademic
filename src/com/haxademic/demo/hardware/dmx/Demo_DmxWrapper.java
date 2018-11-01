@@ -20,18 +20,9 @@ extends PAppletHax {
 	protected EasingColor[] colors;
 	protected EasingColor targetColor;
 	
-	protected void overridePropsFile() {
-		if(P.platform == P.MACOSX) {
-			p.appConfig.setProperty(DMXWrapper.DMXPRO_PORT, "/dev/tty.usbserial-EN158815");
-			p.appConfig.setProperty(DMXWrapper.DMXPRO_BAUDRATE, 115000);
-		} else {
-			p.appConfig.setProperty(DMXWrapper.DMXPRO_PORT, "COM3");
-			p.appConfig.setProperty(DMXWrapper.DMXPRO_BAUDRATE, 9600);
-		}
-	}
-
 	public void setupFirstFrame() {
-		dmx = new DMXWrapper();
+		// dmx = new DMXWrapper();
+		dmx = new DMXWrapper("COM3", 9600);
 		
 		// init easing colors
 		colors = new EasingColor[numLights];

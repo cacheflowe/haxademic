@@ -3,36 +3,17 @@ package com.haxademic.demo.hardware.dmx;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
+import com.haxademic.core.hardware.dmx.DMXWrapper;
 import com.haxademic.core.hardware.kinect.KinectRegionGrid;
 import com.haxademic.core.hardware.kinect.KinectSize;
 import com.haxademic.core.math.easing.LinearFloat;
-import com.haxademic.core.math.easing.Penner;
-
-import dmxP512.DmxP512;
-import processing.serial.Serial;
 
 public class Demo_DmxKinectStiletto
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
-	DmxP512 dmx;
-	
-	// Make sure the Processing Serial library is pointing to the correct native library
-	
-	// On Windows, port should be an actual serial port, and probably needs to be upper case - something like "COM1"
-	// - Open Device Manager and go to Ports (COM & LPT)
-	// - If plugged in, should be able to find something like "USB Serial Port (COM3)" 
-	// - Right-click for properties, and you can look up the baud rate 
-	
-	// On OS X, port will likely be a virtual serial port via USB, looking like "/dev/tty.usbserial-EN158815"
-	// - To make this work, you need to install something like the Plugable driver: 
-	// - https://plugable.com/2011/07/12/installing-a-usb-serial-adapter-on-mac-os-x/
-	// - And on my current MacBook Pro setup, I seem to have to keep installing it over again...
-	
-	String DMXPRO_PORT = "DMXPRO_PORT";
-	String DMXPRO_BAUDRATE = "DMXPRO_BAUDRATE";
-	String DMXPRO_UNIVERSE_SIZE = "DMXPRO_UNIVERSE_SIZE";
-	
+	protected DMXWrapper dmx;
+
 	protected boolean audioActive = false;
 	protected LinearFloat fadeOut = new LinearFloat(0, 0.05f);
 	
@@ -40,24 +21,13 @@ extends PAppletHax {
 	protected LinearFloat dimmer = new LinearFloat(0, 0.05f);
 
 	protected void overridePropsFile() {
-		if(P.platform == P.MACOSX) {
-			// mac
-			p.appConfig.setProperty(DMXPRO_PORT, "/dev/tty.usbserial-EN158815");
-			p.appConfig.setProperty(DMXPRO_BAUDRATE, 115000);
-		} else {
-			// win
-			p.appConfig.setProperty(DMXPRO_PORT, "COM3");
-			p.appConfig.setProperty(DMXPRO_BAUDRATE, 9600);
-		}
 		// kinect init
 		p.appConfig.setProperty(AppSettings.KINECT_V2_WIN_ACTIVE, true);
 	}
 
 	public void setupFirstFrame() {
 		// dmx setup
-		Serial.list();
-		dmx = new DmxP512(P.p, p.appConfig.getInt(DMXPRO_UNIVERSE_SIZE, 256), false);
-		dmx.setupDmxPro(p.appConfig.getString(DMXPRO_PORT, "COM1"), p.appConfig.getInt(DMXPRO_BAUDRATE, 115000));
+		// dmx = new DMXWrapper();
 		
 		// kinect init
 		int KINECT_MIN_DIST = 	p.appConfig.getInt( "kinect_min_mm", 500 );
@@ -77,21 +47,21 @@ extends PAppletHax {
 		background(0);
 		if(audioActive) {
 			// audio eq
-			dmx.set(1, P.constrain(P.round(255 * p.audioFreq(10)), 0, 255));
-			dmx.set(2, P.constrain(P.round(255 * p.audioFreq(20)), 0, 255));
-			dmx.set(3, P.constrain(P.round(255 * p.audioFreq(40)), 0, 255));
-			dmx.set(4, P.constrain(P.round(255 * p.audioFreq(60)), 0, 255));
-			dmx.set(5, P.constrain(P.round(255 * p.audioFreq(80)), 0, 255));
-			dmx.set(6, P.constrain(P.round(255 * p.audioFreq(100)), 0, 255));
+			dmx.setValue(1, P.constrain(P.round(255 * p.audioFreq(10)), 0, 255));
+			dmx.setValue(2, P.constrain(P.round(255 * p.audioFreq(20)), 0, 255));
+			dmx.setValue(3, P.constrain(P.round(255 * p.audioFreq(40)), 0, 255));
+			dmx.setValue(4, P.constrain(P.round(255 * p.audioFreq(60)), 0, 255));
+			dmx.setValue(5, P.constrain(P.round(255 * p.audioFreq(80)), 0, 255));
+			dmx.setValue(6, P.constrain(P.round(255 * p.audioFreq(100)), 0, 255));
 		} else {
 			// color cycle
-//			dmx.set(1, round(127 + 127 * P.sin(p.frameCount * 0.2f)));
-//			dmx.set(2, round(127 + 127 * P.sin(p.frameCount * 0.08f)));
+//			dmx.setValue(1, round(127 + 127 * P.sin(p.frameCount * 0.2f)));
+//			dmx.setValue(2, round(127 + 127 * P.sin(p.frameCount * 0.08f)));
 
-//			dmx.set(3, round(127 + 127 * P.sin(p.frameCount * 0.02f)));
-//			dmx.set(1, round(127 + 127 * P.sin(P.PI + p.frameCount * 0.1f)));
-//			dmx.set(2, round(127 + 127 * P.sin(P.PI + p.frameCount * 0.1f)));
-//			dmx.set(3, round(127 + 127 * P.sin(P.PI + p.frameCount * 0.1f)));
+//			dmx.setValue(3, round(127 + 127 * P.sin(p.frameCount * 0.02f)));
+//			dmx.setValue(1, round(127 + 127 * P.sin(P.PI + p.frameCount * 0.1f)));
+//			dmx.setValue(2, round(127 + 127 * P.sin(P.PI + p.frameCount * 0.1f)));
+//			dmx.setValue(3, round(127 + 127 * P.sin(P.PI + p.frameCount * 0.1f)));
 
 //			if(p.frameCount % 25 == 0) {
 //			if(p.audioData.isBeat()) {
@@ -101,12 +71,12 @@ extends PAppletHax {
 //			fadeOut.update();
 //			float easedFade = Penner.easeInExpo(fadeOut.value(), 0, 1, 1);
 //			
-//			dmx.set(1, round(255 * easedFade));
-//			dmx.set(2, round(255 * easedFade));
-//			dmx.set(3, round(255 * easedFade));
-//			dmx.set(4, round(127 + 127 * P.sin(p.frameCount * 0.2f)));
-//			dmx.set(5, round(127 + 127 * P.sin(p.frameCount * 0.2f)));
-//			dmx.set(6, round(127 + 127 * P.sin(p.frameCount * 0.2f)));
+//			dmx.setValue(1, round(255 * easedFade));
+//			dmx.setValue(2, round(255 * easedFade));
+//			dmx.setValue(3, round(255 * easedFade));
+//			dmx.setValue(4, round(127 + 127 * P.sin(p.frameCount * 0.2f)));
+//			dmx.setValue(5, round(127 + 127 * P.sin(p.frameCount * 0.2f)));
+//			dmx.setValue(6, round(127 + 127 * P.sin(p.frameCount * 0.2f)));
 			
 			// silhouette
 			// Set address: Addr
@@ -139,15 +109,15 @@ extends PAppletHax {
 			dimmer.setTarget(dimVal);
 			dimmer.update();
 			
-			dmx.set(1, round(255 * panVal));
-			dmx.set(3, round(255 * tiltVal));
-			dmx.set(5, 230);
-			dmx.set(7, round(255 * dimmer.value()));
-			dmx.set(8, round(255 * p.mousePercentY()));
-			dmx.set(9, round(127 + 127 * P.sin(p.frameCount * 0.02f)));
-			dmx.set(10, round(127 + 127 * P.sin(p.frameCount * 0.01f)));
-			dmx.set(11, round(127 + 127 * P.sin(p.frameCount * 0.03f)));
-			dmx.set(12, 255);
+			dmx.setValue(1, round(255 * panVal));
+			dmx.setValue(3, round(255 * tiltVal));
+			dmx.setValue(5, 230);
+			dmx.setValue(7, round(255 * dimmer.value()));
+			dmx.setValue(8, round(255 * p.mousePercentY()));
+			dmx.setValue(9, round(127 + 127 * P.sin(p.frameCount * 0.02f)));
+			dmx.setValue(10, round(127 + 127 * P.sin(p.frameCount * 0.01f)));
+			dmx.setValue(11, round(127 + 127 * P.sin(p.frameCount * 0.03f)));
+			dmx.setValue(12, 255);
 
 		}
 	}

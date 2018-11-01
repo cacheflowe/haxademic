@@ -39,7 +39,7 @@ public class DMXWrapper {
 		if (P.platform == P.MACOSX) {
 			// mac
 			init( 
-				P.p.appConfig.getString(DMXPRO_PORT, "/dev/tty.usbserial-EN244220"), 
+				P.p.appConfig.getString(DMXPRO_PORT, "/dev/tty.usbserial-EN158815"), 
 				P.p.appConfig.getInt(DMXPRO_BAUDRATE, 115000), 
 				P.p.appConfig.getInt(DMXPRO_UNIVERSE_SIZE, 512)
 			); 
