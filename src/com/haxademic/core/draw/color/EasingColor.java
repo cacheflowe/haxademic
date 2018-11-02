@@ -5,7 +5,7 @@ import com.haxademic.core.math.easing.EasingFloat;
 
 public class EasingColor {
 	
-	public static final float defaultEasing = 8f;
+	public static final float defaultEasing = 0.125f;
 	public EasingFloat r;
 	public EasingFloat g;
 	public EasingFloat b;
@@ -151,6 +151,15 @@ public class EasingColor {
 		g.update(true);
 		b.update(true);
 		a.update(true);
+	}
+	
+	// OTHER SETTERS
+	
+	public void setEaseFactor(float easeFactor) {
+		this.r.setEaseFactor(easeFactor);
+		this.g.setEaseFactor(easeFactor);
+		this.b.setEaseFactor(easeFactor);
+		this.a.setEaseFactor(easeFactor);
 	}
 	
 	// GETTERS

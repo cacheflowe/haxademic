@@ -5,92 +5,92 @@ import com.haxademic.core.app.P;
 public class EasingFloat
 implements IEasingValue {
 	
-	public float _val, _target, _easeFactor, _speed;
-	protected int _delay = 0;
-	protected float COMPLETE_THRESHOLD = 0.001f;
+	public float val, target, easeFactor, speed;
+	protected int delay = 0;
+	protected float completeThreshold = 0.0001f;
 		   
 	public EasingFloat( float value, float easeFactor ) {
-		_val = value;
-		_target = value;
-		_easeFactor = (easeFactor <= 1) ? 1f / easeFactor : easeFactor;
-		_speed = 0f;
-		_delay = 0;
+		val = value;
+		target = value;
+		this.easeFactor = (easeFactor <= 1) ? 1f / easeFactor : easeFactor;
+		speed = 0f;
+		delay = 0;
 	}
 	
 	public float value() {
-		return _val;
+		return val;
 	}
 	
 	public float target() {
-		return _target;
+		return target;
 	}
 	
 	public void setCurrent( float value ) {
-		_val = value;
-		_target = value;
+		val = value;
+		target = value;
 	}
 	
 	public void setTarget( float value ) {
-		_target = value;
+		target = value;
 	}
 	
 	public void setEaseFactor( float value ) {
-		_easeFactor = (value <= 1) ? 1f / value : value;
+		this.easeFactor = (value <= 1) ? 1f / value : value;
 	}
 	
 	public void setDelay( int frames ) {
-		_delay = frames;
+		delay = frames;
 	}
 	
 	public void setCompleteThreshold( float value ) {
-		COMPLETE_THRESHOLD = value;
+		completeThreshold = value;
 	}
 	
 	public void update() {
-		if(_val == _target) return;
-		if(_delay > 0) { _delay--; return; }
-		_val += (_target - _val ) / _easeFactor;
+		if(val == target) return;
+		if(delay > 0) { delay--; return; }
+		val += (target - val ) / easeFactor;
 		checkThreshold();
 	}
 	
 	public void update(boolean accelerates) {
 		// don't do any math if we're already at the destination
-		if(_val == _target) return;
-		if(_delay > 0) { _delay--; return; }
+		if(val == target) return;
+		if(delay > 0) { delay--; return; }
 		// interpolate
 		if(accelerates == false) {
 			update();
 		} else {
-			float increment = (_target - _val ) / _easeFactor;
-			if(Math.abs(increment) > Math.abs(_speed)) {
-				_speed += increment / _easeFactor;
-				increment = _speed;
+			float increment = (target - val ) / easeFactor;
+			if(Math.abs(increment) > Math.abs(speed)) {
+				speed += increment / easeFactor;
+				increment = speed;
 			} else {
-				_speed = increment;
+				speed = increment;
 			}
-			_val += increment;
+			val += increment;
 		}
-		// set the _value to the target if we're close enough
+		// set the value to the target if we're close enough
 		checkThreshold();
 	}
 	
 	public void updateRadians() {
-		if(_val == _target) return;
-		if(_delay > 0) { _delay--; return; }
-		float angleDifference = _target - _val;
+		if(val == target) return;
+		if(delay > 0) { delay--; return; }
+		float angleDifference = target - val;
 		float addToLoop = 0;
 		if( angleDifference > Math.PI) {
 			addToLoop = -P.TWO_PI;
 		} else if(angleDifference < -Math.PI ) {
 			addToLoop = P.TWO_PI;
 		}
-		_val += ((_target - _val + addToLoop) / _easeFactor);
-		if(Math.abs( _val - _target ) < COMPLETE_THRESHOLD) {
-			_val = _target;
+		val += ((target - val + addToLoop) / easeFactor);
+		if(Math.abs( val - target ) < completeThreshold) {
+			val = target;
 		}
 	}
 
 	protected void checkThreshold() {
-		if( Math.abs( _val - _target ) < COMPLETE_THRESHOLD ) _val = _target;
+		if( Math.abs( val - target ) < completeThreshold ) val = target;
 	}
 }

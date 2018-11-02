@@ -25,6 +25,7 @@ extends PAppletHax {
 	}
 	
 	public void drawApp() {
+		colorHaxEasing.setEaseFactor(p.mousePercentX());
 		colorHaxEasing.update();
 		p.background(0);
 		p.fill(colorHaxEasing.colorInt());
