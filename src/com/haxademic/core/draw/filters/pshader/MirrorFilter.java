@@ -11,6 +11,7 @@ extends BaseFragmentShader {
 	
 	public MirrorFilter(PApplet p) {
 		super(p, "haxademic/shaders/filters/mirror.glsl");
+		setHorizontal(true);
 	}
 	
 	public static MirrorFilter instance(PApplet p) {
@@ -18,5 +19,10 @@ extends BaseFragmentShader {
 		instance = new MirrorFilter(p);
 		return instance;
 	}
+
+	public void setHorizontal(boolean horizontal) {
+		shader.set("horizontal", horizontal);
+	}
+	
 
 }

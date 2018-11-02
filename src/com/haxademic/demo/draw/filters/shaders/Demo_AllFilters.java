@@ -455,6 +455,7 @@ extends PAppletHax { public static void main(String args[]) { PAppletHax.main(Th
 			MaskThreeTextureFilter.instance(p).setTexture2(DemoAssets.textureNebula());
 			MaskThreeTextureFilter.instance(p).applyTo(pg);
 		} else if(curFilter == MirrorFilter.instance(p)) {
+			MirrorFilter.instance(p).setHorizontal(p.mousePercentX() < 0.5f);
 			MirrorFilter.instance(p).applyTo(pg);
 		} else if(curFilter == MirrorQuadFilter.instance(p)) {
 			MirrorQuadFilter.instance(p).setZoom(p.mousePercentY() * 5f);
