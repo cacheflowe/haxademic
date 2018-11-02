@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="WINDOWS-1252" standalone="no"?>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <jardesc>
     <jar path="haxademic/lib/haxademic/haxademic.jar"/>
     <options buildIfNeeded="true" compress="true" descriptionLocation="/haxademic/haxademic.jardesc" exportErrors="true" exportWarnings="true" includeDirectoryEntries="false" overwrite="true" saveDescription="true" storeRefactorings="false" useSourceFolders="false"/>
@@ -54,6 +54,7 @@
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.audio.analysis.input"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.system.shell"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.draw.shapes"/>
+        <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.render.joons"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.hardware.leap"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.draw.textures.pgraphics.shared"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.debug"/>
