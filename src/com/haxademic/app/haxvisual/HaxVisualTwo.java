@@ -36,7 +36,7 @@ import com.haxademic.core.draw.filters.pshader.KaleidoFilter;
 import com.haxademic.core.draw.filters.pshader.LeaveBlackFilter;
 import com.haxademic.core.draw.filters.pshader.LiquidWarpFilter;
 import com.haxademic.core.draw.filters.pshader.MaskThreeTextureFilter;
-import com.haxademic.core.draw.filters.pshader.MirrorFilter;
+import com.haxademic.core.draw.filters.pshader.ReflectFilter;
 import com.haxademic.core.draw.filters.pshader.MirrorQuadFilter;
 import com.haxademic.core.draw.filters.pshader.PixelateFilter;
 import com.haxademic.core.draw.filters.pshader.RadialRipplesFilter;
@@ -439,7 +439,7 @@ extends PAppletHax {
 		float kaleidoSides = P.round( p.midiState.midiCCPercent(midiInChannel, kaledioKnob) * 12f );
 		if( kaleidoSides > 0 ) {
 			if( kaleidoSides == 3 ) {
-				MirrorFilter.instance(p).applyTo(_pg);
+				ReflectFilter.instance(p).applyTo(_pg);
 			} else {
 				KaleidoFilter.instance(p).setAngle(0f);
 				KaleidoFilter.instance(p).setSides(kaleidoSides);
@@ -847,7 +847,7 @@ extends PAppletHax {
 			BlurProcessingFilter.instance(p).setSigma(2f);
 			BlurProcessingFilter.instance(p).applyTo(pg);
 		} else if(textureEffectIndex == 4) {
-			MirrorFilter.instance(p).applyTo(pg);
+			ReflectFilter.instance(p).applyTo(pg);
 		} else if(textureEffectIndex == 5) {
 			WobbleFilter.instance(p).setTime(filterTime);
 			WobbleFilter.instance(p).setSpeed(0.5f);

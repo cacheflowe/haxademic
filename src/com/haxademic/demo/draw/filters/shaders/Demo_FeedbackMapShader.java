@@ -6,7 +6,7 @@ import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.constants.PRenderers;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.filters.pshader.BlurProcessingFilter;
-import com.haxademic.core.draw.filters.pshader.MirrorFilter;
+import com.haxademic.core.draw.filters.pshader.ReflectFilter;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.image.PerlinTexture;
 import com.haxademic.core.draw.shapes.PShapeUtil;
@@ -110,7 +110,7 @@ extends PAppletHax {
 	
 	protected void updateMapAudio() {
 		audioTexture.update();
-		MirrorFilter.instance(p).applyTo(audioTexture.texture());
+		ReflectFilter.instance(p).applyTo(audioTexture.texture());
 		map = audioTexture.texture();	
 	}
 	

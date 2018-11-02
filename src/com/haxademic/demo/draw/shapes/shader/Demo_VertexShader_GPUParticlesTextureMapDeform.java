@@ -5,7 +5,7 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.constants.PRenderers;
 import com.haxademic.core.draw.context.DrawUtil;
-import com.haxademic.core.draw.filters.pshader.MirrorFilter;
+import com.haxademic.core.draw.filters.pshader.ReflectFilter;
 import com.haxademic.core.draw.image.PerlinTexture;
 import com.haxademic.core.draw.textures.pgraphics.TextureEQGrid;
 import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
@@ -86,7 +86,7 @@ extends PAppletHax {
 		// update displacement texture
 		// perlin.update(0.15f, 0.05f, p.frameCount/ 10f, 0);
 		audioTexture.update();
-		MirrorFilter.instance(p).applyTo(audioTexture.texture());
+		ReflectFilter.instance(p).applyTo(audioTexture.texture());
 		
 		// fade background
 		buffer.beginDraw();

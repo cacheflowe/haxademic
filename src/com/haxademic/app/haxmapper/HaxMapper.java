@@ -29,7 +29,7 @@ import com.haxademic.core.draw.filters.pshader.EdgesFilter;
 import com.haxademic.core.draw.filters.pshader.HalftoneFilter;
 import com.haxademic.core.draw.filters.pshader.HueFilter;
 import com.haxademic.core.draw.filters.pshader.KaleidoFilter;
-import com.haxademic.core.draw.filters.pshader.MirrorFilter;
+import com.haxademic.core.draw.filters.pshader.ReflectFilter;
 import com.haxademic.core.draw.filters.pshader.PixelateFilter;
 import com.haxademic.core.draw.filters.pshader.RadialRipplesFilter;
 import com.haxademic.core.draw.filters.pshader.SphereDistortionFilter;
@@ -494,7 +494,7 @@ extends PAppletHax {
 				} else if(_textureEffectsIndices[i] == 3) {
 					EdgesFilter.instance(p).applyTo(pg);
 				} else if(_textureEffectsIndices[i] == 4) {
-					MirrorFilter.instance(p).applyTo(pg);
+					ReflectFilter.instance(p).applyTo(pg);
 				} else if(_textureEffectsIndices[i] == 5) {
 					WobbleFilter.instance(p).setTime(filterTime);
 					WobbleFilter.instance(p).setSpeed(0.5f);

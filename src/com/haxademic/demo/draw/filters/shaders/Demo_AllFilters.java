@@ -52,7 +52,7 @@ import com.haxademic.core.draw.filters.pshader.LeaveWhiteFilter;
 import com.haxademic.core.draw.filters.pshader.LiquidWarpFilter;
 import com.haxademic.core.draw.filters.pshader.LumaColorReplaceFilter;
 import com.haxademic.core.draw.filters.pshader.MaskThreeTextureFilter;
-import com.haxademic.core.draw.filters.pshader.MirrorFilter;
+import com.haxademic.core.draw.filters.pshader.ReflectFilter;
 import com.haxademic.core.draw.filters.pshader.MirrorQuadFilter;
 import com.haxademic.core.draw.filters.pshader.Pixelate2Filter;
 import com.haxademic.core.draw.filters.pshader.PixelateFilter;
@@ -161,12 +161,12 @@ extends PAppletHax { public static void main(String args[]) { PAppletHax.main(Th
 			LumaColorReplaceFilter.instance(p),
 			KaleidoFilter.instance(p),
 			MaskThreeTextureFilter.instance(p),
-			MirrorFilter.instance(p),
 			MirrorQuadFilter.instance(p),
 			PixelateFilter.instance(p),
 			Pixelate2Filter.instance(p),
 			RadialBlurFilter.instance(p),
 			RadialRipplesFilter.instance(p),
+			ReflectFilter.instance(p),
 			RepeatFilter.instance(p),
 			RotateFilter.instance(p),
 			SaturateHSVFilter.instance(p),
@@ -454,9 +454,6 @@ extends PAppletHax { public static void main(String args[]) { PAppletHax.main(Th
 			MaskThreeTextureFilter.instance(p).setTexture1(DemoAssets.justin());
 			MaskThreeTextureFilter.instance(p).setTexture2(DemoAssets.textureNebula());
 			MaskThreeTextureFilter.instance(p).applyTo(pg);
-		} else if(curFilter == MirrorFilter.instance(p)) {
-			MirrorFilter.instance(p).setHorizontal(p.mousePercentX() < 0.5f);
-			MirrorFilter.instance(p).applyTo(pg);
 		} else if(curFilter == MirrorQuadFilter.instance(p)) {
 			MirrorQuadFilter.instance(p).setZoom(p.mousePercentY() * 5f);
 			MirrorQuadFilter.instance(p).applyTo(pg);
@@ -472,13 +469,17 @@ extends PAppletHax { public static void main(String args[]) { PAppletHax.main(Th
 			RadialRipplesFilter.instance(p).setTime(p.frameCount * 0.01f);
 			RadialRipplesFilter.instance(p).setAmplitude(p.mousePercentX() * 4f);
 			RadialRipplesFilter.instance(p).applyTo(pg);
+		} else if(curFilter == ReflectFilter.instance(p)) {
+			ReflectFilter.instance(p).setHorizontal(p.mousePercentX() < 0.5f);
+			ReflectFilter.instance(p).setReflectPosition(p.mousePercentY());
+			ReflectFilter.instance(p).applyTo(pg);
+		} else if(curFilter == RepeatFilter.instance(p)) {
+			RepeatFilter.instance(p).setZoom(p.mousePercentY() * 15f);
+			RepeatFilter.instance(p).applyTo(pg);
 		} else if(curFilter == RotateFilter.instance(p)) {
 			RotateFilter.instance(p).setRotation(p.mousePercentX() * 2f * P.TWO_PI);
 			RotateFilter.instance(p).setZoom(p.mousePercentY() * 15f);
 			RotateFilter.instance(p).applyTo(pg);
-		} else if(curFilter == RepeatFilter.instance(p)) {
-			RepeatFilter.instance(p).setZoom(p.mousePercentY() * 15f);
-			RepeatFilter.instance(p).applyTo(pg);
 		} else if(curFilter == SaturateHSVFilter.instance(p)) {
 			ColorizeFromTexture.instance(p).applyTo(pg);
 			

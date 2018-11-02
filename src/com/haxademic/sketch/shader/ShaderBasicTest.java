@@ -6,7 +6,7 @@ import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.draw.filters.pshader.BadTVLinesFilter;
 import com.haxademic.core.draw.filters.pshader.ColorizeTwoColorsFilter;
 import com.haxademic.core.draw.filters.pshader.KaleidoFilter;
-import com.haxademic.core.draw.filters.pshader.MirrorFilter;
+import com.haxademic.core.draw.filters.pshader.ReflectFilter;
 import com.haxademic.core.draw.filters.pshader.RotateFilter;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.MathUtil;
@@ -88,7 +88,7 @@ extends PAppletHax {
 //		KaleidoFilter.instance(p).setAngle(radsComplete);
 //		KaleidoFilter.instance(p).setSides(P.round(6 + 2f * P.sin(radsComplete)));
 		KaleidoFilter.instance(p).applyTo(filterTargetCanvas);
-		MirrorFilter.instance(p).applyTo(filterTargetCanvas);
+		ReflectFilter.instance(p).applyTo(filterTargetCanvas);
 //		InvertFilter.instance(p).applyTo(filterTargetCanvas);
 //		RadialRipplesFilter.instance(p).setTime( _timeEaseInc / 5f);
 //		RadialRipplesFilter.instance(p).setAmplitude(0.4f + 0.4f * P.sin(radsComplete));

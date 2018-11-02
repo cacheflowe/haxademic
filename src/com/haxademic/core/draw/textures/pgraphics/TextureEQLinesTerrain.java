@@ -5,7 +5,7 @@ import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.filters.pshader.BlurProcessingFilter;
 import com.haxademic.core.draw.filters.pshader.InvertFilter;
-import com.haxademic.core.draw.filters.pshader.MirrorFilter;
+import com.haxademic.core.draw.filters.pshader.ReflectFilter;
 import com.haxademic.core.draw.filters.pshader.VignetteAltFilter;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.shapes.PShapeUtil;
@@ -92,7 +92,7 @@ extends BaseTexture {
 		eqHistoryCopy.endShape(P.CLOSE);
 		eqHistoryCopy.endDraw();
 		
-		MirrorFilter.instance(P.p).applyTo(eqHistoryCopy);
+		ReflectFilter.instance(P.p).applyTo(eqHistoryCopy);
 	}
 	
 	public void updateDraw() {
