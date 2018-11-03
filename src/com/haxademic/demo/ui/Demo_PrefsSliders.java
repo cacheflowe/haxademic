@@ -1,6 +1,7 @@
 package com.haxademic.demo.ui;
 
 import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.constants.AppSettings;
 
 public class Demo_PrefsSliders 
 extends PAppletHax {
@@ -9,6 +10,10 @@ extends PAppletHax {
 	protected String R = "R";
 	protected String G = "G";
 	protected String B = "B";
+	
+	protected void overridePropsFile() {
+		p.appConfig.setProperty(AppSettings.SHOW_SLIDERS, true);
+	}
 	
 	public void setupFirstFrame () {
 		prefsSliders.addSlider(R, 255, 0, 255, 0.5f);
