@@ -1,8 +1,7 @@
 <?php
 
 // TODO LATER:
-// Add a purge button
-// Add a real timestamp and compare with current time for last checkin diff ("3 hours ago")
+// Add a purge button (or auto-purge when > x days accumulate)
 // On date list, show number of checkins for each mini date card
 // [BUG] Why isn't the first image getting encoded properly?
 // Cache JSON locally on app machine, then upload JSON files and delete on success
@@ -29,10 +28,10 @@ $_projectId = $_GET['project'];
 $_projectName = ucwords(str_replace("-", " ", $_projectId)); //ucwords($_projectId);
 
 if (isValidJSON($jsonPosted)) {
-  // save file 
-  include './views/json-request.php'; 
+  // save file
+  include './views/json-request.php';
 } else {
   // list projects
-  include './views/html.php'; 
+  include './views/html.php';
 }
 ?>
