@@ -359,8 +359,9 @@ extends PAppletHax { public static void main(String args[]) { PAppletHax.main(Th
 			GlitchImageGlitcherFilter.instance(p).setNumSlices(p.mousePercentY() * 200f);
 			GlitchImageGlitcherFilter.instance(p).applyTo(pg);
 		} else if(curFilter == GlitchPseudoPixelSortingFilter.instance(p)) {
-			GlitchPseudoPixelSortingFilter.instance(p).setThresholdLow(p.mousePercentX());
-			GlitchPseudoPixelSortingFilter.instance(p).setThresholdHigh(p.mousePercentY());
+			// GlitchPseudoPixelSortingFilter.instance(p).setThresholdLow(p.mousePercentX());
+			// GlitchPseudoPixelSortingFilter.instance(p).setThresholdHigh(p.mousePercentY());
+			GlitchPseudoPixelSortingFilter.instance(p).setThresholdThresholdsCurved(p.mousePercentX());
 			GlitchPseudoPixelSortingFilter.instance(p).applyTo(pg);
 		} else if(curFilter == GlitchShaderAFilter.instance(p)) {
 			GlitchShaderAFilter.instance(p).setAmp(p.mousePercentX() * 2f);
