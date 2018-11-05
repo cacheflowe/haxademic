@@ -22,7 +22,7 @@ extends PAppletHax {
 	
 	public void setupFirstFrame() {
 		// dmx = new DMXWrapper();
-		dmx = new DMXWrapper("COM3", 9600);
+		dmx = new DMXWrapper("COM4", 9600);
 		
 		// init easing colors
 		colors = new EasingColor[numLights];
@@ -69,10 +69,10 @@ extends PAppletHax {
 			}
 
 			// color cycle
-			// for (int i = 0; i < numChannels; i++) {
-			// 	float osc = (0.5f + 0.4f * P.sin(i)) * 0.15f;
-			// 	dmx.setValue(i+1, round(127 + 127 * P.sin(p.frameCount * osc)));
-			// }
+			for (int i = 0; i < numChannels; i++) {
+				float osc = (0.5f + 0.4f * P.sin(i)) * 0.15f;
+				dmx.setValue(i+1, round(127 + 127 * P.sin(p.frameCount * osc)));
+			}
 		}
 	}
 	

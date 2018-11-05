@@ -25,6 +25,7 @@ public class DMXWrapper {
 	public static final String DMXPRO_UNIVERSE_SIZE = "DMXPRO_UNIVERSE_SIZE";
 	
 	protected DmxP512 dmx;
+	protected int universeSize = 512;
 
 	public DMXWrapper(String port, int baudRate, int universeSize) {
 		init(port, baudRate, universeSize);		
@@ -55,6 +56,7 @@ public class DMXWrapper {
 	}
 	
 	protected void init(String port, int baudRate, int universeSize) {
+		this.universeSize = universeSize;
 		P.out("Initializing DMXWrapper ---------------------");
 		
 		// debug serial devices
@@ -66,7 +68,7 @@ public class DMXWrapper {
 		if (devicePorts != null && devicePorts.length > 0) {
 			for (int i = 0; i < devicePorts.length; i++) {
 				if(devicePorts[i].equals(port)) foundDevice = true;
-				P.out("-", port);
+				P.out("-", devicePorts[i]);
 			}
 		}
 
@@ -81,9 +83,13 @@ public class DMXWrapper {
 		}
 	}
 	
+	public int universeSize() {
+		return universeSize;
+	}
+	
 	public void setValue(int channel, int value) {
-		if (dmx != null) dmx.set(channel, P.constrain(value, 0, 255));
+		if (dmx != null) dmx.set(P.constrain(channel, 1, 512), P.constrain(value, 0, 255));
+		if (channel < 1 || channel > 512) P.error("DMX channel out of range (1-"+ universeSize +"): " + value);
 		if (value < 0 || value > 255) P.error("DMX value out of range (0-255): " + value);
-
 	}
 }
