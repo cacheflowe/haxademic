@@ -11,10 +11,7 @@ extends BaseFragmentShader {
 	
 	public ColorSolidFilter(PApplet p) {
 		super(p, "haxademic/shaders/filters/color-solid.glsl");
-		setR(1f);
-		setG(1f);
-		setB(1f);
-		setA(1f);
+		setColor(1f, 1f, 1f, 1f);
 		setCrossfade(1f);
 	}
 	
@@ -24,20 +21,8 @@ extends BaseFragmentShader {
 		return instance;
 	}
 	
-	public void setR(float r) {
-		shader.set("r", r);
-	}
-	
-	public void setG(float g) {
-		shader.set("g", g);
-	}
-
-	public void setB(float b) {
-		shader.set("b", b);
-	}
-
-	public void setA(float a) {
-		shader.set("a", a);
+	public void setColor(float r, float g, float b, float a) {
+		shader.set("targetColor", r, g, b, a);
 	}
 
 	public void setCrossfade(float crossfade) {

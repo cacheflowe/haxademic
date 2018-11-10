@@ -315,10 +315,7 @@ extends PAppletHax { public static void main(String args[]) { PAppletHax.main(Th
 			ColorizeTwoColorsFilter.instance(p).setColor2(0f, 1f, 1f);
 			ColorizeTwoColorsFilter.instance(p).applyTo(pg);
 		} else if(curFilter == ColorSolidFilter.instance(p)) {
-			ColorSolidFilter.instance(p).setR(p.mousePercentX());
-			ColorSolidFilter.instance(p).setG(p.mousePercentY());
-			ColorSolidFilter.instance(p).setB(p.mousePercentX());
-			ColorSolidFilter.instance(p).setA(p.mousePercentY());
+			ColorSolidFilter.instance(p).setColor(p.mousePercentX(), p.mousePercentY(), p.mousePercentX(), p.mousePercentY());
 			ColorSolidFilter.instance(p).setCrossfade(p.mousePercentY());
 			ColorSolidFilter.instance(p).applyTo(pg);
 		} else if(curFilter == ContrastFilter.instance(p)) {

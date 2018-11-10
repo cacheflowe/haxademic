@@ -12,13 +12,10 @@ uniform vec2 texOffset; // resolution
 varying vec4 vertColor;
 varying vec4 vertTexCoord;
 
-uniform float r = 1.0;
-uniform float g = 1.0;
-uniform float b = 1.0;
-uniform float a = 1.0;
+uniform vec4 targetColor = vec4(1.0);
 uniform float crossfade = 1.0;
 
 void main() {
-  vec4 color = texture2D(texture, vertTexCoord.xy);
-  gl_FragColor = mix(color, vec4(r, g, b, a), crossfade);
+  vec4 origColor = texture2D(texture, vertTexCoord.xy);
+  gl_FragColor = mix(origColor, targetColor, crossfade);
 }
