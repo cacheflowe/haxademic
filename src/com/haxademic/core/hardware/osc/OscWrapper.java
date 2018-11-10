@@ -20,8 +20,9 @@ public class OscWrapper {
 
 	public OscWrapper() {
 //		_oscP5 = new OscP5(this, 12000);
-//		_oscP5 = new OscP5(this,"239.0.0.1",7777);	// multicast! check the demo for more info
-		_oscP5 = new OscP5(this,"224.0.1.0",7777);	// multicast! check the demo for more info
+//		_oscP5 = new OscP5(this,"239.0.0.1",7777);			// multicast! check the demo for more info
+//		_oscP5 = new OscP5(this,"224.0.1.0",7777);			// multicast! check the demo for more info
+		_oscP5 = new OscP5(this,"255.255.255.255",7777);	// multicast! this seems to be more reliable
 //		_remoteLocation = new NetAddress("127.0.0.1",12000);
 		oscMsgMap = new HashMap<String, Float>();
 		oscMsgState = new HashMap<String, InputState>();
