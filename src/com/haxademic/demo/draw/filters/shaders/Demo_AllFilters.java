@@ -19,6 +19,7 @@ import com.haxademic.core.draw.filters.pshader.BulgeLinearFilter;
 import com.haxademic.core.draw.filters.pshader.ChromaColorFilter;
 import com.haxademic.core.draw.filters.pshader.ColorCorrectionFilter;
 import com.haxademic.core.draw.filters.pshader.ColorDistortionFilter;
+import com.haxademic.core.draw.filters.pshader.ColorSolidFilter;
 import com.haxademic.core.draw.filters.pshader.ColorizeFilter;
 import com.haxademic.core.draw.filters.pshader.ColorizeFromTexture;
 import com.haxademic.core.draw.filters.pshader.ColorizeTwoColorsFilter;
@@ -52,12 +53,12 @@ import com.haxademic.core.draw.filters.pshader.LeaveWhiteFilter;
 import com.haxademic.core.draw.filters.pshader.LiquidWarpFilter;
 import com.haxademic.core.draw.filters.pshader.LumaColorReplaceFilter;
 import com.haxademic.core.draw.filters.pshader.MaskThreeTextureFilter;
-import com.haxademic.core.draw.filters.pshader.ReflectFilter;
 import com.haxademic.core.draw.filters.pshader.MirrorQuadFilter;
 import com.haxademic.core.draw.filters.pshader.Pixelate2Filter;
 import com.haxademic.core.draw.filters.pshader.PixelateFilter;
 import com.haxademic.core.draw.filters.pshader.RadialBlurFilter;
 import com.haxademic.core.draw.filters.pshader.RadialRipplesFilter;
+import com.haxademic.core.draw.filters.pshader.ReflectFilter;
 import com.haxademic.core.draw.filters.pshader.RepeatFilter;
 import com.haxademic.core.draw.filters.pshader.RotateFilter;
 import com.haxademic.core.draw.filters.pshader.SaturateHSVFilter;
@@ -129,6 +130,7 @@ extends PAppletHax { public static void main(String args[]) { PAppletHax.main(Th
 			ColorizeFilter.instance(p),
 			ColorizeFromTexture.instance(p),
 			ColorizeTwoColorsFilter.instance(p),
+			ColorSolidFilter.instance(p),
 			ContrastFilter.instance(p),
 			CubicLensDistortionFilter.instance(p),
 			CubicLensDistortionFilterOscillate.instance(p),
@@ -312,6 +314,13 @@ extends PAppletHax { public static void main(String args[]) { PAppletHax.main(Th
 			ColorizeTwoColorsFilter.instance(p).setColor1(1f, 0f, 1f);
 			ColorizeTwoColorsFilter.instance(p).setColor2(0f, 1f, 1f);
 			ColorizeTwoColorsFilter.instance(p).applyTo(pg);
+		} else if(curFilter == ColorSolidFilter.instance(p)) {
+			ColorSolidFilter.instance(p).setR(p.mousePercentX());
+			ColorSolidFilter.instance(p).setG(p.mousePercentY());
+			ColorSolidFilter.instance(p).setB(p.mousePercentX());
+			ColorSolidFilter.instance(p).setA(p.mousePercentY());
+			ColorSolidFilter.instance(p).setCrossfade(p.mousePercentY());
+			ColorSolidFilter.instance(p).applyTo(pg);
 		} else if(curFilter == ContrastFilter.instance(p)) {
 			ContrastFilter.instance(p).setContrast(p.mousePercentX() * 3);
 			ContrastFilter.instance(p).applyTo(pg);

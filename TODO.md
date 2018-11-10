@@ -73,6 +73,7 @@
     * Demo_VertexShader_NoiseTest_WIP
     * Demo_VertexShader_Fattener
 * General / tools
+  * Look into JarSplice or other compiling tools for application deployment 
   * Web interface to control PrefsSliders: Add JSON interface for PrefsSliders & WebServer/WebSockets?
   * Fix overhead view of KinectRegionGrid - with larger grids it's off-screen
   * BufferActivityMonitor should use FrameDifferenceBuffer object
