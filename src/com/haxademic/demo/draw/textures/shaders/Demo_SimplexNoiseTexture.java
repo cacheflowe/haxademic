@@ -22,8 +22,7 @@ extends PAppletHax {
 		p.prefsSliders.addSlider(OFFSET_Y, 0f, -100f, 100f, 0.01f, false);
 		
 		// init noise object
-//		noiseTexture = new SimplexNoiseTexture(p.width, p.height);
-		noiseTexture = new SimplexNoiseTexture(10, 100);
+		noiseTexture = new SimplexNoiseTexture(p.width, p.height);
 		noiseTexture.update(0.07f, 0, 0, 0);
 	}
 
