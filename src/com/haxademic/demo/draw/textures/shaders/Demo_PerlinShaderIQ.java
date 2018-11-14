@@ -3,13 +3,9 @@ package com.haxademic.demo.draw.textures.shaders;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.PRenderers;
-import com.haxademic.core.draw.image.PerlinTexture;
-import com.haxademic.core.draw.shapes.Shapes;
 import com.haxademic.core.file.FileUtil;
 
 import processing.core.PGraphics;
-import processing.core.PImage;
-import processing.core.PShape;
 import processing.opengl.PShader;
 
 public class Demo_PerlinShaderIQ 
