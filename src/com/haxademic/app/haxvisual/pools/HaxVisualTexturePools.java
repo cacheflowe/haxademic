@@ -32,6 +32,7 @@ import com.haxademic.core.draw.textures.pgraphics.TextureTwistingSquares;
 import com.haxademic.core.draw.textures.pgraphics.TextureVectorFieldEQ;
 import com.haxademic.core.draw.textures.pgraphics.TextureWaveformCircle;
 import com.haxademic.core.draw.textures.pgraphics.TextureWaveformSimple;
+import com.haxademic.core.draw.textures.pgraphics.TextureWords2d;
 import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
 
 import processing.core.PGraphics;
@@ -99,6 +100,7 @@ public class HaxVisualTexturePools {
 //		_overlayTexturePool.add( );
 		
 		_topLayerPool.add( new TextureSphereAudioTextures( _pg.width, _pg.height ) );
+		_topLayerPool.add( new TextureWords2d( _pg.width, _pg.height ) );
 	}
 	
 	public static void addTexturesToPool(PGraphics _pg, ArrayList<BaseTexture> _bgTexturePool, ArrayList<BaseTexture> _fgTexturePool, ArrayList<BaseTexture> _overlayTexturePool, ArrayList<BaseTexture> _topLayerPool) {

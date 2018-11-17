@@ -9,6 +9,7 @@ import com.haxademic.core.draw.textures.pgraphics.TextureEQGrid;
 import com.haxademic.core.draw.textures.pgraphics.TextureEQLinesTerrain;
 import com.haxademic.core.draw.textures.pgraphics.TextureShaderTimeStepper;
 import com.haxademic.core.draw.textures.pgraphics.TextureSvg3dExtruded;
+import com.haxademic.core.draw.textures.pgraphics.TextureWords2d;
 import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
 import com.haxademic.core.hardware.midi.devices.AbletonNotes;
 import com.haxademic.core.hardware.midi.devices.AkaiMpdPads;
@@ -72,7 +73,8 @@ extends PAppletHax {
 //			new TextureAudioBlocksDeform( w, h ),
 //			new TextureBlocksSheet( w, h ),
 //			new TextureEQLinesTerrain( w, h ),
-			new TextureSvg3dExtruded( w, h ),
+//			new TextureSvg3dExtruded( w, h ),
+			new TextureWords2d( w, h ),
 //			new TextureSvgExtruded( w, h ),
 			
 			

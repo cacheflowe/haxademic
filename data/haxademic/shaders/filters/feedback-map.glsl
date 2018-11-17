@@ -12,6 +12,7 @@ varying vec4 vertTexCoord;
 uniform sampler2D map;
 uniform float amp = 0.01;
 uniform float samplemult = 1.0;
+uniform float alphaMult = 1.;
 
 float TWO_PI = radians(360);
 
@@ -35,6 +36,6 @@ void main() {
   float rotate = grayColor * TWO_PI * 3.;
   vec2 displace = p + vec2(amp * cos(rotate), amp * sin(rotate));
   // displace = wrappedPos(displace);
-  vec4 sampleColor = texture2D(texture, displace) * vec4(vec3(samplemult), 1.);
+  vec4 sampleColor = texture2D(texture, displace) * vec4(vec3(samplemult), alphaMult);
   gl_FragColor = sampleColor;
 }
