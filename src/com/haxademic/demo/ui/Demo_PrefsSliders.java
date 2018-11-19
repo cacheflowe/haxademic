@@ -1,5 +1,6 @@
 package com.haxademic.demo.ui;
 
+import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
 
@@ -16,16 +17,17 @@ extends PAppletHax {
 	}
 	
 	public void setupFirstFrame () {
-		prefsSliders.addSlider(R, 255, 0, 255, 0.5f);
-		prefsSliders.addSlider(G, 255, 0, 255, 0.5f);
-		prefsSliders.addSlider(B, 255, 0, 255, 0.5f);
+		p.prefsSliders.addSlider(R, 255, 0, 255, 0.5f);
+		p.prefsSliders.addSlider(G, 255, 0, 255, 0.5f);
+		p.prefsSliders.addSlider(B, 255, 0, 255, 0.5f);
+		P.out(p.prefsSliders.toJSON());
 	}
 	
 	public void drawApp() {
 		p.background(
-			prefsSliders.value(R),
-			prefsSliders.value(G),
-			prefsSliders.value(B)
+			p.prefsSliders.value(R),
+			p.prefsSliders.value(G),
+			p.prefsSliders.value(B)
 		);
 	}
 	

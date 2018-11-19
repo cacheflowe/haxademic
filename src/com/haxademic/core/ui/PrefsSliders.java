@@ -3,8 +3,10 @@ package com.haxademic.core.ui;
 import java.util.HashMap;
 
 import com.haxademic.core.app.P;
+import com.haxademic.core.net.JSONUtil;
 
 import processing.core.PFont;
+import processing.data.JSONObject;
 
 public class PrefsSliders {
 
@@ -59,6 +61,14 @@ public class PrefsSliders {
 
 	public boolean active() {
 		return active;
+	}
+	
+	public String toJSON() {
+		JSONObject json = new JSONObject();
+		for (PrefSlider prefSlider : prefSliders.values()) {
+			json.setFloat(prefSlider.key(), prefSlider.value());
+		}
+		return json.toString();
 	}
 	
 }

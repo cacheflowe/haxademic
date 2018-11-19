@@ -13,7 +13,7 @@ import processing.event.MouseEvent;
 
 public class PrefSlider {
 	
-	protected String property;
+	protected String key;
 	protected float value;
 	protected float low;
 	protected float high;
@@ -34,7 +34,7 @@ public class PrefSlider {
 	}
 	
 	public PrefSlider(String property, float value, float low, float high, float dragStep, int x, int y, int w, int h, boolean saves) {
-		this.property = property;
+		this.key = property;
 		this.value = (saves) ? PrefToText.getValueF(property, value) : value;
 		this.low = low;
 		this.high = high;
@@ -46,6 +46,10 @@ public class PrefSlider {
 		this.saves = saves;
 		P.p.registerMethod("mouseEvent", this);
 		P.p.registerMethod("keyEvent", this);
+	}
+	
+	public String key() {
+		return key;
 	}
 	
 	public float value() {
@@ -61,7 +65,7 @@ public class PrefSlider {
 		// text label
 		pg.fill(255);
 		pg.textSize(12);
-		pg.text(property + ": " + value, x + 4, y + 3, w, 20);
+		pg.text(key + ": " + value, x + 4, y + 3, w, 20);
 		uiRect.setBounds(x, y, w, h);
 		// outline
 		pg.strokeWeight(1);
@@ -95,7 +99,7 @@ public class PrefSlider {
 		case MouseEvent.RELEASE:
 			if(mousePressed) {
 				mousePressed = false;
-				if(saves) PrefToText.setValue(property, value);
+				if(saves) PrefToText.setValue(key, value);
 			}
 			break;
 		case MouseEvent.MOVE:
