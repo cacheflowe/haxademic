@@ -55,6 +55,7 @@
   * WebServer and SocketServer should be more stylistically similar. See PORT in WebServer, and DEBUG static boolean - should be passed in?
   * Replace JavaWebsocket with Jetty WebSocket server??
 * Demos:
+  * Render a video with effects, using BrimVFX as example
   * Replicate indpendent 40k shape demo from Processing examples - update with GPU
   * Make a little planet generator with icosahedron deformation and colorized texture map of depth
     * https://github.com/ashima/webgl-noise/wiki
