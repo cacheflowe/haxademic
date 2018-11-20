@@ -36,10 +36,10 @@ import com.haxademic.core.draw.filters.pshader.KaleidoFilter;
 import com.haxademic.core.draw.filters.pshader.LeaveBlackFilter;
 import com.haxademic.core.draw.filters.pshader.LiquidWarpFilter;
 import com.haxademic.core.draw.filters.pshader.MaskThreeTextureFilter;
-import com.haxademic.core.draw.filters.pshader.ReflectFilter;
 import com.haxademic.core.draw.filters.pshader.MirrorQuadFilter;
 import com.haxademic.core.draw.filters.pshader.PixelateFilter;
 import com.haxademic.core.draw.filters.pshader.RadialRipplesFilter;
+import com.haxademic.core.draw.filters.pshader.ReflectFilter;
 import com.haxademic.core.draw.filters.pshader.RotateFilter;
 import com.haxademic.core.draw.filters.pshader.SphereDistortionFilter;
 import com.haxademic.core.draw.filters.pshader.VignetteAltFilter;
@@ -56,6 +56,7 @@ import com.haxademic.core.hardware.midi.devices.LaunchControl;
 import com.haxademic.core.hardware.osc.devices.TouchOscPads;
 import com.haxademic.core.hardware.shared.InputTrigger;
 import com.haxademic.core.math.MathUtil;
+import com.haxademic.core.math.easing.LinearFloat;
 import com.haxademic.core.system.SystemUtil;
 
 import processing.core.PGraphics;
@@ -128,6 +129,18 @@ extends PAppletHax {
 	protected InputTrigger _bigChangeTrigger = new InputTrigger(new char[]{' '},new String[]{TouchOscPads.PAD_07},new Integer[]{AkaiMpdPads.PAD_07, LaunchControl.PAD_08, AbletonNotes.NOTE_07});
 	protected InputTrigger _lineModeTrigger = new InputTrigger(new char[]{'l'},new String[]{TouchOscPads.PAD_08},new Integer[]{AkaiMpdPads.PAD_08, LaunchControl.PAD_06, AbletonNotes.NOTE_08});
 
+	// input debug
+	float debugEaseInc = 0.05f;
+	protected LinearFloat colorTriggerIndicator = new LinearFloat(0, debugEaseInc);
+	protected LinearFloat rotationTriggerIndicator = new LinearFloat(0, debugEaseInc);
+	protected LinearFloat timingTriggerIndicator = new LinearFloat(0, debugEaseInc);
+	protected LinearFloat modeTriggerIndicator = new LinearFloat(0, debugEaseInc);
+	protected LinearFloat timingSectionTriggerIndicator = new LinearFloat(0, debugEaseInc);
+	protected LinearFloat bigChangeTriggerIndicator = new LinearFloat(0, debugEaseInc);
+	protected LinearFloat lineModeTriggerIndicator = new LinearFloat(0, debugEaseInc);
+	protected LinearFloat[] triggerDebugLinearFloats = new LinearFloat[] { colorTriggerIndicator, rotationTriggerIndicator, timingTriggerIndicator, modeTriggerIndicator, timingSectionTriggerIndicator, bigChangeTriggerIndicator, lineModeTriggerIndicator };
+	
+	// extra controls
 	protected InputTrigger _audioInputUpTrigger = new InputTrigger(new char[]{},new String[]{"/7/nav1"},new Integer[]{26});
 	protected InputTrigger _audioInputDownTrigger = new InputTrigger(new char[]{},new String[]{"/7/nav2"},new Integer[]{25});
 	protected InputTrigger _brightnessUpTrigger = new InputTrigger(new char[]{']'},new String[]{},new Integer[]{});
@@ -188,13 +201,14 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.OSC_ACTIVE, false );
 		p.appConfig.setProperty( AppSettings.DMX_LIGHTS_COUNT, 0 );
 		//		p.appConfig.setProperty( AppSettings.AUDIO_DEBUG, true );
-		//		p.appConfig.setProperty( AppSettings.INIT_ESS_AUDIO, true );
+		p.appConfig.setProperty( AppSettings.INIT_ESS_AUDIO, true );
 		//		p.appConfig.setProperty( AppSettings.INIT_MINIM_AUDIO, true );
-		//		p.appConfig.setProperty( AppSettings.INIT_BEADS_AUDIO, true );
+//				p.appConfig.setProperty( AppSettings.INIT_BEADS_AUDIO, true );
 		p.appConfig.setProperty( AppSettings.MIDI_DEVICE_IN_INDEX, 0 );
 		p.appConfig.setProperty( AppSettings.MIDI_DEBUG, false );
 		p.appConfig.setProperty( AppSettings.RETINA, false );
-		p.appConfig.setProperty( AppSettings.WIDTH, 1200 );
+		p.appConfig.setProperty( AppSettings.WIDTH, 1920 );
+		p.appConfig.setProperty( AppSettings.HEIGHT, 1080 );
 	}
 
 	protected void setupFirstFrame() {
@@ -277,8 +291,7 @@ extends PAppletHax {
 		p.debugView.setTexture(_pg);
 		_pgPinnable.update(p.g);
 		// sendDmxLights();
-		// debug render Time
-		for (int i = 0; i < texturePools.length; i++) p.debugView.setValue("texture "+i, texturePools[i].get(poolCurTextureIndexes[i]).toString());
+		runDebugHelpers();
 	}
 
 	protected void updateTextures() {
@@ -502,7 +515,7 @@ extends PAppletHax {
 	}
 
 	protected boolean isBeatDetectMode() {
-		return ( p.millis() - 10000 > _lastInputMillis );
+		return ( p.millis() > _lastInputMillis + 10000 );
 	}
 
 	public void resetBeatDetectMode() {
@@ -562,6 +575,8 @@ extends PAppletHax {
 		if ( _brightnessDownTrigger.triggered() == true ) brightnessVal -= 0.1f;
 		if ( _keystoneResetTrigger.triggered() == true ) _pgPinnable.resetCorners();
 		if ( _debugTexturesTrigger.triggered() == true ) _debugTextures = !_debugTextures;
+		
+		p.debugView.setValue("isBeatDetectMode()", isBeatDetectMode());
 	}
 
 	/////////////////////////////////////////////////////////////////
@@ -569,12 +584,14 @@ extends PAppletHax {
 	/////////////////////////////////////////////////////////////////
 
 	protected void newMode() {
+		modeTriggerIndicator.setCurrent(1);
 		for( int i=0; i < _curTexturePool.size(); i++ ) {
 			_curTexturePool.get(i).newMode();
 		}
 	}
 
 	protected void updateColor() {
+		colorTriggerIndicator.setCurrent(1);
 		for( int i=0; i < _curTexturePool.size(); i++ ) {
 			_curTexturePool.get(i).setColor( randomColor(1) );
 		}
@@ -587,18 +604,21 @@ extends PAppletHax {
 	}
 
 	protected void updateLineMode() {
+		lineModeTriggerIndicator.setCurrent(1);
 		for( int i=0; i < _curTexturePool.size(); i++ ) {
 			_curTexturePool.get(i).newLineMode();
 		}
 	}
 
 	protected void updateRotation() {
+		rotationTriggerIndicator.setCurrent(1);
 		for( int i=0; i < _curTexturePool.size(); i++ ) {
 			_curTexturePool.get(i).newRotation();
 		}
 	}
 
 	protected void updateTiming() {
+		timingTriggerIndicator.setCurrent(1);
 		// tell all textures to update timing
 		if(p.millis() > lastTimingUpdateTime + lastTimingUpdateDelay) {
 			for( int i=0; i < _curTexturePool.size(); i++ ) {
@@ -612,7 +632,9 @@ extends PAppletHax {
 	}
 
 	protected void autoBeatMode() {
-		if( isBeatDetectMode() == true ) numBeatsDetected++;
+		if( isBeatDetectMode() == false ) return; 
+		
+		numBeatsDetected++;
 		p.debugView.setValue("isBeatDetectMode()", isBeatDetectMode());
 		p.debugView.setValue("numBeatsDetected", numBeatsDetected);
 
@@ -645,12 +667,14 @@ extends PAppletHax {
 
 		// every 400 beats, do something bigger
 		if( numBeatsDetected % BEAT_INTERVAL_BIG_CHANGE == 0 ) {
-			//			P.println("BEAT_INTERVAL_BIG_CHANGE");
+						P.println("BEAT_INTERVAL_BIG_CHANGE: ", numBeatsDetected, BEAT_INTERVAL_BIG_CHANGE, numBeatsDetected % BEAT_INTERVAL_BIG_CHANGE);
 			bigChangeTrigger();
 		}
 	}
 
 	protected void updateTimingSection() {
+		timingSectionTriggerIndicator.setCurrent(1);
+		
 		for( int i=0; i < _curTexturePool.size(); i++ ) {
 			_curTexturePool.get(i).updateTimingSection();
 		}
@@ -672,6 +696,8 @@ extends PAppletHax {
 	}
 
 	protected void bigChangeTrigger() {
+		bigChangeTriggerIndicator.setCurrent(1);
+		
 		// swap each layer in succession, and loop around
 		layerSwapIndex++;
 		if(layerSwapIndex >= texturePools.length) layerSwapIndex = 0;
@@ -732,8 +758,8 @@ extends PAppletHax {
 		texturePools = new ArrayList[]{bgTexturePool, fgTexturePool, audioTexturePool, topLayerPool};
 		_curTexturePool = new ArrayList<BaseTexture>();
 
-		HaxVisualTexturePools.addTexturesToPoolMinimal(_pg, bgTexturePool, fgTexturePool, audioTexturePool, topLayerPool);
-//		HaxVisualTexturePools.addTexturesToPool(_pg, bgTexturePool, fgTexturePool, audioTexturePool, topLayerPool);
+//		HaxVisualTexturePools.addTexturesToPoolMinimal(_pg, bgTexturePool, fgTexturePool, audioTexturePool, topLayerPool);
+		HaxVisualTexturePools.addTexturesToPool(_pg, bgTexturePool, fgTexturePool, audioTexturePool, topLayerPool);
 		//		HaxVisualTexturePools.addTexturesToPoolSG(_pg, bgTexturePool, fgTexturePool, audioTexturePool, topLayerPool);
 		//		HaxVisualTexturePools.addTexturesToPoolClient(_pg, bgTexturePool, fgTexturePool, audioTexturePool, topLayerPool);
 
@@ -940,6 +966,24 @@ extends PAppletHax {
 	// DEBUG TEXTURES TO IMAGE FILES
 	/////////////////////////////////////////////////////////////////
 
+	protected void runDebugHelpers() {
+		// show which triggers have been activated
+		for (int i = 0; i < triggerDebugLinearFloats.length; i++) {
+			triggerDebugLinearFloats[i].update();
+		}
+		p.debugView.setValue("colorTrigger", colorTriggerIndicator.value() > 0);
+		p.debugView.setValue("rotationTrigger", rotationTriggerIndicator.value() > 0);
+		p.debugView.setValue("timingTrigger", timingTriggerIndicator.value() > 0);
+		p.debugView.setValue("modeTrigger", modeTriggerIndicator.value() > 0);
+		p.debugView.setValue("timingSectionTrigger", timingSectionTriggerIndicator.value() > 0);
+		p.debugView.setValue("lineModeTrigger", lineModeTriggerIndicator.value() > 0);
+		p.debugView.setValue("bigChangeTrigger", bigChangeTriggerIndicator.value() > 0);
+		
+		// debug render time
+		for (int i = 0; i < texturePools.length; i++) p.debugView.setValue("texture "+i, texturePools[i].get(poolCurTextureIndexes[i]).toString());
+	}
+	
+	
 	protected void outputTestImages(ArrayList<BaseTexture> texturePool) {
 		for(BaseTexture tex : texturePool) {
 			tex.update();
