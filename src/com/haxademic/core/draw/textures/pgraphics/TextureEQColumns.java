@@ -22,7 +22,7 @@ extends BaseTexture {
 	public void newLineMode() {
 		_numLines = MathUtil.randRange(20, 30);
 		_hasStroke = !_hasStroke;
-		_barsGrow = MathUtil.randBoolean(P.p);
+		_barsGrow = false; // MathUtil.randBoolean(P.p);
 	}
 
 	public void updateDraw() {

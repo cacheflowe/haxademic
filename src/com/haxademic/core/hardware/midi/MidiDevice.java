@@ -97,7 +97,6 @@ public class MidiDevice implements SimpleMidiListener {
 
 	@Override
 	public void controllerChange(int channel, int  pitch, int velocity) {
-		// TODO Auto-generated method stub
 		midiCC.put(pitch, velocity);
 		InputState newState = (velocity == 0) ? InputState.OFF : InputState.TRIGGER;
 		midiCCState.put(pitch, newState);
@@ -107,7 +106,6 @@ public class MidiDevice implements SimpleMidiListener {
 
 	@Override
 	public void noteOff(int channel, int  pitch, int velocity) {
-		// TODO Auto-generated method stub
 		if(P.p.showDebug) P.println("noteOff", channel, pitch, velocity);
 		midiButtonVal.put(pitch, velocity);
 		midiButtons.put(pitch, InputState.OFF);
@@ -116,7 +114,6 @@ public class MidiDevice implements SimpleMidiListener {
 
 	@Override
 	public void noteOn(int channel, int pitch, int velocity) {
-		// TODO Auto-generated method stub
 		if(P.p.showDebug) P.println("noteOn", channel, pitch, velocity);
 		midiButtonVal.put(pitch, velocity);
 		midiButtons.put(pitch, InputState.TRIGGER);

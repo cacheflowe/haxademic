@@ -134,10 +134,10 @@ extends BaseTexture {
 		ContrastFilter.instance(P.p).setContrast(2f);
 		ContrastFilter.instance(P.p).applyTo(audioTexture.texture());
 		
-		ColorizeFilter.instance(P.p).setTargetR(_colorEase.rNorm());
-		ColorizeFilter.instance(P.p).setTargetG(_colorEase.gNorm());
-		ColorizeFilter.instance(P.p).setTargetB(_colorEase.bNorm());
-		ColorizeFilter.instance(P.p).applyTo(audioTexture.texture());
+//		ColorizeFilter.instance(P.p).setTargetR(_colorEase.rNorm());
+//		ColorizeFilter.instance(P.p).setTargetG(_colorEase.gNorm());
+//		ColorizeFilter.instance(P.p).setTargetB(_colorEase.bNorm());
+//		ColorizeFilter.instance(P.p).applyTo(audioTexture.texture());
 //		P.p.debugView.setTexture(audioTexture.texture());
 	}
 

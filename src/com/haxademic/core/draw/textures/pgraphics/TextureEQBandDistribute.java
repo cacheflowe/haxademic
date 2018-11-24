@@ -27,7 +27,7 @@ extends BaseTexture {
 		int eqIndex = 0;
 		for(int i=0; i < numElements; i++) {
 			eqIndex = P.floor(i * eqStep);
-			float eq = P.p.audioFreq(eqIndex);
+			float eq = P.p.audioFreq(eqIndex) * 3f;
 			_texture.fill(_colorEase.colorInt(eq));
 			_texture.rect(i * barW, 0, barW, _texture.height);
 		}

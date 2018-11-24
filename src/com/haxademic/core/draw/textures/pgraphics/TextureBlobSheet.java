@@ -212,7 +212,7 @@ extends BaseTexture {
 			// Color calculated using sine wave
 
 			// adjust cell z per brightness
-			z = -150 + 1 * ( P.p.audioFreq(2) + P.p.audioFreq(3) );
+			z = -150 + 4f * ( P.p.audioFreq(2) + P.p.audioFreq(3) );
 			_texture.pushMatrix();
 			_texture.translate( 0, 0, 0 + z );
 			

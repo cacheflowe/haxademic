@@ -40,7 +40,7 @@ extends BaseTexture {
 		// create & normalize shape
 		gridShape = Shapes.createSheet(40, audioTexture.texture());
 		PShapeUtil.centerShape(gridShape);
-		PShapeUtil.scaleShapeToHeight(gridShape, _texture.height * 5f);
+		PShapeUtil.scaleShapeToHeight(gridShape, _texture.height * 1f);
 	}
 
 	public void newLineMode() {
@@ -65,10 +65,10 @@ extends BaseTexture {
 		ContrastFilter.instance(P.p).setContrast(2f);
 		ContrastFilter.instance(P.p).applyTo(audioTexture.texture());
 		
-		ColorizeFilter.instance(P.p).setTargetR(_colorEase.rNorm());
-		ColorizeFilter.instance(P.p).setTargetG(_colorEase.gNorm());
-		ColorizeFilter.instance(P.p).setTargetB(_colorEase.bNorm());
-		ColorizeFilter.instance(P.p).applyTo(audioTexture.texture());
+//		ColorizeFilter.instance(P.p).setTargetR(_colorEase.rNorm());
+//		ColorizeFilter.instance(P.p).setTargetG(_colorEase.gNorm());
+//		ColorizeFilter.instance(P.p).setTargetB(_colorEase.bNorm());
+//		ColorizeFilter.instance(P.p).applyTo(audioTexture.texture());
 	}
 
 	public void updateDraw() {
@@ -95,7 +95,7 @@ extends BaseTexture {
 
 		// deform mesh
 		MeshDeformAndTextureFilter.instance(P.p).setDisplacementMap(audioTexture.texture());
-		MeshDeformAndTextureFilter.instance(P.p).setDisplaceAmp(10f);
+		MeshDeformAndTextureFilter.instance(P.p).setDisplaceAmp(100f);
 		MeshDeformAndTextureFilter.instance(P.p).setSheetMode(true);
 		MeshDeformAndTextureFilter.instance(P.p).applyTo(_texture);
 		// set texture using PShape method

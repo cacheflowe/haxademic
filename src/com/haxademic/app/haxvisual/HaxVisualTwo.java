@@ -5,6 +5,8 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.List;
+import java.util.Random;
 
 import com.haxademic.app.haxmapper.dmxlights.RandomLightTiming;
 import com.haxademic.app.haxvisual.pools.HaxVisualTexturePools;
@@ -12,6 +14,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.constants.PBlendModes;
+import com.haxademic.core.constants.PRenderers;
 import com.haxademic.core.draw.color.ImageGradient;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.context.OpenGLUtil;
@@ -27,7 +30,13 @@ import com.haxademic.core.draw.filters.pshader.ContrastFilter;
 import com.haxademic.core.draw.filters.pshader.CubicLensDistortionFilterOscillate;
 import com.haxademic.core.draw.filters.pshader.DisplacementMapFilter;
 import com.haxademic.core.draw.filters.pshader.EdgesFilter;
+import com.haxademic.core.draw.filters.pshader.FlipHFilter;
+import com.haxademic.core.draw.filters.pshader.GlitchImageGlitcherFilter;
+import com.haxademic.core.draw.filters.pshader.GlitchPseudoPixelSortingFilter;
+import com.haxademic.core.draw.filters.pshader.GlitchShaderAFilter;
+import com.haxademic.core.draw.filters.pshader.GlitchShakeFilter;
 import com.haxademic.core.draw.filters.pshader.GodRays;
+import com.haxademic.core.draw.filters.pshader.GrainFilter;
 import com.haxademic.core.draw.filters.pshader.HalftoneCamoFilter;
 import com.haxademic.core.draw.filters.pshader.HalftoneFilter;
 import com.haxademic.core.draw.filters.pshader.HueFilter;
@@ -37,10 +46,13 @@ import com.haxademic.core.draw.filters.pshader.LeaveBlackFilter;
 import com.haxademic.core.draw.filters.pshader.LiquidWarpFilter;
 import com.haxademic.core.draw.filters.pshader.MaskThreeTextureFilter;
 import com.haxademic.core.draw.filters.pshader.MirrorQuadFilter;
+import com.haxademic.core.draw.filters.pshader.Pixelate2Filter;
 import com.haxademic.core.draw.filters.pshader.PixelateFilter;
 import com.haxademic.core.draw.filters.pshader.RadialRipplesFilter;
 import com.haxademic.core.draw.filters.pshader.ReflectFilter;
+import com.haxademic.core.draw.filters.pshader.RepeatFilter;
 import com.haxademic.core.draw.filters.pshader.RotateFilter;
+import com.haxademic.core.draw.filters.pshader.SaturationFilter;
 import com.haxademic.core.draw.filters.pshader.SphereDistortionFilter;
 import com.haxademic.core.draw.filters.pshader.VignetteAltFilter;
 import com.haxademic.core.draw.filters.pshader.VignetteFilter;
@@ -57,6 +69,7 @@ import com.haxademic.core.hardware.osc.devices.TouchOscPads;
 import com.haxademic.core.hardware.shared.InputTrigger;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.LinearFloat;
+import com.haxademic.core.math.easing.Penner;
 import com.haxademic.core.system.SystemUtil;
 
 import processing.core.PGraphics;
@@ -130,14 +143,14 @@ extends PAppletHax {
 	protected InputTrigger _lineModeTrigger = new InputTrigger(new char[]{'l'},new String[]{TouchOscPads.PAD_08},new Integer[]{AkaiMpdPads.PAD_08, LaunchControl.PAD_06, AbletonNotes.NOTE_08});
 
 	// input debug
-	float debugEaseInc = 0.05f;
+	float debugEaseInc = 0.1f;
 	protected LinearFloat colorTriggerIndicator = new LinearFloat(0, debugEaseInc);
 	protected LinearFloat rotationTriggerIndicator = new LinearFloat(0, debugEaseInc);
 	protected LinearFloat timingTriggerIndicator = new LinearFloat(0, debugEaseInc);
-	protected LinearFloat modeTriggerIndicator = new LinearFloat(0, debugEaseInc);
 	protected LinearFloat timingSectionTriggerIndicator = new LinearFloat(0, debugEaseInc);
-	protected LinearFloat bigChangeTriggerIndicator = new LinearFloat(0, debugEaseInc);
+	protected LinearFloat modeTriggerIndicator = new LinearFloat(0, debugEaseInc);
 	protected LinearFloat lineModeTriggerIndicator = new LinearFloat(0, debugEaseInc);
+	protected LinearFloat bigChangeTriggerIndicator = new LinearFloat(0, debugEaseInc);
 	protected LinearFloat[] triggerDebugLinearFloats = new LinearFloat[] { colorTriggerIndicator, rotationTriggerIndicator, timingTriggerIndicator, modeTriggerIndicator, timingSectionTriggerIndicator, bigChangeTriggerIndicator, lineModeTriggerIndicator };
 	
 	// extra controls
@@ -153,7 +166,7 @@ extends PAppletHax {
 	protected int _lastInputMillis = 0;
 	protected int numBeatsDetected = 0;
 	protected int lastTimingUpdateTime = 0;
-	protected int lastTimingUpdateDelay = 500;
+	protected int lastTimingUpdateDelay = 300;
 
 	// DMX LIGHTS
 
@@ -161,33 +174,33 @@ extends PAppletHax {
 
 	// COLORIZE COMPOSITION
 
-	protected int COLORIZE_NONE = 0;
-	protected int COLORIZE_BLUE = 1;
-	protected int COLORIZE_RANDOM = 2;
-	protected int COLORIZE_MODES = 3;
-	protected int colorizeMode = COLORIZE_RANDOM;
+	protected PGraphics colorizeSourceTexture;
 	protected ImageGradient imageGradient;
-	//	protected ImageGradient imageGradientBlue;
-	//	protected boolean colorizeWithGradient = true;
+	protected boolean colorizeWithGradient = true;
 	protected boolean imageGradientLuma = false;
-	protected boolean imageGradientFilter = true;
 
 	// DISPLACEMENT LAYER
 
-	protected int displacementLayer = 0;
+	protected int displacementTextureIndex = 0;
 	protected int overlayMode = 0;
 	protected float brightnessVal = 1f;
 
+	// GLITCH EFFECTS
+	protected LinearFloat glitchProgress = new LinearFloat(0, 0.015f);
+	protected GlitchMode glitchMode;	
+	
 	// PER-TEXTURE POST EFFECTS
 	protected int[] textureEffectsIndices;	// store a effects number for each texture position after the first
 	protected int numTextureEffects = 16 + 8; // +8 to give a good chance at removing the filter from the texture slot
 	protected boolean perTextureEffects = false;
 
-	// CORNER-PINNED BUFFER
+	// CORNER-PINNED BUFFER or MULTI-OUTPUT MAPPING
 
 	protected PGraphics _pg;
 	protected PGraphicsKeystone _pgPinnable;
 	protected float scaleDownPG = 1f; // 0.5f;
+	protected boolean multiOutput = true;
+	
 
 	//////////////////////////////////////////////////
 	// INIT
@@ -202,7 +215,7 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.DMX_LIGHTS_COUNT, 0 );
 		//		p.appConfig.setProperty( AppSettings.AUDIO_DEBUG, true );
 		p.appConfig.setProperty( AppSettings.INIT_ESS_AUDIO, true );
-		//		p.appConfig.setProperty( AppSettings.INIT_MINIM_AUDIO, true );
+//				p.appConfig.setProperty( AppSettings.INIT_MINIM_AUDIO, true );
 //				p.appConfig.setProperty( AppSettings.INIT_BEADS_AUDIO, true );
 		p.appConfig.setProperty( AppSettings.MIDI_DEVICE_IN_INDEX, 0 );
 		p.appConfig.setProperty( AppSettings.MIDI_DEBUG, false );
@@ -213,7 +226,11 @@ extends PAppletHax {
 
 	protected void setupFirstFrame() {
 		initDMX();
-		buildCanvas();
+		if(multiOutput == false) {
+			buildCanvas();
+		} else {
+			buildCanvasMultiOutput();
+		}
 		buildTextures();
 		buildPostProcessingChain();
 		// buildInterstitial();
@@ -228,12 +245,19 @@ extends PAppletHax {
 		_pgPinnable = new PGraphicsKeystone( p, _pg, 12, FileUtil.getFile("text/keystoning/hax-visual-two.txt") );
 	}
 
+	protected void buildCanvasMultiOutput() {
+		int w = 1920 * 3;
+		int h = 1080;
+		_pg = p.createGraphics(w, h, P.P3D);
+		_pg.noSmooth();
+		OpenGLUtil.setTextureRepeat(_pg);
+	}
+	
 	protected void buildPostProcessingChain() {
-		//		if(colorizeWithGradient) {
-		//			imageGradientBlue = new ImageGradient(P.p.loadImage(FileUtil.getFile("images/_sketch/sendgrid/palette-sendgrid.png")));
+		colorizeSourceTexture = p.createGraphics(128, 4, PRenderers.P2D);
+		p.debugView.setTexture(colorizeSourceTexture);
 		imageGradient = new ImageGradient(ImageGradient.PASTELS());
 		imageGradient.addTexturesFromPath(ImageGradient.COOLORS_PATH);
-		//		}
 
 		KaleidoFilter.instance(p).setAngle(0f);
 		KaleidoFilter.instance(p).setSides(2f);
@@ -244,6 +268,8 @@ extends PAppletHax {
 		HalftoneFilter.instance(p).setScale(1f);
 
 		PixelateFilter.instance(p).setDivider(20f, _pg.width, _pg.height);
+		
+		p.midiState.controllerChange(midiInChannel, contrastKnob, (int) 70);
 
 		p.midiState.controllerChange(midiInChannel, vignetteKnob, (int) 70);
 	}
@@ -274,26 +300,48 @@ extends PAppletHax {
 		background(0);
 		handleInputTriggers();
 		checkBeat();
+		drawPre();
 		getDisplacementLayer();
 		if(perTextureEffects) filterActiveTextures();
 		updateTextures();
 		drawLayers();
 		drawAltTopLayerOrDisplacement();
 		postProcessFilters();
-		colorizeFilter();
 		// bloomFilter();
-		vignetteFilter();
+//		vignetteFilter();
 		drawTopLayer();
+		applyColorizeFilter();
+		vignetteFilter();
 		postBrightness();
 		if(imageCycler != null) drawInterstitial();
 		// draw pinned pgraphics
-		if(_debugTextures == true) _pgPinnable.drawTestPattern();
+		if(_debugTextures == true && _pgPinnable != null) _pgPinnable.drawTestPattern();
 		p.debugView.setTexture(_pg);
-		_pgPinnable.update(p.g);
+		if(multiOutput == false) _pgPinnable.update(p.g);
+		else drawCanvasToMultiScreens();
 		// sendDmxLights();
 		runDebugHelpers();
 	}
 
+	protected void drawPre() {
+		// copy colorize gradient to buffer
+		colorizeSourceTexture.beginDraw();
+		colorizeSourceTexture.noStroke();
+		ImageUtil.copyImage(imageGradient.texture(), colorizeSourceTexture);
+		colorizeSourceTexture.blendMode(PBlendModes.MULTIPLY);
+		
+		// then draw on top - replace this with a collection of audioreactive textures
+		for (int i = 0; i < colorizeSourceTexture.width; i++) {
+			float eqAmp = 0.3f + P.p.audioFreq(i + 20) * 3f;
+			colorizeSourceTexture.fill(255 * eqAmp);
+			colorizeSourceTexture.rect(i, 0, 1, colorizeSourceTexture.height);
+		}
+
+		// close context
+		colorizeSourceTexture.blendMode(PBlendModes.BLEND);
+		colorizeSourceTexture.endDraw();	
+	}
+	
 	protected void updateTextures() {
 		for( int i=0; i < _curTexturePool.size(); i++ ) {
 			BaseTexture tex = _curTexturePool.get(i);
@@ -305,14 +353,17 @@ extends PAppletHax {
 
 	protected void drawLayers() {
 		// composite textures
-		if(overlayMode != 3 || displacementLayer == 3) {	// we'll use the mask shader if 3, and no need to draw here
+		if(overlayMode != 3 || displacementTextureIndex == 3) {	// we'll use the mask shader if 3, and no need to draw here
 			_pg.beginDraw();
 			_pg.background(0);
 			_pg.blendMode(PBlendModes.EXCLUSION);
+//			_pg.blendMode(PBlendModes.ADD);
+//			_pg.blendMode(PBlendModes.LIGHTEST);
+//			_pg.blendMode(PBlendModes.DARKEST);
 			//		OpenGLUtil.setBlending(p.g, true);
 			//		OpenGLUtil.setBlendMode(p.g, OpenGLUtil.Blend.DARK_INVERSE);
 			for( int i=0; i < _curTexturePool.size() - 1; i++ ) {	
-				if(i != displacementLayer) {	// don't draw displacement layer
+				if(i != displacementTextureIndex) {	// don't draw displacement layer
 					BaseTexture tex = _curTexturePool.get(i);
 					if(tex != null && tex.texture() != null) {
 						ImageUtil.drawImageCropFill(tex.texture(), _pg, true);
@@ -330,15 +381,29 @@ extends PAppletHax {
 		ImageUtil.drawImageCropFill(topLayer().texture(), _pg, true);
 		_pg.endDraw();
 	}
+	
+	protected void drawCanvasToMultiScreens() {
+		// show the whole thing
+		ImageUtil.cropFillCopyImage(_pg, p.g, false);
+		
+		// draw for GG
+		int outW = 1920/2;
+		int outH = 1080/2;
+		int sourceW = _pg.width / 3;
+		int sourceH = _pg.height;
+//		p.g.copy(_pg, sourceW * 0, 0, sourceW, sourceH, 0,    0,    outW, outH);
+//		p.g.copy(_pg, sourceW * 1, 0, sourceW, sourceH, outW, 0,    outW, outH);
+//		p.g.copy(_pg, sourceW * 2, 0, sourceW, sourceH, 0,    outH, outW, outH);
+	}
 
 	/////////////////////////////////////////////////////////////////
 	// POST PROCESSING EFFECTS
 	/////////////////////////////////////////////////////////////////
 
 	protected void getDisplacementLayer() {		
-		displacementLayer = P.round(P.map(p.midiState.midiCCPercent(midiInChannel, displaceMapLayerKnob), 0, 1, 0, 3));
+		displacementTextureIndex = P.round(P.map(p.midiState.midiCCPercent(midiInChannel, displaceMapLayerKnob), 0, 1, 0, 3));
 		overlayMode = P.round(P.map(p.midiState.midiCCPercent(midiInChannel, overlayModeKnob), 0, 1, 0, 3));
-		p.debugView.setValue("displacementLayer", displacementLayer);
+		p.debugView.setValue("displacementLayer", displacementTextureIndex);
 		p.debugView.setValue("overlayMode", overlayMode);
 	}
 
@@ -346,9 +411,9 @@ extends PAppletHax {
 		// DISPLACEMENT MAP ////////////////////////
 		// This does special drawing modes if layers weren't drawn 
 		// which layer to use for displacement?
-		if(displacementLayer < 3) {
-			if(displacementLayer >= _curTexturePool.size()) displacementLayer = _curTexturePool.size() - 1; // protection!
-			PGraphics displacementBuffer = _curTexturePool.get(displacementLayer).texture();
+		if(displacementTextureIndex < 3) {
+			if(displacementTextureIndex >= _curTexturePool.size()) displacementTextureIndex = _curTexturePool.size() - 1; // protection!
+			PGraphics displacementBuffer = _curTexturePool.get(displacementTextureIndex).texture();
 			if(overlayMode == 0) {
 				// DISPLACEMENT MAP FILTER
 				// add blur to displacement image
@@ -381,8 +446,8 @@ extends PAppletHax {
 				// ADD SHADER TO MASK & REVERSE MASK THE OPPOSITE 2 TEXTURES
 				PGraphics tex1;
 				PGraphics tex2;
-				if(displacementLayer == 0) { 		tex1 = _curTexturePool.get(1).texture(); tex2 = _curTexturePool.get(2).texture(); }
-				else if(displacementLayer == 1) { 	tex1 = _curTexturePool.get(0).texture(); tex2 = _curTexturePool.get(2).texture(); }
+				if(displacementTextureIndex == 0) { 		tex1 = _curTexturePool.get(1).texture(); tex2 = _curTexturePool.get(2).texture(); }
+				else if(displacementTextureIndex == 1) { 	tex1 = _curTexturePool.get(0).texture(); tex2 = _curTexturePool.get(2).texture(); }
 				else { 								tex1 = _curTexturePool.get(0).texture(); tex2 = _curTexturePool.get(1).texture(); }
 				MaskThreeTextureFilter.instance(p).setMask(displacementBuffer);
 				MaskThreeTextureFilter.instance(p).setTexture1(tex1);
@@ -394,9 +459,12 @@ extends PAppletHax {
 
 	protected void postProcessFilters() {		
 		// CONTRAST ////////////////////////
+//		p.midiState.controllerChange(midiInChannel, contrastKnob, (int) (0.25f * 127f));
 		if( p.midiState.midiCCPercent(midiInChannel, contrastKnob) != 0 ) {
 			if(p.midiState.midiCCPercent(midiInChannel, contrastKnob) > 0.1f) {
 				ContrastFilter.instance(p).setContrast(p.midiState.midiCCPercent(midiInChannel, contrastKnob) * 7f);
+//				if(p.mousePercentX() > 0.5f) ContrastFilter.instance(p).applyTo(_pg);
+
 			}
 		}
 
@@ -447,6 +515,9 @@ extends PAppletHax {
 			LiquidWarpFilter.instance(p).setTime(p.frameCount / 40f);
 			LiquidWarpFilter.instance(p).applyTo(_pg);
 		}
+		
+		// GLITCH
+		doGlitchEffect(_pg);
 
 		// KALEIDOSCOPE ////////////////////////
 		float kaleidoSides = P.round( p.midiState.midiCCPercent(midiInChannel, kaledioKnob) * 12f );
@@ -461,13 +532,12 @@ extends PAppletHax {
 		}
 	}
 
-	protected void colorizeFilter() {
+	protected void applyColorizeFilter() {
 		// COLORIZE FROM TEXTURE ////////////////////////
-		p.debugView.setValue("colorizeMode", colorizeMode);
-		if(colorizeMode != COLORIZE_NONE) {
-			//			if(colorizeMode == COLORIZE_BLUE) ColorizeFromTexture.instance(p).setTexture(imageGradientBlue.texture());
-			if(colorizeMode == COLORIZE_RANDOM) ColorizeFromTexture.instance(p).setTexture(imageGradient.texture());
-			ColorizeFromTexture.instance(p).setLumaMult(imageGradientLuma);
+		if(colorizeWithGradient) {
+			ColorizeFromTexture.instance(p).setTexture(colorizeSourceTexture);
+			ColorizeFromTexture.instance(p).setLumaMult(false);
+			ColorizeFromTexture.instance(p).setCrossfade(0.75f); // p.mousePercentX());
 			ColorizeFromTexture.instance(p).applyTo(_pg);
 		}	
 	}
@@ -491,10 +561,10 @@ extends PAppletHax {
 		float vignetteDarkness = P.map(vignetteVal, 0, 1, 13f, -13f);
 		VignetteAltFilter.instance(p).setSpread(0.5f);
 		VignetteAltFilter.instance(p).setDarkness(1f); // vignetteDarkness
-		VignetteAltFilter.instance(p).applyTo(_pg);
+//		VignetteAltFilter.instance(p).applyTo(_pg);
 
 		// normal vignette
-		VignetteFilter.instance(p).setDarkness(0.56f);
+		VignetteFilter.instance(p).setDarkness(0.5f);
 		VignetteFilter.instance(p).applyTo(_pg);
 	}
 
@@ -503,6 +573,169 @@ extends PAppletHax {
 		BrightnessFilter.instance(p).setBrightness(brightnessVal);
 		BrightnessFilter.instance(p).applyTo(_pg);	
 	}
+	
+	//////////////////////////
+	// GLITCH STUFF
+	//////////////////////////
+	
+	enum GlitchMode {
+		Pixelate2,
+		ShaderA,
+		PixelSorting,
+		Shake,
+		ImageGlitcher,
+		Invert,
+		HFlip,
+		Edges,
+		Repeat,
+		Mirror,
+		ColorDistortion,
+//		BadTV,
+		BadTV2,
+		Grain,
+		Slide,
+//		OrangeSweep,
+	};
+	
+	// funky enum randomization helpers
+	private static final List<GlitchMode> VALUES = Collections.unmodifiableList(Arrays.asList(GlitchMode.values()));
+	private static final int SIZE = VALUES.size();
+	private static final Random RANDOM = new Random();
+	public static GlitchMode randomGlitchMode()  {
+	  return VALUES.get(RANDOM.nextInt(SIZE));
+	}
+	
+	protected void doGlitchEffect(PGraphics buffer) {
+		// update glitch progress
+		glitchProgress.update();
+		boolean isGlitching = glitchProgress.value() > 0 && glitchProgress.value() < 1;
+		p.debugView.setValue("isGlitching", isGlitching);
+		if(isGlitching == false) return;
+		float progressInverse = 1f - glitchProgress.value();
+		float shaderTime = p.frameCount * 0.01f;
+		float shaderTimeStepped = P.floor(p.frameCount/5) * 0.01f;
+
+		// apply glitchy filters to buffer 
+		switch (glitchMode) {
+			case Pixelate2:
+				Pixelate2Filter.instance(p).setDivider(10f * progressInverse);
+				Pixelate2Filter.instance(p).applyTo(buffer);
+				break;
+
+			case ShaderA:
+				GlitchShaderAFilter.instance(p).setTime(shaderTimeStepped);
+				GlitchShaderAFilter.instance(p).setAmp(P.constrain(progressInverse, 0.1f, 1f));
+				GlitchShaderAFilter.instance(p).applyTo(buffer);
+				break;
+	
+			case PixelSorting:
+				GlitchPseudoPixelSortingFilter.instance(p).setThresholdThresholdsCurved(progressInverse);
+				GlitchPseudoPixelSortingFilter.instance(p).applyTo(buffer);
+				break;
+				
+			case Shake:
+				GlitchShakeFilter.instance(p).setTime(shaderTimeStepped);
+				GlitchShakeFilter.instance(p).setGlitchSpeed(0.4f);	 				// config?
+				GlitchShakeFilter.instance(p).setAmp(progressInverse);
+				GlitchShakeFilter.instance(p).setCrossfade(1f);
+				GlitchShakeFilter.instance(p).setSubdivide1(64f);	 				// config?
+				GlitchShakeFilter.instance(p).setSubdivide2(64f);	 				// config?
+				GlitchShakeFilter.instance(p).applyTo(buffer);
+				break;
+				
+			case ImageGlitcher:
+				GlitchImageGlitcherFilter.instance(p).setTime(shaderTimeStepped);
+				GlitchImageGlitcherFilter.instance(p).setAmp(progressInverse);
+				GlitchImageGlitcherFilter.instance(p).setCrossfade(1f);
+				GlitchImageGlitcherFilter.instance(p).setColorSeparation(true);
+				GlitchImageGlitcherFilter.instance(p).setBarSize(0.5f);	 			// config?
+				GlitchImageGlitcherFilter.instance(p).setGlitchSpeed(0.5f);			// config?
+				GlitchImageGlitcherFilter.instance(p).setNumSlices(20f);			// config?
+				GlitchImageGlitcherFilter.instance(p).applyTo(buffer);
+				break;
+				
+			case Invert:
+				InvertFilter.instance(p).applyTo(buffer);
+				break;
+
+			case HFlip:
+				FlipHFilter.instance(p).applyTo(buffer);
+				break;
+				
+			case Edges:
+				EdgesFilter.instance(p).applyTo(buffer);
+				break;
+				
+			case Repeat:
+				float progressInverseEased = Penner.easeInExpo(progressInverse, 0, 1, 1);
+				RepeatFilter.instance(p).setZoom(1f + 5f * progressInverseEased);
+				RepeatFilter.instance(p).applyTo(buffer);
+				break;
+
+			case Mirror:
+				ReflectFilter.instance(p).applyTo(buffer);
+				break;
+			
+			case ColorDistortion:
+				ColorDistortionFilter.instance(p).setAmplitude(progressInverse);
+				ColorDistortionFilter.instance(p).setTime(shaderTime * 1f);
+				ColorDistortionFilter.instance(p).applyTo(buffer);
+				break;
+				
+			case BadTV2:
+				BadTVLinesFilter.instance(P.p).setTime(shaderTime);
+				BadTVLinesFilter.instance(P.p).setGrayscale(0);
+				BadTVLinesFilter.instance(P.p).setIntensityN(progressInverse);
+				BadTVLinesFilter.instance(P.p).setIntensityS(progressInverse);
+				BadTVLinesFilter.instance(P.p).setCountS(4096.0f / 1f);
+				BadTVLinesFilter.instance(P.p).applyTo(buffer);
+				break;
+				
+			case Grain:
+				GrainFilter.instance(p).setTime(shaderTime);
+				GrainFilter.instance(p).setCrossfade(progressInverse * 0.5f);
+				GrainFilter.instance(p).applyTo(buffer);
+				break;
+				
+			case Slide:
+				float xSlide = progressInverse * (-1f + 2f * p.noise(p.frameCount * 0.001f));
+				float ySlide = progressInverse * (-1f + 2f * p.noise((p.frameCount + 10000) * 0.001f));
+				RepeatFilter.instance(p).setOffset(xSlide, ySlide);
+				RepeatFilter.instance(p).applyTo(buffer);
+				break;
+				
+//			case OrangeSweep:
+//				LumaColorReplaceFilter.instance(p).setTargetColor(1f, 0.274f, 0.023f, 1f);
+//				LumaColorReplaceFilter.instance(p).setDiffRange(0.1f);
+//				// LumaColorReplaceFilter.instance(p).setLumaTarget(3f * progressInverse - 1f);	// slide from 2 -> -1
+//				LumaColorReplaceFilter.instance(p).setLumaTarget(progressInverse);
+//				LumaColorReplaceFilter.instance(p).applyTo(buffer);
+//				break;
+				
+			default:
+				// P.out("No glitch filter selected!");
+				break;
+		}
+	}
+	
+	public void startGlitchMode(GlitchMode newGlitchMode) {
+		// reset glitch progress
+		glitchProgress.setCurrent(0);
+		glitchProgress.setTarget(1);
+		
+		// select a glitch mode
+		glitchMode = newGlitchMode;
+		
+		// TODO: effect-specific configuration
+		// TODO: change glitchProgress increment for different speeds
+		glitchProgress.setInc(0.02f);
+	}
+
+	protected void startGlitchMode() {
+		startGlitchMode(randomGlitchMode());
+		// startGlitchMode(GlitchMode.Slide);
+	}
+
 
 	/////////////////////////////////////////////////////////////////
 	// BEAT DETECTION 
@@ -573,7 +806,7 @@ extends PAppletHax {
 		if ( _audioInputDownTrigger.triggered() == true ) p.audioData.setGain(p.audioData.gain() - 0.05f);
 		if ( _brightnessUpTrigger.triggered() == true ) brightnessVal += 0.1f;
 		if ( _brightnessDownTrigger.triggered() == true ) brightnessVal -= 0.1f;
-		if ( _keystoneResetTrigger.triggered() == true ) _pgPinnable.resetCorners();
+		if ( _keystoneResetTrigger.triggered() == true && _pgPinnable != null) _pgPinnable.resetCorners();
 		if ( _debugTexturesTrigger.triggered() == true ) _debugTextures = !_debugTextures;
 		
 		p.debugView.setValue("isBeatDetectMode()", isBeatDetectMode());
@@ -595,11 +828,10 @@ extends PAppletHax {
 		for( int i=0; i < _curTexturePool.size(); i++ ) {
 			_curTexturePool.get(i).setColor( randomColor(1) );
 		}
-		if(colorizeMode == COLORIZE_RANDOM) {
-			if(imageGradientFilter && MathUtil.randBooleanWeighted(p, 0.2f)) imageGradient.randomGradientTexture();
+		if(colorizeWithGradient) {
+			if(MathUtil.randBooleanWeighted(p, 0.2f)) imageGradient.randomGradientTexture();
 		}
 		imageGradientLuma = true; // MathUtil.randBoolean(p);
-		imageGradientFilter = true; // MathUtil.randBoolean(p);
 		//		}
 	}
 
@@ -620,6 +852,7 @@ extends PAppletHax {
 	protected void updateTiming() {
 		timingTriggerIndicator.setCurrent(1);
 		// tell all textures to update timing
+		lastTimingUpdateDelay = 100;
 		if(p.millis() > lastTimingUpdateTime + lastTimingUpdateDelay) {
 			for( int i=0; i < _curTexturePool.size(); i++ ) {
 				_curTexturePool.get(i).updateTiming();
@@ -680,9 +913,9 @@ extends PAppletHax {
 		}
 
 		// swap displacement filter option
-		displacementLayer = MathUtil.randRange(0, 3);
+		displacementTextureIndex = MathUtil.randRange(0, 3);
 		overlayMode = MathUtil.randRange(0, 3);	
-		p.midiState.controllerChange(midiInChannel, displaceMapLayerKnob, P.round((127f/3.1f) * displacementLayer));
+		p.midiState.controllerChange(midiInChannel, displaceMapLayerKnob, P.round((127f/3.1f) * displacementTextureIndex));
 		p.midiState.controllerChange(midiInChannel, overlayModeKnob, P.round((127f/3.1f) * overlayMode));
 		// P.println(P.round((127f/3.1f) * displacementLayer), P.round((127f/3.1f) * overlayMode));
 
@@ -693,6 +926,9 @@ extends PAppletHax {
 		else if(kaleidoSides < 0.85f) kaleidoSides = 0.3f * 127f;
 		else kaleidoSides = 0.5f * 127f;
 		p.midiState.controllerChange(midiInChannel, kaledioKnob, (int) kaleidoSides);
+
+		// start glitch mode
+		startGlitchMode();
 	}
 
 	protected void bigChangeTrigger() {
@@ -714,15 +950,14 @@ extends PAppletHax {
 		if(perTextureEffects) {
 			selectNewActiveTextureFilters();
 		}
-		colorizeMode = MathUtil.randRange(0, COLORIZE_MODES - 1);
-		//		colorizeWithGradient = MathUtil.randBoolean(p);
+		// colorizeWithGradient = MathUtil.randBoolean(p);
 
 		// debug values
 		p.debugView.setValue("layerSwapIndex", layerSwapIndex);
 		p.debugView.setValue("poolCurTextureIndexes", Arrays.toString(poolCurTextureIndexes));
 
 		// make sure time steppers don't go wild
-		SystemUtil.setTimeout(updateTimingCallback, 1);
+		SystemUtil.setTimeout(updateTimingCallback, 20);
 	}
 
 	protected ActionListener updateTimingCallback = new ActionListener() {
@@ -963,7 +1198,7 @@ extends PAppletHax {
 	}
 
 	/////////////////////////////////////////////////////////////////
-	// DEBUG TEXTURES TO IMAGE FILES
+	// DEBUG 
 	/////////////////////////////////////////////////////////////////
 
 	protected void runDebugHelpers() {
@@ -983,7 +1218,7 @@ extends PAppletHax {
 		for (int i = 0; i < texturePools.length; i++) p.debugView.setValue("texture "+i, texturePools[i].get(poolCurTextureIndexes[i]).toString());
 	}
 	
-	
+	// debug textures to image files
 	protected void outputTestImages(ArrayList<BaseTexture> texturePool) {
 		for(BaseTexture tex : texturePool) {
 			tex.update();

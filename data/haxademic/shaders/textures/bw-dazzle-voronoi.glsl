@@ -71,7 +71,7 @@ void main()
 	position.x *= texOffset.y/texOffset.x; // fix aspect ratio
 	float aspect = texOffset.x / texOffset.y;
 
-	vec3 v = voronoi( position * (6.0 + 1. * sin(time)) );
+	vec3 v = voronoi( position * (6.0 + 1. * sin(time * 0.1)) );
 
 	float rr = 5.28 * v.z;
 	float c = cos( rr );

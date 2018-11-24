@@ -71,7 +71,7 @@ extends BaseTexture {
 		}
 		
 		public void update(int eqIndex) {
-			float amp = P.p.audioFreq(eqIndex);
+			float amp = P.p.audioFreq(eqIndex) * 10f;
 			if(amp > _amp) _amp = amp;
 			float curSize = _size * _amp;
 			float curSpeed = (_speed.y / 3f) * (_amp * 2.4f);

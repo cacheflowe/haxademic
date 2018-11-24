@@ -6,6 +6,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.draw.color.Gradients;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.filters.pshader.BlurProcessingFilter;
+import com.haxademic.core.draw.filters.pshader.LeaveWhiteFilter;
 import com.haxademic.core.draw.filters.pshader.VignetteAltFilter;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.shapes.Icosahedron;
@@ -48,7 +49,7 @@ extends BaseTexture {
 	
 	protected void createNewSphere() {
 		P.p.sphereDetail(40);
-		shape = P.p.createShape(P.SPHERE, _texture.height/3f);
+		shape = P.p.createShape(P.SPHERE, _texture.height/2f);
 		shapeTessellated = shape.getTessellation();
 		
 		float extent = PShapeUtil.getMaxExtent(shape);
@@ -66,7 +67,7 @@ extends BaseTexture {
 	}
 	
 	protected void pickRandomTexture() {
-		texturePoolIndex = MathUtil.randRange(0, _curTexturePool.size() - 2);
+		texturePoolIndex = 2; // (only the audio layer for now) // MathUtil.randRange(0, _curTexturePool.size() - 2);
 	}
 	
 	public void setCurTexturePool(ArrayList<BaseTexture> curTexturePool) {
@@ -87,7 +88,7 @@ extends BaseTexture {
 	public void preDraw() {
 		sphereTexture.beginDraw();
 		DrawUtil.fadeToBlack(sphereTexture, 10);
-//		sphereTexture.background(0);
+		sphereTexture.background(0);
 		sphereTexture.endDraw();
 
 		// draw texture to sphere buffer
@@ -95,6 +96,8 @@ extends BaseTexture {
 		
 		// effects
 		applyChromaBlackKnockout(sphereTexture);
+//		LeaveWhiteFilter.instance(P.p).setMix(0.99f);
+//		LeaveWhiteFilter.instance(P.p).applyTo(sphereTexture);
 		VignetteAltFilter.instance(P.p).setSpread(0.95f);
 		VignetteAltFilter.instance(P.p).setDarkness(3.f);
 		VignetteAltFilter.instance(P.p).applyTo(sphereTexture);
@@ -135,7 +138,7 @@ extends BaseTexture {
 		
 		// deform mesh
 		MeshDeformAndTextureFilter.instance(P.p).setDisplacementMap(sphereTexture);
-		MeshDeformAndTextureFilter.instance(P.p).setDisplaceAmp(0.75f + 0.5f * P.sin(scaleOsc));
+		MeshDeformAndTextureFilter.instance(P.p).setDisplaceAmp(0.65f + 0.3f * P.sin(scaleOsc));
 		MeshDeformAndTextureFilter.instance(P.p).setSheetMode(false);
 		MeshDeformAndTextureFilter.instance(P.p).applyTo(_texture);
 //		// set texture using PShape method

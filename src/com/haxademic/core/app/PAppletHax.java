@@ -362,9 +362,14 @@ extends PApplet
 	}
 	
 	public float audioFreq(int index) {
-		return audioFreqs()[index % audioFreqs().length];
+//		return audioFreqMod(index, audioFreqs().length);
+		return audioFreqMod(index, 128);
 	}
 		
+	public float audioFreqMod(int index, int mod) {
+		return audioFreqs()[index % mod];
+	}
+	
 	////////////////////////
 	// DRAW
 	////////////////////////

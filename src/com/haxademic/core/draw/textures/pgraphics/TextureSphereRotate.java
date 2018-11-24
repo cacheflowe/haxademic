@@ -1,7 +1,5 @@
 package com.haxademic.core.draw.textures.pgraphics;
 
-import processing.core.PConstants;
-
 import com.haxademic.core.app.P;
 import com.haxademic.core.data.ConvertUtil;
 import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
@@ -43,17 +41,15 @@ extends BaseTexture {
 			_texture.fill( _colorEase.colorInt(), 80 );
 		}
 		
-		_texture.beginShape();
-		float size = 10;
+		float size = 20;
 		for( int i=0; i < points.length; i+=3 ) {
 			float amp = P.p.audioFreq( i%512 );
-			amp = P.p.audioFreq(i);
+			amp = P.p.audioFreq(i) * 65f;
 
 			_texture.pushMatrix();
 			_texture.translate(points[i], points[i+1], points[i+2]);
 			_texture.box(size * amp, size * amp, size * amp);
 			_texture.popMatrix();
 		}
-		_texture.endShape( PConstants.CLOSE );
 	}
 }

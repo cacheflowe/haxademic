@@ -115,6 +115,7 @@ extends BaseTexture {
 		}
 		
 		public void update( float amp ) {
+			amp *= 10f;
 			_framesTillMove--;
 			if( _framesTillMove <= 0 ) {
 				_framesTillMove = MathUtil.randRange( 4, 30 );

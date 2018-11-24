@@ -27,7 +27,7 @@ implements IAudioInput {
 		fft.equalizer(true);
 		// set default props
 		fft.limits(.005f, .05f);
-		fft.damp(0.13f);
+		fft.damp(0.18f); // 0.13f	// higher numbers = less dampening
 		fft.averages(32);
 		detector = new AudioInputESSBeatDetect(bufferSize, 44100);
 		detector.detectMode(AudioInputESSBeatDetect.SOUND_ENERGY); //FREQ_ENERGY
@@ -62,7 +62,7 @@ implements IAudioInput {
 		audioStreamData.setFFTFrequencies(fft.spectrum);
 		// set waveform data (updates slowly for some reason, so we lerp)
 		// audioStreamData.setWaveformOffsets(audioPlayer.buffer2);	// buffer ?? 
-		audioStreamData.lerpWaveformOffsets(audioPlayer.buffer2, 0.03f);	// buffer ?? 
+		audioStreamData.lerpWaveformOffsets(audioPlayer.buffer2, 0.2f);	// buffer ?? 
 		// set level
 		fft.getLevel(audioPlayer);
 		audioStreamData.setAmp(fft.max * 20f);
