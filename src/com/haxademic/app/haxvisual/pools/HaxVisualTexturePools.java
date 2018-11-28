@@ -16,6 +16,7 @@ import com.haxademic.core.draw.textures.pgraphics.TextureEQFloatParticles;
 import com.haxademic.core.draw.textures.pgraphics.TextureEQGrid;
 import com.haxademic.core.draw.textures.pgraphics.TextureEQLinesTerrain;
 import com.haxademic.core.draw.textures.pgraphics.TextureFractalPolygons;
+import com.haxademic.core.draw.textures.pgraphics.TextureImageTileScroll;
 import com.haxademic.core.draw.textures.pgraphics.TextureLinesEQ;
 import com.haxademic.core.draw.textures.pgraphics.TextureMeshAudioDeform;
 import com.haxademic.core.draw.textures.pgraphics.TextureOuterCube;
@@ -255,6 +256,12 @@ public class HaxVisualTexturePools {
 //		_fgTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "cacheflowe-triangle-wobble-stairs.glsl" ));
 		_fgTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "cacheflowe-warp-vortex.glsl" ));
 
+		_overlayTexturePool.add( new TextureImageTileScroll( textureW, textureH ) );
+		_overlayTexturePool.add( new TextureImageTileScroll( textureW, textureH ));
+		_overlayTexturePool.add( new TextureImageTileScroll( textureW, textureH ) );
+		_overlayTexturePool.add( new TextureImageTileScroll( textureW, textureH ));
+		_overlayTexturePool.add( new TextureImageTileScroll( textureW, textureH ) );
+		_overlayTexturePool.add( new TextureImageTileScroll( textureW, textureH ));
 		
 		
 		_overlayTexturePool.add( new TextureAudioSheetDeform( textureW, textureH ));

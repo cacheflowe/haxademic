@@ -2,7 +2,10 @@
 
 #### TODO
 
+* TextureImageTileScroll should always be scrolling a bit
 * Set audio level between tracks for DJ set
+
+
 * Share buffers for textures since they chug when lazy-initializing new ones??
 
 * Specific texture improvements:

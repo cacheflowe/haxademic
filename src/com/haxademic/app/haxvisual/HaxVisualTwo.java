@@ -8,6 +8,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
+import org.sunflow.core.primitive.QuadMesh;
+
 import com.haxademic.app.haxmapper.dmxlights.RandomLightTiming;
 import com.haxademic.app.haxvisual.pools.HaxVisualTexturePools;
 import com.haxademic.core.app.P;
@@ -15,6 +17,7 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.constants.PBlendModes;
 import com.haxademic.core.constants.PRenderers;
+import com.haxademic.core.draw.color.Gradients;
 import com.haxademic.core.draw.color.ImageGradient;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.context.OpenGLUtil;
@@ -208,7 +211,7 @@ extends PAppletHax {
 
 	protected void overridePropsFile() {
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, false );
-		p.appConfig.setProperty( AppSettings.FULLSCREEN, false );
+		p.appConfig.setProperty( AppSettings.FULLSCREEN, true );
 		p.appConfig.setProperty( AppSettings.ALWAYS_ON_TOP, false );
 		p.appConfig.setProperty( AppSettings.FILLS_SCREEN, false );
 		p.appConfig.setProperty( AppSettings.OSC_ACTIVE, false );
@@ -245,12 +248,27 @@ extends PAppletHax {
 		_pgPinnable = new PGraphicsKeystone( p, _pg, 12, FileUtil.getFile("text/keystoning/hax-visual-two.txt") );
 	}
 
+	// fancy mapping blended output
+	
+	protected int OVERLAP_PIXELS = 890;
+	protected String BLEND_LEFT = "BLEND_LEFT";
+	protected String BLEND_RIGHT = "BLEND_RIGHT";
+	protected String BLEND_WIDTH = "BLEND_WIDTH";
+	protected PGraphics fadeEdge;
+	
 	protected void buildCanvasMultiOutput() {
-		int w = 1920 * 3;
-		int h = 1080;
+		int w = 1920 * 4 - OVERLAP_PIXELS;
+		int h = P.round(1080 * 4f/3f);
 		_pg = p.createGraphics(w, h, P.P3D);
 		_pg.noSmooth();
 		OpenGLUtil.setTextureRepeat(_pg);
+		
+		// add sliders for blending
+		p.prefsSliders.addSlider(BLEND_LEFT, OVERLAP_PIXELS / 2, -100, 2020, 1);
+		p.prefsSliders.addSlider(BLEND_RIGHT, OVERLAP_PIXELS / 2, -100, 2020, 1);
+		p.prefsSliders.addSlider(BLEND_WIDTH, 100, 0, 1000, 1);
+		
+		fadeEdge = p.createGraphics(1920, h, P.P3D);
 	}
 	
 	protected void buildPostProcessingChain() {
@@ -308,7 +326,6 @@ extends PAppletHax {
 		drawAltTopLayerOrDisplacement();
 		postProcessFilters();
 		// bloomFilter();
-//		vignetteFilter();
 		drawTopLayer();
 		applyColorizeFilter();
 		vignetteFilter();
@@ -324,6 +341,7 @@ extends PAppletHax {
 	}
 
 	protected void drawPre() {
+		////////////////////////////////////
 		// copy colorize gradient to buffer
 		colorizeSourceTexture.beginDraw();
 		colorizeSourceTexture.noStroke();
@@ -339,7 +357,33 @@ extends PAppletHax {
 
 		// close context
 		colorizeSourceTexture.blendMode(PBlendModes.BLEND);
-		colorizeSourceTexture.endDraw();	
+		colorizeSourceTexture.endDraw();
+		
+		////////////////////////////////////
+		// draw gradient blend image
+		if(p.frameCount < 1000) {
+			fadeEdge.beginDraw();
+			fadeEdge.clear();
+			fadeEdge.background(0, 0);
+			DrawUtil.setDrawCenter(fadeEdge);
+			fadeEdge.noStroke();
+			
+			// draw projector-blending gradient
+			int fadeSize = (int) p.prefsSliders.value(BLEND_WIDTH);
+			fadeEdge.pushMatrix();
+			fadeEdge.translate((fadeSize * 0.5f), fadeEdge.height / 2);
+			Gradients.linear(fadeEdge, fadeSize, fadeEdge.height, p.color(1, 0), p.color(0,255));
+			fadeEdge.popMatrix();
+			
+			// draw solid portion
+			float solidSize = fadeEdge.width - fadeSize; 
+			fadeEdge.translate(fadeEdge.width - (solidSize * 0.5f), fadeEdge.height / 2);
+			fadeEdge.fill(0);
+			fadeEdge.rect(0, 0, solidSize, fadeEdge.height);
+			fadeEdge.endDraw();
+			
+			// p.debugView.setTexture(fadeEdge);
+		}
 	}
 	
 	protected void updateTextures() {
@@ -383,17 +427,41 @@ extends PAppletHax {
 	}
 	
 	protected void drawCanvasToMultiScreens() {
-		// show the whole thing
-		ImageUtil.cropFillCopyImage(_pg, p.g, false);
-		
-		// draw for GG
-		int outW = 1920/2;
-		int outH = 1080/2;
-		int sourceW = _pg.width / 3;
-		int sourceH = _pg.height;
-//		p.g.copy(_pg, sourceW * 0, 0, sourceW, sourceH, 0,    0,    outW, outH);
-//		p.g.copy(_pg, sourceW * 1, 0, sourceW, sourceH, outW, 0,    outW, outH);
-//		p.g.copy(_pg, sourceW * 2, 0, sourceW, sourceH, 0,    outH, outW, outH);
+		if(p.showDebug) {
+			// show the whole thing
+			ImageUtil.cropFillCopyImage(_pg, p.g, false);
+		} else {
+			// draw for GG
+			int outW = 1920;
+			int outH = 1080;
+	//		int sourceW = _pg.width / 3;
+			int sourceH = _pg.height;
+	
+			// screen 1 - left end
+			p.g.copy(_pg,   0, 0, 1920, sourceH, 
+							0, 0, outW, outH);
+			// screen 2-3
+			p.g.copy(_pg, 	1920, 0, 1920, sourceH, 
+							outW, 0, outW, outH);
+			p.g.copy(_pg, 	_pg.width - 1920 * 2, 0, 1920, sourceH, 
+							0, outH, outW, outH);
+			
+			// screen 4 - right end
+			p.g.copy(_pg, 	_pg.width - 1920, 0, 1920, sourceH, 
+							outW, outH, outW, outH);
+			
+			// screen 2-3 blending
+			DrawUtil.setDrawCenter(p.g);
+			p.g.image(fadeEdge, outW + outW / 2 + p.prefsSliders.value(BLEND_LEFT), outH / 2, fadeEdge.width, outH);
+			
+			p.pushMatrix();
+			p.g.translate( -outW + p.prefsSliders.value(BLEND_RIGHT), outH + outH / 2);
+			p.g.rotate(P.PI);
+			p.g.image(fadeEdge, 0, 0, fadeEdge.width, outH);
+			p.popMatrix();
+			
+			DrawUtil.setDrawCorner(p.g);
+		}
 	}
 
 	/////////////////////////////////////////////////////////////////
@@ -521,8 +589,11 @@ extends PAppletHax {
 
 		// KALEIDOSCOPE ////////////////////////
 		float kaleidoSides = P.round( p.midiState.midiCCPercent(midiInChannel, kaledioKnob) * 12f );
+		p.debugView.setValue("kaleidoSides", kaleidoSides);
 		if( kaleidoSides > 0 ) {
-			if( kaleidoSides == 3 ) {
+			if( kaleidoSides == 1 ) {
+				MirrorQuadFilter.instance(p).applyTo(_pg);
+			} else if( kaleidoSides == 3 ) {
 				ReflectFilter.instance(p).applyTo(_pg);
 			} else {
 				KaleidoFilter.instance(p).setAngle(0f);
@@ -564,7 +635,7 @@ extends PAppletHax {
 //		VignetteAltFilter.instance(p).applyTo(_pg);
 
 		// normal vignette
-		VignetteFilter.instance(p).setDarkness(0.5f);
+		VignetteFilter.instance(p).setDarkness(0.6f);
 		VignetteFilter.instance(p).applyTo(_pg);
 	}
 
@@ -921,10 +992,11 @@ extends PAppletHax {
 
 		// change kaleido
 		float kaleidoSides = MathUtil.randRangeDecimal(0, 1);
-		if(kaleidoSides < 0.2f) kaleidoSides = 0;
-		else if(kaleidoSides < 0.7f) kaleidoSides = 0.25f * 127f;
-		else if(kaleidoSides < 0.85f) kaleidoSides = 0.3f * 127f;
-		else kaleidoSides = 0.5f * 127f;
+		if(kaleidoSides < 0.25f) kaleidoSides = 0;					// 0
+		else if(kaleidoSides < 0.6f) kaleidoSides = 0.25f * 127f;	// 3
+		else if(kaleidoSides < 0.7f) kaleidoSides = 0.1f * 127f;	// 1
+		else if(kaleidoSides < 0.85f) kaleidoSides = 0.3f * 127f;	// 4
+		else kaleidoSides = 0.5f * 127f;							// 6
 		p.midiState.controllerChange(midiInChannel, kaledioKnob, (int) kaleidoSides);
 
 		// start glitch mode

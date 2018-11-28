@@ -1,4 +1,4 @@
-package com.haxademic.sketch.shader;
+package com.haxademic.demo.draw.filters.shaders;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
@@ -11,7 +11,7 @@ import com.haxademic.core.math.easing.Penner;
 import processing.core.PImage;
 import processing.opengl.PShader;
 
-public class ShaderTransitions
+public class Demo_GLSLTransitions
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 

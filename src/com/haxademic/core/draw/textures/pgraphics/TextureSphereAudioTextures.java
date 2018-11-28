@@ -49,7 +49,7 @@ extends BaseTexture {
 	
 	protected void createNewSphere() {
 		P.p.sphereDetail(40);
-		shape = P.p.createShape(P.SPHERE, _texture.height/2f);
+		shape = P.p.createShape(P.SPHERE, _texture.height/2.25f);
 		shapeTessellated = shape.getTessellation();
 		
 		float extent = PShapeUtil.getMaxExtent(shape);
