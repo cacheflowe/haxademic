@@ -1,7 +1,7 @@
 <?php
 
 // true option to return as array instead of json object
-$json_obj = json_decode($jsonPosted, true); 
+$json_obj = json_decode($jsonPosted, true);
 
 // if project property exists, we're saving a project data file
 if(isset($json_obj['project'])) {
@@ -54,6 +54,9 @@ if(isset($json_obj['project'])) {
   // write json data to file
   file_put_contents($dataFile, json_encode($json_obj, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT) );
   chmod($dataFile, 0755);
+
+  // remove older than 5 days
+  remove_old_checkins($checkinsDir, 5);
 }
 
 // print new file contents

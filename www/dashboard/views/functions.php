@@ -16,6 +16,22 @@ function makeDirs($dirpath, $mode=0777) {
   return is_dir($dirpath) || mkdir($dirpath, $mode, true);
 }
 
+// rm -rf
+function rrmdir($dir) {
+  if (is_dir($dir)) {
+    $objects = scandir($dir);
+    foreach ($objects as $object) {
+      if ($object != "." && $object != "..") {
+        if (is_dir($dir."/".$object))
+          rrmdir($dir."/".$object);
+        else
+          unlink($dir."/".$object);
+      }
+    }
+    rmdir($dir);
+  }
+}
+
 // convert base64 image to file
 function base64_to_png($base64_string, $output_file) {
   // open the output file for writing
@@ -132,6 +148,18 @@ function html_checkin_detail($jsonFile, $project_id, $showTitle, $isMostRecent=f
           }
   $html .='</div>';
   return $html;
+}
+
+function remove_old_checkins($checkinsDir, $maxCheckinDays) {
+  $checkinDirs = get_files_chrono($checkinsDir);
+  $dirIndex = 0;
+  foreach($checkinDirs as $checkinDir) {
+    echo $checkinsDir . $checkinDir . "\n";
+    if($dirIndex >= $maxCheckinDays) {
+      rrmdir($checkinsDir . $checkinDir);
+    }
+    $dirIndex++;
+  }
 }
 
 ?>
