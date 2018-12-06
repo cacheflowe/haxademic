@@ -12,6 +12,8 @@ extends PAppletHax {
 	protected DMXWrapper dmx;
 
 	protected int startChannel = 1;
+	protected boolean manualBrightness = false;
+	protected boolean brightnessCap = true;
 	
 	enum DMXTestmode {
 		SINGLE_CHANNEL,
@@ -25,11 +27,12 @@ extends PAppletHax {
 	
 	protected void overridePropsFile() {
 		p.appConfig.setProperty(AppSettings.SHOW_DEBUG, true );
+//		p.appConfig.setProperty(AppSettings.INIT_ESS_AUDIO, false );
 	}
 
 	public void setupFirstFrame() {
 		// dmx = new DMXWrapper();
-		dmx = new DMXWrapper("COM5", 9600);
+		dmx = new DMXWrapper("COM3", 9600);
 		addHelpText();
 	}
 	
@@ -39,6 +42,9 @@ extends PAppletHax {
 		p.debugView.setHelpLine("2 |", "RGB");
 		p.debugView.setHelpLine("3 |", "ALL");
 		p.debugView.setHelpLine("4 |", "NONE");
+		p.debugView.setHelpLine("5 |", "MANUAL BRIGHTNESS");
+		p.debugView.setHelpLine("6 |", "BRIGHTNESS CAP");
+		p.debugView.setHelpLine("7 |", "AUDI MODE");
 		p.debugView.setHelpLine("SPACE |", "Reset all");
 		p.debugView.setHelpLine("LEFT |", "Channel down");
 		p.debugView.setHelpLine("RIGHT |", "Channel up");
@@ -57,6 +63,24 @@ extends PAppletHax {
 		int valueR = P.round(127 + 127 * P.sin(p.frameCount * freq));
 		int valueG = P.round(127 + 127 * P.sin(p.frameCount * freq + P.HALF_PI));
 		int valueB = P.round(127 + 127 * P.sin(p.frameCount * freq + P.PI));
+		
+		// manual control
+		if (manualBrightness) {
+			valueR = valueG = valueB = P.round(p.mousePercentY() * 255f);
+		}
+		
+		if (audioActive) {
+			valueR = P.round(p.audioFreq(15) * 255);
+			valueG = P.round(p.audioFreq(17) * 255);
+			valueB = P.round(p.audioFreq(19) * 255);
+		}
+		
+		// temp: brightness cap
+		if(brightnessCap) {
+			valueR = P.constrain(valueR, 0, 127);
+			valueG = P.constrain(valueG, 0, 127);
+			valueB = P.constrain(valueB, 0, 127);
+		}
 		
 		// debug info
 		String debugInfo = "";
@@ -100,11 +124,13 @@ extends PAppletHax {
 		p.text(debugInfo, p.width * 0.2f, p.height * 0.14f, p.width, p.height);
 		
 		// debug
-		p.debugView.setValue("audioActive", audioActive);
 		p.debugView.setValue("channel", startChannel);
 		p.debugView.setValue("valueR", valueR);
 		p.debugView.setValue("valueG", valueG);
 		p.debugView.setValue("valueB", valueB);
+		p.debugView.setValue("manualBrightness", manualBrightness);
+		p.debugView.setValue("brightnessCap", brightnessCap);
+		p.debugView.setValue("audioActive", audioActive);
 	}
 	
 	protected void resetAllChannels() {
@@ -119,6 +145,9 @@ extends PAppletHax {
 		if(p.key == '2') testMode = DMXTestmode.RGB;
 		if(p.key == '3') testMode = DMXTestmode.ALL;
 		if(p.key == '4') testMode = DMXTestmode.NONE;
+		if(p.key == '5') manualBrightness = !manualBrightness;
+		if(p.key == '6') brightnessCap = !brightnessCap;
+		if(p.key == '7') audioActive = !audioActive;
 		if(p.key == ' ') resetAllChannels();
 		if(p.keyCode == P.LEFT && startChannel > 1) startChannel--; 
 		if(p.keyCode == P.RIGHT && startChannel < 512) startChannel++; 
