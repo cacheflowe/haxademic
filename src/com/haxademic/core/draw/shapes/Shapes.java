@@ -95,7 +95,11 @@ public class Shapes {
 		p.popMatrix();
 	}
 	
-	public static void drawStar( PApplet p, float spikes, float outerrad, float innerradpercent, float h, float rot)
+	public static void drawStar( PApplet p, float spikes, float outerrad, float innerradpercent, float h, float rot) {
+		drawStar(p.g, spikes, outerrad, innerradpercent, h, rot);
+	}
+	
+	public static void drawStar( PGraphics p, float spikes, float outerrad, float innerradpercent, float h, float rot)
 	{
 		p.pushMatrix();
 
