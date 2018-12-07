@@ -20,6 +20,15 @@ public class DMXWrapper {
 	// - https://plugable.com/2011/07/12/installing-a-usb-serial-adapter-on-mac-os-x/
 	// - And on my current MacBook Pro setup, I seem to have to keep installing it over again...
 	
+	// General DMX values from a 12v power supply that definitely differ depending on the fixture attached 
+	// 1 = 2.14v
+	// 9 = 2.5v
+	// 18 = 3v
+	// 53 = 5v
+	// 119 = 9v
+	// 240 = 12v
+
+	
 	public static final String DMXPRO_PORT = "DMXPRO_PORT";
 	public static final String DMXPRO_BAUDRATE = "DMXPRO_BAUDRATE";
 	public static final String DMXPRO_UNIVERSE_SIZE = "DMXPRO_UNIVERSE_SIZE";
