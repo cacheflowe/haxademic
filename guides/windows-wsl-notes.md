@@ -102,6 +102,9 @@ alias workspace="cd /mnt/d/workspace"
 alias openexplorer="explorer.exe ."
 alias reload=". ~/.bashrc"
 alias backupbash="cp ~/.* /mnt/d/workspace/cacheflowe-wsl/user-cacheflowe/"
+cdwin() {   	# usage: `cdwin "D:\path\in\windows"`
+  cd $(wslpath "$1")
+}
 
 alias loadbashfromwindows="cp /mnt/d/workspace/cacheflowe-wsl/user-cacheflowe/.*  ~/"
 alias loadvhostsfromwindows="sudo cp /mnt/d/workspace/cacheflowe-wsl/sites-enabled/*.* /etc/apache2/sites-enabled"
