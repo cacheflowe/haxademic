@@ -11,6 +11,8 @@
   * Make a dmx gif loop
   * Motion detection point-of-interest motion capture by small rectangles - figure out how to zoom out and create multiple zones
   * Turn client snake mirror into its own thing
+  * Make a version of partycles with GPU particles from VFX code and ability to swap webcam instead of Kinect 
+	* Also, blob tracking VFX but sweet patterns inside the blobs
 * Audio
   * Sphinx4 speech recognition
     * Copy / paste + Robot for tired hands
