@@ -251,7 +251,7 @@ extends PApplet
 			_gifRenderer = new GifRenderer(appConfig.getInt(AppSettings.RENDERING_GIF_FRAMERATE, 45), appConfig.getInt(AppSettings.RENDERING_GIF_QUALITY, 15));
 		}
 		if(appConfig.getBoolean(AppSettings.RENDERING_IMAGE_SEQUENCE, false) == true) {
-			imageSequenceRenderer = new ImageSequenceRenderer();
+			imageSequenceRenderer = new ImageSequenceRenderer(p.g);
 		}
 		
 		if( p.appConfig.getBoolean( AppSettings.KINECT_V2_WIN_ACTIVE, false ) == true ) {
@@ -490,7 +490,7 @@ extends PApplet
 		}
 		if(imageSequenceRenderer != null && appConfig.getBoolean(AppSettings.RENDERING_IMAGE_SEQUENCE, false) == true) {
 			if(appConfig.getInt(AppSettings.RENDERING_IMAGE_SEQUENCE_START_FRAME, 1) == p.frameCount) {
-				imageSequenceRenderer.startImageSequenceRender();;
+				imageSequenceRenderer.startImageSequenceRender();
 			}
 		}
 	}
@@ -521,7 +521,7 @@ extends PApplet
 		// check for image sequence stop frame
 		if(imageSequenceRenderer != null && appConfig.getBoolean(AppSettings.RENDERING_IMAGE_SEQUENCE, false) == true) {
 			if(p.frameCount >= appConfig.getInt(AppSettings.RENDERING_IMAGE_SEQUENCE_START_FRAME, 1)) {
-				imageSequenceRenderer.renderImageFrame(p.g);
+				imageSequenceRenderer.renderImageFrame();
 			}
 			if(p.frameCount == appConfig.getInt(AppSettings.RENDERING_IMAGE_SEQUENCE_STOP_FRAME, 500)) {
 				imageSequenceRenderer.finish();

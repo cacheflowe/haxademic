@@ -11,10 +11,16 @@ import processing.core.PGraphics;
 
 public class ImageSequenceRenderer {
 
+	protected PGraphics pg;
 	protected String savePath;
 	protected int framesRendered = 0;
 
-	public ImageSequenceRenderer() {
+	public ImageSequenceRenderer(PGraphics pg) {
+		this.pg = pg;
+	}
+	
+	public void setPG(PGraphics pg) {
+		this.pg = pg;
 	}
 	
 	public void startImageSequenceRender() {
@@ -23,7 +29,7 @@ public class ImageSequenceRenderer {
 		P.println("== started rendering gif ==");
 	}
 		
-	public void renderImageFrame(PGraphics pg) {
+	public void renderImageFrame() {
 		if(framesRendered == -1) return;
 		framesRendered++;
 		P.println("== rendering image frame: "+framesRendered+" ==");
