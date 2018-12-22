@@ -3,19 +3,10 @@ package com.haxademic.sketch.render.ello;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
-import com.haxademic.core.constants.PBlendModes;
-import com.haxademic.core.draw.context.DrawUtil;
-import com.haxademic.core.draw.filters.pshader.BlurProcessingFilter;
 import com.haxademic.core.draw.shapes.PShapeUtil;
-import com.haxademic.core.file.DemoAssets;
 import com.haxademic.core.file.FileUtil;
 
-import geomerative.RG;
-import geomerative.RPoint;
-import geomerative.RShape;
-import processing.core.PConstants;
 import processing.core.PShape;
-import processing.core.PVector;
 
 public class GifRenderEllo028_PShapeUtil_svgToUniformPointsShape 
 extends PAppletHax {

@@ -9,7 +9,6 @@ import com.haxademic.core.file.FileUtil;
 
 import processing.core.PGraphics;
 import processing.core.PImage;
-import processing.opengl.PShader;
 
 public class Demo_CaptureKeystoneToRectBufferMultiple
 extends PAppletHax {

@@ -2,8 +2,6 @@ package com.haxademic.sketch.three_d;
 
 import com.haxademic.core.app.PAppletHax;
 
-import processing.core.PApplet;
-
 public class SphericalCoordinates
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }

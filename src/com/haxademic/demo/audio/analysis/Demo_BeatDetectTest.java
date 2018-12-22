@@ -1,7 +1,6 @@
 package com.haxademic.demo.audio.analysis;
 
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.draw.context.DrawUtil;
 
 public class Demo_BeatDetectTest 

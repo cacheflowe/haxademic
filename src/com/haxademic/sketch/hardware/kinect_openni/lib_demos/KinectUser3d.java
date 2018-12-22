@@ -1,9 +1,9 @@
 package com.haxademic.sketch.hardware.kinect_openni.lib_demos;
 
+import SimpleOpenNI.SimpleOpenNI;
 import processing.core.PApplet;
 import processing.core.PMatrix3D;
 import processing.core.PVector;
-import SimpleOpenNI.SimpleOpenNI;
 
 public class KinectUser3d extends PApplet {
 	SimpleOpenNI context;

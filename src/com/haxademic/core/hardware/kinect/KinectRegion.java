@@ -1,11 +1,11 @@
 package com.haxademic.core.hardware.kinect;
 
-import processing.core.PGraphics;
-
 import com.haxademic.core.app.P;
 import com.haxademic.core.hardware.joystick.BaseJoystick;
 import com.haxademic.core.hardware.joystick.IJoystickControl;
 import com.haxademic.core.math.MathUtil;
+
+import processing.core.PGraphics;
 
 public class KinectRegion
 extends BaseJoystick

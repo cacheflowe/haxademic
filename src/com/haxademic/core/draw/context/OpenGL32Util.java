@@ -9,7 +9,6 @@ import com.thomasdiewald.pixelflow.java.imageprocessing.filter.DwFilter;
 
 import processing.core.PConstants;
 import processing.opengl.PGraphics2D;
-import processing.opengl.PGraphicsOpenGL;
 
 public class OpenGL32Util {
 	

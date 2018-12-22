@@ -5,8 +5,6 @@ import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.draw.image.ImageSequenceMovieClip;
 import com.haxademic.core.file.FileUtil;
 
-import processing.core.PImage;
-
 public class Demo_ImageSequenceMovieClip
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }

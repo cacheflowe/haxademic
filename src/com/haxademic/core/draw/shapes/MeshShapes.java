@@ -1,10 +1,10 @@
 package com.haxademic.core.draw.shapes;
 
+import com.haxademic.core.app.P;
+
 import processing.core.PApplet;
 import processing.core.PGraphics;
 import processing.core.PVector;
-
-import com.haxademic.core.app.P;
 
 public class MeshShapes {
 	// M_3_3_02.pde

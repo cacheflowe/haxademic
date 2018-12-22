@@ -5,13 +5,10 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.constants.PBlendModes;
 import com.haxademic.core.draw.filters.pshader.VignetteFilter;
-import com.haxademic.core.draw.image.ImageUtil;
-import com.haxademic.core.draw.image.TiledTexture;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.easing.Penner;
 
 import processing.core.PGraphics;
-import processing.core.PImage;
 import processing.opengl.PShader;
 
 public class TwoDazzleLinesShaders

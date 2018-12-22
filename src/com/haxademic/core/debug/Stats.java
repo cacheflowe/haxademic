@@ -1,8 +1,8 @@
 package com.haxademic.core.debug;
 
-import processing.core.PApplet;
-
 import com.haxademic.core.app.P;
+
+import processing.core.PApplet;
 
 public class Stats {
 	

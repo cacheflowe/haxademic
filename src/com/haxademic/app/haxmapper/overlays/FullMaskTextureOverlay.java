@@ -6,7 +6,6 @@ import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
 
-import processing.core.PConstants;
 import processing.core.PGraphics;
 
 public class FullMaskTextureOverlay {

@@ -1,12 +1,11 @@
 package com.haxademic.demo.draw.image;
 
-import processing.core.PImage;
-
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.file.DemoAssets;
-import com.haxademic.core.file.FileUtil;
+
+import processing.core.PImage;
 
 public class Demo_TexturedQuad 
 extends PAppletHax {

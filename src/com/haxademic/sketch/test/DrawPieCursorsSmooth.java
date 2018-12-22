@@ -4,7 +4,6 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.context.DrawUtil;
 
-import processing.core.PGraphics;
 import toxi.color.TColor;
 
 public class DrawPieCursorsSmooth

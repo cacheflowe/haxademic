@@ -4,7 +4,6 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.image.ImageUtil;
 
-import blobDetection.BlobDetection;
 import processing.core.PGraphics;
 import processing.core.PImage;
 

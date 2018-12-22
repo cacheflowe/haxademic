@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 
-import processing.core.PApplet;
 import ddf.minim.AudioPlayer;
 import ddf.minim.Minim;
+import processing.core.PApplet;
 
 public class AudioPool {
 	protected PApplet p;

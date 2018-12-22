@@ -7,9 +7,7 @@ import com.haxademic.core.constants.PRenderers;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.filters.pshader.VignetteFilter;
 import com.haxademic.core.draw.image.ImageUtil;
-import com.haxademic.core.draw.image.SimplexNoiseTexture;
 import com.haxademic.core.draw.image.TiledTexture;
-import com.haxademic.core.draw.shapes.pshader.MeshDeformAndTextureFilter;
 import com.haxademic.core.file.FileUtil;
 
 import processing.core.PFont;

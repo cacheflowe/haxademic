@@ -9,13 +9,10 @@ import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.image.PerlinTexture;
 import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
 import com.haxademic.core.file.FileUtil;
-import com.jogamp.opengl.GL;
 
 import processing.core.PConstants;
 import processing.core.PGraphics;
 import processing.core.PShape;
-import processing.opengl.PGraphicsOpenGL;
-import processing.opengl.PJOGL;
 import processing.opengl.PShader;
 
 public class Demo_VertexShader_GPUParticles 

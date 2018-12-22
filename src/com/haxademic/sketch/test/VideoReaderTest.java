@@ -8,12 +8,10 @@ import com.haxademic.core.draw.filters.pgraphics.PixelTriFilter;
 import com.haxademic.core.draw.filters.pgraphics.archive.ImageHistogramFilter;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.file.DemoAssets;
-import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.MathUtil;
 import com.jhlabs.image.ContrastFilter;
 import com.jhlabs.image.HSBAdjustFilter;
 
-import processing.core.PApplet;
 import processing.core.PGraphics;
 import processing.core.PImage;
 import processing.video.Movie;

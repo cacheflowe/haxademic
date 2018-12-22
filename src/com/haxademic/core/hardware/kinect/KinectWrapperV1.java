@@ -1,11 +1,11 @@
 package com.haxademic.core.hardware.kinect;
 
+import com.haxademic.core.debug.DebugUtil;
+
+import SimpleOpenNI.SimpleOpenNI;
 import processing.core.PApplet;
 import processing.core.PImage;
 import processing.core.PVector;
-import SimpleOpenNI.SimpleOpenNI;
-
-import com.haxademic.core.debug.DebugUtil;
 
 public class KinectWrapperV1 implements IKinectWrapper{
 	

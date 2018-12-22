@@ -1,13 +1,13 @@
 package com.haxademic.sketch.toxi_tests;
 
+import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.vendor.Toxiclibs;
+
 import toxi.geom.AABB;
 import toxi.geom.Triangle3D;
 import toxi.geom.Vec3D;
 import toxi.geom.mesh.TriangleMesh;
 import toxi.processing.ToxiclibsSupport;
-
-import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.vendor.Toxiclibs;
 
 public class AlignBoxToTriFace 
 extends PAppletHax {

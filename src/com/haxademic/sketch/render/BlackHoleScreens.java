@@ -6,15 +6,8 @@ import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.constants.PBlendModes;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.context.OpenGLUtil;
-import com.haxademic.core.draw.filters.pshader.ChromaColorFilter;
-import com.haxademic.core.draw.filters.pshader.CubicLensDistortionFilterOscillate;
-import com.haxademic.core.draw.filters.pshader.RadialRipplesFilter;
-import com.haxademic.core.draw.filters.pshader.SphereDistortionFilter;
-import com.haxademic.core.draw.filters.pshader.VignetteFilter;
-import com.haxademic.core.draw.image.HaxMotionBlur;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.image.MotionBlurPGraphics;
-import com.haxademic.core.draw.image.DrawCommand.Command;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.easing.Penner;
 

@@ -5,8 +5,8 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.context.OpenGLUtil;
-import com.haxademic.core.draw.image.HaxMotionBlur;
 import com.haxademic.core.draw.image.DrawCommand.Command;
+import com.haxademic.core.draw.image.HaxMotionBlur;
 import com.haxademic.core.math.easing.Penner;
 
 public class RoundedRectTest

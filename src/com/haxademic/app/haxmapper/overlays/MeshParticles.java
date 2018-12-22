@@ -2,13 +2,13 @@ package com.haxademic.app.haxmapper.overlays;
 
 import java.util.ArrayList;
 
-import processing.core.PGraphics;
-import processing.core.PVector;
-
 import com.haxademic.core.app.P;
 import com.haxademic.core.draw.color.EasingColor;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.math.MathUtil;
+
+import processing.core.PGraphics;
+import processing.core.PVector;
 
 public class MeshParticles {
 

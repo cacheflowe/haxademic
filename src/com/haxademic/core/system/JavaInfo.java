@@ -1,5 +1,23 @@
 package com.haxademic.core.system;
 
+import java.awt.DisplayMode;
+import java.awt.GraphicsConfiguration;
+import java.awt.GraphicsDevice;
+import java.awt.GraphicsEnvironment;
+import java.awt.ImageCapabilities;
+import java.io.File;
+import java.io.PrintStream;
+import java.lang.management.ClassLoadingMXBean;
+import java.lang.management.ManagementFactory;
+import java.lang.management.OperatingSystemMXBean;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
+import java.nio.file.Paths;
+import java.security.KeyStore;
+import java.util.Date;
+import java.util.Enumeration;
+import java.util.Locale;
+import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.logging.LogManager;
 
@@ -10,25 +28,6 @@ import javax.sound.sampled.Line;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.Mixer;
 import javax.sound.sampled.SourceDataLine;
-
-import java.util.Date;
-import java.util.Enumeration;
-import java.util.Locale;
-import java.util.Map.Entry;
-import java.awt.DisplayMode;
-import java.awt.GraphicsConfiguration;
-import java.awt.GraphicsDevice;
-import java.awt.GraphicsEnvironment;
-import java.awt.ImageCapabilities;
-import java.io.File;
-import java.io.PrintStream;
-import java.nio.file.Paths;
-import java.security.KeyStore;
-import java.lang.management.ClassLoadingMXBean;
-import java.lang.management.ManagementFactory;
-import java.lang.management.OperatingSystemMXBean;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
 
 public class JavaInfo {
 

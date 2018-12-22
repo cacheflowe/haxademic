@@ -5,8 +5,6 @@ import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.image.MovieBuffer;
 import com.haxademic.core.file.FileUtil;
 
-import processing.video.Movie;
-
 public class Demo_MovieBuffer 
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }

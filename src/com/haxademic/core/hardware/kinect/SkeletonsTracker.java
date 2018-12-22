@@ -2,15 +2,15 @@ package com.haxademic.core.hardware.kinect;
 
 import java.awt.Rectangle;
 
-import processing.core.PImage;
-import processing.core.PVector;
-import toxi.geom.Vec3D;
-import SimpleOpenNI.SimpleOpenNI;
-
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.math.easing.EasingFloat3d;
+
+import SimpleOpenNI.SimpleOpenNI;
+import processing.core.PImage;
+import processing.core.PVector;
+import toxi.geom.Vec3D;
 
 public class SkeletonsTracker {
 	

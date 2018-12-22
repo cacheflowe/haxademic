@@ -10,19 +10,15 @@ import com.haxademic.core.draw.textures.pgraphics.TextureEQColumns;
 import com.haxademic.core.draw.textures.pgraphics.TextureEQConcentricCircles;
 import com.haxademic.core.draw.textures.pgraphics.TextureEQFloatParticles;
 import com.haxademic.core.draw.textures.pgraphics.TextureEQGrid;
-import com.haxademic.core.draw.textures.pgraphics.TextureImageTimeStepper;
 import com.haxademic.core.draw.textures.pgraphics.TextureLinesEQ;
 import com.haxademic.core.draw.textures.pgraphics.TextureRotatingRings;
 import com.haxademic.core.draw.textures.pgraphics.TextureRotatorShape;
 import com.haxademic.core.draw.textures.pgraphics.TextureScrollingColumns;
 import com.haxademic.core.draw.textures.pgraphics.TextureShaderTimeStepper;
 import com.haxademic.core.draw.textures.pgraphics.TextureSphereRotate;
-import com.haxademic.core.draw.textures.pgraphics.TextureSvgPattern;
 import com.haxademic.core.draw.textures.pgraphics.TextureTwistingSquares;
-import com.haxademic.core.draw.textures.pgraphics.TextureVideoPlayer;
 import com.haxademic.core.draw.textures.pgraphics.TextureWaveformCircle;
 import com.haxademic.core.draw.textures.pgraphics.TextureWaveformSimple;
-import com.haxademic.core.file.FileUtil;
 
 public class McaMapper
 extends HaxMapper{

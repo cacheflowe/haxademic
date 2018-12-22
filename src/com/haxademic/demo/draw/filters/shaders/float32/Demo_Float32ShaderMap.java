@@ -6,11 +6,8 @@ import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.textures.pshader.TextureShader;
 import com.haxademic.core.file.DemoAssets;
 import com.haxademic.core.file.FileUtil;
-import com.jogamp.opengl.GL;
-import com.thomasdiewald.pixelflow.java.DwPixelFlow;
 import com.thomasdiewald.pixelflow.java.dwgl.DwGLSLProgram;
 import com.thomasdiewald.pixelflow.java.dwgl.DwGLTexture;
-import com.thomasdiewald.pixelflow.java.imageprocessing.filter.DwFilter;
 
 import processing.opengl.PGraphics2D;
 

@@ -22,7 +22,6 @@ import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.LinearFloat;
 import com.haxademic.core.math.easing.Penner;
 import com.haxademic.core.system.SystemUtil;
-import com.haxademic.demo.hardware.webcam.Demo_FrameDifferenceShapesLauncher.ShapeParticle;
 
 import dmxP512.DmxP512;
 import processing.core.PGraphics;

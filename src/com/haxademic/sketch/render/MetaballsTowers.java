@@ -16,7 +16,6 @@ import processing.core.PGraphics;
 import processing.core.PImage;
 import processing.core.PShape;
 import processing.core.PVector;
-import processing.opengl.PShader;
 
 public class MetaballsTowers
 extends PAppletHax {

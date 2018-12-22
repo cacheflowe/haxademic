@@ -2,10 +2,10 @@ package com.haxademic.core.ui;
 
 import java.awt.Rectangle;
 
-import processing.core.PApplet;
-
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.text.CustomFontText2D;
+
+import processing.core.PApplet;
 
 public class TextInput
 implements IMouseable {

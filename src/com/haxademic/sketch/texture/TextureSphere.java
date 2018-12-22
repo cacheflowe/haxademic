@@ -2,12 +2,12 @@ package com.haxademic.sketch.texture;
 
 import java.util.ArrayList;
 
+import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.file.FileUtil;
+
 import processing.core.PImage;
 import processing.core.PShape;
 import processing.core.PVector;
-
-import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.file.FileUtil;
 
 public class TextureSphere 
 extends PAppletHax {

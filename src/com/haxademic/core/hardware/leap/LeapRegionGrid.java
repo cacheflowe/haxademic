@@ -1,11 +1,11 @@
 package com.haxademic.core.hardware.leap;
 
-import processing.core.PGraphics;
-
 import com.haxademic.core.app.P;
 import com.haxademic.core.hardware.joystick.BaseJoysticksCollection;
 import com.haxademic.core.hardware.joystick.IJoystickCollection;
 import com.haxademic.core.math.MathUtil;
+
+import processing.core.PGraphics;
 
 public class LeapRegionGrid
 extends BaseJoysticksCollection

@@ -3,7 +3,6 @@ package com.haxademic.core.ui;
 import java.util.HashMap;
 
 import com.haxademic.core.app.P;
-import com.haxademic.core.net.JSONUtil;
 
 import processing.core.PFont;
 import processing.data.JSONObject;

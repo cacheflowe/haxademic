@@ -3,10 +3,8 @@ package com.haxademic.sketch.hardware;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.context.DrawUtil;
-import com.haxademic.core.draw.filters.pshader.FlipHFilter;
 import com.haxademic.core.draw.image.ImageUtil;
 
-import processing.core.PConstants;
 import processing.core.PImage;
 import processing.video.Capture;
 import toxi.geom.Vec2D;

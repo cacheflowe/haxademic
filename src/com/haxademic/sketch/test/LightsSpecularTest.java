@@ -1,10 +1,7 @@
 package com.haxademic.sketch.test;
 
-import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
-
-import controlP5.ControlP5;
 
 public class LightsSpecularTest
 extends PAppletHax {

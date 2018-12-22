@@ -2,12 +2,12 @@ package com.haxademic.core.draw.textures.pgraphics;
 
 import java.util.ArrayList;
 
-import processing.core.PConstants;
-
 import com.haxademic.core.app.P;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
 import com.haxademic.core.math.easing.EasingFloat;
+
+import processing.core.PConstants;
 
 public class TextureAppFrame2d 
 extends BaseTexture {

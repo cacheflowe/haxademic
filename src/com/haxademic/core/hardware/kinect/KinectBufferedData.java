@@ -2,11 +2,11 @@ package com.haxademic.core.hardware.kinect;
 
 import java.util.ArrayList;
 
-import processing.core.PGraphics;
-import processing.core.PImage;
-
 import com.haxademic.core.app.P;
 import com.haxademic.core.math.easing.FloatBuffer;
+
+import processing.core.PGraphics;
+import processing.core.PImage;
 
 public class KinectBufferedData {
 	

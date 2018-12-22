@@ -9,7 +9,6 @@ import com.haxademic.core.draw.textures.pgraphics.TextureShaderTimeStepper;
 import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
 
 import processing.core.PConstants;
-import processing.core.PGraphics;
 
 public class Demo_OpenGLUtil_setTextureQuality
 extends PAppletHax {

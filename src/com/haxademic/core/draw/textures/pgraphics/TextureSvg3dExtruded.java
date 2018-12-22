@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Random;
 
 import com.haxademic.core.app.P;
-import com.haxademic.core.debug.DebugUtil;
 import com.haxademic.core.draw.color.ImageGradient;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.filters.pshader.BlendTowardsTexture;

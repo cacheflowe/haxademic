@@ -2,7 +2,6 @@ package com.haxademic.sketch.volume;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.shapes.Superformula;
 
 import controlP5.ControlP5;

@@ -1,9 +1,9 @@
 package com.haxademic.core.hardware.kinect;
 
+import SimpleOpenNI.SimpleOpenNI;
 import processing.core.PApplet;
 import processing.core.PImage;
 import processing.core.PVector;
-import SimpleOpenNI.SimpleOpenNI;
 
 public interface IKinectWrapper {
 		

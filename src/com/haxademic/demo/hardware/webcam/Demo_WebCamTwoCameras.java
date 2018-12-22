@@ -4,10 +4,8 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.draw.context.DrawUtil;
-import com.haxademic.core.hardware.webcam.IWebCamCallback;
 
 import processing.video.Capture;
-import processing.video.Movie;
 
 public class Demo_WebCamTwoCameras 
 extends PAppletHax {

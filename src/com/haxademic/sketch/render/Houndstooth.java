@@ -2,20 +2,10 @@ package com.haxademic.sketch.render;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.camera.CameraUtil;
 import com.haxademic.core.constants.AppSettings;
-import com.haxademic.core.draw.color.ColorUtil;
 import com.haxademic.core.draw.context.DrawUtil;
-import com.haxademic.core.draw.filters.pshader.BrightnessFilter;
-import com.haxademic.core.draw.filters.pshader.VignetteFilter;
 import com.haxademic.core.draw.image.TiledTexture;
-import com.haxademic.core.draw.shapes.PShapeUtil;
-import com.haxademic.core.draw.shapes.Shapes;
-import com.haxademic.core.draw.shapes.TextToPShape;
-import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.easing.EasingFloat;
-import com.haxademic.core.math.easing.LinearFloat;
-import com.haxademic.core.math.easing.Penner;
 
 import processing.core.PGraphics;
 import processing.core.PShape;

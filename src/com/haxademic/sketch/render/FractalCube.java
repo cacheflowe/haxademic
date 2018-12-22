@@ -6,7 +6,6 @@ import com.haxademic.core.camera.CameraOscillate;
 import com.haxademic.core.camera.common.ICamera;
 import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.draw.context.DrawUtil;
-import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.render.JoonsWrapper;
 
 public class FractalCube

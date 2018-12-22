@@ -1,14 +1,13 @@
 package com.haxademic.core.hardware.leap;
 
-import processing.core.PGraphics;
-import processing.core.PVector;
-
 import com.haxademic.core.app.P;
 import com.haxademic.core.hardware.joystick.BaseJoystick;
 import com.haxademic.core.hardware.joystick.IJoystickControl;
 import com.haxademic.core.math.MathUtil;
 
 import de.voidplus.leapmotion.Hand;
+import processing.core.PGraphics;
+import processing.core.PVector;
 
 class LeapRegion
 extends BaseJoystick

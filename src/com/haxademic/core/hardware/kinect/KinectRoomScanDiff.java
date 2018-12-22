@@ -8,7 +8,6 @@ import com.haxademic.core.draw.filters.pshader.BlurVFilter;
 import com.haxademic.core.draw.filters.pshader.ErosionFilter;
 import com.haxademic.core.draw.filters.pshader.ThresholdFilter;
 import com.haxademic.core.file.FileUtil;
-import com.haxademic.core.hardware.kinect.KinectSize;
 
 import processing.core.PGraphics;
 import processing.opengl.PShader;

@@ -16,7 +16,6 @@ import com.haxademic.core.math.easing.EasingFloat;
 import processing.core.PGraphics;
 import processing.core.PImage;
 import processing.opengl.PShader;
-import processing.video.Movie;
 
 public class Demo_MouseShaderFeedback
 extends PAppletHax {

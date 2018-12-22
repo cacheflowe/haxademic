@@ -7,11 +7,9 @@ import com.haxademic.core.constants.PRenderers;
 import com.haxademic.core.draw.filters.pshader.FeedbackRadialFilter;
 import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.file.DemoAssets;
-import com.haxademic.core.file.FileUtil;
 
 import processing.core.PGraphics;
 import processing.core.PShape;
-import processing.opengl.PShader;
 
 public class Demo_FeedbackRadialToAlpha
 extends PAppletHax {

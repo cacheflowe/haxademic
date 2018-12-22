@@ -3,7 +3,6 @@ package com.haxademic.core.app;
 import com.haxademic.core.data.store.AppStore;
 import com.haxademic.core.data.store.AppStoreDistributed;
 import com.haxademic.core.file.FileUtil;
-import com.jogamp.opengl.GL;
 
 import processing.core.PApplet;
 import processing.core.PImage;

@@ -3,7 +3,6 @@ package com.haxademic.sketch.text;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
-import com.haxademic.core.constants.PBlendModes;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.file.FileUtil;
 
@@ -13,7 +12,6 @@ import geomerative.RG;
 import geomerative.RGroup;
 import geomerative.RMesh;
 import geomerative.RPoint;
-import processing.core.PApplet;
 import toxi.geom.Vec3D;
 import toxi.geom.mesh.WETriangleMesh;
 import toxi.processing.ToxiclibsSupport;

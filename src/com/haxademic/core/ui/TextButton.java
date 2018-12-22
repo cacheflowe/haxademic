@@ -1,10 +1,10 @@
 package com.haxademic.core.ui;
 
-import processing.core.PApplet;
-
 import com.haxademic.core.app.P;
 import com.haxademic.core.draw.text.CustomFontText2D;
 import com.haxademic.core.file.FileUtil;
+
+import processing.core.PApplet;
 
 public class TextButton 
 extends Button {

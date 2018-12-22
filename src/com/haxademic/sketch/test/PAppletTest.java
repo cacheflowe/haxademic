@@ -1,12 +1,10 @@
 package com.haxademic.sketch.test;
 
-import com.haxademic.core.app.PAppletHax;
-
 import processing.core.PApplet;
 
 public class PAppletTest
 extends PApplet {
-	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
+	public static void main(String args[]) { PApplet.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
 	public void settings() {
 		super.settings();

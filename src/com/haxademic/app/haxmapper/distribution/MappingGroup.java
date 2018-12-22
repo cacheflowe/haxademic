@@ -3,7 +3,6 @@ package com.haxademic.app.haxmapper.distribution;
 import java.awt.Point;
 import java.awt.Rectangle;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 import com.haxademic.app.haxmapper.HaxMapper;
 import com.haxademic.app.haxmapper.overlays.MeshLines;
@@ -13,7 +12,6 @@ import com.haxademic.app.haxmapper.overlays.MeshSegmentScanners;
 import com.haxademic.app.haxmapper.polygons.IMappedPolygon;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.draw.color.EasingColor;
 import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
 import com.haxademic.core.math.MathUtil;
 

@@ -2,15 +2,15 @@ package com.haxademic.core.draw.textures.pgraphics;
 
 import java.util.ArrayList;
 
-import processing.core.PGraphics;
-import processing.core.PImage;
-import processing.opengl.PShader;
-
 import com.haxademic.core.app.P;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.easing.EasingFloat;
+
+import processing.core.PGraphics;
+import processing.core.PImage;
+import processing.opengl.PShader;
 
 public class TextureImageTimeStepper
 extends BaseTexture {

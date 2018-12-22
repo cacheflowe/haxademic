@@ -5,14 +5,12 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.image.MotionBlurPGraphics;
-import com.haxademic.core.draw.shapes.BoxBetween;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.EasingFloat;
 import com.haxademic.core.system.SystemUtil;
 
 import processing.core.PGraphics;
-import processing.core.PVector;
 
 public class FractalPolygons
 extends PAppletHax {

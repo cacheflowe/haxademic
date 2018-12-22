@@ -1,9 +1,9 @@
 package com.haxademic.core.draw.shapes;
 
+import com.haxademic.core.app.P;
+
 import processing.core.PApplet;
 import processing.core.PConstants;
-
-import com.haxademic.core.app.P;
 
 public class CacheFloweLogo {
 	

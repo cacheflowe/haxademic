@@ -7,7 +7,6 @@ import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.shapes.Icosahedron;
 import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.math.MathUtil;
-import com.haxademic.core.math.easing.Penner;
 
 import processing.core.PShape;
 import processing.core.PVector;

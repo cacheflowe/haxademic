@@ -8,8 +8,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Random;
 
-import org.sunflow.core.primitive.QuadMesh;
-
 import com.haxademic.app.haxmapper.dmxlights.RandomLightTiming;
 import com.haxademic.app.haxvisual.pools.HaxVisualTexturePools;
 import com.haxademic.core.app.P;
@@ -55,7 +53,6 @@ import com.haxademic.core.draw.filters.pshader.RadialRipplesFilter;
 import com.haxademic.core.draw.filters.pshader.ReflectFilter;
 import com.haxademic.core.draw.filters.pshader.RepeatFilter;
 import com.haxademic.core.draw.filters.pshader.RotateFilter;
-import com.haxademic.core.draw.filters.pshader.SaturationFilter;
 import com.haxademic.core.draw.filters.pshader.SphereDistortionFilter;
 import com.haxademic.core.draw.filters.pshader.VignetteAltFilter;
 import com.haxademic.core.draw.filters.pshader.VignetteFilter;

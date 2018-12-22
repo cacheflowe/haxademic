@@ -2,8 +2,6 @@ package com.haxademic.sketch.three_d;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
-import com.haxademic.core.constants.PBlendModes;
-import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.shapes.Icosahedron;
 import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.math.MathUtil;

@@ -4,9 +4,7 @@ import java.awt.Color;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
-import com.haxademic.core.data.ConvertUtil;
 import com.haxademic.core.draw.color.ColorUtil;
-import com.haxademic.core.draw.image.TickerScroller;
 
 public class Demo_ColorUtil
 extends PAppletHax {

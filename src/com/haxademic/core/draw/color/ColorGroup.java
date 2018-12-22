@@ -2,9 +2,9 @@ package com.haxademic.core.draw.color;
 
 import java.util.Vector;
 
-import toxi.color.TColor;
-
 import com.haxademic.core.math.MathUtil;
+
+import toxi.color.TColor;
 
 public class ColorGroup {
 	public Vector<Vector<TColor>> _colorSets;

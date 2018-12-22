@@ -2,9 +2,9 @@ package com.haxademic.core.ui;
 
 import java.awt.Rectangle;
 
-import processing.core.PApplet;
-
 import com.haxademic.core.app.P;
+
+import processing.core.PApplet;
 
 public class Button
 implements IMouseable {

@@ -1,12 +1,12 @@
 package com.haxademic.sketch.toxi_tests;
 
+import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.vendor.Toxiclibs;
+
 import toxi.geom.AABB;
 import toxi.geom.Matrix4x4;
 import toxi.geom.Vec3D;
 import toxi.geom.mesh.TriangleMesh;
-
-import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.vendor.Toxiclibs;
 
 public class AlignObjectsToSphere
 extends PAppletHax {

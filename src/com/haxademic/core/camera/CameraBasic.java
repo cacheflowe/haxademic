@@ -1,11 +1,11 @@
 package com.haxademic.core.camera;
 
-import processing.core.PApplet;
-import processing.core.PConstants;
-
 import com.haxademic.core.app.P;
 import com.haxademic.core.camera.common.CameraBase;
 import com.haxademic.core.camera.common.ICamera;
+
+import processing.core.PApplet;
+import processing.core.PConstants;
 
 public class CameraBasic
 extends CameraBase

@@ -1,9 +1,9 @@
 package com.haxademic.core.file;
 
+import com.haxademic.core.app.P;
+
 import processing.core.PApplet;
 import processing.core.PImage;
-
-import com.haxademic.core.app.P;
 
 /**
  * Asynchronous, non-blocking PImage loader.

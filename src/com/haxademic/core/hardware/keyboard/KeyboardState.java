@@ -6,7 +6,6 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.hardware.shared.InputState;
 
 import processing.event.KeyEvent;
-import themidibus.MidiListener;
 
 public class KeyboardState {
 

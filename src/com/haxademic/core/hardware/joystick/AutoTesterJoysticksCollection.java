@@ -1,8 +1,8 @@
 package com.haxademic.core.hardware.joystick;
 
-import processing.core.PGraphics;
-
 import com.haxademic.core.math.MathUtil;
+
+import processing.core.PGraphics;
 
 public class AutoTesterJoysticksCollection
 extends BaseJoysticksCollection

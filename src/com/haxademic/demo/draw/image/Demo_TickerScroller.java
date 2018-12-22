@@ -7,9 +7,6 @@ import com.haxademic.core.draw.filters.pshader.BrightnessFilter;
 import com.haxademic.core.draw.filters.pshader.VignetteFilter;
 import com.haxademic.core.draw.image.TickerScroller;
 import com.haxademic.core.file.DemoAssets;
-import com.haxademic.core.file.FileUtil;
-
-import processing.core.PImage;
 
 public class Demo_TickerScroller
 extends PAppletHax {

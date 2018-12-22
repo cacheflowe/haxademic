@@ -7,8 +7,6 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.toxi.MeshPool;
-import com.haxademic.core.draw.toxi.MeshUtilToxi;
-import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.easing.EasingFloat3d;
 import com.haxademic.core.math.easing.ElasticFloat3D;
 

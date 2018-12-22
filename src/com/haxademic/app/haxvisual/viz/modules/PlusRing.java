@@ -1,15 +1,14 @@
 package com.haxademic.app.haxvisual.viz.modules;
 
-import processing.core.PConstants;
-import toxi.geom.AABB;
-import toxi.geom.Vec3D;
-import toxi.processing.ToxiclibsSupport;
-
 import com.haxademic.app.haxvisual.viz.IVizModule;
 import com.haxademic.app.haxvisual.viz.ModuleBase;
 import com.haxademic.core.camera.CameraOscillate;
 import com.haxademic.core.camera.common.ICamera;
-import com.haxademic.core.hardware.midi.MidiDevice;
+
+import processing.core.PConstants;
+import toxi.geom.AABB;
+import toxi.geom.Vec3D;
+import toxi.processing.ToxiclibsSupport;
 
 public class PlusRing
 	extends ModuleBase

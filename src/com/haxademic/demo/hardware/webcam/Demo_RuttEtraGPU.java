@@ -10,14 +10,11 @@ import com.haxademic.core.draw.filters.pshader.BrightnessFilter;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.draw.shapes.pshader.LinesDeformAndTextureFilter;
-import com.haxademic.core.file.DemoAssets;
-import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.webcam.IWebCamCallback;
 
 import processing.core.PGraphics;
 import processing.core.PImage;
 import processing.core.PShape;
-import processing.opengl.PShader;
 
 public class Demo_RuttEtraGPU 
 extends PAppletHax

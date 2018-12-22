@@ -1,9 +1,9 @@
 package com.haxademic.app.haxmapper.dmxlights;
 
+import com.haxademic.core.draw.color.ColorUtil;
+
 import hypermedia.net.UDP;
 import processing.core.PApplet;
-
-import com.haxademic.core.draw.color.ColorUtil;
 
 public class AudioPixelInterface {
 	

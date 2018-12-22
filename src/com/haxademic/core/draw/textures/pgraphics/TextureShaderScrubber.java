@@ -1,12 +1,12 @@
 package com.haxademic.core.draw.textures.pgraphics;
 
-import processing.core.PGraphics;
-import processing.opengl.PShader;
-
 import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.EasingFloat;
+
+import processing.core.PGraphics;
+import processing.opengl.PShader;
 
 public class TextureShaderScrubber
 extends BaseTexture {

@@ -1,10 +1,10 @@
 package com.haxademic.core.draw.textures.pgraphics;
 
-import processing.core.PConstants;
-
 import com.haxademic.core.app.P;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
+
+import processing.core.PConstants;
 
 public class TextureAppFrameEq2d 
 extends BaseTexture {

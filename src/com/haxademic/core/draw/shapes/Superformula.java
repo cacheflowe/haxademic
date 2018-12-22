@@ -2,7 +2,6 @@ package com.haxademic.core.draw.shapes;
 
 import java.util.Locale;
 
-import processing.core.PApplet;
 import processing.core.PConstants;
 import processing.core.PGraphics;
 import processing.core.PVector;

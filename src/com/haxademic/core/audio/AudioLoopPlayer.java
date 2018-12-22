@@ -1,7 +1,5 @@
 package com.haxademic.core.audio;
 
-import processing.core.PApplet;
-
 import com.haxademic.core.app.P;
 
 import ddf.minim.AudioMetaData;
@@ -11,6 +9,7 @@ import ddf.minim.Minim;
 import ddf.minim.analysis.FFT;
 import ddf.minim.effects.LowPassSP;
 import ddf.minim.signals.SquareWave;
+import processing.core.PApplet;
 
 public class AudioLoopPlayer {
 

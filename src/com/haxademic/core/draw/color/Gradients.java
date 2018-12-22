@@ -1,9 +1,9 @@
 package com.haxademic.core.draw.color;
 
+import com.haxademic.core.app.P;
+
 import processing.core.PApplet;
 import processing.core.PGraphics;
-
-import com.haxademic.core.app.P;
 
 public class Gradients {
 	

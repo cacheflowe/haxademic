@@ -6,16 +6,13 @@ import java.util.ArrayList;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
-import com.haxademic.core.constants.PRenderers;
 import com.haxademic.core.draw.color.ColorUtil;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.image.ImageUtil;
-import com.haxademic.core.file.DemoAssets;
 import com.haxademic.core.math.MathUtil;
 
 import processing.core.PGraphics;
 import processing.core.PImage;
-import processing.video.Movie;
 
 public class BlobDetectBlackAndWhite
 extends PAppletHax {
