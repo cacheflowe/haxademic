@@ -22,7 +22,6 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.debug.DebugUtil;
 import com.haxademic.core.math.MathUtil;
 
-import processing.core.PApplet;
 import processing.core.PImage;
 
 public class FileUtil {
@@ -263,17 +262,15 @@ public class FileUtil {
 	 * Creates a new directory on the machine's filesystem
 	 * @param path Directory to create
 	 */
-	public static void createDir( String path ) {
+	public static boolean createDir( String path ) {
 		File f = new File( path );
 		try {
-		    if( f.mkdirs() ) { 
-		        P.println("Directory created: "+path);
-		    } else {
-		        P.println("Directory was not created"+path);
-		    }
-		} catch(Exception e){
+			boolean success = f.mkdirs();
+			return success;
+		} catch(Exception e) {
 		    e.printStackTrace();
-		} 
+		    return false;
+		}
 	}
 	
 	/**
