@@ -50,13 +50,13 @@ extends PAppletHax {
 		float spacing = pg.height / numLines;
 		for (int i = 0; i < numLines; i++) {
 			float y = i * spacing;
-			float strokeW = P.map(i, 0, numLines, 20f, 1.5f);
+			float strokeW = P.map(i, 0, numLines, 20f, 5f);
 			pg.noFill();
 			pg.strokeWeight(strokeW);
 			pg.beginShape();
 			pg.vertex(0, y);
-			pg.quadraticVertex(pg.width * 0.25f, y + P.sin(i * 0.1f) * strokeW * 10f, pg.width / 2f, y);
-			pg.quadraticVertex(pg.width * 0.75f, y + -P.sin(i * 0.1f) * strokeW * 10f, pg.width, y);
+			pg.quadraticVertex(pg.width * 0.25f, y + P.sin(i * 0.1f) * strokeW * 11f, pg.width / 2f, y);
+			pg.quadraticVertex(pg.width * 0.75f, y + -P.sin(i * 0.1f) * strokeW * 11f, pg.width, y);
 			pg.endShape();
 		}
 		
@@ -65,11 +65,11 @@ extends PAppletHax {
 		DrawUtil.setDrawCenter(pg);
 //		DrawUtil.setCenterScreen(pg);
 		pg.translate(pg.width / 2, pg.height / 2);
-		pg.strokeWeight(10);
+		pg.strokeWeight(6);
 		pg.fill(255, 255);
 		pg.stroke(0);
-		pg.noStroke();
-		pg.ellipse(0, 0, pg.width * 0.5f, pg.width * 0.51f);
+//		pg.noStroke();
+		pg.ellipse(0, 0, pg.width * 0.45f, pg.width * 0.45f);
 		pg.popMatrix();
 		
 		
