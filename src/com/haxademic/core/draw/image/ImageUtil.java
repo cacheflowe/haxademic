@@ -423,4 +423,79 @@ public class ImageUtil {
 		}
 	}
 
+	
+	public static void drawTextureMappedRect(PGraphics buffer, PImage texture, int subdivideX, int subdivideY, float topLeftX, float topLeftY, float topRightX, float topRightY, float bottomRightX, float bottomRightY, float bottomLeftX, float bottomLeftY) {
+		// draw to screen with pinned corner coords
+		// generalized version ported from PGraphicsKeystone
+		// inspired by: https://github.com/davidbouchard/keystone & http://marcinignac.com/blog/projectedquads-source-code/
+		buffer.textureMode(PConstants.IMAGE);
+		buffer.noStroke();
+		buffer.fill(255);
+		buffer.beginShape(PConstants.QUAD);
+		buffer.texture(texture);
+		
+		if(subdivideX > 0) {
+			// subdivide quad for better resolution
+			float stepsX = subdivideX;
+			float stepsY = subdivideY;
+
+			for( float x=0; x < stepsX; x += 1f ) {
+				// calculate spread of mesh grid and uv coordinates
+				float xPercent = x/stepsX;
+				float xPercentNext = (x+1f)/stepsX;
+				if( xPercentNext > 1 ) xPercentNext = 1;
+				float uPercent = xPercent;
+				float uPercentNext = xPercentNext;
+
+				for( float y=0; y < stepsY; y += 1f ) {
+					// calculate spread of mesh grid and uv coordinates
+					float yPercent = y/stepsY;
+					float yPercentNext = (y+1f)/stepsY;
+					if( yPercentNext > 1 ) yPercentNext = 1;
+					float vPercent = yPercent;
+					float vPercentNext = yPercentNext;
+
+					// calc grid positions based on interpolating columns between corners
+					float colTopX = interp(topLeftX, topRightX, xPercent);
+					float colTopY = interp(topLeftY, topRightY, xPercent);
+					float colBotX = interp(bottomLeftX, bottomRightX, xPercent);
+					float colBotY = interp(bottomLeftY, bottomRightY, xPercent);
+					
+					float nextColTopX = interp(topLeftX, topRightX, xPercentNext);
+					float nextColTopY = interp(topLeftY, topRightY, xPercentNext);
+					float nextColBotX = interp(bottomLeftX, bottomRightX, xPercentNext);
+					float nextColBotY = interp(bottomLeftY, bottomRightY, xPercentNext);
+					
+					// calc quad coords
+					float quadTopLeftX = interp(colTopX, colBotX, yPercent);
+					float quadTopLeftY = interp(colTopY, colBotY, yPercent);
+					float quadTopRightX = interp(nextColTopX, nextColBotX, yPercent);
+					float quadTopRightY = interp(nextColTopY, nextColBotY, yPercent);
+					float quadBotRightX = interp(nextColTopX, nextColBotX, yPercentNext);
+					float quadBotRightY = interp(nextColTopY, nextColBotY, yPercentNext);
+					float quadBotLeftX = interp(colTopX, colBotX, yPercentNext);
+					float quadBotLeftY = interp(colTopY, colBotY, yPercentNext);
+					
+					// draw subdivided quads
+					buffer.vertex(quadTopLeftX, quadTopLeftY, 0, 	texture.width * uPercent, 		texture.height * vPercent);
+					buffer.vertex(quadTopRightX, quadTopRightY, 0, 	texture.width * uPercentNext, 	texture.height * vPercent);
+					buffer.vertex(quadBotRightX, quadBotRightY, 0, 	texture.width * uPercentNext, 	texture.height * vPercentNext);
+					buffer.vertex(quadBotLeftX, quadBotLeftY, 0, 	texture.width * uPercent, 		texture.height * vPercentNext);
+				}
+			}
+		} else {
+			// default single mapped quad
+			buffer.vertex(topLeftX, topLeftY, 0, 			0, 0);
+			buffer.vertex(topRightX, topRightY, 0, 			texture.width, 0);
+			buffer.vertex(bottomRightX, bottomRightY, 0, 	texture.width, texture.height);
+			buffer.vertex(bottomLeftX, bottomLeftY, 0, 	0,  texture.height);
+		}
+
+		buffer.endShape();
+	}
+	
+	public static float interp( float lower, float upper, float n ) {
+		return ( ( upper - lower ) * n ) + lower;
+	}
+
 }

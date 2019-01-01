@@ -54,6 +54,7 @@
 * SystemUtil:
   * Merge Windows & normal SystemUtil - make sure Java-killing code works on both OS X & Windows
 * net
+  * Should Screenshot in DashboardPoster be it's own app/process, like the CrashMonitor?
   * PrefsSliders should also serve up a web server that has just those sliders. .json config maybe?
   * WebServer and SocketServer should be more stylistically similar. See PORT in WebServer, and DEBUG static boolean - should be passed in?
   * Replace JavaWebsocket with Jetty WebSocket server??
@@ -78,6 +79,7 @@
     * Demo_VertexShader_NoiseTest_WIP
     * Demo_VertexShader_Fattener
 * General / tools
+  * How can we optimize for Raspberry Pi? It wants Java 1.7 for the old version of Eclipse :(
   * Look into JarSplice or other compiling tools for application deployment 
   * Web interface to control PrefsSliders: Add JSON interface for PrefsSliders & WebServer/WebSockets?
   * Fix overhead view of KinectRegionGrid - with larger grids it's off-screen
