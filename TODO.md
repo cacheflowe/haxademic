@@ -1,6 +1,7 @@
 # TODO
 
 * Art projects
+  * New video loops should have a soundtrack. use my tunes? look in sketch/render/avloops
   * Convert all webcam VFX apps (and old video filters) to BaseVideoFilter subclasses
   * Moire sphere/shader for MW prototying
   * Voice-activated color room: What Say Hue?
@@ -79,6 +80,7 @@
     * Demo_VertexShader_NoiseTest_WIP
     * Demo_VertexShader_Fattener
 * General / tools
+  * Test importing a Java class into a Processing IDE project
   * How can we optimize for Raspberry Pi? It wants Java 1.7 for the old version of Eclipse :(
   * Look into JarSplice or other compiling tools for application deployment 
   * Web interface to control PrefsSliders: Add JSON interface for PrefsSliders & WebServer/WebSockets?

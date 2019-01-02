@@ -25,6 +25,7 @@ public class AppSettings {
 	// Rendering
 	public static final String FPS = "fps";
 	public static final String LOOP_FRAMES = "loop_frames";
+	public static final String LOOP_TICKS = "loop_ticks";
 	public static final String RENDERING_MOVIE = "rendering";
 	public static final String RENDERING_MOVIE_START_FRAME = "rendering_startframe";
 	public static final String RENDERING_MOVIE_STOP_FRAME = "rendering_stopframe";

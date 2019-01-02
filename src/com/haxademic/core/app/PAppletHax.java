@@ -243,7 +243,7 @@ extends PApplet
 		// audio input
 		initAudioInput();
 		// animation loop
-		if(p.appConfig.getFloat(AppSettings.LOOP_FRAMES, 0) != 0) loop = new AnimationLoop(p.appConfig.getFloat(AppSettings.LOOP_FRAMES, 0));
+		if(p.appConfig.getFloat(AppSettings.LOOP_FRAMES, 0) != 0) loop = new AnimationLoop(p.appConfig.getFloat(AppSettings.LOOP_FRAMES, 0), p.appConfig.getInt(AppSettings.LOOP_TICKS, 4));
 		// save single reference for other objects
 		if( appConfig.getInt(AppSettings.WEBCAM_INDEX, -1) >= 0 ) webCamWrapper = new WebCamWrapper(appConfig.getInt(AppSettings.WEBCAM_INDEX, -1), appConfig.getBoolean(AppSettings.WEBCAM_THREADED, true));
 		movieRenderer = new Renderer( p, _fps, Renderer.OUTPUT_TYPE_MOVIE, p.appConfig.getString( "render_output_dir", FileUtil.getHaxademicOutputPath() ) );

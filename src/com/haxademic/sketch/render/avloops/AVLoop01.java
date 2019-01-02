@@ -12,22 +12,19 @@ extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }	
 	
 	protected float _frames = 232;
-	protected float _ticks = 16;
+	protected float _lastTick = -1;
 	protected float _boxSize = 200;
 	protected float _bg = 0;
 	protected PVector _boxRot = new PVector(0,0,0);
 	
 	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, "640" );
-		p.appConfig.setProperty( AppSettings.HEIGHT, "640" );
+		p.appConfig.setProperty( AppSettings.WIDTH, 640 );
+		p.appConfig.setProperty( AppSettings.HEIGHT, 640 );
+		p.appConfig.setProperty( AppSettings.LOOP_FRAMES, _frames );
+		p.appConfig.setProperty( AppSettings.LOOP_TICKS, 16 );
 		
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "true" );
+		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, Math.round(_frames + _frames*4) );
-		p.appConfig.setProperty( AppSettings.RENDERING_GIF, "false" );
-		p.appConfig.setProperty( AppSettings.RENDERING_GIF_FRAMERATE, "40" );
-		p.appConfig.setProperty( AppSettings.RENDERING_GIF_QUALITY, "1" );
-		p.appConfig.setProperty( AppSettings.RENDERING_GIF_START_FRAME, ""+ Math.round(_frames) );
-		p.appConfig.setProperty( AppSettings.RENDERING_GIF_STOP_FRAME, ""+Math.round(_frames + _frames*4) );
 	}
 
 	public void setup() {
@@ -40,42 +37,33 @@ extends PAppletHax {
 	}
 
 	public void drawApp() {
-		// rendering
-		float percentComplete = ((float)(p.frameCount%_frames)/_frames);
-		float curTick = P.floor(p.frameCount % (_frames/_ticks));
-		P.println(curTick);
-		
-		_bg *= 0.8f;
-		if(curTick == 14) {
-			_bg = 70;
+		// make changes on tick
+		if(p.loop.isTick()) {
+			if(p.loop.curTick() == 14) {
+				_bg = 70;
+			}
+			if(p.loop.curTick() % 2 == 0) {
+				_boxSize = 200;
+			}
 		}
 		
+		// background
 		p.background(_bg);
 		p.fill(20,20,20);
 		p.stroke(255);
 
-		if(curTick == 4) {
-			_boxSize = 200;
-		}
-		_boxRot.set(percentComplete * P.TWO_PI, percentComplete * P.TWO_PI, percentComplete * P.TWO_PI);
-		
+		// box
 		p.pushMatrix();
 		p.translate(p.width/2, p.height/2);
+		_boxRot.set(p.loop.progressRads(), p.loop.progressRads(), p.loop.progressRads());
 		p.rotateX(_boxRot.x);
 		p.rotateY(_boxRot.y);
 		p.rotateZ(_boxRot.z);
 		p.box(_boxSize);
 		p.popMatrix();
-		
-		_boxSize *= 0.9f;
-		
-		
-		if( p.frameCount == _frames + 1 ) {
-			if(p.appConfig.getBoolean("rendering", false) ==  true) {				
-				movieRenderer.stop();
-				P.println("render done!");
-			}
-		}
 
+		// lerp down
+		_bg *= 0.8f;
+		_boxSize *= 0.9f;
 	}
 }
