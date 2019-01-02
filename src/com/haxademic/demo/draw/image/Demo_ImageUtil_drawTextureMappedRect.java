@@ -38,16 +38,13 @@ extends PAppletHax {
 		// background image 
 		p.image(backgroundImg, 0, 0);
 		
-		// draw waveform
+		// draw video to buffer
 		videoBuffer.beginDraw();
 		videoBuffer.noStroke();
 		ImageUtil.drawImageCropFill(movie, videoBuffer, true);
 		videoBuffer.endDraw();
 				
 		// map video buffer to rectangle
-		// TODO: build a subdivided version of this
-		// TODO: and a repeating version for letterboxing
-		
 		ImageUtil.drawTextureMappedRect(p.g, videoBuffer, 10, 10, 271, 167, 859, 119, 853, 525, 269, 411);
 //		ImageUtil.drawTextureMappedRect(p.g, videoBuffer, P.round(videoBuffer.width / 30f), P.round(videoBuffer.height / 30f), 271, 167, 859, 119, 853, 525, 269, 411);
 	}
