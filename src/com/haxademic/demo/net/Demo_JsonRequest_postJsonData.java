@@ -15,24 +15,24 @@ import com.haxademic.core.draw.image.Base64Image;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.image.ScreenUtil;
 import com.haxademic.core.net.IPostJSONCallback;
-import com.haxademic.core.net.JsonPost;
+import com.haxademic.core.net.JsonRequest;
 import com.haxademic.core.text.StringFormatter;
 
 import processing.core.PGraphics;
 import processing.core.PImage;
 import processing.data.JSONObject;
 
-public class Demo_JsonPost
+public class Demo_JsonRequest_postJsonData
 extends PAppletHax
 implements IPostJSONCallback {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
-	protected JsonPost postJSON;
+	protected JsonRequest postJSON;
 	protected PGraphics scaledPG;
 	protected String serverPostPath = "http://localhost/haxademic/www/post-json/";
 	
 	public void setupFirstFrame() {
-		postJSON = new JsonPost(serverPostPath);
+		postJSON = new JsonRequest(serverPostPath);
 		scaledPG = p.createGraphics(p.width / 2, p.height / 2, PRenderers.P2D);
 		P.out(Arrays.toString(ImageIO.getWriterFormatNames()));
 	}
@@ -78,7 +78,7 @@ implements IPostJSONCallback {
 
         // send json to server
         try {
-			postJSON.sendData(jsonOut, this);
+			postJSON.postJsonData(jsonOut, this);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

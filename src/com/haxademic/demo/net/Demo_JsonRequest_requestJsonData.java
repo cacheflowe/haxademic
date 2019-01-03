@@ -6,7 +6,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.net.IPostJSONCallback;
-import com.haxademic.core.net.JsonPost;
+import com.haxademic.core.net.JsonRequest;
 import com.haxademic.core.net.JsonUtil;
 import com.haxademic.core.text.StringFormatter;
 
@@ -14,12 +14,12 @@ import processing.core.PGraphics;
 import processing.core.PImage;
 import processing.data.JSONObject;
 
-public class Demo_JsonRequest
+public class Demo_JsonRequest_requestJsonData
 extends PAppletHax
 implements IPostJSONCallback {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
-	protected JsonPost postJSON;
+	protected JsonRequest postJSON;
 	protected PGraphics scaledPG;
 	protected PGraphics screenshotPG;
 	protected PImage screenshot;
@@ -27,7 +27,7 @@ implements IPostJSONCallback {
 	protected String jsonURL = "http://localhost/haxademic/www/json-response/";
 	
 	public void setupFirstFrame() {
-		postJSON = new JsonPost(jsonURL);
+		postJSON = new JsonRequest(jsonURL);
 	}
 	
 	public void drawApp() {
@@ -52,7 +52,7 @@ implements IPostJSONCallback {
 	protected void requestJson() {
         // send json to server
         try {
-			postJSON.requestData(this);
+			postJSON.requestJsonData(this);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

@@ -20,7 +20,7 @@ implements IPostJSONCallback {
 
 	protected String projectName = "haxademic";
 	protected String serverPostPath = "http://localhost/haxademic/www/dashboard/";
-	protected JsonPost postJSON;
+	protected JsonRequest postJSON;
 	protected PGraphics imagePG;
 	protected PGraphics screenshotPG;
 	protected PImage image;
@@ -50,7 +50,7 @@ implements IPostJSONCallback {
 		this.screenshotScale = screenshotScale;
 		P.p.registerMethod("pre", this);
 		
-		postJSON = new JsonPost(serverPostPath);
+		postJSON = new JsonRequest(serverPostPath);
 	}
 	
 	// app frame loop
@@ -102,7 +102,7 @@ implements IPostJSONCallback {
 
         // send json to server
         try {
-			postJSON.sendData(jsonOut, this);
+			postJSON.postJsonData(jsonOut, this);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
