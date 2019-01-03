@@ -3,7 +3,6 @@ package com.haxademic.demo.net;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.net.DashboardPoster;
-import com.haxademic.core.net.PostJSON;
 
 public class Demo_DashboardPoster
 extends PAppletHax {
@@ -33,8 +32,6 @@ extends PAppletHax {
 		// draw to screen
 		pg.endDraw();
 		p.image(pg, 0, 0);
-		
-		PostJSON.DEBUG = true;
  	}
 	
 }

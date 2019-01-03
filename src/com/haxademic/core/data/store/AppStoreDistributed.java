@@ -11,7 +11,7 @@ import org.java_websocket.handshake.ServerHandshake;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.net.IPAddress;
-import com.haxademic.core.net.JSONUtil;
+import com.haxademic.core.net.JsonUtil;
 import com.haxademic.core.net.SocketServer;
 import com.haxademic.core.net.SocketServerHandler;
 
@@ -66,8 +66,8 @@ public class AppStoreDistributed {
 	    jsonOut.setString("type", "number");
 	    jsonOut.setString("key", storeKey);
 	    jsonOut.setFloat("value", val.floatValue());
-		if(server != null) server.sendMessage(JSONUtil.jsonToSingleLine(jsonOut));
-		if(client != null && client.isOpen()) client.send(JSONUtil.jsonToSingleLine(jsonOut));
+		if(server != null) server.sendMessage(JsonUtil.jsonToSingleLine(jsonOut));
+		if(client != null && client.isOpen()) client.send(JsonUtil.jsonToSingleLine(jsonOut));
 	}
 	
 	public void setString(String storeKey, String val) {
@@ -79,8 +79,8 @@ public class AppStoreDistributed {
 	    jsonOut.setString("type", "string");
 	    jsonOut.setString("key", storeKey);
 	    jsonOut.setString("value", val);
-		if(server != null) server.sendMessage(JSONUtil.jsonToSingleLine(jsonOut));
-		if(client != null && client.isOpen()) client.send(JSONUtil.jsonToSingleLine(jsonOut));
+		if(server != null) server.sendMessage(JsonUtil.jsonToSingleLine(jsonOut));
+		if(client != null && client.isOpen()) client.send(JsonUtil.jsonToSingleLine(jsonOut));
 	}
 	
 	public void setBoolean(String storeKey, Boolean val) {
@@ -92,8 +92,8 @@ public class AppStoreDistributed {
 	    jsonOut.setString("type", "boolean");
 	    jsonOut.setString("key", storeKey);
 	    jsonOut.setBoolean("value", val);
-		if(server != null) server.sendMessage(JSONUtil.jsonToSingleLine(jsonOut));
-		if(client != null && client.isOpen()) client.send(JSONUtil.jsonToSingleLine(jsonOut));
+		if(server != null) server.sendMessage(JsonUtil.jsonToSingleLine(jsonOut));
+		if(client != null && client.isOpen()) client.send(JsonUtil.jsonToSingleLine(jsonOut));
 	}
 	
 	
@@ -222,8 +222,8 @@ public class AppStoreDistributed {
 		if(service != null) jsonOut.setString("service", service);
 		if(command != null) jsonOut.setString("command", command);
 		if(data != null)    jsonOut.setString("data", data);
-		client.send(JSONUtil.jsonToSingleLine(jsonOut));
-		if(SOCKET_DEBUG == true) P.println("sent JSON: "+JSONUtil.jsonToSingleLine(jsonOut));
+		client.send(JsonUtil.jsonToSingleLine(jsonOut));
+		if(SOCKET_DEBUG == true) P.println("sent JSON: "+JsonUtil.jsonToSingleLine(jsonOut));
 	}
 	
 	protected void checkSocketConnection() {

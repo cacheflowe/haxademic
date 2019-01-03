@@ -19,8 +19,8 @@ public class DashboardPoster
 implements IPostJSONCallback {
 
 	protected String projectName = "haxademic";
-	protected String serverPostPath = "http://localhost/_open-source/haxademic/www/dashboard/";
-	protected PostJSON postJSON;
+	protected String serverPostPath = "http://localhost/haxademic/www/dashboard/";
+	protected JsonPost postJSON;
 	protected PGraphics imagePG;
 	protected PGraphics screenshotPG;
 	protected PImage image;
@@ -30,6 +30,7 @@ implements IPostJSONCallback {
 	protected int postInterval = 60 * 60 * 1000;
 	protected int lastPostTime = 0;
 	public static boolean firstPost = true; // static in case of multiple instances
+	protected boolean debug = false;
 
 	// TODO:
 	// - Before restarting, attempt to hit a URL that sends an email? Make this configurable
@@ -47,13 +48,13 @@ implements IPostJSONCallback {
 		lastPostTime = -postInterval + 20 * 1000;		// first post should be 20 seconds after start
 		this.imageScale = imageScale;
 		this.screenshotScale = screenshotScale;
-		P.p.registerMethod("post", this);
+		P.p.registerMethod("pre", this);
 		
-		postJSON = new PostJSON(serverPostPath, this);
+		postJSON = new JsonPost(serverPostPath);
 	}
 	
 	// app frame loop
-	public void post() {
+	public void pre() {
 		if(P.p.millis() > lastPostTime + postInterval) {
 			// PostJSON.DEBUG = true;
 			lastPostTime = P.p.millis();
@@ -65,6 +66,10 @@ implements IPostJSONCallback {
 	public void setImage(PImage img) {
 		image = img;
 		if(imagePG == null) imagePG = P.p.createGraphics(P.round(img.width * imageScale), P.round(img.height * imageScale), PRenderers.P2D);
+	}
+	
+	public void setDebug(boolean debug ) {
+		this.debug = debug;
 	}
 	
 	protected void submitJSON(BufferedImage img1, BufferedImage img2) {
@@ -97,7 +102,7 @@ implements IPostJSONCallback {
 
         // send json to server
         try {
-			postJSON.sendData(jsonOut);
+			postJSON.sendData(jsonOut, this);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -114,10 +119,20 @@ implements IPostJSONCallback {
 		if(screenshot == null) return;
 		
 		// copy images and get native buffers on UI thread
+		// copy in-app image
 		if(image != null && imagePG != null) ImageUtil.copyImage(image, imagePG);
-		ImageUtil.copyImage(screenshot, screenshotPG);
+		
+		// copy screenshot
+		// ImageUtil.copyImage(screenshot, screenshotPG); // this maybe wasn't working at 650?
+		screenshotPG.beginDraw();
+		screenshotPG.image(screenshot, 0, 0, screenshotPG.width, screenshotPG.height);
+		screenshotPG.endDraw();
+		
+		// get native images for base64 encoding
 		BufferedImage img1 = (image != null) ? (BufferedImage)imagePG.getNative() : null;
 		BufferedImage img2 = (BufferedImage)screenshotPG.getNative();
+		
+		// send it all to the server
 		new Thread(new Runnable() { public void run() {
 			submitJSON(img1, img2);
 		}}).start();
@@ -131,13 +146,13 @@ implements IPostJSONCallback {
 	//////////////////////////////
 
 	@Override
-	public void postSuccess(String requestId, int responseTime) {
-		if(PostJSON.DEBUG) P.out("postSuccess", requestId, StringFormatter.timeFromMilliseconds(responseTime, false));
+	public void postSuccess(String responseText, int responseCode, String requestId, int responseTime) {
+		if(debug) P.out("postSuccess", responseText, responseCode, requestId, StringFormatter.timeFromMilliseconds(responseTime, false));
 	}
 
 	@Override
-	public void postFailure(String requestId, int responseTime) {
-		if(PostJSON.DEBUG) P.out("postFailure", requestId, StringFormatter.timeFromMilliseconds(responseTime, false));
+	public void postFailure(String responseText, int responseCode, String requestId, int responseTime) {
+		if(debug) P.out("postFailure", responseText, responseCode, requestId, StringFormatter.timeFromMilliseconds(responseTime, false));
 	}
 
 }

@@ -15,29 +15,24 @@ import com.haxademic.core.draw.image.Base64Image;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.image.ScreenUtil;
 import com.haxademic.core.net.IPostJSONCallback;
-import com.haxademic.core.net.PostJSON;
+import com.haxademic.core.net.JsonPost;
 import com.haxademic.core.text.StringFormatter;
 
 import processing.core.PGraphics;
 import processing.core.PImage;
 import processing.data.JSONObject;
 
-public class Demo_PostJSON
+public class Demo_JsonPost
 extends PAppletHax
 implements IPostJSONCallback {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
-	protected PostJSON postJSON;
+	protected JsonPost postJSON;
 	protected PGraphics scaledPG;
-	protected PGraphics screenshotPG;
-	protected PImage screenshot;
-	protected boolean firstPost = true;
-//	protected String serverPostPath = "http://localhost/_open-source/haxademic/www/post-json/";
-	protected String serverPostPath = "http://localhost/_open-source/haxademic/www/dashboard/";
+	protected String serverPostPath = "http://localhost/haxademic/www/post-json/";
 	
 	public void setupFirstFrame() {
-		PostJSON.DEBUG = true;
-		postJSON = new PostJSON(serverPostPath, this);
+		postJSON = new JsonPost(serverPostPath);
 		scaledPG = p.createGraphics(p.width / 2, p.height / 2, PRenderers.P2D);
 		P.out(Arrays.toString(ImageIO.getWriterFormatNames()));
 	}
@@ -59,15 +54,10 @@ implements IPostJSONCallback {
 		// draw to screen
 		pg.endDraw();
 		p.image(pg, 0, 0);
-		
-		// if screenshot is queued, send off to dashboard
-		checkQueuedScreenshot();
  	}
 	
-	protected void submitJSON(BufferedImage img1, BufferedImage img2) {
+	protected void submitJSON(BufferedImage img1) {
 		// build JSON object & set a string
-		// jsonOut.setString("date", P.year() + "-" + P.month() + "-" + P.day());
-		// jsonOut.setString("time", P.hour() + ":" + P.minute() + ":" + P.second());
         JSONObject jsonOut = new JSONObject();
         jsonOut.setString("project", "test");
         jsonOut.setString("frameCount", p.frameCount + "");
@@ -75,59 +65,40 @@ implements IPostJSONCallback {
         jsonOut.setString("frameRate", P.round(p.frameRate)+"");
         jsonOut.setString("resolution", P.p.width + "x" + P.p.height);
         
-        if(firstPost) jsonOut.setBoolean("relaunch", true);
-        firstPost = false;
-        
         // add image to json
 		String base64Img = "";
-		String base64Screenshot = "";
 		try {
-			// send a scaled-down image from the app
 			base64Img = Base64Image.encodePImageToBase64(img1, "png");
-			base64Screenshot = Base64Image.encodePImageToBase64(img2, "png");
 		} catch (UnsupportedEncodingException e1) {
 			e1.printStackTrace();
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
         jsonOut.setString("imageBase64", base64Img);
-        jsonOut.setString("screenshotBase64", base64Screenshot);
 
         // send json to server
         try {
-			postJSON.sendData(jsonOut);
+			postJSON.sendData(jsonOut, this);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 	
-	protected void takeThreadedScreenshot() {
-		new Thread(new Runnable() { public void run() {
-			screenshot = ScreenUtil.getScreenShotAllMonitors();
-			if(screenshotPG == null) screenshotPG = p.createGraphics(screenshot.width / 2, screenshot.height / 2, PRenderers.P2D);
-		}}).start();	
-	}
 	
 	protected void checkQueuedScreenshot() {
-		if(screenshot == null) return;
-		
 		// copy images and get native buffers on UI thread
 		ImageUtil.copyImage(pg, scaledPG);
-		ImageUtil.copyImage(screenshot, screenshotPG);
 		BufferedImage img1 = (BufferedImage)scaledPG.getNative();
-		BufferedImage img2 = (BufferedImage)screenshotPG.getNative();
-		new Thread(new Runnable() { public void run() {
-			submitJSON(img1, img2);
-		}}).start();
 		
-		// clear queue
-		screenshot = null;
+		new Thread(new Runnable() { public void run() {
+			submitJSON(img1);
+		}}).start();
 	}
 	
 	public void keyPressed() {
 		super.keyPressed();
 		if(p.key == ' ') {
-			takeThreadedScreenshot();
+			checkQueuedScreenshot();
 		}
 	}
 	
@@ -136,12 +107,12 @@ implements IPostJSONCallback {
 	//////////////////////////////
 
 	@Override
-	public void postSuccess(String requestId, int responseTime) {
-		P.out("postSuccess", requestId, StringFormatter.timeFromMilliseconds(responseTime, false));
+	public void postSuccess(String responseText, int responseCode, String requestId, int responseTime) {
+		P.out("postSuccess", responseText, responseCode, requestId, StringFormatter.timeFromMilliseconds(responseTime, false));
 	}
 
 	@Override
-	public void postFailure(String requestId, int responseTime) {
-		P.out("postFailure", requestId, StringFormatter.timeFromMilliseconds(responseTime, false));
+	public void postFailure(String responseText, int responseCode, String requestId, int responseTime) {
+		P.out("postFailure", responseText, responseCode, requestId, StringFormatter.timeFromMilliseconds(responseTime, false));
 	}
 }

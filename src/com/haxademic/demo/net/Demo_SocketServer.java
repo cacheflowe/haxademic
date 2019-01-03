@@ -7,7 +7,7 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.debug.DebugUtil;
 import com.haxademic.core.net.IPAddress;
-import com.haxademic.core.net.JSONUtil;
+import com.haxademic.core.net.JsonUtil;
 import com.haxademic.core.net.SocketServer;
 import com.haxademic.core.net.SocketServerHandler;
 import com.haxademic.core.system.SystemUtil;
@@ -51,7 +51,7 @@ extends PAppletHax {
 	    JSONObject jsonOut = new JSONObject();
 	    jsonOut.setString("event", "frame-count");
 	    jsonOut.setInt("frame", p.frameCount);
-		server.sendMessage(JSONUtil.jsonToSingleLine(jsonOut));
+		server.sendMessage(JsonUtil.jsonToSingleLine(jsonOut));
 	}
 	
 	protected void receiveWebMessage(String messageJSON) {
