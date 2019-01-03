@@ -18,12 +18,12 @@ public class JsonRequest {
 		this.requestURL = requestURL;
 	}
 	
-	public void requestJsonData(IPostJSONCallback delegate) throws IOException {
+	public void requestJsonData(IJsonRequestCallback delegate) throws IOException {
 		// send request with empty json
 		postJsonData(new JSONObject(), delegate);
 	}
 	
-	public void postJsonData(JSONObject jsonOut, IPostJSONCallback delegate) throws IOException {
+	public void postJsonData(JSONObject jsonOut, IJsonRequestCallback delegate) throws IOException {
 		// start thread
 		request = new JsonHttpRequest(requestURL, jsonOut, delegate);
 		requestThread = new Thread( request );

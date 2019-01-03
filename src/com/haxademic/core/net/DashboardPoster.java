@@ -16,7 +16,7 @@ import processing.core.PImage;
 import processing.data.JSONObject;
 
 public class DashboardPoster 
-implements IPostJSONCallback {
+implements IJsonRequestCallback {
 
 	protected String projectName = "haxademic";
 	protected String serverPostPath = "http://localhost/haxademic/www/dashboard/";

@@ -18,12 +18,12 @@ implements Runnable {
 	
 	protected String requestURL;
 	protected JSONObject jsonOut;
-	protected IPostJSONCallback delegate;
+	protected IJsonRequestCallback delegate;
 	protected String requestId;
 	protected String responseText = null;
 	protected int responseCode = 0;
 
-	public JsonHttpRequest(String requestURL, JSONObject jsonOut, IPostJSONCallback delegate) {
+	public JsonHttpRequest(String requestURL, JSONObject jsonOut, IJsonRequestCallback delegate) {
 		this.requestURL = requestURL;
 		this.jsonOut = jsonOut;
 		this.delegate = delegate;

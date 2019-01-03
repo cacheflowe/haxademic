@@ -14,7 +14,7 @@ import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.image.Base64Image;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.image.ScreenUtil;
-import com.haxademic.core.net.IPostJSONCallback;
+import com.haxademic.core.net.IJsonRequestCallback;
 import com.haxademic.core.net.JsonRequest;
 import com.haxademic.core.text.StringFormatter;
 
@@ -24,7 +24,7 @@ import processing.data.JSONObject;
 
 public class Demo_JsonRequest_postJsonData
 extends PAppletHax
-implements IPostJSONCallback {
+implements IJsonRequestCallback {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
 	protected JsonRequest postJSON;
