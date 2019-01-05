@@ -2,7 +2,7 @@ package com.haxademic.demo.text;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.file.FileUtil;
+import com.haxademic.core.file.DemoAssets;
 import com.haxademic.core.text.StringFormatter;
 
 import processing.core.PFont;
@@ -17,7 +17,7 @@ extends PAppletHax {
 	public void setup() {
 		super.setup();		
 		endTime = P.p.millis() + 45 * 60 * 1000;
-		PFont daFont = p.createFont(FileUtil.getFile("fonts/coders_crux.ttf"), 100, true);
+		PFont daFont = DemoAssets.fontDSEG7(100); // p.createFont(FileUtil.getFile("fonts/coders_crux.ttf"), 100, true);
 		p.textFont(daFont);
 	}
 

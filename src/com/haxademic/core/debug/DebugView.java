@@ -6,6 +6,7 @@ import java.util.Map;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.file.DemoAssets;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.net.IPAddress;
 import com.haxademic.core.text.StringFormatter;
@@ -32,7 +33,7 @@ public class DebugView {
 		// for some reason, these were tanking app launches
 		updateAppInfo();
 		new Thread(new Runnable() { public void run() {
-			debugFont = p.createFont("Arial", fontSize);
+			debugFont = DemoAssets.fontOpenSans(fontSize);
 			ipAddress = IPAddress.getLocalAddress();
 		}}).start();
 	}

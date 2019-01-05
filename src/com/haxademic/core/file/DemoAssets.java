@@ -114,6 +114,12 @@ public class DemoAssets {
 
 	// FONTS
 	
+	public static PFont fontOpenSans = null;
+	public static PFont fontOpenSans(float fontSize) {
+		if(fontOpenSans == null) fontOpenSans = P.p.createFont( FileUtil.getFile("haxademic/fonts/OpenSans-Regular.ttf"), fontSize );
+		return fontOpenSans;
+	}
+	
 	public static PFont fontRaleway = null;
 	public static PFont fontRaleway(float fontSize) {
 		if(fontRaleway == null) fontRaleway = P.p.createFont( FileUtil.getFile("haxademic/fonts/Raleway-Regular.ttf"), fontSize );
