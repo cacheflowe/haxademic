@@ -1,4 +1,4 @@
-<img src="https://raw.githubusercontent.com/cacheflowe/haxademic/master/data/haxademic/images/haxademic-logo.png" alt="Haxademic" width="200"/>
+<img src="https://raw.githubusercontent.com/cacheflowe/haxademic/master/data/haxademic/images/haxademic-logo.png" alt="Haxademic" width="160"/>
 
 # Haxademic
 
@@ -16,6 +16,12 @@ While the code has been open-sourced, I don't plan on making it easy/viable for 
 
 * __[P](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/app/P.java)__ - This class holds static references and methods - primarily to the app instance so I don't have to pass it around everywhere.
 
+`com.haxademic.core.app.config`
+
+* __[AppSettings](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/app/config/AppSettings.java)__ - Static constants to help set app properties and initialize special objects in `PAppletHax`. Used in tandem with `P5Properties`.
+
+* __[P5Properties](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/app/config/P5Properties.java)__ - Loads properties from `data/properties/run.properties` (or an alternate specified .properties file), using the same string constants in `AppSettings`. All of these properties can be overridden in PAppletHax in the automatically-called `overridePropsFile()` function on app initialization.
+
 `com.haxademic.core.audio.analysis.input`
 
 * __[IAudioInput](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/audio/analysis/input/IAudioInput.java)__ - A common interface between several Java libraries that run FFT analysis and beat detection on an incoming audio signal. Choose between [Beads](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/audio/analysis/input/AudioInputBeads.java), [Minim](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/audio/analysis/input/AudioInputMinim.java), [ESS](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/audio/analysis/input/AudioInputESS.java) or [Processing Sound](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/audio/analysis/input/AudioInputProcessingSound.java), via [AppSettings](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/demo/audio/analysis/Demo_IAudioInput.java).
@@ -29,6 +35,14 @@ While the code has been open-sourced, I don't plan on making it easy/viable for 
 * __[WavPlayer](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/audio/WavPlayer.java)__ - Play a .wav file.
 
 * __[WavRecorder](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/audio/WavRecorder.java)__ - Record a .wav file.
+
+`com.haxademic.core.data.constants`
+
+* __[GLBlendModes](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/data/constants/GLBlendModes.java)__ - Fancy OpenGL blend modes with helper methods to set them on a given PGraphics context.
+
+* __[PBlendModes](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/data/constants/PBlendModes.java)__ - Static constants list of Processing blend modes.
+
+* __[PRenderers](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/data/constants/PRenderers.java)__ - Static constants list of Processing renderers.
 
 ... more to come
 
