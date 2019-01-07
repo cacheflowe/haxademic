@@ -29,6 +29,7 @@
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.draw.textures.pshader"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.hardware.osc"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.draw.filters.pgraphics.archive"/>
+        <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.app.config"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.draw.image"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.hardware.dmx"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.draw.context"/>
@@ -41,7 +42,6 @@
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.hardware.browser"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.draw.shapes.pshader.shared"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.data"/>
-        <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.constants"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.draw.camera.common"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.hardware.shared"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.draw.filters.pgraphics"/>
@@ -53,6 +53,7 @@
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.audio.analysis.input"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.system.shell"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.draw.shapes"/>
+        <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.data.constants"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.hardware.leap"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.draw.textures.pgraphics.shared"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.debug"/>
