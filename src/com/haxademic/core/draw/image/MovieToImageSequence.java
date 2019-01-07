@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 import com.haxademic.core.app.P;
-import com.haxademic.core.constants.PRenderers;
+import com.haxademic.core.data.constants.PRenderers;
 
 import processing.core.PGraphics;
 import processing.core.PImage;

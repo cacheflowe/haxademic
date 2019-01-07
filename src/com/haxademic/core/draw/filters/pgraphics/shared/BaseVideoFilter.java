@@ -1,7 +1,7 @@
 package com.haxademic.core.draw.filters.pgraphics.shared;
 
 import com.haxademic.core.app.P;
-import com.haxademic.core.constants.PRenderers;
+import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.debug.DebugUtil;
 import com.haxademic.core.draw.image.ImageUtil;
 

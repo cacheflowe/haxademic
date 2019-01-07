@@ -11,7 +11,7 @@ import com.haxademic.app.slideshow.text.SlideCaption;
 import com.haxademic.app.slideshow.text.SlideTitle;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.constants.AppSettings;
+import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.data.store.AppStore;
 import com.haxademic.core.draw.color.ColorUtil;
 import com.haxademic.core.draw.context.DrawUtil;

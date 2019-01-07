@@ -2,7 +2,7 @@ package com.haxademic.app.haxmapper.mappers;
 
 import com.haxademic.app.haxmapper.HaxMapper;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.constants.AppSettings;
+import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.textures.pgraphics.TextureAudioTube;
 import com.haxademic.core.draw.textures.pgraphics.TextureBlobSheet;
 import com.haxademic.core.draw.textures.pgraphics.TextureColorAudioSlide;

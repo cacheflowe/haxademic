@@ -1,7 +1,7 @@
 package com.haxademic.demo.audio.analysis;
 
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.constants.AppSettings;
+import com.haxademic.core.app.config.AppSettings;
 
 public class Demo_IAudioInput
 extends PAppletHax { public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }

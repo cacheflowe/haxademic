@@ -2,7 +2,7 @@ package com.haxademic.demo.hardware.dmx;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.constants.AppSettings;
+import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.hardware.dmx.DMXWrapper;
 
 public class Demo_DmxChannelTester

@@ -1,7 +1,7 @@
 package com.haxademic.demo.hardware.kinect.openni;
 
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.constants.AppSettings;
+import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.hardware.kinect.KinectSilhouetteBasic;
 import com.haxademic.core.hardware.kinect.KinectSilhouetteVectorField;
 

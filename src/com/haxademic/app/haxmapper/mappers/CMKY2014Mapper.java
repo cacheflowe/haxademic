@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import com.haxademic.app.haxmapper.HaxMapper;
 import com.haxademic.app.haxmapper.overlays.MeshLines.MODE;
 import com.haxademic.app.haxmapper.polygons.IMappedPolygon;
-import com.haxademic.core.constants.AppSettings;
+import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.textures.pgraphics.TextureColorAudioSlide;
 import com.haxademic.core.draw.textures.pgraphics.TextureEQColumns;
 import com.haxademic.core.draw.textures.pgraphics.TextureEQConcentricCircles;

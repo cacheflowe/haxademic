@@ -2,7 +2,7 @@ package com.haxademic.demo.draw.textures.shaders;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.constants.AppSettings;
+import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.textures.pshader.TextureShader;
 import com.haxademic.core.hardware.shared.InputTrigger;
 

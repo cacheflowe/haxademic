@@ -3,7 +3,7 @@ package com.haxademic.demo.hardware.kinect.pv2;
 import java.util.ArrayList;
 
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.constants.AppSettings;
+import com.haxademic.core.app.config.AppSettings;
 
 import KinectPV2.HDFaceData;
 import KinectPV2.KinectPV2;

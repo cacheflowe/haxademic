@@ -1,7 +1,7 @@
 package com.haxademic.demo.net;
 
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.constants.AppSettings;
+import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.net.FileDownloader;
 

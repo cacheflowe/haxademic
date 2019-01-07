@@ -4,7 +4,7 @@ import java.awt.Robot;
 import java.awt.event.KeyEvent;
 
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.constants.AppSettings;
+import com.haxademic.core.app.config.AppSettings;
 
 public class RobotKeyPressTest
 extends PAppletHax {

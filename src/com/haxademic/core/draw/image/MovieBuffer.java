@@ -3,7 +3,7 @@ package com.haxademic.core.draw.image;
 import java.util.HashMap;
 
 import com.haxademic.core.app.P;
-import com.haxademic.core.constants.PRenderers;
+import com.haxademic.core.data.constants.PRenderers;
 
 import processing.core.PGraphics;
 import processing.video.Movie;

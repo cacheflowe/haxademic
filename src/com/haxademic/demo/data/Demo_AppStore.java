@@ -1,7 +1,7 @@
 package com.haxademic.demo.data;
 
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.constants.AppSettings;
+import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.data.store.AppStore;
 import com.haxademic.core.data.store.IAppStoreListener;
 import com.haxademic.core.file.DemoAssets;

@@ -2,7 +2,7 @@ package com.haxademic.sketch.render;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.constants.AppSettings;
+import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.camera.CameraOscillate;
 import com.haxademic.core.draw.camera.common.ICamera;
 import com.haxademic.core.draw.context.DrawUtil;

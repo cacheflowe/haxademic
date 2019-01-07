@@ -1,4 +1,4 @@
-package com.haxademic.core.system;
+package com.haxademic.core.app.config;
 
 import java.io.IOException;
 import java.util.Properties;

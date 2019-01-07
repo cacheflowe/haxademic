@@ -1,7 +1,7 @@
 package com.haxademic.demo.hardware.kinect.openni;
 
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.constants.AppSettings;
+import com.haxademic.core.app.config.AppSettings;
 
 public class Demo_KinectV1CameraTest
 extends PAppletHax {

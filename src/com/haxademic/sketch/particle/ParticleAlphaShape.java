@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.constants.AppSettings;
+import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.particle.VectorFlyer;
 import com.haxademic.core.draw.shapes.BoxBetween;
 import com.haxademic.core.math.MathUtil;

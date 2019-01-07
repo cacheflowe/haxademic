@@ -6,13 +6,14 @@ import java.io.IOException;
 
 import javax.sound.midi.InvalidMidiDataException;
 
+import com.haxademic.core.app.config.P5Properties;
 import com.haxademic.core.audio.analysis.input.AudioInputBeads;
 import com.haxademic.core.audio.analysis.input.AudioInputESS;
 import com.haxademic.core.audio.analysis.input.AudioInputMinim;
 import com.haxademic.core.audio.analysis.input.AudioStreamData;
 import com.haxademic.core.audio.analysis.input.IAudioInput;
-import com.haxademic.core.constants.AppSettings;
-import com.haxademic.core.constants.PRenderers;
+import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.data.store.AppStore;
 import com.haxademic.core.debug.DebugUtil;
 import com.haxademic.core.debug.DebugView;
@@ -38,7 +39,6 @@ import com.haxademic.core.render.MIDISequenceRenderer;
 import com.haxademic.core.render.Renderer;
 import com.haxademic.core.system.AppUtil;
 import com.haxademic.core.system.JavaInfo;
-import com.haxademic.core.system.P5Properties;
 import com.haxademic.core.system.SecondScreenViewer;
 import com.haxademic.core.system.SystemUtil;
 import com.haxademic.core.ui.PrefsSliders;

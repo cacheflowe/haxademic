@@ -3,7 +3,7 @@ package com.haxademic.sketch.visualgorithms;
 import java.util.ArrayList;
 
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.constants.AppSettings;
+import com.haxademic.core.app.config.AppSettings;
 
 import processing.core.PVector;
 

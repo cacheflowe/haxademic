@@ -3,7 +3,7 @@ package com.haxademic.demo.draw.color;
 import java.awt.Color;
 
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.constants.AppSettings;
+import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.color.ColorUtil;
 
 public class Demo_ColorUtil

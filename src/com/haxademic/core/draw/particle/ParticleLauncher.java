@@ -1,7 +1,7 @@
 package com.haxademic.core.draw.particle;
 
 import com.haxademic.core.app.P;
-import com.haxademic.core.constants.PRenderers;
+import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.MathUtil;

@@ -3,7 +3,7 @@ package com.haxademic.sketch.particle;
 import java.util.Iterator;
 
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.constants.AppSettings;
+import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.particle.ForceDirectedLayout;
 import com.haxademic.core.draw.particle.ForceDirectedLayout.ForceNode;

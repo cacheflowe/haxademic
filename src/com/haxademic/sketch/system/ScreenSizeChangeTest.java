@@ -8,7 +8,7 @@ import java.awt.event.AWTEventListener;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.constants.AppSettings;
+import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.math.MathUtil;
 
 public class ScreenSizeChangeTest

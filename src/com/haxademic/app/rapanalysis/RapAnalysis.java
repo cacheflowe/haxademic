@@ -8,7 +8,7 @@ import java.util.ArrayList;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.constants.AppSettings;
+import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.text.CustomFontText2D;
 import com.haxademic.core.file.FileUtil;

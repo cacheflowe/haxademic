@@ -1,7 +1,7 @@
 package com.haxademic.demo.hardware.webcam;
 
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.constants.AppSettings;
+import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.image.BufferColorObjectDetection;
 import com.haxademic.core.hardware.webcam.IWebCamCallback;
 

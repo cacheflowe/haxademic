@@ -2,8 +2,8 @@ package com.haxademic.sketch.render;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.constants.AppSettings;
-import com.haxademic.core.constants.PBlendModes;
+import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.data.constants.PBlendModes;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.filters.pshader.BloomFilter;
 import com.haxademic.core.draw.filters.pshader.GrainFilter;

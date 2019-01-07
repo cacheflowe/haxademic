@@ -2,7 +2,7 @@ package com.haxademic.sketch.hardware;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.constants.AppSettings;
+import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.context.DrawUtil;
 
 import processing.serial.Serial;
@@ -78,7 +78,7 @@ extends PAppletHax {
 		// end custom command
 //		asciiToHex("h")
 		
-		serialPort.write(0x0000);	// Packet data checksum (SH SL) : Two bytes, checksum. Lower byte in the forme. The sum of each byte from " Packet type " to “ Packet data” content		
+		serialPort.write(0x0000);	// Packet data checksum (SH SL) : Two bytes, checksum. Lower byte in the forme. The sum of each byte from " Packet type " to â€œ Packet dataâ€� content		
 		
 		serialPort.write(0xae);		// End Code
 	}

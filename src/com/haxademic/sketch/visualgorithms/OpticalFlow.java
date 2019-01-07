@@ -2,7 +2,7 @@ package com.haxademic.sketch.visualgorithms;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.constants.AppSettings;
+import com.haxademic.core.app.config.AppSettings;
 
 import processing.core.PFont;
 import processing.video.Capture;

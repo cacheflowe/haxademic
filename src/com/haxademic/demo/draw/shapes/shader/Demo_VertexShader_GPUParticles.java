@@ -2,9 +2,9 @@ package com.haxademic.demo.draw.shapes.shader;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.constants.AppSettings;
-import com.haxademic.core.constants.PBlendModes;
-import com.haxademic.core.constants.PRenderers;
+import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.data.constants.PBlendModes;
+import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.image.PerlinTexture;
 import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;

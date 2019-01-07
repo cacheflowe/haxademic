@@ -4,7 +4,7 @@ import java.net.UnknownHostException;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.constants.AppSettings;
+import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.debug.DebugUtil;
 import com.haxademic.core.net.IPAddress;
 import com.haxademic.core.net.JsonUtil;

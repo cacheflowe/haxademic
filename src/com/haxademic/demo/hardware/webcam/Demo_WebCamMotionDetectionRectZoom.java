@@ -3,9 +3,9 @@ package com.haxademic.demo.hardware.webcam;
 import java.awt.Rectangle;
 
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.constants.AppSettings;
-import com.haxademic.core.constants.PBlendModes;
-import com.haxademic.core.constants.PRenderers;
+import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.data.constants.PBlendModes;
+import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.draw.filters.pshader.LeaveWhiteFilter;
 import com.haxademic.core.draw.image.BufferMotionDetectionMap;
 import com.haxademic.core.draw.image.ImageUtil;

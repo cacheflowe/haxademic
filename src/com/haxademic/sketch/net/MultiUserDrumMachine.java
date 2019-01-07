@@ -2,8 +2,8 @@ package com.haxademic.sketch.net;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.data.ConvertUtil;
+import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.net.WebServer;

@@ -2,7 +2,7 @@ package com.haxademic.sketch.test;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.constants.AppSettings;
+import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.system.TimeFactoredFps;
 
 public class TimeBasedMovement

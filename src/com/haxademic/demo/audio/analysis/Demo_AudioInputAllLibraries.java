@@ -6,7 +6,7 @@ import com.haxademic.core.audio.analysis.input.AudioInputESS;
 import com.haxademic.core.audio.analysis.input.AudioInputMinim;
 import com.haxademic.core.audio.analysis.input.AudioInputProcessingSound;
 import com.haxademic.core.audio.analysis.input.AudioStreamData;
-import com.haxademic.core.constants.AppSettings;
+import com.haxademic.core.app.config.AppSettings;
 
 import krister.Ess.AudioInput;
 

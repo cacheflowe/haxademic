@@ -1,7 +1,7 @@
 package com.haxademic.sketch.audio.processing;
 
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.constants.AppSettings;
+import com.haxademic.core.app.config.AppSettings;
 
 import processing.sound.AudioIn;
 import processing.sound.FFT;

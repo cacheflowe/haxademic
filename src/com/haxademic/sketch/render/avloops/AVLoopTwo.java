@@ -3,9 +3,9 @@ package com.haxademic.sketch.render.avloops;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.audio.analysis.AudioPlayerMinim;
-import com.haxademic.core.constants.AppSettings;
-import com.haxademic.core.constants.PBlendModes;
-import com.haxademic.core.constants.PRenderers;
+import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.data.constants.PBlendModes;
+import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.file.FileUtil;
 
 import ddf.minim.Minim;

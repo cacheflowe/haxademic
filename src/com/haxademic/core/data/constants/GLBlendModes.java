@@ -1,4 +1,4 @@
-package com.haxademic.core.constants;
+package com.haxademic.core.data.constants;
 
 import com.jogamp.opengl.GL;
 
