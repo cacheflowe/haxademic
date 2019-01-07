@@ -2,8 +2,8 @@ package com.haxademic.app.haxvisual.viz.modules;
 
 import com.haxademic.app.haxvisual.viz.IVizModule;
 import com.haxademic.app.haxvisual.viz.ModuleBase;
-import com.haxademic.core.camera.CameraBasic;
-import com.haxademic.core.camera.CameraOscillate;
+import com.haxademic.core.draw.camera.CameraBasic;
+import com.haxademic.core.draw.camera.CameraOscillate;
 
 import processing.core.PConstants;
 import toxi.geom.AABB;

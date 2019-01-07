@@ -3,8 +3,8 @@ package com.haxademic.app.haxvisual.viz.modules;
 import com.haxademic.app.haxvisual.viz.IVizModule;
 import com.haxademic.app.haxvisual.viz.ModuleBase;
 import com.haxademic.core.app.P;
-import com.haxademic.core.camera.CameraDefault;
-import com.haxademic.core.camera.CameraSpotter;
+import com.haxademic.core.draw.camera.CameraDefault;
+import com.haxademic.core.draw.camera.CameraSpotter;
 
 import processing.core.PConstants;
 

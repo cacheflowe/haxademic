@@ -4,7 +4,7 @@ import com.haxademic.app.haxvisual.viz.IVizModule;
 import com.haxademic.app.haxvisual.viz.ModuleBase;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.camera.CameraDefault;
+import com.haxademic.core.draw.camera.CameraDefault;
 
 import processing.core.PApplet;
 import processing.core.PConstants;

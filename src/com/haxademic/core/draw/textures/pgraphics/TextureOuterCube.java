@@ -1,7 +1,7 @@
 package com.haxademic.core.draw.textures.pgraphics;
 
 import com.haxademic.core.app.P;
-import com.haxademic.core.camera.CameraUtil;
+import com.haxademic.core.draw.camera.CameraUtil;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.shapes.Shapes;
 import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;

@@ -1,4 +1,4 @@
-package com.haxademic.core.camera;
+package com.haxademic.core.draw.camera;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.debug.DebugUtil;

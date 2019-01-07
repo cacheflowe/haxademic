@@ -1,8 +1,8 @@
 package com.haxademic.sketch.three_d;
 
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.camera.CameraOscillate;
-import com.haxademic.core.camera.common.ICamera;
+import com.haxademic.core.draw.camera.CameraOscillate;
+import com.haxademic.core.draw.camera.common.ICamera;
 import com.haxademic.core.render.Renderer;
 
 import processing.core.PConstants;

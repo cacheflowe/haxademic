@@ -4,8 +4,8 @@ import java.util.Iterator;
 
 import com.haxademic.app.haxvisual.viz.IVizModule;
 import com.haxademic.app.haxvisual.viz.ModuleBase;
-import com.haxademic.core.camera.CameraOscillate;
-import com.haxademic.core.camera.common.ICamera;
+import com.haxademic.core.draw.camera.CameraOscillate;
+import com.haxademic.core.draw.camera.common.ICamera;
 
 import processing.core.PConstants;
 import processing.core.PGraphics;

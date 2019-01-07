@@ -5,7 +5,7 @@ import java.util.Iterator;
 import java.util.Vector;
 
 import com.haxademic.core.app.P;
-import com.haxademic.core.camera.CameraDefault;
+import com.haxademic.core.draw.camera.CameraDefault;
 import com.haxademic.core.draw.color.ColorGroup;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.math.MathUtil;

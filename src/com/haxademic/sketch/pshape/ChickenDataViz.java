@@ -2,8 +2,8 @@ package com.haxademic.sketch.pshape;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.camera.CameraUtil;
 import com.haxademic.core.constants.AppSettings;
+import com.haxademic.core.draw.camera.CameraUtil;
 import com.haxademic.core.draw.shapes.PShapeSolid;
 import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.file.FileUtil;

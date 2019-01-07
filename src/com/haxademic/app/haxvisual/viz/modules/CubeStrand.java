@@ -5,8 +5,8 @@ import com.haxademic.app.haxvisual.viz.ModuleBase;
 import com.haxademic.app.haxvisual.viz.modules.BlobSheet.Cell;
 import com.haxademic.app.haxvisual.viz.modules.BlobSheet.ControlPoint;
 import com.haxademic.core.app.P;
-import com.haxademic.core.camera.CameraBasic;
-import com.haxademic.core.camera.CameraSpotter;
+import com.haxademic.core.draw.camera.CameraBasic;
+import com.haxademic.core.draw.camera.CameraSpotter;
 
 import processing.core.PConstants;
 import toxi.geom.AABB;

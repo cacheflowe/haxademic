@@ -1,8 +1,8 @@
 package com.haxademic.sketch.test;
 
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.camera.CameraUtil;
 import com.haxademic.core.constants.AppSettings;
+import com.haxademic.core.draw.camera.CameraUtil;
 
 import controlP5.ControlP5;
 

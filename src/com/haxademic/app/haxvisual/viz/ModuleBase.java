@@ -3,7 +3,7 @@ package com.haxademic.app.haxvisual.viz;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.audio.analysis.input.AudioStreamData;
-import com.haxademic.core.camera.common.ICamera;
+import com.haxademic.core.draw.camera.common.ICamera;
 import com.haxademic.core.vendor.Toxiclibs;
 
 import toxi.processing.ToxiclibsSupport;
