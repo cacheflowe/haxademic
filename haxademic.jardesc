@@ -23,12 +23,10 @@
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.draw.color"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.ui"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.draw.filters.pshader"/>
-        <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.camera"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.hardware.joystick"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.hardware.mouse"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.net"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.draw.textures.pshader"/>
-        <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.camera.common"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.hardware.osc"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.draw.filters.pgraphics.archive"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.draw.image"/>
@@ -44,6 +42,7 @@
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.draw.shapes.pshader.shared"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.data"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.constants"/>
+        <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.draw.camera.common"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.hardware.shared"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.draw.filters.pgraphics"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.draw.textures.pgraphics"/>
@@ -62,6 +61,7 @@
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.audio.analysis"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.hardware.keyboard"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.hardware.printer"/>
+        <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.draw.camera"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.draw.particle"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.draw.toxi"/>
     </selectedElements>
