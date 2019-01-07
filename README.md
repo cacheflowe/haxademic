@@ -2,11 +2,11 @@
 
 # Haxademic
 
-Haxademic is my personal Processing-based creative coding toolkit, built to run in Eclipse with Java and the latest version of [Processing](http://processing.org/). It's a starting point for interactive visuals, rendering and desktop/installation apps. It requires several essential Java/Processing libraries and wraps them up to play nicely with each other.
+Haxademic is my personal Processing-based creative coding toolkit, built to run in Eclipse with Java and the latest version of [Processing](http://processing.org/). It's a starting point for interactive visuals, installations, rendering and writing Processing "sketches" in a more robust environment. It loads a bunch of useful Java/Processing libraries and contains a ton of other useful tools that I've written.
 
 ## State of affairs
 
-While the code has been open-sourced, I don't plan on making it easy/viable for others to use. This repository is more about sharing the interesting code within, and I fully endorse borrowing it however you see fit.
+While the code has been open-sourced, I don't plan on making it easy/viable for others to use - I don't have the time or desire to support it. This repository is more about sharing the interesting code within, and I fully endorse borrowing it however you see fit.
 
 ## Notable code
 
@@ -54,13 +54,11 @@ While the code has been open-sourced, I don't plan on making it easy/viable for 
 
 * __[AppStoreDistributed](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/data/store/AppStoreDistributed.java)__ - A WebSockets-enabled extension of `AppStore` to keep multiple machines in sync with a shared data structure.
 
-* __[IAppStoreUpdatable](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/data/store/IAppStoreUpdatable.java)__ - Callback interface for `AppStore` updates.
+* __[IAppStoreListener](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/data/store/IAppStoreListener.java)__ - Callback interface for `AppStore` updates.
 
 `com.haxademic.core.debug`
 
-* `DebugUtil` - A collection of extra logging methods.
-
-* `DebugView` - Instantiated with every `PAppletHax` app, allows us to toggle and add properties to the `DebugView` HashMap to show realtime values on-screen, rather than trying to watch Java console values fly by. Press `/` to toggle. Also includes a panel for key commands and extra info.
+* __[DebugView](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/debug/DebugView.java)__ - Instantiated with every `PAppletHax` app, allows us to toggle and add properties to the `DebugView` HashMap to show realtime values on-screen, rather than trying to watch Java console values fly by. Press `/` to toggle. Also includes a panel for key commands and extra developer-defined info.
 
 ... more to come
 
