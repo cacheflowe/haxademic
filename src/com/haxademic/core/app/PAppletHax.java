@@ -6,13 +6,13 @@ import java.io.IOException;
 
 import javax.sound.midi.InvalidMidiDataException;
 
+import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.P5Properties;
 import com.haxademic.core.audio.analysis.input.AudioInputBeads;
 import com.haxademic.core.audio.analysis.input.AudioInputESS;
 import com.haxademic.core.audio.analysis.input.AudioInputMinim;
 import com.haxademic.core.audio.analysis.input.AudioStreamData;
 import com.haxademic.core.audio.analysis.input.IAudioInput;
-import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.data.store.AppStore;
 import com.haxademic.core.debug.DebugUtil;
@@ -52,38 +52,29 @@ import processing.opengl.PJOGL;
 import processing.video.Movie;
 import themidibus.MidiBus;
 
-/**
- * PAppletHax is a starting point for interactive visuals, giving you a unified
- * environment for both realtime and rendering modes. It loads several Java
- * libraries and wraps them up to play nicely with each other.
- *
- * @author cacheflowe
- *
- */
-
 public class PAppletHax
 extends PApplet
 {
-//	Simplest launch:
-//	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
-
-//	Fancier launch:
-//	public static void main(String args[]) {
-//		PAppletHax.main(P.concat(args, new String[] { "--hide-stop", "--bgcolor=000000", Thread.currentThread().getStackTrace()[1].getClassName() }));
-//		PApplet.main(new String[] { "--hide-stop", "--bgcolor=000000", "--location=1920,0", "--display=1", ElloMotion.class.getName() });
-//	}
+	//	Simplest launch:
+	//	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
-//	public static String arguments[];
-//	public static void main(String args[]) {
-//		arguments = args;
-//		PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName());
-//	}
+	//	Fancier launch:
+	//	public static void main(String args[]) {
+	//		PAppletHax.main(P.concat(args, new String[] { "--hide-stop", "--bgcolor=000000", Thread.currentThread().getStackTrace()[1].getClassName() }));
+	//		PApplet.main(new String[] { "--hide-stop", "--bgcolor=000000", "--location=1920,0", "--display=1", ElloMotion.class.getName() });
+	//	}
+		
+	//	public static String arguments[];
+	//	public static void main(String args[]) {
+	//		arguments = args;
+	//		PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName());
+	//	}
 
 	// app
 	protected static PAppletHax p;				// Global/static ref to PApplet - any audio-reactive object should be passed this reference, or grabbed from this static ref.
-	public PGraphics pg;							// Offscreen buffer that matches the app size
+	public PGraphics pg;						// Offscreen buffer that matches the app size
 	public P5Properties appConfig;				// Loads the project .properties file to configure several app properties externally.
-	protected String customPropsFile = null;		// Loads an app-specific project .properties file.
+	protected String customPropsFile = null;	// Loads an app-specific project .properties file.
 	protected String renderer; 					// The current rendering engine
 	protected Robot _robot;
 

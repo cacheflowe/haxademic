@@ -36,6 +36,10 @@ While the code has been open-sourced, I don't plan on making it easy/viable for 
 
 * __[WavRecorder](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/audio/WavRecorder.java)__ - Record a .wav file.
 
+`com.haxademic.core.data`
+
+* __[ConvertUtil](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/data/ConvertUtil.java)__ - A collection of basic Java type-conversion methods..
+
 `com.haxademic.core.data.constants`
 
 * __[GLBlendModes](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/data/constants/GLBlendModes.java)__ - Fancy OpenGL blend modes with helper methods to set them on a given PGraphics context.
@@ -43,6 +47,20 @@ While the code has been open-sourced, I don't plan on making it easy/viable for 
 * __[PBlendModes](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/data/constants/PBlendModes.java)__ - Static constants list of Processing blend modes.
 
 * __[PRenderers](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/data/constants/PRenderers.java)__ - Static constants list of Processing renderers.
+
+`com.haxademic.core.data.store`
+
+* __[AppStore](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/data/store/AppStore.java)__ - A singleton data store and emitter. As values are updated, subscribers are notified.
+
+* __[AppStoreDistributed](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/data/store/AppStoreDistributed.java)__ - A WebSockets-enabled extension of `AppStore` to keep multiple machines in sync with a shared data structure.
+
+* __[IAppStoreUpdatable](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/data/store/IAppStoreUpdatable.java)__ - Callback interface for `AppStore` updates.
+
+`com.haxademic.core.debug`
+
+* `DebugUtil` - A collection of extra logging methods.
+
+* `DebugView` - Instantiated with every `PAppletHax` app, allows us to toggle and add properties to the `DebugView` HashMap to show realtime values on-screen, rather than trying to watch Java console values fly by. Press `/` to toggle. Also includes a panel for key commands and extra info.
 
 ... more to come
 
