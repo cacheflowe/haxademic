@@ -10,6 +10,8 @@ While the code has been open-sourced, I don't plan on making it easy/viable for 
 
 ## Notable code
 
+### App
+
 `com.haxademic.core.app`
 
 * __[PAppletHax](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/app/PAppletHax.java)__ - This is the base class for every Processing app that I build. It initializes tools for app-level concerns, rendering, multiple input devices, audio FFT, and debugging tools. Tons of additional tools and utilities can be found in the library.
@@ -22,19 +24,23 @@ While the code has been open-sourced, I don't plan on making it easy/viable for 
 
 * __[P5Properties](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/app/config/P5Properties.java)__ - Loads properties from `data/properties/run.properties` (or an alternate specified .properties file), using the same string constants in `AppSettings`. All of these properties can be overridden in PAppletHax in the automatically-called `overridePropsFile()` function on app initialization.
 
+### Audio
+
+`com.haxademic.core.audio`
+
+* __[NormalizeMonoWav](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/audio/NormalizeMonoWav.java)__ - Normalizes a mono .wav file without any external libraries.
+
+* __[WavPlayer](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/audio/WavPlayer.java)__ - Play a .wav file and cache for future plays.
+
+* __[WavRecorder](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/audio/WavRecorder.java)__ - Record a .wav file.
+
 `com.haxademic.core.audio.analysis.input`
 
 * __[IAudioInput](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/audio/analysis/input/IAudioInput.java)__ - A common interface between several Java libraries that run FFT analysis and beat detection on an incoming audio signal. Choose between [Beads](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/audio/analysis/input/AudioInputBeads.java), [Minim](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/audio/analysis/input/AudioInputMinim.java), [ESS](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/audio/analysis/input/AudioInputESS.java) or [Processing Sound](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/audio/analysis/input/AudioInputProcessingSound.java), via [AppSettings](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/demo/audio/analysis/Demo_IAudioInput.java).
 
 * __[AudioStreamData](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/audio/analysis/input/AudioStreamData.java)__ - The common data storage object for audio analysis results.
 
-`com.haxademic.core.audio`
-
-* __[NormalizeMonoWav](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/audio/NormalizeMonoWav.java)__ - Normalizes a mono .wav file without any external libraries.
-
-* __[WavPlayer](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/audio/WavPlayer.java)__ - Play a .wav file.
-
-* __[WavRecorder](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/audio/WavRecorder.java)__ - Record a .wav file.
+### Data
 
 `com.haxademic.core.data`
 
@@ -56,9 +62,33 @@ While the code has been open-sourced, I don't plan on making it easy/viable for 
 
 * __[IAppStoreListener](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/data/store/IAppStoreListener.java)__ - Callback interface for `AppStore` updates.
 
+### Debug
+
 `com.haxademic.core.debug`
 
 * __[DebugView](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/debug/DebugView.java)__ - Instantiated with every `PAppletHax` app, allows us to toggle and add properties to the `DebugView` HashMap to show realtime values on-screen, rather than trying to watch Java console values fly by. Press `/` to toggle. Also includes a panel for key commands and extra developer-defined info.
+
+### Draw
+
+`com.haxademic.core.draw.camera`
+
+* __[CameraUtil](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/draw/camera/CameraUtil.java)__ - Primarily just a helper method to increase the camera distance on a PGraphics context.
+
+`com.haxademic.core.draw.filters.pgraphics`
+
+* [A collection](https://github.com/cacheflowe/haxademic/tree/master/src/com/haxademic/core/draw/filters/pgraphics) of PGraphics-based image/video filters. These effects redraw an image in traditional Processing style on a PGraphics buffer.
+
+`com.haxademic.core.draw.filters.pshader`
+
+* [A collection](https://github.com/cacheflowe/haxademic/tree/master/src/com/haxademic/core/draw/filters/pshader) of PShader filter effects. These Java classes are convenience wrappers for GLSL programs/files and provide a common interface and (as minimal as) one-line implementations for shader filters. Shader uniforms are exposed through public setter methods.
+
+`com.haxademic.core.draw.textures.pgraphics`
+
+* [A collection](https://github.com/cacheflowe/haxademic/tree/master/src/com/haxademic/core/draw/textures/pgraphics) of PGraphics-based realtime textures, originally built as "VJ" clips/layers.
+
+`com.haxademic.core.draw.textures.pshader`
+
+* [A collection](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/draw/textures/pshader/TextureShader.java) (over 100!) of  realtime shader textures, both original creations (prefixed with 'cacheflowe') and shaders ported from other artists on the web. Check the GLSL source for credits.
 
 ... more to come
 

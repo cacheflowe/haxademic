@@ -1,4 +1,4 @@
-package com.haxademic.demo.camera;
+package com.haxademic.demo.draw.camera;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
