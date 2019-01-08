@@ -74,6 +74,14 @@ While the code has been open-sourced, I don't plan on making it easy/viable for 
 
 * __[CameraUtil](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/draw/camera/CameraUtil.java)__ - Primarily just a helper method to increase the camera distance on a PGraphics context.
 
+`com.haxademic.core.draw.color`
+
+* __[ColorUtil](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/draw/color/ColorUtil.java)__ - Handy color conversion methods.
+
+* __[EasingColor](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/draw/color/EasingColor.java)__ - An object that represents a single color with interpolation and helpful getter/setter methods. Has some overlap with `ColorUtil` - the two classes should possibly be merged.
+
+* __[ImageGradient](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/draw/color/ImageGradient.java)__ - Loads an image and samples its colors horizontally. Works well for gradients and comes with a library of presets.
+
 `com.haxademic.core.draw.context`
 
 * __[DrawUtil](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/draw/context/DrawUtil.java)__ - Lots of static helper methods to set properties on the specified PGraphics context. I use this constantly.
@@ -90,7 +98,7 @@ While the code has been open-sourced, I don't plan on making it easy/viable for 
 
 `com.haxademic.core.draw.filters.pshader`
 
-* [A collection](https://github.com/cacheflowe/haxademic/tree/master/src/com/haxademic/core/draw/filters/pshader) of PShader filter effects. These Java classes are convenience wrappers for GLSL programs/files and provide a common interface and (as minimal as) one-line implementations for shader filters. Shader uniforms are exposed through public setter methods.
+* [A collection](https://github.com/cacheflowe/haxademic/tree/master/src/com/haxademic/core/draw/filters/pshader) of (over 100!) PShader filter effects. These Java classes are convenience wrappers for GLSL programs/files and provide a common interface and (as minimal as) one-line implementations for shader filters. Shader uniforms are exposed through public setter methods.
 
 `com.haxademic.core.draw.textures.pgraphics`
 
@@ -98,7 +106,7 @@ While the code has been open-sourced, I don't plan on making it easy/viable for 
 
 `com.haxademic.core.draw.textures.pshader`
 
-* [A collection](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/draw/textures/pshader/TextureShader.java) (over 100!) of  realtime shader textures, both original creations (prefixed with 'cacheflowe') and shaders ported from other artists on the web. Check the GLSL source for credits.
+* [A collection](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/draw/textures/pshader/TextureShader.java) of (over 100!) realtime shader textures, both original creations (prefixed with 'cacheflowe') and shaders ported from other artists on the web. Check the GLSL source for credits.
 
 ... more to come
 
