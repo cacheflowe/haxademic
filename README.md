@@ -74,6 +74,16 @@ While the code has been open-sourced, I don't plan on making it easy/viable for 
 
 * __[CameraUtil](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/draw/camera/CameraUtil.java)__ - Primarily just a helper method to increase the camera distance on a PGraphics context.
 
+`com.haxademic.core.draw.context`
+
+* __[DrawUtil](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/draw/context/DrawUtil.java)__ - Lots of static helper methods to set properties on the specified PGraphics context. I use this constantly.
+
+* __[OpenGL32Util](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/draw/context/OpenGL32Util.java)__ - Some helper methods to move graphics between 8-bit Processing graphics for display and PixelFlow 32-bit graphics contexts for higher-resolution drawing and shaders.
+
+* __[OpenGLUtil](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/draw/context/OpenGLUtil.java)__ - Lower-level helper methods to set OpenGL flags that aren't obviously available in Processing.
+
+* __[OrientationUtil](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/draw/context/OrientationUtil.java)__ - Helper methods to orient the graphics context rotation towards a specific 3d location. These utilities help point 3d objects toward each other.
+
 `com.haxademic.core.draw.filters.pgraphics`
 
 * [A collection](https://github.com/cacheflowe/haxademic/tree/master/src/com/haxademic/core/draw/filters/pgraphics) of PGraphics-based image/video filters. These effects redraw an image in traditional Processing style on a PGraphics buffer.
