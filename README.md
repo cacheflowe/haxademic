@@ -56,11 +56,9 @@ While the code has been open-sourced, I don't plan on making it easy/viable for 
 
 `com.haxademic.core.data.store`
 
-* __[AppStore](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/data/store/AppStore.java)__ - A singleton data store and emitter. As values are updated, subscribers are notified.
+* __[AppStore](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/data/store/AppStore.java)__ - A singleton data store and emitter. As values are updated, subscribers are notified. Uses __[IAppStoreListener](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/data/store/IAppStoreListener.java)__ as the callback interface for `AppStore` updates.
 
 * __[AppStoreDistributed](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/data/store/AppStoreDistributed.java)__ - A WebSockets-enabled extension of `AppStore` to keep multiple machines in sync with a shared data structure.
-
-* __[IAppStoreListener](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/data/store/IAppStoreListener.java)__ - Callback interface for `AppStore` updates.
 
 ### Debug
 
