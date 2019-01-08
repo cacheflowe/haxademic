@@ -94,19 +94,69 @@ While the code has been open-sourced, I don't plan on making it easy/viable for 
 
 `com.haxademic.core.draw.filters.pgraphics`
 
-* [A collection](https://github.com/cacheflowe/haxademic/tree/master/src/com/haxademic/core/draw/filters/pgraphics) of PGraphics-based image/video filters. These effects redraw an image in traditional Processing style on a PGraphics buffer.
+* __[A collection](https://github.com/cacheflowe/haxademic/tree/master/src/com/haxademic/core/draw/filters/pgraphics)__ of PGraphics-based image/video filters. These effects redraw an image in traditional Processing style on a PGraphics buffer.
 
 `com.haxademic.core.draw.filters.pshader`
 
-* [A collection](https://github.com/cacheflowe/haxademic/tree/master/src/com/haxademic/core/draw/filters/pshader) of (over 100!) PShader filter effects. These Java classes are convenience wrappers for GLSL programs/files and provide a common interface and (as minimal as) one-line implementations for shader filters. Shader uniforms are exposed through public setter methods.
+* __[A collection](https://github.com/cacheflowe/haxademic/tree/master/src/com/haxademic/core/draw/filters/pshader)__ of (over 100) PShader filter effects. These Java classes are convenience wrappers for GLSL programs/files and provide a common interface and (as minimal as) one-line implementations for shader filters. Shader uniforms are exposed through public setter methods.
+
+`com.haxademic.core.draw.image`
+
+... coming soon
+
+`com.haxademic.core.draw.mapping`
+
+... coming soon
+
+`com.haxademic.core.draw.particle`
+
+... coming soon
+
+`com.haxademic.core.draw.shapes`
+
+... coming soon
 
 `com.haxademic.core.draw.textures.pgraphics`
 
-* [A collection](https://github.com/cacheflowe/haxademic/tree/master/src/com/haxademic/core/draw/textures/pgraphics) of PGraphics-based realtime textures, originally built as "VJ" clips/layers.
+* __[A collection](https://github.com/cacheflowe/haxademic/tree/master/src/com/haxademic/core/draw/textures/pgraphics)__ of PGraphics-based realtime textures, originally built as "VJ" clips/layers.
 
 `com.haxademic.core.draw.textures.pshader`
 
-* [A collection](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/draw/textures/pshader/TextureShader.java) of (over 100!) realtime shader textures, both original creations (prefixed with 'cacheflowe') and shaders ported from other artists on the web. Check the GLSL source for credits.
+* __[A collection](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/draw/textures/pshader/TextureShader.java)__ of (over 100) realtime shader textures, both original creations (prefixed with 'cacheflowe') and shaders ported from other artists on the web. Check the GLSL source for credits.
+
+### File
+
+... coming soon
+
+### Hardware
+
+... coming soon
+
+### Math
+
+... coming soon
+
+### Net
+
+... coming soon
+
+### Render
+
+... coming soon
+
+### System
+
+... coming soon
+
+### Text
+
+... coming soon
+
+### UI
+
+... coming soon
+
+
 
 ... more to come
 
