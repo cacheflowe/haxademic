@@ -25,17 +25,16 @@ extends PAppletHax {
 	protected PixelFilter _pixelFilter;
 	protected WETriangleMesh _mesh;
 
-	public void setup() {
-		super.setup();
-		_pixelFilter = new PixelFilter(KinectSize.WIDTH, KinectSize.WIDTH, (int)PIXEL_SIZE);
-		setupMeshForTexture( (int)(KinectSize.WIDTH / PIXEL_SIZE), (int)(KinectSize.WIDTH / PIXEL_SIZE), 640, 480 );
-	}
-
 	protected void overridePropsFile() {
 		p.appConfig.setProperty( AppSettings.KINECT_V2_WIN_ACTIVE, true );
 //		p.appConfig.setProperty( AppSettings.KINECT_ACTIVE, true );
 	}
 
+	public void setupFirstFrame() {
+		_pixelFilter = new PixelFilter(KinectSize.WIDTH, KinectSize.WIDTH, (int)PIXEL_SIZE);
+		setupMeshForTexture( (int)(KinectSize.WIDTH / PIXEL_SIZE), (int)(KinectSize.WIDTH / PIXEL_SIZE), 640, 480 );
+	}
+	
 	public void setupMeshForTexture( int cols, int rows, int width, int height ) {
 		_mesh = new WETriangleMesh();
 		int xInc = P.floor(width/cols);

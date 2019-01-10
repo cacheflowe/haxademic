@@ -18,7 +18,7 @@ extends PAppletHax {
 	}
 
 	public void setupFirstFrame() {
-		kinectDiff = new KinectRoomScanDiff();
+		kinectDiff = new KinectRoomScanDiff(p.kinectWrapper);
 	}
 	
 	public void drawApp() {

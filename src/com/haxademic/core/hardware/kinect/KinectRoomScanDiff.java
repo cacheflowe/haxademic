@@ -14,6 +14,7 @@ import processing.opengl.PShader;
 
 public class KinectRoomScanDiff {
 
+	protected IKinectWrapper kinectWrapper;
 	protected PGraphics roomScanBuffer;
 	protected PGraphics depthBuffer;
 
@@ -30,7 +31,9 @@ public class KinectRoomScanDiff {
 	protected float diffSmoothBlur = 0.75f;
 	protected float depthBufferSmoothLerp = 0.2f;
 	
-	public KinectRoomScanDiff() {
+	public KinectRoomScanDiff(IKinectWrapper kinectWrapper) {
+		this.kinectWrapper = kinectWrapper;
+		
 		roomScanBuffer = P.p.createGraphics(KinectSize.WIDTH / pixelSkip, KinectSize.HEIGHT / pixelSkip, PRenderers.P2D);
 		roomScanBuffer.noSmooth();
 
@@ -65,10 +68,8 @@ public class KinectRoomScanDiff {
 	}
 	
 	public void update() {
-		if(P.p.kinectWrapper != null) {
-			storeRoomScan();
-			drawCurrentDepthBuffer();
-		}
+		storeRoomScan();
+		drawCurrentDepthBuffer();
 		processDepthDifference();
 	}
 	
@@ -81,7 +82,7 @@ public class KinectRoomScanDiff {
 			roomScanBuffer.blendMode(PBlendModes.LIGHTEST);
 			for ( int x = 0; x < roomScanBuffer.width; x++ ) {
 				for ( int y = 0; y < roomScanBuffer.height; y++ ) {
-					int pixelDepth = P.p.kinectWrapper.getMillimetersDepthForKinectPixel( x * pixelSkip, y * pixelSkip );
+					int pixelDepth = kinectWrapper.getMillimetersDepthForKinectPixel( x * pixelSkip, y * pixelSkip );
 					if( pixelDepth != 0 && pixelDepth > kinectNear && pixelDepth < kinectFar ) {
 						float depthToGray = P.map(pixelDepth, kinectNear, kinectFar, 255, 0);
 						roomScanBuffer.fill(P.constrain(depthToGray, 0, 255));
@@ -103,7 +104,7 @@ public class KinectRoomScanDiff {
 		int numPixelsProcessed = 0;
 		for ( int x = 0; x < depthBuffer.width; x++ ) {
 			for ( int y = 0; y < depthBuffer.height; y++ ) {
-				int pixelDepth = P.p.kinectWrapper.getMillimetersDepthForKinectPixel( x * pixelSkip, y * pixelSkip );
+				int pixelDepth = kinectWrapper.getMillimetersDepthForKinectPixel( x * pixelSkip, y * pixelSkip );
 				if( pixelDepth != 0 && pixelDepth > kinectNear && pixelDepth < kinectFar ) {
 					float depthToGray = P.map(pixelDepth, kinectNear, kinectFar, 255, 0);
 					depthBuffer.fill(P.constrain(depthToGray, 0, 255));

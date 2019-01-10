@@ -2,12 +2,9 @@ package com.haxademic.core.hardware.kinect;
 
 import com.haxademic.core.app.P;
 
-import processing.core.PGraphics;
-
 public class KinectUserDetection {
 
 	protected KinectRegionGrid kinectRegionGrid;
-	protected PGraphics webcamBufferProcessed;
 
 	public KinectUserDetection(int cols, int rows) {
 		// build detection grid

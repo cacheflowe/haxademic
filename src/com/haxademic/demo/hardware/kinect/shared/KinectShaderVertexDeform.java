@@ -5,6 +5,10 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.context.OpenGLUtil;
+import com.haxademic.core.draw.image.PerlinTexture;
+import com.haxademic.core.draw.shapes.Shapes;
+import com.haxademic.core.draw.shapes.pshader.MeshDeformAndTextureFilter;
+import com.haxademic.core.file.DemoAssets;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.kinect.KinectSize;
 
@@ -19,9 +23,7 @@ extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 
-	PImage texture;
 	PShape obj;
-	float angle;
 	PShader texShader;
 	float _frames = 240;
 
@@ -33,17 +35,16 @@ extends PAppletHax {
 	
 	protected ControlP5 _cp5;
 	
+	protected PGraphics texDisplace;
 	protected PGraphics tex;
 
 
 	protected void overridePropsFile() {
-//		p.appConfig.setProperty( AppSettings.KINECT_V2_WIN_ACTIVE, true );
-		p.appConfig.setProperty( AppSettings.KINECT_ACTIVE, true );
+		p.appConfig.setProperty( AppSettings.KINECT_V2_WIN_ACTIVE, true );
+//		p.appConfig.setProperty( AppSettings.KINECT_ACTIVE, true );
 	}
 
-	public void setup() {
-		super.setup();	
-		p.smooth( OpenGLUtil.SMOOTH_HIGH );
+	public void setupFirstFrame() {
 
 		int controlY = 0;
 		int controlSpace = 12;
@@ -55,62 +56,38 @@ extends PAppletHax {
 		_cp5.addSlider("kinectBottom").setPosition(20,controlY+=controlSpace).setWidth(100).setRange(0,2f).setValue(1.04f);
 
 		tex = p.createGraphics(KinectSize.WIDTH, KinectSize.HEIGHT);
+		texDisplace = p.createGraphics(KinectSize.WIDTH, KinectSize.HEIGHT);
+		
+		obj = Shapes.createSheet(200, tex);
 	}
 	
-	protected void setupDisplacementImg() {
-		// create geometry
-		// obj = createSheet(250, p.kinectWrapper.getDepthImage());
-		obj = createSheet(200, tex);
-		
-		// load shader
-		texShader = loadShader(
-				FileUtil.getFile("haxademic/shaders/vertex/kinect-displace-frag-texture.glsl"), 
-				FileUtil.getFile("haxademic/shaders/vertex/kinect-displace-sheet-vert.glsl")
-				);
-		
-		texShader.set("displacementMap", p.kinectWrapper.getDepthImage());
-		texShader.set("displaceStrength", 500.0f);
-	}
-
 	public void drawApp() {
-		if(p.frameCount == 1) setupDisplacementImg();
 		background(0);
+		DrawUtil.setCenterScreen(p.g);
+		if(p.key != ' ') DrawUtil.basicCameraFromMouse(p.g);
 		
-		p.pushMatrix();
-
-		// rendering
-		float percentComplete = ((float)(p.frameCount%_frames)/_frames);
-		angle = P.TWO_PI * percentComplete;
-		
-		// read audio data into offscreen texture
-//		OpenGLUtil.setWireframe(p.g, false);
-//		OpenGLUtil.setWireframe(p.g, true);
-		
-		// set center screen & rotate
-		translate(width/2, height/2, -300);
-//		rotateY(P.PI);
-//		rotateY(p.mouseX / 100f);
-		DrawUtil.basicCameraFromMouse(p.g);
-//		rotateY(0.3f * P.sin(percentComplete * P.TWO_PI));
-
-		
-		// obj.texture(p.kinectWrapper.getDepthImage());
+		// update mapped texture
 		tex.beginDraw();
 		tex.image(p.kinectWrapper.getRgbImage(), tex.width * kinectLeft, tex.height * kinectTop, tex.width * kinectRight, tex.height * kinectBottom);
 		tex.endDraw();
-//		tex.filter(P.INVERT);
-//		EdgesFilter.instance(p).applyTo(tex);
+				
+		texDisplace.beginDraw();
+//		texDisplace.image(p.kinectWrapper.getDepthImage(), texDisplace.width * kinectLeft, texDisplace.height * kinectTop, texDisplace.width * kinectRight, texDisplace.height * kinectBottom);
+		texDisplace.image(p.kinectWrapper.getDepthImage(), 0, 0, texDisplace.width, texDisplace.height);
+		texDisplace.endDraw();
 		
-		// obj = createSheet(100, tex);		
-		obj.texture(tex);
-		
-		// set shader properties & set on processing context
-		texShader.set("displacementMap", p.kinectWrapper.getDepthImage());
-		p.shader(texShader);  
+		// deform mesh
+		MeshDeformAndTextureFilter.instance(p).setDisplacementMap(texDisplace);
+		MeshDeformAndTextureFilter.instance(p).setDisplaceAmp(-100f);
+		MeshDeformAndTextureFilter.instance(p).setSheetMode(true);
+		MeshDeformAndTextureFilter.instance(p).applyTo(p);
+		// set texture using PShape method
+
+		// draw mesh
+//		p.scale(4f);
+		obj.setTexture(tex);
 		p.shape(obj);
 		p.resetShader();
-		
-		p.popMatrix();
 	}
 
 

@@ -112,7 +112,7 @@ extends PAppletHax {
 		keystone = new PGraphicsKeystone(p, mainBuffer, 10, FileUtil.getFile("text/keystoning/partycles.txt"));
 		
 		// camera/kinect
-		kinectSilhouetteSmoothed = new KinectDepthSilhouetteSmoothed(6);
+		kinectSilhouetteSmoothed = new KinectDepthSilhouetteSmoothed(p.kinectWrapper, 6);
 		KinectDepthSilhouetteSmoothed.KINECT_FAR = 2000;
 		activityMonitor = new BufferActivityMonitor(32, 16, 10);
 

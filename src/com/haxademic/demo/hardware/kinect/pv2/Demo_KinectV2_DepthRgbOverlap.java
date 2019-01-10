@@ -31,7 +31,7 @@ extends PAppletHax {
 	
 	public void setupFirstFrame() {
 		p.prefsSliders.addSlider("STRETCH_DEPTH_X", 1f, 1f, 3f, 0.01f);
-		kinectSilhouetteSmoothed = new KinectDepthSilhouetteSmoothed(5);
+		kinectSilhouetteSmoothed = new KinectDepthSilhouetteSmoothed(p.kinectWrapper, 5);
 	}
 
 	public void drawApp() {

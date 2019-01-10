@@ -10,23 +10,23 @@ extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	protected KinectDepthSilhouetteSmoothed kinectSilhouetteSmoothed;
+
+	protected void overridePropsFile() {
+		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, false );
+		p.appConfig.setProperty( AppSettings.KINECT_V2_WIN_ACTIVE, true );
+//		p.appConfig.setProperty( AppSettings.KINECT_ACTIVE, true );
+		p.appConfig.setProperty( AppSettings.WIDTH, 640 );
+		p.appConfig.setProperty( AppSettings.HEIGHT, 480 );
+	}
+	
 	
 	public void setupFirstFrame() {
-		kinectSilhouetteSmoothed = new KinectDepthSilhouetteSmoothed(5);
+		kinectSilhouetteSmoothed = new KinectDepthSilhouetteSmoothed(p.kinectWrapper, 5);
 		
 		p.debugView.setTexture(kinectSilhouetteSmoothed.depthBuffer());
 		p.debugView.setTexture(kinectSilhouetteSmoothed.avgBuffer());
 		p.debugView.setTexture(kinectSilhouetteSmoothed.image());
 	}
-
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, false );
-//		p.appConfig.setProperty( AppSettings.KINECT_V2_WIN_ACTIVE, true );
-		p.appConfig.setProperty( AppSettings.KINECT_ACTIVE, true );
-		p.appConfig.setProperty( AppSettings.WIDTH, 640 );
-		p.appConfig.setProperty( AppSettings.HEIGHT, 480 );
-	}
-	
 	public void drawApp() {
 		p.background(0);
 		kinectSilhouetteSmoothed.update();

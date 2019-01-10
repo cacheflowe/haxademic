@@ -42,11 +42,9 @@ extends PAppletHax {
 		
 		// kinect v1
 		p.debugView.setTexture(kinectWrapperV1.getRgbImage());
-		// p.debugView.setTexture(kinectWrapperV1.getIRImage());
 		p.debugView.setTexture(kinectWrapperV1.getDepthImage());
 		
 		p.image(kinectWrapperV1.getDepthImage(), 0, 0, imgWidth, kinectWrapperV1.getDepthImage().height * MathUtil.scaleToTarget(kinectWrapperV1.getDepthImage().width, imgWidth));
-		// p.image(kinectWrapperV1.getIRImage(), imgWidth, 0, imgWidth, kinectWrapperV1.getIRImage().height * MathUtil.scaleToTarget(kinectWrapperV1.getIRImage().width, imgWidth));
 		p.image(kinectWrapperV1.getRgbImage(), imgWidth * 2f, 0, imgWidth, kinectWrapperV1.getRgbImage().height * MathUtil.scaleToTarget(kinectWrapperV1.getRgbImage().width, imgWidth));
 		
 		// kinect v2
