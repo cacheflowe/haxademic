@@ -19,6 +19,7 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.WIDTH, 1200 );
 		p.appConfig.setProperty( AppSettings.HEIGHT, 900 );
 		p.appConfig.setProperty( AppSettings.SHOW_DEBUG, true );
+//		p.appConfig.setProperty(AppSettings.WEBCAM_INDEX, 12 );
 	}
 
 	public void setupFirstFrame() {
@@ -34,6 +35,8 @@ extends PAppletHax {
 	public void drawApp() {
 		p.background(0);
 		
+//		p.image(p.webCamWrapper.getImage(), 0, 0);
+		
 		float imgWidth = 400;
 		
 		// update kinects
@@ -43,7 +46,7 @@ extends PAppletHax {
 		// kinect v1
 		p.debugView.setTexture(kinectWrapperV1.getRgbImage());
 		p.debugView.setTexture(kinectWrapperV1.getDepthImage());
-		
+//		
 		p.image(kinectWrapperV1.getDepthImage(), 0, 0, imgWidth, kinectWrapperV1.getDepthImage().height * MathUtil.scaleToTarget(kinectWrapperV1.getDepthImage().width, imgWidth));
 		p.image(kinectWrapperV1.getRgbImage(), imgWidth * 2f, 0, imgWidth, kinectWrapperV1.getRgbImage().height * MathUtil.scaleToTarget(kinectWrapperV1.getRgbImage().width, imgWidth));
 		
