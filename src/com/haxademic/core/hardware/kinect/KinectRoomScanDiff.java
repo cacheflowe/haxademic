@@ -32,9 +32,12 @@ public class KinectRoomScanDiff {
 	
 	public KinectRoomScanDiff() {
 		roomScanBuffer = P.p.createGraphics(KinectSize.WIDTH / pixelSkip, KinectSize.HEIGHT / pixelSkip, PRenderers.P2D);
+		roomScanBuffer.noSmooth();
 
 		depthBuffer = P.p.createGraphics(roomScanBuffer.width, roomScanBuffer.height, PRenderers.P2D);
 		depthDifference = P.p.createGraphics(roomScanBuffer.width, roomScanBuffer.height, PRenderers.P2D);
+		depthBuffer.noSmooth();
+		depthDifference.noSmooth();
 		
 		colorDistanceFilter = P.p.loadShader(FileUtil.getFile("haxademic/shaders/filters/color-distance-two-textures.glsl"));
 		
@@ -62,8 +65,10 @@ public class KinectRoomScanDiff {
 	}
 	
 	public void update() {
-		storeRoomScan();
-		drawCurrentDepthBuffer();
+		if(P.p.kinectWrapper != null) {
+			storeRoomScan();
+			drawCurrentDepthBuffer();
+		}
 		processDepthDifference();
 	}
 	

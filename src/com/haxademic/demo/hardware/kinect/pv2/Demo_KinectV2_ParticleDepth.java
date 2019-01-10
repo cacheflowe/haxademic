@@ -117,7 +117,7 @@ extends PAppletHax {
 		  pgl.enableVertexAttribArray(vertLoc);
 
 		  //data size times 3 for each XYZ coordinate
-		  int vertData = kinect.WIDTHDepth * kinect.HEIGHTDepth * 3;
+		  int vertData = KinectPV2.WIDTHDepth * KinectPV2.HEIGHTDepth * 3;
 
 		  //bind vertex positions to the VBO
 		  {
