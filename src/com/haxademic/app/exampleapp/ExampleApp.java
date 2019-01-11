@@ -96,8 +96,12 @@ implements IAppStoreListener {
 		// draw buffer
 		ImageUtil.cropFillCopyImage(pg, p.g, false);
 		
+		
+		// post draw 
+		P.store.setNumber(App.ANIMATION_FRAME_POST, p.frameCount);
+
 		// debug
-		p.debugView.setValue("APP_STATE", P.store.getInt(App.APP_STATE));
+		P.store.showStoreValuesInDebugView();
 	}
 	
 	/////////////////////////////////
@@ -143,6 +147,7 @@ implements IAppStoreListener {
 		
 		public static final String ANIMATION_FRAME_PRE = "ANIMATION_FRAME_PRE";
 		public static final String ANIMATION_FRAME = "ANIMATION_FRAME";
+		public static final String ANIMATION_FRAME_POST = "ANIMATION_FRAME_POST";
 
 	}
 

@@ -60,7 +60,7 @@ static
   }
 ```
 
-#### Iterate over a HashMap 
+#### Iterate over a HashMap
 
 ```
 HashMap<Rectangle, PGraphics> screenBuffers = new HashMap<Rectangle, PGraphics>();
@@ -73,12 +73,21 @@ for (HashMap.Entry<Rectangle, PGraphics> entry : screenBuffers.entrySet()) {
 }
 ```
 
-or 
+or
 
 ```
 for (Iterator<Entry<Rectangle, PGraphics>> iterator = screenSources.entrySet().iterator(); iterator.hasNext();) {
 	HashMap.Entry<Rectangle, PGraphics> entry = iterator.next();
 }
+```
+
+#### Build an array of HashMap keys
+
+```
+Set<String> keys = hashMap.keySet();
+keysArray = new String[keys.size()];
+int index = 0;
+for(String element : keys) keysArray[index++] = element;
 ```
 
 #### Pick a random enum
@@ -104,8 +113,8 @@ drawMode = randomDrawMode();
 
 #### Play a 4k video (or just play videos faster)
 
-* Use ffmpeg to compress your videos. 
-* Encoding at 24fps vs 30fps gains some performance headroom. 
+* Use ffmpeg to compress your videos.
+* Encoding at 24fps vs 30fps gains some performance headroom.
 	* 60fps video doesn't seem likely to play back very well (I noticed dropped frames & chunky visual playback)
 * I tested a bunch of different codecs, and by far the most performant was `mjpeg`
 	* `ffmpeg -i input.mov -vcodec mjpeg -pix_fmt yuvj420p -q:v 2 -huffman optimal -vtag MJPG -an output.mov`
@@ -117,7 +126,7 @@ drawMode = randomDrawMode();
 	* https://blog.angelcam.com/what-is-the-difference-between-mjpeg-and-h-264/
 * Upgrade the Processing video library to this beta version for far better performance and more supported codecs
 	* https://github.com/processing/processing-video/releases/tag/r3-v2.0-beta1
-	* It seems like using `jna.jar` from the current-release video library is helpful for stability... 
+	* It seems like using `jna.jar` from the current-release video library is helpful for stability...
 * I also heard that uncompressed video could perform better because compressed codec decoding is slow. ProRes videos performed terribly, even with several different encoding methods.
 
 #### Errors
