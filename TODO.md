@@ -2,6 +2,8 @@
 
 * Art projects
   * New video loops should have a soundtrack. use my tunes? look in sketch/render/avloops
+  * Kinect history textures in 3d
+  	* Kinect history point mesh history
   * Convert all webcam VFX apps (and old video filters) to BaseVideoFilter subclasses
   * Moire sphere/shader for MW prototying
   * Voice-activated color room: What Say Hue?

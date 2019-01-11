@@ -100,7 +100,33 @@ While the code has been open-sourced, I don't plan on making it easy/viable for 
 
 `com.haxademic.core.draw.image`
 
-... coming soon
+* __[AnimatedGifEncoder](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/draw/image/AnimatedGifEncoder.java)__ - Renders a gif file directly out of a Processing app. I've mostly abandoned this in favor of rendering a video, then using conversion tools like ffmpeg to more precisely convert to gif.
+
+* __[Base64Image](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/draw/image/Base64Image.java)__ - Encodes and decodes between a PImage and a base64-encoded string.
+
+* __[BufferActivityMonitor](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/draw/image/BufferActivityMonitor.java)__ - Gives us an "activity" rating of a moving image, like a webcam, video, or other PGraphics instance that animates. Useful for motion detection.
+
+* __[BufferColorObjectDetection](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/draw/image/BufferColorObjectDetection.java)__ - Finds the center of mass of a specific color (within a threshold) on an image. Useful for object tracking in controlled situations.
+
+* __[BufferMotionDetectionMap](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/draw/image/BufferMotionDetectionMap.java)__ - Uses shaders for fast frame-diffing to detect motion between video/camera frames. Includes helpers to find random motion points in the motion map result.
+
+* __[BufferThresholdMonitor](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/draw/image/BufferThresholdMonitor.java)__ - Copies an image to a low-res buffer, runs a threshold filter, and counts white vs black pixels. Useful as a step in certain CV processes.
+
+* __[ImageCyclerBuffer](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/draw/image/ImageCyclerBuffer.java)__ - Uses GLSL transitions to create a slideshow from an array of PImages.
+
+* __[ImageSequenceMovieClip](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/draw/image/ImageSequenceMovieClip.java)__ - Loads and plays back an image sequence like a Movie object does for video files.
+
+* __[ImageSequenceRecorder](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/draw/image/ImageSequenceRecorder.java)__ - Builds an array of PGraphics objects to record recent video frames and play them back for time distortion effects or short video compiling.
+
+* __[ImageUtil](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/draw/image/ImageUtil.java)__ - Lots of tools for dealing with images and drawing them to screen.
+
+* __[MovieToImageSequence](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/draw/image/MovieToImageSequence.java)__ - Loads frames from a video into an array of PImages in realtime. Useful for fancier & faster playback/scrubbing through video frames without relying on Movie decoding once the frames are extracted.
+
+* __[SimplexNoiseTexture](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/draw/image/SimplexNoiseTexture.java)__ - Fast simplex noise.
+
+* __[TickerScroller](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/draw/image/TickerScroller.java)__ - Repeats a texture across a PGraphics and scrolls.
+
+* __[TiledTexture](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/draw/image/TiledTexture.java)__ - A drawing helper that takes advantage of OpenGL's texture repeat function and lets us draw a rectangle with a texture fill. Includes zoom & rotation controls for fancy texture & pattern tiling.
 
 `com.haxademic.core.draw.mapping`
 
