@@ -14,6 +14,10 @@ public class InputTrigger {
 	protected Integer[] midiCC = new Integer[] {};
 	protected float curValue = 0;
 	
+	public InputTrigger() {
+		this( null, null, null );
+	}
+	
 	public InputTrigger( char[] charList ) {
 		this( charList, null, null );
 	}
@@ -42,10 +46,40 @@ public class InputTrigger {
 		if(webControls != null) this.webControls = webControls;
 	}
 	
+	// chainable setters
+	
+	public InputTrigger addKeyCodes(char[] charList) {
+		keyCodes = new Integer[charList.length];
+		for (int i = 0; i < charList.length; i++) keyCodes[i] = Keyboard.keyCodeFromChar(charList[i]);
+		return this;
+	}
+	
+	public InputTrigger addMidiNotes(Integer[] midiNotes) {
+		this.midiNotes = midiNotes; 
+		return this;
+	}
+	
+	public InputTrigger addMidiCCNotes(Integer[] midiCCNotes) {
+		this.midiCC = midiCCNotes; 
+		return this;
+	}
+	
+	public InputTrigger addOscMessages(String[] oscMessages) {
+		this.oscMessages = oscMessages; 
+		return this;
+	}
+	
 	public InputTrigger addGamepadControls(String[] gamepadControls) {
 		this.gamepadControls = gamepadControls; 
 		return this;
 	}
+	
+	public InputTrigger addWebControls(String[] webControls) {
+		this.webControls = webControls; 
+		return this;
+	}
+	
+	// getters
 	
 	public float value() {
 		return curValue;
