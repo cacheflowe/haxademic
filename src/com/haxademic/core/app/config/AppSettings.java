@@ -64,6 +64,7 @@ public class AppSettings {
 	public static final String INIT_ESS_AUDIO = "init_ess_audio";
 	public static final String INIT_MINIM_AUDIO = "init_minim_audio";
 	public static final String INIT_BEADS_AUDIO = "init_beads_audio";
+	public static final String GAMEPADS_ACTIVE = "GAMEPADS_ACTIVE";
 	// Output
 	public static final String DMX_LIGHTS_COUNT = "dmx_lights_count";
 	// Debugging

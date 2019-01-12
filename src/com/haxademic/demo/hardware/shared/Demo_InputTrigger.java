@@ -15,19 +15,20 @@ extends PAppletHax {
 	
 	protected WebServer server;
 	
-	protected InputTrigger trigger = new InputTrigger(
+	protected InputTrigger trigger = (new InputTrigger(
 			new char[]{'c', 'v'},
 			new String[]{"/toggleC_2", "/1/faderC"},
 			new Integer[]{LaunchControl.PAD_01, LaunchControl.PAD_03},
 			null,
 			new String[]{"slider1", "slider2"}
-	);
+	)).addGamepadControls(new String[]{"Button 2"});
 	
 	protected int triggerKey = Keyboard.keyCodeFromChar('c');
 	
 	protected void overridePropsFile() {
 		p.appConfig.setProperty(AppSettings.MIDI_DEVICE_IN_INDEX, 0 );
 		p.appConfig.setProperty(AppSettings.OSC_ACTIVE, true );
+		p.appConfig.setProperty(AppSettings.GAMEPADS_ACTIVE, true );
 	}
 	
 	
@@ -52,6 +53,7 @@ extends PAppletHax {
 		p.midiState.printCC();
 		p.oscState.printButtons();
 		p.browserInputState.printButtons();
+		p.gamepadState.printControls();
 	}
 	
 }

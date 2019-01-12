@@ -9,6 +9,7 @@ import processing.event.KeyEvent;
 
 public class KeyboardState {
 
+
 	protected HashMap<Integer, InputState> keyboardButtons = new HashMap<Integer, InputState>();
 	protected int lastUpdatedFrame = 0;
 
@@ -77,5 +78,5 @@ public class KeyboardState {
 		}
 		P.p.text(debugStr, 20, 20, P.p.width - 40, P.p.height - 40);
 	}
-	
+		
 }

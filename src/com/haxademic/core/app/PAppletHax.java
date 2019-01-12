@@ -23,6 +23,8 @@ import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.image.MovieBuffer;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.browser.BrowserInputState;
+import com.haxademic.core.hardware.gamepad.GamepadListener;
+import com.haxademic.core.hardware.gamepad.GamepadState;
 import com.haxademic.core.hardware.keyboard.KeyboardState;
 import com.haxademic.core.hardware.kinect.IKinectWrapper;
 import com.haxademic.core.hardware.kinect.KinectWrapperV1;
@@ -100,6 +102,8 @@ extends PApplet
 	public MidiBus midiBus;
 	public KeyboardState keyboardState;
 	public IKinectWrapper kinectWrapper = null;
+	public GamepadState gamepadState;
+	public GamepadListener gamepadListener;
 	public LeapMotion leapMotion = null;
 	public OscWrapper oscState = null;
 	public BrowserInputState browserInputState = null;
@@ -267,6 +271,8 @@ extends PApplet
 		midiState = new MidiDevice();
 		keyboardState = new KeyboardState();
 		browserInputState = new BrowserInputState();
+		gamepadState = new GamepadState();
+		if( p.appConfig.getBoolean( AppSettings.GAMEPADS_ACTIVE, false ) == true ) gamepadListener = new GamepadListener();
 		if( p.appConfig.getBoolean( "leap_active", false ) == true ) leapMotion = new LeapMotion(this);
 		if( p.appConfig.getBoolean( AppSettings.OSC_ACTIVE, false ) == true ) oscState = new OscWrapper();
 		joons = ( p.appConfig.getBoolean(AppSettings.SUNFLOW, false ) == true ) ?
@@ -380,6 +386,7 @@ extends PApplet
 		p.popMatrix();
 		renderFrame();
 		keyboardState.update();
+		gamepadState.update();
 		browserInputState.update();
 		autoHideMouse();
 		if(oscState != null) oscState.update();

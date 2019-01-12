@@ -9,6 +9,7 @@ public class InputTrigger {
 	protected Integer[] keyCodes = new Integer[] {};
 	protected String[] oscMessages = new String[] {};
 	protected String[] webControls = new String[] {};
+	protected String[] gamepadControls = new String[] {};
 	protected Integer[] midiNotes = new Integer[] {};
 	protected Integer[] midiCC = new Integer[] {};
 	protected float curValue = 0;
@@ -41,6 +42,11 @@ public class InputTrigger {
 		if(webControls != null) this.webControls = webControls;
 	}
 	
+	public InputTrigger addGamepadControls(String[] gamepadControls) {
+		this.gamepadControls = gamepadControls; 
+		return this;
+	}
+	
 	public float value() {
 		return curValue;
 	}
@@ -70,6 +76,18 @@ public class InputTrigger {
 				return true;
 			}
 		}
+		for( int i=0; i < gamepadControls.length; i++ ) {
+			if( P.p.gamepadState.isValueTriggered(gamepadControls[i])) {
+				curValue = P.p.gamepadState.getValue(gamepadControls[i]);
+				return true;
+			}
+		}
+		for( int i=0; i < midiCC.length; i++ ) {
+			if( P.p.midiState.isMidiCCTriggered(midiCC[i])) {
+				curValue = P.p.midiState.midiCCPercent(0, midiCC[i]);
+				return true;
+			}
+		}
 		for( int i=0; i < midiCC.length; i++ ) {
 			if( P.p.midiState.isMidiCCTriggered(midiCC[i])) {
 				curValue = P.p.midiState.midiCCPercent(0, midiCC[i]);
@@ -93,6 +111,16 @@ public class InputTrigger {
 		if(midiNotes != null) {
 			for( int i=0; i < midiNotes.length; i++ ) {
 				if( P.p.midiState.isMidiButtonOn(midiNotes[i])) return true;
+			}
+		}
+		if(webControls != null) {
+			for( int i=0; i < webControls.length; i++ ) {
+				if( P.p.browserInputState.isValueOn(webControls[i])) return true;
+			}
+		}
+		if(gamepadControls != null) {
+			for( int i=0; i < gamepadControls.length; i++ ) {
+				if( P.p.gamepadState.isValueOn(gamepadControls[i])) return true;
 			}
 		}
 		return false;
