@@ -10,6 +10,8 @@ While the code has been open-sourced, I don't plan on making it easy/viable for 
 
 ## Notable code
 
+Below you'll find a long list of classes and utilities that I've built to make my life easier. I've tried to make as many basic [demos](https://github.com/cacheflowe/haxademic/tree/master/src/com/haxademic/demo) as possible for all of these features. The `demo` package mostly mirrors the `core` directory and should give you an idea of how to implement these object on your own.
+
 ### App
 
 `com.haxademic.core.app`
