@@ -134,12 +134,12 @@ extends PAppletHax {
 		}
 		
 		// load audio texture
-		audioTextures = new BaseTexture[] {
-			new TextureOuterCube(mainBuffer.width/4, mainBuffer.height/4),
-			new TextureOuterSphere(mainBuffer.width/4, mainBuffer.height/4),
-			new TextureEQConcentricCircles(mainBuffer.width/4, mainBuffer.height/4),
-			new TextureLinesEQ(mainBuffer.width/4, mainBuffer.height/4),
-		};
+//		audioTextures = new BaseTexture[] {
+//			new TextureOuterCube(mainBuffer.width/4, mainBuffer.height/4),
+//			new TextureOuterSphere(mainBuffer.width/4, mainBuffer.height/4),
+//			new TextureEQConcentricCircles(mainBuffer.width/4, mainBuffer.height/4),
+//			new TextureLinesEQ(mainBuffer.width/4, mainBuffer.height/4),
+//		};
 		
 		// init help menu
 		p.debugView.setHelpLine("Key Commands:", "");
