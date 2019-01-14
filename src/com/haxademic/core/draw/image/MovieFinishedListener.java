@@ -8,23 +8,29 @@ public class MovieFinishedListener {
 
 	protected Movie movie;
 	protected IMovieFinishedDelegate delegate;
-	protected boolean connected = true;
+	protected boolean connected = false;
 	
 	public MovieFinishedListener(Movie movie, IMovieFinishedDelegate delegate) {
 		this.movie = movie;
-		this.movie.playbin.connect(FINISHING);
 		this.delegate = delegate;
+		connect();
+	}
+	
+	public void setMovie(Movie newMovie) {
+		disconnect();
+		movie = newMovie;
+		connect();
 	}
 	
 	public void connect() {
 		if(connected) return;
-		movie.playbin.connect(FINISHING);
+		movie.playbin.connect(FinishCallback);
 		connected = true;
 	}
 	
 	public void disconnect() {
 		if(!connected) return;
-		movie.playbin.disconnect(FINISHING);
+		movie.playbin.disconnect(FinishCallback);
 		connected = false;
 	}
 	
@@ -35,7 +41,7 @@ public class MovieFinishedListener {
 	
 	// GSTREAMER CALLBACK
 	
-	protected PlayBin2.ABOUT_TO_FINISH FINISHING = new PlayBin2.ABOUT_TO_FINISH() {
+	protected PlayBin2.ABOUT_TO_FINISH FinishCallback = new PlayBin2.ABOUT_TO_FINISH() {
 		@Override
 		public void aboutToFinish(PlayBin2 playbin) {
 			delegate.videoFinished(movie);
