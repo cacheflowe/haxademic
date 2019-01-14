@@ -38,6 +38,7 @@ extends PAppletHax {
 		_curFrame = p.createImage(width, height, P.ARGB);
 //		movie = new Movie(this, "/Users/cacheflowe/Documents/workspace/haxademic/assets/media/video/Janet Jackson - Control - trimmed.mov");
 		movie = DemoAssets.movieFractalCube();
+		movie.loop();
 		curBase = (int) (movie.duration() * (float) Math.random());
 
 		_triPixelFilter = new PixelTriFilter( _curFrame.width, _curFrame.height, 10 );
@@ -69,24 +70,24 @@ extends PAppletHax {
 
 
 		// Filters!!
-		BufferedImage buff = ImageUtil.pImageToBuffered( _curFrame );
+//		BufferedImage buff = ImageUtil.pImageToBuffered( _curFrame );
 
-		ContrastFilter filt = new ContrastFilter();
-		filt.setBrightness(1.2f);
-		filt.setContrast(1.5f);
-		filt.filter(buff, buff);
-
-		HSBAdjustFilter hsb = new HSBAdjustFilter();
-		hsb.setHFactor(P.sin(p.frameCount/400f));
-		hsb.setSFactor(0.2f);
-		hsb.setBFactor(0.0f);
+//		ContrastFilter filt = new ContrastFilter();
+//		filt.setBrightness(1.2f);
+//		filt.setContrast(1.5f);
+//		filt.filter(buff, buff);
+//
+//		HSBAdjustFilter hsb = new HSBAdjustFilter();
+//		hsb.setHFactor(P.sin(p.frameCount/400f));
+//		hsb.setSFactor(0.2f);
+//		hsb.setBFactor(0.0f);
 //		hsb.filter(buff, buff);
 
-		_curFrame = ImageUtil.bufferedToPImage( buff );
+//		_curFrame = ImageUtil.bufferedToPImage( buff );
 
 
 		// draw filtered image
-//		if( _curMov != null ) image( _triPixelFilter.updateWithPImage( _histogramFilter.updateWithPImage( _curFrame ) ), 0, 0, width, height);
+		if( _curMov != null ) image( _curFrame , 0, 0, width, height);
 
 	}
 	
