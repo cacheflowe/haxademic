@@ -49,9 +49,9 @@ public class WebCamWrapper {
 				String widthStr = sizeStr.split("x")[0];
 				int width = ConvertUtil.stringToInt(widthStr);
 				// ditch cameras that are very not-awesome
-				if(fps > 20 && width > 600) {
+				// if(fps > 20 && width > 600) {
 					P.println("["+i+"] " + cameras[i]);
-				}
+				// }
 			}
 			P.println("Selected camera:", cameras[cameraIndex]);
 			webCam = new Capture( P.p, cameras[cameraIndex] );

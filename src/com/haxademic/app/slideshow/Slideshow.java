@@ -37,8 +37,9 @@ extends PAppletHax
 	protected PGraphicsKeystone pgKeystone;
 	protected int backgroundColor = ColorUtil.colorFromHex("#000000");
 	public static String fontFile = "haxademic/fonts/Raleway-Regular.ttf";
-	public static String slidesDir = FileUtil.getFile("images/_sketch/aiga-slides");
+//	public static String slidesDir = FileUtil.getFile("images/_sketch/aiga-slides");
 //	public static String slidesDir = "/Users/cacheflowe/Documents/workspace/presentations/aiga-freelance";
+	public static String slidesDir = "D:\\workspace\\presentations\\_ctd-class-01";
 	protected int BUFFER_W = 2688;
 	protected int BUFFER_H = 896;
 	
@@ -76,6 +77,7 @@ extends PAppletHax
 		p.appConfig.setProperty( AppSettings.RETINA, false );
 		p.appConfig.setProperty( AppSettings.AUDIO_DEBUG, true );
 		p.appConfig.setProperty( AppSettings.FULLSCREEN, true );
+		p.appConfig.setProperty( AppSettings.ALWAYS_ON_TOP, false );
 //		p.appConfig.setProperty( AppSettings.SCREEN_X, 1920 );
 //		p.appConfig.setProperty( AppSettings.FULLSCREEN_SCREEN_NUMBER, 2);
 		p.appConfig.setProperty( AppSettings.FILLS_SCREEN, true );

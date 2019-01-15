@@ -6,8 +6,6 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.constants.AppSettings;
 import com.haxademic.core.draw.context.DrawUtil;
-import com.haxademic.core.draw.image.ImageUtil;
-import com.haxademic.core.file.DemoAssets;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.EasingFloat;
 
@@ -42,6 +40,7 @@ extends PAppletHax {
 		// draw particles
 		DrawUtil.setDrawCenter(p);
 		p.fill(255);
+		p.noStroke();
 		for (int i = 0; i < partis.size(); i++) {
 			partis.get(i).update();
 		}
@@ -50,8 +49,8 @@ extends PAppletHax {
 	public class Parti {
 		
 		public PVector pos = new PVector();
-		public EasingFloat rads = new EasingFloat(0, MathUtil.randRangeDecimal(4f, 30f));
-		public float speed = MathUtil.randRangeDecimal(3f, 14f);
+		public EasingFloat rads = new EasingFloat(0, MathUtil.randRangeDecimal(4f, 10f));
+		public float speed = MathUtil.randRangeDecimal(2f, 5f);
 		
 		public Parti() {
 			rads.setCurrent(MathUtil.randRangeDecimal(0, P.TWO_PI));
