@@ -19,24 +19,42 @@ public class TickerScroller {
 	float scrolledImageH;
 	
 	public TickerScroller(PImage img, int bgColor, int w, int h, float speed) {
-		this.scrolledImage = img;
 		this.bgColor = bgColor;
 		this.scrollSpeed = speed;
-		tickerBuffer = P.p.createGraphics(w, h, P.P3D);
+		tickerBuffer = P.p.createGraphics(w, h, P.P2D);
 		tickerBuffer.smooth(8);
-		// calculate scaled image size 
-		imgScale = MathUtil.scaleToTarget(scrolledImage.height, tickerBuffer.height);
-		scrolledImageW = (float) scrolledImage.width * imgScale;
-		scrolledImageH = (float) scrolledImage.height * imgScale;
+		image(img);
+	}
+
+	// getters
+	
+	public PGraphics buffer() {
+		return tickerBuffer;
 	}
 	
 	public PImage image() {
 		return tickerBuffer;
 	}
 	
+	// setters
+	
 	public void speed(float speed) {
 		scrollSpeed = speed;
 	}
+	
+	public void bgColor(int bgColor) {
+		this.bgColor = bgColor;
+	}
+	
+	public void image(PImage img) {
+		this.scrolledImage = img;
+		// calculate scaled image size 
+		imgScale = MathUtil.scaleToTarget(scrolledImage.height, tickerBuffer.height);
+		scrolledImageW = (float) scrolledImage.width * imgScale;
+		scrolledImageH = (float) scrolledImage.height * imgScale;
+	}
+	
+	// draw
 	
 	public void update() {
 		// draw scrolling graphics
