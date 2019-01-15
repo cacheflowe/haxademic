@@ -1,10 +1,9 @@
 package com.haxademic.demo.draw.image;
 
+import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
-import com.haxademic.core.draw.filters.pshader.BrightnessFilter;
-import com.haxademic.core.draw.filters.pshader.VignetteFilter;
+import com.haxademic.core.draw.filters.pshader.BlurHFilter;
 import com.haxademic.core.draw.image.TickerScroller;
 import com.haxademic.core.file.DemoAssets;
 
@@ -23,26 +22,25 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, 311 );
 	}
 
-	public void setup() {
-		super.setup();
-		ticker = new TickerScroller(DemoAssets.squareTexture(), p.color(255), 640, 182, 4.f);
+	public void setupFirstFrame() {
+		ticker = new TickerScroller(DemoAssets.squareTexture(), p.color(255), p.width, p.height, 4.f);
 	}
 	
 	public void drawApp() {
 		p.background(255);
 		p.noStroke();
 		
-		// draw buffer to screen
-		DrawUtil.setDrawCenter(p);
-		p.translate(p.width/2, p.height/2);
-//		p.rotate(0.1f);
+		// update ticker
+		float speed = P.map(p.mousePercentX(), 0, 1, 30f, -30f);
+		ticker.speed(speed);
 		ticker.update();
-		p.image(ticker.image(), 0, 0);
-		BrightnessFilter.instance(p).setBrightness(1.35f);
-		BrightnessFilter.instance(p).applyTo(p);
-		VignetteFilter.instance(p).applyTo(p);
-//		VignetteFilter.instance(p).applyTo(p);
-	}	
 
+		// draw to screen
+		p.image(ticker.image(), 0, 0);
+		
+		// post-process blur for speed effect
+		BlurHFilter.instance(p).setBlurByPercent(speed / 3f, p.width);
+		BlurHFilter.instance(p).applyTo(p);
+	}	
 }
 
