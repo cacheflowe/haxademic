@@ -1,7 +1,7 @@
 package com.haxademic.app.mirrors;
 
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.constants.AppSettings;
+import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.draw.filters.pgraphics.GPUParticlesLauncher;
 import com.haxademic.core.draw.filters.pgraphics.SmokeFeedback;
