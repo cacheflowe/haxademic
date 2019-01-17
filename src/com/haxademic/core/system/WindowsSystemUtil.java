@@ -95,7 +95,7 @@ public class WindowsSystemUtil {
 	public static ActionListener requestAppOnTop = new ActionListener() {
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			P.p.setAlwaysOnTop();
+			AppUtil.requestForeground(P.p);
 		}
 	};
 

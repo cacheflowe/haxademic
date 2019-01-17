@@ -1,7 +1,5 @@
 package com.haxademic.core.system;
 
-import java.awt.Dimension;
-import java.awt.Toolkit;
 import java.io.File;
 import java.lang.management.ManagementFactory;
 
@@ -22,18 +20,27 @@ public class AppUtil {
 	}
 	
 	public static void removeChrome(PApplet p) {
-		if(p.frame != null) {
-			p.frame.removeNotify();
-			p.frame.setUndecorated(true);
-			p.frame.addNotify();
-		}
+//		if(p.frame != null) {
+//			p.frame.removeNotify();
+//			p.frame.setUndecorated(true);
+//			p.frame.addNotify();
+//		}
 	}
 	
-	protected void setGLWindowChromeless(PApplet p) {
+	public static void setGLWindowChromeless(PApplet p) {
 		GLWindow window = (GLWindow) p.getSurface().getNative();
 		window.setUndecorated(true);
-		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-		window.setSurfaceSize((int) screenSize.getWidth() - 5, (int) screenSize.getHeight() - 28);
+//		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+//		window.setSurfaceSize((int) screenSize.getWidth() - 5, (int) screenSize.getHeight() - 28);
+	}
+	
+	public static void setLocation(PApplet p, int x, int y) {
+		p.getSurface().setLocation(x, y);
+	}
+	
+	public static void setMouseLocation(PApplet p, int x, int y) {
+		GLWindow window = (GLWindow) p.getSurface().getNative();
+		window.warpPointer(x, y);
 	}
 	
 	public static void setTitle(PApplet p, String title) {
@@ -54,32 +61,9 @@ public class AppUtil {
 //		application.setDockIconImage((BufferedImage)img.get().getNative());
 	}
 	
-	public static void requestForeground(final PApplet p) {
-		if(System.getProperty("os.name").contains("Mac OS") == false) return;
-//		Application application = Application.getApplication();
-//		application.requestForeground(true);
-		
-		
-		if(p.frame != null) {
-			java.awt.EventQueue.invokeLater(new Runnable() {
-			    @Override
-			    public void run() {
-//			    	int sta = p.frame.getExtendedState() & ~JFrame.ICONIFIED & JFrame.NORMAL;
-//
-//			        p.frame.setExtendedState(sta);
-			        p.frame.setAlwaysOnTop(true);
-			        p.frame.toFront();
-			        p.frame.requestFocus();
-//			    	p.frame.repaint();
-			    	 
-//			    	p.frame.setExtendedState(JFrame.ICONIFIED);
-//			    	p.frame.setExtendedState(JFrame.NORMAL);
-//			    	p.frame.setState(java.awt.Frame.ICONIFIED);
-//			    	p.frame.setState(java.awt.Frame.NORMAL);
-			    }
-			});
-		}
-
+	public static void requestForeground(PApplet p) {
+		p.getSurface().setAlwaysOnTop(true);
+		p.getSurface().setAlwaysOnTop(false);
 	}
 	
 	/** 

@@ -13,6 +13,7 @@ public class AppSettings {
 	public static final String SCREEN_X = "screen_x";
 	public static final String SCREEN_Y = "screen_y";
 	public static final String ALWAYS_ON_TOP = "always_on_top";
+	public static final String KEEP_ON_TOP = "keep_on_top";
 	public static final String RETINA = "is_retina";
 	public static final String APP_NAME = "app_name";
 	public static final String APP_ICON = "app_icon";

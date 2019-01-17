@@ -44,6 +44,7 @@ import com.haxademic.core.system.JavaInfo;
 import com.haxademic.core.system.SecondScreenViewer;
 import com.haxademic.core.system.SystemUtil;
 import com.haxademic.core.ui.PrefsSliders;
+import com.jogamp.newt.opengl.GLWindow;
 
 import de.voidplus.leapmotion.LeapMotion;
 import krister.Ess.AudioInput;
@@ -79,6 +80,8 @@ extends PApplet
 	protected String customPropsFile = null;	// Loads an app-specific project .properties file.
 	protected String renderer; 					// The current rendering engine
 	protected Robot _robot;
+	public GLWindow window;
+
 
 	// audio
 	public IAudioInput audioInput;
@@ -146,6 +149,7 @@ extends PApplet
 	}
 	
 	public void setup() {
+		window = (GLWindow) surface.getNative();
 		if(customPropsFile != null) DebugUtil.printErr("Make sure to load custom .properties files in settings()");
 		setAppletProps();
 		if(renderer != PRenderers.PDF) {
@@ -205,16 +209,8 @@ extends PApplet
 	}
 	
 	protected void checkScreenManualPosition() {
-		boolean isFullscreen = p.appConfig.getBoolean(AppSettings.FULLSCREEN, false);
-		// check for additional screen_x params to manually place the screen
-		if(p.appConfig.getInt("screen_x", -1) != -1) {
-			if(isFullscreen == false) {
-				DebugUtil.printErr("Error: Manual screen positioning requires AppSettings.FULLSCREEN = true");
-				return;
-			}
-			surface.setSize(p.appConfig.getInt(AppSettings.WIDTH, 800), p.appConfig.getInt(AppSettings.HEIGHT, 600));
-			surface.setLocation(p.appConfig.getInt(AppSettings.SCREEN_X, 0), p.appConfig.getInt(AppSettings.SCREEN_Y, 0));  // location has to happen after size, to break it out of fullscreen
-		}
+		surface.setSize(p.appConfig.getInt(AppSettings.WIDTH, 800), p.appConfig.getInt(AppSettings.HEIGHT, 600));
+		surface.setLocation(p.appConfig.getInt(AppSettings.SCREEN_X, 0), p.appConfig.getInt(AppSettings.SCREEN_Y, 0));  // location has to happen after size, to break it out of fullscreen
 	}
 
 	////////////////////////
@@ -315,7 +311,7 @@ extends PApplet
 			initHaxademicObjects();
 			setupFirstFrame();
 		}
-		if(p.frameCount == 2) {
+		if(p.frameCount == 10) {
 			// move screen after first frame is rendered. this prevents weird issues (i.e. the app not even starting)
 			checkScreenManualPosition();
 		}
@@ -345,11 +341,6 @@ extends PApplet
 	
 	public PSurface getSurface() {
 		return surface;
-	}
-	
-	public void setAlwaysOnTop() {
-		surface.setAlwaysOnTop(false);
-		surface.setAlwaysOnTop(true);
 	}
 	
 	// audio
@@ -391,6 +382,7 @@ extends PApplet
 		autoHideMouse();
 		if(oscState != null) oscState.update();
 		showStats();
+		keepOnTop();
 		setAppDockIconAndTitle(false);
 		if(renderer == PRenderers.PDF) finishPdfRender();
 	}
@@ -419,11 +411,22 @@ extends PApplet
 		prefsSliders.update();
 	}
 
+	protected void keepOnTop() {
+		if(p.appConfig.getBoolean(AppSettings.KEEP_ON_TOP, false) == true) {
+			if(p.frameCount % 600 == 0) {
+				AppUtil.requestForeground(p);
+				if(window.hasFocus() == false) {
+					window.requestFocus();
+				}
+			}
+		}
+	}
+	
 	protected void setAppDockIconAndTitle(boolean showFPS) {
 		if(renderer != PRenderers.PDF) {
 			if(p.frameCount == 1) {
 				AppUtil.setTitle(p, p.appConfig.getString(AppSettings.APP_NAME, "Haxademic | " + this.getClass().getSimpleName()));
-				AppUtil.setAppToDockIcon(p);
+//				AppUtil.setAppToDockIcon(p);
 			} else if(appConfig.getBoolean(AppSettings.SHOW_FPS_IN_TITLE, false)) {
 				AppUtil.setTitle(p, p.appConfig.getString(AppSettings.APP_NAME, "Haxademic | " + this.getClass().getSimpleName()) + " | " + P.round(p.frameRate) + "fps");
 			}
