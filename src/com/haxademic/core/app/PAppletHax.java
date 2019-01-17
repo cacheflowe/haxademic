@@ -209,8 +209,16 @@ extends PApplet
 	}
 	
 	protected void checkScreenManualPosition() {
-		surface.setSize(p.appConfig.getInt(AppSettings.WIDTH, 800), p.appConfig.getInt(AppSettings.HEIGHT, 600));
-		surface.setLocation(p.appConfig.getInt(AppSettings.SCREEN_X, 0), p.appConfig.getInt(AppSettings.SCREEN_Y, 0));  // location has to happen after size, to break it out of fullscreen
+		boolean isFullscreen = p.appConfig.getBoolean(AppSettings.FULLSCREEN, false);
+		// check for additional screen_x params to manually place the window
+		if(p.appConfig.getInt("screen_x", -1) != -1) {
+			if(isFullscreen == false) {
+				DebugUtil.printErr("Error: Manual screen positioning requires AppSettings.FULLSCREEN = true");
+				return;
+			}
+			surface.setSize(p.appConfig.getInt(AppSettings.WIDTH, 800), p.appConfig.getInt(AppSettings.HEIGHT, 600));
+			surface.setLocation(p.appConfig.getInt(AppSettings.SCREEN_X, 0), p.appConfig.getInt(AppSettings.SCREEN_Y, 0));  // location has to happen after size, to break it out of fullscreen
+		}
 	}
 
 	////////////////////////
@@ -414,8 +422,8 @@ extends PApplet
 	protected void keepOnTop() {
 		if(p.appConfig.getBoolean(AppSettings.KEEP_ON_TOP, false) == true) {
 			if(p.frameCount % 600 == 0) {
-				AppUtil.requestForeground(p);
 				if(window.hasFocus() == false) {
+					AppUtil.requestForeground(p);
 					window.requestFocus();
 				}
 			}
