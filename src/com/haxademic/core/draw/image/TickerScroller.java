@@ -28,6 +28,10 @@ public class TickerScroller {
 
 	// getters
 	
+	public PImage scrolledImage() {
+		return scrolledImage;
+	}
+	
 	public PGraphics buffer() {
 		return tickerBuffer;
 	}
