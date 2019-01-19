@@ -26,6 +26,10 @@ public class DebugView {
 	protected float debugPanelW = 0;
 	protected float helpPanelW = 0;
 	protected int fontSize = 14;
+	protected boolean isActive = false;
+	protected int frameOpened = 0;
+	protected int hideFrames = 60 * 60;
+	protected boolean autoHide = true;
 	protected String ipAddress;
 
 	public DebugView( PApplet p ) {
@@ -39,6 +43,19 @@ public class DebugView {
 	}
 	
 	protected void createFont() {
+	}
+	
+	public boolean active() {
+		return isActive;
+	}
+	
+	public void active(boolean active) {
+		isActive = active;
+		if(isActive) frameOpened = p.frameCount;
+	}
+	
+	public void autoHide(boolean autoHide) {
+		this.autoHide = autoHide;
 	}
 	
 	public void setValue(String key, String val) {
@@ -116,6 +133,9 @@ public class DebugView {
 	
 	public void draw() {
 		if(debugFont == null) return;
+		if(isActive == false) return;
+		if(autoHide && p.frameCount > frameOpened + hideFrames) isActive = false;
+		
 		p.pushStyle();
 		
 		// update core app stats

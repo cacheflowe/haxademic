@@ -20,10 +20,6 @@ import com.haxademic.core.draw.filters.pshader.SaturationFilter;
 import com.haxademic.core.draw.filters.pshader.SharpenFilter;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.mapping.PGraphicsKeystone;
-import com.haxademic.core.draw.textures.pgraphics.TextureEQConcentricCircles;
-import com.haxademic.core.draw.textures.pgraphics.TextureLinesEQ;
-import com.haxademic.core.draw.textures.pgraphics.TextureOuterCube;
-import com.haxademic.core.draw.textures.pgraphics.TextureOuterSphere;
 import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.MathUtil;
@@ -366,7 +362,7 @@ extends PAppletHax {
 		if(audioTextures != null) drawAudioTextureToBuffer();
 		if(sponsorImg != null) mainBuffer.image(sponsorImg, mainBuffer.width - sponsorImg.width, mainBuffer.height - sponsorImg.height);
 		drawProgressBar();
-		if(p.showDebug && audioTextures != null) mainBuffer.image(curAudioTexture().texture(), 0, mainBuffer.height - 90, 160, 90);
+		if(p.debugView.active() && audioTextures != null) mainBuffer.image(curAudioTexture().texture(), 0, mainBuffer.height - 90, 160, 90);
 		mainBuffer.endDraw();
 	}
 	

@@ -116,7 +116,6 @@ extends PApplet
 	// debug
 	public int _fps;
 	public Stats _stats;
-	public boolean showDebug = false;
 	public DebugView debugView;
 	public PrefsSliders prefsSliders;
 	public SecondScreenViewer appViewerWindow;
@@ -154,6 +153,7 @@ extends PApplet
 		setAppletProps();
 		if(renderer != PRenderers.PDF) {
 			debugView = new DebugView( p );
+			debugView.active(p.appConfig.getBoolean(AppSettings.SHOW_DEBUG, false));
 			prefsSliders = new PrefsSliders();
 			if(p.appConfig.getBoolean(AppSettings.SHOW_SLIDERS, false) == true) {
 				prefsSliders.active(!prefsSliders.active());
@@ -232,7 +232,6 @@ extends PApplet
 		_isRenderingMidi = p.appConfig.getBoolean(AppSettings.RENDER_MIDI, false);
 		_fps = p.appConfig.getInt(AppSettings.FPS, 60);
 		if(p.appConfig.getInt(AppSettings.FPS, 60) != 60) frameRate(_fps);
-		p.showDebug = p.appConfig.getBoolean(AppSettings.SHOW_DEBUG, false);
 	}
 	
 	protected void initHaxademicObjects() {
@@ -401,7 +400,7 @@ extends PApplet
 
 	protected void updateAudioData() {
 		if(audioInput != null) {
-			PGraphics audioBuffer = (showDebug == true) ? audioInputDebugBuffer : null;	// only draw if debugging
+			PGraphics audioBuffer = (debugView.active() == true) ? audioInputDebugBuffer : null;	// only draw if debugging
 			if(audioBuffer != null) {
 				audioBuffer.beginDraw();
 				audioBuffer.background(0);
@@ -415,7 +414,7 @@ extends PApplet
 	protected void showStats() {
 		p.noLights();
 		_stats.update();
-		if(showDebug) debugView.draw();
+		debugView.draw();
 		prefsSliders.update();
 	}
 
@@ -590,7 +589,7 @@ extends PApplet
 		}
 		// show debug & prefs sliders
 		if (p.key == '|') saveScreenshot(p.g);
-		if (p.key == '/') showDebug = !showDebug;
+		if (p.key == '/') debugView.active(!debugView.active());
 		if (p.key == '\\') prefsSliders.active(!prefsSliders.active());
 	}
 	

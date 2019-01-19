@@ -19,7 +19,7 @@ public class KinectUserDetection {
 	}
 	
 	public void update() {
-		boolean debugging = P.p.showDebug;
+		boolean debugging = P.p.debugView.active();
 		kinectRegionGrid.update(debugging);
 		if(kinectRegionGrid.debugImage() != null) {
 			P.p.debugView.setTexture(kinectRegionGrid.debugImage());

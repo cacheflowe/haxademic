@@ -63,7 +63,7 @@ public class OscWrapper {
 	public void oscEvent(OscMessage theOscMessage) {
 		float oscValue = theOscMessage.get(0).floatValue();
 		String oscMsg = theOscMessage.addrPattern();
-		if(P.p.showDebug) P.println(oscMsg+": "+oscValue);
+		if(P.p.debugView.active()) P.println(oscMsg+": "+oscValue);
 		oscMsgMap.put(oscMsg, oscValue);
 		InputState newState = (oscValue == 0) ? InputState.OFF : InputState.TRIGGER;
 		oscMsgState.put(oscMsg, newState);

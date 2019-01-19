@@ -100,13 +100,13 @@ public class MidiDevice implements SimpleMidiListener {
 		midiCC.put(pitch, velocity);
 		InputState newState = (velocity == 0) ? InputState.OFF : InputState.TRIGGER;
 		midiCCState.put(pitch, newState);
-		if(P.p.showDebug) P.println("controllerChange", channel, pitch, velocity, newState);
+		if(P.p.debugView.active()) P.println("controllerChange", channel, pitch, velocity, newState);
 		lastUpdatedFrame = P.p.frameCount;
 	}
 
 	@Override
 	public void noteOff(int channel, int  pitch, int velocity) {
-		if(P.p.showDebug) P.println("noteOff", channel, pitch, velocity);
+		if(P.p.debugView.active()) P.println("noteOff", channel, pitch, velocity);
 		midiButtonVal.put(pitch, velocity);
 		midiButtons.put(pitch, InputState.OFF);
 		lastUpdatedFrame = P.p.frameCount;
@@ -114,7 +114,7 @@ public class MidiDevice implements SimpleMidiListener {
 
 	@Override
 	public void noteOn(int channel, int pitch, int velocity) {
-		if(P.p.showDebug) P.println("noteOn", channel, pitch, velocity);
+		if(P.p.debugView.active()) P.println("noteOn", channel, pitch, velocity);
 		midiButtonVal.put(pitch, velocity);
 		midiButtons.put(pitch, InputState.TRIGGER);
 		lastUpdatedFrame = P.p.frameCount;
