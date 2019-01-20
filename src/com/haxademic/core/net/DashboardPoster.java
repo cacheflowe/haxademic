@@ -151,8 +151,8 @@ implements IJsonRequestCallback {
 	}
 
 	@Override
-	public void postFailure(String responseText, int responseCode, String requestId, int responseTime) {
-		if(debug) P.out("postFailure", responseText, responseCode, requestId, StringFormatter.timeFromMilliseconds(responseTime, false));
+	public void postFailure(String responseText, int responseCode, String requestId, int responseTime, String errorMessage) {
+		if(debug) P.out("postFailure", errorMessage, responseText, responseCode, requestId, StringFormatter.timeFromMilliseconds(responseTime, false));
 	}
 
 }
