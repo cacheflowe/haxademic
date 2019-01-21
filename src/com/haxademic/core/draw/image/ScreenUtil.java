@@ -7,6 +7,7 @@ import java.awt.GraphicsEnvironment;
 import java.awt.Rectangle;
 import java.awt.Robot;
 import java.awt.geom.Rectangle2D;
+import java.awt.image.BufferedImage;
 
 import com.haxademic.core.system.SystemUtil;
 
@@ -52,5 +53,22 @@ public class ScreenUtil {
 		return null;
 	}
 
+	public static BufferedImage getScreenShotNativeAllMonitors(int x, int y) {
+		// NOTE! main monitor must be top left, otherwise, override x+y position  
+		try {
+			Rectangle2D result = new Rectangle2D.Double();
+			GraphicsEnvironment localGE = GraphicsEnvironment.getLocalGraphicsEnvironment();
+			for (GraphicsDevice gd : localGE.getScreenDevices()) {
+				for (GraphicsConfiguration graphicsConfiguration : gd.getConfigurations()) {
+					Rectangle2D.union(result, graphicsConfiguration.getBounds(), result);
+				}
+			}
+			
+			Robot robot = new Robot();
+			return robot.createScreenCapture(new Rectangle(x, y,(int) result.getWidth(), (int) result.getHeight()));
+		} catch (AWTException e) { }
+		return null;
+	}
+	
 }
 
