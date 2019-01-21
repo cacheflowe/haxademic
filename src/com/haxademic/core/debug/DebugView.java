@@ -99,6 +99,8 @@ public class DebugView {
 		debugLines.put("___ RUN TIME", "");
 		debugLines.put("Frame", ""+p.frameCount);
 		debugLines.put("Time", StringFormatter.timeFromSeconds(p.millis() / 1000, true));
+		debugLines.put("___ APP", "");
+		debugLines.put("alwaysOnTop", ""+P.p.alwaysOnTop());
 		debugLines.put("___ PERFORMANCE", "");
 		debugLines.put("FPS", ""+P.round(p.frameRate));
 		debugLines.put("Memory Allocated", StringFormatter.formattedInteger(DebugUtil.memoryAllocated()));

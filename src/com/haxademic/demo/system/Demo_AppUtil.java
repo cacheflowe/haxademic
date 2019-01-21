@@ -17,7 +17,7 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.SCREEN_Y, 100 );
 		p.appConfig.setProperty( AppSettings.WIDTH, 800 );
 		p.appConfig.setProperty( AppSettings.HEIGHT, 600 );
-		p.appConfig.setProperty( AppSettings.KEEP_ON_TOP, true );
+		p.appConfig.setProperty( AppSettings.ALWAYS_ON_TOP, true );
 	}
 
 	public void setupFirstFrame() {

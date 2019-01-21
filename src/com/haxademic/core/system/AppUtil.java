@@ -66,6 +66,17 @@ public class AppUtil {
 		p.getSurface().setAlwaysOnTop(false);
 	}
 	
+	public static void requestForegroundSafe() {
+		if(P.p.window.hasFocus() == false) {
+			requestForeground(P.p);
+			P.p.window.requestFocus();
+		}
+	}
+	
+	public static void setAlwaysOnTop(PApplet p, boolean onTop) {
+		p.getSurface().setAlwaysOnTop(onTop);
+	}
+	
 	/** 
 	 * Sun property pointing the main class and its arguments. 
 	 * Might not be defined on non Hotspot VM implementations.

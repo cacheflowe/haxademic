@@ -6,6 +6,8 @@ import java.io.IOException;
 
 import javax.sound.midi.InvalidMidiDataException;
 
+import org.supercsv.quote.AlwaysQuoteMode;
+
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.P5Properties;
 import com.haxademic.core.audio.analysis.input.AudioInputBeads;
@@ -74,14 +76,14 @@ extends PApplet
 	//	}
 
 	// app
-	protected static PAppletHax p;				// Global/static ref to PApplet - any audio-reactive object should be passed this reference, or grabbed from this static ref.
+	protected static PAppletHax p;				// Global/static ref to PApplet - any class can access reference from this static ref. Easier access via `P.p`
 	public PGraphics pg;						// Offscreen buffer that matches the app size
 	public P5Properties appConfig;				// Loads the project .properties file to configure several app properties externally.
 	protected String customPropsFile = null;	// Loads an app-specific project .properties file.
 	protected String renderer; 					// The current rendering engine
 	protected Robot _robot;
 	public GLWindow window;
-
+	protected boolean alwaysOnTop = false;
 
 	// audio
 	public IAudioInput audioInput;
@@ -286,7 +288,8 @@ extends PApplet
 		// check for always on top
 		boolean isFullscreen = p.appConfig.getBoolean(AppSettings.FULLSCREEN, false);
 		if(isFullscreen == true) {
-			if(p.appConfig.getBoolean(AppSettings.ALWAYS_ON_TOP, true)) surface.setAlwaysOnTop(true);
+			alwaysOnTop = p.appConfig.getBoolean(AppSettings.ALWAYS_ON_TOP, true);
+			if(alwaysOnTop) AppUtil.setAlwaysOnTop(p, true);
 		}
 	}
 	
@@ -307,7 +310,7 @@ extends PApplet
 		}
 		// if we've initialized an audio input, let's build an audio buffer
 		if(audioInput != null) {
-			audioInputDebugBuffer = p.createGraphics((int)AudioStreamData.debugW, (int)AudioStreamData.debugW, PRenderers.P3D);
+			audioInputDebugBuffer = p.createGraphics((int) AudioStreamData.debugW, (int) AudioStreamData.debugW, PRenderers.P3D);
 			debugView.setTexture(audioInputDebugBuffer);
 		}
 	}
@@ -348,6 +351,10 @@ extends PApplet
 	
 	public PSurface getSurface() {
 		return surface;
+	}
+	
+	public boolean alwaysOnTop() {
+		return alwaysOnTop;
 	}
 	
 	// audio
@@ -419,13 +426,8 @@ extends PApplet
 	}
 
 	protected void keepOnTop() {
-		if(p.appConfig.getBoolean(AppSettings.KEEP_ON_TOP, false) == true) {
-			if(p.frameCount % 600 == 0) {
-				if(window.hasFocus() == false) {
-					AppUtil.requestForeground(p);
-					window.requestFocus();
-				}
-			}
+		if(alwaysOnTop == true) {
+			if(p.frameCount % 600 == 0) AppUtil.requestForegroundSafe();
 		}
 	}
 	
@@ -578,6 +580,11 @@ extends PApplet
 		keyboardState.setKeyOn(p.keyCode);
 		
 		// special core app key commands
+		if (p.key == 'F') {
+			alwaysOnTop = !alwaysOnTop;
+			AppUtil.setAlwaysOnTop(p, alwaysOnTop);
+		}
+		
 		// audio input gain
 		if ( p.key == '.' ) {
 			p.audioData.setGain(p.audioData.gain() + 0.05f);
