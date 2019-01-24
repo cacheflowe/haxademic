@@ -8,6 +8,7 @@ import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.data.constants.PBlendModes;
 import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.filters.pshader.BlurHFilter;
 import com.haxademic.core.draw.filters.pshader.BlurProcessingFilter;
 import com.haxademic.core.draw.filters.pshader.BlurVFilter;
@@ -79,7 +80,7 @@ extends PAppletHax {
 	protected PImage sponsorImg;
 	
 	// audio texture
-	protected BaseTexture audioTextures[];
+	protected BaseTexture[] audioTextures;
 	protected int audioTextureIndex = 0;
 	protected boolean deformMode = true;
 	
@@ -91,26 +92,31 @@ extends PAppletHax {
 			p.appConfig.setProperty( AppSettings.WIDTH, 1280 );
 			p.appConfig.setProperty( AppSettings.HEIGHT, 720 );
 		}
-		p.appConfig.setProperty( AppSettings.FULLSCREEN, true );
+		p.appConfig.setProperty( AppSettings.SMOOTHING, AppSettings.SMOOTH_NONE );
+		p.appConfig.setProperty( AppSettings.FULLSCREEN, false );
 		p.appConfig.setProperty( AppSettings.SHOW_DEBUG, false );
 		p.appConfig.setProperty( AppSettings.INIT_MINIM_AUDIO, false );
-		p.appConfig.setProperty( AppSettings.INIT_ESS_AUDIO, true );
+		p.appConfig.setProperty( AppSettings.INIT_ESS_AUDIO, false );
 		p.appConfig.setProperty( AppSettings.AUDIO_DEBUG, true );
+		p.appConfig.setProperty( AppSettings.ALWAYS_ON_TOP, false );
 	}
 
 	public void setupFirstFrame() {
 		// main buffer
-		mainBuffer = p.createGraphics(1920, 1080, PRenderers.P2D);
-		rdBuffer = p.createGraphics(1920, 1080, PRenderers.P2D);
+		float scaleDown = 0.75f;
+		mainBuffer = p.createGraphics(P.round(1920 * scaleDown), P.round(1080 * scaleDown), PRenderers.P3D);
+		mainBuffer.noSmooth();
+		rdBuffer = p.createGraphics(P.round(1920 * scaleDown), P.round(1080 * scaleDown), PRenderers.P3D);
+		rdBuffer.noSmooth();
 		keystone = new PGraphicsKeystone(p, mainBuffer, 10, FileUtil.getFile("text/keystoning/silhouect.txt"));
 		
 		// init kinect
 //		if(P.platform != P.MACOSX) {
 			kinect = new KinectPV2(p);
-			kinect.enableDepthImg(true);
-			kinect.enableDepthMaskImg(true);
+//			kinect.enableDepthImg(true);
+//			kinect.enableDepthMaskImg(true);
 			kinect.enableBodyTrackImg(true);
-			kinect.enableInfraredImg(true);
+//			kinect.enableInfraredImg(true);
 			// kinect.enableColorImg(true);
 			kinect.init();
 //		}
@@ -154,6 +160,7 @@ extends PAppletHax {
 	protected void lazyCreateBuffer() {
 		if(userBuffer == null && kinect != null && kinect.getBodyTrackImage().width > 10) {
 			userBuffer = p.createGraphics(kinect.getBodyTrackImage().width, kinect.getBodyTrackImage().height, PRenderers.P3D);
+			userBuffer.noSmooth();
 		}
 	}
 	
@@ -250,6 +257,7 @@ extends PAppletHax {
 		float blurAmp = blurMid + blurHalf * osc;
 		float sharpAmp = sharpMid + sharpHalf * osc;
 		
+		mouseConfig = false;
 		if(mouseConfig) {
 			blurAmp = p.mousePercentX() * 3f;
 			sharpAmp = p.mousePercentY() * 15f;
@@ -259,7 +267,10 @@ extends PAppletHax {
 		p.debugView.setValue("sharpAmp", sharpAmp);
 
 		// run shaders
-		for (int i = 0; i < RD_ITERATIONS; i++) {			
+		for (int i = 0; i < RD_ITERATIONS; i++) {
+//			BlurProcessingFilter.instance(p).setBlurSize(5);
+//			BlurProcessingFilter.instance(p).setSigma(10f);
+//			BlurProcessingFilter.instance(p).applyTo(rdBuffer);
 			BlurHFilter.instance(p).setBlurByPercent(blurAmp, rdBuffer.width);
 			BlurHFilter.instance(p).applyTo(rdBuffer);
 			BlurVFilter.instance(p).setBlurByPercent(blurAmp, rdBuffer.height);
@@ -269,6 +280,7 @@ extends PAppletHax {
 		}
 		
 		// ensure black & white
+		
 		SaturationFilter.instance(p).setSaturation(0); 
 		SaturationFilter.instance(p).applyTo(rdBuffer); 
 	}
@@ -362,9 +374,10 @@ extends PAppletHax {
 	protected void drawMainBuffer() {
 		mainBuffer.beginDraw();
 		mainBuffer.noStroke();
+		OpenGLUtil.optimize2D(mainBuffer);
 		ImageUtil.cropFillCopyImage(rdBuffer, mainBuffer, true);
 		if(audioTextures != null) drawAudioTextureToBuffer();
-		if(sponsorImg != null) mainBuffer.image(sponsorImg, mainBuffer.width - sponsorImg.width, mainBuffer.height - sponsorImg.height);
+		if(sponsorImg != null) mainBuffer.image(sponsorImg, 0, 0, mainBuffer.width, mainBuffer.height);
 		drawProgressBar();
 		if(p.showDebug && audioTextures != null) mainBuffer.image(curAudioTexture().texture(), 0, mainBuffer.height - 90, 160, 90);
 		mainBuffer.endDraw();
