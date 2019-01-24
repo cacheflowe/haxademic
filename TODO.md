@@ -14,7 +14,7 @@
   * Make a dmx gif loop
   * Motion detection point-of-interest motion capture by small rectangles - figure out how to zoom out and create multiple zones
   * Turn client snake mirror into its own thing
-  * Make a version of partycles with GPU particles from VFX code and ability to swap webcam instead of Kinect 
+  * Make a version of partycles with GPU particles from VFX code and ability to swap webcam instead of Kinect
 	* Also, blob tracking VFX but sweet patterns inside the blobs
 * Audio
   * Sphinx4 speech recognition
@@ -70,6 +70,7 @@
   * Distill more demos for `core` code
   * Make a Demo based on Eutopia that runs via command line & passes args in
 * PShape & PShapeUtil:
+  * sine-distorted 3d models
   * Scrolling feedback texture mapped to a model with lighting
   * Move around a sphere (advice from EdanKwan: Generate the vector field on a sphere. Cross the 3d noise with the surface normal. Make the items move around on the surface of the sphere, set the initial direction of the items, move them with the noise field, normalize its position (assuming the sphere origin is center with 1 radius).
   * Make a vertex shader that does this to a sheet: https://www.google.com/search?ei=z9e3Wo6iOdG45gKIyZrgAQ&q=graph+z%3Dsin%28y*0.1%29*sin%28x%29&oq=graph+z%3Dsin%28y*0.1%29*sin%28x%29&gs_l=psy-ab.3...11324.12507.0.13684.4.4.0.0.0.0.72.277.4.4.0....0...1c.1.64.psy-ab..0.1.69...0i8i30k1.0.tqpD6rWz4Hk
@@ -84,7 +85,7 @@
 * General / tools
   * Test importing a Java class into a Processing IDE project
   * How can we optimize for Raspberry Pi? It wants Java 1.7 for the old version of Eclipse :(
-  * Look into JarSplice or other compiling tools for application deployment 
+  * Look into JarSplice or other compiling tools for application deployment
   * Web interface to control PrefsSliders: Add JSON interface for PrefsSliders & WebServer/WebSockets?
   * Fix overhead view of KinectRegionGrid - with larger grids it's off-screen
   * BufferActivityMonitor should use FrameDifferenceBuffer object

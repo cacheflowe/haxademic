@@ -13,9 +13,10 @@ implements IWebCamCallback {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	protected void overridePropsFile() {
-		p.appConfig.setProperty(AppSettings.WEBCAM_INDEX, 3 );
+		p.appConfig.setProperty(AppSettings.WEBCAM_INDEX, 12 );
 		p.appConfig.setProperty(AppSettings.WEBCAM_THREADED, false );
 		p.appConfig.setProperty(AppSettings.SHOW_DEBUG, true );
+		p.appConfig.setProperty(AppSettings.FILLS_SCREEN, true );
 	}
 		
 	public void setupFirstFrame () {

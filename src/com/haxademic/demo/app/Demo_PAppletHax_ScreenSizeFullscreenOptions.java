@@ -5,6 +5,7 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.math.easing.EasingFloat;
+import com.haxademic.core.system.AppUtil;
 
 public class Demo_PAppletHax_ScreenSizeFullscreenOptions
 extends PAppletHax {
@@ -69,7 +70,7 @@ extends PAppletHax {
 		p.ellipse(_easingX.value(), _easingY.value(), 40, 40);
 		
 		if(p.appConfig.getBoolean(AppSettings.ALWAYS_ON_TOP, false) == true) {
-			if(p.frameCount % 300 == 0) P.p.setAlwaysOnTop();
+			if(p.frameCount % 300 == 0) AppUtil.requestForeground(p);
 		}
 	}
 

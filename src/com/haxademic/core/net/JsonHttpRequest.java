@@ -64,9 +64,9 @@ implements Runnable {
 			if(delegate != null) delegate.postSuccess(responseText, responseCode, requestId, responseTime);
 		} catch (IOException e) {
 			// fail!
-			e.printStackTrace();
+			// e.printStackTrace();
 			int responseTime = P.p.millis() - startTime;
-			if(delegate != null) delegate.postFailure(responseText, responseCode, requestId, responseTime);
+			if(delegate != null) delegate.postFailure(responseText, responseCode, requestId, responseTime, e.toString());
 		}
 	} 
 	

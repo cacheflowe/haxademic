@@ -32,7 +32,7 @@
       }
       .mdl-card__media {
         background-color: #000;
-        height: 150px;
+        height: 200px;
         overflow: hidden;
         width: 100%;
         text-align: center;
@@ -40,10 +40,11 @@
       .mdl-card__media img {
         width: 100%;
         max-height: 100%;
+        object-fit: contain;
       }
       @media (min-width: 1000px) {
         .mdl-cell {
-          width: calc(25% - 16px);
+          width: calc(20% - 16px);
         }
       }
       .mdl-cell-full-width {

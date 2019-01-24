@@ -24,7 +24,7 @@ implements IJsonRequestCallback {
 	protected PGraphics imagePG;
 	protected PGraphics screenshotPG;
 	protected PImage image;
-	protected PImage screenshot;
+	protected BufferedImage screenshot;
 	protected float imageScale = 1;
 	protected float screenshotScale = 1;
 	protected int postInterval = 60 * 60 * 1000;
@@ -48,13 +48,13 @@ implements IJsonRequestCallback {
 		lastPostTime = -postInterval + 20 * 1000;		// first post should be 20 seconds after start
 		this.imageScale = imageScale;
 		this.screenshotScale = screenshotScale;
-		P.p.registerMethod("pre", this);
+		P.p.registerMethod("post", this);
 		
 		postJSON = new JsonRequest(serverPostPath);
 	}
 	
 	// app frame loop
-	public void pre() {
+	public void post() {
 		if(P.p.millis() > lastPostTime + postInterval) {
 			// PostJSON.DEBUG = true;
 			lastPostTime = P.p.millis();
@@ -70,6 +70,14 @@ implements IJsonRequestCallback {
 	
 	public void setDebug(boolean debug ) {
 		this.debug = debug;
+		if(debug) {
+			lazyInitScreenshotBuffer();
+			P.p.debugView.setTexture(screenshotPG);
+		}
+	}
+	
+	protected void lazyInitScreenshotBuffer() {
+		screenshotPG = P.p.createGraphics(P.round(screenshot.getWidth() * screenshotScale), P.round(screenshot.getHeight() * screenshotScale)); // , PRenderers.P2D
 	}
 	
 	protected void submitJSON(BufferedImage img1, BufferedImage img2) {
@@ -110,8 +118,8 @@ implements IJsonRequestCallback {
 	
 	protected void takeThreadedScreenshot() {
 		new Thread(new Runnable() { public void run() {
-			screenshot = ScreenUtil.getScreenShotAllMonitors();
-			if(screenshotPG == null) screenshotPG = P.p.createGraphics(P.round(screenshot.width * screenshotScale), P.round(screenshot.height * screenshotScale), PRenderers.P2D);
+			screenshot = ScreenUtil.getScreenShotNativeAllMonitors(0, 0);
+			if(screenshotPG == null) lazyInitScreenshotBuffer();
 		}}).start();	
 	}
 	
@@ -123,14 +131,11 @@ implements IJsonRequestCallback {
 		if(image != null && imagePG != null) ImageUtil.copyImage(image, imagePG);
 		
 		// copy screenshot
-		// ImageUtil.copyImage(screenshot, screenshotPG); // this maybe wasn't working at 650?
-		screenshotPG.beginDraw();
-		screenshotPG.image(screenshot, 0, 0, screenshotPG.width, screenshotPG.height);
-		screenshotPG.endDraw();
+//		ImageUtil.copyImage(screenshot, screenshotPG);
 		
 		// get native images for base64 encoding
 		BufferedImage img1 = (image != null) ? (BufferedImage)imagePG.getNative() : null;
-		BufferedImage img2 = (BufferedImage)screenshotPG.getNative();
+		BufferedImage img2 = screenshot;
 		
 		// send it all to the server
 		new Thread(new Runnable() { public void run() {
@@ -151,8 +156,8 @@ implements IJsonRequestCallback {
 	}
 
 	@Override
-	public void postFailure(String responseText, int responseCode, String requestId, int responseTime) {
-		if(debug) P.out("postFailure", responseText, responseCode, requestId, StringFormatter.timeFromMilliseconds(responseTime, false));
+	public void postFailure(String responseText, int responseCode, String requestId, int responseTime, String errorMessage) {
+		if(debug) P.out("postFailure", errorMessage, responseText, responseCode, requestId, StringFormatter.timeFromMilliseconds(responseTime, false));
 	}
 
 }

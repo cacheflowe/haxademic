@@ -6,6 +6,8 @@ import java.io.IOException;
 
 import javax.sound.midi.InvalidMidiDataException;
 
+import org.supercsv.quote.AlwaysQuoteMode;
+
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.P5Properties;
 import com.haxademic.core.audio.analysis.input.AudioInputBeads;
@@ -44,6 +46,7 @@ import com.haxademic.core.system.JavaInfo;
 import com.haxademic.core.system.SecondScreenViewer;
 import com.haxademic.core.system.SystemUtil;
 import com.haxademic.core.ui.PrefsSliders;
+import com.jogamp.newt.opengl.GLWindow;
 
 import de.voidplus.leapmotion.LeapMotion;
 import krister.Ess.AudioInput;
@@ -73,12 +76,14 @@ extends PApplet
 	//	}
 
 	// app
-	protected static PAppletHax p;				// Global/static ref to PApplet - any audio-reactive object should be passed this reference, or grabbed from this static ref.
+	protected static PAppletHax p;				// Global/static ref to PApplet - any class can access reference from this static ref. Easier access via `P.p`
 	public PGraphics pg;						// Offscreen buffer that matches the app size
 	public P5Properties appConfig;				// Loads the project .properties file to configure several app properties externally.
 	protected String customPropsFile = null;	// Loads an app-specific project .properties file.
 	protected String renderer; 					// The current rendering engine
 	protected Robot _robot;
+	public GLWindow window;
+	protected boolean alwaysOnTop = false;
 
 	// audio
 	public IAudioInput audioInput;
@@ -113,7 +118,6 @@ extends PApplet
 	// debug
 	public int _fps;
 	public Stats _stats;
-	public boolean showDebug = false;
 	public DebugView debugView;
 	public PrefsSliders prefsSliders;
 	public SecondScreenViewer appViewerWindow;
@@ -146,10 +150,12 @@ extends PApplet
 	}
 	
 	public void setup() {
+		window = (GLWindow) surface.getNative();
 		if(customPropsFile != null) DebugUtil.printErr("Make sure to load custom .properties files in settings()");
 		setAppletProps();
 		if(renderer != PRenderers.PDF) {
 			debugView = new DebugView( p );
+			debugView.active(p.appConfig.getBoolean(AppSettings.SHOW_DEBUG, false));
 			prefsSliders = new PrefsSliders();
 			if(p.appConfig.getBoolean(AppSettings.SHOW_SLIDERS, false) == true) {
 				prefsSliders.active(!prefsSliders.active());
@@ -206,7 +212,7 @@ extends PApplet
 	
 	protected void checkScreenManualPosition() {
 		boolean isFullscreen = p.appConfig.getBoolean(AppSettings.FULLSCREEN, false);
-		// check for additional screen_x params to manually place the screen
+		// check for additional screen_x params to manually place the window
 		if(p.appConfig.getInt("screen_x", -1) != -1) {
 			if(isFullscreen == false) {
 				DebugUtil.printErr("Error: Manual screen positioning requires AppSettings.FULLSCREEN = true");
@@ -228,7 +234,6 @@ extends PApplet
 		_isRenderingMidi = p.appConfig.getBoolean(AppSettings.RENDER_MIDI, false);
 		_fps = p.appConfig.getInt(AppSettings.FPS, 60);
 		if(p.appConfig.getInt(AppSettings.FPS, 60) != 60) frameRate(_fps);
-		p.showDebug = p.appConfig.getBoolean(AppSettings.SHOW_DEBUG, false);
 	}
 	
 	protected void initHaxademicObjects() {
@@ -283,7 +288,8 @@ extends PApplet
 		// check for always on top
 		boolean isFullscreen = p.appConfig.getBoolean(AppSettings.FULLSCREEN, false);
 		if(isFullscreen == true) {
-			if(p.appConfig.getBoolean(AppSettings.ALWAYS_ON_TOP, true)) surface.setAlwaysOnTop(true);
+			alwaysOnTop = p.appConfig.getBoolean(AppSettings.ALWAYS_ON_TOP, true);
+			if(alwaysOnTop) AppUtil.setAlwaysOnTop(p, true);
 		}
 	}
 	
@@ -304,7 +310,7 @@ extends PApplet
 		}
 		// if we've initialized an audio input, let's build an audio buffer
 		if(audioInput != null) {
-			audioInputDebugBuffer = p.createGraphics((int)AudioStreamData.debugW, (int)AudioStreamData.debugW, PRenderers.P3D);
+			audioInputDebugBuffer = p.createGraphics((int) AudioStreamData.debugW, (int) AudioStreamData.debugW, PRenderers.P3D);
 			debugView.setTexture(audioInputDebugBuffer);
 		}
 	}
@@ -315,7 +321,7 @@ extends PApplet
 			initHaxademicObjects();
 			setupFirstFrame();
 		}
-		if(p.frameCount == 2) {
+		if(p.frameCount == 10) {
 			// move screen after first frame is rendered. this prevents weird issues (i.e. the app not even starting)
 			checkScreenManualPosition();
 		}
@@ -347,9 +353,8 @@ extends PApplet
 		return surface;
 	}
 	
-	public void setAlwaysOnTop() {
-		surface.setAlwaysOnTop(false);
-		surface.setAlwaysOnTop(true);
+	public boolean alwaysOnTop() {
+		return alwaysOnTop;
 	}
 	
 	// audio
@@ -391,6 +396,7 @@ extends PApplet
 		autoHideMouse();
 		if(oscState != null) oscState.update();
 		showStats();
+		keepOnTop();
 		setAppDockIconAndTitle(false);
 		if(renderer == PRenderers.PDF) finishPdfRender();
 	}
@@ -401,7 +407,7 @@ extends PApplet
 
 	protected void updateAudioData() {
 		if(audioInput != null) {
-			PGraphics audioBuffer = (showDebug == true) ? audioInputDebugBuffer : null;	// only draw if debugging
+			PGraphics audioBuffer = (debugView.active() == true) ? audioInputDebugBuffer : null;	// only draw if debugging
 			if(audioBuffer != null) {
 				audioBuffer.beginDraw();
 				audioBuffer.background(0);
@@ -415,15 +421,21 @@ extends PApplet
 	protected void showStats() {
 		p.noLights();
 		_stats.update();
-		if(showDebug) debugView.draw();
+		debugView.draw();
 		prefsSliders.update();
 	}
 
+	protected void keepOnTop() {
+		if(alwaysOnTop == true) {
+			if(p.frameCount % 600 == 0) AppUtil.requestForegroundSafe();
+		}
+	}
+	
 	protected void setAppDockIconAndTitle(boolean showFPS) {
 		if(renderer != PRenderers.PDF) {
 			if(p.frameCount == 1) {
 				AppUtil.setTitle(p, p.appConfig.getString(AppSettings.APP_NAME, "Haxademic | " + this.getClass().getSimpleName()));
-				AppUtil.setAppToDockIcon(p);
+//				AppUtil.setAppToDockIcon(p);
 			} else if(appConfig.getBoolean(AppSettings.SHOW_FPS_IN_TITLE, false)) {
 				AppUtil.setTitle(p, p.appConfig.getString(AppSettings.APP_NAME, "Haxademic | " + this.getClass().getSimpleName()) + " | " + P.round(p.frameRate) + "fps");
 			}
@@ -568,6 +580,11 @@ extends PApplet
 		keyboardState.setKeyOn(p.keyCode);
 		
 		// special core app key commands
+		if (p.key == 'F') {
+			alwaysOnTop = !alwaysOnTop;
+			AppUtil.setAlwaysOnTop(p, alwaysOnTop);
+		}
+		
 		// audio input gain
 		if ( p.key == '.' ) {
 			p.audioData.setGain(p.audioData.gain() + 0.05f);
@@ -579,7 +596,7 @@ extends PApplet
 		}
 		// show debug & prefs sliders
 		if (p.key == '|') saveScreenshot(p.g);
-		if (p.key == '/') showDebug = !showDebug;
+		if (p.key == '/') debugView.active(!debugView.active());
 		if (p.key == '\\') prefsSliders.active(!prefsSliders.active());
 	}
 	

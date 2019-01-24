@@ -13,13 +13,11 @@ import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.image.Base64Image;
 import com.haxademic.core.draw.image.ImageUtil;
-import com.haxademic.core.draw.image.ScreenUtil;
 import com.haxademic.core.net.IJsonRequestCallback;
 import com.haxademic.core.net.JsonRequest;
 import com.haxademic.core.text.StringFormatter;
 
 import processing.core.PGraphics;
-import processing.core.PImage;
 import processing.data.JSONObject;
 
 public class Demo_JsonRequest_postJsonData
@@ -112,7 +110,7 @@ implements IJsonRequestCallback {
 	}
 
 	@Override
-	public void postFailure(String responseText, int responseCode, String requestId, int responseTime) {
-		P.out("postFailure", responseText, responseCode, requestId, StringFormatter.timeFromMilliseconds(responseTime, false));
+	public void postFailure(String responseText, int responseCode, String requestId, int responseTime, String errorMessage) {
+		P.out("postFailure", errorMessage, responseText, responseCode, requestId, StringFormatter.timeFromMilliseconds(responseTime, false));
 	}
 }

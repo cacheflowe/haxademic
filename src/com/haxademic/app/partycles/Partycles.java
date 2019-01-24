@@ -238,7 +238,7 @@ extends PAppletHax {
 		mainBuffer.image(cameraBuffer, cameraBuffer.width * -0.025f, cameraBuffer.height * -0.05f, cameraBuffer.width * cameraScale, cameraBuffer.height * cameraScale);
 		
 		// draw debug motion buffer
-		if(p.showDebug) {
+		if(p.debugView.active()) {
 			DrawUtil.setPImageAlpha(mainBuffer, 0.5f);
 			if(motionBuffer != null) mainBuffer.image(motionBuffer, 0, 0);
 			DrawUtil.setPImageAlpha(mainBuffer, 1f);

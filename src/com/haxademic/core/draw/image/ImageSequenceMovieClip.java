@@ -13,29 +13,29 @@ public class ImageSequenceMovieClip {
 
 	static public PImage BLANK_IMAGE;
 
-	ArrayList<String> imagesToLoad = null;
-	String imagesDir;
-	int loadStartTime;
-	int loadFinishTime = -1;
-	int numImages = 0;
-	int imagesLoaded = 0;
-	boolean debug = false;
-	int preCacheFrame = 0;
+	protected ArrayList<String> imagesToLoad = null;
+	protected String imagesDir;
+	protected int loadStartTime;
+	protected int loadFinishTime = -1;
+	protected int numImages = 0;
+	protected int imagesLoaded = 0;
+	protected boolean debug = false;
+	protected int preCacheFrame = 0;
 	
-	ArrayList<PImage> imageSequence;
-	static float DEFAULT_FPS = 30;
-	float fps;
-	int curFrame = -1;
-	int startTime = -1;
-	int pauseTime = -1;
-	int[] frameIndexPlaybackSequence = null;
-	float playbackProgress = 0;
+	protected ArrayList<PImage> imageSequence;
+	protected static float DEFAULT_FPS = 30;
+	protected float fps;
+	protected int curFrame = -1;
+	protected int startTime = -1;
+	protected int pauseTime = -1;
+	protected int[] frameIndexPlaybackSequence = null;
+	protected float playbackProgress = 0;
 	
-	boolean isFlipped = false;
-	boolean isPlaying = false;
-	boolean isLooping = false;
+	protected boolean isFlipped = false;
+	protected boolean isPlaying = false;
+	protected boolean isLooping = false;
 	
-	int tint;
+	protected int tint;
 	
 
 	/*
@@ -67,14 +67,25 @@ public class ImageSequenceMovieClip {
 		this(imagesDir, format, DEFAULT_FPS, null);
 	}
 
-	public ImageSequenceMovieClip(ArrayList<PImage> images, float fps) {
+	public ImageSequenceMovieClip(ArrayList<PImage> images, float fps) {	// for already-loaded images array
 		this(null, null, fps, null);
 		imageSequence = images;
 		imagesLoaded = numImages = imageSequence.size();
 	}
 	
+	public ImageSequenceMovieClip(ArrayList<PImage> images, float fps, int numFrames) {		// for copy() - will load as original loads
+		this(null, null, fps, null);
+		imageSequence = images;
+		imagesLoaded = numImages = numFrames;
+	}
+	
 	public void setFramesSequence(int[] framesSequence) {
 		this.frameIndexPlaybackSequence = framesSequence;
+	}
+	
+	public ImageSequenceMovieClip copy() {
+		if(numImages == 0) P.error("ImageSequenceMovieClip.copy() must be called after threaded image loading has started on the original");
+		return new ImageSequenceMovieClip(imageSequence, fps, numImages);
 	}
 	
 	public void setTint(int tintColor) {
@@ -87,6 +98,15 @@ public class ImageSequenceMovieClip {
 	
 	public PImage getFrame(int index) {
 		index = index % imageSequence.size();
+		if(index < imageSequence.size()) {
+			return imageSequence.get(index);
+		} else {
+			return BLANK_IMAGE;
+		}
+	}
+	
+	public PImage getFrameByProgress(float progress) {
+		int index = P.floor(progress * (float) numImages) % numImages;
 		if(index < imageSequence.size()) {
 			return imageSequence.get(index);
 		} else {
@@ -191,6 +211,10 @@ public class ImageSequenceMovieClip {
 		curFrame = P.round(progress * (playbackFrames() - 1));
 	}
 	
+	public int curFrame() {
+		return curFrame;
+	}
+	
 	public float curTime() {
 		return playbackProgress;
 	}
@@ -212,7 +236,7 @@ public class ImageSequenceMovieClip {
 	}
 	
 	public PImage image() {
-		int safeCurFrame = (imageSequence.size() > 0) ? curFrame % imageSequence.size() : 0;
+		int safeCurFrame = (imageSequence.size() > 0) ? P.constrain(curFrame, 0, imageSequence.size() - 1) : 0;
 		if(isPlaying == false || playbackFrames() <= safeCurFrame) {
 			return BLANK_IMAGE;
 		} else {

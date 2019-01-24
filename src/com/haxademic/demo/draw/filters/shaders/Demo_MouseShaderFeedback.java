@@ -98,7 +98,7 @@ extends PAppletHax {
 		p.image(feedbackBuffer, 0, 0);
 		
 		// draw debug direction grid
-		if(p.showDebug) {
+		if(p.debugView.active()) {
 			mouseBuffer.loadPixels();
 			p.fill(255, 127);
 			for (int x = 0; x < p.width; x += 30) {

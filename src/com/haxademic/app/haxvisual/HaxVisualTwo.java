@@ -424,7 +424,7 @@ extends PAppletHax {
 	}
 	
 	protected void drawCanvasToMultiScreens() {
-		if(p.showDebug) {
+		if(p.debugView.active()) {
 			// show the whole thing
 			ImageUtil.cropFillCopyImage(_pg, p.g, false);
 		} else {
