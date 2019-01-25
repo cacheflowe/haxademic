@@ -65,6 +65,7 @@ public class SystemUtil {
 	public static void runOSXCommand(String command) {
 		try {
 			Process process = Runtime.getRuntime().exec( new String[] { "/bin/sh", "-c", command } );
+			process.isAlive();
 		} catch (IOException e) { 
 			e.printStackTrace(); 
 		}
@@ -113,6 +114,7 @@ public class SystemUtil {
 					String killCmd = "kill -9 "+processline;
 					P.println("killCmd: "+killCmd);
 					Process d = Runtime.getRuntime().exec(killCmd);
+					d.isAlive(); // removes eclipse warning
 				}
 			}
 			input.close();

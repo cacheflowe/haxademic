@@ -18,6 +18,7 @@ public class OscWrapper {
 	protected HashMap<String, InputState> oscMsgState;
 	protected int lastUpdatedFrame = 0;
 
+	@SuppressWarnings("deprecation")
 	public OscWrapper() {
 //		_oscP5 = new OscP5(this, 12000);
 //		_oscP5 = new OscP5(this,"239.0.0.1",7777);			// multicast! check the demo for more info

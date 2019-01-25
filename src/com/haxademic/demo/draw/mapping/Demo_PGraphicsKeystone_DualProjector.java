@@ -24,11 +24,11 @@ extends PAppletHax {
 	protected void overridePropsFile() {
 		p.appConfig.setProperty( AppSettings.WIDTH, 1000 );
 		p.appConfig.setProperty( AppSettings.HEIGHT, 700 );
-		p.appConfig.setProperty( AppSettings.FULLSCREEN, true );
-		p.appConfig.setProperty( AppSettings.SCREEN_X, 0 );
-		p.appConfig.setProperty( AppSettings.SCREEN_Y, 0 );
-		p.appConfig.setProperty( AppSettings.WIDTH, 3840 );
-		p.appConfig.setProperty( AppSettings.HEIGHT, 1080 );
+//		p.appConfig.setProperty( AppSettings.FULLSCREEN, true );
+//		p.appConfig.setProperty( AppSettings.SCREEN_X, 0 );
+//		p.appConfig.setProperty( AppSettings.SCREEN_Y, 0 );
+//		p.appConfig.setProperty( AppSettings.WIDTH, 3840 );
+//		p.appConfig.setProperty( AppSettings.HEIGHT, 1080 );
 	}
 
 	public void setupFirstFrame() {

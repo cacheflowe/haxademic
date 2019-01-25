@@ -28,7 +28,7 @@ extends PApplet {
 		//_kinectWrapper = new KinectWrapper( this, true, true, true );
 		
 		//TODO: This is temporary. Redesign to use dependency injection of the Kinect services
-		_kinectWrapper = new KinectWrapperV1( this, true, true, true );
+		_kinectWrapper = new KinectWrapperV1( this, true, true );
 		
 		stroke(255,255,255);
 		smooth();

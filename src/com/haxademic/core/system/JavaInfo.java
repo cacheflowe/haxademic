@@ -163,7 +163,8 @@ public class JavaInfo {
 
     }
 
-    public static void printSecurityInfo() throws UnknownHostException {
+    @SuppressWarnings("deprecation")
+	public static void printSecurityInfo() throws UnknownHostException {
         SecurityManager security = System.getSecurityManager();
          if (security != null) {
              out.println("security manager "+security.getClass().getName()+" in check "+security.getInCheck());

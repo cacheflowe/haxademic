@@ -34,6 +34,7 @@ public class WindowsSystemUtil {
 					// P.println("javaPIDs[] killing:", i, "=", javaPIDs[i]);
 					// P.println("kill command:", "Taskkill /PID "+ javaPIDs[i] +" /F");
 		        	Process killProcess = Runtime.getRuntime().exec("Taskkill /PID "+ javaPIDs[i] +" /F");
+		        	killProcess.isAlive();
 				}
 			}
 	        

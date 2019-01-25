@@ -9,21 +9,22 @@ import processing.core.PVector;
 
 public class KinectWrapperV1 implements IKinectWrapper{
 	
+	// The sensor has an angular field of view of 57 degrees horizontally and 43 degrees vertically, while the motorized pivot is capable of tilting the sensor up to 27 degrees either up or down
+	// http://en.wikipedia.org/wiki/Field_of_view
+	
 	protected PApplet p;
 	protected SimpleOpenNI _kinect;
 	protected boolean _kinectActive = true;
 	public static boolean KINECT_ERROR_SHOWN = false;
-
-	protected int _hardwareTilt = 0;
+	protected int cameraIndex = 0;
+	
 	public static int KWIDTH = 640;
 	public static int KHEIGHT = 480;
 
-	public int[] _depthArray = {0};
+	public int[] _depthArray;
 	public PVector[] _realWorldMap;
 	public boolean _flipped = false;
-
-	// The sensor has an angular field of view of 57� horizontally and 43� vertically, while the motorized pivot is capable of tilting the sensor up to 27� either up or down
-	// http://en.wikipedia.org/wiki/Field_of_view
+	protected int _hardwareTilt = 0;
 
 	// multithread the kinect communication
 	protected KinectUpdater _loader;
@@ -31,17 +32,29 @@ public class KinectWrapperV1 implements IKinectWrapper{
 	protected Boolean _updateComplete = true;
 	
 
-	public KinectWrapperV1( PApplet p, boolean initDepth, boolean initRGB, boolean initDepthImage ) {
+	public KinectWrapperV1( PApplet p, boolean initRGB, boolean initDepthImage ) {
+		this(p, initRGB, initDepthImage, 0);
+	}
+	
+	public KinectWrapperV1( PApplet p, boolean initRGB, boolean initDepthImage, int cameraIndex ) {
 		this.p = p;
+		this.cameraIndex = cameraIndex;
 		
-		_kinect = new SimpleOpenNI( p, SimpleOpenNI.RUN_MODE_DEFAULT );
-		boolean depthEnabled = _kinect.enableDepth();
-		if(initRGB == true) _kinect.enableRGB();
-//		_kinect.enableIR();	// IR doesn't like being enabled off the bat - it kills the RGB camera?!
-		_kinect.setMirror(false);
+		// init camera object. 2nd camera (and theoretically beyond) need a different constructor
+		if(this.cameraIndex == 0) {
+			_kinect = new SimpleOpenNI( p, SimpleOpenNI.RUN_MODE_DEFAULT );
+		} else {
+			_kinect = new SimpleOpenNI( SimpleOpenNI.RUN_MODE_MULTI_THREADED, p, 1 );
+		}
+
+		// init kinect properties
+		boolean initSuccess = _kinect.enableDepth();
+		if(initRGB) _kinect.enableRGB();
+//		_kinect.setMirror(false);
+		// _kinect.enableIR();  // IR doesn't like being enabled off the bat - it kills the RGB camera?!
 		
 		// enable depthMap generation 
-		if(depthEnabled == false && KINECT_ERROR_SHOWN == false) {
+		if(initSuccess == false && KINECT_ERROR_SHOWN == false) {
 			DebugUtil.alert("Can't access the Kinect. Make sure it's plugged into the computer and a power outlet.");
 			_kinectActive = false;
 			KINECT_ERROR_SHOWN = true;

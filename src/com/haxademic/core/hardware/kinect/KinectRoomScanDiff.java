@@ -25,8 +25,8 @@ public class KinectRoomScanDiff {
 	protected int roomMapCaptureFrames = 400;
 	
 	protected int kinectNear = 300;
-	protected int kinectFar = 5000;
-	protected int pixelSkip = 6;
+	protected int kinectFar = 8000;
+	protected int pixelSkip = 10;
 	protected float distanceDiffThreshold = 0.05f;
 	protected float diffSmoothBlur = 0.75f;
 	protected float depthBufferSmoothLerp = 0.2f;

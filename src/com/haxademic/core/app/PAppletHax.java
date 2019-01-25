@@ -6,8 +6,6 @@ import java.io.IOException;
 
 import javax.sound.midi.InvalidMidiDataException;
 
-import org.supercsv.quote.AlwaysQuoteMode;
-
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.P5Properties;
 import com.haxademic.core.audio.analysis.input.AudioInputBeads;
@@ -259,7 +257,7 @@ extends PApplet
 		} else if( p.appConfig.getBoolean( AppSettings.KINECT_V2_MAC_ACTIVE, false ) == true ) {
 			kinectWrapper = new KinectWrapperV2Mac( p, p.appConfig.getBoolean( "kinect_depth", true ), p.appConfig.getBoolean( "kinect_rgb", true ), p.appConfig.getBoolean( "kinect_depth_image", true ) );
 		} else if( p.appConfig.getBoolean( AppSettings.KINECT_ACTIVE, false ) == true ) {
-			kinectWrapper = new KinectWrapperV1( p, p.appConfig.getBoolean( "kinect_depth", true ), p.appConfig.getBoolean( "kinect_rgb", true ), p.appConfig.getBoolean( "kinect_depth_image", true ) );
+			kinectWrapper = new KinectWrapperV1( p, p.appConfig.getBoolean( "kinect_rgb", true ), p.appConfig.getBoolean( "kinect_depth_image", true ) );
 		}
 		if(kinectWrapper != null) {
 			kinectWrapper.setMirror( p.appConfig.getBoolean( "kinect_mirrored", true ) );
@@ -480,17 +478,14 @@ extends PApplet
 
 			if( _midiRenderer != null ) {
 				boolean doneCheckingForMidi = false;
-				boolean triggered = false;
 				while( doneCheckingForMidi == false ) {
 					int rendererNote = _midiRenderer.checkForCurrentFrameNoteEvents();
 					if( rendererNote != -1 ) {
 						midiState.noteOn( 0, rendererNote, 100 );
-						triggered = true;
 					} else {
 						doneCheckingForMidi = true;
 					}
 				}
-//				if( triggered == false && midi != null ) midi.allOff();
 			}
 		}
 		if(_gifRenderer != null && appConfig.getBoolean(AppSettings.RENDERING_GIF, false) == true) {
@@ -517,7 +512,7 @@ extends PApplet
 				P.println("shutting down renderer");
 			}
 		}
-		// check for gifrendering stop frame
+		// check for gif rendering stop frame
 		if(_gifRenderer != null && appConfig.getBoolean(AppSettings.RENDERING_GIF, false) == true) {
 			if(appConfig.getInt(AppSettings.RENDERING_GIF_START_FRAME, 1) == p.frameCount) {
 				_gifRenderer.startGifRender(this);
