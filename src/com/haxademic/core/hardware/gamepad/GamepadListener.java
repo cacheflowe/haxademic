@@ -38,12 +38,14 @@ public class GamepadListener {
 			while (true) {
 				// poll each device
 				for (int i = 0; i < controllers.length; i++) {
-					if(controllers[i].getType() == Controller.Type.STICK || controllers[i].getType() == Controller.Type.GAMEPAD) {
+					// On OS X, Gamepad showed up as GAMEPAD, and on Windows, UNKNOWN
+					if(controllers[i].getType() != Controller.Type.MOUSE && controllers[i].getType() != Controller.Type.KEYBOARD) {
 						// get input updates
 						controllers[i].poll();
 						EventQueue queue = controllers[i].getEventQueue();
 						Event event = new Event();
 						while (queue.getNextEvent(event)) {
+							// P.out(controllers[i].getType());
 							Component comp = event.getComponent();
 							float value = event.getValue();
 							P.p.gamepadState.setControlValue(comp.getName(), value);
