@@ -352,6 +352,24 @@ public class FileUtil {
 		return linesArr;
 	}
 	
+	public static String getFileSize(String filePaTh) {
+		// from: https://github.com/jeffThompson/ProcessingTeachingSketches/blob/master/Utilities/GetFileSize/GetFileSize.pde
+		File f  = new File(filePaTh);           // read into File object
+		float fs = f.length();                   // get file size in bytes
+
+		String fileSize = "";
+		if (fs < 1024) {                        // less than 1 kb, measure in bytes
+			fileSize += fs + " bytes";
+		} else if (fs > 1024 && fs < 1048576) {   // 1 kb - .99 MB, measure in kb
+			fs /= 1024f;
+			fileSize += fs + " kb";
+		} else {
+			fs /= 1048576f;
+			fileSize += fs + " MB";               // larger? measure in megabytes
+		}
+		return fileSize;
+	}
+
 	// DELETION
 	
 	public static boolean deleteFile(String filePath) {
