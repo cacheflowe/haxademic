@@ -12,6 +12,7 @@ extends PAppletHax {
 	protected DMXWrapper dmx;
 
 	protected int startChannel = 1;
+	protected int value = 0;
 	protected boolean manualBrightness = false;
 	protected boolean brightnessCap = true;
 	
@@ -40,11 +41,11 @@ extends PAppletHax {
 		p.debugView.setHelpLine("__ Key Commands", "__\n");
 		p.debugView.setHelpLine("1 |", "SINGLE_CHANNEL");
 		p.debugView.setHelpLine("2 |", "RGB");
-		p.debugView.setHelpLine("3 |", "ALL");
+		p.debugView.setHelpLine("3 |", "ALL");	
 		p.debugView.setHelpLine("4 |", "NONE");
 		p.debugView.setHelpLine("5 |", "MANUAL BRIGHTNESS");
 		p.debugView.setHelpLine("6 |", "BRIGHTNESS CAP");
-		p.debugView.setHelpLine("7 |", "AUDI MODE");
+		p.debugView.setHelpLine("7 |", "AUDIO MODE");
 		p.debugView.setHelpLine("SPACE |", "Reset all");
 		p.debugView.setHelpLine("LEFT |", "Channel down");
 		p.debugView.setHelpLine("RIGHT |", "Channel up");
@@ -66,7 +67,10 @@ extends PAppletHax {
 		
 		// manual control
 		if (manualBrightness) {
-			valueR = valueG = valueB = P.round(p.mousePercentY() * 255f);
+			if(p.mouseY != p.pmouseY) {
+				value = P.round(p.mousePercentY() * 255f);
+			}
+			valueR = valueG = valueB = value;
 		}
 		
 		if (audioActive) {
@@ -124,13 +128,13 @@ extends PAppletHax {
 		p.text(debugInfo, p.width * 0.2f, p.height * 0.14f, p.width, p.height);
 		
 		// debug
+		p.debugView.setValue("audioActive", audioActive);
 		p.debugView.setValue("channel", startChannel);
 		p.debugView.setValue("valueR", valueR);
 		p.debugView.setValue("valueG", valueG);
 		p.debugView.setValue("valueB", valueB);
 		p.debugView.setValue("manualBrightness", manualBrightness);
 		p.debugView.setValue("brightnessCap", brightnessCap);
-		p.debugView.setValue("audioActive", audioActive);
 	}
 	
 	protected void resetAllChannels() {
@@ -151,10 +155,7 @@ extends PAppletHax {
 		if(p.key == ' ') resetAllChannels();
 		if(p.keyCode == P.LEFT && startChannel > 1) startChannel--; 
 		if(p.keyCode == P.RIGHT && startChannel < 512) startChannel++; 
+		if(p.keyCode == P.UP && value > 0) value -= 5; 
+		if(p.keyCode == P.DOWN && value < 250) value += 5; 
 	}
 }
-
-
-
-
-
