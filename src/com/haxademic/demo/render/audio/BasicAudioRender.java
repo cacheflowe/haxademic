@@ -1,5 +1,6 @@
 package com.haxademic.demo.render.audio;
 
+import com.haxademic.core.app.P;
 import com.haxademic.core.audio.AudioInputWrapper;
 import com.haxademic.core.draw.camera.CameraOscillate;
 import com.haxademic.core.draw.camera.common.ICamera;
@@ -28,7 +29,7 @@ public class BasicAudioRender
 	{
 		// set up stage
 		if( !_isSetup ){
-			size(1280,720,OPENGL);
+			size(1280,720,P.P3D);
 
 			//size( 640, 480, P3D );				//size(screen.width,screen.height,P3D);
 			_isSetup = true;

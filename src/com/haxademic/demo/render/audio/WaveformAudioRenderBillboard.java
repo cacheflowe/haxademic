@@ -50,8 +50,8 @@ extends PAppletHax {
 		waveform.stroke(0);
 		waveform.strokeWeight(0.85f);
 		waveform.noFill();
-		float startX = 0;
-		float spacing = waveform.width / 512f;
+		// float startX = 0;
+		// float spacing = waveform.width / 512f;
 		// THIS NEED FIXING VIA THE NEW SHARED AUDIO DATA OBJECTS
 //		waveform.beginShape();
 //		for (int i = 0; i < _waveformData._waveform.length; i++ ) {

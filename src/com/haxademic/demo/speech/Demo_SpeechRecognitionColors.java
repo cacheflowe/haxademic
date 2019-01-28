@@ -203,7 +203,8 @@ implements ISpeechRecognizer {
 
 				// print possible results if not using grammar
 				Collection<String> resultText = result.getNbest(10);
-				for (Iterator iterator = resultText.iterator(); iterator.hasNext();) {
+				for (@SuppressWarnings("rawtypes")
+				Iterator iterator = resultText.iterator(); iterator.hasNext();) {
 					String string = (String) iterator.next();
 					P.out("result: ", string);
 				}

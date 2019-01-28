@@ -7,8 +7,6 @@ import com.haxademic.core.draw.filters.pshader.BlurHFilter;
 import com.haxademic.core.draw.image.TickerScroller;
 import com.haxademic.core.file.DemoAssets;
 
-import processing.core.PGraphics;
-
 public class Demo_TickerScroller
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }

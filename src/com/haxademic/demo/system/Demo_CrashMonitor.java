@@ -35,6 +35,7 @@ extends PAppletHax {
 		p.text("CLICK TO CRASH", 20, 30);
 	}
 	
+	@SuppressWarnings("null")
 	public void mouseClicked() {
 		super.mouseClicked();
 		// crash!

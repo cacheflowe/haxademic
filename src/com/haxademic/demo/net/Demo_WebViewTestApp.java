@@ -5,10 +5,7 @@ import com.haxademic.core.app.P;
 import javafx.application.Application;
 import javafx.geometry.HPos;
 import javafx.geometry.VPos;
-import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.layout.HBox;
-import javafx.scene.layout.Priority;
 import javafx.scene.layout.Region;
 import javafx.scene.paint.Color;
 import javafx.scene.web.WebEngine;
@@ -62,11 +59,11 @@ extends Application {
 
 		}
 		
-		private Node createSpacer() {
-			Region spacer = new Region();
-			HBox.setHgrow(spacer, Priority.ALWAYS);
-			return spacer;
-		}
+//		private Node createSpacer() {
+//			Region spacer = new Region();
+//			HBox.setHgrow(spacer, Priority.ALWAYS);
+//			return spacer;
+//		}
 
 		@Override protected void layoutChildren() {
 			double w = getWidth();

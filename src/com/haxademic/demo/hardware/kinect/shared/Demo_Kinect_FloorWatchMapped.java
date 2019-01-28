@@ -113,7 +113,7 @@ extends PAppletHax {
 		float kinectDepthZone = slider(KINECT_FAR) - slider(KINECT_NEAR);
 		float distancePixels = (float) KinectWrapperV1.KWIDTH / kinectDepthZone;		// map distance to width
 		float pixelSkip = slider(PIXEL_SIZE);
-		float pixelHalf = pixelSkip / 2f;
+		// float pixelHalf = pixelSkip / 2f;
 		
 		// TODO: Switch to ONLY loop through kinect points that we need
 		for ( int x = 0; x < KinectSize.WIDTH; x += pixelSkip ) {

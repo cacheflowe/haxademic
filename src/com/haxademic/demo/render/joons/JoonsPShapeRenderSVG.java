@@ -55,7 +55,7 @@ extends PAppletHax {
 		p.translate(0, 0, -width);
 		
 		// progress
-		float progress = (p.frameCount % frames) / frames;
+		// float progress = (p.frameCount % frames) / frames;
 
 		// draw environment
 		p.pushMatrix();

@@ -104,7 +104,7 @@ extends PAppletHax {
 			p.debugView.setValue("isTracked", HDfaceData.isTracked());
 			if (HDfaceData.isTracked()) {
 				//draw the vertex points
-				int pointIndex = 0;
+//				int pointIndex = 0;
 //				points=new WB_Point[p.prefsSliders.valueInt(endIndex) - p.prefsSliders.valueInt(startIndex) - 1];
 
 				if(bufferrgb != null) {

@@ -151,7 +151,7 @@ public class MultipleAudioFileRender
 			
 			// calc how many to draw
 			int numToDraw = PApplet.floor( vol / _eqSegment ); 
-			float remainder = vol - numToDraw * _eqSegment;
+			// float remainder = vol - numToDraw * _eqSegment;
 			
 			// draw whole steps
 			tint( 1, 1 );

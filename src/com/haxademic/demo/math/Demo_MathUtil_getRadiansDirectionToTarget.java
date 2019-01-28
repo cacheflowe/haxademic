@@ -128,7 +128,7 @@ extends PAppletHax {
 			rotation.setTarget(directionAway);
 			
 			// rotate slightly away from other
-			float dir = MathUtil.getRadiansDirectionToTarget(rotation.value(), directionAway);
+//			float dir = MathUtil.getRadiansDirectionToTarget(rotation.value(), directionAway);
 //			rotation.setTarget(rotation.value() + dir * 0.8f);
 		}
 		
