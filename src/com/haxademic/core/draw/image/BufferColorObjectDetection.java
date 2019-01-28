@@ -3,6 +3,7 @@ package com.haxademic.core.draw.image;
 import com.haxademic.core.app.P;
 import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.draw.color.ColorUtil;
+import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.filters.pshader.ErosionFilter;
 import com.haxademic.core.draw.filters.pshader.InvertFilter;
 import com.haxademic.core.draw.filters.pshader.SaturationFilter;
@@ -36,6 +37,8 @@ public class BufferColorObjectDetection {
 		bufferH = P.round(scale * sourceImg.height);
 		source = P.p.createGraphics(bufferW, bufferH, PRenderers.P2D);
 		bufferOutput = P.p.createGraphics(bufferW, bufferH, PRenderers.P2D);
+		source.noSmooth();
+		bufferOutput.noSmooth();
 		colorDistanceFilter = P.p.loadShader(FileUtil.getFile("haxademic/shaders/filters/color-distance.glsl"));
 		setColorCompare(1f, 1f, 1f);
 	}
@@ -103,6 +106,8 @@ public class BufferColorObjectDetection {
 	}
 	
 	public void update(PImage newFrame) {
+		int analyzeStart = P.p.millis();
+		
 		// copy webcam to current buffer
 		ImageUtil.copyImage(newFrame, source);
 		SaturationFilter.instance(P.p).setSaturation(2f);
@@ -115,10 +120,10 @@ public class BufferColorObjectDetection {
 		InvertFilter.instance(P.p).applyTo(bufferOutput);
 		ThresholdFilter.instance(P.p).setCutoff(colorClosenessThreshold);
 		ThresholdFilter.instance(P.p).applyTo(bufferOutput);
-		ErosionFilter.instance(P.p).applyTo(bufferOutput);
+		// ErosionFilter.instance(P.p).applyTo(bufferOutput);
 		
 		// loop through pixels
-		// float totalChecked = 0;
+		float totalChecked = 0;
 		totalCounted = 0;
 		float totalX = 0;
 		float totalY = 0;
@@ -132,10 +137,9 @@ public class BufferColorObjectDetection {
 					totalX += x;
 					totalY += y;
 				}
-				// totalChecked++;
+				totalChecked++;
 			}
 		}
-		// P.p.debugView.setValue("totalChecked", totalChecked);
 		
 		// calc normalized center of mass / position
 		if(totalCounted > minPointsThreshold) {
@@ -152,10 +156,14 @@ public class BufferColorObjectDetection {
 		// draw debug output
 		if(debugging) {
 			bufferOutput.beginDraw();
+			DrawUtil.setDrawCenter(bufferOutput);
 			bufferOutput.fill(0, 255, 0);
 			bufferOutput.noStroke();
-			bufferOutput.ellipse(x.value() * bufferOutput.width - 5, y.value() * bufferOutput.height - 5, 10, 10);
+			bufferOutput.ellipse(x.value() * bufferOutput.width, y.value() * bufferOutput.height, 10, 10);
 			bufferOutput.endDraw();
+
+			P.p.debugView.setValue("BufferColorObjectDetection time", (P.p.millis() - analyzeStart)+"ms");
+			P.p.debugView.setValue("BufferColorObjectDetection totalChecked", totalChecked);
 		}
 	}
 }
