@@ -4,9 +4,6 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.context.DrawUtil;
-import com.haxademic.core.draw.filters.pshader.BloomFilter;
-import com.haxademic.core.draw.filters.pshader.GrainFilter;
-import com.haxademic.core.draw.filters.pshader.VignetteFilter;
 import com.haxademic.core.math.easing.DisplacementPoint;
 
 public class DisplacementPointMesh
@@ -94,22 +91,6 @@ extends PAppletHax {
 				p.line(points[i].x(), points[i].y(), points[downIndex].x(), points[downIndex].y());
 			}
 		}
-
-		
-//		// post process
-//		BloomFilter.instance(p).setStrength(0.9f);
-//		BloomFilter.instance(p).setBlurIterations(2);
-//		BloomFilter.instance(p).setBlendMode(BloomFilter.BLEND_SCREEN);
-//		BloomFilter.instance(p).applyTo(p);
-////		BloomFilter.instance(p).applyTo(pg);
-//		
-//		VignetteFilter.instance(p).setDarkness(0.39f);
-//		VignetteFilter.instance(p).applyTo(p);
-//
-//		GrainFilter.instance(p).setTime(p.frameCount * 0.01f);
-//		GrainFilter.instance(p).setCrossfade(0.1f);
-//		GrainFilter.instance(p).applyTo(p);
-		
 
 	}
 }
