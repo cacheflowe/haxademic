@@ -47,10 +47,10 @@ extends PAppletHax {
 		float[] vecResult = opticalFlow.getVectorAt(0.5f, 0.5f);
 		p.debugView.setValue("OpticalFlow.getVectorAt(0.5f, 0.5f) x", vecResult[0]);
 		p.debugView.setValue("OpticalFlow.getVectorAt(0.5f, 0.5f) y", vecResult[1]);
-		vecResult = opticalFlow.getVectorAt(0.99f, 0.99f);
+		vecResult = opticalFlow.getVectorAt(1f, 1f);
 		p.debugView.setValue("OpticalFlow.getVectorAt(1f, 1f) x", vecResult[0]);
 		p.debugView.setValue("OpticalFlow.getVectorAt(1f, 1f) y", vecResult[1]);
-		vecResult = opticalFlow.getVectorAt(0.01f, 0.01f);
+		vecResult = opticalFlow.getVectorAt(0f, 0f);
 		p.debugView.setValue("OpticalFlow.getVectorAt(0f, 0f) x", vecResult[0]);
 		p.debugView.setValue("OpticalFlow.getVectorAt(0f, 0f) y", vecResult[1]);
 	}

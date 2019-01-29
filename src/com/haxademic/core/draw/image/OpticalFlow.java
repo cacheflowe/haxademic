@@ -114,8 +114,8 @@ public class OpticalFlow {
 	public float[] getVectorAt(float x, float y) {
 		// get normalized position to local smoothed data position
 		// edges are ignored in calculations, so ignore outer col/row, but -2 on the indexes because that's how far the grid data goes
-		int ix = P.floor(1 + x * (gw - 2));
-		int iy = P.floor(1 + y * (gh - 2));
+		int ix = P.floor(1 + x * (gw - 2.001f));
+		int iy = P.floor(1 + y * (gh - 2.001f));
 		// get array index
 		int ig = iy * gw + ix;
 		// set output vector
