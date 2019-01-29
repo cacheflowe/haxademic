@@ -8,7 +8,6 @@ import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.mapping.PGraphicsKeystone;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.kinect.KinectSize;
-import com.haxademic.core.hardware.kinect.KinectWrapperV1;
 import com.haxademic.core.hardware.kinect.KinectWrapperV2;
 
 import processing.core.PGraphics;
@@ -19,11 +18,12 @@ extends PAppletHax {
 
 	protected KinectWrapperV2 kinect;
 	
-	protected PGraphics buffer1;
+	protected PGraphics bufferDepthSlice;
+	protected PGraphics bufferNormalizedDepth;
 	
 	protected PGraphicsKeystone keystone;
-	protected boolean debug1 = false;
 	protected boolean keystoneMode = true;
+	protected boolean keystoneUI = true;
 	
 	public static String PIXEL_SIZE = "KINECT_OVERLAP_PIXEL_SIZE";
 	public static String KINECT_TOP = "KINECT_OVERLAP_TOP";
@@ -44,15 +44,16 @@ extends PAppletHax {
 		kinect = new KinectWrapperV2(p, true, false, true);
 		
 		// and buffer for each kinect
-		buffer1 = p.createGraphics(KinectWrapperV1.KWIDTH, KinectWrapperV1.KWIDTH, PRenderers.P3D);
+		bufferDepthSlice = p.createGraphics(KinectWrapperV2.KWIDTH, KinectWrapperV2.KWIDTH, PRenderers.P3D);
+		bufferNormalizedDepth = p.createGraphics(KinectWrapperV2.KWIDTH, KinectWrapperV2.KWIDTH, PRenderers.P3D);
 		
 		// add keystones for each buffer
-		keystone = new PGraphicsKeystone( p, buffer1, 12, FileUtil.getFile("text/keystoning/keystone-kinect.txt") );
+		keystone = new PGraphicsKeystone( p, bufferDepthSlice, 12, FileUtil.getFile("text/keystoning/keystone-kinect.txt") );
 		
 		// add prefs sliders
 		p.prefsSliders.addSlider(PIXEL_SIZE, 	3,    1, 20, 0.1f, false);
-		p.prefsSliders.addSlider(KINECT_TOP, 	220,  0, KinectWrapperV1.KHEIGHT, 1, false);
-		p.prefsSliders.addSlider(KINECT_BOTTOM, 240,  0, KinectWrapperV1.KHEIGHT, 1, false);
+		p.prefsSliders.addSlider(KINECT_TOP, 	220,  0, KinectWrapperV2.KHEIGHT, 1, false);
+		p.prefsSliders.addSlider(KINECT_BOTTOM, 240,  0, KinectWrapperV2.KHEIGHT, 1, false);
 		p.prefsSliders.addSlider(KINECT_NEAR, 	1000, 0, 3000, 1, false);
 		p.prefsSliders.addSlider(KINECT_FAR, 	7000, 0, 10000, 4, false);
 	}
@@ -70,26 +71,45 @@ extends PAppletHax {
 		// draw filtered web cam
 		DrawUtil.setDrawCorner(p);
 		
-		// draw 2 cameras' depth data
-		drawKinectDepthPixels(kinect, buffer1, p.color(100), true);
-		int kinectPixels = drawKinectDepthPixels(kinect, buffer1, p.color(255), false);
+		// draw kinect depth data in 2 passes for debugging
+		if(keystoneUI) drawKinectDepthPixels(kinect, bufferDepthSlice, p.color(100), true, true);
+		int kinectPixels = drawKinectDepthPixels(kinect, bufferDepthSlice, p.color(255), false, !keystoneUI);
 		p.debugView.setValue("kinectPixels", kinectPixels);
 		
-		keystone.update(p.g);
+		// calc destination texture centered screen coordinates
+		float textureX = p.width / 2 - bufferNormalizedDepth.width / 2;
+		float textureY = p.height / 2 - bufferNormalizedDepth.height / 2;
+		
+		// draw depth data into normalized texture
+		bufferNormalizedDepth.beginDraw();
+		bufferNormalizedDepth.background(0);
+		bufferNormalizedDepth.translate(-textureX, -textureY);
+		keystone.update(bufferNormalizedDepth);
+		bufferNormalizedDepth.endDraw();
+		p.debugView.setTexture(bufferNormalizedDepth);
+		
+		
+		// draw keystone UI to screen
+		if(keystoneUI) {
+			keystone.update(p.g);
+		} else {
+			// draw normalized texture to center of screen when UI is disabled
+			p.image(bufferNormalizedDepth, textureX, textureY);
+		}
 		
 		// draw map zone
 		p.fill(0, 0);
 		p.stroke(0, 255, 0);
 		p.strokeWeight(4);
-		p.rect(p.width / 2 - 160, p.height / 2 - 160, 320, 320);
+		p.rect(p.width / 2 - bufferNormalizedDepth.width / 2, p.height / 2 - bufferNormalizedDepth.width / 2, bufferNormalizedDepth.width, bufferNormalizedDepth.height);
 		
 	}
 
 	public void keyPressed() {
 		super.keyPressed();
 		if(p.key == '1') {
-			debug1 = !debug1;
-			keystone.setActive(debug1);
+			keystoneUI = !keystoneUI;
+			keystone.setActive(keystoneUI);
 		}
 	}
 	
@@ -97,10 +117,10 @@ extends PAppletHax {
 		return p.prefsSliders.value(key);
 	}
 	
-	protected int drawKinectDepthPixels(KinectWrapperV2 kinect, PGraphics buffer, int pixelColor, boolean drawAllData) {
+	protected int drawKinectDepthPixels(KinectWrapperV2 kinect, PGraphics buffer, int pixelColor, boolean drawAllData, boolean clearBg) {
 		// open context
 		buffer.beginDraw();
-		if(drawAllData == true) buffer.background(0, 0);
+		if(clearBg == true) buffer.background(0);
 		buffer.noStroke();
 		buffer.fill(pixelColor);
 
@@ -111,7 +131,7 @@ extends PAppletHax {
 		float numPoints = 0;
 		
 		float kinectDepthZone = slider(KINECT_FAR) - slider(KINECT_NEAR);
-		float distancePixels = (float) KinectWrapperV1.KWIDTH / kinectDepthZone;		// map distance to width
+		float distancePixels = (float) KinectWrapperV2.KWIDTH / kinectDepthZone;		// map distance to width
 		float pixelSkip = slider(PIXEL_SIZE);
 		// float pixelHalf = pixelSkip / 2f;
 		
@@ -133,10 +153,7 @@ extends PAppletHax {
 				}
 			}
 		}
-		
-		// show CoM
-		buffer.fill(pixelColor);
-		if(drawAllData == false) buffer.ellipse(avgX / numPoints, avgY / numPoints, 20, 20);
+		p.debugView.setValue("avgX/avgY", avgX + ", " + avgY);
 		
 		// close buffer
 		buffer.endDraw();
