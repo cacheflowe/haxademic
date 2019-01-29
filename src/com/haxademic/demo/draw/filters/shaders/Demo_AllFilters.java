@@ -14,6 +14,7 @@ import com.haxademic.core.draw.filters.pshader.BlurHFilter;
 import com.haxademic.core.draw.filters.pshader.BlurProcessingFilter;
 import com.haxademic.core.draw.filters.pshader.BlurVFilter;
 import com.haxademic.core.draw.filters.pshader.BrightnessFilter;
+import com.haxademic.core.draw.filters.pshader.BrightnessStepFilter;
 import com.haxademic.core.draw.filters.pshader.BrightnessToAlphaFilter;
 import com.haxademic.core.draw.filters.pshader.BulgeLinearFilter;
 import com.haxademic.core.draw.filters.pshader.ChromaColorFilter;
@@ -122,6 +123,7 @@ extends PAppletHax { public static void main(String args[]) { PAppletHax.main(Th
 			BlurHFilter.instance(p),
 			BlurProcessingFilter.instance(p),
 			BrightnessFilter.instance(p),
+			BrightnessStepFilter.instance(p),
 			BrightnessToAlphaFilter.instance(p),
 			BulgeLinearFilter.instance(p),
 			ChromaColorFilter.instance(p),
@@ -276,6 +278,9 @@ extends PAppletHax { public static void main(String args[]) { PAppletHax.main(Th
 		} else if(curFilter == BrightnessFilter.instance(p)) {
 			BrightnessFilter.instance(p).setBrightness(p.mousePercentY() * 10f);
 			BrightnessFilter.instance(p).applyTo(pg);
+		} else if(curFilter == BrightnessStepFilter.instance(p)) {
+			BrightnessStepFilter.instance(p).setBrightnessStep(P.map(p.mousePercentY(), 0, 1, -1f, 1f));
+			BrightnessStepFilter.instance(p).applyTo(pg);
 		} else if(curFilter == BrightnessToAlphaFilter.instance(p)) {
 			BrightnessToAlphaFilter.instance(p).setFlip(p.mousePercentX() > 0.5f);
 			BrightnessToAlphaFilter.instance(p).applyTo(pg);
