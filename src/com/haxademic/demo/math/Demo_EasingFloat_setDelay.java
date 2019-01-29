@@ -2,11 +2,8 @@ package com.haxademic.demo.math;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.math.easing.EasingFloat;
-
-import controlP5.ControlP5;
 
 public class Demo_EasingFloat_setDelay
 extends PAppletHax {
@@ -14,12 +11,6 @@ extends PAppletHax {
 	
 	public float easeFactor = 6f;
 	protected EasingFloat[] easings;
-	protected ControlP5 _cp5;
-
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.FPS, "60" );
-	}
-
 
 	public void setup() {
 		super.setup();	
