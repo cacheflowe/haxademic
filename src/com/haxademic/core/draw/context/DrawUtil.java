@@ -223,14 +223,16 @@ public class DrawUtil {
 		pg.beginDraw();
 		pg.noStroke();
 		
-		for( int x=0; x < pg.width; x+= 50) {
-			for( int y=0; y < pg.height; y+= 50) {
-				if( ( x % 100 == 0 && y % 100 == 0 ) || ( x % 100 == 50 && y % 100 == 50 ) ) {
+		int cellSize = pg.pixelWidth / 20;
+		int twoCells = cellSize * 2;
+		for( int x=0; x < pg.width; x+= cellSize) {
+			for( int y=0; y < pg.height; y+= cellSize) {
+				if( ( x % twoCells == 0 && y % twoCells == 0 ) || ( x % twoCells == cellSize && y % twoCells == cellSize ) ) {
 					pg.fill(0);
 				} else {
 					pg.fill(255);
 				}
-				pg.rect(x,y,50,50);
+				pg.rect(x,y,cellSize,cellSize);
 			}
 		}
 		pg.endDraw();
