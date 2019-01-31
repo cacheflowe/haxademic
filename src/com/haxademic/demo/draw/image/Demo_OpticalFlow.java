@@ -10,11 +10,6 @@ extends PAppletHax {
 
 	protected OpticalFlow opticalFlow;
 
-	public void setupFirstFrame () {
-		//		p.prefsSliders.addSlider(COLOR_CLOSENESS_THRESHOLD, 0.95f, 0.9f, 1f, 0.001f, false);
-		//		p.prefsSliders.addSlider(COLOR_MIN_POINTS_DETECT_THRESHOLD, 10, 1, 100, 1, false);
-	}
-
 	public void drawApp() {
 		// set up context
 		p.background(0);
@@ -26,7 +21,7 @@ extends PAppletHax {
 		pg.noStroke();
 		pg.fill(255);
 		DrawUtil.setDrawCenter(pg);
-		pg.ellipse(p.mouseX, p.mouseY, 80, 80);
+		pg.ellipse(p.mouseX, p.mouseY, 40, 40);
 		pg.endDraw();
 
 		// lazy-init color detection and update it with `pg`

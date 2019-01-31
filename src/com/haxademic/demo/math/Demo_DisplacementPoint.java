@@ -21,12 +21,14 @@ extends PAppletHax {
 	protected int rows = 30;
 
 	protected void overridePropsFile() {
+		p.appConfig.setProperty( AppSettings.WIDTH, 1440);
+		p.appConfig.setProperty( AppSettings.HEIGHT, 1080);
 		p.appConfig.setProperty( AppSettings.SHOW_SLIDERS, true);
 	}
 
 	public void setupFirstFrame() {
 		// lay out grid
-		float spacing = 14;
+		float spacing = 40;
 		float startX = p.width / 2 - (cols / 2) * spacing + spacing/2;
 		float startY = p.height / 2 - (rows / 2) * spacing + spacing/2;
 		points = new DisplacementPoint[rows * cols];
@@ -38,7 +40,7 @@ extends PAppletHax {
 		
 		// set up sliders
 		p.prefsSliders.addSlider(POINT_SIZE, 10, 1, 100, 1, false);
-		p.prefsSliders.addSlider(DISPLACE_AMP, 30, 1, 100, 1, false);
+		p.prefsSliders.addSlider(DISPLACE_AMP, 30, 1, 300, 1, false);
 		p.prefsSliders.addSlider(FRICTION, 0.9f, 0.1f, 0.99f, 0.001f, false);
 		p.prefsSliders.addSlider(ACCELERATION, 0.1f, 0.01f, 0.99f, 0.001f, false);
 		p.prefsSliders.addSlider(INFLUENCE_BY_DISTANCE, 1, 0, 1, 0.01f, false);
@@ -48,7 +50,11 @@ extends PAppletHax {
 		return y * cols + x;
 	}
 	
+	protected void autoHideMouse() {
+	}
+	
 	public void drawApp() {
+		p.noCursor();
 		// set up context
 		background(0);
 		DrawUtil.setDrawCenter(p);

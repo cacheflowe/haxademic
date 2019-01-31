@@ -15,10 +15,10 @@ import processing.core.PGraphics;
 import processing.core.PImage;
 import processing.opengl.PShader;
 
-public class BufferColorObjectDetection {
+public class ColorObjectDetection {
 
 	protected PGraphics source;
-	protected PGraphics bufferOutput;
+	protected PGraphics analysisBuffer;
 	protected int colorCompare;
 	protected float scale = 1;
 	protected float colorClosenessThreshold = 0.95f;
@@ -31,14 +31,14 @@ public class BufferColorObjectDetection {
 	protected EasingFloat x = new EasingFloat(0.5f, 0.5f);
 	protected EasingFloat y = new EasingFloat(0.5f, 0.5f);
 
-	public BufferColorObjectDetection(PImage sourceImg, float scale) {
+	public ColorObjectDetection(PImage sourceImg, float scale) {
 		this.scale = scale;
 		bufferW = P.round(scale * sourceImg.width);
 		bufferH = P.round(scale * sourceImg.height);
 		source = P.p.createGraphics(bufferW, bufferH, PRenderers.P2D);
-		bufferOutput = P.p.createGraphics(bufferW, bufferH, PRenderers.P2D);
+		analysisBuffer = P.p.createGraphics(bufferW, bufferH, PRenderers.P2D);
 		source.noSmooth();
-		bufferOutput.noSmooth();
+		analysisBuffer.noSmooth();
 		colorDistanceFilter = P.p.loadShader(FileUtil.getFile("haxademic/shaders/filters/color-distance.glsl"));
 		setColorCompare(1f, 1f, 1f);
 	}
@@ -67,8 +67,8 @@ public class BufferColorObjectDetection {
 		this.debugging = debugging;
 	}
 	
-	public PGraphics outputBuffer() {
-		return bufferOutput;
+	public PGraphics analysisBuffer() {
+		return analysisBuffer;
 	}
 	
 	public PGraphics sourceBuffer() {
@@ -115,11 +115,11 @@ public class BufferColorObjectDetection {
 
 		// run color distance shader and post-process to map color closeness to white
 		// should this use a shader posterize effect?
-		ImageUtil.copyImage(source, bufferOutput);
-		bufferOutput.filter(colorDistanceFilter);
-		InvertFilter.instance(P.p).applyTo(bufferOutput);
+		ImageUtil.copyImage(source, analysisBuffer);
+		analysisBuffer.filter(colorDistanceFilter);
+		InvertFilter.instance(P.p).applyTo(analysisBuffer);
 		ThresholdFilter.instance(P.p).setCutoff(colorClosenessThreshold);
-		ThresholdFilter.instance(P.p).applyTo(bufferOutput);
+		ThresholdFilter.instance(P.p).applyTo(analysisBuffer);
 		// ErosionFilter.instance(P.p).applyTo(bufferOutput);
 		
 		// loop through pixels
@@ -127,10 +127,10 @@ public class BufferColorObjectDetection {
 		totalCounted = 0;
 		float totalX = 0;
 		float totalY = 0;
-		bufferOutput.loadPixels();
-		for (int x = 0; x < bufferOutput.width; x++) {
-			for (int y = 0; y < bufferOutput.height; y++) {
-				int pixelColor = ImageUtil.getPixelColor(bufferOutput, x, y);
+		analysisBuffer.loadPixels();
+		for (int x = 0; x < analysisBuffer.width; x++) {
+			for (int y = 0; y < analysisBuffer.height; y++) {
+				int pixelColor = ImageUtil.getPixelColor(analysisBuffer, x, y);
 				float r = ColorUtil.redFromColorInt(pixelColor);
 				if(r > 127) {
 					totalCounted++;
@@ -145,8 +145,8 @@ public class BufferColorObjectDetection {
 		if(totalCounted > minPointsThreshold) {
 			float avgX = totalX / totalCounted;
 			float avgY = totalY / totalCounted;
-			x.setTarget(avgX / bufferOutput.width);
-			y.setTarget(avgY / bufferOutput.height);
+			x.setTarget(avgX / analysisBuffer.width);
+			y.setTarget(avgY / analysisBuffer.height);
 		}
 		
 		// lerp normalized output
@@ -155,12 +155,12 @@ public class BufferColorObjectDetection {
 		
 		// draw debug output
 		if(debugging) {
-			bufferOutput.beginDraw();
-			DrawUtil.setDrawCenter(bufferOutput);
-			bufferOutput.fill(0, 255, 0);
-			bufferOutput.noStroke();
-			bufferOutput.ellipse(x.value() * bufferOutput.width, y.value() * bufferOutput.height, 10, 10);
-			bufferOutput.endDraw();
+			analysisBuffer.beginDraw();
+			DrawUtil.setDrawCenter(analysisBuffer);
+			analysisBuffer.fill(0, 255, 0);
+			analysisBuffer.noStroke();
+			analysisBuffer.ellipse(x.value() * analysisBuffer.width, y.value() * analysisBuffer.height, 10, 10);
+			analysisBuffer.endDraw();
 
 			P.p.debugView.setValue("BufferColorObjectDetection time", (P.p.millis() - analyzeStart)+"ms");
 			P.p.debugView.setValue("BufferColorObjectDetection totalChecked", totalChecked);

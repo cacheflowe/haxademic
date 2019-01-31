@@ -10,6 +10,7 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.awt.print.Book;
 import java.awt.print.PageFormat;
+import java.awt.print.Paper;
 import java.awt.print.Printable;
 import java.awt.print.PrinterJob;
 
@@ -99,7 +100,14 @@ public class PrintPageDirect {
 		Book book = new Book();
 		book.append(new ImagePage(), printJob.defaultPage());
 		PageFormat documentPageFormat = new PageFormat();
-		documentPageFormat.setOrientation(PageFormat.PORTRAIT);
+		/*
+		// new settings to play with
+		Paper pape = new Paper();
+		pape.setSize(10000, 6000);
+		pape.setImageableArea(0, 0, 10000, 6000);
+		documentPageFormat.setPaper(pape);
+		*/
+		documentPageFormat.setOrientation(PageFormat.LANDSCAPE);
 		printJob.setPageable(book);
 
 		// use the print dialog UI or just print it!
