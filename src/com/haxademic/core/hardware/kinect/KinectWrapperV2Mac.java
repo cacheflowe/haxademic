@@ -2,7 +2,6 @@ package com.haxademic.core.hardware.kinect;
 
 import org.openkinect.processing.Kinect2;
 
-import SimpleOpenNI.SimpleOpenNI;
 import processing.core.PApplet;
 import processing.core.PImage;
 import processing.core.PVector;
@@ -132,11 +131,11 @@ public class KinectWrapperV2Mac implements IKinectWrapper {
 	/* (non-Javadoc)
 	 * @see com.haxademic.core.hardware.kinect.IKinectWrapper#openni()
 	 */
-	@Override
-	public SimpleOpenNI openni() {
-		return null;
-		//return _kinect;
-	}
+//	@Override
+//	public SimpleOpenNI openni() {
+//		return null;
+//		//return _kinect;
+//	}
 	
 	/* (non-Javadoc)
 	 * @see com.haxademic.core.hardware.kinect.IKinectWrapper#setMirror(boolean)

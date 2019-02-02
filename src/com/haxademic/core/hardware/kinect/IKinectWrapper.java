@@ -27,7 +27,7 @@ public interface IKinectWrapper {
 
 	public abstract boolean isActive();
 
-	public abstract SimpleOpenNI openni(); //TODO: Remove this once the SkeltonsTracker class is fixed. It's referring to many Openni APIs directly
+//	public abstract SimpleOpenNI openni(); //TODO: Remove this once the SkeltonsTracker class is fixed. It's referring to many Openni APIs directly
 
 	public abstract void setMirror(boolean mirrored);
 	public abstract void setFlipped(boolean flipped);

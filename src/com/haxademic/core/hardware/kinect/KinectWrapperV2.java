@@ -1,7 +1,6 @@
 package com.haxademic.core.hardware.kinect;
 
 import KinectPV2.KinectPV2;
-import SimpleOpenNI.SimpleOpenNI;
 import processing.core.PApplet;
 import processing.core.PImage;
 import processing.core.PVector;
@@ -30,8 +29,8 @@ public class KinectWrapperV2 implements IKinectWrapper {
 		KinectSize.setSize(KWIDTH, KHEIGHT);
 		
 		_kinect = new KinectPV2(p);
-		_kinect.enableDepthImg(true);
-		_kinect.enableColorImg(true);
+		_kinect.enableDepthImg(initDepthImage);
+		_kinect.enableColorImg(initRGB);
 		_kinect.enableDepthMaskImg(true);
 		_kinect.enableBodyTrackImg(true);
 		_kinect.enableInfraredImg(true);
@@ -157,11 +156,11 @@ public class KinectWrapperV2 implements IKinectWrapper {
 	/* (non-Javadoc)
 	 * @see com.haxademic.core.hardware.kinect.IKinectWrapper#openni()
 	 */
-	@Override
-	public SimpleOpenNI openni() {
-		return null;
-		//return _kinect;
-	}
+//	@Override
+//	public SimpleOpenNI openni() {
+//		return null;
+//		//return _kinect;
+//	}
 	
 	/* (non-Javadoc)
 	 * @see com.haxademic.core.hardware.kinect.IKinectWrapper#setMirror(boolean)

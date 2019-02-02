@@ -251,18 +251,7 @@ extends PApplet
 		if(appConfig.getBoolean(AppSettings.RENDERING_IMAGE_SEQUENCE, false) == true) {
 			imageSequenceRenderer = new ImageSequenceRenderer(p.g);
 		}
-		
-		if( p.appConfig.getBoolean( AppSettings.KINECT_V2_WIN_ACTIVE, false ) == true ) {
-			kinectWrapper = new KinectWrapperV2( p, p.appConfig.getBoolean( "kinect_depth", true ), p.appConfig.getBoolean( "kinect_rgb", true ), p.appConfig.getBoolean( "kinect_depth_image", true ) );
-		} else if( p.appConfig.getBoolean( AppSettings.KINECT_V2_MAC_ACTIVE, false ) == true ) {
-			kinectWrapper = new KinectWrapperV2Mac( p, p.appConfig.getBoolean( "kinect_depth", true ), p.appConfig.getBoolean( "kinect_rgb", true ), p.appConfig.getBoolean( "kinect_depth_image", true ) );
-		} else if( p.appConfig.getBoolean( AppSettings.KINECT_ACTIVE, false ) == true ) {
-			kinectWrapper = new KinectWrapperV1( p, p.appConfig.getBoolean( "kinect_rgb", true ), p.appConfig.getBoolean( "kinect_depth_image", true ) );
-		}
-		if(kinectWrapper != null) {
-			kinectWrapper.setMirror( p.appConfig.getBoolean( "kinect_mirrored", true ) );
-			kinectWrapper.setFlipped( p.appConfig.getBoolean( "kinect_flipped", false ) );
-		}
+		initKinect();
 		if( p.appConfig.getInt(AppSettings.MIDI_DEVICE_IN_INDEX, -1) >= 0 ) {
 			MidiBus.list(); // List all available Midi devices on STDOUT. This will show each device's index and name.
 			midiBus = new MidiBus(
@@ -288,6 +277,20 @@ extends PApplet
 		if(isFullscreen == true) {
 			alwaysOnTop = p.appConfig.getBoolean(AppSettings.ALWAYS_ON_TOP, true);
 			if(alwaysOnTop) AppUtil.setAlwaysOnTop(p, true);
+		}
+	}
+	
+	protected void initKinect() {
+		if( p.appConfig.getBoolean( AppSettings.KINECT_V2_WIN_ACTIVE, false ) == true ) {
+			kinectWrapper = new KinectWrapperV2( p, p.appConfig.getBoolean( "kinect_depth", true ), p.appConfig.getBoolean( "kinect_rgb", true ), p.appConfig.getBoolean( "kinect_depth_image", true ) );
+		} else if( p.appConfig.getBoolean( AppSettings.KINECT_V2_MAC_ACTIVE, false ) == true ) {
+			kinectWrapper = new KinectWrapperV2Mac( p, p.appConfig.getBoolean( "kinect_depth", true ), p.appConfig.getBoolean( "kinect_rgb", true ), p.appConfig.getBoolean( "kinect_depth_image", true ) );
+		} else if( p.appConfig.getBoolean( AppSettings.KINECT_ACTIVE, false ) == true ) {
+			kinectWrapper = new KinectWrapperV1( p, p.appConfig.getBoolean( "kinect_rgb", true ), p.appConfig.getBoolean( "kinect_depth_image", true ) );
+		}
+		if(kinectWrapper != null) {
+			kinectWrapper.setMirror( p.appConfig.getBoolean( "kinect_mirrored", true ) );
+			kinectWrapper.setFlipped( p.appConfig.getBoolean( "kinect_flipped", false ) );
 		}
 	}
 	
