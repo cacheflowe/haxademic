@@ -36,7 +36,7 @@ extends PAppletHax {
 		p.image(pg, 0, 0);
 		
 		// draw debug flow results
-		opticalFlow.debugDraw(p.g);
+		opticalFlow.debugDraw(p.g, false);
 		
 		// check vector getter for a specific position
 		float[] vecResult = opticalFlow.getVectorAt(0.5f, 0.5f);

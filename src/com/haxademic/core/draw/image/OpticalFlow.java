@@ -133,6 +133,10 @@ public class OpticalFlow {
 	// debug
 	
 	public void debugDraw(PGraphics pg) {
+		debugDraw(pg, true);
+	}
+	
+	public void debugDraw(PGraphics pg, boolean colors) {
 		// NOTICE! Make sure to beginDraw/endDraw if PGraphics
 		for(int ix=0;ix<gw;ix++) {
 			int x0=ix*gridStep+gs2;
@@ -149,7 +153,8 @@ public class OpticalFlow {
 					float r=0.5f*(1.0f+u/(a+0.1f));
 					float g=0.5f*(1.0f+v/(a+0.1f));
 					float b=0.5f*(2.0f-(r+g));
-					pg.stroke(255*r,255*g,255*b);
+					if(colors == false) pg.stroke(255);
+					else pg.stroke(255*r,255*g,255*b);
 					pg.line(x0*scaleUp,y0*scaleUp,x0*scaleUp+u*scaleUp,y0*scaleUp+v*scaleUp);
 				}
 			}
@@ -235,8 +240,8 @@ public class OpticalFlow {
 		}
 
 		// debug props
-		P.p.debugView.setValue("OpticalFlow time", (P.p.millis() - analyzeStart)+"ms");
-		P.p.debugView.setValue("OpticalFlow size", analyzeW+"x"+analyzeW);
+//		P.p.debugView.setValue("OpticalFlow time", (P.p.millis() - analyzeStart)+"ms");
+//		P.p.debugView.setValue("OpticalFlow size", analyzeW+"x"+analyzeH);
 	}
 	
 	// calculate average pixel value (r,g,b) for rectangle region
