@@ -30,6 +30,10 @@ extends BaseFragmentShader {
 		shader.set("colorTop", r, g, b, a);
 	}
 
+	public void setGradientEdge(float gradientEdge) {
+		shader.set("gradientEdge", gradientEdge);
+	}
+	
 	public void setProgress(float progress) {
 		shader.set("progress", progress);
 	}

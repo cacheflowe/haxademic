@@ -404,6 +404,7 @@ extends PAppletHax { public static void main(String args[]) { PAppletHax.main(Th
 			GradientCoverWipe.instance(p).setColorTop(1f, 0f, 1f, 1f);
 			GradientCoverWipe.instance(p).setColorBot(0f, 1f, 1f, 1f);
 			GradientCoverWipe.instance(p).setProgress(p.mousePercentY());
+			GradientCoverWipe.instance(p).setGradientEdge(p.mousePercentX());
 			GradientCoverWipe.instance(p).applyTo(pg);
 		} else if(curFilter == GrainFilter.instance(p)) {
 			GrainFilter.instance(p).setTime(p.frameCount * 0.01f * p.mousePercentY() * 10f);
