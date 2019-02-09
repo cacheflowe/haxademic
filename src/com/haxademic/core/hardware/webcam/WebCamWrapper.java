@@ -40,14 +40,14 @@ public class WebCamWrapper {
 			P.println("Available cameras:");
 			for (int i = 0; i < cameras.length; i++) {
 				// parse webcam string
-				String[] cameraNameParts = cameras[i].split(",");
+				// String[] cameraNameParts = cameras[i].split(",");
 				// get fps
-				String fpsStr = cameraNameParts[2].split("=")[1];
-				int fps = ConvertUtil.stringToInt(StringFormatter.toAlphaNumericChars(fpsStr)); 
+				// String fpsStr = cameraNameParts[2].split("=")[1];
+				// int fps = ConvertUtil.stringToInt(StringFormatter.toAlphaNumericChars(fpsStr)); 
 				// get size
-				String sizeStr = cameraNameParts[1].split("=")[1];
-				String widthStr = sizeStr.split("x")[0];
-				int width = ConvertUtil.stringToInt(widthStr);
+				// String sizeStr = cameraNameParts[1].split("=")[1];
+				// String widthStr = sizeStr.split("x")[0];
+				// int width = ConvertUtil.stringToInt(widthStr);
 				// ditch cameras that are very not-awesome
 				// if(fps > 20 && width > 600) {
 					P.println("["+i+"] " + cameras[i]);
