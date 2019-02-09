@@ -174,6 +174,48 @@ public class PShapeUtil {
 		}
 	}
 	
+	public static boolean colorMatchNormalized(float searchRNorm, float searchGNorm, float searchBNorm, int pColor, float closenessThreshold) {
+		float thresh = 0.02f;
+		// get normalized material components
+		float redNorm = P.p.red(pColor) / 255f;
+		float greenNorm = P.p.green(pColor) / 255f;
+		float blueNorm = P.p.blue(pColor) / 255f;
+		// check distance from supplied color
+		if(P.abs(redNorm - searchRNorm) < thresh && P.abs(greenNorm - searchGNorm) < thresh && P.abs(blueNorm - searchBNorm) < thresh) {
+			return true;
+		} else {
+			return false;
+		}
+
+	}
+	
+	public static void replaceShapeMaterial(PShape shape, float searchR, float searchG, float searchB, int fillReplace, int strokeReplace, float closenessThreshold) {
+//		shape.setStrokeWeight(4);
+//		shape.setStroke(strokeReplace);
+		for (int i = 0; i < shape.getVertexCount(); i++) {
+			if(colorMatchNormalized(searchR, searchG, searchB, shape.getFill(i), closenessThreshold)) {
+				shape.setFill(i, fillReplace);
+				shape.setStrokeWeight(i, 4);
+				shape.setStroke(strokeReplace);
+			}
+		}
+		for (int j = 0; j < shape.getChildCount(); j++) {
+			replaceShapeMaterial(shape.getChild(j), searchR, searchG, searchB, fillReplace, strokeReplace, closenessThreshold);
+		}
+	}
+
+	public static PShape addShapesByColor(PShape shape, float searchR, float searchG, float searchB, PShape container, float closenessThreshold) {
+		for (int j = 0; j < shape.getChildCount(); j++) {
+			PShape subShape = shape.getChild(j);
+			if(colorMatchNormalized(searchR, searchG, searchB, subShape.getFill(0), closenessThreshold)) {
+				container.addChild(subShape);
+			}
+//			getShapeFromColor(shape.getChild(j), searchR, searchG, searchB);
+		}
+		return container;
+	}
+
+	
 	///////////////////////////
 	// SVG getTesselation() fix
 	///////////////////////////
