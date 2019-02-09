@@ -10,13 +10,13 @@ public class Demo_DisplacementPoint
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
-	protected DisplacementPoint[] points;
 	protected String POINT_SIZE = "POINT_SIZE";
 	protected String DISPLACE_AMP = "DISPLACE_AMP";
 	protected String FRICTION = "FRICTION";
 	protected String ACCELERATION = "ACCELERATION";
 	protected String INFLUENCE_BY_DISTANCE = "INFLUENCE_BY_DISTANCE";
 	
+	protected DisplacementPoint[] points;
 	protected int cols = 40;
 	protected int rows = 30;
 
@@ -71,7 +71,9 @@ extends PAppletHax {
 			points[i].acceleration(p.prefsSliders.value(ACCELERATION));
 			points[i].influenceByDistance(p.prefsSliders.value(INFLUENCE_BY_DISTANCE));
 			points[i].update(p.mouseX, p.mouseY);
-			
+		}
+		// draw after updating all, so vertices match up between `update()` calls
+		for (int i = 0; i < points.length; i++) {
 			// draw points
 			p.ellipse(points[i].x(), points[i].y(), pointSize, pointSize);
 			
