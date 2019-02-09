@@ -4,6 +4,13 @@
 
 * [https://github.com/processing/processing/wiki/Advanced-OpenGL](https://github.com/processing/processing/wiki/Advanced-OpenGL)
 
+#### Use newer versions of the Processing Video library
+
+v2.0 beta1 will play 4k videos at least 100% faster/better than the current video library release.
+
+* https://github.com/gohai/processing-video/releases/tag/v1.0.2
+* https://github.com/processing/processing-video/releases/tag/r3-v2.0-beta1
+
 #### Run an app with an undecorated window
 
 More under-the-hood code [here](https://github.com/praxis-live/praxis/blob/master/praxis.video.pgl/src/net/neilcsmith/praxis/video/pgl/PGLPlayer.java#L251)
