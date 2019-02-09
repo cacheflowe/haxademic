@@ -583,8 +583,8 @@ public class Shapes {
 
 		// set stroke params
 		pg.noFill();
-		pg.stroke(255);
-		pg.strokeWeight(2f);
+//		pg.stroke(255);
+//		pg.strokeWeight(2f);
 		pg.strokeCap(P.ROUND);	// SQUARE, PROJECT, or ROUND
 
 		// front face: top, right, bottom, left
