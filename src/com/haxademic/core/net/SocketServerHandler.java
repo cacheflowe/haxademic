@@ -10,15 +10,19 @@ import org.java_websocket.server.WebSocketServer;
 
 import com.haxademic.core.app.P;
 
-public class SocketServerHandler extends WebSocketServer {
+public class SocketServerHandler 
+extends WebSocketServer {
 	
-	public SocketServerHandler( int port ) throws UnknownHostException {
-		super( new InetSocketAddress( port ) );
+	protected ISocketClientDelegate delegate;
+	
+	public SocketServerHandler(int port, ISocketClientDelegate delegate) throws UnknownHostException {
+		super(new InetSocketAddress( port ));
+		this.delegate = delegate;
 	}
 	
-	public SocketServerHandler( InetSocketAddress address ) {
-		super( address );
-	}
+//	public SocketServerHandler(InetSocketAddress address) {
+//		super( address );
+//	}
 	
 	protected static final String connAddressError = "Error: no connAddress"; 
 	protected String connAddress(WebSocket conn) {
@@ -67,7 +71,8 @@ public class SocketServerHandler extends WebSocketServer {
 	}
 	
 	protected void receiveMessage(String message) {
-		// OVERRIDE THIS
+		// OVERRIDE THIS if subclassing
+		if(delegate != null) delegate.messageReceived(message);
 	}
 	
 	/**

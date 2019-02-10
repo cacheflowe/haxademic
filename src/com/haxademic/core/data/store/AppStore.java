@@ -16,7 +16,7 @@ public class AppStore {
 	
 	public static AppStore instance;
 	
-	protected HashMap<String, Number> store;
+	protected HashMap<String, Number> numberStore;
 	protected HashMap<String, String> stringStore;
 	protected HashMap<String, Boolean> boolStore;
 	protected HashMap<String, PImage> imageStore;
@@ -24,7 +24,7 @@ public class AppStore {
 	protected ArrayList<IAppStoreListener> listeners;
 
 	public AppStore() {
-		store = new HashMap<String, Number>();
+		numberStore = new HashMap<String, Number>();
 		stringStore = new HashMap<String, String>();
 		boolStore = new HashMap<String, Boolean>();
 		imageStore = new HashMap<String, PImage>();
@@ -43,7 +43,7 @@ public class AppStore {
 	}
 	
 	public void setNumber(String storeKey, Number val) {
-		store.put(storeKey, val);
+		numberStore.put(storeKey, val);
 		for (IAppStoreListener obj : listeners) {
 			obj.updatedNumber(storeKey, val);
 		}
@@ -88,7 +88,7 @@ public class AppStore {
 	}
 	
 	public Number getNumber(String storeKey) {
-		return store.get(storeKey);
+		return numberStore.get(storeKey);
 	}
 
 	public String getString(String storeKey) {
@@ -96,11 +96,11 @@ public class AppStore {
 	}
 	
 	public float getFloat(String storeKey) {
-		return store.get(storeKey).floatValue();
+		return numberStore.get(storeKey).floatValue();
 	}
 
 	public int getInt(String storeKey) {
-		return store.get(storeKey).intValue();
+		return numberStore.get(storeKey).intValue();
 	}
 
 	public boolean getBoolean(String storeKey) {
@@ -116,8 +116,8 @@ public class AppStore {
 	}
 	
 	public void showStoreValuesInDebugView() {
-		for (String key : store.keySet()) {
-			P.p.debugView.setValue(key, store.get(key).floatValue());
+		for (String key : numberStore.keySet()) {
+			P.p.debugView.setValue(key, numberStore.get(key).floatValue());
 		}
 		for (String key : stringStore.keySet()) {
 			P.p.debugView.setValue(key, stringStore.get(key));

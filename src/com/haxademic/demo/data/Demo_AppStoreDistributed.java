@@ -14,25 +14,36 @@ extends PAppletHax
 implements IAppStoreListener {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
+	protected String MOUSE_X = "MOUSE_X";
+	protected String MOUSE_Y = "MOUSE_Y";
 	
 	protected void overridePropsFile() {
 		p.appConfig.setProperty(AppSettings.SHOW_DEBUG, true );
-		p.appConfig.setProperty(AppSettings.WIDTH, 400 );
 	}
 
 	public void setupFirstFrame() {
+		boolean isServer = false;
 		P.storeDistributed = AppStoreDistributed.instance();
-		P.storeDistributed.startServer();
-		P.storeDistributed.startClient(null);
+		if(isServer) P.storeDistributed.start(AppStoreDistributed.MODE_SERVER, null);
+		else 		 P.storeDistributed.start(AppStoreDistributed.MODE_CLIENT, P.storeDistributed.localSocketServerAddress());
 		P.store.addListener(this);
+		
+		// default AppStore values to prevent crash
+		P.store.setNumber(MOUSE_X, 0);
+		P.store.setNumber(MOUSE_Y, 0);
 	}
 	
 	public void drawApp() {
 		background(0);
-		if(p.mouseX != p.pmouseX) P.storeDistributed.setNumber("mousePercentX()", p.mousePercentX());
-		if(p.mouseY != p.pmouseY) P.storeDistributed.setNumber("mousePercentY()", p.mousePercentY());
+		if(p.mouseX != p.pmouseX) P.storeDistributed.setNumber(MOUSE_X, p.mouseX);
+		if(p.mouseY != p.pmouseY) P.storeDistributed.setNumber(MOUSE_Y, p.mouseY);
 		if(p.frameCount % 100 == 0) sendFrameMessage(); 
 		P.store.showStoreValuesInDebugView();
+
+		// draw mouse position
+		p.fill(255);
+		p.noStroke();
+		p.ellipse(P.store.getInt(MOUSE_X), P.store.getInt(MOUSE_Y), 20, 20);
 	}
 	
 	protected void sendFrameMessage() {
