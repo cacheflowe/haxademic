@@ -13,6 +13,7 @@ extends PAppletHax {
 
 	protected int startChannel = 1;
 	protected int value = 0;
+	
 	protected boolean manualBrightness = false;
 	protected boolean brightnessCap = true;
 	
@@ -24,6 +25,7 @@ extends PAppletHax {
 	}
 	protected DMXTestmode testMode = DMXTestmode.SINGLE_CHANNEL;
 	protected boolean allActive = false;
+	protected boolean booleanMode = true;
 	protected boolean audioActive = false;
 	
 	protected void overridePropsFile() {
@@ -46,6 +48,7 @@ extends PAppletHax {
 		p.debugView.setHelpLine("5 |", "MANUAL BRIGHTNESS");
 		p.debugView.setHelpLine("6 |", "BRIGHTNESS CAP");
 		p.debugView.setHelpLine("7 |", "AUDIO MODE");
+		p.debugView.setHelpLine("8 |", "BOOLEAN MODE");
 		p.debugView.setHelpLine("SPACE |", "Reset all");
 		p.debugView.setHelpLine("LEFT |", "Channel down");
 		p.debugView.setHelpLine("RIGHT |", "Channel up");
@@ -84,6 +87,12 @@ extends PAppletHax {
 			valueR = P.constrain(valueR, 0, 127);
 			valueG = P.constrain(valueG, 0, 127);
 			valueB = P.constrain(valueB, 0, 127);
+		}
+		
+		if(booleanMode) {
+			valueR = (valueR >= 127) ? 255 : 0;
+			valueG = (valueG >= 127) ? 255 : 0;
+			valueB = (valueB >= 127) ? 255 : 0;
 		}
 		
 		// debug info
@@ -152,6 +161,7 @@ extends PAppletHax {
 		if(p.key == '5') manualBrightness = !manualBrightness;
 		if(p.key == '6') brightnessCap = !brightnessCap;
 		if(p.key == '7') audioActive = !audioActive;
+		if(p.key == '8') booleanMode = !booleanMode;
 		if(p.key == ' ') resetAllChannels();
 		if(p.keyCode == P.LEFT && startChannel > 1) startChannel--; 
 		if(p.keyCode == P.RIGHT && startChannel < 512) startChannel++; 
