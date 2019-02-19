@@ -117,6 +117,7 @@
   * Microsoft Kinect SDK
   * Latest GeForce drivers
   * Processing
+  * TeamViewer
 
 * Disable Java updates:
   * Find the Java icon in the system taskbar from the up arrow on the right and disable
