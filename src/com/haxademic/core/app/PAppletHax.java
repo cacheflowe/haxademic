@@ -144,7 +144,10 @@ extends PApplet
 	
 	public void setAppIcon() {
 		String appIconFile = p.appConfig.getString(AppSettings.APP_ICON, "haxademic/images/haxademic-logo.png");
-		PJOGL.setIcon(FileUtil.getFile(appIconFile));
+		String iconPath = FileUtil.getFile(appIconFile);
+		if(FileUtil.fileExists(iconPath)) {
+			PJOGL.setIcon(iconPath);
+		}
 	}
 	
 	public void setup() {
