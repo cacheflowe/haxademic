@@ -5,6 +5,7 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.data.store.AppStoreDistributed;
 import com.haxademic.core.data.store.IAppStoreListener;
+import com.haxademic.core.net.SocketServer;
 
 import processing.core.PGraphics;
 import processing.core.PImage;
@@ -22,11 +23,15 @@ implements IAppStoreListener {
 	}
 
 	public void setupFirstFrame() {
-		boolean isServer = false;
+		boolean isServer = true;
 		P.storeDistributed = AppStoreDistributed.instance();
 		if(isServer) P.storeDistributed.start(AppStoreDistributed.MODE_SERVER, null);
 		else 		 P.storeDistributed.start(AppStoreDistributed.MODE_CLIENT, P.storeDistributed.localSocketServerAddress());
 		P.store.addListener(this);
+
+		// set to true to see messages coming in and out of the server
+		// must be set after server init
+		SocketServer.DEBUG = false;
 		
 		// default AppStore values to prevent crash
 		P.store.setNumber(MOUSE_X, 0);
