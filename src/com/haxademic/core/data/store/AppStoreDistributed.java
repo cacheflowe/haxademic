@@ -64,7 +64,7 @@ implements ISocketClientDelegate {
 	protected void buildSocketServer() {
 		try {
 			// SocketServer.PORT = 3000;
-			server = new SocketServer(new SocketServerHandler(SocketServer.PORT, this), true);
+			server = new SocketServer(new SocketServerHandler(SocketServer.PORT, this), false);
 			P.p.debugView.setValue("WS Server", localSocketServerAddress());
 		} catch (UnknownHostException e) {
 			// e.printStackTrace(); 
