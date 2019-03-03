@@ -25,7 +25,7 @@ extends PAppletHax {
 	}
 	protected DMXTestmode testMode = DMXTestmode.SINGLE_CHANNEL;
 	protected boolean allActive = false;
-	protected boolean booleanMode = true;
+	protected boolean booleanMode = false;
 	protected boolean audioActive = false;
 	
 	protected void overridePropsFile() {
