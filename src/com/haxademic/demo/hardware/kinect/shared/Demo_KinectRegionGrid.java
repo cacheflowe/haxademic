@@ -19,16 +19,17 @@ extends PAppletHax {
 	
 	public void setupFirstFrame() {
 		int KINECT_MIN_DIST = 	p.appConfig.getInt( "kinect_min_mm", 500 );
-		int KINECT_MAX_DIST = 	p.appConfig.getInt( "kinect_max_mm", 3000 );
+		int KINECT_MAX_DIST = 	p.appConfig.getInt( "kinect_max_mm", 2000 );
 		int KINECT_TOP = 		p.appConfig.getInt( "kinect_top_pixel", 0 );
 		int KINECT_BOTTOM = 	p.appConfig.getInt( "kinect_bottom_pixel", KinectSize.HEIGHT );
 		int KINECT_PLAYER_GAP = p.appConfig.getInt( "kinect_player_gap", 0 );
-		int NUM_PLAYERS = 		p.appConfig.getInt( "num_players", 5 );
+		int COLS = 				p.appConfig.getInt( "num_players", 2 );
+		int ROWS = 				2;
 		int KINECT_PIXEL_SKIP = p.appConfig.getInt( "kinect_pixel_skip", 20 );
 		int PLAYER_MIN_PIXELS = p.appConfig.getInt( "player_min_pixels", 10 );
 		
 		// build input!
-		kinectRegionGrid = new KinectRegionGrid(NUM_PLAYERS, 3, KINECT_MIN_DIST, KINECT_MAX_DIST, KINECT_PLAYER_GAP, KINECT_TOP, KINECT_BOTTOM, KINECT_PIXEL_SKIP, PLAYER_MIN_PIXELS);
+		kinectRegionGrid = new KinectRegionGrid(COLS, ROWS, KINECT_MIN_DIST, KINECT_MAX_DIST, KINECT_PLAYER_GAP, KINECT_TOP, KINECT_BOTTOM, KINECT_PIXEL_SKIP, PLAYER_MIN_PIXELS);
 	}
 	
 	public void keyPressed() {

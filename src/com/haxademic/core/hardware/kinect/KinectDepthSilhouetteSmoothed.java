@@ -15,7 +15,7 @@ public class KinectDepthSilhouetteSmoothed {
 
 	protected IKinectWrapper kinectWrapper;
 	protected int pixelSkip = 5;
-	public static int KINECT_CLOSE = 500;
+	public static int KINECT_NEAR = 500;
 	public static int KINECT_FAR = 1800;
 
 	protected PGraphics depthBuffer;
@@ -53,7 +53,7 @@ public class KinectDepthSilhouetteSmoothed {
 		for ( int x = 0; x < depthBuffer.width; x++ ) {
 			for ( int y = 0; y < depthBuffer.height; y++ ) {
 				pixelDepth = kinectWrapper.getMillimetersDepthForKinectPixel( x * pixelSkip, y * pixelSkip );
-				if( pixelDepth != 0 && pixelDepth > KINECT_CLOSE && pixelDepth < KINECT_FAR ) {
+				if( pixelDepth != 0 && pixelDepth > KINECT_NEAR && pixelDepth < KINECT_FAR ) {
 					depthBuffer.pushMatrix();
 					depthBuffer.rect(x, y, 1, 1);
 					depthBuffer.popMatrix();

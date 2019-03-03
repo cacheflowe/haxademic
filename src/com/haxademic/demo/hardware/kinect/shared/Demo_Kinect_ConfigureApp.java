@@ -28,8 +28,8 @@ extends PAppletHax {
 	protected void overridePropsFile() {
 		p.appConfig.setProperty( AppSettings.WIDTH, 1280 );
 		p.appConfig.setProperty( AppSettings.HEIGHT, 720 );
-		p.appConfig.setProperty( AppSettings.KINECT_V2_WIN_ACTIVE, true );
-//		p.appConfig.setProperty( AppSettings.KINECT_ACTIVE, true );
+//		p.appConfig.setProperty( AppSettings.KINECT_V2_WIN_ACTIVE, true );
+		p.appConfig.setProperty( AppSettings.KINECT_ACTIVE, true );
 	}
 
 	public void setupFirstFrame() {
@@ -37,7 +37,7 @@ extends PAppletHax {
 	}
 	
 	protected void initControls() {
-		int controlY = 300;
+		int controlY = 400;
 		int controlSpace = 12;
 		_cp5 = new ControlP5(p);
 		_cp5.addSlider("kinectLeft").setPosition(20,controlY+=controlSpace).setWidth(200).setRange(0,KinectSize.WIDTH/2).setValue(0);

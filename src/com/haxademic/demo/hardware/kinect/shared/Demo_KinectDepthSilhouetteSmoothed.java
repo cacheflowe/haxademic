@@ -1,7 +1,10 @@
 package com.haxademic.demo.hardware.kinect.shared;
 
+import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.hardware.kinect.KinectDepthSilhouetteSmoothed;
 
 
@@ -13,10 +16,11 @@ extends PAppletHax {
 
 	protected void overridePropsFile() {
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, false );
-		p.appConfig.setProperty( AppSettings.KINECT_V2_WIN_ACTIVE, true );
-//		p.appConfig.setProperty( AppSettings.KINECT_ACTIVE, true );
+//		p.appConfig.setProperty( AppSettings.KINECT_V2_WIN_ACTIVE, true );
+		p.appConfig.setProperty( AppSettings.KINECT_ACTIVE, true );
 		p.appConfig.setProperty( AppSettings.WIDTH, 640 );
 		p.appConfig.setProperty( AppSettings.HEIGHT, 480 );
+		p.appConfig.setProperty( AppSettings.SHOW_DEBUG, true );
 	}
 	
 	
@@ -29,8 +33,12 @@ extends PAppletHax {
 	}
 	public void drawApp() {
 		p.background(0);
+
+		KinectDepthSilhouetteSmoothed.KINECT_FAR = 600 + P.round(2000 * p.mousePercentX());
+		KinectDepthSilhouetteSmoothed.KINECT_NEAR = 500;
+
 		kinectSilhouetteSmoothed.update();
-		p.image(kinectSilhouetteSmoothed.image(), 0, 0, kinectSilhouetteSmoothed.image().width * 3, kinectSilhouetteSmoothed.image().height * 3);
+		ImageUtil.cropFillCopyImage(kinectSilhouetteSmoothed.image(), p.g, false);
 	}
 	
 }

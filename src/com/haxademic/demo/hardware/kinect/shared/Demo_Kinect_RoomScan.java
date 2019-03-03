@@ -26,7 +26,7 @@ extends PAppletHax {
 		
 		// draw all
 		p.background(0, 127, 0);
-		p.scale(2f);
+		p.scale(5f);
 		p.image(kinectDiff.roomScanBuffer(), 0, 0);
 		p.image(kinectDiff.depthBuffer(), kinectDiff.roomScanBuffer().width, 0);
 		p.image(kinectDiff.depthDifference(), kinectDiff.roomScanBuffer().width * 2, 0);
