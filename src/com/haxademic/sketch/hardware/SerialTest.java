@@ -18,8 +18,8 @@ extends PAppletHax {
 	// hardware connection
 	protected String serialInputString = null;
 	protected Serial serialPort;
-	protected int serialPortIndex = 5;
-	protected int baudRate = 115200;    	// 115200, 57600, 38400
+	protected int serialPortIndex = 0;
+	protected int baudRate = 9600;// 115200;    	// 115200, 57600, 38400
 	protected int lf = 10;    			// Linefeed in ASCII - used by Arduino interface
 	protected int cr = 13;    			// Carriage return in ASCII
 
@@ -102,9 +102,13 @@ extends PAppletHax {
 	
 	protected void readSerial() {
 		while (serialPort.available() > 0) {
-			P.println("available!");
+//			P.println("available!");
+//			P.println(serialPort.read());
 			String serialInputString = serialPort.readStringUntil(cr);
-			P.println("read: ", serialInputString);
+			if(serialInputString != null) {
+				P.println("in: ", serialInputString.trim());
+				serialPort.clear();
+			}
 		}
 	}
 	
@@ -128,10 +132,10 @@ extends PAppletHax {
 		p.rect(p.frameCount % p.width, p.height * 0.5f, 100, 100);
 		
 		// send messages thorugh serial port
-		if(p.frameCount % 200 == 0) {
-			writeToSerial();
+//		if(p.frameCount % 200 == 0) {
+//			writeToSerial();
 			readSerial();
-		}
+//		}
 	}
 	
 }
