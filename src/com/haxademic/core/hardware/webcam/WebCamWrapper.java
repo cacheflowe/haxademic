@@ -1,8 +1,6 @@
 package com.haxademic.core.hardware.webcam;
 
 import com.haxademic.core.app.P;
-import com.haxademic.core.data.ConvertUtil;
-import com.haxademic.core.text.StringFormatter;
 
 import processing.core.PImage;
 import processing.video.Capture;
