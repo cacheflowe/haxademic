@@ -6,7 +6,6 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.shapes.Extrude2dPoints;
-import com.haxademic.core.math.easing.Penner;
 
 import processing.core.PVector;
 
@@ -65,11 +64,11 @@ extends PAppletHax {
 
 	public void drawApp() {
 		p.background(0);
-//		p.lights();
+		p.lights();
 		p.translate(p.width/2, p.height/2, -200);
 		
 		float percentComplete = ((float)(p.frameCount%_frames)/_frames);
-		float easedPercent = Penner.easeInOutQuart(percentComplete, 0, 1, 1);
+		// float easedPercent = Penner.easeInOutQuart(percentComplete, 0, 1, 1);
 		float radsComplete = percentComplete * P.TWO_PI;
 //		float radsCompleteEased = easedPercent * P.TWO_PI;
 
