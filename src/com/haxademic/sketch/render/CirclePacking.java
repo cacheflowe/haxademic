@@ -9,7 +9,7 @@ import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.image.AnimatedGifEncoder;
 import com.haxademic.core.draw.image.ImageUtil;
-import com.haxademic.core.file.FileUtil;
+import com.haxademic.core.file.DemoAssets;
 import com.haxademic.core.math.MathUtil;
 
 import processing.core.PGraphics;
@@ -42,7 +42,7 @@ extends PAppletHax {
 		super.setup();
 		p.smooth(OpenGLUtil.SMOOTH_HIGH);
 		
-		PImage img = p.loadImage(FileUtil.getHaxademicDataPath() + "images/snowblinded-beach.jpg");
+		PImage img = DemoAssets.squareTexture();
 		
 		// build off-screen logo image for processing
 		_logoOffscreen = p.createGraphics(p.width, p.height);
