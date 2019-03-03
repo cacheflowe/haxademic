@@ -25,6 +25,17 @@ public class ConvertUtil {
 	public static String floatToString( float number ) {
 		return Float.toString( number );
 	}
+	
+	// bytes
+	
+	public static byte intToByte( int number ) {
+		return (byte) number;
+	}
+	
+	public static int byteToInt( byte b ) {
+		return b & 0xFF;	// returns an unsigned int
+	}
+	
 }
 
 
