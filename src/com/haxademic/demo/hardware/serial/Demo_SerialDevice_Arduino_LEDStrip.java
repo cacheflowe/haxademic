@@ -13,7 +13,7 @@ import com.haxademic.core.hardware.serial.SerialDevice.ISerialInputLineReaderDel
 import processing.core.PImage;
 import processing.serial.Serial;
 
-public class Demo_SerialDevice_LEDStrip
+public class Demo_SerialDevice_Arduino_LEDStrip
 extends PAppletHax
 implements ISerialInputLineReaderDelegate {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
