@@ -1,4 +1,4 @@
-package com.haxademic.sketch.three_d;
+package com.haxademic.sketch.render;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
@@ -10,7 +10,7 @@ import com.haxademic.core.math.easing.Penner;
 import processing.core.PShape;
 import processing.core.PVector;
 
-public class PShapeQuadraticCurves 
+public class IcosahedronQuadraticCurves 
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 		
