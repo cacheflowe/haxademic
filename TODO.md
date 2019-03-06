@@ -8,8 +8,8 @@
   * Moire sphere/shader for MW prototying
   * Voice-activated color room: What Say Hue?
   * Interphase
-    * Integrate HaxVisualTwo
-    * Integrate Launchpad direct interface
+	* Integrate HaxVisualTwo
+	* Integrate Launchpad direct interface
   * Grass cutout - laser cut w/Seied
   * Make a dmx gif loop
   * Motion detection point-of-interest motion capture by small rectangles - figure out how to zoom out and create multiple zones
@@ -18,7 +18,7 @@
 	* Also, blob tracking VFX but sweet patterns inside the blobs
 * Audio
   * Sphinx4 speech recognition
-    * Copy / paste + Robot for tired hands
+	* Copy / paste + Robot for tired hands
   * Test basic audio input. why is audio getting delayed after hours of running?
   * Turn off Beads audio input object output - this should not pass through
   * Split audio stepthrough rendering from Renderer.java, which should just save movies. MIDIStepthrough renderer is a good example of splitting
@@ -38,11 +38,11 @@
   * Add `feedback-map.glsl` & `feedback-radial.glsl` shader wrapper classes
   * Build a post-processing library: https://github.com/processing/processing/wiki/Library-Basics
   * Demo_VertexShader_NoiseTest_WIP
-    * make a trexture that does audioreactive stripes emitting from the top down
+  	* make a trexture that does audioreactive stripes emitting from the top down
   * Delete old displacement shaders since we have a new wrapper object
   * Optical flow glsl port - ported glsl file (with 2nd reference) is ready to fix up
   * Notes from book
-    * Shader uniform updates should check if dirty before sending to shader
+	* Shader uniform updates should check if dirty before sending to shader
     * Look into structs and output from a fragment shader
     * Look at vertex attributes - Is that an array of values?
     	* Example here: https://github.com/gohai/processing-glvideo/blob/master/examples/VideoMappingWithShader/VideoMappingWithShader.pde
@@ -54,6 +54,13 @@
     * Does textureSize(Sampler2D) give us the texture size???
     * Doing calculations in the vertex shader should always be faster than the fragment shader, since there are fewer vertices than fragments.
     * Use the ‘discard’ keyword to *not* update a fragment, anywhere in a fragment shader.
+  * GPU Particles
+	* http://barradeau.com/blog/?p=621
+	* Look into Processing shader types - is there a point shader? yes - https://processing.org/tutorials/pshader/
+	* https://codeanticode.wordpress.com/2014/05/08/shader_api_in_processing_2/
+	* http://atduskgreg.github.io/Processing-Shader-Examples/
+	* http://www.beautifulseams.com/2013/04/30/shaders/
+	* https://github.com/codeanticode/pshader-tutorials
 * SystemUtil:
   * Merge Windows & normal SystemUtil - make sure Java-killing code works on both OS X & Windows
 * net
