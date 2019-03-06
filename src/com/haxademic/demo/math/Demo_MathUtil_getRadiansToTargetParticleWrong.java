@@ -1,4 +1,4 @@
-package com.haxademic.sketch.particle;
+package com.haxademic.demo.math;
 
 import java.util.ArrayList;
 
@@ -6,58 +6,53 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.context.DrawUtil;
-import com.haxademic.core.file.FileUtil;
+import com.haxademic.core.file.DemoAssets;
 import com.haxademic.core.math.MathUtil;
 
 import processing.core.PConstants;
 import processing.core.PVector;
-import processing.opengl.PShader;
 
 
-public class Flocking2DAttractors
+public class Demo_MathUtil_getRadiansToTargetParticleWrong
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
-	protected ArrayList<VectorFlyer2d> _particles;
-	protected ArrayList<Attractor> _attractors;
-	protected PShader _fxaa;
+	protected ArrayList<VectorFlyer2d> particles;
+	protected ArrayList<Attractor> attractors;
 
 	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, "1280" );
-		p.appConfig.setProperty( AppSettings.HEIGHT, "720" );
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
+		p.appConfig.setProperty( AppSettings.WIDTH, 1280 );
+		p.appConfig.setProperty( AppSettings.HEIGHT, 720 );
+		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, false );
 	}
 
-	public void setup() {
-		super.setup();
-		_fxaa = p.loadShader( FileUtil.getHaxademicDataPath() + "haxademic/shaders/filters/fxaa.glsl" );
-	
-		_particles = new ArrayList<VectorFlyer2d>();
-		for(int i=0; i < 10000; i++) _particles.add(new VectorFlyer2d(new PVector(p.random(p.width), p.random(p.height))));
-		_attractors = new ArrayList<Attractor>();
-		for(int i=0; i < 5; i++) _attractors.add(new Attractor(new PVector(p.width/2, p.height/2)));
+	public void setupFirstFrame() {
+		particles = new ArrayList<VectorFlyer2d>();
+		for(int i=0; i < 10000; i++) particles.add(new VectorFlyer2d(new PVector(p.random(p.width), p.random(p.height))));
+		attractors = new ArrayList<Attractor>();
+		for(int i=0; i < 5; i++) attractors.add(new Attractor(new PVector(p.width/2, p.height/2)));
 	}
 
 	public void drawApp() {
-		p.background(0);
+		p.background(127);
 		DrawUtil.setDrawCenter(p);
 		
-		p.blendMode(PConstants.ADD);
-		for(int i=0; i < _particles.size(); i++) {
-			Attractor closestAttractor = getClosestAttractorToParticle(_particles.get(i));
-			_particles.get(i).update(closestAttractor.position.x, closestAttractor.position.y);
+		p.blendMode(PConstants.BLEND);
+		for(int i=0; i < particles.size(); i++) {
+			Attractor closestAttractor = getClosestAttractorToParticle(particles.get(i));
+			particles.get(i).update(closestAttractor.position.x, closestAttractor.position.y);
 		}
-		for(int i=0; i < _attractors.size(); i++) _attractors.get(i).update();
+		for(int i=0; i < attractors.size(); i++) attractors.get(i).update();
 	}
 	
 	public Attractor getClosestAttractorToParticle(VectorFlyer2d particle) {
 		float leastDistance = Integer.MAX_VALUE;
-		Attractor closest = _attractors.get(0);
-		for(int i=0; i < _attractors.size(); i++) {
-			float checkDist = _attractors.get(i).position.dist(particle.position);
+		Attractor closest = attractors.get(0);
+		for(int i=0; i < attractors.size(); i++) {
+			float checkDist = attractors.get(i).position.dist(particle.position);
 			if( checkDist < leastDistance ) {
 				leastDistance = checkDist;
-				closest = _attractors.get(i);
+				closest = attractors.get(i);
 			}
 		}
 		return closest;
@@ -69,8 +64,8 @@ extends PAppletHax {
 	public class VectorFlyer2d {
 		public PVector position = new PVector();
   	  	protected float radians = MathUtil.randRangeDecimal( 0, P.TWO_PI );
-  	  	protected float speed = MathUtil.randRangeDecimal( 2, 18 );
-  	  	protected float turnRadius = MathUtil.randRangeDecimal( .01f, 0.1f );
+  	  	protected float speed = MathUtil.randRangeDecimal( 2, 4 );
+  	  	protected float turnRadius = MathUtil.randRangeDecimal( .01f, 0.03f );
   	  	protected int color;
 		
 		public VectorFlyer2d( PVector newPosition ) {
@@ -92,12 +87,13 @@ extends PAppletHax {
 		}
 		
 		protected void draw() {
-			p.fill(color);
-			p.noStroke();
+//			p.fill(color);
+//			p.noStroke();
 			p.pushMatrix();
 			p.translate(position.x, position.y);
-			p.rotate(-radians);
-			p.rect(0, 0, 2, speed * 1.2f);
+			p.rotate(-radians + P.HALF_PI);
+			p.image(DemoAssets.arrow(), 0, 0, 10, 10);
+//			p.rect(0, 0, 2, speed * 1.2f);
 			p.popMatrix();
 		}
 	}
@@ -123,6 +119,7 @@ extends PAppletHax {
 		}
 
 		public void update() {
+			autoControl = false;
 			if( autoControl == false ) {
 				position.set( mouseX, mouseY );
 			} else {

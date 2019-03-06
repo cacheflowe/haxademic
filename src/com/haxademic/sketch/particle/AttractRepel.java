@@ -21,7 +21,6 @@ extends PAppletHax {
 	protected void overridePropsFile() {
 		p.appConfig.setProperty( AppSettings.WIDTH, 500 );
 		p.appConfig.setProperty( AppSettings.HEIGHT, 500 );
-		p.appConfig.setProperty( AppSettings.RETINA, false );
 	}
 
 	public void setup() {
@@ -36,7 +35,7 @@ extends PAppletHax {
 		background(0);
 		
 		// replace a particle every once in a while
-		if(p.frameCount % 20 == 0) particles[MathUtil.randRange(0, maxCircles - 1)] = new Particle();
+		// if(p.frameCount % 20 == 0) particles[MathUtil.randRange(0, maxCircles - 1)] = new Particle();
 
 		// Apply gravity
 		for (int i = 0; i < particles.length; i++) {
@@ -70,7 +69,7 @@ extends PAppletHax {
 			Particle c = particles[i];
 			PVector cv = c.position.copy();
 			PVector vel = c.velocity.copy();
-			float horizon = c.radius + 100f;
+			float horizon = 100f;// c.radius + 100f; // can take into account particle size
 			float horzSq  = P.pow(horizon, 2);
 			float cushion = horizon * 1.5f;
 			float cushSq = P.pow(cushion, 2);
@@ -107,13 +106,12 @@ extends PAppletHax {
 			
 			PVector vel = c.velocity.copy();
 			vel.sub(c.position.copy().sub(middle)).normalize();
-			vel.mult(4.1f); // 0.3
+			vel.mult(3.1f); // 0.3
 			vel.mult(1f - 0.3f); // friction
 			c.velocity.set(vel);
 			
-			c.position.add(c.velocity);
+			c.updatePos();
 		}
-
 		
 		// Draw circles
 		DrawUtil.setDrawCenter(p);
@@ -131,14 +129,21 @@ extends PAppletHax {
 	public class Particle {
 		
 		public PVector position;
+		public PVector positionTarget;
 		public PVector velocity;
 		public float radius;
 		
 		public Particle() {
 			radius = MathUtil.randRange(20, 50);
 			position = new PVector(p.random(p.width), p.random(p.height));
+			positionTarget = position.copy();
 			velocity = new PVector();
 		}
 		
+		public void updatePos() {
+			positionTarget.add(velocity);
+			position.lerp(positionTarget, 0.03f);
+			positionTarget.set(position);
+		}
 	}
 }

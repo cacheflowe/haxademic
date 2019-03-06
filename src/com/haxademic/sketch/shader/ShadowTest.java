@@ -8,6 +8,7 @@ import com.haxademic.core.draw.color.Gradients;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.filters.pshader.GlowFilter;
 import com.haxademic.core.draw.image.ImageUtil;
+import com.haxademic.core.file.DemoAssets;
 import com.haxademic.core.file.FileUtil;
 
 import processing.core.PGraphics;
@@ -40,7 +41,7 @@ extends PAppletHax {
 		super.setup();
 		
 		// load image into padded buffer
-		PImage imageOrig = p.loadImage(FileUtil.getFile("images/cacheflowe-logotype-new.png"));
+		PImage imageOrig = DemoAssets.smallTexture();
 		image = ImageUtil.imageToGraphicsWithPadding(imageOrig, 0.8f);
 		
 		// copy buffer and turn it into a shadow

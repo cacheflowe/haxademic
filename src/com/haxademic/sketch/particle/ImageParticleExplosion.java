@@ -1,7 +1,7 @@
 package com.haxademic.sketch.particle;
 
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.file.FileUtil;
+import com.haxademic.core.file.DemoAssets;
 
 import processing.core.PConstants;
 import processing.core.PImage;
@@ -21,22 +21,13 @@ extends PAppletHax {
 	protected int _numParticles = 60;
 //	protected Renderer _render;
 
-	public void setup ()
-	{
-		super.setup();
-		// set up stage and drawing properties
-//		smooth();
-		noStroke();
-		
-		// set up image
-		PImage image;
-		image = loadImage(FileUtil.getHaxademicDataPath()+"images/cursor-finger-trans.png");
+	public void setupFirstFrame() {
 		imageMode( PConstants.CENTER );
 		
 		// create particles
 		_particles = new ImageParticle[_numParticles];
 		for( int i = 0; i < _numParticles; i++ ) {
-			_particles[i] = new ImageParticle( width/2, height/4, image );
+			_particles[i] = new ImageParticle( width/2, height/4, DemoAssets.particle() );
 		}
 	}
 
@@ -48,14 +39,6 @@ extends PAppletHax {
 			_particles[i].update();
 		}
 	}
-	
-	/**
-	 * Key handling for rendering functions - stopping and saving an image
-	 */
-	public void keyPressed()
-	{
-//		if( key == 'p' ) _render.renderFrame();
-	}  
 	
 	public void mouseClicked()
 	{
