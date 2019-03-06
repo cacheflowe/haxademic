@@ -5,13 +5,13 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.hardware.serial.SerialDevice;
-import com.haxademic.core.hardware.serial.SerialDevice.ISerialInputLineReaderDelegate;
+import com.haxademic.core.hardware.serial.SerialDevice.ISerialDeviceDelegate;
 
 import processing.serial.Serial;
 
 public class Demo_SerialDevice_Arduino_Altimeter
 extends PAppletHax
-implements ISerialInputLineReaderDelegate {
+implements ISerialDeviceDelegate {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
 	protected String serialInputString = null;

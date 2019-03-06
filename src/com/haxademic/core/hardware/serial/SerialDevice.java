@@ -7,7 +7,7 @@ import processing.serial.Serial;
 public class SerialDevice {
 	
 	// callback interface
-	public interface ISerialInputLineReaderDelegate {
+	public interface ISerialDeviceDelegate {
 		public void newDataAvailable(Serial serialDevice);
 	}
 	
@@ -15,7 +15,7 @@ public class SerialDevice {
 	// - If no usb serial ports are listed on OS X, try downloading the FTDI driver: http://www.ftdichip.com/Drivers/VCP.htm
 	
 	// hardware connection
-	protected ISerialInputLineReaderDelegate delegate = null;
+	protected ISerialDeviceDelegate delegate = null;
 	protected int serialPortIndex = 0;
 	protected int baudRate = 9600;
 
@@ -27,12 +27,14 @@ public class SerialDevice {
 	public static final int cr = 13;    			// Carriage return in ASCII
 	
 	// thread the hardware communication
-	protected SerialUpdater _loader;
-	protected Thread _updateThread;
-	protected Boolean threadWorking = false;
+	protected SerialReader reader;
+	protected Thread serailReadThread;
+	protected Boolean readThreadBusy = false;
+	
+	protected Boolean writeThreadBusy = false;
 	
 
-	public SerialDevice(ISerialInputLineReaderDelegate delegate, int serialPortIndex, int baudRate) {
+	public SerialDevice(ISerialDeviceDelegate delegate, int serialPortIndex, int baudRate) {
 		this.delegate = delegate;
 		this.serialPortIndex = serialPortIndex;
 		this.baudRate = baudRate;
@@ -63,30 +65,65 @@ public class SerialDevice {
 		return device;
 	}
 
+	public boolean isWriteBusy() {
+		return writeThreadBusy;
+	}
+	
 	public boolean isError() {
 		return (device == null);
 	}
 	
-	// events
-
-	public void post() {
-		if(device == null) return;
-		if(threadWorking == false) {
-			threadWorking = true;
-			if(_loader == null) _loader = new SerialUpdater();
-			_updateThread = new Thread( _loader );
-			_updateThread.start();
-		}
+	// threaded serial port output
+	
+	public void write(byte[] byteArray) {
+		if(writeThreadBusy == true) return;
+		writeThreadBusy = true;
+		new Thread(new Runnable() { public void run() {
+			device.write(byteArray);
+			writeThreadBusy = false;
+		}}).start();
 	}
 	
-	// threaded serial port reading
+	public void write(int intVal) {
+		if(writeThreadBusy == true) return;
+		writeThreadBusy = true;
+		new Thread(new Runnable() { public void run() {
+			device.write(intVal);
+			writeThreadBusy = false;
+		}}).start();
+	}
 	
-	class SerialUpdater implements Runnable {
-		public SerialUpdater() {}    
-
+	public void write(String strVal) {
+		if(writeThreadBusy == true) return;
+		writeThreadBusy = true;
+		new Thread(new Runnable() { public void run() {
+			device.write(strVal);
+			writeThreadBusy = false;
+		}}).start();
+	}
+	
+	// check read/write threads
+	
+	public void post() {
+		if(device == null) return;
+		checkReadThread();
+	}
+	
+	// threaded serial port input
+	
+	protected void checkReadThread() {
+		if(readThreadBusy == true) return;
+		readThreadBusy = true;
+		if(reader == null) reader = new SerialReader();
+		serailReadThread = new Thread(reader);
+		serailReadThread.start();
+	}
+	
+	class SerialReader implements Runnable {
+		public SerialReader() {}    
 		public void run() {
 			updateSerialInput();
-			threadWorking = false;
+			readThreadBusy = false;
 		} 
 	}
 	

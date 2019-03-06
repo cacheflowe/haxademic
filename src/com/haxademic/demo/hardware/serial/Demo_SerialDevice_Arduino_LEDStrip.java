@@ -8,14 +8,14 @@ import com.haxademic.core.draw.filters.pshader.ContrastFilter;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.image.SimplexNoiseTexture;
 import com.haxademic.core.hardware.serial.SerialDevice;
-import com.haxademic.core.hardware.serial.SerialDevice.ISerialInputLineReaderDelegate;
+import com.haxademic.core.hardware.serial.SerialDevice.ISerialDeviceDelegate;
 
 import processing.core.PImage;
 import processing.serial.Serial;
 
 public class Demo_SerialDevice_Arduino_LEDStrip
 extends PAppletHax
-implements ISerialInputLineReaderDelegate {
+implements ISerialDeviceDelegate {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
 	protected SimplexNoiseTexture noiseTexture;
