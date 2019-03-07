@@ -65,7 +65,6 @@
 	</classpathentry>
 	<classpathentry kind="lib" path="lib/themidibus/library/themidibus.jar"/>
 	<classpathentry kind="lib" path="lib/GIFAnimation/library/GifAnimation.jar"/>
-	<classpathentry kind="lib" path="lib/jetty/jetty-all-9.4.7.v20170914-uber.jar"/>
 	<classpathentry kind="lib" path="lib/minim/library/jl1.0.jar"/>
 	<classpathentry kind="lib" path="lib/minim/library/jsminim.jar"/>
 	<classpathentry kind="lib" path="lib/minim/library/minim.jar"/>
@@ -90,6 +89,7 @@
 			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="haxademic/lib/jinput/native"/>
 		</attributes>
 	</classpathentry>
+	<classpathentry kind="lib" path="lib/jetty/jetty-all-9.4.15.v20190215-uber.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
