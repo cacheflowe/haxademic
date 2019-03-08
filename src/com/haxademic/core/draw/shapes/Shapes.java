@@ -632,26 +632,30 @@ public class Shapes {
 		}
 	}
 
-	public static void drawCylinder(PGraphics pg, int sides, float r, float h) {
+	public static void drawCylinder(PGraphics pg, int sides, float r, float h, boolean drawCaps) {
 		float segemtnRadians = P.TWO_PI / (float) sides;
 		float halfHeight = h / 2;
-		// draw top shape
-		pg.beginShape();
-		for (int i = 0; i < sides; i++) {
-			float x = P.cos( segemtnRadians * i ) * r;
-			float z = P.sin( segemtnRadians * i ) * r;
-			pg.vertex( x, -halfHeight, z );    
+		
+		if(drawCaps) {
+			// draw top shape
+			pg.beginShape();
+			for (int i = 0; i < sides; i++) {
+				float x = P.cos( segemtnRadians * i ) * r;
+				float z = P.sin( segemtnRadians * i ) * r;
+				pg.vertex( x, -halfHeight, z );    
+			}
+			pg.endShape(P.CLOSE);
+			// draw bottom shape
+			pg.beginShape();
+			for (int i = 0; i < sides; i++) {
+				float x = P.cos( segemtnRadians * i ) * r;
+				float z = P.sin( segemtnRadians * i ) * r;
+				pg.vertex( x, halfHeight, z );    
+			}
+			pg.endShape(P.CLOSE);
 		}
-		pg.endShape(P.CLOSE);
-		// draw bottom shape
-		pg.beginShape();
-		for (int i = 0; i < sides; i++) {
-			float x = P.cos( segemtnRadians * i ) * r;
-			float z = P.sin( segemtnRadians * i ) * r;
-			pg.vertex( x, halfHeight, z );    
-		}
-		pg.endShape(P.CLOSE);
-		 // draw body
+		
+		// draw body
 		pg.beginShape(P.TRIANGLE_STRIP);
 		for (int i = 0; i < sides + 1; i++) {
 		    float x = P.cos( segemtnRadians * i ) * r;

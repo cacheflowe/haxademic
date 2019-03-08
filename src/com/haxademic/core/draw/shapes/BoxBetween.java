@@ -22,7 +22,7 @@ public class BoxBetween {
 		draw(p.g, point1, point2, thickness);
 	}
 	
-	public static void draw( PGraphics p, PVector point1, PVector point2, float thickness ) {
+	public static void draw( PGraphics pg, PVector point1, PVector point2, float thickness ) {
 		if( point1 == null || point2 == null ) return; 
 			
 		// reuse halfway vector and find the midpoint
@@ -36,17 +36,18 @@ public class BoxBetween {
 		float phi = P.acos(rotationDir.z / r);
 
 		// update location
-		p.pushMatrix();
-		p.translate( pointMid.x, pointMid.y, pointMid.z );
+		pg.pushMatrix();
+		pg.translate( pointMid.x, pointMid.y, pointMid.z );
 		
 		// set draw context orientation 
-		p.rotateZ(theta);
-		p.rotateY(phi);
-		p.rotateX(P.HALF_PI);
+		pg.rotateZ(theta);
+		pg.rotateY(phi);
+		pg.rotateX(P.HALF_PI);
 
 		// draw box
-		p.box( thickness, point1.dist(point2), thickness );
+//		pg.box( thickness, point1.dist(point2), thickness );
+		Shapes.drawCylinder(pg, 36, thickness, point1.dist(point2), false);
 
-		p.popMatrix(); 
+		pg.popMatrix(); 
 	}
 }

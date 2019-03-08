@@ -120,25 +120,25 @@ extends PAppletHax {
 		
 		pg.noStroke();
 		pg.fill(50, 30, 30);
-		pg.pushMatrix(); pg.translate( outerBox, 0,  outerBox); Shapes.drawCylinder(pg, 12, cylRadius, outerBox2); pg.popMatrix();
-		pg.pushMatrix(); pg.translate(-outerBox, 0,  outerBox); Shapes.drawCylinder(pg, 12, cylRadius, outerBox2); pg.popMatrix();
-		pg.pushMatrix(); pg.translate( outerBox, 0, -outerBox); Shapes.drawCylinder(pg, 12, cylRadius, outerBox2); pg.popMatrix();
-		pg.pushMatrix(); pg.translate(-outerBox, 0, -outerBox); Shapes.drawCylinder(pg, 12, cylRadius, outerBox2); pg.popMatrix();
+		pg.pushMatrix(); pg.translate( outerBox, 0,  outerBox); Shapes.drawCylinder(pg, 12, cylRadius, outerBox2, false); pg.popMatrix();
+		pg.pushMatrix(); pg.translate(-outerBox, 0,  outerBox); Shapes.drawCylinder(pg, 12, cylRadius, outerBox2, false); pg.popMatrix();
+		pg.pushMatrix(); pg.translate( outerBox, 0, -outerBox); Shapes.drawCylinder(pg, 12, cylRadius, outerBox2, false); pg.popMatrix();
+		pg.pushMatrix(); pg.translate(-outerBox, 0, -outerBox); Shapes.drawCylinder(pg, 12, cylRadius, outerBox2, false); pg.popMatrix();
 		
 		pg.pushMatrix();
 		pg.rotateX(P.HALF_PI);
-		pg.pushMatrix(); pg.translate( outerBox, 0,  outerBox); Shapes.drawCylinder(pg, 12, cylRadius, outerBox2); pg.popMatrix();
-		pg.pushMatrix(); pg.translate(-outerBox, 0,  outerBox); Shapes.drawCylinder(pg, 12, cylRadius, outerBox2); pg.popMatrix();
-		pg.pushMatrix(); pg.translate( outerBox, 0, -outerBox); Shapes.drawCylinder(pg, 12, cylRadius, outerBox2); pg.popMatrix();
-		pg.pushMatrix(); pg.translate(-outerBox, 0, -outerBox); Shapes.drawCylinder(pg, 12, cylRadius, outerBox2); pg.popMatrix();
+		pg.pushMatrix(); pg.translate( outerBox, 0,  outerBox); Shapes.drawCylinder(pg, 12, cylRadius, outerBox2, false); pg.popMatrix();
+		pg.pushMatrix(); pg.translate(-outerBox, 0,  outerBox); Shapes.drawCylinder(pg, 12, cylRadius, outerBox2, false); pg.popMatrix();
+		pg.pushMatrix(); pg.translate( outerBox, 0, -outerBox); Shapes.drawCylinder(pg, 12, cylRadius, outerBox2, false); pg.popMatrix();
+		pg.pushMatrix(); pg.translate(-outerBox, 0, -outerBox); Shapes.drawCylinder(pg, 12, cylRadius, outerBox2, false); pg.popMatrix();
 		pg.popMatrix();
 		
 		pg.pushMatrix();
 		pg.rotateZ(P.HALF_PI);
-		pg.pushMatrix(); pg.translate( outerBox, 0,  outerBox); Shapes.drawCylinder(pg, 12, cylRadius, outerBox2); pg.popMatrix();
-		pg.pushMatrix(); pg.translate(-outerBox, 0,  outerBox); Shapes.drawCylinder(pg, 12, cylRadius, outerBox2); pg.popMatrix();
-		pg.pushMatrix(); pg.translate( outerBox, 0, -outerBox); Shapes.drawCylinder(pg, 12, cylRadius, outerBox2); pg.popMatrix();
-		pg.pushMatrix(); pg.translate(-outerBox, 0, -outerBox); Shapes.drawCylinder(pg, 12, cylRadius, outerBox2); pg.popMatrix();
+		pg.pushMatrix(); pg.translate( outerBox, 0,  outerBox); Shapes.drawCylinder(pg, 12, cylRadius, outerBox2, false); pg.popMatrix();
+		pg.pushMatrix(); pg.translate(-outerBox, 0,  outerBox); Shapes.drawCylinder(pg, 12, cylRadius, outerBox2, false); pg.popMatrix();
+		pg.pushMatrix(); pg.translate( outerBox, 0, -outerBox); Shapes.drawCylinder(pg, 12, cylRadius, outerBox2, false); pg.popMatrix();
+		pg.pushMatrix(); pg.translate(-outerBox, 0, -outerBox); Shapes.drawCylinder(pg, 12, cylRadius, outerBox2, false); pg.popMatrix();
 		pg.popMatrix();
 		
 		// draw outer shell connectors

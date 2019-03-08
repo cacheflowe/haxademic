@@ -17,7 +17,7 @@ extends PAppletHax {
 		// draw can
 		p.stroke(255);
 		p.fill(0, 255, 0);
-		Shapes.drawCylinder(p.g, 100, p.width * 0.2f, p.height * 0.5f);	
+		Shapes.drawCylinder(p.g, 100, p.width * 0.1f, p.height * 0.5f, true);	
 	}
 
 }
