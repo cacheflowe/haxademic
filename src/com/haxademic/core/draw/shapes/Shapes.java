@@ -173,7 +173,7 @@ public class Shapes {
 	public static void drawSphereWithQuads(PGraphics pg, float size) {
 		float radius = size;
 		float rho = radius;
-		float x, y, z, u, v;
+		float x, y, z;
 
 		float phi = 0;
 		int phiSteps = 20;
@@ -471,7 +471,7 @@ public class Shapes {
 //		sh.texture(tex);
 		float cellW = width / detail;
 		float cellH = height / detail;
-		int numVertices = 0;
+		// int numVertices = 0;
 		for (int col = 0; col < detail; col++) {
 			for (int row = 0; row < detail; row++) {
 				float xU = col * cellW;
@@ -484,7 +484,7 @@ public class Shapes {
 				sh.vertex(x, y + cellH, z, P.map(xU, 0, width, 0, 1), P.map(yV + cellH, 0, height, 0, 1));    
 				sh.vertex(x + cellW, y + cellH, z, P.map(xU + cellW, 0, width, 0, 1), P.map(yV + cellH, 0, height, 0, 1));    
 				sh.vertex(x + cellW, y, z, P.map(xU + cellW, 0, width, 0, 1), P.map(yV, 0, height, 0, 1));
-				numVertices += 4;
+				// numVertices += 4;
 			}
 		}
 		// P.println("createSheet() vertices:", numVertices);
@@ -502,7 +502,7 @@ public class Shapes {
 		sh.texture(tex);
 		float cellW = (float) tex.width / (float) cols;
 		float cellH = (float) tex.height / (float) rows;
-		int numVertices = 0;
+		// int numVertices = 0;
 		for (int col = 0; col < cols; col++) {
 			for (int row = 0; row < rows; row++) {
 				float xU = col * cellW;
@@ -515,7 +515,7 @@ public class Shapes {
 				sh.vertex(x, y + cellH, z, 			P.map(xU, 0, tex.width, 0, 1), 			P.map(yV + cellH, 0, tex.height, 0, 1));    
 				sh.vertex(x + cellW, y + cellH, z, 	P.map(xU + cellW, 0, tex.width, 0, 1), 	P.map(yV + cellH, 0, tex.height, 0, 1));    
 				sh.vertex(x + cellW, y, z, 			P.map(xU + cellW, 0, tex.width, 0, 1), 	P.map(yV, 0, tex.height, 0, 1));
-				numVertices++;
+				// numVertices++;
 			}
 		}
 		// P.println("createSheet() vertices:", numVertices);
@@ -533,7 +533,7 @@ public class Shapes {
 		sh.texture(tex);
 		float cellW = tex.width / detail;
 		float cellH = tex.height / detail;
-		int numVertices = 0;
+		// int numVertices = 0;
 		for (int col = 0; col < detail; col++) {
 			for (int row = 0; row < detail; row++) {
 				float xU = col * cellW;
@@ -546,7 +546,7 @@ public class Shapes {
 				sh.vertex(x, y + cellH, z, P.map(xU, 0, tex.width, 0, 1), P.map(yV + cellH, 0, tex.height, 0, 1));    
 				sh.vertex(x + cellW, y + cellH, z, P.map(xU + cellW, 0, tex.width, 0, 1), P.map(yV + cellH, 0, tex.height, 0, 1));    
 				sh.vertex(x + cellW, y, z, P.map(xU + cellW, 0, tex.width, 0, 1), P.map(yV, 0, tex.height, 0, 1));
-				numVertices++;
+				// numVertices++;
 			}
 		}
 		// P.println("createSheet() vertices:", numVertices);
@@ -563,7 +563,7 @@ public class Shapes {
 		sh.noFill();
 		float cellW = width / detail;
 		float cellH = height / detail;
-		int numVertices = 0;
+		// int numVertices = 0;
 		for (int col = 0; col < detail; col++) {
 			for (int row = 0; row < detail; row++) {
 				float xU = col * cellW;
@@ -573,7 +573,7 @@ public class Shapes {
 				float z = 0;
 				sh.normal(x, y, z);
 				sh.vertex(x, y, z, P.map(xU, 0, width, 0, 1), P.map(yV, 0, height, 0, 1));
-				numVertices += 1;
+				// numVertices += 1;
 			}
 		}
 		// P.println("createSheet() vertices:", numVertices);
@@ -704,7 +704,7 @@ public class Shapes {
 		pg.popMatrix(); 
 	}
 	
-	public static void cylinderBetween( PGraphics pg, PVector point1, PVector point2, float radius, float radiusBot ) {
+	public static void cylinderBetween( PGraphics pg, PVector point1, PVector point2, int resolution, float radius, float radiusBot ) {
 		pg.pushMatrix();
 			
 		// set orientation 
@@ -712,7 +712,7 @@ public class Shapes {
 		OrientationUtil.setRotationTowards(pg, point1, point2);
 
 		// draw box
-		Shapes.drawCylinder(pg, 36, radius, radiusBot, point1.dist(point2), false);
+		Shapes.drawCylinder(pg, resolution, radius, radiusBot, point1.dist(point2), false);
 
 		pg.popMatrix(); 
 	}

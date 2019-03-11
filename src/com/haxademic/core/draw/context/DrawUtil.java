@@ -67,7 +67,7 @@ public class DrawUtil {
 	public static void setBetterLights( PGraphics p ) {
 		// setup lighting props
 		p.ambient(127);
-		p.lightSpecular(230, 230, 230); 
+		p.lightSpecular(130, 130, 130); 
 		p.directionalLight(200, 200, 200, -0.0f, -0.0f, 1); 
 		p.directionalLight(200, 200, 200, 0.0f, 0.0f, -1); 
 		p.specular(p.color(200)); 
