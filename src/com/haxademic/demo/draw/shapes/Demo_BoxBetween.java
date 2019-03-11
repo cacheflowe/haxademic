@@ -6,7 +6,6 @@ import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.shapes.BoxBetween;
 import com.haxademic.core.math.easing.ElasticFloat;
-import com.haxademic.core.math.easing.LinearFloat;
 
 import processing.core.PVector;
 
