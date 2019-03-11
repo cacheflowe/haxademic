@@ -27,19 +27,17 @@ extends PAppletHax {
 	protected SkeletonsTracker _skeletonTracker;
 	protected PGraphics _texture;
 	
-	public void setup() {
-		super.setup();
-		
-		// do something
-		_skeletonTracker = new SkeletonsTracker();
-		_texture = P.p.createGraphics( p.width, p.height, P.P3D );
-	}
-	
 	protected void overridePropsFile() {
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
 		p.appConfig.setProperty( AppSettings.KINECT_ACTIVE, "true" );
 		p.appConfig.setProperty( AppSettings.WIDTH, "640" );
 		p.appConfig.setProperty( AppSettings.HEIGHT, "480" );
+	}
+	
+	public void setupFirstFrame() {
+		// do something
+		_skeletonTracker = new SkeletonsTracker();
+		_texture = P.p.createGraphics( p.width, p.height, P.P3D );
 	}
 	
 	public void drawApp() {

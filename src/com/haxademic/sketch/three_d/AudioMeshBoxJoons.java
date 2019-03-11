@@ -2,7 +2,8 @@ package com.haxademic.sketch.three_d;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.shapes.BoxBetween;
+import com.haxademic.core.debug.DebugUtil;
+import com.haxademic.core.draw.shapes.Shapes;
 
 import processing.core.PVector;
 import toxi.geom.Sphere;
@@ -61,7 +62,7 @@ extends PAppletHax {
 		
 
 		p.fill( 100, 200, 150 );
-		
+		DebugUtil.printErr("This probably wont work anymore with Joons since Shapes.boxBetween() uses p.g instead of p");
 		float thickness = 1;
 		float radius = thickness * 1;//0.5f;
 		int numFaces = _meshDeform.faces.size();
@@ -74,11 +75,11 @@ extends PAppletHax {
 			p.vertex(f.c.x, f.c.y, f.c.z);
 			vec.set(f.a.x, f.a.y, f.a.z);
 			vec2.set(f.b.x, f.b.y, f.b.z);
-			BoxBetween.draw(p, vec, vec2, thickness);
+			Shapes.boxBetween(p.g, vec, vec2, thickness);
 			vec2.set(f.c.x, f.c.y, f.c.z);
-			BoxBetween.draw(p, vec, vec2, thickness);
+			Shapes.boxBetween(p.g, vec, vec2, thickness);
 			vec.set(f.c.x, f.c.y, f.c.z);
-			BoxBetween.draw(p, vec, vec2, thickness);
+			Shapes.boxBetween(p.g, vec, vec2, thickness);
 
 //			if( _jw != null ) _jw.addColorForObject( JoonsWrapper.MATERIAL_SHINY, p.color( 100, 200, 150 ), 1, false );
 

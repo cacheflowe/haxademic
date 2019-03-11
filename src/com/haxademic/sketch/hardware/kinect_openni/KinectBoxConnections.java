@@ -6,7 +6,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.context.DrawUtil;
-import com.haxademic.core.draw.shapes.BoxBetween;
+import com.haxademic.core.draw.shapes.Shapes;
 import com.haxademic.core.draw.toxi.MeshPool;
 import com.haxademic.core.draw.toxi.MeshUtilToxi;
 import com.haxademic.core.hardware.kinect.SkeletonsTracker;
@@ -102,27 +102,27 @@ extends PAppletHax {
 		_meshRot += 0.002f;
 		for(int i=0; i < users.length; i++) { 
 			if( _skeletonTracker.getBodyPartPVec(users[i], SimpleOpenNI.SKEL_RIGHT_HIP) != null && _skeletonTracker.getBodyPartPVec(users[i], SimpleOpenNI.SKEL_RIGHT_HIP).z < 3500 ) {
-				BoxBetween.draw( p,
+				Shapes.boxBetween( p.g,
 						_skeletonTracker.getBodyPartPVec(users[i], SimpleOpenNI.SKEL_RIGHT_ELBOW),
 						_skeletonTracker.getBodyPartPVec2(users[i], SimpleOpenNI.SKEL_RIGHT_HAND),
 						100
 						);
-				BoxBetween.draw( p,
+				Shapes.boxBetween( p.g,
 						_skeletonTracker.getBodyPartPVec(users[i], SimpleOpenNI.SKEL_RIGHT_ELBOW),
 						_skeletonTracker.getBodyPartPVec2(users[i], SimpleOpenNI.SKEL_RIGHT_SHOULDER),
 						100
 						);
-				BoxBetween.draw( p,
+				Shapes.boxBetween( p.g,
 						_skeletonTracker.getBodyPartPVec(users[i], SimpleOpenNI.SKEL_RIGHT_FOOT),
 						_skeletonTracker.getBodyPartPVec2(users[i], SimpleOpenNI.SKEL_RIGHT_KNEE),
 						100
 						);
-				BoxBetween.draw( p,
+				Shapes.boxBetween( p.g,
 						_skeletonTracker.getBodyPartPVec(users[i], SimpleOpenNI.SKEL_RIGHT_HIP),
 						_skeletonTracker.getBodyPartPVec2(users[i], SimpleOpenNI.SKEL_RIGHT_KNEE),
 						100
 						);
-				BoxBetween.draw( p,
+				Shapes.boxBetween( p.g,
 						_skeletonTracker.getBodyPartPVec(users[i], SimpleOpenNI.SKEL_RIGHT_HIP),
 						_skeletonTracker.getBodyPartPVec2(users[i], SimpleOpenNI.SKEL_RIGHT_SHOULDER),
 						100
@@ -131,12 +131,12 @@ extends PAppletHax {
 				
 				
 				
-				BoxBetween.draw( p,
+				Shapes.boxBetween( p.g,
 						_skeletonTracker.getBodyPartPVec(users[i], SimpleOpenNI.SKEL_RIGHT_HIP),
 						_skeletonTracker.getBodyPartPVec2(users[i], SimpleOpenNI.SKEL_LEFT_HIP),
 						100
 						);
-				BoxBetween.draw( p,
+				Shapes.boxBetween( p.g,
 						_skeletonTracker.getBodyPartPVec(users[i], SimpleOpenNI.SKEL_RIGHT_SHOULDER),
 						_skeletonTracker.getBodyPartPVec2(users[i], SimpleOpenNI.SKEL_LEFT_SHOULDER),
 						100
@@ -144,27 +144,27 @@ extends PAppletHax {
 	
 				
 				
-				BoxBetween.draw( p,
+				Shapes.boxBetween( p.g,
 						_skeletonTracker.getBodyPartPVec(users[i], SimpleOpenNI.SKEL_LEFT_ELBOW),
 						_skeletonTracker.getBodyPartPVec2(users[i], SimpleOpenNI.SKEL_LEFT_HAND),
 						100
 						);
-				BoxBetween.draw( p,
+				Shapes.boxBetween( p.g,
 						_skeletonTracker.getBodyPartPVec(users[i], SimpleOpenNI.SKEL_LEFT_ELBOW),
 						_skeletonTracker.getBodyPartPVec2(users[i], SimpleOpenNI.SKEL_LEFT_SHOULDER),
 						100
 						);
-				BoxBetween.draw( p,
+				Shapes.boxBetween( p.g,
 						_skeletonTracker.getBodyPartPVec(users[i], SimpleOpenNI.SKEL_LEFT_FOOT),
 						_skeletonTracker.getBodyPartPVec2(users[i], SimpleOpenNI.SKEL_LEFT_KNEE),
 						100
 						);
-				BoxBetween.draw( p,
+				Shapes.boxBetween( p.g,
 						_skeletonTracker.getBodyPartPVec(users[i], SimpleOpenNI.SKEL_LEFT_HIP),
 						_skeletonTracker.getBodyPartPVec2(users[i], SimpleOpenNI.SKEL_LEFT_KNEE),
 						100
 						);
-				BoxBetween.draw( p,
+				Shapes.boxBetween( p.g,
 						_skeletonTracker.getBodyPartPVec(users[i], SimpleOpenNI.SKEL_LEFT_HIP),
 						_skeletonTracker.getBodyPartPVec2(users[i], SimpleOpenNI.SKEL_LEFT_SHOULDER),
 						100

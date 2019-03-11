@@ -4,7 +4,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.context.DrawUtil;
-import com.haxademic.core.draw.shapes.BoxBetween;
+import com.haxademic.core.draw.shapes.Shapes;
 import com.haxademic.core.math.easing.ElasticFloat;
 
 import processing.core.PVector;
@@ -80,7 +80,7 @@ extends PAppletHax {
 			
 			if(index > 0) {
 				point1.set(x, yy, z);
-				BoxBetween.draw( p, point1, point2, thickness );
+				Shapes.boxBetween(p.g, point1, point2, thickness );
 			}
 			
 			point2.set(x, yy, z);

@@ -3,7 +3,8 @@ package com.haxademic.sketch.three_d;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.shapes.BoxBetween;
+import com.haxademic.core.debug.DebugUtil;
+import com.haxademic.core.draw.shapes.Shapes;
 import com.haxademic.core.render.JoonsWrapper;
 
 import processing.core.PImage;
@@ -73,7 +74,7 @@ extends PAppletHax {
 
 	
 		// draw boxes
-
+		DebugUtil.printErr("This probably wont work anymore with Joons since Shapes.boxBetween() uses p.g instead of p");
 		float segments = 6;
 		float radius = 60;
 		float inc = P.TWO_PI / segments;
@@ -86,7 +87,7 @@ extends PAppletHax {
 			// bars!
 			p.pushMatrix();
 			translate(0,0,20);
-			BoxBetween.draw( p, new PVector(x, y, 0 ), new PVector( xNext, yNext, 0 ), 3 );
+			Shapes.boxBetween(p.g, new PVector(x, y, 0 ), new PVector( xNext, yNext, 0 ), 3 );
 			p.popMatrix();
 //			p.pushMatrix();
 //			translate(0,0,20);

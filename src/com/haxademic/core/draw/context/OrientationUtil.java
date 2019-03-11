@@ -8,8 +8,16 @@ import processing.core.PVector;
 
 public class OrientationUtil {
 	
-	public static PVector lookAt = new PVector();
+	protected static PVector pointMid = new PVector();
+
+	public static void setMidPoint( PGraphics pg, PVector point1, PVector point2 ) {
+		pointMid.set( point1.x, point1.y, point1.z );
+		pointMid.lerp( point2, 0.5f );
+		pg.translate( pointMid.x, pointMid.y, pointMid.z );	
+	}
 	
+	public static PVector lookAt = new PVector();
+
 	public static void setRotationTowards( PGraphics pg, PVector point1, PVector point2 ) {
 		lookAt.set(point1);
 		lookAt.sub(point2);

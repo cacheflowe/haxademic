@@ -5,8 +5,9 @@ import java.util.List;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.debug.DebugUtil;
 import com.haxademic.core.draw.particle.VectorFlyer;
-import com.haxademic.core.draw.shapes.BoxBetween;
+import com.haxademic.core.draw.shapes.Shapes;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.render.JoonsWrapper;
 
@@ -164,6 +165,7 @@ extends PAppletHax {
 	}
 	
 	protected void drawProximitySticks() {
+		DebugUtil.printErr("This probably wont work anymore with Joons since Shapes.boxBetween() uses p.g instead of p"); 
 		// set target of particle to closest attractor
 		VectorFlyer box = null;
 		VectorFlyer boxCheck = null;
@@ -174,7 +176,7 @@ extends PAppletHax {
 				if( box != boxCheck ) {
 					if( box.position().dist( boxCheck.position() ) < 200 ) {
 						joons.jr.fill(JoonsWrapper.MATERIAL_SHINY, 190, 190, 190, 0.55f);
-						BoxBetween.draw(p, box.position(), boxCheck.position(), 20 );
+						Shapes.boxBetween(p.g, box.position(), boxCheck.position(), 20 );
 						joons.jr.fill(JoonsWrapper.MATERIAL_DIFFUSE, 90, 90, 90);
 						p.pushMatrix();
 						p.translate(box.position().x, box.position().y, box.position().z);

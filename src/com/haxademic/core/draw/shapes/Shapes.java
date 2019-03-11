@@ -1,6 +1,8 @@
 package com.haxademic.core.draw.shapes;
 
 import com.haxademic.core.app.P;
+import com.haxademic.core.data.constants.PShapeTypes;
+import com.haxademic.core.draw.context.OrientationUtil;
 import com.haxademic.core.math.MathUtil;
 
 import processing.core.PApplet;
@@ -8,6 +10,7 @@ import processing.core.PConstants;
 import processing.core.PGraphics;
 import processing.core.PImage;
 import processing.core.PShape;
+import processing.core.PVector;
 
 public class Shapes {
 	
@@ -632,7 +635,7 @@ public class Shapes {
 		}
 	}
 
-	public static void drawCylinder(PGraphics pg, int sides, float r, float h, boolean drawCaps) {
+	public static void drawCylinder(PGraphics pg, int sides, float r, float rBot, float h, boolean drawCaps) {
 		float segemtnRadians = P.TWO_PI / (float) sides;
 		float halfHeight = h / 2;
 		
@@ -644,36 +647,75 @@ public class Shapes {
 				float z = P.sin( segemtnRadians * i ) * r;
 				pg.vertex( x, -halfHeight, z );    
 			}
-			pg.endShape(P.CLOSE);
+			pg.endShape();
 			// draw bottom shape
 			pg.beginShape();
 			for (int i = 0; i < sides; i++) {
-				float x = P.cos( segemtnRadians * i ) * r;
-				float z = P.sin( segemtnRadians * i ) * r;
+				float x = P.cos( segemtnRadians * i ) * rBot;
+				float z = P.sin( segemtnRadians * i ) * rBot;
 				pg.vertex( x, halfHeight, z );    
 			}
-			pg.endShape(P.CLOSE);
+			pg.endShape();
 		}
 		
-		// draw body
-		pg.beginShape(P.TRIANGLE_STRIP);
-		for (int i = 0; i < sides + 1; i++) {
-		    float x = P.cos( segemtnRadians * i ) * r;
-		    float z = P.sin( segemtnRadians * i ) * r;
-		    pg.vertex( x, halfHeight, z);
-		    pg.vertex( x, -halfHeight, z);    
+		// draw body - smooth lighting (hAs a seam where strip closes :( )
+//		pg.beginShape(PShapeTypes.TRIANGLE_STRIP);
+//		for (int i = 0; i <= sides; i++) {
+//			float curRads = segemtnRadians * i;
+//		    float x = P.cos(curRads);
+//		    float z = P.sin(curRads);
+//		    pg.vertex( x * r, -halfHeight, z * r);    
+//		    pg.vertex( x * rBot, halfHeight, z * rBot);
+//		}
+//		pg.endShape();  
+		
+		// draw body - individual quads
+		pg.beginShape(PShapeTypes.QUADS);
+		for (int i = 1; i <= sides; i++) {
+			float curRads = segemtnRadians * i;
+		    float x = P.cos(curRads);
+		    float z = P.sin(curRads);
+		    float lastRads = segemtnRadians * (i-1);
+		    float lastx = P.cos(lastRads);
+		    float lastz = P.sin(lastRads);
+		    pg.vertex( lastx * r, -halfHeight, lastz * r);    
+		    pg.vertex( x * r, -halfHeight, z * r);    
+		    pg.vertex( x * rBot, halfHeight, z * rBot);
+		    pg.vertex( lastx * rBot, halfHeight, lastz * rBot);
 		}
-		pg.endShape(P.CLOSE);  
+		pg.endShape();  
+
 	}
 
-//	public static PShape createSphere(int detail, PImage tex) {
-//		P.p.textureMode(P.NORMAL);
-//		PShape sh = P.p.createShape();
-//		sh.beginShape(P.SPHERE);
-//		sh.stroke(255);
-//		sh.noFill();
-//		sh.endShape(); 
-//		return sh;
-//	}
+	/////////////////////////////////////
+	// DRAW SHAPES BETWEEN 2 POINTS
+	/////////////////////////////////////
+
+	public static void boxBetween( PGraphics pg, PVector point1, PVector point2, float thickness ) {
+		pg.pushMatrix();
+			
+		// set orientation 
+		OrientationUtil.setMidPoint(pg, point1, point2);
+		OrientationUtil.setRotationTowards(pg, point1, point2);
+
+		// draw box
+		pg.box( thickness, point1.dist(point2), thickness );
+
+		pg.popMatrix(); 
+	}
+	
+	public static void cylinderBetween( PGraphics pg, PVector point1, PVector point2, float radius, float radiusBot ) {
+		pg.pushMatrix();
+			
+		// set orientation 
+		OrientationUtil.setMidPoint(pg, point1, point2);
+		OrientationUtil.setRotationTowards(pg, point1, point2);
+
+		// draw box
+		Shapes.drawCylinder(pg, 36, radius, radiusBot, point1.dist(point2), false);
+
+		pg.popMatrix(); 
+	}
+
 
 }
