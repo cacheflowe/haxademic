@@ -52,6 +52,7 @@
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.vendor"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.audio.analysis.input"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.system.shell"/>
+        <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.hardware.serial"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.draw.shapes"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.data.constants"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.hardware.leap"/>

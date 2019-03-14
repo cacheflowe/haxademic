@@ -1,6 +1,8 @@
 # TODO
 
 * Art projects
+  * Adapt poly lerp/feedback loop displacing a sheet
+  * Sound in space. Raspberry Pis via wifi, attached to speakers. Split channels for more outputs
   * New video loops should have a soundtrack. use my tunes? look in sketch/render/avloops
   * Kinect history textures in 3d
   	* Kinect history point mesh history
@@ -8,8 +10,8 @@
   * Moire sphere/shader for MW prototying
   * Voice-activated color room: What Say Hue?
   * Interphase
-	* Integrate HaxVisualTwo
-	* Integrate Launchpad direct interface
+  	* Integrate HaxVisualTwo
+  	* Integrate Launchpad direct interface
   * Grass cutout - laser cut w/Seied
   * Make a dmx gif loop
   * Motion detection point-of-interest motion capture by small rectangles - figure out how to zoom out and create multiple zones
@@ -73,9 +75,8 @@
   * Replicate indpendent 40k shape demo from Processing examples - update with GPU
   * Make a little planet generator with icosahedron deformation and colorized texture map of depth
     * https://github.com/ashima/webgl-noise/wiki
-  * Finish icosa hair w/triangle tentacles!
   * Distill more demos for `core` code
-  * Make a Demo based on Eutopia that runs via command line & passes args in
+  * Make a texture map by drawing optical flow to ellipses and blurring
 * PShape & PShapeUtil:
   * sine-distorted 3d models
   * Scrolling feedback texture mapped to a model with lighting
