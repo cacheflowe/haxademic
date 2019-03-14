@@ -25,6 +25,6 @@ public class FontCacher {
 		pg.textFont(font);
 		pg.textSize(font.getSize());
 		pg.textLeading(font.getSize() * leadingMult);
-		pg.textAlign(P.LEFT, P.TOP);
+		pg.textAlign(alignX, alignY);
 	}
 }
