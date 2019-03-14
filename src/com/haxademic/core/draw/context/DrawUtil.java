@@ -33,6 +33,15 @@ public class DrawUtil {
 		setDrawCenter(p);
 	}
 
+	public static void push(PGraphics pg) {
+		pg.pushMatrix();
+		pg.pushStyle();
+	}
+	public static void pop(PGraphics pg) {
+		pg.popStyle();
+		pg.popMatrix();
+	}
+	
 	public static void setCenterScreen( PApplet p ) {
 		// p.resetMatrix();
 		p.translate( p.width/2, p.height/2, 0 );
