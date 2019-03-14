@@ -1,6 +1,7 @@
 package com.haxademic.core.math;
 
 import java.awt.Point;
+import java.text.DecimalFormat;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -204,6 +205,16 @@ public class MathUtil {
 		float multiplyFactor = (float) Math.pow( 10f, numDecimalPlaces );
 	    float valueMultiplied = value * multiplyFactor;
 	    return (float) Math.round( valueMultiplied ) / multiplyFactor;
+	}
+	
+	public static String roundToPrecision2( float value, int numDecimalPlaces ) {
+		String decimalPlaces = "";
+		for (int i = 0; i < numDecimalPlaces; i++) decimalPlaces += "#";
+		DecimalFormat df = new DecimalFormat("#."+decimalPlaces);
+		String output = df.format(value);
+		if(output.length() < numDecimalPlaces + 2) output += ".0";
+		while(output.length() < numDecimalPlaces + 2) output += "0";
+		return output;
 	}
 
 	/**
