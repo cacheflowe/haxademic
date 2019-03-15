@@ -46,6 +46,10 @@ implements IEasingValue {
 		completeThreshold = value;
 	}
 	
+	public boolean isComplete() {
+		return val == target;
+	}
+	
 	public void update() {
 		if(val == target) return;
 		if(delay > 0) { delay--; return; }

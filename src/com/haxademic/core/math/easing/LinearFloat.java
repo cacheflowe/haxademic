@@ -42,6 +42,10 @@ implements IEasingValue {
 		update();
 	}
 	
+	public boolean isComplete() {
+		return _val == _target;
+	}
+	
 	public void update() {
 		if( _delay > 0 ) { _delay--; return; }
 		if( _val != _target ) {
