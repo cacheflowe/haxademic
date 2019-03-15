@@ -173,25 +173,4 @@ public class SystemUtil {
 		return new PImage(desktop);
 	}
 
-	public static Robot mouseRobot;
-	public static Robot mouseRobot() {
-		try {
-			if(mouseRobot == null) mouseRobot = new Robot();
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-		return mouseRobot;
-	}
-	
-	public static void mouseClickAt(int x, int y) {
-		if(mouseRobot() == null) return;
-		mouseRobot.mouseMove(x, y);
-		mouseRobot.mousePress(InputEvent.BUTTON1_DOWN_MASK);
-		mouseRobot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
-	}
-	
-	public static void mouseMoveTo(int x, int y) {
-		mouseRobot.mouseMove(x, y);
-	}
-
 }
