@@ -1,6 +1,5 @@
 package com.haxademic.demo.app;
 
-import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.context.DrawUtil;
@@ -70,7 +69,7 @@ extends PAppletHax {
 		p.ellipse(_easingX.value(), _easingY.value(), 40, 40);
 		
 		if(p.appConfig.getBoolean(AppSettings.ALWAYS_ON_TOP, false) == true) {
-			if(p.frameCount % 300 == 0) AppUtil.requestForeground(p);
+			if(p.frameCount % 300 == 0) AppUtil.requestForegroundSafe();
 		}
 	}
 
