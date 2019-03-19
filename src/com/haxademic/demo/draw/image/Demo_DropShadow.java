@@ -19,7 +19,6 @@ extends PAppletHax {
 	PImage imgShadow;
 	
 	public void setupFirstFrame() {
-		super.setup();
 		img = DemoAssets.smallTexture();
 		// img = P.getImage("images/silhouect/sponsor-disabled.png");
 		

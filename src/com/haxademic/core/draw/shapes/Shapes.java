@@ -658,7 +658,7 @@ public class Shapes {
 			pg.endShape();
 		}
 		
-		// draw body - smooth lighting (hAs a seam where strip closes :( )
+		// draw body - smooth lighting, but has a seam where strip closes :(
 //		pg.beginShape(PShapeTypes.TRIANGLE_STRIP);
 //		for (int i = 0; i <= sides; i++) {
 //			float curRads = segemtnRadians * i;
@@ -669,7 +669,7 @@ public class Shapes {
 //		}
 //		pg.endShape();  
 		
-		// draw body - individual quads
+		// draw body - individual quads - doesn't do smooth 
 		pg.beginShape(PShapeTypes.QUADS);
 		for (int i = 1; i <= sides; i++) {
 			float curRads = segemtnRadians * i;

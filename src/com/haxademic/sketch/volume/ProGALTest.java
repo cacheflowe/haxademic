@@ -9,6 +9,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.file.DemoAssets;
 import com.haxademic.core.file.FileUtil;
 
 import processing.core.PImage;
@@ -34,7 +35,7 @@ extends PAppletHax {
 		super.setup();
 		smooth();
 
-		img = loadImage(FileUtil.getHaxademicDataPath() + "images/sphere-map-test.jpg");
+		img = DemoAssets.textureJupiter();
 
 		//point array
 		float max = 800;

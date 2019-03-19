@@ -3,6 +3,7 @@ package com.haxademic.sketch.volume;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.file.DemoAssets;
 import com.haxademic.core.file.FileUtil;
 
 import newhull.Point3d;
@@ -45,7 +46,7 @@ extends PAppletHax {
 				16f
 		};
 		
-		img = loadImage(FileUtil.getHaxademicDataPath() + "images/green-screen.png");
+		img = DemoAssets.textureJupiter();
 
 	}  
 
@@ -58,7 +59,7 @@ extends PAppletHax {
 //		stroke(255);
 		smooth();
 		translate(width/2f, height/2f);
-		rotateY(frameCount * 0.01f);
+		//rotateY(frameCount * 0.01f);
 
 		int numPoints = points.length;
 

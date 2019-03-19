@@ -14,12 +14,8 @@ extends PAppletHax {
 	};
 	protected String soundbed = "data/audio/communichords/bass/operator-organ-bass.aif";
 	
-	protected void overridePropsFile() {
-	}
-	
 	public void setupFirstFrame() {
 		player = new WavPlayer();
-		
 	}
 	
 	public void drawApp() {
