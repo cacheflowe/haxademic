@@ -3,6 +3,7 @@ package com.haxademic.demo.draw.filters.shaders;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.image.ImageUtil;
+import com.haxademic.core.file.DemoAssets;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.easing.Penner;
 
@@ -19,20 +20,16 @@ extends PAppletHax {
 	protected float frames = 400;
 
 	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, 372/2 );
-		p.appConfig.setProperty( AppSettings.HEIGHT, 484/2 );
 		p.appConfig.setProperty( AppSettings.WIDTH, 640 );
 		p.appConfig.setProperty( AppSettings.HEIGHT, 640 );
-		p.appConfig.setProperty( AppSettings.WIDTH, 1400 );
-		p.appConfig.setProperty( AppSettings.HEIGHT, 476 );
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, false );
 	}
 
 	public void setup() {
 		super.setup();
 		
-		img1 = ImageUtil.imageToGraphics(p.loadImage(FileUtil.getFile("images/snowblinded-beach.jpg")));
-		img2 = ImageUtil.imageToGraphics(p.loadImage(FileUtil.getFile("images/snowblinded-mtn-2.jpg")));
+		img1 = ImageUtil.imageToGraphics(DemoAssets.squareTexture());
+		img2 = ImageUtil.imageToGraphics(DemoAssets.textureNebula());
 //		img1 = ImageUtil.imageToGraphics(p.loadImage(FileUtil.getFile("images/trmp-fuck.png")));
 //		img2 = ImageUtil.imageToGraphics(p.loadImage(FileUtil.getFile("images/trmp-trmp.png")));
 //		img1 = ImageUtil.imageToGraphics(p.loadImage(FileUtil.getFile("images/aholes-bors.png")));
@@ -42,8 +39,8 @@ extends PAppletHax {
 //		transitionShader.set("interpolationPower", 2f);
 //		transitionShader = p.loadShader(FileUtil.getFile("haxademic/shaders/transitions/polka-dots-curtain.glsl"));
 //		transitionShader = p.loadShader(FileUtil.getFile("haxademic/shaders/transitions/fly-eye.glsl"));
-//		transitionShader = p.loadShader(FileUtil.getFile("haxademic/shaders/transitions/circle-open.glsl"));
-		transitionShader = p.loadShader(FileUtil.getFile("haxademic/shaders/transitions/color-lerp.glsl"));
+		transitionShader = p.loadShader(FileUtil.getFile("haxademic/shaders/transitions/circle-open.glsl"));
+//		transitionShader = p.loadShader(FileUtil.getFile("haxademic/shaders/transitions/color-lerp.glsl"));
 //		transitionShader = p.loadShader(FileUtil.getFile("haxademic/shaders/transitions/directional-wipe.glsl"));
 //		transitionShader = p.loadShader(FileUtil.getFile("haxademic/shaders/transitions/warp-fade.glsl"));
 //		transitionShader = p.loadShader(FileUtil.getFile("haxademic/shaders/transitions/morph.glsl"));
