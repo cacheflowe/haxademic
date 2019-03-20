@@ -15,9 +15,9 @@ public class ConfigTextFile {
 	
 	// create directory if it doesn't exist
 	protected void createDir() {
-		String mappingFilePath = FileUtil.pathForFile(this.path);
-		if(FileUtil.fileOrPathExists(mappingFilePath) == false) {
-			FileUtil.createDir(mappingFilePath);
+		String filePath = FileUtil.pathForFile(this.path);
+		if(FileUtil.fileOrPathExists(filePath) == false) {
+			FileUtil.createDir(filePath);
 		}
 	}
 	

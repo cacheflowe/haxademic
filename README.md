@@ -152,7 +152,13 @@ Below you'll find a long list of classes and utilities that I've built to make m
 
 ### File
 
-... coming soon
+* __[DemoAssets](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/file/DemoAssets.java)__ - A collection of media files (svg, obj, png, ttf, mp4) to help quickly load an asset for demo purposes. Files are pulled from `data/haxademic/`.
+
+* __[FileUtil](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/file/FileUtil.java)__ - File & directory methods to help with file creation, deletion & listing.
+
+* __[PrefToText](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/file/PrefToText.java)__ - Saves & retries a float/int/String value from a text file.
+
+* __[WatchDir](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/file/WatchDir.java)__ - Watches a directory & provides a delegate callback when files have changed.
 
 ### Hardware
 
