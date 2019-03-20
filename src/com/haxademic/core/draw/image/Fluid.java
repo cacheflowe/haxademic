@@ -72,7 +72,9 @@ public class Fluid {
 		if(x >= width-1) return;
 		if(y >= height-1) return;
 		
-		this.density[index(x, y)] += amount;
+		int indx = index(x, y);
+		this.density[indx] += amount;
+		if(this.density[indx] > 1000) this.density[indx] = 1000;
 	}
 
 	public void addVelocity(int x, int y, float amountX, float amountY) {
@@ -106,7 +108,7 @@ public class Fluid {
 				float x = i * scale;
 				float y = j * scale;
 				pg.noStroke();
-				pg.fill(this.density[index(i, j)]);
+				pg.fill(255, this.density[index(i, j)]);
 				pg.rect(x, y, scale, scale);
 			}
 		}

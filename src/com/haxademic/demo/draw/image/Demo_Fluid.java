@@ -68,5 +68,4 @@ extends PAppletHax {
 		// draw fluid buffer to screen
 		p.image(fluidBuff, 0, 0);
 	}
-
 }
