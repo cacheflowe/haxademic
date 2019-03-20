@@ -35,6 +35,7 @@ import com.haxademic.core.draw.filters.pshader.EdgesFilter;
 import com.haxademic.core.draw.filters.pshader.EmbossFilter;
 import com.haxademic.core.draw.filters.pshader.ErosionFilter;
 import com.haxademic.core.draw.filters.pshader.FXAAFilter;
+import com.haxademic.core.draw.filters.pshader.FakeLightingFilter;
 import com.haxademic.core.draw.filters.pshader.GlitchImageGlitcherFilter;
 import com.haxademic.core.draw.filters.pshader.GlitchPseudoPixelSortingFilter;
 import com.haxademic.core.draw.filters.pshader.GlitchShaderAFilter;
@@ -115,6 +116,7 @@ extends PAppletHax { public static void main(String args[]) { PAppletHax.main(Th
 		noiseBuffer = p.createGraphics(p.width, p.height, PRenderers.P2D);
 		
 		filters = new BaseFragmentShader[] {
+			FakeLightingFilter.instance(p),
 			BadTVGlitchFilter.instance(p),
 			BadTVLinesFilter.instance(p),
 			BlendTowardsTexture.instance(p),
@@ -358,6 +360,13 @@ extends PAppletHax { public static void main(String args[]) { PAppletHax.main(Th
 			EmbossFilter.instance(p).applyTo(pg);
 		} else if(curFilter == ErosionFilter.instance(p)) {
 			ErosionFilter.instance(p).applyTo(pg);
+		} else if(curFilter == FakeLightingFilter.instance(p)) {
+			FakeLightingFilter.instance(p).setAmbient(p.mousePercentX() * 4f);
+			FakeLightingFilter.instance(p).setGradAmp(p.mousePercentX() * 4f);
+			FakeLightingFilter.instance(p).setGradBlur(p.mousePercentY() * 2f);
+			FakeLightingFilter.instance(p).setSpecAmp(p.mousePercentY() * 1.5f);
+			FakeLightingFilter.instance(p).setDiffDark(p.mousePercentY() * 3f);
+			FakeLightingFilter.instance(p).applyTo(pg);
 		} else if(curFilter == FXAAFilter.instance(p)) {
 			FXAAFilter.instance(p).applyTo(pg);
 		} else if(curFilter == GlitchImageGlitcherFilter.instance(p)) {
