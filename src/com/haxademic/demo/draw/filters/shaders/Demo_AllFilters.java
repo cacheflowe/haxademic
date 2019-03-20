@@ -116,7 +116,6 @@ extends PAppletHax { public static void main(String args[]) { PAppletHax.main(Th
 		noiseBuffer = p.createGraphics(p.width, p.height, PRenderers.P2D);
 		
 		filters = new BaseFragmentShader[] {
-			FakeLightingFilter.instance(p),
 			BadTVGlitchFilter.instance(p),
 			BadTVLinesFilter.instance(p),
 			BlendTowardsTexture.instance(p),
@@ -147,6 +146,7 @@ extends PAppletHax { public static void main(String args[]) { PAppletHax.main(Th
 			EdgesFilter.instance(p),
 			EmbossFilter.instance(p),
 			ErosionFilter.instance(p),
+			FakeLightingFilter.instance(p),
 			FXAAFilter.instance(p),
 			GlitchImageGlitcherFilter.instance(p),
 			GlitchPseudoPixelSortingFilter.instance(p),
