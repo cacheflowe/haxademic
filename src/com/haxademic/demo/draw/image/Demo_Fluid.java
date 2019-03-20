@@ -21,7 +21,7 @@ extends PAppletHax {
 		int w = 50;
 		int h = 50;
 		int scale = 10;
-		fluid = new Fluid(w, h, 0f, 0.000001f, 0.01f);
+		fluid = new Fluid(w, h);
 		fluid.scale(scale);
 		
 		fluidBuff = p.createGraphics(w * scale, h * scale, PRenderers.P3D);
@@ -49,13 +49,15 @@ extends PAppletHax {
 		}
 
 		// calc & draw fluid
+		fluid.diffusion(0.001f);
+		fluid.viscosity(0.0001f);
+		fluid.dt(0.001f);
 		fluid.step();
-		fluid.fadeAmp(0.1f);
+
 		fluidBuff.beginDraw();
 		//fluid.renderV(fluidBuff);
 		fluid.renderD(fluidBuff);
 		fluidBuff.endDraw();
-		fluid.fadeD();
 		
 		// postprocessing
 		BlurHFilter.instance(p).setBlurByPercent(2f, fluidBuff.width);

@@ -15,8 +15,8 @@ public class Demo_OpticalFlowFluid
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
-	protected int w = 640; 
-	protected int h = 320; 
+	protected int w = 480; 
+	protected int h = 480; 
 	protected OpticalFlow opticalFlow;
 
 	protected Fluid fluid;
@@ -32,7 +32,7 @@ extends PAppletHax {
 		opticalFlow = new OpticalFlow(pg, detectionScaleDown);
 		
 		// build fluid
-		fluid = new Fluid(w/scale, h/scale, 0f, 0.000001f, 0.01f);
+		fluid = new Fluid(w/scale, h/scale);
 		fluid.scale(scale);
 		fluidBuff = p.createGraphics(w, h, PRenderers.P3D);
 	}
@@ -48,11 +48,11 @@ extends PAppletHax {
 		pg.noStroke();
 		pg.fill(255);
 		DrawUtil.setDrawCenter(pg);
-		pg.ellipse(p.mouseX, p.mouseY, 40, 40);
+		pg.ellipse(p.mouseX, p.mouseY, 20, 20);
 		pg.endDraw();
 
 		// update optical flow 
-		opticalFlow.smoothing(0.02f);
+		opticalFlow.smoothing(0.01f);
 		opticalFlow.update(pg);
 
 		// draw input view to screen
@@ -70,24 +70,28 @@ extends PAppletHax {
 				float xNorm = (float) x / (float) w;
 				float yNorm = (float) y / (float) h;
 				float[] vecResult = opticalFlow.getVectorAt(xNorm, yNorm);
-				fluid.addVelocity(x/fluid.scale(), y/fluid.scale(), vecResult[0] * 0.00015f, vecResult[1] * 0.00015f);
-				fluid.addDensity(x/fluid.scale(), y/fluid.scale(), P.abs(vecResult[0]) * 1.0f + P.abs(vecResult[1]) * 1.0f);
+				fluid.addVelocity(x/fluid.scale(), y/fluid.scale(), vecResult[0] * 0.0015f, vecResult[1] * 0.0015f);
+				fluid.addDensity(x/fluid.scale(), y/fluid.scale(), P.abs(vecResult[0]) * 0.0075f + P.abs(vecResult[1]) * 0.0075f);
 			}
 		}
 
 		// calc & draw fluid
+		fluid.diffusion(0.003f);
+		fluid.viscosity(0.0001f);
+		fluid.dt(0.001f);
 		fluid.step();
-		fluid.fadeAmp(100f);
+		
 		fluidBuff.beginDraw();
 		fluidBuff.background(255,0,0);
 		//fluid.renderV(fluidBuff);
 		fluid.renderD(fluidBuff);
 		fluidBuff.endDraw();
-		fluid.fadeD();
 		
 		// postprocessing
 		BlurHFilter.instance(p).setBlurByPercent(2f, fluidBuff.width);
 		BlurVFilter.instance(p).setBlurByPercent(2f, fluidBuff.height);
+		BlurHFilter.instance(p).applyTo(fluidBuff);
+		BlurVFilter.instance(p).applyTo(fluidBuff);
 		BlurHFilter.instance(p).applyTo(fluidBuff);
 		BlurVFilter.instance(p).applyTo(fluidBuff);
 		BlurHFilter.instance(p).applyTo(fluidBuff);
