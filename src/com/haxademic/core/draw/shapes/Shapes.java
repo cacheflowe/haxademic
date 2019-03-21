@@ -98,6 +98,33 @@ public class Shapes {
 		p.popMatrix();
 	}
 	
+	public static void drawDiscTextured(PGraphics pg, float radius, float innerRadius, int numSegments, PImage texture) {
+		pg.pushMatrix();
+		
+		float segmentRads = P.TWO_PI / numSegments;
+		for( int i = 0; i < numSegments; i++ ) {
+			float curRads = i * segmentRads;
+			float nextRads = (i+1) * segmentRads;
+			float progress = curRads / P.TWO_PI;
+			float progressNext = nextRads / P.TWO_PI;
+			
+			pg.beginShape(P.TRIANGLES);
+			pg.textureMode(P.NORMAL);
+			pg.texture(texture);
+			
+			pg.vertex( P.cos(curRads) * innerRadius, P.sin(curRads) * innerRadius, 0, progress, 1 );
+			pg.vertex( P.cos(curRads) * radius, P.sin(curRads) * radius, 0, progress, 0 );
+			pg.vertex( P.cos(nextRads) * radius, P.sin(nextRads) * radius, 0, progressNext, 0 );
+			
+			pg.vertex( P.cos(curRads) * innerRadius, P.sin(curRads) * innerRadius, 0, progress, 1 );
+			pg.vertex( P.cos(nextRads) * innerRadius, P.sin(nextRads) * innerRadius, 0, progressNext, 1 );
+			pg.vertex( P.cos(nextRads) * radius, P.sin(nextRads) * radius, 0, progressNext, 0 );
+			pg.endShape();
+		}
+		
+		pg.popMatrix();
+	}
+	
 	public static void drawStar( PApplet p, float spikes, float outerrad, float innerradpercent, float h, float rot) {
 		drawStar(p.g, spikes, outerrad, innerradpercent, h, rot);
 	}
@@ -310,11 +337,12 @@ public class Shapes {
 
 	public static void drawTexturedRect(PGraphics pg, PImage texture) {
 		pg.beginShape(P.QUAD);
+		pg.textureMode(P.NORMAL);
 		pg.texture(texture);
 		pg.vertex(-texture.width/2, -texture.height/2, 			0, 0);
-		pg.vertex( texture.width/2, -texture.height/2, 			texture.width, 0);
-		pg.vertex( texture.width/2,  texture.height/2, 			texture.width, texture.height);
-		pg.vertex(-texture.width/2,  texture.height/2, 			0, texture.height);
+		pg.vertex( texture.width/2, -texture.height/2, 			1, 0);
+		pg.vertex( texture.width/2,  texture.height/2, 			1, 1);
+		pg.vertex(-texture.width/2,  texture.height/2, 			0, 1);
 		pg.endShape();
 	}
 
