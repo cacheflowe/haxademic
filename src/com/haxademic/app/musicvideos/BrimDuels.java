@@ -10,6 +10,7 @@ import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.draw.shapes.Shapes;
 import com.haxademic.core.file.DemoAssets;
 import com.haxademic.core.math.MathUtil;
+import com.haxademic.core.math.easing.LinearFloat;
 
 import processing.core.PGraphics;
 import processing.core.PImage;
@@ -23,12 +24,15 @@ extends PAppletHax {
 	protected float h = 720;
 	protected int FRAMES = 1038; // (17.299s)
 	
+	protected PImage backgroundImg;
 	protected PImage waveform;
 	
 	protected PShape icosa;
 	
 	protected PImage floorSrcImg;
 	protected PGraphics floorTexture;
+	
+	protected LinearFloat beatTime = new LinearFloat(0, 0.025f);
 	
 	
 	protected void overridePropsFile() {
@@ -47,7 +51,8 @@ extends PAppletHax {
 	}
 
 	protected void setupFirstFrame() {
-//		waveform = P.getImage("audio/brim-duels/output-16k.png");
+		backgroundImg = P.getImage("audio/brim-duels/bg-swirl.jpg");
+		waveform = P.getImage("audio/brim-duels/output-16k-tran.png");
 		buildPlanet();
 		buildFloor();
 	}
@@ -62,7 +67,9 @@ extends PAppletHax {
 		pg.beginDraw();
 		pg.background(0);
 		pg.noStroke();
-//		DrawUtil.setBetterLights(pg);
+		DrawUtil.setBetterLights(pg);
+
+		drawBackground();
 
 		// set camera
 //		pg.rotateX(-0.2f);
@@ -73,14 +80,38 @@ extends PAppletHax {
 		drawFloor();
 		drawPlanet();
 		
+		beatTime.update();
+		if(p.loop.isTick() && p.loop.curTick() < 64 - 8) {
+			int eighthTick = p.loop.curTick() % 8;
+			if(eighthTick == 0 || eighthTick == 3 || eighthTick == 6) {		// 1, 4, 7
+				beatTime.setCurrent(1);
+				beatTime.setTarget(0);
+			}
+		}
 		
 		pg.endDraw();
 		
 		// draw to screen
 		p.image(pg, 0, 0);
 		
-		// debug
+		// debug info
 		p.text(p.loop.curTick(), 20, 20);
+	}
+	
+	//////////////////////////
+	// BACKGROUND
+	//////////////////////////
+	
+	protected void drawBackground() {
+		DrawUtil.setDrawCenter(pg);
+		DrawUtil.push(pg);
+		
+		float bgScale = 2f;
+		pg.translate(pg.width * 0.5f, pg.height * 0.5f, -pg.width * 0.8f);
+		pg.image(backgroundImg, 0, 0, backgroundImg.width * bgScale, backgroundImg.height * bgScale);
+		
+		DrawUtil.pop(pg);
+		DrawUtil.setDrawCorner(pg);
 	}
 	
 	//////////////////////////
@@ -88,8 +119,9 @@ extends PAppletHax {
 	//////////////////////////
 	
 	protected void buildFloor() {
-		floorTexture = p.createGraphics(600, 600, PRenderers.P3D);
-		floorSrcImg = P.getImage("images/textures/space/black-holes/BlackHole.jpg");
+		floorTexture = p.createGraphics(500, 500, PRenderers.P3D);
+//		floorSrcImg = P.getImage("images/textures/space/black-holes/BlackHole.jpg");
+		floorSrcImg = DemoAssets.squareTexture();
 	}
 	
 	protected void updateFloorTexture() {
@@ -124,7 +156,7 @@ extends PAppletHax {
 	//////////////////////////
 	
 	protected void buildPlanet() {
-		PImage planetTexture = DemoAssets.textureJupiter();
+		PImage planetTexture = P.getImage("images/textures/space/saturn.jpg"); // DemoAssets.textureJupiter();
 		
 		icosa = Icosahedron.createIcosahedron(p.g, 4, planetTexture);
 		PShapeUtil.scaleShapeToHeight(icosa, pg.height * 0.3f);
@@ -135,12 +167,17 @@ extends PAppletHax {
 		pg.translate(pg.width * 0.5f, pg.height * 0.4f);
 		
 		// draw planet
+		DrawUtil.push(pg);
 		pg.rotateY(p.loop.progressRads());
 		pg.shape(icosa, 0, 0);
+		DrawUtil.pop(pg);
 		
 		// draw ring
-		pg.rotateX(P.HALF_PI);
-		Shapes.drawDiscTextured(pg, p.width * 0.2f, p.width * 0.15f, 100, DemoAssets.textureJupiter());
+		DrawUtil.push(pg);
+		pg.rotateY(-P.HALF_PI - p.loop.progressRads());
+		pg.rotateX(-P.HALF_PI);
+		Shapes.drawDiscTextured(pg, p.width * (0.25f + 0.1f * beatTime.value()), p.width * 0.15f, 100, waveform);
+		DrawUtil.pop(pg);
 		
 		DrawUtil.pop(pg);
 	}
