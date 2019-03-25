@@ -33,6 +33,7 @@ import com.haxademic.core.hardware.kinect.KinectWrapperV2Mac;
 import com.haxademic.core.hardware.midi.MidiDevice;
 import com.haxademic.core.hardware.osc.OscWrapper;
 import com.haxademic.core.hardware.webcam.WebCamWrapper;
+import com.haxademic.core.math.easing.EasingFloat;
 import com.haxademic.core.render.AnimationLoop;
 import com.haxademic.core.render.GifRenderer;
 import com.haxademic.core.render.ImageSequenceRenderer;
@@ -112,6 +113,8 @@ extends PApplet
 	public BrowserInputState browserInputState = null;
 	public int lastMouseTime = 0;
 	public boolean mouseShowing = true;
+	public EasingFloat mouseXEase = new EasingFloat(0, 0.15f);
+	public EasingFloat mouseYEase = new EasingFloat(0, 0.15f);
 
 	// debug
 	public int _fps;
@@ -387,6 +390,7 @@ extends PApplet
 		updateAudioData();
 		handleRenderingStepthrough();
 		midiState.update();
+		updateEasedMouse();
 		if( kinectWrapper != null ) kinectWrapper.update();
 		p.pushMatrix();
 		if( joons != null ) joons.startFrame();
@@ -409,6 +413,13 @@ extends PApplet
 	// UPDATE OBJECTS
 	////////////////////////	
 
+	protected void updateEasedMouse() {
+		mouseXEase.setTarget(mousePercentX());
+		mouseXEase.update();
+		mouseYEase.setTarget(mousePercentY());
+		mouseYEase.update();
+	}
+	
 	protected void updateAudioData() {
 		if(audioInput != null) {
 			PGraphics audioBuffer = (debugView.active() == true) ? audioInputDebugBuffer : null;	// only draw if debugging
@@ -611,6 +622,14 @@ extends PApplet
 
 	public float mousePercentY() {
 		return P.map(p.mouseY, 0, p.height, 0, 1);
+	}
+	
+	public float mousePercentXEased() {
+		return p.mouseXEase.value();
+	}
+	
+	public float mousePercentYEased() {
+		return p.mouseYEase.value();
 	}
 	
 	////////////////////////
