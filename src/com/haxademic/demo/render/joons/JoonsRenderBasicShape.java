@@ -4,14 +4,14 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.render.JoonsWrapper;
 
-public class JoonsPShapeRenderBasicShape
+public class JoonsRenderBasicShape
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	protected void overridePropsFile() {
 		p.appConfig.setProperty( AppSettings.SUNFLOW, true );
-		p.appConfig.setProperty( AppSettings.SUNFLOW_ACTIVE, false );
-		p.appConfig.setProperty( AppSettings.SUNFLOW_QUALITY, AppSettings.SUNFLOW_QUALITY_HIGH );
+		p.appConfig.setProperty( AppSettings.SUNFLOW_ACTIVE, true );
+		p.appConfig.setProperty( AppSettings.SUNFLOW_QUALITY, AppSettings.SUNFLOW_QUALITY_LOW );
 
 		p.appConfig.setProperty( AppSettings.WIDTH, 1280 );
 		p.appConfig.setProperty( AppSettings.HEIGHT, 720 );
@@ -19,11 +19,13 @@ extends PAppletHax {
 	}
 
 	public void drawApp() {
-		if(joons == null) {
+		if(p.appConfig.getBoolean(AppSettings.SUNFLOW_ACTIVE, false) == false) {
 			p.background(0);
 			p.lights();
 		}
-		joons.jr.background(JoonsWrapper.BACKGROUND_GI);
+//		joons.jr.background(JoonsWrapper.BACKGROUND_GI);
+		joons.jr.background(JoonsWrapper.BACKGROUND_AO);
+		p.translate(0, 0, -width);
 
 		setUpRoom();
 		
@@ -34,7 +36,7 @@ extends PAppletHax {
 		// draw box
 		p.rotateY(1);
 		p.rotateZ(1);
-		box(2);
+		p.box(80);
 	}
 
 	protected void setUpRoom() {
