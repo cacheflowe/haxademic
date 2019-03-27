@@ -31,6 +31,7 @@ public class DebugView {
 	protected int hideFrames = 60 * 60;
 	protected boolean autoHide = true;
 	protected String ipAddress;
+	public static final String TITLE_PREFIX = "___";
 
 	public DebugView( PApplet p ) {
 		this.p = p;
@@ -96,19 +97,19 @@ public class DebugView {
 	}
 	
 	protected void updateAppInfo() {
-		debugLines.put("___ RUN TIME", "");
+		debugLines.put(TITLE_PREFIX + " RUN TIME", "");
 		debugLines.put("Frame", ""+p.frameCount);
 		debugLines.put("Time", StringFormatter.timeFromSeconds(p.millis() / 1000, true));
-		debugLines.put("___ APP", "");
+		debugLines.put(TITLE_PREFIX + " APP", "");
 		debugLines.put("alwaysOnTop", ""+P.p.alwaysOnTop());
-		debugLines.put("___ PERFORMANCE", "");
+		debugLines.put(TITLE_PREFIX + " PERFORMANCE", "");
 		debugLines.put("FPS", ""+P.round(p.frameRate));
 		debugLines.put("Memory Allocated", StringFormatter.formattedInteger(DebugUtil.memoryAllocated()));
 		debugLines.put("Memory Free", StringFormatter.formattedInteger(DebugUtil.memoryFree()));
 		debugLines.put("Memory Max", StringFormatter.formattedInteger(DebugUtil.memoryMax()));
-		debugLines.put("___ NET", "");
+		debugLines.put(TITLE_PREFIX + " NET", "");
 		debugLines.put("IP Address", ipAddress);
-		debugLines.put("___ CUSTOM", "");
+		debugLines.put(TITLE_PREFIX + " CUSTOM", "");
 	}
 	
 	public void updateInputs() {

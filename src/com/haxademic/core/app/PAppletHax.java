@@ -160,6 +160,7 @@ extends PApplet
 		if(renderer != PRenderers.PDF) {
 			debugView = new DebugView( p );
 			debugView.active(p.appConfig.getBoolean(AppSettings.SHOW_DEBUG, false));
+			addKeyCommandInfo();
 			prefsSliders = new PrefsSliders();
 			if(p.appConfig.getBoolean(AppSettings.SHOW_SLIDERS, false) == true) {
 				prefsSliders.active(!prefsSliders.active());
@@ -238,6 +239,16 @@ extends PApplet
 		_isRenderingMidi = p.appConfig.getBoolean(AppSettings.RENDER_MIDI, false);
 		_fps = p.appConfig.getInt(AppSettings.FPS, 60);
 		if(p.appConfig.getInt(AppSettings.FPS, 60) != 60) frameRate(_fps);
+	}
+	
+	protected void addKeyCommandInfo() {
+		p.debugView.setHelpLine(DebugView.TITLE_PREFIX + "KEY COMMANDS:", "");
+		p.debugView.setHelpLine("[F]", "Toggle `alwaysOnTop`");
+		p.debugView.setHelpLine("[/]", "Toggle `DebugView`");
+		p.debugView.setHelpLine("[\\]", "Toggle `PrefsSilders`");
+		p.debugView.setHelpLine("[.]", "Audio input gain up");
+		p.debugView.setHelpLine("[,]", "Audio input gain down");
+		p.debugView.setHelpLine("[|]", "Save screenshot");
 	}
 	
 	protected void initHaxademicObjects() {
