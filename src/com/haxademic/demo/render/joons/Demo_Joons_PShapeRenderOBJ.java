@@ -23,12 +23,12 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.LOOP_FRAMES, FRAMES );
 		
 		p.appConfig.setProperty( AppSettings.SUNFLOW, true );
-		p.appConfig.setProperty( AppSettings.SUNFLOW_ACTIVE, true );
+		p.appConfig.setProperty( AppSettings.SUNFLOW_ACTIVE, false );
 		p.appConfig.setProperty( AppSettings.SUNFLOW_QUALITY, AppSettings.SUNFLOW_QUALITY_HIGH);
 
 		p.appConfig.setProperty( AppSettings.WIDTH, 960 );
 		p.appConfig.setProperty( AppSettings.HEIGHT, 720 );
-		p.appConfig.setProperty( AppSettings.RENDERING_IMAGE_SEQUENCE, true );
+		p.appConfig.setProperty( AppSettings.RENDERING_IMAGE_SEQUENCE, false );
 		p.appConfig.setProperty( AppSettings.RENDERING_IMAGE_SEQUENCE_START_FRAME, 3 );
 		p.appConfig.setProperty( AppSettings.RENDERING_IMAGE_SEQUENCE_STOP_FRAME, 3 + FRAMES );
 	}
