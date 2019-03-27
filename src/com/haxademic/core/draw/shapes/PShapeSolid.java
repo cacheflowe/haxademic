@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.draw.image.ImageUtil;
-import com.haxademic.core.file.DemoAssets;
 
 import processing.core.PImage;
 import processing.core.PShape;
@@ -49,7 +48,10 @@ public class PShapeSolid {
 	}
 	
 	public static PShapeSolid newSolidIcos(float size, PImage texture) {
-		PShape icos = Icosahedron.createIcosahedron(P.p.g, 4, texture).getTessellation();
+		return newSolidIcos(size, texture, 4);
+	}
+	public static PShapeSolid newSolidIcos(float size, PImage texture, int resolution) {
+		PShape icos = Icosahedron.createIcosahedron(P.p.g, resolution, texture).getTessellation();
 		PShapeUtil.scaleShapeToExtent(icos, size);
 		PShapeUtil.addTextureUVSpherical(icos, texture);
 
@@ -107,7 +109,7 @@ public class PShapeSolid {
 	public void deformWithAudio(float ampMultMax) {
 		// deform from original copy, using vertexIndex as the key to find the shared index
 		int vertexIndex = 0;
-		PVector normalTemp = new PVector();
+//		PVector normalTemp = new PVector();
 		for (int j = 0; j < shape.getChildCount(); j++) {
 			for (int i = 0; i < shape.getChild(j).getVertexCount(); i++) {
 				int sharedVertexIndex = sharedVertexIndices.get(vertexIndex);
