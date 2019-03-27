@@ -1,22 +1,21 @@
 
-package com.haxademic.sketch.render.joons;
+package com.haxademic.demo.render.joons;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 
-public class JoonsTesterHax 
+public class Demo_Joons_Materials 
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	protected void overridePropsFile() {
 		p.appConfig.setProperty( AppSettings.SUNFLOW, true );
 		p.appConfig.setProperty( AppSettings.SUNFLOW_ACTIVE, true );
-		p.appConfig.setProperty( AppSettings.SUNFLOW_QUALITY, AppSettings.SUNFLOW_QUALITY_HIGH );
+		p.appConfig.setProperty( AppSettings.SUNFLOW_QUALITY, AppSettings.SUNFLOW_QUALITY_LOW );
 
 		p.appConfig.setProperty( AppSettings.WIDTH, 800 );
 		p.appConfig.setProperty( AppSettings.HEIGHT, 600 );
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, false );
-		p.appConfig.setProperty( AppSettings.FPS, 30 );
 	}
 
 	public void drawApp() {

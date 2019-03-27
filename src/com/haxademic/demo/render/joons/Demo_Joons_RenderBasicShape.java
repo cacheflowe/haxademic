@@ -40,16 +40,16 @@ extends PAppletHax {
 	}
 
 	protected void setUpRoom() {
-		pushMatrix();
+		p.pushMatrix();
 		translate(0, 0, 0);
 		float radiance = 20;
 		int samples = 16;
 		joons.jr.background(JoonsWrapper.CORNELL_BOX, 
-				width * 6, 3000, 3000,						// width, height, depth
+				width * 6, height * 4, 3000,			// width, height, depth
 				radiance, radiance, radiance, samples,  // radiance rgb & samples
 				40, 40, 40, 							// left rgb
 				40, 40, 40, 							// right rgb
-				60, 60, 60,	 						// back rgb
+				60, 60, 60,	 							// back rgb
 				60, 60, 60, 							// top rgb
 				60, 60, 60  							// bottom rgb
 		); 
