@@ -1,46 +1,46 @@
 package com.haxademic.demo.render.joons;
 
+import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.shapes.PShapeUtil;
-import com.haxademic.core.file.DemoAssets;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.render.JoonsWrapper;
 
 import processing.core.PShape;
 
-public class JoonsPShapeRenderSVG
+public class Demo_Joons_PShapeRenderOBJ
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	protected PShape obj;
 	protected float objHeight;
-	protected float frames = 60;
+	protected int FRAMES = 60;
 	
 	protected void overridePropsFile() {
+		p.appConfig.setProperty( AppSettings.LOOP_FRAMES, 60 );
+		
 		p.appConfig.setProperty( AppSettings.SUNFLOW, true );
-		p.appConfig.setProperty( AppSettings.SUNFLOW_ACTIVE, true );
+		p.appConfig.setProperty( AppSettings.SUNFLOW_ACTIVE, false );
 		p.appConfig.setProperty( AppSettings.SUNFLOW_QUALITY, AppSettings.SUNFLOW_QUALITY_LOW );
 
 		p.appConfig.setProperty( AppSettings.WIDTH, 960 );
 		p.appConfig.setProperty( AppSettings.HEIGHT, 720 );
 		p.appConfig.setProperty( AppSettings.RENDERING_IMAGE_SEQUENCE, false );
-		p.appConfig.setProperty( AppSettings.RENDERING_IMAGE_SEQUENCE_START_FRAME, 1 );
-//		p.appConfig.setProperty( AppSettings.RENDERING_IMAGE_SEQUENCE_STOP_FRAME, 3 + (int) frames - 1 );
-		p.appConfig.setProperty( AppSettings.RENDERING_IMAGE_SEQUENCE_STOP_FRAME, 2 );
+		p.appConfig.setProperty( AppSettings.RENDERING_IMAGE_SEQUENCE_START_FRAME, 3 );
+		p.appConfig.setProperty( AppSettings.RENDERING_IMAGE_SEQUENCE_STOP_FRAME, 3 + FRAMES );
 	}
 
-	public void setupFirstFrame() {
-		// load & repair tesselated shape
-		obj = DemoAssets.shapeX().getTessellation(); // p.loadShape( FileUtil.getFile("svg/fractal-1.svg")).getTessellation();
-		PShapeUtil.repairMissingSVGVertex(obj);
-			
-		// create extrusion
-		obj = PShapeUtil.createExtrudedShape( obj, 175 );
+	public void setup() {
+		super.setup();
+		
+		// load & normalize shape
+		obj = p.loadShape( FileUtil.getFile("models/skull-realistic.obj"));	
+		obj = p.loadShape( FileUtil.getFile("models/poly-hole-penta.obj"));	
 		PShapeUtil.centerShape(obj);
-		objHeight = p.height * 0.35f;
-		PShapeUtil.scaleShapeToMaxAbsY(obj, objHeight);
+		PShapeUtil.scaleShapeToHeight(obj, p.height * 0.8f);
+		objHeight = PShapeUtil.getHeight(obj);
 	}
 
 
@@ -50,37 +50,38 @@ extends PAppletHax {
 			p.lights();
 			p.noStroke();
 		}
+//		joons.jr.background(JoonsWrapper.BACKGROUND_GI);
 		joons.jr.background(JoonsWrapper.BACKGROUND_AO);
 		p.translate(0, 0, -width);
 		
-		// progress
-		// float progress = (p.frameCount % frames) / frames;
-
 		// draw environment
 		p.pushMatrix();
 		setUpRoom();
 		p.popMatrix();
-
+		
 		// draw shape
 		p.pushMatrix();
-		joons.jr.fill(JoonsWrapper.MATERIAL_AMBIENT_OCCLUSION, 200, 200, 200);		p.fill( 20, 20, 20 );
+		p.rotateZ(P.PI);
+		p.rotateY(loop.progressRads() / 5f); // divide by 5 for pentagon
+		joons.jr.fill(JoonsWrapper.MATERIAL_PHONG, 205, 150, 205);		p.fill( 205, 150, 205 );
 		PShapeUtil.drawTrianglesJoons(p, obj, 1);
 		p.popMatrix();
 
+		// draw sphere
+		p.pushMatrix();
+//		joons.jr.fill(JoonsWrapper.MATERIAL_LIGHT, 5, 5, 5);		p.fill( 255, 255, 255 );
+		joons.jr.fill(JoonsWrapper.MATERIAL_AMBIENT_OCCLUSION, 10, 10, 30 + 20f * P.sin(loop.progressRads()), 0, 0, 0,   50, 16);
+		p.rotateY(1);
+		p.rotateZ(1);
+		p.sphere(210);
+		p.popMatrix();
+		
 		// draw floor
 		p.pushMatrix();
 		DrawUtil.setDrawCenter(p);
-		p.translate(0, objHeight);
-		joons.jr.fill(JoonsWrapper.MATERIAL_SHINY, 255, 255, 255, 0.6f);		p.fill( 255, 255, 255 );
-		p.box(p.height * 4, 2, p.height * 2f);
-		p.popMatrix();
-		
-		// draw back wall
-		p.pushMatrix();
-		DrawUtil.setDrawCenter(p);
-		p.translate(0, 0, -5);
-		joons.jr.fill(JoonsWrapper.MATERIAL_PHONG, 255, 255, 255);		p.fill( 255, 255, 255 );
-		p.box(p.height * 4, p.height * 4, 2);
+		p.translate(0, objHeight/2);
+		joons.jr.fill(JoonsWrapper.MATERIAL_PHONG, 30, 10, 10);		p.fill( 30, 10, 10 );
+		p.box(p.height * 4, 2, p.height * 4);
 		p.popMatrix();
 	}
 

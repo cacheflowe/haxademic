@@ -4,7 +4,7 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.render.JoonsWrapper;
 
-public class JoonsRenderBasicShape
+public class Demo_Joons_RenderBasicShape
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
@@ -36,7 +36,7 @@ extends PAppletHax {
 		// draw box
 		p.rotateY(1);
 		p.rotateZ(1);
-		p.box(80);
+		p.box(180);
 	}
 
 	protected void setUpRoom() {
@@ -45,7 +45,7 @@ extends PAppletHax {
 		float radiance = 20;
 		int samples = 16;
 		joons.jr.background(JoonsWrapper.CORNELL_BOX, 
-				4000, 3000, 3000,						// width, height, depth
+				width * 6, 3000, 3000,						// width, height, depth
 				radiance, radiance, radiance, samples,  // radiance rgb & samples
 				40, 40, 40, 							// left rgb
 				40, 40, 40, 							// right rgb
