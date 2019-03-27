@@ -155,7 +155,7 @@ public class ImageUtil {
 	}
 	
 	public static PGraphics imageToGraphics(PImage img) {
-		PGraphics pg = P.p.createGraphics(img.width, img.height, P.P3D);
+		PGraphics pg = P.p.createGraphics(img.width, img.height);
 		pg.beginDraw();
 		pg.image(img,0,0);
 		pg.endDraw();
@@ -171,7 +171,7 @@ public class ImageUtil {
 	}  
 	
 	public static PGraphics shapeToGraphics(PShape shape, float scale, int bgColor) {
-		PGraphics pg = P.p.createGraphics(P.ceil((float) shape.width * scale), P.ceil((float) shape.height * scale), P.P3D);
+		PGraphics pg = P.p.createGraphics(P.ceil((float) shape.width * scale), P.ceil((float) shape.height * scale));
 		pg.beginDraw();
 		if(bgColor != -999) pg.background(bgColor);
 		pg.shape(shape, 0, 0, pg.width, pg.height);
@@ -191,7 +191,7 @@ public class ImageUtil {
 	}  
 	
 	public static PImage imageToImageWithPadding(PImage img, float scaleCanvasUp) {
-		PGraphics pg = P.p.createGraphics(P.ceil((float) img.width * scaleCanvasUp), P.ceil((float) img.height * scaleCanvasUp), P.P2D);
+		PGraphics pg = P.p.createGraphics(P.ceil((float) img.width * scaleCanvasUp), P.ceil((float) img.height * scaleCanvasUp));
 		pg.beginDraw();
 		DrawUtil.setDrawCenter(pg);
 		pg.clear();

@@ -7,6 +7,7 @@ import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.image.TiledTexture;
+import com.haxademic.core.file.DemoAssets;
 import com.haxademic.core.file.FileUtil;
 
 import processing.core.PFont;
@@ -34,19 +35,21 @@ extends PAppletHax {
 
 	public void setupFirstFrame() {
 		// create buffer & font
-		textBuffer = p.createGraphics(p.width, p.height, PRenderers.P2D);
-		fontBig = p.createFont(FileUtil.getFile("fonts/_sketch/HelveticaNeueLTStd-Blk.ttf"), 100);
-		textCropped = p.createImage(100, 100, P.ARGB);
+		textBuffer = p.createGraphics(p.width, p.height);	// NOTE: new version of Processing can't use `PRenderers.P3D` - leave it out
+		fontBig = DemoAssets.fontHelloDenver(200);
+		textCropped = p.createImage(128, 128, P.ARGB);
 		
 		// draw text
 		textBuffer.beginDraw();
 		textBuffer.clear();
+		textBuffer.background(0, 0);
 		textBuffer.fill(255);
 		textBuffer.textAlign(P.CENTER, P.CENTER);
 		textBuffer.textFont(fontBig);
 		textBuffer.textSize(fontBig.getSize());
-		textBuffer.text("#DUMPTRUMP", 0, 0, textBuffer.width, textBuffer.height); 
+		textBuffer.text("HELLO", 0, 0, textBuffer.width, textBuffer.height); 
 		textBuffer.endDraw();
+		p.debugView.setTexture(textBuffer);
 		
 		// crop text
 		ImageUtil.imageCroppedEmptySpace(textBuffer, textCropped, ImageUtil.EMPTY_INT, false, new int[] {10, 20, 40, 20}, new int[] {0, 0, 0, 0}, p.color(0, 255, 0, 0));
@@ -60,14 +63,10 @@ extends PAppletHax {
 		DrawUtil.setCenterScreen(p);
 		
 		// draw tiled texture
-//		p.rotateX(0.93f + 0.02f * P.sin(p.loop.progressRads()));//0.95f); // p.mousePercentY()
-//		p.rotateX(0.95f);
-		
-//		tiledImg.setRotation(0.01f * P.sin(p.loop.progressRads()));
-//		tiledImg.setRotation(0f);
-		
+		float size = 1f + 0.2f * P.sin(p.loop.progressRads());
+		tiledImg.setRotation(0.01f * P.sin(p.loop.progressRads()));
 		tiledImg.setOffset(0, -1f * p.loop.progress());
-		tiledImg.setSize(2.34f, 2.34f);
+		tiledImg.setSize(size, size);
 		tiledImg.update();
 		tiledImg.drawCentered(p.g, p.width, p.height);
 	}

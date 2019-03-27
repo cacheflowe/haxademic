@@ -13,10 +13,8 @@ extends PAppletHax {
 	
 	protected void overridePropsFile() {
 		p.appConfig.setProperty( AppSettings.FPS, 90 );
-		p.appConfig.setProperty( AppSettings.RENDERER, P.P3D );
 		p.appConfig.setProperty( AppSettings.WIDTH, 800 );
 		p.appConfig.setProperty( AppSettings.HEIGHT, 800 );
-		p.appConfig.setProperty( AppSettings.SMOOTHING, AppSettings.SMOOTH_HIGH );
 	}
 
 	public void setup() {

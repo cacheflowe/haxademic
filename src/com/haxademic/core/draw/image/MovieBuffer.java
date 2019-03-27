@@ -20,6 +20,11 @@ public class MovieBuffer {
 		P.p.registerMethod("pre", this);
 	}
 
+	public MovieBuffer(Movie movie) {
+		this.movie = movie;
+		P.p.registerMethod("pre", this);
+	}
+	
 	public void pre() {
 		if(moviesEventFrames.containsKey(movie) == false) return;
 		if(moviesEventFrames.get(movie).intValue() == P.p.frameCount) {

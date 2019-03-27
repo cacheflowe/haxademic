@@ -25,7 +25,7 @@ extends PAppletHax {
 		// create padded image
 		img = ImageUtil.imageToImageWithPadding(img, 2f);
 		
-		new Thread(new Runnable() { public void run() {
+		// new Thread(new Runnable() { public void run() {
 			// generate drop shadow
 			BufferedImage buff = ImageUtil.pImageToBuffered( img );
 			BufferedImage dest = ImageUtil.newBufferedImage( img.width, img.height );
@@ -40,11 +40,11 @@ extends PAppletHax {
 			filt.filter(buff, dest);
 
 			imgShadow = ImageUtil.bufferedToPImage( dest );
-		}}).start();	
+		// }}).start();	
 	}
 	
 	public void drawApp() {
-		background(255);
+		background(127);
 		DrawUtil.setDrawCenter(p);
 		DrawUtil.setCenterScreen(p);
 		

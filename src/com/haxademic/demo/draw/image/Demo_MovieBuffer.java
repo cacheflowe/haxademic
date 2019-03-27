@@ -3,7 +3,7 @@ package com.haxademic.demo.draw.image;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.image.MovieBuffer;
-import com.haxademic.core.file.FileUtil;
+import com.haxademic.core.file.DemoAssets;
 
 public class Demo_MovieBuffer 
 extends PAppletHax {
@@ -12,7 +12,7 @@ extends PAppletHax {
 	protected MovieBuffer movieBuffer;
 	
 	protected void setupFirstFrame() {
-		movieBuffer = new MovieBuffer(FileUtil.getFile("haxademic/video/fractal-cube.mp4"));
+		movieBuffer = new MovieBuffer(DemoAssets.movieFractalCube());
 		movieBuffer.movie.loop();
 	}
 

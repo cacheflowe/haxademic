@@ -102,7 +102,6 @@ extends PAppletHax {
 		MeshDeformAndTextureFilter.instance(p).applyTo(p);
 
 		// draw mesh
-//		p.scale(0.5f);
 		p.shape(shape);
 		p.resetShader();
 	}

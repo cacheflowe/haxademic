@@ -18,7 +18,7 @@ public class FitTextSourceBuffer {
 	public FitTextSourceBuffer(PFont font, int color) {
 		this.font = font;
 		this.color = color;
-		buffer = P.p.createGraphics(4096, P.ceil(font.getSize() * 1.1f), PRenderers.P2D);
+		buffer = P.p.createGraphics(4096, P.ceil(font.getSize() * 1.1f));
 		buffer.smooth(8);
 	}
 	
@@ -27,12 +27,10 @@ public class FitTextSourceBuffer {
 	}
 	
 	public void updateText(String text) {
-		// set text size
-		buffer.textFont(font);
-		
 		// draw
 		buffer.beginDraw();
 		buffer.clear();
+		buffer.background(0, 0);
 		buffer.noStroke();
 		buffer.background(0, 0);
 		buffer.fill(color);
