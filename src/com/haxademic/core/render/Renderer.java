@@ -181,13 +181,13 @@ public class Renderer
 			if( audioPlayer != null ) {
 				int pos = (int)( _frameNumber * audioPlayer.sampleRate / fps );
 				// make sure we're still in bounds - kept getting data run-out errors
-				if (pos < audioPlayer.samples.length - (audioPlayer.sampleRate * 0.01f)) { 
+				if (pos < audioPlayer.size - (audioPlayer.sampleRate * 0.01f)) { 
 					float seconds = (float) _frameNumber / fps;
 					audioPlayer.cue(pos);
 					if ((_frameNumber % 15) == 0) {
 						P.println( "=============================" );
-						P.println( "= Audio position: " + pos + " fps: " + fps + " seconds: " + seconds + " _chn.sampleRate = " + audioPlayer.sampleRate + "  position in file: " + pos + " / " + audioPlayer.samples.length );
-						P.println( "= Audio @ seconds: " + seconds + "  Progress: " + Math.round(100f*((float)pos/(float)audioPlayer.samples.length)) + "%" );
+						P.println( "= Audio position: " + pos + " fps: " + fps + " seconds: " + seconds + " _chn.sampleRate = " + audioPlayer.sampleRate + "  position in file: " + pos + " / " + audioPlayer.size );
+						P.println( "= Audio @ seconds: " + seconds + "  Progress: " + Math.round(100f*((float)pos/(float)audioPlayer.size)) + "%" );
 						P.println( "= Rendering time: " + StringFormatter.timeFromMilliseconds( p.millis() - _timeStarted, true ) );
 						P.println( "= Frame Number: " + _frameNumber );
 						P.println( "=============================" );

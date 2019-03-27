@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.draw.image.ImageUtil;
+import com.haxademic.core.file.DemoAssets;
 
 import processing.core.PImage;
 import processing.core.PShape;
@@ -26,6 +27,42 @@ public class PShapeSolid {
 	public PShape shape() {
 		return shape;
 	}
+	
+	//////////////////////
+	// Init: Helper methods
+	//////////////////////
+	
+	public static PShapeSolid newSolidObj(float size, PShape obj, PImage texture) {
+		PShapeUtil.scaleShapeToExtent(obj, size);
+		PShapeUtil.addTextureUVSpherical(obj, texture);
+		return new PShapeSolid(obj);
+	}
+	
+	public static PShapeSolid newSolidSphere(float size, PImage texture) {
+		PShape sphere = P.p.createShape(P.SPHERE, size).getTessellation();
+		sphere.setTexture(texture);
+		PShapeUtil.addTextureUVSpherical(sphere, texture);
+
+		PShape group = P.p.createShape(P.GROUP);
+		group.addChild(sphere);
+		return new PShapeSolid(group);
+	}
+	
+	public static PShapeSolid newSolidIcos(float size, PImage texture) {
+		PShape icos = Icosahedron.createIcosahedron(P.p.g, 4, texture).getTessellation();
+		PShapeUtil.scaleShapeToExtent(icos, size);
+		PShapeUtil.addTextureUVSpherical(icos, texture);
+
+		PShape group = P.p.createShape(P.GROUP);
+		group.addChild(icos);
+		return new PShapeSolid(group);
+	}
+
+
+	
+	//////////////////////
+	// Init: Find shared vertices between triangles 
+	//////////////////////
 	
 	protected void calculateSharedVertices() {
 		// build data of shared vertex connections
@@ -63,7 +100,11 @@ public class PShapeSolid {
 		// P.println("vertex count: ", vertices.size());
 	}
 	
-	public void deformWithAudio() {
+	/////////////////////////////////
+	// Deform methods
+	/////////////////////////////////
+	
+	public void deformWithAudio(float ampMultMax) {
 		// deform from original copy, using vertexIndex as the key to find the shared index
 		int vertexIndex = 0;
 		PVector normalTemp = new PVector();
@@ -72,7 +113,7 @@ public class PShapeSolid {
 				int sharedVertexIndex = sharedVertexIndices.get(vertexIndex);
 				PVector vOrig = vertices.get(vertexIndex);
 				// float amp = 1 + 10.5f * P.p._audioInput.getFFT().spectrum[ P.floor(_spectrumInterval * sharedVertexIndex) ]; // get shared vertex deformation
-				float amp = 1 + 10.5f * P.p.audioFreq(P.round((float)P.p.frameCount/10f) + P.floor(_spectrumInterval * sharedVertexIndex)); // moving starting vertex
+				float amp = 1 + ampMultMax * P.p.audioFreq(P.round((float)P.p.frameCount/10f) + P.floor(_spectrumInterval * sharedVertexIndex)); // moving starting vertex
 //				float amp = 1 + 0.1f * P.p.audioIn.getEqAvgBand( P.floor(_spectrumInterval * sharedVertexIndex) ); // get shared vertex deformation
 				shape.getChild(j).setVertex(i, vOrig.x * amp, vOrig.y * amp, vOrig.z * amp);
 				vertexIndex++;
@@ -81,7 +122,7 @@ public class PShapeSolid {
 //		P.println("vertexIndex", vertexIndex);
 	}
 	
-	public void deformWithAudioByNormals() {
+	public void deformWithAudioByNormals(float ampMax) {
 		// deform from original copy, using vertexIndex as the key to find the shared index
 		int vertexIndex = 0;
 		PVector normalTemp = new PVector();
@@ -91,7 +132,7 @@ public class PShapeSolid {
 				int sharedVertexIndex = sharedVertexIndices.get(vertexIndex);
 				PVector vOrig = vertices.get(vertexIndex);
 //				float amp = 0 + 200f * P.p._audioInput.getFFT().spectrum[ P.floor(_spectrumInterval * sharedVertexIndex) ]; // get shared vertex deformation
-				float amp = 0 + 500f * P.p.audioFreq((P.round((float)P.p.frameCount/100f) + P.floor(_spectrumInterval * sharedVertexIndex))); // get shared vertex deformation
+				float amp = 0 + ampMax * P.p.audioFreq((P.round((float)P.p.frameCount/100f) + P.floor(_spectrumInterval * sharedVertexIndex))); // get shared vertex deformation
 //				float amp = 1 + 0.1f * P.p.audioIn.getEqAvgBand( P.floor(_spectrumInterval * sharedVertexIndex) ); // get shared vertex deformation
 				PVector normal = normals.get(vertexIndex);
 				normalTemp.set(normal).mult(amp);
@@ -170,7 +211,10 @@ public class PShapeSolid {
 		for (int j = 0; j < shape.getChildCount(); j++) {
 			for (int i = 0; i < shape.getChild(j).getVertexCount(); i++) {
 				PVector vOrig = vertices.get(vertexIndex);
-				float amp = 1.0f + ampScale * 2f * (-0.5f + P.p.noise(vOrig.x + P.cos(time) * freq, vOrig.y + P.sin(time) * freq, vOrig.z + P.sin(time) * freq));
+				float amp = 1.0f + ampScale * P.p.noise(
+						vOrig.x * freq + P.cos(time), 
+						vOrig.y * freq + P.sin(time), 
+						vOrig.z * freq + P.sin(time));
 				shape.getChild(j).setVertex(i, vOrig.x * amp, vOrig.y * amp, vOrig.z * amp);
 				vertexIndex++;
 			}

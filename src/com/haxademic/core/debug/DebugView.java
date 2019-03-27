@@ -5,6 +5,7 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import com.haxademic.core.app.P;
+import com.haxademic.core.data.constants.PBlendModes;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.file.DemoAssets;
 import com.haxademic.core.math.MathUtil;
@@ -147,6 +148,7 @@ public class DebugView {
 		// set up flat drawing
 		DrawUtil.setDrawCorner(p);
 		DrawUtil.setDrawFlat2d(p, true);
+		p.blendMode(PBlendModes.BLEND);
 
 		// draw debug text block
 		String debugStr = stringFromHashMap(debugLines);

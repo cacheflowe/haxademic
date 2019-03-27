@@ -115,7 +115,7 @@ extends BaseTexture {
 		// deform and draw mesh
 		if(_curMesh != null) {
 			// _curMesh.deformWithAudioByNormals();
-			_curMesh.deformWithAudio();
+			_curMesh.deformWithAudio(3);
 			_curMesh.setVertexColorWithAudio(255);
 			_texture.shape(_curMesh.shape());
 			// PShapeUtil.drawTriangles(_texture, _curMesh.shape(), null, 1f); // img

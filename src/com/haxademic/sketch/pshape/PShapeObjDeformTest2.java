@@ -86,7 +86,7 @@ extends PAppletHax {
 		
 		// draw!
 //		objSolid.updateWithTrig(true, percentComplete * 2f, 0.04f, 17.4f);
-		objSolid.deformWithAudio();
+		objSolid.deformWithAudio(3);
 //		objSolid.deformWithAudioByNormals();
 		p.noStroke();
 		

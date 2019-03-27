@@ -58,6 +58,7 @@ implements IAudioInput {
 		// disable normal PApplet callback below
 		rendering = true;
 		// read spectrum from audio player and set on data object
+		pos = P.constrain(pos, 0, audioPlayer.size - audioPlayer.buffer.length);
 		fft.getSpectrum( audioPlayer.samples, pos );
 		audioStreamData.setFFTFrequencies(fft.spectrum);
 		// set waveform data (updates slowly for some reason, so we lerp)

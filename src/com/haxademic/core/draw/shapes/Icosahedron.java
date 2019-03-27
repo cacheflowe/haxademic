@@ -155,7 +155,7 @@ public class Icosahedron {
 
 		mesh.endShape();
 
-		return mesh; // our work is done here, return DA MESH! ;-)
+		return mesh;
 	}
 	
 	public static PShape createIcosahedronGrouped(PApplet p, int level, PImage img, int fillColor, int strokeColor, float strokeWeight) {
@@ -190,7 +190,7 @@ public class Icosahedron {
 			}
 		}
 		
-		return mesh; // our work is done here, return DA MESH! ;-)
+		return mesh;
 	}
 }
 
