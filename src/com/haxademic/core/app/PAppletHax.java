@@ -243,6 +243,7 @@ extends PApplet
 	
 	protected void addKeyCommandInfo() {
 		p.debugView.setHelpLine(DebugView.TITLE_PREFIX + "KEY COMMANDS:", "");
+		p.debugView.setHelpLine("ESC |", "Quit");
 		p.debugView.setHelpLine("[F]", "Toggle `alwaysOnTop`");
 		p.debugView.setHelpLine("[/]", "Toggle `DebugView`");
 		p.debugView.setHelpLine("[\\]", "Toggle `PrefsSilders`");

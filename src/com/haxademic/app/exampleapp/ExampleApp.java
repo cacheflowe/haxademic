@@ -5,6 +5,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.data.store.IAppStoreListener;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.hardware.shared.InputTrigger;
@@ -17,8 +18,17 @@ extends PAppletHax
 implements IAppStoreListener {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
-	protected InputTrigger trigger1 = new InputTrigger(new char[]{'1'}, null, new Integer[]{41}, null, null);
+	/////////////////////////////////
+	// PROPERTIES
+	/////////////////////////////////
+	
+	protected InputTrigger trigger1 = (new InputTrigger()).addKeyCodes(new char[]{'1'})
+			  											  .addGamepadControls(new String[]{"Button 9"});
 
+	/////////////////////////////////
+	// INIT
+	/////////////////////////////////
+	
 	protected void overridePropsFile() {
 		p.appConfig.setProperty( AppSettings.APP_NAME, "Example App" );
 		p.appConfig.setProperty( AppSettings.APP_ICON, "images/app-icon.png" );
@@ -30,19 +40,16 @@ implements IAppStoreListener {
 		P.store.setNumber(App.QUEUED_APP_STATE, App.APP_STATE_NONE);
 		P.store.setNumber(App.ANIMATION_FRAME, 0);
 		P.store.setNumber(App.ANIMATION_FRAME_PRE, 0);
-		P.store.setNumber(App.SECONDS_LEFT, 0);
 		P.store.addListener(this);
 		
 		// build screens / objects
 //		backgroundColor = new BackgroundColor();
-		
-		// add help text
-		addHelpText();
 	}	
 	
-	protected void addHelpText() {
-		p.debugView.setHelpLine("__ Key Commands", "__\n");
-		p.debugView.setHelpLine("ESC |", "Quit");
+	protected void addKeyCommandInfo() {
+		super.addKeyCommandInfo();
+		p.debugView.setHelpLine("\n" + DebugView.TITLE_PREFIX + "Custom Key Commands", "");
+		p.debugView.setHelpLine("[1] |", "Trigger");
 	}
 	
 	/////////////////////////////////
@@ -79,25 +86,26 @@ implements IAppStoreListener {
 	/////////////////////////////////
 	
 	public void drawApp() {
-		// context setup
+		// update state
+		checkInputs();
+		checkQueuedState();
+		
+		// main app canvas context setup
 		p.background(0);
 		p.noStroke();
 		DrawUtil.setDrawCorner(p);
 
-		// update state & offscreen buffers before main drawing
-		checkQueuedState();
+		// MAIN DRAW STEPS:
+		// 1. update offscreen buffers before main drawing w/ANIMATION_FRAME_PRE
+		// 2. draw into main buffer w/ANIMATION_FRAME
+		// 3. draw main buffer to screen
 		P.store.setNumber(App.ANIMATION_FRAME_PRE, p.frameCount);
-		
 		pg.beginDraw();
-		checkInputs();
 		P.store.setNumber(App.ANIMATION_FRAME, p.frameCount);
 		pg.endDraw();
-		
-		// draw buffer
 		ImageUtil.cropFillCopyImage(pg, p.g, false);
 		
-		
-		// post draw 
+		// post draw updates
 		P.store.setNumber(App.ANIMATION_FRAME_POST, p.frameCount);
 
 		// debug
@@ -108,24 +116,22 @@ implements IAppStoreListener {
 	// APPSTORE LISTENERS
 	/////////////////////////////////
 
-	@Override
 	public void updatedNumber(String key, Number val) {
 		if(key.equals(App.APP_STATE)) {
 //			P.println("New App State", val);
 		}
 	}
-
 	public void updatedString(String key, String val) {}
 	public void updatedBoolean(String key, Boolean val) {}
 	public void updatedImage(String key, PImage val) {}
 	public void updatedBuffer(String key, PGraphics val) {}
 	
+	/////////////////////////////////
+	// APP CONFIG & EVENTS & CONSTANTS
+	/////////////////////////////////
+
 	public class App {
 		
-		// prefs
-		
-		public static final String fontHeavyItalic = "fonts/AvenirNext-HeavyItalic.ttf";
-
 		// config
 		
 		public static final int PLAY_TIME = 90;
@@ -140,8 +146,6 @@ implements IAppStoreListener {
 		public static final int APP_STATE_READY = 3;
 		public static final int APP_STATE_GAME_OVER = 4;
 		public static final int APP_STATE_NONE = -1;
-		
-		public static final String SECONDS_LEFT = "SECONDS_LEFT";
 		
 		// events
 		
