@@ -1,8 +1,8 @@
-package com.haxademic.app.interphase;
+package com.haxademic.demo.audio;
 
-import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.audio.WavPlayer;
 import com.haxademic.core.data.store.AppStore;
 import com.haxademic.core.data.store.IAppStoreListener;
 import com.haxademic.core.draw.context.DrawUtil;
@@ -10,9 +10,8 @@ import com.haxademic.core.file.FileUtil;
 
 import processing.core.PGraphics;
 import processing.core.PImage;
-import processing.sound.SoundFile;
 
-public class Interphase
+public class Demo_WavPlayer_bpmInterval
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
@@ -32,6 +31,7 @@ extends PAppletHax {
 	public static String DRAW = "DRAW";
 	
 	// objects
+	protected WavPlayer wavPlayer = new WavPlayer();
 	protected AudioStep[] steps = new AudioStep[8];
 	
 	////////////////////////////////////////////////
@@ -49,8 +49,8 @@ extends PAppletHax {
 	}
 	
 	protected void buildState() {
-		AppStore.instance().setNumber(Interphase.PROGRESS, 0);
-		AppStore.instance().setNumber(Interphase.LAST_PROGRESS, 0);
+		AppStore.instance().setNumber(Demo_WavPlayer_bpmInterval.PROGRESS, 0);
+		AppStore.instance().setNumber(Demo_WavPlayer_bpmInterval.LAST_PROGRESS, 0);
 	}
 	
 	protected void buildSteps() {
@@ -71,14 +71,14 @@ extends PAppletHax {
 		playheadProgress = curMillis / loopLength;
 		
 		// dispatch timing
-		AppStore.instance().setNumber(Interphase.LAST_PROGRESS, AppStore.instance().getFloat(Interphase.PROGRESS));
-		AppStore.instance().setNumber(Interphase.PROGRESS, playheadProgress);
+		AppStore.instance().setNumber(Demo_WavPlayer_bpmInterval.LAST_PROGRESS, AppStore.instance().getFloat(Demo_WavPlayer_bpmInterval.PROGRESS));
+		AppStore.instance().setNumber(Demo_WavPlayer_bpmInterval.PROGRESS, playheadProgress);
 	}
 	
 	public void drawApp() {
 		updateTiming();
 		p.background(0);
-		AppStore.instance().setNumber(Interphase.DRAW, p.frameCount);
+		AppStore.instance().setNumber(Demo_WavPlayer_bpmInterval.DRAW, p.frameCount);
 		drawProgress();
 	}
 	
@@ -100,25 +100,24 @@ extends PAppletHax {
 		protected float triggerProgress = 0;
 		protected boolean trigger = false;
 		protected int curColor = 0xff000000;
-		protected SoundFile sound;
+		protected String sound;
 		
 		public AudioStep(float triggerProgress) {
 			AppStore.instance().addListener(this);
 			this.triggerProgress = triggerProgress;
-			sound = new SoundFile(P.p, FileUtil.getFile("audio/kit808/kick.wav"));
+			sound = FileUtil.getFile("audio/kit808/kick.wav");
 		}
 		
 		protected void checkTrigger() {
-			if((AppStore.instance().getFloat(Interphase.LAST_PROGRESS) < triggerProgress || AppStore.instance().getFloat(Interphase.LAST_PROGRESS) > AppStore.instance().getFloat(Interphase.PROGRESS)) && 
-			   AppStore.instance().getFloat(Interphase.PROGRESS) >= triggerProgress) {
+			if((AppStore.instance().getFloat(Demo_WavPlayer_bpmInterval.LAST_PROGRESS) < triggerProgress || AppStore.instance().getFloat(Demo_WavPlayer_bpmInterval.LAST_PROGRESS) > AppStore.instance().getFloat(Demo_WavPlayer_bpmInterval.PROGRESS)) && 
+			   AppStore.instance().getFloat(Demo_WavPlayer_bpmInterval.PROGRESS) >= triggerProgress) {
 				trigger();
 			}
 		}
 		
 		protected void trigger() {
 			curColor = p.color(p.random(0,255), p.random(0,255), p.random(0,255));
-			sound.stop();
-			sound.play();
+			wavPlayer.playWav(sound);
 		}
 		
 		protected void draw() {
@@ -129,8 +128,8 @@ extends PAppletHax {
 		// events
 
 		@Override public void updatedNumber(String key, Number val) {
-			if(key == Interphase.PROGRESS) checkTrigger();
-			if(key == Interphase.DRAW) draw();
+			if(key == Demo_WavPlayer_bpmInterval.PROGRESS) checkTrigger();
+			if(key == Demo_WavPlayer_bpmInterval.DRAW) draw();
 		}
 
 		public void updatedString(String key, String val) {}
