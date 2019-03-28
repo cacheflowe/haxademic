@@ -247,5 +247,24 @@ public class DrawUtil {
 		pg.endDraw();
 	}
 
+	public static void drawGrid(PGraphics pg, int bgColor, int strokeColor, float cols, float rows) {
+		// update texture
+		float strokeSize = 4f;
+		pg.beginDraw();
+		pg.background(bgColor);
+		pg.fill(strokeColor);
+		pg.noStroke();
+		float cellW = (float) pg.width / (float) cols;
+		cellW -= strokeSize / cols;
+		float cellH = (float) (pg.height) / (float) rows;
+		cellH -= strokeSize / rows;
+		for (float x = 0; x <= pg.width; x += cellW) {
+			pg.rect(x, 0, strokeSize, pg.height);
+		}
+		for (float y = 0; y <= pg.height; y += cellH) {
+			pg.rect(0, y, pg.height, strokeSize);
+		}
+		pg.endDraw();
+	}
 
 }
