@@ -33,7 +33,7 @@ extends PAppletHax {
 		displaceTexture = p.createGraphics(sheetW, sheetH, PRenderers.P3D);
 		
 		// create wireframe texture
-		texture = p.createGraphics(sheetW, sheetH, P.P2D);
+		texture = p.createGraphics(sheetW, sheetH, PRenderers.P3D);
 		
 		// build sheet mesh
 		shape = Shapes.createSheet((int) cols, (int) rows, texture);
@@ -45,23 +45,8 @@ extends PAppletHax {
 	}
 
 	public void drawApp() {
-		// update texture
-		texture.beginDraw();
-		texture.background(0);
-		texture.noFill();
-		texture.stroke(255);
-		texture.strokeWeight(3f);
-		float cellW = (float) texture.width / cols;
-		float cellH = (float) (texture.height) / rows;
-		for (int x = 0; x <= texture.width; x += cellW) {
-			float curX = P.min(x, texture.width - 1);
-			texture.line(curX, 0, curX, texture.height);
-		}
-		for (int y = 0; y <= texture.height; y += cellH) {
-			float curY = P.min(y, texture.height - 1);
-			texture.line(0, curY, texture.height, curY);
-		}
-		texture.endDraw();
+		// draw grid
+		DrawUtil.drawGrid(texture, p.color(0), p.color(255), 25, 25);
 		
 		// update displace texture
 		displaceTexture.beginDraw();

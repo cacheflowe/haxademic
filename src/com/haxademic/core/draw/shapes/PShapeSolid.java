@@ -52,6 +52,7 @@ public class PShapeSolid {
 	}
 	public static PShapeSolid newSolidIcos(float size, PImage texture, int resolution) {
 		PShape icos = Icosahedron.createIcosahedron(P.p.g, resolution, texture).getTessellation();
+		PShapeUtil.repairMissingSVGVertex(icos);
 		PShapeUtil.scaleShapeToExtent(icos, size);
 		PShapeUtil.addTextureUVSpherical(icos, texture);
 
