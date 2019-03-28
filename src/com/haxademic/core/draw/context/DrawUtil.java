@@ -15,22 +15,16 @@ public class DrawUtil {
 	 * @param p		Processing Applet for reference to p5 core
 	 */
 	public static void resetGlobalProps( PApplet p ) {
-		// p.resetMatrix();
-		p.colorMode( P.RGB, 255, 255, 255, 255 );
-		p.fill( 0, 255, 0, 255 );
-		p.stroke( 0, 255, 0, 255 );
-		p.strokeWeight( 1 );
-		p.camera();
-		setDrawCenter(p);
+		resetGlobalProps(p.g);
 	}
-	public static void resetGlobalProps(PGraphics p) {
+	public static void resetGlobalProps(PGraphics pg) {
 		// p.resetMatrix();
-		p.colorMode( P.RGB, 255, 255, 255, 255 );
-		p.fill( 0, 255, 0, 255 );
-		p.stroke( 0, 255, 0, 255 );
-		p.strokeWeight( 1 );
-		p.camera();
-		setDrawCenter(p);
+		pg.colorMode( P.RGB, 255, 255, 255, 255 );
+		pg.fill( 0, 255, 0, 255 );
+		pg.stroke( 0, 255, 0, 255 );
+		pg.strokeWeight( 1 );
+		pg.camera();
+		setDrawCenter(pg);
 	}
 
 	public static void push(PGraphics pg) {
