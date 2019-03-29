@@ -7,8 +7,8 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.particle.VectorFlyer;
-import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.draw.shapes.LineTrail;
+import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.file.DemoAssets;
 
 import processing.core.PShape;
@@ -42,38 +42,12 @@ extends PAppletHax {
 	}
 	
 	protected void initFlyers() {
-		attractors = new ArrayList<PVector>();
-		addPointsToAttractors(shape);
-		
+		attractors = PShapeUtil.getUniqueVertices(shape);
 		flyers = new ArrayList<VectorFlyer>();
 		trails = new ArrayList<LineTrail>();
 		for( int i=0; i < 500; i++ ) {
 			flyers.add( new VectorFlyer( p.random(0.15f, 0.7f), p.random(12f, 15f) ) );
 			trails.add(new LineTrail(20));
-		}
-	}
-
-	protected boolean attractorExists(PVector p) {
-		for (int i = 0; i < attractors.size(); i++) {
-			if(p.dist(attractors.get(i)) == 0) return true;
-		}
-		return false;
-	}
-	
-	// recurse through mesh points
-	public void addPointsToAttractors(PShape shape) {
-		for (int i = 0; i < shape.getVertexCount(); i++) {
-			PVector point = shape.getVertex(i);
-			if(attractorExists(point) == false) {
-				attractors.add( point ); 
-				attractorsCount++;
-				p.debugView.setValue("attractorsCount", attractorsCount);
-			}
-		}
-			
-		for (int j = 0; j < shape.getChildCount(); j++) {
-			PShape subShape = shape.getChild(j);
-			addPointsToAttractors(subShape);
 		}
 	}
 

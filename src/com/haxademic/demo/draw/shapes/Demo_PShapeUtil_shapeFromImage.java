@@ -31,6 +31,7 @@ extends PAppletHax {
 		DrawUtil.setCenterScreen(p);
 		DrawUtil.setBetterLights(p);
 		DrawUtil.basicCameraFromMouse(p.g);
+		p.ortho();
 
 		// draw
 		p.shape(shape);

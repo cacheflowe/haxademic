@@ -9,7 +9,7 @@ public class FluidSimulateFlexi extends PAppletHax {
 	// from: http://www.openprocessing.org/sketch/103738
 	// built by Felix Woitzel
 	
-	static final int numParticles=256;
+	static final int numParticles=1024;
 	Particle[] particles = new Particle[numParticles ];
 	float v = 1/30;
 

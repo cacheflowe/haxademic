@@ -1,11 +1,12 @@
 package com.haxademic.core.draw.shapes;
 
+import java.util.ArrayList;
+
 import com.haxademic.core.app.P;
 import com.haxademic.core.draw.color.EasingColor;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.MathUtil;
-import com.haxademic.core.render.JoonsWrapper;
 import com.haxademic.core.system.SystemUtil;
 
 import geomerative.RG;
@@ -699,6 +700,35 @@ public class PShapeUtil {
 			addVerticesToPointShape(origShape.getChild(j), newShape);
 		}
 	}
+	
+	protected static boolean hasVertex(ArrayList<PVector> array, PVector p) {
+		for (int i = 0; i < array.size(); i++) {
+			if(p.dist(array.get(i)) == 0) return true;
+		}
+		return false;
+	}
+	
+	// recurse through mesh points
+	public static ArrayList<PVector> getUniqueVertices(PShape shape) {
+		return getUniqueVertices(shape, null);
+	}
+	
+	public static ArrayList<PVector> getUniqueVertices(PShape shape, ArrayList<PVector> uniqueVertices) {
+		if(uniqueVertices == null) uniqueVertices = new ArrayList<PVector>();
+		for (int i = 0; i < shape.getVertexCount(); i++) {
+			PVector point = shape.getVertex(i);
+			if(hasVertex(uniqueVertices, point) == false) {
+				uniqueVertices.add( point ); 
+			}
+		}
+			
+		for (int j = 0; j < shape.getChildCount(); j++) {
+			PShape subShape = shape.getChild(j);
+			getUniqueVertices(subShape, uniqueVertices);
+		}
+		return uniqueVertices;
+	}
+
 	
 	///////////////////////////
 	// MESH ROTATION
