@@ -5,6 +5,7 @@ import com.haxademic.core.draw.color.EasingColor;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.MathUtil;
+import com.haxademic.core.render.JoonsWrapper;
 import com.haxademic.core.system.SystemUtil;
 
 import geomerative.RG;
@@ -43,61 +44,75 @@ public class PShapeUtil {
 		for( int x=0; x < img.width; x++ ){
 			for(int y=0; y < img.height; y++){
 				int pixelColor = ImageUtil.getPixelColor( img, x, y );
-				float pixelBrightness = P.p.brightness( pixelColor );
-				P.out(pixelColor);
+//				float pixelBrightness = P.p.brightness( pixelColor );
 				if(pixelColor != ImageUtil.TRANSPARENT_PNG) {
 //				if( pixelColor != ImageUtil.EMPTY_WHITE_INT && pixelColor != ImageUtil.WHITE_INT ) {
 					P.p.fill(EasingColor.redFromColorInt(pixelColor), EasingColor.greenFromColorInt(pixelColor), EasingColor.blueFromColorInt(pixelColor), 255);
 					P.p.noStroke();
 					
 					PShape sh = P.p.createShape();
-					sh.beginShape(P.QUADS);
+					sh.beginShape(P.TRIANGLES);
 					sh.fill( EasingColor.redFromColorInt(pixelColor), EasingColor.greenFromColorInt(pixelColor), EasingColor.blueFromColorInt(pixelColor), 255 );
 					
 					// BL, BR, TR, TL
 					float size = 0.5f;
 
 					// front
-					sh.vertex(x + -size, y + size,  size);
+					sh.vertex(x - size, y + size,  size);
 					sh.vertex(x + size, y + size,  size);
-					sh.vertex(x + size, y - size,  size);
-					sh.vertex(x + -size, y - size,  size);
-
-					// back
-					sh.vertex(x + size, y + size, -size);
-					sh.vertex(x + -size, y + size, -size);
-					sh.vertex(x + -size, y - size, -size);
-					sh.vertex(x + size, y - size, -size);
-
-					// left
-					sh.vertex(x + -size, y + size, -size);
-					sh.vertex(x + -size, y + size,  size);
-					sh.vertex(x + -size, y - size,  size);
-					sh.vertex(x + -size, y - size, -size);
-
-					// right
-					sh.vertex(x + size, y + size,  size);
-					sh.vertex(x + size, y + size, -size);
-					sh.vertex(x + size, y - size, -size);
 					sh.vertex(x + size, y - size,  size);
 					
-					// floor
-					sh.vertex(x + -size, y + size, -size);
+					sh.vertex(x - size, y + size,  size);
+					sh.vertex(x + size, y - size,  size);
+					sh.vertex(x - size, y - size,  size);
+
+					// back
+					sh.vertex(x - size, y + size,  -size);
+					sh.vertex(x + size, y + size,  -size);
+					sh.vertex(x + size, y - size,  -size);
+					
+					sh.vertex(x - size, y + size,  -size);
+					sh.vertex(x + size, y - size,  -size);
+					sh.vertex(x - size, y - size,  -size);
+
+					// left
+					sh.vertex(x - size, y + size, -size);
+					sh.vertex(x - size, y + size,  size);
+					sh.vertex(x - size, y - size,  size);
+
+					sh.vertex(x - size, y + size, -size);
+					sh.vertex(x - size, y - size,  size);
+					sh.vertex(x - size, y - size, -size);
+
+					// right
 					sh.vertex(x + size, y + size, -size);
 					sh.vertex(x + size, y + size,  size);
-					sh.vertex(x + -size, y + size,  size);
+					sh.vertex(x + size, y - size,  size);
+
+					sh.vertex(x + size, y + size, -size);
+					sh.vertex(x + size, y - size,  size);
+					sh.vertex(x + size, y - size, -size);
+					
+					// floor
+					sh.vertex(x - size, y + size, -size);
+					sh.vertex(x + size, y + size, -size);
+					sh.vertex(x + size, y + size,  size);
+
+					sh.vertex(x + size, y + size,  size);
+					sh.vertex(x - size, y + size,  size);
+					sh.vertex(x - size, y + size, -size);
 
 					// ceiling
-					sh.vertex(x + -size, y - size, -size);
+					sh.vertex(x - size, y - size, -size);
 					sh.vertex(x + size, y - size, -size);
 					sh.vertex(x + size, y - size,  size);
-					sh.vertex(x + -size, y - size,  size);
+
+					sh.vertex(x + size, y - size,  size);
+					sh.vertex(x - size, y - size,  size);
+					sh.vertex(x - size, y - size, -size);
 
 					sh.endShape();
 
-//					PShape cube = P.p.createShape(P.BOX, 1);
-//					cube.fill( EasingColor.redFromColorInt(pixelColor), EasingColor.greenFromColorInt(pixelColor), EasingColor.blueFromColorInt(pixelColor), 255 );
-//					cube.translate(x, y);
 					newShape.addChild(sh);
 				}
 			}
@@ -890,11 +905,12 @@ public class PShapeUtil {
 	}
 	
 	// Same as above, but uses PApplet with no UV coords. This makes Joons happy, but me sad about code duplication :( 
-	public static void drawTrianglesJoons(PApplet p, PShape shape, float scale) {
+	public static void drawTrianglesJoons(PApplet p, PShape shape, float scale, String material) {
 		PShape polygon = shape;
 		int vertexCount = polygon.getVertexCount();
 		if(vertexCount == 3) {
 			int i = 0;
+			setColorForJoons(material, polygon.getFill(i));
 			p.beginShape(PConstants.TRIANGLES);
 
 			PVector vertex = polygon.getVertex(i);
@@ -909,6 +925,7 @@ public class PShapeUtil {
 			p.endShape();
 		} else if(vertexCount == 4) {
 			int i = 0;
+			setColorForJoons(material, polygon.getFill(i));
 			p.beginShape(PConstants.QUADS);
 
 			PVector vertex = polygon.getVertex(i);
@@ -928,7 +945,8 @@ public class PShapeUtil {
 			p.beginShape(PConstants.TRIANGLES);
 
 			for (int i = 0; i < vertexCount; i += 3) {
-				if(i < vertexCount - 3) {	// protect against rogue vertices?
+				if(i < vertexCount - 2) {	// protect against rogue vertices?
+					setColorForJoons(material, polygon.getFill(i));
 					PVector vertex = polygon.getVertex(i);
 					PVector vertex2 = polygon.getVertex(i+1);
 					PVector vertex3 = polygon.getVertex(i+2);
@@ -945,8 +963,16 @@ public class PShapeUtil {
 
 		for (int j = 0; j < shape.getChildCount(); j++) {
 			PShape subShape = shape.getChild(j);
-			drawTrianglesJoons(p, subShape, scale);
+			drawTrianglesJoons(p, subShape, scale, material);
 		}
+	}
+	
+	public static void setColorForJoons(String material, int color) {
+		float r = P.p.red(color);
+		float g = P.p.green(color);
+		float b = P.p.blue(color);
+		if(P.p.joons != null) P.p.joons.jr.fill(material, r, g, b);		
+		P.p.fill(r, g, b);
 	}
 	
 	///////////////////////////

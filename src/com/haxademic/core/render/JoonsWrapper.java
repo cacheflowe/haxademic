@@ -179,5 +179,23 @@ public class JoonsWrapper {
 		value /= 255f;
 		return Math.round(1000f*value)/1000f;
 	}
+	
+	public void setUpRoom(int r, int g, int b) {
+		P.p.pushMatrix();
+		P.p.translate(0, 0, 0);
+		float radiance = 10;
+		int samples = 16;
+		jr.background(JoonsWrapper.CORNELL_BOX, 
+				4000, 3000, 5000,						// width, height, depth
+				radiance, radiance, radiance, samples,  // radiance rgb & samples
+				r, g, b, 								// left rgb
+				r, g, b, 								// right rgb
+				r, g, b, 								// back rgb
+				r, g, b, 								// top rgb
+				r, g, b 								// bottom rgb
+		); 
+		P.p.popMatrix();		
+	}
+
 
 }

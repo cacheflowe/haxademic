@@ -58,15 +58,15 @@ extends PAppletHax {
 		
 		// draw environment
 		p.pushMatrix();
-		setUpRoom(255, 255, 255);
+		joons.setUpRoom(255, 255, 255);
 		p.popMatrix();
 		
 		// draw shape
 		p.pushMatrix();
 //		p.rotateZ(P.PI);
 		p.rotateY(-loop.progressRads()); // divide by 5 for pentagon
-		joons.jr.fill(JoonsWrapper.MATERIAL_MIRROR, 230, 230, 230);		p.fill( 230, 230, 230 );
-		PShapeUtil.drawTrianglesJoons(p, obj, 1);
+//		joons.jr.fill(JoonsWrapper.MATERIAL_MIRROR, 230, 230, 230);		p.fill( 230, 230, 230 );
+		PShapeUtil.drawTrianglesJoons(p, obj, 1, JoonsWrapper.MATERIAL_MIRROR);
 		p.popMatrix();
 
 		// draw sphere
@@ -112,21 +112,4 @@ extends PAppletHax {
 		p.popMatrix();
 	}
 
-	protected void setUpRoom(int r, int g, int b) {
-		pushMatrix();
-		translate(0, 0, 0);
-		float radiance = 10;
-		int samples = 16;
-		joons.jr.background(JoonsWrapper.CORNELL_BOX, 
-				4000, 3000, 5000,						// width, height, depth
-				radiance, radiance, radiance, samples,  // radiance rgb & samples
-				r, g, b, 								// left rgb
-				r, g, b, 								// right rgb
-				r, g, b, 								// back rgb
-				r, g, b, 								// top rgb
-				r, g, b 								// bottom rgb
-		); 
-		popMatrix();		
-	}
-	
 }

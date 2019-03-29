@@ -5,7 +5,6 @@ import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.file.DemoAssets;
-import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.render.JoonsWrapper;
 
 import processing.core.PShape;
@@ -63,8 +62,8 @@ extends PAppletHax {
 
 		// draw shape
 		p.pushMatrix();
-		joons.jr.fill(JoonsWrapper.MATERIAL_AMBIENT_OCCLUSION, 200, 200, 200);		p.fill( 20, 20, 20 );
-		PShapeUtil.drawTrianglesJoons(p, obj, 1);
+//		joons.jr.fill(JoonsWrapper.MATERIAL_AMBIENT_OCCLUSION, 200, 200, 200);		p.fill( 20, 20, 20 );
+		PShapeUtil.drawTrianglesJoons(p, obj, 1, JoonsWrapper.MATERIAL_AMBIENT_OCCLUSION);
 		p.popMatrix();
 
 		// draw floor

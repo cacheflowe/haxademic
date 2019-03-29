@@ -97,7 +97,7 @@ extends PApplet
 	protected Boolean _isRendering = true;
 	protected Boolean _isRenderingAudio = true;
 	protected Boolean _isRenderingMidi = true;
-	protected JoonsWrapper joons;
+	public JoonsWrapper joons;
 	public AnimationLoop loop = null;
 
 	// input

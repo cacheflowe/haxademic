@@ -1,15 +1,15 @@
 package com.haxademic.demo.draw.shapes;
 
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.draw.shapes.PointTrail;
+import com.haxademic.core.draw.shapes.LineTrail;
 
 import processing.core.PVector;
 
-public class Demo_PointTrail 
+public class Demo_LineTrail 
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
-	protected PointTrail trail;
+	protected LineTrail trail;
 	protected PVector mouseVec = new PVector();
 
 	public void drawApp() {
@@ -18,7 +18,12 @@ extends PAppletHax {
 		p.stroke(40, 255, 40);
 		
 		mouseVec.set(p.mouseX, p.mouseY);
-		if(trail == null) trail = new PointTrail(10);
-		trail.update(p.g, mouseVec);
+		if(trail == null) trail = new LineTrail(10);
+		trail.update(p.g, mouseVec, p.color(255), p.color(255, 0));
+	}
+	
+	public void keyPressed() {
+		super.keyPressed();
+		if(p.key == ' ') trail.reset(mouseVec);
 	}
 }

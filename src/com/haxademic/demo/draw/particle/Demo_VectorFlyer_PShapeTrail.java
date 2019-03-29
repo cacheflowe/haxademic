@@ -8,7 +8,7 @@ import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.particle.VectorFlyer;
 import com.haxademic.core.draw.shapes.PShapeUtil;
-import com.haxademic.core.draw.shapes.PointTrail;
+import com.haxademic.core.draw.shapes.LineTrail;
 import com.haxademic.core.file.DemoAssets;
 
 import processing.core.PShape;
@@ -24,7 +24,7 @@ extends PAppletHax {
 	protected PVector center = new PVector();
 	protected ArrayList<PVector> attractors;
 	protected ArrayList<VectorFlyer> flyers;
-	protected ArrayList<PointTrail> trails;
+	protected ArrayList<LineTrail> trails;
 
 
 	protected void overridePropsFile() {
@@ -46,10 +46,10 @@ extends PAppletHax {
 		addPointsToAttractors(shape);
 		
 		flyers = new ArrayList<VectorFlyer>();
-		trails = new ArrayList<PointTrail>();
+		trails = new ArrayList<LineTrail>();
 		for( int i=0; i < 500; i++ ) {
 			flyers.add( new VectorFlyer( p.random(0.15f, 0.7f), p.random(12f, 15f) ) );
-			trails.add(new PointTrail(20));
+			trails.add(new LineTrail(20));
 		}
 	}
 
