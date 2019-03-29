@@ -21,6 +21,7 @@ import java.util.List;
 import com.haxademic.core.app.P;
 import com.haxademic.core.debug.DebugUtil;
 import com.haxademic.core.math.MathUtil;
+import com.haxademic.core.text.StringFormatter;
 
 import processing.core.PImage;
 
@@ -253,6 +254,23 @@ public class FileUtil {
 		}
 		// Arrays.sort(children);
 		return images;
+	}
+	
+	public static ArrayList<String> wordsFromTextFile(String textFilePath) {
+		String lines[] = P.p.loadStrings(textFilePath);
+		ArrayList<String> words = new ArrayList<String>();
+		String wordsPerLine[];
+		for( int i=0; i < lines.length; i++ ) {
+			if( lines[i].length() >= 1 ) {
+				wordsPerLine = lines[i].split(" ");
+				for( int j=0; j < wordsPerLine.length; j++ ) {
+					if( wordsPerLine[j] != " " && wordsPerLine[j].length() >= 1 ) {
+						words.add(StringFormatter.toAlphaNumericCharsNoDecimal(wordsPerLine[j]));
+					}
+				}
+			}
+		}
+		return words;
 	}
 
 	

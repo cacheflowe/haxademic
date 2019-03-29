@@ -7,6 +7,7 @@ import com.haxademic.core.draw.color.EasingColor;
 import com.haxademic.core.draw.context.OrientationUtil;
 
 import processing.core.PApplet;
+import processing.core.PGraphics;
 import processing.core.PVector;
 
 public class VectorFlyer {
@@ -37,17 +38,17 @@ public class VectorFlyer {
 	}
 
 	public void update( PApplet p ) {
-		update( p, true );
+		update( p.g, true );
 	}
 	
-	public void update( PApplet p, boolean draws ) {
+	public void update( PGraphics pg, boolean draws ) {
 		// color - if closer than threshold, ease towards saturated color
-		p.noStroke();
+		pg.noStroke();
 		if( distToDest < 200 ) {
-			p.fill(color.colorIntMixedWith(color2, 1f - distToDest/200f));
+			pg.fill(color.colorIntMixedWith(color2, 1f - distToDest/200f));
 			// if( target != null ) BoxBetween.draw( p, new PVector(position.x, position.y, position.z), new PVector(target.x, target.y, target.z), 10 );
 		} else {
-			p.fill(color.colorInt());
+			pg.fill(color.colorInt());
 		}
 		
 		// store last position for rotation towards heading
@@ -67,13 +68,25 @@ public class VectorFlyer {
 					
 		if( draws == true ) { 
 			// point and position
-			p.pushMatrix();
-			p.translate(position.x, position.y, position.z);
-			OrientationUtil.setRotationTowards( p.g, new PVector(position.x, position.y, position.z), new PVector(positionLast.x, positionLast.y, positionLast.z) );
-			p.box(20, 50, 20);
-			p.popMatrix();
+			pg.pushMatrix();
+			pg.translate(position.x, position.y, position.z);
+			OrientationUtil.setRotationTowards( pg, new PVector(position.x, position.y, position.z), new PVector(positionLast.x, positionLast.y, positionLast.z) );
+			pg.box(10, 30, 10);
+			pg.popMatrix();
+			
+			// line to target
+			pg.stroke(255);
+			pg.line(position.x, position.y, position.z, target.x, target.y, target.z);
 		}
 	}
+	
+	public void setAccel( float accel ) {
+		this.baseAccel = this.accel = accel;
+	}
+	public void setSpeed( float speed ) {
+		this.maxSpeed = speed;
+	}
+
 	
 	public PVector position() {
 		return position;

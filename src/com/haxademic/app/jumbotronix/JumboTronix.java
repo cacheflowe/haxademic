@@ -30,7 +30,6 @@ public class JumboTronix
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
-	protected PGraphics pg;
 	protected PGraphics _webcamTexture;
 	protected Capture _webCam;
 	protected Rectangle _webCamRect;
@@ -59,9 +58,7 @@ extends PAppletHax {
 		super.settings();
 	}
 	
-	public void setup() {
-		super.setup();
-		pg = P.p.createGraphics( width, height, P.P3D );
+	public void setupFirstFrame() {
 		initWebcam();
 		initShaders();
 		initViz();
@@ -90,7 +87,7 @@ extends PAppletHax {
 			for (int i = 0; i < cameras.length; i++) {
 				println(cameras[i]);
 			}
-			String camera = cameras[15];
+			String camera = cameras[5];
 			_webCam = new Capture(this, camera);
 			_webCam.start();
 		}

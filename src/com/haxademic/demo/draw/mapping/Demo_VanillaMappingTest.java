@@ -1,4 +1,4 @@
-package com.haxademic.sketch.three_d;
+package com.haxademic.demo.draw.mapping;
 
 import java.util.ArrayList;
 
@@ -10,7 +10,7 @@ import com.haxademic.core.draw.context.OpenGLUtil;
 import processing.core.PShape;
 import processing.core.PVector;
 
-public class MappingTest
+public class Demo_VanillaMappingTest
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	

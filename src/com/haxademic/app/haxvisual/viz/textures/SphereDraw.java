@@ -1,4 +1,4 @@
-package com.haxademic.app.haxvisual.viz.elements;
+package com.haxademic.app.haxvisual.viz.textures;
 
 import com.haxademic.app.haxvisual.viz.ElementBase;
 import com.haxademic.app.haxvisual.viz.IVizElement;
@@ -49,7 +49,6 @@ implements IVizElement {
 
 	public void update() {
 		// sphere coordinate vars
-		int u = 1;
 		float theta = 0;
 		float phi = 0;
 		float thetaIncrement = 1f;

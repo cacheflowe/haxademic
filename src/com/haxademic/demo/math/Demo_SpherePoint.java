@@ -11,7 +11,7 @@ import com.haxademic.core.math.SphericalCoord;
 
 import processing.core.PVector;
 
-public class Demo_SphericalCoord
+public class Demo_SpherePoint
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
