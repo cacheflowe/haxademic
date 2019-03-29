@@ -23,9 +23,7 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
 	}
 
-	public void setup() {
-		super.setup();
-
+	public void setupFirstFrame() {
 		//point array
 		points = new Point3d[] {
 				new Point3d (0.0, 0.0, 0.0),

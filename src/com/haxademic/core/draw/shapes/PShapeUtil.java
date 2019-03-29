@@ -1,6 +1,8 @@
 package com.haxademic.core.draw.shapes;
 
 import com.haxademic.core.app.P;
+import com.haxademic.core.draw.color.EasingColor;
+import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.system.SystemUtil;
@@ -27,6 +29,81 @@ public class PShapeUtil {
 			numVertices += vertexCount(shape.getChild(j));
 		}
 		return numVertices;
+	}
+	
+	///////////////////////////
+	// CREATE
+	///////////////////////////
+	
+	public static PShape shapeFromImage(PImage img) {
+		img.loadPixels();
+		PShape newShape = P.p.createShape(P.GROUP);
+		newShape.setStroke(false);
+		
+		for( int x=0; x < img.width; x++ ){
+			for(int y=0; y < img.height; y++){
+				int pixelColor = ImageUtil.getPixelColor( img, x, y );
+				float pixelBrightness = P.p.brightness( pixelColor );
+				P.out(pixelColor);
+				if(pixelColor != ImageUtil.TRANSPARENT_PNG) {
+//				if( pixelColor != ImageUtil.EMPTY_WHITE_INT && pixelColor != ImageUtil.WHITE_INT ) {
+					P.p.fill(EasingColor.redFromColorInt(pixelColor), EasingColor.greenFromColorInt(pixelColor), EasingColor.blueFromColorInt(pixelColor), 255);
+					P.p.noStroke();
+					
+					PShape sh = P.p.createShape();
+					sh.beginShape(P.QUADS);
+					sh.fill( EasingColor.redFromColorInt(pixelColor), EasingColor.greenFromColorInt(pixelColor), EasingColor.blueFromColorInt(pixelColor), 255 );
+					
+					// BL, BR, TR, TL
+					float size = 0.5f;
+
+					// front
+					sh.vertex(x + -size, y + size,  size);
+					sh.vertex(x + size, y + size,  size);
+					sh.vertex(x + size, y - size,  size);
+					sh.vertex(x + -size, y - size,  size);
+
+					// back
+					sh.vertex(x + size, y + size, -size);
+					sh.vertex(x + -size, y + size, -size);
+					sh.vertex(x + -size, y - size, -size);
+					sh.vertex(x + size, y - size, -size);
+
+					// left
+					sh.vertex(x + -size, y + size, -size);
+					sh.vertex(x + -size, y + size,  size);
+					sh.vertex(x + -size, y - size,  size);
+					sh.vertex(x + -size, y - size, -size);
+
+					// right
+					sh.vertex(x + size, y + size,  size);
+					sh.vertex(x + size, y + size, -size);
+					sh.vertex(x + size, y - size, -size);
+					sh.vertex(x + size, y - size,  size);
+					
+					// floor
+					sh.vertex(x + -size, y + size, -size);
+					sh.vertex(x + size, y + size, -size);
+					sh.vertex(x + size, y + size,  size);
+					sh.vertex(x + -size, y + size,  size);
+
+					// ceiling
+					sh.vertex(x + -size, y - size, -size);
+					sh.vertex(x + size, y - size, -size);
+					sh.vertex(x + size, y - size,  size);
+					sh.vertex(x + -size, y - size,  size);
+
+					sh.endShape();
+
+//					PShape cube = P.p.createShape(P.BOX, 1);
+//					cube.fill( EasingColor.redFromColorInt(pixelColor), EasingColor.greenFromColorInt(pixelColor), EasingColor.blueFromColorInt(pixelColor), 255 );
+//					cube.translate(x, y);
+					newShape.addChild(sh);
+				}
+			}
+		}
+		
+		return newShape;
 	}
 
 	
@@ -416,6 +493,18 @@ public class PShapeUtil {
 		for (int j = 0; j < s.getChildCount(); j++) {
 			PShape subShape = s.getChild(j);
 			scaleVertices(subShape, scale);
+		}
+	}
+	
+	public static void scaleVertices(PShape s, float x, float y, float z) {
+		for (int i = 0; i < s.getVertexCount(); i++) {
+			PVector curVertex = s.getVertex(i);
+			s.setVertex(i, curVertex.x * x, curVertex.y * y, curVertex.z * z);
+		}
+		
+		for (int j = 0; j < s.getChildCount(); j++) {
+			PShape subShape = s.getChild(j);
+			scaleVertices(subShape, x, y, z);
 		}
 	}
 	

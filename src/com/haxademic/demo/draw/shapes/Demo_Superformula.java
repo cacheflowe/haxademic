@@ -1,12 +1,13 @@
-package com.haxademic.sketch.volume;
+package com.haxademic.demo.draw.shapes;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.shapes.Superformula;
 
 import controlP5.ControlP5;
 
-public class SuperformulaDiewald 
+public class Demo_Superformula 
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
@@ -89,7 +90,7 @@ extends PAppletHax {
 //			_superForm.n3( 6 + (audioRange * 40f * p._audioInput.getFFT().averages[5]));
 		}
 	
-		
+		DrawUtil.basicCameraFromMouse(p.g);
 		_superForm.update();
 		_superForm.drawMesh(p.g, true, true, true, false, _camPos );
 		p.popMatrix();

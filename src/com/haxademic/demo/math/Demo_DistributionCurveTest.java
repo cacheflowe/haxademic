@@ -1,22 +1,15 @@
-package com.haxademic.sketch.math;
+package com.haxademic.demo.math;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.Penner;
 
-public class DistributionCurveTest
+public class Demo_DistributionCurveTest
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, 640 );
-		p.appConfig.setProperty( AppSettings.HEIGHT, 480 );
-	}
-
-	public void setup() {
-		super.setup();
+	public void setupFirstFrame() {
 		background(0);
 	}
 	

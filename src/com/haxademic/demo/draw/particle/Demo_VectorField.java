@@ -1,4 +1,4 @@
-package com.haxademic.sketch.particle;
+package com.haxademic.demo.draw.particle;
 
 import java.util.ArrayList;
 
@@ -11,7 +11,7 @@ import com.haxademic.core.math.easing.EasingFloat;
 
 import processing.core.PVector;
 
-public class VectorFieldTest 
+public class Demo_VectorField 
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 

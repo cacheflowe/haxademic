@@ -2,21 +2,23 @@ package com.haxademic.core.draw.shapes;
 
 import java.util.ArrayList;
 
+import com.haxademic.core.app.P;
+
 import processing.core.PApplet;
-import toxi.geom.Vec3D;
+import processing.core.PVector;
 
 /**
- *
- *
  * simple class implementing the Marching Cubes algorithm to create 3d volumetric meshes.
  * based on the code and explanations by Paul Bourke that can be found here:
  * http://local.wasp.uwa.edu.au/~pbourke/geometry/polygonise/
  *
- * its dependent on Processing's PApplet and Karsten Schmidt's Vec3D class,
+ * its dependent on Processing's PApplet and Karsten Schmidt's PVector class,
  * you can find processing here: www.processing.org
- * and you can find the Vec3D class here: code.google.com/p/toxiclibs
+ * and you can find the PVector class here: code.google.com/p/toxiclibs
  *
  * @author ruimadeira
+ * from: http://iwearshorts.com/blog/bubble-boy2/
+ * ported by @cacheflowe & removed Toxiclibs from: https://github.com/newshorts/Live-Render-3D/blob/master/sketches/live_render_3d/MarchingCubes.java
  *
  */
 public class MarchingCubes {
@@ -24,19 +26,19 @@ public class MarchingCubes {
 	PApplet p5;
 
 	public float voxelValues[][][];
-	protected Vec3D voxels[][][];
-	protected Vec3D numPoints, aabbMin, aabbMax;
-	protected Vec3D cubeSize;
-	protected Vec3D worldSize;
+	protected PVector voxels[][][];
+	protected PVector numPoints, aabbMin, aabbMax;
+	protected PVector cubeSize;
+	protected PVector worldSize;
 	protected float isoLevel;
 
-	private Vec3D vertList[];
+	private PVector vertList[];
 
 	protected ArrayList<MCTriangle> triangles;
 
 	/**
 	 * constructor:
-	 * you must define the world bounds, the number of points that will make the grid (in a Vec3D),
+	 * you must define the world bounds, the number of points that will make the grid (in a PVector),
 	 * and the isoLevel.
 	 * @param _p5
 	 * @param _aabbMin
@@ -45,22 +47,21 @@ public class MarchingCubes {
 	 * @param _isoLevel
 	 */
 
-	public MarchingCubes(PApplet _p5, Vec3D _aabbMin, Vec3D _aabbMax, Vec3D _numPoints, float _isoLevel){
+	public MarchingCubes(PApplet _p5, PVector _aabbMin, PVector _aabbMax, PVector _numPoints, float _isoLevel){
 		p5 = _p5;
-		aabbMin = new Vec3D(_aabbMin);
-		aabbMax = new Vec3D(_aabbMax);
-		worldSize = aabbMax.sub(aabbMin);
-		numPoints = new Vec3D(_numPoints);
-		cubeSize = new Vec3D(worldSize.x / (numPoints.x-1), worldSize.y / (numPoints.y-1), worldSize.z / (numPoints.z-1));
+		aabbMin = _aabbMin.copy();
+		aabbMax = _aabbMax.copy();
+		worldSize = aabbMax.copy().sub(aabbMin);
+		numPoints = _numPoints.copy();
+		cubeSize = new PVector(worldSize.x / (numPoints.x-1), worldSize.y / (numPoints.y-1), worldSize.z / (numPoints.z-1));
 		voxelValues = new float[(int)numPoints.x][(int)numPoints.y][(int)numPoints.z];
-		voxels = new Vec3D[(int)numPoints.x][(int)numPoints.y][(int)numPoints.z];
+		voxels = new PVector[(int)numPoints.x][(int)numPoints.y][(int)numPoints.z];
 
 		_internalReset();
 		isoLevel = _isoLevel;
 
-		vertList = new Vec3D[12];
+		vertList = new PVector[12];
 		triangles = new ArrayList<MCTriangle>();
-
 	}
 
 
@@ -160,7 +161,7 @@ public class MarchingCubes {
 	 * return the voxel grid that makes up the iso space, in a three dimensional array.
 	 * @return
 	 */
-	public Vec3D[][][] getVoxels(){
+	public PVector[][][] getVoxels(){
 		return voxels;
 	}
 
@@ -203,22 +204,22 @@ public class MarchingCubes {
 	 * @param posZ
 	 * @return
 	 */
-	public Vec3D getVoxel(int posX, int posY, int posZ){
+	public PVector getVoxel(int posX, int posY, int posZ){
 		if(posX > -1 && posX < numPoints.x &&
 				posY > -1 && posY < numPoints.y &&
 				posZ > -1 && posZ < numPoints.z){
 			return voxels[posX][posY][posZ];
 		}
-		return new Vec3D(0,0,0);
+		return new PVector(0,0,0);
 	}
 
 	/**
 	 * checks if the specified point is inside a voxel cube and returns the voxel.
-	 * returns a new Vec3D if point is outside the grid.
+	 * returns a new PVector if point is outside the grid.
 	 * @param pos
 	 * @return
 	 */
-	public Vec3D getVoxelAtWorldCoord(Vec3D point){
+	public PVector getVoxelAtWorldCoord(PVector point){
 		for(int i=0; i<voxels.length-1; i++){
 			for(int j=0; j<voxels[i].length-1; j++){
 				for(int k=0; k<voxels[i][j].length-1; k++){
@@ -233,7 +234,7 @@ public class MarchingCubes {
 				}
 			}
 		}
-		return new Vec3D();
+		return new PVector();
 	}
 
 	/**
@@ -243,14 +244,14 @@ public class MarchingCubes {
 	 * @param radius
 	 * @param metaValue
 	 */
-	public void addMetaBall(Vec3D pos, float radius, float metaValue){
+	public void addMetaBall(PVector pos, float radius, float metaValue){
 		float radiusSQ = radius*radius;
 		float distSQ;
 
 		for(int i=0; i<voxels.length; i++){
 			for(int j=0; j<voxels[i].length; j++){
 				for(int k=0; k<voxels[i][j].length; k++){
-					distSQ = voxels[i][j][k].distanceToSquared(pos);
+					distSQ = P.pow(voxels[i][j][k].dist(pos), 2);
 					if(distSQ < radiusSQ){
 						voxelValues[i][j][k] += (1-distSQ / radiusSQ) * metaValue;
 					}
@@ -259,7 +260,7 @@ public class MarchingCubes {
 		}
 	}
 
-	public void addMetaBox(Vec3D aabbMin, Vec3D aabbMax, float metaValue){
+	public void addMetaBox(PVector aabbMin, PVector aabbMax, float metaValue){
 		for(int i=0; i<voxels.length; i++){
 			for(int j=0; j<voxels[i].length; j++){
 				for(int k=0; k<voxels[i][j].length; k++){
@@ -389,7 +390,7 @@ public class MarchingCubes {
 	 * redefines the minimum bounds of the iso space
 	 * @param _aabbMin
 	 */
-	public void setAABBMin(Vec3D _aabbMin){
+	public void setAABBMin(PVector _aabbMin){
 		aabbMin.set(_aabbMin);
 		_internalReset();
 	}
@@ -398,7 +399,7 @@ public class MarchingCubes {
 	 * returns the minimum bound of the iso space
 	 * @return
 	 */
-	public Vec3D getAABBMin(){
+	public PVector getAABBMin(){
 		return aabbMin;
 	}
 
@@ -406,7 +407,7 @@ public class MarchingCubes {
 	 * redefines the maximum bound of the iso space
 	 * @param _aabbMax
 	 */
-	public void setAABBMax(Vec3D _aabbMax){
+	public void setAABBMax(PVector _aabbMax){
 		aabbMax.set(_aabbMax);
 		_internalReset();
 	}
@@ -415,7 +416,7 @@ public class MarchingCubes {
 	 * returns the maximum bound of the iso space
 	 * @return
 	 */
-	public Vec3D getAABBMax(){
+	public PVector getAABBMax(){
 		return aabbMax;
 	}
 
@@ -445,12 +446,12 @@ public class MarchingCubes {
 
 	/**
 	 * returns the number of vertexes that make up the iso space
-	 * in a Vec3D: the x value represents the number of elements along the X axis,
+	 * in a PVector: the x value represents the number of elements along the X axis,
 	 * the y value the number of elements along the Y axis and the z value the number
 	 * of elements along the Z axis
 	 * @return
 	 */
-	public Vec3D getNumVoxels(){
+	public PVector getNumVoxels(){
 		return numPoints;
 	}
 
@@ -458,9 +459,9 @@ public class MarchingCubes {
 	 * redefines the number of voxels that make up the grid
 	 * @param _numPoints
 	 */
-	public void setNumVoxels(Vec3D _numPoints){
+	public void setNumVoxels(PVector _numPoints){
 		numPoints.set(_numPoints.x, _numPoints.y, _numPoints.z);
-		voxels = new Vec3D[(int)numPoints.x][(int)numPoints.y][(int)numPoints.z];
+		voxels = new PVector[(int)numPoints.x][(int)numPoints.y][(int)numPoints.z];
 		voxelValues = new float[(int)numPoints.x][(int)numPoints.y][(int)numPoints.z];
 		_internalReset();
 	}
@@ -469,7 +470,7 @@ public class MarchingCubes {
 	 * returns the size of a single cube of the iso space
 	 * @return
 	 */
-	public Vec3D getCubeSize(){
+	public PVector getCubeSize(){
 		return cubeSize;
 	}
 
@@ -477,7 +478,7 @@ public class MarchingCubes {
 	 * returns the total size of the iso space
 	 * @return
 	 */
-	public Vec3D getWorldSize(){
+	public PVector getWorldSize(){
 		return worldSize;
 	}
 
@@ -486,7 +487,7 @@ public class MarchingCubes {
 		for(int i=0; i<numPoints.x; i++){
 			for(int j=0; j<numPoints.y; j++){
 				for(int k=0; k<numPoints.z; k++){
-					voxels[i][j][k] = new Vec3D(cubeSize.x * i, cubeSize.y * j, cubeSize.z * k);
+					voxels[i][j][k] = new PVector(cubeSize.x * i, cubeSize.y * j, cubeSize.z * k);
 					voxels[i][j][k].x += aabbMin.x;
 					voxels[i][j][k].y += aabbMin.y;
 					voxels[i][j][k].z += aabbMin.z;
@@ -551,25 +552,25 @@ public class MarchingCubes {
 			vertList[11] = vertexInterp(isoLevel,   voxels[i][j+1][k], voxels[i][j+1][k+1], voxelValues[i][j+1][k], voxelValues[i][j+1][k+1]);
 		}
 
-		Vec3D vecA;
-		Vec3D vecB;
-		Vec3D normalVec = new Vec3D();
+		PVector vecA;
+		PVector vecB;
+		PVector normalVec = new PVector();
 		for(i=0; MarchingCubesTables.triTable[cubeIndex][i] != -1; i+=3){
 
-			vecA = vertList[MarchingCubesTables.triTable[cubeIndex][i+1]].sub(vertList[MarchingCubesTables.triTable[cubeIndex][i]]);
-			vecB = vertList[MarchingCubesTables.triTable[cubeIndex][i+2]].sub(vertList[MarchingCubesTables.triTable[cubeIndex][i+1]]);
+			vecA = vertList[MarchingCubesTables.triTable[cubeIndex][i+1]].copy().sub(vertList[MarchingCubesTables.triTable[cubeIndex][i]]);
+			vecB = vertList[MarchingCubesTables.triTable[cubeIndex][i+2]].copy().sub(vertList[MarchingCubesTables.triTable[cubeIndex][i+1]]);
 			normalVec = vecA.cross(vecB);
 
-			Vec3D triA = new Vec3D(vertList[MarchingCubesTables.triTable[cubeIndex][i]].x, vertList[MarchingCubesTables.triTable[cubeIndex][i]].y, vertList[MarchingCubesTables.triTable[cubeIndex][i]].z);
-			Vec3D triB = new Vec3D(vertList[MarchingCubesTables.triTable[cubeIndex][i+1]].x, vertList[MarchingCubesTables.triTable[cubeIndex][i+1]].y, vertList[MarchingCubesTables.triTable[cubeIndex][i+1]].z);
-			Vec3D triC = new Vec3D(vertList[MarchingCubesTables.triTable[cubeIndex][i+2]].x, vertList[MarchingCubesTables.triTable[cubeIndex][i+2]].y, vertList[MarchingCubesTables.triTable[cubeIndex][i+2]].z);
+			PVector triA = new PVector(vertList[MarchingCubesTables.triTable[cubeIndex][i]].x, vertList[MarchingCubesTables.triTable[cubeIndex][i]].y, vertList[MarchingCubesTables.triTable[cubeIndex][i]].z);
+			PVector triB = new PVector(vertList[MarchingCubesTables.triTable[cubeIndex][i+1]].x, vertList[MarchingCubesTables.triTable[cubeIndex][i+1]].y, vertList[MarchingCubesTables.triTable[cubeIndex][i+1]].z);
+			PVector triC = new PVector(vertList[MarchingCubesTables.triTable[cubeIndex][i+2]].x, vertList[MarchingCubesTables.triTable[cubeIndex][i+2]].y, vertList[MarchingCubesTables.triTable[cubeIndex][i+2]].z);
 			triangles.add(new MCTriangle(triA, triB, triC, normalVec));
 		}
 	}
 
-	protected Vec3D vertexInterp(float _isoLevel, Vec3D vertice, Vec3D vertice2, float valP1, float valP2){
+	protected PVector vertexInterp(float _isoLevel, PVector vertice, PVector vertice2, float valP1, float valP2){
 		float mu;
-		Vec3D p = new Vec3D();
+		PVector p = new PVector();
 
 		if (Math.abs(isoLevel-valP1) < 0.00001)
 			return(vertice);
@@ -898,22 +899,22 @@ public class MarchingCubes {
 	 */
 
 	public class MCTriangle {
-		public Vec3D a, b, c, normal;
+		public PVector a, b, c, normal;
 
 		MCTriangle(){
 
 		}
-		MCTriangle(Vec3D _a, Vec3D _b, Vec3D _c){
-			a = new Vec3D(_a);
-			b = new Vec3D(_b);
-			c = new Vec3D(_c);
-			normal = new Vec3D();
+		MCTriangle(PVector _a, PVector _b, PVector _c){
+			a = _a.copy();
+			b = _b.copy();
+			c = _c.copy();
+			normal = new PVector();
 		}
-		MCTriangle(Vec3D _a, Vec3D _b, Vec3D _c, Vec3D _norm){
-			a = new Vec3D(_a);
-			b = new Vec3D(_b);
-			c = new Vec3D(_c);
-			normal = new Vec3D(_norm);
+		MCTriangle(PVector _a, PVector _b, PVector _c, PVector _norm){
+			a = _a.copy();
+			b = _b.copy();
+			c = _c.copy();
+			normal = _norm.copy();
 		}
 	}
 

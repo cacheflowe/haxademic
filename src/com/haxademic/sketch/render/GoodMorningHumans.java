@@ -1,4 +1,4 @@
-package com.haxademic.sketch.volume;
+package com.haxademic.sketch.render;
 
 
 
@@ -21,7 +21,7 @@ import wblut.external.ProGAL.AlphaComplex;
 import wblut.external.ProGAL.CTriangle;
 import wblut.external.ProGAL.Point;
 
-public class ConvexHullObj 
+public class GoodMorningHumans 
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
@@ -42,7 +42,6 @@ extends PAppletHax {
 	protected void overridePropsFile() {
 		p.appConfig.setProperty( AppSettings.WIDTH, 1000 );
 		p.appConfig.setProperty( AppSettings.HEIGHT, 1000 );
-		p.appConfig.setProperty( AppSettings.SMOOTHING, AppSettings.SMOOTH_HIGH );
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, false );
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_START_FRAME, 1 );
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, (int)_frames + 1 );

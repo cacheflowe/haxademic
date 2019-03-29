@@ -1,4 +1,4 @@
-package com.haxademic.sketch.particle;
+package com.haxademic.sketch.toxi_tests;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.haxademic.sketch.math;
+package com.haxademic.demo.math;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
@@ -8,7 +8,7 @@ import com.haxademic.core.draw.context.OpenGLUtil;
 
 import controlP5.ControlP5;
 
-public class TrigDistribute
+public class Demo_TrigDistribute
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
@@ -21,10 +21,7 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.FPS, "60" );
 	}
 
-	public void setup() {
-		super.setup();
-		p.smooth(OpenGLUtil.SMOOTH_HIGH);
-
+	public void setupFirstFrame() {
 		_cp5 = new ControlP5(this);
 		_cp5.addSlider("numPoints").setPosition(20,60).setWidth(200).setRange(1,90).setValue(3);
 		_cp5.addSlider("radius").setPosition(20,100).setWidth(200).setRange(0,300).setValue(100);

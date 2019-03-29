@@ -54,6 +54,12 @@ public class DemoAssets {
 		return squareTexture;
 	}
 	
+	public static PImage textureCursor = null;
+	public static PImage textureCursor() {
+		if(textureCursor == null) textureCursor = P.p.loadImage(FileUtil.getFile("haxademic/images/cursor-finger-trans.png"));
+		return textureCursor;
+	}
+	
 	// SVG
 	
 	public static PShape shapeX = null;

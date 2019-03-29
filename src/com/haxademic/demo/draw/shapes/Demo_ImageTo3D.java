@@ -1,4 +1,4 @@
-package com.haxademic.sketch.three_d;
+package com.haxademic.demo.draw.shapes;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
@@ -7,24 +7,25 @@ import com.haxademic.core.draw.color.EasingColor;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.shapes.Shapes;
+import com.haxademic.core.file.DemoAssets;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.easing.Penner;
 
 import processing.core.PConstants;
 import processing.core.PImage;
 
-public class ImageTo3D 
+public class Demo_ImageTo3D 
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	protected PImage image;
 	protected boolean isWebCam;
-	float _frames = 30;
+	float _frames = 60;
+	float size = 18f;
 
-	public void setup() {
+	public void setupFirstFrame() {
 		super.setup();
-//		image = p.loadImage( FileUtil.getHaxademicDataPath() + "images/justin-tiny-color1.png" );
-		image = p.loadImage( FileUtil.getHaxademicDataPath() + "images/ello-tiny-edit.png" );
+		image = DemoAssets.smallTexture();
 	}
 	
 	protected void overridePropsFile() {
@@ -57,37 +58,23 @@ extends PAppletHax {
 		}
 		p.noStroke();
 
-		translate(width/2, height * 0.45f, -400);
-//		translate(0,0,-1400);
-		
-//		p.shininess(200); 
-//		p.lights();
-//		p.ambientLight(0.3f,0.3f,0.3f, 0, 0, 6000);
-//		p.ambientLight(0.3f,0.3f,0.3f, 0, 0, -6000);
-
-	
-//		p.rotateX(mouseY*0.01f);
-//		p.rotateY(mouseX*0.01f);
-		p.rotateX(P.PI/10);
-		
-		float frameRadians = PConstants.TWO_PI / _frames;
-		float percentComplete = ((float)(p.frameCount%_frames)/_frames);
-		float easedPercent = Penner.easeInOutQuart(percentComplete, 0, 1, 1);
-//		p.rotateY(percentComplete * P.TWO_PI);
+		// position center
+		DrawUtil.setCenterScreen(p.g);
+		p.translate(0, 0, image.width * -10);
+		DrawUtil.basicCameraFromMouse(p.g);
 
 //		drawImgWebCam();
-//		drawImgBoxes();
-		drawImgPyra();
+		drawImgBoxes();
+//		drawImgPyra();
 	}
 
 	public void drawImgBoxes() {
 		image.loadPixels();
-		float size = 18f;
 		for( int x=0; x < image.width; x++ ){
 			for(int y=0; y < image.height; y++){
 				int pixelColor = ImageUtil.getPixelColor( image, x, y );
 				float pixelBrightness = p.brightness( pixelColor );
-				if( pixelColor != ImageUtil.BLACK_INT && pixelColor != ImageUtil.EMPTY_WHITE_INT && pixelColor != ImageUtil.WHITE_INT ) {
+				if( pixelColor != ImageUtil.BLACK_INT && pixelColor != ImageUtil.EMPTY_WHITE_INT && pixelColor != ImageUtil.TRANSPARENT_PNG ) {
 //				if( pixelColor != ImageUtil.EMPTY_WHITE_INT && pixelColor != ImageUtil.WHITE_INT ) {
 					p.pushMatrix();
 					float xScaled = -image.width*size/2 + x * size;
@@ -104,11 +91,10 @@ extends PAppletHax {
 	}
 
 	public void drawImgPyra() {
-		float size = 30f;
 		for( int x=0; x < image.width; x++ ){
 			for(int y=0; y < image.height; y++){
 				int pixelColor = ImageUtil.getPixelColor( image, x, y );
-				float pixelBrightness = 255 - p.brightness( pixelColor );
+				float pixelBrightness = p.brightness( pixelColor );
 				if( pixelColor != ImageUtil.BLACK_INT && pixelColor != ImageUtil.CLEAR_INT && pixelColor != ImageUtil.EMPTY_WHITE_INT ) {
 					p.pushMatrix();
 					float xScaled = -image.width*size/2 + x * size;

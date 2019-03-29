@@ -1,4 +1,4 @@
-package com.haxademic.sketch.particle;
+package com.haxademic.demo.draw.particle;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
@@ -12,8 +12,8 @@ import com.haxademic.core.math.MathUtil;
 import processing.core.PGraphics;
 import processing.core.PVector;
 
-public class VectorFieldTestKinect 
-extends VectorFieldTest {
+public class Demo_VectorFieldTestKinect 
+extends Demo_VectorField {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	protected PGraphics overlayKinectTexture;

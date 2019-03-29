@@ -1,4 +1,4 @@
-package com.haxademic.sketch.particle;
+package com.haxademic.demo.draw.particle;
 
 import java.util.ArrayList;
 
@@ -16,15 +16,14 @@ import toxi.geom.Vec3D;
 import toxi.geom.ZAxisCylinder;
 import toxi.geom.mesh.TriangleMesh;
 
-public class Flocking3DAttractors 
+public class Demo_Flocking3DAttractors 
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	public ArrayList<MovingBox> boxes;
 	public ArrayList<Attractor> attractors;
 
-	public void setup() {
-		super.setup();
+	public void setupFirstFrame() {
 		initBoxes();
 	}
 	

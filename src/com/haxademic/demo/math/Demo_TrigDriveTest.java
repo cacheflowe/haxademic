@@ -1,14 +1,12 @@
-package com.haxademic.sketch.math;
+package com.haxademic.demo.math;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.context.DrawUtil;
-import com.haxademic.core.draw.context.OpenGLUtil;
 
 import controlP5.ControlP5;
 
-public class TrigDriveTest
+public class Demo_TrigDriveTest
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
@@ -19,14 +17,7 @@ extends PAppletHax {
 	protected float _x = 0;
 	protected float _y = 0;
 
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.FPS, "60" );
-	}
-
-	public void setup() {
-		super.setup();	
-		p.smooth( OpenGLUtil.SMOOTH_HIGH );
-
+	public void setupFirstFrame() {
 		_cp5 = new ControlP5(this);
 		_cp5.addSlider("radians").setPosition(20,60).setWidth(200).setRange(0,P.TWO_PI);
 		_cp5.addSlider("speed").setPosition(20,100).setWidth(200).setRange(0,10);
@@ -39,8 +30,8 @@ extends PAppletHax {
 		background(0);
 		DrawUtil.setDrawCenter(p);
 
-		_x += P.sin(radians) * speed;
-		_y += P.cos(radians) * speed;
+		_x += P.cos(radians) * speed;
+		_y += P.sin(radians) * speed;
 		
 		if( _x > p.width ) _x = 0;
 		if( _x < 0 ) _x = p.width;

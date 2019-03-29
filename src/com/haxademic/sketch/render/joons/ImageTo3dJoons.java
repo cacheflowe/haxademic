@@ -1,4 +1,4 @@
-package com.haxademic.sketch.three_d;
+package com.haxademic.sketch.render.joons;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;

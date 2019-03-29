@@ -1,53 +1,35 @@
-package com.haxademic.sketch.particle;
+package com.haxademic.demo.draw.particle;
 
+import com.haxademic.core.app.P;
+import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.draw.color.EasingColor;
 import com.haxademic.core.draw.context.DrawUtil;
 
-import processing.core.PApplet;
-import processing.core.PConstants;
-import toxi.color.TColor;
-import toxi.math.noise.PerlinNoise;
+public class Demo_ConfettiExplosion
+extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
-/**
- * 
- * @author justin
- *
- */
-public class ConfettiExplosion
-	extends PApplet
-{
-	// global vars
-	protected int _fps = 40;
-	protected ConfettiParticles _confetti;
-	PApplet p;
+	protected ConfettiParticles confetti;
 
-	public void setup ()
-	{
-		p = this;
+	public void setupFirstFrame() {
 		// set up stage and drawing properties
-		size( 800, 600, OPENGL );
-		frameRate( _fps );
-		colorMode( PConstants.RGB, 255, 255, 255, 255 );
 		background( 0 );
-		
-		shininess(1000); 
-		lights();
-		
-		smooth();
 		noStroke();
 		
-		_confetti = new ConfettiParticles( 300 );
-		_confetti.explode();
+		confetti = new ConfettiParticles( 300 );
+		confetti.explode();
 	}
 
-	public void draw() 
-	{
+	public void drawApp() {
 		background(0);
-		_confetti.update();
+		shininess(1000); 
+		lights();
+		confetti.update();
 	}
 		
-	public void mouseClicked()
-	{
-		_confetti.explode();
+	public void mouseClicked() {
+		super.mouseClicked();
+		confetti.explode();
 	}
 	
 	class ConfettiParticles {
@@ -108,21 +90,19 @@ public class ConfettiExplosion
 		protected float _rot;
 		protected float _w;
 		protected float _h;
-		protected PerlinNoise _perlin;
 		protected float _perlinOffset;
 		protected float _perlinWind;
 		
-		protected TColor _color;
-		protected TColor BLUE_DARK = TColor.newHex("0f568b");
-		protected TColor BLUE_LIGHT = TColor.newHex("9cb3c7");
-		protected TColor GREY_MEDIUM = TColor.newHex("d4d4d4");
+		protected EasingColor _color;
+		protected EasingColor BLUE_DARK = new EasingColor("0f568b");
+		protected EasingColor BLUE_LIGHT = new EasingColor("9cb3c7");
+		protected EasingColor GREY_MEDIUM = new EasingColor("d4d4d4");
 
 		public ConfettiParticle( float x, float y ) 
 		{
 			_isActive = false;
 			_originX = x;
 			_originY = y;
-			_perlin = new PerlinNoise();
 			
 			reset();
 		} 
@@ -168,7 +148,7 @@ public class ConfettiExplosion
 						
 			// apply perlin wind on the way down
 			if( _speedY > 0 )
-				_perlinWind = -0.5f + _perlin.noise( _perlinOffset + ( frameCount / 80f ) );
+				_perlinWind = -0.5f + P.p.noise( _perlinOffset + ( frameCount / 80f ) );
 			else
 				_perlinWind = 0;
 			
@@ -179,7 +159,7 @@ public class ConfettiExplosion
 			rotateZ( _rot );
 
 			// color and draw confetti
-			fill( _color.toARGB() );
+			fill( _color.colorInt() );
 			rect(0,0,_w,_w*0.5f);
 //			box(_w, _h, _h);
 			popMatrix();

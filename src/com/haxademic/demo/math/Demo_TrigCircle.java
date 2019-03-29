@@ -1,4 +1,4 @@
-package com.haxademic.sketch.math;
+package com.haxademic.demo.math;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
@@ -6,7 +6,7 @@ import com.haxademic.core.draw.context.DrawUtil;
 
 import controlP5.ControlP5;
 
-public class TrigCircle
+public class Demo_TrigCircle
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
@@ -17,12 +17,7 @@ extends PAppletHax {
 	protected float _x = 0;
 	protected float _y = 0;
 
-	protected void overridePropsFile() {
-	}
-
-	public void setup() {
-		super.setup();	
-
+	public void setupFirstFrame() {
 		_cp5 = new ControlP5(this);
 		_cp5.addSlider("radians").setPosition(20,60).setWidth(200).setRange(0,P.TWO_PI);
 		_cp5.addSlider("radius").setPosition(20,100).setWidth(200).setRange(0,300);
