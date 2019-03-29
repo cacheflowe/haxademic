@@ -38,10 +38,10 @@ public class VectorFlyer {
 	}
 
 	public void update( PApplet p ) {
-		update( p.g, true );
+		update( p.g, true, false );
 	}
 	
-	public void update( PGraphics pg, boolean draws ) {
+	public void update( PGraphics pg, boolean draws, boolean debugTarget ) {
 		// color - if closer than threshold, ease towards saturated color
 		pg.noStroke();
 		if( distToDest < 200 ) {
@@ -75,8 +75,10 @@ public class VectorFlyer {
 			pg.popMatrix();
 			
 			// line to target
-			pg.stroke(255);
-			pg.line(position.x, position.y, position.z, target.x, target.y, target.z);
+			if(debugTarget) {
+				pg.stroke(255);
+				pg.line(position.x, position.y, position.z, target.x, target.y, target.z);
+			}
 		}
 	}
 	

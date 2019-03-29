@@ -84,7 +84,7 @@ extends PAppletHax {
 		for( int i=0; i < boxes.size(); i++ ) {
 			box = boxes.get(i);
 			box.setTarget( box.findClosestPoint( attractorsPositions ) );
-			box.update( p.g, false );
+			box.update( p.g, false, false );
 		}
 		for( int i=0; i < attractors.size(); i++ ) attractors.get(i).update( false );
 		

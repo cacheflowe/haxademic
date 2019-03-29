@@ -7,14 +7,14 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.particle.VectorFlyer;
-import com.haxademic.core.draw.shapes.Icosahedron;
 import com.haxademic.core.draw.shapes.PShapeUtil;
+import com.haxademic.core.draw.shapes.PointTrail;
 import com.haxademic.core.file.DemoAssets;
 
 import processing.core.PShape;
 import processing.core.PVector;
 
-public class Demo_VectorFlyer 
+public class Demo_VectorFlyer_PShapeTrail 
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
@@ -24,6 +24,7 @@ extends PAppletHax {
 	protected PVector center = new PVector();
 	protected ArrayList<PVector> attractors;
 	protected ArrayList<VectorFlyer> flyers;
+	protected ArrayList<PointTrail> trails;
 
 
 	protected void overridePropsFile() {
@@ -33,9 +34,9 @@ extends PAppletHax {
 	}
 
 	public void setupFirstFrame() {
-		shape = Icosahedron.createIcosahedron(p.g, 4, null);
-//		shape = DemoAssets.objHumanoid();
-		PShapeUtil.scaleShapeToExtent(shape, p.displayHeight * 0.3f);
+		shape = DemoAssets.objHumanoid();
+		PShapeUtil.centerShape(shape);
+		PShapeUtil.scaleShapeToHeight(shape, p.displayHeight * 0.8f);
 		
 		initFlyers();
 	}
@@ -45,8 +46,10 @@ extends PAppletHax {
 		addPointsToAttractors(shape);
 		
 		flyers = new ArrayList<VectorFlyer>();
-		for( int i=0; i < 300; i++ ) {
+		trails = new ArrayList<PointTrail>();
+		for( int i=0; i < 500; i++ ) {
 			flyers.add( new VectorFlyer( p.random(0.15f, 0.7f), p.random(12f, 15f) ) );
+			trails.add(new PointTrail(20));
 		}
 	}
 
@@ -86,34 +89,43 @@ extends PAppletHax {
 		// update attributes
 		float speedScale = 1;
 		for( int i=0; i < flyers.size(); i++ ) {
-			flyers.get(i).setSpeed((9 + 0.01f * i) * speedScale);
-			flyers.get(i).setAccel((0.8f + 0.0001f * i) * speedScale);
+			flyers.get(i).setSpeed((4 + 0.01f * i) * speedScale);
+			flyers.get(i).setAccel((0.99f + 0.0001f * i) * speedScale);
 		}
 
 		
 		// set target of particle to closest attractor
 		for( int i=0; i < flyers.size(); i++ ) {
+			// update flyers
 			flyers.get(i).setTarget( flyers.get(i).findClosestPoint( attractors ) );
 			if(p.keyPressed && p.key == ' ') flyers.get(i).setTarget(center);
-			flyers.get(i).update(p.g, true, true);
+			flyers.get(i).update(p.g, false, false);
+			
+			// draw trail
+			p.stroke(255);
+			p.strokeWeight(1.3f);
+			trails.get(i).update(p.g, flyers.get(i).position());
 		}
 		
-		// icosahedron
+		// fraw object
 		shape.disableStyle();
-		p.noFill();
-		p.stroke(255, 60);
-//		p.shape(shapeIcos);
-		PShapeUtil.drawTrianglesAudio(p.g, shape, 1, p.color(255));
-
-		// draw attract points
-		p.fill(100,200,100);
+		p.fill(0, 200, 0, 100 + 100 * P.sin(p.frameCount * 0.1f));
+//		p.stroke(0, 100 + 100 * P.sin(p.frameCount * 0.1f), 0);
 		p.noStroke();
-		for (int i = 0; i < attractors.size(); i++) {
-			p.pushMatrix();
-			p.translate(attractors.get(i).x, attractors.get(i).y, attractors.get(i).z);
-			p.box(10);
-			p.popMatrix();
-		}
+		p.strokeWeight(1);
+//		p.shape(shapeIcos);
+		PShapeUtil.drawTriangles(p.g, shape, null, 1);
+//		PShapeUtil.drawTrianglesAudio(p.g, shape, 1, p.color(255));
+
+//		// draw attract points
+//		p.fill(100,200,100);
+//		p.noStroke();
+//		for (int i = 0; i < attractors.size(); i++) {
+//			p.pushMatrix();
+//			p.translate(attractors.get(i).x, attractors.get(i).y, attractors.get(i).z);
+//			p.box(10);
+//			p.popMatrix();
+//		}
 	}
 		
 }
