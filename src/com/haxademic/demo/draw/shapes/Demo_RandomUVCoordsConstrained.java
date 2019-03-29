@@ -30,8 +30,8 @@ extends PAppletHax {
 	int textureH = 300;
 
 	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, "1000" );
-		p.appConfig.setProperty( AppSettings.HEIGHT, "800" );
+		p.appConfig.setProperty( AppSettings.WIDTH, 1000 );
+		p.appConfig.setProperty( AppSettings.HEIGHT, 800 );
 	}
 
 

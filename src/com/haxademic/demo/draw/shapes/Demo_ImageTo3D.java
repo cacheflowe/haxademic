@@ -8,10 +8,7 @@ import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.shapes.Shapes;
 import com.haxademic.core.file.DemoAssets;
-import com.haxademic.core.file.FileUtil;
-import com.haxademic.core.math.easing.Penner;
 
-import processing.core.PConstants;
 import processing.core.PImage;
 
 public class Demo_ImageTo3D 
