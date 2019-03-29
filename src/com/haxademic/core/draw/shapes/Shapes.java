@@ -98,6 +98,37 @@ public class Shapes {
 		p.popMatrix();
 	}
 	
+	public static void drawDiscAudio( PGraphics pg, float radius, float innerRadius, int numSegments, float ampH, boolean radial) {
+		float segmentRads = P.TWO_PI / numSegments;
+		pg.beginShape(P.TRIANGLES);
+		for( int i = 0; i < numSegments; i++ ) {
+			float amp = P.p.audioData.waveform()[i];
+			float ampNext = P.p.audioData.waveform()[(i+1) % P.p.audioData.waveform().length];
+			amp *= ampH;
+			ampNext *= ampH;
+			
+			
+			if(radial == false) {
+				pg.vertex( P.cos( i * segmentRads ) * innerRadius,  P.sin( i * segmentRads ) * innerRadius, amp );
+				pg.vertex( P.cos( i * segmentRads ) * radius, 		P.sin( i * segmentRads ) * radius, amp );
+				pg.vertex( P.cos( (i + 1) * segmentRads ) * radius, P.sin( (i + 1) * segmentRads ) * radius, ampNext );
+				
+				pg.vertex( P.cos( i * segmentRads ) * innerRadius, 		 P.sin( i * segmentRads ) * innerRadius, amp );
+				pg.vertex( P.cos( (i + 1) * segmentRads ) * innerRadius, P.sin( (i + 1) * segmentRads ) * innerRadius, ampNext );
+				pg.vertex( P.cos( (i + 1) * segmentRads ) * radius, 	 P.sin( (i + 1) * segmentRads ) * radius, ampNext );
+			} else {
+				pg.vertex( P.cos( i * segmentRads ) * (innerRadius + amp),  P.sin( i * segmentRads ) * (innerRadius + amp), 0 );
+				pg.vertex( P.cos( i * segmentRads ) * (radius + amp), 		P.sin( i * segmentRads ) * (radius + amp), 0 );
+				pg.vertex( P.cos( (i + 1) * segmentRads ) * (radius + ampNext), P.sin( (i + 1) * segmentRads ) * (radius + ampNext), 0 );
+				
+				pg.vertex( P.cos( i * segmentRads ) * (innerRadius + amp), 		 P.sin( i * segmentRads ) * (innerRadius + amp), 0 );
+				pg.vertex( P.cos( (i + 1) * segmentRads ) * (innerRadius + ampNext), P.sin( (i + 1) * segmentRads ) * (innerRadius + ampNext), 0 );
+				pg.vertex( P.cos( (i + 1) * segmentRads ) * (radius + ampNext), 	 P.sin( (i + 1) * segmentRads ) * (radius + ampNext), 0 );
+			}
+		}
+		pg.endShape();
+	}
+	
 	public static void drawDiscTextured(PGraphics pg, float radius, float innerRadius, int numSegments, PImage texture) {
 		pg.pushMatrix();
 		
