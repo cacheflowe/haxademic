@@ -1,7 +1,7 @@
 package com.haxademic.app.musicvideos;
 
 import com.haxademic.core.audio.AudioInputWrapper;
-import com.haxademic.core.render.Renderer;
+import com.haxademic.core.render.VideoRenderer;
 
 import krister.Ess.AudioInput;
 import processing.core.PApplet;
@@ -27,14 +27,14 @@ public class RingtoneVideo
 	protected AudioInputWrapper _audioInput4;
 	protected AudioInputWrapper _audioInput5;
 	protected AudioInputWrapper _audioInput6;
-	protected Renderer[] _renderers;
-	protected Renderer _renderFinal;
-	protected Renderer _render1;
-	protected Renderer _render2;
-	protected Renderer _render3;
-	protected Renderer _render4;
-	protected Renderer _render5;
-	protected Renderer _render6;
+	protected VideoRenderer[] _renderers;
+	protected VideoRenderer _renderFinal;
+	protected VideoRenderer _render1;
+	protected VideoRenderer _render2;
+	protected VideoRenderer _render3;
+	protected VideoRenderer _render4;
+	protected VideoRenderer _render5;
+	protected VideoRenderer _render6;
 
 	public void setup ()
 	{
@@ -78,17 +78,17 @@ public class RingtoneVideo
 		_audioInputs[5] = _audioInput6;
 		
 		// set up renders
-		_render1 = new Renderer( this, _fps, Renderer.OUTPUT_TYPE_IMAGE, "bin/output/" );
-		_render2 = new Renderer( this, _fps, Renderer.OUTPUT_TYPE_IMAGE, "bin/output/" );
-		_render3 = new Renderer( this, _fps, Renderer.OUTPUT_TYPE_IMAGE, "bin/output/" );
-		_render4 = new Renderer( this, _fps, Renderer.OUTPUT_TYPE_IMAGE, "bin/output/" );
-		_render5 = new Renderer( this, _fps, Renderer.OUTPUT_TYPE_IMAGE, "bin/output/" );
-		_render6 = new Renderer( this, _fps, Renderer.OUTPUT_TYPE_IMAGE, "bin/output/" );
-		_renderFinal = new Renderer( this, _fps, Renderer.OUTPUT_TYPE_MOVIE, "bin/output/" );
+		_render1 = new VideoRenderer( _fps, VideoRenderer.OUTPUT_TYPE_IMAGE, "bin/output/" );
+		_render2 = new VideoRenderer( _fps, VideoRenderer.OUTPUT_TYPE_IMAGE, "bin/output/" );
+		_render3 = new VideoRenderer( _fps, VideoRenderer.OUTPUT_TYPE_IMAGE, "bin/output/" );
+		_render4 = new VideoRenderer( _fps, VideoRenderer.OUTPUT_TYPE_IMAGE, "bin/output/" );
+		_render5 = new VideoRenderer( _fps, VideoRenderer.OUTPUT_TYPE_IMAGE, "bin/output/" );
+		_render6 = new VideoRenderer( _fps, VideoRenderer.OUTPUT_TYPE_IMAGE, "bin/output/" );
+		_renderFinal = new VideoRenderer( _fps, VideoRenderer.OUTPUT_TYPE_MOVIE, "bin/output/" );
 //		_renderFinal.startRendererForAudio( "wav/ringtones/ringtone-01.wav", new AudioInputWrapper( this, false ) );
 		
 		// store renderers for cycling 
-		_renderers = new Renderer[ _numWavs ];
+		_renderers = new VideoRenderer[ _numWavs ];
 		_renderers[0] = _render1;
 		_renderers[1] = _render2;
 		_renderers[2] = _render3;

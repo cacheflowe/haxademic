@@ -3,8 +3,8 @@ package com.haxademic.app.mirrors;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.data.constants.PRenderers;
-import com.haxademic.core.draw.filters.pgraphics.GPUParticlesLauncher;
 import com.haxademic.core.draw.filters.pgraphics.SmokeFeedback;
+import com.haxademic.core.draw.filters.pgraphics.UVGridOpticalFlow;
 import com.haxademic.core.draw.filters.pgraphics.shared.BaseVideoFilter;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.hardware.webcam.IWebCamCallback;
@@ -29,9 +29,12 @@ implements IWebCamCallback {
 	protected void overridePropsFile() {
 		p.appConfig.setProperty(AppSettings.WIDTH, (int) w);
 		p.appConfig.setProperty(AppSettings.HEIGHT, (int) h);
-		p.appConfig.setProperty(AppSettings.WEBCAM_INDEX, 12);
-		p.appConfig.setProperty(AppSettings.FULLSCREEN, true);
+		p.appConfig.setProperty(AppSettings.WEBCAM_INDEX, 13);
+		p.appConfig.setProperty(AppSettings.FULLSCREEN, false);
+		p.appConfig.setProperty(AppSettings.WIDTH, 1280);
+		p.appConfig.setProperty(AppSettings.HEIGHT, 720);
 		p.appConfig.setProperty(AppSettings.ALWAYS_ON_TOP, false);
+		p.appConfig.setProperty(AppSettings.APP_NAME, "MagicMirrors");
 	}
 
 	protected void setupFirstFrame() {
@@ -43,8 +46,9 @@ implements IWebCamCallback {
 //		vfx = new BlobLinesFeedback(p.width, p.height);
 //		vfx = new HalftoneCamo(p.width, p.height);
 //		vfx = new RadialHistory(p.width, p.height);
-		vfx = new GPUParticlesLauncher(p.width, p.height);
-		vfxPre = new SmokeFeedback(p.width, p.height);
+		vfx = new UVGridOpticalFlow(p.width, p.height);
+//		vfx = new GPUParticlesLauncher(p.width, p.height);
+//		vfxPre = new SmokeFeedback(p.width, p.height);
 		webcamBuffer = p.createGraphics(webcamW, webcamH, PRenderers.P2D);
 	}
 
@@ -86,38 +90,4 @@ implements IWebCamCallback {
 
 		
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 

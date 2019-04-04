@@ -23,7 +23,6 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.HEIGHT, 282 );
 		p.appConfig.setProperty( AppSettings.SMOOTHING, AppSettings.SMOOTH_HIGH );
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, true );
-		p.appConfig.setProperty( AppSettings.RENDER_AUDIO, true );
 		p.appConfig.setProperty( AppSettings.RENDER_AUDIO_FILE, FileUtil.getFile("audio/cacheflowe_bigger_loop_padded.wav") );
 	}
 

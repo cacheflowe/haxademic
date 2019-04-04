@@ -32,7 +32,7 @@ public class AppSettings {
 	public static final String RENDERING_IMAGE_SEQUENCE = "rendering_image_sequence";
 	public static final String RENDERING_IMAGE_SEQUENCE_START_FRAME = "rendering_image_sequence_startframe";
 	public static final String RENDERING_IMAGE_SEQUENCE_STOP_FRAME = "rendering_image_sequence_stopframe";
-	public static final String RENDER_AUDIO = "render_audio";
+	public static final String RENDER_AUDIO_SIMULATION = "render_audio_simulation";
 	public static final String RENDER_AUDIO_FILE = "render_audio_file";
 	public static final String RENDER_MIDI = "render_midi";
 	public static final String RENDER_MIDI_FILE = "render_midi_file";

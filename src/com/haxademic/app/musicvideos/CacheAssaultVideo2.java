@@ -60,7 +60,7 @@ extends PAppletHax {
 //		p.appConfig.setProperty( "disable_esc", "true" );
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "true" );
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, (int) _songLengthFrames );
-		p.appConfig.setProperty( AppSettings.RENDER_AUDIO, "true" );
+//		p.appConfig.setProperty( AppSettings.RENDER_AUDIO, "true" );
 		p.appConfig.setProperty( AppSettings.RENDER_AUDIO_FILE, FileUtil.getHaxademicDataPath() + "video/cache-assault-master.wav" );
 		p.appConfig.setProperty( AppSettings.RENDER_MIDI, "true" );
 		p.appConfig.setProperty( AppSettings.RENDER_MIDI_FILE, FileUtil.getHaxademicDataPath() + "video/cache-assault-midi.mid" );

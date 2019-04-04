@@ -2,7 +2,7 @@ package com.haxademic.app.musicvideos;
 
 import com.haxademic.core.audio.AudioInputWrapper;
 import com.haxademic.core.draw.shapes.Shapes;
-import com.haxademic.core.render.Renderer;
+import com.haxademic.core.render.VideoRenderer;
 
 import krister.Ess.AudioInput;
 import processing.core.PApplet;
@@ -35,7 +35,7 @@ public class JukeBoxBackground
 
 	protected int SUNFLOW = 0;
 	protected boolean RENDERING = false;
-	protected Renderer _render;
+	protected VideoRenderer _render;
 	protected AudioInputWrapper _audioInput;
 	protected Boolean _isSetup = false;
 	
@@ -98,7 +98,7 @@ public class JukeBoxBackground
 			
 			// set up renderer
 			if( RENDERING ) {
-				_render = new Renderer( this, _fps, Renderer.OUTPUT_TYPE_MOVIE, "bin/output/" );
+				_render = new VideoRenderer( _fps, VideoRenderer.OUTPUT_TYPE_MOVIE, "bin/output/" );
 				//		_render.startRenderer();
 				_render.startRendererForAudio( "wav/cache-money.wav" );
 			}

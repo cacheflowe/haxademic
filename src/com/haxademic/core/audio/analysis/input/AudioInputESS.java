@@ -43,6 +43,8 @@ implements IAudioInput {
 	}
 	
 	public void update(PGraphics pg) {
+		if(rendering) return; // don't override with microphone data
+		
 		// update audio data object
 		audioStreamData.setFFTFrequencies(fft.spectrum);
 		audioStreamData.setWaveformOffsets(audioInput.buffer);
@@ -54,20 +56,21 @@ implements IAudioInput {
 		if(pg != null) audioStreamData.drawDebug(pg);
 	}
 	
+	// override microphone input with audio file played in Renderer
 	public void updateForRender(AudioChannel audioPlayer, int pos) {		
 		// disable normal PApplet callback below
 		rendering = true;
 		// read spectrum from audio player and set on data object
-		pos = P.constrain(pos, 0, audioPlayer.size - audioPlayer.buffer.length);
-		fft.getSpectrum( audioPlayer.samples, pos );
+		if(pos >= 0) {
+			pos = P.constrain(pos, 0, audioPlayer.size - audioPlayer.buffer.length);
+			fft.getSpectrum(audioPlayer.samples, pos);
+		} else {
+			fft.getSpectrum(audioPlayer);
+		}
 		audioStreamData.setFFTFrequencies(fft.spectrum);
-		// set waveform data (updates slowly for some reason, so we lerp)
-		// audioStreamData.setWaveformOffsets(audioPlayer.buffer2);	// buffer ?? 
-		audioStreamData.lerpWaveformOffsets(audioPlayer.buffer2, 0.2f);	// buffer ?? 
-		// set level
+		audioStreamData.setWaveformOffsets(audioPlayer.buffer);	// this looks super slow during simulation, but should be good during a real render
 		fft.getLevel(audioPlayer);
 		audioStreamData.setAmp(fft.max * 20f);
-		// copy & update
 		audioStreamData.freqsCopyDampened();
 		audioStreamData.update();
 	}

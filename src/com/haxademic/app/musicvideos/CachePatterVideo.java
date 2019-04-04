@@ -107,7 +107,6 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.RENDER_MIDI_FILE, FileUtil.getHaxademicDataPath() + "midi/patter-kick-snare-bass-synth-timing-more-snares.mid" );
 		p.appConfig.setProperty( AppSettings.RENDER_MIDI_BPM, "132" );
 		p.appConfig.setProperty( AppSettings.RENDER_MIDI_OFFSET, "0" );
-		p.appConfig.setProperty( AppSettings.RENDER_AUDIO, "true" );
 		p.appConfig.setProperty( AppSettings.RENDER_AUDIO_FILE, FileUtil.getHaxademicDataPath() + "audio/13. CacheFlowe - Patter - Master.wav" );
 	}
 

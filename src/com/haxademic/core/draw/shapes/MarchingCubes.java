@@ -216,7 +216,7 @@ public class MarchingCubes {
 	/**
 	 * checks if the specified point is inside a voxel cube and returns the voxel.
 	 * returns a new PVector if point is outside the grid.
-	 * @param pos
+	 * @param audioPos
 	 * @return
 	 */
 	public PVector getVoxelAtWorldCoord(PVector point){

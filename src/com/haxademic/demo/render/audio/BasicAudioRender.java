@@ -4,7 +4,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.audio.AudioInputWrapper;
 import com.haxademic.core.draw.camera.CameraOscillate;
 import com.haxademic.core.draw.camera.common.ICamera;
-import com.haxademic.core.render.Renderer;
+import com.haxademic.core.render.VideoRenderer;
 
 import krister.Ess.AudioInput;
 import processing.core.PApplet;
@@ -20,7 +20,7 @@ public class BasicAudioRender
 	protected int _rows = 10;
 	protected ICamera camera;
 	protected int NUM_BLOCKS = 20;  
-	protected Renderer _render;
+	protected VideoRenderer _render;
 	protected AudioInputWrapper _audioInput;
 	protected float rotInc = 0;
 	protected Boolean _isSetup = false;
@@ -65,7 +65,7 @@ public class BasicAudioRender
 			camera = new CameraOscillate( this, 0, 0, -500, 400 );
 			
 			// set up renderer
-			_render = new Renderer( this, _fps, Renderer.OUTPUT_TYPE_MOVIE, "bin/output/" );
+			_render = new VideoRenderer( _fps, VideoRenderer.OUTPUT_TYPE_MOVIE, "bin/output/" );
 	//		_render.startRenderer();
 			_render.startRendererForAudio( "cock_holster.wav" );
 		}

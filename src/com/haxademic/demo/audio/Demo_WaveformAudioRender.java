@@ -11,9 +11,8 @@ extends PAppletHax {
 	protected void overridePropsFile() {
 		p.appConfig.setProperty( AppSettings.WIDTH, 1280 );
 		p.appConfig.setProperty( AppSettings.HEIGHT, 720 );
-		p.appConfig.setProperty( AppSettings.FPS, 60 );
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, true );
-		p.appConfig.setProperty( AppSettings.RENDER_AUDIO, true );
+		p.appConfig.setProperty( AppSettings.RENDER_AUDIO_SIMULATION, true );
 		p.appConfig.setProperty( AppSettings.RENDER_AUDIO_FILE, FileUtil.getFile("haxademic/audio/cacheflowe_bigger_loop.wav") );
 	}
 	

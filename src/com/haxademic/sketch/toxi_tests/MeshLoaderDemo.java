@@ -8,7 +8,7 @@ import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.toxi.MeshPool;
 import com.haxademic.core.draw.toxi.MeshUtilToxi;
 import com.haxademic.core.math.easing.EasingFloat3d;
-import com.haxademic.core.render.Renderer;
+import com.haxademic.core.render.VideoRenderer;
 
 import geomerative.RFont;
 import geomerative.RG;
@@ -23,7 +23,7 @@ extends PApplet
 	ToxiclibsSupport toxi;
 	PApplet p;
 		
-	Renderer _render;
+	VideoRenderer _render;
 	
 //	OBJModel _model;
 	MeshPool _meshPool;

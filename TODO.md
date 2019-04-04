@@ -1,7 +1,10 @@
 # TODO
 
 * Art projects
-  * Adapt poly lerp/feedback loop displacing a sheet
+  * Extract HaxVisualTwo post-processing into its own reusable component
+  * Zaibiti
+  	* Pi webcam? Is it possible?
+  * AdaptBB poly lerp/feedback loop displacing a sheet
   * Sound in space. Raspberry Pis via wifi, attached to speakers. Split channels for more outputs
   * New video loops should have a soundtrack. use my tunes? look in sketch/render/avloops
   * Kinect history textures in 3d
@@ -11,7 +14,8 @@
   * Voice-activated color room: What Say Hue?
   * Interphase
   	* Integrate HaxVisualTwo
-  	* Integrate Launchpad direct interface
+  	* Integrate Launchpad/iPad direct interface
+    * Make interphase more bangy & think about converting to be more spatial w/lighting
   * Grass cutout - laser cut w/Seied
   * Make a dmx gif loop
   * Motion detection point-of-interest motion capture by small rectangles - figure out how to zoom out and create multiple zones
@@ -26,12 +30,19 @@
   * Split audio stepthrough rendering from Renderer.java, which should just save movies. MIDIStepthrough renderer is a good example of splitting
   * Make demos for rendering at a specific bpm
 * MIDI:
+  * Add midi input to prefsSliders
+  * Add midi input to prefsSliders
   * Move midibus instance to MidiState (now MidiDevice)
   * InputTrigger should merge MIDI buttons and CC controls, just like OSC commands
   * Check MIDI rendering now that MIDI code has been revamped
 * DMX
   * Bring timeclock app into Haxademic as a new, more robust video-to-dmx demo/app
 * GLSL
+  * 32-bit packing
+  	* https://stackoverflow.com/questions/18453302/how-do-you-pack-one-32bit-int-into-4-8bit-ints-in-glsl-webgl
+  	* http://www.ozone3d.net/blogs/lab/20080604/glsl-float-to-rgba8-encoder/
+  	* https://community.khronos.org/t/pack-more-than-4-components-into-rgba-32-texture-in-vertex-shader/72945/2
+  	* https://forum.processing.org/two/discussion/17629/how-to-get-round-using-16-bit-image-buffers-shadertoy-question
   * Wrap up GLSL transitions collection and make a common interface
   * Fix up GPU particle launcher to store colors per-particle
   * Convert Orbit noise: https://www.shadertoy.com/view/4t3yDn
@@ -71,8 +82,9 @@
   * WebServer and SocketServer should be more stylistically similar. See PORT in WebServer, and DEBUG static boolean - should be passed in?
   * Replace JavaWebsocket with Jetty WebSocket server??
 * Demos:
+  * Can lines be rendered in Joons?
   * Render a video with effects, using BrimVFX as example
-  * Replicate indpendent 40k shape demo from Processing examples - update with GPU
+  * Replicate independent 40k shape demo from Processing examples - update with GPU
   * Make a little planet generator with icosahedron deformation and colorized texture map of depth
     * https://github.com/ashima/webgl-noise/wiki
   * Distill more demos for `core` code
@@ -91,6 +103,7 @@
     * Demo_VertexShader_NoiseTest_WIP
     * Demo_VertexShader_Fattener
 * General / tools
+  * Add text event log to PAppletHax
   * Test importing a Java class into a Processing IDE project
   * How can we optimize for Raspberry Pi? It wants Java 1.7 for the old version of Eclipse :(
   * Look into JarSplice or other compiling tools for application deployment
@@ -100,6 +113,7 @@
   * Replace ColorUtil with EasingColor
   * Clean up /data directory with assets that can be used across demos, and move sketch assets into their own location
   * ImageSequence -> ffmpeg rendering from a class. Would make rendering easier on both platforms
-  * Start moving all apps towards objects that can receive a PGraphics instance. decoupling from PApplet will help move visuals into HaxVisualTwo
   * Clean up old stuff - get rid of non-useful demos
   * Document important files/concepts/tools for README
+* HaxVisualTwo
+  * Start moving all apps towards objects that can receive a PGraphics instance. decoupling from PApplet will help move visuals into HaxVisualTwo

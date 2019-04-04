@@ -39,7 +39,7 @@ import com.haxademic.core.render.GifRenderer;
 import com.haxademic.core.render.ImageSequenceRenderer;
 import com.haxademic.core.render.JoonsWrapper;
 import com.haxademic.core.render.MIDISequenceRenderer;
-import com.haxademic.core.render.Renderer;
+import com.haxademic.core.render.VideoRenderer;
 import com.haxademic.core.system.AppUtil;
 import com.haxademic.core.system.JavaInfo;
 import com.haxademic.core.system.SecondScreenViewer;
@@ -57,8 +57,7 @@ import processing.video.Movie;
 import themidibus.MidiBus;
 
 public class PAppletHax
-extends PApplet
-{
+extends PApplet {
 	//	Simplest launch:
 	//	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
@@ -90,12 +89,12 @@ extends PApplet
 	public PGraphics audioInputDebugBuffer;
 
 	// rendering
-	public Renderer movieRenderer;
+	public VideoRenderer movieRenderer;
 	public MIDISequenceRenderer _midiRenderer;
 	public GifRenderer _gifRenderer;
 	public ImageSequenceRenderer imageSequenceRenderer;
 	protected Boolean _isRendering = true;
-	protected Boolean _isRenderingAudio = true;
+	protected Boolean renderingAudio = true;
 	protected Boolean _isRenderingMidi = true;
 	public JoonsWrapper joons;
 	public AnimationLoop loop = null;
@@ -235,7 +234,7 @@ extends PApplet
 	protected void setAppletProps() {
 		_isRendering = p.appConfig.getBoolean(AppSettings.RENDERING_MOVIE, false);
 		if( _isRendering == true ) DebugUtil.printErr("When rendering, make sure to call super.keyPressed(); for esc key shutdown");
-		_isRenderingAudio = p.appConfig.getBoolean(AppSettings.RENDER_AUDIO, false);
+		renderingAudio = p.appConfig.getString(AppSettings.RENDER_AUDIO_FILE, "").length() > 0;
 		_isRenderingMidi = p.appConfig.getBoolean(AppSettings.RENDER_MIDI, false);
 		_fps = p.appConfig.getInt(AppSettings.FPS, 60);
 		if(p.appConfig.getInt(AppSettings.FPS, 60) != 60) frameRate(_fps);
@@ -262,7 +261,7 @@ extends PApplet
 		if(p.appConfig.getFloat(AppSettings.LOOP_FRAMES, 0) != 0) loop = new AnimationLoop(p.appConfig.getFloat(AppSettings.LOOP_FRAMES, 0), p.appConfig.getInt(AppSettings.LOOP_TICKS, 4));
 		// save single reference for other objects
 		if( appConfig.getInt(AppSettings.WEBCAM_INDEX, -1) >= 0 ) webCamWrapper = new WebCamWrapper(appConfig.getInt(AppSettings.WEBCAM_INDEX, -1), appConfig.getBoolean(AppSettings.WEBCAM_THREADED, true));
-		movieRenderer = new Renderer( p, _fps, Renderer.OUTPUT_TYPE_MOVIE, p.appConfig.getString( "render_output_dir", FileUtil.getHaxademicOutputPath() ) );
+		movieRenderer = new VideoRenderer( _fps, VideoRenderer.OUTPUT_TYPE_MOVIE, p.appConfig.getString( "render_output_dir", FileUtil.getHaxademicOutputPath() ) );
 		if(appConfig.getBoolean(AppSettings.RENDERING_GIF, false) == true) {
 			_gifRenderer = new GifRenderer(appConfig.getInt(AppSettings.RENDERING_GIF_FRAMERATE, 45), appConfig.getInt(AppSettings.RENDERING_GIF_QUALITY, 15));
 		}
@@ -491,19 +490,17 @@ extends PApplet
 		// analyze & init audio if stepping through a render
 		if( _isRendering == true ) {
 			if( p.frameCount == 1 ) {
-				if( _isRenderingAudio == true ) {
+				if( renderingAudio == true ) {
 					movieRenderer.startRendererForAudio( p.appConfig.getString(AppSettings.RENDER_AUDIO_FILE, "") );
 				} else {
-					movieRenderer.startRenderer();
+					movieRenderer.startVideoRenderer();
 				}
 			}
 
-//			if( p.frameCount > 1 ) {
-				// have renderer step through audio, then special call to update the single WaveformData storage object
-				if( _isRenderingAudio == true ) {
-					movieRenderer.analyzeAudio();
-				}
-//			}
+			// have renderer step through audio, then special call to update the single WaveformData storage object
+			if( renderingAudio == true ) {
+				movieRenderer.analyzeAudio();
+			}
 
 			if( _midiRenderer != null ) {
 				boolean doneCheckingForMidi = false;
