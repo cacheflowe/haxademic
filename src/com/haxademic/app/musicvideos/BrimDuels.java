@@ -193,7 +193,7 @@ extends PAppletHax {
 		pg.translate(pg.width * 0.5f, pg.height * 0.6f);
 		
 		// draw floor - TODO: switch to textured?
-		float floorSize = pg.width * 0.4f;
+//		float floorSize = pg.width * 0.4f;
 		pg.rotateY(P.QUARTER_PI);
 		pg.rotateX(P.HALF_PI);
 //		pg.fill(100, 255, 100);
@@ -276,7 +276,7 @@ extends PAppletHax {
 			float xOut = P.cos(rads) * outRadius;
 			float yOut = 0;
 			float zOut = P.sin(rads) * outRadius;
-			float strokeAmp = 1f - (i % 4) * 0.3f;
+//			float strokeAmp = 1f - (i % 4) * 0.3f;
 			pg.strokeWeight(2);
 			pg.stroke(255);//, 255 * strokeAmp);
 //			if(i == p.loop.curTick() + 1) {

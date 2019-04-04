@@ -120,9 +120,10 @@ public class DemoAssets {
 
 	// FONTS
 	
+	public static String fontOpenSansPath = "haxademic/fonts/OpenSans-Regular.ttf";
 	public static PFont fontOpenSans = null;
 	public static PFont fontOpenSans(float fontSize) {
-		if(fontOpenSans == null) fontOpenSans = P.p.createFont( FileUtil.getFile("haxademic/fonts/OpenSans-Regular.ttf"), fontSize );
+		if(fontOpenSans == null) fontOpenSans = P.p.createFont( FileUtil.getFile(fontOpenSansPath), fontSize );
 		return fontOpenSans;
 	}
 	
