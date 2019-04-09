@@ -140,9 +140,31 @@ public class VideoRenderer {
 	}
 	
 	protected void debugRenderProgress() {
+		// get elapsed time
+		int elapsedMillis = P.p.millis() - timeStarted;
+		float millisLeft = -1;
+		String elapsedTime = StringFormatter.timeFromMilliseconds(elapsedMillis, true);
+		
+		// get projected completion time
+		String totalFrames = "?";
+		int totalFramesInt = -1; 
+		int startFrame = P.p.appConfig.getInt(AppSettings.RENDERING_MOVIE_START_FRAME, -1);
+		int stopFrame = P.p.appConfig.getInt(AppSettings.RENDERING_MOVIE_STOP_FRAME, -1);
+		if(startFrame != -1 && stopFrame != -1) {
+			totalFramesInt = stopFrame - startFrame;
+			totalFrames = totalFramesInt + "";
+			float totalMillisProjected = ((float) totalFramesInt / (float) curFrame) * elapsedMillis;
+			millisLeft = totalMillisProjected - elapsedMillis;
+		}
+		
+		// output
 		P.println( "= RENDERING ==================" );
-		P.println( "= Exporting frame number " + curFrame );
-		P.println( "= Elapsed time "  + StringFormatter.timeFromMilliseconds( P.p.millis() - timeStarted, true));
+		P.println( "= Exporting frame number:   " + curFrame + " / " + totalFrames );
+		P.println( "= Elapsed time:             "  + elapsedTime);
+		if(millisLeft != -1) {
+			P.println( "= Expected time left:       "  + StringFormatter.timeFromMilliseconds(P.round(millisLeft), true));
+			P.println( "= Progress:                 "  + ((float) curFrame / (float) totalFramesInt));
+		}
 		if(audioPlayer != null) {
 			if ((curFrame % 15) == 0) {
 				P.println( "= Audio position: " + audioPos + " fps: " + fps + " seconds: " + audioCurSeconds + " _chn.sampleRate = " + audioPlayer.sampleRate + "  position in file: " + audioPos + " / " + audioPlayer.size );
