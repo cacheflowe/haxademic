@@ -143,7 +143,6 @@ public class VideoRenderer {
 		// get elapsed time
 		int elapsedMillis = P.p.millis() - timeStarted;
 		float millisLeft = -1;
-		String elapsedTime = StringFormatter.timeFromMilliseconds(elapsedMillis, true);
 		
 		// get projected completion time
 		String totalFrames = "?";
@@ -160,7 +159,7 @@ public class VideoRenderer {
 		// output
 		P.println( "= RENDERING ==================" );
 		P.println( "= Exporting frame number:   " + curFrame + " / " + totalFrames );
-		P.println( "= Elapsed time:             "  + elapsedTime);
+		P.println( "= Elapsed time:             "  + StringFormatter.timeFromMilliseconds(elapsedMillis, true));
 		if(millisLeft != -1) {
 			P.println( "= Expected time left:       "  + StringFormatter.timeFromMilliseconds(P.round(millisLeft), true));
 			P.println( "= Progress:                 "  + ((float) curFrame / (float) totalFramesInt));

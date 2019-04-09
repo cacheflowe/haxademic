@@ -35,8 +35,8 @@ extends PAppletHax {
 		// special rendering situation since applet won't go as small as 110
 		_pg = p.createGraphics(46, 50, P.P3D);
 		if(rendering == true) {
-			_gifRenderer = new GifRenderer(40, 15);
-			_gifRenderer.startGifRender(this);
+			gifRenderer = new GifRenderer(40, 15);
+			gifRenderer.startGifRender(this);
 		}
 	}
 
@@ -67,10 +67,10 @@ extends PAppletHax {
 			
 		// render
 		if(rendering == true) {
-			if(p.frameCount <= _frames) _gifRenderer.renderGifFrame(_pg);
+			if(p.frameCount <= _frames) gifRenderer.renderGifFrame(_pg);
 			if(_frames == p.frameCount) {
 				P.println("should finish: ", p.frameCount);
-				_gifRenderer.finish();
+				gifRenderer.finish();
 			}
 		}
 	}

@@ -89,13 +89,13 @@ extends PApplet {
 	public PGraphics audioInputDebugBuffer;
 
 	// rendering
-	public VideoRenderer movieRenderer;
-	public MIDISequenceRenderer _midiRenderer;
-	public GifRenderer _gifRenderer;
+	public VideoRenderer videoRenderer;
+	public MIDISequenceRenderer midiRenderer;
+	public GifRenderer gifRenderer;
 	public ImageSequenceRenderer imageSequenceRenderer;
-	protected Boolean _isRendering = true;
+	protected Boolean isRendering = true;
 	protected Boolean renderingAudio = false;
-	protected Boolean _isRenderingMidi = true;
+	protected Boolean renderingMidi = true;
 	public JoonsWrapper joons;
 	public AnimationLoop loop = null;
 
@@ -232,10 +232,10 @@ extends PApplet {
 	////////////////////////
 	
 	protected void setAppletProps() {
-		_isRendering = p.appConfig.getBoolean(AppSettings.RENDERING_MOVIE, false);
-		if( _isRendering == true ) DebugUtil.printErr("When rendering, make sure to call super.keyPressed(); for esc key shutdown");
+		isRendering = p.appConfig.getBoolean(AppSettings.RENDERING_MOVIE, false);
+		if( isRendering == true ) DebugUtil.printErr("When rendering, make sure to call super.keyPressed(); for esc key shutdown");
 		renderingAudio = p.appConfig.getString(AppSettings.RENDER_AUDIO_FILE, "").length() > 0;
-		_isRenderingMidi = p.appConfig.getString(AppSettings.RENDER_MIDI_FILE, "").length() > 0;
+		renderingMidi = p.appConfig.getString(AppSettings.RENDER_MIDI_FILE, "").length() > 0;
 		_fps = p.appConfig.getInt(AppSettings.FPS, 60);
 		if(p.appConfig.getInt(AppSettings.FPS, 60) != 60) frameRate(_fps);
 	}
@@ -261,9 +261,9 @@ extends PApplet {
 		if(p.appConfig.getFloat(AppSettings.LOOP_FRAMES, 0) != 0) loop = new AnimationLoop(p.appConfig.getFloat(AppSettings.LOOP_FRAMES, 0), p.appConfig.getInt(AppSettings.LOOP_TICKS, 4));
 		// save single reference for other objects
 		if( appConfig.getInt(AppSettings.WEBCAM_INDEX, -1) >= 0 ) webCamWrapper = new WebCamWrapper(appConfig.getInt(AppSettings.WEBCAM_INDEX, -1), appConfig.getBoolean(AppSettings.WEBCAM_THREADED, true));
-		movieRenderer = new VideoRenderer( _fps, VideoRenderer.OUTPUT_TYPE_MOVIE, p.appConfig.getString( "render_output_dir", FileUtil.getHaxademicOutputPath() ) );
+		videoRenderer = new VideoRenderer( _fps, VideoRenderer.OUTPUT_TYPE_MOVIE, p.appConfig.getString( "render_output_dir", FileUtil.getHaxademicOutputPath() ) );
 		if(appConfig.getBoolean(AppSettings.RENDERING_GIF, false) == true) {
-			_gifRenderer = new GifRenderer(appConfig.getInt(AppSettings.RENDERING_GIF_FRAMERATE, 45), appConfig.getInt(AppSettings.RENDERING_GIF_QUALITY, 15));
+			gifRenderer = new GifRenderer(appConfig.getInt(AppSettings.RENDERING_GIF_FRAMERATE, 45), appConfig.getInt(AppSettings.RENDERING_GIF_QUALITY, 15));
 		}
 		if(appConfig.getBoolean(AppSettings.RENDERING_IMAGE_SEQUENCE, false) == true) {
 			imageSequenceRenderer = new ImageSequenceRenderer(p.g);
@@ -479,33 +479,33 @@ extends PApplet {
 	
 	protected void handleRenderingStepthrough() {
 		// step through midi file if set
-		if( _isRenderingMidi == true ) {
+		if( renderingMidi == true ) {
 			if( p.frameCount == 1 ) {
 				try {
-					_midiRenderer = new MIDISequenceRenderer(p);
-					_midiRenderer.loadMIDIFile( p.appConfig.getString(AppSettings.RENDER_MIDI_FILE, ""), p.appConfig.getFloat(AppSettings.RENDER_MIDI_BPM, 150f), _fps, p.appConfig.getFloat(AppSettings.RENDER_MIDI_OFFSET, -8f) );
+					midiRenderer = new MIDISequenceRenderer(p);
+					midiRenderer.loadMIDIFile( p.appConfig.getString(AppSettings.RENDER_MIDI_FILE, ""), p.appConfig.getFloat(AppSettings.RENDER_MIDI_BPM, 150f), _fps, p.appConfig.getFloat(AppSettings.RENDER_MIDI_OFFSET, -8f) );
 				} catch (InvalidMidiDataException e) { e.printStackTrace(); } catch (IOException e) { e.printStackTrace(); }
 			}
 		}
 		// analyze & init audio if stepping through a render
-		if( _isRendering == true ) {
+		if( isRendering == true ) {
 			if( p.frameCount == 1 ) {
 				if( renderingAudio == true ) {
-					movieRenderer.startRendererForAudio( p.appConfig.getString(AppSettings.RENDER_AUDIO_FILE, "") );
+					videoRenderer.startRendererForAudio( p.appConfig.getString(AppSettings.RENDER_AUDIO_FILE, "") );
 				} else {
-					movieRenderer.startVideoRenderer();
+					videoRenderer.startVideoRenderer();
 				}
 			}
 
 			// have renderer step through audio, then special call to update the single WaveformData storage object
 			if( renderingAudio == true ) {
-				movieRenderer.analyzeAudio();
+				videoRenderer.analyzeAudio();
 			}
 
-			if( _midiRenderer != null ) {
+			if( midiRenderer != null ) {
 				boolean doneCheckingForMidi = false;
 				while( doneCheckingForMidi == false ) {
-					int rendererNote = _midiRenderer.checkForCurrentFrameNoteEvents();
+					int rendererNote = midiRenderer.checkForCurrentFrameNoteEvents();
 					if( rendererNote != -1 ) {
 						midiState.noteOn( 0, rendererNote, 100 );
 					} else {
@@ -514,9 +514,9 @@ extends PApplet {
 				}
 			}
 		}
-		if(_gifRenderer != null && appConfig.getBoolean(AppSettings.RENDERING_GIF, false) == true) {
+		if(gifRenderer != null && appConfig.getBoolean(AppSettings.RENDERING_GIF, false) == true) {
 			if(appConfig.getInt(AppSettings.RENDERING_GIF_START_FRAME, 1) == p.frameCount) {
-				_gifRenderer.startGifRender(this);
+				gifRenderer.startGifRender(this);
 			}
 		}
 		if(imageSequenceRenderer != null && appConfig.getBoolean(AppSettings.RENDERING_IMAGE_SEQUENCE, false) == true) {
@@ -528,25 +528,25 @@ extends PApplet {
 	
 	protected void renderFrame() {
 		// gives the app 1 frame to shutdown after the movie rendering stops
-		if( _isRendering == true ) {
+		if( isRendering == true ) {
 			if(p.frameCount >= appConfig.getInt(AppSettings.RENDERING_MOVIE_START_FRAME, 1)) {
-				movieRenderer.renderFrame();
+				videoRenderer.renderFrame();
 			}
 			// check for movie rendering stop frame
 			if(p.frameCount == appConfig.getInt(AppSettings.RENDERING_MOVIE_STOP_FRAME, 5000)) {
-				movieRenderer.stop();
+				videoRenderer.stop();
 				P.println("shutting down renderer");
 			}
 		}
 		// check for gif rendering stop frame
-		if(_gifRenderer != null && appConfig.getBoolean(AppSettings.RENDERING_GIF, false) == true) {
+		if(gifRenderer != null && appConfig.getBoolean(AppSettings.RENDERING_GIF, false) == true) {
 			if(appConfig.getInt(AppSettings.RENDERING_GIF_START_FRAME, 1) == p.frameCount) {
-				_gifRenderer.startGifRender(this);
+				gifRenderer.startGifRender(this);
 			}
 			DrawUtil.setColorForPImage(p);
-			_gifRenderer.renderGifFrame(p.g);
+			gifRenderer.renderGifFrame(p.g);
 			if(appConfig.getInt(AppSettings.RENDERING_GIF_STOP_FRAME, 100) == p.frameCount) {
-				_gifRenderer.finish();
+				gifRenderer.finish();
 			}
 		}
 		// check for image sequence stop frame

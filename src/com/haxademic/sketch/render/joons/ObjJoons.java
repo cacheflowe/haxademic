@@ -49,9 +49,9 @@ extends PAppletHax {
 		// drawMan();
 				
 		// render movie -------------------------------
-		if( _isRendering == true && movieRenderer != null ) {
+		if( isRendering == true && videoRenderer != null ) {
 			if(p.frameCount > _frames+1) {
-				movieRenderer.stop();
+				videoRenderer.stop();
 				exit();
 			}
 		}

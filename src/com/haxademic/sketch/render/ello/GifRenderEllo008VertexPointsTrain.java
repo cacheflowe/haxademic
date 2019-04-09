@@ -109,8 +109,8 @@ extends PAppletHax {
 		}
 		if( p.frameCount == _frames * 20 ) {
 			if(p.appConfig.getBoolean("rendering_gif", false) ==  true) encoder.finish();
-			if(_isRendering == true) {				
-				movieRenderer.stop();
+			if(isRendering == true) {				
+				videoRenderer.stop();
 				P.println("render done!");
 			}
 		}
