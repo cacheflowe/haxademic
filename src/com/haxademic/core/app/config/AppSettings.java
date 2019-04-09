@@ -34,7 +34,6 @@ public class AppSettings {
 	public static final String RENDERING_IMAGE_SEQUENCE_STOP_FRAME = "rendering_image_sequence_stopframe";
 	public static final String RENDER_AUDIO_SIMULATION = "render_audio_simulation";
 	public static final String RENDER_AUDIO_FILE = "render_audio_file";
-	public static final String RENDER_MIDI = "render_midi";
 	public static final String RENDER_MIDI_FILE = "render_midi_file";
 	public static final String RENDER_MIDI_BPM = "render_midi_bpm";
 	public static final String RENDER_MIDI_OFFSET = "render_midi_offset";

@@ -103,7 +103,6 @@ extends PAppletHax {
 //		p.appConfig.setProperty( AppSettings.HEIGHT, "135" );
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "true" );
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, (int) _songLengthFrames );
-		p.appConfig.setProperty( AppSettings.RENDER_MIDI, "true" );
 		p.appConfig.setProperty( AppSettings.RENDER_MIDI_FILE, FileUtil.getHaxademicDataPath() + "midi/patter-kick-snare-bass-synth-timing-more-snares.mid" );
 		p.appConfig.setProperty( AppSettings.RENDER_MIDI_BPM, "132" );
 		p.appConfig.setProperty( AppSettings.RENDER_MIDI_OFFSET, "0" );

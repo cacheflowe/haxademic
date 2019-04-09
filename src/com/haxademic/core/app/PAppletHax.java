@@ -94,7 +94,7 @@ extends PApplet {
 	public GifRenderer _gifRenderer;
 	public ImageSequenceRenderer imageSequenceRenderer;
 	protected Boolean _isRendering = true;
-	protected Boolean renderingAudio = true;
+	protected Boolean renderingAudio = false;
 	protected Boolean _isRenderingMidi = true;
 	public JoonsWrapper joons;
 	public AnimationLoop loop = null;
@@ -235,7 +235,7 @@ extends PApplet {
 		_isRendering = p.appConfig.getBoolean(AppSettings.RENDERING_MOVIE, false);
 		if( _isRendering == true ) DebugUtil.printErr("When rendering, make sure to call super.keyPressed(); for esc key shutdown");
 		renderingAudio = p.appConfig.getString(AppSettings.RENDER_AUDIO_FILE, "").length() > 0;
-		_isRenderingMidi = p.appConfig.getBoolean(AppSettings.RENDER_MIDI, false);
+		_isRenderingMidi = p.appConfig.getString(AppSettings.RENDER_MIDI_FILE, "").length() > 0;
 		_fps = p.appConfig.getInt(AppSettings.FPS, 60);
 		if(p.appConfig.getInt(AppSettings.FPS, 60) != 60) frameRate(_fps);
 	}
