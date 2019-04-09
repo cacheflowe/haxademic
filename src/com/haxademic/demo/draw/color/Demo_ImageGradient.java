@@ -1,4 +1,4 @@
-package com.haxademic.demo.draw.image;
+package com.haxademic.demo.draw.color;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
