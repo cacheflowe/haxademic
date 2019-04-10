@@ -90,9 +90,9 @@ extends PApplet {
 
 	// rendering
 	public VideoRenderer videoRenderer;
+	public ImageSequenceRenderer imageSequenceRenderer;
 	public MIDISequenceRenderer midiRenderer;
 	public GifRenderer gifRenderer;
-	public ImageSequenceRenderer imageSequenceRenderer;
 	protected Boolean isRendering = true;
 	protected Boolean renderingAudio = false;
 	protected Boolean renderingMidi = true;
