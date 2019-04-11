@@ -12,26 +12,26 @@ import unlekker.moviemaker.UMovieMaker;
 
 public class VideoRenderer {
 	
-	protected UMovieMaker _mm;
+	protected UMovieMaker movieMaker;
 	protected AudioInputESS audioInput;
 	protected AudioChannel audioPlayer;
 	protected int curFrame = 0;
 	protected int audioPos = 0;
 	protected float audioCurSeconds;
-	protected String _timestamp;
-	protected String _outputDir;
+	protected String timestampStart;
+	protected String outputDir;
 	protected Boolean isRendering = false;
 	protected Boolean audioSimulation = false;
 	protected float fps;
-	public int _outputType;
+	public int outputType;
 	public static final int OUTPUT_TYPE_IMAGE = 0;
 	public static final int OUTPUT_TYPE_MOVIE = 1;
 	public int timeStarted;
 
 	public VideoRenderer(int framesPerSecond, int outputType, String outputDir ) {
 		fps = framesPerSecond;
-		_outputType = outputType;
-		_outputDir = outputDir;
+		this.outputType = outputType;
+		this.outputDir = outputDir;
 		audioSimulation = P.p.appConfig.getBoolean( AppSettings.RENDER_AUDIO_SIMULATION, false );
 	}
 	
@@ -43,13 +43,13 @@ public class VideoRenderer {
 		if(audioSimulation) return;
 		
 		// create timestamp for file output
-		_timestamp = SystemUtil.getTimestamp( P.p );
+		timestampStart = SystemUtil.getTimestamp( P.p );
 
 		// initialize movie renderer
-		if( _outputType == OUTPUT_TYPE_MOVIE ) {
-			if( FileUtil.fileOrPathExists(_outputDir) == false ) FileUtil.createDir(_outputDir);
-			_mm = new UMovieMaker( P.p, _outputDir+"render-"+_timestamp+".mov", P.p.width, P.p.height, (int)fps );
-			P.println("new UMovieMaker created :: "+_timestamp);
+		if( outputType == OUTPUT_TYPE_MOVIE ) {
+			if( FileUtil.fileOrPathExists(outputDir) == false ) FileUtil.createDir(outputDir);
+			movieMaker = new UMovieMaker( P.p, outputDir+"render-"+timestampStart+".mov", P.p.width, P.p.height, (int)fps );
+			P.println("new UMovieMaker created :: "+timestampStart);
 		}
 		
 		// set rendering flag
@@ -90,13 +90,13 @@ public class VideoRenderer {
 		// don't do anything if renderer hasn't been inited, or has been stopped
 		if( isRendering == true ) {			
 			// if movie, add frame to MovieMaker file
-			if ( _outputType == OUTPUT_TYPE_MOVIE ) {
+			if ( outputType == OUTPUT_TYPE_MOVIE ) {
 				P.p.loadPixels();
-				_mm.addFrame();
+				movieMaker.addFrame();
 				
 			// otherwise, save an image
 			} else {
-				P.p.saveFrame( "output/"+_timestamp+"/img_" + P.nf( curFrame, 8 ) + ".jpg" );
+				P.p.saveFrame( "output/"+timestampStart+"/img_" + P.nf( curFrame, 8 ) + ".jpg" );
 			}
 			
 			// keep track of rendered frame count
@@ -131,7 +131,7 @@ public class VideoRenderer {
 				// if still running & in-bounds, grab next data within the ESS wrapper
 				audioInput.updateForRender(audioPlayer, audioPos);
 			} else {
-				if(_outputType == OUTPUT_TYPE_MOVIE) _mm.finish();
+				if(outputType == OUTPUT_TYPE_MOVIE) movieMaker.finish();
 				stop();  
 				P.p.exit();
 				return;
@@ -175,7 +175,7 @@ public class VideoRenderer {
 	}
 
 	public void stop() {
-		if( _outputType == OUTPUT_TYPE_MOVIE && audioSimulation == false ) _mm.finish();
+		if( outputType == OUTPUT_TYPE_MOVIE && audioSimulation == false ) movieMaker.finish();
 		isRendering = false;
 	}
 	
