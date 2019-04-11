@@ -196,7 +196,7 @@ Below you'll find a long list of classes and utilities that I've built to make m
 
 Haxademic uses the following Java & Processing libraries, which I've included in this repository so you don't have to find them yourself (more on that below):
 
-* [Processing Core](http://processing.org/) (view the [Processing for Eclipse instructions](http://processing.org/learning/eclipse/))
+* [Processing Core](http://processing.org/) (view the [Processing for Eclipse instructions](https://processing.org/tutorials/eclipse/))
 * [Beads](http://www.beadsproject.net/)
 * [blobDetection](http://www.v3ga.net/processing/BlobDetection/)
 * [ControlP5](http://www.sojamo.de/libraries/controlP5/)
@@ -207,6 +207,7 @@ Haxademic uses the following Java & Processing libraries, which I've included in
 * [Java-WebSocket](https://github.com/TooTallNate/Java-WebSocket)
 * [Java Image Filters](http://www.jhlabs.com/ip/filters/index.html)
 * [jetty](https://www.eclipse.org/jetty/)
+* [JInput](https://github.com/jinput/jinput)
 * [Joons renderer](https://github.com/joonhyublee/joons-renderer/wiki)
 * [KinectPV2](https://github.com/ThomasLengeling/KinectPV2)
 * [Leap Motion for Processing](https://github.com/voidplus/leap-motion-processing/)
