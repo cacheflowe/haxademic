@@ -11,7 +11,9 @@ import com.haxademic.core.draw.filters.pshader.BrightnessStepFilter;
 import com.haxademic.core.draw.filters.pshader.GrainFilter;
 import com.haxademic.core.draw.filters.pshader.VignetteFilter;
 import com.haxademic.core.draw.image.ImageUtil;
+import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.MathUtil;
+import com.haxademic.core.system.SystemUtil;
 
 import processing.core.PVector;
 
@@ -54,6 +56,7 @@ extends PAppletHax {
 	protected ImageGradient imageGradient;
 	
 	protected int endFrame = -1;
+	protected boolean renderImages = false;
 	
 	protected void overridePropsFile() {
 		p.appConfig.setProperty( AppSettings.WIDTH, 1080 );
@@ -160,6 +163,7 @@ extends PAppletHax {
 			endFrame = p.frameCount;
 		}
 		if(endFrame != -1 && p.frameCount > endFrame + 60) {
+			if(renderImages) saveFrame(FileUtil.getHaxademicOutputPath() + "branchers" + FileUtil.SEPARATOR + SystemUtil.getTimestampFine(p) + ".png");
 			reset();
 			endFrame = -1;
 		}
