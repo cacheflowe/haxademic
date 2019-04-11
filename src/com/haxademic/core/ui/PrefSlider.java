@@ -56,6 +56,10 @@ public class PrefSlider {
 		return value;
 	}
 	
+	public void set(float val) {
+		value = val;
+	}
+	
 	public void update(PGraphics pg) {
 		DrawUtil.setDrawCorner(pg);
 		// background

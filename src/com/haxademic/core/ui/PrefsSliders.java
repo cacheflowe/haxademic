@@ -3,6 +3,7 @@ package com.haxademic.core.ui;
 import java.util.HashMap;
 
 import com.haxademic.core.app.P;
+import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.file.DemoAssets;
 
 import processing.core.PFont;
@@ -45,6 +46,10 @@ public class PrefsSliders {
 		prefSliders.remove(key);
 	}
 	
+	public void setValue(String key, float val) {
+		prefSliders.get(key).set(val);
+	}
+	
 	public float value(String key) {
 		return prefSliders.get(key).value();
 	}
@@ -56,9 +61,11 @@ public class PrefsSliders {
 	public void update() {
 		if(!active) return;
 		P.p.textFont(debugFont);
+		DrawUtil.setDrawFlat2d(P.p.g, true);
 		for (PrefSlider prefSlider : prefSliders.values()) {
 			prefSlider.update(P.p.g);
 		}
+		DrawUtil.setDrawFlat2d(P.p.g, false);
 	}
 
 	public void active(boolean val) {

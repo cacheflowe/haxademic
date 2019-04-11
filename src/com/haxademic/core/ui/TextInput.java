@@ -1,51 +1,49 @@
-//package com.haxademic.core.ui;
-//
-//import java.awt.Rectangle;
-//
-//import com.haxademic.core.draw.context.DrawUtil;
-//import com.haxademic.core.draw.text.CustomFontText2D;
-//
-//import processing.core.PApplet;
-//
-//public class TextInput
-//implements IMouseable {
-//	 
-//	protected String _id;
-//	protected Rectangle _rect;
-//	protected Boolean _over;
-//	protected Boolean _pressed;
-//	
-//	protected String _text;
-////	protected CustomFontText2D _fontRenderer;
-//	protected float _fontSize;
-//	protected Boolean _focused;
-//	protected float _cursorX;
-//	protected float _cursorPadding;
-//	protected float _textY;
-//	protected float _caretY;
-//	protected int _padX;
-//	protected int _textColor;
-//	protected int _textWidth;
-//
-//	public TextInput( PApplet p, String id, int fontSize, String fontFile, int textColor, int padX, int align, int x, int y, int w, int h ) {
-//		_id = id;
-//		_textColor = textColor;
-//		_fontSize = fontSize;
-//		_padX = padX;
-//		_cursorPadding = Math.round( _fontSize / 6f ); 
-//		_rect = new Rectangle( x, y, w, h );
-//		_textY = _rect.y + _rect.height * 0.5f - _fontSize * 0.4f;
-//		_caretY = _rect.y + _rect.height * 0.5f - _fontSize * 0.5f;
-//		_over = false;
-//		_pressed = false;
-//		_focused = false;
+package com.haxademic.core.ui;
+
+import java.awt.Rectangle;
+
+import processing.core.PApplet;
+
+public class TextInput
+//implements IMouseable 
+{
+	 
+	protected String _id;
+	protected Rectangle _rect;
+	protected Boolean _over;
+	protected Boolean _pressed;
+	
+	protected String _text;
+//	protected CustomFontText2D _fontRenderer;
+	protected float _fontSize;
+	protected Boolean _focused;
+	protected float _cursorX;
+	protected float _cursorPadding;
+	protected float _textY;
+	protected float _caretY;
+	protected int _padX;
+	protected int _textColor;
+	protected int _textWidth;
+
+	public TextInput( PApplet p, String id, int fontSize, String fontFile, int textColor, int padX, int align, int x, int y, int w, int h ) {
+		_id = id;
+		_textColor = textColor;
+		_fontSize = fontSize;
+		_padX = padX;
+		_cursorPadding = Math.round( _fontSize / 6f ); 
+		_rect = new Rectangle( x, y, w, h );
+		_textY = _rect.y + _rect.height * 0.5f - _fontSize * 0.4f;
+		_caretY = _rect.y + _rect.height * 0.5f - _fontSize * 0.5f;
+		_over = false;
+		_pressed = false;
+		_focused = false;
 //		_cursorX = ( align == CustomFontText2D.ALIGN_LEFT ) ? _padX : _rect.width/2;
 //		_textWidth = _rect.width - ( _padX * 2 );
 //		_fontRenderer = new CustomFontText2D( p, fontFile, _fontSize, _textColor, align, _textWidth, (int)_fontSize + 10 );
 //		_text = "";
 //		_fontRenderer.updateText( _text );
-//	}
-//	
+	}
+	
 //	public String id() {
 //		return _id;
 //	}
@@ -142,4 +140,4 @@
 //			}
 //		}
 //	}
-//}
+}

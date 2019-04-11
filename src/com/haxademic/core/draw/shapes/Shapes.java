@@ -641,7 +641,13 @@ public class Shapes {
 	}
 	
 	public static void drawDashedCube(PGraphics pg, float cubeSize, float dashLength, boolean dashRounds) {
-		float halfSize = cubeSize / 2f;
+		drawDashedBox(pg, cubeSize, cubeSize, cubeSize, dashLength, dashRounds);
+	}
+	
+	public static void drawDashedBox(PGraphics pg, float w, float h, float d, float dashLength, boolean dashRounds) {
+		float halfW = w / 2f;
+		float halfH = h / 2f;
+		float halfD = d / 2f;
 
 		// set stroke params
 		pg.noFill();
@@ -650,24 +656,24 @@ public class Shapes {
 		pg.strokeCap(P.ROUND);	// SQUARE, PROJECT, or ROUND
 
 		// front face: top, right, bottom, left
-		float frontFaceZ = halfSize;
-		drawDashedLine(pg, -halfSize, -halfSize, frontFaceZ, halfSize, -halfSize, frontFaceZ, dashLength, dashRounds);
-		drawDashedLine(pg, halfSize, -halfSize, frontFaceZ, halfSize, halfSize, frontFaceZ, dashLength, dashRounds);
-		drawDashedLine(pg, halfSize, halfSize, frontFaceZ, -halfSize, halfSize, frontFaceZ, dashLength, dashRounds);
-		drawDashedLine(pg, -halfSize, halfSize, frontFaceZ, -halfSize, -halfSize, frontFaceZ, dashLength, dashRounds);
+		float frontFaceZ = halfD;
+		drawDashedLine(pg, -halfW, -halfH, frontFaceZ, halfW, -halfH, frontFaceZ, dashLength, dashRounds);
+		drawDashedLine(pg, halfW, -halfH, frontFaceZ, halfW, halfH, frontFaceZ, dashLength, dashRounds);
+		drawDashedLine(pg, halfW, halfH, frontFaceZ, -halfW, halfH, frontFaceZ, dashLength, dashRounds);
+		drawDashedLine(pg, -halfW, halfH, frontFaceZ, -halfW, -halfH, frontFaceZ, dashLength, dashRounds);
 		
 		// back face: top, right, bottom, left
-		float backFaceZ = -halfSize;
-		drawDashedLine(pg, -halfSize, -halfSize, backFaceZ, halfSize, -halfSize, backFaceZ, dashLength, dashRounds);
-		drawDashedLine(pg, halfSize, -halfSize, backFaceZ, halfSize, halfSize, backFaceZ, dashLength, dashRounds);
-		drawDashedLine(pg, halfSize, halfSize, backFaceZ, -halfSize, halfSize, backFaceZ, dashLength, dashRounds);
-		drawDashedLine(pg, -halfSize, halfSize, backFaceZ, -halfSize, -halfSize, backFaceZ, dashLength, dashRounds);
+		float backFaceZ = -halfD;
+		drawDashedLine(pg, -halfW, -halfH, backFaceZ, halfW, -halfH, backFaceZ, dashLength, dashRounds);
+		drawDashedLine(pg, halfW, -halfH, backFaceZ, halfW, halfH, backFaceZ, dashLength, dashRounds);
+		drawDashedLine(pg, halfW, halfH, backFaceZ, -halfW, halfH, backFaceZ, dashLength, dashRounds);
+		drawDashedLine(pg, -halfW, halfH, backFaceZ, -halfW, -halfH, backFaceZ, dashLength, dashRounds);
 		
 		// connect front & back faces, start at top left, clockwise, front to back
-		drawDashedLine(pg, -halfSize, -halfSize, frontFaceZ, -halfSize, -halfSize, backFaceZ, dashLength, dashRounds);
-		drawDashedLine(pg, halfSize, -halfSize, frontFaceZ, halfSize, -halfSize, backFaceZ, dashLength, dashRounds);
-		drawDashedLine(pg, halfSize, halfSize, frontFaceZ, halfSize, halfSize, backFaceZ, dashLength, dashRounds);
-		drawDashedLine(pg, -halfSize, halfSize, frontFaceZ, -halfSize, halfSize, backFaceZ, dashLength, dashRounds);
+		drawDashedLine(pg, -halfW, -halfH, frontFaceZ, -halfW, -halfH, backFaceZ, dashLength, dashRounds);
+		drawDashedLine(pg, halfW, -halfH, frontFaceZ, halfW, -halfH, backFaceZ, dashLength, dashRounds);
+		drawDashedLine(pg, halfW, halfH, frontFaceZ, halfW, halfH, backFaceZ, dashLength, dashRounds);
+		drawDashedLine(pg, -halfW, halfH, frontFaceZ, -halfW, halfH, backFaceZ, dashLength, dashRounds);
 	}
 		
 	public static void drawDashedLine(PGraphics pg, float x1, float y1, float z1, float x2, float y2, float z2, float dashLength) {
