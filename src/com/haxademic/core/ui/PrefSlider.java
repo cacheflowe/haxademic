@@ -64,8 +64,7 @@ public class PrefSlider {
 		pg.rect(x, y, w, h);
 		// text label
 		pg.fill(255);
-		pg.textSize(12);
-		pg.text(key + ": " + value, x + 4, y + 3, w, 20);
+		pg.text(key + ": " + value, x + 4, y + 0, w, 20);
 		uiRect.setBounds(x, y, w, h);
 		// outline
 		pg.strokeWeight(1);

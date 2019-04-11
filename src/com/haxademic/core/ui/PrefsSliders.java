@@ -3,6 +3,7 @@ package com.haxademic.core.ui;
 import java.util.HashMap;
 
 import com.haxademic.core.app.P;
+import com.haxademic.core.file.DemoAssets;
 
 import processing.core.PFont;
 import processing.data.JSONObject;
@@ -14,15 +15,15 @@ public class PrefsSliders {
 	protected int sliderX = 10;
 	protected int sliderY = 10;
 	protected int sliderW = 300;
-	protected int sliderH = 20;
-	protected int sliderSpacing = 24;
+	protected int sliderH = 14;
+	protected int sliderSpacing = 18;
 	
 	protected PFont debugFont;
 	protected boolean active = false;
 
 	public PrefsSliders() {
 		prefSliders = new HashMap<String, PrefSlider>();
-		debugFont = P.p.createFont("Arial", 12);
+		debugFont = DemoAssets.fontOpenSans(10); // P.p.createFont("Arial", 10);
 	}
 	
 	public void addSlider(String key, float value, float valueLow, float valueHigh, float dragStep) {
@@ -32,6 +33,12 @@ public class PrefsSliders {
 	public void addSlider(String key, float value, float valueLow, float valueHigh, float dragStep, boolean saves) {
 		prefSliders.put(key, new PrefSlider(key, value, valueLow, valueHigh, dragStep, sliderX, sliderY, sliderW, sliderH, saves));
 		sliderY += sliderSpacing;
+	}
+	
+	public void addSliderVector(String key, float value, float valueLow, float valueHigh, float dragStep, boolean saves) {
+		addSlider(key + "_X", value, valueLow, valueHigh, dragStep, saves);
+		addSlider(key + "_Y", value, valueLow, valueHigh, dragStep, saves);
+		addSlider(key + "_Z", value, valueLow, valueHigh, dragStep, saves);
 	}
 	
 	public void removeSlider(String key) {
