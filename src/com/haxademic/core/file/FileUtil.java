@@ -36,6 +36,7 @@ public class FileUtil {
 	public static String WWW_PATH = null;
 
 	public static final String NEWLINE = "\r\n";	// works on windows, where "\n" doesn't
+	public static final String SEPARATOR = File.separator;
 	
 	// HAXADEMIC PATHS
 	
