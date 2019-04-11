@@ -10,10 +10,8 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.context.OpenGLUtil;
-import com.haxademic.core.draw.text.CustomFontText2D;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.ui.IMouseable;
-import com.haxademic.core.ui.TextButton;
 import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
 import com.lowagie.text.Image;
@@ -30,7 +28,7 @@ extends PAppletHax {
 	protected String _lines[];
 	protected String _words[];
 	protected String _result;
-	protected CustomFontText2D _fontRenderer;
+//	protected CustomFontText2D _fontRenderer;
 	protected int _fontSize = 100;
 	protected int _wordIndex = 0;
 	protected ArrayList<IMouseable> _mouseables;
@@ -100,25 +98,25 @@ extends PAppletHax {
 
 		_lines = loadStrings(file);
 
-		_fontRenderer = new CustomFontText2D( this, FileUtil.getHaxademicDataPath() + "haxademic/fonts/Raleway-Regular.ttf", _fontSize, color(255,255,255), CustomFontText2D.ALIGN_CENTER, width, _fontSize + 20 );
+//		_fontRenderer = new CustomFontText2D( this, FileUtil.getHaxademicDataPath() + "haxademic/fonts/Raleway-Regular.ttf", _fontSize, color(255,255,255), CustomFontText2D.ALIGN_CENTER, width, _fontSize + 20 );
 		p.smooth( OpenGLUtil.SMOOTH_HIGH );
 
 		_mouseables = new ArrayList<IMouseable>();
 		if( _is212 == true ) {
-			_mouseables.add( new TextButton( p, "bitch", "1", 40, 420, 200, 50 ) );
-			_mouseables.add( new TextButton( p, "cunt", "2", 40, 520, 200, 50 ) );
-			_mouseables.add( new TextButton( p, "I / Me / Mine", "1", 300, 420, 200, 50 ) );
-			_mouseables.add( new TextButton( p, "double syllable", "2", 300, 520, 200, 50 ) );
-			_mouseables.add( new TextButton( p, "any word", "1", 560, 420, 200, 50 ) );
-			_mouseables.add( new TextButton( p, "line end", "2", 560, 520, 200, 50 ) );
-		} else {
-			_mouseables.add( new TextButton( p, "bitch", "1", 40, 420, 200, 50 ) );
-			_mouseables.add( new TextButton( p, "bitches", "1", 40, 320, 200, 50 ) );
-			_mouseables.add( new TextButton( p, "tit", "2", 40, 520, 200, 50 ) );
-			_mouseables.add( new TextButton( p, "I / Me / Mine", "1", 300, 420, 200, 50 ) );
-			_mouseables.add( new TextButton( p, "titties", "2", 300, 520, 200, 50 ) );
-			_mouseables.add( new TextButton( p, "any word", "1", 560, 420, 200, 50 ) );
-			_mouseables.add( new TextButton( p, "line end", "2", 560, 520, 200, 50 ) );
+//			_mouseables.add( new TextButton( p, "bitch", "1", 40, 420, 200, 50 ) );
+//			_mouseables.add( new TextButton( p, "cunt", "2", 40, 520, 200, 50 ) );
+//			_mouseables.add( new TextButton( p, "I / Me / Mine", "1", 300, 420, 200, 50 ) );
+//			_mouseables.add( new TextButton( p, "double syllable", "2", 300, 520, 200, 50 ) );
+//			_mouseables.add( new TextButton( p, "any word", "1", 560, 420, 200, 50 ) );
+//			_mouseables.add( new TextButton( p, "line end", "2", 560, 520, 200, 50 ) );
+//		} else {
+//			_mouseables.add( new TextButton( p, "bitch", "1", 40, 420, 200, 50 ) );
+//			_mouseables.add( new TextButton( p, "bitches", "1", 40, 320, 200, 50 ) );
+//			_mouseables.add( new TextButton( p, "tit", "2", 40, 520, 200, 50 ) );
+//			_mouseables.add( new TextButton( p, "I / Me / Mine", "1", 300, 420, 200, 50 ) );
+//			_mouseables.add( new TextButton( p, "titties", "2", 300, 520, 200, 50 ) );
+//			_mouseables.add( new TextButton( p, "any word", "1", 560, 420, 200, 50 ) );
+//			_mouseables.add( new TextButton( p, "line end", "2", 560, 520, 200, 50 ) );
 		}
 
 		_result = "";
@@ -175,8 +173,8 @@ extends PAppletHax {
 
 		// draw text to screen
 		if( _wordIndex < _words.length ) {
-			_fontRenderer.updateText( _words[ _wordIndex ] );
-			p.image( _fontRenderer.getTextPImage(), 0, height/3f );	// height/2f - _fontSize/2f
+//			_fontRenderer.updateText( _words[ _wordIndex ] );
+//			p.image( _fontRenderer.getTextPImage(), 0, height/3f );	// height/2f - _fontSize/2f
 
 
 			// test step through automatically

@@ -8,7 +8,6 @@ import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.image.ImageUtil;
-import com.haxademic.core.draw.text.CustomFontText2D;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.kinect.KinectRegionGrid;
 import com.haxademic.core.hardware.kinect.KinectSilhouetteVectorField;
@@ -33,7 +32,7 @@ extends PAppletHax {
 	protected ArrayList<PImage> _galleryImages;
 	protected ArrayList<String> _galleryArtists;
 	protected int _galleryIndex;
-	protected CustomFontText2D _galleryLabel;
+//	protected CustomFontText2D _galleryLabel;
 	protected int _labelWidth;
 		
 	protected float SCALE_DOWN = 0.65f;
@@ -95,10 +94,10 @@ extends PAppletHax {
 
 	protected void drawArtistText() {
 		DrawUtil.resetPImageAlpha(p);
-		PImage img = _galleryLabel.getTextPImage();
-		p.fill(0);
-		p.rect(p.width - 20 - _labelWidth, p.height - 20 - img.height, _labelWidth, img.height);
-		p.image(img, p.width - 39 - img.width, p.height - 19 - img.height);
+//		PImage img = _galleryLabel.getTextPImage();
+//		p.fill(0);
+//		p.rect(p.width - 20 - _labelWidth, p.height - 20 - img.height, _labelWidth, img.height);
+//		p.image(img, p.width - 39 - img.width, p.height - 19 - img.height);
 	}
 	
 	protected void newImageForNewPlayers() {
@@ -110,15 +109,15 @@ extends PAppletHax {
 				// next image
 				_galleryIndex++;
 				if(_galleryIndex > _galleryImages.size()-1) _galleryIndex = 0;
-				_galleryLabel.updateText("ello.co/"+_galleryArtists.get(_galleryIndex));
-				_labelWidth = _galleryLabel.getTextPImage().width + 40 - _galleryLabel.getLeftmostPixel();
+//				_galleryLabel.updateText("ello.co/"+_galleryArtists.get(_galleryIndex));
+//				_labelWidth = _galleryLabel.getTextPImage().width + 40 - _galleryLabel.getLeftmostPixel();
 			}
 		}
 	}
 	
 	// Video player ================ 
 	protected void buildText() {
-		_galleryLabel = new CustomFontText2D( this, FileUtil.getFile("fonts/AtlasTypewriter-Regular-Web.ttf"), 18, p.color(255), CustomFontText2D.ALIGN_RIGHT, 500, 46 );
+//		_galleryLabel = new CustomFontText2D( this, FileUtil.getFile("fonts/AtlasTypewriter-Regular-Web.ttf"), 18, p.color(255), CustomFontText2D.ALIGN_RIGHT, 500, 46 );
 	}
 	
 	protected void buildCanvas() {

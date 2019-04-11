@@ -9,7 +9,7 @@ import processing.core.PFont;
 import processing.core.PGraphics;
 import processing.core.PImage;
 
-public class CustomFontText2D {
+public class CustomFontText2D_DEPRECATE {
 	
 	public static final int ALIGN_LEFT = P.LEFT;
 	public static final int ALIGN_CENTER = P.CENTER;
@@ -23,7 +23,7 @@ public class CustomFontText2D {
 	protected int _textAlign;
 	protected int _textLeading = 0;
 
-	public CustomFontText2D( PApplet p, String fontFile, float fontSize, int color, int align, int canvasW, int canvasH ) {
+	public CustomFontText2D_DEPRECATE( PApplet p, String fontFile, float fontSize, int color, int align, int canvasW, int canvasH ) {
 		_fontSize = fontSize;
 		_textLeading = (int) fontSize;
 		_textColor = color;
