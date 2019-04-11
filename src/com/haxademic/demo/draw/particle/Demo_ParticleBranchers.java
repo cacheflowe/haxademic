@@ -13,6 +13,7 @@ import com.haxademic.core.draw.filters.pshader.VignetteFilter;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.MathUtil;
+import com.haxademic.core.system.AppRestart;
 import com.haxademic.core.system.SystemUtil;
 
 import processing.core.PVector;
@@ -57,11 +58,13 @@ extends PAppletHax {
 	
 	protected int endFrame = -1;
 	protected boolean renderImages = false;
+	protected boolean renderSingleMovie = false;
 	
 	protected void overridePropsFile() {
 		p.appConfig.setProperty( AppSettings.WIDTH, 1080 );
 		p.appConfig.setProperty( AppSettings.HEIGHT, 1080 );
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, false );
+		if(renderSingleMovie) p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, true );
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_START_FRAME, 1 );
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, 1 + 60 * 60 );
 	}
@@ -75,13 +78,15 @@ extends PAppletHax {
 		// build particles arrays for recycling / object pool
 		particles = new ArrayList<BranchingParticle>();
 		deadParticles = new ArrayList<BranchingParticle>();
-		reset();
 		
 		// start with a clear canvas
 		bgColor = p.color(0);
 		pg.beginDraw();
 		pg.background(bgColor);
 		pg.endDraw();
+
+		// new props to start
+		reset();
 	}
 	
 	protected void reset() {
@@ -95,6 +100,9 @@ extends PAppletHax {
 		turnMode = turnModes[MathUtil.randRange(0, turnModes.length - 1)];
 		colorMode = colorModes[MathUtil.randRange(0, colorModes.length - 1)];
 		curveAmp = MathUtil.randRangeDecimal(0.001f, 0.03f);
+		
+		// override for rendering
+		colorMode = COLOR_MODE_ALL_COLORS;
 		
 		// new color palette
 		imageGradient.randomGradientTexture();
@@ -163,9 +171,14 @@ extends PAppletHax {
 			endFrame = p.frameCount;
 		}
 		if(endFrame != -1 && p.frameCount > endFrame + 60) {
-			if(renderImages) saveFrame(FileUtil.getHaxademicOutputPath() + "branchers" + FileUtil.SEPARATOR + SystemUtil.getTimestampFine(p) + ".png");
-			reset();
-			endFrame = -1;
+			if(renderSingleMovie) {
+				p.videoRenderer.stop();
+				AppRestart.restart(p);
+			} else {
+				if(renderImages) saveFrame(FileUtil.getHaxademicOutputPath() + "branchers" + FileUtil.SEPARATOR + SystemUtil.getTimestampFine(p) + ".png");
+				reset();
+				endFrame = -1;
+			}
 		}
 	}
 	
