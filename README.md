@@ -289,9 +289,9 @@ Below you'll find a long list of classes and utilities that I've built to make m
 
 ### System
 
-* __[RandomStringUtil](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/system/AppRestart.java)__ - Kills & restarts the app!
+* __[AppRestart](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/system/AppRestart.java)__ - Kills & restarts the app!
 
-* __[RandomStringUtil](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/system/AppUtil.java)__ - Set app window properties and generate the script that was used to launch the app.
+* __[AppUtil](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/system/AppUtil.java)__ - Set app window properties and generate the script that was used to launch the app.
 
 * __[CrashMonitor](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/system/CrashMonitor.java)__ - Launches a 2nd app window to monitor the first, in case of a crash.
 
