@@ -13,7 +13,10 @@
   * Moire sphere/shader for MW prototying
   * Voice-activated color room: What Say Hue?
   * Interphase
+  	* Merge into Haxademic
+  	* add audio analysis to Beads AudioContext??
   	* Integrate HaxVisualTwo
+  	* build a touchscreen 8x16 interface
   	* Integrate Launchpad/iPad direct interface
     * Make interphase more bangy & think about converting to be more spatial w/lighting
   * Grass cutout - laser cut w/Seied
