@@ -36,6 +36,10 @@ public class ConvertUtil {
 		return b & 0xFF;	// returns an unsigned int
 	}
 	
+	public static String byteArrayToString( byte[] data ) {
+		return new String(data);
+	}
+
 }
 
 
