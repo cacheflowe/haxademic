@@ -186,12 +186,11 @@ public class JavaInfo {
 
     }
     
-	public static void debugInfo() {
+	public static void printAudioInfo() {
 		Mixer mixer = AudioSystem.getMixer(null); // default mixer
 		try {
 			mixer.open();
 		} catch (LineUnavailableException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -228,13 +227,10 @@ public class JavaInfo {
 		    }
 		    System.out.println();
 		}
-
 		mixer.close();
-
 	}
 
-    public static void main(String args []) throws Exception {
-
+    public static void printDebug() {
         out.println("****************************************");
         out.println("DATE INFO");
         printCurrentTime();
@@ -273,11 +269,19 @@ public class JavaInfo {
         out.println("");
         out.println("****************************************");
         out.println("NETWORK");
-        printNetworkInfo();
+        try {
+			printNetworkInfo();
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		}
         out.println("");
         out.println("****************************************");
         out.println("SECURITY");
-        printSecurityInfo();
+        try {
+			printSecurityInfo();
+		} catch (UnknownHostException e) {
+			e.printStackTrace();
+		}
         out.println("");
         out.println("");
         out.println("****************************************");

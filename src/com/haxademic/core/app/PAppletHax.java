@@ -312,7 +312,7 @@ extends PApplet {
 	}
 	
 	protected void initAudioInput() {
-		if(appConfig.getBoolean(AppSettings.AUDIO_DEBUG, false) == true) JavaInfo.debugInfo();
+		if(appConfig.getBoolean(AppSettings.AUDIO_DEBUG, false) == true) JavaInfo.printAudioInfo();
 		if( appConfig.getBoolean(AppSettings.INIT_MINIM_AUDIO, false) == true ) {
 			audioInput = new AudioInputMinim();
 		} else if( appConfig.getBoolean(AppSettings.INIT_BEADS_AUDIO, false) == true ) {
