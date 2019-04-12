@@ -15,8 +15,8 @@ import processing.core.PShape;
 public class TextToPShape {
 
 	protected HashMap<String, RFont> fontsCache;
-	protected HashMap<String, PShape> shapeCache2d;
-	protected HashMap<String, PShape> shapeCache3d;
+	protected HashMap<String, PShape> textShape2d;
+	protected HashMap<String, PShape> textShape3d;
 	
 	public static final float QUALITY_HIGH = 0.1f;
 	public static final float QUALITY_MEDIUM = 0.2f;
@@ -34,8 +34,8 @@ public class TextToPShape {
 	
 	protected void initCache() {
 		fontsCache = new HashMap<String, RFont>();
-		shapeCache2d = new HashMap<String, PShape>();	
-		shapeCache3d = new HashMap<String, PShape>();	
+		textShape2d = new HashMap<String, PShape>();	
+		textShape3d = new HashMap<String, PShape>();	
 	}
 	
 	protected void initGeomerative() {
@@ -46,7 +46,7 @@ public class TextToPShape {
 
 	public PShape stringToShape2d(String text, String fontFile) {
 		// if letter is in the cache, just send it back
-		if(shapeCache2d.get(text) != null) return shapeCache2d.get(text);
+		if(textShape2d.get(text) != null) return textShape2d.get(text);
 
 		// geomerative builds a mesh from text & cached font
 		if(fontsCache.get(fontFile) == null) fontsCache.put(fontFile, new RFont(fontFile, 100, RFont.CENTER)); // 
@@ -75,13 +75,13 @@ public class TextToPShape {
 		PShapeUtil.centerShape(newShape);
 		
 		// cache & return
-		shapeCache2d.put(text, newShape);
+		textShape2d.put(text, newShape);
 		return newShape;
 	}
 	
 	public PShape stringToShape3d(String text, float depth, String fontFile) {
 		// if letter is in the cache, just send it back
-		if(shapeCache3d.get(text) != null) return shapeCache3d.get(text);
+		if(textShape3d.get(text) != null) return textShape3d.get(text);
 
 		// geomerative builds a mesh from text & cached font
 		if(fontsCache.get(fontFile) == null) fontsCache.put(fontFile, new RFont(fontFile, 100, RFont.CENTER)); // 
@@ -149,7 +149,7 @@ public class TextToPShape {
 		PShapeUtil.centerShape(newShape);
 		
 		// cache & return
-		shapeCache3d.put(text, newShape);
+		textShape3d.put(text, newShape);
 		return newShape;
 	}
 }
