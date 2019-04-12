@@ -18,15 +18,26 @@ implements IAppStoreListener {
 	protected String MOUSE_X = "MOUSE_X";
 	protected String MOUSE_Y = "MOUSE_Y";
 	
+	// use case config
+	protected boolean isServer = false;
+	protected String socketServerAddress = "10.10.1.111"; // null; // make null if we're running the server & client on the same machine
+	
 	protected void overridePropsFile() {
 		p.appConfig.setProperty(AppSettings.SHOW_DEBUG, true );
 	}
 
 	public void setupFirstFrame() {
-		boolean isServer = true;
 		P.storeDistributed = AppStoreDistributed.instance();
-		if(isServer) P.storeDistributed.start(AppStoreDistributed.MODE_SERVER, null);
-		else 		 P.storeDistributed.start(AppStoreDistributed.MODE_CLIENT, P.storeDistributed.localSocketServerAddress());
+		if(isServer == true) {
+			P.storeDistributed.start(AppStoreDistributed.MODE_SERVER, null);
+		} else {
+			if(socketServerAddress != null) {
+				P.out("Starting socket client, connecting to server at ", socketServerAddress);
+				P.storeDistributed.start(AppStoreDistributed.MODE_CLIENT, socketServerAddress);
+			} else {
+				P.storeDistributed.start(AppStoreDistributed.MODE_CLIENT, P.storeDistributed.localSocketServerAddress());
+			}
+		}
 		P.store.addListener(this);
 
 		// set to true to see messages coming in and out of the server

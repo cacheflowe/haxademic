@@ -30,9 +30,7 @@ implements ISocketClientDelegate {
 	public static final String JSON_KEY = "key";
 	public static final String JSON_VALUE = "value";
 
-	public AppStoreDistributed() {
-		P.out("AppStoreDistributed: CONVERT STRING CONSTANTS TO CONSTANTS");
-	}
+	public AppStoreDistributed() {}
 	
 	public static AppStoreDistributed instance() {
 		if(instance != null) return instance;
