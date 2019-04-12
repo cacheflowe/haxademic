@@ -32,9 +32,9 @@ Below you'll find a long list of classes and utilities that I've built to make m
 
 * __[NormalizeMonoWav](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/audio/NormalizeMonoWav.java)__ - Normalizes a mono .wav file without any external libraries.
 
-* __[WavPlayer](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/audio/WavPlayer.java)__ - Play a .wav file and cache for future plays.
+* __[WavPlayer](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/audio/WavPlayer.java)__ - Play a .wav file with Beads and cache for future plays.
 
-* __[WavRecorder](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/audio/WavRecorder.java)__ - Record a .wav file.
+* __[WavRecorder](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/audio/WavRecorder.java)__ - Record a .wav file with Minim.
 
 `com.haxademic.core.audio.analysis.input`
 
@@ -46,7 +46,9 @@ Below you'll find a long list of classes and utilities that I've built to make m
 
 `com.haxademic.core.data`
 
-* __[ConvertUtil](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/data/ConvertUtil.java)__ - A collection of basic Java type-conversion methods..
+* __[ConvertUtil](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/data/ConvertUtil.java)__ - A collection of basic Java type-conversion methods.
+
+* __[Patterns](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/data/patterns)__ - A collection of pattern generators for step sequencer.
 
 `com.haxademic.core.data.constants`
 
@@ -132,15 +134,47 @@ Below you'll find a long list of classes and utilities that I've built to make m
 
 `com.haxademic.core.draw.mapping`
 
-... coming soon
+* __[BaseSavedQuadUI](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/draw/mapping/BaseSavedQuadUI.java)__ - Base class for `CaptureKeystoneToRectBuffer` and `PGraphicsKeystone`. Stores/recalls a quad to text file and provides a GUI and keyboard controls to move the vertices.
+
+* __[CaptureKeystoneToRectBuffer](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/draw/mapping/CaptureKeystoneToRectBuffer.java)__ - Reverse-projection-mapping tool. Pulls from an image with a configurable quad and draws to a PGraphics instance.
+
+* __[PGraphicsKeystone](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/draw/mapping/PGraphicsKeystone.java)__ - Projection-mapping tool. Draws a PGraphics buffer to screen, with custom keystoning backed by a text file.
+
+* __[SavedRectangle](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/draw/mapping/SavedRectangle.java)__ - Basic mapping tool. Provides rectangle data controlled by a mouse-based UI, backed by a text file.
 
 `com.haxademic.core.draw.particle`
 
-... coming soon
+* __[ForceDirectedLayout](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/draw/particle/ForceDirectedLayout.java)__ - Force-directed layout implementation.
+
+* __[ParticleLauncher](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/draw/particle/ParticleLauncher.java)__ - GPU particle implementation.
+
+* __[VectorFlyer](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/draw/particle/VectorFlyer.java)__ - 3D particle that flies toward a destination point.
 
 `com.haxademic.core.draw.shapes`
 
-... coming soon
+* __[Extrude2dPoints](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/draw/shapes/Extrude2dPoints.java)__ - Turns a set of 2d points into a 3d extrusion.
+
+* __[Icosahedron](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/draw/shapes/Icosahedron.java)__ - Icosahedron generator, with optional texture application.
+
+* __[MarchingCubes](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/draw/shapes/MarchingCubes.java)__ - Marching cubes implementation.
+
+* __[MeshShapes](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/draw/shapes/MeshShapes.java)__ - A collection of interesting generative mesh shape drawing functions.
+
+* __[LinesDeformAndTextureFilter](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/draw/shapes/pshader/LinesDeformAndTextureFilter.java)__ - GPU displacement shader for a textured LINES PShape.
+
+* __[MeshDeformAndTextureFilter](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/draw/shapes/pshader/MeshDeformAndTextureFilter.java)__ - GPU displacement shader for a standard PShape.
+
+* __[PointsDeformAndTextureFilter](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/draw/shapes/pshader/PointsDeformAndTextureFilter.java)__ - GPU displacement shader for a textured POINTS PShape.
+
+* __[PShapeSolid](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/draw/shapes/PShapeSolid.java)__ - Accepts a SPhape and tracks shared vertices, providing multiple deformation strategies without letting connected triangles diverge.
+
+* __[PShapeUtil](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/draw/shapes/PShapeUtil.java)__ - A large collection of normalization, texturing and other manipulation methods to apply to PShape objects.
+
+* __[Shapes](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/draw/shapes/Shapes.java)__ - Some custom mesh-drawing tools.
+
+* __[Superformula](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/draw/shapes/Superformula.java)__ - A superformula implementation.
+
+* __[TextToPShape](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/draw/shapes/TextToPShape.java)__ - Text with a custom font turned into a 2d or 3d mesh.
 
 `com.haxademic.core.draw.textures.pgraphics`
 
@@ -162,35 +196,116 @@ Below you'll find a long list of classes and utilities that I've built to make m
 
 ### Hardware
 
-... coming soon
+* __[DMXWrapper](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/hardware/dmx/DMXWrapper.java)__ - Helper to "easily" connect and send messages to an ENTTEC DMX USB Pro.
+
+* __[GamepadListener](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/hardware/gamepad/GamepadListener.java)__ - Uses JInput to receive messages from a gamepad controller.
+
+* __[MidiText](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/hardware/midi/MidiText.java)__ - Parses a MIDI file.
+
+* __[InputTrigger](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/hardware/shared/InputTrigger.java)__ - Accepts multiple inputs to trigger the same action. Keystrokes, MIDI, OSC, HTTP and more.
+
+* __[IWebCamCallback](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/hardware/webcam/IWebCamCallback.java)__ - Interface to work in tandem with `WebCamWrapper` to provide callbacks when new webcam frames are available.
+
+* __[IKinectWrapper](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/hardware/kinect/IKinectWrapper.java)__ - Interface for `KinectWrapperV1` and `KinectWrapperV2`.
+
+* __[KinectAmbientActivityMonitor](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/hardware/kinect/KinectAmbientActivityMonitor.java)__ - Provides a general ambient activity value for a room.
+
+* __[KinectRoomScanDiff](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/hardware/kinect/KinectRoomScanDiff.java)__ - Scans a room with the Kinect, then watches for depth differences from scan.
+
+* __[KinectDepthSilhouetteSmoothed](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/hardware/kinect/KinectDepthSilhouetteSmoothed.java)__ - A hardware-accelerated smoothed silhouette image from raw depth data.
+
+* __[KinectRegionGrid](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/hardware/kinect/KinectRegionGrid.java)__ - Breaks up kinect raw data into an x/z grid, with center-of-mass (joystick) and `active` readings for each quadrant.
+
+* __[MouseUtil](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/hardware/mouse/MouseUtil.java)__ - Automates, moves & clicks the system mouse with a Java Robot.
+
+* __[OscWrapper](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/hardware/osc/OscWrapper.java)__ - Wraps up OSC i/o functionality.
+
+* __[PrintPageDirect](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/hardware/printer/PrintPageDirect.java)__ - Print an image to a physical printer directly from Processing.
+
+* __[SerialDevice](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/hardware/serial/SerialDevice.java)__ - Basic input/output wrapping for Arduino and similar USB serial devices.
+
+* __[WebCamWrapper](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/hardware/webcam/WebCamWrapper.java)__ - Init a webcam with AppSettings.WEBCAM_INDEX, and receive new frames by implementing `IWebCamCallback`
 
 ### Math
 
-... coming soon
+* __[BooleanSwitch](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/math/easing/BooleanSwitch.java)__ - Lerps towards true or false over time. Switches when it reaches the end. Useful for dealing with noisy data.
+
+* __[DisplacementPoint](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/math/easing/DisplacementPoint.java)__ - Elastic displacement from a static point, based on an influencing external point.
+
+* __[EasingFloat](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/math/easing/EasingFloat.java)__ - Lerps towards a target. Includes optional frame delay and acceleration.
+
+* __[ElasticFloat](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/math/easing/ElasticFloat.java)__ - Lerps towards a target with Hooke's law springiness. Configurable friction and acceleration.
+
+* __[FloatBuffer](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/math/easing/FloatBuffer.java)__ - A FIFO buffer of incoming float values for smoothing purposes.
+
+* __[LinearFloat](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/math/easing/LinearFloat.java)__ - Linearly lerps towards a target. Includes optional frame delay. Works great in tandem with `Penner` equations.
+
+* __[Penner](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/math/easing/Penner.java)__ - Robert Penner's easing equations.
+
+* __[MathUtil](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/math/MathUtil.java)__ - Lots of useful math utility functions.
+
+* __[SphericalCoord](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/math/SphericalCoord.java)__ - Spherical coordinate helper functions.
 
 ### Net
 
-... coming soon
+* __[DashboardPoster](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/net/DashboardPoster.java)__ - Post debug info & screenshots to a web-based dashboard.
+
+* __[FileDownloader](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/net/FileDownloader.java)__ - Download a file from the web to a local directory.
+
+* __[IPAddress](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/net/IPAddress.java)__ - Get the local machine's IP address.
+
+* __[JsonRequest](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/net/JsonRequest.java)__ - Make a JSON request to a web server.
+
+* __[JsonUtil](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/net/JsonUtil.java)__ - JSON formatting utility.
+
+* __[SocketServer](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/net/SocketServer.java)__ - Run a websocket server with Java-WebSocket.
+
+* __[WebServer](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/net/WebServer.java)__ - Run a web server with Jetty.
 
 ### Render
 
-... coming soon
+* __[AnimationLoop](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/render/AnimationLoop.java)__ - Frame-counting helper to build looping animations.
+
+* __[GifRenderer](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/render/GifRenderer.java)__ - Auto-render gifs from the app.
+
+* __[ImageSequenceRenderer](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/render/ImageSequenceRenderer.java)__ - Auto-render an image sequence from the app.
+
+* __[JoonsWrapper](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/render/JoonsWrapper.java)__ - Render high-quality raytraced geometry with Joons.
+
+* __[VideoRenderer](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/render/VideoRenderer.java)__ - Render a video directly from the app.
 
 ### System
 
-... coming soon
+* __[RandomStringUtil](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/system/AppRestart.java)__ - Kills & restarts the app!
+
+* __[RandomStringUtil](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/system/AppUtil.java)__ - Set app window properties and generate the script that was used to launch the app.
+
+* __[CrashMonitor](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/system/CrashMonitor.java)__ - Launches a 2nd app window to monitor the first, in case of a crash.
+
+* __[JavaInfo](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/system/JavaInfo.java)__ - Tons of methods to print out Java & system properties.
+
+* __[SecondScreenViewer](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/system/SecondScreenViewer.java)__ - Launches a 2nd, scaled-down window to monitor the main window from a 2nd monitor.
+
+* __[ScriptRunner](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/system/shell/ScriptRunner.java)__ - Cross-platform script runner - makes up for the difference between .cmd/bat and .sh scripts. Works with `IScriptCallback` delegate to callback when the script finishes.
+
+* __[SystemUtil](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/system/SystemUtil.java)__ - Get a timestamp, take a screenshot, copy text to clipboard, open a web browser, check/kill system processes, run a Timer.
 
 ### Text
 
-... coming soon
+* __[FitTextSourceBuffer](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/text/FitTextSourceBuffer.java)__ - Generates a tightly-cropped texture from a String with a custom PFont.
+
+* __[RandomStringUtil](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/text/RandomStringUtil.java)__ - Generates random Strings.
+
+* __[StringBufferLog](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/text/StringBufferLog.java)__ - Generates a buffer of text for an on-screen log tail.
+
+* __[StringFormatter](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/text/StringFormatter.java)__ - Format numbers to strings.
 
 ### UI
 
-... coming soon
+* __[PrefSlider](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/ui/PrefSlider.java)__ - A text file-backed slider UI.
 
+* __[PrefsSliders](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/ui/PrefsSliders.java)__ - A collection of `PrefsSlider` objects, auto-initialized with PAppletHax. Press `\` to toggle sliders, and add new sliders by accessing `p.prefsSliders`.
 
-
-... more to come
 
 ## Dependencies
 
