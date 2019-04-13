@@ -333,6 +333,12 @@ extends PApplet {
 		}
 	}
 
+	// option to override 
+	public void setAudioInput(IAudioInput input) {
+		audioInput = input;
+		audioInput.update(p.g); // make sure it's initialized internal arrays?
+	}
+	
 	protected void initializeOn1stFrame() {
 		if( p.frameCount == 1 ) {
 			P.println("Using Java version: " + SystemUtil.getJavaVersion() + " and GL version: " + OpenGLUtil.getGlVersion(p.g));

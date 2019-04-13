@@ -20,6 +20,7 @@ implements IAudioInput {
 	protected PeakDetector od;
 	protected AudioStreamData audioStreamData = new AudioStreamData();
 	protected boolean beatDirty = false;
+	protected boolean audioInput = true;;
 	
 	public AudioInputBeads() {
 		  ac = new AudioContext();
@@ -33,6 +34,31 @@ implements IAudioInput {
 		  sfs.addListener(fft);
 		  fft.addListener(ps);
 		  
+		  addBeatDetection();
+		  
+		  // common setup and stream init
+		  ac.out.addDependent(sfs);
+		  gain.addInput(ac.getAudioInput());
+		  
+		  ac.start();
+	}
+	
+	public AudioInputBeads(AudioContext exsitingAc) {
+          ac = exsitingAc;
+          audioInput = false;
+			  
+		  ShortFrameSegmenter sfs = new ShortFrameSegmenter(ac);
+		  sfs.addInput(ac.out);
+		  FFT fft = new FFT();
+		  ps = new PowerSpectrum();
+		  sfs.addListener(fft);
+		  fft.addListener(ps);
+		  ac.out.addDependent(sfs);
+
+		  addBeatDetection();
+	}
+	
+	public void addBeatDetection() {
 		  // beat detection
 		  SpectralDifference sd = new SpectralDifference(ac.getSampleRate());
 		  ps.addListener(sd);
@@ -53,12 +79,6 @@ implements IAudioInput {
 		  		}
 		  	}
 		  );
-
-		  // common setup and stream init
-		  ac.out.addDependent(sfs);
-		  gain.addInput(ac.getAudioInput());
-		  
-		  ac.start();
 	}
 	
 	public AudioStreamData audioData() {
@@ -81,7 +101,11 @@ implements IAudioInput {
 			audioStreamData.setFFTFrequencies(freqs);
 			audioStreamData.calcFreqsDampened();
 		}
-		audioStreamData.setWaveformOffsets(gain.getOutBuffer(0));
+		if(audioInput) {
+			audioStreamData.setWaveformOffsets(gain.getOutBuffer(0));
+		} else {
+			audioStreamData.setWaveformOffsets(ac.out.getOutBuffer(0));
+		}
 		if(beatDirty) {
 			beatDirty = false;
   			audioStreamData.setBeat();

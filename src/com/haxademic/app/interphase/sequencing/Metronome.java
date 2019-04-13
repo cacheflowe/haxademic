@@ -2,6 +2,7 @@ package com.haxademic.app.interphase.sequencing;
 
 import com.haxademic.app.interphase.Interphase;
 import com.haxademic.core.app.P;
+import com.haxademic.core.audio.analysis.input.AudioInputBeads;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.LinearFloat;
 
@@ -22,12 +23,9 @@ public class Metronome {
 	public static int[] TEMPOS = new int[numTempos];
 	protected LinearFloat beatInterval = new LinearFloat(DEFAULT_INTERVAL, Interphase.TEMPO_EASE_FACTOR);
 
-	
 	public Metronome() {
 		p = (Interphase) P.p;
 		initTempos();
-//		ac = new AudioContext();
-		ac = new AudioContext(4096);
 		init();
 		p.registerMethod("pre", this);
 	}
@@ -47,6 +45,8 @@ public class Metronome {
 	
 	public void init() {
 		ac = new AudioContext();
+		p.setAudioInput(new AudioInputBeads(ac));	// send Beads audio player analyzer to PAppletHax
+
 		clock = new Clock(ac, DEFAULT_INTERVAL);
 		clock.addMessageListener(
 			new Bead() {
