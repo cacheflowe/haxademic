@@ -5,8 +5,8 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.context.OpenGLUtil;
+import com.haxademic.core.draw.textures.pgraphics.TextureDashedLineSine;
 import com.haxademic.core.draw.textures.pgraphics.TextureEQGrid;
-import com.haxademic.core.draw.textures.pgraphics.TextureImageTileScroll;
 import com.haxademic.core.draw.textures.pgraphics.TextureShaderTimeStepper;
 import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
 import com.haxademic.core.hardware.midi.devices.AbletonNotes;
@@ -72,7 +72,12 @@ extends PAppletHax {
 //			new TextureBlocksSheet( w, h ),
 //			new TextureEQLinesTerrain( w, h ),
 //			new TextureSvg3dExtruded( w, h ),
-			new TextureImageTileScroll( w, h ),
+//			new TextureImageTileScroll( w, h ),
+				
+//			new TextureConcentricDashedCubes( w, h ),
+			new TextureDashedLineSine( w, h ),
+//			new TextureNoiseLines( w, h ),
+
 //			new TextureBlocksSheet( w, h ),
 //			new TextureAudioSheetDeform( w, h ),
 //			new TextureWords2d( w, h ),

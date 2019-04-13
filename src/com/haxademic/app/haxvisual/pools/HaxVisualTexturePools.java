@@ -8,7 +8,9 @@ import com.haxademic.core.draw.textures.pgraphics.TextureAudioSheetDeform;
 import com.haxademic.core.draw.textures.pgraphics.TextureAudioTube;
 import com.haxademic.core.draw.textures.pgraphics.TextureBlobSheet;
 import com.haxademic.core.draw.textures.pgraphics.TextureBlocksSheet;
+import com.haxademic.core.draw.textures.pgraphics.TextureConcentricDashedCubes;
 import com.haxademic.core.draw.textures.pgraphics.TextureCyclingRadialGradient;
+import com.haxademic.core.draw.textures.pgraphics.TextureDashedLineSine;
 import com.haxademic.core.draw.textures.pgraphics.TextureEQBandDistribute;
 import com.haxademic.core.draw.textures.pgraphics.TextureEQColumns;
 import com.haxademic.core.draw.textures.pgraphics.TextureEQConcentricCircles;
@@ -19,6 +21,7 @@ import com.haxademic.core.draw.textures.pgraphics.TextureFractalPolygons;
 import com.haxademic.core.draw.textures.pgraphics.TextureImageTileScroll;
 import com.haxademic.core.draw.textures.pgraphics.TextureLinesEQ;
 import com.haxademic.core.draw.textures.pgraphics.TextureMeshAudioDeform;
+import com.haxademic.core.draw.textures.pgraphics.TextureNoiseLines;
 import com.haxademic.core.draw.textures.pgraphics.TextureOuterCube;
 import com.haxademic.core.draw.textures.pgraphics.TextureOuterSphere;
 import com.haxademic.core.draw.textures.pgraphics.TexturePixelatedAudio;
@@ -60,7 +63,7 @@ public class HaxVisualTexturePools {
 		_fgTexturePool.add( new TextureEQBandDistribute( textureW, textureH ));
 		_fgTexturePool.add( new TextureWaveformCircle( textureW, textureH ));
 		_fgTexturePool.add( new TextureEQConcentricCircles( textureW, textureH ) );
-
+		
 //		_overlayTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "cacheflowe-liquid-moire.glsl" ));
 		_overlayTexturePool.add( new TextureAudioSheetDeform( textureW, textureH ));
 		_overlayTexturePool.add( new TextureMeshAudioDeform( textureW, textureH ));
@@ -82,6 +85,10 @@ public class HaxVisualTexturePools {
 		// complex textures in the back
 //		_bgTexturePool.add( new TextureOuterSphere( textureW, textureH ) );
 		_bgTexturePool.add( new TextureOuterCube( textureW, textureH ) );
+		_bgTexturePool.add( new TextureConcentricDashedCubes( textureW, textureH ));
+		_bgTexturePool.add( new TextureDashedLineSine( textureW, textureH ));
+		_bgTexturePool.add( new TextureNoiseLines( textureW, textureH ));
+
 
 //		_bgTexturePool.add( new TextureAudioTube( textureW, textureH ) );
 //		_bgTexturePool.add( new TextureBlobSheet( textureW, textureH ) );
@@ -94,6 +101,10 @@ public class HaxVisualTexturePools {
 //		_fgTexturePool.add( new TextureEQBandDistribute( textureW, textureH ));
 		_fgTexturePool.add( new TextureEQConcentricCircles( textureW, textureH ) );
 		_fgTexturePool.add( new TextureWaveformCircle( textureW, textureH ));
+
+		_fgTexturePool.add( new TextureConcentricDashedCubes( textureW, textureH ));
+		_fgTexturePool.add( new TextureDashedLineSine( textureW, textureH ));
+		_fgTexturePool.add( new TextureNoiseLines( textureW, textureH ));
 
 //		_overlayTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "cacheflowe-liquid-moire.glsl" ));
 		_overlayTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "cacheflowe-metaballs.glsl" ));
@@ -120,7 +131,7 @@ public class HaxVisualTexturePools {
 		_bgTexturePool.add( new TextureOuterSphere( textureW, textureH ) );
 		_bgTexturePool.add( new TextureVectorFieldEQ( textureW, textureH ) );
 		_bgTexturePool.add( new TextureMeshAudioDeform( textureW, textureH ));
-
+		
 		_bgTexturePool.add( new TextureAudioSheetDeform( textureW, textureH ));
 		_bgTexturePool.add( new TextureAudioBlocksDeform( textureW, textureH ));
 //		_bgTexturePool.add( new TextureBlocksSheet( textureW, textureH ) );
@@ -138,6 +149,10 @@ public class HaxVisualTexturePools {
 		_bgTexturePool.add( new TextureVectorFieldEQ( textureW, textureH ) );
 		_bgTexturePool.add( new TextureWaveformSimple( textureW, textureH ));
 		_bgTexturePool.add( new TextureWaveformCircle( textureW, textureH ));
+
+		_bgTexturePool.add( new TextureConcentricDashedCubes( textureW, textureH ));
+		_bgTexturePool.add( new TextureDashedLineSine( textureW, textureH ));
+		_bgTexturePool.add( new TextureNoiseLines( textureW, textureH ));
 
 		_bgTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "sdf-01-auto.glsl" ));
 		_bgTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "sdf-02-auto.glsl" ));
@@ -207,6 +222,9 @@ public class HaxVisualTexturePools {
 		_fgTexturePool.add( new TextureVectorFieldEQ( textureW, textureH ) );
 		_fgTexturePool.add( new TextureWaveformSimple( textureW, textureH ));
 		_fgTexturePool.add( new TextureWaveformCircle( textureW, textureH ));
+		_fgTexturePool.add( new TextureConcentricDashedCubes( textureW, textureH ));
+		_fgTexturePool.add( new TextureDashedLineSine( textureW, textureH ));
+		_fgTexturePool.add( new TextureNoiseLines( textureW, textureH ));
 
 		_fgTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "basic-checker.glsl" ));
 		_fgTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "basic-diagonal-stripes.glsl" ));
@@ -256,12 +274,12 @@ public class HaxVisualTexturePools {
 //		_fgTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "cacheflowe-triangle-wobble-stairs.glsl" ));
 		_fgTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "cacheflowe-warp-vortex.glsl" ));
 
-		_overlayTexturePool.add( new TextureImageTileScroll( textureW, textureH ) );
-		_overlayTexturePool.add( new TextureImageTileScroll( textureW, textureH ));
-		_overlayTexturePool.add( new TextureImageTileScroll( textureW, textureH ) );
-		_overlayTexturePool.add( new TextureImageTileScroll( textureW, textureH ));
-		_overlayTexturePool.add( new TextureImageTileScroll( textureW, textureH ) );
-		_overlayTexturePool.add( new TextureImageTileScroll( textureW, textureH ));
+//		_overlayTexturePool.add( new TextureImageTileScroll( textureW, textureH ) );
+//		_overlayTexturePool.add( new TextureImageTileScroll( textureW, textureH ));
+//		_overlayTexturePool.add( new TextureImageTileScroll( textureW, textureH ) );
+//		_overlayTexturePool.add( new TextureImageTileScroll( textureW, textureH ));
+//		_overlayTexturePool.add( new TextureImageTileScroll( textureW, textureH ) );
+//		_overlayTexturePool.add( new TextureImageTileScroll( textureW, textureH ));
 		
 		
 		_overlayTexturePool.add( new TextureAudioSheetDeform( textureW, textureH ));
