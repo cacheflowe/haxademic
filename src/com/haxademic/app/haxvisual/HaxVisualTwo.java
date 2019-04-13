@@ -10,6 +10,7 @@ import java.util.Random;
 
 import com.haxademic.app.haxmapper.dmxlights.RandomLightTiming;
 import com.haxademic.app.haxvisual.pools.HaxVisualTexturePools;
+import com.haxademic.app.interphase.sequencing.Interphase;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
@@ -199,7 +200,11 @@ extends PAppletHax {
 	protected PGraphics _pg;
 	protected PGraphicsKeystone _pgPinnable;
 	protected float scaleDownPG = 1f; // 0.5f;
-	protected boolean multiOutput = true;
+	protected boolean multiOutput = false;
+	
+	// LET'S PLAY OUR OWN MUSIC
+
+	protected Interphase interphase;
 	
 
 	//////////////////////////////////////////////////
@@ -234,6 +239,8 @@ extends PAppletHax {
 		buildTextures();
 		buildPostProcessingChain();
 		// buildInterstitial();
+		
+		interphase = new Interphase();
 	}
 
 	protected void buildCanvas() {
@@ -313,6 +320,7 @@ extends PAppletHax {
 
 	public void drawApp() {
 		background(0);
+		if(interphase != null) interphase.update();
 		handleInputTriggers();
 		checkBeat();
 		drawPre();
@@ -358,7 +366,7 @@ extends PAppletHax {
 		
 		////////////////////////////////////
 		// draw gradient blend image
-		if(p.frameCount < 1000) {
+		if(fadeEdge != null && p.frameCount < 1000) {
 			fadeEdge.beginDraw();
 			fadeEdge.clear();
 			fadeEdge.background(0, 0);
@@ -828,6 +836,11 @@ extends PAppletHax {
 	// INPUT 
 	/////////////////////////////////////////////////////////////////
 
+	public void keyPressed() {
+		super.keyPressed();
+		if(interphase != null) interphase.keyPressed();
+	}
+	
 	public void handleInputTriggers() {
 
 		//		if( p.key == 'a' || p.key == 'A' ){

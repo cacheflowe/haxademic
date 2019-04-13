@@ -1,6 +1,5 @@
 package com.haxademic.app.interphase.sequencing;
 
-import com.haxademic.app.interphase.Interphase;
 import com.haxademic.core.data.patterns.ISequencerPattern;
 import com.haxademic.core.data.patterns.PatternInterval;
 import com.haxademic.core.data.patterns.PatternNoise;

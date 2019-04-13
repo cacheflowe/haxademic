@@ -1,26 +1,16 @@
-package com.haxademic.app.interphase;
+package com.haxademic.app.interphase.sequencing;
 
 
-import com.haxademic.app.interphase.sequencing.Metronome;
-import com.haxademic.app.interphase.sequencing.Sequencer;
-import com.haxademic.app.interphase.sequencing.SequencerConfig;
 import com.haxademic.core.app.P;
-import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.color.ImageGradient;
-import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.shared.InputTrigger;
 
 import beads.Pitch;
 import processing.core.PFont;
-import processing.core.PGraphics;
 import processing.core.PShape;
 
-public class Interphase
-extends PAppletHax {
-	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
-
+public class Interphase {
 	
 	////////////////////////////////////////
 	
@@ -79,9 +69,6 @@ extends PAppletHax {
 	
 	//////////////////////////////////////////
 	
-	protected PGraphics pgLedWall;
-	protected PGraphics pgLedWashes;
-
 	public Sequencer sequencers[];
 	protected Metronome metronome;
 	protected ImageGradient imageGradient;
@@ -97,7 +84,6 @@ extends PAppletHax {
 	protected boolean systemMuted = false;
 	protected int systemMuteTime = -1;
 	
-	protected boolean mapTestMode = false;
 	protected boolean upsideDownLED = true;
 	
 	protected InputTrigger trigger1 = new InputTrigger(new char[]{'1'}, null, new Integer[]{41}, null, null);
@@ -109,16 +95,7 @@ extends PAppletHax {
 	protected InputTrigger trigger7 = new InputTrigger(new char[]{'7'}, null, new Integer[]{47}, null, null);
 	protected InputTrigger trigger8 = new InputTrigger(new char[]{'8'}, null, new Integer[]{48}, null, null);
 
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, 1000 );
-		p.appConfig.setProperty( AppSettings.HEIGHT, 780 );
-		p.appConfig.setProperty( AppSettings.INIT_ESS_AUDIO, false );
-		p.appConfig.setProperty( AppSettings.INIT_MINIM_AUDIO, false );
-		p.appConfig.setProperty( AppSettings.APP_NAME, "INTERPHASE" );
-		p.appConfig.setProperty( AppSettings.MIDI_DEVICE_IN_INDEX, 0 );
-	}
-	
-	public void setupFirstFrame() {
+	public Interphase() {
 		// init state
 		P.store.setNumber(BEAT, 0);
 		P.store.setNumber(BEAT_INTERVAL_MILLIS, 700f);
@@ -127,24 +104,18 @@ extends PAppletHax {
 		P.store.setNumber(CUR_SCALE_INDEX, 0);
 
 		// debug
-		fontBig = p.createFont("Arial", FONT_BIG);
-		fontSmall = p.createFont("Arial", FONT_SMALL);
-		
-		// LED communications
-//		_network = new Network();
-//		_network.init(p);
-		pgLedWall = p.createGraphics( LED_WALL_SIZE_W, LED_WALL_SIZE_H, P.P2D );
-		pgLedWashes = p.createGraphics( LED_WASHES_SIZE_W, 1, P.P2D );
+		fontBig = P.p.createFont("Arial", FONT_BIG);
+		fontSmall = P.p.createFont("Arial", FONT_SMALL);
 		
 		// global colors & graphics
 		imageGradient = new ImageGradient(ImageGradient.PASTELS());
 //		imageGradient.addTexturesFromPath(Interphase.BASE_PATH + "images/palettes/interphase/");
 		
 		// build music machine
-		metronome = new Metronome();
+		metronome = new Metronome(this);
 		sequencers = new Sequencer[NUM_WALLS];
 		for (int i = 0; i < sequencers.length; i++) {
-			sequencers[i] = new Sequencer(SequencerConfig.interphaseChannels[i]);
+			sequencers[i] = new Sequencer(this, SequencerConfig.interphaseChannels[i]);
 		}
 	}
 	
@@ -157,16 +128,12 @@ extends PAppletHax {
 		return imageGradient.getColorAtProgress(progress);
 	}
 	
-	public void newColorScheme() {
-		imageGradient.randomGradientTexture();
-	}
-	
 	public boolean systemMuted() {
 		return systemMuted;
 	}
 	
 	protected void setSystemMute(boolean muted) {
-		systemMuteTime = p.millis();
+		systemMuteTime = P.p.millis();
 		systemMuted = muted;
 	}
 	
@@ -175,45 +142,40 @@ extends PAppletHax {
 	/////////////////////////////////
 	
 	public void keyPressed() {
-		super.keyPressed();
-		
 		// App controls ---------------------------------------
 		
-		if(p.key == 'o') threeDSimulation = !threeDSimulation;
-		if(p.key == 'g') TEMPO_MOUSE_CONTROL = !TEMPO_MOUSE_CONTROL;
-		if(p.key == 'h') mapTestMode = !mapTestMode;
-		if(p.key == ' ') newColorScheme();
-		if (p.key == P.CODED && keyCode == P.DOWN) setSystemMute(true);
-		if (p.key == P.CODED && keyCode == P.UP) setSystemMute(false);
+		if(P.p.key == 'g') TEMPO_MOUSE_CONTROL = !TEMPO_MOUSE_CONTROL;
+		if (P.p.key == P.CODED && P.p.keyCode == P.DOWN) setSystemMute(true);
+		if (P.p.key == P.CODED && P.p.keyCode == P.UP) setSystemMute(false);
 		
 		// Sequencer controls ---------------------------------
 		
-		if(p.key == 'q') sequencers[0].toggleMute();
-		if(p.key == 'w') sequencers[1].toggleMute();
-		if(p.key == 'e') sequencers[2].toggleMute();
-		if(p.key == 'r') sequencers[3].toggleMute();
-		if(p.key == 't') sequencers[4].toggleMute();
-		if(p.key == 'y') sequencers[5].toggleMute();
-		if(p.key == 'u') sequencers[6].toggleMute();
-		if(p.key == 'i') sequencers[7].toggleMute();
+		if(P.p.key == 'q') sequencers[0].toggleMute();
+		if(P.p.key == 'w') sequencers[1].toggleMute();
+		if(P.p.key == 'e') sequencers[2].toggleMute();
+		if(P.p.key == 'r') sequencers[3].toggleMute();
+		if(P.p.key == 't') sequencers[4].toggleMute();
+		if(P.p.key == 'y') sequencers[5].toggleMute();
+		if(P.p.key == 'u') sequencers[6].toggleMute();
+		if(P.p.key == 'i') sequencers[7].toggleMute();
 		
-		if(p.key == 'a') sequencers[0].loadNextSound();
-		if(p.key == 's') sequencers[1].loadNextSound();
-		if(p.key == 'd') sequencers[2].loadNextSound();
-		if(p.key == 'f') sequencers[3].loadNextSound();
-		if(p.key == 'g') sequencers[4].loadNextSound();
-		if(p.key == 'h') sequencers[5].loadNextSound();
-		if(p.key == 'j') sequencers[6].loadNextSound();
-		if(p.key == 'k') sequencers[7].loadNextSound();
+		if(P.p.key == 'a') sequencers[0].loadNextSound();
+		if(P.p.key == 's') sequencers[1].loadNextSound();
+		if(P.p.key == 'd') sequencers[2].loadNextSound();
+		if(P.p.key == 'f') sequencers[3].loadNextSound();
+		if(P.p.key == 'g') sequencers[4].loadNextSound();
+		if(P.p.key == 'h') sequencers[5].loadNextSound();
+		if(P.p.key == 'j') sequencers[6].loadNextSound();
+		if(P.p.key == 'k') sequencers[7].loadNextSound();
 		
-		if(p.key == 'z') sequencers[0].toggleEvloves();
-		if(p.key == 'x') sequencers[1].toggleEvloves();
-		if(p.key == 'c') sequencers[2].toggleEvloves();
-		if(p.key == 'v') sequencers[3].toggleEvloves();
-		if(p.key == 'b') sequencers[4].toggleEvloves();
-		if(p.key == 'n') sequencers[5].toggleEvloves();
-		if(p.key == 'm') sequencers[6].toggleEvloves();
-		if(p.key == ',') sequencers[7].toggleEvloves();
+		if(P.p.key == 'z') sequencers[0].toggleEvloves();
+		if(P.p.key == 'x') sequencers[1].toggleEvloves();
+		if(P.p.key == 'c') sequencers[2].toggleEvloves();
+		if(P.p.key == 'v') sequencers[3].toggleEvloves();
+		if(P.p.key == 'b') sequencers[4].toggleEvloves();
+		if(P.p.key == 'n') sequencers[5].toggleEvloves();
+		if(P.p.key == 'm') sequencers[6].toggleEvloves();
+		if(P.p.key == ',') sequencers[7].toggleEvloves();
 	}
 	
 	/////////////////////////////////
@@ -231,11 +193,7 @@ extends PAppletHax {
 		if(trigger8.triggered()) sequencers[7].evolvePattern(true);
 	}
 	
-	public void drawApp() {
-		p.background(0);
-		p.noStroke();
-		DrawUtil.setDrawCorner(p);
-
+	public void update() {
 		// input & lighting buffers
 		checkInputs();
 		updateSequencers();
@@ -244,8 +202,8 @@ extends PAppletHax {
 		drawBPM();
 		
 		// update debug values
-		p.debugView.setValue("BEAT", P.store.getFloat(BEAT));
-		p.debugView.setValue("INTERACTION_SPEED_MULT", P.store.getFloat(INTERACTION_SPEED_MULT));
+		P.p.debugView.setValue("BEAT", P.store.getFloat(BEAT));
+		P.p.debugView.setValue("INTERACTION_SPEED_MULT", P.store.getFloat(INTERACTION_SPEED_MULT));
 	}
 	
 	protected void updateSequencers() {
@@ -258,11 +216,11 @@ extends PAppletHax {
 	}
 	
 	protected void drawBPM() {
-		p.fill(255);
-		p.textAlign(P.LEFT, P.TOP);
-		p.textFont(fontBig);
-		p.textSize(fontBig.getSize());
-		p.text( P.round(P.store.getFloat(BPM)) + "bpm" + " (" + P.store.getInt(BEAT_INTERVAL_MILLIS) + "ms)" + FileUtil.NEWLINE + 
+		P.p.fill(255);
+		P.p.textAlign(P.LEFT, P.TOP);
+		P.p.textFont(fontBig);
+		P.p.textSize(fontBig.getSize());
+		P.p.text( P.round(P.store.getFloat(BPM)) + "bpm" + " (" + P.store.getInt(BEAT_INTERVAL_MILLIS) + "ms)" + FileUtil.NEWLINE + 
 				SCALE_NAMES[P.store.getInt(CUR_SCALE_INDEX)], 
 				332, 
 				10

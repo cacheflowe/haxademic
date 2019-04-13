@@ -1,6 +1,5 @@
 package com.haxademic.app.interphase.sequencing;
 
-import com.haxademic.app.interphase.Interphase;
 import com.haxademic.core.app.P;
 import com.haxademic.core.audio.analysis.input.AudioInputBeads;
 import com.haxademic.core.math.MathUtil;
@@ -23,11 +22,11 @@ public class Metronome {
 	public static int[] TEMPOS = new int[numTempos];
 	protected LinearFloat beatInterval = new LinearFloat(DEFAULT_INTERVAL, Interphase.TEMPO_EASE_FACTOR);
 
-	public Metronome() {
-		p = (Interphase) P.p;
+	public Metronome(Interphase i) {
+		p = i;
 		initTempos();
 		init();
-		p.registerMethod("pre", this);
+		P.p.registerMethod("pre", this);
 	}
 	
 	public void pre() {
@@ -45,7 +44,7 @@ public class Metronome {
 	
 	public void init() {
 		ac = new AudioContext();
-		p.setAudioInput(new AudioInputBeads(ac));	// send Beads audio player analyzer to PAppletHax
+		P.p.setAudioInput(new AudioInputBeads(ac));	// send Beads audio player analyzer to PAppletHax
 
 		clock = new Clock(ac, DEFAULT_INTERVAL);
 		clock.addMessageListener(
@@ -58,7 +57,7 @@ public class Metronome {
 					// update tempo!
 					if(Interphase.TEMPO_MOUSE_CONTROL) {
 						// mouse control
-						int beatIntervalMillisMouse = P.round(P.map(p.mousePercentX(), 0, 1, TEMPOS[0], TEMPOS[TEMPOS.length - 1]));
+						int beatIntervalMillisMouse = P.round(P.map(P.p.mousePercentX(), 0, 1, TEMPOS[0], TEMPOS[TEMPOS.length - 1]));
 						P.store.setNumber(Interphase.BEAT_INTERVAL_MILLIS, beatIntervalMillisMouse);
 					} else {
 						// change tempo based on activity
@@ -85,7 +84,6 @@ public class Metronome {
 							int newScaleIndex = MathUtil.randRange(0, Interphase.SCALES.length - 1);
 							P.store.setNumber(Interphase.CUR_SCALE_INDEX, newScaleIndex);
 							Interphase.CUR_SCALE = Interphase.SCALES[newScaleIndex];
-							p.newColorScheme();
 						}
 					}
 					
@@ -97,8 +95,8 @@ public class Metronome {
 					}
 					
 					// set debug text
-					p.debugView.setValue("numinputs", ac.out.getConnectedInputs().size());
-					p.debugView.setValue("c.getCount()", ((c.getCount() / 4) % 8) + 1);
+					P.p.debugView.setValue("numinputs", ac.out.getConnectedInputs().size());
+					P.p.debugView.setValue("c.getCount()", ((c.getCount() / 4) % 8) + 1);
 				}
 			}
 		);

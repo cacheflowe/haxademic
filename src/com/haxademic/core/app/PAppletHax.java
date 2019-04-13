@@ -328,15 +328,22 @@ extends PApplet {
 		}
 		// if we've initialized an audio input, let's build an audio buffer
 		if(audioInput != null) {
-			audioInputDebugBuffer = p.createGraphics((int) AudioStreamData.debugW, (int) AudioStreamData.debugW, PRenderers.P3D);
-			debugView.setTexture(audioInputDebugBuffer);
+			createAudioDebugBuffer();
 		}
+	}
+	
+	protected void createAudioDebugBuffer() {
+		audioInputDebugBuffer = p.createGraphics((int) AudioStreamData.debugW, (int) AudioStreamData.debugW, PRenderers.P3D);
+		debugView.setTexture(audioInputDebugBuffer);
 	}
 
 	// option to override 
 	public void setAudioInput(IAudioInput input) {
 		audioInput = input;
-		audioInput.update(p.g); // make sure it's initialized internal arrays?
+		// create audio buffer if an audio input never did
+		if(audioInputDebugBuffer == null) {
+			createAudioDebugBuffer();
+		}
 	}
 	
 	protected void initializeOn1stFrame() {
