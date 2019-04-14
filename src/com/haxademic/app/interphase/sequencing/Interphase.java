@@ -3,7 +3,6 @@ package com.haxademic.app.interphase.sequencing;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.draw.color.ImageGradient;
-import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.shared.InputTrigger;
 
 import beads.Pitch;

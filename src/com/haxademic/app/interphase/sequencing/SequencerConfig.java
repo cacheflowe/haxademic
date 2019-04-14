@@ -5,6 +5,7 @@ import com.haxademic.core.data.patterns.PatternInterval;
 import com.haxademic.core.data.patterns.PatternNoise;
 import com.haxademic.core.data.patterns.PatternRandom;
 import com.haxademic.core.data.patterns.PatternSine;
+import com.haxademic.core.data.patterns.PatternTechno;
 
 public class SequencerConfig {
 	
@@ -36,7 +37,7 @@ public class SequencerConfig {
 	
 	
 	public static SequencerConfig[] interphaseChannels = new SequencerConfig[] {
-		new SequencerConfig(0, "audio/samples/01-kick", buildKickSnarePatterns(), 1f, false, false, false, false, false),
+		new SequencerConfig(0, "audio/samples/01-kick", buildKickPatterns(), 1f, false, false, false, false, false),
 		new SequencerConfig(1, "audio/samples/02-snare",buildKickSnarePatterns(), 0.75f, false, false, false, false, false),
 		new SequencerConfig(2, "audio/samples/03-hats", buildHatPatterns(), 0.6f, false, false, false, false, false),
 		new SequencerConfig(3, "audio/samples/04-perc", buildSfxPatterns(), 0.8f, false, false, false, false, false),
@@ -50,13 +51,19 @@ public class SequencerConfig {
 	// Pattern generator collections for different instruments
 	//////////////////////////////////////
 
+	public static ISequencerPattern[] buildKickPatterns() {
+		return new ISequencerPattern[] { 
+			new PatternTechno(),
+		};
+	}
+	
 	public static ISequencerPattern[] buildKickSnarePatterns() {
 		return new ISequencerPattern[] { 
-			new PatternInterval(),
-			new PatternSine(5),
-			new PatternNoise(5),
-			new PatternSine(4),
-			new PatternNoise(3),
+				new PatternInterval(),
+				new PatternSine(5),
+				new PatternNoise(5),
+				new PatternSine(4),
+				new PatternNoise(3),
 		};
 	}
 	

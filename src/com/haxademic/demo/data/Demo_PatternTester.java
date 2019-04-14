@@ -8,6 +8,7 @@ import com.haxademic.core.data.patterns.PatternInterval;
 import com.haxademic.core.data.patterns.PatternNoise;
 import com.haxademic.core.data.patterns.PatternRandom;
 import com.haxademic.core.data.patterns.PatternSine;
+import com.haxademic.core.data.patterns.PatternTechno;
 
 public class Demo_PatternTester
 extends PAppletHax { 
@@ -16,7 +17,6 @@ extends PAppletHax {
 	protected boolean[][] steps;
 	protected ISequencerPattern[] patterns;
 	protected String[] patternNames;
-	protected int NUM_GENERATORS = 5;
 	protected int NUM_STEPS = 16;
 	
 	protected void overridePropsFile() {
@@ -25,15 +25,6 @@ extends PAppletHax {
 	}
 
 	public void setupFirstFrame() {
-		// build steps
-		steps = new boolean[NUM_GENERATORS][];
-		for (int i = 0; i < steps.length; i++) {
-			steps[i] = new boolean[NUM_STEPS];
-			for (int j = 0; j < steps[i].length; j++) {
-				steps[i][j] = false;
-			}
-		}
-		
 		// build pattern generators
 		patterns = new ISequencerPattern[] {
 			new PatternNoise(),
@@ -41,6 +32,7 @@ extends PAppletHax {
 			new PatternInterval(),
 			new PatternRandom(0.5f, 4),
 			new PatternRandom(0.3f, 1),
+			new PatternTechno(),
 		};
 		
 		// build pattern display names
@@ -50,7 +42,17 @@ extends PAppletHax {
 			"PatternInterval",
 			"PatternRandom(0.5f, 4)",
 			"PatternRandom(0.3f, 1)",
+			"PatternTechno",
 		};
+
+		// build steps
+		steps = new boolean[patterns.length][];
+		for (int i = 0; i < steps.length; i++) {
+			steps[i] = new boolean[NUM_STEPS];
+			for (int j = 0; j < steps[i].length; j++) {
+				steps[i][j] = false;
+			}
+		}
 	}
 	
 	protected void applyPatterns() {
