@@ -194,14 +194,13 @@ public class Interphase {
 	}
 	
 	public void update() {
-		// input & lighting buffers
+		// check inputs & advance sequencers
 		checkInputs();
 		updateSequencers();
-
-		// visualize
-		drawBPM();
 		
 		// update debug values
+		P.p.debugView.setValue("BPM", P.store.getFloat(BPM));
+		P.p.debugView.setValue("BPM interval", P.store.getInt(BEAT_INTERVAL_MILLIS) + "ms");
 		P.p.debugView.setValue("BEAT", P.store.getFloat(BEAT));
 		P.p.debugView.setValue("INTERACTION_SPEED_MULT", P.store.getFloat(INTERACTION_SPEED_MULT));
 	}
@@ -215,15 +214,4 @@ public class Interphase {
 		P.store.setNumber(INTERACTION_SPEED_MULT, numWallsInteracted);
 	}
 	
-	protected void drawBPM() {
-		P.p.fill(255);
-		P.p.textAlign(P.LEFT, P.TOP);
-		P.p.textFont(fontBig);
-		P.p.textSize(fontBig.getSize());
-		P.p.text( P.round(P.store.getFloat(BPM)) + "bpm" + " (" + P.store.getInt(BEAT_INTERVAL_MILLIS) + "ms)" + FileUtil.NEWLINE + 
-				SCALE_NAMES[P.store.getInt(CUR_SCALE_INDEX)], 
-				332, 
-				10
-				);
-	}
 }
