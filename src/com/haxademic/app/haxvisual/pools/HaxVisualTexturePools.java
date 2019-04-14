@@ -18,13 +18,13 @@ import com.haxademic.core.draw.textures.pgraphics.TextureEQFloatParticles;
 import com.haxademic.core.draw.textures.pgraphics.TextureEQGrid;
 import com.haxademic.core.draw.textures.pgraphics.TextureEQLinesTerrain;
 import com.haxademic.core.draw.textures.pgraphics.TextureFractalPolygons;
-import com.haxademic.core.draw.textures.pgraphics.TextureImageTileScroll;
 import com.haxademic.core.draw.textures.pgraphics.TextureLinesEQ;
 import com.haxademic.core.draw.textures.pgraphics.TextureMeshAudioDeform;
 import com.haxademic.core.draw.textures.pgraphics.TextureNoiseLines;
 import com.haxademic.core.draw.textures.pgraphics.TextureOuterCube;
 import com.haxademic.core.draw.textures.pgraphics.TextureOuterSphere;
 import com.haxademic.core.draw.textures.pgraphics.TexturePixelatedAudio;
+import com.haxademic.core.draw.textures.pgraphics.TextureRadialGridPulse;
 import com.haxademic.core.draw.textures.pgraphics.TextureRotatingRings;
 import com.haxademic.core.draw.textures.pgraphics.TextureRotatorShape;
 import com.haxademic.core.draw.textures.pgraphics.TextureShaderTimeStepper;
@@ -88,6 +88,7 @@ public class HaxVisualTexturePools {
 		_bgTexturePool.add( new TextureConcentricDashedCubes( textureW, textureH ));
 		_bgTexturePool.add( new TextureDashedLineSine( textureW, textureH ));
 		_bgTexturePool.add( new TextureNoiseLines( textureW, textureH ));
+		_bgTexturePool.add( new TextureRadialGridPulse( textureW, textureH ));
 
 
 //		_bgTexturePool.add( new TextureAudioTube( textureW, textureH ) );
@@ -105,6 +106,7 @@ public class HaxVisualTexturePools {
 		_fgTexturePool.add( new TextureConcentricDashedCubes( textureW, textureH ));
 		_fgTexturePool.add( new TextureDashedLineSine( textureW, textureH ));
 		_fgTexturePool.add( new TextureNoiseLines( textureW, textureH ));
+		_fgTexturePool.add( new TextureRadialGridPulse( textureW, textureH ));
 
 //		_overlayTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "cacheflowe-liquid-moire.glsl" ));
 		_overlayTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "cacheflowe-metaballs.glsl" ));
@@ -153,6 +155,7 @@ public class HaxVisualTexturePools {
 		_bgTexturePool.add( new TextureConcentricDashedCubes( textureW, textureH ));
 		_bgTexturePool.add( new TextureDashedLineSine( textureW, textureH ));
 		_bgTexturePool.add( new TextureNoiseLines( textureW, textureH ));
+		_bgTexturePool.add( new TextureRadialGridPulse( textureW, textureH ));
 
 		_bgTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "sdf-01-auto.glsl" ));
 		_bgTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "sdf-02-auto.glsl" ));
@@ -225,6 +228,7 @@ public class HaxVisualTexturePools {
 		_fgTexturePool.add( new TextureConcentricDashedCubes( textureW, textureH ));
 		_fgTexturePool.add( new TextureDashedLineSine( textureW, textureH ));
 		_fgTexturePool.add( new TextureNoiseLines( textureW, textureH ));
+		_fgTexturePool.add( new TextureRadialGridPulse( textureW, textureH ));
 
 		_fgTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "basic-checker.glsl" ));
 		_fgTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "basic-diagonal-stripes.glsl" ));

@@ -144,7 +144,7 @@ extends BaseTexture {
 //		shape.setTexture(textureFlipped);
 
 //		_texture.scale(0.65f + 0.45f * P.sin(P.PI + scaleOsc));
-		_texture.scale(0.65f + 0.2f * P.sin(P.PI + scaleOsc));
+		_texture.scale(0.45f + 0.2f * P.sin(P.PI + scaleOsc));
 		_texture.shape(shapeIcos);
 		_texture.resetShader();
 //		_texture.shape(shape);
