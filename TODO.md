@@ -118,3 +118,8 @@
   * Document important files/concepts/tools for README
 * HaxVisualTwo
   * Start moving all apps towards objects that can receive a PGraphics instance. decoupling from PApplet will help move visuals into HaxVisualTwo
+  	* Houndstooth animation
+  	* Circle Sphere
+  	* Brim liski sphere
+  	* ParticleBranchers
+  	* Any other cool loop/render?!

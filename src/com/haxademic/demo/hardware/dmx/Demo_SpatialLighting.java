@@ -8,7 +8,6 @@ import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.color.EasingColor;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.shapes.Shapes;
-import com.haxademic.core.file.DemoAssets;
 import com.haxademic.core.hardware.dmx.DMXWrapper;
 
 import processing.core.PImage;
@@ -19,44 +18,44 @@ extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
 	// TODO --------------------------
-	// * Connect prefsSliders to DMXLight objects. Use a HashMap?
-	//   * Add multi-ring lights - one of these objects would create the lights and move the centerpoints and radius
-	// * Add individual light control - use a PrefsText int[] array to store all of the offsets?
-	// * Target channel mode - flash a specific channel to identify 
+	// * Add multi-ring lights - one of these objects would create the lights and move the centerpoints and radius
+	// 		* Pass in an array of DMX start channels?
+	// * Add individual light control override - use a PrefsText int[] array to store all of the offsets?
+	// 		* Target channel mode - flash a specific channel to identify 
 	// * Add mapping DMX debug visual (show DMX channel in 3d text)
 	// * Add more floorplan / scenic images
 	// * Try other volumetric color techniques 
 	// * Add light model for simulation? sphere is fine for now
 	// -------------------------------
+
+	protected String SPATIAL_LIGHTING_PREFIX = "SL_";
 	
 	// room bounding box and texture helpers
-	protected String ROOM_SIZE = "ROOM_SIZE";
-	protected String FLOORPLAN_ALPHA = "FLOORPLAN_ALPHA";
-	protected String ROOM_ROTATION = "ROOM_ROTATION";
+	protected String ROOM_SIZE = 				SPATIAL_LIGHTING_PREFIX + "ROOM_SIZE";
+	protected String FLOORPLAN_ALPHA = 			SPATIAL_LIGHTING_PREFIX + "FLOORPLAN_ALPHA";
+	protected String ROOM_ROTATION = 			SPATIAL_LIGHTING_PREFIX + "ROOM_ROTATION";
 	
 	// color generation
-	protected String NOISE_FREQ = "NOISE_FREQ";
-	protected String NOISE_SCROLL_DIRECTION = "NOISE_DIRECTION";
-	protected String NOISE_GRID_SPACING = "NOISE_GRID_SPACING";
-	protected String NOISE_GRID_CUBE_SIZE = "NOISE_GRID_CUBE_SIZE";
+	protected String NOISE_FREQ = 				SPATIAL_LIGHTING_PREFIX + "NOISE_FREQ";
+	protected String NOISE_SCROLL_DIRECTION = 	SPATIAL_LIGHTING_PREFIX + "NOISE_DIRECTION";
+	protected String NOISE_GRID_SPACING = 		SPATIAL_LIGHTING_PREFIX + "NOISE_GRID_SPACING";
+	protected String NOISE_GRID_CUBE_SIZE = 	SPATIAL_LIGHTING_PREFIX + "NOISE_GRID_CUBE_SIZE";
 	protected PVector noiseGlobalOffset = new PVector();
 
-	// lights positions
-	protected String LIGHT_1_POS = "LIGHT_1_POS";
-	protected String LIGHT_1_RING_SIZE = "LIGHT_1_RING_SIZE";
-	
-	// 3d sPace helpers
+	// 3d space helpers
+	float roomW = 500;
+	float roomH = 300;
+	float roomD = 300;
 	protected PImage floorplan;
 
 	// dmx communication
 	protected DMXWrapper dmxWrapper;
 	
+	// dmx lights
+	protected ArrayList<DMXLightRGB> lights = new ArrayList<DMXLightRGB>();
 	protected DMXLightRGB light1;
 	protected DMXLightRGB light2;
 	protected DMXLightRGB light3;
-	
-	protected ArrayList<DMXLightRGB> lights = new ArrayList<DMXLightRGB>();
-
 
 	
 	protected void overridePropsFile() {
@@ -86,7 +85,6 @@ extends PAppletHax {
 		p.prefsSliders.addSlider(NOISE_GRID_CUBE_SIZE, 4, 0, 20, 0.1f);
 		
 		// light positions
-		p.prefsSliders.addSliderVector(LIGHT_1_POS, 0, -1f, 1f, 0.001f, false);
 		P.out(p.prefsSliders.toJSON());	
 	}
 	
@@ -95,9 +93,9 @@ extends PAppletHax {
 		dmxWrapper = new DMXWrapper("COM7", 9600);
 
 		// init lights
-		light1 = new DMXLightRGB(4);
-		light2 = new DMXLightRGB(1);
-		light3 = new DMXLightRGB(7);
+		light1 = new DMXLightRGB(4, true);
+		light2 = new DMXLightRGB(1, true);
+		light3 = new DMXLightRGB(7, true);
 		
 		// build array
 		lights.add(light1);
@@ -122,9 +120,9 @@ extends PAppletHax {
 		///////////////////////////
 		// DEFINE ROOM SIZE
 		///////////////////////////
-		float roomW = p.prefsSliders.value(ROOM_SIZE + "_X");
-		float roomH = p.prefsSliders.value(ROOM_SIZE + "_Y");
-		float roomD = p.prefsSliders.value(ROOM_SIZE + "_Z");
+		roomW = p.prefsSliders.value(ROOM_SIZE + "_X");
+		roomH = p.prefsSliders.value(ROOM_SIZE + "_Y");
+		roomD = p.prefsSliders.value(ROOM_SIZE + "_Z");
 		
 		// draw bounding box
 		p.noFill();
@@ -155,17 +153,8 @@ extends PAppletHax {
 		///////////////////////////
 		// DRAW LIGHTS
 		///////////////////////////
-		DrawUtil.setDrawCorner(p.g);
-		float lightX = roomW * p.prefsSliders.value(LIGHT_1_POS + "_X");
-		float lightY = roomH * p.prefsSliders.value(LIGHT_1_POS + "_Y");
-		float lightZ = roomD * p.prefsSliders.value(LIGHT_1_POS + "_Z");
-		DrawUtil.push(p.g);
-		p.fill(colorFromPosition(lightX, lightY, lightZ));
-		p.translate(lightX, lightY, lightZ);
-		p.sphere(20);
-		DrawUtil.pop(p.g);
 		
-		// draw lights from array
+		DrawUtil.setDrawCorner(p.g);
 		for (int i = 0; i < lights.size(); i++) {
 			lights.get(i).update();
 		}
@@ -217,17 +206,25 @@ extends PAppletHax {
 		protected EasingColor color = new EasingColor("#000000", 10f); 
 		protected int dmxChannel;
 		protected String name;
+		protected boolean hasSlider;
+		protected String posSliderKey;
 		protected float mapLow = 0;
 		protected float mapHigh = 255;
 		protected PVector position = new PVector();
 		
 		public DMXLightRGB(int dmxChannel) {
-			this(dmxChannel, null);
+			this(dmxChannel, false);
 		}
 		
-		public DMXLightRGB(int dmxChannel, String name) {
+		public DMXLightRGB(int dmxChannel, boolean hasSlider) {
 			this.dmxChannel = dmxChannel;
-			this.name = (name == null) ? ""+dmxChannel : name;
+			this.name = ""+dmxChannel;
+			this.hasSlider = hasSlider;
+			
+			if(this.hasSlider) {
+				posSliderKey = SPATIAL_LIGHTING_PREFIX + "LIGHT_POS_" + dmxChannel;
+				p.prefsSliders.addSliderVector(posSliderKey, 0, -1f, 1f, 0.001f, false);
+			}
 		}
 		
 		public int dmxChannel() { return dmxChannel; }
@@ -243,6 +240,22 @@ extends PAppletHax {
 		public void update() {
 			// lerp color
 			color.update();
+			
+			// use slider to set a single light's positino
+			if(this.hasSlider) {
+				position.set(p.prefsSliders.value(posSliderKey + "_X"), p.prefsSliders.value(posSliderKey + "_Y"), p.prefsSliders.value(posSliderKey + "_Z"));
+			}
+			
+			// draw light in 3d space
+			DrawUtil.push(p.g);
+			p.fill(colorFromPosition(position.x * roomW, position.y * roomH, position.z * roomD));
+			p.translate(position.x * roomW, position.y * roomH, position.z * roomD);
+			p.sphere(20);
+			// draw debug channel text
+			p.translate(25, 0, 0);
+			p.fill(0, 255, 0);
+			p.text(name, 0, 0);
+			DrawUtil.pop(p.g);
 			
 			// send dmx
 			dmxWrapper.setValue(dmxChannel + 0, P.round(P.map(color.r(), 0, 255, mapLow, mapHigh)));
