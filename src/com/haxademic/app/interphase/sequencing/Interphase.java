@@ -3,13 +3,16 @@ package com.haxademic.app.interphase.sequencing;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.draw.color.ImageGradient;
+import com.haxademic.core.hardware.midi.devices.LaunchPad;
+import com.haxademic.core.hardware.midi.devices.LaunchPad.ILaunchpadCallback;
 import com.haxademic.core.hardware.shared.InputTrigger;
 
 import beads.Pitch;
 import processing.core.PFont;
 import processing.core.PShape;
 
-public class Interphase {
+public class Interphase
+implements ILaunchpadCallback {
 	
 	////////////////////////////////////////
 	
@@ -58,11 +61,13 @@ public class Interphase {
 	public static final String BEAT = "BEAT";
 	public static final String BPM = "BPM";
 	public static final String BEAT_INTERVAL_MILLIS = "BEAT_INTERVAL_MILLIS";
+	public static final String BPM_MIDI = "BPM_MIDI";
 
 	// input 
 	
 	public static final float TEMPO_EASE_FACTOR = 1.5f;
-	public static boolean TEMPO_MOUSE_CONTROL = true;
+	public static boolean TEMPO_MOUSE_CONTROL = false;
+	public static boolean TEMPO_MIDI_CONTROL = true;
 	public static final int TRIGGER_TIMEOUT = 45000;
 	public static final String INTERACTION_SPEED_MULT = "INTERACTION_SPEED_MULT";
 	
@@ -85,20 +90,25 @@ public class Interphase {
 	
 	protected boolean upsideDownLED = true;
 	
-	protected InputTrigger trigger1 = new InputTrigger(new char[]{'1'}, null, new Integer[]{41}, null, null);
-	protected InputTrigger trigger2 = new InputTrigger(new char[]{'2'}, null, new Integer[]{42}, null, null);
-	protected InputTrigger trigger3 = new InputTrigger(new char[]{'3'}, null, new Integer[]{43}, null, null);
-	protected InputTrigger trigger4 = new InputTrigger(new char[]{'4'}, null, new Integer[]{44}, null, null);
-	protected InputTrigger trigger5 = new InputTrigger(new char[]{'5'}, null, new Integer[]{45}, null, null);
-	protected InputTrigger trigger6 = new InputTrigger(new char[]{'6'}, null, new Integer[]{46}, null, null);
-	protected InputTrigger trigger7 = new InputTrigger(new char[]{'7'}, null, new Integer[]{47}, null, null);
-	protected InputTrigger trigger8 = new InputTrigger(new char[]{'8'}, null, new Integer[]{48}, null, null);
+	protected InputTrigger trigger1 = new InputTrigger(new char[]{'1'}, null, new Integer[]{104, 41}, null, null);
+	protected InputTrigger trigger2 = new InputTrigger(new char[]{'2'}, null, new Integer[]{105, 42}, null, null);
+	protected InputTrigger trigger3 = new InputTrigger(new char[]{'3'}, null, new Integer[]{106, 43}, null, null);
+	protected InputTrigger trigger4 = new InputTrigger(new char[]{'4'}, null, new Integer[]{107, 44}, null, null);
+	protected InputTrigger trigger5 = new InputTrigger(new char[]{'5'}, null, new Integer[]{108, 45}, null, null);
+	protected InputTrigger trigger6 = new InputTrigger(new char[]{'6'}, null, new Integer[]{109, 46}, null, null);
+	protected InputTrigger trigger7 = new InputTrigger(new char[]{'7'}, null, new Integer[]{110, 47}, null, null);
+	protected InputTrigger trigger8 = new InputTrigger(new char[]{'8'}, null, new Integer[]{111, 48}, null, null);
 
+	protected LaunchPad launchpad1;
+	protected LaunchPad launchpad2;
+
+	
 	public Interphase() {
 		// init state
 		P.store.setNumber(BEAT, 0);
 		P.store.setNumber(BEAT_INTERVAL_MILLIS, 700f);
 		P.store.setNumber(BPM, 0);
+		P.store.setNumber(BPM_MIDI, 0);
 		P.store.setNumber(INTERACTION_SPEED_MULT, 0);
 		P.store.setNumber(CUR_SCALE_INDEX, 0);
 
@@ -116,6 +126,12 @@ public class Interphase {
 		for (int i = 0; i < sequencers.length; i++) {
 			sequencers[i] = new Sequencer(this, SequencerConfig.interphaseChannels[i]);
 		}
+		
+		// build launchpad
+		launchpad1 = new LaunchPad(0, 3);
+		launchpad1.setDelegate(this);
+		launchpad2 = new LaunchPad(1, 4);
+		launchpad2.setDelegate(this);
 	}
 	
 	
@@ -177,6 +193,42 @@ public class Interphase {
 		if(P.p.key == ',') sequencers[7].toggleEvloves();
 	}
 	
+	// LAUNCHPAD INTEGRATION
+	
+	protected void updateLaunchpads() {
+		if(launchpad1 == null) return;
+		
+		// track current beat
+		int curBeat = P.store.getInt(BEAT) % NUM_STEPS;
+		
+		// split across launchpads
+		for (int i = 0; i < sequencers.length; i++) {
+			for (int step = 0; step < NUM_STEPS; step++) {
+				float value = (sequencers[i].stepActive(step)) ? 1 : 0; 
+				float adjustedVal = value;
+				if(value == 0 && step % 4 == 0) adjustedVal = 0.15f;	// show divisor by 4
+				if(value == 0 && step == curBeat) adjustedVal = 0.65f;	// show playhead in row
+				if(step <= 7) {
+					launchpad1.setButton(i, step, adjustedVal);
+				} else {
+					launchpad2.setButton(i, step - 8, adjustedVal);
+				}
+			}
+		}
+		
+		// update playhead
+		int lastColIndex = 8;
+		for (int step = 0; step < NUM_STEPS; step++) {
+			float value = (step == curBeat) ? 0.68f : 0; 
+			if(step <= 7) {
+				launchpad1.setButton(lastColIndex, step, value);
+			} else {
+				launchpad2.setButton(lastColIndex, step - 8, value);
+			}
+		}
+
+	}
+	
 	/////////////////////////////////
 	// DRAW
 	/////////////////////////////////
@@ -196,6 +248,7 @@ public class Interphase {
 		// check inputs & advance sequencers
 		checkInputs();
 		updateSequencers();
+		updateLaunchpads();
 		
 		// update debug values
 		P.p.debugView.setValue("BPM", P.store.getFloat(BPM));
@@ -212,5 +265,36 @@ public class Interphase {
 		}
 		P.store.setNumber(INTERACTION_SPEED_MULT, numWallsInteracted);
 	}
+
+	/////////////////////////////////
+	// LAUNCHPAD CALLBACK
+	/////////////////////////////////
 	
+	public void cellUpdated(LaunchPad launchpad, int x, int y, float value) {
+		// apply toggle button press
+		int launchpadNumber = (launchpad == launchpad1) ? 1 : 2;
+		P.out(launchpadNumber, x, y, value);
+		int step = (launchpadNumber == 1) ? y : 8 + y;
+		boolean isActive = (value == 1f);
+		if(x < 8) sequencers[x].stepActive(step, isActive);
+	}
+	
+	public void noteOn(LaunchPad launchpad, int note, float value) {
+		int launchpadNumber = (launchpad == launchpad1) ? 1 : 2;
+		P.out("Interphase.noteOn", launchpadNumber, note, value);
+		if(launchpadNumber == 1) {
+			for (int i = 0; i < 8; i++) {
+				if(note == LaunchPad.headerColMidiNote(i)) sequencers[i].evolvePattern(true); 
+			}
+		} else {
+			// change sample
+			for (int i = 0; i < 8; i++) {
+				if(note == LaunchPad.headerColMidiNote(i)) sequencers[i].loadNextSound(); 
+			}
+			// bpm up/down
+			int curBmpMIDI = P.store.getInt(Interphase.BPM_MIDI);
+			if(note == LaunchPad.groupRowMidiNote(1)) P.store.setNumber(Interphase.BPM_MIDI, curBmpMIDI - 1); 
+			if(note == LaunchPad.groupRowMidiNote(0)) P.store.setNumber(Interphase.BPM_MIDI, curBmpMIDI + 1); 
+		}
+	}
 }

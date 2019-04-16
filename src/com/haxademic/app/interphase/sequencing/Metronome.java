@@ -35,11 +35,15 @@ public class Metronome {
 	}
 	
 	public void initTempos() {
+		// helpers to calculat stopping points if user interaction with each wall "excites" the bpm
 		float tempoSpread = tempoMax - tempoMin;
 		float tempoIncrement = tempoSpread / Interphase.NUM_WALLS; 
 		for (int i = 0; i < TEMPOS.length; i++) {
 			TEMPOS[i] = P.round(60000f / (tempoMin + i * tempoIncrement)); 	// one minute divided by bpm
 		}
+		// inits user bpm
+		// start tempo in the middle
+		P.store.setNumber(Interphase.BPM_MIDI, tempoMin + (tempoMax - tempoMin) / 2); 
 	}
 	
 	public void init() {
@@ -55,10 +59,14 @@ public class Metronome {
 					if(p.systemMuted()) return;
 					
 					// update tempo!
-					if(Interphase.TEMPO_MOUSE_CONTROL) {
+					if(Interphase.TEMPO_MIDI_CONTROL) {
 						// mouse control
-						int beatIntervalMillisMouse = P.round(P.map(P.p.mousePercentX(), 0, 1, TEMPOS[0], TEMPOS[TEMPOS.length - 1]));
-						P.store.setNumber(Interphase.BEAT_INTERVAL_MILLIS, beatIntervalMillisMouse);
+						int beatIntervalMillisMidi = P.round(P.map(P.store.getInt(Interphase.BPM_MIDI), tempoMin, tempoMax, TEMPOS[0], TEMPOS[TEMPOS.length - 1]));
+						P.store.setNumber(Interphase.BEAT_INTERVAL_MILLIS, beatIntervalMillisMidi);
+					} else if(Interphase.TEMPO_MOUSE_CONTROL) {
+							// mouse control
+							int beatIntervalMillisMouse = P.round(P.map(P.p.mousePercentX(), 0, 1, TEMPOS[0], TEMPOS[TEMPOS.length - 1]));
+							P.store.setNumber(Interphase.BEAT_INTERVAL_MILLIS, beatIntervalMillisMouse);
 					} else {
 						// change tempo based on activity
 						int interactionMultIndex = P.store.getInt(Interphase.INTERACTION_SPEED_MULT);

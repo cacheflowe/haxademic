@@ -345,9 +345,7 @@ extends PAppletHax {
 		runDebugHelpers();
 	}
 
-	protected void drawPre() {
-		////////////////////////////////////
-		// copy colorize gradient to buffer
+	protected void updateColorizeTexture() {
 		colorizeSourceTexture.beginDraw();
 		colorizeSourceTexture.noStroke();
 		ImageUtil.copyImage(imageGradient.texture(), colorizeSourceTexture);
@@ -355,7 +353,7 @@ extends PAppletHax {
 		
 		// then draw on top - replace this with a collection of audioreactive textures
 		for (int i = 0; i < colorizeSourceTexture.width; i++) {
-			float eqAmp = 0.3f + P.p.audioFreq(i + 20) * 3f;
+			float eqAmp = 0.3f + P.p.audioFreq(i + 20) * 20f;
 			colorizeSourceTexture.fill(255 * eqAmp);
 			colorizeSourceTexture.rect(i, 0, 1, colorizeSourceTexture.height);
 		}
@@ -363,9 +361,9 @@ extends PAppletHax {
 		// close context
 		colorizeSourceTexture.blendMode(PBlendModes.BLEND);
 		colorizeSourceTexture.endDraw();
-		
-		////////////////////////////////////
-		// draw gradient blend image
+	}
+	
+	protected void updateEdgeBlending() {
 		if(fadeEdge != null && p.frameCount < 1000) {
 			fadeEdge.beginDraw();
 			fadeEdge.clear();
@@ -389,6 +387,11 @@ extends PAppletHax {
 			
 			// p.debugView.setTexture(fadeEdge);
 		}
+	}
+	
+	protected void drawPre() {
+		updateColorizeTexture();
+		updateEdgeBlending();
 	}
 	
 	protected void updateTextures() {

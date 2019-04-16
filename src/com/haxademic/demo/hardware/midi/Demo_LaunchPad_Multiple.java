@@ -59,5 +59,10 @@ implements ILaunchpadCallback {
 		int launchpadNumber = (launchpad == launchpad1) ? 1 : 2;
 		P.out(launchpadNumber, x, y, value);
 	}
+
+	public void noteOn(LaunchPad launchpad, int note, float value) {
+		int launchpadNumber = (launchpad == launchpad1) ? 1 : 2;
+		P.out(launchpadNumber, note, value);
+	}
 	
 }

@@ -188,6 +188,10 @@ implements IAppStoreListener {
 		return steps[i];
 	}
 	
+	protected void stepActive(int i, boolean active) {
+		steps[i] = active;
+	}
+	
 	public boolean shouldPlay() {
 		return shouldPlay;
 	}
@@ -426,7 +430,7 @@ implements IAppStoreListener {
 			// load a new sound on a random interval
 			checkLoadNewSound();
 			// every 8 cycles, trigger
-			if(sequencesComplete % Interphase.NUM_WALLS == index) evolvePattern(false);
+			if(P.round(sequencesComplete/2) % Interphase.NUM_WALLS == index) evolvePattern(false);
 		}
 		
 		// toggle wall color multiplier

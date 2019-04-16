@@ -1,5 +1,7 @@
 package com.haxademic.core.audio.analysis.input;
 
+import com.haxademic.core.app.P;
+
 import beads.AudioContext;
 import beads.Bead;
 import beads.FFT;
@@ -20,7 +22,9 @@ implements IAudioInput {
 	protected PeakDetector od;
 	protected AudioStreamData audioStreamData = new AudioStreamData();
 	protected boolean beatDirty = false;
-	protected boolean audioInput = true;;
+	protected int beatTimeThresh = 300;
+	protected int lastBeatTime = 0;
+	protected boolean audioInput = true;
 	
 	public AudioInputBeads() {
 		  ac = new AudioContext();
@@ -106,10 +110,12 @@ implements IAudioInput {
 		} else {
 			audioStreamData.setWaveformOffsets(ac.out.getOutBuffer(0));
 		}
-		if(beatDirty) {
+		if(beatDirty && P.p.millis() > lastBeatTime + beatTimeThresh) {
+			lastBeatTime = P.p.millis();
 			beatDirty = false;
-  			audioStreamData.setBeat();
+			audioStreamData.setBeat();
 		}
+
 		// audioStreamData.setAmp(od.getLastOnsetValue());
 		audioStreamData.calcAmpAverage();
 		audioStreamData.update();

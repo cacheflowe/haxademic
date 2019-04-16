@@ -42,6 +42,7 @@ implements SimpleMidiListener {
 	
 	public interface ILaunchpadCallback {
 		public void cellUpdated(LaunchPad launchpad, int x, int y, float value);
+		public void noteOn(LaunchPad launchpad, int note, float value);
 	}
 	
 	//////////////////////////////
@@ -76,10 +77,11 @@ implements SimpleMidiListener {
 		}
 	}
 	
-	protected void setButton(int x, int y, float val) {
+	public void setButton(int x, int y, float val) {
 		// quantize normalized number for less color-changing via the following comparison 
 		val = P.floor(val * (float) NovationColors.colors.length) / (float)NovationColors.colors.length;
 //		P.out(val);
+		// update on launchpad hardware
 		if(grid[x][y] != val) {
 			grid[x][y] = val;
 			midiBus.sendNoteOn(0, LaunchPad.gridMidiNote(x, y), NovationColors.colorByPercent(val));
@@ -91,7 +93,7 @@ implements SimpleMidiListener {
 	}
 	
 	protected float toggleButton(int x, int y) {
-		float newVal = (grid[x][y] == 0) ? 1 : 0; 
+		float newVal = (grid[x][y] != 1) ? 1 : 0; 
 		setButton(x, y, newVal);
 		return newVal;
 	}
@@ -120,7 +122,12 @@ implements SimpleMidiListener {
 	//////////////////////////
 
 	public void controllerChange(int channel, int pitch, int velocity) {
-		
+		// top row of Launchpad comes in as CC
+		if(delegate != null) {
+			if(velocity == 127f) {
+				delegate.noteOn(this, pitch, velocity);
+			}
+		}
 	}
 
 	public void noteOff(int channel, int pitch, int velocity) {
@@ -134,6 +141,7 @@ implements SimpleMidiListener {
 		P.out(buttonPressResult);
 		if(delegate != null) {
 			delegate.cellUpdated(this, inputGridX, inputGridY, buttonPressResult);
+			delegate.noteOn(this, pitch, velocity);
 		}
 	}
 

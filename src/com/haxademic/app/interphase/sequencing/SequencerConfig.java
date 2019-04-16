@@ -37,7 +37,7 @@ public class SequencerConfig {
 	
 	
 	public static SequencerConfig[] interphaseChannels = new SequencerConfig[] {
-		new SequencerConfig(0, "audio/samples/01-kick", buildKickPatterns(), 1f, false, false, false, false, false),
+		new SequencerConfig(0, "audio/samples/01-kick", buildKickSnarePatterns(), 1f, false, false, false, false, false),
 		new SequencerConfig(1, "audio/samples/02-snare",buildKickSnarePatterns(), 0.75f, false, false, false, false, false),
 		new SequencerConfig(2, "audio/samples/03-hats", buildHatPatterns(), 0.6f, false, false, false, false, false),
 		new SequencerConfig(3, "audio/samples/04-perc", buildSfxPatterns(), 0.8f, false, false, false, false, false),
