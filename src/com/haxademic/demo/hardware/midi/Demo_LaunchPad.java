@@ -12,7 +12,7 @@ extends PAppletHax {
 
 	protected void overridePropsFile() {
 		p.appConfig.setProperty(AppSettings.MIDI_DEVICE_IN_INDEX, 0 );
-		p.appConfig.setProperty(AppSettings.MIDI_DEVICE_OUT_INDEX, 1 );
+		p.appConfig.setProperty(AppSettings.MIDI_DEVICE_OUT_INDEX, 3 );
 	}
 	
 	public void drawApp() {

@@ -8,7 +8,8 @@ import com.haxademic.core.hardware.shared.InputState;
 import themidibus.MidiListener;
 import themidibus.SimpleMidiListener;
 
-public class MidiDevice implements SimpleMidiListener {
+public class MidiDevice 
+implements SimpleMidiListener {
 	
 	protected HashMap<Integer, Integer> midiButtonVal = new HashMap<Integer, Integer>();
 	protected HashMap<Integer, InputState> midiButtons = new HashMap<Integer, InputState>();

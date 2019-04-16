@@ -1,5 +1,7 @@
 package com.haxademic.core.hardware.midi.devices;
 
+import com.haxademic.core.app.P;
+
 public class NovationColors {
 
 	public static int NONE = 76;
@@ -37,6 +39,10 @@ public class NovationColors {
 			YELLOW_MEDIUM,
 			YELLOW_STRONG,
 	};
+	
+	public static int colorByPercent(float percent) {
+		return colors[P.round((colors.length - 1) * P.constrain(percent, 0, 1))];
+	}
 }
 
 	/*
