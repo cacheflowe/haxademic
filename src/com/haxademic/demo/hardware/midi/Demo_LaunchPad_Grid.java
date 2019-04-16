@@ -71,10 +71,6 @@ implements SimpleMidiListener {
 	
 	public void drawApp() {
 		p.background(0);
-		// p.midi.isMidiButtonOn(LaunchControl.PAD_01)
-		// print debug
-		p.midiState.printButtons();
-		p.midiState.printCC();
 		
 		// draw test pattern
 		pg.beginDraw();
@@ -101,6 +97,10 @@ implements SimpleMidiListener {
 		}
 		
 		p.image(pg, 0, 0);
+		
+		// print debug
+		p.midiState.printButtons();
+		p.midiState.printCC();
 	}
 
 	//////////////////////////////
