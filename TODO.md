@@ -20,8 +20,11 @@
 	* Also, blob tracking VFX but sweet patterns inside the blobs
   
 ## HaxVisualTwo
+  * For displacement layer blur, try scaled-down buffer technique for fast major blur, rather than shader
+  * Less kaleidoscope
+  * BaseVideoFilter should have an optional need to create sourceBuffer - most don't need this extra buffer created
   * Extract HaxVisualTwo post-processing into its own reusable component?
-  * Preset visual combos
+  * Preset texture combos
   * Why don't any audio inputs besides ESS work anymore? (Beads, Minim)
   * Make PGraphics pool so every visual doesn't have it's own - this is way too heavy
   * Start moving all apps towards objects that can receive a PGraphics instance. decoupling from PApplet will help move visuals into HaxVisualTwo
@@ -34,6 +37,7 @@
   	
 ## Interphase
   * C.A.C.H.E. - Creative Adversarial Computer-Human Exchange
+  * Make all keyboard commands capital letters, so Caps lock toggles key commands between HaxVisual and Interphase 
   * Come up with a way to film. 2 phones? dual webcam? what about audio? does it need to run on the mac laptop for a/v capture?
   	* Capture Launchpads from above, A/V from video feed
   * When sequencers trigger, send an event in AppStore. this could trigger lights, HaxVisual events

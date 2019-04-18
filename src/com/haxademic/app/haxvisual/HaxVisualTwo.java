@@ -21,6 +21,7 @@ import com.haxademic.core.draw.color.ImageGradient;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.filters.pshader.BadTVLinesFilter;
+import com.haxademic.core.draw.filters.pshader.BlendTowardsTexture;
 import com.haxademic.core.draw.filters.pshader.BloomFilter;
 import com.haxademic.core.draw.filters.pshader.BlurHFilter;
 import com.haxademic.core.draw.filters.pshader.BlurProcessingFilter;
@@ -185,6 +186,7 @@ extends PAppletHax {
 	protected int displacementTextureIndex = 0;
 	protected int overlayMode = 0;
 	protected float brightnessVal = 1f;
+	protected PGraphics displacementBlurBuffer;
 
 	// GLITCH EFFECTS
 	protected LinearFloat glitchProgress = new LinearFloat(0, 0.015f);
@@ -276,7 +278,9 @@ extends PAppletHax {
 	}
 	
 	protected void buildPostProcessingChain() {
-		colorizeSourceTexture = p.createGraphics(128, 4, PRenderers.P2D);
+		displacementBlurBuffer = p.createGraphics(_pg.width/20, _pg.height/20, PRenderers.P3D);
+		
+		colorizeSourceTexture = p.createGraphics(128, 4, PRenderers.P3D);
 		p.debugView.setTexture(colorizeSourceTexture);
 		imageGradient = new ImageGradient(ImageGradient.PASTELS());
 		imageGradient.addTexturesFromPath(ImageGradient.COOLORS_PATH);
@@ -429,8 +433,10 @@ extends PAppletHax {
 
 	protected void drawTopLayer() {
 		_pg.beginDraw();
-		_pg.blendMode(PBlendModes.BLEND);
+//		_pg.blendMode(PBlendModes.BLEND);
+		_pg.blendMode(PBlendModes.ADD);
 		ImageUtil.drawImageCropFill(topLayer().texture(), _pg, true);
+		_pg.blendMode(PBlendModes.BLEND);
 		_pg.endDraw();
 	}
 	
@@ -493,13 +499,28 @@ extends PAppletHax {
 			if(overlayMode == 0) {
 				// DISPLACEMENT MAP FILTER
 				// add blur to displacement image
-				float blurPercent = 2f; // p.mousePercentX() * 10f;
-				BlurHFilter.instance(p).setBlurByPercent(blurPercent, _pg.width);
-				BlurVFilter.instance(p).setBlurByPercent(blurPercent, _pg.height);
-				BlurHFilter.instance(p).applyTo(displacementBuffer);
-				BlurVFilter.instance(p).applyTo(displacementBuffer);
-				BlurHFilter.instance(p).applyTo(displacementBuffer);
-				BlurVFilter.instance(p).applyTo(displacementBuffer);
+				boolean scaleByTextureResize = true;
+				if(scaleByTextureResize) {
+					p.debugView.setTexture(displacementBlurBuffer);
+					ImageUtil.copyImage(displacementBuffer, displacementBlurBuffer);			// scale down to tiny buffer
+//					ImageUtil.copyImage(displacementBlurBuffer, displacementBuffer);			// instead of copying back up,
+					BlendTowardsTexture.instance(p).setSourceTexture(displacementBlurBuffer);	// lerp it back up for smoothness
+					BlendTowardsTexture.instance(p).setBlendLerp(0.25f);
+					BlendTowardsTexture.instance(p).applyTo(displacementBuffer);
+					// extra blur to smooth edges
+					BlurHFilter.instance(p).setBlurByPercent(3f, displacementBuffer.width);		// then blur again for more smoothness
+					BlurVFilter.instance(p).setBlurByPercent(3f, displacementBuffer.height);
+					BlurHFilter.instance(p).applyTo(displacementBuffer);
+					BlurVFilter.instance(p).applyTo(displacementBuffer);
+				} else {
+					float blurPercent = 2f; // p.mousePercentX() * 10f;
+					BlurHFilter.instance(p).setBlurByPercent(blurPercent, _pg.width);
+					BlurVFilter.instance(p).setBlurByPercent(blurPercent, _pg.height);
+					BlurHFilter.instance(p).applyTo(displacementBuffer);
+					BlurVFilter.instance(p).applyTo(displacementBuffer);
+					BlurHFilter.instance(p).applyTo(displacementBuffer);
+					BlurVFilter.instance(p).applyTo(displacementBuffer);
+				}
 				// set current layer as displacer & apply effect
 				DisplacementMapFilter.instance(p).setMap(displacementBuffer);
 				DisplacementMapFilter.instance(p).setMode(3);
@@ -524,7 +545,7 @@ extends PAppletHax {
 				PGraphics tex2;
 				if(displacementTextureIndex == 0) { 		tex1 = _curTexturePool.get(1).texture(); tex2 = _curTexturePool.get(2).texture(); }
 				else if(displacementTextureIndex == 1) { 	tex1 = _curTexturePool.get(0).texture(); tex2 = _curTexturePool.get(2).texture(); }
-				else { 								tex1 = _curTexturePool.get(0).texture(); tex2 = _curTexturePool.get(1).texture(); }
+				else { 										tex1 = _curTexturePool.get(0).texture(); tex2 = _curTexturePool.get(1).texture(); }
 				MaskThreeTextureFilter.instance(p).setMask(displacementBuffer);
 				MaskThreeTextureFilter.instance(p).setTexture1(tex1);
 				MaskThreeTextureFilter.instance(p).setTexture2(tex2);
@@ -600,6 +621,7 @@ extends PAppletHax {
 		p.debugView.setValue("kaleidoSides", kaleidoSides);
 		if( kaleidoSides > 0 ) {
 			if( kaleidoSides == 1 ) {
+				MirrorQuadFilter.instance(p).setZoom(0.25f);
 				MirrorQuadFilter.instance(p).applyTo(_pg);
 			} else if( kaleidoSides == 3 ) {
 				ReflectFilter.instance(p).applyTo(_pg);
@@ -612,7 +634,6 @@ extends PAppletHax {
 	}
 
 	protected void applyColorizeFilter() {
-		// COLORIZE FROM TEXTURE ////////////////////////
 		if(colorizeWithGradient) {
 			ColorizeFromTexture.instance(p).setTexture(colorizeSourceTexture);
 			ColorizeFromTexture.instance(p).setLumaMult(false);
@@ -1006,7 +1027,7 @@ extends PAppletHax {
 		// change kaleido
 		float kaleidoSides = MathUtil.randRangeDecimal(0, 1);
 		if(kaleidoSides < 0.25f) kaleidoSides = 0;					// 0
-		else if(kaleidoSides < 0.6f) kaleidoSides = 0.25f * 127f;	// 3
+		else if(kaleidoSides < 0.35f) kaleidoSides = 0.25f * 127f;	// 3
 		else if(kaleidoSides < 0.7f) kaleidoSides = 0.1f * 127f;	// 1
 		else if(kaleidoSides < 0.85f) kaleidoSides = 0.3f * 127f;	// 4
 		else kaleidoSides = 0.5f * 127f;							// 6
@@ -1035,7 +1056,7 @@ extends PAppletHax {
 		if(perTextureEffects) {
 			selectNewActiveTextureFilters();
 		}
-		// colorizeWithGradient = MathUtil.randBoolean(p);
+		colorizeWithGradient = MathUtil.randBoolean(p);
 
 		// debug values
 		p.debugView.setValue("layerSwapIndex", layerSwapIndex);

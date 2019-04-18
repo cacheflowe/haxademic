@@ -3,7 +3,6 @@ package com.haxademic.app.mirrors;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.data.constants.PRenderers;
-import com.haxademic.core.draw.filters.pgraphics.SmokeFeedback;
 import com.haxademic.core.draw.filters.pgraphics.UVGridOpticalFlow;
 import com.haxademic.core.draw.filters.pgraphics.shared.BaseVideoFilter;
 import com.haxademic.core.draw.image.ImageUtil;
@@ -29,7 +28,7 @@ implements IWebCamCallback {
 	protected void overridePropsFile() {
 		p.appConfig.setProperty(AppSettings.WIDTH, (int) w);
 		p.appConfig.setProperty(AppSettings.HEIGHT, (int) h);
-		p.appConfig.setProperty(AppSettings.WEBCAM_INDEX, 13);
+		p.appConfig.setProperty(AppSettings.WEBCAM_INDEX, 5);
 		p.appConfig.setProperty(AppSettings.FULLSCREEN, false);
 		p.appConfig.setProperty(AppSettings.WIDTH, 1280);
 		p.appConfig.setProperty(AppSettings.HEIGHT, 720);
@@ -39,6 +38,8 @@ implements IWebCamCallback {
 
 	protected void setupFirstFrame() {
 		p.webCamWrapper.setDelegate(this);
+		webcamBuffer = p.createGraphics(webcamW, webcamH, PRenderers.P3D);
+		
 //		vfx = new GPUParticlesSheetDisplacer(p.width, p.height, 0.5f);
 //		vfx = new PixelTriFilter(p.width, p.height, 20);
 //		vfx = new ColorDiff8BitRows(p.width, p.height, 20);
@@ -49,7 +50,6 @@ implements IWebCamCallback {
 		vfx = new UVGridOpticalFlow(p.width, p.height);
 //		vfx = new GPUParticlesLauncher(p.width, p.height);
 //		vfxPre = new SmokeFeedback(p.width, p.height);
-		webcamBuffer = p.createGraphics(webcamW, webcamH, PRenderers.P2D);
 	}
 
 	public void drawApp() {

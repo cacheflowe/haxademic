@@ -252,6 +252,12 @@ public class ImageUtil {
 		img.copy(0, 0, img.width, img.height, 0, img.height, img.width, -img.height);
 	}
 	
+	public static void blurByRescale(PImage img, float scaleBlur) {
+		// copy source self to a smaller region, then scale back up
+		img.copy(0, 0, img.width, img.height, 0, 0, P.round(img.width * scaleBlur), P.round(img.height * scaleBlur));
+		img.copy(0, 0, P.round(img.width * scaleBlur), P.round(img.height * scaleBlur), 0, 0, img.width, img.height);
+	}
+	
 	public static float[] offsetAndSize = new float[]{0,0,0,0};
 	public static float[] getOffsetAndSizeToCrop( float containerW, float containerH, float imageW, float imageH, boolean cropFill ) {
 		float ratioW = containerW / imageW;

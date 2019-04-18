@@ -111,11 +111,19 @@ public class HaxVisualTexturePools {
 		_fgTexturePool.add( new TexturePolygonLerpedVertices( textureW, textureH ));
 
 //		_overlayTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "cacheflowe-liquid-moire.glsl" ));
-		_overlayTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "cacheflowe-metaballs.glsl" ));
+//		_overlayTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "cacheflowe-metaballs.glsl" ));
+		_overlayTexturePool.add( new TextureConcentricDashedCubes( textureW, textureH ));
+		_overlayTexturePool.add( new TextureDashedLineSine( textureW, textureH ));
+		_overlayTexturePool.add( new TextureNoiseLines( textureW, textureH ));
+		_overlayTexturePool.add( new TextureRadialGridPulse( textureW, textureH ));
+		_overlayTexturePool.add( new TexturePolygonLerpedVertices( textureW, textureH ));
+
 //		_overlayTexturePool.add( );
 		
-		_topLayerPool.add( new TextureSphereAudioTextures( _pg.width, _pg.height ) );
-		_topLayerPool.add( new TextureWords2d( _pg.width, _pg.height ) );
+//		_topLayerPool.add( new TextureSphereAudioTextures( _pg.width, _pg.height ) );
+//		_topLayerPool.add( new TextureWords2d( _pg.width, _pg.height ) );
+		_topLayerPool.add( new TexturePolygonLerpedVertices( textureW, textureH ));
+
 	}
 	
 	public static void addTexturesToPool(PGraphics _pg, ArrayList<BaseTexture> _bgTexturePool, ArrayList<BaseTexture> _fgTexturePool, ArrayList<BaseTexture> _overlayTexturePool, ArrayList<BaseTexture> _topLayerPool) {
