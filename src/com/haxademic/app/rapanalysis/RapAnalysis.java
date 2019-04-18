@@ -167,7 +167,7 @@ extends PAppletHax {
 
 		// draw buttons
 		for( int i=0; i < _mouseables.size(); i++ ) {
-			_mouseables.get(i).update( p );
+			_mouseables.get(i).update( p.g );
 		}
 		_mouseables.get(0).checkPress( p.mouseX, p.mouseY );
 

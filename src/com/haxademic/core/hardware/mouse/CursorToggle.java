@@ -1,4 +1,4 @@
-package com.haxademic.core.ui;
+package com.haxademic.core.hardware.mouse;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.debug.DebugUtil;
