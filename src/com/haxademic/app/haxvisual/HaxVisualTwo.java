@@ -494,10 +494,12 @@ extends PAppletHax {
 		// This does special drawing modes if layers weren't drawn 
 		// which layer to use for displacement?
 		if(displacementTextureIndex < 3) {
+			// choose displacement buffer
 			if(displacementTextureIndex >= _curTexturePool.size()) displacementTextureIndex = _curTexturePool.size() - 1; // protection!
 			PGraphics displacementBuffer = _curTexturePool.get(displacementTextureIndex).texture();
-			if(overlayMode == 0) {
-				// DISPLACEMENT MAP FILTER
+			
+			// smooth displacement buffer
+//			if(overlayMode == 0 || overlayMode == 3) {
 				// add blur to displacement image
 				boolean scaleByTextureResize = true;
 				if(scaleByTextureResize) {
@@ -521,6 +523,11 @@ extends PAppletHax {
 					BlurHFilter.instance(p).applyTo(displacementBuffer);
 					BlurVFilter.instance(p).applyTo(displacementBuffer);
 				}
+//			}
+			
+			// apply displacement mode
+			if(overlayMode == 0) {
+				// DISPLACEMENT MAP FILTER
 				// set current layer as displacer & apply effect
 				DisplacementMapFilter.instance(p).setMap(displacementBuffer);
 				DisplacementMapFilter.instance(p).setMode(3);
