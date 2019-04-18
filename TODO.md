@@ -35,6 +35,7 @@
 ## Interphase
   * C.A.C.H.E. - Creative Adversarial Computer-Human Exchange
   * Come up with a way to film. 2 phones? dual webcam? what about audio? does it need to run on the mac laptop for a/v capture?
+  	* Capture Launchpads from above, A/V from video feed
   * When sequencers trigger, send an event in AppStore. this could trigger lights, HaxVisual events
   * Clean up basic music code
   * Map more functions to hardware controls

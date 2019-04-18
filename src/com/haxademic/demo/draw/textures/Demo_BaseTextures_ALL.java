@@ -6,7 +6,7 @@ import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.textures.pgraphics.TextureEQGrid;
-import com.haxademic.core.draw.textures.pgraphics.TextureRadialGridPulse;
+import com.haxademic.core.draw.textures.pgraphics.TexturePolygonLerpedVertices;
 import com.haxademic.core.draw.textures.pgraphics.TextureShaderTimeStepper;
 import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
 import com.haxademic.core.hardware.midi.devices.AbletonNotes;
@@ -74,9 +74,10 @@ extends PAppletHax {
 //			new TextureSvg3dExtruded( w, h ),
 //			new TextureImageTileScroll( w, h ),
 				
+			new TexturePolygonLerpedVertices( w, h ),
 //			new TextureConcentricDashedCubes( w, h ),
 //			new TextureDashedLineSine( w, h ),
-			new TextureRadialGridPulse( w, h ),
+//			new TextureRadialGridPulse( w, h ),
 //			new TextureNoiseLines( w, h ),
 
 //			new TextureBlocksSheet( w, h ),

@@ -24,13 +24,13 @@ import com.haxademic.core.draw.textures.pgraphics.TextureNoiseLines;
 import com.haxademic.core.draw.textures.pgraphics.TextureOuterCube;
 import com.haxademic.core.draw.textures.pgraphics.TextureOuterSphere;
 import com.haxademic.core.draw.textures.pgraphics.TexturePixelatedAudio;
+import com.haxademic.core.draw.textures.pgraphics.TexturePolygonLerpedVertices;
 import com.haxademic.core.draw.textures.pgraphics.TextureRadialGridPulse;
 import com.haxademic.core.draw.textures.pgraphics.TextureRotatingRings;
 import com.haxademic.core.draw.textures.pgraphics.TextureRotatorShape;
 import com.haxademic.core.draw.textures.pgraphics.TextureShaderTimeStepper;
 import com.haxademic.core.draw.textures.pgraphics.TextureSphereAudioTextures;
 import com.haxademic.core.draw.textures.pgraphics.TextureSphereRotate;
-import com.haxademic.core.draw.textures.pgraphics.TextureSvg3dExtruded;
 import com.haxademic.core.draw.textures.pgraphics.TextureTwistingSquares;
 import com.haxademic.core.draw.textures.pgraphics.TextureVectorFieldEQ;
 import com.haxademic.core.draw.textures.pgraphics.TextureWaveformCircle;
@@ -42,41 +42,41 @@ import processing.core.PGraphics;
 
 public class HaxVisualTexturePools {
 
-	public static void addTexturesToPoolSG(PGraphics _pg, ArrayList<BaseTexture> _bgTexturePool, ArrayList<BaseTexture> _fgTexturePool, ArrayList<BaseTexture> _overlayTexturePool, ArrayList<BaseTexture> _topLayerPool) {
-		int textureW = P.round(_pg.width);
-		int textureH = P.round(_pg.height);
-		
-		// complex textures in the back
-		_bgTexturePool.add( new TextureOuterSphere( textureW, textureH ) );
-		_bgTexturePool.add( new TextureOuterCube( textureW, textureH ) );
-		_bgTexturePool.add( new TextureBlobSheet( textureW, textureH ) );
-		_bgTexturePool.add( new TextureRotatorShape( textureW, textureH ) );
-		_bgTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "cubert.glsl" ));
-		_bgTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "triangle-perlin.glsl" ));
-
-//		_bgTexturePool.add( new TextureAudioTube( textureW, textureH ) );
-//		_bgTexturePool.add( new TextureRotatingRings( textureW, textureH ) );
-		_fgTexturePool.add( new TextureOuterSphere( textureW, textureH ) );
-		_fgTexturePool.add( new TextureVectorFieldEQ( textureW, textureH ) );
-		_fgTexturePool.add( new TextureEQFloatParticles( textureW, textureH ));
-		_fgTexturePool.add( new TextureLinesEQ( textureW, textureH ));
-		_fgTexturePool.add( new TextureEQBandDistribute( textureW, textureH ));
-		_fgTexturePool.add( new TextureWaveformCircle( textureW, textureH ));
-		_fgTexturePool.add( new TextureEQConcentricCircles( textureW, textureH ) );
-		
-//		_overlayTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "cacheflowe-liquid-moire.glsl" ));
-		_overlayTexturePool.add( new TextureAudioSheetDeform( textureW, textureH ));
-		_overlayTexturePool.add( new TextureMeshAudioDeform( textureW, textureH ));
-//		_overlayTexturePool.add( new TextureBlocksSheet( textureW, textureH ) );
-		_overlayTexturePool.add( new TexturePixelatedAudio( textureW, textureH ));
-		_overlayTexturePool.add( new TextureEQLinesTerrain( textureW, textureH ));
-		_overlayTexturePool.add( new TextureAudioBlocksDeform( textureW, textureH ));
-		_overlayTexturePool.add( new TexturePixelatedAudio( textureW, textureH ));
-//		_overlayTexturePool.add( );
-		
-		_topLayerPool.add( new TextureSvg3dExtruded( textureW, textureH ) );
-		_topLayerPool.add( new TextureSphereAudioTextures( _pg.width, _pg.height ) );
-	}
+//	public static void addTexturesToPoolSG(PGraphics _pg, ArrayList<BaseTexture> _bgTexturePool, ArrayList<BaseTexture> _fgTexturePool, ArrayList<BaseTexture> _overlayTexturePool, ArrayList<BaseTexture> _topLayerPool) {
+//		int textureW = P.round(_pg.width);
+//		int textureH = P.round(_pg.height);
+//		
+//		// complex textures in the back
+//		_bgTexturePool.add( new TextureOuterSphere( textureW, textureH ) );
+//		_bgTexturePool.add( new TextureOuterCube( textureW, textureH ) );
+//		_bgTexturePool.add( new TextureBlobSheet( textureW, textureH ) );
+//		_bgTexturePool.add( new TextureRotatorShape( textureW, textureH ) );
+//		_bgTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "cubert.glsl" ));
+//		_bgTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "triangle-perlin.glsl" ));
+//
+////		_bgTexturePool.add( new TextureAudioTube( textureW, textureH ) );
+////		_bgTexturePool.add( new TextureRotatingRings( textureW, textureH ) );
+//		_fgTexturePool.add( new TextureOuterSphere( textureW, textureH ) );
+//		_fgTexturePool.add( new TextureVectorFieldEQ( textureW, textureH ) );
+//		_fgTexturePool.add( new TextureEQFloatParticles( textureW, textureH ));
+//		_fgTexturePool.add( new TextureLinesEQ( textureW, textureH ));
+//		_fgTexturePool.add( new TextureEQBandDistribute( textureW, textureH ));
+//		_fgTexturePool.add( new TextureWaveformCircle( textureW, textureH ));
+//		_fgTexturePool.add( new TextureEQConcentricCircles( textureW, textureH ) );
+//		
+////		_overlayTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "cacheflowe-liquid-moire.glsl" ));
+//		_overlayTexturePool.add( new TextureAudioSheetDeform( textureW, textureH ));
+//		_overlayTexturePool.add( new TextureMeshAudioDeform( textureW, textureH ));
+////		_overlayTexturePool.add( new TextureBlocksSheet( textureW, textureH ) );
+//		_overlayTexturePool.add( new TexturePixelatedAudio( textureW, textureH ));
+//		_overlayTexturePool.add( new TextureEQLinesTerrain( textureW, textureH ));
+//		_overlayTexturePool.add( new TextureAudioBlocksDeform( textureW, textureH ));
+//		_overlayTexturePool.add( new TexturePixelatedAudio( textureW, textureH ));
+////		_overlayTexturePool.add( );
+//		
+//		_topLayerPool.add( new TextureSvg3dExtruded( textureW, textureH ) );
+//		_topLayerPool.add( new TextureSphereAudioTextures( _pg.width, _pg.height ) );
+//	}
 	
 	public static void addTexturesToPoolMinimal(PGraphics _pg, ArrayList<BaseTexture> _bgTexturePool, ArrayList<BaseTexture> _fgTexturePool, ArrayList<BaseTexture> _overlayTexturePool, ArrayList<BaseTexture> _topLayerPool) {
 		int textureW = P.round(_pg.width);
@@ -89,6 +89,7 @@ public class HaxVisualTexturePools {
 		_bgTexturePool.add( new TextureDashedLineSine( textureW, textureH ));
 		_bgTexturePool.add( new TextureNoiseLines( textureW, textureH ));
 		_bgTexturePool.add( new TextureRadialGridPulse( textureW, textureH ));
+		_bgTexturePool.add( new TexturePolygonLerpedVertices( textureW, textureH ));
 
 
 //		_bgTexturePool.add( new TextureAudioTube( textureW, textureH ) );
@@ -107,6 +108,7 @@ public class HaxVisualTexturePools {
 		_fgTexturePool.add( new TextureDashedLineSine( textureW, textureH ));
 		_fgTexturePool.add( new TextureNoiseLines( textureW, textureH ));
 		_fgTexturePool.add( new TextureRadialGridPulse( textureW, textureH ));
+		_fgTexturePool.add( new TexturePolygonLerpedVertices( textureW, textureH ));
 
 //		_overlayTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "cacheflowe-liquid-moire.glsl" ));
 		_overlayTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "cacheflowe-metaballs.glsl" ));
@@ -156,6 +158,7 @@ public class HaxVisualTexturePools {
 		_bgTexturePool.add( new TextureDashedLineSine( textureW, textureH ));
 		_bgTexturePool.add( new TextureNoiseLines( textureW, textureH ));
 		_bgTexturePool.add( new TextureRadialGridPulse( textureW, textureH ));
+		_bgTexturePool.add( new TexturePolygonLerpedVertices( textureW, textureH ));
 
 		_bgTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "sdf-01-auto.glsl" ));
 		_bgTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "sdf-02-auto.glsl" ));
@@ -229,6 +232,7 @@ public class HaxVisualTexturePools {
 		_fgTexturePool.add( new TextureDashedLineSine( textureW, textureH ));
 		_fgTexturePool.add( new TextureNoiseLines( textureW, textureH ));
 		_fgTexturePool.add( new TextureRadialGridPulse( textureW, textureH ));
+		_fgTexturePool.add( new TexturePolygonLerpedVertices( textureW, textureH ));
 
 		_fgTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "basic-checker.glsl" ));
 		_fgTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "basic-diagonal-stripes.glsl" ));

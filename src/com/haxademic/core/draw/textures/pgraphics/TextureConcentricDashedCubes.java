@@ -15,20 +15,20 @@ extends BaseTexture {
 	protected EasingFloat wobbleFreq = new EasingFloat(0.01f, 0.1f);
 	protected EasingFloat wobbleAmp = new EasingFloat(0.1f, 0.1f);
 	protected EasingFloat spacing = new EasingFloat(50, 0.1f);
+	protected EasingFloat lineWeight = new EasingFloat(2, 6);
+
 	
 	public TextureConcentricDashedCubes( int width, int height ) {
 		super();
 		buildGraphics( width, height );
 	}
 	
-	public void preDraw() {
-	}
-	
 	public void updateDraw() {
 		// draw transition result to texture
 		_texture.background(0);
 		_texture.stroke(255);
-		_texture.strokeWeight(3);
+		lineWeight.update();
+		_texture.strokeWeight(lineWeight.value());
 		
 		// context & camera
 		DrawUtil.setCenterScreen(_texture);
@@ -70,4 +70,8 @@ extends BaseTexture {
 		spacing.setTarget(MathUtil.randRangeDecimal(30, 70));
 	}
 	
+	public void newLineMode() {
+		lineWeight.setTarget(MathUtil.randRange(1, 12));
+	}
+
 }

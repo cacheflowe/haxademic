@@ -19,6 +19,7 @@ public class BaseTexture {
 	
 	protected PGraphics _texture = null;
 	protected boolean _active;
+	protected boolean _newlyActive;
 	protected int _useCount = 0;
 	protected int _color;
 	protected EasingColor _colorEase;
@@ -64,6 +65,7 @@ public class BaseTexture {
 	
 	public BaseTexture setActive( boolean isActive ) {
 		_active = isActive;
+		_newlyActive = true;
 		if( _active == true ) addUseCount();
 		return this;
 	}
@@ -148,6 +150,7 @@ public class BaseTexture {
 		updateDraw();
 		_texture.endDraw();
 		postProcess();
+		_newlyActive = false;
 		renderTime = P.p.millis() - startRender;
 	}
 	

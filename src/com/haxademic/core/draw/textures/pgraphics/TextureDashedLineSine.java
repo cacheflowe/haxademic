@@ -3,6 +3,7 @@ package com.haxademic.core.draw.textures.pgraphics;
 import com.haxademic.core.app.P;
 import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
 import com.haxademic.core.math.MathUtil;
+import com.haxademic.core.math.easing.EasingFloat;
 
 public class TextureDashedLineSine
 extends BaseTexture {
@@ -12,6 +13,7 @@ extends BaseTexture {
 	protected WaveOscillator[] waves;
 	protected float frames = 0;
 	protected float loopProgress = 0;
+	protected EasingFloat lineWeight = new EasingFloat(2, 6);
 
 	
 	public TextureDashedLineSine( int width, int height ) {
@@ -27,9 +29,6 @@ extends BaseTexture {
 
 	}
 	
-	public void preDraw() {
-	}
-	
 	public void updateDraw() {
 		// update loop
 		frames++;
@@ -39,6 +38,8 @@ extends BaseTexture {
 		// draw transition result to texture
 		_texture.background(0);
 		_texture.stroke(255);
+		lineWeight.update();
+		_texture.strokeWeight(lineWeight.value());
 		
 		// draw rows
 		for (int i = 0; i < numRows; i++) {
@@ -57,6 +58,10 @@ extends BaseTexture {
 		for (int i = 0; i < waves.length; i++) {
 			waves[i].randomize();
 		}
+	}
+	
+	public void newLineMode() {
+		lineWeight.setTarget(MathUtil.randRange(1, 8));
 	}
 	
 	// LinesRow Object --------------------------
