@@ -1,7 +1,7 @@
 # TODO
 
-* Art projects
-  * Extract HaxVisualTwo post-processing into its own reusable component
+## Art projects
+  * Shatter model & triangles fall down (Sunflow final render)
   * Zaibiti
   	* Pi webcam? Is it possible?
   * AdaptBB poly lerp/feedback loop displacing a sheet
@@ -12,33 +12,55 @@
   * Convert all webcam VFX apps (and old video filters) to BaseVideoFilter subclasses
   * Moire sphere/shader for MW prototying
   * Voice-activated color room: What Say Hue?
-  * Interphase
-  	* Use interphase beat timing rather than beat detection to make the next HaxVisual change
-  	* build a touchscreen 8x16 interface
-	  	* Integrate Launchpad/iPad direct interface
-    * Make interphase more bangy & think about converting to be more spatial w/lighting
   * Grass cutout - laser cut w/Seied
-  * Make a dmx gif loop
+  * Make a dmx/launchpad gif loop
   * Motion detection point-of-interest motion capture by small rectangles - figure out how to zoom out and create multiple zones
   * Turn client snake mirror into its own thing
   * Make a version of partycles with GPU particles from VFX code and ability to swap webcam instead of Kinect
 	* Also, blob tracking VFX but sweet patterns inside the blobs
-* Audio
+  
+## HaxVisualTwo
+  * Extract HaxVisualTwo post-processing into its own reusable component?
+  * Preset visual combos
+  * Why don't any audio inputs besides ESS work anymore? (Beads, Minim)
+  * Make PGraphics pool so every visual doesn't have it's own - this is way too heavy
+  * Start moving all apps towards objects that can receive a PGraphics instance. decoupling from PApplet will help move visuals into HaxVisualTwo
+  	* Houndstooth animation
+  	* Circle Sphere
+  	* Brim liski sphere
+  	* ParticleBranchers
+  	* SpaceCube
+  	* Any other cool loop/render?!
+  	
+## Interphase
+  * C.A.C.H.E. - Creative Adversarial Computer-Human Exchange
+  * Come up with a way to film. 2 phones? dual webcam? what about audio? does it need to run on the mac laptop for a/v capture?
+  * When sequencers trigger, send an event in AppStore. this could trigger lights, HaxVisual events
+  * Clean up basic music code
+  * Map more functions to hardware controls
+  * MIDI output for Ableton sync
+  * Build a representation of the sequencer for on-screen display with HaxVisual
+  * Use interphase beat timing rather than beat detection to make the next HaxVisual change
+  * Store premade patterns for different beats/songs. Json?
+  * build a touchscreen 8x16 interface
+  * add a compressor to main output? audio needs to be squished
+  * Make interphase more bangy & think about converting to be more spatial w/lighting
+
+## Audio
   * Sphinx4 speech recognition
 	* Copy / paste + Robot for tired hands
   * Test basic audio input. why is audio getting delayed after hours of running?
   * Turn off Beads audio input object output - this should not pass through
   * Split audio stepthrough rendering from Renderer.java, which should just save movies. MIDIStepthrough renderer is a good example of splitting
   * Make demos for rendering at a specific bpm
-* MIDI:
-  * Add midi input to prefsSliders
+
+## MIDI:
   * Add midi input to prefsSliders
   * Move midibus instance to MidiState (now MidiDevice)
   * InputTrigger should merge MIDI buttons and CC controls, just like OSC commands
   * Check MIDI rendering now that MIDI code has been revamped
-* DMX
-  * Bring timeclock app into Haxademic as a new, more robust video-to-dmx demo/app
-* GLSL
+
+## GLSL
   * 32-bit packing
   	* https://stackoverflow.com/questions/18453302/how-do-you-pack-one-32bit-int-into-4-8bit-ints-in-glsl-webgl
   	* http://www.ozone3d.net/blogs/lab/20080604/glsl-float-to-rgba8-encoder/
@@ -75,14 +97,14 @@
 	* http://atduskgreg.github.io/Processing-Shader-Examples/
 	* http://www.beautifulseams.com/2013/04/30/shaders/
 	* https://github.com/codeanticode/pshader-tutorials
-* SystemUtil:
-  * Merge Windows & normal SystemUtil - make sure Java-killing code works on both OS X & Windows
-* net
+
+## net
   * Should Screenshot in DashboardPoster be it's own app/process, like the CrashMonitor?
   * PrefsSliders should also serve up a web server that has just those sliders. .json config maybe?
   * WebServer and SocketServer should be more stylistically similar. See PORT in WebServer, and DEBUG static boolean - should be passed in?
   * Replace JavaWebsocket with Jetty WebSocket server??
-* Demos:
+
+## Demos:
   * Can lines be rendered in Joons?
   * Render a video with effects, using BrimVFX as example
   * Replicate independent 40k shape demo from Processing examples - update with GPU
@@ -90,6 +112,7 @@
     * https://github.com/ashima/webgl-noise/wiki
   * Distill more demos for `core` code
   * Make a texture map by drawing optical flow to ellipses and blurring
+
 * PShape & PShapeUtil:
   * sine-distorted 3d models
   * Scrolling feedback texture mapped to a model with lighting
@@ -103,8 +126,10 @@
   * 3d lighting w/glsl
     * Demo_VertexShader_NoiseTest_WIP
     * Demo_VertexShader_Fattener
-* General / tools
-  * Add text event log to PAppletHax
+
+## General / tools
+  * Merge Windows & normal SystemUtil - make sure Java-killing code works on both OS X & Windows
+  * Add .txt event log to PAppletHax
   * Test importing a Java class into a Processing IDE project
   * How can we optimize for Raspberry Pi? It wants Java 1.7 for the old version of Eclipse :(
   * Look into JarSplice or other compiling tools for application deployment
@@ -116,10 +141,3 @@
   * ImageSequence -> ffmpeg rendering from a class. Would make rendering easier on both platforms
   * Clean up old stuff - get rid of non-useful demos
   * Document important files/concepts/tools for README
-* HaxVisualTwo
-  * Start moving all apps towards objects that can receive a PGraphics instance. decoupling from PApplet will help move visuals into HaxVisualTwo
-  	* Houndstooth animation
-  	* Circle Sphere
-  	* Brim liski sphere
-  	* ParticleBranchers
-  	* Any other cool loop/render?!
