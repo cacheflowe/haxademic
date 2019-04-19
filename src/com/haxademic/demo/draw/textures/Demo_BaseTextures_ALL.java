@@ -7,7 +7,7 @@ import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.textures.pgraphics.TextureEQGrid;
 import com.haxademic.core.draw.textures.pgraphics.TextureShaderTimeStepper;
-import com.haxademic.core.draw.textures.pgraphics.TextureSphere;
+import com.haxademic.core.draw.textures.pgraphics.TextureSphereOfCubes;
 import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
 import com.haxademic.core.hardware.midi.devices.AbletonNotes;
 import com.haxademic.core.hardware.midi.devices.AkaiMpdPads;
@@ -74,7 +74,7 @@ extends PAppletHax {
 //			new TextureSvg3dExtruded( w, h ),
 //			new TextureImageTileScroll( w, h ),
 				
-			new TextureSphere( w, h ),
+			new TextureSphereOfCubes( w, h ),
 //			new TexturePolygonLerpedVertices( w, h ),
 //			new TextureConcentricDashedCubes( w, h ),
 //			new TextureDashedLineSine( w, h ),
