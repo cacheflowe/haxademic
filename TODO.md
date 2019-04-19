@@ -20,7 +20,6 @@
 	* Also, blob tracking VFX but sweet patterns inside the blobs
   
 ## HaxVisualTwo
-  * For displacement layer blur, try scaled-down buffer technique for fast major blur, rather than shader
   * Less kaleidoscope
   * BaseVideoFilter should have an optional need to create sourceBuffer - most don't need this extra buffer created
   * Extract HaxVisualTwo post-processing into its own reusable component?
@@ -52,9 +51,11 @@
   * Make interphase more bangy & think about converting to be more spatial w/lighting
 
 ## Audio
+  * Text to speech In Processing. Webview in Processing? Or web sockets to external browser? Vanilla Java?
   * Sphinx4 speech recognition
 	* Copy / paste + Robot for tired hands
   * Test basic audio input. why is audio getting delayed after hours of running?
+    * Why isn't Minim/Beads working on audio in anymore?
   * Turn off Beads audio input object output - this should not pass through
   * Split audio stepthrough rendering from Renderer.java, which should just save movies. MIDIStepthrough renderer is a good example of splitting
   * Make demos for rendering at a specific bpm
