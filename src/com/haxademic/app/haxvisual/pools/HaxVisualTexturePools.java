@@ -29,13 +29,13 @@ import com.haxademic.core.draw.textures.pgraphics.TextureRadialGridPulse;
 import com.haxademic.core.draw.textures.pgraphics.TextureRotatingRings;
 import com.haxademic.core.draw.textures.pgraphics.TextureRotatorShape;
 import com.haxademic.core.draw.textures.pgraphics.TextureShaderTimeStepper;
+import com.haxademic.core.draw.textures.pgraphics.TextureSphere;
 import com.haxademic.core.draw.textures.pgraphics.TextureSphereAudioTextures;
 import com.haxademic.core.draw.textures.pgraphics.TextureSphereRotate;
 import com.haxademic.core.draw.textures.pgraphics.TextureTwistingSquares;
 import com.haxademic.core.draw.textures.pgraphics.TextureVectorFieldEQ;
 import com.haxademic.core.draw.textures.pgraphics.TextureWaveformCircle;
 import com.haxademic.core.draw.textures.pgraphics.TextureWaveformSimple;
-import com.haxademic.core.draw.textures.pgraphics.TextureWords2d;
 import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
 
 import processing.core.PGraphics;
@@ -109,6 +109,7 @@ public class HaxVisualTexturePools {
 		_fgTexturePool.add( new TextureNoiseLines( textureW, textureH ));
 		_fgTexturePool.add( new TextureRadialGridPulse( textureW, textureH ));
 		_fgTexturePool.add( new TexturePolygonLerpedVertices( textureW, textureH ));
+		_fgTexturePool.add( new TextureSphere( textureW, textureH ));
 
 //		_overlayTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "cacheflowe-liquid-moire.glsl" ));
 //		_overlayTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "cacheflowe-metaballs.glsl" ));
@@ -117,12 +118,14 @@ public class HaxVisualTexturePools {
 		_overlayTexturePool.add( new TextureNoiseLines( textureW, textureH ));
 		_overlayTexturePool.add( new TextureRadialGridPulse( textureW, textureH ));
 		_overlayTexturePool.add( new TexturePolygonLerpedVertices( textureW, textureH ));
+		_overlayTexturePool.add( new TextureSphere( textureW, textureH ));
 
 //		_overlayTexturePool.add( );
 		
 //		_topLayerPool.add( new TextureSphereAudioTextures( _pg.width, _pg.height ) );
 //		_topLayerPool.add( new TextureWords2d( _pg.width, _pg.height ) );
 		_topLayerPool.add( new TexturePolygonLerpedVertices( textureW, textureH ));
+		_topLayerPool.add( new TextureSphere( textureW, textureH ));
 
 	}
 	
@@ -167,6 +170,7 @@ public class HaxVisualTexturePools {
 		_bgTexturePool.add( new TextureNoiseLines( textureW, textureH ));
 		_bgTexturePool.add( new TextureRadialGridPulse( textureW, textureH ));
 		_bgTexturePool.add( new TexturePolygonLerpedVertices( textureW, textureH ));
+		_bgTexturePool.add( new TextureSphere( textureW, textureH ));
 
 		_bgTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "sdf-01-auto.glsl" ));
 		_bgTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "sdf-02-auto.glsl" ));
@@ -241,6 +245,7 @@ public class HaxVisualTexturePools {
 		_fgTexturePool.add( new TextureNoiseLines( textureW, textureH ));
 		_fgTexturePool.add( new TextureRadialGridPulse( textureW, textureH ));
 		_fgTexturePool.add( new TexturePolygonLerpedVertices( textureW, textureH ));
+		_fgTexturePool.add( new TextureSphere( textureW, textureH ));
 
 		_fgTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "basic-checker.glsl" ));
 		_fgTexturePool.add( new TextureShaderTimeStepper( textureW, textureH, "basic-diagonal-stripes.glsl" ));

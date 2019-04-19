@@ -33,6 +33,7 @@ import com.haxademic.core.draw.filters.pshader.ContrastFilter;
 import com.haxademic.core.draw.filters.pshader.CubicLensDistortionFilterOscillate;
 import com.haxademic.core.draw.filters.pshader.DisplacementMapFilter;
 import com.haxademic.core.draw.filters.pshader.EdgesFilter;
+import com.haxademic.core.draw.filters.pshader.FakeLightingFilter;
 import com.haxademic.core.draw.filters.pshader.FlipHFilter;
 import com.haxademic.core.draw.filters.pshader.GlitchImageGlitcherFilter;
 import com.haxademic.core.draw.filters.pshader.GlitchPseudoPixelSortingFilter;
@@ -84,7 +85,7 @@ import processing.core.PImage;
  * Add text cycling texture
  */
 
-public class HaxVisualTwo
+public class HaxVisual
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
@@ -333,12 +334,9 @@ extends PAppletHax {
 		updateTextures();
 		drawLayers();
 		drawAltTopLayerOrDisplacement();
-		postProcessFilters();
-		// bloomFilter();
+		postSpecialEffectsFilters();
 		drawTopLayer();
-		applyColorizeFilter();
-		vignetteFilter();
-		postBrightness();
+		postFinalFilters();
 		if(imageCycler != null) drawInterstitial();
 		// draw pinned pgraphics
 		if(_debugTextures == true && _pgPinnable != null) _pgPinnable.drawTestPattern();
@@ -561,7 +559,7 @@ extends PAppletHax {
 		}
 	}
 
-	protected void postProcessFilters() {		
+	protected void postSpecialEffectsFilters() {		
 		// CONTRAST ////////////////////////
 //		p.midiState.controllerChange(midiInChannel, contrastKnob, (int) (0.25f * 127f));
 		if( p.midiState.midiCCPercent(midiInChannel, contrastKnob) != 0 ) {
@@ -628,7 +626,7 @@ extends PAppletHax {
 		p.debugView.setValue("kaleidoSides", kaleidoSides);
 		if( kaleidoSides > 0 ) {
 			if( kaleidoSides == 1 ) {
-				MirrorQuadFilter.instance(p).setZoom(0.25f);
+				MirrorQuadFilter.instance(p).setZoom(0.3f + 0.1f * P.sin(p.frameCount * 0.01f));
 				MirrorQuadFilter.instance(p).applyTo(_pg);
 			} else if( kaleidoSides == 3 ) {
 				ReflectFilter.instance(p).applyTo(_pg);
@@ -639,6 +637,14 @@ extends PAppletHax {
 			}
 		}
 	}
+	
+	protected void postFinalFilters() {
+		applyColorizeFilter();
+		// bloomFilter();
+//		fakeLightFilter();
+		vignetteFilter();
+		postBrightness();	
+	}
 
 	protected void applyColorizeFilter() {
 		if(colorizeWithGradient) {
@@ -648,7 +654,7 @@ extends PAppletHax {
 			ColorizeFromTexture.instance(p).applyTo(_pg);
 		}	
 	}
-
+	
 	protected void bloomFilter() {
 		BloomFilter.instance(p).setStrength(1f);
 		BloomFilter.instance(p).setBlurIterations(4);
@@ -662,6 +668,15 @@ extends PAppletHax {
 		GodRays.instance(p).applyTo(_pg);
 	}
 
+	protected void fakeLightFilter() {
+		FakeLightingFilter.instance(p).setAmbient(2f);
+		FakeLightingFilter.instance(p).setGradAmp(0.66f);
+		FakeLightingFilter.instance(p).setGradBlur(1f);
+		FakeLightingFilter.instance(p).setSpecAmp(1.25f);
+		FakeLightingFilter.instance(p).setDiffDark(0.5f);
+		FakeLightingFilter.instance(p).applyTo(_pg);
+	}
+	
 	protected void vignetteFilter() {
 		// VIGNETTE FROM CENTER ////////////////////////
 		float vignetteVal = p.midiState.midiCCPercent(midiInChannel, vignetteKnob);

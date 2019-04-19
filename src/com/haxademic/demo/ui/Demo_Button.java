@@ -17,7 +17,7 @@ implements IButtonDelegate {
 	protected ArrayList<IMouseable> mouseables;
 
 	public void setupFirstFrame () {
-		int buttonX = 10;
+		int buttonX = 40;
 		int buttonY = 10;
 		int buttonW = 200;
 		int buttonH = 40;
@@ -28,7 +28,9 @@ implements IButtonDelegate {
 //		_mouseables.add( new TextButton( p, "double syllable", "2", 300, 520, 200, 50 ) );
 //		_mouseables.add( new TextButton( p, "any word", "1", 560, 420, 200, 50 ) );
 //		_mouseables.add( new TextButton( p, "line end", "2", 560, 520, 200, 50 ) );
-
+		
+		// add a test slider to compare style
+		p.prefsSliders.addSlider("TEST SLIDER", 255, 0, 255, 0.5f);
 	}
 	
 	public void keyPressed() {

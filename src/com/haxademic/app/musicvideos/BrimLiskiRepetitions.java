@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.draw.color.EasingTColor;
+import com.haxademic.core.draw.color.EasingColor;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.file.FileUtil;
@@ -14,7 +14,6 @@ import com.haxademic.core.math.easing.EasingFloat;
 import processing.core.PConstants;
 import processing.core.PImage;
 import processing.video.Movie;
-import toxi.color.TColor;
 import toxi.geom.Vec2D;
 import toxi.geom.Vec3D;
 import toxi.geom.mesh.Face;
@@ -246,7 +245,7 @@ extends PAppletHax {
 		protected float _y = 0;
 		protected float _speed = 0;
 		protected float _size = 0;
-		protected EasingTColor _color = new EasingTColor( new TColor( TColor.WHITE ), 0.2f );
+		protected EasingColor _color = new EasingColor(0xFFFFFFFF, 0.2f );
 		protected PerlinNoise _perlin = new PerlinNoise();
 		protected float _windOffset = 0;
 		
@@ -263,12 +262,12 @@ extends PAppletHax {
 			checkBoundaries();
 			
 			// ease color towards current pixel
-			_color.setTargetColor( TColor.newARGB( ImageUtil.getPixelColor( _myMovie, Math.round( _x ), Math.round( _y ) ) ) );
+			_color.setTargetInt(ImageUtil.getPixelColor( _myMovie, Math.round( _x ), Math.round( _y )));
 			_color.update();
 			
 			float amp = 0.2f + p.audioFreq(_index) * 5;
 			
-			p.fill( _color.color().toARGB() );
+			p.fill( _color.colorInt() );
 			// draw 2d circle
 			p.ellipse( _x, _y, _size * amp, _size * amp );
 //			p.rect( _x, _y, _size * amp, _size * amp );
@@ -301,8 +300,9 @@ extends PAppletHax {
 		}
 		
 		public void setColorFromPosition() {
-			TColor curColor = TColor.newARGB( ImageUtil.getPixelColor( _myMovie, (int) _x, (int) _y ) );
-			_color.setCurAndTargetColors( curColor, curColor );
+			int newColor = ImageUtil.getPixelColor( _myMovie, (int) _x, (int) _y );
+			_color.setCurrentInt(newColor);
+			_color.setTargetInt(newColor);
 		}
 	}
 	

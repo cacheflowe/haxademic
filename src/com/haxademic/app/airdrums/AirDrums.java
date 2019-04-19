@@ -5,14 +5,13 @@ import java.util.ArrayList;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.color.ColorGroup;
+import com.haxademic.core.draw.color.ColorsHax;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.kinect.KinectSize;
 
 import ddf.minim.AudioPlayer;
 import ddf.minim.Minim;
-import toxi.color.TColor;
 
 public class AirDrums
 extends PAppletHax {
@@ -25,7 +24,6 @@ extends PAppletHax {
 	protected final int PAD_COLS = 4;
 	protected final int PAD_ROWS = 3;
 	protected ArrayList<BeatSquare> _beats;
-	protected ColorGroup _colors;
 	protected float _drawRatio = 1;
 	protected Minim minim;
 
@@ -49,8 +47,6 @@ extends PAppletHax {
 		KINECT_CLOSE = p.appConfig.getInt( "kinect_min_mm", 1500 );
 		KINECT_FAR = p.appConfig.getInt( "kinect_max_mm", 1700 );
 
-		_colors = new ColorGroup( ColorGroup.NEON );		
-	
 		_drawRatio = (float)p.height / (float)KinectSize.HEIGHT;
 		P.println(_drawRatio);
 
@@ -62,21 +58,20 @@ extends PAppletHax {
 		float drumPadH = KinectSize.HEIGHT / PAD_ROWS;
 		
 		_beats = new ArrayList<BeatSquare>();
-		_beats.add( new BeatSquare(0 * drumPadW, 0 * drumPadH, drumPadW, drumPadH, _colors.getColorFromGroup(0,0), "data/audio/drums/bass.wav") );
-		_beats.add( new BeatSquare(1 * drumPadW, 0 * drumPadH, drumPadW, drumPadH, _colors.getColorFromGroup(0,1), "data/audio/drums/booty.wav") );
-		_beats.add( new BeatSquare(2 * drumPadW, 0 * drumPadH, drumPadW, drumPadH, _colors.getColorFromGroup(0,2), "data/audio/drums/booty-house.wav") );
-		_beats.add( new BeatSquare(3 * drumPadW, 0 * drumPadH, drumPadW, drumPadH, _colors.getColorFromGroup(0,3), "data/audio/drums/labia.wav") );
+		_beats.add( new BeatSquare(0 * drumPadW, 0 * drumPadH, drumPadW, drumPadH, ColorsHax.COLOR_GROUPS[0][0], "data/audio/drums/bass.wav") );
+		_beats.add( new BeatSquare(1 * drumPadW, 0 * drumPadH, drumPadW, drumPadH, ColorsHax.COLOR_GROUPS[0][1], "data/audio/drums/booty.wav") );
+		_beats.add( new BeatSquare(2 * drumPadW, 0 * drumPadH, drumPadW, drumPadH, ColorsHax.COLOR_GROUPS[0][2], "data/audio/drums/booty-house.wav") );
+		_beats.add( new BeatSquare(3 * drumPadW, 0 * drumPadH, drumPadW, drumPadH, ColorsHax.COLOR_GROUPS[0][3], "data/audio/drums/labia.wav") );
 		
-		_beats.add( new BeatSquare(0 * drumPadW, 1 * drumPadH, drumPadW, drumPadH, _colors.getColorFromGroup(1,0), "data/audio/kit808/kick.wav") );
-		_beats.add( new BeatSquare(1 * drumPadW, 1 * drumPadH, drumPadW, drumPadH, _colors.getColorFromGroup(1,1), "data/audio/kit808/snare.wav") );
-		_beats.add( new BeatSquare(2 * drumPadW, 1 * drumPadH, drumPadW, drumPadH, _colors.getColorFromGroup(1,2), "data/audio/kit808/tom.wav") );
-		_beats.add( new BeatSquare(3 * drumPadW, 1 * drumPadH, drumPadW, drumPadH, _colors.getColorFromGroup(1,3), "data/audio/kit808/bass.wav") );
+		_beats.add( new BeatSquare(0 * drumPadW, 1 * drumPadH, drumPadW, drumPadH, ColorsHax.COLOR_GROUPS[1][0], "data/audio/kit808/kick.wav") );
+		_beats.add( new BeatSquare(1 * drumPadW, 1 * drumPadH, drumPadW, drumPadH, ColorsHax.COLOR_GROUPS[1][1], "data/audio/kit808/snare.wav") );
+		_beats.add( new BeatSquare(2 * drumPadW, 1 * drumPadH, drumPadW, drumPadH, ColorsHax.COLOR_GROUPS[1][2], "data/audio/kit808/tom.wav") );
+		_beats.add( new BeatSquare(3 * drumPadW, 1 * drumPadH, drumPadW, drumPadH, ColorsHax.COLOR_GROUPS[1][3], "data/audio/kit808/bass.wav") );
 		
-		_beats.add( new BeatSquare(0 * drumPadW, 2 * drumPadH, drumPadW, drumPadH, _colors.getColorFromGroup(2,0), "data/audio/drums/snare-x10.wav") );
-		_beats.add( new BeatSquare(1 * drumPadW, 2 * drumPadH, drumPadW, drumPadH, _colors.getColorFromGroup(2,1), "data/audio/drums/chirp-11.wav") );
-		_beats.add( new BeatSquare(2 * drumPadW, 2 * drumPadH, drumPadW, drumPadH, _colors.getColorFromGroup(2,2), "data/audio/drums/chirp-18.wav") );
-		_beats.add( new BeatSquare(3 * drumPadW, 2 * drumPadH, drumPadW, drumPadH, _colors.getColorFromGroup(2,3), "data/audio/drums/janet-stab.wav") );
-		
+		_beats.add( new BeatSquare(0 * drumPadW, 2 * drumPadH, drumPadW, drumPadH, ColorsHax.COLOR_GROUPS[2][0], "data/audio/drums/snare-x10.wav") );
+		_beats.add( new BeatSquare(1 * drumPadW, 2 * drumPadH, drumPadW, drumPadH, ColorsHax.COLOR_GROUPS[2][1], "data/audio/drums/chirp-11.wav") );
+		_beats.add( new BeatSquare(2 * drumPadW, 2 * drumPadH, drumPadW, drumPadH, ColorsHax.COLOR_GROUPS[2][2], "data/audio/drums/chirp-18.wav") );
+		_beats.add( new BeatSquare(3 * drumPadW, 2 * drumPadH, drumPadW, drumPadH, ColorsHax.COLOR_GROUPS[2][3], "data/audio/drums/janet-stab.wav") );
 	}
 		
 	public void drawApp() {
@@ -103,11 +98,11 @@ extends PAppletHax {
 		public float _y;
 		public float _w;
 		public float _h;
-		public TColor _color;
+		public int _color;
 		protected AudioPlayer _sound;
 		protected boolean _active = false;
 		
-		public BeatSquare( float x, float y, float w, float h, TColor color, String file ) {
+		public BeatSquare( float x, float y, float w, float h, int color, String file ) {
 			_x = x;
 			_y = y;
 			_w = w;
@@ -123,7 +118,7 @@ extends PAppletHax {
 		
 		protected void draw() {
 			if( _active == true ) 
-				fill( _color.toARGB() );
+				fill( _color );
 			else
 				noFill();
 //			stroke( 255 );

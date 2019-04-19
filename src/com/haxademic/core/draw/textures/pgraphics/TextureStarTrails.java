@@ -3,7 +3,6 @@ package com.haxademic.core.draw.textures.pgraphics;
 import java.util.ArrayList;
 
 import com.haxademic.core.app.P;
-import com.haxademic.core.draw.color.ColorGroup;
 import com.haxademic.core.draw.color.EasingColor;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
@@ -74,7 +73,6 @@ extends BaseTexture {
 		protected int _framesTillMove = 0;
 		protected Boolean _isStrafing = false;
 		protected int _zRange = 800;
-		protected ColorGroup _colors = null;
 		protected EasingColor _curColor = null;
 		
 		public Star() {
