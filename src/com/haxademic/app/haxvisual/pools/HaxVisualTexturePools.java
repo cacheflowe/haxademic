@@ -90,6 +90,7 @@ public class HaxVisualTexturePools {
 		_bgTexturePool.add( new TextureNoiseLines( textureW, textureH ));
 		_bgTexturePool.add( new TextureRadialGridPulse( textureW, textureH ));
 		_bgTexturePool.add( new TexturePolygonLerpedVertices( textureW, textureH ));
+		_bgTexturePool.add( new TextureSphereOfCubes( textureW, textureH ));
 
 
 //		_bgTexturePool.add( new TextureAudioTube( textureW, textureH ) );

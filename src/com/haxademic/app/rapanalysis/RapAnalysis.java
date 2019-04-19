@@ -429,7 +429,7 @@ extends PAppletHax {
 //			protected PImage _titties = loadImage( "/Users/cacheflowe/Documents/workspace/haxademic/assets/projects/bitches-and-hoes/dasme/titties.png" );
 //			protected PImage _word = loadImage( "/Users/cacheflowe/Documents/workspace/haxademic/assets/projects/bitches-and-hoes/dasme/word.png" );
 
-			int ppi = 180;
+//			int ppi = 180;
 //			_bitches.scalePercent(100*72/ppi);
 
 			Image _bitch = Image.getInstance("/Users/cacheflowe/Documents/workspace/haxademic/assets/projects/bitches-and-hoes/dasme/bitch.png");

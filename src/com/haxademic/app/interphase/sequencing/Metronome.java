@@ -53,7 +53,6 @@ public class Metronome {
 		clock = new Clock(ac, DEFAULT_INTERVAL);
 		clock.addMessageListener(
 			new Bead() {
-				@SuppressWarnings("deprecation")
 				public void messageReceived(Bead message) {
 					Clock c = (Clock) message;
 					if(p.systemMuted()) return;
