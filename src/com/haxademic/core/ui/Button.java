@@ -4,74 +4,68 @@ import java.awt.Rectangle;
 
 import com.haxademic.core.app.P;
 
-import processing.core.PApplet;
+import processing.core.PGraphics;
+import processing.event.MouseEvent;
 
 public class Button
 implements IMouseable {
-	 
-	protected String _id;
-	protected Rectangle _rect;
-	protected Boolean _over;
-	protected Boolean _pressed;
 	
-	public Button( String id, int x, int y, int w, int h ) {
-		_id = id;
-		_rect = new Rectangle( x, y, w, h );
-		_over = false;
-		_pressed = false;
+	public interface IButtonDelegate {
+		public void clicked(String buttonId); 		
+	}
+	 
+	protected IButtonDelegate delegate;
+	protected String id;
+	protected Rectangle rect;
+	protected Boolean over;
+	protected Boolean pressed;
+	
+	public Button( IButtonDelegate delegate, String id, int x, int y, int w, int h ) {
+		this.delegate = delegate;
+		this.id = id;
+		rect = new Rectangle( x, y, w, h );
+		over = false;
+		pressed = false;
+		
+		P.p.registerMethod("mouseEvent", this); // add mouse listeners
 	}
 	
 	public String id() {
-		return _id;
+		return id;
 	}
 	
-	public void update( PApplet p ) {
-		p.hint( P.DISABLE_DEPTH_TEST );
-		p.noStroke();
-		if( _pressed == true ) {
-			p.fill( 255, 255, 127 );
-		} else if( _over == true ) {
-			p.fill( 255, 255, 255 );
+	public void update(PGraphics pg, int mouseX, int mouseY) {
+		// draw
+		pg.noStroke();
+		if( pressed == true ) {
+			pg.fill( 255, 255, 127 );
+		} else if( over == true ) {
+			pg.fill( 255, 255, 255 );
 		} else {
-			p.fill( 127, 255, 127);
+			pg.fill( 127, 255, 127);
 		}
-		p.rect( _rect.x, _rect.y, _rect.width, _rect.height );
-		p.hint( P.ENABLE_DEPTH_TEST );
+		pg.rect( rect.x, rect.y, rect.width, rect.height );
 	}
+	
+	public void mouseEvent(MouseEvent event) {
+		int mouseX = event.getX();
+		int mouseY = event.getY();
 
-	public Boolean checkPress( int mouseX, int mouseY ) {
-		if( _rect.contains( mouseX,  mouseY ) ) {
-			_pressed = true;
-			return true;
-		} else {
-			_pressed = false;
-			return false;
+		switch (event.getAction()) {
+			case MouseEvent.PRESS:
+				pressed = rect.contains(mouseX, mouseY);
+				break;
+			case MouseEvent.RELEASE:
+				if(pressed && over) delegate.clicked(id);
+				pressed = false;
+				break;
+			case MouseEvent.MOVE:
+				over = rect.contains(mouseX, mouseY);
+				break;
+			case MouseEvent.DRAG:
+				over = rect.contains(mouseX, mouseY);
+				break;
 		}
 	}
 	
-	public Boolean checkRelease( int mouseX, int mouseY ) {
-		_pressed = false;
-		if( _rect.contains( mouseX,  mouseY ) ) return true;
-		return false;
-	}
-	
-	public Boolean checkOver( int mouseX, int mouseY ) {
-		if( _rect.contains( mouseX,  mouseY ) ) {
-			if( _over != true ) mouseOver();
-			_over = true;
-			return true;
-		} else {
-			if( _over != false ) mouseOut();
-			_over = false;
-			return false;
-		}
-	}
-	
-	public void mouseOver() {
-		//		P.println("over");
-	}
-
-	public void mouseOut() {
-		//		P.println("out");
-	}
 }

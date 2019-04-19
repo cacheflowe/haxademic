@@ -167,9 +167,8 @@ extends PAppletHax {
 
 		// draw buttons
 		for( int i=0; i < _mouseables.size(); i++ ) {
-			_mouseables.get(i).update( p.g );
+			_mouseables.get(i).update( p.g, p.mouseX, p.mouseY );
 		}
-		_mouseables.get(0).checkPress( p.mouseX, p.mouseY );
 
 		// draw text to screen
 		if( _wordIndex < _words.length ) {
@@ -192,7 +191,7 @@ extends PAppletHax {
 	public void mouseReleased() {
 		if( _mouseables == null ) return;
 		for( int i=0; i < _mouseables.size(); i++ ) {
-			if( _mouseables.get(i).checkRelease( p.mouseX, p.mouseY ) ) {
+//			if( _mouseables.get(i).checkRelease( p.mouseX, p.mouseY ) ) {
 				if( _is212 == true ) {	
 					if( i == 0 ) {
 						P.println("bitch!");
@@ -240,7 +239,7 @@ extends PAppletHax {
 				nextWord();
 				P.println("_result = "+_result);
 			}
-		}
+//		}
 	}
 
 	public void keyPressed() {
@@ -307,19 +306,19 @@ extends PAppletHax {
 		}
 	}
 
-	public void mousePressed() {
-		if( _mouseables == null ) return;
-		for( int i=0; i < _mouseables.size(); i++ ) {
-			_mouseables.get(i).checkPress( p.mouseX, p.mouseY );
-		}
-	}
-
-	public void mouseMoved() {
-		if( _mouseables == null ) return;
-		for( int i=0; i < _mouseables.size(); i++ ) {
-			_mouseables.get(i).checkOver( p.mouseX, p.mouseY );
-		}
-	}
+//	public void mousePressed() {
+//		if( _mouseables == null ) return;
+//		for( int i=0; i < _mouseables.size(); i++ ) {
+//			_mouseables.get(i).checkPress( p.mouseX, p.mouseY );
+//		}
+//	}
+//
+//	public void mouseMoved() {
+//		if( _mouseables == null ) return;
+//		for( int i=0; i < _mouseables.size(); i++ ) {
+//			_mouseables.get(i).checkOver( p.mouseX, p.mouseY );
+//		}
+//	}
 
 	// RENDER ------------------------------------------------------------------------------------
 

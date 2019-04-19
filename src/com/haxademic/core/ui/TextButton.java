@@ -9,8 +9,8 @@ extends Button {
 //	protected CustomFontText2D _fontRenderer;
 	protected float _fontSize = 20f;
 	
-	public TextButton( PApplet p, String text, String id, int x, int y, int w, int h ) {
-		super( id, x, y, w, h );
+	public TextButton( IButtonDelegate delegate, PApplet p, String text, String id, int x, int y, int w, int h ) {
+		super( delegate, id, x, y, w, h );
 		_text = text;
 //		_fontRenderer = new CustomFontText2D( p, FileUtil.getHaxademicDataPath() + "haxademic/fonts/Raleway-Regular.ttf", _fontSize, p.color( 255, 255, 255 ), CustomFontText2D.ALIGN_CENTER, _rect.width, (int)(_fontSize * 1.2f) );
 //		_fontRenderer.updateText( _text );
