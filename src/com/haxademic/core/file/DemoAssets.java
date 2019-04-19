@@ -127,33 +127,38 @@ public class DemoAssets {
 		return fontOpenSans;
 	}
 	
+	public static String fontRalewayPath = "haxademic/fonts/Raleway-Regular.ttf";
 	public static PFont fontRaleway = null;
 	public static PFont fontRaleway(float fontSize) {
-		if(fontRaleway == null) fontRaleway = P.p.createFont( FileUtil.getFile("haxademic/fonts/Raleway-Regular.ttf"), fontSize );
+		if(fontRaleway == null) fontRaleway = P.p.createFont( FileUtil.getFile(fontRalewayPath), fontSize );
 		return fontRaleway;
 	}
 	
+	public static String fontBitlowPath = "haxademic/fonts/bitlow.ttf";
 	public static PFont fontBitlow = null;
 	public static PFont fontBitlow(float fontSize) {
-		if(fontBitlow == null) fontBitlow = P.p.createFont( FileUtil.getFile("haxademic/fonts/bitlow.ttf"), fontSize );
+		if(fontBitlow == null) fontBitlow = P.p.createFont( FileUtil.getFile(fontBitlowPath), fontSize );
 		return fontBitlow;
 	}
 	
+	public static String fontHelloDenverPath = "haxademic/fonts/HelloDenverDisplay-Regular.ttf";
 	public static PFont fontHelloDenver = null;
 	public static PFont fontHelloDenver(float fontSize) {
-		if(fontHelloDenver == null) fontHelloDenver = P.p.createFont( FileUtil.getFile("haxademic/fonts/HelloDenverDisplay-Regular.ttf"), fontSize );
+		if(fontHelloDenver == null) fontHelloDenver = P.p.createFont( FileUtil.getFile(fontHelloDenverPath), fontSize );
 		return fontHelloDenver;
 	}
 	
+	public static String fontOhmegaSansPath = "haxademic/fonts/OhmegaSans-Regular.ttf";
 	public static PFont fontOhmegaSans = null;
 	public static PFont fontOhmegaSans(float fontSize) {
-		if(fontOhmegaSans == null) fontOhmegaSans = P.p.createFont( FileUtil.getFile("haxademic/fonts/OhmegaSans-Regular.ttf"), fontSize );
+		if(fontOhmegaSans == null) fontOhmegaSans = P.p.createFont( FileUtil.getFile(fontOhmegaSansPath), fontSize );
 		return fontOhmegaSans;
 	}
 	
+	public static String fontDSEG7Path = "haxademic/fonts/DSEG7ClassicMini-Regular.ttf";
 	public static PFont fontDSEG7 = null;
 	public static PFont fontDSEG7(float fontSize) {
-		if(fontDSEG7 == null) fontDSEG7 = P.p.createFont( FileUtil.getFile("haxademic/fonts/DSEG7ClassicMini-Regular.ttf"), fontSize );
+		if(fontDSEG7 == null) fontDSEG7 = P.p.createFont( FileUtil.getFile(fontDSEG7Path), fontSize );
 		return fontDSEG7;
 	}
 
