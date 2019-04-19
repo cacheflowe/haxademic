@@ -24,7 +24,7 @@ implements IButtonDelegate {
 		mouseables = new ArrayList<IMouseable>();
 		mouseables.add( new Button( this, "1", buttonX, buttonY +=  0, buttonW, buttonH ) );
 		mouseables.add( new Button( this, "2", buttonX, buttonY += 60, buttonW, buttonH ) );
-		mouseables.add( new Button( this, "3", buttonX, buttonY += 60, buttonW, buttonH ) );
+		mouseables.add( new Button( this, "3", buttonX, buttonY += 60, buttonW, buttonH - 10 ) );
 //		_mouseables.add( new TextButton( p, "double syllable", "2", 300, 520, 200, 50 ) );
 //		_mouseables.add( new TextButton( p, "any word", "1", 560, 420, 200, 50 ) );
 //		_mouseables.add( new TextButton( p, "line end", "2", 560, 520, 200, 50 ) );

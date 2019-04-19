@@ -3,7 +3,10 @@ package com.haxademic.core.ui;
 import java.awt.Rectangle;
 
 import com.haxademic.core.app.P;
+import com.haxademic.core.data.constants.PTextAlign;
+import com.haxademic.core.draw.text.FontCacher;
 
+import processing.core.PFont;
 import processing.core.PGraphics;
 import processing.event.MouseEvent;
 
@@ -45,6 +48,14 @@ implements IMouseable {
 			pg.fill( 127, 255, 127);
 		}
 		pg.rect( rect.x, rect.y, rect.width, rect.height );
+		
+		// text
+		String fontFile = "haxademic/fonts/OpenSans-Regular.ttf";
+		PFont font = FontCacher.getFont(fontFile, rect.height * 0.6f);
+		FontCacher.setFontOnContext(pg, font, P.p.color(255), 1f, PTextAlign.CENTER, PTextAlign.CENTER);
+		pg.fill(0);
+		pg.text(id, rect.x, rect.y - 4, rect.width, rect.height);
+
 	}
 	
 	public void mouseEvent(MouseEvent event) {
