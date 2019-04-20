@@ -21,6 +21,12 @@
   
 ## HaxVisualTwo
   * Less kaleidoscope
+  * Add new concepts for layout, rather than just relying on displacement & mask effects 
+  * Categorize textures: 
+    * Complex pattern
+    * basic B&W
+    * central shape
+    * audioreactive?
   * BaseVideoFilter should have an optional need to create sourceBuffer - most don't need this extra buffer created
   * Extract HaxVisualTwo post-processing into its own reusable component?
   * Preset texture combos
@@ -36,6 +42,7 @@
   	
 ## Interphase
   * C.A.C.H.E. - Creative Adversarial Computer-Human Exchange
+  * Make alternate z-space-scrolling sequencer grid 
   * Make all keyboard commands capital letters, so Caps lock toggles key commands between HaxVisual and Interphase 
   * Come up with a way to film. 2 phones? dual webcam? what about audio? does it need to run on the mac laptop for a/v capture?
   	* Capture Launchpads from above, A/V from video feed

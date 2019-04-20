@@ -4,6 +4,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.ui.UIButton;
 
 public class Demo_UIControls 
 extends PAppletHax {
@@ -53,7 +54,7 @@ extends PAppletHax {
 		if(p.frameCount % 200 == 0) p.ui.get("1").set(1);
 	}
 	
-	public void uiButtonClicked(String buttonId) {
-		P.out("uiButtonClicked: " + buttonId);
+	public void uiButtonClicked(UIButton button) {
+		P.out(button.id(), button.value());
 	}
 }

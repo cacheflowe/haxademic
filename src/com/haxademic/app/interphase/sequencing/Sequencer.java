@@ -430,7 +430,7 @@ implements IAppStoreListener {
 			// load a new sound on a random interval
 			checkLoadNewSound();
 			// every 8 cycles, trigger
-			if(P.round(sequencesComplete/2) % Interphase.NUM_WALLS == index) evolvePattern(false);
+			if(P.round(sequencesComplete) % Interphase.NUM_WALLS == index) evolvePattern(false);
 		}
 		
 		// toggle wall color multiplier

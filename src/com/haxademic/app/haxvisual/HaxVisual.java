@@ -74,16 +74,11 @@ import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.LinearFloat;
 import com.haxademic.core.math.easing.Penner;
 import com.haxademic.core.system.SystemUtil;
+import com.haxademic.core.ui.UIButton;
 
 import processing.core.PGraphics;
 import processing.core.PImage;
 
-/**
- * 
- * TODO:  
- * Add new concepts about layout, rather than just relying on displacement & mask effects 
- * Add text cycling texture
- */
 
 public class HaxVisual
 extends PAppletHax {
@@ -216,24 +211,23 @@ extends PAppletHax {
 
 	protected void overridePropsFile() {
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, false );
-		p.appConfig.setProperty( AppSettings.FULLSCREEN, true );
-		p.appConfig.setProperty( AppSettings.ALWAYS_ON_TOP, false );
+		p.appConfig.setProperty( AppSettings.FULLSCREEN, false );
 		p.appConfig.setProperty( AppSettings.FILLS_SCREEN, false );
 		p.appConfig.setProperty( AppSettings.OSC_ACTIVE, false );
-		p.appConfig.setProperty( AppSettings.DMX_LIGHTS_COUNT, 0 );
 		//		p.appConfig.setProperty( AppSettings.AUDIO_DEBUG, true );
-		p.appConfig.setProperty( AppSettings.INIT_ESS_AUDIO, true );
+		p.appConfig.setProperty( AppSettings.INIT_ESS_AUDIO, false );
 //				p.appConfig.setProperty( AppSettings.INIT_MINIM_AUDIO, true );
 //				p.appConfig.setProperty( AppSettings.INIT_BEADS_AUDIO, true );
 		p.appConfig.setProperty( AppSettings.MIDI_DEVICE_IN_INDEX, 0 );
 		p.appConfig.setProperty( AppSettings.MIDI_DEBUG, false );
-		p.appConfig.setProperty( AppSettings.RETINA, false );
 		p.appConfig.setProperty( AppSettings.WIDTH, 1920 );
 		p.appConfig.setProperty( AppSettings.HEIGHT, 1080 );
+		p.appConfig.setProperty( AppSettings.WIDTH, 1280 );
+		p.appConfig.setProperty( AppSettings.HEIGHT, 720 );
 	}
 
 	protected void setupFirstFrame() {
-		initDMX();
+//		initDMX();
 		if(multiOutput == false) {
 			buildCanvas();
 		} else {
@@ -250,7 +244,7 @@ extends PAppletHax {
 		int w = P.round(p.width * scaleDownPG);
 		int h = P.round(p.height * scaleDownPG);
 		_pg = p.createGraphics(w, h, P.P3D);
-		_pg.noSmooth();
+//		_pg.noSmooth();
 		OpenGLUtil.setTextureRepeat(_pg);
 		_pgPinnable = new PGraphicsKeystone( p, _pg, 12, FileUtil.getFile("text/keystoning/hax-visual-two.txt") );
 	}
@@ -301,11 +295,11 @@ extends PAppletHax {
 		p.midiState.controllerChange(midiInChannel, vignetteKnob, (int) 70);
 	}
 
-	protected void initDMX() {
-		if(p.appConfig.getInt(AppSettings.DMX_LIGHTS_COUNT, 0) > 0) {
-			_dmxLights = new RandomLightTiming(p.appConfig.getInt(AppSettings.DMX_LIGHTS_COUNT, 0));
-		}
-	}
+//	protected void initDMX() {
+//		if(p.appConfig.getInt(AppSettings.DMX_LIGHTS_COUNT, 0) > 0) {
+//			_dmxLights = new RandomLightTiming(p.appConfig.getInt(AppSettings.DMX_LIGHTS_COUNT, 0));
+//		}
+//	}
 
 	//////////////////////////////////////////////
 	// GETTERS
@@ -325,7 +319,6 @@ extends PAppletHax {
 
 	public void drawApp() {
 		background(0);
-		if(interphase != null) interphase.update();
 		handleInputTriggers();
 		checkBeat();
 		drawPre();
@@ -337,10 +330,11 @@ extends PAppletHax {
 		postSpecialEffectsFilters();
 		drawTopLayer();
 		postFinalFilters();
+		if(interphase != null) interphase.update(_pg);
 		if(imageCycler != null) drawInterstitial();
 		// draw pinned pgraphics
 		if(_debugTextures == true && _pgPinnable != null) _pgPinnable.drawTestPattern();
-		p.debugView.setTexture(_pg);
+//		p.debugView.setTexture(_pg);
 		if(multiOutput == false) _pgPinnable.update(p.g);
 		else drawCanvasToMultiScreens();
 		// sendDmxLights();
@@ -1355,6 +1349,14 @@ extends PAppletHax {
 			tex.texture().save(FileUtil.getHaxademicOutputPath() + "hax-visual-textures/" + tex.toString());
 			P.println("output: ", tex.toString());
 		}
+	}
+
+	/////////////////////////////////////////////////////////////////
+	// UIControls listener
+	/////////////////////////////////////////////////////////////////
+
+	public void uiButtonClicked(UIButton button) {
+		if(interphase != null) interphase.uiButtonClicked(button);
 	}
 
 }

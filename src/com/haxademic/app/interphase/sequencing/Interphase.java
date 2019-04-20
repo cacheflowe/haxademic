@@ -2,13 +2,19 @@ package com.haxademic.app.interphase.sequencing;
 
 
 import com.haxademic.core.app.P;
+import com.haxademic.core.data.ConvertUtil;
 import com.haxademic.core.draw.color.ImageGradient;
+import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.shapes.Shapes;
 import com.haxademic.core.hardware.midi.devices.LaunchPad;
 import com.haxademic.core.hardware.midi.devices.LaunchPad.ILaunchpadCallback;
 import com.haxademic.core.hardware.shared.InputTrigger;
+import com.haxademic.core.ui.UIButton;
+import com.haxademic.core.ui.UIControlPanel;
 
 import beads.Pitch;
 import processing.core.PFont;
+import processing.core.PGraphics;
 import processing.core.PShape;
 
 public class Interphase
@@ -90,14 +96,14 @@ implements ILaunchpadCallback {
 	
 	protected boolean upsideDownLED = true;
 	
-	protected InputTrigger trigger1 = new InputTrigger(new char[]{'1'}, null, new Integer[]{104, 41}, null, null);
-	protected InputTrigger trigger2 = new InputTrigger(new char[]{'2'}, null, new Integer[]{105, 42}, null, null);
-	protected InputTrigger trigger3 = new InputTrigger(new char[]{'3'}, null, new Integer[]{106, 43}, null, null);
-	protected InputTrigger trigger4 = new InputTrigger(new char[]{'4'}, null, new Integer[]{107, 44}, null, null);
-	protected InputTrigger trigger5 = new InputTrigger(new char[]{'5'}, null, new Integer[]{108, 45}, null, null);
-	protected InputTrigger trigger6 = new InputTrigger(new char[]{'6'}, null, new Integer[]{109, 46}, null, null);
-	protected InputTrigger trigger7 = new InputTrigger(new char[]{'7'}, null, new Integer[]{110, 47}, null, null);
-	protected InputTrigger trigger8 = new InputTrigger(new char[]{'8'}, null, new Integer[]{111, 48}, null, null);
+	protected InputTrigger trigger1 = new InputTrigger(new char[]{'!'}, null, new Integer[]{104, 41}, null, null);
+	protected InputTrigger trigger2 = new InputTrigger(new char[]{'@'}, null, new Integer[]{105, 42}, null, null);
+	protected InputTrigger trigger3 = new InputTrigger(new char[]{'#'}, null, new Integer[]{106, 43}, null, null);
+	protected InputTrigger trigger4 = new InputTrigger(new char[]{'$'}, null, new Integer[]{107, 44}, null, null);
+	protected InputTrigger trigger5 = new InputTrigger(new char[]{'%'}, null, new Integer[]{108, 45}, null, null);
+	protected InputTrigger trigger6 = new InputTrigger(new char[]{'^'}, null, new Integer[]{109, 46}, null, null);
+	protected InputTrigger trigger7 = new InputTrigger(new char[]{'&'}, null, new Integer[]{110, 47}, null, null);
+	protected InputTrigger trigger8 = new InputTrigger(new char[]{'*'}, null, new Integer[]{111, 48}, null, null);
 
 	protected LaunchPad launchpad1;
 	protected LaunchPad launchpad2;
@@ -132,6 +138,10 @@ implements ILaunchpadCallback {
 		launchpad1.setDelegate(this);
 		launchpad2 = new LaunchPad(1, 4);
 		launchpad2.setDelegate(this);
+		// alternate UI buttons
+		for (int i = 0; i < 16; i++) {
+			P.p.ui.addButtons(new String[] {"beatgrid-0-"+i, "beatgrid-1-"+i, "beatgrid-2-"+i, "beatgrid-3-"+i, "beatgrid-4-"+i, "beatgrid-5-"+i, "beatgrid-6-"+i, "beatgrid-7-"+i}, true);
+		}
 	}
 	
 	
@@ -165,32 +175,32 @@ implements ILaunchpadCallback {
 		
 		// Sequencer controls ---------------------------------
 		
-		if(P.p.key == 'q') sequencers[0].toggleMute();
-		if(P.p.key == 'w') sequencers[1].toggleMute();
-		if(P.p.key == 'e') sequencers[2].toggleMute();
-		if(P.p.key == 'r') sequencers[3].toggleMute();
-		if(P.p.key == 't') sequencers[4].toggleMute();
-		if(P.p.key == 'y') sequencers[5].toggleMute();
-		if(P.p.key == 'u') sequencers[6].toggleMute();
-		if(P.p.key == 'i') sequencers[7].toggleMute();
+		if(P.p.key == 'Q') sequencers[0].toggleMute();
+		if(P.p.key == 'W') sequencers[1].toggleMute();
+		if(P.p.key == 'E') sequencers[2].toggleMute();
+		if(P.p.key == 'R') sequencers[3].toggleMute();
+		if(P.p.key == 'T') sequencers[4].toggleMute();
+		if(P.p.key == 'Y') sequencers[5].toggleMute();
+		if(P.p.key == 'U') sequencers[6].toggleMute();
+		if(P.p.key == 'I') sequencers[7].toggleMute();
 		
-		if(P.p.key == 'a') sequencers[0].loadNextSound();
-		if(P.p.key == 's') sequencers[1].loadNextSound();
-		if(P.p.key == 'd') sequencers[2].loadNextSound();
-		if(P.p.key == 'f') sequencers[3].loadNextSound();
-		if(P.p.key == 'g') sequencers[4].loadNextSound();
-		if(P.p.key == 'h') sequencers[5].loadNextSound();
-		if(P.p.key == 'j') sequencers[6].loadNextSound();
-		if(P.p.key == 'k') sequencers[7].loadNextSound();
+		if(P.p.key == 'A') sequencers[0].loadNextSound();
+		if(P.p.key == 'S') sequencers[1].loadNextSound();
+		if(P.p.key == 'D') sequencers[2].loadNextSound();
+		if(P.p.key == 'F') sequencers[3].loadNextSound();
+		if(P.p.key == 'G') sequencers[4].loadNextSound();
+		if(P.p.key == 'H') sequencers[5].loadNextSound();
+		if(P.p.key == 'J') sequencers[6].loadNextSound();
+		if(P.p.key == 'K') sequencers[7].loadNextSound();
 		
-		if(P.p.key == 'z') sequencers[0].toggleEvloves();
-		if(P.p.key == 'x') sequencers[1].toggleEvloves();
-		if(P.p.key == 'c') sequencers[2].toggleEvloves();
-		if(P.p.key == 'v') sequencers[3].toggleEvloves();
-		if(P.p.key == 'b') sequencers[4].toggleEvloves();
-		if(P.p.key == 'n') sequencers[5].toggleEvloves();
-		if(P.p.key == 'm') sequencers[6].toggleEvloves();
-		if(P.p.key == ',') sequencers[7].toggleEvloves();
+		if(P.p.key == 'Z') sequencers[0].toggleEvloves();
+		if(P.p.key == 'X') sequencers[1].toggleEvloves();
+		if(P.p.key == 'C') sequencers[2].toggleEvloves();
+		if(P.p.key == 'V') sequencers[3].toggleEvloves();
+		if(P.p.key == 'B') sequencers[4].toggleEvloves();
+		if(P.p.key == 'N') sequencers[5].toggleEvloves();
+		if(P.p.key == 'M') sequencers[6].toggleEvloves();
+		if(P.p.key == '<') sequencers[7].toggleEvloves();
 	}
 	
 	// LAUNCHPAD INTEGRATION
@@ -226,7 +236,34 @@ implements ILaunchpadCallback {
 				launchpad2.setButton(lastColIndex, step - 8, value);
 			}
 		}
-
+	}
+	
+	// Bridge to UIControls for mouse control
+	
+	protected void updateUIButtons() {
+		// track current beat
+		int curBeat = P.store.getInt(BEAT) % NUM_STEPS;
+		
+		// split across launchpads
+		for (int i = 0; i < sequencers.length; i++) {
+			for (int step = 0; step < NUM_STEPS; step++) {
+				float value = (sequencers[i].stepActive(step)) ? 1 : 0; 
+				P.p.ui.get("beatgrid-"+i+"-"+step).set(value);
+				
+				if(step % 4 == 0) {
+					if(P.p.ui.active()) {
+						P.p.fill(127);
+						P.p.rect(0, 10 + UIControlPanel.controlSpacing * step, UIControlPanel.controlW + 20, UIControlPanel.controlH);
+					}
+				}
+			}
+		}
+		
+		// playhead
+		if(P.p.ui.active()) {
+			P.p.fill(255);
+			P.p.rect(0, 10 + UIControlPanel.controlSpacing * curBeat, UIControlPanel.controlW + 20, UIControlPanel.controlH);
+		}
 	}
 	
 	/////////////////////////////////
@@ -244,11 +281,13 @@ implements ILaunchpadCallback {
 		if(trigger8.triggered()) sequencers[7].evolvePattern(true);
 	}
 	
-	public void update() {
+	public void update(PGraphics pg) {
 		// check inputs & advance sequencers
 		checkInputs();
 		updateSequencers();
 		updateLaunchpads();
+		updateUIButtons();
+		drawSequencer(pg);
 		
 		// update debug values
 		P.p.debugView.setValue("BPM", P.store.getFloat(BPM));
@@ -265,6 +304,53 @@ implements ILaunchpadCallback {
 		}
 		P.store.setNumber(INTERACTION_SPEED_MULT, numWallsInteracted);
 	}
+	
+	protected void drawSequencer(PGraphics pg) {
+		float spacing = 40;
+		float boxSize = 25;
+		float startx = (spacing * sequencers.length) / -2f + boxSize/2;
+		float startY = (spacing * NUM_STEPS) / -2f + boxSize/2;
+		pg.beginDraw();
+		DrawUtil.setCenterScreen(pg);
+		DrawUtil.basicCameraFromMouse(pg, 0.1f);
+		DrawUtil.setBetterLights(pg);
+		DrawUtil.setDrawCenter(pg);
+		
+		// draw cubes
+		for (int x = 0; x < sequencers.length; x++) {
+			for (int y = 0; y < NUM_STEPS; y++) {
+//				float value = (sequencers[x].stepActive(y)) ? 1 : 0; 
+				boolean isOn = (sequencers[x].stepActive(y)); 
+				pg.fill(isOn ? P.p.color(255) : 30);
+				pg.pushMatrix();
+				pg.translate(startx + x * spacing, startY + y * spacing);
+				pg.box(20);
+				pg.popMatrix();
+			}
+		}
+		
+		// show beat/4
+		for (int y = 0; y < NUM_STEPS; y+=4) {
+//			float value = (sequencers[x].stepActive(y)) ? 1 : 0; 
+			pg.stroke(255);
+			pg.noFill();
+			pg.pushMatrix();
+			pg.translate(-boxSize/2, startY + y * spacing);
+			Shapes.drawDashedBox(pg, spacing * (sequencers.length + 1), boxSize, boxSize, 10, true);
+			pg.popMatrix();
+		}
+		
+		// track current beat
+		int curBeat = P.store.getInt(BEAT) % NUM_STEPS;
+		pg.stroke(255);
+		pg.noFill();
+		pg.pushMatrix();
+		pg.translate(-boxSize/2, startY + curBeat * spacing);
+		pg.box(spacing * (sequencers.length + 1), boxSize, boxSize);
+		pg.popMatrix();	
+		
+		pg.endDraw();
+	}
 
 	/////////////////////////////////
 	// LAUNCHPAD CALLBACK
@@ -273,7 +359,7 @@ implements ILaunchpadCallback {
 	public void cellUpdated(LaunchPad launchpad, int x, int y, float value) {
 		// apply toggle button press
 		int launchpadNumber = (launchpad == launchpad1) ? 1 : 2;
-		P.out(launchpadNumber, x, y, value);
+//		P.out(launchpadNumber, x, y, value);
 		int step = (launchpadNumber == 1) ? y : 8 + y;
 		boolean isActive = (value == 1f);
 		if(x < 8) sequencers[x].stepActive(step, isActive);
@@ -295,6 +381,17 @@ implements ILaunchpadCallback {
 			int curBmpMIDI = P.store.getInt(Interphase.BPM_MIDI);
 			if(note == LaunchPad.groupRowMidiNote(1)) P.store.setNumber(Interphase.BPM_MIDI, curBmpMIDI - 1); 
 			if(note == LaunchPad.groupRowMidiNote(0)) P.store.setNumber(Interphase.BPM_MIDI, curBmpMIDI + 1); 
+		}
+	}
+	
+	public void uiButtonClicked(UIButton button) {
+		if(button.id().indexOf("beatgrid-") == 0) {
+			String[] components = button.id().split("-");
+			int gridX = ConvertUtil.stringToInt(components[1]);
+			int gridY = ConvertUtil.stringToInt(components[2]);
+			P.out("clicked", gridX, gridY);
+			boolean isActive = (button.value() == 1f);
+			sequencers[gridX].stepActive(gridY, isActive);
 		}
 	}
 }

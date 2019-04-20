@@ -13,11 +13,11 @@ implements IUIButtonDelegate {
 
 	protected HashMap<String, IUIControl> controls;
 	
-	protected int controlX = 10;
+	public static final int controlX = 10;
 	protected int controlY = 10;
-	protected int controlW = 250;
-	protected int controlH = 14;
-	protected int controlSpacing = 18;
+	public static final int controlW = 250;
+	public static final int controlH = 14;
+	public static final int controlSpacing = 18;
 	protected float controlSpacingH = 4;
 
 	protected boolean active = false;
