@@ -271,9 +271,9 @@ extends PAppletHax {
 		OpenGLUtil.setTextureRepeat(_pg);
 		
 		// add sliders for blending
-		p.prefsSliders.addSlider(BLEND_LEFT, OVERLAP_PIXELS / 2, -100, 2020, 1);
-		p.prefsSliders.addSlider(BLEND_RIGHT, OVERLAP_PIXELS / 2, -100, 2020, 1);
-		p.prefsSliders.addSlider(BLEND_WIDTH, 100, 0, 1000, 1);
+		p.ui.addSlider(BLEND_LEFT, OVERLAP_PIXELS / 2, -100, 2020, 1);
+		p.ui.addSlider(BLEND_RIGHT, OVERLAP_PIXELS / 2, -100, 2020, 1);
+		p.ui.addSlider(BLEND_WIDTH, 100, 0, 1000, 1);
 		
 		fadeEdge = p.createGraphics(1920, h, P.P3D);
 	}
@@ -374,7 +374,7 @@ extends PAppletHax {
 			fadeEdge.noStroke();
 			
 			// draw projector-blending gradient
-			int fadeSize = (int) p.prefsSliders.value(BLEND_WIDTH);
+			int fadeSize = (int) p.ui.value(BLEND_WIDTH);
 			fadeEdge.pushMatrix();
 			fadeEdge.translate((fadeSize * 0.5f), fadeEdge.height / 2);
 			Gradients.linear(fadeEdge, fadeSize, fadeEdge.height, p.color(1, 0), p.color(0,255));
@@ -464,10 +464,10 @@ extends PAppletHax {
 			
 			// screen 2-3 blending
 			DrawUtil.setDrawCenter(p.g);
-			p.g.image(fadeEdge, outW + outW / 2 + p.prefsSliders.value(BLEND_LEFT), outH / 2, fadeEdge.width, outH);
+			p.g.image(fadeEdge, outW + outW / 2 + p.ui.value(BLEND_LEFT), outH / 2, fadeEdge.width, outH);
 			
 			p.pushMatrix();
-			p.g.translate( -outW + p.prefsSliders.value(BLEND_RIGHT), outH + outH / 2);
+			p.g.translate( -outW + p.ui.value(BLEND_RIGHT), outH + outH / 2);
 			p.g.rotate(P.PI);
 			p.g.image(fadeEdge, 0, 0, fadeEdge.width, outH);
 			p.popMatrix();

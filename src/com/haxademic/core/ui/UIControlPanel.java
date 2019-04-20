@@ -15,10 +15,11 @@ implements IUIButtonDelegate {
 	
 	protected int controlX = 10;
 	protected int controlY = 10;
-	protected int controlW = 200;
+	protected int controlW = 250;
 	protected int controlH = 14;
 	protected int controlSpacing = 18;
-	
+	protected float controlSpacingH = 4;
+
 	protected boolean active = false;
 
 	public UIControlPanel() {
@@ -39,9 +40,11 @@ implements IUIButtonDelegate {
 	}
 	
 	public void addSliderVector(String key, float value, float valueLow, float valueHigh, float dragStep, boolean saves) {
-		addSlider(key + "_X", value, valueLow, valueHigh, dragStep, saves);
-		addSlider(key + "_Y", value, valueLow, valueHigh, dragStep, saves);
-		addSlider(key + "_Z", value, valueLow, valueHigh, dragStep, saves);
+		float controlWidthDivided = (controlW - controlSpacingH * 2f) / 3f;
+		controls.put(key + "_X", new UISlider(key + "_X", value, valueLow, valueHigh, dragStep, P.round(controlX + 0 * controlWidthDivided + controlSpacingH * 0), controlY, P.round(controlWidthDivided), controlH, saves));
+		controls.put(key + "_Y", new UISlider(key + "_Y", value, valueLow, valueHigh, dragStep, P.round(controlX + 1 * controlWidthDivided + controlSpacingH * 1), controlY, P.round(controlWidthDivided), controlH, saves));
+		controls.put(key + "_Z", new UISlider(key + "_Z", value, valueLow, valueHigh, dragStep, P.round(controlX + 2 * controlWidthDivided + controlSpacingH * 2), controlY, P.round(controlWidthDivided), controlH, saves));
+		controlY += controlSpacing;
 	}
 	
 	public void removeControl(String key) {
@@ -58,10 +61,9 @@ implements IUIButtonDelegate {
 	}
 	
 	public void addButtons(String[] keys, boolean toggles) {
-		float spacing = 4;
-		float controlWidthDivided = (controlW - spacing * (keys.length - 1)) / keys.length;
+		float controlWidthDivided = (controlW - controlSpacingH * (keys.length - 1)) / keys.length;
 		for (int i = 0; i < keys.length; i++) {
-			int buttonX = P.round(controlX + i * controlWidthDivided + spacing * i);
+			int buttonX = P.round(controlX + i * controlWidthDivided + controlSpacingH * i);
 			controls.put(keys[i], new UIButton(this, keys[i], buttonX, controlY, P.round(controlWidthDivided), controlH, toggles));
 		}
 		controlY += controlSpacing;
