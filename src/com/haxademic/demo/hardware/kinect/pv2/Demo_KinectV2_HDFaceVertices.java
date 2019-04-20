@@ -37,8 +37,8 @@ extends PAppletHax {
 		kinect.init();
 		
 		// init ui
-		p.prefsSliders.addSlider(startIndex, 0, 0, KinectPV2.HDFaceVertexCount, 1, false);
-		p.prefsSliders.addSlider(endIndex, 100, 0, KinectPV2.HDFaceVertexCount, 1, false);
+		p.ui.addSlider(startIndex, 0, 0, KinectPV2.HDFaceVertexCount, 1, false);
+		p.ui.addSlider(endIndex, 100, 0, KinectPV2.HDFaceVertexCount, 1, false);
 	}
 
 	public void drawApp() {
@@ -60,7 +60,7 @@ extends PAppletHax {
 				//draw the vertex points
 				stroke(0, 255, 0);
 				beginShape(POINTS);
-				for (int i = p.prefsSliders.valueInt(startIndex); i < p.prefsSliders.valueInt(endIndex) - 1; i++) {
+				for (int i = p.ui.valueInt(startIndex); i < p.ui.valueInt(endIndex) - 1; i++) {
 					float x = HDfaceData.getX(i);
 					float y = HDfaceData.getY(i);
 					vertex(x, y);

@@ -25,13 +25,13 @@ extends PAppletHax {
 	}
 	
 	public void setupFirstFrame() {
-		p.prefsSliders.addSlider(AMBIENT, 2f, 0.3f, 6f, 0.01f, false);
-		p.prefsSliders.addSlider(GRAD_AMP, 0.66f, 0.1f, 6f, 0.01f, false);
-		p.prefsSliders.addSlider(GRAD_BLUR, 1f, 0.1f, 6f, 0.01f, false);
-		p.prefsSliders.addSlider(SPEC_AMP, 2.25f, 0.1f, 6f, 0.01f, false);
-		p.prefsSliders.addSlider(DIFF_DARK, 0.85f, 0.1f, 2f, 0.01f, false);
+		p.ui.addSlider(AMBIENT, 2f, 0.3f, 6f, 0.01f, false);
+		p.ui.addSlider(GRAD_AMP, 0.66f, 0.1f, 6f, 0.01f, false);
+		p.ui.addSlider(GRAD_BLUR, 1f, 0.1f, 6f, 0.01f, false);
+		p.ui.addSlider(SPEC_AMP, 2.25f, 0.1f, 6f, 0.01f, false);
+		p.ui.addSlider(DIFF_DARK, 0.85f, 0.1f, 2f, 0.01f, false);
 
-		p.prefsSliders.addSlider(FILTER_ACTIVE, 1f, 0f, 1f, 1f, false);
+		p.ui.addSlider(FILTER_ACTIVE, 1f, 0f, 1f, 1f, false);
 	}
 
 	public void drawApp() {
@@ -39,13 +39,13 @@ extends PAppletHax {
 		ImageUtil.drawImageCropFill(DemoAssets.squareTexture(), p.g, true);
 		
 		// apply effect
-		FakeLightingFilter.instance(p).setAmbient(p.prefsSliders.value(AMBIENT));
-		FakeLightingFilter.instance(p).setGradAmp(p.prefsSliders.value(GRAD_AMP));
-		FakeLightingFilter.instance(p).setGradBlur(p.prefsSliders.value(GRAD_BLUR));
-		FakeLightingFilter.instance(p).setSpecAmp(p.prefsSliders.value(SPEC_AMP));
-		FakeLightingFilter.instance(p).setDiffDark(p.prefsSliders.value(DIFF_DARK));
+		FakeLightingFilter.instance(p).setAmbient(p.ui.value(AMBIENT));
+		FakeLightingFilter.instance(p).setGradAmp(p.ui.value(GRAD_AMP));
+		FakeLightingFilter.instance(p).setGradBlur(p.ui.value(GRAD_BLUR));
+		FakeLightingFilter.instance(p).setSpecAmp(p.ui.value(SPEC_AMP));
+		FakeLightingFilter.instance(p).setDiffDark(p.ui.value(DIFF_DARK));
 		
-		if(p.prefsSliders.value(FILTER_ACTIVE) > 0.5f) {
+		if(p.ui.value(FILTER_ACTIVE) > 0.5f) {
 			FakeLightingFilter.instance(p).applyTo(p.g);
 		}
 	}

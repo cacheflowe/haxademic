@@ -13,8 +13,8 @@ extends PAppletHax {
 	protected String COLOR_MIN_POINTS_DETECT_THRESHOLD = "COLOR_MIN_POINTS_DETECT_THRESHOLD";
 	
 	public void setupFirstFrame () {
-		p.prefsSliders.addSlider(COLOR_CLOSENESS_THRESHOLD, 0.95f, 0.9f, 1f, 0.001f, false);
-		p.prefsSliders.addSlider(COLOR_MIN_POINTS_DETECT_THRESHOLD, 10, 1, 100, 1, false);
+		p.ui.addSlider(COLOR_CLOSENESS_THRESHOLD, 0.95f, 0.9f, 1f, 0.001f, false);
+		p.ui.addSlider(COLOR_MIN_POINTS_DETECT_THRESHOLD, 10, 1, 100, 1, false);
 	}
 
 	public void drawApp() {
@@ -36,8 +36,8 @@ extends PAppletHax {
 			float detectionScaleDown = 0.25f;
 			colorObjectDetection = new ColorObjectDetection(pg, detectionScaleDown);
 		}
-		colorObjectDetection.colorClosenessThreshold(p.prefsSliders.value(COLOR_CLOSENESS_THRESHOLD));
-		colorObjectDetection.minPointsThreshold((int) p.prefsSliders.value(COLOR_MIN_POINTS_DETECT_THRESHOLD));
+		colorObjectDetection.colorClosenessThreshold(p.ui.value(COLOR_CLOSENESS_THRESHOLD));
+		colorObjectDetection.minPointsThreshold((int) p.ui.value(COLOR_MIN_POINTS_DETECT_THRESHOLD));
 		colorObjectDetection.setColorCompare(1, 0, 0);
 		colorObjectDetection.debugging(true);
 		colorObjectDetection.update(pg);

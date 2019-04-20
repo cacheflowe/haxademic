@@ -31,10 +31,10 @@ extends PAppletHax {
 		shadowOrig = imageToImageWithPadding(img, 2f);
 		shadow = imageToImageWithPadding(img, 2f);
 		
-		p.prefsSliders.addSlider(BLUR_SIZE, 12, 1, 20, 1, false);
-		p.prefsSliders.addSlider(BLUR_SIGMA, 6, 1, 20, 0.1f, false);
-		p.prefsSliders.addSlider(BLUR_ALPHA, 0.6f, 0, 1, 0.01f, false);
-		p.prefsSliders.addSlider(BLUR_STEPS, 9, 1, 20, 1, false);
+		p.ui.addSlider(BLUR_SIZE, 12, 1, 20, 1, false);
+		p.ui.addSlider(BLUR_SIGMA, 6, 1, 20, 0.1f, false);
+		p.ui.addSlider(BLUR_ALPHA, 0.6f, 0, 1, 0.01f, false);
+		p.ui.addSlider(BLUR_STEPS, 9, 1, 20, 1, false);
 	}
 	
 	public PGraphics imageToImageWithPadding(PImage img, float scaleCanvasUp) {
@@ -52,9 +52,9 @@ extends PAppletHax {
 		shadow.beginDraw();
 		shadow.clear();
 		shadow.image(shadowOrig, shadow.width/2, shadow.height/2);
-		BlurProcessingFilter.instance(p).setBlurSize(p.prefsSliders.valueInt(BLUR_SIZE));
-		BlurProcessingFilter.instance(p).setSigma(p.prefsSliders.value(BLUR_SIGMA));
-		for (int i = 0; i < (p.prefsSliders.valueInt(BLUR_STEPS)); i++) {
+		BlurProcessingFilter.instance(p).setBlurSize(p.ui.valueInt(BLUR_SIZE));
+		BlurProcessingFilter.instance(p).setSigma(p.ui.value(BLUR_SIGMA));
+		for (int i = 0; i < (p.ui.valueInt(BLUR_STEPS)); i++) {
 			BlurProcessingFilter.instance(p).applyTo(shadow);
 		}
 		shadow.endDraw();
@@ -62,7 +62,7 @@ extends PAppletHax {
 		p.background(255);
 		DrawUtil.setCenterScreen(p);
 		DrawUtil.setDrawCenter(p);
-		DrawUtil.setPImageAlpha(p, p.prefsSliders.value(BLUR_ALPHA));
+		DrawUtil.setPImageAlpha(p, p.ui.value(BLUR_ALPHA));
 		p.image(shadow, 0, 10f + 10f * P.sin(p.frameCount * 0.03f));
 		DrawUtil.setPImageAlpha(p, 1f);
 		p.image(img, 0, 0);

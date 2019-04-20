@@ -44,7 +44,8 @@ import com.haxademic.core.system.AppUtil;
 import com.haxademic.core.system.JavaInfo;
 import com.haxademic.core.system.SecondScreenViewer;
 import com.haxademic.core.system.SystemUtil;
-import com.haxademic.core.ui.PrefsSliders;
+import com.haxademic.core.ui.UIButton;
+import com.haxademic.core.ui.UIControlPanel;
 import com.jogamp.newt.opengl.GLWindow;
 
 import de.voidplus.leapmotion.LeapMotion;
@@ -119,7 +120,7 @@ extends PApplet {
 	public int _fps;
 	public Stats _stats;
 	public DebugView debugView;
-	public PrefsSliders prefsSliders;
+	public UIControlPanel ui;
 	public SecondScreenViewer appViewerWindow;
 	
 	////////////////////////
@@ -160,9 +161,9 @@ extends PApplet {
 			debugView = new DebugView( p );
 			debugView.active(p.appConfig.getBoolean(AppSettings.SHOW_DEBUG, false));
 			addKeyCommandInfo();
-			prefsSliders = new PrefsSliders();
+			ui = new UIControlPanel();
 			if(p.appConfig.getBoolean(AppSettings.SHOW_SLIDERS, false) == true) {
-				prefsSliders.active(!prefsSliders.active());
+				ui.active(!ui.active());
 			}
 		}
 		_stats = new Stats( p );
@@ -461,7 +462,7 @@ extends PApplet {
 		p.noLights();
 		_stats.update();
 		debugView.draw();
-		prefsSliders.update();
+		ui.update();
 	}
 
 	protected void keepOnTop() {
@@ -631,7 +632,7 @@ extends PApplet {
 		// show debug & prefs sliders
 		if (p.key == '|') saveScreenshot(p.g);
 		if (p.key == '/') debugView.active(!debugView.active());
-		if (p.key == '\\') prefsSliders.active(!prefsSliders.active());
+		if (p.key == '\\') ui.active(!ui.active());
 	}
 	
 	public void keyReleased() {
@@ -700,6 +701,10 @@ extends PApplet {
 	}
 	void leapOnExit(){
 	    // println("Leap Motion Exit");
+	}
+
+	public void uiButtonClicked(UIButton button) {
+		P.out("uiButtonClicked: please override", button.id(), button.value());
 	}
 
 }

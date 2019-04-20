@@ -60,8 +60,8 @@ extends PAppletHax {
 		kinect.init();
 
 		// init ui
-		p.prefsSliders.addSlider(startIndex, 0, 0, KinectPV2.HDFaceVertexCount, 1, false);
-		p.prefsSliders.addSlider(endIndex, KinectPV2.HDFaceVertexCount, 0, KinectPV2.HDFaceVertexCount, 1, false);
+		p.ui.addSlider(startIndex, 0, 0, KinectPV2.HDFaceVertexCount, 1, false);
+		p.ui.addSlider(endIndex, KinectPV2.HDFaceVertexCount, 0, KinectPV2.HDFaceVertexCount, 1, false);
 
 		// load texture
 		texture = p.loadImage(FileUtil.getFile("images/_sketch/the-opening-mask.png"));

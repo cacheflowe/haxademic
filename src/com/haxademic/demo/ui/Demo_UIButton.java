@@ -4,33 +4,33 @@ import java.util.ArrayList;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.ui.Button;
-import com.haxademic.core.ui.Button.IButtonDelegate;
-import com.haxademic.core.ui.IMouseable;
+import com.haxademic.core.ui.IUIControl;
+import com.haxademic.core.ui.UIButton;
+import com.haxademic.core.ui.UIButton.IUIButtonDelegate;
 
-public class Demo_Button 
+public class Demo_UIButton 
 extends PAppletHax
-implements IButtonDelegate {
+implements IUIButtonDelegate {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	protected boolean activeButtons = true;
-	protected ArrayList<IMouseable> mouseables;
+	protected ArrayList<IUIControl> mouseables;
 
 	public void setupFirstFrame () {
 		int buttonX = 40;
 		int buttonY = 10;
 		int buttonW = 200;
 		int buttonH = 40;
-		mouseables = new ArrayList<IMouseable>();
-		mouseables.add( new Button( this, "1", buttonX, buttonY +=  0, buttonW, buttonH ) );
-		mouseables.add( new Button( this, "2", buttonX, buttonY += 60, buttonW, buttonH ) );
-		mouseables.add( new Button( this, "3", buttonX, buttonY += 60, buttonW, buttonH - 10 ) );
+		mouseables = new ArrayList<IUIControl>();
+		mouseables.add( new UIButton( this, "1", buttonX, buttonY +=  0, buttonW, buttonH, false ) );
+		mouseables.add( new UIButton( this, "2", buttonX, buttonY += 60, buttonW, buttonH, false ) );
+		mouseables.add( new UIButton( this, "3", buttonX, buttonY += 60, buttonW, buttonH - 10, true ) );
 //		_mouseables.add( new TextButton( p, "double syllable", "2", 300, 520, 200, 50 ) );
 //		_mouseables.add( new TextButton( p, "any word", "1", 560, 420, 200, 50 ) );
 //		_mouseables.add( new TextButton( p, "line end", "2", 560, 520, 200, 50 ) );
 		
 		// add a test slider to compare style
-		p.prefsSliders.addSlider("TEST SLIDER", 255, 0, 255, 0.5f);
+		p.ui.addSlider("TEST SLIDER", 255, 0, 255, 0.5f);
 	}
 	
 	public void keyPressed() {
@@ -42,11 +42,13 @@ implements IButtonDelegate {
 		p.background(0);
 		
 		// draw buttons
-		for( int i=0; i < mouseables.size(); i++ ) mouseables.get(i).update(p.g, p.mouseX, p.mouseY);
+		if(activeButtons) {
+			for( int i=0; i < mouseables.size(); i++ ) mouseables.get(i).update(p.g);
+		}
 	}
 	
-	public void clicked(String buttonId) {
-		P.out(buttonId);
+	public void clicked(UIButton button) {
+		P.out(button.id(), button.value());
 	}
 	
 }

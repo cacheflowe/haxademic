@@ -51,11 +51,11 @@ extends PAppletHax {
 		keystone = new PGraphicsKeystone( p, bufferDepthSlice, 12, FileUtil.getFile("text/keystoning/keystone-kinect.txt") );
 		
 		// add prefs sliders
-		p.prefsSliders.addSlider(PIXEL_SIZE, 	3,    1, 20, 0.1f, false);
-		p.prefsSliders.addSlider(KINECT_TOP, 	220,  0, KinectWrapperV2.KHEIGHT, 1, false);
-		p.prefsSliders.addSlider(KINECT_BOTTOM, 240,  0, KinectWrapperV2.KHEIGHT, 1, false);
-		p.prefsSliders.addSlider(KINECT_NEAR, 	1000, 0, 3000, 1, false);
-		p.prefsSliders.addSlider(KINECT_FAR, 	7000, 0, 10000, 4, false);
+		p.ui.addSlider(PIXEL_SIZE, 	3,    1, 20, 0.1f, false);
+		p.ui.addSlider(KINECT_TOP, 	220,  0, KinectWrapperV2.KHEIGHT, 1, false);
+		p.ui.addSlider(KINECT_BOTTOM, 240,  0, KinectWrapperV2.KHEIGHT, 1, false);
+		p.ui.addSlider(KINECT_NEAR, 	1000, 0, 3000, 1, false);
+		p.ui.addSlider(KINECT_FAR, 	7000, 0, 10000, 4, false);
 	}
 
 	public void drawApp() {
@@ -114,7 +114,7 @@ extends PAppletHax {
 	}
 	
 	protected float slider(String key) {
-		return p.prefsSliders.value(key);
+		return p.ui.value(key);
 	}
 	
 	protected int drawKinectDepthPixels(KinectWrapperV2 kinect, PGraphics buffer, int pixelColor, boolean drawAllData, boolean clearBg) {

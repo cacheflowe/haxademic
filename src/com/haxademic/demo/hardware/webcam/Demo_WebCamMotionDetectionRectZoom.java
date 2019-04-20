@@ -54,12 +54,12 @@ implements IWebCamCallback {
 		};
 
 		// add sliders
-		p.prefsSliders.addSlider(BLEND_LERP, 0.25f, 0.01f, 1f, 0.01f);
-		p.prefsSliders.addSlider(DIFF_THRESH, 0.05f, 0.005f, 1f, 0.001f);
-		p.prefsSliders.addSlider(FALLOFF_BW, 0.7f, 0.01f, 1f, 0.01f);
-		p.prefsSliders.addSlider(THRESHOLD_CUTOFF, 0.5f, 0.01f, 1f, 0.01f);
-		p.prefsSliders.addSlider(MOTION_DETECT_BLUR, 1f, 0.01f, 2f, 0.01f);
-		p.prefsSliders.addSlider(RECT_LERP, lerpSpeed, 0.001f, 0.5f, 0.001f);
+		p.ui.addSlider(BLEND_LERP, 0.25f, 0.01f, 1f, 0.01f);
+		p.ui.addSlider(DIFF_THRESH, 0.05f, 0.005f, 1f, 0.001f);
+		p.ui.addSlider(FALLOFF_BW, 0.7f, 0.01f, 1f, 0.01f);
+		p.ui.addSlider(THRESHOLD_CUTOFF, 0.5f, 0.01f, 1f, 0.01f);
+		p.ui.addSlider(MOTION_DETECT_BLUR, 1f, 0.01f, 2f, 0.01f);
+		p.ui.addSlider(RECT_LERP, lerpSpeed, 0.001f, 0.5f, 0.001f);
 	}
 
 	public void drawApp() {
@@ -141,7 +141,7 @@ implements IWebCamCallback {
 				rectSize[3].setTarget(webcamBuffer.height);
 			}
 			// lerp rect
-			for (int i = 0; i < rectSize.length; i++) rectSize[i].setEaseFactor(p.prefsSliders.value(RECT_LERP));
+			for (int i = 0; i < rectSize.length; i++) rectSize[i].setEaseFactor(p.ui.value(RECT_LERP));
 			for (int i = 0; i < rectSize.length; i++) rectSize[i].update(true);
 
 			// debug draw
@@ -185,11 +185,11 @@ implements IWebCamCallback {
 		if(motionDetectionMap == null) {
 			motionDetectionMap = new BufferMotionDetectionMap(webcamBuffer, motionBufferScale);
 		}
-		motionDetectionMap.setBlendLerp(p.prefsSliders.value(BLEND_LERP));
-		motionDetectionMap.setDiffThresh(p.prefsSliders.value(DIFF_THRESH));
-		motionDetectionMap.setFalloffBW(p.prefsSliders.value(FALLOFF_BW));
-		motionDetectionMap.setThresholdCutoff(p.prefsSliders.value(THRESHOLD_CUTOFF));
-		motionDetectionMap.setBlur(p.prefsSliders.value(MOTION_DETECT_BLUR));
+		motionDetectionMap.setBlendLerp(p.ui.value(BLEND_LERP));
+		motionDetectionMap.setDiffThresh(p.ui.value(DIFF_THRESH));
+		motionDetectionMap.setFalloffBW(p.ui.value(FALLOFF_BW));
+		motionDetectionMap.setThresholdCutoff(p.ui.value(THRESHOLD_CUTOFF));
+		motionDetectionMap.setBlur(p.ui.value(MOTION_DETECT_BLUR));
 		motionDetectionMap.updateSource(webcamBuffer);
 
 		// set textures for debug view

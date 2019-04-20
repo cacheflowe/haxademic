@@ -11,7 +11,7 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.file.FileUtil;
-import com.haxademic.core.ui.IMouseable;
+import com.haxademic.core.ui.IUIControl;
 import com.lowagie.text.Document;
 import com.lowagie.text.DocumentException;
 import com.lowagie.text.Image;
@@ -31,7 +31,7 @@ extends PAppletHax {
 //	protected CustomFontText2D _fontRenderer;
 	protected int _fontSize = 100;
 	protected int _wordIndex = 0;
-	protected ArrayList<IMouseable> _mouseables;
+	protected ArrayList<IUIControl> _mouseables;
 	protected boolean _is212 = false;
 
 	// render -----------------
@@ -101,7 +101,7 @@ extends PAppletHax {
 //		_fontRenderer = new CustomFontText2D( this, FileUtil.getHaxademicDataPath() + "haxademic/fonts/Raleway-Regular.ttf", _fontSize, color(255,255,255), CustomFontText2D.ALIGN_CENTER, width, _fontSize + 20 );
 		p.smooth( OpenGLUtil.SMOOTH_HIGH );
 
-		_mouseables = new ArrayList<IMouseable>();
+		_mouseables = new ArrayList<IUIControl>();
 		if( _is212 == true ) {
 //			_mouseables.add( new TextButton( p, "bitch", "1", 40, 420, 200, 50 ) );
 //			_mouseables.add( new TextButton( p, "cunt", "2", 40, 520, 200, 50 ) );
@@ -167,7 +167,7 @@ extends PAppletHax {
 
 		// draw buttons
 		for( int i=0; i < _mouseables.size(); i++ ) {
-			_mouseables.get(i).update( p.g, p.mouseX, p.mouseY );
+			_mouseables.get(i).update(p.g);
 		}
 
 		// draw text to screen

@@ -16,9 +16,10 @@ import processing.core.PGraphics;
 import processing.event.KeyEvent;
 import processing.event.MouseEvent;
 
-public class PrefSlider {
+public class UISlider
+implements IUIControl {
 	
-	protected String key;
+	protected String id;
 	protected float value;
 	protected float low;
 	protected float high;
@@ -34,12 +35,12 @@ public class PrefSlider {
 	protected boolean mousePressed = false;
 	protected boolean saves = false;
 
-	public PrefSlider(String property, float value, float low, float high, float dragStep, int x, int y, int w, int h) {
+	public UISlider(String property, float value, float low, float high, float dragStep, int x, int y, int w, int h) {
 		this(property, value, low, high, dragStep, x, y, w, h, true);
 	}
 	
-	public PrefSlider(String property, float value, float low, float high, float dragStep, int x, int y, int w, int h, boolean saves) {
-		this.key = property;
+	public UISlider(String property, float value, float low, float high, float dragStep, int x, int y, int w, int h, boolean saves) {
+		this.id = property;
 		this.value = (saves) ? PrefToText.getValueF(property, value) : value;
 		this.low = low;
 		this.high = high;
@@ -53,8 +54,20 @@ public class PrefSlider {
 		P.p.registerMethod("keyEvent", this);
 	}
 	
-	public String key() {
-		return key;
+	/////////////////////////////////////////
+	// Disable/enable
+	/////////////////////////////////////////
+	
+	public boolean isActive() {
+		return (P.p.millis() - activeTime) < 10; // when drawing, time is tracked. if not drawing, time will be out-of-date
+	}
+	
+	/////////////////////////////////////////
+	// IUIControl interface
+	/////////////////////////////////////////
+	
+	public String id() {
+		return id;
 	}
 	
 	public float value() {
@@ -67,6 +80,7 @@ public class PrefSlider {
 	
 	public void update(PGraphics pg) {
 		DrawUtil.setDrawCorner(pg);
+		
 		// background
 		if(mouseHovered) pg.fill(ColorsHax.BUTTON_BG_HOVER);
 		else pg.fill(ColorsHax.BUTTON_BG);
@@ -77,7 +91,7 @@ public class PrefSlider {
 		PFont font = FontCacher.getFont(DemoAssets.fontOpenSansPath, h * 0.65f);
 		FontCacher.setFontOnContext(pg, font, P.p.color(255), 1f, PTextAlign.LEFT, PTextAlign.TOP);
 		pg.fill(ColorsHax.BUTTON_TEXT);
-		pg.text(key + ": " + value, x + 4, y + 0, w, 20);
+		pg.text(id + ": " + value, x + 4, y + 0, w, 20);
 		uiRect.setBounds(x, y, w, h);
 		
 		// outline
@@ -91,12 +105,9 @@ public class PrefSlider {
 		pg.stroke(ColorsHax.BUTTON_TEXT);
 		float mappedX = P.map(value, low, high, x, x + w);
 		pg.rect(mappedX - 0.5f, y, 1, h);
+		
 		// set active if drawing
 		activeTime = P.p.millis();
-	}
-	
-	public boolean isActive() {
-		return (P.p.millis() - activeTime) < 10; // when drawing, time is tracked. if not drawing, time will be out-of-date
 	}
 	
 	/////////////////////////////////////////
@@ -114,7 +125,7 @@ public class PrefSlider {
 		case MouseEvent.RELEASE:
 			if(mousePressed) {
 				mousePressed = false;
-				if(saves) PrefToText.setValue(key, value);
+				if(saves) PrefToText.setValue(id, value);
 			}
 			break;
 		case MouseEvent.MOVE:
@@ -140,8 +151,8 @@ public class PrefSlider {
 		if(e.getAction() == KeyEvent.PRESS) {
 			if(e.getKeyCode() == P.LEFT) value -= dragStep;
 			if(e.getKeyCode() == P.RIGHT) value += dragStep;
+			if(saves) PrefToText.setValue(id, value);
 		}
 	}
-	
 
 }

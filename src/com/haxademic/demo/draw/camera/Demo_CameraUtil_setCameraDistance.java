@@ -17,8 +17,8 @@ extends PAppletHax {
 	}
 
 	public void setupFirstFrame() {
-		p.prefsSliders.addSlider(DIST, 4000, 100, 20000, 100, false);
-		p.prefsSliders.addSlider(NEAR, 100, 100, 10000, 10, false);
+		p.ui.addSlider(DIST, 4000, 100, 20000, 100, false);
+		p.ui.addSlider(NEAR, 100, 100, 10000, 10, false);
 	}
 
 	public void drawApp() {
@@ -26,8 +26,8 @@ extends PAppletHax {
 		DrawUtil.setCenterScreen(p);
 		DrawUtil.setDrawCenter(p);
 		
-		int maxDist = (int) p.prefsSliders.value(DIST);
-		int minDist = (int) p.prefsSliders.value(NEAR);
+		int maxDist = (int) p.ui.value(DIST);
+		int minDist = (int) p.ui.value(NEAR);
 		CameraUtil.setCameraDistance(p.g, minDist, maxDist);
 		
 		p.fill(255);

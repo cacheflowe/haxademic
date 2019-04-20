@@ -3,14 +3,14 @@ package com.haxademic.core.ui;
 import processing.core.PApplet;
 
 public class TextButton 
-extends Button {
+extends UIButton {
 
 	protected String _text;
 //	protected CustomFontText2D _fontRenderer;
 	protected float _fontSize = 20f;
 	
-	public TextButton( IButtonDelegate delegate, PApplet p, String text, String id, int x, int y, int w, int h ) {
-		super( delegate, id, x, y, w, h );
+	public TextButton( IUIButtonDelegate delegate, PApplet p, String text, String id, int x, int y, int w, int h ) {
+		super( delegate, id, x, y, w, h, false );
 		_text = text;
 //		_fontRenderer = new CustomFontText2D( p, FileUtil.getHaxademicDataPath() + "haxademic/fonts/Raleway-Regular.ttf", _fontSize, p.color( 255, 255, 255 ), CustomFontText2D.ALIGN_CENTER, _rect.width, (int)(_fontSize * 1.2f) );
 //		_fontRenderer.updateText( _text );

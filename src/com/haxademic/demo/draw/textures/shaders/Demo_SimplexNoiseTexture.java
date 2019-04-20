@@ -16,10 +16,10 @@ extends PAppletHax {
 
 	protected void setupFirstFrame() {
 		// init controls
-		p.prefsSliders.addSlider(ZOOM, 1f, 0.01f, 20f, 0.01f, false);
-		p.prefsSliders.addSlider(ROTATION, 0f, 0, P.TWO_PI, 0.01f, false);
-		p.prefsSliders.addSlider(OFFSET_X, 0f, -100f, 100f, 0.01f, false);
-		p.prefsSliders.addSlider(OFFSET_Y, 0f, -100f, 100f, 0.01f, false);
+		p.ui.addSlider(ZOOM, 1f, 0.01f, 20f, 0.01f, false);
+		p.ui.addSlider(ROTATION, 0f, 0, P.TWO_PI, 0.01f, false);
+		p.ui.addSlider(OFFSET_X, 0f, -100f, 100f, 0.01f, false);
+		p.ui.addSlider(OFFSET_Y, 0f, -100f, 100f, 0.01f, false);
 		
 		// init noise object
 		noiseTexture = new SimplexNoiseTexture(p.width, p.height);
@@ -31,10 +31,10 @@ extends PAppletHax {
 		
 		// update perlin texture
 		noiseTexture.update(
-				p.prefsSliders.value(ZOOM),
-				p.prefsSliders.value(ROTATION),
-				p.prefsSliders.value(OFFSET_X),
-				p.prefsSliders.value(OFFSET_Y)
+				p.ui.value(ZOOM),
+				p.ui.value(ROTATION),
+				p.ui.value(OFFSET_X),
+				p.ui.value(OFFSET_Y)
 		);
 		
 		// draw to screen

@@ -5,14 +5,15 @@ public class ColorsHax {
 	public static int WHITE = 0xffffffff;
 	public static int WHITE_CLEAR = 0x00ffffff;
 	public static int BLACK = 0xff000000;
-	public static int BLACK_CLEAR = 0xff000000;
+	public static int BLACK_CLEAR = 0x00000000;
 	
-	public static int BUTTON_BG = 0xff222222;
-	public static int BUTTON_BG_HOVER = 0xff000000;
+	public static int BUTTON_BG = 0xff000000;
+	public static int BUTTON_BG_HOVER = 0xff3B1854;
 	public static int BUTTON_BG_PRESS = 0xff444444;
+	public static int BUTTON_BG_SELECTED = 0xff007700;
 	public static int BUTTON_TEXT = 0xffffffff;
-	public static int BUTTON_OUTLINE = 0xffcccccc;
-	public static int BUTTON_OUTLINE_HOVER = 0xff666666;
+	public static int BUTTON_OUTLINE = 0xffffffff;
+	public static int BUTTON_OUTLINE_HOVER = 0xffeeeeee;
 
 	public static int[][] COLOR_GROUPS = new int[][] {
 		new int[] {0xff9c2c63, 0xffd073a2, 0xffe5a8ff, 0xfffffde2, 0xffcebf6d},

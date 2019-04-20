@@ -39,11 +39,11 @@ extends PAppletHax {
 		}
 		
 		// set up sliders
-		p.prefsSliders.addSlider(POINT_SIZE, 10, 1, 100, 1, false);
-		p.prefsSliders.addSlider(DISPLACE_AMP, 30, 1, 300, 1, false);
-		p.prefsSliders.addSlider(FRICTION, 0.9f, 0.1f, 0.99f, 0.001f, false);
-		p.prefsSliders.addSlider(ACCELERATION, 0.1f, 0.01f, 0.99f, 0.001f, false);
-		p.prefsSliders.addSlider(INFLUENCE_BY_DISTANCE, 1, 0, 1, 0.01f, false);
+		p.ui.addSlider(POINT_SIZE, 10, 1, 100, 1, false);
+		p.ui.addSlider(DISPLACE_AMP, 30, 1, 300, 1, false);
+		p.ui.addSlider(FRICTION, 0.9f, 0.1f, 0.99f, 0.001f, false);
+		p.ui.addSlider(ACCELERATION, 0.1f, 0.01f, 0.99f, 0.001f, false);
+		p.ui.addSlider(INFLUENCE_BY_DISTANCE, 1, 0, 1, 0.01f, false);
 	}
 
 	protected int indexByXY(int x, int y, int cols) {
@@ -63,13 +63,13 @@ extends PAppletHax {
 		p.stroke(255);
 		
 		// update properties w/sliders & draw points
-		float pointSize = p.prefsSliders.value(POINT_SIZE);
+		float pointSize = p.ui.value(POINT_SIZE);
 		for (int i = 0; i < points.length; i++) {
 			// set properties 
-			points[i].displaceAmp(p.prefsSliders.value(DISPLACE_AMP));
-			points[i].friction(p.prefsSliders.value(FRICTION));
-			points[i].acceleration(p.prefsSliders.value(ACCELERATION));
-			points[i].influenceByDistance(p.prefsSliders.value(INFLUENCE_BY_DISTANCE));
+			points[i].displaceAmp(p.ui.value(DISPLACE_AMP));
+			points[i].friction(p.ui.value(FRICTION));
+			points[i].acceleration(p.ui.value(ACCELERATION));
+			points[i].influenceByDistance(p.ui.value(INFLUENCE_BY_DISTANCE));
 			points[i].update(p.mouseX, p.mouseY);
 		}
 		// draw after updating all, so vertices match up between `update()` calls
