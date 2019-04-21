@@ -35,10 +35,8 @@ extends PAppletHax {
 
 	// loop / mode
 	protected int FRAMES = 600;
-	protected int mode = 0;
-	protected int MODE_ONE = 1;
-	protected int MODE_TWO = 2;
-	protected int[] MODES = new int[]{MODE_ONE, MODE_TWO};
+	protected int configIndex = 0;
+	protected String[] CONFIGS = new String[]{CONFIG_6, CONFIG_3, CONFIG_1, CONFIG_2, CONFIG_3, CONFIG_4, CONFIG_5};
 	
 	// assets
 	protected PImage tower;
@@ -60,6 +58,9 @@ extends PAppletHax {
 	
 	// UI
 	protected String FEEDBACK_AMP = "FEEDBACK_AMP";
+	protected String FEEDBACK_ROTATE = "FEEDBACK_ROTATE";
+	protected String FEEDBACK_OFFSET_X = "FEEDBACK_OFFSET_X";
+	protected String FEEDBACK_OFFSET_Y = "FEEDBACK_OFFSET_Y";
 	protected String DARKEN_AMP = "DARKEN_AMP";
 	protected String RD_ITERATIONS = "RD_ITERATIONS";
 	protected String RD_BLUR_AMP_X = "RD_BLUR_AMP_X";
@@ -98,8 +99,8 @@ extends PAppletHax {
 		p.appConfig.setProperty(AppSettings.HEIGHT, 900);
 		p.appConfig.setProperty(AppSettings.LOOP_FRAMES, FRAMES);
 		p.appConfig.setProperty(AppSettings.RENDERING_IMAGE_SEQUENCE, false);
-		p.appConfig.setProperty(AppSettings.RENDERING_IMAGE_SEQUENCE_START_FRAME, 1 + FRAMES * 2);
-		p.appConfig.setProperty(AppSettings.RENDERING_IMAGE_SEQUENCE_STOP_FRAME, 1 + FRAMES * 3);
+		p.appConfig.setProperty(AppSettings.RENDERING_IMAGE_SEQUENCE_START_FRAME, 1 + FRAMES * 1);
+		p.appConfig.setProperty(AppSettings.RENDERING_IMAGE_SEQUENCE_STOP_FRAME, 1 + FRAMES * 7);
 	}
 	
 	/////////////////////////
@@ -120,17 +121,20 @@ extends PAppletHax {
 		buildWindows();
 		buildParticles();
 		buildSimulation();
-		if(imageSequenceRenderer != null) imageSequenceRenderer.setPG(pg);
+		if(imageSequenceRenderer != null) imageSequenceRenderer.setPG(pgPost);
 	}
 	
 	protected void buildUI() {
 		p.ui.addSlider(SHOW_SIMULATION, 0, 0, 1, 1f);
-		p.ui.addSlider(FEEDBACK_AMP, 0, -5, 5, 1f);
+		p.ui.addSlider(FEEDBACK_AMP, 0, 0.99f, 1.01f, 0.0001f);
+		p.ui.addSlider(FEEDBACK_ROTATE, 0, -0.02f, 0.02f, 0.0001f);
+		p.ui.addSlider(FEEDBACK_OFFSET_X, 0, -0.02f, 0.02f, 0.0001f);
+		p.ui.addSlider(FEEDBACK_OFFSET_Y, 0, -0.02f, 0.02f, 0.0001f);
 		p.ui.addSlider(DARKEN_AMP, -10, -200, 200, 1f);
 		p.ui.addSlider(RD_ITERATIONS, 0, 0, 10, 1f);
 		p.ui.addSlider(RD_BLUR_AMP_X, 0, 0, 6, 0.001f);
 		p.ui.addSlider(RD_BLUR_AMP_Y, 0, 0, 6, 0.001f);
-		p.ui.addSlider(RD_SHARPEN_AMP, 0, 0, 10, 0.01f);
+		p.ui.addSlider(RD_SHARPEN_AMP, 0, 0, 20, 0.01f);
 		p.ui.addSlider(FAKE_LIGHT_AMBIENT, 2f, 0.3f, 6f, 0.01f);
 		p.ui.addSlider(FAKE_LIGHT_GRAD_AMP, 0.66f, 0.1f, 6f, 0.01f);
 		p.ui.addSlider(FAKE_LIGHT_GRAD_BLUR, 1f, 0.1f, 6f, 0.01f);
@@ -169,8 +173,9 @@ extends PAppletHax {
 	
 	protected void newMode() {
 		// next mode
-		mode++;
-		if(mode >= MODES.length) mode = 0;
+		configIndex++;
+		if(configIndex >= CONFIGS.length) configIndex = 0;
+		p.ui.loadJSON(JSONObject.parse(CONFIGS[configIndex]));
 	}
 	
 	protected void updateSwipe() {
@@ -180,13 +185,6 @@ extends PAppletHax {
 		GradientCoverWipe.instance(p).setProgress(swipeProgress.value());
 		GradientCoverWipe.instance(p).setGradientEdge(1f);
 		GradientCoverWipe.instance(p).applyTo(pg);
-	}
-	
-	protected void updateFeedback() {
-		DrawUtil.feedback(pg, p.color(0), 0.05f, p.ui.value(FEEDBACK_AMP));
-//		RotateFilter.instance(p).setRotation(1f/255f);
-//		RotateFilter.instance(p).setZoom(1f);
-//		RotateFilter.instance(p).applyTo(pg);
 	}
 	
 	protected void darkenCanvas() {
@@ -204,8 +202,8 @@ extends PAppletHax {
 	}
 	
 	protected void setColorize() {
-		ColorizeTwoColorsFilter.instance(p).setColor1(1f,  0f,  1f);
-		ColorizeTwoColorsFilter.instance(p).setColor2(0f,  1f,  1f);
+		ColorizeTwoColorsFilter.instance(p).setColor1(1f,  0.7f,  1f);
+		ColorizeTwoColorsFilter.instance(p).setColor2(0f,  0f,  0f);
 		ColorizeTwoColorsFilter.instance(p).applyTo(pgPost);
 	}
 	
@@ -238,6 +236,14 @@ extends PAppletHax {
 		DrawUtil.setPImageAlpha(p, 0.25f);
 		ImageUtil.drawImageCropFill(tower, pgPost, false);
 		DrawUtil.setPImageAlpha(p, 1f);
+	}
+	
+	protected void applyZoomRotate() {
+		p.debugView.setValue("p.ui.value(FEEDBACK_OFFSET_X)/255f", p.ui.value(FEEDBACK_OFFSET_X)/255f);
+		RotateFilter.instance(p).setRotation(p.ui.value(FEEDBACK_ROTATE));
+		RotateFilter.instance(p).setZoom(p.ui.value(FEEDBACK_AMP));
+		RotateFilter.instance(p).setOffset(p.ui.value(FEEDBACK_OFFSET_X), p.ui.value(FEEDBACK_OFFSET_Y));
+		RotateFilter.instance(p).applyTo(pg);
 	}
 	
 	protected void applyRD() {
@@ -284,16 +290,11 @@ extends PAppletHax {
 		DrawUtil.setDrawCorner(pg);
 		DrawUtil.setDrawFlat2d(pg, true);
 		
-//		updateFeedback();
 		darkenCanvas();
 		updateWindows();
 		updateParticles();
 		pg.endDraw();
-		RotateFilter.instance(p).setRotation(0f);
-		RotateFilter.instance(p).setZoom(0.9995f);
-		RotateFilter.instance(p).setOffset(0.3f/255f, 0f);
-		RotateFilter.instance(p).applyTo(pg);
-
+		applyZoomRotate();
 		applyRD();
 		updateSwipe();
 		
@@ -313,6 +314,8 @@ extends PAppletHax {
 		if(p.key == '2') p.ui.loadJSON(JSONObject.parse(CONFIG_2));
 		if(p.key == '3') p.ui.loadJSON(JSONObject.parse(CONFIG_3));
 		if(p.key == '4') p.ui.loadJSON(JSONObject.parse(CONFIG_4));
+		if(p.key == '5') p.ui.loadJSON(JSONObject.parse(CONFIG_5));
+		if(p.key == '6') p.ui.loadJSON(JSONObject.parse(CONFIG_6));
 	}
 	
 	////////////////////////////////////
@@ -442,67 +445,118 @@ extends PAppletHax {
 	}
 	
 	protected static String CONFIG_1 = "{\r\n" + 
+			"  \"FEEDBACK_OFFSET_X\": 0.0010000037727877498,\r\n" + 
 			"  \"FAKE_LIGHT_SPEC_AMP\": 2.0500032901763916,\r\n" + 
-			"  \"NUM_PARTICLES\": 0,\r\n" + 
-			"  \"RD_ITERATIONS\": 2,\r\n" + 
-			"  \"RD_BLUR_AMP_Y\": 1.7079956531524658,\r\n" + 
-			"  \"DARKEN_AMP\": -78,\r\n" + 
-			"  \"RD_BLUR_AMP_X\": 1.0110032558441162,\r\n" + 
-			"  \"RD_SHARPEN_AMP\": 9.340021133422852,\r\n" + 
-			"  \"SHOW_SIMULATION\": 0,\r\n" + 
-			"  \"FAKE_LIGHT_GRAD_AMP\": 2.299994707107544,\r\n" + 
-			"  \"FAKE_LIGHT_DIFF_DARK\": 0.6300005912780762,\r\n" + 
-			"  \"FAKE_LIGHT_GRAD_BLUR\": 2.7999982833862305,\r\n" + 
-			"  \"FAKE_LIGHT_AMBIENT\": 2.179999828338623,\r\n" + 
-			"  \"FEEDBACK_AMP\": -2\r\n" + 
-			"}";
-
-	protected static String CONFIG_2 = "{\r\n" + 
-			"  \"FAKE_LIGHT_SPEC_AMP\": 2.0500032901763916,\r\n" + 
-			"  \"NUM_PARTICLES\": 50,\r\n" + 
-			"  \"RD_ITERATIONS\": 3,\r\n" + 
-			"  \"RD_BLUR_AMP_Y\": 1.9259984493255615,\r\n" + 
-			"  \"DARKEN_AMP\": -173,\r\n" + 
-			"  \"RD_BLUR_AMP_X\": 1.0440033674240112,\r\n" + 
-			"  \"RD_SHARPEN_AMP\": 9.760029792785645,\r\n" + 
-			"  \"SHOW_SIMULATION\": 0,\r\n" + 
-			"  \"FAKE_LIGHT_GRAD_AMP\": 2.299994707107544,\r\n" + 
-			"  \"FAKE_LIGHT_DIFF_DARK\": 0.6300005912780762,\r\n" + 
-			"  \"FAKE_LIGHT_GRAD_BLUR\": 2.7999982833862305,\r\n" + 
-			"  \"FAKE_LIGHT_AMBIENT\": 2.179999828338623,\r\n" + 
-			"  \"FEEDBACK_AMP\": 4\r\n" + 
-			"}";
-	
-	protected static String CONFIG_3 = "{\r\n" + 
-			"  \"FAKE_LIGHT_SPEC_AMP\": 2.0500032901763916,\r\n" + 
-			"  \"NUM_PARTICLES\": 50,\r\n" + 
+			"  \"NUM_PARTICLES\": 40,\r\n" + 
+			"  \"FEEDBACK_OFFSET_Y\": 0,\r\n" + 
 			"  \"RD_ITERATIONS\": 1,\r\n" + 
-			"  \"RD_BLUR_AMP_Y\": 1.7079956531524658,\r\n" + 
-			"  \"DARKEN_AMP\": -78,\r\n" + 
-			"  \"RD_BLUR_AMP_X\": 0.731002926826477,\r\n" + 
-			"  \"RD_SHARPEN_AMP\": 6.860032081604004,\r\n" + 
-			"  \"SHOW_SIMULATION\": 0,\r\n" + 
-			"  \"FAKE_LIGHT_GRAD_AMP\": 2.299994707107544,\r\n" + 
-			"  \"FAKE_LIGHT_DIFF_DARK\": 0.6300005912780762,\r\n" + 
-			"  \"FAKE_LIGHT_GRAD_BLUR\": 2.7999982833862305,\r\n" + 
-			"  \"FAKE_LIGHT_AMBIENT\": 2.179999828338623,\r\n" + 
-			"  \"FEEDBACK_AMP\": 2\r\n" + 
-			"}";
-	
-	protected static String CONFIG_4 = "{\r\n" + 
-			"  \"FAKE_LIGHT_SPEC_AMP\": 2.0500032901763916,\r\n" + 
-			"  \"NUM_PARTICLES\": 0,\r\n" + 
-			"  \"RD_ITERATIONS\": 10,\r\n" + 
 			"  \"RD_BLUR_AMP_Y\": 1.70099937915802,\r\n" + 
-			"  \"DARKEN_AMP\": 93,\r\n" + 
+			"  \"DARKEN_AMP\": -77,\r\n" + 
 			"  \"RD_BLUR_AMP_X\": 0.9940021634101868,\r\n" + 
 			"  \"RD_SHARPEN_AMP\": 9.760029792785645,\r\n" + 
 			"  \"SHOW_SIMULATION\": 0,\r\n" + 
 			"  \"FAKE_LIGHT_GRAD_AMP\": 2.299994707107544,\r\n" + 
+			"  \"FEEDBACK_ROTATE\": 0,\r\n" + 
 			"  \"FAKE_LIGHT_DIFF_DARK\": 0.6300005912780762,\r\n" + 
 			"  \"FAKE_LIGHT_GRAD_BLUR\": 2.7999982833862305,\r\n" + 
-			"  \"FAKE_LIGHT_AMBIENT\": 2.179999828338623,\r\n" + 
-			"  \"FEEDBACK_AMP\": -2\r\n" + 
-			"}\r\n";
+			"  \"FAKE_LIGHT_AMBIENT\": 2.3999996185302734,\r\n" + 
+			"  \"FEEDBACK_AMP\": 0.9992989301681519\r\n" + 
+			"}";
+
+	protected static String CONFIG_2 = "{\r\n" + 
+			"  \"FEEDBACK_OFFSET_X\": 0,\r\n" + 
+			"  \"FAKE_LIGHT_SPEC_AMP\": 2.0500032901763916,\r\n" + 
+			"  \"NUM_PARTICLES\": 0,\r\n" + 
+			"  \"FEEDBACK_OFFSET_Y\": 0,\r\n" + 
+			"  \"RD_ITERATIONS\": 3,\r\n" + 
+			"  \"RD_BLUR_AMP_Y\": 1.70099937915802,\r\n" + 
+			"  \"DARKEN_AMP\": 95,\r\n" + 
+			"  \"RD_BLUR_AMP_X\": 0.9220037460327148,\r\n" + 
+			"  \"RD_SHARPEN_AMP\": 9.760029792785645,\r\n" + 
+			"  \"SHOW_SIMULATION\": 0,\r\n" + 
+			"  \"FAKE_LIGHT_GRAD_AMP\": 2.299994707107544,\r\n" + 
+			"  \"FEEDBACK_ROTATE\": 0.0026000109501183033,\r\n" + 
+			"  \"FAKE_LIGHT_DIFF_DARK\": 0.6300005912780762,\r\n" + 
+			"  \"FAKE_LIGHT_GRAD_BLUR\": 2.7999982833862305,\r\n" + 
+			"  \"FAKE_LIGHT_AMBIENT\": 2.3999996185302734,\r\n" + 
+			"  \"FEEDBACK_AMP\": 1.0000990629196167\r\n" + 
+			"}";
+	
+	protected static String CONFIG_3 = "{\r\n" + 
+			"  \"FEEDBACK_OFFSET_X\": 0,\r\n" + 
+			"  \"FAKE_LIGHT_SPEC_AMP\": 2.0500032901763916,\r\n" + 
+			"  \"NUM_PARTICLES\": 0,\r\n" + 
+			"  \"FEEDBACK_OFFSET_Y\": 0,\r\n" + 
+			"  \"RD_ITERATIONS\": 2,\r\n" + 
+			"  \"RD_BLUR_AMP_Y\": 1.7000007629394531,\r\n" + 
+			"  \"DARKEN_AMP\": -138,\r\n" + 
+			"  \"RD_BLUR_AMP_X\": 1.0540040731430054,\r\n" + 
+			"  \"RD_SHARPEN_AMP\": 13.620043754577637,\r\n" + 
+			"  \"SHOW_SIMULATION\": 0,\r\n" + 
+			"  \"FAKE_LIGHT_GRAD_AMP\": 2.299994707107544,\r\n" + 
+			"  \"FEEDBACK_ROTATE\": 0,\r\n" + 
+			"  \"FAKE_LIGHT_DIFF_DARK\": 0.6300005912780762,\r\n" + 
+			"  \"FAKE_LIGHT_GRAD_BLUR\": 2.7999982833862305,\r\n" + 
+			"  \"FAKE_LIGHT_AMBIENT\": 2.3999996185302734,\r\n" + 
+			"  \"FEEDBACK_AMP\": 0.9991989135742188\r\n" + 
+			"}";
+	
+	protected static String CONFIG_4 = "{\r\n" + 
+			"  \"FEEDBACK_OFFSET_X\": 0,\r\n" + 
+			"  \"FAKE_LIGHT_SPEC_AMP\": 2.0500032901763916,\r\n" + 
+			"  \"NUM_PARTICLES\": 0,\r\n" + 
+			"  \"FEEDBACK_OFFSET_Y\": 0,\r\n" + 
+			"  \"RD_ITERATIONS\": 2,\r\n" + 
+			"  \"RD_BLUR_AMP_Y\": 2.4900002479553223,\r\n" + 
+			"  \"DARKEN_AMP\": -138,\r\n" + 
+			"  \"RD_BLUR_AMP_X\": 1.2750041484832764,\r\n" + 
+			"  \"RD_SHARPEN_AMP\": 19.550003051757812,\r\n" + 
+			"  \"SHOW_SIMULATION\": 0,\r\n" + 
+			"  \"FAKE_LIGHT_GRAD_AMP\": 2.299994707107544,\r\n" + 
+			"  \"FEEDBACK_ROTATE\": 0,\r\n" + 
+			"  \"FAKE_LIGHT_DIFF_DARK\": 0.6300005912780762,\r\n" + 
+			"  \"FAKE_LIGHT_GRAD_BLUR\": 2.7999982833862305,\r\n" + 
+			"  \"FAKE_LIGHT_AMBIENT\": 2.3999996185302734,\r\n" + 
+			"  \"FEEDBACK_AMP\": 1.0001990795135498\r\n" + 
+			"}";
+	
+	protected static String CONFIG_5 = "{\r\n" + 
+			"  \"FEEDBACK_OFFSET_X\": 0,\r\n" + 
+			"  \"FAKE_LIGHT_SPEC_AMP\": 2.0500032901763916,\r\n" + 
+			"  \"NUM_PARTICLES\": 120,\r\n" + 
+			"  \"FEEDBACK_OFFSET_Y\": 0,\r\n" + 
+			"  \"RD_ITERATIONS\": 2,\r\n" + 
+			"  \"RD_BLUR_AMP_Y\": 1.6199991703033447,\r\n" + 
+			"  \"DARKEN_AMP\": -195,\r\n" + 
+			"  \"RD_BLUR_AMP_X\": 0.691003143787384,\r\n" + 
+			"  \"RD_SHARPEN_AMP\": 6.180019855499268,\r\n" + 
+			"  \"SHOW_SIMULATION\": 0,\r\n" + 
+			"  \"FAKE_LIGHT_GRAD_AMP\": 2.299994707107544,\r\n" + 
+			"  \"FEEDBACK_ROTATE\": 0,\r\n" + 
+			"  \"FAKE_LIGHT_DIFF_DARK\": 0.6300005912780762,\r\n" + 
+			"  \"FAKE_LIGHT_GRAD_BLUR\": 2.7999982833862305,\r\n" + 
+			"  \"FAKE_LIGHT_AMBIENT\": 2.3999996185302734,\r\n" + 
+			"  \"FEEDBACK_AMP\": 0.9983987808227539\r\n" + 
+			"}";
+	
+	protected static String CONFIG_6 = "{\r\n" + 
+			"  \"FEEDBACK_OFFSET_X\": 0,\r\n" + 
+			"  \"FAKE_LIGHT_SPEC_AMP\": 2.0500032901763916,\r\n" + 
+			"  \"NUM_PARTICLES\": 0,\r\n" + 
+			"  \"FEEDBACK_OFFSET_Y\": 0,\r\n" + 
+			"  \"RD_ITERATIONS\": 10,\r\n" + 
+			"  \"RD_BLUR_AMP_Y\": 0.8319985866546631,\r\n" + 
+			"  \"DARKEN_AMP\": -127,\r\n" + 
+			"  \"RD_BLUR_AMP_X\": 0.7600032091140747,\r\n" + 
+			"  \"RD_SHARPEN_AMP\": 4.560054779052734,\r\n" + 
+			"  \"SHOW_SIMULATION\": 0,\r\n" + 
+			"  \"FAKE_LIGHT_GRAD_AMP\": 2.299994707107544,\r\n" + 
+			"  \"FEEDBACK_ROTATE\": 0,\r\n" + 
+			"  \"FAKE_LIGHT_DIFF_DARK\": 0.6300005912780762,\r\n" + 
+			"  \"FAKE_LIGHT_GRAD_BLUR\": 2.7999982833862305,\r\n" + 
+			"  \"FAKE_LIGHT_AMBIENT\": 2.3999996185302734,\r\n" + 
+			"  \"FEEDBACK_AMP\": 0.9985998868942261\r\n" + 
+			"}";
+
 	
 }
