@@ -430,15 +430,15 @@ public class ImageUtil {
 	}
 
 	
-	public static void drawTextureMappedRect(PGraphics buffer, PImage texture, int subdivideX, int subdivideY, float topLeftX, float topLeftY, float topRightX, float topRightY, float bottomRightX, float bottomRightY, float bottomLeftX, float bottomLeftY) {
+	public static void drawTextureMappedRect(PGraphics dest, PImage texture, int subdivideX, int subdivideY, float topLeftX, float topLeftY, float topRightX, float topRightY, float bottomRightX, float bottomRightY, float bottomLeftX, float bottomLeftY) {
 		// draw to screen with pinned corner coords
 		// generalized version ported from PGraphicsKeystone
 		// inspired by: https://github.com/davidbouchard/keystone & http://marcinignac.com/blog/projectedquads-source-code/
-		buffer.textureMode(PConstants.IMAGE);
-		buffer.noStroke();
-		buffer.fill(255);
-		buffer.beginShape(PConstants.QUAD);
-		buffer.texture(texture);
+		dest.textureMode(PConstants.IMAGE);
+		dest.noStroke();
+		dest.fill(255);
+		dest.beginShape(PConstants.QUAD);
+		dest.texture(texture);
 		
 		if(subdivideX > 0) {
 			// subdivide quad for better resolution
@@ -483,21 +483,21 @@ public class ImageUtil {
 					float quadBotLeftY = interp(colTopY, colBotY, yPercentNext);
 					
 					// draw subdivided quads
-					buffer.vertex(quadTopLeftX, quadTopLeftY, 0, 	texture.width * uPercent, 		texture.height * vPercent);
-					buffer.vertex(quadTopRightX, quadTopRightY, 0, 	texture.width * uPercentNext, 	texture.height * vPercent);
-					buffer.vertex(quadBotRightX, quadBotRightY, 0, 	texture.width * uPercentNext, 	texture.height * vPercentNext);
-					buffer.vertex(quadBotLeftX, quadBotLeftY, 0, 	texture.width * uPercent, 		texture.height * vPercentNext);
+					dest.vertex(quadTopLeftX, quadTopLeftY, 0, 	texture.width * uPercent, 		texture.height * vPercent);
+					dest.vertex(quadTopRightX, quadTopRightY, 0, 	texture.width * uPercentNext, 	texture.height * vPercent);
+					dest.vertex(quadBotRightX, quadBotRightY, 0, 	texture.width * uPercentNext, 	texture.height * vPercentNext);
+					dest.vertex(quadBotLeftX, quadBotLeftY, 0, 	texture.width * uPercent, 		texture.height * vPercentNext);
 				}
 			}
 		} else {
 			// default single mapped quad
-			buffer.vertex(topLeftX, topLeftY, 0, 			0, 0);
-			buffer.vertex(topRightX, topRightY, 0, 			texture.width, 0);
-			buffer.vertex(bottomRightX, bottomRightY, 0, 	texture.width, texture.height);
-			buffer.vertex(bottomLeftX, bottomLeftY, 0, 	0,  texture.height);
+			dest.vertex(topLeftX, topLeftY, 0, 			0, 0);
+			dest.vertex(topRightX, topRightY, 0, 			texture.width, 0);
+			dest.vertex(bottomRightX, bottomRightY, 0, 	texture.width, texture.height);
+			dest.vertex(bottomLeftX, bottomLeftY, 0, 	0,  texture.height);
 		}
 
-		buffer.endShape();
+		dest.endShape();
 	}
 	
 	public static float interp( float lower, float upper, float n ) {

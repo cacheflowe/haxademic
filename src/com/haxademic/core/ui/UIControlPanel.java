@@ -1,9 +1,12 @@
 package com.haxademic.core.ui;
 
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Set;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.net.JsonUtil;
 import com.haxademic.core.ui.UIButton.IUIButtonDelegate;
 
 import processing.data.JSONObject;
@@ -120,6 +123,17 @@ implements IUIButtonDelegate {
 			json.setFloat(control.id(), control.value());
 		}
 		return json.toString();
+	}
+	
+	public void loadJSON(JSONObject jsonData) {
+		P.out(jsonData.toString());
+		P.out(JsonUtil.isValid(jsonData.toString()));
+		Iterator<?> iterator = jsonData.keys().iterator();
+		while(iterator.hasNext()) {
+		    String key = (String) iterator.next();
+	    	controls.get(key).set(jsonData.getFloat(key));
+	    	// P.out(key, jsonData.getFloat(key));
+		}
 	}
 
 	////////////////////////

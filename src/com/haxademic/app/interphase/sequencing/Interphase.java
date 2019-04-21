@@ -65,6 +65,7 @@ implements ILaunchpadCallback {
 	// events
 	
 	public static final String BEAT = "BEAT";
+	public static final String CUR_STEP = "BEAT_MOD";
 	public static final String BPM = "BPM";
 	public static final String BEAT_INTERVAL_MILLIS = "BEAT_INTERVAL_MILLIS";
 	public static final String BPM_MIDI = "BPM_MIDI";
@@ -96,14 +97,14 @@ implements ILaunchpadCallback {
 	
 	protected boolean upsideDownLED = true;
 	
-	protected InputTrigger trigger1 = new InputTrigger(new char[]{'!'}, null, new Integer[]{104, 41}, null, null);
-	protected InputTrigger trigger2 = new InputTrigger(new char[]{'@'}, null, new Integer[]{105, 42}, null, null);
-	protected InputTrigger trigger3 = new InputTrigger(new char[]{'#'}, null, new Integer[]{106, 43}, null, null);
-	protected InputTrigger trigger4 = new InputTrigger(new char[]{'$'}, null, new Integer[]{107, 44}, null, null);
-	protected InputTrigger trigger5 = new InputTrigger(new char[]{'%'}, null, new Integer[]{108, 45}, null, null);
-	protected InputTrigger trigger6 = new InputTrigger(new char[]{'^'}, null, new Integer[]{109, 46}, null, null);
-	protected InputTrigger trigger7 = new InputTrigger(new char[]{'&'}, null, new Integer[]{110, 47}, null, null);
-	protected InputTrigger trigger8 = new InputTrigger(new char[]{'*'}, null, new Integer[]{111, 48}, null, null);
+	protected InputTrigger trigger1 = new InputTrigger(new char[]{'1'}, null, new Integer[]{104, 41}, null, null);
+	protected InputTrigger trigger2 = new InputTrigger(new char[]{'2'}, null, new Integer[]{105, 42}, null, null);
+	protected InputTrigger trigger3 = new InputTrigger(new char[]{'3'}, null, new Integer[]{106, 43}, null, null);
+	protected InputTrigger trigger4 = new InputTrigger(new char[]{'4'}, null, new Integer[]{107, 44}, null, null);
+	protected InputTrigger trigger5 = new InputTrigger(new char[]{'5'}, null, new Integer[]{108, 45}, null, null);
+	protected InputTrigger trigger6 = new InputTrigger(new char[]{'6'}, null, new Integer[]{109, 46}, null, null);
+	protected InputTrigger trigger7 = new InputTrigger(new char[]{'7'}, null, new Integer[]{110, 47}, null, null);
+	protected InputTrigger trigger8 = new InputTrigger(new char[]{'8'}, null, new Integer[]{111, 48}, null, null);
 
 	protected LaunchPad launchpad1;
 	protected LaunchPad launchpad2;
@@ -112,6 +113,7 @@ implements ILaunchpadCallback {
 	public Interphase() {
 		// init state
 		P.store.setNumber(BEAT, 0);
+		P.store.setNumber(CUR_STEP, 0);
 		P.store.setNumber(BEAT_INTERVAL_MILLIS, 700f);
 		P.store.setNumber(BPM, 0);
 		P.store.setNumber(BPM_MIDI, 0);
@@ -208,16 +210,13 @@ implements ILaunchpadCallback {
 	protected void updateLaunchpads() {
 		if(launchpad1 == null) return;
 		
-		// track current beat
-		int curBeat = P.store.getInt(BEAT) % NUM_STEPS;
-		
 		// split across launchpads
 		for (int i = 0; i < sequencers.length; i++) {
 			for (int step = 0; step < NUM_STEPS; step++) {
 				float value = (sequencers[i].stepActive(step)) ? 1 : 0; 
 				float adjustedVal = value;
 				if(value == 0 && step % 4 == 0) adjustedVal = 0.15f;	// show divisor by 4
-				if(value == 0 && step == curBeat) adjustedVal = 0.65f;	// show playhead in row
+				if(value == 0 && step == P.store.getInt(CUR_STEP)) adjustedVal = 0.65f;	// show playhead in row
 				if(step <= 7) {
 					launchpad1.setButton(i, step, adjustedVal);
 				} else {
@@ -229,7 +228,7 @@ implements ILaunchpadCallback {
 		// update playhead
 		int lastColIndex = 8;
 		for (int step = 0; step < NUM_STEPS; step++) {
-			float value = (step == curBeat) ? 0.68f : 0; 
+			float value = (step == P.store.getInt(CUR_STEP)) ? 0.68f : 0; 
 			if(step <= 7) {
 				launchpad1.setButton(lastColIndex, step, value);
 			} else {
@@ -241,9 +240,6 @@ implements ILaunchpadCallback {
 	// Bridge to UIControls for mouse control
 	
 	protected void updateUIButtons() {
-		// track current beat
-		int curBeat = P.store.getInt(BEAT) % NUM_STEPS;
-		
 		// split across launchpads
 		for (int i = 0; i < sequencers.length; i++) {
 			for (int step = 0; step < NUM_STEPS; step++) {
@@ -262,7 +258,7 @@ implements ILaunchpadCallback {
 		// playhead
 		if(P.p.ui.active()) {
 			P.p.fill(255);
-			P.p.rect(0, 10 + UIControlPanel.controlSpacing * curBeat, UIControlPanel.controlW + 20, UIControlPanel.controlH);
+			P.p.rect(0, 10 + UIControlPanel.controlSpacing * P.store.getInt(CUR_STEP), UIControlPanel.controlW + 20, UIControlPanel.controlH);
 		}
 	}
 	
@@ -367,7 +363,7 @@ implements ILaunchpadCallback {
 	
 	public void noteOn(LaunchPad launchpad, int note, float value) {
 		int launchpadNumber = (launchpad == launchpad1) ? 1 : 2;
-		P.out("Interphase.noteOn", launchpadNumber, note, value);
+//		P.out("Interphase.noteOn", launchpadNumber, note, value);
 		if(launchpadNumber == 1) {
 			for (int i = 0; i < 8; i++) {
 				if(note == LaunchPad.headerColMidiNote(i)) sequencers[i].evolvePattern(true); 
@@ -389,7 +385,6 @@ implements ILaunchpadCallback {
 			String[] components = button.id().split("-");
 			int gridX = ConvertUtil.stringToInt(components[1]);
 			int gridY = ConvertUtil.stringToInt(components[2]);
-			P.out("clicked", gridX, gridY);
 			boolean isActive = (button.value() == 1f);
 			sequencers[gridX].stepActive(gridY, isActive);
 		}

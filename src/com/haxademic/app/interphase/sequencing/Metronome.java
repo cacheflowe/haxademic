@@ -85,6 +85,7 @@ public class Metronome {
 						// send beat to Sequencers
 						int beat = P.round(c.getCount() / 4);
 						P.store.setNumber(Interphase.BEAT, beat);
+						P.store.setNumber(Interphase.CUR_STEP, beat % Interphase.NUM_STEPS);
 						
 						// change scale (and color scheme) sometimes
 						if(beat % Interphase.BEATS_PER_SCALE_CHANGE == 0) {

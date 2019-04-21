@@ -12,7 +12,7 @@ extends BaseFragmentShader {
 	
 	public RotateFilter(PApplet p) {
 		super(p, "haxademic/shaders/filters/rotate.glsl");
-		setRotation(0);
+		setRotation(0f);
 		setZoom(1f);
 		setOffset(0f, 0f);
 	}
@@ -44,6 +44,5 @@ extends BaseFragmentShader {
 	public void setOffset(float x, float y) {
 		shader.set("offset", x, y);
 	}
-	
 	
 }
