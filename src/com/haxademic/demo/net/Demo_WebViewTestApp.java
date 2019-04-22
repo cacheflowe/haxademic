@@ -53,7 +53,8 @@ extends Application {
 			getStyleClass().add("browser");
 			// load the web page
 			webEngine.load("http://www.cacheflowe.com/");
-//			webEngine.load("https://tonejs.github.io/");
+//			webEngine.load("http://inear.se/beanstalk/");	// no WebGL yet
+//			webEngine.load("https://tonejs.github.io/");	// no WebAudio yet
 			//add the web view to the scene
 			getChildren().add(browser);
 

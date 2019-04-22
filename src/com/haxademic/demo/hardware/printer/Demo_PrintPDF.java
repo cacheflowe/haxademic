@@ -9,7 +9,6 @@ import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.printer.PrintPageDirect;
-import com.haxademic.core.hardware.printer.PrintPageDirectNew;
 
 import processing.core.PGraphics;
 
