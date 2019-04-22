@@ -97,10 +97,12 @@ extends PAppletHax {
 	protected void overridePropsFile() {
 		p.appConfig.setProperty(AppSettings.WIDTH, 1600);
 		p.appConfig.setProperty(AppSettings.HEIGHT, 900);
+		p.appConfig.setProperty(AppSettings.WIDTH, 638);
+		p.appConfig.setProperty(AppSettings.HEIGHT, 720);
 		p.appConfig.setProperty(AppSettings.LOOP_FRAMES, FRAMES);
-		p.appConfig.setProperty(AppSettings.RENDERING_IMAGE_SEQUENCE, false);
+		p.appConfig.setProperty(AppSettings.RENDERING_IMAGE_SEQUENCE, true);
 		p.appConfig.setProperty(AppSettings.RENDERING_IMAGE_SEQUENCE_START_FRAME, 1 + FRAMES * 1);
-		p.appConfig.setProperty(AppSettings.RENDERING_IMAGE_SEQUENCE_STOP_FRAME, 1 + FRAMES * 7);
+		p.appConfig.setProperty(AppSettings.RENDERING_IMAGE_SEQUENCE_STOP_FRAME, FRAMES * 7);
 	}
 	
 	/////////////////////////
@@ -121,11 +123,13 @@ extends PAppletHax {
 		buildWindows();
 		buildParticles();
 		buildSimulation();
-		if(imageSequenceRenderer != null) imageSequenceRenderer.setPG(pgPost);
+
+//		if(imageSequenceRenderer != null) imageSequenceRenderer.setPG(pgPost);
+		if(imageSequenceRenderer != null) imageSequenceRenderer.setPG(simulationPg2);
 	}
 	
 	protected void buildUI() {
-		p.ui.addSlider(SHOW_SIMULATION, 0, 0, 1, 1f);
+		p.ui.addSlider(SHOW_SIMULATION, 1, 0, 1, 1f);
 		p.ui.addSlider(FEEDBACK_AMP, 0, 0.99f, 1.01f, 0.0001f);
 		p.ui.addSlider(FEEDBACK_ROTATE, 0, -0.02f, 0.02f, 0.0001f);
 		p.ui.addSlider(FEEDBACK_OFFSET_X, 0, -0.02f, 0.02f, 0.0001f);
@@ -176,6 +180,7 @@ extends PAppletHax {
 		configIndex++;
 		if(configIndex >= CONFIGS.length) configIndex = 0;
 		p.ui.loadJSON(JSONObject.parse(CONFIGS[configIndex]));
+		p.ui.get(SHOW_SIMULATION).set(1);
 	}
 	
 	protected void updateSwipe() {
@@ -247,10 +252,11 @@ extends PAppletHax {
 	}
 	
 	protected void applyRD() {
-		for (int i = 0; i < p.ui.valueInt(RD_ITERATIONS); i++) {			
-			BlurHFilter.instance(p).setBlurByPercent(p.ui.value(RD_BLUR_AMP_X), p.width);
+		for (int i = 0; i < p.ui.valueInt(RD_ITERATIONS); i++) {
+			// TODO: I messed this up and didn't use pg dimensions to power the R/D effect. Now all of the presets use that hardcoded number.
+			BlurHFilter.instance(p).setBlurByPercent(p.ui.value(RD_BLUR_AMP_X), 1600);
 			BlurHFilter.instance(p).applyTo(pg);
-			BlurVFilter.instance(p).setBlurByPercent(p.ui.value(RD_BLUR_AMP_Y), p.height);
+			BlurVFilter.instance(p).setBlurByPercent(p.ui.value(RD_BLUR_AMP_Y), 900);
 			BlurVFilter.instance(p).applyTo(pg);
 			SharpenFilter.instance(p).setSharpness(p.ui.value(RD_SHARPEN_AMP));
 			SharpenFilter.instance(p).applyTo(pg);
@@ -276,6 +282,8 @@ extends PAppletHax {
 			simulationPg2.blendMode(PBlendModes.BLEND);
 			simulationPg2.endDraw();
 			p.image(simulationPg2, simulationPg.width, 0);
+//			p.image(simulationPg2, 0, 0);
+			p.image(simulationPg2, 0, 0, p.width, p.height);
 		}
 	}
 	

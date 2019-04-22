@@ -283,7 +283,7 @@ implements ILaunchpadCallback {
 		updateSequencers();
 		updateLaunchpads();
 		updateUIButtons();
-		drawSequencer(pg);
+		if(pg != null) drawSequencer(pg);
 		
 		// update debug values
 		P.p.debugView.setValue("BPM", P.store.getFloat(BPM));

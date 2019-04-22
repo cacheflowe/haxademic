@@ -42,6 +42,7 @@
   	
 ## Interphase
   * C.A.C.H.E. - Creative Adversarial Computer-Human Exchange
+  * More/new samples! Get rid of abrasive samples
   * Make alternate z-space-scrolling sequencer grid 
   * Make all keyboard commands capital letters, so Caps lock toggles key commands between HaxVisual and Interphase 
   * Come up with a way to film. 2 phones? dual webcam? what about audio? does it need to run on the mac laptop for a/v capture?
@@ -49,8 +50,8 @@
   * When sequencers trigger, send an event in AppStore. this could trigger lights, HaxVisual events
   * Clean up basic music code
   * Map more functions to hardware controls
+  	* Use a button to play sample without changing pattern
   * MIDI output for Ableton sync
-  * Build a representation of the sequencer for on-screen display with HaxVisual
   * Use interphase beat timing rather than beat detection to make the next HaxVisual change
   * Store premade patterns for different beats/songs. Json?
   * build a touchscreen 8x16 interface
@@ -110,6 +111,9 @@
 	* http://atduskgreg.github.io/Processing-Shader-Examples/
 	* http://www.beautifulseams.com/2013/04/30/shaders/
 	* https://github.com/codeanticode/pshader-tutorials
+  * Geometry shaders
+  	* http://www.nachocossio.com/geometry-shaders-in-processing/
+  	* https://github.com/kosowski/Geometry-shaders-Processing/blob/master/geometry_shader_tessellation/sphere.pde
 
 ## net
   * Should Screenshot in DashboardPoster be it's own app/process, like the CrashMonitor?

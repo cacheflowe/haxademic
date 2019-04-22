@@ -328,9 +328,9 @@ extends PAppletHax {
 		drawLayers();
 		drawAltTopLayerOrDisplacement();
 		postSpecialEffectsFilters();
-		drawTopLayer();
+//		drawTopLayer();
 		postFinalFilters();
-		if(interphase != null) interphase.update(_pg);
+		if(interphase != null) interphase.update(null); // _pg
 		if(imageCycler != null) drawInterstitial();
 		// draw pinned pgraphics
 		if(_debugTextures == true && _pgPinnable != null) _pgPinnable.drawTestPattern();
