@@ -91,7 +91,7 @@ extends PAppletHax {
 		p.ui.addSlider(NOISE_GRID_CUBE_SIZE, 4, 0, 20, 0.1f);
 		
 		// light positions
-		P.out(p.ui.toJSON());	
+		P.out(p.ui.valuesToJSON());	
 	}
 	
 	protected void initDMX() {

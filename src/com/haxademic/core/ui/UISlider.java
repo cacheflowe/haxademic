@@ -28,6 +28,7 @@ implements IUIControl {
 	protected int y;
 	protected int w;
 	protected int h;
+	protected float layoutW;
 	protected int activeTime = 0;
 	protected Point mousePoint = new Point();
 	protected Rectangle uiRect = new Rectangle();
@@ -45,6 +46,7 @@ implements IUIControl {
 		this.low = low;
 		this.high = high;
 		this.dragStep = dragStep;
+		this.layoutW = 1;
 		this.x = x;
 		this.y = y;
 		this.w = w;
@@ -66,12 +68,40 @@ implements IUIControl {
 	// IUIControl interface
 	/////////////////////////////////////////
 	
+	public String type() {
+		return IUIControl.TYPE_SLIDER;
+	}
+	
 	public String id() {
 		return id;
 	}
 	
 	public float value() {
 		return value;
+	}
+	
+	public float min() {
+		return low;
+	}
+	
+	public float max() {
+		return high;
+	}
+	
+	public float step() {
+		return dragStep;
+	}
+	
+	public float toggles() {
+		return 0;
+	}
+	
+	public float layoutW() {
+		return layoutW;
+	}
+	
+	public void layoutW(float val) {
+		layoutW = val;
 	}
 	
 	public void set(float val) {

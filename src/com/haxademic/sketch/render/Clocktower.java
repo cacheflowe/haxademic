@@ -179,7 +179,7 @@ extends PAppletHax {
 		// next mode
 		configIndex++;
 		if(configIndex >= CONFIGS.length) configIndex = 0;
-		p.ui.loadJSON(JSONObject.parse(CONFIGS[configIndex]));
+		p.ui.loadValuesFromJSON(JSONObject.parse(CONFIGS[configIndex]));
 		p.ui.get(SHOW_SIMULATION).set(1);
 	}
 	
@@ -317,13 +317,13 @@ extends PAppletHax {
 		
 	public void keyPressed() {
 		super.keyPressed();
-		if(p.key == ' ') P.out(p.ui.toJSON());
-		if(p.key == '1') p.ui.loadJSON(JSONObject.parse(CONFIG_1));
-		if(p.key == '2') p.ui.loadJSON(JSONObject.parse(CONFIG_2));
-		if(p.key == '3') p.ui.loadJSON(JSONObject.parse(CONFIG_3));
-		if(p.key == '4') p.ui.loadJSON(JSONObject.parse(CONFIG_4));
-		if(p.key == '5') p.ui.loadJSON(JSONObject.parse(CONFIG_5));
-		if(p.key == '6') p.ui.loadJSON(JSONObject.parse(CONFIG_6));
+		if(p.key == ' ') P.out(p.ui.valuesToJSON());
+		if(p.key == '1') p.ui.loadValuesFromJSON(JSONObject.parse(CONFIG_1));
+		if(p.key == '2') p.ui.loadValuesFromJSON(JSONObject.parse(CONFIG_2));
+		if(p.key == '3') p.ui.loadValuesFromJSON(JSONObject.parse(CONFIG_3));
+		if(p.key == '4') p.ui.loadValuesFromJSON(JSONObject.parse(CONFIG_4));
+		if(p.key == '5') p.ui.loadValuesFromJSON(JSONObject.parse(CONFIG_5));
+		if(p.key == '6') p.ui.loadValuesFromJSON(JSONObject.parse(CONFIG_6));
 	}
 	
 	////////////////////////////////////

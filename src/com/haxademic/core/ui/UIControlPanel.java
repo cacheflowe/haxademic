@@ -2,13 +2,13 @@ package com.haxademic.core.ui;
 
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.Set;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.net.JsonUtil;
 import com.haxademic.core.ui.UIButton.IUIButtonDelegate;
 
+import processing.data.JSONArray;
 import processing.data.JSONObject;
 
 public class UIControlPanel
@@ -25,6 +25,16 @@ implements IUIButtonDelegate {
 
 	protected boolean active = false;
 
+	public static final String KEY_CONTROLS = "ui_controls";
+	public static final String KEY_TYPE = "type";
+	public static final String KEY_ID = "id";
+	public static final String KEY_VALUE = "value";
+	public static final String KEY_VALUE_MIN = "value_low";
+	public static final String KEY_VALUE_MAX = "value_high";
+	public static final String KEY_VALUE_STEP = "value_step";
+	public static final String KEY_VALUE_TOGGLES = "value_toggles";
+	public static final String KEY_VALUE_LAYOUT_W = "layout_width";
+	
 	public UIControlPanel() {
 		controls = new HashMap<String, IUIControl>();
 	}
@@ -64,10 +74,13 @@ implements IUIButtonDelegate {
 	}
 	
 	public void addButtons(String[] keys, boolean toggles) {
+		float layoutW = 1f / keys.length;
 		float controlWidthDivided = (controlW - controlSpacingH * (keys.length - 1)) / keys.length;
 		for (int i = 0; i < keys.length; i++) {
 			int buttonX = P.round(controlX + i * controlWidthDivided + controlSpacingH * i);
-			controls.put(keys[i], new UIButton(this, keys[i], buttonX, controlY, P.round(controlWidthDivided), controlH, toggles));
+			UIButton newButton = new UIButton(this, keys[i], buttonX, controlY, P.round(controlWidthDivided), controlH, toggles);
+			newButton.layoutW(layoutW);
+			controls.put(keys[i], newButton);
 		}
 		controlY += controlSpacing;
 	}
@@ -117,7 +130,31 @@ implements IUIButtonDelegate {
 	// EXPORT
 	////////////////////////
 	
-	public String toJSON() {
+	public String configToJSON() {
+		// TODO: keys need to be in order
+		JSONArray array = new JSONArray();
+//		for (IUIControl control : controls.values()) {
+		for (HashMap.Entry<String, IUIControl> entry : controls.entrySet()) {
+			String key = entry.getKey();
+			IUIControl control = entry.getValue();
+
+			JSONObject controlJson = new JSONObject();
+			controlJson.setString(KEY_TYPE, control.type());
+			controlJson.setString(KEY_ID, control.id());
+			controlJson.setFloat(KEY_VALUE, control.value());
+			controlJson.setFloat(KEY_VALUE_MIN, control.min());
+			controlJson.setFloat(KEY_VALUE_MAX, control.max());
+			controlJson.setFloat(KEY_VALUE_STEP, control.step());
+			controlJson.setFloat(KEY_VALUE_TOGGLES, control.toggles());
+			controlJson.setFloat(KEY_VALUE_LAYOUT_W, control.layoutW());
+			array.append(controlJson);
+		}
+		JSONObject outerJsonObject = new JSONObject();
+		outerJsonObject.setJSONArray(KEY_CONTROLS, array);
+		return outerJsonObject.toString();
+	}
+	
+	public String valuesToJSON() {
 		JSONObject json = new JSONObject();
 		for (IUIControl control : controls.values()) {
 			json.setFloat(control.id(), control.value());
@@ -125,7 +162,7 @@ implements IUIButtonDelegate {
 		return json.toString();
 	}
 	
-	public void loadJSON(JSONObject jsonData) {
+	public void loadValuesFromJSON(JSONObject jsonData) {
 		P.out(jsonData.toString());
 		P.out(JsonUtil.isValid(jsonData.toString()));
 		Iterator<?> iterator = jsonData.keys().iterator();

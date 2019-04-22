@@ -25,18 +25,19 @@ implements IUIControl {
 	protected Rectangle rect;
 	protected boolean over;
 	protected boolean pressed;
-	protected boolean isToggle = false;
+	protected boolean toggles = false;
 	protected float value = 0;
+	protected float layoutW = 1;
 	protected int activeTime = 0;
 
 	public UIButton(IUIButtonDelegate delegate, String id, int x, int y, int w, int h, boolean toggles) {
 		this.delegate = delegate;
 		this.id = id;
 		rect = new Rectangle( x, y, w, h );
-		isToggle = toggles;
+		this.toggles = toggles;
+		layoutW = 1;
 		over = false;
 		pressed = false;
-		
 		P.p.registerMethod("mouseEvent", this); // add mouse listeners
 	}
 	
@@ -52,12 +53,40 @@ implements IUIControl {
 	// IUIControl interface
 	/////////////////////////////////////////
 	
+	public String type() {
+		return IUIControl.TYPE_BUTTON;
+	}
+	
 	public String id() {
 		return id;
 	}
 	
 	public float value() {
 		return value;
+	}
+	
+	public float min() {
+		return 0;
+	}
+	
+	public float max() {
+		return 1;
+	}
+	
+	public float step() {
+		return 1;
+	}
+	
+	public float toggles() {
+		return toggles ? 1 : 0;
+	}
+	
+	public float layoutW() {
+		return layoutW;
+	}
+	
+	public void layoutW(float val) {
+		layoutW = val;
 	}
 	
 	public void set(float val) {
@@ -70,7 +99,7 @@ implements IUIControl {
 		// background
 		if(over && value == 0) pg.fill(ColorsHax.BUTTON_BG_HOVER);
 		else if(pressed) pg.fill(ColorsHax.BUTTON_BG_PRESS);
-		else if(isToggle && value == 1) pg.fill(ColorsHax.BUTTON_BG_SELECTED);
+		else if(toggles && value == 1) pg.fill(ColorsHax.BUTTON_BG_SELECTED);
 		else pg.fill(ColorsHax.BUTTON_BG);
 		pg.noStroke();
 		pg.rect(rect.x, rect.y, rect.width, rect.height);
@@ -109,7 +138,7 @@ implements IUIControl {
 				break;
 			case MouseEvent.RELEASE:
 				if(pressed && over) {
-					if(isToggle) {
+					if(toggles) {
 						value = (value == 0) ? 1 : 0;
 					}
 					delegate.clicked(this);

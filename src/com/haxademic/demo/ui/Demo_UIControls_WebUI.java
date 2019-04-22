@@ -4,11 +4,16 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.net.WebServer;
+import com.haxademic.core.net.WebServerRequestHandlerUIControls;
+import com.haxademic.core.system.SystemUtil;
 import com.haxademic.core.ui.UIButton;
 
-public class Demo_UIControls 
+public class Demo_UIControls_WebUI 
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
+	
+	protected WebServer server;
 	
 	protected String R = "R";
 	protected String G = "G";
@@ -30,6 +35,8 @@ extends PAppletHax {
 		p.ui.addButtons(new String[] {"1", "2", "3", "4"}, true);
 		P.out(p.ui.configToJSON());
 		P.out(p.ui.valuesToJSON());
+		
+		server = new WebServer(new WebServerRequestHandlerUIControls(), true);
 	}
 	
 	public void drawApp() {
