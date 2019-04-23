@@ -1,0 +1,141 @@
+<html>
+<head>
+  <link rel="stylesheet" href="./css/normalize.css"/>
+  <link rel="stylesheet" href="./css/skeleton.css"/>
+  <link rel="stylesheet" href="./css/slider.css"/>
+  <script src="./js/fetch.js"></script>
+  <script src="./js/json-poller.es6.js"></script>
+  <style>
+    .container {
+      margin: 2rem auto;
+    }
+    .button-primary {
+      width: 100%;
+    }
+    .button-primary[data-value="1"],
+    .button-primary[data-value="1"]:active,
+    .button-primary[data-value="1"]:focus,
+    .button-primary[data-value="1"]:hover {
+      background-color: #008;
+    }
+    #log-inline {
+      width: 100%;
+      height: 200px;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div id="ui-container" class="row"></div>
+    <div class="row">
+      <div class="six columns">
+        <h5>Server response log</h5>
+        <textarea id="log-inline"></textarea>
+      </div>
+    </div>
+  </div>
+  <script>
+    // get config from own server
+    fetch('/config', {method: "GET"})
+      .then(function(response) {
+        return response.text();
+      }).then((data) => {
+        data = JSON.parse(data);
+        if(data && data.ui_controls) {
+          buildUiControls(data.ui_controls);
+        } else {
+          alert('Fetch failed - error returned');
+        }
+      }).catch(function(ex) {
+        alert('Fetch failed ' + ex.message);
+      });
+
+
+    // build UI
+    const TYPE_BUTTON = "button";
+    const TYPE_SLIDER = "slider";
+    let buttonTemplate = '<button data-ui-button="true" class="button-primary" id="{ID}" data-value="{VALUE}" data-toggles="{TOGGLES}" style="width:{COLS}">{ID}</button>';
+    let sliderTemplate = '<input data-ui-slider="true" id="{ID}" class="" type="range" min="{MIN}" max="{MAX}" step="{STEP}" value="{VALUE}" style="width:{COLS}"></input>';
+    let uiContainer = document.getElementById('ui-container');
+
+    function buildUiControls(uiArray) {
+      uiArray.forEach(element => {
+        if(element.type == TYPE_BUTTON) {
+          let colsNum = (element.layout_width * 100) + "%";
+          let buttonStr = buttonTemplate + "";
+          buttonStr = buttonStr.replace(/{ID}/g, element.id);
+          buttonStr = buttonStr.replace("{VALUE}", element.value);
+          buttonStr = buttonStr.replace("{COLS}", colsNum);
+          buttonStr = buttonStr.replace("{TOGGLES}", element.value_toggles);
+          uiContainer.innerHTML += buttonStr;
+        } else if(element.type == TYPE_SLIDER) {
+          let colsNum = (element.layout_width * 100) + "%";
+          let sliderStr = sliderTemplate + "";
+          sliderStr = sliderStr.replace(/{ID}/g, element.id);
+          sliderStr = sliderStr.replace("{VALUE}", element.value);
+          sliderStr = sliderStr.replace("{COLS}", colsNum);
+          sliderStr = sliderStr.replace("{MIN}", element.value_low);
+          sliderStr = sliderStr.replace("{MAX}", element.value_high);
+          sliderStr = sliderStr.replace("{STEP}", element.value_step);
+          uiContainer.innerHTML += sliderStr;
+        }
+      });
+    }
+
+    // add document listener for all ui controls
+    document.addEventListener('mouseup', function(e){
+      if(e.target && e.target.hasAttribute('data-ui-button')) {
+        if(e.target.hasAttribute('data-toggles') && e.target.getAttribute('data-toggles') == 1) {
+          let newValue = (e.target.getAttribute('data-value') == 0) ? 1 : 0;
+          e.target.setAttribute('data-value', newValue);
+          makeRequest('/button/'+ e.target.id +'/'+e.target.getAttribute('data-value'));
+        } else {
+          makeRequest('/button/'+ e.target.id +'/0');
+        }
+      }
+    });
+    document.addEventListener('input', function(e){
+      if(e.target && e.target.hasAttribute('data-ui-slider')) {
+        makeRequest('/slider/'+ e.target.id +'/' + e.target.value);
+      }
+    });
+
+    // request helper for UI controls
+    function makeRequest(url) {
+      let request = new Request(url);
+      fetch(request).then(logResult);
+    }
+
+    // logging
+    let logEl = document.getElementById('log-inline');
+    function logResult(response) {
+      return response.text().then(function(text) {
+        logEl.innerHTML += text;
+        logEl.scrollTop = 999999999;
+      });
+    }
+
+    // poll for changes to values on java side
+    let jsonPoll = new JsonPoller('/values', function(data) {
+      // console.log('success');
+      // console.log(data);
+      if(data) {
+        for (const key in data) {
+          if (data.hasOwnProperty(key)) {
+            const element = data[key];
+            let uiControl = document.getElementById(key);
+            if(uiControl.hasAttribute('data-ui-slider')) {
+              uiControl.value = element;
+            } else if(uiControl.hasAttribute('data-ui-button')) {
+              uiControl.setAttribute('data-value', element);
+            }
+          }
+        }
+      }
+    }, function() {
+      console.log('fail');
+    }, 100);
+
+  </script>
+</body>
+</html>

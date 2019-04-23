@@ -18,17 +18,26 @@ extends WebServerRequestHandler {
 		if(WebServer.DEBUG) P.println("CustomWebRequestHandler path:", path);
 		
 		if(pathComponents[0].equals("button")) {
-			int buttonIndex = ConvertUtil.stringToInt(pathComponents[1]);
+			String buttonIndex = pathComponents[1];
 			float buttonValue = ConvertUtil.stringToFloat(pathComponents[2]);
 			P.p.browserInputState.setControlValue("button"+buttonIndex, buttonValue);
+			if(P.p.ui.has(buttonIndex)) 
+				P.p.ui.setValue(buttonIndex, buttonValue);
 			return "{\"log\": \"Button Number: "+buttonIndex+", value: "+buttonValue+"\"}";
 			
 		} else if(pathComponents[0].equals("slider")) {
-			int sliderIndex = ConvertUtil.stringToInt(pathComponents[1]);
+			String sliderIndex = pathComponents[1];
 			float sliderValue = ConvertUtil.stringToFloat(pathComponents[2]);
 			P.p.browserInputState.setControlValue("slider"+sliderIndex, sliderValue);
-			
+			if(P.p.ui.has(sliderIndex)) 
+				P.p.ui.setValue(sliderIndex, sliderValue);
 			return "{\"log\": \"Slider number: "+sliderIndex+", value: "+sliderValue+"\"}";
+
+		} else if(pathComponents[0].equals("config")) {
+			return P.p.ui.configToJSON();
+			
+		} else if(pathComponents[0].equals("values")) {
+			return P.p.ui.valuesToJSON();
 			
 		} else {
 			return null;

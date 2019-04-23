@@ -2,6 +2,7 @@ package com.haxademic.core.ui;
 
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.draw.context.DrawUtil;
@@ -14,7 +15,7 @@ import processing.data.JSONObject;
 public class UIControlPanel
 implements IUIButtonDelegate {
 
-	protected HashMap<String, IUIControl> controls;
+	protected LinkedHashMap<String, IUIControl> controls;
 	
 	public static final int controlX = 10;
 	protected int controlY = 10;
@@ -36,7 +37,7 @@ implements IUIButtonDelegate {
 	public static final String KEY_VALUE_LAYOUT_W = "layout_width";
 	
 	public UIControlPanel() {
-		controls = new HashMap<String, IUIControl>();
+		controls = new LinkedHashMap<String, IUIControl>();
 	}
 	
 	////////////////////////
@@ -57,6 +58,9 @@ implements IUIButtonDelegate {
 		controls.put(key + "_X", new UISlider(key + "_X", value, valueLow, valueHigh, dragStep, P.round(controlX + 0 * controlWidthDivided + controlSpacingH * 0), controlY, P.round(controlWidthDivided), controlH, saves));
 		controls.put(key + "_Y", new UISlider(key + "_Y", value, valueLow, valueHigh, dragStep, P.round(controlX + 1 * controlWidthDivided + controlSpacingH * 1), controlY, P.round(controlWidthDivided), controlH, saves));
 		controls.put(key + "_Z", new UISlider(key + "_Z", value, valueLow, valueHigh, dragStep, P.round(controlX + 2 * controlWidthDivided + controlSpacingH * 2), controlY, P.round(controlWidthDivided), controlH, saves));
+		controls.get(key + "_X").layoutW(0.3333f);
+		controls.get(key + "_Y").layoutW(0.3333f);
+		controls.get(key + "_Z").layoutW(0.3333f);
 		controlY += controlSpacing;
 	}
 	
@@ -93,6 +97,10 @@ implements IUIButtonDelegate {
 		return controls.get(key);
 	}
 
+	public boolean has(String key) {
+		return controls.containsKey(key);
+	}
+	
 	public void setValue(String key, float val) {
 		controls.get(key).set(val);
 	}
@@ -135,7 +143,7 @@ implements IUIButtonDelegate {
 		JSONArray array = new JSONArray();
 //		for (IUIControl control : controls.values()) {
 		for (HashMap.Entry<String, IUIControl> entry : controls.entrySet()) {
-			String key = entry.getKey();
+			// String key = entry.getKey();
 			IUIControl control = entry.getValue();
 
 			JSONObject controlJson = new JSONObject();

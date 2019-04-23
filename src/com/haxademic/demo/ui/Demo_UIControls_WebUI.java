@@ -40,6 +40,8 @@ extends PAppletHax {
 	}
 	
 	public void drawApp() {
+//		if(p.frameCount == 200) SystemUtil.openWebPage(WebServer.getServerAddress() + "ui/");
+
 		// bg components
 		p.background(
 			p.ui.value(R),
@@ -57,9 +59,6 @@ extends PAppletHax {
 		p.fill(255);
 		p.stroke(0);
 		p.box(100);
-		
-		// set a component's value
-		if(p.frameCount % 200 == 0) p.ui.get("1").set(1);
 	}
 	
 	public void uiButtonClicked(UIButton button) {

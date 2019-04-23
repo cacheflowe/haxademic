@@ -15,5 +15,6 @@ public interface IUIControl {
 	public float max();
 	public float toggles();
 	public float layoutW();
+	public void layoutW(float val);
 	public void update(PGraphics pg);
 }

@@ -88,6 +88,8 @@ for (Iterator<Entry<Rectangle, PGraphics>> iterator = screenSources.entrySet().i
 }
 ```
 
+Switch from `HashMap` to a `LinkedHashMap` if you want the keys to come out in the order they were created!
+
 #### Build an array of HashMap keys
 
 ```

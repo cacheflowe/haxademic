@@ -25,9 +25,6 @@ implements IUIButtonDelegate {
 		mouseables.add( new UIButton( this, "1", buttonX, buttonY +=  0, buttonW, buttonH, false ) );
 		mouseables.add( new UIButton( this, "2", buttonX, buttonY += 60, buttonW, buttonH, false ) );
 		mouseables.add( new UIButton( this, "3", buttonX, buttonY += 60, buttonW, buttonH - 10, true ) );
-//		_mouseables.add( new TextButton( p, "double syllable", "2", 300, 520, 200, 50 ) );
-//		_mouseables.add( new TextButton( p, "any word", "1", 560, 420, 200, 50 ) );
-//		_mouseables.add( new TextButton( p, "line end", "2", 560, 520, 200, 50 ) );
 		
 		// add a test slider to compare style
 		p.ui.addSlider("TEST SLIDER", 255, 0, 255, 0.5f);
