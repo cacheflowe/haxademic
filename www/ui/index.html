@@ -1,36 +1,17 @@
 <html>
 <head>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="./css/normalize.css"/>
-  <link rel="stylesheet" href="./css/skeleton.css"/>
-  <link rel="stylesheet" href="./css/slider.css"/>
+  <!-- <link rel="stylesheet" href="./css/skeleton.css"/> -->
+  <!-- <link rel="stylesheet" href="./css/slider.css"/> -->
+  <link rel="stylesheet" href="./css/webui.css"/>
   <script src="./js/fetch.js"></script>
   <script src="./js/json-poller.es6.js"></script>
-  <style>
-    body {
-      background: #000;
-    }
-    .container {
-      margin: 2rem auto;
-    }
-    .button-primary {
-      width: 100%;
-    }
-    .button-primary[data-value="1"],
-    .button-primary[data-value="1"]:active,
-    .button-primary[data-value="1"]:focus,
-    .button-primary[data-value="1"]:hover {
-      background-color: #008;
-    }
-    #log-inline {
-      width: 100%;
-      height: 200px;
-    }
-  </style>
 </head>
 <body>
   <div class="container">
     <div id="ui-container" class="row"></div>
-    <div class="row">
+    <div id="server-response" class="row">
       <div class="six columns">
         <h5>Server response log</h5>
         <textarea id="log-inline"></textarea>
@@ -57,32 +38,34 @@
     // build UI
     const TYPE_BUTTON = "button";
     const TYPE_SLIDER = "slider";
-    let buttonTemplate = '<button data-ui-button="true" class="button-primary" id="{ID}" data-value="{VALUE}" data-toggles="{TOGGLES}" style="width:{COLS}">{ID}</button>';
-    let sliderTemplate = '<input data-ui-slider="true" id="{ID}" class="" type="range" min="{MIN}" max="{MAX}" step="{STEP}" value="{VALUE}" style="width:{COLS}"></input>';
+    let buttonTemplate = '<button data-ui-button="true" class="btn {COLS}" id="{ID}" data-value="{VALUE}" data-toggles="{TOGGLES}">{ID}</button>';
+    let sliderTemplate = '<input data-ui-slider="true" id="{ID}" class="{COLS}" type="range" min="{MIN}" max="{MAX}" step="{STEP}" value="{VALUE}"></input>';
     let uiContainer = document.getElementById('ui-container');
 
     function buildUiControls(uiArray) {
       uiArray.forEach(element => {
         if(element.type == TYPE_BUTTON) {
-          let colsNum = (element.layout_width * 100) + "%";
           let buttonStr = buttonTemplate + "";
           buttonStr = buttonStr.replace(/{ID}/g, element.id);
           buttonStr = buttonStr.replace("{VALUE}", element.value);
-          buttonStr = buttonStr.replace("{COLS}", colsNum);
+          buttonStr = buttonStr.replace("{COLS}", colsNum(element.layout_width));
           buttonStr = buttonStr.replace("{TOGGLES}", element.value_toggles);
           uiContainer.innerHTML += buttonStr;
         } else if(element.type == TYPE_SLIDER) {
-          let colsNum = (element.layout_width * 100) + "%";
           let sliderStr = sliderTemplate + "";
           sliderStr = sliderStr.replace(/{ID}/g, element.id);
           sliderStr = sliderStr.replace("{VALUE}", element.value);
-          sliderStr = sliderStr.replace("{COLS}", colsNum);
+          sliderStr = sliderStr.replace("{COLS}", colsNum(element.layout_width));
           sliderStr = sliderStr.replace("{MIN}", element.value_low);
           sliderStr = sliderStr.replace("{MAX}", element.value_high);
           sliderStr = sliderStr.replace("{STEP}", element.value_step);
           uiContainer.innerHTML += sliderStr;
         }
       });
+      function colsNum(num) {
+        let classNum = Math.round(num * 100);
+        return "width-" + classNum;
+      }
     }
 
     // add document listener for all ui controls
@@ -134,6 +117,7 @@
             let uiControl = document.getElementById(key);
             if(uiControl.hasAttribute('data-ui-slider')) {
               uiControl.value = element;
+              uiControl.setAttribute('data-value', element.toFixed(1));
             } else if(uiControl.hasAttribute('data-ui-button')) {
               uiControl.setAttribute('data-value', element);
             }
