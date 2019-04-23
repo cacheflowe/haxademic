@@ -7,15 +7,12 @@ import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.math.easing.LinearFloat;
 import com.haxademic.core.math.easing.Penner;
 
-import controlP5.ControlP5;
-
 public class Demo_LinearFloat_setDelay
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
 	protected LinearFloat[] easingsL;
 	protected LinearFloat[] easingsR;
-	protected ControlP5 _cp5;
 
 	protected void overridePropsFile() {
 		p.appConfig.setProperty( AppSettings.FPS, 60 );
@@ -24,9 +21,7 @@ extends PAppletHax {
 //		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, 400 );
 	}
 
-
-	public void setup() {
-		super.setup();	
+	public void setupFirstFrame() {
 		easingsL = new LinearFloat[40];
 		easingsR = new LinearFloat[40];
 		for (int i = 0; i < easingsL.length; i++) easingsL[i] = new LinearFloat(0, 0.02f);

@@ -12,25 +12,23 @@ public class JsonUtil {
 	}
 	
 	public static boolean isValid(String jsonString) {
-		try {
-			@SuppressWarnings("unused")
-			JSONObject jsonData = JSONObject.parse(jsonString);
-			return true;
-		} catch (Exception e) {
-			P.out("JSON.parse() failed"); 
-			return false;
-		}
+		JSONObject jsonData = jsonFromString(jsonString);
+		return (jsonData != null);
 	}
 	
-	public static JSONObject jsonFromFile(String jsonPath) {
-		String[] fileLines = FileUtil.readTextFromFile(jsonPath);
-		String jsonStr = String.join("\n", fileLines);
+	public static JSONObject jsonFromString(String jsonStr) {
 		try {
 			return JSONObject.parse(jsonStr);
 		} catch (Exception e) {
 			P.out("JSON.parse() failed"); 
 			return null;
 		}
+	}
+	
+	public static JSONObject jsonFromFile(String jsonPath) {
+		String[] fileLines = FileUtil.readTextFromFile(jsonPath);
+		String jsonStr = String.join("\n", fileLines);
+		return jsonFromString(jsonStr);
 	}
 
 }

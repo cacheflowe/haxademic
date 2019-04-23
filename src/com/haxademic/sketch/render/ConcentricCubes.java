@@ -9,8 +9,6 @@ public class ConcentricCubes
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
-	//	protected ControlP5 _cp5;
-
 	protected int _x = 0;
 	protected int _y = 0;
 

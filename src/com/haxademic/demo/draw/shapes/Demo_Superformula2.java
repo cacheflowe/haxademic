@@ -1,4 +1,4 @@
-package com.haxademic.app.musicvideos;
+package com.haxademic.demo.draw.shapes;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
@@ -7,60 +7,48 @@ import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.shapes.Superformula;
 
-import controlP5.ControlP5;
 import processing.core.PGraphics;
 
-public class CachePatterSuperformulaTest
+public class Demo_Superformula2
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
-	protected ControlP5 _cp5;
-	public float a;
-	public float b;
-	public float m;
-	public float n1;
-	public float n2;
-	public float n3;
-	
+	// ui
+	public String a = "a";
+	public String b = "b";
+	public String m = "m";
+	public String n1 = "n1";
+	public String n2 = "n2";
+	public String n3 = "n3";
 	
 	// superformula
 	protected Superformula _superForm;
 	protected float[] _camPos = { 0f, 0f, 2500f};
 	protected PGraphics _superFormGfx;
 
-
 	
 	protected void overridePropsFile() {
 		p.appConfig.setProperty( AppSettings.WIDTH, "1280" );
 		p.appConfig.setProperty( AppSettings.HEIGHT, "720" );
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
+		p.appConfig.setProperty( AppSettings.SHOW_SLIDERS, true );
 	}
 	
-	public void setup() {
-		super.setup();
-		
+	public void setupFirstFrame() {
 		_superForm = new Superformula(100,100, 1, 1,   6, 20,  7, 18);
 		_superFormGfx = p.createGraphics(p.width, p.height, P.P3D);
 		_superFormGfx.smooth(OpenGLUtil.SMOOTH_HIGH);
 		
-		
-		_cp5 = new ControlP5(this);
-		int cp5W = 160;
-		int cp5X = 20;
-		int cp5Y = 20;
-		int cp5YSpace = 40;
-		_cp5.addSlider("a").setPosition(cp5X,cp5Y).setWidth(cp5W).setRange(0,30f).setValue(6);
-		_cp5.addSlider("b").setPosition(cp5X,cp5Y+=cp5YSpace).setWidth(cp5W).setRange(0,30f).setValue(8);
-		_cp5.addSlider("m").setPosition(cp5X,cp5Y+=cp5YSpace).setWidth(cp5W).setRange(0,30f).setValue(15);
-		_cp5.addSlider("n1").setPosition(cp5X,cp5Y+=cp5YSpace).setWidth(cp5W).setRange(0,30f).setValue(15);
-		_cp5.addSlider("n2").setPosition(cp5X,cp5Y+=cp5YSpace).setWidth(cp5W).setRange(0,30f).setValue(15);
-		_cp5.addSlider("n3").setPosition(cp5X,cp5Y+=cp5YSpace).setWidth(cp5W).setRange(0,30f).setValue(6);
-
+		p.ui.addSlider(a, 6, 0, 30, 0.1f, false);
+		p.ui.addSlider(b, 8, 0, 30, 0.1f, false);
+		p.ui.addSlider(m, 15, 0, 30, 0.1f, false);
+		p.ui.addSlider(n1, 15, 0, 30, 0.1f, false);
+		p.ui.addSlider(n2, 15, 0, 30, 0.1f, false);
+		p.ui.addSlider(n3, 6, 0, 30, 0.1f, false);
 	}
 	
 	public void drawApp() {
 		p.background(0);
-		
 		drawSuperformula();
 	}
 	
@@ -76,12 +64,12 @@ extends PAppletHax {
 //		_superFormGfx.rotateZ(p.frameCount/50f);
 
 		float audioRange = 0.1f;
-		_superForm.a( a + (audioRange * 100f * p.audioFreq(0)));
-		_superForm.b( b + (audioRange * 10f * p.audioFreq(1)));
-		_superForm.m( m + (audioRange * 10f * p.audioFreq(2)));
-		_superForm.n1( n1 + (audioRange * 20f * p.audioFreq(3)));
-		_superForm.n2( n2 + (audioRange * 50f * p.audioFreq(4)));
-		_superForm.n3( n3 + (audioRange * 40f * p.audioFreq(5)));
+		_superForm.a( p.ui.value(a) + (audioRange * 100f * p.audioFreq(0)));
+		_superForm.b( p.ui.value(b) + (audioRange * 10f * p.audioFreq(1)));
+		_superForm.m( p.ui.value(m) + (audioRange * 10f * p.audioFreq(2)));
+		_superForm.n1( p.ui.value(n1) + (audioRange * 20f * p.audioFreq(3)));
+		_superForm.n2( p.ui.value(n2) + (audioRange * 50f * p.audioFreq(4)));
+		_superForm.n3( p.ui.value(n3) + (audioRange * 40f * p.audioFreq(5)));
 
 		_superForm.update();
 		_superForm.drawMesh(_superFormGfx, true, true, false, true, _camPos );

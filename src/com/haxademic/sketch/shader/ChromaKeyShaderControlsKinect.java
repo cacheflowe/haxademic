@@ -6,7 +6,6 @@ import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.color.Gradients;
 import com.haxademic.core.file.FileUtil;
 
-import controlP5.ControlP5;
 import processing.core.PGraphics;
 import processing.core.PImage;
 import processing.opengl.PShader;
@@ -19,12 +18,12 @@ extends PAppletHax {
 	protected PGraphics _pg;
 
 	PShader _chromaKeyFilter;
-	protected ControlP5 _cp5;
-	public float thresholdSensitivity;
-	public float smoothing;
-	public float colorToReplace_R;
-	public float colorToReplace_G;
-	public float colorToReplace_B;
+	
+	public String thresholdSensitivity = "thresholdSensitivity";
+	public String smoothing = "smoothing";
+	public String colorToReplaceR = "colorToReplaceR";
+	public String colorToReplaceG = "colorToReplaceG";
+	public String colorToReplaceB = "colorToReplaceB";
 
 
 	protected void overridePropsFile() {
@@ -32,31 +31,22 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.KINECT_ACTIVE, "true" );
 		p.appConfig.setProperty( AppSettings.WIDTH, "640" );
 		p.appConfig.setProperty( AppSettings.HEIGHT, "480" );
+		p.appConfig.setProperty( AppSettings.SHOW_SLIDERS, true );
 	}
 	
-	public void setup() {
-		super.setup();
-
+	public void setupFirstFrame() {
 		_pg = p.createGraphics( p.width, p.height, P.P3D );
 		setupChromakey();
 	}
 		
 	protected void setupChromakey() {
-		_cp5 = new ControlP5(this);
-		int cp5W = 160;
-		int cp5X = 20;
-		int cp5Y = 20;
-		int cp5YSpace = 40;
-		_cp5.addSlider("thresholdSensitivity").setPosition(cp5X,cp5Y).setWidth(cp5W).setRange(0,1f).setValue(0.75f);
-		_cp5.addSlider("smoothing").setPosition(cp5X,cp5Y+=cp5YSpace).setWidth(cp5W).setRange(0,1f).setValue(0.26f);
-		_cp5.addSlider("colorToReplace_R").setPosition(cp5X,cp5Y+=cp5YSpace).setWidth(cp5W).setRange(0,1f).setValue(0.29f);
-		_cp5.addSlider("colorToReplace_G").setPosition(cp5X,cp5Y+=cp5YSpace).setWidth(cp5W).setRange(0,1f).setValue(0.93f);
-		_cp5.addSlider("colorToReplace_B").setPosition(cp5X,cp5Y+=cp5YSpace).setWidth(cp5W).setRange(0,1f).setValue(0.14f);
+		p.ui.addSlider(thresholdSensitivity, 0.75f, 0, 1, 0.01f, false);
+		p.ui.addSlider(smoothing, 0.26f, 0, 1, 0.01f, false);
+		p.ui.addSlider(colorToReplaceR, 0.29f, 0, 1, 0.01f, false);
+		p.ui.addSlider(colorToReplaceG, 0.93f, 0, 1, 0.01f, false);
+		p.ui.addSlider(colorToReplaceB, 0.14f, 0, 1, 0.01f, false);
 
 		_chromaKeyFilter = loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/chroma-color.glsl" );
-		_chromaKeyFilter.set("thresholdSensitivity", thresholdSensitivity);
-		_chromaKeyFilter.set("smoothing", smoothing);
-		_chromaKeyFilter.set("colorToReplace", colorToReplace_R, colorToReplace_G, colorToReplace_B);
 	}
 
 	public void drawApp() {
@@ -67,9 +57,9 @@ extends PAppletHax {
 		p.popMatrix();
 
 		// reset chroma key uniforms
-		_chromaKeyFilter.set("thresholdSensitivity", thresholdSensitivity);
-		_chromaKeyFilter.set("smoothing", smoothing);
-		_chromaKeyFilter.set("colorToReplace", colorToReplace_R, colorToReplace_G, colorToReplace_B);
+		_chromaKeyFilter.set("thresholdSensitivity", p.ui.value(thresholdSensitivity));
+		_chromaKeyFilter.set("smoothing", p.ui.value(smoothing));
+		_chromaKeyFilter.set("colorToReplace", p.ui.value(colorToReplaceR), p.ui.value(colorToReplaceG), p.ui.value(colorToReplaceB));
 		
 		// draw frame to offscreen buffer
 		PImage frame = p.kinectWrapper.getRgbImage();

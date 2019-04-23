@@ -6,22 +6,19 @@ import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.hardware.kinect.KinectSize;
 
-import controlP5.ControlP5;
-
 public class Demo_Kinect_ConfigureApp
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
-	public int kinectLeft = 0;
-	public int kinectRight = 0;
-	public int kinectTop = 0;
-	public int kinectBottom = 0;
-	public int kinectNear = 0;
-	public int kinectFar = 0;
-	public int pixelSkip = 0;
-	public int depthDivider = 1;
-	public float pixelDrawSize = 1;
-	protected ControlP5 _cp5;
+	protected String kinectLeft = "kinectLeft";
+	protected String kinectRight = "kinectRight";
+	protected String kinectTop = "kinectTop";
+	protected String kinectBottom = "kinectBottom";
+	protected String kinectNear = "kinectNear";
+	protected String kinectFar = "kinectFar";
+	protected String pixelSkip = "pixelSkip";
+	protected String depthDivider = "depthDivider";
+	protected String pixelDrawSize = "pixelDrawSize";
 
 	protected boolean _isDebug = false;
 	
@@ -30,25 +27,19 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.HEIGHT, 720 );
 //		p.appConfig.setProperty( AppSettings.KINECT_V2_WIN_ACTIVE, true );
 		p.appConfig.setProperty( AppSettings.KINECT_ACTIVE, true );
-	}
-
-	public void setupFirstFrame() {
-		initControls();
+		p.appConfig.setProperty(AppSettings.SHOW_SLIDERS, true);
 	}
 	
-	protected void initControls() {
-		int controlY = 400;
-		int controlSpace = 12;
-		_cp5 = new ControlP5(p);
-		_cp5.addSlider("kinectLeft").setPosition(20,controlY+=controlSpace).setWidth(200).setRange(0,KinectSize.WIDTH/2).setValue(0);
-		_cp5.addSlider("kinectRight").setPosition(20,controlY+=controlSpace).setWidth(200).setRange(KinectSize.WIDTH/2,KinectSize.WIDTH).setValue(KinectSize.WIDTH);
-		_cp5.addSlider("kinectTop").setPosition(20,controlY+=controlSpace).setWidth(200).setRange(0,KinectSize.HEIGHT/2).setValue(0);
-		_cp5.addSlider("kinectBottom").setPosition(20,controlY+=controlSpace).setWidth(200).setRange(KinectSize.HEIGHT/2,KinectSize.HEIGHT).setValue(KinectSize.HEIGHT);
-		_cp5.addSlider("kinectNear").setPosition(20,controlY+=controlSpace).setWidth(200).setRange(300,12000).setValue(300);
-		_cp5.addSlider("kinectFar").setPosition(20,controlY+=controlSpace).setWidth(200).setRange(300,12000).setValue(12000);
-		_cp5.addSlider("pixelSkip").setPosition(20,controlY+=controlSpace).setWidth(200).setRange(1,10).setValue(5);
-		_cp5.addSlider("depthDivider").setPosition(20,controlY+=controlSpace).setWidth(200).setRange(1,100).setValue(50);
-		_cp5.addSlider("pixelDrawSize").setPosition(20,controlY+=controlSpace).setWidth(200).setRange(0,1).setValue(0.5f);
+	public void setupFirstFrame() {
+		p.ui.addSlider(kinectLeft, 0, 0, KinectSize.WIDTH/2, 1, false);
+		p.ui.addSlider(kinectRight, KinectSize.WIDTH, KinectSize.WIDTH/2,KinectSize.WIDTH, 1, false);
+		p.ui.addSlider(kinectTop, 0, 0, KinectSize.HEIGHT/2, 1, false);
+		p.ui.addSlider(kinectBottom, KinectSize.HEIGHT, KinectSize.HEIGHT/2,KinectSize.HEIGHT, 1, false);
+		p.ui.addSlider(kinectNear, 300, 300, 12000, 1, false);
+		p.ui.addSlider(kinectFar, 12000, 300, 12000, 1, false);
+		p.ui.addSlider(pixelSkip, 5, 1, 10, 1, false);
+		p.ui.addSlider(depthDivider, 50, 1, 100, 0.1f, false);
+		p.ui.addSlider(pixelDrawSize, 0.5f, 0, 1, 0.01f, false);
 	}
 
 	public void drawApp() {
@@ -79,15 +70,24 @@ extends PAppletHax {
 		p.noStroke();
 				
 		// draw kinect depth
+		int pixelSkipp = p.ui.valueInt(pixelSkip);
+		float kNear = p.ui.valueInt(kinectNear);
+		float kFar = p.ui.valueInt(kinectFar);
+		int kLeft = p.ui.valueInt(kinectLeft);
+		float kRight = p.ui.valueInt(kinectRight);
+		int kTop= p.ui.valueInt(kinectTop);
+		float kBottom = p.ui.valueInt(kinectBottom);
+		float depthDiv = p.ui.valueInt(depthDivider);
+		
 		int numPixelsProcessed = 0;
-		float pixelsize = (float) pixelSkip * pixelDrawSize;
-		for ( int x = kinectLeft; x < kinectRight; x += pixelSkip ) {
-			for ( int y = kinectTop; y < kinectBottom; y += pixelSkip ) {
+		float pixelsize = (float) pixelSkipp * p.ui.value(pixelDrawSize);
+		for ( int x = kLeft; x < kRight; x += pixelSkipp ) {
+			for ( int y = kTop; y < kBottom; y += pixelSkipp ) {
 				int pixelDepth = p.kinectWrapper.getMillimetersDepthForKinectPixel( x, y );
-				if( pixelDepth != 0 && pixelDepth > kinectNear && pixelDepth < kinectFar ) {
+				if( pixelDepth != 0 && pixelDepth > kNear && pixelDepth < kFar ) {
 					p.pushMatrix();
-					p.translate(0, 0, -pixelDepth/depthDivider);
-					p.fill(P.map(pixelDepth, kinectNear, kinectFar, 255, 0));
+					p.translate(0, 0, -pixelDepth/depthDiv);
+					p.fill(P.map(pixelDepth, kNear, kFar, 255, 0));
 					p.rect(x, y, pixelsize, pixelsize);
 					p.popMatrix();
 					numPixelsProcessed++;

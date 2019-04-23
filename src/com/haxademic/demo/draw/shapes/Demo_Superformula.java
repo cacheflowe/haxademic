@@ -5,41 +5,32 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.shapes.Superformula;
 
-import controlP5.ControlP5;
-
 public class Demo_Superformula 
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
-	ControlP5 _cp5;
-	public float sliderA = 0;
-	public float sliderB = 0;
-	public float sliderM = 0;
-	public float sliderN1 = 0;
-	public float sliderN2 = 0;
-	public float sliderN3 = 0;
+	// ui
+	public String a = "a";
+	public String b = "b";
+	public String m = "m";
+	public String n1 = "n1";
+	public String n2 = "n2";
+	public String n3 = "n3";
 	
 	protected Superformula _superForm;
 	protected float[] _camPos = { 0f, 0f, 50000f};
 	
 	protected boolean _audioEnabled = false;
 
-	public void setup() {
-		super.setup();
+	public void setupFirstFrame() {
 		_superForm = new Superformula( 200, 200, 10, 1, 6, 20, 7, 18);
 		
-		// setup controls
-	  _cp5 = new ControlP5(this);
-	  
-	  // add a horizontal sliders, the value of this slider will be linked
-	  // to variable 'sliderValue' 
-	  _cp5.addSlider("sliderA").setPosition(20,20).setWidth(p.width - 140).setRange(0,1000);
-	  _cp5.addSlider("sliderB").setPosition(20,60).setWidth(p.width - 140).setRange(0,1000);
-	  _cp5.addSlider("sliderM").setPosition(20,100).setWidth(p.width - 140).setRange(0,1000);
-	  _cp5.addSlider("sliderN1").setPosition(20,140).setWidth(p.width - 140).setRange(0,1000);
-	  _cp5.addSlider("sliderN2").setPosition(20,180).setWidth(p.width - 140).setRange(0,1000);
-	  _cp5.addSlider("sliderN3").setPosition(20,220).setWidth(p.width - 140).setRange(0,1000);
-
+		p.ui.addSlider(a, 6, 0, 30, 0.1f, false);
+		p.ui.addSlider(b, 8, 0, 30, 0.1f, false);
+		p.ui.addSlider(m, 15, 0, 30, 0.1f, false);
+		p.ui.addSlider(n1, 15, 0, 30, 0.1f, false);
+		p.ui.addSlider(n2, 15, 0, 30, 0.1f, false);
+		p.ui.addSlider(n3, 6, 0, 30, 0.1f, false);
 	}
 
 	public void drawApp() {
@@ -60,12 +51,12 @@ extends PAppletHax {
 		
 		if( _audioEnabled == false ) {
 			setSuperFormulaProps( 10, 1, 6, 20, 7, 18 );
-			_superForm.a( sliderA );
-			_superForm.b( sliderB );
-			_superForm.m( sliderM );
-			_superForm.n1( sliderN1 );
-			_superForm.n2( sliderN2 );
-			_superForm.n3( sliderN3 );
+			_superForm.a( p.ui.value(a) );
+			_superForm.b( p.ui.value(b) );
+			_superForm.m( p.ui.value(m) );
+			_superForm.n1( p.ui.value(n1) );
+			_superForm.n2( p.ui.value(n2) );
+			_superForm.n3( p.ui.value(n3) );
 
 		} else {
 			

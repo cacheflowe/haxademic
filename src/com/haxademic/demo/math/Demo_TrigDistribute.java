@@ -4,28 +4,23 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.context.DrawUtil;
-import com.haxademic.core.draw.context.OpenGLUtil;
-
-import controlP5.ControlP5;
 
 public class Demo_TrigDistribute
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
-	public int numPoints = 0;
-	public int connectionDivisions = 0;
-	public float radius = 0;
-	protected ControlP5 _cp5;
+	protected String numPoints = "numPoints";
+	protected String radius = "radius";
+	protected String connectionDivisions = "connectionDivisions";
 	
 	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.FPS, "60" );
+		p.appConfig.setProperty(AppSettings.SHOW_SLIDERS, true);
 	}
 
 	public void setupFirstFrame() {
-		_cp5 = new ControlP5(this);
-		_cp5.addSlider("numPoints").setPosition(20,60).setWidth(200).setRange(1,90).setValue(3);
-		_cp5.addSlider("radius").setPosition(20,100).setWidth(200).setRange(0,300).setValue(100);
-		_cp5.addSlider("connectionDivisions").setPosition(20,140).setWidth(200).setRange(0,20).setValue(2);
+		p.ui.addSlider(numPoints, 3, 3, 90, 1, false);
+		p.ui.addSlider(radius, 100, 0, 300, 1f, false);
+		p.ui.addSlider(connectionDivisions, 2, 0, 20, 1, false);
 	}
 
 	public void drawApp() {
@@ -37,17 +32,17 @@ extends PAppletHax {
 
 		int centerX = p.width / 2;
 		int centerY = p.height / 2;
-		float segmentRadians = P.TWO_PI / numPoints;
-		for( int i=0; i < numPoints; i++ ) {
-			float amp = 1 + 1*p.audioFreq(i%numPoints);
-			float x = centerX + P.sin(segmentRadians * i) * radius * amp;
-			float y = centerY + P.cos(segmentRadians * i) * radius * amp;			
+		float segmentRadians = P.TWO_PI / p.ui.value(numPoints);
+		for( int i=0; i < p.ui.value(numPoints); i++ ) {
+			float amp = 1 + 1*p.audioFreq(i%p.ui.valueInt(numPoints));
+			float x = centerX + P.sin(segmentRadians * i) * p.ui.value(radius) * amp;
+			float y = centerY + P.cos(segmentRadians * i) * p.ui.value(radius) * amp;			
 			p.ellipse(x, y, 10, 10);
 			
 			// connect lines
-			for( int j=1; j <= connectionDivisions; j++ ) {
-				float xDiv = centerX + P.sin(segmentRadians * ((i+numPoints/j)%numPoints)) * radius * amp;
-				float yDiv = centerY + P.cos(segmentRadians * ((i+numPoints/j)%numPoints)) * radius * amp;			
+			for( int j=1; j <= p.ui.value(connectionDivisions); j++ ) {
+				float xDiv = centerX + P.sin(segmentRadians * ((i+p.ui.value(numPoints)/j)%p.ui.value(numPoints))) * p.ui.value(radius) * amp;
+				float yDiv = centerY + P.cos(segmentRadians * ((i+p.ui.value(numPoints)/j)%p.ui.value(numPoints))) * p.ui.value(radius) * amp;			
 				p.line(x, y, xDiv, yDiv);
 			}
 		}
