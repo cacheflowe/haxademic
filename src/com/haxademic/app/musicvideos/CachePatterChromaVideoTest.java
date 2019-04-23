@@ -8,7 +8,6 @@ import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.render.VideoFrameGrabber;
 
-import controlP5.ControlP5;
 import processing.core.PGraphics;
 import processing.core.PImage;
 import processing.opengl.PShader;
@@ -36,14 +35,13 @@ extends PAppletHax {
 	MotionBlurPGraphics _pgMotionBlur;
 
 
-	protected ControlP5 _cp5;
-	public float thresholdSensitivity;
-	public float smoothing;
-	public float colorToReplaceR;
-	public float colorToReplaceG;
-	public float colorToReplaceB;
-	public float darkness;
-	public float spread;
+	public String thresholdSensitivity = "thresholdSensitivity";
+	public String smoothing = "smoothing";
+	public String colorToReplaceR = "colorToReplaceR";
+	public String colorToReplaceG = "colorToReplaceG";
+	public String colorToReplaceB = "colorToReplaceB";
+	public String darkness = "darkness";
+	public String spread = "spread";
 
 	float _startMovieFrame = 0;
 	float _addMovieFrame = 0;
@@ -54,6 +52,7 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.WIDTH, "960" );
 		p.appConfig.setProperty( AppSettings.HEIGHT, "540" );
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
+		p.appConfig.setProperty( AppSettings.SHOW_SLIDERS, true );
 	}
 	
 	public void setup() {
@@ -73,18 +72,13 @@ extends PAppletHax {
 
 		_videoFrames.setFrameIndex(_startMovieFrame);
 
-		_cp5 = new ControlP5(this);
-		int cp5W = 160;
-		int cp5X = 20;
-		int cp5Y = 20;
-		int cp5YSpace = 40;
-		_cp5.addSlider("thresholdSensitivity").setPosition(cp5X,cp5Y).setWidth(cp5W).setRange(0,1f).setValue(0.75f);
-		_cp5.addSlider("smoothing").setPosition(cp5X,cp5Y+=cp5YSpace).setWidth(cp5W).setRange(0,1f).setValue(0.26f);
-		_cp5.addSlider("colorToReplaceR").setPosition(cp5X,cp5Y+=cp5YSpace).setWidth(cp5W).setRange(0,1f).setValue(0.29f);
-		_cp5.addSlider("colorToReplaceG").setPosition(cp5X,cp5Y+=cp5YSpace).setWidth(cp5W).setRange(0,1f).setValue(0.93f);
-		_cp5.addSlider("colorToReplaceB").setPosition(cp5X,cp5Y+=cp5YSpace).setWidth(cp5W).setRange(0,1f).setValue(0.14f);
-		_cp5.addSlider("darkness").setPosition(cp5X,cp5Y+=cp5YSpace).setWidth(cp5W).setRange(0,1f).setValue(0.4f);
-		_cp5.addSlider("spread").setPosition(cp5X,cp5Y+=cp5YSpace).setWidth(cp5W).setRange(0,1f).setValue(0.35f);
+		p.ui.addSlider(thresholdSensitivity, 0.75f, 0, 1, 0.01f, false);
+		p.ui.addSlider(smoothing, 0.26f, 0, 1, 0.01f, false);
+		p.ui.addSlider(colorToReplaceR, 0.29f, 0, 1, 0.01f, false);
+		p.ui.addSlider(colorToReplaceG, 0.93f, 0, 1, 0.01f, false);
+		p.ui.addSlider(colorToReplaceB, 0.14f, 0, 1, 0.01f, false);
+		p.ui.addSlider(darkness, 0.4f, 0, 1, 0.01f, false);
+		p.ui.addSlider(spread, 0.35f, 0, 1, 0.01f, false);
 	}
 	
 	public void drawApp() {
@@ -105,16 +99,16 @@ extends PAppletHax {
 		_chromaKeyFilter.set("smoothing", 0.26f);
 		_chromaKeyFilter.set("colorToReplace", 0.29f,0.93f,0.14f);
 				
-		_chromaKeyFilter.set("thresholdSensitivity", thresholdSensitivity);
-		_chromaKeyFilter.set("smoothing", smoothing);
-		_chromaKeyFilter.set("colorToReplace", colorToReplaceR, colorToReplaceG, colorToReplaceB);
+		_chromaKeyFilter.set("thresholdSensitivity", p.ui.value(thresholdSensitivity));
+		_chromaKeyFilter.set("smoothing", p.ui.value(smoothing));
+		_chromaKeyFilter.set("colorToReplace", p.ui.value(colorToReplaceR), p.ui.value(colorToReplaceG), p.ui.value(colorToReplaceB));
 		
 //		_vignette = loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/vignette.glsl" );
 		_vignette.set("darkness", 0.4f);
 		_vignette.set("spread", 0.35f);
 
-		_vignette.set("darkness", darkness);
-		_vignette.set("spread", spread);
+		_vignette.set("darkness", p.ui.value(darkness));
+		_vignette.set("spread", p.ui.value(spread));
 
 		_movieBuffer.beginDraw();
 		_movieBuffer.image(_videoFrames.movie(), 0, 0, p.width, p.height);

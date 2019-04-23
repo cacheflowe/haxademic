@@ -42,7 +42,6 @@ public class KinectFaceRecorder {
 	public static PGraphics playbackTexture;
 
 	PShader _chromaKeyFilter;
-//	protected ControlP5 _cp5;
 //	public float thresholdSensitivity;
 //	public float smoothing;
 //	public float colorToReplaceR;
@@ -91,17 +90,6 @@ public class KinectFaceRecorder {
 	}
 	
 	protected void setupChromakey() {
-//		_cp5 = new ControlP5(this);
-//		int cp5W = 160;
-//		int cp5X = 20;
-//		int cp5Y = 20;
-//		int cp5YSpace = 40;
-//		_cp5.addSlider("thresholdSensitivity").setPosition(cp5X,cp5Y).setWidth(cp5W).setRange(0,1f).setValue(0.75f);
-//		_cp5.addSlider("smoothing").setPosition(cp5X,cp5Y+=cp5YSpace).setWidth(cp5W).setRange(0,1f).setValue(0.26f);
-//		_cp5.addSlider("colorToReplaceR").setPosition(cp5X,cp5Y+=cp5YSpace).setWidth(cp5W).setRange(0,1f).setValue(0.29f);
-//		_cp5.addSlider("colorToReplaceG").setPosition(cp5X,cp5Y+=cp5YSpace).setWidth(cp5W).setRange(0,1f).setValue(0.93f);
-//		_cp5.addSlider("colorToReplaceB").setPosition(cp5X,cp5Y+=cp5YSpace).setWidth(cp5W).setRange(0,1f).setValue(0.14f);
-
 		_chromaKeyFilter = P.p.loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/chroma-color.glsl" );
 		_chromaKeyFilter.set("thresholdSensitivity", 0.75f);
 		_chromaKeyFilter.set("smoothing", 0.25f);
@@ -124,7 +112,6 @@ public class KinectFaceRecorder {
 		// debug draw realtime camera
 //		p.image(_realtimeTexture, 640, 0);
 		
-		// hide ControlP5
 		// p.translate(0, 9000);
 		
 		// debug memory info

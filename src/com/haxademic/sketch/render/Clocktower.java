@@ -97,10 +97,10 @@ extends PAppletHax {
 	protected void overridePropsFile() {
 		p.appConfig.setProperty(AppSettings.WIDTH, 1600);
 		p.appConfig.setProperty(AppSettings.HEIGHT, 900);
-		p.appConfig.setProperty(AppSettings.WIDTH, 638);
-		p.appConfig.setProperty(AppSettings.HEIGHT, 720);
+//		p.appConfig.setProperty(AppSettings.WIDTH, 638);
+//		p.appConfig.setProperty(AppSettings.HEIGHT, 720);
 		p.appConfig.setProperty(AppSettings.LOOP_FRAMES, FRAMES);
-		p.appConfig.setProperty(AppSettings.RENDERING_IMAGE_SEQUENCE, true);
+		p.appConfig.setProperty(AppSettings.RENDERING_IMAGE_SEQUENCE, false);
 		p.appConfig.setProperty(AppSettings.RENDERING_IMAGE_SEQUENCE_START_FRAME, 1 + FRAMES * 1);
 		p.appConfig.setProperty(AppSettings.RENDERING_IMAGE_SEQUENCE_STOP_FRAME, FRAMES * 7);
 	}
@@ -145,6 +145,7 @@ extends PAppletHax {
 		p.ui.addSlider(FAKE_LIGHT_SPEC_AMP, 2.25f, 0.1f, 6f, 0.01f);
 		p.ui.addSlider(FAKE_LIGHT_DIFF_DARK, 0.85f, 0.1f, 2f, 0.01f);
 		p.ui.addSlider(NUM_PARTICLES, 0, 0, MAX_PARTICLES, 10);
+		p.ui.addWebInterface(false);
 	}
 	
 	protected void buildWindows() {
@@ -180,7 +181,7 @@ extends PAppletHax {
 		configIndex++;
 		if(configIndex >= CONFIGS.length) configIndex = 0;
 		p.ui.loadValuesFromJSON(JSONObject.parse(CONFIGS[configIndex]));
-		p.ui.get(SHOW_SIMULATION).set(1);
+//		p.ui.get(SHOW_SIMULATION).set(1);
 	}
 	
 	protected void updateSwipe() {

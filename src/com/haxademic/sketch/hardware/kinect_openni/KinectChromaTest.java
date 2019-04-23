@@ -8,7 +8,6 @@ import com.haxademic.core.draw.filters.pshader.ChromaColorFilter;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.file.FileUtil;
 
-import controlP5.ControlP5;
 import processing.core.PGraphics;
 import processing.video.Movie;
 
@@ -22,12 +21,11 @@ extends PAppletHax {
 
 	PGraphics _chromaBuffer;
 	
-	protected ControlP5 _cp5;
-	public float thresholdSensitivity;
-	public float smoothing;
-	public float colorToReplaceR;
-	public float colorToReplaceG;
-	public float colorToReplaceB;
+	protected String thresholdSensitivity = "thresholdSensitivity";
+	protected String smoothing = "smoothing";
+	protected String colorToReplaceR = "colorToReplaceR";
+	protected String colorToReplaceG = "colorToReplaceG";
+	protected String colorToReplaceB = "colorToReplaceB";
 
 	protected void overridePropsFile() {
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
@@ -36,24 +34,15 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.HEIGHT, "480" );
 	}
 	
-	public void setup() {
+	public void setupFirstFrame() {
 		super.setup();
-				
-		// build chroma cam buffer
 		_chromaBuffer = p.createGraphics(p.width, p.height, P.P3D);
-		_chromaBuffer.smooth( 8 );
 
-		_cp5 = new ControlP5(this);
-		int cp5W = 160;
-		int cp5X = 20;
-		int cp5Y = 20;
-		int cp5YSpace = 40;
-		_cp5.addSlider("thresholdSensitivity").setPosition(cp5X,cp5Y).setWidth(cp5W).setRange(0,1f).setValue(0.75f);
-		_cp5.addSlider("smoothing").setPosition(cp5X,cp5Y+=cp5YSpace).setWidth(cp5W).setRange(0,1f).setValue(0.26f);
-		_cp5.addSlider("colorToReplaceR").setPosition(cp5X,cp5Y+=cp5YSpace).setWidth(cp5W).setRange(0,1f).setValue(0.29f);
-		_cp5.addSlider("colorToReplaceG").setPosition(cp5X,cp5Y+=cp5YSpace).setWidth(cp5W).setRange(0,1f).setValue(0.93f);
-		_cp5.addSlider("colorToReplaceB").setPosition(cp5X,cp5Y+=cp5YSpace).setWidth(cp5W).setRange(0,1f).setValue(0.14f);
-
+		p.ui.addSlider(thresholdSensitivity, 0.75f, 0, 1, 0.01f, false);
+		p.ui.addSlider(smoothing, 0.26f, 0, 1, 0.01f, false);
+		p.ui.addSlider(colorToReplaceR, 0.29f, 0, 1, 0.01f, false);
+		p.ui.addSlider(colorToReplaceG, 0.93f, 0, 1, 0.01f, false);
+		p.ui.addSlider(colorToReplaceB, 0.14f, 0, 1, 0.01f, false);
 		
 		// build movie layer		
 		_movie = new Movie( p, FileUtil.getFile("video/nike/nike-hike-gray-loop.mov") );
@@ -78,14 +67,11 @@ extends PAppletHax {
 		_chromaBuffer.image(p.kinectWrapper.getRgbImage(), 0, 0);
 		_chromaBuffer.endDraw();
 		
-		ChromaColorFilter.instance(p).setColorToReplace(colorToReplaceR, colorToReplaceG, colorToReplaceB);
-		ChromaColorFilter.instance(p).setSmoothing(smoothing);
-		ChromaColorFilter.instance(p).setThresholdSensitivity(thresholdSensitivity);
+		ChromaColorFilter.instance(p).setColorToReplace(p.ui.value(colorToReplaceR), p.ui.value(colorToReplaceG), p.ui.value(colorToReplaceB));
+		ChromaColorFilter.instance(p).setSmoothing(p.ui.value(smoothing));
+		ChromaColorFilter.instance(p).setThresholdSensitivity(p.ui.value(thresholdSensitivity));
 		ChromaColorFilter.instance(p).applyTo(_chromaBuffer);
 		
-		
-
-
 		// draw movie
 		if(_movie.width > 1) {
 			_cropProps = ImageUtil.getOffsetAndSizeToCrop(p.width, p.height, _movie.width, _movie.height, true);
@@ -96,7 +82,5 @@ extends PAppletHax {
 		// draw chroma'd cam
 		p.image(_chromaBuffer, 0, 0);
 	}
-
-	
 }
 

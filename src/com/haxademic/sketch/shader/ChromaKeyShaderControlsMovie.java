@@ -7,7 +7,6 @@ import com.haxademic.core.draw.filters.pshader.ChromaColorFilter;
 import com.haxademic.core.draw.textures.pgraphics.TextureShaderTimeStepper;
 import com.haxademic.core.file.FileUtil;
 
-import controlP5.ControlP5;
 import processing.core.PGraphics;
 import processing.opengl.PShader;
 import processing.video.Movie;
@@ -20,12 +19,11 @@ extends PAppletHax {
 	protected PGraphics _pg;
 
 	PShader _chromaKeyFilter;
-	protected ControlP5 _cp5;
-	public float thresholdSensitivity;
-	public float smoothing;
-	public float colorToReplace_R;
-	public float colorToReplace_G;
-	public float colorToReplace_B;
+	public String thresholdSensitivity = "thresholdSensitivity";
+	public String smoothing = "smoothing";
+	public String colorToReplaceR = "colorToReplaceR";
+	public String colorToReplaceG = "colorToReplaceG";
+	public String colorToReplaceB = "colorToReplaceB";
 
 	TextureShaderTimeStepper underlay;
 	Movie movie;
@@ -54,17 +52,11 @@ extends PAppletHax {
 	}
 		
 	protected void setupChromakey() {
-		_cp5 = new ControlP5(this);
-		int cp5W = 160;
-		int cp5X = 20;
-		int cp5Y = 20;
-		int cp5YSpace = 40;
-		_cp5.addSlider("thresholdSensitivity").setPosition(cp5X,cp5Y).setWidth(cp5W).setRange(0,1f).setValue(0.73f);
-		_cp5.addSlider("smoothing").setPosition(cp5X,cp5Y+=cp5YSpace).setWidth(cp5W).setRange(0,1f).setValue(0.18f);
-		_cp5.addSlider("colorToReplace_R").setPosition(cp5X,cp5Y+=cp5YSpace).setWidth(cp5W).setRange(0,1f).setValue(0.71f);
-		_cp5.addSlider("colorToReplace_G").setPosition(cp5X,cp5Y+=cp5YSpace).setWidth(cp5W).setRange(0,1f).setValue(0.99f);
-		_cp5.addSlider("colorToReplace_B").setPosition(cp5X,cp5Y+=cp5YSpace).setWidth(cp5W).setRange(0,1f).setValue(0.02f);
-
+		p.ui.addSlider(thresholdSensitivity, 0.73f, 0, 1, 0.01f, false);
+		p.ui.addSlider(smoothing, 0.18f, 0, 1, 0.01f, false);
+		p.ui.addSlider(colorToReplaceR, 0.71f, 0, 1, 0.01f, false);
+		p.ui.addSlider(colorToReplaceG, 0.99f, 0, 1, 0.01f, false);
+		p.ui.addSlider(colorToReplaceB, 0.02f, 0, 1, 0.01f, false);
 	}
 
 	public void drawApp() {
@@ -101,10 +93,10 @@ extends PAppletHax {
 		
 
 		// reset chroma key uniforms
-		ChromaColorFilter.instance(p).setColorToReplace(colorToReplace_R, colorToReplace_G, colorToReplace_B);
-		ChromaColorFilter.instance(p).setSmoothing(smoothing);
-		ChromaColorFilter.instance(p).setThresholdSensitivity(thresholdSensitivity);
-		
+		ChromaColorFilter.instance(p).setColorToReplace(p.ui.value(colorToReplaceR), p.ui.value(colorToReplaceG), p.ui.value(colorToReplaceB));
+		ChromaColorFilter.instance(p).setSmoothing(p.ui.value(smoothing));
+		ChromaColorFilter.instance(p).setThresholdSensitivity(p.ui.value(thresholdSensitivity));
+
 		// draw frame to offscreen buffer
 		_pg.beginDraw();
 		_pg.clear();

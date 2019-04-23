@@ -329,7 +329,6 @@ Haxademic uses the following Java & Processing libraries, which I've included in
 * [Processing Core](http://processing.org/) (view the [Processing for Eclipse instructions](https://processing.org/tutorials/eclipse/))
 * [Beads](http://www.beadsproject.net/)
 * [blobDetection](http://www.v3ga.net/processing/BlobDetection/)
-* [ControlP5](http://www.sojamo.de/libraries/controlP5/)
 * [DMXP512](https://github.com/hdavid/dmxP512)
 * [ESS](https://web.archive.org/web/20171209153252/http://www.tree-axis.com/Ess/)
 * [Geomerative](http://www.ricardmarxer.com/geomerative/)

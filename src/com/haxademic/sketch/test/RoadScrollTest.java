@@ -5,15 +5,12 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.context.DrawUtil;
 
-import controlP5.ControlP5;
-
 public class RoadScrollTest
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
 	public float speed = 0;
 	public float angle = 0;
-	protected ControlP5 _cp5;
 	
 	float _frames = 200;
 	
@@ -38,7 +35,7 @@ extends PAppletHax {
 		background(0);
 		DrawUtil.setDrawCenter(p);
 		
-		float frameRadians = P.TWO_PI / _frames;
+//		float frameRadians = P.TWO_PI / _frames;
 		float percentComplete = ((float)(p.frameCount%_frames)/_frames);
 		float radiansComplete = P.TWO_PI * percentComplete;
 

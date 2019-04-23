@@ -7,7 +7,6 @@ import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.file.FileUtil;
 
-import controlP5.ControlP5;
 import processing.core.PGraphics;
 import processing.core.PImage;
 import processing.core.PShape;
@@ -18,10 +17,8 @@ extends PAppletHax {
 	
 	public float speed = 0;
 	public float angle = 0;
-	protected ControlP5 _cp5;
 	
 	float _frames = 20;
-
 	
 	protected float _x = 0;
 	protected float _y = 0;
@@ -59,10 +56,6 @@ extends PAppletHax {
 		_logoG.image(_logoImg, 0, 0, (int)_tileSize, (int)_tileSize);
 		_logoG.endDraw();
 
-//		_cp5 = new ControlP5(this);
-//		_cp5.addSlider("speed").setPosition(20,20).setWidth(200).setRange(0,30);
-//		_cp5.addSlider("angle").setPosition(20,50).setWidth(200).setRange(0.55f,1f);
-		
 		_x = p.width / 2;
 		_z = 0;
 	}
@@ -71,9 +64,9 @@ extends PAppletHax {
 		background(255);
 		DrawUtil.setDrawCenter(p);
 		
-		float frameRadians = P.TWO_PI / _frames;
+//		float frameRadians = P.TWO_PI / _frames;
 		float percentComplete = ((float)(p.frameCount%_frames)/_frames);
-		float radiansComplete = P.TWO_PI * percentComplete;
+//		float radiansComplete = P.TWO_PI * percentComplete;
 
 //		_y = p.height * 0.65f + (p.height * 0.05f * P.sin(radiansComplete));
 		_y = p.height * 0.65f;
@@ -114,7 +107,6 @@ extends PAppletHax {
 			p.popMatrix();
 			
 		}
-		
 		
 		p.popMatrix();
 		

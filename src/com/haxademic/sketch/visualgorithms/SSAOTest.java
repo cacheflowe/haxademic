@@ -162,9 +162,6 @@ extends PAppletHax {
 //		BlurBasicFilter.instance(p).applyTo(p);
 //		BlurBasicFilter.instance(p).applyTo(p);
 //		BlurBasicFilter.instance(p).applyTo(p);
-		
-		// hide ControlP5
-//		p.translate(-1000, 0);
 	}
 	
 	

@@ -2,26 +2,27 @@ package com.haxademic.demo.math;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.context.DrawUtil;
-
-import controlP5.ControlP5;
 
 public class Demo_TrigDriveTest
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
-	public float radians = 0;
-	public float speed = 0;
-	protected ControlP5 _cp5;
+	protected String radians = "radians";
+	protected String speed = "speed";
 	
 	protected float _x = 0;
 	protected float _y = 0;
 
+	protected void overridePropsFile() {
+		p.appConfig.setProperty(AppSettings.SHOW_SLIDERS, true);
+	}
+
 	public void setupFirstFrame() {
-		_cp5 = new ControlP5(this);
-		_cp5.addSlider("radians").setPosition(20,60).setWidth(200).setRange(0,P.TWO_PI);
-		_cp5.addSlider("speed").setPosition(20,100).setWidth(200).setRange(0,10);
-		
+		p.ui.addSlider(radians, 0, 0, P.TWO_PI, 0.01f, false);
+		p.ui.addSlider(speed, 1, 0, 10, 0.1f, false);
+
 		_x = p.width / 2;
 		_y = p.height / 2;
 	}
@@ -30,8 +31,8 @@ extends PAppletHax {
 		background(0);
 		DrawUtil.setDrawCenter(p);
 
-		_x += P.cos(radians) * speed;
-		_y += P.sin(radians) * speed;
+		_x += P.cos(p.ui.value(radians)) * p.ui.value(speed);
+		_y += P.sin(p.ui.value(radians)) * p.ui.value(speed);
 		
 		if( _x > p.width ) _x = 0;
 		if( _x < 0 ) _x = p.width;
@@ -42,8 +43,8 @@ extends PAppletHax {
 		p.fill(255);
 		
 		p.translate(_x, _y);
-		p.rotate(-radians);
-		p.rect(0, 0, 20, 40);
+		p.rotate(p.ui.value(radians));
+		p.rect(0, 0, 40, 20);
 		
 		p.popMatrix();
 	}

@@ -8,8 +8,8 @@ import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.Penner;
+import com.haxademic.core.net.JsonUtil;
 
-import controlP5.ControlP5;
 import processing.core.PGraphics;
 import processing.opengl.PShader;
 
@@ -19,62 +19,67 @@ extends PAppletHax {
 
 	// ported from: view-source:https://threejs.org/examples/webgl_postprocessing_ssao.html
 	
-	PGraphics canvas;
-	PGraphics depth;
-	PShader depthShader;
-	PShader ssaoShader;
-	float _frames = 420;
-	float percentComplete;
-	float progressRads;
+	protected PGraphics canvas;
+	protected PGraphics depth;
+	protected PShader depthShader;
+	protected PShader ssaoShader;
+	protected float _frames = 420;
+	protected float percentComplete;
+	protected float progressRads;
 	
-	ControlP5 _cp5;
-	public boolean onlyAO, onlyAODefault = false;
-	public float aoClamp, aoClampDefault = 1.5f;
-	public float lumInfluence = 0.2f;
-	public float cameraNear = 235f;
-	public float cameraFar = 1160f;
-	public int samples = 32;
-	public float radius = 17.0f;
-	public boolean useNoise = true;
-	public float noiseAmount = 0.00003f;
-	public float diffArea = 0.65f;
-	public float gDisplace = 0.65f;
-	public float diffMult = 100f;
-	public float gaussMult = -2.0f;
+	protected String onlyAO = "onlyAO";
+	protected String aoClamp = "aoClamp";
+	protected String lumInfluence = "lumInfluence";
+	protected String cameraNear = "cameraNear";
+	protected String cameraFar = "cameraFar";
+	protected String samples = "samples";
+	protected String radius = "radius";
+	protected String useNoise = "useNoise";
+	protected String noiseAmount = "noiseAmount";
+	protected String diffArea = "diffArea";
+	protected String gDisplace = "gDisplace";
+	protected String diffMult = "diffMult";
+	protected String gaussMult = "gaussMult";
 
+	protected String config1 = "{\r\n" + 
+			"  \"gDisplace\": 0.5600005388259888,\r\n" + 
+			"  \"diffMult\": 307,\r\n" + 
+			"  \"gaussMult\": -2,\r\n" + 
+			"  \"cameraNear\": 8,\r\n" + 
+			"  \"aoClamp\": -2.980001449584961,\r\n" + 
+			"  \"samples\": 12,\r\n" + 
+			"  \"cameraFar\": 845,\r\n" + 
+			"  \"onlyAO\": 1,\r\n" + 
+			"  \"noiseAmount\": 0.002739999908953905,\r\n" + 
+			"  \"lumInfluence\": 1.1099995374679565,\r\n" + 
+			"  \"radius\": 1,\r\n" + 
+			"  \"diffArea\": 0.5399996638298035,\r\n" + 
+			"  \"useNoise\": 0\r\n" + 
+			"}";
 
 	protected void overridePropsFile() {
 		p.appConfig.setProperty( AppSettings.WIDTH, 800 );
 		p.appConfig.setProperty( AppSettings.HEIGHT, 600 );
-		p.appConfig.setProperty( AppSettings.SMOOTHING, AppSettings.SMOOTH_HIGH );
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, false );
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, (int)_frames );
+		p.appConfig.setProperty( AppSettings.SHOW_SLIDERS, true );
 	}
 
-	public void setup() {
-		super.setup();
-		
-		// controls
-//		_showControls = true;
-		_cp5 = new ControlP5(this);
-		int spacing = 20;
-		int cntrlY = 0;
-		int cntrlW = 100;
-		
-		_cp5.addToggle("onlyAO").setPosition(20,cntrlY+=spacing).setWidth(cntrlW).setHeight(10).setValue(onlyAODefault);
-		_cp5.addSlider("aoClamp").setPosition(20,cntrlY+=spacing+10).setWidth(cntrlW).setRange(-5f,5f).setValue(aoClampDefault);
-		_cp5.addSlider("lumInfluence").setPosition(20,cntrlY+=spacing).setWidth(cntrlW).setRange(-5f,5f).setValue(lumInfluence);
-		_cp5.addSlider("cameraNear").setPosition(20,cntrlY+=spacing).setWidth(cntrlW).setRange(1f,500f).setValue(175);
-		_cp5.addSlider("cameraFar").setPosition(20,cntrlY+=spacing).setWidth(cntrlW).setRange(500f,2000f).setValue(1700);
-		_cp5.addSlider("samples").setPosition(20,cntrlY+=spacing).setWidth(cntrlW).setRange(2,128).setValue(samples);
-		_cp5.addSlider("radius").setPosition(20,cntrlY+=spacing).setWidth(cntrlW).setRange(1f,50f).setValue(radius);
-		_cp5.addSlider("diffArea").setPosition(20,cntrlY+=spacing).setWidth(cntrlW).setRange(0,5f).setValue(diffArea);
-		_cp5.addSlider("gDisplace").setPosition(20,cntrlY+=spacing).setWidth(cntrlW).setRange(0,5f).setValue(gDisplace);
-		_cp5.addSlider("diffMult").setPosition(20,cntrlY+=spacing).setWidth(cntrlW).setRange(1f,1000f).setValue(diffMult);
-		_cp5.addSlider("gaussMult").setPosition(20,cntrlY+=spacing).setWidth(cntrlW).setRange(-4f,2f).setValue(-2f);
-		_cp5.addToggle("useNoise").setPosition(20,cntrlY+=spacing).setWidth(cntrlW).setHeight(10).setValue(useNoise);
-		_cp5.addSlider("noiseAmount").setPosition(20,cntrlY+=spacing+10).setWidth(cntrlW).setRange(0.00003f, 0.003f).setValue(noiseAmount);
-
+	public void setupFirstFrame() {
+		p.ui.addSlider(onlyAO, 0, 0, 1, 1, false);
+		p.ui.addSlider(aoClamp, 1.5f, -5f, 5f, 0.01f, false);
+		p.ui.addSlider(lumInfluence, 0.2f, -5f, 5f, 0.01f, false);
+		p.ui.addSlider(cameraNear, 175, 1, 500, 1, false);
+		p.ui.addSlider(cameraFar, 1700, 500f, 2000f, 1, false);
+		p.ui.addSlider(samples, 32, 2, 128, 1, false);
+		p.ui.addSlider(radius, 1, 0, 2, 0.001f, false);
+		p.ui.addSlider(diffArea, 0.65f, 0, 5, 0.01f, false);
+		p.ui.addSlider(gDisplace, 0.65f, 0, 5, 0.01f, false);
+		p.ui.addSlider(diffMult, 100f, 1, 1000, 1f, false);
+		p.ui.addSlider(gaussMult, -2, -4, 4, 0.01f, false);
+		p.ui.addSlider(useNoise, 12, 0, 1, 1, false);
+		p.ui.addSlider(noiseAmount, 0.00003f, 0.00003f, 0.003f, 0.00001f, false);
+		p.ui.loadValuesFromJSON(JsonUtil.jsonFromString(config1));
 
 		canvas = p.createGraphics(p.width, p.height, P.P3D);
 		canvas.smooth(OpenGLUtil.SMOOTH_HIGH);
@@ -101,27 +106,24 @@ extends PAppletHax {
 	public void drawApp() {
 		background(0);
 		
-		depthShader.set("near", cameraNear );
-		depthShader.set("far", cameraFar );
+		depthShader.set("near", p.ui.value(cameraNear));
+		depthShader.set("far", p.ui.value(cameraFar));
 
-		ssaoShader.set("onlyAO", onlyAO );
-		ssaoShader.set("aoClamp", aoClamp );
-		ssaoShader.set("lumInfluence", lumInfluence );
-		ssaoShader.set("cameraNear", cameraNear );
-		ssaoShader.set("cameraFar", cameraFar );
+		ssaoShader.set("onlyAO", p.ui.value(onlyAO) == 1);
+		ssaoShader.set("aoClamp", p.ui.value(aoClamp));
+		ssaoShader.set("lumInfluence", p.ui.value(lumInfluence));
+		ssaoShader.set("cameraNear", p.ui.value(cameraNear));
+		ssaoShader.set("cameraFar", p.ui.value(cameraFar));
 		
-		ssaoShader.set("samples", samples);
-		ssaoShader.set("radius", radius);
-		ssaoShader.set("useNoise", useNoise);
-		ssaoShader.set("noiseAmount", noiseAmount);
-		ssaoShader.set("diffArea", diffArea);
-		ssaoShader.set("gDisplace", gDisplace);
-		ssaoShader.set("diffMult", diffMult);
-		ssaoShader.set("gaussMult", gaussMult);
-		
-//		setSSAOForCubes();
-		
-		
+		ssaoShader.set("samples", p.ui.valueInt(samples));
+		ssaoShader.set("radius", p.ui.value(radius));
+		ssaoShader.set("useNoise", p.ui.value(useNoise) == 1);
+		ssaoShader.set("noiseAmount", p.ui.value(noiseAmount));
+		ssaoShader.set("diffArea", p.ui.value(diffArea));
+		ssaoShader.set("gDisplace", p.ui.value(gDisplace));
+		ssaoShader.set("diffMult", p.ui.value(diffMult));
+		ssaoShader.set("gaussMult", p.ui.value(gaussMult));
+				
 		// rendering
 		percentComplete = ((float)(p.frameCount%_frames)/_frames);
 		float easedPercent = Penner.easeInOutCubic(percentComplete, 0, 1, 1);
@@ -164,27 +166,7 @@ extends PAppletHax {
 		
 		pg.endDraw();
 	}
-	
-	protected void setSSAOForCubes() {
-		depthShader.set("near", 450f );
-		depthShader.set("far", 1565f );
-
-		ssaoShader.set("onlyAO", false );
-		ssaoShader.set("aoClamp", 1.1f );
-		ssaoShader.set("lumInfluence", 0.2f );
-		ssaoShader.set("cameraNear", 1f );
-		ssaoShader.set("cameraFar", 650f );
 		
-		ssaoShader.set("samples", 110);
-		ssaoShader.set("radius", 29f);
-		ssaoShader.set("useNoise", false);
-		ssaoShader.set("noiseAmount", 0);
-		ssaoShader.set("diffArea", 0.65f);
-		ssaoShader.set("gDisplace", 0.65f);
-		ssaoShader.set("diffMult", 420f);
-		ssaoShader.set("gaussMult", -3f);
-	}
-	
 	protected void drawCubesInGrid(PGraphics pg) {
 		// spin it
 		pg.rotateX(-P.PI/3f - 0.1f + P.sin(progressRads) * 0.1f);  

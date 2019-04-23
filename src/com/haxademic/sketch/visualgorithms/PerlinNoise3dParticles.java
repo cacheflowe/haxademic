@@ -8,7 +8,6 @@ import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.data.constants.PBlendModes;
 import com.haxademic.core.draw.context.DrawUtil;
 
-import controlP5.ControlP5;
 import processing.core.PVector;
 
 public class PerlinNoise3dParticles
@@ -16,21 +15,20 @@ extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
 	// noise
-	float noiseScale = 0.003f;
-	int octaves = 3;
-	float noiseSpeed = 0.02f;
-	float falloff = 0.5f;
+	protected String noiseScale = "noiseScale";
+	protected String octaves = "octaves";
+	protected String noiseSpeed = "noiseSpeed";
+	protected String falloff = "falloff";
+	protected String spacing = "spacing";
+
 	float noiseFactor = 0.8f;
 	// spacing
 	float halfSize;
-	float spacing;
 	ArrayList<PVector> fieldVecs;
 	ArrayList<PVector> fieldVecRots;
 	int numParticles = 4000;
 	ArrayList<Particle> particles;
 	PVector center = new PVector();
-	// controls
-	protected ControlP5 _cp5;
 	// animation
 	protected float frames = 6000;
 
@@ -41,21 +39,18 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, false);
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_START_FRAME, 1 );
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, Math.round(frames) );
+		p.appConfig.setProperty(AppSettings.SHOW_SLIDERS, true);
 	}
 
-	public void setup() {
-		super.setup();	
-		
+	public void setupFirstFrame() {
 		halfSize = p.width * 0.5f;
-		spacing = p.width * 0.2f;
 
-		_cp5 = new ControlP5(this);
-		_cp5.addSlider("noiseScale").setPosition(20,20).setWidth(100).setRange(0.0001f, 0.025f).setValue(noiseScale);
-		_cp5.addSlider("octaves").setPosition(20,60).setWidth(100).setRange(1, 8).setValue(octaves);
-		_cp5.addSlider("noiseSpeed").setPosition(20,40).setWidth(100).setRange(0, 0.04f).setValue(noiseSpeed);
-		_cp5.addSlider("falloff").setPosition(20,80).setWidth(100).setRange(0, 1f).setValue(falloff);
-		_cp5.addSlider("spacing").setPosition(20,100).setWidth(100).setRange(5, 150f).setValue(spacing);
-		
+		p.ui.addSlider(noiseScale, 0.93f, 0.0001f, 5f, 0.0001f, false);
+		p.ui.addSlider(octaves, 2f, 1, 8, 1, false);
+		p.ui.addSlider(noiseSpeed, 0.025f, 0, 1f, 0.001f, false);
+		p.ui.addSlider(falloff, 0.6f, 0, 1f, 0.001f, false);
+		p.ui.addSlider(spacing, p.width * 0.2f, 5, 150f, 1f, false);
+
 		buildFieldVectors();
 		buildParticles();
 	}
@@ -71,9 +66,10 @@ extends PAppletHax {
 		fieldVecs = new ArrayList<PVector>();
 		fieldVecRots = new ArrayList<PVector>();
 		
-		for (float x = -halfSize; x <= halfSize; x += spacing) {
-			for (float y = -halfSize; y <= halfSize; y += spacing) {
-				for (float z = -halfSize; z <= halfSize; z += spacing) {
+		float spacingg = p.ui.value(spacing);
+		for (float x = -halfSize; x <= halfSize; x += spacingg) {
+			for (float y = -halfSize; y <= halfSize; y += spacingg) {
+				for (float z = -halfSize; z <= halfSize; z += spacingg) {
 					fieldVecs.add(new PVector(x, y, z));
 					fieldVecRots.add(new PVector(0, 0, 0));
 				}
@@ -92,36 +88,34 @@ extends PAppletHax {
 		
 		// update noise 
 //		float autoFalloff = (progress < 0.5f) ? P.map(progress, 0, 0.5f, 0, 1) : P.map(progress, 0.5f, 1f, 1, 0);
-		p.noiseDetail(octaves, 1); // falloff
+		p.noiseDetail(p.ui.valueInt(octaves), 1); // falloff
 
 		// set size & center
 		p.translate(p.width/2, p.height/2, 0);
 //		p.rotateY(P.map(p.mouseX, 0, width, 0, 1) * P.TWO_PI);
 //		p.rotateX(P.map(p.mouseY, 0, width, 0, 1) * P.TWO_PI);
 		p.rotateY(progress * P.TWO_PI);
-		p.rotateX(progress * P.TWO_PI);
+//		p.rotateX(progress * P.TWO_PI);
 		
 		updateField();
 		drawField();
 		updateParticles();
 		
-		// hide ControlP5
 		p.popMatrix();
-		// p.translate(-1000, 0);
 	}
 	
 	protected void updateField() {
-		float noiseInc = p.frameCount * noiseSpeed;
+		float noiseInc = p.frameCount * p.ui.value(noiseSpeed);
 		
 		// update field rotation
 		for (int i = 0; i < fieldVecRots.size(); i++) {
 			PVector pos = fieldVecs.get(i);
 			PVector rot = fieldVecRots.get(i);
 			rot.lerp(
-					-0.95f + p.noise(noiseInc + (pos.x) * noiseFactor), 
-					-0.95f + p.noise(noiseInc + (pos.y) * noiseFactor),
-					-0.95f + p.noise(noiseInc + (pos.z) * noiseFactor),
-					0.05f
+					-0.5f + p.noise(noiseInc + (pos.x) * noiseFactor), 
+					-0.5f + p.noise(noiseInc + (pos.y) * noiseFactor),
+					-0.5f + p.noise(noiseInc + (pos.z) * noiseFactor),
+					0.15f
 					);
 		}
 
@@ -138,10 +132,10 @@ extends PAppletHax {
 			PVector pos = fieldVecs.get(i);
 			PVector rot = fieldVecRots.get(i);
 			p.translate(pos.x, pos.y, pos.z);
-//			p.rotateZ(rot.x);
-//			p.rotateY(rot.y);
-//			p.rotateZ(rot.z);
-			p.box(1, 1, 1);
+			p.rotateZ(rot.x);
+			p.rotateY(rot.y);
+			p.rotateZ(rot.z);
+			p.box(10, 10, 10);
 			p.popMatrix();
 		}
 	}
@@ -157,9 +151,9 @@ extends PAppletHax {
 	
 	protected float getNoise(float x, float y, float z ) {
 		return p.noise(
-				p.frameCount * noiseSpeed + x * noiseScale, 
-				p.frameCount * noiseSpeed + y * noiseScale, 
-				p.frameCount * noiseSpeed + z * noiseScale
+				p.frameCount * p.ui.value(noiseSpeed) + x * p.ui.value(noiseScale), 
+				p.frameCount * p.ui.value(noiseSpeed) + y * p.ui.value(noiseScale), 
+				p.frameCount * p.ui.value(noiseSpeed) + z * p.ui.value(noiseScale)
 		);
 	}
 	
@@ -168,7 +162,7 @@ extends PAppletHax {
 		
 		protected int index;
 		protected float amp = 0;
-		protected float influenceDist = spacing * 2.5f;
+		protected float influenceDist = p.ui.value(spacing) * 2.5f;
 		protected float influenceAmp = 0.05f;
 		protected PVector pos = new PVector();
 		protected PVector[] trail = new PVector[] {new PVector(), new PVector(), new PVector(), new PVector(), new PVector(), new PVector(), new PVector(), new PVector(), new PVector(), new PVector()};

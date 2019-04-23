@@ -8,7 +8,6 @@ import com.haxademic.core.draw.shapes.Shapes;
 import com.haxademic.core.draw.shapes.pshader.MeshDeformAndTextureFilter;
 import com.haxademic.core.hardware.kinect.KinectSize;
 
-import controlP5.ControlP5;
 import processing.core.PGraphics;
 import processing.core.PImage;
 import processing.core.PShape;
@@ -24,12 +23,10 @@ extends PAppletHax {
 	float _frames = 240;
 
 	// uv coordinates
-	public float kinectLeft = 0;
-	public float kinectRight = 1;
-	public float kinectTop = 0;
-	public float kinectBottom = 1;
-	
-	protected ControlP5 _cp5;
+	protected String kinectLeft = "kinectLeft";
+	protected String kinectRight = "kinectRight";
+	protected String kinectTop = "kinectTop";
+	protected String kinectBottom = "kinectBottom";
 	
 	protected PGraphics texDisplace;
 	protected PGraphics tex;
@@ -38,18 +35,14 @@ extends PAppletHax {
 	protected void overridePropsFile() {
 //		p.appConfig.setProperty( AppSettings.KINECT_V2_WIN_ACTIVE, true );
 		p.appConfig.setProperty( AppSettings.KINECT_ACTIVE, true );
+		p.appConfig.setProperty(AppSettings.SHOW_SLIDERS, true);
 	}
-
+	
 	public void setupFirstFrame() {
-
-		int controlY = 0;
-		int controlSpace = 12;
-		_cp5 = new ControlP5(this);
-
-		_cp5.addSlider("kinectLeft").setPosition(20,controlY+=controlSpace).setWidth(100).setRange(-1.0f,1.0f).setValue(-0.08f);
-		_cp5.addSlider("kinectRight").setPosition(20,controlY+=controlSpace).setWidth(100).setRange(0f,2f).setValue(1.06f);
-		_cp5.addSlider("kinectTop").setPosition(20,controlY+=controlSpace).setWidth(100).setRange(-1.0f,1.0f).setValue(-0.08f);
-		_cp5.addSlider("kinectBottom").setPosition(20,controlY+=controlSpace).setWidth(100).setRange(0,2f).setValue(1.04f);
+		p.ui.addSlider(kinectLeft, -0.08f, -1.0f, 1.0f, 0.01f, false);
+		p.ui.addSlider(kinectRight, 1.06f, 0f, 2f, 0.01f, false);
+		p.ui.addSlider(kinectTop, -0.08f, -1.0f, 1.0f, 0.01f, false);
+		p.ui.addSlider(kinectBottom, 1.04f, 0f, 2f, 0.01f, false);
 
 		tex = p.createGraphics(KinectSize.WIDTH, KinectSize.HEIGHT);
 		texDisplace = p.createGraphics(KinectSize.WIDTH, KinectSize.HEIGHT);
@@ -64,7 +57,7 @@ extends PAppletHax {
 		
 		// update mapped texture
 		tex.beginDraw();
-		tex.image(p.kinectWrapper.getRgbImage(), tex.width * kinectLeft, tex.height * kinectTop, tex.width * kinectRight, tex.height * kinectBottom);
+		tex.image(p.kinectWrapper.getRgbImage(), tex.width * p.ui.value(kinectLeft), tex.height * p.ui.value(kinectTop), tex.width * p.ui.value(kinectRight), tex.height * p.ui.value(kinectBottom));
 		tex.endDraw();
 				
 		texDisplace.beginDraw();

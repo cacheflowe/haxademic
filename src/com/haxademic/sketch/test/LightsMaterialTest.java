@@ -4,28 +4,24 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.shapes.PShapeUtil;
-import com.haxademic.core.file.FileUtil;
+import com.haxademic.core.file.DemoAssets;
 
-import controlP5.ControlP5;
 import processing.core.PShape;
 
 public class LightsMaterialTest
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
-	protected ControlP5 _cp5;	
-	public boolean _showControls = true;
-	
-	public float emissiveMaterial = 5f;
-	public float ambientLight = 30f;
-	public float specularMaterial = 150f;
-	public float specularLight = 200f;
-	public float shininessVal = 50f;
-	public float lightsFalloffVal = 0.002f;
-	public float lightsFalloffConstantVal = 0.02f;
-	public float spotLightConeAngle = P.PI / 2f;
-	public float spotLightConcentration = 100f;
-	
+	protected String emissiveMaterial = "emissiveMaterial";
+	protected String ambientLight = "ambientLight";
+	protected String specularMaterial = "specularMaterial";
+	protected String specularLight = "specularLight";
+	protected String shininessVal = "shininessVal";
+	protected String lightsFalloffVal = "lightsFalloffVal";
+	protected String lightsFalloffConstantVal = "lightsFalloffConstantVal";
+	protected String spotLightConeAngle = "spotLightConeAngle";
+	protected String spotLightConcentration = "spotLightConcentration";
+
 	public float centerX;
 	public float centerY;
 
@@ -42,6 +38,7 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_START_FRAME, 1001 );
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, Math.round(1001 + _frames-1) );
 		p.appConfig.setProperty( AppSettings.SMOOTHING, AppSettings.SMOOTH_HIGH );
+		p.appConfig.setProperty(AppSettings.SHOW_SLIDERS, true);
 	}
 
 	public void setup() {
@@ -53,26 +50,21 @@ extends PAppletHax {
 		centerY = p.height/2;
 
 		// controls
-		_showControls = true;
-		_cp5 = new ControlP5(this);
-		int spacing = 30;
-		int cntrlY = 0;
-		int cntrlW = 300;
-		_cp5.addSlider("emissiveMaterial").setPosition(20,cntrlY+=spacing).setWidth(cntrlW).setRange(0,255f).setValue(emissiveMaterial);
-		_cp5.addSlider("ambientLight").setPosition(20,cntrlY+=spacing).setWidth(cntrlW).setRange(0,255f).setValue(ambientLight);
-		_cp5.addSlider("specularMaterial").setPosition(20,cntrlY+=spacing).setWidth(cntrlW).setRange(0,255f).setValue(150);
-		_cp5.addSlider("specularLight").setPosition(20,cntrlY+=spacing).setWidth(cntrlW).setRange(0,255f).setValue(200);
-		_cp5.addSlider("shininessVal").setPosition(20,cntrlY+=spacing).setWidth(cntrlW).setRange(0,100f).setValue(shininessVal);
-		_cp5.addSlider("lightsFalloffVal").setPosition(20,cntrlY+=spacing).setWidth(cntrlW).setRange(0,0.01f).setValue(lightsFalloffVal);
-		_cp5.addSlider("lightsFalloffConstantVal").setPosition(20,cntrlY+=spacing).setWidth(cntrlW).setRange(0,2f).setValue(lightsFalloffConstantVal);
-		_cp5.addSlider("spotLightConeAngle").setPosition(20,cntrlY+=spacing).setWidth(cntrlW).setRange(0,P.TWO_PI).setValue(spotLightConeAngle);
-		_cp5.addSlider("spotLightConcentration").setPosition(20,cntrlY+=spacing).setWidth(cntrlW).setRange(1,1000f).setValue(spotLightConcentration);
+		p.ui.addSlider(emissiveMaterial, 5f, 0, 255, 0.5f, false);
+		p.ui.addSlider(ambientLight, 30f, 0, 255, 0.5f, false);
+		p.ui.addSlider(specularMaterial, 150, 0, 255, 0.5f, false);
+		p.ui.addSlider(specularLight, 200, 0, 255, 0.5f, false);
+		p.ui.addSlider(shininessVal, 50f, 0, 100, 0.5f, false);
+		p.ui.addSlider(lightsFalloffVal, 0.002f, 0, 0.01f, 0.0001f, false);
+		p.ui.addSlider(lightsFalloffConstantVal, 0.02f, 0, 2f, 0.01f, false);
+		p.ui.addSlider(spotLightConeAngle, P.HALF_PI, 0, P.TWO_PI, 0.01f, false);
+		p.ui.addSlider(spotLightConcentration, 100f, 0, 1000f, 1f, false);
 
 		// load model
-		obj = p.loadShape( FileUtil.getFile("models/skull-realistic.obj"));
-		obj = p.loadShape( FileUtil.getFile("models/Trump_lowPoly.obj"));
-		P.println(obj.getChildren().length);
-		PShapeUtil.scaleShapeToExtent(obj, p.height * 0.8f);
+//		obj = p.loadShape( FileUtil.getFile("models/skull-realistic.obj"));
+//		obj = p.loadShape( FileUtil.getFile("models/Trump_lowPoly.obj"));
+		obj = DemoAssets.objSkullRealistic();
+		PShapeUtil.scaleShapeToExtent(obj, p.height * 0.7f);
 	}
 	
 	protected void addDirectionalLight() {
@@ -82,7 +74,7 @@ extends PAppletHax {
 		float pointY = centerY + centerY/2 * P.cos(P.PI + directionalOsc) ;
 		p.directionalLight(155, 135, 135, 2f * P.sin(directionalOsc), 2f * P.cos(directionalOsc), -1);
 		// show debug light direction
-		if(_showControls == true) {
+		if(p.ui.active()) {
 			p.pushMatrix();
 			p.fill(255, 0, 0);
 			p.translate(pointX, pointY, 0);
@@ -96,7 +88,7 @@ extends PAppletHax {
 		float pointX = centerX + centerX/2 * P.sin(_progress * P.TWO_PI) ;
 		p.pointLight(255, 102, 126, pointX, centerY, 0);
 		// show debug light position
-		if(_showControls == true) {
+		if(p.ui.active()) {
 			p.pushMatrix();
 			p.fill(51, 102, 126);
 			p.translate(pointX, p.height/2, 0);
@@ -109,9 +101,9 @@ extends PAppletHax {
 		// adds a directional, focusable light source
 		float spotLightX = centerX + p.width * 0.1f;
 		float spotLightY = centerX + p.width * 0.1f;
-		p.spotLight(200, 255, 200, spotLightX, spotLightY, 100, 0, 0, -1, spotLightConeAngle, spotLightConcentration);
+		p.spotLight(200, 255, 200, spotLightX, spotLightY, 100, 0, 0, -1, p.ui.value(spotLightConeAngle), p.ui.value(spotLightConcentration));
 		// show debug light position
-		if(_showControls == true) {
+		if(p.ui.active()) {
 			p.pushMatrix();
 			p.fill(0, 255, 0);
 			p.translate(spotLightX, centerY + p.height * 0.1f, 100);
@@ -129,25 +121,23 @@ extends PAppletHax {
 		
 		
 		////////////////////////////////
-		// global lights & materials setup
-		////////////////////////////////
-		// basic global lights:
-		p.lightFalloff(lightsFalloffConstantVal, lightsFalloffVal, 0.0f);
-		p.ambientLight(ambientLight, ambientLight, ambientLight);
-		p.lightSpecular(specularLight, specularLight, specularLight);
-
-		// materials:
-		p.emissive(emissiveMaterial, emissiveMaterial, emissiveMaterial);
-		p.specular(specularMaterial, specularMaterial, specularMaterial);
-		p.shininess(shininessVal);	// affects the specular blur
-
-
-		////////////////////////////////
-		// additional lights
+		// show debug lights
 		////////////////////////////////
 		addDirectionalLight();
 		addPointLight();
 		addSpotLight();
+
+		////////////////////////////////
+		// set lighting
+		////////////////////////////////
+		p.lightFalloff(p.ui.value(lightsFalloffConstantVal), p.ui.value(lightsFalloffVal), 0.0f);
+		p.ambientLight(p.ui.value(ambientLight), p.ui.value(ambientLight), p.ui.value(ambientLight));
+		p.lightSpecular(p.ui.value(specularLight), p.ui.value(specularLight), p.ui.value(specularLight));
+
+		// materials:
+		p.emissive(p.ui.value(emissiveMaterial), p.ui.value(emissiveMaterial), p.ui.value(emissiveMaterial));
+		p.specular(p.ui.value(specularMaterial), p.ui.value(specularMaterial), p.ui.value(specularMaterial));
+		p.shininess(p.ui.value(shininessVal));	// affects the specular blur
 
 
 		////////////////////////////////
@@ -156,10 +146,8 @@ extends PAppletHax {
 //		drawPrimitives();
 		drawObj();
 
-
-		// reset for ControlP5
+		// close context
 		p.popMatrix();
-		if(_showControls == false) p.translate(9999999, 999999);
 		p.noLights();
 	}
 	
@@ -198,7 +186,6 @@ extends PAppletHax {
 	protected void drawObj() {
 		p.pushMatrix();
 		p.translate(p.width/2, p.height * 0.45f, -p.width);
-		p.rotateZ(P.PI);
 		p.rotateY(P.sin(P.PI + P.TWO_PI * _progress) * 0.5f);
 //		obj.disableStyle();
 		p.fill(70);
@@ -206,11 +193,4 @@ extends PAppletHax {
 		p.popMatrix();
 	}
 	
-	public void keyPressed() {
-		super.keyPressed();
-		if(p.key == ' ') {
-			_showControls = !_showControls;
-		}
-	}
-
 }
