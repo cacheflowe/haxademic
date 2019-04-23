@@ -6,6 +6,9 @@
   <script src="./js/fetch.js"></script>
   <script src="./js/json-poller.es6.js"></script>
   <style>
+    body {
+      background: #000;
+    }
     .container {
       margin: 2rem auto;
     }
@@ -83,17 +86,24 @@
     }
 
     // add document listener for all ui controls
-    document.addEventListener('mouseup', function(e){
-      if(e.target && e.target.hasAttribute('data-ui-button')) {
-        if(e.target.hasAttribute('data-toggles') && e.target.getAttribute('data-toggles') == 1) {
+    function buttonClick(e) {
+      if (e.target && e.target.hasAttribute('data-ui-button')) {
+        e.preventDefault();
+        if (e.target.hasAttribute('data-toggles') && e.target.getAttribute('data-toggles') == 1) {
           let newValue = (e.target.getAttribute('data-value') == 0) ? 1 : 0;
           e.target.setAttribute('data-value', newValue);
-          makeRequest('/button/'+ e.target.id +'/'+e.target.getAttribute('data-value'));
+          makeRequest('/button/' + e.target.id + '/' + e.target.getAttribute('data-value'));
         } else {
-          makeRequest('/button/'+ e.target.id +'/0');
+          makeRequest('/button/' + e.target.id + '/0');
         }
       }
-    });
+    }
+    function removeDesktopSupport() {
+      document.removeEventListener('mouseup', buttonClick);
+    }
+    document.addEventListener('mouseup', buttonClick);
+    document.addEventListener('touchend', buttonClick);
+    document.addEventListener('touchend', removeDesktopSupport);
     document.addEventListener('input', function(e){
       if(e.target && e.target.hasAttribute('data-ui-slider')) {
         makeRequest('/slider/'+ e.target.id +'/' + e.target.value);
@@ -117,8 +127,6 @@
 
     // poll for changes to values on java side
     let jsonPoll = new JsonPoller('/values', function(data) {
-      // console.log('success');
-      // console.log(data);
       if(data) {
         for (const key in data) {
           if (data.hasOwnProperty(key)) {

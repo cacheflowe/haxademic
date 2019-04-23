@@ -7,6 +7,8 @@ import java.util.LinkedHashMap;
 import com.haxademic.core.app.P;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.net.JsonUtil;
+import com.haxademic.core.net.WebServer;
+import com.haxademic.core.net.WebServerRequestHandlerUIControls;
 import com.haxademic.core.ui.UIButton.IUIButtonDelegate;
 
 import processing.data.JSONArray;
@@ -26,6 +28,7 @@ implements IUIButtonDelegate {
 
 	protected boolean active = false;
 
+	protected WebServer server;
 	public static final String KEY_CONTROLS = "ui_controls";
 	public static final String KEY_TYPE = "type";
 	public static final String KEY_ID = "id";
@@ -41,7 +44,16 @@ implements IUIButtonDelegate {
 	}
 	
 	////////////////////////
-	// ADD controlS
+	// ADD web controls
+	////////////////////////
+	
+	public void addWebInterface() {
+		if(server != null) return;
+		server = new WebServer(new WebServerRequestHandlerUIControls(), true);
+	}
+	
+	////////////////////////
+	// ADD controls
 	////////////////////////
 	
 	public void addSlider(String key, float value, float valueLow, float valueHigh, float dragStep) {

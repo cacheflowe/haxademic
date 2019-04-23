@@ -13,8 +13,6 @@ public class Demo_UIControls_WebUI
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
-	protected WebServer server;
-	
 	protected String R = "R";
 	protected String G = "G";
 	protected String B = "B";
@@ -33,14 +31,13 @@ extends PAppletHax {
 		p.ui.addButton("Button", false);
 		p.ui.addButton("Button 2", true);
 		p.ui.addButtons(new String[] {"1", "2", "3", "4"}, true);
+		p.ui.addWebInterface();
 		P.out(p.ui.configToJSON());
 		P.out(p.ui.valuesToJSON());
-		
-		server = new WebServer(new WebServerRequestHandlerUIControls(), true);
 	}
 	
 	public void drawApp() {
-//		if(p.frameCount == 200) SystemUtil.openWebPage(WebServer.getServerAddress() + "ui/");
+		if(p.frameCount == 200) SystemUtil.openWebPage(WebServer.getServerAddress() + "ui/");
 
 		// bg components
 		p.background(
@@ -58,7 +55,7 @@ extends PAppletHax {
 		p.rotateZ(p.ui.value(VECTOR_3 + "_Z"));
 		p.fill(255);
 		p.stroke(0);
-		p.box(100);
+		p.box(200);
 	}
 	
 	public void uiButtonClicked(UIButton button) {

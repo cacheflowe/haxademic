@@ -315,9 +315,11 @@ Below you'll find a long list of classes and utilities that I've built to make m
 
 ### UI
 
-* __[PrefSlider](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/ui/PrefSlider.java)__ - A text file-backed slider UI.
+* __[UISlider](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/ui/PrefSlider.java)__ - A text file-backed slider UI.
 
-* __[PrefsSliders](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/ui/PrefsSliders.java)__ - A collection of `PrefsSlider` objects, auto-initialized with PAppletHax. Press `\` to toggle sliders, and add new sliders by accessing `p.prefsSliders`.
+* __[UIButton](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/ui/UIButton.java)__ - A Button object with optional toggle mode.
+
+* __[UIControlPanel](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/ui/UIControlPanel.java)__ - A collection of `IUIControl` objects, auto-initialized with PAppletHax. Press `\` to toggle paneL, and add new sliders/buttons by accessing `p.ui`.
 
 
 ## Dependencies

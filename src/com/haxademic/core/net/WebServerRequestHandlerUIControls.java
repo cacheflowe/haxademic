@@ -23,7 +23,7 @@ extends WebServerRequestHandler {
 			P.p.browserInputState.setControlValue("button"+buttonIndex, buttonValue);
 			if(P.p.ui.has(buttonIndex)) 
 				P.p.ui.setValue(buttonIndex, buttonValue);
-			return "{\"log\": \"Button Number: "+buttonIndex+", value: "+buttonValue+"\"}";
+			return "{\"log\": \"button: "+buttonIndex+", value: "+buttonValue+"\"}";
 			
 		} else if(pathComponents[0].equals("slider")) {
 			String sliderIndex = pathComponents[1];
@@ -31,7 +31,7 @@ extends WebServerRequestHandler {
 			P.p.browserInputState.setControlValue("slider"+sliderIndex, sliderValue);
 			if(P.p.ui.has(sliderIndex)) 
 				P.p.ui.setValue(sliderIndex, sliderValue);
-			return "{\"log\": \"Slider number: "+sliderIndex+", value: "+sliderValue+"\"}";
+			return "{\"log\": \"slider: "+sliderIndex+", value: "+sliderValue+"\"}";
 
 		} else if(pathComponents[0].equals("config")) {
 			return P.p.ui.configToJSON();
