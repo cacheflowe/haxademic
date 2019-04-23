@@ -5,7 +5,6 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.net.WebServer;
-import com.haxademic.core.net.WebServerRequestHandlerUIControls;
 import com.haxademic.core.system.SystemUtil;
 import com.haxademic.core.ui.UIButton;
 
@@ -31,7 +30,7 @@ extends PAppletHax {
 		p.ui.addButton("Button", false);
 		p.ui.addButton("Button 2", true);
 		p.ui.addButtons(new String[] {"1", "2", "3", "4"}, true);
-		p.ui.addWebInterface();
+		p.ui.addWebInterface(false);
 		P.out(p.ui.configToJSON());
 		P.out(p.ui.valuesToJSON());
 	}

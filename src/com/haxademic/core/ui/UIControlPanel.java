@@ -47,9 +47,9 @@ implements IUIButtonDelegate {
 	// ADD web controls
 	////////////////////////
 	
-	public void addWebInterface() {
+	public void addWebInterface(boolean debugWebRequests) {
 		if(server != null) return;
-		server = new WebServer(new WebServerRequestHandlerUIControls(), true);
+		server = new WebServer(new WebServerRequestHandlerUIControls(), debugWebRequests);
 	}
 	
 	////////////////////////
@@ -151,10 +151,9 @@ implements IUIButtonDelegate {
 	////////////////////////
 	
 	public String configToJSON() {
-		// TODO: keys need to be in order
+		// build JSON array
 		JSONArray array = new JSONArray();
-//		for (IUIControl control : controls.values()) {
-		for (HashMap.Entry<String, IUIControl> entry : controls.entrySet()) {
+		for (HashMap.Entry<String, IUIControl> entry : controls.entrySet()) {	// With LinkedHashMap, keys are in order
 			// String key = entry.getKey();
 			IUIControl control = entry.getValue();
 
@@ -183,8 +182,8 @@ implements IUIButtonDelegate {
 	}
 	
 	public void loadValuesFromJSON(JSONObject jsonData) {
-		P.out(jsonData.toString());
-		P.out(JsonUtil.isValid(jsonData.toString()));
+//		P.out(jsonData.toString());
+//		P.out(JsonUtil.isValid(jsonData.toString()));
 		Iterator<?> iterator = jsonData.keys().iterator();
 		while(iterator.hasNext()) {
 		    String key = (String) iterator.next();
