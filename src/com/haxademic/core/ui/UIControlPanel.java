@@ -19,11 +19,11 @@ implements IUIButtonDelegate {
 
 	protected LinkedHashMap<String, IUIControl> controls;
 	
-	public static final int controlX = 10;
-	protected int controlY = 10;
+	public static final int controlX = 2;
+	protected int controlY = 3;
 	public static final int controlW = 250;
-	public static final int controlH = 14;
-	public static final int controlSpacing = 18;
+	public static final int controlH = 30;
+	public static final int controlSpacing = 34;
 	protected float controlSpacingH = 4;
 
 	protected boolean active = false;

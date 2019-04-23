@@ -28,6 +28,7 @@ implements IUIControl {
 	protected int y;
 	protected int w;
 	protected int h;
+	protected int r;
 	protected float layoutW;
 	protected int activeTime = 0;
 	protected Point mousePoint = new Point();
@@ -51,6 +52,7 @@ implements IUIControl {
 		this.y = y;
 		this.w = w;
 		this.h = h;
+		this.r = 5;
 		this.saves = saves;
 		P.p.registerMethod("mouseEvent", this);
 		P.p.registerMethod("keyEvent", this);
@@ -112,29 +114,31 @@ implements IUIControl {
 		DrawUtil.setDrawCorner(pg);
 		
 		// background
-		if(mouseHovered) pg.fill(ColorsHax.BUTTON_BG_HOVER);
+		if(mouseHovered) pg.fill(ColorsHax.BUTTON_BG, 120);
 		else pg.fill(ColorsHax.BUTTON_BG);
 		pg.noStroke();
-		pg.rect(x, y, w, h);
+		pg.rect(x, y, w, h, r);
 		
 		// text label
-		PFont font = FontCacher.getFont(DemoAssets.fontOpenSansPath, h * 0.65f);
-		FontCacher.setFontOnContext(pg, font, P.p.color(255), 1f, PTextAlign.LEFT, PTextAlign.TOP);
+		PFont font = FontCacher.getFont(DemoAssets.fontOpenSansPath, h * 0.35f);
+		FontCacher.setFontOnContext(pg, font, P.p.color(255), 1f, PTextAlign.CENTER, PTextAlign.CENTER);
 		pg.fill(ColorsHax.BUTTON_TEXT);
-		pg.text(id + ": " + value, x + 4, y + 0, w, 20);
+		pg.text(id + ": " + value, x, y - 2, w, h);
 		uiRect.setBounds(x, y, w, h);
 		
 		// outline
-		pg.strokeWeight(1);
-		if(mouseHovered) pg.stroke(ColorsHax.BUTTON_OUTLINE_HOVER);
-		else pg.stroke(ColorsHax.BUTTON_OUTLINE);
+		pg.strokeWeight(1f);
+		pg.stroke(ColorsHax.BUTTON_OUTLINE);
 		pg.noFill();
-		pg.rect(x, y, w, h);
+		pg.rect(x, y, w, h, r);
 		
 		// draw current value
-		pg.stroke(ColorsHax.BUTTON_TEXT);
-		float mappedX = P.map(value, low, high, x, x + w);
-		pg.rect(mappedX - 0.5f, y, 1, h);
+		pg.noStroke();
+		if(mousePressed) pg.fill(ColorsHax.WHITE, 200);
+		
+		else pg.fill(ColorsHax.WHITE, 90);
+		float mappedX = P.map(value, low, high, x, x + w - 30);
+		pg.rect(mappedX - 0.5f, y, 30, h, r);
 		
 		// set active if drawing
 		activeTime = P.p.millis();
