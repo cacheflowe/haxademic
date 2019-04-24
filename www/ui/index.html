@@ -2,8 +2,6 @@
 <head>
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="stylesheet" href="./css/normalize.css"/>
-  <!-- <link rel="stylesheet" href="./css/skeleton.css"/> -->
-  <!-- <link rel="stylesheet" href="./css/slider.css"/> -->
   <link rel="stylesheet" href="./css/webui.css"/>
   <script src="./js/fetch.js"></script>
   <script src="./js/json-poller.es6.js"></script>
@@ -48,24 +46,25 @@
           let buttonStr = buttonTemplate + "";
           buttonStr = buttonStr.replace(/{ID}/g, element.id);
           buttonStr = buttonStr.replace("{VALUE}", element.value);
-          buttonStr = buttonStr.replace("{COLS}", colsNum(element.layout_width));
+          buttonStr = buttonStr.replace("{COLS}", widthClass(element.layout_width));
           buttonStr = buttonStr.replace("{TOGGLES}", element.value_toggles);
           uiContainer.innerHTML += buttonStr;
         } else if(element.type == TYPE_SLIDER) {
           let sliderStr = sliderTemplate + "";
           sliderStr = sliderStr.replace(/{ID}/g, element.id);
           sliderStr = sliderStr.replace("{VALUE}", element.value);
-          sliderStr = sliderStr.replace("{COLS}", colsNum(element.layout_width));
+          sliderStr = sliderStr.replace("{COLS}", widthClass(element.layout_width));
           sliderStr = sliderStr.replace("{MIN}", element.value_low);
           sliderStr = sliderStr.replace("{MAX}", element.value_high);
           sliderStr = sliderStr.replace("{STEP}", element.value_step);
           uiContainer.innerHTML += sliderStr;
         }
       });
-      function colsNum(num) {
-        let classNum = Math.round(num * 100);
-        return "width-" + classNum;
-      }
+    }
+
+    function widthClass(num) {
+      let classNum = Math.round(num * 100);
+      return "width-" + classNum;
     }
 
     // add document listener for all ui controls
