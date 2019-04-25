@@ -8,6 +8,15 @@ class PixiSpriteScale {
     return scale;
   }
 
+  static scaleToFillContainerMult(sprite, width, height, scaleMult) {
+    const ratioX = width / sprite.texture.width;
+    const ratioY = height / sprite.texture.height;
+    let scale = (ratioX > ratioY) ? ratioX : ratioY;
+    scale *= scaleMult;
+    sprite.scale.set(scale, scale);
+    return scale;
+  }
+
   static scaleToLetterboxContainer(sprite, width, height) {
     const ratioX = width / sprite.texture.width;
     const ratioY = height / sprite.texture.height;

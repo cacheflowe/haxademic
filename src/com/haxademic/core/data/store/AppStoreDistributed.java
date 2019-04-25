@@ -25,7 +25,7 @@ implements ISocketClientDelegate {
 	public static final String DATA_TYPE_NUMBER = "number";
 	public static final String DATA_TYPE_STRING = "string";
 	public static final String DATA_TYPE_BOOLEAN = "boolean";
-	public static final String DATA_TYPE_JSON_KEY = "NEW_JSON";
+	public static final String DATA_TYPE_JSON_KEY = "json";
 	public static final String STORE_KEY = "store";
 	public static final String JSON_KEY = "key";
 	public static final String JSON_VALUE = "value";
@@ -113,6 +113,10 @@ implements ISocketClientDelegate {
 		if(client != null && client.isConnected()) client.sendMessage(JsonUtil.jsonToSingleLine(jsonOut));
 	}
 	
+	public void broadcastJson(JSONObject jsonOut) {
+		if(server != null) server.sendMessage(JsonUtil.jsonToSingleLine(jsonOut));
+		if(client != null && client.isConnected()) client.sendMessage(JsonUtil.jsonToSingleLine(jsonOut));		
+	}
 	
 	/////////////////////////////////////////
 	// Shared server/client callback & status

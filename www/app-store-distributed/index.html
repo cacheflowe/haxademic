@@ -25,7 +25,7 @@
     #send-messages {
       position: fixed;
       top: 0;
-      left: 0;
+      right: 0;
       background: #999;
       padding: 20px;
     }
@@ -33,22 +33,26 @@
       white-space: nowrap;
       padding: 8px 4px;
       margin-bottom: 8px;
-      color: #fff;
+      /* color: #fff; */
       border: 1px solid rgba(0,0,0,0.8);
       border-radius: 2px;
     }
   </style>
 </head>
 <body>
-  <div id="debug">
-    <div>Debug:</div>
-  </div>
   <div id="send-messages">
-    <div>Send a test message:</div>
-    <button style="background-color: #36B1BF;" onclick='javascript:_store.set({"event":"WEB_EVENT","command":"start"});'>Web Event: Start</button>
-    <button style="background-color: #D95E32;" onclick='javascript:_store.set({"event":"WEB_EVENT","command":"stop"});'>Web Event: Stop</button>
-    <button style="background-color: #5ED932;" onclick='javascript:_store.set("click", 1, true);'>Click: 1</button>
-    <button style="background-color: #32D95E;" onclick='javascript:_store.set("click", 2, true);'>Click: 2</button>
+    <div>Send a test number:</div>
+    <button onclick='javascript:_store.set("CLICK", 1, true);'>click: 1</button>
+    <button onclick='javascript:_store.set("CLICK", 2, true);'>click: 2</button>
+    <div>Send a test boolean:</div>
+    <button onclick='javascript:_store.set("bool", true, true);'>bool: true</button>
+    <button onclick='javascript:_store.set("bool", false, true);'>bool: false</button>
+    <div>Send a test string:</div>
+    <button onclick='javascript:_store.set("strang", "string one", true);'>strang: string one</button>
+    <button onclick='javascript:_store.set("strang", "string two", true);'>strang: string two</button>
+    <div>Send generic JSON:</div>
+    <button onclick='javascript:_store.broadcastJson({"test":"test","data":true});'>"data":true</button>
+    <button onclick='javascript:_store.broadcastJson({"test":"test","data":false});'>"data":false</button>
   </div>
   <script type="text/javascript" src="../haxademic.js/solid-socket.es6.js"></script>
   <script type="text/javascript" src="../haxademic.js/app-store.es6.js"></script>
@@ -59,77 +63,7 @@
     // init app store
     let webSocketHost = "ws://"+document.location.hostname+":3001";
     let appStore = new AppStoreDistributed(webSocketHost);
-    let appStoreDebug = new AppStoreDebug();
-
-    // globals
-    var debug = document.getElementById('debug');
-    var MAX_LOGS = 20;
-
-    //////////////////////////
-    // WEBSOCKET SETUP
-    //////////////////////////
-
-    var onopen = function (event) {
-      solidSocket.sendMessage(JSON.stringify({
-        event: "connect",
-        machine: "products-ipad",
-        date: ""+Date.now()
-      }));
-    };
-
-    var onmessage = function (event) {
-      if(!event.data) return;
-      var jsonData = window.JSON.parse(event.data);
-      checkJSON(jsonData);
-    };
-
-    var sendJsonData = function (data) {
-      solidSocket.sendMessage(JSON.stringify(data));
-    };
-
-    //////////////////////////
-    // WEBSOCKET INCOMING EVENTS
-    //////////////////////////
-
-    function checkJSON(jsonData) {
-      console.log(jsonData, jsonData['event']);
-      if(jsonData['store'] && jsonData['type']) {
-        var div = document.createElement('div');
-        div.innerHTML = JSON.stringify(jsonData);
-        div.style.backgroundColor = "#D95E32";
-        div.style.color = '#ffffff';
-        div.style.padding = '2px 10px';
-        document.getElementById('debug').appendChild(div);
-      }
-      // check for specific message data
-      if(jsonData['event'] && jsonData['event'] == 'frame-count') {
-        // add event to screen
-        var div = document.createElement('div');
-        div.innerHTML = JSON.stringify(jsonData);
-        document.getElementById('debug').appendChild(div);
-      }
-      if(jsonData['event'] && jsonData['event'] == 'WEB_EVENT') {
-        var div = document.createElement('div');
-        div.innerHTML = JSON.stringify(jsonData);
-        // start, capture, finish, process, server
-        if(jsonData['command'] != null) {
-          if(jsonData['command'] == 'start') div.style.backgroundColor = "#D95E32";
-          if(jsonData['command'] == 'stop') div.style.backgroundColor = "#36B1BF";
-          div.style.color = '#ffffff';
-          div.style.padding = '2px 10px';
-        } else {
-          div.style.fontSize = '10px';
-        }
-        // add event to screen
-        document.getElementById('debug').appendChild(div);
-      }
-      // cut off log length
-      while(debug.childNodes.length > MAX_LOGS) {
-        var el = debug.childNodes[0];
-        el.parentNode.removeChild(el);
-      }
-    }
-
+    let appStoreDebug = new AppStoreDebug(true);
   </script>
 </body>
 </html>

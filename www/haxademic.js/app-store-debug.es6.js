@@ -1,7 +1,7 @@
 class AppStoreDebug {
 
-  constructor() {
-    this.showing = false;
+  constructor(showing=false) {
+    this.showing = showing;
     this.buildElement();
     _store.addListener(this);
     this.initKeyListener();
@@ -10,7 +10,7 @@ class AppStoreDebug {
   initKeyListener() {
     window.addEventListener('keyup', (e) => {
       var key = e.keyCode ? e.keyCode : e.which;
-      console.log('key', key);
+      // console.log('key', key);
       if(key == 32) {
         this.showing = !this.showing;
       }

@@ -9,6 +9,7 @@ import com.haxademic.core.net.SocketServer;
 
 import processing.core.PGraphics;
 import processing.core.PImage;
+import processing.data.JSONObject;
 
 public class Demo_AppStoreDistributed
 extends PAppletHax
@@ -19,7 +20,7 @@ implements IAppStoreListener {
 	protected String MOUSE_Y = "MOUSE_Y";
 	
 	// use case config
-	protected boolean isServer = false;
+	protected boolean isServer = true;
 	protected String socketServerAddress = "10.10.1.111"; // null; // make null if we're running the server & client on the same machine
 	
 	protected void overridePropsFile() {
@@ -54,6 +55,7 @@ implements IAppStoreListener {
 		if(p.mouseX != p.pmouseX) P.storeDistributed.setNumber(MOUSE_X, p.mouseX);
 		if(p.mouseY != p.pmouseY) P.storeDistributed.setNumber(MOUSE_Y, p.mouseY);
 		if(p.frameCount % 100 == 0) sendFrameMessage(); 
+		if(p.frameCount % 200 == 0) broadcastJson(); 
 		P.store.showStoreValuesInDebugView();
 
 		// draw mouse position
@@ -66,8 +68,15 @@ implements IAppStoreListener {
 		P.storeDistributed.setNumber("FRAME_COUNT", p.frameCount);
 	}
 	
+	protected void broadcastJson() {
+	    JSONObject jsonOut = new JSONObject();
+	    jsonOut.setBoolean("data", false);
+	    jsonOut.setString("test", "test");
+		P.storeDistributed.broadcastJson(jsonOut);
+	}
+	
 	public void mouseClicked() {
-		P.storeDistributed.setNumber("FRAME_CLICKED", p.frameCount);
+		P.storeDistributed.setNumber("CLICK", p.frameCount);
 	}
 	
 	/////////////////////////////////////////

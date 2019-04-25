@@ -310,11 +310,19 @@ class MathUtil {
     return (squareSize/2)*(Math.sqrt(2)-1);
   }
 
+  static rectsIntersect(a, b) {
+    return (a.left <= b.right &&
+            b.left <= a.right &&
+            a.top <= b.bottom &&
+            b.top <= a.bottom);
+  }
+
+}
+
   static saw(rads) {
     let val = Math.abs((rads % (Math.PI * 2)) - Math.PI);
     return (val / Math.PI) * 2 - 1;
   };
-}
 
 MathUtil.TWO_PI = Math.PI * 2;
 
