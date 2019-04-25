@@ -28,7 +28,6 @@ implements IUIControl {
 	protected int y;
 	protected int w;
 	protected int h;
-	protected int r;
 	protected float layoutW;
 	protected int activeTime = 0;
 	protected Point mousePoint = new Point();
@@ -52,7 +51,6 @@ implements IUIControl {
 		this.y = y;
 		this.w = w;
 		this.h = h;
-		this.r = 5;
 		this.saves = saves;
 		P.p.registerMethod("mouseEvent", this);
 		P.p.registerMethod("keyEvent", this);
@@ -112,12 +110,13 @@ implements IUIControl {
 	
 	public void update(PGraphics pg) {
 		DrawUtil.setDrawCorner(pg);
+		float cornerRadius = 5;
 		
 		// background
 		if(mouseHovered) pg.fill(ColorsHax.BUTTON_BG, 120);
 		else pg.fill(ColorsHax.BUTTON_BG);
 		pg.noStroke();
-		pg.rect(x, y, w, h, r);
+		pg.rect(x, y, w, h, cornerRadius);
 		
 		// text label
 		PFont font = FontCacher.getFont(DemoAssets.fontOpenSansPath, h * 0.35f);
@@ -130,15 +129,15 @@ implements IUIControl {
 		pg.strokeWeight(1f);
 		pg.stroke(ColorsHax.BUTTON_OUTLINE);
 		pg.noFill();
-		pg.rect(x, y, w, h, r);
+		pg.rect(x, y, w, h, cornerRadius);
 		
 		// draw current value
 		pg.noStroke();
 		if(mousePressed) pg.fill(ColorsHax.WHITE, 200);
-		
 		else pg.fill(ColorsHax.WHITE, 90);
-		float mappedX = P.map(value, low, high, x, x + w - 30);
-		pg.rect(mappedX - 0.5f, y, 30, h, r);
+		float handleW = 30;
+		float mappedX = P.map(value, low, high, x, x + w - handleW);
+		pg.rect(mappedX - 0.5f, y, handleW, h, cornerRadius);
 		
 		// set active if drawing
 		activeTime = P.p.millis();
