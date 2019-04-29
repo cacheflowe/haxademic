@@ -64,12 +64,8 @@
 	</classpathentry>
 	<classpathentry kind="lib" path="lib/themidibus/library/themidibus.jar"/>
 	<classpathentry kind="lib" path="lib/GIFAnimation/library/GifAnimation.jar"/>
-	<classpathentry kind="lib" path="lib/minim/library/jl1.0.jar"/>
 	<classpathentry kind="lib" path="lib/minim/library/jsminim.jar"/>
 	<classpathentry kind="lib" path="lib/minim/library/minim.jar"/>
-	<classpathentry kind="lib" path="lib/minim/library/mp3spi1.9.4.jar"/>
-	<classpathentry kind="lib" path="lib/minim/library/tritonus_aos.jar"/>
-	<classpathentry kind="lib" path="lib/minim/library/tritonus_share.jar"/>
 	<classpathentry kind="lib" path="lib/beads/library/beads.jar"/>
 	<classpathentry kind="lib" path="lib/beads/library/jarjar-1.0.jar"/>
 	<classpathentry kind="lib" path="lib/beads/library/jl1.0.1.jar"/>
@@ -89,6 +85,9 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="lib/jetty/jetty-all-9.4.15.v20190215-uber.jar"/>
+	<classpathentry kind="lib" path="lib/beads/library/mp3spi1.9.4.jar"/>
+	<classpathentry kind="lib" path="lib/beads/library/tritonus_aos-0.3.6.jar"/>
+	<classpathentry kind="lib" path="lib/beads/library/tritonus_share.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
