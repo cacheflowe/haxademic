@@ -140,10 +140,12 @@ implements ILaunchpadCallback {
 		launchpad1.setDelegate(this);
 		launchpad2 = new LaunchPad(1, 4);
 		launchpad2.setDelegate(this);
+		
 		// alternate UI buttons
 		for (int i = 0; i < 16; i++) {
 			P.p.ui.addButtons(new String[] {"beatgrid-0-"+i, "beatgrid-1-"+i, "beatgrid-2-"+i, "beatgrid-3-"+i, "beatgrid-4-"+i, "beatgrid-5-"+i, "beatgrid-6-"+i, "beatgrid-7-"+i}, true);
 		}
+		P.p.ui.addWebInterface(false);
 	}
 	
 	
