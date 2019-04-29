@@ -67,9 +67,15 @@ Below you'll find a long list of classes and utilities that I've built to make m
 
 * __[GLBlendModes](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/data/constants/GLBlendModes.java)__ - Fancy OpenGL blend modes with helper methods to set them on a given PGraphics context.
 
-* __[PBlendModes](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/data/constants/PBlendModes.java)__ - Static constants list of Processing blend modes.
+* __[PBlendModes](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/data/constants/PBlendModes.java)__ - Static constants list of Processing [blend modes](https://processing.org/reference/blendMode_.html).
 
-* __[PRenderers](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/data/constants/PRenderers.java)__ - Static constants list of Processing renderers.
+* __[PRenderers](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/data/constants/PRenderers.java)__ - Static constants list of Processing [renderers](https://processing.org/reference/size_.html).
+
+* __[PShapeTypes](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/data/constants/PShapeTypes.java)__ - Static constants list of Processing [shape types](https://processing.org/reference/beginShape_.html).
+
+* __[PStrokeCaps](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/data/constants/PStrokeCaps.java)__ - Static constants list of Processing [stoke cap types](https://processing.org/reference/strokeCap_.html).
+
+* __[PTextAlign](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/data/constants/PTextAlign.java)__ - Static constants list of Processing [text alignment options](https://processing.org/reference/textAlign_.html).
 
 `com.haxademic.core.data.store`
 
