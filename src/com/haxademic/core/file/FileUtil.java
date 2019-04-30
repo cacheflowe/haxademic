@@ -91,8 +91,12 @@ public class FileUtil {
 		return filePath.substring(0, filePath.lastIndexOf(File.separator));
 	}
 
-	public static String fileFromPath(String filePath) {
+	public static String fileNameFromPath(String filePath) {
 		return (new File(filePath)).getName();
+	}
+	
+	public static File fileFromPath(String filePath) {
+		return new File(filePath);
 	}
 	
 	public static String getProjectAbsolutePath() {
