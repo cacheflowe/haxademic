@@ -60,6 +60,10 @@ implements IAppStoreListener {
 		P.store.setNumber(App.QUEUED_APP_STATE, newState);
 	}
 	
+	public int getState() {
+		return P.store.getInt(App.APP_STATE);
+	}
+	
 	protected void checkQueuedState() {
 		int queuedState = P.store.getNumber(App.QUEUED_APP_STATE).intValue();
 		if(queuedState != App.APP_STATE_NONE) {
