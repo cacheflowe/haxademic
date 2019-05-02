@@ -375,6 +375,10 @@ public class FileUtil {
 		return linesArr;
 	}
 	
+	public static String textLinesJoined(String[] stringLines) {
+		return String.join(FileUtil.NEWLINE, stringLines);
+	}
+	
 	public static String getFileSize(String filePaTh) {
 		// from: https://github.com/jeffThompson/ProcessingTeachingSketches/blob/master/Utilities/GetFileSize/GetFileSize.pde
 		File f  = new File(filePaTh);           // read into File object
