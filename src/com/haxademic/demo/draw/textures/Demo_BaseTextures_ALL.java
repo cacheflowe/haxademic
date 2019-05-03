@@ -74,7 +74,7 @@ extends PAppletHax {
 //			new TextureSvg3dExtruded( w, h ),
 //			new TextureImageTileScroll( w, h ),
 				
-//			new TextureSphereOfBoxes( w, h ),
+			new TextureSphereOfBoxes( w, h ),
 //			new TextureSphereOfCubes( w, h ),
 //			new TexturePolygonLerpedVertices( w, h ),
 //			new TextureConcentricDashedCubes( w, h ),
