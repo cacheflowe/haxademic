@@ -18,11 +18,11 @@
   * Turn client snake mirror into its own thing
   * Make a version of partycles with GPU particles from VFX code and ability to swap webcam instead of Kinect
 	* Also, blob tracking VFX but sweet patterns inside the blobs
-  
+
 ## HaxVisualTwo
   * Less kaleidoscope
-  * Add new concepts for layout, rather than just relying on displacement & mask effects 
-  * Categorize textures: 
+  * Add new concepts for layout, rather than just relying on displacement & mask effects
+  * Categorize textures:
     * Complex pattern
     * basic B&W
     * central shape
@@ -39,12 +39,12 @@
   	* ParticleBranchers
   	* SpaceCube
   	* Any other cool loop/render?!
-  	
+
 ## Interphase
   * C.A.C.H.E. - Creative Adversarial Computer-Human Exchange
   * More/new samples! Get rid of abrasive samples
-  * Make alternate z-space-scrolling sequencer grid 
-  * Make all keyboard commands capital letters, so Caps lock toggles key commands between HaxVisual and Interphase 
+  * Make alternate z-space-scrolling sequencer grid
+  * Make all keyboard commands capital letters, so Caps lock toggles key commands between HaxVisual and Interphase
   * Come up with a way to film. 2 phones? dual webcam? what about audio? does it need to run on the mac laptop for a/v capture?
   	* Capture Launchpads from above, A/V from video feed
   * When sequencers trigger, send an event in AppStore. this could trigger lights, HaxVisual events
@@ -67,6 +67,52 @@
   * Turn off Beads audio input object output - this should not pass through
   * Split audio stepthrough rendering from Renderer.java, which should just save movies. MIDIStepthrough renderer is a good example of splitting
   * Make demos for rendering at a specific bpm
+  * Spatial audio:
+    * Javasound
+      * https://stackoverflow.com/questions/2416935/how-to-play-wav-files-with-java
+	    * https://forum.processing.org/two/discussion/3109/how-to-get-multiple-audio-outputs-with-minim
+	    * https://www.developerfusion.com/article/84314/wired-for-sound/
+      * Java Sound Resources
+        * Loop an audio file: http://jsresources.sourceforge.net/examples/AudioLoop.html
+        * FAQ: Audio Programming: http://jsresources.sourceforge.net/faq_audio.html
+      * Javasound tutorials: https://docs.oracle.com/javase/tutorial/sound/accessing.html
+      * Playing audio: https://docs.oracle.com/javase/8/docs/technotes/guides/sound/programmer_guide/chapter4.html
+      * Mixer: https://docs.oracle.com/javase/7/docs/api/javax/sound/sampled/Mixer.html
+        * https://www.codota.com/code/java/methods/javax.sound.sampled.Mixer/getLine
+      * AudioSystem: https://docs.oracle.com/javase/7/docs/api/javax/sound/sampled/AudioSystem.html
+      * AudioFormat: https://docs.oracle.com/javase/8/docs/api/javax/sound/sampled/class-use/AudioFormat.html
+      * Clip example: https://www.codejava.net/coding/how-to-play-back-audio-in-java-with-examples
+    * JAsioHost
+      * https://www.programcreek.com/java-api-examples/?code=Sinius15/Virtual-Audio-Mixer/Virtual-Audio-Mixer-master/src/vam/core/AudioManager.java
+      * https://www.programcreek.com/java-api-examples/?code=exch-bms2/beatoraja/beatoraja-master/src/bms/player/beatoraja/audio/ASIODriver.java#
+      * https://github.com/mhroth/jasiohost/blob/master/src/com/synthbot/jasiohost/AsioChannel.java
+      * https://stackoverflow.com/questions/14174968/how-do-i-determine-which-channel-is-left-right-etc
+      * https://www.alastairbarber.com/?post=using-jasiohost
+    * Beads
+      * AudioContext: http://www.beadsproject.net/doc/index.html?net/beadsproject/beads/core/AudioContext.html
+      * IOAudioFormat: http://www.beadsproject.net/doc/net/beadsproject/beads/core/IOAudioFormat.html
+      * AudioIO: https://github.com/orsjb/beads/blob/master/src/beads_main/net/beadsproject/beads/core/AudioIO.java
+      * https://forum.processing.org/two/discussion/16611/multichannel-audio#latest
+      * https://discourse.processing.org/t/using-beads-or-other-libraries-for-multihannel-audio-output/5648
+      * https://groups.google.com/forum/#!topic/beadsproject/dSvxUM1l9S0  
+      * https://groups.google.com/forum/#!searchin/beadsproject/jack%7Csort:date/beadsproject/B_4UFyFSomk/X2npvnL2CwAJ
+    * PortAudio
+      * https://app.assembla.com/wiki/show/portaudio/V19ReleasePlan
+      * https://github.com/EddieRingle/portaudio/blob/master/bindings/java/jportaudio/src/com/portaudio/PortAudio.java
+    * JSYN
+      * http://www.softsynth.com/jsyn/
+    * JACK
+      * http://jackaudio.org/downloads/
+	  * Openframeworks
+      * https://github.com/borg/ofxMultiDeviceSoundPlayer
+    * C++
+      * https://github.com/WeAreROLI/JUCE
+    * Hardware:
+      * Behringer U-phoria UMC1820
+      * Tascam US-16x08
+      * MOTU UltraLite-mk3 Hybrid
+      * M-Audio M-Track Eight
+      * TASCAM Series 208i
 
 ## MIDI:
   * Add midi input to prefsSliders
@@ -145,6 +191,9 @@
     * Demo_VertexShader_Fattener
 
 ## General / tools
+  * Rtp video in Java?
+    * https://www.oracle.com/technetwork/java/javase/documentation/toolstx-178270.html
+    * https://forum.processing.org/two/discussion/17166/livestreaming-ipcapture-sdp-file
   * Merge Windows & normal SystemUtil - make sure Java-killing code works on both OS X & Windows
   * Add .txt event log to PAppletHax
   * Test importing a Java class into a Processing IDE project
