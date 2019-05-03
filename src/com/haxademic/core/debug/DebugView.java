@@ -25,6 +25,7 @@ public class DebugView {
 	protected ArrayList<PImage> textures = new ArrayList<PImage>();
 	protected float padding = 20;
 	protected float debugPanelW = 0;
+	protected float MAX_PANEL_WIDTH = 500;
 	protected float helpPanelW = 0;
 	protected int fontSize = 14;
 	protected boolean isActive = false;
@@ -158,6 +159,7 @@ public class DebugView {
 		p.textSize(fontSize);
 		float textW = p.textWidth(debugStr) + padding;
 		debugPanelW = P.max(debugPanelW, textW);
+		debugPanelW = P.min(debugPanelW, MAX_PANEL_WIDTH);
 		
 		// push to scroll
 		p.pushMatrix();

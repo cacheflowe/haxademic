@@ -4,6 +4,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.file.DemoAssets;
 import com.haxademic.core.math.easing.EasingFloat;
 
 public class Demo_DebugView
@@ -33,6 +34,7 @@ extends PAppletHax {
 
 		debugView.updateInputs();
 		debugView.setValue("Max mouse", P.max(p.mouseX, p.mouseY));
+		debugView.setTexture(DemoAssets.smallTexture());
 		
 		_easingX.setEaseFactor(easeFactor);
 		_easingY.setEaseFactor(easeFactor);
