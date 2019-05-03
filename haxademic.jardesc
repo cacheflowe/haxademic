@@ -49,6 +49,7 @@
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.math.easing"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.app"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.system"/>
+        <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.data.patterns"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.vendor"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.audio.analysis.input"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.system.shell"/>
