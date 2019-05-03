@@ -15,10 +15,10 @@ extends PAppletHax {
 	
 	protected WebServer server;
 	
-	protected InputTrigger trigger = (new InputTrigger()).addKeyCodes(new char[]{'c', 'v'})
+	protected InputTrigger trigger = (new InputTrigger()).addKeyCodes(new char[]{'b', 'v'})
 														 .addOscMessages(new String[]{"/toggleC_2", "/1/faderC"})
 														 .addMidiNotes(new Integer[]{LaunchControl.PAD_01, LaunchControl.PAD_03})
-														 .addWebControls(new String[]{"slider1", "slider2"})
+														 .addWebControls(new String[]{"button1", "slider1", "slider2"})
 														 .addGamepadControls(new String[]{"Button 2"});
 
 	protected int triggerKey = Keyboard.keyCodeFromChar('c');

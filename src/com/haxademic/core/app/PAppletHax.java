@@ -415,6 +415,7 @@ extends PApplet {
 		updateAudioData();
 		handleRenderingStepthrough();
 		midiState.update();
+		browserInputState.update();
 		updateEasedMouse();
 		if( kinectWrapper != null ) kinectWrapper.update();
 		p.pushMatrix();
@@ -425,7 +426,6 @@ extends PApplet {
 		renderFrame();
 		keyboardState.update();
 		gamepadState.update();
-		browserInputState.update();
 		autoHideMouse();
 		if(oscState != null) oscState.update();
 		showStats();
