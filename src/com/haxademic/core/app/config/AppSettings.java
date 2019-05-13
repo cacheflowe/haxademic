@@ -65,7 +65,8 @@ public class AppSettings {
 	public static final String INIT_BEADS_AUDIO = "init_beads_audio";
 	public static final String GAMEPADS_ACTIVE = "GAMEPADS_ACTIVE";
 	// Output
-	public static final String DMX_LIGHTS_COUNT = "dmx_lights_count";
+	public static final String DMX_PORT = "dmx_port";
+	public static final String DMX_BAUD_RATE = "dmx_baud_rate";
 	// Debugging
 	public static final String APP_VIEWER_WINDOW = "app_viewer";
 	public static final String APP_VIEWER_SCALE = "app_viewer_scale";

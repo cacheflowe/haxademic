@@ -23,6 +23,7 @@ import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.image.MovieBuffer;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.browser.BrowserInputState;
+import com.haxademic.core.hardware.dmx.DMXFixtures;
 import com.haxademic.core.hardware.gamepad.GamepadListener;
 import com.haxademic.core.hardware.gamepad.GamepadState;
 import com.haxademic.core.hardware.keyboard.KeyboardState;
@@ -115,6 +116,9 @@ extends PApplet {
 	public boolean mouseShowing = true;
 	public EasingFloat mouseXEase = new EasingFloat(0, 0.15f);
 	public EasingFloat mouseYEase = new EasingFloat(0, 0.15f);
+	
+	// output
+	public DMXFixtures dmxFixtures;
 
 	// debug
 	public int _fps;
@@ -256,12 +260,10 @@ extends PApplet {
 		// create offscreen buffer
 		pg = p.createGraphics(p.width, p.height, P.P3D);
 		DrawUtil.setTextureRepeat(pg, true);
-		// audio input
+		// audio 
 		initAudioInput();
-		// animation loop
+		// rendering
 		if(p.appConfig.getFloat(AppSettings.LOOP_FRAMES, 0) != 0) loop = new AnimationLoop(p.appConfig.getFloat(AppSettings.LOOP_FRAMES, 0), p.appConfig.getInt(AppSettings.LOOP_TICKS, 4));
-		// save single reference for other objects
-		if( appConfig.getInt(AppSettings.WEBCAM_INDEX, -1) >= 0 ) webCamWrapper = new WebCamWrapper(appConfig.getInt(AppSettings.WEBCAM_INDEX, -1), appConfig.getBoolean(AppSettings.WEBCAM_THREADED, true));
 		videoRenderer = new VideoRenderer( _fps, VideoRenderer.OUTPUT_TYPE_MOVIE, p.appConfig.getString( "render_output_dir", FileUtil.getHaxademicOutputPath() ) );
 		if(appConfig.getBoolean(AppSettings.RENDERING_GIF, false) == true) {
 			gifRenderer = new GifRenderer(appConfig.getInt(AppSettings.RENDERING_GIF_FRAMERATE, 45), appConfig.getInt(AppSettings.RENDERING_GIF_QUALITY, 15));
@@ -269,6 +271,11 @@ extends PApplet {
 		if(appConfig.getBoolean(AppSettings.RENDERING_IMAGE_SEQUENCE, false) == true) {
 			imageSequenceRenderer = new ImageSequenceRenderer(p.g);
 		}
+		joons = ( p.appConfig.getBoolean(AppSettings.SUNFLOW, false ) == true ) ?
+				new JoonsWrapper( p, width, height, ( p.appConfig.getString(AppSettings.SUNFLOW_QUALITY, "low" ) == AppSettings.SUNFLOW_QUALITY_HIGH ) ? JoonsWrapper.QUALITY_HIGH : JoonsWrapper.QUALITY_LOW, ( p.appConfig.getBoolean(AppSettings.SUNFLOW_ACTIVE, true ) == true ) ? true : false )
+				: null;
+		// hardware
+		if( appConfig.getInt(AppSettings.WEBCAM_INDEX, -1) >= 0 ) webCamWrapper = new WebCamWrapper(appConfig.getInt(AppSettings.WEBCAM_INDEX, -1), appConfig.getBoolean(AppSettings.WEBCAM_THREADED, true));
 		initKinect();
 		if( p.appConfig.getInt(AppSettings.MIDI_DEVICE_IN_INDEX, -1) >= 0 ) {
 			MidiBus.list(); // List all available Midi devices on STDOUT. This will show each device's index and name.
@@ -285,12 +292,11 @@ extends PApplet {
 		if( p.appConfig.getBoolean( AppSettings.GAMEPADS_ACTIVE, false ) == true ) gamepadListener = new GamepadListener();
 		if( p.appConfig.getBoolean( "leap_active", false ) == true ) leapMotion = new LeapMotion(this);
 		if( p.appConfig.getBoolean( AppSettings.OSC_ACTIVE, false ) == true ) oscState = new OscWrapper();
-		joons = ( p.appConfig.getBoolean(AppSettings.SUNFLOW, false ) == true ) ?
-				new JoonsWrapper( p, width, height, ( p.appConfig.getString(AppSettings.SUNFLOW_QUALITY, "low" ) == AppSettings.SUNFLOW_QUALITY_HIGH ) ? JoonsWrapper.QUALITY_HIGH : JoonsWrapper.QUALITY_LOW, ( p.appConfig.getBoolean(AppSettings.SUNFLOW_ACTIVE, true ) == true ) ? true : false )
-				: null;
+		if( p.appConfig.getString(AppSettings.DMX_PORT, null) != null ) dmxFixtures = new DMXFixtures(p.appConfig.getString(AppSettings.DMX_PORT, null), p.appConfig.getInt(AppSettings.DMX_BAUD_RATE, 9600));
+		// app helpers
 		try { _robot = new Robot(); } catch( Exception error ) { println("couldn't init Robot for screensaver disabling"); }
 		if(p.appConfig.getBoolean(AppSettings.APP_VIEWER_WINDOW, false) == true) appViewerWindow = new SecondScreenViewer(p.g, p.appConfig.getFloat(AppSettings.APP_VIEWER_SCALE, 0.5f));
-		// check for always on top
+		// fullscreen
 		boolean isFullscreen = p.appConfig.getBoolean(AppSettings.FULLSCREEN, false);
 		if(isFullscreen == true) {
 			alwaysOnTop = p.appConfig.getBoolean(AppSettings.ALWAYS_ON_TOP, true);
@@ -428,6 +434,7 @@ extends PApplet {
 		gamepadState.update();
 		autoHideMouse();
 		if(oscState != null) oscState.update();
+		if(dmxFixtures != null) dmxFixtures.update();
 		showStats();
 		keepOnTop();
 		setAppDockIconAndTitle(false);
