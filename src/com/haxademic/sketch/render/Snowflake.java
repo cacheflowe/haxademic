@@ -78,8 +78,8 @@ extends PAppletHax {
 		
 		// draw!
 		float radius = 30f;
-//		float frameRand = p.frameCount;
-		while(radius < pg.width * 0.4f) {
+		float frameRand = p.frameCount;
+		while(radius < pg.width * 0.6f) {
 //			float rowSize = 10f + p.noise(P.sin(p.frameCount * 0.02f) * 0.2f + radius * 0.002f) * 100f;
 			float rowSize = (p.width * 0.05f) + p.noise(frameRand * 0.001f + radius * 0.002f) * (p.width * 0.3f);
 //			if(radius + rowSize > p.width * 0.4f) rowSize = p.width * 0.4f - radius;
@@ -241,7 +241,7 @@ extends PAppletHax {
 	
 	public void keyPressed() {
 		super.keyPressed();
-		if(p.key == ' ') printDirect.printImage(pg);
+//		if(p.key == ' ') printDirect.printImage(pg);
 		if(p.key == 'r') frameRand = P.round(p.random(9999999));
 	}
 
