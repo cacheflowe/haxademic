@@ -210,7 +210,7 @@ extends BaseTexture {
 						if( pointInc < _numAverages )
 						{
 							grid[pointInc].oscillate( curR, curG, curB );
-							grid[pointInc].setPosition( pointX, pointY, pointZ, 400  + P.p.audioFreq(pointInc)*1300, follow, minus1Cell, minus2Cell );
+							grid[pointInc].setPosition( pointX, pointY, pointZ, P.p.audioFreq(pointInc), follow, minus1Cell, minus2Cell );
 						}
 					}
 	
@@ -224,7 +224,7 @@ extends BaseTexture {
 			if( _curMode != 5 ) {
 				// cycle colors
 				grid[i].oscillate( curR, curG, curB );
-				grid[i].setPosition( pointX, pointY, pointZ, 400  + P.p.audioFreq(i)*250, follow, minus1Cell, minus2Cell );
+				grid[i].setPosition( pointX, pointY, pointZ, P.p.audioFreq(i), follow, minus1Cell, minus2Cell );
 								
 				curR += incR;
 				curG += incG;
@@ -290,13 +290,13 @@ extends BaseTexture {
 			
 			// use brightness to push radius out
 			float brightAdjust = 1 + P.p.brightness( cellColor ) * .75f;
-			brightAdjust = 1.5f;
+			brightAdjust = 0.15f;
 			x = newX * amp * brightAdjust;
 			y = newY * amp * brightAdjust;
 			z = newZ * amp * brightAdjust;
 			
 			// use EQ amplitude to 
-			float ampSizeMultiplier = ( amp - 400 ) * .9f;
+			float ampSizeMultiplier = amp * .09f;
 			
 			// draw line to previous sphere point
 			_texture.stroke(cellColor, _linesAlpha);
@@ -318,7 +318,7 @@ extends BaseTexture {
 				_texture.fill(cellColor);
 				_texture.noStroke();
 			}
-			float size = 10 + 10 * ampSizeMultiplier * .1f;
+			float size = 10 + 5 * ampSizeMultiplier * .1f;
 			_texture.box(size);
 //			gfx.sphere(new Sphere(new Vec3D(0,0,0),size), 10);
 
