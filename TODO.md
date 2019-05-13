@@ -21,6 +21,7 @@
 
 ## HaxVisualTwo
   * Less kaleidoscope
+    * Fix quad mirror lines
   * Add new concepts for layout, rather than just relying on displacement & mask effects
   * Categorize textures:
     * Complex pattern
@@ -42,21 +43,32 @@
 
 ## Interphase
   * C.A.C.H.E. - Creative Adversarial Computer-Human Exchange
-  * More/new samples! Get rid of abrasive samples
-  * Make alternate z-space-scrolling sequencer grid
-  * Make all keyboard commands capital letters, so Caps lock toggles key commands between HaxVisual and Interphase
-  * Come up with a way to film. 2 phones? dual webcam? what about audio? does it need to run on the mac laptop for a/v capture?
-  	* Capture Launchpads from above, A/V from video feed
-  * When sequencers trigger, send an event in AppStore. this could trigger lights, HaxVisual events
+  * Store/recall audio & visual combos
+    * Serialize sequencer config
+    * Morph between stored configs
+    * Store premade patterns for different beats/songs. Json?
+    * Make alternate z-space-scrolling sequencer grid
+  * Internal routing/sequencing
+    * When sequencers trigger, send an event in AppStore. this could trigger lights, HaxVisual events
+      * Use interphase beat timing rather than beat detection to make the next HaxVisual change
   * Clean up basic music code
-  * Map more functions to hardware controls
-  	* Use a button to play sample without changing pattern
-  * MIDI output for Ableton sync
-  * Use interphase beat timing rather than beat detection to make the next HaxVisual change
-  * Store premade patterns for different beats/songs. Json?
-  * build a touchscreen 8x16 interface
-  * add a compressor to main output? audio needs to be squished
-  * Make interphase more bangy & think about converting to be more spatial w/lighting
+  * Integrations
+    * MIDI output for Ableton sync
+    * build a more custom touchscreen 8x16 interface via `p.ui`
+      * Map more functions to hardware controls
+      * Use a button to play sample without changing pattern
+  * Musical interaction
+    * Fix BPM increment
+    * allow doubletime sequencer
+    * More morphing options
+  * Effects
+    * delay / offset
+    * add a compressor to main output? audio needs to be squished
+  * Sound style
+    * More/new samples! Get rid of abrasive samples
+    * Make interphase more bangy & think about converting to be more spatial w/lighting
+  * Visual style
+    * Better haxvisual patterns configurations
 
 ## Audio
   * Text to speech In Processing. Webview in Processing? Or web sockets to external browser? Vanilla Java?
@@ -175,6 +187,7 @@
     * https://github.com/ashima/webgl-noise/wiki
   * Distill more demos for `core` code
   * Make a texture map by drawing optical flow to ellipses and blurring
+  * openImaj / FaceTracker: https://www.programcreek.com/java-api-examples/?code=openimaj/openimaj/openimaj-master/image/faces/src/main/java/org/openimaj/image/processing/face/alignment/CLMAligner.java#
 
 * PShape & PShapeUtil:
   * sine-distorted 3d models

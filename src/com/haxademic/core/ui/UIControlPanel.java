@@ -124,6 +124,18 @@ implements IUIButtonDelegate {
 		return P.round(controls.get(key).value());
 	}
 	
+	public float valueX(String key) {
+		return controls.get(key+"_X").value();
+	}
+	
+	public float valueY(String key) {
+		return controls.get(key+"_Y").value();
+	}
+	
+	public float valueZ(String key) {
+		return controls.get(key+"_Z").value();
+	}
+	
 	////////////////////////
 	// DRAW/ACTIVATE/DEACTIVATE
 	////////////////////////

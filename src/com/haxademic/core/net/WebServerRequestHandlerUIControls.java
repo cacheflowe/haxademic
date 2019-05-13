@@ -17,6 +17,7 @@ extends WebServerRequestHandler {
 	@Override
 	protected String handleCustomPaths(String path, String[] pathComponents) {
 		if(WebServer.DEBUG && pathComponents[0].equals("values") == false) P.println("CustomWebRequestHandler path:", path);
+		P.store.setString(WebServer.REQUEST_URL, path);	// pass along all web requests to AppStore
 		
 		if(pathComponents[0].equals("button")) {
 			String buttonIndex = pathComponents[1];

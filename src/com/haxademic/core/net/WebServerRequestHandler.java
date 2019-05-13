@@ -15,8 +15,7 @@ import org.eclipse.jetty.server.handler.AbstractHandler;
 import com.haxademic.core.app.P;
 import com.haxademic.core.file.FileUtil;
 
-public class WebServerRequestHandler extends AbstractHandler
-{
+public class WebServerRequestHandler extends AbstractHandler {	
 	@Override
 	public void handle( String target,
 			Request baseRequest,
