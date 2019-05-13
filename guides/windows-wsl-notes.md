@@ -233,3 +233,11 @@ Install php7.1 (I had a project that required it)
 * https://help.github.com/articles/set-up-git/
 * https://help.github.com/articles/generating-a-new-ssh-key-and-adding-it-to-the-ssh-agent/
 * https://help.github.com/articles/adding-a-new-ssh-key-to-your-github-account/
+
+## Set up Java
+
+https://www.digitalocean.com/community/tutorials/how-to-install-java-with-apt-get-on-ubuntu-16-04
+
+* Install Java via `sudo apt-get install default-jdk`
+* Find installation path: `sudo update-alternatives --config java`
+* Set JAVA_HOME: `export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/jre/`
