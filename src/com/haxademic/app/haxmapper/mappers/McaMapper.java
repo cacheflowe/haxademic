@@ -61,7 +61,6 @@ extends HaxMapper{
 		p.appConfig.setProperty( AppSettings.AUDIO_DEBUG, true );
 		p.appConfig.setProperty( AppSettings.WIDTH, 1280 );
 		p.appConfig.setProperty( AppSettings.HEIGHT, 1024 );
-		p.appConfig.setProperty( AppSettings.DMX_LIGHTS_COUNT, 0 );
 		p.appConfig.setProperty( AppSettings.RETINA, false );
 		p.appConfig.setProperty( AppSettings.INIT_BEADS_AUDIO, true );
 	}

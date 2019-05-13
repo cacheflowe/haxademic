@@ -65,16 +65,19 @@ extends BaseTexture {
 		protected float _ampDecay = 0.95f;
 		
 		public FloatParticle() {
-			_size = P.p.random(2, maxSize);
+			_size = P.p.random(1, 10);
 			_pos = new PVector(P.p.random(0, _texture.width), P.p.random(0, _texture.height), 0);
-			_speed = new PVector(0, (maxSize - _size * 0.75f) * 0.2f, 0);
+			_speed = new PVector(0, _size * 0.1f * 0.2f, 0);
 		}
 		
 		public void update(int eqIndex) {
-			float amp = P.p.audioFreq(eqIndex) * 10f;
+//			_size = P.p.random(1, _texture.height * 0.3f);
+//			_speed = new PVector(0, _size * 0.1f, 0);
+
+			float amp = P.p.audioFreq(eqIndex);
 			if(amp > _amp) _amp = amp;
-			float curSize = _size * _amp;
-			float curSpeed = (_speed.y / 3f) * (_amp * 2.4f);
+			float curSize = _amp;
+			float curSpeed = (_speed.y / 3f) * (_amp);
 			
 			float x = _pos.x + P.sin(P.p.frameCount/(_size*10f)) * curSpeed/5f;
 			_pos.set(x, _pos.y - curSpeed);

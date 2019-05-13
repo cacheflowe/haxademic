@@ -30,7 +30,6 @@ extends BaseTexture {
 		// feedback & brightness
 		feedbackDist.update();
 		feedbackDarken.update();
-		P.p.debugView.setValue("feedbackDist.value()", feedbackDist.value());;
 		DrawUtil.feedback(_texture, (int) feedbackDist.value());
 		BrightnessStepFilter.instance(P.p).setBrightnessStep(-feedbackDarken.value()/255f);
 		BrightnessStepFilter.instance(P.p).applyTo(_texture);

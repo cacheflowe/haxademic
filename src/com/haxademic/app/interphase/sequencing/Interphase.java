@@ -69,6 +69,11 @@ implements ILaunchpadCallback {
 	public static final String BPM = "BPM";
 	public static final String BEAT_INTERVAL_MILLIS = "BEAT_INTERVAL_MILLIS";
 	public static final String BPM_MIDI = "BPM_MIDI";
+	public static final String SEQUENCER_TRIGGER = "SEQUENCER_TRIGGER";
+
+	// state
+	
+	public static final String PATTERNS_AUTO_MORPH = "PATTERNS_AUTO_MORPH";
 
 	// input 
 	
@@ -106,6 +111,8 @@ implements ILaunchpadCallback {
 	protected InputTrigger trigger7 = new InputTrigger(new char[]{'7'}, null, new Integer[]{110, 47}, null, null);
 	protected InputTrigger trigger8 = new InputTrigger(new char[]{'8'}, null, new Integer[]{111, 48}, null, null);
 
+	protected InputTrigger trigger9 = new InputTrigger().addKeyCodes(new char[]{'9'});
+
 	protected LaunchPad launchpad1;
 	protected LaunchPad launchpad2;
 
@@ -119,6 +126,7 @@ implements ILaunchpadCallback {
 		P.store.setNumber(BPM_MIDI, 0);
 		P.store.setNumber(INTERACTION_SPEED_MULT, 0);
 		P.store.setNumber(CUR_SCALE_INDEX, 0);
+		P.store.setBoolean(PATTERNS_AUTO_MORPH, true);
 
 		// debug
 		fontBig = P.p.createFont("Arial", FONT_BIG);
@@ -277,6 +285,8 @@ implements ILaunchpadCallback {
 		if(trigger6.triggered()) sequencers[5].evolvePattern(true);
 		if(trigger7.triggered()) sequencers[6].evolvePattern(true);
 		if(trigger8.triggered()) sequencers[7].evolvePattern(true);
+		
+		if(trigger9.triggered()) P.store.setBoolean(PATTERNS_AUTO_MORPH, !P.store.getBoolean(PATTERNS_AUTO_MORPH));
 	}
 	
 	public void update(PGraphics pg) {
@@ -288,10 +298,10 @@ implements ILaunchpadCallback {
 		if(pg != null) drawSequencer(pg);
 		
 		// update debug values
-		P.p.debugView.setValue("BPM", P.store.getFloat(BPM));
-		P.p.debugView.setValue("BPM interval", P.store.getInt(BEAT_INTERVAL_MILLIS) + "ms");
-		P.p.debugView.setValue("BEAT", P.store.getFloat(BEAT));
-		P.p.debugView.setValue("INTERACTION_SPEED_MULT", P.store.getFloat(INTERACTION_SPEED_MULT));
+		P.p.debugView.setValue("INTERPHASE :: BPM", P.store.getFloat(BPM));
+		P.p.debugView.setValue("INTERPHASE :: BPM interval", P.store.getInt(BEAT_INTERVAL_MILLIS) + "ms");
+		P.p.debugView.setValue("INTERPHASE :: BEAT", P.store.getFloat(BEAT));
+		P.p.debugView.setValue("INTERPHASE :: INTERACTION_SPEED_MULT", P.store.getFloat(INTERACTION_SPEED_MULT));
 	}
 	
 	protected void updateSequencers() {

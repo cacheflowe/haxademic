@@ -7,6 +7,7 @@ import com.haxademic.core.draw.filters.pshader.DisplacementMapFilter;
 import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
 import com.haxademic.core.draw.textures.pshader.TextureShader;
+import com.haxademic.core.file.DemoAssets;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.EasingFloat;
@@ -52,7 +53,7 @@ extends BaseTexture {
 	}
 	
 	protected void buildLogo() {
-		logoSvg = P.p.loadShape( FileUtil.getFile("images/_sketch/sendgrid/svg/sendgrid-logo-01.svg")).getTessellation();
+		logoSvg = DemoAssets.shapeX().getTessellation();
 		PShapeUtil.repairMissingSVGVertex(logoSvg);
 		
 		PShapeUtil.centerShape(logoSvg);
@@ -75,7 +76,7 @@ extends BaseTexture {
 		// if replacing audio with noise, just use the audio buffer to draw noise into
 		audioTexture.texture().filter(noiseTexture.shader());
 
-		P.p.debugView.setTexture(audioTexture.texture());
+//		P.p.debugView.setTexture(audioTexture.texture());
 	}
 
 	public void updateDraw() {

@@ -226,7 +226,7 @@ implements IAppStoreListener {
 			}
 		}
 		
-		if(evolves == true) {
+		if(evolves == true && (P.store.getBoolean(Interphase.PATTERNS_AUTO_MORPH) || isManual)) {
 			// every 4 sample triggers, make a bigger evoloving change
 			// new pattern, note & note props
 			if(sampleTriggerCount % 4 == 0) {
@@ -295,6 +295,9 @@ implements IAppStoreListener {
 		// recreate SamplePlayer objects
 		player = playSampleWithNote(ac, player, pitchRatioFromIndex(pitchIndex1));
 		if(chordMode) player2 = playSampleWithNote(ac, player2, pitchRatioFromIndex(pitchIndex2));
+		
+		// let the app know
+		P.store.setNumber(Interphase.SEQUENCER_TRIGGER, index);
 					
 		// reset play trigger flag
 		shouldPlay = false;

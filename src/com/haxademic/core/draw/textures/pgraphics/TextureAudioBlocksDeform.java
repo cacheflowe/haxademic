@@ -72,12 +72,6 @@ extends BaseTexture {
 		// normalize group shape
 		PShapeUtil.centerShape(gridShape);
 		PShapeUtil.scaleShapeToHeight(gridShape, _texture.height * 5f);
-		
-		// debug
-//		P.p.debugView.setValue("grid cubes", cols * rows);
-//		P.p.debugView.setValue("grid vertices", PShapeUtil.vertexCount(gridShape));
-//		P.p.debugView.setValue("grid max extent", PShapeUtil.getMaxExtent(gridShape));
-//		P.p.debugView.setValue("TRY WITH RECTS NOT CUBES", true);
 	}
 
 	public void newLineMode() {

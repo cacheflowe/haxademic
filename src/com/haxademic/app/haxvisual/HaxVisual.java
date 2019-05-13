@@ -16,6 +16,7 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.data.constants.PBlendModes;
 import com.haxademic.core.data.constants.PRenderers;
+import com.haxademic.core.data.store.IAppStoreListener;
 import com.haxademic.core.draw.color.Gradients;
 import com.haxademic.core.draw.color.ImageGradient;
 import com.haxademic.core.draw.context.DrawUtil;
@@ -81,7 +82,8 @@ import processing.core.PImage;
 
 
 public class HaxVisual
-extends PAppletHax {
+extends PAppletHax
+implements IAppStoreListener {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	// BEAT TRIGGER TIMING
@@ -164,7 +166,7 @@ extends PAppletHax {
 	protected int _lastInputMillis = 0;
 	protected int numBeatsDetected = 0;
 	protected int lastTimingUpdateTime = 0;
-	protected int lastTimingUpdateDelay = 300;
+	protected String TIMING_MIN_DELAY = "TIMING_MIN_DELAY";
 
 	// DMX LIGHTS
 
@@ -211,7 +213,8 @@ extends PAppletHax {
 
 	protected void overridePropsFile() {
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, false );
-		p.appConfig.setProperty( AppSettings.FULLSCREEN, false );
+		p.appConfig.setProperty( AppSettings.FULLSCREEN, true );
+		p.appConfig.setProperty( AppSettings.ALWAYS_ON_TOP, false );
 		p.appConfig.setProperty( AppSettings.FILLS_SCREEN, false );
 		p.appConfig.setProperty( AppSettings.OSC_ACTIVE, false );
 		//		p.appConfig.setProperty( AppSettings.AUDIO_DEBUG, true );
@@ -227,6 +230,7 @@ extends PAppletHax {
 	}
 
 	protected void setupFirstFrame() {
+		P.store.addListener(this);
 //		initDMX();
 		if(multiOutput == false) {
 			buildCanvas();
@@ -246,7 +250,7 @@ extends PAppletHax {
 		_pg = p.createGraphics(w, h, P.P3D);
 //		_pg.noSmooth();
 		OpenGLUtil.setTextureRepeat(_pg);
-		_pgPinnable = new PGraphicsKeystone( p, _pg, 12, FileUtil.getFile("text/keystoning/hax-visual-two.txt") );
+//		_pgPinnable = new PGraphicsKeystone( p, _pg, 12, FileUtil.getFile("text/keystoning/hax-visual-two.txt") );
 	}
 
 	// fancy mapping blended output
@@ -300,7 +304,12 @@ extends PAppletHax {
 //			_dmxLights = new RandomLightTiming(p.appConfig.getInt(AppSettings.DMX_LIGHTS_COUNT, 0));
 //		}
 //	}
-
+	
+	
+	protected void buildUI() {
+		p.ui.addSlider(TIMING_MIN_DELAY, 100, 50, 1000, 1, false);
+	}
+	
 	//////////////////////////////////////////////
 	// GETTERS
 	//////////////////////////////////////////////
@@ -318,6 +327,7 @@ extends PAppletHax {
 	//////////////////////////////////////////////
 
 	public void drawApp() {
+		if(p.frameCount == 3) buildUI(); 
 		background(0);
 		handleInputTriggers();
 		checkBeat();
@@ -328,14 +338,15 @@ extends PAppletHax {
 		drawLayers();
 		drawAltTopLayerOrDisplacement();
 		postSpecialEffectsFilters();
-//		drawTopLayer();
+		drawTopLayer();
 		postFinalFilters();
 		if(interphase != null) interphase.update(null); // _pg
 		if(imageCycler != null) drawInterstitial();
 		// draw pinned pgraphics
 		if(_debugTextures == true && _pgPinnable != null) _pgPinnable.drawTestPattern();
 //		p.debugView.setTexture(_pg);
-		if(multiOutput == false) _pgPinnable.update(p.g);
+		if(multiOutput == false && _pgPinnable != null) _pgPinnable.update(p.g);
+		else if(multiOutput == false) ImageUtil.cropFillCopyImage(_pg, p.g, false);
 		else drawCanvasToMultiScreens();
 		// sendDmxLights();
 		runDebugHelpers();
@@ -477,8 +488,8 @@ extends PAppletHax {
 	protected void getDisplacementLayer() {		
 		displacementTextureIndex = P.round(P.map(p.midiState.midiCCPercent(midiInChannel, displaceMapLayerKnob), 0, 1, 0, 3));
 		overlayMode = P.round(P.map(p.midiState.midiCCPercent(midiInChannel, overlayModeKnob), 0, 1, 0, 3));
-		p.debugView.setValue("displacementLayer", displacementTextureIndex);
-		p.debugView.setValue("overlayMode", overlayMode);
+		p.debugView.setValue("HAXVISUAL :: displacementLayer", displacementTextureIndex);
+		p.debugView.setValue("HAXVISUAL :: overlayMode", overlayMode);
 	}
 
 	protected void drawAltTopLayerOrDisplacement() {	
@@ -617,10 +628,10 @@ extends PAppletHax {
 
 		// KALEIDOSCOPE ////////////////////////
 		float kaleidoSides = P.round( p.midiState.midiCCPercent(midiInChannel, kaledioKnob) * 12f );
-		p.debugView.setValue("kaleidoSides", kaleidoSides);
+		p.debugView.setValue("HAXVISUAL :: kaleidoSides", kaleidoSides);
 		if( kaleidoSides > 0 ) {
 			if( kaleidoSides == 1 ) {
-				MirrorQuadFilter.instance(p).setZoom(0.3f + 0.1f * P.sin(p.frameCount * 0.01f));
+				MirrorQuadFilter.instance(p).setZoom(0.5f);// + 0.1f * P.sin(p.frameCount * 0.01f));
 				MirrorQuadFilter.instance(p).applyTo(_pg);
 			} else if( kaleidoSides == 3 ) {
 				ReflectFilter.instance(p).applyTo(_pg);
@@ -725,7 +736,7 @@ extends PAppletHax {
 		// update glitch progress
 		glitchProgress.update();
 		boolean isGlitching = glitchProgress.value() > 0 && glitchProgress.value() < 1;
-		p.debugView.setValue("isGlitching", isGlitching);
+		p.debugView.setValue("HAXVISUAL :: isGlitching", isGlitching);
 		if(isGlitching == false) return;
 		float progressInverse = 1f - glitchProgress.value();
 		float shaderTime = p.frameCount * 0.01f;
@@ -858,7 +869,7 @@ extends PAppletHax {
 	/////////////////////////////////////////////////////////////////
 
 	protected void checkBeat() {
-		if( p.audioData.isBeat() == true && isBeatDetectMode() == true ) {
+		if( p.audioData.isBeat() == true && isBeatDetectMode() == true && interphase == null ) {
 			updateTiming();
 		}
 	}
@@ -930,7 +941,7 @@ extends PAppletHax {
 		if ( _keystoneResetTrigger.triggered() == true && _pgPinnable != null) _pgPinnable.resetCorners();
 		if ( _debugTexturesTrigger.triggered() == true ) _debugTextures = !_debugTextures;
 		
-		p.debugView.setValue("isBeatDetectMode()", isBeatDetectMode());
+		p.debugView.setValue("HAXVISUAL :: isBeatDetectMode()", isBeatDetectMode());
 	}
 
 	/////////////////////////////////////////////////////////////////
@@ -973,14 +984,15 @@ extends PAppletHax {
 	protected void updateTiming() {
 		timingTriggerIndicator.setCurrent(1);
 		// tell all textures to update timing
-		lastTimingUpdateDelay = 100;
-		if(p.millis() > lastTimingUpdateTime + lastTimingUpdateDelay) {
+		int frameDelay = (p.ui.has(TIMING_MIN_DELAY)) ? p.ui.valueInt(TIMING_MIN_DELAY) : 0;
+		if(p.millis() > lastTimingUpdateTime + frameDelay) {
 			for( int i=0; i < _curTexturePool.size(); i++ ) {
 				_curTexturePool.get(i).updateTiming();
 			}
 			lastTimingUpdateTime = p.millis();
 			// run beat-counted mode triggers on each beat
 			autoBeatMode();
+			p.debugView.setValue("HAXVISUAL :: lastTimingUpdateTime", lastTimingUpdateTime);
 		}
 		if(_dmxLights != null) _dmxLights.updateDmxLightsOnBeat();
 	}
@@ -989,8 +1001,8 @@ extends PAppletHax {
 		if( isBeatDetectMode() == false ) return; 
 		
 		numBeatsDetected++;
-		p.debugView.setValue("isBeatDetectMode()", isBeatDetectMode());
-		p.debugView.setValue("numBeatsDetected", numBeatsDetected);
+		p.debugView.setValue("HAXVISUAL :: isBeatDetectMode()", isBeatDetectMode());
+		p.debugView.setValue("HAXVISUAL :: numBeatsDetected", numBeatsDetected);
 
 		if( numBeatsDetected % BEAT_INTERVAL_COLOR == 0 ) {
 			//			P.println("BEAT_INTERVAL_COLOR");
@@ -1075,8 +1087,8 @@ extends PAppletHax {
 		colorizeWithGradient = MathUtil.randBoolean(p);
 
 		// debug values
-		p.debugView.setValue("layerSwapIndex", layerSwapIndex);
-		p.debugView.setValue("poolCurTextureIndexes", Arrays.toString(poolCurTextureIndexes));
+		p.debugView.setValue("HAXVISUAL :: layerSwapIndex", layerSwapIndex);
+		p.debugView.setValue("HAXVISUAL :: poolCurTextureIndexes", Arrays.toString(poolCurTextureIndexes));
 
 		// make sure time steppers don't go wild
 		SystemUtil.setTimeout(updateTimingCallback, 20);
@@ -1116,7 +1128,8 @@ extends PAppletHax {
 		_curTexturePool = new ArrayList<BaseTexture>();
 
 //		HaxVisualTexturePools.addTexturesToPoolMinimal(_pg, bgTexturePool, fgTexturePool, audioTexturePool, topLayerPool);
-		HaxVisualTexturePools.addTexturesToPool(_pg, bgTexturePool, fgTexturePool, audioTexturePool, topLayerPool);
+//		HaxVisualTexturePools.addTexturesToPool(_pg, bgTexturePool, fgTexturePool, audioTexturePool, topLayerPool);
+		HaxVisualTexturePools.addTexturesInterphase(_pg, bgTexturePool, fgTexturePool, audioTexturePool, topLayerPool);
 		//		HaxVisualTexturePools.addTexturesToPoolSG(_pg, bgTexturePool, fgTexturePool, audioTexturePool, topLayerPool);
 		//		HaxVisualTexturePools.addTexturesToPoolClient(_pg, bgTexturePool, fgTexturePool, audioTexturePool, topLayerPool);
 
@@ -1169,7 +1182,7 @@ extends PAppletHax {
 			_curTexturePool.add( texturePools[i].get(poolCurTextureIndexes[i]) );
 			// debug info
 			p.debugView.setTexture(texturePools[i].get(poolCurTextureIndexes[i]).texture());
-			p.debugView.setValue("texture "+i, texturePools[i].get(poolCurTextureIndexes[i]).toString());
+			p.debugView.setValue("HAXVISUAL :: texture "+i, texturePools[i].get(poolCurTextureIndexes[i]).toString());
 		}
 
 		// set current textures as active
@@ -1179,7 +1192,7 @@ extends PAppletHax {
 
 		// tell the top layer
 		topLayer().setCurTexturePool(_curTexturePool);
-		p.debugView.setValue("_curTexturePool.size()", _curTexturePool.size());
+		p.debugView.setValue("HAXVISUAL :: _curTexturePool.size()", _curTexturePool.size());
 	}
 
 	/////////////////////////////////////////////////////////////////
@@ -1194,7 +1207,7 @@ extends PAppletHax {
 				textureEffectsIndices[i] = 0;
 			}
 		}
-		p.debugView.setValue("textureEffectsIndices", Arrays.toString(textureEffectsIndices));
+		p.debugView.setValue("HAXVISUAL :: textureEffectsIndices", Arrays.toString(textureEffectsIndices));
 	}
 
 	protected void filterActiveTextures() {
@@ -1328,16 +1341,16 @@ extends PAppletHax {
 		for (int i = 0; i < triggerDebugLinearFloats.length; i++) {
 			triggerDebugLinearFloats[i].update();
 		}
-		p.debugView.setValue("colorTrigger", colorTriggerIndicator.value() > 0);
-		p.debugView.setValue("rotationTrigger", rotationTriggerIndicator.value() > 0);
-		p.debugView.setValue("timingTrigger", timingTriggerIndicator.value() > 0);
-		p.debugView.setValue("modeTrigger", modeTriggerIndicator.value() > 0);
-		p.debugView.setValue("timingSectionTrigger", timingSectionTriggerIndicator.value() > 0);
-		p.debugView.setValue("lineModeTrigger", lineModeTriggerIndicator.value() > 0);
-		p.debugView.setValue("bigChangeTrigger", bigChangeTriggerIndicator.value() > 0);
+		p.debugView.setValue("HAXVISUAL :: colorTrigger", colorTriggerIndicator.value() > 0);
+		p.debugView.setValue("HAXVISUAL :: rotationTrigger", rotationTriggerIndicator.value() > 0);
+		p.debugView.setValue("HAXVISUAL :: timingTrigger", timingTriggerIndicator.value() > 0);
+		p.debugView.setValue("HAXVISUAL :: modeTrigger", modeTriggerIndicator.value() > 0);
+		p.debugView.setValue("HAXVISUAL :: timingSectionTrigger", timingSectionTriggerIndicator.value() > 0);
+		p.debugView.setValue("HAXVISUAL :: lineModeTrigger", lineModeTriggerIndicator.value() > 0);
+		p.debugView.setValue("HAXVISUAL :: bigChangeTrigger", bigChangeTriggerIndicator.value() > 0);
 		
 		// debug render time
-		for (int i = 0; i < texturePools.length; i++) p.debugView.setValue("texture "+i, texturePools[i].get(poolCurTextureIndexes[i]).toString());
+		for (int i = 0; i < texturePools.length; i++) p.debugView.setValue("HAXVISUAL :: texture "+i, texturePools[i].get(poolCurTextureIndexes[i]).toString());
 	}
 	
 	// debug textures to image files
@@ -1357,6 +1370,32 @@ extends PAppletHax {
 
 	public void uiButtonClicked(UIButton button) {
 		if(interphase != null) interphase.uiButtonClicked(button);
+	}
+
+	/////////////////////////////////////////////////////////////////
+	// IAppStoreListener callbacks
+	/////////////////////////////////////////////////////////////////
+	
+	public void updatedNumber(String key, Number val) {
+		if(key.equals(Interphase.SEQUENCER_TRIGGER)) {
+			int sequencerIndex = val.intValue();
+			if(sequencerIndex < 3) {
+				updateTiming();
+				p.debugView.setValue(Interphase.SEQUENCER_TRIGGER, val.intValue());
+			}
+		}
+	}
+
+	public void updatedString(String key, String val) {
+	}
+
+	public void updatedBoolean(String key, Boolean val) {
+	}
+
+	public void updatedImage(String key, PImage val) {
+	}
+
+	public void updatedBuffer(String key, PGraphics val) {
 	}
 
 }

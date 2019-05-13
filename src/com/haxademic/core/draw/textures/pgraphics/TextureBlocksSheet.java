@@ -95,10 +95,9 @@ extends BaseTexture {
 //		}
 		
 		// debug
-		P.p.debugView.setValue("grid cubes", cols * rows);
-		P.p.debugView.setValue("grid vertices", PShapeUtil.vertexCount(gridShape));
-		P.p.debugView.setValue("grid max extent", PShapeUtil.getMaxExtent(gridShape));
-		P.p.debugView.setValue("TRY WITH RECTS NOT CUBES", true);
+//		P.p.debugView.setValue("grid cubes", cols * rows);
+//		P.p.debugView.setValue("grid vertices", PShapeUtil.vertexCount(gridShape));
+//		P.p.debugView.setValue("grid max extent", PShapeUtil.getMaxExtent(gridShape));
 	}
 
 	public void newLineMode() {

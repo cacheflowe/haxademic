@@ -18,6 +18,7 @@ import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.draw.shapes.pshader.PointsDeformAndTextureFilter;
 import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
 import com.haxademic.core.draw.textures.pshader.TextureShader;
+import com.haxademic.core.file.DemoAssets;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.EasingFloat;
@@ -92,16 +93,17 @@ extends BaseTexture {
 	protected void buildLogo() {
 		shapeHeight = _texture.height * 0.15f;
 		
-		logoSvg = P.p.loadShape( FileUtil.getFile("images/_sketch/sendgrid/svg/sendgrid-logo-01.svg")).getTessellation();
+		logoSvg = DemoAssets.shapeX().getTessellation();
 		PShapeUtil.repairMissingSVGVertex(logoSvg);
 		
 		PShapeUtil.centerShape(logoSvg);
 		PShapeUtil.scaleShapeToHeight(logoSvg, shapeHeight);
 		
 		meshTextures = new PGraphics[] {
-			buildTextureFromSvg(P.p.loadShape( FileUtil.getFile("images/_sketch/sendgrid/svg/sendgrid-logo-01.svg"))),
-			buildTextureFromSvg(P.p.loadShape( FileUtil.getFile("images/_sketch/sendgrid/svg/sendgrid-logo-02.svg"))),
-			buildTextureFromSvg(P.p.loadShape( FileUtil.getFile("images/_sketch/sendgrid/svg/sendgrid-logo-03.svg"))),
+			buildTextureFromSvg(DemoAssets.shapeX()),
+			buildTextureFromSvg(DemoAssets.shapeFractal()),
+//			buildTextureFromSvg(P.p.loadShape( FileUtil.getFile("images/_sketch/sendgrid/svg/sendgrid-logo-02.svg"))),
+//			buildTextureFromSvg(P.p.loadShape( FileUtil.getFile("images/_sketch/sendgrid/svg/sendgrid-logo-03.svg"))),
 //			buildTextureFromSvg(P.p.loadShape( FileUtil.getFile("images/_sketch/sendgrid/svg/sendgrid-logo-04.svg"))),
 //			buildTextureFromSvg(P.p.loadShape( FileUtil.getFile("images/_sketch/sendgrid/svg/sendgrid-logo-05.svg"))),
 		};
@@ -126,7 +128,7 @@ extends BaseTexture {
 //		logo3d.setTexture(curMeshTexture);
 		
 		// create points version
-		logoPoints = PShapeUtil.svgToUniformPointsShape(FileUtil.getFile("images/_sketch/sendgrid/svg/sendgrid-logo-01.svg"), 4);
+		logoPoints = PShapeUtil.svgToUniformPointsShape(FileUtil.getFile(DemoAssets.shapeXPath), 4);
 //		logoPoints = PShapeUtil.createExtrudedShape( logoSvg, thickness );
 		PShapeUtil.scaleShapeToHeight(logoPoints, shapeHeight);
 		PShapeUtil.centerShape(logoPoints);
@@ -238,7 +240,6 @@ extends BaseTexture {
 		_texture.rotateY(logoRotY.value());
 		_texture.rotateZ(logoRotZ.value());
 		
-		P.p.debugView.setValue("drawMode", drawMode.toString());
 		switch (drawMode) {
 		case Color:
 //			_texture.lights();
@@ -282,7 +283,7 @@ extends BaseTexture {
 			
 			// apply deform shader and draw mesh - CANNOT HAVE PROCESSING LIGHTS TURNED ON!
 			// apply points deform/texture shader
-			PointsDeformAndTextureFilter.instance(P.p).setColorMap(meshTextures[1]);
+			PointsDeformAndTextureFilter.instance(P.p).setColorMap(meshTextures[0]);
 			PointsDeformAndTextureFilter.instance(P.p).setDisplacementMap(audioTexture.texture());
 			PointsDeformAndTextureFilter.instance(P.p).setMaxPointSize(1.f);
 			PointsDeformAndTextureFilter.instance(P.p).setModelMaxExtent(logoPointsExtent * 2.01f);	// texture mapping UV

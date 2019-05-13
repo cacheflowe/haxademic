@@ -40,8 +40,7 @@ extends BaseTexture {
 		for (int i = 0; i < _cols; i++) {
 			for (int j = 0; j < _rows; j++) {
 				if( _boxesGrow ) {
-					float scaleVal = P.constrain( 0.05f * P.p.audioFreq( P.floor(_spectrumInterval * spectrumIndex) ), 0, 1 );
-					scaleVal = P.p.audioFreq(P.floor(i * _spectrumInterval));
+					float scaleVal = P.p.audioFreq(spectrumIndex) / 5f;
 
 					_texture.fill( _colorEase.colorInt() );
 					_texture.rect( 
@@ -54,9 +53,7 @@ extends BaseTexture {
 
 					spectrumIndex++;
 				} else {
-					float alphaVal = 0.25f * P.p.audioFreq(spectrumIndex);
-					alphaVal = P.p.audioFreq(spectrumIndex);
-
+					float alphaVal = P.p.audioFreq(spectrumIndex);
 					_texture.fill( _colorEase.colorInt(), P.constrain( alphaVal * 255f, 0, 255 ) );
 					_texture.rect( startX + i*_cellW, startY + j*_cellH, _cellW, _cellH );	
 					spectrumIndex++;

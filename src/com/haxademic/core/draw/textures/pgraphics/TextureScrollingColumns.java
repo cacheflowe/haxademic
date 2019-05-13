@@ -22,7 +22,7 @@ extends BaseTexture {
 	}
 	
 	public void updateTiming() {
-		speed = MathUtil.randRangeDecimal(-2f, 2f);
+		speed = MathUtil.randRangeDecimal(-3f, 3f);
 	}
 	
 	public void newRotation() {

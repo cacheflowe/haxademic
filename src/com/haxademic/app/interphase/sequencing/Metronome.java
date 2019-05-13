@@ -103,8 +103,8 @@ public class Metronome {
 					}
 					
 					// set debug text
-					P.p.debugView.setValue("numinputs", ac.out.getConnectedInputs().size());
-					P.p.debugView.setValue("c.getCount()", ((c.getCount() / 4) % 8) + 1);
+					P.p.debugView.setValue("INTERPHASE :: numinputs", ac.out.getConnectedInputs().size());
+					P.p.debugView.setValue("INTERPHASE :: c.getCount()", ((c.getCount() / 4) % 8) + 1);
 				}
 			}
 		);
