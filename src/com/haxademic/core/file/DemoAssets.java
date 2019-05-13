@@ -62,9 +62,10 @@ public class DemoAssets {
 	
 	// SVG
 	
+	public static String shapeXPath = "haxademic/svg/x.svg";
 	public static PShape shapeX = null;
 	public static PShape shapeX() {
-		if(shapeX == null) shapeX = P.p.loadShape(FileUtil.getFile("haxademic/svg/x.svg"));
+		if(shapeX == null) shapeX = P.p.loadShape(FileUtil.getFile(shapeXPath));
 		return shapeX;
 	}
 	
