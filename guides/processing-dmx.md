@@ -10,7 +10,7 @@ Use DMX over ethernet for super long cable runs - standard DMX cables are genera
 
 ### DMX lights
 
-There's a whole world of DMX lights and DMX-controlled devices, like winches (link) and power outlets. Most DMX lights have a manual RGB mode, which can be set via a control panel on the back of the devices. By setting the starting channel of your device, you can target multiple daisy-chained lights by sending out DMX values on different channels. If a light has an RGB mode, you will likely use 3 consecutive DMX channels to target R, G, & B. Other channels might be used to control pan/tilt on motorized light fixtures, for example.
+There's a whole world of DMX lights and DMX-controlled devices, like [winches](https://www.rosebrand.com/subcategory761/dmx-winches.aspx) and [power outlets](https://www.chauvetdj.com/products/dmx-4/). Most DMX lights have a manual RGB mode, which can be set via a control panel on the back of the devices. By setting the starting channel of your device, you can target multiple daisy-chained lights by sending out DMX values on different channels. If a light has an RGB mode, you will likely use 3 consecutive DMX channels to target R, G, & B. Other channels might be used to control pan/tilt on motorized light fixtures, for example.
 
 ### Code
 
@@ -45,6 +45,7 @@ The basic unit:
 Wires to connect the basic unit components and LED strips or devices:
 
 * [2-conductor Wire (jacketed)](https://www.amazon.com/18AWG-Voltage-Conductor-Jacketed-Speaker/dp/B06XSNQDV1/)
+* [4-conductor Wire (jacketed)](https://www.homedepot.com/b/Electrical-Wire/18/4/N-5yc1vZbm7vZ1z0rqh9Z1z10onr)
 * [2-conductor Wire](https://www.amazon.com/Gauge-Black-Stranded-Conductor-Speaker/dp/B00J36SUWC/)
 
 LED strips:
@@ -59,6 +60,6 @@ Solderless clips for prototyping:
 
 ### Other options
 
-* jmej dmx via midi (link)
-* get a traditional lighting console
-* DMX program player
+* [MIDI2DMX](https://github.com/jmej/MIDI2DMX)
+* Get a [traditional lighting console](https://www.google.com/search?q=dmx+lighting+console)
+* [DMX program player](https://www.aspectled.com/products/dmx-stand-alone-pc-mac-programmable-controller#tab-1)
