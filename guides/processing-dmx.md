@@ -1,5 +1,7 @@
 # DMX with Processing
 
+[DMX](https://en.wikipedia.org/wiki/DMX512) is an old protocol for communicating with stage lights. If you ever go to a concert, chances are that many of the lights are controlled with DMX signals. You can get a USB DMX interface and write code that can send these same signals.
+
 ### DMX interfaces
 
 * [ENTTEC DMX USB Pro](https://www.amazon.com/Enttec-70304-Lighting-Controller-Interface/dp/B077VW1DJH)
