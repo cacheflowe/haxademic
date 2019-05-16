@@ -3,7 +3,7 @@ package com.haxademic.core.draw.image;
 import java.util.HashMap;
 
 import com.haxademic.core.app.P;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 
 import processing.core.PGraphics;
 import processing.video.Movie;
@@ -30,7 +30,7 @@ public class MovieBuffer {
 		if(moviesEventFrames.get(movie).intValue() == P.p.frameCount) {
 			if(movie.width > 10) {
 				if(buffer == null) {
-					buffer = DrawUtil.newPG(movie.width, movie.height, false);
+					buffer = PG.newPG(movie.width, movie.height, false, true);
 				}
 				else {
 					ImageUtil.copyImage(movie, buffer);

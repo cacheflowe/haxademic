@@ -1,5 +1,13 @@
 # TODO
 
+## High-priority
+
+* Replace DrawUtil with PG
+* Look into OpenJDK:
+  * https://adoptopenjdk.net/
+  * https://www.eclipse.org/openj9/
+* Make some vanilla Processing examples to help with post 3.3.7 render issues: https://github.com/processing/processing/issues/5806
+
 ## Art projects
   * Shatter model & triangles fall down (Sunflow final render)
   * Zaibiti
