@@ -3,7 +3,7 @@ package com.haxademic.core.draw.image;
 import java.util.HashMap;
 
 import com.haxademic.core.app.P;
-import com.haxademic.core.data.constants.PRenderers;
+import com.haxademic.core.draw.context.DrawUtil;
 
 import processing.core.PGraphics;
 import processing.video.Movie;
@@ -29,11 +29,11 @@ public class MovieBuffer {
 		if(moviesEventFrames.containsKey(movie) == false) return;
 		if(moviesEventFrames.get(movie).intValue() == P.p.frameCount) {
 			if(movie.width > 10) {
-				if(buffer == null) buffer = P.p.createGraphics(movie.width, movie.height, PRenderers.P2D);
+				if(buffer == null) {
+					buffer = DrawUtil.newPG(movie.width, movie.height, false);
+				}
 				else {
-					buffer.beginDraw();
-					buffer.image(movie, 0, 0);
-					buffer.endDraw();
+					ImageUtil.copyImage(movie, buffer);
 				}
 			}
 		}

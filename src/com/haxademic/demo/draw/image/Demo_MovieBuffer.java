@@ -17,7 +17,7 @@ extends PAppletHax {
 	}
 
 	public void drawApp() {
-		p.background(255);
+		p.background(0);
 		if(movieBuffer.buffer != null) ImageUtil.cropFillCopyImage(movieBuffer.buffer, p.g, false);
 	}
 	

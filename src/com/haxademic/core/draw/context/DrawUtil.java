@@ -1,6 +1,7 @@
 package com.haxademic.core.draw.context;
 
 import com.haxademic.core.app.P;
+import com.haxademic.core.data.constants.PRenderers;
 
 import processing.core.PApplet;
 import processing.core.PConstants;
@@ -9,11 +10,17 @@ import processing.opengl.Texture;
 
 public class DrawUtil {
 	/**
-	 * Clears all drawing properties so we may always have the same starting
-	 * point when drawing across classes.
-	 * 
-	 * @param p		Processing Applet for reference to p5 core
-	 */
+	
+	public static PGraphics newPG(int w, int h) {
+		return newPG(w, h, true);
+	}
+	
+	public static PGraphics newPG(int w, int h, boolean smooth) {
+		PGraphics newPG = P.p.createGraphics(w, h, PRenderers.P3D);
+		if(smooth == false) newPG.noSmooth();
+		return newPG;
+	}
+	
 	public static void resetGlobalProps( PApplet p ) {
 		resetGlobalProps(p.g);
 	}
@@ -211,15 +218,15 @@ public class DrawUtil {
 	}
 	
 	public static void rotateRedraw(PGraphics pg, float radians) {
-		DrawUtil.setDrawCenter(pg);
 		pg.beginDraw();
+		DrawUtil.setDrawCenter(pg);
 		pg.pushMatrix();
 		DrawUtil.setCenterScreen(pg);
 		pg.rotate(radians);
 		pg.image(pg, 0, 0);
 		pg.popMatrix();
-		pg.endDraw();
 		DrawUtil.setDrawCorner(pg);
+		pg.endDraw();
 	}
 	
 	public static void drawTestPattern(PGraphics pg) {
