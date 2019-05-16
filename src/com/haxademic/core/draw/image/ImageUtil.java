@@ -5,6 +5,7 @@ import java.awt.image.BufferedImage;
 import java.nio.ByteBuffer;
 
 import com.haxademic.core.app.P;
+import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.draw.color.ColorUtil;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.math.MathUtil;
@@ -155,9 +156,10 @@ public class ImageUtil {
 	}
 	
 	public static PGraphics imageToGraphics(PImage img) {
-		PGraphics pg = P.p.createGraphics(img.width, img.height);
+		PGraphics pg = P.p.createGraphics(img.width, img.height, PRenderers.P3D);
 		pg.beginDraw();
-		pg.image(img,0,0);
+		pg.background(0, 0);
+		pg.image(img, 0, 0);
 		pg.endDraw();
 		return pg;
 	}  
