@@ -3,7 +3,7 @@ package com.haxademic.app.mirrors;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.data.constants.PRenderers;
-import com.haxademic.core.draw.filters.pgraphics.UVGridOpticalFlow;
+import com.haxademic.core.draw.filters.pgraphics.ColorGradientTrail;
 import com.haxademic.core.draw.filters.pgraphics.shared.BaseVideoFilter;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.hardware.webcam.IWebCamCallback;
@@ -47,7 +47,8 @@ implements IWebCamCallback {
 //		vfx = new BlobLinesFeedback(p.width, p.height);
 //		vfx = new HalftoneCamo(p.width, p.height);
 //		vfx = new RadialHistory(p.width, p.height);
-		vfx = new UVGridOpticalFlow(p.width, p.height);
+//		vfx = new UVGridOpticalFlow(p.width, p.height);
+		vfx = new ColorGradientTrail(p.width, p.height);
 //		vfx = new GPUParticlesLauncher(p.width, p.height);
 //		vfxPre = new SmokeFeedback(p.width, p.height);
 	}

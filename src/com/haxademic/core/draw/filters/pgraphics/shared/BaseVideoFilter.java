@@ -14,11 +14,11 @@ public class BaseVideoFilter {
 	protected int height;
 	protected PGraphics sourceBuffer;
 	protected PGraphics destBuffer;
-	protected boolean hasExtraSourceCopy = false;	// did we create an extra source buffer for pre-processing step? or are we using the original source buffer directly?
+//	protected boolean hasExtraSourceCopy = false;	// did we create an extra source buffer for pre-processing step? or are we using the original source buffer directly?
 	
 	public BaseVideoFilter(int width, int height) {
 		this(width, height, null);
-		hasExtraSourceCopy = true;
+//		hasExtraSourceCopy = true;
 	}
 	
 	public BaseVideoFilter(int width, int height, PGraphics sourceBuffer) {
@@ -33,7 +33,7 @@ public class BaseVideoFilter {
 	}
 	
 	public void newFrame(PImage frame) {
-		if(hasExtraSourceCopy) return;
+//		if(hasExtraSourceCopy) return;
 		ImageUtil.cropFillCopyImage(frame, sourceBuffer, true);
 	}
 	
