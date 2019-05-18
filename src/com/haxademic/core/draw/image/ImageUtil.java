@@ -8,6 +8,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.draw.color.ColorUtil;
 import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.math.MathUtil;
 
 import processing.core.PApplet;
@@ -233,13 +234,35 @@ public class ImageUtil {
 	}
 	
 	public static void drawImageCropFill(PImage img, PGraphics dest, boolean cropFill) {
+		drawImageCropFill(img, dest, cropFill, false);
+	}
+	
+	public static void drawImageCropFill(PImage img, PGraphics dest, boolean cropFill, boolean openDestContext) {
 		float ratioW = MathUtil.scaleToTarget(img.width, dest.width);
 		float ratioH = MathUtil.scaleToTarget(img.height, dest.height);
 		float scale = (ratioH < ratioW) ? ratioH : ratioW;			// letterbox
 		if(cropFill) scale = (ratioH > ratioW) ? ratioH : ratioW;		// crop fill
+		if(openDestContext) dest.beginDraw();
 		DrawUtil.setDrawCenter(dest);
 		dest.image(img, dest.width/2, dest.height/2, img.width * scale, img.height * scale);
 		DrawUtil.setDrawCorner(dest);
+		if(openDestContext) dest.endDraw();
+	}
+	
+	public static void drawImageCropFillRotated(PImage img, PGraphics dest, boolean cropFill, boolean positive, boolean openDestContext) {
+		float ratioW = MathUtil.scaleToTarget(img.height, dest.width);
+		float ratioH = MathUtil.scaleToTarget(img.width, dest.height);
+		float scale = (ratioH < ratioW) ? ratioH : ratioW;				// letterbox
+		if(cropFill) scale = (ratioH > ratioW) ? ratioH : ratioW;		// crop fill
+		if(openDestContext) dest.beginDraw();
+		PG.push(dest);
+		PG.setDrawCenter(dest);
+		PG.setCenterScreen(dest);
+		dest.rotate(P.HALF_PI * ((positive) ? 1f : -1f));
+		dest.image(img, 0, 0, img.width * scale, img.height * scale);
+		DrawUtil.setDrawCorner(dest);
+		PG.pop(dest);
+		if(openDestContext) dest.endDraw();
 	}
 	
 	public static void copyImageFlipH(PImage src, PImage dest) {

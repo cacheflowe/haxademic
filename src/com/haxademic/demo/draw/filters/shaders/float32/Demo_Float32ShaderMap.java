@@ -36,9 +36,7 @@ extends PAppletHax {
 	    noiseBuffer = (PGraphics2D) createGraphics(p.width, p.height, P2D);
 
 		// draw something to the pg
-	    buffer8.beginDraw();
-	    ImageUtil.drawImageCropFill(DemoAssets.textureJupiter(), buffer8, true);
-	    buffer8.endDraw();
+	    ImageUtil.drawImageCropFill(DemoAssets.textureJupiter(), buffer8, true, true);
 
 		// send PGraphics image into float32 texture
 	    OpenGL32Util.pGraphics2dToTexture32(buffer8, texture32);

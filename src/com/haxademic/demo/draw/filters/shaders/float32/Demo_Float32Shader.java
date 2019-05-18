@@ -25,9 +25,7 @@ extends PAppletHax {
 	    texture32 = OpenGL32Util.newTexture32(buffer8.width, buffer8.height);
 
 		// draw something to the pg
-	    buffer8.beginDraw();
-	    ImageUtil.drawImageCropFill(DemoAssets.textureNebula(), buffer8, true);
-	    buffer8.endDraw();
+	    ImageUtil.drawImageCropFill(DemoAssets.textureNebula(), buffer8, true, true);
 
 		// send PGraphics image into float32 texture
 	    OpenGL32Util.pGraphics2dToTexture32(buffer8, texture32);
