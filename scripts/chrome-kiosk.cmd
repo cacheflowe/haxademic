@@ -1,5 +1,6 @@
 REM from: https://stackoverflow.com/questions/27649264/run-chrome-in-fullscreen-mode-on-windows
-REM get the top version w/codecs: http://chromium.woolyss.com/
+REM also: https://stackoverflow.com/questions/13436855/launch-google-chrome-from-the-command-line-with-specific-window-coordinates/19789383
+REM note: get the top version w/codecs: http://chromium.woolyss.com/
 
 @echo off
 
