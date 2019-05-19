@@ -1,34 +1,30 @@
 package com.haxademic.sketch.text;
+import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.file.FileUtil;
+import com.haxademic.core.math.MathUtil;
+
 import geomerative.RCommand;
 import geomerative.RFont;
 import geomerative.RG;
 import geomerative.RGroup;
 import geomerative.RPoint;
-import processing.core.PApplet;
 
 public class TextGeomReduce
-extends PApplet{
+extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	RFont font;
 
-	public void setup()
-	{
-	    size(400,400);
-	    smooth();
-	    
+	public void setupFirstFrame() {
 	    RG.init(this);
-
-	    font = new RFont( "../data/fonts/bitlow.ttf", 72, RFont.CENTER);
-
-	    frameRate( 20 );
+	    font = new RFont( FileUtil.getFile("haxademic/fonts/bitlow.ttf"), 72, RFont.CENTER);
 	}
 
-	public void draw()
-	{
+	public void drawApp() {
 	    background(255);
 	    translate(width/2,height/2);
 
-	    RGroup grp = font.toGroup("HFGello!");
+	    RGroup grp = font.toGroup("CACHEFLOWE!");
 	    
 	    // die folgenden einstellungen beinflussen wieviele punkte die
 	    // polygone am ende bekommen werden.
@@ -36,7 +32,7 @@ extends PApplet{
 	    //RCommand.setSegmentStep(random(0,3));
 	    //RCommand.setSegmentator(RCommand.UNIFORMSTEP);
 	    
-	    RCommand.setSegmentLength(frameCount % 50);
+	    RCommand.setSegmentLength(17 + 15f * MathUtil.saw(p.frameCount * 0.01f));
 	    RCommand.setSegmentator(RCommand.UNIFORMLENGTH);
 	    
 	    //RCommand.setSegmentAngle(random(0,HALF_PI));
