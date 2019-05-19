@@ -20,6 +20,7 @@ import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.debug.Stats;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.context.OpenGLUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.image.MovieBuffer;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.browser.BrowserInputState;
@@ -258,8 +259,7 @@ extends PApplet {
 	
 	protected void initHaxademicObjects() {
 		// create offscreen buffer
-		pg = p.createGraphics(p.width, p.height, P.P3D);
-		DrawUtil.setTextureRepeat(pg, true);
+		pg = PG.newPG(p.width, p.height);
 		// audio 
 		initAudioInput();
 		// rendering
