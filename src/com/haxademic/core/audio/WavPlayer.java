@@ -2,7 +2,6 @@ package com.haxademic.core.audio;
 
 import java.util.HashMap;
 
-import com.haxademic.core.app.P;
 import com.haxademic.core.debug.DebugUtil;
 
 import beads.AudioContext;
@@ -14,7 +13,7 @@ import beads.SamplePlayer;
 
 public class WavPlayer {
 
-	protected AudioContext audioContext;
+	public static AudioContext audioContext;
 	protected HashMap<String, SamplePlayer> players = new HashMap<String, SamplePlayer>();
 	protected HashMap<String, Gain> gains = new HashMap<String, Gain>();
 	
@@ -41,7 +40,7 @@ public class WavPlayer {
 		boolean success = false;
 		
 		// load sound
-		P.println("Playing:", filePath);
+		// P.println("Playing:", filePath);
 		Sample audioSample = SampleManager.sample(filePath);
 		if(audioSample != null) {
 			if(players.containsKey(filePath) == false) {

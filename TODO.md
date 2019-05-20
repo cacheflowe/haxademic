@@ -19,6 +19,7 @@
   	* Kinect history point mesh history
   * Convert all webcam VFX apps (and old video filters) to BaseVideoFilter subclasses
   * Moire sphere/shader for MW prototying
+    * Of interest: https://www.shadertoy.com/view/MllSDr
   * Voice-activated color room: What Say Hue?
   * Grass cutout - laser cut w/Seied
   * Make a dmx/launchpad gif loop
@@ -171,6 +172,7 @@
     * Doing calculations in the vertex shader should always be faster than the fragment shader, since there are fewer vertices than fragments.
     * Use the ‘discard’ keyword to *not* update a fragment, anywhere in a fragment shader.
   * GPU Particles
+  * GPU fluid: https://github.com/PavelDoGreat/WebGL-Fluid-Simulation
 	* http://barradeau.com/blog/?p=621
 	* Look into Processing shader types - is there a point shader? yes - https://processing.org/tutorials/pshader/
 	* https://codeanticode.wordpress.com/2014/05/08/shader_api_in_processing_2/
