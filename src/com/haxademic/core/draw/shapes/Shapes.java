@@ -2,6 +2,7 @@ package com.haxademic.core.draw.shapes;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.data.constants.PShapeTypes;
+import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.context.OrientationUtil;
 import com.haxademic.core.math.MathUtil;
 
@@ -699,6 +700,45 @@ public class Shapes {
 			}
 		}
 	}
+	
+	public static void drawLineOfCircles(PGraphics pg, float startX, float startY, float endX, float endY) {
+		// set context
+		pg.noStroke();
+		DrawUtil.setDrawCenter(pg);
+
+		// config
+		float stepSize = 10f;
+		float spacing = stepSize * 1.5f;
+		float distance = MathUtil.getDistance(startX, startY, endX, endY);
+		float numToDraw = P.floor(distance / spacing);
+		float endPadding = 2;
+		float colorFreq = 0.01f;
+		float colorStartOsc = P.p.frameCount * 0.03f;
+
+		// draw debug endpoints
+//		pg.fill(0, 255, 0);
+//		pg.ellipse(startX, startY, stepSize * 2f, stepSize * 2f);
+//		pg.fill(255, 0, 0);
+//		pg.ellipse(endX, endY, stepSize * 2f, stepSize * 2f);
+
+		// draw dots
+//		pg.fill(255);
+//		pg.text(numToDraw+"", 10, 20);
+		for (float i = endPadding; i <= numToDraw - endPadding; i++) {
+			float lineProgress = i / numToDraw;
+			float curX = P.lerp(startX, endX, lineProgress);
+			float curY = P.lerp(startY, endY, lineProgress);
+			float curDist = MathUtil.getDistance(startX, startY, curX, curY);
+			float oscVal = colorStartOsc - curDist * colorFreq;
+//			float dotOsc = P.sin(P.map(oscVal, 0, P.TWO_PI, 0, P.PI));
+			float dotOsc = P.sin(-oscVal % P.HALF_PI + P.PI);
+			float colorOsc = 255 - 200f * dotOsc;
+			pg.fill(colorOsc);
+			float sizeOsc =  P.map(colorOsc, 0, 255, 0.3f, 1);
+			pg.ellipse(curX, curY, stepSize * sizeOsc, stepSize * sizeOsc);
+		}
+	}
+
 
 	public static void drawCylinder(PGraphics pg, int sides, float r, float rBot, float h, boolean drawCaps) {
 		float segemtnRadians = P.TWO_PI / (float) sides;
