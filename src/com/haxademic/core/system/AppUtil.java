@@ -30,6 +30,10 @@ public class AppUtil {
 		p.getSurface().setLocation(x, y);
 	}
 	
+	public static void setSize(PApplet p, int w, int h) {
+		p.getSurface().setSize(w, h);
+	}
+	
 	public static void setTitle(PApplet p, String title) {
 		if(p.frame != null) {
 			p.getSurface().setTitle(title);
