@@ -396,11 +396,12 @@ public class Shapes {
 		return sh;
 	}
 	
-	public static PShape createDisc(float radius, int vertices, int rows) {
+	public static PShape createDisc(float radius, int vertices, int rows, PImage tex) {
 		P.p.textureMode(P.NORMAL); 
 		PShape sh = P.p.createShape();
 		sh.beginShape(P.TRIANGLES);
 		sh.textureMode(P.NORMAL);
+		if(tex != null) sh.texture(tex);
 		sh.noStroke();
 		
 		float radiusTwo = radius * 2f;
