@@ -396,6 +396,57 @@ public class Shapes {
 		return sh;
 	}
 	
+	public static PShape createDisc(float radius, int vertices, int rows) {
+		P.p.textureMode(P.NORMAL); 
+		PShape sh = P.p.createShape();
+		sh.beginShape(P.TRIANGLES);
+		sh.textureMode(P.NORMAL);
+		sh.noStroke();
+		
+		float radiusTwo = radius * 2f;
+		float rowSize = radius / (float) rows;
+		float segmentRads = P.TWO_PI / vertices;
+		for( int v = 0; v < vertices; v++ ) {
+			for( int r = 0; r < rows; r++ ) {
+				float curRads = v * segmentRads;
+				float nextRads = (v+1) * segmentRads;
+				float curRadius = r * rowSize; 
+				float nextRadius = (r+1) * rowSize; 
+				
+				float x1 = P.cos(curRads) * curRadius;
+				float y1 = P.sin(curRads) * curRadius;
+				float u1 = (x1 + radius) / radiusTwo;	// normalize within texture - move from being centered
+				float v1 = (y1 + radius) / radiusTwo;
+				
+				float x2 = P.cos(curRads) * nextRadius;
+				float y2 = P.sin(curRads) * nextRadius;
+				float u2 = (x2 + radius) / radiusTwo;	// normalize within texture - move from being centered
+				float v2 = (y2 + radius) / radiusTwo;
+
+				float x3 = P.cos(nextRads) * nextRadius;
+				float y3 = P.sin(nextRads) * nextRadius;
+				float u3 = (x3 + radius) / radiusTwo;	// normalize within texture - move from being centered
+				float v3 = (y3 + radius) / radiusTwo;
+
+				float x4 = P.cos(nextRads) * curRadius;
+				float y4 = P.sin(nextRads) * curRadius;
+				float u4 = (x4 + radius) / radiusTwo;	// normalize within texture - move from being centered
+				float v4 = (y4 + radius) / radiusTwo;
+				
+				sh.vertex( x1, y1, 0, u1, v1 );
+				sh.vertex( x2, y2, 0, u2, v2 );
+				sh.vertex( x3, y3, 0, u3, v3 );
+				
+				sh.vertex( x1, y1, 0, u1, v1 );
+				sh.vertex( x4, y4, 0, u4, v4 );
+				sh.vertex( x3, y3, 0, u3, v3 );
+			}
+		}
+
+		sh.endShape();
+		return sh;
+	}
+	
 	public static PShape createStrip(float width, float height, int detail) {
 		P.p.textureMode(P.NORMAL); 
 		PShape sh = P.p.createShape();
