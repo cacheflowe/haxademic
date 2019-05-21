@@ -68,6 +68,8 @@ public class WebServerRequestHandler extends AbstractHandler {
 				writeBinaryFileFromPath(response, filePath, "image/png");
 			} else if(filePath.indexOf(".jpg") != -1) {
 				writeBinaryFileFromPath(response, filePath, "image/jpeg");
+			} else if(filePath.indexOf(".gif") != -1) {
+				writeBinaryFileFromPath(response, filePath, "image/gif");
 			} else if(filePath.indexOf(".tga") != -1) {
 				writeBinaryFileFromPath(response, filePath, "image/targa");
 			}
