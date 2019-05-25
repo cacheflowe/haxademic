@@ -138,6 +138,21 @@ drawMode = randomDrawMode();
 	* It seems like using `jna.jar` from the current-release video library is helpful for stability...
 * I also heard that uncompressed video could perform better because compressed codec decoding is slow. ProRes videos performed terribly, even with several different encoding methods.
 
+#### Add multiple identical webcams on Windows
+
+* https://github.com/processing/processing-video/issues/68
+* In Device Manager, be sure to "show hidden devices"
+
+1. Press Windows Key + R and type devmgmt.msc in Run menu and press enter to open device manager.
+2. Look for the device you want to rename and right click on it and click on Properties.
+3. Now go to Details Tab and click on Property dropdown menu and select driver key and copy the key that appears.
+4. Press Windows Key + R and write regedit in Run menu to open Registry Editor.
+5. Now go to this directory HKEY_LOCAL_MACHINE -> SYSTEM -> ControlSet001 -> Enum and get permission on that folder, if you don’t know how to to get you can read in [Take Ownership of a Registry Key](https://www.maketecheasier.com/full-ownership-windows-registry-keys/)
+6. When you’re done taking the ownership of that registry folder click CTRL+F to search and paste the driver key that we have copied at step 3 and it will find the driver you want to rename and you select friendly name below that one.
+7. Double click on it and rename the second line with the name you want to put on it and click on ok.
+8. Now you can close registry and go to device manager and check if your name is changed
+NOTE:You may need to restart your PC to see the changes or Scan for hardware changes
+
 #### Errors
 
 ```
