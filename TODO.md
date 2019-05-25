@@ -80,6 +80,9 @@
     * Better haxvisual patterns configurations
 
 ## Audio
+  * WavPlayer panning and FFT analysis need love:
+    * Panning only works once
+    * FFT only works for the left channel if it's been panned
   * Text to speech In Processing. Webview in Processing? Or web sockets to external browser? Vanilla Java?
   * Sphinx4 speech recognition
 	* Copy / paste + Robot for tired hands
@@ -184,8 +187,8 @@
   	* https://github.com/kosowski/Geometry-shaders-Processing/blob/master/geometry_shader_tessellation/sphere.pde
 
 ## net
+  * Web requests that route to p.ui aren't predictable, especially at 30fps? Look at p.ui button handling in Re-Creation
   * Should Screenshot in DashboardPoster be it's own app/process, like the CrashMonitor?
-  * PrefsSliders should also serve up a web server that has just those sliders. .json config maybe?
   * WebServer and SocketServer should be more stylistically similar. See PORT in WebServer, and DEBUG static boolean - should be passed in?
   * Replace JavaWebsocket with Jetty WebSocket server??
 
@@ -214,6 +217,8 @@
     * Demo_VertexShader_Fattener
 
 ## General / tools
+  * Threaded safety of InputTrigger isn't good - especially at a low FPS?
+    * WebServer requests can fall through the cracks (button clicks, etc)
   * Rtp video in Java?
     * https://www.oracle.com/technetwork/java/javase/documentation/toolstx-178270.html
     * https://forum.processing.org/two/discussion/17166/livestreaming-ipcapture-sdp-file
@@ -222,7 +227,6 @@
   * Test importing a Java class into a Processing IDE project
   * How can we optimize for Raspberry Pi? It wants Java 1.7 for the old version of Eclipse :(
   * Look into JarSplice or other compiling tools for application deployment
-  * Web interface to control PrefsSliders: Add JSON interface for PrefsSliders & WebServer/WebSockets?
   * Fix overhead view of KinectRegionGrid - with larger grids it's off-screen
   * BufferActivityMonitor should use FrameDifferenceBuffer object
   * Replace ColorUtil with EasingColor
