@@ -1,9 +1,9 @@
 package com.haxademic.core.draw.image;
 
 import com.haxademic.core.app.P;
-import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.draw.color.ColorUtil;
 import com.haxademic.core.draw.context.OpenGLUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.easing.FloatBuffer;
 
@@ -24,9 +24,9 @@ public class BufferActivityMonitor {
 		activityAmp = new FloatBuffer(bufferAvgSize);
 		
 		// frame buffers
-		prevFrame = P.p.createGraphics(w, h, PRenderers.P2D);
-		curFrame = P.p.createGraphics(w, h, PRenderers.P2D);
-		differenceBuffer = P.p.createGraphics(w, h, PRenderers.P2D);
+		prevFrame = PG.newPG(w, h);
+		curFrame = PG.newPG(w, h);
+		differenceBuffer = PG.newPG(w, h);
 		
 		OpenGLUtil.setTextureQualityLow(prevFrame);
 		OpenGLUtil.setTextureQualityLow(curFrame);
