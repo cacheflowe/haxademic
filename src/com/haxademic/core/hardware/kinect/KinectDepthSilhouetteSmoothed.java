@@ -15,6 +15,7 @@ public class KinectDepthSilhouetteSmoothed {
 
 	protected IKinectWrapper kinectWrapper;
 	protected int pixelSkip = 5;
+	protected int pixelsActive = 0;
 	public static int KINECT_NEAR = 500;
 	public static int KINECT_FAR = 1800;
 
@@ -29,6 +30,10 @@ public class KinectDepthSilhouetteSmoothed {
 		depthBuffer = P.p.createGraphics(KinectSize.WIDTH / pixelSkip, KinectSize.HEIGHT / pixelSkip, PRenderers.P3D);
 		avgBuffer = P.p.createGraphics(KinectSize.WIDTH / pixelSkip, KinectSize.HEIGHT / pixelSkip, PRenderers.P3D);
 		postBuffer = P.p.createGraphics(KinectSize.WIDTH / pixelSkip, KinectSize.HEIGHT / pixelSkip, PRenderers.P3D);
+	}
+	
+	public int pixelsActive() {
+		return pixelsActive;
 	}
 	
 	public PGraphics depthBuffer() {
@@ -50,6 +55,7 @@ public class KinectDepthSilhouetteSmoothed {
 		depthBuffer.background(0);
 		depthBuffer.fill(255);
 		float pixelDepth;
+		pixelsActive = 0;
 		for ( int x = 0; x < depthBuffer.width; x++ ) {
 			for ( int y = 0; y < depthBuffer.height; y++ ) {
 				pixelDepth = kinectWrapper.getMillimetersDepthForKinectPixel( x * pixelSkip, y * pixelSkip );
@@ -57,6 +63,7 @@ public class KinectDepthSilhouetteSmoothed {
 					depthBuffer.pushMatrix();
 					depthBuffer.rect(x, y, 1, 1);
 					depthBuffer.popMatrix();
+					pixelsActive++;
 				}
 			}
 		}
