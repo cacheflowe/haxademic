@@ -4,7 +4,6 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.draw.color.ColorUtil;
 import com.haxademic.core.draw.context.DrawUtil;
-import com.haxademic.core.draw.filters.pshader.ErosionFilter;
 import com.haxademic.core.draw.filters.pshader.InvertFilter;
 import com.haxademic.core.draw.filters.pshader.SaturationFilter;
 import com.haxademic.core.draw.filters.pshader.ThresholdFilter;
@@ -24,6 +23,7 @@ public class ColorObjectDetection {
 	protected float colorClosenessThreshold = 0.95f;
 	protected int minPointsThreshold = 10;
 	protected float totalCounted = 0;
+	protected float totalChecked = 0;
 	protected int bufferW;
 	protected int bufferH;
 	protected boolean debugging = false;
@@ -61,6 +61,14 @@ public class ColorObjectDetection {
 	
 	public boolean isActive() {
 		return totalCounted >= minPointsThreshold;
+	}
+	
+	public int pixelsActive() {
+		return (int) totalCounted;
+	}
+	
+	public int pixelsTotal() {
+		return (int) totalChecked;
 	}
 	
 	public void debugging(boolean debugging) {
@@ -123,7 +131,7 @@ public class ColorObjectDetection {
 		// ErosionFilter.instance(P.p).applyTo(bufferOutput);
 		
 		// loop through pixels
-		float totalChecked = 0;
+		totalChecked = 0;
 		totalCounted = 0;
 		float totalX = 0;
 		float totalY = 0;
