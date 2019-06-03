@@ -3,20 +3,20 @@ package com.haxademic.demo.math;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.context.DrawUtil;
-import com.haxademic.core.math.easing.BooleanSwitch;
-import com.haxademic.core.math.easing.BooleanSwitch.IBooleanSwitchCallback;
+import com.haxademic.core.math.easing.EasingBoolean;
+import com.haxademic.core.math.easing.EasingBoolean.IEasingBooleanCallback;
 import com.haxademic.core.math.easing.LinearFloat;
 
-public class Demo_BooleanSwitch 
+public class Demo_EasingBoolean 
 extends PAppletHax
-implements IBooleanSwitchCallback {
+implements IEasingBooleanCallback {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
-	protected BooleanSwitch booleanSwitch;
+	protected EasingBoolean booleanSwitch;
 	protected LinearFloat showUpdatedValue = new LinearFloat(0, 0.025f);
 	
 	public void setupFirstFrame() {
-		booleanSwitch = new BooleanSwitch(false, 120, this);
+		booleanSwitch = new EasingBoolean(false, 120, this);
 	}
 	
 	public void drawApp() {
@@ -44,7 +44,7 @@ implements IBooleanSwitchCallback {
 	}
 
 	@Override
-	public void booleanSwitched(BooleanSwitch booleanSwitch, boolean value) {
+	public void booleanSwitched(EasingBoolean booleanSwitch, boolean value) {
 		// switch timing per direction
 		if(value == true) booleanSwitch.setInc(60);
 		else booleanSwitch.setInc(120);

@@ -1,11 +1,11 @@
 package com.haxademic.core.math.easing;
 
-public class BooleanSwitch {
+public class EasingBoolean {
 	
 	// callback interface
 	
-	public interface IBooleanSwitchCallback {
-		public void booleanSwitched(BooleanSwitch booleanSwitch, boolean value);
+	public interface IEasingBooleanCallback {
+		public void booleanSwitched(EasingBoolean booleanSwitch, boolean value);
 	}
 	
 	// internal properties
@@ -13,14 +13,14 @@ public class BooleanSwitch {
 	protected boolean value;
 	protected boolean target;
 	protected LinearFloat linearFloat;
-	protected IBooleanSwitchCallback delegate;
+	protected IEasingBooleanCallback delegate;
 	
-	public BooleanSwitch(boolean value, int frames, IBooleanSwitchCallback delegate) {
+	public EasingBoolean(boolean value, int frames, IEasingBooleanCallback delegate) {
 		this(value, frames);
 		this.delegate = delegate;
 	}
 	
-	public BooleanSwitch(boolean value, int frames) {
+	public EasingBoolean(boolean value, int frames) {
 		this.value = value;
 		target = value;
 		int initFrame = (value) ? 1 : 0;								// start at beginning (0 / false) or end (1 / true)
