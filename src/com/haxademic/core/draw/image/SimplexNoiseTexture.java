@@ -1,6 +1,6 @@
 package com.haxademic.core.draw.image;
 
-import com.haxademic.core.app.P;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.textures.pshader.TextureShader;
 
 import processing.core.PGraphics;
@@ -17,7 +17,7 @@ public class SimplexNoiseTexture {
 
 	public SimplexNoiseTexture(int w, int h) {
 		noiseTexture = new TextureShader(TextureShader.noise_simplex_2d_iq);
-	    noiseBuffer = P.p.createGraphics(w, h, P.P2D);
+	    noiseBuffer = PG.newPG(w, h);
 	}
 
 	public PGraphics texture() {
@@ -54,6 +54,5 @@ public class SimplexNoiseTexture {
 		noiseTexture.shader().set("zoom", zoom);
 
 		noiseBuffer.filter(noiseTexture.shader());
-//	    P.p.debugView.setTexture(noiseBuffer);
 	}
 }
