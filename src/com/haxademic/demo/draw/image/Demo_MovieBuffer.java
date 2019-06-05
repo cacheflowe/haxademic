@@ -2,8 +2,8 @@ package com.haxademic.demo.draw.image;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.image.ImageUtil;
-import com.haxademic.core.draw.image.MovieBuffer;
-import com.haxademic.core.file.DemoAssets;
+import com.haxademic.core.media.DemoAssets;
+import com.haxademic.core.media.video.MovieBuffer;
 
 public class Demo_MovieBuffer 
 extends PAppletHax {

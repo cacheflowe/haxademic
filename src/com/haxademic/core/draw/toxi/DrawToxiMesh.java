@@ -3,7 +3,7 @@ package com.haxademic.core.draw.toxi;
 import java.util.Iterator;
 
 import com.haxademic.core.app.P;
-import com.haxademic.core.audio.AudioInputWrapper;
+import com.haxademic.core.media.audio.deprecated.AudioInputWrapper;
 
 import processing.core.PApplet;
 import processing.core.PConstants;

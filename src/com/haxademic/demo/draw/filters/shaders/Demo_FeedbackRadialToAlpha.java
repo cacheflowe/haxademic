@@ -6,7 +6,7 @@ import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.draw.filters.pshader.FeedbackRadialFilter;
 import com.haxademic.core.draw.shapes.PShapeUtil;
-import com.haxademic.core.file.DemoAssets;
+import com.haxademic.core.media.DemoAssets;
 
 import processing.core.PGraphics;
 import processing.core.PShape;

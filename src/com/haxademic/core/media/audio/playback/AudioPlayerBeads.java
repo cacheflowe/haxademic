@@ -1,8 +1,8 @@
-package com.haxademic.core.audio.analysis;
+package com.haxademic.core.media.audio.playback;
 
 import com.haxademic.core.app.P;
-import com.haxademic.core.audio.analysis.input.AudioStreamData;
 import com.haxademic.core.file.FileUtil;
+import com.haxademic.core.media.audio.analysis.AudioStreamData;
 
 import beads.AudioContext;
 import beads.Bead;

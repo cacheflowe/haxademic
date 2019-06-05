@@ -15,12 +15,12 @@ import com.haxademic.core.draw.image.BufferActivityMonitor;
 import com.haxademic.core.draw.image.BufferMotionDetectionMap;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.mapping.PGraphicsKeystone;
-import com.haxademic.core.file.DemoAssets;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.kinect.KinectDepthSilhouetteSmoothed;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.LinearFloat;
 import com.haxademic.core.math.easing.Penner;
+import com.haxademic.core.media.DemoAssets;
 import com.haxademic.core.system.SystemUtil;
 
 import dmxP512.DmxP512;

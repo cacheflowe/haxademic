@@ -7,7 +7,7 @@ import com.haxademic.core.draw.image.PerlinTexture;
 import com.haxademic.core.draw.image.SimplexNoiseTexture;
 import com.haxademic.core.draw.shapes.Shapes;
 import com.haxademic.core.draw.shapes.pshader.MeshDeformAndTextureFilter;
-import com.haxademic.core.file.DemoAssets;
+import com.haxademic.core.media.DemoAssets;
 
 import processing.core.PGraphics;
 import processing.core.PShape;

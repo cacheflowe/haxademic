@@ -1,4 +1,4 @@
-package com.haxademic.core.audio;
+package com.haxademic.core.media.audio.deprecated;
 
 import com.haxademic.core.app.P;
 

@@ -3,8 +3,8 @@ package com.haxademic.demo.draw.filters.shaders.float32;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.context.OpenGL32Util;
 import com.haxademic.core.draw.image.ImageUtil;
-import com.haxademic.core.file.DemoAssets;
 import com.haxademic.core.file.FileUtil;
+import com.haxademic.core.media.DemoAssets;
 import com.thomasdiewald.pixelflow.java.dwgl.DwGLSLProgram;
 import com.thomasdiewald.pixelflow.java.dwgl.DwGLTexture;
 

@@ -1,6 +1,6 @@
 package com.haxademic.demo.render.audio;
 
-import com.haxademic.core.audio.AudioInputWrapper;
+import com.haxademic.core.media.audio.deprecated.AudioInputWrapper;
 import com.haxademic.core.render.VideoRenderer;
 
 import krister.Ess.AudioInput;

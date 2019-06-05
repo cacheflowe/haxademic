@@ -2,9 +2,9 @@ package com.haxademic.demo.draw.image;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.draw.image.MovieFinishedListener;
-import com.haxademic.core.draw.image.MovieFinishedListener.IMovieFinishedDelegate;
-import com.haxademic.core.file.DemoAssets;
+import com.haxademic.core.media.DemoAssets;
+import com.haxademic.core.media.video.MovieFinishedListener;
+import com.haxademic.core.media.video.MovieFinishedListener.IMovieFinishedDelegate;
 
 import processing.video.Movie;
 

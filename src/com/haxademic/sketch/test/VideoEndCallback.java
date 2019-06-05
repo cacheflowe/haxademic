@@ -4,7 +4,7 @@ import org.gstreamer.elements.PlayBin2;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.file.DemoAssets;
+import com.haxademic.core.media.DemoAssets;
 
 import processing.video.Movie;
 

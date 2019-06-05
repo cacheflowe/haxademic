@@ -1,4 +1,4 @@
-package com.haxademic.core.audio;
+package com.haxademic.core.media.audio.input;
 
 import java.io.ByteArrayInputStream;
 import java.io.File;

@@ -3,8 +3,8 @@ package com.haxademic.demo.draw.image;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.image.ImageSequenceMovieClip;
-import com.haxademic.core.draw.image.MovieToImageSequence;
-import com.haxademic.core.file.DemoAssets;
+import com.haxademic.core.media.DemoAssets;
+import com.haxademic.core.media.video.MovieToImageSequence;
 
 public class Demo_MovieToImageSequence 
 extends PAppletHax {

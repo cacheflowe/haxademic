@@ -7,8 +7,8 @@ import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.filters.pshader.VignetteFilter;
 import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.draw.shapes.Shapes;
-import com.haxademic.core.file.DemoAssets;
 import com.haxademic.core.file.FileUtil;
+import com.haxademic.core.media.DemoAssets;
 
 import processing.core.PFont;
 import processing.core.PGraphics;

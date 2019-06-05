@@ -7,7 +7,7 @@ import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.shapes.Icosahedron;
 import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.draw.shapes.pshader.MeshDeformAndTextureFilter;
-import com.haxademic.core.file.DemoAssets;
+import com.haxademic.core.media.DemoAssets;
 
 import processing.core.PImage;
 import processing.core.PShape;

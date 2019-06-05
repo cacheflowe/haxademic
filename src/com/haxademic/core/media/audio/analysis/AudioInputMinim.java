@@ -1,4 +1,4 @@
-package com.haxademic.core.audio.analysis.input;
+package com.haxademic.core.media.audio.analysis;
 
 import com.haxademic.core.app.P;
 

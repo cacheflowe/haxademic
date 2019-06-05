@@ -3,9 +3,9 @@ package com.haxademic.demo.draw.filters.shaders;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.image.ImageUtil;
-import com.haxademic.core.file.DemoAssets;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.easing.Penner;
+import com.haxademic.core.media.DemoAssets;
 
 import processing.core.PImage;
 import processing.opengl.PShader;

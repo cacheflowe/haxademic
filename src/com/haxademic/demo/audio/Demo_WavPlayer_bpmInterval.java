@@ -2,11 +2,11 @@ package com.haxademic.demo.audio;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.audio.WavPlayer;
 import com.haxademic.core.data.store.AppStore;
 import com.haxademic.core.data.store.IAppStoreListener;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.file.FileUtil;
+import com.haxademic.core.media.audio.playback.WavPlayer;
 
 import processing.core.PGraphics;
 import processing.core.PImage;

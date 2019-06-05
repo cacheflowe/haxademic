@@ -9,7 +9,7 @@ import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.particle.VectorFlyer;
 import com.haxademic.core.draw.shapes.Icosahedron;
 import com.haxademic.core.draw.shapes.PShapeUtil;
-import com.haxademic.core.file.DemoAssets;
+import com.haxademic.core.media.DemoAssets;
 
 import processing.core.PShape;
 import processing.core.PVector;

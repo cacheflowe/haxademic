@@ -1,4 +1,4 @@
-package com.haxademic.core.draw.image;
+package com.haxademic.core.media.video;
 
 import org.gstreamer.elements.PlayBin2;
 

@@ -2,9 +2,9 @@ package com.haxademic.demo.audio;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.audio.WavPlayer;
-import com.haxademic.core.audio.analysis.input.AudioInputBeads;
 import com.haxademic.core.math.MathUtil;
+import com.haxademic.core.media.audio.analysis.AudioInputBeads;
+import com.haxademic.core.media.audio.playback.WavPlayer;
 
 public class Demo_WavPlayer
 extends PAppletHax {

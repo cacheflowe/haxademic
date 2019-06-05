@@ -1,8 +1,8 @@
 package com.haxademic.core.draw.toxi;
 
 import com.haxademic.core.app.P;
-import com.haxademic.core.audio.AudioInputWrapper;
 import com.haxademic.core.draw.image.ImageUtil;
+import com.haxademic.core.media.audio.deprecated.AudioInputWrapper;
 
 import geomerative.RCommand;
 import geomerative.RFont;

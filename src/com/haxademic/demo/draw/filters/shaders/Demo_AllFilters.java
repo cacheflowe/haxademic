@@ -74,9 +74,9 @@ import com.haxademic.core.draw.filters.pshader.WarperFilter;
 import com.haxademic.core.draw.filters.pshader.WobbleFilter;
 import com.haxademic.core.draw.filters.pshader.shared.BaseFragmentShader;
 import com.haxademic.core.draw.textures.pshader.TextureShader;
-import com.haxademic.core.file.DemoAssets;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.shared.InputTrigger;
+import com.haxademic.core.media.DemoAssets;
 
 import processing.core.PGraphics;
 import processing.opengl.PShader;

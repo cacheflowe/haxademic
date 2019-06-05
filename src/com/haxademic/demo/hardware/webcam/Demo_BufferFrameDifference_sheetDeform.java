@@ -10,8 +10,8 @@ import com.haxademic.core.draw.image.BufferFrameDifference;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.shapes.Shapes;
 import com.haxademic.core.draw.shapes.pshader.MeshDeformAndTextureFilter;
-import com.haxademic.core.file.DemoAssets;
 import com.haxademic.core.hardware.webcam.IWebCamCallback;
+import com.haxademic.core.media.DemoAssets;
 
 import processing.core.PImage;
 import processing.core.PShape;

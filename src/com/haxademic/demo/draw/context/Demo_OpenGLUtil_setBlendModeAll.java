@@ -8,8 +8,8 @@ import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.image.ImageUtil;
-import com.haxademic.core.file.DemoAssets;
 import com.haxademic.core.math.MathUtil;
+import com.haxademic.core.media.DemoAssets;
 
 import processing.core.PGraphics;
 

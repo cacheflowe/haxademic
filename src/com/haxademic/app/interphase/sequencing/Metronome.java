@@ -1,9 +1,9 @@
 package com.haxademic.app.interphase.sequencing;
 
 import com.haxademic.core.app.P;
-import com.haxademic.core.audio.analysis.input.AudioInputBeads;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.LinearFloat;
+import com.haxademic.core.media.audio.analysis.AudioInputBeads;
 
 import beads.AudioContext;
 import beads.Bead;

@@ -1,9 +1,10 @@
-package com.haxademic.core.draw.image;
+package com.haxademic.core.media.video;
 
 import java.util.HashMap;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.draw.context.PG;
+import com.haxademic.core.draw.image.ImageUtil;
 
 import processing.core.PGraphics;
 import processing.video.Movie;

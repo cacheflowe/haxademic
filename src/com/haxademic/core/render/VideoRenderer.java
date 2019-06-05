@@ -2,8 +2,8 @@ package com.haxademic.core.render;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.audio.analysis.input.AudioInputESS;
 import com.haxademic.core.file.FileUtil;
+import com.haxademic.core.media.audio.analysis.AudioInputESS;
 import com.haxademic.core.system.DateUtil;
 import com.haxademic.core.system.SystemUtil;
 

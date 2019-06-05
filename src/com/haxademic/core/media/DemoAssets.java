@@ -1,7 +1,8 @@
-package com.haxademic.core.file;
+package com.haxademic.core.media;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.draw.shapes.PShapeUtil;
+import com.haxademic.core.file.FileUtil;
 
 import processing.core.PFont;
 import processing.core.PImage;
@@ -118,6 +119,10 @@ public class DemoAssets {
 		if(movieKinectSilhouette == null) movieKinectSilhouette = new Movie(P.p, FileUtil.getFile("haxademic/video/kinect-silhouette.mp4"));
 		return movieKinectSilhouette;
 	}
+
+	// AUDIO
+	
+	public static String audioBiggerLoop = "haxademic/audio/cacheflowe_bigger_loop.wav";
 
 	// FONTS
 	

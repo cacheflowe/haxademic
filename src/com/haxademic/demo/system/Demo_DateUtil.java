@@ -4,8 +4,8 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.data.constants.PTextAlign;
 import com.haxademic.core.draw.text.FontCacher;
-import com.haxademic.core.file.DemoAssets;
 import com.haxademic.core.file.FileUtil;
+import com.haxademic.core.media.DemoAssets;
 import com.haxademic.core.system.DateUtil;
 
 import processing.core.PFont;

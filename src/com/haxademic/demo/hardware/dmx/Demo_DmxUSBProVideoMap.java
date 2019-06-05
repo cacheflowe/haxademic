@@ -3,8 +3,8 @@ package com.haxademic.demo.hardware.dmx;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.image.ImageUtil;
-import com.haxademic.core.file.DemoAssets;
 import com.haxademic.core.hardware.dmx.DMXWrapper;
+import com.haxademic.core.media.DemoAssets;
 
 import processing.core.PGraphics;
 import processing.video.Movie;

@@ -1,4 +1,4 @@
-package com.haxademic.core.audio;
+package com.haxademic.core.media.audio.deprecated;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -8,12 +8,12 @@ import ddf.minim.AudioPlayer;
 import ddf.minim.Minim;
 import processing.core.PApplet;
 
-public class AudioPool {
+public class WavPlayerMinim {
 	protected PApplet p;
 	public Minim _minim;
 	protected HashMap<String, ObjItem> _audioPlayers;
 	
-	public AudioPool( PApplet p, Minim minim ) {
+	public WavPlayerMinim( PApplet p, Minim minim ) {
 		this.p = p;
 		_minim = minim;
 		_audioPlayers = new HashMap<String, ObjItem>();

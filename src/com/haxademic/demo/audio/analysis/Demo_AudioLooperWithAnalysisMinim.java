@@ -2,10 +2,10 @@ package com.haxademic.demo.audio.analysis;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.audio.analysis.AudioPlayerMinim;
-import com.haxademic.core.audio.analysis.input.AudioStreamData;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.hardware.midi.devices.LaunchControl;
+import com.haxademic.core.media.audio.analysis.AudioStreamData;
+import com.haxademic.core.media.audio.playback.AudioPlayerMinim;
 
 import ddf.minim.Minim;
 

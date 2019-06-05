@@ -1,12 +1,12 @@
 package com.haxademic.demo.audio.analysis;
 
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.audio.analysis.input.AudioInputBeads;
-import com.haxademic.core.audio.analysis.input.AudioInputESS;
-import com.haxademic.core.audio.analysis.input.AudioInputMinim;
-import com.haxademic.core.audio.analysis.input.AudioInputProcessingSound;
-import com.haxademic.core.audio.analysis.input.AudioStreamData;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.media.audio.analysis.AudioInputBeads;
+import com.haxademic.core.media.audio.analysis.AudioInputESS;
+import com.haxademic.core.media.audio.analysis.AudioInputMinim;
+import com.haxademic.core.media.audio.analysis.AudioInputProcessingSound;
+import com.haxademic.core.media.audio.analysis.AudioStreamData;
 
 import krister.Ess.AudioInput;
 
