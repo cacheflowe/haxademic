@@ -4,11 +4,11 @@
 
 * Uninstall non-essential apps & bloatware
   * Right-click Start Menu -> Control Panel -> Programs / Uninstall a program
-  * Delete any apps in Program Files (x86) that seem suspect and aren't in the Control Panel list (and aren't likely essential drivers) 
+  * Delete any apps in Program Files (x86) that seem suspect and aren't in the Control Panel list (and aren't likely essential drivers)
   * Settings -> System -> Apps & Features
     * Microsoft OneDrive
   * Settings -> System -> Default Apps
-    * Set Web Browser to or Firefox
+    * Set Web Browser to Firefox
 
 * Clean up Windows UI
   * System Taskbar
@@ -48,7 +48,7 @@
   * Turn on Windows Defender
     * But turn off notifications
       * Task Manager -> Startup -> Disable Windows Defender Notifications
-  * Turn off power management for wifi connection: 
+  * Turn off power management for wifi connection:
     * Control Panel -> Network and Internet -> Network and Sharing Center -> Change Adapter Settings -> Right-click Wifi -> Properties -> Configure -> Power Management -> Uncheck "Allow ... turn off power:
 
 * Performance boost:
@@ -82,7 +82,7 @@
 		* https://techgage.com/article/taking-back-control-of-windows-10-updates/
 		* https://winaero.com/blog/disable-updates-available-windows-10/
 		* https://superuser.com/questions/972038/how-to-get-rid-of-updates-are-available-message-in-windows-10/1006199#1006199 - referenced [here](https://social.technet.microsoft.com/Forums/en-US/7d117c05-7b6b-47a3-bb60-8908c4eff127/disable-windows-update-popups-as-we-are-using-sccm?forum=win10itprogeneral)
-	* Disable update service (this doesn't disable notifications, so it blocks updates but not the pop-up window): 
+	* Disable update service (this doesn't disable notifications, so it blocks updates but not the pop-up window):
 		* Windows button + "R" -> "services.msc" + Run -> Select "Windows Update Service" ->  General tab > Startup Type > select Disable
   		* https://windowsreport.com/windows-10-update-alert-disable/
 	* Disable script (run as administrator):
@@ -131,6 +131,7 @@ Additional steps:
   * http://www.evsc.net/tech/prep-windows-machine-for-fulltime-exhibition-setup
   * https://github.com/morphogencc/ofxWindowsSetup
   * https://github.com/brangerbriz/up-4evr-windows-10
+  * https://gist.github.com/jasonalderman/f7c27d18b978cc2566cdf848e8493b2c
 
 * Scripting help:
   * Set a timeout: `timeout 15 > NUL`
@@ -146,3 +147,9 @@ Additional steps:
     * Copy alias into Startup folder
   * Add custom icon to script:
     * Make a shortcut -> right-click -> Properties -> Change Icon...
+
+* Setup scripts
+  * https://www.ghacks.net/2016/11/08/improve-windows-10-with-one-click-batch-files/
+  * https://github.com/morphogencc/ofxWindowsSetup/tree/master/scripts
+    
+    
