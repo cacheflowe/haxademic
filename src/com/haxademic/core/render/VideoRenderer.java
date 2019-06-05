@@ -4,8 +4,8 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.audio.analysis.input.AudioInputESS;
 import com.haxademic.core.file.FileUtil;
+import com.haxademic.core.system.DateUtil;
 import com.haxademic.core.system.SystemUtil;
-import com.haxademic.core.text.StringFormatter;
 
 import krister.Ess.AudioChannel;
 import unlekker.moviemaker.UMovieMaker;
@@ -159,9 +159,9 @@ public class VideoRenderer {
 		// output
 		P.println( "= RENDERING ==================" );
 		P.println( "= Exporting frame number:   " + curFrame + " / " + totalFrames );
-		P.println( "= Elapsed time:             "  + StringFormatter.timeFromMilliseconds(elapsedMillis, true));
+		P.println( "= Elapsed time:             "  + DateUtil.timeFromMilliseconds(elapsedMillis, true));
 		if(millisLeft != -1) {
-			P.println( "= Expected time left:       "  + StringFormatter.timeFromMilliseconds(P.round(millisLeft), true));
+			P.println( "= Expected time left:       "  + DateUtil.timeFromMilliseconds(P.round(millisLeft), true));
 			P.println( "= Progress:                 "  + ((float) curFrame / (float) totalFramesInt));
 		}
 		if(audioPlayer != null) {

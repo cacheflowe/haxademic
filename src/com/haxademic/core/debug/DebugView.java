@@ -10,6 +10,7 @@ import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.file.DemoAssets;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.net.IPAddress;
+import com.haxademic.core.system.DateUtil;
 import com.haxademic.core.text.StringFormatter;
 
 import processing.core.PApplet;
@@ -101,7 +102,7 @@ public class DebugView {
 	protected void updateAppInfo() {
 		debugLines.put(TITLE_PREFIX + " RUN TIME", "");
 		debugLines.put("Frame", ""+p.frameCount);
-		debugLines.put("Time", StringFormatter.timeFromSeconds(p.millis() / 1000, true));
+		debugLines.put("Time", DateUtil.timeFromSeconds(p.millis() / 1000, true));
 		debugLines.put(TITLE_PREFIX + " APP", "");
 		debugLines.put("alwaysOnTop", ""+P.p.alwaysOnTop());
 		debugLines.put(TITLE_PREFIX + " PERFORMANCE", "");

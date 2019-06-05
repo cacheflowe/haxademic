@@ -15,7 +15,7 @@ import com.haxademic.core.draw.image.Base64Image;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.net.IJsonRequestCallback;
 import com.haxademic.core.net.JsonRequest;
-import com.haxademic.core.text.StringFormatter;
+import com.haxademic.core.system.DateUtil;
 
 import processing.core.PGraphics;
 import processing.data.JSONObject;
@@ -59,7 +59,7 @@ implements IJsonRequestCallback {
         JSONObject jsonOut = new JSONObject();
         jsonOut.setString("project", "test");
         jsonOut.setString("frameCount", p.frameCount + "");
-        jsonOut.setString("uptime", StringFormatter.timeFromSeconds(P.p.millis() / 1000, true) + "");
+        jsonOut.setString("uptime", DateUtil.timeFromSeconds(P.p.millis() / 1000, true) + "");
         jsonOut.setString("frameRate", P.round(p.frameRate)+"");
         jsonOut.setString("resolution", P.p.width + "x" + P.p.height);
         
@@ -106,11 +106,11 @@ implements IJsonRequestCallback {
 
 	@Override
 	public void postSuccess(String responseText, int responseCode, String requestId, int responseTime) {
-		P.out("postSuccess", responseText, responseCode, requestId, StringFormatter.timeFromMilliseconds(responseTime, false));
+		P.out("postSuccess", responseText, responseCode, requestId, DateUtil.timeFromMilliseconds(responseTime, false));
 	}
 
 	@Override
 	public void postFailure(String responseText, int responseCode, String requestId, int responseTime, String errorMessage) {
-		P.out("postFailure", errorMessage, responseText, responseCode, requestId, StringFormatter.timeFromMilliseconds(responseTime, false));
+		P.out("postFailure", errorMessage, responseText, responseCode, requestId, DateUtil.timeFromMilliseconds(responseTime, false));
 	}
 }

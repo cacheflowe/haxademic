@@ -3,7 +3,7 @@ package com.haxademic.demo.text;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.file.DemoAssets;
-import com.haxademic.core.text.StringFormatter;
+import com.haxademic.core.system.DateUtil;
 
 import processing.core.PFont;
 
@@ -26,7 +26,7 @@ extends PAppletHax {
 		// update time 
 		int curTime = endTime - P.p.millis();
 		if(curTime < 35 * 60 * 1000) stop();
-		String timeStr = StringFormatter.timeFromMilliseconds(curTime, false, true);
+		String timeStr = DateUtil.timeFromMilliseconds(curTime, false, true);
 		fakeLastDigit = (fakeLastDigit > 0) ? fakeLastDigit - 1 : 9;
 		timeStr = timeStr.substring(0, timeStr.length() - 1);
 		timeStr += fakeLastDigit;

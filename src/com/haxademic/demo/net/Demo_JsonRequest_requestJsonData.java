@@ -8,7 +8,7 @@ import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.net.IJsonRequestCallback;
 import com.haxademic.core.net.JsonRequest;
 import com.haxademic.core.net.JsonUtil;
-import com.haxademic.core.text.StringFormatter;
+import com.haxademic.core.system.DateUtil;
 
 import processing.core.PGraphics;
 import processing.core.PImage;
@@ -71,7 +71,7 @@ implements IJsonRequestCallback {
 
 	@Override
 	public void postSuccess(String responseText, int responseCode, String requestId, int responseTime) {
-		P.out("postSuccess", responseText, responseCode, requestId, StringFormatter.timeFromMilliseconds(responseTime, false));
+		P.out("postSuccess", responseText, responseCode, requestId, DateUtil.timeFromMilliseconds(responseTime, false));
 		if(JsonUtil.isValid(responseText)) {
 			JSONObject jsonData = JSONObject.parse(responseText);
 			P.out(jsonData.toString());
@@ -83,6 +83,6 @@ implements IJsonRequestCallback {
 
 	@Override
 	public void postFailure(String responseText, int responseCode, String requestId, int responseTime, String errorMessage) {
-		P.out("postFailure", errorMessage, responseText, responseCode, requestId, StringFormatter.timeFromMilliseconds(responseTime, false));
+		P.out("postFailure", errorMessage, responseText, responseCode, requestId, DateUtil.timeFromMilliseconds(responseTime, false));
 	}
 }
