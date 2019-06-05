@@ -1,6 +1,7 @@
 package com.haxademic.demo.system;
 
 import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.system.SystemUtil;
 
 public class Demo_WindowsComputerRestart
 extends PAppletHax {
@@ -14,8 +15,7 @@ extends PAppletHax {
 				// /K : runs command specified by following string 
 				// -r = restart
 				// -t 10 = wait 10 seconds
-				Runtime.getRuntime().exec(new String[] {"cmd", "/K", "SHUTDOWN -r -t 10"});
-				
+				SystemUtil.runShellCommand(SystemUtil.WINDOWS_RESTART_COMMAND);
 			} catch (Exception e) { 
 				System.out.println("Didn't work!"); 
 				e.printStackTrace(); 

@@ -145,7 +145,7 @@ public class AppUtil {
 		scriptStr += "cd .." + "\n\n";
 		scriptStr += AppUtil.getAppRunCommandRelative() + "\n\n";
 		FileUtil.writeTextToFile(runScriptPath, scriptStr);
-		SystemUtil.runOSXCommand("chmod 777 "+runScriptPath);
+		SystemUtil.runShellCommand("chmod 777 "+runScriptPath);
 	}
 	
 }

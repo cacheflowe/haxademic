@@ -20,6 +20,8 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.Arrays;
+import java.util.stream.Stream;
 
 import javax.swing.Timer;
 
@@ -29,6 +31,8 @@ import processing.core.PApplet;
 import processing.core.PImage;
 
 public class SystemUtil {
+	
+	public static final String WINDOWS_RESTART_COMMAND = "SHUTDOWN -r -t 10";
 	
 	public static String getJavaVersion() {
 		return System.getProperty("java.version");
@@ -62,9 +66,14 @@ public class SystemUtil {
 		deferredStateTimer.start();
 	}
 	
-	public static void runOSXCommand(String command) {
+	public static void runShellCommand(String command) {
 		try {
-			Process process = Runtime.getRuntime().exec( new String[] { "/bin/sh", "-c", command } );
+			Process process;
+			if(SystemUtil.isOSX()) { 
+				process = Runtime.getRuntime().exec(new String[] {"/bin/sh", "-c", command});
+			} else {
+				process = Runtime.getRuntime().exec(new String[] {"cmd", "/K", command});
+			}
 			process.isAlive();
 		} catch (IOException e) { 
 			e.printStackTrace(); 
