@@ -181,10 +181,12 @@ extends PAppletHax {
 	protected void addBlendBlurredAndSpread() {
 		// loop aplha add
 		float alphaAdd = p.ui.value(UI_DEPTH_ADD_ALPHA);
-		int fadeFrames = 100;
-		int darkFrames = 60;
-		if(p.loop.loopCurFrame() < fadeFrames) alphaAdd = P.map(p.loop.loopCurFrame(), 0, fadeFrames, 0, alphaAdd);
-		if(p.loop.loopCurFrame() > FRAMES - fadeFrames - darkFrames) alphaAdd = P.map(p.loop.loopCurFrame(), FRAMES - fadeFrames - darkFrames, FRAMES - darkFrames, alphaAdd, 0);
+		
+		// for rendering loop:
+//		int fadeFrames = 100;
+//		int darkFrames = 60;
+//		if(p.loop.loopCurFrame() < fadeFrames) alphaAdd = P.map(p.loop.loopCurFrame(), 0, fadeFrames, 0, alphaAdd);
+//		if(p.loop.loopCurFrame() > FRAMES - fadeFrames - darkFrames) alphaAdd = P.map(p.loop.loopCurFrame(), FRAMES - fadeFrames - darkFrames, FRAMES - darkFrames, alphaAdd, 0);
 		
 		// add new frame on top
 		fadePG.beginDraw();
@@ -237,9 +239,9 @@ extends PAppletHax {
 		int color1 = p.color(p.ui.valueX(GRADIENT_STOP_1), p.ui.valueY(GRADIENT_STOP_1), p.ui.valueZ(GRADIENT_STOP_1));
 		int color2 = p.color(p.ui.valueX(GRADIENT_STOP_2), p.ui.valueY(GRADIENT_STOP_2), p.ui.valueZ(GRADIENT_STOP_2));
 		int color3 = p.color(p.ui.valueX(GRADIENT_STOP_3), p.ui.valueY(GRADIENT_STOP_3), p.ui.valueZ(GRADIENT_STOP_3));
-		color1 = p.color(30, 0, 0);
-		color2 = p.color(174, 0, 0);
-		color3 = p.color(255, 255, 121);
+//		color1 = p.color(30, 0, 0);
+//		color2 = p.color(174, 0, 0);
+//		color3 = p.color(255, 255, 121);
 		
 		// draw gradient with vertices
 		gradientPG.beginDraw();
