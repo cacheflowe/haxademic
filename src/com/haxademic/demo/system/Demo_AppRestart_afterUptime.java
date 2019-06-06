@@ -15,7 +15,7 @@ extends PAppletHax {
 		p.text(DateUtil.uptimeHours() + FileUtil.NEWLINE + P.hour() + ":" + P.minute() + ":" + P.second(), 20, 30);
 		
 		// restart if running for x hours and the local time is between 7-8pm
-		if(DateUtil.uptimeHours() > 0.01f && P.hour() >= 19 && P.hour() < 20) {
+		if(DateUtil.uptimeHours() > 0.01f && DateUtil.timeIsBetweenHours(0, 1)) {
 			AppRestart.restart( p );
 		}
 	}
