@@ -9,7 +9,7 @@ public class ColorsHax {
 	
 	public static int BUTTON_BG = 0xff000000;
 	public static int BUTTON_BG_HOVER = 0xff3B1854;
-	public static int BUTTON_BG_PRESS = 0xff444444;
+	public static int BUTTON_BG_PRESS = 0xff666666;
 	public static int BUTTON_BG_SELECTED = 0xff007700;
 	public static int BUTTON_TEXT = 0xffffffff;
 	public static int BUTTON_OUTLINE = 0xffffffff;
@@ -37,4 +37,15 @@ public class ColorsHax {
 		new int[] {0xffa91ae5, 0xfffff600, 0xff81ff00, 0xffea27c1, 0xff000000},
 		new int[] {0xffdc1a27, 0xfff5328f, 0xff008c7f, 0xffdef427, 0xffed8100},
 	};
+	
+	public static int PRIDE[] = new int[]{
+		0xFFFF0000,
+		0xFFFF4A00,
+		0xFFFFFF08,
+		0xFF006F08,
+		0xFF0000FB,
+		0xFF350074,
+		0xFFB217FE
+	};
+
 }

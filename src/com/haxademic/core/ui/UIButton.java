@@ -66,11 +66,11 @@ implements IUIControl {
 		return value;
 	}
 	
-	public float min() {
+	public float valueMin() {
 		return 0;
 	}
 	
-	public float max() {
+	public float valueMax() {
 		return 1;
 	}
 	
@@ -98,7 +98,7 @@ implements IUIControl {
 		PG.setDrawCorner(pg);
 
 		// background
-		if(over && value == 0) pg.fill(ColorsHax.BUTTON_BG, 120);
+		if(over && value == 0 && !pressed) pg.fill(ColorsHax.BUTTON_BG);
 		else if(pressed) pg.fill(ColorsHax.BUTTON_BG_PRESS);
 		else if(toggles && value == 1) pg.fill(ColorsHax.WHITE);
 		else pg.fill(ColorsHax.BUTTON_BG);

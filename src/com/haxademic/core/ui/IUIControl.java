@@ -11,8 +11,8 @@ public interface IUIControl {
 	public void set(float val);
 	public float value();
 	public float step();
-	public float min();
-	public float max();
+	public float valueMin();
+	public float valueMax();
 	public float toggles();
 	public float layoutW();
 	public void layoutW(float val);

@@ -2,6 +2,7 @@ package com.haxademic.core.draw.context;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.data.constants.PRenderers;
+import com.haxademic.core.draw.color.ColorsHax;
 
 import processing.core.PApplet;
 import processing.core.PConstants;
@@ -269,6 +270,18 @@ public class PG {
 		}
 		for (float y = 0; y <= pg.height; y += cellH) {
 			pg.rect(0, y, pg.height, strokeSize);
+		}
+		pg.endDraw();
+	}
+	
+	public static void drawRainbow(PGraphics pg) {
+		int colors[] = ColorsHax.PRIDE;
+		pg.beginDraw();
+		pg.noStroke();
+		float colorHeight = P.round(pg.height / colors.length);
+		for (int i = 0; i < colors.length; i++) {
+			pg.fill(colors[i]);
+			pg.rect(0, colorHeight * i, pg.width, colorHeight);
 		}
 		pg.endDraw();
 	}

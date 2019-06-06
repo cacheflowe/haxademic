@@ -21,8 +21,8 @@ implements IUIControl {
 	
 	protected String id;
 	protected float value;
-	protected float low;
-	protected float high;
+	protected float valueMin;
+	protected float valueMax;
 	protected float dragStep;
 	protected int x;
 	protected int y;
@@ -43,8 +43,8 @@ implements IUIControl {
 	public UISlider(String property, float value, float low, float high, float dragStep, int x, int y, int w, int h, boolean saves) {
 		this.id = property;
 		this.value = (saves) ? PrefToText.getValueF(property, value) : value;
-		this.low = low;
-		this.high = high;
+		this.valueMin = low;
+		this.valueMax = high;
 		this.dragStep = dragStep;
 		this.layoutW = 1;
 		this.x = x;
@@ -80,12 +80,12 @@ implements IUIControl {
 		return value;
 	}
 	
-	public float min() {
-		return low;
+	public float valueMin() {
+		return valueMin;
 	}
 	
-	public float max() {
-		return high;
+	public float valueMax() {
+		return valueMax;
 	}
 	
 	public float step() {
@@ -113,7 +113,7 @@ implements IUIControl {
 		float cornerRadius = 5;
 		
 		// background
-		if(mouseHovered) pg.fill(ColorsHax.BUTTON_BG, 120);
+		if(mouseHovered) pg.fill(ColorsHax.BUTTON_BG_HOVER);
 		else pg.fill(ColorsHax.BUTTON_BG);
 		pg.noStroke();
 		pg.rect(x, y, w, h, cornerRadius);
@@ -133,10 +133,10 @@ implements IUIControl {
 		
 		// draw current value
 		pg.noStroke();
-		if(mousePressed) pg.fill(ColorsHax.WHITE, 200);
+		if(mousePressed) pg.fill(ColorsHax.WHITE, 180);
 		else pg.fill(ColorsHax.WHITE, 90);
 		float handleW = 30;
-		float mappedX = P.map(value, low, high, x, x + w - handleW);
+		float mappedX = P.map(value, valueMin, valueMax, x, x + w - handleW);
 		pg.rect(mappedX - 0.5f, y, handleW, h, cornerRadius);
 		
 		// set active if drawing
@@ -168,7 +168,7 @@ implements IUIControl {
 			if(mousePressed) {
 				float deltaX = (P.p.mouseX - P.p.pmouseX) * dragStep;
 				value += deltaX;
-				value = P.constrain(value, low, high);
+				value = P.constrain(value, valueMin, valueMax);
 			}
 			break;
 		}
@@ -182,8 +182,8 @@ implements IUIControl {
 		if(isActive() == false) return;
 		if(mousePressed == false) return;
 		if(e.getAction() == KeyEvent.PRESS) {
-			if(e.getKeyCode() == P.LEFT) value -= dragStep;
-			if(e.getKeyCode() == P.RIGHT) value += dragStep;
+			if(e.getKeyCode() == P.LEFT) { value -= dragStep; value = P.max(value, valueMin); }
+			if(e.getKeyCode() == P.RIGHT) { value += dragStep; value = P.min(value, valueMax); }
 			if(saves) PrefToText.setValue(id, value);
 		}
 	}

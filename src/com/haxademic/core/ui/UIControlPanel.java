@@ -172,8 +172,8 @@ implements IUIButtonDelegate {
 			controlJson.setString(KEY_TYPE, control.type());
 			controlJson.setString(KEY_ID, control.id());
 			controlJson.setFloat(KEY_VALUE, control.value());
-			controlJson.setFloat(KEY_VALUE_MIN, control.min());
-			controlJson.setFloat(KEY_VALUE_MAX, control.max());
+			controlJson.setFloat(KEY_VALUE_MIN, control.valueMin());
+			controlJson.setFloat(KEY_VALUE_MAX, control.valueMax());
 			controlJson.setFloat(KEY_VALUE_STEP, control.step());
 			controlJson.setFloat(KEY_VALUE_TOGGLES, control.toggles());
 			controlJson.setFloat(KEY_VALUE_LAYOUT_W, control.layoutW());
