@@ -1,4 +1,4 @@
-package com.haxademic.core.draw.image;
+package com.haxademic.core.draw.textures;
 
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.textures.pshader.TextureShader;

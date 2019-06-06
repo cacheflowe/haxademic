@@ -5,9 +5,9 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.filters.pshader.VignetteFilter;
-import com.haxademic.core.draw.image.SimplexNoiseTexture;
 import com.haxademic.core.draw.shapes.Shapes;
 import com.haxademic.core.draw.shapes.pshader.MeshDeformAndTextureFilter;
+import com.haxademic.core.draw.textures.SimplexNoiseTexture;
 import com.haxademic.core.math.easing.LinearFloat;
 import com.haxademic.core.math.easing.Penner;
 

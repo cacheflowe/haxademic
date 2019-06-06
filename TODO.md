@@ -13,9 +13,7 @@
 	* http://www.magicandlove.com/blog/2018/08/06/openpose-in-processing-and-opencv-dnn/
 	* https://github.com/chungbwc/Magicandlove/tree/master/ml20180806b
 * Replace DrawUtil with PG
-* Look into OpenJDK:
-  * https://adoptopenjdk.net/
-  * https://www.eclipse.org/openj9/
+* Look into OpenJDK (hotspot is the one) https://adoptopenjdk.net/
 * Make some vanilla Processing examples to help with post 3.3.7 render issues: https://github.com/processing/processing/issues/5806
 
 ## Art projects

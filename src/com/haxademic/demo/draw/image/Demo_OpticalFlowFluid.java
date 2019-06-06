@@ -6,8 +6,8 @@ import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.filters.pshader.BlurHFilter;
 import com.haxademic.core.draw.filters.pshader.BlurVFilter;
-import com.haxademic.core.draw.image.Fluid;
 import com.haxademic.core.draw.image.OpticalFlow;
+import com.haxademic.core.draw.textures.Fluid;
 
 import processing.core.PGraphics;
 

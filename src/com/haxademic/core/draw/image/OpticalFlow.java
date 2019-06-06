@@ -164,7 +164,7 @@ public class OpticalFlow {
 	// OPTICAL FLOW 
 
 	public void update(PImage newFrame) {
-		int analyzeStart = P.p.millis();
+		// int analyzeStart = P.p.millis();
 
 		// copy webcam to current buffer
 		ImageUtil.copyImage(newFrame, source);

@@ -2,14 +2,12 @@ package com.haxademic.demo.draw.particle;
 
 import java.util.ArrayList;
 
-import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.particle.VectorFlyer;
 import com.haxademic.core.draw.shapes.Icosahedron;
 import com.haxademic.core.draw.shapes.PShapeUtil;
-import com.haxademic.core.media.DemoAssets;
 
 import processing.core.PShape;
 import processing.core.PVector;

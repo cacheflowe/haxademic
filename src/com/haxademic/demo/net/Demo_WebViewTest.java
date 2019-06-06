@@ -7,24 +7,24 @@ public class Demo_WebViewTest
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
-	public void setupFirstFrame() {
-        new Thread() {
-            @Override
-            public void run() {
-                javafx.application.Application.launch(Demo_WebViewTestApp.class);
-            }
-        }.start();
-	}
+//	public void setupFirstFrame() {
+//        new Thread() {
+//            @Override
+//            public void run() {
+//                javafx.application.Application.launch(Demo_WebViewTestApp.class);
+//            }
+//        }.start();
+//	}
 	
 
 	public void drawApp() {
 		p.background(0);
 		DrawUtil.setCenterScreen(p);
 		
-		if(Demo_WebViewTestApp.instance != null) {
-			p.background(0,255,0);
-			//	WebViewApplicationTest.instance.printSomething();
-		}
+//		if(Demo_WebViewTestApp.instance != null) {
+//			p.background(0,255,0);
+//			//	WebViewApplicationTest.instance.printSomething();
+//		}
 	}
 
 }

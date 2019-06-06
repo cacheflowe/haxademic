@@ -142,10 +142,10 @@ implements IWebCamCallback {
 						float avgRadius = totalRadius / (float) numSegmentsToProcess;
 						
 						// store center of mass and average radius
-	//					p.stroke(0, 255, 0);
-	//					p.ellipse(centerX, centerY, 5, 5);
-	//					p.stroke(255, 0, 0);
-	//					p.ellipse(centerX, centerY, avgRadius * 2f, avgRadius * 2f);
+						p.stroke(0, 255, 0);
+						p.ellipse(centerX, centerY, 5, 5);
+						p.stroke(255, 0, 0);
+						p.ellipse(centerX, centerY, avgRadius * 2f, avgRadius * 2f);
 					}
 				}
 			}

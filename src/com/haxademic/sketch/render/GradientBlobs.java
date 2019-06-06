@@ -8,10 +8,10 @@ import com.haxademic.core.draw.color.Gradients;
 import com.haxademic.core.draw.context.DrawUtil;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.image.ImageCyclerBuffer;
-import com.haxademic.core.draw.image.PerlinTexture;
 import com.haxademic.core.draw.shapes.Icosahedron;
 import com.haxademic.core.draw.shapes.PShapeSolid;
 import com.haxademic.core.draw.shapes.PShapeUtil;
+import com.haxademic.core.draw.textures.PerlinTexture;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.easing.Penner;
 

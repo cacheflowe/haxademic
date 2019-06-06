@@ -1,4 +1,4 @@
-package com.haxademic.demo.audio;
+package com.haxademic.demo.media.audio.playback;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;

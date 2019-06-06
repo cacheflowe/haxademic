@@ -12,13 +12,13 @@ While the code has been open-sourced, I don't plan on making it easy/viable for 
 
 Below you'll find a long list of classes and utilities that I've built to make my life easier. I've tried to make as many basic [demos](https://github.com/cacheflowe/haxademic/tree/master/src/com/haxademic/demo) as possible for all of these features. The `demo` package mostly mirrors the `core` directory and should give you an idea of how to implement these object on your own.
 
-* [Audio](#audio)
 * [Data](#data)
 * [Debug](#debug)
 * [Draw](#draw)
 * [File](#file)
 * [Hardware](#hardware)
 * [Math](#math)
+* [Media](#media)
 * [Net](#net)
 * [Render](#render)
 * [System](#system)
@@ -38,22 +38,6 @@ Below you'll find a long list of classes and utilities that I've built to make m
 * __[AppSettings](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/app/config/AppSettings.java)__ - Static constants to help set app properties and initialize special objects in `PAppletHax`. Used in tandem with `P5Properties`.
 
 * __[P5Properties](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/app/config/P5Properties.java)__ - Loads properties from `data/properties/run.properties` (or an alternate specified .properties file), using the same string constants in `AppSettings`. All of these properties can be overridden in PAppletHax in the automatically-called `overridePropsFile()` function on app initialization.
-
-### Audio
-
-`com.haxademic.core.audio`
-
-* __[NormalizeMonoWav](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/audio/NormalizeMonoWav.java)__ - Normalizes a mono .wav file without any external libraries.
-
-* __[WavPlayer](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/audio/WavPlayer.java)__ - Play a .wav file with Beads and cache for future plays.
-
-* __[WavRecorder](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/audio/WavRecorder.java)__ - Record a .wav file with Minim.
-
-`com.haxademic.core.audio.analysis.input`
-
-* __[IAudioInput](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/audio/analysis/input/IAudioInput.java)__ - A common interface between several Java libraries that run FFT analysis and beat detection on an incoming audio signal. Choose between [Beads](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/audio/analysis/input/AudioInputBeads.java), [Minim](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/audio/analysis/input/AudioInputMinim.java), [ESS](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/audio/analysis/input/AudioInputESS.java) or [Processing Sound](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/audio/analysis/input/AudioInputProcessingSound.java), via [AppSettings](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/demo/audio/analysis/Demo_IAudioInput.java).
-
-* __[AudioStreamData](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/audio/analysis/input/AudioStreamData.java)__ - The common data storage object for audio analysis results.
 
 ### Data
 
@@ -143,10 +127,6 @@ Below you'll find a long list of classes and utilities that I've built to make m
 
 * __[ImageUtil](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/draw/image/ImageUtil.java)__ - Lots of tools for dealing with images and drawing them to screen.
 
-* __[MovieToImageSequence](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/draw/image/MovieToImageSequence.java)__ - Loads frames from a video into an array of PImages in realtime. Useful for fancier & faster playback/scrubbing through video frames without relying on Movie decoding once the frames are extracted.
-
-* __[SimplexNoiseTexture](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/draw/image/SimplexNoiseTexture.java)__ - Fast simplex noise.
-
 * __[TickerScroller](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/draw/image/TickerScroller.java)__ - Repeats a texture across a PGraphics and scrolls.
 
 * __[TiledTexture](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/draw/image/TiledTexture.java)__ - A drawing helper that takes advantage of OpenGL's texture repeat function and lets us draw a rectangle with a texture fill. Includes zoom & rotation controls for fancy texture & pattern tiling.
@@ -195,6 +175,10 @@ Below you'll find a long list of classes and utilities that I've built to make m
 
 * __[TextToPShape](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/draw/shapes/TextToPShape.java)__ - Text with a custom font turned into a 2d or 3d mesh.
 
+`com.haxademic.core.draw.textures`
+
+* __[SimplexNoiseTexture](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/draw/textures/SimplexNoiseTexture.java)__ - Fast simplex noise.
+
 `com.haxademic.core.draw.textures.pgraphics`
 
 * __[A collection](https://github.com/cacheflowe/haxademic/tree/master/src/com/haxademic/core/draw/textures/pgraphics)__ of PGraphics-based realtime textures, originally built as "VJ" clips/layers.
@@ -204,8 +188,6 @@ Below you'll find a long list of classes and utilities that I've built to make m
 * __[A collection](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/draw/textures/pshader/TextureShader.java)__ of (over 100) realtime shader textures, both original creations (prefixed with 'cacheflowe') and shaders ported from other artists on the web. Check the GLSL source for credits.
 
 ### File
-
-* __[DemoAssets](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/file/DemoAssets.java)__ - A collection of media files (svg, obj, png, ttf, mp4) to help quickly load an asset for demo purposes. Files are pulled from `data/haxademic/`.
 
 * __[FileUtil](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/file/FileUtil.java)__ - File & directory methods to help with file creation, deletion & listing.
 
@@ -265,6 +247,35 @@ Below you'll find a long list of classes and utilities that I've built to make m
 
 * __[SphericalCoord](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/math/SphericalCoord.java)__ - Spherical coordinate helper functions.
 
+### Media
+
+`com.haxademic.core.media`
+
+* __[DemoAssets](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/media/DemoAssets.java)__ - A collection of media files (svg, obj, png, ttf, mp4) to help quickly load an asset for demo purposes. Files are pulled from `data/haxademic/`.
+
+* __[MediaTimecodeTrigger](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/media/MediaTimecodeTrigger.java)__ - A helper object to run callbacks as audio or video playback reaches specified timecodes. Could be used for any time-tracked event triggering.
+
+`com.haxademic.core.media.audio.playback`
+
+* __[WavPlayer](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/media/audio/playback/WavPlayer.java)__ - Play a .wav file with Beads and cache for future plays.
+
+`com.haxademic.core.media.audio.input`
+
+* __[NormalizeMonoWav](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/media/audio/input/NormalizeMonoWav.java)__ - Normalizes a mono .wav file without any external libraries.
+
+* __[WavRecorder](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/media/audio/input/WavRecorder.java)__ - Record a .wav file with Minim.
+
+`com.haxademic.core.media.audio.analysis`
+
+* __[IAudioInput](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/media/audio/analysis/IAudioInput.java)__ - A common interface between several Java libraries that run FFT analysis and beat detection on an incoming audio signal. Choose between [Beads](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/media/audio/analysis/AudioInputBeads.java), [Minim](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/media/audio/analysis/AudioInputMinim.java), [ESS](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/media/audio/analysis/AudioInputESS.java) or [Processing Sound](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/media/audio/analysis/AudioInputProcessingSound.java), via [AppSettings](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/demo/media/audio/analysis/Demo_IAudioInput.java).
+
+* __[AudioStreamData](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/media/audio/analysis/AudioStreamData.java)__ - The common data storage object for audio analysis results.
+
+`com.haxademic.core.media.video`
+
+* __[MovieToImageSequence](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/media/video/MovieToImageSequence.java)__ - Loads frames from a video into an array of PImages in realtime. Useful for fancier & faster playback/scrubbing through video frames without relying on Movie decoding once the frames are extracted.
+
+
 ### Net
 
 * __[DashboardPoster](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/net/DashboardPoster.java)__ - Post debug info & screenshots to a web-based dashboard.
@@ -300,6 +311,8 @@ Below you'll find a long list of classes and utilities that I've built to make m
 * __[AppUtil](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/system/AppUtil.java)__ - Set app window properties and generate the script that was used to launch the app.
 
 * __[CrashMonitor](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/system/CrashMonitor.java)__ - Launches a 2nd app window to monitor the first, in case of a crash.
+
+* __[DateUtil](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/system/DateUtil.java)__ - Date & time helper functions.
 
 * __[JavaInfo](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/system/JavaInfo.java)__ - Tons of methods to print out Java & system properties.
 
@@ -351,6 +364,7 @@ Haxademic uses the following Java & Processing libraries, which I've included in
 * [oscP5](http://www.sojamo.de/libraries/oscP5/)
 * [PixelFlow](https://github.com/diwi/PixelFlow)
 * [Poly2Tri](https://github.com/orbisgis/poly2tri.java)
+* [RealSenseProcessing](https://github.com/cansik/realsense-processing)
 * [Super CSV](http://supercsv.sourceforge.net/)
 * [simple-openni](https://github.com/totovr/SimpleOpenni)
 * [themidibus](https://github.com/sparks/themidibus)
@@ -365,7 +379,7 @@ Haxademic uses the following Java & Processing libraries, which I've included in
 	* `defaults write com.apple.finder AppleShowAllFiles YES`
 * Download the standard Eclipse IDE for Java development, and the Java Development Kit itself:
 	* [Eclipse](http://www.eclipse.org/)
-	* [Java 8](http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html) - After installing JDK 1.8, open Eclipse, go to **Preferences** then **Java -> Installed JREs**, and click **Search...** to have Eclipse find the newly-installed library.
+	* [Java 8 (OpenJDK HotSpot)](https://adoptopenjdk.net/) - After installing JDK 8, open Eclipse, go to **Preferences** then **Java -> Installed JREs**, and click **Search...** to have Eclipse find the newly-installed library.
 * Clone or [download](https://github.com/cacheflowe/haxademic/archive/master.zip) the `haxademic` project
 * Open Eclipse and: **File -> Import -> General / Existing Projects into Workspace**
 	* Choose the `haxademic` directory that you cloned/downloaded, press **Finish**, and the project should be ready to use.

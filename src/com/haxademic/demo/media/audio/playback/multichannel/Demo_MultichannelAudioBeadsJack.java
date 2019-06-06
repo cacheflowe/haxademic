@@ -1,4 +1,4 @@
-package com.haxademic.demo.audio;
+package com.haxademic.demo.media.audio.playback.multichannel;
 
 import org.jaudiolibs.beads.AudioServerIO;
 

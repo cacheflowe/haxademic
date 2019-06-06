@@ -2,7 +2,7 @@ package com.haxademic.sketch.visualgorithms;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.image.PerlinTexture;
+import com.haxademic.core.draw.textures.PerlinTexture;
 
 public class PerlinTextureTest
 extends PAppletHax {

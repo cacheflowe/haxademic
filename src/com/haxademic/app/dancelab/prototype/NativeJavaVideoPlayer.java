@@ -1,32 +1,6 @@
 package com.haxademic.app.dancelab.prototype;
 
-import java.awt.Component;
-import java.awt.Dimension;
-import java.awt.Frame;
-import java.awt.Graphics2D;
-import java.awt.image.BufferedImage;
-import java.io.File;
-import java.util.ArrayList;
-
-import javax.swing.JLayeredPane;
-import javax.swing.JPanel;
-import javax.swing.JRootPane;
-
-import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.file.FileUtil;
-
-import javafx.application.Platform;
-import javafx.embed.swing.JFXPanel;
-import javafx.scene.Group;
-import javafx.scene.Scene;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
-import javafx.scene.media.MediaView;
-import javafx.scene.paint.Color;
-import processing.awt.PSurfaceAWT.SmoothCanvas;
-import processing.core.PImage;
 
 public class NativeJavaVideoPlayer
 extends PAppletHax {
@@ -36,7 +10,7 @@ extends PAppletHax {
 	// * Run on Windows
 	// * Try a different delegate object for Movie instances, launched on different threads
 	// * Java compile flags
-	
+	/*
 	protected ArrayList<MediaPlayer> movies;
 	protected String movieLocation = "video/dancelab/mimics/";
 	protected String[] movieFiles = {
@@ -238,6 +212,6 @@ extends PAppletHax {
 //		}
 	}
 	
-	
+	*/
 
 }

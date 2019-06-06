@@ -1,4 +1,4 @@
-package com.haxademic.core.draw.image;
+package com.haxademic.core.media.video;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.draw.filters.pshader.ChromaColorFilter;

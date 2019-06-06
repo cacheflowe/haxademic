@@ -15,7 +15,7 @@ import com.haxademic.core.draw.filters.pshader.ColorizeFromTexture;
 import com.haxademic.core.draw.filters.pshader.EdgeColorDarkenFilter;
 import com.haxademic.core.draw.filters.pshader.RotateFilter;
 import com.haxademic.core.draw.image.ImageUtil;
-import com.haxademic.core.draw.image.SimplexNoiseTexture;
+import com.haxademic.core.draw.textures.SimplexNoiseTexture;
 import com.haxademic.core.file.FileUtil;
 
 import processing.core.PGraphics;

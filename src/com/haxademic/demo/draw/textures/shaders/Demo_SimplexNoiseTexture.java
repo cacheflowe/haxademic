@@ -2,7 +2,7 @@ package com.haxademic.demo.draw.textures.shaders;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.draw.image.SimplexNoiseTexture;
+import com.haxademic.core.draw.textures.SimplexNoiseTexture;
 
 public class Demo_SimplexNoiseTexture 
 extends PAppletHax {

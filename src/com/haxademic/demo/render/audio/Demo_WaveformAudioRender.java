@@ -1,4 +1,4 @@
-package com.haxademic.demo.audio;
+package com.haxademic.demo.render.audio;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;

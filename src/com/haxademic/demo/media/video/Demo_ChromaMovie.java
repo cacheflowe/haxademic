@@ -1,9 +1,9 @@
-package com.haxademic.demo.draw.image;
+package com.haxademic.demo.media.video;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.context.DrawUtil;
-import com.haxademic.core.draw.image.ChromaMovie;
 import com.haxademic.core.file.FileUtil;
+import com.haxademic.core.media.video.ChromaMovie;
 
 public class Demo_ChromaMovie
 extends PAppletHax {

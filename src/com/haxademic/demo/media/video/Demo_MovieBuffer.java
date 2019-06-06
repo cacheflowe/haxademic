@@ -1,4 +1,4 @@
-package com.haxademic.demo.draw.image;
+package com.haxademic.demo.media.video;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.image.ImageUtil;

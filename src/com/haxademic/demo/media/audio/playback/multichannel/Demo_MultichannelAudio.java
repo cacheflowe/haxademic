@@ -1,4 +1,4 @@
-package com.haxademic.demo.audio;
+package com.haxademic.demo.media.audio.playback.multichannel;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -84,7 +84,7 @@ extends PAppletHax {
 			P.out("Mixer Description: " + info.getDescription());
 			P.out("Mixer Vendor: " + info.getVendor());
 
-			Mixer m = AudioSystem.getMixer(info);
+			// Mixer m = AudioSystem.getMixer(info);
 
 			// outputs
 //			Line.Info[] sourceInfos = m.getSourceLineInfo();
