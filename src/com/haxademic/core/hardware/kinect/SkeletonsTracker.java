@@ -4,7 +4,7 @@ import java.awt.Rectangle;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.math.easing.EasingFloat3d;
 
 import SimpleOpenNI.SimpleOpenNI;
@@ -124,7 +124,7 @@ public class SkeletonsTracker {
 		float confidence = _kinectContext.getJointPositionSkeleton( userId, SimpleOpenNI.SKEL_HEAD, _utilPVec );
 		_kinectContext.convertRealWorldToProjective( _utilPVec, _utilPVec2 );
 		if (confidence > 0.001f) {
-			DrawUtil.setColorForPImage( p );
+			PG.setColorForPImage( p );
 			p.rect( _utilPVec2.x, _utilPVec2.y, 10, 10 );
 		}
 	}
@@ -190,7 +190,7 @@ public class SkeletonsTracker {
 //		for ( int i = 0; i < userImg.pixels.length; i++ ) {
 //			if( kinectPixels[i] == 1 ) userImg.pixels[i] = userColor;  
 //		}
-//		DrawUtil.setColorForPImage(p);
+//		PG.setColorForPImage(p);
 //		p.image( userImg, 0, p.height - 480 );
 //	}
 	

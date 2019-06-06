@@ -4,7 +4,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.color.ImageGradient;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.shapes.Shapes;
 import com.haxademic.core.math.MathUtil;
 
@@ -32,9 +32,9 @@ extends PAppletHax {
 	public void drawApp() {
 		p.background(0);
 		p.noStroke();
-		//		DrawUtil.setBetterLights(p);
+		//		PG.setBetterLights(p);
 		p.lights();
-		DrawUtil.setCenterScreen(p);
+		PG.setCenterScreen(p);
 		p.translate(0, p.height * -0.075f);
 		rotateX(0.9f + 0.15f * P.sin(loop.progressRads())); 
 		

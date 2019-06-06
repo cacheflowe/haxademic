@@ -2,7 +2,7 @@ package com.haxademic.demo.draw.shapes;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.shapes.Shapes;
 
 public class Demo_Shapes_drawDiscAudio 
@@ -18,9 +18,9 @@ extends PAppletHax {
 		// context
 		p.background(0);
 		p.noStroke();
-		DrawUtil.setBetterLights(p);
-		DrawUtil.setCenterScreen(p);
-		DrawUtil.basicCameraFromMouse(p.g);
+		PG.setBetterLights(p);
+		PG.setCenterScreen(p);
+		PG.basicCameraFromMouse(p.g);
 		
 		// draw audio disc
 		p.pushMatrix();

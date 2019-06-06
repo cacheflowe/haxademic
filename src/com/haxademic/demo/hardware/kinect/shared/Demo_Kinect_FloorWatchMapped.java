@@ -4,7 +4,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.data.constants.PRenderers;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.mapping.PGraphicsKeystone;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.kinect.KinectSize;
@@ -69,7 +69,7 @@ extends PAppletHax {
 		
 		// draw depth
 		// draw filtered web cam
-		DrawUtil.setDrawCorner(p);
+		PG.setDrawCorner(p);
 		
 		// draw kinect depth data in 2 passes for debugging
 		if(keystoneUI) drawKinectDepthPixels(kinect, bufferDepthSlice, p.color(100), true, true);

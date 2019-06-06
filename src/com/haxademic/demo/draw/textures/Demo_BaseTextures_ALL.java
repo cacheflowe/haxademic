@@ -3,7 +3,7 @@ package com.haxademic.demo.draw.textures;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.textures.pgraphics.TextureEQGrid;
 import com.haxademic.core.draw.textures.pgraphics.TextureShaderTimeStepper;
@@ -289,7 +289,7 @@ extends PAppletHax {
 	}
 	
 	protected void postProcessForRendering() {
-		DrawUtil.fadeInOut(p.g, p.color(0), 1, 400, 50);
+		PG.fadeInOut(p.g, p.color(0), 1, 400, 50);
 		
 //		float time = p.millis() / 10000f;
 //		ColorDistortionFilter.instance(p).setTime(time);

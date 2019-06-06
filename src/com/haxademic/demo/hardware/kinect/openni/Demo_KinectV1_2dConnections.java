@@ -6,7 +6,7 @@ import java.awt.image.BufferedImage;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.toxi.VectorFlyerToxi;
 import com.haxademic.core.hardware.kinect.SkeletonsTracker;
@@ -41,14 +41,14 @@ extends PAppletHax {
 	}
 	
 	public void drawApp() {
-		DrawUtil.resetGlobalProps( p );
+		PG.resetGlobalProps( p );
 
 		p.shininess(1000f); 
 		p.lights();
 		p.background(0);
 
 		_skeletonTracker.update();
-		DrawUtil.setDrawCenter(p);
+		PG.setDrawCenter(p);
 		
 		// draw skeleton(s)
 //		_skeletonTracker.drawSkeletons();
@@ -86,8 +86,8 @@ extends PAppletHax {
 	
 	protected void drawWebCam( float rotations ) {
 		// draw cam
-		DrawUtil.setColorForPImage(p);
-		DrawUtil.setPImageAlpha(p, 0.25f);
+		PG.setColorForPImage(p);
+		PG.setPImageAlpha(p, 0.25f);
 		PImage drawCamImg = p.kinectWrapper.getRgbImage();
 //		PImage drawCamImg = getFilteredCam();
 		for( int i=0; i < rotations; i++ ) {
@@ -98,8 +98,8 @@ extends PAppletHax {
 	
 	protected void drawSkeletonLines( float rotations ) {
 		// draw kinect skeleton lines
-		DrawUtil.setColorForPImage(p);
-		DrawUtil.setPImageAlpha(p, 0.4f);
+		PG.setColorForPImage(p);
+		PG.setPImageAlpha(p, 0.4f);
 		for( int i=0; i < rotations; i++ ) {
 			p.rotate((float)P.TWO_PI/rotations * (float)i);
 			p.image( _texture, 0, 0 );

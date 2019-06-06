@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.shapes.Shapes;
 import com.haxademic.core.draw.toxi.MeshPool;
 import com.haxademic.core.draw.toxi.MeshUtilToxi;
@@ -57,10 +57,10 @@ extends PAppletHax {
 	}
 	
 	public void drawApp() {
-		DrawUtil.resetGlobalProps(p);
-		DrawUtil.setTopLeft(p);
-		DrawUtil.setDrawCorner(p);
-		DrawUtil.setColorForPImage(p);
+		PG.resetGlobalProps(p);
+		PG.setTopLeft(p);
+		PG.setDrawCorner(p);
+		PG.setColorForPImage(p);
 
 		p.shininess(1000f); 
 		p.lights();
@@ -87,8 +87,8 @@ extends PAppletHax {
 	
 	protected void drawWebCam( float rotations ) {
 		// draw cam
-		DrawUtil.setColorForPImage(p);
-		DrawUtil.setPImageAlpha(p, 0.25f);
+		PG.setColorForPImage(p);
+		PG.setPImageAlpha(p, 0.25f);
 		PImage drawCamImg = p.kinectWrapper.getRgbImage();
 		for( int i=0; i < rotations; i++ ) {
 			p.rotate((float)P.TWO_PI/rotations * (float)i);

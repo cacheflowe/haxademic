@@ -1,7 +1,7 @@
 package com.haxademic.core.draw.textures.pgraphics;
 
 import com.haxademic.core.app.P;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.EasingFloat;
@@ -47,7 +47,7 @@ extends BaseTexture {
 		_texture.translate(_texture.width/2, _texture.height/2);
 		_texture.rotate(rotation.value());
 		
-		DrawUtil.setDrawCenter(_texture);
+		PG.setDrawCenter(_texture);
 		for( float i=x - _texture.width - barW*2f; i < _texture.width * 2; i+=barW*2f ) {
 			_texture.fill( 0 );
 			_texture.rect(i, 0, barW, _texture.height * 2 );

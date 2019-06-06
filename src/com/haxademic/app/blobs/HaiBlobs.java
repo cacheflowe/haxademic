@@ -5,7 +5,7 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.color.ColorUtil;
 import com.haxademic.core.draw.color.Gradients;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.filters.pshader.BlurHFilter;
 import com.haxademic.core.draw.filters.pshader.InvertFilter;
@@ -237,7 +237,7 @@ extends PAppletHax {
 	protected void updateTextures() {
 		ticker.update();
 		tickerFXBuffer.beginDraw();
-		DrawUtil.setDrawCenter(tickerFXBuffer);
+		PG.setDrawCenter(tickerFXBuffer);
 		tickerFXBuffer.translate(tickerFXBuffer.width/2, tickerFXBuffer.height/2);
 		tickerFXBuffer.rotate(progressRadians);
 		tickerFXBuffer.scale(6);
@@ -255,8 +255,8 @@ extends PAppletHax {
 		buffer.clear();
 		buffer.pushMatrix();
 		buffer.translate(p.width * 0.5f, p.height * 0.5f);
-		DrawUtil.setDrawCorner(buffer);
-		DrawUtil.setDrawCorner(p);
+		PG.setDrawCorner(buffer);
+		PG.setDrawCorner(p);
 
 		// set texture on sphere
 //		shapeIcos_solid.shape().setTexture(ticker.image());
@@ -305,7 +305,7 @@ extends PAppletHax {
 
 		
 		// flat overlay
-		DrawUtil.setDrawFlat2d(p, true);
+		PG.setDrawFlat2d(p, true);
 		if(drawsOverlay == true) p.image(overlayMask, 0, 0);
 		
 		p.image(buffer, 0, 0);
@@ -313,7 +313,7 @@ extends PAppletHax {
 		if(DEBUG_MODE == true) {
 			p.image(tickerFXBuffer, 0, 0);
 		}
-		DrawUtil.setDrawFlat2d(p, false);
+		PG.setDrawFlat2d(p, false);
 		
 		InvertFilter.instance(p).applyTo(p);
 	}

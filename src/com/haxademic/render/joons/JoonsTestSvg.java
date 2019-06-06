@@ -2,7 +2,7 @@ package com.haxademic.render.joons;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.render.JoonsWrapper;
 
@@ -51,7 +51,7 @@ extends PAppletHax {
 
 		setUpRoom();
 		
-		DrawUtil.setDrawCenter(p);
+		PG.setDrawCenter(p);
 		p.pushMatrix();
 		p.translate(0, 0, -1000);
 		_shape.disableStyle();

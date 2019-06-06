@@ -5,7 +5,7 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.color.ColorUtil;
 import com.haxademic.core.draw.color.Gradients;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.BlurHFilter;
 import com.haxademic.core.draw.filters.pshader.VignetteAltFilter;
 import com.haxademic.core.draw.filters.pshader.WobbleFilter;
@@ -92,8 +92,8 @@ extends PAppletHax {
 		float starProgressRadians = starProgress * P.TWO_PI;
 		
 		buffer.blendMode(P.BLEND);
-		DrawUtil.feedback(buffer, p.color(255), 0.15f, 1f);
-		DrawUtil.setDrawFlat2d(buffer, true);
+		PG.feedback(buffer, p.color(255), 0.15f, 1f);
+		PG.setDrawFlat2d(buffer, true);
 		
 		buffer.blendMode(P.SUBTRACT);
 		buffer.noFill();
@@ -119,7 +119,7 @@ extends PAppletHax {
 //		buffer.rotateZ(-starProgressRadians);
 		
 		/*
-		DrawUtil.setDrawCenter(buffer);
+		PG.setDrawCenter(buffer);
 		boolean drawEllipses = false;
 		if(drawEllipses == true) {
 			for (int i = 0; i < numShapes; i++) {
@@ -227,7 +227,7 @@ extends PAppletHax {
 		// update textures
 		ticker.update();
 		tickerFXBuffer.beginDraw();
-		DrawUtil.setDrawCenter(tickerFXBuffer);
+		PG.setDrawCenter(tickerFXBuffer);
 		tickerFXBuffer.translate(tickerFXBuffer.width/2, tickerFXBuffer.height/2);
 		tickerFXBuffer.rotate(progressRadians);
 		tickerFXBuffer.scale(7);

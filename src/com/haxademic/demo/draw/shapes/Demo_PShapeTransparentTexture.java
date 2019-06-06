@@ -3,7 +3,7 @@ package com.haxademic.demo.draw.shapes;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.shapes.Shapes;
 import com.haxademic.core.media.DemoAssets;
 
@@ -38,7 +38,7 @@ extends PAppletHax {
 		p.rotateX(P.map(p.mouseY, 0, p.height, P.TWO_PI * 2, 0));
 		
 		// draw another shape
-		DrawUtil.setBetterLights(p);
+		PG.setBetterLights(p);
 		p.noStroke();
 		p.fill(127 + 127 * P.cos(p.frameCount * 0.01f), 127 + 127 * P.cos(p.frameCount * 0.02f), 127 + 127 * P.cos(p.frameCount * 0.006f));
 		Shapes.drawDisc3D(p, 100, 80, 80, 100, 0, 0);

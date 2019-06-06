@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.VignetteAltFilter;
 import com.haxademic.core.math.easing.EasingFloat;
 
@@ -67,13 +67,13 @@ extends PAppletHax {
 //		feedback(4, 0.2f);
 		
 		// fade out background
-		DrawUtil.setDrawCorner(p);
+		PG.setDrawCorner(p);
 		p.noStroke();
 		p.fill(0, OVERDRAW_FADE);
 		p.rect(0,0,p.width, p.height);
 		
 		// draw field
-		DrawUtil.setDrawCenter(p);
+		PG.setDrawCenter(p);
 		p.fill(0);
 		for (PVector vector : _vectorField) {
 			float noise = p.noise(
@@ -96,7 +96,7 @@ extends PAppletHax {
 		for (int j = 0; j < DRAWS_PER_FRAME; j++) {
 			// draw particles
 			p.strokeWeight(2f);
-			DrawUtil.setDrawCenter(p);
+			PG.setDrawCenter(p);
 			for( int i = 0; i < _particles.size(); i++ ) {
 //				p.fill((i % 150 + 55 / 10), i % 155 + 100, i % 100 + 100); // blue/green
 				p.stroke(180 + (i % 75), 200 + (i % 55), 210 + (i % 45));
@@ -108,7 +108,7 @@ extends PAppletHax {
 	}
 	
 	public void feedback(float amp, float darkness) {
-		DrawUtil.setDrawCorner(p);
+		PG.setDrawCorner(p);
 		p.g.copy(
 			p.g, 
 			0, 
@@ -134,7 +134,7 @@ extends PAppletHax {
 		// overlay
 		int transitionIn = 50;
 		int transition = 40;
-		DrawUtil.setDrawCorner(p);
+		PG.setDrawCorner(p);
 		if(p.frameCount <= transitionIn) {
 			VignetteAltFilter.instance(p).setDarkness(P.map(p.frameCount, 1f, transitionIn, -7f, -1.75f));
 			VignetteAltFilter.instance(p).setSpread(P.map(p.frameCount, 1f, transitionIn, -3f, -1.25f));

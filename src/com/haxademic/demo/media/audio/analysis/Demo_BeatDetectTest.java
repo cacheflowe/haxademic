@@ -1,7 +1,7 @@
 package com.haxademic.demo.media.audio.analysis;
 
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 
 public class Demo_BeatDetectTest 
 extends PAppletHax {
@@ -13,7 +13,7 @@ extends PAppletHax {
 	}
 
 	public void drawApp() {
-		DrawUtil.setDrawCenter(p);
+		PG.setDrawCenter(p);
 		p.noStroke();
 		
 		int x = p.frameCount % p.width;

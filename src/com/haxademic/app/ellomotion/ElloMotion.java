@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.file.FileUtil;
@@ -93,7 +93,7 @@ extends PAppletHax {
 	}
 
 	protected void drawArtistText() {
-		DrawUtil.resetPImageAlpha(p);
+		PG.resetPImageAlpha(p);
 //		PImage img = _galleryLabel.getTextPImage();
 //		p.fill(0);
 //		p.rect(p.width - 20 - _labelWidth, p.height - 20 - img.height, _labelWidth, img.height);

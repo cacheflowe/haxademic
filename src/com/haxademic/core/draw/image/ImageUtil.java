@@ -7,7 +7,7 @@ import java.nio.ByteBuffer;
 import com.haxademic.core.app.P;
 import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.draw.color.ColorUtil;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.math.MathUtil;
 
@@ -185,7 +185,7 @@ public class ImageUtil {
 	public static PGraphics imageToGraphicsWithPadding(PImage img, float fillAmount) {
 		PGraphics image = ImageUtil.imageToGraphics(img);
 		image.beginDraw();
-		DrawUtil.setDrawCenter(image);
+		PG.setDrawCenter(image);
 		image.clear();
 		image.translate(image.width/2, image.height/2);
 		image.image(img, 0, 0, img.width * fillAmount, img.height * fillAmount);
@@ -196,7 +196,7 @@ public class ImageUtil {
 	public static PImage imageToImageWithPadding(PImage img, float scaleCanvasUp) {
 		PGraphics pg = P.p.createGraphics(P.ceil((float) img.width * scaleCanvasUp), P.ceil((float) img.height * scaleCanvasUp));
 		pg.beginDraw();
-		DrawUtil.setDrawCenter(pg);
+		PG.setDrawCenter(pg);
 		pg.clear();
 		pg.translate(pg.width/2, pg.height/2);
 		pg.image(img, 0, 0);
@@ -243,9 +243,9 @@ public class ImageUtil {
 		float scale = (ratioH < ratioW) ? ratioH : ratioW;			// letterbox
 		if(cropFill) scale = (ratioH > ratioW) ? ratioH : ratioW;		// crop fill
 		if(openDestContext) dest.beginDraw();
-		DrawUtil.setDrawCenter(dest);
+		PG.setDrawCenter(dest);
 		dest.image(img, dest.width/2, dest.height/2, img.width * scale, img.height * scale);
-		DrawUtil.setDrawCorner(dest);
+		PG.setDrawCorner(dest);
 		if(openDestContext) dest.endDraw();
 	}
 	
@@ -260,7 +260,7 @@ public class ImageUtil {
 		PG.setCenterScreen(dest);
 		dest.rotate(P.HALF_PI * ((positive) ? 1f : -1f));
 		dest.image(img, 0, 0, img.width * scale, img.height * scale);
-		DrawUtil.setDrawCorner(dest);
+		PG.setDrawCorner(dest);
 		PG.pop(dest);
 		if(openDestContext) dest.endDraw();
 	}

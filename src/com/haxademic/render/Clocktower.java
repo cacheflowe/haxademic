@@ -7,7 +7,7 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.data.constants.PBlendModes;
 import com.haxademic.core.data.constants.PRenderers;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.BlurHFilter;
 import com.haxademic.core.draw.filters.pshader.BlurVFilter;
 import com.haxademic.core.draw.filters.pshader.BrightnessStepFilter;
@@ -112,8 +112,8 @@ extends PAppletHax {
 	protected void setupFirstFrame() {
 		pg = P.p.createGraphics(3595, 1200, PRenderers.P3D);
 		pgPost = P.p.createGraphics(3595, 1200, PRenderers.P3D);
-		DrawUtil.setTextureRepeat(pg, true);
-		DrawUtil.setTextureRepeat(pgPost, true);
+		PG.setTextureRepeat(pg, true);
+		PG.setTextureRepeat(pgPost, true);
 		
 		tower = P.getImage("images/_sketch/clocktower/clocktower.png");
 		template = p.loadShape( FileUtil.getFile("images/_sketch/clocktower/clocktower.svg"));
@@ -232,16 +232,16 @@ extends PAppletHax {
 	protected void drawTemplateOverlay(PGraphics pg) {
 		pg.beginDraw();
 		pg.blendMode(PBlendModes.BLEND);
-		DrawUtil.resetPImageAlpha(pg);
-		DrawUtil.setDrawCorner(pg);
+		PG.resetPImageAlpha(pg);
+		PG.setDrawCorner(pg);
 		pg.shape(template, 0, 0);
 		pg.endDraw();
 	}
 	
 	protected void overlayTowerTexture() {
-		DrawUtil.setPImageAlpha(p, 0.25f);
+		PG.setPImageAlpha(p, 0.25f);
 		ImageUtil.drawImageCropFill(tower, pgPost, false);
-		DrawUtil.setPImageAlpha(p, 1f);
+		PG.setPImageAlpha(p, 1f);
 	}
 	
 	protected void applyZoomRotate() {
@@ -296,8 +296,8 @@ extends PAppletHax {
 		// set context
 		pg.beginDraw();
 		if(p.frameCount <= 10) pg.background(0);
-		DrawUtil.setDrawCorner(pg);
-		DrawUtil.setDrawFlat2d(pg, true);
+		PG.setDrawCorner(pg);
+		PG.setDrawFlat2d(pg, true);
 		
 		darkenCanvas();
 		updateWindows();
@@ -353,7 +353,7 @@ extends PAppletHax {
 		
 		public void draw(int index) {
 			// draw oscillated shape
-			DrawUtil.setDrawCorner(pg);
+			PG.setDrawCorner(pg);
 			pg.pushMatrix();
 			float newScale = 1.15f;// + 0.1f * P.sin(index + p.loop.progressRads() * 2f);
 			pg.noStroke();
@@ -370,7 +370,7 @@ extends PAppletHax {
 //			pg.blendMode(PBlendModes.ADD);
 			
 			// draw outline
-			DrawUtil.setDrawCenter(pg);
+			PG.setDrawCenter(pg);
 			pg.pushMatrix();
 			pg.noFill();
 			pg.stroke(255, 127);

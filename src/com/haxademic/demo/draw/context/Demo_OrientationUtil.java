@@ -2,7 +2,7 @@ package com.haxademic.demo.draw.context;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.context.OrientationUtil;
 
 import processing.core.PVector;
@@ -25,7 +25,7 @@ extends PAppletHax {
 	public void drawApp() {
 		background(0);
 		
-		DrawUtil.setBetterLights(p);
+		PG.setBetterLights(p);
 		p.noStroke();
 		
 		// move center

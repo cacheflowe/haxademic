@@ -1,7 +1,7 @@
 package com.haxademic.core.draw.textures.pgraphics;
 
 import com.haxademic.core.app.P;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.shapes.Shapes;
 import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
 import com.haxademic.core.math.MathUtil;
@@ -58,8 +58,8 @@ extends BaseTexture {
 	public void updateDraw() {
 		_texture.clear();
 		
-		DrawUtil.resetGlobalProps( _texture );
-		DrawUtil.setCenterScreen( _texture );
+		PG.resetGlobalProps( _texture );
+		PG.setCenterScreen( _texture );
 		_texture.pushMatrix();
 		
 		// rotation for entire scene

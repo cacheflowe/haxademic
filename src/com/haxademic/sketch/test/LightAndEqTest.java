@@ -3,7 +3,7 @@ package com.haxademic.sketch.test;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.math.MathUtil;
 
@@ -57,7 +57,7 @@ extends PAppletHax {
 //		p.popMatrix();
 		
 		// draw circle
-		DrawUtil.setCenterScreen(p);
+		PG.setCenterScreen(p);
 		p.pushMatrix();
 //		drawEQ(40,3,50,200,5);
 		drawEQSmoothed(30,4,50,200,15,5,2);

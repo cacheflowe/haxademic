@@ -2,7 +2,7 @@ package com.haxademic.demo.draw.shapes;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.media.DemoAssets;
 
@@ -45,9 +45,9 @@ extends PAppletHax {
 		p.background(127);
 		p.pushMatrix();
 		
-		DrawUtil.setDrawCenter(p);
-		DrawUtil.setCenterScreen(p);
-		DrawUtil.basicCameraFromMouse(p.g);
+		PG.setDrawCenter(p);
+		PG.setCenterScreen(p);
+		PG.basicCameraFromMouse(p.g);
 		
 		// draw shape
 		p.scale(1f + 2f * p.mousePercentY());

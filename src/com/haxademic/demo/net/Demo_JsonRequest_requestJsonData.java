@@ -4,7 +4,7 @@ import java.io.IOException;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.net.IJsonRequestCallback;
 import com.haxademic.core.net.JsonRequest;
 import com.haxademic.core.net.JsonUtil;
@@ -33,7 +33,7 @@ implements IJsonRequestCallback {
 	public void drawApp() {
 		// background
 		pg.beginDraw();
-		DrawUtil.setDrawCenter(pg);
+		PG.setDrawCenter(pg);
 		pg.background((float)mouseX/width * 255,(float)mouseY/height * 255,0);
 		pg.fill(255);
 		

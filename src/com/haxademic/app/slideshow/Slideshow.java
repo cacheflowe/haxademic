@@ -14,7 +14,7 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.data.store.AppStore;
 import com.haxademic.core.draw.color.ColorUtil;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.image.BrightnessBumper;
 import com.haxademic.core.draw.mapping.PGraphicsKeystone;
@@ -269,7 +269,7 @@ extends PAppletHax
 		// deferred init
 //		if(p.frameCount == 100) setScreenPosition();
 //		if(p.frameCount == 2) AppUtil.setTitle(p, "Slideshow");
-//		if(p.frameCount == 3) DrawUtil.setDrawFlat2d(buffer, true);
+//		if(p.frameCount == 3) PG.setDrawFlat2d(buffer, true);
 		
 		// auto cycle slides
 		if(p.frameCount % LOADING_INTERVAL == 0 && preloaded == false) nextSlide();
@@ -298,7 +298,7 @@ extends PAppletHax
 	protected void drawBackgroundSlides() {
 		bufferBg.beginDraw();
 		bufferBg.clear();
-		DrawUtil.setDrawCenter(bufferBg);
+		PG.setDrawCenter(bufferBg);
 		bufferBg.translate(bufferBg.width/2, bufferBg.height/2, 0);
 				
 		for (int i = 0; i < slideImagesBg.size(); i++) {
@@ -319,7 +319,7 @@ extends PAppletHax
 		buffer.pushMatrix();
 		
 		// draw from center
-		DrawUtil.setDrawCenter(buffer);
+		PG.setDrawCenter(buffer);
 		buffer.translate(buffer.width/2, buffer.height/2, 0);
 		
 		// draw the background layer before drawing FG layers

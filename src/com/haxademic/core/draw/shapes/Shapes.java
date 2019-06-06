@@ -2,7 +2,7 @@ package com.haxademic.core.draw.shapes;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.data.constants.PShapeTypes;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.context.OrientationUtil;
 import com.haxademic.core.math.MathUtil;
 
@@ -756,7 +756,7 @@ public class Shapes {
 	public static void drawLineOfCircles(PGraphics pg, float startX, float startY, float endX, float endY) {
 		// set context
 		pg.noStroke();
-		DrawUtil.setDrawCenter(pg);
+		PG.setDrawCenter(pg);
 
 		// config
 		float stepSize = 10f;

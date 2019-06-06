@@ -3,7 +3,7 @@ package com.haxademic.demo.draw.shapes.shader;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.draw.shapes.pshader.MeshDeformAndTextureFilter;
@@ -46,9 +46,9 @@ extends PAppletHax {
 
 	public void drawApp() {
 		background(0);
-		DrawUtil.setBetterLights(p);
-		DrawUtil.setCenterScreen(p);
-		DrawUtil.basicCameraFromMouse(p.g);
+		PG.setBetterLights(p);
+		PG.setCenterScreen(p);
+		PG.basicCameraFromMouse(p.g);
 		
 		// update displacement texture - this must be set for shader to work
 		audioTexture.update();

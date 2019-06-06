@@ -3,7 +3,7 @@ package com.haxademic.core.draw.textures.pgraphics;
 import java.util.ArrayList;
 
 import com.haxademic.core.app.P;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.BlurHFilter;
 import com.haxademic.core.draw.filters.pshader.BlurVFilter;
 import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
@@ -38,7 +38,7 @@ extends BaseTexture {
 		float spectrumInterval = ( 512f / _numParticles );
 		
 		_texture.noStroke();
-		DrawUtil.setDrawCenter(_texture);
+		PG.setDrawCenter(_texture);
 
 		for( int i=0; i < _particles.size(); i++ ) {
 			int eqIndex = P.floor(spectrumInterval * i);

@@ -1,7 +1,7 @@
 package com.haxademic.core.draw.textures.pgraphics;
 
 import com.haxademic.core.app.P;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
 import com.haxademic.core.math.MathUtil;
 
@@ -63,9 +63,9 @@ extends BaseTexture {
 		_texture.translate(0, 0, -_texture.width * 3f);
 		
 		// context & camera
-		DrawUtil.setBetterLights(_texture);
-		DrawUtil.setCenterScreen(_texture);
-		DrawUtil.setDrawCenter(_texture);
+		PG.setBetterLights(_texture);
+		PG.setCenterScreen(_texture);
+		PG.setDrawCenter(_texture);
 		
 		// put it all in a huge cube
 		_texture.fill( 255 );

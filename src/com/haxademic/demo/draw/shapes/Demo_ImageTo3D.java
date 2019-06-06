@@ -4,7 +4,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.color.EasingColor;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.shapes.Shapes;
 import com.haxademic.core.media.DemoAssets;
@@ -51,14 +51,14 @@ extends PAppletHax {
 			joons.jr.background("cornell_box", p.width, p.height, p.height); //cornellBox(width, height, depth);
 		} else {			
 			background(255);
-			DrawUtil.setBasicLights(p);
+			PG.setBasicLights(p);
 		}
 		p.noStroke();
 
 		// position center
-		DrawUtil.setCenterScreen(p.g);
+		PG.setCenterScreen(p.g);
 		p.translate(0, 0, image.width * -10);
-		DrawUtil.basicCameraFromMouse(p.g);
+		PG.basicCameraFromMouse(p.g);
 
 //		drawImgWebCam();
 		drawImgBoxes();

@@ -8,7 +8,7 @@ import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.draw.color.EasingColor;
 import com.haxademic.core.draw.color.ImageGradient;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.BlurHFilter;
 import com.haxademic.core.draw.filters.pshader.BlurVFilter;
 import com.haxademic.core.draw.image.BufferActivityMonitor;
@@ -229,7 +229,7 @@ extends PAppletHax {
 		mainBuffer.noStroke();
 		mainBuffer.background(0);
 		mainBuffer.pushMatrix();
-		DrawUtil.setDrawCenter(mainBuffer);
+		PG.setDrawCenter(mainBuffer);
 		mainBuffer.translate(mainBuffer.width/2, mainBuffer.height/2);
 
 		// draw camera - compensate for depth image size (scale) and alignment (x & y)
@@ -239,9 +239,9 @@ extends PAppletHax {
 		
 		// draw debug motion buffer
 		if(p.debugView.active()) {
-			DrawUtil.setPImageAlpha(mainBuffer, 0.5f);
+			PG.setPImageAlpha(mainBuffer, 0.5f);
 			if(motionBuffer != null) mainBuffer.image(motionBuffer, 0, 0);
-			DrawUtil.setPImageAlpha(mainBuffer, 1f);
+			PG.setPImageAlpha(mainBuffer, 1f);
 		}
 
 		// draw shapes & sponsor

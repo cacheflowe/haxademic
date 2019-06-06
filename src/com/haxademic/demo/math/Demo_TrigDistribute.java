@@ -3,7 +3,7 @@ package com.haxademic.demo.math;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 
 public class Demo_TrigDistribute
 extends PAppletHax {
@@ -25,7 +25,7 @@ extends PAppletHax {
 
 	public void drawApp() {
 		background(0);
-		DrawUtil.setDrawCenter(p);
+		PG.setDrawCenter(p);
 		p.fill(255);
 		p.stroke(255);
 		p.strokeWeight(2);

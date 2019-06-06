@@ -3,7 +3,7 @@ package com.haxademic.core.draw.filters.pgraphics;
 import com.haxademic.core.app.P;
 import com.haxademic.core.data.constants.PBlendModes;
 import com.haxademic.core.data.constants.PRenderers;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pgraphics.shared.BaseVideoFilter;
 import com.haxademic.core.draw.filters.pshader.BlendTowardsTexture;
 import com.haxademic.core.draw.image.BufferMotionDetectionMap;
@@ -92,7 +92,7 @@ extends BaseVideoFilter {
 		destBuffer.clear();
 		
 		// draw camera under
-		DrawUtil.setDrawFlat2d(destBuffer, true);
+		PG.setDrawFlat2d(destBuffer, true);
 		destBuffer.image(sourceBuffer, 0, 0);
 
 		// draw vertex points. strokeWeight w/disableStyle works here for point size

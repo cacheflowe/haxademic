@@ -2,7 +2,7 @@ package com.haxademic.demo.draw.filters.shaders;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.RotateFilter;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.media.DemoAssets;
@@ -17,7 +17,7 @@ extends PAppletHax {
 	}
 
 	public void drawApp() {
-		if(p.frameCount == 1) DrawUtil.setTextureRepeat(p.g, true);
+		if(p.frameCount == 1) PG.setTextureRepeat(p.g, true);
 		p.background(0);
 		ImageUtil.drawImageCropFill(DemoAssets.squareTexture(), p.g, true);
 		

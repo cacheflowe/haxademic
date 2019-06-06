@@ -6,7 +6,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.color.ColorsHax;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.kinect.KinectSize;
 
@@ -75,14 +75,14 @@ extends PAppletHax {
 	}
 		
 	public void drawApp() {
-//		DrawUtil.resetGlobalProps( p );
+//		PG.resetGlobalProps( p );
 		p.shininess(1000f); 
 		p.lights();
 		p.background(0);
 		
 		// draw filtered web cam
-//		DrawUtil.setDrawCorner(p);
-		DrawUtil.setColorForPImage(p);
+//		PG.setDrawCorner(p);
+		PG.setColorForPImage(p);
 		
 		p.translate(p.width, 0);
 		p.rotateY(P.PI);

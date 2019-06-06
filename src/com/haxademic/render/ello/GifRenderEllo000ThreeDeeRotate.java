@@ -3,7 +3,7 @@ package com.haxademic.render.ello;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.toxi.MeshPool;
 import com.haxademic.core.draw.toxi.MeshUtilToxi;
@@ -42,11 +42,11 @@ extends PAppletHax {
 		p.background(255);
 		p.noStroke();
 		
-		DrawUtil.setColorForPImage(p);
-		DrawUtil.setDrawCenter(p);
+		PG.setColorForPImage(p);
+		PG.setDrawCenter(p);
 
-		DrawUtil.setCenterScreen( p );
-		DrawUtil.setBasicLights( p );
+		PG.setCenterScreen( p );
+		PG.setBasicLights( p );
 		
 		p.translate(0, 360, 300);
 		

@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.easing.Penner;
@@ -84,7 +84,7 @@ extends PAppletHax {
 		}
 		
 		p.pushMatrix();
-		DrawUtil.setDrawCenter(p);
+		PG.setDrawCenter(p);
 		p.translate(p.width/2, p.height/2);
 		p.scale(easedPercentGrow);
 		p.image(_images.get(_imageIndex), 0, 0, p.width, p.height);

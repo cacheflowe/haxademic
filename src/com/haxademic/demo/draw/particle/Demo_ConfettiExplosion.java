@@ -3,7 +3,7 @@ package com.haxademic.demo.draw.particle;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.color.EasingColor;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 
 public class Demo_ConfettiExplosion
 extends PAppletHax {
@@ -144,7 +144,7 @@ extends PAppletHax {
 				
 			// draw setup
 			pushMatrix();
-			DrawUtil.setDrawCenter(p);
+			PG.setDrawCenter(p);
 						
 			// apply perlin wind on the way down
 			if( _speedY > 0 )

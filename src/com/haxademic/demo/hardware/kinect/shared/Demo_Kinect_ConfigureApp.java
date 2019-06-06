@@ -3,7 +3,7 @@ package com.haxademic.demo.hardware.kinect.shared;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.hardware.kinect.KinectSize;
 
 public class Demo_Kinect_ConfigureApp
@@ -44,7 +44,7 @@ extends PAppletHax {
 
 	public void drawApp() {
 		background(0);
-		DrawUtil.setDrawCorner(p);
+		PG.setDrawCorner(p);
 
 		p.pushMatrix();
 		

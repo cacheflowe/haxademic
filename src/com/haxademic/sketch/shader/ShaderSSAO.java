@@ -3,7 +3,7 @@ package com.haxademic.sketch.shader;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.MathUtil;
@@ -150,7 +150,7 @@ extends PAppletHax {
 	protected void drawShapes(PGraphics pg, boolean addLights) {
 		pg.beginDraw();
 		pg.clear();
-		DrawUtil.setDrawCenter(pg);
+		PG.setDrawCenter(pg);
 		pg.sphereDetail(7);
 		pg.noStroke();
 				

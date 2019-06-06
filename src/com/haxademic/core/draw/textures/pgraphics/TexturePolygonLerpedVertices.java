@@ -1,7 +1,7 @@
 package com.haxademic.core.draw.textures.pgraphics;
 
 import com.haxademic.core.app.P;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.BrightnessStepFilter;
 import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
 import com.haxademic.core.math.MathUtil;
@@ -30,7 +30,7 @@ extends BaseTexture {
 		// feedback & brightness
 		feedbackDist.update();
 		feedbackDarken.update();
-		DrawUtil.feedback(_texture, (int) feedbackDist.value());
+		PG.feedback(_texture, (int) feedbackDist.value());
 		BrightnessStepFilter.instance(P.p).setBrightnessStep(-feedbackDarken.value()/255f);
 		BrightnessStepFilter.instance(P.p).applyTo(_texture);
 
@@ -42,8 +42,8 @@ extends BaseTexture {
 		_texture.strokeWeight(lineWeight.value());
 		
 		// context & camera
-		DrawUtil.setCenterScreen(_texture);
-		DrawUtil.setDrawCenter(_texture);
+		PG.setCenterScreen(_texture);
+		PG.setDrawCenter(_texture);
 		
 		// draw polygon
 		scaleV.update(true);

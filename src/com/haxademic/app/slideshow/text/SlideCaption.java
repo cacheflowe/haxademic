@@ -4,7 +4,7 @@ import com.haxademic.app.slideshow.Slideshow;
 import com.haxademic.app.slideshow.slides.SlideshowState;
 import com.haxademic.core.app.P;
 import com.haxademic.core.data.store.IAppStoreListener;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.easing.LinearFloat;
 import com.haxademic.core.math.easing.Penner;
@@ -62,7 +62,7 @@ implements IAppStoreListener {
 		}
 		
 		if(caption != null) {
-			DrawUtil.setDrawCorner(pg);
+			PG.setDrawCorner(pg);
 			pg.noStroke();
 			
 			// get eased y
@@ -83,7 +83,7 @@ implements IAppStoreListener {
 			pg.text(caption, textOffsetY * 5f, curY - textOffsetY, pg.width - 50, height);
 			
 			pg.popMatrix();
-			DrawUtil.setDrawCenter(pg);
+			PG.setDrawCenter(pg);
 		}
 	}
 

@@ -3,7 +3,7 @@ package com.haxademic.core.draw.textures.pgraphics;
 import java.util.ArrayList;
 
 import com.haxademic.core.app.P;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.MathUtil;
@@ -72,8 +72,8 @@ extends BaseTexture {
 //		_texture.clear();
 		feedback(0.5f,0.2f);
 		
-		DrawUtil.resetGlobalProps(_texture);
-		DrawUtil.setDrawCenter(_texture);
+		PG.resetGlobalProps(_texture);
+		PG.setDrawCenter(_texture);
 
 		_timeEaser.update();
 

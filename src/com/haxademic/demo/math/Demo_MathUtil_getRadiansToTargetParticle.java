@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.EasingFloat;
 
@@ -33,12 +33,12 @@ extends PAppletHax {
 
 	public void drawApp() {
 		// fade background
-		DrawUtil.setDrawCorner(p);
+		PG.setDrawCorner(p);
 		p.fill(110,70,215,40);
 		p.rect(0, 0, p.width, p.height);
 		
 		// draw particles
-		DrawUtil.setDrawCenter(p);
+		PG.setDrawCenter(p);
 		p.fill(255);
 		p.noStroke();
 		for (int i = 0; i < partis.size(); i++) {

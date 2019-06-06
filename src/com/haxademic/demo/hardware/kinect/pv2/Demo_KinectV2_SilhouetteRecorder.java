@@ -2,7 +2,7 @@ package com.haxademic.demo.hardware.kinect.pv2;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.image.ImageSequenceRecorder;
 
 import KinectPV2.KinectPV2;
@@ -41,15 +41,15 @@ extends PAppletHax {
 		p.background( 0 );
 		
 		p.pushMatrix();
-		DrawUtil.setDrawCenter(p);
-		DrawUtil.setCenterScreen(p);
+		PG.setDrawCenter(p);
+		PG.setCenterScreen(p);
 		p.image(kinect.getBodyTrackImage(), 0, 0);
-		DrawUtil.setPImageAlpha(p, 0.5f);
+		PG.setPImageAlpha(p, 0.5f);
 		float rgbImgScale = (float) kinect.getBodyTrackImage().height / (float) kinect.getColorImage().height; 
 		p.image(kinect.getColorImage(), 0, 0, kinect.getColorImage().width * rgbImgScale, kinect.getColorImage().height * rgbImgScale);
 		p.popMatrix();
 		
-		DrawUtil.setDrawCorner(p);
+		PG.setDrawCorner(p);
 		recorder.addFrame(kinect.getBodyTrackImage());
 		recorder.drawDebug(p.g);
 	}

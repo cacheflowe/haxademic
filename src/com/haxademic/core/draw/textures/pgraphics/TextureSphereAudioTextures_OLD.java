@@ -1,7 +1,7 @@
 package com.haxademic.core.draw.textures.pgraphics;
 
 import com.haxademic.core.app.P;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
 import com.haxademic.core.draw.toxi.MeshUtilToxi;
 import com.haxademic.core.math.MathUtil;
@@ -93,8 +93,8 @@ extends BaseTexture {
 		
 		_texture.pushMatrix();
 		
-//		DrawUtil.setColorForPImage(_texture);
-		DrawUtil.setCenterScreen(_texture);
+//		PG.setColorForPImage(_texture);
+		PG.setCenterScreen(_texture);
 		_texture.noStroke();
 		
 		_texture.translate( 0, 0, -_texture.height/2f );
@@ -109,8 +109,8 @@ extends BaseTexture {
 		// draw texture. if tinting happened, reset after drawing
 		Toxiclibs.instance(P.p).toxi.setGraphics(_texture);
 		if( _sphereTexture.texture() != null ) MeshUtilToxi.drawToxiMesh( P.p, Toxiclibs.instance(P.p).toxi, _deformMesh, _sphereTexture.texture() );
-		DrawUtil.setColorForPImage(_texture);
-		DrawUtil.resetPImageAlpha(_texture);
+		PG.setColorForPImage(_texture);
+		PG.resetPImageAlpha(_texture);
 		
 		_texture.popMatrix();
 	}

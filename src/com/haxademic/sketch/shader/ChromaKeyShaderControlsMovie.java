@@ -62,7 +62,7 @@ extends PAppletHax {
 	public void drawApp() {
 		
 		
-//		DrawUtil.feedback(p.g, p.color(255), 0.05f, 6f);
+//		PG.feedback(p.g, p.color(255), 0.05f, 6f);
 		
 		// add post effects
 //		PixelateFilter.instance(p).setDivider(6, p.width, p.height);
@@ -75,9 +75,9 @@ extends PAppletHax {
 
 		// draw a background
 		underlay.updateDrawWithTime(p.frameCount * 0.01f);
-//		DrawUtil.setPImageAlpha(p, 0.05f);
+//		PG.setPImageAlpha(p, 0.05f);
 		p.image(underlay.texture(), 0, 0);
-//		DrawUtil.resetPImageAlpha(p);
+//		PG.resetPImageAlpha(p);
 		
 //		p.fill(255, 127);
 //		p.rect(0, 0, p.width, p.height);

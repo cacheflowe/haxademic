@@ -3,7 +3,7 @@ package com.haxademic.render;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.image.TiledTexture;
 import com.haxademic.core.math.easing.EasingFloat;
 
@@ -173,7 +173,7 @@ extends PAppletHax {
 		pg.image(houndsTooth4x4, 0, 0);
 		
 		// draw repeating image 
-		DrawUtil.setCenterScreen(pg);
+		PG.setCenterScreen(pg);
 		tileSize.update(true);
 		tileRot.update(true);
 		finalPatternTileRepeat.drawCentered(pg, pg.width, pg.height);

@@ -3,7 +3,7 @@ package com.haxademic.sketch.hardware;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 
 import processing.serial.Serial;
 
@@ -125,7 +125,7 @@ extends PAppletHax {
 		text(serialPort.available(), 20, 20);
 
 		// test draw to make sure light update requests don't hurt framerate
-		DrawUtil.setDrawCenter(p);
+		PG.setDrawCenter(p);
 		p.fill(255);
 		p.stroke(127);
 		p.strokeWeight(5);

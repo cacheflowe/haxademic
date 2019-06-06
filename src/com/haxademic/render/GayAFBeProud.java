@@ -4,7 +4,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.color.ColorUtil;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.BrightnessFilter;
 import com.haxademic.core.draw.filters.pshader.VignetteFilter;
 import com.haxademic.core.draw.image.TiledTexture;
@@ -120,8 +120,8 @@ extends PAppletHax {
 		background(0);
 //		CameraUtil.setCameraDistanceGood(p.g, 400, 10000);
 		p.noStroke();
-//		DrawUtil.setDrawCenter(p.g);
-		DrawUtil.setBetterLights(p.g);
+//		PG.setDrawCenter(p.g);
+		PG.setBetterLights(p.g);
 //		p.lights();
 		
 		// update repeating textures
@@ -149,7 +149,7 @@ extends PAppletHax {
 		float easedSlide = Penner.easeInOutQuad(showHide.value(), 0, 1, 1);
 		
 		// draw shape
-		DrawUtil.setCenterScreen(p.g);
+		PG.setCenterScreen(p.g);
 		p.rotateX(0.5f * P.sin(P.HALF_PI + easedSlide * P.PI));
 //		p.rotateX(0.4f * P.sin(P.HALF_PI + p.loop.progressRads()));
 		// draw sheet

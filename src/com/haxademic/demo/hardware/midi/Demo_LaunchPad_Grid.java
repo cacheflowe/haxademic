@@ -5,7 +5,7 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.color.ColorUtil;
 import com.haxademic.core.draw.color.Gradients;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.hardware.midi.devices.LaunchPad;
 import com.haxademic.core.hardware.midi.devices.NovationColors;
@@ -74,15 +74,15 @@ implements SimpleMidiListener {
 		
 		// draw test pattern
 		pg.beginDraw();
-		DrawUtil.push(pg);
-		DrawUtil.setCenterScreen(pg);
+		PG.push(pg);
+		PG.setCenterScreen(pg);
 		Gradients.radial(pg, pg.width * 2f, pg.height * 2f, p.color(127f + 127f * P.sin(-p.frameCount * 0.02f)), p.color(127f + 127f * P.sin(P.HALF_PI + -p.frameCount * 0.02f)), 50);
-		DrawUtil.pop(pg);
+		PG.pop(pg);
 		pg.noStroke();
 //		pg.fill(180f + 75f * P.sin(p.frameCount * 0.1f));
 		pg.fill(255);
-		DrawUtil.setCenterScreen(pg);
-		DrawUtil.setDrawCenter(pg);
+		PG.setCenterScreen(pg);
+		PG.setDrawCenter(pg);
 		pg.rotate(p.frameCount * 0.03f);
 //		pg.rect(0, 0, pg.width, pg.height * 1f/4f);
 		pg.endDraw();

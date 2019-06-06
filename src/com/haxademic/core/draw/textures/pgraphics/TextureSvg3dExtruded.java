@@ -7,7 +7,7 @@ import java.util.Random;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.draw.color.ImageGradient;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.BlendTowardsTexture;
 import com.haxademic.core.draw.filters.pshader.BlurProcessingFilter;
 import com.haxademic.core.draw.filters.pshader.ColorizeFilter;
@@ -234,8 +234,8 @@ extends BaseTexture {
 		
 		// set context
 		_texture.pushMatrix();
-		DrawUtil.setDrawCorner(_texture);
-		DrawUtil.setCenterScreen(_texture);
+		PG.setDrawCorner(_texture);
+		PG.setCenterScreen(_texture);
 		_texture.rotateX(logoRotX.value());
 		_texture.rotateY(logoRotY.value());
 		_texture.rotateZ(logoRotZ.value());
@@ -244,8 +244,8 @@ extends BaseTexture {
 		case Color:
 //			_texture.lights();
 			_texture.fill(255);
-			DrawUtil.setBetterLights(_texture);
-//			DrawUtil.setBasicLights(_texture);
+			PG.setBetterLights(_texture);
+//			PG.setBasicLights(_texture);
 //			PShapeUtil.drawTriangles(_texture, logo3d, DemoAssets.justin(), logoScale.value());
 //			_texture.shape(logo3d);
 			PShapeUtil.drawTriangles(_texture, logo3d, curMeshTexture, logoScale.value());
@@ -253,19 +253,19 @@ extends BaseTexture {
 		case Textured:
 			_texture.fill(255);
 //			_texture.lights();
-			DrawUtil.setBetterLights(_texture);
-//			DrawUtil.setBasicLights(_texture);
+			PG.setBetterLights(_texture);
+//			PG.setBasicLights(_texture);
 			PShapeUtil.drawTriangles(_texture, logo3d, audioTexture.texture(), logoScale.value());
 			break;
 //		case AudioTriangles:
-//			DrawUtil.setBasicLights(_texture);
+//			PG.setBasicLights(_texture);
 //			_texture.fill(_colorEase.colorInt(0.2f));
 //			PShapeUtil.drawTriangles(_texture, logo3d, curMeshTexture, logoScale.value());
 //			PShapeUtil.drawTrianglesAudio(_texture, logo3d, logoScale.value() + 0.01f, _colorEase.colorInt());
 //			break;
 		case Displacement2d:
-//			DrawUtil.setBetterLights(_texture);
-			DrawUtil.setBasicLights(_texture);
+//			PG.setBetterLights(_texture);
+			PG.setBasicLights(_texture);
 //			_texture.shape(logo3d, 0, 0);
 			_texture.fill(_colorEase.colorInt());
 			_texture.shape(logo3d);
@@ -318,7 +318,7 @@ extends BaseTexture {
 			break;
 //		case TextureRepeat:
 //			float thicknesss = 40 + 20f * P.sin(P.p.frameCount * 0.05f);
-//			DrawUtil.setDrawCenter(_texture);
+//			PG.setDrawCenter(_texture);
 //			_texture.noStroke();
 //			_texture.fill(255);
 //			float numLayersg = 6;
@@ -327,11 +327,11 @@ extends BaseTexture {
 //				float loopProgress = i * 1f / numLayersg;
 //				_texture.pushMatrix();
 //				_texture.translate(0, 0, numLayersg/2f * spacingg - spacingg * i);
-//				DrawUtil.setPImageAlpha(_texture, loopProgress);
+//				PG.setPImageAlpha(_texture, loopProgress);
 //				_texture.image(logoTexture, 0, 0, logoTexture.width * (1f + i * 0.05f), logoTexture.height * (1f + i * 0.05f));
 //				_texture.popMatrix();
 //			}
-//			DrawUtil.resetPImageAlpha(_texture);
+//			PG.resetPImageAlpha(_texture);
 //			break;
 		default:
 			break;

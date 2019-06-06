@@ -49,7 +49,7 @@ extends BaseTexture {
 		
 		buildGraphics( width, height );
 		_texture.smooth(AppSettings.SMOOTH_LOW);
-//		DrawUtil.setDrawFlat2d(_texture, true);
+//		PG.setDrawFlat2d(_texture, true);
 		loadShaders( textureShader );
 	}
 	

@@ -3,7 +3,7 @@ package com.haxademic.render;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.VignetteFilter;
 import com.haxademic.core.draw.shapes.Shapes;
 import com.haxademic.core.file.FileUtil;
@@ -39,9 +39,9 @@ extends PAppletHax {
 	public void drawApp() {
 		p.background(0);
 		p.translate(width/2, height/2, 0);
-		DrawUtil.setBetterLights(p);
-		DrawUtil.setDrawCenter(p);
-		DrawUtil.setPImageAlpha(p, 1);
+		PG.setBetterLights(p);
+		PG.setDrawCenter(p);
+		PG.setPImageAlpha(p, 1);
 
 		updateBoxTexture();
 		
@@ -70,7 +70,7 @@ extends PAppletHax {
 		// draw logo based on inner box translation
 		translate(boxSize * 0.29f, boxSize * 0.3f, boxSize * 0.52f);
 		float logoScale = 1.3f * ((float) logo.width / (float) p.width);
-		DrawUtil.setPImageAlpha(p, 0.9f + 0.1f * P.sin(P.PI + radsComplete));
+		PG.setPImageAlpha(p, 0.9f + 0.1f * P.sin(P.PI + radsComplete));
 		p.image(logo, 0, 0, logoScale * logo.width, logoScale * logo.height);
 		
 		p.popMatrix();

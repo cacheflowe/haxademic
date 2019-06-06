@@ -19,7 +19,7 @@ import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.data.store.IAppStoreListener;
 import com.haxademic.core.draw.color.Gradients;
 import com.haxademic.core.draw.color.ImageGradient;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.filters.pshader.BadTVLinesFilter;
 import com.haxademic.core.draw.filters.pshader.BlendTowardsTexture;
@@ -375,7 +375,7 @@ implements IAppStoreListener {
 			fadeEdge.beginDraw();
 			fadeEdge.clear();
 			fadeEdge.background(0, 0);
-			DrawUtil.setDrawCenter(fadeEdge);
+			PG.setDrawCenter(fadeEdge);
 			fadeEdge.noStroke();
 			
 			// draw projector-blending gradient
@@ -468,7 +468,7 @@ implements IAppStoreListener {
 							outW, outH, outW, outH);
 			
 			// screen 2-3 blending
-			DrawUtil.setDrawCenter(p.g);
+			PG.setDrawCenter(p.g);
 			p.g.image(fadeEdge, outW + outW / 2 + p.ui.value(BLEND_LEFT), outH / 2, fadeEdge.width, outH);
 			
 			p.pushMatrix();
@@ -477,7 +477,7 @@ implements IAppStoreListener {
 			p.g.image(fadeEdge, 0, 0, fadeEdge.width, outH);
 			p.popMatrix();
 			
-			DrawUtil.setDrawCorner(p.g);
+			PG.setDrawCorner(p.g);
 		}
 	}
 
@@ -1301,9 +1301,9 @@ implements IAppStoreListener {
 		if(interstitialAlpha > 0) {
 			imageCycler.update();
 			_pg.beginDraw();
-			DrawUtil.setPImageAlpha(_pg, interstitialAlpha);
+			PG.setPImageAlpha(_pg, interstitialAlpha);
 			ImageUtil.drawImageCropFill(imageCycler.image(), _pg, false);
-			DrawUtil.resetPImageAlpha(_pg);
+			PG.resetPImageAlpha(_pg);
 			_pg.endDraw();
 		}
 	}

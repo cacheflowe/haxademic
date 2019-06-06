@@ -3,7 +3,7 @@ package com.haxademic.demo.draw.image;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.image.TiledTexture;
 import com.haxademic.core.media.DemoAssets;
@@ -58,7 +58,7 @@ extends PAppletHax {
 	
 	public void drawApp() {
 		background(0);
-		DrawUtil.setCenterScreen(p);
+		PG.setCenterScreen(p);
 		
 		// draw tiled texture
 		float size = 1f + 0.2f * P.sin(p.loop.progressRads());

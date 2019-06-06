@@ -15,7 +15,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.data.ConvertUtil;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.context.OpenGLUtil.Blend;
 import com.haxademic.core.draw.filters.pshader.BadTVLinesFilter;
@@ -326,8 +326,8 @@ extends PAppletHax {
 		_overlayPG.endDraw();
 		
 		// draw composited overlay buffer
-		DrawUtil.setColorForPImage(p);
-		DrawUtil.resetPImageAlpha(p);
+		PG.setColorForPImage(p);
+		PG.resetPImageAlpha(p);
 		OpenGLUtil.setBlendMode(p.g, Blend.ADDITIVE);
 //		p.blendMode(P.ADD);
 //		p.blendMode(P.SCREEN);
@@ -342,7 +342,7 @@ extends PAppletHax {
 	}
 
 	protected void debugTextures() {
-		DrawUtil.setPImageAlpha(p, 1);
+		PG.setPImageAlpha(p, 1);
 		// debug current textures
 		for( int i=0; i < _activeTextures.size(); i++ ) {
 			p.image(_activeTextures.get(i).texture(), i * 100, p.height - 100, 100, 100);

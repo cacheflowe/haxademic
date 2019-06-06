@@ -3,7 +3,7 @@ package com.haxademic.demo.math;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.math.easing.ElasticFloat;
 
 public class Demo_ElasticFloat
@@ -45,7 +45,7 @@ extends PAppletHax {
 		_elasticY.update();
 		_elasticBottom.update();
 		
-		DrawUtil.setDrawCenter(p);
+		PG.setDrawCenter(p);
 		p.fill(255);
 		p.ellipse(_elasticX.value(), _elasticY.value(), 40, 40);
 		p.ellipse(_elasticBottom.value(), p.height - 20, 40, 40);

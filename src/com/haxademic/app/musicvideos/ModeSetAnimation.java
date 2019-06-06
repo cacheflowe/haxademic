@@ -6,7 +6,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.draw.color.EasingColor;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.toxi.MeshUtilToxi;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.MathUtil;
@@ -107,7 +107,7 @@ extends PAppletHax {
 	}
 		
 	public void drawApp() {
-		DrawUtil.setBasicLights( p );
+		PG.setBasicLights( p );
 		// draw background and set to center
 		if( PRenderers.currentRenderer() == P.P3D ) p.background(0,0,0,255);
 		p.translate(p.width/2, p.height/2, -400);

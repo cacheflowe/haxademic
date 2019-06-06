@@ -4,7 +4,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.data.constants.PBlendModes;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.BloomFilter;
 import com.haxademic.core.draw.filters.pshader.GrainFilter;
 import com.haxademic.core.draw.filters.pshader.VignetteFilter;
@@ -46,8 +46,8 @@ extends PAppletHax {
 		pg.background(0);
 		pg.noStroke();
 		pg.fill(255);
-		DrawUtil.setCenterScreen(pg);
-		DrawUtil.setDrawCenter(pg);
+		PG.setCenterScreen(pg);
+		PG.setDrawCenter(pg);
 		pg.blendMode(PBlendModes.EXCLUSION);
 		
 		// switch positions every x frames

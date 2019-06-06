@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.draw.color.EasingColor;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.filters.pshader.BrightnessFilter;
 import com.haxademic.core.draw.filters.pshader.ChromaColorFilter;
@@ -186,7 +186,7 @@ public class BaseTexture {
 	}
 	
 	public void feedback(float amp, float darkness) {
-		DrawUtil.setDrawCorner(_texture);
+		PG.setDrawCorner(_texture);
 		_texture.copy(
 			_texture, 
 			0, 

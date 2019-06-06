@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.image.ImageUtil;
 
 import processing.core.PGraphics;
@@ -46,7 +46,7 @@ public class ImageHistogramFilter {
 	protected void drawPixels( PImage source ) {
 		_pg.beginDraw();
 		ImageUtil.clearPGraphics( _pg );
-		DrawUtil.setDrawCorner(p);
+		PG.setDrawCorner(p);
 		_pg.noStroke();
 		_pg.fill(0,0);
 		

@@ -2,7 +2,7 @@ package com.haxademic.demo.draw.shapes;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.shapes.Superformula;
 
 public class Demo_Superformula 
@@ -81,7 +81,7 @@ extends PAppletHax {
 //			_superForm.n3( 6 + (audioRange * 40f * p._audioInput.getFFT().averages[5]));
 		}
 	
-		DrawUtil.basicCameraFromMouse(p.g);
+		PG.basicCameraFromMouse(p.g);
 		_superForm.update();
 		_superForm.drawMesh(p.g, true, true, true, false, _camPos );
 		p.popMatrix();

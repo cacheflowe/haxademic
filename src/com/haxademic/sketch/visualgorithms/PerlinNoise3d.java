@@ -48,12 +48,12 @@ extends PAppletHax {
 //		p.blendMode(P.BLEND);
 		p.blendMode(PBlendModes.BLEND);
 		if(p.frameCount >= 1) p.background(255);
-//		DrawUtil.feedback(p.g, p.color(255), 0.6f, 0.1f);
+//		PG.feedback(p.g, p.color(255), 0.6f, 0.1f);
 		p.ortho();
 		
 		p.blendMode(PBlendModes.SUBTRACT);
 
-//		DrawUtil.setDrawFlat2d(p, true);
+//		PG.setDrawFlat2d(p, true);
 		p.pushMatrix();
 		float halfSize = p.width * 0.2f;
 

@@ -3,7 +3,7 @@ package com.haxademic.render;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.math.easing.Penner;
 
@@ -47,11 +47,11 @@ extends PAppletHax {
 		
 		// texture feedback
 		float feedback = 10f;// * P.sin(percentComplete * P.TWO_PI);
-		DrawUtil.feedback(_texture, 2);
+		PG.feedback(_texture, 2);
 
 		// start texture drawing
 		_texture.beginDraw();
-		DrawUtil.setDrawCenter(_texture);
+		PG.setDrawCenter(_texture);
 		_texture.noStroke();
 		
 		// fade out
@@ -82,7 +82,7 @@ extends PAppletHax {
 		_texture.endDraw();
 		
 		// draw texture to stage
-		DrawUtil.setColorForPImage(p);
+		PG.setColorForPImage(p);
 		p.image(_texture, 0, 0);
 	}
 }

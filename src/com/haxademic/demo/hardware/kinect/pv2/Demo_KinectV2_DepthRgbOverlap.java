@@ -3,7 +3,7 @@ package com.haxademic.demo.hardware.kinect.pv2;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.BlurHFilter;
 import com.haxademic.core.draw.filters.pshader.BlurVFilter;
 import com.haxademic.core.draw.image.BufferMotionDetectionMap;
@@ -46,9 +46,9 @@ extends PAppletHax {
 		
 		// draw images
 		p.image(cameraImage, 0, 0);
-		DrawUtil.setPImageAlpha(p, 0.5f);
+		PG.setPImageAlpha(p, 0.5f);
 		if(motionBuffer != null) p.image(motionBuffer, 0, 0);
-		DrawUtil.setPImageAlpha(p, 1f);
+		PG.setPImageAlpha(p, 1f);
 		
 		// lazy-init motion detection to pass Kinect into
 		if(motionDetectionMap == null && depthImage != null) {

@@ -2,7 +2,7 @@ package com.haxademic.sketch.volume;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.media.DemoAssets;
 
@@ -49,7 +49,7 @@ extends PAppletHax {
 	}  
 
 	public void drawApp() {
-		DrawUtil.setBetterLights(p);
+		PG.setBetterLights(p);
 		background(0);
 		fill(255);
 		noStroke();
@@ -75,9 +75,9 @@ extends PAppletHax {
 			Point3d[] vertices = hull.getVertices();  //get vertices
 			
 			if(p.frameCount % 20 < 10) {
-				DrawUtil.setTextureRepeat(p.g, true);
+				PG.setTextureRepeat(p.g, true);
 			} else {
-				DrawUtil.setTextureRepeat(p.g, false);
+				PG.setTextureRepeat(p.g, false);
 			}
 			beginShape(TRIANGLES);
 			texture(img);

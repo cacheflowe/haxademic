@@ -1,7 +1,7 @@
 package com.haxademic.demo.draw.image;
 
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.media.DemoAssets;
 
@@ -21,7 +21,7 @@ extends PAppletHax {
 	
 	public void drawApp() {
 		if(p.frameCount == 1) background(0);
-		DrawUtil.feedback(p.g, 0, 0.1f, 10f);
+		PG.feedback(p.g, 0, 0.1f, 10f);
 
 		float f = (float) frameCount * 0.1f;
 		beginShape(QUADS);

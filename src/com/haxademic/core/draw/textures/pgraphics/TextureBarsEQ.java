@@ -1,7 +1,7 @@
 package com.haxademic.core.draw.textures.pgraphics;
 
 import com.haxademic.core.app.P;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
 
 import processing.core.PConstants;
@@ -30,8 +30,8 @@ extends BaseTexture {
 //		_texture.clear();
 		feedback(7f, 0.15f);
 		
-		DrawUtil.resetGlobalProps( _texture );
-		DrawUtil.setCenterScreen( _texture );
+		PG.resetGlobalProps( _texture );
+		PG.setCenterScreen( _texture );
 		_texture.pushMatrix();
 		
 		_texture.rectMode(PConstants.CORNER);

@@ -2,7 +2,7 @@ package com.haxademic.demo.system;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 
 public class Demo_JavaFXAppLaunch
 extends PAppletHax {
@@ -25,7 +25,7 @@ extends PAppletHax {
 
 	public void drawApp() {
 		p.background(0);
-		DrawUtil.setCenterScreen(p);
+		PG.setCenterScreen(p);
 		
 //		if(Demo_WebViewTestApp.instance != null) {
 //			p.background(0,255,0);

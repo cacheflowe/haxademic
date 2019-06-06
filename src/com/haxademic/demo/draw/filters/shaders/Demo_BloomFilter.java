@@ -3,7 +3,7 @@ package com.haxademic.demo.draw.filters.shaders;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.data.constants.PRenderers;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.BloomFilter;
 import com.haxademic.core.draw.filters.pshader.GrainFilter;
 
@@ -24,8 +24,8 @@ extends PAppletHax {
 		pg.beginDraw();
 		pg.clear();
 //		pg.background(0);
-		DrawUtil.setCenterScreen(pg);
-		DrawUtil.setBetterLights(pg);
+		PG.setCenterScreen(pg);
+		PG.setBetterLights(pg);
 		pg.fill(180 + 55f * P.sin(p.frameCount * 0.02f), 180 + 55f * P.sin(p.frameCount * 0.03f), 180 + 55f * P.sin(p.frameCount * 0.04f), 255);
 		pg.stroke(0);
 		pg.rotateX(p.frameCount * 0.01f);

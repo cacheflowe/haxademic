@@ -3,7 +3,7 @@ package com.haxademic.core.draw.image;
 import com.haxademic.core.app.P;
 import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.draw.color.ColorUtil;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.InvertFilter;
 import com.haxademic.core.draw.filters.pshader.SaturationFilter;
 import com.haxademic.core.draw.filters.pshader.ThresholdFilter;
@@ -164,7 +164,7 @@ public class ColorObjectDetection {
 		// draw debug output
 		if(debugging) {
 			analysisBuffer.beginDraw();
-			DrawUtil.setDrawCenter(analysisBuffer);
+			PG.setDrawCenter(analysisBuffer);
 			analysisBuffer.fill(0, 255, 0);
 			analysisBuffer.noStroke();
 			analysisBuffer.ellipse(x.value() * analysisBuffer.width, y.value() * analysisBuffer.height, 10, 10);

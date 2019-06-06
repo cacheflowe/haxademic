@@ -3,7 +3,7 @@ package com.haxademic.demo.hardware.serial;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.hardware.serial.SerialDevice;
 import com.haxademic.core.hardware.serial.SerialDevice.ISerialDeviceDelegate;
 
@@ -33,7 +33,7 @@ implements ISerialDeviceDelegate {
 		background(0);
 		
 		// test draw to make sure serial communication doesn't hurt framerate
-		DrawUtil.setDrawCenter(p);
+		PG.setDrawCenter(p);
 		p.fill(255);
 		p.stroke(127);
 		p.strokeWeight(5);

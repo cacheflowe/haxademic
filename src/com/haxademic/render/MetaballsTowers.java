@@ -130,7 +130,7 @@ extends PAppletHax {
 		p.popMatrix();
 		
 		// debug metaballs texture
-//		DrawUtil.setDrawFlat2d(p, true);
+//		PG.setDrawFlat2d(p, true);
 //		p.image(texture, 0, 0);
 	}
 	

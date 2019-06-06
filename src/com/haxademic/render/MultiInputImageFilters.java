@@ -5,7 +5,7 @@ import java.awt.image.BufferedImage;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pgraphics.PixelTriFilter;
 import com.haxademic.core.draw.filters.pgraphics.archive.BlobOuterMeshFilter;
 import com.haxademic.core.draw.filters.pgraphics.archive.ImageHistogramFilter;
@@ -90,11 +90,11 @@ extends PAppletHax {
 		p.fill( 255 );
 		p.noStroke();
 		p.rectMode( PConstants.CENTER );
-		DrawUtil.setBasicLights( p );
+		PG.setBasicLights( p );
 		
 		// draw current frame and image filter
-		DrawUtil.setColorForPImage(this);
-		DrawUtil.setPImageAlpha(this, 1.0f);
+		PG.setColorForPImage(this);
+		PG.setPImageAlpha(this, 1.0f);
 		
 		p.translate(0, 0, -400);
 		

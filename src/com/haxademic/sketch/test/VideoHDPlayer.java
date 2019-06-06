@@ -2,7 +2,7 @@ package com.haxademic.sketch.test;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.file.FileUtil;
 
@@ -52,9 +52,9 @@ extends PAppletHax {
 	public void drawApp() {
 		// reset drawing 
 		p.background(0);
-		DrawUtil.resetGlobalProps( p );
-		DrawUtil.setDrawCorner(p);
-		DrawUtil.setColorForPImage(p);
+		PG.resetGlobalProps( p );
+		PG.setDrawCorner(p);
+		PG.setColorForPImage(p);
 		p.noStroke();
 
 		// update mask
@@ -72,7 +72,7 @@ extends PAppletHax {
 		// draw movie
 		if(_movie.width > 1 && _movieColor.width > 1) {
 			_cropProps = ImageUtil.getOffsetAndSizeToCrop(p.width, p.height, _movie.width, _movie.height, true);
-			DrawUtil.setPImageAlpha(p, 1);
+			PG.setPImageAlpha(p, 1);
 			p.image(_movie, _cropProps[0], _cropProps[1], _cropProps[2], _cropProps[3]);
 			p.shader(_maskShader);
 			p.image(_movieColor, _cropProps[0], _cropProps[1], _cropProps[2], _cropProps[3]);

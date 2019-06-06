@@ -2,7 +2,7 @@ package com.haxademic.demo.system;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.system.CrashMonitor;
 
 public class Demo_CrashMonitor 
@@ -21,7 +21,7 @@ extends PAppletHax {
 	}
 
 	public void drawApp() {
-		DrawUtil.setDrawCenter(p);
+		PG.setDrawCenter(p);
 		p.background((float)mouseX/width * 255,(float)mouseY/height * 255,0);
 		p.fill(255);
 		

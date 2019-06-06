@@ -6,7 +6,7 @@ import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.data.constants.PBlendModes;
 import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.draw.color.Gradients;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.filters.pshader.BlurHFilter;
 import com.haxademic.core.draw.filters.pshader.BlurVFilter;
@@ -99,12 +99,12 @@ extends PAppletHax {
 		pg.beginDraw();
 		pg.background(0);
 		pg.noStroke();
-//		DrawUtil.setBetterLights(pg);
+//		PG.setBetterLights(pg);
 //		pg.lights();
 		
 		drawBackground();
 		
-		DrawUtil.push(pg);
+		PG.push(pg);
 		// set camera
 //		pg.rotateX(-0.2f);
 //		pg.rotateX(-P.QUARTER_PI * p.mousePercentX());
@@ -139,7 +139,7 @@ extends PAppletHax {
 				beatTime.setTarget(0);
 			}
 		}
-		DrawUtil.pop(pg);
+		PG.pop(pg);
 
 		drawLogo();
 		pg.endDraw();
@@ -156,15 +156,15 @@ extends PAppletHax {
 	//////////////////////////
 	
 	protected void drawBackground() {
-		DrawUtil.setDrawCenter(pg);
-		DrawUtil.push(pg);
+		PG.setDrawCenter(pg);
+		PG.push(pg);
 		
 		float bgScale = MathUtil.scaleToTarget(backgroundImg.height, pg.height * 1.8f);
 		pg.translate(pg.width * 0.5f, pg.height * 0.5f, -pg.height * 1.f);
 		pg.image(backgroundImg, 0, 0, backgroundImg.width * bgScale, backgroundImg.height * bgScale);
 		
-		DrawUtil.pop(pg);
-		DrawUtil.setDrawCorner(pg);
+		PG.pop(pg);
+		PG.setDrawCorner(pg);
 	}
 	
 	//////////////////////////
@@ -180,16 +180,16 @@ extends PAppletHax {
 	protected void updateFloorTexture() {
 		float srcScale = MathUtil.scaleToTarget(floorSrcImg.height, floorTexture.height * 1.5f);
 		floorTexture.beginDraw();
-		DrawUtil.setDrawCenter(floorTexture);
-		DrawUtil.setCenterScreen(floorTexture);
+		PG.setDrawCenter(floorTexture);
+		PG.setCenterScreen(floorTexture);
 		floorTexture.rotate(p.loop.progressRads());
 		floorTexture.image(floorSrcImg, 0, 0, floorSrcImg.width * srcScale, floorSrcImg.height * srcScale);
 		floorTexture.endDraw();
 	}
 	
 	protected void drawFloor() {
-		DrawUtil.setDrawCenter(pg);
-		DrawUtil.push(pg);
+		PG.setDrawCenter(pg);
+		PG.push(pg);
 		pg.translate(pg.width * 0.5f, pg.height * 0.6f);
 		
 		// draw floor - TODO: switch to textured?
@@ -200,8 +200,8 @@ extends PAppletHax {
 //		pg.rect(0, 0, floorSize, floorSize);
 		Shapes.drawTexturedRect(pg, floorTexture);
 		
-		DrawUtil.pop(pg);
-		DrawUtil.setDrawCorner(pg);
+		PG.pop(pg);
+		PG.setDrawCorner(pg);
 	}
 	
 	//////////////////////////
@@ -217,27 +217,27 @@ extends PAppletHax {
 	}
 	
 	protected void drawPlanet() {
-		DrawUtil.push(pg);
-		DrawUtil.setDrawCorner(pg);
+		PG.push(pg);
+		PG.setDrawCorner(pg);
 		pg.translate(pg.width * 0.5f, pg.height * 0.4f);
 		
 		// draw planet
 		pg.translate(0, pg.height * 0.025f * planetBounceOsc);	// bounce up/down
-		DrawUtil.push(pg);
+		PG.push(pg);
 		pg.rotateY(P.sin(p.loop.progressRads()) * 0.5f);
 //		pg.shape(planet, 0, 0);
 		planet.deformWithAudioByNormals(pg.height * 0.025f);
 		PShapeUtil.drawTriangles(pg, planet.shape(), planetTexture, 1);
-		DrawUtil.pop(pg);
+		PG.pop(pg);
 		
 		// draw audio ring
 		/*
-		DrawUtil.push(pg);
+		PG.push(pg);
 		pg.rotateY(-P.HALF_PI - p.loop.progressRads() * 2f);
 		pg.rotateX(-P.HALF_PI);
 		pg.fill(255);
 		Shapes.drawDiscAudio(pg, p.height * 0.32f, p.height * 0.34f, p.audioData.waveform().length, 10, false);
-		DrawUtil.pop(pg);
+		PG.pop(pg);
 		*/
 
 		// trails/ticks attached to planet y
@@ -248,14 +248,14 @@ extends PAppletHax {
 		pg.noLights();
 //		pg.lights();
 		pg.noStroke();
-		DrawUtil.push(pg);
+		PG.push(pg);
 		pg.rotateY(-P.HALF_PI - p.loop.progressRads());
 		pg.rotateX(-P.HALF_PI);
 		Shapes.drawDiscTextured(pg, p.height * 0.25f, p.height * 0.33f, 100, waveform);
-		DrawUtil.pop(pg);
+		PG.pop(pg);
 		
 		
-		DrawUtil.pop(pg);
+		PG.pop(pg);
 	}
 	
 	//////////////////////////
@@ -318,8 +318,8 @@ extends PAppletHax {
 	}
 	
 	protected void drawTrails() {
-		DrawUtil.push(pg);
-//		DrawUtil.setCenterScreen(pg);
+		PG.push(pg);
+//		PG.setCenterScreen(pg);
 
 		for (int i = 0; i < trails.length; i++) {
 			float progress = i + p.loop.progressRads();
@@ -344,7 +344,7 @@ extends PAppletHax {
 				pg.popMatrix();
 			}
 		}
-		DrawUtil.pop(pg);
+		PG.pop(pg);
 	}
 	
 	//////////////////////////
@@ -353,14 +353,14 @@ extends PAppletHax {
 	
 	protected void drawLogo() {
 		float scale = MathUtil.scaleToTarget(brimLogo.height, pg.height * 0.20f);
-		DrawUtil.push(pg);
-		DrawUtil.setDrawCenter(pg);
+		PG.push(pg);
+		PG.setDrawCenter(pg);
 		pg.translate(pg.width * 0.5f, pg.height * 0.87f);
-		DrawUtil.setPImageAlpha(pg, 0.5f + 0.5f * beatTime.value());
+		PG.setPImageAlpha(pg, 0.5f + 0.5f * beatTime.value());
 		pg.image(brimLogo, 0, 0, brimLogo.width * scale, brimLogo.height * scale);
-		DrawUtil.resetPImageAlpha(pg);
-		DrawUtil.setDrawCorner(pg);
-		DrawUtil.pop(pg);
+		PG.resetPImageAlpha(pg);
+		PG.setDrawCorner(pg);
+		PG.pop(pg);
 	}
 	
 	//////////////////////////
@@ -407,15 +407,15 @@ extends PAppletHax {
 	
 	protected void updateSheetDisplacer() {
 		// draw grid
-		DrawUtil.drawGrid(texture, p.color(255), p.color(255), 25, 25);
+		PG.drawGrid(texture, p.color(255), p.color(255), 25, 25);
 		
 		// update displace texture
 		displaceTexture.beginDraw();
 		displaceTexture.background(0);
 		displaceTexture.noStroke();
 		displaceTexture.blendMode(PBlendModes.ADD);
-		DrawUtil.setDrawCenter(displaceTexture);
-		DrawUtil.setCenterScreen(displaceTexture);
+		PG.setDrawCenter(displaceTexture);
+		PG.setCenterScreen(displaceTexture);
 //		float scaleImg = MathUtil.scaleToTarget(DemoAssets.particle().height, displaceTexture.height * 1.4f);
 		float iter = 6f;
 		for (float i = 0; i < iter; i++) {
@@ -440,8 +440,8 @@ extends PAppletHax {
 	}
 
 	protected void drawSheetDisplacer() {
-		DrawUtil.setDrawCorner(pg);
-		DrawUtil.push(pg);
+		PG.setDrawCorner(pg);
+		PG.push(pg);
 		pg.translate(pg.width * 0.5f, pg.height * 0.64f + -planetBounceOsc * pg.height * 0.02f);
 		pg.rotateY(P.QUARTER_PI);
 		pg.rotateY(p.loop.progressRads() * -0.5f);
@@ -461,7 +461,7 @@ extends PAppletHax {
 		pg.resetShader();
 		
 		OpenGLUtil.setWireframe(pg, false);
-		DrawUtil.pop(pg);
+		PG.pop(pg);
 	}
 }
 

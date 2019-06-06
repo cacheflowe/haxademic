@@ -2,7 +2,7 @@ package com.haxademic.demo.math;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 
 public class Demo_Arcsine
 extends PAppletHax {
@@ -11,8 +11,8 @@ extends PAppletHax {
 	public void drawApp() {
 		p.background(0);
 		p.noStroke();
-		DrawUtil.setDrawCenter(p);
-		DrawUtil.setCenterScreen(p);
+		PG.setDrawCenter(p);
+		PG.setCenterScreen(p);
 
 		float segments = 36;
 		float radius = p.height * 0.4f;

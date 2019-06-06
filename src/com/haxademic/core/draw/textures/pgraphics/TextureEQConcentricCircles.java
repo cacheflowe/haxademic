@@ -1,7 +1,7 @@
 package com.haxademic.core.draw.textures.pgraphics;
 
 import com.haxademic.core.app.P;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
 
 public class TextureEQConcentricCircles 
@@ -35,7 +35,7 @@ extends BaseTexture {
 		_texture.noFill();
 //		_texture.noStroke();
 		_texture.strokeWeight(_circleRadiusStep);
-		DrawUtil.setDrawCenter(_texture);
+		PG.setDrawCenter(_texture);
 		for (int i = 0; i < _numCircles; i++) {
 			float alphaVal = 0.1f * P.p.audioFreq( P.floor(_spectrumInterval * i) );
 			alphaVal = P.p.audioFreq(P.floor(i * _spectrumInterval)) * 4f;

@@ -3,7 +3,7 @@ package com.haxademic.demo.math;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.math.easing.EasingFloat;
 
 public class Demo_EasingFloat
@@ -43,7 +43,7 @@ extends PAppletHax {
 		easingRotation.update(true);
 		easingBottom.update(true);
 		
-		DrawUtil.setDrawCenter(p);
+		PG.setDrawCenter(p);
 		p.fill(255);
 		p.pushMatrix();
 		p.translate(easingX.value(), easingY.value());

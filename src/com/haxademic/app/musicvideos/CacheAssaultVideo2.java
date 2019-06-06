@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.shapes.Shapes;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.MathUtil;
@@ -126,7 +126,7 @@ extends PAppletHax {
 
 //		  directionalLight(204, 204, 204, -dirX, -dirY, -1);
 
-		DrawUtil.setBasicLights(pg);
+		PG.setBasicLights(pg);
 		pg.pointLight(cycle(50,25,0.01f), cycle(100,35,0.015f), cycle(50,25,0.02f), 0, p.height/2f, 1500);
 		pg.pointLight(cycle(150,125,0.01f), cycle(200,135,0.015f), cycle(150,45,0.02f), pg.width, p.height/2f, 1500);
 		pg.specular(80, 80, 80);
@@ -143,7 +143,7 @@ extends PAppletHax {
 
 		
 		
-		DrawUtil.setCenterScreen(pg);
+		PG.setCenterScreen(pg);
 		_cameraOffset.update();
 		pg.translate(_cameraOffset.x(), _cameraOffset.y(), _cameraOffset.z());
 		
@@ -166,7 +166,7 @@ extends PAppletHax {
 		drawEQ(512, 3, 1400, 120, 2);
 		
 		pg.noLights();
-		DrawUtil.setBasicLights(pg);
+		PG.setBasicLights(pg);
 		pg.pointLight(cycle(100,50,0.02f), cycle(100,50,0.037f), cycle(100,50,0.021f), 0, p.height/2f, 500);
 		pg.pointLight(cycle(50,25,0.03f), cycle(100,45,0.035f), cycle(50,45,0.04f), pg.width, p.height/2f, 500);
 		pg.specular(20, 80, 20);

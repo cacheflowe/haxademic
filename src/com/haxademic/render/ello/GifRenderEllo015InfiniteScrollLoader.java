@@ -4,7 +4,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.color.ColorUtil;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.image.AnimatedGifEncoder;
 import com.haxademic.core.file.FileUtil;
@@ -54,7 +54,7 @@ extends PAppletHax {
 		float elloSize = (float)(p.width * (scale - oscSize + oscSize * frameOsc));
 //		float elloSize = (float)(40 * (scale - oscSize + oscSize * frameOsc));	// with padding
 		
-		DrawUtil.setDrawCenter(p);
+		PG.setDrawCenter(p);
 		
 		p.translate(p.width/2, p.height/2);
 //		p.rotate(frameRadians * p.frameCount);

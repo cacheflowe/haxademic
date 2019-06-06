@@ -1,7 +1,7 @@
 package com.haxademic.core.draw.textures.pgraphics;
 
 import com.haxademic.core.app.P;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.EasingFloat;
@@ -67,8 +67,8 @@ extends BaseTexture {
 		_texture.shininess(20.0f);
 		
 		
-		DrawUtil.resetGlobalProps( _texture );
-		DrawUtil.setCenterScreen( _texture );
+		PG.resetGlobalProps( _texture );
+		PG.setCenterScreen( _texture );
 		_texture.pushMatrix();
 		
 		_radius.update();

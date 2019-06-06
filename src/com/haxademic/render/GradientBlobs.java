@@ -5,7 +5,7 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.color.ColorUtil;
 import com.haxademic.core.draw.color.Gradients;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.image.ImageCyclerBuffer;
 import com.haxademic.core.draw.shapes.Icosahedron;
@@ -190,7 +190,7 @@ extends PAppletHax {
 	public void drawApp() {
 		if(p.frameCount == 1) initObjects();
 		p.background(0);
-		DrawUtil.setDrawCenter(p);
+		PG.setDrawCenter(p);
 		
 		// get progress
 		progress = ((float)(p.frameCount%_frames)/_frames);
@@ -235,7 +235,7 @@ extends PAppletHax {
 	protected void drawTextureOnSphere() {
 		p.pushMatrix();
 		p.translate(p.width * 0.5f, p.height * 0.5f);
-		DrawUtil.setDrawCorner(p);
+		PG.setDrawCorner(p);
 
 		updateSphereTexture();
 		updateSphereTexture2();
@@ -279,16 +279,16 @@ extends PAppletHax {
 		p.popMatrix();
 		
 		// flat overlay
-		DrawUtil.setDrawFlat2d(p, true);
+		PG.setDrawFlat2d(p, true);
 		p.image(overlayMask, 0, 0);
 		// p.image(imageCycler.image(), 0, 0);
-		DrawUtil.setDrawFlat2d(p, false);
+		PG.setDrawFlat2d(p, false);
 
 	}
 	
 	protected void drawBlobs2d() {
 		p.translate(p.width * 0.5f, p.height * 0.5f);
-		DrawUtil.setDrawCenter(p);
+		PG.setDrawCenter(p);
 
 		// draw blobs
 //		p.blendMode(PBlendModes.SCREEN);

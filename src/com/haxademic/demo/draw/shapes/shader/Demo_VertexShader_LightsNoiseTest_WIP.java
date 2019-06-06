@@ -3,7 +3,7 @@ package com.haxademic.demo.draw.shapes.shader;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.draw.shapes.Shapes;
 import com.haxademic.core.file.FileUtil;
@@ -50,7 +50,7 @@ extends PAppletHax {
 
 	public void drawApp() {
 		background(0);
-		DrawUtil.setCenterScreen(p);
+		PG.setCenterScreen(p);
 
 		// use shader
 		shader.set("time", loop.progressRads());

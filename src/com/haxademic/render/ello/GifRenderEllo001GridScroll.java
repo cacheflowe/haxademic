@@ -5,7 +5,7 @@ import java.awt.image.BufferedImage;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.image.AnimatedGifEncoder;
 import com.haxademic.core.file.FileUtil;
@@ -66,7 +66,7 @@ extends PAppletHax {
 		int barWHalf = Math.round(barW/2f);
 		int x = p.frameCount;
 		
-		DrawUtil.setDrawCorner(p);
+		PG.setDrawCorner(p);
 		
 		for( int y=0; y < p.height; y+=barW*2 ) {
 			for( int i=x - barW*2; i < p.width; i+=barW*2 ) {

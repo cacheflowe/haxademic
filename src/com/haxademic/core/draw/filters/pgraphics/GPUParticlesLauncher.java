@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import com.haxademic.core.app.P;
 import com.haxademic.core.data.constants.PBlendModes;
 import com.haxademic.core.data.constants.PRenderers;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pgraphics.shared.BaseVideoFilter;
 import com.haxademic.core.draw.filters.pshader.BlurHFilter;
 import com.haxademic.core.draw.filters.pshader.BlurVFilter;
@@ -112,7 +112,7 @@ extends BaseVideoFilter {
 
 		// render!
 		renderedParticles.beginDraw();
-		DrawUtil.setDrawFlat2d(renderedParticles, true);
+		PG.setDrawFlat2d(renderedParticles, true);
 		renderedParticles.background(0);
 		renderedParticles.fill(255);
 		renderedParticles.blendMode(PBlendModes.ADD);
@@ -127,12 +127,12 @@ extends BaseVideoFilter {
 		destBuffer.background(0);
 		
 		destBuffer.blendMode(PBlendModes.BLEND);
-		DrawUtil.resetPImageAlpha(destBuffer);
+		PG.resetPImageAlpha(destBuffer);
 		destBuffer.image(sourceBuffer, 0, 0);
-//		DrawUtil.setPImageAlpha(destBuffer, 0.5f);
+//		PG.setPImageAlpha(destBuffer, 0.5f);
 //		destBuffer.image(motionDetectionMap.bwBuffer(), 0, 0, destBuffer.width, destBuffer.height);
 //		destBuffer.image(motionDetectionMap.differenceBuffer(), 0, 0, destBuffer.width, destBuffer.height);
-		DrawUtil.setPImageAlpha(destBuffer, 1f);
+		PG.setPImageAlpha(destBuffer, 1f);
 		destBuffer.blendMode(PBlendModes.ADD);
 		destBuffer.image(renderedParticles, 0, 0);
 		destBuffer.blendMode(PBlendModes.BLEND);

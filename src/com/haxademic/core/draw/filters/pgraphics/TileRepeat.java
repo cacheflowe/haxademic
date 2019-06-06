@@ -1,7 +1,7 @@
 package com.haxademic.core.draw.filters.pgraphics;
 
 import com.haxademic.core.app.P;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pgraphics.shared.BaseVideoFilter;
 import com.haxademic.core.draw.image.TiledTexture;
 import com.haxademic.core.math.MathUtil;
@@ -127,7 +127,7 @@ extends BaseVideoFilter {
 
 		// update tiled image props
 		destBuffer.pushMatrix();
-		DrawUtil.setCenterScreen(destBuffer);
+		PG.setCenterScreen(destBuffer);
 		// draw upside-down background layer
 		if(animIndex == 5 || animIndex == 6) {
 			tiledTexture.setSize(1, 1);

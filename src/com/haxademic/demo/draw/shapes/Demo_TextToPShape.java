@@ -3,7 +3,7 @@ package com.haxademic.demo.draw.shapes;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.draw.shapes.TextToPShape;
 import com.haxademic.core.file.FileUtil;
@@ -34,7 +34,7 @@ extends PAppletHax {
 	}
 
 	public void drawApp() {
-		DrawUtil.setBetterLights(p);
+		PG.setBetterLights(p);
 		background(0);
 		translate(width/2,height/4,-600);
 		rotateX(P.map(p.mouseY, 0, p.height, -1f, 1f));

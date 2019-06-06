@@ -3,7 +3,7 @@ package com.haxademic.render.ello;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.image.MotionBlurPGraphics;
 import com.haxademic.core.file.FileUtil;
@@ -67,7 +67,7 @@ extends PAppletHax {
 		float frameOsc = P.sin( PConstants.TWO_PI * percentComplete);
 		float elloSize = (float)(p.width);
 		
-		DrawUtil.setDrawCenter(pg);
+		PG.setDrawCenter(pg);
 		pg.beginDraw();
 		pg.clear();
 		pg.background(255);

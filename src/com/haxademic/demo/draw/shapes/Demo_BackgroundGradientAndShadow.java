@@ -4,7 +4,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.color.Gradients;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.BlurHFilter;
 import com.haxademic.core.draw.filters.pshader.BlurVFilter;
 import com.haxademic.core.draw.filters.pshader.VignetteFilter;
@@ -47,7 +47,7 @@ extends PAppletHax {
 	
 	public void drawApp() {
 		background(0);
-		DrawUtil.setDrawCenter(p);
+		PG.setDrawCenter(p);
 		drawBgGradient();
 		drawShadowBuffer();
 		drawShadowToStage();
@@ -67,8 +67,8 @@ extends PAppletHax {
 	protected void drawShadowBuffer() {
 		shadowMap.beginDraw();
 		shadowMap.clear();
-		DrawUtil.setCenterScreen(shadowMap);
-		DrawUtil.setDrawCenter(shadowMap);
+		PG.setCenterScreen(shadowMap);
+		PG.setDrawCenter(shadowMap);
 		shadowMap.rotateX(-P.HALF_PI);
 		shadowMap.fill(0);
 		drawShape(shadowMap);
@@ -81,7 +81,7 @@ extends PAppletHax {
 		p.translate(p.width/2, p.height/2 + 200);
 		p.rotateX(P.HALF_PI);
 		p.scale(1.25f);
-		DrawUtil.setPImageAlpha(p, 0.3f);
+		PG.setPImageAlpha(p, 0.3f);
 		p.image(shadowMap, 0, 0);
 		p.popMatrix();
 	}
@@ -89,9 +89,9 @@ extends PAppletHax {
 	protected void drawShapeToStage() {
 		p.pushMatrix();
 		p.fill(255);
-		DrawUtil.setCenterScreen(p);
+		PG.setCenterScreen(p);
 		p.lights();
-//		DrawUtil.setBasicLights(p);
+//		PG.setBasicLights(p);
 		drawShape(p.g);
 		p.popMatrix();
 	}

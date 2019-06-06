@@ -4,7 +4,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.data.constants.PRenderers;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.BlurProcessingFilter;
 import com.haxademic.core.draw.filters.pshader.ReflectFilter;
 import com.haxademic.core.draw.image.ImageUtil;
@@ -79,8 +79,8 @@ extends PAppletHax {
 	protected void drawImg(PImage img) {
 		if(img != null) {
 			buffer.beginDraw();
-//			DrawUtil.setPImageAlpha(buffer, 0.5f);
-			DrawUtil.setDrawCenter(buffer);
+//			PG.setPImageAlpha(buffer, 0.5f);
+			PG.setDrawCenter(buffer);
 			buffer.tint(
 					300 + 155 * P.sin(p.frameCount/50f),
 					300 + 155 * P.sin(p.frameCount/80f),

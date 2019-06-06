@@ -4,7 +4,7 @@ import java.awt.image.BufferedImage;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.media.DemoAssets;
 import com.jhlabs.image.ShadowFilter;
@@ -45,8 +45,8 @@ extends PAppletHax {
 	
 	public void drawApp() {
 		background(127);
-		DrawUtil.setDrawCenter(p);
-		DrawUtil.setCenterScreen(p);
+		PG.setDrawCenter(p);
+		PG.setCenterScreen(p);
 		
 		if(imgShadow != null) p.image(imgShadow, 0, 0);
 		else background(255, 0, 0);	// still loading

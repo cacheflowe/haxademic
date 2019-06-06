@@ -3,7 +3,7 @@ package com.haxademic.sketch.test;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.BlurHFilter;
 import com.haxademic.core.draw.filters.pshader.BlurVFilter;
 import com.haxademic.core.draw.filters.pshader.BrightnessFilter;
@@ -52,7 +52,7 @@ extends PAppletHax {
 
 	public void drawApp() {
 		p.background(0);
-		DrawUtil.setCenterScreen(p);
+		PG.setCenterScreen(p);
 
 		float sceneRot = 0.6f * P.sin(p.loop.progressRads());
 		
@@ -60,7 +60,7 @@ extends PAppletHax {
 		// sphere ////////////
 		//////////////////////
 		p.pushMatrix();
-		DrawUtil.setDrawCorner(p);
+		PG.setDrawCorner(p);
 		p.rotateY(-sceneRot);
 		p.shape(icosa);
 		p.popMatrix();
@@ -91,7 +91,7 @@ extends PAppletHax {
 		// body //////////////
 		//////////////////////
 		
-		DrawUtil.setDrawCenter(p);
+		PG.setDrawCenter(p);
 		p.scale(0.25f);
 		p.image(butterflyCenter, 0, 0);
 

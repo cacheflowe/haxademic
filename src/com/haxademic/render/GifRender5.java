@@ -6,7 +6,7 @@ import java.awt.image.BufferedImage;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.image.AnimatedGifEncoder;
 import com.haxademic.core.draw.shapes.Shapes;
@@ -56,8 +56,8 @@ extends PAppletHax {
 	}
 	
 	public void drawApp() {
-//		DrawUtil.setDrawCenter(p);
-		DrawUtil.setBasicLights(p);
+//		PG.setDrawCenter(p);
+		PG.setBasicLights(p);
 //		p.translate( p.width/2, p.height/2, -1600 );
 		
 		p.background(0);

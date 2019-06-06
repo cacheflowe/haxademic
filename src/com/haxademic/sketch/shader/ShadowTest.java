@@ -5,7 +5,7 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.color.ColorUtil;
 import com.haxademic.core.draw.color.Gradients;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.GlowFilter;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.file.FileUtil;
@@ -56,7 +56,7 @@ extends PAppletHax {
 		
 		// draw gradient
 		p.pushMatrix();
-		DrawUtil.setDrawCenter(p);
+		PG.setDrawCenter(p);
 		p.translate(p.width/2, p.height/2);
 		p.rotate(P.HALF_PI);
 		Gradients.linear(p, p.width * 1.1f, p.width * 1.1f, gradientTop, gradientBottom);
@@ -64,7 +64,7 @@ extends PAppletHax {
 
 		// draw image & shadow
 		float imageScale = ((float) p.height / (float) image.height) * 0.82f;
-		DrawUtil.setDrawCenter(p);
+		PG.setDrawCenter(p);
 		p.pushMatrix();
 		p.translate(p.width/2, p.height/2);
 		float shadowScale = 0.975f + 0.025f * P.sin(progress * P.TWO_PI);

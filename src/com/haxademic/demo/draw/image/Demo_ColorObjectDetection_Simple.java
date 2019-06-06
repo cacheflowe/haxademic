@@ -1,7 +1,7 @@
 package com.haxademic.demo.draw.image;
 
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.image.ColorObjectDetection;
 
 public class Demo_ColorObjectDetection_Simple 
@@ -27,7 +27,7 @@ extends PAppletHax {
 		pg.background(0);
 		pg.noStroke();
 		pg.fill(255, 0, 0);
-		DrawUtil.setDrawCenter(pg);
+		PG.setDrawCenter(pg);
 		pg.ellipse(p.mouseX, p.mouseY, 100, 100);
 		pg.endDraw();
 		

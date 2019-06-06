@@ -3,7 +3,7 @@ package com.haxademic.demo.draw.shapes;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.shapes.Shapes;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.LinearFloat;
@@ -44,12 +44,12 @@ extends PAppletHax {
 
 		// context & camera
 		p.background(0);
-		DrawUtil.setCenterScreen(p);
-		DrawUtil.setDrawCenter(p);
+		PG.setCenterScreen(p);
+		PG.setDrawCenter(p);
 		p.lights();
 		p.ortho();
 //		p.perspective();
-//		DrawUtil.basicCameraFromMouse(p.g, 1f);
+//		PG.basicCameraFromMouse(p.g, 1f);
 		
 		// progress through loop
 		if(p.loop.progress() > 0.5f) tiltProgress.setTarget(1);

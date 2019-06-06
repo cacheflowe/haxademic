@@ -3,7 +3,7 @@ package com.haxademic.demo.draw.image;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.image.MotionBlurPGraphics;
 
@@ -29,7 +29,7 @@ extends PAppletHax {
 
 	protected void drawGraphics( PGraphics pg ) {
 		// redraw pgraphics grid
-		DrawUtil.setDrawCenter(pg);
+		PG.setDrawCenter(pg);
 		pg.beginDraw();
 		pg.clear();
 		pg.stroke(0);

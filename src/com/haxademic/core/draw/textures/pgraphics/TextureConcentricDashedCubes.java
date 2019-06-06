@@ -1,7 +1,7 @@
 package com.haxademic.core.draw.textures.pgraphics;
 
 import com.haxademic.core.app.P;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.shapes.Shapes;
 import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
 import com.haxademic.core.math.MathUtil;
@@ -31,8 +31,8 @@ extends BaseTexture {
 		_texture.strokeWeight(lineWeight.value());
 		
 		// context & camera
-		DrawUtil.setCenterScreen(_texture);
-		DrawUtil.setDrawCenter(_texture);
+		PG.setCenterScreen(_texture);
+		PG.setDrawCenter(_texture);
 		_texture.ortho();
 		
 		// hexagon tilt

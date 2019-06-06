@@ -2,7 +2,7 @@ package com.haxademic.sketch.pshape;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.easing.EasingFloat;
 
@@ -66,7 +66,7 @@ extends PAppletHax {
 
 	public void drawApp() {
 		background(255);
-		DrawUtil.setDrawCenter(p);
+		PG.setDrawCenter(p);
 		p.translate(p.width/2f, p.height/2f);
 		
 				

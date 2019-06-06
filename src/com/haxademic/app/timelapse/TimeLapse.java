@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.file.FileUtil;
 
 import processing.core.PImage;
@@ -44,8 +44,8 @@ extends PAppletHax {
 		
 	public void drawApp() {
 		p.background(0);
-		DrawUtil.setColorForPImage(p);
-		DrawUtil.setPImageAlpha(p, (p.frameCount % 2 == 1) ? 0.999f : 1 );	// stupid hack b/c UMovieMaker doesn't save the exact same frame twice in a row.
+		PG.setColorForPImage(p);
+		PG.setPImageAlpha(p, (p.frameCount % 2 == 1) ? 0.999f : 1 );	// stupid hack b/c UMovieMaker doesn't save the exact same frame twice in a row.
 		
 		// load and display current image
 		if( _imageIndex < _images.size() ) {

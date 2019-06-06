@@ -5,7 +5,7 @@ import java.awt.geom.Point2D;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.data.ConvertUtil;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.file.FileUtil;
 
 import processing.core.PGraphics;
@@ -127,13 +127,13 @@ public class BaseSavedQuadUI {
 	}
 	
 	protected void drawPoint(PGraphics pg, Point point) {
-		DrawUtil.setDrawCenter(pg);
+		PG.setDrawCenter(pg);
 		pg.fill(255, 75);
 		pg.stroke(0, 255, 0);
 		pg.strokeWeight(2);
 		float indicatorSize = 20f + 3f * P.sin(P.p.frameCount / 10f);
 		pg.ellipse(point.x, point.y, indicatorSize, indicatorSize);
-		DrawUtil.setDrawCorner(pg);
+		PG.setDrawCorner(pg);
 	}
 	
 	protected void showMappedRect(PGraphics pg) {

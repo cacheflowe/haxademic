@@ -3,7 +3,7 @@ package com.haxademic.demo.ui;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.ui.UIButton;
 
 public class Demo_UIControls 
@@ -42,8 +42,8 @@ extends PAppletHax {
 		
 		// 3d rotation
 		p.lights();
-		DrawUtil.setCenterScreen(p.g);
-		DrawUtil.setDrawCenter(p.g);
+		PG.setCenterScreen(p.g);
+		PG.setDrawCenter(p.g);
 		p.rotateX(p.ui.value(VECTOR_3 + "_X"));
 		p.rotateY(p.ui.value(VECTOR_3 + "_Y"));
 		p.rotateZ(p.ui.value(VECTOR_3 + "_Z"));

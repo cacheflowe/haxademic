@@ -3,7 +3,7 @@ package com.haxademic.demo.draw.context;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.textures.pgraphics.TextureShaderTimeStepper;
 import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
@@ -47,7 +47,7 @@ extends PAppletHax {
 		background(0);
 		if(p.frameCount % 60 == 0) texture.updateTiming();
 		texture.update();
-		DrawUtil.rotateRedraw(texture.texture(), 0.2f * P.sin((float) p.frameCount * 0.01f));
+		PG.rotateRedraw(texture.texture(), 0.2f * P.sin((float) p.frameCount * 0.01f));
 		p.image(texture.texture(), 0, 0);
 	}
 

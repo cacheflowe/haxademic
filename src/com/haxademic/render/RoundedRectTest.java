@@ -3,7 +3,7 @@ package com.haxademic.render;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.image.DrawCommand.Command;
 import com.haxademic.core.draw.image.HaxMotionBlur;
@@ -59,7 +59,7 @@ extends PAppletHax {
 	public void drawFrame() {
 		p.pushMatrix();
 
-		DrawUtil.setDrawCenter(p);
+		PG.setDrawCenter(p);
 		
 //		p.fill(255);
 		p.noFill();

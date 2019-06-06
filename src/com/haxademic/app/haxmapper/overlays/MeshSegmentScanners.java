@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.draw.color.EasingColor;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.math.MathUtil;
 
 import processing.core.PGraphics;
@@ -44,7 +44,7 @@ public class MeshSegmentScanners {
 		}
 
 		_colorEase.update();
-		DrawUtil.setDrawCenter( pg );
+		PG.setDrawCenter( pg );
 
 		//		float spectrumInterval = (int) ( 256 / _meshVertices.size() );	// 256 keeps it in the bottom half of the spectrum since the high ends is so overrun
 

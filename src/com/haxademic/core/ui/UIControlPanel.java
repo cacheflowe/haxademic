@@ -5,7 +5,7 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 
 import com.haxademic.core.app.P;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.net.WebServer;
 import com.haxademic.core.net.WebServerRequestHandlerUIControls;
 import com.haxademic.core.ui.UIButton.IUIButtonDelegate;
@@ -142,11 +142,11 @@ implements IUIButtonDelegate {
 	
 	public void update() {
 		if(!active) return;
-		DrawUtil.setDrawFlat2d(P.p.g, true);
+		PG.setDrawFlat2d(P.p.g, true);
 		for (IUIControl control : controls.values()) {
 			control.update(P.p.g);
 		}
-		DrawUtil.setDrawFlat2d(P.p.g, false);
+		PG.setDrawFlat2d(P.p.g, false);
 	}
 
 	public void active(boolean val) {

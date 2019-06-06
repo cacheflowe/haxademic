@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.debug.DebugUtil;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.toxi.MeshPool;
 import com.haxademic.core.draw.toxi.MeshUtilToxi;
 import com.haxademic.core.math.easing.EasingFloat3d;
@@ -153,7 +153,7 @@ extends PApplet
 	}
 
 	public void draw() {
-		DrawUtil.setBasicLights( p );
+		PG.setBasicLights( p );
 		// draw background and set to center
 		if( isSunflow == false ) p.background(0,0,0,255);
 		p.translate(p.width/2, p.height/2, 0);

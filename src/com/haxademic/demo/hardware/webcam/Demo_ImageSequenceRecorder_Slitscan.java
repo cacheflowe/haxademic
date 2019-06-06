@@ -4,7 +4,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.data.constants.PRenderers;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.ContrastFilter;
 import com.haxademic.core.draw.filters.pshader.SaturationFilter;
 import com.haxademic.core.draw.image.ImageSequenceRecorder;
@@ -69,7 +69,7 @@ implements IWebCamCallback {
 		debugView.setTexture(noiseBuffer);
 		
 		// debug draw recorder object frames
-		DrawUtil.setDrawCorner(p);
+		PG.setDrawCorner(p);
 		// recorder.drawDebug(p.g);	// kills the rest of the drawing
 		
 		// slitscanShader
@@ -92,8 +92,8 @@ implements IWebCamCallback {
 		
 		// draw live webcam
 		p.pushMatrix();
-		DrawUtil.setDrawCenter(p);
-		DrawUtil.setCenterScreen(p);
+		PG.setDrawCenter(p);
+		PG.setCenterScreen(p);
 //		p.image(camBuffer, 0, 0);
 //		p.image(slitscanOutputBuffer, 0, 0);
 		p.image(slitscanLerpedBuffer, 0, 0);

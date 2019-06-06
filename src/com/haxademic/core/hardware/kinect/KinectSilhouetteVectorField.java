@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Vector;
 
 import com.haxademic.core.app.P;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.EasingFloat;
 
@@ -39,7 +39,7 @@ extends KinectSilhouetteBasic {
 	
 	protected void updateField() {
 		// draw field
-		DrawUtil.setDrawCenter(_canvas);
+		PG.setDrawCenter(_canvas);
 		_canvas.fill(255);
 		for (int i = 0; i < _vectorFieldBase.size(); i++) {
 			PVector vector = _vectorFieldBase.get(i);

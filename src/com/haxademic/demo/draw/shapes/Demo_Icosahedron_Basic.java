@@ -2,7 +2,7 @@ package com.haxademic.demo.draw.shapes;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.shapes.Icosahedron;
 import com.haxademic.core.draw.shapes.PShapeUtil;
@@ -27,7 +27,7 @@ extends PAppletHax {
 	
 	public void drawApp() {
 		background(0);
-		DrawUtil.setDrawCorner(p);
+		PG.setDrawCorner(p);
 		
 		// test mesh detail
 		OpenGLUtil.setWireframe(p.g, (p.frameCount % 200 < 100));

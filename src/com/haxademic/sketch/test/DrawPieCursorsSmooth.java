@@ -2,7 +2,7 @@ package com.haxademic.sketch.test;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 
 import toxi.color.TColor;
 
@@ -28,9 +28,9 @@ extends PAppletHax {
 	public void drawApp() {
 		background(0);
 		
-		DrawUtil.setColorForPImage( p );
-		DrawUtil.resetPImageAlpha( p );
-		DrawUtil.setPImageAlpha(p, 1f);
+		PG.setColorForPImage( p );
+		PG.resetPImageAlpha( p );
+		PG.setPImageAlpha(p, 1f);
 
 		float timePercent = ( p.millis() / 1000f ) % 1;
 
@@ -63,8 +63,8 @@ extends PAppletHax {
 		p.arc(400, 400, cursorRadius, cursorRadius, startRads, startRads + cursorProgress * P.TWO_PI, P.OPEN);
 		
 		// zoom image
-//		DrawUtil.drawTestPattern(p.g);
-		DrawUtil.zoomReTexture(p.g, 0.66f + 0.33f * P.sin(p.frameCount * 0.01f));
+//		PG.drawTestPattern(p.g);
+		PG.zoomReTexture(p.g, 0.66f + 0.33f * P.sin(p.frameCount * 0.01f));
 	}
 
 }

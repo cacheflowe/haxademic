@@ -2,7 +2,7 @@ package com.haxademic.demo.draw.shapes.shader;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.ThresholdFilter;
 import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.draw.shapes.Shapes;
@@ -57,8 +57,8 @@ extends PAppletHax {
 		// context & camera
 		background(0);
 		//p.image(texture, 0, 0);
-		DrawUtil.setCenterScreen(p.g);
-		DrawUtil.basicCameraFromMouse(p.g);
+		PG.setCenterScreen(p.g);
+		PG.basicCameraFromMouse(p.g);
 
 		// post effect on displacement texture
 //		ThresholdFilter.instance(p).applyTo(displaceTexture.texture());

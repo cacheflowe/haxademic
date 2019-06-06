@@ -16,7 +16,7 @@ import java.awt.print.PrinterJob;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.data.constants.PRenderers;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.math.MathUtil;
 
@@ -75,8 +75,8 @@ public class PrintPageDirect {
 		} else {
 			// rotate to print bigger on page
 			P.out("Printing landscape (auto-rotated to fit page better)");
-			DrawUtil.setDrawCenter(printBuffer);
-			DrawUtil.setCenterScreen(printBuffer);
+			PG.setDrawCenter(printBuffer);
+			PG.setCenterScreen(printBuffer);
 			float scaleToFitW = MathUtil.scaleToTarget(source.width, printBuffer.height);
 			float scaleToFitH = MathUtil.scaleToTarget(source.height, printBuffer.width);
 			float scaleToFit = (scaleToFitH < scaleToFitW) ? scaleToFitH : scaleToFitW;
@@ -84,7 +84,7 @@ public class PrintPageDirect {
 			printBuffer.rotate(-P.HALF_PI);
 			printBuffer.image(source, 0, 0, source.width * scaleToFit, source.height * scaleToFit);
 			printBuffer.popMatrix();
-			DrawUtil.setDrawCorner(printBuffer);
+			PG.setDrawCorner(printBuffer);
 		}
 		
 		printBuffer.endDraw();

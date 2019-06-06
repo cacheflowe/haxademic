@@ -1,6 +1,6 @@
 package com.haxademic.core.draw.filters.pgraphics;
 
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pgraphics.shared.BaseVideoFilter;
 import com.haxademic.core.draw.image.ImageSequenceRecorder;
 import com.haxademic.core.math.MathUtil;
@@ -30,8 +30,8 @@ extends BaseVideoFilter {
 	public void update() {
 		// set up context
 		destBuffer.beginDraw();
-		DrawUtil.setDrawCenter(destBuffer);
-		DrawUtil.setCenterScreen(destBuffer);
+		PG.setDrawCenter(destBuffer);
+		PG.setCenterScreen(destBuffer);
 		
 		// draw tunnel
 		for (int i = 0; i < recorder.images().length; i++) {
@@ -41,7 +41,7 @@ extends BaseVideoFilter {
 		}
 		
 		// pop context
-		DrawUtil.setDrawCorner(destBuffer);
+		PG.setDrawCorner(destBuffer);
 		destBuffer.endDraw();
 	}
 	

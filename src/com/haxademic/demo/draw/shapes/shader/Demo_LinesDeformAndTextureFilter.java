@@ -3,7 +3,7 @@ package com.haxademic.demo.draw.shapes.shader;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.draw.shapes.pshader.LinesDeformAndTextureFilter;
 import com.haxademic.core.draw.textures.PerlinTexture;
@@ -64,8 +64,8 @@ extends PAppletHax {
 		perlin.update(0.05f, 0.05f, p.frameCount * 0.01f, 0);
 		
 		// rotate
-		DrawUtil.setCenterScreen(p);
-		DrawUtil.basicCameraFromMouse(p.g);
+		PG.setCenterScreen(p);
+		PG.basicCameraFromMouse(p.g);
 
 		// draw shader-displaced mesh
 		LinesDeformAndTextureFilter.instance(p).setDisplacementMap(perlin.texture());

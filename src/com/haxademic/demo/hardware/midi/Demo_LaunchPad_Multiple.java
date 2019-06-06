@@ -2,7 +2,7 @@ package com.haxademic.demo.hardware.midi;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.InvertFilter;
 import com.haxademic.core.hardware.midi.devices.LaunchPad;
 import com.haxademic.core.hardware.midi.devices.LaunchPad.ILaunchpadCallback;
@@ -33,8 +33,8 @@ implements ILaunchpadCallback {
 		pg.beginDraw();
 		pg.background(0);
 		pg.fill(255);
-		DrawUtil.setCenterScreen(pg);
-		DrawUtil.setDrawCenter(pg);
+		PG.setCenterScreen(pg);
+		PG.setDrawCenter(pg);
 		pg.rotate(p.frameCount * 0.03f);
 		pg.rect(0, 0, pg.width * 2f, pg.height * 1f/4f);
 		pg.endDraw();

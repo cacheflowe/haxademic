@@ -3,13 +3,13 @@ package com.haxademic.demo.draw.context;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.media.DemoAssets;
 
 import processing.core.PGraphics;
 import processing.core.PImage;
 
-public class Demo_DrawUtil_feedback2
+public class Demo_PG_feedback2
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
@@ -36,11 +36,11 @@ extends PAppletHax {
 		p.background(255);
 		
 		// texture feedback
-		DrawUtil.feedback(_texture, 2);
+		PG.feedback(_texture, 2);
 
 		// start texture drawing
 		_texture.beginDraw();
-		DrawUtil.setDrawCenter(_texture);
+		PG.setDrawCenter(_texture);
 		_texture.noStroke();
 		_texture.translate(p.width/2, p.height/2);
 		
@@ -53,7 +53,7 @@ extends PAppletHax {
 		_texture.endDraw();
 		
 		// draw texture to stage
-		DrawUtil.setColorForPImage(p);
+		PG.setColorForPImage(p);
 		p.image(_texture, 0, 0);
 	}
 }

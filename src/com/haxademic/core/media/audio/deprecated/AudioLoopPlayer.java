@@ -86,7 +86,7 @@ public class AudioLoopPlayer {
 		// this means that they have values between -1 and 1.
 		// If we don’t scale them up our waveform
 		// will look more or less like a straight line.
-//		DrawUtil.setCenter( p );
+//		PG.setCenter( p );
 		p.stroke( 255 );
 		p.strokeWeight( 10 );
 		for(int i = 0; i < _audioPlayer.bufferSize() - 1; i++)

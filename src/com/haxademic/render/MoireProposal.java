@@ -3,7 +3,7 @@ package com.haxademic.render;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.VignetteFilter;
 import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.draw.shapes.Shapes;
@@ -87,19 +87,19 @@ extends PAppletHax {
 	public void drawPointOnFloor(PGraphics tex) {
 		float circleSize = tex.width * 0.1f * (1f + 0.2f * P.sin(8f * loop.progressRads()));
 		tex.beginDraw();
-		DrawUtil.setDrawCenter(p);
+		PG.setDrawCenter(p);
 		tex.fill(255);
 		tex.stroke(0);
 		tex.strokeWeight(7);
 		tex.ellipse(tex.width / 2, tex.height * 0.785f, circleSize, circleSize);
 		tex.endDraw();
-		DrawUtil.setDrawCorner(p);
+		PG.setDrawCorner(p);
 	}
 	
 	public void drawApp() {
 		p.background(0);
 		p.lights();
-//		DrawUtil.setBetterLights(p);
+//		PG.setBetterLights(p);
 		p.fill(255);
 		p.noStroke();
 		

@@ -3,7 +3,7 @@ package com.haxademic.demo.draw.particle;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.hardware.kinect.OpenKinectPixelImg;
@@ -51,14 +51,14 @@ extends Demo_VectorField {
 		overlayKinectTexture.endDraw();
 		
 //		// debug draw kinect pixels
-//		DrawUtil.setDrawCorner(p);
+//		PG.setDrawCorner(p);
 //		p.image(overlayKinectTexture, 0, 0);
 //		p.image(kinectImg.texture, 0, 0);
 		
 		
 		// update vectors
 		
-		DrawUtil.setDrawCenter(p);
+		PG.setDrawCenter(p);
 		p.fill(255,0,0);
 		float dotSize = 20f;
 		float dotSizeHalf = dotSize/2f;

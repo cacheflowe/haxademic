@@ -4,7 +4,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.data.constants.PRenderers;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.MathUtil;
@@ -81,7 +81,7 @@ extends PAppletHax {
 	
 	public void drawApp() {
 		p.background(0);
-		DrawUtil.setCenterScreen(p);
+		PG.setCenterScreen(p);
 		p.translate(0, 0, -p.height);
 		
 		// camera

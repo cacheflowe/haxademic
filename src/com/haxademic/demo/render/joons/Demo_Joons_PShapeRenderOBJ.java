@@ -3,7 +3,7 @@ package com.haxademic.demo.render.joons;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.media.DemoAssets;
@@ -105,7 +105,7 @@ extends PAppletHax {
 		
 		// draw floor
 		p.pushMatrix();
-		DrawUtil.setDrawCenter(p);
+		PG.setDrawCenter(p);
 		p.translate(0, objHeight/2);
 		joons.jr.fill(JoonsWrapper.MATERIAL_PHONG, 255, 255, 255);		p.fill( 255, 255, 255 );
 		p.box(p.height * 4, 2, p.height * 4);

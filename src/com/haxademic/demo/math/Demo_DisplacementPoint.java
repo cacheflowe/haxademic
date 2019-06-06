@@ -3,7 +3,7 @@ package com.haxademic.demo.math;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.math.easing.DisplacementPoint;
 
 public class Demo_DisplacementPoint
@@ -57,7 +57,7 @@ extends PAppletHax {
 		p.noCursor();
 		// set up context
 		background(0);
-		DrawUtil.setDrawCenter(p);
+		PG.setDrawCenter(p);
 		p.fill(255);
 		//p.noStroke();
 		p.stroke(255);

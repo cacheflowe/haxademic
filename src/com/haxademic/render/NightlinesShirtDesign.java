@@ -3,7 +3,7 @@ package com.haxademic.render;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.system.SystemUtil;
 
@@ -52,7 +52,7 @@ extends PAppletHax {
 
 	public void drawApp() {
 		background(0);
-		DrawUtil.setDrawCenter(p);
+		PG.setDrawCenter(p);
 
 		if( _shouldPrint ) p.beginRecord( P.PDF,  FileUtil.getHaxademicOutputPath() + "mountains-"+ SystemUtil.getTimestamp(p) +".pdf" );
 

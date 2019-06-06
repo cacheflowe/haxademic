@@ -6,7 +6,7 @@ import java.io.UnsupportedEncodingException;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.image.Base64Image;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.system.SystemUtil;
@@ -74,7 +74,7 @@ extends PAppletHax {
 		
 		buffer.beginDraw();
 		buffer.background(0);
-		DrawUtil.setDrawCenter(buffer);
+		PG.setDrawCenter(buffer);
 		buffer.translate(buffer.width/2, buffer.height/2);
 		buffer.rotate(P.PI/2f);
 		buffer.image(movie, 0, 0, height, width);

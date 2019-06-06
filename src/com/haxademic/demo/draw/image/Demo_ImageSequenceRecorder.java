@@ -3,7 +3,7 @@ package com.haxademic.demo.draw.image;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.data.constants.PRenderers;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.SaturationFilter;
 import com.haxademic.core.draw.image.ImageSequenceRecorder;
 import com.haxademic.core.draw.image.ImageUtil;
@@ -36,12 +36,12 @@ implements IWebCamCallback {
 		p.background( 0 );
 				
 		p.pushMatrix();
-		DrawUtil.setDrawCenter(p);
-		DrawUtil.setCenterScreen(p);
+		PG.setDrawCenter(p);
+		PG.setCenterScreen(p);
 		p.image(camBuffer, 0, 0);
 		p.popMatrix();
 		
-		DrawUtil.setDrawCorner(p);
+		PG.setDrawCorner(p);
 		recorder.drawDebug(p.g);
 	}
 

@@ -3,7 +3,7 @@ package com.haxademic.demo.draw.shapes;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.shapes.Superformula;
 
@@ -78,7 +78,7 @@ extends PAppletHax {
 		_superFormGfx.endDraw();
 
 		p.image( _superFormGfx, 0, 0);
-		DrawUtil.setPImageAlpha(p, 1);
+		PG.setPImageAlpha(p, 1);
 	}
 
 }

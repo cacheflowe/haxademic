@@ -3,7 +3,7 @@ package com.haxademic.demo.system;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.math.easing.EasingFloat;
 import com.haxademic.core.media.DemoAssets;
 
@@ -45,7 +45,7 @@ extends PAppletHax {
 		_easingX.update();
 		_easingY.update();
 		
-		DrawUtil.setDrawCenter(p);
+		PG.setDrawCenter(p);
 		p.fill(255);
 		p.ellipse(_easingX.value(), _easingY.value(), 40, 40);
 	}

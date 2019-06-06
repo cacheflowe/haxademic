@@ -49,7 +49,7 @@ extends PAppletHax {
 //		p.ortho();
 		
 		// setup lights
-//		 DrawUtil.setBetterLights(p);
+//		 PG.setBetterLights(p);
 		p.lights();
 		 p.noStroke();
 

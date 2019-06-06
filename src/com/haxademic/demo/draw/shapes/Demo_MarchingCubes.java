@@ -2,7 +2,7 @@ package com.haxademic.demo.draw.shapes;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.shapes.MarchingCubes;
 
 import processing.core.PVector;
@@ -30,9 +30,9 @@ extends PAppletHax {
 		// set content
 		p.background(0);
 		pushMatrix();
-		DrawUtil.setCenterScreen(p);
-		DrawUtil.basicCameraFromMouse(p.g);
-		DrawUtil.setBetterLights(p.g);
+		PG.setCenterScreen(p);
+		PG.basicCameraFromMouse(p.g);
+		PG.setBetterLights(p.g);
 		
 		// generate metaballs balls
 		mc.reset();

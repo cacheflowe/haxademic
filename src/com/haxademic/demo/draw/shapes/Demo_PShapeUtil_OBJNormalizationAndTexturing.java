@@ -3,7 +3,7 @@ package com.haxademic.demo.draw.shapes;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.shapes.PShapeSolid;
 import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.media.DemoAssets;
@@ -56,8 +56,8 @@ extends PAppletHax {
 		float percentComplete = ((float)(p.frameCount%_frames)/_frames);
 		
 		background(0);
-		DrawUtil.setBetterLights(p);
-		DrawUtil.setDrawCorner(p);
+		PG.setBetterLights(p);
+		PG.setDrawCorner(p);
 		
 		// rotate
 		p.translate(p.width/2f, p.height/2f, 0);
@@ -79,7 +79,7 @@ extends PAppletHax {
 		}
 		
 		// draw ground
-		DrawUtil.setDrawCenter(p);
+		PG.setDrawCenter(p);
 		p.translate(0, modelHeight, 0);
 		p.rotateX(P.HALF_PI);
 		p.fill(255);

@@ -4,7 +4,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.data.constants.PRenderers;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.VignetteFilter;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.image.TiledTexture;
@@ -44,7 +44,7 @@ extends PAppletHax {
 
 	protected void setupFirstFrame() {
 		texture = p.createGraphics(p.width * 8, 150, P.P2D);
-		DrawUtil.setTextureRepeat(texture, false);
+		PG.setTextureRepeat(texture, false);
 		
 		// create PShape
 		shape = drawCurlyStrip(p.width * 0.6f, p.height * 4f, 2000, 6f, 300);
@@ -127,14 +127,14 @@ extends PAppletHax {
 		
 		// set main app context
 		background(0);
-		DrawUtil.setBetterLights(p);
-		DrawUtil.setCenterScreen(p);
+		PG.setBetterLights(p);
+		PG.setCenterScreen(p);
 		p.translate(0, 0, -width * 0.8f);
 		
 		
 		p.rotateY(p.loop.progressRads() * 1f);
 
-		//		DrawUtil.basicCameraFromMouse(p.g);
+		//		PG.basicCameraFromMouse(p.g);
 		
 		// draw shape
 		p.shape(shape);

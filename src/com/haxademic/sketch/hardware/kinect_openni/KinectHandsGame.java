@@ -4,7 +4,7 @@ package com.haxademic.sketch.hardware.kinect_openni;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.hardware.kinect.SkeletonsTracker;
 import com.haxademic.core.math.MathUtil;
 
@@ -39,13 +39,13 @@ extends PAppletHax {
 	}
 	
 	public void drawApp() {
-		DrawUtil.resetGlobalProps( p );
+		PG.resetGlobalProps( p );
 		p.background(0);
 
 		_skeletonTracker.update();
-		DrawUtil.setDrawCorner(p);
+		PG.setDrawCorner(p);
 		p.image( p.kinectWrapper.getRgbImage(), 0, 0 );
-		DrawUtil.setDrawCorner(p);
+		PG.setDrawCorner(p);
 
 		gamePiece.update();
 				

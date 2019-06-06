@@ -6,7 +6,7 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.data.store.IAppStoreListener;
 import com.haxademic.core.debug.DebugView;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.hardware.shared.InputTrigger;
 
@@ -97,7 +97,7 @@ implements IAppStoreListener {
 		// main app canvas context setup
 		p.background(0);
 		p.noStroke();
-		DrawUtil.setDrawCorner(p);
+		PG.setDrawCorner(p);
 
 		// MAIN DRAW STEPS:
 		// 1. update offscreen buffers before main drawing w/ANIMATION_FRAME_PRE

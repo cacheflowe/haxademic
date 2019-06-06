@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.toxi.DrawToxiMesh;
 import com.haxademic.core.draw.toxi.MeshUtilToxi;
@@ -110,7 +110,7 @@ extends PAppletHax {
 		p.noStroke();
 		
 		// draw box bg
-		DrawUtil.setDrawCenter(p);
+		PG.setDrawCenter(p);
 		joons.jr.fill( JoonsWrapper.MATERIAL_SHINY, 255, 255, 255 );
 		p.box(p.width*10, p.width*10, 2);
 		

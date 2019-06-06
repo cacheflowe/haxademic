@@ -4,7 +4,7 @@ package com.haxademic.app.interphase.sequencing;
 import com.haxademic.core.app.P;
 import com.haxademic.core.data.ConvertUtil;
 import com.haxademic.core.draw.color.ImageGradient;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.shapes.Shapes;
 import com.haxademic.core.hardware.midi.devices.LaunchPad;
 import com.haxademic.core.hardware.midi.devices.LaunchPad.ILaunchpadCallback;
@@ -319,10 +319,10 @@ implements ILaunchpadCallback {
 		float startx = (spacing * sequencers.length) / -2f + boxSize/2;
 		float startY = (spacing * NUM_STEPS) / -2f + boxSize/2;
 		pg.beginDraw();
-		DrawUtil.setCenterScreen(pg);
-		DrawUtil.basicCameraFromMouse(pg, 0.1f);
-		DrawUtil.setBetterLights(pg);
-		DrawUtil.setDrawCenter(pg);
+		PG.setCenterScreen(pg);
+		PG.basicCameraFromMouse(pg, 0.1f);
+		PG.setBetterLights(pg);
+		PG.setDrawCenter(pg);
 		
 		// draw cubes
 		for (int x = 0; x < sequencers.length; x++) {

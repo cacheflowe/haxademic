@@ -6,7 +6,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.color.EasingColor;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.math.easing.EasingFloat3d;
 import com.haxademic.core.vendor.Toxiclibs;
 
@@ -68,10 +68,10 @@ extends PAppletHax {
 	}
 	
 	protected void setupScene() {
-		DrawUtil.resetGlobalProps( p );
-		DrawUtil.setCenterScreen(p);
+		PG.resetGlobalProps( p );
+		PG.setCenterScreen(p);
 		p.background(0);
-		DrawUtil.setBetterLights(p);
+		PG.setBetterLights(p);
 
 //		p.translate( 0, 0, -700 );
 		

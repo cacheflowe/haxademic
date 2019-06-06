@@ -3,7 +3,7 @@ package com.haxademic.sketch.particle;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.math.MathUtil;
 
 import processing.core.PVector;
@@ -114,7 +114,7 @@ extends PAppletHax {
 		}
 		
 		// Draw circles
-		DrawUtil.setDrawCenter(p);
+		PG.setDrawCenter(p);
 		for (int i = 0; i < particles.length; i++) {
 			Particle c = particles[i];
 			p.ellipse(c.position.x, c.position.y, c.radius/2, c.radius/2);

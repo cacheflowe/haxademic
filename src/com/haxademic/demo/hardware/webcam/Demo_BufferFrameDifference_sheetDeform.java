@@ -3,7 +3,7 @@ package com.haxademic.demo.hardware.webcam;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.data.constants.PRenderers;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.BlurHFilter;
 import com.haxademic.core.draw.filters.pshader.BlurVFilter;
 import com.haxademic.core.draw.image.BufferFrameDifference;
@@ -75,7 +75,7 @@ implements IWebCamCallback {
 	public void drawApp() {
 		// set context
 		p.background(0);
-		DrawUtil.setCenterScreen(p);
+		PG.setCenterScreen(p);
 		
 		// update shader & draw mesh
 		if(bufferFrameDifference != null) {

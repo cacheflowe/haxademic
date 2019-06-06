@@ -37,7 +37,7 @@ extends PAppletHax {
 		// rotate
 		p.translate(p.width/2f, p.height/2f, 0);
 		p.translate(0, p.height * 0.02f + (p.height * 0.02f) * P.sin(p.loop.progressRads()));
-//		DrawUtil.basicCameraFromMouse(p.g);
+//		PG.basicCameraFromMouse(p.g);
 //		p.rotateX(P.QUARTER_PI * -3f);
 		p.rotateX(P.QUARTER_PI * -3.5f + P.sin(p.loop.progressRads()) * 0.1f);
 //		p.rotateZ(p.loop.progressRads());

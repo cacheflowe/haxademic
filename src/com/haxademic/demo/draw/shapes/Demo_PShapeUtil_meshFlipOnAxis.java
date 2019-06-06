@@ -2,7 +2,7 @@ package com.haxademic.demo.draw.shapes;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.media.DemoAssets;
 
@@ -26,7 +26,7 @@ extends PAppletHax {
 	public void drawApp() {
 		background(0);
 		p.translate(p.width/2f, p.height/2f, 0);
-		DrawUtil.setBetterLights(p);
+		PG.setBetterLights(p);
 
 		// rotate mesh vertices
 		if(p.frameCount % 100 == 0) {

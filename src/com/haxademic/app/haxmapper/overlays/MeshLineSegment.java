@@ -82,7 +82,7 @@ public class MeshLineSegment {
 			pg.ellipse( _point1.x, _point1.y, ampNormalized, ampNormalized );
 		} 
 //		else if( mode == MODE.MODE_WAVEFORMS ) {
-//			DrawUtil.setDrawCorner(pg);
+//			PG.setDrawCorner(pg);
 //			
 //			amp = 5;
 //			

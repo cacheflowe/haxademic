@@ -3,7 +3,7 @@ package com.haxademic.sketch.test;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.image.TiledTexture;
 import com.haxademic.core.math.MathUtil;
 
@@ -39,7 +39,7 @@ extends PAppletHax {
 	}	
 	
 	public void drawRect(PGraphics pg, float drawW, float drawH, float size, float rotation) {
-		DrawUtil.setTextureRepeat(pg, true);
+		PG.setTextureRepeat(pg, true);
 		float halfDrawW = drawW / 2f;
 		float halfDrawH = drawH / 2f;
 		float halfSizeX = halfDrawW * size;

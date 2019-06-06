@@ -6,7 +6,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.color.EasingColor;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.mapping.PGraphicsKeystone;
 import com.haxademic.core.file.FileUtil;
@@ -276,7 +276,7 @@ extends PAppletHax {
 	
 	public void drawLogo() {
 //		if( _clipPlaying == false ) {
-			DrawUtil.setDrawCenter(buffer);
+			PG.setDrawCenter(buffer);
 			buffer.translate( buffer.width / 2, buffer.height / 2 );
 			float scaleOsc = P.sin(p.frameCount/100f);
 			float scaleOsc2 = P.sin(p.frameCount/80f);

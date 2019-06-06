@@ -6,7 +6,7 @@ import java.awt.Rectangle;
 import com.haxademic.core.app.P;
 import com.haxademic.core.data.constants.PTextAlign;
 import com.haxademic.core.draw.color.ColorsHax;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.text.FontCacher;
 import com.haxademic.core.file.PrefToText;
 import com.haxademic.core.media.DemoAssets;
@@ -109,7 +109,7 @@ implements IUIControl {
 	}
 	
 	public void update(PGraphics pg) {
-		DrawUtil.setDrawCorner(pg);
+		PG.setDrawCorner(pg);
 		float cornerRadius = 5;
 		
 		// background

@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.draw.color.EasingColor;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.EasingFloat3d;
@@ -52,10 +52,10 @@ extends BaseTexture {
 		_texture.clear();
 		feedback(1f, 0.15f);
 		
-		DrawUtil.setCenterScreen( _texture );
+		PG.setCenterScreen( _texture );
 		_texture.pushMatrix();
 		
-		DrawUtil.setDrawCenter(_texture);
+		PG.setDrawCenter(_texture);
 		_texture.noStroke();
 		
 		for( int i = 0; i < _numStars; i++ ) {

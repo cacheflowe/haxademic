@@ -3,7 +3,7 @@ package com.haxademic.demo.render.joons;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.media.DemoAssets;
 import com.haxademic.core.render.JoonsWrapper;
@@ -47,10 +47,10 @@ extends PAppletHax {
 	public void drawApp() {
 		if(p.appConfig.getBoolean(AppSettings.SUNFLOW_ACTIVE, false) == false) {
 			p.background(200, 255, 200);
-//			DrawUtil.setCenterScreen(p);
-			DrawUtil.setBetterLights(p);
+//			PG.setCenterScreen(p);
+			PG.setBetterLights(p);
 			p.noStroke();
-//			DrawUtil.basicCameraFromMouse(p.g);
+//			PG.basicCameraFromMouse(p.g);
 		} else {
 			joons.jr.background(JoonsWrapper.BACKGROUND_AO);
 			joons.setUpRoom(255, 255, 255);
@@ -76,7 +76,7 @@ extends PAppletHax {
 		
 		// draw floor
 		p.pushMatrix();
-		DrawUtil.setDrawCenter(p);
+		PG.setDrawCenter(p);
 		p.translate(0, p.height * 0.3f);
 		PShapeUtil.setColorForJoons(JoonsWrapper.MATERIAL_MIRROR, p.color(100, 0, 255));
 		p.box(p.height * 4, 2, p.height * 4);

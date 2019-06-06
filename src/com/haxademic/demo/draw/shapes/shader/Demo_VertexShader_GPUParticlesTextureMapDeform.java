@@ -4,7 +4,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.data.constants.PRenderers;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.ReflectFilter;
 import com.haxademic.core.draw.textures.PerlinTexture;
 import com.haxademic.core.draw.textures.pgraphics.TextureEQGrid;
@@ -90,7 +90,7 @@ extends PAppletHax {
 		
 		// fade background
 		buffer.beginDraw();
-		DrawUtil.fadeToBlack(buffer, 60);
+		PG.fadeToBlack(buffer, 60);
 		
 		// move to screen center
 		buffer.translate(p.width/2f, p.height/2f, 0);

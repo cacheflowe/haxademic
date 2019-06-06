@@ -4,7 +4,7 @@ package com.haxademic.sketch.hardware.kinect_openni;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.hardware.kinect.SkeletonsTracker;
 
 import SimpleOpenNI.SimpleOpenNI;
@@ -58,7 +58,7 @@ extends PAppletHax {
 	}
 	
 	public void drawApp() {
-		DrawUtil.resetGlobalProps( p );
+		PG.resetGlobalProps( p );
 		
 		p.background(0);
 		
@@ -67,9 +67,9 @@ extends PAppletHax {
 		p.noStroke();
 		
 		
-		DrawUtil.setColorForPImage(p);
-		DrawUtil.setDrawCenter(p);
-		DrawUtil.setBasicLights( p );
+		PG.setColorForPImage(p);
+		PG.setDrawCenter(p);
+		PG.setBasicLights( p );
 
 
 		drawGoal();
@@ -80,7 +80,7 @@ extends PAppletHax {
 	}
 	
 	protected void drawGoal() {
-		DrawUtil.setColorForPImage(p);
+		PG.setColorForPImage(p);
 		p.pushMatrix();
 		p.translate(p.width/2, p.height/2, 0);
 		p.image(_goal2, 0, 0, _goal.width, _goal.height);
@@ -100,16 +100,16 @@ extends PAppletHax {
 	protected void drawSun() {
 		p.pushMatrix();
 		p.fill(255, 255, 0, 255);
-		DrawUtil.setDrawCenter(p);
+		PG.setDrawCenter(p);
 		p.ellipse(0, 0, 200, 200);
 		p.popMatrix();
 	}
 	
 	protected void drawWebCam( float rotations ) {
 		// draw cam
-		DrawUtil.setColorForPImage(p);
+		PG.setColorForPImage(p);
 		// control brightness with 2nd variable
-		DrawUtil.setPImageAlpha(p, 1f);
+		PG.setPImageAlpha(p, 1f);
 		// normal camera video output
 		PImage drawCamImg = p.kinectWrapper.getRgbImage();
 
@@ -276,10 +276,10 @@ extends PAppletHax {
 				if(z > -1500) {
 					p.pushMatrix();
 					p.translate(x, y, z);
-					DrawUtil.setDrawCenter(p);
+					PG.setDrawCenter(p);
 					rotation += 0.2f;
 					p.rotate(rotation);
-					DrawUtil.setColorForPImage(p);
+					PG.setColorForPImage(p);
 					p.image(_ballImage, 0, 0);
 					z -= zSpeed;
 					ySpeed -= gravity;

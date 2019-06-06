@@ -3,7 +3,7 @@ package com.haxademic.demo.math;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.math.easing.LinearFloat;
 import com.haxademic.core.math.easing.Penner;
 
@@ -53,7 +53,7 @@ extends PAppletHax {
 		
 		// update objects
 		float segmentH = p.height / (easingsL.length - 1);
-		DrawUtil.setDrawCenter(p);
+		PG.setDrawCenter(p);
 		p.fill(255);
 		p.noStroke();
 		p.strokeCap(P.ROUND);

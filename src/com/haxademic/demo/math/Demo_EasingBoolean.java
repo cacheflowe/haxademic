@@ -2,7 +2,7 @@ package com.haxademic.demo.math;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.math.easing.EasingBoolean;
 import com.haxademic.core.math.easing.EasingBoolean.IEasingBooleanCallback;
 import com.haxademic.core.math.easing.LinearFloat;
@@ -22,7 +22,7 @@ implements IEasingBooleanCallback {
 	public void drawApp() {
 		p.background(0);
 		p.noStroke();
-		DrawUtil.setDrawCenter(p);
+		PG.setDrawCenter(p);
 		
 		// update boolean and set the current target
 		booleanSwitch.target(p.mousePercentX() > 0.5f);
@@ -33,7 +33,7 @@ implements IEasingBooleanCallback {
 		p.rect(booleanSwitch.progress() * p.width, p.height - 50, 100, 100);
 		
 		// debug: show updated valu
-		DrawUtil.setDrawCorner(p);
+		PG.setDrawCorner(p);
 		showUpdatedValue.update();
 		if(showUpdatedValue.value() > 0) {
 			p.fill(255f * showUpdatedValue.value());

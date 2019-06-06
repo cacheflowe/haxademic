@@ -3,7 +3,7 @@ package com.haxademic.demo.draw.shapes;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.media.DemoAssets;
 
@@ -49,7 +49,7 @@ extends PAppletHax {
 		// clear the screen
 		background(10);
 		p.noStroke();
-		DrawUtil.setBetterLights(p.g);
+		PG.setBetterLights(p.g);
 
 		// rotate camera
 		p.translate(p.width/2, p.height * 0.65f);
@@ -59,13 +59,13 @@ extends PAppletHax {
 		// draw floor
 		p.pushMatrix();
 		p.rotateX(P.HALF_PI);
-		DrawUtil.setDrawCenter(p.g);
+		PG.setDrawCenter(p.g);
 		p.fill(0, 200, 0);
 		p.rect(0, 0, p.width/2, p.width/2);
 		p.popMatrix();
 
 		// draw shape
-		DrawUtil.setDrawCorner(p.g);
+		PG.setDrawCorner(p.g);
 		p.shape(shape);
 		
 		// draw extents

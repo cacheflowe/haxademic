@@ -4,7 +4,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.data.constants.PRenderers;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.BlendTowardsTexture;
 import com.haxademic.core.draw.filters.pshader.BrightnessFilter;
 import com.haxademic.core.draw.image.ImageUtil;
@@ -68,8 +68,8 @@ implements IWebCamCallback {
 		background(0);
 		
 		// rotate
-		DrawUtil.setCenterScreen(p);
-		DrawUtil.basicCameraFromMouse(p.g, 0.1f);
+		PG.setCenterScreen(p);
+		PG.basicCameraFromMouse(p.g, 0.1f);
 
 		// draw shader-displaced mesh
 		LinesDeformAndTextureFilter.instance(p).setDisplacementMap(webcamLerped);

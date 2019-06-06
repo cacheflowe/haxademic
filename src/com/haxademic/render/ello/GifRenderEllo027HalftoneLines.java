@@ -3,7 +3,7 @@ package com.haxademic.render.ello;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.HalftoneLinesFilter;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.easing.Penner;
@@ -35,13 +35,13 @@ extends PAppletHax {
 	public void drawApp() {
 		background(210);
 		translate(width/2, height/2, 0);
-		DrawUtil.setDrawCenter(p);
+		PG.setDrawCenter(p);
 		
 		float percentComplete = (float)(p.frameCount%_frames)/(float)_frames;
 		float easedPercent = Penner.easeInOutQuart(percentComplete % 1, 0, 1, 1);
 		float radsComplete = (percentComplete) * P.TWO_PI;
 
-		DrawUtil.setPImageAlpha(p, 0.4f + 0.4f * P.sin(radsComplete));
+		PG.setPImageAlpha(p, 0.4f + 0.4f * P.sin(radsComplete));
 		p.image(img, 0, 0, width * 0.75f, height * 0.75f);
 		
 		HalftoneLinesFilter.instance(p).setSampleDistX(100f);

@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.color.EasingColor;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.MathUtil;
@@ -173,8 +173,8 @@ extends PAppletHax {
 		p.noStroke();
 		p.rectMode( PConstants.CENTER );
 		
-		//DrawUtil.resetGlobalProps( p );
-		DrawUtil.setBasicLights( p );
+		//PG.resetGlobalProps( p );
+		PG.setBasicLights( p );
 		
 		if( _myMovie != null ) _myMovie.read();
 		if( _myMovie.pixels.length > 100 ) {

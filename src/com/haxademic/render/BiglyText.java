@@ -3,7 +3,7 @@ package com.haxademic.render;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.image.MotionBlurPGraphics;
 import com.haxademic.core.file.FileUtil;
@@ -49,7 +49,7 @@ extends PAppletHax {
 		p.background(255);
 		drawGraphics(_pg);
 		_pgMotionBlur.updateToCanvas(_pg, p.g, 1);
-//		DrawUtil.feedback(p.g, p.color(255), 0.2f, -1.0f);
+//		PG.feedback(p.g, p.color(255), 0.2f, -1.0f);
 //		drawFrame();
 	}
 	
@@ -69,8 +69,8 @@ extends PAppletHax {
 		
 		// Bread!
 		pg.translate(p.width/2, p.height/2);
-		DrawUtil.setDrawCenter(pg);
-		DrawUtil.setPImageAlpha(pg, 0.3f);
+		PG.setDrawCenter(pg);
+		PG.setPImageAlpha(pg, 0.3f);
 		pg.scale(0.9f + P.sin(progressRads) * 0.1f);
 		pg.rotate(0.01f * P.sin(P.PI/2 + progressRads));
 		pg.image(biglyImg, 0, 0);

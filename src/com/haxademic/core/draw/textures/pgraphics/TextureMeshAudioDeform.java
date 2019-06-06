@@ -3,7 +3,7 @@ package com.haxademic.core.draw.textures.pgraphics;
 import java.util.ArrayList;
 
 import com.haxademic.core.app.P;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.shapes.PShapeSolid;
 import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
@@ -93,8 +93,8 @@ extends BaseTexture {
 
 	public void updateDraw() {
 		_texture.clear();
-		DrawUtil.setDrawCorner(_texture);
-		DrawUtil.setCenterScreen(_texture);
+		PG.setDrawCorner(_texture);
+		PG.setCenterScreen(_texture);
 		_texture.pushMatrix();
 
 		_rotation.x += _rotSpeed.x;

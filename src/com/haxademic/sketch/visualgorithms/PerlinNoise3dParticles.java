@@ -6,7 +6,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.data.constants.PBlendModes;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 
 import processing.core.PVector;
 
@@ -79,7 +79,7 @@ extends PAppletHax {
 
 	public void drawApp() {
 		p.background(0);
-		DrawUtil.setBetterLights(p);
+		PG.setBetterLights(p);
 		p.pushMatrix();
 		p.blendMode(PBlendModes.ADD);
 		

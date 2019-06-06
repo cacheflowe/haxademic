@@ -3,7 +3,7 @@ package com.haxademic.demo.hardware.kinect.shared;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.hardware.kinect.KinectSize;
 
 
@@ -28,8 +28,8 @@ extends PAppletHax {
 		p.background(0);
 		
 		// draw filtered web cam
-		DrawUtil.setDrawCenter(p);
-		DrawUtil.setColorForPImage(p);
+		PG.setDrawCenter(p);
+		PG.setColorForPImage(p);
 		
 		KINECT_TOP = 220;
 		KINECT_BOTTOM = 240;

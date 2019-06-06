@@ -71,7 +71,7 @@ extends PAppletHax {
 		
 		
 //		ortho();
-//		DrawUtil.setBetterLights(p);
+//		PG.setBetterLights(p);
 		lights();
 		background(0); // colorB
 		translate(width/2, height/2, 0);

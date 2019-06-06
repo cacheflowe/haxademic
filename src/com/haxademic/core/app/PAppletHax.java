@@ -13,7 +13,7 @@ import com.haxademic.core.data.store.AppStore;
 import com.haxademic.core.debug.DebugUtil;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.debug.Stats;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.file.FileUtil;
@@ -564,7 +564,7 @@ extends PApplet {
 			if(appConfig.getInt(AppSettings.RENDERING_GIF_START_FRAME, 1) == p.frameCount) {
 				gifRenderer.startGifRender(this);
 			}
-			DrawUtil.setColorForPImage(p);
+			PG.setColorForPImage(p);
 			gifRenderer.renderGifFrame(p.g);
 			if(appConfig.getInt(AppSettings.RENDERING_GIF_STOP_FRAME, 100) == p.frameCount) {
 				gifRenderer.finish();

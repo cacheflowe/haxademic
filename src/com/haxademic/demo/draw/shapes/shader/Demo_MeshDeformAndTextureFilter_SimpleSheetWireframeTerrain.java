@@ -3,7 +3,7 @@ package com.haxademic.demo.draw.shapes.shader;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.VignetteFilter;
 import com.haxademic.core.draw.shapes.Shapes;
 import com.haxademic.core.draw.shapes.pshader.MeshDeformAndTextureFilter;
@@ -96,8 +96,8 @@ extends PAppletHax {
 		// context & camera
 		background(0);
 		//p.image(texture, 0, 0);
-		DrawUtil.setCenterScreen(p.g);
-		// DrawUtil.basicCameraFromMouse(p.g);
+		PG.setCenterScreen(p.g);
+		// PG.basicCameraFromMouse(p.g);
 		p.g.rotateX(1.1f);
 
 		// deform mesh

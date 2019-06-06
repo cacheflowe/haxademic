@@ -3,7 +3,7 @@ package com.haxademic.render;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.shapes.Shapes;
 import com.haxademic.core.draw.shapes.pshader.MeshDeformAndTextureFilter;
 
@@ -48,7 +48,7 @@ extends PAppletHax {
 
 	public void drawApp() {
 		p.background(0);
-		DrawUtil.setCenterScreen(p);
+		PG.setCenterScreen(p);
 		
 		// set center screen & rotate
 		p.scale(0.65f);

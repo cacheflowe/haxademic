@@ -3,14 +3,14 @@ package com.haxademic.demo.draw.context;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.filters.pshader.SphereDistortionFilter;
 import com.haxademic.core.draw.filters.pshader.VignetteFilter;
 
 import processing.core.PGraphics;
 
-public class Demo_DrawUtil_feedback
+public class Demo_PG_feedback
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
@@ -43,11 +43,11 @@ extends PAppletHax {
 		float percentRads = percentComplete * P.TWO_PI;
 		
 		// run feedback
-		DrawUtil.feedback(_texture, p.color(0, 40), 0.1f, p.height * 0.01f);
+		PG.feedback(_texture, p.color(0, 40), 0.1f, p.height * 0.01f);
 		
 		// draw new shape
 		_texture.beginDraw();
-		DrawUtil.setDrawCenter(_texture);
+		PG.setDrawCenter(_texture);
 		_texture.noFill();
 		_texture.stroke( 200 + 55f * P.sin(percentRads), 100 + 55f * P.cos(percentRads), 155 + 100f * P.cos(percentRads) );
 		_texture.translate(_texture.width/2, _texture.height/2);

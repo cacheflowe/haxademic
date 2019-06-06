@@ -5,7 +5,7 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.data.constants.PBlendModes;
 import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.draw.color.Gradients;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.BlurHFilter;
 import com.haxademic.core.draw.filters.pshader.BlurVFilter;
 import com.haxademic.core.draw.shapes.Shapes;
@@ -46,15 +46,15 @@ extends PAppletHax {
 
 	public void drawApp() {
 		// draw grid
-		DrawUtil.drawGrid(texture, p.color(0), p.color(255), 25, 25);
+		PG.drawGrid(texture, p.color(0), p.color(255), 25, 25);
 		
 		// update displace texture
 		displaceTexture.beginDraw();
 		displaceTexture.background(0);
 		displaceTexture.noStroke();
 		displaceTexture.blendMode(PBlendModes.ADD);
-		DrawUtil.setDrawCenter(displaceTexture);
-		DrawUtil.setCenterScreen(displaceTexture);
+		PG.setDrawCenter(displaceTexture);
+		PG.setCenterScreen(displaceTexture);
 //		float scaleImg = MathUtil.scaleToTarget(DemoAssets.particle().height, displaceTexture.height * 1.4f);
 		float iter = 6f;
 		for (float i = 0; i < iter; i++) {
@@ -77,8 +77,8 @@ extends PAppletHax {
 		
 		// context & camera
 		background(0);
-		DrawUtil.setCenterScreen(p.g);
-		DrawUtil.basicCameraFromMouse(p.g);
+		PG.setCenterScreen(p.g);
+		PG.basicCameraFromMouse(p.g);
 
 		// deform mesh
 		MeshDeformAndTextureFilter.instance(p).setDisplacementMap(displaceTexture);

@@ -1,7 +1,7 @@
 package com.haxademic.core.draw.textures.pgraphics;
 
 import com.haxademic.core.app.P;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.shapes.Icosahedron;
 import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
@@ -56,7 +56,7 @@ extends BaseTexture {
 	public void updateDraw() {
 		// prep context
 		_texture.clear();
-		DrawUtil.setCenterScreen( _texture );
+		PG.setCenterScreen( _texture );
 		_texture.pushMatrix();
 
 		// update rotation

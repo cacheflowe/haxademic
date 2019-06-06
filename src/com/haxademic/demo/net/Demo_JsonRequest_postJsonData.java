@@ -10,7 +10,7 @@ import javax.imageio.ImageIO;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.data.constants.PRenderers;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.image.Base64Image;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.net.IJsonRequestCallback;
@@ -38,7 +38,7 @@ implements IJsonRequestCallback {
 	public void drawApp() {
 		// background
 		pg.beginDraw();
-		DrawUtil.setDrawCenter(pg);
+		PG.setDrawCenter(pg);
 		pg.background((float)mouseX/width * 255,(float)mouseY/height * 255,0);
 		pg.fill(255);
 		

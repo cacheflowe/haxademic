@@ -3,7 +3,7 @@ package com.haxademic.demo.hardware.kinect.shared;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pgraphics.archive.PixelFilter;
 import com.haxademic.core.hardware.kinect.KinectSize;
 
@@ -52,19 +52,19 @@ extends PAppletHax {
 	}
 
 	public void drawApp() {
-		DrawUtil.resetGlobalProps( p );
+		PG.resetGlobalProps( p );
 		p.shininess(1000f); 
 		p.lights();
 		p.background(0);
 
 		// draw filtered web cam
-		DrawUtil.setDrawCenter(p);
-		DrawUtil.setColorForPImage(p);
+		PG.setDrawCenter(p);
+		PG.setColorForPImage(p);
 		
 		// iterate over all mesh triangles
 		// and deform/draw their vertices
 		p.beginShape(P.TRIANGLES);
-		DrawUtil.setColorForPImage(p);
+		PG.setColorForPImage(p);
 		p.noStroke();
 		p.texture(_pixelFilter.updateWithPImage(p.kinectWrapper.getRgbImage()));
 		float pixelDepth;

@@ -4,7 +4,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.color.ImageGradient;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.BrightnessFilter;
 import com.haxademic.core.draw.filters.pshader.SphereDistortionFilter;
 import com.haxademic.core.draw.filters.pshader.VignetteFilter;
@@ -80,7 +80,7 @@ extends PAppletHax {
 
 		p.pushMatrix();
 		background(0);
-		DrawUtil.setDrawCenter(p);
+		PG.setDrawCenter(p);
 
 		// lights
 //		p.lights();

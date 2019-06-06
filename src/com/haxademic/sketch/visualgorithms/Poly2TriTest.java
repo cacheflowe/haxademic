@@ -11,7 +11,7 @@ import org.poly2tri.triangulation.delaunay.DelaunayTriangle;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 
 public class Poly2TriTest 
 extends PAppletHax {
@@ -36,8 +36,8 @@ extends PAppletHax {
 	public void drawApp() {
 		p.background(100);
 
-		DrawUtil.resetGlobalProps(p);
-		DrawUtil.setDrawCenter(p);
+		PG.resetGlobalProps(p);
+		PG.setDrawCenter(p);
 
 		if (points.size() < 3) {
 			for (TriangulationPoint point : points) {

@@ -4,7 +4,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.data.constants.PRenderers;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.BlurProcessingFilter;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.shapes.PShapeUtil;
@@ -79,9 +79,9 @@ extends PAppletHax {
 		
 		// set context
 		p.background(0);
-		DrawUtil.setDrawCorner(p);	// draw from corner if the PShape is pre-centered
-		DrawUtil.setCenterScreen(p);
-		DrawUtil.basicCameraFromMouse(p.g);
+		PG.setDrawCorner(p);	// draw from corner if the PShape is pre-centered
+		PG.setCenterScreen(p);
+		PG.basicCameraFromMouse(p.g);
 		
 		// set up shader
 		// apply points deform/texture shader

@@ -3,7 +3,7 @@ package com.haxademic.sketch.visualgorithms;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.BlurHFilter;
 import com.haxademic.core.draw.filters.pshader.BlurVFilter;
 import com.haxademic.core.draw.filters.pshader.SharpenFilter;
@@ -22,7 +22,7 @@ extends PAppletHax {
 
 	public void drawSeed(int color) {
 		// seed
-		DrawUtil.setDrawCenter(p);
+		PG.setDrawCenter(p);
 		p.fill(color);
 		p.noStroke();
 		p.ellipse(p.width/2, p.height/2, 150, 150);
@@ -35,7 +35,7 @@ extends PAppletHax {
 	}
 	
 	public void drawShape() {
-		DrawUtil.setDrawCenter(p);
+		PG.setDrawCenter(p);
 		p.pushMatrix();
 		p.noStroke();
 		int color = (MathUtil.randBoolean(p) == true) ? 0 : 255;

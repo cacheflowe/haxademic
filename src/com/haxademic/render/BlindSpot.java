@@ -3,7 +3,7 @@ package com.haxademic.render;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.VignetteAltFilter;
 
 public class BlindSpot
@@ -32,9 +32,9 @@ extends PAppletHax {
 		if(p.frameCount == 1) p.background(255);
 
 		p.blendMode(P.BLEND);
-		DrawUtil.feedback(p.g, p.color(255), 0.15f, 1f);
+		PG.feedback(p.g, p.color(255), 0.15f, 1f);
 		
-		DrawUtil.setDrawFlat2d(p, true);
+		PG.setDrawFlat2d(p, true);
 		
 		p.blendMode(P.SUBTRACT);
 		p.noFill();
@@ -63,7 +63,7 @@ extends PAppletHax {
 //		p.rotateZ(-progressRadians);
 		
 		/*
-		DrawUtil.setDrawCenter(p);
+		PG.setDrawCenter(p);
 		boolean drawEllipses = false;
 		if(drawEllipses == true) {
 			for (int i = 0; i < numShapes; i++) {

@@ -2,7 +2,7 @@ package com.haxademic.demo.draw.shapes.shader;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.media.DemoAssets;
@@ -41,7 +41,7 @@ extends PAppletHax {
 
 	public void drawApp() {
 		background(0);
-		DrawUtil.setCenterScreen(p);
+		PG.setCenterScreen(p);
 		p.rotateY(0.5f * P.sin(p.frameCount * 0.01f));
 
 		// use shader w/pointlight

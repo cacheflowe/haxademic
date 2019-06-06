@@ -3,7 +3,7 @@ package com.haxademic.demo.draw.shapes.shader;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.BlurProcessingFilter;
 import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.draw.shapes.Shapes;
@@ -101,8 +101,8 @@ extends PAppletHax {
 		}
 		
 		// rotate
-		DrawUtil.setCenterScreen(p);
-		DrawUtil.basicCameraFromMouse(p.g);
+		PG.setCenterScreen(p);
+		PG.basicCameraFromMouse(p.g);
 		
 		// draw points mesh 
 		p.stroke(255);	// make sure to reset stroke

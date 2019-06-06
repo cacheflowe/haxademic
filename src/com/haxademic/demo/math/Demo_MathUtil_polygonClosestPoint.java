@@ -2,7 +2,7 @@ package com.haxademic.demo.math;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.math.MathUtil;
 
@@ -17,8 +17,8 @@ extends PAppletHax {
 	
 	public void drawApp() {
 		p.background(0);
-		DrawUtil.setCenterScreen(p);
-		DrawUtil.setDrawCenter(p);
+		PG.setCenterScreen(p);
+		PG.setDrawCenter(p);
 		
 		float vertices = (float) P.round(7f + 4f * P.sin(p.frameCount * 0.01f));
 		float radius = p.height * 0.3f;

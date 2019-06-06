@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.toxi.VectorFlyerToxi;
 import com.haxademic.core.hardware.kinect.SkeletonsTracker;
 
@@ -40,7 +40,7 @@ extends PAppletHax {
 	}
 	
 	public void drawApp() {
-		DrawUtil.resetGlobalProps( p );
+		PG.resetGlobalProps( p );
 
 		p.shininess(1000f); 
 		p.lights();
@@ -52,8 +52,8 @@ extends PAppletHax {
 		
 		_skeletonTracker.update();
 		
-		DrawUtil.setDrawCenter(p);
-		DrawUtil.setColorForPImage(p);
+		PG.setDrawCenter(p);
+		PG.setColorForPImage(p);
 		p.image( p.kinectWrapper.getRgbImage(), p.width/2, -20, 640*8, 480*8 );
 		p.popMatrix();
 		

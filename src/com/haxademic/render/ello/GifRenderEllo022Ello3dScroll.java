@@ -3,7 +3,7 @@ package com.haxademic.render.ello;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.file.FileUtil;
 
@@ -62,7 +62,7 @@ extends PAppletHax {
 
 	public void drawApp() {
 		background(255);
-		DrawUtil.setDrawCenter(p);
+		PG.setDrawCenter(p);
 		
 //		float frameRadians = P.TWO_PI / _frames;
 		float percentComplete = ((float)(p.frameCount%_frames)/_frames);
@@ -78,13 +78,13 @@ extends PAppletHax {
 		
 		p.pushMatrix();
 		
-		DrawUtil.resetPImageAlpha(p);
+		PG.resetPImageAlpha(p);
 		
 		float curZ = _z + _tileSize * 4; // start a little behind the camera
 		while (curZ > -4000) {
 			curZ -= _tileSize;
 			
-			DrawUtil.setPImageAlpha(p, 1 + curZ/4000);
+			PG.setPImageAlpha(p, 1 + curZ/4000);
 			
 			// draw road tiles
 			p.pushMatrix();

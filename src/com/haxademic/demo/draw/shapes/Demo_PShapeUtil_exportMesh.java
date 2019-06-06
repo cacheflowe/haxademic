@@ -2,7 +2,7 @@ package com.haxademic.demo.draw.shapes;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.shapes.Icosahedron;
 import com.haxademic.core.draw.shapes.PShapeUtil;
 
@@ -62,7 +62,7 @@ extends PAppletHax {
 		background(255);
 		
 		// setup lights
-		DrawUtil.setBetterLights(p);
+		PG.setBetterLights(p);
 		
 		// icosahedron
 		p.pushMatrix();

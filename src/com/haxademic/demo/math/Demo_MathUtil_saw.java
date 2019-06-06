@@ -3,7 +3,7 @@ package com.haxademic.demo.math;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.math.MathUtil;
 
@@ -71,7 +71,7 @@ extends PAppletHax {
 		_texture.endDraw();
 		
 		// draw texture to stage
-		DrawUtil.setColorForPImage(p);
+		PG.setColorForPImage(p);
 		p.image(_texture, 0, 0);
 	}
 }

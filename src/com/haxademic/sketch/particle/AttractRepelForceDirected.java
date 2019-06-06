@@ -4,7 +4,7 @@ import java.util.Iterator;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.particle.ForceDirectedLayout;
 import com.haxademic.core.draw.particle.ForceDirectedLayout.ForceNode;
 
@@ -34,10 +34,10 @@ extends PAppletHax {
 	}
 	
 	public void drawApp() {
-		DrawUtil.fadeToBlack(p.g, 10f);
+		PG.fadeToBlack(p.g, 10f);
 		p.fill(200);
 		p.noStroke();
-		DrawUtil.setDrawCenter(p);
+		PG.setDrawCenter(p);
 		forceGraph.update();
 		for(Iterator<ForceNode> it=forceGraph.nodes().iterator(); it.hasNext();){
 			ForceNode node = it.next();

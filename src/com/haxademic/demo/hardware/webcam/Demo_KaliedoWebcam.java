@@ -4,7 +4,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.data.constants.PRenderers;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.KaleidoFilter;
 import com.haxademic.core.draw.image.BufferActivityMonitor;
 import com.haxademic.core.draw.image.ImageUtil;
@@ -53,8 +53,8 @@ implements IWebCamCallback {
 	public void drawApp() {
 		// set up context
 		p.background( 0 );
-		DrawUtil.setDrawCenter(p);
-		DrawUtil.setCenterScreen(p);
+		PG.setDrawCenter(p);
+		PG.setCenterScreen(p);
 		
 		// draw webcam
 		if(flippedCamera != null) {
@@ -70,7 +70,7 @@ implements IWebCamCallback {
 		}
 		
 		// kaleido
-		DrawUtil.setTextureRepeat(p, true);
+		PG.setTextureRepeat(p, true);
 //		KaleidoFilter.instance(p).setSides(4f + activityMonitor.activityAmp() * 6f);
 		KaleidoFilter.instance(p).setSides(6f);
 		KaleidoFilter.instance(p).setAngle(p.frameCount * 0.0001f);

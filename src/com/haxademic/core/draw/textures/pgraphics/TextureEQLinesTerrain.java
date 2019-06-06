@@ -1,7 +1,7 @@
 package com.haxademic.core.draw.textures.pgraphics;
 
 import com.haxademic.core.app.P;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.filters.pshader.BlurProcessingFilter;
 import com.haxademic.core.draw.filters.pshader.InvertFilter;
@@ -101,8 +101,8 @@ extends BaseTexture {
 //		ImageUtil.drawImageCropFill(eqHistoryCopy, _texture, false);
 		
 		// rotate
-		DrawUtil.setCenterScreen(_texture);
-//		DrawUtil.basicCameraFromMouse(_texture);
+		PG.setCenterScreen(_texture);
+//		PG.basicCameraFromMouse(_texture);
 		_texture.rotateX(1.2f);
 
 		// draw shader-displaced mesh

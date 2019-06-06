@@ -2,7 +2,7 @@ package com.haxademic.demo.hardware.kinect.shared;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.hardware.kinect.KinectRegionGrid;
 import com.haxademic.core.hardware.kinect.KinectSize;
 
@@ -43,8 +43,8 @@ extends PAppletHax {
 		
 		// update & draw grid
 		kinectRegionGrid.update(true);
-		DrawUtil.setCenterScreen(p);
-		DrawUtil.setDrawCenter(p);
+		PG.setCenterScreen(p);
+		PG.setDrawCenter(p);
 		p.image(kinectRegionGrid.debugImage(), 0, 0);
 		
 		// debug textures

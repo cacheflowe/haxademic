@@ -6,7 +6,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.color.EasingColor;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.toxi.DrawToxiMesh;
 
@@ -41,8 +41,8 @@ extends PAppletHax {
 	}
 	
 	public void drawApp() {
-		DrawUtil.setBasicLights(p);
-		DrawUtil.setCenterScreen(p);
+		PG.setBasicLights(p);
+		PG.setCenterScreen(p);
 		p.background(0);
 		
 //		if( p.frameCount == 1 ) p.beginRecord( P.PDF,  FileUtil.getHaxademicOutputPath() + "modeset-"+ SystemUtil.getTimestamp(p) +".pdf" );

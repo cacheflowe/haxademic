@@ -2,7 +2,7 @@ package com.haxademic.demo.draw.shapes;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.media.DemoAssets;
 
@@ -28,7 +28,7 @@ extends PAppletHax {
 		p.translate(p.width/2f, p.height/2f, 0);
 		p.rotateX(P.map(p.mouseY, 0, p.height, P.PI, -P.PI));
 		p.rotateY(P.map(p.mouseX, 0, p.width, 0, P.TWO_PI * 2));
-		DrawUtil.setBetterLights(p);
+		PG.setBetterLights(p);
 //		p.lights();
 		
 		PShapeUtil.setWireframeColor(obj, 

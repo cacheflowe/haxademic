@@ -1,7 +1,7 @@
 package com.haxademic.demo.draw.shapes.shader;
 
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.shapes.Shapes;
 import com.haxademic.core.draw.shapes.pshader.MeshDeformAndTextureFilter;
 import com.haxademic.core.draw.textures.PerlinTexture;
@@ -38,8 +38,8 @@ extends PAppletHax {
 		
 		// context & camera
 		background(0);
-		DrawUtil.setCenterScreen(p.g);
-		DrawUtil.basicCameraFromMouse(p.g);
+		PG.setCenterScreen(p.g);
+		PG.basicCameraFromMouse(p.g);
 
 		// deform mesh
 		MeshDeformAndTextureFilter.instance(p).setDisplacementMap(texture);

@@ -6,7 +6,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.data.constants.PRenderers;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.BloomFilter;
 import com.haxademic.core.draw.filters.pshader.GrainFilter;
 import com.haxademic.core.draw.filters.pshader.InvertFilter;
@@ -72,8 +72,8 @@ extends PAppletHax {
 		pg.noFill();
 		pg.stroke(255);
 		pg.strokeWeight(2f);
-		DrawUtil.setCenterScreen(pg);
-		DrawUtil.setDrawCenter(pg);
+		PG.setCenterScreen(pg);
+		PG.setDrawCenter(pg);
 		pg.rotate(-P.HALF_PI);
 		
 		// draw!

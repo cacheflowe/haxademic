@@ -2,7 +2,7 @@ package com.haxademic.core.draw.textures.pgraphics;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.draw.color.ImageGradient;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.BlurProcessingFilter;
 import com.haxademic.core.draw.filters.pshader.ContrastFilter;
 import com.haxademic.core.draw.shapes.PShapeUtil;
@@ -140,12 +140,12 @@ extends BaseTexture {
 	}
 
 	public void updateDraw() {
-//		if(P.p.frameCount == 10) DrawUtil.setDrawFlat2d(_texture, true);
+//		if(P.p.frameCount == 10) PG.setDrawFlat2d(_texture, true);
 
 		// reset context
 		_texture.background(0);
 		_texture.noStroke();
-//		DrawUtil.setBetterLights(_texture);
+//		PG.setBetterLights(_texture);
 //		_texture.stroke(255);
 		
 		// update colors & pump scale on beat
@@ -160,8 +160,8 @@ extends BaseTexture {
 		
 		// set context
 		_texture.pushMatrix();
-		DrawUtil.setDrawCorner(_texture);
-		DrawUtil.setCenterScreen(_texture);
+		PG.setDrawCorner(_texture);
+		PG.setCenterScreen(_texture);
 		_texture.rotateX(logoRotX.value());
 		_texture.rotateY(logoRotY.value());
 		_texture.rotateZ(logoRotZ.value());

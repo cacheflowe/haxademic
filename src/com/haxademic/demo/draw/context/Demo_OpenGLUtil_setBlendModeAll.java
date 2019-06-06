@@ -5,7 +5,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.data.constants.GLBlendModes;
 import com.haxademic.core.data.constants.PRenderers;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.math.MathUtil;
@@ -68,7 +68,7 @@ extends PAppletHax {
 		if(drawBuffer) pg.beginDraw();
 		pg.background(0);
 		pg.noStroke();
-		DrawUtil.setDrawCenter(pg);
+		PG.setDrawCenter(pg);
 
 		// show presets or use spacebar to find new presets
 		if(mouseControlled) loadPresetFromMouse(p.mousePercentX());
@@ -101,9 +101,9 @@ extends PAppletHax {
 		}
 
 		// draw over image
-//		DrawUtil.setPImageAlpha(pg,  0.5f);
+//		PG.setPImageAlpha(pg,  0.5f);
 		ImageUtil.drawImageCropFill(DemoAssets.textureJupiter(), pg, true);
-//		DrawUtil.resetPImageAlpha(pg);
+//		PG.resetPImageAlpha(pg);
 		
 		// reset blending to default
 		OpenGLUtil.setBlending( pg, false );
@@ -111,7 +111,7 @@ extends PAppletHax {
 		
 		// draw buffer to screen
 		if(drawBuffer) {
-			DrawUtil.setDrawCorner(p);
+			PG.setDrawCorner(p);
 			p.image(pg, 0, 0);
 		}
 	}

@@ -4,7 +4,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.data.constants.PRenderers;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.image.TiledTexture;
 import com.haxademic.core.draw.shapes.PShapeUtil;
@@ -44,7 +44,7 @@ extends PAppletHax {
 
 	protected void setupFirstFrame() {
 		texture = p.createGraphics(p.width * 8, 150, P.P2D);
-		DrawUtil.setTextureRepeat(texture, false);
+		PG.setTextureRepeat(texture, false);
 		noiseTexture = new SimplexNoiseTexture(texture.width, 40);
 		noiseTexture.update(0.07f, 0, 0, 0);
 		
@@ -109,8 +109,8 @@ extends PAppletHax {
 		
 		// set main app context
 		background(0);
-		DrawUtil.setCenterScreen(p);
-		DrawUtil.basicCameraFromMouse(p.g);
+		PG.setCenterScreen(p);
+		PG.basicCameraFromMouse(p.g);
 		
 		// draw shape
 		if(nativeTriangles == false) {

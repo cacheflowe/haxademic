@@ -8,7 +8,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.color.ColorUtil;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.BlurHFilter;
 import com.haxademic.core.draw.filters.pshader.BlurVFilter;
 import com.haxademic.core.draw.image.ImageUtil;
@@ -192,7 +192,7 @@ extends PAppletHax {
 		background(0, 70, 0);
 		
 		// debug draw image
-		DrawUtil.setDrawCorner(p);
+		PG.setDrawCorner(p);
 		p.image(img, 0, p.height - img.height);
 		
 		// debug draw shapes
@@ -205,7 +205,7 @@ extends PAppletHax {
 		
 	protected void debugDrawSvgs() {
 		if(p.frameCount == 3) p.beginRecord(P.PDF, FileUtil.getHaxademicOutputPath() + "_testIcons.pdf");
-		DrawUtil.setDrawCenter(p);
+		PG.setDrawCenter(p);
 		int x = 0;
 		int y = 0;
 		for (SvgRanked shape : _svgs) {
@@ -220,7 +220,7 @@ extends PAppletHax {
 	}
 		
 	protected void renderPdf() {
-		DrawUtil.setDrawCenter(p);
+		PG.setDrawCenter(p);
 		int halfShapeSize = (int)(shapeSize/2f);
 		int shapesDrawn = 0;
 		int colsDrawn = 0;
@@ -394,7 +394,7 @@ extends PAppletHax {
 			analyzeCanvas.beginDraw();
 			analyzeCanvas.clear();
 			analyzeCanvas.background(255);
-			DrawUtil.setDrawCenter(analyzeCanvas);
+			PG.setDrawCenter(analyzeCanvas);
 			draw(analyzeCanvas, analyzeSize/2, analyzeSize/2, analyzeSize);
 			analyzeCanvas.endDraw();
 			

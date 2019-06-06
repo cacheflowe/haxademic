@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.vendor.Toxiclibs;
 
 import toxi.color.TColor;
@@ -38,8 +38,8 @@ extends PAppletHax {
 	}
 		
 	public void drawApp() {
-		DrawUtil.resetGlobalProps( p );
-		DrawUtil.setCenterScreen(p);
+		PG.resetGlobalProps( p );
+		PG.setCenterScreen(p);
 
 		p.shininess(1000f); 
 		p.lights();

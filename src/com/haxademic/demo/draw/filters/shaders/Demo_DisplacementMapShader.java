@@ -3,7 +3,7 @@ package com.haxademic.demo.draw.filters.shaders;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.data.constants.PRenderers;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.media.DemoAssets;
 
@@ -40,8 +40,8 @@ extends PAppletHax {
 		
 		// rotate map for visibility
 		map.beginDraw();
-		DrawUtil.setDrawCenter(map);
-		DrawUtil.setCenterScreen(map);
+		PG.setDrawCenter(map);
+		PG.setCenterScreen(map);
 		map.rotate(p.frameCount * 0.01f);
 		map.image(mapSource, 0, 0, mapSource.width * 2, mapSource.height * 2);
 		map.endDraw();

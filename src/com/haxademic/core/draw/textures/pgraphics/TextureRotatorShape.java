@@ -1,7 +1,7 @@
 package com.haxademic.core.draw.textures.pgraphics;
 
 import com.haxademic.core.app.P;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.EasingFloat3d;
@@ -61,7 +61,7 @@ extends BaseTexture {
 	public void updateDraw() {
 		_texture.clear();
 		
-		DrawUtil.setCenterScreen( _texture );
+		PG.setCenterScreen( _texture );
 		_texture.translate(0, 0, -600);
 		// rotate beginning z
 		_baseRotZAdd = MathUtil.easeTo( _baseRotZAdd, _baseRotZTarget, 20 );
@@ -74,7 +74,7 @@ extends BaseTexture {
 		float rotationIncrement = P.TWO_PI / _numRotations;
 		float spectrumData;
 		_texture.noStroke();
-//		DrawUtil.setColorForPImage(_texture);
+//		PG.setColorForPImage(_texture);
 		for( int i = 0; i < _numRotations; i++ ) {
 			spectrumData = P.p.audioFreq( 20 + (int) (i * (255f/_numRotations)) );
 			_texture.fill( _color, 255f * spectrumData );

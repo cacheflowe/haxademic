@@ -1,6 +1,5 @@
 package com.haxademic.demo.render;
 
-import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.context.OpenGLUtil;

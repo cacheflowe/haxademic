@@ -7,7 +7,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.color.ColorUtil;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.math.MathUtil;
 
@@ -36,11 +36,11 @@ extends PAppletHax {
 	}
 
 	public void drawApp() {
-		DrawUtil.setDrawCenter(p);
+		PG.setDrawCenter(p);
 		p.background(0);
-		DrawUtil.setPImageAlpha(p, 0.4f);
+		PG.setPImageAlpha(p, 0.4f);
 		p.image(testImage, testImage.width/2, testImage.height/2);
-		DrawUtil.resetPImageAlpha(p);
+		PG.resetPImageAlpha(p);
 		
 		// load pixels and iterate over grid, looking for a starting point
 		// draw shapes - find launch points

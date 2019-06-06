@@ -3,7 +3,7 @@ package com.haxademic.demo.hardware.webcam;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 
 import processing.video.Capture;
 
@@ -38,8 +38,8 @@ extends PAppletHax {
 
 	public void drawApp() {
 		p.background( 0 );
-		DrawUtil.setDrawCenter(p);
-		DrawUtil.setCenterScreen(p);
+		PG.setDrawCenter(p);
+		PG.setCenterScreen(p);
 		
 		// 
 		if(webCam2.available() == true) webCam2.read();

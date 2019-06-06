@@ -3,7 +3,7 @@ package com.haxademic.sketch.visualgorithms;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 
 import processing.core.PVector;
 
@@ -167,7 +167,7 @@ extends PAppletHax {
 		p.background(255);
 		p.strokeWeight(1);
 		p.stroke(0);
-		DrawUtil.setDrawCenter(p);
+		PG.setDrawCenter(p);
 		
 		updatePoints();//update points pos
 		updateSticks();//update sticks pos

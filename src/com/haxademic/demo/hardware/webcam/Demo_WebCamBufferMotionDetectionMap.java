@@ -3,7 +3,7 @@ package com.haxademic.demo.hardware.webcam;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.data.constants.PRenderers;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.image.BufferMotionDetectionMap;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.hardware.webcam.IWebCamCallback;
@@ -34,8 +34,8 @@ implements IWebCamCallback {
 	public void drawApp() {
 		// set up context
 		p.background(0);
-		DrawUtil.setDrawCenter(p);
-//		DrawUtil.setCenterScreen(p);
+		PG.setDrawCenter(p);
+//		PG.setCenterScreen(p);
 		
 		if(motionDetectionMap != null) {
 			// show detection buffer

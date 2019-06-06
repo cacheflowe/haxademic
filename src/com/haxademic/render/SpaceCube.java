@@ -4,7 +4,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.camera.CameraUtil;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.BloomFilter;
 import com.haxademic.core.draw.filters.pshader.GrainFilter;
 import com.haxademic.core.draw.filters.pshader.VignetteFilter;
@@ -43,9 +43,9 @@ extends PAppletHax {
 		// set context
 		pg.beginDraw();
 		pg.background(10, 0, 5);
-		DrawUtil.setCenterScreen(pg);
-		DrawUtil.setDrawCenter(pg);
-		DrawUtil.setBetterLights(pg);
+		PG.setCenterScreen(pg);
+		PG.setDrawCenter(pg);
+		PG.setBetterLights(pg);
 		CameraUtil.setCameraDistance(pg, 100, 20000);
 
 		// rotate camera

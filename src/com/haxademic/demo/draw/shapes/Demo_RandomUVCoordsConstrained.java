@@ -6,7 +6,7 @@ import java.awt.Rectangle;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
 import com.haxademic.core.math.MathUtil;
 
@@ -190,7 +190,7 @@ extends PAppletHax {
 	
 	
 	protected void drawTriangle(PVector[] points, Rectangle bb, int color) {
-		DrawUtil.setDrawCenter(p);
+		PG.setDrawCenter(p);
 		for (int i = 0; i < points.length; i++) {
 			// draw vertices
 			PVector point = points[i];
@@ -205,14 +205,14 @@ extends PAppletHax {
 			p.line(point.x, point.y, nextPoint.x, nextPoint.y);
 		}
 		// draw bounding box
-		DrawUtil.setDrawCorner(p);
+		PG.setDrawCorner(p);
 		p.stroke(color);
 		p.noFill();
 		p.rect(bb.x, bb.y, bb.width, bb.height);
 	}
 	
 	protected void drawExampleTexture() {
-		DrawUtil.setDrawCorner(p);
+		PG.setDrawCorner(p);
 		p.stroke(255,255,0);
 		p.noFill();
 		p.rect(0, 0, textureW, textureH);

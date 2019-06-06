@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.image.AnimatedGifEncoder;
 import com.haxademic.core.draw.image.ImageUtil;
@@ -47,7 +47,7 @@ extends PAppletHax {
 		// build off-screen logo image for processing
 		_logoOffscreen = p.createGraphics(p.width, p.height);
 		_logoOffscreen.beginDraw();
-		DrawUtil.setDrawCorner(_logoOffscreen);
+		PG.setDrawCorner(_logoOffscreen);
 		_logoOffscreen.image(img, 0, 0, p.width, p.height);
 		_logoOffscreen.endDraw();
 		
@@ -63,10 +63,10 @@ extends PAppletHax {
 		p.strokeWeight(0.75f);
 				
 		// draw original image
-//		DrawUtil.setDrawCorner(p);
-//		DrawUtil.setPImageAlpha(p, 0.3f);
+//		PG.setDrawCorner(p);
+//		PG.setPImageAlpha(p, 0.3f);
 //		p.image(_logoOffscreen, 0, 0);
-//		DrawUtil.setPImageAlpha(p, 1);
+//		PG.setPImageAlpha(p, 1);
 		
 		// add particles
 		if(_particles.size() < 10000) { //  && p.frameCount <= 250
@@ -167,7 +167,7 @@ extends PAppletHax {
 			if(_growing == false && _active == false && _size > 0) _size -= 1;
 			
 			
-			DrawUtil.setDrawCenter(p);
+			PG.setDrawCenter(p);
 			p.pushMatrix();
 			p.translate(_x, _y);
 			p.fill(_color);

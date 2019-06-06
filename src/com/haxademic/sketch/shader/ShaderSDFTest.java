@@ -3,7 +3,7 @@ package com.haxademic.sketch.shader;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.easing.EasingFloat;
@@ -45,9 +45,9 @@ extends PAppletHax {
 	public void drawApp() {
 		background(0);
 		
-		DrawUtil.setColorForPImage( p );
-		DrawUtil.resetPImageAlpha( p );
-		DrawUtil.setPImageAlpha(p, 1f);		
+		PG.setColorForPImage( p );
+		PG.resetPImageAlpha( p );
+		PG.setPImageAlpha(p, 1f);		
 		
 		updateTime();
 		generateTexture();

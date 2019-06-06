@@ -6,7 +6,7 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.data.constants.PBlendModes;
 import com.haxademic.core.data.constants.PRenderers;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.particle.ParticleLauncher;
 
 import processing.core.PGraphics;
@@ -31,7 +31,7 @@ extends PAppletHax {
 		// build final draw buffer
 		renderedParticles = p.createGraphics(p.width, p.height, PRenderers.P3D);
 		renderedParticles.smooth(8);
-//		DrawUtil.setDrawFlat2d(renderedParticles, true);
+//		PG.setDrawFlat2d(renderedParticles, true);
 //		p.debugView.setTexture(renderedParticles);
 		
 		// build multiple particles launchers
@@ -69,7 +69,7 @@ extends PAppletHax {
 
 		// render!
 		renderedParticles.beginDraw();
-		DrawUtil.setDrawFlat2d(renderedParticles, true);
+		PG.setDrawFlat2d(renderedParticles, true);
 		renderedParticles.background(0);
 		renderedParticles.fill(255);
 		renderedParticles.blendMode(PBlendModes.ADD);

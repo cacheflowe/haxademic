@@ -3,7 +3,7 @@ package com.haxademic.demo.draw.mapping;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.mapping.PGraphicsKeystone;
 import com.haxademic.core.file.FileUtil;
@@ -47,7 +47,7 @@ extends PAppletHax {
 		
 		// draw test content
 		buffer.beginDraw();
-		DrawUtil.setDrawCenter(buffer);
+		PG.setDrawCenter(buffer);
 		buffer.background((float)mouseX/width * 255,(float)mouseY/height * 255,0);
 		buffer.fill(255);
 		buffer.translate(buffer.width/2, buffer.height/2);
@@ -59,9 +59,9 @@ extends PAppletHax {
 		if(testPattern == true) {
 			keystone1.drawTestPattern();
 			keystone2.drawTestPattern();
-			DrawUtil.setPImageAlpha(p, 0.6f);
+			PG.setPImageAlpha(p, 0.6f);
 		} else {
-			DrawUtil.setPImageAlpha(p, 1f);
+			PG.setPImageAlpha(p, 1f);
 		}
 		
 		// draw to screen

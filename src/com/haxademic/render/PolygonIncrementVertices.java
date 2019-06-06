@@ -3,7 +3,7 @@ package com.haxademic.render;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.BloomFilter;
 import com.haxademic.core.draw.filters.pshader.BrightnessStepFilter;
 import com.haxademic.core.draw.filters.pshader.GrainFilter;
@@ -49,7 +49,7 @@ extends PAppletHax {
 //		pg.copy(0, 0, pg.width, pg.height, 2, 2, pg.width-4, pg.height-4);
 		int feedbackDist = 2;
 		pg.copy(0, 0, pg.width, pg.height, -feedbackDist, -feedbackDist, pg.width+feedbackDist*2, pg.height+feedbackDist*2);
-		DrawUtil.setCenterScreen(pg);
+		PG.setCenterScreen(pg);
 		
 		// draw into new buffer
 		BrightnessStepFilter.instance(p).setBrightnessStep(-3f/255f);

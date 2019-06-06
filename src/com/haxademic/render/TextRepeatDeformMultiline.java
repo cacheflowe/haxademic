@@ -4,7 +4,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.data.constants.PRenderers;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.BlurHFilter;
 import com.haxademic.core.draw.filters.pshader.BlurVFilter;
 import com.haxademic.core.draw.filters.pshader.VignetteFilter;
@@ -45,7 +45,7 @@ extends PAppletHax {
 		background(20);
 		
 		// draw tiled texture
-		DrawUtil.setCenterScreen(p);
+		PG.setCenterScreen(p);
 		p.rotateX(0.93f + 0.02f * P.sin(p.loop.progressRads()));//0.95f); // p.mousePercentY()
 //		p.rotateX(0.95f);
 		

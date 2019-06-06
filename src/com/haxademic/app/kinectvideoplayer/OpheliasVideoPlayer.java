@@ -7,7 +7,7 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.color.EasingColor;
 import com.haxademic.core.draw.color.Gradients;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.filters.pshader.BlurHFilter;
 import com.haxademic.core.draw.filters.pshader.BlurVFilter;
@@ -109,7 +109,7 @@ extends PAppletHax {
 			p.background(0);
 			drawMenu();
 		} else {
-			DrawUtil.setPImageAlpha(p, 1f);
+			PG.setPImageAlpha(p, 1f);
 
 //			setShaderValues();
 			
@@ -250,9 +250,9 @@ extends PAppletHax {
 		_lightLeak.filter(_lightShader);
 		SaturationFilter.instance(p).setSaturation(0.2f);
 		SaturationFilter.instance(p).applyTo(_lightLeak);
-		DrawUtil.setPImageAlpha(p, 0.2f);
+		PG.setPImageAlpha(p, 0.2f);
 		p.image(_lightLeak, 0, 0, p.width, p.height);
-		DrawUtil.setPImageAlpha(p, 1f);
+		PG.setPImageAlpha(p, 1f);
 	}
 	
 	protected void drawScanProgress() {

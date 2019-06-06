@@ -4,7 +4,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.data.constants.PShapeTypes;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.BrightnessFilter;
 import com.haxademic.core.draw.filters.pshader.VignetteFilter;
 import com.haxademic.core.draw.shapes.Shapes;
@@ -60,13 +60,13 @@ extends PAppletHax {
 		// set up context
 		background(0);
 		p.noStroke();
-//		DrawUtil.setDrawCenter(p.g);
-		DrawUtil.setBetterLights(p.g);
+//		PG.setDrawCenter(p.g);
+		PG.setBetterLights(p.g);
 //		p.lights();
 		
 		// draw shape
-		DrawUtil.setCenterScreen(p.g);
-//		DrawUtil.basicCameraFromMouse(p.g);
+		PG.setCenterScreen(p.g);
+//		PG.basicCameraFromMouse(p.g);
 		p.rotateX(P.sin(p.loop.progressRads()) * 0.3f);
 		p.rotateY(-p.loop.progressRads());
 		
@@ -96,7 +96,7 @@ extends PAppletHax {
 		p.beginShape(PShapeTypes.TRIANGLES);
 		p.texture(dazzleBuff);
 		p.textureMode(P.NORMAL);
-		DrawUtil.setTextureRepeat(p.g, true);
+		PG.setTextureRepeat(p.g, true);
 		
 		for (float y=startY; y < halfH; y += segmentH) {
 			for (float i=0; i < resCircumference; i++) {

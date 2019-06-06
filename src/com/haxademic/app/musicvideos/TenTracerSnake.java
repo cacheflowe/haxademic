@@ -33,11 +33,11 @@ extends PAppletHax {
 //		p.fill( 255 );
 //		p.noStroke();
 //		p.rectMode( PConstants.CENTER );
-//		DrawUtil.setBasicLights( p );
+//		PG.setBasicLights( p );
 //		
 //		// draw current frame and image filter
-//		DrawUtil.setColorForPImage(this);
-//		DrawUtil.setPImageAlpha(this, 1.0f);
+//		PG.setColorForPImage(this);
+//		PG.setPImageAlpha(this, 1.0f);
 		
 		p.translate(width/2, height/2);
 		p.rotate(p.frameCount / 20f);

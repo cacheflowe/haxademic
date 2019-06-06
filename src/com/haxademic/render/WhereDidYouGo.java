@@ -3,7 +3,7 @@ package com.haxademic.render;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.InvertFilter;
 import com.haxademic.core.draw.filters.pshader.SphereDistortionFilter;
 import com.haxademic.core.draw.filters.pshader.VignetteFilter;
@@ -111,7 +111,7 @@ extends PAppletHax {
 		// overlay
 		int transitionIn = 220;
 		int transition = 220;
-		DrawUtil.setDrawCorner(texture);
+		PG.setDrawCorner(texture);
 		int curFrame = (int) (p.frameCount % _frames);
 		if(curFrame <= transitionIn) {
 //			P.println(P.map(curFrame, 1f, transitionIn, 18f, 8f));

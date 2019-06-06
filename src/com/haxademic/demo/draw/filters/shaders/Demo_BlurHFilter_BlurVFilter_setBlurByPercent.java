@@ -2,7 +2,7 @@ package com.haxademic.demo.draw.filters.shaders;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.filters.pshader.BlurHFilter;
 import com.haxademic.core.draw.filters.pshader.BlurVFilter;
@@ -52,7 +52,7 @@ extends PAppletHax {
 		BlurVFilter.instance(p).applyTo(pg);
 		
 		// draw result to screen
-		DrawUtil.setDrawCorner(p);
+		PG.setDrawCorner(p);
 		p.image(pg, 0, 0);
 
 	}

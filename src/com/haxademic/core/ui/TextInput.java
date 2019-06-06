@@ -70,7 +70,7 @@ public class TextInput
 //	}
 //	
 //	public void update( PApplet p ) {
-//		DrawUtil.setDrawFlat2d( p, true );
+//		PG.setDrawFlat2d( p, true );
 //		p.noStroke();
 //		// draw input background
 //		if( _pressed == true || _focused == true ) {
@@ -88,7 +88,7 @@ public class TextInput
 //			p.fill( _textColor );
 //			if( p.millis() % 1000f > 500 ) p.rect( _rect.x + _cursorX, _caretY, 2f, _fontSize );
 //		}
-//		DrawUtil.setDrawFlat2d( p, false );
+//		PG.setDrawFlat2d( p, false );
 //	}
 //
 //	public Boolean checkPress( int mouseX, int mouseY ) {

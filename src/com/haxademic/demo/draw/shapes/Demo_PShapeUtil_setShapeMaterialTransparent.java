@@ -3,7 +3,7 @@ package com.haxademic.demo.draw.shapes;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.file.FileUtil;
 
@@ -42,7 +42,7 @@ extends PAppletHax {
 		// clear the screen
 		background(10);
 		p.noStroke();
-		DrawUtil.setBasicLights(p.g);
+		PG.setBasicLights(p.g);
 
 		// rotate camera
 		p.translate(p.width/2, p.height/2);

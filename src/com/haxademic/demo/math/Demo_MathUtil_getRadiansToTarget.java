@@ -3,7 +3,7 @@ package com.haxademic.demo.math;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.media.DemoAssets;
@@ -30,7 +30,7 @@ extends PAppletHax {
 	public void drawApp() {
 		background(100,100,255);
 		p.pushMatrix();
-		DrawUtil.setDrawCenter(p);
+		PG.setDrawCenter(p);
 		p.translate(p.width/2, p.height/2);
 		float radsFromCenter = MathUtil.getRadiansToTarget(p.width/2, p.height/2, p.mouseX, p.mouseY);
 		p.debugView.setHelpLine("cos (x)", ""+P.cos(radsFromCenter));

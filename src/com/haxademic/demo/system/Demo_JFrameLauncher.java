@@ -6,7 +6,7 @@ import javax.swing.JButton;
 import javax.swing.JFrame;
 
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 
 public class Demo_JFrameLauncher
 extends PAppletHax {
@@ -25,7 +25,7 @@ extends PAppletHax {
 	
 	public void drawApp() {
 		p.background(0);
-		DrawUtil.setCenterScreen(p);
+		PG.setCenterScreen(p);
 		
 		if(frame != null) {
 			p.background(0,255,0);

@@ -3,7 +3,7 @@ package com.haxademic.sketch.shader;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.draw.shapes.pshader.MeshDeformAndTextureFilter;
@@ -87,8 +87,8 @@ extends PAppletHax {
 //		OpenGLUtil.setWireframe(p.g, true);
 		
 		// set center screen & rotate
-		DrawUtil.setCenterScreen(p);
-		DrawUtil.basicCameraFromMouse(p.g);
+		PG.setCenterScreen(p);
+		PG.basicCameraFromMouse(p.g);
 		
 		// deform mesh
 		MeshDeformAndTextureFilter.instance(p).setDisplacementMap(displacementMap);

@@ -4,7 +4,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.color.ColorUtil;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.system.SystemUtil;
@@ -47,8 +47,8 @@ extends PAppletHax {
 		p.background(ColorUtil.colorFromHex("#F6D3C0"));
 		p.background(0);
 		
-		DrawUtil.resetGlobalProps(p);
-		DrawUtil.setDrawCenter(p);		
+		PG.resetGlobalProps(p);
+		PG.setDrawCenter(p);		
 		
 		// oscillate points
 		for( int i=0; i < _points.length; i++ ) {

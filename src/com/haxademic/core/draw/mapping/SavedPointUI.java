@@ -4,7 +4,7 @@ import java.awt.Point;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.data.ConvertUtil;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.file.FileUtil;
 
 import processing.core.PGraphics;
@@ -96,7 +96,7 @@ public class SavedPointUI {
 	}
 
 	protected void drawPoint(PGraphics pg) {
-		DrawUtil.setDrawCenter(pg);
+		PG.setDrawCenter(pg);
 		pg.noFill();
 		if(active) {
 			pg.stroke(0, 255, 0);
@@ -108,7 +108,7 @@ public class SavedPointUI {
 		pg.ellipse(position.x, position.y, indicatorSize, indicatorSize);
 		pg.strokeWeight(1f);
 		pg.rect(position.x, position.y, 3, 3);
-		DrawUtil.setDrawCorner(pg);
+		PG.setDrawCorner(pg);
 	}
 	
 	public void mouseEvent(MouseEvent event) {

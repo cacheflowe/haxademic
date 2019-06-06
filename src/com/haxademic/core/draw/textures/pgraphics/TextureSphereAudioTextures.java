@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.draw.color.Gradients;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.BlurProcessingFilter;
 import com.haxademic.core.draw.filters.pshader.VignetteAltFilter;
 import com.haxademic.core.draw.image.ImageUtil;
@@ -86,7 +86,7 @@ extends BaseTexture {
 	
 	public void preDraw() {
 		sphereTexture.beginDraw();
-		DrawUtil.fadeToBlack(sphereTexture, 10);
+		PG.fadeToBlack(sphereTexture, 10);
 		sphereTexture.background(0);
 		sphereTexture.endDraw();
 

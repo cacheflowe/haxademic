@@ -4,7 +4,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.data.constants.PRenderers;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.BlurProcessingFilter;
 import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.draw.shapes.pshader.LinesDeformAndTextureFilter;
@@ -77,8 +77,8 @@ extends PAppletHax {
 		BlurProcessingFilter.instance(p).applyTo(noiseBuffer);
 		
 		// set context & camera
-		DrawUtil.setCenterScreen(p);
-		DrawUtil.basicCameraFromMouse(p.g);
+		PG.setCenterScreen(p);
+		PG.basicCameraFromMouse(p.g);
 		p.rotateX(P.sin(loop.progressRads()) * 0.2f);
 //		CameraUtil.setCameraDistance(p.g, 100, 10000);
 		

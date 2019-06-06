@@ -3,7 +3,7 @@ package com.haxademic.render.ello;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.image.AnimatedGifEncoder;
 import com.haxademic.core.file.FileUtil;
@@ -55,17 +55,17 @@ extends PAppletHax {
 		float easedPercent = Penner.easeInOutCubic(percentComplete, 0, 1, 1);
 		float easedPercentHard = Penner.easeInOutQuad(percentComplete, 0, 1, 1);
 		
-		DrawUtil.setDrawCorner(p);
+		PG.setDrawCorner(p);
 		p.image(_turntable, 0, 0, _turntable.width, _turntable.height);
 
-		DrawUtil.setDrawCenter(p);
+		PG.setDrawCenter(p);
 		p.pushMatrix();
 		p.translate(254, 249);
 		p.rotate(percentComplete * P.TWO_PI);
 		p.image(_record, 0, -0.8f);
 		p.popMatrix();
 	
-		DrawUtil.setDrawCorner(p);
+		PG.setDrawCorner(p);
 		p.image(_overlay, 0, 0);
 	}
 }

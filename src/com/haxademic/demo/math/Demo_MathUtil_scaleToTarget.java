@@ -2,7 +2,7 @@ package com.haxademic.demo.math;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.media.DemoAssets;
@@ -23,7 +23,7 @@ extends PAppletHax {
 	
 	public void drawApp() {
 		p.background(0);
-		DrawUtil.setDrawCenter(p);
+		PG.setDrawCenter(p);
 		
 		p.ambient(127);
 		p.lightSpecular(230, 230, 230); 

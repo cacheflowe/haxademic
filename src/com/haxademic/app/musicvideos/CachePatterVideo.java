@@ -5,7 +5,7 @@ import java.util.Vector;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.filters.pgraphics.archive.FastBlurFilter;
 import com.haxademic.core.draw.image.ImageUtil;
@@ -263,7 +263,7 @@ extends PAppletHax {
 		//		_opacity = loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/opacity.glsl" );
 		//		_opacity.set("opacity", _opacityEaser.value());
 		//		_superFormGfx.filter(_opacity);
-		DrawUtil.setPImageAlpha(p, _superShapeOpacityEaser.value());
+		PG.setPImageAlpha(p, _superShapeOpacityEaser.value());
 //		p.image( _superFormGfx, 0, 0);
 		
 		_superformMotionBlur.updateToCanvas(_superFormGfx, p.g, _superShapeOpacityEaser.value());
@@ -295,12 +295,12 @@ extends PAppletHax {
 		
 		// draw movie motion blur to screen with alpha
 		_movieOpacityEaser.update();
-		DrawUtil.setPImageAlpha(p, (p.frameCount % 2 == 1) ? _movieOpacityEaser.value() * 0.999f : _movieOpacityEaser.value() * 1f );	// stupid hack b/c UMovieMaker doesn't save the exact same frame twice in a row.
-//		DrawUtil.setPImageAlpha(p, _movieOpacityEaser.value());
+		PG.setPImageAlpha(p, (p.frameCount % 2 == 1) ? _movieOpacityEaser.value() * 0.999f : _movieOpacityEaser.value() * 1f );	// stupid hack b/c UMovieMaker doesn't save the exact same frame twice in a row.
+//		PG.setPImageAlpha(p, _movieOpacityEaser.value());
 		p.image(_movieMotionBlurBuffer, 0, 0);
 
 		// draw particles at full alpha
-		DrawUtil.setPImageAlpha(p, 1.0f);
+		PG.setPImageAlpha(p, 1.0f);
 		p.image(particlesLayer, 0, 0);
 
 	}

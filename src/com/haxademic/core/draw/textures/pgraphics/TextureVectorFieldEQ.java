@@ -3,7 +3,7 @@ package com.haxademic.core.draw.textures.pgraphics;
 import java.util.ArrayList;
 
 import com.haxademic.core.app.P;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
 import com.haxademic.core.math.easing.EasingFloat;
 
@@ -44,13 +44,13 @@ extends BaseTexture {
 	
 	public void updateDraw() {
 		// fade out background
-		DrawUtil.setDrawCorner(_texture);
+		PG.setDrawCorner(_texture);
 		_texture.noStroke();
 		_texture.fill(0, OVERDRAW_FADE);
 		_texture.rect(0,0,_texture.width, _texture.height);
 		
 		// update & draw field
-		DrawUtil.setDrawCenter(_texture);
+		PG.setDrawCenter(_texture);
 		_texture.fill(255);
 		for (PVector vector : _vectorField) {
 			float noise = P.p.noise(
@@ -73,7 +73,7 @@ extends BaseTexture {
 		for (int j = 0; j < DRAWS_PER_FRAME; j++) {
 			// draw particles
 			_texture.strokeWeight(2f);
-			DrawUtil.setDrawCenter(_texture);
+			PG.setDrawCenter(_texture);
 			for( int i = 0; i < _particles.size(); i++ ) {
 				_texture.stroke(180 + (i % 75), 200 + (i % 55), 210 + (i % 45));
 				_particles.get(i).update( _vectorField, i );

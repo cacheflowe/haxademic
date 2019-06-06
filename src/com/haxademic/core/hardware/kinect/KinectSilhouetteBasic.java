@@ -4,7 +4,7 @@ package com.haxademic.core.hardware.kinect;
 import java.util.Vector;
 
 import com.haxademic.core.app.P;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.MathUtil;
 
@@ -254,7 +254,7 @@ public class KinectSilhouetteBasic {
 
 			
 			// fade out
-			DrawUtil.setDrawCorner(_canvas);
+			PG.setDrawCorner(_canvas);
 			_canvas.fill(_backgroundColor,8);
 			_canvas.rect(0, 0, _canvasW, _canvasH);
 		}

@@ -8,7 +8,7 @@ import com.haxademic.app.dancelab.playback.ImageSequencePlayer;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 
 import processing.core.PGraphics;
 
@@ -91,7 +91,7 @@ extends PAppletHax {
 			attemptLoadNextPlayer();			
 		}
 		
-		DrawUtil.setDrawCenter(buffer);
+		PG.setDrawCenter(buffer);
 		
 		buffer.beginDraw();
 		if(imgSeqPlayers.size() > 0) imgSeqPlayers.get(0).display(buffer, imgW * 0, 0, curFrame);

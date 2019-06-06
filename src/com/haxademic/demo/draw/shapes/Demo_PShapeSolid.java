@@ -3,7 +3,7 @@ package com.haxademic.demo.draw.shapes;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.shapes.PShapeSolid;
 import com.haxademic.core.draw.shapes.PShapeUtil;
@@ -50,8 +50,8 @@ extends PAppletHax {
 	
 	public void drawApp() {
 		// setup center screen & lights
-		DrawUtil.setCenterScreen(p.g);
-		DrawUtil.setBetterLights(p.g);
+		PG.setCenterScreen(p.g);
+		PG.setBetterLights(p.g);
 		background(0);
 		p.noStroke();
 		p.fill(255);

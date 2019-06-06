@@ -4,7 +4,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.color.ColorUtil;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.image.MotionBlurPGraphics;
 import com.haxademic.core.draw.shapes.Shapes;
@@ -55,10 +55,10 @@ extends PAppletHax {
 	}
 
 	protected void drawGraphicsNative( PGraphics pg ) {
-		DrawUtil.setDrawCenter(pg);
+		PG.setDrawCenter(pg);
 		pg.beginDraw();
 		pg.clear();
-		DrawUtil.setBasicLights(pg);
+		PG.setBasicLights(pg);
 		
 		float frameRadians = P.TWO_PI / _frames;
 		float percentComplete = ((float)(p.frameCount%_frames)/_frames);
@@ -97,7 +97,7 @@ extends PAppletHax {
 	
 	protected void drawGraphicsSunflow( PApplet pg ) {
 		p.noStroke();
-		DrawUtil.setDrawCenter(p);
+		PG.setDrawCenter(p);
 		
 		joons.jr.background(JoonsWrapper.BACKGROUND_AO);
 		joons.jr.background(0, 0, 0);
@@ -115,7 +115,7 @@ extends PAppletHax {
 		// white bg block
 //		p.pushMatrix();
 //		p.translate(0,0,-1500);
-//		DrawUtil.setDrawCenter(p);
+//		PG.setDrawCenter(p);
 //		p.fill(255);
 //		_jw.jr.fill( JoonsWrapper.MATERIAL_SHINY, 255, 255, 255 );
 //		p.box(p.width*10, p.width*10, 2);

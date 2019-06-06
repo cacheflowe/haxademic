@@ -2,7 +2,7 @@ package com.haxademic.demo.hardware.webcam;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.hardware.webcam.IWebCamCallback;
 
 import processing.core.PImage;
@@ -27,8 +27,8 @@ implements IWebCamCallback {
 		boolean webcamIsGood = (p.webCamWrapper.getImage().width > 32);
 		
 		p.background((webcamIsGood) ? 50 : p.color(255,0,0));
-		DrawUtil.setDrawCenter(p);
-		DrawUtil.setCenterScreen(p);
+		PG.setDrawCenter(p);
+		PG.setCenterScreen(p);
 		p.image(p.webCamWrapper.getImage(), 0, 0);
 		
 		p.debugView.setValue("webcam W", p.webCamWrapper.getImage().width);

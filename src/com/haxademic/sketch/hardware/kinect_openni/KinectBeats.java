@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.hardware.kinect.KinectSize;
 
 import ddf.minim.AudioOutput;
@@ -52,14 +52,14 @@ extends PAppletHax {
 	}
 	
 	public void drawApp() {
-		DrawUtil.resetGlobalProps( p );
+		PG.resetGlobalProps( p );
 		p.shininess(1000f); 
 		p.lights();
 		p.background(0);
 		
 		// draw filtered web cam
-		DrawUtil.setDrawCorner(p);
-		DrawUtil.setColorForPImage(p);
+		PG.setDrawCorner(p);
+		PG.setColorForPImage(p);
 
 		for( int i=0; i < _beats.size(); i++ ) {
 			_beats.get(i).update();

@@ -2,7 +2,7 @@ package com.haxademic.core.draw.textures.pgraphics;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.draw.camera.CameraUtil;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.shapes.Shapes;
 import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
 
@@ -37,7 +37,7 @@ extends BaseTexture {
 	public void updateDraw() {
 		// prep context
 		_texture.clear();
-		DrawUtil.setCenterScreen( _texture );
+		PG.setCenterScreen( _texture );
 		CameraUtil.setCameraDistance(_texture, 200, 20000);
 		_texture.pushMatrix();
 

@@ -5,7 +5,7 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.data.constants.PBlendModes;
 import com.haxademic.core.draw.color.Gradients;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.BlurHFilter;
 import com.haxademic.core.draw.filters.pshader.BlurVFilter;
@@ -108,7 +108,7 @@ extends PAppletHax {
 	public void drawApp() {
 		// set up context
 		background(0);
-		DrawUtil.setDrawCorner(p);
+		PG.setDrawCorner(p);
 		p.fill(255);
 		p.noStroke();
 		
@@ -191,7 +191,7 @@ extends PAppletHax {
 		// add new frame on top
 		fadePG.beginDraw();
 		fadePG.blendMode(PBlendModes.ADD);
-		DrawUtil.setPImageAlpha(fadePG, alphaAdd);
+		PG.setPImageAlpha(fadePG, alphaAdd);
 		fadePG.image(blurPG, 0, 0);
 		fadePG.blendMode(PBlendModes.BLEND);
 		fadePG.endDraw();

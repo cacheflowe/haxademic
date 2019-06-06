@@ -4,7 +4,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.data.constants.PBlendModes;
 import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.draw.color.ImageGradient;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pgraphics.shared.BaseVideoFilter;
 import com.haxademic.core.draw.filters.pshader.BlurHFilter;
 import com.haxademic.core.draw.filters.pshader.BlurVFilter;
@@ -42,7 +42,7 @@ extends BaseVideoFilter {
 		destBuffer.beginDraw();
 		destBuffer.image(sourceBuffer, 0, 0);
 		destBuffer.blendMode(PBlendModes.ADD);
-		DrawUtil.setPImageAlpha(blendedSpread, 0.99f);
+		PG.setPImageAlpha(blendedSpread, 0.99f);
 		destBuffer.image(colorizedTrail, 0, 0);
 		destBuffer.blendMode(PBlendModes.BLEND);
 		destBuffer.endDraw();
@@ -91,7 +91,7 @@ extends BaseVideoFilter {
 		// add new frame on top
 		blendedSpread.beginDraw();
 		blendedSpread.blendMode(PBlendModes.ADD);
-		DrawUtil.setPImageAlpha(blendedSpread, 0.9f);
+		PG.setPImageAlpha(blendedSpread, 0.9f);
 		blendedSpread.image(blurredMotion, 0, 0);
 		blendedSpread.blendMode(PBlendModes.BLEND);
 		blendedSpread.endDraw();

@@ -4,7 +4,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.data.constants.PRenderers;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.BlurHFilter;
 import com.haxademic.core.draw.filters.pshader.BlurVFilter;
 import com.haxademic.core.draw.filters.pshader.BrightnessStepFilter;
@@ -70,8 +70,8 @@ extends PAppletHax {
 	protected void setupFirstFrame() {
 		pg = P.p.createGraphics(2550, 3300, PRenderers.P3D);
 		pgPost = P.p.createGraphics(2550, 3300, PRenderers.P3D);
-		DrawUtil.setTextureRepeat(pg, true);
-		DrawUtil.setTextureRepeat(pgPost, true);
+		PG.setTextureRepeat(pg, true);
+		PG.setTextureRepeat(pgPost, true);
 		
 		seed = P.getImage("images/_sketch/wolfe-white-2.png");
 		
@@ -147,8 +147,8 @@ extends PAppletHax {
 		pg.beginDraw();
 		if(p.frameCount <= 10 || clearScreen) pg.background(0);
 		clearScreen = false;
-		DrawUtil.setDrawCorner(pg);
-		DrawUtil.setDrawFlat2d(pg, true);
+		PG.setDrawCorner(pg);
+		PG.setDrawFlat2d(pg, true);
 		
 		darkenCanvas();
 		if(p.frameCount % 300 > 0) pg.image(seed, 0, 0);

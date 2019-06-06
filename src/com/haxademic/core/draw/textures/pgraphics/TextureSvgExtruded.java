@@ -2,7 +2,7 @@ package com.haxademic.core.draw.textures.pgraphics;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.draw.color.ImageGradient;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.DisplacementMapFilter;
 import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
@@ -82,10 +82,10 @@ extends BaseTexture {
 	public void updateDraw() {
 		_texture.clear();
 		_texture.noStroke();
-		DrawUtil.setDrawCorner(_texture);
+		PG.setDrawCorner(_texture);
 		
 		// draw logo
-		DrawUtil.setCenterScreen(_texture);
+		PG.setCenterScreen(_texture);
 		if(P.p.audioData.isBeat()) {
 			colorLogoProgress.setTarget(MathUtil.randRangeDecimal(0, 1));
 			logoScale.setCurrent(1.2f);
@@ -101,8 +101,8 @@ extends BaseTexture {
 		logoRotZ.update(true);
 		
 		_texture.pushMatrix();
-		DrawUtil.setBasicLights(_texture);
-//		DrawUtil.setBetterLights(_texture);
+		PG.setBasicLights(_texture);
+//		PG.setBetterLights(_texture);
 //		_texture.lights();
 		_texture.fill(gradient.getColorAtProgress(colorLogoProgress.value()));
 		_texture.rotateX(logoRotX.value());

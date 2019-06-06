@@ -3,7 +3,7 @@ package com.haxademic.demo.draw.camera;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.camera.CameraUtil;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 
 public class Demo_CameraUtil_setCameraDistance 
 extends PAppletHax {
@@ -23,8 +23,8 @@ extends PAppletHax {
 
 	public void drawApp() {
 		p.background(0);
-		DrawUtil.setCenterScreen(p);
-		DrawUtil.setDrawCenter(p);
+		PG.setCenterScreen(p);
+		PG.setDrawCenter(p);
 		
 		int maxDist = (int) p.ui.value(DIST);
 		int minDist = (int) p.ui.value(NEAR);

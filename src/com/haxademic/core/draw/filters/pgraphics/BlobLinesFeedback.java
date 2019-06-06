@@ -3,7 +3,7 @@ package com.haxademic.core.draw.filters.pgraphics;
 import com.haxademic.core.app.P;
 import com.haxademic.core.data.constants.PBlendModes;
 import com.haxademic.core.data.constants.PRenderers;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pgraphics.shared.BaseVideoFilter;
 import com.haxademic.core.draw.filters.pshader.BlurHFilter;
 import com.haxademic.core.draw.filters.pshader.BlurVFilter;
@@ -98,9 +98,9 @@ extends BaseVideoFilter {
 		ImageUtil.cropFillCopyImage(blobSourceBuffer, destBuffer, false);
 		
 		// draw webcam to screen
-		DrawUtil.setPImageAlpha(destBuffer, 0.6f);
+		PG.setPImageAlpha(destBuffer, 0.6f);
 		ImageUtil.cropFillCopyImage(sourceBuffer, destBuffer, false);
-		DrawUtil.resetPImageAlpha(destBuffer);
+		PG.resetPImageAlpha(destBuffer);
 
 		// draw bloob buffer to screen
 		destBuffer.blendMode(PBlendModes.ADD);
@@ -113,8 +113,8 @@ extends BaseVideoFilter {
 	protected void drawBlobs() {
 		// draw to offscreen buffer so we can do ffedback & blending
 		blobOutputBuffer.beginDraw();
-		DrawUtil.feedback(blobOutputBuffer, 2f);
-		DrawUtil.fadeToBlack(blobOutputBuffer, 6);
+		PG.feedback(blobOutputBuffer, 2f);
+		PG.fadeToBlack(blobOutputBuffer, 6);
 		blobOutputBuffer.stroke(127, 127, 0);
 		blobOutputBuffer.fill(255, 0);
 		blobOutputBuffer.strokeWeight(2);

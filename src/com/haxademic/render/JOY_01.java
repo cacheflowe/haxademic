@@ -3,7 +3,7 @@ package com.haxademic.render;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.file.FileUtil;
 
@@ -108,7 +108,7 @@ extends PAppletHax {
 		// clear the screen
 		background(0);
 		p.noStroke();
-//		DrawUtil.setBetterLights(p.g);
+//		PG.setBetterLights(p.g);
 		
 		// keylistening
 		float moveInc = 2;
@@ -146,7 +146,7 @@ extends PAppletHax {
 //		p.shader(fattenerVertShader);  
 
 		// draw shape
-		DrawUtil.setDrawCorner(p.g);
+		PG.setDrawCorner(p.g);
 		p.shape(shape);
 		
 		p.resetShader();

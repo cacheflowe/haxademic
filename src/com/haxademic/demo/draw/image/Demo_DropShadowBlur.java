@@ -3,7 +3,7 @@ package com.haxademic.demo.draw.image;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.BlurProcessingFilter;
 import com.haxademic.core.media.DemoAssets;
 
@@ -40,7 +40,7 @@ extends PAppletHax {
 	public PGraphics imageToImageWithPadding(PImage img, float scaleCanvasUp) {
 		PGraphics pg = P.p.createGraphics(P.ceil((float) img.width * scaleCanvasUp), P.ceil((float) img.height * scaleCanvasUp), P.P2D);
 		pg.beginDraw();
-		DrawUtil.setDrawCenter(pg);
+		PG.setDrawCenter(pg);
 		pg.clear();
 		pg.translate(pg.width/2, pg.height/2);
 		pg.image(img, 0, 0);
@@ -60,11 +60,11 @@ extends PAppletHax {
 		shadow.endDraw();
 
 		p.background(255);
-		DrawUtil.setCenterScreen(p);
-		DrawUtil.setDrawCenter(p);
-		DrawUtil.setPImageAlpha(p, p.ui.value(BLUR_ALPHA));
+		PG.setCenterScreen(p);
+		PG.setDrawCenter(p);
+		PG.setPImageAlpha(p, p.ui.value(BLUR_ALPHA));
 		p.image(shadow, 0, 10f + 10f * P.sin(p.frameCount * 0.03f));
-		DrawUtil.setPImageAlpha(p, 1f);
+		PG.setPImageAlpha(p, 1f);
 		p.image(img, 0, 0);
 	}
 

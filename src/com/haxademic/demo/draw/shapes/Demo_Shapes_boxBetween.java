@@ -3,7 +3,7 @@ package com.haxademic.demo.draw.shapes;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.shapes.Shapes;
 import com.haxademic.core.math.easing.ElasticFloat;
 
@@ -34,8 +34,8 @@ extends PAppletHax {
 		p.background(0);
 		p.noStroke();
 		p.perspective();
-		DrawUtil.setDrawCenter( p );
-		DrawUtil.setBetterLights( p );
+		PG.setDrawCenter( p );
+		PG.setBetterLights( p );
 		p.translate(p.width/2, p.height/2, -p.width);
 		p.noStroke();
 //		p.rotateX(P.HALF_PI * p.mousePercentY());

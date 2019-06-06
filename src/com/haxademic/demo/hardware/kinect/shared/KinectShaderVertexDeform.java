@@ -3,7 +3,7 @@ package com.haxademic.demo.hardware.kinect.shared;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.shapes.Shapes;
 import com.haxademic.core.draw.shapes.pshader.MeshDeformAndTextureFilter;
 import com.haxademic.core.hardware.kinect.KinectSize;
@@ -52,8 +52,8 @@ extends PAppletHax {
 	
 	public void drawApp() {
 		background(0);
-		DrawUtil.setCenterScreen(p.g);
-		if(p.key != ' ') DrawUtil.basicCameraFromMouse(p.g);
+		PG.setCenterScreen(p.g);
+		if(p.key != ' ') PG.basicCameraFromMouse(p.g);
 		
 		// update mapped texture
 		tex.beginDraw();

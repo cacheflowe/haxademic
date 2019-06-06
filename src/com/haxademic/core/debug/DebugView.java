@@ -6,7 +6,7 @@ import java.util.Map;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.data.constants.PBlendModes;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.media.DemoAssets;
 import com.haxademic.core.net.IPAddress;
@@ -148,8 +148,8 @@ public class DebugView {
 		updateAppInfo();
 		
 		// set up flat drawing
-		DrawUtil.setDrawCorner(p);
-		DrawUtil.setDrawFlat2d(p, true);
+		PG.setDrawCorner(p);
+		PG.setDrawFlat2d(p, true);
 		p.blendMode(PBlendModes.BLEND);
 
 		// draw debug text block
@@ -206,7 +206,7 @@ public class DebugView {
 			p.image(textures.get(i), debugPanelW(), texHeight * i, texW, texHeight);
 		}
 
-		DrawUtil.setDrawFlat2d(p, false);
+		PG.setDrawFlat2d(p, false);
 		p.popStyle();
 	}
 }

@@ -4,9 +4,9 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.color.Gradients;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 
-public class Demo_DrawUtil_fadeToBlack
+public class Demo_PG_fadeToBlack
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
@@ -24,9 +24,9 @@ extends PAppletHax {
 
 	public void drawApp() {
 		if(p.frameCount == 1) background(0);
-		DrawUtil.fadeToBlack(p.g, 1);
-		DrawUtil.setDrawCenter(p);
-		DrawUtil.setDrawFlat2d(p, true);
+		PG.fadeToBlack(p.g, 1);
+		PG.setDrawCenter(p);
+		PG.setDrawFlat2d(p, true);
 		
 		float progress = (p.frameCount % frames) / frames;
 		float progressRads = progress * P.TWO_PI;

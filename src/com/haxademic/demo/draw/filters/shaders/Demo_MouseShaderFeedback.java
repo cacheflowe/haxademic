@@ -5,7 +5,7 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.draw.color.ColorUtil;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.BlurProcessingFilter;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.file.FileUtil;
@@ -73,8 +73,8 @@ extends PAppletHax {
 		
 		// update feeback display
 		feedbackBuffer.beginDraw();
-		DrawUtil.setDrawCenter(feedbackBuffer);
-		DrawUtil.setPImageAlpha(feedbackBuffer, 0.05f);
+		PG.setDrawCenter(feedbackBuffer);
+		PG.setPImageAlpha(feedbackBuffer, 0.05f);
 //		feedbackBuffer.tint(
 //				300 + 155 * P.sin(p.frameCount/50f),
 //				300 + 155 * P.sin(p.frameCount/80f),

@@ -9,7 +9,7 @@ import com.haxademic.core.data.constants.PBlendModes;
 import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.draw.color.ColorUtil;
 import com.haxademic.core.draw.color.ImageGradient;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.webcam.IWebCamCallback;
@@ -103,8 +103,8 @@ implements IWebCamCallback {
 		
 		if(differenceBuffer != null) {
 			// draw to screen
-			DrawUtil.setDrawCenter(p);
-			DrawUtil.setPImageAlpha(p, 1f);
+			PG.setDrawCenter(p);
+			PG.setPImageAlpha(p, 1f);
 			p.blendMode(PBlendModes.BLEND);
 			p.image(curFrame, p.width/2, p.height/2);
 			

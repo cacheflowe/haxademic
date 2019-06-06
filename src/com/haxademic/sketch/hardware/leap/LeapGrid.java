@@ -3,7 +3,7 @@ package com.haxademic.sketch.hardware.leap;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.debug.DebugUtil;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.hardware.leap.LeapRegionGrid;
 
 public class LeapGrid 
@@ -32,13 +32,13 @@ extends PAppletHax {
 
 	public void drawApp() {
 		// reset drawing 
-		DrawUtil.resetGlobalProps( p );
+		PG.resetGlobalProps( p );
 		p.shininess(1000f); 
 		p.lights();
 		p.background(0);
 		
-		DrawUtil.setDrawCorner(p);
-		DrawUtil.setColorForPImage(p);
+		PG.setDrawCorner(p);
+		PG.setColorForPImage(p);
 		
 		_leapGrid.update();
 		_leapGrid.drawDebug(p.g);

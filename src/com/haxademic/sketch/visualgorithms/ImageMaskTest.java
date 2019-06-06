@@ -3,7 +3,7 @@ package com.haxademic.sketch.visualgorithms;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.file.FileUtil;
 
@@ -51,7 +51,7 @@ extends PAppletHax {
 		_mask.beginDraw();
 //		_mask.clear();
 		_mask.background(0);
-		DrawUtil.setDrawCenter(_mask);
+		PG.setDrawCenter(_mask);
 		_svgMask.disableStyle();
 		_mask.fill(255, 127 + 127 * P.sin(p.frameCount*0.01f));
 		_mask.pushMatrix();
@@ -63,7 +63,7 @@ extends PAppletHax {
 		
 		_image.beginDraw();
 //		_image.clear();
-		DrawUtil.setDrawCenter(_image);
+		PG.setDrawCenter(_image);
 		_image.translate(_image.width/2, _image.height/2);
 		_image.rotate(p.millis()/800f);
 		_image.image(img, 0, 0, _image.width, _image.height );
@@ -76,7 +76,7 @@ extends PAppletHax {
 		_maskInverse.beginDraw();
 //		_maskInverse.clear();
 		_maskInverse.background(255);
-		DrawUtil.setDrawCenter(_maskInverse);
+		PG.setDrawCenter(_maskInverse);
 		_svgMask.disableStyle();
 		_maskInverse.fill(0);
 		_maskInverse.pushMatrix();
@@ -88,7 +88,7 @@ extends PAppletHax {
 
 		_image2.beginDraw();
 //		_image2.clear();
-		DrawUtil.setDrawCenter(_image2);
+		PG.setDrawCenter(_image2);
 		_image2.translate(_image2.width/2, _image2.height/2);
 		_image2.rotate(p.millis()/1000f);
 		_image2.image(img2, 0, 0, _image2.width*2, _image2.height*2 );

@@ -1,7 +1,7 @@
 package com.haxademic.demo.math;
 
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.math.easing.EasingFloat;
 import com.haxademic.core.math.easing.ElasticFloat;
 import com.haxademic.core.math.easing.IEasingValue;
@@ -24,7 +24,7 @@ extends PAppletHax {
 	public void drawApp() {
 		// set up drawing context
 		background(0);
-		DrawUtil.setDrawCenter(p);
+		PG.setDrawCenter(p);
 		p.fill(255);
 		
 		// apply easings & show result

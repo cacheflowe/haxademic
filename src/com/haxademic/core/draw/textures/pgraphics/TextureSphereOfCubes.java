@@ -3,7 +3,7 @@ package com.haxademic.core.draw.textures.pgraphics;
 import com.haxademic.core.app.P;
 import com.haxademic.core.data.constants.PStrokeCaps;
 import com.haxademic.core.draw.color.ColorsHax;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.EasingFloat;
@@ -43,9 +43,9 @@ extends BaseTexture {
 		if(lineWeight.value() > 3) _texture.noFill();
 		
 		// context & camera
-		DrawUtil.setBetterLights(_texture);
-		DrawUtil.setCenterScreen(_texture);
-		DrawUtil.setDrawCenter(_texture);
+		PG.setBetterLights(_texture);
+		PG.setCenterScreen(_texture);
+		PG.setDrawCenter(_texture);
 		_texture.rotateX(-P.HALF_PI);
 		
 		// draw sphere

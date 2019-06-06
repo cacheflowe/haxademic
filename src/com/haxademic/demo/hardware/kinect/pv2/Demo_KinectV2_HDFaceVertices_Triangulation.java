@@ -78,7 +78,7 @@ extends PAppletHax {
 	public void drawApp() {
 		p.background(0);
 		p.strokeWeight(1f);
-		//			DrawUtil.setBetterLights(p);
+		//			PG.setBetterLights(p);
 
 		// Draw the color Image
 		image(kinect.getColorImage(), 0, 0);

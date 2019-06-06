@@ -4,7 +4,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.color.Gradients;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.media.DemoAssets;
 
@@ -27,7 +27,7 @@ extends PAppletHax {
 		
 		fadeEdge = p.createGraphics(1024, 1024, P.P3D);
 		fadeEdge.beginDraw();
-		DrawUtil.setDrawCenter(fadeEdge);
+		PG.setDrawCenter(fadeEdge);
 		// draw gradient
 		fadeEdge.translate(fadeEdge.width * (fadeSize * 0.5f), fadeEdge.height / 2);
 		fadeEdge.noStroke();
@@ -41,8 +41,8 @@ extends PAppletHax {
 
 	public void drawApp() {
 		ImageUtil.cropFillCopyImage(DemoAssets.justin(), p.g, true);
-		DrawUtil.setCenterScreen(p);
-		DrawUtil.setDrawCenter(p);
+		PG.setCenterScreen(p);
+		PG.setDrawCenter(p);
 		
 		// draw
 		p.rotate(P.map(p.mousePercentY(), 0, 1, P.PI, -P.PI));

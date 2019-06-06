@@ -36,7 +36,7 @@ extends PAppletHax {
 	public void drawApp() {		
 		background(0);
 		p.noFill();
-//		DrawUtil.setBetterLights(p);
+//		PG.setBetterLights(p);
 		
 		// rotate
 		float z = Penner.easeInOutExpo(0.5f + 0.5f * MathUtil.saw(loop.progressRads()), 0, 1, 1);

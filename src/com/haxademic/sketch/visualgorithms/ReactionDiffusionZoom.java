@@ -3,7 +3,7 @@ package com.haxademic.sketch.visualgorithms;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.BlurHFilter;
 import com.haxademic.core.draw.filters.pshader.BlurVFilter;
 import com.haxademic.core.draw.filters.pshader.SaturationFilter;
@@ -25,7 +25,7 @@ extends PAppletHax {
 
 	public void drawSeed(int color) {
 		// seed
-		DrawUtil.setDrawCenter(p);
+		PG.setDrawCenter(p);
 		p.noFill();
 		p.stroke(color);
 		p.strokeWeight(300);
@@ -68,13 +68,13 @@ extends PAppletHax {
 		
 		
 		if(p.frameCount % 300 < 150) {
-			DrawUtil.zoomReTexture(p.g, 1.03f);
+			PG.zoomReTexture(p.g, 1.03f);
 //			RepeatFilter.instance(p).setZoom(1.01f);
 //			RepeatFilter.instance(p).applyTo(p.g);
 		} else {
 //			RepeatFilter.instance(p).setZoom(0.99f);
 //			RepeatFilter.instance(p).applyTo(p.g);
-			DrawUtil.zoomReTexture(p.g, 0.97f);			
+			PG.zoomReTexture(p.g, 0.97f);			
 		}
 		
 	}

@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.SphericalCoord;
 
@@ -32,9 +32,9 @@ extends PAppletHax {
 	
 	public void drawApp() {
 		p.background(200);
-		DrawUtil.setBetterLights(p);
-		DrawUtil.setCenterScreen(p);
-		DrawUtil.basicCameraFromMouse(p.g);
+		PG.setBetterLights(p);
+		PG.setCenterScreen(p);
+		PG.basicCameraFromMouse(p.g);
 		
 		// draw mesh sphere to show positions
 		p.stroke(0,100);

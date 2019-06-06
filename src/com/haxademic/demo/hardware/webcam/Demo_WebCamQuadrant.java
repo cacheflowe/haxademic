@@ -3,7 +3,7 @@ package com.haxademic.demo.hardware.webcam;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.hardware.webcam.IWebCamCallback;
 import com.haxademic.core.math.MathUtil;
 
@@ -27,15 +27,15 @@ implements IWebCamCallback {
 
 	public void drawApp() {
 		p.background( 0 );
-		DrawUtil.setDrawCorner(p);
-		DrawUtil.resetPImageAlpha(p);
+		PG.setDrawCorner(p);
+		PG.resetPImageAlpha(p);
 
 		PImage camFrame = p.webCamWrapper.getImage();
 		
 		if(p.mousePercentX() < 0.333f) {
 			
-			DrawUtil.setDrawCenter(p);
-			DrawUtil.setCenterScreen(p);
+			PG.setDrawCenter(p);
+			PG.setCenterScreen(p);
 			p.image(p.webCamWrapper.getImage(), 0, 0);
 		} else if(p.mousePercentX() < 0.666f) {
 		
@@ -57,7 +57,7 @@ implements IWebCamCallback {
 			}
 			
 		} else {
-			DrawUtil.setPImageAlpha(p, 0.25f);
+			PG.setPImageAlpha(p, 0.25f);
 			float imgScale = MathUtil.scaleToTarget(960, p.width);
 			p.image(camFrame, 0, 0, camFrame.width * imgScale, camFrame.height * imgScale);
 			p.image(camFrame, -p.width, 0, camFrame.width * imgScale, camFrame.height * imgScale);

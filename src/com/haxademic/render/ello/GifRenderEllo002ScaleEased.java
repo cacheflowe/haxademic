@@ -3,7 +3,7 @@ package com.haxademic.render.ello;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.image.AnimatedGifEncoder;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.easing.Penner;
@@ -61,11 +61,11 @@ extends PAppletHax {
 //		p.rotate(easedPercent * PConstants.TWO_PI);
 		
 		// Ello logo
-//		DrawUtil.setDrawCorner(p);
+//		PG.setDrawCorner(p);
 //		p.shape(_logo, 0, 0, elloSize, elloSize);
 		
 		// Bread!
-		DrawUtil.setDrawCenter(p);
+		PG.setDrawCenter(p);
 		p.image(_bread, 0, 0, elloSize, elloSize);
 	}
 }

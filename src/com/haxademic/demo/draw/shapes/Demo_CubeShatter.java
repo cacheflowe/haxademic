@@ -3,7 +3,7 @@ package com.haxademic.demo.draw.shapes;
 import java.util.ArrayList;
 
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.toxi.Voronoi3D;
 
 import toxi.geom.mesh.WETriangleMesh;
@@ -24,9 +24,9 @@ extends PAppletHax {
 
 	public void drawApp() {
 		p.background(0);
-		DrawUtil.setCenterScreen(p);
-		DrawUtil.setBetterLights(p.g);
-		DrawUtil.basicCameraFromMouse(p.g);
+		PG.setCenterScreen(p);
+		PG.setBetterLights(p.g);
+		PG.basicCameraFromMouse(p.g);
 
 		// draw toxiclibs mesh
 		p.fill(40);

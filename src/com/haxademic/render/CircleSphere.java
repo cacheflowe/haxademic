@@ -5,7 +5,7 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.data.constants.PBlendModes;
 import com.haxademic.core.draw.color.ColorUtil;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.BloomFilter;
 import com.haxademic.core.draw.filters.pshader.GrainFilter;
 import com.haxademic.core.draw.filters.pshader.VignetteFilter;
@@ -67,11 +67,11 @@ extends PAppletHax {
 		pg.fill(0, 0);
 		pg.ortho();
 //		pg.perspective();
-		DrawUtil.setCenterScreen(pg);
-		DrawUtil.setDrawCenter(pg);
-		DrawUtil.setBetterLights(pg);
+		PG.setCenterScreen(pg);
+		PG.setDrawCenter(pg);
+		PG.setBetterLights(pg);
 		pg.rotateX(cameraXRot * P.TWO_PI);
-//		DrawUtil.basicCameraFromMouse(pg);
+//		PG.basicCameraFromMouse(pg);
 		
 		// config
 		float numCircles = 20;

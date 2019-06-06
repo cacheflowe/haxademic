@@ -4,7 +4,7 @@ package com.haxademic.demo.draw.context;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.context.OpenGLUtil;
 
 public class Demo_OpenGLUtil_setBlendMode
@@ -29,8 +29,8 @@ extends PAppletHax {
 		else if(frameLoop < 250) { OpenGLUtil.setBlendMode( p.g, OpenGLUtil.Blend.LIGHT_ADD ); p.debugView.setValue("blendMode", "LIGHT_ADD"); }
 		else if(frameLoop < 300) { OpenGLUtil.setBlendMode( p.g, OpenGLUtil.Blend.SATURATE ); p.debugView.setValue("blendMode", "SATURATE"); }
 
-		DrawUtil.setDrawCenter(p);
-		DrawUtil.setBasicLights(p);
+		PG.setDrawCenter(p);
+		PG.setBasicLights(p);
 
 		float numShapes = 200;
 		

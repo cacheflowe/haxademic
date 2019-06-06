@@ -3,7 +3,7 @@ package com.haxademic.demo.render.audio;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.BadTVLinesFilter;
 import com.haxademic.core.file.FileUtil;
 
@@ -43,7 +43,7 @@ extends PAppletHax {
 		// update waveform texture
 		waveform.beginDraw();
 		if(p.frameCount == 1) waveform.background(255);
-		DrawUtil.feedback(waveform, 255, 0.25f, -4f);
+		PG.feedback(waveform, 255, 0.25f, -4f);
 
 		// draw waveform
 		waveform.stroke(0);

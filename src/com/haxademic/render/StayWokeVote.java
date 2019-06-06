@@ -4,7 +4,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.color.EasingColor;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.draw.shapes.TextToPShape;
 import com.haxademic.core.file.FileUtil;
@@ -80,7 +80,7 @@ extends PAppletHax {
 		if(p.loop.progress() < 0.55f || p.loop.progress() > 0.85f) bgColor.setTargetHex("#000000"); else bgColor.setTargetHex("#ffffff");
 		bgColor.update();
 		p.background(bgColor.colorInt());
-		DrawUtil.setCenterScreen(p);
+		PG.setCenterScreen(p);
 		p.translate(0, 0, -600f);
 		
 		// setup lighting props
@@ -245,7 +245,7 @@ extends PAppletHax {
 		p.pushMatrix();
 		p.pushStyle();
 		p.translate(0, 0, -600);
-		DrawUtil.setDrawCenter(p);
+		PG.setDrawCenter(p);
 		float spacing = p.width * 0.2f;
 		for (int i = 40; i > 0; i--) {
 			// color radial stripes
@@ -261,7 +261,7 @@ extends PAppletHax {
 				}
 			}
 		}
-		DrawUtil.setDrawCorner(p);
+		PG.setDrawCorner(p);
 		p.popStyle();
 		p.popMatrix();
 

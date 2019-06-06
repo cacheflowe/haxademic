@@ -3,7 +3,7 @@ package com.haxademic.demo.math;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.EasingFloat;
@@ -32,8 +32,8 @@ extends PAppletHax {
 	public void drawApp() {
 		background(100,100,255);
 		p.pushMatrix();
-		DrawUtil.setDrawCenter(p);
-		DrawUtil.setCenterScreen(p);
+		PG.setDrawCenter(p);
+		PG.setCenterScreen(p);
 		
 		float radsFromCenter = MathUtil.getRadiansToTarget(p.width/2f, p.height/2f, p.mouseX, p.mouseY);
 		P.out(radsFromCenter);

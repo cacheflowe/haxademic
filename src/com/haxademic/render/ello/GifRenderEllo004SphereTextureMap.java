@@ -3,7 +3,7 @@ package com.haxademic.render.ello;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.image.AnimatedGifEncoder;
 import com.haxademic.core.draw.toxi.MeshUtilToxi;
@@ -84,7 +84,7 @@ extends PAppletHax {
 //		float elloSize = (float)(p.width/1.5f + 7f * frameOsc);
 		float elloSize = (float)(p.width/1.5f);
 		
-		DrawUtil.setDrawCorner(p);
+		PG.setDrawCorner(p);
 		
 		p.translate(p.width/2, p.height/2);
 		

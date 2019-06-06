@@ -3,7 +3,7 @@ package com.haxademic.render;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.filters.pshader.VignetteFilter;
 import com.haxademic.core.draw.image.ImageUtil;
@@ -45,7 +45,7 @@ extends PAppletHax {
 
 	public void drawApp() {
 		p.background(0);
-		DrawUtil.setDrawCenter(p);
+		PG.setDrawCenter(p);
 		
 		// get progress
 		float percentComplete = ((float)(p.frameCount%_frames)/_frames);
@@ -56,7 +56,7 @@ extends PAppletHax {
 		heartMap.beginDraw();
 		float heartMapScale = heartMap.height * 0.75f / heartShape.height;
 		heartMapScale *= 0.7f + 0.3f * P.sin(P.PI/4f + percentCompleteRadians);
-		DrawUtil.setDrawCenter(heartMap);
+		PG.setDrawCenter(heartMap);
 		heartShape.disableStyle();
 		heartMap.fill(0);
 		heartMap.background(255);
@@ -119,7 +119,7 @@ extends PAppletHax {
 //		p.shape(heartShape, 0, 0);
 		VignetteFilter.instance(p).applyTo(p);
 		
-//		DrawUtil.setDrawCorner(p);
+//		PG.setDrawCorner(p);
 //		p.image(heartMap, 0, 0);
 	}
 		

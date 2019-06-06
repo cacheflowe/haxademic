@@ -1,7 +1,7 @@
 package com.haxademic.core.render;
 
 import com.haxademic.core.app.P;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.toxi.DrawToxiMesh;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.system.SystemUtil;
@@ -104,7 +104,7 @@ public class JoonsWrapper {
 	public void endFrame( boolean saveFrameImg ) {
 		if( _isActive == true ) { 
             jr.endRecord(); //Make sure to end record.
-            DrawUtil.setDrawCorner(p);
+            PG.setDrawCorner(p);
             jr.displayRendered(true); //Display rendered image if rendering completed, and the argument is true.
 			if( saveFrameImg == true ) {
 				String sunflowOutputPath = FileUtil.getHaxademicOutputPath()+"/_sunflow/";

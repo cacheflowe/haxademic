@@ -2,7 +2,7 @@ package com.haxademic.demo.math;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.math.easing.EasingFloat;
 
 public class Demo_EasingFloat_setDelay
@@ -32,7 +32,7 @@ extends PAppletHax {
 		}
 		
 		// update objects
-		DrawUtil.setDrawCenter(p);
+		PG.setDrawCenter(p);
 		p.fill(255);
 		for (int i = 0; i < easings.length; i++) {
 			EasingFloat easer = easings[i];

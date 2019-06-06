@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.image.MotionBlurPGraphics;
 import com.haxademic.core.file.FileUtil;
@@ -60,7 +60,7 @@ extends PAppletHax {
 	}
 	
 	protected void drawGraphics() {
-		DrawUtil.setDrawCorner(p);
+		PG.setDrawCorner(p);
 		
 		// timeline
 		float percentComplete = ((float)(p.frameCount%_frames)/_frames);

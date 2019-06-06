@@ -4,7 +4,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.data.constants.PBlendModes;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.image.MotionBlurPGraphics;
@@ -69,7 +69,7 @@ extends PAppletHax {
 	public void drawApp() {
 		p.background(255);
 		if(p.frameCount == 1) initImages();
-		DrawUtil.feedback(p.g, p.color(255, 127), 0.2f, 1f);
+		PG.feedback(p.g, p.color(255, 127), 0.2f, 1f);
 		drawFrame(p.g);
 //		drawFrame(pg);
 //		p.image(_pg, 0, 0);
@@ -81,13 +81,13 @@ extends PAppletHax {
 		pg.clear();
 		pg.pushMatrix();
 
-		DrawUtil.setDrawCenter(pg);
+		PG.setDrawCenter(pg);
 //		pg.fill(255);
 		pg.noFill();
 		pg.noStroke();
 		pg.translate(pg.width/2, pg.height/2);
-		DrawUtil.setDrawCenter(pg);
-		DrawUtil.setDrawFlat2d(pg, false);
+		PG.setDrawCenter(pg);
+		PG.setDrawFlat2d(pg, false);
 		pg.blendMode(PBlendModes.BLEND);
 		
 		float percentComplete = ((float)(p.frameCount%_frames)/_frames);
@@ -95,7 +95,7 @@ extends PAppletHax {
 		float radsComplete = percentComplete * P.TWO_PI;
 		
 //		pg.blendMode(PBlendModes.LIGHTEST);
-//		DrawUtil.setPImageAlpha(p, 0.4f);
+//		PG.setPImageAlpha(p, 0.4f);
 		
 		float numImages = buffers.length;
 		float spacing = 400f;
@@ -114,7 +114,7 @@ extends PAppletHax {
 			pg.translate(0, 0, curZ);
 			if(curZ > showZ) {
 				float alpha = (curZ < showZ + alphaFadeDist) ? P.map(curZ, showZ, showZ + alphaFadeDist, 0, maxAlpha) : maxAlpha;
-				//DrawUtil.setPImageAlpha(p, alpha);
+				//PG.setPImageAlpha(p, alpha);
 				pg.rotate(P.sin(curZ * 0.0015f));
 				pg.scale(1f + 0.83f * P.sin(curZ * 0.0005f)); // P.map(p.mouseX, 0, p.width, 0, 1f)
 				pg.image(buffers[(int)i % buffers.length], 0, 0);
@@ -124,7 +124,7 @@ extends PAppletHax {
 		}
 		
 		// prep overlay
-		DrawUtil.setDrawFlat2d(pg, true);
+		PG.setDrawFlat2d(pg, true);
 //		pg.blendMode(PBlendModes.SCREEN);
 		
 		// draw shapes

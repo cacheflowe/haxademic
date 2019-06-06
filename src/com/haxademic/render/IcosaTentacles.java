@@ -3,7 +3,7 @@ package com.haxademic.render;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.shapes.Icosahedron;
 import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.math.MathUtil;
@@ -45,9 +45,9 @@ extends PAppletHax {
 		p.noFill();
 //		p.ortho();
 		p.perspective();
-//		DrawUtil.setBasicLights(p);
+//		PG.setBasicLights(p);
 		p.lights();
-		DrawUtil.setCenterScreen(p);
+		PG.setCenterScreen(p);
 		float zFar = -p.width * 1.45f;
 		float zNear = -p.width * 0.25f;
 		p.translate(0, 0, P.map(easedExplode, 0, 1, zNear, zFar));
@@ -73,7 +73,7 @@ extends PAppletHax {
 
 		// draw tentacles
 		p.pushMatrix();
-//		DrawUtil.basicCameraFromMouse(p.g);
+//		PG.basicCameraFromMouse(p.g);
 		p.rotateX(0.2f);
 		p.rotateY(loop.progressRads());
 //		PShapeUtil.meshRotateOnAxis(obj, 0.02f * P.sin(loop.progressRads()), P.Y);

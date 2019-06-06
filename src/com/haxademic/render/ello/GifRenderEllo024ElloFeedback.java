@@ -3,7 +3,7 @@ package com.haxademic.render.ello;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.easing.Penner;
@@ -66,7 +66,7 @@ extends PAppletHax {
 
 		// start texture drawing
 		_texture.beginDraw();
-		DrawUtil.setDrawCenter(_texture);
+		PG.setDrawCenter(_texture);
 		_texture.noStroke();
 		
 		// fade out
@@ -79,7 +79,7 @@ extends PAppletHax {
 		float circleInc = P.TWO_PI / arms;
 		float radius = 100f;
 		
-		DrawUtil.setDrawCorner(_texture);
+		PG.setDrawCorner(_texture);
 		for (float i = 0; i < arms; i++) {
 			float curRads = circleInc * i;
 			float moreRads = curRads + percentComplete * circleInc;
@@ -97,6 +97,6 @@ extends PAppletHax {
 		_texture.endDraw();
 		
 		// draw texture to stage
-		DrawUtil.setColorForPImage(p);
+		PG.setColorForPImage(p);
 		p.image(_texture, 0, 0);
 	}}

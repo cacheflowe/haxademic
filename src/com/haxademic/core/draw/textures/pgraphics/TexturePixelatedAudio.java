@@ -2,7 +2,7 @@ package com.haxademic.core.draw.textures.pgraphics;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.draw.color.ImageGradient;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.filters.pshader.BlendTowardsTexture;
 import com.haxademic.core.draw.filters.pshader.BlurProcessingFilter;
@@ -164,7 +164,7 @@ extends BaseTexture {
 	public void updateDraw() {
 		_texture.clear();
 		_texture.noStroke();
-		DrawUtil.setDrawCorner(_texture);
+		PG.setDrawCorner(_texture);
 		// draw image
 		ImageUtil.drawImageCropFill(noiseComposite, _texture, true);
 	}

@@ -4,7 +4,7 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.data.store.AppStore;
 import com.haxademic.core.data.store.IAppStoreListener;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.media.audio.playback.WavPlayer;
 
@@ -83,7 +83,7 @@ extends PAppletHax {
 	}
 	
 	protected void drawProgress() {
-		DrawUtil.setDrawCorner(p);
+		PG.setDrawCorner(p);
 		p.noStroke();
 		p.fill(255);
 		p.rect(0, p.height - 3, p.width * playheadProgress, 3);

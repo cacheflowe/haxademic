@@ -1,7 +1,7 @@
 package com.haxademic.demo.draw.shapes;
 
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.draw.shapes.Shapes;
 import com.haxademic.core.media.DemoAssets;
@@ -20,10 +20,10 @@ extends PAppletHax {
 	}
 
 	public void drawApp() {
-		DrawUtil.setBetterLights(p);
+		PG.setBetterLights(p);
 		background(0);
 		translate(width/2,height/2);
-		DrawUtil.basicCameraFromMouse(p.g);
+		PG.basicCameraFromMouse(p.g);
 		
 		// draw can
 		shape.disableStyle();

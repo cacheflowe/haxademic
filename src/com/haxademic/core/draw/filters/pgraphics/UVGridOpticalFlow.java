@@ -1,7 +1,7 @@
 package com.haxademic.core.draw.filters.pgraphics;
 
 import com.haxademic.core.app.P;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pgraphics.shared.BaseVideoFilter;
 import com.haxademic.core.draw.image.OpticalFlow;
 
@@ -49,7 +49,7 @@ extends BaseVideoFilter {
 //			destBuffer.image(sourceBuffer, 0, 0);
 
 			destBuffer.textureMode(P.IMAGE); 
-			DrawUtil.setTextureRepeat(destBuffer, true);
+			PG.setTextureRepeat(destBuffer, true);
 
 			// draw input view to screen
 			float offsetAmp = 5;

@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.toxi.MeshPool;
 import com.haxademic.core.math.easing.EasingFloat3d;
 import com.haxademic.core.math.easing.ElasticFloat3D;
@@ -69,7 +69,7 @@ extends PAppletHax {
 	}
 	
 	public void drawApp() {
-		DrawUtil.setBasicLights( p );
+		PG.setBasicLights( p );
 		p.background(0);
 		
 		if( _wireFrame ) {

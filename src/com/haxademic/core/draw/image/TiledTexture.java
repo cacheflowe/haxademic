@@ -1,7 +1,7 @@
 package com.haxademic.core.draw.image;
 
 import com.haxademic.core.app.P;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.math.MathUtil;
 
 import processing.core.PGraphics;
@@ -78,7 +78,7 @@ public class TiledTexture {
 	}
 	
 	public void drawCentered(PGraphics pg, float drawW, float drawH) {
-		DrawUtil.setTextureRepeat(pg, true);
+		PG.setTextureRepeat(pg, true);
 		float halfDrawW = drawW / 2f;
 		float halfDrawH = drawH / 2f;
 		float halfSizeX = halfDrawW * sizeX;

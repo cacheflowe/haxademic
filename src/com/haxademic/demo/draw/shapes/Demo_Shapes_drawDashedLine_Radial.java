@@ -3,7 +3,7 @@ package com.haxademic.demo.draw.shapes;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.shapes.Shapes;
 
 public class Demo_Shapes_drawDashedLine_Radial 
@@ -27,8 +27,8 @@ extends PAppletHax {
 		p.background(0);
 		p.stroke(255);
 		p.strokeWeight(8f);
-		DrawUtil.setCenterScreen(p);
-//		DrawUtil.basicCameraFromMouse(p.g);
+		PG.setCenterScreen(p);
+//		PG.basicCameraFromMouse(p.g);
 		
 		float numLines = 24;
 		float segmentRads = P.TWO_PI / numLines;

@@ -6,7 +6,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.color.EasingColor;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.shapes.Shapes;
 import com.haxademic.core.hardware.dmx.DMXWrapper;
 import com.haxademic.core.media.DemoAssets;
@@ -125,8 +125,8 @@ extends PAppletHax {
 		if(p.ui.value(ORTHO_VIEW) > 0.5f) pg.ortho();
 		else pg.perspective();
 		pg.lights();
-		DrawUtil.setCenterScreen(pg);
-		DrawUtil.setDrawCenter(pg);
+		PG.setCenterScreen(pg);
+		PG.setDrawCenter(pg);
 		pg.translate(0, 0, p.ui.value(ROOM_ROTATION + "_Z") * pg.width);
 		pg.rotateX(p.ui.value(ROOM_ROTATION + "_X") * P.TWO_PI);
 		pg.rotateY(p.ui.value(ROOM_ROTATION + "_Y") * P.TWO_PI);	
@@ -151,29 +151,29 @@ extends PAppletHax {
 			
 			// floor
 			if(floorplan != null) {
-				DrawUtil.push(pg);
+				PG.push(pg);
 				pg.translate(0, roomH / 2f, 0);
 				pg.rotateX(P.HALF_PI);
-				DrawUtil.setPImageAlpha(pg, floorplanAlpha);
+				PG.setPImageAlpha(pg, floorplanAlpha);
 				pg.image(floorplan, 0, 0, roomW, roomD);
-				DrawUtil.resetPImageAlpha(pg);
-				DrawUtil.pop(pg);
+				PG.resetPImageAlpha(pg);
+				PG.pop(pg);
 			}
 			
 			// elevation
 			if(elevation != null) {
-				DrawUtil.push(pg);
+				PG.push(pg);
 				pg.translate(0, 0, -roomD / 2f);
-				DrawUtil.setPImageAlpha(pg, floorplanAlpha);
+				PG.setPImageAlpha(pg, floorplanAlpha);
 				pg.image(elevation, 0, 0, roomW, roomH);
-				DrawUtil.resetPImageAlpha(pg);
-				DrawUtil.pop(pg);
+				PG.resetPImageAlpha(pg);
+				PG.pop(pg);
 			}
 		}
 	}
 	
 	protected void updateDrawLights() {
-		DrawUtil.setDrawCorner(pg);
+		PG.setDrawCorner(pg);
 		for (int i = 0; i < lights.size(); i++) {
 			lights.get(i).update(pg);
 		}
@@ -292,7 +292,7 @@ extends PAppletHax {
 		}
 		
 		protected void drawLight(PGraphics pg) {
-			DrawUtil.push(pg);
+			PG.push(pg);
 			pg.fill(color.colorInt());
 			pg.translate(position.x * roomW, position.y * roomH, position.z * roomD);
 			pg.sphere(20);
@@ -301,7 +301,7 @@ extends PAppletHax {
 			pg.fill(0, 255, 0);
 			pg.text(name, 0, 0);
 			// pop
-			DrawUtil.pop(pg);
+			PG.pop(pg);
 		}
 		
 		protected void sendDMX() {

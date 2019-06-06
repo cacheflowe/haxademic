@@ -3,7 +3,7 @@ package com.haxademic.demo.math;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 
 public class Demo_TrigCircle
 extends PAppletHax {
@@ -26,7 +26,7 @@ extends PAppletHax {
 
 	public void drawApp() {
 		background(0);
-		DrawUtil.setDrawCenter(p);
+		PG.setDrawCenter(p);
 
 		_x = p.width / 2 + P.cos(p.ui.value(radians)) * p.ui.value(radius);
 		_y = p.height / 2 + P.sin(p.ui.value(radians)) * p.ui.value(radius);

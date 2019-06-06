@@ -3,7 +3,7 @@ package com.haxademic.core.draw.filters.pgraphics;
 import com.haxademic.core.app.P;
 import com.haxademic.core.data.constants.PBlendModes;
 import com.haxademic.core.data.constants.PRenderers;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pgraphics.shared.BaseVideoFilter;
 import com.haxademic.core.draw.filters.pshader.BlurHFilter;
 import com.haxademic.core.draw.filters.pshader.BlurVFilter;
@@ -77,7 +77,7 @@ extends BaseVideoFilter {
 		
 		// draw white noise on top of feedback buffer
 		feedbackFinalBuffer.beginDraw();
-		DrawUtil.setPImageAlpha(feedbackFinalBuffer, 0.4f);
+		PG.setPImageAlpha(feedbackFinalBuffer, 0.4f);
 		feedbackFinalBuffer.image(feedbackSeedBuffer, 0, 0, feedbackFinalBuffer.width, feedbackFinalBuffer.height);	// scaling up since seed buffer is scaled down
 		feedbackFinalBuffer.endDraw();
 
@@ -92,10 +92,10 @@ extends BaseVideoFilter {
 		destBuffer.background(0);
 		
 		// draw source & effect on top
-		DrawUtil.resetPImageAlpha(destBuffer);
+		PG.resetPImageAlpha(destBuffer);
 		destBuffer.blendMode(PBlendModes.BLEND);
 		destBuffer.image(sourceBuffer, 0, 0);
-		DrawUtil.setPImageAlpha(destBuffer, 0.4f);
+		PG.setPImageAlpha(destBuffer, 0.4f);
 		destBuffer.blendMode(PBlendModes.ADD);
 		destBuffer.image(feedbackFinalBuffer, 0, 0);
 		destBuffer.endDraw();

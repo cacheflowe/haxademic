@@ -3,7 +3,7 @@ package com.haxademic.app.interphase;
 import com.haxademic.app.interphase.sequencing.Interphase;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.ui.UIButton;
 
 public class InterphaseStandalone
@@ -34,7 +34,7 @@ extends PAppletHax {
 	public void drawApp() {
 		p.background(0);
 		p.noStroke();
-		DrawUtil.setDrawCorner(p);
+		PG.setDrawCorner(p);
 
 		interphase.update(p.g);
 	}

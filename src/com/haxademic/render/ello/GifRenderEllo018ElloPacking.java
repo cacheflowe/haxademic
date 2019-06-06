@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.image.AnimatedGifEncoder;
 import com.haxademic.core.draw.image.ImageUtil;
@@ -52,7 +52,7 @@ extends PAppletHax {
 		_logoOffscreen = p.createGraphics(p.width, p.height);
 		_logoOffscreen.beginDraw();
 //		_logoOffscreen.background(100,255,100);
-		DrawUtil.setDrawCorner(_logoOffscreen);
+		PG.setDrawCorner(_logoOffscreen);
 		float elloSize = p.width * 0.9f;
 		_logoOffscreen.shape(_logo, p.width/2, p.height/2, elloSize, elloSize);
 		_logoOffscreen.endDraw();
@@ -66,10 +66,10 @@ extends PAppletHax {
 		p.noStroke();
 				
 		// Ello logo
-//		DrawUtil.setDrawCorner(p);
-//		DrawUtil.setPImageAlpha(p, 0.3f);
+//		PG.setDrawCorner(p);
+//		PG.setPImageAlpha(p, 0.3f);
 //		p.image(_logoOffscreen, 0, 0);
-//		DrawUtil.setPImageAlpha(p, 1);
+//		PG.setPImageAlpha(p, 1);
 		
 		// add particles
 		if(_particles.size() < 2000 && p.frameCount <= 250) {
@@ -155,7 +155,7 @@ extends PAppletHax {
 			if(_growing == false && _active == false && _size > 0) _size -= 1;
 			
 			
-			DrawUtil.setDrawCorner(p);
+			PG.setDrawCorner(p);
 			p.pushMatrix();
 			p.translate(_x, _y);
 			p.shape(_logo, 0, 0, _size, _size);

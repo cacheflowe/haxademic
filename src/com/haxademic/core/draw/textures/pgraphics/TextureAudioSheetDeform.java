@@ -1,7 +1,7 @@
 package com.haxademic.core.draw.textures.pgraphics;
 
 import com.haxademic.core.app.P;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.BlurProcessingFilter;
 import com.haxademic.core.draw.filters.pshader.ContrastFilter;
 import com.haxademic.core.draw.shapes.PShapeUtil;
@@ -74,8 +74,8 @@ extends BaseTexture {
 		// reset context
 		_texture.background(0);
 		_texture.noStroke();
-		DrawUtil.setDrawCorner(_texture);
-		DrawUtil.setCenterScreen(_texture);
+		PG.setDrawCorner(_texture);
+		PG.setCenterScreen(_texture);
 		
 		// update colors & pump scale on beat
 		if(P.p.audioData.isBeat()) newRotation();

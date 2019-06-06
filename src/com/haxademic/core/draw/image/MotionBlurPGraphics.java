@@ -2,7 +2,7 @@ package com.haxademic.core.draw.image;
 
 import java.util.ArrayList;
 
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 
 import processing.core.PGraphics;
 import processing.core.PImage;
@@ -28,7 +28,7 @@ public class MotionBlurPGraphics {
 		for (int f=0; f < _pastFrames.size(); f++) {
 			float alpha = (f+1f) * maxAlpha / _pastFrames.size();
 			PImage pastFrame = _pastFrames.get(f);
-			DrawUtil.setPImageAlpha(canvas, alpha);
+			PG.setPImageAlpha(canvas, alpha);
 			canvas.image(pastFrame, 0, 0);
 		}
 	}

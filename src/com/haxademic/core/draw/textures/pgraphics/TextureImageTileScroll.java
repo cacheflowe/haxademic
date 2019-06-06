@@ -3,7 +3,7 @@ package com.haxademic.core.draw.textures.pgraphics;
 import java.util.ArrayList;
 
 import com.haxademic.core.app.P;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.InvertFilter;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.image.TiledTexture;
@@ -100,8 +100,8 @@ extends BaseTexture {
 	public void updateDraw() {
 		// draw transition result to texture
 		_texture.background(255);
-		DrawUtil.setCenterScreen(_texture);
-		DrawUtil.setDrawCenter(_texture);
+		PG.setCenterScreen(_texture);
+		PG.setDrawCenter(_texture);
 		_texture.fill(255); // todo: remove this
 		
 		// update tiled texture object to fill texture

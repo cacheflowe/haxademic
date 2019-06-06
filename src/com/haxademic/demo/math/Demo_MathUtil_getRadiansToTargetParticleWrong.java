@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.media.DemoAssets;
 
@@ -35,7 +35,7 @@ extends PAppletHax {
 
 	public void drawApp() {
 		p.background(127);
-		DrawUtil.setDrawCenter(p);
+		PG.setDrawCenter(p);
 		
 		p.blendMode(PConstants.BLEND);
 		for(int i=0; i < particles.size(); i++) {

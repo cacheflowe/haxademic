@@ -2,7 +2,7 @@ package com.haxademic.app.haxmapper.overlays;
 
 import java.awt.Rectangle;
 
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
 
@@ -33,8 +33,8 @@ public class FullMaskTextureOverlay {
 
 	public void drawOverlay() {
 		if(_texture == null) return;
-		DrawUtil.setPImageAlpha(pg, 0.4f); 	// light opacity overlay. 
-		DrawUtil.setDrawCorner(pg);
+		PG.setPImageAlpha(pg, 0.4f); 	// light opacity overlay. 
+		PG.setDrawCorner(pg);
 //		pg.beginShape(PConstants.QUAD);
 //		pg.texture(_texture);
 //		// crop to fill the mapped area with the current texture
@@ -48,7 +48,7 @@ public class FullMaskTextureOverlay {
 //		pg.vertex(left, bottom, 0, 		0, _texture.height);
 //		pg.endShape();
 		pg.image(_texture, left, top, right-left, bottom-top);
-		DrawUtil.setPImageAlpha(pg, 1f);	// reset alpha for subsequent overlay drawing
+		PG.setPImageAlpha(pg, 1f);	// reset alpha for subsequent overlay drawing
 	}
 
 }

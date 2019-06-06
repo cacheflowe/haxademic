@@ -1,7 +1,7 @@
 package com.haxademic.sketch.test;
 
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.file.FileUtil;
 
 
@@ -21,7 +21,7 @@ extends PAppletHax {
 
 	public void drawApp() {
 		p.background(255);
-		DrawUtil.setDrawCenter( p );
+		PG.setDrawCenter( p );
 		p.pushMatrix();
 		
 		if( p.frameCount % 5 == 0 ) {

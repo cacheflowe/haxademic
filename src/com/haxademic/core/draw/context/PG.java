@@ -163,7 +163,7 @@ public class PG {
 	
 	public static void fadeInOut(PGraphics pg, int color, int startFrame, int stopFrame, int transitionFrames) {
 		int frames = stopFrame - startFrame;
-		DrawUtil.setDrawCorner(pg);
+		PG.setDrawCorner(pg);
 		if(P.p.frameCount <= startFrame + transitionFrames) {
 			pg.fill(color, P.map(P.p.frameCount, 1f, transitionFrames, 255f, 0));
 			pg.rect(0,0,pg.width, pg.height);
@@ -180,8 +180,8 @@ public class PG {
 	}
 	
 	public static void feedback(PGraphics pg, int color, float colorFade, float feedbackDistance) {
-		DrawUtil.setDrawCorner(pg);
-		DrawUtil.setDrawFlat2d(pg, true);
+		PG.setDrawCorner(pg);
+		PG.setDrawFlat2d(pg, true);
 		pg.copy(
 			pg, 
 			0, 
@@ -198,7 +198,7 @@ public class PG {
 			pg.noStroke();
 			pg.rect(0, 0, pg.width, pg.height);
 		}
-		DrawUtil.setDrawFlat2d(pg, false);
+		PG.setDrawFlat2d(pg, false);
 	}
 	
 	// from: http://p5art.tumblr.com/post/144205983628/a-small-transparency-tip
@@ -224,13 +224,13 @@ public class PG {
 	
 	public static void rotateRedraw(PGraphics pg, float radians) {
 		pg.beginDraw();
-		DrawUtil.setDrawCenter(pg);
+		PG.setDrawCenter(pg);
 		pg.pushMatrix();
-		DrawUtil.setCenterScreen(pg);
+		PG.setCenterScreen(pg);
 		pg.rotate(radians);
 		pg.image(pg, 0, 0);
 		pg.popMatrix();
-		DrawUtil.setDrawCorner(pg);
+		PG.setDrawCorner(pg);
 		pg.endDraw();
 	}
 	

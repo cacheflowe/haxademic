@@ -1,7 +1,7 @@
 package com.haxademic.demo.media.video;
 
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.media.video.ChromaMovie;
 
@@ -21,7 +21,7 @@ extends PAppletHax {
 		if(p.frameCount == 1) p.background(0);
 		p.noStroke();
 		
-		DrawUtil.feedback(p.g, p.color(0), 0.1f, 1f);
+		PG.feedback(p.g, p.color(0), 0.1f, 1f);
 		
 		// draw buffer to screen
 		chromaMovie.update();

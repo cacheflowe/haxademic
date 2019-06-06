@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.media.DemoAssets;
@@ -61,7 +61,7 @@ extends PAppletHax {
 	
 	public void drawApp() {
 		p.background(0);
-		DrawUtil.setBetterLights(p);
+		PG.setBetterLights(p);
 
 		// draw
 		p.translate(p.width/2, p.height/2);

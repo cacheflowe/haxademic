@@ -3,7 +3,7 @@ package com.haxademic.demo.draw.shapes;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.shapes.MeshShapes;
 
 public class Demo_MeshShapes
@@ -54,8 +54,8 @@ extends PAppletHax {
 		p.background(0);
 		noStroke();
 		fill(0);
-		DrawUtil.setBetterLights(p);
-		DrawUtil.setCenterScreen(p);
+		PG.setBetterLights(p);
+		PG.setCenterScreen(p);
 		rotateX(0.5f); 
 		rotateY(p.mousePercentX() * 10f); 
 		meshIndex = P.floor(p.mousePercentY() * meshes.length); 

@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.particle.VectorFlyer;
 import com.haxademic.core.draw.shapes.LineTrail;
 import com.haxademic.core.draw.shapes.PShapeUtil;
@@ -55,10 +55,10 @@ extends PAppletHax {
 		background(0);
 		
 		// setup lights
-		DrawUtil.setBetterLights(p);
-		DrawUtil.setCenterScreen(p);
+		PG.setBetterLights(p);
+		PG.setCenterScreen(p);
 		p.translate(0, 0, -p.width/2);
-		DrawUtil.basicCameraFromMouse(p.g);
+		PG.basicCameraFromMouse(p.g);
 
 		// update attributes
 		float speedScale = 1;
