@@ -273,6 +273,8 @@ Below you'll find a long list of classes and utilities that I've built to make m
 
 `com.haxademic.core.media.video`
 
+* __[MovieFinishedListener](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/media/video/MovieFinishedListener.java)__ - Adds a native listener for video playback completion.
+
 * __[MovieToImageSequence](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/media/video/MovieToImageSequence.java)__ - Loads frames from a video into an array of PImages in realtime. Useful for fancier & faster playback/scrubbing through video frames without relying on Movie decoding once the frames are extracted.
 
 
