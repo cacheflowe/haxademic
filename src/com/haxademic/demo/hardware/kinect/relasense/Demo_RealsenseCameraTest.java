@@ -3,62 +3,112 @@ package com.haxademic.demo.hardware.kinect.relasense;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.draw.context.PG;
+import com.haxademic.core.draw.image.ImageUtil;
 
 import ch.bildspur.realsense.RealSenseCamera;
+import processing.core.PGraphics;
+import processing.core.PImage;
 
 public class Demo_RealsenseCameraTest
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
+	/*
+	| width | height | fps                         | depth stream | color stream |
+	|-------|--------|-----------------------------|--------------|--------------|
+	| 424   | 240    | `6`, `15`, `30`, `60`       | ✅            | ✅            |
+	| 480   | 270    | `6`, `15`, `30`, `60`, `90` | ✅            | ❌            |
+	| 640   | 480    | `6`, `15`, `30`, `60`       | ✅            | ✅            |
+	| 640   | 480    | `90`                        | ✅            | ❌            |
+	| 848   | 480    | `6`, `15`, `30`, `60`       | ✅            | ✅            | 848/480/30 works but runs at 30/60fps/rgb+depth
+	| 848   | 480    | `90`                        | ✅            | ❌            |
+	| 960   | 540    | `6`, `15`, `30`, `60`       | ❌            | ✅            |
+	| 1280  | 720    | `30`                        | ✅            | ✅            | 1280/720/30 works but runs at 15fps/rgb+depth and 20fps/rgb
+	| 1280  | 800    | `6`, `15`, `30`, `60`, `90` | ❌            | ❌            |
+	| 1920  | 1080   | `6`, `15`, `30`             | ❌            | ✅            | 1920/1080/30 works but runs at 10fps/rgb-only
+	*/
+	
+	// TODO: 
+	// * Add mirror mode
+	// * Test all resultions and framerates
+	
 	protected RealSenseCamera camera;
-	protected int CAMERA_W = 640;
+	protected int CAMERA_W = 848;
 	protected int CAMERA_H = 480;
+	protected int CAMERA_FPS = 60;
 	protected int CAMERA_NEAR = 180;
 	protected int CAMERA_FAR = 5000;
+	protected boolean DEPTH_ACTIVE = true;
+	protected boolean RGB_ACTIVE = true;
+	protected boolean MIRROR = true;
+	protected PGraphics mirrorRGB;
+	protected PGraphics mirrorDepth;
 
 	protected void overridePropsFile() {
 		p.appConfig.setProperty( AppSettings.WIDTH, 1200 );
 		p.appConfig.setProperty( AppSettings.HEIGHT, 900 );
 		p.appConfig.setProperty( AppSettings.SHOW_DEBUG, true );
-		p.appConfig.setProperty( AppSettings.KINECT_V2_WIN_ACTIVE, false );
 	}
 
 
 	protected void setupFirstFrame() {
 		camera = new RealSenseCamera(this);
-		camera.start(CAMERA_W, CAMERA_H, 30, true, true);
+		camera.start(CAMERA_W, CAMERA_H, CAMERA_FPS, DEPTH_ACTIVE, RGB_ACTIVE);
 		p.debugView.setTexture(camera.getDepthImage());
+		
+		mirrorRGB = PG.newPG(CAMERA_W, CAMERA_H);
+		mirrorDepth = PG.newPG(CAMERA_W, CAMERA_H);
 	}
 
 	public void drawApp() {
 		p.background(0);
+		
+		MIRROR = true;
+		CAMERA_FAR = 1000;
 
 		// TODO: thread this!
 		camera.readFrames();
-//		camera.createDepthImage(CAMERA_NEAR, CAMERA_FAR); // min/max depth
 
-		// create grayscale image form depth buffer
-		// min and max depth
-
-		// show color image
+		// show depth image
 		fill(255);
 		noStroke();
-//		image(camera.getDepthImage(), 0, 0);
-//		PG.setPImageAlpha(p, 0.6f);
-		image(camera.getColorImage(), 0, 0);
-//		PG.setPImageAlpha(p, 1f);
+		if(DEPTH_ACTIVE) {
+			camera.createDepthImage(CAMERA_NEAR, CAMERA_FAR); // min/max depth
+			if(MIRROR) ImageUtil.copyImageFlipH(camera.getDepthImage(), mirrorDepth);
+			image(getDepthImage(), 0, 0);
+		}
+		
+		// show color image
+		if(RGB_ACTIVE) {
+			if(MIRROR) ImageUtil.copyImageFlipH(camera.getColorImage(), mirrorRGB);
+			PG.setPImageAlpha(p, 0.6f);
+			p.image(getRGBImage(), 30, 0);
+			PG.setPImageAlpha(p, 1f);
+		}
 
-		fill(0, 255, 255);
-		textSize(20);
-		textAlign(RIGHT, BOTTOM);
-		text(camera.getDepth(P.min(mouseX, CAMERA_W-1), P.min(mouseY, CAMERA_H-1)), mouseX, mouseY);
-
-
+		// show depth pixels
+		drawDepthPixels();
+	}
+	
+	public int getDepth(int x, int y) {
+		return camera.getDepth((MIRROR) ? CAMERA_W - x : x, y);
+	}
+	
+	public PImage getRGBImage() {
+		return (MIRROR) ? mirrorRGB : camera.getColorImage();
+	}
+	
+	public PImage getDepthImage() {
+		return (MIRROR) ? mirrorDepth : camera.getDepthImage();
+	}
+	
+	protected void drawDepthPixels() {
 		int numPixelsProcessed = 0;
 		int pixelSize = 8;
 		for ( int x = 0; x < CAMERA_W; x += pixelSize ) {
 			for ( int y = 0; y < CAMERA_H; y += pixelSize ) {
-				int pixelDepth = camera.getDepth( x, y );
+				int pixelDepth = getDepth(x, y);
 				if( pixelDepth != 0 && pixelDepth > CAMERA_NEAR && pixelDepth < CAMERA_FAR ) {
 					p.pushMatrix();
 //					p.translate(0, 0, -pixelDepth/depthDiv);
@@ -70,8 +120,6 @@ extends PAppletHax {
 			}
 		}
 		p.debugView.setValue("numPixelsProcessed", numPixelsProcessed);
-
-
 	}
 
 }
