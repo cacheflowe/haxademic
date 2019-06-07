@@ -5,11 +5,11 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
 import com.haxademic.core.app.P;
-import com.haxademic.core.data.constants.PRenderers;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.image.Base64Image;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.image.ScreenUtil;
-import com.haxademic.core.text.StringFormatter;
+import com.haxademic.core.system.DateUtil;
 
 import processing.core.PGraphics;
 import processing.core.PImage;
@@ -65,7 +65,7 @@ implements IJsonRequestCallback {
 	
 	public void setImage(PImage img) {
 		image = img;
-		if(imagePG == null) imagePG = P.p.createGraphics(P.round(img.width * imageScale), P.round(img.height * imageScale), PRenderers.P2D);
+		if(imagePG == null) imagePG = PG.newPG(P.round(img.width * imageScale), P.round(img.height * imageScale));
 	}
 	
 	public void setDebug(boolean debug ) {
@@ -77,7 +77,8 @@ implements IJsonRequestCallback {
 	}
 	
 	protected void lazyInitScreenshotBuffer() {
-		screenshotPG = P.p.createGraphics(P.round(screenshot.getWidth() * screenshotScale), P.round(screenshot.getHeight() * screenshotScale)); // , PRenderers.P2D
+		P.error("DashboardPoster currently not scaling down screenshots.");
+		screenshotPG = PG.newPG(P.round(screenshot.getWidth() * screenshotScale), P.round(screenshot.getHeight() * screenshotScale));
 	}
 	
 	protected void submitJSON(BufferedImage img1, BufferedImage img2) {
@@ -85,7 +86,7 @@ implements IJsonRequestCallback {
         JSONObject jsonOut = new JSONObject();
         jsonOut.setString("project", projectName);
         jsonOut.setString("frameCount", P.p.frameCount + "");
-        jsonOut.setString("uptime", StringFormatter.timeFromSeconds(P.p.millis() / 1000, true) + "");
+        jsonOut.setString("uptime", DateUtil.timeFromSeconds(P.p.millis() / 1000, true) + "");
         jsonOut.setString("frameRate", P.round(P.p.frameRate)+"");
         jsonOut.setString("resolution", P.p.width + "x" + P.p.height);
 
@@ -120,6 +121,7 @@ implements IJsonRequestCallback {
 		new Thread(new Runnable() { public void run() {
 			screenshot = ScreenUtil.getScreenShotNativeAllMonitors(0, 0);
 			if(screenshotPG == null) lazyInitScreenshotBuffer();
+			if(debug) P.p.debugView.setTexture(screenshotPG);
 		}}).start();	
 	}
 	
@@ -152,12 +154,12 @@ implements IJsonRequestCallback {
 
 	@Override
 	public void postSuccess(String responseText, int responseCode, String requestId, int responseTime) {
-		if(debug) P.out("postSuccess", responseText, responseCode, requestId, StringFormatter.timeFromMilliseconds(responseTime, false));
+		if(debug) P.out("postSuccess", responseText, responseCode, requestId, DateUtil.timeFromMilliseconds(responseTime, false));
 	}
 
 	@Override
 	public void postFailure(String responseText, int responseCode, String requestId, int responseTime, String errorMessage) {
-		if(debug) P.out("postFailure", errorMessage, responseText, responseCode, requestId, StringFormatter.timeFromMilliseconds(responseTime, false));
+		if(debug) P.out("postFailure", errorMessage, responseText, responseCode, requestId, DateUtil.timeFromMilliseconds(responseTime, false));
 	}
 
 }

@@ -3,8 +3,9 @@ package com.haxademic.demo.hardware.printer;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.data.constants.PBlendModes;
 import com.haxademic.core.data.constants.PRenderers;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.hardware.printer.PrintPageDirect;
 
@@ -42,11 +43,11 @@ extends PAppletHax {
 		float borderSize = 16;
 		pg.stroke(0);
 		pg.strokeWeight(borderSize);
-		DrawUtil.setDrawCorner(pg);
+		PG.setDrawCorner(pg);
 //		pg.rect(borderSize/2, borderSize/2, pg.width - borderSize, pg.height - borderSize);
 		
 		// draw lines
-		float numLines = 100f;
+		float numLines = 80f;
 		float spacing = pg.height / numLines;
 		for (int i = 0; i < numLines; i++) {
 			float y = i * spacing;
@@ -61,9 +62,10 @@ extends PAppletHax {
 		}
 		
 		// draw shape overlay
+		/*
 		pg.pushMatrix();
-		DrawUtil.setDrawCenter(pg);
-//		DrawUtil.setCenterScreen(pg);
+		PG.setDrawCenter(pg);
+//		PG.setCenterScreen(pg);
 		pg.translate(pg.width / 2, pg.height / 2);
 		pg.strokeWeight(6);
 		pg.fill(255, 255);
@@ -71,7 +73,10 @@ extends PAppletHax {
 //		pg.noStroke();
 		pg.ellipse(0, 0, pg.width * 0.45f, pg.width * 0.45f);
 		pg.popMatrix();
-		
+		*/
+		pg.blendMode(PBlendModes.ADD);
+		PG.drawTestPattern(pg);
+		pg.blendMode(PBlendModes.BLEND);
 		
 		pg.endDraw();
 		
@@ -82,7 +87,7 @@ extends PAppletHax {
 		ImageUtil.cropFillCopyImage(pg, p.g, false);
 		
 		// debug printer buffer
-		// p.image(printDirect.pg(), 0, 0, printDirect.pg().width * 0.1f, printDirect.pg().height * 0.1f);
+		// p.image(printDirect.printBuffer(), 0, 0, printDirect.printBuffer().width * 0.1f, printDirect.printBuffer().height * 0.1f);
 	}
 	
 	public void keyPressed() {

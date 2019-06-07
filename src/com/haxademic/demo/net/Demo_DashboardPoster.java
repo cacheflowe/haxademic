@@ -1,7 +1,7 @@
 package com.haxademic.demo.net;
 
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.net.DashboardPoster;
 
 public class Demo_DashboardPoster
@@ -13,12 +13,13 @@ extends PAppletHax {
 	public void setupFirstFrame() {
 		dashboardPoster = new DashboardPoster("test", "http://localhost/haxademic/www/dashboard/", 20, 0.5f, 0.5f);
 		dashboardPoster.setImage(p.g);
+		dashboardPoster.setDebug(true);
 	}
 	
 	public void drawApp() {
 		// background
 		pg.beginDraw();
-		DrawUtil.setDrawCenter(pg);
+		PG.setDrawCenter(pg);
 		pg.background((float)mouseX/width * 255,(float)mouseY/height * 255,0);
 		pg.fill(255);
 		

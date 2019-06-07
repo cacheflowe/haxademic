@@ -7,7 +7,7 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.data.constants.PBlendModes;
 import com.haxademic.core.data.constants.PRenderers;
-import com.haxademic.core.draw.context.DrawUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.filters.pshader.BlurHFilter;
 import com.haxademic.core.draw.filters.pshader.BlurProcessingFilter;
@@ -35,6 +35,7 @@ extends PAppletHax {
 	
 	/**
 	 * TODO:
+	 * - Extract R/D & Fake light from Clocktower
 	 * - Write instructions PDF for installers - add bits about setting up sponsor & slideshow images
 	 */
 
@@ -81,13 +82,13 @@ extends PAppletHax {
 	protected boolean deformMode = true;
 	
 	protected void overridePropsFile() {
-		if(P.platform != P.MACOSX) {
+//		if(P.platform != P.MACOSX) {
 			p.appConfig.setProperty( AppSettings.WIDTH, 1920 );
 			p.appConfig.setProperty( AppSettings.HEIGHT, 1080 );
-		} else {
-			p.appConfig.setProperty( AppSettings.WIDTH, 1280 );
-			p.appConfig.setProperty( AppSettings.HEIGHT, 720 );
-		}
+//		} else {
+//			p.appConfig.setProperty( AppSettings.WIDTH, 1280 );
+//			p.appConfig.setProperty( AppSettings.HEIGHT, 720 );
+//		}
 		p.appConfig.setProperty( AppSettings.SMOOTHING, AppSettings.SMOOTH_NONE );
 		p.appConfig.setProperty( AppSettings.FULLSCREEN, false );
 		p.appConfig.setProperty( AppSettings.SHOW_DEBUG, false );
@@ -101,13 +102,13 @@ extends PAppletHax {
 		// main buffer
 		float scaleDown = 0.75f;
 		mainBuffer = p.createGraphics(P.round(1920 * scaleDown), P.round(1080 * scaleDown), PRenderers.P3D);
-		mainBuffer.noSmooth();
+//		mainBuffer.noSmooth();
 		rdBuffer = p.createGraphics(P.round(1920 * scaleDown), P.round(1080 * scaleDown), PRenderers.P3D);
-		rdBuffer.noSmooth();
+//		rdBuffer.noSmooth();
 		keystone = new PGraphicsKeystone(p, mainBuffer, 10, FileUtil.getFile("text/keystoning/silhouect.txt"));
 		
 		// init kinect
-//		if(P.platform != P.MACOSX) {
+		if(P.platform == P.MACOSX) {
 			kinect = new KinectPV2(p);
 //			kinect.enableDepthImg(true);
 //			kinect.enableDepthMaskImg(true);
@@ -115,7 +116,7 @@ extends PAppletHax {
 //			kinect.enableInfraredImg(true);
 			// kinect.enableColorImg(true);
 			kinect.init();
-//		}
+		}
 		
 		// init instructions/slideshow
 		String imagesPath = FileUtil.getFile("images/silhouect/slideshow");
@@ -124,8 +125,15 @@ extends PAppletHax {
 		for (int i = 0; i < files.size(); i++) {
 			P.println("Loaded image:", i, files.get(i));
 			String filePath = files.get(i);
-			PGraphics image = ImageUtil.imageToGraphics(p.loadImage(filePath));
+			PImage imgSrc = p.loadImage(filePath);
+			PGraphics image = ImageUtil.imageToGraphics(imgSrc);
+
+			image.beginDraw();
+			image.background(0, 0);
+			image.image(imgSrc, 0, 0);
+			image.endDraw();
 			LeaveWhiteFilter.instance(p).applyTo(image);
+			p.debugView.setTexture(image);
 			slideshow.add(image);
 		}
 		
@@ -240,9 +248,9 @@ extends PAppletHax {
 		
 		// if no users, set a static image
 		if(noUser == true) {
-			DrawUtil.setPImageAlpha(rdBuffer, 0.8f);
+			PG.setPImageAlpha(rdBuffer, 0.8f);
 			ImageUtil.cropFillCopyImage(slideshow.get(slideshowIndex), rdBuffer, true);
-			DrawUtil.resetPImageAlpha(rdBuffer);
+			PG.resetPImageAlpha(rdBuffer);
 		}
 	}
 	
@@ -253,7 +261,7 @@ extends PAppletHax {
 		float blurAmp = blurMid + blurHalf * osc;
 		float sharpAmp = sharpMid + sharpHalf * osc;
 		
-		mouseConfig = false;
+		mouseConfig = true;
 		if(mouseConfig) {
 			blurAmp = p.mousePercentX() * 3f;
 			sharpAmp = p.mousePercentY() * 15f;
@@ -263,6 +271,7 @@ extends PAppletHax {
 		p.debugView.setValue("sharpAmp", sharpAmp);
 
 		// run shaders
+		RD_ITERATIONS = 1;
 		for (int i = 0; i < RD_ITERATIONS; i++) {
 //			BlurProcessingFilter.instance(p).setBlurSize(5);
 //			BlurProcessingFilter.instance(p).setSigma(10f);
@@ -334,7 +343,7 @@ extends PAppletHax {
 		} else {
 			// just blend it
 			mainBuffer.blendMode(PBlendModes.SUBTRACT);
-			ImageUtil.drawImageCropFill(curAudioTexture().texture(), mainBuffer, true);
+			ImageUtil.drawImageCropFill(curAudioTexture().texture(), mainBuffer, true, false);
 			mainBuffer.blendMode(PBlendModes.BLEND);
 			ContrastFilter.instance(p).setContrast(1.5f);
 			ContrastFilter.instance(p).applyTo(mainBuffer);
