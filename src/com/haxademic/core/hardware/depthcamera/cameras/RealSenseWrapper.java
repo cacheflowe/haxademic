@@ -1,5 +1,6 @@
 package com.haxademic.core.hardware.depthcamera.cameras;
 
+import com.haxademic.core.app.P;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.image.ImageUtil;
 
@@ -20,6 +21,7 @@ implements IDepthCamera {
 	protected boolean DEPTH_ACTIVE = true;
 	protected boolean RGB_ACTIVE = true;
 	protected boolean MIRROR = true;
+	protected boolean threaded = false;
 	protected PGraphics mirrorRGB;
 	protected PGraphics mirrorDepth;
 
@@ -37,6 +39,9 @@ implements IDepthCamera {
 		mirrorDepth = PG.newPG(CAMERA_W, CAMERA_H);
 	}
 	
+	public void stop() {
+	}
+	
 	///////////////////////////
 	// THREADED UPDATING
 	///////////////////////////
@@ -45,10 +50,7 @@ implements IDepthCamera {
 		public ThreadedUpdate() {}    
 
 		public void run() {
-			if(camera != null) {
-				camera.readFrames();
-				_updateComplete = true;
-			}
+			readCamera();
 		} 
 	}
 
@@ -63,12 +65,24 @@ implements IDepthCamera {
 				if(MIRROR) ImageUtil.copyImageFlipH(camera.getColorImage(), mirrorRGB);
 			}
 
-			// start new thread
-			_updateComplete = false;
-			if(updateThread == null) updateThread = new ThreadedUpdate();
-			(new Thread(updateThread)).start();
+			if(threaded) {
+				_updateComplete = false;
+				if(updateThread == null) updateThread = new ThreadedUpdate();
+				(new Thread(updateThread)).start();
+			} else {
+				if(P.p.frameCount % 2 == 0) readCamera();
+			}
 		}
 	}
+	
+	protected void readCamera() {
+		camera.readFrames();
+		_updateComplete = true;
+	}
+	
+	///////////////////////////
+	// GETTERS
+	///////////////////////////
 	
 	public PImage getDepthImage() {
 		return (MIRROR) ? mirrorDepth : camera.getDepthImage();
@@ -99,9 +113,6 @@ implements IDepthCamera {
 	
 	public boolean isMirrored() {
 		return MIRROR;
-	}
-	
-	public void stop() {
 	}
 	
 	public int getMillimetersDepthForKinectPixel( int x, int y ) {

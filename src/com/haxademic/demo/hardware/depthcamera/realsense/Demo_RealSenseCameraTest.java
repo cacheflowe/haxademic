@@ -5,12 +5,13 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.image.ImageUtil;
+import com.haxademic.core.hardware.depthcamera.cameras.IDepthCamera;
 
 import ch.bildspur.realsense.RealSenseCamera;
 import processing.core.PGraphics;
 import processing.core.PImage;
 
-public class Demo_RealsenseCameraTest
+public class Demo_RealSenseCameraTest
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
@@ -67,7 +68,9 @@ extends PAppletHax {
 		CAMERA_FAR = 1000;
 
 		// TODO: thread this!
-		camera.readFrames();
+		new Thread(new Runnable() { public void run() {
+			camera.readFrames();
+		}}).start();
 
 		// show depth image
 		fill(255);
@@ -103,21 +106,20 @@ extends PAppletHax {
 	}
 	
 	protected void drawDepthPixels() {
-		if(RGB_ACTIVE) getRGBImage().loadPixels();
+//		if(RGB_ACTIVE) getRGBImage().loadPixels();
 		int numPixelsProcessed = 0;
 		int pixelSize = 18;
 		for ( int x = 0; x < CAMERA_W; x += pixelSize ) {
 			for ( int y = 0; y < CAMERA_H; y += pixelSize ) {
 				int pixelDepth = getDepth(x, y);
-//				if( pixelDepth != 0 && pixelDepth > CAMERA_NEAR && pixelDepth < CAMERA_FAR ) {
-				if( pixelDepth == 0 || (pixelDepth > CAMERA_NEAR && pixelDepth < CAMERA_FAR)) {
+				if( pixelDepth != 0 && pixelDepth > CAMERA_NEAR && pixelDepth < CAMERA_FAR ) {
+//				if( pixelDepth == 0 || (pixelDepth > CAMERA_NEAR && pixelDepth < CAMERA_FAR)) {
 					p.pushMatrix();
-//					p.translate(0, 0, -pixelDepth/depthDiv);
-					if(RGB_ACTIVE) {
-						p.fill(ImageUtil.getPixelColor(getRGBImage(), x - 30, y));
-					} else {
+//					if(RGB_ACTIVE) {
+//						p.fill(ImageUtil.getPixelColor(getRGBImage(), x - 30, y));
+//					} else {
 						p.fill(P.map(pixelDepth, CAMERA_NEAR, CAMERA_FAR, 255, 0));
-					}
+//					}
 					p.rect(x, y, pixelSize, pixelSize);
 					p.popMatrix();
 					numPixelsProcessed++;
