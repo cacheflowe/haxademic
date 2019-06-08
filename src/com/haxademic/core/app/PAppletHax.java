@@ -18,14 +18,14 @@ import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.browser.BrowserInputState;
+import com.haxademic.core.hardware.depthcamera.cameras.IDepthCamera;
+import com.haxademic.core.hardware.depthcamera.cameras.KinectWrapperV1;
+import com.haxademic.core.hardware.depthcamera.cameras.KinectWrapperV2;
+import com.haxademic.core.hardware.depthcamera.cameras.KinectWrapperV2Mac;
 import com.haxademic.core.hardware.dmx.DMXFixtures;
 import com.haxademic.core.hardware.gamepad.GamepadListener;
 import com.haxademic.core.hardware.gamepad.GamepadState;
 import com.haxademic.core.hardware.keyboard.KeyboardState;
-import com.haxademic.core.hardware.kinect.IKinectWrapper;
-import com.haxademic.core.hardware.kinect.KinectWrapperV1;
-import com.haxademic.core.hardware.kinect.KinectWrapperV2;
-import com.haxademic.core.hardware.kinect.KinectWrapperV2Mac;
 import com.haxademic.core.hardware.midi.MidiDevice;
 import com.haxademic.core.hardware.osc.OscWrapper;
 import com.haxademic.core.hardware.webcam.WebCamWrapper;
@@ -107,7 +107,7 @@ extends PApplet {
 	public MidiDevice midiState = null;
 	public MidiBus midiBus;
 	public KeyboardState keyboardState;
-	public IKinectWrapper kinectWrapper = null;
+	public IDepthCamera kinectWrapper = null;
 	public GamepadState gamepadState;
 	public GamepadListener gamepadListener;
 	public LeapMotion leapMotion = null;
@@ -314,7 +314,6 @@ extends PApplet {
 		}
 		if(kinectWrapper != null) {
 			kinectWrapper.setMirror( p.appConfig.getBoolean( "kinect_mirrored", true ) );
-			kinectWrapper.setFlipped( p.appConfig.getBoolean( "kinect_flipped", false ) );
 		}
 	}
 	

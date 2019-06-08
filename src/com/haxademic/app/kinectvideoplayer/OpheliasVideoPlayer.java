@@ -14,7 +14,7 @@ import com.haxademic.core.draw.filters.pshader.BlurVFilter;
 import com.haxademic.core.draw.filters.pshader.SaturationFilter;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.file.FileUtil;
-import com.haxademic.core.hardware.kinect.KinectSilhouetteVectorField;
+import com.haxademic.core.hardware.depthcamera.KinectSilhouetteVectorField;
 import com.haxademic.core.math.MathUtil;
 
 import processing.core.PGraphics;

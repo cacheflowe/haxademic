@@ -9,8 +9,8 @@ import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.file.FileUtil;
-import com.haxademic.core.hardware.kinect.KinectRegionGrid;
-import com.haxademic.core.hardware.kinect.KinectSilhouetteVectorField;
+import com.haxademic.core.hardware.depthcamera.KinectRegionGrid;
+import com.haxademic.core.hardware.depthcamera.KinectSilhouetteVectorField;
 
 import processing.core.PGraphics;
 import processing.core.PImage;

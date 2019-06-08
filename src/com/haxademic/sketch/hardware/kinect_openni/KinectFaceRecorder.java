@@ -10,8 +10,8 @@ import com.haxademic.core.draw.filters.pshader.BrightnessFilter;
 import com.haxademic.core.draw.filters.pshader.WobbleFilter;
 import com.haxademic.core.draw.image.MotionBlurPGraphics;
 import com.haxademic.core.file.FileUtil;
+import com.haxademic.core.hardware.depthcamera.DepthCameraSize;
 import com.haxademic.core.hardware.dmx.DmxAjaxProManagerInterface;
-import com.haxademic.core.hardware.kinect.KinectSize;
 import com.haxademic.core.math.MathUtil;
 
 import processing.core.PGraphics;
@@ -130,7 +130,7 @@ public class KinectFaceRecorder {
 		// loop through kinect data within player's control range
 		float pixelDepth;
 		int numPixels = 0;
-		for ( int x = 0; x < KinectSize.WIDTH; x += PIXEL_SIZE ) {
+		for ( int x = 0; x < DepthCameraSize.WIDTH; x += PIXEL_SIZE ) {
 			for ( int y = KINECT_TOP; y < KINECT_BOTTOM; y += PIXEL_SIZE ) {
 				pixelDepth = P.p.kinectWrapper.getMillimetersDepthForKinectPixel( x, y );
 				if( pixelDepth != 0 && pixelDepth > KINECT_CLOSE && pixelDepth < KINECT_FAR ) {

@@ -9,7 +9,7 @@ import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.shapes.Shapes;
 import com.haxademic.core.draw.toxi.MeshPool;
 import com.haxademic.core.draw.toxi.MeshUtilToxi;
-import com.haxademic.core.hardware.kinect.SkeletonsTracker;
+import com.haxademic.core.hardware.depthcamera.SkeletonsTracker;
 import com.haxademic.core.vendor.Toxiclibs;
 
 import SimpleOpenNI.SimpleOpenNI;

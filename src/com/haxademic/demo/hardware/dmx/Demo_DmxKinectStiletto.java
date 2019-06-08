@@ -3,9 +3,9 @@ package com.haxademic.demo.hardware.dmx;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.hardware.depthcamera.KinectRegionGrid;
+import com.haxademic.core.hardware.depthcamera.DepthCameraSize;
 import com.haxademic.core.hardware.dmx.DMXWrapper;
-import com.haxademic.core.hardware.kinect.KinectRegionGrid;
-import com.haxademic.core.hardware.kinect.KinectSize;
 import com.haxademic.core.math.easing.LinearFloat;
 
 public class Demo_DmxKinectStiletto
@@ -33,7 +33,7 @@ extends PAppletHax {
 		int KINECT_MIN_DIST = 	p.appConfig.getInt( "kinect_min_mm", 500 );
 		int KINECT_MAX_DIST = 	p.appConfig.getInt( "kinect_max_mm", 1500 );
 		int KINECT_TOP = 		p.appConfig.getInt( "kinect_top_pixel", 0 );
-		int KINECT_BOTTOM = 	p.appConfig.getInt( "kinect_bottom_pixel", KinectSize.HEIGHT );
+		int KINECT_BOTTOM = 	p.appConfig.getInt( "kinect_bottom_pixel", DepthCameraSize.HEIGHT );
 		int KINECT_PLAYER_GAP = p.appConfig.getInt( "kinect_player_gap", 0 );
 		int NUM_PLAYERS = 		p.appConfig.getInt( "num_players", 1 );
 		int KINECT_PIXEL_SKIP = p.appConfig.getInt( "kinect_pixel_skip", 20 );

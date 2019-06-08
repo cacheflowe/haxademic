@@ -8,7 +8,7 @@ import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.color.ColorsHax;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.file.FileUtil;
-import com.haxademic.core.hardware.kinect.KinectSize;
+import com.haxademic.core.hardware.depthcamera.DepthCameraSize;
 
 import ddf.minim.AudioPlayer;
 import ddf.minim.Minim;
@@ -47,15 +47,15 @@ extends PAppletHax {
 		KINECT_CLOSE = p.appConfig.getInt( "kinect_min_mm", 1500 );
 		KINECT_FAR = p.appConfig.getInt( "kinect_max_mm", 1700 );
 
-		_drawRatio = (float)p.height / (float)KinectSize.HEIGHT;
+		_drawRatio = (float)p.height / (float)DepthCameraSize.HEIGHT;
 		P.println(_drawRatio);
 
 //		float threeFourthsRatioW = p.height * (1f+1f/3f);
 //		float drumPadW = threeFourthsRatioW / PAD_COLS;
 //		float drumPadH = p.height / PAD_ROWS;
 		
-		float drumPadW = KinectSize.WIDTH / PAD_COLS;
-		float drumPadH = KinectSize.HEIGHT / PAD_ROWS;
+		float drumPadW = DepthCameraSize.WIDTH / PAD_COLS;
+		float drumPadH = DepthCameraSize.HEIGHT / PAD_ROWS;
 		
 		_beats = new ArrayList<BeatSquare>();
 		_beats.add( new BeatSquare(0 * drumPadW, 0 * drumPadH, drumPadW, drumPadH, ColorsHax.COLOR_GROUPS[0][0], "data/audio/drums/bass.wav") );
@@ -174,8 +174,8 @@ extends PAppletHax {
 			// loop through kinect data within player's control range
 			p.stroke(255, 127);
 			float pixelDepth;
-			for ( int x = 0; x < KinectSize.WIDTH; x += PIXEL_SIZE ) {
-				for ( int y = 0; y < KinectSize.HEIGHT; y += PIXEL_SIZE ) {
+			for ( int x = 0; x < DepthCameraSize.WIDTH; x += PIXEL_SIZE ) {
+				for ( int y = 0; y < DepthCameraSize.HEIGHT; y += PIXEL_SIZE ) {
 					pixelDepth = p.kinectWrapper.getMillimetersDepthForKinectPixel( x, y );
 					if( pixelDepth != 0 && pixelDepth > KINECT_CLOSE && pixelDepth < KINECT_FAR ) {
 						p.pushMatrix();

@@ -10,8 +10,8 @@ import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.mapping.PGraphicsKeystone;
 import com.haxademic.core.file.FileUtil;
+import com.haxademic.core.hardware.depthcamera.KinectAmbientActivityMonitor;
 import com.haxademic.core.hardware.dmx.DmxAjaxProManagerInterface;
-import com.haxademic.core.hardware.kinect.KinectAmbientActivityMonitor;
 import com.haxademic.core.math.MathUtil;
 
 import ddf.minim.AudioPlayer;

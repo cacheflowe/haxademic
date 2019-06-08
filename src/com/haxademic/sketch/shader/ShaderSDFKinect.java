@@ -6,7 +6,7 @@ import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.file.FileUtil;
-import com.haxademic.core.hardware.kinect.KinectRegionGrid;
+import com.haxademic.core.hardware.depthcamera.KinectRegionGrid;
 import com.haxademic.core.math.easing.EasingFloat;
 
 import processing.core.PGraphics;

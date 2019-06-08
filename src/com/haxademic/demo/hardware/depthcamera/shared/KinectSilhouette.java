@@ -1,5 +1,4 @@
-package com.haxademic.app.kinectvideoplayer;
-
+package com.haxademic.demo.hardware.depthcamera.shared;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,7 +11,10 @@ import org.poly2tri.triangulation.TriangulationPoint;
 import org.poly2tri.triangulation.delaunay.DelaunayTriangle;
 
 import com.haxademic.core.app.P;
+import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.context.OpenGLUtil;
+import com.haxademic.core.draw.filters.pgraphics.archive.FastBlurFilter;
 import com.haxademic.core.hardware.depthcamera.DepthCameraSize;
 import com.haxademic.core.math.MathUtil;
 
@@ -23,7 +25,9 @@ import processing.core.PGraphics;
 import processing.core.PImage;
 import processing.core.PVector;
 
-public class KinectSilhouettePG {
+public class KinectSilhouette
+extends PAppletHax {
+	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
 	protected int PIXEL_SIZE = 5;
 	protected final int KINECT_CLOSE = 500;
@@ -41,21 +45,27 @@ public class KinectSilhouettePG {
 	protected ArrayList<PVector> _curEdgeList;
 	protected ArrayList<PVector> _lastEdgeList;
 	
-	protected float _canvasW = 640;
-	protected float _canvasH = 480;
-	public PGraphics _canvas;
-	
 	
 	ArrayList<PolygonPoint> points = new ArrayList<PolygonPoint>();
 	List<DelaunayTriangle> triangles;
 
-
-	public KinectSilhouettePG() {
+	protected void overridePropsFile() {
+		p.appConfig.setProperty( AppSettings.WIDTH, "1024" );
+		p.appConfig.setProperty( AppSettings.HEIGHT, "768" );
+		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
+//		p.appConfig.setProperty( AppSettings.KINECT_V2_WIN_ACTIVE, true );
+		p.appConfig.setProperty( AppSettings.KINECT_ACTIVE, true );
+		p.appConfig.setProperty( "kinect_mirrored", "true" );
+		p.appConfig.setProperty( AppSettings.FULLSCREEN, "false" );
+		p.appConfig.setProperty( AppSettings.INIT_ESS_AUDIO, false );
+	}
 	
+	public void setup() {
+		super.setup();
+		
 		initBlobDetection();
 
-		_kinectPixelated = P.p.createGraphics( DepthCameraSize.WIDTH, DepthCameraSize.HEIGHT, P.P3D );
-		_canvas = P.p.createGraphics( DepthCameraSize.WIDTH, DepthCameraSize.HEIGHT, P.P3D );
+		_kinectPixelated = createGraphics( DepthCameraSize.WIDTH, DepthCameraSize.WIDTH, P.P3D );
 		
 		_particles = new Vector<FloatParticle>();
 		_inactiveParticles = new Vector<FloatParticle>();
@@ -66,26 +76,23 @@ public class KinectSilhouettePG {
 	}
 	
 	protected void initBlobDetection() {
-		_silhouette = P.p.createGraphics( (int)_canvasW, (int)_canvasH, P.P3D );
+		_silhouette = p.createGraphics( p.width, p.height, P.P3D );
 		
 		// BlobDetection
 		// img which will be sent to detection (a smaller copy of the image frame);
-		blobBufferImg = new PImage( (int)(_canvasW * 0.2f), (int)(_canvasH * 0.2f) ); 
+		blobBufferImg = new PImage( (int)(p.width * 0.2f), (int)(p.height * 0.2f) ); 
 		theBlobDetection = new BlobDetection( blobBufferImg.width, blobBufferImg.height );
 		theBlobDetection.setPosDiscrimination(true);	// true if looking for bright areas
 		theBlobDetection.setThreshold(0.5f); // will detect bright areas whose luminosity > threshold
 	}
 
-	public void update() {
-		_canvas.beginDraw();
-		_canvas.clear();
-		_canvas.background(0);
+	public void drawApp() {
+		p.background(0);
 		drawKinect();
 		runBlobDetection( _kinectPixelated );
 		getEdges();
 		drawEdges();
 		updateParticles();
-		_canvas.endDraw();
 	}
 	
 	protected void drawKinect() {
@@ -95,8 +102,8 @@ public class KinectSilhouettePG {
 		_kinectPixelated.noStroke();
 		float pixelDepth;
 		for ( int x = 0; x < DepthCameraSize.WIDTH; x += PIXEL_SIZE ) {
-			for ( int y = 0; y < DepthCameraSize.HEIGHT; y += PIXEL_SIZE ) {
-				pixelDepth = P.p.kinectWrapper.getMillimetersDepthForKinectPixel( x, y );
+			for ( int y = 0; y < DepthCameraSize.WIDTH; y += PIXEL_SIZE ) {
+				pixelDepth = p.kinectWrapper.getMillimetersDepthForKinectPixel( x, y );
 				if( pixelDepth != 0 && pixelDepth > KINECT_CLOSE && pixelDepth < KINECT_FAR ) {
 //					_kinectPixelated.fill(((pixelDepth - KINECT_CLOSE) / (KINECT_FAR - KINECT_CLOSE)) * 255f);
 					_kinectPixelated.fill(255f);
@@ -109,7 +116,7 @@ public class KinectSilhouettePG {
 	
 	protected void runBlobDetection( PImage source ) {
 		blobBufferImg.copy(source, 0, 0, source.width, source.height, 0, 0, blobBufferImg.width, blobBufferImg.height);
-//		FastBlurFilter.blur(blobBufferImg, 3);
+		FastBlurFilter.blur(blobBufferImg, 3);
 		theBlobDetection.computeBlobs(blobBufferImg.pixels);
 	}
 
@@ -118,25 +125,13 @@ public class KinectSilhouettePG {
 		_silhouette.clear();
 		_silhouette.smooth(OpenGLUtil.SMOOTH_LOW); 
 		_silhouette.stroke(255);
-		_silhouette.fill(255);
+		_silhouette.noFill();
 		
 		
 		if (_curEdgeList != null && _lastEdgeList != null && _curEdgeList.size() > 0 && _lastEdgeList.size() > 0) {
 			
-			PVector curEdgeVector;
-			
-			// draw blob
-			_canvas.beginShape();
-			int numBlobs = _curEdgeList.size();
-			for(int i=0; i < numBlobs; i++) {
-				curEdgeVector = _curEdgeList.get(i);
-				float newX = curEdgeVector.x * _canvasW; 
-				float newY = curEdgeVector.y * _canvasH; 
-				_canvas.vertex( newX, newY );
-			}
-			_canvas.endShape();
-			
 			// find closest point from each current point to last points
+			PVector curEdgeVector;
 			for(int i=0; i < _curEdgeList.size(); i++) {
 				
 				curEdgeVector = _curEdgeList.get(i);
@@ -161,10 +156,10 @@ public class KinectSilhouettePG {
 				// upon finding closest last, draw a line for now, if close enough
 				if (minDist < 0.2f && i % 4 == 0) {
 					
-					newX = curEdgeVector.x * _canvasW; 
-					newY = curEdgeVector.y * _canvasH; 
-					oldX = _lastEdgeList.get(closestLastIndex).x * _canvasW; 
-					oldY = _lastEdgeList.get(closestLastIndex).y * _canvasH; 
+					newX = curEdgeVector.x * p.width; 
+					newY = curEdgeVector.y * p.height; 
+					oldX = _lastEdgeList.get(closestLastIndex).x * p.width; 
+					oldY = _lastEdgeList.get(closestLastIndex).y * p.height; 
 					
 					_silhouette.line(newX, newY, oldX, oldY);
 //					_silhouette.ellipse( newX, newY, 6, 6 );
@@ -189,7 +184,7 @@ public class KinectSilhouettePG {
 						PVector lastFewEdgeVector = _curEdgeList.get(i-20);
 						if ( MathUtil.getDistance(curEdgeVector.x, curEdgeVector.y, lastFewEdgeVector.x, lastFewEdgeVector.y) < 0.2f ) {
 							_silhouette.stroke(255);
-							_silhouette.line(curEdgeVector.x * _canvasW, curEdgeVector.y * _canvasH, lastFewEdgeVector.x * _canvasW, lastFewEdgeVector.y * _canvasH);
+							_silhouette.line(curEdgeVector.x * p.width, curEdgeVector.y * p.height, lastFewEdgeVector.x * p.width, lastFewEdgeVector.y * p.height);
 						}
 					}
 					
@@ -201,6 +196,7 @@ public class KinectSilhouettePG {
 		}
 				
 		_silhouette.endDraw();
+		p.image(_silhouette,0,0);
 	}
 	
 	protected void getEdges() {
@@ -209,8 +205,8 @@ public class KinectSilhouettePG {
 		_lastEdgeList = _curEdgeList;
 		_curEdgeList = new ArrayList<PVector>();
 		
-		_canvas.stroke(255);
-		_canvas.fill(255);
+		p.stroke(255);
+		p.fill(255);
 
 		// do edge detection
 		Blob b;
@@ -293,7 +289,7 @@ public class KinectSilhouettePG {
 		
 		public void startAt( float x, float y, float speedX, float speedY, int color ) {
 			_position.set( x, y );
-			_speed.set( speedX * 15f * P.p.random(2f) + P.p.random(-0.2f,0.2f), speedY * 5f * P.p.random(3f) );	// add a little extra x variance
+			_speed.set( speedX * 15f * p.random(2f) + p.random(-0.2f,0.2f), speedY * 5f * p.random(3f) );	// add a little extra x variance
 //			_speed.mult( 1 + p._audioInput.getFFT().spectrum[_audioIndex] ); // speed multiplied by audio
 			_color = color;
 			_opacity = 0.8f;
@@ -309,7 +305,7 @@ public class KinectSilhouettePG {
 			_speed.set( _speed.x * 0.98f, _speed.y );
 			_size *= 0.98f;
 			// bounce
-			if (_position.y > _canvasH) {
+			if (_position.y > p.height) {
 				_position.sub( _speed );
 				_speed.set( _speed.x, _speed.y * -0.4f );
 			}
@@ -318,10 +314,10 @@ public class KinectSilhouettePG {
 			if( _opacity <= 0 ) {
 				active = false;
 			} else {
-				_canvas.fill( _color, 200f * _opacity );
-				_canvas.noStroke();
+				p.fill( _color, 200f * _opacity );
+				p.noStroke();
 				// float size = _size; // 1 + p._audioInput.getFFT().spectrum[_audioIndex] * 10; // was 3
-				_canvas.rect( _position.x, _position.y, _size, _size );
+				p.rect( _position.x, _position.y, _size, _size );
 			}
 		}
 	}
@@ -337,7 +333,7 @@ public class KinectSilhouettePG {
 		for (int m=0;m<b.getEdgeNb();m+=10) {
 			eA = b.getEdgeVertexA(m);
 			if (eA != null) {
-				PolygonPoint point = new PolygonPoint(eA.x * _canvasW, eA.y * _canvasH);
+				PolygonPoint point = new PolygonPoint(eA.x * p.width, eA.y * p.height);
 				points.add(point);
 			}
 		}
@@ -348,33 +344,33 @@ public class KinectSilhouettePG {
 		doTriangulation();
 
 		// draw it
-		_canvas.stroke(0,255,0);
-		_canvas.strokeWeight(2);
-		_canvas.fill(255, 120);
+		p.stroke(0,255,0);
+		p.strokeWeight(2);
+		p.fill(255, 120);
 		
 		TriangulationPoint point1, point2, point3;
 		for (DelaunayTriangle triangle : triangles) {
 			point1 = triangle.points[0];
 			point2 = triangle.points[1];
 			point3 = triangle.points[2];
-			if( point1.getYf() > 0 && point1.getYf() < _canvasH &&
-				point2.getYf() > 0 && point2.getYf() < _canvasH &&
-				point3.getYf() > 0 && point3.getYf() < _canvasH && 
-				point1.getXf() > 0 && point1.getXf() < _canvasW &&
-				point2.getXf() > 0 && point2.getXf() < _canvasW &&
-				point3.getXf() > 0 && point3.getXf() < _canvasW) {
+			if( point1.getYf() > 0 && point1.getYf() < p.height &&
+				point2.getYf() > 0 && point2.getYf() < p.height &&
+				point3.getYf() > 0 && point3.getYf() < p.height && 
+				point1.getXf() > 0 && point1.getXf() < p.width &&
+				point2.getXf() > 0 && point2.getXf() < p.width &&
+				point3.getXf() > 0 && point3.getXf() < p.width) {
 				
-				_canvas.line( point1.getXf(), point1.getYf(), point2.getXf(), point2.getYf() );
-				_canvas.line( point3.getXf(), point3.getYf(), point2.getXf(), point2.getYf() );
-				_canvas.line( point1.getXf(), point1.getYf(), point3.getXf(), point3.getYf() );
+				p.line( point1.getXf(), point1.getYf(), point2.getXf(), point2.getYf() );
+				p.line( point3.getXf(), point3.getYf(), point2.getXf(), point2.getYf() );
+				p.line( point1.getXf(), point1.getYf(), point3.getXf(), point3.getYf() );
 				
 				// sometimes fill triangles
-				if (MathUtil.randBoolean(P.p) == true ) {
-					_canvas.beginShape();
-					_canvas.vertex( point1.getXf(), point1.getYf() );
-					_canvas.vertex( point2.getXf(), point2.getYf() );
-					_canvas.vertex( point3.getXf(), point3.getYf() );
-					_canvas.endShape();
+				if (MathUtil.randBoolean(p) == true ) {
+					p.beginShape();
+					p.vertex( point1.getXf(), point1.getYf() );
+					p.vertex( point2.getXf(), point2.getYf() );
+					p.vertex( point3.getXf(), point3.getYf() );
+					p.endShape();
 				}
 			}
 		}

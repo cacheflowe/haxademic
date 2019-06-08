@@ -5,7 +5,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.context.PG;
-import com.haxademic.core.hardware.kinect.SkeletonsTracker;
+import com.haxademic.core.hardware.depthcamera.SkeletonsTracker;
 import com.haxademic.core.math.MathUtil;
 
 import SimpleOpenNI.SimpleOpenNI;

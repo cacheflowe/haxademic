@@ -6,7 +6,7 @@ import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.image.ImageUtil;
-import com.haxademic.core.hardware.kinect.OpenKinectPixelImg;
+import com.haxademic.core.hardware.depthcamera.OpenKinectPixelImg;
 import com.haxademic.core.math.MathUtil;
 
 import processing.core.PGraphics;
