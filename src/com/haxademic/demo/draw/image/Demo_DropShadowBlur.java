@@ -53,11 +53,6 @@ extends PAppletHax {
 		return pg;
 	}  
 	
-	public void keyPressed() {
-		super.keyPressed();
-		if(p.key == ' ') colorTransformShader = p.loadShader(FileUtil.getFile("haxademic/shaders/filters/opaque-pixels-to-color.glsl"));
-	}
-	
 	public void drawApp() {
 		shadow.beginDraw();
 		shadow.clear();
