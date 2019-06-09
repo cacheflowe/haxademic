@@ -229,9 +229,9 @@ Below you'll find a long list of classes and utilities that I've built to make m
 
 ### Math
 
-* __[BooleanSwitch](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/math/easing/BooleanSwitch.java)__ - Lerps towards true or false over time. Switches when it reaches the end. Useful for dealing with noisy data.
-
 * __[DisplacementPoint](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/math/easing/DisplacementPoint.java)__ - Elastic displacement from a static point, based on an influencing external point.
+
+* __[EasingBoolean](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/math/easing/EasingBoolean.java)__ - Lerps towards true or false over time. Switches when it reaches the end. Useful for dealing with noisy data.
 
 * __[EasingFloat](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/math/easing/EasingFloat.java)__ - Lerps towards a target. Includes optional frame delay and acceleration.
 
