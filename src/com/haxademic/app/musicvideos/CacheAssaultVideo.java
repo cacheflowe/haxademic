@@ -1,7 +1,5 @@
 package com.haxademic.app.musicvideos;
 
-import java.awt.image.BufferedImage;
-
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
@@ -10,11 +8,8 @@ import com.haxademic.core.draw.filters.pgraphics.PixelTriFilter;
 import com.haxademic.core.draw.filters.pgraphics.archive.BlobOuterMeshFilter;
 import com.haxademic.core.draw.filters.pgraphics.archive.ImageHistogramFilter;
 import com.haxademic.core.draw.filters.pgraphics.archive.ReflectionFilter;
-import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.MathUtil;
-import com.jhlabs.image.ContrastFilter;
-import com.jhlabs.image.HSBAdjustFilter;
 
 import processing.core.PGraphics;
 import processing.core.PImage;
@@ -204,22 +199,6 @@ extends PAppletHax {
 		_curFrame.copy( _curMov, 0, 0, _curMov.width, _curMov.height, -10, -10, _curFrame.width + 20, _curFrame.height + 20 );
 	
 		
-		
-		// Filters
-		BufferedImage buff = ImageUtil.pImageToBuffered( _curFrame );
-
-		HSBAdjustFilter hsb = new HSBAdjustFilter();
-		hsb.setHFactor(P.sin((float)p.frameCount/500f));
-		hsb.setSFactor(0.3f);
-		hsb.setBFactor(0.1f);
-		hsb.filter(buff, buff);
-
-		ContrastFilter filt = new ContrastFilter();
-		filt.setBrightness(1.7f);
-		filt.setContrast(1.9f);
-		filt.filter(buff, buff);
-
-		_curFrame = ImageUtil.bufferedToPImage( buff );
 		
 		// draw filtered image
 //		if( _curMov != null ) p.image( _triPixelFilter.updateWithPImage( _histogramFilter.updateWithPImage( _curFrame ) ), 0, 0, width, height);

@@ -2,6 +2,12 @@
 
 ## High-priority
 
+* Fix LeaveWhiteFilter shader
+* Polygon demo - use pride colors to make a gif?
+  * Make texture fill style interface/class
+  * Make layout generator w/growth
+* Pride gif?
+
 * Threaded safety of InputTrigger isn't good - especially at a low FPS?
   * WebServer requests can fall through the cracks (button clicks, etc)
   * Web requests that route to p.ui aren't predictable, especially at 30fps? Look at p.ui button handling in Re-Creation
@@ -15,6 +21,16 @@
 * Make some vanilla Processing examples to help with post 3.3.7 render issues: https://github.com/processing/processing/issues/5806
 
 ## Art projects
+  * Aspen
+    * Layout system
+      * Growth vs. subdivision
+    * Polygon cells
+    * Inner-polygon draw styles
+      * Iterative distribution of styles
+      * Hand-drawn lines & imperfect grids/cells
+    * Color schemes
+    * Interaction
+    * Music
   * Shatter model & triangles fall down (Sunflow final render)
   * Zaibiti
   	* Pi webcam? Is it possible?

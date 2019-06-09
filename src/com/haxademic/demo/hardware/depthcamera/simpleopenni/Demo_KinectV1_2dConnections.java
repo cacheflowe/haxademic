@@ -1,8 +1,6 @@
 
 package com.haxademic.demo.hardware.depthcamera.simpleopenni;
 
-import java.awt.image.BufferedImage;
-
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
@@ -11,8 +9,6 @@ import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.toxi.VectorFlyerToxi;
 import com.haxademic.core.hardware.depthcamera.SkeletonsTracker;
 import com.haxademic.core.vendor.Toxiclibs;
-import com.jhlabs.image.ContrastFilter;
-import com.jhlabs.image.GlowFilter;
 
 import SimpleOpenNI.SimpleOpenNI;
 import processing.core.PGraphics;
@@ -233,28 +229,5 @@ extends PAppletHax {
 //		_texture.endShape();
 //		_texture.endDraw();
 	}
-	
-	protected PImage getFilteredCam() {
-		// create native java image
-		BufferedImage buff = ImageUtil.pImageToBuffered( p.depthCamera.getRgbImage() );
-		
-		// contrast
-		ContrastFilter filt = new ContrastFilter();
-		filt.setBrightness(1.2f);
-		filt.setContrast(1.5f);
-		filt.filter(buff, buff);
-		
-		// glow
-		GlowFilter glow = new GlowFilter();
-		glow.setRadius(20f);
-		glow.filter(buff, buff);
-		
-		// contrast again
-		filt.filter(buff, buff);
-		
-		// save processed image back to _curFrame
-		return ImageUtil.bufferedToPImage( buff );
-	}
-
 	
 }
