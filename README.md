@@ -89,13 +89,13 @@ Below you'll find a long list of classes and utilities that I've built to make m
 
 `com.haxademic.core.draw.context`
 
-* __[DrawUtil](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/draw/context/DrawUtil.java)__ - Lots of static helper methods to set properties on the specified PGraphics context. I use this constantly.
-
 * __[OpenGL32Util](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/draw/context/OpenGL32Util.java)__ - Some helper methods to move graphics between 8-bit Processing graphics for display and PixelFlow 32-bit graphics contexts for higher-resolution drawing and shaders.
 
 * __[OpenGLUtil](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/draw/context/OpenGLUtil.java)__ - Lower-level helper methods to set OpenGL flags that aren't obviously available in Processing.
 
 * __[OrientationUtil](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/draw/context/OrientationUtil.java)__ - Helper methods to orient the graphics context rotation towards a specific 3d location. These utilities help point 3d objects toward each other.
+
+* __[PG](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/draw/context/PG.java)__ - Lots of static helper methods to set properties on the specified PGraphics context. Used constantly throughout the core and demos.
 
 `com.haxademic.core.draw.filters.pgraphics`
 
