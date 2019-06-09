@@ -176,9 +176,9 @@ public class KinectSilhouetteBasic {
 	}
 	
 	protected void drawKinectForBlob() {
-		_kinectBuffer.update(P.p.kinectWrapper);
+		_kinectBuffer.update(P.p.depthCamera);
 		if(_kinectBufferRoomScan != null && _framesScannedCount <= _framesToScan) {
-			_kinectBufferRoomScan.update(P.p.kinectWrapper);
+			_kinectBufferRoomScan.update(P.p.depthCamera);
 			if(_framesScannedCount == _framesToScan) {
 				_kinectBufferRoomScan.extraSpread();
 				P.println("=== Finished Scanning Room ===");

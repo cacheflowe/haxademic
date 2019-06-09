@@ -88,7 +88,7 @@ extends PAppletHax {
 		// draw cam
 		PG.setColorForPImage(p);
 		PG.setPImageAlpha(p, 0.25f);
-		PImage drawCamImg = p.kinectWrapper.getRgbImage();
+		PImage drawCamImg = p.depthCamera.getRgbImage();
 //		PImage drawCamImg = getFilteredCam();
 		for( int i=0; i < rotations; i++ ) {
 			p.rotate((float)P.TWO_PI/rotations * (float)i);
@@ -236,7 +236,7 @@ extends PAppletHax {
 	
 	protected PImage getFilteredCam() {
 		// create native java image
-		BufferedImage buff = ImageUtil.pImageToBuffered( p.kinectWrapper.getRgbImage() );
+		BufferedImage buff = ImageUtil.pImageToBuffered( p.depthCamera.getRgbImage() );
 		
 		// contrast
 		ContrastFilter filt = new ContrastFilter();

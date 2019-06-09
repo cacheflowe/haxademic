@@ -186,7 +186,7 @@ implements IDepthCamera{
 		
 		for (int x = left; x < right; x += pixelSkip) {
 			for (int y = top; y < bottom; y += pixelSkip) {
-				curZ = getMillimetersDepthForKinectPixel(x, y);
+				curZ = getDepthAt(x, y);
 				// draw a point within the specified depth range
 				if( curZ > depthClose && curZ < depthFar ) {
 					p.fill( 255, alpha * 255f );
@@ -223,7 +223,7 @@ implements IDepthCamera{
 		}
 	}
 	
-	public int getMillimetersDepthForKinectPixel( int x, int y ) {
+	public int getDepthAt( int x, int y ) {
 		int offset = x + y * KWIDTH;
 		if( offset >= _depthArray.length ) {
 			return 0;

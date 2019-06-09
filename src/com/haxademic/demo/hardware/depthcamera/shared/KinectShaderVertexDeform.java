@@ -57,12 +57,12 @@ extends PAppletHax {
 		
 		// update mapped texture
 		tex.beginDraw();
-		tex.image(p.kinectWrapper.getRgbImage(), tex.width * p.ui.value(kinectLeft), tex.height * p.ui.value(kinectTop), tex.width * p.ui.value(kinectRight), tex.height * p.ui.value(kinectBottom));
+		tex.image(p.depthCamera.getRgbImage(), tex.width * p.ui.value(kinectLeft), tex.height * p.ui.value(kinectTop), tex.width * p.ui.value(kinectRight), tex.height * p.ui.value(kinectBottom));
 		tex.endDraw();
 				
 		texDisplace.beginDraw();
 //		texDisplace.image(p.kinectWrapper.getDepthImage(), texDisplace.width * kinectLeft, texDisplace.height * kinectTop, texDisplace.width * kinectRight, texDisplace.height * kinectBottom);
-		texDisplace.image(p.kinectWrapper.getDepthImage(), 0, 0, texDisplace.width, texDisplace.height);
+		texDisplace.image(p.depthCamera.getDepthImage(), 0, 0, texDisplace.width, texDisplace.height);
 		texDisplace.endDraw();
 		
 		// deform mesh

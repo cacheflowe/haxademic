@@ -26,7 +26,9 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.WIDTH, 1280 );
 		p.appConfig.setProperty( AppSettings.HEIGHT, 720 );
 //		p.appConfig.setProperty( AppSettings.KINECT_V2_WIN_ACTIVE, true );
-		p.appConfig.setProperty( AppSettings.KINECT_ACTIVE, true );
+//		p.appConfig.setProperty( AppSettings.KINECT_ACTIVE, true );
+		p.appConfig.setProperty( AppSettings.REALSENSE_ACTIVE, true );
+		p.appConfig.setProperty( AppSettings.DEPTH_CAM_RGB_ACTIVE, false );
 		p.appConfig.setProperty(AppSettings.SHOW_SLIDERS, true);
 	}
 	
@@ -83,7 +85,7 @@ extends PAppletHax {
 		float pixelsize = (float) pixelSkipp * p.ui.value(pixelDrawSize);
 		for ( int x = kLeft; x < kRight; x += pixelSkipp ) {
 			for ( int y = kTop; y < kBottom; y += pixelSkipp ) {
-				int pixelDepth = p.kinectWrapper.getMillimetersDepthForKinectPixel( x, y );
+				int pixelDepth = p.depthCamera.getDepthAt( x, y );
 				if( pixelDepth != 0 && pixelDepth > kNear && pixelDepth < kFar ) {
 					p.pushMatrix();
 					p.translate(0, 0, -pixelDepth/depthDiv);
@@ -96,7 +98,7 @@ extends PAppletHax {
 		}
 
 		// debug view
-		p.debugView.setTexture(p.kinectWrapper.getDepthImage());
+		p.debugView.setTexture(p.depthCamera.getDepthImage());
 		p.debugView.setValue("numPixelsProcessed", numPixelsProcessed);
 		
 		p.popMatrix();

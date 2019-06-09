@@ -26,9 +26,9 @@ extends PAppletHax {
 	
 	public void drawApp() {
 		p.background(0);
-		p.image( p.kinectWrapper.getRgbImage(), 0, 0);
+		p.image( p.depthCamera.getRgbImage(), 0, 0);
 
-		float activityLevel = kinectMonitor.update(p.kinectWrapper, true );
+		float activityLevel = kinectMonitor.update(p.depthCamera, true );
 		p.debugView.setValue("KinectAmbientActivityMonitor", activityLevel / 1000);
 	}
 	

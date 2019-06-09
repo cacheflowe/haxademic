@@ -89,7 +89,7 @@ extends PAppletHax {
 		// draw cam
 		PG.setColorForPImage(p);
 		PG.setPImageAlpha(p, 0.25f);
-		PImage drawCamImg = p.kinectWrapper.getRgbImage();
+		PImage drawCamImg = p.depthCamera.getRgbImage();
 		for( int i=0; i < rotations; i++ ) {
 			p.rotate((float)P.TWO_PI/rotations * (float)i);
 			p.image( drawCamImg, 0, 0 );

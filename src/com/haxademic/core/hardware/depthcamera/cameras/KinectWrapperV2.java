@@ -5,28 +5,24 @@ import com.haxademic.core.hardware.depthcamera.DepthCameraSize;
 import KinectPV2.KinectPV2;
 import processing.core.PApplet;
 import processing.core.PImage;
-import processing.core.PVector;
 
-//Kinect Wrapper for Microsoft Kinect V2 for Windows
 public class KinectWrapperV2 
 implements IDepthCamera {
 	
 	protected PApplet p;
 	protected KinectPV2 _kinect;
 	protected boolean _kinectActive = true;
-	public static boolean KINECT_ERROR_SHOWN = false;
 
 	public static int KWIDTH = 512;
 	public static int KHEIGHT = 424;
 
 	//Kinect V2
 	public int[] _depthArray;
-	public PVector[] _realWorldMap;
 	private boolean mirror = false;
 	public boolean _flipped = false;
 	
 	
-	public KinectWrapperV2( PApplet p, boolean initDepth, boolean initRGB, boolean initDepthImage ) {
+	public KinectWrapperV2( PApplet p, boolean initRGB, boolean initDepthImage ) {
 		this.p = p;
 		
 		DepthCameraSize.setSize(KWIDTH, KHEIGHT);
@@ -46,16 +42,6 @@ implements IDepthCamera {
 		int bufSize = _kinect.getDepthImage().height * _kinect.getDepthImage().width;
 		_depthArray = new int[bufSize];
 		setMirror(false);
-						
-		// enable depthMap generation
-		/* Commented out until we get an updated jar
-		if(_kinect.isRunningKinect() == false && KINECT_ERROR_SHOWN == false) {
-			DebugUtil.alert("Can't access the Kinect. Make sure it's plugged into the computer and a power outlet.");
-			_kinectActive = false;
-			KINECT_ERROR_SHOWN = true;
-			p.exit();
-		}
-		*/
 	}
 	
 	@Override
@@ -143,7 +129,7 @@ implements IDepthCamera {
 		
 		for (int x = left; x < right; x += pixelSkip) {
 			for (int y = top; y < bottom; y += pixelSkip) {
-				curZ = getMillimetersDepthForKinectPixel(x, y);
+				curZ = getDepthAt(x, y);
 				// draw a point within the specified depth range
 				if( curZ > depthClose && curZ < depthFar ) {
 					p.fill( 255, alpha * 255f );
@@ -167,7 +153,7 @@ implements IDepthCamera {
 		}
 	}
 	
-	public int getMillimetersDepthForKinectPixel( int x, int y ) {
+	public int getDepthAt( int x, int y ) {
 		int offset = x + y * KinectWrapperV2.KWIDTH;
 		if( offset >= _depthArray.length ) {
 			return 0;

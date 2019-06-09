@@ -22,6 +22,7 @@ import com.haxademic.core.hardware.depthcamera.cameras.IDepthCamera;
 import com.haxademic.core.hardware.depthcamera.cameras.KinectWrapperV1;
 import com.haxademic.core.hardware.depthcamera.cameras.KinectWrapperV2;
 import com.haxademic.core.hardware.depthcamera.cameras.KinectWrapperV2Mac;
+import com.haxademic.core.hardware.depthcamera.cameras.RealSenseWrapper;
 import com.haxademic.core.hardware.dmx.DMXFixtures;
 import com.haxademic.core.hardware.gamepad.GamepadListener;
 import com.haxademic.core.hardware.gamepad.GamepadState;
@@ -107,7 +108,7 @@ extends PApplet {
 	public MidiDevice midiState = null;
 	public MidiBus midiBus;
 	public KeyboardState keyboardState;
-	public IDepthCamera kinectWrapper = null;
+	public IDepthCamera depthCamera = null;
 	public GamepadState gamepadState;
 	public GamepadListener gamepadListener;
 	public LeapMotion leapMotion = null;
@@ -305,15 +306,20 @@ extends PApplet {
 	}
 	
 	protected void initKinect() {
+		boolean rgbActive = p.appConfig.getBoolean(AppSettings.DEPTH_CAM_RGB_ACTIVE, true);
+		boolean depthActive = p.appConfig.getBoolean(AppSettings.DEPTH_CAM_DEPTH_ACTIVE, true);
+		
 		if( p.appConfig.getBoolean( AppSettings.KINECT_V2_WIN_ACTIVE, false ) == true ) {
-			kinectWrapper = new KinectWrapperV2( p, p.appConfig.getBoolean( "kinect_depth", true ), p.appConfig.getBoolean( "kinect_rgb", true ), p.appConfig.getBoolean( "kinect_depth_image", true ) );
+			depthCamera = new KinectWrapperV2( p, rgbActive, depthActive );
 		} else if( p.appConfig.getBoolean( AppSettings.KINECT_V2_MAC_ACTIVE, false ) == true ) {
-			kinectWrapper = new KinectWrapperV2Mac( p, p.appConfig.getBoolean( "kinect_depth", true ), p.appConfig.getBoolean( "kinect_rgb", true ), p.appConfig.getBoolean( "kinect_depth_image", true ) );
+			depthCamera = new KinectWrapperV2Mac( p, rgbActive, depthActive );
 		} else if( p.appConfig.getBoolean( AppSettings.KINECT_ACTIVE, false ) == true ) {
-			kinectWrapper = new KinectWrapperV1( p, p.appConfig.getBoolean( "kinect_rgb", true ), p.appConfig.getBoolean( "kinect_depth_image", true ) );
+			depthCamera = new KinectWrapperV1( p, rgbActive, depthActive );
+		} else if( p.appConfig.getBoolean( AppSettings.REALSENSE_ACTIVE, false ) == true ) {
+			depthCamera = new RealSenseWrapper( p, rgbActive, depthActive );
 		}
-		if(kinectWrapper != null) {
-			kinectWrapper.setMirror( p.appConfig.getBoolean( "kinect_mirrored", true ) );
+		if(depthCamera != null) {
+			depthCamera.setMirror( p.appConfig.getBoolean( "kinect_mirrored", true ) );
 		}
 	}
 	
@@ -422,7 +428,7 @@ extends PApplet {
 		midiState.update();
 		browserInputState.update();
 		updateEasedMouse();
-		if( kinectWrapper != null ) kinectWrapper.update();
+		if( depthCamera != null ) depthCamera.update();
 		p.pushMatrix();
 		if( joons != null ) joons.startFrame();
 		drawApp();
@@ -667,9 +673,9 @@ extends PApplet {
 	
 	public void stop() {
 		if(p.webCamWrapper != null) p.webCamWrapper.dispose();
-		if( kinectWrapper != null ) {
-			kinectWrapper.stop();
-			kinectWrapper = null;
+		if( depthCamera != null ) {
+			depthCamera.stop();
+			depthCamera = null;
 		}
 		if( leapMotion != null ) leapMotion.dispose();
 		super.stop();

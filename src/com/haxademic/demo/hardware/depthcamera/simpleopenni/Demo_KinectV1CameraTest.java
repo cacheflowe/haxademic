@@ -15,10 +15,10 @@ extends PAppletHax {
 	}
 	
 	public void drawApp() {
-		p.image(p.kinectWrapper.getRgbImage(), 0, 0);
-		p.image(p.kinectWrapper.getDepthImage(), 640, 0);
-		if(p.kinectWrapper.getRgbImage() != null) p.debugView.setTexture(p.kinectWrapper.getRgbImage());
-		if(p.kinectWrapper.getDepthImage() != null) p.debugView.setTexture(p.kinectWrapper.getDepthImage());
+		p.image(p.depthCamera.getRgbImage(), 0, 0);
+		p.image(p.depthCamera.getDepthImage(), 640, 0);
+		if(p.depthCamera.getRgbImage() != null) p.debugView.setTexture(p.depthCamera.getRgbImage());
+		if(p.depthCamera.getDepthImage() != null) p.debugView.setTexture(p.depthCamera.getDepthImage());
 	}
 	
 }

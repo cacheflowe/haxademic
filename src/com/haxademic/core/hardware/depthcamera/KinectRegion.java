@@ -53,14 +53,14 @@ implements IJoystickControl {
 	public void detect(PGraphics debugGraphics) {
 		// find kinect readings in the region
 		_isActive = false;
-		if( P.p.kinectWrapper != null ) {
+		if( P.p.depthCamera != null ) {
 			_pixelCount = 0;
 			float controlXTotal = 0;
 			float controlZTotal = 0;
 			float pixelDepth = 0;
 			for ( int x = _left; x < _right; x += _pixelSkip ) {
 				for ( int y = _top; y < _bottom; y += _pixelSkip ) {
-					pixelDepth = P.p.kinectWrapper.getMillimetersDepthForKinectPixel( x, y );
+					pixelDepth = P.p.depthCamera.getDepthAt( x, y );
 					if( pixelDepth != 0 && pixelDepth > _near && pixelDepth < _far ) {
 				        if(debugGraphics != null) {
 				        	debugGraphics.noStroke();

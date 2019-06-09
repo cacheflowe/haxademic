@@ -64,7 +64,7 @@ extends PAppletHax {
 		// draw webcam to buffer & apply chroma filter
 		_chromaBuffer.beginDraw();
 		_chromaBuffer.clear();
-		_chromaBuffer.image(p.kinectWrapper.getRgbImage(), 0, 0);
+		_chromaBuffer.image(p.depthCamera.getRgbImage(), 0, 0);
 		_chromaBuffer.endDraw();
 		
 		ChromaColorFilter.instance(p).setColorToReplace(p.ui.value(colorToReplaceR), p.ui.value(colorToReplaceG), p.ui.value(colorToReplaceB));

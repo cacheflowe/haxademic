@@ -121,7 +121,7 @@ public class KinectFaceRecorder {
 	protected void copyCameraToRealtimeTexture() {
 		_realtimeTexture.beginDraw();
 		// _realtimeTexture.copy(p.kinectWrapper.getRgbImage(), 0, 0, 640, 480, 0, 0, _realtimeTexture.width, _realtimeTexture.height);
-		_realtimeTexture.copy(P.p.kinectWrapper.getRgbImage(), 160, 120, 320, 240, 0, 0, _realtimeTexture.width, _realtimeTexture.height);
+		_realtimeTexture.copy(P.p.depthCamera.getRgbImage(), 160, 120, 320, 240, 0, 0, _realtimeTexture.width, _realtimeTexture.height);
 		_realtimeTexture.endDraw();
 		_realtimeTexture.filter(_chromaKeyFilter);
 	}
@@ -132,7 +132,7 @@ public class KinectFaceRecorder {
 		int numPixels = 0;
 		for ( int x = 0; x < DepthCameraSize.WIDTH; x += PIXEL_SIZE ) {
 			for ( int y = KINECT_TOP; y < KINECT_BOTTOM; y += PIXEL_SIZE ) {
-				pixelDepth = P.p.kinectWrapper.getMillimetersDepthForKinectPixel( x, y );
+				pixelDepth = P.p.depthCamera.getDepthAt( x, y );
 				if( pixelDepth != 0 && pixelDepth > KINECT_CLOSE && pixelDepth < KINECT_FAR ) {
 					numPixels++;
 				}

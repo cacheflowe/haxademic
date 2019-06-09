@@ -59,7 +59,7 @@ public class KinectDepthSilhouetteSmoothed {
 		pixelsActive = 0;
 		for ( int x = 0; x < depthBuffer.width; x++ ) {
 			for ( int y = 0; y < depthBuffer.height; y++ ) {
-				pixelDepth = kinectWrapper.getMillimetersDepthForKinectPixel( x * pixelSkip, y * pixelSkip );
+				pixelDepth = kinectWrapper.getDepthAt( x * pixelSkip, y * pixelSkip );
 				if( pixelDepth != 0 && pixelDepth > KINECT_NEAR && pixelDepth < KINECT_FAR ) {
 					depthBuffer.pushMatrix();
 					depthBuffer.rect(x, y, 1, 1);

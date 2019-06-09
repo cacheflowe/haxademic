@@ -111,7 +111,7 @@ extends PAppletHax {
 		// control brightness with 2nd variable
 		PG.setPImageAlpha(p, 1f);
 		// normal camera video output
-		PImage drawCamImg = p.kinectWrapper.getRgbImage();
+		PImage drawCamImg = p.depthCamera.getRgbImage();
 
 		
 		for( int i=0; i < rotations; i++ ) {

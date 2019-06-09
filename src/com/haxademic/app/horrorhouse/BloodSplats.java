@@ -88,7 +88,7 @@ extends PAppletHax {
 	}
 	
 	protected void initObjs() {
-		_kinectActive = p.kinectWrapper.isActive();
+		_kinectActive = p.depthCamera.isActive();
 		
 		if( _kinectActive == true ) _kinectMonitor = new KinectAmbientActivityMonitor( 20, 500, 15000 );
 		
@@ -200,7 +200,7 @@ extends PAppletHax {
 		
 	public void handleKinectInput() {
 		if( _kinectActive == true ) {
-			float kinectActivity = _kinectMonitor.update( p.kinectWrapper, false );
+			float kinectActivity = _kinectMonitor.update( p.depthCamera, false );
 			if( _clipPlaying == false && kinectActivity > _kinectAcitivityLaunchThreshold && p.frameCount > 60 ) {
 				startClip();
 				_nextLightning = p.frameCount + 1;

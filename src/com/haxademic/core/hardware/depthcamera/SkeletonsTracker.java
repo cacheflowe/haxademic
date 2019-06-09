@@ -38,8 +38,8 @@ public class SkeletonsTracker {
 		p = (PAppletHax) P.p;
 		// Set Kinect user/skeleton tracking - most of the setup and updating happens in PAppletHax
 		//_kinectContext = p.kinectWrapper.openni();
-		_kinectContext = (KinectWrapperV1) p.kinectWrapper;
-		p.kinectWrapper.setMirror(true);
+		_kinectContext = (KinectWrapperV1) p.depthCamera;
+		p.depthCamera.setMirror(true);
 		enableSkeletonTracking();
 		
 		// set ratio of controls based on screen size vs kinect depth

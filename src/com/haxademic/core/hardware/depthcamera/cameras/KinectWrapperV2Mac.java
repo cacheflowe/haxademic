@@ -8,7 +8,6 @@ import processing.core.PApplet;
 import processing.core.PImage;
 import processing.core.PVector;
 
-//Kinect Wrapper for Microsoft Kinect V2 for Windows
 public class KinectWrapperV2Mac 
 implements IDepthCamera {
 	
@@ -25,7 +24,7 @@ implements IDepthCamera {
 	public PVector[] _realWorldMap;
 	private boolean mirror = false;
 	
-	public KinectWrapperV2Mac( PApplet p, boolean initDepth, boolean initRGB, boolean initDepthImage ) {
+	public KinectWrapperV2Mac( PApplet p, boolean initRGB, boolean initDepthImage ) {
 		this.p = p;
 		
 		new Thread(new Runnable() { public void run() {
@@ -103,7 +102,7 @@ implements IDepthCamera {
 		}
 	}
 	
-	public int getMillimetersDepthForKinectPixel( int x, int y ) {
+	public int getDepthAt( int x, int y ) {
 		if(_kinect == null) return 0;
 		int offset = x + y * _kinect.depthWidth;
 		if( offset >= _depthArray.length ) {

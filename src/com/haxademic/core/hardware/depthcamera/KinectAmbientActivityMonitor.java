@@ -42,7 +42,7 @@ public class KinectAmbientActivityMonitor {
 		P.p.noStroke();
 		for ( int x = 0; x < DepthCameraSize.WIDTH; x += _pixelSize ) {
 			for ( int y = 0; y < DepthCameraSize.HEIGHT; y += _pixelSize ) {
-				depth = kinectWrapper.getMillimetersDepthForKinectPixel( x, y );
+				depth = kinectWrapper.getDepthAt( x, y );
 				if( depth > 0 ) {
 					_gridBuffer.get( gridIndex ).update( depth );
 					_activityLevel += Math.abs( depth - _gridBuffer.get( gridIndex ).average() );

@@ -23,11 +23,11 @@ extends PAppletHax {
 	}
 
 	public void setupFirstFrame() {
-		kinectWrapperV1 = new KinectWrapperV1( p,  p.appConfig.getBoolean( "kinect_rgb", true ), p.appConfig.getBoolean( "kinect_depth_image", true ) );
-		kinectWrapperV1.setMirror( p.appConfig.getBoolean( "kinect_mirrored", true ) );
+		kinectWrapperV1 = new KinectWrapperV1( p, true, true);
+		kinectWrapperV1.setMirror(true);
 		
-		kinectWrapperV2 = new KinectWrapperV2( p, p.appConfig.getBoolean( "kinect_depth", true ), p.appConfig.getBoolean( "kinect_rgb", true ), p.appConfig.getBoolean( "kinect_depth_image", true ) );
-		kinectWrapperV2.setMirror( p.appConfig.getBoolean( "kinect_mirrored", true ) );
+		kinectWrapperV2 = new KinectWrapperV2( p, true, true);
+		kinectWrapperV2.setMirror(true);
 	}
 	
 	public void drawApp() {

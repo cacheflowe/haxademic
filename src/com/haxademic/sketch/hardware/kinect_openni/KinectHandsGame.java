@@ -44,7 +44,7 @@ extends PAppletHax {
 
 		_skeletonTracker.update();
 		PG.setDrawCorner(p);
-		p.image( p.kinectWrapper.getRgbImage(), 0, 0 );
+		p.image( p.depthCamera.getRgbImage(), 0, 0 );
 		PG.setDrawCorner(p);
 
 		gamePiece.update();

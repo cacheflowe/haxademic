@@ -112,7 +112,7 @@ extends PAppletHax {
 		keystone = new PGraphicsKeystone(p, mainBuffer, 10, FileUtil.getFile("text/keystoning/partycles.txt"));
 		
 		// camera/kinect
-		kinectSilhouetteSmoothed = new KinectDepthSilhouetteSmoothed(p.kinectWrapper, 6);
+		kinectSilhouetteSmoothed = new KinectDepthSilhouetteSmoothed(p.depthCamera, 6);
 		KinectDepthSilhouetteSmoothed.KINECT_FAR = 2000;
 		activityMonitor = new BufferActivityMonitor(32, 16, 10);
 
@@ -185,8 +185,8 @@ extends PAppletHax {
 		// update silhouette
 		kinectSilhouetteSmoothed.update();
 
-		PImage depthImage = kinectWrapper.getDepthImage();
-		PImage cameraImage = kinectWrapper.getRgbImage();
+		PImage depthImage = depthCamera.getDepthImage();
+		PImage cameraImage = depthCamera.getRgbImage();
 		
 		// copy camera frame to buffer
 		ImageUtil.cropFillCopyImage(cameraImage, cameraBuffer, true);

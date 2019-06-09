@@ -31,7 +31,7 @@ extends PAppletHax {
 	
 	public void setupFirstFrame() {
 		p.ui.addSlider("STRETCH_DEPTH_X", 1f, 1f, 3f, 0.01f);
-		kinectSilhouetteSmoothed = new KinectDepthSilhouetteSmoothed(p.kinectWrapper, 5);
+		kinectSilhouetteSmoothed = new KinectDepthSilhouetteSmoothed(p.depthCamera, 5);
 	}
 
 	public void drawApp() {
@@ -41,8 +41,8 @@ extends PAppletHax {
 		kinectSilhouetteSmoothed.update();
 //		p.image(kinectSilhouetteSmoothed.image(), 0, 0, kinectSilhouetteSmoothed.image().width * 3, kinectSilhouetteSmoothed.image().height * 3);
 
-		PImage depthImage = kinectWrapper.getDepthImage();
-		PImage cameraImage = kinectWrapper.getRgbImage();
+		PImage depthImage = depthCamera.getDepthImage();
+		PImage cameraImage = depthCamera.getRgbImage();
 		
 		// draw images
 		p.image(cameraImage, 0, 0);

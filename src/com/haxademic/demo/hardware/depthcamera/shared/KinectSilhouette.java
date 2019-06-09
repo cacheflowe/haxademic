@@ -50,12 +50,13 @@ extends PAppletHax {
 	List<DelaunayTriangle> triangles;
 
 	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, "1024" );
-		p.appConfig.setProperty( AppSettings.HEIGHT, "768" );
+		p.appConfig.setProperty( AppSettings.WIDTH, 1024 );
+		p.appConfig.setProperty( AppSettings.HEIGHT, 768 );
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
 //		p.appConfig.setProperty( AppSettings.KINECT_V2_WIN_ACTIVE, true );
-		p.appConfig.setProperty( AppSettings.KINECT_ACTIVE, true );
-		p.appConfig.setProperty( "kinect_mirrored", "true" );
+//		p.appConfig.setProperty( AppSettings.KINECT_ACTIVE, true );
+		p.appConfig.setProperty( AppSettings.REALSENSE_ACTIVE, true );
+		p.appConfig.setProperty( AppSettings.DEPTH_CAM_RGB_ACTIVE, false );
 		p.appConfig.setProperty( AppSettings.FULLSCREEN, "false" );
 		p.appConfig.setProperty( AppSettings.INIT_ESS_AUDIO, false );
 	}
@@ -102,8 +103,8 @@ extends PAppletHax {
 		_kinectPixelated.noStroke();
 		float pixelDepth;
 		for ( int x = 0; x < DepthCameraSize.WIDTH; x += PIXEL_SIZE ) {
-			for ( int y = 0; y < DepthCameraSize.WIDTH; y += PIXEL_SIZE ) {
-				pixelDepth = p.kinectWrapper.getMillimetersDepthForKinectPixel( x, y );
+			for ( int y = 0; y < DepthCameraSize.HEIGHT; y += PIXEL_SIZE ) {
+				pixelDepth = p.depthCamera.getDepthAt( x, y );
 				if( pixelDepth != 0 && pixelDepth > KINECT_CLOSE && pixelDepth < KINECT_FAR ) {
 //					_kinectPixelated.fill(((pixelDepth - KINECT_CLOSE) / (KINECT_FAR - KINECT_CLOSE)) * 255f);
 					_kinectPixelated.fill(255f);

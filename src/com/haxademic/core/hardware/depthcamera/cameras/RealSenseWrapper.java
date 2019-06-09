@@ -1,8 +1,8 @@
 package com.haxademic.core.hardware.depthcamera.cameras;
 
-import com.haxademic.core.app.P;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.image.ImageUtil;
+import com.haxademic.core.hardware.depthcamera.DepthCameraSize;
 
 import ch.bildspur.realsense.RealSenseCamera;
 import processing.core.PApplet;
@@ -32,6 +32,11 @@ implements IDepthCamera {
 	
 
 	public RealSenseWrapper(PApplet p, boolean initRGB, boolean initDepthImage) {
+		RGB_ACTIVE = initRGB;
+		DEPTH_ACTIVE = initDepthImage;
+
+		DepthCameraSize.setSize(CAMERA_W, CAMERA_H);
+		
 		camera = new RealSenseCamera(p);
 		camera.start(CAMERA_W, CAMERA_H, CAMERA_FPS, DEPTH_ACTIVE, RGB_ACTIVE);
 		
@@ -55,7 +60,17 @@ implements IDepthCamera {
 	}
 
 	public void update() {
+//		threaded = true;
 		if(_updateComplete == true ) {
+			if(threaded) {
+				_updateComplete = false;
+				if(updateThread == null) updateThread = new ThreadedUpdate();
+				(new Thread(updateThread)).start();
+			} else {
+//				if(P.p.frameCount % 2 == 0) 
+					readCamera();
+			}
+			
 			// copy image to buffers
 			if(DEPTH_ACTIVE) {
 				camera.createDepthImage(CAMERA_NEAR, CAMERA_FAR); // min/max depth
@@ -63,14 +78,6 @@ implements IDepthCamera {
 			}
 			if(RGB_ACTIVE) {
 				if(MIRROR) ImageUtil.copyImageFlipH(camera.getColorImage(), mirrorRGB);
-			}
-
-			if(threaded) {
-				_updateComplete = false;
-				if(updateThread == null) updateThread = new ThreadedUpdate();
-				(new Thread(updateThread)).start();
-			} else {
-				if(P.p.frameCount % 2 == 0) readCamera();
 			}
 		}
 	}
@@ -115,7 +122,7 @@ implements IDepthCamera {
 		return MIRROR;
 	}
 	
-	public int getMillimetersDepthForKinectPixel( int x, int y ) {
+	public int getDepthAt( int x, int y ) {
 		return camera.getDepth((MIRROR) ? CAMERA_W - x : x, y);
 	}
 }

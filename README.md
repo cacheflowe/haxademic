@@ -207,15 +207,15 @@ Below you'll find a long list of classes and utilities that I've built to make m
 
 * __[IWebCamCallback](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/hardware/webcam/IWebCamCallback.java)__ - Interface to work in tandem with `WebCamWrapper` to provide callbacks when new webcam frames are available.
 
-* __[IKinectWrapper](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/hardware/kinect/IKinectWrapper.java)__ - Interface for `KinectWrapperV1` and `KinectWrapperV2`.
+* __[IDepthCamera](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/hardware/depthcamera/cameras/IDepthCamera.java)__ - Interface for `KinectWrapperV1` and `KinectWrapperV2` and `RealSenseWrapper`.
 
-* __[KinectAmbientActivityMonitor](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/hardware/kinect/KinectAmbientActivityMonitor.java)__ - Provides a general ambient activity value for a room.
+* __[KinectAmbientActivityMonitor](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/hardware/depthcamera/KinectAmbientActivityMonitor.java)__ - Provides a general ambient activity value for a room.
 
-* __[KinectRoomScanDiff](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/hardware/kinect/KinectRoomScanDiff.java)__ - Scans a room with the Kinect, then watches for depth differences from scan.
+* __[KinectRoomScanDiff](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/hardware/depthcamera/KinectRoomScanDiff.java)__ - Scans a room with the Kinect, then watches for depth differences from scan.
 
-* __[KinectDepthSilhouetteSmoothed](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/hardware/kinect/KinectDepthSilhouetteSmoothed.java)__ - A hardware-accelerated smoothed silhouette image from raw depth data.
+* __[KinectDepthSilhouetteSmoothed](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/hardware/depthcamera/KinectDepthSilhouetteSmoothed.java)__ - A hardware-accelerated smoothed silhouette image from raw depth data.
 
-* __[KinectRegionGrid](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/hardware/kinect/KinectRegionGrid.java)__ - Breaks up kinect raw data into an x/z grid, with center-of-mass (joystick) and `active` readings for each quadrant.
+* __[KinectRegionGrid](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/hardware/depthcamera/KinectRegionGrid.java)__ - Breaks up kinect raw data into an x/z grid, with center-of-mass (joystick) and `active` readings for each quadrant.
 
 * __[MouseUtil](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/hardware/mouse/MouseUtil.java)__ - Automates, moves & clicks the system mouse with a Java Robot.
 

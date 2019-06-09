@@ -3,7 +3,6 @@ package com.haxademic.demo.hardware.depthcamera.shared;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.hardware.depthcamera.KinectDepthSilhouetteSmoothed;
 
@@ -17,7 +16,8 @@ extends PAppletHax {
 	protected void overridePropsFile() {
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, false );
 //		p.appConfig.setProperty( AppSettings.KINECT_V2_WIN_ACTIVE, true );
-		p.appConfig.setProperty( AppSettings.KINECT_ACTIVE, true );
+//		p.appConfig.setProperty( AppSettings.KINECT_ACTIVE, true );
+		p.appConfig.setProperty( AppSettings.REALSENSE_ACTIVE, true );
 		p.appConfig.setProperty( AppSettings.WIDTH, 640 );
 		p.appConfig.setProperty( AppSettings.HEIGHT, 480 );
 		p.appConfig.setProperty( AppSettings.SHOW_DEBUG, true );
@@ -25,7 +25,7 @@ extends PAppletHax {
 	
 	
 	public void setupFirstFrame() {
-		kinectSilhouetteSmoothed = new KinectDepthSilhouetteSmoothed(p.kinectWrapper, 5);
+		kinectSilhouetteSmoothed = new KinectDepthSilhouetteSmoothed(p.depthCamera, 5);
 		
 		p.debugView.setTexture(kinectSilhouetteSmoothed.depthBuffer());
 		p.debugView.setTexture(kinectSilhouetteSmoothed.avgBuffer());

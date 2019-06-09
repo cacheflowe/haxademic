@@ -153,7 +153,7 @@ extends PAppletHax {
 			boolean madeActive = false;
 			for ( int x = (int)_x; x < _x + _w; x += PIXEL_SIZE ) {
 				for ( int y = (int)_y; y < _y + _h; y += PIXEL_SIZE ) {
-					pixelDepth = p.kinectWrapper.getMillimetersDepthForKinectPixel( x, y );
+					pixelDepth = p.depthCamera.getDepthAt( x, y );
 					if( pixelDepth != 0 && pixelDepth > KINECT_CLOSE && pixelDepth < KINECT_FAR ) {
 						activePixels++;
 						if( _active == false && activePixels >= 4 ) {
@@ -170,13 +170,13 @@ extends PAppletHax {
 		}
 		
 		protected void drawKinectUser() {
-			p.kinectWrapper.setMirror(true);
+			p.depthCamera.setMirror(true);
 			// loop through kinect data within player's control range
 			p.stroke(255, 127);
 			float pixelDepth;
 			for ( int x = 0; x < DepthCameraSize.WIDTH; x += PIXEL_SIZE ) {
 				for ( int y = 0; y < DepthCameraSize.HEIGHT; y += PIXEL_SIZE ) {
-					pixelDepth = p.kinectWrapper.getMillimetersDepthForKinectPixel( x, y );
+					pixelDepth = p.depthCamera.getDepthAt( x, y );
 					if( pixelDepth != 0 && pixelDepth > KINECT_CLOSE && pixelDepth < KINECT_FAR ) {
 						p.pushMatrix();
 						// p.fill(((pixelDepth - KINECT_CLOSE) / (KINECT_FAR - KINECT_CLOSE)) * 255f);

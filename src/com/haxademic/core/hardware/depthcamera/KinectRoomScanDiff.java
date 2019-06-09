@@ -83,7 +83,7 @@ public class KinectRoomScanDiff {
 			roomScanBuffer.blendMode(PBlendModes.LIGHTEST);
 			for ( int x = 0; x < roomScanBuffer.width; x++ ) {
 				for ( int y = 0; y < roomScanBuffer.height; y++ ) {
-					int pixelDepth = kinectWrapper.getMillimetersDepthForKinectPixel( x * pixelSkip, y * pixelSkip );
+					int pixelDepth = kinectWrapper.getDepthAt( x * pixelSkip, y * pixelSkip );
 					if( pixelDepth != 0 && pixelDepth > kinectNear && pixelDepth < kinectFar ) {
 						float depthToGray = P.map(pixelDepth, kinectNear, kinectFar, 255, 0);
 						roomScanBuffer.fill(P.constrain(depthToGray, 0, 255));
@@ -105,7 +105,7 @@ public class KinectRoomScanDiff {
 		int numPixelsProcessed = 0;
 		for ( int x = 0; x < depthBuffer.width; x++ ) {
 			for ( int y = 0; y < depthBuffer.height; y++ ) {
-				int pixelDepth = kinectWrapper.getMillimetersDepthForKinectPixel( x * pixelSkip, y * pixelSkip );
+				int pixelDepth = kinectWrapper.getDepthAt( x * pixelSkip, y * pixelSkip );
 				if( pixelDepth != 0 && pixelDepth > kinectNear && pixelDepth < kinectFar ) {
 					float depthToGray = P.map(pixelDepth, kinectNear, kinectFar, 255, 0);
 					depthBuffer.fill(P.constrain(depthToGray, 0, 255));

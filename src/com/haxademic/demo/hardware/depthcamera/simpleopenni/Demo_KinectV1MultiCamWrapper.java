@@ -162,7 +162,7 @@ extends PAppletHax {
 		// TODO: Switch to ONLY loop through kinect points that we need
 		for ( int x = 0; x < DepthCameraSize.WIDTH; x += pixelSkip ) {
 			for ( int y = 0; y < KinectWrapperV2.KHEIGHT; y += pixelSkip ) {
-				pixelDepth = kinect.getMillimetersDepthForKinectPixel( x, y );
+				pixelDepth = kinect.getDepthAt( x, y );
 				if(pixelDepth != 0 && pixelDepth > slider(KINECT_NEAR) && pixelDepth < slider(KINECT_FAR)) {
 					// draw depth points
 					float userZ = P.map(pixelDepth, slider(KINECT_NEAR), slider(KINECT_FAR), 0, kinectDepthZone * distancePixels);

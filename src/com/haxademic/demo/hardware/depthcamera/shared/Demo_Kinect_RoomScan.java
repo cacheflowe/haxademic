@@ -14,11 +14,12 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.WIDTH, 1280 );
 		p.appConfig.setProperty( AppSettings.HEIGHT, 720 );
 //		p.appConfig.setProperty( AppSettings.KINECT_V2_WIN_ACTIVE, true );
-		p.appConfig.setProperty( AppSettings.KINECT_ACTIVE, true );
+//		p.appConfig.setProperty( AppSettings.KINECT_ACTIVE, true );
+		p.appConfig.setProperty( AppSettings.REALSENSE_ACTIVE, true );
 	}
 
 	public void setupFirstFrame() {
-		kinectDiff = new KinectRoomScanDiff(p.kinectWrapper);
+		kinectDiff = new KinectRoomScanDiff(p.depthCamera);
 	}
 	
 	public void drawApp() {

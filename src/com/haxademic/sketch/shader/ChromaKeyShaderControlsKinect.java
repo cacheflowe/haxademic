@@ -62,7 +62,7 @@ extends PAppletHax {
 		_chromaKeyFilter.set("colorToReplace", p.ui.value(colorToReplaceR), p.ui.value(colorToReplaceG), p.ui.value(colorToReplaceB));
 		
 		// draw frame to offscreen buffer
-		PImage frame = p.kinectWrapper.getRgbImage();
+		PImage frame = p.depthCamera.getRgbImage();
 		_pg.beginDraw();
 		_pg.clear();
 		_pg.image(frame, 0, 0);

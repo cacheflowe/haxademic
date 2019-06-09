@@ -48,8 +48,8 @@ extends PAppletHax {
 		p.image(kinectRegionGrid.debugImage(), 0, 0);
 		
 		// debug textures
-		if(p.kinectWrapper.getRgbImage() != null) p.debugView.setTexture(p.kinectWrapper.getRgbImage());
-		if(p.kinectWrapper.getDepthImage() != null) p.debugView.setTexture(p.kinectWrapper.getDepthImage());
+		if(p.depthCamera.getRgbImage() != null) p.debugView.setTexture(p.depthCamera.getRgbImage());
+		if(p.depthCamera.getDepthImage() != null) p.debugView.setTexture(p.depthCamera.getDepthImage());
 		if(kinectRegionGrid.debugImage() != null) p.debugView.setTexture(kinectRegionGrid.debugImage());
 	}
 	

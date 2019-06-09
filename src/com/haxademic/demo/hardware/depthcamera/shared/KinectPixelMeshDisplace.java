@@ -66,12 +66,12 @@ extends PAppletHax {
 		p.beginShape(P.TRIANGLES);
 		PG.setColorForPImage(p);
 		p.noStroke();
-		p.texture(_pixelFilter.updateWithPImage(p.kinectWrapper.getRgbImage()));
+		p.texture(_pixelFilter.updateWithPImage(p.depthCamera.getRgbImage()));
 		float pixelDepth;
 		for( Face f : _mesh.getFaces() ) {
 			// deform z-position
 			float normalizedDepth = 0;
-			pixelDepth = p.kinectWrapper.getMillimetersDepthForKinectPixel( (int)f.uvA.x, (int)f.uvA.y );
+			pixelDepth = p.depthCamera.getDepthAt( (int)f.uvA.x, (int)f.uvA.y );
 			if( pixelDepth != 0 && pixelDepth > KINECT_CLOSE && pixelDepth < KINECT_FAR ) {
 				normalizedDepth = 1 - (pixelDepth - KINECT_CLOSE) / (KINECT_FAR - KINECT_CLOSE);
 			}

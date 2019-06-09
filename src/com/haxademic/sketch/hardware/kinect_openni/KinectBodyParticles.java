@@ -54,7 +54,7 @@ extends PAppletHax {
 		
 		PG.setDrawCenter(p);
 		PG.setColorForPImage(p);
-		p.image( p.kinectWrapper.getRgbImage(), p.width/2, -20, 640*8, 480*8 );
+		p.image( p.depthCamera.getRgbImage(), p.width/2, -20, 640*8, 480*8 );
 		p.popMatrix();
 		
 		// draw skeleton(s)

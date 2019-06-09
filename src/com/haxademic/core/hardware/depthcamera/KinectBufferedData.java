@@ -115,7 +115,7 @@ public class KinectBufferedData {
 		
 		for ( int x = _kinectLeft; x < _kinectRight; x += _pixelSize ) {
 			for ( int y = _kinectTop; y < _kinectBottom; y += _pixelSize ) {
-				depth = kinectWrapper.getMillimetersDepthForKinectPixel( x, y );
+				depth = kinectWrapper.getDepthAt( x, y );
 				if( _allowsEmptyData == true || depth > 0 ) {
 					_gridBuffer.get( gridIndex ).update( depth );
 				}

@@ -12,22 +12,19 @@ extends PAppletHax {
 
 	protected void overridePropsFile() {
 		p.appConfig.setProperty( AppSettings.WIDTH, 1200 );
-		p.appConfig.setProperty( AppSettings.HEIGHT, 900 );
+		p.appConfig.setProperty( AppSettings.HEIGHT, 960 );
 	}
 
 
 	protected void setupFirstFrame() {
-		realSenseWrapper = new RealSenseWrapper(p, true, true);
+		realSenseWrapper = new RealSenseWrapper(p, false, true);
 	}
 
 	public void drawApp() {
-		realSenseWrapper.update();
 		p.background(0);
-		pg.beginDraw();
-		pg.image(realSenseWrapper.getRgbImage(), 0, 0);
-		pg.image(realSenseWrapper.getDepthImage(), 0, realSenseWrapper.getRgbImage().height);
-		pg.endDraw();
-		p.image(pg, 0, 0);
+		realSenseWrapper.update();
+		p.image(realSenseWrapper.getRgbImage(), 0, 0);
+		p.image(realSenseWrapper.getDepthImage(), 0, realSenseWrapper.getRgbImage().height);
 	}
 	
 }

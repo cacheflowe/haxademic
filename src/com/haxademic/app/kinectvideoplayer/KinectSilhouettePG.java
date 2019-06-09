@@ -96,7 +96,7 @@ public class KinectSilhouettePG {
 		float pixelDepth;
 		for ( int x = 0; x < DepthCameraSize.WIDTH; x += PIXEL_SIZE ) {
 			for ( int y = 0; y < DepthCameraSize.HEIGHT; y += PIXEL_SIZE ) {
-				pixelDepth = P.p.kinectWrapper.getMillimetersDepthForKinectPixel( x, y );
+				pixelDepth = P.p.depthCamera.getDepthAt( x, y );
 				if( pixelDepth != 0 && pixelDepth > KINECT_CLOSE && pixelDepth < KINECT_FAR ) {
 //					_kinectPixelated.fill(((pixelDepth - KINECT_CLOSE) / (KINECT_FAR - KINECT_CLOSE)) * 255f);
 					_kinectPixelated.fill(255f);

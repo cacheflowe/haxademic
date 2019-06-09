@@ -43,7 +43,7 @@ extends PAppletHax {
 		float numPoints = 0;
 		for ( int x = 0; x < DepthCameraSize.WIDTH; x += PIXEL_SIZE ) {
 			for ( int y = KINECT_TOP; y < KINECT_BOTTOM; y += PIXEL_SIZE ) {
-				pixelDepth = p.kinectWrapper.getMillimetersDepthForKinectPixel( x, y );
+				pixelDepth = p.depthCamera.getDepthAt( x, y );
 				if( pixelDepth != 0 && pixelDepth > KINECT_CLOSE && pixelDepth < KINECT_FAR ) {
 					p.pushMatrix();
 //					p.fill(((pixelDepth - KINECT_CLOSE) / (KINECT_FAR - KINECT_CLOSE)) * 255f);

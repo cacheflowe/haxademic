@@ -18,12 +18,12 @@ extends PAppletHax {
 
 	public void drawApp() {
 		p.background(0);
-		p.debugView.setTexture(kinectWrapper.getRgbImage());
-		p.debugView.setTexture(kinectWrapper.getIRImage());
-		p.debugView.setTexture(kinectWrapper.getDepthImage());
-		p.image(kinectWrapper.getDepthImage(), 0, 0);
-		p.image(kinectWrapper.getIRImage(), kinectWrapper.getDepthImage().width, 0);
-		p.image(kinectWrapper.getRgbImage(), 0, kinectWrapper.getDepthImage().height);
+		p.debugView.setTexture(depthCamera.getRgbImage());
+		p.debugView.setTexture(depthCamera.getIRImage());
+		p.debugView.setTexture(depthCamera.getDepthImage());
+		p.image(depthCamera.getDepthImage(), 0, 0);
+		p.image(depthCamera.getIRImage(), depthCamera.getDepthImage().width, 0);
+		p.image(depthCamera.getRgbImage(), 0, depthCamera.getDepthImage().height);
 	}
 
 }
