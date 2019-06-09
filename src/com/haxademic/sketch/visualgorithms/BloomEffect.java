@@ -39,7 +39,7 @@ extends PAppletHax {
 		
 		// copy image & create glow version
 		ImageUtil.copyImage(pg, glowBuffer);
-		LeaveWhiteFilter.instance(p).setMix(0.7f);
+		LeaveWhiteFilter.instance(p).setCrossfade(0.7f);
 		LeaveWhiteFilter.instance(p).applyTo(glowBuffer);
 		BlurHFilter.instance(p).setBlurByPercent(p.mousePercentX() * 5f, glowBuffer.width);
 		BlurVFilter.instance(p).setBlurByPercent(p.mousePercentY() * 5f, glowBuffer.height);

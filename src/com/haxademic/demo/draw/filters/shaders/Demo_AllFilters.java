@@ -396,7 +396,7 @@ extends PAppletHax { public static void main(String args[]) { PAppletHax.main(Th
 			GlitchShakeFilter.instance(p).setSubdivide2(p.mousePercentY() * 256f);
 			GlitchShakeFilter.instance(p).applyTo(pg);
 		} else if(curFilter == GlowFilter.instance(p)) {
-			LeaveBlackFilter.instance(p).setMix(1f);
+			LeaveBlackFilter.instance(p).setCrossfade(1f);
 			LeaveBlackFilter.instance(p).applyTo(pg);
 
 			GlowFilter.instance(p).setSize(100f * p.mousePercentX());
@@ -451,10 +451,10 @@ extends PAppletHax { public static void main(String args[]) { PAppletHax.main(Th
 			KaleidoFilter.instance(p).setSides(p.mousePercentY() * 16f);
 			KaleidoFilter.instance(p).applyTo(pg);
 		} else if(curFilter == LeaveBlackFilter.instance(p)) {
-			LeaveBlackFilter.instance(p).setMix(p.mousePercentX());
+			LeaveBlackFilter.instance(p).setCrossfade(p.mousePercentX());
 			LeaveBlackFilter.instance(p).applyTo(pg);
 		} else if(curFilter == LeaveWhiteFilter.instance(p)) {
-			LeaveWhiteFilter.instance(p).setMix(p.mousePercentX());
+			LeaveWhiteFilter.instance(p).setCrossfade(p.mousePercentX());
 			LeaveWhiteFilter.instance(p).applyTo(pg);
 		} else if(curFilter == LiquidWarpFilter.instance(p)) {
 //			setAmplitude(0.02f);

@@ -66,7 +66,7 @@ extends BaseFragmentShader {
 ////		glowTexture.image(pg, 0, 0);
 		glowTexture.endDraw();
 		ImageUtil.copyImage(pg, glowTexture);
-		LeaveWhiteFilter.instance(P.p).setMix(0.95f);
+		LeaveWhiteFilter.instance(P.p).setCrossfade(0.95f);
 		LeaveWhiteFilter.instance(P.p).applyTo(glowTexture);
 		BlurHFilter.instance(P.p).setBlurByPercent(strength, glowTexture.width);
 		BlurVFilter.instance(P.p).setBlurByPercent(strength, glowTexture.height);

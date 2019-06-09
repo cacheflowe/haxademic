@@ -11,7 +11,7 @@ extends BaseFragmentShader {
 	
 	public LeaveBlackFilter(PApplet p) {
 		super(p, "haxademic/shaders/filters/leave-black.glsl");
-		setMix(1f);
+		setCrossfade(1f);
 	}
 	
 	public static LeaveBlackFilter instance(PApplet p) {
@@ -20,8 +20,8 @@ extends BaseFragmentShader {
 		return instance;
 	}
 	
-	public void setMix(float mix) {
-		shader.set("mix", mix);
+	public void setCrossfade(float crossfade) {
+		shader.set("crossfade", crossfade);
 	}
 	
 }

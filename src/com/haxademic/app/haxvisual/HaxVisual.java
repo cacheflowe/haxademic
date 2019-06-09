@@ -537,7 +537,7 @@ implements IAppStoreListener {
 				DisplacementMapFilter.instance(p).applyTo(_pg);
 			} else if(overlayMode == 1) {
 				// OVERLAY WITH ONLY BLACK
-				LeaveBlackFilter.instance(p).setMix(1f);
+				LeaveBlackFilter.instance(p).setCrossfade(1f);
 				LeaveBlackFilter.instance(p).applyTo(displacementBuffer);
 				_pg.beginDraw();
 				ImageUtil.drawImageCropFill(displacementBuffer, _pg, true);
