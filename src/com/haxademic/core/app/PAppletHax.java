@@ -643,8 +643,8 @@ extends PApplet {
 		}
 		// show debug & prefs sliders
 		if (p.key == '|') saveScreenshot(p.g);
-		if (p.key == '/') debugView.active(!debugView.active());
-		if (p.key == '\\') ui.active(!ui.active());
+		if (p.key == '/') { debugView.active(!debugView.active()); if(ui.active()) ui.active(false); }
+		if (p.key == '\\') { ui.active(!ui.active()); if(debugView.active()) debugView.active(false); }
 	}
 	
 	public void keyReleased() {
