@@ -3,6 +3,7 @@
 ## High-priority
 
 * Fix LeaveWhiteFilter shader
+* Test Realsense camera outside
 * Polygon demo - use pride colors to make a gif?
   * Make texture fill style interface/class
   * Make layout generator w/growth

@@ -5,10 +5,12 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.BlurProcessingFilter;
+import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.media.DemoAssets;
 
 import processing.core.PGraphics;
 import processing.core.PImage;
+import processing.opengl.PShader;
 
 public class Demo_DropShadowBlur
 extends PAppletHax {
@@ -17,6 +19,8 @@ extends PAppletHax {
 	protected PImage img;
 	protected PGraphics shadowOrig;
 	protected PGraphics shadow;
+	protected PShader colorTransformShader;
+	protected boolean shadowSolidColor = true;
 	protected String BLUR_SIZE = "BLUR_SIZE";
 	protected String BLUR_SIGMA = "BLUR_SIGMA";
 	protected String BLUR_ALPHA = "BLUR_ALPHA";
@@ -30,6 +34,7 @@ extends PAppletHax {
 		img = DemoAssets.smallTexture();
 		shadowOrig = imageToImageWithPadding(img, 2f);
 		shadow = imageToImageWithPadding(img, 2f);
+		colorTransformShader = p.loadShader(FileUtil.getFile("haxademic/shaders/filters/opaque-pixels-to-color.glsl"));
 		
 		p.ui.addSlider(BLUR_SIZE, 12, 1, 20, 1, false);
 		p.ui.addSlider(BLUR_SIGMA, 6, 1, 20, 0.1f, false);
@@ -38,7 +43,7 @@ extends PAppletHax {
 	}
 	
 	public PGraphics imageToImageWithPadding(PImage img, float scaleCanvasUp) {
-		PGraphics pg = P.p.createGraphics(P.ceil((float) img.width * scaleCanvasUp), P.ceil((float) img.height * scaleCanvasUp), P.P2D);
+		PGraphics pg = PG.newPG(P.ceil((float) img.width * scaleCanvasUp), P.ceil((float) img.height * scaleCanvasUp));
 		pg.beginDraw();
 		PG.setDrawCenter(pg);
 		pg.clear();
@@ -47,6 +52,11 @@ extends PAppletHax {
 		pg.endDraw();
 		return pg;
 	}  
+	
+	public void keyPressed() {
+		super.keyPressed();
+		if(p.key == ' ') colorTransformShader = p.loadShader(FileUtil.getFile("haxademic/shaders/filters/opaque-pixels-to-color.glsl"));
+	}
 	
 	public void drawApp() {
 		shadow.beginDraw();
@@ -57,15 +67,19 @@ extends PAppletHax {
 		for (int i = 0; i < (p.ui.valueInt(BLUR_STEPS)); i++) {
 			BlurProcessingFilter.instance(p).applyTo(shadow);
 		}
+		if(shadowSolidColor) {
+			colorTransformShader.set("color", 0f, 0f, 0f);
+			shadow.filter(colorTransformShader);
+		}
 		shadow.endDraw();
 
 		p.background(255);
 		PG.setCenterScreen(p);
 		PG.setDrawCenter(p);
 		PG.setPImageAlpha(p, p.ui.value(BLUR_ALPHA));
-		p.image(shadow, 0, 10f + 10f * P.sin(p.frameCount * 0.03f));
+		p.image(shadow, 0, 0);
 		PG.setPImageAlpha(p, 1f);
-		p.image(img, 0, 0);
+		p.image(img, -3f + 3f * P.sin(p.frameCount * 0.03f), -10f + 10f * P.sin(p.frameCount * 0.03f));
 	}
 
 }

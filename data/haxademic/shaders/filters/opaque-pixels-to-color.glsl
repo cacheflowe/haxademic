@@ -1,5 +1,5 @@
 // by cacheflowe
-// leaves opaque pixels but forces them to a specific color. otherwise, pixels go transparent
+// colorizes pixels, but uses original image's alpha. useful for fake shadows
 
 #ifdef GL_ES
 precision mediump float;
@@ -12,13 +12,9 @@ uniform sampler2D texture;
 varying vec4 vertColor;
 varying vec4 vertTexCoord;
 
-uniform vec3 color;
+uniform vec3 color = vec3(0.);
 
 void main() {
-    vec4 pixelCol = texture2D(texture, vertTexCoord.xy);
-    if(pixelCol.a < 0.99) {
-      gl_FragColor = vec4(vec3(1.), 0.);
-    } else {
-      gl_FragColor = vec4(color, 1.);
-    }
+    vec4 origColor = texture2D(texture, vertTexCoord.xy);
+    gl_FragColor = vec4(color, origColor.a);
 }
