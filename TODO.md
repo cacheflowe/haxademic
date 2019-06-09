@@ -21,16 +21,6 @@
 * Make some vanilla Processing examples to help with post 3.3.7 render issues: https://github.com/processing/processing/issues/5806
 
 ## Art projects
-  * Aspen
-    * Layout system
-      * Growth vs. subdivision
-    * Polygon cells
-    * Inner-polygon draw styles
-      * Iterative distribution of styles
-      * Hand-drawn lines & imperfect grids/cells
-    * Color schemes
-    * Interaction
-    * Music
   * Shatter model & triangles fall down (Sunflow final render)
   * Zaibiti
   	* Pi webcam? Is it possible?
