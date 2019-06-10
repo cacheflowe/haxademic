@@ -16,32 +16,60 @@ public class Polygon {
 	protected ArrayList<Edge> edges;
 	protected int numVertices = 0;
 
+	protected PVector collideVec = new PVector(); 
 	protected PVector utilVec = new PVector(); 
 	protected PVector newNeighborCenter = new PVector(); 
 	
+	/////////////////////////////////////
+	// INIT
+	/////////////////////////////////////
+
 	public Polygon(float[] verticesXYZ) {
-		vertices = new ArrayList<PVector>();
-		neighbors = new HashMap<Edge, Polygon>();
-		edges = new ArrayList<Edge>();
+		// turn int of 3-component coordinates into PVectors
+		ArrayList<PVector> verticesPVector = new ArrayList<PVector>();
 		for (int i = 0; i < verticesXYZ.length; i+=3) {
 			PVector pVector = new PVector(verticesXYZ[i], verticesXYZ[i+1], verticesXYZ[i+2]);
-			vertices.add(pVector);
+			verticesPVector.add(pVector);
 		}
+		init(verticesPVector);
+	}
+	
+	public Polygon(ArrayList<PVector> vertices) {
+		init(vertices);
+	}
+	
+	protected void init(ArrayList<PVector> vertices) {
+		this.vertices = vertices;
 		numVertices = vertices.size();
+		neighbors = new HashMap<Edge, Polygon>();
+		edges = new ArrayList<Edge>();
 		buildEdges();
 		calcCentroid();
 	}
 	
-	public ArrayList<Edge> edges() {
-		return edges;
-	}
-	
-	protected void buildEdges() {
-		for (int i = 0; i < vertices.size(); i++) {
-			edges.add(new Edge(vertices.get(i), vertices.get((i+1) % numVertices)));
+	/////////////////////////////////////
+	// GENERATORS
+	/////////////////////////////////////
+
+	public static Polygon buildShape(float x, float y, float vertices, float radius) {
+		float vertexRads = P.TWO_PI / vertices;
+		float radsOffset = -P.HALF_PI;
+		ArrayList<PVector> verticesPVector = new ArrayList<PVector>();
+		
+		for (int i = 0; i < vertices; i++) {
+			verticesPVector.add(new PVector(
+					x + radius * P.cos(radsOffset + vertexRads * i),
+					y + radius * P.sin(radsOffset + vertexRads * i),
+					0
+			));
 		}
+		return new Polygon(verticesPVector);
 	}
-	
+
+	/////////////////////////////////////
+	// CALCULATE POSITIONS
+	/////////////////////////////////////
+
 	protected void calcCentroid() {
 		center.set(0, 0, 0);
 		for (int i = 0; i < vertices.size(); i++) {
@@ -56,7 +84,9 @@ public class Polygon {
 		return utilVec;
 	}
 	
-	// draw
+	/////////////////////////////////////
+	// DRAW
+	/////////////////////////////////////
 	
 	public void draw(PGraphics pg) {
 		updateEdges(pg);
@@ -67,12 +97,6 @@ public class Polygon {
 		drawMouseOver(pg);
 	}
 
-	protected void updateEdges(PGraphics pg) {
-		for (int i = 0; i < edges.size(); i++) {
-			edges.get(i).update(pg);
-		}
-	}
-	
 	protected void drawShapeOutline(PGraphics pg) {
 		pg.noFill();
 		pg.stroke(255);
@@ -105,8 +129,43 @@ public class Polygon {
 		}
 	}
 	
+	public void drawCollision(PGraphics pg, float x, float y) {
+		collideVec.set(x, y, 0);
+		if(CollisionUtil.polygonContainsPoint(collideVec, vertices)) {
+			pg.fill(0, 255, 0, 50);
+			pg.noStroke();
+			pg.beginShape();
+			for (int i = 0; i < vertices.size(); i++) {
+				PVector v = vertices.get(i);
+				pg.vertex(v.x, v.y, v.z);
+			}
+			pg.endShape(P.CLOSE);
+		}
+
+	}
+	
+	/////////////////////////////////////
+	// EDGES
+	/////////////////////////////////////
+
+	public ArrayList<Edge> edges() {
+		return edges;
+	}
+	
+	protected void buildEdges() {
+		for (int i = 0; i < vertices.size(); i++) {
+			edges.add(new Edge(vertices.get(i), vertices.get((i+1) % numVertices)));
+		}
+	}
+	
+	protected void updateEdges(PGraphics pg) {
+		for (int i = 0; i < edges.size(); i++) {
+			edges.get(i).update(pg);
+		}
+	}
+	
 	/////////////////////////
-	// neighbor stuff
+	// NEIGHBORS
 	/////////////////////////
 	
 	protected void drawNeighborDebug(PGraphics pg) {

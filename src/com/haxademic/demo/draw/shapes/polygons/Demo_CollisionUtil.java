@@ -2,11 +2,8 @@ package com.haxademic.demo.draw.shapes.polygons;
 
 import java.util.ArrayList;
 
-import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.draw.shapes.polygons.Edge;
 import com.haxademic.core.draw.shapes.polygons.Polygon;
-import com.haxademic.core.math.MathUtil;
 
 import processing.core.PVector;
 
@@ -14,27 +11,19 @@ public class Demo_CollisionUtil
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
-	/*
-	  * New neighbors!
-		* don't create new neighbors on top of others - do collision test with new vertices
-		* search for close-enough points to close shapes if there are already 2 sides
-		  * do this when creating new shapes
-      * Layout system
-      * Growth vs. subdivision
-	  * Polygon cells
-	  * Inner-polygon draw styles
-	  * Iterative distribution of styles
-	  * Hand-drawn lines & imperfect grids/cells
-	  * Color schemes
-	  * Interaction
-	  * Music
-	*/
-	
 	protected ArrayList<Polygon> polygons;
+	protected ArrayList<PVector> points;
 	
 	protected void setupFirstFrame() {
 		polygons = new ArrayList<Polygon>();
-		polygons.add((new Polygon(new float[] {300, 200, 0, 200, 300, 0, 400, 300, 0})));
+		polygons.add(Polygon.buildShape(p.width * 0.25f, p.height * 0.5f, 3, 100));
+		polygons.add(Polygon.buildShape(p.width * 0.5f, p.height * 0.5f, 4, 100));
+		polygons.add(Polygon.buildShape(p.width * 0.75f, p.height * 0.5f, 6, 100));
+		
+		points = new ArrayList<PVector>();
+		for (int i = 0; i < 10; i++) {
+			points.add(new PVector(p.random(p.width), p.random(p.height), 0));
+		}
 	}
 	
 	public void drawApp() {
@@ -42,52 +31,27 @@ extends PAppletHax {
 		p.stroke(255);
 		p.noFill();
 		
+		// move points
+		for (int i = 0; i < points.size(); i++) {
+			PVector point = points.get(i); 
+			point.add(i+1, 0, 0);
+			if(point.x > p.width) point.set(0, p.random(p.height), point.z);
+			p.fill(255);
+			p.circle(point.x, point.y, 10);
+		}
+		
 		// draw polygons
 		for (int i = 0; i < polygons.size(); i++) {
 			polygons.get(i).draw(p.g);
+			for (int j = 0; j < points.size(); j++) {
+				PVector point = points.get(j); 
+				polygons.get(i).drawCollision(p.g, point.x, point.y);
+			}
 		}
 	}
-	
-	// add neighbors!
-	
-	protected void addNewNeighbor() {
-		boolean createdNeighbor = false;
-		Polygon randPoly = polygons.get(MathUtil.randRange(0, polygons.size() - 1));
-		if(randPoly.needsNeighbors()) {
-			Polygon newNeighbor = createNeighborTriangle(randPoly);
-			// TODO: check to see if close points could close between other mesh polygons
-			polygons.add(newNeighbor);
-			createdNeighbor = true;
-		}
-		P.out("createdNeighbor", createdNeighbor);
-	}
-	
-	public Polygon createNeighborTriangle(Polygon polygon) {
-		// get edge
-		Edge edge = polygon.availableNeighborEdge();
-		// find a reasonable new vertex for a neighbor 
-		PVector newNeighborVertex = polygon.newNeighbor3rdVertex(edge, MathUtil.randRangeDecimal(2, 6));
-		
-		// new triangle off the Edge
-		Polygon newNeighbor = new Polygon(new float[] { 
-				edge.v1().x, edge.v1().y, edge.v1().z,
-				edge.v2().x, edge.v2().y, edge.v2().z,
-				newNeighborVertex.x, newNeighborVertex.y, newNeighborVertex.z
-		});
-		
-		// tell polys about their shared edges
-		polygon.setNeighbor(newNeighbor);
-		newNeighbor.setNeighbor(polygon);
-		
-		return newNeighbor;
-	}
-
-	// user input
 	
 	public void keyPressed() {
 		super.keyPressed();
-		if(p.key == ' ') {
-			addNewNeighbor();
-		}
+		if(p.key == ' ') {}
 	}
 }

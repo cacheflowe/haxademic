@@ -31,7 +31,7 @@ extends PAppletHax {
 	
 	protected void overridePropsFile() {
 		p.appConfig.setProperty( AppSettings.SUNFLOW, true );
-		p.appConfig.setProperty( AppSettings.SUNFLOW_ACTIVE, true );
+		p.appConfig.setProperty( AppSettings.SUNFLOW_ACTIVE, false );
 
 		
 		p.appConfig.setProperty( AppSettings.WIDTH, 1280 );
@@ -140,7 +140,7 @@ extends PAppletHax {
 		}
 		
 		for( int i=0; i < voxelPositions.size(); i++ ) {
-			PVector worldCenter = new PVector();
+			// PVector worldCenter = new PVector();
 			PVector voxel = voxelPositions.get(i);
 			// P.println(i+"  "+voxel.x+"  "+ Math.abs(Math.round(voxel.x / resolution)));
 //			if( Math.abs(Math.round(voxel.x / resolution)) == 0 &&  Math.abs(Math.round(voxel.y / resolution)) == 0 ) { 
