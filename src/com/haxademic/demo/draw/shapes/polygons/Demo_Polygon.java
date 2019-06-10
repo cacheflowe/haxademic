@@ -34,7 +34,8 @@ extends PAppletHax {
 	
 	protected void setupFirstFrame() {
 		polygons = new ArrayList<Polygon>();
-		polygons.add((new Polygon(new float[] {300, 200, 0, 200, 300, 0, 400, 300, 0})));
+		polygons.add(Polygon.buildShape(p.width * 0.5f, p.height * 0.5f, 3, 100));
+//		polygons.add((new Polygon(new float[] {300, 200, 0, 200, 300, 0, 400, 300, 0})));
 	}
 	
 	public void drawApp() {

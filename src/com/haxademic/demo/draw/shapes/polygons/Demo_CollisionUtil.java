@@ -3,6 +3,7 @@ package com.haxademic.demo.draw.shapes.polygons;
 import java.util.ArrayList;
 
 import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.draw.shapes.polygons.CollisionUtil;
 import com.haxademic.core.draw.shapes.polygons.Polygon;
 
 import processing.core.PVector;
@@ -15,11 +16,13 @@ extends PAppletHax {
 	protected ArrayList<PVector> points;
 	
 	protected void setupFirstFrame() {
+		// create polygons for collisions
 		polygons = new ArrayList<Polygon>();
 		polygons.add(Polygon.buildShape(p.width * 0.25f, p.height * 0.5f, 3, 100));
 		polygons.add(Polygon.buildShape(p.width * 0.5f, p.height * 0.5f, 4, 100));
 		polygons.add(Polygon.buildShape(p.width * 0.75f, p.height * 0.5f, 6, 100));
 		
+		// create points for detection
 		points = new ArrayList<PVector>();
 		for (int i = 0; i < 10; i++) {
 			points.add(new PVector(p.random(p.width), p.random(p.height), 0));
@@ -45,9 +48,23 @@ extends PAppletHax {
 			polygons.get(i).draw(p.g);
 			for (int j = 0; j < points.size(); j++) {
 				PVector point = points.get(j); 
+				// draw point collision
 				polygons.get(i).drawCollision(p.g, point.x, point.y);
 			}
 		}
+		
+		// draw/check line segments
+		PVector line1Start = points.get(0);
+		PVector line1End = points.get(1);
+		PVector line2Start = points.get(2);
+		PVector line2End = points.get(3);
+
+		boolean linesIntersect = CollisionUtil.linesIntersect(line1Start, line1End, line2Start, line2End);
+		p.stroke(255);
+		if(linesIntersect) p.stroke(0, 255, 0);
+		
+		p.line(line1Start.x, line1Start.y, line1End.x, line1End.y);
+		p.line(line2Start.x, line2Start.y, line2End.x, line2End.y);
 	}
 	
 	public void keyPressed() {
