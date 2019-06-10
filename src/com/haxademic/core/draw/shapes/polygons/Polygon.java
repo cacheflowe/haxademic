@@ -1,10 +1,9 @@
-package com.haxademic.core.draw.shapes;
+package com.haxademic.core.draw.shapes.polygons;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.haxademic.core.app.P;
-import com.haxademic.core.math.CollisionUtil;
 
 import processing.core.PGraphics;
 import processing.core.PVector;

@@ -1,16 +1,16 @@
-package com.haxademic.demo.draw.shapes;
+package com.haxademic.demo.draw.shapes.polygons;
 
 import java.util.ArrayList;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.draw.shapes.Edge;
-import com.haxademic.core.draw.shapes.Polygon;
+import com.haxademic.core.draw.shapes.polygons.Edge;
+import com.haxademic.core.draw.shapes.polygons.Polygon;
 import com.haxademic.core.math.MathUtil;
 
 import processing.core.PVector;
 
-public class Demo_Polygon 
+public class Demo_CollisionUtil 
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 

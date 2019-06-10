@@ -1,4 +1,4 @@
-package com.haxademic.core.draw.shapes;
+package com.haxademic.core.draw.shapes.polygons;
 
 import processing.core.PGraphics;
 import processing.core.PVector;
