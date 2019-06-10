@@ -24,8 +24,11 @@ public class Edge {
 		midPoint.lerp(v2, 0.5f);
 	}
 	
-	public void update(PGraphics pg) {
+	public void update() {
 		calcMidPoint();
+	}
+	
+	public void draw(PGraphics pg) {
 		drawDebug(pg);
 	}
 	

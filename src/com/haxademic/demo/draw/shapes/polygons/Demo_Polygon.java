@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.draw.shapes.polygons.CollisionUtil;
 import com.haxademic.core.draw.shapes.polygons.Edge;
 import com.haxademic.core.draw.shapes.polygons.Polygon;
 import com.haxademic.core.math.MathUtil;
@@ -31,6 +32,7 @@ extends PAppletHax {
 	*/
 	
 	protected ArrayList<Polygon> polygons;
+	protected PVector mouseVec = new PVector();
 	
 	protected void setupFirstFrame() {
 		polygons = new ArrayList<Polygon>();
@@ -44,7 +46,9 @@ extends PAppletHax {
 		p.noFill();
 		
 		// draw polygons
+		mouseVec.set(p.mouseX, mouseY);
 		for (int i = 0; i < polygons.size(); i++) {
+			polygons.get(i).collided(CollisionUtil.polygonContainsPoint(polygons.get(i), mouseVec));
 			polygons.get(i).draw(p.g);
 		}
 	}

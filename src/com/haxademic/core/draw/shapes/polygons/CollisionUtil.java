@@ -19,7 +19,11 @@ public class CollisionUtil {
 	}
 
 	// from: https://stackoverflow.com/a/8721483/352456
-	public static boolean polygonContainsPoint(PVector point, ArrayList<PVector> vertices) {
+	public static boolean polygonContainsPoint(Polygon polygon, PVector point) {
+		return polygonContainsPoint(polygon.vertices(), point);
+	}
+	
+	public static boolean polygonContainsPoint(ArrayList<PVector> vertices, PVector point) {
 		int i;
 		int j;
 		boolean result = false;
@@ -81,5 +85,28 @@ public class CollisionUtil {
 	    if (o4 == 0 && onSegment(line2Start, line1End, line2End)) return true; 
 	  
 	    return false; // Doesn't fall in any of the above cases 
-	} 
+	}
+	
+	public static boolean polygonsIntersect(Polygon poly1, Polygon poly2) {
+		// do bounding box check first, for quick distance check
+		// TODO: implement AABB
+		
+		// check vertices inside the other shape, in case a shape is completely inside the other
+		for (int i = 0; i < poly1.vertices().size(); i++) {
+			if(polygonContainsPoint(poly2, poly1.vertices.get(i))) return true;
+		}
+		for (int i = 0; i < poly2.vertices().size(); i++) {
+			if(polygonContainsPoint(poly1, poly2.vertices.get(i))) return true;
+		}
+		
+		// check edge intersections in case of partial overlap
+		for (int i = 0; i < poly1.edges().size(); i++) {
+			for (int j = 0; j < poly2.edges().size(); j++) {
+				Edge edge1 = poly1.edges().get(i);
+				Edge edge2 = poly2.edges().get(j);
+				if(linesIntersect(edge1.v1(), edge1.v2(), edge2.v1(), edge2.v2())) return true;
+			}
+		}
+		return false;
+	}
 }

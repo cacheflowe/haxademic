@@ -20,6 +20,8 @@ public class Polygon {
 	protected PVector utilVec = new PVector(); 
 	protected PVector newNeighborCenter = new PVector(); 
 	
+	protected boolean collided = false;
+	
 	/////////////////////////////////////
 	// INIT
 	/////////////////////////////////////
@@ -52,8 +54,11 @@ public class Polygon {
 	/////////////////////////////////////
 
 	public static Polygon buildShape(float x, float y, float vertices, float radius) {
+		return buildShape(x, y, vertices, radius, -P.HALF_PI);
+	}
+	
+	public static Polygon buildShape(float x, float y, float vertices, float radius, float radsOffset) {
 		float vertexRads = P.TWO_PI / vertices;
-		float radsOffset = -P.HALF_PI;
 		ArrayList<PVector> verticesPVector = new ArrayList<PVector>();
 		
 		for (int i = 0; i < vertices; i++) {
@@ -67,9 +72,33 @@ public class Polygon {
 	}
 
 	/////////////////////////////////////
+	// GETTERS / SETTERS
+	/////////////////////////////////////
+	
+	public ArrayList<PVector> vertices() {
+		return vertices;
+	}
+	
+	public ArrayList<Edge> edges() {
+		return edges;
+	}
+	
+	public boolean collided() { return collided; }
+	public void collided(boolean collided) { this.collided = collided; }
+	
+
+	/////////////////////////////////////
 	// CALCULATE POSITIONS
 	/////////////////////////////////////
 
+	public void translate(float x, float y, float z) {
+		for (int i = 0; i < vertices.size(); i++) {
+			PVector v = vertices.get(i);
+			v.add(x, y, z);
+		}
+		calcCentroid();
+	}
+	
 	protected void calcCentroid() {
 		center.set(0, 0, 0);
 		for (int i = 0; i < vertices.size(); i++) {
@@ -89,12 +118,13 @@ public class Polygon {
 	/////////////////////////////////////
 	
 	public void draw(PGraphics pg) {
-		updateEdges(pg);
+		updateEdges();
+		drawEdges(pg);
+		drawShapeBg(pg);
 		drawShapeOutline(pg);
 		drawNeighborDebug(pg);
-		calcCentroid();
 		drawCentroid(pg);
-		drawMouseOver(pg);
+//		drawMouseOver(pg);
 	}
 
 	protected void drawShapeOutline(PGraphics pg) {
@@ -114,53 +144,39 @@ public class Polygon {
 		pg.circle(center.x, center.y, 4);
 	}
 	
-	protected void drawMouseOver(PGraphics pg) {
-		utilVec.set(P.p.mouseX, P.p.mouseY, 0);
-//		if(numVertices == 3 && CollisionUtil.pointInsideTriangle(utilVec, vertices.get(0), vertices.get(1), vertices.get(2))) {
-		if(numVertices == 3 && CollisionUtil.polygonContainsPoint(utilVec, vertices)) {
-			pg.fill(0, 255, 0, 50);
-			pg.noStroke();
-			pg.beginShape();
-			for (int i = 0; i < vertices.size(); i++) {
-				PVector v = vertices.get(i);
-				pg.vertex(v.x, v.y, v.z);
-			}
-			pg.endShape(P.CLOSE);
+	protected void drawShapeBg(PGraphics pg) {
+		pg.fill(0);
+		if(collided) pg.fill(0, 255, 0, 50);
+		pg.noStroke();
+		pg.beginShape();
+		for (int i = 0; i < vertices.size(); i++) {
+			PVector v = vertices.get(i);
+			pg.vertex(v.x, v.y, v.z);
 		}
-	}
-	
-	public void drawCollision(PGraphics pg, float x, float y) {
-		collideVec.set(x, y, 0);
-		if(CollisionUtil.polygonContainsPoint(collideVec, vertices)) {
-			pg.fill(0, 255, 0, 50);
-			pg.noStroke();
-			pg.beginShape();
-			for (int i = 0; i < vertices.size(); i++) {
-				PVector v = vertices.get(i);
-				pg.vertex(v.x, v.y, v.z);
-			}
-			pg.endShape(P.CLOSE);
-		}
+		pg.endShape(P.CLOSE);
 
+		
 	}
-	
+		
 	/////////////////////////////////////
 	// EDGES
 	/////////////////////////////////////
 
-	public ArrayList<Edge> edges() {
-		return edges;
-	}
-	
 	protected void buildEdges() {
 		for (int i = 0; i < vertices.size(); i++) {
 			edges.add(new Edge(vertices.get(i), vertices.get((i+1) % numVertices)));
 		}
 	}
 	
-	protected void updateEdges(PGraphics pg) {
+	protected void updateEdges() {
 		for (int i = 0; i < edges.size(); i++) {
-			edges.get(i).update(pg);
+			edges.get(i).update();
+		}
+	}
+	
+	protected void drawEdges(PGraphics pg) {
+		for (int i = 0; i < edges.size(); i++) {
+			edges.get(i).draw(pg);
 		}
 	}
 	
