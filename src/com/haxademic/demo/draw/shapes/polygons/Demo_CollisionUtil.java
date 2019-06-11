@@ -6,6 +6,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.shapes.polygons.CollisionUtil;
 import com.haxademic.core.draw.shapes.polygons.Polygon;
+import com.haxademic.core.draw.shapes.polygons.Rectangle;
 
 import processing.core.PVector;
 
@@ -16,6 +17,9 @@ extends PAppletHax {
 	protected ArrayList<Polygon> polygons;
 	protected ArrayList<PVector> points;
 	protected Polygon movingPolygon;
+	protected Rectangle rect1;
+	protected Rectangle rect2;
+	protected PVector mouseVec = new PVector();
 	
 	protected void setupFirstFrame() {
 		// create polygons for collisions
@@ -32,9 +36,15 @@ extends PAppletHax {
 		for (int i = 0; i < 10; i++) {
 			points.add(new PVector(p.random(p.width), p.random(p.height), 0));
 		}
+		
+		// create rectangles
+		rect1 = new Rectangle(160, 60, 100, 80);
+		rect2 = new Rectangle(210, 100, 100, 80);
 	}
 	
 	public void drawApp() {
+		mouseVec.set(p.mouseX, p.mouseY);
+		
 		background(0);
 		p.stroke(255);
 		p.noFill();
@@ -88,6 +98,34 @@ extends PAppletHax {
 		if(movingPolygon.vertices().get(0).y > p.height) movingPolygon.translate(0, -p.height, 0);
 		movingPolygon.collided(CollisionUtil.polygonsIntersect(movingPolygon, polygons.get(1)));
 		movingPolygon.draw(p.g);
+		
+		/////////////////////////////////////////
+		// draw rectangles
+		/////////////////////////////////////////
+		rect1.x(100 + 20f * P.sin(p.frameCount * 0.03f));
+		rect2.y(100 + 50f * P.sin(p.frameCount * 0.02f));
+		
+		// rect points collision
+		boolean rectCollided = false;
+		for (int j = 0; j < points.size(); j++) {
+			PVector point = points.get(j);
+			if(rectCollided == false) {	// makes sure wE don't undo the colision with the next point
+				rectCollided = rect1.contains(point);
+				rect1.collided(rectCollided);
+			}
+		}
+		
+		// check rect overlap
+		rect2.collided(rect2.intersects(rect1));
+		
+		// rect draw
+		rect1.draw(p.g);
+		rect2.draw(p.g);
+		
+		/////////////////////////////////////////
+		// show bounding box
+		/////////////////////////////////////////
+		
 	}
 	
 	public void keyPressed() {
