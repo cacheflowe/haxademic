@@ -1,4 +1,4 @@
-package com.haxademic.core.text;
+package com.haxademic.core.debug;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.data.constants.PTextAlign;
@@ -13,8 +13,13 @@ public class StringBufferLog {
 	protected String[] lines;
 	protected int curIndex = 0;
 	protected String EMPTY_STR = "";
+	protected int fontSize;
 	
 	public StringBufferLog(int size) {
+		this(size, 12);
+	}
+	
+	public StringBufferLog(int size, int fontSize) {
 		lines = new String[size];
 		for (int i = 0; i < lines.length; i++) {
 			lines[i] = EMPTY_STR;
@@ -29,7 +34,7 @@ public class StringBufferLog {
 	}
 	
 	public void printToScreen(PGraphics pg, float x, float y) {
-		PFont font = FontCacher.getFont(DemoAssets.fontOpenSansPath, 14);
+		PFont font = FontCacher.getFont(DemoAssets.fontOpenSansPath, fontSize);
 		FontCacher.setFontOnContext(pg, font, P.p.color(255), 1f, PTextAlign.LEFT, PTextAlign.TOP);
 		
 		String outputStr = "";

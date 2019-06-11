@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.haxademic.core.app.P;
+import com.haxademic.core.math.MathUtil;
 
 import processing.core.PGraphics;
 import processing.core.PVector;
@@ -18,7 +19,10 @@ public class Polygon {
 
 	protected PVector collideVec = new PVector(); 
 	protected PVector utilVec = new PVector(); 
+	protected PVector utilVec2 = new PVector(); 
 	protected PVector newNeighborCenter = new PVector(); 
+	
+	protected ArrayList<Edge> availableNeighborEdges = new ArrayList<Edge>();
 	
 	protected boolean collided = false;
 	
@@ -91,12 +95,27 @@ public class Polygon {
 	// CALCULATE POSITIONS
 	/////////////////////////////////////
 
+	public void translate(PVector move) {
+		translate(move.x, move.y, move.z);
+	}
+	
 	public void translate(float x, float y, float z) {
 		for (int i = 0; i < vertices.size(); i++) {
 			PVector v = vertices.get(i);
 			v.add(x, y, z);
 		}
 		calcCentroid();
+	}
+	
+	public void setPosition(PVector pos) {
+		setPosition(pos.x, pos.y, pos.z);
+	}
+	
+	public void setPosition(float x, float y, float z) {
+		// get offset from current position, based on center, and add to vertices
+		utilVec.set(x, y, z);
+		utilVec.sub(center);
+		translate(utilVec);
 	}
 	
 	protected void calcCentroid() {
@@ -111,6 +130,15 @@ public class Polygon {
 		utilVec.set(v1);
 		utilVec.lerp(v2, 0.5f);
 		return utilVec;
+	}
+	
+	public boolean offscreen() {
+		// find any vertices on screen
+		for (int i = 0; i < vertices.size(); i++) {
+			PVector v = vertices.get(i);
+			if(v.x > 0 && v.x < P.p.width && v.y > 0 && v.y < P.p.height) return false;
+		}
+		return true;
 	}
 	
 	/////////////////////////////////////
@@ -154,8 +182,6 @@ public class Polygon {
 			pg.vertex(v.x, v.y, v.z);
 		}
 		pg.endShape(P.CLOSE);
-
-		
 	}
 		
 	/////////////////////////////////////
@@ -199,18 +225,23 @@ public class Polygon {
 	}
 	
 	public boolean needsNeighbors() {
-		P.out(neighbors.keySet().size(), edges.size());
+		if(offscreen()) return false;
 		return (neighbors.keySet().size() < edges.size()); 
 	}
 	
 	public Edge availableNeighborEdge() {
+		availableNeighborEdges.clear();
 		for (int i = 0; i < edges.size(); i++) {
 			Edge edge = edges.get(i);
 			if(neighbors.containsKey(edge) == false) {
-				return edge;
+				availableNeighborEdges.add(edge);
 			}
 		}
-		return null;
+		if(availableNeighborEdges.size() > 0) {
+			return availableNeighborEdges.get(MathUtil.randRange(0, availableNeighborEdges.size() - 1)); // return a random available edge
+		} else {
+			return null;
+		}
 	}
 	
 	public PVector newNeighbor3rdVertex(Edge edge, float ampOut) {
@@ -224,22 +255,54 @@ public class Polygon {
 		neighbors.put(sharedEdge, newNeighbor);
 	}
 	
+	public boolean hasEdge(Edge edge) {
+		for (int j = 0; j < edges.size(); j++) {
+			Edge myEdge = edges.get(j);
+			if(myEdge.matchesEdge(edge)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
 	public Edge findSharedEdge(Polygon newNeighbor) {
 		ArrayList<Edge> otherPolyEdges = newNeighbor.edges();
-		boolean matchedEdge = false;
+//		boolean matchedEdge = false;
 		for (int i = 0; i < otherPolyEdges.size(); i++) {
 			for (int j = 0; j < edges.size(); j++) {
 				Edge otherEdge = otherPolyEdges.get(i);
 				Edge myEdge = edges.get(j);
 				if(myEdge.matchesEdge(otherEdge)) {
-					matchedEdge = true;
-					P.out("matchedEdge", myEdge.toString(), otherEdge.toString());
+//					matchedEdge = true;
 					return myEdge;
 				}
 			}
 		}
-		P.out("matchedEdge", matchedEdge);
+//		P.out("matchedEdge", matchedEdge);
 		return null;
+	}
+	
+	public int numSharedVertices(Polygon poly) {
+		int numShared = 0;
+		for (int i = 0; i < poly.vertices().size(); i++) {
+			for (int j = 0; j < numVertices; j++) {
+				if(poly.vertices.get(i).dist(vertices.get(j)) < 0.01f ) numShared++;
+			}
+		}
+		return numShared;
+	}
+	
+	public PVector closestVertexToVertex(PVector vertex) {
+		float closestVertDist = 999999;
+		PVector closestVert = null;
+		for (int i = 0; i < vertices().size(); i++) {
+			float checkDist = vertices.get(i).dist(vertex);
+			if(checkDist < closestVertDist) {
+				closestVertDist = checkDist; 
+				closestVert = vertices.get(i);
+			}
+		}
+		return closestVert;
 	}
 	
 	public void mergeWithNeighbor() {

@@ -33,8 +33,10 @@ public class Edge {
 	}
 	
 	public boolean matchesEdge(Edge edge) {
-		return v1.dist(edge.v1()) < 0.01f && 
-			   v2.dist(edge.v2()) < 0.01f;
+		return (v1.dist(edge.v1()) < 0.01f && 
+			    v2.dist(edge.v2()) < 0.01f) ||
+			   (v1.dist(edge.v2()) < 0.01f && 
+			    v2.dist(edge.v1()) < 0.01f);
 	}
 	
 	protected void drawDebug(PGraphics pg) {

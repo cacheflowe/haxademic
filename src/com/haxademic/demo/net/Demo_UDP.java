@@ -2,7 +2,7 @@ package com.haxademic.demo.net;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.text.StringBufferLog;
+import com.haxademic.core.debug.StringBufferLog;
 
 import hypermedia.net.UDP;
 

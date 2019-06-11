@@ -91,12 +91,28 @@ extends PAppletHax {
 		p.line(line2Start.x, line2Start.y, line2End.x, line2End.y);
 		
 		/////////////////////////////////////////
+		// check polygons against line segments
+		/////////////////////////////////////////
+		for (int i = 0; i < polygons.size(); i++) {
+			if(polygons.get(i).collided() == false) {	// makes sure wE don't undo the colision with the next point
+				boolean polyCollided = CollisionUtil.lineIntersectsPolygon(line1Start, line1End, polygons.get(i)) || CollisionUtil.lineIntersectsPolygon(line2Start, line2End, polygons.get(i));
+				polygons.get(i).collided(polyCollided);
+			}
+			polygons.get(i).draw(p.g);
+		}
+		
+		/////////////////////////////////////////
 		// check polygons overlapping
 		/////////////////////////////////////////
-		movingPolygon.translate(0, 2, 0);
-		// TODO: use bounding box calculation here
-		if(movingPolygon.vertices().get(0).y > p.height) movingPolygon.translate(0, -p.height, 0);
-		movingPolygon.collided(CollisionUtil.polygonsIntersect(movingPolygon, polygons.get(1)));
+		// TODO: use bounding box calculation here?
+		movingPolygon.setPosition(mouseVec);
+		boolean movingPolyCollided = false;
+		for (int i = 0; i < polygons.size(); i++) {
+			if(movingPolyCollided == false) {
+				movingPolyCollided = CollisionUtil.polygonsIntersect(movingPolygon, polygons.get(i));
+			}
+		}
+		movingPolygon.collided(movingPolyCollided);
 		movingPolygon.draw(p.g);
 		
 		/////////////////////////////////////////
@@ -123,7 +139,7 @@ extends PAppletHax {
 		rect2.draw(p.g);
 		
 		/////////////////////////////////////////
-		// show bounding box
+		// show bounding box? need to implement in Poygon
 		/////////////////////////////////////////
 		
 	}
