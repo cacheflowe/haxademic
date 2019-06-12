@@ -20,6 +20,7 @@ public class StringBufferLog {
 	}
 	
 	public StringBufferLog(int size, int fontSize) {
+		this.fontSize = fontSize;
 		lines = new String[size];
 		for (int i = 0; i < lines.length; i++) {
 			lines[i] = EMPTY_STR;
