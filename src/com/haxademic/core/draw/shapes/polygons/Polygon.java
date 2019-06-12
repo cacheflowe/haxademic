@@ -124,12 +124,34 @@ public class Polygon {
 		translate(utilVec);
 	}
 	
+	public void setVertex(int index, PVector v) {
+		vertices.get(index).set(v);
+		calcCentroid();
+		calcArea();
+	}
+	
+	public void setVertices(ArrayList<PVector> newVertices) {
+		for (int i = 0; i < vertices.size(); i++) {
+			if (i < newVertices.size()) {
+				vertices.get(i).set(newVertices.get(i));
+			}
+		}
+		calcCentroid();
+		calcArea();
+	}
+	
 	protected void calcCentroid() {
 		center.set(0, 0, 0);
 		for (int i = 0; i < vertices.size(); i++) {
 			center.add(vertices.get(i));
 		}
 		center.div(vertices.size());
+	}
+	
+	public void shrink(float amp) {
+		for (int i = 0; i < vertices.size(); i++) {
+			vertices.get(i).lerp(center, amp);
+		}
 	}
 	
 	protected void calcArea() {

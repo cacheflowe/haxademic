@@ -37,11 +37,11 @@ extends PAppletHax {
 	  * Music
 	*/
 	
+	// mesh / growth
 	protected ArrayList<Polygon> polygons;
 	protected float baseShapeSize = 50;
 	protected float snapRadius = baseShapeSize / 2f;
-	protected PVector mouseVec = new PVector();
-	protected StringBufferLog log = new StringBufferLog(30);
+	protected Polygon tempTriangle;
 	
 	// search for available connections
 	protected ArrayList<PVector> availableVertices = new ArrayList<PVector>();
@@ -49,7 +49,12 @@ extends PAppletHax {
 	protected PVector vClose2 = new PVector();
 	protected PVector vCompare;
 	
+	// debug
+	protected PVector mouseVec = new PVector();
+	protected StringBufferLog log = new StringBufferLog(30);
+	
 	protected void setupFirstFrame() {
+		tempTriangle = Polygon.buildShape(0, 0, 3, 100);
 		newSeedPolygon();
 	}
 	
@@ -97,7 +102,7 @@ extends PAppletHax {
 			randPoly = randomPolygon();
 			attempts++;
 		}
-		log.update("attempts: " + attempts);
+//		log.update("attempts: " + attempts);
 		
 		// try to add a neighbor
 		if(randPoly.needsNeighbors()) {
@@ -105,9 +110,9 @@ extends PAppletHax {
 			if(newNeighbor != null) {
 				polygons.add(newNeighbor);
 				createdNeighbor = true;
+				log.update("createdNeighbor!");
 			}
 		}
-		log.update("createdNeighbor: " + createdNeighbor);
 		
 		// attempt to close connections
 		closeNeighbors();
@@ -118,28 +123,21 @@ extends PAppletHax {
 		Edge edge = parentPoly.availableNeighborEdge();
 		// find a reasonable new vertex for a neighbor 
 		// TODO: this is where magic layout tweaks can happen by adjusting length of children, depending on location or iteration
+		// TODO: should this happen outside  of the polygon? How else can we find a new vertex?
 		PVector newNeighborVertex = parentPoly.newNeighbor3rdVertex(edge, MathUtil.randRangeDecimal(1f, 1f));
 		
 		// new triangle off the Edge, but lerp the shared edge away a tiny bit to prevent overlap check
-		// TODO: make temporary shrinkable 
-		PVector edgeV1OffsetCheck = new PVector();
-		edgeV1OffsetCheck.set(edge.v1());
-		edgeV1OffsetCheck.lerp(newNeighborVertex, 0.01f);
-		PVector edgeV2OffsetCheck = new PVector();
-		edgeV2OffsetCheck.set(edge.v2());
-		edgeV2OffsetCheck.lerp(newNeighborVertex, 0.01f);
-		Polygon newNeighborCheckOverlap = new Polygon(new float[] {
-				edgeV1OffsetCheck.x, edgeV1OffsetCheck.y, edgeV1OffsetCheck.z,
-				edgeV2OffsetCheck.x, edgeV2OffsetCheck.y, edgeV2OffsetCheck.z,
-				newNeighborVertex.x, newNeighborVertex.y, newNeighborVertex.z
-		});
+		tempTriangle.setVertex(0, edge.v1());
+		tempTriangle.setVertex(1, edge.v2());
+		tempTriangle.setVertex(2, newNeighborVertex);
+		tempTriangle.shrink(0.001f);
 
 		
 		// check to see if we're overlapping with another polygon
 		Polygon overlappedPoly = null;
 		for (int i = 0; i < polygons.size(); i++) {
-			if(overlappedPoly == null && polygons.get(i) != parentPoly) {
-				if(CollisionUtil.polygonsIntersect(polygons.get(i), newNeighborCheckOverlap)) {
+			if(overlappedPoly == null) {
+				if(CollisionUtil.polygonsIntersect(polygons.get(i), tempTriangle)) {
 					overlappedPoly = polygons.get(i);
 				}
 			}
@@ -149,7 +147,7 @@ extends PAppletHax {
 		if(overlappedPoly != null) {
 			PVector closestOverlappedVert = overlappedPoly.closestVertexToVertex(newNeighborVertex);
 			newNeighborVertex.set(closestOverlappedVert);
-			log.update("OVERLAP SNAP!");
+//			log.update("OVERLAP SNAP!");
 		} else {
 			// if we're not overlapped, but close to another vertex, let's try to snap
 			boolean snapped = false;
@@ -161,7 +159,7 @@ extends PAppletHax {
 							newNeighborVertex.set(vertex);
 							overlappedPoly = polygons.get(i);	// ensures that the neighbors are connected below
 							snapped = true;
-							log.update("SNAP!");
+//							log.update("SNAP!");
 						}
 					}
 				}
@@ -170,7 +168,7 @@ extends PAppletHax {
 		
 		// TODO: Do we need to check for overlap again, based on "SNAP" above??
 		
-		// new triangle off the Edge
+		// new triangle to attach
 		Polygon newNeighbor = new Polygon(new float[] {
 				edge.v1().x, edge.v1().y, edge.v1().z,
 				edge.v2().x, edge.v2().y, edge.v2().z,
@@ -217,10 +215,6 @@ extends PAppletHax {
 	};       
 	
 	protected void closeNeighbors() {
-		// find polygons that need neighbors and have a common vertex that connects to an edge without neighbors (on each polygon)
-		boolean foundSharedVertex = false;
-		int attemptsToFind = 0;
-		
 		// create array of vertices that can be connected with another
 		availableVertices.clear();
 		for (int i = 0; i < polygons.size(); i++) {
@@ -248,88 +242,68 @@ extends PAppletHax {
 			Collections.sort(availableVertices, distanceComparator);
 			
 			// check several combinations of closest vertices
-			// TODO: refactor to create new shrinkable temporaray polygon
+			// TODO: return after closing one??
 			/////////////
 			if(availableVertices.size() >= 3) {
-				// find triangle - first 3 vertices if there are that many!
-				// draw debug triangle
-				p.strokeWeight(2);
-				p.stroke(255,0,0);
-				PVector v1 = availableVertices.get(0);
-				PVector v2 = availableVertices.get(1);
-				PVector v3 = availableVertices.get(2);
-				p.line(v1.x + 2, v1.y + 2, v2.x + 2, v2.y + 2);
-				p.line(v1.x + 2, v1.y + 2, v3.x + 2, v3.y + 2);
-				p.line(v3.x + 2, v3.y + 2, v2.x + 2, v2.y + 2);
-				p.strokeWeight(1);
+				attemptCloseTriangle(availableVertices.get(0), availableVertices.get(1), availableVertices.get(2));
 			}
 			if(availableVertices.size() >= 4) {
-				// find triangle - first 3 vertices if there are that many!
-				// draw debug triangle
-				p.strokeWeight(2);
-				p.stroke(255,0,0);
-				PVector v1 = availableVertices.get(0);
-				PVector v2 = availableVertices.get(2);
-				PVector v3 = availableVertices.get(3);
-				p.line(v1.x + 2, v1.y + 2, v2.x + 2, v2.y + 2);
-				p.line(v1.x + 2, v1.y + 2, v3.x + 2, v3.y + 2);
-				p.line(v3.x + 2, v3.y + 2, v2.x + 2, v2.y + 2);
-				p.strokeWeight(1);
-
-				// find triangle - first 3 vertices if there are that many!
-				// draw debug triangle
-				p.strokeWeight(2);
-				p.stroke(255,0,0);
-				v1 = availableVertices.get(0);
-				v2 = availableVertices.get(1);
-				v3 = availableVertices.get(3);
-				p.line(v1.x + 2, v1.y + 2, v2.x + 2, v2.y + 2);
-				p.line(v1.x + 2, v1.y + 2, v3.x + 2, v3.y + 2);
-				p.line(v3.x + 2, v3.y + 2, v2.x + 2, v2.y + 2);
-				p.strokeWeight(1);
+				attemptCloseTriangle(availableVertices.get(0), availableVertices.get(2), availableVertices.get(3));
+				attemptCloseTriangle(availableVertices.get(0), availableVertices.get(1), availableVertices.get(3));
 			}
 			if(availableVertices.size() >= 5) {
-				// find triangle - first 3 vertices if there are that many!
-				// draw debug triangle
-				p.strokeWeight(2);
-				p.stroke(255,0,0);
-				PVector v1 = availableVertices.get(0);
-				PVector v2 = availableVertices.get(3);
-				PVector v3 = availableVertices.get(4);
-				p.line(v1.x + 2, v1.y + 2, v2.x + 2, v2.y + 2);
-				p.line(v1.x + 2, v1.y + 2, v3.x + 2, v3.y + 2);
-				p.line(v3.x + 2, v3.y + 2, v2.x + 2, v2.y + 2);
-				p.strokeWeight(1);
+				attemptCloseTriangle(availableVertices.get(0), availableVertices.get(3), availableVertices.get(4));
 			}
 		}
 
-		/*
-		for (int i = 0; i < polygons.size(); i++) {
-			for (int j = 0; j < polygons.size(); j++) {
-//				if(foundSharedVertex == false) {
-					Polygon poly1 = polygons.get(i);
-					Polygon poly2 = polygons.get(j);
-					if(poly1 != poly2) {	// don't compare to self
-						if(poly1.needsNeighbors() && poly2.needsNeighbors()) {
-							attemptsToFind++;
-							// find shared point, then find each poly's edge connected to that point
-							ArrayList<PVector> shareVerts = poly1.sharedVertex(poly2);
-							for (int k = 0; k < shareVerts.size(); k++) {
-								availableVertices.add(shareVerts.get(k));
-								p.circle(shareVerts.get(k).x, shareVerts.get(k).y, 10);
-							}
-						}
-					}
-//				}
-			}
-		}
-		*/
-		// TODO: now find vertices that belong to a single polygon with 2 edges without neighbors
-		
 		// TODO: THEN!
 		// attempt to create a new triangle with an edge between - might have to shrink towards center 
 	}
 
+	protected boolean attemptCloseTriangle(PVector v1, PVector v2, PVector v3) {
+		// new to check for overlaps
+		tempTriangle.setVertex(0, v1);
+		tempTriangle.setVertex(1, v2);
+		tempTriangle.setVertex(2, v3);
+		tempTriangle.shrink(0.001f);
+
+		// debug draw??
+		p.strokeWeight(2);
+		p.stroke(255,0,0);
+		p.line(v1.x + 2, v1.y + 2, v2.x + 2, v2.y + 2);
+		p.line(v1.x + 2, v1.y + 2, v3.x + 2, v3.y + 2);
+		p.line(v3.x + 2, v3.y + 2, v2.x + 2, v2.y + 2);
+		p.strokeWeight(1);
+
+		// check to see if we're overlapping with another polygon
+		Polygon overlappedPoly = null;
+		for (int i = 0; i < polygons.size(); i++) {
+			if(overlappedPoly == null) {
+				if(CollisionUtil.polygonsIntersect(polygons.get(i), tempTriangle)) {
+					overlappedPoly = polygons.get(i);
+				}
+			}
+		}
+		
+		if(overlappedPoly == null) {
+			Polygon newNeighbor = new Polygon(new float[] {
+					v1.x, v1.y, v1.z,
+					v2.x, v2.y, v2.z,
+					v3.x, v3.y, v3.z
+			});
+			polygons.add(newNeighbor);
+			log.update("CLOSED TRIANGLE!!!!!");
+			
+			// TODO: find any matching edges and add neighbor Polygons
+			// This is super important to stop edges without neighbors from being in `availableVertices`
+			
+			return true;
+		} else {
+			return false;
+		}
+
+	}
+	
 	// user input
 	
 	public void keyPressed() {
