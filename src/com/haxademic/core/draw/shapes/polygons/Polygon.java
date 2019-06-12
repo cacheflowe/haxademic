@@ -4,8 +4,12 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.haxademic.core.app.P;
+import com.haxademic.core.data.constants.PTextAlign;
+import com.haxademic.core.draw.text.FontCacher;
 import com.haxademic.core.math.MathUtil;
+import com.haxademic.core.media.DemoAssets;
 
+import processing.core.PFont;
 import processing.core.PGraphics;
 import processing.core.PVector;
 
@@ -16,6 +20,7 @@ public class Polygon {
 	protected HashMap<Edge, Polygon> neighbors;
 	protected ArrayList<Edge> edges;
 	protected int numVertices = 0;
+	protected float area = 0;
 
 	protected PVector collideVec = new PVector(); 
 	protected PVector utilVec = new PVector(); 
@@ -51,6 +56,7 @@ public class Polygon {
 		edges = new ArrayList<Edge>();
 		buildEdges();
 		calcCentroid();
+		calcArea();
 	}
 	
 	/////////////////////////////////////
@@ -124,6 +130,10 @@ public class Polygon {
 			center.add(vertices.get(i));
 		}
 		center.div(vertices.size());
+	}
+	
+	protected void calcArea() {
+		area = CollisionUtil.polygonArea(this);
 	}
 	
 	protected PVector midPoint(PVector v1, PVector v2) {
@@ -222,6 +232,10 @@ public class Polygon {
 			PVector almostEdge = midPoint(center, edge.midPoint());
 			pg.circle(almostEdge.x, almostEdge.y, 5);
 		}
+		// draw area calc
+		PFont font = FontCacher.getFont(DemoAssets.fontOpenSansPath, 10);
+		FontCacher.setFontOnContext(pg, font, P.p.color(255), 1f, PTextAlign.LEFT, PTextAlign.TOP);
+		pg.text(P.round(area), center.x, center.y);
 	}
 	
 	public boolean needsNeighbors() {
@@ -245,14 +259,35 @@ public class Polygon {
 	}
 	
 	public PVector newNeighbor3rdVertex(Edge edge, float ampOut) {
+		PVector edgeLaunchPoint = edge.launchPoint();
+		float edgeLength = edge.length();
+		float edgeDistFromCenter = center.dist(edgeLaunchPoint);
+		ampOut += (edgeLength / edgeDistFromCenter);
 		newNeighborCenter.set(center);
-		newNeighborCenter.lerp(edge.midPoint(), ampOut);	// lerp beyond edge midpoint from polygon center
+		newNeighborCenter.lerp(edgeLaunchPoint, ampOut);	// lerp beyond edge midpoint from polygon center
 		return newNeighborCenter;
 	}
 	
 	public void setNeighbor(Polygon newNeighbor) {
 		Edge sharedEdge = findSharedEdge(newNeighbor);
 		neighbors.put(sharedEdge, newNeighbor);
+	}
+	
+	public ArrayList<PVector> sharedVertex(Polygon poly) {
+		ArrayList<PVector> sharedVertices = new ArrayList<PVector>();
+		for (int i = 0; i < vertices.size(); i++) {
+			for (int j = 0; j < poly.vertices().size(); j++) {
+				if(vertices.get(i).dist(poly.vertices.get(j)) < 0.001f) {
+					sharedVertices.add(vertices.get(i));
+//					return vertices.get(i);
+				}
+			}
+		}
+		return sharedVertices;
+	}
+	
+	public boolean edgeHasNeighbor(Edge edge) {
+		return neighbors.containsKey(edge);
 	}
 	
 	public boolean hasEdge(Edge edge) {

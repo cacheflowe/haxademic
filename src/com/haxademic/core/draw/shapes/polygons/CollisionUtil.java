@@ -143,5 +143,23 @@ public class CollisionUtil {
 		return false;
 	}
 	
+	//////////////////////////
+	// IRREGULAR POLYGON AREA
+	//////////////////////////
+	
+	// from: https://www.mathopenref.com/coordpolygonarea2.html
+	public static float polygonArea(Polygon poly) {
+		ArrayList<PVector> vertices = poly.vertices();
+		int numVertices = vertices.size();
+		float area = 0;
+		int j = numVertices - 1; // previous vertex
 
+		for (int i=0; i < numVertices; i++) {
+			PVector v = vertices.get(i);
+			PVector vPrev = vertices.get(j);
+			area = area + (vPrev.x + v.x) * (vPrev.y - v.y); 
+			j = i;  // j is previous vertex to i
+		}
+		return P.abs(area/2f);
+	}
 }

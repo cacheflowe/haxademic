@@ -1,5 +1,7 @@
 package com.haxademic.core.draw.shapes.polygons;
 
+import com.haxademic.core.math.MathUtil;
+
 import processing.core.PGraphics;
 import processing.core.PVector;
 
@@ -8,6 +10,7 @@ public class Edge {
 	protected PVector v1;
 	protected PVector v2;
 	protected PVector midPoint = new PVector();
+	protected PVector launchPoint = new PVector();
 	
 	public Edge(PVector v1, PVector v2) {
 		this.v1 = v1;
@@ -22,6 +25,16 @@ public class Edge {
 	protected void calcMidPoint() {
 		midPoint.set(v1);
 		midPoint.lerp(v2, 0.5f);
+	}
+	
+	public PVector launchPoint() {
+		launchPoint.set(v1);
+		launchPoint.lerp(v2, MathUtil.randRangeDecimal(0.45f, 0.55f));
+		return launchPoint;
+	}
+	
+	public float length() {
+		return v1.dist(v2);
 	}
 	
 	public void update() {
