@@ -16,7 +16,7 @@ public class AppGenerator
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
-	protected String newProjectName = "nike-650-2019-zoom";
+	protected String newProjectName = "new-hax-project";
 	protected StringBufferLog log = new StringBufferLog(20, 16);
 	
 	protected File haxPath;
