@@ -11,9 +11,11 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.nio.channels.FileChannel;
 import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -278,6 +280,13 @@ public class FileUtil {
 		return words;
 	}
 
+	public static void replaceStringInFile(String fileName, String oldString, String newString) throws IOException {
+		Path path = Paths.get(fileName);
+		Charset charset = StandardCharsets.UTF_8;
+		String content = new String(Files.readAllBytes(path), charset);
+		content = content.replaceAll(oldString, newString);
+		Files.write(path, content.getBytes(charset));
+	}
 	
 	// CREATE / APPEND
 
@@ -294,6 +303,22 @@ public class FileUtil {
 		    e.printStackTrace();
 		    return false;
 		}
+	}
+	
+	// from: https://stackoverflow.com/a/50418060/352456
+	public static void copyFolder(String srcPath, String destPath) throws IOException {
+		Path src = Paths.get(srcPath);
+		Path dest = Paths.get(destPath);
+	    Files.walk(src)
+	        .forEach(source -> copy(source, dest.resolve(src.relativize(source))));
+	}
+	
+	public static void copy(Path source, Path dest) {
+	    try {
+	        Files.copy(source, dest, StandardCopyOption.REPLACE_EXISTING);
+	    } catch (Exception e) {
+	        throw new RuntimeException(e.getMessage(), e);
+	    }
 	}
 	
 	/**
