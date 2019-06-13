@@ -1,9 +1,10 @@
 package com.haxademic.app.mirrors;
 
+import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.data.constants.PRenderers;
-import com.haxademic.core.draw.filters.pgraphics.ColorGradientTrail;
+import com.haxademic.core.draw.context.PG;
+import com.haxademic.core.draw.filters.pgraphics.MotionFire;
 import com.haxademic.core.draw.filters.pgraphics.shared.BaseVideoFilter;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.hardware.webcam.IWebCamCallback;
@@ -21,14 +22,14 @@ implements IWebCamCallback {
 	protected BaseVideoFilter vfxPre;
 	protected BaseVideoFilter vfx;
 	
-	protected int webcamW = 1920;
-	protected int webcamH = 1080;
+	protected int webcamW = (int)w;//1920;
+	protected int webcamH = (int)h;//1080;
 	protected PGraphics webcamBuffer;
 
 	protected void overridePropsFile() {
 		p.appConfig.setProperty(AppSettings.WIDTH, (int) w);
 		p.appConfig.setProperty(AppSettings.HEIGHT, (int) h);
-		p.appConfig.setProperty(AppSettings.WEBCAM_INDEX, 5);
+		p.appConfig.setProperty(AppSettings.WEBCAM_INDEX, 29);
 		p.appConfig.setProperty(AppSettings.FULLSCREEN, false);
 		p.appConfig.setProperty(AppSettings.WIDTH, 1280);
 		p.appConfig.setProperty(AppSettings.HEIGHT, 720);
@@ -38,7 +39,7 @@ implements IWebCamCallback {
 
 	protected void setupFirstFrame() {
 		p.webCamWrapper.setDelegate(this);
-		webcamBuffer = p.createGraphics(webcamW, webcamH, PRenderers.P3D);
+		webcamBuffer = PG.newPG(webcamW, webcamH);
 		
 //		vfx = new GPUParticlesSheetDisplacer(p.width, p.height, 0.5f);
 //		vfx = new PixelTriFilter(p.width, p.height, 20);
@@ -48,7 +49,8 @@ implements IWebCamCallback {
 //		vfx = new HalftoneCamo(p.width, p.height);
 //		vfx = new RadialHistory(p.width, p.height);
 //		vfx = new UVGridOpticalFlow(p.width, p.height);
-		vfx = new ColorGradientTrail(p.width, p.height);
+//		vfx = new ColorGradientTrail(p.width, p.height);
+		vfx = new MotionFire(p.width, p.height);
 //		vfx = new GPUParticlesLauncher(p.width, p.height);
 //		vfxPre = new SmokeFeedback(p.width, p.height);
 	}
