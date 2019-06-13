@@ -1,4 +1,4 @@
-package com.haxademic.demo.net;
+package com.haxademic.sketch.net;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.context.PG;

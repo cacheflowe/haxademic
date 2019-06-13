@@ -8,6 +8,7 @@
 * Test Realsense camera outside
 * Pride gif?
 
+* Webcam with OpenJDK: https://github.com/gstreamer-java/gst1-java-core/issues/15
 * Threaded safety of InputTrigger isn't good - especially at a low FPS?
   * WebServer requests can fall through the cracks (button clicks, etc)
   * Web requests that route to p.ui aren't predictable, especially at 30fps? Look at p.ui button handling in Re-Creation

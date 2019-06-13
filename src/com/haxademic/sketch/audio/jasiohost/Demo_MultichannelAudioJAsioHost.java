@@ -1,4 +1,4 @@
-package com.haxademic.demo.media.audio.playback.multichannel;
+package com.haxademic.sketch.audio.jasiohost;
 //package com.haxademic.demo.audio;
 //
 //import java.io.File;
