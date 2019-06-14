@@ -9,6 +9,7 @@ public class ValidateUtil {
 	protected static final String EMAIL_PATTERN =  "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
 	protected static final String EMAIL_CHARACTER =  "[A-Za-z0-9\\-\\+\\.@_]";
 	protected static final String ALPHANUMERIC =  "[A-Za-z0-9]";
+	protected static final String ALPHANUMERIC_AND_CHARCTERS =  "[a-zA-Z0-9\\-#\\.\\(\\)\\/%&\\s]";
 
 	protected static Pattern patternEmail = Pattern.compile(EMAIL_PATTERN);
 	protected static Matcher emailMatcher;
@@ -19,6 +20,9 @@ public class ValidateUtil {
 	protected static Pattern patternAlphanumericChar = Pattern.compile(ALPHANUMERIC);
 	protected static Matcher alphanumericCharMatcher;
  
+	protected static Pattern patternAlphanumericCharAndSpecialChars = Pattern.compile(ALPHANUMERIC_AND_CHARCTERS);
+	protected static Matcher patternAlphanumericCharAndSpecialCharsMatcher;
+	
 	/**
 	 * Validate email input with regular expression
 	 * Originally from: http://www.mkyong.com/regular-expressions/how-to-validate-email-address-with-regular-expression/
@@ -51,5 +55,10 @@ public class ValidateUtil {
 	public static boolean validateAlphanumericCharacter( String input ) {
 		alphanumericCharMatcher = patternAlphanumericChar.matcher( input );
 		return alphanumericCharMatcher.matches();
+	}
+
+	public static boolean alphanumericCharactersWithSpecialCharacters( String input ) {
+		patternAlphanumericCharAndSpecialCharsMatcher = patternAlphanumericCharAndSpecialChars.matcher( input );
+		return patternAlphanumericCharAndSpecialCharsMatcher.matches();
 	}
 }

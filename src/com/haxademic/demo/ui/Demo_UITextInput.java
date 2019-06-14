@@ -1,5 +1,7 @@
 package com.haxademic.demo.ui;
 
+import java.util.ArrayList;
+
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.data.constants.PTextAlign;
 import com.haxademic.core.draw.color.ColorsHax;
@@ -11,15 +13,17 @@ extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	protected boolean debugMode = true;
-	protected UITextInput textInput;
+	protected ArrayList<UITextInput> textInputs = new ArrayList<UITextInput>();
 	
 	public void setupFirstFrame () {
-		int sliderX = 10;
-		int sliderY = 10;
-		int sliderW = 300;
-		int sliderH = 20;
-//		new UISlider("b", 255, 0, 255, 0.5f, sliderX, sliderY += 30, sliderW, sliderH),
-		textInput = new UITextInput("demo", 20, DemoAssets.fontOpenSansPath, ColorsHax.WHITE, 10, PTextAlign.LEFT, 100, 100, 300, 60);
+		int inputX = 100;
+		int inputY = 10;
+		int inputW = 300;
+		for (int i = 0; i < 6; i++) {
+			int inputH = 20 + 20 * i;
+			textInputs.add(new UITextInput("demo"+i, 20, DemoAssets.fontOpenSansPath, ColorsHax.WHITE, 10, PTextAlign.LEFT, inputX, inputY, inputW, inputH));
+			inputY += inputH + 20;
+		}
 	}
 	
 	public void keyPressed() {
@@ -29,7 +33,9 @@ extends PAppletHax {
 	
 	public void drawApp() {
 		p.background(0);
-		textInput.update(p.g);
+		for (int i = 0; i < textInputs.size(); i++) {
+			textInputs.get(i).update(p.g);
+		}
 	}
 	
 }
