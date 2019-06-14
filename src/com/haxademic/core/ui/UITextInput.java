@@ -1,12 +1,15 @@
 package com.haxademic.core.ui;
 
 import java.awt.Rectangle;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.data.constants.PTextAlign;
 import com.haxademic.core.draw.color.ColorsHax;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.text.FontCacher;
+import com.haxademic.core.system.SystemUtil;
 
 import processing.core.PConstants;
 import processing.core.PFont;
@@ -142,7 +145,8 @@ public class UITextInput {
 		case MouseEvent.RELEASE:
 			pressed = false;
 			focused = rect.contains(mouseX, mouseY);
-			if(focused) ACTIVE_INPUT = this;
+			ACTIVE_INPUT = null;
+			if(focused) SystemUtil.setTimeout(activeTimeout, 10);
 			break;
 		case MouseEvent.MOVE:
 			over = rect.contains(mouseX,  mouseY);
@@ -150,6 +154,13 @@ public class UITextInput {
 		case MouseEvent.DRAG:
 			break;
 		}
+	}
+	
+	protected ActionListener activeTimeout = new ActionListener() {
+		public void actionPerformed(ActionEvent e) { setActive(); }
+	};
+	protected void setActive() {
+		ACTIVE_INPUT = this;
 	}
 
 	/////////////////////////////////////////
