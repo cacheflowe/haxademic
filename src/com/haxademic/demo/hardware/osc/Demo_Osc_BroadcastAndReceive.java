@@ -3,6 +3,7 @@ package com.haxademic.demo.hardware.osc;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.hardware.shared.InputTrigger;
 
 import oscP5.OscMessage;
 import oscP5.OscP5;
@@ -13,6 +14,7 @@ extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	protected OscP5 oscP5;
+	protected InputTrigger oscTrigger = new InputTrigger().addOscMessages(new String[] {"/framecount"});
 	
 	protected void overridePropsFile() {
 		 p.appConfig.setProperty( AppSettings.OSC_ACTIVE, true );
@@ -34,15 +36,23 @@ extends PAppletHax {
 	public void drawApp() {
 		p.background(0);
 		
+		// do something with the trigger
+		if(oscTrigger.triggered()) {
+			// draw a box when the OSC message is received
+			p.fill(0, 255, 0);
+			p.rect(10, 10, 50, 50);
+			// log the OSC value
+			P.out(oscTrigger.value());
+		}
+		
 		// show received OSC signals
 		p.oscState.printButtons();
 		
-		// broadcast framecount
+		// broadcast framecount (picked up by self since it's multicasted)
 		if(frameCount % 50 == 0) {
 			OscMessage heartbeatMessage = new OscMessage("/framecount");
 			heartbeatMessage.add((float) p.frameCount);
 			oscP5.send(heartbeatMessage); 
-			// P.out("HEARTBEAT OSC", heartbeatMessage.toString(), heartbeatMessage.get(0).floatValue());
 		}
 	}
 
