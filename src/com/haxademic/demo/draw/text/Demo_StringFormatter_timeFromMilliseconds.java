@@ -1,4 +1,4 @@
-package com.haxademic.demo.text;
+package com.haxademic.demo.draw.text;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;

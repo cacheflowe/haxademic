@@ -91,6 +91,7 @@
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.hardware.midi"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.render"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.demo.draw.textures"/>
+        <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.draw.shapes.polygons"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.demo.data"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.draw.filters"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.file"/>
