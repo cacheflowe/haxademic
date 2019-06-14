@@ -73,7 +73,6 @@
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.draw.filters.pgraphics.shared"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.hardware.osc.devices"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.demo.hardware.depthcamera.shared"/>
-        <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.demo.text"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.demo.media.audio.analysis"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.demo.media.audio.playback"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.draw.color"/>
