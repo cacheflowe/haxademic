@@ -6,22 +6,24 @@ import java.util.regex.Pattern;
 public class ValidateUtil {
 	 
  
-	protected static final String EMAIL_PATTERN =  "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
-	protected static final String EMAIL_CHARACTER =  "[A-Za-z0-9\\-\\+\\.@_]";
-	protected static final String ALPHANUMERIC =  "[A-Za-z0-9]";
-	protected static final String ALPHANUMERIC_AND_CHARCTERS =  "[a-zA-Z0-9\\-#\\.\\(\\)\\/%&\\s]";
+	public static final String EMAIL_PATTERN =  "^[_A-Za-z0-9-\\+]+(\\.[_A-Za-z0-9-]+)*@[A-Za-z0-9-]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$";
+	public static final String EMAIL_CHARACTER =  "[A-Za-z0-9\\-\\+\\.@_]";
+	public static final String ALPHANUMERIC =  "[A-Za-z0-9]";
+	public static final String NUMERIC =  "[0-9]";
+	public static final String NOT_NUMERIC =  "[^0-9.]";
+	public static final String ALPHANUMERIC_AND_CHARCTERS =  "[a-zA-Z0-9\\-#\\.\\(\\)\\/%&\\s]";
 
-	protected static Pattern patternEmail = Pattern.compile(EMAIL_PATTERN);
-	protected static Matcher emailMatcher;
+	public static Pattern patternEmail = Pattern.compile(EMAIL_PATTERN);
+	public static Matcher emailMatcher;
  
-	protected static Pattern patternEmailChar = Pattern.compile(EMAIL_CHARACTER);
-	protected static Matcher emailCharMatcher;
+	public static Pattern patternEmailChar = Pattern.compile(EMAIL_CHARACTER);
+	public static Matcher emailCharMatcher;
  
-	protected static Pattern patternAlphanumericChar = Pattern.compile(ALPHANUMERIC);
-	protected static Matcher alphanumericCharMatcher;
+	public static Pattern patternAlphanumericChar = Pattern.compile(ALPHANUMERIC);
+	public static Matcher alphanumericCharMatcher;
  
-	protected static Pattern patternAlphanumericCharAndSpecialChars = Pattern.compile(ALPHANUMERIC_AND_CHARCTERS);
-	protected static Matcher patternAlphanumericCharAndSpecialCharsMatcher;
+	public static Pattern patternAlphanumericCharAndSpecialChars = Pattern.compile(ALPHANUMERIC_AND_CHARCTERS);
+	public static Matcher patternAlphanumericCharAndSpecialCharsMatcher;
 	
 	/**
 	 * Validate email input with regular expression

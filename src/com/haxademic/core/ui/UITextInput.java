@@ -33,25 +33,21 @@ public class UITextInput {
 	protected float cursorX;
 	protected float cursorPadding;
 	protected float textY;
-	protected float caretY;
 	protected int padX;
-	protected int textColor;
-	protected int textWidth;
+	protected String filter = null;
 
 	public UITextInput(String id, String fontFile, int align, int x, int y, int w, int h ) {
 		this.id = id;
 		this.fontFile = fontFile;
-		this.fontSize = h * 0.5f;//fontSize;
-		this.padX = 10;
 		this.align = align;
+		fontSize = h * 0.5f;
+		padX = 10;
 		cursorPadding = Math.round( fontSize / 6f ); 
 		rect = new Rectangle( x, y, w, h );
 		textY = rect.y + rect.height * 0.5f - fontSize * 0.3f;
-		caretY = rect.y + rect.height * 0.5f - fontSize * 0.5f;
 		over = false;
 		pressed = false;
 		focused = false;
-		textWidth = rect.width - ( padX * 2 );
 		text = "";
 		
 		P.p.registerMethod("mouseEvent", this);
@@ -80,6 +76,30 @@ public class UITextInput {
 	
 	public void reset() {
 		text = "";
+	}
+	
+	public int x() {
+		return rect.x;
+	}
+	
+	public int y() {
+		return rect.y;
+	}
+	
+	public int width() {
+		return rect.width;
+	}
+	
+	public int height() {
+		return rect.height;
+	}
+	
+	public String filter() {
+		return filter;
+	}
+	
+	public void filter(String filter) {
+		this.filter = filter;
 	}
 	
 	public void update( PGraphics pg ) {
@@ -179,9 +199,8 @@ public class UITextInput {
 			} else if(key == PConstants.RETURN || key == PConstants.ENTER || key == PConstants.SHIFT || key == PConstants.TAB) {
 				
 			} else {
-//				if(ValidateUtil.alphanumericCharactersWithSpecialCharacters(key+"")) {
-					text += key;
-//				}
+				text += key;
+				if(filter != null) text = text.replaceAll(filter, "");
 			}
 		}
 		
