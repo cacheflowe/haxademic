@@ -172,7 +172,7 @@ public class SavedPointUI {
 		}
 	}
 	
-	protected void resetInteractionTimeout() {
+	public void resetInteractionTimeout() {
 		lastInteractTime = P.p.millis();
 	}
 	

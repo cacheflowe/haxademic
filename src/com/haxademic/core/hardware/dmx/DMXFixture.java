@@ -21,6 +21,7 @@ public class DMXFixture {
 	}
 	
 	public int dmxChannel() { return dmxChannel; }
+	public void dmxChannel(int channel) { dmxChannel = channel; }
 	public EasingColor color() { return color; }
 	public DMXFixture setEaseFactor(float easeFactor) { color.setEaseFactor(easeFactor); return this; }
 	public int colorR() { return P.round(color.r()); }
