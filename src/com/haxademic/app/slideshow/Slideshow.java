@@ -42,7 +42,7 @@ extends PAppletHax
 	public static String slidesDir = "D:\\workspace\\presentations\\_ctd-class-01";
 	protected int BUFFER_W = 2688;
 	protected int BUFFER_H = 896;
-	
+		
 	// CONFIG
 	public static boolean DEBUG_MODE = false;
 	protected int LOADING_INTERVAL = 5;
@@ -154,6 +154,15 @@ extends PAppletHax
 			loadSlidesFromDir(directories[i]);
 		}
 	}
+	
+	protected void reloadSlides() {
+		appStore.setNumber(SlideshowState.SLIDE_INDEX.id(), -1); 
+		loadImages();
+		preloadX.setTarget(0);
+		preloadX.setCurrent(0);
+		preloadBarOff.setCurrent(0);
+		preloadBarOff.setTarget(0);
+	}
 
 //	protected void loadSlidesFromDir(String imagesPath) {
 //		ArrayList<String> images = FileUtil.getFilesInDirOfTypes(imagesPath, "png,mp4,mov,gif");
@@ -207,6 +216,7 @@ extends PAppletHax
 
 	public void keyPressed() {
 		super.keyPressed();
+		if(p.key == 'r') reloadSlides();
 		if(p.key == 'd') DEBUG_MODE = !DEBUG_MODE;
 		if(p.key == 's') stressTesting = !stressTesting;
 		if(p.key == ' ') if(!waitingForAutoAdvance()) nextSlide();

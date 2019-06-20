@@ -160,6 +160,7 @@ implements IAppStoreListener {
 		if(captionIndex != -1) {
 			caption = imagePath.substring(captionIndex).split("-")[1];
 			caption = caption.replaceAll("_", " ");
+			caption = caption.replaceAll("dash", "-");
 		}
 		// title
 		int titleIndex = imagePath.indexOf("title");
@@ -167,6 +168,7 @@ implements IAppStoreListener {
 			title = imagePath.substring(titleIndex).split("-")[1];
 			title = title.replaceAll("_", " ");
 			title = title.replaceAll("qqq", "?");
+			title = title.replaceAll("colon", ":");
 			title = title.replaceAll("newline", newline);
 		}
 	}
