@@ -2,9 +2,18 @@
 
 ## High-priority
 
-* Polygon demo - use pride colors to make a gif?
+* libusb or something like that to query weather a webcam is still plugged in. Java library?
+  * http://usb4java.org/quickstart/libusb.html
+* Polygon demo
   * Make texture fill style interface/class
   * Make layout generator w/growth
+  * Buy hardware:
+    * Computer
+      * https://www.newegg.com/abs-computer-technologies-summoner-ali205/p/N82E16883102471?Item=N82E16883102471
+    * Projector
+      * https://protechprojection.com/viewsonic-ls810-wxga-laser-ultra-short-throw-projector/
+      * https://protechprojection.com/viewsonic-ls830-1080p-laser-ultra-short-throw-projector/
+      * https://www.newegg.com/p/0Z7-0023-00040?item=0Z7-0023-00040
 * Test Realsense camera outside
 * Pride gif?
 
@@ -19,6 +28,8 @@
 	* https://github.com/chungbwc/Magicandlove
 	* http://www.magicandlove.com/blog/2018/08/06/openpose-in-processing-and-opencv-dnn/
 	* https://github.com/chungbwc/Magicandlove/tree/master/ml20180806b
+	* http://www.magicandlove.com/blog/2018/08/08/darknet-yolo-v3-testing-in-processing-with-the-opencv-dnn-module/
+	* http://www.magicandlove.com/blog/2018/08/06/deep-neural-network-dnn-module-with-processing/
 * Make some vanilla Processing examples to help with post 3.3.7 render issues: https://github.com/processing/processing/issues/5806
 
 ## Art projects
@@ -163,7 +174,10 @@
   * Wrap up GLSL transitions collection and make a common interface
   * Fix up GPU particle launcher to store colors per-particle
   * Convert Orbit noise: https://www.shadertoy.com/view/4t3yDn
-  * Convert some postprocessing effects: https://github.com/libretro/glsl-shaders
+  * Convert some postprocessing effects: 
+    * https://github.com/libretro/glsl-shaders
+    * https://github.com/Vidvox/ISF-Files/blob/master/ISF/Optical%20Flow%20Distort.fs
+    * https://github.com/v002/v002-Optical-Flow/blob/master/v002.GPUHSFlow.frag
   * Figure out `particle-displace-curl.glsl`
   * Add `feedback-map.glsl` & `feedback-radial.glsl` shader wrapper classes
   * Build a post-processing library: https://github.com/processing/processing/wiki/Library-Basics
