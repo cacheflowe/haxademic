@@ -8,6 +8,7 @@ import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.color.ImageGradient;
 import com.haxademic.core.draw.filters.pshader.BloomFilter;
 import com.haxademic.core.draw.filters.pshader.BrightnessStepFilter;
+import com.haxademic.core.draw.filters.pshader.FXAAFilter;
 import com.haxademic.core.draw.filters.pshader.GrainFilter;
 import com.haxademic.core.draw.filters.pshader.VignetteFilter;
 import com.haxademic.core.draw.image.ImageUtil;
@@ -63,6 +64,8 @@ extends PAppletHax {
 	protected void overridePropsFile() {
 		p.appConfig.setProperty( AppSettings.WIDTH, 1080 );
 		p.appConfig.setProperty( AppSettings.HEIGHT, 1080 );
+		p.appConfig.setProperty( AppSettings.FULLSCREEN, true );
+		p.appConfig.setProperty( AppSettings.ALWAYS_ON_TOP, false );
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, false );
 		if(renderSingleMovie) p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, true );
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_START_FRAME, 1 );
@@ -163,7 +166,7 @@ extends PAppletHax {
 				
 		// draw to screen & postprocess
 		p.image(pg, 0, 0);
-		// postProcess();
+		postProcess();
 		
 		// auto reset particles
 		p.debugView.setValue("particles", particles.size());
@@ -191,6 +194,8 @@ extends PAppletHax {
 	}
 	
 	protected void postProcess() {
+		FXAAFilter.instance(p).applyTo(p.g);
+		
 		BloomFilter.instance(p).setStrength(0.1f);
 		BloomFilter.instance(p).setBlurIterations(2);
 		BloomFilter.instance(p).setBlendMode(BloomFilter.BLEND_DARKEST);
