@@ -29,11 +29,11 @@ extends BaseTexture {
 //	protected IAudioTexture _imageTexture;
 	
 	public TextureSphereAudioTextures_OLD( int width, int height ) {
-		super();
+		super(width, height);
 
-		buildGraphics( width, height );
 		
-		float baseRadius = _texture.height * 0.5f;
+		
+		float baseRadius = height * 0.5f;
 		float deformFactor = 0.2f;
 		_baseRadius = baseRadius;
 		_deformFactor = deformFactor;
@@ -58,7 +58,7 @@ extends BaseTexture {
 	
 	protected void pickRandomTexture() {
 		int rand = MathUtil.randRange( 0, 3 );
-		P.println("new audio texture: "+rand);
+		//P.println("new audio texture: "+rand);
 		_sphereTexture = _texWindowShade;
 //		if( rand == 0 ) {
 //			_sphereTexture = _columns;
@@ -97,7 +97,7 @@ extends BaseTexture {
 		PG.setCenterScreen(_texture);
 		_texture.noStroke();
 		
-		_texture.translate( 0, 0, -_texture.height/2f );
+		_texture.translate( 0, 0, -height/2f );
 		_rotation.update();
 		_texture.rotateY( _rotation.x() );
 		_texture.rotateX( _rotation.y() );

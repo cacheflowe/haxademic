@@ -16,29 +16,28 @@ extends BaseTexture {
 	protected EasingFloat _radius = new EasingFloat(0, 6);
 
 	public TextureAppFrameWaveformCircle( int width, int height ) {
-		super();
-
-		buildGraphics( width, height );
+		super(width, height);
 		
 //		_waveformData = P.p.audioData.waveform();
 		_circleInc = ( (float)Math.PI * 2.0f ) / P.p.audioData.waveform().length;
 		
 		// set some defaults
 		newLineMode();
-		_amp = _texture.width / 20f;
+		_amp = width / 20f;
 		_strokeWeight = 3;
 	}
 	
 	public void newLineMode() {
-		_radius.setTarget(MathUtil.randRangeDecimal(_texture.width / 3f, _texture.width / 2f)); 
+		_radius.setTarget(MathUtil.randRangeDecimal(width / 3f, width / 2f)); 
 	}
 
 	public void updateDraw() {
-		_texture.clear();
+//		_texture.clear();
+		_texture.background(0);
 		
 		_radius.update();
 		
-		PG.resetGlobalProps( _texture );
+//		PG.resetGlobalProps( _texture );
 		PG.setCenterScreen( _texture );
 
 		int numPoints = P.p.audioData.waveform().length;
@@ -60,12 +59,12 @@ extends BaseTexture {
 		_texture.vertex( P.sin( _circleInc * 0 ) * radius , P.cos( _circleInc * 0 ) * radius );
 		
 		// draw around outer canvas edge
-		_texture.vertex( 0, _texture.height/2 );
-		_texture.vertex( _texture.width/2, _texture.height/2 );
-		_texture.vertex( _texture.width/2, -_texture.height/2 );
-		_texture.vertex( -_texture.width/2, -_texture.height/2 );
-		_texture.vertex( -_texture.width/2, _texture.height/2 );
-		_texture.vertex( 0, _texture.height );
+		_texture.vertex( 0, height/2 );
+		_texture.vertex( width/2, height/2 );
+		_texture.vertex( width/2, -height/2 );
+		_texture.vertex( -width/2, -height/2 );
+		_texture.vertex( -width/2, height/2 );
+		_texture.vertex( 0, height );
 
 		
 		_texture.endShape();

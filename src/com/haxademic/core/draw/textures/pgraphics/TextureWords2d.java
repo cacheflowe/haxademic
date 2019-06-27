@@ -28,8 +28,8 @@ extends BaseTexture {
 
 
 	public TextureWords2d( int width, int height ) {
-		super();
-		buildGraphics( width, height );
+		super(width, height);
+		
 
 		// load text file
 		String lines[] = P.p.loadStrings(FileUtil.getHaxademicDataPath() + "text/gibson-text.txt");
@@ -48,7 +48,7 @@ extends BaseTexture {
 		_wordIndex = MathUtil.randRange( 0, _words.size() );
 
 		// load font
-		textFont = P.p.createFont(FileUtil.getFile("fonts/OhmegaSans-Regular.ttf"), _texture.height * 0.150f);
+		textFont = P.p.createFont(FileUtil.getFile("fonts/OhmegaSans-Regular.ttf"), height * 0.150f);
 	}
 	
 	public void newLineMode() {
@@ -72,7 +72,7 @@ extends BaseTexture {
 			_texture.noStroke();
 			_texture.textFont(textFont);
 			_texture.textAlign(P.CENTER, P.CENTER);
-			_texture.text(_words.get(_wordIndex), 0, 0, _texture.width, _texture.height);
+			_texture.text(_words.get(_wordIndex), 0, 0, width, height);
 			_texture.popStyle();
 			_texture.popMatrix();
 		}

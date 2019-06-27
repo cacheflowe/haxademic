@@ -18,7 +18,7 @@ import com.haxademic.core.math.easing.EasingFloat3d;
 import processing.core.PGraphics;
 import processing.core.PShape;
 
-public class TextureSphereAudioTextures
+public class TextureSphereAudioTextures_HaxVisualOnly
 extends BaseTexture {
 
 	PGraphics sphereTexture;
@@ -34,21 +34,18 @@ extends BaseTexture {
 	protected PShape shapeTessellated;
 	protected PShape shapeIcos;
 	
-	public TextureSphereAudioTextures( int width, int height ) {
-		super();
-
-		buildGraphics( width, height );
+	public TextureSphereAudioTextures_HaxVisualOnly( int width, int height ) {
+		super(width, height);
 		
-		sphereTexture = P.p.createGraphics(1024, 512, P.P2D);
+		sphereTexture = PG.newPG(1024, 512);
 		sphereTexture.noSmooth();
 //		buildAudioTextures();
 //		pickRandomTexture();
-		createNewSphere();
 	}
 	
 	protected void createNewSphere() {
 		P.p.sphereDetail(40);
-		shape = P.p.createShape(P.SPHERE, _texture.height/2.25f);
+		shape = P.p.createShape(P.SPHERE, height/2.25f);
 		shapeTessellated = shape.getTessellation();
 		
 		float extent = PShapeUtil.getMaxExtent(shape);
@@ -108,6 +105,9 @@ extends BaseTexture {
 	}
 	
 	public void updateDraw() {
+		// lazy init shape after we for sure have a texture
+		if(shape == null) createNewSphere();
+
 		_texture.clear();
 
 		// test show audio texture
@@ -119,11 +119,11 @@ extends BaseTexture {
 		// icosahedron
 		// set position to center
 		_texture.pushMatrix();
-		_texture.translate(_texture.width/2f, _texture.height/2f);
+		_texture.translate(width/2f, height/2f);
 		
 		// shadow
-		Gradients.radial(_texture, _texture.height * 2.5f, _texture.height * 2.5f, P.p.color(0,150), P.p.color(1, 0), 50);
-		Gradients.radial(_texture, _texture.height * 1.5f, _texture.height * 1.5f, P.p.color(0,100), P.p.color(1, 0), 50);
+		Gradients.radial(_texture, height * 2.5f, height * 2.5f, P.p.color(0,150), P.p.color(1, 0), 50);
+		Gradients.radial(_texture, height * 1.5f, height * 1.5f, P.p.color(0,100), P.p.color(1, 0), 50);
 		
 		_rotation.update();
 		_texture.rotateY( -P.HALF_PI + _rotation.x() );

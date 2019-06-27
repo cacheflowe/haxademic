@@ -15,9 +15,9 @@ extends BaseTexture {
 	protected float _cols;
 
 	public TextureBarsEQ( int width, int height ) {
-		super();
+		super(width, height);
 
-		buildGraphics( width, height );
+		
 		
 		_cols = P.p.width * 0.1f;
 		_barHeight = P.p.height * 0.1f;
@@ -30,7 +30,7 @@ extends BaseTexture {
 //		_texture.clear();
 		feedback(7f, 0.15f);
 		
-		PG.resetGlobalProps( _texture );
+//		PG.resetGlobalProps( _texture );
 		PG.setCenterScreen( _texture );
 		_texture.pushMatrix();
 		
@@ -40,9 +40,9 @@ extends BaseTexture {
 		_texture.fill( _color );
 		
 		// draw bars
-		_texture.translate( 0, -_texture.height/2, 0 );
+		_texture.translate( 0, -height/2, 0 );
 		drawBars();
-		_texture.translate( 0, _texture.height, 0 );
+		_texture.translate( 0, height, 0 );
 		_texture.rotateX( P.PI );
 		drawBars();
 		

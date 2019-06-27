@@ -12,9 +12,9 @@ extends BaseTexture {
 	protected boolean _isWireframe = true;
 	
 	public TextureSphereRotate( int width, int height ) {
-		super();
+		super(width, height);
 
-		buildGraphics( width, height );
+		
 		
 		float radius = width * 2;
 		for( int i=0; i < points84.length; i++ ) {
@@ -27,9 +27,10 @@ extends BaseTexture {
 	}
 	
 	public void updateDraw() {
-		_texture.clear();
+//		_texture.clear();
+		_texture.background(0);
 		
-		_texture.translate( _texture.width * 0.5f, _texture.height * 0.5f );
+		_texture.translate( width * 0.5f, height * 0.5f );
 		_texture.rotateY( P.p.millis() * 0.0002f );
 		
 		if( _isWireframe == true ) {

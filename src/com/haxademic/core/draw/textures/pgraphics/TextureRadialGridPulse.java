@@ -20,9 +20,9 @@ extends BaseTexture {
 
 
 	public TextureRadialGridPulse( int width, int height ) {
-		super();
+		super(width, height);
 
-		buildGraphics( width, height );
+		
 		updateTimingSection();
 	}
 	
@@ -58,11 +58,11 @@ extends BaseTexture {
 		pulseFreq.update(true);
 		pulseWidth.update(true);
 		noiseCutoff.update(true);
-		float tileSize = (float) _texture.height / gridDivisions.value();
-		float cols = _texture.width / tileSize;
-		float rows = _texture.height / tileSize;
-		float startX = -_texture.width / 2 + tileSize / 2;
-		float startY = -_texture.height / 2 + tileSize / 2;
+		float tileSize = (float) height / gridDivisions.value();
+		float cols = width / tileSize;
+		float rows = height / tileSize;
+		float startX = -width / 2 + tileSize / 2;
+		float startY = -height / 2 + tileSize / 2;
 		float centerX = 0;
 		float centerY = 0;
 		float noiseScrollX = P.p.frameCount * 0.01f;

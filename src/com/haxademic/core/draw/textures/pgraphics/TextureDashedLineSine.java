@@ -17,16 +17,13 @@ extends BaseTexture {
 
 	
 	public TextureDashedLineSine( int width, int height ) {
-		super();
-		
-		buildGraphics( width, height );
+		super(width, height);
 		
 		// build pool
 		waves = new WaveOscillator[maxRows];
 		for (int i = 0; i < maxRows; i++) {
 			waves[i] = new WaveOscillator();
 		}
-
 	}
 	
 	public void updateDraw() {
@@ -43,7 +40,7 @@ extends BaseTexture {
 		
 		// draw rows
 		for (int i = 0; i < numRows; i++) {
-			float rowHeight = (float) _texture.height / (float) numRows;
+			float rowHeight = (float) height / (float) numRows;
 			waves[i].update(rowHeight, i);
 		}
 	}
@@ -99,7 +96,7 @@ extends BaseTexture {
 //			float waveFreqMult3 = freqBase3 + freqMultRange;// * P.sin(loopProgress);
 
 			float centerY = rowHeight * i + rowHeight / 2f;
-			for (int x = 0; x < _texture.width; x += spacing) {
+			for (int x = 0; x < width; x += spacing) {
 				float oscValue = P.sin((frames * 0.04f) * (float)scrollMult + x * waveFreqMult);
 //				float oscValue2 = P.sin(loopProgress * (float)scrollMult + P.p.noise(x * waveFreqMult2));
 //				float oscValue3 = P.sin(loopProgress * (float)scrollMult + P.p.noise(x * waveFreqMult3));

@@ -23,15 +23,15 @@ extends BaseTexture {
 
 
 	public TextureVectorFieldEQ( int width, int height ) {
-		super();
-		buildGraphics( width, height );
+		super(width, height);
+		
 		initParticles();
 	}
 	
 	protected void initParticles() {
 		_vectorField = new ArrayList<PVector>();
-		for( int x = 0; x <= _texture.width; x += FIELD_SPACING ) {
-			for( int y = 0; y <= _texture.height; y += FIELD_SPACING ) {
+		for( int x = 0; x <= width; x += FIELD_SPACING ) {
+			for( int y = 0; y <= height; y += FIELD_SPACING ) {
 				_vectorField.add( new PVector(x, y, 0) );
 			}
 		}
@@ -47,7 +47,7 @@ extends BaseTexture {
 		PG.setDrawCorner(_texture);
 		_texture.noStroke();
 		_texture.fill(0, OVERDRAW_FADE);
-		_texture.rect(0,0,_texture.width, _texture.height);
+		_texture.rect(0,0,width, height);
 		
 		// update & draw field
 		PG.setDrawCenter(_texture);
@@ -106,7 +106,7 @@ extends BaseTexture {
 		public FieldParticle() {
 			speed = P.p.random(2,6);
 			radians = new EasingFloat(0, P.p.random(6,20) );
-			position = new PVector( P.p.random(0, _texture.width), P.p.random(0, P.p.height) );
+			position = new PVector( P.p.random(0, width), P.p.random(0, P.p.height) );
 			lastPosition = new PVector();
 			lastPosition.set(position);
 		}
@@ -136,10 +136,10 @@ extends BaseTexture {
 			float curSpeed = speed * (0.15f + P.p.audioFreq(index) * 4f);
 			curSpeed = P.min(curSpeed, 6f);
 			position.set( position.x + P.sin(radians.value()) * curSpeed, position.y + P.cos(radians.value()) * curSpeed );
-			if( position.x < 0 ) position.set( _texture.width, position.y );
-			if( position.x > _texture.width ) position.set( 0, position.y );
-			if( position.y < 0 ) position.set( position.x, _texture.height );
-			if( position.y > _texture.height ) position.set( position.x, 0 );
+			if( position.x < 0 ) position.set( width, position.y );
+			if( position.x > width ) position.set( 0, position.y );
+			if( position.y < 0 ) position.set( position.x, height );
+			if( position.y > height ) position.set( position.x, 0 );
 			
 			// draw
 			if(position.dist(lastPosition) < curSpeed * 2f) {

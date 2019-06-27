@@ -26,19 +26,13 @@ extends BaseTexture {
 	protected BaseTexture audioTexture;
 	
 	public TextureAudioBlocksDeform( int width, int height ) {
-		super();
-		buildGraphics( width, height );
+		super(width, height);
 
 		// build textures
 //		audioTexture = new TextureEQGrid(200, 200);
 //		audioTexture = new TextureEQBandDistribute(200, 200);
 		audioTexture = new TextureEQConcentricCircles(200, 200);
 		audioTexture = new TexturePixelatedAudio(200, 200);
-		
-		_texture.noSmooth();
-		
-		// create shape
-		buildGrid();
 	}
 	
 	protected void buildGrid() {
@@ -71,7 +65,7 @@ extends BaseTexture {
 		
 		// normalize group shape
 		PShapeUtil.centerShape(gridShape);
-		PShapeUtil.scaleShapeToHeight(gridShape, _texture.height * 5f);
+		PShapeUtil.scaleShapeToHeight(gridShape, height * 5f);
 	}
 
 	public void newLineMode() {
@@ -91,6 +85,7 @@ extends BaseTexture {
 	
 	public void preDraw() {
 		audioTexture.update();
+		if(gridShape == null) buildGrid();	// lazy-init after we have an audio texture
 		
 		BlurProcessingFilter.instance(P.p).setBlurSize(6);
 		BlurProcessingFilter.instance(P.p).setSigma(2f);

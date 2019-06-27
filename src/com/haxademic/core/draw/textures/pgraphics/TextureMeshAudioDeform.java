@@ -26,8 +26,8 @@ extends BaseTexture {
 	protected PVector _rotationTarget = new PVector( 0, 0, 0 );
 
 	public TextureMeshAudioDeform( int width, int height ) {
-		super();
-		buildGraphics( width, height );
+		super(width, height);
+		
 		init();
 	}
 
@@ -48,7 +48,7 @@ extends BaseTexture {
 //		shape = shape.getTessellation();
 //		PShapeUtil.repairMissingSVGVertex(shape);
 		PShapeUtil.centerShape(shape);
-		PShapeUtil.scaleShapeToHeight(shape, _texture.height * 0.5f);
+		PShapeUtil.scaleShapeToHeight(shape, height * 0.5f);
 		// add UV coordinates to OBJ
 		PShapeUtil.addTextureUVSpherical(shape, null);
 		// create PShapeSolid
@@ -92,7 +92,9 @@ extends BaseTexture {
 	}
 
 	public void updateDraw() {
-		_texture.clear();
+//		_texture.clear();
+		_texture.background(0);
+		
 		PG.setDrawCorner(_texture);
 		PG.setCenterScreen(_texture);
 		_texture.pushMatrix();

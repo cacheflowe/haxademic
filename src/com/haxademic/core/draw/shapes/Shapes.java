@@ -108,7 +108,6 @@ public class Shapes {
 			amp *= ampH;
 			ampNext *= ampH;
 			
-			
 			if(radial == false) {
 				pg.vertex( P.cos( i * segmentRads ) * innerRadius,  P.sin( i * segmentRads ) * innerRadius, amp );
 				pg.vertex( P.cos( i * segmentRads ) * radius, 		P.sin( i * segmentRads ) * radius, amp );

@@ -2,7 +2,6 @@ package com.haxademic.core.draw.textures.pgraphics;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.draw.context.PG;
-import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.EasingFloat;
@@ -37,10 +36,9 @@ extends BaseTexture {
 	protected float _furthestPoint = 0;
 
 	public TextureFractalPolygons( int width, int height ) {
-		super();
+		super(width, height);
 
-		buildGraphics( width, height );
-		_texture.smooth(OpenGLUtil.SMOOTH_HIGH);
+		
 		
 		// set some defaults
 		_curRotation = 0;
@@ -96,11 +94,13 @@ extends BaseTexture {
 
 	// fractal polygon drawing
 	public void updateDraw() {
-		_texture.clear();
+//		_texture.clear();
+		_texture.background(0);
 		
-		PG.resetGlobalProps( _texture );
+//		PG.resetGlobalProps( _texture );
 		PG.setBasicLights( _texture );
 		PG.setCenterScreen( _texture );
+		PG.setDrawCenter(_texture);
 
 		_texture.pushMatrix();
 		_texture.rectMode(PConstants.CORNER);
@@ -149,7 +149,7 @@ extends BaseTexture {
 		if(_baseRadiusEased.value() > 0) {
 			new ClusterPolygon( 0, 0, 0, _baseRadiusEased.value(), 0, P.round(_numArms.value()) );
 		}		
-		_baseRadiusEased.setTarget( _texture.width - _furthestPoint );
+		_baseRadiusEased.setTarget( width - _furthestPoint );
 	}
 
 	public class ClusterPolygon {
@@ -221,8 +221,8 @@ extends BaseTexture {
 
 
 			// try to make sure new polys are further than the center of the current... not the best option here
-			float polyCenterDistToSceneCenter = MathUtil.getDistance( baseX, baseY, _texture.width/2f, _texture.height/2f );
-			float polyArmDist = MathUtil.getDistance( _x, _y, _texture.width/2f, _texture.height/2f );
+			float polyCenterDistToSceneCenter = MathUtil.getDistance( baseX, baseY, width/2f, height/2f );
+			float polyArmDist = MathUtil.getDistance( _x, _y, width/2f, height/2f );
 			boolean furtherFromCenter = (polyCenterDistToSceneCenter < polyArmDist );
 
 			// not helpful
@@ -251,7 +251,7 @@ extends BaseTexture {
 						_texture.ellipse(_x, _y, radius, radius);
 				}
 			} else {
-				float distFromCenter = MathUtil.getDistance(_texture.width/2, _texture.height/2, _x, _y);
+				float distFromCenter = MathUtil.getDistance(width/2, height/2, _x, _y);
 				if(distFromCenter > _furthestPoint) {
 					_furthestPoint = distFromCenter;
 				}

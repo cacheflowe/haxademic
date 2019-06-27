@@ -108,9 +108,10 @@ public class DemoAssets {
 	
 	// VIDEO
 	
+	public static String movieFractalCubePath = "haxademic/video/fractal-cube.mp4";
 	public static Movie movieFractalCube = null;
 	public static Movie movieFractalCube() {
-		if(movieFractalCube == null) movieFractalCube = new Movie(P.p, FileUtil.getFile("haxademic/video/fractal-cube.mp4"));
+		if(movieFractalCube == null) movieFractalCube = new Movie(P.p, FileUtil.getFile(movieFractalCubePath));
 		return movieFractalCube;
 	}
 	

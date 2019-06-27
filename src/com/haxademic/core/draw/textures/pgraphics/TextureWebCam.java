@@ -12,8 +12,8 @@ extends BaseTexture {
 	protected Capture _webCam;
 
 	public TextureWebCam( int width, int height ) {
-		super();
-		buildGraphics( width, height );
+		super(width, height);
+		
 		initWebCam();
 	}
 	
@@ -30,7 +30,7 @@ extends BaseTexture {
 	public void updateDraw() {
 		if( _texture != null && _webCam != null && _webCam.available() == true ) { 			
 			_webCam.read(); 
-			_texture.image( _webCam.get(), 0, 0, _texture.width, _texture.height );
+			_texture.image( _webCam.get(), 0, 0, width, height );
 		}
 	}
 }

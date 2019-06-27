@@ -23,12 +23,12 @@ extends BaseTexture {
 	protected boolean _makeNewMesh;
 
 	public TextureOuterSphere( int width, int height ) {
-		super();
-		buildGraphics( width, height );
+		super(width, height);
+		
 		
 		int detail = 3;
 		icosa = Icosahedron.createIcosahedron(P.p.g, detail, _texture);
-		PShapeUtil.scaleShapeToHeight(icosa, _texture.width * 2f);
+		PShapeUtil.scaleShapeToHeight(icosa, width * 2f);
 
 		reset();
 	}
@@ -55,7 +55,9 @@ extends BaseTexture {
 
 	public void updateDraw() {
 		// prep context
-		_texture.clear();
+//		_texture.clear();
+		_texture.background(0);
+		
 		PG.setCenterScreen( _texture );
 		_texture.pushMatrix();
 

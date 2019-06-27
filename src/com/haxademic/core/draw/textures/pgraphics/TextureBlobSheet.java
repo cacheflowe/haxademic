@@ -50,9 +50,7 @@ extends BaseTexture {
 	int numCtrls = _numAverages;
 
 	public TextureBlobSheet( int width, int height ) {
-		super();
-
-		buildGraphics( width, height );
+		super(width, height);
 		
 		initBlobSheet();
 	}
@@ -61,8 +59,8 @@ extends BaseTexture {
 		newLineMode();
 
 		// create cells
-		gridW = _texture.width * 2;
-		gridH = _texture.height * 2;
+		gridW = width * 2;
+		gridH = height * 2;
 		float boxW = gridW / cols;
 		float boxH = gridH / rows;
 		grid = new Cell[cols][rows];
@@ -87,21 +85,19 @@ extends BaseTexture {
 	
 	public void newMode() {
 		_curMode = P.round( P.p.random( 0, NUM_MODES - 1 ) );
+		P.p.debugView.setValue("_curMode", _curMode);
 	}
 
 	public void updateDraw() {
-		PG.setDrawFlat2d(_texture, true);
+//		PG.setDrawFlat2d(_texture, true);
 
 //		_texture.clear();
 		feedback(1f,0.3f);
 
 		
-		PG.resetGlobalProps( _texture );
+//		PG.resetGlobalProps( _texture );
 		PG.setCenterScreen( _texture );
-		
-		_texture.rectMode(PConstants.CORNER);
-		
-		
+		PG.setDrawCorner(_texture);
 		
 		// increment the starting points
 		startR += startIncR;
@@ -200,11 +196,11 @@ extends BaseTexture {
 		void display() {
 			// get color
 			// float centerDist = P.dist(x, y, gridW/2, gridH/2);
-			float ctrlFactor = 0.02f;
+			float ctrlFactor = 0.002f;
 			float ctrlPt1 = P.dist(x, y, cntrls[0].x, cntrls[0].y) * ctrlFactor;
 			float ctrlPt2 = P.dist(x, y, cntrls[1].x, cntrls[1].y) * ctrlFactor;
 			float ctrlPt3 = P.dist(x, y, cntrls[2].x, cntrls[2].y) * ctrlFactor;
-			int cellColor = _texture.color(
+			int cellColor = P.p.color(
 					255f * ( _r+.5f*P.sin(r) * P.cos(ctrlPt1) * P.cos(ctrlPt2) * P.sin(ctrlPt3) ), 
 					255f * ( _g+.5f*P.sin(g) * P.sin(ctrlPt1) * P.sin(ctrlPt2) * P.sin(ctrlPt3) ), 
 					255f * ( _b+.5f*P.cos(b) * P.sin(ctrlPt1) * P.cos(ctrlPt2) * P.sin(ctrlPt3) ) 
@@ -212,9 +208,9 @@ extends BaseTexture {
 			// Color calculated using sine wave
 
 			// adjust cell z per brightness
-			z = -150 + 4f * ( P.p.audioFreq(2) + P.p.audioFreq(3) );
+			z = 2f * ( P.p.audioFreq((int)ctrlPt1) + P.p.audioFreq((int)ctrlPt2)) / 10f;
 			_texture.pushMatrix();
-			_texture.translate( 0, 0, 0 + z );
+			_texture.translate( 0, 0, -700 + z );
 			
 			
 			switch( _curMode ){
@@ -269,7 +265,6 @@ extends BaseTexture {
 			}
 			
 			_texture.popMatrix();
-
 		}
 		
 		protected void drawTrianglesToNeighbor(){
@@ -302,8 +297,8 @@ extends BaseTexture {
 
 		// Oscillation means increase angle
 		void update(float xspeed, float yspeed) {
-			incX += xspeed * .1;
-			incY += yspeed * .2;
+			incX += xspeed * .001f;
+			incY += yspeed * .002f;
 			x = gridW/2 + ( gridW/2 * 1.2f * P.sin(incX) );
 			y = gridH/2 + ( gridH/2 * 1.2f * P.cos(incY) );
 		}

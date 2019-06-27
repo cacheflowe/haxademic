@@ -21,12 +21,12 @@ extends BaseTexture {
 	protected boolean _wireframe = true;
 	
 	public TextureStarTrails( int width, int height ) {
-		super();
-		buildGraphics( width, height );
+		super(width, height);
+		
 
 		// init stars
-		_width = _texture.width;
-		_height = _texture.height;
+		_width = width;
+		_height = height;
 		_numStars = 150;// P.p._audioInput.getFFT().spectrum.length / 4;
 		_stars = new ArrayList<Star>();
 		for( int i = 0; i < _numStars; i++ ) {
@@ -49,7 +49,8 @@ extends BaseTexture {
 	}
 
 	public void updateDraw() {
-		_texture.clear();
+//		_texture.clear();
+		_texture.background(0);
 		feedback(1f, 0.15f);
 		
 		PG.setCenterScreen( _texture );
@@ -188,7 +189,7 @@ extends BaseTexture {
 			
 			
 			// reset when out of bounds
-			if(P.abs(_loc.z()) > _zRange || P.abs(_loc.x()) > _texture.width || P.abs(_loc.y()) > _texture.height) {
+			if(P.abs(_loc.z()) > _zRange || P.abs(_loc.x()) > width || P.abs(_loc.y()) > height) {
 				reset();
 			}
 			

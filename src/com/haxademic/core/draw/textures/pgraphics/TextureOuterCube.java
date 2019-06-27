@@ -17,8 +17,8 @@ extends BaseTexture {
 	protected TextureEQGrid audioTexture;
 
 	public TextureOuterCube( int width, int height ) {
-		super();
-		buildGraphics( width, height );
+		super(width, height);
+		
 		audioTexture = new TextureEQGrid(128, 128);
 	}
 	
@@ -36,7 +36,9 @@ extends BaseTexture {
 	
 	public void updateDraw() {
 		// prep context
-		_texture.clear();
+//		_texture.clear();
+		_texture.background(0);
+		
 		PG.setCenterScreen( _texture );
 		CameraUtil.setCameraDistance(_texture, 200, 20000);
 		_texture.pushMatrix();
@@ -49,7 +51,7 @@ extends BaseTexture {
 		_texture.rotateZ( rotation.z );
 		
 		// draw outer sphere
-		Shapes.drawTexturedCube(_texture, _texture.width * 2.25f, audioTexture.texture());
+		Shapes.drawTexturedCube(_texture, width * 2.25f, audioTexture.texture());
 		
 		// pop context
 		_texture.popMatrix();

@@ -12,9 +12,9 @@ extends BaseTexture {
 	protected EasingFloat _steps = new EasingFloat(50f, 20);
 	
 	public TextureTwistingSquares( int width, int height ) {
-		super();
+		super(width, height);
 
-		buildGraphics( width, height );
+		
 		updateTimingSection();
 	}
 	
@@ -23,7 +23,7 @@ extends BaseTexture {
 		_steps.update();
 
 		PG.setDrawCenter(_texture);
-		_texture.translate( _texture.width/2, _texture.height/2, 0 );
+		_texture.translate( width/2, height/2, 0 );
 
 		_texture.background(0);
 		

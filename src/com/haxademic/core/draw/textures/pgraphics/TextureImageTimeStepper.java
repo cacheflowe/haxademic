@@ -36,9 +36,9 @@ extends BaseTexture {
 
 
 	public TextureImageTimeStepper( int width, int height ) {
-		super();
+		super(width, height);
 		
-		buildGraphics( width, height );
+		
 		loadShaders();
 		loadImages();
 	}
@@ -56,14 +56,14 @@ extends BaseTexture {
 
 	
 		_blurH = P.p.loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/blur-horizontal.glsl" ); 
-		_blurH.set( "h", 1f/_texture.width );
+		_blurH.set( "h", 1f/width );
 		_blurV = P.p.loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/blur-vertical.glsl" ); 
-		_blurV.set( "v", 1f/_texture.height );
+		_blurV.set( "v", 1f/height );
 		
 	}
 	
 	protected void loadImages() {
-		String imgBase = "images/cacheflowe-art/";
+		String imgBase = "haxademic/images/space/";
 		
 		ArrayList<String> files = FileUtil.getFilesInDirOfType( FileUtil.getHaxademicDataPath() + imgBase, "jpg" );
 		files.addAll( FileUtil.getFilesInDirOfType( FileUtil.getHaxademicDataPath() + imgBase, "png" ) );
@@ -73,7 +73,7 @@ extends BaseTexture {
 		for( int i=0; i < files.size(); i++ ) {
 			_images.add( P.p.loadImage( FileUtil.getHaxademicDataPath() + imgBase + files.get(i) ) );
 		}
-		_image = P.p.createGraphics( _texture.width, _texture.height, P.P2D);// new PImage( p.width, p.height );
+		_image = P.p.createGraphics( width, height, P.P2D);// new PImage( p.width, p.height );
 		nextImage();
 
 	}
@@ -86,7 +86,8 @@ extends BaseTexture {
 		
 		updateShaders();
 		
-		_texture.clear();
+//		_texture.clear();
+		_texture.background(0);
 		_texture.image( _image, 0, 0, _image.width, _image.height );
 		_texture.filter( _saturation );
 		_texture.filter( _brightness );

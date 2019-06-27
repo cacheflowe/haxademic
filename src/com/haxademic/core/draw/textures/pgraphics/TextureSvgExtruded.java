@@ -38,8 +38,8 @@ extends BaseTexture {
 	}
 
 	public TextureSvgExtruded( int width, int height ) {
-		super();
-		buildGraphics( width, height );
+		super(width, height);
+		
 		
 		noiseTexture = new TextureShader(TextureShader.noise_simplex_2d_iq, 0.0005f);
 		audioTexture = new TextureEQGrid(200, 200);
@@ -57,7 +57,7 @@ extends BaseTexture {
 		PShapeUtil.repairMissingSVGVertex(logoSvg);
 		
 		PShapeUtil.centerShape(logoSvg);
-		PShapeUtil.scaleShapeToHeight(logoSvg, _texture.height * 0.15f);
+		PShapeUtil.scaleShapeToHeight(logoSvg, height * 0.15f);
 		
 		// create extrusion
 		// add UV coordinates to OBJ based on model extents

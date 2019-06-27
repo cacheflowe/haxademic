@@ -19,8 +19,8 @@ extends BaseTexture {
 
 	
 	public TextureConcentricDashedCubes( int width, int height ) {
-		super();
-		buildGraphics( width, height );
+		super(width, height);
+		
 	}
 	
 	public void updateDraw() {

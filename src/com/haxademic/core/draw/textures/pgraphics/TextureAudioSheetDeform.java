@@ -26,20 +26,13 @@ extends BaseTexture {
 	protected BaseTexture audioTexture;
 	
 	public TextureAudioSheetDeform( int width, int height ) {
-		super();
-		buildGraphics( width, height );
+		super(width, height);
+		
 
 		// build textures
 //		audioTexture = new TextureEQGrid(200, 200);
 //		audioTexture = new TextureEQBandDistribute(200, 200);
 		audioTexture = new TextureEQConcentricCircles(400, 400);
-		
-		_texture.noSmooth();
-		
-		// create & normalize shape
-		gridShape = Shapes.createSheet(40, audioTexture.texture());
-		PShapeUtil.centerShape(gridShape);
-		PShapeUtil.scaleShapeToHeight(gridShape, _texture.height * 1f);
 	}
 
 	public void newLineMode() {
@@ -56,6 +49,13 @@ extends BaseTexture {
 	
 	public void preDraw() {
 		audioTexture.update();
+		
+		// lazy create & normalize shape - we need to wait until the audio texture has updated once and been lazy created itself 
+		if(gridShape == null) {
+			gridShape = Shapes.createSheet(40, audioTexture.texture());
+			PShapeUtil.centerShape(gridShape);
+			PShapeUtil.scaleShapeToHeight(gridShape, height * 1f);
+		}
 		
 		BlurProcessingFilter.instance(P.p).setBlurSize(6);
 		BlurProcessingFilter.instance(P.p).setSigma(2f);

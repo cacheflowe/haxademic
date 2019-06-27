@@ -13,9 +13,9 @@ extends BaseTexture {
 	protected int size = 0;
 
 	public TextureCyclingRadialGradient( int width, int height ) {
-		super();
+		super(width, height);
 
-		buildGraphics( width, height );
+		
 		size = P.max(width, height);
 		updateTimingSection();
 	}
@@ -30,7 +30,7 @@ extends BaseTexture {
 		time += speed;
 		
 		_texture.pushMatrix();
-		_texture.translate(_texture.width/2, _texture.height/2);
+		_texture.translate(width/2, height/2);
 		Gradients.radial(
 				_texture, 
 				size * 2, 

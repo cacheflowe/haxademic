@@ -38,8 +38,8 @@ extends BaseTexture {
 
 	
 	public TexturePixelatedAudio( int width, int height ) {
-		super();
-		buildGraphics( width, height );
+		super(width, height);
+		
 		
 		// grid size
 		cols = 100;
@@ -162,7 +162,8 @@ extends BaseTexture {
 	}
 
 	public void updateDraw() {
-		_texture.clear();
+//		_texture.clear();
+		_texture.background(0);
 		_texture.noStroke();
 		PG.setDrawCorner(_texture);
 		// draw image

@@ -17,23 +17,23 @@ extends BaseTexture {
 
 
 	public TextureEQConcentricCircles( int width, int height ) {
-		super();
-
-		buildGraphics( width, height );
+		super(width, height);
 		
 		_maxRadius = width;
 		_circleRadiusStep = _maxRadius / _numCircles;
 	}
 	
 	public void updateDraw() {
-		_texture.clear();
+//		_texture.clear();
+		_texture.background(0);
 		
 		// draw grid
-		float startX = _texture.width / 2f;
-		float startY = _texture.height / 2f;
+		float startX = width / 2f;
+		float startY = height / 2f;
 		int white = P.p.color(255);
 		_texture.noFill();
 //		_texture.noStroke();
+		_texture.stroke(255);
 		_texture.strokeWeight(_circleRadiusStep);
 		PG.setDrawCenter(_texture);
 		for (int i = 0; i < _numCircles; i++) {
