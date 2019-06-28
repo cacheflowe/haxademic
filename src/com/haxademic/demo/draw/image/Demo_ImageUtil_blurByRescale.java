@@ -15,9 +15,10 @@ extends PAppletHax {
 
 		// NOTE: this works on p.g, but does weird alpha stuff on a PGraphics
 		// draw steps/results to screen
-		pg.fill(255);
 		pg.beginDraw();
-		pg.image(DemoAssets.textureJupiter(), 0, 0);
+		pg.fill(255);
+//		pg.image(DemoAssets.textureJupiter(), 0, 0);
+		ImageUtil.drawImageCropFill(DemoAssets.textureJupiter(), pg, true);
 		ImageUtil.blurByRescale(pg, p.mousePercentX());
 		
 		// extra blur to smooth edges

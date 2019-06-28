@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.data.constants.PBlendModes;
-import com.haxademic.core.draw.camera.CameraUtil;
 import com.haxademic.core.draw.color.EasingColor;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.BrightnessFilter;
@@ -20,6 +19,7 @@ public class BaseTexture {
 	protected PGraphics _texture;
 	protected int width;
 	protected int height;
+	protected boolean smoothPG;
 	protected boolean _active;
 	protected boolean _newlyActive;
 	protected int _useCount = 0;
@@ -37,8 +37,13 @@ public class BaseTexture {
 	protected ArrayList<BaseTexture> _curTexturePool;
 
 	public BaseTexture(int width, int height) {
+		this(width, height, true);
+	}
+	
+	public BaseTexture(int width, int height, boolean smoothPG) {
 		this.width = width;
 		this.height = height;
+		this.smoothPG = smoothPG;
 		_active = false;
 		_color = P.p.color(255);
 		_colorEase = new EasingColor( "#ffffff", 5 );
@@ -137,8 +142,11 @@ public class BaseTexture {
 	
 	public void update() {
 		// TODO: reset to null after another BaseTexture uses it
-		if(_texture == null) _texture = PGPool.getPG(width, height);
-		PGPool.updatePG(_texture);
+		if(_texture == null) {
+//			_texture = PGPool.getPG(width, height);
+			_texture = PG.newPG(width, height, smoothPG, true);
+		}
+//		PGPool.updatePG(_texture);
 
 		int startRender = P.p.millis();
 		_colorEase.update();
@@ -159,7 +167,7 @@ public class BaseTexture {
 		PG.pop(_texture);
 		_texture.endDraw();
 		
-//		postProcess();
+		postProcess();
 		_newlyActive = false;
 		renderTime = P.p.millis() - startRender;
 	}

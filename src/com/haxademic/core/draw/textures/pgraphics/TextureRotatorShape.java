@@ -6,7 +6,7 @@ import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.EasingFloat3d;
 
-import toxi.geom.Vec3D;
+import processing.core.PVector;
 
 public class TextureRotatorShape 
 extends BaseTexture {
@@ -92,17 +92,17 @@ extends BaseTexture {
 	
 	public class Point {
 		
-		public Vec3D _pos;
+		public PVector _pos;
 		public EasingFloat3d _posBase;
-		public Vec3D _speed;
+		public PVector _speed;
 		protected float _inc;
 		protected float _incSpeed;
 		protected float _radius;
 
 		public Point(){
-			_pos = new Vec3D(0,0,0);
+			_pos = new PVector(0,0,0);
 			_posBase = new EasingFloat3d( 0, 0, 0, 5f );
-			_speed = new Vec3D(0,0,0);
+			_speed = new PVector(0,0,0);
 			reset();
 		}
 		

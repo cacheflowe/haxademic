@@ -23,8 +23,6 @@ extends BaseTexture {
 	public TextureSvgPattern( int width, int height ) {
 		super(width, height);
 
-		
-		
 		_svgs = new ArrayList<PShape>();
 		_svgs.add(DemoAssets.shapeX());
 ////		_svgs.add( p.loadShape( FileUtil.getHaxademicDataPath() + "svg/wuki.svg" ) );
