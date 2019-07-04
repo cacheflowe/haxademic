@@ -55,5 +55,15 @@ extends PAppletHax {
 			oscP5.send(heartbeatMessage); 
 		}
 	}
+	
+	public void keyPressed() {
+		super.keyPressed();
+		if(p.key == ' ') {
+			OscMessage message = new OscMessage("/video-start");
+			message.add((float) p.frameCount);
+			oscP5.send(message);
+			P.out("send OSC:", message.toString());
+		}
+	}
 
 }
