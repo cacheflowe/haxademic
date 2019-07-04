@@ -44,20 +44,20 @@ implements IEasingBooleanCallback {
 	protected void overridePropsFile() {
 		p.appConfig.setProperty( AppSettings.WIDTH, 1280 );
 		p.appConfig.setProperty( AppSettings.HEIGHT, 480 );
-//		p.appConfig.setProperty( AppSettings.KINECT_V2_WIN_ACTIVE, true );
+		p.appConfig.setProperty( AppSettings.KINECT_V2_WIN_ACTIVE, true );
 //		p.appConfig.setProperty( AppSettings.KINECT_ACTIVE, true );
-		p.appConfig.setProperty( AppSettings.REALSENSE_ACTIVE, true );
+//		p.appConfig.setProperty( AppSettings.REALSENSE_ACTIVE, true );
 		p.appConfig.setProperty( AppSettings.DEPTH_CAM_RGB_ACTIVE, true );
 		p.appConfig.setProperty(AppSettings.SHOW_SLIDERS, true);
 	}
 	
 	public void setupFirstFrame() {
-		p.ui.addSlider(kinectLeft, 140, 0, DepthCameraSize.WIDTH, 1, false);
-		p.ui.addSlider(kinectRight, 410, 0, DepthCameraSize.WIDTH, 1, false);
-		p.ui.addSlider(kinectTop, 100, 0, DepthCameraSize.HEIGHT, 1, false);
-		p.ui.addSlider(kinectBottom, 210, 0,DepthCameraSize.HEIGHT, 1, false);
+		p.ui.addSlider(kinectLeft, 50, 0, DepthCameraSize.WIDTH, 1, false);
+		p.ui.addSlider(kinectRight, 420, 0, DepthCameraSize.WIDTH, 1, false);
+		p.ui.addSlider(kinectTop, 140, 0, DepthCameraSize.HEIGHT, 1, false);
+		p.ui.addSlider(kinectBottom, 290, 0,DepthCameraSize.HEIGHT, 1, false);
 		p.ui.addSlider(kinectNear, 500, 0, 12000, 1, false);
-		p.ui.addSlider(kinectFar, 1000, 300, 12000, 1, false);
+		p.ui.addSlider(kinectFar, 1650, 300, 12000, 1, false);
 		p.ui.addSlider(pixelSkip, 6, 1, 10, 1, false);
 		p.ui.addSlider(depthDivider, 50, 1, 100, 0.1f, false);
 		p.ui.addSlider(pixelDrawSize, 0.8f, 0, 1, 0.01f, false);
@@ -172,7 +172,7 @@ implements IEasingBooleanCallback {
 		p.text("arrayDiff: " + arrayDiff, depthW + 20, 444);
 
 		// set easing boolean
-		int minChangeThresh = 60000;
+		int minChangeThresh = 100000;
 		isRecording.target(changeLevel > minChangeThresh);
 		isRecording.update();
 		
@@ -195,12 +195,12 @@ implements IEasingBooleanCallback {
 
 		// draw recorded frames
 		p.text("recordFrame: " + recordFrame, 1020, 400);
-		int speedDivisor = 1;
+		int speedDivisor = 3;
 		PG.setDrawCorner(p);
 		recorder.drawDebug(p.g);
 		PImage lilImg = recorder.images()[(p.frameCount/speedDivisor) % recorder.images().length];
-		p.image(lilImg, 1020, 420, lilImg.width * 0.1f, lilImg.height * 0.1f);
-		p.image(lilImg, depthW, 0, 640, lilImg.height * ((float)lilImg.height / 640f));
+		depthHScale = MathUtil.scaleToTarget(lilImg.width, depthW);
+		p.image(lilImg, depthW, 0, depthW, lilImg.height * depthHScale);
 	}
 	
 	public void keyPressed() {
