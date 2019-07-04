@@ -16,7 +16,7 @@
 	<classpathentry kind="lib" path="lib/beads/library/tritonus_share.jar"/>
 	<classpathentry kind="lib" path="lib/dmxP512/library/dmxP512.jar"/>
 	<classpathentry kind="lib" path="lib/Ess/library/Ess.jar"/>
-	<classpathentry kind="lib" path="lib/haxademic/haxademic.jar"/>
+	<classpathentry kind="lib" path="lib/haxademic/haxademic.jar" sourcepath="/haxademic"/>
 	<classpathentry kind="lib" path="lib/java_websocket/Java-WebSocket-1.3.9.jar"/>
 	<classpathentry kind="lib" path="lib/jetty/jetty-all-9.4.15.v20190215-uber.jar"/>
 	<classpathentry kind="lib" path="lib/minim/library/jsminim.jar"/>

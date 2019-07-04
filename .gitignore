@@ -5,9 +5,7 @@ lib/
 data/text/prefs
 data/text/keystoning
 www/dashboard/projects
-*ignore*
 *_sketch*
 *Thumbs.db
 .DS_Store
-bin/
 captured.png
