@@ -94,7 +94,7 @@ extends PAppletHax {
 		FileUtil.writeTextToFile(	// .gitignore
 				FileUtil.safePath(newProjectDir + "/.gitignore"), 
 				FileUtil.textLinesJoined(new String[] {
-						"_assets", "bin/", "output/", "lib/", "*Thumbs.db", ".DS_Store"
+						"_assets", "bin/", "output/", "*Thumbs.db", ".DS_Store"
 				})
 		);
 		try {
