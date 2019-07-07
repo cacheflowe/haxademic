@@ -22,6 +22,7 @@ implements IUIControl {
 	 
 	protected IUIButtonDelegate delegate;
 	protected String id;
+	protected String label;
 	protected Rectangle rect;
 	protected boolean over;
 	protected boolean pressed;
@@ -34,6 +35,7 @@ implements IUIControl {
 	public UIButton(IUIButtonDelegate delegate, String id, int x, int y, int w, int h, boolean toggles) {
 		this.delegate = delegate;
 		this.id = id;
+		this.label = id;
 		rect = new Rectangle( x, y, w, h);
 		this.toggles = toggles;
 		layoutW = 1;
@@ -47,7 +49,7 @@ implements IUIControl {
 	/////////////////////////////////////////
 	
 	public boolean isActive() {
-		return (P.p.millis() - activeTime) < 10; // when drawing, time is tracked. if not drawing, time will be out-of-date
+		return (P.p.millis() - activeTime) < 100; // when drawing, time is tracked. if not drawing, time will be out-of-date
 	}
 	
 	/////////////////////////////////////////
@@ -60,6 +62,18 @@ implements IUIControl {
 	
 	public String id() {
 		return id;
+	}
+	
+	public void label(String label) {
+		this.label = label;
+	}
+	
+	public String label() {
+		return label;
+	}
+	
+	public void setPosition(int x, int y) {
+		rect.setLocation(x, y);
 	}
 	
 	public float value() {
@@ -98,7 +112,7 @@ implements IUIControl {
 		PG.setDrawCorner(pg);
 
 		// background
-		if(over && value == 0 && !pressed) pg.fill(ColorsHax.BUTTON_BG);
+		if(over && value == 0 && !pressed) pg.fill(ColorsHax.BUTTON_BG_HOVER);
 		else if(pressed) pg.fill(ColorsHax.BUTTON_BG_PRESS);
 		else if(toggles && value == 1) pg.fill(ColorsHax.WHITE);
 		else pg.fill(ColorsHax.BUTTON_BG);
@@ -113,11 +127,11 @@ implements IUIControl {
 		pg.rect(rect.x, rect.y, rect.width, rect.height, r);
 		
 		// text label
-		PFont font = FontCacher.getFont(DemoAssets.fontOpenSansPath, rect.height * 0.35f);
+		PFont font = FontCacher.getFont(DemoAssets.fontOpenSansPath, rect.height * 0.55f);
 		FontCacher.setFontOnContext(pg, font, P.p.color(255), 1f, PTextAlign.CENTER, PTextAlign.CENTER);
 		if(toggles && value == 1) pg.fill(ColorsHax.BLACK);
 		else pg.fill(ColorsHax.BUTTON_TEXT);
-		pg.text(id, rect.x, rect.y - 3, rect.width, rect.height);
+		pg.text(label, rect.x, rect.y - 2, rect.width, rect.height);
 		
 		// set active if drawing
 		activeTime = P.p.millis();
