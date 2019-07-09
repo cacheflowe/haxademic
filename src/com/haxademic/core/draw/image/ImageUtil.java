@@ -237,6 +237,31 @@ public class ImageUtil {
 		drawImageCropFill(img, dest, cropFill, false);
 	}
 	
+	// fills a specific rectangle without depending on offsetting off an entire buffer/canvas like the other version of this method
+	public static void cropFillCopyImage(PImage src, PImage dest, int destX, int destY, int destW, int destH, boolean cropFill) {
+		int imageW = src.width;
+		int imageH = src.height;
+		float ratioW = (float) destW / imageW;
+		float ratioH = (float) destH / imageH;
+		if(cropFill) {
+			float fillRatio = ratioW > ratioH ? ratioW : ratioH;
+			int scaledDestW = P.round(destW / fillRatio);	// scale destination dimension to match source, so we can puLl the rect at the right scale
+			int scaledDestH = P.round(destH / fillRatio);
+			int srcX = cropFill ? P.round(imageW/2 - scaledDestW/2) : 0;
+			int srcY = cropFill ? P.round(imageH/2 - scaledDestH/2) : 0;
+			int srcW = cropFill ? P.round(scaledDestW) : 0;
+			int srcH = cropFill ? P.round(scaledDestH) : 0;
+			dest.copy(src, srcX, srcY, srcW, srcH, destX, destY, destW, destH);
+		} else {
+			float letterboxRatio = ratioW > ratioH ? ratioH : ratioW;
+			int resizedW = P.ceil(imageW * letterboxRatio);
+			int resizedH = P.ceil(imageH * letterboxRatio);
+			int offsetX = P.ceil((destW - resizedW) * 0.5f);
+			int offsetY = P.ceil((destH - resizedH) * 0.5f);
+			dest.copy(src, 0, 0, imageW, imageH, destX + offsetX, destY + offsetY, resizedW, resizedH);
+		}
+	}
+	
 	public static void drawImageCropFill(PImage img, PGraphics dest, boolean cropFill, boolean openDestContext) {
 		float ratioW = MathUtil.scaleToTarget(img.width, dest.width);
 		float ratioH = MathUtil.scaleToTarget(img.height, dest.height);
