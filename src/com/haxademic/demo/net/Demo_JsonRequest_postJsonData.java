@@ -66,7 +66,7 @@ implements IJsonRequestCallback {
         // add image to json
 		String base64Img = "";
 		try {
-			base64Img = Base64Image.encodePImageToBase64(img1, "png");
+			base64Img = Base64Image.encodeNativeImageToBase64(img1, "png");
 		} catch (UnsupportedEncodingException e1) {
 			e1.printStackTrace();
 		} catch (IOException e1) {

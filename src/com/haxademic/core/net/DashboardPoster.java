@@ -21,15 +21,18 @@ implements IJsonRequestCallback {
 	protected String projectName = "haxademic";
 	protected String serverPostPath = "http://localhost/haxademic/www/dashboard/";
 	protected JsonRequest postJSON;
+	
 	protected PGraphics imagePG;
 	protected PGraphics screenshotPG;
 	protected PImage image;
 	protected BufferedImage screenshot;
 	protected float imageScale = 1;
 	protected float screenshotScale = 1;
+	
 	protected int postInterval = 60 * 60 * 1000;
 	protected int lastPostTime = 0;
 	public static boolean firstPost = true; // static in case of multiple instances
+	
 	protected boolean debug = false;
 
 	// TODO:
@@ -58,6 +61,7 @@ implements IJsonRequestCallback {
 		if(P.p.millis() > lastPostTime + postInterval) {
 			// PostJSON.DEBUG = true;
 			lastPostTime = P.p.millis();
+			if(image != null && imagePG != null) ImageUtil.copyImage(image, imagePG);
 			takeThreadedScreenshot();
 		}
 		checkQueuedScreenshot();
@@ -65,20 +69,16 @@ implements IJsonRequestCallback {
 	
 	public void setImage(PImage img) {
 		image = img;
-		if(imagePG == null) imagePG = PG.newPG(P.round(img.width * imageScale), P.round(img.height * imageScale));
+		if(imagePG == null) {
+			imagePG = PG.newPG(P.round(img.width * imageScale), P.round(img.height * imageScale));
+			imagePG.beginDraw();
+			imagePG.background(255, 0, 0);
+			imagePG.endDraw();
+		}
 	}
 	
 	public void setDebug(boolean debug ) {
 		this.debug = debug;
-		if(debug) {
-			lazyInitScreenshotBuffer();
-			P.p.debugView.setTexture(screenshotPG);
-		}
-	}
-	
-	protected void lazyInitScreenshotBuffer() {
-		P.error("DashboardPoster currently not scaling down screenshots.");
-		screenshotPG = PG.newPG(P.round(screenshot.getWidth() * screenshotScale), P.round(screenshot.getHeight() * screenshotScale));
 	}
 	
 	protected void submitJSON(BufferedImage img1, BufferedImage img2) {
@@ -99,8 +99,8 @@ implements IJsonRequestCallback {
 		String base64Screenshot = "";
 		try {
 			// send a scaled-down image from the app
-			if(img1 != null) base64Img = Base64Image.encodePImageToBase64(img1, "png");
-			base64Screenshot = Base64Image.encodePImageToBase64(img2, "png");
+			if(img1 != null) base64Img = Base64Image.encodeNativeImageToBase64(img1, "png");
+			base64Screenshot = Base64Image.encodeNativeImageToBase64(img2, "png");
 		} catch (UnsupportedEncodingException e1) {
 			e1.printStackTrace();
 		} catch (IOException e1) {
@@ -120,8 +120,6 @@ implements IJsonRequestCallback {
 	protected void takeThreadedScreenshot() {
 		new Thread(new Runnable() { public void run() {
 			screenshot = ScreenUtil.getScreenShotNativeAllMonitors(0, 0);
-			if(screenshotPG == null) lazyInitScreenshotBuffer();
-			if(debug) P.p.debugView.setTexture(screenshotPG);
 		}}).start();	
 	}
 	
@@ -130,14 +128,18 @@ implements IJsonRequestCallback {
 		
 		// copy images and get native buffers on UI thread
 		// copy in-app image
-		if(image != null && imagePG != null) ImageUtil.copyImage(image, imagePG);
-		
-		// copy screenshot
-//		ImageUtil.copyImage(screenshot, screenshotPG);
-		
-		// get native images for base64 encoding
 		BufferedImage img1 = (image != null) ? (BufferedImage)imagePG.getNative() : null;
-		BufferedImage img2 = screenshot;
+
+		// draw scaled screenshot version into a new native image 
+		BufferedImage img = null;
+		if(screenshot != null) {
+			// make small copy
+			int scaledScreenshotW = P.round(screenshot.getWidth() * screenshotScale);
+			int scaledScreenshotH = P.round(screenshot.getHeight() * screenshotScale);
+			img = new BufferedImage(scaledScreenshotW, scaledScreenshotH, BufferedImage.TYPE_INT_ARGB);
+			img.getGraphics().drawImage(screenshot.getScaledInstance(scaledScreenshotW, scaledScreenshotH, 0), 0, 0, null);
+		}
+		BufferedImage img2 = (image != null) ? img : null;
 		
 		// send it all to the server
 		new Thread(new Runnable() { public void run() {
