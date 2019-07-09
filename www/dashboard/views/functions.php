@@ -114,14 +114,15 @@ function html_checkin_detail($jsonFile, $project_id, $showTitle, $isMostRecent=f
   $html = "" .
           '<div class="mdl-cell mdl-card mdl-shadow--2dp portfolio-card ' . $relaunchClass . $offlineClass . '">';
           if($showTitle == true) {
-    $html .='  <div class="mdl-card__title">' .
-            '    <h2 class="mdl-card__title-text">' . ucwords(str_replace("-", " ", $project_id)) . '</h2>' .
-            '  </div>';
+  $html .='  <div class="mdl-card__title">' .
+          '    <h2 class="mdl-card__title-text">' . ucwords(str_replace("-", " ", $project_id)) . '</h2>' .
+          '  </div>';
           } else {
-    $html .='  <div class="mdl-card__title">' .
-            '    <h2 class="mdl-card__title-text">' . $checkinJSON['time'] . '</h2>' .
-            '  </div>';
+  $html .='  <div class="mdl-card__title">' .
+          '    <h2 class="mdl-card__title-text">' . $checkinJSON['time'] . '</h2>' .
+          '  </div>';
           }
+  $html .='  <div>';
           if(isset($checkinJSON['image'])) {
   $html .='  <div class="mdl-card__media">' .
           '    <img class="article-image imagexpander" src="' . $checkinJSON['image'] . '" alt="" border="0">' .
@@ -132,6 +133,7 @@ function html_checkin_detail($jsonFile, $project_id, $showTitle, $isMostRecent=f
           '    <img class="article-image imagexpander" src="' . $checkinJSON['screenshot'] . '" alt="" border="0">' .
           '  </div>';
           }
+  $html .='  </div>';
   $html .='  <div class="mdl-card__supporting-text">';
       if(isset($checkinJSON['time'])) $html .= "<strong>Updated</strong>: " . $strAgo . "<br>";
       if(isset($checkinJSON['time'])) $html .= "<strong>Update time</strong>: " . date_format($date,"Y/m/d H:i:s") . "<br>";
