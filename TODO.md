@@ -36,7 +36,6 @@
   * Shatter model & triangles fall down (Sunflow final render)
   * Zaibiti
   	* Pi webcam? Is it possible?
-  * AdaptBB poly lerp/feedback loop displacing a sheet
   * Sound in space. Raspberry Pis via wifi, attached to speakers. Split channels for more outputs
   * New video loops should have a soundtrack. use my tunes? look in sketch/render/avloops
   * Kinect history textures in 3d
@@ -108,7 +107,7 @@
   * Sphinx4 speech recognition
 	* Copy / paste + Robot for tired hands
   * Test basic audio input. why is audio getting delayed after hours of running?
-    * Why isn't Minim/Beads working on audio in anymore?
+    * Why isn't Minim/Beads working on audio input anymore?
   * Turn off Beads audio input object output - this should not pass through
   * Split audio stepthrough rendering from Renderer.java, which should just save movies. MIDIStepthrough renderer is a good example of splitting
   * Make demos for rendering at a specific bpm
