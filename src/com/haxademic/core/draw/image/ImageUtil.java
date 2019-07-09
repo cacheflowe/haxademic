@@ -3,11 +3,11 @@ package com.haxademic.core.draw.image;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.nio.ByteBuffer;
+import java.util.HashMap;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.draw.color.ColorUtil;
-import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.math.MathUtil;
 
@@ -277,10 +277,19 @@ public class ImageUtil {
 		img.copy(0, 0, img.width, img.height, 0, img.height, img.width, -img.height);
 	}
 	
-	public static void blurByRescale(PImage img, float scaleBlur) {
-		// copy source self to a smaller region, then scale back up
-		img.copy(0, 0, img.width, img.height, 0, 0, P.round(img.width * scaleBlur), P.round(img.height * scaleBlur));
-		img.copy(0, 0, P.round(img.width * scaleBlur), P.round(img.height * scaleBlur), 0, 0, img.width, img.height);
+	protected static HashMap<String, PImage> rescaleBlurImgs = new HashMap<String, PImage>();
+	public static void blurByRescale(PGraphics img, float scaleBlur) {
+		// lazy init image per scale, store in hash
+		int scaleDownW = P.constrain(P.round(img.width * scaleBlur), 10, 99999);
+		int scaleDownH = P.constrain(P.round(img.height * scaleBlur), 10, 99999);
+		String sizeKey = scaleDownW + "," + scaleDownH;
+		if(rescaleBlurImgs.containsKey(sizeKey) == false) {
+			rescaleBlurImgs.put(sizeKey, new PImage(scaleDownW, scaleDownH)); // PG.newPG(scaleDownW, scaleDownH));
+		}
+		PImage scaleDest = rescaleBlurImgs.get(sizeKey);
+		// ping pong to smaller image, then scale back up
+		ImageUtil.copyImage(img, scaleDest);
+		ImageUtil.copyImage(scaleDest, img);
 	}
 	
 	public static float[] offsetAndSize = new float[]{0,0,0,0};
