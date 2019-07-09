@@ -33,6 +33,10 @@ extends PAppletHax {
 		// draw to screen
 		pg.endDraw();
 		p.image(pg, 0, 0);
+		
+		// add custom debug data 
+		dashboardPoster.setCustomValue("mouseX", ""+p.mouseX);
+		dashboardPoster.setCustomValue("mouseY", ""+p.mouseY);
  	}
 	
 }

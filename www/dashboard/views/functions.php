@@ -140,6 +140,12 @@ function html_checkin_detail($jsonFile, $project_id, $showTitle, $isMostRecent=f
       if(isset($checkinJSON['frameCount'])) $html .= "<strong>Frame count</strong>: " . $checkinJSON['frameCount'] . "<br>";
       if(isset($checkinJSON['resolution'])) $html .= "<strong>Resolution</strong>: " . $checkinJSON['resolution'] . "<br>";
       if(isset($checkinJSON['relaunch'])) $html .= "<strong>App rebooted!</strong><br>";
+      if(isset($checkinJSON['custom'])) {
+        if(count($checkinJSON) > 0) $html .= "<strong>Custom Props:</strong><br>";
+        foreach ($checkinJSON['custom'] as $key => $value) {
+          $html .= "<strong>".$key."</strong>: ".$value."<br>";
+        }
+      }
       $html .='  </div>';
           if($showTitle) {
             $html .='<div class="mdl-card__actions mdl-card--border">';

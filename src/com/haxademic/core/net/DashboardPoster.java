@@ -3,6 +3,8 @@ package com.haxademic.core.net;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.draw.context.PG;
@@ -28,6 +30,8 @@ implements IJsonRequestCallback {
 	protected BufferedImage screenshot;
 	protected float imageScale = 1;
 	protected float screenshotScale = 1;
+	
+	protected LinkedHashMap<String, String> appCustomInfo = new LinkedHashMap<String, String>();
 	
 	protected int postInterval = 60 * 60 * 1000;
 	protected int lastPostTime = 0;
@@ -81,7 +85,12 @@ implements IJsonRequestCallback {
 		this.debug = debug;
 	}
 	
+	public void setCustomValue(String key, String val) {
+		appCustomInfo.put(key, val);
+	}
+	
 	protected void submitJSON(BufferedImage img1, BufferedImage img2) {
+		// ADD TEXT DATA TO JSON ---------------------------
 		// build JSON object & set basic stats
         JSONObject jsonOut = new JSONObject();
         jsonOut.setString("project", projectName);
@@ -94,6 +103,18 @@ implements IJsonRequestCallback {
         if(firstPost) jsonOut.setBoolean("relaunch", true);
         firstPost = false;
         
+        // add custom data
+        JSONObject customProps = new JSONObject();
+		for (Map.Entry<String, String> item : appCustomInfo.entrySet()) {
+		    String key = item.getKey();
+		    String value = item.getValue();
+		    if(key != null && value != null) {
+		    	customProps.setString(key, value);
+		    }
+		}
+		jsonOut.setJSONObject("custom", customProps);
+        
+        // ADD IMAGE DATA TO JSON ---------------------------
         // add images to json
 		String base64Img = "";
 		String base64Screenshot = "";
@@ -109,7 +130,7 @@ implements IJsonRequestCallback {
 		if(img1 != null) jsonOut.setString("imageBase64", base64Img);
         jsonOut.setString("screenshotBase64", base64Screenshot);
 
-        // send json to server
+        // SEND JSON TO SERVER ------------------------------
         try {
 			postJSON.postJsonData(jsonOut, this);
 		} catch (IOException e) {
