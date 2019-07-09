@@ -40,7 +40,6 @@
   * Shatter model & triangles fall down (Sunflow final render)
   * Zaibiti
   	* Pi webcam? Is it possible?
-  * AdaptBB poly lerp/feedback loop displacing a sheet
   * Sound in space. Raspberry Pis via wifi, attached to speakers. Split channels for more outputs
   * New video loops should have a soundtrack. use my tunes? look in sketch/render/avloops
   * Kinect history textures in 3d
@@ -112,7 +111,7 @@
   * Sphinx4 speech recognition
 	* Copy / paste + Robot for tired hands
   * Test basic audio input. why is audio getting delayed after hours of running?
-    * Why isn't Minim/Beads working on audio in anymore?
+    * Why isn't Minim/Beads working on audio input anymore?
   * Turn off Beads audio input object output - this should not pass through
   * Split audio stepthrough rendering from Renderer.java, which should just save movies. MIDIStepthrough renderer is a good example of splitting
   * Make demos for rendering at a specific bpm
@@ -178,7 +177,7 @@
   * Wrap up GLSL transitions collection and make a common interface
   * Fix up GPU particle launcher to store colors per-particle
   * Convert Orbit noise: https://www.shadertoy.com/view/4t3yDn
-  * Convert some postprocessing effects: 
+  * Convert some postprocessing effects:
     * https://github.com/libretro/glsl-shaders
     * https://github.com/Vidvox/ISF-Files/blob/master/ISF/Optical%20Flow%20Distort.fs
     * https://github.com/v002/v002-Optical-Flow/blob/master/v002.GPUHSFlow.frag
@@ -248,7 +247,6 @@
     * https://www.oracle.com/technetwork/java/javase/documentation/toolstx-178270.html
     * https://forum.processing.org/two/discussion/17166/livestreaming-ipcapture-sdp-file
   * Merge Windows & normal SystemUtil - make sure Java-killing code works on both OS X & Windows
-  * Add .txt event log to PAppletHax
   * Test importing a Java class into a Processing IDE project
   * How can we optimize for Raspberry Pi? It wants Java 1.7 for the old version of Eclipse :(
   * Look into JarSplice or other compiling tools for application deployment

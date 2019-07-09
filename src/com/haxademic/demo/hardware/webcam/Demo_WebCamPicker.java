@@ -39,7 +39,14 @@ extends PAppletHax {
 		if(p.key == '2') camPicker2.drawMenu(p.g);
 		
 		// check for frozen image
-		if(p.frameCount % 600 == 1) 
+		if(p.frameCount % 60 == 1) {
 			p.debugView.setValue("webcam1 frozen", freezeMonitor.isFrozen(camPicker1.image()));
+			p.debugView.setValue("webcam2 frozen", freezeMonitor.isFrozen(camPicker2.image()));
+		}
+	}
+	
+	public void keyPressed() {
+		super.keyPressed();
+		if(p.key == 'r') camPicker1.refreshCameraList();
 	}
 }

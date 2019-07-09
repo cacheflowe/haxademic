@@ -32,10 +32,19 @@
       }
       .mdl-card__media {
         background-color: #000;
-        height: 200px;
+        height: 17vh;
         overflow: hidden;
         width: 100%;
         text-align: center;
+        padding: 1rem;
+        box-sizing: border-box;
+        background: #555;
+      }
+      .mdl-card__media:first-child {
+        padding-bottom: 0.5rem;
+      }
+      .mdl-card__media:last-child {
+        padding-top: 0.5rem;
       }
       .mdl-card__media img {
         width: 100%;

@@ -31,11 +31,6 @@ implements IUIButtonDelegate {
 	public static final int BUTTON_H = 24;
 
 	public Capture webCam = null;
-
-	// TODO:
-	// - Check basic string array to see if webcam config exists, rather than loop through all the child objects
-	// - Have a public method to re-scan for webcams attached
-	// - If no cameras available, "There are no cameras available." error keeps printing
 	
 	public WebCamPicker() {
 		this(null);
@@ -43,6 +38,12 @@ implements IUIButtonDelegate {
 	
 	public WebCamPicker(String configId) {
 		this.configId = configId;
+		refreshCameraList();
+	}
+	
+	public void refreshCameraList() {
+		camerasList = null;
+		camerasListed = false;
 		new Thread(new Runnable() { public void run() {
 			P.out("CameraConfig :: getting cameras");
 			camerasList = Capture.list();
@@ -53,7 +54,7 @@ implements IUIButtonDelegate {
 		if(camerasList == null) return;
 		camerasListed = true;
 		if (camerasList.length == 0) {
-			P.println("There are no cameras available.");
+			// P.println("There are no cameras available.");
 		} else if(cameraConfigs == null) {
 			// setup
 			cameraConfigs = new ArrayList<CameraConfig>();
@@ -98,11 +99,8 @@ implements IUIButtonDelegate {
 	}
 	
 	protected boolean webcamConfigExists(String config) {
-		for (int i = 0; i < cameraConfigs.size(); i++) {
-			for (int j = 0; j < cameraConfigs.get(i).configs().size(); j++) {
-				String mode = cameraConfigs.get(i).configs().get(j).config();
-				if(mode.equals(config)) return true;
-			}
+		for (int i = 0; i < camerasList.length; i++) {
+			if(camerasList[i].equals(config)) return true;
 		}
 		return false;
 	}
