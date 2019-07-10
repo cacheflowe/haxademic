@@ -107,8 +107,8 @@ function html_checkin_detail($jsonFile, $project_id, $showTitle, $isMostRecent=f
 
 
   // add classes for relaunch and offline
-  $relaunchClass = (isset($checkinJSON['relaunch'])) ? 'relaunched' : '';
-  $offlineClass = (($hoursAgo > 3 || $daysAgo > 1) && $isMostRecent == true) ? 'offline' : '';
+  $relaunchClass = (isset($checkinJSON['relaunch'])) ? ' relaunched' : '';
+  $offlineClass = (($hoursAgo > 3 || $daysAgo > 1) && $isMostRecent == true) ? ' offline' : '';
 
   // build html string with json data
   $html = "" .
