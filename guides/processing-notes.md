@@ -17,28 +17,56 @@ More under-the-hood code [here](https://github.com/praxis-live/praxis/blob/maste
 
 ```
 public void settings() {
-  fullScreen();
+	fullScreen();
 }
 
 public void setup() {
-  int appW = 640;
-  int appH = 480;
-  surface.setSize(appW, appH);
-  surface.setLocation(displayWidth/2 - appW/2, displayHeight/2 - appH/2);
+	int appW = 640;
+	int appH = 480;
+	surface.setSize(appW, appH);
+	surface.setLocation(displayWidth/2 - appW/2, displayHeight/2 - appH/2);
 }
 
 public void draw() {
-  background(127 + 127 * sin(frameCount * 0.01));
+	background(127 + 127 * sin(frameCount * 0.01));
 }
 ```
 
 #### Run a thread inline
 
+This is helpful for any non-drawing code that you need to run that might slow down the UI thread. One example is calling `play()` on a Movie object, which can freeze the UI thread, as seen below. 
+
 ```
 new Thread(new Runnable() { public void run() {
-  doSomething();
+	myMovie.play();
 }}).start();
 
+```
+
+It's also a good idea to communicate with hardware on a Thread, as this can also slow down your app's framerate. You can pick up results in your `draw()` loop from the Thread by setting a "isBusy" boolean, and setting it to true when done. This ensures that your threaded operation takes as much time as it needs, while your graphics continue running fast.
+
+```
+public boolean working = false;
+public int result = 0;
+
+public void draw() {
+	// start a new Thread if the last is complete
+	if(working == false) {
+		startLongProcess();
+	} else {
+		// do nothing, wait for the results!
+	}
+	// draw the threaded result
+	text(result, 20, 20);
+}
+
+public void startLongProcess() {
+	working = true;
+	new Thread(new Runnable() { public void run() {
+	  result = serialDevice.update();
+	  working = false;
+	}}).start();
+}
 ```
 
 #### Sort an array
