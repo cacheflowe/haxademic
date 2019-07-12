@@ -13,7 +13,6 @@ import com.haxademic.core.data.store.AppStore;
 import com.haxademic.core.debug.DebugUtil;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.debug.Stats;
-import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.file.FileUtil;

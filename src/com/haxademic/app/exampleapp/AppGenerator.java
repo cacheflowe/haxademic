@@ -91,7 +91,12 @@ extends PAppletHax {
 		copyDir("/lib/UMovieMaker");
 		
 		// copy project files
-		copyFile(".gitignore");
+		FileUtil.writeTextToFile(	// .gitignore
+				FileUtil.safePath(newProjectDir + "/.gitignore"), 
+				FileUtil.textLinesJoined(new String[] {
+						"_assets", "bin/", "output/", "*Thumbs.db", ".DS_Store"
+				})
+		);
 		try {
 			String classPathMinimal = FileUtil.safePath(haxPath + "/.classpath-example");
 			String classPathDest = FileUtil.safePath(newProjectDir + "/.classpath");

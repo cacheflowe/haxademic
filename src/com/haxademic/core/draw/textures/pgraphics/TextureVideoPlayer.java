@@ -1,6 +1,7 @@
 package com.haxademic.core.draw.textures.pgraphics;
 
 import com.haxademic.core.app.P;
+import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.MathUtil;
@@ -14,9 +15,9 @@ extends BaseTexture {
 	protected boolean _wasActive = false;
 
 	public TextureVideoPlayer( int width, int height, String videoFile ) {
-		super();
+		super(width, height);
 		
-		buildGraphics( width, height );
+		
 		
 		_movie = new Movie( P.p, FileUtil.getHaxademicDataPath() + videoFile );
 	}
@@ -30,7 +31,8 @@ extends BaseTexture {
 	}
 	
 	public void updateDraw() {
-		_texture.image(_movie, 0, 0, _texture.width, _texture.height);
+		ImageUtil.drawImageCropFill(_movie, _texture, true);
+//		_texture.image(_movie, 0, 0, width, height);
 	}
 	
 	public void postProcess() {

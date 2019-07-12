@@ -16,6 +16,7 @@ extends BaseFragmentShader {
 		setMap(DemoAssets.smallTexture());
 		setAmp(0.1f);
 		setMode(1);
+		setDivider(4f);
 	}
 	
 	public static DisplacementMapFilter instance(PApplet p) {
@@ -34,6 +35,10 @@ extends BaseFragmentShader {
 	
 	public void setMode(int mode) {
 		shader.set("mode", mode);
+	}
+	
+	public void setDivider(float divider) {
+		shader.set("divider", divider);
 	}
 	
 }

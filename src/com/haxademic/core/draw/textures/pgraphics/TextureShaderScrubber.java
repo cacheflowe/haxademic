@@ -28,9 +28,9 @@ extends BaseTexture {
 	protected int _mode = 0;
 
 	public TextureShaderScrubber( int width, int height, String textureShader ) {
-		super();
+		super(width, height);
 		
-		buildGraphics( width, height );
+		
 		loadShaders( textureShader );
 	}
 	

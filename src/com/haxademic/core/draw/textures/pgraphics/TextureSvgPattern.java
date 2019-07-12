@@ -5,11 +5,10 @@ import java.util.ArrayList;
 import com.haxademic.core.app.P;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
-import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.EasingFloat;
+import com.haxademic.core.media.DemoAssets;
 
-import processing.core.PApplet;
 import processing.core.PShape;
 
 public class TextureSvgPattern 
@@ -22,34 +21,32 @@ extends BaseTexture {
 	protected int _timingFrame = 0;
 
 	public TextureSvgPattern( int width, int height ) {
-		super();
+		super(width, height);
 
-		buildGraphics( width, height );
-		
-		PApplet p = P.p;
 		_svgs = new ArrayList<PShape>();
-//		_svgs.add( p.loadShape( FileUtil.getHaxademicDataPath() + "svg/wuki.svg" ) );
-		_svgs.add( p.loadShape( FileUtil.getHaxademicDataPath() + "svg/ello.svg" ) );
-		_svgs.add( p.loadShape( FileUtil.getHaxademicDataPath() + "svg/cursor.svg" ) );
-		_svgs.add( p.loadShape( FileUtil.getHaxademicDataPath() + "svg/hexagon.svg" ) );
-		_svgs.add( p.loadShape( FileUtil.getHaxademicDataPath() + "svg/eye.svg" ) );
-		_svgs.add( p.loadShape( FileUtil.getHaxademicDataPath() + "svg/x.svg" ) );
-//		_svgs.add( p.loadShape( FileUtil.getHaxademicDataPath() + "svg/money.svg" ) );
-//		_svgs.add( p.loadShape( FileUtil.getHaxademicDataPath() + "svg/weed.svg" ) );
-//		_svgs.add( p.loadShape( FileUtil.getHaxademicDataPath() + "svg/diamond.svg" ) );
-//		_svgs.add( p.loadShape( FileUtil.getHaxademicDataPath() + "svg/gun-uzi.svg" ) );
-//		_svgs.add( p.loadShape( FileUtil.getHaxademicDataPath() + "svg/coin.svg" ) );
-		_svgs.add( p.loadShape( FileUtil.getHaxademicDataPath() + "svg/heart.svg" ) );
-		_svgs.add( p.loadShape( FileUtil.getHaxademicDataPath() + "svg/cacheflowe-logo.svg" ) );
-		_svgs.add( p.loadShape( FileUtil.getHaxademicDataPath() + "svg/smiley.svg" ) );
-		_svgs.add( p.loadShape( FileUtil.getHaxademicDataPath() + "svg/star.svg" ) );
-		_svgs.add( p.loadShape( FileUtil.getHaxademicDataPath() + "svg/triangle-stroke.svg" ) );
-//		_svgs.add( p.loadShape( FileUtil.getHaxademicDataPath() + "svg/money-bag.svg" ) );
-//		_svgs.add( p.loadShape( FileUtil.getHaxademicDataPath() + "svg/speaker.svg" ) );
-//		_svgs.add( p.loadShape( FileUtil.getHaxademicDataPath() + "svg/car.svg" ) );
-//		_svgs.add( p.loadShape( FileUtil.getHaxademicDataPath() + "svg/note-1.svg" ) );
-//		_svgs.add( p.loadShape( FileUtil.getHaxademicDataPath() + "svg/gun.svg" ) );
-//		_svgs.add( p.loadShape( FileUtil.getHaxademicDataPath() + "svg/microphone.svg" ) );
+		_svgs.add(DemoAssets.shapeX());
+////		_svgs.add( p.loadShape( FileUtil.getHaxademicDataPath() + "svg/wuki.svg" ) );
+//		_svgs.add( p.loadShape( FileUtil.getHaxademicDataPath() + "svg/ello.svg" ) );
+//		_svgs.add( p.loadShape( FileUtil.getHaxademicDataPath() + "svg/cursor.svg" ) );
+//		_svgs.add( p.loadShape( FileUtil.getHaxademicDataPath() + "svg/hexagon.svg" ) );
+//		_svgs.add( p.loadShape( FileUtil.getHaxademicDataPath() + "svg/eye.svg" ) );
+//		_svgs.add( p.loadShape( FileUtil.getHaxademicDataPath() + "svg/x.svg" ) );
+////		_svgs.add( p.loadShape( FileUtil.getHaxademicDataPath() + "svg/money.svg" ) );
+////		_svgs.add( p.loadShape( FileUtil.getHaxademicDataPath() + "svg/weed.svg" ) );
+////		_svgs.add( p.loadShape( FileUtil.getHaxademicDataPath() + "svg/diamond.svg" ) );
+////		_svgs.add( p.loadShape( FileUtil.getHaxademicDataPath() + "svg/gun-uzi.svg" ) );
+////		_svgs.add( p.loadShape( FileUtil.getHaxademicDataPath() + "svg/coin.svg" ) );
+//		_svgs.add( p.loadShape( FileUtil.getHaxademicDataPath() + "svg/heart.svg" ) );
+//		_svgs.add( p.loadShape( FileUtil.getHaxademicDataPath() + "svg/cacheflowe-logo.svg" ) );
+//		_svgs.add( p.loadShape( FileUtil.getHaxademicDataPath() + "svg/smiley.svg" ) );
+//		_svgs.add( p.loadShape( FileUtil.getHaxademicDataPath() + "svg/star.svg" ) );
+//		_svgs.add( p.loadShape( FileUtil.getHaxademicDataPath() + "svg/triangle-stroke.svg" ) );
+////		_svgs.add( p.loadShape( FileUtil.getHaxademicDataPath() + "svg/money-bag.svg" ) );
+////		_svgs.add( p.loadShape( FileUtil.getHaxademicDataPath() + "svg/speaker.svg" ) );
+////		_svgs.add( p.loadShape( FileUtil.getHaxademicDataPath() + "svg/car.svg" ) );
+////		_svgs.add( p.loadShape( FileUtil.getHaxademicDataPath() + "svg/note-1.svg" ) );
+////		_svgs.add( p.loadShape( FileUtil.getHaxademicDataPath() + "svg/gun.svg" ) );
+////		_svgs.add( p.loadShape( FileUtil.getHaxademicDataPath() + "svg/microphone.svg" ) );
 	}
 	
 	public void newLineMode() {
@@ -72,14 +69,14 @@ extends BaseTexture {
 //		_texture.clear();
 		feedback(0.5f,0.2f);
 		
-		PG.resetGlobalProps(_texture);
+//		PG.resetGlobalProps(_texture);
 		PG.setDrawCenter(_texture);
 
 		_timeEaser.update();
 
-		float quarterW = _texture.width * 0.25f;
-		float space = _texture.width * 0.05f;
-		float scaleMult = _texture.width  * 0.001f;
+		float quarterW = width * 0.25f;
+		float space = width * 0.05f;
+		float scaleMult = width  * 0.001f;
 		
 		PShape curShape = _svgs.get( _curShapeIndex );
 		float size = (space*2f)  + space * MathUtil.saw( _timeEaser.value() / 100f );
@@ -95,8 +92,8 @@ extends BaseTexture {
 		_texture.fill(255);
 		_texture.noStroke();
 
-		for( float i=-quarterW; i < _texture.width + quarterW; i+= spacing ) {
-			for( float j=-quarterW; j < _texture.height + quarterW; j+= spacing ) {
+		for( float i=-quarterW; i < width + quarterW; i+= spacing ) {
+			for( float j=-quarterW; j < height + quarterW; j+= spacing ) {
 				_texture.pushMatrix();
 				_texture.translate(i, j);
 				_texture.rotateZ(1.5f * P.sin((_timeEaser.value() +j)/75f));

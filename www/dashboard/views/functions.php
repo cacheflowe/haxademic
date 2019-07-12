@@ -107,21 +107,22 @@ function html_checkin_detail($jsonFile, $project_id, $showTitle, $isMostRecent=f
 
 
   // add classes for relaunch and offline
-  $relaunchClass = (isset($checkinJSON['relaunch'])) ? 'relaunched' : '';
-  $offlineClass = (($hoursAgo > 3 || $daysAgo > 1) && $isMostRecent == true) ? 'offline' : '';
+  $relaunchClass = (isset($checkinJSON['relaunch'])) ? ' relaunched' : '';
+  $offlineClass = (($hoursAgo > 3 || $daysAgo > 1) && $isMostRecent == true) ? ' offline' : '';
 
   // build html string with json data
   $html = "" .
           '<div class="mdl-cell mdl-card mdl-shadow--2dp portfolio-card ' . $relaunchClass . $offlineClass . '">';
           if($showTitle == true) {
-    $html .='  <div class="mdl-card__title">' .
-            '    <h2 class="mdl-card__title-text">' . ucwords(str_replace("-", " ", $project_id)) . '</h2>' .
-            '  </div>';
+  $html .='  <div class="mdl-card__title">' .
+          '    <h2 class="mdl-card__title-text">' . ucwords(str_replace("-", " ", $project_id)) . '</h2>' .
+          '  </div>';
           } else {
-    $html .='  <div class="mdl-card__title">' .
-            '    <h2 class="mdl-card__title-text">' . $checkinJSON['time'] . '</h2>' .
-            '  </div>';
+  $html .='  <div class="mdl-card__title">' .
+          '    <h2 class="mdl-card__title-text">' . $checkinJSON['time'] . '</h2>' .
+          '  </div>';
           }
+  $html .='  <div>';
           if(isset($checkinJSON['image'])) {
   $html .='  <div class="mdl-card__media">' .
           '    <img class="article-image imagexpander" src="' . $checkinJSON['image'] . '" alt="" border="0">' .
@@ -132,6 +133,7 @@ function html_checkin_detail($jsonFile, $project_id, $showTitle, $isMostRecent=f
           '    <img class="article-image imagexpander" src="' . $checkinJSON['screenshot'] . '" alt="" border="0">' .
           '  </div>';
           }
+  $html .='  </div>';
   $html .='  <div class="mdl-card__supporting-text">';
       if(isset($checkinJSON['time'])) $html .= "<strong>Updated</strong>: " . $strAgo . "<br>";
       if(isset($checkinJSON['time'])) $html .= "<strong>Update time</strong>: " . date_format($date,"Y/m/d H:i:s") . "<br>";
@@ -140,6 +142,12 @@ function html_checkin_detail($jsonFile, $project_id, $showTitle, $isMostRecent=f
       if(isset($checkinJSON['frameCount'])) $html .= "<strong>Frame count</strong>: " . $checkinJSON['frameCount'] . "<br>";
       if(isset($checkinJSON['resolution'])) $html .= "<strong>Resolution</strong>: " . $checkinJSON['resolution'] . "<br>";
       if(isset($checkinJSON['relaunch'])) $html .= "<strong>App rebooted!</strong><br>";
+      if(isset($checkinJSON['custom'])) {
+        if(count($checkinJSON) > 0) $html .= "<strong>Custom Props:</strong><br>";
+        foreach ($checkinJSON['custom'] as $key => $value) {
+          $html .= "<strong>".$key."</strong>: ".$value."<br>";
+        }
+      }
       $html .='  </div>';
           if($showTitle) {
             $html .='<div class="mdl-card__actions mdl-card--border">';

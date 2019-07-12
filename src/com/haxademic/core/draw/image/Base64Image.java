@@ -18,10 +18,10 @@ public class Base64Image {
 	// [JPG, jpg, bmp, BMP, gif, GIF, WBMP, png, PNG, wbmp, jpeg, JPEG]
 	
 	public static String encodePImageToBase64(PImage img, String format) throws UnsupportedEncodingException, IOException {
-		return encodePImageToBase64((BufferedImage)img.getNative(), format);
+		return encodeNativeImageToBase64((BufferedImage)img.getNative(), format);
 	}
 
-	public static String encodePImageToBase64(BufferedImage img, String format) throws UnsupportedEncodingException, IOException {
+	public static String encodeNativeImageToBase64(BufferedImage img, String format) throws UnsupportedEncodingException, IOException {
 		String result = null;
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		ImageIO.write(img, format, out);

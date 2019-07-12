@@ -31,8 +31,8 @@ extends BaseTexture {
 	protected BaseTexture audioTexture;
 	
 	public TextureBlocksSheet( int width, int height ) {
-		super();
-		buildGraphics( width, height );
+		super(width, height);
+		
 
 		// build textures
 		noiseTexture = new TextureShader(TextureShader.noise_simplex_2d_iq, 0.0005f);
@@ -40,11 +40,8 @@ extends BaseTexture {
 //		audioTexture = new TextureEQBandDistribute(200, 200);
 		audioTexture = new TextureEQConcentricCircles(200, 100);
 		
-		_texture.noSmooth();
-		
 		// create shape
 		gradient = new ImageGradient(ImageGradient.PASTELS());
-		buildGrid();
 	}
 	
 	protected void buildGrid() {
@@ -88,10 +85,10 @@ extends BaseTexture {
 		
 		// normalize group shape
 		PShapeUtil.centerShape(gridShape);
-		PShapeUtil.scaleShapeToHeight(gridShape, _texture.height * 5f);
+		PShapeUtil.scaleShapeToHeight(gridShape, height * 5f);
 		
 //		for (int i = 0; i < blocks.length; i++) {
-//			PShapeUtil.scaleShapeToHeight(blocks[i], _texture.height * 0.2f);
+//			PShapeUtil.scaleShapeToHeight(blocks[i], height * 0.2f);
 //		}
 		
 		// debug
@@ -122,6 +119,8 @@ extends BaseTexture {
 	
 	public void preDraw() {
 		audioTexture.update();
+		if(gridShape == null) buildGrid();
+		
 //		noiseTexture.shader().set("offset", 0f, P.p.frameCount * 0.005f);
 //		audioTexture.texture().filter(noiseTexture.shader());
 		

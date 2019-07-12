@@ -31,7 +31,7 @@ import com.haxademic.core.draw.textures.pgraphics.TextureRotatingRings;
 import com.haxademic.core.draw.textures.pgraphics.TextureRotatorShape;
 import com.haxademic.core.draw.textures.pgraphics.TextureScrollingColumns;
 import com.haxademic.core.draw.textures.pgraphics.TextureShaderTimeStepper;
-import com.haxademic.core.draw.textures.pgraphics.TextureSphereAudioTextures;
+import com.haxademic.core.draw.textures.pgraphics.TextureSphereAudioTextures_HaxVisualOnly;
 import com.haxademic.core.draw.textures.pgraphics.TextureSphereOfBoxes;
 import com.haxademic.core.draw.textures.pgraphics.TextureSphereOfCubes;
 import com.haxademic.core.draw.textures.pgraphics.TextureSphereRotate;
@@ -351,7 +351,7 @@ public class HaxVisualTexturePools {
 //		_fgTexturePool.add( new TextureMeshDeform( textureW, textureH ));
 		
 		
-		_topLayerPool.add( new TextureSphereAudioTextures( _pg.width, _pg.height ) );
+		_topLayerPool.add( new TextureSphereAudioTextures_HaxVisualOnly( _pg.width, _pg.height ) );
 
 	}
 	
@@ -477,7 +477,7 @@ public class HaxVisualTexturePools {
 //		_fgTexturePool.add( new TextureMeshDeform( textureW, textureH ));
 		
 		
-		_topLayerPool.add( new TextureSphereAudioTextures( _pg.width, _pg.height ) );
+		_topLayerPool.add( new TextureSphereAudioTextures_HaxVisualOnly( _pg.width, _pg.height ) );
 		_topLayerPool.add( new TextureSvg3dExtruded( _pg.width, _pg.height ) );
 		
 	}

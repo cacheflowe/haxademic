@@ -10,9 +10,9 @@ extends BaseTexture {
 	protected int _eqIndex;
 	
 	public TextureColorAudioFade( int width, int height ) {
-		super();
+		super(width, height);
 
-		buildGraphics( width, height );
+		
 		
 		_eqIndex = MathUtil.randRange(0, 255);
 	}
@@ -24,9 +24,10 @@ extends BaseTexture {
 	}
 	
 	public void updateDraw() {
-		_texture.clear();
+//		_texture.clear();
+		_texture.background(0);
 		
 		_texture.fill( _colorEase.colorInt(), P.constrain( P.p.audioFreq( _eqIndex ) * 255, 0, 255 ) );
-		_texture.rect(0, 0, _texture.width, _texture.height );
+		_texture.rect(0, 0, width, height );
 	}
 }

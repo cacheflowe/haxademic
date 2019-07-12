@@ -12,7 +12,7 @@ extends BaseTexture {
 	protected float bright = 0;
 	
 	public TextureKinectFacePlayback( int width, int height ) {
-		super();
+		super(width, height);
 	}
 	
 	public PGraphics texture() {

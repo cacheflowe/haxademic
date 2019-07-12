@@ -3,6 +3,7 @@ package com.haxademic.core.draw.textures.pgraphics;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
+import com.haxademic.core.draw.textures.pshader.TextureShader;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.EasingFloat;
@@ -44,23 +45,20 @@ extends BaseTexture {
 	// -------------------------------------------------------
 
 	public TextureShaderTimeStepper( int width, int height, String textureShader ) {
-		super();
+		super(width, height);
 		_shaderFile = textureShader;
-		
-		buildGraphics( width, height );
-		_texture.smooth(AppSettings.SMOOTH_LOW);
-//		PG.setDrawFlat2d(_texture, true);
 		loadShaders( textureShader );
 	}
 	
 	protected void loadShaders( String textureShader ) {
-		_patternShader = P.p.loadShader( FileUtil.getFile("haxademic/shaders/textures/" + textureShader)); 
+		_patternShader = TextureShader.loadShader(textureShader); 
 		_patternShader.set("time", _timeEaser.value() );
 		_patternShader.set("mode", _mode);
 	}
 
 		
 	public void updateDraw() {
+		_texture.background(0);
 		updateTime();
 		updateDrawWithTime(_timeEaser.value());
 	}

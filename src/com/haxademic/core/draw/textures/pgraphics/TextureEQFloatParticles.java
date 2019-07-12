@@ -17,8 +17,8 @@ extends BaseTexture {
 	protected ArrayList<FloatParticle> _particles;
 
 	public TextureEQFloatParticles( int width, int height ) {
-		super();
-		buildGraphics( width, height );
+		super(width, height);
+		
 		
 		_numParticles = 256;
 		_particles = new ArrayList<FloatParticle>();
@@ -48,9 +48,9 @@ extends BaseTexture {
 	
 	public void postProcess() {
 		super.postProcess();
-		BlurHFilter.instance(P.p).setBlurByPercent(1.7f, _texture.width);
+		BlurHFilter.instance(P.p).setBlurByPercent(1.7f, width);
 		BlurHFilter.instance(P.p).applyTo(_texture);
-		BlurVFilter.instance(P.p).setBlurByPercent(1.7f, _texture.height);
+		BlurVFilter.instance(P.p).setBlurByPercent(1.7f, height);
 		BlurVFilter.instance(P.p).applyTo(_texture);
 	}
 	
@@ -66,12 +66,12 @@ extends BaseTexture {
 		
 		public FloatParticle() {
 			_size = P.p.random(1, 10);
-			_pos = new PVector(P.p.random(0, _texture.width), P.p.random(0, _texture.height), 0);
+			_pos = new PVector(P.p.random(0, width), P.p.random(0, height), 0);
 			_speed = new PVector(0, _size * 0.1f * 0.2f, 0);
 		}
 		
 		public void update(int eqIndex) {
-//			_size = P.p.random(1, _texture.height * 0.3f);
+//			_size = P.p.random(1, height * 0.3f);
 //			_speed = new PVector(0, _size * 0.1f, 0);
 
 			float amp = P.p.audioFreq(eqIndex);
@@ -82,9 +82,9 @@ extends BaseTexture {
 			float x = _pos.x + P.sin(P.p.frameCount/(_size*10f)) * curSpeed/5f;
 			_pos.set(x, _pos.y - curSpeed);
 			
-			if(_pos.y < -maxSize) _pos.set(_pos.x, _texture.height + maxSize);
-			if(_pos.x < -maxSize) _pos.set(_texture.width + maxSize, _texture.height + maxSize);
-			if(_pos.x > _texture.width + maxSize) _pos.set(-maxSize, _texture.height + maxSize);
+			if(_pos.y < -maxSize) _pos.set(_pos.x, height + maxSize);
+			if(_pos.x < -maxSize) _pos.set(width + maxSize, height + maxSize);
+			if(_pos.x > width + maxSize) _pos.set(-maxSize, height + maxSize);
 			
 //			_texture.fill(255, 255f * _amp);
 			_texture.fill(255);

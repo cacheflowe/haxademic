@@ -17,8 +17,7 @@ extends BaseTexture {
 	protected EasingFloat _spacing = new EasingFloat(10, 6);
 
 	public TextureAudioTube( int width, int height ) {
-		super();
-		buildGraphics( width, height );
+		super(width, height);
 	}
 	
 	public void newLineMode() {
@@ -48,15 +47,16 @@ extends BaseTexture {
 
 	public void updateTiming() {
 		if(P.abs(_rotationTarget.y % P.PI/2f) < 0.01f) {
-			_radius.setTarget(MathUtil.randRangeDecimal(_texture.width/25f, _texture.width/15f));
+			_radius.setTarget(MathUtil.randRangeDecimal(width/25f, width/15f));
 		} else {
-			_radius.setTarget(MathUtil.randRangeDecimal(_texture.width, _texture.width * 2));
+			_radius.setTarget(MathUtil.randRangeDecimal(width, width * 2));
 		}
-		_spacing.setTarget(MathUtil.randRangeDecimal(_texture.width/10f, _texture.width/5f));
+		_spacing.setTarget(MathUtil.randRangeDecimal(width/10f, width/5f));
 	}
 
 	public void updateDraw() {
-		_texture.clear();
+//		_texture.clear();
+		_texture.background(0);
 		
 		_texture.ambientLight(102, 102, 102);
 		_texture.lightSpecular(204, 204, 204);
@@ -67,7 +67,7 @@ extends BaseTexture {
 		_texture.shininess(20.0f);
 		
 		
-		PG.resetGlobalProps( _texture );
+//		PG.resetGlobalProps( _texture );
 		PG.setCenterScreen( _texture );
 		_texture.pushMatrix();
 		
@@ -75,7 +75,7 @@ extends BaseTexture {
 		_spacing.update();
 		updateRotation();
 		
-//		drawEQ(100,8,_texture.height/3f,_texture.width/100f,2);
+//		drawEQ(100,8,height/3f,width/100f,2);
 		drawEQSmoothed(50,8,_radius.value(),_spacing.value(),8,2,2);
 		
 		_texture.popMatrix();

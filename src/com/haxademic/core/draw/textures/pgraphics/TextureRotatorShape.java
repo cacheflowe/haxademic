@@ -6,7 +6,7 @@ import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.EasingFloat3d;
 
-import toxi.geom.Vec3D;
+import processing.core.PVector;
 
 public class TextureRotatorShape 
 extends BaseTexture {
@@ -27,11 +27,11 @@ extends BaseTexture {
 //	protected TColorBlendBetween _color;
 
 	public TextureRotatorShape( int width, int height ) {
-		super();
+		super(width, height);
 
-		buildGraphics( width, height );
 		
-		COORD_MAX = _texture.width / 3;
+		
+		COORD_MAX = width / 3;
 		_pointsPerGroup = POINTS_MAX;
 		_numRotations = POINTS_MAX;//_texture.round( _texture.random( ROTATION_MIN, ROTATION_MAX ) );
 		if( _numRotations % 2 != 0 ) _numRotations++;	// keep even numbers for proper reflection
@@ -59,7 +59,8 @@ extends BaseTexture {
 	}
 
 	public void updateDraw() {
-		_texture.clear();
+//		_texture.clear();
+		_texture.background(0);
 		
 		PG.setCenterScreen( _texture );
 		_texture.translate(0, 0, -600);
@@ -91,17 +92,17 @@ extends BaseTexture {
 	
 	public class Point {
 		
-		public Vec3D _pos;
+		public PVector _pos;
 		public EasingFloat3d _posBase;
-		public Vec3D _speed;
+		public PVector _speed;
 		protected float _inc;
 		protected float _incSpeed;
 		protected float _radius;
 
 		public Point(){
-			_pos = new Vec3D(0,0,0);
+			_pos = new PVector(0,0,0);
 			_posBase = new EasingFloat3d( 0, 0, 0, 5f );
-			_speed = new Vec3D(0,0,0);
+			_speed = new PVector(0,0,0);
 			reset();
 		}
 		
@@ -112,7 +113,7 @@ extends BaseTexture {
 			_posBase.setTargetZ( -COORD_MAX + P.round( MathUtil.randRangeDecimal( -COORD_MAX, COORD_MAX ) ) );
 			_inc = MathUtil.randRangeDecimal( 0, 1f );
 			_incSpeed = MathUtil.randRangeDecimal( -0.005f, 0.005f );
-			_radius = MathUtil.randRangeDecimal( _texture.width, _texture.width * 3 );
+			_radius = MathUtil.randRangeDecimal( width, width * 3 );
 		}
 		
 		public void update() {

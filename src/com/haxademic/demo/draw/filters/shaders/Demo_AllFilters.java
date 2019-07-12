@@ -342,8 +342,9 @@ extends PAppletHax { public static void main(String args[]) { PAppletHax.main(Th
 			DilateFilter.instance(p).applyTo(pg);
 		} else if(curFilter == DisplacementMapFilter.instance(p)) {
 			DisplacementMapFilter.instance(p).setMap(noiseBuffer);
-			DisplacementMapFilter.instance(p).setMode(P.floor(p.mousePercentX() * 3.99f));
-			DisplacementMapFilter.instance(p).setAmp(p.mousePercentY() * 0.2f);
+			DisplacementMapFilter.instance(p).setMode(P.floor(p.mousePercentX() * 7.99f));
+			DisplacementMapFilter.instance(p).setAmp(p.mousePercentY() * 0.5f);
+			DisplacementMapFilter.instance(p).setDivider(11 - p.mousePercentY() * 10f);
 			DisplacementMapFilter.instance(p).applyTo(pg);
 		} else if(curFilter == EdgeColorDarkenFilter.instance(p)) {
 			EdgeColorDarkenFilter.instance(p).setSpreadX(p.mousePercentX());

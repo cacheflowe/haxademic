@@ -22,9 +22,9 @@ extends BaseTexture {
 	protected EasingFloat _radius = new EasingFloat(100, 6);
 
 	public TextureRotatingRings( int width, int height ) {
-		super();
+		super(width, height);
 
-		buildGraphics( width, height );
+		
 	}
 	
 	public void newLineMode() {
@@ -52,13 +52,14 @@ extends BaseTexture {
 	}
 
 	public void updateTimingSection() {
-		_radius.setTarget(MathUtil.randRangeDecimal(_texture.width * 0.7f, _texture.width * 4f));
+		_radius.setTarget(MathUtil.randRangeDecimal(width * 0.7f, width * 4f));
 	}
 
 	public void updateDraw() {
-		_texture.clear();
+//		_texture.clear();
+		_texture.background(0);
 		
-		PG.resetGlobalProps( _texture );
+//		PG.resetGlobalProps( _texture );
 		PG.setCenterScreen( _texture );
 		_texture.pushMatrix();
 		

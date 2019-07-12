@@ -13,9 +13,9 @@ extends BaseTexture {
 	protected LinesRow[] linesRows;
 	
 	public TextureNoiseLines( int width, int height ) {
-		super();
+		super(width, height);
 		
-		buildGraphics( width, height );
+		
 		
 		// build pool
 		linesRows = new LinesRow[maxRows];
@@ -34,7 +34,7 @@ extends BaseTexture {
 		
 		// draw rows
 		for (int i = 0; i < numRows; i++) {
-			float rowHeight = (float) _texture.height / (float) numRows;
+			float rowHeight = (float) height / (float) numRows;
 			linesRows[i].update(rowHeight, i);
 		}
 	}
@@ -82,7 +82,7 @@ extends BaseTexture {
 			noiseMult.update(true);
 			speed.update(true);
 			noiseStart += speed.value();
-			for (int x = 0; x < _texture.width; x++) {
+			for (int x = 0; x < width; x++) {
 				float noiseX = P.p.noise(noiseStart + x * noiseMult.value());
 				if(noiseX > 0.65f) {
 					_texture.fill(255); //  * noiseX 

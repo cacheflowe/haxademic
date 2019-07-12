@@ -12,7 +12,7 @@ extends BaseTexture {
 	protected float bright = 0;
 
 	public TextureKinectFaceRecording( int width, int height ) {
-		super();
+		super(width, height);
 	}
 	
 	public PGraphics texture() {
@@ -50,6 +50,6 @@ extends BaseTexture {
 //		_texture.clear();
 //		
 //		_texture.fill( _colorEase.colorInt(), P.constrain( P.p.audioIn.getEqAvgBand( _eqIndex ) * 255, 0, 255 ) );
-//		_texture.rect(0, 0, _texture.width, _texture.height );
+//		_texture.rect(0, 0, width, height );
 //	}
 }

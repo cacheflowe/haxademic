@@ -72,8 +72,8 @@ extends BaseTexture {
 
 
 	public TextureSvg3dExtruded( int width, int height ) {
-		super();
-		buildGraphics( width, height );
+		super(width, height);
+		
 
 		// init draw mode
 		drawMode = randomDrawMode();
@@ -91,7 +91,7 @@ extends BaseTexture {
 	}
 	
 	protected void buildLogo() {
-		shapeHeight = _texture.height * 0.15f;
+		shapeHeight = height * 0.15f;
 		
 		logoSvg = DemoAssets.shapeX().getTessellation();
 		PShapeUtil.repairMissingSVGVertex(logoSvg);
@@ -191,6 +191,7 @@ extends BaseTexture {
 			break;
 		case Points:
 		case Displacement2d:
+			audioTexture.update();
 			noiseTexture.shader().set("offset", 0f, P.p.frameCount * 0.025f);
 			audioTexture.texture().filter(noiseTexture.shader());
 			ColorizeFilter.instance(P.p).setTargetR(_colorEase.rNorm());

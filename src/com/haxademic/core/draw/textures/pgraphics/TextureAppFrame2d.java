@@ -15,9 +15,7 @@ extends BaseTexture {
 	protected ArrayList<EasingFloat> _radii;
 
 	public TextureAppFrame2d( int width, int height ) {
-		super();
-
-		buildGraphics( width, height );
+		super(width, height);
 		
 		_radii = new ArrayList<EasingFloat>();
 		for( int i=0; i < 8; i++ ) {
@@ -39,7 +37,7 @@ extends BaseTexture {
 	public void updateDraw() {
 		_texture.clear();
 		
-		PG.resetGlobalProps( _texture );
+//		PG.resetGlobalProps( _texture );
 		PG.setCenterScreen( _texture );
 		_texture.pushMatrix();
 		
@@ -53,38 +51,38 @@ extends BaseTexture {
 		
 		// start outer for wraparound
 		float outerMult = 3;
-		float halfW = _texture.width/2f;
-		float halfH = _texture.height/2f;
+		float halfW = width/2f;
+		float halfH = height/2f;
 		_texture.fill( 0 );
 		_texture.noStroke();
 		
 		// draw in halves - drawing all at once wasn't filling properly
 		// draw frame right side		
 		_texture.beginShape();
-		_texture.vertex( 0, -_texture.height * outerMult );
+		_texture.vertex( 0, -height * outerMult );
 		_texture.vertex( 0, -halfH * _radii.get( 0 ).value() );
 		_texture.vertex( halfW * _radii.get( 1 ).value(), -halfH * _radii.get( 1 ).value() );
 		_texture.vertex( halfW * _radii.get( 2 ).value(), 0 );
 		_texture.vertex( halfW * _radii.get( 3 ).value(), halfH * _radii.get( 3 ).value() );
 		_texture.vertex( 0, halfH * _radii.get( 4 ).value() );
-		_texture.vertex( 0, _texture.height * outerMult );
-		_texture.vertex( _texture.width * outerMult, _texture.height * outerMult );
-		_texture.vertex( _texture.width * outerMult, -_texture.height * outerMult );
-		_texture.vertex( 0, -_texture.height * outerMult );
+		_texture.vertex( 0, height * outerMult );
+		_texture.vertex( width * outerMult, height * outerMult );
+		_texture.vertex( width * outerMult, -height * outerMult );
+		_texture.vertex( 0, -height * outerMult );
 		_texture.endShape(P.CLOSE);
 
 		// draw frame left side		
 		_texture.beginShape();
-		_texture.vertex( 0, -_texture.height * outerMult );
+		_texture.vertex( 0, -height * outerMult );
 		_texture.vertex( 0, -halfH * _radii.get( 0 ).value() );
 		_texture.vertex( -halfW * _radii.get( 7 ).value(), -halfH * _radii.get( 7 ).value() );
 		_texture.vertex( -halfW * _radii.get( 6 ).value(), 0 );
 		_texture.vertex( -halfW * _radii.get( 5 ).value(), halfH * _radii.get( 5 ).value() );
 		_texture.vertex( 0, halfH * _radii.get( 4 ).value() );
-		_texture.vertex( 0, _texture.height * outerMult );
-		_texture.vertex( -_texture.width * outerMult, _texture.height * outerMult );
-		_texture.vertex( -_texture.width * outerMult, -_texture.height * outerMult );
-		_texture.vertex( 0, -_texture.height * outerMult );
+		_texture.vertex( 0, height * outerMult );
+		_texture.vertex( -width * outerMult, height * outerMult );
+		_texture.vertex( -width * outerMult, -height * outerMult );
+		_texture.vertex( 0, -height * outerMult );
 		_texture.endShape(P.CLOSE);
 		
 		_texture.popMatrix();

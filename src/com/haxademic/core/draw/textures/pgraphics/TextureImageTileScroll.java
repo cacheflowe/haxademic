@@ -36,9 +36,7 @@ extends BaseTexture {
 	protected TiledTexture tiledImg;
 
 	public TextureImageTileScroll( int width, int height ) {
-		super();
-		
-		buildGraphics( width, height );
+		super(width, height);
 		
 		img1 = P.p.createGraphics(512, 512, PGraphics.P2D);
 		img2 = P.p.createGraphics(512, 512, PGraphics.P2D);
@@ -113,10 +111,9 @@ extends BaseTexture {
 		tiledImg.setOffset(xOffset.value(), yOffset.value());
 		tiledImg.setSize(scale.value(), scale.value());
 		tiledImg.update();
-		tiledImg.drawCentered(_texture, _texture.width, _texture.height);
+		tiledImg.drawCentered(_texture, width, height);
 		
 		InvertFilter.instance(P.p).applyTo(_texture);
-
 	}
 	
 	public PImage image() {

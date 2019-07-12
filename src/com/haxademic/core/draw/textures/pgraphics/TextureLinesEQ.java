@@ -19,9 +19,9 @@ extends BaseTexture {
 	protected float _curRotX;
 
 	public TextureLinesEQ( int width, int height ) {
-		super();
+		super(width, height);
 
-		buildGraphics( width, height );
+		
 		
 		// set some defaults
 		_width = width;
@@ -45,16 +45,17 @@ extends BaseTexture {
 	}
 
 	public void updateDraw() {
-		_texture.clear();
+//		_texture.clear();
+		_texture.background(0);
 		
-		PG.resetGlobalProps( _texture );
+//		PG.resetGlobalProps( _texture );
 		PG.setBasicLights( _texture );
 
 		_texture.pushMatrix();
 		_texture.rectMode(PConstants.CORNER);
 		
-		_width = _texture.width * 6;
-		_height = _texture.height * 6;
+		_width = width * 6;
+		_height = height * 6;
 		float lineH = _height / _numLines;
 		
 		// ease rotations

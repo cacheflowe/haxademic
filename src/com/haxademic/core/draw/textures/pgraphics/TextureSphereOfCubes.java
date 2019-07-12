@@ -22,8 +22,8 @@ extends BaseTexture {
 
 	
 	public TextureSphereOfCubes( int width, int height ) {
-		super();
-		buildGraphics( width, height );
+		super(width, height);
+		
 	}
 	
 	public void updateDraw() {
@@ -84,9 +84,9 @@ extends BaseTexture {
 		if(MathUtil.randBoolean(P.p)) twist.setTarget(MathUtil.randRangeDecimal(0, 0.25f));
 		if(MathUtil.randBoolean(P.p)) {
 			if(P.p.frameCount % 1200 < 600)
-				baseRadius.setTarget(MathUtil.randRangeDecimal(_texture.height * 0.25f, _texture.height * 0.35f));
+				baseRadius.setTarget(MathUtil.randRangeDecimal(height * 0.25f, height * 0.35f));
 			else
-				baseRadius.setTarget(MathUtil.randRangeDecimal(_texture.height * 0.85f, _texture.height * 1.2f));
+				baseRadius.setTarget(MathUtil.randRangeDecimal(height * 0.85f, height * 1.2f));
 		}
 		
 		if(MathUtil.randBoolean(P.p)) {

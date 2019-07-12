@@ -15,9 +15,9 @@ extends BaseTexture {
 	protected EasingFloat rotation = new EasingFloat(0, 8);
 
 	public TextureScrollingColumns( int width, int height ) {
-		super();
+		super(width, height);
 
-		buildGraphics( width, height );
+		
 		updateTimingSection();
 	}
 	
@@ -44,15 +44,15 @@ extends BaseTexture {
 		float x = time % (barW * 2f);
 		
 		_texture.pushMatrix();
-		_texture.translate(_texture.width/2, _texture.height/2);
+		_texture.translate(width/2, height/2);
 		_texture.rotate(rotation.value());
 		
 		PG.setDrawCenter(_texture);
-		for( float i=x - _texture.width - barW*2f; i < _texture.width * 2; i+=barW*2f ) {
+		for( float i=x - width - barW*2f; i < width * 2; i+=barW*2f ) {
 			_texture.fill( 0 );
-			_texture.rect(i, 0, barW, _texture.height * 2 );
+			_texture.rect(i, 0, barW, height * 2 );
 			_texture.fill( _colorEase.colorInt() );
-			_texture.rect(i+barW, 0, barW, _texture.height * 2 );
+			_texture.rect(i+barW, 0, barW, height * 2 );
 		}
 		
 		_texture.popMatrix();

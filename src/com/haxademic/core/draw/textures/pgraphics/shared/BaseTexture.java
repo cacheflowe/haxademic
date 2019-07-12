@@ -3,21 +3,23 @@ package com.haxademic.core.draw.textures.pgraphics.shared;
 import java.util.ArrayList;
 
 import com.haxademic.core.app.P;
+import com.haxademic.core.data.constants.PBlendModes;
 import com.haxademic.core.draw.color.EasingColor;
 import com.haxademic.core.draw.context.PG;
-import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.filters.pshader.BrightnessFilter;
 import com.haxademic.core.draw.filters.pshader.ChromaColorFilter;
 import com.haxademic.core.draw.filters.pshader.InvertFilter;
 import com.haxademic.core.draw.filters.pshader.ThresholdFilter;
 import com.haxademic.core.math.easing.EasingFloat;
 
-import processing.core.PConstants;
 import processing.core.PGraphics;
 
 public class BaseTexture {
 	
-	protected PGraphics _texture = null;
+	protected PGraphics _texture;
+	protected int width;
+	protected int height;
+	protected boolean smoothPG;
 	protected boolean _active;
 	protected boolean _newlyActive;
 	protected int _useCount = 0;
@@ -34,20 +36,17 @@ public class BaseTexture {
 	
 	protected ArrayList<BaseTexture> _curTexturePool;
 
-	public BaseTexture() {
+	public BaseTexture(int width, int height) {
+		this(width, height, true);
+	}
+	
+	public BaseTexture(int width, int height, boolean smoothPG) {
+		this.width = width;
+		this.height = height;
+		this.smoothPG = smoothPG;
 		_active = false;
 		_color = P.p.color(255);
 		_colorEase = new EasingColor( "#ffffff", 5 );
-	}
-	
-	protected void buildGraphics( int width, int height ) {
-		if( _texture != null ) _texture.dispose();
-		_texture = P.p.createGraphics( width, height, PConstants.P3D );
-//		_texture.smooth(OpenGLUtil.SMOOTH_MEDIUM);
-//		_texture.smooth(OpenGLUtil.SMOOTH_HIGH);
-//		_texture.smooth(OpenGLUtil.SMOOTH_LOW);
-//		_texture.noSmooth();
-		OpenGLUtil.setTextureRepeat(_texture);
 	}
 	
 	public String toString() {
@@ -142,13 +141,32 @@ public class BaseTexture {
 	}
 	
 	public void update() {
+		// TODO: reset to null after another BaseTexture uses it
+		if(_texture == null) {
+//			_texture = PGPool.getPG(width, height);
+			_texture = PG.newPG(width, height, smoothPG, true);
+		}
+//		PGPool.updatePG(_texture);
+
 		int startRender = P.p.millis();
 		_colorEase.update();
 		resetUseCount(); // this should be the last thing that happens in a frame, to help with texture pool optimization
+		
 		preDraw();
-		_texture.beginDraw();		
+		
+		_texture.beginDraw();
+		_texture.perspective();
+		_texture.noLights();
+//		_texture.strokeJoin(P.PROJECT);
+//		_texture.strokeCap(P.ROUND);
+		_texture.blendMode(PBlendModes.BLEND);
+//		CameraUtil.setCameraDistance(_texture, 200, 20000);
+		PG.setDrawCorner(_texture);
+		PG.push(_texture);
 		updateDraw();
+		PG.pop(_texture);
 		_texture.endDraw();
+		
 		postProcess();
 		_newlyActive = false;
 		renderTime = P.p.millis() - startRender;
@@ -191,16 +209,16 @@ public class BaseTexture {
 			_texture, 
 			0, 
 			0, 
-			_texture.width, 
-			_texture.height, 
+			width, 
+			height, 
 			P.round(-amp/2f), 
 			P.round(-amp/2f), 
-			P.round(_texture.width + amp), 
-			P.round(_texture.height + amp)
+			P.round(width + amp), 
+			P.round(height + amp)
 		);
 		_texture.fill(0, darkness * 255f);
 		_texture.noStroke();
-		_texture.rect(0, 0, _texture.width, _texture.height);
+		_texture.rect(0, 0, width, height);
 	}
 
 }

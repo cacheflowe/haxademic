@@ -1,6 +1,8 @@
 package com.haxademic.core.draw.textures.pgraphics;
 
 import com.haxademic.core.app.P;
+import com.haxademic.core.data.constants.PBlendModes;
+import com.haxademic.core.data.constants.PShapeTypes;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.BrightnessStepFilter;
 import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
@@ -19,8 +21,8 @@ extends BaseTexture {
 
 	
 	public TexturePolygonLerpedVertices( int width, int height ) {
-		super();
-		buildGraphics( width, height );
+		super(width, height);
+		
 	}
 	
 	public void updateDraw() {
@@ -36,10 +38,11 @@ extends BaseTexture {
 
 		// set line weight
 		_texture.noFill();
-		_texture.stroke(255);
 		_texture.strokeCap(P.SQUARE);
 		lineWeight.update();
 		_texture.strokeWeight(lineWeight.value());
+		_texture.stroke(255);
+		_texture.blendMode(PBlendModes.BLEND);
 		
 		// context & camera
 		PG.setCenterScreen(_texture);
@@ -47,7 +50,7 @@ extends BaseTexture {
 		
 		// draw polygon
 		scaleV.update(true);
-		float polySize = _texture.height * scaleV.value() * (1f + 0.1f * P.sin(P.p.frameCount * 0.05f));
+		float polySize = height * scaleV.value() * (1f + 0.1f * P.sin(P.p.frameCount * 0.05f));
 		vertices.update(true);
 		float segmentRads = P.TWO_PI / vertices.value();
 		float rotOffset = P.HALF_PI + segmentRads/2f;

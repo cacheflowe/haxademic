@@ -41,26 +41,27 @@ extends BaseTexture {
 
 	
 	public TextureSphereOfBoxes( int width, int height ) {
-		super();
-		buildGraphics( width, height );
+		super(width, height);
+		
 		init();
 	}
 	
 	protected void init() {
 		numPointRows = P.round( _numAverages / 50 );
 		// create cells
-		float boxW = _texture.width / numPoints;
-		float boxH = _texture.height / numPoints;
+		float boxW = width / numPoints;
+		float boxH = height / numPoints;
 		grid = new Cell[numPoints];
 		for (int i = 0; i < numPoints; i++) {
 			grid[i] = new Cell( boxW, boxH, i );
 		}
-
 	}
 	
 	public void updateDraw() { 
 		_texture.background(0);
-		_texture.translate(0, 0, -_texture.width * 3f);
+		_texture.translate(0, 0, -width * 1f);
+		
+		_radMultiplier = this.width;
 		
 		// context & camera
 		PG.setBetterLights(_texture);
@@ -69,10 +70,6 @@ extends BaseTexture {
 		
 		// put it all in a huge cube
 		_texture.fill( 255 );
-		_texture.stroke( 255, _linesOuterAlpha );
-		_texture.strokeWeight(2);
-		_texture.sphere(10);
-		_texture.noStroke();
 		
 		// rotate the sphere - no push/pop since we resetMatrix() every frame... kinda weak
 		_masterAngle += 0.01f;
@@ -290,10 +287,10 @@ extends BaseTexture {
 			
 			// use brightness to push radius out
 			float brightAdjust = 1 + P.p.brightness( cellColor ) * .75f;
-			brightAdjust = 0.15f;
-			x = newX * amp * brightAdjust;
-			y = newY * amp * brightAdjust;
-			z = newZ * amp * brightAdjust;
+			brightAdjust = 0.45f;
+			x = newX * _radMultiplier * amp * brightAdjust;// * (1 + amp * brightAdjust);
+			y = newY * _radMultiplier * amp * brightAdjust;// * (1 + amp * brightAdjust);
+			z = newZ * _radMultiplier * amp * brightAdjust;// * (1 + amp * brightAdjust);
 			
 			// use EQ amplitude to 
 			float ampSizeMultiplier = amp * .09f;

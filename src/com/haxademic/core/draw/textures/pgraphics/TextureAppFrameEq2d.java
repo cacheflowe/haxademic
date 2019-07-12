@@ -12,9 +12,9 @@ extends BaseTexture {
 	protected float _cols = 32;
 
 	public TextureAppFrameEq2d( int width, int height ) {
-		super();
+		super(width, height);
 
-		buildGraphics( width, height );
+		
 	}
 	
 	public void newLineMode() {
@@ -37,7 +37,7 @@ extends BaseTexture {
 		_texture.popMatrix();
 
 		_texture.pushMatrix();
-		_texture.translate( 0, _texture.height );
+		_texture.translate( 0, height );
 		_texture.rotateX( (float) Math.PI );
 
 		drawBars();
@@ -48,11 +48,11 @@ extends BaseTexture {
 	
 	public void drawBars() {
 		// draw bars
-		float halfH = _texture.height * 0.5f;
-		float halfW = _texture.width * 0.5f;
-		float cellW = (float)_texture.width/(float)_cols;
+		float halfH = height * 0.5f;
+		float halfW = width * 0.5f;
+		float cellW = (float)width/(float)_cols;
 		float cellX = 0;
-		float cellH = _texture.height/6f;
+		float cellH = height/6f;
 		int spectrumInterval = (int) ( 128f / _cols );	// 128 keeps it in the bottom quarter of the spectrum since the high ends is so overrun
 		
 		_texture.beginShape();

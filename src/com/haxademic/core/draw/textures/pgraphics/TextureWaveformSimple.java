@@ -11,8 +11,8 @@ extends BaseTexture {
 	protected boolean _hasStroke = true;
 	
 	public TextureWaveformSimple( int width, int height ) {
-		super();
-		buildGraphics( width, height );
+		super(width, height);
+		
 	}
 	
 	public void newLineMode() {
@@ -24,9 +24,9 @@ extends BaseTexture {
 		feedback(10f, 0.12f);
 		
 		int waveformDataLength = P.p.audioData.waveform().length;
-		float widthStep = (float) _texture.width / (float) waveformDataLength;
-		float startY = _texture.height * 0.5f;
-		float amp = _texture.height * 0.4f;
+		float widthStep = (float) width / (float) waveformDataLength;
+		float startY = height * 0.5f;
+		float amp = height * 0.4f;
 		
 		_texture.stroke(_color);
 		_texture.strokeWeight(3.f);

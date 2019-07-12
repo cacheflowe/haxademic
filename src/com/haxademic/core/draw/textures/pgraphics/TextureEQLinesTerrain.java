@@ -1,8 +1,8 @@
 package com.haxademic.core.draw.textures.pgraphics;
 
 import com.haxademic.core.app.P;
-import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.context.OpenGLUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.BlurProcessingFilter;
 import com.haxademic.core.draw.filters.pshader.InvertFilter;
 import com.haxademic.core.draw.filters.pshader.ReflectFilter;
@@ -25,17 +25,16 @@ extends BaseTexture {
 	protected float shapeExtent;
 
 	public TextureEQLinesTerrain( int width, int height ) {
-		super();
-		buildGraphics( width, height );
-		_texture.smooth(OpenGLUtil.SMOOTH_HIGH);
-		OpenGLUtil.setTextureQualityHigh(_texture);
+		super(width, height);
 		
 		// build scrolling audio map history
-		eqHistory = P.p.createGraphics(256, 256, P.P2D);
+		eqHistory = PG.newPG(256, 256, false, false);
 		eqHistory.noSmooth();
 		OpenGLUtil.setTextureQualityLow(eqHistory);
-		eqHistoryCopy = P.p.createGraphics(256, 256, P.P2D);
-		
+		eqHistoryCopy = PG.newPG(256, 256);
+		eqHistoryCopy.noSmooth();
+		OpenGLUtil.setTextureQualityLow(eqHistoryCopy);
+
 		// build sheet mesh
 		shape = P.p.createShape(P.GROUP);
 		int rows = eqHistory.height;
@@ -55,7 +54,7 @@ extends BaseTexture {
 
 		// normalize & texture mesh
 		PShapeUtil.centerShape(shape);
-		PShapeUtil.scaleShapeToHeight(shape, _texture.height * 1f);
+		PShapeUtil.scaleShapeToHeight(shape, height * 1f);
 		PShapeUtil.addTextureUVToShape(shape, eqHistory);
 		shapeExtent = PShapeUtil.getMaxExtent(shape);
 		shape.disableStyle();

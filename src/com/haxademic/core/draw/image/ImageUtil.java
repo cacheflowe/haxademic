@@ -3,11 +3,11 @@ package com.haxademic.core.draw.image;
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
 import java.nio.ByteBuffer;
+import java.util.HashMap;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.draw.color.ColorUtil;
-import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.math.MathUtil;
 
@@ -237,6 +237,31 @@ public class ImageUtil {
 		drawImageCropFill(img, dest, cropFill, false);
 	}
 	
+	// fills a specific rectangle without depending on offsetting off an entire buffer/canvas like the other version of this method
+	public static void cropFillCopyImage(PImage src, PImage dest, int destX, int destY, int destW, int destH, boolean cropFill) {
+		int imageW = src.width;
+		int imageH = src.height;
+		float ratioW = (float) destW / imageW;
+		float ratioH = (float) destH / imageH;
+		if(cropFill) {
+			float fillRatio = ratioW > ratioH ? ratioW : ratioH;
+			int scaledDestW = P.round(destW / fillRatio);	// scale destination dimension to match source, so we can puLl the rect at the right scale
+			int scaledDestH = P.round(destH / fillRatio);
+			int srcX = cropFill ? P.round(imageW/2 - scaledDestW/2) : 0;
+			int srcY = cropFill ? P.round(imageH/2 - scaledDestH/2) : 0;
+			int srcW = cropFill ? P.round(scaledDestW) : 0;
+			int srcH = cropFill ? P.round(scaledDestH) : 0;
+			dest.copy(src, srcX, srcY, srcW, srcH, destX, destY, destW, destH);
+		} else {
+			float letterboxRatio = ratioW > ratioH ? ratioH : ratioW;
+			int resizedW = P.ceil(imageW * letterboxRatio);
+			int resizedH = P.ceil(imageH * letterboxRatio);
+			int offsetX = P.ceil((destW - resizedW) * 0.5f);
+			int offsetY = P.ceil((destH - resizedH) * 0.5f);
+			dest.copy(src, 0, 0, imageW, imageH, destX + offsetX, destY + offsetY, resizedW, resizedH);
+		}
+	}
+	
 	public static void drawImageCropFill(PImage img, PGraphics dest, boolean cropFill, boolean openDestContext) {
 		float ratioW = MathUtil.scaleToTarget(img.width, dest.width);
 		float ratioH = MathUtil.scaleToTarget(img.height, dest.height);
@@ -277,10 +302,19 @@ public class ImageUtil {
 		img.copy(0, 0, img.width, img.height, 0, img.height, img.width, -img.height);
 	}
 	
-	public static void blurByRescale(PImage img, float scaleBlur) {
-		// copy source self to a smaller region, then scale back up
-		img.copy(0, 0, img.width, img.height, 0, 0, P.round(img.width * scaleBlur), P.round(img.height * scaleBlur));
-		img.copy(0, 0, P.round(img.width * scaleBlur), P.round(img.height * scaleBlur), 0, 0, img.width, img.height);
+	protected static HashMap<String, PImage> rescaleBlurImgs = new HashMap<String, PImage>();
+	public static void blurByRescale(PGraphics img, float scaleBlur) {
+		// lazy init image per scale, store in hash
+		int scaleDownW = P.constrain(P.round(img.width * scaleBlur), 10, 99999);
+		int scaleDownH = P.constrain(P.round(img.height * scaleBlur), 10, 99999);
+		String sizeKey = scaleDownW + "," + scaleDownH;
+		if(rescaleBlurImgs.containsKey(sizeKey) == false) {
+			rescaleBlurImgs.put(sizeKey, new PImage(scaleDownW, scaleDownH)); // PG.newPG(scaleDownW, scaleDownH));
+		}
+		PImage scaleDest = rescaleBlurImgs.get(sizeKey);
+		// ping pong to smaller image, then scale back up
+		ImageUtil.copyImage(img, scaleDest);
+		ImageUtil.copyImage(scaleDest, img);
 	}
 	
 	public static float[] offsetAndSize = new float[]{0,0,0,0};

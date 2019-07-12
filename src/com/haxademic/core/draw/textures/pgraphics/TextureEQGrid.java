@@ -16,12 +16,11 @@ extends BaseTexture {
 
 
 	public TextureEQGrid( int width, int height ) {
-		super();
-
-		buildGraphics( width, height );
+		super(width, height);
 		
-		_cellW = P.ceil( _texture.width/_cols );
-		_cellH = P.ceil( _texture.height/_rows );
+		
+		_cellW = P.ceil( width/_cols );
+		_cellH = P.ceil( height/_rows );
 	}
 	
 	public void newLineMode() {

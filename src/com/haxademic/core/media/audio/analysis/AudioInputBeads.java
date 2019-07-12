@@ -4,10 +4,12 @@ import com.haxademic.core.app.P;
 
 import beads.AudioContext;
 import beads.Bead;
+import beads.BiquadFilter;
 import beads.FFT;
 import beads.Gain;
 import beads.PeakDetector;
 import beads.PowerSpectrum;
+import beads.RampBuffer;
 import beads.ShortFrameSegmenter;
 import beads.SpectralDifference;
 import processing.core.PGraphics;
@@ -20,6 +22,7 @@ implements IAudioInput {
 	protected float[] freqs;
 	protected PowerSpectrum ps;
 	protected PeakDetector od;
+	protected BiquadFilter fftFilter;
 	protected AudioStreamData audioStreamData = new AudioStreamData();
 	protected boolean beatDirty = false;
 	protected int beatTimeThresh = 300;
@@ -28,12 +31,13 @@ implements IAudioInput {
 	
 	public AudioInputBeads() {
 		  ac = new AudioContext();
+		  
 		  ShortFrameSegmenter sfs = new ShortFrameSegmenter(ac);
 		  FFT fft = new FFT();
 		  gain = new Gain(ac, 2);
 		  ps = new PowerSpectrum();
-		  sfs.setChunkSize(2048);
-		  sfs.setHopSize(441);
+		  sfs.setChunkSize(512);
+		  sfs.setHopSize(256);
 		  sfs.addInput(gain);   // sfs.addInput(ac.out);
 		  sfs.addListener(fft);
 		  fft.addListener(ps);
@@ -50,11 +54,18 @@ implements IAudioInput {
 	public AudioInputBeads(AudioContext exsitingAc) {
           ac = exsitingAc;
           audioInput = false;
+          
+          // make a filter to chill out the lowest frequencies of an audio file
+//          fftFilter = new BiquadFilter(ac, BiquadFilter.BP_PEAK, 1900.0f, 0.6f);// connect the SamplePlayer to the filterfilter1.addInput(sp);
+          fftFilter = new BiquadFilter(ac, BiquadFilter.BP_PEAK, 5000.0f, 0.7f);// connect the SamplePlayer to the filterfilter1.addInput(sp);
+          fftFilter.addInput(ac.out);
 			  
 		  ShortFrameSegmenter sfs = new ShortFrameSegmenter(ac);
-		  sfs.addInput(ac.out);
+		  sfs.addInput(fftFilter); // sfs.addInput(ac.out);
 		  FFT fft = new FFT();
 		  ps = new PowerSpectrum();
+		  sfs.setChunkSize(2048);
+		  sfs.setHopSize(512);
 		  sfs.addListener(fft);
 		  fft.addListener(ps);
 		  ac.out.addDependent(sfs);
@@ -68,14 +79,10 @@ implements IAudioInput {
 		  ps.addListener(sd);
 		  od = new PeakDetector();
 		  sd.addListener(od);
-		  /*
-		   * These parameters will need to be adjusted based on the 
-		   * type of music. This demo uses the mouse position to adjust 
-		   * them dynamically.
-		   * mouse.x controls Threshold, mouse.y controls Alpha
-		   */
-		  od.setThreshold(0.2f);
-		  od.setAlpha(.9f);
+		  od.setThreshold(0.85f);
+		  od.setResetDelay(250);
+		  od.setAlpha(0.1f);
+		  od.setFilter(new RampBuffer().generateBuffer(64));		
 		  od.addMessageListener(
 		  	new Bead() {
 		  		protected void messageReceived(Bead b) {
