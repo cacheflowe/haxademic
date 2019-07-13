@@ -13,7 +13,7 @@ varying vec4 vertTexCoord;
 
 uniform vec3 color1 = vec3(1.0);
 uniform vec3 color2 = vec3(0.0);
-uniform float crossfade = 1.0;
+uniform int crossfadeMode = 0;
 
 float rgbToGray(vec4 rgba) {
 	const vec3 W = vec3(0.2125, 0.7154, 0.0721);
@@ -23,8 +23,11 @@ float rgbToGray(vec4 rgba) {
 void main() {
   vec4 color = texture2D(texture, vertTexCoord.xy);
   float luma = rgbToGray(color);
-	if(crossfade == 1.) {
+	if(crossfadeMode == 0) {
 		// crossfade between 2 colors directly
+		gl_FragColor = vec4(mix(color2, color1, luma), 1.0);
+	} else if(crossfadeMode == 1) {
+		// crossfade between 2 colors with smoothstep for a sharper (high contrast) crossfade
 		float mixLevel = smoothstep(0.3, 0.7, luma);
 		gl_FragColor = vec4(mix(color2, color1, mixLevel), 1.0);
 	} else {

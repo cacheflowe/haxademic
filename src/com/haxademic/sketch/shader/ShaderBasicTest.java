@@ -134,7 +134,7 @@ extends PAppletHax {
 
 		ColorizeTwoColorsFilter.instance(p).setColor1(1f, 1f, 0f);
 		ColorizeTwoColorsFilter.instance(p).setColor2(0f, 1f, 1f);
-		ColorizeTwoColorsFilter.instance(p).setCrossfade(false);
+		ColorizeTwoColorsFilter.instance(p).setCrossfadeMode(0);
 		ColorizeTwoColorsFilter.instance(p).applyTo(filterTargetCanvas);
 		
 		filterTargetCanvas.textureWrap(Texture.REPEAT);

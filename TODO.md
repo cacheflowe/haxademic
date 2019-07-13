@@ -202,13 +202,14 @@
     * Doing calculations in the vertex shader should always be faster than the fragment shader, since there are fewer vertices than fragments.
     * Use the ‘discard’ keyword to *not* update a fragment, anywhere in a fragment shader.
   * GPU Particles
-  * GPU fluid: https://github.com/PavelDoGreat/WebGL-Fluid-Simulation
 	* http://barradeau.com/blog/?p=621
 	* Look into Processing shader types - is there a point shader? yes - https://processing.org/tutorials/pshader/
 	* https://codeanticode.wordpress.com/2014/05/08/shader_api_in_processing_2/
 	* http://atduskgreg.github.io/Processing-Shader-Examples/
 	* http://www.beautifulseams.com/2013/04/30/shaders/
 	* https://github.com/codeanticode/pshader-tutorials
+  * GPU fluid: 
+  	* https://github.com/PavelDoGreat/WebGL-Fluid-Simulation
   * Geometry shaders
   	* http://www.nachocossio.com/geometry-shaders-in-processing/
   	* https://github.com/kosowski/Geometry-shaders-Processing/blob/master/geometry_shader_tessellation/sphere.pde
@@ -243,6 +244,7 @@
     * Demo_VertexShader_Fattener
 
 ## General / tools
+  * IP camera 
   * Rtp video in Java?
     * https://www.oracle.com/technetwork/java/javase/documentation/toolstx-178270.html
     * https://forum.processing.org/two/discussion/17166/livestreaming-ipcapture-sdp-file
@@ -257,3 +259,20 @@
   * ImageSequence -> ffmpeg rendering from a class. Would make rendering easier on both platforms
   * Clean up old stuff - get rid of non-useful demos
   * Document important files/concepts/tools for README
+
+## Topics
+
+What is your app doing when you�re not home?
+  * DashboardPoster / BigMother
+  * CrashMonitor
+  * TextEventLog
+  * DebugView
+  * UIControlPanel
+  * FrozenImageMonitor
+  * Click & move mouse offscreen
+  * Fullscreen, force on top 
+  * WebCamPicker
+  * JSONPoller + CMS
+  * Restart app after uptime, within hour range
+  * Restart computer, launch scripts
+  * TeamViewer

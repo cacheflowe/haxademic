@@ -13,7 +13,7 @@ extends BaseFragmentShader {
 		super(p, "haxademic/shaders/filters/colorize-two-colors.glsl");
 		setColor1(1f, 1f, 1f);
 		setColor2(0f, 0f, 0f);
-		setCrossfade(true);
+		setCrossfadeMode(0);
 	}
 	
 	public static ColorizeTwoColorsFilter instance(PApplet p) {
@@ -30,9 +30,8 @@ extends BaseFragmentShader {
 		shader.set("color2", r, g, b);
 	}
 
-	public void setCrossfade(boolean crossfade) {
-		float cross = (crossfade == true) ? 1f : 0f;
-		shader.set("crossfade", cross);
+	public void setCrossfadeMode(int crossfadeMode) {
+		shader.set("crossfadeMode", crossfadeMode);
 	}
 	
 }
