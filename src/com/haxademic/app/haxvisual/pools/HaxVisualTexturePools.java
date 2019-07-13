@@ -459,7 +459,7 @@ public class HaxVisualTexturePools {
 		_overlayTexturePool.add( new TextureEQFloatParticles( textureW, textureH ));
 		_overlayTexturePool.add( new TextureEQGrid( textureW, textureH ));
 		_overlayTexturePool.add( new TextureEQLinesTerrain( textureW, textureH ));
-		_overlayTexturePool.add( new TextureImageTileScroll( textureW, textureH ) );
+//		_overlayTexturePool.add( new TextureImageTileScroll( textureW, textureH ) );
 		_overlayTexturePool.add( new TextureLinesEQ( textureW, textureH ));
 		_overlayTexturePool.add( new TextureMeshAudioDeform( textureW, textureH ));
 		_overlayTexturePool.add( new TextureOuterSphere( textureW, textureH ) );
