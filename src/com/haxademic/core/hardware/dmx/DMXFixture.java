@@ -5,19 +5,27 @@ import com.haxademic.core.draw.color.EasingColor;
 
 public class DMXFixture {
 
+	public enum DMXMode {
+		SINGLE_CHANNEL,
+		RGB,
+		RGBW,
+	}
+	protected DMXMode mode;
+
+	protected DMXUniverse universe;
 	protected int dmxChannel;
-	protected boolean isSingleChannel = false;
 	protected EasingColor color = new EasingColor("#ffffff", 0.3f); 
 	
-	public DMXFixture(int dmxStartChannel) {
-		this(dmxStartChannel, false);
+	public DMXFixture(int dmxChannel) {
+		this(P.p.dmxUniverse, dmxChannel, DMXMode.RGB);	// default mode requires setting AppSettings.DMX_PORT & AppSettings.DMX_BAUD_RATE
 	}
 		
-	public DMXFixture(int dmxStartChannel, boolean isSingleChannel) {
-		this.dmxChannel = dmxStartChannel;
-		this.isSingleChannel = isSingleChannel;
-		if(P.p.dmxFixtures != null) P.p.dmxFixtures.addFixture(this);
-		else P.error("DMXFixtures not initialized");
+	public DMXFixture(DMXUniverse universe, int dmxChannel, DMXMode mode) {
+		this.universe = universe;
+		this.dmxChannel = dmxChannel;
+		this.mode = mode;
+		if(this.universe != null) P.p.dmxUniverse.addFixture(this);
+		else P.error("DMXFixture initialized without a DMXUniverse");
 	}
 	
 	public int dmxChannel() { return dmxChannel; }
@@ -33,12 +41,15 @@ public class DMXFixture {
 	public void update() {
 		color.update();
 		
-		if(P.p.dmxFixtures == null) return;
-		
-		P.p.dmxFixtures.setValue(dmxChannel + 0, colorR());
-		if(isSingleChannel == false) {
-			P.p.dmxFixtures.setValue(dmxChannel + 1, colorG());
-			P.p.dmxFixtures.setValue(dmxChannel + 2, colorB());
+		// send dmx signals
+		if(this.universe == null) return;
+		this.universe.setValue(dmxChannel + 0, colorR());			// single channel uses just red channel
+		if(mode == DMXMode.RGB) {
+			this.universe.setValue(dmxChannel + 1, colorG());		// rgb uses 3 RGB values
+			this.universe.setValue(dmxChannel + 2, colorB());
+		}
+		if(mode == DMXMode.RGBW) {
+			this.universe.setValue(dmxChannel + 3, colorA());		// rgbw uses alpha value for W
 		}
 	}
 }

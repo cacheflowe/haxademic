@@ -4,14 +4,14 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.hardware.dmx.DMXFixture;
 
-public class Demo_DmxFixtures
+public class Demo_DmxFixture
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
 	protected DMXFixture fixture;
 	
 	protected void overridePropsFile() {
-		p.appConfig.setProperty(AppSettings.DMX_PORT, "COM10" );
+		p.appConfig.setProperty(AppSettings.DMX_PORT, "COM3" );
 		p.appConfig.setProperty(AppSettings.DMX_BAUD_RATE, 9600 );
 	}
 
@@ -23,10 +23,4 @@ extends PAppletHax {
 		fixture.color().setTargetRGBANormalized(p.mousePercentX(), p.mousePercentY(), p.mousePercentX(), 1);
 		background(fixture.color().colorInt());
 	}
-	
 }
-
-
-
-
-

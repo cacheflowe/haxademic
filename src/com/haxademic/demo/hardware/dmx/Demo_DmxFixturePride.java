@@ -10,7 +10,7 @@ import com.haxademic.core.draw.filters.pshader.RotateFilter;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.hardware.dmx.DMXFixture;
 
-public class Demo_DmxFixturesPride
+public class Demo_DmxFixturePride
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	

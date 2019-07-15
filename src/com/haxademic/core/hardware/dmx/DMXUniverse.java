@@ -2,12 +2,12 @@ package com.haxademic.core.hardware.dmx;
 
 import java.util.ArrayList;
 
-public class DMXFixtures
+public class DMXUniverse
 extends DMXWrapper {
 
 	protected ArrayList<DMXFixture> fixtures = new ArrayList<DMXFixture>();
 
-	public DMXFixtures(String port, int baudRate) {
+	public DMXUniverse(String port, int baudRate) {
 		super(port, baudRate);
 	}
 	
