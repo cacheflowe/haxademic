@@ -22,7 +22,7 @@ import com.haxademic.core.hardware.depthcamera.cameras.KinectWrapperV1;
 import com.haxademic.core.hardware.depthcamera.cameras.KinectWrapperV2;
 import com.haxademic.core.hardware.depthcamera.cameras.KinectWrapperV2Mac;
 import com.haxademic.core.hardware.depthcamera.cameras.RealSenseWrapper;
-import com.haxademic.core.hardware.dmx.DMXFixtures;
+import com.haxademic.core.hardware.dmx.DMXUniverse;
 import com.haxademic.core.hardware.gamepad.GamepadListener;
 import com.haxademic.core.hardware.gamepad.GamepadState;
 import com.haxademic.core.hardware.keyboard.KeyboardState;
@@ -119,7 +119,7 @@ extends PApplet {
 	public EasingFloat mouseYEase = new EasingFloat(0, 0.15f);
 	
 	// output
-	public DMXFixtures dmxFixtures;
+	public DMXUniverse dmxUniverse;
 
 	// debug
 	public int _fps;
@@ -292,7 +292,7 @@ extends PApplet {
 		if( p.appConfig.getBoolean( AppSettings.GAMEPADS_ACTIVE, false ) == true ) gamepadListener = new GamepadListener();
 		if( p.appConfig.getBoolean( "leap_active", false ) == true ) leapMotion = new LeapMotion(this);
 		if( p.appConfig.getBoolean( AppSettings.OSC_ACTIVE, false ) == true ) oscState = new OscWrapper();
-		if( p.appConfig.getString(AppSettings.DMX_PORT, null) != null ) dmxFixtures = new DMXFixtures(p.appConfig.getString(AppSettings.DMX_PORT, null), p.appConfig.getInt(AppSettings.DMX_BAUD_RATE, 9600));
+		if( p.appConfig.getString(AppSettings.DMX_PORT, null) != null ) dmxUniverse = new DMXUniverse(p.appConfig.getString(AppSettings.DMX_PORT, null), p.appConfig.getInt(AppSettings.DMX_BAUD_RATE, 9600));
 		// app helpers
 		try { _robot = new Robot(); } catch( Exception error ) { println("couldn't init Robot for screensaver disabling"); }
 		if(p.appConfig.getBoolean(AppSettings.APP_VIEWER_WINDOW, false) == true) appViewerWindow = new SecondScreenViewer(p.g, p.appConfig.getFloat(AppSettings.APP_VIEWER_SCALE, 0.5f));
@@ -438,7 +438,7 @@ extends PApplet {
 		gamepadState.update();
 		autoHideMouse();
 		if(oscState != null) oscState.update();
-		if(dmxFixtures != null) dmxFixtures.update();
+		if(dmxUniverse != null) dmxUniverse.update();
 		showStats();
 		keepOnTop();
 		setAppDockIconAndTitle(false);
