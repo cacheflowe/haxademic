@@ -64,12 +64,22 @@ public class EasingColor {
 		this.a.setTarget( a );
 	}
 	
+	public void setTargetR(float r) { this.r.setTarget(r); }
+	public void setTargetG(float g) { this.g.setTarget(g); }
+	public void setTargetB(float b) { this.b.setTarget(b); }
+	public void setTargetA(float a) { this.a.setTarget(a); }
+	
 	public void setTargetRGBANormalized( float r, float g, float b, float a ) {
 		this.r.setTarget( r * 255f );
 		this.g.setTarget( g * 255f );
 		this.b.setTarget( b * 255f );
 		this.a.setTarget( a * 255f );
 	}
+	
+	public void setTargetRNorm(float r) { this.r.setTarget(r * 255f); }
+	public void setTargetGNorm(float g) { this.g.setTarget(g * 255f); }
+	public void setTargetBNorm(float b) { this.b.setTarget(b * 255f); }
+	public void setTargetANorm(float a) { this.a.setTarget(a * 255f); }
 	
 	public void setTargetHex( String hex ) {
 		setTargetInt(ColorUtil.colorFromHex(hex));
@@ -126,6 +136,11 @@ public class EasingColor {
 		this.a.setCurrent( a );
 	}
 	
+	public void setCurrentR(float r) { this.r.setCurrent(r); }
+	public void setCurrentG(float g) { this.g.setCurrent(g); }
+	public void setCurrentB(float b) { this.b.setCurrent(b); }
+	public void setCurrentA(float a) { this.a.setCurrent(a); }
+	
 	public void setCurrentRGBANormalized( float r, float g, float b, float a ) {
 		this.r.setCurrent( r * 255f );
 		this.g.setCurrent( g * 255f );
@@ -133,6 +148,11 @@ public class EasingColor {
 		this.a.setCurrent( a * 255f );
 	}
 	
+	public void setCurrentRNorm(float r) { this.r.setCurrent(r * 255f); }
+	public void setCurrentGNorm(float g) { this.g.setCurrent(g * 255f); }
+	public void setCurrentBNorm(float b) { this.b.setCurrent(b * 255f); }
+	public void setCurrentANorm(float a) { this.a.setCurrent(a * 255f); }
+
 	public void setCurrentHex( String hex ) {
 		setCurrentInt(ColorUtil.colorFromHex(hex));
 	}
