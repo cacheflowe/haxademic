@@ -24,7 +24,7 @@ public class DMXFixture {
 		this.universe = universe;
 		this.dmxChannel = dmxChannel;
 		this.mode = mode;
-		if(this.universe != null) P.p.dmxUniverse.addFixture(this);
+		if(this.universe != null) this.universe.addFixture(this);
 		else P.error("DMXFixture initialized without a DMXUniverse");
 	}
 	
