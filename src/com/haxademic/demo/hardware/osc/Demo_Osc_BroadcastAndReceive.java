@@ -59,7 +59,22 @@ extends PAppletHax {
 	public void keyPressed() {
 		super.keyPressed();
 		if(p.key == ' ') {
-			OscMessage message = new OscMessage("/video-start");
+//			OscMessage message = new OscMessage("/video-start");
+			OscMessage message = new OscMessage("/warmup");
+			message.add((float) p.frameCount);
+			oscP5.send(message);
+			P.out("send OSC:", message.toString());
+		}
+		if(p.key == '2') {
+//			OscMessage message = new OscMessage("/video-start");
+			OscMessage message = new OscMessage("/centrifuge");
+			message.add((float) p.frameCount);
+			oscP5.send(message);
+			P.out("send OSC:", message.toString());
+		}
+		if(p.key == '3') {
+//			OscMessage message = new OscMessage("/video-start");
+			OscMessage message = new OscMessage("/victory");
 			message.add((float) p.frameCount);
 			oscP5.send(message);
 			P.out("send OSC:", message.toString());

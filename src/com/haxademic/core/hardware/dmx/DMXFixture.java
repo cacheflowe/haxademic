@@ -44,8 +44,8 @@ public class DMXFixture {
 		// send dmx signals
 		if(this.universe == null) return;
 		this.universe.setValue(dmxChannel + 0, colorR());			// single channel uses just red channel
-		if(mode == DMXMode.RGB) {
-			this.universe.setValue(dmxChannel + 1, colorG());		// rgb uses 3 RGB values
+		if(mode == DMXMode.RGB || mode == DMXMode.RGBW) {
+			this.universe.setValue(dmxChannel + 1, colorG());		// rgb & rgbw uses 3 RGB values
 			this.universe.setValue(dmxChannel + 2, colorB());
 		}
 		if(mode == DMXMode.RGBW) {

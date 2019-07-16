@@ -35,7 +35,7 @@ extends PAppletHax {
 
 	public void setupFirstFrame() {
 		// dmx = new DMXWrapper();
-		dmx = new DMXWrapper("COM3", 9600);
+		dmx = new DMXWrapper("COM4", 9600);
 		addHelpText();
 	}
 	
