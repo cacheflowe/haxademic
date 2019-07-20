@@ -19,7 +19,9 @@ implements IHttpRequestCallback {
 		PG.setDrawCenter(pg);
 		pg.background((float)mouseX/width * 255,(float)mouseY/height * 255,0);
 		pg.fill(255);
- 	}
+		pg.endDraw();
+		p.image(pg, 0, 0);
+	}
 	
 	protected void makeRequest() {
 		HttpRequest.DEBUG = true;

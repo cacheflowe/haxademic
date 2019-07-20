@@ -123,9 +123,9 @@ public class ImageUtil {
 //		pg.endDraw();
 	}
 	
-	public static PImage bufferedToPImage( BufferedImage bimg ) {
+	public static PImage bufferedToPImage(BufferedImage bimg) {
 		try {
-			PImage img = new PImage(bimg.getWidth(),bimg.getHeight(),PConstants.ARGB);
+			PImage img = new PImage(bimg.getWidth(), bimg.getHeight(), PConstants.ARGB);
 			bimg.getRGB(0, 0, img.width, img.height, img.pixels, 0, img.width);
 			img.updatePixels();
 			return img;
