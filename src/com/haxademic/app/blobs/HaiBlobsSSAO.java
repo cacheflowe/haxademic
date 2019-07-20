@@ -9,6 +9,7 @@ import com.haxademic.core.draw.color.Gradients;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.filters.pshader.BlurHFilter;
+import com.haxademic.core.draw.filters.pshader.BlurVFilter;
 import com.haxademic.core.draw.filters.pshader.InvertFilter;
 import com.haxademic.core.draw.filters.pshader.WobbleFilter;
 import com.haxademic.core.draw.image.TickerScroller;
@@ -50,8 +51,8 @@ extends PAppletHax {
 	protected PGraphics tickerFXBuffer;
 
 	// animation/noise/layout props
-	protected int _frames = 500;
-	protected int icosaDetail = 5;
+	protected int _frames = 1500;
+	protected int icosaDetail = 4;
 	protected int noiseSeed = 853;
 	protected boolean debugNoiseSeed = false;
 	protected float circleMaskScale = 0.36f;
@@ -86,7 +87,7 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.WIDTH, 1000 );
 		p.appConfig.setProperty( AppSettings.HEIGHT, 1000 );
 		p.appConfig.setProperty( AppSettings.SMOOTHING, AppSettings.SMOOTH_HIGH );
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, true );
+		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, false );
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_START_FRAME, 1 );
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, (int)_frames + 1 );
 	}
@@ -125,9 +126,9 @@ extends PAppletHax {
 //		PShapeUtil.scaleObjToExtentVerticesAdjust(icos, icosaSize);
 		shapeIcos_solid = new PShapeSolid(icos);
 		
-		PShape icosWire = Icosahedron.createIcosahedronGrouped(p, icosaDetail, null, p.color(255,0,0,0), p.color(0), 0.004f);
-		PShapeUtil.scaleShapeToExtent(icosWire, icosaSize);
-		shapeIcos__wire = new PShapeSolid(icosWire);
+//		PShape icosWire = Icosahedron.createIcosahedronGrouped(p, icosaDetail, null, p.color(255,0,0,0), p.color(0), 0.004f);
+//		PShapeUtil.scaleShapeToExtent(icosWire, icosaSize);
+//		shapeIcos__wire = new PShapeSolid(icosWire);
 	}
 	
 	protected void buildOverlay() {		
@@ -231,10 +232,14 @@ extends PAppletHax {
 	}
 	
 	protected void drawTextureOnSphere() {
+		blobDeformAmp = 1.2f;
+		noiseOctaves = 4;
+		
 		buffer.beginDraw();
 		buffer.clear();
 		buffer.pushMatrix();
 		buffer.translate(p.width * 0.5f, p.height * 0.5f);
+		buffer.rotateY(P.sin(progressRadians));
 		PG.setDrawCorner(buffer);
 		PG.setDrawCorner(p);
 
@@ -267,8 +272,8 @@ extends PAppletHax {
 //		shapeIcos_solid.updateWithTrig(false, progress * 1f, 0.12f, 3.f);
 //		shapeIcos_solid.updateWithTrigGradient(progress * 1f, 0.12f, 3.f, ticker.image());
 //		shapeIcos_solid.updateWithNoise(progress * P.TWO_PI, 1f, blobDeformAmp, noiseOctaves, noiseFalloff);
-		shapeIcos_solid.updateWithTrigAndNoiseCombo(progress * P.TWO_PI, 0.10f, 3.f, 0.75f, 1f, blobDeformAmp, noiseOctaves, noiseFalloff);
-		shapeIcos__wire.updateWithTrigAndNoiseCombo(progress * P.TWO_PI, 0.10f, 3.f, 0.75f, 1f, blobDeformAmp, noiseOctaves, noiseFalloff);
+		shapeIcos_solid.updateWithTrigAndNoiseCombo(progress * P.TWO_PI, 0.1f, 0.2f, 0.75f, 1f, blobDeformAmp, noiseOctaves, noiseFalloff);
+//		shapeIcos__wire.updateWithTrigAndNoiseCombo(progress * P.TWO_PI, 0.10f, 3.f, 0.75f, 1f, blobDeformAmp, noiseOctaves, noiseFalloff);
 		
 		buffer.pushMatrix();
 		// buffer.rotateX(P.map(p.mouseX, 0, p.width, 0, P.TWO_PI));
@@ -301,7 +306,7 @@ extends PAppletHax {
 		}
 		PG.setDrawFlat2d(p, false);
 		
-		InvertFilter.instance(p).applyTo(p);
+//		InvertFilter.instance(p).applyTo(p);
 
 	}
 
@@ -352,15 +357,15 @@ extends PAppletHax {
 //		gaussMult = -0.04f;
 
 		p.ui.addSlider(onlyAO, 0, 0, 1, 1, false);
-		p.ui.addSlider(aoClamp, 1.5f, -5f, 5f, 0.01f, false);
-		p.ui.addSlider(lumInfluence, 0.2f, -5f, 5f, 0.01f, false);
-		p.ui.addSlider(cameraNear, 235, 1, 500, 1, false);
-		p.ui.addSlider(cameraFar, 1160, 500f, 2000f, 1, false);
+		p.ui.addSlider(aoClamp, 2f, -5f, 5f, 0.01f, false);
+		p.ui.addSlider(lumInfluence, -1.5f, -5f, 5f, 0.01f, false);
+		p.ui.addSlider(cameraNear, 300, 1, 500, 1, false);
+		p.ui.addSlider(cameraFar, 1280, 500f, 2000f, 1, false);
 		p.ui.addSlider(samples, 32, 2, 128, 1, false);
-		p.ui.addSlider(radius, 17, 0, 2, 0.001f, false);
-		p.ui.addSlider(diffArea, 0.65f, 0, 5, 0.01f, false);
-		p.ui.addSlider(gDisplace, 0.65f, 0, 5, 0.01f, false);
-		p.ui.addSlider(diffMult, 100f, 1, 1000, 1f, false);
+		p.ui.addSlider(radius, 30, 0, 100, 0.02f, false);
+		p.ui.addSlider(diffArea, 0.5f, 0, 5, 0.01f, false);
+		p.ui.addSlider(gDisplace, 1.0f, 0, 5, 0.01f, false);
+		p.ui.addSlider(diffMult, 200f, 1, 1000, 1f, false);
 		p.ui.addSlider(gaussMult, -2, -4, 4, 0.01f, false);
 		p.ui.addSlider(useNoise, 1, 0, 1, 1, false);
 		p.ui.addSlider(noiseAmount, 0.00003f, 0.00003f, 0.003f, 0.00001f, false);
@@ -416,18 +421,21 @@ extends PAppletHax {
 		depth.beginDraw();
 		depth.clear();
 		depth.translate(depth.width/2, depth.height/2);
+		depth.rotateY(P.sin(progressRadians));
 		depth.shader(depthShader);
 		depth.fill(0);
 		depth.noStroke();
-		PShapeUtil.drawTriangles(depth, shapeIcos__wire.shape(), null, objScale);
-		
+//		PShapeUtil.drawTriangles(depth, shapeIcos__wire.shape(), null, objScale);
+		PShapeUtil.drawTriangles(depth, shapeIcos_solid.shape(), null, objScale);
 		depth.endDraw();
-
-		
 		
 		ssaoShader.set("tDiffuse", buffer );
 		ssaoShader.set("tDepth", depth );
-		
 		ssao.filter(ssaoShader);
+		
+//		BlurVFilter.instance(p).setBlurByPercent(0.3f, ssao.width);
+//		BlurHFilter.instance(p).setBlurByPercent(0.3f, ssao.width);
+//		BlurVFilter.instance(p).applyTo(ssao);
+//		BlurHFilter.instance(p).applyTo(ssao);
 	}
 }
