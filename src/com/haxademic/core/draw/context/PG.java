@@ -263,13 +263,13 @@ public class PG {
 		pg.noStroke();
 		float cellW = (float) pg.width / (float) cols;
 		cellW -= strokeSize / cols;
-		float cellH = (float) (pg.height) / (float) rows;
+		float cellH = (float) pg.height / (float) rows;
 		cellH -= strokeSize / rows;
 		for (float x = 0; x <= pg.width; x += cellW) {
 			pg.rect(x, 0, strokeSize, pg.height);
 		}
 		for (float y = 0; y <= pg.height; y += cellH) {
-			pg.rect(0, y, pg.height, strokeSize);
+			pg.rect(0, y, pg.width, strokeSize);
 		}
 		pg.endDraw();
 	}
