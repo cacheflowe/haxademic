@@ -1,6 +1,7 @@
 package com.haxademic.demo.system;
 
 import java.awt.BorderLayout;
+import java.awt.Cursor;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -29,6 +30,7 @@ extends PAppletHax {
 		
 		if(frame != null) {
 			p.background(0,255,0);
+			frame.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
 		}
 	}
 

@@ -1,5 +1,7 @@
 package com.haxademic.core.hardware.mouse;
 
+import java.awt.MouseInfo;
+import java.awt.Point;
 import java.awt.Robot;
 import java.awt.event.InputEvent;
 
@@ -20,14 +22,17 @@ public class MouseUtil {
 	}
 	
 	public static void mouseClickAt(int x, int y) {
-		if(mouseRobot() == null) return;
-		mouseRobot.mouseMove(x, y);
-		mouseRobot.mousePress(InputEvent.BUTTON1_DOWN_MASK);
-		mouseRobot.mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
+		mouseRobot().mouseMove(x, y);
+		mouseRobot().mousePress(InputEvent.BUTTON1_DOWN_MASK);
+		mouseRobot().mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
 	}
 	
 	public static void movePointerTo(int x, int y) {
-		mouseRobot.mouseMove(x, y);
+		mouseRobot().mouseMove(x, y);
+	}
+	
+	public static Point systemMouseLocation() {
+		return MouseInfo.getPointerInfo().getLocation();
 	}
 	
 	// alternate method
