@@ -46,7 +46,7 @@ extends PAppletHax {
 
 	public void drawApp() {
 		// draw grid
-		PG.drawGrid(texture, p.color(0), p.color(255), 25, 25);
+		PG.drawGrid(texture, p.color(0), p.color(255), cols, rows, 4);
 		
 		// update displace texture
 		displaceTexture.beginDraw();
