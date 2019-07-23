@@ -254,9 +254,8 @@ public class PG {
 		pg.endDraw();
 	}
 
-	public static void drawGrid(PGraphics pg, int bgColor, int strokeColor, float cols, float rows) {
+	public static void drawGrid(PGraphics pg, int bgColor, int strokeColor, float cols, float rows, float strokeSize) {
 		// update texture
-		float strokeSize = 4f;
 		pg.beginDraw();
 		pg.background(bgColor);
 		pg.fill(strokeColor);

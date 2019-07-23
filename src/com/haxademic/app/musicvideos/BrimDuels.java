@@ -407,7 +407,7 @@ extends PAppletHax {
 	
 	protected void updateSheetDisplacer() {
 		// draw grid
-		PG.drawGrid(texture, p.color(255), p.color(255), 25, 25);
+		PG.drawGrid(texture, p.color(255), p.color(255), 25, 25, 4f);
 		
 		// update displace texture
 		displaceTexture.beginDraw();
