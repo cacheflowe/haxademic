@@ -7,21 +7,7 @@
 * libusb or something like that to query weather a webcam is still plugged in. Java library?
   * http://usb4java.org/quickstart/libusb.html
   * http://usb4java.org/configuration.html
-* Polygon demo
-  * Make texture fill style interface/class
-  * Make layout generator w/growth
-  * Buy hardware:
-    * Computer
-      * https://www.newegg.com/abs-computer-technologies-summoner-ali205/p/N82E16883102471?Item=N82E16883102471
-    * Projector
-      * https://protechprojection.com/viewsonic-ls810-wxga-laser-ultra-short-throw-projector/
-      * https://protechprojection.com/viewsonic-ls830-1080p-laser-ultra-short-throw-projector/
-      * https://www.newegg.com/p/0Z7-0023-00040?item=0Z7-0023-00040
-  * Music inspo:
-    * https://www.google.com/search?q=sousie%20and%20the%20banshees%20dazzle&ie=utf-8&oe=utf-8&client=firefox-b-1-m
-    * https://www.google.com/search?q=godspeed%20you%20black%20emperor%20yanqi%20uxo&ie=utf-8&oe=utf-8&client=firefox-b-1-m
 * Test Realsense camera outside
-* Pride gif?
 
 * Webcam with OpenJDK: https://github.com/gstreamer-java/gst1-java-core/issues/15
 * Threaded safety of InputTrigger isn't good - especially at a low FPS?

@@ -205,8 +205,6 @@ Below you'll find a long list of classes and utilities that I've built to make m
 
 * __[InputTrigger](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/hardware/shared/InputTrigger.java)__ - Accepts multiple inputs to trigger the same action. Keystrokes, MIDI, OSC, HTTP and more.
 
-* __[IWebCamCallback](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/hardware/webcam/IWebCamCallback.java)__ - Interface to work in tandem with `WebCamWrapper` to provide callbacks when new webcam frames are available.
-
 * __[IDepthCamera](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/hardware/depthcamera/cameras/IDepthCamera.java)__ - Interface for `KinectWrapperV1` and `KinectWrapperV2` and `RealSenseWrapper`.
 
 * __[KinectAmbientActivityMonitor](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/hardware/depthcamera/KinectAmbientActivityMonitor.java)__ - Provides a general ambient activity value for a room.
@@ -225,7 +223,7 @@ Below you'll find a long list of classes and utilities that I've built to make m
 
 * __[SerialDevice](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/hardware/serial/SerialDevice.java)__ - Basic input/output wrapping for Arduino and similar USB serial devices.
 
-* __[WebCamWrapper](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/hardware/webcam/WebCamWrapper.java)__ - Init a webcam with AppSettings.WEBCAM_INDEX, and receive new frames by implementing `IWebCamCallback`
+* __[WebCam](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/hardware/webcam/WebCam.java)__ - Inits a webcam via singleton or normal instances, and receives new frames by implementing `IWebCamCallback`. It stores & recalls your `Capture` configuration for the next app launch.
 
 ### Math
 
