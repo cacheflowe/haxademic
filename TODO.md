@@ -2,6 +2,8 @@
 
 ## High-priority
 
+* Add a callback (IEaseCompleteListener) to EasingFloat/LinearFloat
+* Clean up /lib - we should have src for all libraries if possible, pointed to for Eclipse click-through, but nothing else. Except maybe examples?
 * libusb or something like that to query weather a webcam is still plugged in. Java library?
   * http://usb4java.org/quickstart/libusb.html
   * http://usb4java.org/configuration.html
@@ -208,7 +210,7 @@
 	* http://atduskgreg.github.io/Processing-Shader-Examples/
 	* http://www.beautifulseams.com/2013/04/30/shaders/
 	* https://github.com/codeanticode/pshader-tutorials
-  * GPU fluid: 
+  * GPU fluid:
   	* https://github.com/PavelDoGreat/WebGL-Fluid-Simulation
   * Geometry shaders
   	* http://www.nachocossio.com/geometry-shaders-in-processing/
@@ -244,7 +246,7 @@
     * Demo_VertexShader_Fattener
 
 ## General / tools
-  * IP camera 
+  * IP camera
   * Rtp video in Java?
     * https://www.oracle.com/technetwork/java/javase/documentation/toolstx-178270.html
     * https://forum.processing.org/two/discussion/17166/livestreaming-ipcapture-sdp-file
@@ -262,7 +264,7 @@
 
 ## Topics
 
-What is your app doing when you’re not home?
+What is your app doing when youï¿½re not home?
   * DashboardPoster / BigMother
   * CrashMonitor
   * TextEventLog
@@ -270,7 +272,7 @@ What is your app doing when you’re not home?
   * UIControlPanel
   * FrozenImageMonitor
   * Click & move mouse offscreen
-  * Fullscreen, force on top 
+  * Fullscreen, force on top
   * WebCamPicker
   * JSONPoller + CMS
   * Restart app after uptime, within hour range
