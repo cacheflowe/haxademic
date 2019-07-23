@@ -30,7 +30,7 @@ implements IWebCamCallback {
 	protected void setupFirstFrame() {
 		// set up webcam
 		WebCam.instance().setDelegate(this);
-//		PImage camFrame = WebCamPicker.instance().image();
+
 		webcamBuffer = p.createGraphics(p.width, p.height, PRenderers.P2D);
 		webcamLerped = p.createGraphics(p.width, p.height, PRenderers.P2D);
 
