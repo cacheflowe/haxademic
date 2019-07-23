@@ -1,13 +1,13 @@
 package com.haxademic.demo.system;
 
 import java.awt.BorderLayout;
-import java.awt.Cursor;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.context.PG;
+import com.haxademic.core.hardware.mouse.MouseUtil;
 
 public class Demo_JFrameLauncher
 extends PAppletHax {
@@ -20,6 +20,9 @@ extends PAppletHax {
             public void run() {
                  frame = new FrameWithBorderLayout();
                  frame.setVisible(true);
+                 frame.setSize(400, 200);
+//                 frame.setUndecorated(true);
+//                 frame.setOpacity(0);
             }
       });
 	}
@@ -30,7 +33,13 @@ extends PAppletHax {
 		
 		if(frame != null) {
 			p.background(0,255,0);
-			frame.setCursor(Cursor.getPredefinedCursor(Cursor.WAIT_CURSOR));
+			if(p.frameCount % 100 == 0) {
+				if(p.frameCount % 200 == 0) {
+					MouseUtil.setCursorWait(frame);
+				} else {
+					MouseUtil.setInvisibleCursor(frame);
+				}
+			}
 		}
 	}
 
