@@ -10,7 +10,8 @@ import com.haxademic.core.draw.image.BufferFrameDifference;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.shapes.Shapes;
 import com.haxademic.core.draw.shapes.pshader.MeshDeformAndTextureFilter;
-import com.haxademic.core.hardware.webcam.IWebCamCallback;
+import com.haxademic.core.hardware.webcam.WebCam;
+import com.haxademic.core.hardware.webcam.WebCam.IWebCamCallback;
 import com.haxademic.core.media.DemoAssets;
 
 import processing.core.PImage;
@@ -31,7 +32,6 @@ implements IWebCamCallback {
 	protected void overridePropsFile() {
 		p.appConfig.setProperty(AppSettings.WIDTH, 800);
 		p.appConfig.setProperty(AppSettings.HEIGHT, 800);
-		p.appConfig.setProperty(AppSettings.WEBCAM_INDEX, 3 ); 
 	}
 	
 	protected void setupFirstFrame() {
@@ -41,7 +41,7 @@ implements IWebCamCallback {
 		shape.setTexture(texture);
 		
 		// webcam callback
-		p.webCamWrapper.setDelegate(this);
+		WebCam.instance().setDelegate(this);
 	}
 	
 	
@@ -67,7 +67,7 @@ implements IWebCamCallback {
 		BlurVFilter.instance(p).applyTo(bufferFrameDifference.differenceBuffer());
 		
 		// debug view
-		p.debugView.setTexture(p.webCamWrapper.getImage());
+		p.debugView.setTexture(frame);
 		p.debugView.setTexture(bufferFrameDifference.differenceBuffer());
 		p.debugView.setValue("shape.getVertexCount();", shape.getVertexCount());
 	}

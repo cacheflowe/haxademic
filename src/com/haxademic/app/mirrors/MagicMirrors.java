@@ -1,13 +1,13 @@
 package com.haxademic.app.mirrors;
 
-import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pgraphics.MotionFire;
 import com.haxademic.core.draw.filters.pgraphics.shared.BaseVideoFilter;
 import com.haxademic.core.draw.image.ImageUtil;
-import com.haxademic.core.hardware.webcam.IWebCamCallback;
+import com.haxademic.core.hardware.webcam.WebCam;
+import com.haxademic.core.hardware.webcam.WebCam.IWebCamCallback;
 
 import processing.core.PGraphics;
 import processing.core.PImage;
@@ -29,7 +29,6 @@ implements IWebCamCallback {
 	protected void overridePropsFile() {
 		p.appConfig.setProperty(AppSettings.WIDTH, (int) w);
 		p.appConfig.setProperty(AppSettings.HEIGHT, (int) h);
-		p.appConfig.setProperty(AppSettings.WEBCAM_INDEX, 29);
 		p.appConfig.setProperty(AppSettings.FULLSCREEN, false);
 		p.appConfig.setProperty(AppSettings.WIDTH, 1280);
 		p.appConfig.setProperty(AppSettings.HEIGHT, 720);
@@ -38,7 +37,7 @@ implements IWebCamCallback {
 	}
 
 	protected void setupFirstFrame() {
-		p.webCamWrapper.setDelegate(this);
+		WebCam.instance().setDelegate(this);
 		webcamBuffer = PG.newPG(webcamW, webcamH);
 		
 //		vfx = new GPUParticlesSheetDisplacer(p.width, p.height, 0.5f);

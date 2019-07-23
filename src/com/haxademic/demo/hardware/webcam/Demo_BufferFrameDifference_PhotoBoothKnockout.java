@@ -5,7 +5,8 @@ import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.draw.image.BufferFrameDifference;
 import com.haxademic.core.draw.image.ImageUtil;
-import com.haxademic.core.hardware.webcam.IWebCamCallback;
+import com.haxademic.core.hardware.webcam.WebCam;
+import com.haxademic.core.hardware.webcam.WebCam.IWebCamCallback;
 
 import processing.core.PImage;
 
@@ -21,12 +22,11 @@ implements IWebCamCallback {
 	protected void overridePropsFile() {
 		p.appConfig.setProperty(AppSettings.WIDTH, 800);
 		p.appConfig.setProperty(AppSettings.HEIGHT, 600);
-		p.appConfig.setProperty(AppSettings.WEBCAM_INDEX, 3 ); 
 	}
 	
 	protected void setupFirstFrame() {
 		// webcam callback
-		p.webCamWrapper.setDelegate(this);
+		WebCam.instance().setDelegate(this);
 	}
 	
 	public void keyPressed() {

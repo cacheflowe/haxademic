@@ -1,9 +1,9 @@
 package com.haxademic.demo.hardware.webcam;
 
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.image.ColorObjectDetection;
-import com.haxademic.core.hardware.webcam.IWebCamCallback;
+import com.haxademic.core.hardware.webcam.WebCam;
+import com.haxademic.core.hardware.webcam.WebCam.IWebCamCallback;
 
 import processing.core.PImage;
 
@@ -16,12 +16,8 @@ implements IWebCamCallback {
 	protected String COLOR_CLOSENESS_THRESHOLD = "COLOR_CLOSENESS_THRESHOLD";
 	protected String COLOR_MIN_POINTS_DETECT_THRESHOLD = "COLOR_MIN_POINTS_DETECT_THRESHOLD";
 	
-	protected void overridePropsFile() {
-		p.appConfig.setProperty(AppSettings.WEBCAM_INDEX, 3 );
-	}
-		
 	public void setupFirstFrame () {
-		p.webCamWrapper.setDelegate(this);
+		WebCam.instance().setDelegate(this);
 		p.ui.addSlider(COLOR_CLOSENESS_THRESHOLD, 0.95f, 0.9f, 1f, 0.001f, false);
 		p.ui.addSlider(COLOR_MIN_POINTS_DETECT_THRESHOLD, 10, 5, 100, 1, false);
 	}

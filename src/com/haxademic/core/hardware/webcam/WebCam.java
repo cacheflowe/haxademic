@@ -16,30 +16,88 @@ import processing.core.PGraphics;
 import processing.core.PImage;
 import processing.video.Capture;
 
-public class WebCamPicker
+public class WebCam
 implements IUIButtonDelegate {
 
+	
 	protected String configId;
 	protected String configFile;
+	protected String prefsDir = "text/prefs/webcam/";
 	protected boolean camerasListed = false;
 	protected static String[] camerasList = null;
 	protected ArrayList<CameraConfig> cameraConfigs;
 	protected String selectedConfig = null;
 	protected int lastFrameUpdated = 0;
-	public static PImage noCamera = new PImage(32, 32);
+	public static PImage noCamera;
+
 	public static final int BUTTON_W = 180;
 	public static final int BUTTON_H = 24;
 
 	public Capture webCam = null;
 	
-	public WebCamPicker() {
+	/////////////////////////////
+	// new frame callback interface
+	/////////////////////////////
+	
+	public IWebCamCallback delegate;
+	public interface IWebCamCallback {
+		public void newFrame(PImage frame);
+	}
+
+	public void setDelegate(IWebCamCallback delegate) {
+		this.delegate = delegate;
+	}
+	
+	/////////////////////////////
+	// normal initialization
+	/////////////////////////////
+	
+	public WebCam() {
 		this(null);
 	}
 	
-	public WebCamPicker(String configId) {
+	public WebCam(String configId) {
 		this.configId = configId;
+		noCamera = P.getImage("haxademic/images/no-signal.png");
 		refreshCameraList();
+		P.p.registerMethod("pre", this);
 	}
+
+	/////////////////////////////
+	// static instance & initializer for quick & easy webcam access
+	/////////////////////////////
+	
+	public static WebCam instance;
+	public static String defaultId = "default_webcam";
+	
+	public static WebCam instance() {
+		if(instance != null) return instance;
+		instance = new WebCam(defaultId);
+		return instance;
+	}
+	
+	/////////////////////////////
+	// update / get image
+	/////////////////////////////
+	
+	public void pre() {
+		lazyLoadConfigs();
+		if(webCam == null) return;
+		if(webCam.available() == true) {
+			webCam.read();
+			if(delegate != null) delegate.newFrame(image());
+		}
+	}
+	
+	public PImage image() {
+		return (webCam != null && webCam.width > 80) ? webCam : noCamera;
+	}
+
+	public boolean isReady() {
+		return image() != noCamera;
+	}
+	
+	// get cameras list
 	
 	public void refreshCameraList() {
 		camerasList = null;
@@ -86,9 +144,9 @@ implements IUIButtonDelegate {
 			
 			// if we had a selected config from file, load it up
 			if(configId != null) {
-				configFile = FileUtil.getFile("text/prefs/camera/" + configId + ".txt");
+				configFile = FileUtil.getFile(prefsDir + configId + ".txt");
 				if(FileUtil.fileExists(configFile)) {
-					FileUtil.createDir(FileUtil.getFile("text/prefs/camera/"));
+					FileUtil.createDir(FileUtil.getFile(prefsDir));
 					selectedConfig = FileUtil.readTextFromFile(configFile)[0];
 					if(webcamConfigExists(selectedConfig)) {
 						selectCam(selectedConfig);
@@ -104,6 +162,10 @@ implements IUIButtonDelegate {
 		}
 		return false;
 	}
+	
+	/////////////////////////////
+	// menu UI
+	/////////////////////////////
 
 	public void drawMenu(PGraphics pg) {
 		// draw background
@@ -163,43 +225,41 @@ implements IUIButtonDelegate {
 		}
 	}
 
-	public PImage image() {
-		lazyLoadConfigs();
-		if(lastFrameUpdated < P.p.frameCount) {
-			lastFrameUpdated = P.p.frameCount;
-			if(webCam != null && webCam.available() == true) {
-				webCam.read();
-			}
-		}
-		return (webCam != null) ? webCam : noCamera;
-	}
-
 	@Override
 	public void clicked(UIButton button) {
 		selectCam(button.id());
 		
 		// if we had a selected config from file, store it on click!
 		if(configId != null) {
-			FileUtil.createDir(FileUtil.getFile("text/prefs/camera/"));
+			FileUtil.createDir(FileUtil.getFile(prefsDir));
 			FileUtil.writeTextToFile(configFile, selectedConfig);
 		}
 	}
 	
 	protected void selectCam(String camId) {
+		P.out("selectCam", camId);
 		if(webCam != null) webCam.stop();
 		webCam = new Capture(P.p, camId);
 		webCam.start();
 		selectedConfig = camId;
 	}
+	
+	public void dispose() {
+		if(webCam != null) webCam.stop();
+	}
+	
+	/////////////////////////////
+	// camera config object
+	/////////////////////////////
 
 	public class CameraConfig {
 
-		protected WebCamPicker picker;
+		protected WebCam picker;
 		protected String name;
 		protected String fps;
 		protected ArrayList<CameraConfigMode> configs;
 
-		public CameraConfig(WebCamPicker picker, String name) {
+		public CameraConfig(WebCam picker, String name) {
 			this.picker = picker;
 			this.name = name;
 			configs = new ArrayList<CameraConfigMode>();
@@ -232,7 +292,7 @@ implements IUIButtonDelegate {
 		protected String fps;
 		protected UIButton button;
 
-		public CameraConfigMode(WebCamPicker picker, String config) {
+		public CameraConfigMode(WebCam picker, String config) {
 			this.config = config;
 			String[] cameraNameParts = config.split(",");
 			size = cameraNameParts[1].split("=")[1];

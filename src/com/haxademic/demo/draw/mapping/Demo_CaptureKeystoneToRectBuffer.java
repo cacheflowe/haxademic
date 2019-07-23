@@ -5,6 +5,7 @@ import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.mapping.CaptureKeystoneToRectBuffer;
 import com.haxademic.core.file.FileUtil;
+import com.haxademic.core.hardware.webcam.WebCam;
 import com.haxademic.core.media.DemoAssets;
 
 import processing.core.PGraphics;
@@ -22,7 +23,6 @@ extends PAppletHax {
 	protected void overridePropsFile() {
 		p.appConfig.setProperty( AppSettings.WIDTH, 1280 );
 		p.appConfig.setProperty( AppSettings.HEIGHT, 720 );
-//		p.appConfig.setProperty(AppSettings.WEBCAM_INDEX, 6 );
 	}
 
 	protected void setupFirstFrame() {
@@ -48,7 +48,7 @@ extends PAppletHax {
 		mappedCapture.update();
 		
 		// draw mapping UI
-		if(p.webCamWrapper != null) sourceTexture = p.webCamWrapper.getImage();	// draw webcam if exists
+		if(WebCam.instance().image().width > 400) sourceTexture = WebCam.instance().image();	// draw webcam if exists
 		ImageUtil.cropFillCopyImage(sourceTexture, sourceBuffer, true);			// reset source buffer image
 		if(debug == true) mappedCapture.drawDebug(sourceBuffer, true);			// then draw mapping UI on top
 		

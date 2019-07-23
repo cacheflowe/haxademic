@@ -7,7 +7,7 @@ import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.filters.pshader.BlurHFilter;
 import com.haxademic.core.draw.filters.pshader.BlurVFilter;
 import com.haxademic.core.draw.image.ImageUtil;
-import com.haxademic.core.hardware.webcam.WebCamWrapper;
+import com.haxademic.core.hardware.webcam.WebCam;
 import com.haxademic.core.math.MathUtil;
 
 import blobDetection.Blob;
@@ -37,7 +37,6 @@ extends PAppletHax {
 	protected void overridePropsFile() {
 		p.appConfig.setProperty( AppSettings.WIDTH, 1280 );
 		p.appConfig.setProperty( AppSettings.HEIGHT, 720 );
-		p.appConfig.setProperty( AppSettings.WEBCAM_INDEX, 6 );
 		p.appConfig.setProperty( AppSettings.FULLSCREEN, false );
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, false );
 	}
@@ -58,11 +57,11 @@ extends PAppletHax {
 	public void drawApp() {
 		background(0);
 
-		curFrame = p.webCamWrapper.getImage();
-		p.image(WebCamWrapper.webCam, 0, 0, p.width, p.height);
+		curFrame = WebCam.instance().image();
+		p.image(curFrame, 0, 0, p.width, p.height);
 
 		// copy source to blob buffer, and blur it
-		img.copy(WebCamWrapper.webCam, 0, 0, curFrame.width, curFrame.height, 0, 0, img.width, img.height);
+		img.copy(curFrame, 0, 0, curFrame.width, curFrame.height, 0, 0, img.width, img.height);
 		BlurHFilter.instance(p).setBlurByPercent(0.8f, img.width);
 		BlurHFilter.instance(p).applyTo(img);
 		BlurVFilter.instance(p).setBlurByPercent(0.8f, img.height);

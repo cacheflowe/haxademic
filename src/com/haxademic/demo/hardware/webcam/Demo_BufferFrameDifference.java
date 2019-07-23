@@ -4,7 +4,8 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.image.BufferFrameDifference;
-import com.haxademic.core.hardware.webcam.IWebCamCallback;
+import com.haxademic.core.hardware.webcam.WebCam;
+import com.haxademic.core.hardware.webcam.WebCam.IWebCamCallback;
 
 import processing.core.PImage;
 
@@ -18,11 +19,10 @@ implements IWebCamCallback {
 	protected void overridePropsFile() {
 		p.appConfig.setProperty(AppSettings.WIDTH, 1280 );
 		p.appConfig.setProperty(AppSettings.HEIGHT, 720 );
-		p.appConfig.setProperty(AppSettings.WEBCAM_INDEX, 3 );
 	}
 		
 	public void setupFirstFrame () {
-		p.webCamWrapper.setDelegate(this);
+		WebCam.instance().setDelegate(this);
 	}
 
 	public void drawApp() {
@@ -42,7 +42,7 @@ implements IWebCamCallback {
 		}
 		bufferFrameDifference.update(frame);
 		// debug view
-		p.debugView.setTexture(p.webCamWrapper.getImage());
+		p.debugView.setTexture(frame);
 	}
 
 }

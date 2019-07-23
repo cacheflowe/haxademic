@@ -10,6 +10,8 @@ import com.haxademic.core.draw.filters.pgraphics.archive.PixelFilter;
 import com.haxademic.core.draw.filters.pgraphics.archive.ReflectionFilter;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.file.FileUtil;
+import com.haxademic.core.hardware.webcam.WebCam;
+import com.haxademic.core.media.DemoAssets;
 import com.haxademic.core.render.VideoFrameGrabber;
 
 import processing.core.PConstants;
@@ -39,16 +41,14 @@ extends PAppletHax {
 	protected PShader blur;
 
 		
-	public void setup() {
-		super.setup();
+	public void setupFirstFrame() {
 		initRender();
 	}
 	
 	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
-		p.appConfig.setProperty( AppSettings.WIDTH, "1280" );
-		p.appConfig.setProperty( AppSettings.HEIGHT, "720" );
-		p.appConfig.setProperty( AppSettings.WEBCAM_INDEX, 6 );
+		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, false );
+		p.appConfig.setProperty( AppSettings.WIDTH, 1280 );
+		p.appConfig.setProperty( AppSettings.HEIGHT, 720 );
 	}
 
 	// INITIALIZE OBJECTS ===================================================================================
@@ -65,7 +65,7 @@ extends PAppletHax {
 				break;
 			case IMAGE :
 //				_loadedImg = p.loadImage("http://blogs.smithsonianmag.com/artscience/files/2012/09/caffeine-crystals-big.jpg");
-				_loadedImg = p.loadImage(FileUtil.getHaxademicDataPath()+"images/bobby-broadway.jpg");
+				_loadedImg = DemoAssets.squareTexture();
 				break;
 		}
 		
@@ -96,7 +96,7 @@ extends PAppletHax {
 		// capture source image
 		switch( inputType ) {
 			case WEBCAM :
-				_curFrame = p.webCamWrapper.getImage();
+				_curFrame = WebCam.instance().image();
 				_curFrame = ImageUtil.getReversePImageFast( _curFrame );	// mirror mode
 				break;
 			case VIDEO :

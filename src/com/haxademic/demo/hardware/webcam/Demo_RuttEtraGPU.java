@@ -2,7 +2,6 @@ package com.haxademic.demo.hardware.webcam;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.BlendTowardsTexture;
@@ -10,7 +9,8 @@ import com.haxademic.core.draw.filters.pshader.BrightnessFilter;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.draw.shapes.pshader.LinesDeformAndTextureFilter;
-import com.haxademic.core.hardware.webcam.IWebCamCallback;
+import com.haxademic.core.hardware.webcam.WebCam;
+import com.haxademic.core.hardware.webcam.WebCam.IWebCamCallback;
 
 import processing.core.PGraphics;
 import processing.core.PImage;
@@ -27,14 +27,10 @@ implements IWebCamCallback {
 	protected PShape shape;
 	protected float shapeExtent = 100;
 
-	protected void overridePropsFile() {
-		p.appConfig.setProperty(AppSettings.LOOP_FRAMES, 160);
-		p.appConfig.setProperty(AppSettings.WEBCAM_INDEX, 3);
-	}
-	
 	protected void setupFirstFrame() {
 		// set up webcam
-		p.webCamWrapper.setDelegate(this);
+		WebCam.instance().setDelegate(this);
+//		PImage camFrame = WebCamPicker.instance().image();
 		webcamBuffer = p.createGraphics(p.width, p.height, PRenderers.P2D);
 		webcamLerped = p.createGraphics(p.width, p.height, PRenderers.P2D);
 

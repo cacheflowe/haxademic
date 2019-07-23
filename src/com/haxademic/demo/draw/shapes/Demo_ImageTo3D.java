@@ -7,6 +7,7 @@ import com.haxademic.core.draw.color.EasingColor;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.shapes.Shapes;
+import com.haxademic.core.hardware.webcam.WebCam;
 import com.haxademic.core.media.DemoAssets;
 
 import processing.core.PImage;
@@ -33,7 +34,6 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
 		
 
-//		p.appConfig.setProperty( AppSettings.WEBCAM_INDEX, 6 );
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, ""+Math.round(_frames) );
 		p.appConfig.setProperty( AppSettings.RENDERING_GIF, "false" );
@@ -109,7 +109,7 @@ extends PAppletHax {
 	
 	public void drawImgWebCam() {
 		// float size = 24f;
-		image = ImageUtil.getScaledImage( p.webCamWrapper.getImage(), 64, 48 );
+		image = ImageUtil.getScaledImage(WebCam.instance().image(), 64, 48 );
 		drawImgPyra();
 //		drawImgBoxes();
 	}

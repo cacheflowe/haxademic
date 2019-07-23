@@ -9,7 +9,8 @@ import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.draw.filters.pshader.LeaveWhiteFilter;
 import com.haxademic.core.draw.image.BufferMotionDetectionMap;
 import com.haxademic.core.draw.image.ImageUtil;
-import com.haxademic.core.hardware.webcam.IWebCamCallback;
+import com.haxademic.core.hardware.webcam.WebCam;
+import com.haxademic.core.hardware.webcam.WebCam.IWebCamCallback;
 import com.haxademic.core.math.easing.EasingFloat;
 
 import processing.core.PGraphics;
@@ -35,12 +36,11 @@ implements IWebCamCallback {
 	protected void overridePropsFile() {
 		p.appConfig.setProperty(AppSettings.WIDTH, 640 + 320 );
 		p.appConfig.setProperty(AppSettings.HEIGHT, 480 );
-		p.appConfig.setProperty(AppSettings.WEBCAM_INDEX, 3 );
 		p.appConfig.setProperty(AppSettings.SMOOTHING, AppSettings.SMOOTH_NONE );
 	}
 
 	public void setupFirstFrame () {
-		p.webCamWrapper.setDelegate(this);
+		WebCam.instance().setDelegate(this);
 		webcamBuffer = p.createGraphics(640, 480, PRenderers.P2D);
 		webcamBuffer.noSmooth();
 

@@ -42,7 +42,6 @@ extends PAppletHax {
 		p.appConfig.setProperty(AppSettings.WIDTH, (int) w);
 		p.appConfig.setProperty(AppSettings.HEIGHT, (int) h);
 		p.appConfig.setProperty(AppSettings.FPS, fpss);
-//		p.appConfig.setProperty(AppSettings.WEBCAM_INDEX, 5);
 		p.appConfig.setProperty(AppSettings.ALWAYS_ON_TOP, false);
 		p.appConfig.setProperty(AppSettings.RENDERING_MOVIE_START_FRAME, 1);
 		p.appConfig.setProperty(AppSettings.RENDERING_MOVIE_STOP_FRAME, 2131);

@@ -7,7 +7,7 @@ import com.haxademic.core.draw.context.PG;
 
 import processing.video.Capture;
 
-public class Demo_WebCamTwoCameras 
+public class Demo_Capture_TwoCameras 
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 

@@ -51,7 +51,6 @@ public class AppSettings {
 	public static final String SUNFLOW_SAVE_IMAGES = "sunflow_save_images";
 	// Input
 	public static final String DISABLE_ESC_KEY = "disable_esc";
-	public static final String WEBCAM_INDEX = "webcam_index";
 	public static final String WEBCAM_THREADED = "webcam_threaded";
 	public static final String KINECT_ACTIVE = "kinect_active";
 	public static final String KINECT_V2_WIN_ACTIVE = "kinect_v2_win_active";

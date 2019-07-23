@@ -9,7 +9,8 @@ import com.haxademic.core.draw.filters.pshader.BlurVFilter;
 import com.haxademic.core.draw.filters.pshader.ThresholdFilter;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.file.FileUtil;
-import com.haxademic.core.hardware.webcam.IWebCamCallback;
+import com.haxademic.core.hardware.webcam.WebCam;
+import com.haxademic.core.hardware.webcam.WebCam.IWebCamCallback;
 
 import processing.core.PGraphics;
 import processing.core.PImage;
@@ -30,11 +31,10 @@ implements IWebCamCallback {
 	protected void overridePropsFile() {
 		p.appConfig.setProperty(AppSettings.WIDTH, 1280 );
 		p.appConfig.setProperty(AppSettings.HEIGHT, 720 );
-		p.appConfig.setProperty(AppSettings.WEBCAM_INDEX, 3 ); // 18
 	}
 		
 	public void setupFirstFrame () {
-		p.webCamWrapper.setDelegate(this);
+		WebCam.instance().setDelegate(this);
 		
 		backplate = p.createGraphics(p.width, p.height, PRenderers.P3D);
 		webcamBuffer = p.createGraphics(p.width, p.height, PRenderers.P3D);
@@ -70,13 +70,14 @@ implements IWebCamCallback {
 	@Override
 	public void newFrame(PImage frame) {
 		// set textures for debug view
+		p.debugView.setValue("newframe", p.frameCount);
 		p.debugView.setTexture(webcamBuffer);
 		p.debugView.setTexture(backplate);
 		p.debugView.setTexture(differenceBuffer);
 		p.debugView.setTexture(bwBuffer);
 		
 		// copy webcam to current buffer
-		ImageUtil.cropFillCopyImage(p.webCamWrapper.getImage(), webcamBuffer, true);
+		ImageUtil.cropFillCopyImage(WebCam.instance().image(), webcamBuffer, true);
 		ImageUtil.flipH(webcamBuffer);
 
 		// run target blend shader

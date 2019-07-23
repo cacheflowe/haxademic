@@ -14,6 +14,7 @@ import com.haxademic.core.draw.textures.pgraphics.TextureEQGrid;
 import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
 import com.haxademic.core.draw.textures.pshader.TextureShader;
 import com.haxademic.core.file.FileUtil;
+import com.haxademic.core.hardware.webcam.WebCam;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.media.DemoAssets;
 
@@ -43,7 +44,6 @@ extends PAppletHax {
 	protected void overridePropsFile() {
 		p.appConfig.setProperty( AppSettings.WIDTH, W );
 		p.appConfig.setProperty( AppSettings.HEIGHT, H );
-		p.appConfig.setProperty( AppSettings.WEBCAM_INDEX, 3);
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, false );
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_START_FRAME, P.round(1 + frames * 3) );
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, P.round(1 + frames * 4) );
@@ -51,10 +51,10 @@ extends PAppletHax {
 
 	public void setup() {
 		super.setup();
-		
-		buffer = P.p.createGraphics(W, H, PRenderers.P3D); 
+
+		buffer = P.p.createGraphics(W, H, PRenderers.P3D);
 		map = P.p.createGraphics(W, H, PRenderers.P3D);
-		
+
 		xShape = DemoAssets.shapeX().getTessellation();
 		PShapeUtil.centerShape(xShape);
 		PShapeUtil.scaleShapeToMaxAbsY(xShape, p.height * 0.35f);
@@ -62,20 +62,19 @@ extends PAppletHax {
 //		xShape = p.loadShape(FileUtil.getFile("svg/ello-type.svg")).getTessellation();
 //		PShapeUtil.centerShape(xShape);
 //		PShapeUtil.scaleShapeToExtent(xShape, p.width * 0.4f);
-		
+
 		perlin = new PerlinTexture(p, 128, 128);
 		perlin.update(0.15f, 0.05f, p.frameCount/ 10f, 0);
-		
+
 		audioTexture = new TextureEQGrid(128, 128);
-		
+
 		feedbackShader = loadShader(FileUtil.getFile("haxademic/shaders/filters/feedback-map.glsl"));
-		
-//		WebCamWrapper.initWebCam(p, 3);
+
 		textureShader = new TextureShader(TextureShader.bw_voronoi);
 		textureShader = new TextureShader(TextureShader.bw_clouds);
 		textureShader = new TextureShader(TextureShader.BWNoiseInfiniteZoom, 0.005f);
 	}
-	
+
 	protected void drawImg(PImage img) {
 		if(img != null) {
 			buffer.beginDraw();
@@ -91,7 +90,7 @@ extends PAppletHax {
 			buffer.endDraw();
 		}
 	}
-		
+
 	protected void drawXShape(boolean black) {
 		buffer.beginDraw();
 		xShape.disableStyle();
@@ -102,47 +101,47 @@ extends PAppletHax {
 		buffer.shape(xShape);
 		buffer.endDraw();
 	}
-	
+
 	public void keyPressed() {
 		super.keyPressed();
 		if(key == ' ') drawXShape(true);
 	}
-	
+
 	protected void updateMapAudio() {
 		audioTexture.update();
 		ReflectFilter.instance(p).applyTo(audioTexture.texture());
-		map = audioTexture.texture();	
+		map = audioTexture.texture();
 	}
-	
+
 	protected void updateMapPerlin() {
 		perlin.update(
-				P.map(p.mouseY, 0, p.height, 0.0001f, 0.05f), 
-				P.map(p.mouseX, 0, p.width, 0.0001f, 0.001f), 
-				50f * P.cos(p.frameCount/ 5000f), 
+				P.map(p.mouseY, 0, p.height, 0.0001f, 0.05f),
+				P.map(p.mouseX, 0, p.width, 0.0001f, 0.001f),
+				50f * P.cos(p.frameCount/ 5000f),
 				50f * P.sin(p.frameCount/ 5000f)
 				);
 		ImageUtil.cropFillCopyImage(perlin.texture(), map, true);
 	}
-	
+
 	protected void updateMapWebcam() {
 		map.beginDraw();
-		ImageUtil.cropFillCopyImage(p.webCamWrapper.getImage(), map, true);
+		ImageUtil.cropFillCopyImage(WebCam.instance().image(), map, true);
 		map.endDraw();
 	}
-	
+
 	protected void updateMapShader() {
 		if(textureShader.shaderPath().equals(TextureShader.bw_voronoi)) textureShader.setTime(progressRads);
 		else textureShader.updateTime();
 		map.filter(textureShader.shader());
 	}
-	
+
 	protected void applyFeedbackToBuffer() {
 		feedbackShader.set("map", map);
 		// feedbackShader.set("samplemult", P.map(p.mouseY, 0, p.height, 0.85f, 1.15f) );
 		feedbackShader.set("amp", P.map(p.mouseX, 0, p.width, 0.0001f, 0.01f) );
-		for (int i = 0; i < 1; i++) buffer.filter(feedbackShader); 
+		for (int i = 0; i < 1; i++) buffer.filter(feedbackShader);
 	}
-	
+
 	protected void blurMap() {
 		BlurProcessingFilter.instance(p).setBlurSize(10);
 		for(int i=0; i < 5; i++) BlurProcessingFilter.instance(p).applyTo(map);
@@ -153,27 +152,26 @@ extends PAppletHax {
 		progress = (p.frameCount % frames) / frames;
 		progressRads = progress * P.TWO_PI;
 		p.debugView.setValue("progress", progress);
-		
+
 		background(255);
-		
+
 		// draw on top of image
 		drawXShape(false);
-		
+
 		// draw map
 //		updateMapPerlin();
 //		updateMapAudio();
 //		updateMapWebcam();
 		updateMapShader();
-		
+
 		// blur the map
 		blurMap();
 
 		// apply feedback
 		applyFeedbackToBuffer();
-		
+
 		// draw again to see the full image on top
 		drawXShape(true);
-//		drawImg(WebCamWrapper.getImage());
 
 		// draw to screen
 		p.image(buffer, 0, 0);
@@ -183,4 +181,3 @@ extends PAppletHax {
 		p.debugView.setTexture(map);
 	}
 }
-

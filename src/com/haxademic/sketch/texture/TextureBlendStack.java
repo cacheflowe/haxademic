@@ -9,6 +9,7 @@ import com.haxademic.core.data.constants.PBlendModes;
 import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.file.FileUtil;
+import com.haxademic.core.hardware.webcam.WebCam;
 
 import processing.core.PGraphics;
 import processing.core.PImage;
@@ -52,7 +53,6 @@ extends PAppletHax {
 	protected void overridePropsFile() {
 		p.appConfig.setProperty( AppSettings.WIDTH, 1000 );
 		p.appConfig.setProperty( AppSettings.HEIGHT, 600 );
-		p.appConfig.setProperty( AppSettings.WEBCAM_INDEX, 18 );
 	}
 
 	public void setupFirstFrame() {
@@ -78,8 +78,8 @@ extends PAppletHax {
 		p.blendMode(PBlendModes.BLEND);
 	
 		// copy webcam (should be done in Webcam callback)
-		if(p.webCamWrapper.getImage().width > 40) {
-			ImageUtil.copyImage(p.webCamWrapper.getImage(), camerBuffer);
+		if(WebCam.instance().image().width > 40) {
+			ImageUtil.copyImage(WebCam.instance().image(), camerBuffer);
 			if(cameraInit == false) {
 				images.add(0, camerBuffer);
 				cameraInit = true;

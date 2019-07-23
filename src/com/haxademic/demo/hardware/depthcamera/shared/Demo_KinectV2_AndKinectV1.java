@@ -11,43 +11,40 @@ public class Demo_KinectV2_AndKinectV1
 extends PAppletHax {
 
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
-	
+
 	protected IDepthCamera kinectWrapperV1;
 	protected IDepthCamera kinectWrapperV2;
-	
+
 	protected void overridePropsFile() {
 		p.appConfig.setProperty( AppSettings.WIDTH, 1200 );
 		p.appConfig.setProperty( AppSettings.HEIGHT, 900 );
 		p.appConfig.setProperty( AppSettings.SHOW_DEBUG, true );
-//		p.appConfig.setProperty(AppSettings.WEBCAM_INDEX, 12 );
 	}
 
 	public void setupFirstFrame() {
 		kinectWrapperV1 = new KinectWrapperV1( p, true, true);
 		kinectWrapperV1.setMirror(true);
-		
+
 		kinectWrapperV2 = new KinectWrapperV2( p, true, true);
 		kinectWrapperV2.setMirror(true);
 	}
-	
+
 	public void drawApp() {
 		p.background(0);
-		
-//		p.image(p.webCamWrapper.getImage(), 0, 0);
-		
+
 		float imgWidth = 400;
-		
+
 		// update kinects
 		kinectWrapperV1.update();
 		kinectWrapperV2.update();
-		
+
 		// kinect v1
 		p.debugView.setTexture(kinectWrapperV1.getRgbImage());
 		p.debugView.setTexture(kinectWrapperV1.getDepthImage());
-//		
+//
 		p.image(kinectWrapperV1.getDepthImage(), 0, 0, imgWidth, kinectWrapperV1.getDepthImage().height * MathUtil.scaleToTarget(kinectWrapperV1.getDepthImage().width, imgWidth));
 		p.image(kinectWrapperV1.getRgbImage(), imgWidth * 2f, 0, imgWidth, kinectWrapperV1.getRgbImage().height * MathUtil.scaleToTarget(kinectWrapperV1.getRgbImage().width, imgWidth));
-		
+
 		// kinect v2
 		p.debugView.setTexture(kinectWrapperV2.getRgbImage());
 		p.debugView.setTexture(kinectWrapperV2.getIRImage());
@@ -57,7 +54,7 @@ extends PAppletHax {
 		p.image(kinectWrapperV2.getIRImage(), imgWidth, imgWidth, imgWidth, kinectWrapperV2.getIRImage().height * MathUtil.scaleToTarget(kinectWrapperV2.getIRImage().width, imgWidth));
 		p.image(kinectWrapperV2.getRgbImage(), imgWidth * 2f, imgWidth, imgWidth, kinectWrapperV2.getRgbImage().height * MathUtil.scaleToTarget(kinectWrapperV2.getRgbImage().width, imgWidth));
 	}
-	
+
 	public void stop() {
 		kinectWrapperV1.stop();
 		kinectWrapperV2.stop();

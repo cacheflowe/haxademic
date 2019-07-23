@@ -6,7 +6,8 @@ import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.image.BufferMotionDetectionMap;
 import com.haxademic.core.draw.image.ImageUtil;
-import com.haxademic.core.hardware.webcam.IWebCamCallback;
+import com.haxademic.core.hardware.webcam.WebCam;
+import com.haxademic.core.hardware.webcam.WebCam.IWebCamCallback;
 import com.haxademic.core.math.MathUtil;
 
 import processing.core.PGraphics;
@@ -23,11 +24,10 @@ implements IWebCamCallback {
 	protected void overridePropsFile() {
 		p.appConfig.setProperty(AppSettings.WIDTH, 720 );
 		p.appConfig.setProperty(AppSettings.HEIGHT, 720 );
-		p.appConfig.setProperty(AppSettings.WEBCAM_INDEX, 3 );
 	}
 		
 	public void setupFirstFrame () {
-		p.webCamWrapper.setDelegate(this);
+		WebCam.instance().setDelegate(this);
 		webcamBuffer = p.createGraphics(p.width, p.height, PRenderers.P2D);
 	}
 

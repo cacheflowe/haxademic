@@ -12,7 +12,8 @@ import com.haxademic.core.draw.color.ImageGradient;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.file.FileUtil;
-import com.haxademic.core.hardware.webcam.IWebCamCallback;
+import com.haxademic.core.hardware.webcam.WebCam;
+import com.haxademic.core.hardware.webcam.WebCam.IWebCamCallback;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.LinearFloat;
 import com.haxademic.core.math.easing.Penner;
@@ -43,13 +44,12 @@ implements IWebCamCallback {
 	protected void overridePropsFile() {
 		p.appConfig.setProperty(AppSettings.WIDTH, 640 );
 		p.appConfig.setProperty(AppSettings.HEIGHT, 480 );
-		p.appConfig.setProperty(AppSettings.WEBCAM_INDEX, 3 ); // 18
 		p.appConfig.setProperty(AppSettings.SHOW_DEBUG, true );
 	}
 		
 	public void setupFirstFrame () {
 		// capture webcam frames
-		p.webCamWrapper.setDelegate(this);
+		WebCam.instance().setDelegate(this);
 		// build particles array
 		imageGradient = new ImageGradient(ImageGradient.PASTELS());
 		imageGradient.addTexturesFromPath(ImageGradient.COOLORS_PATH);

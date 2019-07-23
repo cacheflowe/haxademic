@@ -7,44 +7,43 @@ import com.haxademic.core.draw.color.ImageGradient;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.ColorizeFromTexture;
 import com.haxademic.core.draw.image.ImageUtil;
-import com.haxademic.core.hardware.webcam.IWebCamCallback;
+import com.haxademic.core.hardware.webcam.WebCam;
+import com.haxademic.core.hardware.webcam.WebCam.IWebCamCallback;
 
 import processing.core.PGraphics;
 import processing.core.PImage;
 
-public class Demo_WebcamColorizeFromTexture 
+public class Demo_WebcamColorizeFromTexture
 extends PAppletHax
 implements IWebCamCallback {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	protected PGraphics flippedCamera;
 	protected ImageGradient imageGradient;
-	
+
 	protected void overridePropsFile() {
 		p.appConfig.setProperty(AppSettings.WIDTH, 1280 );
 		p.appConfig.setProperty(AppSettings.HEIGHT, 720 );
-		p.appConfig.setProperty(AppSettings.WEBCAM_INDEX, 3 ); // 18
 		p.appConfig.setProperty(AppSettings.SHOW_DEBUG, true );
 	}
-		
+
 	public void setupFirstFrame () {
 		// build palette
 		imageGradient = new ImageGradient(ImageGradient.PASTELS());
 		imageGradient.addTexturesFromPath(ImageGradient.COOLORS_PATH);
-		
+
 		// capture webcam frames
-		p.webCamWrapper.setDelegate(this);
+		WebCam.instance().setDelegate(this);
 	}
-	
+
 	@Override
 	public void newFrame(PImage frame) {
-		// p.webCamWrapper.getImage()
 		// lazy-init flipped camera buffer
 		if(flippedCamera == null) flippedCamera = p.createGraphics(800, 600, PRenderers.P2D);
 		ImageUtil.copyImageFlipH(frame, flippedCamera);
 		p.debugView.setTexture(flippedCamera);
 	}
-	
+
 	public void keyPressed() {
 		super.keyPressed();
 		if(p.key == ' ') {
@@ -67,5 +66,5 @@ implements IWebCamCallback {
 			ColorizeFromTexture.instance(p).applyTo(p);
 		}
 	}
-	
+
 }

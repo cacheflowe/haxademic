@@ -9,7 +9,8 @@ import com.haxademic.core.draw.filters.pshader.BlurHFilter;
 import com.haxademic.core.draw.filters.pshader.BlurVFilter;
 import com.haxademic.core.draw.image.BlobFinder;
 import com.haxademic.core.draw.image.ImageUtil;
-import com.haxademic.core.hardware.webcam.IWebCamCallback;
+import com.haxademic.core.hardware.webcam.WebCam;
+import com.haxademic.core.hardware.webcam.WebCam.IWebCamCallback;
 import com.haxademic.core.math.MathUtil;
 
 import blobDetection.Blob;
@@ -32,14 +33,13 @@ implements IWebCamCallback {
 	protected void overridePropsFile() {
 		p.appConfig.setProperty(AppSettings.WIDTH, webcamW);
 		p.appConfig.setProperty(AppSettings.HEIGHT, webcamH);
-		p.appConfig.setProperty(AppSettings.WEBCAM_INDEX, 5);
 	}
 
 	public void setupFirstFrame() {
 		super.setup();
 		
 		// setup webcam
-		p.webCamWrapper.setDelegate(this);
+		WebCam.instance().setDelegate(this);
 		webcamBuffer = p.createGraphics(webcamW, webcamH, PRenderers.P2D);
 		webcamBufferLerped = p.createGraphics(webcamW, webcamH, PRenderers.P2D);
 		

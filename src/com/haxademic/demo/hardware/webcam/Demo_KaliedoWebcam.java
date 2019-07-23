@@ -9,7 +9,8 @@ import com.haxademic.core.draw.filters.pshader.KaleidoFilter;
 import com.haxademic.core.draw.image.BufferActivityMonitor;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.image.TiledTexture;
-import com.haxademic.core.hardware.webcam.IWebCamCallback;
+import com.haxademic.core.hardware.webcam.WebCam;
+import com.haxademic.core.hardware.webcam.WebCam.IWebCamCallback;
 
 import processing.core.PGraphics;
 import processing.core.PImage;
@@ -26,12 +27,11 @@ implements IWebCamCallback {
 	protected void overridePropsFile() {
 		p.appConfig.setProperty(AppSettings.WIDTH, 1280 );
 		p.appConfig.setProperty(AppSettings.HEIGHT, 720 );
-		p.appConfig.setProperty(AppSettings.WEBCAM_INDEX, 3 );
 		p.appConfig.setProperty(AppSettings.SHOW_DEBUG, true );
 	}
 		
 	public void setupFirstFrame () {
-		p.webCamWrapper.setDelegate(this);
+		WebCam.instance().setDelegate(this);
 	}
 	
 	@Override

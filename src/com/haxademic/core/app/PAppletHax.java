@@ -28,7 +28,7 @@ import com.haxademic.core.hardware.gamepad.GamepadState;
 import com.haxademic.core.hardware.keyboard.KeyboardState;
 import com.haxademic.core.hardware.midi.MidiDevice;
 import com.haxademic.core.hardware.osc.OscWrapper;
-import com.haxademic.core.hardware.webcam.WebCamWrapper;
+import com.haxademic.core.hardware.webcam.WebCam;
 import com.haxademic.core.math.easing.EasingFloat;
 import com.haxademic.core.media.audio.analysis.AudioInputBeads;
 import com.haxademic.core.media.audio.analysis.AudioInputESS;
@@ -78,7 +78,7 @@ extends PApplet {
 
 	// app
 	protected static PAppletHax p;				// Global/static ref to PApplet - any class can access reference from this static ref. Easier access via `P.p`
-	public PGraphics pg;						// Offscreen buffer that matches the app size
+	public PGraphics pg;						// Offscreen buffer that matches the app size by default
 	public P5Properties appConfig;				// Loads the project .properties file to configure several app properties externally.
 	protected String customPropsFile = null;	// Loads an app-specific project .properties file.
 	protected String renderer; 					// The current rendering engine
@@ -103,7 +103,6 @@ extends PApplet {
 	public AnimationLoop loop = null;
 
 	// input
-	public WebCamWrapper webCamWrapper = null;
 	public MidiDevice midiState = null;
 	public MidiBus midiBus;
 	public KeyboardState keyboardState;
@@ -275,7 +274,6 @@ extends PApplet {
 				new JoonsWrapper( p, width, height, ( p.appConfig.getString(AppSettings.SUNFLOW_QUALITY, "low" ) == AppSettings.SUNFLOW_QUALITY_HIGH ) ? JoonsWrapper.QUALITY_HIGH : JoonsWrapper.QUALITY_LOW, ( p.appConfig.getBoolean(AppSettings.SUNFLOW_ACTIVE, true ) == true ) ? true : false )
 				: null;
 		// hardware
-		if( appConfig.getInt(AppSettings.WEBCAM_INDEX, -1) >= 0 ) webCamWrapper = new WebCamWrapper(appConfig.getInt(AppSettings.WEBCAM_INDEX, -1), appConfig.getBoolean(AppSettings.WEBCAM_THREADED, true));
 		initKinect();
 		if( p.appConfig.getInt(AppSettings.MIDI_DEVICE_IN_INDEX, -1) >= 0 ) {
 			MidiBus.list(); // List all available Midi devices on STDOUT. This will show each device's index and name.
@@ -439,6 +437,7 @@ extends PApplet {
 		autoHideMouse();
 		if(oscState != null) oscState.update();
 		if(dmxUniverse != null) dmxUniverse.update();
+		if(WebCam.instance != null && p.key == 'W') WebCam.instance().drawMenu(p.g);
 		showStats();
 		keepOnTop();
 		setAppDockIconAndTitle(false);
@@ -671,7 +670,7 @@ extends PApplet {
 	////////////////////////
 	
 	public void stop() {
-		if(p.webCamWrapper != null) p.webCamWrapper.dispose();
+		if(WebCam.instance != null) WebCam.instance().dispose();
 		if( depthCamera != null ) {
 			depthCamera.stop();
 			depthCamera = null;

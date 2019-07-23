@@ -11,7 +11,8 @@ import com.haxademic.core.draw.image.ImageSequenceRecorder;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.textures.pshader.TextureShader;
 import com.haxademic.core.file.FileUtil;
-import com.haxademic.core.hardware.webcam.IWebCamCallback;
+import com.haxademic.core.hardware.webcam.WebCam;
+import com.haxademic.core.hardware.webcam.WebCam.IWebCamCallback;
 
 import processing.core.PGraphics;
 import processing.core.PImage;
@@ -33,7 +34,6 @@ implements IWebCamCallback {
 	protected int numFrames = 15;
 	
 	protected void overridePropsFile() {
-		p.appConfig.setProperty(AppSettings.WEBCAM_INDEX, 3 );
 		p.appConfig.setProperty(AppSettings.SHOW_DEBUG, false );
 		p.appConfig.setProperty(AppSettings.FILLS_SCREEN, false );
 	}
@@ -45,7 +45,7 @@ implements IWebCamCallback {
 		slitscanLerpedBuffer = p.createGraphics(640, 480, PRenderers.P3D);
 		lerpToTexture = P.p.loadShader(FileUtil.getFile("haxademic/shaders/filters/texture-blend-towards-texture.glsl"));
 		recorder = new ImageSequenceRecorder(camBuffer.width, camBuffer.height, numFrames);
-		p.webCamWrapper.setDelegate(this);
+		WebCam.instance().setDelegate(this);
 		slitscanShader = p.loadShader(FileUtil.getFile("haxademic/shaders/filters/slitscan-texture-map.glsl"));
 		noiseTexture = new TextureShader(TextureShader.noise_simplex_2d_iq);
 	}
@@ -104,7 +104,7 @@ implements IWebCamCallback {
 	@Override
 	public void newFrame(PImage frame) {
 		// set recorder frame - use buffer as intermediary to fix aspect ratio
-		ImageUtil.copyImageFlipH(p.webCamWrapper.getImage(), camBuffer);
+		ImageUtil.copyImageFlipH(frame, camBuffer);
 		recorder.addFrame(camBuffer);
 		// do some post-processing
 		SaturationFilter.instance(p).setSaturation(0);

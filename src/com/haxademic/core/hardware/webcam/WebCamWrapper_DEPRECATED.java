@@ -1,17 +1,18 @@
 package com.haxademic.core.hardware.webcam;
 
 import com.haxademic.core.app.P;
+import com.haxademic.core.hardware.webcam.WebCam.IWebCamCallback;
 
 import processing.core.PImage;
 import processing.video.Capture;
 
-public class WebCamWrapper {
+public class WebCamWrapper_DEPRECATED {
 
 	public static Capture webCam;
 	public static PImage lastFrame = new PImage(32, 32);
 	public static IWebCamCallback delegate;
 
-	public WebCamWrapper(int cameraIndex, boolean threaded) {
+	public WebCamWrapper_DEPRECATED(int cameraIndex, boolean threaded) {
 		if(webCam == null) {
 			if(threaded) {
 				new Thread(new Runnable() { public void run() {
@@ -24,11 +25,12 @@ public class WebCamWrapper {
 		}
 	}
 	
-	public WebCamWrapper(int cameraIndex) {
+	public WebCamWrapper_DEPRECATED(int cameraIndex) {
 		this(cameraIndex, true);
 	}
 	
 	protected void initCamera(int cameraIndex) {
+		lastFrame = P.getImage("haxademic/images/no-signal.jpg");
 		P.println("WebCamWrapper: listing cameras");
 		String[] cameras = Capture.list();
 		P.println("cameras: "+cameras);
@@ -66,7 +68,7 @@ public class WebCamWrapper {
 		}
 	}
 		
-	public PImage getImage() {
+	public PImage image() {
 		return lastFrame;
 	}
 	
@@ -74,8 +76,5 @@ public class WebCamWrapper {
 		delegate = obj;
 	}
 
-	public void dispose() {
-		if(webCam != null) webCam.stop();
-	}
-
+	
 }

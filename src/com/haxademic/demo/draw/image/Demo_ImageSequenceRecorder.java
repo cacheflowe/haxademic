@@ -7,7 +7,8 @@ import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.SaturationFilter;
 import com.haxademic.core.draw.image.ImageSequenceRecorder;
 import com.haxademic.core.draw.image.ImageUtil;
-import com.haxademic.core.hardware.webcam.IWebCamCallback;
+import com.haxademic.core.hardware.webcam.WebCam;
+import com.haxademic.core.hardware.webcam.WebCam.IWebCamCallback;
 
 import processing.core.PGraphics;
 import processing.core.PImage;
@@ -21,7 +22,6 @@ implements IWebCamCallback {
 	protected PGraphics camBuffer;
 	
 	protected void overridePropsFile() {
-		p.appConfig.setProperty(AppSettings.WEBCAM_INDEX, 3 );
 		p.appConfig.setProperty(AppSettings.SHOW_DEBUG, true );
 		p.appConfig.setProperty(AppSettings.FILLS_SCREEN, true );
 	}
@@ -29,7 +29,7 @@ implements IWebCamCallback {
 	public void setupFirstFrame () {
 		camBuffer = p.createGraphics(640, 480, PRenderers.P3D);
 		recorder = new ImageSequenceRecorder(camBuffer.width, camBuffer.height, 20);
-		p.webCamWrapper.setDelegate(this);
+		WebCam.instance().setDelegate(this);
 	}
 
 	public void drawApp() {
@@ -48,7 +48,7 @@ implements IWebCamCallback {
 	@Override
 	public void newFrame(PImage frame) {
 		// set recorder frame - use buffer as intermediary to fix aspect ratio
-		ImageUtil.copyImageFlipH(p.webCamWrapper.getImage(), camBuffer);
+		ImageUtil.copyImageFlipH(frame, camBuffer);
 		recorder.addFrame(camBuffer);
 		// do some post-processing
 		SaturationFilter.instance(p).setSaturation(0);
