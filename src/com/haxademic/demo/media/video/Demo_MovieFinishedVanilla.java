@@ -1,4 +1,4 @@
-package com.haxademic.sketch.test;
+package com.haxademic.demo.media.video;
 
 import org.gstreamer.elements.PlayBin2;
 
@@ -8,7 +8,7 @@ import com.haxademic.core.media.DemoAssets;
 
 import processing.video.Movie;
 
-public class VideoEndCallback
+public class Demo_MovieFinishedVanilla
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
