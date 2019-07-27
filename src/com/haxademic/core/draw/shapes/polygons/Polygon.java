@@ -189,7 +189,7 @@ public class Polygon {
 
 	protected void drawShapeOutline(PGraphics pg) {
 		pg.noFill();
-		pg.stroke(255);
+		pg.stroke(255, 255, 255, 100);
 		pg.beginShape();
 		for (int i = 0; i < vertices.size(); i++) {
 			PVector v = vertices.get(i);
@@ -280,19 +280,30 @@ public class Polygon {
 		}
 	}
 	
-	public PVector newNeighbor3rdVertex(Edge edge, float ampOut) {
+	public PVector newNeighbor3rdVertex(Edge edge, float dist) {
+		// get midpoint on edge to launch perpendicular point from
 		PVector edgeLaunchPoint = edge.launchPoint();
 		float edgeLength = edge.length();
-		float edgeDistFromCenter = center.dist(edgeLaunchPoint);
-		ampOut += (edgeLength / edgeDistFromCenter);
-		newNeighborCenter.set(center);
-		newNeighborCenter.lerp(edgeLaunchPoint, ampOut);	// lerp beyond edge midpoint from polygon center
+		// get perpendicular point
+		PVector originEdgePoint = MathUtil.randBoolean(P.p) ? edge.v1() : edge.v2();
+		float perpLength = edgeLength * dist;
+		getPerp(originEdgePoint, edgeLaunchPoint, newNeighborCenter);
+		newNeighborCenter.mult(perpLength).add(edgeLaunchPoint);
 		return newNeighborCenter;
 	}
 	
-	public void setNeighbor(Polygon newNeighbor) {
+	protected void getPerp(PVector p1, PVector p2, PVector pDest) {
+		pDest.set(p2).sub(p1).normalize();
+		pDest.set(-pDest.y, pDest.x);
+	}
+	
+	public boolean findNeighbor(Polygon newNeighbor) {
 		Edge sharedEdge = findSharedEdge(newNeighbor);
-		neighbors.put(sharedEdge, newNeighbor);
+		if(sharedEdge != null) {
+			neighbors.put(sharedEdge, newNeighbor);
+			return true;
+		}
+		return false;
 	}
 	
 	public ArrayList<PVector> sharedVertex(Polygon poly) {

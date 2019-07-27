@@ -29,7 +29,7 @@ public class Edge {
 	
 	public PVector launchPoint() {
 		launchPoint.set(v1);
-		launchPoint.lerp(v2, MathUtil.randRangeDecimal(0.45f, 0.55f));
+		launchPoint.lerp(v2, MathUtil.randRangeDecimal(0.25f, 0.75f));
 		return launchPoint;
 	}
 	
