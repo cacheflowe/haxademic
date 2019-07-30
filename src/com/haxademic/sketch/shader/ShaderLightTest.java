@@ -27,7 +27,7 @@ extends PAppletHax {
 	public void draw() {
 		p.background(0);
 
-
+		isToon = (p.mousePercentX() > 0.5f);
 		if( isToon == false ) {
 			p.shader(_pixlightShader);
 			p.pointLight(0, 255, 255, p.mouseX, p.mouseY, 500);
@@ -46,13 +46,5 @@ extends PAppletHax {
 		// p.sphere(200);  
 		angle += 0.01;
 	}
-
-	public void keyPressed() {
-		super.keyPressed();
-		if(p.key == ' ') {
-			isToon = !isToon;
-		}
-	}
-
 
 }
