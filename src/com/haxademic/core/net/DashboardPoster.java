@@ -81,7 +81,7 @@ implements IJsonRequestCallback {
 		}
 	}
 	
-	public void setDebug(boolean debug ) {
+	public void setDebug(boolean debug) {
 		this.debug = debug;
 	}
 	
