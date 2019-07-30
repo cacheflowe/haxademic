@@ -6,6 +6,8 @@ public class AppSettings {
 	public static final String PDF_RENDERER_OUTPUT_FILE = "renderer_output_file";
 	public static final String WIDTH = "width";
 	public static final String HEIGHT = "height";
+	public static final String PG_WIDTH = "pg_width";
+	public static final String PG_HEIGHT = "pg_height";
 	public static final String SPAN_SCREENS = "span_screens";
 	public static final String FULLSCREEN = "fullscreen";
 	public static final String FULLSCREEN_SCREEN_NUMBER = "fullscreen_screen_number";
@@ -51,7 +53,6 @@ public class AppSettings {
 	public static final String SUNFLOW_SAVE_IMAGES = "sunflow_save_images";
 	// Input
 	public static final String DISABLE_ESC_KEY = "disable_esc";
-	public static final String WEBCAM_THREADED = "webcam_threaded";
 	public static final String KINECT_ACTIVE = "kinect_active";
 	public static final String KINECT_V2_WIN_ACTIVE = "kinect_v2_win_active";
 	public static final String KINECT_V2_MAC_ACTIVE = "kinect_v2_mac_active";
@@ -65,7 +66,7 @@ public class AppSettings {
 	public static final String INIT_ESS_AUDIO = "init_ess_audio";
 	public static final String INIT_MINIM_AUDIO = "init_minim_audio";
 	public static final String INIT_BEADS_AUDIO = "init_beads_audio";
-	public static final String GAMEPADS_ACTIVE = "GAMEPADS_ACTIVE";
+	public static final String GAMEPADS_ACTIVE = "gamepads_active";
 	// Output
 	public static final String DMX_PORT = "dmx_port";
 	public static final String DMX_BAUD_RATE = "dmx_baud_rate";
