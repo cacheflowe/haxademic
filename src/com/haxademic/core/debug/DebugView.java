@@ -227,7 +227,7 @@ public class DebugView {
 				p.rect(debugPanelW(), texHeight * texIndex, texW, 18);
 				p.fill(255);
 				p.textSize(11);
-				p.text(imageName, debugPanelW() + 4, texHeight * texIndex + 1);
+				p.text(imageName + " (" + image.width + "x" + image.height + ")", debugPanelW() + 4, texHeight * texIndex + 1);
 				// increment
 			    texIndex++;
 		    }
