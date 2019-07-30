@@ -27,9 +27,9 @@ extends PAppletHax {
 	public void setupFirstFrame() {
 		kinectSilhouetteSmoothed = new KinectDepthSilhouetteSmoothed(p.depthCamera, 5);
 		
-		p.debugView.setTexture(kinectSilhouetteSmoothed.depthBuffer());
-		p.debugView.setTexture(kinectSilhouetteSmoothed.avgBuffer());
-		p.debugView.setTexture(kinectSilhouetteSmoothed.image());
+		p.debugView.setTexture("depthBuffer", kinectSilhouetteSmoothed.depthBuffer());
+		p.debugView.setTexture("avgBuffer", kinectSilhouetteSmoothed.avgBuffer());
+		p.debugView.setTexture("image", kinectSilhouetteSmoothed.image());
 	}
 	public void drawApp() {
 		p.background(0);

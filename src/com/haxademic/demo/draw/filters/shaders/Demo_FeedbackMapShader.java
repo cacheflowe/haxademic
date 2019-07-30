@@ -177,7 +177,7 @@ extends PAppletHax {
 		p.image(buffer, 0, 0);
 
 		// debug draw
-		p.debugView.setTexture(buffer);
-		p.debugView.setTexture(map);
+		p.debugView.setTexture("buffer", buffer);
+		p.debugView.setTexture("map", map);
 	}
 }

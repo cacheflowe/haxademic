@@ -29,7 +29,7 @@ extends PAppletHax {
 		perlinShader.set("zoom", 3f + 2f * P.sin(p.frameCount * 0.01f));
 		perlinShader.set("rotation", P.sin(p.frameCount * 0.01f) * 0.4f);
 		perlinBuffer.filter(perlinShader);
-		p.debugView.setTexture(perlinBuffer);
+		p.debugView.setTexture("perlinBuffer", perlinBuffer);
 		
 		// draw to screen
 		p.image(perlinBuffer, 0, 0);  

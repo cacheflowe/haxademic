@@ -42,7 +42,7 @@ implements IWebCamCallback {
 		}
 		bufferFrameDifference.update(frame);
 		// debug view
-		p.debugView.setTexture(frame);
+		p.debugView.setTexture("webcam", frame);
 	}
 
 }

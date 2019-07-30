@@ -46,8 +46,8 @@ implements IWebCamCallback {
 		
 		// calculate activity monitor with new frame
 		activityMonitor.update(flippedCamera);
-		p.debugView.setTexture(flippedCamera);
-		p.debugView.setTexture(activityMonitor.differenceBuffer());
+		p.debugView.setTexture("flippedCamera", flippedCamera);
+		p.debugView.setTexture("differenceBuffer", activityMonitor.differenceBuffer());
 	}
 
 	public void drawApp() {

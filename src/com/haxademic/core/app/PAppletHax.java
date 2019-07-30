@@ -344,7 +344,7 @@ extends PApplet {
 	
 	protected void createAudioDebugBuffer() {
 		audioInputDebugBuffer = p.createGraphics((int) AudioStreamData.debugW, (int) AudioStreamData.debugW, PRenderers.P3D);
-		debugView.setTexture(audioInputDebugBuffer);
+		p.debugView.setTexture("Audio Input", audioInputDebugBuffer);
 	}
 
 	// option to override 

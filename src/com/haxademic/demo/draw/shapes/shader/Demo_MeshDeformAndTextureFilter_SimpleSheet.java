@@ -28,8 +28,8 @@ extends PAppletHax {
 		
 		// debug view
 		p.debugView.setValue("shape.getVertexCount();", shape.getVertexCount());
-		p.debugView.setTexture(texture);
-		p.debugView.setTexture(DemoAssets.textureNebula());
+		p.debugView.setTexture("PerlinTexture", texture);
+		p.debugView.setTexture("textureNebula", DemoAssets.textureNebula());
 	}
 
 	public void drawApp() {

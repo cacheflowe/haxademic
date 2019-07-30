@@ -45,13 +45,13 @@ extends PAppletHax {
 		// create texture to store positions
 		positionsBuffer = p.createGraphics(positionBufferSize, positionBufferSize, PRenderers.P3D);
 		OpenGLUtil.setTextureQualityLow(positionsBuffer);		// necessary for proper texel lookup!
-		p.debugView.setTexture(positionsBuffer);
+		p.debugView.setTexture("positionsBuffer", positionsBuffer);
 		newPositions();
 		
 		// build final draw buffer
 		renderedParticles = p.createGraphics(p.width, p.height, PRenderers.P3D);
 		renderedParticles.smooth(8);
-		p.debugView.setTexture(renderedParticles);
+		p.debugView.setTexture("renderedParticles", renderedParticles);
 
 		// count vertices for debugView
 		int vertices = P.round(positionsBuffer.width * positionsBuffer.height); 

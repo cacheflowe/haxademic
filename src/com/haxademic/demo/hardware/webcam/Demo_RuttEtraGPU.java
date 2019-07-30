@@ -107,8 +107,8 @@ implements IWebCamCallback {
 //		ThresholdFilter.instance(p).applyTo(webcamBuffer);
 				
 		// set textures for debug view
-		p.debugView.setTexture(frame);
-		p.debugView.setTexture(webcamBuffer);
+		p.debugView.setTexture("webcam", frame);
+		p.debugView.setTexture("webcamBuffer", webcamBuffer);
 	}
 
 }

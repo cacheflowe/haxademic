@@ -223,7 +223,7 @@ extends PAppletHax { public static void main(String args[]) { PAppletHax.main(Th
 		// update cur shader as image processing basis
 		texture.updateTime();
 		textureBuffer.filter(texture.shader());
-		p.debugView.setTexture(textureBuffer);
+		p.debugView.setTexture("textureBuffer", textureBuffer);
 		
 		// draw to main offscreen buffer
 		pg.beginDraw();

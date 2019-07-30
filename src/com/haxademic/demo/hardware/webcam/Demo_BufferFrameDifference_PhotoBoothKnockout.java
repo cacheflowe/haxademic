@@ -61,8 +61,8 @@ implements IWebCamCallback {
 //		BlurVFilter.instance(p).applyTo(bufferFrameDifference.differenceBuffer());
 		
 		// debug view
-		p.debugView.setTexture(bufferCamera);
-		p.debugView.setTexture(bufferFrameDifference.differenceBuffer());
+		p.debugView.setTexture("bufferCamera", bufferCamera);
+		p.debugView.setTexture("differenceBuffer", bufferFrameDifference.differenceBuffer());
 	}
 
 	public void drawApp() {

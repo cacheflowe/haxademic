@@ -72,7 +72,7 @@ implements IWebCamCallback {
 			prevFrame = P.p.createGraphics(cameraW, cameraH, PRenderers.P2D);
 			curFrame = P.p.createGraphics(cameraW, cameraH, PRenderers.P2D);
 			differenceBuffer = P.p.createGraphics(cameraW, cameraH, PRenderers.P2D);
-			p.debugView.setTexture(differenceBuffer);
+			p.debugView.setTexture("differenceBuffer", differenceBuffer);
 			
 			// frame diff buffer/shader
 			differenceShader = P.p.loadShader(FileUtil.getFile("haxademic/shaders/filters/texture-difference-threshold.glsl"));
@@ -87,7 +87,7 @@ implements IWebCamCallback {
 		// copy previous frame, and current frame to buffer
 		ImageUtil.copyImage(curFrame, prevFrame);
 		ImageUtil.copyImage(flippedCamera, curFrame);
-		p.debugView.setTexture(curFrame);
+		p.debugView.setTexture("webcam", curFrame);
 
 		// set difference shader textures
 		differenceShader.set("tex1", curFrame);

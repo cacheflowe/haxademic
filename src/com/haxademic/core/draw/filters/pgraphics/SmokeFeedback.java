@@ -36,7 +36,7 @@ extends BaseVideoFilter {
 //		feedbackSeedBuffer.noSmooth();
 		feedbackFinalBuffer = P.p.createGraphics(width, height, PRenderers.P2D);
 //		feedbackFinalBuffer.noSmooth();
-		P.p.debugView.setTexture(feedbackSeedBuffer);
+		P.p.debugView.setTexture("feedbackSeedBuffer", feedbackSeedBuffer);
 		
 		// feedback shader & map
 		feedbackShader = P.p.loadShader(FileUtil.getFile("haxademic/shaders/filters/feedback-map.glsl"));

@@ -17,8 +17,8 @@ extends PAppletHax {
 	public void drawApp() {
 		p.image(p.depthCamera.getRgbImage(), 0, 0);
 		p.image(p.depthCamera.getDepthImage(), 640, 0);
-		if(p.depthCamera.getRgbImage() != null) p.debugView.setTexture(p.depthCamera.getRgbImage());
-		if(p.depthCamera.getDepthImage() != null) p.debugView.setTexture(p.depthCamera.getDepthImage());
+		if(p.depthCamera.getRgbImage() != null) p.debugView.setTexture("depthCamera.getRgbImage", p.depthCamera.getRgbImage());
+		if(p.depthCamera.getDepthImage() != null) p.debugView.setTexture("depthCamera.getDepthImage", p.depthCamera.getDepthImage());
 	}
 	
 }

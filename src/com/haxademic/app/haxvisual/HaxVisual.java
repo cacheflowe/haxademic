@@ -19,8 +19,8 @@ import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.data.store.IAppStoreListener;
 import com.haxademic.core.draw.color.Gradients;
 import com.haxademic.core.draw.color.ImageGradient;
-import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.context.OpenGLUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.BadTVLinesFilter;
 import com.haxademic.core.draw.filters.pshader.BlendTowardsTexture;
 import com.haxademic.core.draw.filters.pshader.BloomFilter;
@@ -280,7 +280,7 @@ implements IAppStoreListener {
 		displacementBlurBuffer = p.createGraphics(_pg.width/20, _pg.height/20, PRenderers.P3D);
 		
 		colorizeSourceTexture = p.createGraphics(128, 4, PRenderers.P3D);
-		p.debugView.setTexture(colorizeSourceTexture);
+		p.debugView.setTexture("colorizeSourceTexture", colorizeSourceTexture);
 		imageGradient = new ImageGradient(ImageGradient.PASTELS());
 		imageGradient.addTexturesFromPath(ImageGradient.COOLORS_PATH);
 
@@ -506,7 +506,7 @@ implements IAppStoreListener {
 				// add blur to displacement image
 				boolean scaleByTextureResize = true;
 				if(scaleByTextureResize) {
-					p.debugView.setTexture(displacementBlurBuffer);
+					p.debugView.setTexture("displacementBlurBuffer", displacementBlurBuffer);
 					ImageUtil.copyImage(displacementBuffer, displacementBlurBuffer);			// scale down to tiny buffer
 //					ImageUtil.copyImage(displacementBlurBuffer, displacementBuffer);			// instead of copying back up,
 					BlendTowardsTexture.instance(p).setSourceTexture(displacementBlurBuffer);	// lerp it back up for smoothness
@@ -1169,7 +1169,7 @@ implements IAppStoreListener {
 		//		for(BaseTexture tex : _curTexturePool) tex.setAsOverlay(false);
 		// remove from debug panel
 		for (int i = 0; i < _curTexturePool.size(); i++) {
-			p.debugView.removeTexture(_curTexturePool.get(i).texture());
+			p.debugView.removeTexture("layer-"+i);
 		}
 		_curTexturePool.clear();
 	}
@@ -1181,7 +1181,7 @@ implements IAppStoreListener {
 		for (int i = 0; i < texturePools.length; i++) {
 			_curTexturePool.add( texturePools[i].get(poolCurTextureIndexes[i]) );
 			// debug info
-			p.debugView.setTexture(texturePools[i].get(poolCurTextureIndexes[i]).texture());
+			p.debugView.setTexture("layer-"+i, texturePools[i].get(poolCurTextureIndexes[i]).texture());
 			p.debugView.setValue("HAXVISUAL :: texture "+i, texturePools[i].get(poolCurTextureIndexes[i]).toString());
 		}
 

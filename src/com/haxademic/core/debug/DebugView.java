@@ -1,6 +1,5 @@
 package com.haxademic.core.debug;
 
-import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
@@ -23,7 +22,8 @@ public class DebugView {
 	protected PFont debugFont;	
 	protected LinkedHashMap<String, String> debugLines = new LinkedHashMap<String, String>();
 	protected LinkedHashMap<String, String> helpLines = new LinkedHashMap<String, String>();
-	protected ArrayList<PImage> textures = new ArrayList<PImage>();
+	protected LinkedHashMap<String, PImage> textures = new LinkedHashMap<String, PImage>();
+//	protected ArrayList<PImage> textures = new ArrayList<PImage>();
 	protected float padding = 20;
 	protected float debugPanelW = 0;
 	protected float MAX_PANEL_WIDTH = 500;
@@ -79,17 +79,29 @@ public class DebugView {
 		debugLines.put(key, ""+bool);
 	}
 	
+	public void setTexture(String key, PImage texture) {
+		if(texture != null) {
+			textures.put(key, texture);
+		} else {
+			if(textures.containsKey(key)) textures.remove(key);
+		}
+	}
+	
+	public void removeTexture(String key) {
+		if(textures.containsKey(key)) textures.remove(key);
+	}
+	
 	public void setHelpLine(String key, String val) {
 		helpLines.put(key, val);
 	}
 	
-	public void setTexture(PImage texture) {
-		if(textures.contains(texture) == false) textures.add(texture);
-	}
-	
-	public void removeTexture(PImage texture) {
-		if(textures.contains(texture) == true) textures.remove(texture);
-	}
+//	public void setTexture(PImage texture) {
+//		if(textures.contains(texture) == false) textures.add(texture);
+//	}
+//	
+//	public void removeTexture(PImage texture) {
+//		if(textures.contains(texture) == true) textures.remove(texture);
+//	}
 	
 	public float debugPanelW() {
 		return debugPanelW + padding;
@@ -189,7 +201,6 @@ public class DebugView {
 		// draw help lines
 		if(helpLines.isEmpty() == false) {
 			String helpStr = stringFromHashMap(helpLines);
-	
 			p.textAlign(P.LEFT, P.TOP);
 			p.textSize(fontSize);
 			textW = p.textWidth(helpStr) + padding;
@@ -203,11 +214,26 @@ public class DebugView {
 		
 		// draw textures
 		float texHeight = 100;
-		for (int i = 0; i < textures.size(); i++) {
-			float texW = textures.get(i).width * MathUtil.scaleToTarget(textures.get(i).height, texHeight);
-			p.image(textures.get(i), debugPanelW(), texHeight * i, texW, texHeight);
+		int texIndex = 0;
+		for (Map.Entry<String, PImage> item : textures.entrySet()) {
+		    String imageName = item.getKey();
+		    PImage image = item.getValue();
+		    if(imageName != null && image != null) {
+		    	// scale to fit
+				float texW = image.width * MathUtil.scaleToTarget(image.height, texHeight);
+				p.image(image, debugPanelW(), texHeight * texIndex, texW, texHeight);
+				// write title
+				p.fill(0, 140);
+				p.rect(debugPanelW(), texHeight * texIndex, texW, 18);
+				p.fill(255);
+				p.textSize(11);
+				p.text(imageName, debugPanelW() + 4, texHeight * texIndex + 1);
+				// increment
+			    texIndex++;
+		    }
 		}
 
+		// reset context
 		PG.setDrawFlat2d(p, false);
 		p.popStyle();
 	}

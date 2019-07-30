@@ -123,26 +123,26 @@ extends PAppletHax {
 		// update colors
 		colorMapShader.set("time", p.frameCount * 0.004f);
 		colorBuffer.filter(colorMapShader);
-		p.debugView.setTexture(colorBuffer);
+		p.debugView.setTexture("colorBuffer", colorBuffer);
 
 		// update direction texture
 		directionGenerator.set("time", p.frameCount * 0.004f);
 		directionGenerator.set("zoom", 3f + 1f * P.sin(p.frameCount * 0.01f));
 		bufferDirection.filter(directionGenerator);				// noise to change directions
-		p.debugView.setTexture(bufferDirection);
+		p.debugView.setTexture("bufferDirection", bufferDirection);
 
 		// update amp texture
 		ampGenerator.set("zoom", 2f);
 		ampGenerator.set("time", (p.frameCount + 1000) * 0.004f);
 		bufferAmp.filter(ampGenerator);				// noise to change directions
-		p.debugView.setTexture(bufferAmp);
+		p.debugView.setTexture("bufferAmp", bufferAmp);
 		
 		// update particle positions
 		positionMover.set("directionMap", bufferDirection);
 		positionMover.set("ampMap", bufferAmp);
 		positionMover.set("amp", 0.004f); // P.map(p.mouseX, 0, p.width, 0.001f, 0.05f));
 		bufferPositions.filter(positionMover);
-		p.debugView.setTexture(bufferPositions);
+		p.debugView.setTexture("bufferPositions", bufferPositions);
 		
 		// move to screen center
 		bufferRenderedParticles.beginDraw();
@@ -164,7 +164,7 @@ extends PAppletHax {
 		bufferRenderedParticles.shape(shape);					// draw vertices
 		bufferRenderedParticles.resetShader();
 		bufferRenderedParticles.endDraw();
-		p.debugView.setTexture(bufferRenderedParticles);
+		p.debugView.setTexture("bufferRenderedParticles", bufferRenderedParticles);
 
 		// draw buffer to screen
 		p.image(bufferRenderedParticles, 0, 0);

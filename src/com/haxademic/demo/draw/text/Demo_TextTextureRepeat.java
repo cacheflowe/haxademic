@@ -103,8 +103,8 @@ extends PAppletHax {
 		p.debugView.setValue("textToTextureScale", textToTextureScale);
 		
 		// debug textures
-		p.debugView.setTexture(textCropped);
-		p.debugView.setTexture(texture);
+		p.debugView.setTexture("textCropped", textCropped);
+		p.debugView.setTexture("texture", texture);
 	}
 
 	public void drawApp() {

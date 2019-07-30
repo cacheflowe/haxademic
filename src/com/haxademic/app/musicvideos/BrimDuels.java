@@ -436,7 +436,7 @@ extends PAppletHax {
 		displaceTexture.blendMode(PBlendModes.BLEND);
 		displaceTexture.endDraw();
 		
-		p.debugView.setTexture(displaceTexture);
+		p.debugView.setTexture("displaceTexture", displaceTexture);
 	}
 
 	protected void drawSheetDisplacer() {

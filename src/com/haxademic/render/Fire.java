@@ -6,7 +6,6 @@ import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.data.constants.PBlendModes;
 import com.haxademic.core.draw.color.Gradients;
 import com.haxademic.core.draw.context.PG;
-import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.BlurHFilter;
 import com.haxademic.core.draw.filters.pshader.BlurVFilter;
 import com.haxademic.core.draw.filters.pshader.BrightnessFilter;
@@ -77,15 +76,15 @@ extends PAppletHax {
 		fadePG = PG.newPG(smallW, smallH);
 		gradientPG = PG.newPG(smallW, smallH);
 		
-		p.debugView.setTexture(sourcePG);
-		p.debugView.setTexture(blurPG);
-		p.debugView.setTexture(fadePG);
-		p.debugView.setTexture(gradientPG);
+		p.debugView.setTexture("sourcePG", sourcePG);
+		p.debugView.setTexture("blurPG", blurPG);
+		p.debugView.setTexture("fadePG", fadePG);
+		p.debugView.setTexture("gradientPG", gradientPG);
 
 		// feedback shader & map
 		feedbackShader = p.loadShader(FileUtil.getFile("haxademic/shaders/filters/displacement-map.glsl"));
 		noiseTexture = new SimplexNoiseTexture(p.width/4, p.height/4);
-		p.debugView.setTexture(noiseTexture.texture());
+		p.debugView.setTexture("noiseTexture", noiseTexture.texture());
 		
 		// init ui
 		p.ui.addSlider(UI_SCROLL_UP, 0.007f, 0, 0.02f, 0.001f, false);

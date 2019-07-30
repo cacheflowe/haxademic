@@ -88,7 +88,7 @@ implements SimpleMidiListener {
 		pg.endDraw();
 		
 		ImageUtil.copyImage(pg, pg8x8);
-		p.debugView.setTexture(pg8x8);
+		p.debugView.setTexture("pg8x8", pg8x8);
 		pg8x8.loadPixels();
 		for (int x = 0; x < 8; x++) {
 			for (int y = 0; y < 8; y++) {

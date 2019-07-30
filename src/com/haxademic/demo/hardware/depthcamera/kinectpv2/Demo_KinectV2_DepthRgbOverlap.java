@@ -71,10 +71,10 @@ extends PAppletHax {
 			motionDetectionMap.setBlur(1f);
 			motionDetectionMap.updateSource(motionBuffer);
 			
-			p.debugView.setTexture(kinectSilhouetteSmoothed.image());
-			p.debugView.setTexture(motionDetectionMap.backplate());
-			p.debugView.setTexture(motionDetectionMap.differenceBuffer());
-			p.debugView.setTexture(motionDetectionMap.bwBuffer());
+			p.debugView.setTexture("kinectSilhouetteSmoothed", kinectSilhouetteSmoothed.image());
+			p.debugView.setTexture("motionDetectionMap.backplate", motionDetectionMap.backplate());
+			p.debugView.setTexture("motionDetectionMap.differenceBuffer", motionDetectionMap.differenceBuffer());
+			p.debugView.setTexture("motionDetectionMap.bwBuffer", motionDetectionMap.bwBuffer());
 		}
 	}
 

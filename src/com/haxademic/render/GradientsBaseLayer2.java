@@ -72,7 +72,7 @@ extends PAppletHax {
 		for (int i = 0; i < 10; i++) BlurHFilter.instance(p).applyTo(img);
 		
 		// add to debug display
-		p.debugView.setTexture(img);
+		p.debugView.setTexture("gradient", img);
 		
 		// build ticker
 		float tickerLoopSpeed = (float) img.width / (float) FRAMES;

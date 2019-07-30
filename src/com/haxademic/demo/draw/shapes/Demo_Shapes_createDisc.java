@@ -26,7 +26,7 @@ extends PAppletHax {
 		PG.setCenterScreen(p.g);
 		PG.basicCameraFromMouse(p.g);
 		
-		p.debugView.setTexture(DemoAssets.textureNebula());
+		p.debugView.setTexture("texture", DemoAssets.textureNebula());
 		// draw can
 //		shape.disableStyle();
 //		p.fill(255);

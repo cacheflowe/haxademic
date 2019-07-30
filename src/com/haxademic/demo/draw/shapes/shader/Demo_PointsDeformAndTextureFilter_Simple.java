@@ -43,7 +43,7 @@ extends PAppletHax {
 		// noise texture
 		noiseBuffer = p.createGraphics(p.width, p.height, PRenderers.P2D);
 		noiseTexture = new TextureShader(TextureShader.noise_simplex_2d_iq, 0.0005f);
-		p.debugView.setTexture(noiseBuffer);
+		p.debugView.setTexture("noiseBuffer", noiseBuffer);
 
 		// build points shape
 		shape = p.createShape();

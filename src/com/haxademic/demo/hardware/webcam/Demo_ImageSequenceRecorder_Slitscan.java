@@ -52,7 +52,7 @@ implements IWebCamCallback {
 
 	public void drawApp() {
 		p.background( 0 );
-		debugView.setTexture(camBuffer);
+		debugView.setTexture("camBuffer", camBuffer);
 
 		// update noise
 		noiseTexture.updateTime();
@@ -66,7 +66,7 @@ implements IWebCamCallback {
 		noiseBuffer.filter(noiseTexture.shader());
 		ContrastFilter.instance(p).setContrast(2f);
 		ContrastFilter.instance(p).applyTo(noiseBuffer);
-		debugView.setTexture(noiseBuffer);
+		debugView.setTexture("noiseBuffer", noiseBuffer);
 		
 		// debug draw recorder object frames
 		PG.setDrawCorner(p);
@@ -82,7 +82,7 @@ implements IWebCamCallback {
 			slitscanShader.set("frame_"+shaderFrame, recorder.images()[i]);
 		}
 		slitscanOutputBuffer.filter(slitscanShader);
-		debugView.setTexture(slitscanOutputBuffer);
+		debugView.setTexture("slitscanOutputBuffer", slitscanOutputBuffer);
 		
 		// lerp the slitscan to next buffer
 		lerpToTexture.set("blendLerp", 0.3f);

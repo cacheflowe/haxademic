@@ -66,7 +66,7 @@ extends PAppletHax {
 		// load texture
 		texture = p.loadImage(FileUtil.getFile("images/_sketch/the-opening-mask.png"));
 //		texture = DemoAssets.textureJupiter();
-		p.debugView.setTexture(texture);
+		p.debugView.setTexture("texture", texture);
 	}
 	
 	public void keyPressed() {

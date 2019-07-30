@@ -39,16 +39,16 @@ extends PAppletHax {
 		kinectWrapperV2.update();
 
 		// kinect v1
-		p.debugView.setTexture(kinectWrapperV1.getRgbImage());
-		p.debugView.setTexture(kinectWrapperV1.getDepthImage());
+		p.debugView.setTexture("kinectWrapperV1.getRgbImage", kinectWrapperV1.getRgbImage());
+		p.debugView.setTexture("kinectWrapperV1.getDepthImage", kinectWrapperV1.getDepthImage());
 //
 		p.image(kinectWrapperV1.getDepthImage(), 0, 0, imgWidth, kinectWrapperV1.getDepthImage().height * MathUtil.scaleToTarget(kinectWrapperV1.getDepthImage().width, imgWidth));
 		p.image(kinectWrapperV1.getRgbImage(), imgWidth * 2f, 0, imgWidth, kinectWrapperV1.getRgbImage().height * MathUtil.scaleToTarget(kinectWrapperV1.getRgbImage().width, imgWidth));
 
 		// kinect v2
-		p.debugView.setTexture(kinectWrapperV2.getRgbImage());
-		p.debugView.setTexture(kinectWrapperV2.getIRImage());
-		p.debugView.setTexture(kinectWrapperV2.getDepthImage());
+		p.debugView.setTexture("kinectWrapperV2.getRgbImage", kinectWrapperV2.getRgbImage());
+		p.debugView.setTexture("kinectWrapperV2.getIRImage", kinectWrapperV2.getIRImage());
+		p.debugView.setTexture("kinectWrapperV2.getDepthImage", kinectWrapperV2.getDepthImage());
 
 		p.image(kinectWrapperV2.getDepthImage(), 0, imgWidth, imgWidth, kinectWrapperV2.getDepthImage().height * MathUtil.scaleToTarget(kinectWrapperV2.getDepthImage().width, imgWidth));
 		p.image(kinectWrapperV2.getIRImage(), imgWidth, imgWidth, imgWidth, kinectWrapperV2.getIRImage().height * MathUtil.scaleToTarget(kinectWrapperV2.getIRImage().width, imgWidth));

@@ -66,7 +66,7 @@ extends BaseVideoFilter {
 		// lazy init and update motion detection buffers/calcs
 		if(motionDetectionMap == null) {
 			motionDetectionMap = new BufferMotionDetectionMap(sourceBuffer, 0.5f);
-			P.p.debugView.setTexture(sourceBuffer);
+			P.p.debugView.setTexture("sourceBuffer", sourceBuffer);
 		}
 
 		// run motion detection
@@ -85,7 +85,7 @@ extends BaseVideoFilter {
 		BlendTowardsTexture.instance(P.p).setBlendLerp(0.2f);
 		BlendTowardsTexture.instance(P.p).setSourceTexture(motionDetectionMap.bwBuffer());
 		BlendTowardsTexture.instance(P.p).applyTo(displacementMap);
-		P.p.debugView.setTexture(displacementMap);
+		P.p.debugView.setTexture("displacementMap", displacementMap);
 
 		// clear background & move to center
 		destBuffer.beginDraw();

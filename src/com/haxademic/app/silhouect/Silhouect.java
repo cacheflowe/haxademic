@@ -7,8 +7,8 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.data.constants.PBlendModes;
 import com.haxademic.core.data.constants.PRenderers;
-import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.context.OpenGLUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.BlurHFilter;
 import com.haxademic.core.draw.filters.pshader.BlurProcessingFilter;
 import com.haxademic.core.draw.filters.pshader.BlurVFilter;
@@ -133,7 +133,7 @@ extends PAppletHax {
 			image.image(imgSrc, 0, 0);
 			image.endDraw();
 			LeaveWhiteFilter.instance(p).applyTo(image);
-			p.debugView.setTexture(image);
+			p.debugView.setTexture("image", image);
 			slideshow.add(image);
 		}
 		
@@ -181,7 +181,7 @@ extends PAppletHax {
 		
 		// turn buffer white pixels to transparent 
 		LeaveBlackFilter.instance(p).applyTo(userBuffer);
-		p.debugView.setTexture(userBuffer);
+		p.debugView.setTexture("userBuffer", userBuffer);
 	}
 	
 	protected int numUsers() {

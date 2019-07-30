@@ -42,10 +42,10 @@ extends PAppletHax {
 		lastFrame = p.createGraphics(p.width, p.height, PRenderers.P3D);
 		opFlowResult = p.createGraphics(p.width, p.height, PRenderers.P3D);
 		opFlowResultLerped = p.createGraphics(p.width, p.height, PRenderers.P3D);
-		p.debugView.setTexture(curFrame);
-		p.debugView.setTexture(lastFrame);
-		p.debugView.setTexture(opFlowResult);
-		p.debugView.setTexture(opFlowResultLerped);
+		p.debugView.setTexture("curFrame", curFrame);
+		p.debugView.setTexture("lastFrame", lastFrame);
+		p.debugView.setTexture("opFlowResult", opFlowResult);
+		p.debugView.setTexture("opFlowResultLerped", opFlowResultLerped);
 		
 		// load shader
 		opFlowShader = p.loadShader(FileUtil.getFile("haxademic/shaders/filters/optical-flow.glsl"));

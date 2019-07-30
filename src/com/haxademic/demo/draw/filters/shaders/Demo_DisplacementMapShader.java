@@ -60,9 +60,9 @@ extends PAppletHax {
 		
 		// debug
 		p.debugView.setValue("Mode ", mode);
-		p.debugView.setTexture(base);
-		p.debugView.setTexture(map);
-		p.debugView.setTexture(mapSource);
+		p.debugView.setTexture("base", base);
+		p.debugView.setTexture("map", map);
+		p.debugView.setTexture("mapSource", mapSource);
 	}
 }
 

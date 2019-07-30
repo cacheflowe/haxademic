@@ -136,7 +136,7 @@ extends BaseVideoFilter {
 	protected void makeMotionBlurredCopy() {
 //		ImageUtil.copyImage(sourcePG, blurPG);
 		ImageUtil.copyImage(motionDetectionMap.differenceBuffer(), blurPG);
-		P.p.debugView.setTexture(blurPG);
+		P.p.debugView.setTexture("blurPG", blurPG);
 		
 		// blur to smooth clocky motion detection
 		float blurAmp = P.p.ui.value(UI_BLUR_SMOOTH_AMP);
@@ -206,7 +206,7 @@ extends BaseVideoFilter {
 		BrightnessFilter.instance(P.p).setBrightness(P.p.ui.value(UI_NOISE_BRIGHTNESS));
 		BrightnessFilter.instance(P.p).applyTo(noiseTexture.texture());
 		
-		P.p.debugView.setTexture(noiseTexture.texture());
+		P.p.debugView.setTexture("noiseTexture", noiseTexture.texture());
 		
 		float blurAmp = P.p.ui.value(UI_BLUR_DISPLACER_AMP);
 		BlurHFilter.instance(P.p).setBlurByPercent(blurAmp, noiseTexture.texture().width);

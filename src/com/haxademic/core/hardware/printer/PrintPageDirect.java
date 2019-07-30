@@ -10,7 +10,6 @@ import java.awt.geom.Rectangle2D;
 import java.awt.image.BufferedImage;
 import java.awt.print.Book;
 import java.awt.print.PageFormat;
-import java.awt.print.Paper;
 import java.awt.print.Printable;
 import java.awt.print.PrinterJob;
 
@@ -88,7 +87,7 @@ public class PrintPageDirect {
 		}
 		
 		printBuffer.endDraw();
-		P.p.debugView.setTexture(printBuffer);
+		P.p.debugView.setTexture("printBuffer", printBuffer);
 		
 		// send local buffer to print
 		sendToDefaultPrinter();

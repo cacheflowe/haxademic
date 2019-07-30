@@ -67,9 +67,9 @@ extends PAppletHax {
 		
 		tiledRainbow = new TiledTexture(rainbowBuffer);
 		drawRainbowBuffer();
-		p.debugView.setTexture(rainbowBuffer);
-		p.debugView.setTexture(meshTextureBuffer);
-		p.debugView.setTexture(textTextureBuffer);
+		p.debugView.setTexture("rainbowBuffer", rainbowBuffer);
+		p.debugView.setTexture("meshTextureBuffer", meshTextureBuffer);
+		p.debugView.setTexture("textTextureBuffer", textTextureBuffer);
 		
 		// make 3d text
 		textToPShape = new TextToPShape(TextToPShape.QUALITY_HIGH);

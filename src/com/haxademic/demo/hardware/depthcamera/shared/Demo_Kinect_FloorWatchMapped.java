@@ -86,7 +86,7 @@ extends PAppletHax {
 		bufferNormalizedDepth.translate(-textureX, -textureY);
 		keystone.update(bufferNormalizedDepth);
 		bufferNormalizedDepth.endDraw();
-		p.debugView.setTexture(bufferNormalizedDepth);
+		p.debugView.setTexture("bufferNormalizedDepth", bufferNormalizedDepth);
 		
 		
 		// draw keystone UI to screen

@@ -56,7 +56,7 @@ extends PAppletHax {
 		perlinShader.set("offset", 0f, scrollOffset);
 		perlinShader.set("zoom", perlinZoom);
 		perlinBuffer.filter(perlinShader);
-		p.debugView.setTexture(perlinBuffer);
+		p.debugView.setTexture("perlinBuffer", perlinBuffer);
 		
 		// update material texture
 		ImageUtil.cropFillCopyImage(DemoAssets.textureNebula(), materialBuffer, true);

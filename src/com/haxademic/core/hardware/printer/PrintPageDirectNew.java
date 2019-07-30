@@ -89,7 +89,7 @@ public class PrintPageDirectNew implements Printable {
 		}
 		
 		printBuffer.endDraw();
-		P.p.debugView.setTexture(printBuffer);
+		P.p.debugView.setTexture("printBuffer", printBuffer);
 		printBuffer = source;
 		
 		// send local buffer to print

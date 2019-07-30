@@ -42,7 +42,7 @@ implements IWebCamCallback {
 
 		// calculate activity monitor with new frame
 		activityMonitor.update(flippedCamera);
-		p.debugView.setTexture(flippedCamera);
+		p.debugView.setTexture("flippedCamera", flippedCamera);
 	}
 
 	public void drawApp() {
@@ -53,7 +53,7 @@ implements IWebCamCallback {
 
 		// show activity calculation and texture in debug panel
 		p.debugView.setValue("ACTIVITY", activityMonitor.activityAmp());
-		p.debugView.setTexture(activityMonitor.differenceBuffer());
+		p.debugView.setTexture("activityMonitor.differenceBuffer", activityMonitor.differenceBuffer());
 
 		// show diff buffer
 		ImageUtil.cropFillCopyImage(activityMonitor.differenceBuffer(), p.g, true);

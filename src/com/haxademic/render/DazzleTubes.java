@@ -5,9 +5,7 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.data.constants.PShapeTypes;
 import com.haxademic.core.draw.context.PG;
-import com.haxademic.core.draw.filters.pshader.BrightnessFilter;
 import com.haxademic.core.draw.filters.pshader.VignetteFilter;
-import com.haxademic.core.draw.shapes.Shapes;
 
 import processing.core.PGraphics;
 
@@ -50,7 +48,7 @@ extends PAppletHax {
 		}
 		dazzleBuff.endDraw();
 		
-		p.debugView.setTexture(dazzleBuff);
+		p.debugView.setTexture("dazzleBuff", dazzleBuff);
 	}
 	
 	public void drawApp() {

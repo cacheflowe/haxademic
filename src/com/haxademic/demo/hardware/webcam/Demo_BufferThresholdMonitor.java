@@ -41,7 +41,7 @@ implements IWebCamCallback {
 
 		// calculate activity monitor with new frame
 		thresholdMonitor.update(flippedCamera);
-		p.debugView.setTexture(flippedCamera);
+		p.debugView.setTexture("flippedCamera", flippedCamera);
 	}
 
 	public void drawApp() {
@@ -54,7 +54,7 @@ implements IWebCamCallback {
 		thresholdMonitor.setCutoff(p.mousePercentX());
 		p.debugView.setValue("threshold cutoff", p.mousePercentX());
 		p.debugView.setValue("threshold calculation", thresholdMonitor.thresholdCalc());
-		p.debugView.setTexture(thresholdMonitor.thresholdBuffer());
+		p.debugView.setTexture("thresholdBuffer", thresholdMonitor.thresholdBuffer());
 
 		// show diff buffer
 		ImageUtil.cropFillCopyImage(thresholdMonitor.thresholdBuffer(), p.g, true);

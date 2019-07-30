@@ -71,10 +71,10 @@ implements IWebCamCallback {
 	public void newFrame(PImage frame) {
 		// set textures for debug view
 		p.debugView.setValue("newframe", p.frameCount);
-		p.debugView.setTexture(webcamBuffer);
-		p.debugView.setTexture(backplate);
-		p.debugView.setTexture(differenceBuffer);
-		p.debugView.setTexture(bwBuffer);
+		p.debugView.setTexture("webcamBuffer", webcamBuffer);
+		p.debugView.setTexture("backplate", backplate);
+		p.debugView.setTexture("differenceBuffer", differenceBuffer);
+		p.debugView.setTexture("bwBuffer", bwBuffer);
 		
 		// copy webcam to current buffer
 		ImageUtil.cropFillCopyImage(WebCam.instance().image(), webcamBuffer, true);

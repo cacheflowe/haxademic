@@ -50,8 +50,8 @@ extends PAppletHax {
 		
 		// debug view
 		p.debugView.setValue("shape.getVertexCount();", shape.getVertexCount());
-		p.debugView.setTexture(texture);
-		p.debugView.setTexture(displaceTexture.texture());
+		p.debugView.setTexture("texture", texture);
+		p.debugView.setTexture("displaceTexture", displaceTexture.texture());
 	}
 
 	public void drawApp() {

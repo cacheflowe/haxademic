@@ -45,9 +45,9 @@ extends BaseVideoFilter {
 		}
 		
 		// debug
-		P.p.debugView.setTexture(renderedParticles);
+		P.p.debugView.setTexture("renderedParticles", renderedParticles);
 		P.p.debugView.setValue("totalVertices", totalVertices);
-		P.p.debugView.setTexture(particleLaunchers.get(0).progressBuffer());
+		P.p.debugView.setTexture("progressBuffer (1)", particleLaunchers.get(0).progressBuffer());
 	}
 	
 	public void newFrame(PImage frame) {
@@ -62,7 +62,7 @@ extends BaseVideoFilter {
 			motionDetectionMap.setFalloffBW(0.2f);
 			motionDetectionMap.setThresholdCutoff(0.5f);
 			motionDetectionMap.setBlur(1f);
-			P.p.debugView.setTexture(sourceBuffer);
+			P.p.debugView.setTexture("sourceBuffer", sourceBuffer);
 		}
 		
 		// pre-process motion buffer for smoother launch blobs

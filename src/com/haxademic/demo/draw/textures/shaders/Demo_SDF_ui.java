@@ -2,9 +2,7 @@ package com.haxademic.demo.draw.textures.shaders;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.data.constants.PRenderers;
-import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.BrightnessToAlphaFilter;
-import com.haxademic.core.draw.filters.pshader.LeaveWhiteFilter;
 import com.haxademic.core.file.FileUtil;
 
 import processing.core.PGraphics;
@@ -73,7 +71,7 @@ extends PAppletHax {
 		BrightnessToAlphaFilter.instance(p).applyTo(buffer);
 		
 		// draw to screen
-		p.debugView.setTexture(buffer);
+		p.debugView.setTexture("buffer", buffer);
 //		p.image(buffer, 0, 0);
 	}
 		

@@ -189,8 +189,8 @@ implements IEasingBooleanCallback {
 		p.fill(255);
 
 		// debug view
-		p.debugView.setTexture(p.depthCamera.getDepthImage());
-		p.debugView.setTexture(p.depthCamera.getRgbImage());
+		p.debugView.setTexture("depthCamera.getDepthImage", p.depthCamera.getDepthImage());
+		p.debugView.setTexture("depthCamera.getRgbImage", p.depthCamera.getRgbImage());
 		p.debugView.setValue("numPixelsProcessed", numPixelsProcessed);
 
 		// draw recorded frames

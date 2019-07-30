@@ -81,7 +81,7 @@ extends PAppletHax {
 		// blur texture for smooothness
 		BlurProcessingFilter.instance(p).setBlurSize(5);
 		BlurProcessingFilter.instance(p).applyTo(audioTexture.texture());
-		p.debugView.setTexture(audioTexture.texture());
+		p.debugView.setTexture("audioTexture", audioTexture.texture());
 		
 		// apply points deform/texture shader
 		PointsDeformAndTextureFilter.instance(p).setColorMap(audioTexture.texture());

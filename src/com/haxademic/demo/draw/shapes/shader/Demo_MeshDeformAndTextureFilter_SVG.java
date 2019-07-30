@@ -3,14 +3,10 @@ package com.haxademic.demo.draw.shapes.shader;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.context.PG;
-import com.haxademic.core.draw.filters.pshader.ThresholdFilter;
 import com.haxademic.core.draw.shapes.PShapeUtil;
-import com.haxademic.core.draw.shapes.Shapes;
 import com.haxademic.core.draw.shapes.pshader.MeshDeformAndTextureFilter;
-import com.haxademic.core.draw.textures.PerlinTexture;
 import com.haxademic.core.draw.textures.SimplexNoiseTexture;
 import com.haxademic.core.file.FileUtil;
-import com.haxademic.core.media.DemoAssets;
 
 import processing.core.PGraphics;
 import processing.core.PShape;
@@ -49,8 +45,8 @@ extends PAppletHax {
 		
 		// debug view
 		p.debugView.setValue("shape.getVertexCount();", shape.getVertexCount());
-		p.debugView.setTexture(texture);
-		p.debugView.setTexture(displaceTexture.texture());
+		p.debugView.setTexture("texture", texture);
+		p.debugView.setTexture("displaceTexture", displaceTexture.texture());
 	}
 
 	public void drawApp() {		

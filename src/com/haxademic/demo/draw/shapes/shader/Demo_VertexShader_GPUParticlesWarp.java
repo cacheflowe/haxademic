@@ -4,8 +4,8 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.data.constants.PRenderers;
-import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.context.OpenGLUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.MathUtil;
 
@@ -45,7 +45,7 @@ extends PAppletHax {
 		int positionBufferSize = 256;
 		bufferPositions = p.createGraphics(positionBufferSize, positionBufferSize, PRenderers.P3D);
 		OpenGLUtil.setTextureQualityLow(bufferPositions);		// necessary for proper texel lookup!
-		p.debugView.setTexture(bufferPositions);
+		p.debugView.setTexture("bufferPositions", bufferPositions);
 		p.debugView.setValue("numParticles", positionBufferSize * positionBufferSize);
 		newPositions();
 		
@@ -90,7 +90,6 @@ extends PAppletHax {
 		
 		// update particle positions
 		bufferPositions.filter(particleMoverShader);
-		p.debugView.setTexture(bufferPositions);
 
 		// draw shape w/shader
 		float particlesScale = p.mousePercentX() * 10f;

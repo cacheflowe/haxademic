@@ -3,9 +3,9 @@ package com.haxademic.demo.draw.shapes.shader;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.context.OpenGL32Util;
 import com.haxademic.core.draw.context.OpenGLUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.MathUtil;
 import com.thomasdiewald.pixelflow.java.dwgl.DwGLSLProgram;
@@ -55,7 +55,7 @@ extends PAppletHax {
 		// backing PGraphics
 		texturePositions = OpenGL32Util.newPGraphics2D(positionBufferSize, positionBufferSize);
 		OpenGLUtil.setTextureQualityLow(texturePositions);		// necessary for proper texel lookup!
-		p.debugView.setTexture(texturePositions);
+		p.debugView.setTexture("texturePositions", texturePositions);
 		p.debugView.setValue("numParticles", positionBufferSize * positionBufferSize);
 		newPositions();
 		

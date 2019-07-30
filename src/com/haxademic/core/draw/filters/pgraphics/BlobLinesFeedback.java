@@ -55,7 +55,7 @@ extends BaseVideoFilter {
 			motionDetectionMap = new BufferMotionDetectionMap(sourceBuffer, 0.1f);
 			blobOutputBuffer = P.p.createGraphics(width, height, PRenderers.P3D);
 			initBlobDetection();
-			P.p.debugView.setTexture(sourceBuffer);
+			P.p.debugView.setTexture("sourceBuffer", sourceBuffer);
 		}
 
 		// run motion detection

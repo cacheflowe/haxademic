@@ -29,7 +29,7 @@ extends PAppletHax {
 		// load texture
 		perlin = new PerlinTexture(p, 256, 256);
 		texture = perlin.texture();
-		p.debugView.setTexture(texture);
+		p.debugView.setTexture("texture", texture);
 		
 		// build sheet mesh
 		shape = p.createShape(P.GROUP);

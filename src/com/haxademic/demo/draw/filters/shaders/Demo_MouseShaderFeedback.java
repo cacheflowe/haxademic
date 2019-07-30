@@ -114,9 +114,9 @@ extends PAppletHax {
 		}
 		
 		// debug draw
-		p.debugView.setTexture(mouseBuffer);
-		p.debugView.setTexture(img);
-		p.debugView.setTexture(feedbackBuffer);
+		p.debugView.setTexture("mouseBuffer", mouseBuffer);
+		p.debugView.setTexture("img", img);
+		p.debugView.setTexture("feedbackBuffer", feedbackBuffer);
 
 	}
 }

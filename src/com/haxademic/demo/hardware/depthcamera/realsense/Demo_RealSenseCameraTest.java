@@ -5,7 +5,6 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.image.ImageUtil;
-import com.haxademic.core.hardware.depthcamera.cameras.IDepthCamera;
 
 import ch.bildspur.realsense.RealSenseCamera;
 import processing.core.PGraphics;
@@ -55,7 +54,7 @@ extends PAppletHax {
 	protected void setupFirstFrame() {
 		camera = new RealSenseCamera(this);
 		camera.start(CAMERA_W, CAMERA_H, CAMERA_FPS, DEPTH_ACTIVE, RGB_ACTIVE);
-		p.debugView.setTexture(camera.getDepthImage());
+		p.debugView.setTexture("camera.getDepthImage", camera.getDepthImage());
 		
 		mirrorRGB = PG.newPG(CAMERA_W, CAMERA_H);
 		mirrorDepth = PG.newPG(CAMERA_W, CAMERA_H);

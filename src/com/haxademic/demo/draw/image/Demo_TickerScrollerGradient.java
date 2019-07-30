@@ -59,7 +59,7 @@ extends PAppletHax {
 		
 		
 		// add to debug display
-		p.debugView.setTexture(gradientImg);
+		p.debugView.setTexture("gradientImg", gradientImg);
 		
 		// build ticker
 		float tickerLoopSpeed = (float) gradientImg.width / (float) FRAMES;

@@ -34,7 +34,7 @@ extends PAppletHax {
 
 		debugView.updateInputs();
 		debugView.setValue("Max mouse", P.max(p.mouseX, p.mouseY));
-		debugView.setTexture(DemoAssets.smallTexture());
+		debugView.setTexture("smallTexture", DemoAssets.smallTexture());
 		
 		_easingX.setEaseFactor(easeFactor);
 		_easingY.setEaseFactor(easeFactor);

@@ -41,7 +41,7 @@ implements IWebCamCallback {
 		// lazy-init flipped camera buffer
 		if(flippedCamera == null) flippedCamera = p.createGraphics(800, 600, PRenderers.P2D);
 		ImageUtil.copyImageFlipH(frame, flippedCamera);
-		p.debugView.setTexture(flippedCamera);
+		p.debugView.setTexture("webcam", flippedCamera);
 	}
 
 	public void keyPressed() {

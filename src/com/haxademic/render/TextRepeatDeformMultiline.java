@@ -94,8 +94,8 @@ extends PAppletHax {
 			textY += textsCropped[i].height;
 		}
 		multilineBuffer.endDraw();
-		p.debugView.setTexture(textsCropped[0]);
-		p.debugView.setTexture(multilineBuffer);
+		p.debugView.setTexture("textCropped", textsCropped[0]);
+		p.debugView.setTexture("multilineBuffer", multilineBuffer);
 		
 		// create tiled texture
 		tiledImg = new TiledTexture(multilineBuffer);

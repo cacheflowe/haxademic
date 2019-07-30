@@ -104,8 +104,8 @@ extends PAppletHax {
 
 		texture.endDraw();
 		
-		p.debugView.setTexture(textCropped);
-		p.debugView.setTexture(texture);
+		p.debugView.setTexture("textCropped", textCropped);
+		p.debugView.setTexture("texture", texture);
 		
 		// set main app context
 		background(0);

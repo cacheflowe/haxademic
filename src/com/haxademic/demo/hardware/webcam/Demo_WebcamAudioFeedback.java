@@ -43,14 +43,14 @@ implements IWebCamCallback {
 		// lazy-init flipped camera buffer
 		if(flippedCamera == null) flippedCamera = p.createGraphics(frame.width, frame.height, PRenderers.P2D);
 		ImageUtil.copyImageFlipH(frame, flippedCamera);
-		p.debugView.setTexture(flippedCamera);
+		p.debugView.setTexture("flippedCamera", flippedCamera);
 
 		// lazy-init displacement map
 		if(feedbackShader == null) {
 			feedbackShader = loadShader(FileUtil.getFile("haxademic/shaders/filters/feedback-map.glsl"));
 			textureShader = new TextureShader(TextureShader.noise_simplex_2d_iq, 0.0005f);
 			feedbackMap = P.p.createGraphics(flippedCamera.width, flippedCamera.height, PRenderers.P2D);
-			p.debugView.setTexture(feedbackMap);
+			p.debugView.setTexture("feedbackMap", feedbackMap);
 		}
 
 		// update feedback map on feedback shader

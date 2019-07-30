@@ -22,7 +22,7 @@ public class KinectUserDetection {
 		boolean debugging = P.p.debugView.active();
 		kinectRegionGrid.update(debugging);
 		if(kinectRegionGrid.debugImage() != null) {
-			P.p.debugView.setTexture(kinectRegionGrid.debugImage());
+			P.p.debugView.setTexture("kinectRegionGrid.debugImage", kinectRegionGrid.debugImage());
 		}
 
 		// draw active indicator

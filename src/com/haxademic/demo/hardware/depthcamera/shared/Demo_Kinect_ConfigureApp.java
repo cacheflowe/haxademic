@@ -98,7 +98,7 @@ extends PAppletHax {
 		}
 
 		// debug view
-		p.debugView.setTexture(p.depthCamera.getDepthImage());
+		p.debugView.setTexture("depthCamera.getDepthImage", p.depthCamera.getDepthImage());
 		p.debugView.setValue("numPixelsProcessed", numPixelsProcessed);
 		
 		p.popMatrix();
