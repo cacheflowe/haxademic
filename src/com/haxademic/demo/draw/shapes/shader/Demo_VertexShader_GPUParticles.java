@@ -6,6 +6,7 @@ import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.data.constants.PBlendModes;
 import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.draw.context.OpenGLUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.textures.PerlinTexture;
 import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
 import com.haxademic.core.file.FileUtil;
@@ -139,7 +140,7 @@ extends PAppletHax {
 		// update particle positions
 		positionMover.set("directionMap", bufferDirection);
 		positionMover.set("ampMap", bufferAmp);
-		positionMover.set("amp", P.map(p.mouseX, 0, p.width, 0.001f, 0.05f));
+		positionMover.set("amp", 0.004f); // P.map(p.mouseX, 0, p.width, 0.001f, 0.05f));
 		bufferPositions.filter(positionMover);
 		p.debugView.setTexture(bufferPositions);
 		
@@ -150,14 +151,15 @@ extends PAppletHax {
 		// draw vertex points. strokeWeight w/disableStyle works here for point size
 //		shape.disableStyle();
 		bufferRenderedParticles.translate(0, -p.height * 0.3f, -p.height);
-		bufferRenderedParticles.rotateX(1.2f);
+//		bufferRenderedParticles.rotateX(1.2f);
+		PG.basicCameraFromMouse(bufferRenderedParticles);
 		bufferRenderedParticles.strokeWeight(1f);
 		bufferRenderedParticles.blendMode(PBlendModes.ADD);
 		pointsParticleVertices.set("positionMap", bufferPositions);
 		pointsParticleVertices.set("colorMap", colorBuffer);
 		pointsParticleVertices.set("pointSize", 1f); // 2.5f + 1.5f * P.sin(P.TWO_PI * percentComplete));
-		pointsParticleVertices.set("width", (float) p.width);
-		pointsParticleVertices.set("height", (float) p.height);
+		pointsParticleVertices.set("width", (float) p.width * 2f);
+		pointsParticleVertices.set("height", (float) p.height * 2f);
 		bufferRenderedParticles.shader(pointsParticleVertices);  	// update positions
 		bufferRenderedParticles.shape(shape);					// draw vertices
 		bufferRenderedParticles.resetShader();
