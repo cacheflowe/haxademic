@@ -259,7 +259,7 @@ extends PApplet {
 	
 	protected void initHaxademicObjects() {
 		// create offscreen buffer
-		pg = PG.newPG(p.width, p.height);
+		pg = PG.newPG(p.appConfig.getInt(AppSettings.PG_WIDTH, p.width), p.appConfig.getInt(AppSettings.PG_HEIGHT, p.height));
 		// audio 
 		initAudioInput();
 		// rendering
