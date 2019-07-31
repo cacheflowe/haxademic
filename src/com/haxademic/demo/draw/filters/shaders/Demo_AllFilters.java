@@ -58,6 +58,7 @@ import com.haxademic.core.draw.filters.pshader.MaskThreeTextureFilter;
 import com.haxademic.core.draw.filters.pshader.MirrorQuadFilter;
 import com.haxademic.core.draw.filters.pshader.Pixelate2Filter;
 import com.haxademic.core.draw.filters.pshader.PixelateFilter;
+import com.haxademic.core.draw.filters.pshader.PixelateHexFilter;
 import com.haxademic.core.draw.filters.pshader.RadialBlurFilter;
 import com.haxademic.core.draw.filters.pshader.RadialRipplesFilter;
 import com.haxademic.core.draw.filters.pshader.ReflectFilter;
@@ -116,6 +117,7 @@ extends PAppletHax { public static void main(String args[]) { PAppletHax.main(Th
 		noiseBuffer = p.createGraphics(p.width, p.height, PRenderers.P2D);
 		
 		filters = new BaseFragmentShader[] {
+				PixelateHexFilter.instance(p),
 			BadTVGlitchFilter.instance(p),
 			BadTVLinesFilter.instance(p),
 			BlendTowardsTexture.instance(p),
@@ -484,6 +486,9 @@ extends PAppletHax { public static void main(String args[]) { PAppletHax.main(Th
 		} else if(curFilter == PixelateFilter.instance(p)) {
 			PixelateFilter.instance(p).setDivider(p.mousePercentX() * 100f, p.width, p.height);
 			PixelateFilter.instance(p).applyTo(pg);
+		} else if(curFilter == PixelateHexFilter.instance(p)) {
+			PixelateHexFilter.instance(p).setDivider(5f + 45f * p.mousePercentX());
+			PixelateHexFilter.instance(p).applyTo(pg);
 		} else if(curFilter == Pixelate2Filter.instance(p)) {
 			Pixelate2Filter.instance(p).setDivider(p.mousePercentX() * 10f);
 			Pixelate2Filter.instance(p).applyTo(pg);

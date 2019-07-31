@@ -1,10 +1,27 @@
+# Processing built-in PShader uniforms
+
+Fragment shaders:
+
+* `uniform sampler2D texture` - The texture (PGraphics) that the shader is being applied to
+* `varying vec4 vertTexCoord` - Normalized UV coordinates (0-1 from bottom-left corner)
+* `uniform vec2 texOffset` - The size of a pixel, mapped to normalized `vertTexCoord` coordinates. If original texture is 1000px wide, `texOffset.x` is 1/1000.
+* `varying vec4 vertColor` - Original vertex color, supplied by Processing draw calls (or PShape)
+
 # GLSL Conversion notes
 
 ## Resolution correction
 
-    vec2 p = vertTexCoord.xy - vec2(.5,.5);
-    p *= texOffset.y/texOffset.x;
-
+* Replicate Shadertoy's iResolution with: `vec2 resolution = vec2(1./texOffset.x, 1./texOffset.y);`
+* Correct aspect ratio with:
+```
+  vec2 uv = vertTexCoord.xy - vec2(.5,.5);
+  uv *= texOffset.y/texOffset.x;
+```
+or
+```
+  vec2 uv = vertTexCoord.xy - 0.5;
+  uv.x *= texOffset.y / texOffset.x;
+```
 
 ## pixel position
 
@@ -62,6 +79,7 @@ becomes:
 
 ### Shaders to convert:
 
+* https://www.shadertoy.com/view/4sVSRd
 * https://www.shadertoy.com/view/MlsXDr
 * https://www.shadertoy.com/view/ltBXDd
 * https://www.shadertoy.com/view/4scXWB

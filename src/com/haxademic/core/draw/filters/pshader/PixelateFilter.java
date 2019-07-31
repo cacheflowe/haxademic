@@ -18,7 +18,6 @@ extends BaseFragmentShader {
 	public static PixelateFilter instance(PApplet p) {
 		if(instance != null) return instance;
 		instance = new PixelateFilter(p);
-		P.println("Make sure PixelateFilter divisor is an integer. Processing's 8-bit buffers cause seamsotherwise.");
 		return instance;
 	}
 	
