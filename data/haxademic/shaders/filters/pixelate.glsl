@@ -17,8 +17,8 @@ void main() {
 	vec2 uv = vertTexCoord.xy;
 
 	// fix uv to even pixels
-	vec2 resolution = vec2(1./texOffset.x, 1./texOffset.y);			// resolution is actual pixel dimensions. texOffset is pixel dimensions converted to normalized value.
-	if(mod(uv.x * resolution.x, 2.) > 1.) uv.x -= texOffset.x;	// if sampling from an odd pixel, sample from the even pixel
+	vec2 resolution = vec2(1./texOffset.x, 1./texOffset.y);     // resolution is actual pixel dimensions. texOffset is pixel dimensions converted to normalized value.
+	if(mod(uv.x * resolution.x, 2.) > 1.) uv.x -= texOffset.x;  // if sampling from an odd pixel, sample from the even pixel
 	if(mod(uv.y * resolution.y, 2.) > 1.) uv.y -= texOffset.y;
 
 	// pixelate sampler

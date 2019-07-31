@@ -23,6 +23,10 @@
 	* http://www.magicandlove.com/blog/2018/08/08/darknet-yolo-v3-testing-in-processing-with-the-opencv-dnn-module/
 	* http://www.magicandlove.com/blog/2018/08/06/deep-neural-network-dnn-module-with-processing/
 * Make some vanilla Processing examples to help with post 3.3.7 render issues: https://github.com/processing/processing/issues/5806
+* Make a GitHub issue around this:
+	* https://forum.processing.org/two/discussion/1723/unwanted-artifacts-in-a-simple-pixelation-shader
+	* Fixed here: https://github.com/cacheflowe/haxademic/blob/master/data/haxademic/shaders/filters/pixelate.glsl
+	* Old, broken version: https://github.com/cacheflowe/haxademic/blob/3b520a7e850e0da7063f18075bf36e249601e052/data/haxademic/shaders/filters/pixelate.glsl
 
 ## Art projects
   * Shatter model & triangles fall down (Sunflow final render)
