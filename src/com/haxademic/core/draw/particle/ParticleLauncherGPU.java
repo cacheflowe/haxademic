@@ -11,7 +11,7 @@ import processing.core.PGraphics;
 import processing.core.PShape;
 import processing.opengl.PShader;
 
-public class ParticleLauncher {
+public class ParticleLauncherGPU {
 	
 	protected int positionBufferSize = 32;
 	protected PShape shape;
@@ -23,7 +23,7 @@ public class ParticleLauncher {
 	protected PShader particlesRenderShader;
 	protected int launchIndex = 0;
 
-	public ParticleLauncher() {
+	public ParticleLauncherGPU() {
 		// build random particle placement shader
 		positionShader = P.p.loadShader(FileUtil.getFile("haxademic/shaders/point/particle-launcher-frag.glsl"));
 		

@@ -33,5 +33,9 @@ float noise( in vec2 p ) {
 
 void main() {
     vec2 uv = vertTexCoord.xy + offset;
-	  gl_FragColor = vec4(0.5 + noise(uv * 100.), 0.5 + noise(uv.yx * 400.), 0.5 + noise(uv * 5000.), 1.0);
+	  gl_FragColor = vec4(
+			mod(0.5 + noise(uv * 100.) * 10., 1.),
+			mod(0.5 + noise(uv.yx * 400.) * 10., 1.),
+			mod(0.5 + noise(uv * 5000.) * 10., 1.), 
+		1.0);
 }

@@ -7,7 +7,7 @@ import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.data.constants.PBlendModes;
 import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.draw.context.PG;
-import com.haxademic.core.draw.particle.ParticleLauncher;
+import com.haxademic.core.draw.particle.ParticleLauncherGPU;
 
 import processing.core.PGraphics;
 
@@ -16,7 +16,7 @@ extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	protected PGraphics renderedParticles;
-	protected ArrayList<ParticleLauncher> particleLaunchers;
+	protected ArrayList<ParticleLauncherGPU> particleLaunchers;
 
 	// TODO: optimize launching: beginDraw/endDraw calls are super slow. can both be copied to a single canvas, then copied back after drawn into?
 
@@ -35,10 +35,10 @@ extends PAppletHax {
 //		p.debugView.setTexture(renderedParticles);
 		
 		// build multiple particles launchers
-		particleLaunchers = new ArrayList<ParticleLauncher>();
+		particleLaunchers = new ArrayList<ParticleLauncherGPU>();
 		int totalVertices = 0;
 		for (int i = 0; i < 40; i++) {
-			ParticleLauncher particles = new ParticleLauncher();
+			ParticleLauncherGPU particles = new ParticleLauncherGPU();
 			particleLaunchers.add(particles);
 			totalVertices += particles.vertices();
 		}

@@ -11,7 +11,7 @@ import com.haxademic.core.draw.filters.pshader.BlurHFilter;
 import com.haxademic.core.draw.filters.pshader.BlurVFilter;
 import com.haxademic.core.draw.image.BufferMotionDetectionMap;
 import com.haxademic.core.draw.image.ImageUtil;
-import com.haxademic.core.draw.particle.ParticleLauncher;
+import com.haxademic.core.draw.particle.ParticleLauncherGPU;
 import com.haxademic.core.math.MathUtil;
 
 import processing.core.PGraphics;
@@ -24,7 +24,7 @@ extends BaseVideoFilter {
 	protected BufferMotionDetectionMap motionDetectionMap;
 
 	protected PGraphics renderedParticles;
-	protected ArrayList<ParticleLauncher> particleLaunchers;
+	protected ArrayList<ParticleLauncherGPU> particleLaunchers;
 
 	public GPUParticlesLauncher(int width, int height) {
 		super(width, height);
@@ -36,10 +36,10 @@ extends BaseVideoFilter {
 //		renderedParticles.smooth(8);
 		
 		// build multiple particles launchers
-		particleLaunchers = new ArrayList<ParticleLauncher>();
+		particleLaunchers = new ArrayList<ParticleLauncherGPU>();
 		int totalVertices = 0;
 		for (int i = 0; i < 20; i++) {
-			ParticleLauncher particles = new ParticleLauncher();
+			ParticleLauncherGPU particles = new ParticleLauncherGPU();
 			particleLaunchers.add(particles);
 			totalVertices += particles.vertices();
 		}

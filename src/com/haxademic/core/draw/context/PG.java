@@ -15,6 +15,17 @@ public class PG {
 		return newPG(w, h, true, true);
 	}
 	
+	public static PGraphics newDataPG(int w, int h) {
+		PGraphics newPG = P.p.createGraphics(w, h, PRenderers.P3D);
+		newPG.noSmooth();
+		OpenGLUtil.setTextureQualityLow(newPG);		// necessary for proper texel lookup in GLSL!
+		newPG.beginDraw();
+		OpenGLUtil.optimize2D(newPG);
+		newPG.background(0, 0);
+		newPG.endDraw();
+		return newPG;
+	}
+	
 	public static PGraphics newPG(int w, int h, boolean smooth, boolean hasAlpha) {
 		PGraphics newPG = P.p.createGraphics(w, h, PRenderers.P3D);
 		if(smooth == false) newPG.noSmooth();

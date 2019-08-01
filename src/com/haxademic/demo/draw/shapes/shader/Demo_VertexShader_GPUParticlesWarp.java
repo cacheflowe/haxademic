@@ -23,6 +23,10 @@ extends PAppletHax {
 	protected PShader randomColorShader;
 	protected PShader particleMoverShader;
 	protected PShader particlesDrawShader;
+	protected String WIDTH = "WIDTH";
+	protected String HEIGHT = "HEIGHT";
+	protected String DEPTH = "DEPTH";
+	protected String POINT_SIZE = "POINT_SIZE";
 	int FRAMES = 300;
 
 	protected void overridePropsFile() {
@@ -42,16 +46,14 @@ extends PAppletHax {
 		particleMoverShader = p.loadShader(FileUtil.getFile("haxademic/shaders/point/particle-warp-z-mover.glsl"));
 
 		// create texture to store positions
-		int positionBufferSize = 256;
-		bufferPositions = p.createGraphics(positionBufferSize, positionBufferSize, PRenderers.P3D);
-		OpenGLUtil.setTextureQualityLow(bufferPositions);		// necessary for proper texel lookup!
+		int positionBufferSize = 1024;
+		bufferPositions = PG.newDataPG(positionBufferSize, positionBufferSize);
 		p.debugView.setTexture("bufferPositions", bufferPositions);
-		p.debugView.setValue("numParticles", positionBufferSize * positionBufferSize);
 		newPositions();
 		
 		// count vertices for debugView
-		int vertices = P.round(bufferPositions.width * bufferPositions.height); 
-		// p.debugView.setValue("Vertices", vertices);
+		int vertices = P.round(positionBufferSize * positionBufferSize); 
+		p.debugView.setValue("numParticles", vertices);
 		
 		// Build points vertices
 		shape = P.p.createShape();
@@ -59,7 +61,7 @@ extends PAppletHax {
 		for (int i = 0; i < vertices; i++) {
 			float x = i % positionBufferSize;
 			float y = P.floor(i / positionBufferSize);
-			shape.vertex(x/(float)positionBufferSize, y/(float)positionBufferSize, 0); // x/y coords are used as UV coords for position map (0-1)
+			shape.vertex(x/(positionBufferSize-1f), y/(positionBufferSize-1f), 0); // x/y coords are used as UV coords for position map (0-1)
 		}
 		
 		shape.endShape();
@@ -69,6 +71,12 @@ extends PAppletHax {
 			FileUtil.getFile("haxademic/shaders/point/points-default-frag.glsl"), 
 			FileUtil.getFile("haxademic/shaders/point/particle-warp-vert.glsl")
 		);	
+		
+		// build UI
+		p.ui.addSlider(WIDTH, 256, 0, 4196, 1, false);
+		p.ui.addSlider(HEIGHT, 256, 0, 4196, 1, false);
+		p.ui.addSlider(DEPTH, 256, 0, 4196, 1, false);
+		p.ui.addSlider(POINT_SIZE, 1, 0.1f, 20, 0.1f, false);
 	}
 	
 	protected void newPositions() {
@@ -82,28 +90,22 @@ extends PAppletHax {
 	public void drawApp() {
 		p.background(0);
 		PG.setCenterScreen(p);
-		p.translate(0, 0, -p.height);
-		
-		// camera
-		p.rotateY(P.map(p.mousePercentX(), 0, 1, -P.PI, P.PI));
-		p.rotateX(P.map(p.mousePercentY(), 0, 1, P.PI, -P.PI));
+		PG.basicCameraFromMouse(p.g);
 		
 		// update particle positions
 		bufferPositions.filter(particleMoverShader);
 
 		// draw shape w/shader
-		float particlesScale = p.mousePercentX() * 10f;
-		particlesDrawShader.set("width", (float) bufferPositions.width);
-		particlesDrawShader.set("height", (float) bufferPositions.height);
-		particlesDrawShader.set("scale", particlesScale);
+		particlesDrawShader.set("width", p.ui.value(WIDTH));
+		particlesDrawShader.set("height", p.ui.value(HEIGHT));
+		particlesDrawShader.set("depth", p.ui.value(DEPTH));
 		particlesDrawShader.set("positionMap", bufferPositions);
-		particlesDrawShader.set("pointSize", p.mousePercentY() * 10f);
+		particlesDrawShader.set("pointSize", p.ui.value(POINT_SIZE));
 		p.shader(particlesDrawShader);  	// update positions
-		p.shape(shape);					// draw vertices
+		p.shape(shape);						// draw vertices
 		p.resetShader();
 	}
 	
-
 	public void keyPressed() {
 		super.keyPressed();
 		if(p.key == ' ') newPositions();

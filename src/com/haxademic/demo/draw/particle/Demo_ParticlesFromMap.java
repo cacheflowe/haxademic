@@ -60,7 +60,7 @@ extends PAppletHax {
 			int checkY = MathUtil.randRange(0, pg.height);
 			int pixelColor = ImageUtil.getPixelColor(pg, checkX, checkY);
 			float redColor = (float) ColorUtil.redFromColorInt(pixelColor) / 255f;
-			if(redColor > 0.5f && numLaunched < 50) {
+			if(redColor > 0.5f && numLaunched < 150) {
 				launchShape(checkX, checkY);
 				numLaunched++;
 			}
@@ -101,7 +101,7 @@ extends PAppletHax {
 		protected PVector speed = new PVector(0, 0, 0);
 		protected PVector gravity = new PVector(0, 0, 0);
 		protected float size = 10f;
-		protected float rotation = 30f;
+		protected float rotation = 0f;
 		protected LinearFloat sizeProgress = new LinearFloat(0, 0.04f);
 		protected int color;
 		protected PImage image;

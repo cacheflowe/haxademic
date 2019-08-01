@@ -49,7 +49,7 @@ uniform sampler2D positionMap;
 uniform float pointSize = 1.;
 uniform float width = 256.;
 uniform float height = 256.;
-uniform float scale = 1.;
+uniform float depth = 256.;
 
 attribute vec2 texCoord;
 attribute vec3 normal;
@@ -77,15 +77,15 @@ void main() {
   // vec4 textureColor = vec4(vertex.x, vertex.y, 0.5, 1.); // rgba color of displacement map
 
   // calc index of this vertex for positioning use
-  float w = width * scale;
-  float h = height * scale;
+  float w = width;
+  float h = height;
   float x = -w / 2. + textureColor.x * w;
   float y = -h / 2. + textureColor.y * h;
-  float z = -width * scale * 10. + textureColor.z * width * scale * 11.;
+  float z = depth/2. - textureColor.z * depth;
   vec4 vertPosition = vec4(x, y, z, 1.);
 
   // custom point size - use color to grow point
-  float finalPointSize = pointSize * textureColor.z;
+  float finalPointSize = pointSize; // * textureColor.z;
 
   // use custom vertex instead of Processing default (`vertex` uniform)
   // Processing default shader positioning:
@@ -107,6 +107,7 @@ void main() {
   // vertColor = color;
   // or instead, use texture-mapped color :)
   float colorMult = 1.;
+  vertColor = vec4(1., 1., 1., 1. - textureColor.z);
   // vertColor = vec4(textureColor.rgb * colorMult, 1.);
-  vertColor = vec4(1., 1., 1., textureColor.z);
+  // vertColor = textureColor;
 }
