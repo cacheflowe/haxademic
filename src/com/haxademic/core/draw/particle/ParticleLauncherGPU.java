@@ -1,12 +1,11 @@
 package com.haxademic.core.draw.particle;
 
 import com.haxademic.core.app.P;
-import com.haxademic.core.data.constants.PRenderers;
-import com.haxademic.core.draw.context.OpenGLUtil;
+import com.haxademic.core.draw.context.PG;
+import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.MathUtil;
 
-import processing.core.PConstants;
 import processing.core.PGraphics;
 import processing.core.PShape;
 import processing.opengl.PShader;
@@ -28,16 +27,14 @@ public class ParticleLauncherGPU {
 		positionShader = P.p.loadShader(FileUtil.getFile("haxademic/shaders/point/particle-launcher-frag.glsl"));
 		
 		// create texture to store positions
-		colorBuffer = P.p.createGraphics(positionBufferSize, positionBufferSize, PRenderers.P2D);
-		OpenGLUtil.setTextureQualityLow(colorBuffer);		// necessary for proper texel lookup!
+		colorBuffer = PG.newDataPG(positionBufferSize, positionBufferSize);
 //		p.debugView.setTexture(colorBuffer);
 		colorBuffer.beginDraw();
 		colorBuffer.background(255);
 		colorBuffer.noStroke();
 		colorBuffer.endDraw();
 		
-		progressBuffer = P.p.createGraphics(positionBufferSize, positionBufferSize, PRenderers.P3D);
-		OpenGLUtil.setTextureQualityLow(progressBuffer);		// necessary for proper texel lookup!
+		progressBuffer = PG.newDataPG(positionBufferSize, positionBufferSize);
 		
 		progressBuffer.beginDraw();
 		progressBuffer.background(255);
@@ -45,18 +42,9 @@ public class ParticleLauncherGPU {
 		progressBuffer.endDraw();
 //		P.p.debugView.setTexture(progressBuffer);
 		
-		// count vertices for debugView
-		vertices = P.round(positionBufferSize * positionBufferSize); 
-		
 		// Build points vertices
-		shape = P.p.createShape();
-		shape.beginShape(PConstants.POINTS);
-		for (int i = 0; i < vertices; i++) {
-			float x = i % positionBufferSize;
-			float y = P.floor(i / positionBufferSize);
-			shape.vertex(x/(float)positionBufferSize, y/(float)positionBufferSize, 0); // x/y coords are used as UV coords for position map (0-1)
-		}
-		shape.endShape();
+		vertices = P.round(positionBufferSize * positionBufferSize); 
+		shape = PShapeUtil.pointsShapeForGPUData(positionBufferSize);
 		
 		// load shader
 		particlesRenderShader = P.p.loadShader(

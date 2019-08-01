@@ -37,7 +37,7 @@ extends PAppletHax {
 		// build multiple particles launchers
 		particleLaunchers = new ArrayList<ParticleLauncherGPU>();
 		int totalVertices = 0;
-		for (int i = 0; i < 40; i++) {
+		for (int i = 0; i < 50; i++) {
 			ParticleLauncherGPU particles = new ParticleLauncherGPU();
 			particleLaunchers.add(particles);
 			totalVertices += particles.vertices();
