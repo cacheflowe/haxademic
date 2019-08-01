@@ -21,7 +21,8 @@ void main() {
   float z = texelColor.b;
 
 	// wrap position and write back to texture
-  z += 1./255.;// * (1. + mod(pos.x, 3.));	// pixels move at different speeds
+  z += 1./255.;
+  // z += 1./255. * (1. + mod(pos.x * 20., 3.));	// pixels move at different speeds
 	z = mod(z, 1.);
   gl_FragColor = vec4(pos.x, pos.y, z, 1.);
 }
