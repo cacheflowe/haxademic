@@ -731,6 +731,23 @@ public class PShapeUtil {
 
 	
 	///////////////////////////
+	// POINTS FOR GPU DATA
+	///////////////////////////
+	
+	public static PShape pointsShapeForGPUData(int bufferSize) {
+		int vertices = bufferSize * bufferSize;
+		PShape shape = P.p.createShape();
+		shape.beginShape(PConstants.POINTS);
+		for (int i = 0; i < vertices; i++) {
+			float x = i % bufferSize;
+			float y = P.floor(i / bufferSize);
+			shape.vertex(x/(bufferSize-1f), y/(bufferSize-1f), 0); // x/y coords are used as UV coords for position map (0-1)
+		}
+		shape.endShape();
+		return shape;
+	}	
+	
+	///////////////////////////
 	// MESH ROTATION
 	///////////////////////////
 
