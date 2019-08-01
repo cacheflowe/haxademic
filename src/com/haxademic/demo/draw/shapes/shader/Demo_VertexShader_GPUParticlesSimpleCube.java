@@ -6,6 +6,8 @@ import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.data.constants.PBlendModes;
 import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.draw.context.OpenGLUtil;
+import com.haxademic.core.draw.context.PG;
+import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.MathUtil;
 
@@ -43,8 +45,7 @@ extends PAppletHax {
 		positionShader = p.loadShader(FileUtil.getFile("haxademic/shaders/textures/random-pixel-color.glsl"));
 
 		// create texture to store positions
-		positionsBuffer = p.createGraphics(positionBufferSize, positionBufferSize, PRenderers.P3D);
-		OpenGLUtil.setTextureQualityLow(positionsBuffer);		// necessary for proper texel lookup!
+		positionsBuffer = PG.newDataPG(positionBufferSize, positionBufferSize);
 		p.debugView.setTexture("positionsBuffer", positionsBuffer);
 		newPositions();
 		
@@ -58,15 +59,7 @@ extends PAppletHax {
 		p.debugView.setValue("Vertices", vertices);
 		
 		// Build points vertices
-		shape = P.p.createShape();
-		shape.beginShape(PConstants.POINTS);
-		for (int i = 0; i < vertices; i++) {
-			float x = i % positionBufferSize;
-			float y = P.floor(i / positionBufferSize);
-			shape.vertex(x/(float)positionBufferSize, y/(float)positionBufferSize, 0); // x/y coords are used as UV coords for position map (0-1)
-		}
-		shape.endShape();
-		
+		shape = PShapeUtil.pointsShapeForGPUData(positionBufferSize);
 		// load shader
 		particleVerticesShader = p.loadShader(
 			FileUtil.getFile("haxademic/shaders/point/points-default-frag.glsl"), 

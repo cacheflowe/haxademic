@@ -734,14 +734,18 @@ public class PShapeUtil {
 	// POINTS FOR GPU DATA
 	///////////////////////////
 	
-	public static PShape pointsShapeForGPUData(int bufferSize) {
-		int vertices = bufferSize * bufferSize;
+	public static PShape pointsShapeForGPUData(int size) {
+		return pointsShapeForGPUData(size, size);
+	}
+	
+	public static PShape pointsShapeForGPUData(int w, int h) {
+		int vertices = w * h;
 		PShape shape = P.p.createShape();
 		shape.beginShape(PConstants.POINTS);
 		for (int i = 0; i < vertices; i++) {
-			float x = i % bufferSize;
-			float y = P.floor(i / bufferSize);
-			shape.vertex(x/(bufferSize-1f), y/(bufferSize-1f), 0); // x/y coords are used as UV coords for position map (0-1)
+			float x = i % w;
+			float y = P.floor(i / w);
+			shape.vertex(x/(w-1f), y/(h-1f), 0); // x/y coords are used as UV coords for position map (0-1)
 		}
 		shape.endShape();
 		return shape;

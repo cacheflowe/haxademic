@@ -29,10 +29,7 @@ extends PAppletHax {
 	
 	protected void setupFirstFrame() {
 		// build final draw buffer
-		renderedParticles = p.createGraphics(p.width, p.height, PRenderers.P3D);
-		renderedParticles.smooth(8);
-//		PG.setDrawFlat2d(renderedParticles, true);
-//		p.debugView.setTexture(renderedParticles);
+		renderedParticles = PG.newPG(p.width, p.height);
 		
 		// build multiple particles launchers
 		particleLaunchers = new ArrayList<ParticleLauncherGPU>();
@@ -45,11 +42,6 @@ extends PAppletHax {
 		p.debugView.setValue("totalVertices", totalVertices);
 	}
 	
-	public void keyPressed() {
-		super.keyPressed();
-//		if(p.key == ' ') newPositions();
-	}
-	
 	public void drawApp() {
 		// clear the screen
 		background(0);
@@ -58,7 +50,7 @@ extends PAppletHax {
 		int particleLauncherIndex = p.frameCount % particleLaunchers.size();
 		particleLaunchers.get(particleLauncherIndex).beginLaunch();
 		for (int j = 0; j < 420; j++) {		// -2 rows (64)
-			particleLaunchers.get(particleLauncherIndex).launch(p.mouseX, p.mouseY);
+			particleLaunchers.get(particleLauncherIndex).launch(p.mouseXEase.value() * p.width, p.mouseYEase.value() * p.height);
 		}
 		particleLaunchers.get(particleLauncherIndex).endLaunch();
 

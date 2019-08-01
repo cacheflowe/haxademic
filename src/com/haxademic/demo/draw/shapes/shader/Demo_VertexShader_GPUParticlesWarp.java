@@ -42,6 +42,7 @@ extends PAppletHax {
 		// build random particle placement shader
 		randomColorShader = p.loadShader(FileUtil.getFile("haxademic/shaders/textures/random-pixel-color.glsl"));
 		particleMoverShader = p.loadShader(FileUtil.getFile("haxademic/shaders/point/particle-warp-z-mover.glsl"));
+//		particleMoverShader = p.loadShader(FileUtil.getFile("haxademic/shaders/point/particle-warp-z-mover-2.glsl"));
 
 		// create texture to store positions
 		int positionBufferSize = 1024;
@@ -83,6 +84,7 @@ extends PAppletHax {
 		PG.basicCameraFromMouse(p.g);
 		
 		// update particle positions
+//		particleMoverShader.set("time", p.millis() * 0.002f);
 		bufferPositions.filter(particleMoverShader);
 
 		// draw shape w/shader

@@ -5,13 +5,12 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.data.constants.PBlendModes;
 import com.haxademic.core.data.constants.PRenderers;
-import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.context.PG;
+import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.draw.textures.PerlinTexture;
 import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
 import com.haxademic.core.file.FileUtil;
 
-import processing.core.PConstants;
 import processing.core.PGraphics;
 import processing.core.PShape;
 import processing.opengl.PShader;
@@ -57,8 +56,7 @@ extends PAppletHax {
 		// - https://github.com/processing/processing/issues/3321
 		// - https://www.javatips.net/api/com.jogamp.opengl.gl2
 		// - http://forum.jogamp.org/GL-RGBA32F-with-glTexImage2D-td4035766.html
-		bufferPositions = p.createGraphics((int) w, (int) h, PRenderers.P3D);
-		OpenGLUtil.setTextureQualityLow(bufferPositions);		// necessary for proper texel lookup!
+		bufferPositions = PG.newDataPG((int) w, (int) h);
 		bufferDirection = p.createGraphics((int) w, (int) h, PRenderers.P3D);
 		bufferDirection.noSmooth();
 		bufferAmp = p.createGraphics((int) w, (int) h, PRenderers.P3D);
@@ -66,7 +64,13 @@ extends PAppletHax {
 		bufferRenderedParticles.smooth(8);
 		colorBuffer = p.createGraphics(p.width, p.height, PRenderers.P3D);
 		colorBuffer.smooth(8);
-		
+
+		p.debugView.setTexture("colorBuffer", colorBuffer);
+		p.debugView.setTexture("bufferDirection", bufferDirection);
+		p.debugView.setTexture("bufferAmp", bufferAmp);
+		p.debugView.setTexture("bufferPositions", bufferPositions);
+		p.debugView.setTexture("bufferRenderedParticles", bufferRenderedParticles);
+
 		// build displacement maps
 //		directionGenerator = p.loadShader(FileUtil.getFile("haxademic/shaders/textures/cacheflowe-liquid-moire.glsl"));
 //		directionGenerator = p.loadShader(FileUtil.getFile("haxademic/shaders/textures/iq-voronoise.glsl"));
@@ -84,18 +88,7 @@ extends PAppletHax {
 		p.debugView.setValue("Vertices", vertices);
 		
 		// Build points vertices
-		shape = P.p.createShape();
-		shape.beginShape(PConstants.POINTS);
-		shape.stroke(255);
-		shape.strokeWeight(1);
-		shape.noFill();
-		for (int i = 0; i < vertices; i++) {
-			float x = i % w;
-			float y = P.floor(i / w);
-			if(y % 2 == 1) x = w - x - 1;
-			shape.vertex(x/w, y/h, 0); // x/y coords are used as UV coords (0-1), and multplied by `spread` uniform
-		}
-		shape.endShape();
+		shape = PShapeUtil.pointsShapeForGPUData((int)w);
 		shape.setTexture(bufferDirection);	// PShape really wants a default texture
 		
 		// load shader
@@ -118,53 +111,53 @@ extends PAppletHax {
 	
 	public void drawApp() {
 		// clear the screen
-		background(0);
+		p.background(0);
+		PG.setDrawCorner(p);
 		
 		// update colors
 		colorMapShader.set("time", p.frameCount * 0.004f);
 		colorBuffer.filter(colorMapShader);
-		p.debugView.setTexture("colorBuffer", colorBuffer);
 
 		// update direction texture
 		directionGenerator.set("time", p.frameCount * 0.004f);
 		directionGenerator.set("zoom", 3f + 1f * P.sin(p.frameCount * 0.01f));
 		bufferDirection.filter(directionGenerator);				// noise to change directions
-		p.debugView.setTexture("bufferDirection", bufferDirection);
 
 		// update amp texture
 		ampGenerator.set("zoom", 2f);
 		ampGenerator.set("time", (p.frameCount + 1000) * 0.004f);
 		bufferAmp.filter(ampGenerator);				// noise to change directions
-		p.debugView.setTexture("bufferAmp", bufferAmp);
 		
 		// update particle positions
 		positionMover.set("directionMap", bufferDirection);
 		positionMover.set("ampMap", bufferAmp);
 		positionMover.set("amp", 0.004f); // P.map(p.mouseX, 0, p.width, 0.001f, 0.05f));
 		bufferPositions.filter(positionMover);
-		p.debugView.setTexture("bufferPositions", bufferPositions);
 		
-		// move to screen center
-		bufferRenderedParticles.beginDraw();
-		bufferRenderedParticles.background(0);
-//		bufferParticles.translate(bufferParticles.width/2f, bufferParticles.height/2f, 0);
-		// draw vertex points. strokeWeight w/disableStyle works here for point size
-//		shape.disableStyle();
-		bufferRenderedParticles.translate(0, -p.height * 0.3f, -p.height);
-//		bufferRenderedParticles.rotateX(1.2f);
-		PG.basicCameraFromMouse(bufferRenderedParticles);
-		bufferRenderedParticles.strokeWeight(1f);
-		bufferRenderedParticles.blendMode(PBlendModes.ADD);
+		// update render shader
+		float renderW = bufferRenderedParticles.width * 1f;
+		float renderH = bufferRenderedParticles.height * 1f;
 		pointsParticleVertices.set("positionMap", bufferPositions);
 		pointsParticleVertices.set("colorMap", colorBuffer);
-		pointsParticleVertices.set("pointSize", 1f); // 2.5f + 1.5f * P.sin(P.TWO_PI * percentComplete));
-		pointsParticleVertices.set("width", (float) p.width * 2f);
-		pointsParticleVertices.set("height", (float) p.height * 2f);
+		pointsParticleVertices.set("pointSize", 6f); // 2.5f + 1.5f * P.sin(P.TWO_PI * percentComplete));
+		pointsParticleVertices.set("width", (float) renderW);
+		pointsParticleVertices.set("height", (float) renderH);
+
+		// render particles
+		bufferRenderedParticles.beginDraw();
+		bufferRenderedParticles.background(0);
+		bufferRenderedParticles.translate(p.width/2, p.height/2);
+		PG.setDrawCorner(bufferRenderedParticles);
+		PG.basicCameraFromMouse(bufferRenderedParticles);
+		bufferRenderedParticles.translate(-renderW/2, -renderH/2);
+		// draw vertex points. strokeWeight w/disableStyle works here for point size
+//		shape.disableStyle();
+		bufferRenderedParticles.strokeWeight(1f);
+		bufferRenderedParticles.blendMode(PBlendModes.ADD);
 		bufferRenderedParticles.shader(pointsParticleVertices);  	// update positions
 		bufferRenderedParticles.shape(shape);					// draw vertices
 		bufferRenderedParticles.resetShader();
 		bufferRenderedParticles.endDraw();
-		p.debugView.setTexture("bufferRenderedParticles", bufferRenderedParticles);
 
 		// draw buffer to screen
 		p.image(bufferRenderedParticles, 0, 0);

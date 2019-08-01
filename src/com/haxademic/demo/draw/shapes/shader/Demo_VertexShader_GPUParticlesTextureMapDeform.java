@@ -6,6 +6,7 @@ import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.ReflectFilter;
+import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.draw.textures.PerlinTexture;
 import com.haxademic.core.draw.textures.pgraphics.TextureEQGrid;
 import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
@@ -58,18 +59,7 @@ extends PAppletHax {
 		p.debugView.setValue("Vertices", vertices);
 		
 		// Build points vertices
-		shape = P.p.createShape();
-		shape.beginShape(PConstants.POINTS);
-		shape.stroke(255);
-		shape.strokeWeight(1);
-		shape.noFill();
-		for (int i = 0; i < vertices; i++) {
-			float x = i % w;
-			float y = P.floor(i / w);
-			if(y % 2 == 1) x = w - x - 1;
-			shape.vertex(x/w, y/h, 0); // x/y coords are used as UV coords (0-1), and multplied by `spread` uniform
-		}
-		shape.endShape();
+		shape = PShapeUtil.pointsShapeForGPUData((int) w, (int) h);
 		shape.setTexture(texture);
 		
 		// load shader
