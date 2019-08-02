@@ -13,6 +13,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.data.store.AppStore;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.color.ColorUtil;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.context.OpenGLUtil;
@@ -84,14 +85,6 @@ extends PAppletHax
 		p.appConfig.setProperty( AppSettings.MIDI_DEVICE_IN_INDEX, 0 );
 	}
 
-	protected void setScreenPosition() {
-//		if(p.appConfig.getInt("screen_x", -1) != -1) {
-			surface.setSize(1920, 1080);
-			surface.setLocation(1920, 0);  // location has to happen after size, to break it out of fullscreen
-//			surface.setAlwaysOnTop(true);
-//		}
-	}
-
 	protected void setupFirstFrame() {
 		MouseShutdown.instance();
 		brightnessBumper = new BrightnessBumper();
@@ -104,9 +97,21 @@ extends PAppletHax
 		appStore.addListener(slideTitle);
 	}
 	
+	protected void addKeyCommandInfo() {
+		super.addKeyCommandInfo();
+		p.debugView.setHelpLine("\n" + DebugView.TITLE_PREFIX + "Custom Key Commands", "");
+		p.debugView.setHelpLine("[R] |", "Reload slides");
+		p.debugView.setHelpLine("[D] |", "DEBUG toggle");
+		p.debugView.setHelpLine("[S] |", "Stress test [DANGER]");
+		p.debugView.setHelpLine("[BACKSPACE] |", "Reset keystone");
+		p.debugView.setHelpLine("[RIGHT] |", "Next slide");
+		p.debugView.setHelpLine("[DOWN] |", "Next slide");
+		p.debugView.setHelpLine("[LEFT] |", "Prev slide");
+		p.debugView.setHelpLine("[UP] |", "Prev slide");
+	}
+
 	protected void buildDrawingSurface() {
 		// set applet drawing quality
-		P.println(OpenGLUtil.getGlVersion(p.g));
 		OpenGLUtil.setTextureQualityHigh(p.g);
 
 		BUFFER_W = p.width;
@@ -125,6 +130,7 @@ extends PAppletHax
 		
 		// keystone the off-screen buffer
 		pgKeystone = new PGraphicsKeystone(p, buffer, 12, FileUtil.getFile("text/keystone-slideshow.txt"));
+		pgKeystone.setActive(DEBUG_MODE);
 	}
 	
 	protected void buildState() {
@@ -217,7 +223,7 @@ extends PAppletHax
 	public void keyPressed() {
 		super.keyPressed();
 		if(p.key == 'r') reloadSlides();
-		if(p.key == 'd') DEBUG_MODE = !DEBUG_MODE;
+		if(p.key == 'd') { DEBUG_MODE = !DEBUG_MODE; pgKeystone.setActive(DEBUG_MODE); }
 		if(p.key == 's') stressTesting = !stressTesting;
 		if(p.key == ' ') if(!waitingForAutoAdvance()) nextSlide();
 		if(p.keyCode == 8) pgKeystone.resetCorners();
@@ -292,8 +298,8 @@ extends PAppletHax
 		
 		// keystone
 		if(DEBUG_MODE == true) pgKeystone.drawTestPattern();
-//		pgKeystone.update(p.g, true);
-		p.g.image(buffer, 0, 0);
+		pgKeystone.update(p.g, true);
+//		p.g.image(buffer, 0, 0);
 		brightnessBumper.applyTo(p.g);
 		
 		// debug

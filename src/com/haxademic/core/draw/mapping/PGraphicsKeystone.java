@@ -2,6 +2,7 @@ package com.haxademic.core.draw.mapping;
 
 import com.haxademic.core.data.ConvertUtil;
 import com.haxademic.core.debug.DebugUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.file.FileUtil;
 
 import processing.core.PApplet;
@@ -197,8 +198,8 @@ extends BaseSavedQuadUI {
 		float spacingX = (float) pg.width / (float) subDivideSteps;
 		float spacingY = (float) pg.height / (float) subDivideSteps;
 		
-		for( int x=0; x < subDivideSteps; x++) {
-			for( int y=0; y < subDivideSteps; y++) {
+		for( int x=0; x <= subDivideSteps; x++) {
+			for( int y=0; y <= subDivideSteps; y++) {
 				if( ( x % 2 == 0 && y % 2 == 1 ) || ( y % 2 == 0 && x % 2 == 1 ) ) {
 					pg.fill(0, 160);
 				} else {
