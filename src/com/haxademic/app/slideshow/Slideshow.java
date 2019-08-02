@@ -12,15 +12,11 @@ import com.haxademic.app.slideshow.text.SlideTitle;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.data.store.AppStore;
 import com.haxademic.core.debug.DebugView;
-import com.haxademic.core.draw.color.ColorUtil;
 import com.haxademic.core.draw.context.PG;
-import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.image.BrightnessBumper;
 import com.haxademic.core.draw.mapping.PGraphicsKeystone;
 import com.haxademic.core.file.FileUtil;
-import com.haxademic.core.hardware.mouse.MouseShutdown;
 import com.haxademic.core.math.easing.EasingFloat;
 import com.haxademic.core.math.easing.LinearFloat;
 import com.haxademic.core.math.easing.Penner;
@@ -33,36 +29,39 @@ extends PAppletHax
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	// MAIN CANVAS
-	protected PGraphics buffer;
-	protected PGraphics bufferBg;
+	protected PGraphics pgBg;
 	protected PGraphicsKeystone pgKeystone;
-	protected int backgroundColor = ColorUtil.colorFromHex("#000000");
-	public static String fontFile = "haxademic/fonts/Raleway-Regular.ttf";
+	protected int backgroundColor = 0xff000000;
+	protected BrightnessBumper brightnessBumper;
+	
+	// PATHS
 //	public static String slidesDir = FileUtil.getFile("images/_sketch/aiga-slides");
 //	public static String slidesDir = "/Users/cacheflowe/Documents/workspace/presentations/aiga-freelance";
-	public static String slidesDir = "D:\\workspace\\presentations\\_ctd-class-01";
-	protected int BUFFER_W = 2688;
-	protected int BUFFER_H = 896;
+//	public static String slidesDir = "D:\\workspace\\presentations\\_ctd-class-01";
+	public static String SLIDES_DIR = "D:\\workspace\\presentations\\denver-creative-tech-08-2019";
+	public static String FONT_FILE = "haxademic/fonts/Raleway-Regular.ttf";
 		
 	// CONFIG
 	public static boolean DEBUG_MODE = false;
 	protected int LOADING_INTERVAL = 5;
 	protected int STRESS_INTERVAL = 5 * 60;
+	protected boolean stressTesting = false;
 
-	// APP STATE
-	public AppStore appStore;
-
-	// Custom objects
+	// SLIDE COMPONENTS
+	protected ArrayList<String> mediaFiles;
 	protected ArrayList<SlideImage> slideImages;
 	protected ArrayList<SlideImage> slideImagesBg;
 	protected ArrayList<SlideImage> slideImagesFg;
 	protected SlideCaption slideCaption;
 	protected SlideTitle slideTitle;
+	
+	// LOADING
+	protected String loadingFile = "";
+	protected int numToLoad = 0;
+	protected boolean parsedDirectories = false;
 	protected boolean preloaded = false;
 	protected EasingFloat preloadX = new EasingFloat(0, 20);
 	protected LinearFloat preloadBarOff = new LinearFloat(0, 0.01f);
-	protected boolean stressTesting = false;
-	protected BrightnessBumper brightnessBumper;
 
 	// Crossfade: 1st slide: `-no_fade_out-` (and don't `-no_exit_delay-`) -> 2nd slide: `-no_queue_delay-` (and don't `-no_fade_in-`)
 
@@ -71,30 +70,21 @@ extends PAppletHax
 	/////////////////////////////////////////////////////////////
 
 	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, P.round(BUFFER_W/2f) );
-		p.appConfig.setProperty( AppSettings.HEIGHT, P.round(BUFFER_H/2f) );
 		p.appConfig.setProperty( AppSettings.WIDTH, 1280 );
 		p.appConfig.setProperty( AppSettings.HEIGHT, 720 );
-		p.appConfig.setProperty( AppSettings.RETINA, false );
-		p.appConfig.setProperty( AppSettings.AUDIO_DEBUG, true );
-		p.appConfig.setProperty( AppSettings.FULLSCREEN, true );
 		p.appConfig.setProperty( AppSettings.ALWAYS_ON_TOP, false );
-//		p.appConfig.setProperty( AppSettings.SCREEN_X, 1920 );
-//		p.appConfig.setProperty( AppSettings.FULLSCREEN_SCREEN_NUMBER, 2);
-		p.appConfig.setProperty( AppSettings.FILLS_SCREEN, true );
-		p.appConfig.setProperty( AppSettings.MIDI_DEVICE_IN_INDEX, 0 );
+		p.appConfig.setProperty( AppSettings.FULLSCREEN, false );
 	}
 
 	protected void setupFirstFrame() {
-		MouseShutdown.instance();
 		brightnessBumper = new BrightnessBumper();
 		buildDrawingSurface();
 		buildState();
-		loadImages();
-		slideCaption = new SlideCaption();
-		appStore.addListener(slideCaption);
-		slideTitle = new SlideTitle();
-		appStore.addListener(slideTitle);
+		new Thread(new Runnable() { public void run() {
+			loadImages();
+			slideCaption = new SlideCaption();
+			slideTitle = new SlideTitle();
+		}}).start();
 	}
 	
 	protected void addKeyCommandInfo() {
@@ -111,31 +101,16 @@ extends PAppletHax
 	}
 
 	protected void buildDrawingSurface() {
-		// set applet drawing quality
-		OpenGLUtil.setTextureQualityHigh(p.g);
-
-		BUFFER_W = p.width;
-		BUFFER_H = p.height;
-		
-		// init mappable main drawing canvas
-		buffer = p.createGraphics(BUFFER_W, BUFFER_H, P.P3D);
-		buffer.smooth(AppSettings.SMOOTH_HIGH);
-		buffer.noStroke();
-		OpenGLUtil.setTextureQualityHigh(buffer);
-		
-		bufferBg = p.createGraphics(BUFFER_W, BUFFER_H, P.P3D);
-		bufferBg.smooth(AppSettings.SMOOTH_HIGH);
-		bufferBg.noStroke();
-		OpenGLUtil.setTextureQualityHigh(bufferBg);
+		// build extra PG for background layer
+		pgBg = PG.newPG(pg.width, pg.height);
 		
 		// keystone the off-screen buffer
-		pgKeystone = new PGraphicsKeystone(p, buffer, 12, FileUtil.getFile("text/keystone-slideshow.txt"));
+		pgKeystone = new PGraphicsKeystone(p, pg, 12, FileUtil.getFile("text/keystone-slideshow.txt"));
 		pgKeystone.setActive(DEBUG_MODE);
 	}
 	
 	protected void buildState() {
-		appStore = new AppStore();
-		appStore.setNumber(SlideshowState.SLIDE_INDEX.id(), -1);
+		P.store.setNumber(SlideshowState.SLIDE_INDEX.id(), -1);
 	}
 	
 	/////////////////////////////////////////////////////////////
@@ -151,55 +126,36 @@ extends PAppletHax
 	/////////////////////////////////////////////////////////////
 
 	protected void loadImages() {
+		mediaFiles = new ArrayList<String>();
 		slideImages = new ArrayList<SlideImage>();
 		slideImagesBg = new ArrayList<SlideImage>();
 		slideImagesFg = new ArrayList<SlideImage>();
-		String[] directories = FileUtil.getDirsInDir(slidesDir);
+		String[] directories = FileUtil.getDirsInDir(SLIDES_DIR);
 		Arrays.sort(directories);
 		for (int i = 0; i < directories.length; i++) {
 			loadSlidesFromDir(directories[i]);
 		}
+		parsedDirectories = true;
+		for (int i = 0; i < mediaFiles.size(); i++) {
+			String fileName = mediaFiles.get(i);
+			loadingFile = fileName;
+			SlideImage newSlide = new SlideImage(fileName, slideImages.size());
+			slideImages.add(newSlide);
+			if(fileName.indexOf("background") == -1) slideImagesFg.add(newSlide);
+			else slideImagesBg.add(newSlide);
+		}
+		preloaded = true;
 	}
-	
-	protected void reloadSlides() {
-		appStore.setNumber(SlideshowState.SLIDE_INDEX.id(), -1); 
-		loadImages();
-		preloadX.setTarget(0);
-		preloadX.setCurrent(0);
-		preloadBarOff.setCurrent(0);
-		preloadBarOff.setTarget(0);
-	}
-
-//	protected void loadSlidesFromDir(String imagesPath) {
-//		ArrayList<String> images = FileUtil.getFilesInDirOfTypes(imagesPath, "png,mp4,mov,gif");
-//		for (int i = 0; i < images.size(); i++) {
-//			String fileName = images.get(i);
-//			SlideImage newSlide = new SlideImage(fileName, slideImages.size());
-//			slideImages.add(newSlide);
-//			if(fileName.indexOf("background") == -1) slideImagesFg.add(newSlide);
-//			else slideImagesBg.add(newSlide);
-//			appStore.registerStatable(newSlide);
-//		}
-//	}
 	
 	protected void loadSlidesFromDir(String imagesPath) {
-		
-		String[] imagesAndDirs = getFilesAndDirsInDir(imagesPath);
-		Arrays.sort(imagesAndDirs);
-		for (int i = 0; i < imagesAndDirs.length; i++) {
-			String fileName = imagesAndDirs[i];
-			if(fileName.indexOf("\\._") == -1) {
-				P.println(fileName);
-				SlideImage newSlide = new SlideImage(fileName, slideImages.size());
-				slideImages.add(newSlide);
-				if(fileName.indexOf("background") == -1) slideImagesFg.add(newSlide);
-				else slideImagesBg.add(newSlide);
-				appStore.addListener(newSlide);
-			}
+		String[] mediaFilesInDir = getFilesAndDirsInDir(imagesPath);
+		Arrays.sort(mediaFilesInDir);
+		numToLoad += mediaFilesInDir.length;
+		for (int i = 0; i < mediaFilesInDir.length; i++) {
+			mediaFiles.add(mediaFilesInDir[i]);
 		}
 	}
 
-	
 	public String[] getFilesAndDirsInDir( String directory ) {
 		File dir = new File( directory );
 		FileFilter fileFilter = new FileFilter() {
@@ -210,9 +166,20 @@ extends PAppletHax
 		File[] files = dir.listFiles(fileFilter);
 		String[] fileNames = new String[files.length];
 		for (int i = 0; i < files.length; i++) {
-			fileNames[i] = files[i].toString();
+			if(files[i].toString().indexOf("\\._") == -1) {		// ignore weird hidden files
+				fileNames[i] = files[i].toString();
+			}
 		}
 		return fileNames;
+	}
+
+	protected void reloadSlides() {
+		P.store.setNumber(SlideshowState.SLIDE_INDEX.id(), -1); 
+		loadImages();
+		preloadX.setTarget(0);
+		preloadX.setCurrent(0);
+		preloadBarOff.setCurrent(0);
+		preloadBarOff.setTarget(0);
 	}
 
 
@@ -243,7 +210,7 @@ extends PAppletHax
 	/////////////////////////////////////////////////////////////
 	
 	protected boolean waitingForAutoAdvance() {
-		int curIndex = appStore.getNumber(SlideshowState.SLIDE_INDEX.id()).intValue();
+		int curIndex = getSlideIndex();
 		if(curIndex >= 0) {
 			return slideImages.get(curIndex).willAutoAdvance();
 		} else {
@@ -252,29 +219,29 @@ extends PAppletHax
 	}
 	
 	public int getSlideIndex() {
-		return appStore.getInt(SlideshowState.SLIDE_INDEX.id());
+		return P.store.getInt(SlideshowState.SLIDE_INDEX.id());
 	}
 	
 	public void nextSlide() {
 		// check current slide
-		int curIndex = appStore.getNumber(SlideshowState.SLIDE_INDEX.id()).intValue();
+		int curIndex = getSlideIndex();
 		if(curIndex >= 0 && preloaded == true && slideImages.get(curIndex).canAdvanceAfterLoop() == true) {					// queue up the current slide to advance the show if it's configured for that
 			slideImages.get(curIndex).advanceAfterComplete();
 		} else {																											// normal slide incrementing below
 			curIndex++;
-			if(curIndex >= slideImages.size()) {
+			if(curIndex >= numToLoad) {
 				curIndex = -1;
-				if(stressTesting == false) preloaded = true;
+//				if(stressTesting == false) preloaded = true;
 			}
-			appStore.setNumber(SlideshowState.SLIDE_INDEX.id(), curIndex);
+			P.store.setNumber(SlideshowState.SLIDE_INDEX.id(), curIndex);
 		}
 	}
 	
 	public void prevSlide() {
-		int curIndex = appStore.getNumber(SlideshowState.SLIDE_INDEX.id()).intValue();
+		int curIndex = getSlideIndex();
 		curIndex--;
 		if(curIndex < -1) curIndex = slideImages.size() - 1;
-		appStore.setNumber(SlideshowState.SLIDE_INDEX.id(), curIndex);
+		P.store.setNumber(SlideshowState.SLIDE_INDEX.id(), curIndex);
 	}
 	
 	/////////////////////////////////////////////////////////////
@@ -282,13 +249,7 @@ extends PAppletHax
 	/////////////////////////////////////////////////////////////
 
 	public void drawApp() {
-		// deferred init
-//		if(p.frameCount == 100) setScreenPosition();
-//		if(p.frameCount == 2) AppUtil.setTitle(p, "Slideshow");
-//		if(p.frameCount == 3) PG.setDrawFlat2d(buffer, true);
-		
 		// auto cycle slides
-		if(p.frameCount % LOADING_INTERVAL == 0 && preloaded == false) nextSlide();
 		if(p.frameCount % STRESS_INTERVAL == 0 && stressTesting == true) if(!waitingForAutoAdvance()) nextSlide();
 
 		// draw slides
@@ -299,83 +260,94 @@ extends PAppletHax
 		// keystone
 		if(DEBUG_MODE == true) pgKeystone.drawTestPattern();
 		pgKeystone.update(p.g, true);
-//		p.g.image(buffer, 0, 0);
 		brightnessBumper.applyTo(p.g);
 		
 		// debug
-		if(DEBUG_MODE == true || preloaded == false) {
-			p.debugView.setValue("Slide index", appStore.getNumber(SlideshowState.SLIDE_INDEX.id()).intValue());
-			// debugDrawSlides();
-		}
+		p.debugView.setValue("Slide index", P.store.getNumber(SlideshowState.SLIDE_INDEX.id()).intValue() + " / " + slides().size());
+		// if(DEBUG_MODE == true || preloaded == false) { debugDrawSlides(); }
 		
+		// preload
 		drawPreloader();
 	}
 		
 	protected void drawBackgroundSlides() {
-		bufferBg.beginDraw();
-		bufferBg.clear();
-		PG.setDrawCenter(bufferBg);
-		bufferBg.translate(bufferBg.width/2, bufferBg.height/2, 0);
+		pgBg.beginDraw();
+		pgBg.clear();
+		PG.setDrawCenter(pgBg);
+		pgBg.translate(pgBg.width/2, pgBg.height/2, 0);
 				
 		for (int i = 0; i < slideImagesBg.size(); i++) {
-			slideImagesBg.get(i).update(bufferBg);
+			slideImagesBg.get(i).update(pgBg);
 		}
 		
 		try {
-			bufferBg.endDraw();
+			pgBg.endDraw();
 		} catch (NullPointerException e) {
 			P.println("NullPointerException :: ", e.getMessage());
 		}
 	}
 	
 	protected void drawSlides() {
+		if(parsedDirectories == false) return;
+		
 		// prep buffer
-		buffer.beginDraw();
-		buffer.clear();
-		buffer.pushMatrix();
+		pg.beginDraw();
+		pg.clear();
+		pg.pushMatrix();
 		
 		// draw from center
-		PG.setDrawCenter(buffer);
-		buffer.translate(buffer.width/2, buffer.height/2, 0);
+		PG.setDrawCenter(pg);
+		pg.translate(pg.width/2, pg.height/2, 0);
 		
 		// draw the background layer before drawing FG layers
-		buffer.image(bufferBg, 0, 0); 
+		pg.image(pgBg, 0, 0); 
 		
 		// draw the foreground slides
 		for (int i = 0; i < slideImagesFg.size(); i++) {
-			slideImagesFg.get(i).update(buffer);
+			slideImagesFg.get(i).update(pg);
 		}
-		buffer.popMatrix();
+		pg.popMatrix();
 		
 		// draw caption on top
-		slideTitle.update(buffer); 
-		slideCaption.update(buffer); 
+		if(slideTitle != null) {
+			slideTitle.update(pg); 
+			slideCaption.update(pg);
+		}
 		
 		// finish buffer drawing
 		try {
-			buffer.endDraw();
+			pg.endDraw();
 		} catch (NullPointerException e) {
 			P.println("NullPointerException :: ", e.getMessage());
 		}
 	}
 	
 	protected void drawPreloader() {
+		// progress bar
 		if(preloadBarOff.value() == 1) return; 
 		preloadX.update();
 		preloadBarOff.update();
 
-		int curIndex = appStore.getNumber(SlideshowState.SLIDE_INDEX.id()).intValue();
-		float loadProgress = (preloaded) ? 1f : (float) curIndex / (float) slideImages.size();
+		float loadProgress = (preloaded) ? 1f : (float) slides().size() / (float) numToLoad;
 		preloadX.setTarget(p.width * loadProgress);
 		if(loadProgress == 1) preloadBarOff.setTarget(1);
 		float animOutY = 10f * Penner.easeInOutCubic(preloadBarOff.value(), 0, 1, 1);
 		float animOutAlpha = 255f;// - 255f * preloadComplete.value();
+//		if(loadProgress == 1 && getSlideIndex() != 0) nextSlide();
 		
 		p.fill(0, animOutAlpha);
 		p.rect(0, 0, p.width, p.height);
 		p.fill(0, 200, 0);
 		p.rect(0, p.height - 10 + animOutY, preloadX.value(), 10);
 		p.fill(255);
+		
+		// draw text
+//		int curIndex = getSlideIndex();
+//		if(preloaded == false) {
+//			p.fill(255);
+//			p.stroke(255);
+//			p.text("LOADING: " + curIndex + " / " + slides().size() + " / " + numToLoad + " :: " + loadingFile, 20, 0);
+//		}
 	}
 
 	/////////////////////////////////////////////////////////////
@@ -390,7 +362,7 @@ extends PAppletHax
 				p.image(slideImages.get(i).image(), x, y, 100, 100);
 			}
 			x += 100;
-			if(x > buffer.width) {
+			if(x > pg.width) {
 				x = 0;
 				y += 100;
 			}

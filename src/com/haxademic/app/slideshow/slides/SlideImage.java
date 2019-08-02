@@ -94,6 +94,7 @@ implements IAppStoreListener {
 
 	public SlideImage(String imagePath, int slideIndex) {
 		p = (Slideshow) P.p;
+		P.store.addListener(this);
 		this.imagePath = imagePath;
 		this.slideIndex = slideIndex;
 		loadMedia();

@@ -28,9 +28,10 @@ implements IAppStoreListener {
 
 	public SlideTitle() {
 		p = (Slideshow) P.p;
+		P.store.addListener(this);
 		height = p.height;
 		fontSize = height * 0.1f;
-		font = P.p.createFont( FileUtil.getFile(Slideshow.fontFile), fontSize );
+		font = P.p.createFont( FileUtil.getFile(Slideshow.FONT_FILE), fontSize );
 	}
 	
 	protected boolean isShowing() {
