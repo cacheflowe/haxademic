@@ -11,6 +11,10 @@ import processing.opengl.Texture;
 
 public class PG {
 	
+	//////////////////////////////
+	// BUFFER INIT
+	//////////////////////////////
+	
 	public static PGraphics newPG(int w, int h) {
 		return newPG(w, h, true, true);
 	}
@@ -22,6 +26,7 @@ public class PG {
 		newPG.beginDraw();
 		OpenGLUtil.optimize2D(newPG);
 		newPG.background(0, 0);
+		newPG.noStroke();
 		newPG.endDraw();
 		return newPG;
 	}
@@ -32,15 +37,21 @@ public class PG {
 		if(hasAlpha == false) {
 			newPG.beginDraw();
 			newPG.background(0, 0);
+			newPG.noStroke();
 			newPG.endDraw();
 		}
 		PG.setTextureRepeat(newPG, true);
 		return newPG;
 	}
 	
+	//////////////////////////////
+	// CONTEXT HELPERS
+	//////////////////////////////
+	
 	public static void resetGlobalProps( PApplet p ) {
 		resetGlobalProps(p.g);
 	}
+	
 	public static void resetGlobalProps(PGraphics pg) {
 		// p.resetMatrix();
 		pg.colorMode( P.RGB, 255, 255, 255, 255 );
@@ -60,48 +71,14 @@ public class PG {
 		pg.popMatrix();
 	}
 	
-	public static void setCenterScreen( PApplet p ) {
-		// p.resetMatrix();
-		p.translate( p.width/2, p.height/2, 0 );
+	public static void setCenterScreen(PApplet p) {
+		setCenterScreen(p.g);
 	}
+	
 	public static void setCenterScreen(PGraphics p) {
-		// p.resetMatrix();
 		p.translate( p.width/2, p.height/2, 0 );
 	}
 
-	public static void setTopLeft( PApplet p ) {
-		// p.resetMatrix();
-		p.translate( -p.width/2, -p.height/2, 0 );
-	}
-	public static void setTopLeft( PGraphics p ) {
-		// p.resetMatrix();
-		p.translate( -p.width/2, -p.height/2, 0 );
-	}
-
-	public static void setBasicLights( PApplet p ) {
-		setBasicLights(p.g);
-	}
-	public static void setBasicLights( PGraphics pg ) {
-		pg.shininess(500); 
-		pg.lights();
-		pg.ambientLight(25, 25, 25, 0, 0, 6000);
-		pg.ambientLight(10, 10, 10, 0, 0, -6000);
-	}
-
-	public static void setBetterLights( PApplet p ) {
-		setBetterLights(p.g);
-	}
-	public static void setBetterLights( PGraphics p ) {
-		// setup lighting props
-		p.ambient(127);
-		p.lightSpecular(130, 130, 130); 
-		p.directionalLight(200, 200, 200, -0.0f, -0.0f, 1); 
-		p.directionalLight(200, 200, 200, 0.0f, 0.0f, -1); 
-		p.specular(p.color(200)); 
-		p.shininess(5.0f); 
-	}
-	
-	
 	public static void setDrawCorner( PApplet p ) { 
 		setDrawCorner(p.g);
 	}
@@ -115,6 +92,7 @@ public class PG {
 	public static void setDrawCenter( PApplet p ) {
 		setDrawCenter(p.g);
 	}
+	
 	public static void setDrawCenter( PGraphics p ) {
 		p.imageMode( PConstants.CENTER );
 		p.rectMode( PConstants.CENTER );
@@ -122,6 +100,62 @@ public class PG {
 		p.shapeMode( PConstants.CENTER );
 	}
 	
+	public static void setDrawFlat2d( PApplet p, boolean is2d ) {
+		setDrawFlat2d(p.g, is2d);
+	};
+	
+	public static void setDrawFlat2d( PGraphics p, boolean is2d ) {
+		if( is2d ) {
+			p.hint( P.DISABLE_DEPTH_TEST );
+		} else {
+			p.hint( P.ENABLE_DEPTH_TEST );
+		}
+	}
+	
+	public static void setTextureRepeat( PApplet p, boolean doesRepeat ) {
+		setTextureRepeat(p.g, doesRepeat);
+	};
+	
+	public static void setTextureRepeat(PGraphics pg, boolean doesRepeat) {
+		if( doesRepeat == true ) 
+			pg.textureWrap(Texture.REPEAT);
+		else 
+			pg.textureWrap(Texture.CLAMP);
+	}
+	
+	//////////////////////////////
+	// LIGHTING
+	//////////////////////////////
+	
+	public static void setBasicLights( PApplet p ) {
+		setBasicLights(p.g);
+	}
+	
+	public static void setBasicLights( PGraphics pg ) {
+		pg.shininess(500); 
+		pg.lights();
+		pg.ambientLight(25, 25, 25, 0, 0, 6000);
+		pg.ambientLight(10, 10, 10, 0, 0, -6000);
+	}
+
+	public static void setBetterLights( PApplet p ) {
+		setBetterLights(p.g);
+	}
+	
+	public static void setBetterLights( PGraphics p ) {
+		// setup lighting props
+		p.ambient(127);
+		p.lightSpecular(130, 130, 130); 
+		p.directionalLight(200, 200, 200, -0.0f, -0.0f, 1); 
+		p.directionalLight(200, 200, 200, 0.0f, 0.0f, -1); 
+		p.specular(p.color(200)); 
+		p.shininess(5.0f); 
+	}
+	
+	//////////////////////////////
+	// IMAGE ALPHA
+	//////////////////////////////
+		
 	public static void setColorForPImage( PApplet p ) {
 		setColorForPImage(p.g);
 	}
@@ -143,26 +177,9 @@ public class PG {
 		p.tint( 255 );
 	}
 	
-	public static void setDrawFlat2d( PApplet p, boolean is2d ) {
-		setDrawFlat2d(p.g, is2d);
-	};
-	public static void setDrawFlat2d( PGraphics p, boolean is2d ) {
-		if( is2d ) {
-			p.hint( P.DISABLE_DEPTH_TEST );
-		} else {
-			p.hint( P.ENABLE_DEPTH_TEST );
-		}
-	}
-	
-	public static void setTextureRepeat( PApplet p, boolean doesRepeat ) {
-		setTextureRepeat(p.g, doesRepeat);
-	};
-	public static void setTextureRepeat(PGraphics pg, boolean doesRepeat) {
-		if( doesRepeat == true ) 
-			pg.textureWrap(Texture.REPEAT);
-		else 
-			pg.textureWrap(Texture.CLAMP);
-	}
+	//////////////////////////////
+	// "CAMERA" HELPERS
+	//////////////////////////////
 	
 	public static void basicCameraFromMouse(PGraphics pg) {
 		basicCameraFromMouse(pg, 1f);
@@ -173,6 +190,10 @@ public class PG {
 		pg.rotateY(P.map(P.p.mousePercentXEased(), 0, 1, -P.PI * amp, P.PI * amp));
 	}
 	
+	//////////////////////////////
+	// DRAWING HELPERS
+	//////////////////////////////
+
 	public static void fadeInOut(PGraphics pg, int color, int startFrame, int stopFrame, int transitionFrames) {
 		int frames = stopFrame - startFrame;
 		PG.setDrawCorner(pg);
@@ -245,6 +266,10 @@ public class PG {
 		PG.setDrawCorner(pg);
 		pg.endDraw();
 	}
+	
+	//////////////////////////////
+	// PATTERNS
+	//////////////////////////////
 	
 	public static void drawTestPattern(PGraphics pg) {
 		pg.beginDraw();

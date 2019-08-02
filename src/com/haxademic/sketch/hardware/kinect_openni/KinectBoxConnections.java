@@ -58,7 +58,6 @@ extends PAppletHax {
 	
 	public void drawApp() {
 		PG.resetGlobalProps(p);
-		PG.setTopLeft(p);
 		PG.setDrawCorner(p);
 		PG.setColorForPImage(p);
 
