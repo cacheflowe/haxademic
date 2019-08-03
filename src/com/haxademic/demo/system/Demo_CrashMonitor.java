@@ -12,12 +12,15 @@ extends PAppletHax {
 	protected CrashMonitor appMonitor;
 
 	protected void overridePropsFile() {
-//		p.appConfig.setProperty( AppSettings.FULLSCREEN, true );
 		p.appConfig.setProperty( AppSettings.APP_NAME, "CrashMonitor Test" );
 	}
 
 	public void setupFirstFrame() {
-		appMonitor = new CrashMonitor(true, 5000);
+		boolean RESTARTS = false;	// if false, we're relying on CrashMonitor to quit the app (rather than restart), 
+									// and the run.cmd script will restart it after a delay. 
+									// If true, we shouldn't have restart recovery built into the run.cmd script.
+		appMonitor = new CrashMonitor(true, 5000, RESTARTS);
+//		WindowsSystemUtil.killOtherJavaApps();
 	}
 
 	public void drawApp() {
@@ -34,6 +37,13 @@ extends PAppletHax {
 		p.fill(255);
 		p.text("CLICK TO CRASH", 20, 30);
 	}
+
+	public void keyPressed() {
+		super.keyPressed();
+		if(p.key == 'c') mouseClicked();
+		if(p.key == 'x') p.exit();
+	}
+
 	
 	@SuppressWarnings("null")
 	public void mouseClicked() {

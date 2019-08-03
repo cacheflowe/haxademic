@@ -10,14 +10,16 @@ public class CrashMonitor {
 	public AppMonitorWindow monitorApp = null;
 	public boolean showWindow;
 	public int timeAfterCrash;
+	public boolean restarts;
 	
 	public CrashMonitor() {
-		this(false, 5000);
+		this(false, 5000, true);
 	}
 	
-	public CrashMonitor(boolean showWindow, int timeAfterCrash) {
+	public CrashMonitor(boolean showWindow, int timeAfterCrash, boolean restarts) {
 		this.showWindow = showWindow;
 		this.timeAfterCrash = timeAfterCrash;
+		this.restarts = restarts;
 		P.p.registerMethod("post", this);	 // update texture to 2nd window after main draw() execution
 	}
 	
@@ -26,9 +28,9 @@ public class CrashMonitor {
 			monitorApp = new AppMonitorWindow(P.p, timeAfterCrash, showWindow);
 		}
 		if(monitorApp != null) {
-//			if(P.p.frameCount % 20 == 0) {
+			if(P.p.frameCount % 20 == 0) {
 				monitorApp.setUpdateTime(P.p.millis());
-//			}
+			}
 		}
 	}
 	
@@ -76,12 +78,20 @@ public class CrashMonitor {
 
 		public void draw() {
 			if(millis() - lastUpdateTime < timeout) {
-				background(0, 127, 0);
+				if(millis() - lastUpdateTime < 1000) {
+					background(0, 127, 0);
+				} else {
+					background(200, 200, 0);
+				}
 			} else {
 				background(127, 0, 0);
 				if(attemptRestart == false) {
 					attemptRestart = true;
-					AppRestart.restart(p);
+					if(restarts) {
+						AppRestart.restart(p);
+					} else {
+						AppRestart.quit(p);
+					}
 				}
 			}
 			noStroke();
