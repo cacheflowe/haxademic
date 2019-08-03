@@ -20,7 +20,7 @@ public class Demo_VertexShader_GPUParticlesSimpleCube
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
-	protected int positionBufferSize = 32;
+	protected int positionBufferSize = 128;
 	protected PShape shape;
 	protected PGraphics positionsBuffer;
 	protected PShader positionShader;
@@ -50,16 +50,13 @@ extends PAppletHax {
 		newPositions();
 		
 		// build final draw buffer
-		renderedParticles = p.createGraphics(p.width, p.height, PRenderers.P3D);
-		renderedParticles.smooth(8);
+		renderedParticles = PG.newPG(p.width, p.height);
 		p.debugView.setTexture("renderedParticles", renderedParticles);
-
-		// count vertices for debugView
-		int vertices = P.round(positionsBuffer.width * positionsBuffer.height); 
-		p.debugView.setValue("Vertices", vertices);
 		
 		// Build points vertices
 		shape = PShapeUtil.pointsShapeForGPUData(positionBufferSize);
+		p.debugView.setValue("Vertices", shape.getVertexCount());
+
 		// load shader
 		particleVerticesShader = p.loadShader(
 			FileUtil.getFile("haxademic/shaders/point/points-default-frag.glsl"), 
@@ -87,14 +84,11 @@ extends PAppletHax {
 		particleVerticesShader.set("scale", (p.width / positionBufferSize) * 0.5f * (1f + 0.1f * P.sin(p.frameCount * 0.01f)));
 		particleVerticesShader.set("positionMap", positionsBuffer);
 		particleVerticesShader.set("pointSize", 6f + 2f * P.sin(p.frameCount * 0.01f));
-		particleVerticesShader.set("mode", p.mousePercentY());	// test gl_VertexID method of accessing texture positions
-		particleVerticesShader.set("vertIndexDivisor", (float) P.floor(p.mousePercentX() * 100f));	// test gl_VertexID method of accessing texture positions
 
 		renderedParticles.beginDraw();
 		renderedParticles.background(0);
-		renderedParticles.translate(renderedParticles.width/2, renderedParticles.height/2, 0);
-		renderedParticles.rotateY(P.map(p.mouseX, 0, p.width, -3f, 3f));
-		renderedParticles.rotateX(P.map(p.mouseY, 0, p.height, 3f, -3f));
+		PG.setCenterScreen(renderedParticles);
+		PG.basicCameraFromMouse(renderedParticles);
 		renderedParticles.blendMode(PBlendModes.ADD);
 		renderedParticles.shader(particleVerticesShader);  	// update positions
 		renderedParticles.shape(shape);					// draw vertices

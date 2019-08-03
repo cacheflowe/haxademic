@@ -44,7 +44,7 @@ uniform float pointSize = 1.;
 uniform float width = 256.;
 uniform float height = 256.;
 uniform float scale = 1.;
-uniform float vertIndexDivisor = 1.;
+// uniform float vertIndexDivisor = 1.;
 uniform float mode = 0.;
 
 attribute vec2 texCoord;
@@ -64,19 +64,17 @@ vec4 windowToClipVector(vec2 window, vec4 viewport, float clipw) {
 }
 
 void main() {
-  // each point has 21 vertices?! apparently. 
+  // each point has 21 vertices?! apparently.
   // this only works up to 1024 particles (32x32) for some reason
-  float vertexIndex = float(floor(float(gl_VertexID) / 21.)); 
+  // float vertexIndex = float(floor(float(gl_VertexID) / 21.));
+  float vertexIndex = float(gl_VertexID);
   // float vertexIndex = float(floor(float(gl_VertexID) / vertIndexDivisor));
 
   // use vertex index to look up position in texture
   float lookupX = mod(vertexIndex, width) / width;
   float lookupY = floor(vertexIndex / height) / height;
 
-  vec4 textureColor = texture2D( positionMap, vec2(lookupX, lookupY) ); // rgba color of displacement map
-  if(mode > 0.5) {
-    textureColor = texture2D( positionMap, vec2(vertex.x, vertex.y) ); // rgba color of displacement map
-  }
+  vec4 textureColor = texture2D( positionMap, vec2(vertex.x, vertex.y) ); // rgba color of displacement map
 
   // use vertex color for positioning use - here we're putting points in a cube
   float w = width * scale;
