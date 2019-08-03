@@ -22,6 +22,9 @@
 	* http://www.magicandlove.com/blog/2018/08/08/darknet-yolo-v3-testing-in-processing-with-the-opencv-dnn-module/
 	* http://www.magicandlove.com/blog/2018/08/06/deep-neural-network-dnn-module-with-processing/
 * Shader builder w/snippets - look through Hepp's code
+	* Hot-reloading?!
+	* Default shader chunks
+	* Assemble w/replacement strings that match filenames?
 
 
 ## Processing problems
@@ -35,8 +38,6 @@
 
 ## Art projects
   * Shatter model & triangles fall down (Sunflow final render)
-  * Zaibiti
-  	* Pi webcam? Is it possible?
   * Sound in space. Raspberry Pis via wifi, attached to speakers. Split channels for more outputs
   * New video loops should have a soundtrack. use my tunes? look in sketch/render/avloops
   * Kinect history textures in 3d
