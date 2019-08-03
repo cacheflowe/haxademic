@@ -119,6 +119,8 @@ Below you'll find a long list of classes and utilities that I've built to make m
 
 * __[BufferThresholdMonitor](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/draw/image/BufferThresholdMonitor.java)__ - Copies an image to a low-res buffer, runs a threshold filter, and counts white vs black pixels. Useful as a step in certain CV processes.
 
+* __[FrozenImageMonitor](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/draw/image/FrozenImageMonitor.java)__ - Helps detect a frozen video stream (from a webcam, most likely). Camera feeds have some natural noise that will change over time, even if the subject doesn't. If the feed is frozen, this can be detected.
+
 * __[ImageCyclerBuffer](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/draw/image/ImageCyclerBuffer.java)__ - Uses GLSL transitions to create a slideshow from an array of PImages.
 
 * __[ImageSequenceMovieClip](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/draw/image/ImageSequenceMovieClip.java)__ - Loads and plays back an image sequence like a Movie object does for video files.
