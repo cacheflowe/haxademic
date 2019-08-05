@@ -75,7 +75,7 @@ public class Particle {
 	
 	// Launch!
 	
-	public Particle launch(float x, float y, PImage img) {
+	public Particle launch(PGraphics pg, float x, float y, PImage img) {
 		// get random particle texture
 		image = img;
 		

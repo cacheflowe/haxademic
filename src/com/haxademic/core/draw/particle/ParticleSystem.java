@@ -79,7 +79,7 @@ public class ParticleSystem {
 		PG.setDrawCorner(pg);
 	}
 
-	public void launchParticlesFromMap(PGraphics pg) {
+	public void launchParticles(PGraphics pg) {
 		int numLaunched = 0;
 		int maxAttempts = (usingUI) ? P.p.ui.valueInt(MAX_ATTEMPTS) : MAX_MAP_ATTEMPTS_PER_FRAME;
 		int maxLaunches = (usingUI) ? P.p.ui.valueInt(MAX_LAUNCHES) : MAX_LAUNCHES_PER_FRAME;
@@ -99,20 +99,24 @@ public class ParticleSystem {
 		// look for an available shape
 		for (int i = 0; i < particles.size(); i++) {
 			if(particles.get(i).available(pg)) {
-				launch(particles.get(i), x, y);
+				launch(pg, particles.get(i), x, y);
 				return;
 			}
 		}
 		// didn't find one
 		int maxPoolSize = (usingUI) ? P.p.ui.valueInt(POOL_MAX_SIZE) : PARTICLE_POOL_MAX_SIZE;
 		if(particles.size() < maxPoolSize) {
-			Particle newShape = new Particle();
-			launch(newShape, x, y);
+			Particle newShape = initNewParticle();
+			launch(pg, newShape, x, y);
 			particles.add(newShape);
 		}
 	}
+	
+	protected Particle initNewParticle() {
+		return new Particle();
+	}
 
-	protected void launch(Particle shape, float x, float y) {
+	protected void launch(PGraphics pg, Particle shape, float x, float y) {
 		if(usingUI) {
 			shape
 				.setSpeed(P.p.ui.value(SPEED_X_MIN), P.p.ui.value(SPEED_X_MAX), P.p.ui.value(SPEED_Y_MIN), P.p.ui.value(SPEED_Y_MAX))
@@ -121,7 +125,7 @@ public class ParticleSystem {
 				.setRotation(P.p.ui.value(ROTATION_MIN), P.p.ui.value(ROTATION_MAX))
 				.setSize(P.p.ui.value(SIZE_MIN), P.p.ui.value(SIZE_MAX))
 				.setColor(P.p.color(P.p.random(200, 255), P.p.random(200, 255), P.p.random(200, 255)))
-				.launch(x, y, randomImg());
+				.launch(pg, x, y, randomImg());
 		} else {
 			shape
 				.setSpeed(-1f, 1f, -1f, 0.5f)
@@ -130,7 +134,7 @@ public class ParticleSystem {
 				.setRotation(-0.1f, 0.1f)
 				.setSize(10, 40)
 				.setColor(P.p.color(P.p.random(200, 255), P.p.random(200, 255), P.p.random(200, 255)))
-				.launch(x, y, randomImg());
+				.launch(pg, x, y, randomImg());
 		}
 	}
 

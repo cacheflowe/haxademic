@@ -29,10 +29,11 @@ extends PAppletHax {
 		// create map
 		video = DemoAssets.movieKinectSilhouette();
 		video.loop();
+		video.speed(0.4f);
 		
 		// create particle system
 		PImage[] particleImages = new PImage[] { DemoAssets.particle() };
-		boolean loadParticlesDir = false;
+		boolean loadParticlesDir = true;
 		if(loadParticlesDir) {
 			ArrayList<PImage> particles = FileUtil.loadImagesFromDir(FileUtil.getFile("haxademic/images/particles/"), "png");
 			particleImages = new PImage[particles.size()];
@@ -51,11 +52,10 @@ extends PAppletHax {
 		// draw image/map base
 		pg.beginDraw();
 		drawBaseImage(pg);
-		particles.launchParticlesFromMap(pg);
+		particles.launchParticles(pg);
 		particles.drawParticles(pg);
 		pg.endDraw();
 		
-//		p.debugView.setValue("shapes.size()", particles.size());
 		p.image(pg, 0, 0);
 	}
 	
