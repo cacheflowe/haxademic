@@ -1,12 +1,16 @@
 package com.haxademic.demo.draw.particle;
 
+import java.util.ArrayList;
+
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.particle.ParticleSystem;
+import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.media.DemoAssets;
 
 import processing.core.PGraphics;
+import processing.core.PImage;
 import processing.video.Movie;
 
 public class Demo_ParticleSystem_FromMap 
@@ -26,7 +30,19 @@ extends PAppletHax {
 		video = DemoAssets.movieKinectSilhouette();
 		video.loop();
 		
-		particles = new ParticleSystem();
+		// create particle system
+		PImage[] particleImages = new PImage[] { DemoAssets.particle() };
+		boolean loadParticlesDir = false;
+		if(loadParticlesDir) {
+			ArrayList<PImage> particles = FileUtil.loadImagesFromDir(FileUtil.getFile("haxademic/images/particles/"), "png");
+			particleImages = new PImage[particles.size()];
+			for (int i = 0; i < particles.size(); i++) {
+				particleImages[i] = particles.get(i);
+			}
+		}
+
+		particles = new ParticleSystem(particleImages);
+		particles.enableUI();	// add sliders
 	}
 	
 	public void drawApp() {
@@ -35,7 +51,7 @@ extends PAppletHax {
 		// draw image/map base
 		pg.beginDraw();
 		drawBaseImage(pg);
-		particles.launchParticles(pg);
+		particles.launchParticlesFromMap(pg);
 		particles.drawParticles(pg);
 		pg.endDraw();
 		
