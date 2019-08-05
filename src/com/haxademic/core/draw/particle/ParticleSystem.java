@@ -57,10 +57,10 @@ public class ParticleSystem {
 		P.p.ui.addSlider(SPEED_X_MAX, 1f, 0, 5, 0.01f, false);
 		P.p.ui.addSlider(SPEED_Y_MIN, -1f, -5f, 0, 0.01f, false);
 		P.p.ui.addSlider(SPEED_Y_MAX, 1f, 0, 5, 0.01f, false);
-		P.p.ui.addSlider(GRAVITY_X_MIN, -0.01f, -1f, 0, 0.001f, false);
-		P.p.ui.addSlider(GRAVITY_X_MAX, 0.01f, 0, 1, 0.001f, false);
-		P.p.ui.addSlider(GRAVITY_Y_MIN, -0.01f, -1f, 0, 0.001f, false);
-		P.p.ui.addSlider(GRAVITY_Y_MAX, 0.01f, 0, 1, 0.001f, false);
+		P.p.ui.addSlider(GRAVITY_X_MIN, -0.01f, -0.5f, 0, 0.001f, false);
+		P.p.ui.addSlider(GRAVITY_X_MAX, 0.01f, 0, 0.5f, 0.001f, false);
+		P.p.ui.addSlider(GRAVITY_Y_MIN, -0.01f, -0.5f, 0, 0.001f, false);
+		P.p.ui.addSlider(GRAVITY_Y_MAX, 0.01f, 0, 0.5f, 0.001f, false);
 		P.p.ui.addSlider(LIFESPAN_MIN, 10, 10, 50, 1, false);
 		P.p.ui.addSlider(LIFESPAN_MAX, 50, 10, 200, 1, false);
 		P.p.ui.addSlider(ROTATION_MIN, -0.1f, -1, 0, 0.001f, false);
