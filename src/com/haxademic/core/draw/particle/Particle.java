@@ -38,7 +38,7 @@ public class Particle {
 	
 	// Random range setters
 	
-	public Particle setSizeMinMax(float sizeMin, float sizeMax) {
+	public Particle setSize(float sizeMin, float sizeMax) {
 		this.sizeMin = sizeMin;
 		this.sizeMax = sizeMax;
 		return this;
