@@ -263,6 +263,23 @@ public class FileUtil {
 		return images;
 	}
 	
+	public static String[] getFilesAndDirsInDir( String directory ) {
+		File dir = new File( directory );
+		FileFilter fileFilter = new FileFilter() {
+		    public boolean accept(File file) {
+		        return file.isDirectory() || file.getName().endsWith("png") || file.getName().endsWith("gif") || file.getName().endsWith("jpg") || file.getName().endsWith("mov") || file.getName().endsWith("mp4");
+		    }
+		};
+		File[] files = dir.listFiles(fileFilter);
+		String[] fileNames = new String[files.length];
+		for (int i = 0; i < files.length; i++) {
+			if(files[i].toString().indexOf("\\._") == -1) {		// ignore weird hidden files
+				fileNames[i] = files[i].toString();
+			}
+		}
+		return fileNames;
+	}
+	
 	public static ArrayList<String> wordsFromTextFile(String textFilePath) {
 		String lines[] = P.p.loadStrings(textFilePath);
 		ArrayList<String> words = new ArrayList<String>();
