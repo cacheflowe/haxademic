@@ -39,7 +39,7 @@ extends ParticleSystem {
 		int maxAttempts = (usingUI) ? P.p.ui.valueInt(MAX_ATTEMPTS) : MAX_MAP_ATTEMPTS_PER_FRAME;
 		int maxLaunches = (usingUI) ? P.p.ui.valueInt(MAX_LAUNCHES) : MAX_LAUNCHES_PER_FRAME;
 		for (int i = 0; i < maxAttempts; i++) {
-			float radius = MathUtil.randRangeDecimal(pg.width * 0.15f, pg.width * 0.35f);
+			float radius = MathUtil.randRangeDecimal(pg.height * 0.15f, pg.height * 0.35f);
 			float rads = MathUtil.randRangeDecimal(0, P.TWO_PI);
 			if(numLaunched < maxLaunches) {
 				launchParticle(pg, radius, rads);

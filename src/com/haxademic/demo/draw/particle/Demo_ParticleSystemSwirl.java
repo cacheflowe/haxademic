@@ -2,7 +2,6 @@ package com.haxademic.demo.draw.particle;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.particle.ParticleSystem;
 import com.haxademic.core.draw.particle.ParticleSystemSwirl;
 import com.haxademic.core.media.DemoAssets;
 
@@ -15,7 +14,7 @@ extends PAppletHax {
 	protected ParticleSystemSwirl particles;
 	
 	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, 800 );
+		p.appConfig.setProperty( AppSettings.WIDTH, 1200 );
 		p.appConfig.setProperty( AppSettings.HEIGHT, 800 );
 	}
 
