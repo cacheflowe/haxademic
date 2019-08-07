@@ -25,7 +25,10 @@
 	* Hot-reloading?!
 	* Default shader chunks
 	* Assemble w/replacement strings that match filenames?
-
+* AppGenerator:
+  * CLASSPATH_ATTR_LIBRARY_PATH_ENTRY - this needs text replace on `haxademic` to new project name
+* Investigate Task Scheduler
+  * https://docs.microsoft.com/en-us/windows/win32/taskschd/task-scheduler-start-page
 
 ## Processing problems
 
