@@ -7,9 +7,11 @@ import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.BlurProcessingFilter;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.file.FileUtil;
+import com.haxademic.core.hardware.webcam.WebCam;
 import com.haxademic.core.media.DemoAssets;
 
 import processing.core.PGraphics;
+import processing.core.PImage;
 import processing.opengl.PShader;
 
 public class Demo_MaskConcentric
@@ -60,14 +62,14 @@ extends PAppletHax {
 		colorTransformShader = p.loadShader(FileUtil.getFile("haxademic/shaders/filters/opaque-pixels-to-color.glsl"));
 	}
 
-	public void updateMaskedImages() {
+	public void updateMaskedImages(PImage source) {
 		for (int i = 0; i < numCircles; i++) {
 			PGraphics image = images[i];
 			image.beginDraw();
 			image.background(255);
 			image.noStroke();
 			image.fill(255);
-			ImageUtil.drawImageCropFill(DemoAssets.justin(), image, true);
+			ImageUtil.drawImageCropFill(source, image, true);
 			image.endDraw();
 			image.mask(masks[i]);
 			// if(i < 4) p.debugView.setTexture("image-"+i, image);
@@ -92,21 +94,31 @@ extends PAppletHax {
 	}
 	
 	public void drawApp() {
+		// user interaction
+		float offsetX = -P.TWO_PI * 0.2f + P.TWO_PI * 0.4f * p.mousePercentXEased();
+		float offsetY = -P.TWO_PI + P.TWO_PI * 2f * p.mousePercentYEased();
+
+		// context reset
 		p.background(0);
 		PG.setCenterScreen(p.g);
 		PG.setDrawCenter(p.g);
+		p.g.rotateX(offsetY);
 		
 		// lazy init images - not sure why this has to happen a couple times before stopping?!
 		if(p.frameCount < 3) {
-			updateMaskedImages();
+			updateMaskedImages(DemoAssets.justin());
 			updateShadows();
-		}
+		} /* else {
+			updateMaskedImages(WebCam.instance().image());
+		} */
 		
-		float offsetX = -2f + 4f * p.mousePercentXEased();
+
+		
 		for (int i = 0; i < numCircles; i++) {
 			PGraphics image = images[i];
 			PGraphics shadow = shadows[i];
 			p.pushMatrix();
+			p.translate(0, 0, (float) i * P.abs(offsetY) * 30f);
 			p.rotate(offsetX + (float) i * offsetX);
 			PG.setPImageAlpha(p, P.abs(offsetX) / 1f);
 			p.image(shadow, 0, 0);
