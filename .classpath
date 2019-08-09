@@ -86,6 +86,11 @@
 	<classpathentry kind="lib" path="lib/SimpleOpenNI/library/SimpleOpenNI.jar"/>
 	<classpathentry kind="lib" path="lib/sphinx4/sphinx4-core-5prealpha.jar"/>
 	<classpathentry kind="lib" path="lib/sphinx4/sphinx4-data-1.0.0.jar"/>
+	<classpathentry kind="lib" path="lib/spout/library/spout.jar">
+		<attributes>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="haxademic/lib/spout/library"/>
+		</attributes>
+	</classpathentry>
 	<classpathentry kind="lib" path="lib/super-csv/super-csv-2.1.0.jar"/>
 	<classpathentry kind="lib" path="lib/themidibus/library/themidibus.jar"/>
 	<classpathentry kind="lib" path="lib/toxiclibs-complete-0020/toxiclibs_p5/library/toxiclibs_p5.jar"/>

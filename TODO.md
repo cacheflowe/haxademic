@@ -2,7 +2,9 @@
 
 ## High-priority
 
+* WebCam UI picker should draw flat on top of everything like DebugView
 * Add a callback (IEaseCompleteListener) to EasingFloat/LinearFloat
+* Shrink `p.ui` text & buttons. Maybe left-align too. Also cut off long float values
 * Clean up /lib - we should have src for all libraries if possible, pointed to for Eclipse click-through, but nothing else. Except maybe examples?
 * libusb or something like that to query weather a webcam is still plugged in. Java library?
   * http://usb4java.org/quickstart/libusb.html
@@ -29,6 +31,10 @@
   * CLASSPATH_ATTR_LIBRARY_PATH_ENTRY - this needs text replace on `haxademic` to new project name
 * Investigate Task Scheduler
   * https://docs.microsoft.com/en-us/windows/win32/taskschd/task-scheduler-start-page
+* Simulate stop frame overlay via Jesse
+* Unity/Processing bridge
+  * 3d scene to RenderTexture to Spout
+  * Scripted startup/shutdown
 
 ## Processing problems
 
