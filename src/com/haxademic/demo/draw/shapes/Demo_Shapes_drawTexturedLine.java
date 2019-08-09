@@ -4,12 +4,12 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.data.constants.PShapeTypes;
 import com.haxademic.core.draw.context.PG;
-import com.haxademic.core.draw.shapes.LineTextured;
+import com.haxademic.core.draw.shapes.Shapes;
 
 import processing.core.PImage;
 import processing.core.PVector;
 
-public class Demo_LineTextured 
+public class Demo_Shapes_drawTexturedLine 
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
@@ -28,23 +28,25 @@ extends PAppletHax {
 		p2.set(p.mouseX, p.mouseY);
 		
 		// update line properties
-		float thickness = 10f;// + 4f * P.sin(p.frameCount/30f);
-		float texOffset = p.frameCount * 1f; // P.sin(p.frameCount/30f) * 400f;
+		float thickness = 13f;// + 4f * P.sin(p.frameCount/30f);
+		float texOffset = p.frameCount * 10f; // P.sin(p.frameCount/30f) * 400f;
 		
 		// draw background
-		p.fill(0xff800080);
 		p.noStroke();
 		p.beginShape(PShapeTypes.TRIANGLES);
+		p.fill(0xff800080);
 		p.vertex(p1.x, p1.y);
+		p.fill(0xff900030);
 		p.vertex(p2.x, p2.y);
+		p.fill(0xff300050);
 		p.vertex(p3.x, p3.y);
 		p.endShape();
 
 		// draw lines
 		PG.setDrawFlat2d(p.g, true);
-		LineTextured.draw(p.g, lineTexture, p1.x, p1.y, p2.x, p2.y, 0xffffffff, thickness, texOffset);
-		LineTextured.draw(p.g, lineTexture, p2.x, p2.y, p3.x, p3.y, 0xffffffff, thickness, texOffset);
-		LineTextured.draw(p.g, lineTexture, p3.x, p3.y, p1.x, p1.y, 0xffffffff, thickness, texOffset);
+		Shapes.drawTexturedLine(p.g, lineTexture, p1.x, p1.y, p2.x, p2.y, 0xffffffff, thickness, texOffset);
+		Shapes.drawTexturedLine(p.g, lineTexture, p2.x, p2.y, p3.x, p3.y, 0xffffffff, thickness, texOffset);
+		Shapes.drawTexturedLine(p.g, lineTexture, p3.x, p3.y, p1.x, p1.y, 0xffffffff, thickness, texOffset);
 	}
 	
 }
