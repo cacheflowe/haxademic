@@ -139,6 +139,8 @@ public class Polygon {
 		utilVec.set(x, y, z);
 		utilVec.sub(center);
 		translate(utilVec);
+		calcCentroid();
+		calcBounds();
 	}
 	
 	public void setVertex(int index, PVector v) {
@@ -208,13 +210,16 @@ public class Polygon {
 	// DRAW
 	/////////////////////////////////////
 	
-	public void draw(PGraphics pg) {
+	public void draw(PGraphics pg, boolean debug) {
 		updateEdges();
-		drawEdges(pg);
-		drawShapeBg(pg);
-//		drawShapeOutline(pg);
-//		drawNeighborDebug(pg);
-//		drawCentroid(pg);
+		if(!debug) {
+			drawShapeBg(pg);
+			drawEdges(pg);
+		} else {
+			drawShapeOutline(pg);
+			drawNeighborDebug(pg);
+			drawCentroid(pg);
+		}
 //		drawMouseOver(pg);
 	}
 
@@ -336,6 +341,16 @@ public class Polygon {
 			return true;
 		}
 		return false;
+	}
+	
+	public boolean removeNeighbor(Polygon poly) {
+		Edge sharedEdge = findSharedEdge(poly);
+		if(sharedEdge != null) {
+			neighbors.remove(sharedEdge);
+			return true;
+		} else {
+			return false;
+		}
 	}
 	
 	public ArrayList<PVector> sharedVertex(Polygon poly) {

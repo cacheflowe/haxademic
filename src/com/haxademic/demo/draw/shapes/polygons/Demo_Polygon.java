@@ -27,12 +27,12 @@ extends PAppletHax {
 	    * Traverse mesh and redistribute color palettes
 	  * Add UI sliders
 	  * Mesh traversal for draw styles and deletion and??
+	    * Add random neighbor getter 
 	  * Animated new vertex for blobby build
 	  * Rect polygons subdivision layout instead of polygon mesh
 	  * Ability to remove polygons & neighbors
-	    * We'll need to remove neighbors matching Edges from each other 
 	    * If a polygon is too small, pick a vertex and destroy all connected neighbors??
-	    * Or collapse it somehow? 
+	      * Or collapse it somehow? 
 	    * Polygon pool needed for proper recycling
 	  * Sometimes subdivide a poly
 	  * Sometimes combine two polys - how to make sure it's not concave?
@@ -48,7 +48,6 @@ extends PAppletHax {
 	  * Post-processing:
 	    * Fake light shader?? 
 	  * Move mesh:
-	    * Delete shapes that have gone off screen
 	    * Mesh displacement based on vertices position, so it works across shared vertices
 	    * Can entire mesh scroll and rebuild as open spaces are revealed?
 	  * Intentional imperfections
@@ -97,6 +96,7 @@ extends PAppletHax {
 	protected PVector speed = new PVector();
 	
 	// debug
+	protected boolean POLYGON_DEBUG = false;
 	protected PVector mouseVec = new PVector();
 	protected StringBufferLog log = new StringBufferLog(30);
 	
@@ -127,6 +127,7 @@ extends PAppletHax {
 		MAX_POLY_AREA = P.pow(baseShapeSize, 2.2f);
 		SNAP_RADIUS = baseShapeSize / 2f;
 		tooFarThresh = baseShapeSize * 3.5f;
+		p.debugView.setValue("baseShapeSize", baseShapeSize);
 		
 		// new seed param
 		polygons = new ArrayList<Polygon>();
@@ -160,6 +161,7 @@ extends PAppletHax {
 		drawPolygons();
 		createNeighbors();
 		closeNeighbors();
+		removePolygons();
 	
 		// draw debug log
 		log.printToScreen(p.g, 20, 20);
@@ -171,7 +173,7 @@ extends PAppletHax {
 		totalArea = 0;
 		for (int i = 0; i < polygons.size(); i++) {
 			polygons.get(i).collided(CollisionUtil.polygonContainsPoint(polygons.get(i), mouseVec));
-			polygons.get(i).draw(p.g);
+			polygons.get(i).draw(p.g, POLYGON_DEBUG);
 			totalArea += polygons.get(i).area();
 		}
 		p.debugView.setValue("Total Area", totalArea);
@@ -232,13 +234,7 @@ extends PAppletHax {
 		tempTriangle.shrink(0.001f);
 		
 		// if offscreen, bail
-		if(tempTriangle.xMax() < 0 ||
-		   tempTriangle.xMin() > p.width ||
-		   tempTriangle.yMax() < 0 ||
-		   tempTriangle.yMin() > p.height) {
-//			log.update("OFFSCREEN!");
-			return null;
-		}
+		if(polygonOffscreen(tempTriangle)) return null;
 		
 		// check to see if we're overlapping with another polygon
 		Polygon overlappedPoly = null;
@@ -448,6 +444,40 @@ extends PAppletHax {
 			return false;
 		}
 
+	}
+	
+	///////////////////////////////////
+	// Polygon removal
+	///////////////////////////////////
+	
+	protected boolean polygonOffscreen(Polygon poly) {
+		return (poly.xMax() < 0 ||
+				poly.xMin() > p.width ||
+				poly.yMax() < 0 ||
+				poly.yMin() > p.height);
+	}
+	
+	protected void removePolygons() {
+		Polygon foundPolyOffscreen = null;
+		for (int i = 0; i < polygons.size(); i++) {
+			boolean offScreen = polygonOffscreen(polygons.get(i));
+			if(foundPolyOffscreen == null && offScreen) {
+				foundPolyOffscreen = polygons.get(i);
+			}
+			if(offScreen) polygons.get(i).bgColor(0xffff0000);
+		}
+		// remove up to one offscreen poly per frame
+		if(foundPolyOffscreen != null) removePolygon(foundPolyOffscreen);
+	}
+	
+	protected void removePolygon(Polygon poly) {
+		// detach from neighbors
+		for (int i = 0; i < polygons.size(); i++) {
+			polygons.get(i).removeNeighbor(poly);
+		}
+		// remove from array. TODO: recycle!
+		polygons.remove(poly);
+		log.update("Removed neighbor!");
 	}
 	
 	///////////////////////////////////
