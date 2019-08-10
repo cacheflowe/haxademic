@@ -165,7 +165,6 @@ extends PAppletHax {
 		// new colors & speed
 		newPalette();
 		speed.set(MathUtil.randRangeDecimal(-2f, 2f), MathUtil.randRangeDecimal(-2f, 2f));
-		speed.set(0,0,0);
 
 		// new size params
 		MAX_TOTAL_AREA = 4600000;
@@ -177,6 +176,7 @@ extends PAppletHax {
 		
 		curEdgeCopyStyle = Polygon.randomEdgeCopyStyle();
 		RESET_FRAME_INTERVAL = 200;
+		clearsBg = MathUtil.randBoolean();
 		
 		// new seed param
 		polygons = new ArrayList<Polygon>();
@@ -207,9 +207,9 @@ extends PAppletHax {
 		
 		// draw & generate shapes
 		pg.beginDraw();
-		BrightnessStepFilter.instance(p).setBrightnessStep(-5f/255f);
+		BrightnessStepFilter.instance(p).setBrightnessStep(-1f/255f);
 		BrightnessStepFilter.instance(p).applyTo(pg);
-		pg.background(255);
+		if(clearsBg) pg.background(255);
 		if(p.frameCount % RESET_FRAME_INTERVAL == 0) newSeedPolygon();
 		movePolygons();
 		drawPolygons();
@@ -217,7 +217,7 @@ extends PAppletHax {
 		closeNeighbors();
 		removePolygons();
 		pg.endDraw();
-		postProcess();
+		// postProcess();
 	
 		// draw main buffer to screen
 		ImageUtil.cropFillCopyImage(pg, p.g, false);
