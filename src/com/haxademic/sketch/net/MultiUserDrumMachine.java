@@ -127,7 +127,7 @@ extends PAppletHax {
 				curStep = 0;
 				changed = true;
 			}
-			if(changed && MathUtil.randBoolean(p)) {
+			if(changed && MathUtil.randBoolean()) {
 				sound.stop();
 				sound.play();
 			}

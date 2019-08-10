@@ -61,7 +61,7 @@ public class MeshLineSegment {
 	}
 
 	public PVector randomPoint() {
-		if(MathUtil.randBoolean(P.p) == true) return _point1;
+		if(MathUtil.randBoolean() == true) return _point1;
 		else return _point2;
 	}
 

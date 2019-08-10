@@ -156,7 +156,7 @@ extends BaseTexture {
 			}
 		} else if(_nonBeatTimeMode == ShaderTimeMode.DirectionSpeedShift) {
 			_nonBeatSpeed = MathUtil.randRangeDecimal(_smallTimeStep/120f, _smallTimeStep/80f);
-			if(MathUtil.randBoolean(P.p) == true) _nonBeatSpeed *= -1;
+			if(MathUtil.randBoolean() == true) _nonBeatSpeed *= -1;
 		} else if(_nonBeatTimeMode == ShaderTimeMode.BeatSpeedUp) {
 			if(_nonBeatTimeMode == ShaderTimeMode.BeatSpeedUp) {
 				if(_beatSpeedUp > 0) _beatSpeedUp = 0.001f;

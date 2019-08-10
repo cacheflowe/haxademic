@@ -84,15 +84,15 @@ extends PAppletHax {
 		_numArms.setTarget( MathUtil.randRange( 3, 10 ) );
 //		_levels.setTarget( MathUtil.randRange( 2, 4 ) );
 		_levels.setTarget( MathUtil.randRange( 2, P.map(_numArms.target(), 3, 10, 5, 3) ) ); // the higher the arms, the fewer the levels. make it responsive
-		_shouldBeFurther = MathUtil.randBoolean(p);
-		_drawsLinesOut = MathUtil.randBoolean(p);
-		_nextLevelPushesOut = MathUtil.randBoolean(p);
-		_armPushesOut = MathUtil.randBoolean(p);
-		_drawCircles = MathUtil.randBoolean(p);
-		_everyOtherPoly = MathUtil.randBoolean(p);
-		_everyOtherPolyVerts = MathUtil.randBoolean(p);
+		_shouldBeFurther = MathUtil.randBoolean();
+		_drawsLinesOut = MathUtil.randBoolean();
+		_nextLevelPushesOut = MathUtil.randBoolean();
+		_armPushesOut = MathUtil.randBoolean();
+		_drawCircles = MathUtil.randBoolean();
+		_everyOtherPoly = MathUtil.randBoolean();
+		_everyOtherPolyVerts = MathUtil.randBoolean();
 		if(_drawsLinesOut == true) _everyOtherPoly = false;
-		_everyOtherCircle = MathUtil.randBoolean(p);
+		_everyOtherCircle = MathUtil.randBoolean();
 		_recursiveDivisor.setTarget( 0.125f * MathUtil.randRange(1, 8) );
 }
 	
@@ -164,7 +164,7 @@ extends PAppletHax {
 		public PolygonArm arms[];
 		
 		public ClusterPolygon( float x, float y, float startCircleInc, float radius, int level, int numArms ) {
-			int nextArms = (MathUtil.randBoolean(p) == true) ? numArms + 2 : numArms - 2;
+			int nextArms = (MathUtil.randBoolean() == true) ? numArms + 2 : numArms - 2;
 
 			_curCircleSegment = (float)((Math.PI*2f) / (float)numArms);
 			float circleInc = 0;

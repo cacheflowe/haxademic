@@ -366,7 +366,7 @@ extends PAppletHax {
 				p.line( point1.getXf(), point1.getYf(), point3.getXf(), point3.getYf() );
 				
 				// sometimes fill triangles
-				if (MathUtil.randBoolean(p) == true ) {
+				if (MathUtil.randBoolean() == true ) {
 					p.beginShape();
 					p.vertex( point1.getXf(), point1.getYf() );
 					p.vertex( point2.getXf(), point2.getYf() );

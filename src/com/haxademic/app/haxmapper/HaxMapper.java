@@ -665,9 +665,9 @@ extends PAppletHax {
 		}
 		if ( _allSameTextureTrigger.triggered() == true ) {
 			resetBeatDetectMode();
-			if(MathUtil.randBoolean(p) == true) setGroupsMappingStylesToTheSame(true);
-			if(MathUtil.randBoolean(p) == true) setGroupsTextureToTheSameMaybe();
-			if(MathUtil.randBoolean(p) == true) setAllSameTexture();
+			if(MathUtil.randBoolean() == true) setGroupsMappingStylesToTheSame(true);
+			if(MathUtil.randBoolean() == true) setGroupsTextureToTheSameMaybe();
+			if(MathUtil.randBoolean() == true) setAllSameTexture();
 
 		}
 		if ( _audioInputUpTrigger.triggered() == true ) p.audioData.setGain(p.audioData.gain() + 0.05f);
@@ -705,9 +705,9 @@ extends PAppletHax {
 		}
 		if( numBeatsDetected % BEAT_INTERVAL_ALL_SAME == 0 ) {
 			if(_timingDebug == true) P.println("BEAT_INTERVAL_ALL_SAME");
-			if(MathUtil.randBoolean(p) == true) setGroupsMappingStylesToTheSame(true);
-			if(MathUtil.randBoolean(p) == true) setGroupsTextureToTheSameMaybe();
-			if(MathUtil.randBoolean(p) == true) setAllSameTexture();
+			if(MathUtil.randBoolean() == true) setGroupsMappingStylesToTheSame(true);
+			if(MathUtil.randBoolean() == true) setGroupsTextureToTheSameMaybe();
+			if(MathUtil.randBoolean() == true) setAllSameTexture();
 		}
 		
 		if( numBeatsDetected % BEAT_INTERVAL_LINE_MODE == 0 ) {
@@ -824,7 +824,7 @@ extends PAppletHax {
 	protected void changeGroupsRandomPolygonMapStyle() {
 		// every beat, change a polygon mapping style or texture
 		for(int i=0; i < _mappingGroups.size(); i++ ) {
-			if( MathUtil.randBoolean(p) == true ) {
+			if( MathUtil.randBoolean() == true ) {
 				_mappingGroups.get(i).randomTextureToRandomPolygon();
 			} else {
 				_mappingGroups.get(i).randomPolygonRandomMappingStyle();
@@ -867,7 +867,7 @@ extends PAppletHax {
 
 	protected void setAllSameTexture() {
 		while(_activeTextures.size() > 1) _activeTextures.remove(0);
-		boolean mode = MathUtil.randBoolean(p);
+		boolean mode = MathUtil.randBoolean();
 		BaseTexture newTexture = _texturePool.get(nextTexturePoolIndex());
 		cycleANewTexture(newTexture);
 		for( int i=0; i < _mappingGroups.size(); i++ ) {

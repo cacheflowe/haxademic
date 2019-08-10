@@ -105,7 +105,7 @@ public class MeshParticles {
 				leastDistance = checkDist;
 			}
 		}
-		int randClosestIndex =  (MathUtil.randBoolean(P.p) == true) ? closestIndex : closestIndex2nd;
+		int randClosestIndex =  (MathUtil.randBoolean() == true) ? closestIndex : closestIndex2nd;
 		particle.closestIndex = randClosestIndex;
 		return _meshVertices.get(randClosestIndex);
 	}

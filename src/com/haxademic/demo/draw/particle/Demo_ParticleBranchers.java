@@ -98,8 +98,8 @@ extends PAppletHax {
 		maxBranchAge = maxLifespan * MathUtil.randRangeDecimal(0.1f, 0.9f);
 		numInitialParticles = MathUtil.randRange(2, 10);
 		maxDescendants = MathUtil.randRange(3, 30);
-		evenInitialSpread = MathUtil.randBoolean(p);
-		childrenBranchFaster = MathUtil.randBoolean(p);
+		evenInitialSpread = MathUtil.randBoolean();
+		childrenBranchFaster = MathUtil.randBoolean();
 		turnMode = turnModes[MathUtil.randRange(0, turnModes.length - 1)];
 		colorMode = colorModes[MathUtil.randRange(0, colorModes.length - 1)];
 		curveAmp = MathUtil.randRangeDecimal(0.001f, 0.03f);
@@ -269,10 +269,10 @@ extends PAppletHax {
 			} else if(turnMode == TURN_MODE_ON || turnMode == TURN_MODE_MIXED) {
 //				turnAmp = (gen % 2 == 0) ? 0.01f * gen : -0.01f * gen; 	// turn based on generation
 				turnAmp = curveAmp * gen;
-				if(MathUtil.randBoolean(p)) turnAmp *= -1f;
+				if(MathUtil.randBoolean()) turnAmp *= -1f;
 			} 
 			if(turnMode == TURN_MODE_MIXED) {
-				if(MathUtil.randBoolean(p)) turnAmp = 0;
+				if(MathUtil.randBoolean()) turnAmp = 0;
 			}
 		}
 		
@@ -359,12 +359,12 @@ extends PAppletHax {
 			float dirAdd = MathUtil.randRangeDecimal(0.2f, 0.99f);
 			if(gen > 3) dirAdd = MathUtil.randRangeDecimal(0.9f, P.HALF_PI * 0.8f );
 			float angleOptions = 6;
-			// if(MathUtil.randBoolean(p)) 
+			// if(MathUtil.randBoolean()) 
 				angleOptions = numInitialParticles;
 			dirAdd = P.PI/angleOptions * MathUtil.randRange(1, angleOptions - 1); 			// keep within 0-PI, but exclude 0 and PI
 			// dirAdd = P.PI/angleOptions * MathUtil.randRange(1, P.floor(angleOptions/2)); 	// optionally, don't allow acute angles backward
-			if(MathUtil.randBoolean(p)) dirAdd *= -1f;										// randomly reverse
-//			if(MathUtil.randBoolean(p)) dirAdd = 0;											// keep same direction
+			if(MathUtil.randBoolean()) dirAdd *= -1f;										// randomly reverse
+//			if(MathUtil.randBoolean()) dirAdd = 0;											// keep same direction
 			
 			// branch off a new particle with new properties 
 			BranchingParticle newParticle = getParticle();

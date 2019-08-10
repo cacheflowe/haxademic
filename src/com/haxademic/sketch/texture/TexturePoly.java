@@ -92,7 +92,7 @@ extends PAppletHax {
 					triangle.setTexture(_movieTexture);
 				}
 				
-				triangle.setTextureStyle( MathUtil.randBoolean(p) );
+				triangle.setTextureStyle( MathUtil.randBoolean() );
 			}
 			triangle.draw(p.g);
 		}		

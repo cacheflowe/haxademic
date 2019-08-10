@@ -26,7 +26,7 @@ implements ISequencerPattern {
 		int numSteps = steps.length;
 		startIndex = MathUtil.randRange(0, numSteps - 1);
 		interval = MathUtil.randRange(intervalMin, intervalMax);
-		if(interval % 2 == 1 && MathUtil.randBoolean(P.p)) interval += 1; // more often go for even spacing if an odd number was randomized
+		if(interval % 2 == 1 && MathUtil.randBoolean()) interval += 1; // more often go for even spacing if an odd number was randomized
 		
 		// mouse control debug
 		/**

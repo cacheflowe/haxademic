@@ -34,7 +34,7 @@ implements ISequencerPattern {
 		int numSteps = steps.length;
 
 		// new sin() props
-		if(MathUtil.randBoolean(P.p)) {
+		if(MathUtil.randBoolean()) {
 			sinSpeed = MathUtil.randRangeDecimal(1f, 5f);
 		} else {
 			sinSpeed = MathUtil.randRangeDecimal(7f, 12f);

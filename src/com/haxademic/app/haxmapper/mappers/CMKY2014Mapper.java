@@ -346,7 +346,7 @@ extends HaxMapper{
 	protected void changeGroupsRandomPolygonMapStyle() {
 		// every beat, change a polygon mapping style or texture
 		for(int i=0; i < _mappingGroups.size(); i++ ) {
-			if( MathUtil.randBoolean(p) == true ) {
+			if( MathUtil.randBoolean() == true ) {
 				_mappingGroups.get(i).randomTextureToRandomPolygon();
 			} else {
 				_mappingGroups.get(i).randomPolygonRandomMappingStyle();

@@ -253,7 +253,7 @@ implements IAppStoreListener {
 				}
 			} else {
 				// every sample trigger, slightly change sequence
-				if(MathUtil.randBoolean(P.p)) {
+				if(MathUtil.randBoolean()) {
 					PatternUtil.nudgePatternForward(steps);
 				} else {
 					PatternUtil.morphPattern(steps);

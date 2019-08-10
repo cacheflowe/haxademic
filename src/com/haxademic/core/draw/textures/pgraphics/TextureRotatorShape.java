@@ -48,7 +48,7 @@ extends BaseTexture {
 	}
 	
 	public void newRotation() {
-		_baseRotZAdd = ( MathUtil.randBoolean( P.p ) ) ? 0.8f : -0.8f;
+		_baseRotZAdd = ( MathUtil.randBoolean() ) ? 0.8f : -0.8f;
 		_rotDir = MathUtil.randRangeDecimal( -4, 4 )/ 1000f;
 	}
 

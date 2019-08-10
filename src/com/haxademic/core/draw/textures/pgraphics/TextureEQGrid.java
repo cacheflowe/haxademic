@@ -24,7 +24,7 @@ extends BaseTexture {
 	}
 	
 	public void newLineMode() {
-		_boxesGrow = MathUtil.randBoolean(P.p);
+		_boxesGrow = MathUtil.randBoolean();
 	}
 
 	public void updateDraw() {

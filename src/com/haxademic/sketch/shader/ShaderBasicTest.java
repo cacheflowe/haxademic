@@ -153,7 +153,7 @@ extends PAppletHax {
 	public void keyPressed() {
 		super.keyPressed();
 		if(p.key == ' ') {
-			boolean forward = MathUtil.randBoolean(p);
+			boolean forward = MathUtil.randBoolean();
 			if( forward ) {
 				_timeEaser.setTarget(_timeEaser.value() + 3);
 			} else {

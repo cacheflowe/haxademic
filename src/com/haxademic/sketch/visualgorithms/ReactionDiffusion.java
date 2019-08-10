@@ -38,7 +38,7 @@ extends PAppletHax {
 		PG.setDrawCenter(p);
 		p.pushMatrix();
 		p.noStroke();
-		int color = (MathUtil.randBoolean(p) == true) ? 0 : 255;
+		int color = (MathUtil.randBoolean() == true) ? 0 : 255;
 		p.fill(color);
 		p.fill(255);
 		// p.fill(ColorUtil.colorFromHex(ColorUtil.randomHex()));

@@ -66,7 +66,7 @@ extends PAppletHax {
 		
 		// randomly restart kick on snare beat
 //		if(snares.loopStepped()) {
-//			if(snares.loopCurStep() % 2 == 0 && MathUtil.randBoolean(p)) kicks.start();
+//			if(snares.loopCurStep() % 2 == 0 && MathUtil.randBoolean()) kicks.start();
 //		}
 		
 		// start at center

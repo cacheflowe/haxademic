@@ -26,8 +26,8 @@ public class RandomLightTiming {
 	
 	public void updateDmxLightsOnBeat() {
 		for (int i = 0; i < _colors.length; i++) {
-			if(MathUtil.randBoolean(p) == true) {
-				if(MathUtil.randBoolean(p) == true) {
+			if(MathUtil.randBoolean() == true) {
+				if(MathUtil.randBoolean() == true) {
 					_colors[i].setCurrentInt( randomColor(0.7f) );
 					_colors[i].setTargetInt(p.color(0));
 				} else {

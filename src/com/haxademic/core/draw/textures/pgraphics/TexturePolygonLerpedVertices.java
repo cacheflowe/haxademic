@@ -67,21 +67,21 @@ extends BaseTexture {
 	}
 	
 	public void updateTiming() {
-		if(MathUtil.randBoolean(P.p)) scaleV.setTarget(MathUtil.randRangeDecimal(0.2f, 0.4f));
-		if(MathUtil.randBoolean(P.p)) feedbackDarken.setTarget(MathUtil.randRange(1, 7));
-		if(MathUtil.randBoolean(P.p)) {
+		if(MathUtil.randBoolean()) scaleV.setTarget(MathUtil.randRangeDecimal(0.2f, 0.4f));
+		if(MathUtil.randBoolean()) feedbackDarken.setTarget(MathUtil.randRange(1, 7));
+		if(MathUtil.randBoolean()) {
 			feedbackDist.setTarget(MathUtil.randRange(-5, 5));
 			while(feedbackDist.target() == 0) feedbackDist.setTarget(MathUtil.randRange(-5, 5));
 		}
-		if(MathUtil.randBoolean(P.p)) {
-			int verticesDir = MathUtil.randBoolean(P.p) ? -1 : 1;
+		if(MathUtil.randBoolean()) {
+			int verticesDir = MathUtil.randBoolean() ? -1 : 1;
 			int newVertices = P.constrain(P.round(vertices.target()) + verticesDir, 3, 12);
 			vertices.setTarget(newVertices);
 		}
 	}
 	
 	public void updateTimingSection() {
-		if(MathUtil.randBoolean(P.p)) {
+		if(MathUtil.randBoolean()) {
 		}
 	}
 	

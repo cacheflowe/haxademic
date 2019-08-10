@@ -28,11 +28,11 @@ extends BaseTexture {
 		float circleSegment = (float) ( Math.PI * 2f ) / circleSegments;
 		
 		_rotationTarget.x = circleSegment * P.round( MathUtil.randRangeDecimal( 0, circleSegments ) );
-		_rotationTarget.y = (MathUtil.randBoolean(P.p) == true) ? 0 : circleSegment;
-		if(MathUtil.randBoolean(P.p) == true) _rotationTarget.y = P.PI/2f;
-		if(MathUtil.randBoolean(P.p) == true) _rotationTarget.y *= -1;
-		_rotationTarget.z = (MathUtil.randBoolean(P.p) == true) ? 0 : circleSegment;
-		if(MathUtil.randBoolean(P.p) == true) _rotationTarget.z *= -1;
+		_rotationTarget.y = (MathUtil.randBoolean() == true) ? 0 : circleSegment;
+		if(MathUtil.randBoolean() == true) _rotationTarget.y = P.PI/2f;
+		if(MathUtil.randBoolean() == true) _rotationTarget.y *= -1;
+		_rotationTarget.z = (MathUtil.randBoolean() == true) ? 0 : circleSegment;
+		if(MathUtil.randBoolean() == true) _rotationTarget.z *= -1;
 		// override for now:
 //		_rotationTarget.x = P.PI/2f;
 		_rotationTarget.y = P.PI/2f;

@@ -56,7 +56,7 @@ extends BaseTexture {
 	}
 
 	public void newLineMode() {
-		_isWireframe = MathUtil.randBoolean( P.p );
+		_isWireframe = MathUtil.randBoolean();
 	}
 
 	public void newRotation() {

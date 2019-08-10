@@ -120,15 +120,15 @@ extends BaseTexture {
 		_numArms.setTarget( MathUtil.randRange( 3, 8 ) );
 //		_levels.setTarget( MathUtil.randRange( 2, 4 ) );
 		_levels.setTarget( MathUtil.randRange( 2, P.map(_numArms.target(), 3, 8, 5, 2) ) ); // the higher the arms, the fewer the levels. make it responsive
-		_shouldBeFurther = false; // MathUtil.randBoolean(P.p);
-		_drawsLinesOut = MathUtil.randBoolean(P.p);
-		_nextLevelPushesOut = MathUtil.randBoolean(P.p);
-		_armPushesOut = MathUtil.randBoolean(P.p);
-		_drawCircles = MathUtil.randBoolean(P.p);
-		_everyOtherPoly = MathUtil.randBoolean(P.p);
-		_everyOtherPolyVerts = MathUtil.randBoolean(P.p);
+		_shouldBeFurther = false; // MathUtil.randBoolean();
+		_drawsLinesOut = MathUtil.randBoolean();
+		_nextLevelPushesOut = MathUtil.randBoolean();
+		_armPushesOut = MathUtil.randBoolean();
+		_drawCircles = MathUtil.randBoolean();
+		_everyOtherPoly = MathUtil.randBoolean();
+		_everyOtherPolyVerts = MathUtil.randBoolean();
 		if(_drawsLinesOut == true) _everyOtherPoly = false;
-		_everyOtherCircle = MathUtil.randBoolean(P.p);
+		_everyOtherCircle = MathUtil.randBoolean();
 		_recursiveDivisor.setTarget( 0.125f * MathUtil.randRange(1, 8) );
 	}
 		

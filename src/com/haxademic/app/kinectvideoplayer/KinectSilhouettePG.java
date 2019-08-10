@@ -369,7 +369,7 @@ public class KinectSilhouettePG {
 				_canvas.line( point1.getXf(), point1.getYf(), point3.getXf(), point3.getYf() );
 				
 				// sometimes fill triangles
-				if (MathUtil.randBoolean(P.p) == true ) {
+				if (MathUtil.randBoolean() == true ) {
 					_canvas.beginShape();
 					_canvas.vertex( point1.getXf(), point1.getYf() );
 					_canvas.vertex( point2.getXf(), point2.getYf() );

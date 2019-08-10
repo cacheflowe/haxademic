@@ -963,7 +963,7 @@ implements IAppStoreListener {
 		if(colorizeWithGradient) {
 			if(MathUtil.randBooleanWeighted(p, 0.2f)) imageGradient.randomGradientTexture();
 		}
-		imageGradientLuma = true; // MathUtil.randBoolean(p);
+		imageGradientLuma = true; // MathUtil.randBoolean();
 		//		}
 	}
 
@@ -1084,7 +1084,7 @@ implements IAppStoreListener {
 		if(perTextureEffects) {
 			selectNewActiveTextureFilters();
 		}
-		colorizeWithGradient = MathUtil.randBoolean(p);
+		colorizeWithGradient = MathUtil.randBoolean();
 
 		// debug values
 		p.debugView.setValue("HAXVISUAL :: layerSwapIndex", layerSwapIndex);

@@ -207,9 +207,9 @@ extends PAppletHax {
 		
 		protected void resetDirection() {
 			float offsetX = MathUtil.randRangeDecimal(0, p.width/5f);
-			if(MathUtil.randBoolean(p) == true) offsetX *= -1f;
+			if(MathUtil.randBoolean() == true) offsetX *= -1f;
 			float offsetY = MathUtil.randRangeDecimal(0, p.width/5f);
-			if(MathUtil.randBoolean(p) == true) offsetY *= -1f;
+			if(MathUtil.randBoolean() == true) offsetY *= -1f;
 			
 			float dirToCenter = MathUtil.getRadiansToTarget(pos.x, pos.y, p.width/2 + offsetX, p.height/2 + offsetY);
 			easedDir.setCurrent(-dirToCenter);
@@ -233,7 +233,7 @@ extends PAppletHax {
 				// on black!
 				onBlack = true;
 				float turnRads = P.PI * MathUtil.randRangeDecimal(0.9f, 1.1f); 
-				if(MathUtil.randBoolean(p) == true) turnRads *= -1f;
+				if(MathUtil.randBoolean() == true) turnRads *= -1f;
 				easedDir.setTarget(easedDir.target() +turnRads);
 				tailLerp.setTarget(TAIL_LERP_BLACK);
 				resetSpeed();

@@ -26,7 +26,7 @@ extends BaseTexture {
 	}
 	
 	public void newRotation() {
-		if(MathUtil.randBoolean(P.p) == true) {
+		if(MathUtil.randBoolean() == true) {
 			rotation.setTarget( P.TWO_PI * MathUtil.randRangeDecimal(0, 2) );
 		} else {
 			rotation.setTarget( P.PI/4f * MathUtil.randRange(0, 8) );

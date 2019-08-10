@@ -59,7 +59,7 @@ extends BaseTexture {
 	}
 	
 	public void updateTiming() {
-		if(MathUtil.randBoolean(P.p)) {
+		if(MathUtil.randBoolean()) {
 			speed.setTarget(MathUtil.randRangeDecimal(-4f, 4f));
 		}
 	}

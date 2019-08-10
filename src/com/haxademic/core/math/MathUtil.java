@@ -43,8 +43,8 @@ public class MathUtil {
 			return 1 - 0.5f * (float)Math.pow(2*(1 - progress), easeFactor);
 	}
 
-	public static boolean randBoolean( PApplet p ) {
-		return ( p.random( 0f, 1f ) > 0.5f ) ? true : false;
+	public static boolean randBoolean() {
+		return ( P.p.random( 0f, 1f ) > 0.5f ) ? true : false;
 	}
 
 	public static boolean randBooleanWeighted( PApplet p, float likeliness ) {

@@ -249,7 +249,7 @@ public class MappingGroup {
 	}
 
 	public void traverseStart() {
-		if(MathUtil.randBoolean(p) == false) return;
+		if(MathUtil.randBoolean() == false) return;
 		_traverseFrame = 0;
 		_traverseMode = MathUtil.randRange(0, 1);
 		_traverseWireMode = MathUtil.randRange(0, 1);

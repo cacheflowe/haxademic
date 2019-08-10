@@ -11,7 +11,7 @@ implements ISequencerPattern {
 	
 	@Override
 	public void newPattern(boolean[] steps) {
-		int divisor = MathUtil.randBoolean(P.p) ? 4 : 2;
+		int divisor = MathUtil.randBoolean() ? 4 : 2;
 		divisor = 4;
 		for (int i = 0; i < steps.length; i++) {
 			steps[i] = (i % divisor == 0);

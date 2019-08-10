@@ -338,7 +338,7 @@ public class Polygon {
 		PVector edgeLaunchPoint = edge.launchPoint(rangeLow, rangeHigh);
 		float edgeLength = edge.length();
 		// get perpendicular point
-		PVector originEdgePoint = MathUtil.randBoolean(P.p) ? edge.v1() : edge.v2();
+		PVector originEdgePoint = MathUtil.randBoolean() ? edge.v1() : edge.v2();
 		float perpLength = edgeLength * dist;
 		getPerp(originEdgePoint, edgeLaunchPoint, newNeighborCenter);
 		newNeighborCenter.mult(perpLength).add(edgeLaunchPoint);

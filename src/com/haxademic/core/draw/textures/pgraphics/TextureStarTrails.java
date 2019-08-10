@@ -45,7 +45,7 @@ extends BaseTexture {
 	}
 	
 	public void newLineMode() {
-//		_wireframe = MathUtil.randBoolean(P.p);
+//		_wireframe = MathUtil.randBoolean();
 	}
 
 	public void updateDraw() {

@@ -218,7 +218,7 @@ extends PAppletHax {
 			AlphaComplex ac = new AlphaComplex(points, 200.8);
 			for(CTriangle tri: ac.getTriangles()){		
 				p.fill( 50, 200, 50 );
-//				if(MathUtil.randBoolean(p) == true) {
+//				if(MathUtil.randBoolean() == true) {
 					joons.jr.fill(JoonsWrapper.MATERIAL_SHINY, 190, 210, 190, 0.25f);
 //				} else {
 //					_jw.jr.fill(JoonsWrapper.MATERIAL_GLASS, 255, 255, 255);

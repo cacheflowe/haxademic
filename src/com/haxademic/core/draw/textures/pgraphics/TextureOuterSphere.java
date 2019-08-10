@@ -38,8 +38,8 @@ extends BaseTexture {
 	}
 	
 	public void newLineMode() {
-		_isWireframe = ( MathUtil.randBoolean( P.p ) == true ) ? false : true;
-		_isSphere = ( MathUtil.randBoolean( P.p ) == true ) ? false : true;
+		_isWireframe = ( MathUtil.randBoolean() == true ) ? false : true;
+		_isSphere = ( MathUtil.randBoolean() == true ) ? false : true;
 		
 		// new sphere mesh flag - don't do it here since it's asynchronous apparently
 		_makeNewMesh = true;

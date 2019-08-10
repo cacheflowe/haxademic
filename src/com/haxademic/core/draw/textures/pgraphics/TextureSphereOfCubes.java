@@ -81,15 +81,15 @@ extends BaseTexture {
 	}
 	
 	public void updateTiming() {
-		if(MathUtil.randBoolean(P.p)) twist.setTarget(MathUtil.randRangeDecimal(0, 0.25f));
-		if(MathUtil.randBoolean(P.p)) {
+		if(MathUtil.randBoolean()) twist.setTarget(MathUtil.randRangeDecimal(0, 0.25f));
+		if(MathUtil.randBoolean()) {
 			if(P.p.frameCount % 1200 < 600)
 				baseRadius.setTarget(MathUtil.randRangeDecimal(height * 0.25f, height * 0.35f));
 			else
 				baseRadius.setTarget(MathUtil.randRangeDecimal(height * 0.85f, height * 1.2f));
 		}
 		
-		if(MathUtil.randBoolean(P.p)) {
+		if(MathUtil.randBoolean()) {
 			float curNumCubes = numCubes.value();
 			curNumCubes = curNumCubes + MathUtil.randRange(-10, 10);
 			curNumCubes = P.constrain(curNumCubes, 50, 100);
