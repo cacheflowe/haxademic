@@ -8,6 +8,8 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.debug.StringBufferLog;
+import com.haxademic.core.draw.filters.pshader.BrightnessStepFilter;
+import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.shapes.polygons.CollisionUtil;
 import com.haxademic.core.draw.shapes.polygons.Edge;
 import com.haxademic.core.draw.shapes.polygons.Polygon;
@@ -20,36 +22,36 @@ extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	/*
-	  * Make sure everything is drawing to PG for keystoning!
+	  * Animated new vertex for blobby build
 	  * Inner-polygon draw styles
 	    * Turn debug mode into a draw style interface
-	  * Color schemes
-	    * Traverse mesh and redistribute color palettes
+	    * Mesh traversal for draw styles and deletion and??
+		    * Add random neighbor getter 
+		    * Traverse mesh and redistribute color palettes
+		    * Iterative distribution of styles
 	  * Add UI sliders
-	  * Mesh traversal for draw styles and deletion and??
-	    * Add random neighbor getter 
-	  * Animated new vertex for blobby build
-	  * Rect polygons subdivision layout instead of polygon mesh
 	  * Ability to remove polygons & neighbors
 	    * If a polygon is too small, pick a vertex and destroy all connected neighbors??
 	      * Or collapse it somehow? 
 	    * Polygon pool needed for proper recycling
-	  * Sometimes subdivide a poly
-	  * Sometimes combine two polys - how to make sure it's not concave?
-	  * Sometimes start with multiple seed locations
-	  * Sometimes triangles aren't closing that really should
+	  * Mesh enhancements
+	    * Sometimes subdivide a poly
+	    * Sometimes combine two polys - how to make sure it's not concave?
+	    * Sometimes start with multiple seed locations
+	    * Sometimes triangles aren't closing that really should
       * Layout system
+	    * Rect polygons subdivision layout instead of polygon mesh
+	      * Can we transition to this from an odd triangle?
         * Sometimes only let the newest triangle make new neighbors?? 
         * Map to constrain areas for new polygon generation?? 
         * Map to destroy polygons? For user interaction??? 
           * Generative patterns a la Zoom lights for this
-      * Growth vs. subdivision
-	  * Iterative distribution of styles
 	  * Post-processing:
-	    * Fake light shader?? 
-	  * Move mesh:
-	    * Mesh displacement based on vertices position, so it works across shared vertices
-	    * Can entire mesh scroll and rebuild as open spaces are revealed?
+	    * Fake light shader??
+	    * Vertex shader if everything's moved to PShape? 
+	  * Animate mesh:
+	    * Mesh displacement based on vertices/ position, so it works across shared vertices
+	    * Can entire mesh rotate around a point?
 	  * Intentional imperfections
 	  * Interaction
 	  * Music
@@ -129,6 +131,8 @@ extends PAppletHax {
 		tooFarThresh = baseShapeSize * 3.5f;
 		p.debugView.setValue("baseShapeSize", baseShapeSize);
 		
+		RESET_FRAME_INTERVAL = 200;
+		
 		// new seed param
 		polygons = new ArrayList<Polygon>();
 		Polygon firstPoly = Polygon.buildShape(p.width * p.random(0.1f, 0.9f), p.height * p.random(0.1f, 0.9f), 3, baseShapeSize);
@@ -156,13 +160,20 @@ extends PAppletHax {
 //		p.rotateX(p.mousePercentY() * 3f);
 		
 		// draw & generate shapes
+		pg.beginDraw();
+		BrightnessStepFilter.instance(p).setBrightnessStep(-1f/255f);
+		BrightnessStepFilter.instance(p).applyTo(pg);
 		if(p.frameCount % RESET_FRAME_INTERVAL == 0) newSeedPolygon();
 		movePolygons();
 		drawPolygons();
 		createNeighbors();
 		closeNeighbors();
 		removePolygons();
+		pg.endDraw();
 	
+		// draw main buffer to screen
+		ImageUtil.cropFillCopyImage(pg, p.g, false);
+		
 		// draw debug log
 		log.printToScreen(p.g, 20, 20);
 		p.debugView.setValue("Polygons", polygons.size());
@@ -173,7 +184,7 @@ extends PAppletHax {
 		totalArea = 0;
 		for (int i = 0; i < polygons.size(); i++) {
 			polygons.get(i).collided(CollisionUtil.polygonContainsPoint(polygons.get(i), mouseVec));
-			polygons.get(i).draw(p.g, POLYGON_DEBUG);
+			polygons.get(i).draw(pg, POLYGON_DEBUG);
 			totalArea += polygons.get(i).area();
 		}
 		p.debugView.setValue("Total Area", totalArea);

@@ -72,7 +72,7 @@ extends PAppletHax {
 					polygons.get(i).collided(polyCollided);
 				}
 			}
-			polygons.get(i).draw(p.g);
+			polygons.get(i).draw(p.g, true);
 		}
 		
 		/////////////////////////////////////////
@@ -98,7 +98,7 @@ extends PAppletHax {
 				boolean polyCollided = CollisionUtil.lineIntersectsPolygon(line1Start, line1End, polygons.get(i)) || CollisionUtil.lineIntersectsPolygon(line2Start, line2End, polygons.get(i));
 				polygons.get(i).collided(polyCollided);
 			}
-			polygons.get(i).draw(p.g);
+			polygons.get(i).draw(p.g, true);
 		}
 		
 		/////////////////////////////////////////
@@ -113,7 +113,7 @@ extends PAppletHax {
 			}
 		}
 		movingPolygon.collided(movingPolyCollided);
-		movingPolygon.draw(p.g);
+		movingPolygon.draw(p.g, true);
 		
 		/////////////////////////////////////////
 		// draw rectangles
