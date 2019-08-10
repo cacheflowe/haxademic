@@ -1,8 +1,11 @@
 package com.haxademic.core.draw.shapes.polygons;
 
+import com.haxademic.core.app.P;
+import com.haxademic.core.draw.shapes.Shapes;
 import com.haxademic.core.math.MathUtil;
 
 import processing.core.PGraphics;
+import processing.core.PImage;
 import processing.core.PVector;
 
 public class Edge {
@@ -11,6 +14,9 @@ public class Edge {
 	protected PVector v2;
 	protected PVector midPoint = new PVector();
 	protected PVector launchPoint = new PVector();
+	
+	protected static PImage lineTexture = null;
+
 	
 	public Edge(PVector v1, PVector v2) {
 		this.v1 = v1;
@@ -27,9 +33,9 @@ public class Edge {
 		midPoint.lerp(v2, 0.5f);
 	}
 	
-	public PVector launchPoint() {
+	public PVector launchPoint(float rangeLow, float rangeHigh) {
 		launchPoint.set(v1);
-		launchPoint.lerp(v2, MathUtil.randRangeDecimal(0.25f, 0.75f));
+		launchPoint.lerp(v2, MathUtil.randRangeDecimal(rangeLow, rangeHigh));
 		return launchPoint;
 	}
 	
@@ -42,7 +48,8 @@ public class Edge {
 	}
 	
 	public void draw(PGraphics pg) {
-		drawDebug(pg);
+//		drawDebug(pg);
+		drawHandDrawn(pg);
 	}
 	
 	public boolean matchesEdge(Edge edge) {
@@ -52,9 +59,14 @@ public class Edge {
 			    v2.dist(edge.v1()) < 0.01f);
 	}
 	
-	protected void drawDebug(PGraphics pg) {
-		pg.stroke(0, 0, 255);
+	public void drawDebug(PGraphics pg) {
+		pg.stroke(0, 255, 0);
 		pg.line(v1.x, v1.y, v1.z, v2.x, v2.y, v2.z);
+	}
+	
+	public void drawHandDrawn(PGraphics pg) {
+		if(lineTexture == null) lineTexture = P.getImage("haxademic/images/hand-drawn-line.png");
+		Shapes.drawTexturedLine(pg, lineTexture, v1.x, v1.y, v2.x, v2.y, 0xff000000, 24, P.p.noise(v1.x/100f + P.p.frameCount * 0.01f) * 1000f);
 	}
 	
 	public String toString() {

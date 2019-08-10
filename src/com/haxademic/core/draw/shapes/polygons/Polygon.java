@@ -21,6 +21,12 @@ public class Polygon {
 	protected ArrayList<Edge> edges;
 	protected int numVertices = 0;
 	protected float area = 0;
+	protected float xMin = 0;
+	protected float xMax = 0;
+	protected float yMin = 0;
+	protected float yMax = 0;
+	
+	protected int bgColor = 0xff0000;
 
 	protected PVector collideVec = new PVector(); 
 	protected PVector utilVec = new PVector(); 
@@ -56,6 +62,7 @@ public class Polygon {
 		edges = new ArrayList<Edge>();
 		buildEdges();
 		calcCentroid();
+		calcBounds();
 		calcArea();
 	}
 	
@@ -93,6 +100,15 @@ public class Polygon {
 		return edges;
 	}
 	
+	public float area() { return area; }
+	public float xMin() { return xMin; }
+	public float xMax() { return xMax; }
+	public float yMin() { return yMin; }
+	public float yMax() { return yMax; }
+	
+	public int bgColor() { return bgColor; }
+	public void bgColor(int bgColor) { this.bgColor = bgColor; }
+	
 	public boolean collided() { return collided; }
 	public void collided(boolean collided) { this.collided = collided; }
 	
@@ -111,6 +127,7 @@ public class Polygon {
 			v.add(x, y, z);
 		}
 		calcCentroid();
+		calcBounds();
 	}
 	
 	public void setPosition(PVector pos) {
@@ -127,6 +144,7 @@ public class Polygon {
 	public void setVertex(int index, PVector v) {
 		vertices.get(index).set(v);
 		calcCentroid();
+		calcBounds();
 		calcArea();
 	}
 	
@@ -137,6 +155,7 @@ public class Polygon {
 			}
 		}
 		calcCentroid();
+		calcBounds();
 		calcArea();
 	}
 	
@@ -146,6 +165,18 @@ public class Polygon {
 			center.add(vertices.get(i));
 		}
 		center.div(vertices.size());
+	}
+	
+	protected void calcBounds() {
+		xMax = xMin = center.x;
+		yMax = yMin = center.y;
+		for (int i = 0; i < vertices.size(); i++) {
+			PVector v = vertices.get(i);
+			if(v.x < xMin) xMin = v.x; 
+			if(v.x > xMax) xMax = v.x; 
+			if(v.y < yMin) yMin = v.y; 
+			if(v.y > yMax) yMax = v.y; 
+		}
 	}
 	
 	public void shrink(float amp) {
@@ -181,9 +212,9 @@ public class Polygon {
 		updateEdges();
 		drawEdges(pg);
 		drawShapeBg(pg);
-		drawShapeOutline(pg);
-		drawNeighborDebug(pg);
-		drawCentroid(pg);
+//		drawShapeOutline(pg);
+//		drawNeighborDebug(pg);
+//		drawCentroid(pg);
 //		drawMouseOver(pg);
 	}
 
@@ -205,7 +236,7 @@ public class Polygon {
 	}
 	
 	protected void drawShapeBg(PGraphics pg) {
-		pg.fill(0);
+		pg.fill(bgColor);
 		if(collided) pg.fill(0, 255, 0, 50);
 		pg.noStroke();
 		pg.beginShape();
@@ -234,7 +265,8 @@ public class Polygon {
 	
 	protected void drawEdges(PGraphics pg) {
 		for (int i = 0; i < edges.size(); i++) {
-			edges.get(i).draw(pg);
+//			edges.get(i).drawDebug(pg);
+			edges.get(i).drawHandDrawn(pg);
 		}
 	}
 	
@@ -280,9 +312,9 @@ public class Polygon {
 		}
 	}
 	
-	public PVector newNeighbor3rdVertex(Edge edge, float dist) {
+	public PVector newNeighbor3rdVertex(Edge edge, float dist, float rangeLow, float rangeHigh) {
 		// get midpoint on edge to launch perpendicular point from
-		PVector edgeLaunchPoint = edge.launchPoint();
+		PVector edgeLaunchPoint = edge.launchPoint(rangeLow, rangeHigh);
 		float edgeLength = edge.length();
 		// get perpendicular point
 		PVector originEdgePoint = MathUtil.randBoolean(P.p) ? edge.v1() : edge.v2();
