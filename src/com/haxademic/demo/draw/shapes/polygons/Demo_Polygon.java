@@ -22,7 +22,8 @@ extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	/*
-	  * Animated new vertex for blobby build
+	  * Animated destroy/collapse method
+	    * Switch between edge-copying styles
 	  * Inner-polygon draw styles
 	    * Turn debug mode into a draw style interface
 	    * Mesh traversal for draw styles and deletion and??
@@ -97,6 +98,10 @@ extends PAppletHax {
 	// movement
 	protected PVector speed = new PVector();
 	
+	// animation of new polygons
+	protected int curEdgeCopyStyle = Polygon.EDGE_COPY_1;
+
+	
 	// debug
 	protected boolean POLYGON_DEBUG = false;
 	protected PVector mouseVec = new PVector();
@@ -122,6 +127,7 @@ extends PAppletHax {
 		// new colors & speed
 		newPalette();
 		speed.set(MathUtil.randRangeDecimal(-2f, 2f), MathUtil.randRangeDecimal(-2f, 2f));
+		speed.set(0,0,0);
 
 		// new size params
 		MAX_TOTAL_AREA = 4600000;
@@ -131,6 +137,7 @@ extends PAppletHax {
 		tooFarThresh = baseShapeSize * 3.5f;
 		p.debugView.setValue("baseShapeSize", baseShapeSize);
 		
+		curEdgeCopyStyle = Polygon.randomEdgeCopyStyle();
 		RESET_FRAME_INTERVAL = 200;
 		
 		// new seed param
@@ -144,6 +151,7 @@ extends PAppletHax {
 	protected void addNewPolygon(Polygon poly) {
 		polygons.add(poly);
 		poly.bgColor(nextColor());
+		poly.initAnim(curEdgeCopyStyle);
 	}
 	
 	protected void newPalette() {
@@ -161,8 +169,9 @@ extends PAppletHax {
 		
 		// draw & generate shapes
 		pg.beginDraw();
-		BrightnessStepFilter.instance(p).setBrightnessStep(-1f/255f);
+		BrightnessStepFilter.instance(p).setBrightnessStep(-5f/255f);
 		BrightnessStepFilter.instance(p).applyTo(pg);
+		pg.background(255);
 		if(p.frameCount % RESET_FRAME_INTERVAL == 0) newSeedPolygon();
 		movePolygons();
 		drawPolygons();
@@ -191,6 +200,7 @@ extends PAppletHax {
 	}
 	
 	protected void createNeighbors() {
+//		if(p.frameCount % 10 > 1) return;
 		if(totalArea > MAX_TOTAL_AREA) return;
 		int startTime = p.millis();
 		for(int i=0; i < NEW_NEIGHBOR_ATTEMPTS; i++) addNewNeighbor();

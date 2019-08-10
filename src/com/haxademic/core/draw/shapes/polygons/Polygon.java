@@ -15,6 +15,7 @@ import processing.core.PVector;
 
 public class Polygon {
 
+	// basic geometry
 	protected PVector center = new PVector();
 	protected ArrayList<PVector> vertices;
 	protected HashMap<Edge, Polygon> neighbors;
@@ -25,17 +26,28 @@ public class Polygon {
 	protected float xMax = 0;
 	protected float yMin = 0;
 	protected float yMax = 0;
+
+	// animation
+	protected ArrayList<Edge> edgesAnim;
+	public static final int EDGE_COPY = 0;
+	public static final int EDGE_COPY_REV = 1;
+	public static final int EDGE_COPY_1 = 2;
+	public static final int[] EDGE_COPY_STYLES = new int[] {EDGE_COPY, EDGE_COPY_REV, EDGE_COPY_1};
+	public static int randomEdgeCopyStyle() {
+		return EDGE_COPY_STYLES[MathUtil.randRange(0, EDGE_COPY_STYLES.length - 1)];
+	}
 	
+	// draw style
 	protected int bgColor = 0xff0000;
 
+	// create neighbors
 	protected PVector collideVec = new PVector(); 
 	protected PVector utilVec = new PVector(); 
 	protected PVector utilVec2 = new PVector(); 
 	protected PVector newNeighborCenter = new PVector(); 
-	
+	protected boolean collided = false;
 	protected ArrayList<Edge> availableNeighborEdges = new ArrayList<Edge>();
 	
-	protected boolean collided = false;
 	
 	/////////////////////////////////////
 	// INIT
@@ -212,6 +224,7 @@ public class Polygon {
 	
 	public void draw(PGraphics pg, boolean debug) {
 		updateEdges();
+		updateAnim();
 		if(!debug) {
 			drawShapeBg(pg);
 			drawEdges(pg);
@@ -241,12 +254,14 @@ public class Polygon {
 	}
 	
 	protected void drawShapeBg(PGraphics pg) {
+		ArrayList<Edge> curEdges = (edgesAnim == null) ? edges : edgesAnim;
+		
 		pg.fill(bgColor);
 		if(collided) pg.fill(0, 255, 0, 50);
 		pg.noStroke();
 		pg.beginShape();
-		for (int i = 0; i < vertices.size(); i++) {
-			PVector v = vertices.get(i);
+		for (int i = 0; i < curEdges.size(); i++) {
+			PVector v = curEdges.get(i).v1();
 			pg.vertex(v.x, v.y, v.z);
 		}
 		pg.endShape(P.CLOSE);
@@ -269,9 +284,10 @@ public class Polygon {
 	}
 	
 	protected void drawEdges(PGraphics pg) {
-		for (int i = 0; i < edges.size(); i++) {
+		ArrayList<Edge> curEdges = (edgesAnim == null) ? edges : edgesAnim;
+		for (int i = 0; i < curEdges.size(); i++) {
 //			edges.get(i).drawDebug(pg);
-			edges.get(i).drawHandDrawn(pg);
+			curEdges.get(i).drawHandDrawn(pg);
 		}
 	}
 	
@@ -422,6 +438,27 @@ public class Polygon {
 	
 	public void mergeWithNeighbor() {
 		
+	}
+	
+	// ANIMATE
+	
+	public void initAnim(int edgeCopyStyle) {
+		// make a copy of the real vertices
+		if(edgesAnim == null) {
+			edgesAnim = new ArrayList<Edge>();
+			for (int i = 0; i < edges.size(); i++) {
+				if(edgeCopyStyle == EDGE_COPY_1) edgesAnim.add(edges.get(0).copy1());
+				else if(edgeCopyStyle == EDGE_COPY_REV) edgesAnim.add(edges.get(0).copyRev());
+				else if(edgeCopyStyle == EDGE_COPY) edgesAnim.add(edges.get(0).copy());
+			}
+		}
+	}
+	
+	protected void updateAnim() {
+		if(edgesAnim == null) return;
+		for (int i = 0; i < edges.size(); i++) {
+			edgesAnim.get(i).lerp(edges.get(i), 0.2f);
+		}
 	}
 	
 }

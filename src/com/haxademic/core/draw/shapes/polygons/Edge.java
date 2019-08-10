@@ -27,6 +27,10 @@ public class Edge {
 	public PVector v1() { return v1; }
 	public PVector v2() { return v2; }
 	public PVector midPoint() { return midPoint; }
+	public Edge copy() { return new Edge(v2.copy(), v1.copy()); }
+	public Edge copyRev() { return new Edge(v1.copy(), v2.copy()); }
+	public Edge copy2() { return new Edge(v2.copy(), v2.copy()); }
+	public Edge copy1() { return new Edge(v1.copy(), v1.copy()); }
 	
 	protected void calcMidPoint() {
 		midPoint.set(v1);
@@ -37,6 +41,16 @@ public class Edge {
 		launchPoint.set(v1);
 		launchPoint.lerp(v2, MathUtil.randRangeDecimal(rangeLow, rangeHigh));
 		return launchPoint;
+	}
+	
+	public void set(Edge otherEdge) {
+		v1.set(otherEdge.v1());
+		v2.set(otherEdge.v2());
+	}
+	
+	public void lerp(Edge otherEdge, float amp) {
+		v1.lerp(otherEdge.v1(), amp);
+		v2.lerp(otherEdge.v2(), amp);
 	}
 	
 	public float length() {
