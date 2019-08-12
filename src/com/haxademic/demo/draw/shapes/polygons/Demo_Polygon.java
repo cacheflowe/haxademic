@@ -23,14 +23,26 @@ extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	/*
+	  * Polygon map texture
+        * Map to constrain areas for new polygon generation?? 
+        * Map to destroy polygons? For user interaction??? 
+          * Generative patterns a la Zoom lights for this
+        * Add Kinect map
+          * Does KInect map power a separate mesh system with a shadow on top of the main one??
 	  * Animated destroy/collapse method
+	    * Make lerp speed adjustable/randomized
+	    * What about Penner curves??
+	  * Overall draw styles & colors
+	    * Wiggly lines should use all of Debbie's textures, and be more or less wiggly at times
+	      * Adjustable thickness
+	    * Lines, background and triangle backgrounds should use a global palette
 	  * Inner-polygon draw styles
 	    * Turn debug mode into a draw style interface
 	    * Mesh traversal for draw styles and deletion and??
 		    * Add random neighbor getter 
 		    * Traverse mesh and redistribute color palettes
 		    * Iterative distribution of styles
-	  * Add UI sliders
+	  * Add UI sliders to find nice configuration presets
 	  * Ability to remove polygons & neighbors
 	    * If a polygon is too small, pick a vertex and destroy all connected neighbors??
 	      * Or collapse it somehow? 
@@ -44,9 +56,6 @@ extends PAppletHax {
 	    * Rect polygons subdivision layout instead of polygon mesh
 	      * Can we transition to this from an odd triangle?
         * Sometimes only let the newest triangle make new neighbors?? 
-        * Map to constrain areas for new polygon generation?? 
-        * Map to destroy polygons? For user interaction??? 
-          * Generative patterns a la Zoom lights for this
 	  * Post-processing:
 	    * Fake light shader??
 	    * Vertex shader if everything's moved to PShape? 
@@ -54,8 +63,9 @@ extends PAppletHax {
 	    * Mesh displacement based on vertices/ position, so it works across shared vertices
 	    * Can entire mesh rotate around a point?
 	  * Intentional imperfections
-	  * Interaction
 	  * Music
+	    * Try playing sounds when triangles are built/destroyed
+	    * ... or when modes change. Cuoud modes/parameters changing be the musical driver?? 
 	*/
 	
 	// mesh / growth

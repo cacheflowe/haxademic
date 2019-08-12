@@ -257,7 +257,7 @@ public class Polygon {
 		ArrayList<Edge> curEdges = (edgesAnim == null) ? edges : edgesAnim;
 		
 		pg.fill(bgColor);
-		if(collided) pg.fill(0, 255, 0, 50);
+		// if(collided) pg.fill(0, 255, 0, 50);
 		pg.noStroke();
 		pg.beginShape();
 		for (int i = 0; i < curEdges.size(); i++) {
