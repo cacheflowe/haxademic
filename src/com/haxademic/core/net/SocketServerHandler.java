@@ -39,8 +39,8 @@ extends WebSocketServer {
 		if(conn != null) {
 			if(SocketServer.FORWARDS_ALL_MESSAGES) this.sendToAll( "{\"message\":\"new connection: " + connAddress(conn) + " has entered the room.\"}" );
 			if(SocketServer.DEBUG == true) {
-				P.println( connAddress(conn) + " entered the room!" );
-				P.println("Connections: "+getConnections().size());
+				P.out( connAddress(conn) + " entered the room!" );
+				P.out("Connections: "+getConnections().size());
 			}
 		}
 	}
@@ -49,7 +49,7 @@ extends WebSocketServer {
 	public void onClose( WebSocket conn, int code, String reason, boolean remote ) {
 		if(conn != null) {
 			if(SocketServer.FORWARDS_ALL_MESSAGES) this.sendToAll( "{\"message\":\"" + connAddress(conn) + " has left the room.\"}" );
-			if(SocketServer.DEBUG == true) P.println( connAddress(conn) + " has left the room!" );
+			if(SocketServer.DEBUG == true) P.out( connAddress(conn) + " has left the room!" );
 		}
 	}
 	
@@ -58,7 +58,7 @@ extends WebSocketServer {
 		if(conn != null) {
 			if(SocketServer.FORWARDS_ALL_MESSAGES) this.sendToAll( message );
 			receiveMessage( message );
-			if(SocketServer.DEBUG == true) P.println( connAddress(conn) + ": " + message );
+			if(SocketServer.DEBUG == true) P.out( connAddress(conn) + ": " + message );
 		}
 	}
 	

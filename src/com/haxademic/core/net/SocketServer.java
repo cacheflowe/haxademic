@@ -8,7 +8,6 @@ import org.java_websocket.WebSocketImpl;
 
 import com.haxademic.core.app.P;
 
-//create a separate thread for the server not to freeze/interfere with Processing's default animation thread
 public class SocketServer {
 	
 	public static boolean DEBUG = false;
@@ -21,13 +20,13 @@ public class SocketServer {
 		SocketServer.DEBUG = debug;
 		this.server = handler;
 		
-		new Thread(new Runnable() { public void run() {
+		new Thread(new Runnable() { public void run() {		// create a separate thread so the server doesn't freeze/interfere with Processing's animation thread
 			initSocketServer();
 		}}).start();	
 	}
 	
 	protected void initSocketServer() {
-		try{
+		try {
 			WebSocketImpl.DEBUG = false; // SocketServer.DEBUG;
 			server.start();
 			P.println( "WS Server started on port: " + server.getPort() );
@@ -38,7 +37,7 @@ public class SocketServer {
 				String in = sysin.readLine();
 				server.sendToAll( in );
 			}
-		}catch(IOException e){
+		} catch(IOException e) {
 			e.printStackTrace();
 		}  
 	}
