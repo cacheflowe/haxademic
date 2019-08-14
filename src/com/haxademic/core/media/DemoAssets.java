@@ -134,6 +134,13 @@ public class DemoAssets {
 		return fontOpenSans;
 	}
 	
+	public static String fontInterPath = "haxademic/fonts/Inter-Regular.ttf";
+	public static PFont fontInter = null;
+	public static PFont fontInter(float fontSize) {
+		if(fontInter == null) fontInter = P.p.createFont( FileUtil.getFile(fontInterPath), fontSize );
+		return fontInter;
+	}
+	
 	public static String fontRalewayPath = "haxademic/fonts/Raleway-Regular.ttf";
 	public static PFont fontRaleway = null;
 	public static PFont fontRaleway(float fontSize) {

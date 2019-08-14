@@ -30,6 +30,7 @@ extends PAppletHax {
 		p.ui.addButton("Button", false);
 		p.ui.addButton("Button 2", true);
 		p.ui.addButtons(new String[] {"1", "2", "3", "4"}, true);
+		for (int i = 0; i < 30; i++) p.ui.addSlider("Test slider " + i, 255, 0, 255, 0.5f, false);
 		p.ui.addWebInterface(false);
 		P.out(p.ui.configToJSON());
 		P.out(p.ui.valuesToJSON());

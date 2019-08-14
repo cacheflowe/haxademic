@@ -30,7 +30,6 @@ implements IUIControl {
 	protected float value = 0;
 	protected float layoutW = 1;
 	protected int activeTime = 0;
-	protected int r = 5;
 
 	public UIButton(IUIButtonDelegate delegate, String id, int x, int y, int w, int h, boolean toggles) {
 		this.delegate = delegate;
@@ -111,27 +110,25 @@ implements IUIControl {
 	public void update(PGraphics pg) {
 		PG.setDrawCorner(pg);
 
+		// outline
+		pg.noStroke();
+		if(over || pressed) pg.fill(ColorsHax.BUTTON_OUTLINE_HOVER);
+		else pg.fill(ColorsHax.BUTTON_OUTLINE);
+		pg.rect(rect.x-1, rect.y-1, rect.width+2, rect.height+2);
+
 		// background
 		if(over && value == 0 && !pressed) pg.fill(ColorsHax.BUTTON_BG_HOVER);
 		else if(pressed) pg.fill(ColorsHax.BUTTON_BG_PRESS);
 		else if(toggles && value == 1) pg.fill(ColorsHax.WHITE);
 		else pg.fill(ColorsHax.BUTTON_BG);
-		pg.noStroke();
-		pg.rect(rect.x, rect.y, rect.width, rect.height, r);
+		pg.rect(rect.x, rect.y, rect.width, rect.height);
 
-		// outline
-		pg.strokeWeight(1);
-		if(over || pressed) pg.stroke(ColorsHax.BUTTON_OUTLINE_HOVER);
-		else pg.stroke(ColorsHax.BUTTON_OUTLINE);
-		pg.noFill();
-		pg.rect(rect.x, rect.y, rect.width, rect.height, r);
-		
 		// text label
-		PFont font = FontCacher.getFont(DemoAssets.fontOpenSansPath, rect.height * 0.55f);
-		FontCacher.setFontOnContext(pg, font, P.p.color(255), 1f, PTextAlign.CENTER, PTextAlign.CENTER);
+		PFont font = FontCacher.getFont(DemoAssets.fontOpenSansPath, P.max(11, rect.height * 0.35f));
+		FontCacher.setFontOnContext(pg, font, P.p.color(255), 1f, PTextAlign.LEFT, PTextAlign.TOP);
 		if(toggles && value == 1) pg.fill(ColorsHax.BLACK);
 		else pg.fill(ColorsHax.BUTTON_TEXT);
-		pg.text(label, rect.x, rect.y - 2, rect.width, rect.height);
+		pg.text(label, rect.x + TEXT_INDENT, rect.y + 4f, rect.width, rect.height);
 		
 		// set active if drawing
 		activeTime = P.p.millis();

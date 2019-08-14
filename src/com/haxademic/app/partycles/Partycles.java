@@ -394,7 +394,7 @@ extends PAppletHax {
 		public void launch(float x, float y) {
 			if(particleImages != null) {
 				image = particleImages[MathUtil.randRange(0, particleImages.length - 1)];
-				if(MathUtil.randBooleanWeighted(P.p, 0.2f)) {
+				if(MathUtil.randBooleanWeighted(0.2f)) {
 					image = null;
 				}
 			}

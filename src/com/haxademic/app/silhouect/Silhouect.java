@@ -305,8 +305,8 @@ extends PAppletHax {
 	protected void updateAudioTexture() {
 		// update audio texture
 		if(flashFrame == true) {
-			if(MathUtil.randBooleanWeighted(p, 0.65f)) deformMode = !deformMode;
-			if(MathUtil.randBooleanWeighted(p, 0.65f)) nextAudioTexture();
+			if(MathUtil.randBooleanWeighted(0.65f)) deformMode = !deformMode;
+			if(MathUtil.randBooleanWeighted(0.65f)) nextAudioTexture();
 			curAudioTexture().newRotation();
 		}
 		curAudioTexture().update();

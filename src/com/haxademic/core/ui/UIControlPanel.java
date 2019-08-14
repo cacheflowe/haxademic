@@ -18,12 +18,12 @@ implements IUIButtonDelegate {
 
 	protected LinkedHashMap<String, IUIControl> controls;
 	
-	public static final int controlX = 2;
-	protected int controlY = 3;
+	public static int controlX = 1;
+	protected int controlY = 1;
 	public static final int controlW = 250;
-	public static final int controlH = 30;
-	public static final int controlSpacing = 34;
-	protected float controlSpacingH = 4;
+	public static final int controlH = 24;
+	public static final int controlSpacing = 24;
+	protected float controlSpacingH = 0;
 
 	protected boolean active = false;
 
@@ -61,18 +61,26 @@ implements IUIButtonDelegate {
 	
 	public void addSlider(String key, float value, float valueLow, float valueHigh, float dragStep, boolean saves) {
 		controls.put(key, new UISlider(key, value, valueLow, valueHigh, dragStep, controlX, controlY, controlW, controlH, saves));
-		controlY += controlSpacing;
+		controlY += controlH;
+		if(controlY > P.p.height - controlH) nextCol();
 	}
 	
 	public void addSliderVector(String key, float value, float valueLow, float valueHigh, float dragStep, boolean saves) {
-		float controlWidthDivided = (controlW - controlSpacingH * 2f) / 3f;
-		controls.put(key + "_X", new UISlider(key + "_X", value, valueLow, valueHigh, dragStep, P.round(controlX + 0 * controlWidthDivided + controlSpacingH * 0), controlY, P.round(controlWidthDivided), controlH, saves));
-		controls.put(key + "_Y", new UISlider(key + "_Y", value, valueLow, valueHigh, dragStep, P.round(controlX + 1 * controlWidthDivided + controlSpacingH * 1), controlY, P.round(controlWidthDivided), controlH, saves));
-		controls.put(key + "_Z", new UISlider(key + "_Z", value, valueLow, valueHigh, dragStep, P.round(controlX + 2 * controlWidthDivided + controlSpacingH * 2), controlY, P.round(controlWidthDivided), controlH, saves));
+		float controlWidthDivided = (float) controlW / 3f;
+		int controlHStack = P.round(controlH * 1.5f);
+		controls.put(key + "_X", new UISlider(key + "_X", value, valueLow, valueHigh, dragStep, P.round(controlX + 0 * controlWidthDivided), controlY, P.round(controlWidthDivided), controlHStack, saves));
+		controls.put(key + "_Y", new UISlider(key + "_Y", value, valueLow, valueHigh, dragStep, P.round(controlX + 1 * controlWidthDivided), controlY, P.round(controlWidthDivided), controlHStack, saves));
+		controls.put(key + "_Z", new UISlider(key + "_Z", value, valueLow, valueHigh, dragStep, P.round(controlX + 2 * controlWidthDivided), controlY, P.round(controlWidthDivided), controlHStack, saves));
 		controls.get(key + "_X").layoutW(0.3333f);
 		controls.get(key + "_Y").layoutW(0.3333f);
 		controls.get(key + "_Z").layoutW(0.3333f);
-		controlY += controlSpacing;
+		controlY += controlHStack;
+		if(controlY > P.p.height - controlHStack) nextCol();
+	}
+	
+	protected void nextCol() {
+		controlY = 1;
+		controlX += controlW + 1;
 	}
 	
 	public void removeControl(String key) {

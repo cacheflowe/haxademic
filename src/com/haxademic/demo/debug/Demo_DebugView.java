@@ -1,4 +1,4 @@
-package com.haxademic.demo.system;
+package com.haxademic.demo.debug;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;

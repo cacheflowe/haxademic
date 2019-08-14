@@ -6,6 +6,8 @@ public interface IUIControl {
 	public static final String TYPE_SLIDER = "slider";
 	public static final String TYPE_BUTTON = "button";
 	
+	public static int TEXT_INDENT = 6;
+	
 	public String type();
 	public String id();
 	public void set(float val);

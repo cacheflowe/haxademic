@@ -9,6 +9,7 @@ import com.haxademic.core.draw.color.ColorsHax;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.text.FontCacher;
 import com.haxademic.core.file.PrefToText;
+import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.media.DemoAssets;
 
 import processing.core.PFont;
@@ -110,34 +111,31 @@ implements IUIControl {
 	
 	public void update(PGraphics pg) {
 		PG.setDrawCorner(pg);
-		float cornerRadius = 5;
+		
+		// outline
+		pg.noStroke();
+		pg.fill(ColorsHax.BUTTON_OUTLINE);
+		pg.rect(x-1, y-1, w+2, h+2);
 		
 		// background
 		if(mouseHovered) pg.fill(ColorsHax.BUTTON_BG_HOVER);
 		else pg.fill(ColorsHax.BUTTON_BG);
-		pg.noStroke();
-		pg.rect(x, y, w, h, cornerRadius);
+		pg.rect(x, y, w, h);
 		
 		// text label
-		PFont font = FontCacher.getFont(DemoAssets.fontOpenSansPath, h * 0.35f);
-		FontCacher.setFontOnContext(pg, font, P.p.color(255), 1f, PTextAlign.CENTER, PTextAlign.CENTER);
+		PFont font = FontCacher.getFont(DemoAssets.fontInterPath, 11);
+		FontCacher.setFontOnContext(pg, font, P.p.color(255), 1f, PTextAlign.LEFT, PTextAlign.TOP);
 		pg.fill(ColorsHax.BUTTON_TEXT);
-		pg.text(id + ": " + value, x, y - 2, w, h);
+		pg.text(id + ": " + MathUtil.roundToPrecision(value, 5), P.round(x + TEXT_INDENT), P.round(y - 2) + 7.1f, w, h);
 		uiRect.setBounds(x, y, w, h);
-		
-		// outline
-		pg.strokeWeight(1f);
-		pg.stroke(ColorsHax.BUTTON_OUTLINE);
-		pg.noFill();
-		pg.rect(x, y, w, h, cornerRadius);
 		
 		// draw current value
 		pg.noStroke();
 		if(mousePressed) pg.fill(ColorsHax.WHITE, 180);
 		else pg.fill(ColorsHax.WHITE, 90);
-		float handleW = 30;
+		float handleW = 20;
 		float mappedX = P.map(value, valueMin, valueMax, x, x + w - handleW);
-		pg.rect(mappedX - 0.5f, y, handleW, h, cornerRadius);
+		pg.rect(mappedX - 0.5f, y, handleW, h);
 		
 		// set active if drawing
 		activeTime = P.p.millis();

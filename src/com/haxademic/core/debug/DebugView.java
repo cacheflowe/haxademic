@@ -28,7 +28,7 @@ public class DebugView {
 	protected float debugPanelW = 0;
 	protected float MAX_PANEL_WIDTH = 500;
 	protected float helpPanelW = 0;
-	protected int fontSize = 14;
+	protected int fontSize = 11;
 	protected boolean isActive = false;
 	protected int frameOpened = 0;
 	protected int hideFrames = 60 * 60;
@@ -41,7 +41,7 @@ public class DebugView {
 		// for some reason, these were tanking app launches
 		updateAppInfo();
 		new Thread(new Runnable() { public void run() {
-			debugFont = DemoAssets.fontOpenSans(fontSize);
+			debugFont = DemoAssets.fontInter(fontSize);
 			ipAddress = IPAddress.getLocalAddress();
 		}}).start();
 	}
@@ -172,6 +172,7 @@ public class DebugView {
 		p.textFont(debugFont);
 		p.textAlign(P.LEFT, P.TOP);
 		p.textSize(fontSize);
+		p.textLeading(17f);
 		float textW = p.textWidth(debugStr) + padding;
 		debugPanelW = P.max(debugPanelW, textW);
 		debugPanelW = P.min(debugPanelW, MAX_PANEL_WIDTH);
@@ -223,11 +224,12 @@ public class DebugView {
 				float texW = image.width * MathUtil.scaleToTarget(image.height, texHeight);
 				p.image(image, debugPanelW(), texHeight * texIndex, texW, texHeight);
 				// write title
+				String textureName = imageName + " (" + image.width + "x" + image.height + ")";
 				p.fill(0, 140);
-				p.rect(debugPanelW(), texHeight * texIndex, texW, 18);
+				p.rect(debugPanelW(), texHeight * texIndex, p.textWidth(textureName) + 8, 18);
 				p.fill(255);
 				p.textSize(11);
-				p.text(imageName + " (" + image.width + "x" + image.height + ")", debugPanelW() + 4, texHeight * texIndex + 1);
+				p.text(textureName, debugPanelW() + 4, texHeight * texIndex + 2);
 				// increment
 			    texIndex++;
 		    }

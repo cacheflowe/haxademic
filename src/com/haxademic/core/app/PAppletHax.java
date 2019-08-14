@@ -12,7 +12,6 @@ import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.data.store.AppStore;
 import com.haxademic.core.debug.DebugUtil;
 import com.haxademic.core.debug.DebugView;
-import com.haxademic.core.debug.Stats;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.file.FileUtil;
@@ -82,7 +81,7 @@ extends PApplet {
 	public P5Properties appConfig;				// Loads the project .properties file to configure several app properties externally.
 	protected String customPropsFile = null;	// Loads an app-specific project .properties file.
 	protected String renderer; 					// The current rendering engine
-	protected Robot _robot;
+	public Robot robot;
 	public GLWindow window;
 	protected boolean alwaysOnTop = false;
 
@@ -122,7 +121,6 @@ extends PApplet {
 
 	// debug
 	public int _fps;
-	public Stats _stats;
 	public DebugView debugView;
 	public UIControlPanel ui;
 	public SecondScreenViewer appViewerWindow;
@@ -170,7 +168,6 @@ extends PApplet {
 				ui.active(!ui.active());
 			}
 		}
-		_stats = new Stats( p );
 	}
 	
 	////////////////////////
@@ -293,7 +290,7 @@ extends PApplet {
 		if( p.appConfig.getBoolean( AppSettings.OSC_ACTIVE, false ) == true ) oscState = new OscWrapper();
 		if( p.appConfig.getString(AppSettings.DMX_PORT, null) != null ) dmxUniverse = new DMXUniverse(p.appConfig.getString(AppSettings.DMX_PORT, null), p.appConfig.getInt(AppSettings.DMX_BAUD_RATE, 9600));
 		// app helpers
-		try { _robot = new Robot(); } catch( Exception error ) { println("couldn't init Robot for screensaver disabling"); }
+		try { robot = new Robot(); } catch( Exception error ) { println("couldn't init Robot for screensaver disabling"); }
 		if(p.appConfig.getBoolean(AppSettings.APP_VIEWER_WINDOW, false) == true) appViewerWindow = new SecondScreenViewer(p.g, p.appConfig.getFloat(AppSettings.APP_VIEWER_SCALE, 0.5f));
 		// fullscreen
 		boolean isFullscreen = p.appConfig.getBoolean(AppSettings.FULLSCREEN, false);
@@ -471,7 +468,6 @@ extends PApplet {
 
 	protected void showStats() {
 		p.noLights();
-		_stats.update();
 		debugView.draw();
 		ui.update();
 	}
@@ -613,8 +609,8 @@ extends PApplet {
 	
 	protected void killScreensaver() {
 		// keep screensaver off - hit shift every 1000 frames
-		if( p.frameCount % 1000 == 10 ) _robot.keyPress(KeyEvent.VK_SHIFT);
-		if( p.frameCount % 1000 == 11 ) _robot.keyRelease(KeyEvent.VK_SHIFT);
+		if( p.frameCount % 1000 == 10 ) robot.keyPress(KeyEvent.VK_SHIFT);
+		if( p.frameCount % 1000 == 11 ) robot.keyRelease(KeyEvent.VK_SHIFT);
 	}
 
 	public void keyPressed() {

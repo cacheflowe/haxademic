@@ -59,19 +59,19 @@ extends BaseTexture {
 	public void updateTiming() {
 		super.updateTiming();
 		
-		if(MathUtil.randBooleanWeighted(P.p, 0.2f) == true) _drawsLinesOut = !_drawsLinesOut;
-		if(MathUtil.randBooleanWeighted(P.p, 0.2f) == true) _drawCircles = !_drawCircles;
-		if(MathUtil.randBooleanWeighted(P.p, 0.2f) == true) _everyOtherPoly = !_everyOtherPoly;
-		if(MathUtil.randBooleanWeighted(P.p, 0.2f) == true) _everyOtherPolyVerts = !_everyOtherPolyVerts;
-		if(MathUtil.randBooleanWeighted(P.p, 0.2f) == true) _everyOtherCircle = !_everyOtherCircle;
+		if(MathUtil.randBooleanWeighted(0.2f) == true) _drawsLinesOut = !_drawsLinesOut;
+		if(MathUtil.randBooleanWeighted(0.2f) == true) _drawCircles = !_drawCircles;
+		if(MathUtil.randBooleanWeighted(0.2f) == true) _everyOtherPoly = !_everyOtherPoly;
+		if(MathUtil.randBooleanWeighted(0.2f) == true) _everyOtherPolyVerts = !_everyOtherPolyVerts;
+		if(MathUtil.randBooleanWeighted(0.2f) == true) _everyOtherCircle = !_everyOtherCircle;
 	}
 	
 	public void updateTimingSection() {
 		super.updateTimingSection();
 		
-		if(MathUtil.randBooleanWeighted(P.p, 0.2f) == true) _numArms.setTarget( MathUtil.randRange( 3, 10 ) );
-		if(MathUtil.randBooleanWeighted(P.p, 0.2f) == true) _levels.setTarget( MathUtil.randRange( 2, 4 ) );
-		if(MathUtil.randBooleanWeighted(P.p, 0.2f) == true) _recursiveDivisor.setTarget( 0.125f * MathUtil.randRange(2, 8) );
+		if(MathUtil.randBooleanWeighted(0.2f) == true) _numArms.setTarget( MathUtil.randRange( 3, 10 ) );
+		if(MathUtil.randBooleanWeighted(0.2f) == true) _levels.setTarget( MathUtil.randRange( 2, 4 ) );
+		if(MathUtil.randBooleanWeighted(0.2f) == true) _recursiveDivisor.setTarget( 0.125f * MathUtil.randRange(2, 8) );
 	}
 	
 	public void newMode() {
@@ -79,10 +79,10 @@ extends BaseTexture {
 	}
 	
 	public void newLineMode() {
-		if(MathUtil.randBooleanWeighted(P.p, 0.2f) == true) _strokeWidth.setTarget( MathUtil.randRangeDecimal( 0.5f, 2f ) );
-//		if(MathUtil.randBooleanWeighted(P.p, 0.2f) == true) _shouldBeFurther = !_shouldBeFurther;
-		if(MathUtil.randBooleanWeighted(P.p, 0.2f) == true) _nextLevelPushesOut = !_nextLevelPushesOut;
-		if(MathUtil.randBooleanWeighted(P.p, 0.2f) == true) _armPushesOut = !_armPushesOut;
+		if(MathUtil.randBooleanWeighted(0.2f) == true) _strokeWidth.setTarget( MathUtil.randRangeDecimal( 0.5f, 2f ) );
+//		if(MathUtil.randBooleanWeighted(0.2f) == true) _shouldBeFurther = !_shouldBeFurther;
+		if(MathUtil.randBooleanWeighted(0.2f) == true) _nextLevelPushesOut = !_nextLevelPushesOut;
+		if(MathUtil.randBooleanWeighted(0.2f) == true) _armPushesOut = !_armPushesOut;
 	}
 	
 	public void newRotation() {

@@ -234,19 +234,19 @@ implements IAppStoreListener {
 				
 				// change note scheme
 				noteOffset = MathUtil.randRange(0, Interphase.NUM_STEPS - 1);
-				notesByStep = MathUtil.randBooleanWeighted(P.p, 0.7f);
-				upOctave = MathUtil.randBooleanWeighted(P.p, 0.2f) && config.playsOctaveNotes;	// don't octave on keys
-				chordMode = (config.playsChords && MathUtil.randBooleanWeighted(P.p, 0.5f));
+				notesByStep = MathUtil.randBooleanWeighted(0.7f);
+				upOctave = MathUtil.randBooleanWeighted(0.2f) && config.playsOctaveNotes;	// don't octave on keys
+				chordMode = (config.playsChords && MathUtil.randBooleanWeighted(0.5f));
 				
 				// change attack
-				if(MathUtil.randBooleanWeighted(P.p, 0.2f) && config.hasAttack) {
+				if(MathUtil.randBooleanWeighted(0.2f) && config.hasAttack) {
 					attack = MathUtil.randRange(30, 150);
 				} else {
 					attack = 0;
 				}
 				
 				// change release
-				if(MathUtil.randBooleanWeighted(P.p, 0.2f) && config.hasRelease) {
+				if(MathUtil.randBooleanWeighted(0.2f) && config.hasRelease) {
 					release = MathUtil.randRange(200, P.store.getInt(Interphase.BEAT_INTERVAL_MILLIS));
 				} else {
 					release = 0;
@@ -321,7 +321,7 @@ implements IAppStoreListener {
 			}
 			
 			// sometimes pitch up an octave 
-			if(upOctave && MathUtil.randBooleanWeighted(P.p, 0.2f)) pitchIndex1 += 12;
+			if(upOctave && MathUtil.randBooleanWeighted(0.2f)) pitchIndex1 += 12;
 		}
 
 	}
@@ -345,7 +345,7 @@ implements IAppStoreListener {
 			curPlayer.setRate(glide);
 
 			// reverse
-			//			if(MathUtil.randBooleanWeighted(P.p, 0.2f)) {
+			//			if(MathUtil.randBooleanWeighted(0.2f)) {
 			//				curPlayer.setToEnd();
 			//				glide.setValue(-1.0f);
 			//				curPlayer.start();

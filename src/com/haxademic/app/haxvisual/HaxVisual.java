@@ -961,7 +961,7 @@ implements IAppStoreListener {
 			_curTexturePool.get(i).setColor( randomColor(1) );
 		}
 		if(colorizeWithGradient) {
-			if(MathUtil.randBooleanWeighted(p, 0.2f)) imageGradient.randomGradientTexture();
+			if(MathUtil.randBooleanWeighted(0.2f)) imageGradient.randomGradientTexture();
 		}
 		imageGradientLuma = true; // MathUtil.randBoolean();
 		//		}
@@ -1201,7 +1201,7 @@ implements IAppStoreListener {
 
 	protected void selectNewActiveTextureFilters() {
 		for(int i=0; i < textureEffectsIndices.length; i++) {
-			if(MathUtil.randBooleanWeighted(p, 0.2f)) {
+			if(MathUtil.randBooleanWeighted(0.2f)) {
 				textureEffectsIndices[i] = MathUtil.randRange(0, numTextureEffects);
 			} else {
 				textureEffectsIndices[i] = 0;

@@ -26,7 +26,7 @@ public class MathUtil {
 	 * @param easingFactor	larger numbers mean slower easing and must be above 1 for easing over time
 	 * @return				the eased value
 	 */
-	public static float easeTo( float current, float target, float easingFactor ) {
+	public static float easeTo(float current, float target, float easingFactor) {
 		return current -= ( ( current - target ) / easingFactor );
 	}
 	
@@ -36,7 +36,7 @@ public class MathUtil {
 	 * @param easeFactor	pow-based factor
 	 * @return				the remapped 0-1 value
 	 */
-	public static float easePowPercent( float progress, float easeFactor ) {
+	public static float easePowPercent(float progress, float easeFactor) {
 		if (progress < 0.5) 
 			return 0.5f * (float)Math.pow(2*progress, easeFactor);
 		else
@@ -47,8 +47,8 @@ public class MathUtil {
 		return ( P.p.random( 0f, 1f ) > 0.5f ) ? true : false;
 	}
 
-	public static boolean randBooleanWeighted( PApplet p, float likeliness ) {
-		return ( p.random( 0f, 1f ) < likeliness ) ? true : false;
+	public static boolean randBooleanWeighted(float likeliness) {
+		return (P.p.random( 0f, 1f ) < likeliness) ? true : false;
 	}
 
 	/**
@@ -58,8 +58,8 @@ public class MathUtil {
 	 *	@return			the random number within the range.
 	 * 	@use			{@code var vRandRange = MathUtil.randRange( 0, 999999 );}
 	 */
-	public static int randRange( float min, float max ) {
-		return (int) ( Math.round( Math.random() * ( max - min ) ) + min );
+	public static int randRange(float min, float max) {
+		return (int) (Math.round(Math.random() * (max - min)) + min);
 	}
 
 	/**
@@ -69,8 +69,8 @@ public class MathUtil {
 	 *  @return the random number within the range.
 	 *  @use    {@code var vRandRange = MathUtil.randRangeDecimal( 0, 999999 );}
 	 */
-	public static float randRangeDecimal( float min, float max ) {	
-		return (float) Math.random() * ( max - min ) + min;
+	public static float randRangeDecimal(float min, float max) {	
+		return (float) Math.random() * (max - min) + min;
 	}
 
 	/**
@@ -81,17 +81,17 @@ public class MathUtil {
 	 *  @return The percentage [0-1] of valueInRange in the range.
 	 *  @use    {@code var vPercent = MathUtil.getPercentWithinRange( 50, 150, 100 );  // displays 50 }
 	 */
-	public static float getPercentWithinRange( float bottomRange, float topRange, float valueInRange ) {
+	public static float getPercentWithinRange(float bottomRange, float topRange, float valueInRange) {
 		// normalize values to work positively from zero
 		topRange += -bottomRange;
 		valueInRange += -bottomRange;
 		bottomRange += -bottomRange;  // last to not break other offsets
 		// return percentage or normalized values 
-		return ( valueInRange / ( topRange - bottomRange ) );
+		return (valueInRange / (topRange - bottomRange));
 	}
 
 	public static float pythagDistance( float a, float b ) {
-		return Math.abs( (float)Math.sqrt(a*a + b*b) );
+		return Math.abs((float)Math.sqrt(a*a + b*b));
 	}
 	
 	public static float polygonClosestPoint(float vertices, float radius) {
@@ -114,10 +114,10 @@ public class MathUtil {
 	 *  @return The distance between point 1 and 2
 	 *  @use    {@code var distance = MathUtil.getDistance( 7, 5, 3, 2 );}
 	 */
-	public static float getDistance( float x1, float y1, float x2, float y2 ) {
+	public static float getDistance(float x1, float y1, float x2, float y2) {
 		float a = x1 - x2;
 		float b = y1 - y2;
-		return Math.abs( (float) Math.sqrt(a*a + b*b) );
+		return Math.abs((float) Math.sqrt(a*a + b*b));
 	};
 	
 	public static float distance3d(float x1, float y1, float z1, float x2, float y2, float z2) {
@@ -131,8 +131,8 @@ public class MathUtil {
 	 *  @use    {@code var vRadians = MathUtil.degreesToRadians( 180 );}
 	 */
 
-	public static float degreesToRadians( float d ) {
-		return d * ( P.PI / 180f );
+	public static float degreesToRadians(float d) {
+		return d * (P.PI / 180f);
 	}
 
 	/**
@@ -142,8 +142,8 @@ public class MathUtil {
 	 *  @use    {@code var vDegrees = MathUtil.radiansToDegrees( 3.14 );}
 	 */
 
-	public static float radiansToDegrees( float r ) {
-		return r * ( 180f / P.PI );
+	public static float radiansToDegrees(float r) {
+		return r * (180f / P.PI);
 	}
 
 	/**
@@ -153,8 +153,8 @@ public class MathUtil {
 	 *  @use    {@code var vDegreesPercent = MathUtil.percentToDegrees( 50 );}
 	 */
 
-	public static float percentToDegrees( float n ) {
-		return ( ( Math.abs( n / 100f ) ) * 360f ) * 100f;	
+	public static float percentToDegrees(float n) {
+		return ((Math.abs(n / 100f)) * 360f) * 100f;	
 	}
 
 	/**
@@ -164,8 +164,8 @@ public class MathUtil {
 	 *  @use    {@code var vPercentDegrees = MathUtil.degreesToPercent( 180 );}
 	 */
 
-	public static float degreesToPercent( float n ) {
-		return ( Math.abs( n / 360f ) );
+	public static float degreesToPercent(float n) {
+		return (Math.abs(n / 360f));
 	}
 
 	/**
@@ -176,8 +176,8 @@ public class MathUtil {
 	 * 	@return 		number (12.3, 44.555)
 	 * 	@use			{@code var value = MathUtil.interp( 10, 20, .5 );  //returns 15}
 	 */
-	public static float interp( float lower, float upper, float n ) {
-		return ( ( upper - lower ) * n ) + lower;
+	public static float interp(float lower, float upper, float n) {
+		return ((upper - lower) * n) + lower;
 	}
 
 	/**   
@@ -190,8 +190,8 @@ public class MathUtil {
 	 * 	@return 	number (12.3, 44.555)
 	 * 	@use		{@code var value = MathUtil.remap( 10, 0, 20, 1, 2 );  //returns 1.5}
 	 */
-	public static float remap( float value, float lower1, float upper1, float lower2, float upper2 ) {
-		return interp( lower2, upper2, getPercentWithinRange( lower1, upper1, value ) / 100f );
+	public static float remap(float value, float lower1, float upper1, float lower2, float upper2) {
+		return interp(lower2, upper2, getPercentWithinRange(lower1, upper1, value) / 100f);
 	}
 
 	/**
@@ -201,13 +201,13 @@ public class MathUtil {
 	 * @return
 	 * @use    	{@code var floatNum = MathUtil.roundToPrecision( 0.5555555555, 3 );}
 	 */
-	public static float roundToPrecision( float value, int numDecimalPlaces ) {
-		float multiplyFactor = (float) Math.pow( 10f, numDecimalPlaces );
+	public static float roundToPrecision(float value, int numDecimalPlaces) {
+		float multiplyFactor = (float) Math.pow(10f, numDecimalPlaces);
 	    float valueMultiplied = value * multiplyFactor;
-	    return (float) Math.round( valueMultiplied ) / multiplyFactor;
+	    return (float) Math.round(valueMultiplied) / multiplyFactor;
 	}
 	
-	public static String roundToPrecision2( float value, int numDecimalPlaces ) {
+	public static String roundToPrecision2(float value, int numDecimalPlaces) {
 		String decimalPlaces = "";
 		for (int i = 0; i < numDecimalPlaces; i++) decimalPlaces += "#";
 		DecimalFormat df = new DecimalFormat("#."+decimalPlaces);
@@ -223,9 +223,9 @@ public class MathUtil {
 	 *  @return The normalized angle
 	 *  @use    {@code var angle = MathUtil.constrainAngle( 540 );}
 	 */
-	public static float constrainAngle( float angle ) {
-		if( angle < 0f ) return angle + 360f;
-		if( angle > 360f ) return angle - 360f;
+	public static float constrainAngle(float angle) {
+		if(angle < 0f) return angle + 360f;
+		if(angle > 360f) return angle - 360f;
 		return angle;
 	};
 
@@ -238,8 +238,8 @@ public class MathUtil {
 	 *  @return The angle from point 1 and 2
 	 *  @use    {@code var angle = MathUtil.getAngleToTarget( 0, 0, 5, 5 );}
 	 */
-	public static float getAngleToTarget( float x1, float y1, float x2, float y2 ) {
-		return constrainAngle( (float) -Math.atan2( x1 - x2, y1 - y2 ) * 180f / P.PI );
+	public static float getAngleToTarget(float x1, float y1, float x2, float y2) {
+		return constrainAngle((float) -Math.atan2(x1 - x2, y1 - y2) * 180f / P.PI);
 	};
 
 	/**
@@ -249,11 +249,11 @@ public class MathUtil {
 	 *  @return +1 for clockwise, -1 for counter-clockwise
 	 *  @use    {@code var direction = MathUtil.rotationDirectionToTarget( 90, 180 );}
 	 */
-	public static float getRotationDirectionToTarget( float curAngle, float targetAngle ) {
+	public static float getRotationDirectionToTarget(float curAngle, float targetAngle) {
 		// calculate the difference between the current angle and destination angle
-		float angleDifference = Math.abs( curAngle - targetAngle );
+		float angleDifference = Math.abs(curAngle - targetAngle);
 		// turn left or right to get to the target
-		if( curAngle > targetAngle ){
+		if(curAngle > targetAngle) {
 			return (angleDifference < 180f) ? -1 : 1;
 		} else {
 			return (angleDifference < 180f) ? 1 : -1;
@@ -269,11 +269,11 @@ public class MathUtil {
 	 *  @return The radians from point 1 and 2
 	 *  @use    {@code var angle = MathUtil.getRadiansToTarget( 0, 0, 5, 5 );}
 	 */
-	public static float getRadiansToTargetWrong( float x1, float y1, float x2, float y2 ) {
+	public static float getRadiansToTargetWrong(float x1, float y1, float x2, float y2) {
 		return (float) (Math.PI + Math.atan2( x1 - x2, y1 - y2 ));	// add PI to normalize between 0 - 2*pi. atan2 returnes -pi/2 - pi/2
 	};
 	
-	public static float getRadiansToTarget( float x1, float y1, float x2, float y2 ) {
+	public static float getRadiansToTarget(float x1, float y1, float x2, float y2) {
 		return -P.atan2(y2 - y1, x2 - x1) % P.TWO_PI;
 	};
 
@@ -285,7 +285,7 @@ public class MathUtil {
 	 *  @return +1 for clockwise, -1 for counter-clockwise
 	 *  @use    {@code var direction = MathUtil.getRadiansDirectionToTarget( 90, 180 );}
 	 */
-	public static float getRadiansDirectionToTarget( float curRadians, float targetRadians ) {
+	public static float getRadiansDirectionToTarget(float curRadians, float targetRadians) {
 		while(curRadians < P.TWO_PI) curRadians += P.TWO_PI;
 		while(targetRadians < P.TWO_PI) targetRadians += P.TWO_PI;
 		float rotDiff = curRadians - targetRadians;
@@ -299,45 +299,45 @@ public class MathUtil {
 		return P.atan2(P.sin(radians2-radians1), P.cos(radians2-radians1));
 	};
 
-	public static float averageOfThree( float one, float two, float three ) {
+	public static float averageOfThree(float one, float two, float three) {
 		return (one + two + three) / 3f;
 	}
 	
-	public static float averageOfFour( float one, float two, float three, float four ) {
+	public static float averageOfFour(float one, float two, float three, float four) {
 		return (one + two + three + four) / 4f;
 	}
 	
 	public static Point triangleCenter = new Point(0,0);
-	public static Point computeTriangleCenter( float x1, float y1, float x2, float y2, float x3, float y3 ) {
-		triangleCenter.setLocation( averageOfThree( x1, x2, x3 ), averageOfThree( y1, y2, y3 ) );
+	public static Point computeTriangleCenter(float x1, float y1, float x2, float y2, float x3, float y3) {
+		triangleCenter.setLocation(averageOfThree(x1, x2, x3), averageOfThree(y1, y2, y3));
 		return triangleCenter;
 	};
 
 	public static Point quadCenter = new Point(0,0);
-	public static Point computeQuadCenter( float x1, float y1, float x2, float y2, float x3, float y3, float x4, float y4 ) {
-		quadCenter.setLocation( averageOfFour( x1, x2, x3, x4 ), averageOfFour( y1, y2, y3, y4 ) );
+	public static Point computeQuadCenter(float x1, float y1, float x2, float y2, float x3, float y3, float x4, float y4) {
+		quadCenter.setLocation( averageOfFour(x1, x2, x3, x4), averageOfFour(y1, y2, y3, y4));
 		return quadCenter;
 	};
 
 	public static PVector triangle3dCenter = new PVector(0,0,0);
-	public static PVector computeTriangleCenter( float x1, float y1, float z1, float x2, float y2, float z2, float x3, float y3, float z3 ) {
-		triangle3dCenter.set( averageOfThree( x1, x2, x3 ), averageOfThree( y1, y2, y3 ), averageOfThree( z1, z2, z3 ) );
+	public static PVector computeTriangleCenter(float x1, float y1, float z1, float x2, float y2, float z2, float x3, float y3, float z3) {
+		triangle3dCenter.set(averageOfThree(x1, x2, x3), averageOfThree(y1, y2, y3), averageOfThree(z1, z2, z3));
 		return triangle3dCenter;
 	};
 	
 	public static PVector computeTriangleCenter( PVector v1, PVector v2, PVector v3 ) {
-		triangle3dCenter.set( averageOfThree( v1.x, v2.x, v3.x ), averageOfThree( v1.y, v2.y, v3.y ), averageOfThree( v1.z, v2.z, v3.z ) );
+		triangle3dCenter.set(averageOfThree(v1.x, v2.x, v3.x), averageOfThree(v1.y, v2.y, v3.y), averageOfThree(v1.z, v2.z, v3.z));
 		return triangle3dCenter;
 	};
 	
 	public static PVector quad3dCenter = new PVector(0,0,0);
-	public static PVector computeQuadCenter( float x1, float y1, float z1, float x2, float y2, float z2, float x3, float y3, float z3, float x4, float y4, float z4 ) {
-		quad3dCenter.set( averageOfFour( x1, x2, x3, x4 ), averageOfFour( y1, y2, y3, y4 ), averageOfFour( z1, z2, z3, z4 ) );
+	public static PVector computeQuadCenter(float x1, float y1, float z1, float x2, float y2, float z2, float x3, float y3, float z3, float x4, float y4, float z4) {
+		quad3dCenter.set(averageOfFour(x1, x2, x3, x4), averageOfFour(y1, y2, y3, y4), averageOfFour(z1, z2, z3, z4));
 		return quad3dCenter;
 	};
 	
-	public static PVector computeQuadCenter( PVector v1, PVector v2, PVector v3, PVector v4 ) {
-		quad3dCenter.set( averageOfFour( v1.x, v2.x, v3.x, v4.x ), averageOfFour( v1.y, v2.y, v3.y, v4.y ), averageOfFour( v1.z, v2.z, v3.z, v4.z ) );
+	public static PVector computeQuadCenter(PVector v1, PVector v2, PVector v3, PVector v4) {
+		quad3dCenter.set(averageOfFour(v1.x, v2.x, v3.x, v4.x), averageOfFour(v1.y, v2.y, v3.y, v4.y), averageOfFour(v1.z, v2.z, v3.z, v4.z));
 		return quad3dCenter;
 	};
 	
@@ -345,15 +345,15 @@ public class MathUtil {
 	    return f % 1f;
 	}
 	
-	public static float saw( float rads ) {
+	public static float saw(float rads) {
 	    rads = rads / P.TWO_PI + P.PI / 4f; // add quarter PI to sync with sin()
 	    rads = fract(rads); 
 	    return -1f + 2f * P.abs(rads * 2f - 1f);
 	}
 	
-	public static float sawTan( float rads ) {
+	public static float sawTan(float rads) {
 		rads += P.PI;
-		float percent = ( rads % P.TWO_PI ) / P.TWO_PI;
+		float percent = (rads % P.TWO_PI) / P.TWO_PI;
 		percent *= 2;
 		percent -= 1;
 		return percent;

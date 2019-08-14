@@ -28,7 +28,7 @@ implements ISequencerPattern {
 
 		// set random steps
 		for (int i = 0; i < steps.length; i++) {
-			steps[i] = MathUtil.randBooleanWeighted(P.p, weight);
+			steps[i] = MathUtil.randBooleanWeighted(weight);
 		}
 		
 		// don't go over the limit

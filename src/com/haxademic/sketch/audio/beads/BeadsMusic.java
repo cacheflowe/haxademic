@@ -67,7 +67,7 @@ extends PAppletHax {
 						Clock c = (Clock) message;
 						p.debugView.setValue("c.getCount()", ((c.getCount() / 4) % 8) + 1);
 						
-						if(c.getCount() % 4 == 0 && MathUtil.randBooleanWeighted(p, 0.65f)) {
+						if(c.getCount() % 4 == 0 && MathUtil.randBooleanWeighted(0.65f)) {
 							// hi hat
 							SamplePlayer samplePlayer03 = (c.getCount() % 8 == 0) ? new SamplePlayer(ac, sample04) : new SamplePlayer(ac, sample03);
 							Gain g = new Gain(ac, 2, 0.6f);
@@ -102,7 +102,7 @@ extends PAppletHax {
 							((Envelope)g.getGainEnvelope()).addSegment(0, random(400), new KillTrigger(p));
 						}
 						if(c.getCount() % 16 == 0) {
-							if(MathUtil.randBooleanWeighted(p, 0.65f)) {
+							if(MathUtil.randBooleanWeighted(0.65f)) {
 								// kick drum
 								SamplePlayer samplePlayer01 = new SamplePlayer(ac, sample01);
 								Gain g = new Gain(ac, 2, 0.8f);
