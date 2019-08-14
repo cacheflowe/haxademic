@@ -36,6 +36,7 @@ extends PAppletHax {
 	    * Wiggly lines should use all of Debbie's textures, and be more or less wiggly at times
 	      * Adjustable thickness
 	    * Lines, background and triangle backgrounds should use a global palette
+	      * No flashing! All colors should lerp
 	  * Inner-polygon draw styles
 	    * Turn debug mode into a draw style interface
 	    * Mesh traversal for draw styles and deletion and??
