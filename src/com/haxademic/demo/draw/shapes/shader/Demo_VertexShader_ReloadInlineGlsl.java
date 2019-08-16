@@ -66,11 +66,11 @@ extends PAppletHax {
 			"uniform float time = 0;",
 			"uniform float displaceAmp = 0.25f;",
 			"void main() {",
-			"	vec4 tmp = position * modelviewInv;",			// apply inverse matrix to use models original position as uv coords
+			"	vec4 tmp = position * modelviewInv;",								// apply inverse matrix to use models original position as uv coords
 			"	v_texCoord3D = tmp.xyz;",
 			"	vec3 p = tmp.xyz;",
-			"	float radsToCenter = atan(p.x, p.z);",
-			"	p.y += sin(time + radsToCenter * 14.) * (60. + 60. * sin(time));",
+			"	float radsToCenter = atan(p.x, p.z);",								// circular waviness progress
+			"	p.y += sin(time + radsToCenter * 14.) * (60. + 60. * sin(time));",	// uv warping like we do in 2d
 			"	// send position-based stripes to fragment shader",
 			"	float grey = 0.5 + 0.5 * sin(time * 6. + p.y / 10.);",
 			"	vec4 col = vec4(grey, grey, grey, 1.0);",
