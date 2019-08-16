@@ -5,6 +5,7 @@ import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.shapes.Icosahedron;
 import com.haxademic.core.draw.shapes.PShapeUtil;
+import com.haxademic.core.draw.shapes.pshader.PShaderCompiler;
 import com.haxademic.core.file.FileUtil;
 
 import processing.core.PImage;
@@ -36,14 +37,16 @@ extends PAppletHax {
 	}
 	
 	protected void buildShape() {
-		int detail = 9;
+		int detail = 4;
 		icosa = Icosahedron.createIcosahedron(p.g, detail, null);// DemoAssets.textureJupiter());
 		PShapeUtil.scaleShapeToHeight(icosa, p.height * 0.5f);
 	}
 
 	protected void rebuildShader() {
-		PShader newShader = new PShader(p, vertSource(), fragSource());
-		shader = newShader;
+		PShaderCompiler newShader = new PShaderCompiler(p, vertSource(), fragSource());
+		if(newShader.isValid()) {
+			shader = newShader;
+		}
 	}
 	
 	protected String[] vertSource() {
@@ -122,9 +125,9 @@ extends PAppletHax {
 		shader.set("time", loop.progressRads());
 		shader.set("displaceAmp", 0.4f);
 		shader.set("modelviewInv", ((PGraphicsOpenGL) g).modelviewInv);
+		pg.shader(shader);
 
 		// apply shader, draw shape
-		pg.shader(shader);  
 		pg.shape(icosa);
 		pg.resetShader();
 		pg.endDraw();

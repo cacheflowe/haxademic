@@ -42,8 +42,12 @@ extends PAppletHax {
 	}
 
 	protected void rebuildShader() {
-		PShader newShader = new PShader(p, vertSource(), fragSource());
-		shader = newShader;
+//		try {
+            PShader newShader = new PShader(p, vertSource(), fragSource());
+            shader = newShader;
+//        } catch (Exception e) {
+//            System.out.println("I caught: " + e);
+//        }
 	}
 	
 	protected String[] vertSource() {
