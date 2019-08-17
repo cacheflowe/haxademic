@@ -55,6 +55,7 @@
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.demo.draw.textures.shaders"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.demo.draw.text"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.data.constants"/>
+        <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.demo.debug"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.demo.draw.camera"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.draw.textures.pgraphics.shared"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.demo.hardware.serial"/>
