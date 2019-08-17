@@ -5,8 +5,6 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.List;
-import java.util.Random;
 
 import com.haxademic.app.haxmapper.dmxlights.RandomLightTiming;
 import com.haxademic.app.haxvisual.pools.HaxVisualTexturePools;
@@ -15,11 +13,9 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.data.constants.PBlendModes;
-import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.data.store.IAppStoreListener;
 import com.haxademic.core.draw.color.Gradients;
 import com.haxademic.core.draw.color.ImageGradient;
-import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.BadTVLinesFilter;
 import com.haxademic.core.draw.filters.pshader.BlendTowardsTexture;
@@ -35,13 +31,8 @@ import com.haxademic.core.draw.filters.pshader.CubicLensDistortionFilterOscillat
 import com.haxademic.core.draw.filters.pshader.DisplacementMapFilter;
 import com.haxademic.core.draw.filters.pshader.EdgesFilter;
 import com.haxademic.core.draw.filters.pshader.FakeLightingFilter;
-import com.haxademic.core.draw.filters.pshader.FlipHFilter;
-import com.haxademic.core.draw.filters.pshader.GlitchImageGlitcherFilter;
-import com.haxademic.core.draw.filters.pshader.GlitchPseudoPixelSortingFilter;
-import com.haxademic.core.draw.filters.pshader.GlitchShaderAFilter;
-import com.haxademic.core.draw.filters.pshader.GlitchShakeFilter;
+import com.haxademic.core.draw.filters.pshader.GlitchSuite;
 import com.haxademic.core.draw.filters.pshader.GodRays;
-import com.haxademic.core.draw.filters.pshader.GrainFilter;
 import com.haxademic.core.draw.filters.pshader.HalftoneCamoFilter;
 import com.haxademic.core.draw.filters.pshader.HalftoneFilter;
 import com.haxademic.core.draw.filters.pshader.HueFilter;
@@ -51,11 +42,9 @@ import com.haxademic.core.draw.filters.pshader.LeaveBlackFilter;
 import com.haxademic.core.draw.filters.pshader.LiquidWarpFilter;
 import com.haxademic.core.draw.filters.pshader.MaskThreeTextureFilter;
 import com.haxademic.core.draw.filters.pshader.MirrorQuadFilter;
-import com.haxademic.core.draw.filters.pshader.Pixelate2Filter;
 import com.haxademic.core.draw.filters.pshader.PixelateFilter;
 import com.haxademic.core.draw.filters.pshader.RadialRipplesFilter;
 import com.haxademic.core.draw.filters.pshader.ReflectFilter;
-import com.haxademic.core.draw.filters.pshader.RepeatFilter;
 import com.haxademic.core.draw.filters.pshader.RotateFilter;
 import com.haxademic.core.draw.filters.pshader.SphereDistortionFilter;
 import com.haxademic.core.draw.filters.pshader.VignetteAltFilter;
@@ -73,7 +62,6 @@ import com.haxademic.core.hardware.osc.devices.TouchOscPads;
 import com.haxademic.core.hardware.shared.InputTrigger;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.LinearFloat;
-import com.haxademic.core.math.easing.Penner;
 import com.haxademic.core.system.SystemUtil;
 import com.haxademic.core.ui.UIButton;
 
@@ -187,8 +175,7 @@ implements IAppStoreListener {
 	protected PGraphics displacementBlurBuffer;
 
 	// GLITCH EFFECTS
-	protected LinearFloat glitchProgress = new LinearFloat(0, 0.015f);
-	protected GlitchMode glitchMode;	
+	protected GlitchSuite glitchSuite;	
 	
 	// PER-TEXTURE POST EFFECTS
 	protected int[] textureEffectsIndices;	// store a effects number for each texture position after the first
@@ -197,8 +184,7 @@ implements IAppStoreListener {
 
 	// CORNER-PINNED BUFFER or MULTI-OUTPUT MAPPING
 
-	protected PGraphics _pg;
-	protected PGraphicsKeystone _pgPinnable;
+	protected PGraphicsKeystone pgPinnable;
 	protected float scaleDownPG = 1f; // 0.5f;
 	protected boolean multiOutput = false;
 	
@@ -213,20 +199,20 @@ implements IAppStoreListener {
 
 	protected void overridePropsFile() {
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, false );
-		p.appConfig.setProperty( AppSettings.FULLSCREEN, true );
+		p.appConfig.setProperty( AppSettings.FULLSCREEN, false );
 		p.appConfig.setProperty( AppSettings.ALWAYS_ON_TOP, false );
 		p.appConfig.setProperty( AppSettings.FILLS_SCREEN, false );
 		p.appConfig.setProperty( AppSettings.OSC_ACTIVE, false );
 		//		p.appConfig.setProperty( AppSettings.AUDIO_DEBUG, true );
-		p.appConfig.setProperty( AppSettings.INIT_ESS_AUDIO, false );
+		p.appConfig.setProperty( AppSettings.INIT_ESS_AUDIO, true );
 //				p.appConfig.setProperty( AppSettings.INIT_MINIM_AUDIO, true );
 //				p.appConfig.setProperty( AppSettings.INIT_BEADS_AUDIO, true );
 		p.appConfig.setProperty( AppSettings.MIDI_DEVICE_IN_INDEX, 0 );
 		p.appConfig.setProperty( AppSettings.MIDI_DEBUG, false );
 		p.appConfig.setProperty( AppSettings.WIDTH, 1920 );
 		p.appConfig.setProperty( AppSettings.HEIGHT, 1080 );
-		p.appConfig.setProperty( AppSettings.WIDTH, 1280 );
-		p.appConfig.setProperty( AppSettings.HEIGHT, 720 );
+		p.appConfig.setProperty( AppSettings.PG_WIDTH, 1920 );
+		p.appConfig.setProperty( AppSettings.PG_HEIGHT, 1080 );
 	}
 
 	protected void setupFirstFrame() {
@@ -241,16 +227,11 @@ implements IAppStoreListener {
 		buildPostProcessingChain();
 		// buildInterstitial();
 		
-		interphase = new Interphase();
+//		interphase = new Interphase();
 	}
 
 	protected void buildCanvas() {
-		int w = P.round(p.width * scaleDownPG);
-		int h = P.round(p.height * scaleDownPG);
-		_pg = p.createGraphics(w, h, P.P3D);
-//		_pg.noSmooth();
-		OpenGLUtil.setTextureRepeat(_pg);
-//		_pgPinnable = new PGraphicsKeystone( p, _pg, 12, FileUtil.getFile("text/keystoning/hax-visual-two.txt") );
+//		pgPinnable = new PGraphicsKeystone( p, pg, 12, FileUtil.getFile("text/keystoning/hax-visual-two.txt") );
 	}
 
 	// fancy mapping blended output
@@ -262,24 +243,18 @@ implements IAppStoreListener {
 	protected PGraphics fadeEdge;
 	
 	protected void buildCanvasMultiOutput() {
-		int w = 1920 * 4 - OVERLAP_PIXELS;
-		int h = P.round(1080 * 4f/3f);
-		_pg = p.createGraphics(w, h, P.P3D);
-		_pg.noSmooth();
-		OpenGLUtil.setTextureRepeat(_pg);
-		
 		// add sliders for blending
 		p.ui.addSlider(BLEND_LEFT, OVERLAP_PIXELS / 2, -100, 2020, 1);
 		p.ui.addSlider(BLEND_RIGHT, OVERLAP_PIXELS / 2, -100, 2020, 1);
 		p.ui.addSlider(BLEND_WIDTH, 100, 0, 1000, 1);
 		
-		fadeEdge = p.createGraphics(1920, h, P.P3D);
+		fadeEdge = PG.newPG(1920, pg.height);
 	}
 	
 	protected void buildPostProcessingChain() {
-		displacementBlurBuffer = p.createGraphics(_pg.width/20, _pg.height/20, PRenderers.P3D);
+		displacementBlurBuffer = PG.newPG(pg.width/20, pg.height/20);
 		
-		colorizeSourceTexture = p.createGraphics(128, 4, PRenderers.P3D);
+		colorizeSourceTexture = PG.newPG(128, 4);
 		p.debugView.setTexture("colorizeSourceTexture", colorizeSourceTexture);
 		imageGradient = new ImageGradient(ImageGradient.PASTELS());
 		imageGradient.addTexturesFromPath(ImageGradient.COOLORS_PATH);
@@ -292,11 +267,13 @@ implements IAppStoreListener {
 		HalftoneFilter.instance(p).setCenter(0.5f, 0.5f);
 		HalftoneFilter.instance(p).setScale(1f);
 
-		PixelateFilter.instance(p).setDivider(20f, _pg.width, _pg.height);
+		PixelateFilter.instance(p).setDivider(20f, pg.width, pg.height);
 		
 		p.midiState.controllerChange(midiInChannel, contrastKnob, (int) 70);
 
 		p.midiState.controllerChange(midiInChannel, vignetteKnob, (int) 70);
+		
+		glitchSuite = new GlitchSuite();
 	}
 
 //	protected void initDMX() {
@@ -340,13 +317,13 @@ implements IAppStoreListener {
 		postSpecialEffectsFilters();
 		drawTopLayer();
 		postFinalFilters();
-		if(interphase != null) interphase.update(null); // _pg
+		if(interphase != null) interphase.update(null); // pg
 		if(imageCycler != null) drawInterstitial();
 		// draw pinned pgraphics
-		if(_debugTextures == true && _pgPinnable != null) _pgPinnable.drawTestPattern();
-//		p.debugView.setTexture(_pg);
-		if(multiOutput == false && _pgPinnable != null) _pgPinnable.update(p.g);
-		else if(multiOutput == false) ImageUtil.cropFillCopyImage(_pg, p.g, false);
+		if(_debugTextures == true && pgPinnable != null) pgPinnable.drawTestPattern();
+//		p.debugView.setTexture(pg);
+		if(multiOutput == false && pgPinnable != null) pgPinnable.update(p.g);
+		else if(multiOutput == false) ImageUtil.cropFillCopyImage(pg, p.g, false);
 		else drawCanvasToMultiScreens();
 		// sendDmxLights();
 		runDebugHelpers();
@@ -413,58 +390,59 @@ implements IAppStoreListener {
 	protected void drawLayers() {
 		// composite textures
 		if(overlayMode != 3 || displacementTextureIndex == 3) {	// we'll use the mask shader if 3, and no need to draw here
-			_pg.beginDraw();
-			_pg.background(0);
-			_pg.blendMode(PBlendModes.EXCLUSION);
-//			_pg.blendMode(PBlendModes.ADD);
-//			_pg.blendMode(PBlendModes.LIGHTEST);
-//			_pg.blendMode(PBlendModes.DARKEST);
+			pg.beginDraw();
+			pg.background(0);
+			pg.blendMode(PBlendModes.EXCLUSION);
+//			pg.blendMode(PBlendModes.ADD);
+//			pg.blendMode(PBlendModes.LIGHTEST);
+//			pg.blendMode(PBlendModes.DARKEST);
 			//		OpenGLUtil.setBlending(p.g, true);
 			//		OpenGLUtil.setBlendMode(p.g, OpenGLUtil.Blend.DARK_INVERSE);
 			for( int i=0; i < _curTexturePool.size() - 1; i++ ) {	
 				if(i != displacementTextureIndex) {	// don't draw displacement layer
 					BaseTexture tex = _curTexturePool.get(i);
 					if(tex != null && tex.texture() != null) {
-						ImageUtil.drawImageCropFill(tex.texture(), _pg, true);
+						ImageUtil.drawImageCropFill(tex.texture(), pg, true);
 					}
 				}
 			}
-			_pg.blendMode(PBlendModes.BLEND);
-			_pg.endDraw();
+			pg.blendMode(PBlendModes.BLEND);
+			pg.endDraw();
 		}
 	}
 
 	protected void drawTopLayer() {
-		_pg.beginDraw();
-//		_pg.blendMode(PBlendModes.BLEND);
-		_pg.blendMode(PBlendModes.ADD);
-		ImageUtil.drawImageCropFill(topLayer().texture(), _pg, true);
-		_pg.blendMode(PBlendModes.BLEND);
-		_pg.endDraw();
+		if(topLayer() == null || topLayer().texture() == null) return;
+		pg.beginDraw();
+//		pg.blendMode(PBlendModes.BLEND);
+		pg.blendMode(PBlendModes.ADD);
+		ImageUtil.drawImageCropFill(topLayer().texture(), pg, true);
+		pg.blendMode(PBlendModes.BLEND);
+		pg.endDraw();
 	}
 	
 	protected void drawCanvasToMultiScreens() {
 		if(p.debugView.active()) {
 			// show the whole thing
-			ImageUtil.cropFillCopyImage(_pg, p.g, false);
+			ImageUtil.cropFillCopyImage(pg, p.g, false);
 		} else {
 			// draw for GG
 			int outW = 1920;
 			int outH = 1080;
-	//		int sourceW = _pg.width / 3;
-			int sourceH = _pg.height;
+	//		int sourceW = pg.width / 3;
+			int sourceH = pg.height;
 	
 			// screen 1 - left end
-			p.g.copy(_pg,   0, 0, 1920, sourceH, 
+			p.g.copy(pg,   0, 0, 1920, sourceH, 
 							0, 0, outW, outH);
 			// screen 2-3
-			p.g.copy(_pg, 	1920, 0, 1920, sourceH, 
+			p.g.copy(pg, 	1920, 0, 1920, sourceH, 
 							outW, 0, outW, outH);
-			p.g.copy(_pg, 	_pg.width - 1920 * 2, 0, 1920, sourceH, 
+			p.g.copy(pg, 	pg.width - 1920 * 2, 0, 1920, sourceH, 
 							0, outH, outW, outH);
 			
 			// screen 4 - right end
-			p.g.copy(_pg, 	_pg.width - 1920, 0, 1920, sourceH, 
+			p.g.copy(pg, 	pg.width - 1920, 0, 1920, sourceH, 
 							outW, outH, outW, outH);
 			
 			// screen 2-3 blending
@@ -501,32 +479,30 @@ implements IAppStoreListener {
 			if(displacementTextureIndex >= _curTexturePool.size()) displacementTextureIndex = _curTexturePool.size() - 1; // protection!
 			PGraphics displacementBuffer = _curTexturePool.get(displacementTextureIndex).texture();
 			
-			// smooth displacement buffer
-//			if(overlayMode == 0 || overlayMode == 3) {
-				// add blur to displacement image
-				boolean scaleByTextureResize = true;
-				if(scaleByTextureResize) {
-					p.debugView.setTexture("displacementBlurBuffer", displacementBlurBuffer);
-					ImageUtil.copyImage(displacementBuffer, displacementBlurBuffer);			// scale down to tiny buffer
+			// add blur to displacement image
+			if(displacementBuffer == null) return;
+			boolean scaleByTextureResize = true;
+			if(scaleByTextureResize) {
+				p.debugView.setTexture("displacementBlurBuffer", displacementBlurBuffer);
+				ImageUtil.copyImage(displacementBuffer, displacementBlurBuffer);			// scale down to tiny buffer
 //					ImageUtil.copyImage(displacementBlurBuffer, displacementBuffer);			// instead of copying back up,
-					BlendTowardsTexture.instance(p).setSourceTexture(displacementBlurBuffer);	// lerp it back up for smoothness
-					BlendTowardsTexture.instance(p).setBlendLerp(0.25f);
-					BlendTowardsTexture.instance(p).applyTo(displacementBuffer);
-					// extra blur to smooth edges
-					BlurHFilter.instance(p).setBlurByPercent(3f, displacementBuffer.width);		// then blur again for more smoothness
-					BlurVFilter.instance(p).setBlurByPercent(3f, displacementBuffer.height);
-					BlurHFilter.instance(p).applyTo(displacementBuffer);
-					BlurVFilter.instance(p).applyTo(displacementBuffer);
-				} else {
-					float blurPercent = 2f; // p.mousePercentX() * 10f;
-					BlurHFilter.instance(p).setBlurByPercent(blurPercent, _pg.width);
-					BlurVFilter.instance(p).setBlurByPercent(blurPercent, _pg.height);
-					BlurHFilter.instance(p).applyTo(displacementBuffer);
-					BlurVFilter.instance(p).applyTo(displacementBuffer);
-					BlurHFilter.instance(p).applyTo(displacementBuffer);
-					BlurVFilter.instance(p).applyTo(displacementBuffer);
-				}
-//			}
+				BlendTowardsTexture.instance(p).setSourceTexture(displacementBlurBuffer);	// lerp it back up for smoothness
+				BlendTowardsTexture.instance(p).setBlendLerp(0.25f);
+				BlendTowardsTexture.instance(p).applyTo(displacementBuffer);
+				// extra blur to smooth edges
+				BlurHFilter.instance(p).setBlurByPercent(3f, displacementBuffer.width);		// then blur again for more smoothness
+				BlurVFilter.instance(p).setBlurByPercent(3f, displacementBuffer.height);
+				BlurHFilter.instance(p).applyTo(displacementBuffer);
+				BlurVFilter.instance(p).applyTo(displacementBuffer);
+			} else {
+				float blurPercent = 2f; // p.mousePercentX() * 10f;
+				BlurHFilter.instance(p).setBlurByPercent(blurPercent, pg.width);
+				BlurVFilter.instance(p).setBlurByPercent(blurPercent, pg.height);
+				BlurHFilter.instance(p).applyTo(displacementBuffer);
+				BlurVFilter.instance(p).applyTo(displacementBuffer);
+				BlurHFilter.instance(p).applyTo(displacementBuffer);
+				BlurVFilter.instance(p).applyTo(displacementBuffer);
+			}
 			
 			// apply displacement mode
 			if(overlayMode == 0) {
@@ -534,21 +510,21 @@ implements IAppStoreListener {
 				// set current layer as displacer & apply effect
 				DisplacementMapFilter.instance(p).setMap(displacementBuffer);
 				DisplacementMapFilter.instance(p).setMode(3);
-				DisplacementMapFilter.instance(p).applyTo(_pg);
+				DisplacementMapFilter.instance(p).applyTo(pg);
 			} else if(overlayMode == 1) {
 				// OVERLAY WITH ONLY BLACK
 				LeaveBlackFilter.instance(p).setCrossfade(1f);
 				LeaveBlackFilter.instance(p).applyTo(displacementBuffer);
-				_pg.beginDraw();
-				ImageUtil.drawImageCropFill(displacementBuffer, _pg, true);
-				_pg.endDraw();
+				pg.beginDraw();
+				ImageUtil.drawImageCropFill(displacementBuffer, pg, true);
+				pg.endDraw();
 			} else if(overlayMode == 2) {
 				// DRAW DISPLACEMENT BUFFER NORMALLY
-				_pg.beginDraw();
-				_pg.blendMode(PBlendModes.EXCLUSION);
-				ImageUtil.drawImageCropFill(displacementBuffer, _pg, true);
-				_pg.blendMode(PBlendModes.BLEND);
-				_pg.endDraw();
+				pg.beginDraw();
+				pg.blendMode(PBlendModes.EXCLUSION);
+				ImageUtil.drawImageCropFill(displacementBuffer, pg, true);
+				pg.blendMode(PBlendModes.BLEND);
+				pg.endDraw();
 			} else if(overlayMode == 3) {
 				// ADD SHADER TO MASK & REVERSE MASK THE OPPOSITE 2 TEXTURES
 				PGraphics tex1;
@@ -559,7 +535,7 @@ implements IAppStoreListener {
 				MaskThreeTextureFilter.instance(p).setMask(displacementBuffer);
 				MaskThreeTextureFilter.instance(p).setTexture1(tex1);
 				MaskThreeTextureFilter.instance(p).setTexture2(tex2);
-				MaskThreeTextureFilter.instance(p).applyTo(_pg);
+				MaskThreeTextureFilter.instance(p).applyTo(pg);
 			}
 		}
 	}
@@ -570,28 +546,28 @@ implements IAppStoreListener {
 		if( p.midiState.midiCCPercent(midiInChannel, contrastKnob) != 0 ) {
 			if(p.midiState.midiCCPercent(midiInChannel, contrastKnob) > 0.1f) {
 				ContrastFilter.instance(p).setContrast(p.midiState.midiCCPercent(midiInChannel, contrastKnob) * 7f);
-//				if(p.mousePercentX() > 0.5f) ContrastFilter.instance(p).applyTo(_pg);
+//				if(p.mousePercentX() > 0.5f) ContrastFilter.instance(p).applyTo(pg);
 
 			}
 		}
 
 		// MULTIPLE EFFECTS KNOB ////////////////////////
 		boolean halftone = ( p.midiState.midiCCPercent(midiInChannel, effectsKnob) > 0.25f && p.midiState.midiCCPercent(midiInChannel, effectsKnob) < 0.5f );
-		if( halftone ) HalftoneFilter.instance(p).applyTo(_pg);
+		if( halftone ) HalftoneFilter.instance(p).applyTo(pg);
 
 		boolean edged = ( p.midiState.midiCCPercent(midiInChannel, effectsKnob) > 0.5f && p.midiState.midiCCPercent(midiInChannel, effectsKnob) < 0.75f );
-		if( edged ) EdgesFilter.instance(p).applyTo(_pg);
+		if( edged ) EdgesFilter.instance(p).applyTo(pg);
 
 		boolean pixelated = ( p.midiState.midiCCPercent(midiInChannel, effectsKnob) > 0.75f );
 		if( pixelated ) {
 			float pixAmout = P.round(p.midiState.midiCCPercent(midiInChannel, pixelateKnob) * 40f);
-			PixelateFilter.instance(p).setDivider(p.width/pixAmout, _pg.width, _pg.height);
-			if(p.midiState.midiCCPercent(midiInChannel, pixelateKnob) > 0) PixelateFilter.instance(p).applyTo(_pg);
+			PixelateFilter.instance(p).setDivider(p.width/pixAmout, pg.width, pg.height);
+			if(p.midiState.midiCCPercent(midiInChannel, pixelateKnob) > 0) PixelateFilter.instance(p).applyTo(pg);
 		}
 
 		// INVERT ////////////////////////
 		boolean inverted = ( p.midiState.midiCCPercent(midiInChannel, invertKnob) > 0.5f );
-		if( inverted ) InvertFilter.instance(p).applyTo(_pg);
+		if( inverted ) InvertFilter.instance(p).applyTo(pg);
 
 		// COLOR DISTORTION ///////////////////////
 		// color distortion auto
@@ -610,7 +586,7 @@ implements IAppStoreListener {
 			float prevTime = ColorDistortionFilter.instance(p).getTime();
 			ColorDistortionFilter.instance(p).setTime(prevTime + 1/100f * colorDistortionTimeMult);
 			ColorDistortionFilter.instance(p).setAmplitude(colorDistortionAmp);
-			ColorDistortionFilter.instance(p).applyTo(_pg);
+			ColorDistortionFilter.instance(p).applyTo(pg);
 		}
 
 		// WARP /////////////////////////
@@ -620,11 +596,11 @@ implements IAppStoreListener {
 			LiquidWarpFilter.instance(p).setAmplitude(warpAmp);
 			LiquidWarpFilter.instance(p).setFrequency(warpFreq);
 			LiquidWarpFilter.instance(p).setTime(p.frameCount / 40f);
-			LiquidWarpFilter.instance(p).applyTo(_pg);
+			LiquidWarpFilter.instance(p).applyTo(pg);
 		}
 		
 		// GLITCH
-		doGlitchEffect(_pg);
+		glitchSuite.applyTo(pg);
 
 		// KALEIDOSCOPE ////////////////////////
 		float kaleidoSides = P.round( p.midiState.midiCCPercent(midiInChannel, kaledioKnob) * 12f );
@@ -632,13 +608,13 @@ implements IAppStoreListener {
 		if( kaleidoSides > 0 ) {
 			if( kaleidoSides == 1 ) {
 				MirrorQuadFilter.instance(p).setZoom(0.5f);// + 0.1f * P.sin(p.frameCount * 0.01f));
-				MirrorQuadFilter.instance(p).applyTo(_pg);
+				MirrorQuadFilter.instance(p).applyTo(pg);
 			} else if( kaleidoSides == 3 ) {
-				ReflectFilter.instance(p).applyTo(_pg);
+				ReflectFilter.instance(p).applyTo(pg);
 			} else {
 				KaleidoFilter.instance(p).setAngle(0f);
 				KaleidoFilter.instance(p).setSides(kaleidoSides);
-				KaleidoFilter.instance(p).applyTo(_pg);
+				KaleidoFilter.instance(p).applyTo(pg);
 			}
 		}
 	}
@@ -656,7 +632,7 @@ implements IAppStoreListener {
 			ColorizeFromTexture.instance(p).setTexture(colorizeSourceTexture);
 			ColorizeFromTexture.instance(p).setLumaMult(false);
 			ColorizeFromTexture.instance(p).setCrossfade(0.75f); // p.mousePercentX());
-			ColorizeFromTexture.instance(p).applyTo(_pg);
+			ColorizeFromTexture.instance(p).applyTo(pg);
 		}	
 	}
 	
@@ -664,13 +640,13 @@ implements IAppStoreListener {
 		BloomFilter.instance(p).setStrength(1f);
 		BloomFilter.instance(p).setBlurIterations(4);
 		BloomFilter.instance(p).setBlendMode(BloomFilter.BLEND_SCREEN);
-		BloomFilter.instance(p).applyTo(_pg);
+		BloomFilter.instance(p).applyTo(pg);
 
 		GodRays.instance(p).setDecay(0.5f);
 		GodRays.instance(p).setWeight(0.5f);
 		GodRays.instance(p).setRotation(P.sin(p.frameCount * 0.1f));
 		GodRays.instance(p).setAmp(0.5f + 0.5f * P.sin(p.frameCount * 0.1f));
-		GodRays.instance(p).applyTo(_pg);
+		GodRays.instance(p).applyTo(pg);
 	}
 
 	protected void fakeLightFilter() {
@@ -679,7 +655,7 @@ implements IAppStoreListener {
 		FakeLightingFilter.instance(p).setGradBlur(1f);
 		FakeLightingFilter.instance(p).setSpecAmp(1.25f);
 		FakeLightingFilter.instance(p).setDiffDark(0.5f);
-		FakeLightingFilter.instance(p).applyTo(_pg);
+		FakeLightingFilter.instance(p).applyTo(pg);
 	}
 	
 	protected void vignetteFilter() {
@@ -688,182 +664,19 @@ implements IAppStoreListener {
 		float vignetteDarkness = P.map(vignetteVal, 0, 1, 13f, -13f);
 		VignetteAltFilter.instance(p).setSpread(0.5f);
 		VignetteAltFilter.instance(p).setDarkness(1f); // vignetteDarkness
-//		VignetteAltFilter.instance(p).applyTo(_pg);
+//		VignetteAltFilter.instance(p).applyTo(pg);
 
 		// normal vignette
 		VignetteFilter.instance(p).setDarkness(0.6f);
-		VignetteFilter.instance(p).applyTo(_pg);
+		VignetteFilter.instance(p).applyTo(pg);
 	}
 
 	protected void postBrightness() {
 		if(p.midiState.midiCCPercent(midiInChannel, brightnessKnob) != 0) brightnessVal = p.midiState.midiCCPercent(midiInChannel, brightnessKnob) * 5f;
 		BrightnessFilter.instance(p).setBrightness(brightnessVal);
-		BrightnessFilter.instance(p).applyTo(_pg);	
+		BrightnessFilter.instance(p).applyTo(pg);	
 	}
 	
-	//////////////////////////
-	// GLITCH STUFF
-	//////////////////////////
-	
-	enum GlitchMode {
-		Pixelate2,
-		ShaderA,
-		PixelSorting,
-		Shake,
-		ImageGlitcher,
-		Invert,
-		HFlip,
-		Edges,
-		Repeat,
-		Mirror,
-		ColorDistortion,
-//		BadTV,
-		BadTV2,
-		Grain,
-		Slide,
-//		OrangeSweep,
-	};
-	
-	// funky enum randomization helpers
-	private static final List<GlitchMode> VALUES = Collections.unmodifiableList(Arrays.asList(GlitchMode.values()));
-	private static final int SIZE = VALUES.size();
-	private static final Random RANDOM = new Random();
-	public static GlitchMode randomGlitchMode()  {
-	  return VALUES.get(RANDOM.nextInt(SIZE));
-	}
-	
-	protected void doGlitchEffect(PGraphics buffer) {
-		// update glitch progress
-		glitchProgress.update();
-		boolean isGlitching = glitchProgress.value() > 0 && glitchProgress.value() < 1;
-		p.debugView.setValue("HAXVISUAL :: isGlitching", isGlitching);
-		if(isGlitching == false) return;
-		float progressInverse = 1f - glitchProgress.value();
-		float shaderTime = p.frameCount * 0.01f;
-		float shaderTimeStepped = P.floor(p.frameCount/5) * 0.01f;
-
-		// apply glitchy filters to buffer 
-		switch (glitchMode) {
-			case Pixelate2:
-				Pixelate2Filter.instance(p).setDivider(10f * progressInverse);
-				Pixelate2Filter.instance(p).applyTo(buffer);
-				break;
-
-			case ShaderA:
-				GlitchShaderAFilter.instance(p).setTime(shaderTimeStepped);
-				GlitchShaderAFilter.instance(p).setAmp(P.constrain(progressInverse, 0.1f, 1f));
-				GlitchShaderAFilter.instance(p).applyTo(buffer);
-				break;
-	
-			case PixelSorting:
-				GlitchPseudoPixelSortingFilter.instance(p).setThresholdThresholdsCurved(progressInverse);
-				GlitchPseudoPixelSortingFilter.instance(p).applyTo(buffer);
-				break;
-				
-			case Shake:
-				GlitchShakeFilter.instance(p).setTime(shaderTimeStepped);
-				GlitchShakeFilter.instance(p).setGlitchSpeed(0.4f);	 				// config?
-				GlitchShakeFilter.instance(p).setAmp(progressInverse);
-				GlitchShakeFilter.instance(p).setCrossfade(1f);
-				GlitchShakeFilter.instance(p).setSubdivide1(64f);	 				// config?
-				GlitchShakeFilter.instance(p).setSubdivide2(64f);	 				// config?
-				GlitchShakeFilter.instance(p).applyTo(buffer);
-				break;
-				
-			case ImageGlitcher:
-				GlitchImageGlitcherFilter.instance(p).setTime(shaderTimeStepped);
-				GlitchImageGlitcherFilter.instance(p).setAmp(progressInverse);
-				GlitchImageGlitcherFilter.instance(p).setCrossfade(1f);
-				GlitchImageGlitcherFilter.instance(p).setColorSeparation(true);
-				GlitchImageGlitcherFilter.instance(p).setBarSize(0.5f);	 			// config?
-				GlitchImageGlitcherFilter.instance(p).setGlitchSpeed(0.5f);			// config?
-				GlitchImageGlitcherFilter.instance(p).setNumSlices(20f);			// config?
-				GlitchImageGlitcherFilter.instance(p).applyTo(buffer);
-				break;
-				
-			case Invert:
-				InvertFilter.instance(p).applyTo(buffer);
-				break;
-
-			case HFlip:
-				FlipHFilter.instance(p).applyTo(buffer);
-				break;
-				
-			case Edges:
-				EdgesFilter.instance(p).applyTo(buffer);
-				break;
-				
-			case Repeat:
-				float progressInverseEased = Penner.easeInExpo(progressInverse, 0, 1, 1);
-				RepeatFilter.instance(p).setZoom(1f + 5f * progressInverseEased);
-				RepeatFilter.instance(p).applyTo(buffer);
-				break;
-
-			case Mirror:
-				ReflectFilter.instance(p).applyTo(buffer);
-				break;
-			
-			case ColorDistortion:
-				ColorDistortionFilter.instance(p).setAmplitude(progressInverse);
-				ColorDistortionFilter.instance(p).setTime(shaderTime * 1f);
-				ColorDistortionFilter.instance(p).applyTo(buffer);
-				break;
-				
-			case BadTV2:
-				BadTVLinesFilter.instance(P.p).setTime(shaderTime);
-				BadTVLinesFilter.instance(P.p).setGrayscale(0);
-				BadTVLinesFilter.instance(P.p).setIntensityN(progressInverse);
-				BadTVLinesFilter.instance(P.p).setIntensityS(progressInverse);
-				BadTVLinesFilter.instance(P.p).setCountS(4096.0f / 1f);
-				BadTVLinesFilter.instance(P.p).applyTo(buffer);
-				break;
-				
-			case Grain:
-				GrainFilter.instance(p).setTime(shaderTime);
-				GrainFilter.instance(p).setCrossfade(progressInverse * 0.5f);
-				GrainFilter.instance(p).applyTo(buffer);
-				break;
-				
-			case Slide:
-				float xSlide = progressInverse * (-1f + 2f * p.noise(p.frameCount * 0.001f));
-				float ySlide = progressInverse * (-1f + 2f * p.noise((p.frameCount + 10000) * 0.001f));
-				RepeatFilter.instance(p).setOffset(xSlide, ySlide);
-				RepeatFilter.instance(p).applyTo(buffer);
-				break;
-				
-//			case OrangeSweep:
-//				LumaColorReplaceFilter.instance(p).setTargetColor(1f, 0.274f, 0.023f, 1f);
-//				LumaColorReplaceFilter.instance(p).setDiffRange(0.1f);
-//				// LumaColorReplaceFilter.instance(p).setLumaTarget(3f * progressInverse - 1f);	// slide from 2 -> -1
-//				LumaColorReplaceFilter.instance(p).setLumaTarget(progressInverse);
-//				LumaColorReplaceFilter.instance(p).applyTo(buffer);
-//				break;
-				
-			default:
-				// P.out("No glitch filter selected!");
-				break;
-		}
-	}
-	
-	public void startGlitchMode(GlitchMode newGlitchMode) {
-		// reset glitch progress
-		glitchProgress.setCurrent(0);
-		glitchProgress.setTarget(1);
-		
-		// select a glitch mode
-		glitchMode = newGlitchMode;
-		
-		// TODO: effect-specific configuration
-		// TODO: change glitchProgress increment for different speeds
-		glitchProgress.setInc(0.02f);
-	}
-
-	protected void startGlitchMode() {
-		startGlitchMode(randomGlitchMode());
-		// startGlitchMode(GlitchMode.Slide);
-	}
-
-
 	/////////////////////////////////////////////////////////////////
 	// BEAT DETECTION 
 	/////////////////////////////////////////////////////////////////
@@ -938,7 +751,7 @@ implements IAppStoreListener {
 		if ( _audioInputDownTrigger.triggered() == true ) p.audioData.setGain(p.audioData.gain() - 0.05f);
 		if ( _brightnessUpTrigger.triggered() == true ) brightnessVal += 0.1f;
 		if ( _brightnessDownTrigger.triggered() == true ) brightnessVal -= 0.1f;
-		if ( _keystoneResetTrigger.triggered() == true && _pgPinnable != null) _pgPinnable.resetCorners();
+		if ( _keystoneResetTrigger.triggered() == true && pgPinnable != null) pgPinnable.resetCorners();
 		if ( _debugTexturesTrigger.triggered() == true ) _debugTextures = !_debugTextures;
 		
 		p.debugView.setValue("HAXVISUAL :: isBeatDetectMode()", isBeatDetectMode());
@@ -1062,7 +875,7 @@ implements IAppStoreListener {
 		p.midiState.controllerChange(midiInChannel, kaledioKnob, (int) kaleidoSides);
 
 		// start glitch mode
-		startGlitchMode();
+		glitchSuite.newGlitchMode();
 	}
 
 	protected void bigChangeTrigger() {
@@ -1127,11 +940,11 @@ implements IAppStoreListener {
 		texturePools = new ArrayList[]{bgTexturePool, fgTexturePool, audioTexturePool, topLayerPool};
 		_curTexturePool = new ArrayList<BaseTexture>();
 
-//		HaxVisualTexturePools.addTexturesToPoolMinimal(_pg, bgTexturePool, fgTexturePool, audioTexturePool, topLayerPool);
-//		HaxVisualTexturePools.addTexturesToPool(_pg, bgTexturePool, fgTexturePool, audioTexturePool, topLayerPool);
-		HaxVisualTexturePools.addTexturesInterphase(_pg, bgTexturePool, fgTexturePool, audioTexturePool, topLayerPool);
-		//		HaxVisualTexturePools.addTexturesToPoolSG(_pg, bgTexturePool, fgTexturePool, audioTexturePool, topLayerPool);
-		//		HaxVisualTexturePools.addTexturesToPoolClient(_pg, bgTexturePool, fgTexturePool, audioTexturePool, topLayerPool);
+//		HaxVisualTexturePools.addTexturesToPoolMinimal(pg, bgTexturePool, fgTexturePool, audioTexturePool, topLayerPool);
+//		HaxVisualTexturePools.addTexturesToPool(pg, bgTexturePool, fgTexturePool, audioTexturePool, topLayerPool);
+		HaxVisualTexturePools.addTexturesInterphase(pg, bgTexturePool, fgTexturePool, audioTexturePool, topLayerPool);
+		//		HaxVisualTexturePools.addTexturesToPoolSG(pg, bgTexturePool, fgTexturePool, audioTexturePool, topLayerPool);
+		//		HaxVisualTexturePools.addTexturesToPoolClient(pg, bgTexturePool, fgTexturePool, audioTexturePool, topLayerPool);
 
 		// make sure all textures are not playing videos, etc
 		for(BaseTexture tex : bgTexturePool) tex.setActive(false);
@@ -1300,11 +1113,11 @@ implements IAppStoreListener {
 		float interstitialAlpha = (p.midiState.midiCCPercent(midiInChannel, interstitialKnob) != 0) ? p.midiState.midiCCPercent(midiInChannel, interstitialKnob) : 0;
 		if(interstitialAlpha > 0) {
 			imageCycler.update();
-			_pg.beginDraw();
-			PG.setPImageAlpha(_pg, interstitialAlpha);
-			ImageUtil.drawImageCropFill(imageCycler.image(), _pg, false);
-			PG.resetPImageAlpha(_pg);
-			_pg.endDraw();
+			pg.beginDraw();
+			PG.setPImageAlpha(pg, interstitialAlpha);
+			ImageUtil.drawImageCropFill(imageCycler.image(), pg, false);
+			PG.resetPImageAlpha(pg);
+			pg.endDraw();
 		}
 	}
 

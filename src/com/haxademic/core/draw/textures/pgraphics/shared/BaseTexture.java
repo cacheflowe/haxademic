@@ -44,6 +44,7 @@ public class BaseTexture {
 		this.width = width;
 		this.height = height;
 		this.smoothPG = smoothPG;
+		_texture = PG.newPG(width, height, smoothPG, true);
 		_active = false;
 		_color = P.p.color(255);
 		_colorEase = new EasingColor( "#ffffff", 5 );
@@ -142,10 +143,10 @@ public class BaseTexture {
 	
 	public void update() {
 		// TODO: reset to null after another BaseTexture uses it
-		if(_texture == null) {
-//			_texture = PGPool.getPG(width, height);
-			_texture = PG.newPG(width, height, smoothPG, true);
-		}
+//		if(_texture == null) {
+////			_texture = PGPool.getPG(width, height);
+//			_texture = PG.newPG(width, height, smoothPG, true);
+//		}
 //		PGPool.updatePG(_texture);
 
 		int startRender = P.p.millis();

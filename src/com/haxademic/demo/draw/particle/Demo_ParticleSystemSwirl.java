@@ -20,7 +20,7 @@ extends PAppletHax {
 
 	public void setupFirstFrame() {
 		particles = new ParticleSystemSwirl(new PImage[] { DemoAssets.particle() });
-		particles.enableUI();
+		particles.enableUI(false);
 	}
 	
 	public void drawApp() {
