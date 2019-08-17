@@ -60,8 +60,6 @@ public class GlitchSuite {
 		} else {
 			startGlitchMode(this.modes[MathUtil.randRange(0, modes.length - 1)]);			// random mode from user-define subset
 		}
-		// debug specific effect testing:
-		// startGlitchMode(GlitchMode.Slide);
 	}
 
 	public void startGlitchMode(GlitchMode newGlitchMode) {

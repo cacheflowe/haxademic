@@ -34,21 +34,11 @@ extends PAppletHax {
 		PShapeUtil.scaleShapeToHeight(shape, p.height * 0.7f);
 		pg = PG.newPG(p.width, p.height);
 		
-		glitches = new GlitchSuite();
-		glitches = new GlitchSuite(new GlitchMode[] {
+		// glitches = new GlitchSuite();					// use all glitch options
+		glitches = new GlitchSuite(new GlitchMode[] {		// or just a subset
 				GlitchMode.ShaderA,
-				GlitchMode.PixelSorting,
 				GlitchMode.Shake,
 				GlitchMode.ImageGlitcher,
-				GlitchMode.Invert,
-				GlitchMode.HFlip,
-				GlitchMode.Edges,
-				GlitchMode.Repeat,
-				GlitchMode.Mirror,
-				GlitchMode.ColorDistortion,
-				GlitchMode.BadTV2,
-				GlitchMode.Grain,
-				GlitchMode.Slide,
 		});
 	}
 
@@ -69,8 +59,8 @@ extends PAppletHax {
 		
 		// glitch
 		if(p.frameCount % 100 == 1) {
-			glitches.newGlitchMode();
-			// glitches.startGlitchMode(GlitchMode.Repeat);
+			glitches.newGlitchMode();							// pick a random glitch mode
+			// glitches.startGlitchMode(GlitchMode.Repeat);		// test a single glitch mode
 		}
 		glitches.applyTo(pg);
 		
