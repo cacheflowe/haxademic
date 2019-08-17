@@ -1,4 +1,4 @@
-package com.haxademic.demo.draw.shapes.shader;
+package com.haxademic.render;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
@@ -13,7 +13,7 @@ import processing.core.PShape;
 import processing.opengl.PGraphicsOpenGL;
 import processing.opengl.PShader;
 
-public class Demo_VertexShader_ReloadGlslFiles 
+public class Rippleskin 
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
