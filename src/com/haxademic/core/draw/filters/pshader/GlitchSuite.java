@@ -29,14 +29,13 @@ public class GlitchSuite {
 		Repeat,
 		Mirror,
 		ColorDistortion,
-//		BadTV,
 		BadTV2,
 		Grain,
 		Slide,
-//		OrangeSweep,
+		ColorSweep,
 	};
 	
-	// funky enum randomization helpers
+	// funky enum randomization helper
 	private static final List<GlitchMode> VALUES = Collections.unmodifiableList(Arrays.asList(GlitchMode.values()));
 	private static final int SIZE = VALUES.size();
 	private static final Random RANDOM = new Random();
@@ -72,10 +71,53 @@ public class GlitchSuite {
 		
 		// select a glitch mode
 		glitchMode = newGlitchMode;
+		setModeConfig();
 		
-		// TODO: effect-specific configuration
-		// TODO: change glitchProgress increment for different speeds
-		glitchProgress.setInc(0.02f);
+		// change glitchProgress increment for different speeds
+		glitchProgress.setInc(MathUtil.randRangeDecimal(0.007f, 0.03f));
+	}
+	
+	protected void setModeConfig() {
+		switch (glitchMode) {
+			case Pixelate2:
+				// Pixelate2Filter.instance(P.p).applyTo(buffer);
+				break;
+	
+			case Shake:
+				GlitchShakeFilter.instance(P.p).setGlitchSpeed(MathUtil.randRangeDecimal(0.25f, 0.65f));
+				GlitchShakeFilter.instance(P.p).setSubdivide1(64f);
+				GlitchShakeFilter.instance(P.p).setSubdivide2(64f);
+				break;
+				
+			case ImageGlitcher:
+				GlitchImageGlitcherFilter.instance(P.p).setColorSeparation(MathUtil.randBoolean());
+				GlitchImageGlitcherFilter.instance(P.p).setBarSize(MathUtil.randRangeDecimal(0.25f, 0.75f));
+				GlitchImageGlitcherFilter.instance(P.p).setGlitchSpeed(MathUtil.randRangeDecimal(0.25f, 0.75f));
+				GlitchImageGlitcherFilter.instance(P.p).setNumSlices(MathUtil.randRangeDecimal(10, 30));
+				break;
+				
+			case Repeat:
+				// RepeatFilter.instance(P.p).applyTo(buffer);
+				break;
+	
+			case Mirror:
+				ReflectFilter.instance(P.p).setHorizontal(MathUtil.randBoolean());
+				ReflectFilter.instance(P.p).setReflectPosition(MathUtil.randBoolean() ? 0.5f : MathUtil.randRangeDecimal(0.2f, 0.8f));
+				break;
+			
+			case BadTV2:
+				BadTVLinesFilter.instance(P.p).setGrayscale(0);
+				BadTVLinesFilter.instance(P.p).setCountS(4096.0f / 4f);
+				break;
+				
+			case ColorSweep:
+				LumaColorReplaceFilter.instance(P.p).setTargetColor(MathUtil.randRangeDecimal(0, 1), MathUtil.randRangeDecimal(0, 1), MathUtil.randRangeDecimal(0, 1), 1f);
+				LumaColorReplaceFilter.instance(P.p).setDiffRange(MathUtil.randRangeDecimal(0.05f, 0.2f));
+				break;
+				
+			default:
+				break;
+		}
 	}
 	
 	public void applyTo(PGraphics buffer) {
@@ -107,11 +149,8 @@ public class GlitchSuite {
 				
 			case Shake:
 				GlitchShakeFilter.instance(P.p).setTime(shaderTimeStepped);
-				GlitchShakeFilter.instance(P.p).setGlitchSpeed(0.4f);	 				// config?
 				GlitchShakeFilter.instance(P.p).setAmp(progressInverse);
 				GlitchShakeFilter.instance(P.p).setCrossfade(1f);
-				GlitchShakeFilter.instance(P.p).setSubdivide1(64f);	 				// config?
-				GlitchShakeFilter.instance(P.p).setSubdivide2(64f);	 				// config?
 				GlitchShakeFilter.instance(P.p).applyTo(buffer);
 				break;
 				
@@ -119,10 +158,6 @@ public class GlitchSuite {
 				GlitchImageGlitcherFilter.instance(P.p).setTime(shaderTimeStepped);
 				GlitchImageGlitcherFilter.instance(P.p).setAmp(progressInverse);
 				GlitchImageGlitcherFilter.instance(P.p).setCrossfade(1f);
-				GlitchImageGlitcherFilter.instance(P.p).setColorSeparation(true);
-				GlitchImageGlitcherFilter.instance(P.p).setBarSize(0.5f);	 			// config?
-				GlitchImageGlitcherFilter.instance(P.p).setGlitchSpeed(0.5f);			// config?
-				GlitchImageGlitcherFilter.instance(P.p).setNumSlices(20f);			// config?
 				GlitchImageGlitcherFilter.instance(P.p).applyTo(buffer);
 				break;
 				
@@ -149,17 +184,15 @@ public class GlitchSuite {
 				break;
 			
 			case ColorDistortion:
-				ColorDistortionFilter.instance(P.p).setAmplitude(progressInverse);
+				ColorDistortionFilter.instance(P.p).setAmplitude(progressInverse * 4f);
 				ColorDistortionFilter.instance(P.p).setTime(shaderTime * 1f);
 				ColorDistortionFilter.instance(P.p).applyTo(buffer);
 				break;
 				
 			case BadTV2:
 				BadTVLinesFilter.instance(P.p).setTime(shaderTime);
-				BadTVLinesFilter.instance(P.p).setGrayscale(0);
 				BadTVLinesFilter.instance(P.p).setIntensityN(progressInverse);
 				BadTVLinesFilter.instance(P.p).setIntensityS(progressInverse);
-				BadTVLinesFilter.instance(P.p).setCountS(4096.0f / 1f);
 				BadTVLinesFilter.instance(P.p).applyTo(buffer);
 				break;
 				
@@ -170,19 +203,17 @@ public class GlitchSuite {
 				break;
 				
 			case Slide:
-				float xSlide = progressInverse * (-1f + 2f * P.p.noise(P.p.frameCount * 0.001f));
-				float ySlide = progressInverse * (-1f + 2f * P.p.noise((P.p.frameCount + 10000) * 0.001f));
+				float xSlide = progressInverse * (-1f + 2f * P.p.noise(P.p.frameCount * 0.002f));
+				float ySlide = progressInverse * (-1f + 2f * P.p.noise((P.p.frameCount + 10000) * 0.002f));
 				RepeatFilter.instance(P.p).setOffset(xSlide, ySlide);
 				RepeatFilter.instance(P.p).applyTo(buffer);
 				break;
 				
-//			case OrangeSweep:
-//				LumaColorReplaceFilter.instance(P.p).setTargetColor(1f, 0.274f, 0.023f, 1f);
-//				LumaColorReplaceFilter.instance(P.p).setDiffRange(0.1f);
-//				// LumaColorReplaceFilter.instance(P.p).setLumaTarget(3f * progressInverse - 1f);	// slide from 2 -> -1
-//				LumaColorReplaceFilter.instance(P.p).setLumaTarget(progressInverse);
-//				LumaColorReplaceFilter.instance(P.p).applyTo(buffer);
-//				break;
+			case ColorSweep:
+				// LumaColorReplaceFilter.instance(P.p).setLumaTarget(3f * progressInverse - 1f);	// slide from 2 -> -1
+				LumaColorReplaceFilter.instance(P.p).setLumaTarget(progressInverse);
+				LumaColorReplaceFilter.instance(P.p).applyTo(buffer);
+				break;
 				
 			default:
 				// P.out("No glitch filter selected!");

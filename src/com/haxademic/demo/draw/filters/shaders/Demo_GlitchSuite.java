@@ -1,12 +1,11 @@
 package com.haxademic.demo.draw.filters.shaders;
 
-import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.data.constants.PBlendModes;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.GlitchSuite;
-import com.haxademic.core.draw.filters.pshader.InvertFilter;
+import com.haxademic.core.draw.filters.pshader.GlitchSuite.GlitchMode;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.hardware.webcam.WebCam;
@@ -36,6 +35,21 @@ extends PAppletHax {
 		pg = PG.newPG(p.width, p.height);
 		
 		glitches = new GlitchSuite();
+		glitches = new GlitchSuite(new GlitchMode[] {
+				GlitchMode.ShaderA,
+				GlitchMode.PixelSorting,
+				GlitchMode.Shake,
+				GlitchMode.ImageGlitcher,
+				GlitchMode.Invert,
+				GlitchMode.HFlip,
+				GlitchMode.Edges,
+				GlitchMode.Repeat,
+				GlitchMode.Mirror,
+				GlitchMode.ColorDistortion,
+				GlitchMode.BadTV2,
+				GlitchMode.Grain,
+				GlitchMode.Slide,
+		});
 	}
 
 	public void drawApp() {
@@ -54,7 +68,10 @@ extends PAppletHax {
 		pg.endDraw();
 		
 		// glitch
-		if(p.frameCount % 100 == 1) glitches.newGlitchMode();
+		if(p.frameCount % 100 == 1) {
+			glitches.newGlitchMode();
+			// glitches.startGlitchMode(GlitchMode.Repeat);
+		}
 		glitches.applyTo(pg);
 		
 		// draw shadow buffer to screen
