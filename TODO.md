@@ -2,6 +2,12 @@
 
 ## High-priority
 
+* Shader builder w/snippets - look through Hepp's code
+	* Hot-reloading via file watcher - reload on shader save!
+  * Add uniforms automatically?
+	* Default shader chunks
+	  * Assemble w/replacement strings that match filenames?
+
 * WebCam UI picker should draw flat on top of everything like DebugView
 * Add a callback (IEaseCompleteListener) to EasingFloat/LinearFloat
 * Shrink `p.ui` text & buttons. Maybe left-align too. Also cut off long float values
@@ -23,10 +29,6 @@
 	* https://github.com/chungbwc/Magicandlove/tree/master/ml20180806b
 	* http://www.magicandlove.com/blog/2018/08/08/darknet-yolo-v3-testing-in-processing-with-the-opencv-dnn-module/
 	* http://www.magicandlove.com/blog/2018/08/06/deep-neural-network-dnn-module-with-processing/
-* Shader builder w/snippets - look through Hepp's code
-	* Hot-reloading?!
-	* Default shader chunks
-	* Assemble w/replacement strings that match filenames?
 * AppGenerator:
   * CLASSPATH_ATTR_LIBRARY_PATH_ENTRY - this needs text replace on `haxademic` to new project name
 * Investigate Task Scheduler
