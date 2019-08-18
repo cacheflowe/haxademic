@@ -8,9 +8,10 @@ import processing.opengl.PShader;
 
 public class PShaderCompiler
 extends PShader {
-	
+
 	protected boolean valid = true;
-	
+	protected String compileMessage = "";
+
 	public PShaderCompiler(PApplet parent, String[] vertSource, String[] fragSource) {
 		super(parent, vertSource, fragSource);
 		// force it to load immediately for error-checking!
@@ -20,18 +21,27 @@ extends PShader {
 	public boolean isValid() {
 		return valid;
 	}
-	
+
+	public String compileMessage() {
+		return compileMessage;
+	}
+
+	protected void setCompileMessage(String message) {
+		compileMessage = message;
+		P.out(compileMessage);
+	}
+
 	/////////////////////////////////
 	// Override PShader methods that throw uncatchable exceptions
 	/////////////////////////////////
-	
+
 	protected boolean compile() {
 		boolean vertRes = true;
 		if (hasVertexShader()) {
 			vertRes = compileVertexShader();
 		} else {
 			this.valid = false;
-			P.out("Doesn't have a vertex shader");
+			setCompileMessage("Doesn't have a vertex shader");
 		}
 
 		boolean fragRes = true;
@@ -39,7 +49,7 @@ extends PShader {
 			fragRes = compileFragmentShader();
 		} else {
 			this.valid = false;
-			P.out("Doesn't have a fragment shader");
+			setCompileMessage("Doesn't have a fragment shader");
 		}
 
 		// addition by @cacheflowe to reload if shader is valid
@@ -52,7 +62,7 @@ extends PShader {
 		boolean linked = intBuffer.get(0) == 0 ? false : true;
 		if (!linked) {
 			this.valid = false;
-			P.out("Cannot link shader program:\n" +
+			setCompileMessage("Cannot link shader program:\n" +
 					pgl.getProgramInfoLog(glProgram));
 		}
 
@@ -61,47 +71,47 @@ extends PShader {
 		boolean validated = intBuffer.get(0) == 0 ? false : true;
 		if (!validated) {
 			this.valid = false;
-			P.out("Cannot validate shader program:\n" +
+			setCompileMessage("Cannot validate shader program:\n" +
 					pgl.getProgramInfoLog(glProgram));
 		} 
 	}
-	
-	  /**
-	   * @param shaderSource a string containing the shader's code
-	   */
-	  protected boolean compileVertexShader() {
-	    pgl.shaderSource(glVertex, PApplet.join(vertexShaderSource, "\n"));
-	    pgl.compileShader(glVertex);
 
-	    pgl.getShaderiv(glVertex, PGL.COMPILE_STATUS, intBuffer);
-	    boolean compiled = intBuffer.get(0) == 0 ? false : true;
-	    if (!compiled) {
-	    	this.valid = false;
-	    	P.out("Cannot compile vertex shader:\n" +
-	                              pgl.getShaderInfoLog(glVertex));
-	      return false;
-	    } else {
-	      return true;
-	    }
-	  }
+	/**
+	 * @param shaderSource a string containing the shader's code
+	 */
+	protected boolean compileVertexShader() {
+		pgl.shaderSource(glVertex, PApplet.join(vertexShaderSource, "\n"));
+		pgl.compileShader(glVertex);
+
+		pgl.getShaderiv(glVertex, PGL.COMPILE_STATUS, intBuffer);
+		boolean compiled = intBuffer.get(0) == 0 ? false : true;
+		if (!compiled) {
+			this.valid = false;
+			setCompileMessage("Cannot compile vertex shader:\n" +
+					pgl.getShaderInfoLog(glVertex));
+			return false;
+		} else {
+			return true;
+		}
+	}
 
 
-	  /**
-	   * @param shaderSource a string containing the shader's code
-	   */
-	  protected boolean compileFragmentShader() {
-	    pgl.shaderSource(glFragment, PApplet.join(fragmentShaderSource, "\n"));
-	    pgl.compileShader(glFragment);
+	/**
+	 * @param shaderSource a string containing the shader's code
+	 */
+	protected boolean compileFragmentShader() {
+		pgl.shaderSource(glFragment, PApplet.join(fragmentShaderSource, "\n"));
+		pgl.compileShader(glFragment);
 
-	    pgl.getShaderiv(glFragment, PGL.COMPILE_STATUS, intBuffer);
-	    boolean compiled = intBuffer.get(0) == 0 ? false : true;
-	    if (!compiled) {
-	    	this.valid = false;
-	    	P.out("Cannot compile fragment shader:\n" +
-	                              pgl.getShaderInfoLog(glFragment));
-	      return false;
-	    } else {
-	      return true;
-	    }
-	  }
+		pgl.getShaderiv(glFragment, PGL.COMPILE_STATUS, intBuffer);
+		boolean compiled = intBuffer.get(0) == 0 ? false : true;
+		if (!compiled) {
+			this.valid = false;
+			setCompileMessage("Cannot compile fragment shader:\n" +
+					pgl.getShaderInfoLog(glFragment));
+			return false;
+		} else {
+			return true;
+		}
+	}
 }

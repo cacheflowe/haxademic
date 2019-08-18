@@ -31,5 +31,5 @@ void main(void) {
   // float grey = smoothstep(0.35, 0.65, 0.5 + 0.5 * sin(time + p.y / 10.));
   // vec4 color = vec4(grey, grey, grey, 1.0);
   //
-  outColor = vertColor;// * vec4(0.75 + 0.25 * sin(1. + v_texCoord3D.z * 0.01), 0.75 + 0.25 * sin(v_texCoord3D.y * 0.008), 0.75 + 0.25 * sin(1. + v_texCoord3D.z * 0.015), 1.);
+  outColor = vertColor * vec4(0.65 + 0.25 * sin(1. + v_texCoord3D.z * 0.01), 0.85 + 0.25 * sin(v_texCoord3D.y * 0.08), 0.75 + 0.25 * sin(1. + v_texCoord3D.z * 0.05), 1.);
 }
