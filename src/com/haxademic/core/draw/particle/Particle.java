@@ -124,7 +124,7 @@ public class Particle {
 	
 	public boolean available(PGraphics pg) {
 		boolean finished = (sizeProgress.value() == 0 && sizeProgress.target() == 0);
-		return finished || pos.y < -100 || pos.x < -100 || pos.y > pg.height + 100 || pos.x > pg.height + 100;
+		return finished; //  || pos.y < -100 || pos.x < -100 || pos.y > pg.height + 100 || pos.x > pg.height + 100;
 	}
 }
 

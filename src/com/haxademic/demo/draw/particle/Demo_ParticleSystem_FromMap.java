@@ -43,7 +43,7 @@ extends PAppletHax {
 		}
 
 		particles = new ParticleSystem(particleImages);
-		particles.enableUI(false);	// add sliders
+		particles.enableUI("PARTY_1", false);	// add sliders
 	}
 	
 	public void drawApp() {
@@ -52,7 +52,7 @@ extends PAppletHax {
 		// draw image/map base
 		pg.beginDraw();
 		drawBaseImage(pg);
-		particles.launchParticles(pg);
+		particles.launchParticles(pg, 2f * p.mousePercentX());
 		particles.drawParticles(pg);
 		pg.endDraw();
 		
