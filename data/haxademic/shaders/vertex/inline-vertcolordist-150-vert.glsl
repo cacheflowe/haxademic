@@ -161,14 +161,14 @@ void main() {
 
 	// alter vertex position
 	vec4 newPos = position;
-	// newPos.z += cos(radsToCenter * 30.) * 30.;
+	newPos.z += cos(radsToCenter * 30.) * 30.;
 	// newPos.x += sin(radsToCenter * 30.) * 30.;
 
 	// newPos.y += sin(time + radsToCenter * 14.) * (20. + 20. * sin(time));
 
 	// send position-based stripes to fragment shader
 	// float grey = smoothstep(0.05, 0.95, 0.5 + 0.5 * sin(time * 6. + p.y / 10.));
-	float grey = smoothstep(0.25, 0.75, 0.5 + 0.5 * sin(time * 2. + newPos.y / 6.));
+	float grey = smoothstep(0.25, 0.75, 0.5 + 0.5 * sin(time * 10. + newPos.y / 6.));
 	vec4 col = vec4(grey, grey, grey, 1.0);
 
 	// deform based on color
@@ -179,9 +179,9 @@ void main() {
 
   // update position
 	vec4 curl = vec4(
-		curlNoise( p / (2200. + sin(time) * 100.) ),
+		curlNoise( p / (2200. + sin(time) * 100.) ) * sin(time * 4.) * 0.75,
 	1.);
 	// curl *= curlNoise(tmp * curl);
-	gl_Position = transform * (position * curl);
+	gl_Position = transform * (position * (1. + curl));
 	vertTexCoord = texMatrix * vec4(texCoord, 1.0, 1.0);
 }
