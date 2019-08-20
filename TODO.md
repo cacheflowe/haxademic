@@ -3,7 +3,6 @@
 ## High-priority
 
 * Shader builder w/snippets - look through Hepp's code
-	* Hot-reloading via file watcher - reload on shader save!
   * Add uniforms automatically?
 	* Default shader chunks
 	  * Assemble w/replacement strings that match filenames?
@@ -187,6 +186,8 @@
   	* http://www.ozone3d.net/blogs/lab/20080604/glsl-float-to-rgba8-encoder/
   	* https://community.khronos.org/t/pack-more-than-4-components-into-rgba-32-texture-in-vertex-shader/72945/2
   	* https://forum.processing.org/two/discussion/17629/how-to-get-round-using-16-bit-image-buffers-shadertoy-question
+  * Use 32-bit textures to make a nicer GPU particles system
+    * Use curl noise to enhance said particle system: https://www.google.com/search?client=firefox-b-1-d&q=how+to+use+3d+curl+noise	
   * Wrap up GLSL transitions collection and make a common interface
   * Fix up GPU particle launcher to store colors per-particle
   * Convert Orbit noise: https://www.shadertoy.com/view/4t3yDn
@@ -257,7 +258,7 @@
     * Demo_VertexShader_Fattener
 
 ## General / tools
-  * IP camera
+  * IP camera (get one that does an mjpeg stream)
   * Rtp video in Java?
     * https://www.oracle.com/technetwork/java/javase/documentation/toolstx-178270.html
     * https://forum.processing.org/two/discussion/17166/livestreaming-ipcapture-sdp-file
@@ -275,14 +276,14 @@
 
 ## Topics
 
-What is your app doing when you�re not home?
+What is your app doing when you're not home?
   * DashboardPoster / BigMother
   * CrashMonitor
   * TextEventLog
   * DebugView
   * UIControlPanel
   * FrozenImageMonitor
-  * Click & move mouse offscreen
+  * Click app to stay on top & move mouse offscreen
   * Fullscreen, force on top
   * WebCamPicker
   * JSONPoller + CMS
