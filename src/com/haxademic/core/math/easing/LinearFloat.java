@@ -1,7 +1,5 @@
 package com.haxademic.core.math.easing;
 
-import com.haxademic.core.app.P;
-
 public class LinearFloat 
 implements IEasingValue {
 
