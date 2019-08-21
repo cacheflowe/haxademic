@@ -2,15 +2,11 @@ package com.haxademic.demo.draw.shapes.shader;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.data.constants.PShapeTypes;
 import com.haxademic.core.draw.context.PG;
-import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.draw.shapes.Shapes;
-import com.haxademic.core.draw.shapes.pshader.Mesh2dDeformFilter;
 import com.haxademic.core.draw.shapes.pshader.PShaderHotSwap;
 import com.haxademic.core.draw.textures.SimplexNoiseTexture;
 import com.haxademic.core.file.FileUtil;
-import com.haxademic.core.media.DemoAssets;
 
 import processing.core.PShape;
 import processing.opengl.PGraphicsOpenGL;
