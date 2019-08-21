@@ -47,10 +47,15 @@ implements IWatchDirListener {
 
 	protected void rebuildShader() {
 		// attempt to compile shader
-		compiledShader = new PShaderCompiler(P.p, 
-			FileUtil.readTextFromFile(vertShaderPath), 
-			FileUtil.readTextFromFile(fragShaderPath)
-		);
+		// different paths for fragment-only, and vertex shader combo
+		if(vertShaderPath == null) {
+			compiledShader = PShaderCompiler.loadShader(fragShaderPath);
+		} else {
+			compiledShader = new PShaderCompiler(P.p, 
+				FileUtil.readTextFromFile(vertShaderPath), 
+				FileUtil.readTextFromFile(fragShaderPath)
+			);
+		}
 
 		// set as active shader if valid
 		if(compiledShader.isValid()) {

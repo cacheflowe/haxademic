@@ -2,6 +2,7 @@ package com.haxademic.demo.draw.shapes.shader;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.data.constants.PShapeTypes;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.draw.shapes.Shapes;
@@ -21,7 +22,8 @@ extends PAppletHax {
 	protected float cols = 5;
 	protected float rows = 5;
 
-	protected PShaderHotSwap shaderHotSwap;
+	protected PShaderHotSwap polygonShader;
+	protected PShaderHotSwap linesShader;
 	
 	protected PShape shape;
 	protected SimplexNoiseTexture displaceTexture;
@@ -92,9 +94,12 @@ extends PAppletHax {
 		p.debugView.setValue("shape.getVertexCount();", shape.getVertexCount());
 		p.debugView.setTexture("displaceTexture", displaceTexture.texture());
 		
-		shaderHotSwap = new PShaderHotSwap(
+		polygonShader = new PShaderHotSwap(
 			FileUtil.getFile("haxademic/shaders/vertex/mesh-2d-deform-vert.glsl"),
-//			FileUtil.getFile("haxademic/shaders/vertex/mesh-2d-deform-lines-vert.glsl"),
+			FileUtil.getFile("haxademic/shaders/vertex/mesh-2d-deform-frag.glsl") 
+		);
+		linesShader = new PShaderHotSwap(
+			FileUtil.getFile("haxademic/shaders/vertex/mesh-2d-deform-lines-vert.glsl"),
 			FileUtil.getFile("haxademic/shaders/vertex/mesh-2d-deform-frag.glsl") 
 		);
 	}
@@ -104,22 +109,21 @@ extends PAppletHax {
 		p.background(0);
 		p.push();
 		p.lights();
-		//p.image(texture, 0, 0);
 		PG.setCenterScreen(p.g);
-		PG.basicCameraFromMouse(p.g);
+		// PG.basicCameraFromMouse(p.g);
 
 		// update displacement
 		displaceTexture.offsetX(p.frameCount * 0.01f);
-		displaceTexture.zoom(0.5f);
+		displaceTexture.zoom(2.5f);
 
 		// apply deform shader and draw mesh - CANNOT HAVE PROCESSING LIGHTS TURNED ON!
-		shaderHotSwap.shader().set("time", p.frameCount);
-		shaderHotSwap.shader().set("displacementMap", displaceTexture.texture());
-		shaderHotSwap.shader().set("displaceAmp", 40f);
-		shaderHotSwap.shader().set("modelviewInv", ((PGraphicsOpenGL) g).modelviewInv);
+		polygonShader.shader().set("time", p.frameCount);
+		polygonShader.shader().set("displacementMap", displaceTexture.texture());
+		polygonShader.shader().set("displaceAmp", 40f);
+		polygonShader.shader().set("modelviewInv", ((PGraphicsOpenGL) g).modelviewInv);
 
-		// apply shader
-		p.shader(shaderHotSwap.shader());  
+		// apply polygons shader
+		p.shader(polygonShader.shader());  
 
 		// draw mesh
 		shape.disableStyle();
@@ -132,17 +136,71 @@ extends PAppletHax {
 		p.translate(0, 0, 100);
 		p.beginShape(P.TRIANGLE);
 		p.vertex(0, 0, 0, 0, 0);
-		p.vertex(100, 200, 0, 100, 200);
-		p.vertex(250, 150, 0, 250, 150);
+		p.vertex(50, 100, 0, 50, 100);
+		p.vertex(150, 80, 0, 150, 80);
+		p.endShape();
+
+		// end polygon shader
+		p.resetShader();
+		
+		// apply lines shader
+		linesShader.shader().set("time", p.frameCount);
+		linesShader.shader().set("displacementMap", displaceTexture.texture());
+		linesShader.shader().set("displaceAmp", 40f);
+		linesShader.shader().set("weight", 1f);
+		linesShader.shader().set("modelviewInv", ((PGraphicsOpenGL) g).modelviewInv);
+		p.shader(linesShader.shader());  
+
+		// start lines shader
+		// draw wave
+		p.stroke(255, 0, 0);
+		p.noFill();
+//		p.fill(255);
+		p.strokeWeight(10);
+		p.beginShape();
+		for (int i = 0; i < 10; i++) {
+			float xx = i * 10f;
+			float yy = P.sin(i/4f) * 100f;
+			p.vertex(-50 + xx, yy, 0, 0.05f + (float)i / 11f, 0.5f);// + 0.5f * P.sin((float)i/4f)); // xx*2f/(float)p.width, yy*2f/(float)p.height);
+//			P.out((float)i / 10f, 0.5f + 0.15f * P.sin(i/4f));
+		}
 		p.endShape();
 		
-		// reset context
+		// draw box
+		p.beginShape();
+		p.vertex(-100, -100, 0, 0.1f, 0.1f);
+		p.vertex( 100, -100, 0, 0.9f, 0.1f);
+		p.vertex( 100,  100, 0, 0.9f, 0.9f);
+		p.vertex(-100,  100, 0, 0.1f, 0.9f);
+		p.vertex(-100, -100, 0, 0.1f, 0.1f);
+		p.endShape();
+		
+		p.beginShape();
+		p.vertex(-80, -80, 0, 0.2f, 0.2f);
+		p.vertex( 80, -80, 0, 0.8f, 0.2f);
+		p.vertex( 80,  80, 0, 0.8f, 0.8f);
+		p.vertex(-80,  80, 0, 0.2f, 0.8f);
+		p.vertex(-80, -80, 0, 0.2f, 0.2f);
+		p.endShape();
+		
+		p.beginShape();
+		p.vertex(-50, -50, 0, 0.3f, 0.3f);
+		p.vertex( 50, -50, 0, 0.7f, 0.3f);
+		p.vertex( 50,  50, 0, 0.7f, 0.7f);
+		p.vertex(-50,  50, 0, 0.3f, 0.7f);
+		p.vertex(-50, -50, 0, 0.3f, 0.3f);
+		p.endShape();
+
+//		
+//		// reset context
 		p.resetShader();
 		p.pop();
 		
 		// recompile if needed & show shader compile error messages
-		shaderHotSwap.update();
-		shaderHotSwap.showShaderStatus(p.g);
+		polygonShader.update();
+		polygonShader.showShaderStatus(p.g);
+		linesShader.update();
+		linesShader.showShaderStatus(p.g);
 	}
 		
 }

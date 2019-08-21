@@ -33,8 +33,10 @@ extends PAppletHax {
 	protected void setupFirstFrame() {
 		// set shader paths for compiling and watching
 		shaderHotSwap = new PShaderHotSwap(
-			FileUtil.getFile("haxademic/shaders/vertex/inline-vertcolordist-150-vert.glsl"),
-			FileUtil.getFile("haxademic/shaders/vertex/inline-vertcolordist-150-frag.glsl") 
+//			FileUtil.getFile("haxademic/shaders/vertex/inline-vertcolordist-150-vert.glsl"),
+//			FileUtil.getFile("haxademic/shaders/vertex/inline-vertcolordist-150-frag.glsl") 
+			FileUtil.getFile("haxademic/shaders/vertex/inline-vertcolor-150-vert.glsl"),
+			FileUtil.getFile("haxademic/shaders/vertex/inline-vertcolor-150-frag.glsl") 
 		);
 		
 		// shape to adjust with shader

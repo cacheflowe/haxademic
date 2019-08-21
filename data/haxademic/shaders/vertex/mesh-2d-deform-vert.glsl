@@ -43,7 +43,7 @@ void main() {
   norm = normal;
 
 	// get displacement map color and map to displace x/y coords
-	vec4 dv = texture2D(displacementMap, vertTexCoord.xy * 1.);
+	vec4 dv = texture2D(displacementMap, vertex.xy * 0.00001);
   float luma = rgbToGray(dv);
 	float offsetX = cos(luma * TWO_PI);
 	float offsetY = sin(luma * TWO_PI);

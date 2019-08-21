@@ -6,6 +6,7 @@ uniform vec4 texMatrix;
 uniform mat3 normalMatrix;
 
 attribute vec4 vertex;
+attribute vec4 position;
 attribute vec4 color;
 attribute vec4 direction;
 attribute vec2 texCoord;
@@ -16,8 +17,6 @@ varying vec4 vertColor;
 varying vec4 vertTexCoord;
 
 uniform float weight = 2.;
-uniform float modelMaxExtent = 500.;
-uniform int colorThickness = 0;
 uniform sampler2D displacementMap;
 uniform float displaceAmp = 1.;
 uniform int sheet = 0;
@@ -47,13 +46,12 @@ void main() {
 
   // get/pass colors
   vertTexCoord = texMatrix * vec4(texCoord, 1.0, 1.0);
-  vec4 texDisplace = texture2D( displacementMap, vertex.xy ); // rgba color
+  vec4 texDisplace = texture2D( displacementMap, vertex.xy*300. ); // rgba color
   // texColor = vec4(0., 1., 0., 1.);
-  vertColor = color;
+  vertColor = color;// texDisplace;
 
 	// get displacement map color and map to displace x/y coords
-	vec4 dv = texture2D(displacementMap, vertTexCoord.xy * 1.);
-  float luma = rgbToGray(dv);
+  float luma = rgbToGray(texDisplace);
 	float offsetX = cos(luma * TWO_PI);
 	float offsetY = sin(luma * TWO_PI);
 	posUpdated.x += vertex.x + displaceAmp * offsetX;
@@ -64,7 +62,6 @@ void main() {
   vec4 clip0 = transform * posUpdated;
   vec4 clip1 = clip0 + transform * vec4(direction.xyz, 0);
   float thickness = direction.w * weight;  // weight added by @cacheflowe
-  if(colorThickness == 1) thickness *= color.r;
 
   // clip0.z = 10.;
   // clip1.z = 500.;

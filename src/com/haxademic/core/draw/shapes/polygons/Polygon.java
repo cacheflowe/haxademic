@@ -262,7 +262,7 @@ public class Polygon {
 		pg.beginShape();
 		for (int i = 0; i < curEdges.size(); i++) {
 			PVector v = curEdges.get(i).v1();
-			pg.vertex(v.x, v.y, v.z);
+			pg.vertex(v.x, v.y, v.z, v.x/pg.width, v.y/pg.height);
 		}
 		pg.endShape(P.CLOSE);
 	}
