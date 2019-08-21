@@ -43,7 +43,7 @@ implements IAppStoreListener {
 
 		// set to true to see messages coming in and out of the server
 		// must be set after server init
-		SocketServer.DEBUG = false;
+		SocketServer.DEBUG = true;
 		
 		// default AppStore values to prevent crash
 		P.store.setNumber(MOUSE_X, 0);

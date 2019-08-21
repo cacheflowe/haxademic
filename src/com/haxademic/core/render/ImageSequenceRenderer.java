@@ -34,6 +34,7 @@ public class ImageSequenceRenderer {
 		framesRendered++;
 		P.println("== rendering image frame: "+framesRendered+" ==");
 		pg.save(savePath + File.separator + StringFormatter.paddedNumberString(10, framesRendered) + ".png");
+//		P.out(savePath + File.separator + StringFormatter.paddedNumberString(10, framesRendered) + ".png");
 	}
 
 	public void finish() {
