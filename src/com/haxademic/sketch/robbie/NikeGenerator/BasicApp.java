@@ -41,7 +41,7 @@ extends PAppletHax {
 		p.noFill();
 		p.noStroke();
 		
-		grid = new Grid(100, 100, p.color(128), 2, 10, 5);
+		grid = new Grid(200, 200, 1, p.color(128), 2, 10, 5);
 //		basicObject = new BasicObject(200, 200, p.color(128), 2, 10, 5);
 	}
 

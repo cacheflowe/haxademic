@@ -16,11 +16,13 @@ implements IAppStoreListener {
 	protected BasicApp p;
 	protected PGraphics pg;
 	
+	protected PGraphics gridTexture;
 	protected PGraphics tile;
 	protected TiledTexture tiledImg;
 	
 	protected int gridWidth;
 	protected int gridHeight;
+	protected int tileGrid;
 	protected int tileWidth;
 	protected int tileHeight;
 	protected int sw;
@@ -28,16 +30,20 @@ implements IAppStoreListener {
 	protected int tileColor;
 	protected int sqSize;
 	
-	public Grid(int tileWidth, int tileHeight, int tileColor, int strokeWeight, int dash, int sqSize) {
+	public Grid(int gridWidth, int gridHeight, int tileGrid, int tileColor, int strokeWeight, int dash, int sqSize) {
 		p = (BasicApp) P.p;
 		pg = p.pg;
 		P.store.addListener(this);
-		this.tileWidth = tileWidth;
-		this.tileHeight = tileHeight;
+		this.gridWidth = gridWidth;
+		this.gridHeight = gridHeight;
+		this.tileGrid = tileGrid;
+		this.tileWidth = gridWidth/tileGrid;
+		this.tileHeight = gridHeight/tileGrid;
 		this.sw = strokeWeight;
 		this.dash = dash;
 		this.sqSize = sqSize;
 		this.tileColor = tileColor;
+		gridTexture = PG.newPG(gridWidth, gridHeight);
 		tile = PG.newPG(tileWidth - sw/2, tileHeight - sw/2);
 		tiledImg = new TiledTexture(tile());
 	}
@@ -47,7 +53,7 @@ implements IAppStoreListener {
 	public PImage tile() {
 		tile.beginDraw();
 		tile.background(255);
-		tile.stroke(tileColor);
+//		tile.stroke(tileColor);
 		tile.stroke(255, 0, 0);
 		tile.strokeWeight(sw);
 
@@ -67,9 +73,12 @@ implements IAppStoreListener {
 	}
 
 	public void draw(int frameCount) {
-//		pg.background(255);
-//		tileWidth = 200;
-//		tileHeight = tileWidth;
+		pg.background(0);
+
+//		tileGrid = 3;
+//		tileWidth = gridWidth/tileGrid;
+//		tileHeight = gridHeight/tileGrid;
+		
 		tile();
 		tiledImg.setSource(tile);
 		pg.pushMatrix();
@@ -77,15 +86,23 @@ implements IAppStoreListener {
 		float size = 1;
 		float offsetX = ((float)sw/2)/(float)tileWidth;
 		float offsetY = ((float)sw/2)/(float)tileHeight;
-		tiledImg.setOffset(-0.5f + offsetX, -0.5f + offsetY);
+		if (tileGrid % 2 == 0) tiledImg.setOffset(-0.5f + offsetX, -0.5f + offsetY);
 		tiledImg.setSize(size, size);
 		tiledImg.update();
 		tiledImg.drawCentered(pg, p.width, p.height);
+		
 		pg.popMatrix();
 		
 //		setTileWidth((int)(P.sin(p.frameCount * 0.01f)*50 + 100));
 //		setTileHeight((int)(P.sin(p.frameCount * 0.01f)*50 + 100));
-//		P.out(tileWidth);
+
+
+//		gridTexture.beginDraw();
+//		gridTexture.background(0);
+//		tiledImg.drawCentered(gridTexture, p.width, p.height);
+////		tiledImg.drawCentered(gridTexture, p.width, p.height);
+//		gridTexture.endDraw();
+//		pg.image(gridTexture, 0,0);
 	}
 	
 	public void setTileWidth(int _tileWidth) {
