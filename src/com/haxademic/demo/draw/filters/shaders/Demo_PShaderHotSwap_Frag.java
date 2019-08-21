@@ -2,7 +2,7 @@ package com.haxademic.demo.draw.filters.shaders;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.context.PG;
-import com.haxademic.core.draw.shapes.pshader.PShaderHotSwap;
+import com.haxademic.core.draw.context.PShaderHotSwap;
 import com.haxademic.core.file.FileUtil;
 
 public class Demo_PShaderHotSwap_Frag

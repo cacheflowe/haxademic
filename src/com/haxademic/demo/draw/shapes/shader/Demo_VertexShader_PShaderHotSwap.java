@@ -3,9 +3,9 @@ package com.haxademic.demo.draw.shapes.shader;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.context.PG;
+import com.haxademic.core.draw.context.PShaderHotSwap;
 import com.haxademic.core.draw.shapes.Icosahedron;
 import com.haxademic.core.draw.shapes.PShapeUtil;
-import com.haxademic.core.draw.shapes.pshader.PShaderHotSwap;
 import com.haxademic.core.file.FileUtil;
 
 import processing.core.PImage;

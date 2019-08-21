@@ -1,4 +1,4 @@
-package com.haxademic.core.draw.shapes.pshader;
+package com.haxademic.core.draw.context;
 
 import java.io.IOException;
 import java.net.URL;
