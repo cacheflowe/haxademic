@@ -1,40 +1,57 @@
 package com.haxademic.core.math.easing;
 
+import com.haxademic.core.app.P;
+
 public class LinearFloat 
 implements IEasingValue {
 
-	public float _val, _target, _inc;
-	public int _delay;
-		   
-	public LinearFloat( float value, float inc ) {
-		_val = value;
-		_target = value;
-		_inc = inc;
-		_delay = 0;
+	public float value;
+	public float target;
+	public float inc;
+	public int delay;
+	
+	protected boolean complete = false;
+	protected IEasingValueDelegate delegate;
+
+	public LinearFloat(float value, float inc) {
+		this(value, inc, null);
+	}
+	
+	public LinearFloat(float value, float inc, IEasingValueDelegate delegate) {
+		this.value = value;
+		this.target = value;
+		this.inc = inc;
+		this.delegate = delegate;
+		delay = 0;
 	}
 	
 	public float value() {
-		return _val;
+		return value;
 	}
 	
 	public float target() {
-		return _target;
+		return target;
 	}
 	
-	public void setCurrent( float value ) {
-		_val = value;
+	public float inc() {
+		return inc;
 	}
 	
-	public void setTarget( float value ) {
-		_target = value;
+	public void setCurrent(float value) {
+		this.value = value;
 	}
 	
-	public void setInc( float value ) {
-		_inc = value;
+	public void setTarget(float target) {
+		this.target = target;
+		if(target != value) complete = false;
 	}
 	
-	public void setDelay( int frames ) {
-		_delay = frames;
+	public void setInc(float inc) {
+		this.inc = inc;
+	}
+	
+	public void setDelay(int frames) {
+		this.delay = frames;
 	}
 	
 	// mask to be swappable with EasingFloat
@@ -43,23 +60,31 @@ implements IEasingValue {
 	}
 	
 	public boolean isComplete() {
-		return _val == _target;
+		return value == target;
 	}
 	
 	public void update() {
-		if( _delay > 0 ) { _delay--; return; }
-		if( _val != _target ) {
+		if( delay > 0 ) { delay--; return; }
+		if( value != target ) {
 			boolean passedTarget = false;
-			if( _val < _target ) {
-				_val += _inc;
-				if( _val > _target ) passedTarget = true;
+			if( value < target ) {
+				value += inc;
+				if( value > target ) passedTarget = true;
 			} else {
-				_val -= _inc;
-				if( _val < _target ) passedTarget = true;
+				value -= inc;
+				if( value < target ) passedTarget = true;
 			}
-			if( passedTarget == true ) {
-				_val = _target;
+			if(passedTarget == true) {
+				value = target;
+				if(delegate != null) checkComplete();
 			}
+		}
+	}
+	
+	protected void checkComplete() {
+		if(complete == false && value == target) {
+			complete = true;
+			delegate.complete(this);
 		}
 	}
 
