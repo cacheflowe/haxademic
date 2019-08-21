@@ -69,11 +69,13 @@ implements IEasingValueDelegate {
 			P.out("EasingFloat", easingObject.value());
 			easingFloat.setTarget((easingFloat.value() == 1) ? 0 : 1);
 			easingFloat.setEaseFactor(MathUtil.randRangeDecimal(0.1f, 0.25f));
+			if(MathUtil.randBoolean()) easingFloat.setDelay(MathUtil.randRange(0, 40));
 		}
 		if(easingObject == linearFloat) {
 			P.out("LinearFloat", easingObject.value());
 			linearFloat.setTarget((linearFloat.value() == 1) ? 0 : 1);
 			linearFloat.setInc(MathUtil.randRangeDecimal(0.003f, 0.05f));
+			if(MathUtil.randBoolean()) linearFloat.setDelay(MathUtil.randRange(0, 40));
 		}
 	}
 
