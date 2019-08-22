@@ -5,24 +5,29 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.image.ImageUtil;
+import com.haxademic.core.file.FileUtil;
 
+import processing.core.PFont;
 import processing.core.PGraphics;
 import processing.core.PImage;
 
-public class BasicApp 
+public class NikeGenerator 
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
-	protected Grid grid;
+	protected Grid grid1;
+	protected Grid grid2;
+	protected PFont fontHOI;
+	
 	/////////////////////////////////
 	// INIT
 	/////////////////////////////////
 	
 	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, 200 );
-		p.appConfig.setProperty( AppSettings.HEIGHT, 200 );
-		p.appConfig.setProperty( AppSettings.PG_WIDTH, 200 );
-		p.appConfig.setProperty( AppSettings.PG_HEIGHT, 200 );
+		p.appConfig.setProperty( AppSettings.WIDTH, 384 );
+		p.appConfig.setProperty( AppSettings.HEIGHT, 384 );
+		p.appConfig.setProperty( AppSettings.PG_WIDTH, 384 );
+		p.appConfig.setProperty( AppSettings.PG_HEIGHT, 384 );
 		p.appConfig.setProperty( AppSettings.FULLSCREEN, false );
 		p.appConfig.setProperty( AppSettings.SMOOTHING, AppSettings.SMOOTH_NONE );
 		p.appConfig.setProperty( AppSettings.INIT_ESS_AUDIO, false );
@@ -40,14 +45,16 @@ extends PAppletHax {
 		p.background(255);
 		p.noFill();
 		p.noStroke();
-		
-		grid = new Grid(200, 200, 1, p.color(128), 2, 10, 5);
-//		basicObject = new BasicObject(200, 200, p.color(128), 2, 10, 5);
+
+		grid1 = new Grid(p.width/16, p.color(255, 0, 0), 1, 10);
+		grid2 = new Grid(p.width/16, p.color(255, 0, 0), 1);
+		fontHOI = p.createFont(FileUtil.getFile("haxademic/fonts/NeueHelveticaHOI.otf"), 150);		
 	}
 
 	public void drawApp() {
 		// main app canvas context setup
-		p.background(255);
+		p.background(0);
+		p.background(128);
 		p.noStroke();
 		PG.setDrawCorner(p);
 
@@ -56,11 +63,21 @@ extends PAppletHax {
 		// 2. draw into main buffer w/ANIMATION_FRAME
 		// 3. draw main buffer to screen
 		P.store.setNumber(App.ANIMATION_FRAME_PRE, p.frameCount);
+		
 		pg.beginDraw();
-		pg.ortho();
+		pg.background(0);
+
+		grid1.draw(pg, 0, 0, 10, 10);
+		grid2.draw(pg, mouseX, mouseY, 3, 3);
+
+		pg.fill(255, 0, 0);
+		pg.textFont(fontHOI);
+		pg.textSize(24);
+		pg.text("TEST", 20, 20);
+
 		P.store.setNumber(App.ANIMATION_FRAME, p.frameCount);
 		pg.endDraw();
-		
+
 		// post draw updates
 		P.store.setNumber(App.ANIMATION_FRAME_POST, p.frameCount);
 		
