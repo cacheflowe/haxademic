@@ -5,9 +5,7 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.image.ImageUtil;
-import com.haxademic.core.file.FileUtil;
 
-import processing.core.PFont;
 import processing.core.PGraphics;
 import processing.core.PImage;
 
@@ -15,9 +13,7 @@ public class NikeGenerator
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
-	protected Grid grid1;
-	protected Grid grid2;
-	protected PFont fontHOI;
+	protected DrawObjects drawObjects;
 	
 	/////////////////////////////////
 	// INIT
@@ -45,10 +41,8 @@ extends PAppletHax {
 		p.background(255);
 		p.noFill();
 		p.noStroke();
-
-		grid1 = new Grid(p.width/16, p.color(255, 0, 0), 1, 10);
-		grid2 = new Grid(p.width/16, p.color(255, 0, 0), 1);
-		fontHOI = p.createFont(FileUtil.getFile("haxademic/fonts/NeueHelveticaHOI.otf"), 150);		
+		
+		drawObjects = new DrawObjects();
 	}
 
 	public void drawApp() {
@@ -63,18 +57,8 @@ extends PAppletHax {
 		// 2. draw into main buffer w/ANIMATION_FRAME
 		// 3. draw main buffer to screen
 		P.store.setNumber(App.ANIMATION_FRAME_PRE, p.frameCount);
-		
 		pg.beginDraw();
 		pg.background(0);
-
-		grid1.draw(pg, 0, 0, 10, 10);
-		grid2.draw(pg, mouseX, mouseY, 3, 3);
-
-		pg.fill(255, 0, 0);
-		pg.textFont(fontHOI);
-		pg.textSize(24);
-		pg.text("TEST", 20, 20);
-
 		P.store.setNumber(App.ANIMATION_FRAME, p.frameCount);
 		pg.endDraw();
 

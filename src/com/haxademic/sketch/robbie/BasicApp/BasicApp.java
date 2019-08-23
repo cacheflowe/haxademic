@@ -14,6 +14,7 @@ extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
 	protected BasicObject basicObject;
+	
 	/////////////////////////////////
 	// INIT
 	/////////////////////////////////
@@ -56,7 +57,7 @@ extends PAppletHax {
 		// 3. draw main buffer to screen
 		P.store.setNumber(App.ANIMATION_FRAME_PRE, p.frameCount);
 		pg.beginDraw();
-		pg.ortho();
+		pg.background(0);
 		P.store.setNumber(App.ANIMATION_FRAME, p.frameCount);
 		pg.endDraw();
 		
