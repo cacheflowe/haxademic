@@ -227,7 +227,7 @@ implements IAppStoreListener {
 		buildPostProcessingChain();
 		// buildInterstitial();
 		
-//		interphase = new Interphase();
+		interphase = new Interphase();
 	}
 
 	protected void buildCanvas() {
