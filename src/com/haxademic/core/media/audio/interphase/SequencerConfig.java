@@ -9,6 +9,7 @@ import com.haxademic.core.data.patterns.PatternTechno;
 
 public class SequencerConfig {
 	
+	public static String BASE_AUDIO_PATH = "D:\\workspace\\interphase\\data\\";
 	public int index;
 	public String audioPath;
 	public ISequencerPattern[] patterns;
@@ -21,7 +22,7 @@ public class SequencerConfig {
 	
 	public SequencerConfig(int index, String audioPath, ISequencerPattern[] patterns, float volume, boolean playsNotes, boolean playsOctaveNotes, boolean playsChords, boolean hasAttack, boolean hasRelease) {
 		this.index = index;
-		this.audioPath = Interphase.BASE_AUDIO_PATH + audioPath;
+		this.audioPath = BASE_AUDIO_PATH + audioPath;
 		this.patterns = patterns;
 		this.volume = volume;
 		this.playsNotes = playsNotes;

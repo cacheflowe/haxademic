@@ -19,8 +19,6 @@ implements ILaunchpadCallback {
 	
 	////////////////////////////////////////
 	
-	public static String BASE_AUDIO_PATH = "D:\\workspace\\interphase\\data\\";
-	
 	// sizes
 	
 	public static int NUM_WALLS = 8;
@@ -72,8 +70,7 @@ implements ILaunchpadCallback {
 	protected LaunchPad launchpad2;
 
 	
-	public Interphase(String baseAudioPath, SequencerConfig[] interphaseChannels) {
-		BASE_AUDIO_PATH = baseAudioPath;
+	public Interphase(SequencerConfig[] interphaseChannels) {
 		NUM_WALLS = interphaseChannels.length;
 		
 		// init state
