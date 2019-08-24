@@ -1,5 +1,6 @@
 package com.haxademic.core.media.audio.interphase;
 
+import com.haxademic.core.app.P;
 import com.haxademic.core.data.patterns.ISequencerPattern;
 import com.haxademic.core.data.patterns.PatternInterval;
 import com.haxademic.core.data.patterns.PatternNoise;
@@ -22,7 +23,8 @@ public class SequencerConfig {
 	
 	public SequencerConfig(int index, String audioPath, ISequencerPattern[] patterns, float volume, boolean playsNotes, boolean playsOctaveNotes, boolean playsChords, boolean hasAttack, boolean hasRelease) {
 		this.index = index;
-		this.audioPath = BASE_AUDIO_PATH + audioPath;
+		this.audioPath = SequencerConfig.BASE_AUDIO_PATH + audioPath;
+		P.out("this.audioPath: ", this.audioPath);
 		this.patterns = patterns;
 		this.volume = volume;
 		this.playsNotes = playsNotes;
@@ -37,23 +39,27 @@ public class SequencerConfig {
 	//////////////////////////////////////
 	
 	
-	public static SequencerConfig[] interphaseChannels = new SequencerConfig[] {
-		new SequencerConfig(0, "audio/samples/01-kick", buildKickSnarePatterns(), 1f, false, false, false, false, false),
-		new SequencerConfig(1, "audio/samples/02-snare",buildKickSnarePatterns(), 0.75f, false, false, false, false, false),
-		new SequencerConfig(2, "audio/samples/03-hats", buildHatPatterns(), 0.6f, false, false, false, false, false),
-		new SequencerConfig(3, "audio/samples/04-perc", buildSfxPatterns(), 0.8f, false, false, false, false, false),
-		new SequencerConfig(4, "audio/samples/05-fx",   buildSfxPatterns(), 0.85f, false, false, false, false, false),
-		new SequencerConfig(5, "audio/samples/06-bass", buildNotesPatterns(), 1f, true, true, false, true, true),
-		new SequencerConfig(6, "audio/samples/07-keys", buildNotesPatterns(), 0.85f, true, false, true, true, true),
-		new SequencerConfig(7, "audio/samples/08-lead", buildNotesPatterns(), 0.85f, true, true, false, true, true),
-	};
+	public static SequencerConfig[] interphaseChannels() {
+		return new SequencerConfig[] {
+			new SequencerConfig(0, "audio/samples/01-kick", buildKickSnarePatterns(), 1f, false, false, false, false, false),
+			new SequencerConfig(1, "audio/samples/02-snare",buildKickSnarePatterns(), 0.75f, false, false, false, false, false),
+			new SequencerConfig(2, "audio/samples/03-hats", buildHatPatterns(), 0.6f, false, false, false, false, false),
+			new SequencerConfig(3, "audio/samples/04-perc", buildSfxPatterns(), 0.8f, false, false, false, false, false),
+			new SequencerConfig(4, "audio/samples/05-fx",   buildSfxPatterns(), 0.85f, false, false, false, false, false),
+			new SequencerConfig(5, "audio/samples/06-bass", buildNotesPatterns(), 1f, true, true, false, true, true),
+			new SequencerConfig(6, "audio/samples/07-keys", buildNotesPatterns(), 0.85f, true, false, true, true, true),
+			new SequencerConfig(7, "audio/samples/08-lead", buildNotesPatterns(), 0.85f, true, true, false, true, true),
+		};
+	}
 	
-	public static SequencerConfig[] interphaseChannelsMinimal = new SequencerConfig[] {
+	public static SequencerConfig[] interphaseChannelsMinimal() {
+		return new SequencerConfig[] {
 			new SequencerConfig(0, "audio/samples/01-kick", buildKickPatterns(), 1f, false, false, false, false, false),
 			new SequencerConfig(1, "audio/samples/06-bass", buildNotesPatterns(), 1f, true, true, false, true, true),
 			new SequencerConfig(2, "audio/samples/07-keys", buildNotesPatterns(), 0.85f, true, false, true, true, true),
 			new SequencerConfig(3, "audio/samples/08-lead", buildNotesPatterns(), 0.85f, true, true, false, true, true),
-	};
+		};
+	}
 	
 	//////////////////////////////////////
 	// Pattern generator collections for different instruments

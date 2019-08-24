@@ -228,7 +228,7 @@ implements IAppStoreListener {
 		buildPostProcessingChain();
 		// buildInterstitial();
 		
-		interphase = new Interphase(SequencerConfig.interphaseChannelsMinimal);
+		interphase = new Interphase(SequencerConfig.interphaseChannelsMinimal());
 	}
 
 	protected void buildCanvas() {
