@@ -228,6 +228,12 @@ public class MathUtil {
 		if(angle > 360f) return angle - 360f;
 		return angle;
 	};
+	
+	public static void rotateAroundPoint(PVector point, PVector anchor, float rads) {
+		float radius = getDistance(point.x, point.y, anchor.x, anchor.y);
+		float destRads = getRadiansToTarget(0, 0, point.x - anchor.x, point.y - anchor.y) + rads;
+		point.set(anchor.x + radius * P.cos(-destRads), anchor.y + radius * P.sin(-destRads), point.z);
+	}
 
 	/**
 	 *  Get the angle fron current coordinate to target coordinate
