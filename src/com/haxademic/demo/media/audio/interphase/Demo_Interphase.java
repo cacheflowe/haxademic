@@ -3,6 +3,7 @@ package com.haxademic.demo.media.audio.interphase;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.context.PG;
+import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.media.audio.interphase.Interphase;
 import com.haxademic.core.media.audio.interphase.SequencerConfig;
 import com.haxademic.core.ui.UIButton;
@@ -24,7 +25,8 @@ extends PAppletHax {
 	
 	public void setupFirstFrame() {
 //		interphase = new Interphase(SequencerConfig.interphaseChannels);
-		interphase = new Interphase(SequencerConfig.interphaseChannelsMinimal);
+//		interphase = new Interphase(FileUtil.getHaxademicDataPath(), SequencerConfig.interphaseChannelsMinimal);
+		interphase = new Interphase("D:\\workspace\\interphase\\data\\", SequencerConfig.interphaseChannelsMinimal);
 	}
 	
 	public void keyPressed() {

@@ -19,7 +19,7 @@ implements ILaunchpadCallback {
 	
 	////////////////////////////////////////
 	
-	public static String BASE_PATH = "D:\\workspace\\interphase\\data\\";
+	public static String BASE_AUDIO_PATH = "D:\\workspace\\interphase\\data\\";
 	
 	// sizes
 	
@@ -72,7 +72,8 @@ implements ILaunchpadCallback {
 	protected LaunchPad launchpad2;
 
 	
-	public Interphase(SequencerConfig[] interphaseChannels) {
+	public Interphase(String baseAudioPath, SequencerConfig[] interphaseChannels) {
+		BASE_AUDIO_PATH = baseAudioPath;
 		NUM_WALLS = interphaseChannels.length;
 		
 		// init state
@@ -83,8 +84,9 @@ implements ILaunchpadCallback {
 		P.store.setNumber(BPM_MIDI, 0);
 		P.store.setNumber(INTERACTION_SPEED_MULT, 0);
 		P.store.setNumber(CUR_SCALE_INDEX, 0);
+		P.store.setNumber(SEQUENCER_TRIGGER, 0);
 		P.store.setBoolean(PATTERNS_AUTO_MORPH, true);
-
+		
 		// build music machine
 		scales = new Scales();
 		metronome = new Metronome(this);
