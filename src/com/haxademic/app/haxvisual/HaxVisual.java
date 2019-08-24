@@ -8,7 +8,6 @@ import java.util.Collections;
 
 import com.haxademic.app.haxmapper.dmxlights.RandomLightTiming;
 import com.haxademic.app.haxvisual.pools.HaxVisualTexturePools;
-import com.haxademic.app.interphase.sequencing.Interphase;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
@@ -62,6 +61,8 @@ import com.haxademic.core.hardware.osc.devices.TouchOscPads;
 import com.haxademic.core.hardware.shared.InputTrigger;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.LinearFloat;
+import com.haxademic.core.media.audio.interphase.Interphase;
+import com.haxademic.core.media.audio.interphase.SequencerConfig;
 import com.haxademic.core.system.SystemUtil;
 import com.haxademic.core.ui.UIButton;
 
@@ -227,7 +228,7 @@ implements IAppStoreListener {
 		buildPostProcessingChain();
 		// buildInterstitial();
 		
-		interphase = new Interphase();
+		interphase = new Interphase(SequencerConfig.interphaseChannels);
 	}
 
 	protected void buildCanvas() {

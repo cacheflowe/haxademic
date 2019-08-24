@@ -1,4 +1,4 @@
-package com.haxademic.app.interphase.sequencing;
+package com.haxademic.core.media.audio.interphase;
 
 
 import java.io.File;
@@ -310,14 +310,14 @@ implements IAppStoreListener {
 		} else {			
 			if(notesByStep) {
 				// if notes by step mode, use cur step + offset to cycle through current scale notes 
-				pitchIndex1 = Interphase.CUR_SCALE[(noteOffset + curStep) % Interphase.CUR_SCALE.length];
-				pitchIndex2 = Interphase.CUR_SCALE[(noteOffset + curStep + 2) % Interphase.CUR_SCALE.length];
+				pitchIndex1 = Scales.CUR_SCALE[(noteOffset + curStep) % Scales.CUR_SCALE.length];
+				pitchIndex2 = Scales.CUR_SCALE[(noteOffset + curStep + 2) % Scales.CUR_SCALE.length];
 			} else {
 				// random pitch
-				int randPitch = MathUtil.randRange(0, Interphase.CUR_SCALE.length - 1);
+				int randPitch = MathUtil.randRange(0, Scales.CUR_SCALE.length - 1);
 				int randPitch2 = randPitch + 2;
-				pitchIndex1 = Interphase.CUR_SCALE[randPitch];
-				pitchIndex2 = Interphase.CUR_SCALE[randPitch2 % Interphase.CUR_SCALE.length];
+				pitchIndex1 = Scales.CUR_SCALE[randPitch];
+				pitchIndex2 = Scales.CUR_SCALE[randPitch2 % Scales.CUR_SCALE.length];
 			}
 			
 			// sometimes pitch up an octave 
@@ -426,8 +426,6 @@ implements IAppStoreListener {
 	protected void beatChanged() {
 		// update timing
 		if(curStep == 0) {
-			// flash wall
-//			wallColor.setCurrentInt(COLOR_INT_WHITE);
 			// increment sequence
 			sequencesComplete++;
 			// load a new sound on a random interval
@@ -505,7 +503,6 @@ implements IAppStoreListener {
 		
 		// if step is quantized/queued from user interaction, play that!
 		if(curStep == queuedBeat) { 
-			flashLEDs();
 			shouldPlay = true;
 			queuedBeat = -1;
 		}
@@ -514,16 +511,6 @@ implements IAppStoreListener {
 //		if(curStep == 0) flashLEDs();
 	}
 	
-	protected void flashLEDs() {
-		for (int i = 0; i < stepColors.length; i++) {
-			if(stepActive(i) == false) {
-//				stepColors[i].setCurrentInt(COLOR_INT_WHITE);	// flash LEDS
-				stepFlashProgress[i].setCurrent(0);
-				stepFlashProgress[i].setTarget(1);
-			}
-		}
-	}
-
 	public void updatedAppStoreValue(String key, String val) {
 	}
 

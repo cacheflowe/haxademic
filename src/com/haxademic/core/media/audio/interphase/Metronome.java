@@ -1,7 +1,6 @@
-package com.haxademic.app.interphase.sequencing;
+package com.haxademic.core.media.audio.interphase;
 
 import com.haxademic.core.app.P;
-import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.LinearFloat;
 import com.haxademic.core.media.audio.analysis.AudioInputBeads;
 
@@ -86,13 +85,6 @@ public class Metronome {
 						int beat = P.round(c.getCount() / 4);
 						P.store.setNumber(Interphase.BEAT, beat);
 						P.store.setNumber(Interphase.CUR_STEP, beat % Interphase.NUM_STEPS);
-						
-						// change scale (and color scheme) sometimes
-						if(beat % Interphase.BEATS_PER_SCALE_CHANGE == 0) {
-							int newScaleIndex = MathUtil.randRange(0, Interphase.SCALES.length - 1);
-							P.store.setNumber(Interphase.CUR_SCALE_INDEX, newScaleIndex);
-							Interphase.CUR_SCALE = Interphase.SCALES[newScaleIndex];
-						}
 					}
 					
 					// trigger samples if sequence patterns need to

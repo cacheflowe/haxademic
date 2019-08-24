@@ -1,12 +1,13 @@
-package com.haxademic.app.interphase;
+package com.haxademic.demo.media.audio.interphase;
 
-import com.haxademic.app.interphase.sequencing.Interphase;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.context.PG;
+import com.haxademic.core.media.audio.interphase.Interphase;
+import com.haxademic.core.media.audio.interphase.SequencerConfig;
 import com.haxademic.core.ui.UIButton;
 
-public class InterphaseStandalone
+public class Demo_Interphase
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
@@ -22,7 +23,8 @@ extends PAppletHax {
 	}
 	
 	public void setupFirstFrame() {
-		interphase = new Interphase();
+//		interphase = new Interphase(SequencerConfig.interphaseChannels);
+		interphase = new Interphase(SequencerConfig.interphaseChannelsMinimal);
 	}
 	
 	public void keyPressed() {

@@ -1,9 +1,9 @@
-package com.haxademic.app.interphase.sequencing;
+package com.haxademic.core.media.audio.interphase;
 
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.data.ConvertUtil;
-import com.haxademic.core.draw.color.ImageGradient;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.shapes.Shapes;
 import com.haxademic.core.hardware.midi.devices.LaunchPad;
@@ -12,10 +12,7 @@ import com.haxademic.core.hardware.shared.InputTrigger;
 import com.haxademic.core.ui.UIButton;
 import com.haxademic.core.ui.UIControlPanel;
 
-import beads.Pitch;
-import processing.core.PFont;
 import processing.core.PGraphics;
-import processing.core.PShape;
 
 public class Interphase
 implements ILaunchpadCallback {
@@ -26,41 +23,8 @@ implements ILaunchpadCallback {
 	
 	// sizes
 	
-	public static final int NUM_WALLS = 8;
+	public static int NUM_WALLS = 8;
 	public static final int NUM_STEPS = 16;
-	public static final int WALL_BUFFER_LED_SPACING = 12;
-	
-	public static final int PANEL_SIZE = 3;
-	public static final int LED_STRIP_W = 3;
-	public static final int LED_STRIP_H = 48;
-	public static final int LED_WALL_SIZE_W = 99;
-	public static final int LED_WALL_SIZE_H = 48;
-	public static final int LED_WASHES_SIZE_W = 8;
-	
-	// music
-	
-	public static int[][] SCALES = new int[][] {
-		// https://github.com/orsjb/beads/blob/master/src/beads_main/net/beadsproject/beads/data/Pitch.java
-		// Pitch.circleOfFifths, 	// {0, 5, 10, 3, 8, 1, 6, 11, 4, 9, 2, 7} // not really cool
-		Pitch.dorian,				// {0, 2, 3, 5, 7, 9, 10}
-		Pitch.pentatonic,			// {0, 2, 4, 7, 9}
-		Pitch.major,				// {0, 2, 4, 5, 7, 9, 11}
-		Pitch.minor,				// {0, 2, 3, 5, 7, 8, 10}
-									//		new int[] {0,5,10,15,19,24},
-		new int[] {0,3,5,7,10},
-	};
-	public static int[] CUR_SCALE = SCALES[0];
-	public static String CUR_SCALE_INDEX = "CUR_SCALE_INDEX";
-	
-	public static String[] SCALE_NAMES = new String[] {
-		"Dorian",
-		"Pentatonic",
-		"Major",
-		"Minor",
-		"Minor2",
-	};
-	
-	public static int BEATS_PER_SCALE_CHANGE = 240;
 	
 	// events
 	
@@ -73,6 +37,7 @@ implements ILaunchpadCallback {
 
 	// state
 	
+	public static final String CUR_SCALE_INDEX = "CUR_SCALE_INDEX";
 	public static final String PATTERNS_AUTO_MORPH = "PATTERNS_AUTO_MORPH";
 
 	// input 
@@ -85,22 +50,12 @@ implements ILaunchpadCallback {
 	
 	//////////////////////////////////////////
 	
+	protected Scales scales;
 	public Sequencer sequencers[];
 	protected Metronome metronome;
-	protected ImageGradient imageGradient;
-	
-	protected boolean threeDSimulation = false;
-	protected PShape human;
-	
-	protected int FONT_BIG = 18;
-	protected int FONT_SMALL = 11;
-	protected PFont fontBig; 
-	protected PFont fontSmall; 
 	
 	protected boolean systemMuted = false;
 	protected int systemMuteTime = -1;
-	
-	protected boolean upsideDownLED = true;
 	
 	protected InputTrigger trigger1 = new InputTrigger(new char[]{'1'}, null, new Integer[]{104, 41}, null, null);
 	protected InputTrigger trigger2 = new InputTrigger(new char[]{'2'}, null, new Integer[]{105, 42}, null, null);
@@ -117,7 +72,9 @@ implements ILaunchpadCallback {
 	protected LaunchPad launchpad2;
 
 	
-	public Interphase() {
+	public Interphase(SequencerConfig[] interphaseChannels) {
+		NUM_WALLS = interphaseChannels.length;
+		
 		// init state
 		P.store.setNumber(BEAT, 0);
 		P.store.setNumber(CUR_STEP, 0);
@@ -128,19 +85,12 @@ implements ILaunchpadCallback {
 		P.store.setNumber(CUR_SCALE_INDEX, 0);
 		P.store.setBoolean(PATTERNS_AUTO_MORPH, true);
 
-		// debug
-		fontBig = P.p.createFont("Arial", FONT_BIG);
-		fontSmall = P.p.createFont("Arial", FONT_SMALL);
-		
-		// global colors & graphics
-		imageGradient = new ImageGradient(ImageGradient.PASTELS());
-//		imageGradient.addTexturesFromPath(Interphase.BASE_PATH + "images/palettes/interphase/");
-		
 		// build music machine
+		scales = new Scales();
 		metronome = new Metronome(this);
 		sequencers = new Sequencer[NUM_WALLS];
 		for (int i = 0; i < sequencers.length; i++) {
-			sequencers[i] = new Sequencer(this, SequencerConfig.interphaseChannels[i]);
+			sequencers[i] = new Sequencer(this, interphaseChannels[i]);
 		}
 		
 		// build launchpad
@@ -151,19 +101,23 @@ implements ILaunchpadCallback {
 		
 		// alternate UI buttons
 		for (int i = 0; i < 16; i++) {
+			P.out("Interphase TODO: make UI buttons dynamic per number of channels");
 			P.p.ui.addButtons(new String[] {"beatgrid-0-"+i, "beatgrid-1-"+i, "beatgrid-2-"+i, "beatgrid-3-"+i, "beatgrid-4-"+i, "beatgrid-5-"+i, "beatgrid-6-"+i, "beatgrid-7-"+i}, true);
 		}
 		P.p.ui.addWebInterface(false);
+
+		// set debug help lines
+		P.p.debugView.setHelpLine("\n" + DebugView.TITLE_PREFIX + "Interphase Key Commands", "");
+		P.p.debugView.setHelpLine("[1234] |", "Trigger");
+		P.p.debugView.setHelpLine("[QWER] |", "Toggle on/off");
+		P.p.debugView.setHelpLine("[ASDF] |", "New sound");
+		P.p.debugView.setHelpLine("[9] |", "Toggle auto morph");
 	}
 	
 	
 	/////////////////////////////////
 	// SHARED
 	/////////////////////////////////
-	
-	public int getColorAtProgress(float progress) {
-		return imageGradient.getColorAtProgress(progress);
-	}
 	
 	public boolean systemMuted() {
 		return systemMuted;
@@ -302,6 +256,8 @@ implements ILaunchpadCallback {
 		P.p.debugView.setValue("INTERPHASE :: BPM interval", P.store.getInt(BEAT_INTERVAL_MILLIS) + "ms");
 		P.p.debugView.setValue("INTERPHASE :: BEAT", P.store.getFloat(BEAT));
 		P.p.debugView.setValue("INTERPHASE :: INTERACTION_SPEED_MULT", P.store.getFloat(INTERACTION_SPEED_MULT));
+		P.p.debugView.setValue("INTERPHASE :: PATTERNS_AUTO_MORPH", P.store.getBoolean(PATTERNS_AUTO_MORPH));
+		P.p.debugView.setValue("INTERPHASE :: SEQUENCER_TRIGGER", P.store.getInt(SEQUENCER_TRIGGER));
 	}
 	
 	protected void updateSequencers() {
