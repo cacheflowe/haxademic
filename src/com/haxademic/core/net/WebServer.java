@@ -6,18 +6,26 @@ import java.net.UnknownHostException;
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.util.log.Logger;
 
+import com.haxademic.core.file.FileUtil;
+
 
 public class WebServer {
 	
 	public static boolean DEBUG;
 	public static int PORT = 8080;
+	public static String WWW_PATH = "";
 	protected WebServerRequestHandler handler;
 	public static final String REQUEST_URL = "REQUEST_URL";
 
 
 	public WebServer(WebServerRequestHandler handler, boolean debug) {
+		this(handler, debug, FileUtil.getHaxademicWebPath());
+	}
+	
+	public WebServer(WebServerRequestHandler handler, boolean debug, String wwwPath) {
 		WebServer.DEBUG = debug;
 		this.handler = handler;
+		WWW_PATH = wwwPath;
 		
 		new Thread(new Runnable() { public void run() {
 			initWebServer();

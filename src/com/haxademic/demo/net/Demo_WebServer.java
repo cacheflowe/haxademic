@@ -18,7 +18,8 @@ implements IAppStoreListener {
 	protected WebServer server;
 	
 	public void setupFirstFrame() {
-		server = new WebServer(new WebServerRequestHandlerUIControls(), false);
+//		server = new WebServer(new WebServerRequestHandlerUIControls(), false);
+		server = new WebServer(new WebServerRequestHandlerUIControls(), false, "D:\\workspace\\nike-650-2019-adapt-bb\\www\\posters\\");
 	}
 	
 	public void drawApp() {

@@ -40,7 +40,7 @@ public class WebServerRequestHandler extends AbstractHandler {
 		response.setContentType("text/html; charset=utf-8");		// default to text
 		
 		// look for static files on the www filesystem
-		String filePathToCheck = FileUtil.getHaxademicWebPath() + requestPathNoSlash;
+		String filePathToCheck = WebServer.WWW_PATH + requestPathNoSlash;
 		
 		// check to redirect if no trailing slash, but has index.html
 		if(FileUtil.fileExists(filePathToCheck + "/index.html") == true) {
