@@ -155,8 +155,12 @@ extends PApplet {
 		}
 	}
 	
+	public boolean isOpenGL() {
+		return renderer.equals(PRenderers.P2D) || renderer.equals(PRenderers.P3D);
+	}
+	
 	public void setup() {
-		window = (GLWindow) surface.getNative();
+		if(isOpenGL()) window = (GLWindow) surface.getNative();
 		if(customPropsFile != null) DebugUtil.printErr("Make sure to load custom .properties files in settings()");
 		setAppletProps();
 		if(renderer != PRenderers.PDF) {
@@ -256,7 +260,7 @@ extends PApplet {
 	
 	protected void initHaxademicObjects() {
 		// create offscreen buffer
-		pg = PG.newPG(p.appConfig.getInt(AppSettings.PG_WIDTH, p.width), p.appConfig.getInt(AppSettings.PG_HEIGHT, p.height));
+		if(isOpenGL()) pg = PG.newPG(p.appConfig.getInt(AppSettings.PG_WIDTH, p.width), p.appConfig.getInt(AppSettings.PG_HEIGHT, p.height));
 		// audio 
 		initAudioInput();
 		// rendering
@@ -340,7 +344,7 @@ extends PApplet {
 	}
 	
 	protected void createAudioDebugBuffer() {
-		audioInputDebugBuffer = p.createGraphics((int) AudioStreamData.debugW, (int) AudioStreamData.debugW, PRenderers.P3D);
+		audioInputDebugBuffer = PG.newPG((int) AudioStreamData.debugW, (int) AudioStreamData.debugW);
 		p.debugView.setTexture("Audio Input", audioInputDebugBuffer);
 	}
 
@@ -355,7 +359,7 @@ extends PApplet {
 	
 	protected void initializeOn1stFrame() {
 		if( p.frameCount == 1 ) {
-			P.println("Using Java version: " + SystemUtil.getJavaVersion() + " and GL version: " + OpenGLUtil.getGlVersion(p.g));
+			if(isOpenGL()) P.println("Using Java version: " + SystemUtil.getJavaVersion() + " and GL version: " + OpenGLUtil.getGlVersion(p.g));
 			initHaxademicObjects();
 			setupFirstFrame();
 		}
