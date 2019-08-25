@@ -6,8 +6,8 @@ import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.hardware.keyboard.Keyboard;
 import com.haxademic.core.hardware.midi.devices.LaunchControl;
 import com.haxademic.core.hardware.shared.InputTrigger;
+import com.haxademic.core.net.UIControlsHandler;
 import com.haxademic.core.net.WebServer;
-import com.haxademic.core.net.WebServerRequestHandlerUIControls;
 
 public class Demo_InputTrigger
 extends PAppletHax {
@@ -32,7 +32,7 @@ extends PAppletHax {
 	
 	public void setup() {
 		super.setup();	
-		server = new WebServer(new WebServerRequestHandlerUIControls(), true);
+		server = new WebServer(new UIControlsHandler(), true);
 	}
 	
 	public void drawApp() {

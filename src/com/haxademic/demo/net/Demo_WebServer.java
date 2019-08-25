@@ -4,7 +4,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.data.store.IAppStoreListener;
 import com.haxademic.core.net.WebServer;
-import com.haxademic.core.net.WebServerRequestHandlerUIControls;
+import com.haxademic.core.net.UIControlsHandler;
 import com.haxademic.core.system.SystemUtil;
 
 import processing.core.PGraphics;
@@ -19,7 +19,7 @@ implements IAppStoreListener {
 	
 	public void setupFirstFrame() {
 //		server = new WebServer(new WebServerRequestHandlerUIControls(), false);
-		server = new WebServer(new WebServerRequestHandlerUIControls(), false, "D:\\workspace\\nike-650-2019-adapt-bb\\www\\posters\\");
+		server = new WebServer(new UIControlsHandler(), false);
 	}
 	
 	public void drawApp() {

@@ -6,8 +6,8 @@ import java.util.LinkedHashMap;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.draw.context.PG;
+import com.haxademic.core.net.UIControlsHandler;
 import com.haxademic.core.net.WebServer;
-import com.haxademic.core.net.WebServerRequestHandlerUIControls;
 import com.haxademic.core.ui.UIButton.IUIButtonDelegate;
 
 import processing.data.JSONArray;
@@ -48,7 +48,7 @@ implements IUIButtonDelegate {
 	
 	public void addWebInterface(boolean debugWebRequests) {
 		if(server != null) return;
-		server = new WebServer(new WebServerRequestHandlerUIControls(), debugWebRequests);
+		server = new WebServer(new UIControlsHandler(), debugWebRequests);
 	}
 	
 	////////////////////////

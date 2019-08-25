@@ -3,9 +3,14 @@ package com.haxademic.core.net;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 
+import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.server.handler.AbstractHandler;
+import org.eclipse.jetty.server.handler.HandlerList;
 import org.eclipse.jetty.util.log.Logger;
+import org.eclipse.jetty.webapp.WebAppContext;
 
+import com.haxademic.core.app.P;
 import com.haxademic.core.file.FileUtil;
 
 
@@ -14,15 +19,15 @@ public class WebServer {
 	public static boolean DEBUG;
 	public static int PORT = 8080;
 	public static String WWW_PATH = "";
-	protected WebServerRequestHandler handler;
+	protected AbstractHandler handler;
 	public static final String REQUEST_URL = "REQUEST_URL";
 
 
-	public WebServer(WebServerRequestHandler handler, boolean debug) {
+	public WebServer(AbstractHandler handler, boolean debug) {
 		this(handler, debug, FileUtil.getHaxademicWebPath());
 	}
 	
-	public WebServer(WebServerRequestHandler handler, boolean debug, String wwwPath) {
+	public WebServer(AbstractHandler handler, boolean debug, String wwwPath) {
 		WebServer.DEBUG = debug;
 		this.handler = handler;
 		WWW_PATH = wwwPath;
@@ -37,8 +42,16 @@ public class WebServer {
 		org.eclipse.jetty.util.log.Log.setLog(new NoLogging());
 		
 		// init jetty server
-        Server server = new Server(WebServer.PORT);
-        server.setHandler(this.handler);        
+		P.out("Starting WebServer at "+WWW_PATH+":"+PORT);
+        Server server = new Server(PORT);
+        
+        // set custom & static handlers
+        HandlerList handlers = new HandlerList();
+        handlers.setHandlers(new Handler[] { 
+    		this.handler, 
+    		new WebAppContext(WWW_PATH, "/") 			// Jetty's built-in static asset web server. this catches any request not handled by the custom handler
+        });
+        server.setHandler(handlers);
         
         // start the server!
         try {

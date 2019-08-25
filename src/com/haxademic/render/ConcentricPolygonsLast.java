@@ -13,8 +13,8 @@ import com.haxademic.core.hardware.shared.InputTrigger;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.EasingFloat;
 import com.haxademic.core.math.easing.LinearFloat;
+import com.haxademic.core.net.UIControlsHandler;
 import com.haxademic.core.net.WebServer;
-import com.haxademic.core.net.WebServerRequestHandlerUIControls;
 import com.haxademic.core.system.SystemUtil;
 
 import processing.core.PApplet;
@@ -103,7 +103,7 @@ extends PAppletHax {
 	}
 	
 	public void setupFirstFrame() {
-		server = new WebServer(new WebServerRequestHandlerUIControls(), false);
+		server = new WebServer(new UIControlsHandler(), false);
 		if(PRenderers.currentRenderer() == PRenderers.PDF) shouldRecord = true;
 		
 		// video 1080p selects
