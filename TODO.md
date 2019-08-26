@@ -8,7 +8,6 @@
 	  * Assemble w/replacement strings that match filenames?
 
 * WebCam UI picker should draw flat on top of everything like DebugView
-* Add a callback (IEaseCompleteListener) to EasingFloat/LinearFloat
 * Shrink `p.ui` text & buttons. Maybe left-align too. Also cut off long float values
 * Clean up /lib - we should have src for all libraries if possible, pointed to for Eclipse click-through, but nothing else. Except maybe examples?
 * libusb or something like that to query weather a webcam is still plugged in. Java library?
@@ -92,15 +91,6 @@
     * Morph between stored configs
     * Store premade patterns for different beats/songs. Json?
     * Make alternate z-space-scrolling sequencer grid
-  * Internal routing/sequencing
-    * When sequencers trigger, send an event in AppStore. this could trigger lights, HaxVisual events
-      * Use interphase beat timing rather than beat detection to make the next HaxVisual change
-  * Clean up basic music code
-  * Integrations
-    * MIDI output for Ableton sync
-    * build a more custom touchscreen 8x16 interface via `p.ui`
-      * Map more functions to hardware controls
-      * Use a button to play sample without changing pattern
   * Musical interaction
     * Fix BPM increment
     * allow doubletime sequencer
@@ -108,6 +98,13 @@
   * Effects
     * delay / offset
     * add a compressor to main output? audio needs to be squished
+  * Use interphase beat timing rather than beat detection to make the next HaxVisual change
+  * Clean up basic music code (even more)
+  * Integrations
+    * MIDI output for Ableton sync and other app integration. (OSC?)
+    * build a more custom touchscreen 8x16 interface via `p.ui`
+      * Map more functions to hardware controls
+      * Use a button to play sample without changing pattern
   * Sound style
     * More/new samples! Get rid of abrasive samples
     * Make interphase more bangy & think about converting to be more spatial w/lighting
@@ -187,7 +184,7 @@
   	* https://community.khronos.org/t/pack-more-than-4-components-into-rgba-32-texture-in-vertex-shader/72945/2
   	* https://forum.processing.org/two/discussion/17629/how-to-get-round-using-16-bit-image-buffers-shadertoy-question
   * Use 32-bit textures to make a nicer GPU particles system
-    * Use curl noise to enhance said particle system: https://www.google.com/search?client=firefox-b-1-d&q=how+to+use+3d+curl+noise	
+    * Use curl noise to enhance said particle system: https://www.google.com/search?client=firefox-b-1-d&q=how+to+use+3d+curl+noise
   * Wrap up GLSL transitions collection and make a common interface
   * Fix up GPU particle launcher to store colors per-particle
   * Convert Orbit noise: https://www.shadertoy.com/view/4t3yDn
@@ -229,7 +226,7 @@
   	* https://github.com/kosowski/Geometry-shaders-Processing/blob/master/geometry_shader_tessellation/sphere.pde
 
 ## net
-  * Should Screenshot in DashboardPoster be it's own app/process, like the CrashMonitor?
+  * Should Screenshot in DashboardPoster be it's own app/process, like the CrashMonitor? or *in* CrashMonitor? As an UptimeSuite??
   * WebServer and SocketServer should be more stylistically similar. See PORT in WebServer, and DEBUG static boolean - should be passed in?
   * Replace JavaWebsocket with Jetty WebSocket server??
 
