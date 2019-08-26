@@ -7,7 +7,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.hardware.mouse.MouseUtil;
 
-public class Demo_MouseLoopAtEdges
+public class Demo_MouseLoopAroundScreen
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
