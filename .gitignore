@@ -8,4 +8,5 @@ www/dashboard/projects
 *_sketch*
 *Thumbs.db
 .DS_Store
+*.log
 captured.png
