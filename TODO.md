@@ -1,40 +1,26 @@
 # TODO
 
-## High-priority
+## InputTrigger
 
-* Shader builder w/snippets - look through Hepp's code
-  * Add uniforms automatically?
-	* Default shader chunks
-	  * Assemble w/replacement strings that match filenames?
-
-* WebCam UI picker should draw flat on top of everything like DebugView
-* Shrink `p.ui` text & buttons. Maybe left-align too. Also cut off long float values
-* Clean up /lib - we should have src for all libraries if possible, pointed to for Eclipse click-through, but nothing else. Except maybe examples?
-* libusb or something like that to query weather a webcam is still plugged in. Java library?
-  * http://usb4java.org/quickstart/libusb.html
-  * http://usb4java.org/configuration.html
-* Test Realsense camera outside
-* Webcam with OpenJDK: https://github.com/gstreamer-java/gst1-java-core/issues/15
 * Threaded safety of InputTrigger isn't good - especially at a low FPS?
   * WebServer requests can fall through the cracks (button clicks, etc)
   * Web requests that route to p.ui aren't predictable, especially at 30fps? Look at p.ui button handling in Re-Creation
-* WavPlayer panning and FFT analysis need love:
-  * Panning only works once
-  * FFT only works for the left channel if it's been panned
-* Look into these CV demos
-	* https://github.com/chungbwc/Magicandlove
-	* http://www.magicandlove.com/blog/2018/08/06/openpose-in-processing-and-opencv-dnn/
-	* https://github.com/chungbwc/Magicandlove/tree/master/ml20180806b
-	* http://www.magicandlove.com/blog/2018/08/08/darknet-yolo-v3-testing-in-processing-with-the-opencv-dnn-module/
-	* http://www.magicandlove.com/blog/2018/08/06/deep-neural-network-dnn-module-with-processing/
-* AppGenerator:
-  * CLASSPATH_ATTR_LIBRARY_PATH_ENTRY - this needs text replace on `haxademic` to new project name
-* Investigate Task Scheduler
-  * https://docs.microsoft.com/en-us/windows/win32/taskschd/task-scheduler-start-page
-* Simulate stop frame overlay via Jesse
-* Unity/Processing bridge
-  * 3d scene to RenderTexture to Spout
-  * Scripted startup/shutdown
+  * InputTrigger should merge MIDI buttons and CC controls, just like OSC commands
+  * Switch this to an AppStore-based system so inputs are immediately picked up by a listener. This might still be thread-unsafe, but AppStore events aren't either!
+    * Do we need an InputEvent type added to AppStore collections??
+
+## WebCam
+
+* Test Realsense camera outside
+* WebCam updates for Video 2.0 beta4
+  * WebCam UI picker should draw flat on top of everything like DebugView
+  * Add webcam inspector to provide a list of native webcam options
+    * Should return these config options: https://webcamtests.com/resolution
+    * libusb or something like that to query weather a webcam is still plugged in. Java library?
+      * http://usb4java.org/quickstart/libusb.html
+      * http://usb4java.org/configuration.html
+    * Webcam with OpenJDK: https://github.com/gstreamer-java/gst1-java-core/issues/15
+
 
 ## Processing problems
 
@@ -43,7 +29,7 @@
 	* https://forum.processing.org/two/discussion/1723/unwanted-artifacts-in-a-simple-pixelation-shader
 	* Fixed here: https://github.com/cacheflowe/haxademic/blob/master/data/haxademic/shaders/filters/pixelate.glsl
 	* Old, broken version: https://github.com/cacheflowe/haxademic/blob/3b520a7e850e0da7063f18075bf36e249601e052/data/haxademic/shaders/filters/pixelate.glsl
-
+* PShaderCompiler - PShader shouldn't absolutely kill the app on a failed GLSL compile
 
 ## Art projects
   * Shatter model & triangles fall down (Sunflow final render)
@@ -61,6 +47,7 @@
   * Turn client snake mirror into its own thing
   * Make a version of partycles with GPU particles from VFX code and ability to swap webcam instead of Kinect
 	* Also, blob tracking VFX but sweet patterns inside the blobs
+  * Simulate stop frame overlay via Jesse
 
 ## HaxVisualTwo
   * Less kaleidoscope
@@ -112,6 +99,9 @@
     * Better haxvisual patterns configurations
 
 ## Audio
+  * WavPlayer panning and FFT analysis need love:
+    * Panning only works once
+    * FFT only works for the left channel if it's been panned
   * Text to speech In Processing. Webview in Processing? Or web sockets to external browser? Vanilla Java?
   * Sphinx4 speech recognition
 	* Copy / paste + Robot for tired hands
@@ -174,10 +164,13 @@
 ## MIDI:
   * Add midi input to prefsSliders
   * Move midibus instance to MidiState (now MidiDevice)
-  * InputTrigger should merge MIDI buttons and CC controls, just like OSC commands
   * Check MIDI rendering now that MIDI code has been revamped
 
 ## GLSL
+  * Shader builder w/snippets - look through Hepp's code
+    * Add uniforms automatically?
+  	* Default shader chunks
+  	  * Assemble w/replacement strings that match filenames?
   * 32-bit packing
   	* https://stackoverflow.com/questions/18453302/how-do-you-pack-one-32bit-int-into-4-8bit-ints-in-glsl-webgl
   	* http://www.ozone3d.net/blogs/lab/20080604/glsl-float-to-rgba8-encoder/
@@ -255,6 +248,12 @@
     * Demo_VertexShader_Fattener
 
 ## General / tools
+  * AppGenerator:
+    * CLASSPATH_ATTR_LIBRARY_PATH_ENTRY - this needs text replace on `haxademic` to new project name
+  * Unity/Processing bridge
+    * 3d scene to RenderTexture to Spout
+    * Scripted startup/shutdown
+  * Clean up /lib - we should have src for all libraries if possible, pointed to for Eclipse click-through, but nothing else. Except maybe examples?
   * IP camera (get one that does an mjpeg stream)
   * Rtp video in Java?
     * https://www.oracle.com/technetwork/java/javase/documentation/toolstx-178270.html
@@ -270,6 +269,18 @@
   * ImageSequence -> ffmpeg rendering from a class. Would make rendering easier on both platforms
   * Clean up old stuff - get rid of non-useful demos
   * Document important files/concepts/tools for README
+
+## To investigate
+
+* Look into these CV demos
+	* https://github.com/chungbwc/Magicandlove
+	* http://www.magicandlove.com/blog/2018/08/06/openpose-in-processing-and-opencv-dnn/
+	* https://github.com/chungbwc/Magicandlove/tree/master/ml20180806b
+	* http://www.magicandlove.com/blog/2018/08/08/darknet-yolo-v3-testing-in-processing-with-the-opencv-dnn-module/
+	* http://www.magicandlove.com/blog/2018/08/06/deep-neural-network-dnn-module-with-processing/
+* Investigate Task Scheduler
+  * https://docs.microsoft.com/en-us/windows/win32/taskschd/task-scheduler-start-page
+
 
 ## Topics
 
