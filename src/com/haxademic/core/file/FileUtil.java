@@ -18,6 +18,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 
 import com.haxademic.core.app.P;
@@ -445,5 +446,21 @@ public class FileUtil {
 		File file = new File(filePath);
 		return file.delete();
 	}
+	
+	public static boolean deleteDir(String path) {
+		if(FileUtil.fileOrPathExists(path) == false) return false;
+		try {
+			Files.walk(Paths.get(path))
+				.sorted(Comparator.reverseOrder())
+				.map(Path::toFile)
+				.forEach(File::delete);
+			return true;
+		} catch (IOException e) {
+			e.printStackTrace();
+			return false;
+		}
+	}
+	
+
 	
 }
