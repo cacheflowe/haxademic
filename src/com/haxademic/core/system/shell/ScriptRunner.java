@@ -13,11 +13,16 @@ public class ScriptRunner {
 	
 	protected IScriptCallback delegate;
 	protected String scriptName;
+	protected Process process;
 
 	public ScriptRunner(String scriptName, IScriptCallback delegate) {
 		this.scriptName = scriptName;
 		this.scriptName += (SystemUtil.isOSX() == true) ? ".sh" : ".cmd";
 		this.delegate = delegate;
+	}
+	
+	public Process process() {
+		return process;
 	}
 	
 	public void runWithParams(Object ...args) {
@@ -55,14 +60,13 @@ public class ScriptRunner {
 		P.out(scriptPath + " " + Arrays.toString(args));
 		
 		// run script
-        Process p;
 		try {
-			p = new ProcessBuilder(command)
+			process = new ProcessBuilder(command)
 			        .redirectErrorStream(true)
 			        .redirectOutput(ProcessBuilder.Redirect.INHERIT)
 			        .start();
-			p.waitFor();
-			P.out("Exit value: " + p.exitValue());
+			process.waitFor();
+			P.out("Exit value: " + process.exitValue());
 		} catch (IOException e) {
 			e.printStackTrace();
 			P.out("Script failed");
