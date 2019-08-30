@@ -1,12 +1,15 @@
 package com.haxademic.core.debug;
 
-import com.haxademic.core.app.P;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.system.SystemUtil;
 
 public class TextEventLog {
 
 	protected String logFile;
+	
+	public static String DAILY_LOG() {
+		return FileUtil.getHaxademicOutputPath() + "logs/" + SystemUtil.getDateStamp() + ".txt";
+	}
 	
 	public TextEventLog() {
 		this(FileUtil.getHaxademicOutputPath() + "_log.txt"); 
