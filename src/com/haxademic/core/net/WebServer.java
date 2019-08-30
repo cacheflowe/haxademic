@@ -19,9 +19,9 @@ public class WebServer {
 	public static boolean DEBUG;
 	public static int PORT = 8080;
 	public static String WWW_PATH = "";
-	protected AbstractHandler handler;
 	public static final String REQUEST_URL = "REQUEST_URL";
-
+	protected AbstractHandler handler;
+	protected Server server;
 
 	public WebServer(AbstractHandler handler, boolean debug) {
 		this(handler, debug, FileUtil.getHaxademicWebPath());
@@ -34,7 +34,7 @@ public class WebServer {
 		
 		new Thread(new Runnable() { public void run() {
 			initWebServer();
-		}}).start();	
+		}}).start();
 	}
 	
 	protected void initWebServer() {
@@ -43,13 +43,17 @@ public class WebServer {
 		
 		// init jetty server
 		P.out("Starting WebServer at "+WWW_PATH+":"+PORT);
-        Server server = new Server(PORT);
+        server = new Server(PORT);
+        
+        // init static web server and turn off file locking!
+        WebAppContext webAppContext = new WebAppContext(WWW_PATH, "/");
+        webAppContext.setInitParameter("org.eclipse.jetty.servlet.Default.useFileMappedBuffer", "false");
         
         // set custom & static handlers
         HandlerList handlers = new HandlerList();
         handlers.setHandlers(new Handler[] { 
     		this.handler, 
-    		new WebAppContext(WWW_PATH, "/") 			// Jetty's built-in static asset web server. this catches any request not handled by the custom handler
+    		webAppContext 			// Jetty's built-in static asset web server. this catches any request not handled by the custom handler
         });
         server.setHandler(handlers);
         
@@ -60,6 +64,32 @@ public class WebServer {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public Server server() {
+		return server;
+	}
+	
+	public void stop() {
+		try {
+			if(server != null) server.stop();
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+	
+	public void restart() {
+		new Thread(new Runnable() { public void run() {
+			try {
+				if(server != null) {
+					server.stop();
+					Thread.sleep(1000);		// let ports clear up: https://stackoverflow.com/a/15240883/352456
+					initWebServer();
+				}
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}}).start();	
 	}
 	
 	public static String getServerAddress() {

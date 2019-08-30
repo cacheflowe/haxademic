@@ -33,6 +33,12 @@ implements IAppStoreListener {
 		P.store.showStoreValuesInDebugView();
 	}
 	
+	public void keyPressed() {
+		super.keyPressed();
+		if(p.key == 'r') server.restart();
+		if(p.key == 's') server.stop();
+	}
+	
 	// AppStore listeners
 
 	public void updatedNumber(String key, Number val) {}
