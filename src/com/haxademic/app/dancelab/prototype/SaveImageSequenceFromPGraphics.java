@@ -125,7 +125,7 @@ extends PAppletHax {
 		super.keyPressed();
 		if(p.key == ' ') {
 			// set up image sequence output
-			curRenderDir = FileUtil.getHaxademicOutputPath() + "_dancelab/" + SystemUtil.getTimestamp(p) + "/";
+			curRenderDir = FileUtil.getHaxademicOutputPath() + "_dancelab/" + SystemUtil.getTimestamp() + "/";
 			FileUtil.createDir(curRenderDir);
 			startRecordTime = p.millis();
 			totalRenderingTime = 0;

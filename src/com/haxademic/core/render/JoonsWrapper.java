@@ -109,7 +109,7 @@ public class JoonsWrapper {
 			if( saveFrameImg == true ) {
 				String sunflowOutputPath = FileUtil.getHaxademicOutputPath()+"/_sunflow/";
 				if(FileUtil.fileOrPathExists(sunflowOutputPath) == false) FileUtil.createDir(sunflowOutputPath);
-				p.save(sunflowOutputPath + SystemUtil.getTimestamp(JRStatics.P) + "-render.png");
+				p.save(sunflowOutputPath + SystemUtil.getTimestamp() + "-render.png");
 			}
 		}
 	}

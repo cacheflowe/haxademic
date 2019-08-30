@@ -586,7 +586,7 @@ extends PApplet {
 	}
 	
 	public void saveScreenshot(PGraphics savePG) {
-		savePG.save(FileUtil.getHaxademicOutputPath() + "_screenshots/" + SystemUtil.getTimestamp(p) + ".png");
+		savePG.save(FileUtil.getHaxademicOutputPath() + "_screenshots/" + SystemUtil.getTimestamp() + ".png");
 	}
 	
 	////////////////////////

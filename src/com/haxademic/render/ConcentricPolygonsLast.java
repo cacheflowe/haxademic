@@ -715,7 +715,7 @@ extends PAppletHax {
 
 	protected void preparePDFRender() {
 		if(shouldRecord == true) {
-			p.beginRecord(P.PDF, FileUtil.getHaxademicOutputPath() + "/pdf/frame-"+SystemUtil.getTimestamp(p)+".pdf");
+			p.beginRecord(P.PDF, FileUtil.getHaxademicOutputPath() + "/pdf/frame-"+SystemUtil.getTimestamp()+".pdf");
 		}
 	}
 	

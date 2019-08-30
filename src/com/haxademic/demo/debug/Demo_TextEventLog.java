@@ -2,6 +2,8 @@ package com.haxademic.demo.debug;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.debug.TextEventLog;
+import com.haxademic.core.file.FileUtil;
+import com.haxademic.core.system.SystemUtil;
 
 public class Demo_TextEventLog
 extends PAppletHax {
@@ -10,7 +12,8 @@ extends PAppletHax {
 	protected TextEventLog eventLog;
 	
 	public void setupFirstFrame() {
-		eventLog = new TextEventLog();
+//		eventLog = new TextEventLog();
+		eventLog = new TextEventLog(FileUtil.getHaxademicOutputPath() + "logs/" + SystemUtil.getDateStamp() + ".txt");
 		eventLog.appStarted();
 	}
 

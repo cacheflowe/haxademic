@@ -30,7 +30,7 @@ extends PAppletHax {
 	
 	public void startGifRender() {
 		encoder = new AnimatedGifEncoder();
-		encoder.start( FileUtil.getHaxademicOutputPath() + SystemUtil.getTimestamp(p) + "-export.gif" );
+		encoder.start( FileUtil.getHaxademicOutputPath() + SystemUtil.getTimestamp() + "-export.gif" );
 		encoder.setFrameRate( 40 );
 		encoder.setRepeat( 0 );
 	}

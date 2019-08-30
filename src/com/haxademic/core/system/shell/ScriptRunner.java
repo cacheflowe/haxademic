@@ -66,7 +66,10 @@ public class ScriptRunner {
 			        .redirectOutput(ProcessBuilder.Redirect.INHERIT)
 			        .start();
 			process.waitFor();
-			P.out("Exit value: " + process.exitValue());
+			
+			if(process.isAlive() == false) {
+				P.out("Exit value: " + process.exitValue());
+			}
 		} catch (IOException e) {
 			e.printStackTrace();
 			P.out("Script failed");

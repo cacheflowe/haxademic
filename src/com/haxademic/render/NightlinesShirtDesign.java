@@ -54,7 +54,7 @@ extends PAppletHax {
 		background(0);
 		PG.setDrawCenter(p);
 
-		if( _shouldPrint ) p.beginRecord( P.PDF,  FileUtil.getHaxademicOutputPath() + "mountains-"+ SystemUtil.getTimestamp(p) +".pdf" );
+		if( _shouldPrint ) p.beginRecord( P.PDF,  FileUtil.getHaxademicOutputPath() + "mountains-"+ SystemUtil.getTimestamp() +".pdf" );
 
 		_x = (p.width / 2) - (p.ui.value(numLines) * p.ui.value(spacing))/2;
 		_y = p.height / 2;

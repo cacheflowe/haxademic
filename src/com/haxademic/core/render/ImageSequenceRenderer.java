@@ -24,7 +24,7 @@ public class ImageSequenceRenderer {
 	}
 	
 	public void startImageSequenceRender() {
-		savePath = FileUtil.getHaxademicOutputPath() + SystemUtil.getTimestamp(P.p);
+		savePath = FileUtil.getHaxademicOutputPath() + SystemUtil.getTimestamp();
 		FileUtil.createDir(savePath);
 		P.println("== started rendering gif ==");
 	}

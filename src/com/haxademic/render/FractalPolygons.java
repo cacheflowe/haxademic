@@ -127,7 +127,7 @@ extends PAppletHax {
 //			}
 //		}
 
-		if( _shouldPrint ) p.beginRecord( P.PDF,  FileUtil.getHaxademicOutputPath() + "fractal-"+ SystemUtil.getTimestamp(p) +".pdf" );
+		if( _shouldPrint ) p.beginRecord( P.PDF,  FileUtil.getHaxademicOutputPath() + "fractal-"+ SystemUtil.getTimestamp() +".pdf" );
 		_pg.noFill();
 		_pg.stroke(0);
 		_pg.strokeWeight(_strokeWidth.value());

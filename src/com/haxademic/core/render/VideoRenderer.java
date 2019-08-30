@@ -43,7 +43,7 @@ public class VideoRenderer {
 		if(audioSimulation) return;
 		
 		// create timestamp for file output
-		timestampStart = SystemUtil.getTimestamp( P.p );
+		timestampStart = SystemUtil.getTimestamp();
 
 		// initialize movie renderer
 		if( outputType == OUTPUT_TYPE_MOVIE ) {

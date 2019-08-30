@@ -25,7 +25,7 @@ public class GifRenderer {
 	
 	public void startGifRender(PApplet p) {
 		encoder = new AnimatedGifEncoder();
-		encoder.start( FileUtil.getHaxademicOutputPath() + SystemUtil.getTimestamp(p) + "-export.gif" );
+		encoder.start( FileUtil.getHaxademicOutputPath() + SystemUtil.getTimestamp() + "-export.gif" );
 		encoder.setFrameRate( _frameRate );
 		encoder.setQuality( _quality );
 		encoder.setRepeat( 0 );

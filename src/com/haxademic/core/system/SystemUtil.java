@@ -24,7 +24,6 @@ import javax.swing.Timer;
 
 import com.haxademic.core.app.P;
 
-import processing.core.PApplet;
 import processing.core.PImage;
 
 public class SystemUtil {
@@ -43,7 +42,14 @@ public class SystemUtil {
 		System.gc();
 	}
 	
-	public static String getTimestamp( PApplet p ) {
+	public static String getDateStamp() {
+		// use P.nf to pad date components to 2 digits for more consistent ordering across systems
+		return  String.valueOf( P.year() ) + "-" + 
+				P.nf( P.month(), 2 ) + "-" + 
+				P.nf( P.day(), 2 );
+	}
+	
+	public static String getTimestamp() {
 		// use P.nf to pad date components to 2 digits for more consistent ordering across systems
 		return  String.valueOf( P.year() ) + "-" + 
 				P.nf( P.month(), 2 ) + "-" + 
@@ -53,8 +59,8 @@ public class SystemUtil {
 				P.nf( P.second(), 2 );
 	}
 
-	public static String getTimestampFine( PApplet p ) {
-		return SystemUtil.getTimestamp(p) + "-" + P.nf( p.frameCount, 8 ); 
+	public static String getTimestampFine() {
+		return SystemUtil.getTimestamp() + "-" + P.nf( P.p.frameCount, 8 ); 
 	}
 	
 	public static void setTimeout(ActionListener callback, int delay) {

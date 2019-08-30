@@ -45,7 +45,7 @@ extends PAppletHax {
 		PG.setCenterScreen(p);
 		p.background(0);
 		
-//		if( p.frameCount == 1 ) p.beginRecord( P.PDF,  FileUtil.getHaxademicOutputPath() + "modeset-"+ SystemUtil.getTimestamp(p) +".pdf" );
+//		if( p.frameCount == 1 ) p.beginRecord( P.PDF,  FileUtil.getHaxademicOutputPath() + "modeset-"+ SystemUtil.getTimestamp() +".pdf" );
 		
 //		p.rotateX(((float)p.mouseY - (float)p.height/2f) * -0.01f);
 //		p.rotateY(((float)p.mouseX - (float)p.width/2f) * 0.01f);

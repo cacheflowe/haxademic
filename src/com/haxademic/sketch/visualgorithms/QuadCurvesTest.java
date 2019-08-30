@@ -4,10 +4,8 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.color.ColorUtil;
-import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.context.OpenGLUtil;
-import com.haxademic.core.file.FileUtil;
-import com.haxademic.core.system.SystemUtil;
+import com.haxademic.core.draw.context.PG;
 
 import processing.core.PConstants;
 import processing.core.PVector;
@@ -194,10 +192,5 @@ extends PAppletHax {
 		if(p.key == ' ') {
 		} else if (p.key == 'm') {
 		}
-		if ( p.key == '\\' ) { 
-			p.save( FileUtil.getHaxademicOutputPath() + "_screenshots/" + SystemUtil.getTimestamp(p) + ".png");
-			// ScreenUtil.screenshotHiRes( p, 3, P.P3D, FileUtil.getHaxademicOutputPath() + "_screenshots/" );
-		}
-
 	}
 }

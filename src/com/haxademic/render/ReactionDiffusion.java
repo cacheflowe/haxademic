@@ -166,7 +166,7 @@ extends PAppletHax {
 		super.keyPressed();
 		if(p.key == 'z') P.out(p.ui.valuesToJSON());
 		if(p.key == ' ') clearScreen = true;
-		if(p.key == 's') pgPost.save(FileUtil.getHaxademicOutputPath() + "_screenshots/" + SystemUtil.getTimestampFine(p) + ".png");
+		if(p.key == 's') pgPost.save(FileUtil.getHaxademicOutputPath() + "_screenshots/" + SystemUtil.getTimestampFine() + ".png");
 //		if(p.key == '1') p.ui.loadJSON(JSONObject.parse(CONFIG_1));
 	}
 	

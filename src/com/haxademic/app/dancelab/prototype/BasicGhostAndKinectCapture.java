@@ -167,7 +167,7 @@ extends PAppletHax {
 		super.keyPressed();
 		// start capturing
 		if(p.key == ' ') {
-			curRenderDir = FileUtil.getHaxademicOutputPath() + "_dancelab/" + SystemUtil.getTimestamp(p) + "/";
+			curRenderDir = FileUtil.getHaxademicOutputPath() + "_dancelab/" + SystemUtil.getTimestamp() + "/";
 			FileUtil.createDir(curRenderDir);
 			renderFrameCount = 1;
 			startRecordTime = p.millis();

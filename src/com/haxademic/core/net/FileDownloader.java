@@ -24,6 +24,7 @@ public class FileDownloader {
 		// from: https://stackoverflow.com/a/32472138/352456
 		try(InputStream in = new URL(fileURL).openStream()){
 		    Files.copy(in, Paths.get(localPath));
+		    in.close();
 		    return true;
 		} catch (MalformedURLException e) {
 			e.printStackTrace();

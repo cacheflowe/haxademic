@@ -9,17 +9,20 @@ public class TextEventLog {
 	protected String logFile;
 	
 	public TextEventLog() {
-		String logPath = FileUtil.getHaxademicOutputPath(); 
-		FileUtil.createDir(logPath);
-		logFile = logPath + "_log.txt";
+		this(FileUtil.getHaxademicOutputPath() + "_log.txt"); 
+	}
+	
+	public TextEventLog(String filePath) {
+		logFile = filePath;
+		FileUtil.createDir(FileUtil.pathForFile(logFile));
 		if(FileUtil.fileExists(logFile) == false) {
-			FileUtil.writeTextToFile(logFile, "");
+			FileUtil.writeTextToFile(logFile, "");	// create text file if it doesn;t yet exist
 		}
 	}
 	
 	public void addEvent(String str) {
 		new Thread(new Runnable() { public void run() {
-			FileUtil.appendTextToFile(logFile, "[" + SystemUtil.getTimestamp(P.p) + "] :: " + str + FileUtil.NEWLINE);
+			FileUtil.appendTextToFile(logFile, "[" + SystemUtil.getTimestamp() + "] :: " + str + FileUtil.NEWLINE);
 		}}).start();
 	}
 	

@@ -84,7 +84,7 @@ extends PAppletHax {
 
 	public void drawApp() {
 		p.background(0);
-		if( _shouldPrint ) p.beginRecord( P.PDF,  FileUtil.getHaxademicOutputPath() + "linewave-"+ SystemUtil.getTimestamp(p) +".pdf" );
+		if( _shouldPrint ) p.beginRecord( P.PDF,  FileUtil.getHaxademicOutputPath() + "linewave-"+ SystemUtil.getTimestamp() +".pdf" );
 		drawGraphics();
 //		_pgMotionBlur.updateToCanvas(_pg, p.g, 1f);
 		if( _shouldPrint == true ) {

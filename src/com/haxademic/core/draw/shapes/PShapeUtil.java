@@ -1048,7 +1048,7 @@ public class PShapeUtil {
 		String outputStr = "o Sphere\n";
 		outputStr += verts;
 		outputStr += faces;
-		FileUtil.writeTextToFile(FileUtil.getHaxademicOutputPath() + "text/model-"+SystemUtil.getTimestamp(P.p)+".obj", outputStr);
+		FileUtil.writeTextToFile(FileUtil.getHaxademicOutputPath() + "text/model-"+SystemUtil.getTimestamp()+".obj", outputStr);
 	}
 
 }

@@ -17,7 +17,7 @@ import processing.core.PImage;
 public class ScreenUtil {
 
 	public static String saveScreenshot( PApplet p, String outputDir ) {
-		String filename = outputDir + SystemUtil.getTimestampFine( p ) + ".png";
+		String filename = outputDir + SystemUtil.getTimestampFine() + ".png";
 		p.saveFrame( filename );
 		return filename;
 	}

@@ -65,7 +65,7 @@ public class WavRecorder {
 		// use filename or generate a timestamp
 		newWavFilePath = (newFilePath != null) ? 
 				newFilePath : 
-				FileUtil.getHaxademicOutputPath() + "audio" + File.separator + SystemUtil.getTimestamp(P.p) + ".wav";
+				FileUtil.getHaxademicOutputPath() + "audio" + File.separator + SystemUtil.getTimestamp() + ".wav";
 		
 		// start the recording
 		recorder = minim.createRecorder(audioLineIn, newWavFilePath);

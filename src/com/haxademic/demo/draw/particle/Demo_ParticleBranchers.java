@@ -178,7 +178,7 @@ extends PAppletHax {
 				p.videoRenderer.stop();
 				AppRestart.restart(p);
 			} else {
-				if(renderImages) saveFrame(FileUtil.getHaxademicOutputPath() + "branchers" + FileUtil.SEPARATOR + SystemUtil.getTimestampFine(p) + ".png");
+				if(renderImages) saveFrame(FileUtil.getHaxademicOutputPath() + "branchers" + FileUtil.SEPARATOR + SystemUtil.getTimestampFine() + ".png");
 				reset();
 				endFrame = -1;
 			}
