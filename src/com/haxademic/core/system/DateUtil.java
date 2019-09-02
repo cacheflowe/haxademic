@@ -8,7 +8,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.haxademic.core.app.P;
-import com.haxademic.core.text.StringFormatter;
+import com.haxademic.core.text.StringUtil;
 
 public class DateUtil {
 
@@ -45,10 +45,10 @@ public class DateUtil {
 	
 	public static String currentTime(boolean showSeconds, boolean showMilliseconds, boolean showAmPm) {
 		int hours = P.hour() % 12;
-		return 	StringFormatter.paddedNumberString(2, hours) + ":" + 
-				StringFormatter.paddedNumberString(2, P.minute()) +  
-				((showSeconds) ? ":" + StringFormatter.paddedNumberString(2, P.second()) : NOSTRING) +  
-				((showMilliseconds) ? ":" + StringFormatter.paddedNumberString(2, P.round((P.p.millis() % 1000) / 10)) : NOSTRING) + 
+		return 	StringUtil.paddedNumberString(2, hours) + ":" + 
+				StringUtil.paddedNumberString(2, P.minute()) +  
+				((showSeconds) ? ":" + StringUtil.paddedNumberString(2, P.second()) : NOSTRING) +  
+				((showMilliseconds) ? ":" + StringUtil.paddedNumberString(2, P.round((P.p.millis() % 1000) / 10)) : NOSTRING) + 
 				((showAmPm) ? ((hours >= 12) ? "pm" : "am") : NOSTRING);
 	}
 	
@@ -62,7 +62,7 @@ public class DateUtil {
 		if(hour == 0) hour = 12;
 		String hourPadded = (hour < 10 && padHours) ? "0"+hour : ""+hour;
 		int minutesInt = P.floor((hours % 1) * 60f);
-		String minutes = ":" + StringFormatter.paddedNumberString(2, minutesInt);
+		String minutes = ":" + StringUtil.paddedNumberString(2, minutesInt);
 		String amPm = (hours >= 12) ? "pm" : "am";
 		if(shortTime) {
 			amPm = "";

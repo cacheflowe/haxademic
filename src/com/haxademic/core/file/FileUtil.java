@@ -24,7 +24,7 @@ import java.util.List;
 import com.haxademic.core.app.P;
 import com.haxademic.core.debug.DebugUtil;
 import com.haxademic.core.math.MathUtil;
-import com.haxademic.core.text.StringFormatter;
+import com.haxademic.core.text.StringUtil;
 
 import processing.core.PImage;
 
@@ -290,7 +290,7 @@ public class FileUtil {
 				wordsPerLine = lines[i].split(" ");
 				for( int j=0; j < wordsPerLine.length; j++ ) {
 					if( wordsPerLine[j] != " " && wordsPerLine[j].length() >= 1 ) {
-						words.add(StringFormatter.toAlphaNumericCharsNoDecimal(wordsPerLine[j]));
+						words.add(StringUtil.toAlphaNumericCharsNoDecimal(wordsPerLine[j]));
 					}
 				}
 			}

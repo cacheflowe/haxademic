@@ -1,9 +1,12 @@
 package com.haxademic.core.text;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
-public class StringFormatter {
+public class StringUtil {
 
 	public static String formattedDecimal(String number) {
 		double amount = Double.parseDouble(number);
@@ -11,7 +14,7 @@ public class StringFormatter {
 		return formatter.format(amount);
 	}
 
-	public String roundToPrecision( float value, int numDecimalPlaces ) {
+	public String roundToPrecision(float value, int numDecimalPlaces) {
 		String decimalPlaces = "";
 		for (int i = 0; i < numDecimalPlaces; i++) decimalPlaces += "#";
 		DecimalFormat df = new DecimalFormat("#."+decimalPlaces);
@@ -53,5 +56,13 @@ public class StringFormatter {
 		}
 		return result;
 	}
+	
+    public static String urlEncode(String value) {
+        try {
+            return URLEncoder.encode(value, StandardCharsets.UTF_8.toString());
+        } catch (UnsupportedEncodingException ex) {
+            throw new RuntimeException(ex.getCause());
+        }
+    }
 
 }

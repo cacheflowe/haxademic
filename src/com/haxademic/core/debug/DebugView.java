@@ -10,7 +10,7 @@ import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.media.DemoAssets;
 import com.haxademic.core.net.IPAddress;
 import com.haxademic.core.system.DateUtil;
-import com.haxademic.core.text.StringFormatter;
+import com.haxademic.core.text.StringUtil;
 
 import processing.core.PApplet;
 import processing.core.PFont;
@@ -121,9 +121,9 @@ public class DebugView {
 		debugLines.put("height", ""+P.p.height);
 		debugLines.put(TITLE_PREFIX + " PERFORMANCE", "");
 		debugLines.put("FPS", ""+P.round(p.frameRate));
-		debugLines.put("Memory Allocated", StringFormatter.formattedInteger(DebugUtil.memoryAllocated()));
-		debugLines.put("Memory Free", StringFormatter.formattedInteger(DebugUtil.memoryFree()));
-		debugLines.put("Memory Max", StringFormatter.formattedInteger(DebugUtil.memoryMax()));
+		debugLines.put("Memory Allocated", StringUtil.formattedInteger(DebugUtil.memoryAllocated()));
+		debugLines.put("Memory Free", StringUtil.formattedInteger(DebugUtil.memoryFree()));
+		debugLines.put("Memory Max", StringUtil.formattedInteger(DebugUtil.memoryMax()));
 		debugLines.put(TITLE_PREFIX + " NET", "");
 		debugLines.put("IP Address", ipAddress);
 		debugLines.put(TITLE_PREFIX + " CUSTOM", "");

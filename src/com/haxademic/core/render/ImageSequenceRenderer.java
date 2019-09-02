@@ -5,7 +5,7 @@ import java.io.File;
 import com.haxademic.core.app.P;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.system.SystemUtil;
-import com.haxademic.core.text.StringFormatter;
+import com.haxademic.core.text.StringUtil;
 
 import processing.core.PGraphics;
 
@@ -33,7 +33,7 @@ public class ImageSequenceRenderer {
 		if(framesRendered == -1) return;
 		framesRendered++;
 		P.println("== rendering image frame: "+framesRendered+" ==");
-		pg.save(savePath + File.separator + StringFormatter.paddedNumberString(10, framesRendered) + ".png");
+		pg.save(savePath + File.separator + StringUtil.paddedNumberString(10, framesRendered) + ".png");
 	}
 
 	public void finish() {

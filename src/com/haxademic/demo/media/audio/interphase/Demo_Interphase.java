@@ -25,7 +25,8 @@ extends PAppletHax {
 	public void setupFirstFrame() {
 //		interphase = new Interphase(SequencerConfig.interphaseChannels);
 //		SequencerConfig.BASE_AUDIO_PATH = FileUtil.getHaxademicDataPath();
-		interphase = new Interphase(SequencerConfig.interphaseChannelsMinimal());
+		interphase = new Interphase(SequencerConfig.interphaseChannels());
+//		interphase = new Interphase(SequencerConfig.interphaseChannelsMinimal());
 	}
 	
 	public void keyPressed() {

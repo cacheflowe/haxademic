@@ -64,6 +64,8 @@ implements ILaunchpadCallback {
 	protected InputTrigger trigger7 = new InputTrigger(new char[]{'7'}, null, new Integer[]{110, 47}, null, null);
 	protected InputTrigger trigger8 = new InputTrigger(new char[]{'8'}, null, new Integer[]{111, 48}, null, null);
 
+	protected InputTrigger triggerDown = new InputTrigger(new char[]{'-'}, null, null, null, null);
+	protected InputTrigger triggerUp = new InputTrigger(new char[]{'='}, null, null, null, null);
 	protected InputTrigger trigger9 = new InputTrigger().addKeyCodes(new char[]{'9'});
 
 	protected LaunchPad launchpad1;
@@ -239,6 +241,10 @@ implements ILaunchpadCallback {
 		if(trigger7.triggered()) sequencers[6].evolvePattern(true);
 		if(trigger8.triggered()) sequencers[7].evolvePattern(true);
 		
+		int curBmpMIDI = P.store.getInt(Interphase.BPM_MIDI);
+		if(triggerDown.triggered()) P.store.setNumber(Interphase.BPM_MIDI, curBmpMIDI - 1);
+		if(triggerUp.triggered())  P.store.setNumber(Interphase.BPM_MIDI, curBmpMIDI + 1); 
+
 		if(trigger9.triggered()) P.store.setBoolean(PATTERNS_AUTO_MORPH, !P.store.getBoolean(PATTERNS_AUTO_MORPH));
 	}
 	
