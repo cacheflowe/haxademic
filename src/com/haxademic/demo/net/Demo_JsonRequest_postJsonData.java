@@ -14,6 +14,7 @@ import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.image.Base64Image;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.net.IJsonRequestCallback;
+import com.haxademic.core.net.JsonHttpRequest;
 import com.haxademic.core.net.JsonRequest;
 import com.haxademic.core.system.DateUtil;
 
@@ -112,5 +113,10 @@ implements IJsonRequestCallback {
 	@Override
 	public void postFailure(String responseText, int responseCode, String requestId, int responseTime, String errorMessage) {
 		P.out("postFailure", errorMessage, responseText, responseCode, requestId, DateUtil.timeFromMilliseconds(responseTime, false));
+	}
+
+	@Override
+	public void aboutToRequest(JsonHttpRequest request) {
+		
 	}
 }

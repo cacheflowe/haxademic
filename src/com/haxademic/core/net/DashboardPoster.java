@@ -185,4 +185,9 @@ implements IJsonRequestCallback {
 		if(debug) P.out("postFailure", errorMessage, responseText, responseCode, requestId, DateUtil.timeFromMilliseconds(responseTime, false));
 	}
 
+	@Override
+	public void aboutToRequest(JsonHttpRequest request) {
+		
+	}
+
 }

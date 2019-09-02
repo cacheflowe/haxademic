@@ -15,8 +15,8 @@ extends PAppletHax {
 	protected Timer timer;
 	
 	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, "520" );
-		p.appConfig.setProperty( AppSettings.HEIGHT, "120" );
+		p.appConfig.setProperty( AppSettings.WIDTH, 520 );
+		p.appConfig.setProperty( AppSettings.HEIGHT, 120 );
 	}
 	
 	public void keyPressed() {
@@ -26,6 +26,7 @@ extends PAppletHax {
 	}
 	
 	protected void startTimer() {
+		killTimer();
 		bg.setTargetInt(0x00ff00);
 		timer = new Timer();
 		timer.schedule(new TimerTask() { public void run() {
