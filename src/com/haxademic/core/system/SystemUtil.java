@@ -1,11 +1,6 @@
 package com.haxademic.core.system;
 
-import java.awt.AWTException;
 import java.awt.Desktop;
-import java.awt.GraphicsDevice;
-import java.awt.GraphicsEnvironment;
-import java.awt.Rectangle;
-import java.awt.Robot;
 import java.awt.Toolkit;
 import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.DataFlavor;
@@ -13,7 +8,6 @@ import java.awt.datatransfer.StringSelection;
 import java.awt.datatransfer.Transferable;
 import java.awt.datatransfer.UnsupportedFlavorException;
 import java.awt.event.ActionListener;
-import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -23,8 +17,6 @@ import java.net.URISyntaxException;
 import javax.swing.Timer;
 
 import com.haxademic.core.app.P;
-
-import processing.core.PImage;
 
 public class SystemUtil {
 	
@@ -168,21 +160,4 @@ public class SystemUtil {
 		}
 	}
 	
-	public static PImage getScreenshot(int x, int y, int width, int height) {
-		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
-		GraphicsDevice[] gs = ge.getScreenDevices();
-		//DisplayMode mode = gs[0].getDisplayMode();
-		Rectangle bounds = new Rectangle(x, y, width, height);
-		BufferedImage desktop = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
-
-		try {
-			desktop = new Robot(gs[0]).createScreenCapture(bounds);
-		}
-		catch(AWTException e) {
-			System.err.println("Screen capture failed.");
-		}
-
-		return new PImage(desktop);
-	}
-
 }

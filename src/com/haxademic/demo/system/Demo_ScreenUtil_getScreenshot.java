@@ -2,9 +2,10 @@ package com.haxademic.demo.system;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.system.SystemUtil;
+import com.haxademic.core.draw.image.ImageUtil;
+import com.haxademic.core.system.ScreenUtil;
 
-public class Demo_SystemUtil_getScreenshot
+public class Demo_ScreenUtil_getScreenshot
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
@@ -24,7 +25,11 @@ extends PAppletHax {
 
 	public void drawApp() {
 		background(0);
-		p.image( SystemUtil.getScreenshot(p.ui.valueInt(_x), p.ui.valueInt(_y), p.width, p.height), 0, 0);
+		// p.image( ScreenUtil.getScreenshotMainMonitor(p.ui.valueInt(_x), p.ui.valueInt(_y), p.width, p.height), 0, 0);
+//		p.image( ScreenUtil.getScreenShotAsPImage(p.ui.valueInt(_x), p.ui.valueInt(_y), p.width, p.height), 0, 0);
+		p.image( ScreenUtil.getScreenShotAllMonitors(0, 0, 0.5f), 0, 0 );
+//		p.image( ImageUtil.bufferedToPImage(ScreenUtil.robotPeerScreenshot(100, 100, 500, 500)), 0, 0);
+		
 	}
 
 }

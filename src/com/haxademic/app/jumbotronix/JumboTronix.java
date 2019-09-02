@@ -8,7 +8,6 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.filters.pgraphics.archive.BlobOuterMeshFilter;
 import com.haxademic.core.draw.image.ImageUtil;
-import com.haxademic.core.draw.image.ScreenUtil;
 import com.haxademic.core.draw.textures.pgraphics.TextureEQColumns;
 import com.haxademic.core.draw.textures.pgraphics.TextureEQConcentricCircles;
 import com.haxademic.core.draw.textures.pgraphics.TextureEQGrid;
@@ -21,6 +20,7 @@ import com.haxademic.core.draw.textures.pgraphics.TextureVideoPlayer;
 import com.haxademic.core.draw.textures.pgraphics.TextureWaveformSimple;
 import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
 import com.haxademic.core.file.FileUtil;
+import com.haxademic.core.system.ScreenUtil;
 
 import processing.core.PGraphics;
 import processing.opengl.PShader;

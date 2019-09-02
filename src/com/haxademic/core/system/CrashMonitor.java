@@ -2,6 +2,7 @@ package com.haxademic.core.system;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.data.constants.PRenderers;
 
 import processing.core.PApplet;
 
@@ -56,11 +57,11 @@ public class CrashMonitor {
 			this.timeout = timeout;
 			this.showing = showing;
 			runSketch(new String[] {"AppMonitorWindow"}, this);
+			
 		}
 
 		public void settings() {
-			size(200, 128);
-			noSmooth();
+			size(256, 128, PRenderers.P2D);
 		}
 
 		public void setup() {
@@ -69,6 +70,7 @@ public class CrashMonitor {
 			super.surface.setLocation(windowX, 0);
 			super.surface.setTitle("App Monitor");
 			// super.surface.setVisible(showing);
+			frameRate(20);
 		}
 		
 		public void setUpdateTime(int updateTime) {

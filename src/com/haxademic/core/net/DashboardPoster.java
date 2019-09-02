@@ -10,8 +10,8 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.image.Base64Image;
 import com.haxademic.core.draw.image.ImageUtil;
-import com.haxademic.core.draw.image.ScreenUtil;
 import com.haxademic.core.system.DateUtil;
+import com.haxademic.core.system.ScreenUtil;
 
 import processing.core.PGraphics;
 import processing.core.PImage;
