@@ -6,6 +6,7 @@ import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.data.constants.PBlendModes;
 import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.draw.context.PG;
+import com.haxademic.core.draw.filters.pshader.ContrastFilter;
 import com.haxademic.core.draw.filters.pshader.EdgeColorDarkenFilter;
 import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.draw.textures.PerlinTexture;
@@ -125,42 +126,45 @@ extends PAppletHax {
 
 		// update direction texture
 		directionGenerator.set("time", p.frameCount * 0.01f);
-		directionGenerator.set("zoom", 3f + 1f * P.sin(p.frameCount * 0.01f));
+		directionGenerator.set("zoom", 3f + 2f * P.sin(p.frameCount * 0.01f));
 		directionGenerator.set("offset", p.frameCount * 0.003f, p.frameCount * 0.003f);
 		bufferDirection.filter(directionGenerator);				// noise to change directions
+		ContrastFilter.instance(p).setContrast(1.5f);
+		ContrastFilter.instance(p).applyTo(bufferDirection);
 //		EdgeColorDarkenFilter.instance(p).applyTo(bufferDirection);
 
 		// update amp texture
 		ampGenerator.set("zoom", 1f);
 		ampGenerator.set("time", (p.frameCount + 1000) * minAmp);
+		ampGenerator.set("offset", p.frameCount * -0.003f, p.frameCount * 0.003f);
 		bufferAmp.filter(ampGenerator);				// noise to change directions
 		
 		// update particle positions
 		positionMover.set("directionMap", bufferDirection);
 		positionMover.set("ampMap", bufferAmp);
-		positionMover.set("amp", 0.01f * p.mousePercentX()); // P.map(p.mouseX, 0, p.width, 0.001f, 0.05f));
+		positionMover.set("amp", 0.003f);// * (0.5f + 0.3f * P.sin(p.frameCount/20f))); // P.map(p.mouseX, 0, p.width, 0.001f, 0.05f));
 		bufferPositions.filter(positionMover);
 		
 		// update render shader
-		float renderW = bufferRenderedParticles.width * 3.5f;
+		float renderW = bufferRenderedParticles.width * 5f;
 		float renderH = bufferRenderedParticles.height * 5f;
 		pointsParticleVertices.set("positionMap", bufferPositions);
 		pointsParticleVertices.set("colorMap", colorBuffer);
 		pointsParticleVertices.set("pointSize", 2f); // 2.5f + 1.5f * P.sin(P.TWO_PI * percentComplete));
 		pointsParticleVertices.set("width", (float) renderW);
 		pointsParticleVertices.set("height", (float) renderH);
+		pointsParticleVertices.set("depth", (float) renderW/3f);
 
 		// render particles
 		bufferRenderedParticles.beginDraw();
 		bufferRenderedParticles.background(0);
-//		bufferRenderedParticles.translate(p.width/2, p.height/2, -p.width);
+		bufferRenderedParticles.translate(0, 0, -p.width);
 		PG.setDrawCorner(bufferRenderedParticles);
 		PG.basicCameraFromMouse(bufferRenderedParticles);
-//		bufferRenderedParticles.translate(-renderW/2, -renderH/2);
 		// draw vertex points. strokeWeight w/disableStyle works here for point size
 //		shape.disableStyle();
-		bufferRenderedParticles.strokeWeight(1f);
-		bufferRenderedParticles.blendMode(PBlendModes.ADD);
+		bufferRenderedParticles.strokeWeight(2f);
+		bufferRenderedParticles.blendMode(PBlendModes.BLEND);
 		bufferRenderedParticles.shader(pointsParticleVertices);  	// update positions
 		bufferRenderedParticles.shape(shape);					// draw vertices
 		bufferRenderedParticles.resetShader();

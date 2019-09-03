@@ -39,7 +39,7 @@ void main() {
 	float ampFromMap = texture2D(ampMap, p).r;
   vec4 targetDir = texture2D(directionMap, pos); // texture2D(directionMap, p)			// now getting direction from current position in direction map
   float rotEased = mix(rot, targetDir.r, 0.2);
-	float rotation = rotEased * TWO_PI;
+	float rotation = rotEased * TWO_PI * 2.;
 
   // move
   pos.x = pos.x + ampFromMap * amp * cos(rotation);

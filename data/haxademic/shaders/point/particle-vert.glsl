@@ -43,6 +43,7 @@ uniform sampler2D positionMap;
 uniform float pointSize = 1.;
 uniform float width = 256.;
 uniform float height = 256.;
+uniform float depth = 256.;
 uniform sampler2D colorMap;
 
 attribute vec2 texCoord;
@@ -70,7 +71,7 @@ void main() {
   float totalVerts = width * height;
   float x = textureColor.r * width - width/2.;
   float y = textureColor.g * height - height/2.;
-  float z = textureColor.b * width;
+  float z = textureColor.b * depth - depth/2.;
   float vertexIndex = x + y * width;
   vertexIndex = gl_VertexID;
 
@@ -79,11 +80,11 @@ void main() {
   // wavy & contained
   mixedVert.x = x + cos(textureColor.g * TWO_PI) * width;
   mixedVert.y = y + sin(textureColor.b * TWO_PI) * height;
-  mixedVert.z = z + sin(textureColor.r * TWO_PI) * height;
+  mixedVert.z = z + sin(textureColor.r * TWO_PI) * depth;
   // freeflowing
   mixedVert.x = x;
   mixedVert.y = y;
-  mixedVert.z = -z;
+  mixedVert.z = z;
 
   // adjust to reduce pixelation
   // mixedVert += vec4(color.r * 10., color.g * 10., 0., 0.);
