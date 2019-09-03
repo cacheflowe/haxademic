@@ -14,10 +14,11 @@ varying vec4 vertTexCoord;
 uniform vec2 texOffset;
 uniform float time;
 
+uniform float sdfThreshold = 0.0001;
+uniform float twistAmp = 0.;
 #define ITERATIONS 67
-#define SDF_THRESHOLD 0.0001
 #define CUBE_SIZE 0.6
-#define BG_COLOR vec3(1,1,1)
+#define BG_COLOR vec3(0.,0.,0.)
 #define PI 3.141592653589793238462643383
 
 
@@ -59,14 +60,14 @@ float udBoxTwisted( vec3 p, vec3 b, float twist )
 }
 
 void main( void ) {
-    // basic raymarching template from @nicoptere: https://www.shadertoy.com/view/ldtGD4
-    // 1 : get fragment's coordinates
-    vec2 uv = vertTexCoord.xy;
-    uv -= 0.5;									// Move to center
-    uv.x *= texOffset.y / texOffset.x;		// Correct for aspect ratio
+  // basic raymarching template from @nicoptere: https://www.shadertoy.com/view/ldtGD4
+  // 1 : get fragment's coordinates
+  vec2 uv = vertTexCoord.xy;
+  uv -= 0.5;									// Move to center
+  uv.x *= texOffset.y / texOffset.x;		// Correct for aspect ratio
 
-    // 2 : camera position and ray direction
-    float cubeZ = -3.;
+  // 2 : camera position and ray direction
+  float cubeZ = -3.;
 	vec3 pos = vec3( 0, 0, cubeZ);
 	vec3 dir = normalize( vec3( uv.x, uv.y, 1.) );
 
@@ -76,20 +77,20 @@ void main( void ) {
 	// variable step size
 	float t = 0.0;
 	int found = 0;
-    int last_i = 0;
-    float timeSlow = time/1.;
+  int last_i = 0;
+  float timeSlow = time/1.;
 
 	for(int i=0; i < ITERATIONS; i++) {
 		last_i = i;
 
-        //update position along path
-        ip = pos + dir * t;
+    //update position along path
+    ip = pos + dir * t;
 
-        // gets the shortest distance to the sdf shape. break the loop if the distance was too small. this means that we are close enough to the surface
-    	vec3 ipRotated = ip * rotationMatrix(vec3(0.,-3.,0.7), 3.3 * sin(timeSlow));
-        // float temp = udBox( ipRotated, vec3(CUBE_SIZE) );
-        float temp = udBoxTwisted( ipRotated, vec3(CUBE_SIZE), -sin(PI*0.5 + timeSlow) * 1.2 );
-		if( temp < SDF_THRESHOLD ) {
+    // gets the shortest distance to the sdf shape. break the loop if the distance was too small. this means that we are close enough to the surface
+    vec3 ipRotated = ip * rotationMatrix(vec3(0.,-3.,0.7), 3.3 * sin(timeSlow));
+    // float temp = udBox( ipRotated, vec3(CUBE_SIZE) );
+    float temp = udBoxTwisted( ipRotated, vec3(CUBE_SIZE), twistAmp );
+		if( temp < sdfThreshold ) {
 			ip = vec3(
                 0.3 + 0.3 * sin(1. + timeSlow + ip.x),
                 0.8 + 0.2 * sin(2. + timeSlow + ip.y),
