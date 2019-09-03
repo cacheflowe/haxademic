@@ -21,7 +21,7 @@
 	<classpathentry kind="lib" path="lib/jetty/jetty-all-9.4.15.v20190215-uber.jar"/>
 	<classpathentry kind="lib" path="lib/minim/library/jsminim.jar"/>
 	<classpathentry kind="lib" path="lib/minim/library/minim.jar"/>
-	<classpathentry kind="lib" path="lib/processing-3/core/library/core.jar"/>
+	<classpathentry kind="lib" path="lib/processing-3/core/library/core.jar" sourcepath="/processing-core"/>
 	<classpathentry kind="lib" path="lib/processing-3/core/library/gluegen-rt.jar"/>
 	<classpathentry kind="lib" path="lib/processing-3/core/library/jogl-all.jar"/>
 	<classpathentry kind="lib" path="lib/processing-3/libraries/pdf/library/itext.jar"/>

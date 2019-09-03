@@ -58,7 +58,7 @@
 	<classpathentry kind="lib" path="lib/PixelFlow/library/PixelFlow.jar"/>
 	<classpathentry kind="lib" path="lib/poly2tri/poly2tri-core-0.1.2.jar"/>
 	<classpathentry kind="lib" path="lib/poly2tri/slf4j-api-1.6.3.jar"/>
-	<classpathentry kind="lib" path="lib/processing-3/core/library/core.jar"/>
+	<classpathentry kind="lib" path="lib/processing-3/core/library/core.jar" sourcepath="/processing-core"/>
 	<classpathentry kind="lib" path="lib/processing-3/core/library/gluegen-rt.jar"/>
 	<classpathentry kind="lib" path="lib/processing-3/core/library/jogl-all.jar"/>
 	<classpathentry kind="lib" path="lib/processing-3/libraries/pdf/library/itext.jar"/>

@@ -1,6 +1,5 @@
 package com.haxademic.core.media.audio.interphase;
 
-import com.haxademic.app.exampleapp.ExampleApp.App;
 import com.haxademic.core.app.P;
 import com.haxademic.core.data.store.IAppStoreListener;
 import com.haxademic.core.math.MathUtil;
@@ -22,7 +21,8 @@ implements IAppStoreListener {
 		new int[] {0,3,5,7,10},
 		// new int[] {0,5,10,15,19,24},
 	};
-	public static int[] CUR_SCALE = SCALES[0];
+	public static int scaleIndex = 0;
+	public static int[] CUR_SCALE = SCALES[scaleIndex];
 	
 	public static String[] SCALE_NAMES = new String[] {
 		"Dorian",
@@ -38,14 +38,17 @@ implements IAppStoreListener {
 		P.store.addListener(this);
 	}
 	
+	public void setScaleIndex(int index) {
+		scaleIndex = index;
+		P.store.setNumber(Interphase.CUR_SCALE_INDEX, scaleIndex);
+		CUR_SCALE = SCALES[scaleIndex % SCALES.length];
+	}
+	
 	public void newBeat(int beat) {
-		// change scale (and color scheme) sometimes
-		if(beat % BEATS_PER_SCALE_CHANGE == 0) {
-			int newScaleIndex = MathUtil.randRange(0, SCALES.length - 1);
-			P.store.setNumber(Interphase.CUR_SCALE_INDEX, newScaleIndex);
-			CUR_SCALE = SCALES[newScaleIndex];
+		// change scale sometimes
+		if(beat % BEATS_PER_SCALE_CHANGE == 0 && P.store.getBoolean(Interphase.PATTERNS_AUTO_MORPH)) {
+			setScaleIndex(MathUtil.randRange(0, SCALES.length - 1));
 		}
-
 	}
 	
 	/////////////////////////////////

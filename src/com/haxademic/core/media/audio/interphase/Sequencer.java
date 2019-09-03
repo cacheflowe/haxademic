@@ -81,7 +81,6 @@ implements IAppStoreListener {
 	protected EasingColor stepActiveColors[];
 	protected LinearFloat stepCirclesProgress[];
 	protected LinearFloat stepFlashProgress[];
-	protected LinearFloat gradientWipeEase = new LinearFloat(0, 0.03f);
 
 	// audio sample playback objects
 	protected Sample curSample;
@@ -116,7 +115,7 @@ implements IAppStoreListener {
 				+ "curStep: " + curStep + FileUtil.NEWLINE
 				+ "file: " + filenames[curSampleIndex] + FileUtil.NEWLINE
 				+ "evolves: " + evolves + FileUtil.NEWLINE
-				+ "sequences: " + sequencesComplete + FileUtil.NEWLINE
+				+ "sequencesComplete: " + sequencesComplete + FileUtil.NEWLINE
 				+ "triggerCount: " + (sampleTriggerCount % 4) + FileUtil.NEWLINE
 				+ "changeSound: " + (sequencesComplete - lastSequenceCountChangedSound) + "/" + sequenceCountChangeSound + FileUtil.NEWLINE
 				+ "velocity: " + P.round(100f * velocity) + FileUtil.NEWLINE
@@ -126,7 +125,6 @@ implements IAppStoreListener {
 				+ "playsNotes: " + config.playsNotes + FileUtil.NEWLINE
 				+ "notesByStep: " + notesByStep + FileUtil.NEWLINE
 				+ "chordMode: " + chordMode + FileUtil.NEWLINE
-				+ "gradientWipe: " + P.round(100f * gradientWipeEase.value()) + FileUtil.NEWLINE
 				;
 	}
 	
