@@ -101,13 +101,7 @@ extends PAppletHax {
 					if(sendToAMQP == false) {
 						copyImg.save(curRenderDir + String.format("%05d", framesRendered) + "." + outputFormat);
 					} else {
-						try {
-							P.println(Base64Image.encodePImageToBase64(copyImg, outputFormat));
-						} catch (UnsupportedEncodingException e) {
-							e.printStackTrace();
-						} catch (IOException e) {
-							e.printStackTrace();
-						}
+						P.println(Base64Image.encodePImageToBase64(copyImg, outputFormat));
 					}
 					totalRenderingTime += p.millis() - frameRenderStartTime; 
 					P.println("Saving frame: "+framesRendered);

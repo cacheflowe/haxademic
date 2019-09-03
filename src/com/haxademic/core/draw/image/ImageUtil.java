@@ -2,6 +2,7 @@ package com.haxademic.core.draw.image;
 
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
+import java.awt.image.DataBufferInt;
 import java.nio.ByteBuffer;
 import java.util.HashMap;
 
@@ -10,6 +11,7 @@ import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.draw.color.ColorUtil;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.math.MathUtil;
+import com.haxademic.core.system.ScreenUtil;
 
 import processing.core.PApplet;
 import processing.core.PConstants;
@@ -135,6 +137,19 @@ public class ImageUtil {
 			e.printStackTrace();
 		}
 		return null;
+	}
+
+	public static void copyBufferedToPImagePixels(BufferedImage buffImg, PImage pimg) {
+		// get pixels from BufferedImage
+//		int pixels[] = ((DataBufferInt) buffImg.getRaster().getDataBuffer()).getData();
+		// Copy array to PImage and update
+		buffImg.getRGB(0, 0, pimg.width, pimg.height, pimg.pixels, 0, pimg.width);
+		pimg.updatePixels();
+	}
+	
+	public static PImage newPImageForBase64Jpeg(int w, int h) {
+		// if we're going to encode a PImage to base64, it has to be RGB
+		return new PImage(w, h, PConstants.RGB);
 	}
 
 	public static BufferedImage pImageToBuffered( PImage pimg ) {

@@ -140,7 +140,7 @@ implements IJsonRequestCallback {
 	
 	protected void takeThreadedScreenshot() {
 		new Thread(new Runnable() { public void run() {
-			screenshot = ScreenUtil.getScreenShotNativeAllMonitors(0, 0);
+			screenshot = ScreenUtil.getScreenShotNativeAllMonitors(0, 0, 1);
 		}}).start();	
 	}
 	

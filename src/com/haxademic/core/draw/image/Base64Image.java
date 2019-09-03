@@ -17,8 +17,15 @@ public class Base64Image {
 	// String writerNames[] = ImageIO.getWriterFormatNames();
 	// [JPG, jpg, bmp, BMP, gif, GIF, WBMP, png, PNG, wbmp, jpeg, JPEG]
 	
-	public static String encodePImageToBase64(PImage img, String format) throws UnsupportedEncodingException, IOException {
-		return encodeNativeImageToBase64((BufferedImage)img.getNative(), format);
+	public static String encodePImageToBase64(PImage img, String format) {
+		try {
+			return encodeNativeImageToBase64((BufferedImage)img.getNative(), format);
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return "";
 	}
 
 	public static String encodeNativeImageToBase64(BufferedImage img, String format) throws UnsupportedEncodingException, IOException {
