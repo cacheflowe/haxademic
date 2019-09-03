@@ -6,6 +6,7 @@ import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.data.constants.PBlendModes;
 import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.draw.context.PG;
+import com.haxademic.core.draw.filters.pshader.EdgeColorDarkenFilter;
 import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.draw.textures.PerlinTexture;
 import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
@@ -57,13 +58,13 @@ extends PAppletHax {
 		// - https://www.javatips.net/api/com.jogamp.opengl.gl2
 		// - http://forum.jogamp.org/GL-RGBA32F-with-glTexImage2D-td4035766.html
 		bufferPositions = PG.newDataPG((int) w, (int) h);
-		bufferDirection = p.createGraphics((int) w, (int) h, PRenderers.P3D);
-		bufferDirection.noSmooth();
-		bufferAmp = p.createGraphics((int) w, (int) h, PRenderers.P3D);
+		bufferDirection = PG.newDataPG((int) w, (int) h); // p.createGraphics((int) w, (int) h, PRenderers.P3D);
+//		bufferDirection.noSmooth();
+		bufferAmp = PG.newDataPG((int) w, (int) h); // p.createGraphics((int) w, (int) h, PRenderers.P3D);
 		bufferRenderedParticles = p.createGraphics(p.width, p.height, PRenderers.P3D);
-		bufferRenderedParticles.smooth(8);
+//		bufferRenderedParticles.smooth(8);
 		colorBuffer = p.createGraphics(p.width, p.height, PRenderers.P3D);
-		colorBuffer.smooth(8);
+//		colorBuffer.smooth(8);
 
 		p.debugView.setTexture("colorBuffer", colorBuffer);
 		p.debugView.setTexture("bufferDirection", bufferDirection);
@@ -114,42 +115,48 @@ extends PAppletHax {
 		p.background(0);
 		PG.setDrawCorner(p);
 		
+		// float adjust increment - must be 1f/255f is using Processing's default 8-bit textures
+		// but can be smalLer using modified core.jar with 32-bit support
+		float minAmp = 0.0001f;
+		
 		// update colors
-		colorMapShader.set("time", p.frameCount * 0.004f);
+		colorMapShader.set("time", p.frameCount * 0.01f);
 		colorBuffer.filter(colorMapShader);
 
 		// update direction texture
-		directionGenerator.set("time", p.frameCount * 0.004f);
+		directionGenerator.set("time", p.frameCount * 0.01f);
 		directionGenerator.set("zoom", 3f + 1f * P.sin(p.frameCount * 0.01f));
+		directionGenerator.set("offset", p.frameCount * 0.003f, p.frameCount * 0.003f);
 		bufferDirection.filter(directionGenerator);				// noise to change directions
+//		EdgeColorDarkenFilter.instance(p).applyTo(bufferDirection);
 
 		// update amp texture
-		ampGenerator.set("zoom", 2f);
-		ampGenerator.set("time", (p.frameCount + 1000) * 0.004f);
+		ampGenerator.set("zoom", 1f);
+		ampGenerator.set("time", (p.frameCount + 1000) * minAmp);
 		bufferAmp.filter(ampGenerator);				// noise to change directions
 		
 		// update particle positions
 		positionMover.set("directionMap", bufferDirection);
 		positionMover.set("ampMap", bufferAmp);
-		positionMover.set("amp", 0.004f); // P.map(p.mouseX, 0, p.width, 0.001f, 0.05f));
+		positionMover.set("amp", 0.01f * p.mousePercentX()); // P.map(p.mouseX, 0, p.width, 0.001f, 0.05f));
 		bufferPositions.filter(positionMover);
 		
 		// update render shader
-		float renderW = bufferRenderedParticles.width * 1f;
-		float renderH = bufferRenderedParticles.height * 1f;
+		float renderW = bufferRenderedParticles.width * 3.5f;
+		float renderH = bufferRenderedParticles.height * 5f;
 		pointsParticleVertices.set("positionMap", bufferPositions);
 		pointsParticleVertices.set("colorMap", colorBuffer);
-		pointsParticleVertices.set("pointSize", 6f); // 2.5f + 1.5f * P.sin(P.TWO_PI * percentComplete));
+		pointsParticleVertices.set("pointSize", 2f); // 2.5f + 1.5f * P.sin(P.TWO_PI * percentComplete));
 		pointsParticleVertices.set("width", (float) renderW);
 		pointsParticleVertices.set("height", (float) renderH);
 
 		// render particles
 		bufferRenderedParticles.beginDraw();
 		bufferRenderedParticles.background(0);
-		bufferRenderedParticles.translate(p.width/2, p.height/2);
+//		bufferRenderedParticles.translate(p.width/2, p.height/2, -p.width);
 		PG.setDrawCorner(bufferRenderedParticles);
 		PG.basicCameraFromMouse(bufferRenderedParticles);
-		bufferRenderedParticles.translate(-renderW/2, -renderH/2);
+//		bufferRenderedParticles.translate(-renderW/2, -renderH/2);
 		// draw vertex points. strokeWeight w/disableStyle works here for point size
 //		shape.disableStyle();
 		bufferRenderedParticles.strokeWeight(1f);

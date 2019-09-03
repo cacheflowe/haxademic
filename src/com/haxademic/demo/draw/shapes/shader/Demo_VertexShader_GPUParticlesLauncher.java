@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.data.constants.PBlendModes;
-import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.particle.ParticleLauncherGPU;
 

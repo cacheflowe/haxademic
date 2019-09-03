@@ -11,7 +11,7 @@ varying vec4 vertTexCoord;
 
 uniform sampler2D ampMap;
 uniform sampler2D directionMap;
-uniform float amp = 0.05;
+uniform float amp = 0.005;
 
 float TWO_PI = radians(360);
 
@@ -36,15 +36,14 @@ void main() {
   float rot = texelColor.b;
 
   // get map color -> rotation
-	float ampCol = texture2D(ampMap, p).r;
-  float ampFromMap = (0.25 + 0.75 * ampCol) * 0.025;
+	float ampFromMap = texture2D(ampMap, p).r;
   vec4 targetDir = texture2D(directionMap, pos); // texture2D(directionMap, p)			// now getting direction from current position in direction map
   float rotEased = mix(rot, targetDir.r, 0.2);
-	float rotation = rotEased * TWO_PI * 2.;
+	float rotation = rotEased * TWO_PI;
 
   // move
-  pos.x = pos.x + ampFromMap * cos(rotation);
-  pos.y = pos.y + ampFromMap * sin(rotation);
+  pos.x = pos.x + ampFromMap * amp * cos(rotation);
+  pos.y = pos.y + ampFromMap * amp * sin(rotation);
 	float z = 1.; // 0.5 + 0.5 * sin(ampCol * TWO_PI * 4.);
 
 	// wrap position and write back to texture

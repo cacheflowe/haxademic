@@ -68,22 +68,29 @@ void main() {
 
   // calc index of this vertex for positioning use
   float totalVerts = width * height;
-  float x = textureColor.r * width;
-  float y = textureColor.g * height;
+  float x = textureColor.r * width - width/2.;
+  float y = textureColor.g * height - height/2.;
+  float z = textureColor.b * width;
   float vertexIndex = x + y * width;
   vertexIndex = gl_VertexID;
 
   // custom vertex manipulation?
   vec4 mixedVert = vertex;
-  mixedVert.x = x + color.g; // use color components to shift slightly to obscure grid
-  mixedVert.y = y + color.b;
-  mixedVert.z = (color.r - 0.5) * width * 2.; // (color.r - 0.5) * width * 0.75;
+  // wavy & contained
+  mixedVert.x = x + cos(textureColor.g * TWO_PI) * width;
+  mixedVert.y = y + sin(textureColor.b * TWO_PI) * height;
+  mixedVert.z = z + sin(textureColor.r * TWO_PI) * height;
+  // freeflowing
+  mixedVert.x = x;
+  mixedVert.y = y;
+  mixedVert.z = -z;
 
   // adjust to reduce pixelation
-  mixedVert += vec4(color.r * 10., color.g * 10., 0., 0.);
+  // mixedVert += vec4(color.r * 10., color.g * 10., 0., 0.);
 
   // custom point size - use color to grow point
-  float finalPointSize = pointSize;
+  float distFromCenter = distance(mixedVert, vec4(0.));
+  float finalPointSize = pointSize; // * max(0., (1. - distFromCenter / (width/2.)));  // reduce size with distance from center, but don't go negative
 
   // use custom vertex instead of Processing default (`vertex` uniform)
   // Processing default shader positioning:
@@ -104,7 +111,7 @@ void main() {
   // use original vertex color
   // vertColor = color;
   // or instead, use texture-mapped color :)
-  float colorMult = 3.;
-  vertColor = vec4(color.rgb * colorMult, 0.5);
+  float colorMult = 1.;
+  vertColor = vec4(color.rgb * colorMult, 1.);
   // vertColor = vec4(1., 1., 1., 0.4);
 }
