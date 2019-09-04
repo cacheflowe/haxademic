@@ -3,6 +3,7 @@ package com.haxademic.core.draw.filters.pshader;
 import java.util.HashMap;
 
 import com.haxademic.core.app.P;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.shared.BaseFragmentShader;
 import com.haxademic.core.draw.image.ImageUtil;
 
@@ -54,7 +55,7 @@ extends BaseFragmentShader {
 	public void applyTo(PGraphics pg) {
 		// lazy-init buffer per passed-in buffer
 		if(buffers.containsKey(pg) == false) {
-			buffers.put(pg, P.p.createGraphics(pg.width, pg.height, P.P2D));
+			buffers.put(pg, PG.newPG(pg.width, pg.height));
 		}
 		PGraphics glowTexture = buffers.get(pg);
 //		P.p.debugView.setTexture(glowTexture);

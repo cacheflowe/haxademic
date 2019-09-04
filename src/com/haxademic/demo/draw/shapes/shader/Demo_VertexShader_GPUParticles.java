@@ -7,7 +7,6 @@ import com.haxademic.core.data.constants.PBlendModes;
 import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.ContrastFilter;
-import com.haxademic.core.draw.filters.pshader.EdgeColorDarkenFilter;
 import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.draw.textures.PerlinTexture;
 import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
@@ -41,8 +40,8 @@ extends PAppletHax {
 
 	protected void overridePropsFile() {
 		p.appConfig.setProperty(AppSettings.LOOP_FRAMES, FRAMES);
-		p.appConfig.setProperty(AppSettings.WIDTH, 768);
-		p.appConfig.setProperty(AppSettings.HEIGHT, 768);
+		p.appConfig.setProperty(AppSettings.WIDTH, 1280);
+		p.appConfig.setProperty(AppSettings.HEIGHT, 960);
 		p.appConfig.setProperty(AppSettings.FILLS_SCREEN, false);
 		p.appConfig.setProperty(AppSettings.RENDERING_MOVIE, false);
 		p.appConfig.setProperty(AppSettings.RENDERING_MOVIE_START_FRAME, 1 + FRAMES);
