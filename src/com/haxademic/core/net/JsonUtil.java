@@ -11,6 +11,10 @@ public class JsonUtil {
 		return jsonObj.toString().replaceAll("[\r\n]+", " ").replaceAll("\\s+", " ");
 	}
 	
+	public static String jsonToSingleLine(String jsonString) {
+		return jsonString.replaceAll("[\r\n]+", " ").replaceAll("\\s+", " ");
+	}
+	
 	public static boolean isValid(String jsonString) {
 		JSONObject jsonData = jsonFromString(jsonString);
 		return (jsonData != null);
