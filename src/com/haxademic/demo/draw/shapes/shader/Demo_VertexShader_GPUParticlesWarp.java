@@ -4,7 +4,6 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.context.PG;
-import com.haxademic.core.draw.filters.pshader.BloomFilter;
 import com.haxademic.core.draw.filters.pshader.GrainFilter;
 import com.haxademic.core.draw.filters.pshader.VignetteFilter;
 import com.haxademic.core.draw.shapes.PShapeUtil;
@@ -157,11 +156,11 @@ extends PAppletHax {
 		pg.endDraw();
 
 		// post process
-		BloomFilter.instance(p).setStrength(0.2f);
-		BloomFilter.instance(p).setBlurIterations(6);
-		BloomFilter.instance(p).setBlendMode(BloomFilter.BLEND_SCREEN);
-		BloomFilter.instance(p).applyTo(pg);
+//		BloomFilter.instance(p).setStrength(0.2f);
+//		BloomFilter.instance(p).setBlurIterations(6);
+//		BloomFilter.instance(p).setBlendMode(BloomFilter.BLEND_SCREEN);
 //		BloomFilter.instance(p).applyTo(pg);
+////		BloomFilter.instance(p).applyTo(pg);
 		
 		VignetteFilter.instance(p).setDarkness(0.65f);
 		VignetteFilter.instance(p).applyTo(pg);
