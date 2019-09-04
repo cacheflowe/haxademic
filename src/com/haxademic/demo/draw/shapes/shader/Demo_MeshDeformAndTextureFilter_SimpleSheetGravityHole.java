@@ -14,7 +14,7 @@ import com.haxademic.core.draw.shapes.pshader.MeshDeformAndTextureFilter;
 import processing.core.PGraphics;
 import processing.core.PShape;
 
-public class Demo_MeshDeformAndTextureFilter_SimpleSheetBump 
+public class Demo_MeshDeformAndTextureFilter_SimpleSheetGravityHole 
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 

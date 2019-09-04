@@ -11,7 +11,8 @@ varying vec4 vertTexCoord;
 
 // uniform sampler2D ampMap;
 // uniform sampler2D directionMap;
-// uniform float amp = 0.05;
+uniform float speed = 1./255.;
+uniform bool variableSpeed = false;
 
 void main() {
 	// get cur color/position
@@ -21,8 +22,11 @@ void main() {
   float z = texelColor.b;
 
 	// wrap position and write back to texture
-  z += 1./4096.;
-  // z += 1./255. * (1. + mod(pos.x * 20., 3.));	// pixels move at different speeds
-	z = mod(z, 1.);
+	if(variableSpeed == false) {
+		z += speed;
+	} else {
+		z += speed * (1. + mod(pos.x * 30., 1.));	// pixels move at different speeds
+	}
+	z = mod(z, 1.);	// wrap around
   gl_FragColor = vec4(pos.x, pos.y, z, 1.);
 }
