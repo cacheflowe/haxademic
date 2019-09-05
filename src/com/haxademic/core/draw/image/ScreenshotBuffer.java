@@ -89,12 +89,12 @@ public class ScreenshotBuffer {
 		return scaledImg;
 	}
 	
-	public String base64() {
-		return Base64Image.encodePImageToBase64(image, "jpg");
+	public String base64(float quality) {
+		return Base64Image.encodeImageToBase64Jpeg(image, quality);
 	}
 	
-	public String base64Scaled() {
-		return Base64Image.encodePImageToBase64(scaledImg, "jpg");
+	public String base64Scaled(float quality) {
+		return Base64Image.encodeImageToBase64Jpeg(scaledImg, quality);
 	}
 	
 	public void post() {

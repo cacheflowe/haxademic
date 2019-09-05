@@ -7,7 +7,11 @@ import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.Base64;
 
+import javax.imageio.IIOImage;
 import javax.imageio.ImageIO;
+import javax.imageio.ImageWriteParam;
+import javax.imageio.ImageWriter;
+import javax.imageio.stream.MemoryCacheImageOutputStream;
 
 import processing.core.PImage;
 
@@ -29,11 +33,41 @@ public class Base64Image {
 	}
 
 	public static String encodeNativeImageToBase64(BufferedImage img, String format) throws UnsupportedEncodingException, IOException {
-		String result = null;
 		ByteArrayOutputStream out = new ByteArrayOutputStream();
 		ImageIO.write(img, format, out);
-		result = Base64.getEncoder().encodeToString(out.toByteArray());
+		String result = Base64.getEncoder().encodeToString(out.toByteArray());
+		out.close();
 		return result;
+	}
+	
+	public static String encodeImageToBase64Jpeg(PImage img, float quality) {
+		return encodeImageToBase64Jpeg((BufferedImage)img.getNative(), quality);
+	}
+		
+	public static String encodeImageToBase64Jpeg(BufferedImage img, float quality) {
+		try {
+			ImageWriter jpgWriter = ImageIO.getImageWritersByFormatName("jpg").next();
+			ImageWriteParam jpgWriteParam = jpgWriter.getDefaultWriteParam();
+			jpgWriteParam.setCompressionMode(ImageWriteParam.MODE_EXPLICIT);
+			jpgWriteParam.setCompressionQuality(quality);
+	
+			ByteArrayOutputStream out = new ByteArrayOutputStream();
+			jpgWriter.setOutput(new MemoryCacheImageOutputStream(out));
+			IIOImage outputImage = new IIOImage(img, null, null);
+			jpgWriter.write(null, outputImage, jpgWriteParam);
+			jpgWriter.dispose();
+			
+			out.flush();
+			String result = Base64.getEncoder().encodeToString(out.toByteArray());
+			out.close();
+			return result;
+			
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 	
 	public static PImage decodePImageFromBase64(String base64Str) {
