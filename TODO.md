@@ -9,9 +9,9 @@
   * Switch this to an AppStore-based system so inputs are immediately picked up by a listener. This might still be thread-unsafe, but AppStore events aren't either!
     * Do we need an InputEvent type added to AppStore collections??
 
+
 ## WebCam
 
-* Test Realsense camera outside
 * WebCam updates for Video 2.0 beta4
   * WebCam UI picker should draw flat on top of everything like DebugView
   * Add webcam inspector to provide a list of native webcam options
@@ -20,6 +20,14 @@
       * http://usb4java.org/quickstart/libusb.html
       * http://usb4java.org/configuration.html
     * Webcam with OpenJDK: https://github.com/gstreamer-java/gst1-java-core/issues/15
+
+## Big Mother / DashboardPoster / CrashMonitor
+
+* Can CrashMonitor launch the main app instead of the other way around?
+* Can CrashMonitor init DashboardPoster and other tools like monitor size change and auto-mouse clicking, rather than those being in the main app
+* Can DashboardPoster also post heartbeat checkins more often
+* Add config CMS to BigMother for any app to receive commands and config
+* BigMother should be implemented in a Simplesite instance
 
 
 ## Processing problems
@@ -30,6 +38,25 @@
 	* Fixed here: https://github.com/cacheflowe/haxademic/blob/master/data/haxademic/shaders/filters/pixelate.glsl
 	* Old, broken version: https://github.com/cacheflowe/haxademic/blob/3b520a7e850e0da7063f18075bf36e249601e052/data/haxademic/shaders/filters/pixelate.glsl
 * PShaderCompiler - PShader shouldn't absolutely kill the app on a failed GLSL compile
+* Processing bugs:
+  * OBJ models
+    * MTL files need to strip the relative path "./" to work
+      * mtllib ./materials.mtl
+        In my experience, Processing doesn't like this. If your .obj file has this, try removing the dot slash like this:
+        mtllib materials.mtl
+    * Alpha (“d” or “Tr”) in obj files isn’t working
+    * Drawing obj files out of the box is odd per PApplet or PGraphics
+  * GLSL UV multiplication on original texture sampling (rotate & zoom repeat shaders)
+  * float32 textures:
+    * https://stackoverflow.com/questions/56310425/upload-gl-unsigned-byte-to-a-gl-float-texture
+    * https://www.khronos.org/opengl/wiki/Pixel_Transfer
+    * https://stackoverflow.com/questions/34497195/difference-between-format-and-internalformat
+    * https://www.khronos.org/opengl/wiki/Image_Format
+    * gradient banding
+    * low-precision for particle systems (POINTS mesh displacement)
+    * blank spots (dead pixels) in some shaders
+    * feedback can only be so slow if using a texture map for displacement? maybe just need to divide
+
 
 ## Art projects
   * Shatter model & triangles fall down (Sunflow final render)
@@ -72,8 +99,11 @@
   	* Any other cool loop/render?!
 
 ## Interphase
+  * Add sliders to specifically choose samples
+  * Integrate Communichords looping tones (for Moire Room, specifically)
   * C.A.C.H.E. - Creative Adversarial Computer-Human Exchange
   * Store/recall audio & visual combos
+    * Need to turn off totally random notes (rely on position-based notes)
     * Serialize sequencer config
     * Morph between stored configs
     * Store premade patterns for different beats/songs. Json?
@@ -167,6 +197,7 @@
   * Check MIDI rendering now that MIDI code has been revamped
 
 ## GLSL
+  * Processing float 32 support: https://github.com/processing/processing/issues/3321
   * Shader builder w/snippets - look through Hepp's code
     * Add uniforms automatically?
   	* Default shader chunks
@@ -176,8 +207,7 @@
   	* http://www.ozone3d.net/blogs/lab/20080604/glsl-float-to-rgba8-encoder/
   	* https://community.khronos.org/t/pack-more-than-4-components-into-rgba-32-texture-in-vertex-shader/72945/2
   	* https://forum.processing.org/two/discussion/17629/how-to-get-round-using-16-bit-image-buffers-shadertoy-question
-  * Use 32-bit textures to make a nicer GPU particles system
-    * Use curl noise to enhance said particle system: https://www.google.com/search?client=firefox-b-1-d&q=how+to+use+3d+curl+noise
+  * Use curl noise to enhance particle system: https://www.google.com/search?client=firefox-b-1-d&q=how+to+use+3d+curl+noise
   * Wrap up GLSL transitions collection and make a common interface
   * Fix up GPU particle launcher to store colors per-particle
   * Convert Orbit noise: https://www.shadertoy.com/view/4t3yDn
@@ -285,16 +315,20 @@
 ## Topics
 
 What is your app doing when you're not home?
-  * DashboardPoster / BigMother
-  * CrashMonitor
-  * TextEventLog
-  * DebugView
-  * UIControlPanel
-  * FrozenImageMonitor
-  * Click app to stay on top & move mouse offscreen
-  * Fullscreen, force on top
-  * WebCamPicker
-  * JSONPoller + CMS
-  * Restart app after uptime, within hour range
-  * Restart computer, launch scripts
+  * Haxademic tools
+    * DashboardPoster / BigMother
+    * CrashMonitor
+    * TextEventLog
+    * DebugView
+    * UIControlPanel
+    * FrozenImageMonitor
+    * Click app to stay on top & move mouse offscreen
+    * Fullscreen, force on top
+    * WebCamPicker
+    * JSONPoller + CMS
+    * Restart app after uptime, within hour range
+    * Restart computer, launch scripts
   * TeamViewer
+
+  * Can certain parts of this be moved to shell scripts?
+    * https://github.com/laserpilot/Installation_Up_4evr
