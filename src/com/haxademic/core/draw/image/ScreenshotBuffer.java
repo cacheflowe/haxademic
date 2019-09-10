@@ -97,15 +97,18 @@ public class ScreenshotBuffer {
 		return Base64Image.encodeImageToBase64Jpeg(scaledImg, quality);
 	}
 	
-	public void post() {
-		if(needsUpdate == false) return;
+	public void updateScreenshot() {
 		// copy screenshot pixels right into screenshot BufferedImage
 		screenshot.setRGB(0, 0, w, h, robot.getRGBPixels(bounds.getBounds()), 0, w);
 		// save pixels directly to PImage
 		ImageUtil.copyBufferedToPImagePixels(screenshot, image);
 		// copy scaled copy if needed
 		if(scaledImg != null) ImageUtil.copyImage(image, scaledImg);
-		// reset screenshot update flag
-		needsUpdate = false;
+	}
+	
+	public void post() {
+		if(needsUpdate == false) return;	// only take screenshot if requested
+		updateScreenshot();					// update on UI thread
+		needsUpdate = false;				// reset screenshot update flag
 	}
 }
