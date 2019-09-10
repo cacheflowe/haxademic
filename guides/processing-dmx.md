@@ -10,6 +10,8 @@
 
 Use DMX over ethernet for super long cable runs - standard DMX cables are generally rated for ~75', but ethernet can go hundreds of feet. You need a [male](https://www.amazon.com/TecNec-DMX-3XM-CAT5-3-pin-Adapter-TecNec/dp/B00KUTR7MA) & [female](https://www.amazon.com/TecNec-DMX-3XF-CAT5-3-pin-Female-Adapter/dp/B00KUTZW3Q) adapter for the 2 ends of a standard cat-5 network cable.
 
+Or use a [wireless DMX transmitter](https://www.amazon.com/Donner-Wireless-Receiver-Indicators-Transmitter/dp/B00L25ZNP4/).
+
 ### DMX lights
 
 There's a whole world of DMX lights and DMX-controlled devices, like [winches](https://www.rosebrand.com/subcategory761/dmx-winches.aspx) and [power outlets](https://www.chauvetdj.com/products/dmx-4/). Most DMX lights have a manual RGB mode, which can be set via a control panel on the back of the devices. By setting the starting channel of your device, you can target multiple daisy-chained lights by sending out DMX values on different channels. If a light has an RGB mode, you will likely use 3 consecutive DMX channels to target R, G, & B. Other channels might be used to control pan/tilt on motorized light fixtures, for example.
@@ -39,7 +41,7 @@ Voltage is sent through the decoder's wire terminals via PWM. Here are some comp
 
 The basic unit:
 
-* [24-channel DMX Decoder](https://www.amazon.com/gp/product/B01CCBG1SO/)
+* [24-channel DMX Decoder](https://www.amazon.com/gp/product/B01CCBG1SO/) (or [32-channel](https://www.amazon.com/Channel-Decoder-Controller-Dimmer-DC5-24V/dp/B075FHJM35))
 * [Power supply](https://www.amazon.com/500W-Power-Supply-Single-Output/dp/B01KZP2CKA/)
   * [Power supply IEC power cable](https://www.amazon.com/TNP-Universal-Power-Cord-Feet/dp/B01N237QI9/)
 * [DMX Terminals](https://www.amazon.com/Terminal-Adapter-Converters-Controller-Decoder/dp/B00Q32V2JC/)
