@@ -1,76 +1,57 @@
 package com.haxademic.demo.draw.shapes.shader;
 
-import java.util.ArrayList;
-
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.data.constants.PBlendModes;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.particle.ParticleLauncherGPU;
-
-import processing.core.PGraphics;
+import com.haxademic.core.math.MathUtil;
 
 public class Demo_VertexShader_GPUParticlesLauncher 
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
-	protected PGraphics renderedParticles;
-	protected ArrayList<ParticleLauncherGPU> particleLaunchers;
-
-	// TODO: optimize launching: beginDraw/endDraw calls are super slow. can both be copied to a single canvas, then copied back after drawn into?
-
+	protected ParticleLauncherGPU gpuParticles;
 
 	protected void overridePropsFile() {
-		p.appConfig.setProperty(AppSettings.WIDTH, 1080);
-		p.appConfig.setProperty(AppSettings.HEIGHT, 1080);
+		p.appConfig.setProperty(AppSettings.WIDTH, 960);
+		p.appConfig.setProperty(AppSettings.HEIGHT, 960);
 		p.appConfig.setProperty(AppSettings.SHOW_DEBUG, true);
 	}
 	
 	protected void setupFirstFrame() {
-		// build final draw buffer
-		renderedParticles = PG.newPG(p.width, p.height);
-		
-		// build multiple particles launchers
-		particleLaunchers = new ArrayList<ParticleLauncherGPU>();
-		int totalVertices = 0;
-		for (int i = 0; i < 50; i++) {
-			ParticleLauncherGPU particles = new ParticleLauncherGPU();
-			particleLaunchers.add(particles);
-			totalVertices += particles.vertices();
-		}
-		p.debugView.setValue("totalVertices", totalVertices);
+		// build particles launcher
+		gpuParticles = new ParticleLauncherGPU(512);
+		p.debugView.setValue("totalVertices", gpuParticles.vertices());
 	}
 	
 	public void drawApp() {
 		// clear the screen
 		background(0);
 		
-		// launch! 
-		int particleLauncherIndex = p.frameCount % particleLaunchers.size();
-		particleLaunchers.get(particleLauncherIndex).beginLaunch();
-		for (int j = 0; j < 420; j++) {		// -2 rows (64)
-			particleLaunchers.get(particleLauncherIndex).launch(p.mouseXEase.value() * p.width, p.mouseYEase.value() * p.height);
-		}
-		particleLaunchers.get(particleLauncherIndex).endLaunch();
+		// launch! need to open & close the position buffer where we're writing new launch pixels
+		int launchesPerFrame = 500;
+		gpuParticles.beginLaunch();
+		for (int j = 0; j < launchesPerFrame; j++) 
+			 gpuParticles.launch(pg, p.mouseXEase.value() * pg.width, p.mouseYEase.value() * pg.height);
+//			gpuParticles.launch(pg, pg.width/2f, pg.height/2f);
+		gpuParticles.endLaunch();
 
-		// update particles launcher buffers
-		for (int i = 0; i < particleLaunchers.size(); i++) {
-			particleLaunchers.get(i).update();
-		}
+		// update particles buffers
+		gpuParticles.update();
 
 		// render!
-		renderedParticles.beginDraw();
-		PG.setDrawFlat2d(renderedParticles, true);
-		renderedParticles.background(0);
-		renderedParticles.fill(255);
-		renderedParticles.blendMode(PBlendModes.ADD);
-		for (int i = 0; i < particleLaunchers.size(); i++) {
-			particleLaunchers.get(i).renderTo(renderedParticles);
-		}
-		renderedParticles.endDraw();
+		pg.beginDraw();
+		pg.background(0);
+		PG.setCenterScreen(pg);
+//		PG.basicCameraFromMouse(pg, 0.5f);
+		pg.fill(255);
+		pg.blendMode(PBlendModes.ADD);
+		gpuParticles.renderTo(pg);
+		pg.endDraw();
 
 		// draw buffer to screen
-		p.image(renderedParticles, 0, 0);
+		p.image(pg, 0, 0);
 	}
 	
 }

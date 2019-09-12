@@ -2,9 +2,11 @@ package com.haxademic.core.draw.particle;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.draw.context.PG;
+import com.haxademic.core.draw.context.PShaderHotSwap;
 import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.MathUtil;
+import com.haxademic.core.media.DemoAssets;
 
 import processing.core.PGraphics;
 import processing.core.PShape;
@@ -12,117 +14,122 @@ import processing.opengl.PShader;
 
 public class ParticleLauncherGPU {
 	
-	protected int positionBufferSize = 32;
+	protected int positionBufferSize;
 	protected PShape shape;
 	protected PGraphics colorBuffer;
-	protected PGraphics progressBuffer;
-	protected PShader positionShader;
+	protected PGraphics positionBuffer;
+//	protected PShader positionShader;
+	protected PShaderHotSwap positionShaderHotSwap;
+	protected PShaderHotSwap particlesRenderHotSwap;
 	protected int vertices = 0;
 
-	protected PShader particlesRenderShader;
+//	protected PShader particlesRenderShader;
 	protected int launchIndex = 0;
 
-	public ParticleLauncherGPU() {
+	public ParticleLauncherGPU(int size) {
+		positionBufferSize = size;
 		// build random particle placement shader
-		positionShader = P.p.loadShader(FileUtil.getFile("haxademic/shaders/point/particle-launcher-frag.glsl"));
+//		positionShader = P.p.loadShader(FileUtil.getFile("haxademic/shaders/point/particle-launcher-frag.glsl"));
+		positionShaderHotSwap = new PShaderHotSwap(FileUtil.getFile("haxademic/shaders/point/particle-launcher-frag.glsl"));
+
 		
 		// create texture to store positions
 		colorBuffer = PG.newDataPG(positionBufferSize, positionBufferSize);
-//		p.debugView.setTexture(colorBuffer);
+//		P.p.debugView.setTexture("colorBuffer", colorBuffer);
 		colorBuffer.beginDraw();
 		colorBuffer.background(255);
 		colorBuffer.noStroke();
 		colorBuffer.endDraw();
 		
-		progressBuffer = PG.newDataPG(positionBufferSize, positionBufferSize);
-		
-		progressBuffer.beginDraw();
-		progressBuffer.background(255);
-		progressBuffer.noStroke();
-		progressBuffer.endDraw();
-//		P.p.debugView.setTexture(progressBuffer);
+		positionBuffer = PG.newDataPG(positionBufferSize, positionBufferSize);
+		positionBuffer.beginDraw();
+		positionBuffer.background(255);
+		positionBuffer.noStroke();
+		positionBuffer.endDraw();
 		
 		// Build points vertices
 		vertices = P.round(positionBufferSize * positionBufferSize); 
 		shape = PShapeUtil.pointsShapeForGPUData(positionBufferSize);
 		
 		// load shader
-		particlesRenderShader = P.p.loadShader(
-			FileUtil.getFile("haxademic/shaders/point/points-default-frag.glsl"), 
-			FileUtil.getFile("haxademic/shaders/point/particle-launcher-vert.glsl")
+//		particlesRenderShader = P.p.loadShader(
+		particlesRenderHotSwap = new PShaderHotSwap(
+			FileUtil.getFile("haxademic/shaders/point/particle-launcher-vert.glsl"),
+			FileUtil.getFile("haxademic/shaders/point/points-default-frag.glsl")
 		);
 	}
 	
-	public PGraphics progressBuffer() {
-		return progressBuffer;
+	public PGraphics positionBuffer() {
+		return positionBuffer;
 	}
 	
 	public int vertices() {
 		return vertices;
 	}
 	
-	protected float getGridX(float size, float index) {
+	protected int getGridX(int size, int index) {
 		return index % size;
 	}
 	
-	protected float getGridY(float size, float index) {
+	protected int getGridY(int size, int index) {
 		return P.floor(index / size);
 	}
 	
 	public void beginLaunch() {
-		progressBuffer.beginDraw();
+		P.p.debugView.setTexture("progressBuffer", positionBuffer);
+		positionBuffer.beginDraw();
 	}
 	
 	public void endLaunch() {
-		progressBuffer.endDraw();
+		positionBuffer.endDraw();
 	}
 	
-	public void launch(float x, float y) {
-		// get launch index - let's skip the last row, because something is breaking there. might be uv coords or something else...
+	public void launch(PGraphics buffer, float x, float y) {
+		// writes new pixels to reset particles
+		// set next launch index  
 		launchIndex++;
-		if(launchIndex > (shape.getVertexCount() - positionBufferSize)) launchIndex = positionBufferSize;
-//		launchIndex = launchIndex % (shape.getVertexCount() - positionBufferSize);
-//		p.debugView.setValue("shape.getVertexCount()", shape.getVertexCount());
-//		p.debugView.setValue("launchIndex", launchIndex);
-//		p.debugView.setValue("launch x,y", getGridX(positionBufferSize, launchIndex) + ", " + getGridY(positionBufferSize, launchIndex));
+		launchIndex = launchIndex % (shape.getVertexCount());
+
+		// get x/y coords for that pixel to reset properties
+		int texX = getGridX(positionBufferSize, launchIndex);
+		int texY = getGridY(positionBufferSize, launchIndex);
 		
 		// reset progress
-		progressBuffer.fill(MathUtil.randRangeDecimal(127f, 255f), MathUtil.randRangeDecimal(127, 255), MathUtil.randRangeDecimal(0f, 255f), 255);	// rgba = distAmp, size, rotation, progress
-		progressBuffer.rect(getGridX(positionBufferSize, launchIndex), getGridY(positionBufferSize, launchIndex), 1, 1);
-		
-		// set particle color
-//		coloffer.beginDraw();
-//		colorBuffer.noStroke();
-//		colorBuffer.fill(255f * (0.75f + 0.25f * P.sin(launchIndex * 0.1f)), 255f * (0.75f + 0.25f * P.sin(launchIndex * 0.3f)), 255f * (0.75f + 0.25f * P.sin(launchIndex * 0.2f)));
-//		colorBuffer.rect(getGridX(positionBufferSize, launchIndex), getGridY(positionBufferSize, launchIndex), 1, 1);
-//		colorBurBuffer.endDraw();
-		
-		// iterate through vertices and place on mouse
-		int vertexIndex = (launchIndex + positionBufferSize) % shape.getVertexCount();	// offset for some reason... this has something to do with launchIndex skipping the last row
-		shape.setVertex(vertexIndex, x, y, 0);
-
+		// set new position color: // rgba = x, y, rotation, speed
+		float launchX = (x / P.p.width) * 255f;
+		float launchY = (y / P.p.height) * 255f;
+		float radians = MathUtil.randRangeDecimal(0f, 255f);
+		float progress = 255f;	// reset progress to 100%, always, since alpha is additive. not sure if there's a good way to reset alpha to non-100% 
+		int positionColor = P.p.color(launchX, launchY, radians, progress);
+		positionBuffer.fill(positionColor);
+		positionBuffer.rect(texX, texY, 1, 1);
 	}
 	
 	public void update() {
 		// update particle movement
-		positionShader.set("progressSpeed", (1f / 255f) * 3.5f);
-		progressBuffer.filter(positionShader);
+//		positionBuffer.filter(positionShader);
+		positionBuffer.filter(positionShaderHotSwap.shader());
 		
-		// update vertex/rendering shader props
-		particlesRenderShader.set("width", (float) positionBufferSize);
-		particlesRenderShader.set("height", (float) positionBufferSize);
-		particlesRenderShader.set("colorTexture", colorBuffer);
-//		particlesRenderShader.set("colorTexture", DemoAssets.justin());
-		particlesRenderShader.set("progressTexture", progressBuffer);
-		particlesRenderShader.set("pointSize", 4f);
-		particlesRenderShader.set("progressDistance", (float) P.p.width * 0.1f);
-		particlesRenderShader.set("gravity", 2f);
-		particlesRenderShader.set("mode", P.p.mousePercentY());	// test gl_VertexID method of accessing texture positions
 	}
 	
 	public void renderTo(PGraphics buffer) {
-		buffer.shader(particlesRenderShader);  	// update positions
-		buffer.shape(shape);					// draw vertices
+		// update vertex/rendering shader props
+		PShader renderShader = particlesRenderHotSwap.shader();
+		renderShader.set("width", (float) buffer.width);
+		renderShader.set("height", (float) buffer.height);
+		renderShader.set("depth", (float) buffer.width);
+		renderShader.set("colorTexture", colorBuffer);
+		renderShader.set("colorTexture", DemoAssets.justin());
+		renderShader.set("positionTexture", positionBuffer);
+		renderShader.set("pointSize", 5f);
+		
+		buffer.shader(renderShader);	// set vertex shader
+		buffer.shape(shape);			// draw particles
 		buffer.resetShader();
+
+		// recompile if needed & show shader compile error messages
+		positionShaderHotSwap.update();
+		particlesRenderHotSwap.update();
+//		positionShaderHotSwap.showShaderStatus(buffer);
 	}
 }

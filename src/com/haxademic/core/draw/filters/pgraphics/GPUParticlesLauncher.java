@@ -39,7 +39,7 @@ extends BaseVideoFilter {
 		particleLaunchers = new ArrayList<ParticleLauncherGPU>();
 		int totalVertices = 0;
 		for (int i = 0; i < 20; i++) {
-			ParticleLauncherGPU particles = new ParticleLauncherGPU();
+			ParticleLauncherGPU particles = new ParticleLauncherGPU(512);
 			particleLaunchers.add(particles);
 			totalVertices += particles.vertices();
 		}
@@ -47,7 +47,7 @@ extends BaseVideoFilter {
 		// debug
 		P.p.debugView.setTexture("renderedParticles", renderedParticles);
 		P.p.debugView.setValue("totalVertices", totalVertices);
-		P.p.debugView.setTexture("progressBuffer (1)", particleLaunchers.get(0).progressBuffer());
+		P.p.debugView.setTexture("progressBuffer (1)", particleLaunchers.get(0).positionBuffer());
 	}
 	
 	public void newFrame(PImage frame) {
@@ -95,7 +95,7 @@ extends BaseVideoFilter {
 					int checkX = MathUtil.randRange(0, sourceBuffer.width);
 					int checkY = MathUtil.randRange(0, sourceBuffer.height);
 					if(motionDetectionMap.pixelActive(checkX, checkY)) {
-						particleLaunchers.get(particleLauncherIndex).launch(checkX, checkY);
+						particleLaunchers.get(particleLauncherIndex).launch(renderedParticles, checkX, checkY);
 						numLaunched++;
 					}
 				} else {
