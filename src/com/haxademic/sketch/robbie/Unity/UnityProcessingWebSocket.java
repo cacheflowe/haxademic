@@ -24,17 +24,18 @@ implements ISocketClientDelegate, IAppStoreListener {
 	protected String MOUSE_X = "MOUSE_X";
 	protected String MOUSE_Y = "MOUSE_Y";
 	
-//	protected String UnityApp = "";
-	protected String UnityApp = "D:\\Experiments\\Unity\\UnityProcessingWebSocketSpout\\Builds\\UnityProcessingWebSocketSpout.exe";
+	protected String unityAppPath;
 	protected int checkInTimeout = 1000;
 	protected int lastCheckInTime;
 	protected int UnityState;
 	
 	protected UnityProcessingSpout unitySpout;
 
-	public UnityProcessingWebSocket() {
+	public UnityProcessingWebSocket(String _unityAppPath) {
 		p = (UnityProcessingWebSocketSpout) P.p;
 		pg = p.pg;
+		
+		this.unityAppPath = _unityAppPath;
 
 		P.storeDistributed = AppStoreDistributed.instance();
 		if(isServer == true) {
@@ -61,8 +62,8 @@ implements ISocketClientDelegate, IAppStoreListener {
 	}
 	
 	protected void launchUnityApp() {
-		if (UnityApp != "") {
-			P.launch(UnityApp);
+		if (unityAppPath != "") {
+			P.launch(unityAppPath);
 		}
 		P.out("Launching Unity, waiting for WebSocket connection...");
 	}
@@ -135,7 +136,11 @@ implements ISocketClientDelegate, IAppStoreListener {
 		if (eventData.getBoolean("ONLINE")) {
 			UnityState = 1;
 			lastCheckInTime = p.millis();
-			if (unitySpout == null) unitySpout = new UnityProcessingSpout(UnityWidth, UnityHeight, true, true);
+			// Create Spout instance on WebSocket connection
+			if (unitySpout == null) {
+				// UnityProcessingSpout(width, height, create Processing to Unity sender, create Unity to Processing receiver)
+				unitySpout = new UnityProcessingSpout(UnityWidth, UnityHeight, true, true);
+			}
 		}
 	}
 	

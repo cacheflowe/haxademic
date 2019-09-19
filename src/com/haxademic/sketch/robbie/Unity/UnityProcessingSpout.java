@@ -27,12 +27,14 @@ public class UnityProcessingSpout {
 	protected Spout spoutSender;
 	protected String spoutSenderName = "Spout Processing"; // Name of Processing Spout instance to be read in Unity
 	protected PGraphics spoutSenderTexture;
-	// If set to 0, will default to Unity (w, h) resolution. If changed make sure update set SpoutReceiver Render Texture size in Unity
+	// If set to 0, will default to Unity (w, h) resolution
+	// IMPORTANT: If changed make sure update set SpoutReceiver Render Texture size in Unity
 	protected int spoutSenderTextureWidth = 0;
 	protected int spoutSenderTextureHeight = 0;
 	
 	protected InputTrigger key1 = (new InputTrigger()).addKeyCodes(new char[]{'1'});
 	protected InputTrigger key2 = (new InputTrigger()).addKeyCodes(new char[]{'2'});
+	protected InputTrigger key3 = (new InputTrigger()).addKeyCodes(new char[]{'3'});
 	
 	public UnityProcessingSpout(int _UnityWidth, int _UnityHeight, boolean _createSpoutSender, boolean _createSpoutReceiver) {
 		p = (UnityProcessingWebSocketSpout) P.p;
@@ -75,12 +77,15 @@ public class UnityProcessingSpout {
 
 	public void drawSpoutSender() {
 		spoutSenderTexture.beginDraw();
+		// Draw Spout texture image here
 		spoutSenderTexture.background(P.sin(p.frameCount * 0.03f) * 127/2 + 127/2);
-		if(key1.on()) spoutSenderTexture.background(255);
-		if(key2.on()) spoutSenderTexture.background(0);
+		if(key2.on()) spoutSenderTexture.background(255);
+		if(key3.on()) spoutSenderTexture.background(0);
 		spoutSenderTexture.endDraw();
+		// Send texture to Unity
 		spoutSender.sendTexture(spoutSenderTexture);
-//		pg.image(spoutSenderTexture, 0, 0);
+		// On key 1 press, display only Spout sending texture
+		if(key1.on()) pg.image(spoutSenderTexture, 0, 0);
 	}
 	
 	

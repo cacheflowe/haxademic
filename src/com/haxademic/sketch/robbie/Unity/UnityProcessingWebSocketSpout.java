@@ -14,7 +14,9 @@ extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
 	protected UnityProcessingWebSocket unityWebSocket;
-	
+	protected String unityAppPath = ""; // Leave empty to have Spout send from Unity Editor, otherwise enter Unity's built .exe file path
+//	protected String unityAppPath = "D:/Experiments/Unity/UnityProcessingWebSocketSpout/Builds/UnityProcessingWebSocketSpout.exe";
+
 	/////////////////////////////////
 	// INIT
 	/////////////////////////////////
@@ -30,11 +32,6 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.APP_NAME, "UnitySpout" );
 		p.appConfig.setProperty( AppSettings.APP_ICON, "images/app-icon.png" );
 		p.appConfig.setProperty( AppSettings.SHOW_DEBUG, false);
-		int FRAMES = 300;
-		p.appConfig.setProperty(AppSettings.LOOP_FRAMES, FRAMES);
-		p.appConfig.setProperty(AppSettings.RENDERING_MOVIE, false );
-		p.appConfig.setProperty(AppSettings.RENDERING_MOVIE_START_FRAME, 1 + FRAMES * 1);
-		p.appConfig.setProperty(AppSettings.RENDERING_MOVIE_STOP_FRAME, 1 + FRAMES * 2);
 	}
 	
 	public void setupFirstFrame() {
@@ -42,7 +39,7 @@ extends PAppletHax {
 		p.noFill();
 		p.noStroke();
 		
-		unityWebSocket = new UnityProcessingWebSocket();
+		unityWebSocket = new UnityProcessingWebSocket(unityAppPath);
 	}
 
 	public void drawApp() {
@@ -57,7 +54,6 @@ extends PAppletHax {
 		// 3. draw main buffer to screen
 		P.store.setNumber(App.ANIMATION_FRAME_PRE, p.frameCount);
 		pg.beginDraw();
-//		pg.ortho();
 		P.store.setNumber(App.ANIMATION_FRAME, p.frameCount);
 		pg.endDraw();
 		
