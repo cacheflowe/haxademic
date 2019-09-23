@@ -138,9 +138,7 @@ public class Icosahedron {
 		Icosahedron ico = new Icosahedron(level);
 		pg.textureMode(P.NORMAL); // set textureMode to normalized (range 0 to 1);
 		PShape mesh = pg.createShape(); // create the initial PShape
-
 		mesh.beginShape(P.TRIANGLES); // define the PShape type: TRIANGLES
-		mesh.strokeWeight(0);
 		mesh.noStroke();
 		if(img != null) mesh.texture(img);
 
@@ -152,9 +150,7 @@ public class Icosahedron {
 			mesh.normal(n.x, n.y, n.z);
 			mesh.vertex(pos.x, pos.y, pos.z, t.x, t.y);
 		}
-
 		mesh.endShape();
-
 		return mesh;
 	}
 	
