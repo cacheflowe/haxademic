@@ -189,7 +189,9 @@
 
 ## Unity/Spout
 
-  *  https://www.youtube.com/watch?v=iIwcqgAPVWI
+  * 3d scene to RenderTexture to Spout
+    * https://www.youtube.com/watch?v=iIwcqgAPVWI
+  * Scripted startup/shutdown
 
 ## MIDI:
   * Add midi input to prefsSliders
@@ -202,14 +204,10 @@
     * Add uniforms automatically?
   	* Default shader chunks
   	  * Assemble w/replacement strings that match filenames?
-  * 32-bit packing
-  	* https://stackoverflow.com/questions/18453302/how-do-you-pack-one-32bit-int-into-4-8bit-ints-in-glsl-webgl
-  	* http://www.ozone3d.net/blogs/lab/20080604/glsl-float-to-rgba8-encoder/
-  	* https://community.khronos.org/t/pack-more-than-4-components-into-rgba-32-texture-in-vertex-shader/72945/2
-  	* https://forum.processing.org/two/discussion/17629/how-to-get-round-using-16-bit-image-buffers-shadertoy-question
-  * Use curl noise to enhance particle system: https://www.google.com/search?client=firefox-b-1-d&q=how+to+use+3d+curl+noise
   * Wrap up GLSL transitions collection and make a common interface
   * Fix up GPU particle launcher to store colors per-particle
+  * Bump-mapping
+    * https://github.com/codeanticode/pshader-experiments/tree/master/BlueMarble
   * Convert Orbit noise: https://www.shadertoy.com/view/4t3yDn
   * Convert some postprocessing effects:
     * https://github.com/libretro/glsl-shaders
@@ -236,8 +234,8 @@
     * Doing calculations in the vertex shader should always be faster than the fragment shader, since there are fewer vertices than fragments.
     * Use the ‘discard’ keyword to *not* update a fragment, anywhere in a fragment shader.
   * GPU Particles
-	* http://barradeau.com/blog/?p=621
-	* Look into Processing shader types - is there a point shader? yes - https://processing.org/tutorials/pshader/
+  	* http://barradeau.com/blog/?p=621
+	   * Look into Processing shader types - is there a point shader? yes - https://processing.org/tutorials/pshader/
 	* https://codeanticode.wordpress.com/2014/05/08/shader_api_in_processing_2/
 	* http://atduskgreg.github.io/Processing-Shader-Examples/
 	* http://www.beautifulseams.com/2013/04/30/shaders/
@@ -247,6 +245,11 @@
   * Geometry shaders
   	* http://www.nachocossio.com/geometry-shaders-in-processing/
   	* https://github.com/kosowski/Geometry-shaders-Processing/blob/master/geometry_shader_tessellation/sphere.pde
+  * 32-bit packing (not needed now with P32 renderer)
+  	* https://stackoverflow.com/questions/18453302/how-do-you-pack-one-32bit-int-into-4-8bit-ints-in-glsl-webgl
+  	* http://www.ozone3d.net/blogs/lab/20080604/glsl-float-to-rgba8-encoder/
+  	* https://community.khronos.org/t/pack-more-than-4-components-into-rgba-32-texture-in-vertex-shader/72945/2
+  	* https://forum.processing.org/two/discussion/17629/how-to-get-round-using-16-bit-image-buffers-shadertoy-question
 
 ## net
   * Should Screenshot in DashboardPoster be it's own app/process, like the CrashMonitor? or *in* CrashMonitor? As an UptimeSuite??
@@ -278,16 +281,15 @@
     * Demo_VertexShader_Fattener
 
 ## General / tools
+  * Video
+    * IP camera (get one that does an mjpeg stream)
+    * Rtp video in Java?
+      * https://www.oracle.com/technetwork/java/javase/documentation/toolstx-178270.html
+      * https://forum.processing.org/two/discussion/17166/livestreaming-ipcapture-sdp-file
+    * NDI video: https://github.com/WalkerKnapp/devolay
   * AppGenerator:
     * CLASSPATH_ATTR_LIBRARY_PATH_ENTRY - this needs text replace on `haxademic` to new project name
-  * Unity/Processing bridge
-    * 3d scene to RenderTexture to Spout
-    * Scripted startup/shutdown
   * Clean up /lib - we should have src for all libraries if possible, pointed to for Eclipse click-through, but nothing else. Except maybe examples?
-  * IP camera (get one that does an mjpeg stream)
-  * Rtp video in Java?
-    * https://www.oracle.com/technetwork/java/javase/documentation/toolstx-178270.html
-    * https://forum.processing.org/two/discussion/17166/livestreaming-ipcapture-sdp-file
   * Merge Windows & normal SystemUtil - make sure Java-killing code works on both OS X & Windows
   * Test importing a Java class into a Processing IDE project
   * How can we optimize for Raspberry Pi? It wants Java 1.7 for the old version of Eclipse :(
@@ -295,10 +297,7 @@
   * Fix overhead view of KinectRegionGrid - with larger grids it's off-screen
   * BufferActivityMonitor should use FrameDifferenceBuffer object
   * Replace ColorUtil with EasingColor
-  * Clean up /data directory with assets that can be used across demos, and move sketch assets into their own location
   * ImageSequence -> ffmpeg rendering from a class. Would make rendering easier on both platforms
-  * Clean up old stuff - get rid of non-useful demos
-  * Document important files/concepts/tools for README
 
 ## To investigate
 
