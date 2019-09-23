@@ -98,7 +98,7 @@ public class OpenGLUtil {
 		pg.hint(PConstants.DISABLE_DEPTH_SORT);
 		pg.hint(PConstants.DISABLE_DEPTH_TEST);
 		pg.hint(PConstants.DISABLE_DEPTH_MASK);
-		pg.hint(PConstants.DISABLE_OPTIMIZED_STROKE);
+		// pg.hint(PConstants.DISABLE_OPTIMIZED_STROKE); // not helpful
 	}
 	
 	public enum Blend {

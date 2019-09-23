@@ -3,10 +3,12 @@ package com.haxademic.core.draw.context;
 import com.haxademic.core.app.P;
 import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.draw.color.ColorsHax;
+import com.haxademic.core.draw.context.pg32.PGraphics32;
 
 import processing.core.PApplet;
 import processing.core.PConstants;
 import processing.core.PGraphics;
+import processing.opengl.PGraphicsOpenGL;
 import processing.opengl.Texture;
 
 public class PG {
@@ -20,14 +22,22 @@ public class PG {
 	}
 	
 	public static PGraphics newDataPG(int w, int h) {
-		PGraphics newPG = P.p.createGraphics(w, h, PRenderers.P3D);
+//		PGraphics newPG = P.p.createGraphics(w, h, PRenderers.P3D);
+//		PGraphics newPG = P.p.createGraphics(w, h, P.P32);
+		PGraphics newPG = PGraphics32.createGraphics(P.p, w, h);
 		newPG.noSmooth();
-		OpenGLUtil.setTextureQualityLow(newPG);		// necessary for proper texel lookup in GLSL!
+	    ((PGraphicsOpenGL)newPG).textureSampling(2);
 		newPG.beginDraw();
-		OpenGLUtil.optimize2D(newPG);
+//		newPG.hint(P.DISABLE_TEXTURE_MIPMAPS);
+		newPG.hint(PConstants.DISABLE_DEPTH_SORT);
+		newPG.hint(PConstants.DISABLE_DEPTH_TEST);
+		newPG.hint(PConstants.DISABLE_DEPTH_MASK);
 		newPG.background(0, 0);
 		newPG.noStroke();
 		newPG.endDraw();
+		// moved these calls into this block for a full test of options
+//		OpenGLUtil.setTextureQualityLow(newPG);		// necessary for proper texel lookup in GLSL!
+//		OpenGLUtil.optimize2D(newPG);
 		return newPG;
 	}
 	
