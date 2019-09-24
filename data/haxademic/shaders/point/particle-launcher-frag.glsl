@@ -30,8 +30,8 @@ void main() {
 	// progress *= 0.99; // always decelerate
 	// progress -= 0.007; // always decelerate
   // move progress
-	x += cos(rads) / 900.;
-	y += sin(rads) / 900.;
+	x += cos(rads) / 2000.;
+	y += sin(rads) / 2000.;
 	// progress -= 0.01;
   // progress -= progressSpeed;
 	// if(progress < 0.) progress = 0.;
@@ -50,5 +50,5 @@ void main() {
   // posOffset.y = posOffset.y + progress * sin(rotation);
 
 	// write back to texture
-  gl_FragColor = vec4(x, y, texelColor.b, texelColor.a *= 0.994	);
+  gl_FragColor = vec4(x, y, texelColor.b, texelColor.a *= 0.95);
 }

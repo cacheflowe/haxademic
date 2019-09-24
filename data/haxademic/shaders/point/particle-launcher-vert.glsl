@@ -103,7 +103,7 @@ void main() {
   // offset position with curl noise?
   vec3 curlInput = vertPosition.xyz / 400. + vec3(1. - textureColor.r, 1. - textureColor.g, 1. - textureColor.b);
   vec3 curlResult = curlNoise(curlInput);
-  vertPosition.xyz += curlResult * 100.;
+  vertPosition.xyz += curlResult * 10.;
 
   // custom point size - use color to grow point
   float finalPointSize = pointSize;// * progress;

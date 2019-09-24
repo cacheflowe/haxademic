@@ -2,8 +2,8 @@ package com.haxademic.core.draw.image;
 
 import java.awt.Rectangle;
 import java.awt.image.BufferedImage;
-import java.awt.image.DataBufferInt;
 import java.nio.ByteBuffer;
+import java.nio.ByteOrder;
 import java.util.HashMap;
 
 import com.haxademic.core.app.P;
@@ -11,7 +11,6 @@ import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.draw.color.ColorUtil;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.math.MathUtil;
-import com.haxademic.core.system.ScreenUtil;
 
 import processing.core.PApplet;
 import processing.core.PConstants;
@@ -169,6 +168,25 @@ public class ImageUtil {
 //		g2.finalize();
 //		g2.dispose();
 //		return dest;
+	}
+	
+	public ByteBuffer bufferedToByteBuffer(BufferedImage image) {
+		int[] pixels = new int[image.getWidth() * image.getHeight()];
+		image.getRGB(0, 0, image.getWidth(), image.getHeight(), pixels, 0, image.getWidth());
+
+		// RGB - needs 4 component array if RGBA
+		ByteBuffer buffer = ByteBuffer.allocateDirect(image.getWidth() * image.getHeight() * 3).order(ByteOrder.nativeOrder());
+		for (int y = 0; y < image.getHeight(); y++) {
+			for (int x = 0; x < image.getWidth(); x++) {
+				int pixel = pixels[y * image.getWidth() + x];
+				buffer.put((byte) ((pixel >> 16) & 0xFF)); // Red component
+				buffer.put((byte) ((pixel >> 8) & 0xFF)); // Green component
+				buffer.put((byte) (pixel & 0xFF)); // Blue component
+			}
+		}
+
+		buffer.flip();
+		return buffer;
 	}
 	
 	public static PGraphics imageToGraphics(PImage img) {

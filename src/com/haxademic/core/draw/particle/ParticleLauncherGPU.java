@@ -109,7 +109,6 @@ public class ParticleLauncherGPU {
 		// update particle movement
 //		positionBuffer.filter(positionShader);
 		positionBuffer.filter(positionShaderHotSwap.shader());
-		
 	}
 	
 	public void renderTo(PGraphics buffer) {
@@ -121,7 +120,7 @@ public class ParticleLauncherGPU {
 		renderShader.set("colorTexture", colorBuffer);
 		renderShader.set("colorTexture", DemoAssets.justin());
 		renderShader.set("positionTexture", positionBuffer);
-		renderShader.set("pointSize", 3f);
+		renderShader.set("pointSize", 2f);
 		
 		buffer.shader(renderShader);	// set vertex shader
 		buffer.shape(shape);			// draw particles
