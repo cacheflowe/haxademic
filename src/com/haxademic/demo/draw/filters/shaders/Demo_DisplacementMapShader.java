@@ -1,7 +1,7 @@
 package com.haxademic.demo.draw.filters.shaders;
 
+import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.file.FileUtil;
@@ -21,14 +21,7 @@ extends PAppletHax {
 	PShader texShader;
 	int mode = 0;
 
-
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, 640 );
-		p.appConfig.setProperty( AppSettings.HEIGHT, 640 );
-	}
-
-	public void setup() {
-		super.setup();	
+	public void setupFirstFrame() {
 		base = DemoAssets.textureJupiter();
 		mapSource = DemoAssets.textureNebula();
 		map = p.createGraphics(p.width, p.height, PRenderers.P3D);
@@ -47,19 +40,17 @@ extends PAppletHax {
 		map.endDraw();
 
 		// set mode
-		if(p.frameCount % 200 == 0) {
-			mode++;
-			if(mode > 3) mode = 0;
-		}
+		mode = P.round(p.mousePercentY() * 7);
 		texShader.set("map", map );
 		texShader.set("mode", mode );
+		texShader.set("amp", p.mousePercentX()/10f);
 		
 		// draw image and apply displacement map
 		p.image(base, 0, 0);
 		p.filter(texShader); 
 		
 		// debug
-		p.debugView.setValue("Mode ", mode);
+		p.debugView.setValue("mode", mode);
 		p.debugView.setTexture("base", base);
 		p.debugView.setTexture("map", map);
 		p.debugView.setTexture("mapSource", mapSource);
