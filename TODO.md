@@ -205,7 +205,6 @@
   	* Default shader chunks
   	  * Assemble w/replacement strings that match filenames?
   * Wrap up GLSL transitions collection and make a common interface
-  * Fix up GPU particle launcher to store colors per-particle
   * Bump-mapping
     * https://github.com/codeanticode/pshader-experiments/tree/master/BlueMarble
   * Convert Orbit noise: https://www.shadertoy.com/view/4t3yDn
@@ -234,6 +233,8 @@
     * Doing calculations in the vertex shader should always be faster than the fragment shader, since there are fewer vertices than fragments.
     * Use the ‘discard’ keyword to *not* update a fragment, anywhere in a fragment shader.
   * GPU Particles
+    * Fix up GPU particle launcher to store colors per-particle
+    * https://github.com/armdz/ParticlesGPU/blob/master/bin/data/shader/render.vert
   	* http://barradeau.com/blog/?p=621
 	   * Look into Processing shader types - is there a point shader? yes - https://processing.org/tutorials/pshader/
 	* https://codeanticode.wordpress.com/2014/05/08/shader_api_in_processing_2/
