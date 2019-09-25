@@ -323,8 +323,6 @@ public class PShapeUtil {
 			);
 			shape.setFill(i, fillReplace);
 			shape.noStroke();
-//				shape.setStrokeWeight(i, 4);
-//				shape.setStroke(strokeReplace);
 		}
 		for (int j = 0; j < shape.getChildCount(); j++) {
 			addTestFillToShape(shape.getChild(j), oscMult);
