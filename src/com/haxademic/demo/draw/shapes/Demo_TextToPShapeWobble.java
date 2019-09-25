@@ -36,7 +36,8 @@ extends PAppletHax {
 		word3d = textToPShape.stringToShape3d("CACHEFLOWE", 100, fontFile);
 		PShapeUtil.scaleShapeToExtent(word3d, 400);
 		PShapeUtil.addTextureUVToShape(word3d, null);
-		PShapeUtil.addTestColorToShape(word3d, 0.01f);
+		PShapeUtil.addTestFillToShape(word3d, 0.01f);
+//		PShapeUtil.addTestStrokeToShape(word3d, 4f, 0.01f);
 		word3d.disableStyle();
 		
 		// load displacement shader & texture

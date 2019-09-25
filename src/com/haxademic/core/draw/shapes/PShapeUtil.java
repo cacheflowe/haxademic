@@ -194,11 +194,11 @@ public class PShapeUtil {
 		if(img != null) shape.setTexture(img);
 	}
 	
+	public static PVector util = new PVector();
 	public static void addTextureUVSpherical(PShape shape, PImage img) {
 		shape.setStroke(false);
 		// shape.setFill(255);	// This seems to jack up vertex shaders
 		shape.setTextureMode(P.NORMAL);
-		PVector util = new PVector();
 		
 		for (int i = 0; i < shape.getVertexCount(); i++) {
 			PVector p = shape.getVertex(i);
@@ -307,7 +307,47 @@ public class PShapeUtil {
 		}
 		return container;
 	}
+	
+	
+	///////////////////////////
+	// Apply noise color for testing
+	///////////////////////////
+	
+	public static void addTestFillToShape(PShape shape, float oscMult) {
+		for (int i = 0; i < shape.getVertexCount(); i++) {
+			PVector vertex = shape.getVertex(i);
+			int fillReplace = P.p.color(
+				127 + 127f * P.sin(vertex.x * oscMult),
+				127 + 127f * P.sin(vertex.y * oscMult),
+				127 + 127f * P.sin(vertex.z * oscMult)
+			);
+			shape.setFill(i, fillReplace);
+			shape.noStroke();
+//				shape.setStrokeWeight(i, 4);
+//				shape.setStroke(strokeReplace);
+		}
+		for (int j = 0; j < shape.getChildCount(); j++) {
+			addTestFillToShape(shape.getChild(j), oscMult);
+		}
+	}
 
+	public static void addTestStrokeToShape(PShape shape, float strokeWeight, float oscMult) {
+		for (int i = 0; i < shape.getVertexCount(); i++) {
+			PVector vertex = shape.getVertex(i);
+			int strokeReplace = P.p.color(
+					127 + 127f * P.sin(vertex.x * oscMult),
+					127 + 127f * P.sin(vertex.y * oscMult),
+					127 + 127f * P.sin(vertex.z * oscMult)
+					);
+			shape.noFill();
+			shape.setStrokeWeight(i, 4);
+			shape.setStroke(strokeReplace);
+		}
+		for (int j = 0; j < shape.getChildCount(); j++) {
+			addTestStrokeToShape(shape.getChild(j), strokeWeight, oscMult);
+		}
+	}
+	
 	
 	///////////////////////////
 	// SVG getTesselation() fix
