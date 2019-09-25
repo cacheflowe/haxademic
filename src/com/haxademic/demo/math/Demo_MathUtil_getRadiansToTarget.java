@@ -38,7 +38,7 @@ extends PAppletHax {
 		p.debugView.setHelpLine("angle", ""+MathUtil.radiansToDegrees(radsFromCenter));
 		p.debugView.setHelpLine("rads", ""+radsFromCenter);
 
-		p.rotate(-radsFromCenter);
+		p.rotate(radsFromCenter);
 		p.image(image, 0, 0);
 		p.popMatrix();
 	}
