@@ -35,21 +35,25 @@ implements IEasingValue {
 		return inc;
 	}
 	
-	public void setCurrent(float value) {
+	public IEasingValue setCurrent(float value) {
 		this.value = value;
+		return this;
 	}
 	
-	public void setTarget(float target) {
+	public IEasingValue setTarget(float target) {
 		this.target = target;
 		if(target != value) complete = false;
+		return this;
 	}
 	
-	public void setInc(float inc) {
+	public IEasingValue setInc(float inc) {
 		this.inc = inc;
+		return this;
 	}
 	
-	public void setDelay(int frames) {
+	public IEasingValue setDelay(int frames) {
 		this.delay = frames;
+		return this;
 	}
 	
 	// mask to be swappable with EasingFloat

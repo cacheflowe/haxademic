@@ -11,43 +11,51 @@ implements IEasingValue {
 	
 	public float _fric;
 	public float _accel;
-	public float _speed;
+	public float speed;
 
-	public float _value;
+	public float value;
 	public float _target;
 		   
 	public ElasticFloat( float val, float fric, float accel ) {
 		_fric = fric;
 		_accel = accel;
 
-		_value = val;
+		value = val;
 		_target = val;
 	}
 	
 	public float value() {
-		return _value;
+		return value;
 	}
 
-	public void setCurrent( float val ) {
-		_value = val;
+	public IEasingValue setCurrent( float val ) {
+		value = val;
+		return this;
 	}
 
-	public void setTarget( float target ) {
+	public IEasingValue setTarget( float target ) {
 		_target = target;
+		return this;
 	}
 
-	public void setFriction( float fric ) {
+	public IEasingValue setFriction( float fric ) {
 		_fric = fric;
+		return this;
 	}
 
-	public void setAccel( float accel ) {
+	public IEasingValue setAccel( float accel ) {
 		_accel = accel;
+		return this;
+	}
+	
+	public boolean isComplete() {
+		return value == _target;
 	}
 
 	public void update() {
 		// update elastic point based on current target position vs current position
-		_speed = ( ( _target - _value ) * _accel + _speed ) * _fric;
-		_value += _speed;
+		speed = ( ( _target - value ) * _accel + speed ) * _fric;
+		value += speed;
 	}
 
 }

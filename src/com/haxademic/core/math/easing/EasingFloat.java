@@ -40,26 +40,31 @@ implements IEasingValue {
 		return easeFactor;
 	}
 	
-	public void setCurrent( float value ) {
+	public IEasingValue setCurrent( float value ) {
 		this.value = value;
 		this.target = value;
+		return this;
 	}
 	
-	public void setTarget( float target ) {
+	public IEasingValue setTarget( float target ) {
 		this.target = target;
 		if(target != value) complete = false;
+		return this;
 	}
 	
-	public void setEaseFactor( float value ) {
+	public IEasingValue setEaseFactor( float value ) {
 		this.easeFactor = (value <= 1) ? 1f / value : value;
+		return this;
 	}
 	
-	public void setDelay( int frames ) {
+	public IEasingValue setDelay( int frames ) {
 		this.delay = frames;
+		return this;
 	}
 	
-	public void setCompleteThreshold( float value ) {
+	public IEasingValue setCompleteThreshold( float value ) {
 		completeThreshold = value;
+		return this;
 	}
 	
 	public boolean isComplete() {
