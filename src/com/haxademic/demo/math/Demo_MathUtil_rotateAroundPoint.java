@@ -23,8 +23,8 @@ extends PAppletHax {
 		PG.setDrawCenter(p);
 		
 		// update points
-//		mouse.set(p.mouseX, p.mouseY);
-		MathUtil.rotateAroundPoint(otherPoint, mouse, 0.02f);
+		mouse.set(p.mouseX, p.mouseY);
+		MathUtil.rotateAroundPoint(otherPoint, mouse, 0.01f);
 				
 		// draw points
 		p.stroke(255);

@@ -92,7 +92,7 @@ extends PAppletHax {
 				float a = ColorUtil.alphaFromColorInt(pixelColor) / 255f;
 				float xDir = (r + g) - 0.5f;
 				float yDir = (b + a) - 0.5f;
-				float rotation = -1f * (r * -P.TWO_PI); // MathUtil.getRadiansToTarget(0, 0, xDir, yDir);
+				float rotation = -1f * (r * -P.TWO_PI); 
 				if(xDir + yDir > 0.01f) { 
 					p.pushMatrix();
 					p.translate(x, y);

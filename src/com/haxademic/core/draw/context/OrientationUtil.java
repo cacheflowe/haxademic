@@ -33,13 +33,13 @@ public class OrientationUtil {
 		// spin on y axis
 		float yRads = MathUtil.getRadiansToTarget(point1.x, point1.z, point2.x, point2.z);
 		// calculate z-tilt
-		float c = point1.dist(point2);	 		// we have the diagonal distance
-		float b = point1.y - point2.y;	 		// and y-difference
+		float c = point1.dist(point2);	 			// we have the diagonal distance
+		float b = point1.y - point2.y;	 			// and y-difference
 		float a = P.sqrt(P.sq(c) - P.sq(b));		// so we solve for a (c^2 - b^2 = a^2)
 		float zRads = MathUtil.getRadiansToTarget(0, 0, a, b);	// get radians based on a/b (x/y) offset
-		pg.rotateY(yRads);
-		pg.rotateZ(zRads);
-		pg.rotateZ(-P.HALF_PI);
+		pg.rotateY(-yRads);
+		pg.rotateZ(-zRads);
+		pg.rotateZ(P.HALF_PI);
 	}
 	
 }

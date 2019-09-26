@@ -2,6 +2,7 @@ package com.haxademic.demo.draw.image;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.image.TiledTexture;
 import com.haxademic.core.media.DemoAssets;
 
@@ -10,35 +11,33 @@ extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 		
 	protected TiledTexture tiledImg;
-	protected int frames = 1220;
+	
+	protected String ROT = "ROT"; 
+	protected String OFFSET_X = "OFFSET_X"; 
+	protected String OFFSET_Y = "OFFSET_Y"; 
+	protected String SIZE = "SIZE"; 
 
-	public void setup() {
-		super.setup();
+	public void setupFirstFrame() {
 		tiledImg = new TiledTexture(DemoAssets.smallTexture());
+		
+		p.ui.addSlider(ROT, 0, 0, P.TWO_PI, 0.02f, false);
+		p.ui.addSlider(OFFSET_X, 0, -20, 20, 0.01f, false);
+		p.ui.addSlider(OFFSET_Y, 0, -20, 20, 0.01f, false);
+		p.ui.addSlider(SIZE, 1, 0, 10, 0.01f, false);
 	}
 	
 	public void drawApp() {
 		p.background(255);
 		p.noStroke();
-		
-		float progress = (float)(p.frameCount % frames) / frames;
-//		float easedPercent = Penner.easeInOutQuart(progress % 1);
-		float progressRads = progress * P.TWO_PI;
-
-	
 		p.pushMatrix();
-		p.translate(p.width/2, p.height/2);
-		float rot = (P.floor(p.frameCount / 30f) % 2 == 0) ? 0 : P.sin(progressRads);
-		float size = 1.5f + 0.5f * P.sin(progressRads);
-//		rot = p.frameCount * 0.03f;
-//		tiledImg.setRotation(P.sin(progressRads * 2f) * 0.1f);
-		tiledImg.setRotation(rot);
-		tiledImg.setOffset(0.5f * P.sin(progressRads), 0.5f * P.cos(progressRads * 2f));
-		tiledImg.setSize(size, size);
+		PG.setCenterScreen(p);
+
+		tiledImg.setRotation(p.ui.value(ROT));
+		tiledImg.setOffset(p.ui.value(OFFSET_X), p.ui.value(OFFSET_Y));
+		tiledImg.setSize(p.ui.value(SIZE), p.ui.value(SIZE));
 		tiledImg.update();
 		tiledImg.drawCentered(p.g, p.width, p.height);
 		p.popMatrix();
-		
 		
 		tiledImg.drawDebug(p.g);
 	}	

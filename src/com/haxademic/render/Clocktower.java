@@ -440,7 +440,7 @@ extends PAppletHax {
 		    // if lerp update wraps around, loop that
 		    if(rads.value() > P.TWO_PI) rads.setCurrent(rads.value() - P.TWO_PI);
 		    if(rads.value() < 0) rads.setCurrent(rads.value() + P.TWO_PI);
-			float moveRads = -rads.value();
+			float moveRads = rads.value();
 			pos.add(speed * P.cos(moveRads), speed * P.sin(moveRads));
 			
 			pg.pushMatrix();

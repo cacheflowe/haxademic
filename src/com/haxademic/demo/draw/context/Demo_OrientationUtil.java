@@ -12,27 +12,29 @@ extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
 	PVector center = new PVector();
-	PVector[] points = new PVector[300];
+	PVector[] points = new PVector[600];
 	
 	public void setup() {
 		super.setup();	
-		center.set(p.width / 2, p.height / 2);
+		center.set(0, 0);
 		for (int i = 0; i < points.length; i++) {
-			points[i] = new PVector(p.random(0, p.width), p.random(0, p.height), p.random(0, -p.width));
+			points[i] = new PVector(p.random(-p.width/2, p.width/2), p.random(-p.height/2, p.height/2), p.random(-p.width/2, p.width/2));
 		}
 	}
 
 	public void drawApp() {
 		background(0);
 		
-		PG.setBetterLights(p);
+		PG.setCenterScreen(p.g);
+		PG.setBetterLights(p.g);
+		PG.basicCameraFromMouse(p.g);
 		p.noStroke();
 		
 		// move center
 		center.set(
-				p.width/2 + 250 * P.sin(p.frameCount * 0.02f), 
-				p.height/2 + 150 * P.sin(p.frameCount * 0.04f),
-				100 * P.sin(p.frameCount * 0.02f)
+				250 * P.sin(p.frameCount * 0.02f), 
+				150 * P.sin(p.frameCount * 0.04f),
+				300 * P.sin(p.frameCount * 0.02f)
 				);
 		p.pushMatrix();
 		p.fill(0,255,0);

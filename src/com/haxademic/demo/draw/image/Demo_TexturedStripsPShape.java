@@ -212,8 +212,8 @@ extends PAppletHax {
 			if(MathUtil.randBoolean() == true) offsetY *= -1f;
 			
 			float dirToCenter = MathUtil.getRadiansToTarget(pos.x, pos.y, p.width/2 + offsetX, p.height/2 + offsetY);
-			easedDir.setCurrent(-dirToCenter);
-			easedDir.setTarget(-dirToCenter);
+			easedDir.setCurrent(dirToCenter);
+			easedDir.setTarget(dirToCenter);
 			easedDir.setEaseFactor(MathUtil.randRangeDecimal(TURN_LERP_LOW, TURN_LERP_HIGH));
 		}
 		
@@ -260,7 +260,7 @@ extends PAppletHax {
 			for (int i = 0; i < TAIL_SEGMENTS; i++) {
 				// get direction to prev segment
 				if(i > 0) {
-					segmentDir = -MathUtil.getRadiansToTarget(tail[i].x, tail[i].y, tail[i-1].x, tail[i-1].y);
+					segmentDir = MathUtil.getRadiansToTarget(tail[i].x, tail[i].y, tail[i-1].x, tail[i-1].y);
 				}
 				
 				// get rect points from tail segment vectors

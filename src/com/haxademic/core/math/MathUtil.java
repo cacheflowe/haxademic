@@ -7,7 +7,6 @@ import java.util.concurrent.ThreadLocalRandom;
 
 import com.haxademic.core.app.P;
 
-import processing.core.PApplet;
 import processing.core.PVector;
 
 /**
@@ -232,7 +231,7 @@ public class MathUtil {
 	public static void rotateAroundPoint(PVector point, PVector anchor, float rads) {
 		float radius = getDistance(point.x, point.y, anchor.x, anchor.y);
 		float destRads = getRadiansToTarget(0, 0, point.x - anchor.x, point.y - anchor.y) + rads;
-		point.set(anchor.x + radius * P.cos(-destRads), anchor.y + radius * P.sin(-destRads), point.z);
+		point.set(anchor.x + radius * P.cos(destRads), anchor.y + radius * P.sin(destRads), point.z);
 	}
 
 	/**

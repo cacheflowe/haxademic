@@ -387,7 +387,7 @@ public class Shapes {
 		OpenGLUtil.setTextureRepeat(pg);
 		pg.push();
 		pg.translate(xStart, yStart);
-		pg.rotate(-startToEndAngle);
+		pg.rotate(startToEndAngle);
 		
 		// draw textured rect
 		pg.noStroke();

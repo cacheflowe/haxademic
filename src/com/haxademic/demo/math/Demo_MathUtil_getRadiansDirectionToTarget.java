@@ -122,7 +122,7 @@ extends PAppletHax {
 			pointAwayProgress.setTarget(0);
 
 			// do rotation calculation
-			float directionAway = -1f * MathUtil.getRadiansToTarget(position.x, position.y, otherArrow.position.x, otherArrow.position.y) + P.PI;
+			float directionAway = MathUtil.getRadiansToTarget(position.x, position.y, otherArrow.position.x, otherArrow.position.y) + P.PI;
 			
 			// rotate 180 degrees away from other
 			rotation.setTarget(directionAway);

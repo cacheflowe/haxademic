@@ -170,8 +170,8 @@ extends PAppletHax {
 			if(MathUtil.randBoolean() == true) offsetY *= -1f;
 			
 			float dirToCenter = MathUtil.getRadiansToTarget(pos.x, pos.y, p.width/2 + offsetX, p.height/2 + offsetY);
-			easedDir.setCurrent(-dirToCenter);
-			easedDir.setTarget(-dirToCenter);
+			easedDir.setCurrent(dirToCenter);
+			easedDir.setTarget(dirToCenter);
 			easedDir.setEaseFactor(MathUtil.randRangeDecimal(TURN_LERP_LOW, TURN_LERP_HIGH));
 		}
 		
@@ -228,7 +228,7 @@ extends PAppletHax {
 				float rightXCur = tail[i].x + TAIL_W * P.cos(segmentDir + P.HALF_PI);
 				float rightYCur = tail[i].y + TAIL_W * P.sin(segmentDir + P.HALF_PI);
 				
-				segmentDir = -MathUtil.getRadiansToTarget(tail[i].x, tail[i].y, tail[i+1].x, tail[i+1].y);
+				segmentDir = MathUtil.getRadiansToTarget(tail[i+1].x, tail[i+1].y, tail[i].x, tail[i].y);
 				float leftXNext = tail[i+1].x + TAIL_W * P.cos(segmentDir - P.HALF_PI);
 				float leftYNext = tail[i+1].y + TAIL_W * P.sin(segmentDir - P.HALF_PI);
 				float rightXNext = tail[i+1].x + TAIL_W * P.cos(segmentDir + P.HALF_PI);

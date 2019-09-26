@@ -100,10 +100,10 @@ public class TiledTexture {
 		} else {
 			float curRot = rotation + P.PI;
 			float radius = MathUtil.getDistance(0, 0, halfSizeX, halfSizeY);
-			float tlRads = MathUtil.getRadiansToTarget(uX - halfSizeX, vY - halfSizeY, uX, vY) + curRot;
-			float trRads = MathUtil.getRadiansToTarget(uX + halfSizeX, vY - halfSizeY, uX, vY) + curRot;
-			float brRads = MathUtil.getRadiansToTarget(uX + halfSizeX, vY + halfSizeY, uX, vY) + curRot;
-			float blRads = MathUtil.getRadiansToTarget(uX - halfSizeX, vY + halfSizeY, uX, vY) + curRot;
+			float tlRads = -MathUtil.getRadiansToTarget(uX - halfSizeX, vY - halfSizeY, uX, vY) + curRot;
+			float trRads = -MathUtil.getRadiansToTarget(uX + halfSizeX, vY - halfSizeY, uX, vY) + curRot;
+			float brRads = -MathUtil.getRadiansToTarget(uX + halfSizeX, vY + halfSizeY, uX, vY) + curRot;
+			float blRads = -MathUtil.getRadiansToTarget(uX - halfSizeX, vY + halfSizeY, uX, vY) + curRot;
 			tlX = uX + radius * P.cos(tlRads);
 			tlY = vY - radius * P.sin(tlRads);
 			trX = uX + radius * P.cos(trRads);

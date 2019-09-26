@@ -58,10 +58,10 @@ extends PAppletHax {
 		} else {
 			float curRot = rotation;
 			float radius = MathUtil.getDistance(0, 0, halfSizeX, halfSizeY);
-			float tlRads = MathUtil.getRadiansToTarget(-halfSizeX, -halfSizeY, 0, 0) + curRot;
-			float trRads = MathUtil.getRadiansToTarget(halfSizeX, -halfSizeY, 0, 0) + curRot;
-			float brRads = MathUtil.getRadiansToTarget(halfSizeX, halfSizeY, 0, 0) + curRot;
-			float blRads = MathUtil.getRadiansToTarget(-halfSizeX, halfSizeY, 0, 0) + curRot;
+			float tlRads = -MathUtil.getRadiansToTarget(-halfSizeX, -halfSizeY, 0, 0) + curRot;
+			float trRads = -MathUtil.getRadiansToTarget(halfSizeX, -halfSizeY, 0, 0) + curRot;
+			float brRads = -MathUtil.getRadiansToTarget(halfSizeX, halfSizeY, 0, 0) + curRot;
+			float blRads = -MathUtil.getRadiansToTarget(-halfSizeX, halfSizeY, 0, 0) + curRot;
 			pg.vertex(radius * P.cos(tlRads), -radius * P.sin(tlRads));
 			pg.vertex(radius * P.cos(trRads), -radius * P.sin(trRads));
 			pg.vertex(radius * P.cos(brRads), -radius * P.sin(brRads));
