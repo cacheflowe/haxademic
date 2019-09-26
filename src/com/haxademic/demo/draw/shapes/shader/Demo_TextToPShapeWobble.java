@@ -1,4 +1,4 @@
-package com.haxademic.demo.draw.shapes;
+package com.haxademic.demo.draw.shapes.shader;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
