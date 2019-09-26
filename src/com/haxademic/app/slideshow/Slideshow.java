@@ -331,7 +331,7 @@ extends PAppletHax
 		float loadProgress = (preloaded) ? 1f : (float) slides().size() / (float) numToLoad;
 		preloadX.setTarget(p.width * loadProgress);
 		if(loadProgress == 1) preloadBarOff.setTarget(1);
-		float animOutY = 10f * Penner.easeInOutCubic(preloadBarOff.value(), 0, 1, 1);
+		float animOutY = 10f * Penner.easeInOutCubic(preloadBarOff.value());
 		float animOutAlpha = 255f;// - 255f * preloadComplete.value();
 //		if(loadProgress == 1 && getSlideIndex() != 0) nextSlide();
 		
