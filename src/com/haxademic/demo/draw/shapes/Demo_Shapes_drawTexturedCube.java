@@ -31,7 +31,7 @@ extends PAppletHax {
 		lights();
 		translate(width/2, height/2, -200);
 		
-		float easedPercent = Penner.easeInOutQuart(loop.progress(), 0, 1, 1);
+		float easedPercent = Penner.easeInOutQuart(loop.progress());
 		float radsCompleteEased = easedPercent * P.TWO_PI;
 
 		p.rotateY(P.map(p.mouseX, 0, p.width, 0, P.TWO_PI * 2));

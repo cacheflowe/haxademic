@@ -172,7 +172,7 @@ public class GlitchSuite {
 				break;
 				
 			case Repeat:
-				float progressInverseEased = Penner.easeInExpo(progressInverse, 0, 1, 1);
+				float progressInverseEased = Penner.easeInExpo(progressInverse);
 				RepeatFilter.instance(P.p).setZoom(1f + 5f * progressInverseEased);
 				RepeatFilter.instance(P.p).applyTo(buffer);
 				break;

@@ -49,7 +49,7 @@ extends Particle {
 		
 		// update size
 		sizeProgress.update();
-		float curSize = size * Penner.easeOutExpo(sizeProgress.value(), 0, 1, 1);
+		float curSize = size * Penner.easeOutExpo(sizeProgress.value());
 		if(sizeProgress.value() == 1) sizeProgress.setTarget(0);
 		
 		// draw image

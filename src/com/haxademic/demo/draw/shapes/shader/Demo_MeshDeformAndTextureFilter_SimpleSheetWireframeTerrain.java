@@ -59,7 +59,7 @@ extends PAppletHax {
 		if(p.loop.loopCurFrame() == 2) displaceAmpMult.setTarget(1);
 		if(p.loop.loopCurFrame() == FRAMES - 80) displaceAmpMult.setTarget(0);
 		displaceAmpMult.update();
-		float easedAmp = Penner.easeInOutQuad(displaceAmpMult.value(), 0, 1, 1);
+		float easedAmp = Penner.easeInOutQuad(displaceAmpMult.value());
 		
 		// update texture
 		texture.beginDraw();

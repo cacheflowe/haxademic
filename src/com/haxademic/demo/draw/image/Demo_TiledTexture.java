@@ -22,7 +22,7 @@ extends PAppletHax {
 		p.noStroke();
 		
 		float progress = (float)(p.frameCount % frames) / frames;
-//		float easedPercent = Penner.easeInOutQuart(progress % 1, 0, 1, 1);
+//		float easedPercent = Penner.easeInOutQuart(progress % 1);
 		float progressRads = progress * P.TWO_PI;
 
 	

@@ -181,7 +181,7 @@ public class ForceDirectedLayout {
 		}
 		
 		public float mass() {
-			float easedMass = Penner.easeInOutQuart(mass.value(), 0, 1, 1);
+			float easedMass = Penner.easeInOutQuart(mass.value());
 			return easedMass * massTarget;
 		}
 		

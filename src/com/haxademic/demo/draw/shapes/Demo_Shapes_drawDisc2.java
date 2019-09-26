@@ -63,8 +63,8 @@ extends PAppletHax {
 		float frameRadians = P.TWO_PI / _frames;
 		float percentComplete = ((float)(p.frameCount%_frames)/_frames);
 		float radiansComplete = P.TWO_PI * percentComplete;
-		float easedPercent = Penner.easeInOutCubic(percentComplete, 0, 1, 1);
-		float easedPercentHard = Penner.easeInOutQuad(percentComplete, 0, 1, 1);
+		float easedPercent = Penner.easeInOutCubic(percentComplete);
+		float easedPercentHard = Penner.easeInOutQuad(percentComplete);
 
 //		pg.background(0);
 		pg.translate(p.width/2, p.height/2 + p.height * 0.04f);
@@ -105,8 +105,8 @@ extends PAppletHax {
 		float frameRadians = P.TWO_PI / _frames;
 		float percentComplete = ((float)(p.frameCount%_frames)/_frames);
 		float radiansComplete = P.TWO_PI * percentComplete;
-		float easedPercent = Penner.easeInOutCubic(percentComplete, 0, 1, 1);
-		float easedPercentHard = Penner.easeInOutQuad(percentComplete, 0, 1, 1);
+		float easedPercent = Penner.easeInOutCubic(percentComplete);
+		float easedPercentHard = Penner.easeInOutQuad(percentComplete);
 		
 		setUpRoom();
 		

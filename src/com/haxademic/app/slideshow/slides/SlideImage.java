@@ -438,11 +438,11 @@ implements IAppStoreListener {
 	}
 
 	protected float easeInProgress(float progress) {
-		return Penner.easeInQuart(progress, 0, 1, 1);
+		return Penner.easeInQuart(progress);
 	}
 
 	protected float easeOutProgress(float progress) {
-		return Penner.easeOutQuart(progress, 0, 1, 1);
+		return Penner.easeOutQuart(progress);
 	}
 
 	protected void draw(PGraphics buffer) {

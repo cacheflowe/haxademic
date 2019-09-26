@@ -62,7 +62,7 @@ public class ImageCyclerBuffer {
 		// map progress through transition
 		float loopProgress = 0;
 		if(progress >= transitionTime) loopProgress = P.map(progress, transitionTime, 1f, 0f, 1f);
-		float easedProgress = Penner.easeInOutCubic(loopProgress, 0, 1, 1);
+		float easedProgress = Penner.easeInOutCubic(loopProgress);
 		transitionShader.set("progress", easedProgress);
 		pg.filter(transitionShader);	
 	}

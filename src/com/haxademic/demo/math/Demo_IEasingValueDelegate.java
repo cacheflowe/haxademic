@@ -54,7 +54,7 @@ implements IEasingValueDelegate {
 				, 0.25f * p.width, 0.666f * p.height - 60);
 		p.circle(0.25f * p.width + 0.5f * linearFloat.value() * p.width, 0.666f * p.height, 10);
 		
-		float easedLinear = Penner.easeInOutQuad(linearFloat.value(), 0, 1, 1);
+		float easedLinear = Penner.easeInOutQuad(linearFloat.value());
 		p.circle(0.25f * p.width + 0.5f * easedLinear * p.width, 0.666f * p.height + 20, 10);
 	}
 	

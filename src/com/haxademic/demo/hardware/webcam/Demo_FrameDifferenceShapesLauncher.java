@@ -187,7 +187,7 @@ implements IWebCamCallback {
 			rotation += gravity.z;
 			// update size
 			sizeProgress.update();
-			float curSize = size * Penner.easeOutBack(sizeProgress.value(), 0, 1, 1);
+			float curSize = size * Penner.easeOutBack(sizeProgress.value());
 			if(sizeProgress.value() == 1) sizeProgress.setTarget(0);
 			// draw image or polygon
 			if(image != null) {

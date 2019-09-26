@@ -55,7 +55,7 @@ extends PAppletHax {
 		if(p.loop.progress() > 0.5f) tiltProgress.setTarget(1);
 		else tiltProgress.setTarget(0);
 		tiltProgress.update();
-		easedProgress = Penner.easeInOutCubic(tiltProgress.value(), 0, 1, 1);
+		easedProgress = Penner.easeInOutCubic(tiltProgress.value());
 		
 		// rotate for rendering
 //		p.rotateY(P.QUARTER_PI * 0.75f);
@@ -123,7 +123,7 @@ extends PAppletHax {
 			if((i*3) == p.loop.loopCurFrame()) easings[i].setTarget(1);
 			if((i*3) + P.round(p.loop.frames() / 2) == p.loop.loopCurFrame()) easings[i].setTarget(0);
 			easings[i].update();
-			float easedFloat = Penner.easeInOutCubic(easings[i].value(), 0, 1, 1);
+			float easedFloat = Penner.easeInOutCubic(easings[i].value());
 
 			float dir = (i % 2 == 0) ? -0.25f : 0.25f;
 			// draw!
@@ -166,7 +166,7 @@ extends PAppletHax {
 				
 				// calc wave
 				float curOsc = 0.5f + 0.5f * P.sin(-p.loop.progressRads() + distanceToRadians);
-				curOsc = Penner.easeInOutCubic(curOsc, 0, 1, 1);
+				curOsc = Penner.easeInOutCubic(curOsc);
 				float tileOscSize = (tileSize / 2) + (tileSize / 2) * 1f; // curOsc;
 
 				// position and draw

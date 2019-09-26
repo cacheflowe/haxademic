@@ -69,7 +69,7 @@ extends PAppletHax {
 //				fadeOut.setTarget(0);
 //			}
 //			fadeOut.update();
-//			float easedFade = Penner.easeInExpo(fadeOut.value(), 0, 1, 1);
+//			float easedFade = Penner.easeInExpo(fadeOut.value());
 //			
 //			dmx.setValue(1, round(255 * easedFade));
 //			dmx.setValue(2, round(255 * easedFade));

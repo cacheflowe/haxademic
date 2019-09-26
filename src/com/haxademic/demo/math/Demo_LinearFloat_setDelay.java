@@ -61,14 +61,14 @@ extends PAppletHax {
 		for (int i = 2; i < easingsL.length - 1; i++) {
 			LinearFloat easer = easingsL[i];
 			easer.update();
-			float easedValue = Penner.easeInOutExpo(easer.value(), 0, 1, 1);
+			float easedValue = Penner.easeInOutExpo(easer.value());
 			p.vertex(P.map(easedValue, 0, 1, p.width * 0.2f, p.width * 0.7f), segmentH  * i);
 		}
 		for (int i = 2; i < easingsR.length - 1; i++) {
 			int revI = easingsR.length - i;
 			LinearFloat easer = easingsR[revI];
 			easer.update();
-			float easedValue = Penner.easeInOutExpo(easer.value(), 0, 1, 1);
+			float easedValue = Penner.easeInOutExpo(easer.value());
 			p.vertex(P.map(easedValue, 0, 1, p.width * 0.3f, p.width * 0.8f), segmentH  * revI);
 		}
 //		p.vertex(p.width * 0.8f, segmentH  * (easingsL.length-2));

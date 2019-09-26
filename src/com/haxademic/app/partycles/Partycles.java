@@ -358,7 +358,7 @@ extends PAppletHax {
 			if(sizeProgress.value() == 1) shrink -= 0.01f;
 			float curSize = (sizeProgress.value() == 1) ?
 					size * shrink * audioAmp:
-					size * Penner.easeOutQuad(sizeProgress.value(), 0, 1, 1) * audioAmp;
+					size * Penner.easeOutQuad(sizeProgress.value()) * audioAmp;
 //			if(sizeProgress.value() == 1) sizeProgress.setTarget(0);
 			
 			// draw image or polygon

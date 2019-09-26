@@ -317,7 +317,7 @@ extends PAppletHax {
 					float totalCycleFrames = 200f;
 					float playerCycleFrames = totalCycleFrames / _players.size();
 					float playerPercent = MathUtil.getPercentWithinRange(playerCycleFrames * _playerIndex, playerCycleFrames * (_playerIndex + 1), (p.frameCount - _screenSaverStartFrame) % totalCycleFrames);
-					float easedPercent = Penner.easeInOutSine(playerPercent, 0, 1, 1);
+					float easedPercent = Penner.easeInOutSine(playerPercent);
 					if(playerPercent >= 0 && playerPercent <= 1) {
 						_brightness.setTarget(1);
 						setColorFromPercent(easedPercent);

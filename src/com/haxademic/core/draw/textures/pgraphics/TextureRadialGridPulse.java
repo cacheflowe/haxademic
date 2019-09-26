@@ -81,7 +81,7 @@ extends BaseTexture {
 				
 				// calc wave
 				float curOsc = 0.5f + 0.5f * P.sin(-progressRads + distanceToRadians);
-				curOsc = Penner.easeInOutQuad(curOsc, 0, 1, 1);
+				curOsc = Penner.easeInOutQuad(curOsc);
 				float tileOscSize = tileSize * (0.7f + 0.2f * curOsc);
 
 				// position and draw
@@ -97,7 +97,7 @@ extends BaseTexture {
 					tintOsc *= 1f / pulseWidth.value();
 //					float whiteAlpha = tintOsc;
 					
-					tintOsc = Penner.easeInOutQuad(tintOsc, 0, 1, 1);
+					tintOsc = Penner.easeInOutQuad(tintOsc);
 					float cellNoiseVal = P.p.noise(noiseScrollX + startX + tileX * 0.02f, -noiseScrollY + startY + tileY * 0.02f); 
 					if(cellNoiseVal < noiseCutoff.value()) tintOsc = 0;
 					tintOsc *= cellNoiseVal;

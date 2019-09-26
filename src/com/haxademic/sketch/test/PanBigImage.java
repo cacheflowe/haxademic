@@ -111,7 +111,7 @@ extends PAppletHax {
 			transitionShader.set("to", _pg1);
 		}
 		float loopProgress = progress % 1f;
-		float easedProgress = Penner.easeInOutCubic(loopProgress, 0, 1, 1);
+		float easedProgress = Penner.easeInOutCubic(loopProgress);
 
 		transitionShader.set("progress", easedProgress);
 		p.filter(transitionShader);

@@ -31,8 +31,8 @@ extends PAppletHax {
 		 * http://easings.net/
 		 */
 		float equationPadding = 0.4f;
-		float easedPercent = Penner.easeInOutCirc(MathUtil.randRangeDecimal(equationPadding,1f-equationPadding), 0, 1, 1);
-		float minCurveVal = Penner.easeInOutCirc(equationPadding, 0, 1, 1);
+		float easedPercent = Penner.easeInOutCirc(MathUtil.randRangeDecimal(equationPadding,1f-equationPadding));
+		float minCurveVal = Penner.easeInOutCirc(equationPadding);
 		easedPercent = P.map(easedPercent, minCurveVal, 1f - minCurveVal, 0f, 1f);	// since we're starting on the penner curve, we need to remap from min/max values on that curve
 		easedPercent += 0.5f;
 		if(easedPercent > 1f) easedPercent -= 1f;

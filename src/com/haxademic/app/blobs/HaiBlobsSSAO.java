@@ -207,7 +207,7 @@ extends PAppletHax {
 		
 		// get progress
 		progress = ((float)(p.frameCount%_frames)/_frames);
-		easedPercent = Penner.easeInOutQuart(progress % 1, 0, 1, 1);
+		easedPercent = Penner.easeInOutQuart(progress % 1);
 		progressRadians = progress * P.TWO_PI;
 		
 		// update textures

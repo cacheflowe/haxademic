@@ -68,7 +68,7 @@ extends PAppletHax {
 		p.translate(p.width/2, p.height/2, -200);
 		
 		float percentComplete = ((float)(p.frameCount%_frames)/_frames);
-		// float easedPercent = Penner.easeInOutQuart(percentComplete, 0, 1, 1);
+		// float easedPercent = Penner.easeInOutQuart(percentComplete);
 		float radsComplete = percentComplete * P.TWO_PI;
 //		float radsCompleteEased = easedPercent * P.TWO_PI;
 

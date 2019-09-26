@@ -87,8 +87,8 @@ extends PAppletHax {
 		}
 		rotX.update(true);
 		rotY.update(true);
-		float easedRotX = Penner.easeInOutCubic(rotX.value(), 0, 1, 1);
-		float easedRotY = Penner.easeInOutCubic(rotY.value(), 0, 1, 1);
+		float easedRotX = Penner.easeInOutCubic(rotX.value());
+		float easedRotY = Penner.easeInOutCubic(rotY.value());
 		p.rotateX(P.PI * easedRotX);
 		p.rotateY(P.PI * easedRotY);
 		

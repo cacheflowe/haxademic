@@ -90,7 +90,7 @@ extends BaseTexture {
 		
 		// run transition shaders
 		transitionProgress.update();
-		float easedProgress = Penner.easeInOutCubic(transitionProgress.value(), 0, 1, 1);
+		float easedProgress = Penner.easeInOutCubic(transitionProgress.value());
 		transitionShader.set("progress", easedProgress);
 		resultBuffer.filter(transitionShader);		
 	}

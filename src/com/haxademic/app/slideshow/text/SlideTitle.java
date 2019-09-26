@@ -67,7 +67,7 @@ implements IAppStoreListener {
 			pg.noStroke();
 			
 			// get eased y
-			float easedProgress = Penner.easeInOutCubic(showProgress.value(), 0, 1, 1);
+			float easedProgress = Penner.easeInOutCubic(showProgress.value());
 			
 			pg.pushMatrix();
 			

@@ -126,8 +126,8 @@ extends PAppletHax {
 				
 		// rendering
 		percentComplete = ((float)(p.frameCount%_frames)/_frames);
-		float easedPercent = Penner.easeInOutCubic(percentComplete, 0, 1, 1);
-		float easedPercentHard = Penner.easeInOutQuad(percentComplete, 0, 1, 1);
+		float easedPercent = Penner.easeInOutCubic(percentComplete);
+		float easedPercentHard = Penner.easeInOutQuad(percentComplete);
 		progressRads = percentComplete * P.TWO_PI;
 
 		depth.shader(depthShader);
