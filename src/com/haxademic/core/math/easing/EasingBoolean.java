@@ -31,8 +31,9 @@ public class EasingBoolean {
 		return value;
 	}
 	
-	public void value(boolean value) {
+	public EasingBoolean value(boolean value) {
 		this.value = value;
+		return this;
 	}
 	
 	public float progress() {
@@ -43,12 +44,14 @@ public class EasingBoolean {
 		return target;
 	}
 	
-	public void target( boolean target ) {
+	public EasingBoolean target( boolean target ) {
 		linearFloat.setTarget((target) ? 1 : 0);
+		return this;
 	}
 	
-	public void setInc( float frames ) {
+	public EasingBoolean setInc( float frames ) {
 		linearFloat.setInc(1f / frames);
+		return this;
 	}
 		
 	public void update() {

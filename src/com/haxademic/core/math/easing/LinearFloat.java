@@ -3,11 +3,10 @@ package com.haxademic.core.math.easing;
 public class LinearFloat 
 implements IEasingValue {
 
-	public float value;
-	public float target;
-	public float inc;
-	public int delay;
-	
+	protected float value;
+	protected float target;
+	protected float inc;
+	protected int delay;
 	protected boolean complete = false;
 	protected IEasingValueDelegate delegate;
 

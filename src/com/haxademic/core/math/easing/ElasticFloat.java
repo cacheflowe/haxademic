@@ -9,19 +9,17 @@ implements IEasingValue {
 	// .50/.30 = easing
 	// .50/.30 = slow easing
 	
-	public float _fric;
-	public float _accel;
-	public float speed;
-
-	public float value;
-	public float _target;
+	protected float fric;
+	protected float accel;
+	protected float speed;
+	protected float value;
+	protected float target;
 		   
 	public ElasticFloat( float val, float fric, float accel ) {
-		_fric = fric;
-		_accel = accel;
-
-		value = val;
-		_target = val;
+		this.fric = fric;
+		this.accel = accel;
+		this.value = val;
+		this.target = val;
 	}
 	
 	public float value() {
@@ -34,27 +32,27 @@ implements IEasingValue {
 	}
 
 	public IEasingValue setTarget( float target ) {
-		_target = target;
+		this.target = target;
 		return this;
 	}
 
 	public IEasingValue setFriction( float fric ) {
-		_fric = fric;
+		this.fric = fric;
 		return this;
 	}
 
 	public IEasingValue setAccel( float accel ) {
-		_accel = accel;
+		this.accel = accel;
 		return this;
 	}
 	
 	public boolean isComplete() {
-		return value == _target;
+		return value == target;
 	}
 
 	public void update() {
 		// update elastic point based on current target position vs current position
-		speed = ( ( _target - value ) * _accel + speed ) * _fric;
+		speed = ( ( target - value ) * accel + speed ) * fric;
 		value += speed;
 	}
 

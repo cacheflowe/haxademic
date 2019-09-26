@@ -42,7 +42,6 @@ implements IEasingValue {
 	
 	public IEasingValue setCurrent( float value ) {
 		this.value = value;
-		this.target = value;
 		return this;
 	}
 	
