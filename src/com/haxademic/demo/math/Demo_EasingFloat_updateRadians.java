@@ -24,8 +24,7 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.SHOW_DEBUG, true );
 	}
 
-	public void setup() {
-		super.setup();
+	public void setupFirstFrame() {
 		image = ImageUtil.imageToGraphics(DemoAssets.arrow());
 	}
 
@@ -36,18 +35,17 @@ extends PAppletHax {
 		PG.setCenterScreen(p);
 		
 		float radsFromCenter = MathUtil.getRadiansToTarget(p.width/2f, p.height/2f, p.mouseX, p.mouseY);
-		P.out(radsFromCenter);
-		p.debugView.setValue("radsFromCenter", radsFromCenter);
 		rotation.setTarget(radsFromCenter);
 		rotation.updateRadians();
-		p.debugView.setValue("rotation.value()", rotation.value());
 		
+		p.debugView.setValue("radsFromCenter", radsFromCenter);
+		p.debugView.setValue("rotation.value()", rotation.value());
 		p.debugView.setHelpLine("cos (x)", ""+P.cos(rotation.value()));
 		p.debugView.setHelpLine("sin (y)", ""+P.sin(rotation.value()));
 		p.debugView.setHelpLine("angle", ""+MathUtil.radiansToDegrees(rotation.value()));
 		p.debugView.setHelpLine("rads", ""+rotation.value());
 
-		p.rotate(-rotation.value());
+		p.rotate(rotation.value());
 		p.image(image, 0, 0);
 		p.popMatrix();
 	}

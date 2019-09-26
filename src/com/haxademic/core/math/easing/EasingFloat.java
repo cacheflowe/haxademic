@@ -111,6 +111,7 @@ implements IEasingValue {
 			addToLoop = P.TWO_PI;
 		}
 		value += ((target - value + addToLoop) / easeFactor);
+		value = value % P.TWO_PI;
 		if(Math.abs( value - target ) < completeThreshold) {
 			value = target;
 		}
