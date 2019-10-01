@@ -32,6 +32,7 @@
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.demo.file"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.demo.hardware.osc"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.app.config"/>
+        <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.draw.context.pg32"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.demo.draw.shapes.polygons"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.demo.hardware.midi"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.demo.ui"/>
@@ -106,6 +107,7 @@
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.app"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.system"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.data.patterns"/>
+        <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.demo.media.audio.interphase"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.system.shell"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.hardware.serial"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.draw.shapes"/>
@@ -113,6 +115,7 @@
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.demo.hardware.printer"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.hardware.leap"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.hardware.gamepad"/>
+        <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.net.old"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.demo.render.audio"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.debug"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.draw.text"/>
