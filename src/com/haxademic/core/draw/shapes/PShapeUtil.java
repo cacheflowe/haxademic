@@ -799,15 +799,15 @@ public class PShapeUtil {
 			if(axis == P.X) {
 				float radius = MathUtil.getDistance(v.z, v.y, 0, 0);
 				float newRads = MathUtil.getRadiansToTarget(0, 0, v.z, v.y) + radians;
-				shape.setVertex(i, v.x, radius * P.sin(-newRads), radius * P.cos(-newRads));
+				shape.setVertex(i, v.x, radius * P.sin(newRads), radius * P.cos(newRads));
 			} else if(axis == P.Y) {
 				float radius = MathUtil.getDistance(v.x, v.z, 0, 0);
 				float newRads = MathUtil.getRadiansToTarget(0, 0, v.x, v.z) + radians;
-				shape.setVertex(i, radius * P.cos(-newRads), v.y, radius * P.sin(-newRads));
+				shape.setVertex(i, radius * P.cos(newRads), v.y, radius * P.sin(newRads));
 			} else if(axis == P.Z) {
 				float radius = MathUtil.getDistance(v.x, v.y, 0, 0);
 				float newRads = MathUtil.getRadiansToTarget(0, 0, v.x, v.y) + radians;
-				shape.setVertex(i, radius * P.cos(-newRads), radius * P.sin(-newRads), v.z);
+				shape.setVertex(i, radius * P.cos(newRads), radius * P.sin(newRads), v.z);
 			}
 		}
 		for (int j = 0; j < shape.getChildCount(); j++) {
@@ -846,7 +846,7 @@ public class PShapeUtil {
 			float radius = MathUtil.getDistance(v.x, v.z, 0, 0);
 			float twistAtY = ((v.y + radius) * freq) * 0.001f * amp;
 			float newRads = MathUtil.getRadiansToTarget(0, 0, v.x, v.z) + twistAtY;
-			shape.setVertex(i, radius * P.cos(-newRads), v.y, radius * P.sin(-newRads));
+			shape.setVertex(i, radius * P.cos(newRads), v.y, radius * P.sin(newRads));
 		}
 		for (int j = 0; j < shape.getChildCount(); j++) {
 			verticalTwistShape(shape.getChild(j), amp, freq);
