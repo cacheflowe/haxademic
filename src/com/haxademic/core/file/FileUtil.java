@@ -172,7 +172,7 @@ public class FileUtil {
 		        boolean added = false;
 		        for( int j=0; j < extensions.length; j++ ) {
 			        if( filename.indexOf( "." + extensions[j] ) != -1 && added == false) {	
-			        	filesOfType.add( directory + "/" + filename );
+			        	filesOfType.add( directory + FileUtil.SEPARATOR + filename );
 			        	added = true;
 			        }
 		        }
