@@ -206,6 +206,21 @@ public class EasingColor {
 		return P.p.lerpColor(colorInt(), color2.colorInt(), mix);
 	}
 	
+	// comparison helpers
+	
+	protected float RGB_TOTAL = 255 * 3;
+	public float distanceToColor(int color) {
+		float totalEasing = r() + g() + b();
+		float totalColor = P.p.red(color) + P.p.green(color) + P.p.blue(color);
+		return P.abs(totalEasing - totalColor) / RGB_TOTAL;
+	}
+	
+	public float distanceToColor(EasingColor otherColor) {
+		float total1 = r() + g() + b();
+		float total2 = otherColor.r() + otherColor.g() + otherColor.b();
+		return P.abs(total1 - total2) / RGB_TOTAL;
+	}
+	
 	// UTIL
 	
 	public static final int alphaFromColorInt( int c ) { return (c >> 24) & 0xFF; }
