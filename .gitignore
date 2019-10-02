@@ -9,4 +9,5 @@ www/dashboard/projects
 *Thumbs.db
 .DS_Store
 *.log
+.idea
 captured.png

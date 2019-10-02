@@ -1,0 +1,268 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component inheritJdk="true">
+	<exclude-output/>
+	<contentEntry url="file://$MODULE_DIR$"/>
+	<lib name="beads.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/beads/library/beads.jar!/"/>
+	</lib>
+	<lib name="jarjar-1.0.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/beads/library/jarjar-1.0.jar!/"/>
+	</lib>
+	<lib name="jl1.0.1.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/beads/library/jl1.0.1.jar!/"/>
+	</lib>
+	<lib name="org-jaudiolibs-audioservers-jack.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/beads/library/org-jaudiolibs-audioservers-jack.jar!/"/>
+	</lib>
+	<lib name="org-jaudiolibs-audioservers-javasound.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/beads/library/org-jaudiolibs-audioservers-javasound.jar!/"/>
+	</lib>
+	<lib name="org-jaudiolibs-audioservers.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/beads/library/org-jaudiolibs-audioservers.jar!/"/>
+	</lib>
+	<lib name="org-jaudiolibs-jnajack.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/beads/library/org-jaudiolibs-jnajack.jar!/"/>
+	</lib>
+	<lib name="tools.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/beads/library/tools.jar!/"/>
+	</lib>
+	<lib name="mp3spi1.9.4.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/beads/library/mp3spi1.9.4.jar!/"/>
+	</lib>
+	<lib name="tritonus_aos-0.3.6.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/beads/library/tritonus_aos-0.3.6.jar!/"/>
+	</lib>
+	<lib name="tritonus_share.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/beads/library/tritonus_share.jar!/"/>
+	</lib>
+	<lib name="blobDetection.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/blobDetection/library/blobDetection.jar!/"/>
+	</lib>
+	<lib name="dmxP512.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/dmxP512/library/dmxP512.jar!/"/>
+	</lib>
+	<lib name="Ess.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/Ess/library/Ess.jar!/"/>
+	</lib>
+	<lib name="batikfont.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/geomerative/library/batikfont.jar!/"/>
+	</lib>
+	<lib name="geomerative.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/geomerative/library/geomerative.jar!/"/>
+	</lib>
+	<lib name="GifAnimation.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/GIFAnimation/library/GifAnimation.jar!/"/>
+	</lib>
+	<lib name="trove-3.1a1.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/hemesh/library/trove-3.1a1.jar!/"/>
+	</lib>
+	<lib name="exp4j.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/hemesh/library/exp4j.jar!/"/>
+	</lib>
+	<lib name="hemesh-data-2_2_0.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/hemesh/library/hemesh-data-2_2_0.jar!/"/>
+	</lib>
+	<lib name="hemesh-external-2_2_0.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/hemesh/library/hemesh-external-2_2_0.jar!/"/>
+	</lib>
+	<lib name="javolution-6.1.0.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/hemesh/library/javolution-6.1.0.jar!/"/>
+	</lib>
+	<lib name="jts.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/hemesh/library/jts.jar!/"/>
+	</lib>
+	<lib name="objparser.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/hemesh/library/objparser.jar!/"/>
+	</lib>
+	<lib name="hemesh.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/hemesh/library/hemesh.jar!/"/>
+	</lib>
+	<lib name="Java-WebSocket-1.3.9.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/java_websocket/Java-WebSocket-1.3.9.jar!/"/>
+	</lib>
+	<lib name="jetty-all-9.4.15.v20190215-uber.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/jetty/jetty-all-9.4.15.v20190215-uber.jar!/"/>
+	</lib>
+	<lib name="jinput-2.0.9.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/jinput/jinput-2.0.9.jar!/"/>
+	</lib>
+	<lib name="jnajack-1.3.0.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/jnajack/jnajack-1.3.0.jar!/"/>
+	</lib>
+	<lib name="janino.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/joons/library/janino.jar!/"/>
+	</lib>
+	<lib name="sunflow73.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/joons/library/sunflow73.jar!/"/>
+	</lib>
+	<lib name="joons.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/joons/library/joons.jar!/"/>
+	</lib>
+	<lib name="KinectPV2.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/KinectPV2/library/KinectPV2.jar!/"/>
+	</lib>
+	<lib name="LeapJava.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/LeapMotionForProcessing/library/LeapJava.jar!/"/>
+	</lib>
+	<lib name="LeapMotionForProcessing.jar" scope="COMPILE">
+		<srcroot url="file://lib/LeapMotionForProcessing/src"/>
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/LeapMotionForProcessing/library/LeapMotionForProcessing.jar!/"/>
+	</lib>
+	<lib name="jsminim.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/minim/library/jsminim.jar!/"/>
+	</lib>
+	<lib name="minim.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/minim/library/minim.jar!/"/>
+	</lib>
+	<lib name="newhull.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/newhull/library/newhull.jar!/"/>
+	</lib>
+	<lib name="openkinect_processing.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/openkinect_processing/library/openkinect_processing.jar!/"/>
+	</lib>
+	<lib name="oscP5.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/oscP5/library/oscP5.jar!/"/>
+	</lib>
+	<lib name="poly2tri-core-0.1.2.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/poly2tri/poly2tri-core-0.1.2.jar!/"/>
+	</lib>
+	<lib name="slf4j-api-1.6.3.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/poly2tri/slf4j-api-1.6.3.jar!/"/>
+	</lib>
+	<lib name="core.jar" scope="COMPILE">
+		<srcroot url="file:///processing-core"/>
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/processing-3/core/library/core.jar!/"/>
+	</lib>
+	<lib name="gluegen-rt.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/processing-3/core/library/gluegen-rt.jar!/"/>
+	</lib>
+	<lib name="jogl-all.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/processing-3/core/library/jogl-all.jar!/"/>
+	</lib>
+	<lib name="itext.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/processing-3/libraries/pdf/library/itext.jar!/"/>
+	</lib>
+	<lib name="pdf.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/processing-3/libraries/pdf/library/pdf.jar!/"/>
+	</lib>
+	<lib name="jssc.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/processing-3/libraries/serial/library/jssc.jar!/"/>
+	</lib>
+	<lib name="serial.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/processing-3/libraries/serial/library/serial.jar!/"/>
+	</lib>
+	<lib name="sound.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/processing-3/libraries/sound/library/sound.jar!/"/>
+	</lib>
+	<lib name="gstreamer-java.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/processing-3/libraries/video/library/gstreamer-java.jar!/"/>
+	</lib>
+	<lib name="jna.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/processing-3/libraries/video/library/jna.jar!/"/>
+	</lib>
+	<lib name="video.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/processing-3/libraries/video/library/video.jar!/"/>
+	</lib>
+	<lib name="librealsense.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/RealSenseProcessing/library/librealsense.jar!/"/>
+	</lib>
+	<lib name="RealSenseProcessing.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/RealSenseProcessing/library/RealSenseProcessing.jar!/"/>
+	</lib>
+	<lib name="SimpleOpenNI.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/SimpleOpenNI/library/SimpleOpenNI.jar!/"/>
+	</lib>
+	<lib name="sphinx4-core-5prealpha.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/sphinx4/sphinx4-core-5prealpha.jar!/"/>
+	</lib>
+	<lib name="sphinx4-data-1.0.0.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/sphinx4/sphinx4-data-1.0.0.jar!/"/>
+	</lib>
+	<lib name="spout.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/spout/library/spout.jar!/"/>
+	</lib>
+	<lib name="super-csv-2.1.0.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/super-csv/super-csv-2.1.0.jar!/"/>
+	</lib>
+	<lib name="themidibus.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/themidibus/library/themidibus.jar!/"/>
+	</lib>
+	<lib name="toxiclibs_p5.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/toxiclibs-complete-0020/toxiclibs_p5/library/toxiclibs_p5.jar!/"/>
+	</lib>
+	<lib name="toxiclibscore.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/toxiclibs-complete-0020/toxiclibscore/library/toxiclibscore.jar!/"/>
+	</lib>
+	<lib name="volumeutils.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/toxiclibs-complete-0020/volumeutils/library/volumeutils.jar!/"/>
+	</lib>
+	<lib name="colorutils.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/toxiclibs-complete-0020/colorutils/library/colorutils.jar!/"/>
+	</lib>
+	<lib name="udp.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/udp/library/udp.jar!/"/>
+	</lib>
+	<lib name="monte-cc.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/UMovieMaker/library/monte-cc.jar!/"/>
+	</lib>
+	<lib name="UMovieMaker.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/UMovieMaker/library/UMovieMaker.jar!/"/>
+	</lib>
+	<lib name="IPCapture.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/IPCapture/library/IPCapture.jar!/"/>
+	</lib>
+	<lib name="JAsioHost.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/jasiohost/JAsioHost.jar!/"/>
+	</lib>
+	<lib name="openimaj-test-project-1.0-SNAPSHOT-jar-with-dependencies.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/openimaj/openimaj-test-project-1.0-SNAPSHOT-jar-with-dependencies.jar!/"/>
+	</lib>
+	<lib name="twilio-7.38.0-jar-with-dependencies.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/twilio/twilio-7.38.0-jar-with-dependencies.jar!/"/>
+	</lib>
+	<lib name="commons-codec-1.12.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/twilio/commons-codec-1.12.jar!/"/>
+	</lib>
+	<lib name="libusb4java-1.3.0-linux-arm.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/usb4java/lib/libusb4java-1.3.0-linux-arm.jar!/"/>
+	</lib>
+	<lib name="libusb4java-1.3.0-linux-x86.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/usb4java/lib/libusb4java-1.3.0-linux-x86.jar!/"/>
+	</lib>
+	<lib name="libusb4java-1.3.0-linux-x86-64.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/usb4java/lib/libusb4java-1.3.0-linux-x86-64.jar!/"/>
+	</lib>
+	<lib name="libusb4java-1.3.0-win32-x86.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/usb4java/lib/libusb4java-1.3.0-win32-x86.jar!/"/>
+	</lib>
+	<lib name="libusb4java-1.3.0-win32-x86-64.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/usb4java/lib/libusb4java-1.3.0-win32-x86-64.jar!/"/>
+	</lib>
+	<lib name="usb4java-1.3.0.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/usb4java/lib/usb4java-1.3.0.jar!/"/>
+	</lib>
+	<lib name="commons-lang3-3.8.1.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/usb4java/lib/commons-lang3-3.8.1.jar!/"/>
+	</lib>
+	<lib name="libusb4java-1.3.0-darwin-x86-64.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/usb4java/lib/libusb4java-1.3.0-darwin-x86-64.jar!/"/>
+	</lib>
+	<lib name="libusb4java-1.3.0-linux-aarch64.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/usb4java/lib/libusb4java-1.3.0-linux-aarch64.jar!/"/>
+	</lib>
+	<lib name="usb4java-javax-1.3.0.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/usb4java/lib/usb4java-javax-1.3.0.jar!/"/>
+	</lib>
+	<lib name="usb-api-1.0.2.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/usb4java/lib/usb-api-1.0.2.jar!/"/>
+	</lib>
+	<lib name="bridj-0.7.0.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/webcam-capture/bridj-0.7.0.jar!/"/>
+	</lib>
+	<lib name="slf4j-api-1.7.2.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/webcam-capture/slf4j-api-1.7.2.jar!/"/>
+	</lib>
+	<lib name="webcam-capture-0.3.12.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/webcam-capture/webcam-capture-0.3.12.jar!/"/>
+	</lib>
+</component>
