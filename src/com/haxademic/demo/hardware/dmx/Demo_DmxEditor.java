@@ -21,8 +21,8 @@ extends PAppletHax {
 	protected Movie video;
 	
 	protected void overridePropsFile() {
-		p.appConfig.setProperty(AppSettings.WIDTH, 1280);
-		p.appConfig.setProperty(AppSettings.HEIGHT, 800);
+		p.appConfig.setProperty(AppSettings.WIDTH, 960);
+		p.appConfig.setProperty(AppSettings.HEIGHT, 540);
 	}
 
 	public void setupFirstFrame() {

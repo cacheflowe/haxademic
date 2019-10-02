@@ -88,7 +88,7 @@ implements IAppStoreListener {
 		
 		// dmx
 		this.dmxMode = dmxMode;
-		dmxUniverseDefault = new DMXUniverse("COM4", 9600);
+		dmxUniverseDefault = new DMXUniverse(port, baudRate);
 		
 		// build screens / objects
 		this.pgUI = pgUI;
