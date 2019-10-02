@@ -249,18 +249,10 @@ public class FileUtil {
 	
 	public static ArrayList<PImage> loadImagesFromDir(String directory, String formats) {
 		ArrayList<PImage> images = new ArrayList<PImage>();
-				
-		// parse and loop through the format/extensions and load from the directory each time (there's certainly a better way to do this)
-		String[] extensions = formats.split(",");
-		for( int i=0; i < extensions.length; i++ ) {
-			// P.println("--- loading "+extensions[i] + " images ---");
-			ArrayList<String> imageFiles = FileUtil.getFilesInDirOfType( directory, extensions[i] );
-			for( int j=0; j < imageFiles.size(); j++ ) {
-				// P.println("--- "+directory + imageFiles.get(j));
-				images.add( P.p.loadImage( directory + imageFiles.get(j) ) );
-			}
+		ArrayList<String> imageFiles = FileUtil.getFilesInDirOfTypes( directory, formats );
+		for( int j=0; j < imageFiles.size(); j++ ) {
+			images.add(P.p.loadImage(imageFiles.get(j)));
 		}
-		// Arrays.sort(children);
 		return images;
 	}
 	
