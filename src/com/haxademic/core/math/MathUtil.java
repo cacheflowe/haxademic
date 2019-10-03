@@ -350,6 +350,14 @@ public class MathUtil {
 	    return f % 1f;
 	}
 	
+	public static int gridRowFromIndex(int index, float cols) {
+		return P.floor(index / cols);
+	}
+	
+	public static int gridColFromIndex(int index, int cols) {
+		return index % cols;
+	}
+	
 	public static float saw(float rads) {
 	    rads = rads / P.TWO_PI + P.PI / 4f; // add quarter PI to sync with sin()
 	    rads = fract(rads); 
