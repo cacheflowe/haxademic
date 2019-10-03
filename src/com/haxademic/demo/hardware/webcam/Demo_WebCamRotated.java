@@ -29,7 +29,7 @@ implements IWebCamCallback {
 		// crop fill rotate to buffer
 		rotatedBuffer.beginDraw();
 		rotatedBuffer.background(0);
-		ImageUtil.drawImageCropFillRotated(WebCam.instance().image(), rotatedBuffer, (p.mousePercentX() > 0.5f), (p.mousePercentY() > 0.5f), false);
+		ImageUtil.drawImageCropFillRotated90deg(WebCam.instance().image(), rotatedBuffer, (p.mousePercentX() > 0.5f), (p.mousePercentY() > 0.5f), false);
 		rotatedBuffer.endDraw();
 		
 		// draw rotated buffer to screen

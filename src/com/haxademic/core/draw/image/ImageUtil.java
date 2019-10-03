@@ -266,10 +266,6 @@ public class ImageUtil {
 		dest.copy( src, 0, 0, (int) imageW, (int) imageH, (int) offsetX, (int) offsetY, (int) resizedW, (int) resizedH );
 	}
 	
-	public static void drawImageCropFill(PImage img, PGraphics dest, boolean cropFill) {
-		drawImageCropFill(img, dest, cropFill, false);
-	}
-	
 	// fills a specific rectangle without depending on offsetting off an entire buffer/canvas like the other version of this method
 	public static void cropFillCopyImage(PImage src, PImage dest, int destX, int destY, int destW, int destH, boolean cropFill) {
 		int imageW = src.width;
@@ -295,19 +291,31 @@ public class ImageUtil {
 		}
 	}
 	
+	public static void drawImageCropFill(PImage img, PGraphics dest, boolean cropFill) {
+		drawImageCropFill(img, dest, cropFill, false);
+	}
+	
 	public static void drawImageCropFill(PImage img, PGraphics dest, boolean cropFill, boolean openDestContext) {
+		drawImageCropFill(img, dest, cropFill, false, openDestContext);
+	}
+	
+	public static void drawImageCropFill(PImage img, PGraphics dest, boolean cropFill, boolean rotate180, boolean openDestContext) {
 		float ratioW = MathUtil.scaleToTarget(img.width, dest.width);
 		float ratioH = MathUtil.scaleToTarget(img.height, dest.height);
 		float scale = (ratioH < ratioW) ? ratioH : ratioW;			// letterbox
 		if(cropFill) scale = (ratioH > ratioW) ? ratioH : ratioW;		// crop fill
 		if(openDestContext) dest.beginDraw();
+		dest.pushMatrix();
 		PG.setDrawCenter(dest);
-		dest.image(img, dest.width/2, dest.height/2, img.width * scale, img.height * scale);
+		dest.translate(dest.width/2, dest.height/2);
+		if(rotate180) dest.rotate(P.PI);
+		dest.image(img, 0, 0, img.width * scale, img.height * scale);
 		PG.setDrawCorner(dest);
+		dest.popMatrix();
 		if(openDestContext) dest.endDraw();
 	}
 	
-	public static void drawImageCropFillRotated(PImage img, PGraphics dest, boolean cropFill, boolean positive, boolean openDestContext) {
+	public static void drawImageCropFillRotated90deg(PImage img, PGraphics dest, boolean cropFill, boolean positive, boolean openDestContext) {
 		float ratioW = MathUtil.scaleToTarget(img.height, dest.width);
 		float ratioH = MathUtil.scaleToTarget(img.width, dest.height);
 		float scale = (ratioH < ratioW) ? ratioH : ratioW;				// letterbox

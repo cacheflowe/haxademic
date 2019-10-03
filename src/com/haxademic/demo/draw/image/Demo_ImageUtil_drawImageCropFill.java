@@ -11,6 +11,6 @@ extends PAppletHax {
 	public void drawApp() {
 		background(0);
 		boolean cropFill = p.mousePercentX() < 0.5f;
-		ImageUtil.drawImageCropFill(DemoAssets.justin(), p.g, cropFill);
+		ImageUtil.drawImageCropFill(DemoAssets.justin(), p.g, cropFill, p.mousePercentY() < 0.5f, false);
 	}
 }
