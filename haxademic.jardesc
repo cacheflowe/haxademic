@@ -28,6 +28,7 @@
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.draw.textures.pshader"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.demo.draw.image"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.media.audio.input"/>
+        <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.hardware.dmx.editor"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.draw.filters.pgraphics.archive"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.demo.file"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.demo.hardware.osc"/>
