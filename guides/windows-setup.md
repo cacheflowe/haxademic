@@ -124,7 +124,10 @@
   * Open Java app from Start Menu and disable from there
   * Open the system Task Manager (ctrl + alt + delete), go to the Startup tab, and disable java updater on startup
 
-* Set a static [IP address](https://portforward.com/networking/static-ip-windows-10.htm) - only needed for multi-machine networking situations
+* Networking
+	* Set a static [IP address](https://portforward.com/networking/static-ip-windows-10.htm) - only needed for multi-machine networking situations
+	* Allow WebSockets messages to go through on a specific port (3001 is default in Haxademic)
+		* Open `Windows Firewall with Advanced Security` and add an incoming and outgoing rule for port 3001, and allow on all networks
 
 Additional steps:
   * BIOS settings to resume after power loss
