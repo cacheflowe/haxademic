@@ -96,9 +96,16 @@ public class SocketClient {
 	
 	protected void checkConnection() {
 		if(isConnected() == false) {
-			if(P.p.millis() - lastConnectAttemptTime > 2000) {
+			if(P.p.millis() - lastConnectAttemptTime > 5000) {
 				if(SOCKET_DEBUG == true) P.println("Attempting to reconnect to Websocket");
-				buildSocketClient();
+				new Thread(new Runnable() { public void run() {
+					if(client != null) {
+						client.reconnect();
+						lastConnectAttemptTime = P.p.millis();
+					} else {
+						buildSocketClient();
+					}
+				}}).start();	
 			}
 		}
 	}

@@ -11,13 +11,26 @@ public class MediaTimecodeTrigger {
 	protected float triggerTime;
 	protected String action;
 	protected IMediaTimecodeTriggerDelegate delegate;
-	protected float pastThresh = 0.3f;
+	protected float pastThresh;
 	
 	public MediaTimecodeTrigger(String mediaId, float time, String action, IMediaTimecodeTriggerDelegate delegate) {
+		this(mediaId, time, action, delegate, 0.3f);
+	}
+	
+	public MediaTimecodeTrigger(String mediaId, float time, String action, IMediaTimecodeTriggerDelegate delegate, float pastThresh) {
 		this.mediaId = mediaId;
 		this.triggerTime = time;
 		this.action = action;
 		this.delegate = delegate;
+		this.pastThresh = pastThresh;
+	}
+	
+	public boolean active() {
+		return active;
+	}
+	
+	public void pastThresh(float pastThresh) {
+		this.pastThresh = pastThresh;
 	}
 	
 	public void update(String curMediaId, float curTimeSeconds) {

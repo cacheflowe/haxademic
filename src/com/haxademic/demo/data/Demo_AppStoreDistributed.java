@@ -21,7 +21,7 @@ implements IAppStoreListener {
 	
 	// use case config
 	protected boolean isServer = true;
-	protected String socketServerAddress = "10.10.1.111"; // null; // make null if we're running the server & client on the same machine
+	protected String socketServerAddress = "ws://10.10.1.111:3001"; // null; // make null if we're running the server & client on the same machine
 	
 	protected void overridePropsFile() {
 		p.appConfig.setProperty(AppSettings.SHOW_DEBUG, true );
