@@ -10,6 +10,7 @@ import com.haxademic.core.draw.filters.pshader.ReflectFilter;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.draw.textures.PerlinTexture;
+import com.haxademic.core.draw.textures.SimplexNoiseTexture;
 import com.haxademic.core.draw.textures.pgraphics.TextureEQGrid;
 import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
 import com.haxademic.core.draw.textures.pshader.TextureShader;
@@ -37,7 +38,7 @@ extends PAppletHax {
 	PShape xShape;
 	PShader feedbackShader;
 	int mode = 0;
-	protected PerlinTexture perlin;
+	protected SimplexNoiseTexture simplexNoise;
 	protected BaseTexture audioTexture;
 	protected TextureShader textureShader;
 
@@ -63,16 +64,14 @@ extends PAppletHax {
 //		PShapeUtil.centerShape(xShape);
 //		PShapeUtil.scaleShapeToExtent(xShape, p.width * 0.4f);
 
-		perlin = new PerlinTexture(p, 128, 128);
-		perlin.update(0.15f, 0.05f, p.frameCount/ 10f, 0);
-
+		simplexNoise = new SimplexNoiseTexture(128, 128);
 		audioTexture = new TextureEQGrid(128, 128);
 
 		feedbackShader = loadShader(FileUtil.getFile("haxademic/shaders/filters/feedback-map.glsl"));
 
 		textureShader = new TextureShader(TextureShader.bw_voronoi);
 		textureShader = new TextureShader(TextureShader.bw_clouds);
-		textureShader = new TextureShader(TextureShader.BWNoiseInfiniteZoom, 0.005f);
+//		textureShader = new TextureShader(TextureShader.BWNoiseInfiniteZoom, 0.005f);
 	}
 
 	protected void drawImg(PImage img) {
@@ -95,7 +94,10 @@ extends PAppletHax {
 		buffer.beginDraw();
 		xShape.disableStyle();
 		buffer.fill(127f + 127f * P.sin(progressRads * 30));
-		if(black) buffer.fill(0);
+		if(black) {
+			buffer.fill(0);
+			buffer.fill(MathUtil.randRange(0, 255), MathUtil.randRange(0, 255), MathUtil.randRange(0, 255));
+		}
 		buffer.translate(buffer.width/2, buffer.height/2);
 		buffer.rotate(progressRads * 0.25f);
 		buffer.shape(xShape);
@@ -114,13 +116,12 @@ extends PAppletHax {
 	}
 
 	protected void updateMapPerlin() {
-		perlin.update(
-				P.map(p.mouseY, 0, p.height, 0.0001f, 0.05f),
-				P.map(p.mouseX, 0, p.width, 0.0001f, 0.001f),
-				50f * P.cos(p.frameCount/ 5000f),
-				50f * P.sin(p.frameCount/ 5000f)
-				);
-		ImageUtil.cropFillCopyImage(perlin.texture(), map, true);
+		simplexNoise.update(
+				P.map(p.mousePercentX(), 0, 1, 0.01f, 15f), 
+				P.map(p.mousePercentY(), 0, 1, -P.TWO_PI, P.TWO_PI), 
+				50f * P.cos(p.frameCount / 5000f), 
+				50f * P.sin(p.frameCount / 5000f));
+		ImageUtil.cropFillCopyImage(simplexNoise.texture(), map, true);
 	}
 
 	protected void updateMapWebcam() {
@@ -138,7 +139,7 @@ extends PAppletHax {
 	protected void applyFeedbackToBuffer() {
 		feedbackShader.set("map", map);
 		// feedbackShader.set("samplemult", P.map(p.mouseY, 0, p.height, 0.85f, 1.15f) );
-		feedbackShader.set("amp", P.map(p.mouseX, 0, p.width, 0.0001f, 0.01f) );
+		feedbackShader.set("amp", P.map(p.mousePercentY(), 0, 1, 0.0001f, 0.01f) );
 		for (int i = 0; i < 1; i++) buffer.filter(feedbackShader);
 	}
 
@@ -156,13 +157,13 @@ extends PAppletHax {
 		background(255);
 
 		// draw on top of image
-		drawXShape(false);
+//		drawXShape(false);
 
 		// draw map
-//		updateMapPerlin();
+		updateMapPerlin();
 //		updateMapAudio();
 //		updateMapWebcam();
-		updateMapShader();
+//		updateMapShader();
 
 		// blur the map
 		blurMap();
@@ -171,7 +172,7 @@ extends PAppletHax {
 		applyFeedbackToBuffer();
 
 		// draw again to see the full image on top
-		drawXShape(true);
+//		drawXShape(true);
 
 		// draw to screen
 		p.image(buffer, 0, 0);

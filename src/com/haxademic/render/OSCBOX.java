@@ -1,4 +1,4 @@
-package com.haxademic.demo.math;
+package com.haxademic.render;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
@@ -7,7 +7,7 @@ import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.math.easing.LinearFloat;
 import com.haxademic.core.math.easing.Penner;
 
-public class Demo_LinearFloat_setDelay
+public class OSCBOX
 extends PAppletHax {
 	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	

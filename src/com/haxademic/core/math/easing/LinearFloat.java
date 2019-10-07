@@ -22,6 +22,10 @@ implements IEasingValue {
 		delay = 0;
 	}
 	
+	public static float incForFrames(int frames) {
+		return 1f / frames;
+	}
+	
 	public float value() {
 		return value;
 	}
