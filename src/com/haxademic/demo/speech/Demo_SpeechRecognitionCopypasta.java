@@ -21,7 +21,7 @@ import edu.cmu.sphinx.result.WordResult;
 public class Demo_SpeechRecognitionCopypasta
 extends PAppletHax
 implements ISpeechRecognizer {
-	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
+	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	protected FrameWithBorderLayout frame;
 	protected String voiceCommand;

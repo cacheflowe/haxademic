@@ -8,7 +8,7 @@ import com.haxademic.core.media.DemoAssets;
 
 public class Demo_ImageUtil_cropFillCopyImage 
 extends PAppletHax {
-	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
+	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
 	protected Rectangle rect1 = new Rectangle(20, 20, 100, 200);
 	protected Rectangle rect2 = new Rectangle(300, 300, 200, 100);

@@ -19,7 +19,7 @@ import processing.core.PImage;
 public class Demo_Kinect_RunDetector
 extends PAppletHax
 implements IEasingBooleanCallback {
-	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
+	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	protected String kinectLeft = "kinectLeft";
 	protected String kinectRight = "kinectRight";

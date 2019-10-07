@@ -16,7 +16,7 @@ import themidibus.SimpleMidiListener;
 public class Demo_LaunchPad_Grid
 extends PAppletHax
 implements SimpleMidiListener {
-	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
+	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	protected float[][] grid = new float[9][8];
 	protected PGraphics pg8x8;

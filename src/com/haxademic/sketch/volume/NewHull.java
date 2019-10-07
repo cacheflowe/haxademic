@@ -12,7 +12,7 @@ import processing.core.PImage;
 
 public class NewHull 
 extends PAppletHax {
-	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
+	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
 	QuickHull3D hull = new QuickHull3D(); //init quickhull
 	Point3d[] points; //init Point3d array

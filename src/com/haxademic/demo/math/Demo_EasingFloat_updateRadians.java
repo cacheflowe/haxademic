@@ -13,7 +13,7 @@ import processing.core.PGraphics;
 
 public class Demo_EasingFloat_updateRadians
 extends PAppletHax {
-	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
+	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	protected PGraphics image;
 	protected EasingFloat rotation = new EasingFloat(0, 8f);

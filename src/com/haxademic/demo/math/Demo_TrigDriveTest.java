@@ -7,7 +7,7 @@ import com.haxademic.core.draw.context.PG;
 
 public class Demo_TrigDriveTest
 extends PAppletHax {
-	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
+	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
 	protected String radians = "radians";
 	protected String speed = "speed";

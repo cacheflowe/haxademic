@@ -70,7 +70,7 @@ import com.haxademic.core.media.audio.playback.WavPlayer;
 public class Demo_BaseTextures_ALL 
 extends PAppletHax {
 
-	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
+	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	protected BaseTexture[] allTextures;
 	protected int textureIndex = 0;
 	protected String TEX_INDEX = "TEX_INDEX";

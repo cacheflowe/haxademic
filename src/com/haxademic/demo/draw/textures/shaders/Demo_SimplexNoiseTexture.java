@@ -6,7 +6,7 @@ import com.haxademic.core.draw.textures.SimplexNoiseTexture;
 
 public class Demo_SimplexNoiseTexture 
 extends PAppletHax {
-	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
+	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	protected SimplexNoiseTexture noiseTexture;
 	protected String ZOOM = "ZOOM";

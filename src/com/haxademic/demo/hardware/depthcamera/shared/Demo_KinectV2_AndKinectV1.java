@@ -10,7 +10,7 @@ import com.haxademic.core.math.MathUtil;
 public class Demo_KinectV2_AndKinectV1
 extends PAppletHax {
 
-	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
+	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	protected IDepthCamera kinectWrapperV1;
 	protected IDepthCamera kinectWrapperV2;

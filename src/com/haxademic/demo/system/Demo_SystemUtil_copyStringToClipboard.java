@@ -5,7 +5,7 @@ import com.haxademic.core.system.SystemUtil;
 
 public class Demo_SystemUtil_copyStringToClipboard
 extends PAppletHax {
-	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
+	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
 	public void setup() {
 		super.setup();

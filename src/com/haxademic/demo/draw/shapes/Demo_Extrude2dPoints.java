@@ -11,7 +11,7 @@ import processing.core.PVector;
 
 public class Demo_Extrude2dPoints 
 extends PAppletHax {
-	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
+	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	protected int _frames = 120;
 	protected ArrayList<PVector> points;

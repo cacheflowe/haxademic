@@ -8,7 +8,7 @@ import com.haxademic.core.hardware.midi.devices.NovationColors;
 
 public class Demo_LaunchPad
 extends PAppletHax {
-	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
+	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	protected void overridePropsFile() {
 		p.appConfig.setProperty(AppSettings.MIDI_DEVICE_IN_INDEX, 0 );

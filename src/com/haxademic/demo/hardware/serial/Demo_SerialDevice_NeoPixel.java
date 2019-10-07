@@ -16,7 +16,7 @@ import processing.serial.Serial;
 public class Demo_SerialDevice_NeoPixel
 extends PAppletHax
 implements ISerialDeviceDelegate {
-	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
+	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
 	protected SimplexNoiseTexture noiseTexture;
 

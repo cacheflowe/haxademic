@@ -18,7 +18,7 @@ import toxi.color.TColor;
 
 public class GifRenderEllo013ExtrudeSpin
 extends PAppletHax {
-	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
+	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
 	float _frames = 160;
 

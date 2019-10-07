@@ -10,7 +10,7 @@ import krister.Ess.FFT;
 
 public class Demo_ESS_Basic
 extends PAppletHax {
-	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
+	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	protected AudioInput audioInput;
 	protected FFT fft;

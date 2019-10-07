@@ -13,7 +13,7 @@ import com.haxademic.core.system.SystemUtil;
 
 public class RectangleSubdivisionTest
 extends PAppletHax {
-	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
+	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	protected ArrayList<Rectangle> _rectangles;
 	protected int _numDivisions = 100;

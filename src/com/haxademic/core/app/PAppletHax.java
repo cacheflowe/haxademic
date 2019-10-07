@@ -61,21 +61,16 @@ import themidibus.MidiBus;
 public class PAppletHax
 extends PApplet {
 	//	Simplest launch:
-	//	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
+	//	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
 	//	Fancier launch:
 	//	public static void main(String args[]) {
 	//		PAppletHax.main(P.concat(args, new String[] { "--hide-stop", "--bgcolor=000000", Thread.currentThread().getStackTrace()[1].getClassName() }));
 	//		PApplet.main(new String[] { "--hide-stop", "--bgcolor=000000", "--location=1920,0", "--display=1", ElloMotion.class.getName() });
 	//	}
-		
-	//	public static String arguments[];
-	//	public static void main(String args[]) {
-	//		arguments = args;
-	//		PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName());
-	//	}
 
 	// app
+	public static String arguments[];			// Args passed in via main() launch command
 	protected static PAppletHax p;				// Global/static ref to PApplet - any class can access reference from this static ref. Easier access via `P.p`
 	public PGraphics pg;						// Offscreen buffer that matches the app size by default
 	public P5Properties appConfig;				// Loads the project .properties file to configure several app properties externally.
@@ -133,12 +128,24 @@ extends PApplet {
 		P.p = p = this;
 		P.store = AppStore.instance();
 		AppUtil.setFrameBackground(p,0,255,0);
+		printArgs();
 		loadAppConfig();
 		overridePropsFile();
 		setAppIcon();
 		setRenderer();
 		setSmoothing();
 		setRetinaScreen();
+	}
+	
+	protected void printArgs() {
+		if(arguments == null) return;
+		// print command line arguments
+		P.out("=============");
+		P.out("main() args:");
+		for (String string : arguments) {
+			P.out("# " + string);
+		}
+		P.out("=============");
 	}
 	
 	protected void loadAppConfig() {

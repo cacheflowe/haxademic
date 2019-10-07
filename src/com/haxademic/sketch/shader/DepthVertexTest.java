@@ -10,7 +10,7 @@ import processing.opengl.PShader;
 
 public class DepthVertexTest
 extends PAppletHax {
-	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
+	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
 	protected float frames = 60 * 16;
 	protected float progress = 0;

@@ -9,7 +9,7 @@ import processing.video.Capture;
 
 public class OpticalFlow
 extends PAppletHax {
-	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
+	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	// From: http://www.openprocessing.org/sketch/84287
 	/* OpenProcessing Tweak of *@*http://www.openprocessing.org/sketch/10435*@* */

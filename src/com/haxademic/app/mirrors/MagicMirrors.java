@@ -15,7 +15,7 @@ import processing.core.PImage;
 public class MagicMirrors 
 extends PAppletHax
 implements IWebCamCallback {
-	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
+	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	protected float w = 1280;
 	protected float h = 720;

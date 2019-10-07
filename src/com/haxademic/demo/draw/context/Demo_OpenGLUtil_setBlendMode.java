@@ -9,7 +9,7 @@ import com.haxademic.core.draw.context.OpenGLUtil;
 
 public class Demo_OpenGLUtil_setBlendMode
 extends PAppletHax {
-	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
+	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	protected void overridePropsFile() {
 		p.appConfig.setProperty( AppSettings.WIDTH, "800" );

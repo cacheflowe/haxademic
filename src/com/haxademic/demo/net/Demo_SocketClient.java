@@ -15,7 +15,7 @@ import processing.data.JSONObject;
 public class Demo_SocketClient
 extends PAppletHax
 implements ISocketClientDelegate {
-	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
+	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
 	protected SocketClient wsClient;
 	

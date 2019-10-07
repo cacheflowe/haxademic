@@ -7,7 +7,7 @@ import com.haxademic.core.hardware.dmx.DMXWrapper;
 
 public class Demo_DmxWrapper
 extends PAppletHax {
-	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
+	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
 	protected DMXWrapper dmx;
 	

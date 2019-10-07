@@ -10,7 +10,7 @@ import processing.core.PVector;
 
 public class AttractRepel
 extends PAppletHax {
-	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
+	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	 
 	
 	// code ported from https://codepen.io/ashrewdmint/pen/PwJqwy

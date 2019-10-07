@@ -23,7 +23,7 @@ import wblut.external.ProGAL.Point;
 
 public class GoodMorningHumans 
 extends PAppletHax {
-	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
+	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	protected List<Point> points;
 	protected float[] intervals; //init Point3d array

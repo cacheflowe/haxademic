@@ -14,7 +14,7 @@ import com.haxademic.core.math.easing.EasingFloat;
 
 public class PolygonIncrementVertices 
 extends PAppletHax {
-	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
+	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	protected int FRAMES = 600;
 	protected EasingFloat verticesEased = new EasingFloat(3, 8);

@@ -11,7 +11,7 @@ import toxi.processing.ToxiclibsSupport;
 
 public class Demo_CubeShatter 
 extends PAppletHax {
-	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
+	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	// from example: http://www.wblut.com/2010/10/20/hemesh-voronoi-example/
 	ArrayList<WETriangleMesh> meshes;

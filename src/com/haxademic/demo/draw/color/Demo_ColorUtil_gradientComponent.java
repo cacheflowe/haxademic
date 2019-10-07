@@ -8,7 +8,7 @@ import com.haxademic.core.math.MathUtil;
 
 public class Demo_ColorUtil_gradientComponent
 extends PAppletHax {
-	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
+	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	float dcOffsetR = 0f;
 	float dcOffsetG = 0f;

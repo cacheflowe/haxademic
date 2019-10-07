@@ -19,7 +19,7 @@ import toxi.geom.mesh.WETriangleMesh;
 
 public class GifRenderEllo004SphereTextureMap
 extends PAppletHax {
-	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
+	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
 	AnimatedGifEncoder encoder;
 	

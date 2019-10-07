@@ -9,7 +9,7 @@ import com.haxademic.core.system.SystemUtil;
 
 public class NightlinesShirtDesign
 extends PAppletHax {
-	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
+	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
 	protected String numLines = "numLines";
 //	protected String thickness = "thickness";

@@ -20,7 +20,7 @@ import processing.opengl.PShader;
 
 public class Demo_PointsDeformAndTextureFilter_Simple
 extends PAppletHax {
-	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
+	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	// original code from: https://processing.org/tutorials/pshader/
 	

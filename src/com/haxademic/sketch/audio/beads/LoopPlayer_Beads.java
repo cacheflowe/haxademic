@@ -13,7 +13,7 @@ import beads.ShortFrameSegmenter;
 import beads.SpectralDifference;
 
 public class LoopPlayer_Beads
-extends PAppletHax { public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
+extends PAppletHax { public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	AudioContext ac;
 	PowerSpectrum ps;

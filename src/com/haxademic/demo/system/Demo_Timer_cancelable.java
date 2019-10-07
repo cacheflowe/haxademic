@@ -9,7 +9,7 @@ import com.haxademic.core.draw.color.EasingColor;
 
 public class Demo_Timer_cancelable
 extends PAppletHax {
-	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
+	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
 	protected EasingColor bg = new EasingColor(0x000000, 0.1f);
 	protected Timer timer;

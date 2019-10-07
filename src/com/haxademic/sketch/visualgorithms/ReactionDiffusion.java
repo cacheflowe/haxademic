@@ -11,7 +11,7 @@ import com.haxademic.core.math.MathUtil;
 
 public class ReactionDiffusion
 extends PAppletHax {
-	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
+	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	protected int RD_ITERATIONS = 4;
 

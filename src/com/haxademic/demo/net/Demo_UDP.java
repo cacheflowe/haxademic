@@ -8,7 +8,7 @@ import hypermedia.net.UDP;
 
 public class Demo_UDP 
 extends PAppletHax {
-	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
+	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	protected UDP udp;
 	protected int portLocal = 6001;	// <-- swap these and run a 2nd instance to test locally 

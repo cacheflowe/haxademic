@@ -8,7 +8,7 @@ import com.haxademic.core.hardware.webcam.WebCam;
 
 public class Demo_WebCamPicker_TwoCameras 
 extends PAppletHax {
-	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
+	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	public WebCam cam1 = null;
 	public WebCam cam2 = null;

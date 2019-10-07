@@ -15,7 +15,7 @@ import processing.core.PGraphics;
 
 public class Demo_OpenGLUtil_setBlendModeAll
 extends PAppletHax {
-	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
+	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	// These custom blend mode behave differently between the main Applet drawing surface and an offscreen PGraphics buffer. Hence the drawBuffer toggle below.
 	// Also! These custom blend modes often require drawing with some alpha transparency to really take full effect. There are 2 collections of presets that work better in either alpha situation.

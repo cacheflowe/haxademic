@@ -15,7 +15,7 @@ import processing.video.Movie;
 
 public class Demo_OpticalFlowGLSL_WIP
 extends PAppletHax {
-	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
+	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	protected Movie testMovie;
 	protected PGraphics lastFrame;

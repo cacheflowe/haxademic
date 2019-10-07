@@ -15,7 +15,7 @@ import processing.opengl.PShader;
 
 public class ShaderSSAO
 extends PAppletHax {
-	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
+	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	// ported from: view-source:https://threejs.org/examples/webgl_postprocessing_ssao.html
 	

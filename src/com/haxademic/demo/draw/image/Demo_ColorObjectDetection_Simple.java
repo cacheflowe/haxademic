@@ -6,7 +6,7 @@ import com.haxademic.core.draw.image.ColorObjectDetection;
 
 public class Demo_ColorObjectDetection_Simple 
 extends PAppletHax {
-	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
+	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	protected ColorObjectDetection colorObjectDetection;
 	protected String COLOR_CLOSENESS_THRESHOLD = "COLOR_CLOSENESS_THRESHOLD";

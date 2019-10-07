@@ -4,7 +4,7 @@ import com.haxademic.core.app.PAppletHax;
 
 public class Demo_Float32Shader 
 extends PAppletHax {
-	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
+	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 //	protected PGraphics2D buffer8;
 //	protected DwGLSLProgram shader32;

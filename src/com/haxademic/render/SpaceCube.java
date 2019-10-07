@@ -14,7 +14,7 @@ import com.haxademic.core.math.easing.EasingFloat;
 
 public class SpaceCube 
 extends PAppletHax {
-	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
+	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	protected int FRAMES = 600;
 	protected EasingFloat rot1X = new EasingFloat(0, 8);

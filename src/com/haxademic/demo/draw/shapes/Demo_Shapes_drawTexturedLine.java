@@ -11,7 +11,7 @@ import processing.core.PVector;
 
 public class Demo_Shapes_drawTexturedLine 
 extends PAppletHax {
-	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
+	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	protected PVector p1 = new PVector();
 	protected PVector p2 = new PVector();

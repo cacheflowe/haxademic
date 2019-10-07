@@ -14,7 +14,7 @@ import com.haxademic.core.math.easing.Penner;
 public class Demo_IEasingValueDelegate
 extends PAppletHax
 implements IEasingValueDelegate {
-	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
+	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
 	protected EasingFloat easingFloat;
 	protected LinearFloat linearFloat;

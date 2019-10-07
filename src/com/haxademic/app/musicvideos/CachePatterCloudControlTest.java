@@ -12,7 +12,7 @@ import processing.opengl.PShader;
 
 public class CachePatterCloudControlTest
 extends PAppletHax {
-	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
+	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
 	PGraphics _cloudsGraphics;
 	PShader _clouds;

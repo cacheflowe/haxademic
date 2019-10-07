@@ -15,7 +15,7 @@ import com.haxademic.core.draw.context.PG;
 
 public class Poly2TriTest 
 extends PAppletHax {
-	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
+	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	// code from: http://forum.processing.org/one/topic/delauney-diagram-inside-a-blob.html
 

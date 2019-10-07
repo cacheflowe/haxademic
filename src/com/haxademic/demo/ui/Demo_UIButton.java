@@ -11,7 +11,7 @@ import com.haxademic.core.ui.UIButton.IUIButtonDelegate;
 public class Demo_UIButton 
 extends PAppletHax
 implements IUIButtonDelegate {
-	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
+	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	protected boolean activeButtons = true;
 	protected ArrayList<IUIControl> mouseables;

@@ -14,7 +14,7 @@ import processing.opengl.PShader;
 
 public class ShaderTest
 extends PAppletHax {
-	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
+	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 		
 	protected float CURSOR_PIE_DIAMETER = 34;
 	protected float CURSOR_RING_DIAMETER = 44;

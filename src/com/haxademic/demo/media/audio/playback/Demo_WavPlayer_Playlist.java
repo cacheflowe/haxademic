@@ -7,7 +7,7 @@ import com.haxademic.core.media.audio.playback.WavPlayer;
 
 public class Demo_WavPlayer_Playlist
 extends PAppletHax {
-	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
+	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	protected WavPlayer player;
 	protected String[] playlist = new String[] {

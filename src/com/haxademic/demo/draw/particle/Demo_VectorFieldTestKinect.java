@@ -14,7 +14,7 @@ import processing.core.PVector;
 
 public class Demo_VectorFieldTestKinect 
 extends Demo_VectorField {
-	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
+	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	protected PGraphics overlayKinectTexture;
 	protected OpenKinectPixelImg kinectImg;

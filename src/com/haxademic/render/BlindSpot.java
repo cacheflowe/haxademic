@@ -8,7 +8,7 @@ import com.haxademic.core.draw.filters.pshader.VignetteAltFilter;
 
 public class BlindSpot
 extends PAppletHax {
-	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
+	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	protected float numSegments = 10f;
 	protected float numShapes = 500f;

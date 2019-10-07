@@ -9,7 +9,7 @@ import com.haxademic.core.file.WatchDir.IWatchDirListener;
 public class Demo_FileWatcher
 extends PAppletHax
 implements IWatchDirListener {
-	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
+	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	
 	protected WatchDir watchDir;

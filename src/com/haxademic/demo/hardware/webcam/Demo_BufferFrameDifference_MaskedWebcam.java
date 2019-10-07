@@ -21,7 +21,7 @@ import processing.opengl.PShader;
 public class Demo_BufferFrameDifference_MaskedWebcam 
 extends PAppletHax
 implements IWebCamCallback {
-	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
+	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	protected BufferFrameDifference bufferFrameDifference;
 	

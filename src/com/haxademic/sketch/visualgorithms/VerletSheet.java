@@ -9,7 +9,7 @@ import processing.core.PVector;
 
 public class VerletSheet
 extends PAppletHax {
-	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
+	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	// ported from: https://www.openprocessing.org/sketch/545247
 

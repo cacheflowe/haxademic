@@ -11,7 +11,7 @@ import com.haxademic.core.hardware.webcam.WebCam;
 
 public class Demo_WebCamPicker_ManyCameras 
 extends PAppletHax {
-	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
+	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	public ArrayList<WebCam> cams = new ArrayList<WebCam>();
 	protected int webcamIndex = 0;

@@ -11,7 +11,7 @@ import com.haxademic.core.media.audio.analysis.AudioStreamData;
 import krister.Ess.AudioInput;
 
 public class Demo_AudioInputAllLibraries
-extends PAppletHax { public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
+extends PAppletHax { public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	protected AudioInputESS audioInputESS;
 	protected AudioInputMinim audioInputMinim;

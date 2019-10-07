@@ -16,7 +16,7 @@ import processing.video.Movie;
 public class Demo_MediaTimecodeTrigger
 extends PAppletHax
 implements IMediaTimecodeTriggerDelegate {
-	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
+	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	// audio
 	protected WavPlayer audioPlayer;

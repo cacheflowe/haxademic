@@ -11,7 +11,7 @@ import toxi.geom.mesh.TriangleMesh;
 public class AlignObjectsToSphere
 extends PAppletHax {
 
-	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
+	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	Vec3D BOX_SIZE = new Vec3D(5,5,20);
 	float SCALE=130;

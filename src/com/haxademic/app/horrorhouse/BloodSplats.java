@@ -23,7 +23,7 @@ import processing.video.Movie;
 
 public class BloodSplats
 extends PAppletHax {
-	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
+	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
 	protected int _numDrips = 50;
 	protected Drip[] _drips = new Drip[_numDrips];

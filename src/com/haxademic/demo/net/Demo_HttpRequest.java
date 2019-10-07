@@ -9,7 +9,7 @@ import com.haxademic.core.net.HttpRequest.IHttpRequestCallback;
 public class Demo_HttpRequest
 extends PAppletHax
 implements IHttpRequestCallback {
-	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
+	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
 	protected HttpRequest request;
 	

@@ -11,7 +11,7 @@ import processing.opengl.PShader;
 
 public class Demo_PGraphicsKeystone_TextureUV
 extends PAppletHax {
-	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
+	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	protected PGraphics externalBuffer;
 	protected PGraphicsKeystone keystonePG;

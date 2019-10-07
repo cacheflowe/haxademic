@@ -17,7 +17,7 @@ import processing.core.PImage;
 
 public class BFLinewaveRender
 extends PAppletHax {
-	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
+	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
 	PImage _print;
 	float _frames = 100;

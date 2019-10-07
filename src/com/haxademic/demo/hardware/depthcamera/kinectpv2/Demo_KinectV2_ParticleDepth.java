@@ -13,7 +13,7 @@ import processing.opengl.PShader;
 
 public class Demo_KinectV2_ParticleDepth
 extends PAppletHax {
-	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
+	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
 	// from: https://github.com/ThomasLengeling/KinectPV2/tree/master/KinectPV2/examples/PointCloudOGL
 	

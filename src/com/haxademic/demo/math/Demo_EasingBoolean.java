@@ -10,7 +10,7 @@ import com.haxademic.core.math.easing.LinearFloat;
 public class Demo_EasingBoolean 
 extends PAppletHax
 implements IEasingBooleanCallback {
-	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
+	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
 	protected EasingBoolean booleanSwitch;
 	protected LinearFloat showUpdatedValue = new LinearFloat(0, 0.025f);

@@ -15,7 +15,7 @@ import ddf.minim.Minim;
 
 public class AirDrums
 extends PAppletHax {
-	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
+	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	public static final float PIXEL_SIZE = 7;
 	public static int KINECT_CLOSE = 1500;

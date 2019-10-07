@@ -8,7 +8,7 @@ import com.haxademic.core.math.easing.ElasticFloat;
 
 public class Demo_ElasticFloat
 extends PAppletHax {
-	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
+	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
 	protected String fric = "fric";
 	protected String accel = "accel";

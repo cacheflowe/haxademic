@@ -17,7 +17,7 @@ import processing.core.PVector;
 
 public class Demo_SpatialLighting 
 extends PAppletHax {
-	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
+	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
 	// TODO --------------------------
 	// * Add multi-ring lights - one of these objects would create the lights and move the centerpoints and radius

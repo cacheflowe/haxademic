@@ -11,7 +11,7 @@ import com.haxademic.core.math.easing.Penner;
 
 public class Demo_Shapes_drawDashedCube 
 extends PAppletHax {
-	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
+	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	protected LinearFloat tiltProgress = new LinearFloat(0, 0.025f);
 	protected float easedProgress = 0;

@@ -10,7 +10,7 @@ import com.haxademic.core.system.SystemUtil;
 
 public class Demo_SystemUtil_setTimeout
 extends PAppletHax {
-	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
+	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
 	protected int randGray = 0;
 	protected ActionListener callback;

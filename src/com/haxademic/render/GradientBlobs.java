@@ -22,7 +22,7 @@ import processing.opengl.PShader;
 
 public class GradientBlobs 
 extends PAppletHax {
-	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
+	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	protected int _frames = 600;
 	protected int COLOR_1 = ColorUtil.colorFromHex("#7B73DB");

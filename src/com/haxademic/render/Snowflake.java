@@ -20,7 +20,7 @@ import processing.core.PShape;
 
 public class Snowflake 
 extends PAppletHax {
-	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
+	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	protected int FRAMES = 400;
 	protected ArrayList<PShape> shapes;

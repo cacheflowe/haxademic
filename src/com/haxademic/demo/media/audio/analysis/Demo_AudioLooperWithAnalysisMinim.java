@@ -10,7 +10,7 @@ import com.haxademic.core.media.audio.playback.AudioPlayerMinim;
 import ddf.minim.Minim;
 
 public class Demo_AudioLooperWithAnalysisMinim
-extends PAppletHax { public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
+extends PAppletHax { public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	protected Minim minim;
 	protected AudioPlayerMinim[] loops;

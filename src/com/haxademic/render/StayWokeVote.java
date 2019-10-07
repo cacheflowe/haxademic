@@ -16,7 +16,7 @@ import processing.core.PShape;
 
 public class StayWokeVote
 extends PAppletHax {
-	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
+	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	protected TextToPShape textToPShape;
 	protected PShape wordStay;

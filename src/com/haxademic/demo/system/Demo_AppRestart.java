@@ -5,7 +5,7 @@ import com.haxademic.core.system.AppRestart;
 
 public class Demo_AppRestart
 extends PAppletHax {
-	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
+	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	public void setup() {
 		super.setup();		

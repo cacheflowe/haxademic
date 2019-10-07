@@ -9,7 +9,7 @@ import processing.core.PVector;
 
 public class Demo_OrientationUtil
 extends PAppletHax {
-	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
+	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
 	PVector center = new PVector();
 	PVector[] points = new PVector[600];

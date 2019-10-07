@@ -13,7 +13,7 @@ import com.haxademic.core.math.easing.Penner;
 
 public class Zoetrope 
 extends PAppletHax {
-	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
+	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	protected int FRAMES = 1600;
 	protected float curRotY = 0;

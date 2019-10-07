@@ -8,7 +8,7 @@ import com.haxademic.core.math.easing.DisplacementPoint;
 
 public class Demo_DisplacementPoint
 extends PAppletHax {
-	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
+	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	protected String POINT_SIZE = "POINT_SIZE";
 	protected String DISPLACE_AMP = "DISPLACE_AMP";

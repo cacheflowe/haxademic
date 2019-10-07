@@ -11,7 +11,7 @@ import oscP5.OscProperties;
 
 public class Demo_Osc_BroadcastAndReceive 
 extends PAppletHax {
-	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
+	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	protected OscP5 oscP5;
 	protected InputTrigger oscTrigger = new InputTrigger().addOscMessages(new String[] {"/framecount"});

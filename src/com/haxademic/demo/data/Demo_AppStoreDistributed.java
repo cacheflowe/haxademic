@@ -14,7 +14,7 @@ import processing.data.JSONObject;
 public class Demo_AppStoreDistributed
 extends PAppletHax
 implements IAppStoreListener {
-	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
+	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
 	protected String MOUSE_X = "MOUSE_X";
 	protected String MOUSE_Y = "MOUSE_Y";

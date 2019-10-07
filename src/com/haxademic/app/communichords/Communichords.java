@@ -27,7 +27,7 @@ import ddf.minim.ugens.Sampler;
 public class Communichords
 extends PAppletHax {
 
-	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }	
+	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }	
 	/**
 	 * TODO SOFTWARE:
 	 * - Make sure sample rates are correct to play notes from C

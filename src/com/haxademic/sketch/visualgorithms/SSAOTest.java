@@ -16,7 +16,7 @@ import processing.opengl.PShader;
 
 public class SSAOTest
 extends PAppletHax {
-	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
+	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
 	public float increment = 0;
 	public float detail = 0;

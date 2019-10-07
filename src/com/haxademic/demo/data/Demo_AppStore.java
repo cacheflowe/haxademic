@@ -12,7 +12,7 @@ import processing.core.PImage;
 public class Demo_AppStore
 extends PAppletHax
 implements IAppStoreListener {
-	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
+	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
 	protected void overridePropsFile() {
 		p.appConfig.setProperty(AppSettings.SHOW_DEBUG, true );

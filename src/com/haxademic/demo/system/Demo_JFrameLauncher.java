@@ -11,7 +11,7 @@ import com.haxademic.core.hardware.mouse.MouseUtil;
 
 public class Demo_JFrameLauncher
 extends PAppletHax {
-	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
+	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	protected FrameWithBorderLayout frame;
 	

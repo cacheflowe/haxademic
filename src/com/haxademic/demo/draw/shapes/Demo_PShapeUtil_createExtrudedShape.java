@@ -14,7 +14,7 @@ import processing.core.PShape;
 
 public class Demo_PShapeUtil_createExtrudedShape 
 extends PAppletHax {
-	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
+	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	protected ArrayList<PShape> shapes;
 	protected ArrayList<PShape> shapesExtruded;

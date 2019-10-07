@@ -29,7 +29,7 @@ package com.haxademic.sketch.audio.jasiohost;
 //
 //public class Demo_MultichannelAudioJAsioHost
 //extends PAppletHax implements AsioDriverListener {
-//	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
+//	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 //
 //	protected AudioContext audioContext;
 //	

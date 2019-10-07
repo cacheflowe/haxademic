@@ -6,7 +6,7 @@ import com.haxademic.core.file.PrefToText;
 
 public class Demo_PrefToText 
 extends PAppletHax {
-	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
+	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	protected float gray = 0.5f;
 	

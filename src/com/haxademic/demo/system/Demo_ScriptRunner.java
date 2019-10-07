@@ -9,7 +9,7 @@ import com.haxademic.core.system.shell.ScriptRunner;
 public class Demo_ScriptRunner 
 extends PAppletHax
 implements IScriptCallback {
-	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
+	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	protected ScriptRunner scriptRunner;
 	

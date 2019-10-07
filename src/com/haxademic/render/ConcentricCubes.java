@@ -7,7 +7,7 @@ import com.haxademic.core.draw.context.PG;
 
 public class ConcentricCubes
 extends PAppletHax {
-	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
+	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	protected int _x = 0;
 	protected int _y = 0;

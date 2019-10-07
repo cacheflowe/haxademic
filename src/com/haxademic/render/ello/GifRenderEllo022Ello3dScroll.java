@@ -13,7 +13,7 @@ import processing.core.PShape;
 
 public class GifRenderEllo022Ello3dScroll
 extends PAppletHax {
-	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
+	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
 	public float speed = 0;
 	public float angle = 0;

@@ -12,7 +12,7 @@ import com.haxademic.core.data.patterns.PatternTechno;
 
 public class Demo_PatternTester
 extends PAppletHax { 
-	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
+	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	protected boolean[][] steps;
 	protected ISequencerPattern[] patterns;
