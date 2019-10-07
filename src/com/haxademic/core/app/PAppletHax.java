@@ -70,7 +70,7 @@ extends PApplet {
 	//	}
 
 	// app
-	public static String arguments[];			// Args passed in via main() launch command
+	public static String arguments[] = null;	// Args passed in via main() launch command
 	protected static PAppletHax p;				// Global/static ref to PApplet - any class can access reference from this static ref. Easier access via `P.p`
 	public PGraphics pg;						// Offscreen buffer that matches the app size by default
 	public P5Properties appConfig;				// Loads the project .properties file to configure several app properties externally.
@@ -138,7 +138,7 @@ extends PApplet {
 	}
 	
 	protected void printArgs() {
-		if(arguments == null) return;
+		if(arguments == null || arguments.length == 0) return;
 		// print command line arguments
 		P.out("=============");
 		P.out("main() args:");
