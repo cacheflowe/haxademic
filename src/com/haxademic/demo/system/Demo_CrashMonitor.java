@@ -7,7 +7,7 @@ import com.haxademic.core.system.CrashMonitor;
 
 public class Demo_CrashMonitor 
 extends PAppletHax {
-	public static void main(String args[]) { PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
+	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	protected CrashMonitor appMonitor;
 
@@ -16,7 +16,7 @@ extends PAppletHax {
 	}
 
 	public void setupFirstFrame() {
-		boolean RESTARTS = false;	// if false, we're relying on CrashMonitor to quit the app (rather than restart), 
+		boolean RESTARTS = true;	// if false, we're expecting CrashMonitor to quit the app (rather than restart), 
 									// and the run.cmd script will restart it after a delay. 
 									// If true, we shouldn't have restart recovery built into the run.cmd script.
 		appMonitor = new CrashMonitor(true, 5000, RESTARTS);
