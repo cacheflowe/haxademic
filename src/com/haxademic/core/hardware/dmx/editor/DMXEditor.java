@@ -53,6 +53,7 @@ implements IAppStoreListener {
 	
 	// UITextInput
 	protected UITextInput channelInput;	
+	protected boolean showInfo = true;
 
 	// textures
 	protected PGraphics pgUI;
@@ -121,6 +122,7 @@ implements IAppStoreListener {
 		P.p.debugView.setHelpLine("[Y] |", "Show light index");
 		P.p.debugView.setHelpLine("[I] |", "Texture Overlay");
 		P.p.debugView.setHelpLine("[DEL] |", "Delete hovered light");
+		P.p.debugView.setHelpLine("[`] |", "Toggle info");
 	}
 	
 	/////////////////////////////////
@@ -303,6 +305,7 @@ implements IAppStoreListener {
 			}
 			if(e.getKey() == 's') saveLightsToFile();
 			if(e.getKeyCode() == 147) deleteActiveLight();
+			if(e.getKeyCode() == '`') showInfo = !showInfo;
 		}
 	}
 	
@@ -415,28 +418,31 @@ implements IAppStoreListener {
 		PG.setDrawFlat2d(pgUI, true);
 		
 		// info
-		pgUI.noStroke();
-		pgUI.fill(0, 100);
-		pgUI.rect(0, 0, 250, 230);
-		int infoX = 20;
-		int infoY = 15;
-		drawText(
-				"Q - Floorplan dimmed:  " + P.store.getBoolean(DIMMED_FLOORPLAN) + FileUtil.NEWLINE +
-				"W - Drag create mode:  " + P.store.getBoolean(DRAG_CREATE_MODE) + FileUtil.NEWLINE + 
-				"E - Lights UI Disable: " + P.store.getBoolean(LIGHTS_UI_DISABLE) + FileUtil.NEWLINE + 
-				"R - Lights UI stay on: " + P.store.getBoolean(LIGHTS_UI_STAY_ON) + FileUtil.NEWLINE + 
-				"T - Show DMX channels: " + P.store.getBoolean(SHOW_DMX_CHANNELS) + FileUtil.NEWLINE + 
-				"Y - Show light index: "  + P.store.getBoolean(SHOW_LIGHT_INDEX) + FileUtil.NEWLINE + 
-				"I - Overlay Texture: "   + P.store.getBoolean(TEXTURE_OVERLAY) + FileUtil.NEWLINE + 
-				"DEL - Delete UI Point" + FileUtil.NEWLINE + 
-				"[ - Prev UI Point" + FileUtil.NEWLINE + 
-				"] - Next UI Point" + FileUtil.NEWLINE + 
-				"S - Save to disk" + FileUtil.NEWLINE, 
-				infoX, infoY);
-
-		// channel text input
-		drawText("DMX channel:", channelInput.x(), channelInput.y() - 25);
-		channelInput.update(pgUI);
+		if(showInfo) {
+			pgUI.noStroke();
+			pgUI.fill(0, 100);
+			pgUI.rect(0, 0, 250, 250);
+			int infoX = 20;
+			int infoY = 15;
+			drawText(
+					"Q - Floorplan dimmed:  " + P.store.getBoolean(DIMMED_FLOORPLAN) + FileUtil.NEWLINE +
+					"W - Drag create mode:  " + P.store.getBoolean(DRAG_CREATE_MODE) + FileUtil.NEWLINE + 
+					"E - Lights UI Disable: " + P.store.getBoolean(LIGHTS_UI_DISABLE) + FileUtil.NEWLINE + 
+					"R - Lights UI stay on: " + P.store.getBoolean(LIGHTS_UI_STAY_ON) + FileUtil.NEWLINE + 
+					"T - Show DMX channels: " + P.store.getBoolean(SHOW_DMX_CHANNELS) + FileUtil.NEWLINE + 
+					"Y - Show light index: "  + P.store.getBoolean(SHOW_LIGHT_INDEX) + FileUtil.NEWLINE + 
+					"I - Overlay Texture: "   + P.store.getBoolean(TEXTURE_OVERLAY) + FileUtil.NEWLINE + 
+					"DEL - Delete UI Point" + FileUtil.NEWLINE + 
+					"[ - Prev UI Point" + FileUtil.NEWLINE + 
+					"] - Next UI Point" + FileUtil.NEWLINE + 
+					"S - Save to disk" + FileUtil.NEWLINE +
+					"` - Toggle info" + FileUtil.NEWLINE, 
+					infoX, infoY);
+	
+			// channel text input
+			drawText("DMX channel:", channelInput.x(), channelInput.y() - 25);
+			channelInput.update(pgUI);
+		}
 		
 		// reset context
 		PG.setDrawFlat2d(pgUI, false);
