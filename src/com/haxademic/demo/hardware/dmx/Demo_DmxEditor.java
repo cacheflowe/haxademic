@@ -9,6 +9,7 @@ import com.haxademic.core.hardware.dmx.editor.DMXEditor;
 import com.haxademic.core.media.DemoAssets;
 
 import processing.core.PGraphics;
+import processing.core.PImage;
 import processing.video.Movie;
 
 public class Demo_DmxEditor
@@ -18,6 +19,7 @@ extends PAppletHax {
 	protected DMXEditor editor;
 	protected PGraphics textureMap;
 	protected PGraphics dmxUI;
+	protected PImage floorplan;
 	protected Movie video;
 	
 	protected void overridePropsFile() {
@@ -26,17 +28,29 @@ extends PAppletHax {
 	}
 
 	public void setupFirstFrame() {
-		textureMap = PG.newPG(960/2, 540/2);	// can be smaller, but should be same aspect ratio as pgUI
+		// Create buffer for DMXEditor color sampling
+		// Can be smaller, but should be same aspect ratio as pgUI
+		// - Buffer is treated as the same size as GUI, but scaled up for speed of sampling smaller texture
+		textureMap = PG.newPG(960/2, 540/2);
+		// create buffer for DMXEditor UI
+		dmxUI = PG.newPG(960, 540);
+		// load floorplan
+		floorplan = DemoAssets.textureNebula();
+		// create animation to map to floorplan & DMXEditor
 		video = DemoAssets.movieFractalCube();
 		video.loop();
-		dmxUI = PG.newPG(960, 540);
-		editor = new DMXEditor("COM3", 9600, DMXMode.SINGLE_CHANNEL, "text/dmx/dmx-lights-editor.txt", dmxUI, textureMap, DemoAssets.textureNebula());
+		// build editor with all buffers & images
+		editor = new DMXEditor("COM4", 9600, DMXMode.SINGLE_CHANNEL, "text/dmx/dmx-lights-editor.txt", dmxUI, textureMap, floorplan);
 	}
 
 	public void drawApp() {
-		p.background(0, 127, 0);
-		if(video.width > 20) ImageUtil.cropFillCopyImage(video, textureMap, true);	// Update light map texture 
-		editor.update();															// Update DMXEditor
-		p.image(dmxUI, 0, 0);														// Draw editor to screen
+		// clear background
+		p.background(0);
+		// copy lights animation to DMXEditor buffer 
+		if(video.width > 20) ImageUtil.cropFillCopyImage(video, textureMap, true); 
+		// update & send lights to DMX hardware
+		editor.update();
+		// Draw editor to screen
+		p.image(dmxUI, 0, 0);
 	}
 }
