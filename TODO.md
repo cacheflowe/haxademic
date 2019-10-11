@@ -3,12 +3,11 @@
 ## InputTrigger
 
 * Threaded safety of InputTrigger isn't good - especially at a low FPS?
+  * Switch this to an AppStore-based system so inputs are immediately picked up by a listener. This might still be thread-unsafe, but AppStore events aren't either!
+    * Do we need an InputEvent type added to AppStore collections??
   * WebServer requests can fall through the cracks (button clicks, etc)
   * Web requests that route to p.ui aren't predictable, especially at 30fps? Look at p.ui button handling in Re-Creation
   * InputTrigger should merge MIDI buttons and CC controls, just like OSC commands
-  * Switch this to an AppStore-based system so inputs are immediately picked up by a listener. This might still be thread-unsafe, but AppStore events aren't either!
-    * Do we need an InputEvent type added to AppStore collections??
-
 
 ## WebCam
 
@@ -20,6 +19,8 @@
       * http://usb4java.org/quickstart/libusb.html
       * http://usb4java.org/configuration.html
     * Webcam with OpenJDK: https://github.com/gstreamer-java/gst1-java-core/issues/15
+* Android high-framerate capture or UVC use?
+  * https://github.com/android/media-samples/blob/master/MediaRecorder/Application/src/main/java/com/example/android/mediarecorder/MainActivity.java
 
 ## Big Mother / DashboardPoster / CrashMonitor
 
@@ -29,6 +30,9 @@
 * Add config CMS to BigMother for any app to receive commands and config
 * BigMother should be implemented in a Simplesite instance
 
+## DMX
+
+* Add multiple universes to DMXEditor
 
 ## Processing problems
 
