@@ -153,6 +153,7 @@ implements IAppStoreListener {
 			} catch (IOException e) { e.printStackTrace(); }
 		}
 		// save new config
+		FileUtil.createDir(FileUtil.pathForFile(textConfigPath));
 		FileUtil.writeTextToFile(textConfigPath, FileUtil.textLinesJoined(saveString));
 	}
 
@@ -177,6 +178,26 @@ implements IAppStoreListener {
 		LightBar light = new LightBar(dmxUniverseDefault, dmxMode, point1.position(), point2.position());
 		light.setDmxChannel(dmxChannel);
 		lights.add(light);
+	}
+	
+	/////////////////////////////////
+	// PUBLIC
+	/////////////////////////////////
+	
+	public void showInfo(boolean showInfo) {
+		this.showInfo = showInfo;
+	}
+	public void showDmxChannels(boolean showDmxChannels) {
+		P.store.setBoolean(SHOW_DMX_CHANNELS, showDmxChannels);
+	}
+	public void showLightIndex(boolean showLightIndex) {
+		P.store.setBoolean(SHOW_LIGHT_INDEX, showLightIndex);
+	}
+	public void lightsUIDisable(boolean lightsUIDisable) {
+		P.store.setBoolean(LIGHTS_UI_DISABLE, lightsUIDisable);
+	}
+	public void showTextureOverlay(boolean showTextureOverlay) {
+		P.store.setBoolean(TEXTURE_OVERLAY, showTextureOverlay);
 	}
 	
 	/////////////////////////////////
