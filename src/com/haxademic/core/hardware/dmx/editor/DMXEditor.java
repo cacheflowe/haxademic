@@ -109,6 +109,7 @@ implements IAppStoreListener {
 		// keyboard & mouse events for SavedPointUI
 		P.p.registerMethod("mouseEvent", this); // add mouse listeners
 		P.p.registerMethod("keyEvent", this);
+		P.p.registerMethod("post", this);
 		addKeyCommandInfo();
 	}	
 	
@@ -357,7 +358,10 @@ implements IAppStoreListener {
 		drawUI();
 		pgUI.endDraw();
 		
-		// send dmx data
+	}
+	
+	public void post() {
+		// send dmx data after the draw call
 		dmxUniverseDefault.update();
 	}
 

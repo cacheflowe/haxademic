@@ -720,6 +720,8 @@ extends PApplet {
 	void leapOnExit(){
 	    // println("Leap Motion Exit");
 	}
+	
+	// UIControlPanel listeners
 
 	public void uiButtonClicked(UIButton button) {
 		P.out("uiButtonClicked: please override", button.id(), button.value());
