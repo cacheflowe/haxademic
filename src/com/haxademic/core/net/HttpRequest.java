@@ -7,6 +7,7 @@ import java.io.Reader;
 import java.net.HttpURLConnection;
 import java.net.ProtocolException;
 import java.net.URL;
+import java.util.Base64;
 import java.util.Iterator;
 import java.util.List;
 
@@ -43,15 +44,23 @@ public class HttpRequest {
 		responseCode = 0;
 		
 		try {
-			HttpURLConnection httpcon = (HttpURLConnection) ((new URL(requestURL).openConnection()));
+			URL url = new URL(requestURL);
+			HttpURLConnection httpcon = (HttpURLConnection) ((url.openConnection()));
 			HttpURLConnection.setFollowRedirects(true);
 			httpcon.setDoOutput(true);
 	//		httpcon.setRequestProperty("Content-Type", "application/json");
 	//		httpcon.setRequestProperty("Accept", "application/json");
 			httpcon.setRequestProperty("User-Agent", "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.11 (KHTML, like Gecko) Chrome/23.0.1271.95 Safari/537.11");
 			httpcon.setRequestMethod("GET");
+			
+			// pull user/pass from inline auth in url if it exists, and apply to the connection
+			if (url.getUserInfo() != null) {
+				String authStr = Base64.getEncoder().encodeToString(url.getUserInfo().getBytes());
+				httpcon.setRequestProperty("Authorization", "Basic " + authStr);
+			}
 			httpcon.connect();
 			getFullResponse(httpcon);
+
 
 		} catch (ProtocolException e) {
 			e.printStackTrace();
