@@ -202,7 +202,17 @@ or
 * `-Xmx4G`
 * `-Xms2G`
 
-* If you want to wipe your `bin/` directory, you'll have to do a **Project -> Clean…** in Eclipse afterwards.
+* Joshua Davis swears by these extra args as well:
+
+```
+-XX:+UseConcMarkSweepGC
+-XX:+UseParNewGC
+-XX:+CMSIncrementalPacing
+-XX:+AggressiveOpts
+-Djava.net.preferIPv4Stack=true
+```
+
+* If you want to wipe your `bin/` directory, you'll have to do a **Project -> Clean** in Eclipse afterwards.
 
 #### Publish a .jar library
 

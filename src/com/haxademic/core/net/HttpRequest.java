@@ -61,7 +61,6 @@ public class HttpRequest {
 			httpcon.connect();
 			getFullResponse(httpcon);
 
-
 		} catch (ProtocolException e) {
 			e.printStackTrace();
 			if(delegate != null) delegate.postFailure(e.getMessage());
