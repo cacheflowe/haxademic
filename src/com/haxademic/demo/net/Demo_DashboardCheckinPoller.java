@@ -11,6 +11,7 @@ extends PAppletHax {
 	protected DashboardCheckinPoller dashboardPoster;
 	
 	public void setupFirstFrame() {
+		DashboardCheckinPoller.DEBUG = true;
 		dashboardPoster = new DashboardCheckinPoller("test-app-2", "TEST APP 2", "http://localhost/haxademic/www/dashboard-new/", 5, 23, 0.5f);
 		dashboardPoster.setExtraImage(p.g, 20);
 	}
