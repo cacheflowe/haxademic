@@ -2,11 +2,12 @@ package com.haxademic.core.hardware.depthcamera;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.data.constants.PBlendModes;
-import com.haxademic.core.data.constants.PRenderers;
+import com.haxademic.core.draw.context.PG;
+import com.haxademic.core.draw.filters.pshader.BlendTowardsTexture;
 import com.haxademic.core.draw.filters.pshader.BlurHFilter;
 import com.haxademic.core.draw.filters.pshader.BlurVFilter;
-import com.haxademic.core.draw.filters.pshader.ErosionFilter;
 import com.haxademic.core.draw.filters.pshader.ThresholdFilter;
+import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.depthcamera.cameras.IDepthCamera;
 
@@ -15,34 +16,48 @@ import processing.opengl.PShader;
 
 public class KinectRoomScanDiff {
 
-	protected IDepthCamera kinectWrapper;
+	protected IDepthCamera depthCamera;
 	protected PGraphics roomScanBuffer;
 	protected PGraphics depthBuffer;
+	protected PGraphics lerpedDepthBuffer;
+	protected PGraphics resultSmoothed;
+	protected PGraphics resultLerped;
 
 	protected PShader colorDistanceFilter;
 	protected PGraphics depthDifference;
 	
 	protected int roomMapCaptureStartFrame;
-	protected int roomMapCaptureFrames = 400;
+	protected int roomMapCaptureFrames = 600;
 	
+	protected boolean depthImageMode = true;
 	protected int kinectNear = 300;
 	protected int kinectFar = 8000;
 	protected int pixelSkip = 10;
-	protected float distanceDiffThreshold = 0.05f;
-	protected float diffSmoothBlur = 0.75f;
-	protected float depthBufferSmoothLerp = 0.2f;
+	
+	protected float colorDiffThresh = 0.005f;
+	protected float smoothThresh = 0.5f;
+	protected float smoothBlur = 0.43f;
+	protected float smoothLerp = 0.15f;
+	protected boolean erodes = true;
 	
 	public KinectRoomScanDiff(IDepthCamera kinectWrapper) {
-		this.kinectWrapper = kinectWrapper;
+		this(kinectWrapper, 3, true);
+	}
+	
+	public KinectRoomScanDiff(IDepthCamera kinectWrapper, int pixelSkip, boolean depthImageMode) {
+		this.depthCamera = kinectWrapper;
+		this.pixelSkip = pixelSkip;
+		this.depthImageMode = depthImageMode;
 		
-		roomScanBuffer = P.p.createGraphics(DepthCameraSize.WIDTH / pixelSkip, DepthCameraSize.HEIGHT / pixelSkip, PRenderers.P2D);
-		roomScanBuffer.noSmooth();
+		roomScanBuffer = PG.newPG2DFast(DepthCameraSize.WIDTH / pixelSkip, DepthCameraSize.HEIGHT / pixelSkip);
+		depthBuffer = PG.newPG2DFast(roomScanBuffer.width, roomScanBuffer.height);
+		depthDifference = PG.newPG2DFast(roomScanBuffer.width, roomScanBuffer.height);
+		lerpedDepthBuffer = PG.newPG2DFast(roomScanBuffer.width, roomScanBuffer.height);
 
-		depthBuffer = P.p.createGraphics(roomScanBuffer.width, roomScanBuffer.height, PRenderers.P2D);
-		depthDifference = P.p.createGraphics(roomScanBuffer.width, roomScanBuffer.height, PRenderers.P2D);
-		depthBuffer.noSmooth();
-		depthDifference.noSmooth();
-		
+		resultLerped = PG.newPG(roomScanBuffer.width, roomScanBuffer.height);
+		resultSmoothed = PG.newPG(roomScanBuffer.width, roomScanBuffer.height);
+		PG.setTextureRepeat(resultSmoothed, false);
+
 		colorDistanceFilter = P.p.loadShader(FileUtil.getFile("haxademic/shaders/filters/color-distance-two-textures.glsl"));
 		
 		reset();
@@ -52,9 +67,28 @@ public class KinectRoomScanDiff {
 		roomScanBuffer.beginDraw();
 		roomScanBuffer.background(0);
 		roomScanBuffer.endDraw();
-
 		roomMapCaptureStartFrame = P.p.frameCount;
 	}
+	
+	// setters
+	
+	public void colorDiffThresh(float colorDiffThresh) {
+		this.colorDiffThresh = colorDiffThresh;
+	}
+	public void smoothThresh(float smoothThresh) {
+		this.smoothThresh = smoothThresh;
+	}
+	public void smoothBlur(float smoothBlur) {
+		this.smoothBlur = smoothBlur;
+	}
+	public void smoothLerp(float smoothLerp) {
+		this.smoothLerp = smoothLerp;
+	}
+	public void erodes(boolean erodes) {
+		this.erodes = erodes;
+	}
+	
+	// getters
 	
 	public PGraphics roomScanBuffer() {
 		return roomScanBuffer;
@@ -68,10 +102,19 @@ public class KinectRoomScanDiff {
 		return depthDifference;
 	}
 	
+	public PGraphics resultLerped() {
+		return resultLerped;
+	}
+	
+	public PGraphics resultSmoothed() {
+		return resultSmoothed;
+	}
+	
 	public void update() {
 		storeRoomScan();
 		drawCurrentDepthBuffer();
 		processDepthDifference();
+		smoothOutput();
 	}
 	
 	protected void storeRoomScan() {
@@ -80,42 +123,66 @@ public class KinectRoomScanDiff {
 			// store kinect depth map
 			roomScanBuffer.beginDraw();
 			roomScanBuffer.noStroke();
+			// lightest ensures that valid depth data closer to the camera will be stored
 			roomScanBuffer.blendMode(PBlendModes.LIGHTEST);
-			for ( int x = 0; x < roomScanBuffer.width; x++ ) {
-				for ( int y = 0; y < roomScanBuffer.height; y++ ) {
-					int pixelDepth = kinectWrapper.getDepthAt( x * pixelSkip, y * pixelSkip );
-					if( pixelDepth != 0 && pixelDepth > kinectNear && pixelDepth < kinectFar ) {
-						float depthToGray = P.map(pixelDepth, kinectNear, kinectFar, 255, 0);
-						roomScanBuffer.fill(P.constrain(depthToGray, 0, 255));
-						roomScanBuffer.rect(x, y, 1, 1);
-					} else {
-						roomScanBuffer.fill(0);
-						roomScanBuffer.rect(x, y, 1, 1);
+			if(depthImageMode) {
+				roomScanBuffer.image(depthCamera.getDepthImage(), 0, 0, roomScanBuffer.width, roomScanBuffer.height);
+			} else {
+				for ( int x = 0; x < roomScanBuffer.width; x++ ) {
+					for ( int y = 0; y < roomScanBuffer.height; y++ ) {
+						int pixelDepth = depthCamera.getDepthAt( x * pixelSkip, y * pixelSkip );
+						if( pixelDepth != 0 && pixelDepth > kinectNear && pixelDepth < kinectFar ) {
+							float depthToGray = P.map(pixelDepth, kinectNear, kinectFar, 255, 0);
+							roomScanBuffer.fill(P.constrain(depthToGray, 0, 255));
+							roomScanBuffer.rect(x, y, 1, 1);
+						} else {
+							roomScanBuffer.fill(0);
+							roomScanBuffer.rect(x, y, 1, 1);
+						}
 					}
 				}
 			}
+			roomScanBuffer.blendMode(PBlendModes.BLEND);
 			roomScanBuffer.endDraw();
 		}
 	}
 	
 	protected void drawCurrentDepthBuffer() {
-		depthBuffer.beginDraw();
-		depthBuffer.clear();
-		depthBuffer.noStroke();
-		int numPixelsProcessed = 0;
-		for ( int x = 0; x < depthBuffer.width; x++ ) {
-			for ( int y = 0; y < depthBuffer.height; y++ ) {
-				int pixelDepth = kinectWrapper.getDepthAt( x * pixelSkip, y * pixelSkip );
-				if( pixelDepth != 0 && pixelDepth > kinectNear && pixelDepth < kinectFar ) {
-					float depthToGray = P.map(pixelDepth, kinectNear, kinectFar, 255, 0);
-					depthBuffer.fill(P.constrain(depthToGray, 0, 255));
-					depthBuffer.rect(x, y, 1, 1);
-					numPixelsProcessed++;
+		if(depthImageMode) {
+			lerpedDepthBuffer.beginDraw();
+			lerpedDepthBuffer.image(depthCamera.getDepthImage(), 0, 0, lerpedDepthBuffer.width, lerpedDepthBuffer.height);
+			lerpedDepthBuffer.endDraw();
+		} else {
+			lerpedDepthBuffer.beginDraw();
+			int numPixelsProcessed = 0;
+			for ( int x = 0; x < lerpedDepthBuffer.width; x++ ) {
+				for ( int y = 0; y < lerpedDepthBuffer.height; y++ ) {
+					int pixelDepth = depthCamera.getDepthAt( x * pixelSkip, y * pixelSkip );
+					if( pixelDepth > kinectNear && pixelDepth < kinectFar ) {	// allow black pixels by removing: pixelDepth != 0 && 
+						float depthToGray = P.map(pixelDepth, kinectNear, kinectFar, 255, 0);
+						lerpedDepthBuffer.fill(P.constrain(depthToGray, 0, 255));
+						lerpedDepthBuffer.rect(x, y, 1, 1);
+						numPixelsProcessed++;
+					} else {
+						lerpedDepthBuffer.fill(0, 255);
+						lerpedDepthBuffer.rect(x, y, 1, 1);
+					}
 				}
 			}
+			lerpedDepthBuffer.endDraw();
+			P.p.debugView.setValue("KinectRoomScanDiff.numPixelsProcessed", numPixelsProcessed);
 		}
+		
+		// composite room scan with current depth buffer on top
+		// this helps fill in holes that might exist in current depth buffer
+		depthBuffer.beginDraw();
+		depthBuffer.noStroke();
+		depthBuffer.background(0);
+		depthBuffer.image(roomScanBuffer, 0, 0);	// lay down cached scan and draw on top
+		depthBuffer.blendMode(PBlendModes.LIGHTEST);
+		depthBuffer.image(lerpedDepthBuffer, 0, 0, depthBuffer.width, depthBuffer.height);
+		depthBuffer.blendMode(PBlendModes.BLEND);
 		depthBuffer.endDraw();
-		P.p.debugView.setValue("numPixelsProcessed", numPixelsProcessed);
 	}
 	
 	protected void processDepthDifference() {
@@ -124,15 +191,26 @@ public class KinectRoomScanDiff {
 		colorDistanceFilter.set("tex2", depthBuffer);
 		depthDifference.filter(colorDistanceFilter);
 		
-		// remove noise on diff
-		ErosionFilter.instance(P.p).applyTo(depthDifference);
-		
-		// smooth diff
-		BlurHFilter.instance(P.p).setBlurByPercent(diffSmoothBlur, (float) depthDifference.width);
-		BlurHFilter.instance(P.p).applyTo(depthDifference);
-		BlurVFilter.instance(P.p).setBlurByPercent(diffSmoothBlur, (float) depthDifference.height);
-		BlurVFilter.instance(P.p).applyTo(depthDifference);
-		ThresholdFilter.instance(P.p).setCutoff(distanceDiffThreshold);
+		ThresholdFilter.instance(P.p).setCutoff(colorDiffThresh);
 		ThresholdFilter.instance(P.p).applyTo(depthDifference);
+	}
+	
+	protected void smoothOutput() {
+		// lerp & blur to get rid of noise
+		BlendTowardsTexture.instance(P.p).setBlendLerp(smoothLerp);
+		BlendTowardsTexture.instance(P.p).setSourceTexture(depthDifference);
+		BlendTowardsTexture.instance(P.p).applyTo(resultLerped);
+
+		BlurHFilter.instance(P.p).setBlurByPercent(smoothBlur, (float) resultSmoothed.width);
+		BlurHFilter.instance(P.p).applyTo(resultLerped);
+		BlurVFilter.instance(P.p).setBlurByPercent(smoothBlur, (float) resultSmoothed.height);
+		BlurVFilter.instance(P.p).applyTo(resultLerped);
+		
+		// copy lerped to smoothed
+		ImageUtil.copyImage(resultLerped, resultSmoothed);
+		
+		// bring edges back in
+		ThresholdFilter.instance(P.p).setCutoff(smoothThresh);
+		ThresholdFilter.instance(P.p).applyTo(resultSmoothed);
 	}
 }

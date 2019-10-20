@@ -21,6 +21,21 @@ public class PG {
 		return newPG(w, h, true, true);
 	}
 	
+	public static PGraphics newPG2DFast(int w, int h) {
+		PGraphics newPG = P.p.createGraphics(w, h, PRenderers.P2D);
+//		newPG.noSmooth();
+	    ((PGraphicsOpenGL)newPG).textureSampling(2);
+		newPG.beginDraw();
+		newPG.background(0, 0);
+		newPG.noStroke();
+		newPG.hint(PConstants.DISABLE_DEPTH_SORT);
+		newPG.hint(PConstants.DISABLE_DEPTH_TEST);
+		newPG.hint(PConstants.DISABLE_DEPTH_MASK);
+		newPG.endDraw();
+		PG.setTextureRepeat(newPG, false);
+		return newPG;
+	}
+	
 	public static PGraphics newDataPG(int w, int h) {
 //		PGraphics newPG = P.p.createGraphics(w, h, PRenderers.P3D);
 //		PGraphics newPG = P.p.createGraphics(w, h, P.P32);
