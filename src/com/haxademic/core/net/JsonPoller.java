@@ -30,6 +30,10 @@ implements IJsonRequestCallback {
 		start();
 	}
 	
+	public void setURL(String requestURL) {
+		jsonRequest.setURL(requestURL);
+	}
+
 	public int numRequests() {
 		return numRequests;
 	}

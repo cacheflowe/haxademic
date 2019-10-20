@@ -49,5 +49,9 @@ implements ICachedJsonPollerDelegate {
 	public void jsonNotValid(String json) {
 		P.out("jsonNotValid", json);
 	}
+
+	public void jsonRequestNetError(String error) {
+		P.out("jsonRequestNetError", error);
+	}
 	
 }
