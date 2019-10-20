@@ -3,12 +3,7 @@ package com.haxademic.core.net;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import com.haxademic.core.app.P;
 import com.haxademic.core.file.FileUtil;
-import com.haxademic.core.net.IJsonRequestCallback;
-import com.haxademic.core.net.JsonHttpRequest;
-import com.haxademic.core.net.JsonPoller;
-import com.haxademic.core.net.JsonUtil;
 import com.haxademic.core.system.SystemUtil;
 
 import processing.data.JSONObject;
@@ -20,6 +15,7 @@ implements IJsonRequestCallback {
 		public void jsonUpdated(String json);
 		public void jsonNotUpdated(String json);
 		public void jsonNotValid(String json);
+		public void jsonRequestNetError(String error);
 	}
 	
 	protected JsonPoller jsonPoller;
@@ -28,6 +24,7 @@ implements IJsonRequestCallback {
 	protected int intervalSeconds;
 	protected ICachedJsonPollerDelegate delegate;
 	protected String curJsonStr;
+	protected String newJsonStr;
 	protected JSONObject curJsonObj;
 		
 	public CachedJsonPoller(String remoteJsonURL, String localJsonPath, int intervalSeconds, ICachedJsonPollerDelegate delegate) {
@@ -37,6 +34,10 @@ implements IJsonRequestCallback {
 		this.intervalSeconds = intervalSeconds;
 		this.delegate = delegate;
 		loadJsonFromDisk();
+	}
+	
+	public void setDelegate(ICachedJsonPollerDelegate delegate) {
+		this.delegate = delegate;
 	}
 	
 	// load from disk
@@ -51,7 +52,7 @@ implements IJsonRequestCallback {
 			String[] jsonLines = FileUtil.readTextFromFile(localJsonPath);
 			curJsonStr = FileUtil.textLinesJoined(jsonLines);
 			
-			// launch web app & delay polling since we've just loaded the cached json
+			// delay polling since we've just loaded the cached json - this counts as the first "polling"
 			SystemUtil.setTimeout(delayedPollInit, intervalSeconds * 1000);
 		} else {
 			// if not local file, we're probably setting this up for the first time, so start polling
@@ -72,32 +73,40 @@ implements IJsonRequestCallback {
 		jsonPoller = new JsonPoller(remoteJsonURL, intervalSeconds * 1000, this);
 	}
 	
+	public void initDeferredPolling(int intervalSeconds) {
+		this.intervalSeconds = intervalSeconds;
+		initPolling();
+	}
+	
 	////////////////////////////////////////
 	// IJsonRequestCallback callbacks 
 	////////////////////////////////////////
 	
+	protected void writeNewJsonToDisk() {
+		FileUtil.createDir(FileUtil.pathForFile(localJsonPath));	// make sure local dir exists
+		curJsonStr = newJsonStr;
+		FileUtil.writeTextToFile(localJsonPath, curJsonStr);
+	}
+	
 	public void postSuccess(String responseText, int responseCode, String requestId, int responseTime) {
 		if(JsonUtil.isValid(responseText)) {
 			// compare old & new JSON
-			String newJsonStr = JSONObject.parse(responseText).toString();
+			newJsonStr = JSONObject.parse(responseText).toString();
 			String oldJsonStr = (curJsonStr != null && curJsonStr.length() > 0) ? JSONObject.parse(curJsonStr).toString() : null;	// if nothing was read to disk, old json is null for comparison
 			// if old & new aren't equal, store it and send it out!
 			if(newJsonStr.equals(oldJsonStr) == false) {
-				FileUtil.createDir(FileUtil.pathForFile(localJsonPath));	// create json dir if this is a fresh install. it'll get overwritten byt hte full sync, but this prevents errors
-				curJsonStr = newJsonStr;
-				FileUtil.writeTextToFile(localJsonPath, curJsonStr);
-				this.delegate.jsonUpdated(curJsonStr);
+				writeNewJsonToDisk();
+				if(this.delegate != null) this.delegate.jsonUpdated(curJsonStr);
 			} else {
-				this.delegate.jsonNotUpdated(curJsonStr);
+				if(this.delegate != null) this.delegate.jsonNotUpdated(curJsonStr);
 			}
 		} else {
-			this.delegate.jsonNotValid(curJsonStr);
+			if(this.delegate != null) this.delegate.jsonNotValid(curJsonStr);
 		}
 	}
 
 	public void postFailure(String responseText, int responseCode, String requestId, int responseTime, String errorMessage) {
-		P.out("ConfigDataPoller: API Unreachable:");
-		// P.out(App.LOG, "-- " + errorMessage);
+		if(this.delegate != null) this.delegate.jsonRequestNetError(errorMessage);
 	}	
 	
 	public void aboutToRequest(JsonHttpRequest request) {
