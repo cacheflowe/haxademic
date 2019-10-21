@@ -10,6 +10,7 @@ import com.haxademic.core.draw.filters.pshader.ThresholdFilter;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.depthcamera.cameras.IDepthCamera;
+import com.haxademic.core.math.MathUtil;
 
 import processing.core.PGraphics;
 import processing.opengl.PShader;
@@ -56,6 +57,7 @@ public class KinectRoomScanDiff {
 
 		resultLerped = PG.newPG(roomScanBuffer.width, roomScanBuffer.height);
 		resultSmoothed = PG.newPG(roomScanBuffer.width, roomScanBuffer.height);
+		PG.setTextureRepeat(resultLerped, false);
 		PG.setTextureRepeat(resultSmoothed, false);
 
 		colorDistanceFilter = P.p.loadShader(FileUtil.getFile("haxademic/shaders/filters/color-distance-two-textures.glsl"));
@@ -153,24 +155,43 @@ public class KinectRoomScanDiff {
 			lerpedDepthBuffer.image(depthCamera.getDepthImage(), 0, 0, lerpedDepthBuffer.width, lerpedDepthBuffer.height);
 			lerpedDepthBuffer.endDraw();
 		} else {
-			lerpedDepthBuffer.beginDraw();
 			int numPixelsProcessed = 0;
+			lerpedDepthBuffer.loadPixels();
 			for ( int x = 0; x < lerpedDepthBuffer.width; x++ ) {
 				for ( int y = 0; y < lerpedDepthBuffer.height; y++ ) {
 					int pixelDepth = depthCamera.getDepthAt( x * pixelSkip, y * pixelSkip );
-					if( pixelDepth > kinectNear && pixelDepth < kinectFar ) {	// allow black pixels by removing: pixelDepth != 0 && 
+					if( pixelDepth > kinectNear && pixelDepth < kinectFar ) {
 						float depthToGray = P.map(pixelDepth, kinectNear, kinectFar, 255, 0);
-						lerpedDepthBuffer.fill(P.constrain(depthToGray, 0, 255));
-						lerpedDepthBuffer.rect(x, y, 1, 1);
+						int col = P.p.color(P.constrain(depthToGray, 0, 255));
+						lerpedDepthBuffer.pixels[MathUtil.gridIndexFromXY(x, y, lerpedDepthBuffer.width)] = col;
 						numPixelsProcessed++;
 					} else {
-						lerpedDepthBuffer.fill(0, 255);
-						lerpedDepthBuffer.rect(x, y, 1, 1);
+						lerpedDepthBuffer.pixels[MathUtil.gridIndexFromXY(x, y, lerpedDepthBuffer.width)] = P.p.color(0);
 					}
 				}
 			}
-			lerpedDepthBuffer.endDraw();
+			lerpedDepthBuffer.updatePixels();
 			P.p.debugView.setValue("KinectRoomScanDiff.numPixelsProcessed", numPixelsProcessed);
+
+			// rect() method
+//			lerpedDepthBuffer.beginDraw();
+//			int numPixelsProcessed = 0;
+//			for ( int x = 0; x < lerpedDepthBuffer.width; x++ ) {
+//				for ( int y = 0; y < lerpedDepthBuffer.height; y++ ) {
+//					int pixelDepth = depthCamera.getDepthAt( x * pixelSkip, y * pixelSkip );
+//					if( pixelDepth > kinectNear && pixelDepth < kinectFar ) {	// allow black pixels by removing: pixelDepth != 0 && 
+//						float depthToGray = P.map(pixelDepth, kinectNear, kinectFar, 255, 0);
+//						lerpedDepthBuffer.fill(P.constrain(depthToGray, 0, 255));
+//						lerpedDepthBuffer.rect(x, y, 1, 1);
+//						numPixelsProcessed++;
+//					} else {
+//						lerpedDepthBuffer.fill(0, 255);
+//						lerpedDepthBuffer.rect(x, y, 1, 1);
+//					}
+//				}
+//			}
+//			lerpedDepthBuffer.endDraw();
+//			P.p.debugView.setValue("KinectRoomScanDiff.numPixelsProcessed", numPixelsProcessed);
 		}
 		
 		// composite room scan with current depth buffer on top
@@ -213,4 +234,78 @@ public class KinectRoomScanDiff {
 		ThresholdFilter.instance(P.p).setCutoff(smoothThresh);
 		ThresholdFilter.instance(P.p).applyTo(resultSmoothed);
 	}
+
+
+/*
+ * OLD DRAW VIA RECT METHOD
+	protected void storeRoomScan() {
+		int scanFrameCount = P.p.frameCount - roomMapCaptureStartFrame;
+		if(scanFrameCount < roomMapCaptureFrames) {
+			// store kinect depth map
+			roomScanBuffer.beginDraw();
+			roomScanBuffer.noStroke();
+			// lightest ensures that valid depth data closer to the camera will be stored
+			roomScanBuffer.blendMode(PBlendModes.LIGHTEST);
+			if(depthImageMode) {
+				roomScanBuffer.image(depthCamera.getDepthImage(), 0, 0, roomScanBuffer.width, roomScanBuffer.height);
+			} else {
+				roomScanBuffer.loadPixels();
+				for ( int x = 0; x < roomScanBuffer.width; x++ ) {
+					for ( int y = 0; y < roomScanBuffer.height; y++ ) {
+						int pixelDepth = depthCamera.getDepthAt( x * pixelSkip, y * pixelSkip );
+						if( pixelDepth != 0 && pixelDepth > kinectNear && pixelDepth < kinectFar ) {
+							float depthToGray = P.map(pixelDepth, kinectNear, kinectFar, 255, 0);
+							int col = P.p.color(P.constrain(depthToGray, 0, 255));
+							roomScanBuffer.pixels[MathUtil.gridIndexFromXY(x, y, roomScanBuffer.width)] = col;
+						} else {
+							roomScanBuffer.pixels[MathUtil.gridIndexFromXY(x, y, roomScanBuffer.width)] = P.p.color(0);
+						}
+					}
+				}
+				roomScanBuffer.updatePixels();
+			}
+			roomScanBuffer.blendMode(PBlendModes.BLEND);
+			roomScanBuffer.endDraw();
+		}
+	}
+	
+	protected void drawCurrentDepthBuffer() {
+		if(depthImageMode) {
+			lerpedDepthBuffer.beginDraw();
+			lerpedDepthBuffer.image(depthCamera.getDepthImage(), 0, 0, lerpedDepthBuffer.width, lerpedDepthBuffer.height);
+			lerpedDepthBuffer.endDraw();
+		} else {
+			int numPixelsProcessed = 0;
+			lerpedDepthBuffer.loadPixels();
+			for ( int x = 0; x < lerpedDepthBuffer.width; x++ ) {
+				for ( int y = 0; y < lerpedDepthBuffer.height; y++ ) {
+					int pixelDepth = depthCamera.getDepthAt( x * pixelSkip, y * pixelSkip );
+					if( pixelDepth > kinectNear && pixelDepth < kinectFar ) {
+						float depthToGray = P.map(pixelDepth, kinectNear, kinectFar, 255, 0);
+						int col = P.p.color(P.constrain(depthToGray, 0, 255));
+						lerpedDepthBuffer.pixels[MathUtil.gridIndexFromXY(x, y, lerpedDepthBuffer.width)] = col;
+						numPixelsProcessed++;
+					} else {
+						lerpedDepthBuffer.pixels[MathUtil.gridIndexFromXY(x, y, lerpedDepthBuffer.width)] = P.p.color(0);
+					}
+				}
+			}
+			lerpedDepthBuffer.updatePixels();
+			P.p.debugView.setValue("KinectRoomScanDiff.numPixelsProcessed", numPixelsProcessed);
+		}
+		
+		// composite room scan with current depth buffer on top
+		// this helps fill in holes that might exist in current depth buffer
+		depthBuffer.beginDraw();
+		depthBuffer.noStroke();
+		depthBuffer.background(0);
+		depthBuffer.image(roomScanBuffer, 0, 0);	// lay down cached scan and draw on top
+		depthBuffer.blendMode(PBlendModes.LIGHTEST);
+		depthBuffer.image(lerpedDepthBuffer, 0, 0, depthBuffer.width, depthBuffer.height);
+		depthBuffer.blendMode(PBlendModes.BLEND);
+		depthBuffer.endDraw();
+	}
+
+	
+ * */
 }

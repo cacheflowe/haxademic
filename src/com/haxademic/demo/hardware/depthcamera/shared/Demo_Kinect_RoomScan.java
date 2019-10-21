@@ -3,19 +3,14 @@ package com.haxademic.demo.hardware.depthcamera.shared;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.PG;
-import com.haxademic.core.draw.filters.pshader.BlendTowardsTexture;
-import com.haxademic.core.draw.filters.pshader.BlurHFilter;
-import com.haxademic.core.draw.filters.pshader.BlurVFilter;
-import com.haxademic.core.draw.filters.pshader.ThresholdFilter;
-import com.haxademic.core.draw.image.ImageUtil;
+import com.haxademic.core.data.constants.PTextAlign;
+import com.haxademic.core.draw.image.BufferThresholdMonitor;
+import com.haxademic.core.draw.text.FontCacher;
 import com.haxademic.core.hardware.depthcamera.KinectRoomScanDiff;
+import com.haxademic.core.media.DemoAssets;
 import com.haxademic.core.system.SystemUtil;
-
-import processing.core.PGraphics;
 
 public class Demo_Kinect_RoomScan
 extends PAppletHax {
@@ -31,6 +26,8 @@ extends PAppletHax {
 
 	protected String debugScale = "debugScale";
 	
+	protected BufferThresholdMonitor userActive;
+	
 	protected void overridePropsFile() {
 		p.appConfig.setProperty( AppSettings.WIDTH, 1280 );
 		p.appConfig.setProperty( AppSettings.HEIGHT, 720 );
@@ -40,10 +37,11 @@ extends PAppletHax {
 	}
 
 	public void setupFirstFrame() {
+		surface.setResizable(true);
 		// Choose depthImageMode vs raw depth data method.
 		// Depending on whether the camera re-calibrates the depth image, we might need to go with pixel data
-		kinectDiff = new KinectRoomScanDiff(p.depthCamera, 3, true);
-//		kinectDiff = new KinectRoomScanDiff(p.depthCamera, 8, false);
+//		kinectDiff = new KinectRoomScanDiff(p.depthCamera, 3, true);
+		kinectDiff = new KinectRoomScanDiff(p.depthCamera, 8, false);
 		
 		// build ui
 		p.ui.addSlider(colorDiffThresh, 0.005f, 0f, 1f, 0.001f, false);
@@ -52,6 +50,8 @@ extends PAppletHax {
 		p.ui.addSlider(newFrameLerp, 0.15f, 0f, 1f, 0.001f, false);
 
 		p.ui.addSlider(debugScale, 1, 0.5f, 6f, 0.01f, false);
+		
+		userActive = new BufferThresholdMonitor(32, 24, 20);
 	}
 	
 	public void drawApp() {
@@ -78,6 +78,19 @@ extends PAppletHax {
 		p.image(kinectDiff.depthDifference(), kinectDiff.roomScanBuffer().width * 2, 0);
 		p.image(kinectDiff.resultLerped(), 0, kinectDiff.depthDifference().height);
 		p.image(kinectDiff.resultSmoothed(), kinectDiff.resultLerped().width, kinectDiff.depthDifference().height);
+		p.image(userActive.thresholdBuffer(), kinectDiff.resultLerped().width * 2, kinectDiff.depthDifference().height, kinectDiff.resultLerped().width, kinectDiff.depthDifference().height);
+		
+		// check user active monitor
+		userActive.update(kinectDiff.resultSmoothed());
+		float activeMonitorResult = userActive.thresholdCalc();
+		p.debugView.setValue("activeMonitorResult", activeMonitorResult);
+		p.debugView.setTexture("activeMonitorResult buffer", userActive.thresholdBuffer());
+		// activity indicator
+		int userIndicatorFill = (activeMonitorResult > 0.01f) ? p.color(0,255,0) : p.color(255,0,0);
+		p.fill(userIndicatorFill);
+		p.ellipse(20 + kinectDiff.resultLerped().width * 2, 20 + kinectDiff.depthDifference().height, 20, 20);
+		FontCacher.setFontOnContext(p.g, FontCacher.getFont(DemoAssets.fontInterPath, 24), p.color(255), 1, PTextAlign.LEFT, PTextAlign.TOP);
+		p.text(activeMonitorResult, 20 + kinectDiff.resultLerped().width * 2, kinectDiff.depthDifference().height * 2 - 40);
 	}
 	
 	public void keyPressed() {

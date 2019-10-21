@@ -1,9 +1,8 @@
 package com.haxademic.core.draw.image;
 
 import com.haxademic.core.app.P;
-import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.draw.color.ColorUtil;
-import com.haxademic.core.draw.context.OpenGLUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.ThresholdFilter;
 import com.haxademic.core.math.easing.FloatBuffer;
 
@@ -21,8 +20,7 @@ public class BufferThresholdMonitor {
 		thresholdCalc = new FloatBuffer(bufferAvgSize);
 		
 		// frame buffers
-		thresholdBuffer = P.p.createGraphics(w, h, PRenderers.P2D);
-		OpenGLUtil.setTextureQualityLow(thresholdBuffer);
+		thresholdBuffer = PG.newPG2DFast(w, h);
 	}
 	
 	public BufferThresholdMonitor() {

@@ -358,6 +358,10 @@ public class MathUtil {
 		return index % cols;
 	}
 	
+	public static int gridIndexFromXY(int x, int y, int width) {
+		return y * width + x;
+	}
+	
 	public static float saw(float rads) {
 	    rads = rads / P.TWO_PI + P.PI / 4f; // add quarter PI to sync with sin()
 	    rads = fract(rads); 
