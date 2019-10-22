@@ -23,10 +23,10 @@ extends PAppletHax {
 	}
 	
 	public void setupFirstFrame() {
-//		interphase = new Interphase(SequencerConfig.interphaseChannels);
+//		interphase = new Interphase(SequencerConfig.interphaseChannels, true);
 //		SequencerConfig.BASE_AUDIO_PATH = FileUtil.getHaxademicDataPath();
-		interphase = new Interphase(SequencerConfig.interphaseChannels());
-//		interphase = new Interphase(SequencerConfig.interphaseChannelsMinimal());
+		interphase = new Interphase(SequencerConfig.interphaseChannels(), true);
+//		interphase = new Interphase(SequencerConfig.interphaseChannelsMinimal(), true);
 	}
 	
 	public void keyPressed() {

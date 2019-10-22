@@ -55,6 +55,8 @@ implements ILaunchpadCallback {
 	protected boolean systemMuted = false;
 	protected int systemMuteTime = -1;
 	
+	protected boolean hasUI;
+	
 	protected InputTrigger trigger1 = new InputTrigger(new char[]{'1'}, null, new Integer[]{104, 41}, null, null);
 	protected InputTrigger trigger2 = new InputTrigger(new char[]{'2'}, null, new Integer[]{105, 42}, null, null);
 	protected InputTrigger trigger3 = new InputTrigger(new char[]{'3'}, null, new Integer[]{106, 43}, null, null);
@@ -72,8 +74,9 @@ implements ILaunchpadCallback {
 	protected LaunchPad launchpad2;
 
 	
-	public Interphase(SequencerConfig[] interphaseChannels) {
+	public Interphase(SequencerConfig[] interphaseChannels, boolean hasUI) {
 		NUM_WALLS = interphaseChannels.length;
+		this.hasUI = hasUI;
 		
 		// init state
 		P.store.setNumber(BEAT, 0);
@@ -94,25 +97,27 @@ implements ILaunchpadCallback {
 			sequencers[i] = new Sequencer(this, interphaseChannels[i]);
 		}
 		
-		// build launchpad
-		launchpad1 = new LaunchPad(0, 3);
-		launchpad1.setDelegate(this);
-		launchpad2 = new LaunchPad(1, 4);
-		launchpad2.setDelegate(this);
-		
-		// alternate UI buttons
-		for (int i = 0; i < 16; i++) {
-			P.out("Interphase TODO: make UI buttons dynamic per number of channels");
-			P.p.ui.addButtons(new String[] {"beatgrid-0-"+i, "beatgrid-1-"+i, "beatgrid-2-"+i, "beatgrid-3-"+i, "beatgrid-4-"+i, "beatgrid-5-"+i, "beatgrid-6-"+i, "beatgrid-7-"+i}, true);
+		if(hasUI) {
+			// build launchpad
+			launchpad1 = new LaunchPad(0, 3);
+			launchpad1.setDelegate(this);
+			launchpad2 = new LaunchPad(1, 4);
+			launchpad2.setDelegate(this);
+			
+			// alternate UI buttons
+			for (int i = 0; i < 16; i++) {
+				P.out("Interphase TODO: make UI buttons dynamic per number of channels");
+				P.p.ui.addButtons(new String[] {"beatgrid-0-"+i, "beatgrid-1-"+i, "beatgrid-2-"+i, "beatgrid-3-"+i, "beatgrid-4-"+i, "beatgrid-5-"+i, "beatgrid-6-"+i, "beatgrid-7-"+i}, true);
+			}
+			P.p.ui.addWebInterface(false);
+	
+			// set debug help lines
+			P.p.debugView.setHelpLine("\n" + DebugView.TITLE_PREFIX + "Interphase Key Commands", "");
+			P.p.debugView.setHelpLine("[1234] |", "Trigger");
+			P.p.debugView.setHelpLine("[QWER] |", "Toggle on/off");
+			P.p.debugView.setHelpLine("[ASDF] |", "New sound");
+			P.p.debugView.setHelpLine("[9] |", "Toggle auto morph");
 		}
-		P.p.ui.addWebInterface(false);
-
-		// set debug help lines
-		P.p.debugView.setHelpLine("\n" + DebugView.TITLE_PREFIX + "Interphase Key Commands", "");
-		P.p.debugView.setHelpLine("[1234] |", "Trigger");
-		P.p.debugView.setHelpLine("[QWER] |", "Toggle on/off");
-		P.p.debugView.setHelpLine("[ASDF] |", "New sound");
-		P.p.debugView.setHelpLine("[9] |", "Toggle auto morph");
 	}
 	
 	
@@ -174,6 +179,7 @@ implements ILaunchpadCallback {
 	
 	protected void updateLaunchpads() {
 		if(launchpad1 == null) return;
+		if(!hasUI) return;
 		
 		// split across launchpads
 		for (int i = 0; i < sequencers.length; i++) {
@@ -205,6 +211,7 @@ implements ILaunchpadCallback {
 	// Bridge to UIControls for mouse control
 	
 	protected void updateUIButtons() {
+		if(!hasUI) return;
 		// split across launchpads
 		for (int i = 0; i < sequencers.length; i++) {
 			for (int step = 0; step < NUM_STEPS; step++) {
@@ -223,7 +230,7 @@ implements ILaunchpadCallback {
 		// playhead
 		if(P.p.ui.active()) {
 			P.p.fill(255);
-			P.p.rect(0, 10 + UIControlPanel.controlSpacing * P.store.getInt(CUR_STEP), UIControlPanel.controlW + 20, UIControlPanel.controlH);
+			P.p.rect(0, UIControlPanel.controlSpacing * P.store.getInt(CUR_STEP), UIControlPanel.controlW + 20, UIControlPanel.controlH);
 		}
 	}
 	

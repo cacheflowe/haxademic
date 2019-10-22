@@ -7,6 +7,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import com.haxademic.core.app.P;
+import com.haxademic.core.data.constants.PRegisterableMethods;
 import com.haxademic.core.draw.image.Base64Image;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.image.ScreenshotBuffer;
@@ -70,7 +71,7 @@ implements IJsonRequestCallback {
 		}}, 60 * 1000); 
 		
 		// subscribe to post for base64 encoding of extra image
-		P.p.registerMethod("post", this);
+		P.p.registerMethod(PRegisterableMethods.pre, this);
 	}
 	
 	// set basic json data
@@ -146,7 +147,7 @@ implements IJsonRequestCallback {
 		}}, extraImgIntervalSeconds / 2, extraImgIntervalSeconds);	 // delay, [repeat]
 	}
 	
-	public void post() {
+	public void pre() {
 		// base64 encode on ui thread
 		if(screenshotNeedsUpdate) {
 			screenshotBuffer.updateScreenshot();
@@ -180,14 +181,14 @@ implements IJsonRequestCallback {
 	////////////////////////////////////////
 	
 	public void postSuccess(String responseText, int responseCode, String requestId, int responseTime) {
-		if(DEBUG) {
+		if(DEBUG == true) {
 			P.out("DashboardCheckinPoller: Checkin success!");
 			P.out(responseText);
 		}
 	}
 
 	public void postFailure(String responseText, int responseCode, String requestId, int responseTime, String errorMessage) {
-		if(DEBUG) {
+		if(DEBUG == true) {
 			P.out("DashboardCheckinPoller: API Unreachable");
 			P.out("-- " + errorMessage);
 		}

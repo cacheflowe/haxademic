@@ -1,5 +1,10 @@
 # TODO
 
+## Mapping
+
+* PGraphics keystone is jacked up if the canvas size is different than the app size. Positioning & scale can go way off
+  * Or was I just drawing test pattern in the wrong order?
+
 ## InputTrigger
 
 * Threaded safety of InputTrigger isn't good - especially at a low FPS?

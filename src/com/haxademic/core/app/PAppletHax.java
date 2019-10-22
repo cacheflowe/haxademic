@@ -8,6 +8,7 @@ import javax.sound.midi.InvalidMidiDataException;
 
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.P5Properties;
+import com.haxademic.core.data.constants.PEvents;
 import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.data.store.AppStore;
 import com.haxademic.core.debug.DebugUtil;
@@ -651,6 +652,9 @@ extends PApplet {
 		if (p.key == '|') saveScreenshot(p.g);
 		if (p.key == '/') { debugView.active(!debugView.active()); if(ui.active()) ui.active(false); }
 		if (p.key == '\\') { ui.active(!ui.active()); if(debugView.active()) debugView.active(false); }
+		
+		// let other objects know
+		P.store.setString(PEvents.KEY_PRESSED, p.key+"");
 	}
 	
 	public void keyReleased() {
