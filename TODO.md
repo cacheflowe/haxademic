@@ -1,10 +1,5 @@
 # TODO
 
-## Mapping
-
-* PGraphics keystone is jacked up if the canvas size is different than the app size. Positioning & scale can go way off
-  * Or was I just drawing test pattern in the wrong order?
-
 ## InputTrigger
 
 * Threaded safety of InputTrigger isn't good - especially at a low FPS?
@@ -68,6 +63,7 @@
 
 
 ## Art projects
+  * Convert Fliud sim: https://github.com/PavelDoGreat/WebGL-Fluid-Simulation/blob/master/script.js
   * Shatter model & triangles fall down (Sunflow final render)
   * Sound in space. Raspberry Pis via wifi, attached to speakers. Split channels for more outputs
   * New video loops should have a soundtrack. use my tunes? look in sketch/render/avloops
