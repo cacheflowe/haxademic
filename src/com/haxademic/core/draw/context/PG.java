@@ -59,7 +59,20 @@ public class PG {
 	public static PGraphics newPG(int w, int h, boolean smooth, boolean hasAlpha) {
 		PGraphics newPG = P.p.createGraphics(w, h, PRenderers.P3D);
 		if(smooth == false) newPG.noSmooth();
-		if(hasAlpha == false) {
+		if(hasAlpha == true) {
+			newPG.beginDraw();
+			newPG.background(0, 0);
+			newPG.noStroke();
+			newPG.endDraw();
+		}
+		PG.setTextureRepeat(newPG, true);
+		return newPG;
+	}
+	
+	public static PGraphics newPG32(int w, int h, boolean smooth, boolean hasAlpha) {
+		PGraphics newPG = PGraphics32.createGraphics(P.p, w, h);
+		if(smooth == false) newPG.noSmooth();
+		if(hasAlpha == true) {
 			newPG.beginDraw();
 			newPG.background(0, 0);
 			newPG.noStroke();
