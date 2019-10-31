@@ -129,7 +129,7 @@ implements ILaunchpadCallback {
 		return systemMuted;
 	}
 	
-	protected void setSystemMute(boolean muted) {
+	public void setSystemMute(boolean muted) {
 		systemMuteTime = P.p.millis();
 		systemMuted = muted;
 	}
