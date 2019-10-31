@@ -44,6 +44,10 @@ implements IWatchDirListener {
 			rebuildShader();
 		}
 	}
+	
+	public boolean isValid() {
+		return compiledShader.isValid();
+	}
 
 	protected void rebuildShader() {
 		// attempt to compile shader
