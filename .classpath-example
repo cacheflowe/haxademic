@@ -18,7 +18,7 @@
 	<classpathentry kind="lib" path="lib/Ess/library/Ess.jar"/>
 	<classpathentry kind="lib" path="lib/haxademic/haxademic.jar" sourcepath="/haxademic"/>
 	<classpathentry kind="lib" path="lib/java_websocket/Java-WebSocket-1.3.9.jar"/>
-	<classpathentry kind="lib" path="lib/jetty/jetty-all-9.4.15.v20190215-uber.jar"/>
+	<classpathentry kind="lib" path="lib/jetty/jetty-all-9.4.22.v20191022-uber.jar"/>
 	<classpathentry kind="lib" path="lib/minim/library/jsminim.jar"/>
 	<classpathentry kind="lib" path="lib/minim/library/minim.jar"/>
 	<classpathentry kind="lib" path="lib/processing-3/core/library/core.jar" sourcepath="/processing-core"/>
