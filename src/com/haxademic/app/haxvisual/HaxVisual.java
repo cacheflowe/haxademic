@@ -62,7 +62,6 @@ import com.haxademic.core.hardware.shared.InputTrigger;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.LinearFloat;
 import com.haxademic.core.media.audio.interphase.Interphase;
-import com.haxademic.core.media.audio.interphase.SequencerConfig;
 import com.haxademic.core.system.SystemUtil;
 import com.haxademic.core.ui.UIButton;
 
@@ -228,7 +227,7 @@ implements IAppStoreListener {
 		buildPostProcessingChain();
 		// buildInterstitial();
 		
-		interphase = new Interphase(SequencerConfig.interphaseChannelsMinimal());
+//		interphase = new Interphase(SequencerConfig.interphaseChannelsMinimal());
 	}
 
 	protected void buildCanvas() {
