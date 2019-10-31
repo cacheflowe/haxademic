@@ -40,9 +40,9 @@ public class DateUtil {
 	}
 	
 	public static float todayHours() {
-		return P.hour() + (P.minute()/60f);
+		return P.hour() + ((P.minute() + (P.second() / 60f)) / 60f);	
 	}
-	
+		
 	public static String currentTime(boolean showSeconds, boolean showMilliseconds, boolean showAmPm) {
 		int hours = P.hour() % 12;
 		return 	StringUtil.paddedNumberString(2, hours) + ":" + 

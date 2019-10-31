@@ -27,6 +27,7 @@ extends PAppletHax {
 				"Processing time components :: " + P.hour() + ":" + P.minute() + ":" + P.second() + FileUtil.NEWLINE +
 				"Uptime (timeFromSeconds()) :: " + DateUtil.timeFromSeconds((int) DateUtil.uptimeSeconds(), true) + FileUtil.NEWLINE + 
 				"DateUtil.todaySeconds() :: " + DateUtil.todaySeconds() + FileUtil.NEWLINE + 
+				"DateUtil.todayHours() :: " + DateUtil.todayHours() + FileUtil.NEWLINE + 
 				"Current time (currentTime(true, false, true)) :: " + DateUtil.currentTime(false, false, true) + FileUtil.NEWLINE + 
 				"Current time (secondsToFormattedTime()) :: " + DateUtil.secondsToFormattedTime((int) DateUtil.todaySeconds(), false, false) + FileUtil.NEWLINE + 
 				"uptimeHours() :: " + DateUtil.uptimeHours() + FileUtil.NEWLINE + 
