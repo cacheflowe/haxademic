@@ -27,7 +27,9 @@ void main() {
   float ampByDist = amp * (1. + distFromCenter * 130.);       // speed up when further from center
   // if(waveAmp > 0.) ampByDist = ampByDist * (1. + 0.2 * sin(distFromCenter * 10.));
   if(waveAmp > 0.) curRads += sin(distFromCenter * waveFreq);
-  vec2 displace = uv + vec2(amp * cos(curRads), amp * sin(curRads));
-  vec4 sampleColor = texture2D(texture, displace) * vec4(vec3(samplemult), alphaMult);
+  vec2 displaceDir = vec2(amp * cos(curRads), amp * sin(curRads));
+  displaceDir.y *= texOffset.y / texOffset.x;		// Correct for aspect ratio
+  vec2 displaceSampleUV = uv + displaceDir;
+  vec4 sampleColor = texture2D(texture, displaceSampleUV) * vec4(vec3(samplemult), alphaMult);
   gl_FragColor = sampleColor;
 }

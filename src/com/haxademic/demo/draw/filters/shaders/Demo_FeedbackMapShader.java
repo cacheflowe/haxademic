@@ -3,7 +3,6 @@ package com.haxademic.demo.draw.filters.shaders;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.BlurProcessingFilter;
 import com.haxademic.core.draw.filters.pshader.FeedbackMapFilter;
@@ -69,11 +68,11 @@ extends PAppletHax {
 		textureShader = new TextureShader(TextureShader.bw_voronoi);
 		textureShader = new TextureShader(TextureShader.bw_clouds);
 		
-		p.ui.addSlider(mapZoom, 2, 0.1f, 15, 0.1f);
-		p.ui.addSlider(mapRot, 0, 0, P.TWO_PI, 0.01f);
-		p.ui.addSlider(feedbackAmp, 0.001f, 0.00001f, 0.005f, 0.00001f);
-		p.ui.addSlider(feedbackBrightStep, 0f, -0.01f, 0.01f, 0.0001f);
-		p.ui.addSlider(feedbackAlphaStep, 0f, -0.01f, 0.01f, 0.0001f);
+		p.ui.addSlider(mapZoom, 2, 0.1f, 15, 0.1f, false);
+		p.ui.addSlider(mapRot, 0, 0, P.TWO_PI, 0.01f, false);
+		p.ui.addSlider(feedbackAmp, 0.001f, 0.00001f, 0.005f, 0.00001f, false);
+		p.ui.addSlider(feedbackBrightStep, 0f, -0.01f, 0.01f, 0.0001f, false);
+		p.ui.addSlider(feedbackAlphaStep, 0f, -0.01f, 0.01f, 0.0001f, false);
 	}
 
 	protected void drawImg(PImage img) {

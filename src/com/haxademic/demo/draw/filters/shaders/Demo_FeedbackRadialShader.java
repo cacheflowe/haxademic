@@ -19,7 +19,7 @@ extends PAppletHax {
 	float frames = 60;
 	float progress = 0;
 	float progressRads = 0;
-	int W = 800;
+	int W = 1600;
 	int H = 800;
 	PGraphics buffer;
 	PShape xShape;
