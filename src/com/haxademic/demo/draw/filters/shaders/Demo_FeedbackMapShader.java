@@ -6,15 +6,14 @@ import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.BlurProcessingFilter;
+import com.haxademic.core.draw.filters.pshader.FeedbackMapFilter;
 import com.haxademic.core.draw.filters.pshader.ReflectFilter;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.shapes.PShapeUtil;
-import com.haxademic.core.draw.textures.PerlinTexture;
 import com.haxademic.core.draw.textures.SimplexNoiseTexture;
 import com.haxademic.core.draw.textures.pgraphics.TextureEQGrid;
 import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
 import com.haxademic.core.draw.textures.pshader.TextureShader;
-import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.webcam.WebCam;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.media.DemoAssets;
@@ -22,25 +21,29 @@ import com.haxademic.core.media.DemoAssets;
 import processing.core.PGraphics;
 import processing.core.PImage;
 import processing.core.PShape;
-import processing.opengl.PShader;
 
 public class Demo_FeedbackMapShader
 extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
-	float frames = 80;
-	float progress = 0;
-	float progressRads = 0;
-	int W = 800;
-	int H = 800;
-	PGraphics buffer;
-	PGraphics map;
-	PShape xShape;
-	PShader feedbackShader;
-	int mode = 0;
+	protected float frames = 80;
+	protected float progress = 0;
+	protected float progressRads = 0;
+	protected int W = 800;
+	protected int H = 800;
+	protected PGraphics buffer;
+	protected PGraphics map;
+	protected PShape xShape;
+	protected int mode = 0;
 	protected SimplexNoiseTexture simplexNoise;
 	protected BaseTexture audioTexture;
 	protected TextureShader textureShader;
+	
+	protected String mapZoom = "mapZoom";
+	protected String mapRot = "mapRot";
+	protected String feedbackAmp = "feedbackAmp";
+	protected String feedbackBrightStep = "feedbackBrightStep";
+	protected String feedbackAlphaStep = "feedbackAlphaStep";
 
 	protected void overridePropsFile() {
 		p.appConfig.setProperty( AppSettings.WIDTH, W );
@@ -53,25 +56,24 @@ extends PAppletHax {
 	public void setup() {
 		super.setup();
 
-		buffer = P.p.createGraphics(W, H, PRenderers.P3D);
-		map = P.p.createGraphics(W, H, PRenderers.P3D);
+		buffer = PG.newPG(W, H);
+		map = PG.newPG(W, H);
 
 		xShape = DemoAssets.shapeX().getTessellation();
 		PShapeUtil.centerShape(xShape);
 		PShapeUtil.scaleShapeToMaxAbsY(xShape, p.height * 0.35f);
 
-//		xShape = p.loadShape(FileUtil.getFile("svg/ello-type.svg")).getTessellation();
-//		PShapeUtil.centerShape(xShape);
-//		PShapeUtil.scaleShapeToExtent(xShape, p.width * 0.4f);
-
 		simplexNoise = new SimplexNoiseTexture(128, 128);
 		audioTexture = new TextureEQGrid(128, 128);
 
-		feedbackShader = loadShader(FileUtil.getFile("haxademic/shaders/filters/feedback-map.glsl"));
-
 		textureShader = new TextureShader(TextureShader.bw_voronoi);
 		textureShader = new TextureShader(TextureShader.bw_clouds);
-//		textureShader = new TextureShader(TextureShader.BWNoiseInfiniteZoom, 0.005f);
+		
+		p.ui.addSlider(mapZoom, 2, 0.1f, 15, 0.1f);
+		p.ui.addSlider(mapRot, 0, 0, P.TWO_PI, 0.01f);
+		p.ui.addSlider(feedbackAmp, 0.001f, 0.00001f, 0.005f, 0.00001f);
+		p.ui.addSlider(feedbackBrightStep, 0f, -0.01f, 0.01f, 0.0001f);
+		p.ui.addSlider(feedbackAlphaStep, 0f, -0.01f, 0.01f, 0.0001f);
 	}
 
 	protected void drawImg(PImage img) {
@@ -117,10 +119,10 @@ extends PAppletHax {
 
 	protected void updateMapPerlin() {
 		simplexNoise.update(
-				P.map(p.mousePercentX(), 0, 1, 0.01f, 15f), 
-				P.map(p.mousePercentY(), 0, 1, -P.TWO_PI, P.TWO_PI), 
-				50f * P.cos(p.frameCount / 5000f), 
-				50f * P.sin(p.frameCount / 5000f));
+				p.ui.value(mapZoom), 
+				p.ui.value(mapRot), 
+				0, 
+				0);
 		ImageUtil.cropFillCopyImage(simplexNoise.texture(), map, true);
 	}
 
@@ -137,10 +139,11 @@ extends PAppletHax {
 	}
 
 	protected void applyFeedbackToBuffer() {
-		feedbackShader.set("map", map);
-		// feedbackShader.set("samplemult", P.map(p.mouseY, 0, p.height, 0.85f, 1.15f) );
-		feedbackShader.set("amp", P.map(p.mousePercentY(), 0, 1, 0.0001f, 0.01f) );
-		for (int i = 0; i < 1; i++) buffer.filter(feedbackShader);
+		FeedbackMapFilter.instance(p).setMap(map);
+		FeedbackMapFilter.instance(p).setAmp(p.ui.value(feedbackAmp));
+		FeedbackMapFilter.instance(p).setBrightnessStep(p.ui.value(feedbackBrightStep));
+		FeedbackMapFilter.instance(p).setAlphaStep(p.ui.value(feedbackAlphaStep));
+		for (int i = 0; i < 1; i++) FeedbackMapFilter.instance(p).applyTo(buffer);
 	}
 
 	protected void blurMap() {
@@ -154,10 +157,11 @@ extends PAppletHax {
 		progressRads = progress * P.TWO_PI;
 		p.debugView.setValue("progress", progress);
 
-		background(255);
+		background(255,0,0);
 
 		// draw on top of image
 //		drawXShape(false);
+		if(p.frameCount % 60 == 0) drawXShape(true);
 
 		// draw map
 		updateMapPerlin();

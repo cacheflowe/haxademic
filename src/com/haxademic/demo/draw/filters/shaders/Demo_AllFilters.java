@@ -6,7 +6,6 @@ import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.draw.color.ImageGradient;
 import com.haxademic.core.draw.filters.pshader.AlphaStepFilter;
-import com.haxademic.core.draw.filters.pshader.AlphaStepFilter;
 import com.haxademic.core.draw.filters.pshader.BadTVGlitchFilter;
 import com.haxademic.core.draw.filters.pshader.BadTVLinesFilter;
 import com.haxademic.core.draw.filters.pshader.BlendTowardsTexture;
@@ -38,6 +37,7 @@ import com.haxademic.core.draw.filters.pshader.EmbossFilter;
 import com.haxademic.core.draw.filters.pshader.ErosionFilter;
 import com.haxademic.core.draw.filters.pshader.FXAAFilter;
 import com.haxademic.core.draw.filters.pshader.FakeLightingFilter;
+import com.haxademic.core.draw.filters.pshader.FeedbackMapFilter;
 import com.haxademic.core.draw.filters.pshader.GlitchImageGlitcherFilter;
 import com.haxademic.core.draw.filters.pshader.GlitchPseudoPixelSortingFilter;
 import com.haxademic.core.draw.filters.pshader.GlitchShaderAFilter;
@@ -152,6 +152,7 @@ extends PAppletHax { public static void main(String args[]) { arguments = args; 
 			EmbossFilter.instance(p),
 			ErosionFilter.instance(p),
 			FakeLightingFilter.instance(p),
+			FeedbackMapFilter.instance(p),
 			FXAAFilter.instance(p),
 			GlitchImageGlitcherFilter.instance(p),
 			GlitchPseudoPixelSortingFilter.instance(p),
@@ -377,6 +378,12 @@ extends PAppletHax { public static void main(String args[]) { arguments = args; 
 			FakeLightingFilter.instance(p).setSpecAmp(p.mousePercentY() * 1.5f);
 			FakeLightingFilter.instance(p).setDiffDark(p.mousePercentY() * 3f);
 			FakeLightingFilter.instance(p).applyTo(pg);
+		} else if(curFilter == FeedbackMapFilter.instance(p)) {
+			FeedbackMapFilter.instance(p).setMap(noiseBuffer);
+			FeedbackMapFilter.instance(p).setAmp(p.mousePercentY() * 0.5f);
+			FeedbackMapFilter.instance(p).setBrightnessStep(P.map(p.mousePercentX(), 0, 1, -1f, 1f));
+			FeedbackMapFilter.instance(p).setAlphaStep(P.map(p.mousePercentY(), 0, 1, -1f, 1f));
+			FeedbackMapFilter.instance(p).applyTo(pg);
 		} else if(curFilter == FXAAFilter.instance(p)) {
 			FXAAFilter.instance(p).applyTo(pg);
 		} else if(curFilter == GlitchImageGlitcherFilter.instance(p)) {

@@ -6,13 +6,14 @@ precision mediump int;
 #define PROCESSING_TEXTURE_SHADER
 
 uniform sampler2D texture;
+uniform vec2 texOffset;
 varying vec4 vertColor;
 varying vec4 vertTexCoord;
 
 uniform sampler2D map;
 uniform float amp = 0.01;
-uniform float samplemult = 1.0;
-uniform float alphaMult = 1.;
+uniform float brightnessStep = -1./255.;
+uniform float alphaStep = -1./255.;
 
 float TWO_PI = radians(360);
 
@@ -33,9 +34,11 @@ void main() {
 	vec2 p = vertTexCoord.xy;
   vec4 texColor = texture2D(map, p);
   float grayColor = rgbToGray(texColor);
-  float rotate = grayColor * TWO_PI * 3.;
-  vec2 displace = p + vec2(amp * cos(rotate), amp * sin(rotate));
+  float rotate = grayColor * TWO_PI * 3.;		// extra rotations to ensure we're rotating all directions. this is not awesome
+	vec2 displaceDir = vec2(amp * cos(rotate), amp * sin(rotate));
+	displaceDir.y *= texOffset.y / texOffset.x;		// Correct for aspect ratio
+  vec2 displaceSampleUV = p + displaceDir;
   // displace = wrappedPos(displace);
-  vec4 sampleColor = texture2D(texture, displace) * vec4(vec3(samplemult), alphaMult);
+  vec4 sampleColor = texture2D(texture, displaceSampleUV) + vec4(vec3(brightnessStep), alphaStep);
   gl_FragColor = sampleColor;
 }

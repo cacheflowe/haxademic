@@ -2,21 +2,19 @@ package com.haxademic.core.draw.filters.pgraphics;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.data.constants.PBlendModes;
-import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pgraphics.shared.BaseVideoFilter;
 import com.haxademic.core.draw.filters.pshader.BlurHFilter;
 import com.haxademic.core.draw.filters.pshader.BlurVFilter;
+import com.haxademic.core.draw.filters.pshader.FeedbackMapFilter;
 import com.haxademic.core.draw.filters.pshader.LeaveWhiteFilter;
 import com.haxademic.core.draw.filters.pshader.ThresholdFilter;
 import com.haxademic.core.draw.image.BufferMotionDetectionMap;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.textures.SimplexNoiseTexture;
-import com.haxademic.core.file.FileUtil;
 
 import processing.core.PGraphics;
 import processing.core.PImage;
-import processing.opengl.PShader;
 
 public class SmokeFeedback
 extends BaseVideoFilter {
@@ -25,21 +23,17 @@ extends BaseVideoFilter {
 	protected SimplexNoiseTexture noiseTexture;
 	protected PGraphics feedbackSeedBuffer;
 	protected PGraphics feedbackFinalBuffer;
-	protected PShader feedbackShader;
 
 
 	public SmokeFeedback(int width, int height) {
 		super(width, height);
 
 		noiseTexture = new SimplexNoiseTexture(width, height);
-		feedbackSeedBuffer = P.p.createGraphics(width / 4, height / 4, PRenderers.P2D);
+		feedbackSeedBuffer = PG.newPG(width / 2, height / 2);
 //		feedbackSeedBuffer.noSmooth();
-		feedbackFinalBuffer = P.p.createGraphics(width, height, PRenderers.P2D);
+		feedbackFinalBuffer = PG.newPG(width, height);
 //		feedbackFinalBuffer.noSmooth();
 		P.p.debugView.setTexture("feedbackSeedBuffer", feedbackSeedBuffer);
-		
-		// feedback shader & map
-		feedbackShader = P.p.loadShader(FileUtil.getFile("haxademic/shaders/filters/feedback-map.glsl"));
 	}
 	
 	public void newFrame(PImage frame) {
@@ -64,7 +58,7 @@ extends BaseVideoFilter {
 		if(motionDetectionMap == null) return;
 
 		// update simplex noise map
-		noiseTexture.update(0.15f, P.p.frameCount * 0.005f, 0f, 0f);
+		noiseTexture.update(0.5f, P.p.frameCount * 0.005f, 0f, 0f);
 		
 		// copy noise to buffer, post-process noise map, & remove black
 		ImageUtil.copyImage(motionDetectionMap.bwBuffer(), feedbackSeedBuffer);
@@ -82,10 +76,11 @@ extends BaseVideoFilter {
 		feedbackFinalBuffer.endDraw();
 
 		// apply feedback texture to main buffer
-		feedbackShader.set("map", noiseTexture.texture());
-		feedbackShader.set("samplemult", 0.88f);// P.map(P.p.mouseY, 0, height, 0.85f, 1.15f) );
-		feedbackShader.set("amp", 1f/255f);//P.map(P.p.mouseX, 0, width, 1f/255f, 0.01f) );
-		for (int i = 0; i < 1; i++) feedbackFinalBuffer.filter(feedbackShader); 
+		FeedbackMapFilter.instance(P.p).setMap(noiseTexture.texture());
+		FeedbackMapFilter.instance(P.p).setAmp(0.001f);
+		FeedbackMapFilter.instance(P.p).setBrightnessStep(-4f/255f);
+		FeedbackMapFilter.instance(P.p).setAlphaStep(-2f/255f);
+		for (int i = 0; i < 2; i++) FeedbackMapFilter.instance(P.p).applyTo(feedbackFinalBuffer);
 		
 		// draw composite to output buffer
 		destBuffer.beginDraw();

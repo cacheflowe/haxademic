@@ -57,7 +57,7 @@ void main() {
 		vec2 displace = p + vec2(radialAmp * cos(rotate), radialAmp * sin(rotate));
 		colorDisplaced = texture2D(texture, displace);
 	} else if(mode == 4) {
-		// cacheflowe original, vertical displacement, using center y pixel to smaple for the column of pixels
+		// cacheflowe original, vertical displacement, using center y pixel to sample for the entire column of pixels
 		float shiftVert = (rgbToGray(texture2D(map, vec2(p.x, 0.5))) - 0.5) * 2.0 * amp;
 		vec2 displace = p + vec2(0, shiftVert);
 		colorDisplaced = texture2D(texture, displace);

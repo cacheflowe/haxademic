@@ -5,18 +5,16 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.BlurProcessingFilter;
-import com.haxademic.core.draw.filters.pshader.BrightnessStepFilter;
+import com.haxademic.core.draw.filters.pshader.FeedbackMapFilter;
 import com.haxademic.core.draw.filters.pshader.ThresholdFilter;
 import com.haxademic.core.draw.image.BufferFrameDifference;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.textures.SimplexNoiseTexture;
-import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.webcam.WebCam;
 import com.haxademic.core.hardware.webcam.WebCam.IWebCamCallback;
 
 import processing.core.PGraphics;
 import processing.core.PImage;
-import processing.opengl.PShader;
 
 public class Demo_BufferFrameDifference_MaskedWebcam 
 extends PAppletHax
@@ -28,7 +26,6 @@ implements IWebCamCallback {
 	protected PGraphics diffBufferSmoothed;
 	protected PGraphics knockoutWebCam;
 	protected SimplexNoiseTexture simplexNoise;
-	protected PShader feedbackShader;
 
 	protected void overridePropsFile() {
 		p.appConfig.setProperty(AppSettings.WIDTH, 1280 );
@@ -37,7 +34,6 @@ implements IWebCamCallback {
 		
 	public void setupFirstFrame () {
 		WebCam.instance().setDelegate(this);
-		feedbackShader = loadShader(FileUtil.getFile("haxademic/shaders/filters/feedback-map.glsl"));
 	}
 
 	public void drawApp() {
@@ -63,13 +59,15 @@ implements IWebCamCallback {
 				50f * P.sin(p.frameCount / 5000f));
 		
 		// apply feedback shader
-		feedbackShader.set("map", simplexNoise.texture());
-		feedbackShader.set("amp", 0.001f); //P.map(p.mousePercentY(), 0, 1, 0.0001f, 0.01f) );
-		for (int i = 0; i < 2; i++) p.filter(feedbackShader);
-		
+		FeedbackMapFilter.instance(P.p).setMap(simplexNoise.texture());
+		FeedbackMapFilter.instance(P.p).setAmp(0.001f);
+		FeedbackMapFilter.instance(P.p).setBrightnessStep(-4f/255f);
+		FeedbackMapFilter.instance(P.p).setAlphaStep(-3f/255f);
+		for (int i = 0; i < 2; i++) FeedbackMapFilter.instance(P.p).applyTo(p.g);
+
 		// darken slightly
-		BrightnessStepFilter.instance(p).setBrightnessStep(-2f/255f);
-		BrightnessStepFilter.instance(p).applyTo(p);
+//		BrightnessStepFilter.instance(p).setBrightnessStep(-2f/255f);
+//		BrightnessStepFilter.instance(p).applyTo(p);
 	}
 
 	@Override
