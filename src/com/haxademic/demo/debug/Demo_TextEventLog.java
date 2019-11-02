@@ -10,8 +10,7 @@ extends PAppletHax {
 	protected TextEventLog eventLog;
 	
 	public void setupFirstFrame() {
-//		eventLog = new TextEventLog();
-		eventLog = new TextEventLog(TextEventLog.DAILY_LOG());
+		eventLog = new TextEventLog();
 		eventLog.appStarted();
 	}
 

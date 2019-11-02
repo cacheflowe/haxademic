@@ -7,24 +7,12 @@ public class TextEventLog {
 
 	protected String logFile;
 	
-	public static String DAILY_LOG() {
-		return FileUtil.getHaxademicOutputPath() + "logs/" + SystemUtil.getDateStamp() + ".txt";
-	}
-	
-	public TextEventLog() {
-		this(FileUtil.getHaxademicOutputPath() + "_log.txt"); 
-	}
-	
-	public TextEventLog(String filePath) {
-		logFile = filePath;
-		FileUtil.createDir(FileUtil.pathForFile(logFile));
-		if(FileUtil.fileExists(logFile) == false) {
-			FileUtil.writeTextToFile(logFile, "");	// create text file if it doesn;t yet exist
-		}
-	}
+	public TextEventLog() {}
 	
 	public void addEvent(String str) {
 		new Thread(new Runnable() { public void run() {
+			logFile = FileUtil.getHaxademicOutputPath() + "logs/" + SystemUtil.getDateStamp() + ".txt";;
+			FileUtil.createDir(FileUtil.pathForFile(logFile));
 			FileUtil.appendTextToFile(logFile, "[" + SystemUtil.getTimestamp() + "] :: " + str + FileUtil.NEWLINE);
 		}}).start();
 	}
