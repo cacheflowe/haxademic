@@ -347,7 +347,7 @@ public class FileUtil {
 	}
 	
 	/**
-	 * Simple method to append text to a file
+	 * Simple method to append text to a file. Creates the file if it doesn't exist!
 	 * @param file The filename (with full path) to write to
 	 * @param text Text to appendto the file
 	 */
