@@ -11,7 +11,6 @@ uniform sampler2D texture;
 varying vec4 vertColor;
 varying vec4 vertTexCoord;
 
-uniform float brightness;
 uniform float brightStep = -1./255.;
 
 void main() {

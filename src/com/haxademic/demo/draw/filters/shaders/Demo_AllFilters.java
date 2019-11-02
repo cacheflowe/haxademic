@@ -5,6 +5,8 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.draw.color.ImageGradient;
+import com.haxademic.core.draw.filters.pshader.AlphaStepFilter;
+import com.haxademic.core.draw.filters.pshader.AlphaStepFilter;
 import com.haxademic.core.draw.filters.pshader.BadTVGlitchFilter;
 import com.haxademic.core.draw.filters.pshader.BadTVLinesFilter;
 import com.haxademic.core.draw.filters.pshader.BlendTowardsTexture;
@@ -118,6 +120,7 @@ extends PAppletHax { public static void main(String args[]) { arguments = args; 
 		
 		filters = new BaseFragmentShader[] {
 				PixelateHexFilter.instance(p),
+			AlphaStepFilter.instance(p),
 			BadTVGlitchFilter.instance(p),
 			BadTVLinesFilter.instance(p),
 			BlendTowardsTexture.instance(p),
@@ -249,7 +252,10 @@ extends PAppletHax { public static void main(String args[]) { arguments = args; 
 		
 		// apply active filter
 		BaseFragmentShader curFilter = filters[filterIndex];
-		if(curFilter == BadTVGlitchFilter.instance(p)) {
+		if(curFilter == AlphaStepFilter.instance(p)) {
+			AlphaStepFilter.instance(p).setAlphaStep(P.map(p.mousePercentY(), 0, 1, -1f, 1f));
+			AlphaStepFilter.instance(p).applyTo(pg);
+		} else if(curFilter == BadTVGlitchFilter.instance(p)) {
 			BadTVGlitchFilter.instance(p).setTime(p.frameCount * 0.01f);
 			BadTVGlitchFilter.instance(p).applyTo(pg);
 		} else if(curFilter == BadTVLinesFilter.instance(p)) {
