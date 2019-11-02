@@ -30,10 +30,6 @@ extends PAppletHax {
 		
 		img1 = ImageUtil.imageToGraphics(DemoAssets.squareTexture());
 		img2 = ImageUtil.imageToGraphics(DemoAssets.textureNebula());
-//		img1 = ImageUtil.imageToGraphics(p.loadImage(FileUtil.getFile("images/trmp-fuck.png")));
-//		img2 = ImageUtil.imageToGraphics(p.loadImage(FileUtil.getFile("images/trmp-trmp.png")));
-//		img1 = ImageUtil.imageToGraphics(p.loadImage(FileUtil.getFile("images/aholes-bors.png")));
-//		img2 = ImageUtil.imageToGraphics(p.loadImage(FileUtil.getFile("images/aholes-trmp.png")));
 		
 //		transitionShader = p.loadShader(FileUtil.getFile("haxademic/shaders/transitions/colour-distance.glsl"));
 //		transitionShader.set("interpolationPower", 2f);
