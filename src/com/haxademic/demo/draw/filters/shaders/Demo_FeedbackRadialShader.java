@@ -4,26 +4,33 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.data.constants.PRenderers;
+import com.haxademic.core.draw.filters.pshader.FeedbackRadialFilter;
 import com.haxademic.core.draw.shapes.PShapeUtil;
-import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.media.DemoAssets;
 
 import processing.core.PGraphics;
 import processing.core.PShape;
-import processing.opengl.PShader;
 
 public class Demo_FeedbackRadialShader
 extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
-	float frames = 60;
-	float progress = 0;
-	float progressRads = 0;
-	int W = 1600;
-	int H = 800;
-	PGraphics buffer;
-	PShape xShape;
-	PShader feedbackShader;
+	protected float frames = 60;
+	protected float progress = 0;
+	protected float progressRads = 0;
+	protected int W = 1600;
+	protected int H = 800;
+	protected PGraphics buffer;
+	protected PShape xShape;
+
+	protected String feedbackAmp = "feedbackAmp";
+	protected String feedbackMultX = "feedbackMultX";
+	protected String feedbackMultY = "feedbackMultY";
+	protected String feedbackBrightMult = "feedbackBrightMult";
+	protected String feedbackAlphaMult = "feedbackAlphaMult";
+	protected String feedbackWaveAmp = "feedbackWaveAmp";
+	protected String feedbackWaveFreq = "feedbackWaveFreq";
+	protected String feedbackWaveStartMult = "feedbackWaveStartMult";
 
 	protected void overridePropsFile() {
 		p.appConfig.setProperty( AppSettings.WIDTH, W );
@@ -46,7 +53,14 @@ extends PAppletHax {
 //		PShapeUtil.centerShape(xShape);
 //		PShapeUtil.scaleShapeToExtent(xShape, p.width * 0.4f);
 		
-		feedbackShader = loadShader(FileUtil.getFile("haxademic/shaders/filters/feedback-radial.glsl"));
+		p.ui.addSlider(feedbackAmp, 0.001f, 0.00001f, 0.005f, 0.00001f, false);
+		p.ui.addSlider(feedbackMultX, 1f, 0f, 1f, 0.001f, false);
+		p.ui.addSlider(feedbackMultY, 1f, 0f, 1f, 0.001f, false);
+		p.ui.addSlider(feedbackBrightMult, 1f, 0.9f, 1.1f, 0.0001f, false);
+		p.ui.addSlider(feedbackAlphaMult, 0.99f, 0.9f, 1f, 0.001f, false);
+		p.ui.addSlider(feedbackWaveAmp, 0.1f, 0f, 1f, 0.001f, false);
+		p.ui.addSlider(feedbackWaveFreq, 10f, 0f, 100f, 0.1f, false);
+		p.ui.addSlider(feedbackWaveStartMult, 0.01f, -0.2f, 0.2f, 0.001f, false);
 	}
 	
 	protected void drawImg(boolean black) {
@@ -61,12 +75,15 @@ extends PAppletHax {
 	}
 	
 	protected void applyFeedbackToBuffer() {
-//		feedbackShader.set("samplemult", P.map(p.mouseY, 0, p.height, 0.85f, 1.15f) );
-		feedbackShader.set("amp", P.map(p.mouseX, 0, p.width, 0f, 0.004f) );
-//		feedbackShader.set("amp", 0.0001f);
-		feedbackShader.set("waveAmp", P.map(p.mouseX, 0, p.width, 0f, 0.005f) );
-		feedbackShader.set("waveFreq", P.map(p.mouseY, 0, p.height, 0f, 10f) );
-		for (int i = 0; i < 1; i++) buffer.filter(feedbackShader); 
+		FeedbackRadialFilter.instance(P.p).setAmp(p.ui.value(feedbackAmp));
+		FeedbackRadialFilter.instance(P.p).setMultX(p.ui.value(feedbackMultX));
+		FeedbackRadialFilter.instance(P.p).setMultY(p.ui.value(feedbackMultY));
+		FeedbackRadialFilter.instance(P.p).setSampleMult(p.ui.value(feedbackBrightMult));
+		FeedbackRadialFilter.instance(P.p).setWaveAmp(p.ui.value(feedbackWaveAmp));
+		FeedbackRadialFilter.instance(P.p).setWaveFreq(p.ui.value(feedbackWaveFreq));
+		FeedbackRadialFilter.instance(P.p).setWaveStart(p.frameCount * p.ui.value(feedbackWaveStartMult));
+		FeedbackRadialFilter.instance(P.p).setAlphaMult(p.ui.value(feedbackAlphaMult));
+		FeedbackRadialFilter.instance(P.p).applyTo(buffer);
 	}
 
 	public void drawApp() {

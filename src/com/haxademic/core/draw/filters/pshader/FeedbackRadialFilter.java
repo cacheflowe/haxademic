@@ -28,6 +28,14 @@ extends BaseFragmentShader {
 		shader.set("amp", amp);
 	}
 	
+	public void setMultX(float multX) {
+		shader.set("multX", multX);
+	}
+	
+	public void setMultY(float multY) {
+		shader.set("multY", multY);
+	}
+	
 	public void setSampleMult(float samplemult) {
 		shader.set("samplemult", samplemult);
 	}
@@ -38,6 +46,10 @@ extends BaseFragmentShader {
 
 	public void setWaveFreq(float waveFreq) {
 		shader.set("waveFreq", waveFreq);
+	}
+	
+	public void setWaveStart(float waveStart) {
+		shader.set("waveStart", waveStart);
 	}
 	
 	public void setAlphaMult(float alphaMult) {
