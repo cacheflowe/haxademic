@@ -22,7 +22,7 @@ implements IJoystickCollection {
 	
 	public void updateRegions() {
 		for( int i=0; i < _joysticks.size(); i++ ) {
-			_joysticks.get(i).detect(null);
+			_joysticks.get(i).update(null);
 		}
 	}
 	

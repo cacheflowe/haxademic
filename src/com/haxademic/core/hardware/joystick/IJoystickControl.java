@@ -12,5 +12,5 @@ public interface IJoystickControl {
 	public boolean isActive();
 	public void isActive( boolean value );
 	public void drawDebug(PGraphics debugGraphics);
-	public void detect(PGraphics debugGraphics);
+	public void update(PGraphics debugGraphics);
 }

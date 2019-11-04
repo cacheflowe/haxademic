@@ -11,67 +11,84 @@ public class KinectRegion
 extends BaseJoystick
 implements IJoystickControl {
 	
-	protected int _left = 0;
-	protected int _right = 0;
-	protected int _near = 0;
-	protected int _far = 0;
-	protected int _top = 0;
-	protected int _bottom = 0;
-	protected int _pixelSkip = 10;
-	protected int _blockColor = -1;
+	protected int left = 0;
+	protected int right = 0;
+	protected int near = 0;
+	protected int far = 0;
+	protected int top = 0;
+	protected int bottom = 0;
+	protected int pixelSkip = 10;
+	protected int minPixels = 20;
 	
-	protected int _pixelCount = 0;
-	protected int _minPixels = 20;
+	protected int debugColor = -1;
+	protected int pixelCount = 0;
 	
-	public KinectRegion( int left, int right, int near, int far, int top, int bottom, int resolution, int minPixels, int blockColor ) {
-		_left = left;
-		_right = right;
-		_near = near;
-		_far = far;
-		_top = top;
-		_bottom = bottom;
-		_pixelSkip = resolution;
-		_minPixels = minPixels;
-		_blockColor = blockColor;
+	public KinectRegion(int left, int right, int near, int far, int top, int bottom, int pixelSkip, int minPixels, int debugColor) {
+		this.left = left;
+		this.right = right;
+		this.near = near;
+		this.far = far;
+		this.top = top;
+		this.bottom = bottom;
+		this.pixelSkip = pixelSkip;
+		this.minPixels = minPixels;
+		this.debugColor = debugColor;
 	}
 	
-	public int pixelCount() {
-		return _pixelCount;
-	}
-	
-	public void pixelCount( int value ) {
-		_pixelCount = value;
-	}
+	public int left() { return left; }
+	public void left( int value ) { this.left = value; }
+	public int right() { return right; }
+	public void right( int value ) { this.right = value; }
+	public int near() { return near; }
+	public void near( int value ) { this.near = value; }
+	public int far() { return far; }
+	public void far( int value ) { this.far = value; }
+	public int top() { return top; }
+	public void top( int value ) { this.top = value; }
+	public int bottom() { return bottom; }
+	public void bottom( int value ) { this.bottom = value; }
+	public int pixelSkip() { return pixelSkip; }
+	public void pixelSkip( int value ) { this.pixelSkip = value; }
+	public int minPixels() { return minPixels; }
+	public void minPixels( int value ) { this.minPixels = value; }
+	public int debugColor() { return debugColor; }
+	public void debugColor( int value ) { this.debugColor = value; }
+	public int pixelCount() { return pixelCount; }
+	public void pixelCount( int value ) { this.pixelCount = value; }
 	
 	public void drawDebug(PGraphics debugGraphics) {
-		if( _blockColor == -1 ) return;
-		debugGraphics.stroke( _blockColor );
-		debugGraphics.fill( _blockColor, P.min(_pixelCount * 5, 255) );
-		debugGraphics.rect(_left, _near, _right - _left, _far - _near);
+		if( debugColor == -1 ) return;
+		debugGraphics.stroke( debugColor );
+		debugGraphics.fill( debugColor, P.min(pixelCount * 5, 255) );
+		debugGraphics.rect(left, near, right - left, far - near);
 	}
 	
-	public void detect(PGraphics debugGraphics) {
+	public void update() {
+		update(null);
+	}
+	
+	public void update(PGraphics debugGraphics) {
 		// find kinect readings in the region
 		_isActive = false;
 		if( P.p.depthCamera != null ) {
-			_pixelCount = 0;
+			pixelCount = 0;
 			float controlXTotal = 0;
 			float controlZTotal = 0;
 			float pixelDepth = 0;
-			for ( int x = _left; x < _right; x += _pixelSkip ) {
-				for ( int y = _top; y < _bottom; y += _pixelSkip ) {
+			for ( int x = left; x < right; x += pixelSkip ) {
+				for ( int y = top; y < bottom; y += pixelSkip ) {
 					pixelDepth = P.p.depthCamera.getDepthAt( x, y );
-					if( pixelDepth != 0 && pixelDepth > _near && pixelDepth < _far ) {
+					if( pixelDepth != 0 && pixelDepth > near && pixelDepth < far ) {
 				        if(debugGraphics != null) {
 				        	debugGraphics.noStroke();
-				        	debugGraphics.fill( _blockColor, 200 );
+				        	debugGraphics.fill( debugColor, 200 );
 				        	debugGraphics.pushMatrix();
 				        	debugGraphics.translate(x, y, -pixelDepth);
-				        	debugGraphics.box(_pixelSkip, _pixelSkip, _pixelSkip);
+				        	debugGraphics.box(pixelSkip, pixelSkip, pixelSkip);
 				        	debugGraphics.popMatrix();
 						}
 						// add up for calculations
-						_pixelCount++;
+						pixelCount++;
 						controlXTotal += x;
 						controlZTotal += pixelDepth;
 					}
@@ -79,14 +96,14 @@ implements IJoystickControl {
 			}
 
 			// if we have enough blocks in a region, update the player's joystick position
-			if( _pixelCount > _minPixels ) {
+			if( pixelCount > minPixels ) {
 				_isActive = true;
 				// compute averages
 				if( controlXTotal > 0 && controlZTotal > 0 ) {
-					float avgX = controlXTotal / _pixelCount;
-					_controlX = (MathUtil.getPercentWithinRange(_left, _right, avgX) - 0.5f) * 2f;
-					float avgZ = controlZTotal / _pixelCount;
-					_controlZ = (MathUtil.getPercentWithinRange(_near, _far, avgZ) - 0.5f) * 2f;
+					float avgX = controlXTotal / pixelCount;
+					_controlX = (MathUtil.getPercentWithinRange(left, right, avgX) - 0.5f) * 2f;
+					float avgZ = controlZTotal / pixelCount;
+					_controlZ = (MathUtil.getPercentWithinRange(near, far, avgZ) - 0.5f) * 2f;
 
 					// show debug
 			        if(debugGraphics != null) {

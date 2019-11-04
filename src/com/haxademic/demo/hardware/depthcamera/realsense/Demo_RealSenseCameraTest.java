@@ -64,12 +64,12 @@ extends PAppletHax {
 		p.background(0);
 		
 		MIRROR = true;
-		CAMERA_FAR = 1000;
+		CAMERA_FAR = 10000;
 
 		// TODO: thread this!
-		new Thread(new Runnable() { public void run() {
+//		new Thread(new Runnable() { public void run() {
 			camera.readFrames();
-		}}).start();
+//		}}).start();
 
 		// show depth image
 		fill(255);
@@ -107,7 +107,7 @@ extends PAppletHax {
 	protected void drawDepthPixels() {
 //		if(RGB_ACTIVE) getRGBImage().loadPixels();
 		int numPixelsProcessed = 0;
-		int pixelSize = 18;
+		int pixelSize = 6;
 		for ( int x = 0; x < CAMERA_W; x += pixelSize ) {
 			for ( int y = 0; y < CAMERA_H; y += pixelSize ) {
 				int pixelDepth = getDepth(x, y);

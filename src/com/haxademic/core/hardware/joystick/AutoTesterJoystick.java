@@ -21,7 +21,7 @@ implements IJoystickControl {
 	
 	public void drawDebug(PGraphics debugGraphics) {}
 	
-	public void detect(PGraphics debugGraphics) {
+	public void update(PGraphics debugGraphics) {
 		_oscCurX += _oscSpeedX;
     	_controlX = (float) Math.sin( _oscCurX );
     	_oscCurY += _oscSpeedY;

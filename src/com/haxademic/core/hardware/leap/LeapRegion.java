@@ -60,7 +60,7 @@ implements IJoystickControl {
 		debugGraphics.popMatrix();
 	}
 	
-	public void detect(PGraphics debugGraphics) {
+	public void update(PGraphics debugGraphics) {
 		// find kinect readings in the region
 		_isActive = false;
 		if( P.p.leapMotion != null ) {

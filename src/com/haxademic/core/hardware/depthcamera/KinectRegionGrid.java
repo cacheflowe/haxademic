@@ -68,7 +68,7 @@ implements IJoystickCollection {
 
 	public void updateRegions() {
 		for( int i=0; i < _joysticks.size(); i++ ) {
-			_joysticks.get(i).detect(debugBuffer);
+			_joysticks.get(i).update(debugBuffer);
 		}
 	}
 
