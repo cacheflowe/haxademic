@@ -3,6 +3,7 @@ package com.haxademic.demo.hardware.depthcamera.shared;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.context.PG;
+import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.hardware.depthcamera.DepthCameraSize;
 import com.haxademic.core.hardware.depthcamera.KinectRegion;
 import com.haxademic.core.math.easing.EasingBoolean;
@@ -88,7 +89,8 @@ extends PAppletHax {
 		
 		// show debug buffer
 		p.image(regionDebug, p.width - regionDebug.width, 0);
-		
+		ImageUtil.cropFillCopyImage(regionDebug, p.g, false);
+
 		// update smoothed results
 		userActive.target(region.isActive()).update();
 		userX.setTarget(region.controlX()).update();
