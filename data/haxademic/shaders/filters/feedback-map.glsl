@@ -14,8 +14,9 @@ uniform sampler2D map;
 uniform float amp = 0.01;
 uniform float brightnessStep = -1./255.;
 uniform float alphaStep = -1./255.;
+uniform float radiansStart = 0.;
+uniform float radiansRange = 6.28;	 // extra rotations to ensure we're rotating all directions. this is not awesome, but at least it's configurable
 
-float TWO_PI = radians(360);
 
 float rgbToGray(vec4 rgba) {
 	const vec3 W = vec3(0.2125, 0.7154, 0.0721);
@@ -34,11 +35,11 @@ void main() {
 	vec2 p = vertTexCoord.xy;
   vec4 texColor = texture2D(map, p);
   float grayColor = rgbToGray(texColor);
-  float rotate = grayColor * TWO_PI * 3.;		// extra rotations to ensure we're rotating all directions. this is not awesome
+  float rotate = radiansStart + grayColor * radiansRange;
 	vec2 displaceDir = vec2(amp * cos(rotate), amp * sin(rotate));
 	displaceDir.y *= texOffset.y / texOffset.x;		// Correct for aspect ratio
   vec2 displaceSampleUV = p + displaceDir;
-  // displace = wrappedPos(displace);
+  // displaceSampleUV = wrappedPos(displaceSampleUV);
   vec4 sampleColor = texture2D(texture, displaceSampleUV) + vec4(vec3(brightnessStep), alphaStep);
   gl_FragColor = sampleColor;
 }

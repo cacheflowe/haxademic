@@ -30,7 +30,6 @@ extends PAppletHax {
 	protected float progressRads = 0;
 	protected int W = 800;
 	protected int H = 800;
-	protected PGraphics buffer;
 	protected PGraphics map;
 	protected PShape xShape;
 	protected int mode = 0;
@@ -43,6 +42,10 @@ extends PAppletHax {
 	protected String feedbackAmp = "feedbackAmp";
 	protected String feedbackBrightStep = "feedbackBrightStep";
 	protected String feedbackAlphaStep = "feedbackAlphaStep";
+	protected String feedbackRadiansStart = "feedbackRadiansStart";
+	protected String feedbackRadiansRange = "feedbackRadiansRange";
+
+	protected String FEEDBACK_ITERS = "FEEDBACK_ITERS";
 
 	protected void overridePropsFile() {
 		p.appConfig.setProperty( AppSettings.WIDTH, W );
@@ -55,7 +58,6 @@ extends PAppletHax {
 	public void setup() {
 		super.setup();
 
-		buffer = PG.newPG(W, H);
 		map = PG.newPG(W, H);
 
 		xShape = DemoAssets.shapeX().getTessellation();
@@ -73,36 +75,40 @@ extends PAppletHax {
 		p.ui.addSlider(feedbackAmp, 0.001f, 0.00001f, 0.005f, 0.00001f, false);
 		p.ui.addSlider(feedbackBrightStep, 0f, -0.01f, 0.01f, 0.0001f, false);
 		p.ui.addSlider(feedbackAlphaStep, 0f, -0.01f, 0.01f, 0.0001f, false);
+		p.ui.addSlider(feedbackRadiansStart, 0f, 0, P.TWO_PI, 0.01f, false);
+		p.ui.addSlider(feedbackRadiansRange, P.TWO_PI * 2f, -P.TWO_PI * 2f, P.TWO_PI * 2f, 0.1f, false);
+
+		p.ui.addSlider(FEEDBACK_ITERS, 1, 0, 10, 1f, false);
 	}
 
 	protected void drawImg(PImage img) {
 		if(img != null) {
-			buffer.beginDraw();
+			pg.beginDraw();
 //			PG.setPImageAlpha(buffer, 0.5f);
-			PG.setDrawCenter(buffer);
-			buffer.tint(
+			PG.setDrawCenter(pg);
+			pg.tint(
 					300 + 155 * P.sin(p.frameCount/50f),
 					300 + 155 * P.sin(p.frameCount/80f),
 					300 + 155 * P.sin(p.frameCount/90f),
 					10);
-			float scaleHeight = MathUtil.scaleToTarget(img.height, buffer.height);
-			buffer.image(img, buffer.width/2, buffer.height/2, img.width * scaleHeight, img.height * scaleHeight);
-			buffer.endDraw();
+			float scaleHeight = MathUtil.scaleToTarget(img.height, pg.height);
+			pg.image(img, pg.width/2, pg.height/2, img.width * scaleHeight, img.height * scaleHeight);
+			pg.endDraw();
 		}
 	}
 
 	protected void drawXShape(boolean black) {
-		buffer.beginDraw();
+		pg.beginDraw();
 		xShape.disableStyle();
-		buffer.fill(127f + 127f * P.sin(progressRads * 30));
+		pg.fill(127f + 127f * P.sin(progressRads * 3f));
 		if(black) {
-			buffer.fill(0);
-			buffer.fill(MathUtil.randRange(0, 255), MathUtil.randRange(0, 255), MathUtil.randRange(0, 255));
+			pg.fill(0);
+//			pg.fill(MathUtil.randRange(0, 255), MathUtil.randRange(0, 255), MathUtil.randRange(0, 255));
 		}
-		buffer.translate(buffer.width/2, buffer.height/2);
-		buffer.rotate(progressRads * 0.25f);
-		buffer.shape(xShape);
-		buffer.endDraw();
+		pg.translate(pg.width/2, pg.height/2);
+		pg.rotate(progressRads * 0.25f);
+		pg.shape(xShape);
+		pg.endDraw();
 	}
 
 	public void keyPressed() {
@@ -142,7 +148,9 @@ extends PAppletHax {
 		FeedbackMapFilter.instance(p).setAmp(p.ui.value(feedbackAmp));
 		FeedbackMapFilter.instance(p).setBrightnessStep(p.ui.value(feedbackBrightStep));
 		FeedbackMapFilter.instance(p).setAlphaStep(p.ui.value(feedbackAlphaStep));
-		for (int i = 0; i < 1; i++) FeedbackMapFilter.instance(p).applyTo(buffer);
+		FeedbackMapFilter.instance(p).setRadiansStart(p.ui.value(feedbackRadiansStart));
+		FeedbackMapFilter.instance(p).setRadiansRange(p.ui.value(feedbackRadiansRange));
+		for (int i = 0; i < p.ui.valueInt(FEEDBACK_ITERS); i++) FeedbackMapFilter.instance(p).applyTo(pg);
 	}
 
 	protected void blurMap() {
@@ -160,7 +168,8 @@ extends PAppletHax {
 
 		// draw on top of image
 //		drawXShape(false);
-		if(p.frameCount % 60 == 0) drawXShape(true);
+//		if(p.frameCount % 60 == 0) 
+			drawXShape(false);
 
 		// draw map
 		updateMapPerlin();
@@ -178,10 +187,10 @@ extends PAppletHax {
 //		drawXShape(true);
 
 		// draw to screen
-		p.image(buffer, 0, 0);
+		p.image(pg, 0, 0);
 
 		// debug draw
-		p.debugView.setTexture("buffer", buffer);
+		p.debugView.setTexture("buffer", pg);
 		p.debugView.setTexture("map", map);
 	}
 }

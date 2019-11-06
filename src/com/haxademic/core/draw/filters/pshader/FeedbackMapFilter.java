@@ -1,5 +1,6 @@
 package com.haxademic.core.draw.filters.pshader;
 
+import com.haxademic.core.app.P;
 import com.haxademic.core.draw.filters.pshader.shared.BaseFragmentShader;
 import com.haxademic.core.media.DemoAssets;
 
@@ -15,6 +16,10 @@ extends BaseFragmentShader {
 		super(p, "haxademic/shaders/filters/feedback-map.glsl");
 		setMap(DemoAssets.smallTexture());
 		setAmp(0.1f);
+		setBrightnessStep(-1f/255f);
+		setAlphaStep(-1f/255f);
+		setRadiansStart(0f);
+		setRadiansRange(P.TWO_PI * 3f);
 	}
 	
 	public static FeedbackMapFilter instance(PApplet p) {
@@ -37,6 +42,14 @@ extends BaseFragmentShader {
 	
 	public void setAlphaStep(float alphaStep) {
 		shader.set("alphaStep", alphaStep);
+	}
+	
+	public void setRadiansStart(float radiansStart) {
+		shader.set("radiansStart", radiansStart);
+	}
+	
+	public void setRadiansRange(float radiansRange) {
+		shader.set("radiansRange", radiansRange);
 	}
 	
 }
