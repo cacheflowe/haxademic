@@ -14,13 +14,20 @@ public class FrozenImageMonitor {
 	public FrozenImageMonitor() {
 		pg = PG.newPG(64, 64);
 	}
+	
+	public PGraphics buffer() {
+		return pg;
+	}
 
 	public boolean isFrozen(PImage img) {
 		float lastVal = lastAnalysis;
 		float pixelDataCount = 0;
 		if(img.width > 32) {
+			pg.beginDraw();
+			pg.background(0);
 			ImageUtil.copyImage(img, pg);
 			pg.loadPixels();
+			pg.endDraw();
 			pixelDataCount += P.p.red(ImageUtil.getPixelColor(pg, P.round(pg.width * 0.25f), P.round(pg.height * 0.25f)));
 			pixelDataCount += P.p.green(ImageUtil.getPixelColor(pg, P.round(pg.width * 0.25f), P.round(pg.height * 0.25f)));
 			pixelDataCount += P.p.blue(ImageUtil.getPixelColor(pg, P.round(pg.width * 0.25f), P.round(pg.height * 0.25f)));
