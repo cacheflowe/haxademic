@@ -12,6 +12,9 @@ import com.haxademic.core.file.FileUtil;
 public class FileDownloader {
 	
 	public static boolean downloadFile(String fileURL, String localPath, boolean overwrite) {
+		// encode spaces and parentheses in the url
+		fileURL = URLUtil.convertCommonUrlSpecialCharacters(fileURL);
+
 		// tell servers that we're a cool web browser & prevent 403 forbidden errors
 		System.setProperty("http.agent", "Chrome");
 		
