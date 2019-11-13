@@ -273,6 +273,35 @@ public class FileUtil {
 		return fileNames;
 	}
 	
+	public static String[] getFilesInDirByModifiedDateNewestFirst(String directory) {
+		return getFilesInDirByModifiedDate(directory, true);
+	}
+	
+	public static String[] getFilesInDirByModifiedDateOldestFirst(String directory) {
+		return getFilesInDirByModifiedDate(directory, false);
+	}
+	
+	public static String[] getFilesInDirByModifiedDate(String directory, boolean reverse) {
+		// retrieve & sort files by modified date
+		File dir = new File( directory );
+		File[] files = dir.listFiles(new FileFilter() {
+		    public boolean accept(File file) {
+		        return file.isFile();
+		    }
+		});
+		if(!reverse) {
+			Arrays.sort(files, Comparator.comparingLong(File::lastModified));
+		} else {
+			Arrays.sort(files, Comparator.comparingLong(File::lastModified).reversed());
+		}
+		// turn results into strings
+		String[] fileNames = new String[files.length];
+		for (int i = 0; i < files.length; i++) {
+			fileNames[i] = files[i].toString();
+		}
+		return fileNames;
+	}
+	
 	public static ArrayList<String> wordsFromTextFile(String textFilePath) {
 		String lines[] = P.p.loadStrings(textFilePath);
 		ArrayList<String> words = new ArrayList<String>();
