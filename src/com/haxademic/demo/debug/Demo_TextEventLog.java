@@ -12,6 +12,7 @@ extends PAppletHax {
 	public void setupFirstFrame() {
 		eventLog = new TextEventLog();
 		eventLog.appStarted();
+		eventLog.setMaxLogFiles(5);
 	}
 
 	public void drawApp() {
