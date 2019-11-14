@@ -3,8 +3,8 @@ package com.haxademic.demo.net;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.data.store.IAppStoreListener;
-import com.haxademic.core.net.WebServer;
 import com.haxademic.core.net.UIControlsHandler;
+import com.haxademic.core.net.WebServer;
 import com.haxademic.core.system.SystemUtil;
 
 import processing.core.PGraphics;
@@ -18,8 +18,11 @@ implements IAppStoreListener {
 	protected WebServer server;
 	
 	public void setupFirstFrame() {
-//		server = new WebServer(new WebServerRequestHandlerUIControls(), false);
-		server = new WebServer(new UIControlsHandler(), false);
+		// basic web server
+		// server = new WebServer(new UIControlsHandler(), false);
+		
+		// basic web server with SSL
+		server = new WebServer(new UIControlsHandler(), false, true);
 	}
 	
 	public void drawApp() {

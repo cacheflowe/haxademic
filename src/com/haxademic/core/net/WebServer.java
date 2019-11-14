@@ -5,9 +5,11 @@ import java.net.UnknownHostException;
 
 import org.eclipse.jetty.server.Handler;
 import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.server.ServerConnector;
 import org.eclipse.jetty.server.handler.AbstractHandler;
 import org.eclipse.jetty.server.handler.HandlerList;
 import org.eclipse.jetty.util.log.Logger;
+import org.eclipse.jetty.util.ssl.SslContextFactory;
 import org.eclipse.jetty.webapp.WebAppContext;
 
 import com.haxademic.core.app.P;
@@ -18,19 +20,34 @@ public class WebServer {
 	
 	public static boolean DEBUG;
 	public static int PORT = 8080;
-	public static String WWW_PATH = "";
+	public static int PORT_SSL = 443;
+	public static boolean IS_SSL = false;
 	public static final String REQUEST_URL = "REQUEST_URL";
+	public static String WWW_PATH = "";	// deprecated from old, stupid static file server, but could be useful is an external class wants to know what the web path root is 
 	protected AbstractHandler handler;
 	protected Server server;
+	protected String wwwPath;
+	protected Boolean useSSL;
 
-	public WebServer(AbstractHandler handler, boolean debug) {
-		this(handler, debug, FileUtil.getHaxademicWebPath());
+	public WebServer(AbstractHandler handler) {
+		this(handler, false, FileUtil.getHaxademicWebPath(), false);
 	}
 	
-	public WebServer(AbstractHandler handler, boolean debug, String wwwPath) {
+	public WebServer(AbstractHandler handler, boolean debug) {
+		this(handler, debug, FileUtil.getHaxademicWebPath(), false);
+	}
+	
+	public WebServer(AbstractHandler handler, boolean debug, boolean addSSL) {
+		this(handler, debug, FileUtil.getHaxademicWebPath(), addSSL);
+	}
+	
+	public WebServer(AbstractHandler handler, boolean debug, String wwwPath, boolean useSSL) {
 		WebServer.DEBUG = debug;
 		this.handler = handler;
+		this.wwwPath = wwwPath;
+		this.useSSL = useSSL;
 		WWW_PATH = wwwPath;
+		IS_SSL = useSSL;
 		
 		new Thread(new Runnable() { public void run() {
 			initWebServer();
@@ -38,15 +55,29 @@ public class WebServer {
 	}
 	
 	protected void initWebServer() {
-		// silence jetty logging
+		disableLogging();
+		createServer();
+		configServer();
+		if(useSSL) addSSL();
+	    startServer();
+	}
+	
+	protected void disableLogging() {
 		org.eclipse.jetty.util.log.Log.setLog(new NoLogging());
-		
-		// init jetty server
-		P.out("Starting WebServer at "+WWW_PATH+":"+PORT);
+	}
+	
+	protected void createServer() {
+//		if(useSSL) PORT = PORT_SSL;
+		P.out("Starting WebServer at "+wwwPath+":"+PORT);
         server = new Server(PORT);
+	}
+	
+	protected void configServer() {
+        // init static web server
+        WebAppContext webAppContext = new WebAppContext(wwwPath, "/");
         
-        // init static web server and turn off file locking!
-        WebAppContext webAppContext = new WebAppContext(WWW_PATH, "/");
+        // turn off file locking! 
+        // without this, we were blocked from dynamically replace static files in the web server directory at runtime
         webAppContext.setInitParameter("org.eclipse.jetty.servlet.Default.useFileMappedBuffer", "false");
         
         // set custom & static handlers
@@ -56,8 +87,32 @@ public class WebServer {
     		webAppContext 			// Jetty's built-in static asset web server. this catches any request not handled by the custom handler
         });
         server.setHandler(handlers);
-        
-        // start the server!
+	}
+	
+	protected void addSSL() {
+        // add self-signed ssl
+		// generate a self-signed cert: 
+		// $ keytool -genkey -keyalg RSA -alias tomcat -keystore selfsigned.jks -validity 9999 -keysize 2048
+		// password: haxademic
+		// Migrate to pkcs12
+		// $ keytool -importkeystore -srckeystore selfsigned.jks -destkeystore selfsigned.jks -deststoretype pkcs12
+		SslContextFactory.Server ssl = new SslContextFactory.Server();
+	    ssl.setKeyStorePath(FileUtil.getFile("haxademic/net/config/haxademic-selfsigned.jks"));
+	    ssl.setKeyStorePassword("haxademic");
+	    ssl.setKeyManagerPassword("haxademic");
+	    ssl.setKeyStoreType("PKCS12"); // "JKS" if not migrated
+	    ssl.setNeedClientAuth(false);
+	    ssl.setTrustAll(true);
+	    ssl.setValidateCerts(false);
+	    // build the connector
+	    final ServerConnector https = new ServerConnector(server, ssl);
+	    https.setPort(PORT_SSL);
+//	    https.setIdleTimeout(30000L);
+//	    https.setHost("localhost");
+	    server.addConnector(https);
+	}
+	
+	protected void startServer() {
         try {
 			server.start();
 			server.join();
@@ -65,6 +120,8 @@ public class WebServer {
 			e.printStackTrace();
 		}
 	}
+	
+	// public
 	
 	public Server server() {
 		return server;
@@ -97,11 +154,11 @@ public class WebServer {
 		InetAddress addr;
 		try {
 			addr = InetAddress.getLocalHost();
-			// Get IP Address
 			// byte[] ipAddr = addr.getAddress();
-			// Get hostname
 			// String hostname = addr.getHostName();
-			serverBase = "http://" + addr.getHostAddress() + ":" + WebServer.PORT + "/";
+			String protocol = (IS_SSL) ? "https://" : "http://";
+			String nonSSLPort = (IS_SSL) ? "" : ":" + WebServer.PORT;	// add port if not SSL. if is SSL< we don't need any port
+			serverBase = protocol + addr.getHostAddress() + nonSSLPort + "/";
 		} catch (UnknownHostException e) {
 			e.printStackTrace();
 		}
