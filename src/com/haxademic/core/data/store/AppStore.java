@@ -42,6 +42,10 @@ public class AppStore {
 		listeners.add(obj);
 	}
 	
+	public void removeListener(IAppStoreListener obj) {
+		listeners.remove(obj);
+	}
+	
 	public void setNumber(String storeKey, Number val) {
 		numberStore.put(storeKey, val);
 		for (IAppStoreListener obj : listeners) {
