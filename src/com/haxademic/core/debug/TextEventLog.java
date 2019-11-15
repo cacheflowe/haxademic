@@ -30,6 +30,7 @@ public class TextEventLog {
 	}
 	
 	public void checkMaxLogFileCount() {
+		if(FileUtil.fileOrPathExists(logsDir) == false) return;	// don't check if no logs dir
 		// get file list, and bail if we haven't crossed the threshold
 		String[] filesByDate = FileUtil.getFilesInDirByModifiedDateNewestFirst(logsDir);
 		if(filesByDate.length < maxLogFiles) return;
