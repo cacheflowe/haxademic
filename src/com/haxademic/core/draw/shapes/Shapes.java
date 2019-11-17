@@ -379,9 +379,15 @@ public class Shapes {
 	}
 	
 	public static void drawTexturedLine(PGraphics pg, PImage texture, float xStart, float yStart, float xEnd, float yEnd, int color, float thickness, float texOffset) {
+		drawTexturedLine(pg, texture, xStart, yStart, xEnd, yEnd, color, thickness, texOffset, 0);
+	}
+	
+	public static void drawTexturedLine(PGraphics pg, PImage texture, float xStart, float yStart, float xEnd, float yEnd, int color, float thickness, float texOffset, float cornerRadius) {
 		// calc textured rectangle rotation * distance
 		float startToEndAngle = MathUtil.getRadiansToTarget(xStart, yStart, xEnd, yEnd);
 		float dist = MathUtil.getDistance(xStart, yStart, xEnd, yEnd);
+		float thicknessHalf = thickness/2f;
+		float textureHeightHalf = texture.height/2f;
 		
 		// set context
 		OpenGLUtil.setTextureRepeat(pg);
@@ -391,14 +397,26 @@ public class Shapes {
 		
 		// draw textured rect
 		pg.noStroke();
-		pg.beginShape(PShapeTypes.QUADS);
+//		pg.stroke(255);
+		pg.beginShape();
 		pg.texture(texture);
 		pg.textureMode(P.IMAGE);
 		pg.tint(color);
-		pg.vertex(0, -thickness/2, 0, texOffset, 0);
-		pg.vertex(dist, -thickness/2, 0, texOffset + dist, 0);
-		pg.vertex(dist, thickness/2, 0, texOffset + dist, texture.height);
-		pg.vertex(0, thickness/2, 0, texOffset, texture.height);
+		if(cornerRadius <= 0) {
+			pg.vertex(0, -thicknessHalf, 0, texOffset, 0);
+			pg.vertex(dist, -thicknessHalf, 0, texOffset + dist, 0);
+			pg.vertex(dist, thicknessHalf, 0, texOffset + dist, texture.height);
+			pg.vertex(0, thicknessHalf, 0, texOffset, texture.height);
+		} else {
+			// diamond shape, left/center, clockwise to right/center
+			pg.vertex(0, 0, 0, 									texOffset, textureHeightHalf);
+			pg.vertex(cornerRadius, -thicknessHalf, 0, 			texOffset + cornerRadius, 0);
+			pg.vertex(dist - cornerRadius, -thicknessHalf, 0, 	texOffset + dist - cornerRadius, 0);
+			// right/center, clockwise to left/center
+			pg.vertex(dist, 0, 0, 								texOffset + dist, textureHeightHalf);
+			pg.vertex(dist - cornerRadius, thicknessHalf, 0, 	texOffset + dist - cornerRadius, texture.height);
+			pg.vertex(cornerRadius, thicknessHalf, 0, 			texOffset + cornerRadius, texture.height);
+		}
 		pg.endShape();
 		pg.noTint();
 		pg.pop();

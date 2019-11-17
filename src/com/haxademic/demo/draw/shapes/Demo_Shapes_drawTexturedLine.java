@@ -28,7 +28,7 @@ extends PAppletHax {
 		p2.set(p.mouseX, p.mouseY);
 		
 		// update line properties
-		float thickness = 13f;// + 4f * P.sin(p.frameCount/30f);
+		float thickness = 23f;// + 4f * P.sin(p.frameCount/30f);
 		float texOffset = p.frameCount * 10f; // P.sin(p.frameCount/30f) * 400f;
 		
 		// draw background
@@ -44,9 +44,9 @@ extends PAppletHax {
 
 		// draw lines
 		PG.setDrawFlat2d(p.g, true);
-		Shapes.drawTexturedLine(p.g, lineTexture, p1.x, p1.y, p2.x, p2.y, 0xffffffff, thickness, texOffset);
-		Shapes.drawTexturedLine(p.g, lineTexture, p2.x, p2.y, p3.x, p3.y, 0xffffffff, thickness, texOffset);
-		Shapes.drawTexturedLine(p.g, lineTexture, p3.x, p3.y, p1.x, p1.y, 0xffffffff, thickness, texOffset);
+		Shapes.drawTexturedLine(p.g, lineTexture, p1.x, p1.y, p2.x, p2.y, 0xffffffff, thickness, texOffset, 10);
+		Shapes.drawTexturedLine(p.g, lineTexture, p2.x, p2.y, p3.x, p3.y, 0xffffffff, thickness, texOffset, 10);
+		Shapes.drawTexturedLine(p.g, lineTexture, p3.x, p3.y, p1.x, p1.y, 0xffffffff, thickness, texOffset, 10);
 	}
 	
 }
