@@ -1,6 +1,6 @@
 # TODO
 
-## InputTrigger
+## InputTrigger revamp
 
 * Threaded safety of InputTrigger isn't good - especially at a low FPS?
   * Switch this to an AppStore-based system so inputs are immediately picked up by a listener. This might still be thread-unsafe, but AppStore events aren't either!
@@ -33,6 +33,7 @@
 ## DMX
 
 * Add multiple universes to DMXEditor
+* Build 8 bar light contraption @ home
 
 ## Processing problems
 
@@ -63,6 +64,7 @@
 
 
 ## Art projects
+  * Kinect-triggered music - krump to trigger sounds & lights
   * Convert Fliud sim: https://github.com/PavelDoGreat/WebGL-Fluid-Simulation/blob/master/script.js
   * Shatter model & triangles fall down (Sunflow final render)
   * Sound in space. Raspberry Pis via wifi, attached to speakers. Split channels for more outputs
@@ -146,6 +148,7 @@
   * Split audio stepthrough rendering from Renderer.java, which should just save movies. MIDIStepthrough renderer is a good example of splitting
   * Make demos for rendering at a specific bpm
   * Spatial audio:
+    * Ableton w/M4L: https://cycling74.com/articles/audio-routings-a-new-system-for-multi-channel-routing-in-ableton-live
     * Javasound
       * https://stackoverflow.com/questions/2416935/how-to-play-wav-files-with-java
 	    * https://forum.processing.org/two/discussion/3109/how-to-get-multiple-audio-outputs-with-minim
@@ -210,6 +213,7 @@
   	* Default shader chunks
   	  * Assemble w/replacement strings that match filenames?
   * Wrap up GLSL transitions collection and make a common interface
+    * Port these too: https://tympanus.net/Development/webGLImageTransitions/index8.html
   * Bump-mapping
     * https://github.com/codeanticode/pshader-experiments/tree/master/BlueMarble
   * Convert Orbit noise: https://www.shadertoy.com/view/4t3yDn
