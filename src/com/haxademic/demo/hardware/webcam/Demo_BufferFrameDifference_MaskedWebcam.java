@@ -27,13 +27,44 @@ implements IWebCamCallback {
 	protected PGraphics knockoutWebCam;
 	protected SimplexNoiseTexture simplexNoise;
 
+	protected String mapZoom = "mapZoom";
+	protected String mapRot = "mapRot";
+	
+	protected String feedbackIters = "feedbackIters";
+	protected String feedbackAmp = "feedbackAmp";
+	protected String feedbackBrightStep = "feedbackBrightStep";
+	protected String feedbackAlphaStep = "feedbackAlphaStep";
+	protected String feedbackRadiansStart = "feedbackRadiansStart";
+	protected String feedbackRadiansRange = "feedbackRadiansRange";
+	
+	protected String diffFalloffBW = "diffFalloffBW";
+	protected String diffThresh = "diffThresh";
+	protected String diffSmoothThresh = "diffSmoothThresh";
+	
+
 	protected void overridePropsFile() {
 		p.appConfig.setProperty(AppSettings.WIDTH, 1280 );
 		p.appConfig.setProperty(AppSettings.HEIGHT, 720 );
 	}
 		
 	public void setupFirstFrame () {
+		// init webcam
 		WebCam.instance().setDelegate(this);
+		
+		// ui
+		p.ui.addSlider(mapZoom, 2, 0.1f, 15, 0.1f, false);
+		p.ui.addSlider(mapRot, 0, 0, P.TWO_PI, 0.01f, false);
+		
+		p.ui.addSlider(feedbackIters, 3, 0, 5, 1, false);
+		p.ui.addSlider(feedbackAmp, 0.0006f, 0.00001f, 0.005f, 0.00001f, false);
+		p.ui.addSlider(feedbackBrightStep, -0.005f, -0.3f, 0.3f, 0.0001f, false);
+		p.ui.addSlider(feedbackAlphaStep, 0f, -0.3f, 0.3f, 0.0001f, false);
+		p.ui.addSlider(feedbackRadiansStart, 0f, 0, P.TWO_PI, 0.01f, false);
+		p.ui.addSlider(feedbackRadiansRange, P.TWO_PI * 2f, -P.TWO_PI * 2f, P.TWO_PI * 2f, 0.1f, false);
+		
+		p.ui.addSlider(diffFalloffBW, 0.7f, 0, 1, 0.01f, false);
+		p.ui.addSlider(diffThresh, 0.1f, 0, 1, 0.001f, false);
+		p.ui.addSlider(diffSmoothThresh, 0.66f, 0, 1, 0.001f, false);
 	}
 
 	public void drawApp() {
@@ -52,22 +83,16 @@ implements IWebCamCallback {
 	
 	protected void updateMapPerlin() {
 		// update feedback noise map
-		simplexNoise.update(
-				P.map(p.mousePercentX(), 0, 1, 0.01f, 15f), 
-				P.map(p.mousePercentY(), 0, 1, -P.TWO_PI, P.TWO_PI), 
-				50f * P.cos(p.frameCount / 5000f), 
-				50f * P.sin(p.frameCount / 5000f));
+		simplexNoise.update(p.ui.value(mapZoom), p.ui.value(mapRot), 0, 0);
 		
 		// apply feedback shader
 		FeedbackMapFilter.instance(P.p).setMap(simplexNoise.texture());
-		FeedbackMapFilter.instance(P.p).setAmp(0.001f);
-		FeedbackMapFilter.instance(P.p).setBrightnessStep(-4f/255f);
-		FeedbackMapFilter.instance(P.p).setAlphaStep(-3f/255f);
-		for (int i = 0; i < 2; i++) FeedbackMapFilter.instance(P.p).applyTo(p.g);
-
-		// darken slightly
-//		BrightnessStepFilter.instance(p).setBrightnessStep(-2f/255f);
-//		BrightnessStepFilter.instance(p).applyTo(p);
+		FeedbackMapFilter.instance(p).setAmp(p.ui.value(feedbackAmp));
+		FeedbackMapFilter.instance(p).setBrightnessStep(p.ui.value(feedbackBrightStep));
+		FeedbackMapFilter.instance(p).setAlphaStep(p.ui.value(feedbackAlphaStep));
+		FeedbackMapFilter.instance(p).setRadiansStart(p.frameCount/10f); // p.ui.value(feedbackRadiansStart));
+		FeedbackMapFilter.instance(p).setRadiansRange(p.ui.value(feedbackRadiansRange));
+		for (int i = 0; i < p.ui.valueInt(feedbackIters); i++) FeedbackMapFilter.instance(P.p).applyTo(p.g);
 	}
 
 	@Override
@@ -84,17 +109,16 @@ implements IWebCamCallback {
 		ImageUtil.copyImageFlipH(frame, knockoutWebCam);
 		
 		// update different buffer on last webcam frame
-		bufferFrameDifference.falloffBW(0.25f);
-		bufferFrameDifference.diffThresh(0.05f);
+		bufferFrameDifference.falloffBW(p.ui.value(diffFalloffBW));
+		bufferFrameDifference.diffThresh(p.ui.value(diffThresh));
 		bufferFrameDifference.update(frame);
 		
 		// copy to diff buffer smoothed version
 		ImageUtil.copyImageFlipH(bufferFrameDifference.differenceBuffer(), diffBufferSmoothed);
-		ThresholdFilter.instance(p).setCutoff(0.25f);
+		ThresholdFilter.instance(p).setCutoff(p.ui.value(diffSmoothThresh));
 		ThresholdFilter.instance(p).applyTo(diffBufferSmoothed);
 		BlurProcessingFilter.instance(p).setBlurSize(10);
 		for(int i=0; i < 5; i++) BlurProcessingFilter.instance(p).applyTo(diffBufferSmoothed);
-
 		
 		// debug webcam view
 		p.debugView.setTexture("webcam", frame);
