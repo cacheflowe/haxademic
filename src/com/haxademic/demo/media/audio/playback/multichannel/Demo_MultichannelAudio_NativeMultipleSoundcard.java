@@ -29,7 +29,7 @@ import com.haxademic.core.ui.UIButton;
 import beads.AudioContext;
 import processing.core.PFont;
 
-public class Demo_MultichannelAudio
+public class Demo_MultichannelAudio_NativeMultipleSoundcard
 extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
