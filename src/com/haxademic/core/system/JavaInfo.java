@@ -191,47 +191,53 @@ public class JavaInfo {
     
 	public static void printAudioInfo() {
 		P.out("----------------- printAudioInfo -------------------");
-		Mixer mixer = AudioSystem.getMixer(null); // default mixer
-		try {
-			mixer.open();
-		} catch (LineUnavailableException e) {
-			e.printStackTrace();
-		}
+		Mixer.Info[] mixerInfo = AudioSystem.getMixerInfo();
+		for(int i = 0; i < mixerInfo.length; i++) {
+			P.out("########## mixerInfo["+i+"]", mixerInfo[i].getName());
 
-		P.out("Supported SourceDataLines of default mixer (%s):\n\n", mixer.getMixerInfo().getName());
-		for(Line.Info info : mixer.getSourceLineInfo()) {
-		    if(SourceDataLine.class.isAssignableFrom(info.getLineClass())) {
-		        SourceDataLine.Info info2 = (SourceDataLine.Info) info;
-		        P.out(info2);
-		        System.out.printf("  max buffer size: \t%d\n", info2.getMaxBufferSize());
-		        System.out.printf("  min buffer size: \t%d\n", info2.getMinBufferSize());
-		        AudioFormat[] formats = info2.getFormats();
-		        P.out("  Supported Audio formats: ");
-		        for(AudioFormat format : formats) {
-		        	P.out("    "+format);
-		          System.out.printf("      encoding:           %s\n", format.getEncoding());
-		          System.out.printf("      channels:           %d\n", format.getChannels());
-		          System.out.printf(format.getFrameRate()==-1?"":"      frame rate [1/s]:   %s\n", format.getFrameRate());
-		          System.out.printf("      frame size [bytes]: %d\n", format.getFrameSize());
-		          System.out.printf(format.getSampleRate()==-1?"":"      sample rate [1/s]:  %s\n", format.getSampleRate());
-		          System.out.printf("      sample size [bit]:  %d\n", format.getSampleSizeInBits());
-		          System.out.printf("      big endian:         %b\n", format.isBigEndian());
-		          
-		          Map<String,Object> prop = format.properties();
-		          if(!prop.isEmpty()) {
-		        	  P.out("      Properties: ");
-		              for(Map.Entry<String, Object> entry : prop.entrySet()) {
-		                  System.out.printf("      %s: \t%s\n", entry.getKey(), entry.getValue());
-		              }
-		          }
-		        }
-		        P.out();
-		    } else {
-		    	P.out(info.toString());
-		    }
-		    P.out();
+//			Mixer mixer = AudioSystem.getMixer(null); // default mixer
+			Mixer mixer = AudioSystem.getMixer(mixerInfo[i]); // default mixer
+			try {
+				mixer.open();
+			} catch (LineUnavailableException e) {
+				e.printStackTrace();
+			}
+	
+			P.out("Supported SourceDataLines of default mixer (%s):\n\n", mixer.getMixerInfo().getName());
+			for(Line.Info info : mixer.getSourceLineInfo()) {
+			    if(SourceDataLine.class.isAssignableFrom(info.getLineClass())) {
+			        SourceDataLine.Info info2 = (SourceDataLine.Info) info;
+			        P.out(info2);
+			        System.out.printf("  max buffer size: \t%d\n", info2.getMaxBufferSize());
+			        System.out.printf("  min buffer size: \t%d\n", info2.getMinBufferSize());
+			        AudioFormat[] formats = info2.getFormats();
+			        P.out("  Supported Audio formats: ");
+			        for(AudioFormat format : formats) {
+			        	P.out("    "+format);
+			          System.out.printf("      encoding:           %s\n", format.getEncoding());
+			          System.out.printf("      channels:           %d\n", format.getChannels());
+			          System.out.printf(format.getFrameRate()==-1?"":"      frame rate [1/s]:   %s\n", format.getFrameRate());
+			          System.out.printf("      frame size [bytes]: %d\n", format.getFrameSize());
+			          System.out.printf(format.getSampleRate()==-1?"":"      sample rate [1/s]:  %s\n", format.getSampleRate());
+			          System.out.printf("      sample size [bit]:  %d\n", format.getSampleSizeInBits());
+			          System.out.printf("      big endian:         %b\n", format.isBigEndian());
+			          
+			          Map<String,Object> prop = format.properties();
+			          if(!prop.isEmpty()) {
+			        	  P.out("      Properties: ");
+			              for(Map.Entry<String, Object> entry : prop.entrySet()) {
+			                  System.out.printf("      %s: \t%s\n", entry.getKey(), entry.getValue());
+			              }
+			          }
+			        }
+			        P.out();
+			    } else {
+			    	P.out(info.toString());
+			    }
+			    P.out();
+			}
+			mixer.close();
 		}
-		mixer.close();
 	}
 
     public static void printDebug() {
