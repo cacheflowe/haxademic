@@ -76,6 +76,12 @@ extends PAppletHax {
 
 	protected String NUM_PARTICLES = "NUM_PARTICLES";
 
+	protected String COLOR_1 = "COLOR_1";
+	protected String COLOR_2 = "COLOR_2";
+
+	protected String RENDER_MODE = "RENDER_MODE";
+	protected String TOP_LEFT_FULLSIZE = "TOP_LEFT_FULLSIZE";
+
 	// IDEAS:
 	// - Reaction-Diffusion
 	// - Moire lines via shader, with lerping color texture to override b&w
@@ -97,6 +103,12 @@ extends PAppletHax {
 	protected void overridePropsFile() {
 		p.appConfig.setProperty(AppSettings.WIDTH, 1600);
 		p.appConfig.setProperty(AppSettings.HEIGHT, 900);
+//		p.appConfig.setProperty(AppSettings.WIDTH, 3438);
+//		p.appConfig.setProperty(AppSettings.HEIGHT, 1080);
+		p.appConfig.setProperty(AppSettings.FULLSCREEN, true);
+//		p.appConfig.setProperty(AppSettings.SCREEN_X, 0);
+//		p.appConfig.setProperty(AppSettings.SCREEN_Y, 0);
+		p.appConfig.setProperty(AppSettings.ALWAYS_ON_TOP, false);
 //		p.appConfig.setProperty(AppSettings.WIDTH, 638);
 //		p.appConfig.setProperty(AppSettings.HEIGHT, 720);
 		p.appConfig.setProperty(AppSettings.LOOP_FRAMES, FRAMES);
@@ -110,8 +122,8 @@ extends PAppletHax {
 	/////////////////////////
 	
 	protected void setupFirstFrame() {
-		pg = P.p.createGraphics(3595, 1200, PRenderers.P3D);
-		pgPost = P.p.createGraphics(3595, 1200, PRenderers.P3D);
+		pg = P.p.createGraphics(3438, 1080, PRenderers.P3D);
+		pgPost = P.p.createGraphics(3438, 1080, PRenderers.P3D);
 		PG.setTextureRepeat(pg, true);
 		PG.setTextureRepeat(pgPost, true);
 		
@@ -134,7 +146,7 @@ extends PAppletHax {
 		p.ui.addSlider(FEEDBACK_ROTATE, 0, -0.02f, 0.02f, 0.0001f);
 		p.ui.addSlider(FEEDBACK_OFFSET_X, 0, -0.02f, 0.02f, 0.0001f);
 		p.ui.addSlider(FEEDBACK_OFFSET_Y, 0, -0.02f, 0.02f, 0.0001f);
-		p.ui.addSlider(DARKEN_AMP, -10, -200, 200, 1f);
+		p.ui.addSlider(DARKEN_AMP, -10, -255, 255, 1f);
 		p.ui.addSlider(RD_ITERATIONS, 0, 0, 10, 1f);
 		p.ui.addSlider(RD_BLUR_AMP_X, 0, 0, 6, 0.001f);
 		p.ui.addSlider(RD_BLUR_AMP_Y, 0, 0, 6, 0.001f);
@@ -145,7 +157,11 @@ extends PAppletHax {
 		p.ui.addSlider(FAKE_LIGHT_SPEC_AMP, 2.25f, 0.1f, 6f, 0.01f);
 		p.ui.addSlider(FAKE_LIGHT_DIFF_DARK, 0.85f, 0.1f, 2f, 0.01f);
 		p.ui.addSlider(NUM_PARTICLES, 0, 0, MAX_PARTICLES, 10);
-		p.ui.addWebInterface(false);
+		p.ui.addSliderVector(COLOR_1, 0, 0, 255, 1, false);
+		p.ui.addSliderVector(COLOR_2, 255, 0, 255, 1, false);
+		p.ui.addSlider(RENDER_MODE, 0, 0, 1, 1);
+		p.ui.addSlider(TOP_LEFT_FULLSIZE, 0, 0, 1, 1);
+		p.ui.addWebInterface(true);
 	}
 	
 	protected void buildWindows() {
@@ -208,8 +224,8 @@ extends PAppletHax {
 	}
 	
 	protected void setColorize() {
-		ColorizeTwoColorsFilter.instance(p).setColor1(1f,  0.7f,  1f);
-		ColorizeTwoColorsFilter.instance(p).setColor2(0f,  0f,  0f);
+		ColorizeTwoColorsFilter.instance(p).setColor1(p.ui.valueX(COLOR_1)/255f, p.ui.valueY(COLOR_1)/255f, p.ui.valueZ(COLOR_1)/255f);
+		ColorizeTwoColorsFilter.instance(p).setColor2(p.ui.valueX(COLOR_2)/255f, p.ui.valueY(COLOR_2)/255f, p.ui.valueZ(COLOR_2)/255f);
 		ColorizeTwoColorsFilter.instance(p).applyTo(pgPost);
 	}
 	
@@ -290,8 +306,10 @@ extends PAppletHax {
 	
 	public void drawApp() {
 		p.background(0);
-		if(p.loop.loopCurFrame() == 1) newMode();
-		if(p.loop.loopCurFrame() == FRAMES - 20) swipeForNextMode();
+		if(p.ui.valueInt(RENDER_MODE) == 1) {
+			if(p.loop.loopCurFrame() == 1) newMode();
+			if(p.loop.loopCurFrame() == FRAMES - 20) swipeForNextMode();
+		}
 		
 		// set context
 		pg.beginDraw();
@@ -308,23 +326,28 @@ extends PAppletHax {
 		updateSwipe();
 		
 		ImageUtil.copyImage(pg, pgPost);		// copy to 2nd buffer for postprocessing
-//		setColorize();
+		setColorize();
 		setFakeLighting();
 		overlayTowerTexture();
 		drawTemplateOverlay(pgPost);
-		ImageUtil.cropFillCopyImage(pgPost, p.g, false);
+		if(p.ui.valueInt(TOP_LEFT_FULLSIZE) == 1) {
+			p.image(pgPost, 0, 0);
+		} else {
+			ImageUtil.cropFillCopyImage(pgPost, p.g, false);
+		}
 		showSimulation();
 	}
 		
 	public void keyPressed() {
 		super.keyPressed();
-		if(p.key == ' ') P.out(p.ui.valuesToJSON());
+		if(p.key == 's') P.out(p.ui.valuesToJSON());
 		if(p.key == '1') p.ui.loadValuesFromJSON(JSONObject.parse(CONFIG_1));
 		if(p.key == '2') p.ui.loadValuesFromJSON(JSONObject.parse(CONFIG_2));
 		if(p.key == '3') p.ui.loadValuesFromJSON(JSONObject.parse(CONFIG_3));
 		if(p.key == '4') p.ui.loadValuesFromJSON(JSONObject.parse(CONFIG_4));
 		if(p.key == '5') p.ui.loadValuesFromJSON(JSONObject.parse(CONFIG_5));
 		if(p.key == '6') p.ui.loadValuesFromJSON(JSONObject.parse(CONFIG_6));
+		if(p.key == ' ') swipeForNextMode();
 	}
 	
 	////////////////////////////////////

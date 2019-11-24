@@ -10,11 +10,13 @@ import com.haxademic.core.draw.filters.pshader.ThresholdFilter;
 import com.haxademic.core.draw.image.BufferFrameDifference;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.textures.SimplexNoiseTexture;
+import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.webcam.WebCam;
 import com.haxademic.core.hardware.webcam.WebCam.IWebCamCallback;
 
 import processing.core.PGraphics;
 import processing.core.PImage;
+import processing.core.PShape;
 
 public class Demo_BufferFrameDifference_MaskedWebcam 
 extends PAppletHax
@@ -41,13 +43,22 @@ implements IWebCamCallback {
 	protected String diffThresh = "diffThresh";
 	protected String diffSmoothThresh = "diffSmoothThresh";
 	
+	protected PShape template;
 
 	protected void overridePropsFile() {
 		p.appConfig.setProperty(AppSettings.WIDTH, 1280 );
 		p.appConfig.setProperty(AppSettings.HEIGHT, 720 );
+		p.appConfig.setProperty(AppSettings.PG_WIDTH, 3438 );
+		p.appConfig.setProperty(AppSettings.PG_HEIGHT, 1080 );
+		p.appConfig.setProperty(AppSettings.FULLSCREEN, true);
+//		p.appConfig.setProperty(AppSettings.SCREEN_X, 0);
+//		p.appConfig.setProperty(AppSettings.SCREEN_Y, 0);
+		p.appConfig.setProperty(AppSettings.ALWAYS_ON_TOP, false);
 	}
 		
 	public void setupFirstFrame () {
+		template = p.loadShape( FileUtil.getFile("images/_sketch/clocktower/clocktower.svg"));
+
 		// init webcam
 		WebCam.instance().setDelegate(this);
 		
@@ -75,13 +86,21 @@ implements IWebCamCallback {
 		
 		// set difference mask on webcam image
 		if(knockoutWebCam != null) {
-			updateMapPerlin();
+			updateFeedback();
 			knockoutWebCam.mask(diffBufferSmoothed);
-			p.image(knockoutWebCam, 0, 0);
+			pg.beginDraw();
+			ImageUtil.drawImageCropFill(knockoutWebCam, pg, true);
+//			pg.image(knockoutWebCam, 0, 0);
+			pg.shape(template, 0, 0);
+			pg.endDraw();
 		}
+		
+		p.image(pg, 0, 0);
+		ImageUtil.cropFillCopyImage(pg, p.g, false);
+
 	}
 	
-	protected void updateMapPerlin() {
+	protected void updateFeedback() {
 		// update feedback noise map
 		simplexNoise.update(p.ui.value(mapZoom), p.ui.value(mapRot), 0, 0);
 		
@@ -92,7 +111,7 @@ implements IWebCamCallback {
 		FeedbackMapFilter.instance(p).setAlphaStep(p.ui.value(feedbackAlphaStep));
 		FeedbackMapFilter.instance(p).setRadiansStart(p.frameCount/10f); // p.ui.value(feedbackRadiansStart));
 		FeedbackMapFilter.instance(p).setRadiansRange(p.ui.value(feedbackRadiansRange));
-		for (int i = 0; i < p.ui.valueInt(feedbackIters); i++) FeedbackMapFilter.instance(P.p).applyTo(p.g);
+		for (int i = 0; i < p.ui.valueInt(feedbackIters); i++) FeedbackMapFilter.instance(P.p).applyTo(pg);
 	}
 
 	@Override
