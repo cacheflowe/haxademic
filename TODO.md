@@ -49,7 +49,7 @@
       * mtllib ./materials.mtl
         In my experience, Processing doesn't like this. If your .obj file has this, try removing the dot slash like this:
         mtllib materials.mtl
-    * Alpha (“d” or “Tr”) in obj files isn’t working
+    * Alpha (d or Tr) in obj files isn't working
     * Drawing obj files out of the box is odd per PApplet or PGraphics
   * GLSL UV multiplication on original texture sampling (rotate & zoom repeat shaders)
   * float32 textures:
@@ -64,7 +64,10 @@
 
 
 ## Art projects
+  * Variable Reaction-Diffusion using amplitude map & custom blur/sharpen shaders
+  * CACHE performance: launchpads, visuals, 8-bar LED array, kinect, drum pads, gqom beats
   * Kinect-triggered music - krump to trigger sounds & lights
+  * Kinect silhouette studies (uv coord offset, glitch overlay, feedback)
   * Convert Fliud sim: https://github.com/PavelDoGreat/WebGL-Fluid-Simulation/blob/master/script.js
   * Shatter model & triangles fall down (Sunflow final render)
   * Sound in space. Raspberry Pis via wifi, attached to speakers. Split channels for more outputs
@@ -74,8 +77,9 @@
   * Convert all webcam VFX apps (and old video filters) to BaseVideoFilter subclasses
   * Moire sphere/shader for MW prototying
     * Of interest: https://www.shadertoy.com/view/MllSDr
+    * Variable Reaction-Diffusion as noted above
   * Voice-activated color room: What Say Hue?
-  * Grass cutout - laser cut w/Seied
+  * Grass cutout - laser cut
   * Make a dmx/launchpad gif loop
   * Motion detection point-of-interest motion capture by small rectangles - figure out how to zoom out and create multiple zones
   * Turn client snake mirror into its own thing
@@ -106,6 +110,7 @@
   	* Any other cool loop/render?!
 
 ## Interphase
+  * perfectly-looped audio clips, mapped to main loop length
   * Add sliders to specifically choose samples
   * Integrate Communichords looping tones (for Moire Room, specifically)
   * C.A.C.H.E. - Creative Adversarial Computer-Human Exchange
@@ -240,7 +245,7 @@
     * Build a basic demo that uses vertex depth to fade to a color- probably already have something similar
     * Does textureSize(Sampler2D) give us the texture size???
     * Doing calculations in the vertex shader should always be faster than the fragment shader, since there are fewer vertices than fragments.
-    * Use the ‘discard’ keyword to *not* update a fragment, anywhere in a fragment shader.
+    * Use the â€˜discard' keyword to *not* update a fragment, anywhere in a fragment shader.
   * GPU Particles
     * Fix up GPU particle launcher to store colors per-particle
     * https://github.com/armdz/ParticlesGPU/blob/master/bin/data/shader/render.vert
@@ -325,19 +330,32 @@
 
 What is your app doing when you're not home?
   * Haxademic tools
-    * DashboardPoster / BigMother
-    * CrashMonitor
-    * TextEventLog
-    * DebugView
-    * UIControlPanel
-    * FrozenImageMonitor
-    * Click app to stay on top & move mouse offscreen
-    * Fullscreen, force on top
-    * WebCamPicker
-    * JSONPoller + CMS
-    * Restart app after uptime, within hour range
-    * Restart computer, launch scripts
+  * DashboardPoster / BigMother
+  * CrashMonitor
+  * TextEventLog
+  * DebugView
+  * UIControlPanel
+  * FrozenImageMonitor
+  * Click app to stay on top & move mouse offscreen
+  * Fullscreen, force on top
+  * WebCamPicker
+  * JSONPoller + CMS
+  * Restart app after uptime, within hour range
+  * Restart computer, launch scripts
   * TeamViewer
 
   * Can certain parts of this be moved to shell scripts?
     * https://github.com/laserpilot/Installation_Up_4evr
+
+Advanced Processing
+  * Shaders & chaining
+    * Kinect noise smoothing
+    * GPU particles
+  * Embedded jetty web server
+  * WebSocket server
+  * PGraphics compositing
+    * Handling large graphics in realtime (Joran clouds example)
+  * Kinect topics
+    * Room scan
+    * Center-of-mass technique, vs. skeleton detection
+  * 
