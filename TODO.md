@@ -141,14 +141,14 @@
     * Better haxvisual patterns configurations
 
 ## Audio
+  * Strtech samples to play within a beat segment - this could allow for ableton-style beat chopping
   * WavPlayer panning and FFT analysis need love:
     * Panning only works once
     * FFT only works for the left channel if it's been panned
   * Text to speech In Processing. Webview in Processing? Or web sockets to external browser? Vanilla Java?
   * Sphinx4 speech recognition
-	* Copy / paste + Robot for tired hands
-  * Test basic audio input. why is audio getting delayed after hours of running?
-    * Why isn't Minim/Beads working on audio input anymore?
+  * Test/Fix basic audio input. why is audio getting delayed after hours of running?
+    * Why isn't Minim/Beads/Processing working on audio input anymore?
   * Turn off Beads audio input object output - this should not pass through
   * Split audio stepthrough rendering from Renderer.java, which should just save movies. MIDIStepthrough renderer is a good example of splitting
   * Make demos for rendering at a specific bpm
@@ -358,4 +358,20 @@ Advanced Processing
   * Kinect topics
     * Room scan
     * Center-of-mass technique, vs. skeleton detection
-  * 
+    
+  * Run a Jetty web server
+  * Run a websocket server
+  * Scan & cache a kinect camera view via texture
+  * PGraphics compositing
+  * GPU particles
+  * Set an app icon
+  * AppStore concept
+  * Run in Eclipse
+  * ShaderCompiler
+  * Shader techniques
+    * Post-processing
+    * PShape deformation
+  * PShapeUtil
+  * Text to 3d shape
+  * DMX spatial lighting
+  * Spatial audio (multiple soundcards or Jack/Beads)
