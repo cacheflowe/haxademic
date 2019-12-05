@@ -261,16 +261,8 @@ implements ILaunchpadCallback {
 		updateSequencers();
 		updateLaunchpads();
 		updateUIButtons();
+		updateDebugValues();
 		if(pg != null) drawSequencer(pg);
-		
-		// update debug values
-		P.p.debugView.setValue("INTERPHASE :: BPM", P.store.getFloat(BPM));
-		P.p.debugView.setValue("INTERPHASE :: BPM interval", P.store.getInt(BEAT_INTERVAL_MILLIS) + "ms");
-		P.p.debugView.setValue("INTERPHASE :: BEAT", P.store.getFloat(BEAT));
-		P.p.debugView.setValue("INTERPHASE :: INTERACTION_SPEED_MULT", P.store.getFloat(INTERACTION_SPEED_MULT));
-		P.p.debugView.setValue("INTERPHASE :: PATTERNS_AUTO_MORPH", P.store.getBoolean(PATTERNS_AUTO_MORPH));
-		P.p.debugView.setValue("INTERPHASE :: SEQUENCER_TRIGGER", P.store.getInt(SEQUENCER_TRIGGER));
-		P.p.debugView.setValue("INTERPHASE :: CUR_SCALE", Scales.SCALE_NAMES[P.store.getInt(CUR_SCALE_INDEX)]);
 	}
 	
 	protected void updateSequencers() {
@@ -280,6 +272,16 @@ implements ILaunchpadCallback {
 			if(sequencers[i].userInteracted()) numWallsInteracted++;
 		}
 		P.store.setNumber(INTERACTION_SPEED_MULT, numWallsInteracted);
+	}
+	
+	protected void updateDebugValues() {
+		P.p.debugView.setValue("INTERPHASE :: BPM", P.store.getFloat(BPM));
+		P.p.debugView.setValue("INTERPHASE :: BPM interval", P.store.getInt(BEAT_INTERVAL_MILLIS) + "ms");
+		P.p.debugView.setValue("INTERPHASE :: BEAT", P.store.getFloat(BEAT));
+		P.p.debugView.setValue("INTERPHASE :: INTERACTION_SPEED_MULT", P.store.getFloat(INTERACTION_SPEED_MULT));
+		P.p.debugView.setValue("INTERPHASE :: PATTERNS_AUTO_MORPH", P.store.getBoolean(PATTERNS_AUTO_MORPH));
+		P.p.debugView.setValue("INTERPHASE :: SEQUENCER_TRIGGER", P.store.getInt(SEQUENCER_TRIGGER));
+		P.p.debugView.setValue("INTERPHASE :: CUR_SCALE", Scales.SCALE_NAMES[P.store.getInt(CUR_SCALE_INDEX)]);
 	}
 	
 	protected void drawSequencer(PGraphics pg) {
