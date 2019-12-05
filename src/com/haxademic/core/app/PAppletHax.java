@@ -621,8 +621,8 @@ extends PApplet {
 	
 	protected void killScreensaver() {
 		// keep screensaver off - hit shift every 1000 frames
-		if( p.frameCount % 1000 == 10 ) robot.keyPress(KeyEvent.VK_SHIFT);
-		if( p.frameCount % 1000 == 11 ) robot.keyRelease(KeyEvent.VK_SHIFT);
+		if( p.frameCount % 6000 == 10 ) robot.keyPress(KeyEvent.VK_SHIFT);
+		if( p.frameCount % 6000 == 11 ) robot.keyRelease(KeyEvent.VK_SHIFT);
 	}
 
 	public void keyPressed() {
