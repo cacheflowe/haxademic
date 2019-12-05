@@ -148,7 +148,9 @@
   * Text to speech In Processing. Webview in Processing? Or web sockets to external browser? Vanilla Java?
   * Sphinx4 speech recognition
   * Test/Fix basic audio input. why is audio getting delayed after hours of running?
-    * Why isn't Minim/Beads/Processing working on audio input anymore?
+    * Turn into singleton wrapper and pass in whichever input we want
+    * Why isn't Minim/Beads/Processing working on audio input anymore? Can only one run at a time now? 
+    * Create separate demos for each input object?
   * Turn off Beads audio input object output - this should not pass through
   * Split audio stepthrough rendering from Renderer.java, which should just save movies. MIDIStepthrough renderer is a good example of splitting
   * Make demos for rendering at a specific bpm

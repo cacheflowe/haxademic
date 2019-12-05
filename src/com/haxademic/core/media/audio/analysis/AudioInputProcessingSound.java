@@ -6,6 +6,7 @@ import processing.core.PGraphics;
 import processing.sound.Amplitude;
 import processing.sound.AudioIn;
 import processing.sound.FFT;
+import processing.sound.Waveform;
 
 public class AudioInputProcessingSound
 implements IAudioInput {
@@ -16,6 +17,7 @@ implements IAudioInput {
 	protected int bands = 256;
 	protected float[] spectrum = new float[bands];
 	protected Amplitude rms;
+	protected Waveform waveform;
 
 	protected AudioStreamData audioStreamData = new AudioStreamData();
 	
@@ -27,6 +29,8 @@ implements IAudioInput {
 		audioInput = new AudioIn(P.p, 0);
 		rms.input(audioInput);
 		fft.input(audioInput);
+		waveform = new Waveform(P.p, bands);
+		waveform.input(audioInput);
 		audioInput.start();
 	}
 	
@@ -37,12 +41,13 @@ implements IAudioInput {
 	public void update(PGraphics pg) {
 		// analyze input
 		fft.analyze(spectrum);
+		waveform.analyze();
 		float curAmp = rms.analyze();
 		P.p.debugView.setValue("curAmp", curAmp);
 		
 		// update audio data object
 		audioStreamData.setFFTFrequencies(spectrum);
-//		audioStreamData.setWaveformOffsets(???);
+		audioStreamData.setWaveformOffsets(waveform.data);
 		audioStreamData.setAmp(curAmp);
 		audioStreamData.update();
 

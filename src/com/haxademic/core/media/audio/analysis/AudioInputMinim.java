@@ -3,6 +3,7 @@ package com.haxademic.core.media.audio.analysis;
 import com.haxademic.core.app.P;
 
 import ddf.minim.AudioInput;
+import ddf.minim.AudioOutput;
 import ddf.minim.Minim;
 import ddf.minim.analysis.BeatDetect;
 import ddf.minim.analysis.FFT;
@@ -25,7 +26,8 @@ implements IAudioInput {
 
 	public AudioInputMinim() {
 		minim = new Minim( P.p );
-		audioInput = minim.getLineIn();
+		AudioOutput out = minim.getLineOut();
+		audioInput = minim.getLineIn(Minim.STEREO, out.bufferSize(), out.sampleRate(), out.getFormat().getSampleSizeInBits());
 		
 		fft = new FFT(audioInput.bufferSize(), audioInput.sampleRate());
 		fft.linAverages( averages );
@@ -53,7 +55,6 @@ implements IAudioInput {
 		// analyze
 		fft.forward( audioInput.mix );
 		beatDetection.detect( audioInput.mix );
-		
 		
 		float timeSize = fft.timeSize() * ( fft.timeSize() / P.p._fps );
 		
