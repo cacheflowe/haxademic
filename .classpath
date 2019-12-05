@@ -11,7 +11,6 @@
 	<classpathentry kind="lib" path="lib/beads/library/org-jaudiolibs-audioservers.jar"/>
 	<classpathentry kind="lib" path="lib/beads/library/org-jaudiolibs-jnajack.jar"/>
 	<classpathentry kind="lib" path="lib/beads/library/tools.jar"/>
-	<classpathentry kind="lib" path="lib/beads/library/mp3spi1.9.4.jar"/>
 	<classpathentry kind="lib" path="lib/beads/library/tritonus_aos-0.3.6.jar"/>
 	<classpathentry kind="lib" path="lib/beads/library/tritonus_share.jar"/>
 	<classpathentry kind="lib" path="lib/blobDetection/library/blobDetection.jar"/>
@@ -52,6 +51,7 @@
 	</classpathentry>
 	<classpathentry kind="lib" path="lib/minim/library/jsminim.jar"/>
 	<classpathentry kind="lib" path="lib/minim/library/minim.jar"/>
+	<classpathentry kind="lib" path="lib/minim/library/mp3spi1.9.5.jar"/>
 	<classpathentry kind="lib" path="lib/newhull/library/newhull.jar"/>
 	<classpathentry kind="lib" path="lib/openkinect_processing/library/openkinect_processing.jar"/>
 	<classpathentry kind="lib" path="lib/oscP5/library/oscP5.jar"/>
