@@ -9,7 +9,7 @@ import com.haxademic.core.draw.shapes.pshader.MeshDeformAndTextureFilter;
 import com.haxademic.core.draw.textures.pgraphics.TextureEQConcentricCircles;
 import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
 import com.haxademic.core.media.DemoAssets;
-import com.haxademic.core.media.audio.analysis.AudioLineIn;
+import com.haxademic.core.media.audio.analysis.AudioIn;
 
 import processing.core.PImage;
 import processing.core.PShape;
@@ -24,7 +24,7 @@ extends PAppletHax {
 	protected BaseTexture audioTexture;
 
 	protected void setupFirstFrame() {
-		AudioLineIn.instance();
+		AudioIn.instance();
 		
 		// build obj PShape and scale to window
 		// Note: Without getTesselation(), PShape.setTexture(PImage) is SUPER slow. 

@@ -21,7 +21,7 @@ import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.LinearFloat;
 import com.haxademic.core.math.easing.Penner;
 import com.haxademic.core.media.DemoAssets;
-import com.haxademic.core.media.audio.analysis.AudioLineIn;
+import com.haxademic.core.media.audio.analysis.AudioIn;
 import com.haxademic.core.system.SystemUtil;
 
 import dmxP512.DmxP512;
@@ -103,7 +103,7 @@ extends PAppletHax {
 	}
 
 	public void setupFirstFrame() {
-		AudioLineIn.instance();
+		AudioIn.instance();
 		// main buffer
 		mainBuffer = p.createGraphics(1920, 1080, PRenderers.P2D);
 		cameraBuffer = p.createGraphics(1920, 1080, PRenderers.P2D);

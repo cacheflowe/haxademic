@@ -10,8 +10,8 @@ import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.textures.pshader.TextureShader;
 import com.haxademic.core.hardware.webcam.WebCam;
 import com.haxademic.core.hardware.webcam.WebCam.IWebCamCallback;
-import com.haxademic.core.media.audio.analysis.AudioLineIn;
-import com.haxademic.core.media.audio.analysis.AudioLineIn.AudioInputLibrary;
+import com.haxademic.core.media.audio.analysis.AudioIn;
+import com.haxademic.core.media.audio.analysis.AudioIn.AudioInputLibrary;
 
 import processing.core.PGraphics;
 import processing.core.PImage;
@@ -34,7 +34,7 @@ implements IWebCamCallback {
 
 	public void setupFirstFrame () {
 		WebCam.instance().setDelegate(this);
-		AudioLineIn.instance(AudioInputLibrary.ESS);
+		AudioIn.instance(AudioInputLibrary.ESS);
 	}
 
 	@Override

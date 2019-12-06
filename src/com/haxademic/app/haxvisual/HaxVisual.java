@@ -61,7 +61,7 @@ import com.haxademic.core.hardware.osc.devices.TouchOscPads;
 import com.haxademic.core.hardware.shared.InputTrigger;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.LinearFloat;
-import com.haxademic.core.media.audio.analysis.AudioLineIn;
+import com.haxademic.core.media.audio.analysis.AudioIn;
 import com.haxademic.core.media.audio.interphase.Interphase;
 import com.haxademic.core.system.SystemUtil;
 import com.haxademic.core.ui.UIButton;
@@ -213,7 +213,7 @@ implements IAppStoreListener {
 	}
 
 	protected void setupFirstFrame() {
-		AudioLineIn.instance();
+		AudioIn.instance();
 		P.store.addListener(this);
 //		initDMX();
 		if(multiOutput == false) {

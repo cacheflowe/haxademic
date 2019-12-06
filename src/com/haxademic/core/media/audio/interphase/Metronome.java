@@ -4,7 +4,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.data.constants.PRegisterableMethods;
 import com.haxademic.core.math.easing.LinearFloat;
 import com.haxademic.core.media.audio.analysis.AudioInputBeads;
-import com.haxademic.core.media.audio.analysis.AudioLineIn;
+import com.haxademic.core.media.audio.analysis.AudioIn;
 
 import beads.AudioContext;
 import beads.Bead;
@@ -50,7 +50,7 @@ public class Metronome {
 	
 	public void init() {
 		ac = new AudioContext();
-		new AudioLineIn(new AudioInputBeads(ac));	// connects the audio input to the global audio frequencies getter & draws debug view
+		new AudioIn(new AudioInputBeads(ac));	// connects the audio input to the global audio frequencies getter & draws debug view
 
 		clock = new Clock(ac, DEFAULT_INTERVAL);
 		clock.addMessageListener(

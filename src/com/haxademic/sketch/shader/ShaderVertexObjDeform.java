@@ -10,8 +10,8 @@ import com.haxademic.core.draw.textures.PerlinTexture;
 import com.haxademic.core.draw.textures.pgraphics.TextureEQGrid;
 import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
 import com.haxademic.core.file.FileUtil;
-import com.haxademic.core.media.audio.analysis.AudioLineIn;
-import com.haxademic.core.media.audio.analysis.AudioLineIn.AudioInputLibrary;
+import com.haxademic.core.media.audio.analysis.AudioIn;
+import com.haxademic.core.media.audio.analysis.AudioIn.AudioInputLibrary;
 
 import processing.core.PGraphics;
 import processing.core.PImage;
@@ -49,7 +49,7 @@ extends PAppletHax {
 	}
 
 	public void setupFirstFrame() {
-		AudioLineIn.instance(AudioInputLibrary.Minim);
+		AudioIn.instance(AudioInputLibrary.Minim);
 		
 		// create dynamic deformation texture
 		audioTexture = new TextureEQGrid(800, 800);

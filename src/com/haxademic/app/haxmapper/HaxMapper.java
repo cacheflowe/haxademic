@@ -44,7 +44,7 @@ import com.haxademic.core.hardware.midi.devices.LaunchControl;
 import com.haxademic.core.hardware.osc.devices.TouchOscPads;
 import com.haxademic.core.hardware.shared.InputTrigger;
 import com.haxademic.core.math.MathUtil;
-import com.haxademic.core.media.audio.analysis.AudioLineIn;
+import com.haxademic.core.media.audio.analysis.AudioIn;
 import com.haxademic.sketch.hardware.kinect_openni.KinectFaceRecorder;
 
 import processing.core.PGraphics;
@@ -137,7 +137,7 @@ extends PAppletHax {
 	/////////////////////////////////////////////////////////////////
 
 	public void setupFirstFrame() {
-		AudioLineIn.instance();
+		AudioIn.instance();
 		
 //		p.hint(P.DISABLE_DEPTH_SORT);
 //		p.hint(P.DISABLE_DEPTH_TEST);

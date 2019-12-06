@@ -2,8 +2,8 @@ package com.haxademic.demo.media.audio.analysis;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.media.audio.analysis.AudioLineIn;
-import com.haxademic.core.media.audio.analysis.AudioLineIn.AudioInputLibrary;
+import com.haxademic.core.media.audio.analysis.AudioIn;
+import com.haxademic.core.media.audio.analysis.AudioIn.AudioInputLibrary;
 
 public class Demo_EQBandTriggers 
 extends PAppletHax {
@@ -16,7 +16,7 @@ extends PAppletHax {
 	float ampThreshold = 0.2f;
 	
 	protected void setupFirstFrame() {
-		AudioLineIn.instance(AudioInputLibrary.ESS);
+		AudioIn.instance(AudioInputLibrary.ESS);
 
 		numElements = 40; // p.width;
 		

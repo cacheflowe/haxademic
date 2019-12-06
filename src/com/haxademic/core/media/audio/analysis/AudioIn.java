@@ -2,13 +2,12 @@ package com.haxademic.core.media.audio.analysis;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.data.constants.PRegisterableMethods;
-import com.haxademic.core.debug.DebugUtil;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.system.JavaInfo;
 
 import processing.core.PGraphics;
 
-public class AudioLineIn {
+public class AudioIn {
 
 	// TODO:
 	// - Switch all apps to use singleton to grab audio data. Should this be on P.audio ?
@@ -38,15 +37,15 @@ public class AudioLineIn {
 	// normal initialization
 	/////////////////////////////
 	
-	public AudioLineIn() {
+	public AudioIn() {
 		this(AudioInputLibrary.ESS);
 	}
 	
-	public AudioLineIn(AudioInputLibrary lib) {
+	public AudioIn(AudioInputLibrary lib) {
 		this(initAudioInput(lib));
 	}
 	
-	public AudioLineIn(IAudioInput audioInput) {
+	public AudioIn(IAudioInput audioInput) {
 		this.audioInput = audioInput;
 		this.audioInput.update(null);	// force a build of the internal AudioStreamData object
 
@@ -89,17 +88,17 @@ public class AudioLineIn {
 	// static instance & initializer for quick & easy access
 	/////////////////////////////
 	
-	public static AudioLineIn instance;
+	public static AudioIn instance;
 	
-	public static AudioLineIn instance(AudioInputLibrary lib) {
+	public static AudioIn instance(AudioInputLibrary lib) {
 		if(instance != null) return instance;
-		instance = new AudioLineIn(lib);
+		instance = new AudioIn(lib);
 		return instance;
 	}
 	
-	public static AudioLineIn instance() {
+	public static AudioIn instance() {
 		if(instance != null) return instance;
-		instance = new AudioLineIn();
+		instance = new AudioIn();
 		return instance;
 	}
 	
