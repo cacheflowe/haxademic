@@ -85,9 +85,7 @@
         background-color: var(--background-color-softer);
         padding: 10px;
         width: 100%;
-        max-width: 400px;
         border-radius: 5px;
-        /* box-shadow: 1px 2px 4px var(--border-color); */
         border: 1px solid var(--border-color);
       }
 
@@ -105,7 +103,26 @@
         font-weight: bold;
       }
 
-      .dashboard-card img,
+      .dashboard-card .dashboard-img-container {
+        height: 160px;
+        display: block;
+        text-align: center;
+        background: #111;
+        position: relative;
+      }
+
+      .dashboard-card img {
+        width: auto;
+        max-width: 100%;
+        max-height: 100%;
+        background: #000;
+        position: absolute;
+        left: 50%;
+        top: 50%;
+        transform: translate3d(-50%, -50%, 0);
+      }
+
+      /* .dashboard-card img, */
       .dashboard-card input,
       .dashboard-card textarea,
       .dashboard-card select,

@@ -49,6 +49,12 @@ class Dashboard {
   function listCards() {
     // loop through checkin objects
     $html = "";
+    // sort
+    function cmp($a, $b) {
+      return strcmp($a['appId'], $b['appId']);
+    }
+    usort($this->dashboardDB['checkins'], "cmp");
+    // display
     foreach ($this->dashboardDB['checkins'] as $appKey => $appData) {
       // get time since seen
       $lastSeenTimeMS = isset($appData['lastSeen']) ? $appData['lastSeen'] : 60 * 60 * 24 * 365;
@@ -72,8 +78,8 @@ class Dashboard {
       $html .= '  <div>';
       $html .= '    <p><b>Uptime</b>: '. $uptimeClock .'<br>';
       $html .= '      Last seen: ' . $timeSinceLastSeen .'<br>'; //  . ' ('.$msSinceSeen.'s)</p>';
-      if(isset($appData['imageScreenshot']))  $html .= 'Screenshot: ' . DateUtil::timeElapsedString(DateUtil::getDateTimeFromMS($appData['lastSeenScreenshot'])) . '<img data-zoomable src="data:image/jpeg;base64,'.$appData['imageScreenshot'].'">';
-      if(isset($appData['imageExtra']))       $html .= 'Custom Img: ' . DateUtil::timeElapsedString(DateUtil::getDateTimeFromMS($appData['lastSeenExtra'])) . '<img data-zoomable src="data:image/jpeg;base64,'.$appData['imageExtra'].'">';
+      if(isset($appData['imageScreenshot']))  $html .= 'Screenshot: ' . DateUtil::timeElapsedString(DateUtil::getDateTimeFromMS($appData['lastSeenScreenshot'])) . '<span class="dashboard-img-container"><img data-zoomable src="data:image/jpeg;base64,'.$appData['imageScreenshot'].'"></span>';
+      if(isset($appData['imageExtra']))       $html .= 'Custom Img: ' . DateUtil::timeElapsedString(DateUtil::getDateTimeFromMS($appData['lastSeenExtra'])) . '<span class="dashboard-img-container"><img data-zoomable src="data:image/jpeg;base64,'.$appData['imageExtra'].'"></span>';
       $html .= '    </p>';
       $html .= '    <p><b>Custom Values</b><br>';
       foreach ($appData as $key => $value) {
