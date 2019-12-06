@@ -1,5 +1,17 @@
 # TODO
 
+## Modularize PAppletHax
+
+* Mouse
+* DepthCamera like AudioIn
+* Rendering objects (video/audio/midi/joons)
+* Inputs - more thoughts on InputTrigger below
+* DebugView
+* UIControlPanel
+* SecondScreenViewer
+* DMXUniverse
+* Properties
+
 ## InputTrigger revamp
 
 * Threaded safety of InputTrigger isn't good - especially at a low FPS?
@@ -19,6 +31,7 @@
       * http://usb4java.org/quickstart/libusb.html
       * http://usb4java.org/configuration.html
     * Webcam with OpenJDK: https://github.com/gstreamer-java/gst1-java-core/issues/15
+      * Will this be solved by Processing 4?
 * Android high-framerate capture or UVC use?
   * https://github.com/android/media-samples/blob/master/MediaRecorder/Application/src/main/java/com/example/android/mediarecorder/MainActivity.java
 

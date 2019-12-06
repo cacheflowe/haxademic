@@ -88,15 +88,17 @@ extends PApplet {
 	public AnimationLoop loop = null;
 
 	// input
+	public IDepthCamera depthCamera = null;
+	public LeapMotion leapMotion = null;
+
 	public MidiDevice midiState = null;
 	public MidiBus midiBus;
 	public KeyboardState keyboardState;
-	public IDepthCamera depthCamera = null;
 	public GamepadState gamepadState;
 	public GamepadListener gamepadListener;
-	public LeapMotion leapMotion = null;
 	public OscWrapper oscState = null;
 	public BrowserInputState browserInputState = null;
+
 	// move to mouse singleton
 	public int lastMouseTime = 0;
 	public boolean mouseShowing = true;
