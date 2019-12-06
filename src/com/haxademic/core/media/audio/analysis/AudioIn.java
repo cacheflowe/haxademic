@@ -9,10 +9,6 @@ import processing.core.PGraphics;
 import processing.event.KeyEvent;
 
 public class AudioIn {
-
-	// TODO:
-	// - Switch all apps to use singleton to grab audio data. Should this be on P.audio ?
-	// 		- Search for `p.audio` 
 	
 	public enum AudioInputLibrary {
 		Beads,

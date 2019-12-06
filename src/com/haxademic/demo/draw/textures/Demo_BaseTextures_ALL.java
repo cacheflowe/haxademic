@@ -45,7 +45,6 @@ import com.haxademic.core.draw.textures.pgraphics.TextureSvgExtruded;
 import com.haxademic.core.draw.textures.pgraphics.TextureSvgPattern;
 import com.haxademic.core.draw.textures.pgraphics.TextureTwistingSquares;
 import com.haxademic.core.draw.textures.pgraphics.TextureVectorFieldEQ;
-import com.haxademic.core.draw.textures.pgraphics.TextureVideoPlayer;
 import com.haxademic.core.draw.textures.pgraphics.TextureWaveformCircle;
 import com.haxademic.core.draw.textures.pgraphics.TextureWaveformSimple;
 import com.haxademic.core.draw.textures.pgraphics.TextureWords2d;

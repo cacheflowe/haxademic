@@ -6,7 +6,6 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.data.ConvertUtil;
-import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.media.audio.analysis.AudioIn;
@@ -26,12 +25,13 @@ extends PAppletHax {
 	protected boolean _isPressed = false;
 	protected boolean _debugging = true;
 	protected String _inputFileLines[];
+	protected String MAPPING_FILE = "mapping_file";
 
 	protected ArrayList<PShape> _draggingShapes;
 	
 	protected final static int MODE_TRIANGLES = 0;
 	protected final static int MODE_RECTS = 1;
-	protected int _mode = 0;
+	protected int drawMode = 0;
 	
 	protected int curMouseX = 0;
 	protected int curMouseY = 0;
@@ -40,7 +40,7 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, false );
 		p.appConfig.setProperty( AppSettings.FILLS_SCREEN, true );
 		p.appConfig.setProperty( AppSettings.FULLSCREEN, false );
-		p.appConfig.setProperty( "mapping_file",  FileUtil.getFile("text/mapping/mapping-2016-04-09-20-23-29.txt") );
+//		p.appConfig.setProperty( MAPPING_FILE,  FileUtil.getFile("text/mapping/mapping-2016-04-09-20-23-29.txt") );
 	}
 
 	public void setupFirstFrame() {
@@ -51,9 +51,6 @@ extends PAppletHax {
 		loadVertices();
 		
 		_draggingShapes = new ArrayList<PShape>();
-
-		p.strokeWeight( 1 );
-		p.smooth(OpenGLUtil.SMOOTH_HIGH);
 	}
 
 	// loop -------------------------------------------------------------
@@ -79,9 +76,9 @@ extends PAppletHax {
 	public void drawMode() {
 		p.noStroke();
 		p.fill(255);
-		if( _mode == MODE_TRIANGLES ) {
+		if( drawMode == MODE_TRIANGLES ) {
 			p.triangle(80, 50, 110, 100, 50, 100);
-		} else if( _mode == MODE_RECTS ) {
+		} else if( drawMode == MODE_RECTS ) {
 			p.rect(50, 50, 50, 50);
 		}
 	}
@@ -232,11 +229,11 @@ extends PAppletHax {
 				_curShape.vertex( curMouseX, curMouseY );
 			}
 			// auto-close shape
-			if( _mode == MODE_TRIANGLES ) {
+			if( drawMode == MODE_TRIANGLES ) {
 				if( _curShape.getVertexCount() == 3 ) {
 					closeShape();
 				}
-			} else if( _mode == MODE_RECTS ) {
+			} else if( drawMode == MODE_RECTS ) {
 				if( _curShape.getVertexCount() == 4 ) {
 					closeShape();
 				}
@@ -272,8 +269,8 @@ extends PAppletHax {
 	}
 	
 	public void loadVertices() {
-		if( p.appConfig.getString("mapping_file", "") != "" ) {
-			_inputFileLines = loadStrings(p.appConfig.getString("mapping_file", ""));
+		if( p.appConfig.getString(MAPPING_FILE, "") != "" ) {
+			_inputFileLines = loadStrings(p.appConfig.getString(MAPPING_FILE, ""));
 			for( int i=0; i < _inputFileLines.length; i++ ) {
 				String inputLine = _inputFileLines[i]; 
 				// count lines that contain characters
@@ -309,12 +306,13 @@ extends PAppletHax {
 
 	// keyboard handling -------------------------------------------------------------
 	public void keyPressed() {
+		super.keyPressed();
 		if(p.key == 'd') {
 			// show debugging lines & points
 			_debugging = !_debugging;
 		} else if(p.key == 'm') {
 			// swap rect/triangle mode
-			_mode = (_mode == MODE_TRIANGLES) ? MODE_RECTS : MODE_TRIANGLES;
+			drawMode = (drawMode == MODE_TRIANGLES) ? MODE_RECTS : MODE_TRIANGLES;
 		} else if(p.key == 'g') {
 			// add a new group
 			newGroup();
