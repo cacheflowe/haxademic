@@ -7,6 +7,7 @@ import com.haxademic.core.draw.color.EasingColor;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.MathUtil;
+import com.haxademic.core.media.audio.analysis.AudioIn;
 import com.haxademic.core.system.SystemUtil;
 
 import geomerative.RG;
