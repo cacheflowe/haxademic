@@ -8,15 +8,19 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.debug.StringBufferLog;
+import com.haxademic.core.draw.context.PShaderHotSwap;
 import com.haxademic.core.draw.filters.pshader.BrightnessStepFilter;
 import com.haxademic.core.draw.filters.pshader.FakeLightingFilter;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.shapes.polygons.CollisionUtil;
 import com.haxademic.core.draw.shapes.polygons.Edge;
 import com.haxademic.core.draw.shapes.polygons.Polygon;
+import com.haxademic.core.draw.textures.SimplexNoiseTexture;
+import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.MathUtil;
 
 import processing.core.PVector;
+import processing.opengl.PGraphicsOpenGL;
 
 public class Demo_Polygon 
 extends PAppletHax {
@@ -70,7 +74,7 @@ extends PAppletHax {
 	*/
 	
 	// mesh / growth
-	protected int RESET_FRAME_INTERVAL = 300;
+	protected int RESET_FRAME_INTERVAL = 600;
 	protected ArrayList<Polygon> polygons;
 	protected float MAX_POLY_AREA = 20000;
 	protected float MAX_TOTAL_AREA = 1000000;
@@ -129,7 +133,9 @@ extends PAppletHax {
 	protected String DIFF_DARK = "DIFF_DARK";
 	protected String FILTER_ACTIVE = "FILTER_ACTIVE";
 
-	
+	PShaderHotSwap polygonShader;
+	protected SimplexNoiseTexture displaceTexture;
+
 	protected void overridePropsFile() {
 		p.appConfig.setProperty( AppSettings.WIDTH, 1280 );
 		p.appConfig.setProperty( AppSettings.HEIGHT, 720 );
@@ -141,6 +147,13 @@ extends PAppletHax {
 		tempTriangle = Polygon.buildShape(0, 0, 3, 100);
 		newSeedPolygon();
 		setupPostProcessing();
+		
+		polygonShader = new PShaderHotSwap(
+				FileUtil.getFile("haxademic/shaders/vertex/mesh-2d-deform-vert.glsl"),
+				FileUtil.getFile("haxademic/shaders/vertex/mesh-2d-deform-frag.glsl") 
+			);
+		displaceTexture = new SimplexNoiseTexture(256, 256);
+
 	}
 	
 	///////////////////////////////////
@@ -186,7 +199,7 @@ extends PAppletHax {
 		p.debugView.setValue("baseShapeSize", baseShapeSize);
 		
 		curEdgeCopyStyle = Polygon.randomEdgeCopyStyle();
-		RESET_FRAME_INTERVAL = 200;
+		RESET_FRAME_INTERVAL = 800;
 		clearsBg = MathUtil.randBoolean();
 		
 		// new seed param
@@ -215,9 +228,19 @@ extends PAppletHax {
 //		camera test
 //		p.translate(0, 0, -1500 * p.mousePercentX());
 //		p.rotateX(p.mousePercentY() * 3f);
-		
+		displaceTexture.offsetX(p.frameCount/100f);
+		displaceTexture.update();
 		// draw & generate shapes
 		pg.beginDraw();
+		// apply deform shader and draw mesh - CANNOT HAVE PROCESSING LIGHTS TURNED ON!
+		polygonShader.shader().set("time", p.frameCount);
+		polygonShader.shader().set("displacementMap", displaceTexture.texture());
+		polygonShader.shader().set("displaceAmp", baseShapeSize);
+		polygonShader.shader().set("modelviewInv", ((PGraphicsOpenGL) g).modelviewInv);
+		polygonShader.update();
+		// apply polygons shader
+		pg.shader(polygonShader.shader());  
+
 		BrightnessStepFilter.instance(p).setBrightnessStep(-1f/255f);
 		BrightnessStepFilter.instance(p).applyTo(pg);
 		if(clearsBg) pg.background(255);
@@ -227,6 +250,8 @@ extends PAppletHax {
 		createNeighbors();
 		closeNeighbors();
 		removePolygons();
+		pg.resetShader();
+
 		pg.endDraw();
 		// postProcess();
 	
