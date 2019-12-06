@@ -3,8 +3,7 @@ package com.haxademic.core.draw.textures.pgraphics;
 import com.haxademic.core.app.P;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
-
-import processing.core.PConstants;
+import com.haxademic.core.media.audio.analysis.AudioIn;
 
 public class TextureBlobSheet 
 extends BaseTexture {
@@ -108,7 +107,7 @@ extends BaseTexture {
 		float curB = startB;
 
 		for (int i = 0; i < numCtrls; i++) {
-			cntrls[i].update( P.p.audioFreq(i), P.p.audioFreq(i) );
+			cntrls[i].update( AudioIn.audioFreq(i), AudioIn.audioFreq(i) );
 //			_texture.fill(255);
 //			_texture.rect(cntrls[i].x, cntrls[i].y, 20, 20);
 		}
@@ -208,7 +207,7 @@ extends BaseTexture {
 			// Color calculated using sine wave
 
 			// adjust cell z per brightness
-			z = 2f * ( P.p.audioFreq((int)ctrlPt1) + P.p.audioFreq((int)ctrlPt2)) / 10f;
+			z = 2f * ( AudioIn.audioFreq((int)ctrlPt1) + AudioIn.audioFreq((int)ctrlPt2)) / 10f;
 			_texture.pushMatrix();
 			_texture.translate( 0, 0, -700 + z );
 			

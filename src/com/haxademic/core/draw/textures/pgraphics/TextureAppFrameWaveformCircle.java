@@ -5,6 +5,7 @@ import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.EasingFloat;
+import com.haxademic.core.media.audio.analysis.AudioIn;
 
 public class TextureAppFrameWaveformCircle 
 extends BaseTexture {
@@ -18,8 +19,8 @@ extends BaseTexture {
 	public TextureAppFrameWaveformCircle( int width, int height ) {
 		super(width, height);
 		
-//		_waveformData = P.p.audioData.waveform();
-		_circleInc = ( (float)Math.PI * 2.0f ) / P.p.audioData.waveform().length;
+//		_waveformData = AudioIn.waveform;
+		_circleInc = ( (float)Math.PI * 2.0f ) / AudioIn.waveform.length;
 		
 		// set some defaults
 		newLineMode();
@@ -40,7 +41,7 @@ extends BaseTexture {
 //		PG.resetGlobalProps( _texture );
 		PG.setCenterScreen( _texture );
 
-		int numPoints = P.p.audioData.waveform().length;
+		int numPoints = AudioIn.waveform.length;
 		_texture.fill(0);
 		_texture.noStroke();
 		_texture.beginShape();
@@ -49,13 +50,13 @@ extends BaseTexture {
 		float radius;//, radiusNext;
 		for (int i = 0; i < numPoints; i++ ) {
 //			iNext = (i == numPoints - 1) ? 0 : i+1;	// makes sure we wrap around at the end
-			radius =     _radius.value() + P.p.audioData.waveform()[i] * _amp;
+			radius =     _radius.value() + AudioIn.waveform[i] * _amp;
 //			radiusNext = _radius.value() + _waveformData._waveform[iNext] * _amp;
 //			p.line( p.sin( _circleInc * i ) * radius , p.cos( _circleInc * i ) * radius, p.sin( _circleInc * iNext ) * radiusNext, p.cos( _circleInc * iNext ) * radiusNext );
 			_texture.vertex( P.sin( _circleInc * i ) * radius , P.cos( _circleInc * i ) * radius );
 		}
 		// connect 1st and last points
-		radius = _radius.value() + P.p.audioData.waveform()[0] * _amp;
+		radius = _radius.value() + AudioIn.waveform[0] * _amp;
 		_texture.vertex( P.sin( _circleInc * 0 ) * radius , P.cos( _circleInc * 0 ) * radius );
 		
 		// draw around outer canvas edge

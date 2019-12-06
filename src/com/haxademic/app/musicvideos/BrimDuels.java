@@ -6,8 +6,8 @@ import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.data.constants.PBlendModes;
 import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.draw.color.Gradients;
-import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.context.OpenGLUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.BlurHFilter;
 import com.haxademic.core.draw.filters.pshader.BlurVFilter;
 import com.haxademic.core.draw.shapes.LineTrail;
@@ -19,6 +19,7 @@ import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.LinearFloat;
 import com.haxademic.core.media.DemoAssets;
+import com.haxademic.core.media.audio.analysis.AudioIn;
 
 import processing.core.PGraphics;
 import processing.core.PImage;
@@ -236,7 +237,7 @@ extends PAppletHax {
 		pg.rotateY(-P.HALF_PI - p.loop.progressRads() * 2f);
 		pg.rotateX(-P.HALF_PI);
 		pg.fill(255);
-		Shapes.drawDiscAudio(pg, p.height * 0.32f, p.height * 0.34f, p.audioData.waveform().length, 10, false);
+		Shapes.drawDiscAudio(pg, p.height * 0.32f, p.height * 0.34f, AudioIn.waveform.length, 10, false);
 		PG.pop(pg);
 		*/
 
@@ -323,7 +324,7 @@ extends PAppletHax {
 
 		for (int i = 0; i < trails.length; i++) {
 			float progress = i + p.loop.progressRads();
-			float eqAmp = p.audioFreq(P.round(10 + i * 3f)) * 3f;
+			float eqAmp = AudioIn.audioFreq(P.round(10 + i * 3f)) * 3f;
 			if(i % 3 == 0) progress = i + p.loop.progressRads() * 2;
 			if(i % 5 == 0) progress = i + p.loop.progressRads() * 3;
 			float minRadius = pg.height * 0.25f;

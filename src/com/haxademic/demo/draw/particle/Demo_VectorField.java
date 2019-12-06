@@ -8,6 +8,7 @@ import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.VignetteAltFilter;
 import com.haxademic.core.math.easing.EasingFloat;
+import com.haxademic.core.media.audio.analysis.AudioIn;
 
 import processing.core.PVector;
 
@@ -18,29 +19,25 @@ extends PAppletHax {
 	protected ArrayList<PVector> _vectorField;
 	protected ArrayList<FieldParticle> _particles;
 	protected int frames = 130;
-	float FIELD_SPACING = 40f;
-	float NUM_PARTICLES = 700f;
+	float FIELD_SPACING = 30f;
+	float NUM_PARTICLES = 2000f;
 	float ATTENTION_RADIUS = 100;
 	int DRAWS_PER_FRAME = 1;
-	int OVERDRAW_FADE = 20;
+	int OVERDRAW_FADE = 16;
 	boolean DEBUG_VECTORS = false;
 	
 	protected void overridePropsFile() {
 		p.appConfig.setProperty( AppSettings.WIDTH, 1280 );
 		p.appConfig.setProperty( AppSettings.HEIGHT, 720 );
-		p.appConfig.setProperty( AppSettings.WIDTH, 640 );
-		p.appConfig.setProperty( AppSettings.HEIGHT, 640 );
-		p.appConfig.setProperty( AppSettings.FULLSCREEN, false );
-//		p.appConfig.setProperty( AppSettings.DISPLAY, 2 );
-		p.appConfig.setProperty( AppSettings.FILLS_SCREEN, false );
-		p.appConfig.setProperty( AppSettings.RETINA, false );
+		p.appConfig.setProperty( AppSettings.WIDTH, 800 );
+		p.appConfig.setProperty( AppSettings.HEIGHT, 800 );
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, false);
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, frames);
 
 	}
 	
-	public void setup() {
-		super.setup();
+	public void setupFirstFrame() {
+		AudioIn.instance();
 		
 		_vectorField = new ArrayList<PVector>();
 		
@@ -54,8 +51,6 @@ extends PAppletHax {
 		for( int i = 0; i < NUM_PARTICLES; i++ ) {
 			_particles.add( new FieldParticle() );
 		}
-		
-		
 	}
 
 	public void drawApp() {
@@ -77,10 +72,10 @@ extends PAppletHax {
 		p.fill(0);
 		for (PVector vector : _vectorField) {
 			float noise = p.noise(
-					vector.x/11f + p.noise(p.frameCount/50f), 
-					vector.y/20f + p.noise(p.frameCount/50f) 
+					vector.x/15f + p.noise(p.frameCount/50f), 
+					vector.y/10f + p.noise(p.frameCount/50f) 
 					);
-			float targetRotation = noise * 4f * P.TWO_PI;
+			float targetRotation = noise * 6f * P.TWO_PI;
 			vector.set(vector.x, vector.y, P.lerp(vector.z, targetRotation, 0.2f));
 			
 			// draw attractors
@@ -191,7 +186,7 @@ extends PAppletHax {
 			
 			// update position
 			lastPosition.set(position);
-			float curSpeed = speed * p.audioFreq(index);
+			float curSpeed = speed * AudioIn.audioFreq(index);
 			position.set( position.x + P.sin(radians.value()) * curSpeed * P.map(p.mouseX, 0, p.width, 0, 2f), position.y + P.cos(radians.value()) * curSpeed * P.map(p.mouseX, 0, p.width, 0, 2f) );
 			if( position.x < 0 ) position.set( p.width, position.y );
 			if( position.x > p.width ) position.set( 0, position.y );

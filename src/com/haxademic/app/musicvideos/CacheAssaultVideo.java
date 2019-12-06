@@ -10,6 +10,7 @@ import com.haxademic.core.draw.filters.pgraphics.archive.ImageHistogramFilter;
 import com.haxademic.core.draw.filters.pgraphics.archive.ReflectionFilter;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.MathUtil;
+import com.haxademic.core.media.audio.analysis.AudioIn;
 
 import processing.core.PGraphics;
 import processing.core.PImage;
@@ -143,7 +144,7 @@ extends PAppletHax {
 		int spectrumIndex = 0;
 		for (int i = 0; i < cols; i++) {
 			for (int j = 0; j < rows; j++) {
-				float alphaVal = _audioAlphaStart - p.audioFreq(spectrumIndex) * _audioAlphaMult;
+				float alphaVal = _audioAlphaStart - AudioIn.audioFreq(spectrumIndex) * _audioAlphaMult;
 				if( alphaVal > 0 ) {
 					_curMov.fill( 0, alphaVal * 255f );
 					_curMov.rect( startX + i*cellW, startY + j*cellH, cellW, cellH );
@@ -157,11 +158,11 @@ extends PAppletHax {
 		_curMov.fill(0);
 		float rowH = p.height / 256f;
 		for (int i = 0; i < 256; i++) {
-			float amp = p.audioFreq(i) * 150f;
+			float amp = AudioIn.audioFreq(i) * 150f;
 			_curMov.rect( 0, i * rowH, amp, rowH );
 		}
 		for (int i = 256; i < 512; i++) {
-			float amp = p.audioFreq(i) * 150f;
+			float amp = AudioIn.audioFreq(i) * 150f;
 			_curMov.rect( p.width, (i-256) * rowH, -amp, rowH );
 		}
 
@@ -174,16 +175,16 @@ extends PAppletHax {
 		startX = 0;
 		float spacing = p.width / 512f;
 		_curMov.beginShape();
-		for (int i = 0; i < p.audioData.waveform().length; i++ ) {
-			float curY =  p.audioData.waveform()[i] * 300;
+		for (int i = 0; i < AudioIn.waveform.length; i++ ) {
+			float curY =  AudioIn.waveform[i] * 300;
 			_curMov.vertex(startX + i * spacing, curY);
 		}
 		_curMov.vertex(p.width, -200);
 		_curMov.vertex(0, -200);
 		_curMov.endShape();
 		_curMov.beginShape();
-		for (int i = 0; i <  p.audioData.waveform().length; i++ ) {
-			float curY = p.height +  p.audioData.waveform()[i] * 300;
+		for (int i = 0; i <  AudioIn.waveform.length; i++ ) {
+			float curY = p.height +  AudioIn.waveform[i] * 300;
 			_curMov.vertex(startX + i * spacing, curY);
 		}
 		_curMov.vertex(p.width, p.height + 200);

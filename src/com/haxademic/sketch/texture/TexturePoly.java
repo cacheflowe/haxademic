@@ -9,6 +9,7 @@ import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.media.DemoAssets;
+import com.haxademic.core.media.audio.analysis.AudioIn;
 
 import processing.core.PConstants;
 import processing.core.PGraphics;
@@ -31,13 +32,13 @@ extends PAppletHax {
 	ArrayList<MappedTriangle> _triangles;
 	
 	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, "800" );
-		p.appConfig.setProperty( AppSettings.HEIGHT, "800" );
+		p.appConfig.setProperty( AppSettings.WIDTH, 800 );
+		p.appConfig.setProperty( AppSettings.HEIGHT, 800 );
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
 	}
 
-	public void setup() {
-		super.setup();
+	public void setupFirstFrame() {
+		AudioIn.instance();
 		img = loadImage(FileUtil.getHaxademicDataPath() + "images/justin-tiny-color1.png");
 		// img = loadImage(FileUtil.getHaxademicDataPath() + "images/sphere-map-test-2.jpg");
 		noStroke();
@@ -163,7 +164,7 @@ extends PAppletHax {
 		_eqTexture.clear();
 		
 		for( int i=0; i < numBands; i++ ) {
-			_eqTexture.fill( 255 * p.audioFreq(P.floor(i*spectrumInterval)) * 2, 255 );
+			_eqTexture.fill( 255 * AudioIn.audioFreq(P.floor(i*spectrumInterval)) * 2, 255 );
 			_eqTexture.rect(i * eqW, 0, eqW, _eqTexture.height );
 		}
 		

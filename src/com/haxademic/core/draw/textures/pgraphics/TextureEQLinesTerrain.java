@@ -11,6 +11,7 @@ import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.draw.shapes.pshader.LinesDeformAndTextureFilter;
 import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
+import com.haxademic.core.media.audio.analysis.AudioIn;
 
 import processing.core.PGraphics;
 import processing.core.PShape;
@@ -73,7 +74,7 @@ extends BaseTexture {
 		eqHistory.copy(0, 0, eqHistory.width, eqHistory.height, 0, 1, eqHistory.width, eqHistory.height);
 		// draw bottom line of current eq
 		for (int i = 0; i < eqHistory.width; i++) {
-			eqHistory.fill(255f * P.p.audioFreq(i));
+			eqHistory.fill(255f * AudioIn.audioFreq(i));
 			eqHistory.rect(i, 0, 1, 1);
 		}
 		eqHistory.endDraw();

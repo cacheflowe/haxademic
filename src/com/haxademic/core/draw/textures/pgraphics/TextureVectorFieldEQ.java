@@ -6,6 +6,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
 import com.haxademic.core.math.easing.EasingFloat;
+import com.haxademic.core.media.audio.analysis.AudioIn;
 
 import processing.core.PVector;
 
@@ -133,7 +134,7 @@ extends BaseTexture {
 			
 			// update position
 			lastPosition.set(position);
-			float curSpeed = speed * (0.15f + P.p.audioFreq(index) * 4f);
+			float curSpeed = speed * (0.15f + AudioIn.audioFreq(index) * 4f);
 			curSpeed = P.min(curSpeed, 6f);
 			position.set( position.x + P.sin(radians.value()) * curSpeed, position.y + P.cos(radians.value()) * curSpeed );
 			if( position.x < 0 ) position.set( width, position.y );

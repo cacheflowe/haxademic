@@ -5,6 +5,7 @@ import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.EasingFloat3d;
+import com.haxademic.core.media.audio.analysis.AudioIn;
 
 import processing.core.PVector;
 
@@ -77,7 +78,7 @@ extends BaseTexture {
 		_texture.noStroke();
 //		PG.setColorForPImage(_texture);
 		for( int i = 0; i < _numRotations; i++ ) {
-			spectrumData = P.p.audioFreq( 20 + (int) (i * (255f/_numRotations)) );
+			spectrumData = AudioIn.audioFreq( 20 + (int) (i * (255f/_numRotations)) );
 			_texture.fill( _color, 255f * spectrumData );
 //			_texture.fill( _baseColor.lighten( spectrumData * 255 * 30 ).toARGB() );
 //			_texture.stroke( spectrumData * 255, spectrumData * 127 );

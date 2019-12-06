@@ -7,6 +7,7 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.data.constants.PBlendModes;
 import com.haxademic.core.draw.context.PG;
+import com.haxademic.core.media.audio.analysis.AudioIn;
 
 import processing.core.PVector;
 
@@ -43,6 +44,7 @@ extends PAppletHax {
 	}
 
 	public void setupFirstFrame() {
+		AudioIn.instance();
 		halfSize = p.width * 0.5f;
 
 		p.ui.addSlider(noiseScale, 0.93f, 0.0001f, 5f, 0.0001f, false);
@@ -211,7 +213,7 @@ extends PAppletHax {
 			p.popMatrix();
 			
 			// draw trail
-			float newAmp = 0.3f + p.audioFreq(index);
+			float newAmp = 0.3f + AudioIn.audioFreq(index);
 			if(newAmp > amp) amp = newAmp;
 			else amp *= 0.8f;
 			

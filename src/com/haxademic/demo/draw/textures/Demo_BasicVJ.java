@@ -26,6 +26,7 @@ import com.haxademic.core.hardware.osc.devices.TouchOscPads;
 import com.haxademic.core.hardware.shared.InputTrigger;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.media.DemoAssets;
+import com.haxademic.core.media.audio.analysis.AudioIn;
 import com.haxademic.core.media.audio.analysis.AudioInputBeads;
 import com.haxademic.core.media.audio.playback.WavPlayer;
 
@@ -60,8 +61,6 @@ extends PAppletHax {
 	protected void overridePropsFile() {
 //		p.appConfig.setProperty( AppSettings.WIDTH, 1500 );
 //		p.appConfig.setProperty( AppSettings.HEIGHT, 1000 );
-//		p.appConfig.setProperty( AppSettings.INIT_BEADS_AUDIO, true );
-//		p.appConfig.setProperty( AppSettings.INIT_MINIM_AUDIO, true );
 		p.appConfig.setProperty( AppSettings.FULLSCREEN, false );
 		p.appConfig.setProperty( AppSettings.FILLS_SCREEN, false );
 	}
@@ -79,7 +78,7 @@ extends PAppletHax {
 	
 	protected void initAudioPlayer() {
 		player = new WavPlayer(); // WavPlayer.newAudioContext()
-		P.p.setAudioInput(new AudioInputBeads(player.context()));
+		AudioIn.instance(new AudioInputBeads(player.context()));
 		player.loopWav(FileUtil.getFile(audioTrack));		
 	}
 	
@@ -163,7 +162,7 @@ extends PAppletHax {
 		// displace the fg layer
 		DisplacementMapFilter.instance(p).setMap(fxCurTexture().texture());
 		DisplacementMapFilter.instance(p).setMode(3);
-		DisplacementMapFilter.instance(p).setAmp(p.audioFreq(20) * 0.2f);
+		DisplacementMapFilter.instance(p).setAmp(AudioIn.audioFreq(20) * 0.2f);
 		DisplacementMapFilter.instance(p).applyTo(fgCurTexture().texture());
 		
 		// knock out black background on fg layer

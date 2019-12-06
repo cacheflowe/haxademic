@@ -4,6 +4,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
 import com.haxademic.core.math.MathUtil;
+import com.haxademic.core.media.audio.analysis.AudioIn;
 
 import processing.core.PConstants;
 
@@ -64,7 +65,7 @@ extends BaseTexture {
 		
 		// set colors and alphas
 		_texture.noStroke();
-		int spectrumInterval = P.round( P.p.audioFreqs().length / _numLines);
+		int spectrumInterval = P.round( AudioIn.frequencies.length / _numLines);
 		
 		// double lines
 		lineH = _height / _numLines;
@@ -88,7 +89,7 @@ extends BaseTexture {
 	
 	protected void drawLines( int fillColor, float lineH, int spectrumInterval ) {
 		for( int i = 0; i < _numLines; i++ ) {
-			float alpha = 2f * P.p.audioFreq(i*spectrumInterval);
+			float alpha = 2f * AudioIn.audioFreq(i*spectrumInterval);
 			_texture.fill( fillColor, alpha * 255 );
 			_texture.rect( 0, i * lineH, _width, lineH );
 		}

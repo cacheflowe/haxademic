@@ -56,7 +56,7 @@ extends PAppletHax {
 //		float noiseSpeed = 0.01f;// + 0.001f * P.sin(p.loop.progressRads());
 //		float noiseStart = p.frameCount * 0.01f;
 //		for (int x = 0; x < p.width; x++) {
-//			float audioAmp = 0.3f + 7f * p.audioFreq(x);
+//			float audioAmp = 0.3f + 7f * AudioIn.audioFreq(x);
 //			audioAmp = 1f;
 //			buffer8.stroke(
 //					audioAmp * (127 + 127 * P.sin((float)x * 0.002f + p.loop.progressRads())),

@@ -4,6 +4,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
 import com.haxademic.core.math.MathUtil;
+import com.haxademic.core.media.audio.analysis.AudioIn;
 
 public class TextureSphereOfBoxes
 extends BaseTexture {
@@ -207,7 +208,7 @@ extends BaseTexture {
 						if( pointInc < _numAverages )
 						{
 							grid[pointInc].oscillate( curR, curG, curB );
-							grid[pointInc].setPosition( pointX, pointY, pointZ, P.p.audioFreq(pointInc), follow, minus1Cell, minus2Cell );
+							grid[pointInc].setPosition( pointX, pointY, pointZ, AudioIn.audioFreq(pointInc), follow, minus1Cell, minus2Cell );
 						}
 					}
 	
@@ -221,7 +222,7 @@ extends BaseTexture {
 			if( _curMode != 5 ) {
 				// cycle colors
 				grid[i].oscillate( curR, curG, curB );
-				grid[i].setPosition( pointX, pointY, pointZ, P.p.audioFreq(i), follow, minus1Cell, minus2Cell );
+				grid[i].setPosition( pointX, pointY, pointZ, AudioIn.audioFreq(i), follow, minus1Cell, minus2Cell );
 								
 				curR += incR;
 				curG += incG;

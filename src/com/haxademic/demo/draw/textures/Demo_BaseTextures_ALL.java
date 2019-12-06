@@ -5,18 +5,13 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.color.ColorsHax;
 import com.haxademic.core.draw.context.OpenGLUtil;
-import com.haxademic.core.draw.textures.pgraphics.TextureAppFrame2d;
-import com.haxademic.core.draw.textures.pgraphics.TextureAppFrameEq2d;
 import com.haxademic.core.draw.textures.pgraphics.TextureAppFrameWaveformCircle;
 import com.haxademic.core.draw.textures.pgraphics.TextureAudioBlocksDeform;
 import com.haxademic.core.draw.textures.pgraphics.TextureAudioSheetDeform;
 import com.haxademic.core.draw.textures.pgraphics.TextureAudioTube;
 import com.haxademic.core.draw.textures.pgraphics.TextureBarsEQ;
-import com.haxademic.core.draw.textures.pgraphics.TextureBasicWindowShade;
 import com.haxademic.core.draw.textures.pgraphics.TextureBlobSheet;
 import com.haxademic.core.draw.textures.pgraphics.TextureBlocksSheet;
-import com.haxademic.core.draw.textures.pgraphics.TextureColorAudioFade;
-import com.haxademic.core.draw.textures.pgraphics.TextureColorAudioSlide;
 import com.haxademic.core.draw.textures.pgraphics.TextureConcentricDashedCubes;
 import com.haxademic.core.draw.textures.pgraphics.TextureCyclingRadialGradient;
 import com.haxademic.core.draw.textures.pgraphics.TextureDashedLineSine;
@@ -64,6 +59,7 @@ import com.haxademic.core.hardware.osc.devices.TouchOscPads;
 import com.haxademic.core.hardware.shared.InputTrigger;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.media.DemoAssets;
+import com.haxademic.core.media.audio.analysis.AudioIn;
 import com.haxademic.core.media.audio.analysis.AudioInputBeads;
 import com.haxademic.core.media.audio.playback.WavPlayer;
 
@@ -94,8 +90,6 @@ extends PAppletHax {
 	protected void overridePropsFile() {
 //		p.appConfig.setProperty( AppSettings.WIDTH, 1500 );
 //		p.appConfig.setProperty( AppSettings.HEIGHT, 1000 );
-//		p.appConfig.setProperty( AppSettings.INIT_BEADS_AUDIO, true );
-//		p.appConfig.setProperty( AppSettings.INIT_MINIM_AUDIO, true );
 		p.appConfig.setProperty( AppSettings.FULLSCREEN, false );
 		p.appConfig.setProperty( AppSettings.FILLS_SCREEN, false );
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, false );
@@ -107,7 +101,7 @@ extends PAppletHax {
 	protected void setupFirstFrame() {
 		// send Beads audio player analyzer to PAppletHax
 		player = new WavPlayer(); // WavPlayer.newAudioContext()
-		P.p.setAudioInput(new AudioInputBeads(WavPlayer.sharedContext));
+		AudioIn.instance(new AudioInputBeads(WavPlayer.sharedContext));
 		player.loopWav(FileUtil.getFile(DemoAssets.audioBiggerLoop));		
 		
 		// init textures
@@ -163,7 +157,7 @@ extends PAppletHax {
 			new TextureSvgPattern(w, h),			// NEEDS POOL OF SVGs
 			new TextureTwistingSquares(w, h),
 			new TextureVectorFieldEQ(w, h),
-			new TextureVideoPlayer(w, h, DemoAssets.movieFractalCubePath),
+//			new TextureVideoPlayer(w, h, DemoAssets.movieFractalCubePath),		// NEEDS FIXING
 			new TextureWaveformCircle(w, h),
 			new TextureWaveformSimple(w, h),
 //			new TextureWebCam(w, h),

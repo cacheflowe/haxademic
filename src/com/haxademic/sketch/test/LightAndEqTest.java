@@ -6,6 +6,7 @@ import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.math.MathUtil;
+import com.haxademic.core.media.audio.analysis.AudioIn;
 
 public class LightAndEqTest
 extends PAppletHax {
@@ -21,9 +22,8 @@ extends PAppletHax {
 		p.appConfig.setProperty( "force_foreground", "true" );
 	}
 
-	public void setup() {
-		super.setup();
-		p.smooth(OpenGLUtil.SMOOTH_HIGH);
+	public void setupFirstFrame() {
+		AudioIn.instance();
 	}
 
 	public void drawApp() {
@@ -76,8 +76,8 @@ extends PAppletHax {
 		// draw EQ
 		float radSegment = P.TWO_PI / discReso;
 		for (int i = 1; i < numBands; i++) {
-			float lastEqVal = radius + radius * amp * p.audioFreq(i-1);
-			float eqVal = radius + radius * amp * p.audioFreq(i);
+			float lastEqVal = radius + radius * amp * AudioIn.audioFreq(i-1);
+			float eqVal = radius + radius * amp * AudioIn.audioFreq(i);
 			float curX = startX + i * spacing;
 			float lastX = startX + (i-1) * spacing;
 			
@@ -112,8 +112,8 @@ extends PAppletHax {
 		float radSegment = P.TWO_PI / discReso;
 		for (int i = 1; i < numBands; i++) {
 			
-			float lastEqVal = radius + radius * amp * p.audioFreq(i-1);
-			float eqVal = radius + radius * amp * p.audioFreq(i);
+			float lastEqVal = radius + radius * amp * AudioIn.audioFreq(i-1);
+			float eqVal = radius + radius * amp * AudioIn.audioFreq(i);
 			float curX = startX + i * spacing;
 			float lastX = startX + (i-1) * spacing;
 			

@@ -3,10 +3,11 @@ package com.haxademic.demo.hardware.dmx;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.hardware.depthcamera.KinectRegionGrid;
 import com.haxademic.core.hardware.depthcamera.DepthCameraSize;
+import com.haxademic.core.hardware.depthcamera.KinectRegionGrid;
 import com.haxademic.core.hardware.dmx.DMXWrapper;
 import com.haxademic.core.math.easing.LinearFloat;
+import com.haxademic.core.media.audio.analysis.AudioIn;
 
 public class Demo_DmxKinectStiletto
 extends PAppletHax {
@@ -26,6 +27,7 @@ extends PAppletHax {
 	}
 
 	public void setupFirstFrame() {
+		AudioIn.instance();
 		// dmx setup
 		// dmx = new DMXWrapper();
 		
@@ -47,12 +49,12 @@ extends PAppletHax {
 		background(0);
 		if(audioActive) {
 			// audio eq
-			dmx.setValue(1, P.constrain(P.round(255 * p.audioFreq(10)), 0, 255));
-			dmx.setValue(2, P.constrain(P.round(255 * p.audioFreq(20)), 0, 255));
-			dmx.setValue(3, P.constrain(P.round(255 * p.audioFreq(40)), 0, 255));
-			dmx.setValue(4, P.constrain(P.round(255 * p.audioFreq(60)), 0, 255));
-			dmx.setValue(5, P.constrain(P.round(255 * p.audioFreq(80)), 0, 255));
-			dmx.setValue(6, P.constrain(P.round(255 * p.audioFreq(100)), 0, 255));
+			dmx.setValue(1, P.constrain(P.round(255 * AudioIn.audioFreq(10)), 0, 255));
+			dmx.setValue(2, P.constrain(P.round(255 * AudioIn.audioFreq(20)), 0, 255));
+			dmx.setValue(3, P.constrain(P.round(255 * AudioIn.audioFreq(40)), 0, 255));
+			dmx.setValue(4, P.constrain(P.round(255 * AudioIn.audioFreq(60)), 0, 255));
+			dmx.setValue(5, P.constrain(P.round(255 * AudioIn.audioFreq(80)), 0, 255));
+			dmx.setValue(6, P.constrain(P.round(255 * AudioIn.audioFreq(100)), 0, 255));
 		} else {
 			// color cycle
 //			dmx.setValue(1, round(127 + 127 * P.sin(p.frameCount * 0.2f)));
@@ -64,7 +66,7 @@ extends PAppletHax {
 //			dmx.setValue(3, round(127 + 127 * P.sin(P.PI + p.frameCount * 0.1f)));
 
 //			if(p.frameCount % 25 == 0) {
-//			if(p.audioData.isBeat()) {
+//			if(AudioIn.isBeat()) {
 //				fadeOut.setCurrent(1);
 //				fadeOut.setTarget(0);
 //			}

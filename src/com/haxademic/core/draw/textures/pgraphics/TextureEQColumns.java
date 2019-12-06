@@ -1,9 +1,9 @@
 package com.haxademic.core.draw.textures.pgraphics;
 
 import com.haxademic.core.app.P;
-import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
 import com.haxademic.core.math.MathUtil;
+import com.haxademic.core.media.audio.analysis.AudioIn;
 
 public class TextureEQColumns 
 extends BaseTexture {
@@ -42,17 +42,17 @@ extends BaseTexture {
 
 		if( _barsGrow == true ) {
 			for( int i=0; i < _numLines; i++ ) {
-				float eqAmp = P.p.audioFreq( P.floor(i*avergeInterval) );
-				eqAmp = P.p.audioFreq(P.floor(i * _spectrumInterval));
+				float eqAmp = AudioIn.audioFreq( P.floor(i*avergeInterval) );
+				eqAmp = AudioIn.audioFreq(P.floor(i * _spectrumInterval));
 				_texture.fill( _colorEase.colorInt() );
-				_texture.rect(i * eqW, 0, eqW, eqAmp * height * 0.8f );  //  P.p.audioIn.getEqBand( P.floor(i*spectrumInterval)%512 ) * 50
+				_texture.rect(i * eqW, 0, eqW, eqAmp * height * 0.8f );  //  AudioIn.getEqBand( P.floor(i*spectrumInterval)%512 ) * 50
 			}
 		} else {
 			for( int i=0; i < _numLines; i++ ) {
-				float eqAmp = P.p.audioFreq( P.floor(i*avergeInterval) );
-				eqAmp = P.p.audioFreq(P.floor(i * _spectrumInterval));
+				float eqAmp = AudioIn.audioFreq( P.floor(i*avergeInterval) );
+				eqAmp = AudioIn.audioFreq(P.floor(i * _spectrumInterval));
 				_texture.fill( _colorEase.colorInt(), P.constrain( eqAmp * 255, 0, 255 ) );
-				_texture.rect(i * eqW, 0, eqW, height );  //  P.p.audioIn.getEqBand( P.floor(i*spectrumInterval)%512 ) * 50
+				_texture.rect(i * eqW, 0, eqW, height );  //  AudioIn.getEqBand( P.floor(i*spectrumInterval)%512 ) * 50
 			}
 		}
 	}

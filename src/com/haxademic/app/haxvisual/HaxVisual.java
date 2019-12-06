@@ -335,7 +335,7 @@ implements IAppStoreListener {
 		
 		// then draw on top - replace this with a collection of audioreactive textures
 		for (int i = 0; i < colorizeSourceTexture.width; i++) {
-			float eqAmp = 0.3f + P.p.audioFreq(i + 20) * 20f;
+			float eqAmp = 0.3f + AudioIn.audioFreq(i + 20) * 20f;
 			colorizeSourceTexture.fill(255 * eqAmp);
 			colorizeSourceTexture.rect(i, 0, 1, colorizeSourceTexture.height);
 		}
@@ -680,7 +680,7 @@ implements IAppStoreListener {
 	/////////////////////////////////////////////////////////////////
 
 	protected void checkBeat() {
-		if( p.audioData.isBeat() == true && isBeatDetectMode() == true && interphase == null ) {
+		if( AudioIn.isBeat() == true && isBeatDetectMode() == true && interphase == null ) {
 			updateTiming();
 		}
 	}
@@ -745,8 +745,6 @@ implements IAppStoreListener {
 		//			resetBeatDetectMode();
 		//			randomLayers();
 		//		}
-		if ( _audioInputUpTrigger.triggered() == true ) p.audioData.setGain(p.audioData.gain() + 0.05f);
-		if ( _audioInputDownTrigger.triggered() == true ) p.audioData.setGain(p.audioData.gain() - 0.05f);
 		if ( _brightnessUpTrigger.triggered() == true ) brightnessVal += 0.1f;
 		if ( _brightnessDownTrigger.triggered() == true ) brightnessVal -= 0.1f;
 		if ( _keystoneResetTrigger.triggered() == true && pgPinnable != null) pgPinnable.resetCorners();

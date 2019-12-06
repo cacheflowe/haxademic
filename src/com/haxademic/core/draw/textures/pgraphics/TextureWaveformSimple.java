@@ -1,8 +1,8 @@
 package com.haxademic.core.draw.textures.pgraphics;
 
-import com.haxademic.core.app.P;
 import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
 import com.haxademic.core.math.MathUtil;
+import com.haxademic.core.media.audio.analysis.AudioIn;
 
 public class TextureWaveformSimple 
 extends BaseTexture {
@@ -23,7 +23,7 @@ extends BaseTexture {
 	public void updateDraw() {
 		feedback(10f, 0.12f);
 		
-		int waveformDataLength = P.p.audioData.waveform().length;
+		int waveformDataLength = AudioIn.waveform.length;
 		float widthStep = (float) width / (float) waveformDataLength;
 		float startY = height * 0.5f;
 		float amp = height * 0.4f;
@@ -32,7 +32,7 @@ extends BaseTexture {
 		_texture.strokeWeight(3.f);
 
 		for(int i = 1; i < waveformDataLength; i++) {
-			_texture.line( i * widthStep, startY + P.p.audioData.waveform()[i-1] * amp, (i+1) * widthStep, startY + P.p.audioData.waveform()[i] * amp );
+			_texture.line( i * widthStep, startY + AudioIn.waveform[i-1] * amp, (i+1) * widthStep, startY + AudioIn.waveform[i] * amp );
 		}
 	}
 }

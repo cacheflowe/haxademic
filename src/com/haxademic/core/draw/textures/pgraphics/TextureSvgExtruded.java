@@ -7,10 +7,10 @@ import com.haxademic.core.draw.filters.pshader.DisplacementMapFilter;
 import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
 import com.haxademic.core.draw.textures.pshader.TextureShader;
-import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.EasingFloat;
 import com.haxademic.core.media.DemoAssets;
+import com.haxademic.core.media.audio.analysis.AudioIn;
 
 import processing.core.PShape;
 
@@ -86,7 +86,7 @@ extends BaseTexture {
 		
 		// draw logo
 		PG.setCenterScreen(_texture);
-		if(P.p.audioData.isBeat()) {
+		if(AudioIn.isBeat()) {
 			colorLogoProgress.setTarget(MathUtil.randRangeDecimal(0, 1));
 			logoScale.setCurrent(1.2f);
 			logoScale.setTarget(1f);

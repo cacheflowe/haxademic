@@ -91,7 +91,7 @@ extends PAppletHax {
 				    );
 			    }
 			    
-////				float amp = 1 + 0.9f * P.p.audioIn.getEqAvgBand( P.floor(_spectrumInterval * spectrumIndex) );
+////				float amp = 1 + 0.9f * AudioIn.getEqAvgBand( P.floor(_spectrumInterval * spectrumIndex) );
 //				float amp = P.sin(i * 0.01f) * 100f;
 ////				PVector v = _logo.getChild(j).getVertex(i);
 //				PVector vOrig = _logoOrig.getChild(j).getVertex(i);

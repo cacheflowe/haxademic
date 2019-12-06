@@ -3,6 +3,7 @@ package com.haxademic.core.draw.textures.pgraphics;
 import com.haxademic.core.app.P;
 import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
 import com.haxademic.core.math.MathUtil;
+import com.haxademic.core.media.audio.analysis.AudioIn;
 
 public class TextureEQGrid 
 extends BaseTexture {
@@ -39,7 +40,7 @@ extends BaseTexture {
 		for (int i = 0; i < _cols; i++) {
 			for (int j = 0; j < _rows; j++) {
 				if( _boxesGrow ) {
-					float scaleVal = P.p.audioFreq(spectrumIndex) / 5f;
+					float scaleVal = AudioIn.audioFreq(spectrumIndex) / 5f;
 
 					_texture.fill( _colorEase.colorInt() );
 					_texture.rect( 
@@ -52,7 +53,7 @@ extends BaseTexture {
 
 					spectrumIndex++;
 				} else {
-					float alphaVal = P.p.audioFreq(spectrumIndex);
+					float alphaVal = AudioIn.audioFreq(spectrumIndex);
 					_texture.fill( _colorEase.colorInt(), P.constrain( alphaVal * 255f, 0, 255 ) );
 					_texture.rect( startX + i*_cellW, startY + j*_cellH, _cellW, _cellH );	
 					spectrumIndex++;

@@ -10,6 +10,7 @@ import com.haxademic.core.draw.shapes.Shapes;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.EasingFloat3d;
+import com.haxademic.core.media.audio.analysis.AudioIn;
 
 import processing.core.PGraphics;
 import processing.core.PImage;
@@ -209,8 +210,8 @@ extends PAppletHax {
 		// draw EQ
 		float radSegment = P.TWO_PI / discReso;
 		for (int i = 1; i < numBands; i++) {
-			float lastEqVal = radius + radius * amp * p.audioFreq(i-1);
-			float eqVal = radius + radius * amp * p.audioFreq(i);
+			float lastEqVal = radius + radius * amp * AudioIn.audioFreq(i-1);
+			float eqVal = radius + radius * amp * AudioIn.audioFreq(i);
 			float curX = startX + i * spacing;
 			float lastX = startX + (i-1) * spacing;
 			
@@ -248,8 +249,8 @@ extends PAppletHax {
 		float radSegment = P.TWO_PI / discReso;
 		for (int i = 1; i < numBands; i++) {
 			
-			float lastEqVal = radius + radius * amp * p.audioFreq(i-1);
-			float eqVal = radius + radius * amp * p.audioFreq(i);
+			float lastEqVal = radius + radius * amp * AudioIn.audioFreq(i-1);
+			float eqVal = radius + radius * amp * AudioIn.audioFreq(i);
 			float curX = startX + i * spacing;
 			float lastX = startX + (i-1) * spacing;
 			
@@ -715,14 +716,14 @@ extends PAppletHax {
 			pg.translate(-_x, P.sin(_radians - P.PI) * _radius, P.cos(_radians - P.PI) * _radius);
 			pg.rotateX(-_radians - P.PI);
 //			pg.sphere(_size);
-			Shapes.drawPyramid(pg, _size * (1 + p.audioFreq(_index)), _size, true);
+			Shapes.drawPyramid(pg, _size * (1 + AudioIn.audioFreq(_index)), _size, true);
 			pg.popMatrix();
 			
 			pg.pushMatrix();
 			pg.translate(_x, P.sin(_radians) * _radius, P.cos(_radians) * _radius);
 //			pg.sphere(_size);
 			pg.rotateX(-_radians);
-			Shapes.drawPyramid(pg, _size * (1 + p.audioFreq(_index)), _size, true);
+			Shapes.drawPyramid(pg, _size * (1 + AudioIn.audioFreq(_index)), _size, true);
 			pg.popMatrix();
 		}
 	}

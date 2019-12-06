@@ -36,7 +36,7 @@ extends PAppletHax {
 		
 		// set triggers if difference between last frame is above threshold
 		for(int i=0; i < 512; i++) {
-			if(p.audioFreq(i) - lastAudioFrame[i] > ampThreshold) {
+			if(AudioIn.audioFreq(i) - lastAudioFrame[i] > ampThreshold) {
 				bufferedValues[i] = 1.0f;
 			}
 		}
@@ -59,7 +59,7 @@ extends PAppletHax {
 		
 		// copy audio buffer
 		for(int i=0; i < 512; i++) {
-			lastAudioFrame[i] = p.audioFreq(i) ;
+			lastAudioFrame[i] = AudioIn.audioFreq(i) ;
 		}
 	}
 }

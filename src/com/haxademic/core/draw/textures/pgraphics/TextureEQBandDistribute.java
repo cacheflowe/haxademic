@@ -2,6 +2,7 @@ package com.haxademic.core.draw.textures.pgraphics;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
+import com.haxademic.core.media.audio.analysis.AudioIn;
 
 public class TextureEQBandDistribute 
 extends BaseTexture {
@@ -27,7 +28,7 @@ extends BaseTexture {
 		int eqIndex = 0;
 		for(int i=0; i < numElements; i++) {
 			eqIndex = P.floor(i * eqStep);
-			float eq = P.p.audioFreq(eqIndex) * 3f;
+			float eq = AudioIn.audioFreq(eqIndex) * 3f;
 			_texture.fill(_colorEase.colorInt(eq));
 			_texture.rect(i * barW, 0, barW, height);
 		}

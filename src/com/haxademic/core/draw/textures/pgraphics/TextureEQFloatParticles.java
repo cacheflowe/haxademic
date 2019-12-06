@@ -7,6 +7,7 @@ import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.BlurHFilter;
 import com.haxademic.core.draw.filters.pshader.BlurVFilter;
 import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
+import com.haxademic.core.media.audio.analysis.AudioIn;
 
 import processing.core.PVector;
 
@@ -74,7 +75,7 @@ extends BaseTexture {
 //			_size = P.p.random(1, height * 0.3f);
 //			_speed = new PVector(0, _size * 0.1f, 0);
 
-			float amp = P.p.audioFreq(eqIndex);
+			float amp = AudioIn.audioFreq(eqIndex);
 			if(amp > _amp) _amp = amp;
 			float curSize = _amp;
 			float curSpeed = (_speed.y / 3f) * (_amp);

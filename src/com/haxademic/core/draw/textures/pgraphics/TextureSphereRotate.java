@@ -3,6 +3,7 @@ package com.haxademic.core.draw.textures.pgraphics;
 import com.haxademic.core.app.P;
 import com.haxademic.core.data.ConvertUtil;
 import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
+import com.haxademic.core.media.audio.analysis.AudioIn;
 
 public class TextureSphereRotate
 extends BaseTexture {
@@ -44,8 +45,8 @@ extends BaseTexture {
 		
 		float size = 20;
 		for( int i=0; i < points.length; i+=3 ) {
-			float amp = P.p.audioFreq( i%512 );
-			amp = P.p.audioFreq(i) * 65f;
+			float amp = AudioIn.audioFreq( i%512 );
+			amp = AudioIn.audioFreq(i) * 65f;
 
 			_texture.pushMatrix();
 			_texture.translate(points[i], points[i+1], points[i+2]);

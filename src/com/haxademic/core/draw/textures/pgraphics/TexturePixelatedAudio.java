@@ -2,8 +2,8 @@ package com.haxademic.core.draw.textures.pgraphics;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.draw.color.ImageGradient;
-import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.context.OpenGLUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.BlendTowardsTexture;
 import com.haxademic.core.draw.filters.pshader.BlurProcessingFilter;
 import com.haxademic.core.draw.filters.pshader.ColorizeFromTexture;
@@ -12,6 +12,7 @@ import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
 import com.haxademic.core.draw.textures.pshader.TextureShader;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.EasingFloat;
+import com.haxademic.core.media.audio.analysis.AudioIn;
 
 import processing.core.PConstants;
 import processing.core.PGraphics;
@@ -97,7 +98,7 @@ extends BaseTexture {
 	
 	public void preDraw() {
 		// update noise params
-		if(P.p.audioData.isBeat()) newRotation();
+		if(AudioIn.isBeat()) newRotation();
 		noiseRot.update(true);
 		noiseOffsetX.update(true);
 		noiseOffsetY.update(true);
@@ -149,7 +150,7 @@ extends BaseTexture {
 		noiseMap.noStroke();
 		for (int i = 0; i < cells.length; i++) {
 			if(cells[i] != null) {
-				if(P.p.audioData.isBeat()) cells[i].beat();
+				if(AudioIn.isBeat()) cells[i].beat();
 				cells[i].update();
 			}
 		}
@@ -190,7 +191,7 @@ extends BaseTexture {
 			audioAddIndex.update(true);
 			
 			// audio eq overlay, pulling from random EQ indexes video audioAddIndex
-			noiseMap.fill(255, 180f * P.p.audioFreq(P.round(audioAddIndex.value() * 512)));
+			noiseMap.fill(255, 180f * AudioIn.audioFreq(P.round(audioAddIndex.value() * 512)));
 			noiseMap.rect(x, y, cellCover, cellCover);
 		}
 		

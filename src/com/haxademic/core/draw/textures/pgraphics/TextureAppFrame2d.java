@@ -87,6 +87,6 @@ extends BaseTexture {
 		
 		_texture.popMatrix();
 		
-//		float scaleVal = P.constrain( 0.1f * P.p.audioIn.getEqBand( P.floor(_spectrumInterval * spectrumIndex) ), 0, 1 );
+//		float scaleVal = P.constrain( 0.1f * AudioIn.getEqBand( P.floor(_spectrumInterval * spectrumIndex) ), 0, 1 );
 	}
 }

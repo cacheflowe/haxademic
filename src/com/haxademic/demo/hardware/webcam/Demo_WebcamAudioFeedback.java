@@ -11,7 +11,6 @@ import com.haxademic.core.draw.textures.pshader.TextureShader;
 import com.haxademic.core.hardware.webcam.WebCam;
 import com.haxademic.core.hardware.webcam.WebCam.IWebCamCallback;
 import com.haxademic.core.media.audio.analysis.AudioIn;
-import com.haxademic.core.media.audio.analysis.AudioIn.AudioInputLibrary;
 
 import processing.core.PGraphics;
 import processing.core.PImage;
@@ -34,7 +33,7 @@ implements IWebCamCallback {
 
 	public void setupFirstFrame () {
 		WebCam.instance().setDelegate(this);
-		AudioIn.instance(AudioInputLibrary.ESS);
+		AudioIn.instance();
 	}
 
 	@Override
@@ -58,7 +57,7 @@ implements IWebCamCallback {
 		feedbackMap.filter(textureShader.shader());
 
 		// apply feedback texture to main buffer
-		float audioIn = P.p.audioFreq(100) * 0.01f;
+		float audioIn = AudioIn.audioFreq(100) * 0.01f;
 		int feedbackCycles = P.round(audioIn); // P.round(p.mousePercentX() * 10f)
 		feedbackCycles = 10;
 		p.debugView.setValue("audioIn", audioIn);

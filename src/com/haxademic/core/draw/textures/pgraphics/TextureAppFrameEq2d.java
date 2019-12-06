@@ -3,6 +3,7 @@ package com.haxademic.core.draw.textures.pgraphics;
 import com.haxademic.core.app.P;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
+import com.haxademic.core.media.audio.analysis.AudioIn;
 
 import processing.core.PConstants;
 
@@ -58,7 +59,7 @@ extends BaseTexture {
 		_texture.beginShape();
 		_texture.vertex( cellX, -halfH );
 		for (int i = 0; i < _cols; i++) {
-			float eqAmp = P.p.audioFreq(i*spectrumInterval) * cellH;
+			float eqAmp = AudioIn.audioFreq(i*spectrumInterval) * cellH;
 			_texture.vertex( cellX, eqAmp );
 			cellX += cellW;
 		}		

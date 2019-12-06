@@ -2,6 +2,7 @@ package com.haxademic.core.draw.textures.pgraphics;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
+import com.haxademic.core.media.audio.analysis.AudioIn;
 
 public class TextureBasicWindowShade 
 extends BaseTexture {
@@ -29,7 +30,7 @@ extends BaseTexture {
 		_texture.rectMode( P.CENTER );
 		_texture.noStroke();
 		for( int i=0; i < eqBands; i++ ) {
-			eqVal = P.p.audioFreq(Math.round( i ) % 256);
+			eqVal = AudioIn.audioFreq(Math.round( i ) % 256);
 			_texture.fill( _color );
 			_texture.rect( i * eqStep, height/2, eqStep, height * eqVal);
 		}

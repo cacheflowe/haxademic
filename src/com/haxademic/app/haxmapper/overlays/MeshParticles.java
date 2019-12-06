@@ -6,6 +6,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.draw.color.EasingColor;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.math.MathUtil;
+import com.haxademic.core.media.audio.analysis.AudioIn;
 
 import processing.core.PGraphics;
 import processing.core.PVector;
@@ -69,14 +70,14 @@ public class MeshParticles {
 		_curNumParticles = halfNumParticles + P.round(halfNumParticles * P.sin(P.p.frameCount/1000f));
 		
 		for(int i=0; i < _curNumParticles; i++) {
-			float amp = P.p.audioFreq( i % 32 ) / 20f;
+			float amp = AudioIn.audioFreq( i % 32 ) / 20f;
 			PVector closestAttractor = getOneOfTheClosestVertexToParticle( _particles.get(i) );
 			_particles.get(i).update(closestAttractor.x, closestAttractor.y, amp);
 		}
 
 		
 		for( int i=0; i < _meshVertices.size(); i++ ) {
-			// _meshVertices.get(i).update( pg, _mode, _colorEase.colorInt(), P.p.audioIn.getEqAvgBand( 15 ), P.p.audioIn.getEqBand( 20 + P.floor(i*spectrumInterval) ) );
+			// _meshVertices.get(i).update( pg, _mode, _colorEase.colorInt(), AudioIn.getEqAvgBand( 15 ), AudioIn.getEqBand( 20 + P.floor(i*spectrumInterval) ) );
 		}
 	}
 	

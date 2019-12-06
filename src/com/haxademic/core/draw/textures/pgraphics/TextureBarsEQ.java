@@ -3,6 +3,7 @@ package com.haxademic.core.draw.textures.pgraphics;
 import com.haxademic.core.app.P;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
+import com.haxademic.core.media.audio.analysis.AudioIn;
 
 import processing.core.PConstants;
 
@@ -56,7 +57,7 @@ extends BaseTexture {
 		float startX = -P.p.width/2f;
 		int spectrumInterval = (int) ( 256f / _cols );	// 256 keeps it in the bottom half of the spectrum since the high ends is so overrun
 		for (int i = 0; i < _cols; i++) {
-			_texture.rect( startX + i * cellW, 0, cellW, P.p.audioFreq(i*spectrumInterval) * cellH );
+			_texture.rect( startX + i * cellW, 0, cellW, AudioIn.audioFreq(i*spectrumInterval) * cellH );
 		}		
 	}
 

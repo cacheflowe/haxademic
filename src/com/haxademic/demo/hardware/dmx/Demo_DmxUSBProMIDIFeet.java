@@ -6,6 +6,7 @@ import com.haxademic.core.draw.color.EasingColor;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.dmx.DMXWrapper;
 import com.haxademic.core.hardware.shared.InputTrigger;
+import com.haxademic.core.media.audio.analysis.AudioIn;
 
 import beads.AudioContext;
 import beads.Sample;
@@ -45,6 +46,7 @@ extends PAppletHax {
 
 
 	public void setupFirstFrame() {
+		AudioIn.instance();
 		dmx = new DMXWrapper();
 
 		ac = new AudioContext();
@@ -86,12 +88,12 @@ extends PAppletHax {
 			dmx.setValue(5, (int)color2.g());
 			dmx.setValue(6, (int)color2.b());
 		} else {
-			dmx.setValue(1, P.round(255 * p.audioFreq(10)));
-			dmx.setValue(2, P.round(255 * p.audioFreq(20)));
-			dmx.setValue(3, P.round(255 * p.audioFreq(40)));
-			dmx.setValue(4, P.round(255 * p.audioFreq(60)));
-			dmx.setValue(5, P.round(255 * p.audioFreq(80)));
-			dmx.setValue(6, P.round(255 * p.audioFreq(100)));
+			dmx.setValue(1, P.round(255 * AudioIn.audioFreq(10)));
+			dmx.setValue(2, P.round(255 * AudioIn.audioFreq(20)));
+			dmx.setValue(3, P.round(255 * AudioIn.audioFreq(40)));
+			dmx.setValue(4, P.round(255 * AudioIn.audioFreq(60)));
+			dmx.setValue(5, P.round(255 * AudioIn.audioFreq(80)));
+			dmx.setValue(6, P.round(255 * AudioIn.audioFreq(100)));
 		}
 	}
 	

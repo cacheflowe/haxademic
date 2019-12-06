@@ -1,6 +1,7 @@
 package com.haxademic.sketch.toxi_tests;
 
 import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.media.audio.analysis.AudioIn;
 import com.haxademic.core.vendor.Toxiclibs;
 
 import toxi.color.TColor;
@@ -63,7 +64,7 @@ extends PAppletHax {
 		int numVertices = _mesh.getNumVertices();
 		int eqStep = Math.round( 512f / (float) numVertices );
 		for( int i = 0; i < numVertices; i++ ) {
-			float eq = 1 + p.audioFreq(i*eqStep);
+			float eq = 1 + AudioIn.audioFreq(i*eqStep);
 //			eq *= 2f;
 			
 			if( _mesh.getVertexForID( i ) != null ) {

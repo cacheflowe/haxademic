@@ -7,6 +7,7 @@ import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.EasingFloat;
+import com.haxademic.core.media.audio.analysis.AudioIn;
 
 public class TextureSphereOfCubes
 extends BaseTexture {
@@ -60,7 +61,7 @@ extends BaseTexture {
      		float pointZ = baseRadius.value() * P.cos(phi);
 
      		// get size and alpha and draw cube
-     		float size = boxSize.value() * (1f + P.p.audioFreq(i + 20));
+     		float size = boxSize.value() * (1f + AudioIn.audioFreq(i + 20));
      		float oscInc = P.p.frameCount * 0.04f;
 			
      		_texture.fill(ColorsHax.COLOR_GROUPS[0][i % 4]);

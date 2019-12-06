@@ -1,7 +1,7 @@
 package com.haxademic.demo.media.audio.playback;
 
-import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.media.audio.analysis.AudioIn;
 import com.haxademic.core.media.audio.analysis.AudioInputBeads;
 import com.haxademic.core.media.audio.playback.WavPlayer;
 
@@ -23,7 +23,7 @@ extends PAppletHax {
 	
 	public void setupFirstFrame() {
 		player = new WavPlayer();
-		P.p.setAudioInput(new AudioInputBeads(player.context()));
+		AudioIn.instance(new AudioInputBeads(player.context()));
 		playNextSound();
 	}
 	

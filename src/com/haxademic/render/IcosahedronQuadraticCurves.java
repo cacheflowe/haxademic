@@ -6,6 +6,7 @@ import com.haxademic.core.draw.shapes.Icosahedron;
 import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.Penner;
+import com.haxademic.core.media.audio.analysis.AudioIn;
 
 import processing.core.PShape;
 import processing.core.PVector;
@@ -27,6 +28,7 @@ extends PAppletHax {
 	}
 	
 	protected void setupFirstFrame() {
+		AudioIn.instance();
 		// build obj PShape and scale to window
 		obj = Icosahedron.createIcosahedron(p.g, 3, null);
 		PShapeUtil.centerShape(obj);
@@ -60,7 +62,7 @@ extends PAppletHax {
 			PVector v2 = shape.getVertex(i+1);
 			PVector v3 = shape.getVertex(i+2);
 			
-			float eqAmp = 1f + p.audioFreq(i);
+			float eqAmp = 1f + AudioIn.audioFreq(i);
 			p.stroke(255f * (-0.75f + eqAmp));
 			
 			// override for render

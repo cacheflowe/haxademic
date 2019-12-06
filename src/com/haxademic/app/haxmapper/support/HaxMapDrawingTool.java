@@ -4,11 +4,12 @@ import java.util.ArrayList;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.data.ConvertUtil;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.data.ConvertUtil;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.MathUtil;
+import com.haxademic.core.media.audio.analysis.AudioIn;
 import com.haxademic.core.system.SystemUtil;
 
 import processing.core.PConstants;
@@ -38,12 +39,12 @@ extends PAppletHax {
 	protected void overridePropsFile() {
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, false );
 		p.appConfig.setProperty( AppSettings.FILLS_SCREEN, true );
-		p.appConfig.setProperty( AppSettings.FULLSCREEN, true );
+		p.appConfig.setProperty( AppSettings.FULLSCREEN, false );
 		p.appConfig.setProperty( "mapping_file",  FileUtil.getFile("text/mapping/mapping-2016-04-09-20-23-29.txt") );
 	}
 
-	public void setup() {
-		super.setup();
+	public void setupFirstFrame() {
+		AudioIn.instance();
 
 		_shapes = new ArrayList<PShape>();
 		_shapeGroups = new ArrayList<ArrayList<PShape>>();
@@ -93,7 +94,7 @@ extends PAppletHax {
 		for (int i=0; i < _shapes.size(); i++) {
 			// get shape and set audio-reactive fill --------------
 			PShape shape = _shapes.get(i);
-			shape.setFill(p.color(255, p.audioFreq((i * 10 + 10)) * 2000));
+			shape.setFill(p.color(255, AudioIn.audioFreq((i * 10 + 10)) * 2000));
 			p.shape( shape );
 
 

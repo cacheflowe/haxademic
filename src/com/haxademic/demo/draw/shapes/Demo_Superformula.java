@@ -4,6 +4,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.shapes.Superformula;
+import com.haxademic.core.media.audio.analysis.AudioIn;
 
 public class Demo_Superformula 
 extends PAppletHax {
@@ -23,6 +24,8 @@ extends PAppletHax {
 	protected boolean _audioEnabled = false;
 
 	public void setupFirstFrame() {
+		AudioIn.instance();
+		
 		_superForm = new Superformula( 200, 200, 10, 1, 6, 20, 7, 18);
 		
 		p.ui.addSlider(a, 6, 0, 30, 0.1f, false);
@@ -74,10 +77,10 @@ extends PAppletHax {
 			
 			float audioRange = 0.1f;
 //			_superForm.a( x + (audioRange * 300f * p._audioInput.getFFT().averages[0]));
-			_superForm.b( 8 + (audioRange * 10f * p.audioFreq(0)));
+			_superForm.b( 8 + (audioRange * 10f * AudioIn.audioFreq(0)));
 //			_superForm.m( 15 + (audioRange * 10f * p._audioInput.getFFT().averages[2]));
 //			_superForm.n1( y + (audioRange * 20f * p._audioInput.getFFT().averages[1]));
-			_superForm.n2( 15 + (audioRange * 50f * p.audioFreq(1)));
+			_superForm.n2( 15 + (audioRange * 50f * AudioIn.audioFreq(1)));
 //			_superForm.n3( 6 + (audioRange * 40f * p._audioInput.getFFT().averages[5]));
 		}
 	

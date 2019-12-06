@@ -4,6 +4,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.context.PG;
+import com.haxademic.core.media.audio.analysis.AudioIn;
 
 public class Demo_TrigDistribute
 extends PAppletHax {
@@ -18,6 +19,7 @@ extends PAppletHax {
 	}
 
 	public void setupFirstFrame() {
+		AudioIn.instance();
 		p.ui.addSlider(numPoints, 3, 3, 90, 1, false);
 		p.ui.addSlider(radius, 100, 0, 300, 1f, false);
 		p.ui.addSlider(connectionDivisions, 2, 0, 20, 1, false);
@@ -34,7 +36,7 @@ extends PAppletHax {
 		int centerY = p.height / 2;
 		float segmentRadians = P.TWO_PI / p.ui.value(numPoints);
 		for( int i=0; i < p.ui.value(numPoints); i++ ) {
-			float amp = 1 + 1*p.audioFreq(i%p.ui.valueInt(numPoints));
+			float amp = 1 + 1*AudioIn.audioFreq(i%p.ui.valueInt(numPoints));
 			float x = centerX + P.sin(segmentRadians * i) * p.ui.value(radius) * amp;
 			float y = centerY + P.cos(segmentRadians * i) * p.ui.value(radius) * amp;			
 			p.ellipse(x, y, 10, 10);

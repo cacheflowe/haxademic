@@ -3,9 +3,10 @@ package com.haxademic.demo.draw.shapes;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.context.OpenGLUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.shapes.Superformula;
+import com.haxademic.core.media.audio.analysis.AudioIn;
 
 import processing.core.PGraphics;
 
@@ -35,6 +36,7 @@ extends PAppletHax {
 	}
 	
 	public void setupFirstFrame() {
+		AudioIn.instance();
 		_superForm = new Superformula(100,100, 1, 1,   6, 20,  7, 18);
 		_superFormGfx = p.createGraphics(p.width, p.height, P.P3D);
 		_superFormGfx.smooth(OpenGLUtil.SMOOTH_HIGH);
@@ -64,12 +66,12 @@ extends PAppletHax {
 //		_superFormGfx.rotateZ(p.frameCount/50f);
 
 		float audioRange = 0.1f;
-		_superForm.a( p.ui.value(a) + (audioRange * 100f * p.audioFreq(0)));
-		_superForm.b( p.ui.value(b) + (audioRange * 10f * p.audioFreq(1)));
-		_superForm.m( p.ui.value(m) + (audioRange * 10f * p.audioFreq(2)));
-		_superForm.n1( p.ui.value(n1) + (audioRange * 20f * p.audioFreq(3)));
-		_superForm.n2( p.ui.value(n2) + (audioRange * 50f * p.audioFreq(4)));
-		_superForm.n3( p.ui.value(n3) + (audioRange * 40f * p.audioFreq(5)));
+		_superForm.a( p.ui.value(a) + (audioRange * 100f * AudioIn.audioFreq(0)));
+		_superForm.b( p.ui.value(b) + (audioRange * 10f * AudioIn.audioFreq(1)));
+		_superForm.m( p.ui.value(m) + (audioRange * 10f * AudioIn.audioFreq(2)));
+		_superForm.n1( p.ui.value(n1) + (audioRange * 20f * AudioIn.audioFreq(3)));
+		_superForm.n2( p.ui.value(n2) + (audioRange * 50f * AudioIn.audioFreq(4)));
+		_superForm.n3( p.ui.value(n3) + (audioRange * 40f * AudioIn.audioFreq(5)));
 
 		_superForm.update();
 		_superForm.drawMesh(_superFormGfx, true, true, false, true, _camPos );

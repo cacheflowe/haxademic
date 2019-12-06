@@ -5,8 +5,8 @@ import java.util.Vector;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.context.OpenGLUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pgraphics.archive.FastBlurFilter;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.image.MotionBlurPGraphics;
@@ -15,6 +15,7 @@ import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.EasingFloat;
 import com.haxademic.core.math.easing.LinearFloat;
+import com.haxademic.core.media.audio.analysis.AudioIn;
 import com.haxademic.core.render.VideoFrameGrabber;
 
 import blobDetection.Blob;
@@ -246,12 +247,12 @@ extends PAppletHax {
 //		_superFormGfx.rotateZ(p.frameCount/50f);
 
 		float audioRange = 0.1f;
-		_superForm.a( _superFormSettings[0] + (audioRange * 100f * p.audioFreq(0)));
-		_superForm.b( _superFormSettings[1] + (audioRange * 10f * p.audioFreq(1)));
-		_superForm.m( _superFormSettings[2]);// + (audioRange * 10f * p.audioFreq(2)));
-		_superForm.n1( _superFormSettings[3] + (audioRange * 20f * p.audioFreq(3)));
-		_superForm.n2( _superFormSettings[4] + (audioRange * 50f * p.audioFreq(4)));
-		_superForm.n3( _superFormSettings[5] + (audioRange * 40f * p.audioFreq(5)));
+		_superForm.a( _superFormSettings[0] + (audioRange * 100f * AudioIn.audioFreq(0)));
+		_superForm.b( _superFormSettings[1] + (audioRange * 10f * AudioIn.audioFreq(1)));
+		_superForm.m( _superFormSettings[2]);// + (audioRange * 10f * AudioIn.audioFreq(2)));
+		_superForm.n1( _superFormSettings[3] + (audioRange * 20f * AudioIn.audioFreq(3)));
+		_superForm.n2( _superFormSettings[4] + (audioRange * 50f * AudioIn.audioFreq(4)));
+		_superForm.n3( _superFormSettings[5] + (audioRange * 40f * AudioIn.audioFreq(5)));
 
 		_superForm.update();
 		_superForm.drawMesh(_superFormGfx, true, true, false, true, _camPos );
@@ -713,7 +714,7 @@ extends PAppletHax {
 			public void startAt( float x, float y, float speedX, float speedY, int color ) {
 				_position.set( x, y );
 				_speed.set( speedX * 15 * p.random(2f) + p.random(-0.2f,0.2f), speedY * 5 * p.random(3f) );	// add a little extra x variance
-				_speed.mult( 1 + p.audioFreq(_audioIndex) ); // speed multiplied by audio
+				_speed.mult( 1 + AudioIn.audioFreq(_audioIndex) ); // speed multiplied by audio
 				_color = color;
 				_opacity = 0.8f;
 				
@@ -739,7 +740,7 @@ extends PAppletHax {
 				} else {
 					_pg.fill( _color, 127f * _opacity );
 					_pg.noStroke();
-					float size = _baseSize + (p.audioFreq(_audioIndex) * 5f); // was 3
+					float size = _baseSize + (AudioIn.audioFreq(_audioIndex) * 5f); // was 3
 //					_pg.rect(_position.x - size/2f, _position.y - size/2f, size, size);
 					_pg.ellipse(_position.x - size/2f, _position.y - size/2f, size, size);
 				}

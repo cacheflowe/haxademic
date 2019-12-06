@@ -4,6 +4,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.hardware.dmx.DMXWrapper;
+import com.haxademic.core.media.audio.analysis.AudioIn;
 
 public class Demo_DmxChannelTester
 extends PAppletHax {
@@ -34,6 +35,7 @@ extends PAppletHax {
 	}
 
 	public void setupFirstFrame() {
+		AudioIn.instance();
 		// dmx = new DMXWrapper();
 		dmx = new DMXWrapper("COM4", 9600);
 		addHelpText();
@@ -77,9 +79,9 @@ extends PAppletHax {
 		}
 		
 		if (audioActive) {
-			valueR = P.round(p.audioFreq(15) * 255);
-			valueG = P.round(p.audioFreq(17) * 255);
-			valueB = P.round(p.audioFreq(19) * 255);
+			valueR = P.round(AudioIn.audioFreq(15) * 255);
+			valueG = P.round(AudioIn.audioFreq(17) * 255);
+			valueB = P.round(AudioIn.audioFreq(19) * 255);
 		}
 		
 		// temp: brightness cap

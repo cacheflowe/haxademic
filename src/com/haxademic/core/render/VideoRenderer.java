@@ -3,6 +3,7 @@ package com.haxademic.core.render;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.file.FileUtil;
+import com.haxademic.core.media.audio.analysis.AudioIn;
 import com.haxademic.core.media.audio.analysis.AudioInputESS;
 import com.haxademic.core.system.DateUtil;
 import com.haxademic.core.system.SystemUtil;
@@ -64,7 +65,7 @@ public class VideoRenderer {
 	 */
 	public void startRendererForAudio( String audioFile ) {
 		// grab the system ESS audio input object
-		audioInput = (AudioInputESS) P.p.audioInput;
+		audioInput = (AudioInputESS) AudioIn.audioInput;
 		
 		// store audio analysis object
 		P.println("Rendering with audio: "+audioFile);

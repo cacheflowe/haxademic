@@ -22,6 +22,7 @@ import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.EasingFloat;
 import com.haxademic.core.media.DemoAssets;
+import com.haxademic.core.media.audio.analysis.AudioIn;
 
 import processing.core.PGraphics;
 import processing.core.PShape;
@@ -216,7 +217,7 @@ extends BaseTexture {
 //		_texture.stroke(255);
 		
 		// update colors & pump scale on beat
-		if(P.p.audioData.isBeat()) {
+		if(AudioIn.isBeat()) {
 			colorLogoProgress.setTarget(MathUtil.randRangeDecimal(0, 1));
 			logoScale.setCurrent(1.2f);
 			logoScale.setTarget(1f);
@@ -273,7 +274,7 @@ extends BaseTexture {
 //			PShapeUtil.drawTriangles(_texture, logo3d, curMeshTexture, logoScale.value());
 			// post-process wobble
 			DisplacementMapFilter.instance(P.p).setMap(audioTexture.texture());
-			DisplacementMapFilter.instance(P.p).setAmp(0.15f * P.p.audioFreq(100));
+			DisplacementMapFilter.instance(P.p).setAmp(0.15f * AudioIn.audioFreq(100));
 			DisplacementMapFilter.instance(P.p).setMode(3);
 			DisplacementMapFilter.instance(P.p).applyTo(_texture);
 			break;
@@ -312,7 +313,7 @@ extends BaseTexture {
 			
 			// post-process wobble
 //			DisplacementMapFilter.instance(P.p).setMap(audioTexture.texture());
-//			DisplacementMapFilter.instance(P.p).setAmp(0.15f * P.p.audioFreq(100));
+//			DisplacementMapFilter.instance(P.p).setAmp(0.15f * AudioIn.audioFreq(100));
 //			DisplacementMapFilter.instance(P.p).setMode(3);
 //			DisplacementMapFilter.instance(P.p).applyTo(_texture);
 
@@ -323,7 +324,7 @@ extends BaseTexture {
 //			_texture.noStroke();
 //			_texture.fill(255);
 //			float numLayersg = 6;
-//			float spacingg = (thicknesss / numLayersg) * (1f + P.p.audioFreq(20));
+//			float spacingg = (thicknesss / numLayersg) * (1f + AudioIn.audioFreq(20));
 //			for (float i = numLayersg - 1; i >= 0; i--) {
 //				float loopProgress = i * 1f / numLayersg;
 //				_texture.pushMatrix();

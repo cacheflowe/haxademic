@@ -29,6 +29,7 @@ import com.haxademic.core.hardware.midi.MidiDevice;
 import com.haxademic.core.hardware.osc.OscWrapper;
 import com.haxademic.core.hardware.webcam.WebCam;
 import com.haxademic.core.math.easing.EasingFloat;
+import com.haxademic.core.media.audio.analysis.AudioIn;
 import com.haxademic.core.media.audio.analysis.AudioInputESS;
 import com.haxademic.core.media.audio.analysis.AudioStreamData;
 import com.haxademic.core.media.audio.analysis.IAudioInput;
@@ -76,10 +77,6 @@ extends PApplet {
 	public Robot robot;
 	public GLWindow window;
 	protected boolean alwaysOnTop = false;
-
-	// audio
-	public IAudioInput audioInput;
-	public AudioStreamData audioData = new AudioStreamData();
 
 	// rendering
 	public VideoRenderer videoRenderer;
@@ -366,28 +363,7 @@ extends PApplet {
 	public boolean alwaysOnTop() {
 		return alwaysOnTop;
 	}
-	
-	////////////////////////
-	// audio - TODO: move this into AudioLineIn
-	////////////////////////
-	
-	public void setAudioInput(IAudioInput input) {
-		audioInput = input;
-		audioData = audioInput.audioData(); 
-	}
-	
-	public float[] audioFreqs() {
-		return audioInput.audioData().frequencies();
-	}
-	
-	public float audioFreq(int index) {
-		return audioFreqMod(index, audioFreqs().length);
-	}
-		
-	public float audioFreqMod(int index, int mod) {
-		return audioFreqs()[index % mod];
-	}
-	
+			
 	////////////////////////
 	// DRAW
 	////////////////////////
@@ -646,9 +622,9 @@ extends PApplet {
 
 	// ESS audio input
 	public void audioInputData(AudioInput theInput) {
-//		if(audioInput instanceof AudioInputESS) {
-			((AudioInputESS) audioInput).audioInputCallback(theInput);
-//		}
+		if(AudioIn.audioInput instanceof AudioInputESS) {
+			((AudioInputESS) AudioIn.audioInput).audioInputCallback(theInput);
+		}
 	}
 
 	// LEAP MOTION EVENTS

@@ -10,6 +10,7 @@ import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.EasingFloat;
+import com.haxademic.core.media.audio.analysis.AudioIn;
 
 import processing.core.PConstants;
 import processing.core.PImage;
@@ -265,7 +266,7 @@ extends PAppletHax {
 			_color.setTargetInt(ImageUtil.getPixelColor( _myMovie, Math.round( _x ), Math.round( _y )));
 			_color.update();
 			
-			float amp = 0.2f + p.audioFreq(_index) * 5;
+			float amp = 0.2f + AudioIn.audioFreq(_index) * 5;
 			
 			p.fill( _color.colorInt() );
 			// draw 2d circle
@@ -402,7 +403,7 @@ extends PAppletHax {
 		int numVertices = _mesh.getNumVertices();
 		int eqStep = Math.round( (float) numVertices / 512f );
 		for( int i = 0; i < numVertices; i++ ) {
-			float eq = p.audioFreq(Math.round(i/eqStep) % 64);
+			float eq = AudioIn.audioFreq(Math.round(i/eqStep) % 64);
 			eq *= 2f;
 			
 			if( _mesh.getVertexForID( i ) != null ) {

@@ -4,6 +4,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.color.EasingColor;
 import com.haxademic.core.hardware.dmx.DMXWrapper;
+import com.haxademic.core.media.audio.analysis.AudioIn;
 
 public class Demo_DmxWrapper
 extends PAppletHax {
@@ -21,6 +22,7 @@ extends PAppletHax {
 	protected EasingColor targetColor;
 	
 	public void setupFirstFrame() {
+		AudioIn.instance();
 		// dmx = new DMXWrapper();
 		dmx = new DMXWrapper("COM4", 9600);
 		
@@ -38,7 +40,7 @@ extends PAppletHax {
 		if(audioActive) {
 			// audio eq
 			for (int i = 0; i < numChannels; i++) {
-				dmx.setValue(i+1, P.constrain(P.round(255 * p.audioFreq(5 + 5 * i)), 0, 255));
+				dmx.setValue(i+1, P.constrain(P.round(255 * AudioIn.audioFreq(5 + 5 * i)), 0, 255));
 			}
 		} else {
 			// easing color zone

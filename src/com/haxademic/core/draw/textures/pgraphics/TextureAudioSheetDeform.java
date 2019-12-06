@@ -10,6 +10,7 @@ import com.haxademic.core.draw.shapes.pshader.MeshDeformAndTextureFilter;
 import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.EasingFloat;
+import com.haxademic.core.media.audio.analysis.AudioIn;
 
 import processing.core.PShape;
 
@@ -78,7 +79,7 @@ extends BaseTexture {
 		PG.setCenterScreen(_texture);
 		
 		// update colors & pump scale on beat
-		if(P.p.audioData.isBeat()) newRotation();
+		if(AudioIn.isBeat()) newRotation();
 		_texture.fill(_colorEase.colorInt());
 		
 		// update lerping values

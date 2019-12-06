@@ -6,6 +6,7 @@ import com.haxademic.core.draw.shapes.Shapes;
 import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.EasingFloat;
+import com.haxademic.core.media.audio.analysis.AudioIn;
 
 import processing.core.PVector;
 
@@ -82,7 +83,7 @@ extends BaseTexture {
 		// draw rings
 		for( int i = 0; i < NUM_RINGS; i++ ) {
 			// get eq val for alpha
-			float ringEQVal = P.p.audioFreq(i*10);
+			float ringEQVal = AudioIn.audioFreq(i*10);
 			float alphaMultiplier = 2.3f * 255f;
 
 			// set colors

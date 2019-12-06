@@ -23,7 +23,7 @@ extends PAppletHax {
 		int eqIndex = 0;
 		for(int i=0; i < numElements; i++) {
 			eqIndex = P.floor(i * eqStep);
-			float eq = p.audioFreq(eqIndex);
+			float eq = AudioIn.audioFreq(eqIndex);
 			p.fill(255f * eq);
 			p.rect(i * barW, 0, barW, p.height);
 		}

@@ -49,7 +49,7 @@ extends BaseTexture {
 //	public void updateDraw() {
 //		_texture.clear();
 //		
-//		_texture.fill( _colorEase.colorInt(), P.constrain( P.p.audioIn.getEqAvgBand( _eqIndex ) * 255, 0, 255 ) );
+//		_texture.fill( _colorEase.colorInt(), P.constrain( AudioIn.getEqAvgBand( _eqIndex ) * 255, 0, 255 ) );
 //		_texture.rect(0, 0, width, height );
 //	}
 }

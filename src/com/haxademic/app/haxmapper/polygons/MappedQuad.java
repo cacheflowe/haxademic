@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import com.haxademic.core.app.P;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.math.MathUtil;
+import com.haxademic.core.media.audio.analysis.AudioIn;
 
 import processing.core.PConstants;
 import processing.core.PGraphics;
@@ -148,11 +149,11 @@ implements IMappedPolygon {
 				pg.endShape();
 			} else if( _mappingStyle == MAP_STYLE_EQ ) {
 				pg.beginShape(PConstants.QUAD);
-				pg.fill(pg.color(_color, P.constrain( P.p.audioFreq(_eqIndex) * 255, 0, 255 )));
+				pg.fill(pg.color(_color, P.constrain( AudioIn.audioFreq(_eqIndex) * 255, 0, 255 )));
 				pg.vertex(x1, y1, 0);
 				pg.vertex(x2, y2, 0);
 				pg.vertex(x3, y3, 0);
-				pg.fill(pg.color(_color, P.constrain( P.p.audioFreq(_eqIndex) * 100, 0, 190 )));
+				pg.fill(pg.color(_color, P.constrain( AudioIn.audioFreq(_eqIndex) * 100, 0, 190 )));
 				pg.vertex(x4, y4, 0);
 				pg.endShape();
 			}
@@ -161,7 +162,7 @@ implements IMappedPolygon {
 			drawFlashFadeOverlay(pg);
 			
 			// overlay with gradient, oscillating from white to black over time
-			float whiteFade = P.sin(P.p.frameCount / _gradientFadeDivisor); //P.constrain( P.p.audioIn.getEqBand((_eqIndex)) * 200 * _isFlash, 0, 50 );
+			float whiteFade = P.sin(P.p.frameCount / _gradientFadeDivisor); //P.constrain( AudioIn.getEqBand((_eqIndex)) * 200 * _isFlash, 0, 50 );
 			pg.noStroke();
 			pg.beginShape(PConstants.QUAD);
 			pg.fill(255*whiteFade,fakeLightAlpha);

@@ -6,6 +6,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.context.OpenGLUtil;
+import com.haxademic.core.media.audio.analysis.AudioIn;
 
 import processing.core.PShape;
 import processing.core.PVector;
@@ -27,8 +28,8 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.FULLSCREEN, "true" );
 	}
 	
-	public void setup() {
-		super.setup();
+	public void setupFirstFrame() {
+		AudioIn.instance();
 		
 		_shapes = new ArrayList<PShape>();
 		
@@ -43,7 +44,7 @@ extends PAppletHax {
 		for (int i=0; i < _shapes.size(); i++) {
 			// get shape and set audio-reactive fill --------------
 			PShape shape = _shapes.get(i);
-			shape.setFill(p.color(255, p.audioFreq(i * 10 + 10) * 2000));
+			shape.setFill(p.color(255, AudioIn.instance().audioFreq(i * 10 + 10) * 2000));
 			p.shape( shape );
 
 			

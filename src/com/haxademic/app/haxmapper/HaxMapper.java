@@ -13,11 +13,11 @@ import com.haxademic.app.haxmapper.polygons.MappedQuad;
 import com.haxademic.app.haxmapper.polygons.MappedTriangle;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.data.ConvertUtil;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.PG;
+import com.haxademic.core.data.ConvertUtil;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.context.OpenGLUtil.Blend;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.BadTVLinesFilter;
 import com.haxademic.core.draw.filters.pshader.BrightnessFilter;
 import com.haxademic.core.draw.filters.pshader.ColorDistortionFilter;
@@ -607,7 +607,7 @@ extends PAppletHax {
 	/////////////////////////////////////////////////////////////////
 	
 	protected void checkBeat() {
-		if( p.audioData.isBeat() == true && isBeatDetectMode() == true ) {
+		if( AudioIn.isBeat() == true && isBeatDetectMode() == true ) {
 			updateTiming();
 		}
 	}
@@ -672,8 +672,6 @@ extends PAppletHax {
 			if(MathUtil.randBoolean() == true) setAllSameTexture();
 
 		}
-		if ( _audioInputUpTrigger.triggered() == true ) p.audioData.setGain(p.audioData.gain() + 0.05f);
-		if ( _audioInputDownTrigger.triggered() == true ) p.audioData.setGain(p.audioData.gain() - 0.05f);
 		if ( _brightnessUpTrigger.triggered() == true ) p.midiState.controllerChange(3, 41, Math.round(127f * p.midiState.midiCCPercent(3, 41) + 1));
 		if ( _brightnessDownTrigger.triggered() == true ) p.midiState.controllerChange(3, 41, Math.round(127f * p.midiState.midiCCPercent(3, 41) - 1));
 		if ( _debugTexturesTrigger.triggered() == true ) _debugTextures = !_debugTextures;

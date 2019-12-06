@@ -6,22 +6,13 @@ import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.system.JavaInfo;
 
 import processing.core.PGraphics;
+import processing.event.KeyEvent;
 
 public class AudioIn {
 
 	// TODO:
 	// - Switch all apps to use singleton to grab audio data. Should this be on P.audio ?
-	// - Implement keyboard listener
-		/*
-		if ( p.key == '.' ) {
-			p.audioData.setGain(p.audioData.gain() + 0.05f);
-			p.debugView.setValue("audioData.gain()", p.audioData.gain());
-		}
-		if ( p.key == ',' ) {
-			p.audioData.setGain(p.audioData.gain() - 0.05f);
-			p.debugView.setValue("audioData.gain()", p.audioData.gain());
-		}
-		*/
+	// 		- Search for `p.audio` 
 	
 	public enum AudioInputLibrary {
 		Beads,
@@ -29,9 +20,37 @@ public class AudioIn {
 		Minim,
 		Processing,
 	}
-	protected IAudioInput audioInput;
-	protected AudioStreamData audioData = new AudioStreamData();
 	protected PGraphics audioInputDebugBuffer;
+	
+	// static arrays for singleton-style usage
+	public static IAudioInput audioInput;
+	public static float[] frequencies;
+	public static float[] waveform;
+
+	
+	/////////////////////////////
+	// static instance & initializer for quick & easy access
+	/////////////////////////////
+	
+	public static AudioIn instance;
+	
+	public static AudioIn instance(AudioInputLibrary lib) {
+		if(instance != null) return instance;
+		instance = new AudioIn(lib);
+		return instance;
+	}
+	
+	public static AudioIn instance(IAudioInput input) {
+		if(instance != null) return instance;
+		instance = new AudioIn(input);
+		return instance;
+	}
+	
+	public static AudioIn instance() {
+		if(instance != null) return instance;
+		instance = new AudioIn();
+		return instance;
+	}
 	
 	/////////////////////////////
 	// normal initialization
@@ -45,9 +64,11 @@ public class AudioIn {
 		this(initAudioInput(lib));
 	}
 	
-	public AudioIn(IAudioInput audioInput) {
-		this.audioInput = audioInput;
-		this.audioInput.update(null);	// force a build of the internal AudioStreamData object
+	public AudioIn(IAudioInput input) {
+		AudioIn.audioInput = input;
+		AudioIn.audioInput.update(null);	// force a build of the internal AudioStreamData object
+		AudioIn.frequencies = AudioIn.audioInput.audioData().frequencies;
+		AudioIn.waveform = AudioIn.audioInput.audioData().waveform;
 
 		// build debug buffer
 		audioInputDebugBuffer = PG.newPG((int) AudioStreamData.debugW, (int) AudioStreamData.debugH);
@@ -55,9 +76,7 @@ public class AudioIn {
 		
 		// subscribe for auto draw() updates
 		P.p.registerMethod(PRegisterableMethods.pre, this);
-		
-		// set on PAppletHax if that's what type of app we are
-		if(P.isHaxApp()) P.p.setAudioInput(this.audioInput);
+		P.p.registerMethod(PRegisterableMethods.keyEvent, this);
 	}
 	
 	// audio object factory
@@ -76,38 +95,44 @@ public class AudioIn {
 		return null;
 	}
 	
+	/////////////////////////////
+	// public interface
+	/////////////////////////////
+	
+	// getters
+	
 	public IAudioInput audioInput() {
 		return audioInput;
 	}
+	
+	// static getters
+	
+	public static float audioFreq(int index) {
+		return audioFreqMod(index, frequencies.length);
+	}
+		
+	public static float audioFreqMod(int index, int mod) {
+		return frequencies[index % mod];
+	}
+
+	public static boolean isBeat() {
+		return audioInput.audioData().isBeat();
+	}
+	
+	// debug
 	
 	public static void debugAudio() {
 		JavaInfo.printAudioInfo();
 	}
 
 	/////////////////////////////
-	// static instance & initializer for quick & easy access
-	/////////////////////////////
-	
-	public static AudioIn instance;
-	
-	public static AudioIn instance(AudioInputLibrary lib) {
-		if(instance != null) return instance;
-		instance = new AudioIn(lib);
-		return instance;
-	}
-	
-	public static AudioIn instance() {
-		if(instance != null) return instance;
-		instance = new AudioIn();
-		return instance;
-	}
-	
-	/////////////////////////////
 	// update
 	/////////////////////////////
 	
 	public void pre() {
 		updateAudioData();
+		AudioIn.frequencies = AudioIn.audioInput.audioData().frequencies;
+		AudioIn.waveform = AudioIn.audioInput.audioData().waveform;
 	}
 	
 	protected void updateAudioData() {
@@ -120,10 +145,26 @@ public class AudioIn {
 		}
 		// update actual audio data and draw if we have a buffer passed in
 		audioInput.update(audioBuffer);
-		audioData = audioInput.audioData();
+//		audioData = audioInput.audioData();
 		// close context
 		if(audioBuffer != null) audioBuffer.endDraw();
 	}
 
+	
+	/////////////////////////////
+	// input
+	/////////////////////////////
+	
+	public void keyEvent(KeyEvent e) {
+		if(e.getAction() == KeyEvent.PRESS) {
+			if(e.getKey() == ',') {
+				audioInput.audioData().setGain(audioInput.audioData().gain() - 0.05f);
+				P.p.debugView.setValue("audioData.gain()", audioInput.audioData().gain());
+			} else if(e.getKey() == '.') {
+				audioInput.audioData().setGain(audioInput.audioData().gain() + 0.05f);
+				P.p.debugView.setValue("audioData.gain()", audioInput.audioData().gain());
+			}
+		}
+	}
 
 }

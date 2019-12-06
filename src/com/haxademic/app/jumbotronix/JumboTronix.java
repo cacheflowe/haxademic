@@ -20,6 +20,7 @@ import com.haxademic.core.draw.textures.pgraphics.TextureVideoPlayer;
 import com.haxademic.core.draw.textures.pgraphics.TextureWaveformSimple;
 import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
 import com.haxademic.core.file.FileUtil;
+import com.haxademic.core.media.audio.analysis.AudioIn;
 import com.haxademic.core.system.ScreenUtil;
 
 import processing.core.PGraphics;
@@ -190,7 +191,7 @@ extends PAppletHax {
 		}
 		
 		// beat detection texture updates
-		if( p.audioData.isBeat() == true ) _texturePool.get(_curTextureIndex).updateTiming();
+		if( AudioIn.isBeat() == true ) _texturePool.get(_curTextureIndex).updateTiming();
 		_texturePool.get(_curTextureIndex).update();
 
 		// update shaders with midi

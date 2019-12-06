@@ -353,7 +353,7 @@ extends PAppletHax {
 			
 			// update size
 			sizeProgress.update();
-			float audioAmp = (1f + 1f * p.audioFreq(audioIndex));
+			float audioAmp = (1f + 1f * AudioIn.audioFreq(audioIndex));
 			if(sizeProgress.value() == 1) shrink -= 0.01f;
 			float curSize = (sizeProgress.value() == 1) ?
 					size * shrink * audioAmp:
@@ -445,7 +445,7 @@ extends PAppletHax {
 		for (int i = 0; i < numLights; i++) {
 			// alternate motion vs. audio amp
 			float lightAmp = (i % 2 == 0) ?
-					p.audioFreq(10 + i * 20) * 10f * activityMult : 
+					AudioIn.audioFreq(10 + i * 20) * 10f * activityMult : 
 					activityMult; 
 			// P.out(lightAmp);
 			

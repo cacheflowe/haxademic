@@ -19,6 +19,7 @@ import com.haxademic.core.draw.textures.pgraphics.TextureVideoPlayer;
 import com.haxademic.core.draw.textures.pgraphics.TextureWaveformSimple;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.MathUtil;
+import com.haxademic.core.media.audio.analysis.AudioIn;
 
 import processing.core.PApplet;
 
@@ -216,7 +217,7 @@ extends HaxMapper{
 	}
 	
 	protected void checkBeat() {
-		if( p.audioData.isBeat() == true && isBeatDetectMode() == true ) {
+		if( AudioIn.isBeat() == true && isBeatDetectMode() == true ) {
 			updateTiming();
 		}
 	}

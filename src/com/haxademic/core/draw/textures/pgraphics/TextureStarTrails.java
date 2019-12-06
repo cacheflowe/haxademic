@@ -8,6 +8,7 @@ import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.EasingFloat3d;
+import com.haxademic.core.media.audio.analysis.AudioIn;
 
 import processing.core.PVector;
 
@@ -60,7 +61,7 @@ extends BaseTexture {
 		_texture.noStroke();
 		
 		for( int i = 0; i < _numStars; i++ ) {
-			_stars.get( i ).update( P.p.audioFreq(i) );
+			_stars.get( i ).update( AudioIn.audioFreq(i) );
 		}
 		_texture.popMatrix();
 	}
