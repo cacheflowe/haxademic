@@ -21,8 +21,8 @@ extends PAppletHax {
 	
 	protected GamePiece gamePiece;
 
-	public void setup() {
-		super.setup();
+	public void setupFirstFrame() {
+
 		
 		// do something
 		_skeletonTracker = new SkeletonsTracker();

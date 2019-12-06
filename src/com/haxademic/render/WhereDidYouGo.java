@@ -45,8 +45,8 @@ extends PAppletHax {
 
 	}
 
-	public void setup() {
-		super.setup();	
+	public void setupFirstFrame() {
+	
 
 		texture = createGraphics(p.height * 2, p.height * 2, P.P3D);
 		

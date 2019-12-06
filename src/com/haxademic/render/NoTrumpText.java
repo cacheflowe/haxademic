@@ -37,7 +37,7 @@ extends PAppletHax {
 	}
 
 	public void setup()	{
-		super.setup();
+
 		textToPShape = new TextToPShape();
 		String fontFile = FileUtil.getFile("fonts/CenturyGothic.ttf");
 		

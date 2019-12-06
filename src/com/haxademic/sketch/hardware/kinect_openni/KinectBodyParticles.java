@@ -19,8 +19,8 @@ extends PAppletHax {
 	protected SkeletonsTracker _skeletonTracker;
 	protected ArrayList<VectorFlyerToxi> particles;
 	
-	public void setup() {
-		super.setup();
+	public void setupFirstFrame() {
+
 		
 		_skeletonTracker = new SkeletonsTracker();
 		initBoxes();

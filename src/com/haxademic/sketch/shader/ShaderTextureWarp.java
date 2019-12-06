@@ -28,8 +28,8 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.RENDERING_GIF_STOP_FRAME, ""+Math.round(_frames + _frames) );
 	}
 
-	public void setup() {
-		super.setup();
+	public void setupFirstFrame() {
+
 
 		((PGraphics)g).textureWrap(Texture.REPEAT);
 //		_warpShader = p.loadShader(FileUtil.getFile("haxademic/shaders/texturewarp/round-tunnel.glsl"));

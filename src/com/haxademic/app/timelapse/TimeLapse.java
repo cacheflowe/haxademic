@@ -28,8 +28,8 @@ extends PAppletHax {
 		p.appConfig.setProperty( "image_dir", "/Users/cacheflowe/Documents/workspace/mode_set/client_docs/legwork/nike-all-star/final_snkrs_xpress_game_faces/" );
 	}
 
-	public void setup() {
-		super.setup();
+	public void setupFirstFrame() {
+
 		initRender();
 	}
 

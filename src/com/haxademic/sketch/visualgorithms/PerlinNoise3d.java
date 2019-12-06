@@ -32,8 +32,8 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, Math.round(frames) );
 	}
 
-	public void setup() {
-		super.setup();	
+	public void setupFirstFrame() {
+	
 
 		p.ui.addSlider(noiseScale, 0.003f, 0.0001f, 0.025f, 0.0001f, false);
 		p.ui.addSlider(octaves, 3f, 1, 8, 1, false);

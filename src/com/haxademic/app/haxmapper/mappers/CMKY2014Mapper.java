@@ -201,8 +201,7 @@ extends HaxMapper{
 
 	}
 	
-	public void setup() {
-		super.setup();
+	public void setupFirstFrame() {
 //		_audioPixel = new AudioPixelInterface();
 //		_audioPixelColors = new int[ _mappingGroups.size() ];
 	}

@@ -27,8 +27,8 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.HEIGHT, "110" );
 	}
 	
-	public void setup() {
-		super.setup();
+	public void setupFirstFrame() {
+
 		p.smooth(OpenGLUtil.SMOOTH_HIGH);
 		_icon = p.loadImage(FileUtil.getHaxademicDataPath()+"images/play-arrow.png");
 		

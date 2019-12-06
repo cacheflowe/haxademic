@@ -73,8 +73,8 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.HEIGHT, "1000" );
 	}
 
-	public void setup() {
-		super.setup();	
+	public void setupFirstFrame() {
+	
 		p.smooth();
 		
 		// load image and configure size

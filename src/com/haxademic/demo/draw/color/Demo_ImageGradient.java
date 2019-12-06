@@ -17,8 +17,8 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.HEIGHT, 800 );
 	}
 
-	public void setup() {
-		super.setup();
+	public void setupFirstFrame() {
+
 		imageGradient = new ImageGradient(ImageGradient.PASTELS());
 //		imageGradient.addTexturesFromPath(ImageGradient.COOLORS_PATH);
 	}

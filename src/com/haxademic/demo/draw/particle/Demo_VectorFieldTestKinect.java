@@ -28,13 +28,13 @@ extends Demo_VectorField {
 		p.appConfig.setProperty( AppSettings.SMOOTHING, OpenGLUtil.SMOOTH_LOW);
 	}
 	
-	public void setup() {
+	public void setupFirstFrame() {
 		FIELD_SPACING = p.height / 20;
 		ATTENTION_RADIUS = FIELD_SPACING;
 		NUM_PARTICLES = 3000;
 		DRAWS_PER_FRAME = 1;
 		OVERDRAW_FADE = 25;
-		super.setup();
+
 		overlayKinectTexture = p.createGraphics(p.width, p.height, P.P2D);
 		overlayKinectTexture.noSmooth();
 	}

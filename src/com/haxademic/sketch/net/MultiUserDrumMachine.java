@@ -26,8 +26,8 @@ extends PAppletHax {
 		p.appConfig.setProperty(AppSettings.FPS, 90);
 	}
 
-	public void setup() {
-		super.setup();	
+	public void setupFirstFrame() {
+	
 		buildWebServer();
 		loadAudio();
 	}

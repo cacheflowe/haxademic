@@ -31,8 +31,8 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
 	}
 	
-	public void setup() {
-		super.setup();
+	public void setupFirstFrame() {
+
 		
 		_cloudsGraphics = p.createGraphics(p.width, p.height, P.P3D);
 		_cloudsGraphics.smooth(OpenGLUtil.SMOOTH_HIGH);

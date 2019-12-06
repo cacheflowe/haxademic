@@ -26,8 +26,8 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, (int)_frames + 1 );
 	}
 
-	public void setup() {
-		super.setup();
+	public void setupFirstFrame() {
+
 		img = loadImage(FileUtil.getHaxademicDataPath() + "images/ello.png");
 		noStroke();
 	}

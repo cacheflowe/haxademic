@@ -76,7 +76,7 @@ extends PAppletHax {
 	// setup is run once at the beginning
 	public void setup()
 	{
-		super.setup();
+
 	  // initialize the minim and out objects
 	  minim = new Minim( this );
 	  out = minim.getLineOut( Minim.MONO, 1024 );

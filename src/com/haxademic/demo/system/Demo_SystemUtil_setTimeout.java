@@ -15,8 +15,8 @@ extends PAppletHax {
 	protected int randGray = 0;
 	protected ActionListener callback;
 	
-	public void setup() {
-		super.setup();
+	public void setupFirstFrame() {
+
 		buildCallbacks();
 	}
 	

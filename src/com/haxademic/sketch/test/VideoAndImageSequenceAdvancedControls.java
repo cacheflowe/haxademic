@@ -20,8 +20,8 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.SMOOTHING, AppSettings.SMOOTH_HIGH );
 	}
 
-	public void setup() {
-		super.setup();		
+	public void setupFirstFrame() {
+		
 		movie = new Movie( p, FileUtil.getFile("video/cacheflowe/render-2015-04-23-13-38-17-export.mp4"));
 		imageSequence = new ImageSequenceMovieClip(FileUtil.getFile("images/floaty-blob.anim/"), "png", 18);
 	}

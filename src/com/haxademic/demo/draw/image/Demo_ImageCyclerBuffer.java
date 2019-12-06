@@ -21,8 +21,8 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.RETINA, false );
 	}
 
-	public void setup() {
-		super.setup();
+	public void setupFirstFrame() {
+
 		
 		PImage[] images = new PImage[] {
 				p.loadImage(FileUtil.getFile("images/textures/space/sun.jpg")),

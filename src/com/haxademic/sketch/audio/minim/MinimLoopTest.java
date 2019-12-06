@@ -22,8 +22,8 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.HEIGHT, "400" );
 	}
 
-	public void setup() {
-		super.setup();	
+	public void setupFirstFrame() {
+	
 		minim = new Minim(this);
 
 		_sound = minim.loadFile( FileUtil.getHaxademicDataPath() + "audio/test-loop.wav", 512 );

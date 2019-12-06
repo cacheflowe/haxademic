@@ -20,8 +20,8 @@ extends PAppletHax {
 	public ArrayList<MovingBox> boxes;
 	public AABB focus = new AABB(10);
 	
-	public void setup() {
-		super.setup();
+	public void setupFirstFrame() {
+
 		
 		boxes = new ArrayList<MovingBox>();
 		for( int i=0; i < 10; i++ ) {

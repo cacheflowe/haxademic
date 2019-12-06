@@ -27,8 +27,8 @@ extends PAppletHax {
 		// p.appConfig.setProperty( AppSettings.WIDTH, "1200" );
 	}
 
-	public void setup() {
-		super.setup();
+	public void setupFirstFrame() {
+
 		minim = new Minim(this);
 		in = minim.getLineIn();
 

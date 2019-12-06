@@ -18,8 +18,8 @@ extends PAppletHax {
 	}
 
 
-	public void setup() {
-		super.setup();
+	public void setupFirstFrame() {
+
 		kinect2 = new Kinect2(this);
 		kinect2.initVideo();
 		kinect2.initDepth();

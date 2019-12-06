@@ -38,8 +38,8 @@ extends PAppletHax {
 	}
 
 
-	public void setup() {
-		super.setup();	
+	public void setupFirstFrame() {
+	
 
 		_canvasW = p.width;
 		_canvasH = p.height;

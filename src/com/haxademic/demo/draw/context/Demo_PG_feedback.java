@@ -17,8 +17,8 @@ extends PAppletHax {
 	protected PGraphics _texture;
 	protected float _frames = 360;
 	
-	public void setup() {
-		super.setup();
+	public void setupFirstFrame() {
+
 		p.background(0);
 		
 		_texture = p.createGraphics( p.width, p.height, P.P3D );

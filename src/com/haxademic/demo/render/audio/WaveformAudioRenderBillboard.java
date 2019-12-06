@@ -26,8 +26,8 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.RENDER_AUDIO_FILE, FileUtil.getFile("audio/cacheflowe_bigger_loop_padded.wav") );
 	}
 
-	public void setup() {
-		super.setup();
+	public void setupFirstFrame() {
+
 		p.noStroke();
 		backgroundImg = p.loadImage(FileUtil.getFile("images/computers/billboard-advertising.jpg"));
 		waveform = p.createGraphics(300, 120, P.P2D);

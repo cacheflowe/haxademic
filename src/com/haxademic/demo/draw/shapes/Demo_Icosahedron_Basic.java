@@ -18,8 +18,8 @@ extends PAppletHax {
 	protected PImage texture;
 	protected PShape icosa;
 
-	public void setup() {
-		super.setup();
+	public void setupFirstFrame() {
+
 		int detail = 4;
 		icosa = Icosahedron.createIcosahedron(p.g, detail, DemoAssets.textureJupiter());
 		PShapeUtil.scaleShapeToHeight(icosa, p.height * 0.75f);

@@ -23,8 +23,8 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.HEIGHT, 500 );
 	}
 
-	public void setup() {
-		super.setup();	
+	public void setupFirstFrame() {
+	
 		particles = new Particle[maxCircles];
 		for (int i = 0; i < particles.length; i++) {
 			particles[i] = new Particle();

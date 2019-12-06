@@ -14,8 +14,8 @@ extends PAppletHax {
 	protected int endTime;
 	protected int fakeLastDigit = 9;
 	
-	public void setup() {
-		super.setup();		
+	public void setupFirstFrame() {
+		
 		endTime = P.p.millis() + 45 * 60 * 1000;
 		PFont daFont = DemoAssets.fontDSEG7(100); // p.createFont(FileUtil.getFile("fonts/coders_crux.ttf"), 100, true);
 		p.textFont(daFont);

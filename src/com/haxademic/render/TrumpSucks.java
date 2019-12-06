@@ -38,8 +38,8 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, (int) frames );
 	}
 
-	public void setup() {
-		super.setup();
+	public void setupFirstFrame() {
+
 		
 		img2 = ImageUtil.imageToGraphics(p.loadImage(FileUtil.getFile("images/trmp-fuck.png")));
 		img1 = ImageUtil.imageToGraphics(p.loadImage(FileUtil.getFile("images/trmp-trmp.png")));

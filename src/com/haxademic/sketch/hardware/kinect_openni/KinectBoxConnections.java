@@ -30,8 +30,8 @@ extends PAppletHax {
 	protected int _meshIndex = 0;
 	protected float _meshRot = 0;
 
-	public void setup() {
-		super.setup();
+	public void setupFirstFrame() {
+
 		
 		_skeletonTracker = new SkeletonsTracker();
 		

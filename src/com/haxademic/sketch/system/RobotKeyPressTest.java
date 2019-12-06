@@ -17,8 +17,8 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.HEIGHT, "480" );
 	}
 
-	public void setup() {
-		super.setup();	
+	public void setupFirstFrame() {
+	
 		try { _robot = new Robot(); } catch( Exception error ) { println("couldn't init Robot"); }
 	}
 

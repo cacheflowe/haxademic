@@ -20,8 +20,8 @@ extends PAppletHax {
 	protected boolean isWebCam;
 	
 
-	public void setup() {
-		super.setup();
+	public void setupFirstFrame() {
+
 		image = p.loadImage( FileUtil.getHaxademicDataPath() + "images/dawn-pattern.png" );
 	}
 	

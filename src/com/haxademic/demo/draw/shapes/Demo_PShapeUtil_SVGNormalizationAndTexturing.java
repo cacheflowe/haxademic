@@ -23,8 +23,8 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.HEIGHT, 900 );
 	}
 	
-	public void setup() {
-		super.setup();
+	public void setupFirstFrame() {
+
 		
 		shapes = new ArrayList<PShape>();
 		shapes.add( p.loadShape( FileUtil.getHaxademicDataPath() + "svg/money.svg" ).getTessellation() );

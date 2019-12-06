@@ -22,8 +22,8 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.HEIGHT, 640 );
 	}
 
-	public void setup() {
-		super.setup();
+	public void setupFirstFrame() {
+
 		img = p.loadImage(FileUtil.getFile("images/_sketch/bread-large.png"));
 		pg = ImageUtil.imageToGraphics(img);
 	}

@@ -36,8 +36,7 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.SMOOTHING, AppSettings.SMOOTH_NONE );
 	}
 
-	public void setup() {
-		super.setup();
+	public void setupFirstFrame() {
 		imgW = p.width / 9;
 		imgH = p.height;
 		

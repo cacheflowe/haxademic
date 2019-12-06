@@ -22,8 +22,8 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.HEIGHT, "900" );
 	}
 
-	public void setup() {
-		super.setup();
+	public void setupFirstFrame() {
+
 		DebugUtil.printErr("Make sure to run Processing LEAP Apps with JavaSE-1.7");
 	}
 

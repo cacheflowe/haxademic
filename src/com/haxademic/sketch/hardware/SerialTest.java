@@ -29,8 +29,8 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.HEIGHT, 640 );
 	}
 
-	public void setup() {
-		super.setup();
+	public void setupFirstFrame() {
+
 	}
 
 	protected void printSerialDevices() {

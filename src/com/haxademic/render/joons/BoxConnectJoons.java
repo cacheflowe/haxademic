@@ -22,8 +22,8 @@ extends PAppletHax {
 	protected PImage image;
 	protected WETriangleMesh _mesh;
 
-	public void setup() {
-		super.setup();		
+	public void setupFirstFrame() {
+		
 //		_mesh = MeshUtilToxi.meshFromOBJ( p, FileUtil.getHaxademicDataPath() + "models/cacheflowe-3d.obj", 16f );
 	}
 	

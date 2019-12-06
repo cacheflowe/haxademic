@@ -24,7 +24,7 @@ extends PAppletHax {
 	}
 
 	public void setup()	{
-		super.setup();
+
 		textToPShape = new TextToPShape(TextToPShape.QUALITY_HIGH);
 		String fontFile = FileUtil.getFile("fonts/HelloDenverDisplay-Regular.ttf");
 		word2d = textToPShape.stringToShape2d("CACHEFLOWE", fontFile);

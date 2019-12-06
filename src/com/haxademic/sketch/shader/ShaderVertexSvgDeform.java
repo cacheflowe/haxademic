@@ -48,8 +48,8 @@ extends PAppletHax {
 
 	}
 
-	public void setup() {
-		super.setup();	
+	public void setupFirstFrame() {
+	
 		p.smooth( OpenGLUtil.SMOOTH_HIGH );
 		
 		// create dynamic deformation texture

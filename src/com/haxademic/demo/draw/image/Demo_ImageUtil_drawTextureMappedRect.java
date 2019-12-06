@@ -24,8 +24,8 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.HEIGHT, 682 );
 	}
 
-	public void setup() {
-		super.setup();
+	public void setupFirstFrame() {
+
 		p.noStroke();
 		backgroundImg = p.loadImage(FileUtil.getFile("haxademic/images/billboard-mockup.jpg"));
 		videoBuffer = p.createGraphics(768, 384, P.P2D);

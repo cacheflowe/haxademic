@@ -38,8 +38,8 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.RENDERING_GIF_STOP_FRAME, Math.round(_frames) );
 	}
 
-	public void setup() {
-		super.setup();	
+	public void setupFirstFrame() {
+	
 
 		// load texture
 		texture = p.loadImage(FileUtil.getFile("haxademic/images/spherical/jupiter.jpg"));

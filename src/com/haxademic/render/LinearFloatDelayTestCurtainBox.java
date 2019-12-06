@@ -22,8 +22,8 @@ extends PAppletHax {
 	}
 
 
-	public void setup() {
-		super.setup();	
+	public void setupFirstFrame() {
+	
 		easingsL = new LinearFloat[40];
 		easingsR = new LinearFloat[40];
 		for (int i = 0; i < easingsL.length; i++) easingsL[i] = new LinearFloat(0, 0.02f);

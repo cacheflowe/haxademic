@@ -48,10 +48,6 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.WIDTH, 1800 );
 		p.appConfig.setProperty( AppSettings.HEIGHT, 480 );
 	}
-
-	public void setup() {
-		super.setup();
-	}
 	
 	JFXPanel fxPanel = new JFXPanel();
 	MediaPlayer mediaPlayer;

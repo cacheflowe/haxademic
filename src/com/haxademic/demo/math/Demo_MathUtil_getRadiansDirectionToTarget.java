@@ -25,8 +25,8 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.HEIGHT, 600 );
 	}
 
-	public void setup() {
-		super.setup();
+	public void setupFirstFrame() {
+
 		
 		// load texture
 		arrowImg = ImageUtil.imageToGraphics(DemoAssets.arrow());

@@ -35,7 +35,7 @@ extends PAppletHax {
 	}
 	
 	public void setupFirstFrame() {
-		super.setup();
+
 		_chromaBuffer = p.createGraphics(p.width, p.height, P.P3D);
 
 		p.ui.addSlider(thresholdSensitivity, 0.75f, 0, 1, 0.01f, false);

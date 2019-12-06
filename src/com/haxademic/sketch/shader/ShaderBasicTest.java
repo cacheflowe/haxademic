@@ -38,8 +38,8 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, P.round(600 + _frames - 1) );
 	}
 
-	public void setup() {
-		super.setup();
+	public void setupFirstFrame() {
+
 		
 		_textureShaderFile = FileUtil.getHaxademicDataPath() + "haxademic/shaders/textures/bw-clouds.glsl";
 		_textureShader = p.loadShader( _textureShaderFile );

@@ -40,8 +40,8 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.MIDI_DEBUG, true );
 	}
 
-	public void setup() {
-		super.setup();
+	public void setupFirstFrame() {
+
 	}
 
 	protected void buildCanvas() {

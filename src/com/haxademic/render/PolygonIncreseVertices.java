@@ -19,8 +19,8 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.HEIGHT, 1000 );
 	}
 
-	public void setup() {
-		super.setup();
+	public void setupFirstFrame() {
+
 	}
 
 	public void drawPolygon(float vertices, float radius) {

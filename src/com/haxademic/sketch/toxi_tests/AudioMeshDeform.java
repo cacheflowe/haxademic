@@ -14,8 +14,8 @@ extends PAppletHax {
 	
 	WETriangleMesh _mesh, _meshDeform;
 
-	public void setup() {
-		super.setup();
+	public void setupFirstFrame() {
+
 		
 //		_mesh = MeshUtil.meshFromOBJ( p, "../data/models/pointer_cursor_2_hollow.obj", 1.5f );
 //		_mesh = MeshUtil.getExtrudedMesh( MeshUtil.meshFromSVG( p, "../data/svg/diamond.svg", -1, 3, 0.5f ), 20 );

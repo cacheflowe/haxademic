@@ -22,8 +22,8 @@ extends PAppletHax {
 
 	ToxiclibsSupport toxi;
 
-	public void setup() {
-		super.setup();
+	public void setupFirstFrame() {
+
 		toxi = Toxiclibs.instance(p).toxi;
 		// compute mesh positions on circle in XZ plane
 		Circle circle = new Circle(200);

@@ -20,8 +20,8 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.LOOP_FRAMES, FRAMES );
 	}
 
-	public void setup() {
-		super.setup();	
+	public void setupFirstFrame() {
+	
 		_colorStart = new EasingColor("#ffBB0022", 50f);
 		_colorStop = new EasingColor("#0B1630", 50f);
 		

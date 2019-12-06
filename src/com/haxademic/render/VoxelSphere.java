@@ -33,8 +33,8 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.RETINA, true );
 	}
 
-	public void setup() {
-		super.setup();	
+	public void setupFirstFrame() {
+	
 	}
 
 	public void drawApp() {

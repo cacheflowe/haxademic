@@ -26,8 +26,8 @@ implements ISocketClientDelegate {
 		p.appConfig.setProperty(AppSettings.SHOW_DEBUG, true);
 	}
 
-	public void setup() {
-		super.setup();	
+	public void setupFirstFrame() {
+	
 		buildSocketServer();
 		SystemUtil.openWebPage("http://localhost/haxademic/www/web-socket-demo/");
 	}

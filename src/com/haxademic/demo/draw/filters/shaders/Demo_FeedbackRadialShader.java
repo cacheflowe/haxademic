@@ -40,8 +40,8 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, P.round(1 + frames * 4) );
 	}
 
-	public void setup() {
-		super.setup();
+	public void setupFirstFrame() {
+
 		
 		buffer = P.p.createGraphics(W, H, PRenderers.P3D); 
 		

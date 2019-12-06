@@ -26,7 +26,7 @@ extends PAppletHax {
 	}
 
 	public void setup()	{
-		super.setup();
+
 		
 		croppedTextResult = p.createImage(128, 128, P.ARGB);
 		

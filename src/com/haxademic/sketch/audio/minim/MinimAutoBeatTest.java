@@ -26,8 +26,8 @@ extends PAppletHax {
 	protected void overridePropsFile() {
 	}
 
-	public void setup() {
-		super.setup();
+	public void setupFirstFrame() {
+
 		
 		minim = new Minim(this);
 

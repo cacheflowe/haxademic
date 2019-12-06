@@ -15,8 +15,8 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.APP_VIEWER_SCALE, 0.75f );
 	}
 
-	public void setup() {
-		super.setup();	
+	public void setupFirstFrame() {
+	
 		p.smooth( OpenGLUtil.SMOOTH_HIGH );
 	}
 

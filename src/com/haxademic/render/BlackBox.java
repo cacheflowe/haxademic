@@ -29,8 +29,8 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, (int)_frames + 1 );
 	}
 
-	public void setup() {
-		super.setup();
+	public void setupFirstFrame() {
+
 		noStroke();
 		texture = p.createGraphics(p.width, p.height, P.P3D);
 		logo = p.loadImage(FileUtil.getFile("images/the-black-box-white.png"));

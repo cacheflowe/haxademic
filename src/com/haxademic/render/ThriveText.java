@@ -45,8 +45,8 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, (int) frames );
 	}
 
-	public void setup() {
-		super.setup();
+	public void setupFirstFrame() {
+
 		
 		textImg = ImageUtil.imageToGraphics(p.loadImage(FileUtil.getFile("images/thrive-text.png")));
 

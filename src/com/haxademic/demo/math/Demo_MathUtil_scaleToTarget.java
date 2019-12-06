@@ -15,8 +15,8 @@ extends PAppletHax {
 	
 	PImage img;
 	
-	public void setup() {
-		super.setup();
+	public void setupFirstFrame() {
+
 		img = DemoAssets.justin();
 		OpenGLUtil.setTextureQualityHigh(p.g);
 	}

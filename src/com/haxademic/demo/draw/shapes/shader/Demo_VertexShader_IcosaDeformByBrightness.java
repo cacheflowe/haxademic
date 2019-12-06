@@ -27,8 +27,8 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.HEIGHT, 800 );
 	}
 
-	public void setup() {
-		super.setup();	
+	public void setupFirstFrame() {
+	
 
 		// load texture
 		texture = ImageUtil.imageToGraphics(DemoAssets.textureJupiter());

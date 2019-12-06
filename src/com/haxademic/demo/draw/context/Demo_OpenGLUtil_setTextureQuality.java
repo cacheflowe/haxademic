@@ -22,8 +22,8 @@ extends PAppletHax {
 	}
 
 
-	public void setup() {
-		super.setup();
+	public void setupFirstFrame() {
+
 		texture = new TextureShaderTimeStepper(p.width, p.height, "cacheflowe-repeating-circles.glsl");
 //		texture = new TextureMeshDeform(p.width, p.height);
 		

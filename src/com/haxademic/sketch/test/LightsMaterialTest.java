@@ -41,8 +41,8 @@ extends PAppletHax {
 		p.appConfig.setProperty(AppSettings.SHOW_SLIDERS, true);
 	}
 
-	public void setup() {
-		super.setup();
+	public void setupFirstFrame() {
+
 		
 		p.sphereDetail(100);
 		

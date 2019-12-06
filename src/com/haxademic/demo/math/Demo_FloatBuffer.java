@@ -11,8 +11,8 @@ extends PAppletHax {
 
 	protected FloatBuffer buff;
 	
-	public void setup() {
-		super.setup();		
+	public void setupFirstFrame() {
+		
 		buff = new FloatBuffer(10);
 	}
 

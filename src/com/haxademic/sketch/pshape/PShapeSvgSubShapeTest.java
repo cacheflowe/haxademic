@@ -36,8 +36,8 @@ extends PAppletHax {
 	}
 
 
-	public void setup() {
-		super.setup();	
+	public void setupFirstFrame() {
+	
 //		OpenGLUtil.setQuality( p, OpenGLUtil.SMOOTH_HIGH );
 		
 		_squirrel = p.loadShape( FileUtil.getHaxademicDataPath() + "svg/squirrel-test-01.svg");

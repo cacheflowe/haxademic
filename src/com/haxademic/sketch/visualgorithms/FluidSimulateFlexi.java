@@ -33,8 +33,8 @@ public class FluidSimulateFlexi extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.HEIGHT, "512" );
 	}
 
-	public void setup() {
-		super.setup();
+	public void setupFirstFrame() {
+
 		//size(512, 512);
 		//frameRate(60);
 

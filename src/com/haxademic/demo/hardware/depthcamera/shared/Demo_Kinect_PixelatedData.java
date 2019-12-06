@@ -19,8 +19,8 @@ extends PAppletHax {
 	
 	protected PixelFilter _pixelFilter;
 	
-	public void setup() {
-		super.setup();
+	public void setupFirstFrame() {
+
 		_pixelFilter = new PixelFilter(DepthCameraSize.WIDTH, DepthCameraSize.WIDTH, (int)PIXEL_SIZE);
 	}
 

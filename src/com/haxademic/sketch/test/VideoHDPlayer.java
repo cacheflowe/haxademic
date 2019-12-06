@@ -27,8 +27,8 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.HEIGHT, "1080" );
 	}
 
-	public void setup() {
-		super.setup();		
+	public void setupFirstFrame() {
+		
 		_movie = new Movie( p, FileUtil.getFile("video/nike/nike-hike-gray-loop.mov") );
 		_movieColor = new Movie( p, FileUtil.getFile("video/nike/nike-hike-color-loop.mov") );
 

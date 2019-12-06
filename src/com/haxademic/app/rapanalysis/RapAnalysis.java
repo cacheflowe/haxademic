@@ -58,8 +58,8 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.HEIGHT, "1300" );
 	}
 
-	public void setup() {
-		super.setup();
+	public void setupFirstFrame() {
+
 
 		if( _isCapturingData == true ) {
 			setupCapture();

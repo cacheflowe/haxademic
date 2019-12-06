@@ -22,7 +22,7 @@ public class JoonsTester extends PApplet {
 	float zNear = 5;
 	float zFar = 10000;
 
-	public void setup() {
+	public void setupFirstFrame() {
 		size(800, 600, P3D);
 		jr = new JoonsRenderer(this);
 		jr.setSampler("ipr"); //Rendering mode, either "ipr" or "bucket".

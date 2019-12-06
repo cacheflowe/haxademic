@@ -21,8 +21,8 @@ extends PAppletHax {
 	}
 
 
-	public void setup() {
-		super.setup();
+	public void setupFirstFrame() {
+
 		sortArray();
 		interfaceTest();
 		methodReference();

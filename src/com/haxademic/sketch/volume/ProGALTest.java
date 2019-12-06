@@ -31,8 +31,8 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.HEIGHT, "1024" );
 	}
 
-	public void setup() {
-		super.setup();
+	public void setupFirstFrame() {
+
 		smooth();
 
 		img = DemoAssets.textureJupiter();

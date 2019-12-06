@@ -55,8 +55,7 @@ extends PAppletHax {
 		p.appConfig.setProperty( "kinect_mirrored", "true" );		
 	}
 	
-	public void setup() {
-		super.setup();
+	public void setupFirstFrame() {
 		buildCanvas();
 		loadGalleryImages();
 		_kinectLayer = new KinectLayer();

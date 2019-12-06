@@ -31,8 +31,8 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.SUNFLOW_QUALITY, "high" );
 	}
 	
-	public void setup() {
-		super.setup();
+	public void setupFirstFrame() {
+
 		p.smooth(OpenGLUtil.SMOOTH_HIGH);
 		startGifRender();
 	}

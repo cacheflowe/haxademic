@@ -40,8 +40,8 @@ extends PAppletHax {
 //		p.appConfig.setProperty( AppSettings.FPS, 30 );
 	}
 
-	public void setup() {
-		super.setup();
+	public void setupFirstFrame() {
+
 
 		initFlyers();
 	}

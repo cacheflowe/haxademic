@@ -26,8 +26,8 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.FPS, "30" );
 	}
 
-	public void setup() {
-		super.setup();
+	public void setupFirstFrame() {
+
 		
 		_shape = p.loadShape(FileUtil.getHaxademicDataPath() + "/svg/pink-eye-skeleton.svg");
 		_shape.scale(3);

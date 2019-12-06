@@ -1,48 +1,47 @@
 package com.haxademic.core.system;
 
+import com.haxademic.core.app.P;
 import com.haxademic.core.math.easing.EasingFloat;
 
 import processing.core.PApplet;
 
 public class TimeFactoredFps {
 	
-	protected PApplet p;
-	protected float _targetFps;
-	protected float _timeFactor;
-	protected EasingFloat _timeFactorEased;
-	protected float _actualFps;
-	protected float _lastTime;
+	protected float targetFps;
+	protected float timeFactor;
+	protected EasingFloat timeFactorEased;
+	protected float actualFps;
+	protected float lastTime;
 	
 	public TimeFactoredFps( PApplet p, float targetFps ) {
-		this.p = p;
-		_targetFps = targetFps;
-		_timeFactor = 1;
-		_timeFactorEased = new EasingFloat(1, 20);
-		_actualFps = targetFps;
-		_lastTime = p.millis();
+		this.targetFps = targetFps;
+		timeFactor = 1;
+		timeFactorEased = new EasingFloat(1, 20);
+		actualFps = targetFps;
+		lastTime = p.millis();
 	}
 	
 	public float targetFps() {
-		return _targetFps;
+		return targetFps;
 	}
 	
 	public float actualFps() {
-		return _actualFps;
+		return actualFps;
 	}
 	
 	public float multiplier() {
-		return _timeFactor;
+		return timeFactor;
 	}
 	
 	public float multiplierEased() {
-		return _timeFactorEased.value();
+		return timeFactorEased.value();
 	}
 	
 	public void update() {
-		_actualFps = 1000f / ( p.millis() - _lastTime );
-		_timeFactor = _targetFps / _actualFps;
-		_timeFactorEased.setTarget(_timeFactor);
-		_timeFactorEased.update();
-		_lastTime = p.millis();
+		actualFps = 1000f / ( P.p.millis() - lastTime );
+		timeFactor = targetFps / actualFps;
+		timeFactorEased.setTarget(timeFactor);
+		timeFactorEased.update();
+		lastTime = P.p.millis();
 	}
 }	

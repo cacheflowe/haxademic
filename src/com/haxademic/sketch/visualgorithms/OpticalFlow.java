@@ -72,8 +72,8 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.HEIGHT, "480" );
 	}
 
-	public void setup() {
-		super.setup();
+	public void setupFirstFrame() {
+
 
 		// screen and video
 		video = new Capture(this, wscreen, hscreen, fps);

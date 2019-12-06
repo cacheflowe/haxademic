@@ -24,8 +24,8 @@ implements ISocketClientDelegate {
 		p.appConfig.setProperty(AppSettings.SHOW_DEBUG, true);
 	}
 
-	public void setup() {
-		super.setup();	
+	public void setupFirstFrame() {
+	
 		String serverAddress = "ws://" + IPAddress.getIP() + ":" + SocketServer.PORT;
 		wsClient = new SocketClient(serverAddress, this, true);
 	}

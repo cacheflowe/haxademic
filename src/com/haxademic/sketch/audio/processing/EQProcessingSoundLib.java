@@ -20,8 +20,8 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.HEIGHT, "600" );
 	}
 
-	public void setup() {
-		super.setup();	
+	public void setupFirstFrame() {
+	
 
 		// Create an Input stream which is routed into the Amplitude analyzer
 		fft = new FFT(this, bands);

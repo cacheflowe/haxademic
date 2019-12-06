@@ -18,8 +18,8 @@ extends PAppletHax {
 		appConfig.setProperty( AppSettings.HEIGHT, "800" );
 	}
 
-	public void setup() {
-		super.setup();
+	public void setupFirstFrame() {
+
 		// init all shapes
 		meshes = new MeshShapes[] {
 				new MeshShapes(MeshShapes.PLANE, 200, 200, -4, 4, -PI, PI),

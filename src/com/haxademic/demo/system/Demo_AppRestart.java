@@ -7,8 +7,8 @@ public class Demo_AppRestart
 extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
-	public void setup() {
-		super.setup();		
+	public void setupFirstFrame() {
+		
 	}
 
 	public void drawApp() {

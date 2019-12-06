@@ -88,8 +88,7 @@ extends PAppletHax {
 		p.appConfig.setProperty( "dmx_active", "true" );
 	}
 
-	public void setup() {
-		super.setup();
+	public void setupFirstFrame() {
 		minim = new Minim(this);
 		// hardware config
 		if(p.appConfig.getBoolean("leap_active", false) == true) {

@@ -27,8 +27,8 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.HEIGHT, "600" );
 	}
 
-	public void setup() {
-		super.setup();	
+	public void setupFirstFrame() {
+	
 		p.smooth( OpenGLUtil.SMOOTH_HIGH );
 		newRectanges();
 	}

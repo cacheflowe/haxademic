@@ -53,8 +53,8 @@ extends PAppletHax {
 	}
 
 
-	public void setup() {
-		super.setup();
+	public void setupFirstFrame() {
+
 		noStroke();
 		
 		img = loadImage(FileUtil.getFile("images/dino-pattern-3.png"));

@@ -43,9 +43,7 @@ extends PAppletHax {
 	}
 
 
-	public void setup() {
-		super.setup();
-		
+	public void setupFirstFrame() {
 		buffer = p.createGraphics(p.width, p.height, P.P2D);
 		copyImg = p.createImage(buffer.width, buffer.height, P.RGB);
 

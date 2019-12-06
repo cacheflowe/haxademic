@@ -30,8 +30,8 @@ extends PAppletHax {
 	}
 	
 	
-	public void setup() {
-		super.setup();	
+	public void setupFirstFrame() {
+	
 		server = new WebServer(new UIControlsHandler(), true);
 	}
 	

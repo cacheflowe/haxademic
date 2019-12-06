@@ -28,10 +28,6 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, false );
 	}
 
-	public void setup() {
-		super.setup();	
-	}
-	
 	protected void setupFirstFrame() {
 		// build obj PShape and scale to window
 		img = DemoAssets.textureJupiter();

@@ -32,8 +32,8 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.RENDERING_GIF, "false" );
 	}
 	
-	public void setup() {
-		super.setup();
+	public void setupFirstFrame() {
+
 		p.background(0);
 		p.smooth(OpenGLUtil.SMOOTH_HIGH);
 		_logo = p.loadShape(FileUtil.getHaxademicDataPath()+"svg/ello-centered-complex-lofi.svg");

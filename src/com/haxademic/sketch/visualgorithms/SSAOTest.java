@@ -46,8 +46,8 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.RETINA, false );
 	}
 
-	public void setup() {
-		super.setup();	
+	public void setupFirstFrame() {
+	
 		
 		canvas = p.createGraphics(p.width/2, p.height/2, P.P3D);
 		ssaoBuffer = p.createGraphics(p.width/2, p.height/2, P.P2D);

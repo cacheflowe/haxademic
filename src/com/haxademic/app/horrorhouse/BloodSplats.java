@@ -82,8 +82,7 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.FULLSCREEN, true );
 	}
 	
-	public void setup() {
-		super.setup();
+	public void setupFirstFrame() {
 		minim = new Minim(this);
 	}
 	

@@ -60,8 +60,8 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.FULLSCREEN, "false" );
 	}
 	
-	public void setup() {
-		super.setup();
+	public void setupFirstFrame() {
+
 		
 		initBlobDetection();
 

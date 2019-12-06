@@ -13,8 +13,8 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.HEIGHT, 128 );
 	}
 
-	public void setup() {
-		super.setup();	
+	public void setupFirstFrame() {
+	
 	}
 
 	public void drawApp() {

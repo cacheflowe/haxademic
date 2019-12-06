@@ -41,8 +41,8 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.SUNFLOW_QUALITY, "low" );
 	}
 	
-	public void setup() {
-		super.setup();
+	public void setupFirstFrame() {
+
 		
 		_rot = new EasingFloat3d( 0, 0, 0, 10f );
 		_meshPool = new MeshPool( p );

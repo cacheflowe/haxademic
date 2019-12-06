@@ -18,8 +18,8 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.HEIGHT, "600" );
 	}
 
-	public void setup() {
-		super.setup();	
+	public void setupFirstFrame() {
+	
 		_colorStart = new EasingColor("#000000", 20f);
 		_colorStop = new EasingColor("#000000", 20f);
 	}

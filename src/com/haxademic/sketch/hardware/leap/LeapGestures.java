@@ -20,8 +20,8 @@ extends PAppletHax {
 
 	LeapMotion leap;
 
-	public void setup() {
-		super.setup();
+	public void setupFirstFrame() {
+
 //	    leap = new LeapMotion(this).withGestures();
 	     leap = new LeapMotion(this).withGestures("circle, swipe, screen_tap, key_tap");
 	    // leap = new LeapMotion(this).withGestures("swipe"); // Leap detects only swipe gestures.

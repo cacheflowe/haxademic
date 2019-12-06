@@ -48,8 +48,8 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.SHOW_SLIDERS, true );
 	}
 
-	public void setup() {
-		super.setup();
+	public void setupFirstFrame() {
+
 		
 		centerX = p.width/2;
 		centerY = p.height/2;

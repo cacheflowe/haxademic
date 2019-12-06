@@ -37,8 +37,8 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, frames );
 	}
 
-	public void setup() {
-		super.setup();
+	public void setupFirstFrame() {
+
 		
 		// load image into padded buffer
 		PImage imageOrig = DemoAssets.smallTexture();

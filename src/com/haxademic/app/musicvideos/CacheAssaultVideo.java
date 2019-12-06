@@ -78,8 +78,7 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.RENDER_MIDI_OFFSET, "0" );
 	}
 
-	public void setup() {
-		super.setup();
+	public void setupFirstFrame() {
 	}
 
 	public void initRender() {

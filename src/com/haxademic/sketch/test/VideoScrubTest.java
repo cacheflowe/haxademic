@@ -11,7 +11,7 @@ import processing.core.PGraphics;
 import processing.core.PImage;
 import processing.video.Movie;
 
-public class VideoReaderTest
+public class VideoScrubTest
 extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
@@ -26,9 +26,7 @@ extends PAppletHax {
 	// PixelTriFilter, Cluster8BitRow, ImageHistogramFilter
 
 	
-	public void setup() {
-		super.setup();		
-
+	public void setupFirstFrame() {
 		_curMov = p.createGraphics(width, height, P.P3D);
 		_curFrame = p.createImage(width, height, P.ARGB);
 //		movie = new Movie(this, "/Users/cacheflowe/Documents/workspace/haxademic/assets/media/video/Janet Jackson - Control - trimmed.mov");
@@ -51,7 +49,7 @@ extends PAppletHax {
 		
 		// seek video
 //		movie.jump(curBase + (float)Math.random()*0.2f);
-		movie.jump( ( movie.duration() * ((float)mouseX / (float)width) )  + (float)( p.frameCount % 6 ) / 40f );
+		movie.jump( ( movie.duration() * ((float)mouseX / (float)width) ));//  + (float)( p.frameCount % 6 ) / 40f );
 		movie.play();
 		movie.pause();
 
@@ -62,24 +60,6 @@ extends PAppletHax {
 		
 		// copy pGraphics to PImage for post-processing
 		_curFrame.copy( _curMov, 0, 0, _curMov.width, _curMov.height, 0, 0, _curFrame.width, _curFrame.height );
-
-
-		// Filters!!
-//		BufferedImage buff = ImageUtil.pImageToBuffered( _curFrame );
-
-//		ContrastFilter filt = new ContrastFilter();
-//		filt.setBrightness(1.2f);
-//		filt.setContrast(1.5f);
-//		filt.filter(buff, buff);
-//
-//		HSBAdjustFilter hsb = new HSBAdjustFilter();
-//		hsb.setHFactor(P.sin(p.frameCount/400f));
-//		hsb.setSFactor(0.2f);
-//		hsb.setBFactor(0.0f);
-//		hsb.filter(buff, buff);
-
-//		_curFrame = ImageUtil.bufferedToPImage( buff );
-
 
 		// draw filtered image
 		if( _curMov != null ) image( _curFrame , 0, 0, width, height);

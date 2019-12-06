@@ -14,8 +14,8 @@ extends PApplet {
 		size(400, 400, P3D);
 	}
 	
-	public void setup() {
-		super.setup();
+	public void setupFirstFrame() {
+
 		PVector p1 = new PVector(1, 1, 1);
 		PVector p2 = new PVector(1, 1, 1);
 		P.out(p1.equals(p2));

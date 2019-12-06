@@ -22,7 +22,7 @@ extends PApplet{
 
 	ToxiclibsSupport toxi;
 
-	public void setup() {
+	public void setupFirstFrame() {
 	  size(1024,576, OPENGL);
 	  modX = new SineWave(0, 0.01f, 2.5f, 2.5f);
 	  modY = new SineWave(PI, 0.017f, 2.5f, 2.5f);

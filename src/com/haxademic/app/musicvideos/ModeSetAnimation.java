@@ -69,8 +69,8 @@ extends PAppletHax {
 		super.settings();
 	}
 
-	public void setup() {
-		super.setup();
+	public void setupFirstFrame() {
+
 		initRender();
 	}
 

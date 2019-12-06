@@ -33,8 +33,8 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.RENDERING_IMAGE_SEQUENCE_STOP_FRAME, 3 + FRAMES );
 	}
 
-	public void setup() {
-		super.setup();
+	public void setupFirstFrame() {
+
 		
 		// load & normalize shape
 		obj = p.loadShape( FileUtil.getFile("models/skull-realistic.obj"));	

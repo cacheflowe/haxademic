@@ -24,8 +24,8 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, 830);
 	}
 
-	public void setup() {
-		super.setup();
+	public void setupFirstFrame() {
+
 		p.background(0);
 		forceGraph = new ForceDirectedLayout(100, 100, 600, 600, 140, 3);
 		forceGraph.setFrameDelay(2);

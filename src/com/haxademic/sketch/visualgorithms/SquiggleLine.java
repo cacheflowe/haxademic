@@ -20,8 +20,8 @@ extends PAppletHax {
 	}
 
 
-	public void setup() {
-		super.setup();	
+	public void setupFirstFrame() {
+	
 		_squiggle = new Squiggle(5, 50f, 20, 400, 5, p.color(0,255,0) );
 	}
 

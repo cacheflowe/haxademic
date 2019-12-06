@@ -22,8 +22,8 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.APP_NAME, "Debug Display Test" );
 	}
 
-	public void setup() {
-		super.setup();
+	public void setupFirstFrame() {
+
 		p.debugView.active(true);
 		p.debugView.setHelpLine("Test info here", "");
 		p.debugView.setHelpLine("[key]", "[Value]");

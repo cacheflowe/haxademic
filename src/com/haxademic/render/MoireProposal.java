@@ -45,8 +45,8 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, 1 + FRAMES );
 	}
 
-	public void setup() {
-		super.setup();
+	public void setupFirstFrame() {
+
 		
 		font = DemoAssets.fontBitlow(100);
 		stripesBuffer2 = p.createGraphics(p.width * 4, p.height, P.P3D);

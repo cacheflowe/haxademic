@@ -31,7 +31,7 @@ extends PAppletHax {
 	}
 
 	public void setup()	{
-		super.setup();
+
 		smooth();
 
 		RG.init(this);

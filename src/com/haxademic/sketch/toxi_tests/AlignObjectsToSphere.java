@@ -18,8 +18,8 @@ extends PAppletHax {
 
 	TriangleMesh[] boxes=new TriangleMesh[300];
 
-	public void setup() {
-		super.setup();
+	public void setupFirstFrame() {
+
 		for(int i=0; i<boxes.length; i++) {
 			// create a new direction vector for each box
 			Vec3D dir=new Vec3D(cos(i*TWO_PI/75),sin(i*TWO_PI/50),sin(i*TWO_PI/25)).normalize();

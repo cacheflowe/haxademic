@@ -34,8 +34,8 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.RENDERING_GIF_STOP_FRAME, ""+Math.round(_frames+1) );
 	}
 	
-	public void setup() {
-		super.setup();
+	public void setupFirstFrame() {
+
 		_logo = p.loadShape(FileUtil.getHaxademicDataPath()+"svg/ello.svg");
 		_logoInverse = p.loadShape(FileUtil.getHaxademicDataPath()+"svg/ello-inverse.svg");
 		_bread = p.loadImage(FileUtil.getHaxademicDataPath()+"images/bread.png");

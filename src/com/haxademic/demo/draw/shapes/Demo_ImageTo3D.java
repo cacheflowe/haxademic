@@ -22,7 +22,7 @@ extends PAppletHax {
 	float size = 18f;
 
 	public void setupFirstFrame() {
-		super.setup();
+
 		image = DemoAssets.smallTexture();
 	}
 	

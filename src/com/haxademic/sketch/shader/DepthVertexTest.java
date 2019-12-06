@@ -31,8 +31,8 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.RETINA, false );
 	}
 
-	public void setup() {
-		super.setup();	
+	public void setupFirstFrame() {
+	
 		
 		canvas = createGraphics(width, height, P3D);
 		canvas.beginDraw();

@@ -75,8 +75,8 @@ extends PAppletHax {
 
 	}
 
-	public void setup() {
-		super.setup();
+	public void setupFirstFrame() {
+
 		pg = p.createGraphics(p.width, p.height, P.P3D);
 		pg.smooth( AppSettings.SMOOTH_HIGH );
 	}

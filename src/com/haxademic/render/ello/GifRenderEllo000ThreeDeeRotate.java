@@ -17,8 +17,8 @@ extends PAppletHax {
 	
 	protected int animCount = 0;
 	
-	public void setup() {
-		super.setup();
+	public void setupFirstFrame() {
+
 		
 		// create ello mesh
 		_objPool = new MeshPool( p );

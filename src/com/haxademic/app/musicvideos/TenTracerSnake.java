@@ -11,8 +11,8 @@ extends PAppletHax {
 	Block[] blocks;
 	int numBlocks = 360;
 		
-	public void setup() {
-		super.setup();
+	public void setupFirstFrame() {
+
 		blocks = new Block[numBlocks];
 		for(int i=0; i < numBlocks; i++) {
 			blocks[i] = new Block(i);

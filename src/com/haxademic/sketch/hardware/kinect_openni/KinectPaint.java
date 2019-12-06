@@ -20,8 +20,8 @@ extends PAppletHax {
 	public static final int KINECT_CLOSE = 1000;
 	public static final int KINECT_FAR = 1500;
 
-	public void setup() {
-		super.setup();
+	public void setupFirstFrame() {
+
 		
 		// do something
 		_skeletonTracker = new SkeletonsTracker();

@@ -16,8 +16,8 @@ extends PAppletHax {
 	protected PGraphics _texture;
 	protected float _frames = 60;
 	
-	public void setup() {
-		super.setup();
+	public void setupFirstFrame() {
+
 		
 		_texture = p.createGraphics( p.width, p.height, P.P3D );
 		_texture.smooth(OpenGLUtil.SMOOTH_HIGH);

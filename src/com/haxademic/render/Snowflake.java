@@ -38,13 +38,9 @@ extends PAppletHax {
 		p.appConfig.setProperty(AppSettings.RENDERING_MOVIE_STOP_FRAME, 1 + FRAMES * 2);
 	}
 	
-	protected void setupFirstFrame() {
+	public void setupFirstFrame() {
 		printDirect = new PrintPageDirect(false);
 		pg = P.p.createGraphics(PrintPageDirect.PRINT_W, PrintPageDirect.PRINT_H, PRenderers.P3D);
-	}
-	
-	public void setup() {
-		super.setup();
 		
 		shapes = new ArrayList<PShape>();
 		shapes.add( p.loadShape( FileUtil.getFile("svg/cacheflowe-logo.svg")).getTessellation());

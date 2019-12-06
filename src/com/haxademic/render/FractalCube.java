@@ -29,8 +29,8 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.HEIGHT, 640 );
 	}
 
-	public void setup() {
-		super.setup();
+	public void setupFirstFrame() {
+
 		
 		BASE_CUBE_SIZE = p.width/4f;
 		

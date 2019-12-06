@@ -35,8 +35,8 @@ extends PAppletHax {
 		p.appConfig.setProperty( "kinect_blob_bg_int", "80" );
 	}
 
-	public void setup() {
-		super.setup();
+	public void setupFirstFrame() {
+
 //		_silhouette = new KinectSilhouetteBasic(false, true);
 		_silhouette = new KinectSilhouetteVectorField(false, true);
 	}

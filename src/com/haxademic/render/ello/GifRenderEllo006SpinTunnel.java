@@ -32,8 +32,8 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.RENDERING_GIF, "false" );
 	}
 	
-	public void setup() {
-		super.setup();
+	public void setupFirstFrame() {
+
 		p.smooth(OpenGLUtil.SMOOTH_HIGH);
 		_logo = p.loadShape(FileUtil.getHaxademicDataPath()+"svg/ello.svg");
 		_logoInverse = p.loadShape(FileUtil.getHaxademicDataPath()+"svg/ello-inverse.svg");

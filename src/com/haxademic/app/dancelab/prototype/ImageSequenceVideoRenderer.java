@@ -35,8 +35,7 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, startRenderFrame + 1800);
 	}
 
-	public void setup() {
-		super.setup();
+	public void setupFirstFrame() {
 		imgW = p.width;
 		imgH = p.height;
 		

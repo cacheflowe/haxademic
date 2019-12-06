@@ -47,8 +47,8 @@ extends PAppletHax {
 
 	}
 
-	public void setup() {
-		super.setup();	
+	public void setupFirstFrame() {
+	
 
 		texture = createGraphics(p.width, p.height, P.P2D);
 		texture.smooth(OpenGLUtil.SMOOTH_HIGH);
@@ -151,7 +151,7 @@ extends PAppletHax {
 			setup();
 		}
 		
-		public void setup() {	
+		public void setupFirstFrame() {	
 
 			balls = new MetaBall[NUM_BALLS];
 			img = createImage(width, height, ALPHA);

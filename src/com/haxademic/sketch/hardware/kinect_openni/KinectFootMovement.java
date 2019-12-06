@@ -33,8 +33,8 @@ extends PAppletHax {
 	protected PImage _ground;
 	protected float _groundScale = 5f;
 		
-	public void setup() {
-		super.setup();
+	public void setupFirstFrame() {
+
 		
 		// do something
 		if(p.appConfig.getBoolean("kinect_active", true) == true) _skeletonTracker = new SkeletonsTracker();

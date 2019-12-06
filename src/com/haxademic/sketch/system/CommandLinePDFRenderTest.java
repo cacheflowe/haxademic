@@ -48,8 +48,8 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, 600 );
 	}
 	
-	public void setup() {
-		super.setup();
+	public void setupFirstFrame() {
+
 		
 //		img = p.loadImage(FileUtil.getFile("images/bread.png"));
 		

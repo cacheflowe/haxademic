@@ -35,8 +35,8 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.FPS, "30" );
 	}
 
-	public void setup() {
-		super.setup();
+	public void setupFirstFrame() {
+
 		p.smooth(OpenGLUtil.SMOOTH_HIGH);
 
 		_mesh = MeshUtilToxi.getExtrudedMesh( MeshUtilToxi.meshFromSVG( p, FileUtil.getFile("svg/cacheflowe-logo.svg"), -1, 20, 0.9f ), 40 );

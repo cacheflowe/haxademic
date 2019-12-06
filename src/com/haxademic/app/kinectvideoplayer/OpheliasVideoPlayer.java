@@ -96,9 +96,7 @@ extends PAppletHax {
 	// * Remove extra filling-in of depth data at the end of the room scan 	
 	// * Make all blob resolution numbers configurable 
 	
-	public void setup() {
-		super.setup();
-		
+	public void setupFirstFrame() {
 		_videoPath = FileUtil.getHaxademicDataPath()+"video/ophelias/";
 		buildMenu();
 	}

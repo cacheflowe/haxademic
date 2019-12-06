@@ -25,8 +25,8 @@ extends PAppletHax {
 	Matrix4x4 colorMatrix=new Matrix4x4().scale(255f/(DIM*2)).translate(DIM,DIM,DIM);
 
 
-	public void setup() {
-		super.setup();
+	public void setupFirstFrame() {
+
 		flock = new Flock();
 		// Add an initial set of boids into the system
 		for (int i = 0; i < NUM; i++) {

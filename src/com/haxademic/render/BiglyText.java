@@ -33,8 +33,8 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, (int)_frames * 2 );
 	}
 	
-	public void setup() {
-		super.setup();
+	public void setupFirstFrame() {
+
 		biglyImg = p.loadImage(FileUtil.getFile("images/bigly-trans.png"));
 		buildMotionBlur();
 	}
