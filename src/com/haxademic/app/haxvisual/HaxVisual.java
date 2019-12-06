@@ -938,9 +938,9 @@ implements IAppStoreListener {
 		texturePools = new ArrayList[]{bgTexturePool, fgTexturePool, audioTexturePool, topLayerPool};
 		_curTexturePool = new ArrayList<BaseTexture>();
 
-//		HaxVisualTexturePools.addTexturesToPoolMinimal(pg, bgTexturePool, fgTexturePool, audioTexturePool, topLayerPool);
+		HaxVisualTexturePools.addTexturesToPoolMinimal(pg, bgTexturePool, fgTexturePool, audioTexturePool, topLayerPool);
 //		HaxVisualTexturePools.addTexturesToPool(pg, bgTexturePool, fgTexturePool, audioTexturePool, topLayerPool);
-		HaxVisualTexturePools.addTexturesInterphase(pg, bgTexturePool, fgTexturePool, audioTexturePool, topLayerPool);
+//		HaxVisualTexturePools.addTexturesInterphase(pg, bgTexturePool, fgTexturePool, audioTexturePool, topLayerPool);
 		//		HaxVisualTexturePools.addTexturesToPoolSG(pg, bgTexturePool, fgTexturePool, audioTexturePool, topLayerPool);
 		//		HaxVisualTexturePools.addTexturesToPoolClient(pg, bgTexturePool, fgTexturePool, audioTexturePool, topLayerPool);
 
