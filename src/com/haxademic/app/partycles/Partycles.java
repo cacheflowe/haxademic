@@ -21,6 +21,7 @@ import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.LinearFloat;
 import com.haxademic.core.math.easing.Penner;
 import com.haxademic.core.media.DemoAssets;
+import com.haxademic.core.media.audio.analysis.AudioLineIn;
 import com.haxademic.core.system.SystemUtil;
 
 import dmxP512.DmxP512;
@@ -98,13 +99,11 @@ extends PAppletHax {
 		}
 		p.appConfig.setProperty( AppSettings.FULLSCREEN, true );
 		p.appConfig.setProperty( AppSettings.SHOW_DEBUG, false );
-		p.appConfig.setProperty( AppSettings.INIT_MINIM_AUDIO, false );
-		p.appConfig.setProperty( AppSettings.INIT_ESS_AUDIO, true );
-		p.appConfig.setProperty( AppSettings.AUDIO_DEBUG, true );
 		p.appConfig.setProperty( AppSettings.KINECT_V2_WIN_ACTIVE, true );
 	}
 
 	public void setupFirstFrame() {
+		AudioLineIn.instance();
 		// main buffer
 		mainBuffer = p.createGraphics(1920, 1080, PRenderers.P2D);
 		cameraBuffer = p.createGraphics(1920, 1080, PRenderers.P2D);

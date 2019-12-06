@@ -2,18 +2,17 @@ package com.haxademic.demo.media.audio.analysis;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.media.audio.analysis.AudioLineIn;
+import com.haxademic.core.media.audio.analysis.AudioLineIn.AudioInputLibrary;
 
 public class Demo_EQBandDistribute 
 extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.INIT_ESS_AUDIO, false);
-		p.appConfig.setProperty( AppSettings.INIT_MINIM_AUDIO, true);
-		p.appConfig.setProperty( AppSettings.INIT_BEADS_AUDIO, true);
+	protected void setupFirstFrame() {
+		AudioLineIn.instance(AudioInputLibrary.ESS);
 	}
-
+	
 	public void drawApp() {
 		background(0);
 		p.noStroke();

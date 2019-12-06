@@ -10,7 +10,6 @@ import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.P5Properties;
 import com.haxademic.core.data.constants.PEvents;
 import com.haxademic.core.data.constants.PRenderers;
-import com.haxademic.core.data.store.AppStore;
 import com.haxademic.core.debug.DebugUtil;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.OpenGLUtil;
@@ -30,9 +29,7 @@ import com.haxademic.core.hardware.midi.MidiDevice;
 import com.haxademic.core.hardware.osc.OscWrapper;
 import com.haxademic.core.hardware.webcam.WebCam;
 import com.haxademic.core.math.easing.EasingFloat;
-import com.haxademic.core.media.audio.analysis.AudioInputBeads;
 import com.haxademic.core.media.audio.analysis.AudioInputESS;
-import com.haxademic.core.media.audio.analysis.AudioInputMinim;
 import com.haxademic.core.media.audio.analysis.AudioStreamData;
 import com.haxademic.core.media.audio.analysis.IAudioInput;
 import com.haxademic.core.media.video.MovieBuffer;
@@ -43,7 +40,6 @@ import com.haxademic.core.render.JoonsWrapper;
 import com.haxademic.core.render.MIDISequenceRenderer;
 import com.haxademic.core.render.VideoRenderer;
 import com.haxademic.core.system.AppUtil;
-import com.haxademic.core.system.JavaInfo;
 import com.haxademic.core.system.SecondScreenViewer;
 import com.haxademic.core.system.SystemUtil;
 import com.haxademic.core.ui.UIButton;
@@ -84,7 +80,6 @@ extends PApplet {
 	// audio
 	public IAudioInput audioInput;
 	public AudioStreamData audioData = new AudioStreamData();
-	public PGraphics audioInputDebugBuffer;
 
 	// rendering
 	public VideoRenderer videoRenderer;
@@ -107,6 +102,7 @@ extends PApplet {
 	public LeapMotion leapMotion = null;
 	public OscWrapper oscState = null;
 	public BrowserInputState browserInputState = null;
+	// move to mouse singleton
 	public int lastMouseTime = 0;
 	public boolean mouseShowing = true;
 	public EasingFloat mouseXEase = new EasingFloat(0, 0.15f);
@@ -126,9 +122,8 @@ extends PApplet {
 	////////////////////////
 	
 	public void settings() {
-		P.p = p = this;
-		P.store = AppStore.instance();
-		AppUtil.setFrameBackground(p,0,255,0);
+		p = this;
+		P.init(this);
 		printArgs();
 		loadAppConfig();
 		overridePropsFile();
@@ -270,7 +265,7 @@ extends PApplet {
 		// create offscreen buffer
 		if(isOpenGL()) pg = PG.newPG(p.appConfig.getInt(AppSettings.PG_WIDTH, p.width), p.appConfig.getInt(AppSettings.PG_HEIGHT, p.height));
 		// audio 
-		initAudioInput();
+//		initAudioInput();
 		// rendering
 		if(p.appConfig.getFloat(AppSettings.LOOP_FRAMES, 0) != 0) loop = new AnimationLoop(p.appConfig.getFloat(AppSettings.LOOP_FRAMES, 0), p.appConfig.getInt(AppSettings.LOOP_TICKS, 4));
 		videoRenderer = new VideoRenderer( _fps, VideoRenderer.OUTPUT_TYPE_MOVIE, p.appConfig.getString( "render_output_dir", FileUtil.getHaxademicOutputPath() ) );
@@ -330,41 +325,6 @@ extends PApplet {
 		}
 	}
 	
-	protected void initAudioInput() {
-		if(appConfig.getBoolean(AppSettings.AUDIO_DEBUG, false) == true) JavaInfo.printAudioInfo();
-		if( appConfig.getBoolean(AppSettings.INIT_MINIM_AUDIO, false) == true ) {
-			audioInput = new AudioInputMinim();
-		} else if( appConfig.getBoolean(AppSettings.INIT_BEADS_AUDIO, false) == true ) {
-			audioInput = new AudioInputBeads();
-		} else if( appConfig.getBoolean(AppSettings.INIT_ESS_AUDIO, true) == true ) {
-			// Default to ESS being on, unless a different audio library is selected
-			try {
-				audioInput = new AudioInputESS();
-				DebugUtil.printErr("Fix AudioInputESS amp: audioStreamData.setAmp(fft.max);");
-			} catch (IllegalArgumentException e) {
-				DebugUtil.printErr("ESS Audio not initialized. Check your sound card settings.");
-			}
-		}
-		// if we've initialized an audio input, let's build an audio buffer
-		if(audioInput != null) {
-			createAudioDebugBuffer();
-		}
-	}
-	
-	protected void createAudioDebugBuffer() {
-		audioInputDebugBuffer = PG.newPG((int) AudioStreamData.debugW, (int) AudioStreamData.debugW);
-		p.debugView.setTexture("Audio Input", audioInputDebugBuffer);
-	}
-
-	// option to override 
-	public void setAudioInput(IAudioInput input) {
-		audioInput = input;
-		// create audio buffer if an audio input never did
-		if(audioInputDebugBuffer == null) {
-			createAudioDebugBuffer();
-		}
-	}
-	
 	protected void initializeOn1stFrame() {
 		if( p.frameCount == 1 ) {
 			if(isOpenGL()) P.println("Using Java version: " + SystemUtil.getJavaVersion() + " and GL version: " + OpenGLUtil.getGlVersion(p.g));
@@ -407,15 +367,21 @@ extends PApplet {
 		return alwaysOnTop;
 	}
 	
-	// audio
+	////////////////////////
+	// audio - TODO: move this into AudioLineIn
+	////////////////////////
+	
+	public void setAudioInput(IAudioInput input) {
+		audioInput = input;
+		audioData = audioInput.audioData(); 
+	}
 	
 	public float[] audioFreqs() {
 		return audioInput.audioData().frequencies();
 	}
 	
 	public float audioFreq(int index) {
-//		return audioFreqMod(index, audioFreqs().length);
-		return audioFreqMod(index, 128);
+		return audioFreqMod(index, audioFreqs().length);
 	}
 		
 	public float audioFreqMod(int index, int mod) {
@@ -430,7 +396,6 @@ extends PApplet {
 		initializeOn1stFrame();
 		killScreensaver();
 		if(loop != null) loop.update();
-		updateAudioData();
 		handleRenderingStepthrough();
 		midiState.update();
 		browserInputState.update();
@@ -465,19 +430,6 @@ extends PApplet {
 		mouseYEase.update();
 	}
 	
-	protected void updateAudioData() {
-		if(audioInput != null) {
-			PGraphics audioBuffer = (debugView.active() == true) ? audioInputDebugBuffer : null;	// only draw if debugging
-			if(audioBuffer != null) {
-				audioBuffer.beginDraw();
-				audioBuffer.background(0);
-			}
-			audioInput.update(audioBuffer);
-			audioData = audioInput.audioData();
-			if(audioBuffer != null) audioBuffer.endDraw();
-		}
-	}
-
 	protected void showStats() {
 		p.noLights();
 		debugView.draw();
@@ -639,15 +591,6 @@ extends PApplet {
 			AppUtil.setAlwaysOnTop(p, alwaysOnTop);
 		}
 		
-		// audio input gain
-		if ( p.key == '.' ) {
-			p.audioData.setGain(p.audioData.gain() + 0.05f);
-			p.debugView.setValue("audioData.gain()", p.audioData.gain());
-		}
-		if ( p.key == ',' ) {
-			p.audioData.setGain(p.audioData.gain() - 0.05f);
-			p.debugView.setValue("audioData.gain()", p.audioData.gain());
-		}
 		// show debug & prefs sliders
 		if (p.key == '|') saveScreenshot(p.g);
 		if (p.key == '/') { debugView.active(!debugView.active()); if(ui.active()) ui.active(false); }
@@ -703,9 +646,9 @@ extends PApplet {
 
 	// ESS audio input
 	public void audioInputData(AudioInput theInput) {
-		if(audioInput instanceof AudioInputESS) {
+//		if(audioInput instanceof AudioInputESS) {
 			((AudioInputESS) audioInput).audioInputCallback(theInput);
-		}
+//		}
 	}
 
 	// LEAP MOTION EVENTS

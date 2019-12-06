@@ -10,6 +10,8 @@ import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.textures.pshader.TextureShader;
 import com.haxademic.core.hardware.webcam.WebCam;
 import com.haxademic.core.hardware.webcam.WebCam.IWebCamCallback;
+import com.haxademic.core.media.audio.analysis.AudioLineIn;
+import com.haxademic.core.media.audio.analysis.AudioLineIn.AudioInputLibrary;
 
 import processing.core.PGraphics;
 import processing.core.PImage;
@@ -27,13 +29,12 @@ implements IWebCamCallback {
 	protected void overridePropsFile() {
 		p.appConfig.setProperty(AppSettings.WIDTH, 1280 );
 		p.appConfig.setProperty(AppSettings.HEIGHT, 720 );
-		p.appConfig.setProperty(AppSettings.INIT_ESS_AUDIO, true );
-//		p.appConfig.setProperty(AppSettings.INIT_MINIM_AUDIO, true );
 //		p.appConfig.setProperty(AppSettings.SHOW_DEBUG, true );
 	}
 
 	public void setupFirstFrame () {
 		WebCam.instance().setDelegate(this);
+		AudioLineIn.instance(AudioInputLibrary.ESS);
 	}
 
 	@Override

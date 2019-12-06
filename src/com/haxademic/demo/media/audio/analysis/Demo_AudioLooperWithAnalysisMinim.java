@@ -3,6 +3,7 @@ package com.haxademic.demo.media.audio.analysis;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.midi.devices.LaunchControl;
 import com.haxademic.core.media.audio.analysis.AudioStreamData;
 import com.haxademic.core.media.audio.playback.AudioPlayerMinim;
@@ -28,12 +29,12 @@ extends PAppletHax { public static void main(String args[]) { arguments = args; 
 	
 		// oad samples
 		loops = new AudioPlayerMinim[] {
-				new AudioPlayerMinim(minim, "audio/crusher-loops/kicks.wav"),
-				new AudioPlayerMinim(minim, "audio/crusher-loops/snares.wav"),
-				new AudioPlayerMinim(minim, "audio/crusher-loops/bass-selekta.wav"),
-				new AudioPlayerMinim(minim, "audio/crusher-loops/fnc-01.wav"),
-				new AudioPlayerMinim(minim, "audio/crusher-loops/fx05.wav"),
-				new AudioPlayerMinim(minim, "audio/crusher-loops/contender.wav"),
+				new AudioPlayerMinim(minim, FileUtil.getFile("audio/crusher-loops/kicks.wav")),
+				new AudioPlayerMinim(minim, FileUtil.getFile("audio/crusher-loops/snares.wav")),
+				new AudioPlayerMinim(minim, FileUtil.getFile("audio/crusher-loops/bass-selekta.wav")),
+				new AudioPlayerMinim(minim, FileUtil.getFile("audio/crusher-loops/fnc-01.wav")),
+				new AudioPlayerMinim(minim, FileUtil.getFile("audio/crusher-loops/fx05.wav")),
+				new AudioPlayerMinim(minim, FileUtil.getFile("audio/crusher-loops/contender.wav")),
 		};
 		
 		knobs = new int[] {

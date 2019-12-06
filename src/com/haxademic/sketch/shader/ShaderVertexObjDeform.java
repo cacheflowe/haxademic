@@ -10,6 +10,8 @@ import com.haxademic.core.draw.textures.PerlinTexture;
 import com.haxademic.core.draw.textures.pgraphics.TextureEQGrid;
 import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
 import com.haxademic.core.file.FileUtil;
+import com.haxademic.core.media.audio.analysis.AudioLineIn;
+import com.haxademic.core.media.audio.analysis.AudioLineIn.AudioInputLibrary;
 
 import processing.core.PGraphics;
 import processing.core.PImage;
@@ -36,7 +38,6 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.FILLS_SCREEN, "false" );
 		p.appConfig.setProperty( AppSettings.WIDTH, "640" );
 		p.appConfig.setProperty( AppSettings.HEIGHT, "640" );
-		p.appConfig.setProperty( AppSettings.INIT_MINIM_AUDIO, true );
 		p.appConfig.setProperty( AppSettings.SMOOTHING, AppSettings.SMOOTH_HIGH );
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
 		p.appConfig.setProperty( AppSettings.RENDERING_GIF, "false" );
@@ -47,8 +48,8 @@ extends PAppletHax {
 
 	}
 
-	public void setup() {
-		super.setup();	
+	public void setupFirstFrame() {
+		AudioLineIn.instance(AudioInputLibrary.Minim);
 		
 		// create dynamic deformation texture
 		audioTexture = new TextureEQGrid(800, 800);

@@ -64,7 +64,7 @@ extends BaseTexture {
 		
 		// set colors and alphas
 		_texture.noStroke();
-		int spectrumInterval = P.round( P.p.audioData.frequencies().length / _numLines);
+		int spectrumInterval = P.round( P.p.audioFreqs().length / _numLines);
 		
 		// double lines
 		lineH = _height / _numLines;

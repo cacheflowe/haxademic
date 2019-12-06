@@ -44,13 +44,12 @@ extends HaxMapper{
 	protected void overridePropsFile() {
 		super.overridePropsFile();
 		p.appConfig.setProperty( "mapping_file", FileUtil.getHaxademicDataPath() + "text/mapping/mapping-2015-08-31-20-09-27.txt" );
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
-		p.appConfig.setProperty( AppSettings.FULLSCREEN, "true" );
-		p.appConfig.setProperty( AppSettings.FILLS_SCREEN, "true" );
-		p.appConfig.setProperty( "osc_active", "false" );
-		p.appConfig.setProperty( AppSettings.AUDIO_DEBUG, "true" );
-		p.appConfig.setProperty( AppSettings.WIDTH, "1200" );
-		p.appConfig.setProperty( AppSettings.HEIGHT, "1000" );
+		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, false );
+		p.appConfig.setProperty( AppSettings.FULLSCREEN, true );
+		p.appConfig.setProperty( AppSettings.FILLS_SCREEN, true );
+		p.appConfig.setProperty( "osc_active", false );
+		p.appConfig.setProperty( AppSettings.WIDTH, 1200);
+		p.appConfig.setProperty( AppSettings.HEIGHT, 1000);
 	}
 
 	protected void buildMappingGroups() {

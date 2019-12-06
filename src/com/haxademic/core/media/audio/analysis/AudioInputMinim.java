@@ -56,12 +56,12 @@ implements IAudioInput {
 		fft.forward( audioInput.mix );
 		beatDetection.detect( audioInput.mix );
 		
-		float timeSize = fft.timeSize() * ( fft.timeSize() / P.p._fps );
+		float timeSize = 1f;//fft.timeSize() * ( fft.timeSize() / P.p._fps );
 		
 		// calculate levels
 		for(int i = 0; i < fft.specSize(); i++) {
 			spectrumDampened[i] = ( spectrumDampened[i] < fft.getBand(i) ) ? fft.getBand(i) : spectrumDampened[i] * dampening;
-			if(i < spectrum.length) spectrum[i] = fft.getBand(i);
+			if(i < spectrum.length) spectrum[i] = fft.getBand(i) * 0.1f;
 //				spectrumDampened[i] = P.constrain( spectrumDampened[i] / volMax, 0, 1 );
 			spectrumDb[i] = 10 - -1f * P.log( 1 * spectrumDampened[i] / timeSize );
 		}
@@ -74,7 +74,7 @@ implements IAudioInput {
 		audioStreamData.setFFTFrequencies(spectrum);
 //		audioStreamData.setFFTFrequencies(fft.getSpectrumReal());
 		audioStreamData.setWaveformOffsets(audioInput.mix.toArray());
-		audioStreamData.setAmp(audioInput.mix.level());
+		audioStreamData.setAmp(audioInput.mix.level() * 2f);
 		audioStreamData.calcFreqsDampened();
 		if( beatDetection.isOnset() == true ) audioStreamData.setBeat();
 		audioStreamData.update();

@@ -63,9 +63,6 @@ public class AppSettings {
 	public static final String MIDI_DEVICE_OUT_INDEX = "midi_device_out_index";
 	public static final String MIDI_DEBUG = "midi_debug";
 	public static final String OSC_ACTIVE = "osc_active";
-	public static final String INIT_ESS_AUDIO = "init_ess_audio";
-	public static final String INIT_MINIM_AUDIO = "init_minim_audio";
-	public static final String INIT_BEADS_AUDIO = "init_beads_audio";
 	public static final String GAMEPADS_ACTIVE = "gamepads_active";
 	// Output
 	public static final String DMX_PORT = "dmx_port";
@@ -75,6 +72,5 @@ public class AppSettings {
 	public static final String APP_VIEWER_SCALE = "app_viewer_scale";
 	public static final String SHOW_DEBUG = "show_stats";
 	public static final String SHOW_SLIDERS = "show_sliders";
-	public static final String AUDIO_DEBUG = "audio_debug";
 	public static final String SHOW_FPS_IN_TITLE = "show_fps_in_title";
 }

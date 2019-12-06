@@ -1,8 +1,10 @@
 package com.haxademic.core.media.audio.interphase;
 
 import com.haxademic.core.app.P;
+import com.haxademic.core.data.constants.PRegisterableMethods;
 import com.haxademic.core.math.easing.LinearFloat;
 import com.haxademic.core.media.audio.analysis.AudioInputBeads;
+import com.haxademic.core.media.audio.analysis.AudioLineIn;
 
 import beads.AudioContext;
 import beads.Bead;
@@ -12,6 +14,7 @@ public class Metronome {
 	
 	protected Interphase p;
 	protected AudioContext ac;
+	protected AudioInputBeads audioInput;
 	protected Clock clock;
 	protected int tempoMin = 60;
 	protected int tempoMax = 140;
@@ -25,7 +28,7 @@ public class Metronome {
 		p = i;
 		initTempos();
 		init();
-		P.p.registerMethod("pre", this);
+		P.p.registerMethod(PRegisterableMethods.pre, this);
 	}
 	
 	public void pre() {
@@ -47,7 +50,7 @@ public class Metronome {
 	
 	public void init() {
 		ac = new AudioContext();
-		P.p.setAudioInput(new AudioInputBeads(ac));	// send Beads audio player analyzer to PAppletHax
+		new AudioLineIn(new AudioInputBeads(ac));	// connects the audio input to the global audio frequencies getter & draws debug view
 
 		clock = new Clock(ac, DEFAULT_INTERVAL);
 		clock.addMessageListener(
@@ -57,14 +60,14 @@ public class Metronome {
 					if(p.systemMuted()) return;
 					
 					// update tempo!
-					if(Interphase.TEMPO_MIDI_CONTROL) {
+					if(Interphase.TEMPO_MOUSE_CONTROL) {
+						// mouse control
+						int beatIntervalMillisMouse = P.round(P.map(P.p.mousePercentX(), 0, 1, TEMPOS[0], TEMPOS[TEMPOS.length - 1]));
+						P.store.setNumber(Interphase.BEAT_INTERVAL_MILLIS, beatIntervalMillisMouse);
+					} else if(Interphase.TEMPO_MIDI_CONTROL) {
 						// mouse control
 						int beatIntervalMillisMidi = P.round(P.map(P.store.getInt(Interphase.BPM_MIDI), tempoMin, tempoMax, TEMPOS[0], TEMPOS[TEMPOS.length - 1]));
 						P.store.setNumber(Interphase.BEAT_INTERVAL_MILLIS, beatIntervalMillisMidi);
-					} else if(Interphase.TEMPO_MOUSE_CONTROL) {
-							// mouse control
-							int beatIntervalMillisMouse = P.round(P.map(P.p.mousePercentX(), 0, 1, TEMPOS[0], TEMPOS[TEMPOS.length - 1]));
-							P.store.setNumber(Interphase.BEAT_INTERVAL_MILLIS, beatIntervalMillisMouse);
 					} else {
 						// change tempo based on activity
 						int interactionMultIndex = P.store.getInt(Interphase.INTERACTION_SPEED_MULT);
@@ -73,7 +76,8 @@ public class Metronome {
 						// lerping through logarithmic tempo values 
 						P.store.setNumber(Interphase.BEAT_INTERVAL_MILLIS, P.round(beatInterval.value()));
 					}
-					c.getIntervalEnvelope().setValue(P.store.getInt(Interphase.BEAT_INTERVAL_MILLIS));
+					c.getIntervalUGen().setValue(P.store.getInt(Interphase.BEAT_INTERVAL_MILLIS));
+//					c.getIntervalEnvelope().setValue(P.store.getInt(Interphase.BEAT_INTERVAL_MILLIS));
 					
 					// debug tempo values
 					float bpm = (60*1000) / P.store.getInt(Interphase.BEAT_INTERVAL_MILLIS);

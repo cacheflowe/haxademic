@@ -15,6 +15,7 @@ public interface IAudioInput {
 	public static IAudioInput initBeadsInput() {
 		return new AudioInputBeads();
 	}
+	
 	public static IAudioInput initBeadsInput(AudioContext exsitingAc) {
 		return new AudioInputBeads(exsitingAc);
 	}

@@ -2,7 +2,6 @@ package com.haxademic.demo.draw.shapes.shader;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.shapes.PShapeUtil;
@@ -10,6 +9,7 @@ import com.haxademic.core.draw.shapes.pshader.MeshDeformAndTextureFilter;
 import com.haxademic.core.draw.textures.pgraphics.TextureEQConcentricCircles;
 import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
 import com.haxademic.core.media.DemoAssets;
+import com.haxademic.core.media.audio.analysis.AudioLineIn;
 
 import processing.core.PImage;
 import processing.core.PShape;
@@ -23,11 +23,9 @@ extends PAppletHax {
 	protected PImage displacementMap2;
 	protected BaseTexture audioTexture;
 
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.INIT_MINIM_AUDIO, true );
-	}
-
 	protected void setupFirstFrame() {
+		AudioLineIn.instance();
+		
 		// build obj PShape and scale to window
 		// Note: Without getTesselation(), PShape.setTexture(PImage) is SUPER slow. 
 		obj = DemoAssets.objSkullRealistic().getTessellation();

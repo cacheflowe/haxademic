@@ -58,7 +58,6 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.REALSENSE_ACTIVE, true );
 		p.appConfig.setProperty( AppSettings.DEPTH_CAM_RGB_ACTIVE, false );
 		p.appConfig.setProperty( AppSettings.FULLSCREEN, "false" );
-		p.appConfig.setProperty( AppSettings.INIT_ESS_AUDIO, false );
 	}
 	
 	public void setup() {

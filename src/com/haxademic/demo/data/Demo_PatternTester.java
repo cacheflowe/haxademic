@@ -2,7 +2,6 @@ package com.haxademic.demo.data;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.data.patterns.ISequencerPattern;
 import com.haxademic.core.data.patterns.PatternInterval;
 import com.haxademic.core.data.patterns.PatternNoise;
@@ -19,11 +18,6 @@ extends PAppletHax {
 	protected String[] patternNames;
 	protected int NUM_STEPS = 16;
 	
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.INIT_ESS_AUDIO, false );
-		p.appConfig.setProperty( AppSettings.INIT_MINIM_AUDIO, false );
-	}
-
 	public void setupFirstFrame() {
 		// build pattern generators
 		patterns = new ISequencerPattern[] {

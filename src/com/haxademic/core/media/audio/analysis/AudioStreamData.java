@@ -19,7 +19,7 @@ public class AudioStreamData {
 	
 	public static float debugW = 300;
 	public static float debugH = 300;
-	protected float waveformAmp = 1;
+	protected float waveformAmp = 0.5f;
 
 	public AudioStreamData() {
 		

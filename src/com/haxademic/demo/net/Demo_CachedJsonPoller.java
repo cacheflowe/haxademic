@@ -2,7 +2,6 @@ package com.haxademic.demo.net;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.net.CachedJsonPoller;
@@ -16,10 +15,6 @@ implements ICachedJsonPollerDelegate {
 	
 	protected CachedJsonPoller polled;
 	
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.INIT_ESS_AUDIO, false );
-	}
-
 	public void setupFirstFrame() {
 		polled = new CachedJsonPoller("http://localhost.dbg-www.com/data/json/pdus.json", FileUtil.getFile("text/json/pdus.json"), 5, this);
 	}

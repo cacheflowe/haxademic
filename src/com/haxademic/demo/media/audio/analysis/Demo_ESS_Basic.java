@@ -2,7 +2,6 @@ package com.haxademic.demo.media.audio.analysis;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.app.config.AppSettings;
 
 import krister.Ess.AudioInput;
 import krister.Ess.Ess;
@@ -15,10 +14,6 @@ extends PAppletHax {
 	protected AudioInput audioInput;
 	protected FFT fft;
 	protected int bufferSize = 512;
-
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.INIT_ESS_AUDIO, false );	// don't use default haxademic ESS wrapper
-	}
 
 	public void setupFirstFrame() {
 		Ess.start(P.p); 

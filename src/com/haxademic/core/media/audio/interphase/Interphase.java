@@ -141,7 +141,7 @@ implements ILaunchpadCallback {
 	public void keyPressed() {
 		// App controls ---------------------------------------
 		
-		if(P.p.key == 'g') TEMPO_MOUSE_CONTROL = !TEMPO_MOUSE_CONTROL;
+		if (P.p.key == 'g') TEMPO_MOUSE_CONTROL = !TEMPO_MOUSE_CONTROL;
 		if (P.p.key == P.CODED && P.p.keyCode == P.DOWN) setSystemMute(true);
 		if (P.p.key == P.CODED && P.p.keyCode == P.UP) setSystemMute(false);
 		

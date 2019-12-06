@@ -13,8 +13,6 @@ extends PAppletHax {
 //		p.appConfig.setProperty( AppSettings.RENDERER, PRenderers.JAVA2D );
 		p.appConfig.setProperty( AppSettings.WIDTH, 512 );
 		p.appConfig.setProperty( AppSettings.HEIGHT, 256 );
-		p.appConfig.setProperty( AppSettings.INIT_ESS_AUDIO, false );
-		
 		p.appConfig.setProperty( AppSettings.SHOW_DEBUG, true );
 	}
 	

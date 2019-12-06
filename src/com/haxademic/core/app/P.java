@@ -16,7 +16,16 @@ extends PApplet {
 	public static AppStore store;	
 	public static AppStoreDistributed storeDistributed;	
 	
+	public static void init(PAppletHax p) {
+		P.p = p;
+		P.store = AppStore.instance();
+	}
+	
 	// helper methods
+	
+	public static boolean isHaxApp() {
+		return P.p instanceof PAppletHax;
+	}
 	
 	// image loading 
 	

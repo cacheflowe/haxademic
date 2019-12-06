@@ -92,9 +92,6 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.SMOOTHING, AppSettings.SMOOTH_NONE );
 		p.appConfig.setProperty( AppSettings.FULLSCREEN, false );
 		p.appConfig.setProperty( AppSettings.SHOW_DEBUG, false );
-		p.appConfig.setProperty( AppSettings.INIT_MINIM_AUDIO, false );
-		p.appConfig.setProperty( AppSettings.INIT_ESS_AUDIO, false );
-		p.appConfig.setProperty( AppSettings.AUDIO_DEBUG, true );
 		p.appConfig.setProperty( AppSettings.ALWAYS_ON_TOP, false );
 	}
 
@@ -144,6 +141,7 @@ extends PAppletHax {
 		}
 		
 		// load audio texture
+//		AudioLineIn.instance();
 //		audioTextures = new BaseTexture[] {
 //			new TextureOuterCube(mainBuffer.width/4, mainBuffer.height/4),
 //			new TextureOuterSphere(mainBuffer.width/4, mainBuffer.height/4),

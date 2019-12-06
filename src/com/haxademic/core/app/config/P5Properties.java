@@ -10,7 +10,7 @@ import processing.core.PApplet;
 
 /**
  * simple convenience wrapper object for the standard
- * Properties class to return pre-typed data
+ * java.util.Properties class to return pre-typed data
  */
 public class P5Properties 
 extends Properties 
@@ -29,7 +29,7 @@ extends Properties
 	
 	public void loadPropertiesFile( String file ) {
 		try {
-			load( p.createInput( file ) );
+			super.load( p.createInput( file ) );
 		} catch(IOException e) {
 			DebugUtil.printErr("couldn't read run.properties config file...");
 		}
@@ -37,7 +37,7 @@ extends Properties
  
 	// string helpers
 	public String getString(String id, String defState) {
-		return getProperty(id,defState);
+		return super.getProperty(id,defState);
 	}
  
 	// boolean helpers

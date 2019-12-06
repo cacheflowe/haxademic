@@ -61,6 +61,7 @@ import com.haxademic.core.hardware.osc.devices.TouchOscPads;
 import com.haxademic.core.hardware.shared.InputTrigger;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.LinearFloat;
+import com.haxademic.core.media.audio.analysis.AudioLineIn;
 import com.haxademic.core.media.audio.interphase.Interphase;
 import com.haxademic.core.system.SystemUtil;
 import com.haxademic.core.ui.UIButton;
@@ -203,10 +204,6 @@ implements IAppStoreListener {
 		p.appConfig.setProperty( AppSettings.ALWAYS_ON_TOP, false );
 		p.appConfig.setProperty( AppSettings.FILLS_SCREEN, false );
 		p.appConfig.setProperty( AppSettings.OSC_ACTIVE, false );
-		//		p.appConfig.setProperty( AppSettings.AUDIO_DEBUG, true );
-		p.appConfig.setProperty( AppSettings.INIT_ESS_AUDIO, true );
-//				p.appConfig.setProperty( AppSettings.INIT_MINIM_AUDIO, true );
-//				p.appConfig.setProperty( AppSettings.INIT_BEADS_AUDIO, true );
 		p.appConfig.setProperty( AppSettings.MIDI_DEVICE_IN_INDEX, 0 );
 		p.appConfig.setProperty( AppSettings.MIDI_DEBUG, false );
 		p.appConfig.setProperty( AppSettings.WIDTH, 1920 );
@@ -216,6 +213,7 @@ implements IAppStoreListener {
 	}
 
 	protected void setupFirstFrame() {
+		AudioLineIn.instance();
 		P.store.addListener(this);
 //		initDMX();
 		if(multiOutput == false) {

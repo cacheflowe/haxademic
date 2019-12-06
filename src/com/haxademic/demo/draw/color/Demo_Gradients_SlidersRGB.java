@@ -1,7 +1,6 @@
 package com.haxademic.demo.draw.color;
 
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.color.Gradients;
 
 public class Demo_Gradients_SlidersRGB
@@ -12,10 +11,6 @@ extends PAppletHax {
 	protected String COLOR_2 = "COLOR_2";
 	protected String COLOR_3 = "COLOR_3";
 	
-	protected void overridePropsFile() {
-		p.appConfig.setProperty(AppSettings.INIT_ESS_AUDIO, false );
-	}
-
 	public void setupFirstFrame() {
 		p.ui.addSliderVector(COLOR_1, 0, 0, 255, 1, false);
 		p.ui.addSliderVector(COLOR_2, 0, 0, 255, 1, false);

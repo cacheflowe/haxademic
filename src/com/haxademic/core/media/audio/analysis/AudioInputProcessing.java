@@ -8,10 +8,9 @@ import processing.sound.AudioIn;
 import processing.sound.FFT;
 import processing.sound.Waveform;
 
-public class AudioInputProcessingSound
+public class AudioInputProcessing
 implements IAudioInput {
 
-	// protected AudioDevice device;
 	protected AudioIn audioInput;
 	protected FFT fft;
 	protected int bands = 256;
@@ -21,9 +20,7 @@ implements IAudioInput {
 
 	protected AudioStreamData audioStreamData = new AudioStreamData();
 	
-	public AudioInputProcessingSound() {
-		// device = new AudioDevice(P.p, 44000, bands);
-		
+	public AudioInputProcessing() {
 		fft = new FFT(P.p, bands);
 		rms = new Amplitude(P.p);
 		audioInput = new AudioIn(P.p, 0);
@@ -41,9 +38,9 @@ implements IAudioInput {
 	public void update(PGraphics pg) {
 		// analyze input
 		fft.analyze(spectrum);
+		for (int i = 0; i < spectrum.length; i++) spectrum[i] *= 10f;
 		waveform.analyze();
-		float curAmp = rms.analyze();
-		P.p.debugView.setValue("curAmp", curAmp);
+		float curAmp = rms.analyze() * 2f;
 		
 		// update audio data object
 		audioStreamData.setFFTFrequencies(spectrum);

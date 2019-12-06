@@ -58,11 +58,9 @@ extends HaxMapper{
 		p.appConfig.setProperty( AppSettings.FULLSCREEN, false );
 		p.appConfig.setProperty( AppSettings.FILLS_SCREEN, "false" );
 		p.appConfig.setProperty( AppSettings.OSC_ACTIVE, "false" );
-		p.appConfig.setProperty( AppSettings.AUDIO_DEBUG, true );
 		p.appConfig.setProperty( AppSettings.WIDTH, 1280 );
 		p.appConfig.setProperty( AppSettings.HEIGHT, 1024 );
 		p.appConfig.setProperty( AppSettings.RETINA, false );
-		p.appConfig.setProperty( AppSettings.INIT_BEADS_AUDIO, true );
 	}
 
 	/////////////////////////////////////////////////////////////////

@@ -48,7 +48,7 @@ implements IAudioInput {
 		// update audio data object
 		audioStreamData.setFFTFrequencies(fft.spectrum);
 		audioStreamData.setWaveformOffsets(audioInput.buffer);
-		audioStreamData.setAmp(fft.max * 20f);
+		audioStreamData.setAmp(fft.getLevel(audioInput));
 		audioStreamData.freqsCopyDampened();
 		audioStreamData.update();
 
@@ -70,7 +70,7 @@ implements IAudioInput {
 		audioStreamData.setFFTFrequencies(fft.spectrum);
 		audioStreamData.setWaveformOffsets(audioPlayer.buffer);	// this looks super slow during simulation, but should be good during a real render
 		fft.getLevel(audioPlayer);
-		audioStreamData.setAmp(fft.max * 20f);
+		audioStreamData.setAmp(fft.getLevel(audioInput));
 		audioStreamData.freqsCopyDampened();
 		audioStreamData.update();
 	}

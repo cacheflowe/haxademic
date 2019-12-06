@@ -16,8 +16,6 @@ extends PAppletHax {
 	protected void overridePropsFile() {
 		p.appConfig.setProperty( AppSettings.WIDTH, 1000 );
 		p.appConfig.setProperty( AppSettings.HEIGHT, 780 );
-		p.appConfig.setProperty( AppSettings.INIT_ESS_AUDIO, false );
-		p.appConfig.setProperty( AppSettings.INIT_MINIM_AUDIO, false );
 		p.appConfig.setProperty( AppSettings.APP_NAME, "INTERPHASE" );
 //		p.appConfig.setProperty( AppSettings.MIDI_DEVICE_IN_INDEX, 0 );
 	}
