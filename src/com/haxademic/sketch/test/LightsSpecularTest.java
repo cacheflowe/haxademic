@@ -1,15 +1,11 @@
 package com.haxademic.sketch.test;
 
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.app.config.AppSettings;
 
 public class LightsSpecularTest
 extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
-	protected void overridePropsFile() {
-	}
-	
 	public void drawApp() {
 		background(0);
 		noStroke();
@@ -25,5 +21,4 @@ extends PAppletHax {
 		sphere(30);
 	}
 	
-
 }

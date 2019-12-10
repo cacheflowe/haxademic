@@ -2,9 +2,6 @@ package com.haxademic.sketch.test;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.PG;
-import com.haxademic.core.draw.image.TiledTexture;
 import com.haxademic.core.math.MathUtil;
 
 import processing.core.PGraphics;
@@ -13,19 +10,6 @@ public class RotateRectVertices
 extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 		
-	protected TiledTexture tiledBg;
-
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, 1000 );
-		p.appConfig.setProperty( AppSettings.HEIGHT, 600 );
-		p.appConfig.setProperty( AppSettings.FULLSCREEN, false );
-		p.appConfig.setProperty( AppSettings.SMOOTHING, AppSettings.SMOOTH_HIGH );
-	}
-
-	public void setupFirstFrame() {
-
-	}
-	
 	public void drawApp() {
 		p.background(255);
 		p.noStroke();
@@ -39,7 +23,6 @@ extends PAppletHax {
 	}	
 	
 	public void drawRect(PGraphics pg, float drawW, float drawH, float size, float rotation) {
-		PG.setTextureRepeat(pg, true);
 		float halfDrawW = drawW / 2f;
 		float halfDrawH = drawH / 2f;
 		float halfSizeX = halfDrawW * size;

@@ -4,7 +4,6 @@ import java.awt.Robot;
 import java.awt.event.KeyEvent;
 
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.app.config.AppSettings;
 
 public class RobotKeyPressTest
 extends PAppletHax {
@@ -12,13 +11,7 @@ extends PAppletHax {
 	
 	protected Robot _robot;
 
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, "640" );
-		p.appConfig.setProperty( AppSettings.HEIGHT, "480" );
-	}
-
 	public void setupFirstFrame() {
-	
 		try { _robot = new Robot(); } catch( Exception error ) { println("couldn't init Robot"); }
 	}
 

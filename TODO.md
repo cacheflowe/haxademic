@@ -77,6 +77,8 @@
 
 
 ## Art projects
+  * 8-channel surround sound & light
+  * C.A.C.H.E. 
   * Variable Reaction-Diffusion using amplitude map & custom blur/sharpen shaders
   * CACHE performance: launchpads, visuals, 8-bar LED array, kinect, drum pads, gqom beats
   * Kinect-triggered music - krump to trigger sounds & lights
@@ -154,7 +156,9 @@
     * Better haxvisual patterns configurations
 
 ## Audio
-  * Strtech samples to play within a beat segment - this could allow for ableton-style beat chopping
+  * Make sub-app or figure out how to dispose or flush the Java sound stuff that starts lagging after hours of running
+    * Look at Minim setInputMixer example to switch audio inputs
+  * Stretch samples to play within a beat segment - this could allow for ableton-style beat chopping
   * WavPlayer panning and FFT analysis need love:
     * Panning only works once
     * FFT only works for the left channel if it's been panned

@@ -1,5 +1,9 @@
 package com.haxademic.demo.media.audio.analysis;
 
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.LineUnavailableException;
+import javax.sound.sampled.Mixer;
+
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.media.audio.analysis.AudioInputBeads;
@@ -25,9 +29,9 @@ extends PAppletHax { public static void main(String args[]) { arguments = args; 
 
 	public void setupFirstFrame() {
 		JavaInfo.printAudioInfo();
-
-	    audioInputESS = new AudioInputESS();
-//		audioInputMinim = new AudioInputMinim();
+		
+//	    audioInputESS = new AudioInputESS();
+		audioInputMinim = new AudioInputMinim();
 //		audioInputBeads = new AudioInputBeads();
 //		audioInputProcessing = new AudioInputProcessing();
 	}

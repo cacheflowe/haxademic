@@ -22,9 +22,7 @@ extends PAppletHax {
 		player = new WavPlayer();
 		player2 = new WavPlayer(WavPlayer.newAudioContext());
 		// send Beads audio player analyzer to PAppletHax
-//		P.p.setAudioInput(new AudioInputBeads(WavPlayer.sharedContext));
 		AudioIn.instance(new AudioInputBeads(player2.context()));
-
 	}
 	
 	public void drawApp() {
