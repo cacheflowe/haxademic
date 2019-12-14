@@ -90,7 +90,7 @@ extends PApplet {
 	// input
 	public IDepthCamera depthCamera = null;
 	public LeapMotion leapMotion = null;
-
+	// Input trigger
 	public MidiDevice midiState = null;
 	public MidiBus midiBus;
 	public KeyboardState keyboardState;
@@ -167,10 +167,10 @@ extends PApplet {
 			debugView = new DebugView( p );
 			debugView.active(p.appConfig.getBoolean(AppSettings.SHOW_DEBUG, false));
 			addKeyCommandInfo();
-			ui = new UIControlPanel();
-			if(p.appConfig.getBoolean(AppSettings.SHOW_SLIDERS, false) == true) {
-				ui.active(!ui.active());
-			}
+		}
+		ui = new UIControlPanel();
+		if(p.appConfig.getBoolean(AppSettings.SHOW_SLIDERS, false) == true) {
+			ui.active(!ui.active());
 		}
 	}
 	
@@ -407,6 +407,7 @@ extends PApplet {
 	}
 	
 	protected void showStats() {
+		if(renderer == PRenderers.PDF) return;
 		p.noLights();
 		debugView.draw();
 		ui.update();

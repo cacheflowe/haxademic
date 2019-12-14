@@ -935,7 +935,7 @@ public class PShapeUtil {
 		if(vertexCount == 3) {
 			int i = 0;
 			pg.beginShape(PConstants.TRIANGLES);
-			pg.fill(color, 255f * P.p.audioFreq(faceIndex));
+			pg.fill(color, 255f * AudioIn.audioFreq(faceIndex));
 			PVector vertex = polygon.getVertex(i);
 			PVector vertex2 = polygon.getVertex(i+1);
 			PVector vertex3 = polygon.getVertex(i+2);
@@ -950,7 +950,7 @@ public class PShapeUtil {
 		} else if(vertexCount == 4) {
 			int i = 0;
 			pg.beginShape(PConstants.QUADS);
-			pg.fill(color, 255f * P.p.audioFreq(faceIndex));
+			pg.fill(color, 255f * AudioIn.audioFreq(faceIndex));
 			PVector vertex = polygon.getVertex(i);
 			PVector vertex2 = polygon.getVertex(i+1);
 			PVector vertex3 = polygon.getVertex(i+2);
@@ -970,7 +970,7 @@ public class PShapeUtil {
 			
 			for (int i = 0; i < vertexCount; i += 3) {
 				if(i < vertexCount - 3) {	// protect against rogue vertices?
-					pg.fill(color, 255f * P.p.audioFreq(faceIndex));
+					pg.fill(color, 255f * AudioIn.audioFreq(faceIndex));
 					PVector vertex = polygon.getVertex(i);
 					PVector vertex2 = polygon.getVertex(i+1);
 					PVector vertex3 = polygon.getVertex(i+2);

@@ -4,7 +4,6 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.context.PG;
-import com.haxademic.core.draw.filters.pshader.BloomFilter;
 import com.haxademic.core.draw.filters.pshader.BrightnessStepFilter;
 import com.haxademic.core.draw.filters.pshader.GrainFilter;
 import com.haxademic.core.draw.filters.pshader.VignetteFilter;
@@ -28,41 +27,41 @@ extends PAppletHax {
 		p.appConfig.setProperty(AppSettings.RENDERING_MOVIE_STOP_FRAME, 1 + FRAMES * 3);
 	}
 	
-	protected void setupFirstFrame() {
-	}
-	
 	protected void drawApp() {
 		// context & camera
 		pg.beginDraw();		
 		
+		
 		// draw into new buffer
-		BrightnessStepFilter.instance(p).setBrightnessStep(-3f/255f);
+		BrightnessStepFilter.instance(p).setBrightnessStep(-7f/255f);
 		BrightnessStepFilter.instance(p).applyTo(pg);
+
 		
 		// set line size
 		pg.stroke(255);
 		pg.strokeWeight(2f);
 		pg.noFill();
 		
-		// context & camera & feedback
-		pg.beginDraw();
-//		pg.copy(0, 0, pg.width, pg.height, 2, 2, pg.width-4, pg.height-4);
-		int feedbackDist = 2;
-		pg.copy(0, 0, pg.width, pg.height, -feedbackDist, -feedbackDist, pg.width+feedbackDist*2, pg.height+feedbackDist*2);
+		// feedback
+		int feedbackDist = 4;
+		int feedbackIters = 5;
+		for (int i = 0; i < feedbackIters; i++) {
+			PG.feedback(pg, feedbackDist);
+		}
+
 		PG.setCenterScreen(pg);
 		
-		// draw into new buffer
-		BrightnessStepFilter.instance(p).setBrightnessStep(-3f/255f);
-		BrightnessStepFilter.instance(p).applyTo(pg);
-		
+//		// draw into new buffer
+//		BrightnessStepFilter.instance(p).setBrightnessStep(-3f/255f);
+//		BrightnessStepFilter.instance(p).applyTo(pg);
+//		
 		// set line size
 		pg.fill(255);
-//		pg.strokeWeight(2.5f);
 		pg.noStroke();
-//		pg.stroke(150f + 55f * P.sin(p.frameCount * 0.075f));
 
-		float polySize = pg.width * 0.3f * (1f + 0.05f * P.sin(p.frameCount * 0.075f));
-		float vertices = 5.5f + 2.5f * MathUtil.saw(p.frameCount * 0.0092f);
+		// update polygon vertex count and draw them
+		float polySize = pg.width * 0.3f * (1f + 0.05f * P.sin(p.loop.progressRads() * 5f));
+		float vertices = 5.5f + 2.5f * MathUtil.saw(p.loop.progressRads());
 		verticesEased.setTarget(P.round(vertices));
 		verticesEased.update(true);
 		float segmentRads = P.TWO_PI / verticesEased.value();
@@ -82,35 +81,18 @@ extends PAppletHax {
 			pg.vertex(nextX, nextY);
 		}
 		pg.endShape();
-//		pg.pushMatrix();
-//
-//		pg.popMatrix();
 		
 		pg.endDraw();
 
-		// post process
-//		BloomFilter.instance(p).setStrength(0.1f);
-//		BloomFilter.instance(p).setBlurIterations(6);
-//		BloomFilter.instance(p).setBlendMode(BloomFilter.BLEND_SCREEN);
-//		BloomFilter.instance(p).applyTo(pg);
-////		BloomFilter.instance(p).applyTo(pg);
-		
-		VignetteFilter.instance(p).setDarkness(0.99f);
+		VignetteFilter.instance(p).setDarkness(0.97f);
 		VignetteFilter.instance(p).applyTo(pg);
 
 		GrainFilter.instance(p).setTime(p.frameCount * 0.01f);
 		GrainFilter.instance(p).setCrossfade(0.08f);
 		GrainFilter.instance(p).applyTo(pg);
 		
-		// context end
+		// draw to screen
 		ImageUtil.cropFillCopyImage(pg, p.g, true);
 	}
-	
-	public void keyPressed() {
-		super.keyPressed();
-//		if(p.key == ' ') printDirect.printImage(pg);
-//		if(p.key == 'r') frameRand = P.round(p.random(9999999));
-	}
-
 	
 }
