@@ -17,7 +17,7 @@ public class DMXFixture {
 	protected EasingColor color = new EasingColor("#ffffff", 0.3f); 
 	
 	public DMXFixture(int dmxChannel) {
-		this(P.p.dmxUniverse, dmxChannel, DMXMode.RGB);	// default mode requires setting AppSettings.DMX_PORT & AppSettings.DMX_BAUD_RATE
+		this(DMXUniverse.instance(), dmxChannel, DMXMode.RGB);	// default mode requires calling `DMXUniverse.instanceInit()` on app init to use the singleton
 	}
 		
 	public DMXFixture(DMXUniverse universe, int dmxChannel, DMXMode mode) {

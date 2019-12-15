@@ -64,9 +64,6 @@ public class AppSettings {
 	public static final String MIDI_DEBUG = "midi_debug";
 	public static final String OSC_ACTIVE = "osc_active";
 	public static final String GAMEPADS_ACTIVE = "gamepads_active";
-	// Output
-	public static final String DMX_PORT = "dmx_port";
-	public static final String DMX_BAUD_RATE = "dmx_baud_rate";
 	// Debugging
 	public static final String APP_VIEWER_WINDOW = "app_viewer";
 	public static final String APP_VIEWER_SCALE = "app_viewer_scale";

@@ -15,8 +15,8 @@ import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.mapping.SavedPointUI;
 import com.haxademic.core.draw.text.FontCacher;
 import com.haxademic.core.file.FileUtil;
-import com.haxademic.core.hardware.dmx.DMXUniverse;
 import com.haxademic.core.hardware.dmx.DMXFixture.DMXMode;
+import com.haxademic.core.hardware.dmx.DMXUniverse;
 import com.haxademic.core.hardware.shared.InputTrigger;
 import com.haxademic.core.media.DemoAssets;
 import com.haxademic.core.system.SystemUtil;
@@ -109,7 +109,6 @@ implements IAppStoreListener {
 		// keyboard & mouse events for SavedPointUI
 		P.p.registerMethod("mouseEvent", this); // add mouse listeners
 		P.p.registerMethod("keyEvent", this);
-		P.p.registerMethod("post", this);
 		addKeyCommandInfo();
 	}	
 	
@@ -360,11 +359,6 @@ implements IAppStoreListener {
 		
 	}
 	
-	public void post() {
-		// send dmx data after the draw call
-		dmxUniverseDefault.update();
-	}
-
 	protected void drawFloorPlan() {
 		if(P.store.getBoolean(DIMMED_FLOORPLAN)) PG.setPImageAlpha(pgUI, 0.5f);
 		ImageUtil.drawImageCropFill(floorplan, pgUI, true);

@@ -4,7 +4,6 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.data.constants.PTextAlign;
-import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.text.FontCacher;
 import com.haxademic.core.hardware.dmx.DMXWrapper;
 import com.haxademic.core.media.DemoAssets;
@@ -66,17 +65,7 @@ extends PAppletHax {
 	protected void addKeyCommandInfo() {
 		super.addKeyCommandInfo();
 		p.debugView.setHelpLine("__ Key Commands", "__\n");
-		p.debugView.setHelpLine("1 |", "SINGLE_CHANNEL");
-		p.debugView.setHelpLine("2 |", "RGB");
-		p.debugView.setHelpLine("3 |", "ALL");	
-		p.debugView.setHelpLine("4 |", "NONE");
-		p.debugView.setHelpLine("5 |", "MANUAL BRIGHTNESS");
-		p.debugView.setHelpLine("6 |", "BRIGHTNESS CAP");
-		p.debugView.setHelpLine("7 |", "AUDIO MODE");
-		p.debugView.setHelpLine("8 |", "BOOLEAN MODE");
 		p.debugView.setHelpLine("SPACE |", "Reset all");
-		p.debugView.setHelpLine("LEFT |", "Channel down");
-		p.debugView.setHelpLine("RIGHT |", "Channel up");
 	}
 
 	public void drawApp() {

@@ -1,8 +1,8 @@
 package com.haxademic.demo.hardware.dmx;
 
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.hardware.dmx.DMXFixture;
+import com.haxademic.core.hardware.dmx.DMXUniverse;
 
 public class Demo_DmxFixture
 extends PAppletHax {
@@ -10,13 +10,10 @@ extends PAppletHax {
 	
 	protected DMXFixture fixture;
 	
-	protected void overridePropsFile() {
-		p.appConfig.setProperty(AppSettings.DMX_PORT, "COM3" );
-		p.appConfig.setProperty(AppSettings.DMX_BAUD_RATE, 9600 );
-	}
-
 	public void setupFirstFrame() {
-		fixture = (new DMXFixture(32)).setEaseFactor(0.1f);
+		// use most basic singleton instance version of DMXUniverse
+		DMXUniverse.instanceInit("COM3", 9600);
+		fixture = (new DMXFixture(1)).setEaseFactor(0.1f);
 	}
 
 	public void drawApp() {

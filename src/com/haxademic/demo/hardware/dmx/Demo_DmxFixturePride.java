@@ -3,12 +3,12 @@ package com.haxademic.demo.hardware.dmx;
 import java.util.ArrayList;
 
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.color.ColorsHax;
 import com.haxademic.core.draw.filters.pshader.BrightnessFilter;
 import com.haxademic.core.draw.filters.pshader.RotateFilter;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.hardware.dmx.DMXFixture;
+import com.haxademic.core.hardware.dmx.DMXUniverse;
 
 public class Demo_DmxFixturePride
 extends PAppletHax {
@@ -18,12 +18,9 @@ extends PAppletHax {
 	protected String brightness = "brightness";
 	protected String speed = "speed";
 	
-	protected void overridePropsFile() {
-		p.appConfig.setProperty(AppSettings.DMX_PORT, "COM6" );
-		p.appConfig.setProperty(AppSettings.DMX_BAUD_RATE, 9600 );
-	}
-
 	public void setupFirstFrame() {
+		DMXUniverse.instanceInit("COM3", 9600);
+		
 		fixture = new ArrayList<DMXFixture>(); 
 		for (int i = 0; i < 12; i++) {
 			fixture.add((new DMXFixture(1 + i * 3)).setEaseFactor(0.1f));
