@@ -134,6 +134,10 @@ implements IUIButtonDelegate {
 		return controls.get(key).value();
 	}
 	
+	public float valueEased(String key) {
+		return controls.get(key).valueEased();
+	}
+	
 	public int valueInt(String key) {
 		return P.round(controls.get(key).value());
 	}

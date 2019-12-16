@@ -13,6 +13,7 @@ public interface IUIControl {
 	public String id();
 	public void set(float val);
 	public float value();
+	public float valueEased();
 	public float step();
 	public float valueMin();
 	public float valueMax();

@@ -10,6 +10,7 @@ import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.text.FontCacher;
 import com.haxademic.core.file.PrefToText;
 import com.haxademic.core.math.MathUtil;
+import com.haxademic.core.math.easing.EasingFloat;
 import com.haxademic.core.media.DemoAssets;
 
 import processing.core.PFont;
@@ -22,6 +23,7 @@ implements IUIControl {
 	
 	protected String id;
 	protected float value;
+	protected EasingFloat valueEased;
 	protected float valueMin;
 	protected float valueMax;
 	protected float dragStep;
@@ -53,6 +55,7 @@ implements IUIControl {
 		this.w = w;
 		this.h = h;
 		this.saves = saves;
+		valueEased = new EasingFloat(this.value, 0.1f);
 		P.p.registerMethod("mouseEvent", this);
 		P.p.registerMethod("keyEvent", this);
 	}
@@ -79,6 +82,10 @@ implements IUIControl {
 	
 	public float value() {
 		return value;
+	}
+	
+	public float valueEased() {
+		return valueEased.value();
 	}
 	
 	public float valueMin() {
@@ -110,6 +117,9 @@ implements IUIControl {
 	}
 	
 	public void update(PGraphics pg) {
+		valueEased.setTarget(value);
+		valueEased.update(true);
+		
 		PG.setDrawCorner(pg);
 		
 		// outline

@@ -79,6 +79,10 @@ implements IUIControl {
 		return value;
 	}
 	
+	public float valueEased() {
+		return value;
+	}
+	
 	public float valueMin() {
 		return 0;
 	}

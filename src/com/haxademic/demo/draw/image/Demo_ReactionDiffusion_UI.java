@@ -31,7 +31,11 @@ extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	// TODO:
-	// Add noise wavy shader in addition to the basic wavy sin() lines
+	// - Add noise wavy shader in addition to the basic wavy sin() lines
+	// - Test audio looping & pitch shifting in Beads (a la Communichords, but with audio FFT data)
+	// - Find parameters & make a nice collection
+	// - Blur values above 1 seem to trigger the broken R/D state with fine lines 
+	// - Make a version of Blur & Sharpen that use a map for amplitude 
 	
 	// app
 	protected boolean clearScreen = true;
@@ -79,8 +83,8 @@ extends PAppletHax {
 	
 
 	protected void overridePropsFile() {
-		p.appConfig.setProperty(AppSettings.WIDTH, 1600);
-		p.appConfig.setProperty(AppSettings.HEIGHT, 900);
+		p.appConfig.setProperty(AppSettings.WIDTH, 1920);
+		p.appConfig.setProperty(AppSettings.HEIGHT, 1080);
 		p.appConfig.setProperty(AppSettings.LOOP_FRAMES, 2000);
 		p.appConfig.setProperty(AppSettings.SHOW_SLIDERS, true);
 	}
@@ -151,7 +155,7 @@ extends PAppletHax {
 	
 	protected void darkenCanvas() {
 		if(p.ui.valueInt(RD_ITERATIONS) > 0) {
-			BrightnessStepFilter.instance(p).setBrightnessStep(p.ui.value(DARKEN_AMP)/255f);
+			BrightnessStepFilter.instance(p).setBrightnessStep(p.ui.valueEased(DARKEN_AMP)/255f);
 			BrightnessStepFilter.instance(p).applyTo(pg);
 		}
 	}
@@ -173,28 +177,28 @@ extends PAppletHax {
 	
 	
 	protected void applyZoomRotate() {
-		p.debugView.setValue("p.ui.value(FEEDBACK_OFFSET_X)/255f", p.ui.value(FEEDBACK_OFFSET_X)/255f);
-		RotateFilter.instance(p).setRotation(p.ui.value(FEEDBACK_ROTATE));
-		RotateFilter.instance(p).setZoom(p.ui.value(FEEDBACK_AMP));
-		RotateFilter.instance(p).setOffset(p.ui.value(FEEDBACK_OFFSET_X), p.ui.value(FEEDBACK_OFFSET_Y));
+		RotateFilter.instance(p).setRotation(p.ui.valueEased(FEEDBACK_ROTATE));
+		RotateFilter.instance(p).setZoom(p.ui.valueEased(FEEDBACK_AMP));
+		RotateFilter.instance(p).setOffset(p.ui.valueEased(FEEDBACK_OFFSET_X), p.ui.valueEased(FEEDBACK_OFFSET_Y));
 		RotateFilter.instance(p).applyTo(pg);
 	}
 	
 	protected void applyRD() {
 		for (int i = 0; i < p.ui.valueInt(RD_ITERATIONS); i++) {
-			BlurHFilter.instance(p).setBlurByPercent(p.ui.value(RD_BLUR_AMP_X), pg.width);
+			BlurHFilter.instance(p).setBlurByPercent(p.ui.valueEased(RD_BLUR_AMP_X), pg.width);
 			BlurHFilter.instance(p).applyTo(pg);
-			BlurVFilter.instance(p).setBlurByPercent(p.ui.value(RD_BLUR_AMP_Y), pg.height);
+			BlurVFilter.instance(p).setBlurByPercent(p.ui.valueEased(RD_BLUR_AMP_Y), pg.height);
 			BlurVFilter.instance(p).applyTo(pg);
-			SharpenFilter.instance(p).setSharpness(p.ui.value(RD_SHARPEN_AMP));
+			SharpenFilter.instance(p).setSharpness(p.ui.valueEased(RD_SHARPEN_AMP));
 			SharpenFilter.instance(p).applyTo(pg);
 		}
+		ThresholdFilter.instance(p).applyTo(pg);
 	}
 	
 	protected void updateFeedbackMapNoise() {
 		simplexNoise.update(
-				p.ui.value(mapZoom), 
-				p.ui.value(mapRot), 
+				p.ui.valueEased(mapZoom), 
+				p.ui.valueEased(mapRot), 
 				0, 
 				0);
 		ImageUtil.cropFillCopyImage(simplexNoise.texture(), map, true);
@@ -204,20 +208,20 @@ extends PAppletHax {
 
 	protected void applyFeedback() {
 		FeedbackMapFilter.instance(p).setMap(map);
-		FeedbackMapFilter.instance(p).setAmp(p.ui.value(feedbackAmp));
-		FeedbackMapFilter.instance(p).setBrightnessStep(p.ui.value(feedbackBrightStep));
-		FeedbackMapFilter.instance(p).setAlphaStep(p.ui.value(feedbackAlphaStep));
-		FeedbackMapFilter.instance(p).setRadiansStart(p.ui.value(feedbackRadiansStart));
-		FeedbackMapFilter.instance(p).setRadiansRange(p.ui.value(feedbackRadiansRange));
+		FeedbackMapFilter.instance(p).setAmp(p.ui.valueEased(feedbackAmp));
+		FeedbackMapFilter.instance(p).setBrightnessStep(p.ui.valueEased(feedbackBrightStep));
+		FeedbackMapFilter.instance(p).setAlphaStep(p.ui.valueEased(feedbackAlphaStep));
+		FeedbackMapFilter.instance(p).setRadiansStart(p.ui.valueEased(feedbackRadiansStart));
+		FeedbackMapFilter.instance(p).setRadiansRange(p.ui.valueEased(feedbackRadiansRange));
 		for (int i = 0; i < p.ui.valueInt(FEEDBACK_ITERS); i++) FeedbackMapFilter.instance(p).applyTo(pg);
 		
 		// blur & threshold if R/D isn't going to do that for us
 		if(p.ui.valueInt(RD_ITERATIONS) == 0) {
-			BlurHFilter.instance(p).setBlurByPercent(p.ui.value(RD_BLUR_AMP_X), pg.width);
+			BlurHFilter.instance(p).setBlurByPercent(p.ui.valueEased(RD_BLUR_AMP_X), pg.width);
 			BlurHFilter.instance(p).applyTo(pg);
-			BlurVFilter.instance(p).setBlurByPercent(p.ui.value(RD_BLUR_AMP_Y), pg.height);
+			BlurVFilter.instance(p).setBlurByPercent(p.ui.valueEased(RD_BLUR_AMP_Y), pg.height);
 			BlurVFilter.instance(p).applyTo(pg);
-
+			// does a similar thing to R/D
 			ThresholdFilter.instance(p).applyTo(pg);
 		}
 	}
@@ -240,7 +244,7 @@ extends PAppletHax {
 	
 	protected void mixTexture() {
 		BlendTowardsTexture.instance(p).setSourceTexture(linesTexture);
-		BlendTowardsTexture.instance(p).setBlendLerp(p.ui.value(TEXTURE_BLEND));
+		BlendTowardsTexture.instance(p).setBlendLerp(p.ui.valueEased(TEXTURE_BLEND));
 		BlendTowardsTexture.instance(p).applyTo(pg);
 	}
 	
@@ -285,8 +289,8 @@ extends PAppletHax {
 		// copy to postFX buffer
 		ImageUtil.copyImage(pg, pgPost);		// copy to 2nd buffer for postprocessing
 //		setColorize();
-		setFakeLighting();
 		if(p.ui.valueInt(FXAA_ACTIVE) == 1) FXAAFilter.instance(p).applyTo(pgPost);
+		setFakeLighting();
 		
 		// draw post to screen
 		ImageUtil.cropFillCopyImage(pgPost, p.g, false);
