@@ -305,21 +305,4 @@ extends PAppletHax {
 //		if(p.key == '1') p.ui.loadJSON(JSONObject.parse(CONFIG_1));
 	}
 	
-	
-	protected String CONFIG_1 = "{\r\n" + 
-			"  \"FEEDBACK_OFFSET_X\": -0.00189999642316252,\r\n" + 
-			"  \"FAKE_LIGHT_SPEC_AMP\": 2.0500032901763916,\r\n" + 
-			"  \"FEEDBACK_OFFSET_Y\": 2.4112523533403873E-8,\r\n" + 
-			"  \"RD_ITERATIONS\": 4,\r\n" + 
-			"  \"RD_BLUR_AMP_Y\": 0.41699957847595215,\r\n" + 
-			"  \"DARKEN_AMP\": 0,\r\n" + 
-			"  \"RD_BLUR_AMP_X\": 0.9390028715133667,\r\n" + 
-			"  \"RD_SHARPEN_AMP\": 12.28007698059082,\r\n" + 
-			"  \"FAKE_LIGHT_GRAD_AMP\": 2.299994707107544,\r\n" + 
-			"  \"FEEDBACK_ROTATE\": 1.000110714812763E-4,\r\n" + 
-			"  \"FAKE_LIGHT_DIFF_DARK\": 0.6300005912780762,\r\n" + 
-			"  \"FAKE_LIGHT_GRAD_BLUR\": 2.7999982833862305,\r\n" + 
-			"  \"FAKE_LIGHT_AMBIENT\": 2.3999996185302734,\r\n" + 
-			"  \"FEEDBACK_AMP\": 0.9985998868942261\r\n" + 
-			"}\r\n";
 }
