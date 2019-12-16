@@ -55,6 +55,12 @@ implements IUIButtonDelegate {
 	// ADD controls
 	////////////////////////
 	
+	public void addTitle(String title) {
+		controls.put(title, new UITitle(title, controlX, controlY, controlW, controlH));
+		controlY += controlH;
+		if(controlY > P.p.height - controlH) nextCol();
+	}
+	
 	public void addSlider(String key, float value, float valueLow, float valueHigh, float dragStep) {
 		addSlider(key, value, valueLow, valueHigh, dragStep, true);
 	}

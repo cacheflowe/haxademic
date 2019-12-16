@@ -3,6 +3,7 @@ package com.haxademic.core.ui;
 import processing.core.PGraphics;
 
 public interface IUIControl {
+	public static final String TYPE_TITLE = "title";
 	public static final String TYPE_SLIDER = "slider";
 	public static final String TYPE_BUTTON = "button";
 	

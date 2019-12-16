@@ -32,7 +32,6 @@ extends PAppletHax {
 	protected int H = 800;
 	protected PGraphics map;
 	protected PShape xShape;
-	protected int mode = 0;
 	protected SimplexNoiseTexture simplexNoise;
 	protected BaseTexture audioTexture;
 	protected TextureShader textureShader;

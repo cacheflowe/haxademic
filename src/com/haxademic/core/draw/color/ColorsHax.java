@@ -7,6 +7,7 @@ public class ColorsHax {
 	public static int BLACK = 0xff000000;
 	public static int BLACK_CLEAR = 0x00000000;
 	
+	public static int TITLE_BG = 0xff666666;
 	public static int BUTTON_BG = 0xff000000;
 	public static int BUTTON_BG_HOVER = 0xff3B1854;
 	public static int BUTTON_BG_PRESS = 0xff666666;
