@@ -33,9 +33,9 @@ extends PAppletHax {
 	public void keyPressed() {
 		super.keyPressed();
 		if(p.key == '1') player.playWav(oneshots[0]);
-		if(p.key == '2') player2.playWav(oneshots[1], WavPlayer.PAN_RIGHT, false);
-		if(p.key == '3') player.playWav(oneshots[1], WavPlayer.PAN_LEFT, false);
-		if(p.key == '4') player.playWav(oneshots[1], MathUtil.randRange(-1, 1), false);
+		if(p.key == '2') player2.playWav(oneshots[1], WavPlayer.PAN_RIGHT, false, 0);
+		if(p.key == '3') player.playWav(oneshots[1], WavPlayer.PAN_LEFT, false, 0);
+		if(p.key == '4') player.playWav(oneshots[1], MathUtil.randRange(-1, 1), false, 0);
 		if(p.key == '5') player.playWav(oneshots[1]);
 		if(p.key == '6') {
 			player.loopWav(soundbed);

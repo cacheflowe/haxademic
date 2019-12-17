@@ -451,7 +451,7 @@ public class NormalizeMonoWav {
 		 * @see AudioInputStream
 		 */
 		public AudioInputStream makeAIS() {
-			AudioFileFormat.Type fileType = audioFileFormat.getType();
+//			AudioFileFormat.Type fileType = audioFileFormat.getType();
 			ByteArrayInputStream bais = new ByteArrayInputStream(buffer);
 			int frameSize = audioFileFormat.getFormat().getFrameSize();
 
@@ -970,6 +970,7 @@ public class NormalizeMonoWav {
 				printError("Only stereo sounds have different right and left" +
 						" samples.  You are using a mono sound, try " +
 						"getSample(" + (frameNum) + ") instead");
+				printError("Channels: "+channels);
 				return -1;
 			}
 			int sampleSizeInBits = format.getSampleSizeInBits();

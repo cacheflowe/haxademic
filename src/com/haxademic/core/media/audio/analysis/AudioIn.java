@@ -101,6 +101,10 @@ public class AudioIn {
 		return audioInput;
 	}
 	
+	public PGraphics audioInputDebugBuffer() {
+		return audioInputDebugBuffer;
+	}
+	
 	// static getters
 	
 	public static float audioFreq(int index) {
