@@ -8,6 +8,7 @@ import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.hardware.webcam.WebCam;
 import com.haxademic.core.media.DemoAssets;
 
+import processing.core.PGraphics;
 import processing.video.Movie;
 
 public class Demo_Shapes_halfCircleUV
@@ -15,6 +16,7 @@ extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	protected Movie video;
+	protected PGraphics testPattern;
 	
 	protected String displayW = "displayW";
 	protected String displayH = "displayH";
@@ -24,7 +26,7 @@ extends PAppletHax {
 	protected String showLines = "showLines";
 	
 	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.FULLSCREEN, false );
+		p.appConfig.setProperty( AppSettings.FULLSCREEN, true );
 		p.appConfig.setProperty( AppSettings.ALWAYS_ON_TOP, false );
 	}
 
@@ -33,9 +35,14 @@ extends PAppletHax {
 		video = DemoAssets.movieFractalCube();
 		video.loop();
 		
+		testPattern = PG.newPG(pg.width, pg.height);
+		testPattern.beginDraw();
+		PG.drawTestPattern(testPattern);
+		testPattern.endDraw();
+		
 		// set UI
 		p.ui.addSlider(displayW, p.width, 0, 2000, 1f, false);
-		p.ui.addSlider(displayH, p.height, 0, 2000, 1f, false);
+		p.ui.addSlider(displayH, 960, 0, 2000, 1f, false);
 		p.ui.addSlider(offsetX, 0, 0, 10, 0.01f, false);
 		p.ui.addSlider(webcam, 0, 0, 1, 1, false);
 		p.ui.addSlider(showLines, 0, 0, 1, 1, false);
@@ -43,7 +50,8 @@ extends PAppletHax {
 	}
 
 	public void drawApp() {
-		background(0);
+		p.background(0);
+		p.push();
 		
 		// set debug colors
 		p.stroke(0, 255, 0);
@@ -65,6 +73,7 @@ extends PAppletHax {
 		p.beginShape(PShapeTypes.TRIANGLES);
 		p.textureMode(P.NORMAL);
 		p.texture(video);
+//		p.texture(testPattern);
 		if(p.ui.valueInt(webcam) == 1) p.texture(WebCam.instance().image());
 		float startRads = P.PI;
 		float segmentRads = P.PI / detail;
@@ -82,6 +91,10 @@ extends PAppletHax {
 			p.vertex(0, 0, 0, u, 1);
 		}
 		p.endShape();
+		
+		p.pop();
+		
+//		p.background(255,255,0);
 	}
 
 }

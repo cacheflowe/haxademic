@@ -4,10 +4,9 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.data.constants.PRenderers;
-import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.MathUtil;
 
-public class PolygonIncreseVertices 
+public class PolygonIncreaseVertices 
 extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
@@ -17,10 +16,10 @@ extends PAppletHax {
 	protected String spacing = "spacing";
 	
 	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.RENDERER, P.PDF );
-		p.appConfig.setProperty( AppSettings.PDF_RENDERER_OUTPUT_FILE, FileUtil.getHaxademicOutputPath() + "/pdf/345-01.pdf" );
+		p.appConfig.setProperty( AppSettings.RENDERER, PRenderers.P2D );
+//		p.appConfig.setProperty( AppSettings.RENDERER, P.PDF );
+//		p.appConfig.setProperty( AppSettings.PDF_RENDERER_OUTPUT_FILE, FileUtil.getHaxademicOutputPath() + "/pdf/345-01.pdf" );
 
-//		p.appConfig.setProperty( AppSettings.RENDERER, PRenderers.P2D );
 		p.appConfig.setProperty( AppSettings.WIDTH, 1000 );
 		p.appConfig.setProperty( AppSettings.HEIGHT, 1000 );
 	}
