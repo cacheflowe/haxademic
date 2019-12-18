@@ -148,6 +148,12 @@ public class WavPlayer {
 		if(getPlayer(id) != null) getPlayer(id).start(0);
 	}
 	
+	public void seekToProgress(String id, float progress) {
+		if(getPlayer(id) != null) {
+			getPlayer(id).start(duration(id) * progress);
+		}
+	}
+	
 	public void pauseToggle(String id) {
 		if(getPlayer(id) != null) getPlayer(id).pause(!isPaused(id));
 	}

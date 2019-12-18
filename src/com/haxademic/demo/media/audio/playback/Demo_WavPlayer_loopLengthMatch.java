@@ -3,6 +3,7 @@ package com.haxademic.demo.media.audio.playback;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.media.audio.analysis.AudioIn;
 import com.haxademic.core.media.audio.analysis.AudioInputBeads;
 import com.haxademic.core.media.audio.playback.WavPlayer;
@@ -55,6 +56,14 @@ extends PAppletHax {
 			p.debugView.setValue("syncRatio2", syncRatio2);
 			p.debugView.setValue("pitchShift", pitchShift);
 		}
+		// chop sample - not great but does work
+		if(p.mousePercentX() > 0.9f) {
+			p.debugView.setValue("player.progress(beat2)", player.progress(beat2));
+			if(player.progress(beat2) % 0.25f >= 0.248f) {
+				P.out("chop!");
+				player.seekToProgress(beat2, MathUtil.randRange(0, 8) * 0.25f/2f);
+			}
+		}
 		
 		// show debug audio view (and keep it open)
 		p.debugView.active(true);
@@ -64,8 +73,9 @@ extends PAppletHax {
 	public void keyPressed() {
 		super.keyPressed();
 		if(p.key == ' ') {
-			player.restart(beat1);
-			player.restart(beat2);
+			// seek to different times in synced players
+			player.seekToProgress(beat1, 0);
+			player.seekToProgress(beat2, MathUtil.randRange(0, 8) * 0.25f/2f);
 			
 			// match beat 2 to beat 1
 			// formula from https://math.stackexchange.com/a/1205895

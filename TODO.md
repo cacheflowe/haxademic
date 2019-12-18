@@ -125,7 +125,8 @@
   	* Any other cool loop/render?!
 
 ## Interphase
-  * perfectly-looped audio clips, mapped to main loop length
+  * [DONE!] perfectly-looped audio clips, mapped to main loop length
+  	* Scrub to random parts of samples to chop breaks
   * Add sliders to specifically choose samples
   * Integrate Communichords looping tones (for Moire Room, specifically)
   * C.A.C.H.E. - Creative Adversarial Computer-Human Exchange
