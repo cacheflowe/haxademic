@@ -20,6 +20,7 @@ public class WavPlayer {
 	protected HashMap<String, SamplePlayer> players = new HashMap<String, SamplePlayer>();
 	protected HashMap<String, Gain> gains = new HashMap<String, Gain>();
 	protected HashMap<String, Glide> glides = new HashMap<String, Glide>();
+	protected HashMap<String, Number> glideTimes = new HashMap<String, Number>();
 	
 	public static int PAN_CENTER = 0;
 	public static float PAN_LEFT = -1;
@@ -69,15 +70,16 @@ public class WavPlayer {
 	
 	public boolean playWav(String filePath, float panAmp, boolean loops, int pitch) {
 		boolean success = false;
+		String id = filePath;
 		
 		// load sound
 		// P.println("Playing:", filePath);
 		Sample audioSample = SampleManager.sample(filePath);
 		if(audioSample != null) {
 			SamplePlayer player = null;
-			if(players.containsKey(filePath) == false) {
-				players.put(filePath, new SamplePlayer(curContext, audioSample));
-				player = getPlayer(filePath);
+			if(players.containsKey(id) == false) {
+				players.put(id, new SamplePlayer(curContext, audioSample));
+				player = getPlayer(id);
 				player.setKillOnEnd(false);
 				
 				// pan it! only add panner if actually panned
@@ -88,23 +90,25 @@ public class WavPlayer {
 				}
 				
 				// set pitch if needed
-				glides.put(filePath, new Glide(curContext, pitchRatioFromIndex(pitch)));
+				glides.put(id, new Glide(curContext, pitchRatioFromIndex(pitch)));
+				glideTimes.put(id, 0);
 				if(pitch != 0) {
 					// change pitch
-					player.setRate(glides.get(filePath));
+					player.setRate(glides.get(id));
+					glides.get(id).setGlideTime(glideTimes.get(id).intValue());
 				}
 				
 //				P.error("Panning only works once, not a second time");
 //				P.error("Audioreactivity only works on the left channel");
 				
 				// play it! 
-				gains.put(filePath, new Gain(curContext, 2, 1f));		// 2 channel, 1f volume
+				gains.put(id, new Gain(curContext, 2, 1f));		// 2 channel, 1f volume
 				if(pan != null) {
-					gains.get(filePath).addInput(pan);
+					gains.get(id).addInput(pan);
 				} else {
-					gains.get(filePath).addInput(player);
+					gains.get(id).addInput(player);
 				}
-				curContext.out.addInput(gains.get(filePath));
+				curContext.out.addInput(gains.get(id));
 			}
 			
 			// play it
@@ -144,8 +148,23 @@ public class WavPlayer {
 		if(getPlayer(id) != null) getPlayer(id).start(0);
 	}
 	
+	public void pauseToggle(String id) {
+		if(getPlayer(id) != null) getPlayer(id).pause(!isPaused(id));
+	}
+	
+	public boolean isPaused(String id) {
+		if(getPlayer(id) != null) return getPlayer(id).isPaused();
+		return false;
+	}
+	
 	public void stop(String id) {
-		if(getPlayer(id) != null) getPlayer(id).pause(true);
+		if(getPlayer(id) != null) {
+			getPlayer(id).kill();
+			players.remove(id);
+			gains.remove(id);
+			glides.remove(id);
+			glideTimes.remove(id);
+		}
 	}
 	
 	public float progress(String id) {
@@ -168,10 +187,27 @@ public class WavPlayer {
 		}
 	}
 	
+	public int glideTime(String id) {
+		if(getPlayer(id) == null) return 0;
+		return glideTimes.get(id).intValue();
+	}
+	
+	public void setGlideTime(String id, int glide) {
+		if(gains.containsKey(id)) {
+			glideTimes.put(id, glide);
+			glides.get(id).setGlideTime(glide);
+		}
+	}
+	
 	public void setPitch(String id, float pitchIndex) {
 		if(glides.containsKey(id)) {
-//			glides.get(id).setValue(pitchRatioFromIndex(pitchIndex));
-			glides.get(id).setValueImmediately(pitchRatioFromIndex(pitchIndex));
+			// remove glide completely or use portamento if glide has been set
+			if(glideTime(id) == 0) {
+				glides.get(id).setValueImmediately(pitchRatioFromIndex(pitchIndex));
+			} else {
+				glides.get(id).setValue(pitchRatioFromIndex(pitchIndex));
+			}
+			// apply pitch adjustment to sample
 			getPlayer(id).setRate(glides.get(id));
 		}
 	}

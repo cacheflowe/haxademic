@@ -33,19 +33,19 @@ implements IAudioInput {
 		  ac = new AudioContext();
 		  
 		  ShortFrameSegmenter sfs = new ShortFrameSegmenter(ac);
-		  FFT fft = new FFT();
 		  gain = new Gain(ac, 2);
+		  FFT fft = new FFT();
 		  ps = new PowerSpectrum();
 		  sfs.setChunkSize(512);
 		  sfs.setHopSize(256);
 		  sfs.addInput(gain);   // sfs.addInput(ac.out);
 		  sfs.addListener(fft);
 		  fft.addListener(ps);
+		  ac.out.addDependent(sfs);
 		  
 		  addBeatDetection();
 		  
 		  // common setup and stream init
-		  ac.out.addDependent(sfs);
 		  gain.addInput(ac.getAudioInput());
 		  
 		  ac.start();
@@ -64,8 +64,8 @@ implements IAudioInput {
 		  sfs.addInput(fftFilter); // sfs.addInput(ac.out);
 		  FFT fft = new FFT();
 		  ps = new PowerSpectrum();
-		  sfs.setChunkSize(2048);
-		  sfs.setHopSize(512);
+		  sfs.setChunkSize(512);
+		  sfs.setHopSize(256);
 		  sfs.addListener(fft);
 		  fft.addListener(ps);
 		  ac.out.addDependent(sfs);
@@ -106,7 +106,7 @@ implements IAudioInput {
 			// make a lower-amplitude copy
 			if(freqs == null) freqs = new float[features.length];
 			for (int i = 0; i < features.length; i++) {
-				freqs[i] = features[i] * 0.05f;
+				freqs[i] = features[i] * 15f * window(features.length, i);
 			}
 			
 			audioStreamData.setFFTFrequencies(freqs);
@@ -131,4 +131,21 @@ implements IAudioInput {
 		if(pg != null) audioStreamData.drawDebug(pg);
 	}
 	
+	protected float window(int length, int index) {
+		//float alpha = 0.25f;
+		
+		// bartlett-hann window
+		return (float) (0.62f - 0.48f * P.abs(index / (length - 1) - 0.5f) - 0.38f * P.cos(P.TWO_PI * index / (length - 1f)));
+		// bartlett window: 
+		// return 2f / (length - 1) * ((length - 1) / 2f - Math.abs(index - (length - 1) / 2f));
+		// blackman window: https://github.com/ddf/Minim/blob/master/src/main/java/ddf/minim/analysis/BlackmanWindow.java
+		// float a0 = (1 - alpha) / 2f;
+		// float a1 = 0.5f;
+		// float a2 = alpha / 2f;
+		// return a0 - a1 * (float) P.cos(P.TWO_PI * index / (length - 1)) + a2 * (float) P.cos(4f * P.PI * index / (length - 1));
+		// triangle window: https://github.com/ddf/Minim/blob/master/src/main/java/ddf/minim/analysis/TriangularWindow.java
+		// return 2f / length * (length / 2f - Math.abs(index - (length - 1) / 2f));
+		// gauss window: https://github.com/ddf/Minim/blob/master/src/main/java/ddf/minim/analysis/GaussWindow.java
+		// return (float) Math.pow(Math.E, -0.5 * Math.pow((index - (length - 1) / (double) 2) / (alpha * (length - 1) / (double) 2), (double) 2));
+	}
 }

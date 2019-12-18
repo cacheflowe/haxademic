@@ -1,6 +1,5 @@
 package com.haxademic.core.media.audio.playback;
 
-import com.haxademic.core.app.P;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.media.audio.analysis.AudioStreamData;
 
@@ -92,8 +91,9 @@ public class AudioPlayerBeads {
 	public void update() {
 		// check loop
 		looped = (player.getPosition() < lastPosition);
-		lastPosition = player.getPosition();
-		length = P.max(length, (float) lastPosition);		// does Beads give us length? if not, track the max progress
+		// lastPosition = player.getPosition();
+		// length = P.max(length, (float) lastPosition);		// does Beads give us length? if not, track the max progress
+		length = (float) player.getSample().getLength();
 		progress = (float) player.getPosition() / length;
 		
 		// set analysis data

@@ -31,7 +31,6 @@ extends PAppletHax {
 		
 		// send Beads audio player analyzer to PAppletHax
 		AudioIn.instance(new AudioInputBeads(WavPlayer.sharedContext()));
-		
 	}
 	
 	public void drawApp() {
@@ -43,6 +42,9 @@ extends PAppletHax {
 		player1.setPitch(soundbed, P.round(-12f + 24f * p.mousePercentY()));
 		player2.setPitch(soundMid, P.round(-12f + 24f * p.mousePercentY()));
 		
+		// set glide time manually for testing
+		player2.setGlideTime(soundMid, 200);
+		
 		// show debug audio view (and keep it open)
 		p.debugView.active(true);
 		p.image(AudioIn.instance().audioInputDebugBuffer(), 240, 100);
@@ -50,8 +52,8 @@ extends PAppletHax {
 
 	public void keyPressed() {
 		super.keyPressed();
-		if(p.key == ' ') {
-			
-		}
+		if(p.key == ' ') player2.pauseToggle(soundMid);
+		if(p.key == 'c') player2.stop(soundMid);
+		if(p.key == 's') player2.loopWav(soundMid);
 	}
 }
