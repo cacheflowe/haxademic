@@ -29,14 +29,13 @@ implements ILaunchpadCallback {
 	public static final String BEAT = "BEAT";
 	public static final String CUR_STEP = "BEAT_MOD";
 	public static final String BPM = "BPM";
-	public static final String BEAT_INTERVAL_MILLIS = "BEAT_INTERVAL_MILLIS";
-	public static final String BPM_MIDI = "BPM_MIDI";
 	public static final String SEQUENCER_TRIGGER = "SEQUENCER_TRIGGER";
 
 	// state
 	
 	public static final String CUR_SCALE_INDEX = "CUR_SCALE_INDEX";
 	public static final String PATTERNS_AUTO_MORPH = "PATTERNS_AUTO_MORPH";
+	public static boolean SYSTEM_MUTED = false;
 
 	// input 
 	
@@ -51,9 +50,6 @@ implements ILaunchpadCallback {
 	protected Scales scales;
 	public Sequencer sequencers[];
 	protected Metronome metronome;
-	
-	protected boolean systemMuted = false;
-	protected int systemMuteTime = -1;
 	
 	protected boolean hasUI;
 	
@@ -81,9 +77,7 @@ implements ILaunchpadCallback {
 		// init state
 		P.store.setNumber(BEAT, 0);
 		P.store.setNumber(CUR_STEP, 0);
-		P.store.setNumber(BEAT_INTERVAL_MILLIS, 700f);
-		P.store.setNumber(BPM, 0);
-		P.store.setNumber(BPM_MIDI, 0);
+		P.store.setNumber(BPM, 90);
 		P.store.setNumber(INTERACTION_SPEED_MULT, 0);
 		P.store.setNumber(CUR_SCALE_INDEX, 0);
 		P.store.setNumber(SEQUENCER_TRIGGER, 0);
@@ -91,7 +85,7 @@ implements ILaunchpadCallback {
 		
 		// build music machine
 		scales = new Scales();
-		metronome = new Metronome(this);
+		metronome = new Metronome();
 		sequencers = new Sequencer[NUM_WALLS];
 		for (int i = 0; i < sequencers.length; i++) {
 			sequencers[i] = new Sequencer(this, interphaseChannels[i]);
@@ -125,13 +119,8 @@ implements ILaunchpadCallback {
 	// SHARED
 	/////////////////////////////////
 	
-	public boolean systemMuted() {
-		return systemMuted;
-	}
-	
 	public void setSystemMute(boolean muted) {
-		systemMuteTime = P.p.millis();
-		systemMuted = muted;
+		SYSTEM_MUTED = muted;
 	}
 	
 	/////////////////////////////////
@@ -142,8 +131,8 @@ implements ILaunchpadCallback {
 		// App controls ---------------------------------------
 		
 		if (P.p.key == 'g') TEMPO_MOUSE_CONTROL = !TEMPO_MOUSE_CONTROL;
-		if (P.p.key == P.CODED && P.p.keyCode == P.DOWN) setSystemMute(true);
-		if (P.p.key == P.CODED && P.p.keyCode == P.UP) setSystemMute(false);
+		if (P.p.key == P.CODED && P.p.keyCode == P.DOWN) SYSTEM_MUTED = true;
+		if (P.p.key == P.CODED && P.p.keyCode == P.UP) SYSTEM_MUTED = false;
 		
 		// Sequencer controls ---------------------------------
 		
@@ -248,9 +237,9 @@ implements ILaunchpadCallback {
 		if(trigger7.triggered()) sequencers[6].evolvePattern(true);
 		if(trigger8.triggered()) sequencers[7].evolvePattern(true);
 		
-		int curBmpMIDI = P.store.getInt(Interphase.BPM_MIDI);
-		if(triggerDown.triggered()) P.store.setNumber(Interphase.BPM_MIDI, curBmpMIDI - 1);
-		if(triggerUp.triggered())  P.store.setNumber(Interphase.BPM_MIDI, curBmpMIDI + 1); 
+		int curBmpMIDI = P.store.getInt(Interphase.BPM);
+		if(triggerDown.triggered()) P.store.setNumber(Interphase.BPM, curBmpMIDI - 1);
+		if(triggerUp.triggered())  P.store.setNumber(Interphase.BPM, curBmpMIDI + 1); 
 
 		if(trigger9.triggered()) P.store.setBoolean(PATTERNS_AUTO_MORPH, !P.store.getBoolean(PATTERNS_AUTO_MORPH));
 	}
@@ -276,7 +265,6 @@ implements ILaunchpadCallback {
 	
 	protected void updateDebugValues() {
 		P.p.debugView.setValue("INTERPHASE :: BPM", P.store.getFloat(BPM));
-		P.p.debugView.setValue("INTERPHASE :: BPM interval", P.store.getInt(BEAT_INTERVAL_MILLIS) + "ms");
 		P.p.debugView.setValue("INTERPHASE :: BEAT", P.store.getFloat(BEAT));
 		P.p.debugView.setValue("INTERPHASE :: INTERACTION_SPEED_MULT", P.store.getFloat(INTERACTION_SPEED_MULT));
 		P.p.debugView.setValue("INTERPHASE :: PATTERNS_AUTO_MORPH", P.store.getBoolean(PATTERNS_AUTO_MORPH));
@@ -357,9 +345,9 @@ implements ILaunchpadCallback {
 				if(note == LaunchPad.headerColMidiNote(i)) sequencers[i].loadNextSound(); 
 			}
 			// bpm up/down
-			int curBmpMIDI = P.store.getInt(Interphase.BPM_MIDI);
-			if(note == LaunchPad.groupRowMidiNote(1)) P.store.setNumber(Interphase.BPM_MIDI, curBmpMIDI - 1); 
-			if(note == LaunchPad.groupRowMidiNote(0)) P.store.setNumber(Interphase.BPM_MIDI, curBmpMIDI + 1); 
+			int curBmpMIDI = P.store.getInt(Interphase.BPM);
+			if(note == LaunchPad.groupRowMidiNote(1)) P.store.setNumber(Interphase.BPM, curBmpMIDI - 1); 
+			if(note == LaunchPad.groupRowMidiNote(0)) P.store.setNumber(Interphase.BPM, curBmpMIDI + 1); 
 		}
 	}
 	

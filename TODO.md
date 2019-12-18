@@ -126,9 +126,9 @@
 
 ## Interphase
   * [DONE!] perfectly-looped audio clips, mapped to main loop length
-  	* Scrub to random parts of samples to chop breaks
+  	* [Kinda works! would be better w/Interphase Metronome] Scrub to random parts of samples to chop breaks
+  * [Works!] Integrate Communichords looping tones (for Moire Room, specifically)
   * Add sliders to specifically choose samples
-  * Integrate Communichords looping tones (for Moire Room, specifically)
   * C.A.C.H.E. - Creative Adversarial Computer-Human Exchange
   * Store/recall audio & visual combos
     * Need to turn off totally random notes (rely on position-based notes)

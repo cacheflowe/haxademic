@@ -245,7 +245,8 @@ implements IAppStoreListener {
 				
 				// change release
 				if(MathUtil.randBooleanWeighted(0.2f) && config.hasRelease) {
-					release = MathUtil.randRange(200, P.store.getInt(Interphase.BEAT_INTERVAL_MILLIS));
+					float loopInterval = Metronome.bpmToIntervalMS(P.store.getInt(Interphase.BPM));
+					release = MathUtil.randRange(200, loopInterval);
 				} else {
 					release = 0;
 				}
@@ -283,7 +284,7 @@ implements IAppStoreListener {
 		curSample = samples[curSampleIndex];
 	}
 	
-	public void playSample(AudioContext ac) {
+	public void playSample() {
 		if(curSample == null) return;
 		if(muted) return;
 		
@@ -291,8 +292,8 @@ implements IAppStoreListener {
 		selectNewNote();
 		
 		// recreate SamplePlayer objects
-		player = playSampleWithNote(ac, player, pitchRatioFromIndex(pitchIndex1));
-		if(chordMode) player2 = playSampleWithNote(ac, player2, pitchRatioFromIndex(pitchIndex2));
+		player = playSampleWithNote(player, pitchRatioFromIndex(pitchIndex1));
+		if(chordMode) player2 = playSampleWithNote(player2, pitchRatioFromIndex(pitchIndex2));
 		
 		// let the app know
 		P.store.setNumber(Interphase.SEQUENCER_TRIGGER, index);
@@ -328,11 +329,12 @@ implements IAppStoreListener {
 		return P.pow(2, pitchIndex/12.0f);
 	}
 	
-	protected SamplePlayer playSampleWithNote(AudioContext ac, SamplePlayer curPlayer, float pitchRatio) {
+	protected SamplePlayer playSampleWithNote(SamplePlayer curPlayer, float pitchRatio) {
 		// stop playing previous sample instance 
 		if(curPlayer != null) curPlayer.kill();	
 
 		// re-init sample player
+		AudioContext ac = Metronome.ac;
 		curPlayer = new SamplePlayer(ac, curSample);
 		curPlayer.setKillOnEnd(false);
 		
@@ -353,7 +355,8 @@ implements IAppStoreListener {
 		// apply attack/sustain
 		if(useASDR) {
 			// responsive release 
-			MAX_SAMPLE_LENGTH = P.store.getInt(Interphase.BEAT_INTERVAL_MILLIS);
+			float loopInterval = Metronome.bpmToIntervalMS(P.store.getInt(Interphase.BPM));
+			MAX_SAMPLE_LENGTH = (int) loopInterval;
 			// set volume
 			velocity = MathUtil.randRangeDecimal(0.8f, 1f) * config.volume;
 			float fullGain = (chordMode) ? velocity * 0.7f : velocity;	// quieter on keys channel, when we're playing chords
@@ -507,6 +510,10 @@ implements IAppStoreListener {
 		
 		// playhead restarted, flash LEDs
 //		if(curStep == 0) flashLEDs();
+		
+		if(shouldPlay) {
+			playSample();
+		}
 	}
 	
 	public void updatedAppStoreValue(String key, String val) {

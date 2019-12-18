@@ -150,7 +150,8 @@ public class WavPlayer {
 	
 	public void seekToProgress(String id, float progress) {
 		if(getPlayer(id) != null) {
-			getPlayer(id).start(duration(id) * progress);
+//			getPlayer(id).start(duration(id) * progress);
+			getPlayer(id).setPosition(duration(id) * progress);
 		}
 	}
 	
