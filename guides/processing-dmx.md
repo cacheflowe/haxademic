@@ -18,11 +18,27 @@ There's a whole world of DMX lights and DMX-controlled devices, like [winches](h
 
 ### Code
 
-Get the `dmxP512` library and import the Processing Serial library to help you find your DMX USB device. If you're using Eclipse, make sure you've pointed the Serial library at the appropriate native library.
+If you're using the Processing IDE, install the [dmxP512](https://github.com/hdavid/dmxP512) library. 
 
-* [https://github.com/hdavid/dmxP512](https://github.com/hdavid/dmxP512)
+<img src="images/dmx-library-install.png" alt="install the DmxP512 library in Processing" width="600"/>
 
-If you're using the Processing IDE and have installed the `DmxP512` library and found your COM port (Windows), this code should be the most basic example to test your lights:
+If you're using Eclipse, add the dmxP512 jar to your classpath and make sure you've pointed the Serial library at the appropriate native library. In Eclipse's `.classpath`, that looks something like this:
+
+```
+<classpathentry kind="lib" path="lib/processing-3/libraries/serial/library/serial.jar">
+  <attributes>
+    <attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="haxademic/lib/processing-3/libraries/serial/library/windows64"/>
+  </attributes>
+</classpathentry>
+```
+
+Or if you're running from the command line, you'd point to the Serial library by adding the following to your java run command:
+
+```
+-Djava.library.path=lib\processing-3\libraries\serial\library\windows64
+```
+
+If you're using the Processing IDE and have installed the `DmxP512` library and found your COM port (Windows), the following code is the most basic example to test your lights. Make sure you import the Processing Serial library to help the DMX library find your DMX USB device.
 
 ```
 import dmxP512.*;
@@ -57,15 +73,17 @@ void draw() {
 }
 ```
 
-<img src="images/dmx-library-install.png" alt="install the DmxP512 library in Processing"/>
+### Finding your USB device port
+
+On Windows, open up the Device Manager and find the entry for USB Serial Port. In this case, you'd use "COM6". Right-click the device for Properties, and you can look up the baud rate that you'll also need to init the `DmxP512` object.
 
 <img src="images/device-manager-com-port.png" alt="find your COM port in windows"/>
 
-My own DMX wrapper has some instructions in the comments about how to identify your USB/serial device based on your operating system. OS X seems to need a virtual serial device driver to properly register your DMX USB device.
+My own DMX wrapper has some instructions in the comments about how to identify your USB/serial device based on your operating system. OS X seems to need a virtual serial device driver to properly register your DMX USB device. Your virtual serial port will look something like "/dev/tty.usbserial-EN158815", rather than Windows' COM[X] schema.
 
 * [DMXWrapper](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/hardware/dmx/DMXWrapper.java)
 
-Here's a little code that takes Kinect tracking and sets the pan of my motorized spotlight. You can see in my comments which DMX channels control which aspects of the fixture:
+Here's a little more advanced code that takes Kinect tracking and sets the pan of my motorized spotlight. You can see in my comments that different DMX channels control many aspects of the fixture:
 
 * [Demo_DmxKinectStiletto](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/demo/hardware/dmx/Demo_DmxKinectStiletto.java#L81)
 * And [the result](https://www.instagram.com/p/BkWHmjunL-0/)
