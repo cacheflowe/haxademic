@@ -22,6 +22,45 @@ Get the `dmxP512` library and import the Processing Serial library to help you f
 
 * [https://github.com/hdavid/dmxP512](https://github.com/hdavid/dmxP512)
 
+If you're using the Processing IDE and have installed the `DmxP512` library and found your COM port (Windows), this code should be the most basic example to test your lights:
+
+```
+import dmxP512.*;
+import processing.serial.*;
+
+// DMX USB Pro config
+DmxP512 dmxOutput;
+int universeSize = 512;
+String DMXPRO_PORT = "COM3";
+int DMXPRO_BAUDRATE = 9600;
+
+void setup() {
+  size(512, 256, P2D);
+  noStroke();
+  
+  // init device
+  dmxOutput = new DmxP512(this, universeSize, true);
+  dmxOutput.setupDmxPro(DMXPRO_PORT, DMXPRO_BAUDRATE);
+}
+
+void draw() {
+  background(0);
+  // loop through all DMX channels
+  for(int i=1; i < universeSize; i++) {
+    // set channels 1-512 to oscillating values
+    int value = 127 + round(127 * sin(frameCount * 0.1f + i * 0.1));
+    dmxOutput.set(i, value);
+    // show on-screen what we've sent out to DMX hardware
+    fill(value);
+    rect(i - 1, 0, 1, height);    
+  }
+}
+```
+
+<img src="images/dmx-library-install.png" alt="install the DmxP512 library in Processing"/>
+
+<img src="images/device-manager-com-port.png" alt="find your COM port in windows"/>
+
 My own DMX wrapper has some instructions in the comments about how to identify your USB/serial device based on your operating system. OS X seems to need a virtual serial device driver to properly register your DMX USB device.
 
 * [DMXWrapper](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/hardware/dmx/DMXWrapper.java)
