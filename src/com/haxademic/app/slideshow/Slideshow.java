@@ -91,7 +91,7 @@ extends PAppletHax
 		super.addKeyCommandInfo();
 		p.debugView.setHelpLine("\n" + DebugView.TITLE_PREFIX + "Custom Key Commands", "");
 		p.debugView.setHelpLine("[R] |", "Reload slides");
-		p.debugView.setHelpLine("[D] |", "DEBUG toggle");
+		p.debugView.setHelpLine("[D] |", "Keystone/DEBUG toggle");
 		p.debugView.setHelpLine("[S] |", "Stress test [DANGER]");
 		p.debugView.setHelpLine("[BACKSPACE] |", "Reset keystone");
 		p.debugView.setHelpLine("[RIGHT] |", "Next slide");
@@ -152,6 +152,7 @@ extends PAppletHax
 		Arrays.sort(mediaFilesInDir);
 		numToLoad += mediaFilesInDir.length;
 		for (int i = 0; i < mediaFilesInDir.length; i++) {
+			P.out(mediaFilesInDir[i]);
 			mediaFiles.add(mediaFilesInDir[i]);
 		}
 	}
@@ -160,7 +161,7 @@ extends PAppletHax
 		File dir = new File( directory );
 		FileFilter fileFilter = new FileFilter() {
 		    public boolean accept(File file) {
-		        return file.isDirectory() || file.getName().endsWith("png") || file.getName().endsWith("gif") || file.getName().endsWith("jpg") || file.getName().endsWith("mov") || file.getName().endsWith("mp4");
+		        return (file.isDirectory() && !file.getName().equals("_removed")) || file.getName().endsWith("png") || file.getName().endsWith("gif") || file.getName().endsWith("jpg") || file.getName().endsWith("mov") || file.getName().endsWith("mp4");
 		    }
 		};
 		File[] files = dir.listFiles(fileFilter);
