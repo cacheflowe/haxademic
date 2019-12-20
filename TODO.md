@@ -333,6 +333,7 @@
   * BufferActivityMonitor should use FrameDifferenceBuffer object
   * Replace ColorUtil with EasingColor
   * ImageSequence -> ffmpeg rendering from a class. Would make rendering easier on both platforms
+  * JNA: https://www.techbeamers.com/write-a-simple-jna-program-in-java/
 
 ## To investigate
 
@@ -387,6 +388,8 @@ Advanced Processing
   * Set an app icon
   * AppStore concept
   * Run in Eclipse
+  	* How Eclipse works vs the command line code it generates
+  	* Java compiling w/javac, etc 
   * ShaderCompiler
   * Shader techniques
     * Post-processing
