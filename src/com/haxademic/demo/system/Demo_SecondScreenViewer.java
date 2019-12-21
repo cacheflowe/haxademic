@@ -10,7 +10,7 @@ extends PAppletHax {
 
 	protected SecondScreenViewer appViewerWindow;
 	
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		appViewerWindow = new SecondScreenViewer(p.g, 0.5f);
 	}
 

@@ -2,6 +2,7 @@ package com.haxademic.demo.draw.image;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.image.ImageSequenceMovieClip;
 import com.haxademic.core.file.FileUtil;
@@ -15,14 +16,14 @@ extends PAppletHax {
 	protected ImageSequenceMovieClip imageSequenceCopy;
 	protected ImageSequenceMovieClip imageSequenceManual;
 
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, 1344 );
-		p.appConfig.setProperty( AppSettings.HEIGHT, 700 );
-		p.appConfig.setProperty( AppSettings.FULLSCREEN, false );
-		p.appConfig.setProperty( AppSettings.SHOW_DEBUG, true );
+	protected void config() {
+		Config.setProperty( AppSettings.WIDTH, 1344 );
+		Config.setProperty( AppSettings.HEIGHT, 700 );
+		Config.setProperty( AppSettings.FULLSCREEN, false );
+		Config.setProperty( AppSettings.SHOW_DEBUG, true );
 	}
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		String imagePath = FileUtil.getFile("haxademic/images/floaty-blob.anim/");
 		imageSequence = new ImageSequenceMovieClip(imagePath, "png", 18);
 	}

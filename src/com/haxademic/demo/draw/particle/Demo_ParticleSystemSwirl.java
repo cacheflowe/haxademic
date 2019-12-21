@@ -2,6 +2,7 @@ package com.haxademic.demo.draw.particle;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.particle.ParticleSystemSwirl;
 import com.haxademic.core.media.DemoAssets;
 
@@ -13,12 +14,12 @@ extends PAppletHax {
 
 	protected ParticleSystemSwirl particles;
 	
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, 1200 );
-		p.appConfig.setProperty( AppSettings.HEIGHT, 800 );
+	protected void config() {
+		Config.setProperty( AppSettings.WIDTH, 1200 );
+		Config.setProperty( AppSettings.HEIGHT, 800 );
 	}
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		particles = new ParticleSystemSwirl(new PImage[] { DemoAssets.particle() });
 		particles.enableUI("SWIRL_1_", false);
 	}

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.data.constants.PBlendModes;
 import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.debug.DebugView;
@@ -42,13 +43,13 @@ implements IWebCamCallback {
 	protected int MAX_LAUNCHED_PER_FRAME = 5;
 	protected PImage[] particleImages;
 	
-	protected void overridePropsFile() {
-		p.appConfig.setProperty(AppSettings.WIDTH, 640 );
-		p.appConfig.setProperty(AppSettings.HEIGHT, 480 );
-		p.appConfig.setProperty(AppSettings.SHOW_DEBUG, true );
+	protected void config() {
+		Config.setProperty(AppSettings.WIDTH, 640 );
+		Config.setProperty(AppSettings.HEIGHT, 480 );
+		Config.setProperty(AppSettings.SHOW_DEBUG, true );
 	}
 		
-	public void setupFirstFrame () {
+	public void firstFrame () {
 		// capture webcam frames
 		WebCam.instance().setDelegate(this);
 		// build particles array

@@ -5,6 +5,7 @@ import java.awt.image.BufferedImage;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.image.AnimatedGifEncoder;
@@ -25,19 +26,19 @@ extends PAppletHax {
 	float _frames = 60;
 	float _elloSize = 40;
 	
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, "640" );
-		p.appConfig.setProperty( AppSettings.HEIGHT, "640" );
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
-		p.appConfig.setProperty( AppSettings.RENDERING_GIF, "false" );
+	protected void config() {
+		Config.setProperty( AppSettings.WIDTH, "640" );
+		Config.setProperty( AppSettings.HEIGHT, "640" );
+		Config.setProperty( AppSettings.RENDERING_MOVIE, "false" );
+		Config.setProperty( AppSettings.RENDERING_GIF, "false" );
 	}
 	
-	public void setupFirstFrame() {
+	public void firstFrame() {
 
 		p.smooth(OpenGLUtil.SMOOTH_HIGH);
 		_logo = p.loadShape(FileUtil.getHaxademicDataPath()+"svg/ello.svg");
 		_logoInverse = p.loadShape(FileUtil.getHaxademicDataPath()+"svg/ello-inverse.svg");
-		if(p.appConfig.getBoolean("rendering_gif", false) == true) startGifRender();
+		if(Config.getBoolean("rendering_gif", false) == true) startGifRender();
 	}
 	
 	public void startGifRender() {
@@ -79,9 +80,9 @@ extends PAppletHax {
 
 //		filter(INVERT);
 
-		if(p.appConfig.getBoolean("rendering_gif", false) == true) renderGifFrame();
+		if(Config.getBoolean("rendering_gif", false) == true) renderGifFrame();
 		if( p.frameCount == _frames * 4 + 5 ) {
-			if(p.appConfig.getBoolean("rendering_gif", false) ==  true) encoder.finish();
+			if(Config.getBoolean("rendering_gif", false) ==  true) encoder.finish();
 			if(videoRenderer != null) {				
 				videoRenderer.stop();
 				P.println("render done!");

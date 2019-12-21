@@ -3,6 +3,7 @@ package com.haxademic.demo.draw.context;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.SphereDistortionFilter;
@@ -17,7 +18,7 @@ extends PAppletHax {
 	protected PGraphics _texture;
 	protected float _frames = 360;
 	
-	public void setupFirstFrame() {
+	public void firstFrame() {
 
 		p.background(0);
 		
@@ -28,13 +29,13 @@ extends PAppletHax {
 		_texture.endDraw();
 	}
 	
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, 1280 );
-		p.appConfig.setProperty( AppSettings.HEIGHT, 1280 );
-		p.appConfig.setProperty( AppSettings.SMOOTHING, AppSettings.SMOOTH_HIGH );
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, false );
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_START_FRAME, P.round(_frames * 2) );
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, P.round(_frames * 3) );
+	protected void config() {
+		Config.setProperty( AppSettings.WIDTH, 1280 );
+		Config.setProperty( AppSettings.HEIGHT, 1280 );
+		Config.setProperty( AppSettings.SMOOTHING, AppSettings.SMOOTH_HIGH );
+		Config.setProperty( AppSettings.RENDERING_MOVIE, false );
+		Config.setProperty( AppSettings.RENDERING_MOVIE_START_FRAME, P.round(_frames * 2) );
+		Config.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, P.round(_frames * 3) );
 	}
 		
 	public void drawApp() {

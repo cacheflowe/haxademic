@@ -14,7 +14,7 @@ extends PAppletHax {
 	
 	WETriangleMesh _mesh, _meshDeform;
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 
 		
 //		_mesh = MeshUtil.meshFromOBJ( p, "../data/models/pointer_cursor_2_hollow.obj", 1.5f );

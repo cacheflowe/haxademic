@@ -3,6 +3,7 @@ package com.haxademic.app.blobs;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.data.constants.PBlendModes;
 import com.haxademic.core.draw.color.ColorUtil;
 import com.haxademic.core.draw.color.Gradients;
@@ -82,16 +83,16 @@ extends PAppletHax {
 	public float lightsFalloffVal = 0.12f;
 	public float lightsFalloffConstantVal = 0.12f;
 	
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, 1000 );
-		p.appConfig.setProperty( AppSettings.HEIGHT, 1000 );
-		p.appConfig.setProperty( AppSettings.SMOOTHING, AppSettings.SMOOTH_HIGH );
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, false );
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_START_FRAME, 1 );
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, (int)_frames + 1 );
+	protected void config() {
+		Config.setProperty( AppSettings.WIDTH, 1000 );
+		Config.setProperty( AppSettings.HEIGHT, 1000 );
+		Config.setProperty( AppSettings.SMOOTHING, AppSettings.SMOOTH_HIGH );
+		Config.setProperty( AppSettings.RENDERING_MOVIE, false );
+		Config.setProperty( AppSettings.RENDERING_MOVIE_START_FRAME, 1 );
+		Config.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, (int)_frames + 1 );
 	}
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		p.noStroke();
 		p.noiseSeed(noiseSeed);
 		buildSSAO();

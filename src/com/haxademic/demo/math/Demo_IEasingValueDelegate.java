@@ -19,7 +19,7 @@ implements IEasingValueDelegate {
 	protected EasingFloat easingFloat;
 	protected LinearFloat linearFloat;
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		easingFloat = new EasingFloat(0, 0.1f, this);
 		easingFloat.setTarget(1);
 		linearFloat = new LinearFloat(0, 0.015f, this);

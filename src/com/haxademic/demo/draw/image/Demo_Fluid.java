@@ -17,7 +17,7 @@ extends PAppletHax {
 	protected Fluid fluid;
 	protected PGraphics fluidBuff;
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		int w = 50;
 		int h = 50;
 		int scale = 10;

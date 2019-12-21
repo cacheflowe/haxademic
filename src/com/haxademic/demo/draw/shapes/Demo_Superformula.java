@@ -24,7 +24,7 @@ extends PAppletHax {
 	
 	protected boolean _audioEnabled = false;
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		AudioIn.instance();
 		
 		_superForm = new Superformula( 200, 200, 10, 1, 6, 20, 7, 18);

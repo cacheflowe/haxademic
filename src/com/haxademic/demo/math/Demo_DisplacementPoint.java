@@ -3,6 +3,7 @@ package com.haxademic.demo.math;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.math.easing.DisplacementPoint;
 import com.haxademic.core.ui.UI;
@@ -21,13 +22,13 @@ extends PAppletHax {
 	protected int cols = 40;
 	protected int rows = 30;
 
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, 1440);
-		p.appConfig.setProperty( AppSettings.HEIGHT, 1080);
-		p.appConfig.setProperty( AppSettings.SHOW_UI, true);
+	protected void config() {
+		Config.setProperty( AppSettings.WIDTH, 1440);
+		Config.setProperty( AppSettings.HEIGHT, 1080);
+		Config.setProperty( AppSettings.SHOW_UI, true);
 	}
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		// lay out grid
 		float spacing = 40;
 		float startX = p.width / 2 - (cols / 2) * spacing + spacing/2;

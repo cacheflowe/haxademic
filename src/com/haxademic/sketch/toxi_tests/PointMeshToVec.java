@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.vendor.Toxiclibs;
 
@@ -20,7 +21,7 @@ extends PAppletHax {
 	public ArrayList<MovingBox> boxes;
 	public AABB focus = new AABB(10);
 	
-	public void setupFirstFrame() {
+	public void firstFrame() {
 
 		
 		boxes = new ArrayList<MovingBox>();
@@ -32,9 +33,9 @@ extends PAppletHax {
 //		box2.pointTowards(new Vec3D(0,500,500));
 	}
 	
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.SUNFLOW, "false" );
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
+	protected void config() {
+		Config.setProperty( AppSettings.SUNFLOW, "false" );
+		Config.setProperty( AppSettings.RENDERING_MOVIE, "false" );
 	}
 		
 	public void drawApp() {

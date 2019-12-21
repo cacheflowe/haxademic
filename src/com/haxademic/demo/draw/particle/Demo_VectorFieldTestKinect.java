@@ -3,6 +3,7 @@ package com.haxademic.demo.draw.particle;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.image.ImageUtil;
@@ -19,16 +20,16 @@ extends Demo_VectorField {
 	protected PGraphics overlayKinectTexture;
 	protected OpenKinectPixelImg kinectImg;
 	
-	protected void overridePropsFile() {
-		super.overridePropsFile();
-		p.appConfig.setProperty( AppSettings.WIDTH, 1280 );
-		p.appConfig.setProperty( AppSettings.HEIGHT, 720 );
-		p.appConfig.setProperty( AppSettings.FULLSCREEN, true );
-		p.appConfig.setProperty( AppSettings.RETINA, false );
-		p.appConfig.setProperty( AppSettings.SMOOTHING, OpenGLUtil.SMOOTH_LOW);
+	protected void config() {
+		super.config();
+		Config.setProperty( AppSettings.WIDTH, 1280 );
+		Config.setProperty( AppSettings.HEIGHT, 720 );
+		Config.setProperty( AppSettings.FULLSCREEN, true );
+		Config.setProperty( AppSettings.RETINA, false );
+		Config.setProperty( AppSettings.SMOOTHING, OpenGLUtil.SMOOTH_LOW);
 	}
 	
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		FIELD_SPACING = p.height / 20;
 		ATTENTION_RADIUS = FIELD_SPACING;
 		NUM_PARTICLES = 3000;

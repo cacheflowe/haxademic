@@ -3,6 +3,7 @@ package com.haxademic.app.blobs;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.color.ColorUtil;
 import com.haxademic.core.draw.color.Gradients;
 import com.haxademic.core.draw.context.PG;
@@ -30,18 +31,18 @@ extends PAppletHax {
 	
 	protected PShader maskShader;
 
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, 1000 );
-		p.appConfig.setProperty( AppSettings.HEIGHT, 1000 );
-		p.appConfig.setProperty( AppSettings.RENDERER, P.P2D );
-		p.appConfig.setProperty( AppSettings.SMOOTHING, AppSettings.SMOOTH_HIGH );
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, true );
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_START_FRAME, Math.round(frames) );
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, Math.round(frames * 2) );
+	protected void config() {
+		Config.setProperty( AppSettings.WIDTH, 1000 );
+		Config.setProperty( AppSettings.HEIGHT, 1000 );
+		Config.setProperty( AppSettings.RENDERER, P.P2D );
+		Config.setProperty( AppSettings.SMOOTHING, AppSettings.SMOOTH_HIGH );
+		Config.setProperty( AppSettings.RENDERING_MOVIE, true );
+		Config.setProperty( AppSettings.RENDERING_MOVIE_START_FRAME, Math.round(frames) );
+		Config.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, Math.round(frames * 2) );
 	}
 
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 	}
 	
 	protected void buildObjects() {

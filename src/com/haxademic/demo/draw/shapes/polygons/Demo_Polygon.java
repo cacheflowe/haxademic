@@ -7,6 +7,7 @@ import java.util.Comparator;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.debug.StringBufferLog;
 import com.haxademic.core.draw.context.PShaderHotSwap;
@@ -138,14 +139,14 @@ extends PAppletHax {
 	PShaderHotSwap polygonShader;
 	protected SimplexNoiseTexture displaceTexture;
 
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, 1280 );
-		p.appConfig.setProperty( AppSettings.HEIGHT, 720 );
-		p.appConfig.setProperty( AppSettings.WIDTH, 1920 );
-		p.appConfig.setProperty( AppSettings.HEIGHT, 1080 );
+	protected void config() {
+		Config.setProperty( AppSettings.WIDTH, 1280 );
+		Config.setProperty( AppSettings.HEIGHT, 720 );
+		Config.setProperty( AppSettings.WIDTH, 1920 );
+		Config.setProperty( AppSettings.HEIGHT, 1080 );
 	}
 
-	protected void setupFirstFrame() {
+	protected void firstFrame() {
 		tempTriangle = Polygon.buildShape(0, 0, 3, 100);
 		newSeedPolygon();
 		setupPostProcessing();

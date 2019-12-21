@@ -2,6 +2,7 @@ package com.haxademic.demo.draw.shapes.shader;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.context.PShaderHotSwap;
@@ -25,12 +26,12 @@ extends PAppletHax {
 	protected SimplexNoiseTexture displaceTexture;
 
 
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, 1040 );
-		p.appConfig.setProperty( AppSettings.HEIGHT, 640 );
+	protected void config() {
+		Config.setProperty( AppSettings.WIDTH, 1040 );
+		Config.setProperty( AppSettings.HEIGHT, 640 );
 	}
 
-	public void setupFirstFrame()	{
+	public void firstFrame()	{
 		// build text
 		textToPShape = new TextToPShape(TextToPShape.QUALITY_HIGH);
 		String fontFile = DemoAssets.fontOpenSansPath;

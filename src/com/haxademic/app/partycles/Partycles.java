@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.color.EasingColor;
@@ -80,31 +81,31 @@ extends PAppletHax {
 	// - Pull particle textures from a directory to be skinnable
 
 
-	protected void overridePropsFile() {
+	protected void config() {
 		if(P.platform != P.MACOSX) {
-			p.appConfig.setProperty( AppSettings.WIDTH, 1920 );
-			p.appConfig.setProperty( AppSettings.HEIGHT, 1080 );
+			Config.setProperty( AppSettings.WIDTH, 1920 );
+			Config.setProperty( AppSettings.HEIGHT, 1080 );
 		} else {
-			p.appConfig.setProperty( AppSettings.WIDTH, 1280 );
-			p.appConfig.setProperty( AppSettings.HEIGHT, 720 );
+			Config.setProperty( AppSettings.WIDTH, 1280 );
+			Config.setProperty( AppSettings.HEIGHT, 720 );
 		}
 		if(dmxMode) {
 			if(P.platform == P.MACOSX) {
 				// mac
-				p.appConfig.setProperty(DMXPRO_PORT, "/dev/tty.usbserial-EN158815");
-				p.appConfig.setProperty(DMXPRO_BAUDRATE, 115000);
+				Config.setProperty(DMXPRO_PORT, "/dev/tty.usbserial-EN158815");
+				Config.setProperty(DMXPRO_BAUDRATE, 115000);
 			} else {
 				// win
-				p.appConfig.setProperty(DMXPRO_PORT, "COM3");
-				p.appConfig.setProperty(DMXPRO_BAUDRATE, 9600);
+				Config.setProperty(DMXPRO_PORT, "COM3");
+				Config.setProperty(DMXPRO_BAUDRATE, 9600);
 			}
 		}
-		p.appConfig.setProperty( AppSettings.FULLSCREEN, true );
-		p.appConfig.setProperty( AppSettings.SHOW_DEBUG, false );
-		p.appConfig.setProperty( AppSettings.KINECT_V2_WIN_ACTIVE, true );
+		Config.setProperty( AppSettings.FULLSCREEN, true );
+		Config.setProperty( AppSettings.SHOW_DEBUG, false );
+		Config.setProperty( AppSettings.KINECT_V2_WIN_ACTIVE, true );
 	}
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		AudioIn.instance();
 		// main buffer
 		mainBuffer = p.createGraphics(1920, 1080, PRenderers.P2D);
@@ -148,8 +149,8 @@ extends PAppletHax {
 		if(dmxMode) {
 			// init dmx hardware connection
 			Serial.list();
-			dmx = new DmxP512(P.p, p.appConfig.getInt(DMXPRO_UNIVERSE_SIZE, 256), true);
-			dmx.setupDmxPro(p.appConfig.getString(DMXPRO_PORT, "COM1"), p.appConfig.getInt(DMXPRO_BAUDRATE, 115000));
+			dmx = new DmxP512(P.p, Config.getInt(DMXPRO_UNIVERSE_SIZE, 256), true);
+			dmx.setupDmxPro(Config.getString(DMXPRO_PORT, "COM1"), Config.getInt(DMXPRO_BAUDRATE, 115000));
 			
 			// init easing colors
 			colorsDMX = new EasingColor[numLights];

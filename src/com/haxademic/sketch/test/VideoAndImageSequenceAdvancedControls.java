@@ -2,6 +2,7 @@ package com.haxademic.sketch.test;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.image.ImageSequenceMovieClip;
 import com.haxademic.core.file.FileUtil;
 
@@ -14,13 +15,13 @@ extends PAppletHax {
 	protected Movie movie;
 	protected ImageSequenceMovieClip imageSequence;
 
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, 1280 );
-		p.appConfig.setProperty( AppSettings.HEIGHT, 640 );
-		p.appConfig.setProperty( AppSettings.SMOOTHING, AppSettings.SMOOTH_HIGH );
+	protected void config() {
+		Config.setProperty( AppSettings.WIDTH, 1280 );
+		Config.setProperty( AppSettings.HEIGHT, 640 );
+		Config.setProperty( AppSettings.SMOOTHING, AppSettings.SMOOTH_HIGH );
 	}
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		
 		movie = new Movie( p, FileUtil.getFile("video/cacheflowe/render-2015-04-23-13-38-17-export.mp4"));
 		imageSequence = new ImageSequenceMovieClip(FileUtil.getFile("images/floaty-blob.anim/"), "png", 18);

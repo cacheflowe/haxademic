@@ -3,6 +3,7 @@ package com.haxademic.sketch.test;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.media.audio.analysis.AudioIn;
@@ -13,15 +14,15 @@ extends PAppletHax {
 
 	protected float angle;
 
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, "1280" );
-		p.appConfig.setProperty( AppSettings.HEIGHT, "1280" );
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
-		p.appConfig.setProperty( "force_foreground", "true" );
-		p.appConfig.setProperty( "force_foreground", "true" );
+	protected void config() {
+		Config.setProperty( AppSettings.WIDTH, "1280" );
+		Config.setProperty( AppSettings.HEIGHT, "1280" );
+		Config.setProperty( AppSettings.RENDERING_MOVIE, "false" );
+		Config.setProperty( "force_foreground", "true" );
+		Config.setProperty( "force_foreground", "true" );
 	}
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		AudioIn.instance();
 	}
 

@@ -3,6 +3,7 @@ package com.haxademic.render;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.shapes.Shapes;
 import com.haxademic.core.draw.shapes.pshader.MeshDeformAndTextureFilter;
@@ -22,18 +23,18 @@ extends PAppletHax {
 	float displaceAmp = 135f; 
 	int FRAMES = 210;
 
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, 800 );
-		p.appConfig.setProperty( AppSettings.HEIGHT, 800 );
-		p.appConfig.setProperty( AppSettings.SMOOTHING, AppSettings.SMOOTH_HIGH );
-		p.appConfig.setProperty(AppSettings.LOOP_FRAMES, FRAMES);
-		p.appConfig.setProperty(AppSettings.RENDERING_MOVIE, false);
-		p.appConfig.setProperty(AppSettings.RENDERING_MOVIE_START_FRAME, 1 + FRAMES);
-		p.appConfig.setProperty(AppSettings.RENDERING_MOVIE_STOP_FRAME, 1 + FRAMES * 2);
+	protected void config() {
+		Config.setProperty( AppSettings.WIDTH, 800 );
+		Config.setProperty( AppSettings.HEIGHT, 800 );
+		Config.setProperty( AppSettings.SMOOTHING, AppSettings.SMOOTH_HIGH );
+		Config.setProperty(AppSettings.LOOP_FRAMES, FRAMES);
+		Config.setProperty(AppSettings.RENDERING_MOVIE, false);
+		Config.setProperty(AppSettings.RENDERING_MOVIE_START_FRAME, 1 + FRAMES);
+		Config.setProperty(AppSettings.RENDERING_MOVIE_STOP_FRAME, 1 + FRAMES * 2);
 
 	}
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		texture = P.getImage("haxademic/images/space/luna.jpg");
 //		texture = P.getImage("haxademic/images/space/sun.jpg");
 //		textureFade = ImageUtil.imageToGraphics(texture);

@@ -16,7 +16,7 @@ implements IEasingBooleanCallback {
 	protected EasingBoolean booleanSwitch;
 	protected LinearFloat showUpdatedValue = new LinearFloat(0, 0.025f);
 	
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		booleanSwitch = new EasingBoolean(false, 120, this);
 	}
 	

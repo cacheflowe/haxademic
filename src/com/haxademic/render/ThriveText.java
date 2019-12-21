@@ -3,6 +3,7 @@ package com.haxademic.render;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.image.TiledTexture;
 import com.haxademic.core.file.FileUtil;
@@ -33,19 +34,19 @@ extends PAppletHax {
 		#2D2D2B / 45, 45, 43
 	 */
 
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, 1920 );
-		p.appConfig.setProperty( AppSettings.HEIGHT, 460/2 );
-		p.appConfig.setProperty( AppSettings.HEIGHT, 1080 );
-		p.appConfig.setProperty( AppSettings.SMOOTHING, AppSettings.SMOOTH_HIGH );
+	protected void config() {
+		Config.setProperty( AppSettings.WIDTH, 1920 );
+		Config.setProperty( AppSettings.HEIGHT, 460/2 );
+		Config.setProperty( AppSettings.HEIGHT, 1080 );
+		Config.setProperty( AppSettings.SMOOTHING, AppSettings.SMOOTH_HIGH );
 		
-		p.appConfig.setProperty( AppSettings.FPS, 30 );
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, true );
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_START_FRAME, 1 );
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, (int) frames );
+		Config.setProperty( AppSettings.FPS, 30 );
+		Config.setProperty( AppSettings.RENDERING_MOVIE, true );
+		Config.setProperty( AppSettings.RENDERING_MOVIE_START_FRAME, 1 );
+		Config.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, (int) frames );
 	}
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 
 		
 		textImg = ImageUtil.imageToGraphics(p.loadImage(FileUtil.getFile("images/thrive-text.png")));

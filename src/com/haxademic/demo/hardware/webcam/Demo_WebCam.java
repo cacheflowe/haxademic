@@ -2,6 +2,7 @@ package com.haxademic.demo.hardware.webcam;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.hardware.webcam.WebCam;
@@ -14,12 +15,12 @@ extends PAppletHax
 implements IWebCamCallback {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
-	protected void overridePropsFile() {
-		p.appConfig.setProperty(AppSettings.SHOW_DEBUG, true );
-		p.appConfig.setProperty(AppSettings.FILLS_SCREEN, false );
+	protected void config() {
+		Config.setProperty(AppSettings.SHOW_DEBUG, true );
+		Config.setProperty(AppSettings.FILLS_SCREEN, false );
 	}
 		
-	public void setupFirstFrame () {
+	public void firstFrame () {
 		WebCam.instance().setDelegate(this);
 	}
 

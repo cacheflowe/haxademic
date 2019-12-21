@@ -9,6 +9,7 @@ import org.openkinect.processing.Kinect2;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.filters.pshader.BlurBasicFilter;
 import com.haxademic.core.draw.filters.pshader.BlurProcessingFilter;
 import com.haxademic.core.draw.filters.pshader.EdgesFilter;
@@ -45,14 +46,14 @@ extends PAppletHax {
 	protected boolean sharpening = false;
 	protected boolean dilating = false;
 	
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.RENDERER, P.P2D ); // 
-		p.appConfig.setProperty( AppSettings.WIDTH, 1280 );
-		p.appConfig.setProperty( AppSettings.HEIGHT, 720 );
-		p.appConfig.setProperty( AppSettings.FULLSCREEN, false );
+	protected void config() {
+		Config.setProperty( AppSettings.RENDERER, P.P2D ); // 
+		Config.setProperty( AppSettings.WIDTH, 1280 );
+		Config.setProperty( AppSettings.HEIGHT, 720 );
+		Config.setProperty( AppSettings.FULLSCREEN, false );
 	}
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		
 		if(kinectActive == true) {
 			// init camera

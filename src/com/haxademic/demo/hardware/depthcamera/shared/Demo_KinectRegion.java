@@ -2,6 +2,7 @@ package com.haxademic.demo.hardware.depthcamera.shared;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.image.ImageUtil;
@@ -37,19 +38,15 @@ extends PAppletHax {
 	protected EasingFloat userZ = new EasingFloat(0, 0.1f);
 
 	
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, 1024 );
-		p.appConfig.setProperty( AppSettings.HEIGHT, 512 );
-		p.appConfig.setProperty( AppSettings.SHOW_UI, true );
-		p.appConfig.setProperty( AppSettings.KINECT_V2_WIN_ACTIVE, true );
-//		p.appConfig.setProperty( AppSettings.KINECT_ACTIVE, true );
+	protected void config() {
+		Config.setProperty( AppSettings.WIDTH, 1024 );
+		Config.setProperty( AppSettings.HEIGHT, 512 );
+		Config.setProperty( AppSettings.SHOW_UI, true );
+		Config.setProperty( AppSettings.KINECT_V2_WIN_ACTIVE, true );
+//		Config.setProperty( AppSettings.KINECT_ACTIVE, true );
 	}
 	
-	public void addKeyCommandInfo() {
-		// disable key command window - it's in the way
-	}
-	
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		// build kinect region and debug buffer
 		regionDebug = PG.newPG(DepthCameraSize.WIDTH, DepthCameraSize.HEIGHT);
 		region = new KinectRegion(0, DepthCameraSize.WIDTH, 0, 2000, 0, DepthCameraSize.HEIGHT, 10, 20, 0xffff0000);

@@ -3,6 +3,7 @@ package com.haxademic.demo.hardware.serial;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.data.ConvertUtil;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.filters.pshader.ContrastFilter;
@@ -25,12 +26,12 @@ implements ISerialDeviceDelegate {
 	protected SerialDevice serialDevice;
 	protected int numLights = 32;
 
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, 640 );
-		p.appConfig.setProperty( AppSettings.HEIGHT, 640 );
+	protected void config() {
+		Config.setProperty( AppSettings.WIDTH, 640 );
+		Config.setProperty( AppSettings.HEIGHT, 640 );
 	}
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		SerialDevice.printDevices();
 		serialDevice = new SerialDevice(this, 0, 345600); 
 		

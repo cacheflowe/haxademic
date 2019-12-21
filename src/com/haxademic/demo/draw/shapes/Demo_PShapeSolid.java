@@ -3,6 +3,7 @@ package com.haxademic.demo.draw.shapes;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.shapes.PShapeSolid;
@@ -23,13 +24,13 @@ extends PAppletHax {
 	protected PShapeSolid shapeSolidIcosa;
 	protected PShapeSolid[] shapes;
 
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.LOOP_FRAMES, 60 );
-		p.appConfig.setProperty( AppSettings.WIDTH, 1200 );
-		p.appConfig.setProperty( AppSettings.HEIGHT, 800 );
+	protected void config() {
+		Config.setProperty( AppSettings.LOOP_FRAMES, 60 );
+		Config.setProperty( AppSettings.WIDTH, 1200 );
+		Config.setProperty( AppSettings.HEIGHT, 800 );
 	}
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		// get texture
 		texture = DemoAssets.textureJupiter();
 		

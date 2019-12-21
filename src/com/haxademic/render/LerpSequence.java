@@ -3,6 +3,7 @@ package com.haxademic.render;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.data.constants.PBlendModes;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.BloomFilter;
@@ -26,16 +27,16 @@ extends PAppletHax {
 	protected EasingFloat rounded1 = new EasingFloat(0, easeFactor);
 	protected EasingFloat rounded2 = new EasingFloat(0, easeFactor * easeMult);
 
-	protected void overridePropsFile() {
-		p.appConfig.setProperty(AppSettings.WIDTH, 800);
-		p.appConfig.setProperty(AppSettings.HEIGHT, 800);
-		p.appConfig.setProperty(AppSettings.LOOP_FRAMES, FRAMES);
-		p.appConfig.setProperty(AppSettings.RENDERING_MOVIE, false);
-		p.appConfig.setProperty(AppSettings.RENDERING_MOVIE_START_FRAME, 1 + FRAMES);
-		p.appConfig.setProperty(AppSettings.RENDERING_MOVIE_STOP_FRAME, 1 + FRAMES * 2);
+	protected void config() {
+		Config.setProperty(AppSettings.WIDTH, 800);
+		Config.setProperty(AppSettings.HEIGHT, 800);
+		Config.setProperty(AppSettings.LOOP_FRAMES, FRAMES);
+		Config.setProperty(AppSettings.RENDERING_MOVIE, false);
+		Config.setProperty(AppSettings.RENDERING_MOVIE_START_FRAME, 1 + FRAMES);
+		Config.setProperty(AppSettings.RENDERING_MOVIE_STOP_FRAME, 1 + FRAMES * 2);
 	}
 	
-	protected void setupFirstFrame() {
+	protected void firstFrame() {
 		
 	}
 

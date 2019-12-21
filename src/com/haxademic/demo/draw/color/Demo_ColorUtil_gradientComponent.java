@@ -3,6 +3,7 @@ package com.haxademic.demo.draw.color;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.color.ColorUtil;
 import com.haxademic.core.math.MathUtil;
 
@@ -23,16 +24,16 @@ extends PAppletHax {
 	float phaseG = 0f;
 	float phaseB = 0f;
 	
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, 640 );
-		p.appConfig.setProperty( AppSettings.HEIGHT, 255 );
-		p.appConfig.setProperty( AppSettings.FPS, 30 );
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, false );
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_START_FRAME, 1 );
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, 1500 );
+	protected void config() {
+		Config.setProperty( AppSettings.WIDTH, 640 );
+		Config.setProperty( AppSettings.HEIGHT, 255 );
+		Config.setProperty( AppSettings.FPS, 30 );
+		Config.setProperty( AppSettings.RENDERING_MOVIE, false );
+		Config.setProperty( AppSettings.RENDERING_MOVIE_START_FRAME, 1 );
+		Config.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, 1500 );
 	}
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 	
 		p.noStroke();
 		

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.haxademic.app.haxmapper.HaxMapper;
 import com.haxademic.app.haxmapper.distribution.MappingGroup;
 import com.haxademic.app.haxmapper.polygons.IMappedPolygon;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.textures.pgraphics.TextureEQColumns;
 import com.haxademic.core.draw.textures.pgraphics.TextureEQGrid;
 import com.haxademic.core.draw.textures.pgraphics.TextureVideoPlayer;
@@ -22,9 +23,9 @@ extends HaxMapper{
 		PApplet.main(new String[] { "--hide-stop", "--bgcolor=000000", "com.haxademic.app.haxmapper.mappers.GenessierMapper" });
 	}
 	
-	protected void overridePropsFile() {
-		super.overridePropsFile();
-		p.appConfig.setProperty( "mapping_file", FileUtil.getHaxademicDataPath() + "text/mapping/mapping-2014-04-05-00-17-25.txt" );
+	protected void config() {
+		super.config();
+		Config.setProperty( "mapping_file", FileUtil.getHaxademicDataPath() + "text/mapping/mapping-2014-04-05-00-17-25.txt" );
 	}
 
 	protected void buildMappingGroups() {

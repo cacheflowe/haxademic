@@ -20,6 +20,7 @@ import javax.sound.sampled.SourceDataLine;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.data.constants.PTextAlign;
 import com.haxademic.core.draw.text.FontCacher;
 import com.haxademic.core.file.FileUtil;
@@ -42,13 +43,13 @@ extends PAppletHax {
 	protected String LINE_INDEX = "LINE_INDEX";
 	protected String MIXER_INDEX = "MIXER_INDEX";
 
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, 1200 );
-		p.appConfig.setProperty( AppSettings.HEIGHT, 900 );
-		p.appConfig.setProperty( AppSettings.SHOW_UI, true );
+	protected void config() {
+		Config.setProperty( AppSettings.WIDTH, 1200 );
+		Config.setProperty( AppSettings.HEIGHT, 900 );
+		Config.setProperty( AppSettings.SHOW_UI, true );
 	}
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		// load assets
 		audioSample = FileUtil.fileFromPath(FileUtil.getFile("audio/kit808/snare.wav"));
 		

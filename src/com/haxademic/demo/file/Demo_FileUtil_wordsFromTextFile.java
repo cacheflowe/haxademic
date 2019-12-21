@@ -8,7 +8,7 @@ public class Demo_FileUtil_wordsFromTextFile
 extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		P.out(FileUtil.wordsFromTextFile(FileUtil.getFile("haxademic/text/neuromancer.txt")));
 	}
 

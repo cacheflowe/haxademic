@@ -18,7 +18,6 @@ import com.haxademic.core.draw.textures.pgraphics.TextureEQFloatParticles;
 import com.haxademic.core.draw.textures.pgraphics.TextureEQGrid;
 import com.haxademic.core.draw.textures.pgraphics.TextureEQLinesTerrain;
 import com.haxademic.core.draw.textures.pgraphics.TextureFractalPolygons;
-import com.haxademic.core.draw.textures.pgraphics.TextureImageTileScroll;
 import com.haxademic.core.draw.textures.pgraphics.TextureLinesEQ;
 import com.haxademic.core.draw.textures.pgraphics.TextureMeshAudioDeform;
 import com.haxademic.core.draw.textures.pgraphics.TextureNoiseLines;

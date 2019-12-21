@@ -3,6 +3,7 @@ package com.haxademic.demo.math;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.media.audio.analysis.AudioIn;
 import com.haxademic.core.ui.UI;
@@ -15,11 +16,11 @@ extends PAppletHax {
 	protected String radius = "radius";
 	protected String connectionDivisions = "connectionDivisions";
 	
-	protected void overridePropsFile() {
-		p.appConfig.setProperty(AppSettings.SHOW_UI, true);
+	protected void config() {
+		Config.setProperty(AppSettings.SHOW_UI, true);
 	}
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		AudioIn.instance();
 		UI.addSlider(numPoints, 3, 3, 90, 1, false);
 		UI.addSlider(radius, 100, 0, 300, 1f, false);

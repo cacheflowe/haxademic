@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.particle.VectorFlyer;
 import com.haxademic.core.draw.shapes.LineTrail;
@@ -27,13 +28,13 @@ extends PAppletHax {
 	protected ArrayList<LineTrail> trails;
 
 
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.LOOP_FRAMES, 160 );
-		p.appConfig.setProperty( AppSettings.WIDTH, 800 );
-		p.appConfig.setProperty( AppSettings.HEIGHT, 800 );
+	protected void config() {
+		Config.setProperty( AppSettings.LOOP_FRAMES, 160 );
+		Config.setProperty( AppSettings.WIDTH, 800 );
+		Config.setProperty( AppSettings.HEIGHT, 800 );
 	}
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		shape = DemoAssets.objHumanoid();
 		PShapeUtil.centerShape(shape);
 		PShapeUtil.scaleShapeToHeight(shape, p.displayHeight * 0.8f);

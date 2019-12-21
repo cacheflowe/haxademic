@@ -2,6 +2,7 @@ package com.haxademic.demo.hardware.depthcamera.shared;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.hardware.depthcamera.KinectAmbientActivityMonitor;
 
@@ -16,12 +17,12 @@ extends PAppletHax {
 		
 	protected KinectAmbientActivityMonitor kinectMonitor;
 	
-	protected void overridePropsFile() {
-//		p.appConfig.setProperty( AppSettings.KINECT_V2_WIN_ACTIVE, true );
-		p.appConfig.setProperty( AppSettings.KINECT_ACTIVE, true );
+	protected void config() {
+//		Config.setProperty( AppSettings.KINECT_V2_WIN_ACTIVE, true );
+		Config.setProperty( AppSettings.KINECT_ACTIVE, true );
 	}
 	
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		kinectMonitor = new KinectAmbientActivityMonitor( PIXEL_SIZE, KINECT_CLOSE, KINECT_FAR );
 	}
 	

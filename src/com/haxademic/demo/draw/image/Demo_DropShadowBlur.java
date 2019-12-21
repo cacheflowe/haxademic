@@ -3,6 +3,7 @@ package com.haxademic.demo.draw.image;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.BlurProcessingFilter;
 import com.haxademic.core.file.FileUtil;
@@ -27,11 +28,11 @@ extends PAppletHax {
 	protected String BLUR_ALPHA = "BLUR_ALPHA";
 	protected String BLUR_STEPS = "BLUR_STEPS";
 	
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.SHOW_UI, true );
+	protected void config() {
+		Config.setProperty( AppSettings.SHOW_UI, true );
 	}
 	
-	protected void setupFirstFrame() {
+	protected void firstFrame() {
 		img = DemoAssets.smallTexture();
 		shadowOrig = imageToImageWithPadding(img, 2f);
 		shadow = imageToImageWithPadding(img, 2f);

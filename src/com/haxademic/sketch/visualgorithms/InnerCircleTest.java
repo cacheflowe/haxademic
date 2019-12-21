@@ -3,6 +3,7 @@ package com.haxademic.sketch.visualgorithms;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.file.FileUtil;
 
@@ -17,12 +18,12 @@ extends PAppletHax {
 	PGraphics pg;
 
 
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, 640 );
-		p.appConfig.setProperty( AppSettings.HEIGHT, 640 );
+	protected void config() {
+		Config.setProperty( AppSettings.WIDTH, 640 );
+		Config.setProperty( AppSettings.HEIGHT, 640 );
 	}
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 
 		img = p.loadImage(FileUtil.getFile("images/_sketch/bread-large.png"));
 		pg = ImageUtil.imageToGraphics(img);

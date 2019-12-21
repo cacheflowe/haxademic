@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.toxi.MeshPool;
 import com.haxademic.core.math.easing.EasingFloat3d;
@@ -31,17 +32,17 @@ extends PAppletHax {
 	List<Point> _alphaPoints;
 	int _numPoints = 400;
 
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, "800" );
-		p.appConfig.setProperty( AppSettings.HEIGHT, "600" );
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
+	protected void config() {
+		Config.setProperty( AppSettings.WIDTH, "800" );
+		Config.setProperty( AppSettings.HEIGHT, "600" );
+		Config.setProperty( AppSettings.RENDERING_MOVIE, "false" );
 
-		p.appConfig.setProperty( AppSettings.SUNFLOW, "true" );
-		p.appConfig.setProperty( AppSettings.SUNFLOW_ACTIVE, "false" );
-		p.appConfig.setProperty( AppSettings.SUNFLOW_QUALITY, "low" );
+		Config.setProperty( AppSettings.SUNFLOW, "true" );
+		Config.setProperty( AppSettings.SUNFLOW_ACTIVE, "false" );
+		Config.setProperty( AppSettings.SUNFLOW_QUALITY, "low" );
 	}
 	
-	public void setupFirstFrame() {
+	public void firstFrame() {
 
 		
 		_rot = new EasingFloat3d( 0, 0, 0, 10f );

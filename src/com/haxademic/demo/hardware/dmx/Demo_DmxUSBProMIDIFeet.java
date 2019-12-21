@@ -45,7 +45,7 @@ extends PAppletHax {
 	protected EasingColor color2 = new EasingColor(0xffff0000, 8);
 
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		AudioIn.instance();
 		dmx = new DMXWrapper();
 

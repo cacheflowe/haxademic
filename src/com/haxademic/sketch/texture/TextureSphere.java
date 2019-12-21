@@ -22,7 +22,7 @@ extends PAppletHax {
 	float rotationSpeed = 0.02f; // the rotation speed
 
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 
 		String img = FileUtil.getHaxademicDataPath() + "images/ello-large-fill-squish.png";
 		earth = createIcosahedron(subdivisionLevel, img); // create the subdivided icosahedron PShape (see custom creation method) and put it in the global earth reference

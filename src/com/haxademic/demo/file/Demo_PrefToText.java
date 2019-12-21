@@ -11,7 +11,7 @@ extends PAppletHax {
 
 	protected float gray = 0.5f;
 	
-	public void setupFirstFrame () {
+	public void firstFrame () {
 		gray = PrefToText.getValueF("gray", gray);
 		P.println("gray", gray);
 	}

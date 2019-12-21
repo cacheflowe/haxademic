@@ -2,6 +2,7 @@ package com.haxademic.demo.hardware.depthcamera.simpleopenni;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 
 import SimpleOpenNI.SimpleOpenNI;
 
@@ -17,14 +18,14 @@ extends PAppletHax {
 	protected Boolean _updateComplete = true;
 
 
-	protected void overridePropsFile() {
-		p.appConfig.setProperty(AppSettings.WIDTH, 1280 );
-		p.appConfig.setProperty(AppSettings.HEIGHT, 480 );
-		//		p.appConfig.setProperty(AppSettings.KINECT_ACTIVE, true );
-		p.appConfig.setProperty(AppSettings.SHOW_DEBUG, true );
+	protected void config() {
+		Config.setProperty(AppSettings.WIDTH, 1280 );
+		Config.setProperty(AppSettings.HEIGHT, 480 );
+		//		Config.setProperty(AppSettings.KINECT_ACTIVE, true );
+		Config.setProperty(AppSettings.SHOW_DEBUG, true );
 	}
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		// init the cameras
 		cam1 = new SimpleOpenNI( p, SimpleOpenNI.RUN_MODE_MULTI_THREADED );
 		cam2 = new SimpleOpenNI( SimpleOpenNI.RUN_MODE_MULTI_THREADED, p, 1);

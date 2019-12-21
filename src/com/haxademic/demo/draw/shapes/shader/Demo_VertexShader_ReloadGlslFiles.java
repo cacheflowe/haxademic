@@ -2,6 +2,7 @@ package com.haxademic.demo.draw.shapes.shader;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.data.constants.PTextAlign;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.context.PShaderCompiler;
@@ -34,17 +35,17 @@ implements IWatchDirListener {
 	protected WatchDir watchFrag;
 	protected boolean queueShaderReload = false;;
 
-	protected void overridePropsFile() {
+	protected void config() {
 		int FRAMES = 340;
-		p.appConfig.setProperty(AppSettings.WIDTH, 1024);
-		p.appConfig.setProperty(AppSettings.HEIGHT, 1024);
-		p.appConfig.setProperty(AppSettings.LOOP_FRAMES, FRAMES);
-		p.appConfig.setProperty(AppSettings.RENDERING_MOVIE, false );
-		p.appConfig.setProperty(AppSettings.RENDERING_MOVIE_START_FRAME, 1 + FRAMES * 3);
-		p.appConfig.setProperty(AppSettings.RENDERING_MOVIE_STOP_FRAME, 1 + FRAMES * 4);
+		Config.setProperty(AppSettings.WIDTH, 1024);
+		Config.setProperty(AppSettings.HEIGHT, 1024);
+		Config.setProperty(AppSettings.LOOP_FRAMES, FRAMES);
+		Config.setProperty(AppSettings.RENDERING_MOVIE, false );
+		Config.setProperty(AppSettings.RENDERING_MOVIE_START_FRAME, 1 + FRAMES * 3);
+		Config.setProperty(AppSettings.RENDERING_MOVIE_STOP_FRAME, 1 + FRAMES * 4);
 	}
 	
-	protected void setupFirstFrame() {
+	protected void firstFrame() {
 		// set shader paths for compiling and watching
 		vertShaderPath = FileUtil.getFile("haxademic/shaders/vertex/inline-vertcolordist-150-vert.glsl");
 		fragShaderPath = FileUtil.getFile("haxademic/shaders/vertex/inline-vertcolordist-150-frag.glsl");

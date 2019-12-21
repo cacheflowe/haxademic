@@ -3,6 +3,7 @@ package com.haxademic.demo.draw.filters.shaders;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.color.ColorUtil;
@@ -29,13 +30,13 @@ extends PAppletHax {
 	protected PImage img;
 	protected EasingFloat mouseSpeed = new EasingFloat(0, 8f);
 
-	protected void overridePropsFile() {
-		p.appConfig.setProperty(AppSettings.WIDTH, 1280);
-		p.appConfig.setProperty(AppSettings.HEIGHT, 984);
-		p.appConfig.setProperty(AppSettings.SHOW_DEBUG, true);
+	protected void config() {
+		Config.setProperty(AppSettings.WIDTH, 1280);
+		Config.setProperty(AppSettings.HEIGHT, 984);
+		Config.setProperty(AppSettings.SHOW_DEBUG, true);
 	}
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		img = DemoAssets.textureNebula();
 //		img = p.loadImage(FileUtil.getFile("images/textures/space/eagle-nebula-pillars-of-creation.jpg"));
 		mouseBuffer = p.createGraphics(p.width, p.height, PRenderers.P3D);

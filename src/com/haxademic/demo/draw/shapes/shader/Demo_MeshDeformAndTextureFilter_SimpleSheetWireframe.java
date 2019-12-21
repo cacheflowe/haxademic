@@ -22,7 +22,7 @@ extends PAppletHax {
 	protected PGraphics texture;
 	protected SimplexNoiseTexture displaceTexture;
 
-	protected void setupFirstFrame() {
+	protected void firstFrame() {
 		int sheetW = P.round(cols * 100);
 		int sheetH = P.round(cols * 100);
 		

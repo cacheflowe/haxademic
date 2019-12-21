@@ -3,6 +3,7 @@ package com.haxademic.app.haxmapper.mappers;
 import com.haxademic.app.haxmapper.HaxMapper;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.textures.pgraphics.TextureAudioTube;
 import com.haxademic.core.draw.textures.pgraphics.TextureBlobSheet;
 import com.haxademic.core.draw.textures.pgraphics.TextureColorAudioSlide;
@@ -51,16 +52,16 @@ extends HaxMapper{
 
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
-	protected void overridePropsFile() {
-		super.overridePropsFile();
-//		p.appConfig.setProperty( "mapping_file", FileUtil.getFile("text/mapping/mapping-2016-04-09-20-23-29.txt") );
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
-		p.appConfig.setProperty( AppSettings.FULLSCREEN, false );
-		p.appConfig.setProperty( AppSettings.FILLS_SCREEN, "false" );
-		p.appConfig.setProperty( AppSettings.OSC_ACTIVE, "false" );
-		p.appConfig.setProperty( AppSettings.WIDTH, 1280 );
-		p.appConfig.setProperty( AppSettings.HEIGHT, 1024 );
-		p.appConfig.setProperty( AppSettings.RETINA, false );
+	protected void config() {
+		super.config();
+//		Config.setProperty( "mapping_file", FileUtil.getFile("text/mapping/mapping-2016-04-09-20-23-29.txt") );
+		Config.setProperty( AppSettings.RENDERING_MOVIE, "false" );
+		Config.setProperty( AppSettings.FULLSCREEN, false );
+		Config.setProperty( AppSettings.FILLS_SCREEN, "false" );
+		Config.setProperty( AppSettings.OSC_ACTIVE, "false" );
+		Config.setProperty( AppSettings.WIDTH, 1280 );
+		Config.setProperty( AppSettings.HEIGHT, 1024 );
+		Config.setProperty( AppSettings.RETINA, false );
 	}
 
 	/////////////////////////////////////////////////////////////////

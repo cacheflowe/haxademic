@@ -15,7 +15,7 @@ extends PAppletHax {
 	protected boolean debugMode = true;
 	protected ArrayList<UITextInput> textInputs = new ArrayList<UITextInput>();
 	
-	public void setupFirstFrame () {
+	public void firstFrame () {
 		int inputX = 100;
 		int inputY = 30;
 		int inputW = 300;

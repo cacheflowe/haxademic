@@ -3,6 +3,7 @@ package com.haxademic.render;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.ui.UI;
@@ -16,16 +17,16 @@ extends PAppletHax {
 	protected String startRadius = "startRadius";
 	protected String spacing = "spacing";
 	
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.RENDERER, PRenderers.P2D );
-//		p.appConfig.setProperty( AppSettings.RENDERER, P.PDF );
-//		p.appConfig.setProperty( AppSettings.PDF_RENDERER_OUTPUT_FILE, FileUtil.getHaxademicOutputPath() + "/pdf/345-01.pdf" );
+	protected void config() {
+		Config.setProperty( AppSettings.RENDERER, PRenderers.P2D );
+//		Config.setProperty( AppSettings.RENDERER, P.PDF );
+//		Config.setProperty( AppSettings.PDF_RENDERER_OUTPUT_FILE, FileUtil.getHaxademicOutputPath() + "/pdf/345-01.pdf" );
 
-		p.appConfig.setProperty( AppSettings.WIDTH, 1000 );
-		p.appConfig.setProperty( AppSettings.HEIGHT, 1000 );
+		Config.setProperty( AppSettings.WIDTH, 1000 );
+		Config.setProperty( AppSettings.HEIGHT, 1000 );
 	}
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		UI.addSlider(numPolys, 3, 1, 20, 1);
 		UI.addSlider(strokeWeight, 1, 0.2f, 100f, 0.1f);
 		UI.addSlider(startRadius, 10, 1, 300, 1);

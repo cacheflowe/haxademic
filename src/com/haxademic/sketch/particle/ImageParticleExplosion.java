@@ -21,7 +21,7 @@ extends PAppletHax {
 	protected int _numParticles = 60;
 //	protected Renderer _render;
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		imageMode( PConstants.CENTER );
 		
 		// create particles

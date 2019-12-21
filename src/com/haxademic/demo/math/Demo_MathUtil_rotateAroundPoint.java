@@ -13,7 +13,7 @@ extends PAppletHax {
 	protected PVector mouse = new PVector();
 	protected PVector otherPoint = new PVector();
 	
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		mouse.set(p.width/3, p.height/3);
 		otherPoint.set(p.width/2, p.height/2);
 	}

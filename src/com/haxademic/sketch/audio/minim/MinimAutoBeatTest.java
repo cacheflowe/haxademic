@@ -23,10 +23,10 @@ extends PAppletHax {
 	protected int _lastTick = 0;
 	protected int _step = 0;
 
-	protected void overridePropsFile() {
+	protected void config() {
 	}
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 
 		
 		minim = new Minim(this);

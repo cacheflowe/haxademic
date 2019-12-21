@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.image.ImageUtil;
@@ -48,13 +49,13 @@ extends PAppletHax {
 	PImage texture;
 
 
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, 1000 );
-		p.appConfig.setProperty( AppSettings.HEIGHT, 800 );
-		p.appConfig.setProperty( AppSettings.SHOW_DEBUG, true );
+	protected void config() {
+		Config.setProperty( AppSettings.WIDTH, 1000 );
+		Config.setProperty( AppSettings.HEIGHT, 800 );
+		Config.setProperty( AppSettings.SHOW_DEBUG, true );
 	}
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		// init kinect
 		kinect = new KinectPV2(p);
 		kinect.enableHDFaceDetection(true);

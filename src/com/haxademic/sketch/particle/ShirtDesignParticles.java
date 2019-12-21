@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.file.FileUtil;
@@ -23,13 +24,13 @@ extends PAppletHax {
 	protected ArrayList<Attractor> _attractors;
 	protected PShader _fxaa;
 
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, "2200" );
-		p.appConfig.setProperty( AppSettings.HEIGHT, "1200" );
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
+	protected void config() {
+		Config.setProperty( AppSettings.WIDTH, "2200" );
+		Config.setProperty( AppSettings.HEIGHT, "1200" );
+		Config.setProperty( AppSettings.RENDERING_MOVIE, "false" );
 	}
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 
 		p.smooth(OpenGLUtil.SMOOTH_HIGH);
 		_fxaa = p.loadShader( FileUtil.getHaxademicDataPath() + "haxademic/shaders/filters/fxaa.glsl" );

@@ -2,6 +2,7 @@ package com.haxademic.demo.draw.image;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.image.ImageCyclerBuffer;
 import com.haxademic.core.file.FileUtil;
 
@@ -13,15 +14,15 @@ extends PAppletHax {
 	
 	protected ImageCyclerBuffer imageCycler;
 
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, 720 );
-		p.appConfig.setProperty( AppSettings.HEIGHT, 720 );
-		p.appConfig.setProperty( AppSettings.FULLSCREEN, false );
-		p.appConfig.setProperty( AppSettings.SMOOTHING, AppSettings.SMOOTH_HIGH );
-		p.appConfig.setProperty( AppSettings.RETINA, false );
+	protected void config() {
+		Config.setProperty( AppSettings.WIDTH, 720 );
+		Config.setProperty( AppSettings.HEIGHT, 720 );
+		Config.setProperty( AppSettings.FULLSCREEN, false );
+		Config.setProperty( AppSettings.SMOOTHING, AppSettings.SMOOTH_HIGH );
+		Config.setProperty( AppSettings.RETINA, false );
 	}
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 
 		
 		PImage[] images = new PImage[] {

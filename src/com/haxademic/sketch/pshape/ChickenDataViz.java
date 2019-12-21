@@ -3,6 +3,7 @@ package com.haxademic.sketch.pshape;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.camera.CameraUtil;
 import com.haxademic.core.draw.shapes.PShapeSolid;
@@ -23,15 +24,15 @@ extends PAppletHax {
 	protected float _frames = 180;
 	protected PVector modelSize; 
 
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, 800 );
-		p.appConfig.setProperty( AppSettings.HEIGHT, 600 );
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, false );
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_START_FRAME, 1 );
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, P.round(1 + _frames) );
+	protected void config() {
+		Config.setProperty( AppSettings.WIDTH, 800 );
+		Config.setProperty( AppSettings.HEIGHT, 600 );
+		Config.setProperty( AppSettings.RENDERING_MOVIE, false );
+		Config.setProperty( AppSettings.RENDERING_MOVIE_START_FRAME, 1 );
+		Config.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, P.round(1 + _frames) );
 	}
 
-	protected void setupFirstFrame() {
+	protected void firstFrame() {
 		// build obj PShape and scale to window
 		obj = p.loadShape( FileUtil.getFile("models/poly/chicken/Chicken_01.obj"));
 		

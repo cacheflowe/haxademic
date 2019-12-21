@@ -5,6 +5,7 @@ import java.awt.image.BufferedImage;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.image.AnimatedGifEncoder;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.system.SystemUtil;
@@ -17,13 +18,13 @@ extends PAppletHax {
 	
 	AnimatedGifEncoder encoder;
 	
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, "200" );
-		p.appConfig.setProperty( AppSettings.HEIGHT, "200" );
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
+	protected void config() {
+		Config.setProperty( AppSettings.WIDTH, "200" );
+		Config.setProperty( AppSettings.HEIGHT, "200" );
+		Config.setProperty( AppSettings.RENDERING_MOVIE, "false" );
 	}
 	
-	public void setupFirstFrame() {
+	public void firstFrame() {
 
 		startGifRender();
 	}

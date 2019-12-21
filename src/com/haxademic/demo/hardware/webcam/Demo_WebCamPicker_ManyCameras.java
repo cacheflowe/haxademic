@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.image.FrozenImageMonitor;
 import com.haxademic.core.hardware.webcam.WebCam;
@@ -18,13 +19,13 @@ extends PAppletHax {
 	protected int maxWebcams = 6;
 	public FrozenImageMonitor freezeMonitor;
 
-	protected void overridePropsFile() {
-		p.appConfig.setProperty(AppSettings.SHOW_DEBUG, false );
-		p.appConfig.setProperty(AppSettings.WIDTH, 1500 );
-		p.appConfig.setProperty(AppSettings.HEIGHT, 960 );
+	protected void config() {
+		Config.setProperty(AppSettings.SHOW_DEBUG, false );
+		Config.setProperty(AppSettings.WIDTH, 1500 );
+		Config.setProperty(AppSettings.HEIGHT, 960 );
 	}
 		
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		addWebCam();
 		freezeMonitor = new FrozenImageMonitor();
 	}

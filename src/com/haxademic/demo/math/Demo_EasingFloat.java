@@ -3,6 +3,7 @@ package com.haxademic.demo.math;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.hardware.mouse.Mouse;
 import com.haxademic.core.math.easing.EasingFloat;
@@ -18,12 +19,12 @@ extends PAppletHax {
 	protected EasingFloat easingRotation = new EasingFloat(0, 6f);
 	protected EasingFloat easingBottom = new EasingFloat(0, 16f);
 
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.APP_NAME, "Demo_EasingFloat" );
-		p.appConfig.setProperty( AppSettings.SHOW_UI, true );
+	protected void config() {
+		Config.setProperty( AppSettings.APP_NAME, "Demo_EasingFloat" );
+		Config.setProperty( AppSettings.SHOW_UI, true );
 	}
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		UI.addSlider(easeFactor, 6, 0, 30, 0.1f, false);
 	}
 

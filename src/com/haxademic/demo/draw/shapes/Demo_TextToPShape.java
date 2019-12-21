@@ -3,6 +3,7 @@ package com.haxademic.demo.draw.shapes;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.draw.shapes.TextToPShape;
@@ -18,9 +19,9 @@ extends PAppletHax {
 	protected PShape word2d;
 	protected PShape word3d;
 
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, 1040 );
-		p.appConfig.setProperty( AppSettings.HEIGHT, 640 );
+	protected void config() {
+		Config.setProperty( AppSettings.WIDTH, 1040 );
+		Config.setProperty( AppSettings.HEIGHT, 640 );
 	}
 
 	public void setup()	{

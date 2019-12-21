@@ -3,6 +3,7 @@ package com.haxademic.sketch.net;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.net.UIControlsHandler;
@@ -22,11 +23,11 @@ extends PAppletHax {
 	protected StepInstrument kickLane;
 	protected StepInstrument hatLane;
 	
-	protected void overridePropsFile() {
-		p.appConfig.setProperty(AppSettings.FPS, 90);
+	protected void config() {
+		Config.setProperty(AppSettings.FPS, 90);
 	}
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 	
 		buildWebServer();
 		loadAudio();

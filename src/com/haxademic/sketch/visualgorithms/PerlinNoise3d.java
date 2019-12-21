@@ -3,6 +3,7 @@ package com.haxademic.sketch.visualgorithms;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.data.constants.PBlendModes;
 import com.haxademic.core.ui.UI;
 
@@ -23,17 +24,17 @@ extends PAppletHax {
 
 	protected float frames = 60 * 12;
 
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, 1000 );
-		p.appConfig.setProperty( AppSettings.HEIGHT, 1000 );
-		p.appConfig.setProperty( AppSettings.SHOW_UI, true );
-		p.appConfig.setProperty( AppSettings.SMOOTHING, AppSettings.SMOOTH_HIGH );
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, false);
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_START_FRAME, 1 );
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, Math.round(frames) );
+	protected void config() {
+		Config.setProperty( AppSettings.WIDTH, 1000 );
+		Config.setProperty( AppSettings.HEIGHT, 1000 );
+		Config.setProperty( AppSettings.SHOW_UI, true );
+		Config.setProperty( AppSettings.SMOOTHING, AppSettings.SMOOTH_HIGH );
+		Config.setProperty( AppSettings.RENDERING_MOVIE, false);
+		Config.setProperty( AppSettings.RENDERING_MOVIE_START_FRAME, 1 );
+		Config.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, Math.round(frames) );
 	}
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 	
 
 		UI.addSlider(noiseScale, 0.003f, 0.0001f, 0.025f, 0.0001f, false);

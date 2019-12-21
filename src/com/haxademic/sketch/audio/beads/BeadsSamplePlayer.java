@@ -20,7 +20,7 @@ extends PAppletHax {
 	SamplePlayer samplePlayer01;
 	protected InputTrigger trigger1 = new InputTrigger(new char[]{' '}, null, new Integer[]{43}, null, null );
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		ac = new AudioContext();
 
 		// load a sample		

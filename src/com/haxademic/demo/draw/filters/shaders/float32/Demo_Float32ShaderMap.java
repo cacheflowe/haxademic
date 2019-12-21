@@ -15,7 +15,7 @@ extends PAppletHax {
 //	protected DwGLTexture textureNoise = new DwGLTexture();
 //
 //
-//	protected void setupFirstFrame() {
+//	protected void firstFrame() {
 //		// create buffers
 //	    buffer8 = OpenGL32Util.newPGraphics2D(p.width, p.height);
 //	    texture32 = OpenGL32Util.newTexture32(buffer8.width, buffer8.height);

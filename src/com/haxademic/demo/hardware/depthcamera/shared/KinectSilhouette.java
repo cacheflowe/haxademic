@@ -13,6 +13,7 @@ import org.poly2tri.triangulation.delaunay.DelaunayTriangle;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.filters.pgraphics.archive.FastBlurFilter;
 import com.haxademic.core.hardware.depthcamera.DepthCameraSize;
@@ -49,18 +50,18 @@ extends PAppletHax {
 	ArrayList<PolygonPoint> points = new ArrayList<PolygonPoint>();
 	List<DelaunayTriangle> triangles;
 
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, 1024 );
-		p.appConfig.setProperty( AppSettings.HEIGHT, 768 );
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
-//		p.appConfig.setProperty( AppSettings.KINECT_V2_WIN_ACTIVE, true );
-//		p.appConfig.setProperty( AppSettings.KINECT_ACTIVE, true );
-		p.appConfig.setProperty( AppSettings.REALSENSE_ACTIVE, true );
-		p.appConfig.setProperty( AppSettings.DEPTH_CAM_RGB_ACTIVE, false );
-		p.appConfig.setProperty( AppSettings.FULLSCREEN, "false" );
+	protected void config() {
+		Config.setProperty( AppSettings.WIDTH, 1024 );
+		Config.setProperty( AppSettings.HEIGHT, 768 );
+		Config.setProperty( AppSettings.RENDERING_MOVIE, "false" );
+//		Config.setProperty( AppSettings.KINECT_V2_WIN_ACTIVE, true );
+//		Config.setProperty( AppSettings.KINECT_ACTIVE, true );
+		Config.setProperty( AppSettings.REALSENSE_ACTIVE, true );
+		Config.setProperty( AppSettings.DEPTH_CAM_RGB_ACTIVE, false );
+		Config.setProperty( AppSettings.FULLSCREEN, "false" );
 	}
 	
-	public void setupFirstFrame() {
+	public void firstFrame() {
 
 		
 		initBlobDetection();

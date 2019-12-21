@@ -17,7 +17,7 @@ extends PAppletHax {
 	protected StringBufferLog logOut = new StringBufferLog(10);
 	protected StringBufferLog logIn = new StringBufferLog(10);
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		udp = new UDP(this, portLocal);
 		udp.log(true);
 		udp.listen(true);

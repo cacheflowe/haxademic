@@ -10,7 +10,7 @@ public class Demo_MathUtil_polygonClosestPoint
 extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
-	public void setupFirstFrame() {
+	public void firstFrame() {
 
 		OpenGLUtil.setTextureQualityHigh(p.g);
 	}

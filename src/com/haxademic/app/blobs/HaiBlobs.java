@@ -3,10 +3,11 @@ package com.haxademic.app.blobs;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.color.ColorUtil;
 import com.haxademic.core.draw.color.Gradients;
-import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.context.OpenGLUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.BlurHFilter;
 import com.haxademic.core.draw.filters.pshader.InvertFilter;
 import com.haxademic.core.draw.filters.pshader.WobbleFilter;
@@ -97,17 +98,17 @@ extends PAppletHax {
 	public float lightsFalloffVal = 0.12f;
 	public float lightsFalloffConstantVal = 0.12f;
 	
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, 1080 );
-		p.appConfig.setProperty( AppSettings.HEIGHT, 1080 );
-		p.appConfig.setProperty( AppSettings.FPS, 30 );
-		p.appConfig.setProperty( AppSettings.SMOOTHING, AppSettings.SMOOTH_HIGH );
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, true );
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_START_FRAME, 1 );
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, (int)_frames + 1 );
+	protected void config() {
+		Config.setProperty( AppSettings.WIDTH, 1080 );
+		Config.setProperty( AppSettings.HEIGHT, 1080 );
+		Config.setProperty( AppSettings.FPS, 30 );
+		Config.setProperty( AppSettings.SMOOTHING, AppSettings.SMOOTH_HIGH );
+		Config.setProperty( AppSettings.RENDERING_MOVIE, true );
+		Config.setProperty( AppSettings.RENDERING_MOVIE_START_FRAME, 1 );
+		Config.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, (int)_frames + 1 );
 	}
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		p.noStroke();
 		p.noiseSeed(noiseSeed);
 		OpenGLUtil.setQuality(p.g, OpenGLUtil.GL_QUALITY_HIGH);

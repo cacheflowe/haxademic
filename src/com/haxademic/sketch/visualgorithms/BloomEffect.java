@@ -20,7 +20,7 @@ extends PAppletHax {
 	
 	protected PGraphics glowBuffer;
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		glowBuffer = p.createGraphics(pg.width, pg.height, PRenderers.P2D);
 	}
 

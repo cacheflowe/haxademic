@@ -23,7 +23,7 @@ extends PAppletHax {
 	protected String parentDir;
 	protected String newProjectDir;
 	
-	protected void setupFirstFrame() {
+	protected void firstFrame() {
 		// get haxademic & parent dirs
 		haxPath = new File(FileUtil.getHaxademicPath());
 		parentDir = haxPath.getParent();

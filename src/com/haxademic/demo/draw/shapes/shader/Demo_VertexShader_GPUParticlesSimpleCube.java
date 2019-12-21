@@ -3,6 +3,7 @@ package com.haxademic.demo.draw.shapes.shader;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.data.constants.PBlendModes;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
@@ -27,18 +28,18 @@ extends PAppletHax {
 	protected PShader particleVerticesShader;
 	int FRAMES = 300;
 
-	protected void overridePropsFile() {
-		p.appConfig.setProperty(AppSettings.LOOP_FRAMES, FRAMES);
-		p.appConfig.setProperty(AppSettings.WIDTH, 768);
-		p.appConfig.setProperty(AppSettings.HEIGHT, 768);
-		p.appConfig.setProperty(AppSettings.FILLS_SCREEN, false);
-		p.appConfig.setProperty(AppSettings.RENDERING_MOVIE, false);
-		p.appConfig.setProperty(AppSettings.RENDERING_MOVIE_START_FRAME, 1 + FRAMES);
-		p.appConfig.setProperty(AppSettings.RENDERING_MOVIE_STOP_FRAME, 1 + FRAMES * 2);
-		p.appConfig.setProperty(AppSettings.SHOW_DEBUG, true);
+	protected void config() {
+		Config.setProperty(AppSettings.LOOP_FRAMES, FRAMES);
+		Config.setProperty(AppSettings.WIDTH, 768);
+		Config.setProperty(AppSettings.HEIGHT, 768);
+		Config.setProperty(AppSettings.FILLS_SCREEN, false);
+		Config.setProperty(AppSettings.RENDERING_MOVIE, false);
+		Config.setProperty(AppSettings.RENDERING_MOVIE_START_FRAME, 1 + FRAMES);
+		Config.setProperty(AppSettings.RENDERING_MOVIE_STOP_FRAME, 1 + FRAMES * 2);
+		Config.setProperty(AppSettings.SHOW_DEBUG, true);
 	}
 	
-	protected void setupFirstFrame() {
+	protected void firstFrame() {
 		// build random particle placement shader
 		positionShader = p.loadShader(FileUtil.getFile("haxademic/shaders/textures/random-pixel-color.glsl"));
 

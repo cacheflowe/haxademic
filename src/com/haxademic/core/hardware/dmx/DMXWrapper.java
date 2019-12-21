@@ -1,6 +1,7 @@
 package com.haxademic.core.hardware.dmx;
 
 import com.haxademic.core.app.P;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.debug.DebugView;
 
 import dmxP512.DmxP512;
@@ -50,16 +51,16 @@ public class DMXWrapper {
 		if (P.platform == P.MACOSX) {
 			// mac
 			init( 
-				P.p.appConfig.getString(DMXPRO_PORT, "/dev/tty.usbserial-EN158815"), 
-				P.p.appConfig.getInt(DMXPRO_BAUDRATE, 115000), 
-				P.p.appConfig.getInt(DMXPRO_UNIVERSE_SIZE, 512)
+				Config.getString(DMXPRO_PORT, "/dev/tty.usbserial-EN158815"), 
+				Config.getInt(DMXPRO_BAUDRATE, 115000), 
+				Config.getInt(DMXPRO_UNIVERSE_SIZE, 512)
 			); 
 		} else {
 			// win
 			init( 
-				P.p.appConfig.getString(DMXPRO_PORT, "COM3"), 
-				P.p.appConfig.getInt(DMXPRO_BAUDRATE, 9600), 
-				P.p.appConfig.getInt(DMXPRO_UNIVERSE_SIZE, 512)
+				Config.getString(DMXPRO_PORT, "COM3"), 
+				Config.getInt(DMXPRO_BAUDRATE, 9600), 
+				Config.getInt(DMXPRO_UNIVERSE_SIZE, 512)
 			);
 		}
 		

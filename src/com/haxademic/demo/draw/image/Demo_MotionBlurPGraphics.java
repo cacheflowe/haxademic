@@ -3,6 +3,7 @@ package com.haxademic.demo.draw.image;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.image.MotionBlurPGraphics;
@@ -16,12 +17,12 @@ extends PAppletHax {
 	protected PGraphics _pg;
 	protected MotionBlurPGraphics _pgMotionBlur;
 
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, "400" );
-		p.appConfig.setProperty( AppSettings.HEIGHT, "400" );
+	protected void config() {
+		Config.setProperty( AppSettings.WIDTH, "400" );
+		Config.setProperty( AppSettings.HEIGHT, "400" );
 	}
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		_pg = p.createGraphics( p.width, p.height, P.P3D );
 		_pg.smooth(OpenGLUtil.SMOOTH_HIGH);
 		_pgMotionBlur = new MotionBlurPGraphics(20);

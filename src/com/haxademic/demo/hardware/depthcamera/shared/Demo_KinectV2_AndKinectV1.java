@@ -2,6 +2,7 @@ package com.haxademic.demo.hardware.depthcamera.shared;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.hardware.depthcamera.cameras.IDepthCamera;
 import com.haxademic.core.hardware.depthcamera.cameras.KinectWrapperV1;
@@ -16,13 +17,13 @@ extends PAppletHax {
 	protected IDepthCamera kinectWrapperV1;
 	protected IDepthCamera kinectWrapperV2;
 
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, 1200 );
-		p.appConfig.setProperty( AppSettings.HEIGHT, 900 );
-		p.appConfig.setProperty( AppSettings.SHOW_DEBUG, true );
+	protected void config() {
+		Config.setProperty( AppSettings.WIDTH, 1200 );
+		Config.setProperty( AppSettings.HEIGHT, 900 );
+		Config.setProperty( AppSettings.SHOW_DEBUG, true );
 	}
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		kinectWrapperV1 = new KinectWrapperV1( p, true, true);
 		kinectWrapperV1.setMirror(true);
 

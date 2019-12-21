@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.data.constants.PBlendModes;
 import com.haxademic.core.data.constants.PRegisterableMethods;
 import com.haxademic.core.draw.context.PG;
@@ -53,7 +54,7 @@ public class DebugView {
 
 	public DebugView(PApplet p) {
 		this.p = p;
-		active = P.p.appConfig.getBoolean(AppSettings.SHOW_DEBUG, false);
+		active = Config.getBoolean(AppSettings.SHOW_DEBUG, false);
 		// for some reason, these were crashing app launches, so they got threaded
 		updateAppInfo();
 		addKeyCommandInfo();

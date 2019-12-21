@@ -2,6 +2,7 @@ package com.haxademic.demo.hardware.depthcamera.kinectpv2;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.image.ImageSequenceRecorder;
 
@@ -17,15 +18,15 @@ extends PAppletHax {
 	protected PGraphics buffer;
 	protected ImageSequenceRecorder recorder;
 	
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, 1000 );
-		p.appConfig.setProperty( AppSettings.HEIGHT, 800 );
-		p.appConfig.setProperty( AppSettings.SHOW_DEBUG, true );
-		p.appConfig.setProperty( AppSettings.SHOW_DEBUG, true );
-		p.appConfig.setProperty( AppSettings.FILLS_SCREEN, true );
+	protected void config() {
+		Config.setProperty( AppSettings.WIDTH, 1000 );
+		Config.setProperty( AppSettings.HEIGHT, 800 );
+		Config.setProperty( AppSettings.SHOW_DEBUG, true );
+		Config.setProperty( AppSettings.SHOW_DEBUG, true );
+		Config.setProperty( AppSettings.FILLS_SCREEN, true );
 	}
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		kinect = new KinectPV2(p);
 		kinect.enableDepthImg(true);
 		kinect.enableColorImg(true);

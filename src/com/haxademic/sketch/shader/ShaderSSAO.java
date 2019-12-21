@@ -3,6 +3,7 @@ package com.haxademic.sketch.shader;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.file.FileUtil;
@@ -58,15 +59,15 @@ extends PAppletHax {
 			"  \"useNoise\": 0\r\n" + 
 			"}";
 
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, 800 );
-		p.appConfig.setProperty( AppSettings.HEIGHT, 600 );
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, false );
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, (int)_frames );
-		p.appConfig.setProperty( AppSettings.SHOW_UI, true );
+	protected void config() {
+		Config.setProperty( AppSettings.WIDTH, 800 );
+		Config.setProperty( AppSettings.HEIGHT, 600 );
+		Config.setProperty( AppSettings.RENDERING_MOVIE, false );
+		Config.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, (int)_frames );
+		Config.setProperty( AppSettings.SHOW_UI, true );
 	}
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		UI.addSlider(onlyAO, 0, 0, 1, 1, false);
 		UI.addSlider(aoClamp, 1.5f, -5f, 5f, 0.01f, false);
 		UI.addSlider(lumInfluence, 0.2f, -5f, 5f, 0.01f, false);

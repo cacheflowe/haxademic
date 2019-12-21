@@ -18,7 +18,7 @@ extends PAppletHax {
 	protected float CURSOR_EASING_FACTOR = 7;
 	protected float CURSOR_STROKE = 4;
 	
-	public void setupFirstFrame() {
+	public void firstFrame() {
 	
 		GREEN = new EasingColor("00b159");
 		WHITE = new EasingColor("ffffff");

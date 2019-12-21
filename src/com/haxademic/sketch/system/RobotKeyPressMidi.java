@@ -6,6 +6,7 @@ import java.awt.event.KeyEvent;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.hardware.midi.MidiDevice;
 
 public class RobotKeyPressMidi
@@ -27,12 +28,12 @@ extends PAppletHax {
 	
 	protected MidiKeyTrigger[] midiKeyTriggers;
 
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, "640" );
-		p.appConfig.setProperty( AppSettings.HEIGHT, "480" );
+	protected void config() {
+		Config.setProperty( AppSettings.WIDTH, "640" );
+		Config.setProperty( AppSettings.HEIGHT, "480" );
 	}
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		MidiDevice.init(0, 0);
 		try { _robot = new Robot(); } catch( Exception error ) { println("couldn't init Robot"); }
 		

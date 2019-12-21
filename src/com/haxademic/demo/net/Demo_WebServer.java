@@ -17,7 +17,7 @@ implements IAppStoreListener {
 	
 	protected WebServer server;
 	
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		// basic web server
 		// server = new WebServer(new UIControlsHandler(), false);
 		

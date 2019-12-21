@@ -3,6 +3,7 @@ package com.haxademic.sketch.visualgorithms;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 
 import processing.core.PFont;
 import processing.video.Capture;
@@ -65,14 +66,14 @@ extends PAppletHax {
 	int clockNow,clockPrev, clockDiff; // for timing check
 
 
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.RENDERER, P.JAVA2D );
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, false );
-		p.appConfig.setProperty( AppSettings.WIDTH, "640" );
-		p.appConfig.setProperty( AppSettings.HEIGHT, "480" );
+	protected void config() {
+		Config.setProperty( AppSettings.RENDERER, P.JAVA2D );
+		Config.setProperty( AppSettings.RENDERING_MOVIE, false );
+		Config.setProperty( AppSettings.WIDTH, "640" );
+		Config.setProperty( AppSettings.HEIGHT, "480" );
 	}
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 
 
 		// screen and video

@@ -26,7 +26,7 @@ extends PAppletHax {
 	// PixelTriFilter, Cluster8BitRow, ImageHistogramFilter
 
 	
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		_curMov = p.createGraphics(width, height, P.P3D);
 		_curFrame = p.createImage(width, height, P.ARGB);
 //		movie = new Movie(this, "/Users/cacheflowe/Documents/workspace/haxademic/assets/media/video/Janet Jackson - Control - trimmed.mov");

@@ -3,6 +3,7 @@ package com.haxademic.app.musicvideos;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.data.constants.PBlendModes;
 import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.debug.DebugView;
@@ -64,19 +65,19 @@ extends PAppletHax {
 	protected LinearFloat beatTime = new LinearFloat(0, 0.025f);
 	
 	
-	protected void overridePropsFile() {
-		p.appConfig.setProperty(AppSettings.RENDER_AUDIO_FILE, FileUtil.getFile("audio/brim-duels/brim-liski-duels.wav"));
-		p.appConfig.setProperty(AppSettings.RENDER_AUDIO_SIMULATION, false);
-		p.appConfig.setProperty(AppSettings.RENDERING_MOVIE, true);
-		p.appConfig.setProperty(AppSettings.RENDERING_MOVIE_START_FRAME, 1);
-		p.appConfig.setProperty(AppSettings.RENDERING_MOVIE_STOP_FRAME, FRAMES + 1);
-		p.appConfig.setProperty(AppSettings.WIDTH, (int) w);
-		p.appConfig.setProperty(AppSettings.HEIGHT, (int) h);
-		p.appConfig.setProperty(AppSettings.LOOP_FRAMES, FRAMES);
-		p.appConfig.setProperty(AppSettings.LOOP_TICKS, TICKS);
+	protected void config() {
+		Config.setProperty(AppSettings.RENDER_AUDIO_FILE, FileUtil.getFile("audio/brim-duels/brim-liski-duels.wav"));
+		Config.setProperty(AppSettings.RENDER_AUDIO_SIMULATION, false);
+		Config.setProperty(AppSettings.RENDERING_MOVIE, true);
+		Config.setProperty(AppSettings.RENDERING_MOVIE_START_FRAME, 1);
+		Config.setProperty(AppSettings.RENDERING_MOVIE_STOP_FRAME, FRAMES + 1);
+		Config.setProperty(AppSettings.WIDTH, (int) w);
+		Config.setProperty(AppSettings.HEIGHT, (int) h);
+		Config.setProperty(AppSettings.LOOP_FRAMES, FRAMES);
+		Config.setProperty(AppSettings.LOOP_TICKS, TICKS);
 	}
 
-	protected void setupFirstFrame() {
+	protected void firstFrame() {
 		backgroundImg = P.getImage("audio/brim-duels/bg-swirl.jpg");
 		brimLogo = P.getImage("audio/brim-duels/brim-liski-logo.png");
 		waveform = P.getImage("audio/brim-duels/output-16k-trans.png");

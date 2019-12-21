@@ -10,7 +10,7 @@ extends PAppletHax {
 //	protected DwGLSLProgram shader32;
 //	protected DwGLTexture texture32;
 //
-//	protected void setupFirstFrame() {
+//	protected void firstFrame() {
 //		// build float buffer/shader
 //	    shader32 = OpenGL32Util.newShader(FileUtil.getFile("haxademic/shaders/float32/pixelflow-test.glsl"));
 //	    buffer8 = OpenGL32Util.newPGraphics2D(p.width, p.height);

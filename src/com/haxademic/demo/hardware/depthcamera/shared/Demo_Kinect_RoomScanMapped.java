@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.mapping.PGraphicsKeystone;
 import com.haxademic.core.file.FileUtil;
@@ -22,15 +23,15 @@ extends PAppletHax {
 	protected PGraphicsKeystone mappedKinectKeystone;
 	protected boolean DEBUG = false;
 	
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, 1280 );
-		p.appConfig.setProperty( AppSettings.HEIGHT, 720 );
-//		p.appConfig.setProperty( AppSettings.KINECT_V2_WIN_ACTIVE, true );
-		p.appConfig.setProperty( AppSettings.KINECT_ACTIVE, true );
-//		p.appConfig.setProperty( AppSettings.REALSENSE_ACTIVE, true );
+	protected void config() {
+		Config.setProperty( AppSettings.WIDTH, 1280 );
+		Config.setProperty( AppSettings.HEIGHT, 720 );
+//		Config.setProperty( AppSettings.KINECT_V2_WIN_ACTIVE, true );
+		Config.setProperty( AppSettings.KINECT_ACTIVE, true );
+//		Config.setProperty( AppSettings.REALSENSE_ACTIVE, true );
 	}
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		kinectDiff = new KinectRoomScanDiff(p.depthCamera);
 		mappedKinectBuffer = PG.newPG(pg.width, pg.height);
 		mappedKinectKeystone = new PGraphicsKeystone( p, kinectDiff.resultSmoothed(), 12, FileUtil.getFile("text/keystoning/keystone-kinect.txt") );

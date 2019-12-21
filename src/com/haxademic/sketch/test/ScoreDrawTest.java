@@ -11,7 +11,7 @@ extends PAppletHax {
 	
 //	protected CustomFontText2D _scoreFontRenderer;
 	
-	public void setupFirstFrame() {
+	public void firstFrame() {
 	
 		
 		String fontFile = FileUtil.getHaxademicDataPath() + "haxademic/fonts/Raleway-Regular.ttf";

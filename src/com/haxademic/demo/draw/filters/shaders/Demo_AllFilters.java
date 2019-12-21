@@ -3,6 +3,7 @@ package com.haxademic.demo.draw.filters.shaders;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.color.ImageGradient;
@@ -114,12 +115,12 @@ extends PAppletHax { public static void main(String args[]) { arguments = args; 
 	protected BaseFragmentShader[] filters;
 	protected int filterIndex = 0;
 
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, 800 );
-		p.appConfig.setProperty( AppSettings.HEIGHT, 400 );
+	protected void config() {
+		Config.setProperty( AppSettings.WIDTH, 800 );
+		Config.setProperty( AppSettings.HEIGHT, 400 );
 	}
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		noiseTexture = new TextureShader(TextureShader.noise_simplex_2d_iq);
 		noiseBuffer = p.createGraphics(p.width, p.height, PRenderers.P2D);
 		

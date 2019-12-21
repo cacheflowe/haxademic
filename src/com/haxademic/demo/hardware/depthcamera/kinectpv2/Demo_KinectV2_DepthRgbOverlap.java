@@ -3,6 +3,7 @@ package com.haxademic.demo.hardware.depthcamera.kinectpv2;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.BlurHFilter;
@@ -23,15 +24,15 @@ extends PAppletHax {
 	protected KinectDepthSilhouetteSmoothed kinectSilhouetteSmoothed;
 	protected PGraphics motionBuffer;	// copy kinect silhouette to match the size of the RGB camera
 
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, 1280 );
-		p.appConfig.setProperty( AppSettings.HEIGHT, 720 );
-		p.appConfig.setProperty( AppSettings.SHOW_DEBUG, true );
-		p.appConfig.setProperty( AppSettings.KINECT_V2_WIN_ACTIVE, true );
-//		p.appConfig.setProperty( AppSettings.KINECT_ACTIVE, true );
+	protected void config() {
+		Config.setProperty( AppSettings.WIDTH, 1280 );
+		Config.setProperty( AppSettings.HEIGHT, 720 );
+		Config.setProperty( AppSettings.SHOW_DEBUG, true );
+		Config.setProperty( AppSettings.KINECT_V2_WIN_ACTIVE, true );
+//		Config.setProperty( AppSettings.KINECT_ACTIVE, true );
 	}
 	
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		UI.addSlider("STRETCH_DEPTH_X", 1f, 1f, 3f, 0.01f);
 		kinectSilhouetteSmoothed = new KinectDepthSilhouetteSmoothed(p.depthCamera, 5);
 	}

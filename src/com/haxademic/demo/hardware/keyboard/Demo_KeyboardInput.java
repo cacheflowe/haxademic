@@ -3,13 +3,14 @@ package com.haxademic.demo.hardware.keyboard;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 
 public class Demo_KeyboardInput
 extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
-	protected void overridePropsFile() {
-		appConfig.setProperty( AppSettings.FPS, 90 );
+	protected void config() {
+		Config.setProperty( AppSettings.FPS, 90 );
 	}
 
 	public void keyPressed() {

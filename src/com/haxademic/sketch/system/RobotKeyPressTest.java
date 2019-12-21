@@ -11,7 +11,7 @@ extends PAppletHax {
 	
 	protected Robot _robot;
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		try { _robot = new Robot(); } catch( Exception error ) { println("couldn't init Robot"); }
 	}
 

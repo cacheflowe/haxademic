@@ -3,6 +3,7 @@ package com.haxademic.sketch.text;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.file.FileUtil;
 
@@ -25,9 +26,9 @@ extends PAppletHax {
 	ToxiclibsSupport toxi;
 	WETriangleMesh weMesh;
 
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, 840 );
-		p.appConfig.setProperty( AppSettings.HEIGHT, 640 );
+	protected void config() {
+		Config.setProperty( AppSettings.WIDTH, 840 );
+		Config.setProperty( AppSettings.HEIGHT, 640 );
 	}
 
 	public void setup()	{

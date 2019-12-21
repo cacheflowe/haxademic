@@ -3,6 +3,7 @@ package com.haxademic.render;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.system.SystemUtil;
@@ -29,12 +30,12 @@ extends PAppletHax {
 	
 	protected boolean _shouldPrint = false;
 
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.FILLS_SCREEN, false );
-		p.appConfig.setProperty( AppSettings.SHOW_UI, true );
+	protected void config() {
+		Config.setProperty( AppSettings.FILLS_SCREEN, false );
+		Config.setProperty( AppSettings.SHOW_UI, true );
 	}
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		UI.addSlider(numLines, 56, 1, 100, 1, false);
 		UI.addSlider(spacing, 9, 0, 50, 0.5f, false);
 		UI.addSlider(perlinStart, 0, 0, 100, 0.5f, false);

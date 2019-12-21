@@ -21,7 +21,7 @@ extends PAppletHax {
 	protected Rectangle rect2;
 	protected PVector mouseVec = new PVector();
 	
-	protected void setupFirstFrame() {
+	protected void firstFrame() {
 		// create polygons for collisions
 		polygons = new ArrayList<Polygon>();
 		polygons.add(Polygon.buildShape(p.width * 0.25f, p.height * 0.5f, 3, 100));

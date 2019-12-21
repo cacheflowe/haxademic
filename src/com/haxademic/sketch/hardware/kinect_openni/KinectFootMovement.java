@@ -4,6 +4,7 @@ package com.haxademic.sketch.hardware.kinect_openni;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.hardware.depthcamera.SkeletonsTracker;
 
@@ -33,11 +34,11 @@ extends PAppletHax {
 	protected PImage _ground;
 	protected float _groundScale = 5f;
 		
-	public void setupFirstFrame() {
+	public void firstFrame() {
 
 		
 		// do something
-		if(p.appConfig.getBoolean("kinect_active", true) == true) _skeletonTracker = new SkeletonsTracker();
+		if(Config.getBoolean("kinect_active", true) == true) _skeletonTracker = new SkeletonsTracker();
 		_texture = P.p.createGraphics( p.width, p.height, P.P3D );
 //		_sound = _minim.loadFile( "audio/bodymovements/goal.wav", 512 );
 		_ballImage = p.loadImage("images/foot-movement/ball.png");
@@ -50,11 +51,11 @@ extends PAppletHax {
 		
 	}
 	
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
-		p.appConfig.setProperty( AppSettings.KINECT_ACTIVE, "false" );
-		p.appConfig.setProperty( AppSettings.WIDTH, "640" );
-		p.appConfig.setProperty( AppSettings.HEIGHT, "480" );
+	protected void config() {
+		Config.setProperty( AppSettings.RENDERING_MOVIE, "false" );
+		Config.setProperty( AppSettings.KINECT_ACTIVE, "false" );
+		Config.setProperty( AppSettings.WIDTH, "640" );
+		Config.setProperty( AppSettings.HEIGHT, "480" );
 	}
 	
 	public void drawApp() {

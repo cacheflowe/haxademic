@@ -3,6 +3,7 @@ package com.haxademic.demo.draw.textures.shaders;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.draw.color.EasingColor;
 
@@ -19,16 +20,16 @@ extends PAppletHax {
 	protected EasingColor[] colorStops = new EasingColor[3];
 	protected int FRAMES = 200;
 	
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.LOOP_FRAMES, FRAMES );
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, false );
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_START_FRAME, 1 + FRAMES );
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, 1 + FRAMES * 2 );
-		p.appConfig.setProperty( AppSettings.WIDTH, 800 );
-		p.appConfig.setProperty( AppSettings.HEIGHT, 800 );
+	protected void config() {
+		Config.setProperty( AppSettings.LOOP_FRAMES, FRAMES );
+		Config.setProperty( AppSettings.RENDERING_MOVIE, false );
+		Config.setProperty( AppSettings.RENDERING_MOVIE_START_FRAME, 1 + FRAMES );
+		Config.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, 1 + FRAMES * 2 );
+		Config.setProperty( AppSettings.WIDTH, 800 );
+		Config.setProperty( AppSettings.HEIGHT, 800 );
 	}
 
-	protected void setupFirstFrame() {
+	protected void firstFrame() {
 		// create noise buffer
 		gradientBuffer = p.createGraphics(p.width, p.height, PRenderers.P3D);
 		gradientShader = p.loadShader("haxademic/shaders/textures/cacheflowe-three-color-repeating-gradient.glsl");

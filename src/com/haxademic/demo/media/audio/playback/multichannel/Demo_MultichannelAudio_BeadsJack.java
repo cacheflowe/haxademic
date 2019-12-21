@@ -5,6 +5,7 @@ import org.jaudiolibs.beads.AudioServerIO;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.data.constants.PTextAlign;
 import com.haxademic.core.debug.DebugUtil;
 import com.haxademic.core.draw.context.PG;
@@ -30,13 +31,13 @@ extends PAppletHax {
 	protected SpatialSound[] sounds;
 	protected SoundStage stage;
 	
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, 700 );
-		p.appConfig.setProperty( AppSettings.HEIGHT, 700 );
-		p.appConfig.setProperty( AppSettings.SHOW_UI, true );
+	protected void config() {
+		Config.setProperty( AppSettings.WIDTH, 700 );
+		Config.setProperty( AppSettings.HEIGHT, 700 );
+		Config.setProperty( AppSettings.SHOW_UI, true );
 	}
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		// NOTES:
 		// Jack app must be running!
 		

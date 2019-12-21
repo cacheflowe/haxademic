@@ -11,7 +11,7 @@ extends PAppletHax {
 	protected DMXWrapper dmx1;
 	protected DMXWrapper dmx2;
 	
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		dmx1 = new DMXWrapper("COM4", 9600);
 		dmx2 = new DMXWrapper("COM7", 9600);
 	}

@@ -3,6 +3,7 @@ package com.haxademic.demo.hardware.midi;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.InvertFilter;
 import com.haxademic.core.draw.image.ImageUtil;
@@ -17,12 +18,12 @@ implements ILaunchpadCallback {
 	protected LaunchPad launchpad1;
 	protected LaunchPad launchpad2;
 	
-	protected void overridePropsFile() {
-		p.appConfig.setProperty(AppSettings.PG_WIDTH, 128 );
-		p.appConfig.setProperty(AppSettings.PG_HEIGHT, 128 );
+	protected void config() {
+		Config.setProperty(AppSettings.PG_WIDTH, 128 );
+		Config.setProperty(AppSettings.PG_HEIGHT, 128 );
 	}
 	
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		launchpad1 = new LaunchPad(0, 3);
 		launchpad1.setDelegate(this);
 		launchpad2 = new LaunchPad(1, 4);

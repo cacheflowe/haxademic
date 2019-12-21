@@ -20,11 +20,11 @@ extends PAppletHax {
 	float kickSize, snareSize, hatSize;
 
 
-	protected void overridePropsFile() {
-		// p.appConfig.setProperty( AppSettings.WIDTH, "1200" );
+	protected void config() {
+		// Config.setProperty( AppSettings.WIDTH, "1200" );
 	}
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 
 		minim = new Minim(this);
 		in = minim.getLineIn();

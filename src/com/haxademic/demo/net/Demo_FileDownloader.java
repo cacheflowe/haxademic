@@ -2,6 +2,7 @@ package com.haxademic.demo.net;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.net.FileDownloader;
 
@@ -10,11 +11,11 @@ extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
 	
-	protected void overridePropsFile() {
-		p.appConfig.setProperty(AppSettings.SHOW_DEBUG, true );
+	protected void config() {
+		Config.setProperty(AppSettings.SHOW_DEBUG, true );
 	}
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 	}
 	
 

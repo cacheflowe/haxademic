@@ -3,6 +3,7 @@ package com.haxademic.demo.draw.shapes;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.shapes.MeshShapes;
 import com.haxademic.core.hardware.mouse.Mouse;
@@ -14,12 +15,12 @@ extends PAppletHax {
 	protected MeshShapes meshes[];
 	protected int meshIndex = 0;
 
-	protected void overridePropsFile() {
-		appConfig.setProperty( AppSettings.WIDTH, "1000" );
-		appConfig.setProperty( AppSettings.HEIGHT, "800" );
+	protected void config() {
+		Config.setProperty( AppSettings.WIDTH, "1000" );
+		Config.setProperty( AppSettings.HEIGHT, "800" );
 	}
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 
 		// init all shapes
 		meshes = new MeshShapes[] {

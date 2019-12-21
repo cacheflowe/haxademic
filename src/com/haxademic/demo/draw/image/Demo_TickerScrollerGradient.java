@@ -3,6 +3,7 @@ package com.haxademic.demo.draw.image;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.color.ColorUtil;
@@ -28,14 +29,14 @@ extends PAppletHax {
 	
 	int FRAMES = 400;
 		
-	protected void overridePropsFile() {
-		p.appConfig.setProperty(AppSettings.LOOP_FRAMES, FRAMES);
-		p.appConfig.setProperty(AppSettings.RENDERING_MOVIE, false);
-		p.appConfig.setProperty(AppSettings.RENDERING_MOVIE_START_FRAME, 1 );
-		p.appConfig.setProperty(AppSettings.RENDERING_MOVIE_STOP_FRAME, 1 + FRAMES);
+	protected void config() {
+		Config.setProperty(AppSettings.LOOP_FRAMES, FRAMES);
+		Config.setProperty(AppSettings.RENDERING_MOVIE, false);
+		Config.setProperty(AppSettings.RENDERING_MOVIE_START_FRAME, 1 );
+		Config.setProperty(AppSettings.RENDERING_MOVIE_STOP_FRAME, 1 + FRAMES);
 	}
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		
 		gradientW = P.round(p.width * 0.25f);
 		

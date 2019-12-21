@@ -3,6 +3,7 @@ package com.haxademic.app.musicvideos;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.filters.pgraphics.PixelTriFilter;
 import com.haxademic.core.draw.filters.pgraphics.archive.BlobOuterMeshFilter;
@@ -64,22 +65,22 @@ extends PAppletHax {
 	protected int _curTriangleSizeIndex = 0;
 
 
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.FPS, "30" );
-		p.appConfig.setProperty( "video_source_file", FileUtil.getHaxademicDataPath() + "video/Janet Jackson - Control - trimmed.mov" );
-//		p.appConfig.setProperty( "video_source_file", FileUtil.getHaxademicDataPath() + "video/Madonna - Lucky Star.mov" );
-		p.appConfig.setProperty( AppSettings.WIDTH, "1280" );
-		p.appConfig.setProperty( AppSettings.HEIGHT, "720" );
-//		p.appConfig.setProperty( "disable_esc", "true" );
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "true" );
-//		p.appConfig.setProperty( AppSettings.RENDER_AUDIO, "true" );
-		p.appConfig.setProperty( AppSettings.RENDER_AUDIO_FILE, FileUtil.getHaxademicDataPath() + "video/cache-assault-master.wav" );
-		p.appConfig.setProperty( AppSettings.RENDER_MIDI_FILE, FileUtil.getHaxademicDataPath() + "video/cache-assault-midi.mid" );
-		p.appConfig.setProperty( AppSettings.RENDER_MIDI_BPM, "150" );
-		p.appConfig.setProperty( AppSettings.RENDER_MIDI_OFFSET, "0" );
+	protected void config() {
+		Config.setProperty( AppSettings.FPS, "30" );
+		Config.setProperty( "video_source_file", FileUtil.getHaxademicDataPath() + "video/Janet Jackson - Control - trimmed.mov" );
+//		Config.setProperty( "video_source_file", FileUtil.getHaxademicDataPath() + "video/Madonna - Lucky Star.mov" );
+		Config.setProperty( AppSettings.WIDTH, "1280" );
+		Config.setProperty( AppSettings.HEIGHT, "720" );
+//		Config.setProperty( "disable_esc", "true" );
+		Config.setProperty( AppSettings.RENDERING_MOVIE, "true" );
+//		Config.setProperty( AppSettings.RENDER_AUDIO, "true" );
+		Config.setProperty( AppSettings.RENDER_AUDIO_FILE, FileUtil.getHaxademicDataPath() + "video/cache-assault-master.wav" );
+		Config.setProperty( AppSettings.RENDER_MIDI_FILE, FileUtil.getHaxademicDataPath() + "video/cache-assault-midi.mid" );
+		Config.setProperty( AppSettings.RENDER_MIDI_BPM, "150" );
+		Config.setProperty( AppSettings.RENDER_MIDI_OFFSET, "0" );
 	}
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 	}
 
 	public void initRender() {
@@ -87,7 +88,7 @@ extends PAppletHax {
 
 		_curMov = p.createGraphics(width, height, P.P3D);
 		_curFrame = p.createImage(width, height, P.ARGB);
-		_movie = new Movie(this, p.appConfig.getString( "video_source_file", "" ));
+		_movie = new Movie(this, Config.getString( "video_source_file", "" ));
 
 		
 		_triPixelFilter = new PixelTriFilter( _curFrame.width, _curFrame.height, 10 );

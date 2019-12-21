@@ -39,7 +39,7 @@ extends PAppletHax {
 	protected PApplet p = this;
 	
 	
-	public void setupFirstFrame() {
+	public void firstFrame() {
 
 		toxi = Toxiclibs.instance(p).toxi;
 		pickNewColors();

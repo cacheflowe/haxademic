@@ -3,6 +3,7 @@ package com.haxademic.demo.draw.shapes;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
@@ -33,17 +34,17 @@ extends PAppletHax {
 	protected PImage textCropped;
 	protected TiledTexture tiledImg;
 
-	protected void overridePropsFile() {
+	protected void config() {
 		int FRAMES = 280;
-		p.appConfig.setProperty(AppSettings.WIDTH, 1280);
-		p.appConfig.setProperty(AppSettings.HEIGHT, 720);
-		p.appConfig.setProperty( AppSettings.LOOP_FRAMES, FRAMES );
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, false );
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_START_FRAME, 1 + FRAMES * 4 );
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, 1 + FRAMES * 5 );
+		Config.setProperty(AppSettings.WIDTH, 1280);
+		Config.setProperty(AppSettings.HEIGHT, 720);
+		Config.setProperty( AppSettings.LOOP_FRAMES, FRAMES );
+		Config.setProperty( AppSettings.RENDERING_MOVIE, false );
+		Config.setProperty( AppSettings.RENDERING_MOVIE_START_FRAME, 1 + FRAMES * 4 );
+		Config.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, 1 + FRAMES * 5 );
 	}
 
-	protected void setupFirstFrame() {
+	protected void firstFrame() {
 		texture = p.createGraphics(p.width * 8, 150, P.P2D);
 		PG.setTextureRepeat(texture, false);
 		noiseTexture = new SimplexNoiseTexture(texture.width, 40);

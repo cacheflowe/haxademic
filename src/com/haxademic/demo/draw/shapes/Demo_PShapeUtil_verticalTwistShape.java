@@ -3,6 +3,7 @@ package com.haxademic.demo.draw.shapes;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.media.DemoAssets;
 
@@ -16,14 +17,14 @@ extends PAppletHax {
 	protected float modelHeight;
 	protected int FRAMES = 360;
 
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.LOOP_FRAMES, FRAMES );
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, false );
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_START_FRAME, 1 );
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, 1 + FRAMES );
+	protected void config() {
+		Config.setProperty( AppSettings.LOOP_FRAMES, FRAMES );
+		Config.setProperty( AppSettings.RENDERING_MOVIE, false );
+		Config.setProperty( AppSettings.RENDERING_MOVIE_START_FRAME, 1 );
+		Config.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, 1 + FRAMES );
 	}
 
-	protected void setupFirstFrame() {
+	protected void firstFrame() {
 		// build obj PShape and scale to window
 		obj = DemoAssets.objSkullRealistic();
 		float objHeight = p.height * 0.95f;

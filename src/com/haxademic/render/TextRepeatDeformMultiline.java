@@ -3,6 +3,7 @@ package com.haxademic.render;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
@@ -28,17 +29,17 @@ extends PAppletHax {
 	protected TiledTexture tiledImg;
 
 	
-	protected void overridePropsFile() {
+	protected void config() {
 		int FRAMES = 280;
-		p.appConfig.setProperty(AppSettings.WIDTH, 1024);
-		p.appConfig.setProperty(AppSettings.HEIGHT, 768);
-		p.appConfig.setProperty( AppSettings.LOOP_FRAMES, FRAMES );
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, true );
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_START_FRAME, 1 + FRAMES );
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, 1 + FRAMES * 2 );
+		Config.setProperty(AppSettings.WIDTH, 1024);
+		Config.setProperty(AppSettings.HEIGHT, 768);
+		Config.setProperty( AppSettings.LOOP_FRAMES, FRAMES );
+		Config.setProperty( AppSettings.RENDERING_MOVIE, true );
+		Config.setProperty( AppSettings.RENDERING_MOVIE_START_FRAME, 1 + FRAMES );
+		Config.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, 1 + FRAMES * 2 );
 	}
 	
-	protected void setupFirstFrame() {
+	protected void firstFrame() {
 		drawText();
 	}
 	

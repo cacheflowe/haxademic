@@ -19,7 +19,7 @@ extends PAppletHax {
 	protected String brightness = "brightness";
 	protected String speed = "speed";
 	
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		DMXUniverse.instanceInit("COM3", 9600);
 		
 		fixture = new ArrayList<DMXFixture>(); 

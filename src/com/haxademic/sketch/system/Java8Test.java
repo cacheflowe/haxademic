@@ -16,12 +16,12 @@ extends PAppletHax {
 
 	public PImage img;
 
-	protected void overridePropsFile() {
-		// p.appConfig.setProperty( AppSettings.FPS, "60" );
+	protected void config() {
+		// Config.setProperty( AppSettings.FPS, "60" );
 	}
 
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 
 		sortArray();
 		interfaceTest();

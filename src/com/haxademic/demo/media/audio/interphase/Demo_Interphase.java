@@ -2,6 +2,7 @@ package com.haxademic.demo.media.audio.interphase;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.media.audio.interphase.Interphase;
 import com.haxademic.core.media.audio.interphase.SequencerConfig;
@@ -13,14 +14,14 @@ extends PAppletHax {
 
 	protected Interphase interphase;
 
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, 1000 );
-		p.appConfig.setProperty( AppSettings.HEIGHT, 780 );
-		p.appConfig.setProperty( AppSettings.APP_NAME, "INTERPHASE" );
-//		p.appConfig.setProperty( AppSettings.MIDI_DEVICE_IN_INDEX, 0 );
+	protected void config() {
+		Config.setProperty( AppSettings.WIDTH, 1000 );
+		Config.setProperty( AppSettings.HEIGHT, 780 );
+		Config.setProperty( AppSettings.APP_NAME, "INTERPHASE" );
+//		Config.setProperty( AppSettings.MIDI_DEVICE_IN_INDEX, 0 );
 	}
 	
-	public void setupFirstFrame() {
+	public void firstFrame() {
 //		interphase = new Interphase(SequencerConfig.interphaseChannels, true);
 //		SequencerConfig.BASE_AUDIO_PATH = FileUtil.getHaxademicDataPath();
 		interphase = new Interphase(SequencerConfig.interphaseChannels(), true);

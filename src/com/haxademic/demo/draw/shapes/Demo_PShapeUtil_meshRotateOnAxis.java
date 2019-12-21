@@ -15,7 +15,7 @@ extends PAppletHax {
 	protected PShape obj;
 	protected float modelHeight;
 	
-	protected void setupFirstFrame() {
+	protected void firstFrame() {
 		// build obj PShape and scale to window
 		obj = DemoAssets.objSkullRealistic();
 		float objHeight = p.height * 0.95f;

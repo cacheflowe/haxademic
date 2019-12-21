@@ -2,9 +2,6 @@
 
 ## Modularize PAppletHax
 
-* DebugView
-	* Search for `addKeyCommandInfo()` and update instances
-* Properties (p.appConfig) (rename to Config?)
 * Inputs - more thoughts on InputTrigger below
 	* Make a base storage for different data types?
 		* Toggle values
@@ -26,6 +23,8 @@
   * Mouse
   * MidiState / MidiDevice
   * UI
+  * DebugView
+  * Config
 
 ## InputTrigger revamp
 

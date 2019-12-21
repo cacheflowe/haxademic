@@ -2,6 +2,7 @@ package com.haxademic.sketch.visualgorithms;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 
 public class FluidSimulateFlexi extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
@@ -28,12 +29,12 @@ public class FluidSimulateFlexi extends PAppletHax {
 
 	boolean vectors = true;
 
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, "512" );
-		p.appConfig.setProperty( AppSettings.HEIGHT, "512" );
+	protected void config() {
+		Config.setProperty( AppSettings.WIDTH, "512" );
+		Config.setProperty( AppSettings.HEIGHT, "512" );
 	}
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 
 		//size(512, 512);
 		//frameRate(60);

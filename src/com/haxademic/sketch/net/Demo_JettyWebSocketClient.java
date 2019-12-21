@@ -23,7 +23,7 @@ extends PAppletHax {
 
 	RemoteEndpoint remote;
 	
-	public void setupFirstFrame() {
+	public void firstFrame() {
         try {
         	// web socket
         	HttpClient http = new HttpClient();

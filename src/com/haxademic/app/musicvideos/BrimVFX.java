@@ -2,6 +2,7 @@ package com.haxademic.app.musicvideos;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.filters.pgraphics.PixelTriFilter;
@@ -33,22 +34,22 @@ extends PAppletHax {
 	protected float videoNumFrames = 0;
 	protected int fpss = 24;
 
-	protected void overridePropsFile() {
-		p.appConfig.setProperty(AppSettings.RENDERING_MOVIE, true);
-		p.appConfig.setProperty(AppSettings.FULLSCREEN, false);
-		if(p.appConfig.getBoolean(AppSettings.RENDERING_MOVIE, false) == true) {
+	protected void config() {
+		Config.setProperty(AppSettings.RENDERING_MOVIE, true);
+		Config.setProperty(AppSettings.FULLSCREEN, false);
+		if(Config.getBoolean(AppSettings.RENDERING_MOVIE, false) == true) {
 			w = 1920;
 			h = 1080;
 		}
-		p.appConfig.setProperty(AppSettings.WIDTH, (int) w);
-		p.appConfig.setProperty(AppSettings.HEIGHT, (int) h);
-		p.appConfig.setProperty(AppSettings.FPS, fpss);
-		p.appConfig.setProperty(AppSettings.ALWAYS_ON_TOP, false);
-		p.appConfig.setProperty(AppSettings.RENDERING_MOVIE_START_FRAME, 1);
-		p.appConfig.setProperty(AppSettings.RENDERING_MOVIE_STOP_FRAME, 2131);
+		Config.setProperty(AppSettings.WIDTH, (int) w);
+		Config.setProperty(AppSettings.HEIGHT, (int) h);
+		Config.setProperty(AppSettings.FPS, fpss);
+		Config.setProperty(AppSettings.ALWAYS_ON_TOP, false);
+		Config.setProperty(AppSettings.RENDERING_MOVIE_START_FRAME, 1);
+		Config.setProperty(AppSettings.RENDERING_MOVIE_STOP_FRAME, 2131);
 	}
 
-	protected void setupFirstFrame() {
+	protected void firstFrame() {
 //		vfx = new GPUParticlesSheetDisplacer(p.width, p.height, 0.5f);
 		vfx = new PixelTriFilter(p.width, p.height, p.height / 20);
 //		vfx = new ColorDiff8BitRows(p.width, p.height, 20);
@@ -93,7 +94,7 @@ extends PAppletHax {
 			}
 			frameDirty = false;
 			
-			if(p.appConfig.getBoolean(AppSettings.RENDERING_MOVIE, false) == true) {
+			if(Config.getBoolean(AppSettings.RENDERING_MOVIE, false) == true) {
 				// manually step to next video frame
 				videoFrame++;
 				video.play();

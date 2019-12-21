@@ -2,6 +2,7 @@ package com.haxademic.demo.media.audio.playback;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.hardware.mouse.Mouse;
 import com.haxademic.core.media.audio.analysis.AudioIn;
@@ -17,13 +18,13 @@ extends PAppletHax {
 	protected String beat1 = "data/audio/breakbeats/break01.wav";
 	protected String beat2 = "data/audio/breakbeats/break02.wav";
 
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, 800 );
-		p.appConfig.setProperty( AppSettings.HEIGHT, 400 );
-		p.appConfig.setProperty( AppSettings.SHOW_DEBUG, true );
+	protected void config() {
+		Config.setProperty( AppSettings.WIDTH, 800 );
+		Config.setProperty( AppSettings.HEIGHT, 400 );
+		Config.setProperty( AppSettings.SHOW_DEBUG, true );
 	}
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		// create looping players
 		player = new WavPlayer();
 		player.loopWav(beat1);

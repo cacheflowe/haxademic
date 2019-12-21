@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.media.DemoAssets;
@@ -18,12 +19,12 @@ extends PAppletHax {
 	protected ArrayList<PShape> shapes;
 	protected int curShapeIndex = 0;
 	
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, 1200 );
-		p.appConfig.setProperty( AppSettings.HEIGHT, 900 );
+	protected void config() {
+		Config.setProperty( AppSettings.WIDTH, 1200 );
+		Config.setProperty( AppSettings.HEIGHT, 900 );
 	}
 	
-	public void setupFirstFrame() {
+	public void firstFrame() {
 
 		
 		shapes = new ArrayList<PShape>();

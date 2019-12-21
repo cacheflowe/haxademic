@@ -18,7 +18,7 @@ extends PAppletHax {
 	protected String OFFSET_Y = "OFFSET_Y"; 
 	protected String SIZE = "SIZE"; 
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		tiledImg = new TiledTexture(DemoAssets.smallTexture());
 		
 		UI.addSlider(ROT, 0, 0, P.TWO_PI, 0.02f, false);

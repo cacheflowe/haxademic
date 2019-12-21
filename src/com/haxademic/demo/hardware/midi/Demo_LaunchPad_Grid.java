@@ -22,7 +22,7 @@ implements SimpleMidiListener {
 	protected float[][] grid = new float[9][8];
 	protected PGraphics pg8x8;
 	
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		MidiDevice.init(0, 3);
 		setAll(1);
 		setAll(0);	// flip onces to init

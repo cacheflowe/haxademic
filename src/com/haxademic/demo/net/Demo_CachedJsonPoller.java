@@ -15,7 +15,7 @@ implements ICachedJsonPollerDelegate {
 	
 	protected CachedJsonPoller polled;
 	
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		polled = new CachedJsonPoller("http://localhost.dbg-www.com/data/json/pdus.json", FileUtil.getFile("text/json/pdus.json"), 5, this);
 	}
 	

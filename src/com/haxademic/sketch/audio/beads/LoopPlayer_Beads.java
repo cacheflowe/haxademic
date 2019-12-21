@@ -21,11 +21,11 @@ extends PAppletHax { public static void main(String args[]) { arguments = args; 
 	PeakDetector od;
 	EasingFloat beatOnset = new EasingFloat(0, 8);
 
-	protected void overridePropsFile() {
-		//	p.appConfig.setProperty( AppSettings.WIDTH, 800 );
+	protected void config() {
+		//	Config.setProperty( AppSettings.WIDTH, 800 );
 	}
 
-	public void setupFirstFrame2() {
+	public void firstFrame2() {
 		  ac = new AudioContext();
 		  Gain g = new Gain(ac, 2, 0.4f);
 		  g.addInput(ac.getAudioInput());
@@ -46,7 +46,7 @@ extends PAppletHax { public static void main(String args[]) { arguments = args; 
 		  ac.start();
 	}
 		  
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		  ac = new AudioContext();
 		  ShortFrameSegmenter sfs = new ShortFrameSegmenter(ac);
 		  FFT fft = new FFT();

@@ -3,6 +3,7 @@ package com.haxademic.demo.draw.shapes;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.shapes.Shapes;
@@ -20,23 +21,23 @@ extends PAppletHax {
 	
 	protected LinearFloat[] easings;
 	
-	protected void overridePropsFile() {
+	protected void config() {
 		int FRAMES = 250;
 		boolean rendering = false;
-		p.appConfig.setProperty( AppSettings.WIDTH, 1280 ); // 1140
-		p.appConfig.setProperty( AppSettings.HEIGHT, 720 );
-		p.appConfig.setProperty( AppSettings.FULLSCREEN, rendering );
-		p.appConfig.setProperty( AppSettings.SCREEN_X, 0 );
-		p.appConfig.setProperty( AppSettings.SCREEN_Y, 0 );
-		p.appConfig.setProperty( AppSettings.ALWAYS_ON_TOP, false );
-		p.appConfig.setProperty( AppSettings.LOOP_FRAMES, FRAMES );
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, rendering );
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_START_FRAME, (FRAMES * 2) + 1 );
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, (FRAMES * 3) + 1 );
-		p.appConfig.setProperty( AppSettings.SMOOTHING, AppSettings.SMOOTH_HIGH );
+		Config.setProperty( AppSettings.WIDTH, 1280 ); // 1140
+		Config.setProperty( AppSettings.HEIGHT, 720 );
+		Config.setProperty( AppSettings.FULLSCREEN, rendering );
+		Config.setProperty( AppSettings.SCREEN_X, 0 );
+		Config.setProperty( AppSettings.SCREEN_Y, 0 );
+		Config.setProperty( AppSettings.ALWAYS_ON_TOP, false );
+		Config.setProperty( AppSettings.LOOP_FRAMES, FRAMES );
+		Config.setProperty( AppSettings.RENDERING_MOVIE, rendering );
+		Config.setProperty( AppSettings.RENDERING_MOVIE_START_FRAME, (FRAMES * 2) + 1 );
+		Config.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, (FRAMES * 3) + 1 );
+		Config.setProperty( AppSettings.SMOOTHING, AppSettings.SMOOTH_HIGH );
 	}
 
-	protected void setupFirstFrame() {
+	protected void firstFrame() {
 	}
 	
 	public void drawApp() {

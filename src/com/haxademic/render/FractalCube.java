@@ -3,6 +3,7 @@ package com.haxademic.render;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.camera.CameraOscillate;
 import com.haxademic.core.draw.camera.common.ICamera;
 import com.haxademic.core.draw.context.PG;
@@ -21,20 +22,20 @@ extends PAppletHax {
 	protected float CHILD_RATIO = 0.5f;
 	float percentComplete;
 
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.SUNFLOW, true );
-		p.appConfig.setProperty( AppSettings.SUNFLOW_ACTIVE, false );
-		p.appConfig.setProperty( AppSettings.SUNFLOW_QUALITY, AppSettings.SUNFLOW_QUALITY_LOW );
-		p.appConfig.setProperty( AppSettings.WIDTH, 640 );
-		p.appConfig.setProperty( AppSettings.HEIGHT, 640 );
+	protected void config() {
+		Config.setProperty( AppSettings.SUNFLOW, true );
+		Config.setProperty( AppSettings.SUNFLOW_ACTIVE, false );
+		Config.setProperty( AppSettings.SUNFLOW_QUALITY, AppSettings.SUNFLOW_QUALITY_LOW );
+		Config.setProperty( AppSettings.WIDTH, 640 );
+		Config.setProperty( AppSettings.HEIGHT, 640 );
 	}
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 
 		
 		BASE_CUBE_SIZE = p.width/4f;
 		
-		if(p.appConfig.getBoolean(AppSettings.SUNFLOW_ACTIVE, false) == false) {
+		if(Config.getBoolean(AppSettings.SUNFLOW_ACTIVE, false) == false) {
 			background(255);
 			noStroke();
 		}
@@ -47,7 +48,7 @@ extends PAppletHax {
 //		CHILD_RATIO = 0.25f + 0.1f * P.sin(p.frameCount * 0.01f);
 		percentComplete = ((float)(p.frameCount%_frames)/_frames);
 		
-		if(p.appConfig.getBoolean(AppSettings.SUNFLOW_ACTIVE, false) == true) {
+		if(Config.getBoolean(AppSettings.SUNFLOW_ACTIVE, false) == true) {
 			joons.jr.background(255, 255, 255); //background(gray), or (r, g, b), like Processing.
 			joons.jr.background("gi_instant"); //Global illumination, normal mode.
 			joons.jr.background("gi_ambient_occlusion"); //Global illumination, ambient occlusion mode.
@@ -114,7 +115,7 @@ extends PAppletHax {
 			int color = P.round(255f - (_curSize / BASE_CUBE_SIZE) * 235f);  
 			int colorDark = P.round(150f - (_curSize / BASE_CUBE_SIZE) * 135f); 
 			
-			if(p.appConfig.getBoolean(AppSettings.SUNFLOW_ACTIVE, false) == true) {
+			if(Config.getBoolean(AppSettings.SUNFLOW_ACTIVE, false) == true) {
 				if(_baseSize == BASE_CUBE_SIZE) {
 					joons.jr.fill( JoonsWrapper.MATERIAL_GLASS, 60, 60, 100);
 				} else {

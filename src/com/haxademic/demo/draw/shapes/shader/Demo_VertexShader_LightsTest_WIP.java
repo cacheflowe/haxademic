@@ -19,7 +19,7 @@ extends PAppletHax {
 	protected PImage texture;
 	protected PShader shader;
 	
-	protected void setupFirstFrame() {
+	protected void firstFrame() {
 		// build obj PShape and scale to window
 		obj = DemoAssets.objSkullRealistic();
 

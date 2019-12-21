@@ -4,6 +4,7 @@ import java.awt.Rectangle;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.data.constants.PBlendModes;
 import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.draw.filters.pshader.LeaveWhiteFilter;
@@ -34,13 +35,13 @@ implements IWebCamCallback {
 	protected String MOTION_DETECT_BLUR = "MOTION_DETECT_BLUR";
 	protected String RECT_LERP = "RECT_LERP";
 
-	protected void overridePropsFile() {
-		p.appConfig.setProperty(AppSettings.WIDTH, 640 + 320 );
-		p.appConfig.setProperty(AppSettings.HEIGHT, 480 );
-		p.appConfig.setProperty(AppSettings.SMOOTHING, AppSettings.SMOOTH_NONE );
+	protected void config() {
+		Config.setProperty(AppSettings.WIDTH, 640 + 320 );
+		Config.setProperty(AppSettings.HEIGHT, 480 );
+		Config.setProperty(AppSettings.SMOOTHING, AppSettings.SMOOTH_NONE );
 	}
 
-	public void setupFirstFrame () {
+	public void firstFrame () {
 		WebCam.instance().setDelegate(this);
 		webcamBuffer = p.createGraphics(640, 480, PRenderers.P2D);
 		webcamBuffer.noSmooth();

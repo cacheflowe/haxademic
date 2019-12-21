@@ -14,6 +14,7 @@ import com.haxademic.app.haxmapper.polygons.MappedTriangle;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.data.ConvertUtil;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.context.OpenGLUtil.Blend;
@@ -125,19 +126,19 @@ extends PAppletHax {
 	protected int[] _textureEffectsIndices = {0,0,0,0,0,0,0};	// store a effects number for each texture position after the first
 	protected int _numTextureEffects = 16 + 8; // +8 to give a good chance at removing the filter from the texture slot
 	
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
-		p.appConfig.setProperty( AppSettings.FULLSCREEN, "true" );
-		p.appConfig.setProperty( AppSettings.FILLS_SCREEN, "true" );
-		p.appConfig.setProperty( AppSettings.KINECT_ACTIVE, "false" );
-		p.appConfig.setProperty( "osc_active", "true" );
+	protected void config() {
+		Config.setProperty( AppSettings.RENDERING_MOVIE, "false" );
+		Config.setProperty( AppSettings.FULLSCREEN, "true" );
+		Config.setProperty( AppSettings.FILLS_SCREEN, "true" );
+		Config.setProperty( AppSettings.KINECT_ACTIVE, "false" );
+		Config.setProperty( "osc_active", "true" );
 	}
 	
 	/////////////////////////////////////////////////////////////////
 	// Setup: build mapped polygon groups & init texture pools
 	/////////////////////////////////////////////////////////////////
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		AudioIn.instance();
 		
 //		p.hint(P.DISABLE_DEPTH_SORT);
@@ -147,7 +148,7 @@ extends PAppletHax {
 		importPolygons();
 		for( int i=0; i < _mappingGroups.size(); i++ ) _mappingGroups.get(i).completePolygonImport();
 		buildTextures();
-		if(p.appConfig.getInt("dmx_lights_count", 0) > 0) _dmxLights = new RandomLightTiming(p.appConfig.getInt("dmx_lights_count", 0));
+		if(Config.getInt("dmx_lights_count", 0) > 0) _dmxLights = new RandomLightTiming(Config.getInt("dmx_lights_count", 0));
 	}
 	
 	protected void importPolygons() {
@@ -159,7 +160,7 @@ extends PAppletHax {
 
 		_mappingGroups = new ArrayList<MappingGroup>();
 		
-		if( p.appConfig.getString("mapping_file", "") == "" ) {
+		if( Config.getString("mapping_file", "") == "" ) {
 			_mappingGroups.add( new MappingGroup( this, _overlayPG, _boundingBox) );
 			for(int i=0; i < 200; i++ ) {
 				// create triangle
@@ -179,7 +180,7 @@ extends PAppletHax {
 			}
 			_mappingGroups.get(0).addPolygon( new MappedTriangle( 100, 200, 400, 700, 650, 300 ) );
 		} else {
-			_inputFileLines = loadStrings(p.appConfig.getString("mapping_file", ""));
+			_inputFileLines = loadStrings(Config.getString("mapping_file", ""));
 			for( int i=0; i < _inputFileLines.length; i++ ) {
 				String inputLine = _inputFileLines[i]; 
 				// count lines that contain characters
@@ -260,7 +261,7 @@ extends PAppletHax {
 	}
 	
 	protected void buildTextures() {
-		if(p.appConfig.getBoolean("kinect_active", false ) == true) {
+		if(Config.getBoolean("kinect_active", false ) == true) {
 			_faceRecorder = new KinectFaceRecorder(this);
 			_faceRecordingTexture = new TextureKinectFaceRecording(320, 240);
 			_facesPlaybackTexture = new TextureKinectFacePlayback(320, 240);

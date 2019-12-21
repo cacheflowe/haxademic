@@ -2,6 +2,7 @@ package com.haxademic.sketch.hardware.leap;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.debug.DebugUtil;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.hardware.leap.LeapRegionGrid;
@@ -13,14 +14,14 @@ extends PAppletHax {
 
 	protected LeapRegionGrid _leapGrid;
 
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.FILLS_SCREEN, "false" );
-		p.appConfig.setProperty( "leap_active", "true" );
-		p.appConfig.setProperty( AppSettings.WIDTH, "1200" );
-		p.appConfig.setProperty( AppSettings.HEIGHT, "900" );
+	protected void config() {
+		Config.setProperty( AppSettings.FILLS_SCREEN, "false" );
+		Config.setProperty( "leap_active", "true" );
+		Config.setProperty( AppSettings.WIDTH, "1200" );
+		Config.setProperty( AppSettings.HEIGHT, "900" );
 	}
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 
 		DebugUtil.printErr("Make sure to run Processing LEAP Apps with JavaSE-1.7");
 		// debug display

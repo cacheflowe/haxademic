@@ -2,6 +2,7 @@ package com.haxademic.demo.render.joons;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.media.DemoAssets;
@@ -17,20 +18,20 @@ extends PAppletHax {
 	protected float objHeight;
 	protected float frames = 60;
 	
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.SUNFLOW, true );
-		p.appConfig.setProperty( AppSettings.SUNFLOW_ACTIVE, true );
-		p.appConfig.setProperty( AppSettings.SUNFLOW_QUALITY, AppSettings.SUNFLOW_QUALITY_LOW );
+	protected void config() {
+		Config.setProperty( AppSettings.SUNFLOW, true );
+		Config.setProperty( AppSettings.SUNFLOW_ACTIVE, true );
+		Config.setProperty( AppSettings.SUNFLOW_QUALITY, AppSettings.SUNFLOW_QUALITY_LOW );
 
-		p.appConfig.setProperty( AppSettings.WIDTH, 960 );
-		p.appConfig.setProperty( AppSettings.HEIGHT, 720 );
-		p.appConfig.setProperty( AppSettings.RENDERING_IMAGE_SEQUENCE, false );
-		p.appConfig.setProperty( AppSettings.RENDERING_IMAGE_SEQUENCE_START_FRAME, 1 );
-//		p.appConfig.setProperty( AppSettings.RENDERING_IMAGE_SEQUENCE_STOP_FRAME, 3 + (int) frames - 1 );
-		p.appConfig.setProperty( AppSettings.RENDERING_IMAGE_SEQUENCE_STOP_FRAME, 2 );
+		Config.setProperty( AppSettings.WIDTH, 960 );
+		Config.setProperty( AppSettings.HEIGHT, 720 );
+		Config.setProperty( AppSettings.RENDERING_IMAGE_SEQUENCE, false );
+		Config.setProperty( AppSettings.RENDERING_IMAGE_SEQUENCE_START_FRAME, 1 );
+//		Config.setProperty( AppSettings.RENDERING_IMAGE_SEQUENCE_STOP_FRAME, 3 + (int) frames - 1 );
+		Config.setProperty( AppSettings.RENDERING_IMAGE_SEQUENCE_STOP_FRAME, 2 );
 	}
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		// load & repair tesselated shape
 		obj = DemoAssets.shapeX().getTessellation(); // p.loadShape( FileUtil.getFile("svg/fractal-1.svg")).getTessellation();
 		PShapeUtil.repairMissingSVGVertex(obj);
@@ -44,7 +45,7 @@ extends PAppletHax {
 
 
 	public void drawApp() {
-		if(p.appConfig.getBoolean(AppSettings.SUNFLOW_ACTIVE, false) == false) {
+		if(Config.getBoolean(AppSettings.SUNFLOW_ACTIVE, false) == false) {
 			p.background(0);
 			p.lights();
 			p.noStroke();

@@ -14,7 +14,7 @@ extends PAppletHax {
 	PVector center = new PVector();
 	PVector[] points = new PVector[600];
 	
-	public void setupFirstFrame() {
+	public void firstFrame() {
 	
 		center.set(0, 0);
 		for (int i = 0; i < points.length; i++) {

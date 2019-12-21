@@ -3,6 +3,7 @@ package com.haxademic.sketch.visualgorithms;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 
 import processing.core.PImage;
 import processing.core.PVector;
@@ -37,13 +38,13 @@ extends PAppletHax {
 	int HALF_H;
 
 
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, 500 );
-		p.appConfig.setProperty( AppSettings.HEIGHT, 500 );
-		p.appConfig.setProperty( AppSettings.RETINA, true );
+	protected void config() {
+		Config.setProperty( AppSettings.WIDTH, 500 );
+		Config.setProperty( AppSettings.HEIGHT, 500 );
+		Config.setProperty( AppSettings.RETINA, true );
 	}
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 	
 
 		balls = new MetaBall[NUM_BALLS];

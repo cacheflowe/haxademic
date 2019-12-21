@@ -3,6 +3,7 @@ package com.haxademic.demo.draw.context;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.media.DemoAssets;
 
@@ -17,7 +18,7 @@ extends PAppletHax {
 	protected PImage img;
 	protected float _frames = 90;
 	
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		img = DemoAssets.smallTexture();
 		
 		_texture = p.createGraphics( p.width, p.height, P.P3D );
@@ -26,10 +27,10 @@ extends PAppletHax {
 		_texture.endDraw();
 	}
 	
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, false );
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_START_FRAME, ""+ Math.round(_frames*2) );
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, ""+Math.round(_frames + _frames*2) );
+	protected void config() {
+		Config.setProperty( AppSettings.RENDERING_MOVIE, false );
+		Config.setProperty( AppSettings.RENDERING_MOVIE_START_FRAME, ""+ Math.round(_frames*2) );
+		Config.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, ""+Math.round(_frames + _frames*2) );
 	}
 		
 	public void drawApp() {

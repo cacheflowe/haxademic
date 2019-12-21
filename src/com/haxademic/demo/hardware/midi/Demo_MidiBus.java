@@ -3,6 +3,7 @@ package com.haxademic.demo.hardware.midi;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.debug.StringBufferLog;
 import com.haxademic.core.hardware.midi.MidiDevice;
@@ -20,11 +21,11 @@ implements SimpleMidiListener {
 	protected StringBufferLog logOut = new StringBufferLog(20);
 	protected MidiDevice device2;
 
-	protected void overridePropsFile() {
-		p.appConfig.setProperty(AppSettings.SHOW_DEBUG, true );
+	protected void config() {
+		Config.setProperty(AppSettings.SHOW_DEBUG, true );
 	}
 
-	protected void setupFirstFrame() {
+	protected void firstFrame() {
 		// prep audio input
 		AudioIn.instance();
 		// init 2 devices

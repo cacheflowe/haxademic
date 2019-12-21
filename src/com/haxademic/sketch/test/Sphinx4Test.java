@@ -20,10 +20,10 @@ extends PAppletHax {
 	protected LiveSpeechRecognizer recognizer; 
 	protected boolean ready = false;
 
-	protected void overridePropsFile() {
+	protected void config() {
 	}
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		initSphinx4();
 	}
 

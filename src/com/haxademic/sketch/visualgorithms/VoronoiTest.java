@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 
 import processing.core.PVector;
 
@@ -17,13 +18,13 @@ extends PAppletHax {
 	boolean use_manhattan = false;
 
 
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, 500 );
-		p.appConfig.setProperty( AppSettings.HEIGHT, 500 );
-		p.appConfig.setProperty( AppSettings.RETINA, false );
+	protected void config() {
+		Config.setProperty( AppSettings.WIDTH, 500 );
+		Config.setProperty( AppSettings.HEIGHT, 500 );
+		Config.setProperty( AppSettings.RETINA, false );
 	}
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 	
 		for(int i = 0; i < 5; ++i)
 			cells.add(new Cell((int)random(0,width), (int)random(0,height), color(random(0,255), random(0,255), random(0,255))));

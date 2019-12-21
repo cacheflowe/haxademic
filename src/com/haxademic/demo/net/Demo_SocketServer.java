@@ -4,6 +4,7 @@ import java.net.UnknownHostException;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.debug.DebugUtil;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.net.IPAddress;
@@ -22,12 +23,12 @@ implements ISocketClientDelegate {
 	
 	protected SocketServer wsServer;
 	
-	protected void overridePropsFile() {
-		p.appConfig.setProperty(AppSettings.FPS, 90);
-		p.appConfig.setProperty(AppSettings.SHOW_DEBUG, true);
+	protected void config() {
+		Config.setProperty(AppSettings.FPS, 90);
+		Config.setProperty(AppSettings.SHOW_DEBUG, true);
 	}
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 	
 		buildSocketServer();
 		SystemUtil.openWebPage("http://localhost/haxademic/www/web-socket-demo/");

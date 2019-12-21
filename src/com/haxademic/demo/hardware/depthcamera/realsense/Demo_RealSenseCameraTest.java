@@ -3,6 +3,7 @@ package com.haxademic.demo.hardware.depthcamera.realsense;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.image.ImageUtil;
@@ -45,14 +46,14 @@ extends PAppletHax {
 	protected PGraphics mirrorRGB;
 	protected PGraphics mirrorDepth;
 
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, 1200 );
-		p.appConfig.setProperty( AppSettings.HEIGHT, 900 );
-		p.appConfig.setProperty( AppSettings.SHOW_DEBUG, true );
+	protected void config() {
+		Config.setProperty( AppSettings.WIDTH, 1200 );
+		Config.setProperty( AppSettings.HEIGHT, 900 );
+		Config.setProperty( AppSettings.SHOW_DEBUG, true );
 	}
 
 
-	protected void setupFirstFrame() {
+	protected void firstFrame() {
 		camera = new RealSenseCamera(this);
 		camera.start(CAMERA_W, CAMERA_H, CAMERA_FPS, DEPTH_ACTIVE, RGB_ACTIVE);
 		DebugView.setTexture("camera.getDepthImage", camera.getDepthImage());

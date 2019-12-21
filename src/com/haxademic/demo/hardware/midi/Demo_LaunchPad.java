@@ -11,7 +11,7 @@ public class Demo_LaunchPad
 extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
-	protected void setupFirstFrame() {
+	protected void firstFrame() {
 		AudioIn.instance();
 		MidiDevice.init(1, 4);
 	}

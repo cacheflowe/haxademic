@@ -18,7 +18,7 @@ extends PAppletHax {
 
 	TriangleMesh[] boxes=new TriangleMesh[300];
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 
 		for(int i=0; i<boxes.length; i++) {
 			// create a new direction vector for each box

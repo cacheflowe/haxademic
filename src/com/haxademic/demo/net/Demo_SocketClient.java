@@ -3,6 +3,7 @@ package com.haxademic.demo.net;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.debug.DebugUtil;
 import com.haxademic.core.net.IPAddress;
 import com.haxademic.core.net.ISocketClientDelegate;
@@ -19,12 +20,12 @@ implements ISocketClientDelegate {
 	
 	protected SocketClient wsClient;
 	
-	protected void overridePropsFile() {
-		p.appConfig.setProperty(AppSettings.FPS, 90);
-		p.appConfig.setProperty(AppSettings.SHOW_DEBUG, true);
+	protected void config() {
+		Config.setProperty(AppSettings.FPS, 90);
+		Config.setProperty(AppSettings.SHOW_DEBUG, true);
 	}
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 	
 		String serverAddress = "ws://" + IPAddress.getIP() + ":" + SocketServer.PORT;
 		wsClient = new SocketClient(serverAddress, this, true);

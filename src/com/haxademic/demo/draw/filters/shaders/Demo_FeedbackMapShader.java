@@ -3,6 +3,7 @@ package com.haxademic.demo.draw.filters.shaders;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.BlurProcessingFilter;
@@ -48,15 +49,15 @@ extends PAppletHax {
 
 	protected String FEEDBACK_ITERS = "FEEDBACK_ITERS";
 
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, W );
-		p.appConfig.setProperty( AppSettings.HEIGHT, H );
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, false );
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_START_FRAME, P.round(1 + frames * 3) );
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, P.round(1 + frames * 4) );
+	protected void config() {
+		Config.setProperty( AppSettings.WIDTH, W );
+		Config.setProperty( AppSettings.HEIGHT, H );
+		Config.setProperty( AppSettings.RENDERING_MOVIE, false );
+		Config.setProperty( AppSettings.RENDERING_MOVIE_START_FRAME, P.round(1 + frames * 3) );
+		Config.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, P.round(1 + frames * 4) );
 	}
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 
 
 		map = PG.newPG(W, H);

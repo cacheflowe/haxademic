@@ -3,6 +3,7 @@ package com.haxademic.demo.media.audio.analysis;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.media.audio.analysis.AudioStreamData;
 import com.haxademic.core.media.audio.playback.AudioPlayerBeads;
 
@@ -14,12 +15,12 @@ extends PAppletHax { public static void main(String args[]) { arguments = args; 
 	protected AudioContext ac;
 	protected AudioPlayerBeads[] loops;
 	
-	protected void overridePropsFile() {
-		p.appConfig.setProperty(AppSettings.WIDTH, 900);
-		p.appConfig.setProperty(AppSettings.HEIGHT, 600);
+	protected void config() {
+		Config.setProperty(AppSettings.WIDTH, 900);
+		Config.setProperty(AppSettings.HEIGHT, 600);
 	}
 	
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		ac = new AudioContext();
 		ac.start();
 	

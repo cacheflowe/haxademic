@@ -3,6 +3,7 @@ package com.haxademic.sketch.visualgorithms;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.math.easing.EasingFloat;
 
@@ -14,13 +15,13 @@ extends PAppletHax {
 	
 	protected Squiggle _squiggle;
 
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.FPS, "30" );
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
+	protected void config() {
+		Config.setProperty( AppSettings.FPS, "30" );
+		Config.setProperty( AppSettings.RENDERING_MOVIE, "false" );
 	}
 
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 	
 		_squiggle = new Squiggle(5, 50f, 20, 400, 5, p.color(0,255,0) );
 	}

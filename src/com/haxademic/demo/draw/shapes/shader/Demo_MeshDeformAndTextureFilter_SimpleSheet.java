@@ -19,7 +19,7 @@ extends PAppletHax {
 	protected PImage texture;
 	protected PerlinTexture perlin;
 
-	protected void setupFirstFrame() {
+	protected void firstFrame() {
 		// load texture
 		perlin = new PerlinTexture(p, 128, 64);
 		texture = perlin.texture();

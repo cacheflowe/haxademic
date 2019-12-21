@@ -3,6 +3,7 @@ package com.haxademic.sketch.hardware;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.PG;
 
 import processing.serial.Serial;
@@ -24,12 +25,12 @@ extends PAppletHax {
 	protected int cr = 13;    			// Carriage return in ASCII
 
 
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, 640 );
-		p.appConfig.setProperty( AppSettings.HEIGHT, 640 );
+	protected void config() {
+		Config.setProperty( AppSettings.WIDTH, 640 );
+		Config.setProperty( AppSettings.HEIGHT, 640 );
 	}
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 
 	}
 

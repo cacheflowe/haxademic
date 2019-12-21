@@ -27,7 +27,7 @@ implements IJsonRequestCallback {
 	protected boolean firstPost = true;
 	protected String jsonURL = "http://localhost/haxademic/www/json-response/";
 	
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		postJSON = new JsonRequest(jsonURL);
 	}
 	

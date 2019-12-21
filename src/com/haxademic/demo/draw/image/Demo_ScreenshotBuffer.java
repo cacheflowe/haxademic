@@ -10,7 +10,7 @@ extends PAppletHax {
 	
 	protected ScreenshotBuffer screenshotBuffer;
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		screenshotBuffer = new ScreenshotBuffer();
 		screenshotBuffer.addScaledImage(0.5f);
 	}

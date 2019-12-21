@@ -3,6 +3,7 @@ package com.haxademic.demo.draw.shapes;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.shapes.Superformula;
@@ -29,14 +30,14 @@ extends PAppletHax {
 	protected PGraphics _superFormGfx;
 
 	
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, "1280" );
-		p.appConfig.setProperty( AppSettings.HEIGHT, "720" );
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
-		p.appConfig.setProperty( AppSettings.SHOW_UI, true );
+	protected void config() {
+		Config.setProperty( AppSettings.WIDTH, "1280" );
+		Config.setProperty( AppSettings.HEIGHT, "720" );
+		Config.setProperty( AppSettings.RENDERING_MOVIE, "false" );
+		Config.setProperty( AppSettings.SHOW_UI, true );
 	}
 	
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		AudioIn.instance();
 		_superForm = new Superformula(100,100, 1, 1,   6, 20,  7, 18);
 		_superFormGfx = p.createGraphics(p.width, p.height, P.P3D);

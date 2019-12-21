@@ -17,7 +17,7 @@ extends PAppletHax {
 	protected PGraphics printBuffer;
 	
 	
-	public void setupFirstFrame () {
+	public void firstFrame () {
 		printDirect = new PrintPageDirectNew(false);
 		// printBuffer = P.p.createGraphics(PrintPageDirect.PRINT_W * 4, PrintPageDirect.PRINT_W * 3, PRenderers.P3D);
 		printBuffer = P.p.createGraphics(1600, 2000, PRenderers.P3D);

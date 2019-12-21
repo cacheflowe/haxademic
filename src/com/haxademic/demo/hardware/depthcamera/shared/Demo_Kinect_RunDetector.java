@@ -3,6 +3,7 @@ package com.haxademic.demo.hardware.depthcamera.shared;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.data.constants.PTextAlign;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
@@ -43,17 +44,17 @@ implements IEasingBooleanCallback {
 	protected int recordFrame = 999;
 	protected ImageSequenceRecorder recorder;
 	
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, 1280 );
-		p.appConfig.setProperty( AppSettings.HEIGHT, 480 );
-		p.appConfig.setProperty( AppSettings.KINECT_V2_WIN_ACTIVE, true );
-//		p.appConfig.setProperty( AppSettings.KINECT_ACTIVE, true );
-//		p.appConfig.setProperty( AppSettings.REALSENSE_ACTIVE, true );
-		p.appConfig.setProperty( AppSettings.DEPTH_CAM_RGB_ACTIVE, true );
-		p.appConfig.setProperty(AppSettings.SHOW_UI, true);
+	protected void config() {
+		Config.setProperty( AppSettings.WIDTH, 1280 );
+		Config.setProperty( AppSettings.HEIGHT, 480 );
+		Config.setProperty( AppSettings.KINECT_V2_WIN_ACTIVE, true );
+//		Config.setProperty( AppSettings.KINECT_ACTIVE, true );
+//		Config.setProperty( AppSettings.REALSENSE_ACTIVE, true );
+		Config.setProperty( AppSettings.DEPTH_CAM_RGB_ACTIVE, true );
+		Config.setProperty(AppSettings.SHOW_UI, true);
 	}
 	
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		UI.addSlider(kinectLeft, 50, 0, DepthCameraSize.WIDTH, 1, false);
 		UI.addSlider(kinectRight, 420, 0, DepthCameraSize.WIDTH, 1, false);
 		UI.addSlider(kinectTop, 140, 0, DepthCameraSize.HEIGHT, 1, false);

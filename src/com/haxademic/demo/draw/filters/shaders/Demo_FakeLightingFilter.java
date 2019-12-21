@@ -2,6 +2,7 @@ package com.haxademic.demo.draw.filters.shaders;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.filters.pshader.FakeLightingFilter;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.media.DemoAssets;
@@ -19,13 +20,13 @@ extends PAppletHax {
 	
 	protected String FILTER_ACTIVE = "FILTER_ACTIVE";
 	
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, 800 );
-		p.appConfig.setProperty( AppSettings.HEIGHT, 800 );
-		p.appConfig.setProperty( AppSettings.SHOW_UI, true );
+	protected void config() {
+		Config.setProperty( AppSettings.WIDTH, 800 );
+		Config.setProperty( AppSettings.HEIGHT, 800 );
+		Config.setProperty( AppSettings.SHOW_UI, true );
 	}
 	
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		UI.addSlider(AMBIENT, 2f, 0.3f, 6f, 0.01f, false);
 		UI.addSlider(GRAD_AMP, 0.66f, 0.1f, 6f, 0.01f, false);
 		UI.addSlider(GRAD_BLUR, 1f, 0.1f, 6f, 0.01f, false);

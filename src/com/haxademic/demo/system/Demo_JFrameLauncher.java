@@ -15,7 +15,7 @@ extends PAppletHax {
 
 	protected FrameWithBorderLayout frame;
 	
-	public void setupFirstFrame() {
+	public void firstFrame() {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                  frame = new FrameWithBorderLayout();

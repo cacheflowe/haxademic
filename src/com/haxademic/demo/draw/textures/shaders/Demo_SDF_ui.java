@@ -23,7 +23,7 @@ extends PAppletHax {
 	protected String cubeSize = "cubeSize";
 	protected String cubePos = "cubePos";
 
-	protected void setupFirstFrame() {
+	protected void firstFrame() {
 		// create shader/buffer
 		buffer = p.createGraphics(p.width, p.height, PRenderers.P3D);
 		shader = p.loadShader(FileUtil.getFile("haxademic/shaders/textures/sdf-04-manual.glsl"));

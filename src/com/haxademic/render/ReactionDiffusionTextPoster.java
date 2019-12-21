@@ -3,6 +3,7 @@ package com.haxademic.render;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
@@ -60,16 +61,16 @@ extends PAppletHax {
 	protected String FAKE_LIGHT_DIFF_DARK = "FAKE_LIGHT_DIFF_DARK";
 	
 
-	protected void overridePropsFile() {
-		p.appConfig.setProperty(AppSettings.WIDTH, 1600);
-		p.appConfig.setProperty(AppSettings.HEIGHT, 900);
+	protected void config() {
+		Config.setProperty(AppSettings.WIDTH, 1600);
+		Config.setProperty(AppSettings.HEIGHT, 900);
 	}
 	
 	/////////////////////////
 	// INIT
 	/////////////////////////
 	
-	protected void setupFirstFrame() {
+	protected void firstFrame() {
 		pg = P.p.createGraphics(2550, 3300, PRenderers.P3D);
 		pgPost = P.p.createGraphics(2550, 3300, PRenderers.P3D);
 		PG.setTextureRepeat(pg, true);

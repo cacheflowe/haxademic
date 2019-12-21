@@ -3,6 +3,7 @@ package com.haxademic.render;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.color.ImageGradient;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.shapes.Shapes;
@@ -14,20 +15,20 @@ extends PAppletHax {
 
 	protected ImageGradient imageGradient;
 	
-	protected void overridePropsFile() {
+	protected void config() {
 		int FRAMES = 140;
-//		p.appConfig.setProperty( AppSettings.SUNFLOW, true );
-//		p.appConfig.setProperty( AppSettings.SUNFLOW_ACTIVE, false );
-		p.appConfig.setProperty( AppSettings.LOOP_FRAMES, FRAMES );
-		p.appConfig.setProperty( AppSettings.WIDTH, 1000 );
-		p.appConfig.setProperty( AppSettings.HEIGHT, 800 );
-		p.appConfig.setProperty( AppSettings.FILLS_SCREEN, false );
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, false );
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_START_FRAME, 1 );
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, 1 + FRAMES );
+//		Config.setProperty( AppSettings.SUNFLOW, true );
+//		Config.setProperty( AppSettings.SUNFLOW_ACTIVE, false );
+		Config.setProperty( AppSettings.LOOP_FRAMES, FRAMES );
+		Config.setProperty( AppSettings.WIDTH, 1000 );
+		Config.setProperty( AppSettings.HEIGHT, 800 );
+		Config.setProperty( AppSettings.FILLS_SCREEN, false );
+		Config.setProperty( AppSettings.RENDERING_MOVIE, false );
+		Config.setProperty( AppSettings.RENDERING_MOVIE_START_FRAME, 1 );
+		Config.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, 1 + FRAMES );
 	}
 	
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		imageGradient = new ImageGradient(ImageGradient.BLACK_HOLE());
 	}
 

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.color.ColorsHax;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.file.FileUtil;
@@ -27,24 +28,20 @@ extends PAppletHax {
 	protected float _drawRatio = 1;
 	protected Minim minim;
 
-	public void settings() {
-		customPropsFile = FileUtil.getFile("properties/airdrums.properties");
-		super.settings();
+	protected void config() {
+		Config.loadPropertiesFile(FileUtil.getFile("properties/airdrums.properties"));
+		Config.setProperty(AppSettings.KINECT_ACTIVE, true);
 	}
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		initDrums();
 	}
 	
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.KINECT_ACTIVE, "true" );
-	}
-
 	public void initDrums() {
 		minim = new Minim(this);
 		
-		KINECT_CLOSE = p.appConfig.getInt( "kinect_min_mm", 1500 );
-		KINECT_FAR = p.appConfig.getInt( "kinect_max_mm", 1700 );
+		KINECT_CLOSE = Config.getInt( "kinect_min_mm", 1500 );
+		KINECT_FAR = Config.getInt( "kinect_max_mm", 1700 );
 
 		_drawRatio = (float)p.height / (float)DepthCameraSize.HEIGHT;
 		P.println(_drawRatio);
@@ -126,7 +123,7 @@ extends PAppletHax {
 		}
 
 		protected void detectInteraction() {
-			if( p.appConfig.getBoolean("kinect_active", false) == false ) {				
+			if( Config.getBoolean("kinect_active", false) == false ) {				
 				detectWithMouse();
 			} else {				
 				detectWithKinect();

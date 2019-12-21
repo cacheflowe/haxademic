@@ -2,6 +2,7 @@ package com.haxademic.demo.draw.camera;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.camera.CameraUtil;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.ui.UI;
@@ -13,11 +14,11 @@ extends PAppletHax {
 	protected String DIST = "DIST";
 	protected String NEAR = "NEAR";
 	
-	protected void overridePropsFile() {
-		p.appConfig.setProperty(AppSettings.SHOW_UI, true );
+	protected void config() {
+		Config.setProperty(AppSettings.SHOW_UI, true );
 	}
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		UI.addSlider(DIST, 4000, 100, 20000, 100, false);
 		UI.addSlider(NEAR, 100, 100, 10000, 10, false);
 	}

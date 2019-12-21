@@ -2,6 +2,7 @@ package com.haxademic.demo.hardware.webcam;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
@@ -30,12 +31,12 @@ implements IWebCamCallback {
 	protected PShader displacementShader;
 	protected BufferFrameDifference bufferFrameDifference;
 
-	protected void overridePropsFile() {
-		p.appConfig.setProperty(AppSettings.WIDTH, 800);
-		p.appConfig.setProperty(AppSettings.HEIGHT, 800);
+	protected void config() {
+		Config.setProperty(AppSettings.WIDTH, 800);
+		Config.setProperty(AppSettings.HEIGHT, 800);
 	}
 	
-	protected void setupFirstFrame() {
+	protected void firstFrame() {
 		// build sheet mesh
 		texture = DemoAssets.squareTexture();
 		shape = Shapes.createSheet(250, texture);

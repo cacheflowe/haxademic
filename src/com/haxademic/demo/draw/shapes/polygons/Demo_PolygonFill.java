@@ -9,7 +9,7 @@ extends PAppletHax {
 
 	protected Polygon poly;
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		poly = Polygon.buildShape(p.width/2, p.height/2, 3, 200);
 	}
 

@@ -5,6 +5,7 @@ import java.util.Vector;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pgraphics.archive.FastBlurFilter;
@@ -91,31 +92,31 @@ extends PAppletHax {
 
 
 
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.FPS, "30" );
-		p.appConfig.setProperty( AppSettings.WIDTH, "1920" );
-		p.appConfig.setProperty( AppSettings.HEIGHT, "1080" );
-		p.appConfig.setProperty( AppSettings.WIDTH, "1280" );
-		p.appConfig.setProperty( AppSettings.HEIGHT, "720" );
-//		p.appConfig.setProperty( AppSettings.WIDTH, "960" );
-//		p.appConfig.setProperty( AppSettings.HEIGHT, "540" );
-//		p.appConfig.setProperty( AppSettings.WIDTH, "480" );
-//		p.appConfig.setProperty( AppSettings.HEIGHT, "270" );
-//		p.appConfig.setProperty( AppSettings.WIDTH, "240" );
-//		p.appConfig.setProperty( AppSettings.HEIGHT, "135" );
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "true" );
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, (int) _songLengthFrames );
-		p.appConfig.setProperty( AppSettings.RENDER_MIDI_FILE, FileUtil.getHaxademicDataPath() + "midi/patter-kick-snare-bass-synth-timing-more-snares.mid" );
-		p.appConfig.setProperty( AppSettings.RENDER_MIDI_BPM, "132" );
-		p.appConfig.setProperty( AppSettings.RENDER_MIDI_OFFSET, "0" );
-		p.appConfig.setProperty( AppSettings.RENDER_AUDIO_FILE, FileUtil.getHaxademicDataPath() + "audio/13. CacheFlowe - Patter - Master.wav" );
+	protected void config() {
+		Config.setProperty( AppSettings.FPS, "30" );
+		Config.setProperty( AppSettings.WIDTH, "1920" );
+		Config.setProperty( AppSettings.HEIGHT, "1080" );
+		Config.setProperty( AppSettings.WIDTH, "1280" );
+		Config.setProperty( AppSettings.HEIGHT, "720" );
+//		Config.setProperty( AppSettings.WIDTH, "960" );
+//		Config.setProperty( AppSettings.HEIGHT, "540" );
+//		Config.setProperty( AppSettings.WIDTH, "480" );
+//		Config.setProperty( AppSettings.HEIGHT, "270" );
+//		Config.setProperty( AppSettings.WIDTH, "240" );
+//		Config.setProperty( AppSettings.HEIGHT, "135" );
+		Config.setProperty( AppSettings.RENDERING_MOVIE, "true" );
+		Config.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, (int) _songLengthFrames );
+		Config.setProperty( AppSettings.RENDER_MIDI_FILE, FileUtil.getHaxademicDataPath() + "midi/patter-kick-snare-bass-synth-timing-more-snares.mid" );
+		Config.setProperty( AppSettings.RENDER_MIDI_BPM, "132" );
+		Config.setProperty( AppSettings.RENDER_MIDI_OFFSET, "0" );
+		Config.setProperty( AppSettings.RENDER_AUDIO_FILE, FileUtil.getHaxademicDataPath() + "audio/13. CacheFlowe - Patter - Master.wav" );
 	}
 
 	/**
 	 * SETUP ===================================================================================================
 	 */
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 
 		p.smooth(OpenGLUtil.SMOOTH_HIGH);
 		

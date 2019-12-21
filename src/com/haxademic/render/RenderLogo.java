@@ -2,6 +2,7 @@ package com.haxademic.render;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.toxi.DrawToxiMesh;
 import com.haxademic.core.draw.toxi.MeshUtilToxi;
@@ -22,20 +23,20 @@ extends PAppletHax {
 	
 	WETriangleMesh _mesh;
 	
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.SUNFLOW, "true" );
-		p.appConfig.setProperty( AppSettings.SUNFLOW_ACTIVE, "false" );
-		p.appConfig.setProperty( AppSettings.SUNFLOW_QUALITY, "high" );
-		p.appConfig.setProperty( "sunflow_save_images", "true" );
+	protected void config() {
+		Config.setProperty( AppSettings.SUNFLOW, "true" );
+		Config.setProperty( AppSettings.SUNFLOW_ACTIVE, "false" );
+		Config.setProperty( AppSettings.SUNFLOW_QUALITY, "high" );
+		Config.setProperty( "sunflow_save_images", "true" );
 
 		
-		p.appConfig.setProperty( AppSettings.WIDTH, "1280" );
-		p.appConfig.setProperty( AppSettings.HEIGHT, "1280" );
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
-		p.appConfig.setProperty( AppSettings.FPS, "30" );
+		Config.setProperty( AppSettings.WIDTH, "1280" );
+		Config.setProperty( AppSettings.HEIGHT, "1280" );
+		Config.setProperty( AppSettings.RENDERING_MOVIE, "false" );
+		Config.setProperty( AppSettings.FPS, "30" );
 	}
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 
 		p.smooth(OpenGLUtil.SMOOTH_HIGH);
 

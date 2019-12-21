@@ -3,6 +3,7 @@ package com.haxademic.demo.hardware.shared;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.hardware.keyboard.KeyCodes;
 import com.haxademic.core.hardware.keyboard.KeyboardState;
 import com.haxademic.core.hardware.midi.MidiDevice;
@@ -26,14 +27,14 @@ extends PAppletHax {
 
 	protected int triggerKey = KeyCodes.keyCodeFromChar('c');
 	
-	protected void overridePropsFile() {
-		p.appConfig.setProperty(AppSettings.OSC_ACTIVE, true );
-		p.appConfig.setProperty(AppSettings.GAMEPADS_ACTIVE, true );
-		p.appConfig.setProperty(AppSettings.SHOW_DEBUG, true );
+	protected void config() {
+		Config.setProperty(AppSettings.OSC_ACTIVE, true );
+		Config.setProperty(AppSettings.GAMEPADS_ACTIVE, true );
+		Config.setProperty(AppSettings.SHOW_DEBUG, true );
 	}
 	
 	
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		MidiDevice.init(0, 0);
 		server = new WebServer(new UIControlsHandler(), true);
 	}

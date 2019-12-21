@@ -26,7 +26,7 @@ extends PAppletHax {
 	protected PShader perlinShader;
 	protected PShader displacementShader;
 
-	protected void setupFirstFrame() {
+	protected void firstFrame() {
 		// create noise buffer
 		perlinBuffer = p.createGraphics(p.width, p.height, PRenderers.P3D);
 		materialBuffer = p.createGraphics(p.width, p.height, PRenderers.P3D);

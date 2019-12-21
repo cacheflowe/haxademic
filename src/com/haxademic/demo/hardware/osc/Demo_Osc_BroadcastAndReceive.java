@@ -3,6 +3,7 @@ package com.haxademic.demo.hardware.osc;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.hardware.shared.InputTrigger;
 
 import oscP5.OscMessage;
@@ -16,11 +17,11 @@ extends PAppletHax {
 	protected OscP5 oscP5;
 	protected InputTrigger oscTrigger = new InputTrigger().addOscMessages(new String[] {"/framecount"});
 	
-	protected void overridePropsFile() {
-		 p.appConfig.setProperty( AppSettings.OSC_ACTIVE, true );
+	protected void config() {
+		 Config.setProperty( AppSettings.OSC_ACTIVE, true );
 	}
 	
-	protected void setupFirstFrame() {
+	protected void firstFrame() {
 		// init osc 
 		OscProperties properties = new OscProperties();
 		properties.setNetworkProtocol(OscProperties.MULTICAST);

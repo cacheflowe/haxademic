@@ -1,11 +1,9 @@
 package com.haxademic.app.dancelab.prototype;
 
-import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.image.Base64Image;
 import com.haxademic.core.file.FileUtil;
@@ -37,13 +35,13 @@ extends PAppletHax {
 
 
 
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, 720 );
-		p.appConfig.setProperty( AppSettings.HEIGHT, 1280 );
+	protected void config() {
+		Config.setProperty( AppSettings.WIDTH, 720 );
+		Config.setProperty( AppSettings.HEIGHT, 1280 );
 	}
 
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		buffer = p.createGraphics(p.width, p.height, P.P2D);
 		copyImg = p.createImage(buffer.width, buffer.height, P.RGB);
 

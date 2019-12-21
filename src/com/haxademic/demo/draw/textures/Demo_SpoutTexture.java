@@ -12,7 +12,7 @@ extends PAppletHax {
 
 	protected SpoutTexture spoutTexture;
 
-	protected void setupFirstFrame() {
+	protected void firstFrame() {
 		// SpoutTexture dimensions must match sender dimensions!
 		spoutTexture = new SpoutTexture(1120, 630);
 	}

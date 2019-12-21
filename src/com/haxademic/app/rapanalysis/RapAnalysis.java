@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.ui.IUIControl;
@@ -49,16 +50,16 @@ extends PAppletHax {
 
 
 	// general setup & context switching -------------------------------------------------------
-	protected void overridePropsFile() {
+	protected void config() {
 		if( _isCapturingData == true ) {
-			p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
+			Config.setProperty( AppSettings.RENDERING_MOVIE, "false" );
 		}
-		p.appConfig.setProperty( AppSettings.FPS, "100" );
-		p.appConfig.setProperty( AppSettings.WIDTH, "800" );
-		p.appConfig.setProperty( AppSettings.HEIGHT, "1300" );
+		Config.setProperty( AppSettings.FPS, "100" );
+		Config.setProperty( AppSettings.WIDTH, "800" );
+		Config.setProperty( AppSettings.HEIGHT, "1300" );
 	}
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 
 
 		if( _isCapturingData == true ) {

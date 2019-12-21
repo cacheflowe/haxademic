@@ -16,7 +16,7 @@ extends PAppletHax {
 	protected FFT fft;
 	protected int bufferSize = 512;
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		Ess.start(P.p); 
 		
 		fft = new FFT( bufferSize * 2 );

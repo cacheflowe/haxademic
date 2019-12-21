@@ -3,6 +3,7 @@ package com.haxademic.demo.hardware.depthcamera.shared;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pgraphics.archive.PixelFilter;
 import com.haxademic.core.hardware.depthcamera.DepthCameraSize;
@@ -25,12 +26,12 @@ extends PAppletHax {
 	protected PixelFilter _pixelFilter;
 	protected WETriangleMesh _mesh;
 
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.KINECT_V2_WIN_ACTIVE, true );
-//		p.appConfig.setProperty( AppSettings.KINECT_ACTIVE, true );
+	protected void config() {
+		Config.setProperty( AppSettings.KINECT_V2_WIN_ACTIVE, true );
+//		Config.setProperty( AppSettings.KINECT_ACTIVE, true );
 	}
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		_pixelFilter = new PixelFilter(DepthCameraSize.WIDTH, DepthCameraSize.WIDTH, (int)PIXEL_SIZE);
 		setupMeshForTexture( (int)(DepthCameraSize.WIDTH / PIXEL_SIZE), (int)(DepthCameraSize.WIDTH / PIXEL_SIZE), 640, 480 );
 	}

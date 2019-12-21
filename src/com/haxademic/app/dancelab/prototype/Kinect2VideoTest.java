@@ -4,6 +4,7 @@ import org.openkinect.processing.Kinect2;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.filters.pshader.EdgesFilter;
 import com.haxademic.core.file.FileUtil;
 
@@ -16,13 +17,13 @@ extends PAppletHax {
 	Movie movie;
 	Kinect2 kinect2;
 
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, 1920 );
-		p.appConfig.setProperty( AppSettings.HEIGHT, 1080 );
+	protected void config() {
+		Config.setProperty( AppSettings.WIDTH, 1920 );
+		Config.setProperty( AppSettings.HEIGHT, 1080 );
 	}
 
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 
 		kinect2 = new Kinect2(this);
 		kinect2.initVideo();

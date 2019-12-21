@@ -3,6 +3,7 @@ package com.haxademic.render;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.math.easing.Penner;
@@ -16,7 +17,7 @@ extends PAppletHax {
 	protected PGraphics _texture;
 	protected float _frames = 60;
 	
-	public void setupFirstFrame() {
+	public void firstFrame() {
 
 		
 		_texture = p.createGraphics( p.width, p.height, P.P3D );
@@ -26,16 +27,16 @@ extends PAppletHax {
 		_texture.endDraw();
 	}
 	
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, "640" );
-		p.appConfig.setProperty( AppSettings.HEIGHT, "640" );
+	protected void config() {
+		Config.setProperty( AppSettings.WIDTH, "640" );
+		Config.setProperty( AppSettings.HEIGHT, "640" );
 		
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
-		p.appConfig.setProperty( AppSettings.RENDERING_GIF, "false" );
-		p.appConfig.setProperty( AppSettings.RENDERING_GIF_FRAMERATE, "40" );
-		p.appConfig.setProperty( AppSettings.RENDERING_GIF_QUALITY, "1" );
-		p.appConfig.setProperty( AppSettings.RENDERING_GIF_START_FRAME, ""+ Math.round(_frames*4) );
-		p.appConfig.setProperty( AppSettings.RENDERING_GIF_STOP_FRAME, ""+Math.round(_frames + _frames*4) );
+		Config.setProperty( AppSettings.RENDERING_MOVIE, "false" );
+		Config.setProperty( AppSettings.RENDERING_GIF, "false" );
+		Config.setProperty( AppSettings.RENDERING_GIF_FRAMERATE, "40" );
+		Config.setProperty( AppSettings.RENDERING_GIF_QUALITY, "1" );
+		Config.setProperty( AppSettings.RENDERING_GIF_START_FRAME, ""+ Math.round(_frames*4) );
+		Config.setProperty( AppSettings.RENDERING_GIF_STOP_FRAME, ""+Math.round(_frames + _frames*4) );
 	}
 		
 	public void drawApp() {

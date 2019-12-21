@@ -3,6 +3,7 @@ package com.haxademic.render;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.shapes.Icosahedron;
 import com.haxademic.core.draw.shapes.PShapeUtil;
@@ -24,17 +25,17 @@ extends PAppletHax {
 	protected LinearFloat explodeExtend = new LinearFloat(1, 0.01f);
 	protected float easedExplode = 0;
 
-	protected void overridePropsFile() {
+	protected void config() {
 		int FRAMES = 640;
-		p.appConfig.setProperty(AppSettings.WIDTH, 1024);
-		p.appConfig.setProperty(AppSettings.HEIGHT, 1024);
-		p.appConfig.setProperty(AppSettings.LOOP_FRAMES, FRAMES);
-		p.appConfig.setProperty(AppSettings.RENDERING_MOVIE, false );
-		p.appConfig.setProperty(AppSettings.RENDERING_MOVIE_START_FRAME, 1 + FRAMES * 2);
-		p.appConfig.setProperty(AppSettings.RENDERING_MOVIE_STOP_FRAME, 1 + FRAMES * 3);
+		Config.setProperty(AppSettings.WIDTH, 1024);
+		Config.setProperty(AppSettings.HEIGHT, 1024);
+		Config.setProperty(AppSettings.LOOP_FRAMES, FRAMES);
+		Config.setProperty(AppSettings.RENDERING_MOVIE, false );
+		Config.setProperty(AppSettings.RENDERING_MOVIE_START_FRAME, 1 + FRAMES * 2);
+		Config.setProperty(AppSettings.RENDERING_MOVIE_STOP_FRAME, 1 + FRAMES * 3);
 	}
 	
-	protected void setupFirstFrame() {
+	protected void firstFrame() {
 		AudioIn.instance();
 		// build obj PShape and scale to window
 		obj = Icosahedron.createIcosahedron(p.g, 2, null);

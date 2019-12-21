@@ -2,6 +2,7 @@ package com.haxademic.sketch.shader;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.file.FileUtil;
 
 import processing.core.PGraphics;
@@ -21,17 +22,17 @@ extends PAppletHax {
 
 	// https://forum.processing.org/two/discussion/3250/how-to-store-information-in-the-alpha-channel
 	
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, 600 );
-		p.appConfig.setProperty( AppSettings.HEIGHT, 600 );
-		p.appConfig.setProperty( AppSettings.SMOOTHING, AppSettings.SMOOTH_HIGH );
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, false);
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_START_FRAME, 1 );
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, Math.round(frames) );
-		p.appConfig.setProperty( AppSettings.RETINA, false );
+	protected void config() {
+		Config.setProperty( AppSettings.WIDTH, 600 );
+		Config.setProperty( AppSettings.HEIGHT, 600 );
+		Config.setProperty( AppSettings.SMOOTHING, AppSettings.SMOOTH_HIGH );
+		Config.setProperty( AppSettings.RENDERING_MOVIE, false);
+		Config.setProperty( AppSettings.RENDERING_MOVIE_START_FRAME, 1 );
+		Config.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, Math.round(frames) );
+		Config.setProperty( AppSettings.RETINA, false );
 	}
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 	
 		
 		canvas = createGraphics(width, height, P3D);

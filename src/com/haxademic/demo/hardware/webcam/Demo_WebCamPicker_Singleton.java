@@ -2,6 +2,7 @@ package com.haxademic.demo.hardware.webcam;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.hardware.webcam.WebCam;
 
@@ -9,8 +10,8 @@ public class Demo_WebCamPicker_Singleton
 extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
-	protected void overridePropsFile() {
-		p.appConfig.setProperty(AppSettings.SHOW_DEBUG, false );
+	protected void config() {
+		Config.setProperty(AppSettings.SHOW_DEBUG, false );
 	}
 		
 	public void drawApp() {

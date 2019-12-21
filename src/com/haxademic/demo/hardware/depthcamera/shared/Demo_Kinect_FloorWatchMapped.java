@@ -3,6 +3,7 @@ package com.haxademic.demo.hardware.depthcamera.shared;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
@@ -33,15 +34,15 @@ extends PAppletHax {
 	public static String KINECT_NEAR = "KINECT_OVERLAP_NEAR";
 	public static String KINECT_FAR = "KINECT_OVERLAP_FAR";
 
-	protected void overridePropsFile() {
-		p.appConfig.setProperty(AppSettings.WIDTH, 960 );
-		p.appConfig.setProperty(AppSettings.HEIGHT, 960 );
-		p.appConfig.setProperty(AppSettings.SHOW_UI, true );
-		p.appConfig.setProperty(AppSettings.SHOW_DEBUG, false );
-		p.appConfig.setProperty(AppSettings.SHOW_FPS_IN_TITLE, true );
+	protected void config() {
+		Config.setProperty(AppSettings.WIDTH, 960 );
+		Config.setProperty(AppSettings.HEIGHT, 960 );
+		Config.setProperty(AppSettings.SHOW_UI, true );
+		Config.setProperty(AppSettings.SHOW_DEBUG, false );
+		Config.setProperty(AppSettings.SHOW_FPS_IN_TITLE, true );
 	}
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		// init the cameras
 		kinect = new KinectWrapperV2(p, false, true);
 		

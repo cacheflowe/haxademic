@@ -3,6 +3,7 @@ package com.haxademic.demo.hardware.webcam;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.BlurProcessingFilter;
@@ -47,18 +48,18 @@ implements IWebCamCallback {
 	
 	protected PShape template;
 
-	protected void overridePropsFile() {
-		p.appConfig.setProperty(AppSettings.WIDTH, 1280 );
-		p.appConfig.setProperty(AppSettings.HEIGHT, 720 );
-		p.appConfig.setProperty(AppSettings.PG_WIDTH, 3438 );
-		p.appConfig.setProperty(AppSettings.PG_HEIGHT, 1080 );
-		p.appConfig.setProperty(AppSettings.FULLSCREEN, true);
-//		p.appConfig.setProperty(AppSettings.SCREEN_X, 0);
-//		p.appConfig.setProperty(AppSettings.SCREEN_Y, 0);
-		p.appConfig.setProperty(AppSettings.ALWAYS_ON_TOP, false);
+	protected void config() {
+		Config.setProperty(AppSettings.WIDTH, 1280 );
+		Config.setProperty(AppSettings.HEIGHT, 720 );
+		Config.setProperty(AppSettings.PG_WIDTH, 3438 );
+		Config.setProperty(AppSettings.PG_HEIGHT, 1080 );
+		Config.setProperty(AppSettings.FULLSCREEN, true);
+//		Config.setProperty(AppSettings.SCREEN_X, 0);
+//		Config.setProperty(AppSettings.SCREEN_Y, 0);
+		Config.setProperty(AppSettings.ALWAYS_ON_TOP, false);
 	}
 		
-	public void setupFirstFrame () {
+	public void firstFrame () {
 		template = p.loadShape( FileUtil.getFile("images/_sketch/clocktower/clocktower.svg"));
 
 		// init webcam

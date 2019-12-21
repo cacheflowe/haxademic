@@ -15,7 +15,7 @@ extends PAppletHax {
 
 	RFont font;
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 	    RG.init(this);
 	    font = new RFont( FileUtil.getFile("haxademic/fonts/bitlow.ttf"), 72, RFont.CENTER);
 	}

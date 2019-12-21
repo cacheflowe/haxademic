@@ -6,6 +6,7 @@ import com.haxademic.app.haxmapper.HaxMapper;
 import com.haxademic.app.haxmapper.overlays.MeshLines.MODE;
 import com.haxademic.app.haxmapper.polygons.IMappedPolygon;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.textures.pgraphics.TextureColorAudioSlide;
 import com.haxademic.core.draw.textures.pgraphics.TextureEQColumns;
 import com.haxademic.core.draw.textures.pgraphics.TextureEQConcentricCircles;
@@ -42,15 +43,15 @@ extends HaxMapper{
 		PApplet.main(new String[] { "--hide-stop", "--bgcolor=000000", CMKY2014Mapper.class.getName() });
 	}
 
-	protected void overridePropsFile() {
-		super.overridePropsFile();
-		p.appConfig.setProperty( "mapping_file", FileUtil.getHaxademicDataPath() + "text/mapping/mapping-2015-08-31-20-09-27.txt" );
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, false );
-		p.appConfig.setProperty( AppSettings.FULLSCREEN, true );
-		p.appConfig.setProperty( AppSettings.FILLS_SCREEN, true );
-		p.appConfig.setProperty( "osc_active", false );
-		p.appConfig.setProperty( AppSettings.WIDTH, 1200);
-		p.appConfig.setProperty( AppSettings.HEIGHT, 1000);
+	protected void config() {
+		super.config();
+		Config.setProperty( "mapping_file", FileUtil.getHaxademicDataPath() + "text/mapping/mapping-2015-08-31-20-09-27.txt" );
+		Config.setProperty( AppSettings.RENDERING_MOVIE, false );
+		Config.setProperty( AppSettings.FULLSCREEN, true );
+		Config.setProperty( AppSettings.FILLS_SCREEN, true );
+		Config.setProperty( "osc_active", false );
+		Config.setProperty( AppSettings.WIDTH, 1200);
+		Config.setProperty( AppSettings.HEIGHT, 1000);
 	}
 
 	protected void buildMappingGroups() {
@@ -201,7 +202,7 @@ extends HaxMapper{
 
 	}
 	
-	public void setupFirstFrame() {
+	public void firstFrame() {
 //		_audioPixel = new AudioPixelInterface();
 //		_audioPixelColors = new int[ _mappingGroups.size() ];
 	}

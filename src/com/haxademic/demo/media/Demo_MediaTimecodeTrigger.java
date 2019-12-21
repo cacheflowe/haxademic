@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.media.DemoAssets;
@@ -35,11 +36,11 @@ implements IMediaTimecodeTriggerDelegate {
 	protected ArrayList<MediaTimecodeTrigger> timecodeTriggers; 
 
 	
-	protected void overridePropsFile() {
-		p.appConfig.setProperty(AppSettings.SHOW_DEBUG, true );
+	protected void config() {
+		Config.setProperty(AppSettings.SHOW_DEBUG, true );
 	}
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		// loop audio
 		AUDIO_FILE = FileUtil.getFile(DemoAssets.audioBiggerLoop); // make sure we're pulling from absolute project data path
 		audioPlayer = new WavPlayer(false);

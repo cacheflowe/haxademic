@@ -3,6 +3,7 @@ package com.haxademic.render;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.color.ColorUtil;
 import com.haxademic.core.draw.context.PG;
@@ -50,17 +51,17 @@ extends PAppletHax {
 	};
 
 
-	protected void overridePropsFile() {
+	protected void config() {
 		int FRAMES = 200;
-		p.appConfig.setProperty(AppSettings.WIDTH, 1200);
-		p.appConfig.setProperty(AppSettings.HEIGHT, 600);
-		p.appConfig.setProperty(AppSettings.LOOP_FRAMES, FRAMES);
-		p.appConfig.setProperty(AppSettings.RENDERING_MOVIE, false );
-		p.appConfig.setProperty(AppSettings.RENDERING_MOVIE_START_FRAME, 1 + FRAMES * 2);
-		p.appConfig.setProperty(AppSettings.RENDERING_MOVIE_STOP_FRAME, 1 + FRAMES * 3);
+		Config.setProperty(AppSettings.WIDTH, 1200);
+		Config.setProperty(AppSettings.HEIGHT, 600);
+		Config.setProperty(AppSettings.LOOP_FRAMES, FRAMES);
+		Config.setProperty(AppSettings.RENDERING_MOVIE, false );
+		Config.setProperty(AppSettings.RENDERING_MOVIE_START_FRAME, 1 + FRAMES * 2);
+		Config.setProperty(AppSettings.RENDERING_MOVIE_STOP_FRAME, 1 + FRAMES * 3);
 	}
 	
-	protected void setupFirstFrame() {
+	protected void firstFrame() {
 		// create rainbow buffer source
 		rainbowBuffer = p.createGraphics(2048, 2048, P.P2D);
 		meshTextureBuffer = p.createGraphics(2048, 2048, P.P2D);

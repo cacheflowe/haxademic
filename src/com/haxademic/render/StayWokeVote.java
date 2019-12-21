@@ -3,6 +3,7 @@ package com.haxademic.render;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.color.EasingColor;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.shapes.PShapeUtil;
@@ -31,18 +32,18 @@ extends PAppletHax {
 	PShape starSvg;
 	protected LinearFloat starsProgress = new LinearFloat(2, 0.015f);
 
-	protected void overridePropsFile() {
+	protected void config() {
 		int FRAMES = 300;
-		p.appConfig.setProperty( AppSettings.WIDTH, 1080 );
-		p.appConfig.setProperty( AppSettings.HEIGHT, 640 );
-		p.appConfig.setProperty( AppSettings.LOOP_FRAMES, FRAMES );
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, false );
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_START_FRAME, (FRAMES * 1) + 1 );
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, (FRAMES * 2) + 1 );
-		p.appConfig.setProperty( AppSettings.SMOOTHING, AppSettings.SMOOTH_HIGH );
+		Config.setProperty( AppSettings.WIDTH, 1080 );
+		Config.setProperty( AppSettings.HEIGHT, 640 );
+		Config.setProperty( AppSettings.LOOP_FRAMES, FRAMES );
+		Config.setProperty( AppSettings.RENDERING_MOVIE, false );
+		Config.setProperty( AppSettings.RENDERING_MOVIE_START_FRAME, (FRAMES * 1) + 1 );
+		Config.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, (FRAMES * 2) + 1 );
+		Config.setProperty( AppSettings.SMOOTHING, AppSettings.SMOOTH_HIGH );
 	}
 
-	public void setupFirstFrame()	{
+	public void firstFrame()	{
 		textToPShape = new TextToPShape(TextToPShape.QUALITY_MEDIUM);
 		String fontFile = FileUtil.getFile("fonts/LubalinGraph-Demi.ttf");
 		wordStay = textToPShape.stringToShape3d("STAY", 20, fontFile);

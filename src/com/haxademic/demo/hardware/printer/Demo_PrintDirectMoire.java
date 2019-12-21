@@ -3,6 +3,7 @@ package com.haxademic.demo.hardware.printer;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.data.constants.PBlendModes;
 import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.draw.context.PG;
@@ -15,12 +16,12 @@ extends PAppletHax {
 
 	protected PrintPageDirect printDirect;
 	
-	protected void overridePropsFile() {
-		p.appConfig.setProperty(AppSettings.WIDTH, 960);
-		p.appConfig.setProperty(AppSettings.HEIGHT, 960);
+	protected void config() {
+		Config.setProperty(AppSettings.WIDTH, 960);
+		Config.setProperty(AppSettings.HEIGHT, 960);
 	}
 	
-	public void setupFirstFrame () {
+	public void firstFrame () {
 		printDirect = new PrintPageDirect(false);
 		pg = P.p.createGraphics(PrintPageDirect.PRINT_W, PrintPageDirect.PRINT_H, PRenderers.P2D);
 	}

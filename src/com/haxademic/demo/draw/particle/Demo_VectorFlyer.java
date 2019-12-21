@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.particle.VectorFlyer;
@@ -25,13 +26,13 @@ extends PAppletHax {
 	protected ArrayList<VectorFlyer> flyers;
 
 
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.LOOP_FRAMES, 160 );
-		p.appConfig.setProperty( AppSettings.WIDTH, 800 );
-		p.appConfig.setProperty( AppSettings.HEIGHT, 800 );
+	protected void config() {
+		Config.setProperty( AppSettings.LOOP_FRAMES, 160 );
+		Config.setProperty( AppSettings.WIDTH, 800 );
+		Config.setProperty( AppSettings.HEIGHT, 800 );
 	}
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		shape = Icosahedron.createIcosahedron(p.g, 4, null);
 //		shape = DemoAssets.objHumanoid();
 		PShapeUtil.scaleShapeToExtent(shape, p.displayHeight * 0.3f);

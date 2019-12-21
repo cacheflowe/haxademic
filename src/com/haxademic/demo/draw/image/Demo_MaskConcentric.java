@@ -3,6 +3,7 @@ package com.haxademic.demo.draw.image;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.BlurProcessingFilter;
 import com.haxademic.core.draw.image.ImageUtil;
@@ -24,12 +25,12 @@ extends PAppletHax {
 	protected PShader colorTransformShader;
 	protected int numCircles = 10;
 
-	protected void overridePropsFile() {
-		appConfig.setProperty( AppSettings.WIDTH, 1000 );
-		appConfig.setProperty( AppSettings.HEIGHT, 1000 );
+	protected void config() {
+		Config.setProperty( AppSettings.WIDTH, 1000 );
+		Config.setProperty( AppSettings.HEIGHT, 1000 );
 	}
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		// build masks
 		masks = new PGraphics[numCircles];
 		for (int i = 0; i < numCircles; i++) {

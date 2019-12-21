@@ -3,6 +3,7 @@ package com.haxademic.demo.draw.mapping;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.mapping.PGraphicsKeystone;
 import com.haxademic.core.file.FileUtil;
@@ -18,14 +19,14 @@ extends PAppletHax {
 	protected boolean testPattern = true;
 	protected boolean debug = true;
 
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, 1000 );
-		p.appConfig.setProperty( AppSettings.HEIGHT, 700 );
-		p.appConfig.setProperty( AppSettings.FILLS_SCREEN, false );
-		p.appConfig.setProperty( AppSettings.FULLSCREEN, false );
+	protected void config() {
+		Config.setProperty( AppSettings.WIDTH, 1000 );
+		Config.setProperty( AppSettings.HEIGHT, 700 );
+		Config.setProperty( AppSettings.FILLS_SCREEN, false );
+		Config.setProperty( AppSettings.FULLSCREEN, false );
 	}
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		buildCanvas();
 	}
 

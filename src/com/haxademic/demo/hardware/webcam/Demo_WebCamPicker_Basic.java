@@ -2,6 +2,7 @@ package com.haxademic.demo.hardware.webcam;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.hardware.webcam.WebCam;
 
@@ -11,11 +12,11 @@ extends PAppletHax {
 
 	public WebCam camPicker = null;
 
-	protected void overridePropsFile() {
-		p.appConfig.setProperty(AppSettings.SHOW_DEBUG, false );
+	protected void config() {
+		Config.setProperty(AppSettings.SHOW_DEBUG, false );
 	}
 		
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		camPicker = new WebCam("cam_1");
 	}
 

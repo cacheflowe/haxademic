@@ -3,6 +3,7 @@ package com.haxademic.demo.draw.mapping;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.mapping.PGraphicsKeystone;
 import com.haxademic.core.file.FileUtil;
@@ -19,13 +20,13 @@ extends PAppletHax {
 	protected boolean drawTestPattern = false;
 	protected PShader textureShader;
 	
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, 1000 );
-		p.appConfig.setProperty( AppSettings.HEIGHT, 600 );
-		p.appConfig.setProperty( AppSettings.FULLSCREEN, true );
+	protected void config() {
+		Config.setProperty( AppSettings.WIDTH, 1000 );
+		Config.setProperty( AppSettings.HEIGHT, 600 );
+		Config.setProperty( AppSettings.FULLSCREEN, true );
 	}
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		buildDrawingSurface();
 	}
 	

@@ -17,17 +17,17 @@ extends PAppletHax {
 //	protected DwGLTexture textureNoise = new DwGLTexture();
 //
 //
-//	protected void overridePropsFile() {
+//	protected void config() {
 //		int FRAMES = 180;
-//		p.appConfig.setProperty(AppSettings.WIDTH, 1024);
-//		p.appConfig.setProperty(AppSettings.HEIGHT, 768);
-//		p.appConfig.setProperty( AppSettings.LOOP_FRAMES, FRAMES );
-//		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, false );
-//		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_START_FRAME, 1 + FRAMES );
-//		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, 1 + FRAMES * 2 );
+//		Config.setProperty(AppSettings.WIDTH, 1024);
+//		Config.setProperty(AppSettings.HEIGHT, 768);
+//		Config.setProperty( AppSettings.LOOP_FRAMES, FRAMES );
+//		Config.setProperty( AppSettings.RENDERING_MOVIE, false );
+//		Config.setProperty( AppSettings.RENDERING_MOVIE_START_FRAME, 1 + FRAMES );
+//		Config.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, 1 + FRAMES * 2 );
 //	}
 //	
-//	protected void setupFirstFrame() {
+//	protected void firstFrame() {
 //		// create buffers
 //	    buffer8 = OpenGL32Util.newPGraphics2D(p.width, p.height);
 //	    outputBuffer = OpenGL32Util.newPGraphics2D(p.width, p.height);

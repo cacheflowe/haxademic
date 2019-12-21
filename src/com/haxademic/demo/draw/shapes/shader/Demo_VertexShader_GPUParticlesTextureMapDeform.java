@@ -3,6 +3,7 @@ package com.haxademic.demo.draw.shapes.shader;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
@@ -33,17 +34,17 @@ extends PAppletHax {
 	float h = 512;
 	int FRAMES = 300;
 
-	protected void overridePropsFile() {
-		p.appConfig.setProperty(AppSettings.LOOP_FRAMES, FRAMES);
-		p.appConfig.setProperty(AppSettings.WIDTH, 1024);
-		p.appConfig.setProperty(AppSettings.HEIGHT, 512);
-		p.appConfig.setProperty(AppSettings.FULLSCREEN, false);
-		p.appConfig.setProperty(AppSettings.RENDERING_MOVIE, false);
-		p.appConfig.setProperty(AppSettings.RENDERING_MOVIE_START_FRAME, 1 + FRAMES);
-		p.appConfig.setProperty(AppSettings.RENDERING_MOVIE_STOP_FRAME, 1 + FRAMES * 2);
+	protected void config() {
+		Config.setProperty(AppSettings.LOOP_FRAMES, FRAMES);
+		Config.setProperty(AppSettings.WIDTH, 1024);
+		Config.setProperty(AppSettings.HEIGHT, 512);
+		Config.setProperty(AppSettings.FULLSCREEN, false);
+		Config.setProperty(AppSettings.RENDERING_MOVIE, false);
+		Config.setProperty(AppSettings.RENDERING_MOVIE_START_FRAME, 1 + FRAMES);
+		Config.setProperty(AppSettings.RENDERING_MOVIE_STOP_FRAME, 1 + FRAMES * 2);
 	}
 
-	protected void setupFirstFrame() {
+	protected void firstFrame() {
 		// load & set texture
 		// perlin = new PerlinTexture(p, (int) w, (int) h);
 		audioTexture = new TextureEQGrid((int) w, (int) h);

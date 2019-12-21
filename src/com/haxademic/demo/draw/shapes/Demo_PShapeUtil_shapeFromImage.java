@@ -2,6 +2,7 @@ package com.haxademic.demo.draw.shapes;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.media.DemoAssets;
@@ -14,12 +15,12 @@ extends PAppletHax {
 
 	protected PShape shape;
 	
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, 1200 );
-		p.appConfig.setProperty( AppSettings.HEIGHT, 900 );
+	protected void config() {
+		Config.setProperty( AppSettings.WIDTH, 1200 );
+		Config.setProperty( AppSettings.HEIGHT, 900 );
 	}
 	
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		shape = PShapeUtil.shapeFromImage(DemoAssets.textureCursor());
 		PShapeUtil.centerShape(shape);
 		PShapeUtil.scaleVertices(shape, 1, 1, 4);

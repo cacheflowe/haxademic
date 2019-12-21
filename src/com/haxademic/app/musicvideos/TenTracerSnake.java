@@ -3,6 +3,7 @@ package com.haxademic.app.musicvideos;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 
 public class TenTracerSnake
 extends PAppletHax {
@@ -11,7 +12,7 @@ extends PAppletHax {
 	Block[] blocks;
 	int numBlocks = 360;
 		
-	public void setupFirstFrame() {
+	public void firstFrame() {
 
 		blocks = new Block[numBlocks];
 		for(int i=0; i < numBlocks; i++) {
@@ -20,11 +21,11 @@ extends PAppletHax {
 		smooth();
 	}
 	
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
-		p.appConfig.setProperty( AppSettings.FPS, "30" );
-		p.appConfig.setProperty( AppSettings.WIDTH, "1920" );
-		p.appConfig.setProperty( AppSettings.HEIGHT, "1080" );
+	protected void config() {
+		Config.setProperty( AppSettings.RENDERING_MOVIE, "false" );
+		Config.setProperty( AppSettings.FPS, "30" );
+		Config.setProperty( AppSettings.WIDTH, "1920" );
+		Config.setProperty( AppSettings.HEIGHT, "1080" );
 	}
 		
 	// FRAME LOOP RENDERING ===================================================================================

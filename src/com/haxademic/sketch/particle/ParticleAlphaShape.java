@@ -5,6 +5,7 @@ import java.util.List;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.debug.DebugUtil;
 import com.haxademic.core.draw.particle.VectorFlyer;
 import com.haxademic.core.draw.shapes.Shapes;
@@ -29,18 +30,18 @@ extends PAppletHax {
 	
 	List<Point> points;
 	
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.SUNFLOW, true );
-		p.appConfig.setProperty( AppSettings.SUNFLOW_ACTIVE, false );
+	protected void config() {
+		Config.setProperty( AppSettings.SUNFLOW, true );
+		Config.setProperty( AppSettings.SUNFLOW_ACTIVE, false );
 
 		
-		p.appConfig.setProperty( AppSettings.WIDTH, 1280 );
-		p.appConfig.setProperty( AppSettings.HEIGHT, 720 );
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, false );
-//		p.appConfig.setProperty( AppSettings.FPS, 30 );
+		Config.setProperty( AppSettings.WIDTH, 1280 );
+		Config.setProperty( AppSettings.HEIGHT, 720 );
+		Config.setProperty( AppSettings.RENDERING_MOVIE, false );
+//		Config.setProperty( AppSettings.FPS, 30 );
 	}
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 
 
 		initFlyers();

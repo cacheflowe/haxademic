@@ -3,6 +3,7 @@ package com.haxademic.demo.render.audio;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.data.constants.PBlendModes;
 import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.file.FileUtil;
@@ -25,12 +26,12 @@ extends PAppletHax {
 	protected PGraphics buffer;
 	protected PShader feedbackShader;
 	
-	protected void overridePropsFile() {
-		p.appConfig.setProperty(AppSettings.WIDTH, 900);
-		p.appConfig.setProperty(AppSettings.HEIGHT, 900);
+	protected void config() {
+		Config.setProperty(AppSettings.WIDTH, 900);
+		Config.setProperty(AppSettings.HEIGHT, 900);
 	}
 	
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		minim = new Minim(P.p);
 	
 		// load samples

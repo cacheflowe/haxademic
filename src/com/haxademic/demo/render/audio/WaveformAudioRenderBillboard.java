@@ -3,6 +3,7 @@ package com.haxademic.demo.render.audio;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.BadTVLinesFilter;
 import com.haxademic.core.file.FileUtil;
@@ -17,16 +18,16 @@ extends PAppletHax {
 	protected PImage backgroundImg;
 	protected PGraphics waveform;
 
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.FPS, 30 );
-		p.appConfig.setProperty( AppSettings.WIDTH, 424 );
-		p.appConfig.setProperty( AppSettings.HEIGHT, 282 );
-		p.appConfig.setProperty( AppSettings.SMOOTHING, AppSettings.SMOOTH_HIGH );
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, true );
-		p.appConfig.setProperty( AppSettings.RENDER_AUDIO_FILE, FileUtil.getFile("audio/cacheflowe_bigger_loop_padded.wav") );
+	protected void config() {
+		Config.setProperty( AppSettings.FPS, 30 );
+		Config.setProperty( AppSettings.WIDTH, 424 );
+		Config.setProperty( AppSettings.HEIGHT, 282 );
+		Config.setProperty( AppSettings.SMOOTHING, AppSettings.SMOOTH_HIGH );
+		Config.setProperty( AppSettings.RENDERING_MOVIE, true );
+		Config.setProperty( AppSettings.RENDER_AUDIO_FILE, FileUtil.getFile("audio/cacheflowe_bigger_loop_padded.wav") );
 	}
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 
 		p.noStroke();
 		backgroundImg = p.loadImage(FileUtil.getFile("images/computers/billboard-advertising.jpg"));

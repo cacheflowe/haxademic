@@ -3,6 +3,7 @@ package com.haxademic.demo.hardware.webcam;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
@@ -34,12 +35,12 @@ implements IWebCamCallback {
 	protected TextureShader noiseTexture;
 	protected int numFrames = 15;
 	
-	protected void overridePropsFile() {
-		p.appConfig.setProperty(AppSettings.SHOW_DEBUG, false );
-		p.appConfig.setProperty(AppSettings.FILLS_SCREEN, false );
+	protected void config() {
+		Config.setProperty(AppSettings.SHOW_DEBUG, false );
+		Config.setProperty(AppSettings.FILLS_SCREEN, false );
 	}
 		
-	public void setupFirstFrame () {
+	public void firstFrame () {
 		camBuffer = p.createGraphics(640, 480, PRenderers.P3D);
 		noiseBuffer = p.createGraphics(640, 480, PRenderers.P3D);
 		slitscanOutputBuffer = p.createGraphics(640, 480, PRenderers.P3D);

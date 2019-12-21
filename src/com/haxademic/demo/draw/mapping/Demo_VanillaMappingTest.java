@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.media.audio.analysis.AudioIn;
 
@@ -20,15 +21,15 @@ extends PAppletHax {
 	protected boolean _isPressed = false;
 	protected boolean _debugging = true;
 	
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, "1024" );
-		p.appConfig.setProperty( AppSettings.HEIGHT, "768" );
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
-		p.appConfig.setProperty( AppSettings.FILLS_SCREEN, "true" );
-		p.appConfig.setProperty( AppSettings.FULLSCREEN, "true" );
+	protected void config() {
+		Config.setProperty( AppSettings.WIDTH, "1024" );
+		Config.setProperty( AppSettings.HEIGHT, "768" );
+		Config.setProperty( AppSettings.RENDERING_MOVIE, "false" );
+		Config.setProperty( AppSettings.FILLS_SCREEN, "true" );
+		Config.setProperty( AppSettings.FULLSCREEN, "true" );
 	}
 	
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		AudioIn.instance();
 		
 		_shapes = new ArrayList<PShape>();

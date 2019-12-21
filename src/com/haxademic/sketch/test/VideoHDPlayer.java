@@ -2,6 +2,7 @@ package com.haxademic.sketch.test;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.file.FileUtil;
@@ -22,12 +23,12 @@ extends PAppletHax {
 	PShader _maskShader;
 
 
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, "1920" );
-		p.appConfig.setProperty( AppSettings.HEIGHT, "1080" );
+	protected void config() {
+		Config.setProperty( AppSettings.WIDTH, "1920" );
+		Config.setProperty( AppSettings.HEIGHT, "1080" );
 	}
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		
 		_movie = new Movie( p, FileUtil.getFile("video/nike/nike-hike-gray-loop.mov") );
 		_movieColor = new Movie( p, FileUtil.getFile("video/nike/nike-hike-color-loop.mov") );

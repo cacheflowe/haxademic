@@ -5,6 +5,7 @@ import java.util.Random;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.filters.pshader.BrightnessFilter;
 import com.haxademic.core.file.FileUtil;
 
@@ -41,19 +42,19 @@ extends PAppletHax {
 	float nextPlayTime = 0;
 	
 	
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.SMOOTHING, AppSettings.SMOOTH_NONE );
-		p.appConfig.setProperty( AppSettings.RENDERER, P.P2D );
-		p.appConfig.setProperty( AppSettings.WIDTH, 800 );
-		p.appConfig.setProperty( AppSettings.HEIGHT, 800 );
-		p.appConfig.setProperty( AppSettings.FULLSCREEN, false );
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, false );
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_START_FRAME, 2 );
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, 4000 );
+	protected void config() {
+		Config.setProperty( AppSettings.SMOOTHING, AppSettings.SMOOTH_NONE );
+		Config.setProperty( AppSettings.RENDERER, P.P2D );
+		Config.setProperty( AppSettings.WIDTH, 800 );
+		Config.setProperty( AppSettings.HEIGHT, 800 );
+		Config.setProperty( AppSettings.FULLSCREEN, false );
+		Config.setProperty( AppSettings.RENDERING_MOVIE, false );
+		Config.setProperty( AppSettings.RENDERING_MOVIE_START_FRAME, 2 );
+		Config.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, 4000 );
 	}
 
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 
 		noStroke();
 		

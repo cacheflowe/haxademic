@@ -5,8 +5,9 @@ import java.util.ArrayList;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.PG;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.OpenGLUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.depthcamera.KinectRegionGrid;
@@ -38,28 +39,28 @@ extends PAppletHax {
 	protected float SCALE_DOWN = 0.65f;
 	protected float BLOB_DETECT_SCALE = 0.6f;
 	
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, "1280" );
-		p.appConfig.setProperty( AppSettings.HEIGHT, "720" );
-//		p.appConfig.setProperty( AppSettings.WIDTH, "960" );
-//		p.appConfig.setProperty( AppSettings.HEIGHT, "540" );
-		p.appConfig.setProperty( AppSettings.FILLS_SCREEN, "true" );
-		p.appConfig.setProperty( AppSettings.FULLSCREEN, "true" );
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
-		p.appConfig.setProperty( "force_foreground", "false" );
+	protected void config() {
+		Config.setProperty( AppSettings.WIDTH, "1280" );
+		Config.setProperty( AppSettings.HEIGHT, "720" );
+//		Config.setProperty( AppSettings.WIDTH, "960" );
+//		Config.setProperty( AppSettings.HEIGHT, "540" );
+		Config.setProperty( AppSettings.FILLS_SCREEN, "true" );
+		Config.setProperty( AppSettings.FULLSCREEN, "true" );
+		Config.setProperty( AppSettings.RENDERING_MOVIE, "false" );
+		Config.setProperty( "force_foreground", "false" );
 
-		p.appConfig.setProperty( AppSettings.KINECT_ACTIVE, "true" );
-		p.appConfig.setProperty( "kinect_close", "500" );
-		p.appConfig.setProperty( "kinect_far", "1300" );
-		p.appConfig.setProperty( "kinect_pixel_skip", "5" );
-		p.appConfig.setProperty( "kinect_mirrored", "true" );		
+		Config.setProperty( AppSettings.KINECT_ACTIVE, "true" );
+		Config.setProperty( "kinect_close", "500" );
+		Config.setProperty( "kinect_far", "1300" );
+		Config.setProperty( "kinect_pixel_skip", "5" );
+		Config.setProperty( "kinect_mirrored", "true" );		
 	}
 	
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		buildCanvas();
 		loadGalleryImages();
 		_kinectLayer = new KinectLayer();
-		_kinectGrid = new KinectRegionGrid(1, 1, p.appConfig.getInt("kinect_close", 0), p.appConfig.getInt("kinect_far", 0), 0, 0, 480, 20, 10);
+		_kinectGrid = new KinectRegionGrid(1, 1, Config.getInt("kinect_close", 0), Config.getInt("kinect_far", 0), 0, 0, 480, 20, 10);
 		buildText();
 		newImageForNewPlayers();
 	}

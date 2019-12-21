@@ -11,7 +11,7 @@ extends PAppletHax {
 	
 	protected ChromaMovie chromaMovie;
 	
-	public void setupFirstFrame() {
+	public void firstFrame() {
 
 		chromaMovie = new ChromaMovie(FileUtil.getFile("video/fractal-cube.mp4"));
 		chromaMovie.loop();

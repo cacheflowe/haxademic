@@ -2,6 +2,7 @@ package com.haxademic.demo.draw.color;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.color.ColorUtil;
 import com.haxademic.core.draw.color.EasingColor;
@@ -13,12 +14,12 @@ extends PAppletHax {
 	
 	protected EasingColor colorHaxEasing;
 	
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, 640 );
-		p.appConfig.setProperty( AppSettings.HEIGHT, 640 );
+	protected void config() {
+		Config.setProperty( AppSettings.WIDTH, 640 );
+		Config.setProperty( AppSettings.HEIGHT, 640 );
 	}
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		colorHaxEasing = new EasingColor("#00ff00", 10);
 		colorHaxEasing = new EasingColor(0x00ff00, 10);
 		colorHaxEasing = new EasingColor("#ff00ff00", 10);

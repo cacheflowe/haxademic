@@ -4,6 +4,7 @@ package com.haxademic.core.hardware.depthcamera;
 import java.util.Vector;
 
 import com.haxademic.core.app.P;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.MathUtil;
@@ -56,16 +57,16 @@ public class KinectSilhouetteBasic {
 	
 	public KinectSilhouetteBasic(boolean depthKeying, boolean hasParticles) {
 		// set properties if they're been defined in appConfig
-		if(P.p.appConfig.getInt("kinect_pixel_skip", -1) != -1) PIXEL_SIZE = P.p.appConfig.getInt("kinect_pixel_skip", -1);
-		if(P.p.appConfig.getInt("kinect_left_pixel", -1) != -1) KINECT_LEFT_PIXEL = P.p.appConfig.getInt("kinect_left_pixel", -1);
-		if(P.p.appConfig.getInt("kinect_right_pixel", -1) != -1) KINECT_RIGHT_PIXEL = P.p.appConfig.getInt("kinect_right_pixel", -1);
-		if(P.p.appConfig.getInt("kinect_top_pixel", -1) != -1) KINECT_TOP_PIXEL = P.p.appConfig.getInt("kinect_top_pixel", -1);
-		if(P.p.appConfig.getInt("kinect_bottom_pixel", -1) != -1) KINECT_BOTTOM_PIXEL = P.p.appConfig.getInt("kinect_bottom_pixel", -1);
-		if(P.p.appConfig.getInt("kinect_near", -1) != -1) KINECT_NEAR = P.p.appConfig.getInt("kinect_near", -1);
-		if(P.p.appConfig.getInt("kinect_far", -1) != -1) KINECT_FAR = P.p.appConfig.getInt("kinect_far", -1);
-		if(P.p.appConfig.getInt("kinect_scan_frames", -1) != -1) _framesToScan = P.p.appConfig.getInt("kinect_scan_frames", -1);
-		if(P.p.appConfig.getInt("kinect_depth_key_dist", -1) != -1) DEPTH_KEY_DIST = P.p.appConfig.getInt("kinect_depth_key_dist", -1);
-		_backgroundColor = P.p.appConfig.getInt("kinect_blob_bg_int", 0);
+		if(Config.getInt("kinect_pixel_skip", -1) != -1) PIXEL_SIZE = Config.getInt("kinect_pixel_skip", -1);
+		if(Config.getInt("kinect_left_pixel", -1) != -1) KINECT_LEFT_PIXEL = Config.getInt("kinect_left_pixel", -1);
+		if(Config.getInt("kinect_right_pixel", -1) != -1) KINECT_RIGHT_PIXEL = Config.getInt("kinect_right_pixel", -1);
+		if(Config.getInt("kinect_top_pixel", -1) != -1) KINECT_TOP_PIXEL = Config.getInt("kinect_top_pixel", -1);
+		if(Config.getInt("kinect_bottom_pixel", -1) != -1) KINECT_BOTTOM_PIXEL = Config.getInt("kinect_bottom_pixel", -1);
+		if(Config.getInt("kinect_near", -1) != -1) KINECT_NEAR = Config.getInt("kinect_near", -1);
+		if(Config.getInt("kinect_far", -1) != -1) KINECT_FAR = Config.getInt("kinect_far", -1);
+		if(Config.getInt("kinect_scan_frames", -1) != -1) _framesToScan = Config.getInt("kinect_scan_frames", -1);
+		if(Config.getInt("kinect_depth_key_dist", -1) != -1) DEPTH_KEY_DIST = Config.getInt("kinect_depth_key_dist", -1);
+		_backgroundColor = Config.getInt("kinect_blob_bg_int", 0);
 
 //		_scaleDownForBlobDetection = scaleDownForBlobDetection;
 		_hasParticles = hasParticles;
@@ -89,7 +90,7 @@ public class KinectSilhouetteBasic {
 		_canvasW = _canvas.width;
 		_canvasH = _canvas.height;
 		
-		if(P.p.appConfig.getBoolean("kinect_active", false) == false) {
+		if(Config.getBoolean("kinect_active", false) == false) {
 			initBackupMovie();
 		}
 	}

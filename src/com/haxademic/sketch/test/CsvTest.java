@@ -20,6 +20,7 @@ import org.supercsv.prefs.CsvPreference;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.file.FileUtil;
 
 public class CsvTest
@@ -32,12 +33,12 @@ extends PAppletHax {
 	protected int _curId = 0;
 	
 	
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, "640" );
-		p.appConfig.setProperty( AppSettings.HEIGHT, "480" );
+	protected void config() {
+		Config.setProperty( AppSettings.WIDTH, "640" );
+		Config.setProperty( AppSettings.HEIGHT, "480" );
 	}
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 
 
 		_scores = new ArrayList<Score>();

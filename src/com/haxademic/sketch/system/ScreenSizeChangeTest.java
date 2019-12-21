@@ -9,6 +9,7 @@ import java.awt.event.AWTEventListener;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.math.MathUtil;
 
 public class ScreenSizeChangeTest
@@ -17,11 +18,11 @@ extends PAppletHax {
 
 	protected Rectangle screenSize;
 
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.SHOW_DEBUG, true );
+	protected void config() {
+		Config.setProperty( AppSettings.SHOW_DEBUG, true );
 	}
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
 		screenSize = ge.getMaximumWindowBounds();
 

@@ -3,6 +3,7 @@ package com.haxademic.demo.draw.color;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.color.EasingColor;
 import com.haxademic.core.draw.color.Gradients;
 
@@ -15,20 +16,20 @@ extends PAppletHax {
 	
 	protected float _frames = 120;
 	
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.RENDERER, P.P3D );
-		p.appConfig.setProperty( AppSettings.WIDTH, "600" );
-		p.appConfig.setProperty( AppSettings.HEIGHT, "600" );
+	protected void config() {
+		Config.setProperty( AppSettings.RENDERER, P.P3D );
+		Config.setProperty( AppSettings.WIDTH, "600" );
+		Config.setProperty( AppSettings.HEIGHT, "600" );
 		
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
-		p.appConfig.setProperty( AppSettings.RENDERING_GIF, "false" );
-		p.appConfig.setProperty( AppSettings.RENDERING_GIF_FRAMERATE, "40" );
-		p.appConfig.setProperty( AppSettings.RENDERING_GIF_QUALITY, "15" );
-		p.appConfig.setProperty( AppSettings.RENDERING_GIF_START_FRAME, "2" );
-		p.appConfig.setProperty( AppSettings.RENDERING_GIF_STOP_FRAME, ""+Math.round(_frames*4 + 1) );
+		Config.setProperty( AppSettings.RENDERING_MOVIE, "false" );
+		Config.setProperty( AppSettings.RENDERING_GIF, "false" );
+		Config.setProperty( AppSettings.RENDERING_GIF_FRAMERATE, "40" );
+		Config.setProperty( AppSettings.RENDERING_GIF_QUALITY, "15" );
+		Config.setProperty( AppSettings.RENDERING_GIF_START_FRAME, "2" );
+		Config.setProperty( AppSettings.RENDERING_GIF_STOP_FRAME, ""+Math.round(_frames*4 + 1) );
 	}
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 	
 		_colorGradientCenter = new EasingColor("#000000", 20f);
 		_colorGradientOuter = new EasingColor("#000000", 20f);

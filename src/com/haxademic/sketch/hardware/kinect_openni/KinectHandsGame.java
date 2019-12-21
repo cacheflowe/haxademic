@@ -4,6 +4,7 @@ package com.haxademic.sketch.hardware.kinect_openni;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.hardware.depthcamera.SkeletonsTracker;
 import com.haxademic.core.math.MathUtil;
@@ -21,7 +22,7 @@ extends PAppletHax {
 	
 	protected GamePiece gamePiece;
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 
 		
 		// do something
@@ -31,11 +32,11 @@ extends PAppletHax {
 		gamePiece = new GamePiece();
 	}
 	
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
-		p.appConfig.setProperty( AppSettings.KINECT_ACTIVE, "true" );
-		p.appConfig.setProperty( AppSettings.WIDTH, "640" );
-		p.appConfig.setProperty( AppSettings.HEIGHT, "480" );
+	protected void config() {
+		Config.setProperty( AppSettings.RENDERING_MOVIE, "false" );
+		Config.setProperty( AppSettings.KINECT_ACTIVE, "true" );
+		Config.setProperty( AppSettings.WIDTH, "640" );
+		Config.setProperty( AppSettings.HEIGHT, "480" );
 	}
 	
 	public void drawApp() {

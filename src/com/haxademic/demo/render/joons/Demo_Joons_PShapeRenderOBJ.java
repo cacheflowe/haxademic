@@ -3,6 +3,7 @@ package com.haxademic.demo.render.joons;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.file.FileUtil;
@@ -19,21 +20,21 @@ extends PAppletHax {
 	protected float objHeight;
 	protected int FRAMES = 120;
 	
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.LOOP_FRAMES, FRAMES );
+	protected void config() {
+		Config.setProperty( AppSettings.LOOP_FRAMES, FRAMES );
 		
-		p.appConfig.setProperty( AppSettings.SUNFLOW, true );
-		p.appConfig.setProperty( AppSettings.SUNFLOW_ACTIVE, false );
-		p.appConfig.setProperty( AppSettings.SUNFLOW_QUALITY, AppSettings.SUNFLOW_QUALITY_HIGH);
+		Config.setProperty( AppSettings.SUNFLOW, true );
+		Config.setProperty( AppSettings.SUNFLOW_ACTIVE, false );
+		Config.setProperty( AppSettings.SUNFLOW_QUALITY, AppSettings.SUNFLOW_QUALITY_HIGH);
 
-		p.appConfig.setProperty( AppSettings.WIDTH, 960 );
-		p.appConfig.setProperty( AppSettings.HEIGHT, 720 );
-		p.appConfig.setProperty( AppSettings.RENDERING_IMAGE_SEQUENCE, false );
-		p.appConfig.setProperty( AppSettings.RENDERING_IMAGE_SEQUENCE_START_FRAME, 3 );
-		p.appConfig.setProperty( AppSettings.RENDERING_IMAGE_SEQUENCE_STOP_FRAME, 3 + FRAMES );
+		Config.setProperty( AppSettings.WIDTH, 960 );
+		Config.setProperty( AppSettings.HEIGHT, 720 );
+		Config.setProperty( AppSettings.RENDERING_IMAGE_SEQUENCE, false );
+		Config.setProperty( AppSettings.RENDERING_IMAGE_SEQUENCE_START_FRAME, 3 );
+		Config.setProperty( AppSettings.RENDERING_IMAGE_SEQUENCE_STOP_FRAME, 3 + FRAMES );
 	}
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 
 		
 		// load & normalize shape
@@ -47,7 +48,7 @@ extends PAppletHax {
 
 
 	public void drawApp() {
-		if(p.appConfig.getBoolean(AppSettings.SUNFLOW_ACTIVE, false) == false) {
+		if(Config.getBoolean(AppSettings.SUNFLOW_ACTIVE, false) == false) {
 			p.background(0);
 			p.lights();
 			p.noStroke();

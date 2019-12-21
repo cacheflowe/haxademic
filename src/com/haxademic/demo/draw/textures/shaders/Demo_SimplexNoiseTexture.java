@@ -15,7 +15,7 @@ extends PAppletHax {
 	protected String OFFSET_X = "OFFSET_X";
 	protected String OFFSET_Y = "OFFSET_Y";
 
-	protected void setupFirstFrame() {
+	protected void firstFrame() {
 		// init controls
 		UI.addSlider(ZOOM, 1f, 0.01f, 20f, 0.01f, false);
 		UI.addSlider(ROTATION, 0f, 0, P.TWO_PI, 0.01f, false);

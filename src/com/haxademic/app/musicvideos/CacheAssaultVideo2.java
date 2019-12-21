@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.shapes.Shapes;
 import com.haxademic.core.file.FileUtil;
@@ -53,30 +54,30 @@ extends PAppletHax {
 	protected int _curMeasure = 0;
 	protected float _songLengthFrames = 5940;
 
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.FPS, "30" );
-		p.appConfig.setProperty( AppSettings.WIDTH, "1920" );
-		p.appConfig.setProperty( AppSettings.HEIGHT, "1080" );
-		p.appConfig.setProperty( AppSettings.WIDTH, "1280" );
-		p.appConfig.setProperty( AppSettings.HEIGHT, "720" );
-//		p.appConfig.setProperty( "disable_esc", "true" );
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "true" );
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, (int) _songLengthFrames );
-//		p.appConfig.setProperty( AppSettings.RENDER_AUDIO, "true" );
-		p.appConfig.setProperty( AppSettings.RENDER_AUDIO_FILE, FileUtil.getHaxademicDataPath() + "video/cache-assault-master.wav" );
-		p.appConfig.setProperty( AppSettings.RENDER_MIDI_FILE, FileUtil.getHaxademicDataPath() + "video/cache-assault-midi.mid" );
-		p.appConfig.setProperty( AppSettings.RENDER_MIDI_BPM, "150" );
-		p.appConfig.setProperty( AppSettings.RENDER_MIDI_OFFSET, "0" );
+	protected void config() {
+		Config.setProperty( AppSettings.FPS, "30" );
+		Config.setProperty( AppSettings.WIDTH, "1920" );
+		Config.setProperty( AppSettings.HEIGHT, "1080" );
+		Config.setProperty( AppSettings.WIDTH, "1280" );
+		Config.setProperty( AppSettings.HEIGHT, "720" );
+//		Config.setProperty( "disable_esc", "true" );
+		Config.setProperty( AppSettings.RENDERING_MOVIE, "true" );
+		Config.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, (int) _songLengthFrames );
+//		Config.setProperty( AppSettings.RENDER_AUDIO, "true" );
+		Config.setProperty( AppSettings.RENDER_AUDIO_FILE, FileUtil.getHaxademicDataPath() + "video/cache-assault-master.wav" );
+		Config.setProperty( AppSettings.RENDER_MIDI_FILE, FileUtil.getHaxademicDataPath() + "video/cache-assault-midi.mid" );
+		Config.setProperty( AppSettings.RENDER_MIDI_BPM, "150" );
+		Config.setProperty( AppSettings.RENDER_MIDI_OFFSET, "0" );
 		
 		
-		p.appConfig.setProperty( AppSettings.SUNFLOW, "false" );
-		p.appConfig.setProperty( AppSettings.SUNFLOW_ACTIVE, "false" );
-		p.appConfig.setProperty( AppSettings.SUNFLOW_QUALITY, "low" );
-		p.appConfig.setProperty( AppSettings.SUNFLOW_SAVE_IMAGES, "false" );
+		Config.setProperty( AppSettings.SUNFLOW, "false" );
+		Config.setProperty( AppSettings.SUNFLOW_ACTIVE, "false" );
+		Config.setProperty( AppSettings.SUNFLOW_QUALITY, "low" );
+		Config.setProperty( AppSettings.SUNFLOW_SAVE_IMAGES, "false" );
 
 	}
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 
 		pg = p.createGraphics(p.width, p.height, P.P3D);
 		pg.smooth( AppSettings.SMOOTH_HIGH );

@@ -2,6 +2,7 @@ package com.haxademic.demo.hardware.depthcamera.realsense;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.hardware.depthcamera.cameras.RealSenseWrapper;
 
 public class Demo_RealSenseWrapper
@@ -10,13 +11,13 @@ extends PAppletHax {
 	
 	protected RealSenseWrapper realSenseWrapper;
 
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, 1200 );
-		p.appConfig.setProperty( AppSettings.HEIGHT, 960 );
+	protected void config() {
+		Config.setProperty( AppSettings.WIDTH, 1200 );
+		Config.setProperty( AppSettings.HEIGHT, 960 );
 	}
 
 
-	protected void setupFirstFrame() {
+	protected void firstFrame() {
 		realSenseWrapper = new RealSenseWrapper(p, false, true);
 	}
 

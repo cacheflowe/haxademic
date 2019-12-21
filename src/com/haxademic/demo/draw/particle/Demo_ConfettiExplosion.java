@@ -11,7 +11,7 @@ extends PAppletHax {
 
 	protected ConfettiParticles confetti;
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		// set up stage and drawing properties
 		background( 0 );
 		noStroke();

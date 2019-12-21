@@ -9,7 +9,7 @@ public class Demo_EQBandDistribute
 extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
-	protected void setupFirstFrame() {
+	protected void firstFrame() {
 		AudioIn.instance(AudioInputLibrary.ESS);
 	}
 	

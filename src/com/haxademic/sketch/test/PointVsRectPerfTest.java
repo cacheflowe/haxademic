@@ -2,6 +2,7 @@ package com.haxademic.sketch.test;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.math.MathUtil;
 
@@ -10,11 +11,11 @@ extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 		
 
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, 768 );
-		p.appConfig.setProperty( AppSettings.HEIGHT, 256 );
-		p.appConfig.setProperty( AppSettings.FULLSCREEN, false );
-//		p.appConfig.setProperty( AppSettings.SMOOTHING, AppSettings.SMOOTH_NONE );
+	protected void config() {
+		Config.setProperty( AppSettings.WIDTH, 768 );
+		Config.setProperty( AppSettings.HEIGHT, 256 );
+		Config.setProperty( AppSettings.FULLSCREEN, false );
+//		Config.setProperty( AppSettings.SMOOTHING, AppSettings.SMOOTH_NONE );
 	}
 
 	public void drawApp() {

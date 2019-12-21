@@ -13,7 +13,7 @@ extends PAppletHax {
 	public float curX = 0;
 	public float moveXPerFrame = 5;
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		// base calculations off 60fps, regardless of what the actual fps is set to		
 		timeFactor = new TimeFactoredFps( p, 60 );
 	}

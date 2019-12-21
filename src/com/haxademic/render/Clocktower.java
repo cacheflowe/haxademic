@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.data.constants.PBlendModes;
 import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.debug.DebugView;
@@ -102,28 +103,28 @@ extends PAppletHax {
 	
 	
 
-	protected void overridePropsFile() {
-		p.appConfig.setProperty(AppSettings.WIDTH, 1600);
-		p.appConfig.setProperty(AppSettings.HEIGHT, 900);
-//		p.appConfig.setProperty(AppSettings.WIDTH, 3438);
-//		p.appConfig.setProperty(AppSettings.HEIGHT, 1080);
-		p.appConfig.setProperty(AppSettings.FULLSCREEN, true);
-//		p.appConfig.setProperty(AppSettings.SCREEN_X, 0);
-//		p.appConfig.setProperty(AppSettings.SCREEN_Y, 0);
-		p.appConfig.setProperty(AppSettings.ALWAYS_ON_TOP, false);
-//		p.appConfig.setProperty(AppSettings.WIDTH, 638);
-//		p.appConfig.setProperty(AppSettings.HEIGHT, 720);
-		p.appConfig.setProperty(AppSettings.LOOP_FRAMES, FRAMES);
-		p.appConfig.setProperty(AppSettings.RENDERING_IMAGE_SEQUENCE, false);
-		p.appConfig.setProperty(AppSettings.RENDERING_IMAGE_SEQUENCE_START_FRAME, 1 + FRAMES * 1);
-		p.appConfig.setProperty(AppSettings.RENDERING_IMAGE_SEQUENCE_STOP_FRAME, FRAMES * 7);
+	protected void config() {
+		Config.setProperty(AppSettings.WIDTH, 1600);
+		Config.setProperty(AppSettings.HEIGHT, 900);
+//		Config.setProperty(AppSettings.WIDTH, 3438);
+//		Config.setProperty(AppSettings.HEIGHT, 1080);
+		Config.setProperty(AppSettings.FULLSCREEN, true);
+//		Config.setProperty(AppSettings.SCREEN_X, 0);
+//		Config.setProperty(AppSettings.SCREEN_Y, 0);
+		Config.setProperty(AppSettings.ALWAYS_ON_TOP, false);
+//		Config.setProperty(AppSettings.WIDTH, 638);
+//		Config.setProperty(AppSettings.HEIGHT, 720);
+		Config.setProperty(AppSettings.LOOP_FRAMES, FRAMES);
+		Config.setProperty(AppSettings.RENDERING_IMAGE_SEQUENCE, false);
+		Config.setProperty(AppSettings.RENDERING_IMAGE_SEQUENCE_START_FRAME, 1 + FRAMES * 1);
+		Config.setProperty(AppSettings.RENDERING_IMAGE_SEQUENCE_STOP_FRAME, FRAMES * 7);
 	}
 	
 	/////////////////////////
 	// INIT
 	/////////////////////////
 	
-	protected void setupFirstFrame() {
+	protected void firstFrame() {
 		pg = P.p.createGraphics(3438, 1080, PRenderers.P3D);
 		pgPost = P.p.createGraphics(3438, 1080, PRenderers.P3D);
 		PG.setTextureRepeat(pg, true);

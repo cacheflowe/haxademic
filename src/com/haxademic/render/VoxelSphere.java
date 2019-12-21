@@ -3,6 +3,7 @@ package com.haxademic.render;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.render.JoonsWrapper;
 
 public class VoxelSphere
@@ -20,20 +21,20 @@ extends PAppletHax {
 	protected float frames = 60 * 6;
 	protected float progress = 0;
 
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, 800 );
-		p.appConfig.setProperty( AppSettings.HEIGHT, 800 );
-		p.appConfig.setProperty( AppSettings.SUNFLOW, true );
-		p.appConfig.setProperty( AppSettings.SUNFLOW_ACTIVE, false );
-		p.appConfig.setProperty( AppSettings.SUNFLOW_QUALITY, AppSettings.SUNFLOW_QUALITY_HIGH );
-		p.appConfig.setProperty( AppSettings.SMOOTHING, AppSettings.SMOOTH_HIGH );
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, false);
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_START_FRAME, 1 );
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, Math.round(frames) );
-		p.appConfig.setProperty( AppSettings.RETINA, true );
+	protected void config() {
+		Config.setProperty( AppSettings.WIDTH, 800 );
+		Config.setProperty( AppSettings.HEIGHT, 800 );
+		Config.setProperty( AppSettings.SUNFLOW, true );
+		Config.setProperty( AppSettings.SUNFLOW_ACTIVE, false );
+		Config.setProperty( AppSettings.SUNFLOW_QUALITY, AppSettings.SUNFLOW_QUALITY_HIGH );
+		Config.setProperty( AppSettings.SMOOTHING, AppSettings.SMOOTH_HIGH );
+		Config.setProperty( AppSettings.RENDERING_MOVIE, false);
+		Config.setProperty( AppSettings.RENDERING_MOVIE_START_FRAME, 1 );
+		Config.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, Math.round(frames) );
+		Config.setProperty( AppSettings.RETINA, true );
 	}
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 	
 	}
 
@@ -41,12 +42,12 @@ extends PAppletHax {
 		// rendering progress
 		progress = (p.frameCount % frames) / frames;
 		float progressRads = progress * P.TWO_PI;
-		if(p.appConfig.getBoolean(AppSettings.RENDERING_MOVIE, false) == true) {
-			if(p.frameCount > 2 + p.appConfig.getInt(AppSettings.RENDERING_MOVIE_STOP_FRAME, 0)) p.exit();
+		if(Config.getBoolean(AppSettings.RENDERING_MOVIE, false) == true) {
+			if(p.frameCount > 2 + Config.getInt(AppSettings.RENDERING_MOVIE_STOP_FRAME, 0)) p.exit();
 		}
 		
 		// set background color & environment
-		if(p.appConfig.getBoolean(AppSettings.SUNFLOW, false) == true) {
+		if(Config.getBoolean(AppSettings.SUNFLOW, false) == true) {
 			joons.jr.background(JoonsWrapper.BACKGROUND_AO);
 			joons.jr.background(1, 1, 1); //background(gray), or (r, g, b), like Processing.
 			setUpRoom();

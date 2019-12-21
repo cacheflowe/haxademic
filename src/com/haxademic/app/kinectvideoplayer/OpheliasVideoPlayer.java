@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.color.EasingColor;
 import com.haxademic.core.draw.color.Gradients;
 import com.haxademic.core.draw.context.OpenGLUtil;
@@ -49,55 +50,55 @@ extends PAppletHax {
 	
 	protected float SCALE_DOWN = 0.4f;
 
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, "1280" );
-		p.appConfig.setProperty( AppSettings.HEIGHT, "720" );
-//		p.appConfig.setProperty( AppSettings.WIDTH, "960" );
-//		p.appConfig.setProperty( AppSettings.HEIGHT, "540" );
-		p.appConfig.setProperty( AppSettings.FULLSCREEN, "false" );
-		p.appConfig.setProperty( AppSettings.FILLS_SCREEN, "true" );
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
+	protected void config() {
+		Config.setProperty( AppSettings.WIDTH, "1280" );
+		Config.setProperty( AppSettings.HEIGHT, "720" );
+//		Config.setProperty( AppSettings.WIDTH, "960" );
+//		Config.setProperty( AppSettings.HEIGHT, "540" );
+		Config.setProperty( AppSettings.FULLSCREEN, "false" );
+		Config.setProperty( AppSettings.FILLS_SCREEN, "true" );
+		Config.setProperty( AppSettings.RENDERING_MOVIE, "false" );
 
-		p.appConfig.setProperty( AppSettings.KINECT_ACTIVE, "true" );
-		p.appConfig.setProperty( "kinect_mirrored", "false" );
-		p.appConfig.setProperty( "kinect_top_pixel", "0" );
-		p.appConfig.setProperty( "kinect_bottom_pixel", "480" );
-		p.appConfig.setProperty( "kinect_left_pixel", "0" );
-		p.appConfig.setProperty( "kinect_right_pixel", "640" );
+		Config.setProperty( AppSettings.KINECT_ACTIVE, "true" );
+		Config.setProperty( "kinect_mirrored", "false" );
+		Config.setProperty( "kinect_top_pixel", "0" );
+		Config.setProperty( "kinect_bottom_pixel", "480" );
+		Config.setProperty( "kinect_left_pixel", "0" );
+		Config.setProperty( "kinect_right_pixel", "640" );
 
-		p.appConfig.setProperty( "kinect_pixel_skip", "7" );
-		p.appConfig.setProperty( "kinect_scan_frames", "40" );
-		p.appConfig.setProperty( "kinect_depth_key_dist", "200" );
-		p.appConfig.setProperty( "kinect_mirrored", "true" );
+		Config.setProperty( "kinect_pixel_skip", "7" );
+		Config.setProperty( "kinect_scan_frames", "40" );
+		Config.setProperty( "kinect_depth_key_dist", "200" );
+		Config.setProperty( "kinect_mirrored", "true" );
 		
 		// bar kinect setup:
-		p.appConfig.setProperty( "kinect_top_pixel", "60" );
-		p.appConfig.setProperty( "kinect_bottom_pixel", "400" );
-		p.appConfig.setProperty( "kinect_left_pixel", "90" );
-		p.appConfig.setProperty( "kinect_right_pixel", "570" );
-		p.appConfig.setProperty( "kinect_mirrored", "true" );
-		p.appConfig.setProperty( "kinect_flipped", "false" );
+		Config.setProperty( "kinect_top_pixel", "60" );
+		Config.setProperty( "kinect_bottom_pixel", "400" );
+		Config.setProperty( "kinect_left_pixel", "90" );
+		Config.setProperty( "kinect_right_pixel", "570" );
+		Config.setProperty( "kinect_mirrored", "true" );
+		Config.setProperty( "kinect_flipped", "false" );
 
 		
 		// stage kinect setup:
-//		p.appConfig.setProperty( "kinect_top_pixel", "200" );
-//		p.appConfig.setProperty( "kinect_bottom_pixel", "400" );
-//		p.appConfig.setProperty( "kinect_left_pixel", "40" );
-//		p.appConfig.setProperty( "kinect_right_pixel", "580" );
-//		p.appConfig.setProperty( "kinect_mirrored", "false" );
+//		Config.setProperty( "kinect_top_pixel", "200" );
+//		Config.setProperty( "kinect_bottom_pixel", "400" );
+//		Config.setProperty( "kinect_left_pixel", "40" );
+//		Config.setProperty( "kinect_right_pixel", "580" );
+//		Config.setProperty( "kinect_mirrored", "false" );
 		
 		
-		p.appConfig.setProperty( "kinect_blob_bg_int", "81" ); // opacity of the non-kinect-masked whitespace. 0-255
+		Config.setProperty( "kinect_blob_bg_int", "81" ); // opacity of the non-kinect-masked whitespace. 0-255
 	}
 
 	// TODO:
-	// Adjust Pixel Skip variable since kinect is faster now. Warning: by setting it above in overridePropsFile(), things get out of sync with the particle plugin
+	// Adjust Pixel Skip variable since kinect is faster now. Warning: by setting it above in config(), things get out of sync with the particle plugin
 	// More debug helpers - we need to know what's going on	
 	// * Resaturate colors after all compositing 
 	// * Remove extra filling-in of depth data at the end of the room scan 	
 	// * Make all blob resolution numbers configurable 
 	
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		_videoPath = FileUtil.getHaxademicDataPath()+"video/ophelias/";
 		buildMenu();
 	}

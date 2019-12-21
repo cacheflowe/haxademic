@@ -17,7 +17,7 @@ extends PAppletHax {
 
 	protected PShape shape;
 	
-	protected void setupFirstFrame() {
+	protected void firstFrame() {
 		shape = Shapes.createDisc(p.height / 2, 36, 20, null);
 		shape.setTexture(DemoAssets.textureNebula());
 	}

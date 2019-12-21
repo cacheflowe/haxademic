@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.color.ColorUtil;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.image.ImageUtil;
@@ -23,12 +24,12 @@ extends PAppletHax {
 	protected PImage testImage;
 	protected PGraphics videoBuffer;
 	
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, 800 );
-		p.appConfig.setProperty( AppSettings.HEIGHT, 800 );
+	protected void config() {
+		Config.setProperty( AppSettings.WIDTH, 800 );
+		Config.setProperty( AppSettings.HEIGHT, 800 );
 	}
 	
-	public void setupFirstFrame() {
+	public void firstFrame() {
 //		video = DemoAssets.movieKinectSilhouette();
 //		video.loop();
 //		video.speed(0.1f);

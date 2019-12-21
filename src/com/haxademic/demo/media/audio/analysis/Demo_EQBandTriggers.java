@@ -15,7 +15,7 @@ extends PAppletHax {
 	int[] eqBandTrigger;
 	float ampThreshold = 0.2f;
 	
-	protected void setupFirstFrame() {
+	protected void firstFrame() {
 		AudioIn.instance(AudioInputLibrary.ESS);
 
 		numElements = 40; // p.width;

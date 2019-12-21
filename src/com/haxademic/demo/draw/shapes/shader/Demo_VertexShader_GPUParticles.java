@@ -3,6 +3,7 @@ package com.haxademic.demo.draw.shapes.shader;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.data.constants.PBlendModes;
 import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.debug.DebugView;
@@ -39,18 +40,18 @@ extends PAppletHax {
 	float h = 1024;
 	int FRAMES = 300;
 
-	protected void overridePropsFile() {
-		p.appConfig.setProperty(AppSettings.LOOP_FRAMES, FRAMES);
-		p.appConfig.setProperty(AppSettings.WIDTH, 1280);
-		p.appConfig.setProperty(AppSettings.HEIGHT, 960);
-		p.appConfig.setProperty(AppSettings.FILLS_SCREEN, false);
-		p.appConfig.setProperty(AppSettings.RENDERING_MOVIE, false);
-		p.appConfig.setProperty(AppSettings.RENDERING_MOVIE_START_FRAME, 1 + FRAMES);
-		p.appConfig.setProperty(AppSettings.RENDERING_MOVIE_STOP_FRAME, 1 + FRAMES * 2);
-		p.appConfig.setProperty(AppSettings.SHOW_DEBUG, true);
+	protected void config() {
+		Config.setProperty(AppSettings.LOOP_FRAMES, FRAMES);
+		Config.setProperty(AppSettings.WIDTH, 1280);
+		Config.setProperty(AppSettings.HEIGHT, 960);
+		Config.setProperty(AppSettings.FILLS_SCREEN, false);
+		Config.setProperty(AppSettings.RENDERING_MOVIE, false);
+		Config.setProperty(AppSettings.RENDERING_MOVIE_START_FRAME, 1 + FRAMES);
+		Config.setProperty(AppSettings.RENDERING_MOVIE_STOP_FRAME, 1 + FRAMES * 2);
+		Config.setProperty(AppSettings.SHOW_DEBUG, true);
 	}
 	
-	protected void setupFirstFrame() {
+	protected void firstFrame() {
 		// build offscreen buffer (thing don't work the same on the main drawing surface)
 		// We need a 32-bit float texture!
 		// GL.GL_RGBA32F - but how?

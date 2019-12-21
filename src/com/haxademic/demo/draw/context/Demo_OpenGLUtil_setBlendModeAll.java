@@ -38,7 +38,7 @@ extends PAppletHax {
 		if(p.key == 'b') drawBuffer = !drawBuffer;
 	}
 	
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		buffer = p.createGraphics(p.width, p.height, PRenderers.P2D);
 	}
 

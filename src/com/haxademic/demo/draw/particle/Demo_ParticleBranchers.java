@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.color.ImageGradient;
 import com.haxademic.core.draw.filters.pshader.BloomFilter;
@@ -62,18 +63,18 @@ extends PAppletHax {
 	protected boolean renderImages = false;
 	protected boolean renderSingleMovie = false;
 	
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, 1080 );
-		p.appConfig.setProperty( AppSettings.HEIGHT, 1080 );
-		p.appConfig.setProperty( AppSettings.FULLSCREEN, true );
-		p.appConfig.setProperty( AppSettings.ALWAYS_ON_TOP, false );
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, false );
-		if(renderSingleMovie) p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, true );
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_START_FRAME, 1 );
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, 1 + 60 * 60 );
+	protected void config() {
+		Config.setProperty( AppSettings.WIDTH, 1080 );
+		Config.setProperty( AppSettings.HEIGHT, 1080 );
+		Config.setProperty( AppSettings.FULLSCREEN, true );
+		Config.setProperty( AppSettings.ALWAYS_ON_TOP, false );
+		Config.setProperty( AppSettings.RENDERING_MOVIE, false );
+		if(renderSingleMovie) Config.setProperty( AppSettings.RENDERING_MOVIE, true );
+		Config.setProperty( AppSettings.RENDERING_MOVIE_START_FRAME, 1 );
+		Config.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, 1 + 60 * 60 );
 	}
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		// load palette
 		imageGradient = new ImageGradient(ImageGradient.PASTELS());
 		imageGradient.addTexturesFromPath(ImageGradient.COOLORS_PATH);

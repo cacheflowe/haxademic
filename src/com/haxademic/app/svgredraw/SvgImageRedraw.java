@@ -7,6 +7,7 @@ import java.util.Comparator;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.color.ColorUtil;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.BlurHFilter;
@@ -69,12 +70,12 @@ extends PAppletHax {
 	boolean friendTest = false;
 	boolean rendering = true;
 
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, "1000" );
-		p.appConfig.setProperty( AppSettings.HEIGHT, "1000" );
+	protected void config() {
+		Config.setProperty( AppSettings.WIDTH, "1000" );
+		Config.setProperty( AppSettings.HEIGHT, "1000" );
 	}
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 	
 		p.smooth();
 		

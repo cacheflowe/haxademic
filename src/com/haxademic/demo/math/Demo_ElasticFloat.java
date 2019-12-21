@@ -3,6 +3,7 @@ package com.haxademic.demo.math;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.math.easing.ElasticFloat;
 import com.haxademic.core.ui.UI;
@@ -17,12 +18,12 @@ extends PAppletHax {
 	protected ElasticFloat _elasticY = new ElasticFloat(0, 0.5f, 0.5f);
 	protected ElasticFloat _elasticBottom = new ElasticFloat(0, 0.5f, 0.5f);
 
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.FPS, "60" );
-		p.appConfig.setProperty( AppSettings.SHOW_UI, true );
+	protected void config() {
+		Config.setProperty( AppSettings.FPS, "60" );
+		Config.setProperty( AppSettings.SHOW_UI, true );
 	}
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		UI.addSlider(fric, 0.5f, 0, 1, 0.001f, false);
 		UI.addSlider(accel, 0.5f, 0, 1, 0.001f, false);
 	}

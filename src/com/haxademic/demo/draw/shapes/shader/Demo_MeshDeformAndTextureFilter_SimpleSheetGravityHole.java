@@ -26,7 +26,7 @@ extends PAppletHax {
 	protected PGraphics texture;
 	protected PGraphics displaceTexture;
 
-	protected void setupFirstFrame() {
+	protected void firstFrame() {
 		int sheetW = P.round(cols * 20);
 		int sheetH = P.round(cols * 20);
 		

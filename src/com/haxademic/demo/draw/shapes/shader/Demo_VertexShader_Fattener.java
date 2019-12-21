@@ -3,6 +3,7 @@ package com.haxademic.demo.draw.shapes.shader;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.draw.filters.pshader.ContrastFilter;
 import com.haxademic.core.draw.filters.pshader.VignetteFilter;
@@ -27,19 +28,19 @@ extends PAppletHax {
 	protected PGraphics buffer;
 	PShader feedbackShader;
 
-	protected void overridePropsFile() {
+	protected void config() {
 		int FRAMES = 340;
-		p.appConfig.setProperty(AppSettings.WIDTH, 600);
-		p.appConfig.setProperty(AppSettings.HEIGHT, 700);
-//		p.appConfig.setProperty(AppSettings.WIDTH, 1920);
-//		p.appConfig.setProperty(AppSettings.HEIGHT, 1080);
-		p.appConfig.setProperty(AppSettings.LOOP_FRAMES, FRAMES);
-		p.appConfig.setProperty(AppSettings.RENDERING_MOVIE, false );
-		p.appConfig.setProperty(AppSettings.RENDERING_MOVIE_START_FRAME, 1 + FRAMES * 3);
-		p.appConfig.setProperty(AppSettings.RENDERING_MOVIE_STOP_FRAME, 1 + FRAMES * 4);
+		Config.setProperty(AppSettings.WIDTH, 600);
+		Config.setProperty(AppSettings.HEIGHT, 700);
+//		Config.setProperty(AppSettings.WIDTH, 1920);
+//		Config.setProperty(AppSettings.HEIGHT, 1080);
+		Config.setProperty(AppSettings.LOOP_FRAMES, FRAMES);
+		Config.setProperty(AppSettings.RENDERING_MOVIE, false );
+		Config.setProperty(AppSettings.RENDERING_MOVIE_START_FRAME, 1 + FRAMES * 3);
+		Config.setProperty(AppSettings.RENDERING_MOVIE_STOP_FRAME, 1 + FRAMES * 4);
 	}
 	
-	protected void setupFirstFrame() {
+	protected void firstFrame() {
 		buffer = p.createGraphics(p.width, p.height, PRenderers.P3D);
 		
 		// build obj PShape and scale to window

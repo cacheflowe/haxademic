@@ -3,6 +3,7 @@ package com.haxademic.demo.draw.mapping;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.data.constants.PShapeTypes;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.hardware.webcam.WebCam;
@@ -26,12 +27,12 @@ extends PAppletHax {
 	protected String detailVal = "detail";
 	protected String showLines = "showLines";
 	
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.FULLSCREEN, true );
-		p.appConfig.setProperty( AppSettings.ALWAYS_ON_TOP, false );
+	protected void config() {
+		Config.setProperty( AppSettings.FULLSCREEN, true );
+		Config.setProperty( AppSettings.ALWAYS_ON_TOP, false );
 	}
 
-	protected void setupFirstFrame() {
+	protected void firstFrame() {
 		// load video
 		video = DemoAssets.movieFractalCube();
 		video.loop();

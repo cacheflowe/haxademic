@@ -3,6 +3,7 @@ package com.haxademic.demo.draw.context;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.color.Gradients;
 import com.haxademic.core.draw.context.PG;
 
@@ -12,13 +13,13 @@ extends PAppletHax {
 	
 	float frames = 500f;
 	
-	protected void overridePropsFile() {
-//		p.appConfig.setProperty( AppSettings.FPS, 60 );
-		p.appConfig.setProperty( AppSettings.RENDERER, P.P3D );
-		p.appConfig.setProperty( AppSettings.SMOOTHING, AppSettings.SMOOTH_HIGH );
+	protected void config() {
+//		Config.setProperty( AppSettings.FPS, 60 );
+		Config.setProperty( AppSettings.RENDERER, P.P3D );
+		Config.setProperty( AppSettings.SMOOTHING, AppSettings.SMOOTH_HIGH );
 	}
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 	
 	}
 

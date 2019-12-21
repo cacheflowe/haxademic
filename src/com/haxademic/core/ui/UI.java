@@ -6,6 +6,7 @@ import java.util.LinkedHashMap;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.data.constants.PRegisterableMethods;
 import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.draw.context.PG;
@@ -55,7 +56,7 @@ implements IUIButtonDelegate {
 	// Constructor
 
 	public UI() {
-		active = P.p.appConfig.getBoolean(AppSettings.SHOW_UI, false);
+		active = Config.getBoolean(AppSettings.SHOW_UI, false);
 		controls = new LinkedHashMap<String, IUIControl>();
 		P.p.registerMethod(PRegisterableMethods.pre, this);
 		P.p.registerMethod(PRegisterableMethods.post, this);

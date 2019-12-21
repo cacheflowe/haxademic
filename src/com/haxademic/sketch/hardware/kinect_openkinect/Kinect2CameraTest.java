@@ -4,6 +4,7 @@ import org.openkinect.processing.Kinect2;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 
 public class Kinect2CameraTest
 extends PAppletHax {
@@ -12,13 +13,13 @@ extends PAppletHax {
 	
 	Kinect2 kinect2;
 
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, 1024 );
-		p.appConfig.setProperty( AppSettings.HEIGHT, 828 );
+	protected void config() {
+		Config.setProperty( AppSettings.WIDTH, 1024 );
+		Config.setProperty( AppSettings.HEIGHT, 828 );
 	}
 
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 
 		kinect2 = new Kinect2(this);
 		kinect2.initVideo();

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.data.constants.PBlendModes;
 import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.debug.DebugView;
@@ -83,21 +84,21 @@ extends PAppletHax {
 	protected int audioTextureIndex = 0;
 	protected boolean deformMode = true;
 	
-	protected void overridePropsFile() {
+	protected void config() {
 //		if(P.platform != P.MACOSX) {
-			p.appConfig.setProperty( AppSettings.WIDTH, 1920 );
-			p.appConfig.setProperty( AppSettings.HEIGHT, 1080 );
+			Config.setProperty( AppSettings.WIDTH, 1920 );
+			Config.setProperty( AppSettings.HEIGHT, 1080 );
 //		} else {
-//			p.appConfig.setProperty( AppSettings.WIDTH, 1280 );
-//			p.appConfig.setProperty( AppSettings.HEIGHT, 720 );
+//			Config.setProperty( AppSettings.WIDTH, 1280 );
+//			Config.setProperty( AppSettings.HEIGHT, 720 );
 //		}
-		p.appConfig.setProperty( AppSettings.SMOOTHING, AppSettings.SMOOTH_NONE );
-		p.appConfig.setProperty( AppSettings.FULLSCREEN, false );
-		p.appConfig.setProperty( AppSettings.SHOW_DEBUG, false );
-		p.appConfig.setProperty( AppSettings.ALWAYS_ON_TOP, false );
+		Config.setProperty( AppSettings.SMOOTHING, AppSettings.SMOOTH_NONE );
+		Config.setProperty( AppSettings.FULLSCREEN, false );
+		Config.setProperty( AppSettings.SHOW_DEBUG, false );
+		Config.setProperty( AppSettings.ALWAYS_ON_TOP, false );
 	}
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		// main buffer
 		float scaleDown = 0.75f;
 		mainBuffer = p.createGraphics(P.round(1920 * scaleDown), P.round(1080 * scaleDown), PRenderers.P3D);

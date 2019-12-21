@@ -11,7 +11,7 @@ extends PAppletHax {
 	protected DMXFixture[] fixtures;
 	protected int selectedIndex = -1;
 	
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		// use most basic singleton instance version of DMXUniverse
 		DMXUniverse.instanceInit("COM3", 9600);
 		

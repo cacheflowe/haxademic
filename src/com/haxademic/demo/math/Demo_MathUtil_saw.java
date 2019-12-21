@@ -3,6 +3,7 @@ package com.haxademic.demo.math;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.math.MathUtil;
@@ -16,13 +17,13 @@ extends PAppletHax {
 	
 	protected PGraphics _texture;	
 	
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
-		p.appConfig.setProperty( AppSettings.WIDTH, "520" );
-		p.appConfig.setProperty( AppSettings.HEIGHT, "120" );
+	protected void config() {
+		Config.setProperty( AppSettings.RENDERING_MOVIE, "false" );
+		Config.setProperty( AppSettings.WIDTH, "520" );
+		Config.setProperty( AppSettings.HEIGHT, "120" );
 	}
 		
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		_texture = P.p.createGraphics( 520, 120, P.P3D );
 		_texture.smooth(OpenGLUtil.SMOOTH_HIGH);
 		_texture.beginDraw();

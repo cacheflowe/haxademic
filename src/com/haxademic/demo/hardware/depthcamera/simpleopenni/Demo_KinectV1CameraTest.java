@@ -2,17 +2,18 @@ package com.haxademic.demo.hardware.depthcamera.simpleopenni;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.debug.DebugView;
 
 public class Demo_KinectV1CameraTest
 extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
-	protected void overridePropsFile() {
-		p.appConfig.setProperty(AppSettings.WIDTH, 1280 );
-		p.appConfig.setProperty(AppSettings.HEIGHT, 480 );
-		p.appConfig.setProperty(AppSettings.KINECT_ACTIVE, true );
-		p.appConfig.setProperty(AppSettings.SHOW_DEBUG, true );
+	protected void config() {
+		Config.setProperty(AppSettings.WIDTH, 1280 );
+		Config.setProperty(AppSettings.HEIGHT, 480 );
+		Config.setProperty(AppSettings.KINECT_ACTIVE, true );
+		Config.setProperty(AppSettings.SHOW_DEBUG, true );
 	}
 	
 	public void drawApp() {

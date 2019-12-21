@@ -17,7 +17,7 @@ extends PAppletHax {
 	ArrayList<WETriangleMesh> meshes;
 	ToxiclibsSupport toxi;
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		toxi = new ToxiclibsSupport( p );
 		meshes = Voronoi3D.getShatteredBox( p, 200 );
 	}

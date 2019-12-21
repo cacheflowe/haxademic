@@ -3,6 +3,7 @@ package com.haxademic.demo.draw.image;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.media.DemoAssets;
@@ -21,12 +22,12 @@ extends PAppletHax {
 	protected PShape svgMask;
 	protected Movie video;
 
-	protected void overridePropsFile() {
-		appConfig.setProperty( AppSettings.WIDTH, 1000 );
-		appConfig.setProperty( AppSettings.HEIGHT, 1000 );
+	protected void config() {
+		Config.setProperty( AppSettings.WIDTH, 1000 );
+		Config.setProperty( AppSettings.HEIGHT, 1000 );
 	}
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		mask = PG.newPG(p.width, p.height);
 		maskInverse = PG.newPG(p.width, p.height);
 		image1 = PG.newPG(p.width, p.height);

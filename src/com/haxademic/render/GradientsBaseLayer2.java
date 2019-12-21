@@ -3,6 +3,7 @@ package com.haxademic.render;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.color.ColorUtil;
 import com.haxademic.core.draw.color.Gradients;
@@ -18,18 +19,18 @@ extends PAppletHax {
 	protected TickerScroller ticker;
 	int FRAMES = 1000;
 		
-	protected void overridePropsFile() {
-		p.appConfig.setProperty(AppSettings.WIDTH, 1280);
-		p.appConfig.setProperty(AppSettings.HEIGHT, 720);
-//		p.appConfig.setProperty(AppSettings.WIDTH, 6912);
-//		p.appConfig.setProperty(AppSettings.HEIGHT, 1344);
-		p.appConfig.setProperty(AppSettings.LOOP_FRAMES, FRAMES);
-		p.appConfig.setProperty(AppSettings.RENDERING_MOVIE, false);
-		p.appConfig.setProperty(AppSettings.RENDERING_MOVIE_START_FRAME, 1 );
-		p.appConfig.setProperty(AppSettings.RENDERING_MOVIE_STOP_FRAME, 1 + FRAMES);
+	protected void config() {
+		Config.setProperty(AppSettings.WIDTH, 1280);
+		Config.setProperty(AppSettings.HEIGHT, 720);
+//		Config.setProperty(AppSettings.WIDTH, 6912);
+//		Config.setProperty(AppSettings.HEIGHT, 1344);
+		Config.setProperty(AppSettings.LOOP_FRAMES, FRAMES);
+		Config.setProperty(AppSettings.RENDERING_MOVIE, false);
+		Config.setProperty(AppSettings.RENDERING_MOVIE_START_FRAME, 1 );
+		Config.setProperty(AppSettings.RENDERING_MOVIE_STOP_FRAME, 1 + FRAMES);
 	}
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		int[] colors = new int[] {
 				// superbowl: #0D131B
 				ColorUtil.colorFromHex("#ff0D131B"),

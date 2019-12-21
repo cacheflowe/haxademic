@@ -3,6 +3,7 @@ package com.haxademic.sketch.visualgorithms;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.data.constants.PBlendModes;
 import com.haxademic.core.draw.filters.pshader.BlurProcessingFilter;
 import com.haxademic.core.draw.filters.pshader.DilateFilter;
@@ -36,17 +37,17 @@ extends PAppletHax {
 	
 	protected PShader ssao;
 
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, 1200 );
-		p.appConfig.setProperty( AppSettings.HEIGHT, 1200 );
-		p.appConfig.setProperty( AppSettings.SMOOTHING, AppSettings.SMOOTH_HIGH );
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, false);
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_START_FRAME, 1 );
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, Math.round(frames) );
-		p.appConfig.setProperty( AppSettings.RETINA, false );
+	protected void config() {
+		Config.setProperty( AppSettings.WIDTH, 1200 );
+		Config.setProperty( AppSettings.HEIGHT, 1200 );
+		Config.setProperty( AppSettings.SMOOTHING, AppSettings.SMOOTH_HIGH );
+		Config.setProperty( AppSettings.RENDERING_MOVIE, false);
+		Config.setProperty( AppSettings.RENDERING_MOVIE_START_FRAME, 1 );
+		Config.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, Math.round(frames) );
+		Config.setProperty( AppSettings.RETINA, false );
 	}
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 	
 		
 		canvas = p.createGraphics(p.width/2, p.height/2, P.P3D);
@@ -60,8 +61,8 @@ extends PAppletHax {
 		// rendering progress
 		progress = (p.frameCount % frames) / frames;
 		float progressRads = progress * P.TWO_PI;
-		if(p.appConfig.getBoolean(AppSettings.RENDERING_MOVIE, false) == true) {
-			if(p.frameCount > 2 + p.appConfig.getInt(AppSettings.RENDERING_MOVIE_STOP_FRAME, 0)) p.exit();
+		if(Config.getBoolean(AppSettings.RENDERING_MOVIE, false) == true) {
+			if(p.frameCount > 2 + Config.getInt(AppSettings.RENDERING_MOVIE_STOP_FRAME, 0)) p.exit();
 		}
 		
 		// set background color

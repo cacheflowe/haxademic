@@ -16,10 +16,10 @@ implements IMovieFinishedDelegate {
 	protected Movie video; 
 	protected MovieFinishedListener movieFinished; 
 
-	protected void overridePropsFile() {
+	protected void config() {
 	}
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		video = DemoAssets.movieFractalCube();
 		video.loop();
 		movieFinished = new MovieFinishedListener(video, this);

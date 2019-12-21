@@ -3,6 +3,7 @@ package com.haxademic.demo.data;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.data.store.AppStoreDistributed;
 import com.haxademic.core.data.store.IAppStoreListener;
 import com.haxademic.core.net.SocketServer;
@@ -23,11 +24,11 @@ implements IAppStoreListener {
 	protected boolean isServer = true;
 	protected String socketServerAddress = "ws://10.10.1.111:3001"; // null; // make null if we're running the server & client on the same machine
 	
-	protected void overridePropsFile() {
-		p.appConfig.setProperty(AppSettings.SHOW_DEBUG, true );
+	protected void config() {
+		Config.setProperty(AppSettings.SHOW_DEBUG, true );
 	}
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		P.storeDistributed = AppStoreDistributed.instance();
 		if(isServer == true) {
 			P.storeDistributed.start(AppStoreDistributed.MODE_SERVER, null);

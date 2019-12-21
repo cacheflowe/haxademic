@@ -2,6 +2,7 @@ package com.haxademic.demo.draw.shapes.shader;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.data.constants.PBlendModes;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
@@ -14,13 +15,13 @@ extends PAppletHax {
 
 	protected ParticleLauncherGPU gpuParticles;
 
-	protected void overridePropsFile() {
-		p.appConfig.setProperty(AppSettings.WIDTH, 960);
-		p.appConfig.setProperty(AppSettings.HEIGHT, 960);
-		p.appConfig.setProperty(AppSettings.SHOW_DEBUG, true);
+	protected void config() {
+		Config.setProperty(AppSettings.WIDTH, 960);
+		Config.setProperty(AppSettings.HEIGHT, 960);
+		Config.setProperty(AppSettings.SHOW_DEBUG, true);
 	}
 	
-	protected void setupFirstFrame() {
+	protected void firstFrame() {
 		// build particles launcher
 		gpuParticles = new ParticleLauncherGPU(512);
 		DebugView.setValue("totalVertices", gpuParticles.vertices());

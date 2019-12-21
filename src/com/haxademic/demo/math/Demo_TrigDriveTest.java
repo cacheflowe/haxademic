@@ -3,6 +3,7 @@ package com.haxademic.demo.math;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.ui.UI;
 
@@ -16,11 +17,11 @@ extends PAppletHax {
 	protected float _x = 0;
 	protected float _y = 0;
 
-	protected void overridePropsFile() {
-		p.appConfig.setProperty(AppSettings.SHOW_UI, true);
+	protected void config() {
+		Config.setProperty(AppSettings.SHOW_UI, true);
 	}
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		UI.addSlider(radians, 0, 0, P.TWO_PI, 0.01f, false);
 		UI.addSlider(speed, 1, 0, 10, 0.1f, false);
 

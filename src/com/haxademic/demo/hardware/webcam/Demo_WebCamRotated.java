@@ -18,7 +18,7 @@ implements IWebCamCallback {
 
 	protected PGraphics rotatedBuffer;
 	
-	public void setupFirstFrame () {
+	public void firstFrame () {
 		WebCam.instance().setDelegate(this);
 		rotatedBuffer = PG.newPG(360, 640);
 	}

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.file.FileUtil;
@@ -24,18 +25,18 @@ extends PAppletHax {
 	ArrayList<PVector> _outerPoints;
 	ArrayList<PVector> _mouthPoints;
 	
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, "500" );
-		p.appConfig.setProperty( AppSettings.HEIGHT, "500" );
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
-		p.appConfig.setProperty( AppSettings.RENDERING_GIF, "true" );
-		p.appConfig.setProperty( AppSettings.RENDERING_GIF_FRAMERATE, "45" );
-		p.appConfig.setProperty( AppSettings.RENDERING_GIF_QUALITY, "15" );
-		p.appConfig.setProperty( AppSettings.RENDERING_GIF_START_FRAME, ""+Math.round(_frames) );
-		p.appConfig.setProperty( AppSettings.RENDERING_GIF_STOP_FRAME, ""+Math.round(_frames*2) );
+	protected void config() {
+		Config.setProperty( AppSettings.WIDTH, "500" );
+		Config.setProperty( AppSettings.HEIGHT, "500" );
+		Config.setProperty( AppSettings.RENDERING_MOVIE, "false" );
+		Config.setProperty( AppSettings.RENDERING_GIF, "true" );
+		Config.setProperty( AppSettings.RENDERING_GIF_FRAMERATE, "45" );
+		Config.setProperty( AppSettings.RENDERING_GIF_QUALITY, "15" );
+		Config.setProperty( AppSettings.RENDERING_GIF_START_FRAME, ""+Math.round(_frames) );
+		Config.setProperty( AppSettings.RENDERING_GIF_STOP_FRAME, ""+Math.round(_frames*2) );
 	}
 	
-	public void setupFirstFrame() {
+	public void firstFrame() {
 
 		p.background(255);
 		p.smooth(OpenGLUtil.SMOOTH_HIGH);

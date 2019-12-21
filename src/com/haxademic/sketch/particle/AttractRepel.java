@@ -3,6 +3,7 @@ package com.haxademic.sketch.particle;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.math.MathUtil;
 
@@ -18,12 +19,12 @@ extends PAppletHax {
 	protected Particle[] particles;
 	int maxCircles = 100; // maximum amount of circles on the screen
 
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, 500 );
-		p.appConfig.setProperty( AppSettings.HEIGHT, 500 );
+	protected void config() {
+		Config.setProperty( AppSettings.WIDTH, 500 );
+		Config.setProperty( AppSettings.HEIGHT, 500 );
 	}
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 	
 		particles = new Particle[maxCircles];
 		for (int i = 0; i < particles.length; i++) {

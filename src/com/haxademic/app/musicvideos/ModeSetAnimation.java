@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.draw.color.EasingColor;
 import com.haxademic.core.draw.context.PG;
@@ -64,12 +65,11 @@ extends PAppletHax {
 	
 	protected ArrayList<ElasticFloat> _elasticVertices;
 		
-	public void settings() {
-		customPropsFile = FileUtil.getHaxademicDataPath() + "properties/modesetlogo.properties";
-		super.settings();
+	public void config() {
+		Config.loadPropertiesFile(FileUtil.getFile("properties/modesetlogo.properties"));
 	}
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 
 		initRender();
 	}

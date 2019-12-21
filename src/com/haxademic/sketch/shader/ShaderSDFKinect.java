@@ -3,6 +3,7 @@ package com.haxademic.sketch.shader;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.file.FileUtil;
@@ -29,15 +30,15 @@ extends PAppletHax {
 	protected KinectRegionGrid _kinectGrid;
 
 	
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.FILLS_SCREEN, "false" );
-		p.appConfig.setProperty( AppSettings.WIDTH, "800" );
-		p.appConfig.setProperty( AppSettings.HEIGHT, "600" );
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
-		p.appConfig.setProperty( AppSettings.KINECT_ACTIVE, "true" );
+	protected void config() {
+		Config.setProperty( AppSettings.FILLS_SCREEN, "false" );
+		Config.setProperty( AppSettings.WIDTH, "800" );
+		Config.setProperty( AppSettings.HEIGHT, "600" );
+		Config.setProperty( AppSettings.RENDERING_MOVIE, "false" );
+		Config.setProperty( AppSettings.KINECT_ACTIVE, "true" );
 	}
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 	
 		p.smooth( OpenGLUtil.SMOOTH_HIGH );
 		

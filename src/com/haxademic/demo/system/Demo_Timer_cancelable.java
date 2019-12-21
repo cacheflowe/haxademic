@@ -5,6 +5,7 @@ import java.util.TimerTask;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.color.EasingColor;
 
 public class Demo_Timer_cancelable
@@ -14,9 +15,9 @@ extends PAppletHax {
 	protected EasingColor bg = new EasingColor(0x000000, 0.1f);
 	protected Timer timer;
 	
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, 520 );
-		p.appConfig.setProperty( AppSettings.HEIGHT, 120 );
+	protected void config() {
+		Config.setProperty( AppSettings.WIDTH, 520 );
+		Config.setProperty( AppSettings.HEIGHT, 120 );
 	}
 	
 	public void keyPressed() {

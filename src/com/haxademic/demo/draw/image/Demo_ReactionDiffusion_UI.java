@@ -3,6 +3,7 @@ package com.haxademic.demo.draw.image;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.data.constants.PBlendModes;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.BlendTowardsTexture;
@@ -95,20 +96,20 @@ extends PAppletHax {
 	protected String FXAA_ACTIVE = "FXAA_ACTIVE";
 	
 
-	protected void overridePropsFile() {
-		p.appConfig.setProperty(AppSettings.WIDTH, 1920);
-		p.appConfig.setProperty(AppSettings.HEIGHT, 1080);
-		p.appConfig.setProperty(AppSettings.LOOP_FRAMES, 2000);
-		p.appConfig.setProperty(AppSettings.SHOW_UI, true);
-		p.appConfig.setProperty(AppSettings.FULLSCREEN, true);
-		p.appConfig.setProperty(AppSettings.ALWAYS_ON_TOP, false);
+	protected void config() {
+		Config.setProperty(AppSettings.WIDTH, 1920);
+		Config.setProperty(AppSettings.HEIGHT, 1080);
+		Config.setProperty(AppSettings.LOOP_FRAMES, 2000);
+		Config.setProperty(AppSettings.SHOW_UI, true);
+		Config.setProperty(AppSettings.FULLSCREEN, true);
+		Config.setProperty(AppSettings.ALWAYS_ON_TOP, false);
 	}
 	
 	/////////////////////////
 	// INIT
 	/////////////////////////
 	
-	protected void setupFirstFrame() {
+	protected void firstFrame() {
 		// main buffer & postFX buffer
 		pgPost = PG.newPG(pg.width, pg.height);
 		PG.setTextureRepeat(pg, true);

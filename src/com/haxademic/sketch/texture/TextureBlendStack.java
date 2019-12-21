@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.data.constants.PBlendModes;
 import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.debug.DebugView;
@@ -52,12 +53,12 @@ extends PAppletHax {
 		"SUBTRACT",
 	};
 
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, 1000 );
-		p.appConfig.setProperty( AppSettings.HEIGHT, 600 );
+	protected void config() {
+		Config.setProperty( AppSettings.WIDTH, 1000 );
+		Config.setProperty( AppSettings.HEIGHT, 600 );
 	}
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		camerBuffer = p.createGraphics(640, 480, PRenderers.P2D);
 		layers = new ArrayList<TextureBlendLayer>();
 		layers.add(new TextureBlendLayer());

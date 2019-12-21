@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.file.FileUtil;
 
@@ -20,26 +21,26 @@ extends PAppletHax {
 	protected int _imageIndex;
 	protected int _framesPerImage;
 	
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, 1080 );
-		p.appConfig.setProperty( AppSettings.HEIGHT, 1080 );
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, true );
-		p.appConfig.setProperty( "image_type", "jpg" );
-		p.appConfig.setProperty( "image_dir", "/Users/cacheflowe/Documents/workspace/mode_set/client_docs/legwork/nike-all-star/final_snkrs_xpress_game_faces/" );
+	protected void config() {
+		Config.setProperty( AppSettings.WIDTH, 1080 );
+		Config.setProperty( AppSettings.HEIGHT, 1080 );
+		Config.setProperty( AppSettings.RENDERING_MOVIE, true );
+		Config.setProperty( "image_type", "jpg" );
+		Config.setProperty( "image_dir", "/Users/cacheflowe/Documents/workspace/mode_set/client_docs/legwork/nike-all-star/final_snkrs_xpress_game_faces/" );
 	}
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 
 		initRender();
 	}
 
 	public void initRender() {
-		_imageDir = p.appConfig.getString( "image_dir", "" );
-		_imageType = p.appConfig.getString( "image_type", "png" );
+		_imageDir = Config.getString( "image_dir", "" );
+		_imageType = Config.getString( "image_type", "png" );
 		_images = FileUtil.getFilesInDirOfType( _imageDir, _imageType ); 
 		P.println(_images.size());
 		_imageIndex = 0;
-		_framesPerImage = p.appConfig.getInt( "frames_per_image", 1 );
+		_framesPerImage = Config.getInt( "frames_per_image", 1 );
 	}
 		
 	public void drawApp() {

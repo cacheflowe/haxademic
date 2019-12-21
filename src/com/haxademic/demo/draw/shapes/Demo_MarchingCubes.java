@@ -15,7 +15,7 @@ extends PAppletHax {
 	MarchingCubes mc;
 	Boolean bUseFill;
 	
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		float extent = 350;
 		PVector aabbMin = new PVector(-extent, -extent, -extent);
 		PVector aabbMax = new PVector(extent, extent, extent);

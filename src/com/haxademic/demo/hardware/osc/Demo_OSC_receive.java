@@ -11,7 +11,7 @@ extends PAppletHax {
 
 	OscP5 oscP5;
 
-	protected void setupFirstFrame() {
+	protected void firstFrame() {
 	  oscP5 = new OscP5(this, 7400);
 	  oscP5.plug(this, "receive", "/video-start");
 	}

@@ -3,6 +3,7 @@ package com.haxademic.sketch.visualgorithms;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.color.ColorUtil;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.context.PG;
@@ -16,13 +17,13 @@ extends PAppletHax {
 	
 	protected PVector[] _points;
 	
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, "1600" );
-		p.appConfig.setProperty( AppSettings.HEIGHT, "1300" );
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
+	protected void config() {
+		Config.setProperty( AppSettings.WIDTH, "1600" );
+		Config.setProperty( AppSettings.HEIGHT, "1300" );
+		Config.setProperty( AppSettings.RENDERING_MOVIE, "false" );
 	}
 	
-	public void setupFirstFrame() {
+	public void firstFrame() {
 
 		p.smooth(OpenGLUtil.SMOOTH_HIGH);
 		

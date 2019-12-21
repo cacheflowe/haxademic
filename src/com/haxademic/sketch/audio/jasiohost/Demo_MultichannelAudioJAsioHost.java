@@ -15,6 +15,7 @@ package com.haxademic.sketch.audio.jasiohost;
 //import com.haxademic.core.app.P;
 //import com.haxademic.core.app.PAppletHax;
 //import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 //import com.haxademic.core.data.constants.PTextAlign;
 //import com.haxademic.core.draw.text.FontCacher;
 //import com.haxademic.core.file.DemoAssets;
@@ -39,13 +40,13 @@ package com.haxademic.sketch.audio.jasiohost;
 //	protected String LINE_INDEX = "LINE_INDEX";
 //	protected String MIXER_INDEX = "MIXER_INDEX";
 //
-//	protected void overridePropsFile() {
-//		p.appConfig.setProperty( AppSettings.WIDTH, 1200 );
-//		p.appConfig.setProperty( AppSettings.HEIGHT, 900 );
-//		p.appConfig.setProperty( AppSettings.SHOW_SLIDERS, true );
+//	protected void config() {
+//		Config.setProperty( AppSettings.WIDTH, 1200 );
+//		Config.setProperty( AppSettings.HEIGHT, 900 );
+//		Config.setProperty( AppSettings.SHOW_SLIDERS, true );
 //	}
 //
-//	public void setupFirstFrame() {
+//	public void firstFrame() {
 //		List<String> driverNameList = AsioDriver.getDriverNames();
 //
 //		AsioDriver asioDriver = AsioDriver.getDriver(driverNameList.get(0));

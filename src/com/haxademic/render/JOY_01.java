@@ -3,6 +3,7 @@ package com.haxademic.render;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.shapes.PShapeUtil;
@@ -57,14 +58,14 @@ extends PAppletHax {
 	*/
 
 
-	protected void overridePropsFile() {
+	protected void config() {
 		int FRAMES = 120;
-		p.appConfig.setProperty(AppSettings.WIDTH, 1024);
-		p.appConfig.setProperty(AppSettings.HEIGHT, 768);
-		p.appConfig.setProperty(AppSettings.LOOP_FRAMES, FRAMES);
+		Config.setProperty(AppSettings.WIDTH, 1024);
+		Config.setProperty(AppSettings.HEIGHT, 768);
+		Config.setProperty(AppSettings.LOOP_FRAMES, FRAMES);
 	}
 	
-	protected void setupFirstFrame() {
+	protected void firstFrame() {
 		// build shape and assign texture
 		shape = p.loadShape(FileUtil.getFile("models/joy-hoop/joy_hoop.obj"));
 //		shape = DemoAssets.objSkullRealistic();

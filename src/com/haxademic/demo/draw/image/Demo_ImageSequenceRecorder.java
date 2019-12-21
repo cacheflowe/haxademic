@@ -2,6 +2,7 @@ package com.haxademic.demo.draw.image;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
@@ -22,12 +23,12 @@ implements IWebCamCallback {
 	protected ImageSequenceRecorder recorder;
 	protected PGraphics camBuffer;
 	
-	protected void overridePropsFile() {
-		p.appConfig.setProperty(AppSettings.SHOW_DEBUG, true );
-		p.appConfig.setProperty(AppSettings.FILLS_SCREEN, true );
+	protected void config() {
+		Config.setProperty(AppSettings.SHOW_DEBUG, true );
+		Config.setProperty(AppSettings.FILLS_SCREEN, true );
 	}
 		
-	public void setupFirstFrame () {
+	public void firstFrame () {
 		camBuffer = p.createGraphics(640, 480, PRenderers.P3D);
 		recorder = new ImageSequenceRecorder(camBuffer.width, camBuffer.height, 20);
 		WebCam.instance().setDelegate(this);

@@ -3,6 +3,7 @@ package com.haxademic.app.musicvideos;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.image.MotionBlurPGraphics;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.MathUtil;
@@ -47,16 +48,16 @@ extends PAppletHax {
 	float _startMovieFrame = 0;
 	float _addMovieFrame = 0;
 
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, "1280" );
-		p.appConfig.setProperty( AppSettings.HEIGHT, "720" );
-		p.appConfig.setProperty( AppSettings.WIDTH, "960" );
-		p.appConfig.setProperty( AppSettings.HEIGHT, "540" );
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
-		p.appConfig.setProperty( AppSettings.SHOW_UI, true );
+	protected void config() {
+		Config.setProperty( AppSettings.WIDTH, "1280" );
+		Config.setProperty( AppSettings.HEIGHT, "720" );
+		Config.setProperty( AppSettings.WIDTH, "960" );
+		Config.setProperty( AppSettings.HEIGHT, "540" );
+		Config.setProperty( AppSettings.RENDERING_MOVIE, "false" );
+		Config.setProperty( AppSettings.SHOW_UI, true );
 	}
 	
-	public void setupFirstFrame() {
+	public void firstFrame() {
 
 	
 		_pgMotionBlur = new MotionBlurPGraphics(6);

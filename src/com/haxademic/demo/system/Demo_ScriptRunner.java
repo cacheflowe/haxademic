@@ -13,7 +13,7 @@ implements IScriptCallback {
 
 	protected ScriptRunner scriptRunner;
 	
-	public void setupFirstFrame() {
+	public void firstFrame() {
 //		scriptRunner = new ScriptRunner("image-sequence-to-video", this);
 //		scriptRunner.runWithParams(FileUtil.getFile("haxademic/images/floaty-blob.anim"));
 		

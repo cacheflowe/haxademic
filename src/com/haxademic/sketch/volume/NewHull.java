@@ -2,6 +2,7 @@ package com.haxademic.sketch.volume;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.media.DemoAssets;
@@ -19,11 +20,11 @@ extends PAppletHax {
 	float[] intervals; //init Point3d array
 	PImage img;
 	
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
+	protected void config() {
+		Config.setProperty( AppSettings.RENDERING_MOVIE, "false" );
 	}
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		//point array
 		points = new Point3d[] {
 				new Point3d (0.0, 0.0, 0.0),

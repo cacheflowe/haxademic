@@ -2,6 +2,7 @@ package com.haxademic.sketch.audio.minim;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.file.FileUtil;
 
 import ddf.minim.AudioPlayer;
@@ -17,12 +18,12 @@ extends PAppletHax {
 	int loopEnd;
 
 
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, "400" );
-		p.appConfig.setProperty( AppSettings.HEIGHT, "400" );
+	protected void config() {
+		Config.setProperty( AppSettings.WIDTH, "400" );
+		Config.setProperty( AppSettings.HEIGHT, "400" );
 	}
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 	
 		minim = new Minim(this);
 

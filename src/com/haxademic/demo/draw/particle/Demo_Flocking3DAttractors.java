@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.color.EasingColor;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.math.easing.EasingFloat3d;
@@ -23,7 +24,7 @@ extends PAppletHax {
 	public ArrayList<MovingBox> boxes;
 	public ArrayList<Attractor> attractors;
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		initBoxes();
 	}
 	
@@ -39,12 +40,12 @@ extends PAppletHax {
 		}
 	}
 
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.SUNFLOW, "false" );
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
-		p.appConfig.setProperty( AppSettings.WIDTH, "1000" );
-		p.appConfig.setProperty( AppSettings.HEIGHT, "750" );
-		p.appConfig.setProperty( AppSettings.FILLS_SCREEN, "false" );
+	protected void config() {
+		Config.setProperty( AppSettings.SUNFLOW, "false" );
+		Config.setProperty( AppSettings.RENDERING_MOVIE, "false" );
+		Config.setProperty( AppSettings.WIDTH, "1000" );
+		Config.setProperty( AppSettings.HEIGHT, "750" );
+		Config.setProperty( AppSettings.FILLS_SCREEN, "false" );
 	}
 
 	public void drawApp() {

@@ -2,6 +2,7 @@ package com.haxademic.demo.hardware.webcam;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
@@ -21,13 +22,13 @@ implements IWebCamCallback {
 	protected PGraphics flippedCamera;
 	protected BufferActivityMonitor activityMonitor;
 
-	protected void overridePropsFile() {
-		p.appConfig.setProperty(AppSettings.WIDTH, 1280 );
-		p.appConfig.setProperty(AppSettings.HEIGHT, 720 );
-		p.appConfig.setProperty(AppSettings.SHOW_DEBUG, true );
+	protected void config() {
+		Config.setProperty(AppSettings.WIDTH, 1280 );
+		Config.setProperty(AppSettings.HEIGHT, 720 );
+		Config.setProperty(AppSettings.SHOW_DEBUG, true );
 	}
 
-	public void setupFirstFrame () {
+	public void firstFrame () {
 		// build activity monitor
 		activityMonitor = new BufferActivityMonitor(32, 32, 10);
 

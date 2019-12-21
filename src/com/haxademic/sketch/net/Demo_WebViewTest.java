@@ -7,7 +7,7 @@ public class Demo_WebViewTest
 extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
-//	public void setupFirstFrame() {
+//	public void firstFrame() {
 //        new Thread() {
 //            @Override
 //            public void run() {

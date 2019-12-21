@@ -43,10 +43,10 @@ extends PAppletHax {
 	
 	protected int MAX_MOVIES = 4;
 		
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.RENDERER, P.JAVA2D ); // P.JAVA2D P.FX2D P.P2D P.P3D
-		p.appConfig.setProperty( AppSettings.WIDTH, 1800 );
-		p.appConfig.setProperty( AppSettings.HEIGHT, 480 );
+	protected void config() {
+		Config.setProperty( AppSettings.RENDERER, P.JAVA2D ); // P.JAVA2D P.FX2D P.P2D P.P3D
+		Config.setProperty( AppSettings.WIDTH, 1800 );
+		Config.setProperty( AppSettings.HEIGHT, 480 );
 	}
 	
 	JFXPanel fxPanel = new JFXPanel();

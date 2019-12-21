@@ -3,6 +3,7 @@ package com.haxademic.sketch.shader;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.filters.pshader.ChromaColorFilter;
 import com.haxademic.core.draw.textures.pgraphics.TextureShaderTimeStepper;
 import com.haxademic.core.file.FileUtil;
@@ -29,15 +30,15 @@ extends PAppletHax {
 	TextureShaderTimeStepper underlay;
 	Movie movie;
 
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, 720 );
-		p.appConfig.setProperty( AppSettings.HEIGHT, 1280 );
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, false );
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_START_FRAME, 3 );
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, 1000 );
+	protected void config() {
+		Config.setProperty( AppSettings.WIDTH, 720 );
+		Config.setProperty( AppSettings.HEIGHT, 1280 );
+		Config.setProperty( AppSettings.RENDERING_MOVIE, false );
+		Config.setProperty( AppSettings.RENDERING_MOVIE_START_FRAME, 3 );
+		Config.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, 1000 );
 	}
 	
-	public void setupFirstFrame() {
+	public void firstFrame() {
 
 
 		underlay = new TextureShaderTimeStepper( p.width, p.height, "basic-checker.glsl" );

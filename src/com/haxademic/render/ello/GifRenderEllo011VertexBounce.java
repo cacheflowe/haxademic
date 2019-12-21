@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.toxi.DrawToxiMesh;
@@ -28,24 +29,24 @@ extends PAppletHax {
 	protected WETriangleMesh _mesh, _meshOrig;
 	protected ArrayList<ElasticFloat3D> _verticesElastic;
 	
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, "400" );
-		p.appConfig.setProperty( AppSettings.HEIGHT, "400" );
+	protected void config() {
+		Config.setProperty( AppSettings.WIDTH, "400" );
+		Config.setProperty( AppSettings.HEIGHT, "400" );
 		
-		p.appConfig.setProperty( AppSettings.SUNFLOW, "true" );
-		p.appConfig.setProperty( AppSettings.SUNFLOW_ACTIVE, "true" );
-		p.appConfig.setProperty( AppSettings.SUNFLOW_QUALITY, "high" );
-		p.appConfig.setProperty( "sunflow_save_images", "false" );
+		Config.setProperty( AppSettings.SUNFLOW, "true" );
+		Config.setProperty( AppSettings.SUNFLOW_ACTIVE, "true" );
+		Config.setProperty( AppSettings.SUNFLOW_QUALITY, "high" );
+		Config.setProperty( "sunflow_save_images", "false" );
 		
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
-		p.appConfig.setProperty( AppSettings.RENDERING_GIF, "false" );
-		p.appConfig.setProperty( AppSettings.RENDERING_GIF_FRAMERATE, "45" );
-		p.appConfig.setProperty( AppSettings.RENDERING_GIF_QUALITY, "15" );
-		p.appConfig.setProperty( AppSettings.RENDERING_GIF_START_FRAME, "2" );
-		p.appConfig.setProperty( AppSettings.RENDERING_GIF_STOP_FRAME, "52" );
+		Config.setProperty( AppSettings.RENDERING_MOVIE, "false" );
+		Config.setProperty( AppSettings.RENDERING_GIF, "false" );
+		Config.setProperty( AppSettings.RENDERING_GIF_FRAMERATE, "45" );
+		Config.setProperty( AppSettings.RENDERING_GIF_QUALITY, "15" );
+		Config.setProperty( AppSettings.RENDERING_GIF_START_FRAME, "2" );
+		Config.setProperty( AppSettings.RENDERING_GIF_STOP_FRAME, "52" );
 	}
 	
-	public void setupFirstFrame() {
+	public void firstFrame() {
 
 		p.background(255);
 		p.smooth(OpenGLUtil.SMOOTH_HIGH);

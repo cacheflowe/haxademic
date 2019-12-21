@@ -1,6 +1,7 @@
 package com.haxademic.core.app;
 
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.data.store.AppStore;
 import com.haxademic.core.data.store.AppStoreDistributed;
@@ -26,7 +27,8 @@ extends PApplet {
 	public static void init(PAppletHax p) {
 		P.p = p;
 		P.store = AppStore.instance();
-		renderer = p.appConfig.getString(AppSettings.RENDERER, P.P3D);
+		Config.instance();
+		renderer = Config.getString(AppSettings.RENDERER, P.P3D);
 		if(P.renderer != PRenderers.PDF) DebugView.instance();
 		UI.instance();
 		Mouse.instance();
@@ -34,6 +36,10 @@ extends PApplet {
 	}
 	
 	// helper methods
+	
+	public static boolean isOpenGL() {
+		return P.renderer.equals(PRenderers.P2D) || P.renderer.equals(PRenderers.P3D);
+	}
 	
 	public static boolean isHaxApp() {
 		return P.p instanceof PAppletHax;

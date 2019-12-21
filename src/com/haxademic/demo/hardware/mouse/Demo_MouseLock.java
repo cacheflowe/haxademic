@@ -13,7 +13,7 @@ extends PAppletHax {
 	protected Point mousePoint;
 	protected Point lastMousePoint = new Point();
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		// keep mouse locked in window
 		window.confinePointer(true);
 		window.setPointerVisible(true);

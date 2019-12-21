@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.data.ConvertUtil;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.MathUtil;
@@ -36,14 +37,14 @@ extends PAppletHax {
 	protected int curMouseX = 0;
 	protected int curMouseY = 0;
 
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, false );
-		p.appConfig.setProperty( AppSettings.FILLS_SCREEN, true );
-		p.appConfig.setProperty( AppSettings.FULLSCREEN, false );
-//		p.appConfig.setProperty( MAPPING_FILE,  FileUtil.getFile("text/mapping/mapping-2016-04-09-20-23-29.txt") );
+	protected void config() {
+		Config.setProperty( AppSettings.RENDERING_MOVIE, false );
+		Config.setProperty( AppSettings.FILLS_SCREEN, true );
+		Config.setProperty( AppSettings.FULLSCREEN, false );
+//		Config.setProperty( MAPPING_FILE,  FileUtil.getFile("text/mapping/mapping-2016-04-09-20-23-29.txt") );
 	}
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		AudioIn.instance();
 
 		_shapes = new ArrayList<PShape>();
@@ -269,8 +270,8 @@ extends PAppletHax {
 	}
 	
 	public void loadVertices() {
-		if( p.appConfig.getString(MAPPING_FILE, "") != "" ) {
-			_inputFileLines = loadStrings(p.appConfig.getString(MAPPING_FILE, ""));
+		if( Config.getString(MAPPING_FILE, "") != "" ) {
+			_inputFileLines = loadStrings(Config.getString(MAPPING_FILE, ""));
 			for( int i=0; i < _inputFileLines.length; i++ ) {
 				String inputLine = _inputFileLines[i]; 
 				// count lines that contain characters

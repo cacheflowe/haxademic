@@ -4,6 +4,7 @@ package com.haxademic.app.exampleapp;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.data.store.IAppStoreListener;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
@@ -29,12 +30,12 @@ implements IAppStoreListener {
 	// INIT
 	/////////////////////////////////
 	
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.APP_NAME, "Example App" );
-		p.appConfig.setProperty( AppSettings.APP_ICON, "images/app-icon.png" );
+	protected void config() {
+		Config.setProperty( AppSettings.APP_NAME, "Example App" );
+		Config.setProperty( AppSettings.APP_ICON, "images/app-icon.png" );
 	}
 	
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		// init state
 		P.store.setNumber(App.APP_STATE, App.APP_STATE_INTRO);
 		P.store.setNumber(App.QUEUED_APP_STATE, App.APP_STATE_NONE);

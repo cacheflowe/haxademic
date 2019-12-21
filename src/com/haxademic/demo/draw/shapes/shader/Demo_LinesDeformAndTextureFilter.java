@@ -3,6 +3,7 @@ package com.haxademic.demo.draw.shapes.shader;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.shapes.PShapeUtil;
@@ -23,11 +24,11 @@ extends PAppletHax {
 	protected PerlinTexture perlin;
 	protected float shapeExtent = 100;
 
-	protected void overridePropsFile() {
-		p.appConfig.setProperty(AppSettings.LOOP_FRAMES, 160);
+	protected void config() {
+		Config.setProperty(AppSettings.LOOP_FRAMES, 160);
 	}
 	
-	protected void setupFirstFrame() {
+	protected void firstFrame() {
 		// load texture
 		perlin = new PerlinTexture(p, 256, 256);
 		texture = perlin.texture();

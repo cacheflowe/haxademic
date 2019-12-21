@@ -12,7 +12,7 @@ extends PAppletHax {
 	public float easeFactor = 6f;
 	protected EasingFloat[] easings;
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		easings = new EasingFloat[30];
 		for (int i = 0; i < easings.length; i++) {
 			easings[i] = new EasingFloat(p.width/2, 8f);

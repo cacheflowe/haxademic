@@ -29,7 +29,7 @@ implements IWebCamCallback {
 	protected PShape shape;
 	protected float shapeExtent = 100;
 
-	protected void setupFirstFrame() {
+	protected void firstFrame() {
 		// set up webcam
 		WebCam.instance().setDelegate(this);
 

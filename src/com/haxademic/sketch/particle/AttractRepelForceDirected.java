@@ -4,6 +4,7 @@ import java.util.Iterator;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.particle.ForceDirectedLayout;
 import com.haxademic.core.draw.particle.ForceDirectedLayout.ForceNode;
@@ -14,17 +15,17 @@ extends PAppletHax {
 
 	protected ForceDirectedLayout forceGraph; 
 	
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, 800 );
-		p.appConfig.setProperty( AppSettings.HEIGHT, 800 );
-		p.appConfig.setProperty( AppSettings.RETINA, false );
-		p.appConfig.setProperty( AppSettings.SHOW_DEBUG, false);
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, false);
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_START_FRAME, 1);
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, 830);
+	protected void config() {
+		Config.setProperty( AppSettings.WIDTH, 800 );
+		Config.setProperty( AppSettings.HEIGHT, 800 );
+		Config.setProperty( AppSettings.RETINA, false );
+		Config.setProperty( AppSettings.SHOW_DEBUG, false);
+		Config.setProperty( AppSettings.RENDERING_MOVIE, false);
+		Config.setProperty( AppSettings.RENDERING_MOVIE_START_FRAME, 1);
+		Config.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, 830);
 	}
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 
 		p.background(0);
 		forceGraph = new ForceDirectedLayout(100, 100, 600, 600, 140, 3);

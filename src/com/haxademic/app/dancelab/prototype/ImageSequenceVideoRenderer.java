@@ -6,6 +6,7 @@ import com.haxademic.app.dancelab.playback.ImageSequencePlayer;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.PG;
 
 import processing.core.PGraphics;
@@ -24,18 +25,18 @@ extends PAppletHax {
 	
 	PGraphics buffer;
 	
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, 720 );
-		p.appConfig.setProperty( AppSettings.HEIGHT, 1280 );
-		p.appConfig.setProperty( AppSettings.RENDERER, P.P2D );
-		p.appConfig.setProperty( AppSettings.FPS, 30 );
-		p.appConfig.setProperty( AppSettings.SMOOTHING, AppSettings.SMOOTH_NONE );
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, true );
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_START_FRAME, startRenderFrame);
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, startRenderFrame + 1800);
+	protected void config() {
+		Config.setProperty( AppSettings.WIDTH, 720 );
+		Config.setProperty( AppSettings.HEIGHT, 1280 );
+		Config.setProperty( AppSettings.RENDERER, P.P2D );
+		Config.setProperty( AppSettings.FPS, 30 );
+		Config.setProperty( AppSettings.SMOOTHING, AppSettings.SMOOTH_NONE );
+		Config.setProperty( AppSettings.RENDERING_MOVIE, true );
+		Config.setProperty( AppSettings.RENDERING_MOVIE_START_FRAME, startRenderFrame);
+		Config.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, startRenderFrame + 1800);
 	}
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		imgW = p.width;
 		imgH = p.height;
 		

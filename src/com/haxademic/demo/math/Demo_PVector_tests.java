@@ -24,7 +24,7 @@ extends PAppletHax {
 	protected PVector perp2 = new PVector();
 
 	
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		background(0);
 		center = new PVector(p.width/2, p.height/2);
 	}

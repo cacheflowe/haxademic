@@ -23,7 +23,7 @@ extends PAppletHax {
 	PShader texShader;
 	int mode = 0;
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		base = DemoAssets.textureJupiter();
 		mapSource = DemoAssets.textureNebula();
 		map = p.createGraphics(p.width, p.height, PRenderers.P3D);

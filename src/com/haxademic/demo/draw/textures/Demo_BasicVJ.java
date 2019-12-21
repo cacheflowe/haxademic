@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.color.ColorsHax;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.filters.pshader.BlurHFilter;
@@ -58,15 +59,15 @@ extends PAppletHax {
 	// * Toggle audio vs. frame-based testing
 	
 
-	protected void overridePropsFile() {
-//		p.appConfig.setProperty( AppSettings.WIDTH, 1500 );
-//		p.appConfig.setProperty( AppSettings.HEIGHT, 1000 );
-		p.appConfig.setProperty( AppSettings.FULLSCREEN, false );
-		p.appConfig.setProperty( AppSettings.FILLS_SCREEN, false );
+	protected void config() {
+//		Config.setProperty( AppSettings.WIDTH, 1500 );
+//		Config.setProperty( AppSettings.HEIGHT, 1000 );
+		Config.setProperty( AppSettings.FULLSCREEN, false );
+		Config.setProperty( AppSettings.FILLS_SCREEN, false );
 	}
 
 
-	protected void setupFirstFrame() {
+	protected void firstFrame() {
 		OpenGLUtil.setTextureRepeat(g);
 
 		initAudioPlayer();

@@ -3,6 +3,7 @@ package com.haxademic.demo.system;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.hardware.mouse.Mouse;
 import com.haxademic.core.system.AppUtil;
@@ -11,18 +12,18 @@ public class Demo_AppUtil
 extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.APP_NAME, "Demo_AppUtil" );
-		p.appConfig.setProperty( AppSettings.SHOW_DEBUG, true );
-		p.appConfig.setProperty( AppSettings.FULLSCREEN, true );
-		p.appConfig.setProperty( AppSettings.SCREEN_X, 0 );
-		p.appConfig.setProperty( AppSettings.SCREEN_Y, 100 );
-		p.appConfig.setProperty( AppSettings.WIDTH, 800 );
-		p.appConfig.setProperty( AppSettings.HEIGHT, 600 );
-		p.appConfig.setProperty( AppSettings.ALWAYS_ON_TOP, true );
+	protected void config() {
+		Config.setProperty( AppSettings.APP_NAME, "Demo_AppUtil" );
+		Config.setProperty( AppSettings.SHOW_DEBUG, true );
+		Config.setProperty( AppSettings.FULLSCREEN, true );
+		Config.setProperty( AppSettings.SCREEN_X, 0 );
+		Config.setProperty( AppSettings.SCREEN_Y, 100 );
+		Config.setProperty( AppSettings.WIDTH, 800 );
+		Config.setProperty( AppSettings.HEIGHT, 600 );
+		Config.setProperty( AppSettings.ALWAYS_ON_TOP, true );
 	}
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		// AppUtil.setGLWindowChromeless(p);
 //		AppUtil.setLocation(p, 0, 30);
 	}

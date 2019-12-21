@@ -3,6 +3,7 @@ package com.haxademic.app.musicvideos;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.easing.EasingFloat;
@@ -23,15 +24,15 @@ extends PAppletHax {
 	float _songLengthFrames = 120f; // really 4519, but we're letting Renderer shut this down at the end of the audio file
 
 	
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, "1280" );
-		p.appConfig.setProperty( AppSettings.HEIGHT, "720" );
-		p.appConfig.setProperty( AppSettings.WIDTH, "480" );
-		p.appConfig.setProperty( AppSettings.HEIGHT, "270" );
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
+	protected void config() {
+		Config.setProperty( AppSettings.WIDTH, "1280" );
+		Config.setProperty( AppSettings.HEIGHT, "720" );
+		Config.setProperty( AppSettings.WIDTH, "480" );
+		Config.setProperty( AppSettings.HEIGHT, "270" );
+		Config.setProperty( AppSettings.RENDERING_MOVIE, "false" );
 	}
 	
-	public void setupFirstFrame() {
+	public void firstFrame() {
 
 		
 		_cloudsGraphics = p.createGraphics(p.width, p.height, P.P3D);

@@ -13,7 +13,7 @@ extends PAppletHax {
 
 	public SimpleOpenNI  context;
 
-	public void setupFirstFrame()
+	public void firstFrame()
 	{
 		// context = new SimpleOpenNI(this);
 		context = new SimpleOpenNI(this,SimpleOpenNI.RUN_MODE_MULTI_THREADED);

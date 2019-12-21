@@ -8,6 +8,7 @@ import com.haxademic.app.dancelab.playback.ImageSequencePlayer;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.PG;
 
 import processing.core.PGraphics;
@@ -29,14 +30,14 @@ extends PAppletHax {
 	
 	PGraphics buffer;
 	
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, Math.round(1360 * 1.5f) );
-		p.appConfig.setProperty( AppSettings.HEIGHT, Math.round(768/3 * 1.5f) );
-		p.appConfig.setProperty( AppSettings.RENDERER, P.P2D );
-		p.appConfig.setProperty( AppSettings.SMOOTHING, AppSettings.SMOOTH_NONE );
+	protected void config() {
+		Config.setProperty( AppSettings.WIDTH, Math.round(1360 * 1.5f) );
+		Config.setProperty( AppSettings.HEIGHT, Math.round(768/3 * 1.5f) );
+		Config.setProperty( AppSettings.RENDERER, P.P2D );
+		Config.setProperty( AppSettings.SMOOTHING, AppSettings.SMOOTH_NONE );
 	}
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		imgW = p.width / 9;
 		imgH = p.height;
 		

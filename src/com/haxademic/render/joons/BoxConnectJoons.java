@@ -3,6 +3,7 @@ package com.haxademic.render.joons;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.debug.DebugUtil;
 import com.haxademic.core.draw.shapes.Shapes;
 import com.haxademic.core.render.JoonsWrapper;
@@ -22,19 +23,19 @@ extends PAppletHax {
 	protected PImage image;
 	protected WETriangleMesh _mesh;
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		
 //		_mesh = MeshUtilToxi.meshFromOBJ( p, FileUtil.getHaxademicDataPath() + "models/cacheflowe-3d.obj", 16f );
 	}
 	
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.SUNFLOW, "true" );
-		p.appConfig.setProperty( AppSettings.SUNFLOW_ACTIVE, "false" );
-		p.appConfig.setProperty( AppSettings.SUNFLOW_QUALITY, "high" );
-		p.appConfig.setProperty( "sunflow_save_images", "true" );
-		p.appConfig.setProperty( AppSettings.WIDTH, "1280" );
-		p.appConfig.setProperty( AppSettings.HEIGHT, "1280" );
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
+	protected void config() {
+		Config.setProperty( AppSettings.SUNFLOW, "true" );
+		Config.setProperty( AppSettings.SUNFLOW_ACTIVE, "false" );
+		Config.setProperty( AppSettings.SUNFLOW_QUALITY, "high" );
+		Config.setProperty( "sunflow_save_images", "true" );
+		Config.setProperty( AppSettings.WIDTH, "1280" );
+		Config.setProperty( AppSettings.HEIGHT, "1280" );
+		Config.setProperty( AppSettings.RENDERING_MOVIE, "false" );
 	}
 
 	public void drawApp() {

@@ -15,7 +15,7 @@ extends PAppletHax {
 	protected PShader toonShader;
 	protected boolean isToon = false;
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		lightShaderBasic = p.loadShader(FileUtil.getFile("haxademic/shaders/lights/lightfrag/lightfrag.glsl"), FileUtil.getFile("haxademic/shaders/lights/lightfrag/lightvert.glsl"));
 		toonShader = p.loadShader(FileUtil.getFile("haxademic/shaders/lights/toon/frag.glsl"), FileUtil.getFile("haxademic/shaders/lights/toon/vert.glsl"));
 		toonShader.set("fraction", 4.0f);

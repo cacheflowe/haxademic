@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.shapes.Shapes;
 
 import processing.core.PVector;
@@ -15,8 +16,8 @@ extends PAppletHax {
 
 	protected ArrayList<PVector> points;
 	
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.LOOP_FRAMES, 120 );
+	protected void config() {
+		Config.setProperty( AppSettings.LOOP_FRAMES, 120 );
 	}
 
 	public void drawApp() {

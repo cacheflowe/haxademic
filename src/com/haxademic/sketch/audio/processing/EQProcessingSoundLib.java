@@ -2,6 +2,7 @@ package com.haxademic.sketch.audio.processing;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 
 import processing.sound.AudioIn;
 import processing.sound.FFT;
@@ -15,12 +16,12 @@ extends PAppletHax {
 	int bands = 256;
 	float[] spectrum = new float[bands];
 
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, "800" );
-		p.appConfig.setProperty( AppSettings.HEIGHT, "600" );
+	protected void config() {
+		Config.setProperty( AppSettings.WIDTH, "800" );
+		Config.setProperty( AppSettings.HEIGHT, "600" );
 	}
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 	
 
 		// Create an Input stream which is routed into the Amplitude analyzer

@@ -2,6 +2,7 @@ package com.haxademic.sketch.pshape;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.easing.EasingFloat;
@@ -31,12 +32,12 @@ extends PAppletHax {
 	protected int BEAM_MOVE_HEIGHT = 40;
 	protected EasingFloat _beamY = new EasingFloat(0, 3f);
 
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
+	protected void config() {
+		Config.setProperty( AppSettings.RENDERING_MOVIE, "false" );
 	}
 
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 	
 //		OpenGLUtil.setQuality( p, OpenGLUtil.SMOOTH_HIGH );
 		

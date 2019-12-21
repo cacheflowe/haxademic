@@ -11,7 +11,7 @@ extends PApplet {
 		size(400, 400, P3D);
 	}
 	
-	public void setupFirstFrame() {
+	public void firstFrame() {
 	
 	}
 

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.color.EasingColor;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.image.ImageUtil;
@@ -76,14 +77,13 @@ extends PAppletHax {
 	protected WETriangleMesh _mesh;
 	protected WETriangleMesh _meshDeform;
 	
-	public void settings() {
-		customPropsFile = FileUtil.getHaxademicDataPath() + "properties/brimliskirepetitions.properties";
-		super.settings();
+	protected void config() {
+		Config.loadPropertiesFile(FileUtil.getFile("properties/brimliskirepetitions.properties"));
 	}
 
 	// INITIALIZE OBJECTS ===================================================================================
 	public void initRender() {
-		_videoFile = p.appConfig.getString( "video_file", "" );
+		_videoFile = Config.getString( "video_file", "" );
 		_frameIndex = 0;
 		_myMovie = new Movie( this, _videoFile );
 		_myMovie.play();

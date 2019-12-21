@@ -3,6 +3,7 @@ package com.haxademic.demo.hardware.dmx;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.data.constants.PTextAlign;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.text.FontCacher;
@@ -42,12 +43,11 @@ extends PAppletHax {
 	protected String BRIGHTNESS_CAP = "BRIGHTNESS_CAP";
 	protected String MANUAL_BRIGHTNESS = "MANUAL_BRIGHTNESS";
 	
-	protected void overridePropsFile() {
-		p.appConfig.setProperty(AppSettings.SHOW_UI, true );
-//		p.appConfig.setProperty(AppSettings.INIT_ESS_AUDIO, false );
+	protected void config() {
+		Config.setProperty(AppSettings.SHOW_UI, true );
 	}
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		AudioIn.instance();
 		// dmx = new DMXWrapper();
 		dmx = new DMXWrapper("COM3", 9600);

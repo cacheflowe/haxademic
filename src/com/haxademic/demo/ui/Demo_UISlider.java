@@ -10,7 +10,7 @@ extends PAppletHax {
 	protected boolean debugMode = true;
 	protected UISlider[] prefSliders;
 	
-	public void setupFirstFrame () {
+	public void firstFrame () {
 		int sliderX = 10;
 		int sliderY = 10;
 		int sliderW = 300;

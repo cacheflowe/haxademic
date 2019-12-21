@@ -2,6 +2,7 @@ package com.haxademic.demo.hardware.webcam;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.image.FrozenImageMonitor;
@@ -15,13 +16,13 @@ extends PAppletHax {
 	public WebCam cam2 = null;
 	public FrozenImageMonitor freezeMonitor;
 
-	protected void overridePropsFile() {
-		p.appConfig.setProperty(AppSettings.SHOW_DEBUG, false );
-		p.appConfig.setProperty(AppSettings.WIDTH, 800 );
-		p.appConfig.setProperty(AppSettings.HEIGHT, 960 );
+	protected void config() {
+		Config.setProperty(AppSettings.SHOW_DEBUG, false );
+		Config.setProperty(AppSettings.WIDTH, 800 );
+		Config.setProperty(AppSettings.HEIGHT, 960 );
 	}
 		
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		cam1 = new WebCam("cam_1");
 		freezeMonitor = new FrozenImageMonitor();
 	}

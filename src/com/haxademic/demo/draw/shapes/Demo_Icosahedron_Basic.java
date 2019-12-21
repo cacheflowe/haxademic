@@ -18,7 +18,7 @@ extends PAppletHax {
 	protected PImage texture;
 	protected PShape icosa;
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 
 		int detail = 4;
 		icosa = Icosahedron.createIcosahedron(p.g, detail, DemoAssets.textureJupiter());

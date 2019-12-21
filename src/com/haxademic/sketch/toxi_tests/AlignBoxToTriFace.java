@@ -17,7 +17,7 @@ extends PAppletHax {
 	TriangleMesh mesh;
 	ToxiclibsSupport toxi;
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 
 		toxi = Toxiclibs.instance(p).toxi;
 		randomize();

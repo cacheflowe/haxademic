@@ -2,6 +2,7 @@ package com.haxademic.demo.system;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.system.CrashMonitor;
 
@@ -11,11 +12,11 @@ extends PAppletHax {
 
 	protected CrashMonitor appMonitor;
 
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.APP_NAME, "CrashMonitor Test" );
+	protected void config() {
+		Config.setProperty( AppSettings.APP_NAME, "CrashMonitor Test" );
 	}
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		boolean RESTARTS = true;	// if false, we're expecting CrashMonitor to quit the app (rather than restart), 
 									// and the run.cmd script will restart it after a delay. 
 									// If true, we shouldn't have restart recovery built into the run.cmd script.

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 
 import KinectPV2.KJoint;
 import KinectPV2.KSkeleton;
@@ -15,15 +16,15 @@ extends PAppletHax {
 
 	protected KinectPV2 kinect;
 
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, 1280 );
-		p.appConfig.setProperty( AppSettings.HEIGHT, 720 );
-		p.appConfig.setProperty( AppSettings.SHOW_DEBUG, true );
-		p.appConfig.setProperty( AppSettings.KINECT_V2_WIN_ACTIVE, true );
-		//		p.appConfig.setProperty( AppSettings.KINECT_ACTIVE, true );
+	protected void config() {
+		Config.setProperty( AppSettings.WIDTH, 1280 );
+		Config.setProperty( AppSettings.HEIGHT, 720 );
+		Config.setProperty( AppSettings.SHOW_DEBUG, true );
+		Config.setProperty( AppSettings.KINECT_V2_WIN_ACTIVE, true );
+		//		Config.setProperty( AppSettings.KINECT_ACTIVE, true );
 	}
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		kinect = new KinectPV2(this);
 
 		kinect.enableSkeletonColorMap(true);

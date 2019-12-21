@@ -11,7 +11,7 @@ extends PAppletHax {
 
 	protected MovieBuffer movieBuffer;
 	
-	protected void setupFirstFrame() {
+	protected void firstFrame() {
 		movieBuffer = new MovieBuffer(DemoAssets.movieFractalCube());
 		movieBuffer.movie.loop();
 	}

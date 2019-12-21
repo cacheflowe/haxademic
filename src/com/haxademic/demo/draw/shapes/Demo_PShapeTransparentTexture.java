@@ -3,6 +3,7 @@ package com.haxademic.demo.draw.shapes;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.shapes.Shapes;
 import com.haxademic.core.media.DemoAssets;
@@ -17,12 +18,12 @@ extends PAppletHax {
 	protected PShape shape;
 	protected PGraphics spritePG;
 
-	protected void overridePropsFile() {
-		p.appConfig.setProperty(AppSettings.WIDTH, 768);
-		p.appConfig.setProperty(AppSettings.HEIGHT, 768);
+	protected void config() {
+		Config.setProperty(AppSettings.WIDTH, 768);
+		Config.setProperty(AppSettings.HEIGHT, 768);
 	}
 	
-	protected void setupFirstFrame() {
+	protected void firstFrame() {
 		// build shape and assign texture
 		shape = Shapes.createSheet(1, 400, 400);
 		shape.setTexture(DemoAssets.particle());

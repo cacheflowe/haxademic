@@ -29,7 +29,7 @@ implements ISpeechRecognizer {
 	protected Robot robot;
 	protected ArrayList<KeySequence> keyQueue = new ArrayList<KeySequence>();
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		Demo_SpeechRecognitionCopypasta thiss = this;
 		java.awt.EventQueue.invokeLater(new Runnable() {
 			public void run() {

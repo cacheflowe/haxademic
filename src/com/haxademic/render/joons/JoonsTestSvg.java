@@ -2,6 +2,7 @@ package com.haxademic.render.joons;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.render.JoonsWrapper;
@@ -14,19 +15,19 @@ extends PAppletHax {
 
 	protected PShape _shape;
 	
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.SUNFLOW, "true" );
-		p.appConfig.setProperty( AppSettings.SUNFLOW_ACTIVE, "true" );
-		p.appConfig.setProperty( AppSettings.SUNFLOW_QUALITY, "low" );
+	protected void config() {
+		Config.setProperty( AppSettings.SUNFLOW, "true" );
+		Config.setProperty( AppSettings.SUNFLOW_ACTIVE, "true" );
+		Config.setProperty( AppSettings.SUNFLOW_QUALITY, "low" );
 
 
-		p.appConfig.setProperty( AppSettings.WIDTH, "800" );
-		p.appConfig.setProperty( AppSettings.HEIGHT, "600" );
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
-		p.appConfig.setProperty( AppSettings.FPS, "30" );
+		Config.setProperty( AppSettings.WIDTH, "800" );
+		Config.setProperty( AppSettings.HEIGHT, "600" );
+		Config.setProperty( AppSettings.RENDERING_MOVIE, "false" );
+		Config.setProperty( AppSettings.FPS, "30" );
 	}
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 
 		
 		_shape = p.loadShape(FileUtil.getHaxademicDataPath() + "/svg/pink-eye-skeleton.svg");

@@ -9,7 +9,7 @@ extends PAppletHax {
 	
 	protected TextEventLog eventLog;
 	
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		eventLog = new TextEventLog();
 		eventLog.appStarted();
 		eventLog.setMaxLogFiles(5);

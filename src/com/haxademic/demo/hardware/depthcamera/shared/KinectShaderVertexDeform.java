@@ -3,6 +3,7 @@ package com.haxademic.demo.hardware.depthcamera.shared;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.shapes.Shapes;
 import com.haxademic.core.draw.shapes.pshader.MeshDeformAndTextureFilter;
@@ -33,13 +34,13 @@ extends PAppletHax {
 	protected PGraphics tex;
 
 
-	protected void overridePropsFile() {
-//		p.appConfig.setProperty( AppSettings.KINECT_V2_WIN_ACTIVE, true );
-		p.appConfig.setProperty( AppSettings.KINECT_ACTIVE, true );
-		p.appConfig.setProperty(AppSettings.SHOW_UI, true);
+	protected void config() {
+//		Config.setProperty( AppSettings.KINECT_V2_WIN_ACTIVE, true );
+		Config.setProperty( AppSettings.KINECT_ACTIVE, true );
+		Config.setProperty(AppSettings.SHOW_UI, true);
 	}
 	
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		UI.addSlider(kinectLeft, -0.08f, -1.0f, 1.0f, 0.01f, false);
 		UI.addSlider(kinectRight, 1.06f, 0f, 2f, 0.01f, false);
 		UI.addSlider(kinectTop, -0.08f, -1.0f, 1.0f, 0.01f, false);

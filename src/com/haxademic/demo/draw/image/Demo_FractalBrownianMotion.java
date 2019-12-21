@@ -3,6 +3,7 @@ package com.haxademic.demo.draw.image;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.textures.FractalBrownianMotion;
 
 public class Demo_FractalBrownianMotion
@@ -11,15 +12,15 @@ extends PAppletHax {
 		
 	protected FractalBrownianMotion fbm;
 	
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.FPS, 90 );
-		p.appConfig.setProperty( AppSettings.RENDERER, P.P3D );
-		p.appConfig.setProperty( AppSettings.WIDTH, 800 );
-		p.appConfig.setProperty( AppSettings.HEIGHT, 800 );
-		p.appConfig.setProperty( AppSettings.SMOOTHING, AppSettings.SMOOTH_HIGH );
+	protected void config() {
+		Config.setProperty( AppSettings.FPS, 90 );
+		Config.setProperty( AppSettings.RENDERER, P.P3D );
+		Config.setProperty( AppSettings.WIDTH, 800 );
+		Config.setProperty( AppSettings.HEIGHT, 800 );
+		Config.setProperty( AppSettings.SMOOTHING, AppSettings.SMOOTH_HIGH );
 	}
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 
 		fbm = new FractalBrownianMotion(p);
 	}

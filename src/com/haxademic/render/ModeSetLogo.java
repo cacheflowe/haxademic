@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.color.EasingColor;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.context.PG;
@@ -23,13 +24,13 @@ extends PAppletHax {
 	protected final EasingColor MODE_SET_BLUE = new EasingColor( 0, 200, 234, 255 );
 
 	
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, 800 );
-		p.appConfig.setProperty( AppSettings.HEIGHT, 800 );
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, false );
+	protected void config() {
+		Config.setProperty( AppSettings.WIDTH, 800 );
+		Config.setProperty( AppSettings.HEIGHT, 800 );
+		Config.setProperty( AppSettings.RENDERING_MOVIE, false );
 	}
 	
-	public void setupFirstFrame() {
+	public void firstFrame() {
 
 //		_meshCrest = MeshUtil.getExtrudedMesh( MeshUtil.meshFromSVG( p, FileUtil.getHaxademicDataPath() + "svg/modeset-logotype.svg", 10, -1, 0.7f ), 250 );
 //		_meshCrest = MeshUtil.meshFromSVG( p, FileUtil.getHaxademicDataPath() + "svg/modeset-crest.svg", -1, 20, 0.8f );

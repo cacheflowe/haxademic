@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.color.ColorUtil;
 import com.haxademic.core.draw.color.EasingColor;
 import com.haxademic.core.file.FileUtil;
@@ -72,43 +73,43 @@ extends PAppletHax {
 			493.883f
 			};
 
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.KINECT_ACTIVE, "true" );
-		p.appConfig.setProperty( "kinect_min_mm", "600" );
-		p.appConfig.setProperty( "kinect_max_mm", "2500" );
-		p.appConfig.setProperty( "kinect_top_pixel", "0" );
-		p.appConfig.setProperty( "kinect_bottom_pixel", "480" );
-		p.appConfig.setProperty( "kinect_pixel_skip", "14" );
-		p.appConfig.setProperty( "kinect_player_gap", "150" );
-		p.appConfig.setProperty( "kinect_player_min_pixels", "10" );
-		p.appConfig.setProperty( "kinect_mirrored", "true" );
+	protected void config() {
+		Config.setProperty( AppSettings.KINECT_ACTIVE, "true" );
+		Config.setProperty( "kinect_min_mm", "600" );
+		Config.setProperty( "kinect_max_mm", "2500" );
+		Config.setProperty( "kinect_top_pixel", "0" );
+		Config.setProperty( "kinect_bottom_pixel", "480" );
+		Config.setProperty( "kinect_pixel_skip", "14" );
+		Config.setProperty( "kinect_player_gap", "150" );
+		Config.setProperty( "kinect_player_min_pixels", "10" );
+		Config.setProperty( "kinect_mirrored", "true" );
 		
-		p.appConfig.setProperty( "leap_active", "false" );
+		Config.setProperty( "leap_active", "false" );
 		
-		p.appConfig.setProperty( "dmx_active", "true" );
+		Config.setProperty( "dmx_active", "true" );
 	}
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		minim = new Minim(this);
 		// hardware config
-		if(p.appConfig.getBoolean("leap_active", false) == true) {
+		if(Config.getBoolean("leap_active", false) == true) {
 			_joysticks = new LeapRegionGrid(NUM_PLAYERS, 1, 1, 0f);
-		} else if(p.appConfig.getBoolean("kinect_active", false) == true) {
+		} else if(Config.getBoolean("kinect_active", false) == true) {
 			_joysticks = new KinectRegionGrid(
 				NUM_PLAYERS, 
 				1, 
-				p.appConfig.getInt("kinect_min_mm", -1), 
-				p.appConfig.getInt("kinect_max_mm", -1), 
-				p.appConfig.getInt("kinect_player_gap", -1), 
-				p.appConfig.getInt("kinect_top_pixel", -1), 
-				p.appConfig.getInt("kinect_bottom_pixel", -1), 
-				p.appConfig.getInt("kinect_pixel_skip", -1), 
-				p.appConfig.getInt("kinect_player_min_pixels", -1)
+				Config.getInt("kinect_min_mm", -1), 
+				Config.getInt("kinect_max_mm", -1), 
+				Config.getInt("kinect_player_gap", -1), 
+				Config.getInt("kinect_top_pixel", -1), 
+				Config.getInt("kinect_bottom_pixel", -1), 
+				Config.getInt("kinect_pixel_skip", -1), 
+				Config.getInt("kinect_player_min_pixels", -1)
 			);
 		} else {
 			_joysticks = new AutoTesterJoysticksCollection(NUM_PLAYERS);			
 		}
-		_dmxActive = p.appConfig.getBoolean("dmx_active", false);
+		_dmxActive = Config.getBoolean("dmx_active", false);
 		// Make sure to run Pro-Manager and select the ENTTEC DMXUSB PRO as the device from the web interface. Leave this running in the browser.
 		buildTonePlayers();
 		buildPhysicalLighting();

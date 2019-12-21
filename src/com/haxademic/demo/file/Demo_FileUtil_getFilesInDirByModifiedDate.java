@@ -8,7 +8,7 @@ public class Demo_FileUtil_getFilesInDirByModifiedDate
 extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		String baseDir = FileUtil.getFile("haxademic/images/");
 		
 		P.out("Files by modified date (newest first):");

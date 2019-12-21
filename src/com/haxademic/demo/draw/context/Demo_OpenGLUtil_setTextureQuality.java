@@ -3,6 +3,7 @@ package com.haxademic.demo.draw.context;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.textures.pgraphics.TextureShaderTimeStepper;
@@ -16,13 +17,13 @@ extends PAppletHax {
 	
 	BaseTexture texture;
 	
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.FPS, 90 );
-		p.appConfig.setProperty( AppSettings.SMOOTHING, AppSettings.SMOOTH_NONE );
+	protected void config() {
+		Config.setProperty( AppSettings.FPS, 90 );
+		Config.setProperty( AppSettings.SMOOTHING, AppSettings.SMOOTH_NONE );
 	}
 
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 
 		texture = new TextureShaderTimeStepper(p.width, p.height, "cacheflowe-repeating-circles.glsl");
 //		texture = new TextureMeshDeform(p.width, p.height);

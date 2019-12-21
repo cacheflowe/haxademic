@@ -3,6 +3,7 @@ package com.haxademic.demo.render.joons;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.media.DemoAssets;
@@ -25,19 +26,19 @@ extends PAppletHax {
 	};
 
 	protected int FRAMES = 360;
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, 1200 );
-		p.appConfig.setProperty( AppSettings.HEIGHT, 900 );
-		p.appConfig.setProperty( AppSettings.LOOP_FRAMES, FRAMES );
-		p.appConfig.setProperty( AppSettings.SUNFLOW, true );
-		p.appConfig.setProperty( AppSettings.SUNFLOW_ACTIVE, true );
-		p.appConfig.setProperty( AppSettings.SUNFLOW_QUALITY, AppSettings.SUNFLOW_QUALITY_HIGH );
-		p.appConfig.setProperty( AppSettings.RENDERING_IMAGE_SEQUENCE, true );
-		p.appConfig.setProperty( AppSettings.RENDERING_IMAGE_SEQUENCE_START_FRAME, 3 );
-		p.appConfig.setProperty( AppSettings.RENDERING_IMAGE_SEQUENCE_STOP_FRAME, 3 + FRAMES );
+	protected void config() {
+		Config.setProperty( AppSettings.WIDTH, 1200 );
+		Config.setProperty( AppSettings.HEIGHT, 900 );
+		Config.setProperty( AppSettings.LOOP_FRAMES, FRAMES );
+		Config.setProperty( AppSettings.SUNFLOW, true );
+		Config.setProperty( AppSettings.SUNFLOW_ACTIVE, true );
+		Config.setProperty( AppSettings.SUNFLOW_QUALITY, AppSettings.SUNFLOW_QUALITY_HIGH );
+		Config.setProperty( AppSettings.RENDERING_IMAGE_SEQUENCE, true );
+		Config.setProperty( AppSettings.RENDERING_IMAGE_SEQUENCE_START_FRAME, 3 );
+		Config.setProperty( AppSettings.RENDERING_IMAGE_SEQUENCE_STOP_FRAME, 3 + FRAMES );
 	}
 	
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		shape = PShapeUtil.shapeFromImage(DemoAssets.textureCursor());
 		PShapeUtil.centerShape(shape);
 		PShapeUtil.scaleVertices(shape, 1, 1, 4);
@@ -45,7 +46,7 @@ extends PAppletHax {
 	}
 	
 	public void drawApp() {
-		if(p.appConfig.getBoolean(AppSettings.SUNFLOW_ACTIVE, false) == false) {
+		if(Config.getBoolean(AppSettings.SUNFLOW_ACTIVE, false) == false) {
 			p.background(200, 255, 200);
 //			PG.setCenterScreen(p);
 			PG.setBetterLights(p);

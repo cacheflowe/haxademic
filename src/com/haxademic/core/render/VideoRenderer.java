@@ -2,6 +2,7 @@ package com.haxademic.core.render;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.media.audio.analysis.AudioIn;
 import com.haxademic.core.media.audio.analysis.AudioInputESS;
@@ -33,7 +34,7 @@ public class VideoRenderer {
 		fps = framesPerSecond;
 		this.outputType = outputType;
 		this.outputDir = outputDir;
-		audioSimulation = P.p.appConfig.getBoolean( AppSettings.RENDER_AUDIO_SIMULATION, false );
+		audioSimulation = Config.getBoolean( AppSettings.RENDER_AUDIO_SIMULATION, false );
 	}
 	
 	/**
@@ -148,8 +149,8 @@ public class VideoRenderer {
 		// get projected completion time
 		String totalFrames = "?";
 		int totalFramesInt = -1; 
-		int startFrame = P.p.appConfig.getInt(AppSettings.RENDERING_MOVIE_START_FRAME, -1);
-		int stopFrame = P.p.appConfig.getInt(AppSettings.RENDERING_MOVIE_STOP_FRAME, -1);
+		int startFrame = Config.getInt(AppSettings.RENDERING_MOVIE_START_FRAME, -1);
+		int stopFrame = Config.getInt(AppSettings.RENDERING_MOVIE_STOP_FRAME, -1);
 		if(startFrame != -1 && stopFrame != -1) {
 			totalFramesInt = stopFrame - startFrame;
 			totalFrames = totalFramesInt + "";

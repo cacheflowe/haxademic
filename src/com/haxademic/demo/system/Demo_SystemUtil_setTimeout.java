@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.system.SystemUtil;
 
@@ -15,15 +16,15 @@ extends PAppletHax {
 	protected int randGray = 0;
 	protected ActionListener callback;
 	
-	public void setupFirstFrame() {
+	public void firstFrame() {
 
 		buildCallbacks();
 	}
 	
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
-		p.appConfig.setProperty( AppSettings.WIDTH, "520" );
-		p.appConfig.setProperty( AppSettings.HEIGHT, "120" );
+	protected void config() {
+		Config.setProperty( AppSettings.RENDERING_MOVIE, "false" );
+		Config.setProperty( AppSettings.WIDTH, "520" );
+		Config.setProperty( AppSettings.HEIGHT, "120" );
 	}
 	
 	protected void buildCallbacks() {

@@ -2,6 +2,7 @@ package com.haxademic.render.joons;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.render.JoonsWrapper;
@@ -20,19 +21,19 @@ extends PAppletHax {
 	protected boolean isWebCam;
 	
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 
 		image = p.loadImage( FileUtil.getHaxademicDataPath() + "images/dawn-pattern.png" );
 	}
 	
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.SUNFLOW, "true" );
-		p.appConfig.setProperty( AppSettings.SUNFLOW_ACTIVE, "false" );
-		p.appConfig.setProperty( AppSettings.SUNFLOW_QUALITY, "high" );
-		p.appConfig.setProperty( "sunflow_save_images", "true" );
-		p.appConfig.setProperty( AppSettings.WIDTH, "1300" );
-		p.appConfig.setProperty( AppSettings.HEIGHT, "1000" );
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
+	protected void config() {
+		Config.setProperty( AppSettings.SUNFLOW, "true" );
+		Config.setProperty( AppSettings.SUNFLOW_ACTIVE, "false" );
+		Config.setProperty( AppSettings.SUNFLOW_QUALITY, "high" );
+		Config.setProperty( "sunflow_save_images", "true" );
+		Config.setProperty( AppSettings.WIDTH, "1300" );
+		Config.setProperty( AppSettings.HEIGHT, "1000" );
+		Config.setProperty( AppSettings.RENDERING_MOVIE, "false" );
 	}
 
 	public void drawApp() {
@@ -67,7 +68,7 @@ extends PAppletHax {
 				
 				// pyramids
 //				Shapes.drawPyramid( p, height, size, false );
-//				if( p.appConfig.getBoolean("sunflow", false) == true ) _jw.addColorForObject( JoonsWrapper.MATERIAL_SHINY, pixelColor, 1, false );
+//				if( Config.getBoolean("sunflow", false) == true ) _jw.addColorForObject( JoonsWrapper.MATERIAL_SHINY, pixelColor, 1, false );
 				
 				// spheres
 				sphere(size*0.5f * pixelBrightness/255f);

@@ -3,6 +3,7 @@ package com.haxademic.render;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.math.easing.LinearFloat;
 import com.haxademic.core.math.easing.Penner;
@@ -14,15 +15,15 @@ extends PAppletHax {
 	protected LinearFloat[] easingsL;
 	protected LinearFloat[] easingsR;
 
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.FPS, 60 );
-//		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, true );
-//		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_START_FRAME, 1 );
-//		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, 400 );
+	protected void config() {
+		Config.setProperty( AppSettings.FPS, 60 );
+//		Config.setProperty( AppSettings.RENDERING_MOVIE, true );
+//		Config.setProperty( AppSettings.RENDERING_MOVIE_START_FRAME, 1 );
+//		Config.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, 400 );
 	}
 
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 	
 		easingsL = new LinearFloat[40];
 		easingsR = new LinearFloat[40];

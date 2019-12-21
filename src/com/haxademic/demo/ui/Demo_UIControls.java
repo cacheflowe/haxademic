@@ -3,6 +3,7 @@ package com.haxademic.demo.ui;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.ui.UI;
 import com.haxademic.core.ui.UIButton;
@@ -18,11 +19,11 @@ extends PAppletHax {
 	
 	protected String VECTOR_3 = "VECTOR_3";
 	
-	protected void overridePropsFile() {
-		p.appConfig.setProperty(AppSettings.SHOW_UI, true);
+	protected void config() {
+		Config.setProperty(AppSettings.SHOW_UI, true);
 	}
 	
-	public void setupFirstFrame () {
+	public void firstFrame () {
 		UI.addSlider(R, 255, 0, 255, 0.5f);
 		UI.addSlider(G, 255, 0, 255, 0.5f);
 		UI.addSlider(B, 255, 0, 255, 0.5f);

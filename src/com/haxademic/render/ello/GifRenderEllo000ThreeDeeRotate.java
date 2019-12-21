@@ -3,6 +3,7 @@ package com.haxademic.render.ello;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.toxi.MeshPool;
@@ -17,7 +18,7 @@ extends PAppletHax {
 	
 	protected int animCount = 0;
 	
-	public void setupFirstFrame() {
+	public void firstFrame() {
 
 		
 		// create ello mesh
@@ -27,15 +28,15 @@ extends PAppletHax {
 		 p.smooth(OpenGLUtil.SMOOTH_HIGH);
 	}
 	
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
-		p.appConfig.setProperty( AppSettings.WIDTH, "640" );
-		p.appConfig.setProperty( AppSettings.HEIGHT, "480" );
-		p.appConfig.setProperty( AppSettings.RENDERING_GIF, "true" );
-		p.appConfig.setProperty( AppSettings.RENDERING_GIF_FRAMERATE, "45" );
-		p.appConfig.setProperty( AppSettings.RENDERING_GIF_QUALITY, "15" );
-		p.appConfig.setProperty( AppSettings.RENDERING_GIF_START_FRAME, "2" );
-		p.appConfig.setProperty( AppSettings.RENDERING_GIF_STOP_FRAME, "22" ); // 26 for imgs=5
+	protected void config() {
+		Config.setProperty( AppSettings.RENDERING_MOVIE, "false" );
+		Config.setProperty( AppSettings.WIDTH, "640" );
+		Config.setProperty( AppSettings.HEIGHT, "480" );
+		Config.setProperty( AppSettings.RENDERING_GIF, "true" );
+		Config.setProperty( AppSettings.RENDERING_GIF_FRAMERATE, "45" );
+		Config.setProperty( AppSettings.RENDERING_GIF_QUALITY, "15" );
+		Config.setProperty( AppSettings.RENDERING_GIF_START_FRAME, "2" );
+		Config.setProperty( AppSettings.RENDERING_GIF_STOP_FRAME, "22" ); // 26 for imgs=5
 	}
 		
 	public void drawApp() {

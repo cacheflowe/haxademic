@@ -3,6 +3,7 @@ package com.haxademic.demo.draw.textures.shaders;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.textures.pshader.TextureShader;
 import com.haxademic.core.hardware.mouse.Mouse;
 import com.haxademic.core.hardware.shared.InputTrigger;
@@ -16,13 +17,13 @@ extends PAppletHax { public static void main(String args[]) { arguments = args; 
 	protected InputTrigger triggerPrev = new InputTrigger(new char[]{'1'});
 	protected InputTrigger triggerNext = new InputTrigger(new char[]{'2'});
 
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, 800 );
-		p.appConfig.setProperty( AppSettings.HEIGHT, 800 );
-		p.appConfig.setProperty( AppSettings.FULLSCREEN, false );
+	protected void config() {
+		Config.setProperty( AppSettings.WIDTH, 800 );
+		Config.setProperty( AppSettings.HEIGHT, 800 );
+		Config.setProperty( AppSettings.FULLSCREEN, false );
 	}
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		textures = new TextureShader[] {
 			new TextureShader(TextureShader.basic_checker),
 			new TextureShader(TextureShader.basic_diagonal_stripes),

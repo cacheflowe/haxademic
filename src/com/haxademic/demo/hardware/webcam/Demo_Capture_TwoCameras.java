@@ -3,6 +3,7 @@ package com.haxademic.demo.hardware.webcam;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.PG;
 
 import processing.video.Capture;
@@ -14,11 +15,11 @@ extends PAppletHax {
 	public Capture webCam1 = null;
 	public Capture webCam2 = null;
 
-	protected void overridePropsFile() {
-		p.appConfig.setProperty(AppSettings.SHOW_DEBUG, true );
+	protected void config() {
+		Config.setProperty(AppSettings.SHOW_DEBUG, true );
 	}
 		
-	public void setupFirstFrame () {
+	public void firstFrame () {
 		P.println("getting cameras");
 		String[] cameras = Capture.list();
 		P.println("cameras: "+cameras);

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.hardware.depthcamera.DepthCameraSize;
 
@@ -26,19 +27,19 @@ extends PAppletHax {
 	protected SynthHand _synth;
 	Minim minim;
 	
-	public void setupFirstFrame() {
+	public void firstFrame() {
 
 		minim = new Minim(this);
 		loadSounds();
 		_synth = new SynthHand();
 	}
 
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, "false" );
-		p.appConfig.setProperty( AppSettings.KINECT_ACTIVE, "true" );
-		p.appConfig.setProperty( AppSettings.WIDTH, "640" );
-		p.appConfig.setProperty( AppSettings.HEIGHT, "480" );
-		p.appConfig.setProperty( AppSettings.FPS, "60" );
+	protected void config() {
+		Config.setProperty( AppSettings.RENDERING_MOVIE, "false" );
+		Config.setProperty( AppSettings.KINECT_ACTIVE, "true" );
+		Config.setProperty( AppSettings.WIDTH, "640" );
+		Config.setProperty( AppSettings.HEIGHT, "480" );
+		Config.setProperty( AppSettings.FPS, "60" );
 	}
 	
 	protected void loadSounds() {

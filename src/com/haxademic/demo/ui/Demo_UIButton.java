@@ -17,7 +17,7 @@ implements IUIButtonDelegate {
 	protected boolean activeButtons = true;
 	protected ArrayList<IUIControl> mouseables;
 
-	public void setupFirstFrame () {
+	public void firstFrame () {
 		int buttonX = 40;
 		int buttonY = 10;
 		int buttonW = 200;

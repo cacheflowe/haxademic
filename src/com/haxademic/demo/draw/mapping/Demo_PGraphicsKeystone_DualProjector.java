@@ -3,6 +3,7 @@ package com.haxademic.demo.draw.mapping;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.mapping.PGraphicsKeystone;
@@ -21,17 +22,17 @@ extends PAppletHax {
 	protected boolean debug2 = true;
 	protected boolean testPattern = true;
 
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, 1000 );
-		p.appConfig.setProperty( AppSettings.HEIGHT, 700 );
-//		p.appConfig.setProperty( AppSettings.FULLSCREEN, true );
-//		p.appConfig.setProperty( AppSettings.SCREEN_X, 0 );
-//		p.appConfig.setProperty( AppSettings.SCREEN_Y, 0 );
-//		p.appConfig.setProperty( AppSettings.WIDTH, 3840 );
-//		p.appConfig.setProperty( AppSettings.HEIGHT, 1080 );
+	protected void config() {
+		Config.setProperty( AppSettings.WIDTH, 1000 );
+		Config.setProperty( AppSettings.HEIGHT, 700 );
+//		Config.setProperty( AppSettings.FULLSCREEN, true );
+//		Config.setProperty( AppSettings.SCREEN_X, 0 );
+//		Config.setProperty( AppSettings.SCREEN_Y, 0 );
+//		Config.setProperty( AppSettings.WIDTH, 3840 );
+//		Config.setProperty( AppSettings.HEIGHT, 1080 );
 	}
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		buildCanvas();
 	}
 

@@ -22,7 +22,7 @@ extends PAppletHax {
 	};
 	protected int playlistIndex = 0;
 	
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		player = new WavPlayer();
 		AudioIn.instance(new AudioInputBeads(player.context()));
 		playNextSound();

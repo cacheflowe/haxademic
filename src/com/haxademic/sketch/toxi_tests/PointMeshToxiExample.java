@@ -22,7 +22,7 @@ extends PAppletHax {
 
 	ToxiclibsSupport toxi;
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 
 		toxi = Toxiclibs.instance(p).toxi;
 		// compute mesh positions on circle in XZ plane

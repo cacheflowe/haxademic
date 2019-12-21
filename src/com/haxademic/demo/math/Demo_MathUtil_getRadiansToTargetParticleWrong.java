@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.media.DemoAssets;
@@ -20,13 +21,13 @@ extends PAppletHax {
 	protected ArrayList<VectorFlyer2d> particles;
 	protected ArrayList<Attractor> attractors;
 
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, 1280 );
-		p.appConfig.setProperty( AppSettings.HEIGHT, 720 );
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, false );
+	protected void config() {
+		Config.setProperty( AppSettings.WIDTH, 1280 );
+		Config.setProperty( AppSettings.HEIGHT, 720 );
+		Config.setProperty( AppSettings.RENDERING_MOVIE, false );
 	}
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		particles = new ArrayList<VectorFlyer2d>();
 		for(int i=0; i < 10000; i++) particles.add(new VectorFlyer2d(new PVector(p.random(p.width), p.random(p.height))));
 		attractors = new ArrayList<Attractor>();

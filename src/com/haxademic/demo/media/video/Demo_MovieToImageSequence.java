@@ -2,6 +2,7 @@ package com.haxademic.demo.media.video;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.image.ImageSequenceMovieClip;
 import com.haxademic.core.hardware.mouse.Mouse;
@@ -15,13 +16,13 @@ extends PAppletHax {
 	protected MovieToImageSequence movieToImageSequence;
 	protected ImageSequenceMovieClip movieClip;
 	
-	protected void overridePropsFile() {
-		p.appConfig.setProperty(AppSettings.WIDTH, 1400 );
-		p.appConfig.setProperty(AppSettings.HEIGHT, 700 );
-		p.appConfig.setProperty(AppSettings.SHOW_DEBUG, true );
+	protected void config() {
+		Config.setProperty(AppSettings.WIDTH, 1400 );
+		Config.setProperty(AppSettings.HEIGHT, 700 );
+		Config.setProperty(AppSettings.SHOW_DEBUG, true );
 	}
 		
-	public void setupFirstFrame () {
+	public void firstFrame () {
 		movieToImageSequence = new MovieToImageSequence(DemoAssets.movieFractalCube(), 0.5f);
 	}
 	

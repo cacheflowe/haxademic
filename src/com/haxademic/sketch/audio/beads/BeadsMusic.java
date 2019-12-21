@@ -36,11 +36,11 @@ extends PAppletHax {
 	int fore = color(255, 102, 204);
 	int back = color(0,0,0);
 
-	protected void overridePropsFile() {
-		//	p.appConfig.setProperty( AppSettings.WIDTH, 800 );
+	protected void config() {
+		//	Config.setProperty( AppSettings.WIDTH, 800 );
 	}
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		ac = new AudioContext();
 
 		// load a sample		

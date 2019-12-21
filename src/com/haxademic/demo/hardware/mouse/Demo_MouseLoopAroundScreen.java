@@ -16,7 +16,7 @@ extends PAppletHax {
 	protected Point mousePoint;
 	protected Point lastMousePoint = new Point();
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		P.p.registerMethod("post", this);
 	}
 

@@ -3,6 +3,7 @@ package com.haxademic.render.ello;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.image.AnimatedGifEncoder;
 import com.haxademic.core.file.FileUtil;
@@ -22,12 +23,12 @@ extends PAppletHax {
 	float _frames = 30;
 	boolean rendering = false;
 	
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, "100" );
-		p.appConfig.setProperty( AppSettings.HEIGHT, "110" );
+	protected void config() {
+		Config.setProperty( AppSettings.WIDTH, "100" );
+		Config.setProperty( AppSettings.HEIGHT, "110" );
 	}
 	
-	public void setupFirstFrame() {
+	public void firstFrame() {
 
 		p.smooth(OpenGLUtil.SMOOTH_HIGH);
 		_icon = p.loadImage(FileUtil.getHaxademicDataPath()+"images/play-arrow.png");

@@ -3,6 +3,7 @@ package com.haxademic.sketch.test;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.PG;
 
 public class RoadScrollTest
@@ -19,14 +20,14 @@ extends PAppletHax {
 	protected float _z = 0;
 	protected float _tileSize = 160;
 
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.FILLS_SCREEN, "false" );
+	protected void config() {
+		Config.setProperty( AppSettings.FILLS_SCREEN, "false" );
 		
-		p.appConfig.setProperty( AppSettings.WIDTH, "640" );
-		p.appConfig.setProperty( AppSettings.HEIGHT, "480" );
+		Config.setProperty( AppSettings.WIDTH, "640" );
+		Config.setProperty( AppSettings.HEIGHT, "480" );
 	}
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		_x = p.width / 2;
 		_z = 0;
 	}

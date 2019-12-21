@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.filters.pgraphics.archive.BlobOuterMeshFilter;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.textures.pgraphics.TextureEQColumns;
@@ -55,24 +56,19 @@ extends PAppletHax {
 	protected Rectangle _textureRect;
 	protected int _curTextureIndex = 0;
 	
-
-	public void settings() {
-		customPropsFile = FileUtil.getHaxademicDataPath() + "properties/jumbotronix.properties";
-		super.settings();
-	}
-	
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		MidiDevice.init(0, 0);
 		initWebcam();
 		initShaders();
 		initViz();
 	}
 	
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, "1100" );
-		p.appConfig.setProperty( AppSettings.HEIGHT, "462" );
-		p.appConfig.setProperty( AppSettings.FULLSCREEN, "false" );
-		p.appConfig.setProperty( AppSettings.FILLS_SCREEN, "true" );
+	protected void config() {
+		Config.loadPropertiesFile(FileUtil.getFile("properties/jumbotronix.properties"));
+		Config.setProperty( AppSettings.WIDTH, "1100" );
+		Config.setProperty( AppSettings.HEIGHT, "462" );
+		Config.setProperty( AppSettings.FULLSCREEN, "false" );
+		Config.setProperty( AppSettings.FILLS_SCREEN, "true" );
 	}
 
 	protected void initWebcam() {

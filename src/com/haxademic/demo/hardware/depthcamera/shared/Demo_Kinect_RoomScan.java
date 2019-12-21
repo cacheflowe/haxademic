@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.data.constants.PTextAlign;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.image.BufferThresholdMonitor;
@@ -30,15 +31,15 @@ extends PAppletHax {
 	
 	protected BufferThresholdMonitor userActive;
 	
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, 1280 );
-		p.appConfig.setProperty( AppSettings.HEIGHT, 720 );
-//		p.appConfig.setProperty( AppSettings.KINECT_V2_WIN_ACTIVE, true );
-		p.appConfig.setProperty( AppSettings.KINECT_ACTIVE, true );
-//		p.appConfig.setProperty( AppSettings.REALSENSE_ACTIVE, true );
+	protected void config() {
+		Config.setProperty( AppSettings.WIDTH, 1280 );
+		Config.setProperty( AppSettings.HEIGHT, 720 );
+//		Config.setProperty( AppSettings.KINECT_V2_WIN_ACTIVE, true );
+		Config.setProperty( AppSettings.KINECT_ACTIVE, true );
+//		Config.setProperty( AppSettings.REALSENSE_ACTIVE, true );
 	}
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		surface.setResizable(true);
 		// Choose depthImageMode vs raw depth data method.
 		// Depending on whether the camera re-calibrates the depth image, we might need to go with pixel data

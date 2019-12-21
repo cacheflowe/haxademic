@@ -2,6 +2,7 @@ package com.haxademic.demo.hardware.dmx;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.hardware.dmx.DMXFixture.DMXMode;
@@ -22,12 +23,12 @@ extends PAppletHax {
 	protected PImage floorplan;
 	protected Movie video;
 	
-	protected void overridePropsFile() {
-		p.appConfig.setProperty(AppSettings.WIDTH, 960);
-		p.appConfig.setProperty(AppSettings.HEIGHT, 540);
+	protected void config() {
+		Config.setProperty(AppSettings.WIDTH, 960);
+		Config.setProperty(AppSettings.HEIGHT, 540);
 	}
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		// Create buffer for DMXEditor color sampling
 		// Can be smaller, but should be same aspect ratio as pgUI
 		// - Buffer is treated as the same size as GUI, but scaled up for speed of sampling smaller texture

@@ -3,6 +3,7 @@ package com.haxademic.demo.ui;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.hardware.midi.MidiDevice;
 import com.haxademic.core.hardware.midi.devices.LaunchControl;
@@ -19,11 +20,11 @@ extends PAppletHax {
 	
 	protected String VECTOR_3 = "VECTOR_3";
 	
-	protected void overridePropsFile() {
-		p.appConfig.setProperty(AppSettings.SHOW_UI, true);
+	protected void config() {
+		Config.setProperty(AppSettings.SHOW_UI, true);
 	}
 	
-	public void setupFirstFrame () {
+	public void firstFrame () {
 		// init midi input
 		MidiDevice.init(0, 3);
 

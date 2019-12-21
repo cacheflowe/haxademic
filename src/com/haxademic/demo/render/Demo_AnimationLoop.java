@@ -2,6 +2,7 @@ package com.haxademic.demo.render;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.OpenGLUtil;
 
 import processing.core.PVector;
@@ -16,17 +17,17 @@ extends PAppletHax {
 	protected float _bg = 0;
 	protected PVector _boxRot = new PVector(0,0,0);
 	
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, 640 );
-		p.appConfig.setProperty( AppSettings.HEIGHT, 640 );
-		p.appConfig.setProperty( AppSettings.LOOP_FRAMES, _frames );
-		p.appConfig.setProperty( AppSettings.LOOP_TICKS, 16 );
+	protected void config() {
+		Config.setProperty( AppSettings.WIDTH, 640 );
+		Config.setProperty( AppSettings.HEIGHT, 640 );
+		Config.setProperty( AppSettings.LOOP_FRAMES, _frames );
+		Config.setProperty( AppSettings.LOOP_TICKS, 16 );
 		
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, false );
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, Math.round(_frames + _frames*4) );
+		Config.setProperty( AppSettings.RENDERING_MOVIE, false );
+		Config.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, Math.round(_frames + _frames*4) );
 	}
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 	
 		
 		p.smooth(OpenGLUtil.SMOOTH_HIGH);

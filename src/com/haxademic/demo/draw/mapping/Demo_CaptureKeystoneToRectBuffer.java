@@ -2,6 +2,7 @@ package com.haxademic.demo.draw.mapping;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.mapping.CaptureKeystoneToRectBuffer;
 import com.haxademic.core.file.FileUtil;
@@ -20,12 +21,12 @@ extends PAppletHax {
 	protected CaptureKeystoneToRectBuffer mappedCapture;
 	protected boolean debug = true;
 
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, 1280 );
-		p.appConfig.setProperty( AppSettings.HEIGHT, 720 );
+	protected void config() {
+		Config.setProperty( AppSettings.WIDTH, 1280 );
+		Config.setProperty( AppSettings.HEIGHT, 720 );
 	}
 
-	protected void setupFirstFrame() {
+	protected void firstFrame() {
 		// load source image
 		sourceTexture = DemoAssets.justin();
 		sourceBuffer = ImageUtil.imageToGraphics(sourceTexture);

@@ -24,7 +24,7 @@ extends PAppletHax {
 	protected PImage displacementMap2;
 	protected BaseTexture audioTexture;
 
-	protected void setupFirstFrame() {
+	protected void firstFrame() {
 		AudioIn.instance();
 		
 		// build obj PShape and scale to window

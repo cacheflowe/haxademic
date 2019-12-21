@@ -2,6 +2,7 @@ package com.haxademic.demo.draw.filters.shaders;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.easing.Penner;
@@ -19,13 +20,13 @@ extends PAppletHax {
 	protected PShader transitionShader;
 	protected float frames = 400;
 
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, 640 );
-		p.appConfig.setProperty( AppSettings.HEIGHT, 640 );
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, false );
+	protected void config() {
+		Config.setProperty( AppSettings.WIDTH, 640 );
+		Config.setProperty( AppSettings.HEIGHT, 640 );
+		Config.setProperty( AppSettings.RENDERING_MOVIE, false );
 	}
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 
 		
 		img1 = ImageUtil.imageToGraphics(DemoAssets.squareTexture());

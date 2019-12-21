@@ -13,7 +13,7 @@ extends PAppletHax {
 	
 	protected IEasingValue[] easings;
 	
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		easings = new IEasingValue[] {
 			new EasingFloat(0, 0.2f),
 			new LinearFloat(0, 5),

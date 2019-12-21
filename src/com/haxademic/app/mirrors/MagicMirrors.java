@@ -2,6 +2,7 @@ package com.haxademic.app.mirrors;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pgraphics.SmokeFeedback;
 import com.haxademic.core.draw.filters.pgraphics.shared.BaseVideoFilter;
@@ -26,17 +27,17 @@ implements IWebCamCallback {
 	protected int webcamH = (int)h;//1080;
 	protected PGraphics webcamBuffer;
 
-	protected void overridePropsFile() {
-		p.appConfig.setProperty(AppSettings.WIDTH, (int) w);
-		p.appConfig.setProperty(AppSettings.HEIGHT, (int) h);
-		p.appConfig.setProperty(AppSettings.FULLSCREEN, false);
-		p.appConfig.setProperty(AppSettings.WIDTH, 1280);
-		p.appConfig.setProperty(AppSettings.HEIGHT, 720);
-		p.appConfig.setProperty(AppSettings.ALWAYS_ON_TOP, false);
-		p.appConfig.setProperty(AppSettings.APP_NAME, "MagicMirrors");
+	protected void config() {
+		Config.setProperty(AppSettings.WIDTH, (int) w);
+		Config.setProperty(AppSettings.HEIGHT, (int) h);
+		Config.setProperty(AppSettings.FULLSCREEN, false);
+		Config.setProperty(AppSettings.WIDTH, 1280);
+		Config.setProperty(AppSettings.HEIGHT, 720);
+		Config.setProperty(AppSettings.ALWAYS_ON_TOP, false);
+		Config.setProperty(AppSettings.APP_NAME, "MagicMirrors");
 	}
 
-	protected void setupFirstFrame() {
+	protected void firstFrame() {
 		WebCam.instance().setDelegate(this);
 		webcamBuffer = PG.newPG(webcamW, webcamH);
 		
