@@ -2,9 +2,7 @@
 
 ## Modularize PAppletHax
 
-* UIControlPanel
-	* Add setters on UISliders
-	* Add UIToggle new component? Or just make a mask function to populate a slider? Probably!
+* UIControlPanel - make global/static object `UI`
 * Inputs - more thoughts on InputTrigger below
 	* Make a base storage for different data types?
 		* Toggle values

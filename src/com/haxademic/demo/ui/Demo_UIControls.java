@@ -13,6 +13,7 @@ extends PAppletHax {
 	protected String R = "R";
 	protected String G = "G";
 	protected String B = "B";
+	protected String AUTO_ON = "AUTO_ON";
 	
 	protected String VECTOR_3 = "VECTOR_3";
 	
@@ -28,15 +29,19 @@ extends PAppletHax {
 		p.ui.addButton("Button", false);
 		p.ui.addButton("Button 2", true);
 		p.ui.addButtons(new String[] {"1", "2", "3", "4"}, true);
+		p.ui.addToggle(AUTO_ON, false, false);
 		P.out(p.ui.configToJSON());
 		P.out(p.ui.valuesToJSON());
 	}
 	
 	public void drawApp() {
-		// override slider
-		p.ui.setValue(R, 127 + 127f * P.sin(p.frameCount * 0.04f));
-		// set a button's value
-		if(p.frameCount % 200 == 0) p.ui.get("1").set(1);
+		// test setting of components
+		if(p.ui.valueToggle(AUTO_ON) == true) {
+			// override slider
+			p.ui.setValue(R, 127 + 127f * P.sin(p.frameCount * 0.04f));
+			// set a button's value
+			if(p.frameCount % 200 == 0) p.ui.get("1").set(1);
+		}
 		
 		// bg components
 		p.background(

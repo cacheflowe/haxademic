@@ -61,6 +61,11 @@ implements IUIButtonDelegate {
 		if(controlY > P.p.height - controlH) nextCol();
 	}
 	
+	public void addToggle(String key, boolean value, boolean saves) {
+		int valInt = (value == true) ? 1 : 0; 
+		addSlider(key, valInt, 0, 1, 1, saves);
+	}
+	
 	public void addSlider(String key, float value, float valueLow, float valueHigh, float dragStep) {
 		addSlider(key, value, valueLow, valueHigh, dragStep, true);
 	}
@@ -157,6 +162,10 @@ implements IUIButtonDelegate {
 	
 	public int valueInt(String key) {
 		return P.round(controls.get(key).value());
+	}
+	
+	public boolean valueToggle(String key) {
+		return P.round(controls.get(key).value()) == 1;
 	}
 	
 	public float valueX(String key) {
