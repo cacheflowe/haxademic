@@ -5,6 +5,7 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.data.store.AppStore;
 import com.haxademic.core.data.store.IAppStoreListener;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.media.audio.analysis.AudioIn;
 import com.haxademic.core.media.audio.analysis.AudioInputBeads;
@@ -54,7 +55,7 @@ implements IAppStoreListener {
 		Metronome.shiftPitchToMatchBpm(player, beat1, bpm, 8);
 		
 		// show debug audio view (and keep it open)
-		p.debugView.active(true);
+		DebugView.active(true);
 		p.image(AudioIn.instance().audioInputDebugBuffer(), 240, 100);
 	}
 

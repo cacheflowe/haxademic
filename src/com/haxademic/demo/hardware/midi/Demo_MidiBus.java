@@ -3,6 +3,7 @@ package com.haxademic.demo.hardware.midi;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.debug.StringBufferLog;
 import com.haxademic.core.hardware.midi.MidiDevice;
 import com.haxademic.core.hardware.midi.MidiState;
@@ -35,11 +36,11 @@ implements SimpleMidiListener {
 		p.background(0);
 		
 		// debug views
-		p.debugView.active(true);
+		DebugView.active(true);
 		logOut.printToScreen(p.g, 340, 20);
 
 		// test MidiState storage
-		p.debugView.setValue("PAD 1 on", MidiState.instance().isMidiNoteOn(LaunchControl.PAD_01));
+		DebugView.setValue("PAD 1 on", MidiState.instance().isMidiNoteOn(LaunchControl.PAD_01));
 		
 		// outgoing midi changes the LED color on the launch control
 		int launchControlChannel = 0;

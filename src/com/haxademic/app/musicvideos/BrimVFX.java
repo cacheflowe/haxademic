@@ -3,6 +3,7 @@ package com.haxademic.app.musicvideos;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.data.constants.PRenderers;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.filters.pgraphics.PixelTriFilter;
 import com.haxademic.core.draw.filters.pgraphics.shared.BaseVideoFilter;
 import com.haxademic.core.draw.filters.pshader.ContrastFilter;
@@ -73,8 +74,8 @@ extends PAppletHax {
 			if(videoLength == 0) {
 				videoLength = video.duration();
 				videoNumFrames = videoLength * fpss;
-				p.debugView.setValue("videoLength", videoLength);
-				p.debugView.setValue("videoNumFrames", videoNumFrames);
+				DebugView.setValue("videoLength", videoLength);
+				DebugView.setValue("videoNumFrames", videoNumFrames);
 			}
 			
 			if(video.width > 20) {
@@ -98,8 +99,8 @@ extends PAppletHax {
 				video.play();
 				video.jump(videoFrame / fpss);
 				video.pause();
-				p.debugView.setValue("video time", videoFrame / fpss);
-				p.debugView.setValue("last video frame", p.frameCount);
+				DebugView.setValue("video time", videoFrame / fpss);
+				DebugView.setValue("last video frame", p.frameCount);
 			}
 		
 		if(vfxPre != null) {

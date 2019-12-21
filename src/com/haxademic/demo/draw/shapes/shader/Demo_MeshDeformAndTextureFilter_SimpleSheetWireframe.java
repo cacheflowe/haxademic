@@ -2,6 +2,7 @@ package com.haxademic.demo.draw.shapes.shader;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.shapes.Shapes;
 import com.haxademic.core.draw.shapes.pshader.MeshDeformAndTextureFilter;
@@ -35,9 +36,9 @@ extends PAppletHax {
 		shape = Shapes.createSheet((int) cols, (int) rows, texture);
 		
 		// debug view
-		p.debugView.setValue("shape.getVertexCount();", shape.getVertexCount());
-		p.debugView.setTexture("texture", texture);
-		p.debugView.setTexture("displaceTexture", displaceTexture.texture());
+		DebugView.setValue("shape.getVertexCount();", shape.getVertexCount());
+		DebugView.setTexture("texture", texture);
+		DebugView.setTexture("displaceTexture", displaceTexture.texture());
 	}
 
 	public void drawApp() {

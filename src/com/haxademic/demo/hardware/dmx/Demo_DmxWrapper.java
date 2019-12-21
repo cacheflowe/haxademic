@@ -2,6 +2,7 @@ package com.haxademic.demo.hardware.dmx;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.color.EasingColor;
 import com.haxademic.core.hardware.dmx.DMXWrapper;
 import com.haxademic.core.hardware.mouse.Mouse;
@@ -36,7 +37,7 @@ extends PAppletHax {
 	}
 
 	public void drawApp() {
-		p.debugView.setValue("audioActive", audioActive);
+		DebugView.setValue("audioActive", audioActive);
 		background(0);
 		if(audioActive) {
 			// audio eq

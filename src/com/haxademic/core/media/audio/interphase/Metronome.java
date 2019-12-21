@@ -3,6 +3,7 @@ package com.haxademic.core.media.audio.interphase;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.data.constants.PRegisterableMethods;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.hardware.mouse.Mouse;
 import com.haxademic.core.math.easing.LinearFloat;
 import com.haxademic.core.media.audio.analysis.AudioIn;
@@ -68,8 +69,8 @@ public class Metronome {
 					// set beat on sequencers, and play them if needed
 					
 					// set debug text
-					P.p.debugView.setValue("INTERPHASE :: numinputs", ac.out.getConnectedInputs().size());
-					P.p.debugView.setValue("INTERPHASE :: c.getCount()", ((c.getCount() / 4) % 8) + 1);
+					DebugView.setValue("INTERPHASE :: numinputs", ac.out.getConnectedInputs().size());
+					DebugView.setValue("INTERPHASE :: c.getCount()", ((c.getCount() / 4) % 8) + 1);
 				}
 			}
 		);
@@ -96,7 +97,7 @@ public class Metronome {
 		float bpm = P.store.getInt(Interphase.BPM);
 		float bpmIntervalMS = bpmToIntervalMS(bpm * 1);
 		c.getIntervalUGen().setValue(bpmIntervalMS);
-		P.p.debugView.setValue("INTERPHASE :: BPM", bpm);
+		DebugView.setValue("INTERPHASE :: BPM", bpm);
 	}
 	
 	protected void updateBeat(Clock c) {

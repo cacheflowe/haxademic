@@ -4,6 +4,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.data.constants.PRenderers;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.BlurProcessingFilter;
 import com.haxademic.core.draw.image.ImageUtil;
@@ -43,7 +44,7 @@ extends PAppletHax {
 		// noise texture
 		noiseBuffer = p.createGraphics(p.width, p.height, PRenderers.P2D);
 		noiseTexture = new TextureShader(TextureShader.noise_simplex_2d_iq, 0.0005f);
-		p.debugView.setTexture("noiseBuffer", noiseBuffer);
+		DebugView.setTexture("noiseBuffer", noiseBuffer);
 
 		// build points shape
 		shape = p.createShape();

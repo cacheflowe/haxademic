@@ -3,6 +3,7 @@ package com.haxademic.demo.hardware.dmx;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.hardware.depthcamera.DepthCameraSize;
 import com.haxademic.core.hardware.depthcamera.KinectRegionGrid;
 import com.haxademic.core.hardware.dmx.DMXWrapper;
@@ -101,10 +102,10 @@ extends PAppletHax {
 			boolean hasUser = kinectRegionGrid.getRegion(0).isActive();
 			float userX = (hasUser) ? kinectRegionGrid.getRegion(0).controlX() : 0;
 			
-			p.debugView.setValue("userX", userX);
-			p.debugView.setValue("hasUser", hasUser);
-			p.debugView.setValue("Mouse.xNorm", Mouse.xNorm);
-			p.debugView.setValue("Mouse.yNorm", Mouse.yNorm);
+			DebugView.setValue("userX", userX);
+			DebugView.setValue("hasUser", hasUser);
+			DebugView.setValue("Mouse.xNorm", Mouse.xNorm);
+			DebugView.setValue("Mouse.yNorm", Mouse.yNorm);
 			
 			float panVal = P.map(userX, -1, 1, 0.735f, 0.585f);
 			float tiltVal = (hasUser) ? 0 : 0.5f;

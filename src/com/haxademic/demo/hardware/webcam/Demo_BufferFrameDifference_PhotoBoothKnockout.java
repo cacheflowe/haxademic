@@ -3,6 +3,7 @@ package com.haxademic.demo.hardware.webcam;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.data.constants.PRenderers;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.image.BufferFrameDifference;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.hardware.webcam.WebCam;
@@ -61,8 +62,8 @@ implements IWebCamCallback {
 //		BlurVFilter.instance(p).applyTo(bufferFrameDifference.differenceBuffer());
 		
 		// debug view
-		p.debugView.setTexture("bufferCamera", bufferCamera);
-		p.debugView.setTexture("differenceBuffer", bufferFrameDifference.differenceBuffer());
+		DebugView.setTexture("bufferCamera", bufferCamera);
+		DebugView.setTexture("differenceBuffer", bufferFrameDifference.differenceBuffer());
 	}
 
 	public void drawApp() {

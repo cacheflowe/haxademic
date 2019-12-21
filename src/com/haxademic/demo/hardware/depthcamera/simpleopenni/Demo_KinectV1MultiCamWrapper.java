@@ -4,6 +4,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.data.constants.PRenderers;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.mapping.PGraphicsKeystone;
 import com.haxademic.core.file.FileUtil;
@@ -93,8 +94,8 @@ extends PAppletHax {
 		int kinect1Pixels = drawKinectDepthPixels(kinect1, buffer1, p.color(255), false);
 		int kinect2Pixels = drawKinectDepthPixels(kinect2, buffer2, p.color(0, 255, 0), false);
 //		
-		p.debugView.setValue("kinect1Pixels", kinect1Pixels);
-		p.debugView.setValue("kinect2Pixels", kinect2Pixels);
+		DebugView.setValue("kinect1Pixels", kinect1Pixels);
+		DebugView.setValue("kinect2Pixels", kinect2Pixels);
 		
 		if(keystoneMode) {
 			if(debug1) keystone1.update(p.g);

@@ -11,7 +11,6 @@ import com.haxademic.core.app.config.P5Properties;
 import com.haxademic.core.data.constants.PEvents;
 import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.debug.DebugUtil;
-import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.file.FileUtil;
@@ -92,7 +91,6 @@ extends PApplet {
 
 	// debug
 	public int _fps;
-	public DebugView debugView;
 	
 	////////////////////////
 	// INIT
@@ -143,11 +141,6 @@ extends PApplet {
 		if(isOpenGL()) window = (GLWindow) surface.getNative();
 		if(customPropsFile != null) DebugUtil.printErr("Make sure to load custom .properties files in settings()");
 		setAppletProps();
-		if(P.renderer != PRenderers.PDF) {
-			debugView = new DebugView( p );
-			debugView.active(p.appConfig.getBoolean(AppSettings.SHOW_DEBUG, false));
-			addKeyCommandInfo();
-		}
 	}
 	
 	////////////////////////
@@ -221,18 +214,6 @@ extends PApplet {
 		if(p.appConfig.getInt(AppSettings.FPS, 60) != 60) frameRate(_fps);
 	}
 	
-	protected void addKeyCommandInfo() {
-		p.debugView.setHelpLine(DebugView.TITLE_PREFIX + "KEY COMMANDS:", "");
-		p.debugView.setHelpLine("ESC |", "Quit");
-		p.debugView.setHelpLine("[W]", "Show WebCam UI");
-		p.debugView.setHelpLine("[F]", "Toggle `alwaysOnTop`");
-		p.debugView.setHelpLine("[/]", "Toggle `DebugView`");
-		p.debugView.setHelpLine("[\\]", "Toggle `PrefsSilders`");
-		p.debugView.setHelpLine("[.]", "Audio input gain up");
-		p.debugView.setHelpLine("[,]", "Audio input gain down");
-		p.debugView.setHelpLine("[|]", "Save screenshot");
-	}
-	
 	protected void initHaxademicObjects() {
 		// create offscreen buffer
 		if(isOpenGL()) pg = PG.newPG(p.appConfig.getInt(AppSettings.PG_WIDTH, p.width), p.appConfig.getInt(AppSettings.PG_HEIGHT, p.height));
@@ -252,17 +233,19 @@ extends PApplet {
 				: null;
 		// hardware
 		initKinect();
+
 		browserInputState = new BrowserInputState();
 		gamepadState = new GamepadState();
 		if( p.appConfig.getBoolean( AppSettings.GAMEPADS_ACTIVE, false ) == true ) gamepadListener = new GamepadListener();
-		if( p.appConfig.getBoolean( "leap_active", false ) == true ) leapMotion = new LeapMotion(this);
 		if( p.appConfig.getBoolean( AppSettings.OSC_ACTIVE, false ) == true ) oscState = new OscWrapper();
+
+		if( p.appConfig.getBoolean( "leap_active", false ) == true ) leapMotion = new LeapMotion(this);
 		// app helpers
 		try { robot = new Robot(); } catch( Exception error ) { println("couldn't init Robot for screensaver disabling"); }
 		// fullscreen
 		boolean isFullscreen = p.appConfig.getBoolean(AppSettings.FULLSCREEN, false);
 		if(isFullscreen == true) {
-			alwaysOnTop = p.appConfig.getBoolean(AppSettings.ALWAYS_ON_TOP, true);
+			alwaysOnTop = p.appConfig.getBoolean(AppSettings.ALWAYS_ON_TOP, false);
 			if(alwaysOnTop) AppUtil.setAlwaysOnTop(p, true);
 		}
 	}
@@ -348,7 +331,6 @@ extends PApplet {
 		if(oscState != null) oscState.update();
 //		if(dmxUniverse != null) dmxUniverse.update();
 		if(WebCam.instance != null && p.key == 'W') WebCam.instance().drawMenu(p.g);
-		showStats();
 		keepOnTop();
 		setAppDockIconAndTitle(false);
 		if(P.renderer == PRenderers.PDF) finishPdfRender();
@@ -357,12 +339,6 @@ extends PApplet {
 	////////////////////////
 	// UPDATE OBJECTS
 	////////////////////////	
-
-	protected void showStats() {
-		if(P.renderer == PRenderers.PDF) return;
-		p.noLights();
-		debugView.draw();
-	}
 
 	protected void keepOnTop() {
 		if(alwaysOnTop == true) {

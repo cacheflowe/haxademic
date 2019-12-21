@@ -1,6 +1,7 @@
 package com.haxademic.core.draw.particle;
 
 import com.haxademic.core.app.P;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.context.PShaderHotSwap;
 import com.haxademic.core.draw.shapes.PShapeUtil;
@@ -35,7 +36,7 @@ public class ParticleLauncherGPU {
 		
 		// create texture to store positions
 		colorBuffer = PG.newDataPG(positionBufferSize, positionBufferSize);
-//		P.p.debugView.setTexture("colorBuffer", colorBuffer);
+//		DebugView.setTexture("colorBuffer", colorBuffer);
 		colorBuffer.beginDraw();
 		colorBuffer.background(255);
 		colorBuffer.noStroke();
@@ -76,7 +77,7 @@ public class ParticleLauncherGPU {
 	}
 	
 	public void beginLaunch() {
-		P.p.debugView.setTexture("progressBuffer", positionBuffer);
+		DebugView.setTexture("progressBuffer", positionBuffer);
 		positionBuffer.beginDraw();
 	}
 	

@@ -5,6 +5,7 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.data.constants.PBlendModes;
 import com.haxademic.core.data.constants.PRenderers;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.ContrastFilter;
 import com.haxademic.core.draw.shapes.PShapeUtil;
@@ -66,11 +67,11 @@ extends PAppletHax {
 		colorBuffer = p.createGraphics(p.width, p.height, PRenderers.P3D);
 //		colorBuffer.smooth(8);
 
-		p.debugView.setTexture("colorBuffer", colorBuffer);
-		p.debugView.setTexture("bufferDirection", bufferDirection);
-		p.debugView.setTexture("bufferAmp", bufferAmp);
-		p.debugView.setTexture("bufferPositions", bufferPositions);
-		p.debugView.setTexture("bufferRenderedParticles", bufferRenderedParticles);
+		DebugView.setTexture("colorBuffer", colorBuffer);
+		DebugView.setTexture("bufferDirection", bufferDirection);
+		DebugView.setTexture("bufferAmp", bufferAmp);
+		DebugView.setTexture("bufferPositions", bufferPositions);
+		DebugView.setTexture("bufferRenderedParticles", bufferRenderedParticles);
 
 		// build displacement maps
 //		directionGenerator = p.loadShader(FileUtil.getFile("haxademic/shaders/textures/cacheflowe-liquid-moire.glsl"));
@@ -86,7 +87,7 @@ extends PAppletHax {
 		
 		// count vertices for debugView
 		int vertices = P.round(w * h); 
-		p.debugView.setValue("Vertices", vertices);
+		DebugView.setValue("Vertices", vertices);
 		
 		// Build points vertices
 		shape = PShapeUtil.pointsShapeForGPUData((int)w);

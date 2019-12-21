@@ -2,6 +2,7 @@ package com.haxademic.demo.media.video;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.image.ImageSequenceMovieClip;
 import com.haxademic.core.hardware.mouse.Mouse;
 import com.haxademic.core.media.DemoAssets;
@@ -33,7 +34,7 @@ extends PAppletHax {
 	public void drawApp() {
 		movieToImageSequence.update();
 		if(movieClip == null && movieToImageSequence.complete()) convertToMoviePlayer();
-		p.debugView.setValue("movie convert progress", movieToImageSequence.progress());
+		DebugView.setValue("movie convert progress", movieToImageSequence.progress());
 		
 		// show relatime comverstion
 		if(movieToImageSequence.imageSequence() != null) {

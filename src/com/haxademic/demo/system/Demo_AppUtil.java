@@ -3,6 +3,7 @@ package com.haxademic.demo.system;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.hardware.mouse.Mouse;
 import com.haxademic.core.system.AppUtil;
 
@@ -30,9 +31,9 @@ extends PAppletHax {
 		p.background(0);
 		
 		//get native window object
-		p.debugView.setValue("window width", window.getBounds().getWidth());
-		p.debugView.setValue("window height", window.getBounds().getHeight());
-		p.debugView.setValue("window hasFocus", window.hasFocus());
+		DebugView.setValue("window width", window.getBounds().getWidth());
+		DebugView.setValue("window height", window.getBounds().getHeight());
+		DebugView.setValue("window hasFocus", window.hasFocus());
 
 		// move window in circle
 		AppUtil.setLocation(p, P.round(100 + 50f * P.cos(p.frameCount * 0.01f)), P.round(100 + 50f * P.sin(p.frameCount * 0.01f)));

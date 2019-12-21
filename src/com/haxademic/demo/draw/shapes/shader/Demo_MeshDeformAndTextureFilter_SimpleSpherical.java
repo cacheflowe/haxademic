@@ -2,6 +2,7 @@ package com.haxademic.demo.draw.shapes.shader;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.shapes.PShapeUtil;
@@ -51,7 +52,7 @@ extends PAppletHax {
 		// update displacement texture - this must be set for shader to work
 		audioTexture.update();
 		PImage displacementMap = (p.frameCount % 200 < 100) ? displacementMap1 : displacementMap2;
-		p.debugView.setTexture("displacementMap", displacementMap);
+		DebugView.setTexture("displacementMap", displacementMap);
 		
 		// deform mesh
 		MeshDeformAndTextureFilter.instance(p).setDisplacementMap(displacementMap);

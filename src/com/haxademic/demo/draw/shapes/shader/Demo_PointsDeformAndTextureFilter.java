@@ -3,6 +3,7 @@ package com.haxademic.demo.draw.shapes.shader;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.BlurProcessingFilter;
 import com.haxademic.core.draw.shapes.PShapeUtil;
@@ -59,7 +60,7 @@ extends PAppletHax {
 		PShapeUtil.centerShape(obj);
 		PShapeUtil.scaleShapeToHeight(obj, p.height * 0.7f);
 		// debug
-		p.debugView.setValue("svg vertices", PShapeUtil.vertexCount(svg));
+		DebugView.setValue("svg vertices", PShapeUtil.vertexCount(svg));
 		
 		// replace with a points version
 		obj = PShapeUtil.meshShapeToPointsShape(obj);
@@ -82,7 +83,7 @@ extends PAppletHax {
 		// blur texture for smooothness
 		BlurProcessingFilter.instance(p).setBlurSize(5);
 		BlurProcessingFilter.instance(p).applyTo(audioTexture.texture());
-		p.debugView.setTexture("audioTexture", audioTexture.texture());
+		DebugView.setTexture("audioTexture", audioTexture.texture());
 		
 		// apply points deform/texture shader
 		PointsDeformAndTextureFilter.instance(p).setColorMap(audioTexture.texture());

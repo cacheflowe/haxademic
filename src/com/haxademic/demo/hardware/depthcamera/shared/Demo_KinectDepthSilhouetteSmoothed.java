@@ -3,6 +3,7 @@ package com.haxademic.demo.hardware.depthcamera.shared;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.hardware.depthcamera.KinectDepthSilhouetteSmoothed;
 import com.haxademic.core.hardware.mouse.Mouse;
@@ -28,9 +29,9 @@ extends PAppletHax {
 	public void setupFirstFrame() {
 		kinectSilhouetteSmoothed = new KinectDepthSilhouetteSmoothed(p.depthCamera, 5);
 		
-		p.debugView.setTexture("depthBuffer", kinectSilhouetteSmoothed.depthBuffer());
-		p.debugView.setTexture("avgBuffer", kinectSilhouetteSmoothed.avgBuffer());
-		p.debugView.setTexture("image", kinectSilhouetteSmoothed.image());
+		DebugView.setTexture("depthBuffer", kinectSilhouetteSmoothed.depthBuffer());
+		DebugView.setTexture("avgBuffer", kinectSilhouetteSmoothed.avgBuffer());
+		DebugView.setTexture("image", kinectSilhouetteSmoothed.image());
 	}
 	public void drawApp() {
 		p.background(0);

@@ -3,6 +3,7 @@ package com.haxademic.demo.draw.shapes.shader;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.GrainFilter;
 import com.haxademic.core.draw.filters.pshader.VignetteFilter;
@@ -67,12 +68,12 @@ extends PAppletHax {
 		// create texture to store positions
 		int positionBufferSize = 1024;
 		bufferPositions = PG.newDataPG(positionBufferSize, positionBufferSize);
-		p.debugView.setTexture("bufferPositions", bufferPositions);
+		DebugView.setTexture("bufferPositions", bufferPositions);
 		newPositions();
 		
 		// count vertices for debugView
 		int vertices = P.round(positionBufferSize * positionBufferSize); 
-		p.debugView.setValue("numParticles", vertices);
+		DebugView.setValue("numParticles", vertices);
 		
 		// Build points vertices
 		shape = PShapeUtil.pointsShapeForGPUData(positionBufferSize);

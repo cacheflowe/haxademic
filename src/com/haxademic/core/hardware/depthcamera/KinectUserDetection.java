@@ -1,6 +1,7 @@
 package com.haxademic.core.hardware.depthcamera;
 
 import com.haxademic.core.app.P;
+import com.haxademic.core.debug.DebugView;
 
 public class KinectUserDetection {
 
@@ -19,14 +20,14 @@ public class KinectUserDetection {
 	}
 	
 	public void update() {
-		boolean debugging = P.p.debugView.active();
+		boolean debugging = DebugView.active();
 		kinectRegionGrid.update(debugging);
 		if(kinectRegionGrid.debugImage() != null) {
-			P.p.debugView.setTexture("kinectRegionGrid.debugImage", kinectRegionGrid.debugImage());
+			DebugView.setTexture("kinectRegionGrid.debugImage", kinectRegionGrid.debugImage());
 		}
 
 		// draw active indicator
-//		P.p.debugView.setValue("KINECT USER ACTIVE", kinectRegionGrid.getRegion(1).isActive());
+//		DebugView.setValue("KINECT USER ACTIVE", kinectRegionGrid.getRegion(1).isActive());
 //		int activeColor = kinectRegionGrid.getRegion(1).isActive() ? p.color(0,255,0) : p.color(255,0,0);
 //		pg.fill(activeColor);
 //		pg.rect(0,0, 100, 100);

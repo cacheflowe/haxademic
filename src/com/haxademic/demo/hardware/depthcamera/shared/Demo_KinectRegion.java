@@ -2,6 +2,7 @@ package com.haxademic.demo.hardware.depthcamera.shared;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.hardware.depthcamera.DepthCameraSize;
@@ -97,9 +98,9 @@ extends PAppletHax {
 		userX.setTarget(region.controlX()).update();
 		userZ.setTarget(region.controlZ()).update();
 		
-		p.debugView.setValue("userActive", userActive.value());
-		p.debugView.setValue("userX", userX.value());
-		p.debugView.setValue("userZ", userZ.value());
+		DebugView.setValue("userActive", userActive.value());
+		DebugView.setValue("userX", userX.value());
+		DebugView.setValue("userZ", userZ.value());
 		
 		p.pushMatrix();
 		PG.setDrawCenter(p);
@@ -110,24 +111,24 @@ extends PAppletHax {
 		p.popMatrix();
 		
 		// debug info
-		p.debugView.setValue("region.controlX", region.controlX());
-		p.debugView.setValue("region.controlY", region.controlY());
-		p.debugView.setValue("region.controlZ", region.controlZ());
-		p.debugView.setValue("region.isActive", region.isActive());
-		p.debugView.setValue("region.left", region.left());
-		p.debugView.setValue("region.right", region.right());
-		p.debugView.setValue("region.near", region.near());
-		p.debugView.setValue("region.far", region.far());
-		p.debugView.setValue("region.top", region.top());
-		p.debugView.setValue("region.bottom", region.bottom());
-		p.debugView.setValue("region.pixelSkip", region.pixelSkip());
-		p.debugView.setValue("region.pixelCount", region.pixelCount());
-		p.debugView.setValue("region.minPixels", region.minPixels());
+		DebugView.setValue("region.controlX", region.controlX());
+		DebugView.setValue("region.controlY", region.controlY());
+		DebugView.setValue("region.controlZ", region.controlZ());
+		DebugView.setValue("region.isActive", region.isActive());
+		DebugView.setValue("region.left", region.left());
+		DebugView.setValue("region.right", region.right());
+		DebugView.setValue("region.near", region.near());
+		DebugView.setValue("region.far", region.far());
+		DebugView.setValue("region.top", region.top());
+		DebugView.setValue("region.bottom", region.bottom());
+		DebugView.setValue("region.pixelSkip", region.pixelSkip());
+		DebugView.setValue("region.pixelCount", region.pixelCount());
+		DebugView.setValue("region.minPixels", region.minPixels());
 		
 		// debug textures
-//		if(p.depthCamera.getRgbImage() != null) p.debugView.setTexture("depthCamera.getRgbImage", p.depthCamera.getRgbImage());
-//		if(p.depthCamera.getDepthImage() != null) p.debugView.setTexture("depthCamera.getDepthImage", p.depthCamera.getDepthImage());
-		if(regionDebug != null) p.debugView.setTexture("kinectRegionGrid.debugImage", regionDebug);
+//		if(p.depthCamera.getRgbImage() != null) DebugView.setTexture("depthCamera.getRgbImage", p.depthCamera.getRgbImage());
+//		if(p.depthCamera.getDepthImage() != null) DebugView.setTexture("depthCamera.getDepthImage", p.depthCamera.getDepthImage());
+		if(regionDebug != null) DebugView.setTexture("kinectRegionGrid.debugImage", regionDebug);
 	}
 	
 }

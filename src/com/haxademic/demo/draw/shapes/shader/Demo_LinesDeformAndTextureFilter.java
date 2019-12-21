@@ -3,6 +3,7 @@ package com.haxademic.demo.draw.shapes.shader;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.draw.shapes.pshader.LinesDeformAndTextureFilter;
@@ -30,7 +31,7 @@ extends PAppletHax {
 		// load texture
 		perlin = new PerlinTexture(p, 256, 256);
 		texture = perlin.texture();
-		p.debugView.setTexture("texture", texture);
+		DebugView.setTexture("texture", texture);
 		
 		// build sheet mesh
 		shape = p.createShape(P.GROUP);
@@ -55,7 +56,7 @@ extends PAppletHax {
 		shape.disableStyle();
 
 		shape.setTexture(texture);
-		p.debugView.setValue("shape.getVertexCount();", PShapeUtil.vertexCount(shape));
+		DebugView.setValue("shape.getVertexCount();", PShapeUtil.vertexCount(shape));
 	}
 
 	public void drawApp() {

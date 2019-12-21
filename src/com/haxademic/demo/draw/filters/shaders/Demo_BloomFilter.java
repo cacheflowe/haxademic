@@ -3,6 +3,7 @@ package com.haxademic.demo.draw.filters.shaders;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.data.constants.PRenderers;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.BloomFilter;
 import com.haxademic.core.draw.filters.pshader.GrainFilter;
@@ -40,7 +41,7 @@ extends PAppletHax {
 		BloomFilter.instance(p).setBlurIterations(P.round(Mouse.yNorm * 4f));
 		BloomFilter.instance(p).setBlendMode(bloomBlendMode);
 		BloomFilter.instance(p).applyTo(pg);
-		p.debugView.setValue("Bloom blend mode", bloomBlendMode);
+		DebugView.setValue("Bloom blend mode", bloomBlendMode);
 		
 		// draw to screen
 		p.image(pg, 0, 0);

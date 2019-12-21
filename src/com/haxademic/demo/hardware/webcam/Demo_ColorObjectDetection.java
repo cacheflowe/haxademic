@@ -1,6 +1,7 @@
 package com.haxademic.demo.hardware.webcam;
 
 import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.image.ColorObjectDetection;
 import com.haxademic.core.hardware.webcam.WebCam;
 import com.haxademic.core.hardware.webcam.WebCam.IWebCamCallback;
@@ -47,7 +48,7 @@ implements IWebCamCallback {
 		colorObjectDetection.minPointsThreshold((int) UI.value(COLOR_MIN_POINTS_DETECT_THRESHOLD));
 		colorObjectDetection.debugging(true);
 		colorObjectDetection.update(frame);
-		p.debugView.setValue("colorObjectDetection.isActive()", colorObjectDetection.isActive());
+		DebugView.setValue("colorObjectDetection.isActive()", colorObjectDetection.isActive());
 	}
 	
 	public void mousePressed() {

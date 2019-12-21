@@ -4,7 +4,9 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import com.haxademic.core.app.P;
+import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.data.constants.PBlendModes;
+import com.haxademic.core.data.constants.PRegisterableMethods;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.hardware.keyboard.KeyboardState;
 import com.haxademic.core.hardware.mouse.Mouse;
@@ -21,66 +23,77 @@ import processing.core.PImage;
 public class DebugView {
 	
 	protected PApplet p;
-	protected PFont debugFont;	
-	protected LinkedHashMap<String, String> debugLines = new LinkedHashMap<String, String>();
-	protected LinkedHashMap<String, String> helpLines = new LinkedHashMap<String, String>();
-	protected LinkedHashMap<String, PImage> textures = new LinkedHashMap<String, PImage>();
-	protected float padding = 20;
-	protected float debugPanelW = 0;
-	protected float MAX_PANEL_WIDTH = 500;
-	protected float helpPanelW = 0;
-	protected int fontSize = 11;
-	protected boolean active = false;
-	protected int frameOpened = 0;
-	protected int hideFrames = 60 * 60;
-	protected boolean autoHide = true;
-	protected String ipAddress;
+	protected static PFont debugFont;	
+	protected static LinkedHashMap<String, String> debugLines = new LinkedHashMap<String, String>();
+	protected static LinkedHashMap<String, String> helpLines = new LinkedHashMap<String, String>();
+	protected static LinkedHashMap<String, PImage> textures = new LinkedHashMap<String, PImage>();
+	protected static float padding = 20;
+	protected static float debugPanelW = 0;
+	protected static float MAX_PANEL_WIDTH = 500;
+	protected static float helpPanelW = 0;
+	protected static int fontSize = 11;
+	protected static boolean active = false;
+	protected static int frameOpened = 0;
+	protected static int hideFrames = 60 * 60;
+	protected static boolean autoHide = true;
+	protected static String ipAddress;
 	public static final String TITLE_PREFIX = "___";
+
+	// Singleton instance
+	
+	public static DebugView instance;
+	
+	public static DebugView instance() {
+		if(instance != null) return instance;
+		instance = new DebugView(P.p);
+		return instance;
+	}
+	
+	// Constructor
 
 	public DebugView(PApplet p) {
 		this.p = p;
-		// for some reason, these were tanking app launches
+		active = P.p.appConfig.getBoolean(AppSettings.SHOW_DEBUG, false);
+		// for some reason, these were crashing app launches, so they got threaded
 		updateAppInfo();
-		new Thread(new Runnable() { public void run() {
-			debugFont = DemoAssets.fontInter(fontSize);
-			ipAddress = IPAddress.getLocalAddress();
-		}}).start();
+		addKeyCommandInfo();
+		
+		P.p.registerMethod(PRegisterableMethods.pre, this);
+		P.p.registerMethod(PRegisterableMethods.post, this);
 	}
 	
-	protected void createFont() {
-	}
-	
-	public boolean active() {
+	public static boolean active() {
 		return active;
 	}
 	
-	public void active(boolean active) {
-		this.active = active;
-		if(active) frameOpened = p.frameCount;
+	public static void active(boolean active) {
+		P.out("set active", active);
+		DebugView.active = active;
+		if(active) frameOpened = P.p.frameCount;
 	}
 	
-	public void autoHide(boolean autoHide) {
-		this.autoHide = autoHide;
+	public static void autoHide(boolean autoHide) {
+		DebugView.autoHide = autoHide;
 	}
 	
-	public void setValue(String key, String val) {
+	public static void setValue(String key, String val) {
 		debugLines.put(key, val);
 	}
 	
-	public void setValue(String key, float val) {
+	public static void setValue(String key, float val) {
 		debugLines.put(key, ""+val);
 	}
 	
-	public void setValue(String key, int val) {
+	public static void setValue(String key, int val) {
 		debugLines.put(key, ""+val);
 	}
 	
-	public void setValue(String key, boolean val) {
+	public static void setValue(String key, boolean val) {
 		String bool = (val == true) ? "true" : "false";
 		debugLines.put(key, ""+bool);
 	}
 	
-	public void setTexture(String key, PImage texture) {
+	public static void setTexture(String key, PImage texture) {
 		if(texture != null) {
 			textures.put(key, texture);
 		} else {
@@ -88,27 +101,19 @@ public class DebugView {
 		}
 	}
 	
-	public void removeTexture(String key) {
+	public static void removeTexture(String key) {
 		if(textures.containsKey(key)) textures.remove(key);
 	}
 	
-	public void setHelpLine(String key, String val) {
+	public static void setHelpLine(String key, String val) {
 		helpLines.put(key, val);
 	}
 	
-//	public void setTexture(PImage texture) {
-//		if(textures.contains(texture) == false) textures.add(texture);
-//	}
-//	
-//	public void removeTexture(PImage texture) {
-//		if(textures.contains(texture) == true) textures.remove(texture);
-//	}
-	
-	public float debugPanelW() {
+	public static float debugPanelW() {
 		return debugPanelW + padding;
 	}
 	
-	public float helpPanelW() {
+	public static float helpPanelW() {
 		return helpPanelW + padding;
 	}
 	
@@ -130,12 +135,24 @@ public class DebugView {
 		debugLines.put(TITLE_PREFIX + " CUSTOM", "");
 	}
 	
-	public void updateInputs() {
-		setValue("mouseX", p.mouseX);
-		setValue("mouseY", p.mouseY);
-		setValue("key", p.key);
-		setValue("keyCode", p.keyCode);
-		setValue("keyPressed", p.keyPressed);
+	protected void addKeyCommandInfo() {
+		setHelpLine(DebugView.TITLE_PREFIX + "KEY COMMANDS:", "");
+		setHelpLine("ESC |", "Quit");
+		setHelpLine("[W]", "Show WebCam UI");
+		setHelpLine("[F]", "Toggle `alwaysOnTop`");
+		setHelpLine("[/]", "Toggle `DebugView`");
+		setHelpLine("[\\]", "Toggle `PrefsSilders`");
+		setHelpLine("[.]", "Audio input gain up");
+		setHelpLine("[,]", "Audio input gain down");
+		setHelpLine("[|]", "Save screenshot");
+	}
+	
+	public static void updateInputs() {
+		setValue("mouseX", P.p.mouseX);
+		setValue("mouseY", P.p.mouseY);
+		setValue("key", P.p.key);
+		setValue("keyCode", P.p.keyCode);
+		setValue("keyPressed", P.p.keyPressed);
 	}
 	
 	protected String stringFromHashMap(LinkedHashMap<String, String> hashMap) {
@@ -153,17 +170,27 @@ public class DebugView {
 	}
 	
 	public void checkKeyCommands() {
-		if(KeyboardState.instance().isKeyTriggered('/')) active = !active;
-		if(KeyboardState.instance().isKeyTriggered('\\')) active = false;
+		if(KeyboardState.instance().isKeyTriggered('/')) active(!active);
+		if(KeyboardState.instance().isKeyTriggered('\\')) active(false);
 	}
 	
-	public void draw() {
+	public void pre() {
+		if(P.p.frameCount == 1) {
+			new Thread(new Runnable() { public void run() {
+				debugFont = DemoAssets.fontInter(fontSize);
+				ipAddress = IPAddress.getLocalAddress();
+			}}).start();
+		}
 		checkKeyCommands();
+	}
+	
+	public void post() {
 		if(debugFont == null) return;
 		if(active == false) return;
 		if(autoHide && p.frameCount > frameOpened + hideFrames) active = false;
 		
 		p.pushStyle();
+		p.noLights();
 		
 		// update core app stats
 		updateAppInfo();

@@ -2,6 +2,7 @@ package com.haxademic.demo.hardware.depthcamera.shared;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.hardware.depthcamera.KinectAmbientActivityMonitor;
 
 
@@ -29,7 +30,7 @@ extends PAppletHax {
 		p.image( p.depthCamera.getRgbImage(), 0, 0);
 
 		float activityLevel = kinectMonitor.update(p.depthCamera, true );
-		p.debugView.setValue("KinectAmbientActivityMonitor", activityLevel / 1000);
+		DebugView.setValue("KinectAmbientActivityMonitor", activityLevel / 1000);
 	}
 	
 }

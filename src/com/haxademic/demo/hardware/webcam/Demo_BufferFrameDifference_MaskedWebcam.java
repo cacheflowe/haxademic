@@ -3,6 +3,7 @@ package com.haxademic.demo.hardware.webcam;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.BlurProcessingFilter;
 import com.haxademic.core.draw.filters.pshader.FeedbackMapFilter;
@@ -141,8 +142,8 @@ implements IWebCamCallback {
 		for(int i=0; i < 5; i++) BlurProcessingFilter.instance(p).applyTo(diffBufferSmoothed);
 		
 		// debug webcam view
-		p.debugView.setTexture("webcam", frame);
-		p.debugView.setTexture("diffBufferSmoothed", diffBufferSmoothed);
+		DebugView.setTexture("webcam", frame);
+		DebugView.setTexture("diffBufferSmoothed", diffBufferSmoothed);
 	}
 
 }

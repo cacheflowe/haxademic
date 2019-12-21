@@ -4,6 +4,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.data.constants.PBlendModes;
 import com.haxademic.core.data.constants.PRenderers;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.color.Gradients;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.BlurHFilter;
@@ -39,9 +40,9 @@ extends PAppletHax {
 		shape = Shapes.createSheet((int) cols, (int) rows, texture);
 		
 		// debug view
-		p.debugView.setValue("shape.getVertexCount();", shape.getVertexCount());
-		p.debugView.setTexture("texture", texture);
-		p.debugView.setTexture("displaceTexture", displaceTexture);
+		DebugView.setValue("shape.getVertexCount();", shape.getVertexCount());
+		DebugView.setTexture("texture", texture);
+		DebugView.setTexture("displaceTexture", displaceTexture);
 	}
 
 	public void drawApp() {

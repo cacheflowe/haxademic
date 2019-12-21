@@ -3,6 +3,7 @@ package com.haxademic.demo.hardware.depthcamera.kinectpv2;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.BlurHFilter;
 import com.haxademic.core.draw.filters.pshader.BlurVFilter;
@@ -72,10 +73,10 @@ extends PAppletHax {
 			motionDetectionMap.setBlur(1f);
 			motionDetectionMap.updateSource(motionBuffer);
 			
-			p.debugView.setTexture("kinectSilhouetteSmoothed", kinectSilhouetteSmoothed.image());
-			p.debugView.setTexture("motionDetectionMap.backplate", motionDetectionMap.backplate());
-			p.debugView.setTexture("motionDetectionMap.differenceBuffer", motionDetectionMap.differenceBuffer());
-			p.debugView.setTexture("motionDetectionMap.bwBuffer", motionDetectionMap.bwBuffer());
+			DebugView.setTexture("kinectSilhouetteSmoothed", kinectSilhouetteSmoothed.image());
+			DebugView.setTexture("motionDetectionMap.backplate", motionDetectionMap.backplate());
+			DebugView.setTexture("motionDetectionMap.differenceBuffer", motionDetectionMap.differenceBuffer());
+			DebugView.setTexture("motionDetectionMap.bwBuffer", motionDetectionMap.bwBuffer());
 		}
 	}
 

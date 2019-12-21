@@ -3,6 +3,7 @@ package com.haxademic.demo.hardware.webcam;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.data.constants.PRenderers;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.color.ImageGradient;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.ColorizeFromTexture;
@@ -42,7 +43,7 @@ implements IWebCamCallback {
 		// lazy-init flipped camera buffer
 		if(flippedCamera == null) flippedCamera = p.createGraphics(800, 600, PRenderers.P2D);
 		ImageUtil.copyImageFlipH(frame, flippedCamera);
-		p.debugView.setTexture("webcam", flippedCamera);
+		DebugView.setTexture("webcam", flippedCamera);
 	}
 
 	public void keyPressed() {

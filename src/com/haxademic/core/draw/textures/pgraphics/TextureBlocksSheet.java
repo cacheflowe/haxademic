@@ -93,9 +93,9 @@ extends BaseTexture {
 //		}
 		
 		// debug
-//		P.p.debugView.setValue("grid cubes", cols * rows);
-//		P.p.debugView.setValue("grid vertices", PShapeUtil.vertexCount(gridShape));
-//		P.p.debugView.setValue("grid max extent", PShapeUtil.getMaxExtent(gridShape));
+//		DebugView.setValue("grid cubes", cols * rows);
+//		DebugView.setValue("grid vertices", PShapeUtil.vertexCount(gridShape));
+//		DebugView.setValue("grid max extent", PShapeUtil.getMaxExtent(gridShape));
 	}
 
 	public void newLineMode() {
@@ -136,7 +136,7 @@ extends BaseTexture {
 //		ColorizeFilter.instance(P.p).setTargetG(_colorEase.gNorm());
 //		ColorizeFilter.instance(P.p).setTargetB(_colorEase.bNorm());
 //		ColorizeFilter.instance(P.p).applyTo(audioTexture.texture());
-//		P.p.debugView.setTexture(audioTexture.texture());
+//		DebugView.setTexture(audioTexture.texture());
 	}
 
 	public void updateDraw() {

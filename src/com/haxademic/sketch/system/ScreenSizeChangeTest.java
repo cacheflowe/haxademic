@@ -52,13 +52,13 @@ extends PAppletHax {
 			p.getSurface().setLocation(0, 0);
 			p.getSurface().setSize(p.width, p.height + MathUtil.randRange(-10, 10));
 		}
-//		p.debugView.setValue("screenSize.width", screenSize.width);
-//		p.debugView.setValue("screenSize.height", screenSize.height);
-//		p.debugView.setValue("displayWidth", displayWidth);
-//		p.debugView.setValue("displayHeight", displayHeight);
+//		DebugView.setValue("screenSize.width", screenSize.width);
+//		DebugView.setValue("screenSize.height", screenSize.height);
+//		DebugView.setValue("displayWidth", displayWidth);
+//		DebugView.setValue("displayHeight", displayHeight);
 //		if(p.frameCount % 300 == 0) {
-//			p.debugView.setValue("Toolkit.getDefaultToolkit().getScreenSize().width", Toolkit.getDefaultToolkit().getScreenSize().width);
-//			p.debugView.setValue("Toolkit.getDefaultToolkit().getScreenSize().height", Toolkit.getDefaultToolkit().getScreenSize().height);
+//			DebugView.setValue("Toolkit.getDefaultToolkit().getScreenSize().width", Toolkit.getDefaultToolkit().getScreenSize().width);
+//			DebugView.setValue("Toolkit.getDefaultToolkit().getScreenSize().height", Toolkit.getDefaultToolkit().getScreenSize().height);
 //		}
 	}
 }

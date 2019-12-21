@@ -240,8 +240,8 @@ public class OpticalFlow {
 		}
 
 		// debug props
-//		P.p.debugView.setValue("OpticalFlow time", (P.p.millis() - analyzeStart)+"ms");
-//		P.p.debugView.setValue("OpticalFlow size", analyzeW+"x"+analyzeH);
+//		DebugView.setValue("OpticalFlow time", (P.p.millis() - analyzeStart)+"ms");
+//		DebugView.setValue("OpticalFlow size", analyzeW+"x"+analyzeH);
 	}
 	
 	// calculate average pixel value (r,g,b) for rectangle region

@@ -4,6 +4,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.data.constants.PTextAlign;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.image.ImageSequenceRecorder;
 import com.haxademic.core.draw.text.FontCacher;
@@ -162,9 +163,9 @@ implements IEasingBooleanCallback {
 			if(changeLevel < 0) changeLevel = 0;
 		}
 		
-		p.debugView.setValue("arrayDiff", arrayDiff);
-		p.debugView.setValue("numPixelsActive", numPixelsActive);
-		p.debugView.setValue("changeLevel", changeLevel);
+		DebugView.setValue("arrayDiff", arrayDiff);
+		DebugView.setValue("numPixelsActive", numPixelsActive);
+		DebugView.setValue("changeLevel", changeLevel);
 		
 		// draw activity value to screen
 		PFont font = FontCacher.getFont(DemoAssets.fontOpenSansPath, 14);
@@ -190,9 +191,9 @@ implements IEasingBooleanCallback {
 		p.fill(255);
 
 		// debug view
-		p.debugView.setTexture("depthCamera.getDepthImage", p.depthCamera.getDepthImage());
-		p.debugView.setTexture("depthCamera.getRgbImage", p.depthCamera.getRgbImage());
-		p.debugView.setValue("numPixelsProcessed", numPixelsProcessed);
+		DebugView.setTexture("depthCamera.getDepthImage", p.depthCamera.getDepthImage());
+		DebugView.setTexture("depthCamera.getRgbImage", p.depthCamera.getRgbImage());
+		DebugView.setValue("numPixelsProcessed", numPixelsProcessed);
 
 		// draw recorded frames
 		p.text("recordFrame: " + recordFrame, 1020, 400);

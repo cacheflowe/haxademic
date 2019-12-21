@@ -3,6 +3,7 @@ package com.haxademic.core.draw.filters.pgraphics;
 import com.haxademic.core.app.P;
 import com.haxademic.core.data.constants.PBlendModes;
 import com.haxademic.core.data.constants.PRenderers;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pgraphics.shared.BaseVideoFilter;
 import com.haxademic.core.draw.filters.pshader.BlurHFilter;
@@ -36,9 +37,9 @@ extends BaseVideoFilter {
 		int totalVertices = particleLaunchers.vertices();
 		
 		// debug
-		P.p.debugView.setTexture("renderedParticles", renderedParticles);
-		P.p.debugView.setValue("totalVertices", totalVertices);
-		P.p.debugView.setTexture("progressBuffer (1)", particleLaunchers.positionBuffer());
+		DebugView.setTexture("renderedParticles", renderedParticles);
+		DebugView.setValue("totalVertices", totalVertices);
+		DebugView.setTexture("progressBuffer (1)", particleLaunchers.positionBuffer());
 	}
 	
 	public void newFrame(PImage frame) {
@@ -53,7 +54,7 @@ extends BaseVideoFilter {
 			motionDetectionMap.setFalloffBW(0.2f);
 			motionDetectionMap.setThresholdCutoff(0.5f);
 			motionDetectionMap.setBlur(1f);
-			P.p.debugView.setTexture("motionDetectionMap", motionDetectionMap.differenceBuffer());
+			DebugView.setTexture("motionDetectionMap", motionDetectionMap.differenceBuffer());
 		}
 		
 		// pre-process motion buffer for smoother launch blobs

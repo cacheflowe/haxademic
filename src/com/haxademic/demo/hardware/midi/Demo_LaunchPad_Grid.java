@@ -2,6 +2,7 @@ package com.haxademic.demo.hardware.midi;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.color.ColorUtil;
 import com.haxademic.core.draw.color.Gradients;
 import com.haxademic.core.draw.context.PG;
@@ -84,7 +85,7 @@ implements SimpleMidiListener {
 		pg.endDraw();
 		
 		ImageUtil.copyImage(pg, pg8x8);
-		p.debugView.setTexture("pg8x8", pg8x8);
+		DebugView.setTexture("pg8x8", pg8x8);
 		pg8x8.loadPixels();
 		for (int x = 0; x < 8; x++) {
 			for (int y = 0; y < 8; y++) {

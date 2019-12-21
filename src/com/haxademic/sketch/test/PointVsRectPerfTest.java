@@ -2,6 +2,7 @@ package com.haxademic.sketch.test;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.math.MathUtil;
 
 public class PointVsRectPerfTest
@@ -20,7 +21,7 @@ extends PAppletHax {
 		p.background(0);
 		
 		int drawCalls = 64 * 128;
-		p.debugView.setValue("drawCalls", drawCalls);
+		DebugView.setValue("drawCalls", drawCalls);
 		
 		// draw rects
 		int startIndex = (p.frameCount * 10) % (256*128);
@@ -31,7 +32,7 @@ extends PAppletHax {
 			p.rect(512 + MathUtil.gridColFromIndex(startIndex, 256), MathUtil.gridRowFromIndex(startIndex, 256), 1, 1);
 			startIndex++;
 		}
-		p.debugView.setValue("TimeRect", p.millis() - startTimeRect);
+		DebugView.setValue("TimeRect", p.millis() - startTimeRect);
 
 		// draw points
 		startIndex = (p.frameCount * 10) % (256*128);
@@ -42,7 +43,7 @@ extends PAppletHax {
 			p.point(256 + MathUtil.gridColFromIndex(startIndex, 256), MathUtil.gridRowFromIndex(startIndex, 256));
 			startIndex++;
 		}
-		p.debugView.setValue("TimePoint", p.millis() - startTimePoint);
+		DebugView.setValue("TimePoint", p.millis() - startTimePoint);
 		
 		// set pixels
 		startIndex = (p.frameCount * 10) % (256*128);
@@ -57,7 +58,7 @@ extends PAppletHax {
 			startIndex++;
 		}
 		p.updatePixels();
-		p.debugView.setValue("TimePixels", p.millis() - startTimePixels);
+		DebugView.setValue("TimePixels", p.millis() - startTimePixels);
 	}
 	
 }

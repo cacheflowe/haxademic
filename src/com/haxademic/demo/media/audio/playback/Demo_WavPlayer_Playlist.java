@@ -1,6 +1,7 @@
 package com.haxademic.demo.media.audio.playback;
 
 import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.media.audio.analysis.AudioIn;
 import com.haxademic.core.media.audio.analysis.AudioInputBeads;
 import com.haxademic.core.media.audio.playback.WavPlayer;
@@ -40,7 +41,7 @@ extends PAppletHax {
 
 	protected void checkPlayerComplete() {
 		float playerProgress = player.progress(playlist[playlistIndex]);
-		p.debugView.setValue("playerProgress", playerProgress);
+		DebugView.setValue("playerProgress", playerProgress);
 		if(playerProgress >= 1f) {
 			playNextSound();
 		}

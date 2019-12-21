@@ -3,6 +3,7 @@ package com.haxademic.core.hardware.osc;
 import java.util.HashMap;
 
 import com.haxademic.core.app.P;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.hardware.shared.InputState;
 
 import netP5.NetAddress;
@@ -64,7 +65,7 @@ public class OscWrapper {
 	public void oscEvent(OscMessage theOscMessage) {
 		float oscValue = theOscMessage.get(0).floatValue();
 		String oscMsg = theOscMessage.addrPattern();
-		if(P.p.debugView.active()) P.println(oscMsg+": "+oscValue);
+		if(DebugView.active()) P.println(oscMsg+": "+oscValue);
 		oscMsgMap.put(oscMsg, oscValue);
 		InputState newState = (oscValue == 0) ? InputState.OFF : InputState.TRIGGER;
 		oscMsgState.put(oscMsg, newState);

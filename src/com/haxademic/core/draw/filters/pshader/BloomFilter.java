@@ -58,7 +58,7 @@ extends BaseFragmentShader {
 			buffers.put(pg, PG.newPG(pg.width, pg.height));
 		}
 		PGraphics glowTexture = buffers.get(pg);
-//		P.p.debugView.setTexture(glowTexture);
+//		DebugView.setTexture(glowTexture);
 		
 		// copy image & create glow version
 		glowTexture.beginDraw();

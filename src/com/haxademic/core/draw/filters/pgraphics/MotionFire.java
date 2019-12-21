@@ -2,6 +2,7 @@ package com.haxademic.core.draw.filters.pgraphics;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.data.constants.PBlendModes;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.color.Gradients;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pgraphics.shared.BaseVideoFilter;
@@ -73,7 +74,7 @@ extends BaseVideoFilter {
 		// feedback shader & map
 		feedbackShader = P.p.loadShader(FileUtil.getFile("haxademic/shaders/filters/displacement-map.glsl"));
 		noiseTexture = new SimplexNoiseTexture(width/4, height/4);
-		// p.debugView.setTexture(noiseTexture.texture());
+		// DebugView.setTexture(noiseTexture.texture());
 		
 		// init ui
 		UI.addSlider(UI_SCROLL_UP, 0.007f, 0, 0.02f, 0.001f, false);
@@ -127,17 +128,17 @@ extends BaseVideoFilter {
 		motionDetectionMap.setBlur(1f);
 		motionDetectionMap.updateSource(sourceBuffer);
 		
-//		P.p.debugView.setTexture(sourceBuffer);
-//		P.p.debugView.setTexture(motionDetectionMap.bwBuffer());
-//		P.p.debugView.setTexture(blurredMotion);
-//		P.p.debugView.setTexture(blendedSpread);
-//		P.p.debugView.setTexture(colorizedTrail);
+//		DebugView.setTexture(sourceBuffer);
+//		DebugView.setTexture(motionDetectionMap.bwBuffer());
+//		DebugView.setTexture(blurredMotion);
+//		DebugView.setTexture(blendedSpread);
+//		DebugView.setTexture(colorizedTrail);
 	}
 	
 	protected void makeMotionBlurredCopy() {
 //		ImageUtil.copyImage(sourcePG, blurPG);
 		ImageUtil.copyImage(motionDetectionMap.differenceBuffer(), blurPG);
-		P.p.debugView.setTexture("blurPG", blurPG);
+		DebugView.setTexture("blurPG", blurPG);
 		
 		// blur to smooth clocky motion detection
 		float blurAmp = UI.value(UI_BLUR_SMOOTH_AMP);
@@ -207,7 +208,7 @@ extends BaseVideoFilter {
 		BrightnessFilter.instance(P.p).setBrightness(UI.value(UI_NOISE_BRIGHTNESS));
 		BrightnessFilter.instance(P.p).applyTo(noiseTexture.texture());
 		
-		P.p.debugView.setTexture("noiseTexture", noiseTexture.texture());
+		DebugView.setTexture("noiseTexture", noiseTexture.texture());
 		
 		float blurAmp = UI.value(UI_BLUR_DISPLACER_AMP);
 		BlurHFilter.instance(P.p).setBlurByPercent(blurAmp, noiseTexture.texture().width);

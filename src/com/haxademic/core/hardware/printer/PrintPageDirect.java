@@ -15,6 +15,7 @@ import java.awt.print.PrinterJob;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.data.constants.PRenderers;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.math.MathUtil;
@@ -87,7 +88,7 @@ public class PrintPageDirect {
 		}
 		
 		printBuffer.endDraw();
-		P.p.debugView.setTexture("printBuffer", printBuffer);
+		DebugView.setTexture("printBuffer", printBuffer);
 		
 		// send local buffer to print
 		sendToDefaultPrinter();

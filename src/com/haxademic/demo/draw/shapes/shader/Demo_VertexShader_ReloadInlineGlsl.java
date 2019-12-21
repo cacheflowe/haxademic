@@ -6,7 +6,6 @@ import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.context.PShaderCompiler;
 import com.haxademic.core.draw.shapes.Icosahedron;
 import com.haxademic.core.draw.shapes.PShapeUtil;
-import com.haxademic.core.file.FileUtil;
 
 import processing.core.PImage;
 import processing.core.PShape;

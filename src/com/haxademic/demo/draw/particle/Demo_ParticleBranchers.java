@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.color.ImageGradient;
 import com.haxademic.core.draw.filters.pshader.BloomFilter;
 import com.haxademic.core.draw.filters.pshader.BrightnessStepFilter;
@@ -169,7 +170,7 @@ extends PAppletHax {
 		postProcess();
 		
 		// auto reset particles
-		p.debugView.setValue("particles", particles.size());
+		DebugView.setValue("particles", particles.size());
 		if(particles.size() == 0 && endFrame == -1) {
 			endFrame = p.frameCount;
 		}
@@ -309,7 +310,7 @@ extends PAppletHax {
 			if(turnMode == TURN_MODE_NOISE) {
 				float noiseAdd = -0.5f + p.noise(p.frameCount * lifeSpan * 0.01f, gen);
 				turnAmp += noiseAdd * 0.005f;
-				p.debugView.setValue("turnAmp", turnAmp);
+				DebugView.setValue("turnAmp", turnAmp);
 			}
 			direction = direction + turnAmp;
 			

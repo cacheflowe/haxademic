@@ -3,6 +3,7 @@ package com.haxademic.demo.draw.filters.shaders;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.FeedbackRadialFilter;
 import com.haxademic.core.draw.shapes.PShapeUtil;
@@ -85,7 +86,7 @@ extends PAppletHax {
 	public void drawApp() {
 		progress = (p.frameCount % frames) / frames;
 		progressRads = progress * P.TWO_PI;
-		p.debugView.setValue("progress", progress);
+		DebugView.setValue("progress", progress);
 		
 		background(255, 255, 0);
 		

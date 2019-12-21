@@ -6,6 +6,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.data.constants.PRenderers;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.color.EasingColor;
 import com.haxademic.core.draw.color.ImageGradient;
 import com.haxademic.core.draw.context.PG;
@@ -158,9 +159,9 @@ extends PAppletHax {
 		}
 		
 		// init help menu
-		p.debugView.setHelpLine("Key Commands:", "");
-		p.debugView.setHelpLine("[R]", "Reset keystone");
-		p.debugView.setHelpLine("[D]", "Keystone test pattern");
+		DebugView.setHelpLine("Key Commands:", "");
+		DebugView.setHelpLine("[R]", "Reset keystone");
+		DebugView.setHelpLine("[D]", "Keystone test pattern");
 	}
 
 	public void drawApp() {
@@ -211,16 +212,16 @@ extends PAppletHax {
 			motionDetectionMap.setBlur(1f);
 			motionDetectionMap.updateSource(motionBuffer);
 			
-			p.debugView.setTexture("kinectSilhouetteSmoothed", kinectSilhouetteSmoothed.image());
-			p.debugView.setTexture("motionDetectionMap.backplate", motionDetectionMap.backplate());
-			p.debugView.setTexture("motionDetectionMap.differenceBuffer", motionDetectionMap.differenceBuffer());
-			p.debugView.setTexture("motionDetectionMap.bwBuffer", motionDetectionMap.bwBuffer());
+			DebugView.setTexture("kinectSilhouetteSmoothed", kinectSilhouetteSmoothed.image());
+			DebugView.setTexture("motionDetectionMap.backplate", motionDetectionMap.backplate());
+			DebugView.setTexture("motionDetectionMap.differenceBuffer", motionDetectionMap.differenceBuffer());
+			DebugView.setTexture("motionDetectionMap.bwBuffer", motionDetectionMap.bwBuffer());
 		}
 		
 		// update activity monitor
 		activityMonitor.update(kinectSilhouetteSmoothed.image());
-		p.debugView.setValue("ACTIVITY", activityMonitor.activityAmp());
-		// p.debugView.setTexture(activityMonitor.differenceBuffer());
+		DebugView.setValue("ACTIVITY", activityMonitor.activityAmp());
+		// DebugView.setTexture(activityMonitor.differenceBuffer());
 	}
 	
 	protected void drawMainBuffer() {
@@ -234,11 +235,11 @@ extends PAppletHax {
 
 		// draw camera - compensate for depth image size (scale) and alignment (x & y)
 		float cameraScale = 1.18f; // Mouse.xNorm * 3;
-		p.debugView.setValue("cameraScale", cameraScale);
+		DebugView.setValue("cameraScale", cameraScale);
 		mainBuffer.image(cameraBuffer, cameraBuffer.width * -0.025f, cameraBuffer.height * -0.05f, cameraBuffer.width * cameraScale, cameraBuffer.height * cameraScale);
 		
 		// draw debug motion buffer
-		if(p.debugView.active()) {
+		if(DebugView.active()) {
 			PG.setPImageAlpha(mainBuffer, 0.5f);
 			if(motionBuffer != null) mainBuffer.image(motionBuffer, 0, 0);
 			PG.setPImageAlpha(mainBuffer, 1f);
@@ -291,7 +292,7 @@ extends PAppletHax {
 			shapes.get(i).update(shapesLayer);
 		}
 		shapesLayer.endDraw();
-		p.debugView.setValue("shapes.size()", shapes.size());
+		DebugView.setValue("shapes.size()", shapes.size());
 	}
 
 	protected void launchShape(float x, float y) {
@@ -491,7 +492,7 @@ extends PAppletHax {
 			prevFrame = P.p.createGraphics(cameraW, cameraH, PRenderers.P2D);
 			curFrame = P.p.createGraphics(cameraW, cameraH, PRenderers.P2D);
 			differenceBuffer = P.p.createGraphics(cameraW, cameraH, PRenderers.P2D);
-			p.debugView.setTexture(differenceBuffer);
+			DebugView.setTexture(differenceBuffer);
 
 			// frame diff buffer/shader
 			differenceShader = P.p.loadShader(FileUtil.getFile("haxademic/shaders/filters/texture-difference-threshold.glsl"));
@@ -505,7 +506,7 @@ extends PAppletHax {
 		// copy previous frame, and current frame to buffer
 		ImageUtil.copyImage(curFrame, prevFrame);
 		ImageUtil.copyImage(flippedCamera, curFrame);
-		p.debugView.setTexture(curFrame);
+		DebugView.setTexture(curFrame);
 
 		// set difference shader textures
 		differenceShader.set("tex1", curFrame);

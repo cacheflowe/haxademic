@@ -3,6 +3,7 @@ package com.haxademic.demo.draw.image;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.data.constants.PRenderers;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.SaturationFilter;
 import com.haxademic.core.draw.image.ImageSequenceRecorder;
@@ -54,7 +55,7 @@ implements IWebCamCallback {
 		SaturationFilter.instance(p).setSaturation(0);
 		SaturationFilter.instance(p).applyTo(recorder.getCurFrame());
 		// set debug staus
-		p.debugView.setValue("Last WebCam frame", p.frameCount);
+		DebugView.setValue("Last WebCam frame", p.frameCount);
 	}
 
 }

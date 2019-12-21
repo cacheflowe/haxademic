@@ -3,6 +3,7 @@ package com.haxademic.demo.math;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.math.MathUtil;
@@ -33,10 +34,10 @@ extends PAppletHax {
 		PG.setDrawCenter(p);
 		p.translate(p.width/2, p.height/2);
 		float radsFromCenter = MathUtil.getRadiansToTarget(p.width/2, p.height/2, p.mouseX, p.mouseY);
-		p.debugView.setHelpLine("cos (x)", ""+P.cos(radsFromCenter));
-		p.debugView.setHelpLine("sin (y)", ""+P.sin(radsFromCenter));
-		p.debugView.setHelpLine("angle", ""+MathUtil.radiansToDegrees(radsFromCenter));
-		p.debugView.setHelpLine("rads", ""+radsFromCenter);
+		DebugView.setHelpLine("cos (x)", ""+P.cos(radsFromCenter));
+		DebugView.setHelpLine("sin (y)", ""+P.sin(radsFromCenter));
+		DebugView.setHelpLine("angle", ""+MathUtil.radiansToDegrees(radsFromCenter));
+		DebugView.setHelpLine("rads", ""+radsFromCenter);
 
 		p.rotate(radsFromCenter);
 		p.image(image, 0, 0);

@@ -7,6 +7,7 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.data.constants.PBlendModes;
 import com.haxademic.core.data.constants.PRenderers;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.color.ColorUtil;
 import com.haxademic.core.draw.color.ImageGradient;
 import com.haxademic.core.draw.context.PG;
@@ -72,7 +73,7 @@ implements IWebCamCallback {
 			prevFrame = P.p.createGraphics(cameraW, cameraH, PRenderers.P2D);
 			curFrame = P.p.createGraphics(cameraW, cameraH, PRenderers.P2D);
 			differenceBuffer = P.p.createGraphics(cameraW, cameraH, PRenderers.P2D);
-			p.debugView.setTexture("differenceBuffer", differenceBuffer);
+			DebugView.setTexture("differenceBuffer", differenceBuffer);
 			
 			// frame diff buffer/shader
 			differenceShader = P.p.loadShader(FileUtil.getFile("haxademic/shaders/filters/texture-difference-threshold.glsl"));
@@ -87,7 +88,7 @@ implements IWebCamCallback {
 		// copy previous frame, and current frame to buffer
 		ImageUtil.copyImage(curFrame, prevFrame);
 		ImageUtil.copyImage(flippedCamera, curFrame);
-		p.debugView.setTexture("webcam", curFrame);
+		DebugView.setTexture("webcam", curFrame);
 
 		// set difference shader textures
 		differenceShader.set("tex1", curFrame);
@@ -136,7 +137,7 @@ implements IWebCamCallback {
 				shapes.get(i).update(shapesLayer);
 			}
 			shapesLayer.endDraw();
-			p.debugView.setValue("shapes.size()", shapes.size());
+			DebugView.setValue("shapes.size()", shapes.size());
 			p.image(shapesLayer, p.width/2, p.height/2);
 		}
 	}

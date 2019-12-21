@@ -5,6 +5,7 @@ import java.net.UnknownHostException;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.debug.DebugUtil;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.net.IPAddress;
 import com.haxademic.core.net.ISocketClientDelegate;
 import com.haxademic.core.net.JsonUtil;
@@ -36,7 +37,7 @@ implements ISocketClientDelegate {
 		try {
 			// SocketServer.PORT = 3000;
 			wsServer = new SocketServer(new SocketServerHandler(SocketServer.PORT, this), true);
-			p.debugView.setValue("WS Server", "ws://" + IPAddress.getIP() + ":" + SocketServer.PORT);
+			DebugView.setValue("WS Server", "ws://" + IPAddress.getIP() + ":" + SocketServer.PORT);
 		} catch (UnknownHostException e) {
 			e.printStackTrace(); 
 		}

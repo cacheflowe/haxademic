@@ -9,7 +9,6 @@ import com.haxademic.core.draw.filters.pgraphics.archive.ImageHistogramFilter;
 import com.haxademic.core.draw.filters.pgraphics.archive.PixelFilter;
 import com.haxademic.core.draw.filters.pgraphics.archive.ReflectionFilter;
 import com.haxademic.core.draw.image.ImageUtil;
-import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.webcam.WebCam;
 import com.haxademic.core.media.DemoAssets;
 import com.haxademic.core.render.VideoFrameGrabber;

@@ -2,6 +2,7 @@ package com.haxademic.demo.hardware.webcam;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.hardware.webcam.WebCam;
 import com.haxademic.core.hardware.webcam.WebCam.IWebCamCallback;
@@ -31,13 +32,13 @@ implements IWebCamCallback {
 		PG.setCenterScreen(p);
 		p.image(webcamImg, 0, 0);
 		
-		p.debugView.setValue("webcam W", webcamImg.width);
-		p.debugView.setValue("webcam H", webcamImg.height);
+		DebugView.setValue("webcam W", webcamImg.width);
+		DebugView.setValue("webcam H", webcamImg.height);
 	}
 
 	@Override
 	public void newFrame(PImage frame) {
-		p.debugView.setValue("Last WebCam frame", p.frameCount);
+		DebugView.setValue("Last WebCam frame", p.frameCount);
 	}
 
 }

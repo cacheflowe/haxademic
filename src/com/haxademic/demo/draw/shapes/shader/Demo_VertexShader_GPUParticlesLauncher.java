@@ -3,6 +3,7 @@ package com.haxademic.demo.draw.shapes.shader;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.data.constants.PBlendModes;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.particle.ParticleLauncherGPU;
 import com.haxademic.core.hardware.mouse.Mouse;
@@ -22,7 +23,7 @@ extends PAppletHax {
 	protected void setupFirstFrame() {
 		// build particles launcher
 		gpuParticles = new ParticleLauncherGPU(512);
-		p.debugView.setValue("totalVertices", gpuParticles.vertices());
+		DebugView.setValue("totalVertices", gpuParticles.vertices());
 	}
 	
 	public void drawApp() {
@@ -37,12 +38,12 @@ extends PAppletHax {
 			 gpuParticles.launch(pg, Mouse.xEased * pg.width, Mouse.yEased * pg.height);
 //			gpuParticles.launch(pg, pg.width/2f, pg.height/2f);
 		gpuParticles.endLaunch();
-		p.debugView.setValue("launchTime", p.millis() - startLaunchTime);
+		DebugView.setValue("launchTime", p.millis() - startLaunchTime);
 
 		// update particles buffers
 		int startUpdateTime = p.millis();
 		gpuParticles.update();
-		p.debugView.setValue("updateTime", p.millis() - startUpdateTime);
+		DebugView.setValue("updateTime", p.millis() - startUpdateTime);
 
 		// render!
 		int startRenderTime = p.millis();
@@ -54,7 +55,7 @@ extends PAppletHax {
 		pg.blendMode(PBlendModes.ADD);
 		gpuParticles.renderTo(pg);
 		pg.endDraw();
-		p.debugView.setValue("renderTime", p.millis() - startRenderTime);
+		DebugView.setValue("renderTime", p.millis() - startRenderTime);
 
 		// draw buffer to screen
 		p.image(pg, 0, 0);

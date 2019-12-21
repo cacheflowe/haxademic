@@ -2,6 +2,7 @@ package com.haxademic.demo.hardware.webcam;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.image.BufferFrameDifference;
 import com.haxademic.core.hardware.webcam.WebCam;
@@ -42,7 +43,7 @@ implements IWebCamCallback {
 		}
 		bufferFrameDifference.update(frame);
 		// debug view
-		p.debugView.setTexture("webcam", frame);
+		DebugView.setTexture("webcam", frame);
 	}
 
 }

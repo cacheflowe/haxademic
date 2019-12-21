@@ -40,8 +40,8 @@ implements ISequencerPattern {
 		/**
 		noiseSpeed = Mouse.xNorm * 20f;
 		noiseStart = Mouse.yNorm * 1000;
-		P.p.debugView.setValue("noiseSpeed", noiseSpeed);
-		P.p.debugView.setValue("noiseStart", noiseStart);
+		DebugView.setValue("noiseSpeed", noiseSpeed);
+		DebugView.setValue("noiseStart", noiseStart);
 		*/
 		
 		// apply to steps

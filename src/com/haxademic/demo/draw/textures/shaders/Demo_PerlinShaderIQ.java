@@ -3,6 +3,7 @@ package com.haxademic.demo.draw.textures.shaders;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.data.constants.PRenderers;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.file.FileUtil;
 
 import processing.core.PGraphics;
@@ -29,7 +30,7 @@ extends PAppletHax {
 		perlinShader.set("zoom", 3f + 2f * P.sin(p.frameCount * 0.01f));
 		perlinShader.set("rotation", P.sin(p.frameCount * 0.01f) * 0.4f);
 		perlinBuffer.filter(perlinShader);
-		p.debugView.setTexture("perlinBuffer", perlinBuffer);
+		DebugView.setTexture("perlinBuffer", perlinBuffer);
 		
 		// draw to screen
 		p.image(perlinBuffer, 0, 0);  

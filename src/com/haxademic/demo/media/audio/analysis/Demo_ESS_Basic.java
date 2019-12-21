@@ -2,6 +2,7 @@ package com.haxademic.demo.media.audio.analysis;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.debug.DebugView;
 
 import krister.Ess.AudioInput;
 import krister.Ess.Ess;
@@ -30,7 +31,7 @@ extends PAppletHax {
 
 	public void drawApp() {
 		// draw background color based on max eq value
-		p.debugView.setValue("fft.max", fft.max);
+		DebugView.setValue("fft.max", fft.max);
 		p.background(fft.max * 3000f);
 		p.fill(255);
 		

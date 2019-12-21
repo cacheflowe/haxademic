@@ -4,6 +4,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.data.constants.PRenderers;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.color.ColorUtil;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.file.FileUtil;
@@ -42,10 +43,10 @@ extends PAppletHax {
 		lastFrame = p.createGraphics(p.width, p.height, PRenderers.P3D);
 		opFlowResult = p.createGraphics(p.width, p.height, PRenderers.P3D);
 		opFlowResultLerped = p.createGraphics(p.width, p.height, PRenderers.P3D);
-		p.debugView.setTexture("curFrame", curFrame);
-		p.debugView.setTexture("lastFrame", lastFrame);
-		p.debugView.setTexture("opFlowResult", opFlowResult);
-		p.debugView.setTexture("opFlowResultLerped", opFlowResultLerped);
+		DebugView.setTexture("curFrame", curFrame);
+		DebugView.setTexture("lastFrame", lastFrame);
+		DebugView.setTexture("opFlowResult", opFlowResult);
+		DebugView.setTexture("opFlowResultLerped", opFlowResultLerped);
 		
 		// load shader
 		opFlowShader = p.loadShader(FileUtil.getFile("haxademic/shaders/filters/optical-flow.glsl"));

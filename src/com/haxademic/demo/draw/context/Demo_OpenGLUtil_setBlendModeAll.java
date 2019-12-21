@@ -5,6 +5,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.data.constants.GLBlendModes;
 import com.haxademic.core.data.constants.PRenderers;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.image.ImageUtil;
@@ -59,8 +60,8 @@ extends PAppletHax {
 	}
 
 	public void drawApp() {
-		p.debugView.setValue("mouseControlled", mouseControlled);
-		p.debugView.setValue("drawBuffer", drawBuffer);
+		DebugView.setValue("mouseControlled", mouseControlled);
+		DebugView.setValue("drawBuffer", drawBuffer);
 		
 		p.background(0);
 		PGraphics pg = (drawBuffer) ? buffer : p.g;

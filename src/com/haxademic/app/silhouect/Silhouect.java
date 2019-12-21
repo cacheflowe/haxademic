@@ -7,6 +7,7 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.data.constants.PBlendModes;
 import com.haxademic.core.data.constants.PRenderers;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.BlurHFilter;
@@ -131,7 +132,7 @@ extends PAppletHax {
 			image.image(imgSrc, 0, 0);
 			image.endDraw();
 			LeaveWhiteFilter.instance(p).applyTo(image);
-			p.debugView.setTexture("image", image);
+			DebugView.setTexture("image", image);
 			slideshow.add(image);
 		}
 		
@@ -151,9 +152,9 @@ extends PAppletHax {
 //		};
 		
 		// init help menu
-		p.debugView.setHelpLine("Key Commands:", "");
-		p.debugView.setHelpLine("[R]", "Reset keystone");
-		p.debugView.setHelpLine("[D]", "Keystone test pattern");
+		DebugView.setHelpLine("Key Commands:", "");
+		DebugView.setHelpLine("[R]", "Reset keystone");
+		DebugView.setHelpLine("[D]", "Keystone test pattern");
 	}
 	
 	///////////////////////////////////////
@@ -170,7 +171,7 @@ extends PAppletHax {
 	protected void updateUserBuffer() {
 		// check number of users - hide instructions if user appears
 		if(numUsers() > 0) noUser = false; 
-		p.debugView.setValue("NUM USERS", numUsers());
+		DebugView.setValue("NUM USERS", numUsers());
 		
 		// set kinect silhouette on buffer
 		userBuffer.beginDraw();
@@ -180,7 +181,7 @@ extends PAppletHax {
 		
 		// turn buffer white pixels to transparent 
 		LeaveBlackFilter.instance(p).applyTo(userBuffer);
-		p.debugView.setTexture("userBuffer", userBuffer);
+		DebugView.setTexture("userBuffer", userBuffer);
 	}
 	
 	protected int numUsers() {
@@ -266,8 +267,8 @@ extends PAppletHax {
 			sharpAmp = Mouse.yNorm * 15f;
 		}
 		
-		p.debugView.setValue("blurAmp", blurAmp);
-		p.debugView.setValue("sharpAmp", sharpAmp);
+		DebugView.setValue("blurAmp", blurAmp);
+		DebugView.setValue("sharpAmp", sharpAmp);
 
 		// run shaders
 		RD_ITERATIONS = 1;
@@ -383,7 +384,7 @@ extends PAppletHax {
 		if(audioTextures != null) drawAudioTextureToBuffer();
 		if(sponsorImg != null) mainBuffer.image(sponsorImg, 0, 0, mainBuffer.width, mainBuffer.height);
 		drawProgressBar();
-		if(p.debugView.active() && audioTextures != null) mainBuffer.image(curAudioTexture().texture(), 0, mainBuffer.height - 90, 160, 90);
+		if(DebugView.active() && audioTextures != null) mainBuffer.image(curAudioTexture().texture(), 0, mainBuffer.height - 90, 160, 90);
 		mainBuffer.endDraw();
 	}
 	

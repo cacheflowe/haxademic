@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.media.DemoAssets;
 import com.haxademic.core.media.MediaTimecodeTrigger;
@@ -63,14 +64,14 @@ implements IMediaTimecodeTriggerDelegate {
 		
 		// update audio time on triggers
 		float audioPositionSFX = audioPlayer.position(AUDIO_FILE) / 1000f;
-		p.debugView.setValue("audioPlayer.position", audioPositionSFX);
+		DebugView.setValue("audioPlayer.position", audioPositionSFX);
 		for (int i = 0; i < timecodeTriggers.size(); i++) {
 			timecodeTriggers.get(i).update(AUDIO_FILE, audioPositionSFX);
 		}
 		
 		// update video time on triggers
 		p.image(videoLoop, 0, 0);
-		p.debugView.setValue("videoLoop.time()", videoLoop.time());
+		DebugView.setValue("videoLoop.time()", videoLoop.time());
 		for (int i = 0; i < timecodeTriggers.size(); i++) {
 			timecodeTriggers.get(i).update(VIDEO_FILE, videoLoop.time());
 		}

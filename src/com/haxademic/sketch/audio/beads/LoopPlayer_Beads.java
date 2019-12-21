@@ -1,6 +1,7 @@
 package com.haxademic.sketch.audio.beads;
 
 import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.math.easing.EasingFloat;
 
 import beads.AudioContext;
@@ -98,7 +99,7 @@ extends PAppletHax { public static void main(String args[]) { arguments = args; 
 		float[] features = ps.getFeatures();
 		// FFT length of 255
 		if(features != null) {
-			p.debugView.setValue("ps.getFeatures().length", features.length);
+			DebugView.setValue("ps.getFeatures().length", features.length);
 			//scan across the pixels
 			for(int i = 0; i < width; i++) {
 				int featureIndex = i * features.length / width;

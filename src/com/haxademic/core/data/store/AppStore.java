@@ -7,7 +7,7 @@ import java.util.HashMap;
 
 import javax.swing.Timer;
 
-import com.haxademic.core.app.P;
+import com.haxademic.core.debug.DebugView;
 
 import processing.core.PGraphics;
 import processing.core.PImage;
@@ -121,13 +121,13 @@ public class AppStore {
 	
 	public void showStoreValuesInDebugView() {
 		for (String key : numberStore.keySet()) {
-			P.p.debugView.setValue(key, numberStore.get(key).floatValue());
+			DebugView.setValue(key, numberStore.get(key).floatValue());
 		}
 		for (String key : stringStore.keySet()) {
-			P.p.debugView.setValue(key, stringStore.get(key));
+			DebugView.setValue(key, stringStore.get(key));
 		}
 		for (String key : boolStore.keySet()) {
-			P.p.debugView.setValue(key, boolStore.get(key));
+			DebugView.setValue(key, boolStore.get(key));
 		}
 	}
 }

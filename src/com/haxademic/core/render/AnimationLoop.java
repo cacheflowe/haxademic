@@ -52,13 +52,11 @@ public class AnimationLoop {
 		loopCurFrame = (float) P.p.frameCount % frames;
 		progress = loopCurFrame / frames;
 		progressRads = progress * P.TWO_PI;
-		if(P.p.debugView != null) P.p.debugView.setValue("AnimationLoop.progress()", progress);
 		
 		// update ticks
 		int newTick = P.floor(ticks * progress);
 		isTick = (curTick != newTick);
 		curTick = newTick;
-		if(P.p.debugView != null) P.p.debugView.setValue("AnimationLoop.curTick()", curTick);
 	}
 	
 }

@@ -46,7 +46,7 @@ extends PAppletHax {
 //		noiseTexture.shader().set("zoom", 1.25f);
 //		noiseBuffer.filter(noiseTexture.shader());
 //	    OpenGL32Util.pGraphics2dToTexture32(noiseBuffer, textureNoise);
-//	    p.debugView.setTexture("noiseBuffer", noiseBuffer);
+//	    DebugView.setTexture("noiseBuffer", noiseBuffer);
 //		
 //		// draw line 
 //		buffer8.beginDraw();

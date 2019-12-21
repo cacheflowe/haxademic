@@ -3,6 +3,7 @@
 ## Modularize PAppletHax
 
 * DebugView
+	* Search for `addKeyCommandInfo()` and update instances
 * Properties (p.appConfig) (rename to Config?)
 * Inputs - more thoughts on InputTrigger below
 	* Make a base storage for different data types?
@@ -17,7 +18,6 @@
 		* Broadcast ability via AppStore, while also keeping simple InputTrigger objects
 * DepthCamera like AudioIn
 * Rendering objects (video/audio/midi/joons)
-* SecondScreenViewer
 * DMXUniverse
 
 * Completed:
@@ -34,7 +34,7 @@
     * Do we need an InputEvent type added to AppStore collections??
   * WebServer requests can fall through the cracks (button clicks, etc)
   * Web requests that route to p.ui aren't predictable, especially at 30fps? Look at p.ui button handling in Re-Creation
-  * InputTrigger should merge MIDI buttons and CC controls, just like OSC commands
+  * InputTrigger should merge MIDI buttons and CC controls, just like OSC commands??
 
 ## WebCam
 

@@ -2,6 +2,7 @@ package com.haxademic.core.draw.image;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.data.constants.PRenderers;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.color.ColorUtil;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.InvertFilter;
@@ -170,8 +171,8 @@ public class ColorObjectDetection {
 			analysisBuffer.ellipse(x.value() * analysisBuffer.width, y.value() * analysisBuffer.height, 10, 10);
 			analysisBuffer.endDraw();
 
-			P.p.debugView.setValue("BufferColorObjectDetection time", (P.p.millis() - analyzeStart)+"ms");
-			P.p.debugView.setValue("BufferColorObjectDetection totalChecked", totalChecked);
+			DebugView.setValue("BufferColorObjectDetection time", (P.p.millis() - analyzeStart)+"ms");
+			DebugView.setValue("BufferColorObjectDetection totalChecked", totalChecked);
 		}
 	}
 }

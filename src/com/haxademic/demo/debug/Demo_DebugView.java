@@ -3,6 +3,7 @@ package com.haxademic.demo.debug;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.math.easing.EasingFloat;
 import com.haxademic.core.media.DemoAssets;
@@ -23,18 +24,17 @@ extends PAppletHax {
 	}
 
 	public void setupFirstFrame() {
-
-		p.debugView.active(true);
-		p.debugView.setHelpLine("Test info here", "");
-		p.debugView.setHelpLine("[key]", "[Value]");
+		DebugView.active(true);
+		DebugView.setHelpLine("Test info here", "");
+		DebugView.setHelpLine("[key]", "[Value]");
 	}
 
 	public void drawApp() {
 		background(0);
 
-		debugView.updateInputs();
-		debugView.setValue("Max mouse", P.max(p.mouseX, p.mouseY));
-		debugView.setTexture("smallTexture", DemoAssets.smallTexture());
+		DebugView.updateInputs();
+		DebugView.setValue("Max mouse", P.max(p.mouseX, p.mouseY));
+		DebugView.setTexture("smallTexture", DemoAssets.smallTexture());
 		
 		_easingX.setEaseFactor(easeFactor);
 		_easingY.setEaseFactor(easeFactor);

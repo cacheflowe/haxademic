@@ -7,6 +7,7 @@ import java.util.Comparator;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.debug.StringBufferLog;
 import com.haxademic.core.draw.context.PShaderHotSwap;
 import com.haxademic.core.draw.filters.pshader.BrightnessStepFilter;
@@ -197,7 +198,7 @@ extends PAppletHax {
 		MAX_POLY_AREA = P.pow(baseShapeSize, 2.2f);
 		SNAP_RADIUS = baseShapeSize / 2f;
 		tooFarThresh = baseShapeSize * 3.5f;
-		p.debugView.setValue("baseShapeSize", baseShapeSize);
+		DebugView.setValue("baseShapeSize", baseShapeSize);
 		
 		curEdgeCopyStyle = Polygon.randomEdgeCopyStyle();
 		RESET_FRAME_INTERVAL = 800;
@@ -261,7 +262,7 @@ extends PAppletHax {
 		
 		// draw debug log
 		log.printToScreen(p.g, 20, 20);
-		p.debugView.setValue("Polygons", polygons.size());
+		DebugView.setValue("Polygons", polygons.size());
 	}
 	
 	protected void drawPolygons() {
@@ -272,7 +273,7 @@ extends PAppletHax {
 			polygons.get(i).draw(pg, POLYGON_DEBUG);
 			totalArea += polygons.get(i).area();
 		}
-		p.debugView.setValue("Total Area", totalArea);
+		DebugView.setValue("Total Area", totalArea);
 	}
 	
 	protected void createNeighbors() {
@@ -280,7 +281,7 @@ extends PAppletHax {
 		if(totalArea > MAX_TOTAL_AREA) return;
 		int startTime = p.millis();
 		for(int i=0; i < NEW_NEIGHBOR_ATTEMPTS; i++) addNewNeighbor();
-		p.debugView.setValue("addNewNeighbor()", (p.millis() - startTime)+"ms");
+		DebugView.setValue("addNewNeighbor()", (p.millis() - startTime)+"ms");
 	}
 	
 	protected void movePolygons() {
@@ -451,7 +452,7 @@ extends PAppletHax {
 				}
 			}
 		}
-		p.debugView.setValue("availableVertices", availableVertices.size());
+		DebugView.setValue("availableVertices", availableVertices.size());
 		
 		// draw available vertices
 		p.stroke(255, 255, 0);
@@ -483,7 +484,7 @@ extends PAppletHax {
 		}
 		
 		// debug time taken
-		p.debugView.setValue("closeNeighbors()", (p.millis() - startTime)+"ms");
+		DebugView.setValue("closeNeighbors()", (p.millis() - startTime)+"ms");
 	}
 
 	protected boolean attemptCloseTriangle(PVector v1, PVector v2, PVector v3) {

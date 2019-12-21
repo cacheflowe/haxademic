@@ -1,6 +1,7 @@
 package com.haxademic.core.draw.textures.pgraphics;
 
 import com.haxademic.core.app.P;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
 import com.haxademic.core.media.audio.analysis.AudioIn;
@@ -84,7 +85,7 @@ extends BaseTexture {
 	
 	public void newMode() {
 		_curMode = P.round( P.p.random( 0, NUM_MODES - 1 ) );
-		P.p.debugView.setValue("_curMode", _curMode);
+		DebugView.setValue("_curMode", _curMode);
 	}
 
 	public void updateDraw() {

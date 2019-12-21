@@ -194,10 +194,10 @@ implements IWebCamCallback {
 		motionDetectionMap.updateSource(webcamBuffer);
 
 		// set textures for debug view
-		//		p.debugView.setTexture(frame);
-		//		p.debugView.setTexture(motionDetectionMap.backplate());
-		//		p.debugView.setTexture(motionDetectionMap.differenceBuffer());
-		//		p.debugView.setTexture(motionDetectionMap.bwBuffer());
+		//		DebugView.setTexture(frame);
+		//		DebugView.setTexture(motionDetectionMap.backplate());
+		//		DebugView.setTexture(motionDetectionMap.differenceBuffer());
+		//		DebugView.setTexture(motionDetectionMap.bwBuffer());
 	}
 
 }

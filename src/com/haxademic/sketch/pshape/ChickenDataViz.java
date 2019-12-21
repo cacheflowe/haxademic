@@ -3,6 +3,7 @@ package com.haxademic.sketch.pshape;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.camera.CameraUtil;
 import com.haxademic.core.draw.shapes.PShapeSolid;
 import com.haxademic.core.draw.shapes.PShapeUtil;
@@ -72,7 +73,7 @@ extends PAppletHax {
 				}
 			}
 		}
-		p.debugView.setValue("numChicks", numChicks);
+		DebugView.setValue("numChicks", numChicks);
 		
 		p.popMatrix();
 	}

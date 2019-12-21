@@ -32,8 +32,8 @@ implements ISequencerPattern {
 		/**
 		startIndex = P.floor(Mouse.xNorm * numSteps);
 		stepsBetween = P.floor(2 + Mouse.yNorm * 7);
-		P.p.debugView.setValue("startIndex", startIndex);
-		P.p.debugView.setValue("stepsBetween", stepsBetween);
+		DebugView.setValue("startIndex", startIndex);
+		DebugView.setValue("stepsBetween", stepsBetween);
 		*/
 				
 		// clear previous set

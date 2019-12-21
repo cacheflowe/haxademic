@@ -2,6 +2,7 @@ package com.haxademic.demo.draw.image;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.image.ImageSequenceMovieClip;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.mouse.Mouse;
@@ -40,7 +41,7 @@ extends PAppletHax {
 		
 		p.image(imageSequence.image(), 0, 0);
 		
-		p.debugView.setValue("imageSequence.isFinished()", imageSequence.isFinished());
+		DebugView.setValue("imageSequence.isFinished()", imageSequence.isFinished());
 
 		// create a copy & play it offset
 		if(imageSequenceCopy == null && imageSequence.numImageFiles() > 0) {
@@ -53,7 +54,7 @@ extends PAppletHax {
 			}
 			imageSequenceCopy.update();
 			p.image(imageSequenceCopy.image(), 0, 50);
-			p.debugView.setValue("imageSequenceCopy.isFinished()", imageSequenceCopy.isFinished());
+			DebugView.setValue("imageSequenceCopy.isFinished()", imageSequenceCopy.isFinished());
 			
 			// manual copy
 			p.image(imageSequenceManual.getFrameByProgress(Mouse.xNorm), 0, 100);

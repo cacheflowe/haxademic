@@ -3,6 +3,7 @@ package com.haxademic.demo.hardware.depthcamera.realsense;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.image.ImageUtil;
 
@@ -17,16 +18,16 @@ extends PAppletHax {
 	/*
 	| width | height | fps                         | depth stream | color stream |
 	|-------|--------|-----------------------------|--------------|--------------|
-	| 424   | 240    | `6`, `15`, `30`, `60`       | ✅            | ✅            |
-	| 480   | 270    | `6`, `15`, `30`, `60`, `90` | ✅            | ❌            |
-	| 640   | 480    | `6`, `15`, `30`, `60`       | ✅            | ✅            |
-	| 640   | 480    | `90`                        | ✅            | ❌            |
-	| 848   | 480    | `6`, `15`, `30`, `60`       | ✅            | ✅            | 848/480/30 works but runs at 60fps/depth-only
-	| 848   | 480    | `90`                        | ✅            | ❌            |
-	| 960   | 540    | `6`, `15`, `30`, `60`       | ❌            | ✅            |
-	| 1280  | 720    | `30`                        | ✅            | ✅            | 1280/720/30 works but runs at 15fps/rgb+depth and 20fps/rgb
-	| 1280  | 800    | `6`, `15`, `30`, `60`, `90` | ❌            | ❌            |
-	| 1920  | 1080   | `6`, `15`, `30`             | ❌            | ✅            | 1920/1080/30 works but runs at 10fps/rgb-only
+	| 424   | 240    | `6`, `15`, `30`, `60`       | âœ…            | âœ…            |
+	| 480   | 270    | `6`, `15`, `30`, `60`, `90` | âœ…            | â�Œ            |
+	| 640   | 480    | `6`, `15`, `30`, `60`       | âœ…            | âœ…            |
+	| 640   | 480    | `90`                        | âœ…            | â�Œ            |
+	| 848   | 480    | `6`, `15`, `30`, `60`       | âœ…            | âœ…            | 848/480/30 works but runs at 60fps/depth-only
+	| 848   | 480    | `90`                        | âœ…            | â�Œ            |
+	| 960   | 540    | `6`, `15`, `30`, `60`       | â�Œ            | âœ…            |
+	| 1280  | 720    | `30`                        | âœ…            | âœ…            | 1280/720/30 works but runs at 15fps/rgb+depth and 20fps/rgb
+	| 1280  | 800    | `6`, `15`, `30`, `60`, `90` | â�Œ            | â�Œ            |
+	| 1920  | 1080   | `6`, `15`, `30`             | â�Œ            | âœ…            | 1920/1080/30 works but runs at 10fps/rgb-only
 	*/
 	
 	// TODO: 
@@ -54,7 +55,7 @@ extends PAppletHax {
 	protected void setupFirstFrame() {
 		camera = new RealSenseCamera(this);
 		camera.start(CAMERA_W, CAMERA_H, CAMERA_FPS, DEPTH_ACTIVE, RGB_ACTIVE);
-		p.debugView.setTexture("camera.getDepthImage", camera.getDepthImage());
+		DebugView.setTexture("camera.getDepthImage", camera.getDepthImage());
 		
 		mirrorRGB = PG.newPG(CAMERA_W, CAMERA_H);
 		mirrorDepth = PG.newPG(CAMERA_W, CAMERA_H);
@@ -125,7 +126,7 @@ extends PAppletHax {
 				}
 			}
 		}
-		p.debugView.setValue("numPixelsProcessed", numPixelsProcessed);
+		DebugView.setValue("numPixelsProcessed", numPixelsProcessed);
 	}
 
 }

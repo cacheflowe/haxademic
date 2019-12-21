@@ -3,6 +3,7 @@ package com.haxademic.demo.draw.filters.shaders;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.data.constants.PRenderers;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.mouse.Mouse;
@@ -51,10 +52,10 @@ extends PAppletHax {
 		p.filter(texShader); 
 		
 		// debug
-		p.debugView.setValue("mode", mode);
-		p.debugView.setTexture("base", base);
-		p.debugView.setTexture("map", map);
-		p.debugView.setTexture("mapSource", mapSource);
+		DebugView.setValue("mode", mode);
+		DebugView.setTexture("base", base);
+		DebugView.setTexture("map", map);
+		DebugView.setTexture("mapSource", mapSource);
 	}
 }
 

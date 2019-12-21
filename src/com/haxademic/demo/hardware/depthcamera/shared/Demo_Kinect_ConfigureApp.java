@@ -3,6 +3,7 @@ package com.haxademic.demo.hardware.depthcamera.shared;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.hardware.depthcamera.DepthCameraSize;
 import com.haxademic.core.ui.UI;
@@ -99,8 +100,8 @@ extends PAppletHax {
 		}
 
 		// debug view
-		p.debugView.setTexture("depthCamera.getDepthImage", p.depthCamera.getDepthImage());
-		p.debugView.setValue("numPixelsProcessed", numPixelsProcessed);
+		DebugView.setTexture("depthCamera.getDepthImage", p.depthCamera.getDepthImage());
+		DebugView.setValue("numPixelsProcessed", numPixelsProcessed);
 		
 		p.popMatrix();
 	}

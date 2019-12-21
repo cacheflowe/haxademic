@@ -4,6 +4,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.data.constants.PRenderers;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.color.ImageGradient;
 import com.haxademic.core.draw.filters.pshader.AlphaStepFilter;
 import com.haxademic.core.draw.filters.pshader.BadTVGlitchFilter;
@@ -221,8 +222,8 @@ extends PAppletHax { public static void main(String args[]) { arguments = args; 
 		if(triggerNext.triggered()) filterIndex = (filterIndex < numEffects - 1) ? filterIndex + 1 : 0;
 
 		// debug log mouse position
-		p.debugView.setValue("Mouse.xNorm", Mouse.xNorm);
-		p.debugView.setValue("Mouse.yNorm", Mouse.yNorm);
+		DebugView.setValue("Mouse.xNorm", Mouse.xNorm);
+		DebugView.setValue("Mouse.yNorm", Mouse.yNorm);
 		String filterName = "";
 		
 		// secondary noise
@@ -235,7 +236,7 @@ extends PAppletHax { public static void main(String args[]) { arguments = args; 
 		// update cur shader as image processing basis
 		texture.updateTime();
 		textureBuffer.filter(texture.shader());
-		p.debugView.setTexture("textureBuffer", textureBuffer);
+		DebugView.setTexture("textureBuffer", textureBuffer);
 		
 		// draw to main offscreen buffer
 		pg.beginDraw();

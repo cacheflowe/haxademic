@@ -2,6 +2,7 @@ package com.haxademic.demo.hardware.webcam;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.image.FrozenImageMonitor;
 import com.haxademic.core.hardware.webcam.WebCam;
@@ -41,8 +42,8 @@ extends PAppletHax {
 		
 		// check for frozen image
 		if(p.frameCount % 60 == 1) {
-			p.debugView.setValue("webcam1 frozen", freezeMonitor.isFrozen(cam1.image()));
-			if(cam2 != null) p.debugView.setValue("webcam2 frozen", freezeMonitor.isFrozen(cam2.image()));
+			DebugView.setValue("webcam1 frozen", freezeMonitor.isFrozen(cam1.image()));
+			if(cam2 != null) DebugView.setValue("webcam2 frozen", freezeMonitor.isFrozen(cam2.image()));
 		}
 	}
 	

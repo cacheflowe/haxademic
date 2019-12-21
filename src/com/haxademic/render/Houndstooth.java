@@ -3,6 +3,7 @@ package com.haxademic.render;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.image.TiledTexture;
 import com.haxademic.core.math.easing.EasingFloat;
@@ -87,7 +88,7 @@ extends PAppletHax {
 		
 		bwTexture.endDraw();
 		
-		p.debugView.setTexture("bwTexture", bwTexture);
+		DebugView.setTexture("bwTexture", bwTexture);
 	}
 	
 	protected void buildGrid() {		
@@ -99,7 +100,7 @@ extends PAppletHax {
 			int rowIndex = P.floor(i/4);
 			cells[i] = new HoundstoothCell(rowIndex, colIndex, cellSize);
 		}
-		p.debugView.setTexture("houndsTooth4x4", houndsTooth4x4);
+		DebugView.setTexture("houndsTooth4x4", houndsTooth4x4);
 	}
 	
 	public void keyPressed() {

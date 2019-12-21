@@ -7,6 +7,7 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.data.constants.PBlendModes;
 import com.haxademic.core.data.constants.PRenderers;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.BlurHFilter;
 import com.haxademic.core.draw.filters.pshader.BlurVFilter;
@@ -262,7 +263,7 @@ extends PAppletHax {
 	}
 	
 	protected void applyZoomRotate() {
-		p.debugView.setValue("UI.value(FEEDBACK_OFFSET_X)/255f", UI.value(FEEDBACK_OFFSET_X)/255f);
+		DebugView.setValue("UI.value(FEEDBACK_OFFSET_X)/255f", UI.value(FEEDBACK_OFFSET_X)/255f);
 		RotateFilter.instance(p).setRotation(UI.value(FEEDBACK_ROTATE));
 		RotateFilter.instance(p).setZoom(UI.value(FEEDBACK_AMP));
 		RotateFilter.instance(p).setOffset(UI.value(FEEDBACK_OFFSET_X), UI.value(FEEDBACK_OFFSET_Y));
@@ -438,7 +439,7 @@ extends PAppletHax {
 			// go to each window in sequence
 //			int windowIndex = P.round(windows.length/2 + windows.length/2 * MathUtil.saw(p.frameCount * 0.014f));
 			
-			// p.debugView.setValue("windowIndex", windowIndex);
+			// DebugView.setValue("windowIndex", windowIndex);
 			windowIndex = P.constrain(windowIndex, 0, windows.length - 1);
 			targetObj = windows[windowIndex];
 		}

@@ -4,6 +4,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.data.ConvertUtil;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.filters.pshader.ContrastFilter;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.textures.SimplexNoiseTexture;
@@ -83,7 +84,7 @@ implements ISerialDeviceDelegate {
 	@Override
 	public void newDataAvailable(Serial serialDevice) {
 		// log incoming messages
-		p.debugView.setValue("[Serial in]", P.trim(serialDevice.readString()));
+		DebugView.setValue("[Serial in]", P.trim(serialDevice.readString()));
 	}
 
 }

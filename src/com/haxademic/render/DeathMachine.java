@@ -103,8 +103,8 @@ extends PAppletHax {
 		// mouse control
 //		float xmouse = P.map(P.p.mouseX, 0, p.width, -800f, 800f);
 //		float ymouse = P.map(P.p.mouseY, 0, p.height, -800f, 800f);
-//		P.p.debugView.addValue("xmouse", xmouse);
-//		P.p.debugView.addValue("ymouse", ymouse);
+//		DebugView.addValue("xmouse", xmouse);
+//		DebugView.addValue("ymouse", ymouse);
 		
 		// loop progress
 		float loopFrames = p.frameCount % _frames;

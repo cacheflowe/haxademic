@@ -3,6 +3,7 @@ package com.haxademic.sketch.audio.beads;
 import java.util.Arrays;
 
 import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.mouse.Mouse;
 import com.haxademic.core.math.MathUtil;
@@ -66,7 +67,7 @@ extends PAppletHax {
 					int pitch;
 					public void messageReceived(Bead message) {
 						Clock c = (Clock) message;
-						p.debugView.setValue("c.getCount()", ((c.getCount() / 4) % 8) + 1);
+						DebugView.setValue("c.getCount()", ((c.getCount() / 4) % 8) + 1);
 						
 						if(c.getCount() % 4 == 0 && MathUtil.randBooleanWeighted(0.65f)) {
 							// hi hat

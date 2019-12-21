@@ -2,6 +2,7 @@ package com.haxademic.core.draw.filters.pgraphics;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.data.constants.PBlendModes;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pgraphics.shared.BaseVideoFilter;
 import com.haxademic.core.draw.filters.pshader.BlurHFilter;
@@ -33,7 +34,7 @@ extends BaseVideoFilter {
 //		feedbackSeedBuffer.noSmooth();
 		feedbackFinalBuffer = PG.newPG(width, height);
 //		feedbackFinalBuffer.noSmooth();
-		P.p.debugView.setTexture("feedbackSeedBuffer", feedbackSeedBuffer);
+		DebugView.setTexture("feedbackSeedBuffer", feedbackSeedBuffer);
 	}
 	
 	public void newFrame(PImage frame) {

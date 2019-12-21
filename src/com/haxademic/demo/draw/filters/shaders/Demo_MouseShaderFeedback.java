@@ -4,6 +4,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.data.constants.PRenderers;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.color.ColorUtil;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.BlurProcessingFilter;
@@ -60,7 +61,7 @@ extends PAppletHax {
 		mouseSpeed.setTarget((P.abs(p.mouseX - p.pmouseX) + P.abs(p.mouseY - p.pmouseY)) / ((float) p.width / 20f));
 		mouseSpeed.update();
 		float mouseDir = MathUtil.getRadiansToTarget(p.mouseX, p.mouseY, p.pmouseX, p.pmouseY);
-		p.debugView.setValue("mouseSpeed", mouseSpeed.value());
+		DebugView.setValue("mouseSpeed", mouseSpeed.value());
 		mouseShader.set("mouseSpeed", mouseSpeed.value());
 		if(p.mouseX != p.pmouseX && p.mouseY != p.pmouseY) mouseShader.set("mouseDir", mouseDir);
 		mouseShader.set("time", p.frameCount);
@@ -98,7 +99,7 @@ extends PAppletHax {
 		p.image(feedbackBuffer, 0, 0);
 		
 		// draw debug direction grid
-		if(p.debugView.active()) {
+		if(DebugView.active()) {
 			mouseBuffer.loadPixels();
 			p.fill(255, 127);
 			for (int x = 0; x < p.width; x += 30) {
@@ -114,9 +115,9 @@ extends PAppletHax {
 		}
 		
 		// debug draw
-		p.debugView.setTexture("mouseBuffer", mouseBuffer);
-		p.debugView.setTexture("img", img);
-		p.debugView.setTexture("feedbackBuffer", feedbackBuffer);
+		DebugView.setTexture("mouseBuffer", mouseBuffer);
+		DebugView.setTexture("img", img);
+		DebugView.setTexture("feedbackBuffer", feedbackBuffer);
 
 	}
 }

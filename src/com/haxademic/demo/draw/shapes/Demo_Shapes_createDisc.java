@@ -2,6 +2,7 @@ package com.haxademic.demo.draw.shapes;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.draw.shapes.Shapes;
@@ -26,7 +27,7 @@ extends PAppletHax {
 		PG.setCenterScreen(p.g);
 		PG.basicCameraFromMouse(p.g);
 		
-		p.debugView.setTexture("texture", DemoAssets.textureNebula());
+		DebugView.setTexture("texture", DemoAssets.textureNebula());
 		// draw can
 //		shape.disableStyle();
 //		p.fill(255);

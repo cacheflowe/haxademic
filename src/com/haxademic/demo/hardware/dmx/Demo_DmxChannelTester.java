@@ -4,6 +4,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.data.constants.PTextAlign;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.text.FontCacher;
 import com.haxademic.core.hardware.dmx.DMXWrapper;
 import com.haxademic.core.media.DemoAssets;
@@ -61,12 +62,13 @@ extends PAppletHax {
 		UI.addSlider(BRIGHTNESS_CAP, 255, 0, 255, 1, false);
 		UI.addSlider(AUDIOREACTIVE, 0, 0, 1, 1, false);
 		UI.addSlider(BOOLEAN_MODE, 0, 0, 1, 1, false);
+		
+		addKeyCommandInfo();
 	}
 	
 	protected void addKeyCommandInfo() {
-		super.addKeyCommandInfo();
-		p.debugView.setHelpLine("__ Key Commands", "__\n");
-		p.debugView.setHelpLine("SPACE |", "Reset all");
+		DebugView.setHelpLine("__ Key Commands", "__\n");
+		DebugView.setHelpLine("SPACE |", "Reset all");
 	}
 
 	public void drawApp() {

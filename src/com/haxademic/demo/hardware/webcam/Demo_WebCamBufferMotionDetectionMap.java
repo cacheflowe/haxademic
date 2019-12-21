@@ -3,6 +3,7 @@ package com.haxademic.demo.hardware.webcam;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.data.constants.PRenderers;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.image.BufferMotionDetectionMap;
 import com.haxademic.core.draw.image.ImageUtil;
@@ -84,7 +85,7 @@ implements IWebCamCallback {
 			motionDetectionMap = new BufferMotionDetectionMap(webcamBuffer, 0.25f);
 		}
 		// float mouseX = Mouse.xNorm;
-		// p.debugView.setValue("mouseX", mouseX);
+		// DebugView.setValue("mouseX", mouseX);
 		motionDetectionMap.setBlendLerp(0.25f);
 		motionDetectionMap.setDiffThresh(0.03f);
 		motionDetectionMap.setFalloffBW(0.75f);
@@ -93,10 +94,10 @@ implements IWebCamCallback {
 		motionDetectionMap.updateSource(webcamBuffer);
 		
 		// set textures for debug view
-		p.debugView.setTexture("webcam", frame);
-		p.debugView.setTexture("motionDetectionMap.backplate", motionDetectionMap.backplate());
-		p.debugView.setTexture("motionDetectionMap.differenceBuffer", motionDetectionMap.differenceBuffer());
-		p.debugView.setTexture("motionDetectionMap.bwBuffer", motionDetectionMap.bwBuffer());
+		DebugView.setTexture("webcam", frame);
+		DebugView.setTexture("motionDetectionMap.backplate", motionDetectionMap.backplate());
+		DebugView.setTexture("motionDetectionMap.differenceBuffer", motionDetectionMap.differenceBuffer());
+		DebugView.setTexture("motionDetectionMap.bwBuffer", motionDetectionMap.bwBuffer());
 	}
 
 }

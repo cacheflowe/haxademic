@@ -1,8 +1,10 @@
 package com.haxademic.core.app;
 
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.data.store.AppStore;
 import com.haxademic.core.data.store.AppStoreDistributed;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.keyboard.KeyboardState;
 import com.haxademic.core.hardware.mouse.Mouse;
@@ -25,6 +27,7 @@ extends PApplet {
 		P.p = p;
 		P.store = AppStore.instance();
 		renderer = p.appConfig.getString(AppSettings.RENDERER, P.P3D);
+		if(P.renderer != PRenderers.PDF) DebugView.instance();
 		UI.instance();
 		Mouse.instance();
 		KeyboardState.instance();

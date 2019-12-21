@@ -3,6 +3,7 @@ package com.haxademic.core.draw.filters.pgraphics;
 import com.haxademic.core.app.P;
 import com.haxademic.core.data.constants.PBlendModes;
 import com.haxademic.core.data.constants.PRenderers;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pgraphics.shared.BaseVideoFilter;
 import com.haxademic.core.draw.filters.pshader.BlendTowardsTexture;
@@ -35,7 +36,7 @@ extends BaseVideoFilter {
 		int scaledW = P.round(width * scaleDown);
 		int scaledH = P.round(height * scaleDown);
 		int vertices = scaledW * scaledH; 
-		P.p.debugView.setValue("GPUParticlesSheetDisplacer Vertices", vertices);
+		DebugView.setValue("GPUParticlesSheetDisplacer Vertices", vertices);
 		
 		// build points vertices
 		shape = P.p.createShape();
@@ -66,7 +67,7 @@ extends BaseVideoFilter {
 		// lazy init and update motion detection buffers/calcs
 		if(motionDetectionMap == null) {
 			motionDetectionMap = new BufferMotionDetectionMap(sourceBuffer, 0.5f);
-			P.p.debugView.setTexture("sourceBuffer", sourceBuffer);
+			DebugView.setTexture("sourceBuffer", sourceBuffer);
 		}
 
 		// run motion detection
@@ -85,7 +86,7 @@ extends BaseVideoFilter {
 		BlendTowardsTexture.instance(P.p).setBlendLerp(0.2f);
 		BlendTowardsTexture.instance(P.p).setSourceTexture(motionDetectionMap.bwBuffer());
 		BlendTowardsTexture.instance(P.p).applyTo(displacementMap);
-		P.p.debugView.setTexture("displacementMap", displacementMap);
+		DebugView.setTexture("displacementMap", displacementMap);
 
 		// clear background & move to center
 		destBuffer.beginDraw();

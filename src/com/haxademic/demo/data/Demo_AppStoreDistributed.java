@@ -85,17 +85,17 @@ implements IAppStoreListener {
 
 	@Override
 	public void updatedNumber(String key, Number val) {
-//		p.debugView.setValue(key, val.floatValue());
+//		DebugView.setValue(key, val.floatValue());
 	}
 
 	@Override
 	public void updatedString(String key, String val) {
-//		p.debugView.setValue(key, val);
+//		DebugView.setValue(key, val);
 	}
 
 	@Override
 	public void updatedBoolean(String key, Boolean val) {
-//		p.debugView.setValue(key, val);
+//		DebugView.setValue(key, val);
 	}	
 
 	public void updatedImage(String key, PImage val) {

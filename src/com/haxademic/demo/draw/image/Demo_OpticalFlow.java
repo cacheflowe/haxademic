@@ -1,6 +1,7 @@
 package com.haxademic.demo.draw.image;
 
 import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.image.OpticalFlow;
 
@@ -40,14 +41,14 @@ extends PAppletHax {
 		
 		// check vector getter for a specific position
 		float[] vecResult = opticalFlow.getVectorAt(0.5f, 0.5f);
-		p.debugView.setValue("OpticalFlow.getVectorAt(0.5f, 0.5f) x", vecResult[0]);
-		p.debugView.setValue("OpticalFlow.getVectorAt(0.5f, 0.5f) y", vecResult[1]);
+		DebugView.setValue("OpticalFlow.getVectorAt(0.5f, 0.5f) x", vecResult[0]);
+		DebugView.setValue("OpticalFlow.getVectorAt(0.5f, 0.5f) y", vecResult[1]);
 		vecResult = opticalFlow.getVectorAt(1f, 1f);
-		p.debugView.setValue("OpticalFlow.getVectorAt(1f, 1f) x", vecResult[0]);
-		p.debugView.setValue("OpticalFlow.getVectorAt(1f, 1f) y", vecResult[1]);
+		DebugView.setValue("OpticalFlow.getVectorAt(1f, 1f) x", vecResult[0]);
+		DebugView.setValue("OpticalFlow.getVectorAt(1f, 1f) y", vecResult[1]);
 		vecResult = opticalFlow.getVectorAt(0f, 0f);
-		p.debugView.setValue("OpticalFlow.getVectorAt(0f, 0f) x", vecResult[0]);
-		p.debugView.setValue("OpticalFlow.getVectorAt(0f, 0f) y", vecResult[1]);
+		DebugView.setValue("OpticalFlow.getVectorAt(0f, 0f) x", vecResult[0]);
+		DebugView.setValue("OpticalFlow.getVectorAt(0f, 0f) y", vecResult[1]);
 	}
 
 }

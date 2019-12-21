@@ -4,6 +4,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.data.constants.PRenderers;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.ContrastFilter;
 import com.haxademic.core.draw.filters.pshader.SaturationFilter;
@@ -52,7 +53,7 @@ implements IWebCamCallback {
 
 	public void drawApp() {
 		p.background( 0 );
-		debugView.setTexture("camBuffer", camBuffer);
+		DebugView.setTexture("camBuffer", camBuffer);
 
 		// update noise
 		noiseTexture.updateTime();
@@ -66,7 +67,7 @@ implements IWebCamCallback {
 		noiseBuffer.filter(noiseTexture.shader());
 		ContrastFilter.instance(p).setContrast(2f);
 		ContrastFilter.instance(p).applyTo(noiseBuffer);
-		debugView.setTexture("noiseBuffer", noiseBuffer);
+		DebugView.setTexture("noiseBuffer", noiseBuffer);
 		
 		// debug draw recorder object frames
 		PG.setDrawCorner(p);
@@ -82,7 +83,7 @@ implements IWebCamCallback {
 			slitscanShader.set("frame_"+shaderFrame, recorder.images()[i]);
 		}
 		slitscanOutputBuffer.filter(slitscanShader);
-		debugView.setTexture("slitscanOutputBuffer", slitscanOutputBuffer);
+		DebugView.setTexture("slitscanOutputBuffer", slitscanOutputBuffer);
 		
 		// lerp the slitscan to next buffer
 		lerpToTexture.set("blendLerp", 0.3f);
@@ -110,7 +111,7 @@ implements IWebCamCallback {
 		SaturationFilter.instance(p).setSaturation(0);
 		SaturationFilter.instance(p).applyTo(recorder.getCurFrame());
 		// set debug staus
-		p.debugView.setValue("Last WebCam frame", p.frameCount);
+		DebugView.setValue("Last WebCam frame", p.frameCount);
 	}
 
 }

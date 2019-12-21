@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.ui.UI;
 
 import KinectPV2.HDFaceData;
@@ -51,12 +52,12 @@ extends PAppletHax {
 		// Obtain the Vertex Face Points
 		// 1347 Vertex Points for each user.
 		ArrayList<HDFaceData> hdFaceData = kinect.getHDFaceVertex();
-		p.debugView.setValue("hdFaceData.size()", hdFaceData.size());
+		DebugView.setValue("hdFaceData.size()", hdFaceData.size());
 
 		for (int j = 0; j < hdFaceData.size(); j++) {
 			//obtain a the HDFace object with all the vertex data
 			HDFaceData HDfaceData = (HDFaceData)hdFaceData.get(j);
-			p.debugView.setValue("isTracked", HDfaceData.isTracked());
+			DebugView.setValue("isTracked", HDfaceData.isTracked());
 			if (HDfaceData.isTracked()) {
 				//draw the vertex points
 				stroke(0, 255, 0);

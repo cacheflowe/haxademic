@@ -7,6 +7,7 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.data.constants.PBlendModes;
 import com.haxademic.core.data.constants.PRenderers;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.mouse.Mouse;
@@ -139,7 +140,7 @@ extends PAppletHax {
 		super.keyPressed();
 		if(p.key == ' ') {
 			addLayer();
-			p.debugView.setValue("layers.size()", layers.size());
+			DebugView.setValue("layers.size()", layers.size());
 		}
 		if(p.key == 'z') {
 			if(layers.size() > 1) {

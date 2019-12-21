@@ -5,6 +5,7 @@ import java.awt.Point;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.hardware.mouse.Mouse;
 
 public class Demo_MouseLoopAroundScreen
@@ -23,18 +24,18 @@ extends PAppletHax {
 		p.background(0);
 		
 		//get native window object
-		p.debugView.setValue("window width", window.getBounds().getWidth());
-		p.debugView.setValue("window height", window.getBounds().getHeight());
-		p.debugView.setValue("window hasFocus", window.hasFocus());
-		p.debugView.setValue("p.mouseX", p.mouseX);
-		p.debugView.setValue("p.mouseY", p.mouseY);
+		DebugView.setValue("window width", window.getBounds().getWidth());
+		DebugView.setValue("window height", window.getBounds().getHeight());
+		DebugView.setValue("window hasFocus", window.hasFocus());
+		DebugView.setValue("p.mouseX", p.mouseX);
+		DebugView.setValue("p.mouseY", p.mouseY);
 	}
 	
 	public void post() {
 		// update mouse w/system location
 		mousePoint = MouseInfo.getPointerInfo().getLocation();
-		p.debugView.setValue("mousePoint.x", mousePoint.x);
-		p.debugView.setValue("mousePoint.y", mousePoint.y);
+		DebugView.setValue("mousePoint.x", mousePoint.x);
+		DebugView.setValue("mousePoint.y", mousePoint.y);
 		
 		// wrap mouse 
 		int padding = 1;

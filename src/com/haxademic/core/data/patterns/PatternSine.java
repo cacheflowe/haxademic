@@ -45,8 +45,8 @@ implements ISequencerPattern {
 		/**
 		sinSpeed = Mouse.xNorm * 20f;
 		sinStart = Mouse.yNorm * P.TWO_PI;
-		P.p.debugView.setValue("sinSpeed", sinSpeed);
-		P.p.debugView.setValue("sinStart", sinStart);
+		DebugView.setValue("sinSpeed", sinSpeed);
+		DebugView.setValue("sinStart", sinStart);
 		*/
 		
 		// apply sin() to steps

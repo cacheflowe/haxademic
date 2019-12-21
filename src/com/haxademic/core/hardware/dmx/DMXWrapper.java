@@ -1,6 +1,7 @@
 package com.haxademic.core.hardware.dmx;
 
 import com.haxademic.core.app.P;
+import com.haxademic.core.debug.DebugView;
 
 import dmxP512.DmxP512;
 import processing.serial.Serial;
@@ -98,7 +99,7 @@ public class DMXWrapper {
 	
 	public void setValue(int channel, int value) {
 		if (dmx != null) dmx.set(P.constrain(channel, 1, 512), P.constrain(value, 0, 255));
-		if (channel < 1 || channel > 512) P.p.debugView.setValue("DMX Error", "DMX channel out of range (1-"+ universeSize +"): " + value);
-		if (value < 0 || value > 255) P.p.debugView.setValue("DMX Error", "DMX value out of range (0-255): " + value);
+		if (channel < 1 || channel > 512) DebugView.setValue("DMX Error", "DMX channel out of range (1-"+ universeSize +"): " + value);
+		if (value < 0 || value > 255) DebugView.setValue("DMX Error", "DMX value out of range (0-255): " + value);
 	}
 }

@@ -3,6 +3,7 @@ package com.haxademic.demo.draw.shapes;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.media.DemoAssets;
@@ -40,9 +41,9 @@ extends PAppletHax {
 		
 		// check size
 		modelSize = new PVector(PShapeUtil.getWidth(shape), PShapeUtil.getHeight(shape), PShapeUtil.getDepth(shape));
-		p.debugView.setValue("shape.width", modelSize.x);
-		p.debugView.setValue("shape.height", modelSize.y);
-		p.debugView.setValue("shape.depth", modelSize.z);
+		DebugView.setValue("shape.width", modelSize.x);
+		DebugView.setValue("shape.height", modelSize.y);
+		DebugView.setValue("shape.depth", modelSize.z);
 	}
 		
 	public void drawApp() {

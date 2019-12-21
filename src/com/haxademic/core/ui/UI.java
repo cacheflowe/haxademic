@@ -59,7 +59,6 @@ implements IUIButtonDelegate {
 		controls = new LinkedHashMap<String, IUIControl>();
 		P.p.registerMethod(PRegisterableMethods.pre, this);
 		P.p.registerMethod(PRegisterableMethods.post, this);
-//		P.p.registerMethod(PRegisterableMethods.keyEvent, this);
 	}
 	
 	////////////////////////
@@ -226,6 +225,7 @@ implements IUIButtonDelegate {
 		// draw if UI is active
 		if(active && P.renderer != PRenderers.PDF) {
 			PG.setDrawFlat2d(P.p.g, true);
+			P.p.g.noLights();
 			for (IUIControl control : controls.values()) {
 				control.draw(P.p.g);
 			}

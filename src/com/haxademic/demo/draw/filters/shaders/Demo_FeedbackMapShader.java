@@ -3,6 +3,7 @@ package com.haxademic.demo.draw.filters.shaders;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.BlurProcessingFilter;
 import com.haxademic.core.draw.filters.pshader.FeedbackMapFilter;
@@ -162,7 +163,7 @@ extends PAppletHax {
 	public void drawApp() {
 		progress = (p.frameCount % frames) / frames;
 		progressRads = progress * P.TWO_PI;
-		p.debugView.setValue("progress", progress);
+		DebugView.setValue("progress", progress);
 
 		background(255,0,0);
 
@@ -190,7 +191,7 @@ extends PAppletHax {
 		p.image(pg, 0, 0);
 
 		// debug draw
-		p.debugView.setTexture("buffer", pg);
-		p.debugView.setTexture("map", map);
+		DebugView.setTexture("buffer", pg);
+		DebugView.setTexture("map", map);
 	}
 }

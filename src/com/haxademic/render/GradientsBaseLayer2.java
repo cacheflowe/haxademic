@@ -3,6 +3,7 @@ package com.haxademic.render;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.color.ColorUtil;
 import com.haxademic.core.draw.color.Gradients;
 import com.haxademic.core.draw.filters.pshader.BlurHFilter;
@@ -72,7 +73,7 @@ extends PAppletHax {
 		for (int i = 0; i < 10; i++) BlurHFilter.instance(p).applyTo(img);
 		
 		// add to debug display
-		p.debugView.setTexture("gradient", img);
+		DebugView.setTexture("gradient", img);
 		
 		// build ticker
 		float tickerLoopSpeed = (float) img.width / (float) FRAMES;

@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.data.constants.PRegisterableMethods;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.hardware.shared.InputState;
 
 import themidibus.SimpleMidiListener;
@@ -62,14 +63,14 @@ implements SimpleMidiListener {
 	
 	protected void logValues() {
 		// debug print values if debug window is showing
-		if(P.p.debugView.active()) {
+		if(DebugView.active()) {
 			// log buttons
 			for (Integer key : midiNoteStates.keySet()) {
-				P.p.debugView.setValue("MIDI Note ["+key+"]", midiNoteVals.get(key) + " | " + midiNoteStates.get(key).name());
+				DebugView.setValue("MIDI Note ["+key+"]", midiNoteVals.get(key) + " | " + midiNoteStates.get(key).name());
 			}
 			// log CC values
 			for (Integer key : midiCCVals.keySet()) {
-				P.p.debugView.setValue("MIDI CC ["+key+"]", midiCCVals.get(key) + " | " + midiCCState.get(key).name());
+				DebugView.setValue("MIDI CC ["+key+"]", midiCCVals.get(key) + " | " + midiCCState.get(key).name());
 			}
 		}
 	}

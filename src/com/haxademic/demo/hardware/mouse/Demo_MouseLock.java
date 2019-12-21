@@ -3,6 +3,7 @@ package com.haxademic.demo.hardware.mouse;
 import java.awt.Point;
 
 import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.debug.DebugView;
 
 public class Demo_MouseLock
 extends PAppletHax {
@@ -22,8 +23,8 @@ extends PAppletHax {
 		p.background(0);
 
 		// lock mouse in center, and check offset from last frame
-		p.debugView.setValue("mouseMoveX", p.mouseX - lastMousePoint.x);
-		p.debugView.setValue("mouseMoveY", p.mouseY - lastMousePoint.y);
+		DebugView.setValue("mouseMoveX", p.mouseX - lastMousePoint.x);
+		DebugView.setValue("mouseMoveY", p.mouseY - lastMousePoint.y);
 		window.warpPointer(width/2, height/2);
 		lastMousePoint.setLocation(width/2, height/2);
 	}

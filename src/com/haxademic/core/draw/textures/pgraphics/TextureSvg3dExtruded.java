@@ -114,7 +114,7 @@ extends BaseTexture {
 //		audioTexture = new TextureEQGrid(logoTexture.width, logoTexture.height);
 		audioTexture = new TextureEQBandDistribute(curMeshTexture.width, curMeshTexture.height);
 //		audioTexture = new TextureEQConcentricCircles(curMeshTexture.width, curMeshTexture.height);
-//		P.p.debugView.setTexture(audioTexture.texture());
+//		DebugView.setTexture(audioTexture.texture());
 
 		
 		// create extrusion
@@ -153,7 +153,7 @@ extends BaseTexture {
 		shapeTexture.image(shapeTextureTemp, 1, 0);
 		shapeTexture.image(shapeTextureTemp, 1, 1);	// repeat down 1px to cover boxes
 		shapeTexture.endDraw();
-//		P.p.debugView.setTexture(curMeshTexture);
+//		DebugView.setTexture(curMeshTexture);
 		return shapeTexture;
 	}
 
@@ -203,7 +203,7 @@ extends BaseTexture {
 		default:
 			break;
 		}
-//		P.p.debugView.setTexture(audioTexture.texture());
+//		DebugView.setTexture(audioTexture.texture());
 	}
 
 	public void updateDraw() {

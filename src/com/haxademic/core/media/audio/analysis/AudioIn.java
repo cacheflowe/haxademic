@@ -2,6 +2,7 @@ package com.haxademic.core.media.audio.analysis;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.data.constants.PRegisterableMethods;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.system.JavaInfo;
 
@@ -68,7 +69,7 @@ public class AudioIn {
 
 		// build debug buffer
 		audioInputDebugBuffer = PG.newPG((int) AudioStreamData.debugW, (int) AudioStreamData.debugH);
-		P.p.debugView.setTexture("Audio Input", audioInputDebugBuffer);
+		DebugView.setTexture("Audio Input", audioInputDebugBuffer);
 		
 		// subscribe for auto draw() updates
 		P.p.registerMethod(PRegisterableMethods.pre, this);
@@ -137,7 +138,7 @@ public class AudioIn {
 	
 	protected void updateAudioData() {
 		// only draw if debugging
-		PGraphics audioBuffer = (P.isHaxApp() && P.p.debugView.active() == true) ? audioInputDebugBuffer : null;
+		PGraphics audioBuffer = (P.isHaxApp() && DebugView.active() == true) ? audioInputDebugBuffer : null;
 		// set up context
 		if(audioBuffer != null) {
 			audioBuffer.beginDraw();
@@ -159,10 +160,10 @@ public class AudioIn {
 		if(e.getAction() == KeyEvent.PRESS) {
 			if(e.getKey() == ',') {
 				audioInput.audioData().setGain(audioInput.audioData().gain() - 0.05f);
-				P.p.debugView.setValue("audioData.gain()", audioInput.audioData().gain());
+				DebugView.setValue("audioData.gain()", audioInput.audioData().gain());
 			} else if(e.getKey() == '.') {
 				audioInput.audioData().setGain(audioInput.audioData().gain() + 0.05f);
-				P.p.debugView.setValue("audioData.gain()", audioInput.audioData().gain());
+				DebugView.setValue("audioData.gain()", audioInput.audioData().gain());
 			}
 		}
 	}

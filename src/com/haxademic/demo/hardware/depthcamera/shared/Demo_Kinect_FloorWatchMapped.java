@@ -4,6 +4,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.data.constants.PRenderers;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.mapping.PGraphicsKeystone;
 import com.haxademic.core.file.FileUtil;
@@ -75,7 +76,7 @@ extends PAppletHax {
 		// draw kinect depth data in 2 passes for debugging
 		if(keystoneUI) drawKinectDepthPixels(kinect, bufferDepthSlice, p.color(100), true, true);
 		int kinectPixels = drawKinectDepthPixels(kinect, bufferDepthSlice, p.color(255), false, !keystoneUI);
-		p.debugView.setValue("kinectPixels", kinectPixels);
+		DebugView.setValue("kinectPixels", kinectPixels);
 		
 		// calc destination texture centered screen coordinates
 		float textureX = p.width / 2 - bufferNormalizedDepth.width / 2;
@@ -87,7 +88,7 @@ extends PAppletHax {
 		bufferNormalizedDepth.translate(-textureX, -textureY);
 		keystone.update(bufferNormalizedDepth);
 		bufferNormalizedDepth.endDraw();
-		p.debugView.setTexture("bufferNormalizedDepth", bufferNormalizedDepth);
+		DebugView.setTexture("bufferNormalizedDepth", bufferNormalizedDepth);
 		
 		
 		// draw keystone UI to screen
@@ -154,7 +155,7 @@ extends PAppletHax {
 				}
 			}
 		}
-		p.debugView.setValue("avgX/avgY", avgX + ", " + avgY);
+		DebugView.setValue("avgX/avgY", avgX + ", " + avgY);
 		
 		// close buffer
 		buffer.endDraw();

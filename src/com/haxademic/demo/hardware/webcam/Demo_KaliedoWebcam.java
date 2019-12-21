@@ -4,6 +4,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.data.constants.PRenderers;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.KaleidoFilter;
 import com.haxademic.core.draw.image.BufferActivityMonitor;
@@ -46,8 +47,8 @@ implements IWebCamCallback {
 		
 		// calculate activity monitor with new frame
 		activityMonitor.update(flippedCamera);
-		p.debugView.setTexture("flippedCamera", flippedCamera);
-		p.debugView.setTexture("differenceBuffer", activityMonitor.differenceBuffer());
+		DebugView.setTexture("flippedCamera", flippedCamera);
+		DebugView.setTexture("differenceBuffer", activityMonitor.differenceBuffer());
 	}
 
 	public void drawApp() {
@@ -59,7 +60,7 @@ implements IWebCamCallback {
 		// draw webcam
 		if(flippedCamera != null) {
 			// show activity calculation and texture in debug panel
-			p.debugView.setValue("ACTIVITY", activityMonitor.activityAmp());
+			DebugView.setValue("ACTIVITY", activityMonitor.activityAmp());
 
 			// ImageUtil.cropFillCopyImage(flippedCamera, p.g, true);
 			float sizee = 1f + 0.5f * P.sin(p.frameCount * 0.004f);

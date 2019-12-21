@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.particle.VectorFlyer;
 import com.haxademic.core.draw.shapes.Icosahedron;
@@ -62,7 +63,7 @@ extends PAppletHax {
 			if(attractorExists(point) == false) {
 				attractors.add( point ); 
 				attractorsCount++;
-				p.debugView.setValue("attractorsCount", attractorsCount);
+				DebugView.setValue("attractorsCount", attractorsCount);
 			}
 		}
 			

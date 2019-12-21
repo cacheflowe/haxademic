@@ -4,6 +4,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.data.constants.PRenderers;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.BlurHFilter;
 import com.haxademic.core.draw.filters.pshader.BlurVFilter;
@@ -94,8 +95,8 @@ extends PAppletHax {
 			textY += textsCropped[i].height;
 		}
 		multilineBuffer.endDraw();
-		p.debugView.setTexture("textCropped", textsCropped[0]);
-		p.debugView.setTexture("multilineBuffer", multilineBuffer);
+		DebugView.setTexture("textCropped", textsCropped[0]);
+		DebugView.setTexture("multilineBuffer", multilineBuffer);
 		
 		// create tiled texture
 		tiledImg = new TiledTexture(multilineBuffer);

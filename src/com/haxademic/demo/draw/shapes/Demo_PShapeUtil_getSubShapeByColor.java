@@ -3,6 +3,7 @@ package com.haxademic.demo.draw.shapes;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.file.FileUtil;
@@ -106,7 +107,7 @@ extends PAppletHax {
 		
 		// show different modes
 		boolean origColor = (p.frameCount % 200 < 100);
-		p.debugView.setValue("originalColor", origColor);
+		DebugView.setValue("originalColor", origColor);
 		if(origColor == true) {
 			if(p.frameCount % 200 > 25) pg.shape(bumper);
 			if(p.frameCount % 200 > 50) pg.shape(pinkCar);

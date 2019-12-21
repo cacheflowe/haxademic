@@ -2,6 +2,7 @@ package com.haxademic.core.hardware.depthcamera;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.data.constants.PBlendModes;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.BlendTowardsTexture;
 import com.haxademic.core.draw.filters.pshader.BlurHFilter;
@@ -171,7 +172,7 @@ public class KinectRoomScanDiff {
 				}
 			}
 			lerpedDepthBuffer.updatePixels();
-			P.p.debugView.setValue("KinectRoomScanDiff.numPixelsProcessed", numPixelsProcessed);
+			DebugView.setValue("KinectRoomScanDiff.numPixelsProcessed", numPixelsProcessed);
 
 			// rect() method
 //			lerpedDepthBuffer.beginDraw();
@@ -191,7 +192,7 @@ public class KinectRoomScanDiff {
 //				}
 //			}
 //			lerpedDepthBuffer.endDraw();
-//			P.p.debugView.setValue("KinectRoomScanDiff.numPixelsProcessed", numPixelsProcessed);
+//			DebugView.setValue("KinectRoomScanDiff.numPixelsProcessed", numPixelsProcessed);
 		}
 		
 		// composite room scan with current depth buffer on top
@@ -291,7 +292,7 @@ public class KinectRoomScanDiff {
 				}
 			}
 			lerpedDepthBuffer.updatePixels();
-			P.p.debugView.setValue("KinectRoomScanDiff.numPixelsProcessed", numPixelsProcessed);
+			DebugView.setValue("KinectRoomScanDiff.numPixelsProcessed", numPixelsProcessed);
 		}
 		
 		// composite room scan with current depth buffer on top

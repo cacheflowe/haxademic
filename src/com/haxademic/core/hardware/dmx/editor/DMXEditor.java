@@ -113,16 +113,16 @@ implements IAppStoreListener {
 	}	
 	
 	protected void addKeyCommandInfo() {
-		P.p.debugView.setHelpLine("\n" + DebugView.TITLE_PREFIX + "Custom Key Commands", "");
-		P.p.debugView.setHelpLine("[Q] |", "Dim floorplan toggle");
-		P.p.debugView.setHelpLine("[W] |", "Create Drag mode");
-		P.p.debugView.setHelpLine("[E] |", "Lights UI Disable");
-		P.p.debugView.setHelpLine("[R] |", "Lights UI stay on");
-		P.p.debugView.setHelpLine("[T] |", "Show DMX channels");
-		P.p.debugView.setHelpLine("[Y] |", "Show light index");
-		P.p.debugView.setHelpLine("[I] |", "Texture Overlay");
-		P.p.debugView.setHelpLine("[DEL] |", "Delete hovered light");
-		P.p.debugView.setHelpLine("[`] |", "Toggle info");
+		DebugView.setHelpLine("\n" + DebugView.TITLE_PREFIX + "Custom Key Commands", "");
+		DebugView.setHelpLine("[Q] |", "Dim floorplan toggle");
+		DebugView.setHelpLine("[W] |", "Create Drag mode");
+		DebugView.setHelpLine("[E] |", "Lights UI Disable");
+		DebugView.setHelpLine("[R] |", "Lights UI stay on");
+		DebugView.setHelpLine("[T] |", "Show DMX channels");
+		DebugView.setHelpLine("[Y] |", "Show light index");
+		DebugView.setHelpLine("[I] |", "Texture Overlay");
+		DebugView.setHelpLine("[DEL] |", "Delete hovered light");
+		DebugView.setHelpLine("[`] |", "Toggle info");
 	}
 	
 	/////////////////////////////////
@@ -398,7 +398,7 @@ implements IAppStoreListener {
 		// draw/update lights
 		ILight newActiveLight = null;
 		PVector activePointPostion = (activePoint == null || pointsUiDisabled) ? null : activePoint.position();
-		P.p.debugView.setValue("activePointPostion", (activePointPostion == null) ? null : activePointPostion.toString());
+		DebugView.setValue("activePointPostion", (activePointPostion == null) ? null : activePointPostion.toString());
 		for (int i = 0; i < lights.size(); i++) {
 			ILight light = lights.get(i);
 			light.setActive(activePointPostion);

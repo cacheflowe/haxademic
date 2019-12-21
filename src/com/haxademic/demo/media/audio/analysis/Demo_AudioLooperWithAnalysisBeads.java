@@ -2,9 +2,9 @@ package com.haxademic.demo.media.audio.analysis;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.media.audio.analysis.AudioStreamData;
 import com.haxademic.core.media.audio.playback.AudioPlayerBeads;
-import com.haxademic.core.app.config.AppSettings;
 
 import beads.AudioContext;
 

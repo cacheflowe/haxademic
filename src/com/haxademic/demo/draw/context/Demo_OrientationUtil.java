@@ -2,8 +2,8 @@ package com.haxademic.demo.draw.context;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.context.OrientationUtil;
+import com.haxademic.core.draw.context.PG;
 
 import processing.core.PVector;
 

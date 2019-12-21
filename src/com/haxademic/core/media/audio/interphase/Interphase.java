@@ -9,8 +9,8 @@ import com.haxademic.core.draw.shapes.Shapes;
 import com.haxademic.core.hardware.midi.devices.LaunchPad;
 import com.haxademic.core.hardware.midi.devices.LaunchPad.ILaunchpadCallback;
 import com.haxademic.core.hardware.shared.InputTrigger;
-import com.haxademic.core.ui.UIButton;
 import com.haxademic.core.ui.UI;
+import com.haxademic.core.ui.UIButton;
 
 import processing.core.PGraphics;
 
@@ -106,11 +106,11 @@ implements ILaunchpadCallback {
 			UI.addWebInterface(false);
 	
 			// set debug help lines
-			P.p.debugView.setHelpLine("\n" + DebugView.TITLE_PREFIX + "Interphase Key Commands", "");
-			P.p.debugView.setHelpLine("[1234] |", "Trigger");
-			P.p.debugView.setHelpLine("[QWER] |", "Toggle on/off");
-			P.p.debugView.setHelpLine("[ASDF] |", "New sound");
-			P.p.debugView.setHelpLine("[9] |", "Toggle auto morph");
+			DebugView.setHelpLine("\n" + DebugView.TITLE_PREFIX + "Interphase Key Commands", "");
+			DebugView.setHelpLine("[1234] |", "Trigger");
+			DebugView.setHelpLine("[QWER] |", "Toggle on/off");
+			DebugView.setHelpLine("[ASDF] |", "New sound");
+			DebugView.setHelpLine("[9] |", "Toggle auto morph");
 		}
 	}
 	
@@ -264,12 +264,12 @@ implements ILaunchpadCallback {
 	}
 	
 	protected void updateDebugValues() {
-		P.p.debugView.setValue("INTERPHASE :: BPM", P.store.getFloat(BPM));
-		P.p.debugView.setValue("INTERPHASE :: BEAT", P.store.getFloat(BEAT));
-		P.p.debugView.setValue("INTERPHASE :: INTERACTION_SPEED_MULT", P.store.getFloat(INTERACTION_SPEED_MULT));
-		P.p.debugView.setValue("INTERPHASE :: PATTERNS_AUTO_MORPH", P.store.getBoolean(PATTERNS_AUTO_MORPH));
-		P.p.debugView.setValue("INTERPHASE :: SEQUENCER_TRIGGER", P.store.getInt(SEQUENCER_TRIGGER));
-		P.p.debugView.setValue("INTERPHASE :: CUR_SCALE", Scales.SCALE_NAMES[P.store.getInt(CUR_SCALE_INDEX)]);
+		DebugView.setValue("INTERPHASE :: BPM", P.store.getFloat(BPM));
+		DebugView.setValue("INTERPHASE :: BEAT", P.store.getFloat(BEAT));
+		DebugView.setValue("INTERPHASE :: INTERACTION_SPEED_MULT", P.store.getFloat(INTERACTION_SPEED_MULT));
+		DebugView.setValue("INTERPHASE :: PATTERNS_AUTO_MORPH", P.store.getBoolean(PATTERNS_AUTO_MORPH));
+		DebugView.setValue("INTERPHASE :: SEQUENCER_TRIGGER", P.store.getInt(SEQUENCER_TRIGGER));
+		DebugView.setValue("INTERPHASE :: CUR_SCALE", Scales.SCALE_NAMES[P.store.getInt(CUR_SCALE_INDEX)]);
 	}
 	
 	protected void drawSequencer(PGraphics pg) {

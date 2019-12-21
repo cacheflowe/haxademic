@@ -2,6 +2,7 @@ package com.haxademic.demo.draw.shapes.shader;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.context.PShaderHotSwap;
 import com.haxademic.core.draw.shapes.Shapes;
@@ -87,8 +88,8 @@ extends PAppletHax {
 
 		
 		// debug view
-		p.debugView.setValue("shape.getVertexCount();", shape.getVertexCount());
-		p.debugView.setTexture("displaceTexture", displaceTexture.texture());
+		DebugView.setValue("shape.getVertexCount();", shape.getVertexCount());
+		DebugView.setTexture("displaceTexture", displaceTexture.texture());
 		
 		polygonShader = new PShaderHotSwap(
 			FileUtil.getFile("haxademic/shaders/vertex/mesh-2d-deform-vert.glsl"),

@@ -4,6 +4,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.data.constants.PBlendModes;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.file.FileUtil;
@@ -43,16 +44,16 @@ extends PAppletHax {
 
 		// create texture to store positions
 		positionsBuffer = PG.newDataPG(positionBufferSize, positionBufferSize);
-		p.debugView.setTexture("positionsBuffer", positionsBuffer);
+		DebugView.setTexture("positionsBuffer", positionsBuffer);
 		newPositions();
 		
 		// build final draw buffer
 		renderedParticles = PG.newPG(p.width, p.height);
-		p.debugView.setTexture("renderedParticles", renderedParticles);
+		DebugView.setTexture("renderedParticles", renderedParticles);
 		
 		// Build points vertices
 		shape = PShapeUtil.pointsShapeForGPUData(positionBufferSize);
-		p.debugView.setValue("Vertices", shape.getVertexCount());
+		DebugView.setValue("Vertices", shape.getVertexCount());
 
 		// load shader
 		particleVerticesShader = p.loadShader(

@@ -3,6 +3,7 @@ package com.haxademic.render;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.color.ColorUtil;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.BrightnessFilter;
@@ -67,9 +68,9 @@ extends PAppletHax {
 		
 		tiledRainbow = new TiledTexture(rainbowBuffer);
 		drawRainbowBuffer();
-		p.debugView.setTexture("rainbowBuffer", rainbowBuffer);
-		p.debugView.setTexture("meshTextureBuffer", meshTextureBuffer);
-		p.debugView.setTexture("textTextureBuffer", textTextureBuffer);
+		DebugView.setTexture("rainbowBuffer", rainbowBuffer);
+		DebugView.setTexture("meshTextureBuffer", meshTextureBuffer);
+		DebugView.setTexture("textTextureBuffer", textTextureBuffer);
 		
 		// make 3d text
 		textToPShape = new TextToPShape(TextToPShape.QUALITY_HIGH);
@@ -94,10 +95,10 @@ extends PAppletHax {
 		
 		// log mesh size
 		PVector modelSize = new PVector(PShapeUtil.getWidth(shape), PShapeUtil.getHeight(shape), PShapeUtil.getDepth(shape));
-		p.debugView.setValue("shape.width", modelSize.x);
-		p.debugView.setValue("shape.height", modelSize.y);
-		p.debugView.setValue("shape.depth", modelSize.z);
-		p.debugView.setValue("shape vertices", PShapeUtil.vertexCount(shape));
+		DebugView.setValue("shape.width", modelSize.x);
+		DebugView.setValue("shape.height", modelSize.y);
+		DebugView.setValue("shape.depth", modelSize.z);
+		DebugView.setValue("shape vertices", PShapeUtil.vertexCount(shape));
 	}
 	
 	protected void drawRainbowBuffer() {

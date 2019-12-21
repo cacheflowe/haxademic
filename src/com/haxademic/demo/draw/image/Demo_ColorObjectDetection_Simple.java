@@ -1,6 +1,7 @@
 package com.haxademic.demo.draw.image;
 
 import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.image.ColorObjectDetection;
 import com.haxademic.core.ui.UI;
@@ -52,8 +53,8 @@ extends PAppletHax {
 		p.rect(colorObjectDetection.sourceBuffer().width, 0, colorObjectDetection.analysisBuffer().width, colorObjectDetection.analysisBuffer().height);
 		
 		// set debug values
-		p.debugView.setValue("BufferColorObjectDetection x", colorObjectDetection.x());
-		p.debugView.setValue("BufferColorObjectDetection y", colorObjectDetection.y());
+		DebugView.setValue("BufferColorObjectDetection x", colorObjectDetection.x());
+		DebugView.setValue("BufferColorObjectDetection y", colorObjectDetection.y());
 	}
 
 }

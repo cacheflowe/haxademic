@@ -6,6 +6,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.data.constants.PRenderers;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.midi.MidiDevice;
@@ -404,15 +405,15 @@ extends PAppletHax {
 //		animationStops.add(new float[] {107.44368f, 3.8200908f, 3.7274318f, 1.0026246f, 20.0f, 1.0f, 1.1084069f, 0.09699356f, 0.0f, 0.0f});
 
 		if(isAnimating) nextAnimation(1);
-		p.debugView.setValue("framesPerBeat", framesPerBeat);
+		DebugView.setValue("framesPerBeat", framesPerBeat);
 	}
 	
 	protected void updateControls() {
 		// set up concentric polygon config
 		if(knob1.triggered()) radius.setTarget(P.map(knob1.value(), 0.01f, 1, 50, 500));
 		radius.update(true);
-		p.debugView.setValue("radius", radius.value());
-		p.debugView.setValue("radius target", radius.target());
+		DebugView.setValue("radius", radius.value());
+		DebugView.setValue("radius target", radius.target());
 
 		// num vertices
 		if(knob2.triggered()) vertices.setTarget(3f + P.map(knob2.value(), 0.01f, 1, 0, 7));
@@ -423,7 +424,7 @@ extends PAppletHax {
 		// number of children
 		if(knob3.triggered()) maxLevels.setTarget(P.round(P.map(knob3.value(), 0.01f, 1, 1, 5)));
 		maxLevels.update(easingEaseIn);
-		p.debugView.setValue("maxLevels.value()",maxLevels.target());
+		DebugView.setValue("maxLevels.value()",maxLevels.target());
 		
 		// set shrink amount
 		if(knob4.triggered()) iterateShrink.setTarget(P.map(knob4.value(), 0.01f, 1, 0.1f, 2f));
@@ -524,12 +525,12 @@ extends PAppletHax {
 	}
 	
 	protected void updateDebug() {
-		p.debugView.setValue("numVertices", numVertices);
-		p.debugView.setValue("minY", minY);
-		p.debugView.setValue("maxY", maxY);
-		p.debugView.setValue("shapeHeight", shapeHeight);
-		p.debugView.setValue("offsetY.value()", offsetY.value());
-//		p.debugView.setValue("(minY + maxY) / 2f", (minY + maxY) / 2f);	
+		DebugView.setValue("numVertices", numVertices);
+		DebugView.setValue("minY", minY);
+		DebugView.setValue("maxY", maxY);
+		DebugView.setValue("shapeHeight", shapeHeight);
+		DebugView.setValue("offsetY.value()", offsetY.value());
+//		DebugView.setValue("(minY + maxY) / 2f", (minY + maxY) / 2f);	
 	}
 	
 	protected void storeParams() {
@@ -558,7 +559,7 @@ extends PAppletHax {
 		animateIndex += step;
 		if(animateIndex >= animationStops.size()) animateIndex = 0;
 		if(animateIndex < 0) animateIndex = animationStops.size() - 1;
-		p.debugView.setValue("animateIndex", animateIndex + " / " + (animationStops.size() - 1));
+		DebugView.setValue("animateIndex", animateIndex + " / " + (animationStops.size() - 1));
 		float[] paramsArray = animationStops.get(animateIndex);
 		// apply stored params
 		radius.setTarget(paramsArray[0]);

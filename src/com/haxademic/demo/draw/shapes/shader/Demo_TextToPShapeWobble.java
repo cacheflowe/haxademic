@@ -2,6 +2,7 @@ package com.haxademic.demo.draw.shapes.shader;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.context.PShaderHotSwap;
 import com.haxademic.core.draw.shapes.PShapeUtil;
@@ -46,7 +47,7 @@ extends PAppletHax {
 			FileUtil.getFile("haxademic/shaders/vertex/mesh-2d-deform-frag.glsl") 
 		);
 		displaceTexture = new SimplexNoiseTexture(256, 256);
-		p.debugView.setTexture("displacement map", displaceTexture.texture());
+		DebugView.setTexture("displacement map", displaceTexture.texture());
 	}
 
 	public void drawApp() {

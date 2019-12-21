@@ -2,6 +2,7 @@ package com.haxademic.demo.media.audio.playback;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.hardware.mouse.Mouse;
 import com.haxademic.core.media.audio.analysis.AudioIn;
 import com.haxademic.core.media.audio.analysis.AudioInputBeads;
@@ -29,8 +30,8 @@ extends PAppletHax {
 		player.loopWav(beat2);
 		
 		// debug output audio lengths
-		p.debugView.setValue("beat1 Length", player.duration(beat1));
-		p.debugView.setValue("beat2 Length", player.duration(beat2));
+		DebugView.setValue("beat1 Length", player.duration(beat1));
+		DebugView.setValue("beat2 Length", player.duration(beat2));
 
 		// send Beads audio player analyzer to PAppletHax
 		AudioIn.instance(new AudioInputBeads(player.context()));
@@ -49,7 +50,7 @@ extends PAppletHax {
 		}
 		
 		// show debug audio view (and keep it open)
-		p.debugView.active(true);
+		DebugView.active(true);
 		p.image(AudioIn.instance().audioInputDebugBuffer(), 240, 100);
 	}
 

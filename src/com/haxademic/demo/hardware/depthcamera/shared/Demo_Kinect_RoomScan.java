@@ -6,6 +6,7 @@ import java.awt.event.ActionListener;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.data.constants.PTextAlign;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.image.BufferThresholdMonitor;
 import com.haxademic.core.draw.text.FontCacher;
 import com.haxademic.core.hardware.depthcamera.KinectRoomScanDiff;
@@ -84,8 +85,8 @@ extends PAppletHax {
 		// check user active monitor
 		userActive.update(kinectDiff.resultSmoothed());
 		float activeMonitorResult = userActive.thresholdCalc();
-		p.debugView.setValue("activeMonitorResult", activeMonitorResult);
-		p.debugView.setTexture("activeMonitorResult buffer", userActive.thresholdBuffer());
+		DebugView.setValue("activeMonitorResult", activeMonitorResult);
+		DebugView.setTexture("activeMonitorResult buffer", userActive.thresholdBuffer());
 		// activity indicator
 		int userIndicatorFill = (activeMonitorResult > 0.01f) ? p.color(0,255,0) : p.color(255,0,0);
 		p.fill(userIndicatorFill);

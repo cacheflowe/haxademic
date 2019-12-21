@@ -3,6 +3,7 @@ package com.haxademic.core.data.store;
 import java.net.UnknownHostException;
 
 import com.haxademic.core.app.P;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.net.IPAddress;
 import com.haxademic.core.net.ISocketClientDelegate;
 import com.haxademic.core.net.JsonUtil;
@@ -63,7 +64,7 @@ implements ISocketClientDelegate {
 		try {
 			// SocketServer.PORT = 3000;
 			server = new SocketServer(new SocketServerHandler(SocketServer.PORT, this), false);
-			P.p.debugView.setValue("WS Server", localSocketServerAddress());
+			DebugView.setValue("WS Server", localSocketServerAddress());
 		} catch (UnknownHostException e) {
 			// e.printStackTrace(); 
 		}

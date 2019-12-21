@@ -3,6 +3,7 @@ package com.haxademic.demo.hardware.webcam;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.data.constants.PRenderers;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.image.BufferActivityMonitor;
 import com.haxademic.core.draw.image.ImageUtil;
@@ -42,7 +43,7 @@ implements IWebCamCallback {
 
 		// calculate activity monitor with new frame
 		activityMonitor.update(flippedCamera);
-		p.debugView.setTexture("flippedCamera", flippedCamera);
+		DebugView.setTexture("flippedCamera", flippedCamera);
 	}
 
 	public void drawApp() {
@@ -52,8 +53,8 @@ implements IWebCamCallback {
 		PG.setCenterScreen(p);
 
 		// show activity calculation and texture in debug panel
-		p.debugView.setValue("ACTIVITY", activityMonitor.activityAmp());
-		p.debugView.setTexture("activityMonitor.differenceBuffer", activityMonitor.differenceBuffer());
+		DebugView.setValue("ACTIVITY", activityMonitor.activityAmp());
+		DebugView.setTexture("activityMonitor.differenceBuffer", activityMonitor.differenceBuffer());
 
 		// show diff buffer
 		ImageUtil.cropFillCopyImage(activityMonitor.differenceBuffer(), p.g, true);

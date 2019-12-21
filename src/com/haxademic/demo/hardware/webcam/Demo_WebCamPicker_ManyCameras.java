@@ -74,8 +74,8 @@ extends PAppletHax {
 		
 		// check for frozen image
 //		if(p.frameCount % 60 == 1) {
-//			p.debugView.setValue("webcam1 frozen", freezeMonitor.isFrozen(cam1.image()));
-//			if(cam2 != null) p.debugView.setValue("webcam2 frozen", freezeMonitor.isFrozen(cam2.image()));
+//			DebugView.setValue("webcam1 frozen", freezeMonitor.isFrozen(cam1.image()));
+//			if(cam2 != null) DebugView.setValue("webcam2 frozen", freezeMonitor.isFrozen(cam2.image()));
 //		}
 	}
 	

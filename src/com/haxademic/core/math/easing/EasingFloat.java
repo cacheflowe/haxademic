@@ -1,6 +1,7 @@
 package com.haxademic.core.math.easing;
 
 import com.haxademic.core.app.P;
+import com.haxademic.core.debug.DebugView;
 
 public class EasingFloat
 implements IEasingValue {
@@ -122,9 +123,9 @@ implements IEasingValue {
 	}
 	
 	protected void checkComplete() {
-		P.p.debugView.setValue("value", value);
-		P.p.debugView.setValue("target", target);
-		P.p.debugView.setValue("complete", complete);
+		DebugView.setValue("value", value);
+		DebugView.setValue("target", target);
+		DebugView.setValue("complete", complete);
 		if(complete == false && value == target) {
 			complete = true;
 			delegate.complete(this);

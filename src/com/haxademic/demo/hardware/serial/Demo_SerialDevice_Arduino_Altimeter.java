@@ -3,6 +3,7 @@ package com.haxademic.demo.hardware.serial;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.hardware.serial.SerialDevice;
 import com.haxademic.core.hardware.serial.SerialDevice.ISerialDeviceDelegate;
@@ -47,7 +48,7 @@ implements ISerialDeviceDelegate {
 	public void newDataAvailable(Serial serialDevice) {
 		String serialInputString = P.trim(serialDevice.readStringUntil(SerialDevice.cr));
 		if(serialInputString != null) {
-			p.debugView.setValue("[Serial in]", p.frameCount + " | " + serialInputString);
+			DebugView.setValue("[Serial in]", p.frameCount + " | " + serialInputString);
 			serialDevice.clear();
 		}
 	}

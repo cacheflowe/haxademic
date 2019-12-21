@@ -3,6 +3,7 @@ package com.haxademic.demo.draw.image;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.image.TiledTexture;
@@ -47,7 +48,7 @@ extends PAppletHax {
 		textBuffer.textSize(fontBig.getSize());
 		textBuffer.text("HELLO", 0, 0, textBuffer.width, textBuffer.height); 
 		textBuffer.endDraw();
-		p.debugView.setTexture("textBuffer", textBuffer);
+		DebugView.setTexture("textBuffer", textBuffer);
 		
 		// crop text
 		ImageUtil.imageCroppedEmptySpace(textBuffer, textCropped, ImageUtil.EMPTY_INT, false, new int[] {10, 20, 40, 20}, new int[] {0, 0, 0, 0}, p.color(0, 255, 0, 0));

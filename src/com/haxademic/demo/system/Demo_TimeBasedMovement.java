@@ -2,6 +2,7 @@ package com.haxademic.demo.system;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.system.TimeFactoredFps;
 
 public class Demo_TimeBasedMovement
@@ -28,9 +29,9 @@ extends PAppletHax {
 		timeFactor.update();
 		curX += P.round(moveXPerFrame * timeFactor.multiplier());
 //		P.println(curX);
-		p.debugView.setValue("target_fps: ",timeFactor.targetFps());
-		p.debugView.setValue("actual_fps: ",timeFactor.actualFps());
-		p.debugView.setValue("timeFactor: ",timeFactor.multiplier());
+		DebugView.setValue("target_fps: ",timeFactor.targetFps());
+		DebugView.setValue("actual_fps: ",timeFactor.actualFps());
+		DebugView.setValue("timeFactor: ",timeFactor.multiplier());
 		
 	}
 }

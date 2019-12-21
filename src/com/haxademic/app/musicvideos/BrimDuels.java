@@ -5,6 +5,7 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.data.constants.PBlendModes;
 import com.haxademic.core.data.constants.PRenderers;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.color.Gradients;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.context.PG;
@@ -438,7 +439,7 @@ extends PAppletHax {
 		displaceTexture.blendMode(PBlendModes.BLEND);
 		displaceTexture.endDraw();
 		
-		p.debugView.setTexture("displaceTexture", displaceTexture);
+		DebugView.setTexture("displaceTexture", displaceTexture);
 	}
 
 	protected void drawSheetDisplacer() {

@@ -2,6 +2,7 @@ package com.haxademic.demo.hardware.depthcamera.kinectpv2;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.debug.DebugView;
 
 public class Demo_KinectV2_WindowsCameraTest
 extends PAppletHax {
@@ -18,9 +19,9 @@ extends PAppletHax {
 
 	public void drawApp() {
 		p.background(0);
-		p.debugView.setTexture("depthCamera.getRgbImage", depthCamera.getRgbImage());
-		p.debugView.setTexture("depthCamera.getIRImage", depthCamera.getIRImage());
-		p.debugView.setTexture("depthCamera.getDepthImage", depthCamera.getDepthImage());
+		DebugView.setTexture("depthCamera.getRgbImage", depthCamera.getRgbImage());
+		DebugView.setTexture("depthCamera.getIRImage", depthCamera.getIRImage());
+		DebugView.setTexture("depthCamera.getDepthImage", depthCamera.getDepthImage());
 		p.image(depthCamera.getDepthImage(), 0, 0);
 		p.image(depthCamera.getIRImage(), depthCamera.getDepthImage().width, 0);
 		p.image(depthCamera.getRgbImage(), 0, depthCamera.getDepthImage().height);

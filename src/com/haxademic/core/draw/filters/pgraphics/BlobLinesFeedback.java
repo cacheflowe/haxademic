@@ -3,6 +3,7 @@ package com.haxademic.core.draw.filters.pgraphics;
 import com.haxademic.core.app.P;
 import com.haxademic.core.data.constants.PBlendModes;
 import com.haxademic.core.data.constants.PRenderers;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pgraphics.shared.BaseVideoFilter;
 import com.haxademic.core.draw.filters.pshader.BlurHFilter;
@@ -55,7 +56,7 @@ extends BaseVideoFilter {
 			motionDetectionMap = new BufferMotionDetectionMap(sourceBuffer, 0.1f);
 			blobOutputBuffer = P.p.createGraphics(width, height, PRenderers.P3D);
 			initBlobDetection();
-			P.p.debugView.setTexture("sourceBuffer", sourceBuffer);
+			DebugView.setTexture("sourceBuffer", sourceBuffer);
 		}
 
 		// run motion detection

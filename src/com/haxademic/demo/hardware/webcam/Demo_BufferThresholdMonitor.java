@@ -3,6 +3,7 @@ package com.haxademic.demo.hardware.webcam;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.data.constants.PRenderers;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.image.BufferThresholdMonitor;
 import com.haxademic.core.draw.image.ImageUtil;
@@ -42,7 +43,7 @@ implements IWebCamCallback {
 
 		// calculate activity monitor with new frame
 		thresholdMonitor.update(flippedCamera);
-		p.debugView.setTexture("flippedCamera", flippedCamera);
+		DebugView.setTexture("flippedCamera", flippedCamera);
 	}
 
 	public void drawApp() {
@@ -53,9 +54,9 @@ implements IWebCamCallback {
 
 		// show activity calculation and texture in debug panel
 		thresholdMonitor.setCutoff(Mouse.xNorm);
-		p.debugView.setValue("threshold cutoff", Mouse.xNorm);
-		p.debugView.setValue("threshold calculation", thresholdMonitor.thresholdCalc());
-		p.debugView.setTexture("thresholdBuffer", thresholdMonitor.thresholdBuffer());
+		DebugView.setValue("threshold cutoff", Mouse.xNorm);
+		DebugView.setValue("threshold calculation", thresholdMonitor.thresholdCalc());
+		DebugView.setTexture("thresholdBuffer", thresholdMonitor.thresholdBuffer());
 
 		// show diff buffer
 		ImageUtil.cropFillCopyImage(thresholdMonitor.thresholdBuffer(), p.g, true);

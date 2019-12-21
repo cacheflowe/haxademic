@@ -4,6 +4,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.data.constants.PRenderers;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.FeedbackMapFilter;
 import com.haxademic.core.draw.image.ImageUtil;
@@ -41,13 +42,13 @@ implements IWebCamCallback {
 		// lazy-init flipped camera buffer
 		if(flippedCamera == null) flippedCamera = PG.newPG(frame.width, frame.height);
 		ImageUtil.copyImageFlipH(frame, flippedCamera);
-		p.debugView.setTexture("flippedCamera", flippedCamera);
+		DebugView.setTexture("flippedCamera", flippedCamera);
 
 		// lazy-init displacement map
 		if(textureShader == null) {
 			textureShader = new TextureShader(TextureShader.noise_simplex_2d_iq, 0.0005f);
 			feedbackMap = P.p.createGraphics(flippedCamera.width, flippedCamera.height, PRenderers.P2D);
-			p.debugView.setTexture("feedbackMap", feedbackMap);
+			DebugView.setTexture("feedbackMap", feedbackMap);
 		}
 
 		// update feedback map on feedback shader
@@ -60,7 +61,7 @@ implements IWebCamCallback {
 		float audioIn = AudioIn.audioFreq(100) * 0.01f;
 		int feedbackCycles = P.round(audioIn); // P.round(Mouse.xNorm * 10f)
 		feedbackCycles = 10;
-		p.debugView.setValue("audioIn", audioIn);
+		DebugView.setValue("audioIn", audioIn);
 		FeedbackMapFilter.instance(P.p).setMap(feedbackMap);
 		FeedbackMapFilter.instance(P.p).setAmp(audioIn);
 //		FeedbackMapFilter.instance(P.p).setBrightnessStep(1f/255f);

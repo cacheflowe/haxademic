@@ -3,6 +3,7 @@ package com.haxademic.demo.draw.shapes.shader;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.data.constants.PRenderers;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.camera.CameraUtil;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.filters.pshader.ContrastFilter;
@@ -35,7 +36,7 @@ extends PAppletHax {
 		// build sheet mesh
 		shape = Shapes.createSheet(150, 20000, 20000);
 		shape.setTexture(perlinBuffer);
-		p.debugView.setValue("shape.getVertexCount();", shape.getVertexCount());
+		DebugView.setValue("shape.getVertexCount();", shape.getVertexCount());
 		
 		// load shader
 		displacementShader = loadShader(
@@ -50,13 +51,13 @@ extends PAppletHax {
 		
 		float scrollOffset = (float) p.frameCount * 0.007f;
 		float perlinZoom = 10f;
-		p.debugView.setValue("scrollOffset", scrollOffset);;
+		DebugView.setValue("scrollOffset", scrollOffset);;
 		
 		// update perlin texture
 		perlinShader.set("offset", 0f, scrollOffset);
 		perlinShader.set("zoom", perlinZoom);
 		perlinBuffer.filter(perlinShader);
-		p.debugView.setTexture("perlinBuffer", perlinBuffer);
+		DebugView.setTexture("perlinBuffer", perlinBuffer);
 		
 		// update material texture
 		ImageUtil.cropFillCopyImage(DemoAssets.textureNebula(), materialBuffer, true);

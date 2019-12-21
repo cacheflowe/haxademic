@@ -65,11 +65,11 @@ extends BaseVideoFilter {
 		motionDetectionMap.setBlur(1f);
 		motionDetectionMap.updateSource(sourceBuffer);
 		
-//		P.p.debugView.setTexture(sourceBuffer);
-//		P.p.debugView.setTexture(motionDetectionMap.bwBuffer());
-//		P.p.debugView.setTexture(blurredMotion);
-//		P.p.debugView.setTexture(blendedSpread);
-//		P.p.debugView.setTexture(colorizedTrail);
+//		DebugView.setTexture(sourceBuffer);
+//		DebugView.setTexture(motionDetectionMap.bwBuffer());
+//		DebugView.setTexture(blurredMotion);
+//		DebugView.setTexture(blendedSpread);
+//		DebugView.setTexture(colorizedTrail);
 	}
 	
 	protected void makeMotionBlurredCopy() {

@@ -3,6 +3,7 @@ package com.haxademic.demo.draw.shapes;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.draw.shapes.Shapes;
@@ -60,7 +61,7 @@ extends PAppletHax {
 		PShapeUtil.centerShape(shape);
 		PShapeUtil.addTextureUVToShape(shape, texture);
 		shape.setTexture(texture);
-		p.debugView.setValue("shape.getVertexCount();", PShapeUtil.vertexCount(shape));
+		DebugView.setValue("shape.getVertexCount();", PShapeUtil.vertexCount(shape));
 	}
 
 	public void drawApp() {

@@ -6,6 +6,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.data.constants.PRenderers;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.file.FileUtil;
@@ -67,7 +68,7 @@ extends PAppletHax {
 		// load texture
 		texture = p.loadImage(FileUtil.getFile("images/_sketch/the-opening-mask.png"));
 //		texture = DemoAssets.textureJupiter();
-		p.debugView.setTexture("texture", texture);
+		DebugView.setTexture("texture", texture);
 	}
 	
 	public void keyPressed() {
@@ -97,12 +98,12 @@ extends PAppletHax {
 		// Obtain the Vertex Face Points
 		// 1347 Vertex Points for each user.
 		ArrayList<HDFaceData> hdFaceData = kinect.getHDFaceVertex();
-		p.debugView.setValue("hdFaceData.size()", hdFaceData.size());
+		DebugView.setValue("hdFaceData.size()", hdFaceData.size());
 
 		for (int j = 0; j < hdFaceData.size(); j++) {
 			//obtain a the HDFace object with all the vertex data
 			HDFaceData HDfaceData = (HDFaceData)hdFaceData.get(j);
-			p.debugView.setValue("isTracked", HDfaceData.isTracked());
+			DebugView.setValue("isTracked", HDfaceData.isTracked());
 			if (HDfaceData.isTracked()) {
 				//draw the vertex points
 //				int pointIndex = 0;
@@ -122,7 +123,7 @@ extends PAppletHax {
 					}
 					
 					// he_mesh triangulation
-					p.debugView.setValue("doTriangulate", doTriangulate);
+					DebugView.setValue("doTriangulate", doTriangulate);
 					if(doTriangulate) {
 						WB_Triangulation2D triangulation=WB_Triangulate.triangulate2D(points);	
 						triangles = triangulation.getTriangles();
@@ -132,7 +133,7 @@ extends PAppletHax {
 					p.strokeWeight(0.3f);
 
 					// regenerate PShape mesh
-					p.debugView.setValue("triangles", triangles.length);
+					DebugView.setValue("triangles", triangles.length);
 					if(numTriangles < triangles.length || dirtyRegen) {
 						dirtyRegen = false;
 						numTriangles = triangles.length;
@@ -162,7 +163,7 @@ extends PAppletHax {
 					}
 					
 					if(shape != null) {
-						p.debugView.setValue("vertexCount", shape.getVertexCount());
+						DebugView.setValue("vertexCount", shape.getVertexCount());
 						PVector utilVecSource = new PVector();
 						PVector utilVecDest = new PVector();
 						// update shape vertices

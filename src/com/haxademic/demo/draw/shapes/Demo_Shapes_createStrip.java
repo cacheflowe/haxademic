@@ -4,6 +4,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.data.constants.PRenderers;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.image.TiledTexture;
@@ -104,8 +105,8 @@ extends PAppletHax {
 
 		texture.endDraw();
 		
-		p.debugView.setTexture("textCropped", textCropped);
-		p.debugView.setTexture("texture", texture);
+		DebugView.setTexture("textCropped", textCropped);
+		DebugView.setTexture("texture", texture);
 		
 		// set main app context
 		background(0);

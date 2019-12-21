@@ -3,6 +3,7 @@ package com.haxademic.demo.hardware.webcam;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.data.constants.PRenderers;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.BlendTowardsTexture;
 import com.haxademic.core.draw.filters.pshader.BrightnessFilter;
@@ -58,7 +59,7 @@ implements IWebCamCallback {
 		shape.disableStyle();
 
 		shape.setTexture(webcamBuffer);
-		p.debugView.setValue("shape.getVertexCount();", PShapeUtil.vertexCount(shape));
+		DebugView.setValue("shape.getVertexCount();", PShapeUtil.vertexCount(shape));
 	}
 
 	public void drawApp() {
@@ -108,8 +109,8 @@ implements IWebCamCallback {
 //		ThresholdFilter.instance(p).applyTo(webcamBuffer);
 				
 		// set textures for debug view
-		p.debugView.setTexture("webcam", frame);
-		p.debugView.setTexture("webcamBuffer", webcamBuffer);
+		DebugView.setTexture("webcam", frame);
+		DebugView.setTexture("webcamBuffer", webcamBuffer);
 	}
 
 }

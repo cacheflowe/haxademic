@@ -3,6 +3,7 @@ package com.haxademic.demo.math;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.math.MathUtil;
@@ -38,12 +39,12 @@ extends PAppletHax {
 		rotation.setTarget(radsFromCenter);
 		rotation.updateRadians();
 		
-		p.debugView.setValue("radsFromCenter", radsFromCenter);
-		p.debugView.setValue("rotation.value()", rotation.value());
-		p.debugView.setHelpLine("cos (x)", ""+P.cos(rotation.value()));
-		p.debugView.setHelpLine("sin (y)", ""+P.sin(rotation.value()));
-		p.debugView.setHelpLine("angle", ""+MathUtil.radiansToDegrees(rotation.value()));
-		p.debugView.setHelpLine("rads", ""+rotation.value());
+		DebugView.setValue("radsFromCenter", radsFromCenter);
+		DebugView.setValue("rotation.value()", rotation.value());
+		DebugView.setHelpLine("cos (x)", ""+P.cos(rotation.value()));
+		DebugView.setHelpLine("sin (y)", ""+P.sin(rotation.value()));
+		DebugView.setHelpLine("angle", ""+MathUtil.radiansToDegrees(rotation.value()));
+		DebugView.setHelpLine("rads", ""+rotation.value());
 
 		p.rotate(rotation.value());
 		p.image(image, 0, 0);

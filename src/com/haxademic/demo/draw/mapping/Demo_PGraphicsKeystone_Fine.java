@@ -3,6 +3,7 @@ package com.haxademic.demo.draw.mapping;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.mapping.PGraphicsKeystone;
@@ -34,19 +35,19 @@ extends PAppletHax {
 	public void setupFirstFrame() {
 		buildCanvas();
 		
-		p.debugView.setHelpLine("__ Key Commands", "__\n");
-		p.debugView.setHelpLine("ESC |", "Quit");
-		p.debugView.setHelpLine("D |", "Toggle keystone active");
-		p.debugView.setHelpLine("T |", "Test pattern toggle");
-		p.debugView.setHelpLine("R |", "Reset corners");
+		DebugView.setHelpLine("__ Key Commands", "__\n");
+		DebugView.setHelpLine("ESC |", "Quit");
+		DebugView.setHelpLine("D |", "Toggle keystone active");
+		DebugView.setHelpLine("T |", "Test pattern toggle");
+		DebugView.setHelpLine("R |", "Reset corners");
 		
-		p.debugView.setHelpLine("X |", "Next col");
-		p.debugView.setHelpLine("Z |", "Prev col");
-		p.debugView.setHelpLine("C |", "Next row");
-		p.debugView.setHelpLine("V |", "Prev row");
-		p.debugView.setHelpLine("[ |", "Adjust down");
-		p.debugView.setHelpLine("] |", "Adjust up");
-		p.debugView.setHelpLine("E |", "Export config");
+		DebugView.setHelpLine("X |", "Next col");
+		DebugView.setHelpLine("Z |", "Prev col");
+		DebugView.setHelpLine("C |", "Next row");
+		DebugView.setHelpLine("V |", "Prev row");
+		DebugView.setHelpLine("[ |", "Adjust down");
+		DebugView.setHelpLine("] |", "Adjust up");
+		DebugView.setHelpLine("E |", "Export config");
 	}
 	
 	protected void buildCanvas() {
@@ -72,10 +73,10 @@ extends PAppletHax {
 	}
 	
 //	protected void debugOffsets() {
-//		p.debugView.setValue("selectedRowIndex", selectedRowIndex);
-//		p.debugView.setValue("selectedColIndex", selectedColIndex);
+//		DebugView.setValue("selectedRowIndex", selectedRowIndex);
+//		DebugView.setValue("selectedColIndex", selectedColIndex);
 //		for (int i = 0; i < offsetsX.length; i++) {
-//			p.debugView.setValue("offsetsX["+i+"]", offsetsX[i]);
+//			DebugView.setValue("offsetsX["+i+"]", offsetsX[i]);
 //		}
 //	}
 	

@@ -4,6 +4,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.data.constants.PRenderers;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.ReflectFilter;
 import com.haxademic.core.draw.shapes.PShapeUtil;
@@ -12,7 +13,6 @@ import com.haxademic.core.draw.textures.pgraphics.TextureEQGrid;
 import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
 import com.haxademic.core.file.FileUtil;
 
-import processing.core.PConstants;
 import processing.core.PGraphics;
 import processing.core.PImage;
 import processing.core.PShape;
@@ -56,7 +56,7 @@ extends PAppletHax {
 
 		// count vertices for debugView
 		int vertices = P.round(w * h); 
-		p.debugView.setValue("Vertices", vertices);
+		DebugView.setValue("Vertices", vertices);
 		
 		// Build points vertices
 		shape = PShapeUtil.pointsShapeForGPUData((int) w, (int) h);

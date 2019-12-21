@@ -8,6 +8,7 @@ import java.util.TimerTask;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.data.constants.PRegisterableMethods;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.image.Base64Image;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.image.ScreenshotBuffer;
@@ -55,7 +56,7 @@ implements IJsonRequestCallback {
 		// add screenshot grabber
 		screenshotBuffer = new ScreenshotBuffer();
 		screenshotBuffer.addScaledImage(screenshotScale);
-		P.p.debugView.setTexture("screenshot", screenshotBuffer.scaledImg());
+		DebugView.setTexture("screenshot", screenshotBuffer.scaledImg());
 		
 		// then start the timer on repeat
 		// put screenshots on a timer to update the buffer once between every post interval

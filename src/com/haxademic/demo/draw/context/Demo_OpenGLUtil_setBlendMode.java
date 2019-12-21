@@ -4,8 +4,9 @@ package com.haxademic.demo.draw.context;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.PG;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.OpenGLUtil;
+import com.haxademic.core.draw.context.PG;
 
 public class Demo_OpenGLUtil_setBlendMode
 extends PAppletHax {
@@ -22,12 +23,12 @@ extends PAppletHax {
 		
 		OpenGLUtil.setBlending( p.g, true );
 		int frameLoop = p.frameCount % 300;
-		if(frameLoop < 50)       { OpenGLUtil.setBlendMode( p.g, OpenGLUtil.Blend.DARK_INVERSE ); p.debugView.setValue("blendMode", "DARK_INVERSE"); }
-		else if(frameLoop < 100) { OpenGLUtil.setBlendMode( p.g, OpenGLUtil.Blend.ALPHA_REVEAL ); p.debugView.setValue("blendMode", "ALPHA_REVEAL"); }
-		else if(frameLoop < 150) { OpenGLUtil.setBlendMode( p.g, OpenGLUtil.Blend.ADD_SATURATE ); p.debugView.setValue("blendMode", "ADD_SATURATE"); }
-		else if(frameLoop < 200) { OpenGLUtil.setBlendMode( p.g, OpenGLUtil.Blend.ADDITIVE ); p.debugView.setValue("blendMode", "ADDITIVE"); }
-		else if(frameLoop < 250) { OpenGLUtil.setBlendMode( p.g, OpenGLUtil.Blend.LIGHT_ADD ); p.debugView.setValue("blendMode", "LIGHT_ADD"); }
-		else if(frameLoop < 300) { OpenGLUtil.setBlendMode( p.g, OpenGLUtil.Blend.SATURATE ); p.debugView.setValue("blendMode", "SATURATE"); }
+		if(frameLoop < 50)       { OpenGLUtil.setBlendMode( p.g, OpenGLUtil.Blend.DARK_INVERSE ); DebugView.setValue("blendMode", "DARK_INVERSE"); }
+		else if(frameLoop < 100) { OpenGLUtil.setBlendMode( p.g, OpenGLUtil.Blend.ALPHA_REVEAL ); DebugView.setValue("blendMode", "ALPHA_REVEAL"); }
+		else if(frameLoop < 150) { OpenGLUtil.setBlendMode( p.g, OpenGLUtil.Blend.ADD_SATURATE ); DebugView.setValue("blendMode", "ADD_SATURATE"); }
+		else if(frameLoop < 200) { OpenGLUtil.setBlendMode( p.g, OpenGLUtil.Blend.ADDITIVE ); DebugView.setValue("blendMode", "ADDITIVE"); }
+		else if(frameLoop < 250) { OpenGLUtil.setBlendMode( p.g, OpenGLUtil.Blend.LIGHT_ADD ); DebugView.setValue("blendMode", "LIGHT_ADD"); }
+		else if(frameLoop < 300) { OpenGLUtil.setBlendMode( p.g, OpenGLUtil.Blend.SATURATE ); DebugView.setValue("blendMode", "SATURATE"); }
 
 		PG.setDrawCenter(p);
 		PG.setBasicLights(p);

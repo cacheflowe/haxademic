@@ -3,6 +3,7 @@ package com.haxademic.demo.hardware.webcam;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.data.constants.PRenderers;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.BlurHFilter;
 import com.haxademic.core.draw.filters.pshader.BlurVFilter;
@@ -70,11 +71,11 @@ implements IWebCamCallback {
 	@Override
 	public void newFrame(PImage frame) {
 		// set textures for debug view
-		p.debugView.setValue("newframe", p.frameCount);
-		p.debugView.setTexture("webcamBuffer", webcamBuffer);
-		p.debugView.setTexture("backplate", backplate);
-		p.debugView.setTexture("differenceBuffer", differenceBuffer);
-		p.debugView.setTexture("bwBuffer", bwBuffer);
+		DebugView.setValue("newframe", p.frameCount);
+		DebugView.setTexture("webcamBuffer", webcamBuffer);
+		DebugView.setTexture("backplate", backplate);
+		DebugView.setTexture("differenceBuffer", differenceBuffer);
+		DebugView.setTexture("bwBuffer", bwBuffer);
 		
 		// copy webcam to current buffer
 		ImageUtil.cropFillCopyImage(WebCam.instance().image(), webcamBuffer, true);

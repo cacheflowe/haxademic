@@ -3,6 +3,7 @@ package com.haxademic.demo.media.audio.playback;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.hardware.mouse.Mouse;
 import com.haxademic.core.media.audio.analysis.AudioIn;
 import com.haxademic.core.media.audio.analysis.AudioInputBeads;
@@ -47,7 +48,7 @@ extends PAppletHax {
 		player2.setGlideTime(soundMid, 200);
 		
 		// show debug audio view (and keep it open)
-		p.debugView.active(true);
+		DebugView.active(true);
 		p.image(AudioIn.instance().audioInputDebugBuffer(), 240, 100);
 	}
 

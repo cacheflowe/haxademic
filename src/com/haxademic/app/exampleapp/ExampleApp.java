@@ -44,12 +44,13 @@ implements IAppStoreListener {
 		
 		// build screens / objects
 //		backgroundColor = new BackgroundColor();
+		
+		addKeyCommandInfo();
 	}	
 	
 	protected void addKeyCommandInfo() {
-		super.addKeyCommandInfo();
-		p.debugView.setHelpLine("\n" + DebugView.TITLE_PREFIX + "Custom Key Commands", "");
-		p.debugView.setHelpLine("[1] |", "Trigger");
+		DebugView.setHelpLine("\n" + DebugView.TITLE_PREFIX + "Custom Key Commands", "");
+		DebugView.setHelpLine("[1] |", "Trigger");
 	}
 	
 	/////////////////////////////////

@@ -6,7 +6,6 @@ import com.haxademic.core.draw.toxi.DrawToxiMesh;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.system.SystemUtil;
 
-import joons.JRStatics;
 import joons.JoonsRenderer;
 import processing.core.PApplet;
 import toxi.geom.Sphere;

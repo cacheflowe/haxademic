@@ -76,7 +76,7 @@ extends BaseTexture {
 		// if replacing audio with noise, just use the audio buffer to draw noise into
 		audioTexture.texture().filter(noiseTexture.shader());
 
-//		P.p.debugView.setTexture(audioTexture.texture());
+//		DebugView.setTexture(audioTexture.texture());
 	}
 
 	public void updateDraw() {

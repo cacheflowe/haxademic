@@ -45,7 +45,7 @@ extends PAppletHax {
 			mask.fill(255);
 			mask.circle(0, 0, radius);
 			mask.endDraw();
-			// if(i < 4) p.debugView.setTexture("mask-"+i, mask);
+			// if(i < 4) DebugView.setTexture("mask-"+i, mask);
 		}
 		
 		// build images
@@ -72,7 +72,7 @@ extends PAppletHax {
 			ImageUtil.drawImageCropFill(source, image, true);
 			image.endDraw();
 			image.mask(masks[i]);
-			// if(i < 4) p.debugView.setTexture("image-"+i, image);
+			// if(i < 4) DebugView.setTexture("image-"+i, image);
 		}
 	}
 

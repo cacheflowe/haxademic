@@ -2,6 +2,7 @@ package com.haxademic.demo.hardware.webcam;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.hardware.mouse.Mouse;
 import com.haxademic.core.hardware.webcam.WebCam;
@@ -60,7 +61,7 @@ implements IWebCamCallback {
 
 	@Override
 	public void newFrame(PImage frame) {
-		p.debugView.setValue("Last WebCam frame", p.frameCount);
+		DebugView.setValue("Last WebCam frame", p.frameCount);
 	}
 
 }
