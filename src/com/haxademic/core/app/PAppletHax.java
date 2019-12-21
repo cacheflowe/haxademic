@@ -36,7 +36,6 @@ import com.haxademic.core.render.JoonsWrapper;
 import com.haxademic.core.render.MIDISequenceRenderer;
 import com.haxademic.core.render.VideoRenderer;
 import com.haxademic.core.system.AppUtil;
-import com.haxademic.core.system.SecondScreenViewer;
 import com.haxademic.core.system.SystemUtil;
 import com.haxademic.core.ui.UIButton;
 import com.jogamp.newt.opengl.GLWindow;
@@ -84,6 +83,7 @@ extends PApplet {
 	// input
 	public IDepthCamera depthCamera = null;
 	public LeapMotion leapMotion = null;
+	
 	// Input trigger
 	public GamepadState gamepadState;
 	public GamepadListener gamepadListener;
@@ -93,7 +93,6 @@ extends PApplet {
 	// debug
 	public int _fps;
 	public DebugView debugView;
-	public SecondScreenViewer appViewerWindow;
 	
 	////////////////////////
 	// INIT
@@ -260,7 +259,6 @@ extends PApplet {
 		if( p.appConfig.getBoolean( AppSettings.OSC_ACTIVE, false ) == true ) oscState = new OscWrapper();
 		// app helpers
 		try { robot = new Robot(); } catch( Exception error ) { println("couldn't init Robot for screensaver disabling"); }
-		if(p.appConfig.getBoolean(AppSettings.APP_VIEWER_WINDOW, false) == true) appViewerWindow = new SecondScreenViewer(p.g, p.appConfig.getFloat(AppSettings.APP_VIEWER_SCALE, 0.5f));
 		// fullscreen
 		boolean isFullscreen = p.appConfig.getBoolean(AppSettings.FULLSCREEN, false);
 		if(isFullscreen == true) {
@@ -504,8 +502,6 @@ extends PApplet {
 		
 		// show debug & prefs sliders
 		if (p.key == '|') saveScreenshot(p.g);
-//		if (p.key == '/') { debugView.active(!debugView.active()); if(ui.active()) ui.active(false); }
-//		if (p.key == '\\') { UI.active(!UI.active()); if(debugView.active()) debugView.active(false); }
 		
 		// let other objects know
 		P.store.setString(PEvents.KEY_PRESSED, p.key+"");

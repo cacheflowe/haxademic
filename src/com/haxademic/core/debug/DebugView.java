@@ -25,20 +25,19 @@ public class DebugView {
 	protected LinkedHashMap<String, String> debugLines = new LinkedHashMap<String, String>();
 	protected LinkedHashMap<String, String> helpLines = new LinkedHashMap<String, String>();
 	protected LinkedHashMap<String, PImage> textures = new LinkedHashMap<String, PImage>();
-//	protected ArrayList<PImage> textures = new ArrayList<PImage>();
 	protected float padding = 20;
 	protected float debugPanelW = 0;
 	protected float MAX_PANEL_WIDTH = 500;
 	protected float helpPanelW = 0;
 	protected int fontSize = 11;
-	protected boolean isActive = false;
+	protected boolean active = false;
 	protected int frameOpened = 0;
 	protected int hideFrames = 60 * 60;
 	protected boolean autoHide = true;
 	protected String ipAddress;
 	public static final String TITLE_PREFIX = "___";
 
-	public DebugView( PApplet p ) {
+	public DebugView(PApplet p) {
 		this.p = p;
 		// for some reason, these were tanking app launches
 		updateAppInfo();
@@ -52,12 +51,12 @@ public class DebugView {
 	}
 	
 	public boolean active() {
-		return isActive;
+		return active;
 	}
 	
 	public void active(boolean active) {
-		isActive = active;
-		if(isActive) frameOpened = p.frameCount;
+		this.active = active;
+		if(active) frameOpened = p.frameCount;
 	}
 	
 	public void autoHide(boolean autoHide) {
@@ -154,15 +153,15 @@ public class DebugView {
 	}
 	
 	public void checkKeyCommands() {
-		if(KeyboardState.instance().isKeyTriggered('/')) isActive = !isActive;
-		if(KeyboardState.instance().isKeyTriggered('\\')) isActive = false;
+		if(KeyboardState.instance().isKeyTriggered('/')) active = !active;
+		if(KeyboardState.instance().isKeyTriggered('\\')) active = false;
 	}
 	
 	public void draw() {
 		checkKeyCommands();
 		if(debugFont == null) return;
-		if(isActive == false) return;
-		if(autoHide && p.frameCount > frameOpened + hideFrames) isActive = false;
+		if(active == false) return;
+		if(autoHide && p.frameCount > frameOpened + hideFrames) active = false;
 		
 		p.pushStyle();
 		

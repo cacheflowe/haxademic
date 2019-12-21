@@ -2,7 +2,8 @@
 
 ## Modularize PAppletHax
 
-* UIControlPanel - make global/static object `UI`
+* DebugView
+* Properties (p.appConfig) (rename to Config?)
 * Inputs - more thoughts on InputTrigger below
 	* Make a base storage for different data types?
 		* Toggle values
@@ -16,16 +17,15 @@
 		* Broadcast ability via AppStore, while also keeping simple InputTrigger objects
 * DepthCamera like AudioIn
 * Rendering objects (video/audio/midi/joons)
-* DebugView
 * SecondScreenViewer
 * DMXUniverse
-* Properties (rename to Config?)
 
 * Completed:
   * Webcam
   * AudioIn
   * Mouse
   * MidiState / MidiDevice
+  * UI
 
 ## InputTrigger revamp
 

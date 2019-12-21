@@ -47,13 +47,9 @@ public class SecondScreenViewer {
 		public void settings() {
 			size(scaledBuffer.width, scaledBuffer.height);
 //			noSmooth();
-		}
-
-		public void setupFirstFrame() {
-			super.surface.setResizable(true);
 			cursor = Base64Image.decodePImageFromBase64("iVBORw0KGgoAAAANSUhEUgAAAGoAAAC1CAMAAACAl5pfAAAAYFBMVEVHcEyRkZEQEBAAAAB1dXVISEgmJib///8cHBwGBgYoKCj9/f3////T09O8vLzl5eX19fVubm4yMjJCQkJXV1eJiYmhoaEvLy+YmJjY2Ng6Ojqurq7Hx8f19fXo6OheXl4dpwGJAAAAIHRSTlMAbe//ibfYBOP5//7/7u3x9vP9+fbv7s/kJcVRNwoVoJWYs8AAAAPzSURBVHgBvM2FiURRAASw+679t3uGDSwamJcG8jXUNC/LvI6YtuXfftSnaVlGXecy7LqWvPpVXv0qr36VV7vKq1/l1a7yald5tau82lVe7SqvdpVXuypcUd3P3b2iettXVO0rq/KVVfnKqnxlVb6yKl9Zla+syldW5Sur8pVV+cqqfGVVvrIqX58VX17xBRVfUNkFFVxQwQUVXFDBpRVcWsGlFVxawcWVX1755ZVfXvkFFV9Q8QUVX1DxBRVfUPEFFV9Q8QUVX1DRBRVcUMEFFVxQwQUVXFDBBRVfUPEFFV9Q8QUVX1DxBRVfUPEFFV9Q8QUVX1DxBRVfUPEFFV9Q8QUVX1DxBRVfUPEFFV9Q8QUVX1DxBRVfUPEFFV9Q8WWVX1799HIeWo6DMBTF3cBx7/3/v3L7xsqGvMXImXd62gWPuLKmZXmWFUVZam1kBc8sBqpSj3Urkrpu2raquq6Xryw3VPsA4VAWf+y2zOCIGoPr8dxQlQMqdUPl6jrKByiUL0S111GRI6q8vq3pvyiddxm+gvMQx2nq+1LK9yC5gGI/z6pSGSqMVTxl26d1WRbPC8PjiKL550riY0e2oFZQJdjWLOyCUdXfD6xNT/3NdgOqO5WKthXyUT352rcvz9bkxHBRVAmGhRTn0wsTlVFSoHpwBWMGiiza6vpO11FAB6oA24rcUdrQ+2ogQplcRwFzK9SLQ2eUMqGqf0mk3lNXFCWhbWVUhE6ompKiE5XzREhQZpJITxYwV7BfQRESXawXWInwuI5qKGmgrzCJsDnr/TKqVS+32sf7K6jJSfcuoipKSn83ot1OhOk1VEdJ/t+WN4Bt5UiEANU/kR41tTiKEKBySpJkkT4QIbmn3qxR4zuSCM9taYYIZUBjFs0WPFIxGr8EpEciTuMHKMN7pvci1KQwBmsUOI1IhKOtCKUFiSdCgArxyxrU+O1QeGV8EVIUPPNEhJ2rCKUFCYgQTEAAhct1PVEZbvwQhe6IsQjxBARQaQJQSIR4AjKgfKjmRHInIJ82KBS+CA/SNnAm7gS0+YSEE3MnoP3XJ6SAdGPjX8NwFTbx7USYCGawCOnsFzIQQISg3nmZGRMQCEOEw71/nl3jCYgf68bPT8KcgHDsRQgaP4iLCDVo/CBuIgQTEIiLCDUUoUP4ExCOXePXmi9C/gT0UREu94ow/zoRKnAFPytC3SoV3CNCPAFlNeHgW2Ve4+/Ihnhywo2/bAiIJww8AeVPHND2mSLsKhOI6oIvQpx0ETclxKB5FbdlAxx57OLORO9AsSduzmTeUAS6L1uEJH6YfPDfEJEMi/hQEskvBYd6T28tBWCnaBUfT+j/LIVNWOY7PppBCtOtd0oAAAAASUVORK5CYII=");
 		}
-		
+
 		public void mouseClicked() {
 			super.mouseClicked();
 			active = !active;
@@ -69,6 +65,7 @@ public class SecondScreenViewer {
 		}
 		
 		public void draw() {
+			if(frameCount == 2) surface.setResizable(true);
 			if(active == true) {
 				fill(255);
 				noStroke();

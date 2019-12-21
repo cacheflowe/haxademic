@@ -63,8 +63,6 @@ public class AppSettings {
 	public static final String OSC_ACTIVE = "osc_active";
 	public static final String GAMEPADS_ACTIVE = "gamepads_active";
 	// Debugging
-	public static final String APP_VIEWER_WINDOW = "app_viewer";
-	public static final String APP_VIEWER_SCALE = "app_viewer_scale";
 	public static final String SHOW_DEBUG = "show_stats";
 	public static final String SHOW_UI = "show_ui";
 	public static final String SHOW_FPS_IN_TITLE = "show_fps_in_title";
