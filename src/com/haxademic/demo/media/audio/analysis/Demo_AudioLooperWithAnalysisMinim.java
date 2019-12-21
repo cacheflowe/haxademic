@@ -73,14 +73,14 @@ extends PAppletHax { public static void main(String args[]) { arguments = args; 
 	}
 	
 	protected void checkClipRelaunch() {
-		if(MidiState.instance().isMidiButtonTriggered(LaunchControl.PAD_01)) loops[0].start();
-		if(MidiState.instance().isMidiButtonTriggered(LaunchControl.PAD_02)) loops[1].start();
-		if(MidiState.instance().isMidiButtonTriggered(LaunchControl.PAD_03)) loops[2].start();
-		if(MidiState.instance().isMidiButtonTriggered(LaunchControl.PAD_04)) loops[3].start();
-		if(MidiState.instance().isMidiButtonTriggered(LaunchControl.PAD_05)) loops[4].start();
-		if(MidiState.instance().isMidiButtonTriggered(LaunchControl.PAD_06)) loops[5].start();
+		if(MidiState.instance().isMidiNoteTriggered(LaunchControl.PAD_01)) loops[0].start();
+		if(MidiState.instance().isMidiNoteTriggered(LaunchControl.PAD_02)) loops[1].start();
+		if(MidiState.instance().isMidiNoteTriggered(LaunchControl.PAD_03)) loops[2].start();
+		if(MidiState.instance().isMidiNoteTriggered(LaunchControl.PAD_04)) loops[3].start();
+		if(MidiState.instance().isMidiNoteTriggered(LaunchControl.PAD_05)) loops[4].start();
+		if(MidiState.instance().isMidiNoteTriggered(LaunchControl.PAD_06)) loops[5].start();
 		
-		if(MidiState.instance().isMidiButtonTriggered(LaunchControl.PAD_08)) relaunchAllLoops();
+		if(MidiState.instance().isMidiNoteTriggered(LaunchControl.PAD_08)) relaunchAllLoops();
 	}
 	
 	public void drawApp() {

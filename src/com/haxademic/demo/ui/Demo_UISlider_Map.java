@@ -34,7 +34,7 @@ extends PAppletHax {
 		// show sliders in debug mode
 		if(debugMode) {
 			for (UISlider prefSlider : sliders.values()) {
-				prefSlider.update(p.g);
+				prefSlider.draw(p.g);
 			}
 		}
 	}

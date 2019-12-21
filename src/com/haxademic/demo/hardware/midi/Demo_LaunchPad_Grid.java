@@ -7,7 +7,6 @@ import com.haxademic.core.draw.color.Gradients;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.hardware.midi.MidiDevice;
-import com.haxademic.core.hardware.midi.MidiState;
 import com.haxademic.core.hardware.midi.devices.LaunchPad;
 import com.haxademic.core.hardware.midi.devices.NovationColors;
 
@@ -94,10 +93,6 @@ implements SimpleMidiListener {
 		}
 		
 		p.image(pg, 0, 0);
-		
-		// print debug
-		MidiState.instance().printButtons();
-		MidiState.instance().printCC();
 	}
 
 	//////////////////////////////

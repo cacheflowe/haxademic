@@ -2,9 +2,10 @@ package com.haxademic.demo.hardware.midi;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.InvertFilter;
-import com.haxademic.core.hardware.midi.MidiState;
+import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.hardware.midi.devices.LaunchPad;
 import com.haxademic.core.hardware.midi.devices.LaunchPad.ILaunchpadCallback;
 
@@ -15,6 +16,11 @@ implements ILaunchpadCallback {
 
 	protected LaunchPad launchpad1;
 	protected LaunchPad launchpad2;
+	
+	protected void overridePropsFile() {
+		p.appConfig.setProperty(AppSettings.PG_WIDTH, 128 );
+		p.appConfig.setProperty(AppSettings.PG_HEIGHT, 128 );
+	}
 	
 	public void setupFirstFrame() {
 		launchpad1 = new LaunchPad(0, 3);
@@ -44,12 +50,9 @@ implements ILaunchpadCallback {
 		launchpad1.setTextureFromTexture(pg);
 		InvertFilter.instance(p).applyTo(pg);
 		launchpad2.setTextureFromTexture(pg);
-		
-		p.image(pg, 0, 0);
-		
-		// print debug
-		MidiState.instance().printButtons();
-		MidiState.instance().printCC();
+
+		// draw to screen
+		ImageUtil.cropFillCopyImage(pg, p.g, true);
 	}
 
 	//////////////////////////////

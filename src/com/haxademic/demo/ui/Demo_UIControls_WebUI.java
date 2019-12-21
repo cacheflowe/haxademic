@@ -50,9 +50,9 @@ extends PAppletHax {
 		p.lights();
 		PG.setCenterScreen(p.g);
 		PG.setDrawCenter(p.g);
-		p.rotateX(p.ui.value(VECTOR_3 + "_X"));
-		p.rotateY(p.ui.value(VECTOR_3 + "_Y"));
-		p.rotateZ(p.ui.value(VECTOR_3 + "_Z"));
+		p.rotateX(p.ui.valueX(VECTOR_3));
+		p.rotateY(p.ui.valueY(VECTOR_3));
+		p.rotateZ(p.ui.valueZ(VECTOR_3));
 		p.fill(255);
 		p.stroke(0);
 		p.box(200);

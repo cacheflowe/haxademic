@@ -1,13 +1,10 @@
 package com.haxademic.core.hardware.midi;
 
-import com.haxademic.core.app.P;
-
 import themidibus.MidiBus;
 import themidibus.MidiListener;
 import themidibus.SimpleMidiListener;
 
-public class MidiDevice 
-implements SimpleMidiListener {
+public class MidiDevice {
 	
 	public MidiBus midiBus;
 	
@@ -31,13 +28,13 @@ implements SimpleMidiListener {
 	
 	public MidiDevice(int midiDeviceInIndex, int midiDeviceOutIndex, SimpleMidiListener delegate) {
 		MidiBus.list();
-//		new Thread(new Runnable() { public void run() {
+		new Thread(new Runnable() { public void run() {
 			midiBus = new MidiBus(this, midiDeviceInIndex, midiDeviceOutIndex);
 			midiBus.addMidiListener((MidiListener) MidiState.instance());
 			if(delegate != null) {
 				midiBus.addMidiListener(delegate);
 			}
-//		}}).start();
+		}}).start();
 	}
 	
 	public void sendMidiOut(boolean isNoteOn, int channel, int note, int velocity) {
@@ -46,22 +43,6 @@ implements SimpleMidiListener {
 		} else {
 			midiBus.sendNoteOff(channel, note, velocity);
 		}
-	}
-
-	///////////////////////////////
-	// MIDI LISTENER
-	///////////////////////////////
-
-	public void controllerChange(int channel, int  pitch, int velocity) {
-		P.out("CC: ", channel, pitch, velocity);
-	}
-
-	public void noteOff(int channel, int  pitch, int velocity) {
-		P.out("OFF: ", channel, pitch, velocity);
-	}
-
-	public void noteOn(int channel, int pitch, int velocity) {
-		P.out("ON: ", channel, pitch, velocity);
 	}
 	
 }

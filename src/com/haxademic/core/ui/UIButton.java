@@ -3,10 +3,12 @@ package com.haxademic.core.ui;
 import java.awt.Rectangle;
 
 import com.haxademic.core.app.P;
+import com.haxademic.core.data.constants.PRegisterableMethods;
 import com.haxademic.core.data.constants.PTextAlign;
 import com.haxademic.core.draw.color.ColorsHax;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.text.FontCacher;
+import com.haxademic.core.hardware.midi.MidiState;
 import com.haxademic.core.media.DemoAssets;
 
 import processing.core.PFont;
@@ -30,17 +32,23 @@ implements IUIControl {
 	protected float value = 0;
 	protected float layoutW = 1;
 	protected int activeTime = 0;
+	protected int midiNote = -1;
 
 	public UIButton(IUIButtonDelegate delegate, String id, int x, int y, int w, int h, boolean toggles) {
+		this(delegate, id, x, y, w, h, toggles, -1);
+	}
+	
+	public UIButton(IUIButtonDelegate delegate, String id, int x, int y, int w, int h, boolean toggles, int midiNote) {
 		this.delegate = delegate;
 		this.id = id;
 		this.label = id;
 		rect = new Rectangle( x, y, w, h);
 		this.toggles = toggles;
+		this.midiNote = midiNote;
 		layoutW = 1;
 		over = false;
 		pressed = false;
-		P.p.registerMethod("mouseEvent", this); // add mouse listeners
+		P.p.registerMethod(PRegisterableMethods.mouseEvent, this); // add mouse listeners
 	}
 	
 	/////////////////////////////////////////
@@ -111,7 +119,15 @@ implements IUIControl {
 		value = val;
 	}
 	
-	public void update(PGraphics pg) {
+	public void update() {
+		// check midi
+		if(midiNote != -1 && MidiState.instance().isMidiNoteTriggered(midiNote)) {
+			P.out("click framecount:", P.p.frameCount);
+			click();
+		}
+	}
+	
+	public void draw(PGraphics pg) {
 		PG.setDrawCorner(pg);
 
 		// outline
@@ -142,6 +158,13 @@ implements IUIControl {
 	// Mouse listener
 	/////////////////////////////////////////
 
+	public void click() {
+		if(toggles) {
+			value = (value == 0) ? 1 : 0;	// flip toggle value
+		}
+		delegate.clicked(this);
+	}
+	
 	public void mouseEvent(MouseEvent event) {
 		if(!isActive()) return;
 		
@@ -153,12 +176,7 @@ implements IUIControl {
 				pressed = rect.contains(mouseX, mouseY);
 				break;
 			case MouseEvent.RELEASE:
-				if(pressed && over) {
-					if(toggles) {
-						value = (value == 0) ? 1 : 0;
-					}
-					delegate.clicked(this);
-				}
+				if(pressed && over) click();
 				pressed = false;
 				break;
 			case MouseEvent.MOVE:

@@ -201,7 +201,7 @@ implements IUIButtonDelegate {
 					int buttonY = y + BUTTON_H + BUTTON_H * j;
 					CameraConfigMode cameraConfigMode = cameraConfigs.get(i).configs().get(j);
 					cameraConfigMode.button().setPosition(x, buttonY);
-					cameraConfigMode.button().update(pg);
+					cameraConfigMode.button().draw(pg);
 					
 					// draw selection
 					if(selectedConfig != null && selectedConfig.equals(cameraConfigMode.config())) {

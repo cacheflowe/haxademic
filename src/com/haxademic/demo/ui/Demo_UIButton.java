@@ -40,7 +40,7 @@ implements IUIButtonDelegate {
 		
 		// draw buttons
 		if(activeButtons) {
-			for( int i=0; i < mouseables.size(); i++ ) mouseables.get(i).update(p.g);
+			for( int i=0; i < mouseables.size(); i++ ) mouseables.get(i).draw(p.g);
 		}
 	}
 	

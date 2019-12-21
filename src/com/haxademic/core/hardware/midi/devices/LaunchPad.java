@@ -2,6 +2,7 @@ package com.haxademic.core.hardware.midi.devices;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.draw.color.ColorUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.image.ImageUtil;
 
 import processing.core.PGraphics;
@@ -56,9 +57,9 @@ implements SimpleMidiListener {
 
 	public LaunchPad(int midiIndexIn, int midiIndexOut) {
 		midiBus = new MidiBus(this, midiIndexIn, midiIndexOut);
-		pg8x8 = P.p.createGraphics(8, 8, P.P3D);
+		pg8x8 = PG.newPG(8, 8);
 		setAll(1);
-		setAll(0);	// flip onces to init
+		setAll(0);	// flip once to init
 	}
 	
 	public void setDelegate(ILaunchpadCallback delegate ) {

@@ -29,6 +29,7 @@ extends PAppletHax {
 	protected void overridePropsFile() {
 		p.appConfig.setProperty(AppSettings.OSC_ACTIVE, true );
 		p.appConfig.setProperty(AppSettings.GAMEPADS_ACTIVE, true );
+		p.appConfig.setProperty(AppSettings.SHOW_DEBUG, true );
 	}
 	
 	
@@ -39,7 +40,7 @@ extends PAppletHax {
 	
 	public void drawApp() {
 		// show triggering - TODO: add CC changes to trigger
-		if(KeyboardState.instance().isKeyOn(triggerKey) || MidiState.instance().isMidiButtonOn(LaunchControl.PAD_01) || p.oscState.isValueOn("/toggleC_2")) P.println("trigger 1"); 
+		if(KeyboardState.instance().isKeyOn(triggerKey) || MidiState.instance().isMidiNoteOn(LaunchControl.PAD_01) || p.oscState.isValueOn("/toggleC_2")) P.println("trigger 1"); 
 		if(trigger.triggered()) P.println("trigger 2");
 		if(trigger.on()) {
 			p.background(0, 255, 255f * p.oscState.getValue("/1/faderC"));
@@ -49,8 +50,8 @@ extends PAppletHax {
 		
 		// debug print maps
 		KeyboardState.instance().printKeys();
-		MidiState.instance().printButtons();
-		MidiState.instance().printCC();
+//		MidiState.instance().printButtons();
+//		MidiState.instance().printCC();
 		p.oscState.printButtons();
 		p.browserInputState.printButtons();
 		p.gamepadState.printControls();

@@ -2,7 +2,6 @@
 
 ## Modularize PAppletHax
 
-* Fix KeyboardState
 * UIControlPanel
 	* Add MIDI CC to UISliders
 	* Add setters on UISliders
@@ -17,6 +16,7 @@
 		* Use a hash of input state that any of the objects can update via a shared key??
 			* Use AppStore here?
 			* Or InputStore?
+		* Broadcast ability via AppStore, while also keeping simple InputTrigger objects
 * DepthCamera like AudioIn
 * Rendering objects (video/audio/midi/joons)
 * DebugView
@@ -28,6 +28,7 @@
   * Webcam
   * AudioIn
   * Mouse
+  * MidiState / MidiDevice
 
 ## InputTrigger revamp
 

@@ -3,7 +3,6 @@ package com.haxademic.demo.hardware.midi;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.hardware.midi.MidiDevice;
-import com.haxademic.core.hardware.midi.MidiState;
 import com.haxademic.core.hardware.midi.devices.LaunchPad;
 import com.haxademic.core.hardware.midi.devices.NovationColors;
 import com.haxademic.core.media.audio.analysis.AudioIn;
@@ -20,9 +19,6 @@ extends PAppletHax {
 	public void drawApp() {
 		p.background(0);
 		// p.midi.isMidiButtonOn(LaunchControl.PAD_01)
-		// print debug
-		MidiState.instance().printButtons();
-		MidiState.instance().printCC();
 		
 		// outgoing midi changes the LED color on the launch control
 		MidiDevice.instance().sendMidiOut(true, 0, LaunchPad.gridMidiNote(0, 0), NovationColors.colors[P.round((NovationColors.colors.length - 1) * AudioIn.audioFreq(1) )]);

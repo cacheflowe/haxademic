@@ -89,7 +89,11 @@ implements IUIControl {
 		value = val;
 	}
 	
-	public void update(PGraphics pg) {
+	public void update() {
+		
+	}
+	
+	public void draw(PGraphics pg) {
 		PG.setDrawCorner(pg);
 
 		// outline

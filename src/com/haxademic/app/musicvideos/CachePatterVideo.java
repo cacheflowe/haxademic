@@ -328,9 +328,9 @@ extends PAppletHax {
 	public void handleInputTriggers() {
 		// P.println(_midi._notesOn);
 		// handle midi file input
-		if( MidiState.instance().isMidiButtonOn( 64 ) ) newTiming();
-		else if( MidiState.instance().isMidiButtonOn( 60 ) ) kick();
-		else if( MidiState.instance().isMidiButtonOn( 61 ) ) snare();
+		if( MidiState.instance().isMidiNoteOn( 64 ) ) newTiming();
+		else if( MidiState.instance().isMidiNoteOn( 60 ) ) kick();
+		else if( MidiState.instance().isMidiNoteOn( 61 ) ) snare();
 	}
 
 	protected void newTiming() {

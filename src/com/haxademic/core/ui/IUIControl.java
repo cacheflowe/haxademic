@@ -20,5 +20,6 @@ public interface IUIControl {
 	public float toggles();
 	public float layoutW();
 	public void layoutW(float val);
-	public void update(PGraphics pg);
+	public void update();
+	public void draw(PGraphics pg);
 }

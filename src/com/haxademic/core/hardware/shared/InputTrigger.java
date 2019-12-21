@@ -107,8 +107,8 @@ public class InputTrigger {
 			}
 		}
 		for( int i=0; i < midiNotes.length; i++ ) {
-			if( MidiState.instance().isMidiButtonTriggered(midiNotes[i])) {
-				curValue = MidiState.instance().midiButtonValue(midiNotes[i]);
+			if( MidiState.instance().isMidiNoteTriggered(midiNotes[i])) {
+				curValue = MidiState.instance().midiNoteValue(midiNotes[i]);
 				return true;
 			}
 		}
@@ -146,7 +146,7 @@ public class InputTrigger {
 		}
 		if(midiNotes != null) {
 			for( int i=0; i < midiNotes.length; i++ ) {
-				if( MidiState.instance().isMidiButtonOn(midiNotes[i])) return true;
+				if( MidiState.instance().isMidiNoteOn(midiNotes[i])) return true;
 			}
 		}
 		if(webControls != null) {

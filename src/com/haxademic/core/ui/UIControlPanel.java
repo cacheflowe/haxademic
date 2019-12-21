@@ -66,17 +66,25 @@ implements IUIButtonDelegate {
 	}
 	
 	public void addSlider(String key, float value, float valueLow, float valueHigh, float dragStep, boolean saves) {
-		controls.put(key, new UISlider(key, value, valueLow, valueHigh, dragStep, controlX, controlY, controlW, controlH, saves));
+		addSlider(key, value, valueLow, valueHigh, dragStep, true, -1);
+	}
+	
+	public void addSlider(String key, float value, float valueLow, float valueHigh, float dragStep, boolean saves, int midiCCNote) {
+		controls.put(key, new UISlider(key, value, valueLow, valueHigh, dragStep, controlX, controlY, controlW, controlH, saves, midiCCNote));
 		controlY += controlH;
 		if(controlY > P.p.height - controlH) nextCol();
 	}
 	
 	public void addSliderVector(String key, float value, float valueLow, float valueHigh, float dragStep, boolean saves) {
+		addSliderVector(key, value, valueLow, valueHigh, dragStep, saves, -1, -1, -1);
+	}
+	
+	public void addSliderVector(String key, float value, float valueLow, float valueHigh, float dragStep, boolean saves, int midiCCNote1, int midiCCNote2, int midiCCNote3) {
 		float controlWidthDivided = (float) controlW / 3f;
 		int controlHStack = P.round(controlH * 1.5f);
-		controls.put(key + "_X", new UISlider(key + "_X", value, valueLow, valueHigh, dragStep, P.round(controlX + 0 * controlWidthDivided), controlY, P.round(controlWidthDivided), controlHStack, saves));
-		controls.put(key + "_Y", new UISlider(key + "_Y", value, valueLow, valueHigh, dragStep, P.round(controlX + 1 * controlWidthDivided), controlY, P.round(controlWidthDivided), controlHStack, saves));
-		controls.put(key + "_Z", new UISlider(key + "_Z", value, valueLow, valueHigh, dragStep, P.round(controlX + 2 * controlWidthDivided), controlY, P.round(controlWidthDivided), controlHStack, saves));
+		controls.put(key + "_X", new UISlider(key + "_X", value, valueLow, valueHigh, dragStep, P.round(controlX + 0 * controlWidthDivided), controlY, P.round(controlWidthDivided), controlHStack, saves, midiCCNote1));
+		controls.put(key + "_Y", new UISlider(key + "_Y", value, valueLow, valueHigh, dragStep, P.round(controlX + 1 * controlWidthDivided), controlY, P.round(controlWidthDivided), controlHStack, saves, midiCCNote2));
+		controls.put(key + "_Z", new UISlider(key + "_Z", value, valueLow, valueHigh, dragStep, P.round(controlX + 2 * controlWidthDivided), controlY, P.round(controlWidthDivided), controlHStack, saves, midiCCNote3));
 		controls.get(key + "_X").layoutW(0.3333f);
 		controls.get(key + "_Y").layoutW(0.3333f);
 		controls.get(key + "_Z").layoutW(0.3333f);
@@ -98,16 +106,25 @@ implements IUIButtonDelegate {
 	////////////////////////
 	
 	public void addButton(String key, boolean toggles) {
-		controls.put(key, new UIButton(this, key, controlX, controlY, controlW, controlH, toggles));
+		addButton(key, toggles, -1);
+	}
+	
+	public void addButton(String key, boolean toggles, int midiNote) {
+		controls.put(key, new UIButton(this, key, controlX, controlY, controlW, controlH, toggles, midiNote));
 		controlY += controlSpacing;
 	}
 	
 	public void addButtons(String[] keys, boolean toggles) {
+		addButtons(keys, toggles, null);
+	}
+	
+	public void addButtons(String[] keys, boolean toggles, int[] midiNotes) {
 		float layoutW = 1f / keys.length;
 		float controlWidthDivided = (controlW - controlSpacingH * (keys.length - 1)) / keys.length;
 		for (int i = 0; i < keys.length; i++) {
 			int buttonX = P.round(controlX + i * controlWidthDivided + controlSpacingH * i);
-			UIButton newButton = new UIButton(this, keys[i], buttonX, controlY, P.round(controlWidthDivided), controlH, toggles);
+			int midiNote = (midiNotes != null && midiNotes.length > i) ? midiNotes[i] : -1;
+			UIButton newButton = new UIButton(this, keys[i], buttonX, controlY, P.round(controlWidthDivided), controlH, toggles, midiNote);
 			newButton.layoutW(layoutW);
 			controls.put(keys[i], newButton);
 		}
@@ -154,15 +171,31 @@ implements IUIButtonDelegate {
 		return controls.get(key+"_Z").value();
 	}
 	
+	public float valueXEased(String key) {
+		return controls.get(key+"_X").valueEased();
+	}
+	
+	public float valueYEased(String key) {
+		return controls.get(key+"_Y").valueEased();
+	}
+	
+	public float valueZEased(String key) {
+		return controls.get(key+"_Z").valueEased();
+	}
+	
 	////////////////////////
 	// DRAW/ACTIVATE/DEACTIVATE
 	////////////////////////
 	
 	public void update() {
+		// update control values whether UI is showing or not 
+		for (IUIControl control : controls.values()) control.update();
+
+		// draw if UI is active
 		if(!active) return;
 		PG.setDrawFlat2d(P.p.g, true);
 		for (IUIControl control : controls.values()) {
-			control.update(P.p.g);
+			control.draw(P.p.g);
 		}
 		PG.setDrawFlat2d(P.p.g, false);
 	}

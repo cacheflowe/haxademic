@@ -9,6 +9,7 @@ import com.haxademic.core.draw.color.ColorsHax;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.text.FontCacher;
 import com.haxademic.core.file.PrefToText;
+import com.haxademic.core.hardware.midi.MidiState;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.EasingFloat;
 import com.haxademic.core.media.DemoAssets;
@@ -38,12 +39,17 @@ implements IUIControl {
 	protected boolean mouseHovered = false;
 	protected boolean mousePressed = false;
 	protected boolean saves = false;
+	protected int midiCCNote = -1;
 
 	public UISlider(String property, float value, float low, float high, float dragStep, int x, int y, int w, int h) {
 		this(property, value, low, high, dragStep, x, y, w, h, true);
 	}
 	
 	public UISlider(String property, float value, float low, float high, float dragStep, int x, int y, int w, int h, boolean saves) {
+		this(property, value, low, high, dragStep, x, y, w, h, true, -1);
+	}
+
+	public UISlider(String property, float value, float low, float high, float dragStep, int x, int y, int w, int h, boolean saves, int midiCCNote) {
 		this.id = property;
 		this.value = (saves) ? PrefToText.getValueF(property, value) : value;
 		this.valueMin = low;
@@ -55,7 +61,8 @@ implements IUIControl {
 		this.w = w;
 		this.h = h;
 		this.saves = saves;
-		valueEased = new EasingFloat(this.value, 0.1f);
+		this.midiCCNote = midiCCNote;
+		valueEased = new EasingFloat(this.value, 0.2f);
 		P.p.registerMethod("mouseEvent", this);
 		P.p.registerMethod("keyEvent", this);
 	}
@@ -116,10 +123,19 @@ implements IUIControl {
 		value = val;
 	}
 	
-	public void update(PGraphics pg) {
+	public void update() {
+		// check midi
+		if(midiCCNote != -1 && MidiState.instance().isMidiCCTriggered(midiCCNote)) {
+			float val = MidiState.instance().midiCCPercent(midiCCNote);
+			set(P.map(val, 0, 1, valueMin, valueMax));
+		}
+		
+		// do interpolation
 		valueEased.setTarget(value);
 		valueEased.update(true);
-		
+	}
+	
+	public void draw(PGraphics pg) {
 		PG.setDrawCorner(pg);
 		
 		// outline
