@@ -9,6 +9,7 @@ import com.haxademic.core.data.constants.PBlendModes;
 import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.file.FileUtil;
+import com.haxademic.core.hardware.mouse.Mouse;
 import com.haxademic.core.hardware.webcam.WebCam;
 
 import processing.core.PGraphics;
@@ -87,12 +88,12 @@ extends PAppletHax {
 		}
 		 
 		// calc selected image from slider
-		int activeImageIndex = P.floor(p.mousePercentY() * images.size() - 1);
+		int activeImageIndex = P.floor(Mouse.yNorm * images.size() - 1);
 		activeImageIndex = P.constrain(activeImageIndex, 0, images.size() - 1);
 		PImage activeImage = images.get(activeImageIndex);
 		
 		// set blend mode
-		blendIndex = P.round(p.mousePercentX() * blendModes.length - 1);
+		blendIndex = P.round(Mouse.xNorm * blendModes.length - 1);
 		blendIndex = P.constrain(blendIndex, 0, blendModes.length - 1);
 		
 		// set selected image & params into top layer

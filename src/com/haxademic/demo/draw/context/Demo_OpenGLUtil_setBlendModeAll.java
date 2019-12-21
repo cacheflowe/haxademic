@@ -5,9 +5,10 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.data.constants.GLBlendModes;
 import com.haxademic.core.data.constants.PRenderers;
-import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.context.OpenGLUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.image.ImageUtil;
+import com.haxademic.core.hardware.mouse.Mouse;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.media.DemoAssets;
 
@@ -71,7 +72,7 @@ extends PAppletHax {
 		PG.setDrawCenter(pg);
 
 		// show presets or use spacebar to find new presets
-		if(mouseControlled) loadPresetFromMouse(p.mousePercentX());
+		if(mouseControlled) loadPresetFromMouse(Mouse.xNorm);
 		
 		// draw under image
 		ImageUtil.drawImageCropFill(DemoAssets.smallTexture(), pg, true);
@@ -79,7 +80,7 @@ extends PAppletHax {
 		// set custom blend mode on context
 		OpenGLUtil.setBlending( pg, true );
 		OpenGLUtil.setBlendModeCustom(pg, GLBlendModes.blendFunctions[blendSrcIndex], GLBlendModes.blendFunctions[blendDestIndex], GLBlendModes.blendEquations[blendEquationIndex]);
-//		GLBlendModes.setBlendModeFromPreset(pg, P.floor(p.mousePercentX() * GLBlendModes.presets.length));
+//		GLBlendModes.setBlendModeFromPreset(pg, P.floor(Mouse.xNorm * GLBlendModes.presets.length));
 
 		// draw shapes
 		float numShapes = 100;

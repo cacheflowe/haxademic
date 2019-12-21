@@ -4,6 +4,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.shapes.Shapes;
+import com.haxademic.core.hardware.mouse.Mouse;
 
 public class Demo_Shapes_drawDashedLine_Pyramid 
 extends PAppletHax {
@@ -12,7 +13,7 @@ extends PAppletHax {
 	public void drawApp() {
 		p.background(0);
 		p.stroke(255);
-		p.strokeWeight(1f + 4f * p.mousePercentX());
+		p.strokeWeight(1f + 4f * Mouse.xNorm);
 		PG.setCenterScreen(p.g);
 		// p.ortho();
 		PG.basicCameraFromMouse(p.g);

@@ -3,6 +3,7 @@ package com.haxademic.demo.hardware.webcam;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.context.PG;
+import com.haxademic.core.hardware.mouse.Mouse;
 import com.haxademic.core.hardware.webcam.WebCam;
 import com.haxademic.core.hardware.webcam.WebCam.IWebCamCallback;
 import com.haxademic.core.math.MathUtil;
@@ -22,15 +23,15 @@ implements IWebCamCallback {
 		WebCam.instance().setDelegate(this);
 		PImage camFrame = WebCam.instance().image();
 		
-		if(p.mousePercentX() < 0.333f) {
+		if(Mouse.xNorm < 0.333f) {
 			
 			PG.setDrawCenter(p);
 			PG.setCenterScreen(p);
 			p.image(camFrame, 0, 0);
-		} else if(p.mousePercentX() < 0.666f) {
+		} else if(Mouse.xNorm < 0.666f) {
 		
 			// draw sequence
-			int frameAdjusted = P.floor(p.frameCount / (p.mousePercentY() * 10f));
+			int frameAdjusted = P.floor(p.frameCount / (Mouse.yNorm * 10f));
 			int cameraIndex = frameAdjusted % 6;
 			if(cameraIndex == 0) {
 				p.copy(camFrame, 0, 0, 960, 540, 0, 0, p.width, p.height);

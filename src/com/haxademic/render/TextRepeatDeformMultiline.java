@@ -46,7 +46,7 @@ extends PAppletHax {
 		
 		// draw tiled texture
 		PG.setCenterScreen(p);
-		p.rotateX(0.93f + 0.02f * P.sin(p.loop.progressRads()));//0.95f); // p.mousePercentY()
+		p.rotateX(0.93f + 0.02f * P.sin(p.loop.progressRads()));//0.95f); // Mouse.yNorm
 //		p.rotateX(0.95f);
 		
 //		tiledImg.setRotation(0.01f * P.sin(p.loop.progressRads()));

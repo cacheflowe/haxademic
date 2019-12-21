@@ -9,6 +9,7 @@ import com.haxademic.core.draw.filters.pshader.BrightnessFilter;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.draw.shapes.pshader.LinesDeformAndTextureFilter;
+import com.haxademic.core.hardware.mouse.Mouse;
 import com.haxademic.core.hardware.webcam.WebCam;
 import com.haxademic.core.hardware.webcam.WebCam.IWebCamCallback;
 
@@ -70,15 +71,15 @@ implements IWebCamCallback {
 		// draw shader-displaced mesh
 		LinesDeformAndTextureFilter.instance(p).setDisplacementMap(webcamLerped);
 		LinesDeformAndTextureFilter.instance(p).setColorMap(webcamLerped);
-		LinesDeformAndTextureFilter.instance(p).setWeight(p.mousePercentX() * 10f);
+		LinesDeformAndTextureFilter.instance(p).setWeight(Mouse.xNorm * 10f);
 		LinesDeformAndTextureFilter.instance(p).setModelMaxExtent(shapeExtent * 2.1f);
-		LinesDeformAndTextureFilter.instance(p).setColorThicknessMode((p.mousePercentY() > 0.5f));
-		if(p.mousePercentX() > 0.5f) {
+		LinesDeformAndTextureFilter.instance(p).setColorThicknessMode((Mouse.yNorm > 0.5f));
+		if(Mouse.xNorm > 0.5f) {
 			LinesDeformAndTextureFilter.instance(p).setSheetMode(true);
-			LinesDeformAndTextureFilter.instance(p).setDisplaceAmp(p.mousePercentY() * pg.height * 0.7f);
+			LinesDeformAndTextureFilter.instance(p).setDisplaceAmp(Mouse.yNorm * pg.height * 0.7f);
 		} else {
 			LinesDeformAndTextureFilter.instance(p).setSheetMode(false);
-			LinesDeformAndTextureFilter.instance(p).setDisplaceAmp(p.mousePercentY() * pg.height * 0.01f);
+			LinesDeformAndTextureFilter.instance(p).setDisplaceAmp(Mouse.yNorm * pg.height * 0.01f);
 		}
 		//		p.shader(displacementShader, P.LINES);
 		LinesDeformAndTextureFilter.instance(p).applyTo(p);

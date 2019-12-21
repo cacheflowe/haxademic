@@ -4,6 +4,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.textures.pshader.TextureShader;
+import com.haxademic.core.hardware.mouse.Mouse;
 import com.haxademic.core.hardware.shared.InputTrigger;
 
 public class Demo_TextureShaders_ALL
@@ -143,7 +144,7 @@ extends PAppletHax { public static void main(String args[]) { arguments = args; 
 
 		// run cur shader
 		TextureShader curShader = textures[textureIndex];
-		curShader.setTimeMult(p.mousePercentX() * 0.07f);
+		curShader.setTimeMult(Mouse.xNorm * 0.07f);
 		curShader.updateTime();
 		p.filter(curShader.shader());
 		

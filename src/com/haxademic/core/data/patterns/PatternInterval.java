@@ -30,8 +30,8 @@ implements ISequencerPattern {
 		
 		// mouse control debug
 		/**
-		startIndex = P.floor(P.p.mousePercentX() * numSteps);
-		stepsBetween = P.floor(2 + P.p.mousePercentY() * 7);
+		startIndex = P.floor(Mouse.xNorm * numSteps);
+		stepsBetween = P.floor(2 + Mouse.yNorm * 7);
 		P.p.debugView.setValue("startIndex", startIndex);
 		P.p.debugView.setValue("stepsBetween", stepsBetween);
 		*/

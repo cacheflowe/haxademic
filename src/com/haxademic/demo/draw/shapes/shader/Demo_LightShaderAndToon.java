@@ -3,6 +3,7 @@ package com.haxademic.demo.draw.shapes.shader;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.shapes.Shapes;
 import com.haxademic.core.file.FileUtil;
+import com.haxademic.core.hardware.mouse.Mouse;
 
 import processing.opengl.PShader;
 
@@ -23,7 +24,7 @@ extends PAppletHax {
 	public void drawApp() {
 		p.background(0);
 
-		isToon = (p.mousePercentX() > 0.5f);
+		isToon = (Mouse.xNorm > 0.5f);
 		if( isToon == false ) {
 			p.shader(lightShaderBasic);
 			p.pointLight(0, 255, 255, p.mouseX, p.mouseY, 500);

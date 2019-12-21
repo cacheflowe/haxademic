@@ -4,6 +4,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.color.EasingColor;
 import com.haxademic.core.hardware.dmx.DMXWrapper;
+import com.haxademic.core.hardware.mouse.Mouse;
 import com.haxademic.core.media.audio.analysis.AudioIn;
 
 public class Demo_DmxWrapper
@@ -50,7 +51,7 @@ extends PAppletHax {
 			targetColor.update();
 			
 			// step through lights every x frames
-			int frameInterval = P.round(p.mousePercentX() * 10 + 1);
+			int frameInterval = P.round(Mouse.xNorm * 10 + 1);
 			if(p.frameCount % frameInterval == 0) {
 				int frameDivided = P.floor(p.frameCount / frameInterval);
 				int curLightIndex = frameDivided % numLights;

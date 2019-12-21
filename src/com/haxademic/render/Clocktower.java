@@ -451,7 +451,7 @@ extends PAppletHax {
 			}
 			
 			// loop rads for easing
-			// float radsToTarget = MathUtil.getRadiansToTarget(pos.x, pos.y, p.mousePercentX() * pg.width, p.mousePercentY() * pg.height);
+			// float radsToTarget = MathUtil.getRadiansToTarget(pos.x, pos.y, Mouse.xNorm * pg.width, Mouse.yNorm * pg.height);
 			float radsToTarget = MathUtil.getRadiansToTarget(pos.x, pos.y, targetObj.position.x, targetObj.position.y);
 
 			// wrap target around

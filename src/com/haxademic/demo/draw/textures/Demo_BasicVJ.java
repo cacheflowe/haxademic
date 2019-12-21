@@ -150,7 +150,7 @@ extends PAppletHax {
 		
 		// apply post fx
 		// heavy blur on fx layer for displacement smoothness
-		float blurPercent = 2f; // p.mousePercentX() * 10f;
+		float blurPercent = 2f; // Mouse.xNorm * 10f;
 		BlurHFilter.instance(p).setBlurByPercent(blurPercent, fxCurTexture().texture().width);
 		BlurVFilter.instance(p).setBlurByPercent(blurPercent, fxCurTexture().texture().height);
 		BlurHFilter.instance(p).applyTo(fxCurTexture().texture());

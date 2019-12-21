@@ -38,12 +38,12 @@ extends PAppletHax {
 		PG.setBetterLights( p );
 		p.translate(p.width/2, p.height/2, -p.width);
 		p.noStroke();
-//		p.rotateX(P.HALF_PI * p.mousePercentY());
+//		p.rotateX(P.HALF_PI * Mouse.yNorm);
 		p.rotateY(-p.loop.progressRads() * 3f);
 		
 		// spiral
 		float yInc = p.height * 0.11f;
-		float pSides = 25f + 10f * P.sin(p.loop.progressRads()); // 3 + 39f * p.mousePercentX();
+		float pSides = 25f + 10f * P.sin(p.loop.progressRads()); // 3 + 39f * Mouse.xNorm;
 		float segmentRads = P.TWO_PI / pSides; // polySides.value();
 		float radius = (p.width * 0.2f) + (p.width * 0.2f) + (p.width * 0.2f) * P.sin(p.loop.progressRads()); // p.width * 0.087f + 
 		float thickness = p.width * 0.095f;

@@ -27,7 +27,6 @@ import com.haxademic.core.hardware.keyboard.KeyboardState;
 import com.haxademic.core.hardware.midi.MidiDevice;
 import com.haxademic.core.hardware.osc.OscWrapper;
 import com.haxademic.core.hardware.webcam.WebCam;
-import com.haxademic.core.math.easing.EasingFloat;
 import com.haxademic.core.media.audio.analysis.AudioIn;
 import com.haxademic.core.media.audio.analysis.AudioInputESS;
 import com.haxademic.core.media.video.MovieBuffer;
@@ -97,12 +96,6 @@ extends PApplet {
 	public GamepadListener gamepadListener;
 	public OscWrapper oscState = null;
 	public BrowserInputState browserInputState = null;
-
-	// move to mouse singleton
-	public int lastMouseTime = 0;
-	public boolean mouseShowing = true;
-	public EasingFloat mouseXEase = new EasingFloat(0, 0.15f);
-	public EasingFloat mouseYEase = new EasingFloat(0, 0.15f);
 
 	// debug
 	public int _fps;
@@ -370,7 +363,6 @@ extends PApplet {
 		handleRenderingStepthrough();
 		midiState.update();
 		browserInputState.update();
-		updateEasedMouse();
 		if( depthCamera != null ) depthCamera.update();
 		p.pushMatrix();
 		if( joons != null ) joons.startFrame();
@@ -380,7 +372,6 @@ extends PApplet {
 		renderFrame();
 		keyboardState.update();
 		gamepadState.update();
-		autoHideMouse();
 		if(oscState != null) oscState.update();
 //		if(dmxUniverse != null) dmxUniverse.update();
 		if(WebCam.instance != null && p.key == 'W') WebCam.instance().drawMenu(p.g);
@@ -394,13 +385,6 @@ extends PApplet {
 	// UPDATE OBJECTS
 	////////////////////////	
 
-	protected void updateEasedMouse() {
-		mouseXEase.setTarget(mousePercentX());
-		mouseXEase.update();
-		mouseYEase.setTarget(mousePercentY());
-		mouseYEase.update();
-	}
-	
 	protected void showStats() {
 		if(renderer == PRenderers.PDF) return;
 		p.noLights();
@@ -525,24 +509,6 @@ extends PApplet {
 	// INPUT
 	////////////////////////
 	
-	protected void autoHideMouse() {
-		// show mouse
-		if(p.mouseX != p.pmouseX || p.mouseY != p.pmouseY) {
-			lastMouseTime = p.millis();
-			if(p.mouseShowing == false) {
-				p.mouseShowing = true;
-				p.cursor();
-			}
-		}
-		// hide mouse
-		if(p.mouseShowing == true) {
-			if(p.millis() > lastMouseTime + 5000) {
-				p.noCursor();
-				mouseShowing = false;
-			}
-		}
-	}
-	
 	protected void killScreensaver() {
 		// keep screensaver off - hit shift every 1000 frames
 		if( p.frameCount % 6000 == 10 ) robot.keyPress(KeyEvent.VK_SHIFT);
@@ -575,23 +541,7 @@ extends PApplet {
 	public void keyReleased() {
 		keyboardState.setKeyOff(p.keyCode);
 	}
-	
-	public float mousePercentX() {
-		return P.map(p.mouseX, 0, p.width, 0, 1);
-	}
-
-	public float mousePercentY() {
-		return P.map(p.mouseY, 0, p.height, 0, 1);
-	}
-	
-	public float mousePercentXEased() {
-		return p.mouseXEase.value();
-	}
-	
-	public float mousePercentYEased() {
-		return p.mouseYEase.value();
-	}
-	
+		
 	////////////////////////
 	// SHUTDOWN
 	////////////////////////

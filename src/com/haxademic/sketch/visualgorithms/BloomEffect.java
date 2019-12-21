@@ -10,6 +10,7 @@ import com.haxademic.core.draw.filters.pshader.BlurVFilter;
 import com.haxademic.core.draw.filters.pshader.GrainFilter;
 import com.haxademic.core.draw.filters.pshader.LeaveWhiteFilter;
 import com.haxademic.core.draw.image.ImageUtil;
+import com.haxademic.core.hardware.mouse.Mouse;
 
 import processing.core.PGraphics;
 
@@ -41,8 +42,8 @@ extends PAppletHax {
 		ImageUtil.copyImage(pg, glowBuffer);
 		LeaveWhiteFilter.instance(p).setCrossfade(0.7f);
 		LeaveWhiteFilter.instance(p).applyTo(glowBuffer);
-		BlurHFilter.instance(p).setBlurByPercent(p.mousePercentX() * 5f, glowBuffer.width);
-		BlurVFilter.instance(p).setBlurByPercent(p.mousePercentY() * 5f, glowBuffer.height);
+		BlurHFilter.instance(p).setBlurByPercent(Mouse.xNorm * 5f, glowBuffer.width);
+		BlurVFilter.instance(p).setBlurByPercent(Mouse.yNorm * 5f, glowBuffer.height);
 		for (int i = 0; i < 10; i++) {
 			BlurHFilter.instance(p).applyTo(glowBuffer);
 			BlurVFilter.instance(p).applyTo(glowBuffer);

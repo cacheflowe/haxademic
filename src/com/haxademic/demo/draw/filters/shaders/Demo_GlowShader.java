@@ -6,6 +6,7 @@ import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.filters.pshader.GlowFilter;
 import com.haxademic.core.draw.filters.pshader.InvertFilter;
 import com.haxademic.core.draw.shapes.PShapeUtil;
+import com.haxademic.core.hardware.mouse.Mouse;
 import com.haxademic.core.media.DemoAssets;
 
 import processing.core.PGraphics;
@@ -52,7 +53,7 @@ extends PAppletHax {
 		pg.fill(0);
 //		pg.image(img, 0, 0);
 		pg.translate(pg.width/2, pg.height/2);
-		pg.rotate(p.mousePercentX() * P.TWO_PI);
+		pg.rotate(Mouse.xNorm * P.TWO_PI);
 		pg.shape(shape, 0, 0);
 //		GlowFilter.instance(p).setSize(30f + 20f * P.sin((float)p.frameCount * 0.05f));
 //		GlowFilter.instance(p).setRadialSamples(P.map(p.mouseX, 0, p.width, 8f, 128f));

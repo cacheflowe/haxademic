@@ -16,6 +16,7 @@ import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.draw.shapes.Shapes;
 import com.haxademic.core.draw.shapes.pshader.MeshDeformAndTextureFilter;
 import com.haxademic.core.file.FileUtil;
+import com.haxademic.core.hardware.mouse.Mouse;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.LinearFloat;
 import com.haxademic.core.media.DemoAssets;
@@ -108,7 +109,7 @@ extends PAppletHax {
 		PG.push(pg);
 		// set camera
 //		pg.rotateX(-0.2f);
-//		pg.rotateX(-P.QUARTER_PI * p.mousePercentX());
+//		pg.rotateX(-P.QUARTER_PI * Mouse.xNorm);
 //		pg.rotateY(-P.HALF_PI - p.loop.progressRads() * 2f);
 		pg.rotateX(-P.QUARTER_PI * 0.25f + P.QUARTER_PI * 0.25f * P.sin(P.QUARTER_PI -p.loop.progressRads()));
 
@@ -117,16 +118,16 @@ extends PAppletHax {
 		drawSheetDisplacer();
 		
 		// lights!
-		float directionalAmp = 120; // 255 * p.mousePercentX();
-		float specularAmp = 150 * p.mousePercentX();
-		float ambientAmp = 50; // 255 * p.mousePercentX(); // 255 * p.mousePercentX();
+		float directionalAmp = 120; // 255 * Mouse.xNorm;
+		float specularAmp = 150 * Mouse.xNorm;
+		float ambientAmp = 50; // 255 * Mouse.xNorm; // 255 * Mouse.xNorm;
 		pg.lights();
 		pg.ambient(ambientAmp);
 		pg.lightSpecular(specularAmp, specularAmp, specularAmp); 
 		pg.directionalLight(directionalAmp, directionalAmp, directionalAmp, -0.0f, -0.0f, 1); 
 		pg.directionalLight(directionalAmp, directionalAmp, directionalAmp, 0.0f, 0.0f, -1); 
 		pg.specular(p.color(100)); 
-		pg.shininess(1000.0f * p.mousePercentX()); 
+		pg.shininess(1000.0f * Mouse.xNorm); 
 
 		drawPlanet();
 //		drawTrails();

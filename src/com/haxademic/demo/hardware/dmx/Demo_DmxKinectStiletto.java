@@ -6,6 +6,7 @@ import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.hardware.depthcamera.DepthCameraSize;
 import com.haxademic.core.hardware.depthcamera.KinectRegionGrid;
 import com.haxademic.core.hardware.dmx.DMXWrapper;
+import com.haxademic.core.hardware.mouse.Mouse;
 import com.haxademic.core.math.easing.LinearFloat;
 import com.haxademic.core.media.audio.analysis.AudioIn;
 
@@ -102,8 +103,8 @@ extends PAppletHax {
 			
 			p.debugView.setValue("userX", userX);
 			p.debugView.setValue("hasUser", hasUser);
-			p.debugView.setValue("p.mousePercentX()", p.mousePercentX());
-			p.debugView.setValue("p.mousePercentY()", p.mousePercentY());
+			p.debugView.setValue("Mouse.xNorm", Mouse.xNorm);
+			p.debugView.setValue("Mouse.yNorm", Mouse.yNorm);
 			
 			float panVal = P.map(userX, -1, 1, 0.735f, 0.585f);
 			float tiltVal = (hasUser) ? 0 : 0.5f;
@@ -115,7 +116,7 @@ extends PAppletHax {
 			dmx.setValue(3, round(255 * tiltVal));
 			dmx.setValue(5, 230);
 			dmx.setValue(7, round(255 * dimmer.value()));
-			dmx.setValue(8, round(255 * p.mousePercentY()));
+			dmx.setValue(8, round(255 * Mouse.yNorm));
 			dmx.setValue(9, round(127 + 127 * P.sin(p.frameCount * 0.02f)));
 			dmx.setValue(10, round(127 + 127 * P.sin(p.frameCount * 0.01f)));
 			dmx.setValue(11, round(127 + 127 * P.sin(p.frameCount * 0.03f)));

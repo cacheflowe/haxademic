@@ -3,6 +3,7 @@ package com.haxademic.demo.math;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.context.PG;
+import com.haxademic.core.hardware.mouse.Mouse;
 import com.haxademic.core.math.easing.EasingBoolean;
 import com.haxademic.core.math.easing.EasingBoolean.IEasingBooleanCallback;
 import com.haxademic.core.math.easing.LinearFloat;
@@ -25,7 +26,7 @@ implements IEasingBooleanCallback {
 		PG.setDrawCenter(p);
 		
 		// update boolean and set the current target
-		booleanSwitch.target(p.mousePercentX() > 0.5f);
+		booleanSwitch.target(Mouse.xNorm > 0.5f);
 		booleanSwitch.update();
 
 		// debug: show progress

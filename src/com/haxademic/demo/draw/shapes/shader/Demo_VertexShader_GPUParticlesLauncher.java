@@ -5,6 +5,7 @@ import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.data.constants.PBlendModes;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.particle.ParticleLauncherGPU;
+import com.haxademic.core.hardware.mouse.Mouse;
 
 public class Demo_VertexShader_GPUParticlesLauncher 
 extends PAppletHax {
@@ -33,7 +34,7 @@ extends PAppletHax {
 		int launchesPerFrame = 1000;
 		gpuParticles.beginLaunch();
 		for (int j = 0; j < launchesPerFrame; j++) 
-			 gpuParticles.launch(pg, p.mouseXEase.value() * pg.width, p.mouseYEase.value() * pg.height);
+			 gpuParticles.launch(pg, Mouse.xEased * pg.width, Mouse.yEased * pg.height);
 //			gpuParticles.launch(pg, pg.width/2f, pg.height/2f);
 		gpuParticles.endLaunch();
 		p.debugView.setValue("launchTime", p.millis() - startLaunchTime);

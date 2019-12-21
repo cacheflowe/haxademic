@@ -5,6 +5,7 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.shapes.Shapes;
+import com.haxademic.core.hardware.mouse.Mouse;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.LinearFloat;
 import com.haxademic.core.math.easing.Penner;
@@ -39,8 +40,8 @@ extends PAppletHax {
 	
 	public void drawApp() {
 		// debug input
-		p.debugView.setValue("p.mousePercentX()", p.mousePercentX());
-		p.debugView.setValue("p.mousePercentY()", p.mousePercentY());
+		p.debugView.setValue("Mouse.xNorm", Mouse.xNorm);
+		p.debugView.setValue("Mouse.yNorm", Mouse.yNorm);
 
 		// context & camera
 		p.background(0);
@@ -62,12 +63,12 @@ extends PAppletHax {
 //		p.rotateX(p.loop.progressRads());
 
 		// almost-hexagon tilt
-//		p.rotateY(easedProgress * P.PI * 0.2307f); // p.mousePercentX()
-//		p.rotateX(easedProgress * P.PI * 0.34547f); // p.mousePercentY()
+//		p.rotateY(easedProgress * P.PI * 0.2307f); // Mouse.xNorm
+//		p.rotateX(easedProgress * P.PI * 0.34547f); // Mouse.yNorm
 
 		// hexagon
-//		p.rotateY(easedProgress * P.PI * 0.1968f); // p.mousePercentX()
-//		p.rotateX(easedProgress * P.PI * 0.25f); // p.mousePercentY()
+//		p.rotateY(easedProgress * P.PI * 0.1968f); // Mouse.xNorm
+//		p.rotateX(easedProgress * P.PI * 0.25f); // Mouse.yNorm
 
 //		easedProgress = 1;
 
@@ -88,8 +89,8 @@ extends PAppletHax {
 	
 	protected void drawInfiniteZoomCubes() {
 		// hexagon tilt
-//		p.rotateY(P.PI * 0.1958f); // p.mousePercentX()
-//		p.rotateX(P.PI * 0.25f); // p.mousePercentY()
+//		p.rotateY(P.PI * 0.1958f); // Mouse.xNorm
+//		p.rotateX(P.PI * 0.25f); // Mouse.yNorm
 
 		
 		float numCubes = 60;
@@ -173,7 +174,7 @@ extends PAppletHax {
 				p.pushMatrix();
 				p.translate(tileX, tileY);
 				p.rotateY(easedProgress * P.HALF_PI * curOsc); // 
-				p.rotateX(easedProgress * P.HALF_PI * curOsc); // p.mousePercentY()
+				p.rotateX(easedProgress * P.HALF_PI * curOsc); // Mouse.yNorm
 				Shapes.drawDashedCube(p.g, tileSize, tileSize / 10f, true);
 				p.popMatrix();
 			}

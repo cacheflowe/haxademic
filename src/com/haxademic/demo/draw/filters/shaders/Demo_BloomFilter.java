@@ -6,6 +6,7 @@ import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.BloomFilter;
 import com.haxademic.core.draw.filters.pshader.GrainFilter;
+import com.haxademic.core.hardware.mouse.Mouse;
 
 import processing.core.PGraphics;
 
@@ -35,8 +36,8 @@ extends PAppletHax {
 
 		// run bloom on off-screen buffer
 		int bloomBlendMode = P.round(p.frameCount / 200f) % 3;
-		BloomFilter.instance(p).setStrength(p.mousePercentX() * 5f);
-		BloomFilter.instance(p).setBlurIterations(P.round(p.mousePercentY() * 4f));
+		BloomFilter.instance(p).setStrength(Mouse.xNorm * 5f);
+		BloomFilter.instance(p).setBlurIterations(P.round(Mouse.yNorm * 4f));
 		BloomFilter.instance(p).setBlendMode(bloomBlendMode);
 		BloomFilter.instance(p).applyTo(pg);
 		p.debugView.setValue("Bloom blend mode", bloomBlendMode);

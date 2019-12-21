@@ -7,6 +7,7 @@ import com.haxademic.core.data.ConvertUtil;
 import com.haxademic.core.draw.filters.pshader.ContrastFilter;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.textures.SimplexNoiseTexture;
+import com.haxademic.core.hardware.mouse.Mouse;
 import com.haxademic.core.hardware.serial.SerialDevice;
 import com.haxademic.core.hardware.serial.SerialDevice.ISerialDeviceDelegate;
 
@@ -80,7 +81,7 @@ implements ISerialDeviceDelegate {
 				p.rect(x, y, 20, 20);
 				
 				// set color on LED strip - lights don't want to go above 127
-				float bright = 0.75f * p.mousePercentX();
+				float bright = 0.75f * Mouse.xNorm;
 //				serialDevice.device().write(ConvertUtil.intToByte((int) (p.red(pixelColor) * bright)));
 //				serialDevice.device().write(ConvertUtil.intToByte((int) (p.green(pixelColor) * bright)));
 //				serialDevice.device().write(ConvertUtil.intToByte((int) (p.blue(pixelColor) * bright)));

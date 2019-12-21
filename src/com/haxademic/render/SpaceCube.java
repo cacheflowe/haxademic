@@ -10,6 +10,7 @@ import com.haxademic.core.draw.filters.pshader.GrainFilter;
 import com.haxademic.core.draw.filters.pshader.VignetteFilter;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.shapes.Shapes;
+import com.haxademic.core.hardware.mouse.Mouse;
 import com.haxademic.core.math.easing.EasingFloat;
 
 public class SpaceCube 
@@ -49,8 +50,8 @@ extends PAppletHax {
 		CameraUtil.setCameraDistance(pg, 100, 20000);
 
 		// rotate camera
-		float targetX = P.map(P.p.mousePercentY(), 0, 1, P.PI, -P.PI);
-		float targetY = P.map(P.p.mousePercentX(), 0, 1, P.PI, -P.PI);
+		float targetX = P.map(Mouse.yNorm, 0, 1, P.PI, -P.PI);
+		float targetY = P.map(Mouse.xNorm, 0, 1, P.PI, -P.PI);
 		float targetZ = 0;
 		
 		// loop override

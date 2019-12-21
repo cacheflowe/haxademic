@@ -23,6 +23,7 @@ import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.mapping.PGraphicsKeystone;
 import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
 import com.haxademic.core.file.FileUtil;
+import com.haxademic.core.hardware.mouse.Mouse;
 import com.haxademic.core.math.MathUtil;
 
 import KinectPV2.KinectPV2;
@@ -261,8 +262,8 @@ extends PAppletHax {
 		
 		mouseConfig = true;
 		if(mouseConfig) {
-			blurAmp = p.mousePercentX() * 3f;
-			sharpAmp = p.mousePercentY() * 15f;
+			blurAmp = Mouse.xNorm * 3f;
+			sharpAmp = Mouse.yNorm * 15f;
 		}
 		
 		p.debugView.setValue("blurAmp", blurAmp);

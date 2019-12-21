@@ -7,6 +7,7 @@ import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.draw.shapes.Shapes;
 import com.haxademic.core.file.FileUtil;
+import com.haxademic.core.hardware.mouse.Mouse;
 import com.haxademic.core.media.DemoAssets;
 
 import processing.core.PShape;
@@ -54,7 +55,7 @@ extends PAppletHax {
 
 		// use shader
 		shader.set("time", loop.progressRads());
-		shader.set("lightDir", p.mousePercentX(), p.mousePercentY(), 0.9f);
+		shader.set("lightDir", Mouse.xNorm, Mouse.yNorm, 0.9f);
 		shader.set("lightsOn", 0);
 		shader.set("lightAmbient", 0.1f, 0.1f * P.sin(loop.progressRads()), 0.5f);
 		p.shader(shader);

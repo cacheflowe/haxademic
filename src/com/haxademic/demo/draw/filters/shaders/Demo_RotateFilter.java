@@ -5,6 +5,7 @@ import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.RotateFilter;
 import com.haxademic.core.draw.image.ImageUtil;
+import com.haxademic.core.hardware.mouse.Mouse;
 import com.haxademic.core.media.DemoAssets;
 
 public class Demo_RotateFilter
@@ -21,9 +22,9 @@ extends PAppletHax {
 		p.background(0);
 		ImageUtil.drawImageCropFill(DemoAssets.squareTexture(), p.g, true);
 		
-		RotateFilter.instance(p).setRotation(p.mousePercentX() * 10f);
-		RotateFilter.instance(p).setZoom(p.mousePercentY() * 10f);
-		RotateFilter.instance(p).setOffset(p.mousePercentX() * 10f, p.mousePercentX() * 10f);
+		RotateFilter.instance(p).setRotation(Mouse.xNorm * 10f);
+		RotateFilter.instance(p).setZoom(Mouse.yNorm * 10f);
+		RotateFilter.instance(p).setOffset(Mouse.xNorm * 10f, Mouse.xNorm * 10f);
 		RotateFilter.instance(p).applyTo(p.g);
 	}
 

@@ -3,6 +3,7 @@ package com.haxademic.demo.media.audio.playback;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.hardware.mouse.Mouse;
 import com.haxademic.core.media.audio.analysis.AudioIn;
 import com.haxademic.core.media.audio.analysis.AudioInputBeads;
 import com.haxademic.core.media.audio.playback.WavPlayer;
@@ -37,10 +38,10 @@ extends PAppletHax {
 		p.background(0);
 		
 		// adjust audio loops' volume & pitch 
-		player1.setVolume(soundbed, p.mousePercentX());
-		player2.setVolume(soundMid, 1f - p.mousePercentX());
-		player1.setPitch(soundbed, P.round(-12f + 24f * p.mousePercentY()));
-		player2.setPitch(soundMid, P.round(-12f + 24f * p.mousePercentY()));
+		player1.setVolume(soundbed, Mouse.xNorm);
+		player2.setVolume(soundMid, 1f - Mouse.xNorm);
+		player1.setPitch(soundbed, P.round(-12f + 24f * Mouse.yNorm));
+		player2.setPitch(soundMid, P.round(-12f + 24f * Mouse.yNorm));
 		
 		// set glide time manually for testing
 		player2.setGlideTime(soundMid, 200);

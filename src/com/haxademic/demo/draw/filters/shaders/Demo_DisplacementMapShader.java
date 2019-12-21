@@ -5,6 +5,7 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.file.FileUtil;
+import com.haxademic.core.hardware.mouse.Mouse;
 import com.haxademic.core.media.DemoAssets;
 
 import processing.core.PGraphics;
@@ -40,10 +41,10 @@ extends PAppletHax {
 		map.endDraw();
 
 		// set mode
-		mode = P.round(p.mousePercentY() * 7);
+		mode = P.round(Mouse.yNorm * 7);
 		texShader.set("map", map );
 		texShader.set("mode", mode );
-		texShader.set("amp", p.mousePercentX()/10f);
+		texShader.set("amp", Mouse.xNorm/10f);
 		
 		// draw image and apply displacement map
 		p.image(base, 0, 0);

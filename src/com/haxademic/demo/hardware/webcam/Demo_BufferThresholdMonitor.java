@@ -6,6 +6,7 @@ import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.image.BufferThresholdMonitor;
 import com.haxademic.core.draw.image.ImageUtil;
+import com.haxademic.core.hardware.mouse.Mouse;
 import com.haxademic.core.hardware.webcam.WebCam;
 import com.haxademic.core.hardware.webcam.WebCam.IWebCamCallback;
 
@@ -51,8 +52,8 @@ implements IWebCamCallback {
 		PG.setCenterScreen(p);
 
 		// show activity calculation and texture in debug panel
-		thresholdMonitor.setCutoff(p.mousePercentX());
-		p.debugView.setValue("threshold cutoff", p.mousePercentX());
+		thresholdMonitor.setCutoff(Mouse.xNorm);
+		p.debugView.setValue("threshold cutoff", Mouse.xNorm);
 		p.debugView.setValue("threshold calculation", thresholdMonitor.thresholdCalc());
 		p.debugView.setTexture("thresholdBuffer", thresholdMonitor.thresholdBuffer());
 

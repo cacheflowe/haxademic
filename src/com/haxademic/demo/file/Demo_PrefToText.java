@@ -3,6 +3,7 @@ package com.haxademic.demo.file;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.file.PrefToText;
+import com.haxademic.core.hardware.mouse.Mouse;
 
 public class Demo_PrefToText 
 extends PAppletHax {
@@ -17,7 +18,7 @@ extends PAppletHax {
 	
 	public void keyPressed() {
 		super.keyPressed();
-		gray = p.mousePercentX();
+		gray = Mouse.xNorm;
 		if(p.key == ' ') PrefToText.setValue("gray", gray);
 	}
 	

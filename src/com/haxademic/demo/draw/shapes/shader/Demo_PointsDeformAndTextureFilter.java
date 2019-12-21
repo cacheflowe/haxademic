@@ -11,6 +11,7 @@ import com.haxademic.core.draw.shapes.pshader.PointsDeformAndTextureFilter;
 import com.haxademic.core.draw.textures.pgraphics.TextureEQConcentricCircles;
 import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
 import com.haxademic.core.draw.textures.pshader.TextureShader;
+import com.haxademic.core.hardware.mouse.Mouse;
 import com.haxademic.core.media.DemoAssets;
 
 import processing.core.PShape;
@@ -72,7 +73,7 @@ extends PAppletHax {
 		
 		// update textures & switch between audio & noise
 		audioTexture.update();
-		if(p.mousePercentY() < 0.5f) {
+		if(Mouse.yNorm < 0.5f) {
 //			noiseTexture.shader().set("offset", 0f, P.p.frameCount * 0.005f);
 			noiseTexture.shader().set("zoom", 4f + 3f * P.sin(p.loop.progressRads()));
 			noiseTexture.shader().set("rotation", p.loop.progressRads());
@@ -88,7 +89,7 @@ extends PAppletHax {
 		PointsDeformAndTextureFilter.instance(p).setDisplacementMap(audioTexture.texture());
 		PointsDeformAndTextureFilter.instance(p).setMaxPointSize(2f);
 		// change params per flat/3d model
-		if(p.mousePercentX() < 0.5f) {
+		if(Mouse.xNorm < 0.5f) {
 			PointsDeformAndTextureFilter.instance(p).setDisplaceAmp(100f);			// multiplied by obj extent
 			PointsDeformAndTextureFilter.instance(p).setModelMaxExtent(svgExtent * 2.1f);		// texture mapping UV
 			PointsDeformAndTextureFilter.instance(p).setSheetMode(true);
@@ -107,7 +108,7 @@ extends PAppletHax {
 		// draw points mesh 
 		p.stroke(255);	// make sure to reset stroke
 		PointsDeformAndTextureFilter.instance(p).applyTo(p);
-		if(p.mousePercentX() > 0.5f) {
+		if(Mouse.xNorm > 0.5f) {
 			p.shape(obj);
 		} else {
 			p.shape(svg);

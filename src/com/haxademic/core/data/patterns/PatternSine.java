@@ -43,8 +43,8 @@ implements ISequencerPattern {
 		
 		// mouse control debug
 		/**
-		sinSpeed = P.p.mousePercentX() * 20f;
-		sinStart = P.p.mousePercentY() * P.TWO_PI;
+		sinSpeed = Mouse.xNorm * 20f;
+		sinStart = Mouse.yNorm * P.TWO_PI;
 		P.p.debugView.setValue("sinSpeed", sinSpeed);
 		P.p.debugView.setValue("sinStart", sinStart);
 		*/

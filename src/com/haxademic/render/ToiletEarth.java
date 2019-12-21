@@ -64,7 +64,7 @@ extends PAppletHax {
 		
 		// camera
 		p.noStroke();
-//		p.rotateX(P.map(p.mousePercentX(), 0, 1, -2, 2));
+//		p.rotateX(P.map(Mouse.xNorm, 0, 1, -2, 2));
 		p.rotateX(-0.5f + 0.05f * P.sin(p.loop.progressRads()));
 		p.rotateY(-0.75f + 0.1f * P.sin(p.loop.progressRads()));
 		p.scale(0.5f);

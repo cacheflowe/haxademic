@@ -4,6 +4,7 @@ import java.awt.Rectangle;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.image.ImageUtil;
+import com.haxademic.core.hardware.mouse.Mouse;
 import com.haxademic.core.media.DemoAssets;
 
 public class Demo_ImageUtil_cropFillCopyImage 
@@ -18,7 +19,7 @@ extends PAppletHax {
 		p.noStroke();
 		
 		// config
-		boolean cropFill = p.mousePercentX() < 0.5f;
+		boolean cropFill = Mouse.xNorm < 0.5f;
 		
 		// fullscreen crop fill
 		p.fill(255);

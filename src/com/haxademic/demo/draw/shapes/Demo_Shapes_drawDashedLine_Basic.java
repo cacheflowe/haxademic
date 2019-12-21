@@ -2,6 +2,7 @@ package com.haxademic.demo.draw.shapes;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.shapes.Shapes;
+import com.haxademic.core.hardware.mouse.Mouse;
 
 public class Demo_Shapes_drawDashedLine_Basic 
 extends PAppletHax {
@@ -10,7 +11,7 @@ extends PAppletHax {
 	public void drawApp() {
 		p.background(0);
 		p.stroke(255);
-		p.strokeWeight(1f + 4f * p.mousePercentX());
+		p.strokeWeight(1f + 4f * Mouse.xNorm);
 		
 		float spacing = 10;
 		float numLines = p.height / spacing;

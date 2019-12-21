@@ -3,6 +3,7 @@ package com.haxademic.core.app;
 import com.haxademic.core.data.store.AppStore;
 import com.haxademic.core.data.store.AppStoreDistributed;
 import com.haxademic.core.file.FileUtil;
+import com.haxademic.core.hardware.mouse.Mouse;
 
 import processing.core.PApplet;
 import processing.core.PImage;
@@ -19,6 +20,7 @@ extends PApplet {
 	public static void init(PAppletHax p) {
 		P.p = p;
 		P.store = AppStore.instance();
+		Mouse.instance();
 	}
 	
 	// helper methods

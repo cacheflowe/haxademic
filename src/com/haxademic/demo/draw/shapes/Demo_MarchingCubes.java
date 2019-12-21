@@ -4,6 +4,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.shapes.MarchingCubes;
+import com.haxademic.core.hardware.mouse.Mouse;
 
 import processing.core.PVector;
 
@@ -44,7 +45,7 @@ extends PAppletHax {
 					150 * P.sin(i + frameCount * 0.03f)
 					);
 			float size = 10 + i * 5;
-			mc.addMetaBall(metaBallPos, size * 2.5f, 2 + 30f * p.mousePercentX());
+			mc.addMetaBall(metaBallPos, size * 2.5f, 2 + 30f * Mouse.xNorm);
 			
 			// draw source balls
 			p.pushMatrix();

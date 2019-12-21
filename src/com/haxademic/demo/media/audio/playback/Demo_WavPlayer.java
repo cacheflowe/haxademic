@@ -1,6 +1,7 @@
 package com.haxademic.demo.media.audio.playback;
 
 import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.hardware.mouse.Mouse;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.media.audio.analysis.AudioIn;
 import com.haxademic.core.media.audio.analysis.AudioInputBeads;
@@ -27,7 +28,7 @@ extends PAppletHax {
 	
 	public void drawApp() {
 		p.background(0);
-		player.setVolume(soundbed, p.mousePercentX());
+		player.setVolume(soundbed, Mouse.xNorm);
 	}
 
 	public void keyPressed() {

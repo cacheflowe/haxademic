@@ -7,7 +7,7 @@ import javax.swing.JFrame;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.context.PG;
-import com.haxademic.core.hardware.mouse.MouseUtil;
+import com.haxademic.core.hardware.mouse.Mouse;
 
 public class Demo_JFrameLauncher
 extends PAppletHax {
@@ -35,9 +35,9 @@ extends PAppletHax {
 			p.background(0,255,0);
 			if(p.frameCount % 100 == 0) {
 				if(p.frameCount % 200 == 0) {
-					MouseUtil.setCursorWait(frame);
+					Mouse.setCursorWait(frame);
 				} else {
-					MouseUtil.setInvisibleCursor(frame);
+					Mouse.setInvisibleCursor(frame);
 				}
 			}
 		}

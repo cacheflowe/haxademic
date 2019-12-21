@@ -4,6 +4,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.context.PG;
+import com.haxademic.core.hardware.mouse.Mouse;
 import com.haxademic.core.math.easing.EasingFloat;
 
 public class Demo_EasingFloat
@@ -34,7 +35,7 @@ extends PAppletHax {
 		
 		easingX.setTarget(p.mouseX);
 		easingY.setTarget(p.mouseY);
-		easingRotation.setTarget(p.mousePercentX() * P.TWO_PI);
+		easingRotation.setTarget(Mouse.xNorm * P.TWO_PI);
 		int bottomVal = P.round(p.frameCount * 0.01f) % 2;
 		easingBottom.setTarget((bottomVal % 2) * p.width);
 

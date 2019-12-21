@@ -4,6 +4,7 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.color.ColorUtil;
 import com.haxademic.core.draw.color.EasingColor;
+import com.haxademic.core.hardware.mouse.Mouse;
 
 public class Demo_EasingColor
 extends PAppletHax {
@@ -25,7 +26,7 @@ extends PAppletHax {
 	}
 	
 	public void drawApp() {
-		colorHaxEasing.setEaseFactor(p.mousePercentX());
+		colorHaxEasing.setEaseFactor(Mouse.xNorm);
 		colorHaxEasing.update();
 		p.background(0);
 		p.fill(colorHaxEasing.colorInt());

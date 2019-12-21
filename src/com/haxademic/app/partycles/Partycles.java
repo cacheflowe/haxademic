@@ -17,6 +17,7 @@ import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.mapping.PGraphicsKeystone;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.depthcamera.KinectDepthSilhouetteSmoothed;
+import com.haxademic.core.hardware.mouse.Mouse;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.LinearFloat;
 import com.haxademic.core.math.easing.Penner;
@@ -180,7 +181,7 @@ extends PAppletHax {
 	}
 	
 	protected void updateKinect() {
-		KinectDepthSilhouetteSmoothed.KINECT_FAR = P.round(4000 * p.mousePercentX());
+		KinectDepthSilhouetteSmoothed.KINECT_FAR = P.round(4000 * Mouse.xNorm);
 		// update silhouette
 		kinectSilhouetteSmoothed.update();
 
@@ -232,7 +233,7 @@ extends PAppletHax {
 		mainBuffer.translate(mainBuffer.width/2, mainBuffer.height/2);
 
 		// draw camera - compensate for depth image size (scale) and alignment (x & y)
-		float cameraScale = 1.18f; // p.mousePercentX() * 3;
+		float cameraScale = 1.18f; // Mouse.xNorm * 3;
 		p.debugView.setValue("cameraScale", cameraScale);
 		mainBuffer.image(cameraBuffer, cameraBuffer.width * -0.025f, cameraBuffer.height * -0.05f, cameraBuffer.width * cameraScale, cameraBuffer.height * cameraScale);
 		
@@ -430,7 +431,7 @@ extends PAppletHax {
 		}
 		
 		// step through lights every x frames
-		int frameInterval = 20; // P.round(p.mousePercentX() * 10 + 1);
+		int frameInterval = 20; // P.round(Mouse.xNorm * 10 + 1);
 		if(p.frameCount % frameInterval == 0) {
 			int frameDivided = P.floor(p.frameCount / frameInterval);
 			int curLightIndex = frameDivided % numLights;

@@ -5,6 +5,7 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.context.PShaderHotSwap;
 import com.haxademic.core.file.FileUtil;
+import com.haxademic.core.hardware.mouse.Mouse;
 
 public class Demo_PShaderHotSwap_Frag
 extends PAppletHax {
@@ -25,7 +26,7 @@ extends PAppletHax {
 		shader.shader().set("time", p.frameCount * 0.01f);
 		shader.shader().set("noiseSeed", p.frameCount * 0.0000001f);
 		shader.shader().set("tileSize", 0.15f + 0.1f * P.sin(p.frameCount * 0.01f));
-		shader.shader().set("rotation", p.mousePercentX() * P.TWO_PI);
+		shader.shader().set("rotation", Mouse.xNorm * P.TWO_PI);
 		p.filter(shader.shader());
 		shader.showShaderStatus(p.g);
 	}

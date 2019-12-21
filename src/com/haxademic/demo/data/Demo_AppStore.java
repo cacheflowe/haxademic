@@ -4,6 +4,7 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.data.store.AppStore;
 import com.haxademic.core.data.store.IAppStoreListener;
+import com.haxademic.core.hardware.mouse.Mouse;
 import com.haxademic.core.media.DemoAssets;
 
 import processing.core.PGraphics;
@@ -26,8 +27,8 @@ implements IAppStoreListener {
 		background(0);
 		AppStore.instance().setNumber("frameCount", p.frameCount);
 		AppStore.instance().setBoolean("Frame over 100", (p.frameCount % 200) > 100);
-		AppStore.instance().setNumber("mousePercentX", p.mousePercentX());
-		AppStore.instance().setNumber("mousePercentY", p.mousePercentY());
+		AppStore.instance().setNumber("mousePercentX", Mouse.xNorm);
+		AppStore.instance().setNumber("mousePercentY", Mouse.yNorm);
 		AppStore.instance().setImage("image", DemoAssets.justin());
 		// for (int i = 0; i < 50; i++) { AppStore.instance().setNumber("test_"+i, i); }
 		AppStore.instance().showStoreValuesInDebugView();

@@ -5,7 +5,7 @@ import java.awt.Point;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.hardware.mouse.MouseUtil;
+import com.haxademic.core.hardware.mouse.Mouse;
 
 public class Demo_MouseLoopAroundScreen
 extends PAppletHax {
@@ -39,10 +39,10 @@ extends PAppletHax {
 		// wrap mouse 
 		int padding = 1;
 		if(p.frameCount > lastLoopFrame + 1) {
-			if(mousePoint.x == p.displayWidth - 1 && lastMousePoint.x < mousePoint.x) { MouseUtil.movePointerTo(padding, mousePoint.y); lastLoopFrame = p.frameCount; }
-			else if(mousePoint.x == 0 && lastMousePoint.x > mousePoint.x) { MouseUtil.movePointerTo(p.displayWidth - padding, mousePoint.y); lastLoopFrame = p.frameCount; }
-			else if(mousePoint.y == p.displayHeight - 1 && lastMousePoint.y < mousePoint.y) { MouseUtil.movePointerTo(mousePoint.x, padding); lastLoopFrame = p.frameCount; }
-			else if(mousePoint.y == 0 && lastMousePoint.y > mousePoint.y) { MouseUtil.movePointerTo(mousePoint.x, p.displayHeight - padding); lastLoopFrame = p.frameCount; }
+			if(mousePoint.x == p.displayWidth - 1 && lastMousePoint.x < mousePoint.x) { Mouse.movePointerTo(padding, mousePoint.y); lastLoopFrame = p.frameCount; }
+			else if(mousePoint.x == 0 && lastMousePoint.x > mousePoint.x) { Mouse.movePointerTo(p.displayWidth - padding, mousePoint.y); lastLoopFrame = p.frameCount; }
+			else if(mousePoint.y == p.displayHeight - 1 && lastMousePoint.y < mousePoint.y) { Mouse.movePointerTo(mousePoint.x, padding); lastLoopFrame = p.frameCount; }
+			else if(mousePoint.y == 0 && lastMousePoint.y > mousePoint.y) { Mouse.movePointerTo(mousePoint.x, p.displayHeight - padding); lastLoopFrame = p.frameCount; }
 		}
 		
 		// store last mouse position

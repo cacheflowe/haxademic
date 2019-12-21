@@ -3,6 +3,7 @@ package com.haxademic.demo.math;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.context.PG;
+import com.haxademic.core.hardware.mouse.Mouse;
 
 import processing.core.PVector;
 
@@ -37,7 +38,7 @@ extends PAppletHax {
 		p.background(0);
 		p.stroke(255);
 		PG.setDrawCenter(p);
-		mouse.set(p.mouseXEase.value() * p.width, p.mouseYEase.value() * p.height);
+		mouse.set(Mouse.xEased * p.width, Mouse.yEased * p.height);
 		
 		// line to mouse
 		p.line(center.x, center.y, mouse.x, mouse.y);

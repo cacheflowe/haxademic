@@ -4,6 +4,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.draw.color.ColorsHax;
 import com.haxademic.core.draw.context.pg32.PGraphics32;
+import com.haxademic.core.hardware.mouse.Mouse;
 
 import processing.core.PApplet;
 import processing.core.PConstants;
@@ -224,8 +225,8 @@ public class PG {
 	}
 	
 	public static void basicCameraFromMouse(PGraphics pg, float amp) {
-		pg.rotateX(P.map(P.p.mousePercentYEased(), 0, 1, P.PI * amp, -P.PI * amp));
-		pg.rotateY(P.map(P.p.mousePercentXEased(), 0, 1, -P.PI * amp, P.PI * amp));
+		pg.rotateX(P.map(Mouse.xEasedNorm, 0, 1, P.PI * amp, -P.PI * amp));
+		pg.rotateY(P.map(Mouse.yEasedNorm, 0, 1, -P.PI * amp, P.PI * amp));
 	}
 	
 	//////////////////////////////

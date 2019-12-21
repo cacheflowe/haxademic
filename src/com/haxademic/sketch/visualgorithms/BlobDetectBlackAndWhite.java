@@ -9,6 +9,7 @@ import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.color.ColorUtil;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.image.ImageUtil;
+import com.haxademic.core.hardware.mouse.Mouse;
 import com.haxademic.core.math.MathUtil;
 
 import processing.core.PGraphics;
@@ -91,7 +92,7 @@ extends PAppletHax {
 		fill(0, 255, 0);
 		stroke(0);
 		beginShape();
-		for (int i = 1; i < storedPoints.size() - P.round(p.mousePercentX() * 150); i++) {
+		for (int i = 1; i < storedPoints.size() - P.round(Mouse.xNorm * 150); i++) {
 			p.vertex(storedPoints.get(i-1).x, storedPoints.get(i-1).y, storedPoints.get(i).x, storedPoints.get(i).y);
 			// p.ellipse(averagedPoints.get(i).x, averagedPoints.get(i).y, 5, 5);
 		}

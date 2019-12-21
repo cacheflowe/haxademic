@@ -4,6 +4,7 @@ import java.util.Arrays;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.file.FileUtil;
+import com.haxademic.core.hardware.mouse.Mouse;
 import com.haxademic.core.math.MathUtil;
 
 import beads.AudioContext;
@@ -141,9 +142,9 @@ extends PAppletHax {
 
 		// change tempo
 		//	clock.setValue();
-//		int ticksPerBeat = 6 + 18 * P.round(p.mousePercentX());
+//		int ticksPerBeat = 6 + 18 * P.round(Mouse.xNorm);
 //		clock.setTicksPerBeat(ticksPerBeat);
-		clock.getIntervalEnvelope().setValue(1000f - 700 * p.mousePercentX());
+		clock.getIntervalEnvelope().setValue(1000f - 700 * Mouse.xNorm);
 
 		// visualize
 		loadPixels();

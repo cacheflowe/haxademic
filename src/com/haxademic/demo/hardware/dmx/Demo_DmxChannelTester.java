@@ -77,7 +77,7 @@ extends PAppletHax {
 
 		// choose channel with mouse
 //		if(p.mouseX != p.pmouseX) {
-//			startChannel = 1 + P.round(p.mousePercentX() * 512);
+//			startChannel = 1 + P.round(Mouse.xNorm * 512);
 //		}
 		
 		// oscillate by default

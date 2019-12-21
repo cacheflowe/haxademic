@@ -4,6 +4,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.shapes.Shapes;
+import com.haxademic.core.hardware.mouse.Mouse;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.EasingFloat;
 
@@ -35,8 +36,8 @@ extends PAppletHax {
 	
 	public void drawApp() {
 		// debug input
-		p.debugView.setValue("p.mousePercentX()", p.mousePercentX());
-		p.debugView.setValue("p.mousePercentY()", p.mousePercentY());
+		p.debugView.setValue("Mouse.xNorm", Mouse.xNorm);
+		p.debugView.setValue("Mouse.yNorm", Mouse.yNorm);
 
 		// context & camera
 		p.background(0);

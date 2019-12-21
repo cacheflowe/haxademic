@@ -5,6 +5,7 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.hardware.midi.devices.LaunchControl;
 import com.haxademic.core.hardware.midi.devices.NovationColors;
+import com.haxademic.core.hardware.mouse.Mouse;
 import com.haxademic.core.media.audio.analysis.AudioIn;
 
 import themidibus.SimpleMidiListener;
@@ -38,9 +39,9 @@ implements SimpleMidiListener {
 		p.midiState.sendMidiOut(true, 0, LaunchControl.PAD_06, P.round(AudioIn.audioFreq(7) * 150f));
 		p.midiState.sendMidiOut(true, 0, LaunchControl.PAD_07, P.round(AudioIn.audioFreq(8) * 150f));
 		p.midiState.sendMidiOut(true, 0, LaunchControl.PAD_08, P.round(AudioIn.audioFreq(9) * 150f));
-//		p.midiState.sendMidiOut(true, 0, LaunchControl.PAD_08, P.round(127f * p.mousePercentX()));
+//		p.midiState.sendMidiOut(true, 0, LaunchControl.PAD_08, P.round(127f * Mouse.xNorm));
 		
-		p.midiState.sendMidiOut(true, 0, LaunchControl.PAD_08, NovationColors.colors[P.round((NovationColors.colors.length - 1) * p.mousePercentX())]);
+		p.midiState.sendMidiOut(true, 0, LaunchControl.PAD_08, NovationColors.colors[P.round((NovationColors.colors.length - 1) * Mouse.xNorm)]);
 	}
 	
 	////////////////////////////////////

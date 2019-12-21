@@ -4,6 +4,7 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.image.ImageSequenceMovieClip;
 import com.haxademic.core.file.FileUtil;
+import com.haxademic.core.hardware.mouse.Mouse;
 
 public class Demo_ImageSequenceMovieClip
 extends PAppletHax {
@@ -29,7 +30,7 @@ extends PAppletHax {
 		p.background(0);
 		
 		if(p.frameCount % 100 == 50) {
-			if(p.mousePercentX() < 0.5f)
+			if(Mouse.xNorm < 0.5f)
 				imageSequence.play();
 			else 
 				imageSequence.loop();
@@ -55,7 +56,7 @@ extends PAppletHax {
 			p.debugView.setValue("imageSequenceCopy.isFinished()", imageSequenceCopy.isFinished());
 			
 			// manual copy
-			p.image(imageSequenceManual.getFrameByProgress(p.mousePercentX()), 0, 100);
+			p.image(imageSequenceManual.getFrameByProgress(Mouse.xNorm), 0, 100);
 		}
 		
 	}

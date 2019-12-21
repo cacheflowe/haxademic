@@ -226,8 +226,8 @@ extends PAppletHax {
 		background(0);
 		
 //		camera test
-//		p.translate(0, 0, -1500 * p.mousePercentX());
-//		p.rotateX(p.mousePercentY() * 3f);
+//		p.translate(0, 0, -1500 * Mouse.xNorm);
+//		p.rotateX(Mouse.yNorm * 3f);
 		displaceTexture.offsetX(p.frameCount/100f);
 		displaceTexture.update();
 		// draw & generate shapes

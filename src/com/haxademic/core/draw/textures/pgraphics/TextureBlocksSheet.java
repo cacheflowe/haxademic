@@ -187,8 +187,8 @@ extends BaseTexture {
 		_texture.popMatrix();
 
 		// post-processing
-//		RotateFilter.instance(P.p).setZoom(P.p.mousePercentY() * 3f + 0.5f);
-//		RotateFilter.instance(P.p).setRotation(P.p.mousePercentX() * 2f * P.TWO_PI);
+//		RotateFilter.instance(P.p).setZoom(Mouse.yNorm * 3f + 0.5f);
+//		RotateFilter.instance(P.p).setRotation(Mouse.xNorm * 2f * P.TWO_PI);
 //		RotateFilter.instance(P.p).applyTo(_texture);
 		
 		// black to transparent

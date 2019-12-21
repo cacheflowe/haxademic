@@ -5,6 +5,7 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.filters.pshader.BlurHFilter;
 import com.haxademic.core.draw.image.TickerScroller;
+import com.haxademic.core.hardware.mouse.Mouse;
 import com.haxademic.core.media.DemoAssets;
 
 public class Demo_TickerScroller
@@ -38,7 +39,7 @@ extends PAppletHax {
 		}
 		
 		// update ticker
-		float speed = P.map(p.mousePercentX(), 0, 1, 30f, -30f);
+		float speed = P.map(Mouse.xNorm, 0, 1, 30f, -30f);
 		ticker.speed(speed);
 		ticker.update();
 		

@@ -6,6 +6,7 @@ import java.util.Map;
 import com.haxademic.core.app.P;
 import com.haxademic.core.data.constants.PBlendModes;
 import com.haxademic.core.draw.context.PG;
+import com.haxademic.core.hardware.mouse.Mouse;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.media.DemoAssets;
 import com.haxademic.core.net.IPAddress;
@@ -189,7 +190,7 @@ public class DebugView {
 		float textH = debugLines.size() * fontSize * debugFont.ascent() * 3f;
 		if(textH > p.height) {
 			float heightDiff = p.height - textH;
-			p.translate(0, P.map(P.p.mousePercentY(), 0, 1, 0, heightDiff));
+			p.translate(0, P.map(Mouse.yNorm, 0, 1, 0, heightDiff));
 		}
 		
 		// draw text

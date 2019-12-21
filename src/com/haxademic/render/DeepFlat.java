@@ -6,6 +6,7 @@ import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.draw.shapes.Shapes;
+import com.haxademic.core.hardware.mouse.Mouse;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.LinearFloat;
 import com.haxademic.core.math.easing.Penner;
@@ -98,7 +99,7 @@ extends PAppletHax {
 		p.pop();
 		
 		// debug 
-		if(p.mousePercentX() > 0.9f) p.image(texture, 0, 0);
+		if(Mouse.xNorm > 0.9f) p.image(texture, 0, 0);
 	}
 		
 }

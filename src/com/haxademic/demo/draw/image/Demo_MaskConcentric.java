@@ -7,7 +7,7 @@ import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.BlurProcessingFilter;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.file.FileUtil;
-import com.haxademic.core.hardware.webcam.WebCam;
+import com.haxademic.core.hardware.mouse.Mouse;
 import com.haxademic.core.media.DemoAssets;
 
 import processing.core.PGraphics;
@@ -95,8 +95,8 @@ extends PAppletHax {
 	
 	public void drawApp() {
 		// user interaction
-		float offsetX = -P.TWO_PI * 0.2f + P.TWO_PI * 0.4f * p.mousePercentXEased();
-		float offsetY = -P.TWO_PI + P.TWO_PI * 2f * p.mousePercentYEased();
+		float offsetX = -P.TWO_PI * 0.2f + P.TWO_PI * 0.4f * Mouse.xEasedNorm;
+		float offsetY = -P.TWO_PI + P.TWO_PI * 2f * Mouse.yEasedNorm;
 
 		// context reset
 		p.background(0);

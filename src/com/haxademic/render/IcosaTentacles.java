@@ -61,14 +61,14 @@ extends PAppletHax {
 		
 		// toggle spike shrink
 		spikeShrink.setTarget(0f);
-//		if(p.mousePercentX() > 0.5f) spikeShrink.setTarget(1f);
+//		if(Mouse.xNorm > 0.5f) spikeShrink.setTarget(1f);
 		if(p.loop.progress() > 0.5f) spikeShrink.setTarget(1f);
 		spikeShrink.update();
 		easedSpikeShrink = Penner.easeInOutExpo(spikeShrink.value(), 0, 1, 1);
 		
 		// toggle icosa explosion
 		if(p.loop.progress() > 0.2f) explodeExtend.setTarget(1f);
-//		if(p.mousePercentX() > 0.5f) spikeShrink.setTarget(1f);
+//		if(Mouse.xNorm > 0.5f) spikeShrink.setTarget(1f);
 		if(p.loop.progress() > 0.8f) explodeExtend.setTarget(0.01f);
 		explodeExtend.update();
 		easedExplode = Penner.easeInOutExpo(explodeExtend.value(), 0, 1, 1);

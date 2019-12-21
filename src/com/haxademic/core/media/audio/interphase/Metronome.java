@@ -3,6 +3,7 @@ package com.haxademic.core.media.audio.interphase;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.data.constants.PRegisterableMethods;
+import com.haxademic.core.hardware.mouse.Mouse;
 import com.haxademic.core.math.easing.LinearFloat;
 import com.haxademic.core.media.audio.analysis.AudioIn;
 import com.haxademic.core.media.audio.analysis.AudioInputBeads;
@@ -79,7 +80,7 @@ public class Metronome {
 	protected void updateBpm(Clock c) {
 		if(Interphase.TEMPO_MOUSE_CONTROL) {
 			// mouse control
-			P.store.setNumber(Interphase.BPM, P.map(P.p.mousePercentX(), 0, 1, TEMPOS[0], TEMPOS[TEMPOS.length - 1]));
+			P.store.setNumber(Interphase.BPM, P.map(Mouse.xNorm, 0, 1, TEMPOS[0], TEMPOS[TEMPOS.length - 1]));
 		} else if(Interphase.TEMPO_MIDI_CONTROL) {
 			// midi control now just adjusts BPM and this case allows it to stand
 		} else {

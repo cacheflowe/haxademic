@@ -5,6 +5,7 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.shapes.MeshShapes;
+import com.haxademic.core.hardware.mouse.Mouse;
 
 public class Demo_MeshShapes
 extends PAppletHax {
@@ -57,8 +58,8 @@ extends PAppletHax {
 		PG.setBetterLights(p);
 		PG.setCenterScreen(p);
 		rotateX(0.5f); 
-		rotateY(p.mousePercentX() * 10f); 
-		meshIndex = P.floor(p.mousePercentY() * meshes.length); 
+		rotateY(Mouse.xNorm * 10f); 
+		meshIndex = P.floor(Mouse.yNorm * meshes.length); 
 		// draw shape
 		scale(80);
 		meshes[meshIndex].draw(p.g);

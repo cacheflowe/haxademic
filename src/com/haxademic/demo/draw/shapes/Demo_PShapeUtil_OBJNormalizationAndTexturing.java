@@ -6,6 +6,7 @@ import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.shapes.PShapeSolid;
 import com.haxademic.core.draw.shapes.PShapeUtil;
+import com.haxademic.core.hardware.mouse.Mouse;
 import com.haxademic.core.media.DemoAssets;
 
 import processing.core.PImage;
@@ -65,7 +66,7 @@ extends PAppletHax {
 		// if no texture, p.shape() is fine
 		p.noStroke();
 		p.fill(255);
-		if(p.mousePercentX() < 0.5f) {
+		if(Mouse.xNorm < 0.5f) {
 			// texture mapped with decent performance:
 			PShapeUtil.drawTriangles(p.g, objSolid.shape(), img, 1f); // img			
 		} else {

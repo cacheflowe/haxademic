@@ -83,7 +83,7 @@ implements IWebCamCallback {
 		if(motionDetectionMap == null) {
 			motionDetectionMap = new BufferMotionDetectionMap(webcamBuffer, 0.25f);
 		}
-		// float mouseX = p.mousePercentX();
+		// float mouseX = Mouse.xNorm;
 		// p.debugView.setValue("mouseX", mouseX);
 		motionDetectionMap.setBlendLerp(0.25f);
 		motionDetectionMap.setDiffThresh(0.03f);

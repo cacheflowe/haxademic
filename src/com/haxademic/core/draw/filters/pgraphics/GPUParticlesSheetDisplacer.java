@@ -104,11 +104,11 @@ extends BaseVideoFilter {
 		// run shader & draw points shape
 		pointsTexturedShader.set("displacementMap", displacementMap);
 		pointsTexturedShader.set("colorMap", sourceBuffer);
-		pointsTexturedShader.set("pointSize", 3.f);//0.5f + p.mousePercentX() * 2f); // 2.5f + 1.5f * P.sin(P.TWO_PI * percentComplete));
+		pointsTexturedShader.set("pointSize", 3.f);//0.5f + Mouse.xNorm * 2f); // 2.5f + 1.5f * P.sin(P.TWO_PI * percentComplete));
 		pointsTexturedShader.set("width", (float) width);
 		pointsTexturedShader.set("height", (float) height);
 		pointsTexturedShader.set("flipY", 1);
-//		pointsTexturedShader.set("spread", 1f);//0.5f + p.mousePercentY() * 2f);//2.5f + 0.5f * P.sin(P.PI + 2f * loop.progressRads()));
+//		pointsTexturedShader.set("spread", 1f);//0.5f + Mouse.yNorm * 2f);//2.5f + 0.5f * P.sin(P.PI + 2f * loop.progressRads()));
 		pointsTexturedShader.set("displaceStrength", 80f);//130f + 130f * P.sin(P.PI + P.TWO_PI * percentComplete));
 		destBuffer.shader(pointsTexturedShader);
 		destBuffer.shape(shape);

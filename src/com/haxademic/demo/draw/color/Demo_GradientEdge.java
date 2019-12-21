@@ -6,6 +6,7 @@ import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.color.Gradients;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.image.ImageUtil;
+import com.haxademic.core.hardware.mouse.Mouse;
 import com.haxademic.core.media.DemoAssets;
 
 import processing.core.PGraphics;
@@ -46,7 +47,7 @@ extends PAppletHax {
 		PG.setDrawCenter(p);
 		
 		// draw
-		p.rotate(P.map(p.mousePercentY(), 0, 1, P.PI, -P.PI));
+		p.rotate(P.map(Mouse.yNorm, 0, 1, P.PI, -P.PI));
 		p.image(fadeEdge, 0, 0, 
 				fadeEdge.width * (0.5f + 0.2f * P.sin(p.frameCount * 0.01f)),
 				fadeEdge.height * (0.5f + 0.2f * P.sin(p.frameCount * 0.015f))

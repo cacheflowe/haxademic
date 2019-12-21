@@ -38,8 +38,8 @@ implements ISequencerPattern {
 		
 		// mouse control debug
 		/**
-		noiseSpeed = P.p.mousePercentX() * 20f;
-		noiseStart = P.p.mousePercentY() * 1000;
+		noiseSpeed = Mouse.xNorm * 20f;
+		noiseStart = Mouse.yNorm * 1000;
 		P.p.debugView.setValue("noiseSpeed", noiseSpeed);
 		P.p.debugView.setValue("noiseStart", noiseStart);
 		*/

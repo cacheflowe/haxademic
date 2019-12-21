@@ -73,7 +73,7 @@ implements IWebCamCallback {
 		// recorder.drawDebug(p.g);	// kills the rest of the drawing
 		
 		// slitscanShader
-		slitscanShader.set("lerpAmp", 0.3f); // p.mousePercentX()
+		slitscanShader.set("lerpAmp", 0.3f); // Mouse.xNorm
 		slitscanShader.set("map", noiseBuffer);
 		for (int i = 0; i < numFrames; i++) {
 //			slitscanShader.set("frame_"+((i + recorder.frameIndex()) % numFrames), recorder.images()[i]);		// scary mode

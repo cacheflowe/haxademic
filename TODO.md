@@ -2,7 +2,6 @@
 
 ## Modularize PAppletHax
 
-* Mouse
 * DepthCamera like AudioIn
 * Rendering objects (video/audio/midi/joons)
 * Inputs - more thoughts on InputTrigger below
@@ -11,6 +10,11 @@
 * SecondScreenViewer
 * DMXUniverse
 * Properties
+
+* Completed:
+  * Webcam
+  * AudioIn
+  * Mouse
 
 ## InputTrigger revamp
 

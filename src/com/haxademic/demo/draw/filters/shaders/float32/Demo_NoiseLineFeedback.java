@@ -88,7 +88,7 @@ extends PAppletHax {
 //		    shader32.uniformTexture("texture", feedbackTexture32);
 //		    shader32.uniformTexture("overlay", bufferCopy32);
 //		    shader32.uniformTexture("map", textureNoise);
-//		    shader32.uniform1f("amp", 0.0001f + 0.01f * p.mousePercentX());
+//		    shader32.uniform1f("amp", 0.0001f + 0.01f * Mouse.xNorm);
 //		    shader32.uniform2f("resolution", buffer8.width, buffer8.height);
 //		    shader32.drawFullScreenQuad();
 //		    shader32.end();	  

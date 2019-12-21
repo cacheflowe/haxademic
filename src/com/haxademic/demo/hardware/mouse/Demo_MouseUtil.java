@@ -3,7 +3,7 @@ package com.haxademic.demo.hardware.mouse;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.hardware.mouse.MouseUtil;
+import com.haxademic.core.hardware.mouse.Mouse;
 import com.haxademic.core.system.AppUtil;
 
 public class Demo_MouseUtil
@@ -41,8 +41,8 @@ extends PAppletHax {
 		// click mouse & move
 		if(p.frameCount % 180 == 0) {
 			p.noCursor();
-			MouseUtil.mouseClickAt(300, 300);
-			MouseUtil.movePointerTo(99999, 0);
+			Mouse.mouseClickAt(300, 300);
+			Mouse.movePointerTo(99999, 0);
 		}
 	}
 

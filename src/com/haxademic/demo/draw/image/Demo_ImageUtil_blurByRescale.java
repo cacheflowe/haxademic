@@ -4,6 +4,7 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.filters.pshader.BlurHFilter;
 import com.haxademic.core.draw.filters.pshader.BlurVFilter;
 import com.haxademic.core.draw.image.ImageUtil;
+import com.haxademic.core.hardware.mouse.Mouse;
 import com.haxademic.core.media.DemoAssets;
 
 public class Demo_ImageUtil_blurByRescale 
@@ -22,12 +23,12 @@ extends PAppletHax {
 //		pg.image(DemoAssets.textureJupiter(), 0, 0);
 		ImageUtil.drawImageCropFill(DemoAssets.textureJupiter(), pg, true);
 		pg.endDraw();
-		ImageUtil.blurByRescale(pg, p.mousePercentX());
+		ImageUtil.blurByRescale(pg, Mouse.xNorm);
 
 		// extra blur to smooth edges
-		BlurHFilter.instance(p).setBlurByPercent(p.mousePercentY() * 2f, pg.width);
+		BlurHFilter.instance(p).setBlurByPercent(Mouse.yNorm * 2f, pg.width);
 		BlurHFilter.instance(p).applyTo(pg);
-		BlurVFilter.instance(p).setBlurByPercent(p.mousePercentY() * 2f, pg.height);
+		BlurVFilter.instance(p).setBlurByPercent(Mouse.yNorm * 2f, pg.height);
 		BlurVFilter.instance(p).applyTo(pg);
 		
 		p.image(pg, 0, 0);

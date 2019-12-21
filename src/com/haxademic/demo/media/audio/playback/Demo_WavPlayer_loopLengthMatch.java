@@ -2,6 +2,7 @@ package com.haxademic.demo.media.audio.playback;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.hardware.mouse.Mouse;
 import com.haxademic.core.media.audio.analysis.AudioIn;
 import com.haxademic.core.media.audio.analysis.AudioInputBeads;
 import com.haxademic.core.media.audio.interphase.Metronome;
@@ -40,9 +41,9 @@ extends PAppletHax {
 		
 		
 		// adjust audio loops' volume & pitch 
-		if(p.mousePercentX() > 0.5f) {
+		if(Mouse.xNorm > 0.5f) {
 			// match beat 2 to beat 1
-			float bpm = 10f + p.mousePercentY() * 200f;
+			float bpm = 10f + Mouse.yNorm * 200f;
 			Metronome.shiftPitchToMatchBpm(player, beat1, bpm, 4);
 			Metronome.shiftPitchToMatchBpm(player, beat2, bpm, 4);
 		}

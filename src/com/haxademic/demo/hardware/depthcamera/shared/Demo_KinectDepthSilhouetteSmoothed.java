@@ -5,6 +5,7 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.hardware.depthcamera.KinectDepthSilhouetteSmoothed;
+import com.haxademic.core.hardware.mouse.Mouse;
 
 
 public class Demo_KinectDepthSilhouetteSmoothed 
@@ -34,7 +35,7 @@ extends PAppletHax {
 	public void drawApp() {
 		p.background(0);
 
-		KinectDepthSilhouetteSmoothed.KINECT_FAR = 600 + P.round(2000 * p.mousePercentX());
+		KinectDepthSilhouetteSmoothed.KINECT_FAR = 600 + P.round(2000 * Mouse.xNorm);
 		KinectDepthSilhouetteSmoothed.KINECT_NEAR = 500;
 
 		kinectSilhouetteSmoothed.update();

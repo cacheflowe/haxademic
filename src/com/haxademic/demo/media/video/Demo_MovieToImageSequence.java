@@ -3,6 +3,7 @@ package com.haxademic.demo.media.video;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.image.ImageSequenceMovieClip;
+import com.haxademic.core.hardware.mouse.Mouse;
 import com.haxademic.core.media.DemoAssets;
 import com.haxademic.core.media.video.MovieToImageSequence;
 
@@ -43,7 +44,7 @@ extends PAppletHax {
 		// show looped movieclip after capture
 		if(movieClip != null) {
 			movieClip.update();
-			movieClip.setFrameByProgress(p.mousePercentX() * 4f);
+			movieClip.setFrameByProgress(Mouse.xNorm * 4f);
 			p.image(movieClip.image(), 700, 0);
 		}
 	}

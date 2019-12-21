@@ -3,6 +3,7 @@ package com.haxademic.demo.math;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.context.PG;
+import com.haxademic.core.hardware.mouse.Mouse;
 
 public class Demo_Arcsine
 extends PAppletHax {
@@ -31,7 +32,7 @@ extends PAppletHax {
 		}
 	
 		// show radius for y using arc sine
-		float yMouse = (-1 + 2f * p.mousePercentY());
+		float yMouse = (-1 + 2f * Mouse.yNorm);
 		float xMouse = P.cos(P.asin(yMouse));
 		p.fill(0, 255, 0);
 		p.ellipse(xMouse * radius, yMouse * radius, 15, 15);

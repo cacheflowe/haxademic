@@ -58,7 +58,7 @@ implements IWebCamCallback {
 
 		// apply feedback texture to main buffer
 		float audioIn = AudioIn.audioFreq(100) * 0.01f;
-		int feedbackCycles = P.round(audioIn); // P.round(p.mousePercentX() * 10f)
+		int feedbackCycles = P.round(audioIn); // P.round(Mouse.xNorm * 10f)
 		feedbackCycles = 10;
 		p.debugView.setValue("audioIn", audioIn);
 		FeedbackMapFilter.instance(P.p).setMap(feedbackMap);

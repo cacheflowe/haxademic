@@ -36,7 +36,7 @@ extends BaseTexture {
 		_texture.ortho();
 		
 		// hexagon tilt
-		_texture.rotateZ(P.PI * 0.25f); // p.mousePercentY()
+		_texture.rotateZ(P.PI * 0.25f); // Mouse.yNorm
 
 		speed.update(true);
 		frames += speed.value();

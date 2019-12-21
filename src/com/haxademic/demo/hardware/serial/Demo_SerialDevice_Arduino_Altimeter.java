@@ -38,6 +38,8 @@ implements ISerialDeviceDelegate {
 		p.stroke(127);
 		p.strokeWeight(5);
 		p.rect(p.frameCount % p.width, p.height * 0.5f, 100, 100);
+		
+		serialDevice.write(0);
 	}
 	
 

@@ -3,6 +3,7 @@ package com.haxademic.demo.hardware.dmx;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.hardware.dmx.DMXFixture;
 import com.haxademic.core.hardware.dmx.DMXUniverse;
+import com.haxademic.core.hardware.mouse.Mouse;
 
 public class Demo_DmxFixture
 extends PAppletHax {
@@ -17,7 +18,7 @@ extends PAppletHax {
 	}
 
 	public void drawApp() {
-		fixture.color().setTargetRGBANormalized(p.mousePercentX(), p.mousePercentY(), p.mousePercentX(), 1);
+		fixture.color().setTargetRGBANormalized(Mouse.xNorm, Mouse.yNorm, Mouse.xNorm, 1);
 		background(fixture.color().colorInt());
 	}
 }

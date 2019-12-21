@@ -83,7 +83,7 @@ extends PAppletHax {
 		//////////////////////
 		
 		float wingOsc = p.loop.progressRads() * 12f;
-		float wingRot = 0.7f + 0.6f * P.sin(wingOsc); // p.mousePercentX();
+		float wingRot = 0.7f + 0.6f * P.sin(wingOsc); // Mouse.xNorm;
 		// wingRot = p._audioInput.getFFT().spectrum[4] * 10f;
 		p.translate(0, 0, P.sin(P.HALF_PI + wingOsc) * p.height * 0.015f);	// bob up/down
 		
