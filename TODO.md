@@ -3,9 +3,8 @@
 ## Modularize PAppletHax
 
 * UIControlPanel
-	* Add MIDI CC to UISliders
 	* Add setters on UISliders
-	* Add UIToggle new component
+	* Add UIToggle new component? Or just make a mask function to populate a slider? Probably!
 * Inputs - more thoughts on InputTrigger below
 	* Make a base storage for different data types?
 		* Toggle values
