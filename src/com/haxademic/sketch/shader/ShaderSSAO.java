@@ -62,7 +62,7 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.HEIGHT, 600 );
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, false );
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, (int)_frames );
-		p.appConfig.setProperty( AppSettings.SHOW_SLIDERS, true );
+		p.appConfig.setProperty( AppSettings.SHOW_UI, true );
 	}
 
 	public void setupFirstFrame() {

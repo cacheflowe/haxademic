@@ -158,7 +158,7 @@ extends PApplet {
 			addKeyCommandInfo();
 		}
 		ui = new UIControlPanel();
-		if(p.appConfig.getBoolean(AppSettings.SHOW_SLIDERS, false) == true) {
+		if(p.appConfig.getBoolean(AppSettings.SHOW_UI, false) == true) {
 			ui.active(!ui.active());
 		}
 	}
@@ -370,7 +370,6 @@ extends PApplet {
 		if( joons != null ) joons.endFrame( p.appConfig.getBoolean(AppSettings.SUNFLOW_SAVE_IMAGES, false) == true );
 		p.popMatrix();
 		renderFrame();
-		keyboardState.update();
 		gamepadState.update();
 		if(oscState != null) oscState.update();
 //		if(dmxUniverse != null) dmxUniverse.update();

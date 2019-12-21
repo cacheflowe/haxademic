@@ -22,7 +22,7 @@ extends PAppletHax {
 	protected int FRAMES = 180;
 
 	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.SHOW_SLIDERS, true);
+		p.appConfig.setProperty( AppSettings.SHOW_UI, true);
 		p.appConfig.setProperty( AppSettings.LOOP_FRAMES, FRAMES);
 		p.appConfig.setProperty(AppSettings.RENDERING_MOVIE, false );
 		p.appConfig.setProperty(AppSettings.RENDERING_MOVIE_START_FRAME, 1 + FRAMES * 2);

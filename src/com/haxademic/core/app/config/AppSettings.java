@@ -68,6 +68,6 @@ public class AppSettings {
 	public static final String APP_VIEWER_WINDOW = "app_viewer";
 	public static final String APP_VIEWER_SCALE = "app_viewer_scale";
 	public static final String SHOW_DEBUG = "show_stats";
-	public static final String SHOW_SLIDERS = "show_sliders";
+	public static final String SHOW_UI = "show_ui";
 	public static final String SHOW_FPS_IN_TITLE = "show_fps_in_title";
 }

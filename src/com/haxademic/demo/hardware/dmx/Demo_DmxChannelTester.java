@@ -41,7 +41,7 @@ extends PAppletHax {
 	protected String MANUAL_BRIGHTNESS = "MANUAL_BRIGHTNESS";
 	
 	protected void overridePropsFile() {
-		p.appConfig.setProperty(AppSettings.SHOW_SLIDERS, true );
+		p.appConfig.setProperty(AppSettings.SHOW_UI, true );
 //		p.appConfig.setProperty(AppSettings.INIT_ESS_AUDIO, false );
 	}
 

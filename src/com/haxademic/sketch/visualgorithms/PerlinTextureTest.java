@@ -16,7 +16,7 @@ extends PAppletHax {
 	protected String yProgress = "yProgress";
 
 	protected void overridePropsFile() {
-		p.appConfig.setProperty(AppSettings.SHOW_SLIDERS, true);
+		p.appConfig.setProperty(AppSettings.SHOW_UI, true);
 	}
 
 	public void setupFirstFrame() {

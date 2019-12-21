@@ -27,7 +27,7 @@ extends PAppletHax {
 	protected String BLUR_STEPS = "BLUR_STEPS";
 	
 	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.SHOW_SLIDERS, true );
+		p.appConfig.setProperty( AppSettings.SHOW_UI, true );
 	}
 	
 	protected void setupFirstFrame() {

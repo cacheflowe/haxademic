@@ -35,7 +35,7 @@ extends PAppletHax {
 	protected void overridePropsFile() {
 //		p.appConfig.setProperty( AppSettings.KINECT_V2_WIN_ACTIVE, true );
 		p.appConfig.setProperty( AppSettings.KINECT_ACTIVE, true );
-		p.appConfig.setProperty(AppSettings.SHOW_SLIDERS, true);
+		p.appConfig.setProperty(AppSettings.SHOW_UI, true);
 	}
 	
 	public void setupFirstFrame() {

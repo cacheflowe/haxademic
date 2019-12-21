@@ -40,7 +40,7 @@ extends PAppletHax {
 	protected void overridePropsFile() {
 		p.appConfig.setProperty(AppSettings.WIDTH, 960 );
 		p.appConfig.setProperty(AppSettings.HEIGHT, 960 );
-		p.appConfig.setProperty(AppSettings.SHOW_SLIDERS, true );
+		p.appConfig.setProperty(AppSettings.SHOW_UI, true );
 		p.appConfig.setProperty(AppSettings.SHOW_DEBUG, false );
 		p.appConfig.setProperty(AppSettings.SHOW_FPS_IN_TITLE, true );
 	}

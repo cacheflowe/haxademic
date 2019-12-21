@@ -58,7 +58,7 @@ extends PAppletHax {
 
 	
 	protected void overridePropsFile() {
-		p.appConfig.setProperty(AppSettings.SHOW_SLIDERS, false);
+		p.appConfig.setProperty(AppSettings.SHOW_UI, false);
 		p.appConfig.setProperty(AppSettings.LOOP_FRAMES, FRAMES);
 		p.appConfig.setProperty(AppSettings.WIDTH, 1024);
 		p.appConfig.setProperty(AppSettings.HEIGHT, 1024);

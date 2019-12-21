@@ -86,7 +86,7 @@ extends PAppletHax {
 		p.appConfig.setProperty(AppSettings.WIDTH, 1920);
 		p.appConfig.setProperty(AppSettings.HEIGHT, 1080);
 		p.appConfig.setProperty(AppSettings.LOOP_FRAMES, 2000);
-		p.appConfig.setProperty(AppSettings.SHOW_SLIDERS, true);
+		p.appConfig.setProperty(AppSettings.SHOW_UI, true);
 		p.appConfig.setProperty(AppSettings.FULLSCREEN, true);
 		p.appConfig.setProperty(AppSettings.ALWAYS_ON_TOP, false);
 	}

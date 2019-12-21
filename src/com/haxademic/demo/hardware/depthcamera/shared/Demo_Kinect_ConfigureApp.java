@@ -29,7 +29,7 @@ extends PAppletHax {
 //		p.appConfig.setProperty( AppSettings.KINECT_ACTIVE, true );
 		p.appConfig.setProperty( AppSettings.REALSENSE_ACTIVE, true );
 		p.appConfig.setProperty( AppSettings.DEPTH_CAM_RGB_ACTIVE, false );
-		p.appConfig.setProperty(AppSettings.SHOW_SLIDERS, true);
+		p.appConfig.setProperty(AppSettings.SHOW_UI, true);
 	}
 	
 	public void setupFirstFrame() {

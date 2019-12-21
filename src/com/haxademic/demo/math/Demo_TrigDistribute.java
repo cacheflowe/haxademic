@@ -15,7 +15,7 @@ extends PAppletHax {
 	protected String connectionDivisions = "connectionDivisions";
 	
 	protected void overridePropsFile() {
-		p.appConfig.setProperty(AppSettings.SHOW_SLIDERS, true);
+		p.appConfig.setProperty(AppSettings.SHOW_UI, true);
 	}
 
 	public void setupFirstFrame() {

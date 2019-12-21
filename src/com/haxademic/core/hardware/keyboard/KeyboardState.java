@@ -3,6 +3,7 @@ package com.haxademic.core.hardware.keyboard;
 import java.util.HashMap;
 
 import com.haxademic.core.app.P;
+import com.haxademic.core.data.constants.PRegisterableMethods;
 import com.haxademic.core.hardware.shared.InputState;
 
 import processing.event.KeyEvent;
@@ -14,14 +15,15 @@ public class KeyboardState {
 	protected int lastUpdatedFrame = 0;
 
 	public KeyboardState() {
+		P.p.registerMethod(PRegisterableMethods.pre, this);
 	}
 	
 	///////////////////////////////
 	// AUTO-SWITCH `TRIGGER` TO `ON`
 	///////////////////////////////
 		
-	public void update() {
-		if(P.p.frameCount == lastUpdatedFrame) return; 
+	public void pre() {
+//		if(P.p.frameCount == lastUpdatedFrame) return; 
 		for (Integer key : keyboardButtons.keySet()) {
 			if(keyboardButtons.get(key) == InputState.TRIGGER) keyboardButtons.put(key, InputState.ON);
 		}

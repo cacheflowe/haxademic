@@ -2,14 +2,29 @@
 
 ## Modularize PAppletHax
 
+* Reaction/Diffusion
+	* Make a version of Blur & Sharpen that use a map for amplitude 
+	* Radial feedback added to shader stack 
+* UIControlPanel
+	* Add MIDI CC to UISliders
+	* Add setters on UISliders
+	* Add UIToggle new component
+* Inputs - more thoughts on InputTrigger below
+	* Make a base storage for different data types?
+		* Toggle values
+		* Range values
+		* String values
+	* Rework inputTrigger storage
+		* Remove P.p. global objects - convert to singletons
+		* Use a hash of input state that any of the objects can update via a shared key??
+			* Use AppStore here?
+			* Or InputStore?
 * DepthCamera like AudioIn
 * Rendering objects (video/audio/midi/joons)
-* Inputs - more thoughts on InputTrigger below
 * DebugView
-* UIControlPanel
 * SecondScreenViewer
 * DMXUniverse
-* Properties
+* Properties (rename to Config?)
 
 * Completed:
   * Webcam

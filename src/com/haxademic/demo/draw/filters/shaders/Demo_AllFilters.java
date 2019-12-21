@@ -69,6 +69,7 @@ import com.haxademic.core.draw.filters.pshader.RotateFilter;
 import com.haxademic.core.draw.filters.pshader.SaturateHSVFilter;
 import com.haxademic.core.draw.filters.pshader.SaturationFilter;
 import com.haxademic.core.draw.filters.pshader.SharpenFilter;
+import com.haxademic.core.draw.filters.pshader.SharpenMapFilter;
 import com.haxademic.core.draw.filters.pshader.SphereDistortionFilter;
 import com.haxademic.core.draw.filters.pshader.ThresholdFilter;
 import com.haxademic.core.draw.filters.pshader.VignetteAltFilter;
@@ -81,6 +82,7 @@ import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.mouse.Mouse;
 import com.haxademic.core.hardware.shared.InputTrigger;
 import com.haxademic.core.media.DemoAssets;
+import com.haxademic.core.system.SystemUtil;
 
 import processing.core.PGraphics;
 import processing.opengl.PShader;
@@ -121,6 +123,7 @@ extends PAppletHax { public static void main(String args[]) { arguments = args; 
 		
 		filters = new BaseFragmentShader[] {
 				PixelateHexFilter.instance(p),
+				SharpenMapFilter.instance(p),
 			AlphaStepFilter.instance(p),
 			BadTVGlitchFilter.instance(p),
 			BadTVLinesFilter.instance(p),
@@ -185,6 +188,7 @@ extends PAppletHax { public static void main(String args[]) { arguments = args; 
 			SaturateHSVFilter.instance(p),
 			SaturationFilter.instance(p),
 			SharpenFilter.instance(p),
+			SharpenMapFilter.instance(p),
 			SphereDistortionFilter.instance(p),
 			ThresholdFilter.instance(p),
 			VignetteAltFilter.instance(p),
@@ -536,6 +540,10 @@ extends PAppletHax { public static void main(String args[]) { arguments = args; 
 		} else if(curFilter == SharpenFilter.instance(p)) {
 			SharpenFilter.instance(p).setSharpness(Mouse.xNorm * 10f);
 			SharpenFilter.instance(p).applyTo(pg);
+		} else if(curFilter == SharpenMapFilter.instance(p)) {
+			SharpenMapFilter.instance(p).setMap(noiseBuffer);
+			SharpenMapFilter.instance(p).setSharpness(Mouse.xNorm * 10f);
+			SharpenMapFilter.instance(p).applyTo(pg);
 		} else if(curFilter == SphereDistortionFilter.instance(p)) {
 			SphereDistortionFilter.instance(p).setAmplitude(P.map(p.mouseX, 0, p.width, -20f, 20f));
 			SphereDistortionFilter.instance(p).applyTo(pg);
@@ -584,6 +592,13 @@ extends PAppletHax { public static void main(String args[]) { arguments = args; 
 		p.textFont(DemoAssets.fontRaleway(20));
 		filterName = curFilter.getClass().getSimpleName();
 		p.text(filterName, 20, p.height - 30);
+	}
+
+	public void keyPressed() {
+		super.keyPressed();
+		int numEffects = filters.length;
+		if(p.key == '1') filterIndex = (filterIndex > 0) ? filterIndex - 1 : numEffects - 1;
+		if(p.key == '2') filterIndex = (filterIndex < numEffects - 1) ? filterIndex + 1 : 0;
 	}
 
 }

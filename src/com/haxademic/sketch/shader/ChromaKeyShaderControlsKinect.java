@@ -31,7 +31,7 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.KINECT_ACTIVE, "true" );
 		p.appConfig.setProperty( AppSettings.WIDTH, "640" );
 		p.appConfig.setProperty( AppSettings.HEIGHT, "480" );
-		p.appConfig.setProperty( AppSettings.SHOW_SLIDERS, true );
+		p.appConfig.setProperty( AppSettings.SHOW_UI, true );
 	}
 	
 	public void setupFirstFrame() {

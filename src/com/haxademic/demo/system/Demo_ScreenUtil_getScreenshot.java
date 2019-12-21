@@ -18,7 +18,7 @@ extends PAppletHax {
 	protected void overridePropsFile() {
 		p.appConfig.setProperty( AppSettings.WIDTH, 800 );
 		p.appConfig.setProperty( AppSettings.HEIGHT, 600 );
-		p.appConfig.setProperty( AppSettings.SHOW_SLIDERS, true );
+		p.appConfig.setProperty( AppSettings.SHOW_UI, true );
 	}
 
 	public void setupFirstFrame() {

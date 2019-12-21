@@ -19,7 +19,7 @@ extends PAppletHax {
 
 	protected void overridePropsFile() {
 		p.appConfig.setProperty( AppSettings.APP_NAME, "Demo_EasingFloat" );
-		p.appConfig.setProperty( AppSettings.SHOW_SLIDERS, true );
+		p.appConfig.setProperty( AppSettings.SHOW_UI, true );
 	}
 
 	public void setupFirstFrame() {
