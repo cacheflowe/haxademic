@@ -8,6 +8,7 @@ import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.file.FileUtil;
+import com.haxademic.core.hardware.midi.MidiDevice;
 import com.haxademic.core.hardware.midi.devices.LaunchControl;
 import com.haxademic.core.hardware.shared.InputTrigger;
 import com.haxademic.core.math.MathUtil;
@@ -95,7 +96,6 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.HEIGHT, 800 );
 		p.appConfig.setProperty( AppSettings.WIDTH, 1920 );
 		p.appConfig.setProperty( AppSettings.HEIGHT, 1080 );
-		p.appConfig.setProperty( AppSettings.MIDI_DEVICE_IN_INDEX, 0 );
 		p.appConfig.setProperty( AppSettings.FILLS_SCREEN, false );
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, RENDERING );
 		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE_START_FRAME, 1 + FRAMES );
@@ -103,6 +103,7 @@ extends PAppletHax {
 	}
 	
 	public void setupFirstFrame() {
+		MidiDevice.init(0, 0);
 		server = new WebServer(new UIControlsHandler(), false);
 		if(PRenderers.currentRenderer() == PRenderers.PDF) shouldRecord = true;
 		

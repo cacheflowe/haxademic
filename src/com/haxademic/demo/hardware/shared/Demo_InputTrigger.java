@@ -3,8 +3,10 @@ package com.haxademic.demo.hardware.shared;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.hardware.keyboard.Keyboard;
+import com.haxademic.core.hardware.keyboard.KeyCodes;
 import com.haxademic.core.hardware.keyboard.KeyboardState;
+import com.haxademic.core.hardware.midi.MidiDevice;
+import com.haxademic.core.hardware.midi.MidiState;
 import com.haxademic.core.hardware.midi.devices.LaunchControl;
 import com.haxademic.core.hardware.shared.InputTrigger;
 import com.haxademic.core.net.UIControlsHandler;
@@ -22,22 +24,22 @@ extends PAppletHax {
 														 .addWebControls(new String[]{"button1", "slider1", "slider2"})
 														 .addGamepadControls(new String[]{"Button 2"});
 
-	protected int triggerKey = Keyboard.keyCodeFromChar('c');
+	protected int triggerKey = KeyCodes.keyCodeFromChar('c');
 	
 	protected void overridePropsFile() {
-		p.appConfig.setProperty(AppSettings.MIDI_DEVICE_IN_INDEX, 0 );
 		p.appConfig.setProperty(AppSettings.OSC_ACTIVE, true );
 		p.appConfig.setProperty(AppSettings.GAMEPADS_ACTIVE, true );
 	}
 	
 	
 	public void setupFirstFrame() {
+		MidiDevice.init(0, 0);
 		server = new WebServer(new UIControlsHandler(), true);
 	}
 	
 	public void drawApp() {
 		// show triggering - TODO: add CC changes to trigger
-		if(KeyboardState.instance().isKeyOn(triggerKey) || p.midiState.isMidiButtonOn(LaunchControl.PAD_01) || p.oscState.isValueOn("/toggleC_2")) P.println("trigger 1"); 
+		if(KeyboardState.instance().isKeyOn(triggerKey) || MidiState.instance().isMidiButtonOn(LaunchControl.PAD_01) || p.oscState.isValueOn("/toggleC_2")) P.println("trigger 1"); 
 		if(trigger.triggered()) P.println("trigger 2");
 		if(trigger.on()) {
 			p.background(0, 255, 255f * p.oscState.getValue("/1/faderC"));
@@ -47,8 +49,8 @@ extends PAppletHax {
 		
 		// debug print maps
 		KeyboardState.instance().printKeys();
-		p.midiState.printButtons();
-		p.midiState.printCC();
+		MidiState.instance().printButtons();
+		MidiState.instance().printCC();
 		p.oscState.printButtons();
 		p.browserInputState.printButtons();
 		p.gamepadState.printControls();

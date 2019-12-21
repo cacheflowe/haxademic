@@ -7,14 +7,15 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.color.EasingColor;
 import com.haxademic.core.draw.color.Gradients;
-import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.context.OpenGLUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.BlurHFilter;
 import com.haxademic.core.draw.filters.pshader.BlurVFilter;
 import com.haxademic.core.draw.filters.pshader.SaturationFilter;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.depthcamera.KinectSilhouetteVectorField;
+import com.haxademic.core.hardware.midi.MidiState;
 import com.haxademic.core.math.MathUtil;
 
 import processing.core.PGraphics;
@@ -238,7 +239,7 @@ extends PAppletHax {
 	
 	protected void setShaderValues() {
 		int halftoneKnob = 47;
-		if(p.midiState.midiCCPercent(0, halftoneKnob) != 0) {
+		if(MidiState.instance().midiCCPercent(0, halftoneKnob) != 0) {
 //			_halftone.set("scale", p.midi.midiCCPercent(0, halftoneKnob) * 5f);
 		}
 	}

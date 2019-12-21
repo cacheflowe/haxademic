@@ -4,6 +4,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.InvertFilter;
+import com.haxademic.core.hardware.midi.MidiState;
 import com.haxademic.core.hardware.midi.devices.LaunchPad;
 import com.haxademic.core.hardware.midi.devices.LaunchPad.ILaunchpadCallback;
 
@@ -47,8 +48,8 @@ implements ILaunchpadCallback {
 		p.image(pg, 0, 0);
 		
 		// print debug
-		p.midiState.printButtons();
-		p.midiState.printCC();
+		MidiState.instance().printButtons();
+		MidiState.instance().printCC();
 	}
 
 	//////////////////////////////

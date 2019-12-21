@@ -38,6 +38,7 @@ import com.haxademic.core.draw.textures.pgraphics.TextureKinectFacePlayback;
 import com.haxademic.core.draw.textures.pgraphics.TextureKinectFaceRecording;
 import com.haxademic.core.draw.textures.pgraphics.TextureVideoPlayer;
 import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
+import com.haxademic.core.hardware.midi.MidiState;
 import com.haxademic.core.hardware.midi.devices.AbletonNotes;
 import com.haxademic.core.hardware.midi.devices.AkaiMpdPads;
 import com.haxademic.core.hardware.midi.devices.LaunchControl;
@@ -550,8 +551,8 @@ extends PAppletHax {
 	protected void postProcessFilters() {
 		// brightness
 		float brightMult = 2.8f;
-		if(p.frameCount < 3) p.midiState.controllerChange(3, 41, P.round(127f/brightMult));	// default to 1.0, essentially, with room to get up to 2.8f
-		float brightnessVal = p.midiState.midiCCPercent(3, 41) * brightMult;
+		if(p.frameCount < 3) MidiState.instance().controllerChange(3, 41, P.round(127f/brightMult));	// default to 1.0, essentially, with room to get up to 2.8f
+		float brightnessVal = MidiState.instance().midiCCPercent(3, 41) * brightMult;
 		BrightnessFilter.instance(p).setBrightness(brightnessVal);
 		BrightnessFilter.instance(p).applyTo(p);
 		
@@ -559,8 +560,8 @@ extends PAppletHax {
 //		SaturationFilter.instance(p).applyTo(p);
 		
 		float contrastMult = 2.5f;
-		if(p.frameCount < 3) p.midiState.controllerChange(3, 44, P.round(127f/contrastMult));	// default to 1.0, essentially, with room to get up to 2.8f
-		float contrastVal = p.midiState.midiCCPercent(3, 44) * contrastMult;
+		if(p.frameCount < 3) MidiState.instance().controllerChange(3, 44, P.round(127f/contrastMult));	// default to 1.0, essentially, with room to get up to 2.8f
+		float contrastVal = MidiState.instance().midiCCPercent(3, 44) * contrastMult;
 		ContrastFilter.instance(p).setContrast(contrastVal);
 		ContrastFilter.instance(p).applyTo(p);
 
@@ -580,13 +581,13 @@ extends PAppletHax {
 		float distFrames = 100f;
 		if(distAutoFrame <= distFrames) {
 			float distAmpAuto = P.sin(distAutoFrame/distFrames * P.PI);
-			p.midiState.controllerChange(3, 42, P.round(127 * distAmpAuto));
-			p.midiState.controllerChange(3, 43, P.round(127 * distAmpAuto));
+			MidiState.instance().controllerChange(3, 42, P.round(127 * distAmpAuto));
+			MidiState.instance().controllerChange(3, 43, P.round(127 * distAmpAuto));
 		}
 		
 		// color distortion
-		float colorDistortionAmp = p.midiState.midiCCPercent(3, 42) * 0.5f;
-		float colorDistortionTimeMult = p.midiState.midiCCPercent(3, 43);
+		float colorDistortionAmp = MidiState.instance().midiCCPercent(3, 42) * 0.5f;
+		float colorDistortionTimeMult = MidiState.instance().midiCCPercent(3, 43);
 		if(colorDistortionAmp > 0) {
 			float prevTime = ColorDistortionFilter.instance(p).getTime();
 			ColorDistortionFilter.instance(p).setTime(prevTime + 1/100f * colorDistortionTimeMult);
@@ -672,8 +673,8 @@ extends PAppletHax {
 			if(MathUtil.randBoolean() == true) setAllSameTexture();
 
 		}
-		if ( _brightnessUpTrigger.triggered() == true ) p.midiState.controllerChange(3, 41, Math.round(127f * p.midiState.midiCCPercent(3, 41) + 1));
-		if ( _brightnessDownTrigger.triggered() == true ) p.midiState.controllerChange(3, 41, Math.round(127f * p.midiState.midiCCPercent(3, 41) - 1));
+		if ( _brightnessUpTrigger.triggered() == true ) MidiState.instance().controllerChange(3, 41, Math.round(127f * MidiState.instance().midiCCPercent(3, 41) + 1));
+		if ( _brightnessDownTrigger.triggered() == true ) MidiState.instance().controllerChange(3, 41, Math.round(127f * MidiState.instance().midiCCPercent(3, 41) - 1));
 		if ( _debugTexturesTrigger.triggered() == true ) _debugTextures = !_debugTextures;
 	}
 	

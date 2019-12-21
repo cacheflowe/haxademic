@@ -4,6 +4,8 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.file.FileUtil;
+import com.haxademic.core.hardware.midi.MidiDevice;
+import com.haxademic.core.hardware.midi.MidiState;
 import com.haxademic.core.math.easing.EasingFloat;
 import com.haxademic.core.math.easing.Penner;
 
@@ -36,12 +38,10 @@ extends PAppletHax {
 		p.appConfig.setProperty( AppSettings.FILLS_SCREEN, true );
 		p.appConfig.setProperty( AppSettings.FULLSCREEN, false );
 		p.appConfig.setProperty( AppSettings.SMOOTHING, AppSettings.SMOOTH_NONE );
-		p.appConfig.setProperty( AppSettings.MIDI_DEVICE_IN_INDEX, 0 );
-		p.appConfig.setProperty( AppSettings.MIDI_DEBUG, true );
 	}
 
 	public void setupFirstFrame() {
-
+		MidiDevice.init(0,  0);
 	}
 
 	protected void buildCanvas() {
@@ -82,8 +82,8 @@ extends PAppletHax {
 	}
 
 	protected void panWithMidi() {
-		controlX = p.midiState.midiCCPercent(21);
-		controlY = p.midiState.midiCCPercent(22);
+		controlX = MidiState.instance().midiCCPercent(21);
+		controlY = MidiState.instance().midiCCPercent(22);
 	}
 	
 	protected void panImageToBuffers() {

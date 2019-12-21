@@ -4,6 +4,8 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.file.FileUtil;
+import com.haxademic.core.hardware.midi.MidiDevice;
+import com.haxademic.core.hardware.midi.MidiState;
 import com.haxademic.core.hardware.midi.devices.LaunchControl;
 import com.haxademic.core.media.audio.analysis.AudioStreamData;
 import com.haxademic.core.media.audio.playback.AudioPlayerMinim;
@@ -21,11 +23,12 @@ extends PAppletHax { public static void main(String args[]) { arguments = args; 
 	protected void overridePropsFile() {
 		p.appConfig.setProperty(AppSettings.WIDTH, 900);
 		p.appConfig.setProperty(AppSettings.HEIGHT, 600);
-		p.appConfig.setProperty(AppSettings.MIDI_DEVICE_IN_INDEX, 0 );
 	}
 	
 	public void setupFirstFrame() {
 		minim = new Minim(P.p);
+		
+		MidiDevice.init(0, 0);
 	
 		// oad samples
 		loops = new AudioPlayerMinim[] {
@@ -45,9 +48,6 @@ extends PAppletHax { public static void main(String args[]) { arguments = args; 
 				LaunchControl.KNOB_05,
 				LaunchControl.KNOB_06,
 		};
-		
-		// enable knobs if MIDI input active 
-		if(p.appConfig.getInt(AppSettings.MIDI_DEVICE_IN_INDEX, -1) == 0) midiActive = true;
 	}
 
 	public void keyPressed() {
@@ -64,21 +64,23 @@ extends PAppletHax { public static void main(String args[]) { arguments = args; 
 	protected void mapMidiKnobsToVolume() {
 		float vol = 1;
 		for(int i=0; i < knobs.length; i++) {
-			vol = p.midiState.midiCCPercent(knobs[i]);
-			loops[i].setVolume(vol);
-			loops[i].audioData().setGain(vol);
+			vol = MidiState.instance().midiCCPercent(knobs[i]);
+			if(vol > 0) {
+				loops[i].setVolume(vol);
+				loops[i].audioData().setGain(vol);
+			}
 		}
 	}
 	
 	protected void checkClipRelaunch() {
-		if(p.midiState.isMidiButtonTriggered(LaunchControl.PAD_01)) loops[0].start();
-		if(p.midiState.isMidiButtonTriggered(LaunchControl.PAD_02)) loops[1].start();
-		if(p.midiState.isMidiButtonTriggered(LaunchControl.PAD_03)) loops[2].start();
-		if(p.midiState.isMidiButtonTriggered(LaunchControl.PAD_04)) loops[3].start();
-		if(p.midiState.isMidiButtonTriggered(LaunchControl.PAD_05)) loops[4].start();
-		if(p.midiState.isMidiButtonTriggered(LaunchControl.PAD_06)) loops[5].start();
+		if(MidiState.instance().isMidiButtonTriggered(LaunchControl.PAD_01)) loops[0].start();
+		if(MidiState.instance().isMidiButtonTriggered(LaunchControl.PAD_02)) loops[1].start();
+		if(MidiState.instance().isMidiButtonTriggered(LaunchControl.PAD_03)) loops[2].start();
+		if(MidiState.instance().isMidiButtonTriggered(LaunchControl.PAD_04)) loops[3].start();
+		if(MidiState.instance().isMidiButtonTriggered(LaunchControl.PAD_05)) loops[4].start();
+		if(MidiState.instance().isMidiButtonTriggered(LaunchControl.PAD_06)) loops[5].start();
 		
-		if(p.midiState.isMidiButtonTriggered(LaunchControl.PAD_08)) relaunchAllLoops();
+		if(MidiState.instance().isMidiButtonTriggered(LaunchControl.PAD_08)) relaunchAllLoops();
 	}
 	
 	public void drawApp() {

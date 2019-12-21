@@ -1,8 +1,9 @@
 package com.haxademic.core.hardware.shared;
 
 import com.haxademic.core.app.P;
-import com.haxademic.core.hardware.keyboard.Keyboard;
+import com.haxademic.core.hardware.keyboard.KeyCodes;
 import com.haxademic.core.hardware.keyboard.KeyboardState;
+import com.haxademic.core.hardware.midi.MidiState;
 
 
 public class InputTrigger {
@@ -30,7 +31,7 @@ public class InputTrigger {
 	public InputTrigger( char[] charList, String[] oscMessages, Integer[] midiNotes ) {
 		if(charList != null) {
 			keyCodes = new Integer[charList.length];
-			for (int i = 0; i < charList.length; i++) keyCodes[i] = Keyboard.keyCodeFromChar(charList[i]);
+			for (int i = 0; i < charList.length; i++) keyCodes[i] = KeyCodes.keyCodeFromChar(charList[i]);
 		}
 		if(oscMessages != null) this.oscMessages = oscMessages;
 		if(midiNotes != null) this.midiNotes = midiNotes;
@@ -51,7 +52,7 @@ public class InputTrigger {
 	
 	public InputTrigger addKeyCodes(char[] charList) {
 		keyCodes = new Integer[charList.length];
-		for (int i = 0; i < charList.length; i++) keyCodes[i] = Keyboard.keyCodeFromChar(charList[i]);
+		for (int i = 0; i < charList.length; i++) keyCodes[i] = KeyCodes.keyCodeFromChar(charList[i]);
 		return this;
 	}
 	
@@ -106,8 +107,8 @@ public class InputTrigger {
 			}
 		}
 		for( int i=0; i < midiNotes.length; i++ ) {
-			if( P.p.midiState.isMidiButtonTriggered(midiNotes[i])) {
-				curValue = P.p.midiState.midiButtonValue(midiNotes[i]);
+			if( MidiState.instance().isMidiButtonTriggered(midiNotes[i])) {
+				curValue = MidiState.instance().midiButtonValue(midiNotes[i]);
 				return true;
 			}
 		}
@@ -118,14 +119,14 @@ public class InputTrigger {
 			}
 		}
 		for( int i=0; i < midiCC.length; i++ ) {
-			if( P.p.midiState.isMidiCCTriggered(midiCC[i])) {
-				curValue = P.p.midiState.midiCCPercent(0, midiCC[i]);
+			if( MidiState.instance().isMidiCCTriggered(midiCC[i])) {
+				curValue = MidiState.instance().midiCCPercent(0, midiCC[i]);
 				return true;
 			}
 		}
 		for( int i=0; i < midiCC.length; i++ ) {
-			if( P.p.midiState.isMidiCCTriggered(midiCC[i])) {
-				curValue = P.p.midiState.midiCCPercent(0, midiCC[i]);
+			if( MidiState.instance().isMidiCCTriggered(midiCC[i])) {
+				curValue = MidiState.instance().midiCCPercent(0, midiCC[i]);
 				return true;
 			}
 		}
@@ -145,7 +146,7 @@ public class InputTrigger {
 		}
 		if(midiNotes != null) {
 			for( int i=0; i < midiNotes.length; i++ ) {
-				if( P.p.midiState.isMidiButtonOn(midiNotes[i])) return true;
+				if( MidiState.instance().isMidiButtonOn(midiNotes[i])) return true;
 			}
 		}
 		if(webControls != null) {

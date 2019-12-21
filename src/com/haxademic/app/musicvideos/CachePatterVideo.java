@@ -12,6 +12,7 @@ import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.image.MotionBlurPGraphics;
 import com.haxademic.core.draw.shapes.Superformula;
 import com.haxademic.core.file.FileUtil;
+import com.haxademic.core.hardware.midi.MidiState;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.EasingFloat;
 import com.haxademic.core.math.easing.LinearFloat;
@@ -327,11 +328,9 @@ extends PAppletHax {
 	public void handleInputTriggers() {
 		// P.println(_midi._notesOn);
 		// handle midi file input
-		if( midiState != null ) {
-			if( midiState.isMidiButtonOn( 64 ) ) newTiming();
-			else if( midiState.isMidiButtonOn( 60 ) ) kick();
-			else if( midiState.isMidiButtonOn( 61 ) ) snare();
-		} 
+		if( MidiState.instance().isMidiButtonOn( 64 ) ) newTiming();
+		else if( MidiState.instance().isMidiButtonOn( 60 ) ) kick();
+		else if( MidiState.instance().isMidiButtonOn( 61 ) ) snare();
 	}
 
 	protected void newTiming() {

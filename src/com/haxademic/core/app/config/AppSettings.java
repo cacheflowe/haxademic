@@ -51,17 +51,15 @@ public class AppSettings {
 	public static final String SUNFLOW_QUALITY_LOW = "____";
 	public static final String SUNFLOW_QUALITY_HIGH = "high";
 	public static final String SUNFLOW_SAVE_IMAGES = "sunflow_save_images";
-	// Input
-	public static final String DISABLE_ESC_KEY = "disable_esc";
+	// depth cams
 	public static final String KINECT_ACTIVE = "kinect_active";
 	public static final String KINECT_V2_WIN_ACTIVE = "kinect_v2_win_active";
 	public static final String KINECT_V2_MAC_ACTIVE = "kinect_v2_mac_active";
 	public static final String REALSENSE_ACTIVE = "realsense_active";
 	public static final String DEPTH_CAM_RGB_ACTIVE = "depth_camera_rgb_active";
 	public static final String DEPTH_CAM_DEPTH_ACTIVE = "depth_camera_depth_active";
-	public static final String MIDI_DEVICE_IN_INDEX = "midi_device_in_index";
-	public static final String MIDI_DEVICE_OUT_INDEX = "midi_device_out_index";
-	public static final String MIDI_DEBUG = "midi_debug";
+	// input
+	public static final String DISABLE_ESC_KEY = "disable_esc";
 	public static final String OSC_ACTIVE = "osc_active";
 	public static final String GAMEPADS_ACTIVE = "gamepads_active";
 	// Debugging

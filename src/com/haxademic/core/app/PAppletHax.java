@@ -23,7 +23,7 @@ import com.haxademic.core.hardware.depthcamera.cameras.KinectWrapperV2Mac;
 import com.haxademic.core.hardware.depthcamera.cameras.RealSenseWrapper;
 import com.haxademic.core.hardware.gamepad.GamepadListener;
 import com.haxademic.core.hardware.gamepad.GamepadState;
-import com.haxademic.core.hardware.midi.MidiDevice;
+import com.haxademic.core.hardware.midi.MidiState;
 import com.haxademic.core.hardware.osc.OscWrapper;
 import com.haxademic.core.hardware.webcam.WebCam;
 import com.haxademic.core.media.audio.analysis.AudioIn;
@@ -49,7 +49,6 @@ import processing.core.PGraphics;
 import processing.core.PSurface;
 import processing.opengl.PJOGL;
 import processing.video.Movie;
-import themidibus.MidiBus;
 
 public class PAppletHax
 extends PApplet {
@@ -88,8 +87,6 @@ extends PApplet {
 	public IDepthCamera depthCamera = null;
 	public LeapMotion leapMotion = null;
 	// Input trigger
-	public MidiDevice midiState = null;
-	public MidiBus midiBus;
 	public GamepadState gamepadState;
 	public GamepadListener gamepadListener;
 	public OscWrapper oscState = null;
@@ -264,15 +261,6 @@ extends PApplet {
 				: null;
 		// hardware
 		initKinect();
-		if( p.appConfig.getInt(AppSettings.MIDI_DEVICE_IN_INDEX, -1) >= 0 ) {
-			MidiBus.list(); // List all available Midi devices on STDOUT. This will show each device's index and name.
-			midiBus = new MidiBus(
-					this, 
-					p.appConfig.getInt(AppSettings.MIDI_DEVICE_IN_INDEX, 0), 
-					p.appConfig.getInt(AppSettings.MIDI_DEVICE_OUT_INDEX, 0)
-					);
-		}
-		midiState = new MidiDevice();
 		browserInputState = new BrowserInputState();
 		gamepadState = new GamepadState();
 		if( p.appConfig.getBoolean( AppSettings.GAMEPADS_ACTIVE, false ) == true ) gamepadListener = new GamepadListener();
@@ -358,7 +346,6 @@ extends PApplet {
 		killScreensaver();
 		if(loop != null) loop.update();
 		handleRenderingStepthrough();
-		midiState.update();
 		browserInputState.update();
 		if( depthCamera != null ) depthCamera.update();
 		p.pushMatrix();
@@ -444,7 +431,7 @@ extends PApplet {
 				while( doneCheckingForMidi == false ) {
 					int rendererNote = midiRenderer.checkForCurrentFrameNoteEvents();
 					if( rendererNote != -1 ) {
-						midiState.noteOn( 0, rendererNote, 100 );
+						MidiState.instance().noteOn( 0, rendererNote, 100 );
 					} else {
 						doneCheckingForMidi = true;
 					}

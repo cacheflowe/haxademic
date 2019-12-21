@@ -11,4 +11,8 @@ extends KeyEvent {
 		super(source, id, when, modifiers, keyCode, keyChar);
 	}
 
+	public static int keyCodeFromChar(char inputChar) {
+		return KeyEvent.getExtendedKeyCodeForChar(inputChar);
+	}
+
 }

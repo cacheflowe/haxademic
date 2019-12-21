@@ -104,7 +104,7 @@ public class MidiHandler {
 					int key = sm.getData1();
 					//P.println("key:",key);
 					int velocity = sm.getData2();
-					P.p.midiState.noteOn(1, key, velocity);
+					MidiState.instance().noteOn(1, key, velocity);
 //					int note = key % 12;
 //					String noteName = NOTE_NAMES[note];
 //					int octave = (key / 12)-1;
@@ -112,7 +112,7 @@ public class MidiHandler {
 				} else if (sm.getCommand() == ShortMessage.NOTE_OFF) {
 					int key = sm.getData1();
 					int velocity = sm.getData2();
-					P.p.midiState.noteOff(1, key, velocity);
+					MidiState.instance().noteOff(1, key, velocity);
 //					int note = key % 12;
 //					String noteName = NOTE_NAMES[note];
 //					int octave = (key / 12)-1;
@@ -120,7 +120,7 @@ public class MidiHandler {
 				} else if (sm.getCommand() == ShortMessage.CONTROL_CHANGE) {
 					int key = sm.getData1();
 					int ccValue = sm.getData2();
-					P.p.midiState.controllerChange(sm.getChannel(), key, ccValue);
+					MidiState.instance().controllerChange(sm.getChannel(), key, ccValue);
 //					P.println("CONTROL_CHANGE Channel: " + sm.getChannel() + " " + sm.getData1() + " " + sm.getData2());
 				} 
 			}

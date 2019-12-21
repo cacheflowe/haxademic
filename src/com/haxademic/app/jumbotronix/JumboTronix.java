@@ -20,6 +20,8 @@ import com.haxademic.core.draw.textures.pgraphics.TextureVideoPlayer;
 import com.haxademic.core.draw.textures.pgraphics.TextureWaveformSimple;
 import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
 import com.haxademic.core.file.FileUtil;
+import com.haxademic.core.hardware.midi.MidiDevice;
+import com.haxademic.core.hardware.midi.MidiState;
 import com.haxademic.core.media.audio.analysis.AudioIn;
 import com.haxademic.core.system.ScreenUtil;
 
@@ -60,6 +62,7 @@ extends PAppletHax {
 	}
 	
 	public void setupFirstFrame() {
+		MidiDevice.init(0, 0);
 		initWebcam();
 		initShaders();
 		initViz();
@@ -170,14 +173,14 @@ extends PAppletHax {
 	}
 	
 	public void drawApp() {
-		p.background( p.midiState.midiCCPercent(11, 7) * 255f, p.midiState.midiCCPercent(12, 7) * 255f, p.midiState.midiCCPercent(13, 7) * 255f );
+		p.background( MidiState.instance().midiCCPercent(11, 7) * 255f, MidiState.instance().midiCCPercent(12, 7) * 255f, MidiState.instance().midiCCPercent(13, 7) * 255f );
 //		p.shininess(1000f); 
 //		p.lights();
 
 		if( _webCam.available() ) _webCam.read(); 
 		
 		// choose bg texture with midi
-		int curTextureIndex = (int) Math.floor( p.midiState.midiCCPercent(15, 7) * _texturePool.size() );
+		int curTextureIndex = (int) Math.floor( MidiState.instance().midiCCPercent(15, 7) * _texturePool.size() );
 		curTextureIndex = Math.min( curTextureIndex, _texturePool.size() - 1 ); 
 		
 		if( curTextureIndex != _curTextureIndex ) {
@@ -195,25 +198,25 @@ extends PAppletHax {
 		_texturePool.get(_curTextureIndex).update();
 
 		// update shaders with midi
-		if( p.midiState.midiCCPercent(0, 7) != 0 ) brightness.set("brightness", p.midiState.midiCCPercent(0, 7) * 5 );
-		if( p.midiState.midiCCPercent(1, 7) != 0 ) contrast.set("contrast", p.midiState.midiCCPercent(1, 7) * 5 );
-		float kaleidoSides = P.round( p.midiState.midiCCPercent(2, 7) * 10f );
+		if( MidiState.instance().midiCCPercent(0, 7) != 0 ) brightness.set("brightness", MidiState.instance().midiCCPercent(0, 7) * 5 );
+		if( MidiState.instance().midiCCPercent(1, 7) != 0 ) contrast.set("contrast", MidiState.instance().midiCCPercent(1, 7) * 5 );
+		float kaleidoSides = P.round( MidiState.instance().midiCCPercent(2, 7) * 10f );
 		kaleido.set("sides", kaleidoSides );
-		boolean inverted = ( p.midiState.midiCCPercent(3, 7) > 0.5f );
+		boolean inverted = ( MidiState.instance().midiCCPercent(3, 7) > 0.5f );
 		
-		boolean halftone = ( p.midiState.midiCCPercent(4, 7) > 0.25f && p.midiState.midiCCPercent(4, 7) < 0.5f );
-		boolean edged = ( p.midiState.midiCCPercent(4, 7) > 0.5f && p.midiState.midiCCPercent(4, 7) < 0.75f );
-		boolean pixelated = ( p.midiState.midiCCPercent(4, 7) > 0.75f );
+		boolean halftone = ( MidiState.instance().midiCCPercent(4, 7) > 0.25f && MidiState.instance().midiCCPercent(4, 7) < 0.5f );
+		boolean edged = ( MidiState.instance().midiCCPercent(4, 7) > 0.5f && MidiState.instance().midiCCPercent(4, 7) < 0.75f );
+		boolean pixelated = ( MidiState.instance().midiCCPercent(4, 7) > 0.75f );
 		if( pixelated ) {
-			float pixAmout = P.round(p.midiState.midiCCPercent(14, 7) * 40f);
+			float pixAmout = P.round(MidiState.instance().midiCCPercent(14, 7) * 40f);
 			pixelate.set("divider", p.width/pixAmout, p.height/pixAmout);
 		}
 		
-		_chromaKeyFilter.set("thresholdSensitivity", p.midiState.midiCCPercent(5, 7));
-		_chromaKeyFilter.set("smoothing", p.midiState.midiCCPercent(6, 7));
-		_chromaKeyFilter.set("colorToReplace", p.midiState.midiCCPercent(7, 7), p.midiState.midiCCPercent(8, 7), p.midiState.midiCCPercent(9, 7));
+		_chromaKeyFilter.set("thresholdSensitivity", MidiState.instance().midiCCPercent(5, 7));
+		_chromaKeyFilter.set("smoothing", MidiState.instance().midiCCPercent(6, 7));
+		_chromaKeyFilter.set("colorToReplace", MidiState.instance().midiCCPercent(7, 7), MidiState.instance().midiCCPercent(8, 7), MidiState.instance().midiCCPercent(9, 7));
 
-		vignette.set("spread", p.midiState.midiCCPercent(10, 7));
+		vignette.set("spread", MidiState.instance().midiCCPercent(10, 7));
 
 		
 		// send webcam to its own texture

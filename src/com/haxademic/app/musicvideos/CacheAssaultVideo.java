@@ -9,6 +9,7 @@ import com.haxademic.core.draw.filters.pgraphics.archive.BlobOuterMeshFilter;
 import com.haxademic.core.draw.filters.pgraphics.archive.ImageHistogramFilter;
 import com.haxademic.core.draw.filters.pgraphics.archive.ReflectionFilter;
 import com.haxademic.core.file.FileUtil;
+import com.haxademic.core.hardware.midi.MidiState;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.media.audio.analysis.AudioIn;
 
@@ -223,14 +224,12 @@ extends PAppletHax {
 	
 	public void handleInputTriggers() {
 //		 P.println(_midi._notesOn);
-		if( midiState != null ) {
-			if( midiState.isMidiButtonOn( 58 ) ) newSection();
-			else if( midiState.isMidiButtonOn( 57 ) ) newMeasure();
-			else if( midiState.isMidiButtonOn( 65 ) ) timer();
-			else if( midiState.isMidiButtonOn( 60 ) ) kick();
-			else if( midiState.isMidiButtonOn( 61 ) ) snare();
-			else if( midiState.isMidiButtonOn( 62 ) ) perc();
-		} 
+		if( MidiState.instance().isMidiButtonOn( 58 ) ) newSection();
+		else if( MidiState.instance().isMidiButtonOn( 57 ) ) newMeasure();
+		else if( MidiState.instance().isMidiButtonOn( 65 ) ) timer();
+		else if( MidiState.instance().isMidiButtonOn( 60 ) ) kick();
+		else if( MidiState.instance().isMidiButtonOn( 61 ) ) snare();
+		else if( MidiState.instance().isMidiButtonOn( 62 ) ) perc();
 	}
 
 	protected void newSection() {

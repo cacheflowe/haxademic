@@ -6,6 +6,7 @@ import java.awt.event.KeyEvent;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.hardware.midi.MidiDevice;
 
 public class RobotKeyPressMidi
 extends PAppletHax {
@@ -32,7 +33,7 @@ extends PAppletHax {
 	}
 
 	public void setupFirstFrame() {
-	
+		MidiDevice.init(0, 0);
 		try { _robot = new Robot(); } catch( Exception error ) { println("couldn't init Robot"); }
 		
 		midiKeyTriggers = new MidiKeyTrigger[] {
@@ -58,15 +59,6 @@ extends PAppletHax {
 		P.println(channel, pitch, velocity);
 		for (MidiKeyTrigger trigger : midiKeyTriggers) {
 			trigger.checkNote(pitch);
-		}
-		if( midiState != null ) { 
-//			if( midi.isMidiButtonOn( pitch ) == 0 ) {
-//				midi.noteOn( channel, pitch, velocity );
-//				try{ 
-//					handleInput( true );
-//				}
-//				catch( ArrayIndexOutOfBoundsException e ){println("noteOn BROKE!");}
-//			}
 		}
 	}
 

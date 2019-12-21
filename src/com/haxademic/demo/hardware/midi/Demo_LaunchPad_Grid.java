@@ -2,11 +2,12 @@ package com.haxademic.demo.hardware.midi;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.color.ColorUtil;
 import com.haxademic.core.draw.color.Gradients;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.image.ImageUtil;
+import com.haxademic.core.hardware.midi.MidiDevice;
+import com.haxademic.core.hardware.midi.MidiState;
 import com.haxademic.core.hardware.midi.devices.LaunchPad;
 import com.haxademic.core.hardware.midi.devices.NovationColors;
 
@@ -21,12 +22,8 @@ implements SimpleMidiListener {
 	protected float[][] grid = new float[9][8];
 	protected PGraphics pg8x8;
 	
-	protected void overridePropsFile() {
-		p.appConfig.setProperty(AppSettings.MIDI_DEVICE_IN_INDEX, 0 );
-		p.appConfig.setProperty(AppSettings.MIDI_DEVICE_OUT_INDEX, 3 );
-	}
-	
 	public void setupFirstFrame() {
+		MidiDevice.init(0, 3);
 		setAll(1);
 		setAll(0);	// flip onces to init
 		
@@ -51,7 +48,7 @@ implements SimpleMidiListener {
 //		P.out(val);
 		if(grid[x][y] != val) {
 			grid[x][y] = val;
-			p.midiState.sendMidiOut(true, 0, LaunchPad.gridMidiNote(x, y), NovationColors.colorByPercent(val));
+			MidiDevice.instance().sendMidiOut(true, 0, LaunchPad.gridMidiNote(x, y), NovationColors.colorByPercent(val));
 		}
 	}
 	
@@ -99,8 +96,8 @@ implements SimpleMidiListener {
 		p.image(pg, 0, 0);
 		
 		// print debug
-		p.midiState.printButtons();
-		p.midiState.printCC();
+		MidiState.instance().printButtons();
+		MidiState.instance().printCC();
 	}
 
 	//////////////////////////////
