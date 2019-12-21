@@ -2,9 +2,7 @@
 
 ## Modularize PAppletHax
 
-* Reaction/Diffusion
-	* Make a version of Blur & Sharpen that use a map for amplitude 
-	* Radial feedback added to shader stack 
+* Fix KeyboardState
 * UIControlPanel
 	* Add MIDI CC to UISliders
 	* Add setters on UISliders

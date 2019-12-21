@@ -10,8 +10,8 @@ extends BaseFragmentShader {
 	public static BlurVFilter instance;
 	
 	public BlurVFilter(PApplet p) {
-		super(p, "haxademic/shaders/filters/blur-vertical.glsl");
-		setBlur(0.001f);
+		super(p, "haxademic/shaders/filters/blur-vertical-map.glsl");
+		setBlur(0f);
 	}
 	
 	public static BlurVFilter instance(PApplet p) {
@@ -24,8 +24,8 @@ extends BaseFragmentShader {
 		shader.set("v", blur);
 	}
 	
-	public void setBlurByPercent(float blurPercent, float imageWidth) {
-		shader.set("v", blurPercent * (1f / imageWidth));
+	public void setBlurByPercent(float blurPercent, float imageHeight) {
+		shader.set("v", blurPercent * (1f / imageHeight));
 	}
 	
 }

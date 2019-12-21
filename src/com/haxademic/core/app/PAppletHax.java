@@ -23,7 +23,6 @@ import com.haxademic.core.hardware.depthcamera.cameras.KinectWrapperV2Mac;
 import com.haxademic.core.hardware.depthcamera.cameras.RealSenseWrapper;
 import com.haxademic.core.hardware.gamepad.GamepadListener;
 import com.haxademic.core.hardware.gamepad.GamepadState;
-import com.haxademic.core.hardware.keyboard.KeyboardState;
 import com.haxademic.core.hardware.midi.MidiDevice;
 import com.haxademic.core.hardware.osc.OscWrapper;
 import com.haxademic.core.hardware.webcam.WebCam;
@@ -91,7 +90,6 @@ extends PApplet {
 	// Input trigger
 	public MidiDevice midiState = null;
 	public MidiBus midiBus;
-	public KeyboardState keyboardState;
 	public GamepadState gamepadState;
 	public GamepadListener gamepadListener;
 	public OscWrapper oscState = null;
@@ -275,7 +273,6 @@ extends PApplet {
 					);
 		}
 		midiState = new MidiDevice();
-		keyboardState = new KeyboardState();
 		browserInputState = new BrowserInputState();
 		gamepadState = new GamepadState();
 		if( p.appConfig.getBoolean( AppSettings.GAMEPADS_ACTIVE, false ) == true ) gamepadListener = new GamepadListener();
@@ -520,7 +517,6 @@ extends PApplet {
 			key = 0;
 //			renderShutdownBeforeExit();
 		}
-		keyboardState.setKeyOn(p.keyCode);
 		
 		// special core app key commands
 		if (p.key == 'F') {
@@ -537,10 +533,6 @@ extends PApplet {
 		P.store.setString(PEvents.KEY_PRESSED, p.key+"");
 	}
 	
-	public void keyReleased() {
-		keyboardState.setKeyOff(p.keyCode);
-	}
-		
 	////////////////////////
 	// SHUTDOWN
 	////////////////////////

@@ -4,6 +4,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.hardware.keyboard.Keyboard;
+import com.haxademic.core.hardware.keyboard.KeyboardState;
 import com.haxademic.core.hardware.midi.devices.LaunchControl;
 import com.haxademic.core.hardware.shared.InputTrigger;
 import com.haxademic.core.net.UIControlsHandler;
@@ -31,13 +32,12 @@ extends PAppletHax {
 	
 	
 	public void setupFirstFrame() {
-	
 		server = new WebServer(new UIControlsHandler(), true);
 	}
 	
 	public void drawApp() {
 		// show triggering - TODO: add CC changes to trigger
-		if(p.keyboardState.isKeyOn(triggerKey) || p.midiState.isMidiButtonOn(LaunchControl.PAD_01) || p.oscState.isValueOn("/toggleC_2")) P.println("trigger 1"); 
+		if(KeyboardState.instance().isKeyOn(triggerKey) || p.midiState.isMidiButtonOn(LaunchControl.PAD_01) || p.oscState.isValueOn("/toggleC_2")) P.println("trigger 1"); 
 		if(trigger.triggered()) P.println("trigger 2");
 		if(trigger.on()) {
 			p.background(0, 255, 255f * p.oscState.getValue("/1/faderC"));
@@ -46,7 +46,7 @@ extends PAppletHax {
 		}
 		
 		// debug print maps
-		p.keyboardState.printKeys();
+		KeyboardState.instance().printKeys();
 		p.midiState.printButtons();
 		p.midiState.printCC();
 		p.oscState.printButtons();

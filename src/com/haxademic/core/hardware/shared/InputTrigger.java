@@ -2,6 +2,7 @@ package com.haxademic.core.hardware.shared;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.hardware.keyboard.Keyboard;
+import com.haxademic.core.hardware.keyboard.KeyboardState;
 
 
 public class InputTrigger {
@@ -88,7 +89,7 @@ public class InputTrigger {
 	public boolean triggered() {
 		// if triggered, also store the latest value
 		for( int i=0; i < keyCodes.length; i++ ) {
-			if( P.p.keyboardState.isKeyTriggered(keyCodes[i]) ) return true;
+			if( KeyboardState.instance().isKeyTriggered(keyCodes[i]) ) return true;
 		}
 		if(P.p.oscState != null) {
 			for( int i=0; i < oscMessages.length; i++ ) {
@@ -134,7 +135,7 @@ public class InputTrigger {
 	public boolean on() {
 		if(keyCodes != null) {
 			for( int i=0; i < keyCodes.length; i++ ) {
-				if( P.p.keyboardState.isKeyOn(keyCodes[i]) ) return true;
+				if( KeyboardState.instance().isKeyOn(keyCodes[i]) ) return true;
 			}
 		}
 		if(P.p.oscState != null) {

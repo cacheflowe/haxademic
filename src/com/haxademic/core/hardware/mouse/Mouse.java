@@ -36,6 +36,9 @@ public class Mouse {
 	public int lastMouseTime = 0;
 	public boolean mouseShowing = true;
 
+	
+	// Singleton instance
+	
 	public static Mouse instance;
 	
 	public static Mouse instance() {
@@ -44,7 +47,8 @@ public class Mouse {
 		return instance;
 	}
 	
-
+	// constructor
+	
 	public Mouse() {
 		P.p.registerMethod(PRegisterableMethods.pre, this);
 	}
@@ -53,6 +57,8 @@ public class Mouse {
 		updateMouseProps();
 		autoHideMouse();
 	}
+	
+	// draw() update
 	
 	protected void updateMouseProps() {
 		int mouseX = P.p.mouseX;

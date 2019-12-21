@@ -12,8 +12,10 @@ import com.haxademic.core.draw.filters.pshader.BlendTowardsTexture;
 import com.haxademic.core.draw.filters.pshader.BloomFilter;
 import com.haxademic.core.draw.filters.pshader.BlurBasicFilter;
 import com.haxademic.core.draw.filters.pshader.BlurHFilter;
+import com.haxademic.core.draw.filters.pshader.BlurHMapFilter;
 import com.haxademic.core.draw.filters.pshader.BlurProcessingFilter;
 import com.haxademic.core.draw.filters.pshader.BlurVFilter;
+import com.haxademic.core.draw.filters.pshader.BlurVMapFilter;
 import com.haxademic.core.draw.filters.pshader.BrightnessFilter;
 import com.haxademic.core.draw.filters.pshader.BrightnessStepFilter;
 import com.haxademic.core.draw.filters.pshader.BrightnessToAlphaFilter;
@@ -82,7 +84,6 @@ import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.mouse.Mouse;
 import com.haxademic.core.hardware.shared.InputTrigger;
 import com.haxademic.core.media.DemoAssets;
-import com.haxademic.core.system.SystemUtil;
 
 import processing.core.PGraphics;
 import processing.opengl.PShader;
@@ -122,8 +123,7 @@ extends PAppletHax { public static void main(String args[]) { arguments = args; 
 		noiseBuffer = p.createGraphics(p.width, p.height, PRenderers.P2D);
 		
 		filters = new BaseFragmentShader[] {
-				PixelateHexFilter.instance(p),
-				SharpenMapFilter.instance(p),
+//				PixelateHexFilter.instance(p),
 			AlphaStepFilter.instance(p),
 			BadTVGlitchFilter.instance(p),
 			BadTVLinesFilter.instance(p),
@@ -131,6 +131,7 @@ extends PAppletHax { public static void main(String args[]) { arguments = args; 
 			BloomFilter.instance(p),
 			BlurBasicFilter.instance(p),
 			BlurHFilter.instance(p),
+			BlurHMapFilter.instance(p),
 			BlurProcessingFilter.instance(p),
 			BrightnessFilter.instance(p),
 			BrightnessStepFilter.instance(p),
@@ -287,6 +288,13 @@ extends PAppletHax { public static void main(String args[]) { arguments = args; 
 			BlurHFilter.instance(p).applyTo(pg);
 			BlurVFilter.instance(p).setBlurByPercent(Mouse.yNorm * 2f, p.height);
 			BlurVFilter.instance(p).applyTo(pg);
+		} else if(curFilter == BlurHMapFilter.instance(p)) {
+			BlurHMapFilter.instance(p).setMap(noiseBuffer);
+			BlurHMapFilter.instance(p).setBlurByPercent(Mouse.xNorm * 2f, p.width);
+			BlurHMapFilter.instance(p).applyTo(pg);
+			BlurVMapFilter.instance(p).setMap(noiseBuffer);
+			BlurVMapFilter.instance(p).setBlurByPercent(Mouse.yNorm * 2f, p.height);
+			BlurVMapFilter.instance(p).applyTo(pg);
 		} else if(curFilter == BlurProcessingFilter.instance(p)) {
 			BlurProcessingFilter.instance(p).setBlurSize(P.round(Mouse.yNorm * 10f));
 			BlurProcessingFilter.instance(p).setSigma(Mouse.xNorm * 10f);
@@ -542,7 +550,8 @@ extends PAppletHax { public static void main(String args[]) { arguments = args; 
 			SharpenFilter.instance(p).applyTo(pg);
 		} else if(curFilter == SharpenMapFilter.instance(p)) {
 			SharpenMapFilter.instance(p).setMap(noiseBuffer);
-			SharpenMapFilter.instance(p).setSharpness(Mouse.xNorm * 10f);
+			SharpenMapFilter.instance(p).setSharpnessMax(Mouse.xNorm * 10f);
+			SharpenMapFilter.instance(p).setSharpnessMin(Mouse.yNorm * 10f);
 			SharpenMapFilter.instance(p).applyTo(pg);
 		} else if(curFilter == SphereDistortionFilter.instance(p)) {
 			SphereDistortionFilter.instance(p).setAmplitude(P.map(p.mouseX, 0, p.width, -20f, 20f));

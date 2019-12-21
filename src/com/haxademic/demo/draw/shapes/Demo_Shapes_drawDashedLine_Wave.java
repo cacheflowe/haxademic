@@ -93,14 +93,14 @@ extends PAppletHax {
 
 			float waveAmp = rowHeight * 0.4f; // * (0.25f + ampOscSpeed * P.sin(p.loop.progressRads()));
 			float waveFreqMult = freqBase.value() + freqMultRange.value();// * P.sin(p.loop.progressRads());
-			float waveFreqMult2 = freqBase2.value() + freqMultRange.value();// * P.sin(p.loop.progressRads());
-			float waveFreqMult3 = freqBase3.value() + freqMultRange.value();// * P.sin(p.loop.progressRads());
+//			float waveFreqMult2 = freqBase2.value() + freqMultRange.value();// * P.sin(p.loop.progressRads());
+//			float waveFreqMult3 = freqBase3.value() + freqMultRange.value();// * P.sin(p.loop.progressRads());
 
 			float centerY = rowHeight * i + rowHeight / 2f;
 			for (int x = 0; x < p.width; x += spacing.value()) {
 				float oscValue = P.sin(p.loop.progressRads() * scrollMult.value() + x * waveFreqMult);
-				float oscValue2 = P.sin(p.loop.progressRads() * scrollMult.value() + p.noise(x * waveFreqMult2));
-				float oscValue3 = P.sin(p.loop.progressRads() * scrollMult.value() + p.noise(x * waveFreqMult3));
+//				float oscValue2 = P.sin(p.loop.progressRads() * scrollMult.value() + p.noise(x * waveFreqMult2));
+//				float oscValue3 = P.sin(p.loop.progressRads() * scrollMult.value() + p.noise(x * waveFreqMult3));
 //				oscValue *= oscValue2;
 //				oscValue *= oscValue3;
 				float waveY = centerY + oscValue * waveAmp;

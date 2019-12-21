@@ -13,6 +13,7 @@ import com.haxademic.core.draw.filters.pshader.ColorizeTwoColorsFilter;
 import com.haxademic.core.draw.filters.pshader.FXAAFilter;
 import com.haxademic.core.draw.filters.pshader.FakeLightingFilter;
 import com.haxademic.core.draw.filters.pshader.FeedbackMapFilter;
+import com.haxademic.core.draw.filters.pshader.FeedbackRadialFilter;
 import com.haxademic.core.draw.filters.pshader.RotateFilter;
 import com.haxademic.core.draw.filters.pshader.SaturationFilter;
 import com.haxademic.core.draw.filters.pshader.SharpenFilter;
@@ -35,7 +36,6 @@ extends PAppletHax {
 	// - Test audio looping & pitch shifting in Beads (a la Communichords, but with audio FFT data)
 	// - Find parameters & make a nice collection
 	// - Blur values above 1 seem to trigger the broken R/D state with fine lines 
-	// - Make a version of Blur & Sharpen that use a map for amplitude 
 	
 	// app
 	protected boolean clearScreen = true;
@@ -58,6 +58,7 @@ extends PAppletHax {
 	
 	protected String mapZoom = "mapZoom";
 	protected String mapRot = "mapRot";
+	
 	protected String feedbackAmp = "feedbackAmp";
 	protected String feedbackBrightStep = "feedbackBrightStep";
 	protected String feedbackAlphaStep = "feedbackAlphaStep";
@@ -65,11 +66,22 @@ extends PAppletHax {
 	protected String feedbackRadiansRange = "feedbackRadiansRange";
 	protected String FEEDBACK_ITERS = "FEEDBACK_ITERS";
 	
+	protected String feedbackRadialAmp = "feedbackRadialAmp";
+	protected String feedbackMultX = "feedbackMultX";
+	protected String feedbackMultY = "feedbackMultY";
+	protected String feedbackWaveAmp = "feedbackWaveAmp";
+	protected String feedbackWaveFreq = "feedbackWaveFreq";
+	protected String feedbackWaveStartMult = "feedbackWaveStartMult";
+	
 	protected String DARKEN_AMP = "DARKEN_AMP";
 	protected String RD_ITERATIONS = "RD_ITERATIONS";
 	protected String RD_BLUR_AMP_X = "RD_BLUR_AMP_X";
+//	protected String RD_BLUR_AMP_MAP_X = "RD_BLUR_AMP_MAP_X";
 	protected String RD_BLUR_AMP_Y = "RD_BLUR_AMP_Y";
+//	protected String RD_BLUR_AMP_MAP_Y = "RD_BLUR_AMP_MAP_Y";
 	protected String RD_SHARPEN_AMP = "RD_SHARPEN_AMP";
+//	protected String RD_SHARPEN_MAP_AMP = "RD_SHARPEN_MAP_AMP";
+//	protected String RD_SHARPEN_MAP_MIN_AMP = "RD_SHARPEN_MAP_MIN_AMP";
 	
 	protected String TEXTURE_BLEND = "TEXTURE_BLEND";
 	
@@ -102,8 +114,10 @@ extends PAppletHax {
 		PG.setTextureRepeat(pgPost, true);
 		
 		// feedback map
-		map = PG.newPG(pg.width, pg.height);
+		map = PG.newPG(pg.width/8, pg.height/8);
 		simplexNoise = new SimplexNoiseTexture(128, 128);
+//		map2 = PG.newPG(pg.width/8, pg.height/8);
+//		simplexNoise2 = new SimplexNoiseTexture(128, 128);
 		
 		// lines texture
 		linesTexture = PG.newPG(pg.width, pg.height);
@@ -122,22 +136,36 @@ extends PAppletHax {
 		p.ui.addTitle("Feedback (Map)");
 		p.ui.addSlider(mapZoom, 2, 0.1f, 15, 0.1f, false);
 		p.ui.addSlider(mapRot, 0, 0, P.TWO_PI, 0.01f, false);
-		p.ui.addSlider(feedbackAmp, 0.001f, 0.00001f, 0.005f, 0.00001f, false);
-		p.ui.addSlider(feedbackBrightStep, 0f, -0.01f, 0.01f, 0.0001f, false);
-		p.ui.addSlider(feedbackAlphaStep, 0f, -0.01f, 0.01f, 0.0001f, false);
+		p.ui.addSlider(feedbackAmp, 0f, 0.00001f, 0.005f, 0.00001f, false);
+//		p.ui.addSlider(feedbackBrightStep, 0f, -0.01f, 0.01f, 0.0001f, false);
+//		p.ui.addSlider(feedbackAlphaStep, 0f, -0.01f, 0.01f, 0.0001f, false);
 		p.ui.addSlider(feedbackRadiansStart, 0f, 0, P.TWO_PI, 0.01f, false);
 		p.ui.addSlider(feedbackRadiansRange, P.TWO_PI * 2f, -P.TWO_PI * 2f, P.TWO_PI * 2f, 0.1f, false);
 		p.ui.addSlider(FEEDBACK_ITERS, 1, 0, 10, 1f, false);
 		
+		p.ui.addTitle("Feedback (Radial)");
+		p.ui.addSlider(feedbackRadialAmp, 0.0f, -0.005f, 0.005f, 0.00001f, false);
+		p.ui.addSlider(feedbackMultX, 1f, 0f, 1f, 0.001f, false);
+		p.ui.addSlider(feedbackMultY, 1f, 0f, 1f, 0.001f, false);
+		p.ui.addSlider(feedbackWaveAmp, 0.1f, 0f, 1f, 0.001f, false);
+		p.ui.addSlider(feedbackWaveFreq, 10f, 0f, 100f, 0.1f, false);
+		p.ui.addSlider(feedbackWaveStartMult, 0.01f, -0.2f, 0.2f, 0.001f, false);
+
 		p.ui.addTitle("Reaction/Diffusion");
+//		p.ui.addSlider(map2Zoom, 3, 0.1f, 15, 0.1f, false);
+//		p.ui.addSlider(map2Rot, 2, 0, P.TWO_PI, 0.01f, false);
 		p.ui.addSlider(RD_ITERATIONS, 0, 0, 10, 1f);
-		p.ui.addSlider(RD_BLUR_AMP_X, 0, 0, 6, 0.001f);
-		p.ui.addSlider(RD_BLUR_AMP_Y, 0, 0, 6, 0.001f);
+		p.ui.addSlider(RD_BLUR_AMP_X, 0, 0, 6, 0.01f);
+//		p.ui.addSlider(RD_BLUR_AMP_MAP_X, 0, 0, 6, 0.01f);
+		p.ui.addSlider(RD_BLUR_AMP_Y, 0, 0, 6, 0.01f);
+//		p.ui.addSlider(RD_BLUR_AMP_MAP_Y, 0, 0, 6, 0.01f);
 		p.ui.addSlider(RD_SHARPEN_AMP, 0, 0, 20, 0.01f);
-		p.ui.addSlider(DARKEN_AMP, -10, -200, 200, 1f);
+//		p.ui.addSlider(RD_SHARPEN_MAP_AMP, 3, 0, 20, 0.01f);
+//		p.ui.addSlider(RD_SHARPEN_MAP_MIN_AMP, 1f, 0, 20, 0.01f);
+		p.ui.addSlider(DARKEN_AMP, 0, -255, 255, 1f);
 		
 		p.ui.addTitle("Texture Blend");
-		p.ui.addSlider(TEXTURE_BLEND, 0.01f, 0f, 1f, 0.01f);
+		p.ui.addSlider(TEXTURE_BLEND, 0.5f, 0f, 1f, 0.01f);
 		
 		p.ui.addTitle("Fake Light Post FX");
 		p.ui.addSlider(FAKE_LIGHT_AMBIENT, 2f, 0.3f, 6f, 0.01f);
@@ -191,28 +219,37 @@ extends PAppletHax {
 			BlurHFilter.instance(p).applyTo(pg);
 			BlurVFilter.instance(p).setBlurByPercent(p.ui.valueEased(RD_BLUR_AMP_Y), pg.height);
 			BlurVFilter.instance(p).applyTo(pg);
+			
 			SharpenFilter.instance(p).setSharpness(p.ui.valueEased(RD_SHARPEN_AMP));
 			SharpenFilter.instance(p).applyTo(pg);
+
+//			BlurHMapFilter.instance(p).setMap(map2);
+//			BlurHMapFilter.instance(p).setBlurByPercent(p.ui.valueEased(RD_BLUR_AMP_MAP_X), pg.width);
+//			BlurHMapFilter.instance(p).applyTo(pg);
+//			BlurVMapFilter.instance(p).setMap(map2);
+//			BlurVMapFilter.instance(p).setBlurByPercent(p.ui.valueEased(RD_BLUR_AMP_MAP_Y), pg.width);
+//			BlurVMapFilter.instance(p).applyTo(pg);
+			
+//			SharpenMapFilter.instance(p).setMap(map);
+//			SharpenMapFilter.instance(p).setSharpnessMax(p.ui.valueEased(RD_SHARPEN_MAP_AMP));
+//			SharpenMapFilter.instance(p).setSharpnessMin(p.ui.valueEased(RD_SHARPEN_MAP_MIN_AMP));
+//			SharpenMapFilter.instance(p).applyTo(pg);
 		}
 		ThresholdFilter.instance(p).applyTo(pg);
 	}
 	
 	protected void updateFeedbackMapNoise() {
-		simplexNoise.update(
-				p.ui.valueEased(mapZoom), 
-				p.ui.valueEased(mapRot), 
-				0, 
-				0);
+		simplexNoise.update(p.ui.valueEased(mapZoom), p.ui.valueEased(mapRot), 0, 0);
 		ImageUtil.cropFillCopyImage(simplexNoise.texture(), map, true);
-//		ImageUtil.cropFillCopyImage(simplexNoise.texture(), pgPost, true);
-//		ImageUtil.cropFillCopyImage(simplexNoise.texture(), linesTexture, true);
+//		simplexNoise2.update(p.ui.valueEased(map2Zoom), p.ui.valueEased(map2Rot), 0, 0);
+//		ImageUtil.cropFillCopyImage(simplexNoise2.texture(), map2, true);
 	}
 
-	protected void applyFeedback() {
+	protected void applyMapFeedback() {
 		FeedbackMapFilter.instance(p).setMap(map);
 		FeedbackMapFilter.instance(p).setAmp(p.ui.valueEased(feedbackAmp));
-		FeedbackMapFilter.instance(p).setBrightnessStep(p.ui.valueEased(feedbackBrightStep));
-		FeedbackMapFilter.instance(p).setAlphaStep(p.ui.valueEased(feedbackAlphaStep));
+		FeedbackMapFilter.instance(p).setBrightnessStep(0);//p.ui.valueEased(feedbackBrightStep));
+		FeedbackMapFilter.instance(p).setAlphaStep(0);//p.ui.valueEased(feedbackAlphaStep));
 		FeedbackMapFilter.instance(p).setRadiansStart(p.ui.valueEased(feedbackRadiansStart));
 		FeedbackMapFilter.instance(p).setRadiansRange(p.ui.valueEased(feedbackRadiansRange));
 		for (int i = 0; i < p.ui.valueInt(FEEDBACK_ITERS); i++) FeedbackMapFilter.instance(p).applyTo(pg);
@@ -226,6 +263,18 @@ extends PAppletHax {
 			// does a similar thing to R/D
 			ThresholdFilter.instance(p).applyTo(pg);
 		}
+	}
+	
+	protected void applyRadialFeedback() {
+		FeedbackRadialFilter.instance(P.p).setAmp(p.ui.value(feedbackRadialAmp));
+		FeedbackRadialFilter.instance(P.p).setMultX(p.ui.value(feedbackMultX));
+		FeedbackRadialFilter.instance(P.p).setMultY(p.ui.value(feedbackMultY));
+//		FeedbackRadialFilter.instance(P.p).setSampleMult(p.ui.value(feedbackBrightMult));
+		FeedbackRadialFilter.instance(P.p).setWaveAmp(p.ui.value(feedbackWaveAmp));
+		FeedbackRadialFilter.instance(P.p).setWaveFreq(p.ui.value(feedbackWaveFreq));
+		FeedbackRadialFilter.instance(P.p).setWaveStart(p.frameCount * p.ui.value(feedbackWaveStartMult));
+//		FeedbackRadialFilter.instance(P.p).setAlphaMult(p.ui.value(feedbackAlphaMult));
+		FeedbackRadialFilter.instance(P.p).applyTo(pg);
 	}
 	
 	protected void addBitmapSeed() {
@@ -282,7 +331,8 @@ extends PAppletHax {
 		mixTexture();
 		darkenCanvas();
 		applyZoomRotate();
-		applyFeedback();
+		applyRadialFeedback();
+		applyMapFeedback();
 		applyRD();
 		
 		// close context

@@ -168,7 +168,7 @@ extends PAppletHax {
 				// calc wave
 				float curOsc = 0.5f + 0.5f * P.sin(-p.loop.progressRads() + distanceToRadians);
 				curOsc = Penner.easeInOutCubic(curOsc);
-				float tileOscSize = (tileSize / 2) + (tileSize / 2) * 1f; // curOsc;
+				// float tileOscSize = (tileSize / 2) + (tileSize / 2) * 1f; // curOsc;
 
 				// position and draw
 				p.pushMatrix();

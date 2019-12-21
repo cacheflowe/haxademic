@@ -10,20 +10,32 @@ import processing.event.KeyEvent;
 
 public class KeyboardState {
 
-
 	protected HashMap<Integer, InputState> keyboardButtons = new HashMap<Integer, InputState>();
 	protected int lastUpdatedFrame = 0;
 
+	// Singleton instance
+	
+	public static KeyboardState instance;
+	
+	public static KeyboardState instance() {
+		if(instance != null) return instance;
+		instance = new KeyboardState();
+		return instance;
+	}
+	
+	// Constructor
+
 	public KeyboardState() {
-		P.p.registerMethod(PRegisterableMethods.pre, this);
+		P.p.registerMethod(PRegisterableMethods.post, this);
+		P.p.registerMethod(PRegisterableMethods.keyEvent, this);
 	}
 	
 	///////////////////////////////
 	// AUTO-SWITCH `TRIGGER` TO `ON`
 	///////////////////////////////
 		
-	public void pre() {
-//		if(P.p.frameCount == lastUpdatedFrame) return; 
+	public void post() {
+		if(P.p.frameCount == lastUpdatedFrame) return; 
 		for (Integer key : keyboardButtons.keySet()) {
 			if(keyboardButtons.get(key) == InputState.TRIGGER) keyboardButtons.put(key, InputState.ON);
 		}

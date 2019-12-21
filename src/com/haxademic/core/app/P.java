@@ -3,6 +3,7 @@ package com.haxademic.core.app;
 import com.haxademic.core.data.store.AppStore;
 import com.haxademic.core.data.store.AppStoreDistributed;
 import com.haxademic.core.file.FileUtil;
+import com.haxademic.core.hardware.keyboard.KeyboardState;
 import com.haxademic.core.hardware.mouse.Mouse;
 
 import processing.core.PApplet;
@@ -21,6 +22,7 @@ extends PApplet {
 		P.p = p;
 		P.store = AppStore.instance();
 		Mouse.instance();
+		KeyboardState.instance();
 	}
 	
 	// helper methods

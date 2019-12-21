@@ -19,15 +19,17 @@ varying vec4 vertTexCoord;
 //   -1 -1 -1
 
 uniform sampler2D map;
-uniform float sharpness = 1.0;
+uniform float sharpnessMax = 1.0;
+uniform float sharpnessMin = 0.0;
 
 vec2 offsets[9] = vec2[](vec2(-1.0,-1.0), vec2(0.0,-1.0), vec2(1.0,-1.0), vec2(-1.0,0.0), vec2(0.0,0.0), vec2(1.0,0.0), vec2(-1.0,1.0), vec2(0.0,1.0), vec2(1.0,1.0));
 vec4 neighbor[9];
 
 void main() {
   float mapVal = texture2D(map, vertTexCoord.st).r;
+  float sharpness = sharpnessMin + (sharpnessMax - sharpnessMin) * mapVal;
   for (int i = 0; i < 9; i++) {
-      neighbor[i] = texture2D( texture, vertTexCoord.xy + (offsets[i] * sharpness * mapVal) * texOffset );
+      neighbor[i] = texture2D( texture, vertTexCoord.xy + (offsets[i] * sharpness) * texOffset );
   }
 
   gl_FragColor = (neighbor[4] * 9.0) -

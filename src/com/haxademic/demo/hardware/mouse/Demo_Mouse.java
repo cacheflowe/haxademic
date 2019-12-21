@@ -6,7 +6,7 @@ import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.hardware.mouse.Mouse;
 import com.haxademic.core.system.AppUtil;
 
-public class Demo_MouseUtil
+public class Demo_Mouse
 extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
