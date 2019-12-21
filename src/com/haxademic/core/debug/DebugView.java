@@ -6,6 +6,7 @@ import java.util.Map;
 import com.haxademic.core.app.P;
 import com.haxademic.core.data.constants.PBlendModes;
 import com.haxademic.core.draw.context.PG;
+import com.haxademic.core.hardware.keyboard.KeyboardState;
 import com.haxademic.core.hardware.mouse.Mouse;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.media.DemoAssets;
@@ -152,7 +153,13 @@ public class DebugView {
 		return string;
 	}
 	
+	public void checkKeyCommands() {
+		if(KeyboardState.instance().isKeyTriggered('/')) isActive = !isActive;
+		if(KeyboardState.instance().isKeyTriggered('\\')) isActive = false;
+	}
+	
 	public void draw() {
+		checkKeyCommands();
 		if(debugFont == null) return;
 		if(isActive == false) return;
 		if(autoHide && p.frameCount > frameOpened + hideFrames) isActive = false;

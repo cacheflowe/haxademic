@@ -7,6 +7,7 @@ import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.FeedbackRadialFilter;
 import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.media.DemoAssets;
+import com.haxademic.core.ui.UI;
 
 import processing.core.PShape;
 
@@ -47,16 +48,16 @@ extends PAppletHax {
 		PShapeUtil.centerShape(xShape);
 		PShapeUtil.scaleShapeToMaxAbsY(xShape, p.height * 0.25f);
 		
-		p.ui.addSlider(feedbackAmp, 0.001f, 0.00001f, 0.005f, 0.00001f, false);
-		p.ui.addSlider(feedbackMultX, 1f, 0f, 1f, 0.001f, false);
-		p.ui.addSlider(feedbackMultY, 1f, 0f, 1f, 0.001f, false);
-		p.ui.addSlider(feedbackBrightMult, 1f, 0.9f, 1.1f, 0.0001f, false);
-		p.ui.addSlider(feedbackAlphaMult, 0.99f, 0.9f, 1f, 0.001f, false);
-		p.ui.addSlider(feedbackWaveAmp, 0.1f, 0f, 1f, 0.001f, false);
-		p.ui.addSlider(feedbackWaveFreq, 10f, 0f, 100f, 0.1f, false);
-		p.ui.addSlider(feedbackWaveStartMult, 0.01f, -0.2f, 0.2f, 0.001f, false);
+		UI.addSlider(feedbackAmp, 0.001f, 0.00001f, 0.005f, 0.00001f, false);
+		UI.addSlider(feedbackMultX, 1f, 0f, 1f, 0.001f, false);
+		UI.addSlider(feedbackMultY, 1f, 0f, 1f, 0.001f, false);
+		UI.addSlider(feedbackBrightMult, 1f, 0.9f, 1.1f, 0.0001f, false);
+		UI.addSlider(feedbackAlphaMult, 0.99f, 0.9f, 1f, 0.001f, false);
+		UI.addSlider(feedbackWaveAmp, 0.1f, 0f, 1f, 0.001f, false);
+		UI.addSlider(feedbackWaveFreq, 10f, 0f, 100f, 0.1f, false);
+		UI.addSlider(feedbackWaveStartMult, 0.01f, -0.2f, 0.2f, 0.001f, false);
 		
-		p.ui.addSlider(shapeSpinMult, 0.01f, -0.05f, 0.05f, 0.001f, false);
+		UI.addSlider(shapeSpinMult, 0.01f, -0.05f, 0.05f, 0.001f, false);
 	}
 	
 	protected void drawImg(boolean black) {
@@ -64,20 +65,20 @@ extends PAppletHax {
 		xShape.disableStyle();
 		pg.fill(127f + 127f * P.sin(progressRads));
 		pg.translate(pg.width/2, pg.height/2);
-		pg.rotate(p.frameCount * p.ui.value(shapeSpinMult));
+		pg.rotate(p.frameCount * UI.value(shapeSpinMult));
 		pg.shape(xShape);
 		pg.endDraw();
 	}
 	
 	protected void applyFeedbackToBuffer() {
-		FeedbackRadialFilter.instance(P.p).setAmp(p.ui.value(feedbackAmp));
-		FeedbackRadialFilter.instance(P.p).setMultX(p.ui.value(feedbackMultX));
-		FeedbackRadialFilter.instance(P.p).setMultY(p.ui.value(feedbackMultY));
-		FeedbackRadialFilter.instance(P.p).setSampleMult(p.ui.value(feedbackBrightMult));
-		FeedbackRadialFilter.instance(P.p).setWaveAmp(p.ui.value(feedbackWaveAmp));
-		FeedbackRadialFilter.instance(P.p).setWaveFreq(p.ui.value(feedbackWaveFreq));
-		FeedbackRadialFilter.instance(P.p).setWaveStart(p.frameCount * p.ui.value(feedbackWaveStartMult));
-		FeedbackRadialFilter.instance(P.p).setAlphaMult(p.ui.value(feedbackAlphaMult));
+		FeedbackRadialFilter.instance(P.p).setAmp(UI.value(feedbackAmp));
+		FeedbackRadialFilter.instance(P.p).setMultX(UI.value(feedbackMultX));
+		FeedbackRadialFilter.instance(P.p).setMultY(UI.value(feedbackMultY));
+		FeedbackRadialFilter.instance(P.p).setSampleMult(UI.value(feedbackBrightMult));
+		FeedbackRadialFilter.instance(P.p).setWaveAmp(UI.value(feedbackWaveAmp));
+		FeedbackRadialFilter.instance(P.p).setWaveFreq(UI.value(feedbackWaveFreq));
+		FeedbackRadialFilter.instance(P.p).setWaveStart(p.frameCount * UI.value(feedbackWaveStartMult));
+		FeedbackRadialFilter.instance(P.p).setAlphaMult(UI.value(feedbackAlphaMult));
 		FeedbackRadialFilter.instance(P.p).applyTo(pg);
 	}
 

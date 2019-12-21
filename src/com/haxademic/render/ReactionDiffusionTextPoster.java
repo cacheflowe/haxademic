@@ -15,6 +15,7 @@ import com.haxademic.core.draw.filters.pshader.SharpenFilter;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.system.SystemUtil;
+import com.haxademic.core.ui.UI;
 
 import processing.core.PGraphics;
 import processing.core.PImage;
@@ -79,20 +80,20 @@ extends PAppletHax {
 	}
 	
 	protected void buildUI() {
-		p.ui.addSlider(FEEDBACK_AMP, 0, 0.99f, 1.01f, 0.0001f);
-		p.ui.addSlider(FEEDBACK_ROTATE, 0, -0.02f, 0.02f, 0.0001f);
-		p.ui.addSlider(FEEDBACK_OFFSET_X, 0, -0.02f, 0.02f, 0.0001f);
-		p.ui.addSlider(FEEDBACK_OFFSET_Y, 0, -0.02f, 0.02f, 0.0001f);
-		p.ui.addSlider(DARKEN_AMP, -10, -200, 200, 1f);
-		p.ui.addSlider(RD_ITERATIONS, 0, 0, 10, 1f);
-		p.ui.addSlider(RD_BLUR_AMP_X, 0, 0, 6, 0.001f);
-		p.ui.addSlider(RD_BLUR_AMP_Y, 0, 0, 6, 0.001f);
-		p.ui.addSlider(RD_SHARPEN_AMP, 0, 0, 20, 0.01f);
-		p.ui.addSlider(FAKE_LIGHT_AMBIENT, 2f, 0.3f, 6f, 0.01f);
-		p.ui.addSlider(FAKE_LIGHT_GRAD_AMP, 0.66f, 0.1f, 6f, 0.01f);
-		p.ui.addSlider(FAKE_LIGHT_GRAD_BLUR, 1f, 0.1f, 6f, 0.01f);
-		p.ui.addSlider(FAKE_LIGHT_SPEC_AMP, 2.25f, 0.1f, 6f, 0.01f);
-		p.ui.addSlider(FAKE_LIGHT_DIFF_DARK, 0.85f, 0.1f, 2f, 0.01f);
+		UI.addSlider(FEEDBACK_AMP, 0, 0.99f, 1.01f, 0.0001f);
+		UI.addSlider(FEEDBACK_ROTATE, 0, -0.02f, 0.02f, 0.0001f);
+		UI.addSlider(FEEDBACK_OFFSET_X, 0, -0.02f, 0.02f, 0.0001f);
+		UI.addSlider(FEEDBACK_OFFSET_Y, 0, -0.02f, 0.02f, 0.0001f);
+		UI.addSlider(DARKEN_AMP, -10, -200, 200, 1f);
+		UI.addSlider(RD_ITERATIONS, 0, 0, 10, 1f);
+		UI.addSlider(RD_BLUR_AMP_X, 0, 0, 6, 0.001f);
+		UI.addSlider(RD_BLUR_AMP_Y, 0, 0, 6, 0.001f);
+		UI.addSlider(RD_SHARPEN_AMP, 0, 0, 20, 0.01f);
+		UI.addSlider(FAKE_LIGHT_AMBIENT, 2f, 0.3f, 6f, 0.01f);
+		UI.addSlider(FAKE_LIGHT_GRAD_AMP, 0.66f, 0.1f, 6f, 0.01f);
+		UI.addSlider(FAKE_LIGHT_GRAD_BLUR, 1f, 0.1f, 6f, 0.01f);
+		UI.addSlider(FAKE_LIGHT_SPEC_AMP, 2.25f, 0.1f, 6f, 0.01f);
+		UI.addSlider(FAKE_LIGHT_DIFF_DARK, 0.85f, 0.1f, 2f, 0.01f);
 	}
 	
 	/////////////////////////
@@ -100,16 +101,16 @@ extends PAppletHax {
 	/////////////////////////
 	
 	protected void darkenCanvas() {
-		BrightnessStepFilter.instance(p).setBrightnessStep(p.ui.value(DARKEN_AMP)/255f);
+		BrightnessStepFilter.instance(p).setBrightnessStep(UI.value(DARKEN_AMP)/255f);
 		BrightnessStepFilter.instance(p).applyTo(pg);
 	}
 
 	protected void setFakeLighting() {
-		FakeLightingFilter.instance(p).setAmbient(p.ui.value(FAKE_LIGHT_AMBIENT));
-		FakeLightingFilter.instance(p).setGradAmp(p.ui.value(FAKE_LIGHT_GRAD_AMP));
-		FakeLightingFilter.instance(p).setGradBlur(p.ui.value(FAKE_LIGHT_GRAD_BLUR));
-		FakeLightingFilter.instance(p).setSpecAmp(p.ui.value(FAKE_LIGHT_SPEC_AMP));
-		FakeLightingFilter.instance(p).setDiffDark(p.ui.value(FAKE_LIGHT_DIFF_DARK));
+		FakeLightingFilter.instance(p).setAmbient(UI.value(FAKE_LIGHT_AMBIENT));
+		FakeLightingFilter.instance(p).setGradAmp(UI.value(FAKE_LIGHT_GRAD_AMP));
+		FakeLightingFilter.instance(p).setGradBlur(UI.value(FAKE_LIGHT_GRAD_BLUR));
+		FakeLightingFilter.instance(p).setSpecAmp(UI.value(FAKE_LIGHT_SPEC_AMP));
+		FakeLightingFilter.instance(p).setDiffDark(UI.value(FAKE_LIGHT_DIFF_DARK));
 		FakeLightingFilter.instance(p).applyTo(pgPost);
 	}
 	
@@ -121,21 +122,21 @@ extends PAppletHax {
 	
 	
 	protected void applyZoomRotate() {
-		p.debugView.setValue("p.ui.value(FEEDBACK_OFFSET_X)/255f", p.ui.value(FEEDBACK_OFFSET_X)/255f);
-		RotateFilter.instance(p).setRotation(p.ui.value(FEEDBACK_ROTATE));
-		RotateFilter.instance(p).setZoom(p.ui.value(FEEDBACK_AMP));
-		RotateFilter.instance(p).setOffset(p.ui.value(FEEDBACK_OFFSET_X), p.ui.value(FEEDBACK_OFFSET_Y));
+		p.debugView.setValue("UI.value(FEEDBACK_OFFSET_X)/255f", UI.value(FEEDBACK_OFFSET_X)/255f);
+		RotateFilter.instance(p).setRotation(UI.value(FEEDBACK_ROTATE));
+		RotateFilter.instance(p).setZoom(UI.value(FEEDBACK_AMP));
+		RotateFilter.instance(p).setOffset(UI.value(FEEDBACK_OFFSET_X), UI.value(FEEDBACK_OFFSET_Y));
 		RotateFilter.instance(p).applyTo(pg);
 	}
 	
 	protected void applyRD() {
-		for (int i = 0; i < p.ui.valueInt(RD_ITERATIONS); i++) {
+		for (int i = 0; i < UI.valueInt(RD_ITERATIONS); i++) {
 			// TODO: I messed this up and didn't use pg dimensions to power the R/D effect. Now all of the presets use that hardcoded number.
-			BlurHFilter.instance(p).setBlurByPercent(p.ui.value(RD_BLUR_AMP_X), 1600);
+			BlurHFilter.instance(p).setBlurByPercent(UI.value(RD_BLUR_AMP_X), 1600);
 			BlurHFilter.instance(p).applyTo(pg);
-			BlurVFilter.instance(p).setBlurByPercent(p.ui.value(RD_BLUR_AMP_Y), 900);
+			BlurVFilter.instance(p).setBlurByPercent(UI.value(RD_BLUR_AMP_Y), 900);
 			BlurVFilter.instance(p).applyTo(pg);
-			SharpenFilter.instance(p).setSharpness(p.ui.value(RD_SHARPEN_AMP));
+			SharpenFilter.instance(p).setSharpness(UI.value(RD_SHARPEN_AMP));
 			SharpenFilter.instance(p).applyTo(pg);
 		}
 	}
@@ -164,10 +165,10 @@ extends PAppletHax {
 		
 	public void keyPressed() {
 		super.keyPressed();
-		if(p.key == 'z') P.out(p.ui.valuesToJSON());
+		if(p.key == 'z') P.out(UI.valuesToJSON());
 		if(p.key == ' ') clearScreen = true;
 		if(p.key == 's') pgPost.save(FileUtil.getHaxademicOutputPath() + "_screenshots/" + SystemUtil.getTimestampFine() + ".png");
-//		if(p.key == '1') p.ui.loadJSON(JSONObject.parse(CONFIG_1));
+//		if(p.key == '1') UI.loadJSON(JSONObject.parse(CONFIG_1));
 	}
 	
 	

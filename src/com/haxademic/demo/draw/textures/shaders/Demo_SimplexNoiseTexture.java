@@ -3,6 +3,7 @@ package com.haxademic.demo.draw.textures.shaders;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.textures.SimplexNoiseTexture;
+import com.haxademic.core.ui.UI;
 
 public class Demo_SimplexNoiseTexture 
 extends PAppletHax {
@@ -16,10 +17,10 @@ extends PAppletHax {
 
 	protected void setupFirstFrame() {
 		// init controls
-		p.ui.addSlider(ZOOM, 1f, 0.01f, 20f, 0.01f, false);
-		p.ui.addSlider(ROTATION, 0f, 0, P.TWO_PI, 0.01f, false);
-		p.ui.addSlider(OFFSET_X, 0f, -100f, 100f, 0.01f, false);
-		p.ui.addSlider(OFFSET_Y, 0f, -100f, 100f, 0.01f, false);
+		UI.addSlider(ZOOM, 1f, 0.01f, 20f, 0.01f, false);
+		UI.addSlider(ROTATION, 0f, 0, P.TWO_PI, 0.01f, false);
+		UI.addSlider(OFFSET_X, 0f, -100f, 100f, 0.01f, false);
+		UI.addSlider(OFFSET_Y, 0f, -100f, 100f, 0.01f, false);
 		
 		// init noise object
 		noiseTexture = new SimplexNoiseTexture(p.width, p.height);
@@ -31,10 +32,10 @@ extends PAppletHax {
 		
 		// update perlin texture
 		noiseTexture.update(
-				p.ui.value(ZOOM),
-				p.ui.value(ROTATION),
-				p.ui.value(OFFSET_X),
-				p.ui.value(OFFSET_Y)
+				UI.value(ZOOM),
+				UI.value(ROTATION),
+				UI.value(OFFSET_X),
+				UI.value(OFFSET_Y)
 		);
 		
 		// draw to screen

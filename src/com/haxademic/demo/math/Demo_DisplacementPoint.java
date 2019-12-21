@@ -5,6 +5,7 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.math.easing.DisplacementPoint;
+import com.haxademic.core.ui.UI;
 
 public class Demo_DisplacementPoint
 extends PAppletHax {
@@ -39,11 +40,11 @@ extends PAppletHax {
 		}
 		
 		// set up sliders
-		p.ui.addSlider(POINT_SIZE, 10, 1, 100, 1, false);
-		p.ui.addSlider(DISPLACE_AMP, 30, 1, 300, 1, false);
-		p.ui.addSlider(FRICTION, 0.9f, 0.1f, 0.99f, 0.001f, false);
-		p.ui.addSlider(ACCELERATION, 0.1f, 0.01f, 0.99f, 0.001f, false);
-		p.ui.addSlider(INFLUENCE_BY_DISTANCE, 1, 0, 1, 0.01f, false);
+		UI.addSlider(POINT_SIZE, 10, 1, 100, 1, false);
+		UI.addSlider(DISPLACE_AMP, 30, 1, 300, 1, false);
+		UI.addSlider(FRICTION, 0.9f, 0.1f, 0.99f, 0.001f, false);
+		UI.addSlider(ACCELERATION, 0.1f, 0.01f, 0.99f, 0.001f, false);
+		UI.addSlider(INFLUENCE_BY_DISTANCE, 1, 0, 1, 0.01f, false);
 	}
 
 	protected int indexByXY(int x, int y, int cols) {
@@ -63,13 +64,13 @@ extends PAppletHax {
 		p.stroke(255);
 		
 		// update properties w/sliders & draw points
-		float pointSize = p.ui.value(POINT_SIZE);
+		float pointSize = UI.value(POINT_SIZE);
 		for (int i = 0; i < points.length; i++) {
 			// set properties 
-			points[i].displaceAmp(p.ui.value(DISPLACE_AMP));
-			points[i].friction(p.ui.value(FRICTION));
-			points[i].acceleration(p.ui.value(ACCELERATION));
-			points[i].influenceByDistance(p.ui.value(INFLUENCE_BY_DISTANCE));
+			points[i].displaceAmp(UI.value(DISPLACE_AMP));
+			points[i].friction(UI.value(FRICTION));
+			points[i].acceleration(UI.value(ACCELERATION));
+			points[i].influenceByDistance(UI.value(INFLUENCE_BY_DISTANCE));
 			points[i].update(p.mouseX, p.mouseY);
 		}
 		// draw after updating all, so vertices match up between `update()` calls

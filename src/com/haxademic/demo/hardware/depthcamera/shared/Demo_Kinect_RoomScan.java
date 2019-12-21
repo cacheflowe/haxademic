@@ -11,6 +11,7 @@ import com.haxademic.core.draw.text.FontCacher;
 import com.haxademic.core.hardware.depthcamera.KinectRoomScanDiff;
 import com.haxademic.core.media.DemoAssets;
 import com.haxademic.core.system.SystemUtil;
+import com.haxademic.core.ui.UI;
 
 public class Demo_Kinect_RoomScan
 extends PAppletHax {
@@ -44,12 +45,12 @@ extends PAppletHax {
 		kinectDiff = new KinectRoomScanDiff(p.depthCamera, 8, false);
 		
 		// build ui
-		p.ui.addSlider(colorDiffThresh, 0.005f, 0f, 1f, 0.001f, false);
-		p.ui.addSlider(smoothThresh, 0.5f, 0f, 1f, 0.001f, false);
-		p.ui.addSlider(diffSmoothBlur, 0.43f, 0f, 3f, 0.001f, false);
-		p.ui.addSlider(newFrameLerp, 0.15f, 0f, 1f, 0.001f, false);
+		UI.addSlider(colorDiffThresh, 0.005f, 0f, 1f, 0.001f, false);
+		UI.addSlider(smoothThresh, 0.5f, 0f, 1f, 0.001f, false);
+		UI.addSlider(diffSmoothBlur, 0.43f, 0f, 3f, 0.001f, false);
+		UI.addSlider(newFrameLerp, 0.15f, 0f, 1f, 0.001f, false);
 
-		p.ui.addSlider(debugScale, 1, 0.5f, 6f, 0.01f, false);
+		UI.addSlider(debugScale, 1, 0.5f, 6f, 0.01f, false);
 		
 		userActive = new BufferThresholdMonitor(32, 24, 20);
 	}
@@ -62,16 +63,16 @@ extends PAppletHax {
 		}
 		
 		// update room scan via ui
-		kinectDiff.colorDiffThresh(p.ui.value(colorDiffThresh));
-		kinectDiff.smoothThresh(p.ui.value(smoothThresh));
-		kinectDiff.smoothBlur(p.ui.value(diffSmoothBlur));
-		kinectDiff.smoothLerp(p.ui.value(newFrameLerp));
+		kinectDiff.colorDiffThresh(UI.value(colorDiffThresh));
+		kinectDiff.smoothThresh(UI.value(smoothThresh));
+		kinectDiff.smoothBlur(UI.value(diffSmoothBlur));
+		kinectDiff.smoothLerp(UI.value(newFrameLerp));
 		
 		// update depth frame diffing
 		kinectDiff.update();
 		
 		// draw all
-		p.scale(p.ui.value(debugScale));
+		p.scale(UI.value(debugScale));
 		p.background(0, 127, 0);
 		p.image(kinectDiff.roomScanBuffer(), 0, 0);
 		p.image(kinectDiff.depthBuffer(), kinectDiff.roomScanBuffer().width, 0);

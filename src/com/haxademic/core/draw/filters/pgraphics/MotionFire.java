@@ -16,6 +16,7 @@ import com.haxademic.core.draw.image.BufferMotionDetectionMap;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.textures.SimplexNoiseTexture;
 import com.haxademic.core.file.FileUtil;
+import com.haxademic.core.ui.UI;
 
 import processing.core.PGraphics;
 import processing.opengl.PShader;
@@ -75,20 +76,20 @@ extends BaseVideoFilter {
 		// p.debugView.setTexture(noiseTexture.texture());
 		
 		// init ui
-		P.p.ui.addSlider(UI_SCROLL_UP, 0.007f, 0, 0.02f, 0.001f, false);
-		P.p.ui.addSlider(UI_SCROLL_ZOOM, 0.995f, 0.5f, 1.5f, 0.001f, false);
-		P.p.ui.addSlider(UI_DARKEN, 4, 0, 200, 1f, false);
-		P.p.ui.addSlider(UI_BLUR_SPREAD_ITERS, 0, 0, 10, 1, false);
-		P.p.ui.addSlider(UI_BLUR_SMOOTH_AMP, 0.5f, 0, 5, 0.1f, false);
-		P.p.ui.addSlider(UI_DEPTH_ADD_ALPHA, 0.33f, 0, 1, 0.01f, false);
-		P.p.ui.addSlider(UI_BLUR_DISPLACER_AMP, 0, 0, 3, 0.01f, false);
-		P.p.ui.addSlider(UI_APPLY_AMP, 0.005f, 0, 0.1f, 0.001f, false);
-		P.p.ui.addSlider(UI_APPLY_ITERS, 1, 0, 10, 1, false);
-		P.p.ui.addSlider(UI_NOISE_ZOOM, 4, 0.1f, 10, 0.01f, false);
-		P.p.ui.addSlider(UI_NOISE_BRIGHTNESS, 1.36f, 0.1f, 2, 0.001f, false);	// basic rotation b/c of displacement
-		P.p.ui.addSliderVector(GRADIENT_STOP_1, 30f, 0, 255, 1, false);
-		P.p.ui.addSliderVector(GRADIENT_STOP_2, 0, 0, 255, 1, false);
-		P.p.ui.addSliderVector(GRADIENT_STOP_3, 255, 0, 255, 1, false);
+		UI.addSlider(UI_SCROLL_UP, 0.007f, 0, 0.02f, 0.001f, false);
+		UI.addSlider(UI_SCROLL_ZOOM, 0.995f, 0.5f, 1.5f, 0.001f, false);
+		UI.addSlider(UI_DARKEN, 4, 0, 200, 1f, false);
+		UI.addSlider(UI_BLUR_SPREAD_ITERS, 0, 0, 10, 1, false);
+		UI.addSlider(UI_BLUR_SMOOTH_AMP, 0.5f, 0, 5, 0.1f, false);
+		UI.addSlider(UI_DEPTH_ADD_ALPHA, 0.33f, 0, 1, 0.01f, false);
+		UI.addSlider(UI_BLUR_DISPLACER_AMP, 0, 0, 3, 0.01f, false);
+		UI.addSlider(UI_APPLY_AMP, 0.005f, 0, 0.1f, 0.001f, false);
+		UI.addSlider(UI_APPLY_ITERS, 1, 0, 10, 1, false);
+		UI.addSlider(UI_NOISE_ZOOM, 4, 0.1f, 10, 0.01f, false);
+		UI.addSlider(UI_NOISE_BRIGHTNESS, 1.36f, 0.1f, 2, 0.001f, false);	// basic rotation b/c of displacement
+		UI.addSliderVector(GRADIENT_STOP_1, 30f, 0, 255, 1, false);
+		UI.addSliderVector(GRADIENT_STOP_2, 0, 0, 255, 1, false);
+		UI.addSliderVector(GRADIENT_STOP_3, 255, 0, 255, 1, false);
 
 	}
 	
@@ -139,7 +140,7 @@ extends BaseVideoFilter {
 		P.p.debugView.setTexture("blurPG", blurPG);
 		
 		// blur to smooth clocky motion detection
-		float blurAmp = P.p.ui.value(UI_BLUR_SMOOTH_AMP);
+		float blurAmp = UI.value(UI_BLUR_SMOOTH_AMP);
 		BlurHFilter.instance(P.p).setBlurByPercent(blurAmp, blurPG.width);
 		BlurHFilter.instance(P.p).applyTo(blurPG);
 		BlurVFilter.instance(P.p).setBlurByPercent(blurAmp, blurPG.height);
@@ -149,14 +150,14 @@ extends BaseVideoFilter {
 	
 	protected void fadeAndScrollLastFrame() {
 		// fade down
-		BrightnessStepFilter.instance(P.p).setBrightnessStep(-P.p.ui.value(UI_DARKEN)/255);
+		BrightnessStepFilter.instance(P.p).setBrightnessStep(-UI.value(UI_DARKEN)/255);
 		BrightnessStepFilter.instance(P.p).applyTo(fadePG);
 		
 		// scroll
 		RotateFilter.instance(P.p).setRotation(0.0f);// + 0.01f * P.sin(p.frameCount * 0.1f));
 //		RotateFilter.instance(P.p).setRotation(0);
-		RotateFilter.instance(P.p).setZoom(P.p.ui.value(UI_SCROLL_ZOOM));
-		RotateFilter.instance(P.p).setOffset(0f, -P.p.ui.value(UI_SCROLL_UP));
+		RotateFilter.instance(P.p).setZoom(UI.value(UI_SCROLL_ZOOM));
+		RotateFilter.instance(P.p).setOffset(0f, -UI.value(UI_SCROLL_UP));
 		RotateFilter.instance(P.p).applyTo(fadePG);
 		
 		// draw bottom bar
@@ -166,7 +167,7 @@ extends BaseVideoFilter {
 	
 	protected void addBlendBlurredAndSpread() {
 		// loop aplha add
-		float alphaAdd = P.p.ui.value(UI_DEPTH_ADD_ALPHA);
+		float alphaAdd = UI.value(UI_DEPTH_ADD_ALPHA);
 		
 		// for rendering loop:
 //		int fadeFrames = 100;
@@ -183,7 +184,7 @@ extends BaseVideoFilter {
 		fadePG.endDraw();
 
 		// spread out
-		int blurSpreadIters = P.p.ui.valueInt(UI_BLUR_SPREAD_ITERS);
+		int blurSpreadIters = UI.valueInt(UI_BLUR_SPREAD_ITERS);
 		float blurAmp = 1f;
 		if(blurSpreadIters > 0) {
 			for (int i = 0; i < blurSpreadIters; i++) {
@@ -197,18 +198,18 @@ extends BaseVideoFilter {
 
 	protected void updateMapShader() {
 		noiseTexture.update(
-				P.p.ui.value(UI_NOISE_ZOOM),
+				UI.value(UI_NOISE_ZOOM),
 				0,
 				P.p.frameCount * 0.01f + 0.1f * P.sin(P.p.frameCount * 0.1f),
 				-P.p.frameCount * 0.05f
 		);
 		
-		BrightnessFilter.instance(P.p).setBrightness(P.p.ui.value(UI_NOISE_BRIGHTNESS));
+		BrightnessFilter.instance(P.p).setBrightness(UI.value(UI_NOISE_BRIGHTNESS));
 		BrightnessFilter.instance(P.p).applyTo(noiseTexture.texture());
 		
 		P.p.debugView.setTexture("noiseTexture", noiseTexture.texture());
 		
-		float blurAmp = P.p.ui.value(UI_BLUR_DISPLACER_AMP);
+		float blurAmp = UI.value(UI_BLUR_DISPLACER_AMP);
 		BlurHFilter.instance(P.p).setBlurByPercent(blurAmp, noiseTexture.texture().width);
 		BlurHFilter.instance(P.p).applyTo(noiseTexture.texture());
 		BlurVFilter.instance(P.p).setBlurByPercent(blurAmp, noiseTexture.texture().height);
@@ -218,15 +219,15 @@ extends BaseVideoFilter {
 	protected void applyFeedbackShaderTo(PGraphics pgToFeedback) {
 		feedbackShader.set("map", noiseTexture.texture());
 		feedbackShader.set("mode", 3);
-		feedbackShader.set("amp", P.p.ui.value(UI_APPLY_AMP));
-		for (int i = 0; i < P.p.ui.value(UI_APPLY_ITERS); i++) pgToFeedback.filter(feedbackShader); 
+		feedbackShader.set("amp", UI.value(UI_APPLY_AMP));
+		for (int i = 0; i < UI.value(UI_APPLY_ITERS); i++) pgToFeedback.filter(feedbackShader); 
 	}
 	
 	protected void updateGradient() {
 		// redraw 3-color gradient
-		int color1 = P.p.color(P.p.ui.valueX(GRADIENT_STOP_1), P.p.ui.valueY(GRADIENT_STOP_1), P.p.ui.valueZ(GRADIENT_STOP_1));
-		int color2 = P.p.color(P.p.ui.valueX(GRADIENT_STOP_2), P.p.ui.valueY(GRADIENT_STOP_2), P.p.ui.valueZ(GRADIENT_STOP_2));
-		int color3 = P.p.color(P.p.ui.valueX(GRADIENT_STOP_3), P.p.ui.valueY(GRADIENT_STOP_3), P.p.ui.valueZ(GRADIENT_STOP_3));
+		int color1 = P.p.color(UI.valueX(GRADIENT_STOP_1), UI.valueY(GRADIENT_STOP_1), UI.valueZ(GRADIENT_STOP_1));
+		int color2 = P.p.color(UI.valueX(GRADIENT_STOP_2), UI.valueY(GRADIENT_STOP_2), UI.valueZ(GRADIENT_STOP_2));
+		int color3 = P.p.color(UI.valueX(GRADIENT_STOP_3), UI.valueY(GRADIENT_STOP_3), UI.valueZ(GRADIENT_STOP_3));
 //		color1 = p.color(30, 0, 0);
 //		color2 = p.color(174, 0, 0);
 //		color3 = p.color(255, 255, 121);

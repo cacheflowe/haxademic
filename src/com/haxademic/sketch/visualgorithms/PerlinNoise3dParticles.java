@@ -8,6 +8,7 @@ import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.data.constants.PBlendModes;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.media.audio.analysis.AudioIn;
+import com.haxademic.core.ui.UI;
 
 import processing.core.PVector;
 
@@ -47,11 +48,11 @@ extends PAppletHax {
 		AudioIn.instance();
 		halfSize = p.width * 0.5f;
 
-		p.ui.addSlider(noiseScale, 0.93f, 0.0001f, 5f, 0.0001f, false);
-		p.ui.addSlider(octaves, 2f, 1, 8, 1, false);
-		p.ui.addSlider(noiseSpeed, 0.025f, 0, 1f, 0.001f, false);
-		p.ui.addSlider(falloff, 0.6f, 0, 1f, 0.001f, false);
-		p.ui.addSlider(spacing, p.width * 0.2f, 5, 150f, 1f, false);
+		UI.addSlider(noiseScale, 0.93f, 0.0001f, 5f, 0.0001f, false);
+		UI.addSlider(octaves, 2f, 1, 8, 1, false);
+		UI.addSlider(noiseSpeed, 0.025f, 0, 1f, 0.001f, false);
+		UI.addSlider(falloff, 0.6f, 0, 1f, 0.001f, false);
+		UI.addSlider(spacing, p.width * 0.2f, 5, 150f, 1f, false);
 
 		buildFieldVectors();
 		buildParticles();
@@ -68,7 +69,7 @@ extends PAppletHax {
 		fieldVecs = new ArrayList<PVector>();
 		fieldVecRots = new ArrayList<PVector>();
 		
-		float spacingg = p.ui.value(spacing);
+		float spacingg = UI.value(spacing);
 		for (float x = -halfSize; x <= halfSize; x += spacingg) {
 			for (float y = -halfSize; y <= halfSize; y += spacingg) {
 				for (float z = -halfSize; z <= halfSize; z += spacingg) {
@@ -90,7 +91,7 @@ extends PAppletHax {
 		
 		// update noise 
 //		float autoFalloff = (progress < 0.5f) ? P.map(progress, 0, 0.5f, 0, 1) : P.map(progress, 0.5f, 1f, 1, 0);
-		p.noiseDetail(p.ui.valueInt(octaves), 1); // falloff
+		p.noiseDetail(UI.valueInt(octaves), 1); // falloff
 
 		// set size & center
 		p.translate(p.width/2, p.height/2, 0);
@@ -107,7 +108,7 @@ extends PAppletHax {
 	}
 	
 	protected void updateField() {
-		float noiseInc = p.frameCount * p.ui.value(noiseSpeed);
+		float noiseInc = p.frameCount * UI.value(noiseSpeed);
 		
 		// update field rotation
 		for (int i = 0; i < fieldVecRots.size(); i++) {
@@ -153,9 +154,9 @@ extends PAppletHax {
 	
 	protected float getNoise(float x, float y, float z ) {
 		return p.noise(
-				p.frameCount * p.ui.value(noiseSpeed) + x * p.ui.value(noiseScale), 
-				p.frameCount * p.ui.value(noiseSpeed) + y * p.ui.value(noiseScale), 
-				p.frameCount * p.ui.value(noiseSpeed) + z * p.ui.value(noiseScale)
+				p.frameCount * UI.value(noiseSpeed) + x * UI.value(noiseScale), 
+				p.frameCount * UI.value(noiseSpeed) + y * UI.value(noiseScale), 
+				p.frameCount * UI.value(noiseSpeed) + z * UI.value(noiseScale)
 		);
 	}
 	
@@ -164,7 +165,7 @@ extends PAppletHax {
 		
 		protected int index;
 		protected float amp = 0;
-		protected float influenceDist = p.ui.value(spacing) * 2.5f;
+		protected float influenceDist = UI.value(spacing) * 2.5f;
 		protected float influenceAmp = 0.05f;
 		protected PVector pos = new PVector();
 		protected PVector[] trail = new PVector[] {new PVector(), new PVector(), new PVector(), new PVector(), new PVector(), new PVector(), new PVector(), new PVector(), new PVector(), new PVector()};

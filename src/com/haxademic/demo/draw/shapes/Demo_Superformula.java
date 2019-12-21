@@ -5,6 +5,7 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.shapes.Superformula;
 import com.haxademic.core.media.audio.analysis.AudioIn;
+import com.haxademic.core.ui.UI;
 
 public class Demo_Superformula 
 extends PAppletHax {
@@ -28,12 +29,12 @@ extends PAppletHax {
 		
 		_superForm = new Superformula( 200, 200, 10, 1, 6, 20, 7, 18);
 		
-		p.ui.addSlider(a, 6, 0, 30, 0.1f, false);
-		p.ui.addSlider(b, 8, 0, 30, 0.1f, false);
-		p.ui.addSlider(m, 15, 0, 30, 0.1f, false);
-		p.ui.addSlider(n1, 15, 0, 30, 0.1f, false);
-		p.ui.addSlider(n2, 15, 0, 30, 0.1f, false);
-		p.ui.addSlider(n3, 6, 0, 30, 0.1f, false);
+		UI.addSlider(a, 6, 0, 30, 0.1f, false);
+		UI.addSlider(b, 8, 0, 30, 0.1f, false);
+		UI.addSlider(m, 15, 0, 30, 0.1f, false);
+		UI.addSlider(n1, 15, 0, 30, 0.1f, false);
+		UI.addSlider(n2, 15, 0, 30, 0.1f, false);
+		UI.addSlider(n3, 6, 0, 30, 0.1f, false);
 	}
 
 	public void drawApp() {
@@ -54,12 +55,12 @@ extends PAppletHax {
 		
 		if( _audioEnabled == false ) {
 			setSuperFormulaProps( 10, 1, 6, 20, 7, 18 );
-			_superForm.a( p.ui.value(a) );
-			_superForm.b( p.ui.value(b) );
-			_superForm.m( p.ui.value(m) );
-			_superForm.n1( p.ui.value(n1) );
-			_superForm.n2( p.ui.value(n2) );
-			_superForm.n3( p.ui.value(n3) );
+			_superForm.a( UI.value(a) );
+			_superForm.b( UI.value(b) );
+			_superForm.m( UI.value(m) );
+			_superForm.n1( UI.value(n1) );
+			_superForm.n2( UI.value(n2) );
+			_superForm.n3( UI.value(n3) );
 
 		} else {
 			

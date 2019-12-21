@@ -7,6 +7,7 @@ import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.ChromaColorFilter;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.file.FileUtil;
+import com.haxademic.core.ui.UI;
 
 import processing.core.PGraphics;
 import processing.video.Movie;
@@ -38,11 +39,11 @@ extends PAppletHax {
 
 		_chromaBuffer = p.createGraphics(p.width, p.height, P.P3D);
 
-		p.ui.addSlider(thresholdSensitivity, 0.75f, 0, 1, 0.01f, false);
-		p.ui.addSlider(smoothing, 0.26f, 0, 1, 0.01f, false);
-		p.ui.addSlider(colorToReplaceR, 0.29f, 0, 1, 0.01f, false);
-		p.ui.addSlider(colorToReplaceG, 0.93f, 0, 1, 0.01f, false);
-		p.ui.addSlider(colorToReplaceB, 0.14f, 0, 1, 0.01f, false);
+		UI.addSlider(thresholdSensitivity, 0.75f, 0, 1, 0.01f, false);
+		UI.addSlider(smoothing, 0.26f, 0, 1, 0.01f, false);
+		UI.addSlider(colorToReplaceR, 0.29f, 0, 1, 0.01f, false);
+		UI.addSlider(colorToReplaceG, 0.93f, 0, 1, 0.01f, false);
+		UI.addSlider(colorToReplaceB, 0.14f, 0, 1, 0.01f, false);
 		
 		// build movie layer		
 		_movie = new Movie( p, FileUtil.getFile("video/nike/nike-hike-gray-loop.mov") );
@@ -67,9 +68,9 @@ extends PAppletHax {
 		_chromaBuffer.image(p.depthCamera.getRgbImage(), 0, 0);
 		_chromaBuffer.endDraw();
 		
-		ChromaColorFilter.instance(p).setColorToReplace(p.ui.value(colorToReplaceR), p.ui.value(colorToReplaceG), p.ui.value(colorToReplaceB));
-		ChromaColorFilter.instance(p).setSmoothing(p.ui.value(smoothing));
-		ChromaColorFilter.instance(p).setThresholdSensitivity(p.ui.value(thresholdSensitivity));
+		ChromaColorFilter.instance(p).setColorToReplace(UI.value(colorToReplaceR), UI.value(colorToReplaceG), UI.value(colorToReplaceB));
+		ChromaColorFilter.instance(p).setSmoothing(UI.value(smoothing));
+		ChromaColorFilter.instance(p).setThresholdSensitivity(UI.value(thresholdSensitivity));
 		ChromaColorFilter.instance(p).applyTo(_chromaBuffer);
 		
 		// draw movie

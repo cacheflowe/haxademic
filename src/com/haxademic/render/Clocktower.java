@@ -22,6 +22,7 @@ import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.EasingFloat;
 import com.haxademic.core.math.easing.LinearFloat;
+import com.haxademic.core.ui.UI;
 
 import processing.core.PGraphics;
 import processing.core.PImage;
@@ -141,27 +142,27 @@ extends PAppletHax {
 	}
 	
 	protected void buildUI() {
-		p.ui.addSlider(SHOW_SIMULATION, 1, 0, 1, 1f);
-		p.ui.addSlider(FEEDBACK_AMP, 0, 0.99f, 1.01f, 0.0001f);
-		p.ui.addSlider(FEEDBACK_ROTATE, 0, -0.02f, 0.02f, 0.0001f);
-		p.ui.addSlider(FEEDBACK_OFFSET_X, 0, -0.02f, 0.02f, 0.0001f);
-		p.ui.addSlider(FEEDBACK_OFFSET_Y, 0, -0.02f, 0.02f, 0.0001f);
-		p.ui.addSlider(DARKEN_AMP, -10, -255, 255, 1f);
-		p.ui.addSlider(RD_ITERATIONS, 0, 0, 10, 1f);
-		p.ui.addSlider(RD_BLUR_AMP_X, 0, 0, 6, 0.001f);
-		p.ui.addSlider(RD_BLUR_AMP_Y, 0, 0, 6, 0.001f);
-		p.ui.addSlider(RD_SHARPEN_AMP, 0, 0, 20, 0.01f);
-		p.ui.addSlider(FAKE_LIGHT_AMBIENT, 2f, 0.3f, 6f, 0.01f);
-		p.ui.addSlider(FAKE_LIGHT_GRAD_AMP, 0.66f, 0.1f, 6f, 0.01f);
-		p.ui.addSlider(FAKE_LIGHT_GRAD_BLUR, 1f, 0.1f, 6f, 0.01f);
-		p.ui.addSlider(FAKE_LIGHT_SPEC_AMP, 2.25f, 0.1f, 6f, 0.01f);
-		p.ui.addSlider(FAKE_LIGHT_DIFF_DARK, 0.85f, 0.1f, 2f, 0.01f);
-		p.ui.addSlider(NUM_PARTICLES, 0, 0, MAX_PARTICLES, 10);
-		p.ui.addSliderVector(COLOR_1, 0, 0, 255, 1, false);
-		p.ui.addSliderVector(COLOR_2, 255, 0, 255, 1, false);
-		p.ui.addSlider(RENDER_MODE, 0, 0, 1, 1);
-		p.ui.addSlider(TOP_LEFT_FULLSIZE, 0, 0, 1, 1);
-		p.ui.addWebInterface(true);
+		UI.addSlider(SHOW_SIMULATION, 1, 0, 1, 1f);
+		UI.addSlider(FEEDBACK_AMP, 0, 0.99f, 1.01f, 0.0001f);
+		UI.addSlider(FEEDBACK_ROTATE, 0, -0.02f, 0.02f, 0.0001f);
+		UI.addSlider(FEEDBACK_OFFSET_X, 0, -0.02f, 0.02f, 0.0001f);
+		UI.addSlider(FEEDBACK_OFFSET_Y, 0, -0.02f, 0.02f, 0.0001f);
+		UI.addSlider(DARKEN_AMP, -10, -255, 255, 1f);
+		UI.addSlider(RD_ITERATIONS, 0, 0, 10, 1f);
+		UI.addSlider(RD_BLUR_AMP_X, 0, 0, 6, 0.001f);
+		UI.addSlider(RD_BLUR_AMP_Y, 0, 0, 6, 0.001f);
+		UI.addSlider(RD_SHARPEN_AMP, 0, 0, 20, 0.01f);
+		UI.addSlider(FAKE_LIGHT_AMBIENT, 2f, 0.3f, 6f, 0.01f);
+		UI.addSlider(FAKE_LIGHT_GRAD_AMP, 0.66f, 0.1f, 6f, 0.01f);
+		UI.addSlider(FAKE_LIGHT_GRAD_BLUR, 1f, 0.1f, 6f, 0.01f);
+		UI.addSlider(FAKE_LIGHT_SPEC_AMP, 2.25f, 0.1f, 6f, 0.01f);
+		UI.addSlider(FAKE_LIGHT_DIFF_DARK, 0.85f, 0.1f, 2f, 0.01f);
+		UI.addSlider(NUM_PARTICLES, 0, 0, MAX_PARTICLES, 10);
+		UI.addSliderVector(COLOR_1, 0, 0, 255, 1, false);
+		UI.addSliderVector(COLOR_2, 255, 0, 255, 1, false);
+		UI.addSlider(RENDER_MODE, 0, 0, 1, 1);
+		UI.addSlider(TOP_LEFT_FULLSIZE, 0, 0, 1, 1);
+		UI.addWebInterface(true);
 	}
 	
 	protected void buildWindows() {
@@ -196,8 +197,8 @@ extends PAppletHax {
 		// next mode
 		configIndex++;
 		if(configIndex >= CONFIGS.length) configIndex = 0;
-		p.ui.loadValuesFromJSON(JSONObject.parse(CONFIGS[configIndex]));
-//		p.ui.get(SHOW_SIMULATION).set(1);
+		UI.loadValuesFromJSON(JSONObject.parse(CONFIGS[configIndex]));
+//		UI.get(SHOW_SIMULATION).set(1);
 	}
 	
 	protected void updateSwipe() {
@@ -210,22 +211,22 @@ extends PAppletHax {
 	}
 	
 	protected void darkenCanvas() {
-		BrightnessStepFilter.instance(p).setBrightnessStep(p.ui.value(DARKEN_AMP)/255f);
+		BrightnessStepFilter.instance(p).setBrightnessStep(UI.value(DARKEN_AMP)/255f);
 		BrightnessStepFilter.instance(p).applyTo(pg);
 	}
 
 	protected void setFakeLighting() {
-		FakeLightingFilter.instance(p).setAmbient(p.ui.value(FAKE_LIGHT_AMBIENT));
-		FakeLightingFilter.instance(p).setGradAmp(p.ui.value(FAKE_LIGHT_GRAD_AMP));
-		FakeLightingFilter.instance(p).setGradBlur(p.ui.value(FAKE_LIGHT_GRAD_BLUR));
-		FakeLightingFilter.instance(p).setSpecAmp(p.ui.value(FAKE_LIGHT_SPEC_AMP));
-		FakeLightingFilter.instance(p).setDiffDark(p.ui.value(FAKE_LIGHT_DIFF_DARK));
+		FakeLightingFilter.instance(p).setAmbient(UI.value(FAKE_LIGHT_AMBIENT));
+		FakeLightingFilter.instance(p).setGradAmp(UI.value(FAKE_LIGHT_GRAD_AMP));
+		FakeLightingFilter.instance(p).setGradBlur(UI.value(FAKE_LIGHT_GRAD_BLUR));
+		FakeLightingFilter.instance(p).setSpecAmp(UI.value(FAKE_LIGHT_SPEC_AMP));
+		FakeLightingFilter.instance(p).setDiffDark(UI.value(FAKE_LIGHT_DIFF_DARK));
 		FakeLightingFilter.instance(p).applyTo(pgPost);
 	}
 	
 	protected void setColorize() {
-		ColorizeTwoColorsFilter.instance(p).setColor1(p.ui.valueX(COLOR_1)/255f, p.ui.valueY(COLOR_1)/255f, p.ui.valueZ(COLOR_1)/255f);
-		ColorizeTwoColorsFilter.instance(p).setColor2(p.ui.valueX(COLOR_2)/255f, p.ui.valueY(COLOR_2)/255f, p.ui.valueZ(COLOR_2)/255f);
+		ColorizeTwoColorsFilter.instance(p).setColor1(UI.valueX(COLOR_1)/255f, UI.valueY(COLOR_1)/255f, UI.valueZ(COLOR_1)/255f);
+		ColorizeTwoColorsFilter.instance(p).setColor2(UI.valueX(COLOR_2)/255f, UI.valueY(COLOR_2)/255f, UI.valueZ(COLOR_2)/255f);
 		ColorizeTwoColorsFilter.instance(p).applyTo(pgPost);
 	}
 	
@@ -239,7 +240,7 @@ extends PAppletHax {
 		pg.stroke(255);
 		pg.strokeWeight(3);
 //		pg.blendMode(PBlendModes.EXCLUSION);
-		for (int i = 0; i < p.ui.value(NUM_PARTICLES); i++) {
+		for (int i = 0; i < UI.value(NUM_PARTICLES); i++) {
 			partis.get(i).update();
 		}
 		pg.blendMode(PBlendModes.BLEND);
@@ -261,27 +262,27 @@ extends PAppletHax {
 	}
 	
 	protected void applyZoomRotate() {
-		p.debugView.setValue("p.ui.value(FEEDBACK_OFFSET_X)/255f", p.ui.value(FEEDBACK_OFFSET_X)/255f);
-		RotateFilter.instance(p).setRotation(p.ui.value(FEEDBACK_ROTATE));
-		RotateFilter.instance(p).setZoom(p.ui.value(FEEDBACK_AMP));
-		RotateFilter.instance(p).setOffset(p.ui.value(FEEDBACK_OFFSET_X), p.ui.value(FEEDBACK_OFFSET_Y));
+		p.debugView.setValue("UI.value(FEEDBACK_OFFSET_X)/255f", UI.value(FEEDBACK_OFFSET_X)/255f);
+		RotateFilter.instance(p).setRotation(UI.value(FEEDBACK_ROTATE));
+		RotateFilter.instance(p).setZoom(UI.value(FEEDBACK_AMP));
+		RotateFilter.instance(p).setOffset(UI.value(FEEDBACK_OFFSET_X), UI.value(FEEDBACK_OFFSET_Y));
 		RotateFilter.instance(p).applyTo(pg);
 	}
 	
 	protected void applyRD() {
-		for (int i = 0; i < p.ui.valueInt(RD_ITERATIONS); i++) {
+		for (int i = 0; i < UI.valueInt(RD_ITERATIONS); i++) {
 			// TODO: I messed this up and didn't use pg dimensions to power the R/D effect. Now all of the presets use that hardcoded number.
-			BlurHFilter.instance(p).setBlurByPercent(p.ui.value(RD_BLUR_AMP_X), 1600);
+			BlurHFilter.instance(p).setBlurByPercent(UI.value(RD_BLUR_AMP_X), 1600);
 			BlurHFilter.instance(p).applyTo(pg);
-			BlurVFilter.instance(p).setBlurByPercent(p.ui.value(RD_BLUR_AMP_Y), 900);
+			BlurVFilter.instance(p).setBlurByPercent(UI.value(RD_BLUR_AMP_Y), 900);
 			BlurVFilter.instance(p).applyTo(pg);
-			SharpenFilter.instance(p).setSharpness(p.ui.value(RD_SHARPEN_AMP));
+			SharpenFilter.instance(p).setSharpness(UI.value(RD_SHARPEN_AMP));
 			SharpenFilter.instance(p).applyTo(pg);
 		}
 	}
 	
 	protected void showSimulation() {
-		if(p.ui.valueInt(SHOW_SIMULATION) == 1) {
+		if(UI.valueInt(SHOW_SIMULATION) == 1) {
 			// draw simulation 1
 			simulationPg.beginDraw();
 			ImageUtil.copyImage(simulationBg, simulationPg);
@@ -306,7 +307,7 @@ extends PAppletHax {
 	
 	public void drawApp() {
 		p.background(0);
-		if(p.ui.valueInt(RENDER_MODE) == 1) {
+		if(UI.valueInt(RENDER_MODE) == 1) {
 			if(p.loop.loopCurFrame() == 1) newMode();
 			if(p.loop.loopCurFrame() == FRAMES - 20) swipeForNextMode();
 		}
@@ -330,7 +331,7 @@ extends PAppletHax {
 		setFakeLighting();
 		overlayTowerTexture();
 		drawTemplateOverlay(pgPost);
-		if(p.ui.valueInt(TOP_LEFT_FULLSIZE) == 1) {
+		if(UI.valueInt(TOP_LEFT_FULLSIZE) == 1) {
 			p.image(pgPost, 0, 0);
 		} else {
 			ImageUtil.cropFillCopyImage(pgPost, p.g, false);
@@ -340,13 +341,13 @@ extends PAppletHax {
 		
 	public void keyPressed() {
 		super.keyPressed();
-		if(p.key == 's') P.out(p.ui.valuesToJSON());
-		if(p.key == '1') p.ui.loadValuesFromJSON(JSONObject.parse(CONFIG_1));
-		if(p.key == '2') p.ui.loadValuesFromJSON(JSONObject.parse(CONFIG_2));
-		if(p.key == '3') p.ui.loadValuesFromJSON(JSONObject.parse(CONFIG_3));
-		if(p.key == '4') p.ui.loadValuesFromJSON(JSONObject.parse(CONFIG_4));
-		if(p.key == '5') p.ui.loadValuesFromJSON(JSONObject.parse(CONFIG_5));
-		if(p.key == '6') p.ui.loadValuesFromJSON(JSONObject.parse(CONFIG_6));
+		if(p.key == 's') P.out(UI.valuesToJSON());
+		if(p.key == '1') UI.loadValuesFromJSON(JSONObject.parse(CONFIG_1));
+		if(p.key == '2') UI.loadValuesFromJSON(JSONObject.parse(CONFIG_2));
+		if(p.key == '3') UI.loadValuesFromJSON(JSONObject.parse(CONFIG_3));
+		if(p.key == '4') UI.loadValuesFromJSON(JSONObject.parse(CONFIG_4));
+		if(p.key == '5') UI.loadValuesFromJSON(JSONObject.parse(CONFIG_5));
+		if(p.key == '6') UI.loadValuesFromJSON(JSONObject.parse(CONFIG_6));
 		if(p.key == ' ') swipeForNextMode();
 	}
 	

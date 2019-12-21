@@ -5,6 +5,7 @@ import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.filters.pshader.FakeLightingFilter;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.media.DemoAssets;
+import com.haxademic.core.ui.UI;
 
 public class Demo_FakeLightingFilter
 extends PAppletHax {
@@ -25,13 +26,13 @@ extends PAppletHax {
 	}
 	
 	public void setupFirstFrame() {
-		p.ui.addSlider(AMBIENT, 2f, 0.3f, 6f, 0.01f, false);
-		p.ui.addSlider(GRAD_AMP, 0.66f, 0.1f, 6f, 0.01f, false);
-		p.ui.addSlider(GRAD_BLUR, 1f, 0.1f, 6f, 0.01f, false);
-		p.ui.addSlider(SPEC_AMP, 2.25f, 0.1f, 6f, 0.01f, false);
-		p.ui.addSlider(DIFF_DARK, 0.85f, 0.1f, 2f, 0.01f, false);
+		UI.addSlider(AMBIENT, 2f, 0.3f, 6f, 0.01f, false);
+		UI.addSlider(GRAD_AMP, 0.66f, 0.1f, 6f, 0.01f, false);
+		UI.addSlider(GRAD_BLUR, 1f, 0.1f, 6f, 0.01f, false);
+		UI.addSlider(SPEC_AMP, 2.25f, 0.1f, 6f, 0.01f, false);
+		UI.addSlider(DIFF_DARK, 0.85f, 0.1f, 2f, 0.01f, false);
 
-		p.ui.addSlider(FILTER_ACTIVE, 1f, 0f, 1f, 1f, false);
+		UI.addSlider(FILTER_ACTIVE, 1f, 0f, 1f, 1f, false);
 	}
 
 	public void drawApp() {
@@ -39,13 +40,13 @@ extends PAppletHax {
 		ImageUtil.drawImageCropFill(DemoAssets.squareTexture(), p.g, true);
 		
 		// apply effect
-		FakeLightingFilter.instance(p).setAmbient(p.ui.value(AMBIENT));
-		FakeLightingFilter.instance(p).setGradAmp(p.ui.value(GRAD_AMP));
-		FakeLightingFilter.instance(p).setGradBlur(p.ui.value(GRAD_BLUR));
-		FakeLightingFilter.instance(p).setSpecAmp(p.ui.value(SPEC_AMP));
-		FakeLightingFilter.instance(p).setDiffDark(p.ui.value(DIFF_DARK));
+		FakeLightingFilter.instance(p).setAmbient(UI.value(AMBIENT));
+		FakeLightingFilter.instance(p).setGradAmp(UI.value(GRAD_AMP));
+		FakeLightingFilter.instance(p).setGradBlur(UI.value(GRAD_BLUR));
+		FakeLightingFilter.instance(p).setSpecAmp(UI.value(SPEC_AMP));
+		FakeLightingFilter.instance(p).setDiffDark(UI.value(DIFF_DARK));
 		
-		if(p.ui.value(FILTER_ACTIVE) > 0.5f) {
+		if(UI.value(FILTER_ACTIVE) > 0.5f) {
 			FakeLightingFilter.instance(p).applyTo(p.g);
 		}
 	}

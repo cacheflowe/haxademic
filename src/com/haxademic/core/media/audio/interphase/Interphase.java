@@ -10,7 +10,7 @@ import com.haxademic.core.hardware.midi.devices.LaunchPad;
 import com.haxademic.core.hardware.midi.devices.LaunchPad.ILaunchpadCallback;
 import com.haxademic.core.hardware.shared.InputTrigger;
 import com.haxademic.core.ui.UIButton;
-import com.haxademic.core.ui.UIControlPanel;
+import com.haxademic.core.ui.UI;
 
 import processing.core.PGraphics;
 
@@ -101,9 +101,9 @@ implements ILaunchpadCallback {
 			// alternate UI buttons
 			for (int i = 0; i < 16; i++) {
 				P.out("Interphase TODO: make UI buttons dynamic per number of channels");
-				P.p.ui.addButtons(new String[] {"beatgrid-0-"+i, "beatgrid-1-"+i, "beatgrid-2-"+i, "beatgrid-3-"+i, "beatgrid-4-"+i, "beatgrid-5-"+i, "beatgrid-6-"+i, "beatgrid-7-"+i}, true);
+				UI.addButtons(new String[] {"beatgrid-0-"+i, "beatgrid-1-"+i, "beatgrid-2-"+i, "beatgrid-3-"+i, "beatgrid-4-"+i, "beatgrid-5-"+i, "beatgrid-6-"+i, "beatgrid-7-"+i}, true);
 			}
-			P.p.ui.addWebInterface(false);
+			UI.addWebInterface(false);
 	
 			// set debug help lines
 			P.p.debugView.setHelpLine("\n" + DebugView.TITLE_PREFIX + "Interphase Key Commands", "");
@@ -205,21 +205,21 @@ implements ILaunchpadCallback {
 		for (int i = 0; i < sequencers.length; i++) {
 			for (int step = 0; step < NUM_STEPS; step++) {
 				float value = (sequencers[i].stepActive(step)) ? 1 : 0; 
-				P.p.ui.get("beatgrid-"+i+"-"+step).set(value);
+				UI.get("beatgrid-"+i+"-"+step).set(value);
 				
 				if(step % 4 == 0) {
-					if(P.p.ui.active()) {
+					if(UI.active()) {
 						P.p.fill(127);
-						P.p.rect(0, 10 + UIControlPanel.controlSpacing * step, UIControlPanel.controlW + 20, UIControlPanel.controlH);
+						P.p.rect(0, 10 + UI.controlSpacing * step, UI.controlW + 20, UI.controlH);
 					}
 				}
 			}
 		}
 		
 		// playhead
-		if(P.p.ui.active()) {
+		if(UI.active()) {
 			P.p.fill(255);
-			P.p.rect(0, UIControlPanel.controlSpacing * P.store.getInt(CUR_STEP), UIControlPanel.controlW + 20, UIControlPanel.controlH);
+			P.p.rect(0, UI.controlSpacing * P.store.getInt(CUR_STEP), UI.controlW + 20, UI.controlH);
 		}
 	}
 	

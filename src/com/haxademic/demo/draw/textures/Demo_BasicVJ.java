@@ -73,7 +73,7 @@ extends PAppletHax {
 		initTextures();
 		
 		// add sliders
-		// p.ui.addSlider(TEX_INDEX, 0, 0, allTextures.length - 1, 1, false);
+		// UI.addSlider(TEX_INDEX, 0, 0, allTextures.length - 1, 1, false);
 	}
 	
 	protected void initAudioPlayer() {

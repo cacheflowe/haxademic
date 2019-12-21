@@ -4,6 +4,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.data.constants.PBlendModes;
+import com.haxademic.core.ui.UI;
 
 public class PerlinNoise3d
 extends PAppletHax {
@@ -35,11 +36,11 @@ extends PAppletHax {
 	public void setupFirstFrame() {
 	
 
-		p.ui.addSlider(noiseScale, 0.003f, 0.0001f, 0.025f, 0.0001f, false);
-		p.ui.addSlider(octaves, 3f, 1, 8, 1, false);
-		p.ui.addSlider(noiseSpeed, 0.02f, 0, 0.04f, 0.001f, false);
-		p.ui.addSlider(falloff, 0.5f, 0, 1f, 0.001f, false);
-		p.ui.addSlider(spacing, 40, 5, 150f, 1f, false);
+		UI.addSlider(noiseScale, 0.003f, 0.0001f, 0.025f, 0.0001f, false);
+		UI.addSlider(octaves, 3f, 1, 8, 1, false);
+		UI.addSlider(noiseSpeed, 0.02f, 0, 0.04f, 0.001f, false);
+		UI.addSlider(falloff, 0.5f, 0, 1f, 0.001f, false);
+		UI.addSlider(spacing, 40, 5, 150f, 1f, false);
 	}
 
 	public void drawApp() {
@@ -57,19 +58,19 @@ extends PAppletHax {
 		p.pushMatrix();
 		float halfSize = p.width * 0.2f;
 
-		p.translate(p.width/2, p.height/2 + p.ui.value(spacing)/4f, -halfSize);
+		p.translate(p.width/2, p.height/2 + UI.value(spacing)/4f, -halfSize);
 		p.rotateY(progress * P.TWO_PI);
 		p.rotateX(progress * P.TWO_PI);
 //		p.rotateY(P.PI/4f);
 //		p.rotateX(P.PI/4f);
 		
 		float autoFalloff = (progress < 0.5f) ? P.map(progress, 0, 0.5f, 0, 1) : P.map(progress, 0.5f, 1f, 1, 0);
-		p.noiseDetail(p.ui.valueInt(octaves), autoFalloff); // falloff
+		p.noiseDetail(UI.valueInt(octaves), autoFalloff); // falloff
 
 		// For every x,y coordinate in a 2D space, calculate a noise value and produce a brightness value
 		p.stroke(255);
 		p.strokeWeight(1.85f);
-		float spacingg = p.ui.value(spacing);
+		float spacingg = UI.value(spacing);
 		for (float x = -halfSize; x < halfSize; x += spacingg) {
 			for (float y = -halfSize; y < halfSize; y += spacingg) {
 				for (float z = -halfSize; z < halfSize; z += spacingg) {
@@ -96,9 +97,9 @@ extends PAppletHax {
 	
 	protected float getNoise(float x, float y, float z ) {
 		return p.noise(
-				p.frameCount * p.ui.value(noiseSpeed) + x * p.ui.value(noiseScale), 
-				p.frameCount * p.ui.value(noiseSpeed) + y * p.ui.value(noiseScale), 
-				p.frameCount * p.ui.value(noiseSpeed) + z * p.ui.value(noiseScale)
+				p.frameCount * UI.value(noiseSpeed) + x * UI.value(noiseScale), 
+				p.frameCount * UI.value(noiseSpeed) + y * UI.value(noiseScale), 
+				p.frameCount * UI.value(noiseSpeed) + z * UI.value(noiseScale)
 		);
 	}
 	

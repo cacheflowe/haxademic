@@ -3,6 +3,7 @@ package com.haxademic.demo.system;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.system.ScreenUtil;
+import com.haxademic.core.ui.UI;
 
 import processing.core.PImage;
 
@@ -22,14 +23,14 @@ extends PAppletHax {
 	}
 
 	public void setupFirstFrame() {
-		p.ui.addSlider(_x, 10, 0, p.displayWidth - p.width, 1, false);
-		p.ui.addSlider(_y, 10, 1, p.displayHeight - p.height, 1, false);
+		UI.addSlider(_x, 10, 0, p.displayWidth - p.width, 1, false);
+		UI.addSlider(_y, 10, 1, p.displayHeight - p.height, 1, false);
 	}
 
 	public void drawApp() {
 		background(0);
-//		 p.image( ScreenUtil.getScreenshotMainMonitor(p.ui.valueInt(_x), p.ui.valueInt(_y), p.width, p.height), 0, 0);	// deprecated version
-		p.image( ScreenUtil.getScreenShotAsPImage(p.ui.valueInt(_x), p.ui.valueInt(_y), p.width, p.height), 0, 0);
+//		 p.image( ScreenUtil.getScreenshotMainMonitor(UI.valueInt(_x), UI.valueInt(_y), p.width, p.height), 0, 0);	// deprecated version
+		p.image( ScreenUtil.getScreenShotAsPImage(UI.valueInt(_x), UI.valueInt(_y), p.width, p.height), 0, 0);
 //		p.image( ScreenUtil.getScreenShotAllMonitors(0, 0, 0.5f), 0, 0 );
 	}
 

@@ -7,6 +7,7 @@ import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.shapes.Superformula;
 import com.haxademic.core.media.audio.analysis.AudioIn;
+import com.haxademic.core.ui.UI;
 
 import processing.core.PGraphics;
 
@@ -41,12 +42,12 @@ extends PAppletHax {
 		_superFormGfx = p.createGraphics(p.width, p.height, P.P3D);
 		_superFormGfx.smooth(OpenGLUtil.SMOOTH_HIGH);
 		
-		p.ui.addSlider(a, 6, 0, 30, 0.1f, false);
-		p.ui.addSlider(b, 8, 0, 30, 0.1f, false);
-		p.ui.addSlider(m, 15, 0, 30, 0.1f, false);
-		p.ui.addSlider(n1, 15, 0, 30, 0.1f, false);
-		p.ui.addSlider(n2, 15, 0, 30, 0.1f, false);
-		p.ui.addSlider(n3, 6, 0, 30, 0.1f, false);
+		UI.addSlider(a, 6, 0, 30, 0.1f, false);
+		UI.addSlider(b, 8, 0, 30, 0.1f, false);
+		UI.addSlider(m, 15, 0, 30, 0.1f, false);
+		UI.addSlider(n1, 15, 0, 30, 0.1f, false);
+		UI.addSlider(n2, 15, 0, 30, 0.1f, false);
+		UI.addSlider(n3, 6, 0, 30, 0.1f, false);
 	}
 	
 	public void drawApp() {
@@ -66,12 +67,12 @@ extends PAppletHax {
 //		_superFormGfx.rotateZ(p.frameCount/50f);
 
 		float audioRange = 0.1f;
-		_superForm.a( p.ui.value(a) + (audioRange * 100f * AudioIn.audioFreq(0)));
-		_superForm.b( p.ui.value(b) + (audioRange * 10f * AudioIn.audioFreq(1)));
-		_superForm.m( p.ui.value(m) + (audioRange * 10f * AudioIn.audioFreq(2)));
-		_superForm.n1( p.ui.value(n1) + (audioRange * 20f * AudioIn.audioFreq(3)));
-		_superForm.n2( p.ui.value(n2) + (audioRange * 50f * AudioIn.audioFreq(4)));
-		_superForm.n3( p.ui.value(n3) + (audioRange * 40f * AudioIn.audioFreq(5)));
+		_superForm.a( UI.value(a) + (audioRange * 100f * AudioIn.audioFreq(0)));
+		_superForm.b( UI.value(b) + (audioRange * 10f * AudioIn.audioFreq(1)));
+		_superForm.m( UI.value(m) + (audioRange * 10f * AudioIn.audioFreq(2)));
+		_superForm.n1( UI.value(n1) + (audioRange * 20f * AudioIn.audioFreq(3)));
+		_superForm.n2( UI.value(n2) + (audioRange * 50f * AudioIn.audioFreq(4)));
+		_superForm.n3( UI.value(n3) + (audioRange * 40f * AudioIn.audioFreq(5)));
 
 		_superForm.update();
 		_superForm.drawMesh(_superFormGfx, true, true, false, true, _camPos );

@@ -12,6 +12,7 @@ import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.EasingBoolean;
 import com.haxademic.core.math.easing.EasingBoolean.IEasingBooleanCallback;
 import com.haxademic.core.media.DemoAssets;
+import com.haxademic.core.ui.UI;
 
 import processing.core.PFont;
 import processing.core.PImage;
@@ -52,15 +53,15 @@ implements IEasingBooleanCallback {
 	}
 	
 	public void setupFirstFrame() {
-		p.ui.addSlider(kinectLeft, 50, 0, DepthCameraSize.WIDTH, 1, false);
-		p.ui.addSlider(kinectRight, 420, 0, DepthCameraSize.WIDTH, 1, false);
-		p.ui.addSlider(kinectTop, 140, 0, DepthCameraSize.HEIGHT, 1, false);
-		p.ui.addSlider(kinectBottom, 290, 0,DepthCameraSize.HEIGHT, 1, false);
-		p.ui.addSlider(kinectNear, 500, 0, 12000, 1, false);
-		p.ui.addSlider(kinectFar, 1650, 300, 12000, 1, false);
-		p.ui.addSlider(pixelSkip, 6, 1, 10, 1, false);
-		p.ui.addSlider(depthDivider, 50, 1, 100, 0.1f, false);
-		p.ui.addSlider(pixelDrawSize, 0.8f, 0, 1, 0.01f, false);
+		UI.addSlider(kinectLeft, 50, 0, DepthCameraSize.WIDTH, 1, false);
+		UI.addSlider(kinectRight, 420, 0, DepthCameraSize.WIDTH, 1, false);
+		UI.addSlider(kinectTop, 140, 0, DepthCameraSize.HEIGHT, 1, false);
+		UI.addSlider(kinectBottom, 290, 0,DepthCameraSize.HEIGHT, 1, false);
+		UI.addSlider(kinectNear, 500, 0, 12000, 1, false);
+		UI.addSlider(kinectFar, 1650, 300, 12000, 1, false);
+		UI.addSlider(pixelSkip, 6, 1, 10, 1, false);
+		UI.addSlider(depthDivider, 50, 1, 100, 0.1f, false);
+		UI.addSlider(pixelDrawSize, 0.8f, 0, 1, 0.01f, false);
 		
 		isRecording = new EasingBoolean(false, 300, this);
 		recorder = new ImageSequenceRecorder(p.depthCamera.getRgbImage().width, p.depthCamera.getRgbImage().height, recordFrames);
@@ -86,14 +87,14 @@ implements IEasingBooleanCallback {
 		PG.setPImageAlpha(p.g, 1f);
 		
 		// draw kinect depth
-		int pixelSkipp = p.ui.valueInt(pixelSkip);
-		float kNear = p.ui.valueInt(kinectNear);
-		float kFar = p.ui.valueInt(kinectFar);
-		int kLeft = p.ui.valueInt(kinectLeft);
-		float kRight = p.ui.valueInt(kinectRight);
-		int kTop= p.ui.valueInt(kinectTop);
-		float kBottom = p.ui.valueInt(kinectBottom);
-//		float depthDiv = p.ui.valueInt(depthDivider);
+		int pixelSkipp = UI.valueInt(pixelSkip);
+		float kNear = UI.valueInt(kinectNear);
+		float kFar = UI.valueInt(kinectFar);
+		int kLeft = UI.valueInt(kinectLeft);
+		float kRight = UI.valueInt(kinectRight);
+		int kTop= UI.valueInt(kinectTop);
+		float kBottom = UI.valueInt(kinectBottom);
+//		float depthDiv = UI.valueInt(depthDivider);
 		
 		// lazy-init arrays
 		int numPixelsProcessed = 0;
@@ -119,7 +120,7 @@ implements IEasingBooleanCallback {
 		// gather depth data
 		int numPixelsActive = 0;
 		numPixelsProcessed = 0;
-		float pixelsize = (float) pixelSkipp * p.ui.value(pixelDrawSize);
+		float pixelsize = (float) pixelSkipp * UI.value(pixelDrawSize);
 		for ( int x = kLeft; x < kRight; x += pixelSkipp ) {
 			for ( int y = kTop; y < kBottom; y += pixelSkipp ) {
 				// get depth val

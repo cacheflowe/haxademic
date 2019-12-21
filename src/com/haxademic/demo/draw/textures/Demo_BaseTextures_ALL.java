@@ -61,6 +61,7 @@ import com.haxademic.core.media.DemoAssets;
 import com.haxademic.core.media.audio.analysis.AudioIn;
 import com.haxademic.core.media.audio.analysis.AudioInputBeads;
 import com.haxademic.core.media.audio.playback.WavPlayer;
+import com.haxademic.core.ui.UI;
 
 public class Demo_BaseTextures_ALL 
 extends PAppletHax {
@@ -273,14 +274,14 @@ extends PAppletHax {
 //		}
 
 		// add sliders
-		p.ui.addSlider(TEX_INDEX, 0, 0, allTextures.length - 1, 1, false);
+		UI.addSlider(TEX_INDEX, 0, 0, allTextures.length - 1, 1, false);
 	}
 
 	public void drawApp() {
 		background(127);
 		simulateMidiAndBeats();
 		
-//		BaseTexture tex = allTextures[p.ui.valueInt(TEX_INDEX)];
+//		BaseTexture tex = allTextures[UI.valueInt(TEX_INDEX)];
 		BaseTexture tex = allTextures[textureIndex];
 		// float frameInc = P.TWO_PI / frames;
 //		if(tex.getClass().getName() == TextureShaderTimeStepper.class.getName()) {

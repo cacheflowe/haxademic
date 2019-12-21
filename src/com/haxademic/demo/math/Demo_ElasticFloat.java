@@ -5,6 +5,7 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.math.easing.ElasticFloat;
+import com.haxademic.core.ui.UI;
 
 public class Demo_ElasticFloat
 extends PAppletHax {
@@ -22,19 +23,19 @@ extends PAppletHax {
 	}
 
 	public void setupFirstFrame() {
-		p.ui.addSlider(fric, 0.5f, 0, 1, 0.001f, false);
-		p.ui.addSlider(accel, 0.5f, 0, 1, 0.001f, false);
+		UI.addSlider(fric, 0.5f, 0, 1, 0.001f, false);
+		UI.addSlider(accel, 0.5f, 0, 1, 0.001f, false);
 	}
 
 	public void drawApp() {
 		background(0);
 		
-		_elasticX.setFriction(p.ui.value(fric));
-		_elasticY.setFriction(p.ui.value(fric));
-		_elasticBottom.setFriction(p.ui.value(fric));
-		_elasticX.setAccel(p.ui.value(accel));
-		_elasticY.setAccel(p.ui.value(accel));
-		_elasticBottom.setAccel(p.ui.value(accel));
+		_elasticX.setFriction(UI.value(fric));
+		_elasticY.setFriction(UI.value(fric));
+		_elasticBottom.setFriction(UI.value(fric));
+		_elasticX.setAccel(UI.value(accel));
+		_elasticY.setAccel(UI.value(accel));
+		_elasticBottom.setAccel(UI.value(accel));
 		
 		_elasticX.setTarget(p.mouseX);
 		_elasticY.setTarget(p.mouseY);

@@ -4,6 +4,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.data.ConvertUtil;
 import com.haxademic.core.net.WebServer;
+import com.haxademic.core.ui.UI;
 import com.haxademic.core.ui.UIButton;
 
 public class WebServerRequestHandlerUIControls 
@@ -24,9 +25,9 @@ extends WebServerRequestHandler {
 			String buttonIndex = pathComponents[1];
 			float buttonValue = ConvertUtil.stringToFloat(pathComponents[2]);
 			P.p.browserInputState.setControlValue("button"+buttonIndex, buttonValue);
-			if(P.p.ui.has(buttonIndex)) {
-				P.p.ui.setValue(buttonIndex, buttonValue);
-				P.p.uiButtonClicked((UIButton) P.p.ui.get(buttonIndex));	// grab button and set clicked callback
+			if(UI.has(buttonIndex)) {
+				UI.setValue(buttonIndex, buttonValue);
+				P.p.uiButtonClicked((UIButton) UI.get(buttonIndex));	// grab button and set clicked callback
 			}
 			return "{\"log\": \"button: "+buttonIndex+", value: "+buttonValue+"\"}";
 			
@@ -34,16 +35,16 @@ extends WebServerRequestHandler {
 			String sliderIndex = pathComponents[1];
 			float sliderValue = ConvertUtil.stringToFloat(pathComponents[2]);
 			P.p.browserInputState.setControlValue("slider"+sliderIndex, sliderValue);
-			if(P.p.ui.has(sliderIndex)) {
-				P.p.ui.setValue(sliderIndex, sliderValue);
+			if(UI.has(sliderIndex)) {
+				UI.setValue(sliderIndex, sliderValue);
 			}
 			return "{\"log\": \"slider: "+sliderIndex+", value: "+sliderValue+"\"}";
 
 		} else if(pathComponents[0].equals("config")) {
-			return P.p.ui.configToJSON();
+			return UI.configToJSON();
 			
 		} else if(pathComponents[0].equals("values")) {
-			return P.p.ui.valuesToJSON();
+			return UI.valuesToJSON();
 			
 		} else {
 			return null;

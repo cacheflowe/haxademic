@@ -6,6 +6,7 @@ import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.hardware.mouse.Mouse;
 import com.haxademic.core.math.easing.EasingFloat;
+import com.haxademic.core.ui.UI;
 
 public class Demo_EasingFloat
 extends PAppletHax {
@@ -23,15 +24,15 @@ extends PAppletHax {
 	}
 
 	public void setupFirstFrame() {
-		p.ui.addSlider(easeFactor, 6, 0, 30, 0.1f, false);
+		UI.addSlider(easeFactor, 6, 0, 30, 0.1f, false);
 	}
 
 	public void drawApp() {
 		background(0);
 		
-		easingX.setEaseFactor(p.ui.value(easeFactor));
-		easingY.setEaseFactor(p.ui.value(easeFactor));
-		easingBottom.setEaseFactor(p.ui.value(easeFactor));
+		easingX.setEaseFactor(UI.value(easeFactor));
+		easingY.setEaseFactor(UI.value(easeFactor));
+		easingBottom.setEaseFactor(UI.value(easeFactor));
 		
 		easingX.setTarget(p.mouseX);
 		easingY.setTarget(p.mouseY);

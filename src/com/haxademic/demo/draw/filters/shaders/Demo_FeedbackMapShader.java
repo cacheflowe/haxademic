@@ -16,6 +16,7 @@ import com.haxademic.core.draw.textures.pshader.TextureShader;
 import com.haxademic.core.hardware.webcam.WebCam;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.media.DemoAssets;
+import com.haxademic.core.ui.UI;
 
 import processing.core.PGraphics;
 import processing.core.PImage;
@@ -69,15 +70,15 @@ extends PAppletHax {
 		textureShader = new TextureShader(TextureShader.bw_voronoi);
 		textureShader = new TextureShader(TextureShader.bw_clouds);
 		
-		p.ui.addSlider(mapZoom, 2, 0.1f, 15, 0.1f, false);
-		p.ui.addSlider(mapRot, 0, 0, P.TWO_PI, 0.01f, false);
-		p.ui.addSlider(feedbackAmp, 0.001f, 0.00001f, 0.005f, 0.00001f, false);
-		p.ui.addSlider(feedbackBrightStep, 0f, -0.01f, 0.01f, 0.0001f, false);
-		p.ui.addSlider(feedbackAlphaStep, 0f, -0.01f, 0.01f, 0.0001f, false);
-		p.ui.addSlider(feedbackRadiansStart, 0f, 0, P.TWO_PI, 0.01f, false);
-		p.ui.addSlider(feedbackRadiansRange, P.TWO_PI * 2f, -P.TWO_PI * 2f, P.TWO_PI * 2f, 0.1f, false);
+		UI.addSlider(mapZoom, 2, 0.1f, 15, 0.1f, false);
+		UI.addSlider(mapRot, 0, 0, P.TWO_PI, 0.01f, false);
+		UI.addSlider(feedbackAmp, 0.001f, 0.00001f, 0.005f, 0.00001f, false);
+		UI.addSlider(feedbackBrightStep, 0f, -0.01f, 0.01f, 0.0001f, false);
+		UI.addSlider(feedbackAlphaStep, 0f, -0.01f, 0.01f, 0.0001f, false);
+		UI.addSlider(feedbackRadiansStart, 0f, 0, P.TWO_PI, 0.01f, false);
+		UI.addSlider(feedbackRadiansRange, P.TWO_PI * 2f, -P.TWO_PI * 2f, P.TWO_PI * 2f, 0.1f, false);
 
-		p.ui.addSlider(FEEDBACK_ITERS, 1, 0, 10, 1f, false);
+		UI.addSlider(FEEDBACK_ITERS, 1, 0, 10, 1f, false);
 	}
 
 	protected void drawImg(PImage img) {
@@ -123,8 +124,8 @@ extends PAppletHax {
 
 	protected void updateMapPerlin() {
 		simplexNoise.update(
-				p.ui.value(mapZoom), 
-				p.ui.value(mapRot), 
+				UI.value(mapZoom), 
+				UI.value(mapRot), 
 				0, 
 				0);
 		ImageUtil.cropFillCopyImage(simplexNoise.texture(), map, true);
@@ -144,12 +145,12 @@ extends PAppletHax {
 
 	protected void applyFeedbackToBuffer() {
 		FeedbackMapFilter.instance(p).setMap(map);
-		FeedbackMapFilter.instance(p).setAmp(p.ui.value(feedbackAmp));
-		FeedbackMapFilter.instance(p).setBrightnessStep(p.ui.value(feedbackBrightStep));
-		FeedbackMapFilter.instance(p).setAlphaStep(p.ui.value(feedbackAlphaStep));
-		FeedbackMapFilter.instance(p).setRadiansStart(p.ui.value(feedbackRadiansStart));
-		FeedbackMapFilter.instance(p).setRadiansRange(p.ui.value(feedbackRadiansRange));
-		for (int i = 0; i < p.ui.valueInt(FEEDBACK_ITERS); i++) FeedbackMapFilter.instance(p).applyTo(pg);
+		FeedbackMapFilter.instance(p).setAmp(UI.value(feedbackAmp));
+		FeedbackMapFilter.instance(p).setBrightnessStep(UI.value(feedbackBrightStep));
+		FeedbackMapFilter.instance(p).setAlphaStep(UI.value(feedbackAlphaStep));
+		FeedbackMapFilter.instance(p).setRadiansStart(UI.value(feedbackRadiansStart));
+		FeedbackMapFilter.instance(p).setRadiansRange(UI.value(feedbackRadiansRange));
+		for (int i = 0; i < UI.valueInt(FEEDBACK_ITERS); i++) FeedbackMapFilter.instance(p).applyTo(pg);
 	}
 
 	protected void blurMap() {

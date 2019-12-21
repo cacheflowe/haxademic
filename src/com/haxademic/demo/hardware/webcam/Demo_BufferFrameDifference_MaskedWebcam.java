@@ -13,6 +13,7 @@ import com.haxademic.core.draw.textures.SimplexNoiseTexture;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.webcam.WebCam;
 import com.haxademic.core.hardware.webcam.WebCam.IWebCamCallback;
+import com.haxademic.core.ui.UI;
 
 import processing.core.PGraphics;
 import processing.core.PImage;
@@ -63,19 +64,19 @@ implements IWebCamCallback {
 		WebCam.instance().setDelegate(this);
 		
 		// ui
-		p.ui.addSlider(mapZoom, 2, 0.1f, 15, 0.1f, false);
-		p.ui.addSlider(mapRot, 0, 0, P.TWO_PI, 0.01f, false);
+		UI.addSlider(mapZoom, 2, 0.1f, 15, 0.1f, false);
+		UI.addSlider(mapRot, 0, 0, P.TWO_PI, 0.01f, false);
 		
-		p.ui.addSlider(feedbackIters, 3, 0, 5, 1, false);
-		p.ui.addSlider(feedbackAmp, 0.0006f, 0.00001f, 0.005f, 0.00001f, false);
-		p.ui.addSlider(feedbackBrightStep, -0.005f, -0.3f, 0.3f, 0.0001f, false);
-		p.ui.addSlider(feedbackAlphaStep, 0f, -0.3f, 0.3f, 0.0001f, false);
-		p.ui.addSlider(feedbackRadiansStart, 0f, 0, P.TWO_PI, 0.01f, false);
-		p.ui.addSlider(feedbackRadiansRange, P.TWO_PI * 2f, -P.TWO_PI * 2f, P.TWO_PI * 2f, 0.1f, false);
+		UI.addSlider(feedbackIters, 3, 0, 5, 1, false);
+		UI.addSlider(feedbackAmp, 0.0006f, 0.00001f, 0.005f, 0.00001f, false);
+		UI.addSlider(feedbackBrightStep, -0.005f, -0.3f, 0.3f, 0.0001f, false);
+		UI.addSlider(feedbackAlphaStep, 0f, -0.3f, 0.3f, 0.0001f, false);
+		UI.addSlider(feedbackRadiansStart, 0f, 0, P.TWO_PI, 0.01f, false);
+		UI.addSlider(feedbackRadiansRange, P.TWO_PI * 2f, -P.TWO_PI * 2f, P.TWO_PI * 2f, 0.1f, false);
 		
-		p.ui.addSlider(diffFalloffBW, 0.7f, 0, 1, 0.01f, false);
-		p.ui.addSlider(diffThresh, 0.1f, 0, 1, 0.001f, false);
-		p.ui.addSlider(diffSmoothThresh, 0.66f, 0, 1, 0.001f, false);
+		UI.addSlider(diffFalloffBW, 0.7f, 0, 1, 0.01f, false);
+		UI.addSlider(diffThresh, 0.1f, 0, 1, 0.001f, false);
+		UI.addSlider(diffSmoothThresh, 0.66f, 0, 1, 0.001f, false);
 	}
 
 	public void drawApp() {
@@ -102,16 +103,16 @@ implements IWebCamCallback {
 	
 	protected void updateFeedback() {
 		// update feedback noise map
-		simplexNoise.update(p.ui.value(mapZoom), p.ui.value(mapRot), 0, 0);
+		simplexNoise.update(UI.value(mapZoom), UI.value(mapRot), 0, 0);
 		
 		// apply feedback shader
 		FeedbackMapFilter.instance(P.p).setMap(simplexNoise.texture());
-		FeedbackMapFilter.instance(p).setAmp(p.ui.value(feedbackAmp));
-		FeedbackMapFilter.instance(p).setBrightnessStep(p.ui.value(feedbackBrightStep));
-		FeedbackMapFilter.instance(p).setAlphaStep(p.ui.value(feedbackAlphaStep));
-		FeedbackMapFilter.instance(p).setRadiansStart(p.frameCount/10f); // p.ui.value(feedbackRadiansStart));
-		FeedbackMapFilter.instance(p).setRadiansRange(p.ui.value(feedbackRadiansRange));
-		for (int i = 0; i < p.ui.valueInt(feedbackIters); i++) FeedbackMapFilter.instance(P.p).applyTo(pg);
+		FeedbackMapFilter.instance(p).setAmp(UI.value(feedbackAmp));
+		FeedbackMapFilter.instance(p).setBrightnessStep(UI.value(feedbackBrightStep));
+		FeedbackMapFilter.instance(p).setAlphaStep(UI.value(feedbackAlphaStep));
+		FeedbackMapFilter.instance(p).setRadiansStart(p.frameCount/10f); // UI.value(feedbackRadiansStart));
+		FeedbackMapFilter.instance(p).setRadiansRange(UI.value(feedbackRadiansRange));
+		for (int i = 0; i < UI.valueInt(feedbackIters); i++) FeedbackMapFilter.instance(P.p).applyTo(pg);
 	}
 
 	@Override
@@ -128,13 +129,13 @@ implements IWebCamCallback {
 		ImageUtil.copyImageFlipH(frame, knockoutWebCam);
 		
 		// update different buffer on last webcam frame
-		bufferFrameDifference.falloffBW(p.ui.value(diffFalloffBW));
-		bufferFrameDifference.diffThresh(p.ui.value(diffThresh));
+		bufferFrameDifference.falloffBW(UI.value(diffFalloffBW));
+		bufferFrameDifference.diffThresh(UI.value(diffThresh));
 		bufferFrameDifference.update(frame);
 		
 		// copy to diff buffer smoothed version
 		ImageUtil.copyImageFlipH(bufferFrameDifference.differenceBuffer(), diffBufferSmoothed);
-		ThresholdFilter.instance(p).setCutoff(p.ui.value(diffSmoothThresh));
+		ThresholdFilter.instance(p).setCutoff(UI.value(diffSmoothThresh));
 		ThresholdFilter.instance(p).applyTo(diffBufferSmoothed);
 		BlurProcessingFilter.instance(p).setBlurSize(10);
 		for(int i=0; i < 5; i++) BlurProcessingFilter.instance(p).applyTo(diffBufferSmoothed);

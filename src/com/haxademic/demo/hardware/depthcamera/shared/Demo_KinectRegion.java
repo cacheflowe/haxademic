@@ -8,6 +8,7 @@ import com.haxademic.core.hardware.depthcamera.DepthCameraSize;
 import com.haxademic.core.hardware.depthcamera.KinectRegion;
 import com.haxademic.core.math.easing.EasingBoolean;
 import com.haxademic.core.math.easing.EasingFloat;
+import com.haxademic.core.ui.UI;
 
 import processing.core.PGraphics;
 
@@ -53,14 +54,14 @@ extends PAppletHax {
 		region = new KinectRegion(0, DepthCameraSize.WIDTH, 0, 2000, 0, DepthCameraSize.HEIGHT, 10, 20, 0xffff0000);
 		
 		// add ui sliders to tweak at runtime
-		p.ui.addSlider(KINECT_left, 0, 0, DepthCameraSize.WIDTH, 1, false);
-		p.ui.addSlider(KINECT_right, DepthCameraSize.WIDTH, 0, DepthCameraSize.WIDTH, 1, false);
-		p.ui.addSlider(KINECT_near, 500, 0, 1, 1, false);
-		p.ui.addSlider(KINECT_far, 2000, 0, 20000, 1, false);
-		p.ui.addSlider(KINECT_top, 0, 0, DepthCameraSize.HEIGHT, 1, false);
-		p.ui.addSlider(KINECT_bottom, DepthCameraSize.HEIGHT, 0, DepthCameraSize.HEIGHT, 1, false);
-		p.ui.addSlider(KINECT_pixelSkip, 10, 1, 30, 1, false);
-		p.ui.addSlider(KINECT_minPixels, 20, 1, 200, 1, false);
+		UI.addSlider(KINECT_left, 0, 0, DepthCameraSize.WIDTH, 1, false);
+		UI.addSlider(KINECT_right, DepthCameraSize.WIDTH, 0, DepthCameraSize.WIDTH, 1, false);
+		UI.addSlider(KINECT_near, 500, 0, 1, 1, false);
+		UI.addSlider(KINECT_far, 2000, 0, 20000, 1, false);
+		UI.addSlider(KINECT_top, 0, 0, DepthCameraSize.HEIGHT, 1, false);
+		UI.addSlider(KINECT_bottom, DepthCameraSize.HEIGHT, 0, DepthCameraSize.HEIGHT, 1, false);
+		UI.addSlider(KINECT_pixelSkip, 10, 1, 30, 1, false);
+		UI.addSlider(KINECT_minPixels, 20, 1, 200, 1, false);
 	}
 	
 	public void keyPressed() {
@@ -72,14 +73,14 @@ extends PAppletHax {
 		p.background(127);
 		
 		// set ui params
-		region.left(p.ui.valueInt(KINECT_left));
-		region.right(p.ui.valueInt(KINECT_right));
-		region.near(p.ui.valueInt(KINECT_near));
-		region.far(p.ui.valueInt(KINECT_far));
-		region.top(p.ui.valueInt(KINECT_top));
-		region.bottom(p.ui.valueInt(KINECT_bottom));
-		region.pixelSkip(p.ui.valueInt(KINECT_pixelSkip));
-		region.minPixels(p.ui.valueInt(KINECT_minPixels));
+		region.left(UI.valueInt(KINECT_left));
+		region.right(UI.valueInt(KINECT_right));
+		region.near(UI.valueInt(KINECT_near));
+		region.far(UI.valueInt(KINECT_far));
+		region.top(UI.valueInt(KINECT_top));
+		region.bottom(UI.valueInt(KINECT_bottom));
+		region.pixelSkip(UI.valueInt(KINECT_pixelSkip));
+		region.minPixels(UI.valueInt(KINECT_minPixels));
 		
 		// update region and draw into debug buffer
 		regionDebug.beginDraw();

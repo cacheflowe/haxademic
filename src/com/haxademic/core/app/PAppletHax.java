@@ -39,7 +39,6 @@ import com.haxademic.core.system.AppUtil;
 import com.haxademic.core.system.SecondScreenViewer;
 import com.haxademic.core.system.SystemUtil;
 import com.haxademic.core.ui.UIButton;
-import com.haxademic.core.ui.UIControlPanel;
 import com.jogamp.newt.opengl.GLWindow;
 
 import de.voidplus.leapmotion.LeapMotion;
@@ -67,7 +66,6 @@ extends PApplet {
 	public PGraphics pg;						// Offscreen buffer that matches the app size by default
 	public P5Properties appConfig;				// Loads the project .properties file to configure several app properties externally.
 	protected String customPropsFile = null;	// Loads an app-specific project .properties file.
-	protected String renderer; 					// The current rendering engine
 	public Robot robot;
 	public GLWindow window;
 	protected boolean alwaysOnTop = false;
@@ -95,7 +93,6 @@ extends PApplet {
 	// debug
 	public int _fps;
 	public DebugView debugView;
-	public UIControlPanel ui;
 	public SecondScreenViewer appViewerWindow;
 	
 	////////////////////////
@@ -104,9 +101,9 @@ extends PApplet {
 	
 	public void settings() {
 		p = this;
-		P.init(this);
 		printArgs();
 		loadAppConfig();
+		P.init(this);
 		overridePropsFile();
 		setAppIcon();
 		setRenderer();
@@ -140,21 +137,17 @@ extends PApplet {
 	}
 	
 	public boolean isOpenGL() {
-		return renderer.equals(PRenderers.P2D) || renderer.equals(PRenderers.P3D);
+		return P.renderer.equals(PRenderers.P2D) || P.renderer.equals(PRenderers.P3D);
 	}
 	
 	public void setup() {
 		if(isOpenGL()) window = (GLWindow) surface.getNative();
 		if(customPropsFile != null) DebugUtil.printErr("Make sure to load custom .properties files in settings()");
 		setAppletProps();
-		if(renderer != PRenderers.PDF) {
+		if(P.renderer != PRenderers.PDF) {
 			debugView = new DebugView( p );
 			debugView.active(p.appConfig.getBoolean(AppSettings.SHOW_DEBUG, false));
 			addKeyCommandInfo();
-		}
-		ui = new UIControlPanel();
-		if(p.appConfig.getBoolean(AppSettings.SHOW_UI, false) == true) {
-			ui.active(!ui.active());
 		}
 	}
 	
@@ -182,24 +175,23 @@ extends PApplet {
 	
 	protected void setRenderer() {
 		PJOGL.profile = 4;
-		renderer = p.appConfig.getString(AppSettings.RENDERER, P.P3D);
 		if(p.appConfig.getBoolean(AppSettings.SPAN_SCREENS, false) == true) {
 			// run fullscreen across all screens
-			p.fullScreen(renderer, P.SPAN);
+			p.fullScreen(P.renderer, P.SPAN);
 		} else if(p.appConfig.getBoolean(AppSettings.FULLSCREEN, false) == true) {
 			// run fullscreen - default to screen #1 unless another is specified
 			if(p.appConfig.getInt(AppSettings.FULLSCREEN_SCREEN_NUMBER, 1) != 1) DebugUtil.printErr("AppSettings.FULLSCREEN_SCREEN_NUMBER is busted if not screen #1. Use AppSettings.SCREEN_X, etc.");
-			p.fullScreen(renderer); // , p.appConfig.getInt(AppSettings.FULLSCREEN_SCREEN_NUMBER, 1)
+			p.fullScreen(P.renderer); // , p.appConfig.getInt(AppSettings.FULLSCREEN_SCREEN_NUMBER, 1)
 		} else if(p.appConfig.getBoolean(AppSettings.FILLS_SCREEN, false) == true) {
 			// fills the screen, but not fullscreen
-			p.size(displayWidth,displayHeight,renderer);
+			p.size(displayWidth,displayHeight,P.renderer);
 		} else {
-			if(renderer == PRenderers.PDF) {
+			if(P.renderer == PRenderers.PDF) {
 				// set headless pdf output file
-				p.size(p.appConfig.getInt(AppSettings.WIDTH, 800),p.appConfig.getInt(AppSettings.HEIGHT, 600), renderer, p.appConfig.getString(AppSettings.PDF_RENDERER_OUTPUT_FILE, "output/output.pdf"));
+				p.size(p.appConfig.getInt(AppSettings.WIDTH, 800),p.appConfig.getInt(AppSettings.HEIGHT, 600), P.renderer, p.appConfig.getString(AppSettings.PDF_RENDERER_OUTPUT_FILE, "output/output.pdf"));
 			} else {
 				// run normal P3D renderer
-				p.size(p.appConfig.getInt(AppSettings.WIDTH, 800),p.appConfig.getInt(AppSettings.HEIGHT, 600), renderer);
+				p.size(p.appConfig.getInt(AppSettings.WIDTH, 800),p.appConfig.getInt(AppSettings.HEIGHT, 600), P.renderer);
 			}
 		}
 	}
@@ -361,7 +353,7 @@ extends PApplet {
 		showStats();
 		keepOnTop();
 		setAppDockIconAndTitle(false);
-		if(renderer == PRenderers.PDF) finishPdfRender();
+		if(P.renderer == PRenderers.PDF) finishPdfRender();
 	}
 	
 	////////////////////////
@@ -369,10 +361,9 @@ extends PApplet {
 	////////////////////////	
 
 	protected void showStats() {
-		if(renderer == PRenderers.PDF) return;
+		if(P.renderer == PRenderers.PDF) return;
 		p.noLights();
 		debugView.draw();
-		ui.update();
 	}
 
 	protected void keepOnTop() {
@@ -382,7 +373,7 @@ extends PApplet {
 	}
 	
 	protected void setAppDockIconAndTitle(boolean showFPS) {
-		if(renderer != PRenderers.PDF) {
+		if(P.renderer != PRenderers.PDF) {
 			if(p.frameCount == 1) {
 				AppUtil.setTitle(p, p.appConfig.getString(AppSettings.APP_NAME, "Haxademic | " + this.getClass().getSimpleName()));
 //				AppUtil.setAppToDockIcon(p);
@@ -513,8 +504,8 @@ extends PApplet {
 		
 		// show debug & prefs sliders
 		if (p.key == '|') saveScreenshot(p.g);
-		if (p.key == '/') { debugView.active(!debugView.active()); if(ui.active()) ui.active(false); }
-		if (p.key == '\\') { ui.active(!ui.active()); if(debugView.active()) debugView.active(false); }
+//		if (p.key == '/') { debugView.active(!debugView.active()); if(ui.active()) ui.active(false); }
+//		if (p.key == '\\') { UI.active(!UI.active()); if(debugView.active()) debugView.active(false); }
 		
 		// let other objects know
 		P.store.setString(PEvents.KEY_PRESSED, p.key+"");

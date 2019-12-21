@@ -4,6 +4,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.context.PG;
+import com.haxademic.core.ui.UI;
 import com.haxademic.core.ui.UIButton;
 
 public class Demo_UIControls 
@@ -22,41 +23,41 @@ extends PAppletHax {
 	}
 	
 	public void setupFirstFrame () {
-		p.ui.addSlider(R, 255, 0, 255, 0.5f);
-		p.ui.addSlider(G, 255, 0, 255, 0.5f);
-		p.ui.addSlider(B, 255, 0, 255, 0.5f);
-		p.ui.addSliderVector(VECTOR_3, 0, -1f, 1f, 0.001f, false);
-		p.ui.addButton("Button", false);
-		p.ui.addButton("Button 2", true);
-		p.ui.addButtons(new String[] {"1", "2", "3", "4"}, true);
-		p.ui.addToggle(AUTO_ON, false, false);
-		P.out(p.ui.configToJSON());
-		P.out(p.ui.valuesToJSON());
+		UI.addSlider(R, 255, 0, 255, 0.5f);
+		UI.addSlider(G, 255, 0, 255, 0.5f);
+		UI.addSlider(B, 255, 0, 255, 0.5f);
+		UI.addSliderVector(VECTOR_3, 0, -1f, 1f, 0.001f, false);
+		UI.addButton("Button", false);
+		UI.addButton("Button 2", true);
+		UI.addButtons(new String[] {"1", "2", "3", "4"}, true);
+		UI.addToggle(AUTO_ON, false, false);
+		P.out(UI.configToJSON());
+		P.out(UI.valuesToJSON());
 	}
 	
 	public void drawApp() {
 		// test setting of components
-		if(p.ui.valueToggle(AUTO_ON) == true) {
+		if(UI.valueToggle(AUTO_ON) == true) {
 			// override slider
-			p.ui.setValue(R, 127 + 127f * P.sin(p.frameCount * 0.04f));
+			UI.setValue(R, 127 + 127f * P.sin(p.frameCount * 0.04f));
 			// set a button's value
-			if(p.frameCount % 200 == 0) p.ui.get("1").set(1);
+			if(p.frameCount % 200 == 0) UI.get("1").set(1);
 		}
 		
 		// bg components
 		p.background(
-			p.ui.value(R),
-			p.ui.value(G),
-			p.ui.value(B)
+			UI.value(R),
+			UI.value(G),
+			UI.value(B)
 		);
 		
 		// 3d rotation
 		p.lights();
 		PG.setCenterScreen(p.g);
 		PG.setDrawCenter(p.g);
-		p.rotateX(p.ui.valueX(VECTOR_3));
-		p.rotateY(p.ui.valueY(VECTOR_3));
-		p.rotateZ(p.ui.valueZ(VECTOR_3));
+		p.rotateX(UI.valueX(VECTOR_3));
+		p.rotateY(UI.valueY(VECTOR_3));
+		p.rotateZ(UI.valueZ(VECTOR_3));
 		p.fill(255);
 		p.stroke(0);
 		p.box(100);

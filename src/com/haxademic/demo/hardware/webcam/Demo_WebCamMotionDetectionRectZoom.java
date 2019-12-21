@@ -12,6 +12,7 @@ import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.hardware.webcam.WebCam;
 import com.haxademic.core.hardware.webcam.WebCam.IWebCamCallback;
 import com.haxademic.core.math.easing.EasingFloat;
+import com.haxademic.core.ui.UI;
 
 import processing.core.PGraphics;
 import processing.core.PImage;
@@ -54,12 +55,12 @@ implements IWebCamCallback {
 		};
 
 		// add sliders
-		p.ui.addSlider(BLEND_LERP, 0.25f, 0.01f, 1f, 0.01f);
-		p.ui.addSlider(DIFF_THRESH, 0.05f, 0.005f, 1f, 0.001f);
-		p.ui.addSlider(FALLOFF_BW, 0.7f, 0.01f, 1f, 0.01f);
-		p.ui.addSlider(THRESHOLD_CUTOFF, 0.5f, 0.01f, 1f, 0.01f);
-		p.ui.addSlider(MOTION_DETECT_BLUR, 1f, 0.01f, 2f, 0.01f);
-		p.ui.addSlider(RECT_LERP, lerpSpeed, 0.001f, 0.5f, 0.001f);
+		UI.addSlider(BLEND_LERP, 0.25f, 0.01f, 1f, 0.01f);
+		UI.addSlider(DIFF_THRESH, 0.05f, 0.005f, 1f, 0.001f);
+		UI.addSlider(FALLOFF_BW, 0.7f, 0.01f, 1f, 0.01f);
+		UI.addSlider(THRESHOLD_CUTOFF, 0.5f, 0.01f, 1f, 0.01f);
+		UI.addSlider(MOTION_DETECT_BLUR, 1f, 0.01f, 2f, 0.01f);
+		UI.addSlider(RECT_LERP, lerpSpeed, 0.001f, 0.5f, 0.001f);
 	}
 
 	public void drawApp() {
@@ -141,7 +142,7 @@ implements IWebCamCallback {
 				rectSize[3].setTarget(webcamBuffer.height);
 			}
 			// lerp rect
-			for (int i = 0; i < rectSize.length; i++) rectSize[i].setEaseFactor(p.ui.value(RECT_LERP));
+			for (int i = 0; i < rectSize.length; i++) rectSize[i].setEaseFactor(UI.value(RECT_LERP));
 			for (int i = 0; i < rectSize.length; i++) rectSize[i].update(true);
 
 			// debug draw
@@ -185,11 +186,11 @@ implements IWebCamCallback {
 		if(motionDetectionMap == null) {
 			motionDetectionMap = new BufferMotionDetectionMap(webcamBuffer, motionBufferScale);
 		}
-		motionDetectionMap.setBlendLerp(p.ui.value(BLEND_LERP));
-		motionDetectionMap.setDiffThresh(p.ui.value(DIFF_THRESH));
-		motionDetectionMap.setFalloffBW(p.ui.value(FALLOFF_BW));
-		motionDetectionMap.setThresholdCutoff(p.ui.value(THRESHOLD_CUTOFF));
-		motionDetectionMap.setBlur(p.ui.value(MOTION_DETECT_BLUR));
+		motionDetectionMap.setBlendLerp(UI.value(BLEND_LERP));
+		motionDetectionMap.setDiffThresh(UI.value(DIFF_THRESH));
+		motionDetectionMap.setFalloffBW(UI.value(FALLOFF_BW));
+		motionDetectionMap.setThresholdCutoff(UI.value(THRESHOLD_CUTOFF));
+		motionDetectionMap.setBlur(UI.value(MOTION_DETECT_BLUR));
 		motionDetectionMap.updateSource(webcamBuffer);
 
 		// set textures for debug view

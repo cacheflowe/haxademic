@@ -10,6 +10,7 @@ import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.shapes.Shapes;
 import com.haxademic.core.hardware.dmx.DMXWrapper;
 import com.haxademic.core.media.DemoAssets;
+import com.haxademic.core.ui.UI;
 
 import processing.core.PGraphics;
 import processing.core.PImage;
@@ -79,25 +80,25 @@ extends PAppletHax {
 	
 	protected void buildControls() {
 		// room view
-		p.ui.addSlider(FLOORPLAN_ALPHA, 1, 0, 1, 0.01f);
-		p.ui.addSliderVector(ROOM_SIZE, 500, 200, 1500f, 1f, false);
-		p.ui.addSliderVector(ROOM_ROTATION, 0, -1f, 1f, 0.001f, false);
-		p.ui.addSlider(ORTHO_VIEW, 0, 0, 1f, 1f, false);
+		UI.addSlider(FLOORPLAN_ALPHA, 1, 0, 1, 0.01f);
+		UI.addSliderVector(ROOM_SIZE, 500, 200, 1500f, 1f, false);
+		UI.addSliderVector(ROOM_ROTATION, 0, -1f, 1f, 0.001f, false);
+		UI.addSlider(ORTHO_VIEW, 0, 0, 1f, 1f, false);
 		
 		// noise for color
-		p.ui.addSlider(NOISE_FREQ, 0.001f, 0.0001f, 0.003f, 0.00001f);
-		p.ui.addSliderVector(NOISE_SCROLL_DIRECTION, 0, -0.01f, 0.01f, 0.0001f, false);
-		p.ui.addSlider(NOISE_GRID_SPACING, 50, 10, 100, 0.1f);
-		p.ui.addSlider(NOISE_GRID_CUBE_SIZE, 4, 0, 20, 0.1f);
+		UI.addSlider(NOISE_FREQ, 0.001f, 0.0001f, 0.003f, 0.00001f);
+		UI.addSliderVector(NOISE_SCROLL_DIRECTION, 0, -0.01f, 0.01f, 0.0001f, false);
+		UI.addSlider(NOISE_GRID_SPACING, 50, 10, 100, 0.1f);
+		UI.addSlider(NOISE_GRID_CUBE_SIZE, 4, 0, 20, 0.1f);
 		
 		// light positions
-		P.out(p.ui.valuesToJSON());	
+		P.out(UI.valuesToJSON());	
 	}
 	
 	protected void initDMX() {
 		// build DMX lights
 		dmxWrapper = new DMXWrapper("COM7", 9600);
-		p.ui.addSlider(LIGHT_DEBUG_CHANNEL, 0, 0, 255, 1f);
+		UI.addSlider(LIGHT_DEBUG_CHANNEL, 0, 0, 255, 1f);
 
 		// init lights
 		lights.add(new DMXLightRGB(1, true));
@@ -122,20 +123,20 @@ extends PAppletHax {
 	
 	protected void setContext() {
 		pg.background(0);
-		if(p.ui.value(ORTHO_VIEW) > 0.5f) pg.ortho();
+		if(UI.value(ORTHO_VIEW) > 0.5f) pg.ortho();
 		else pg.perspective();
 		pg.lights();
 		PG.setCenterScreen(pg);
 		PG.setDrawCenter(pg);
-		pg.translate(0, 0, p.ui.value(ROOM_ROTATION + "_Z") * pg.width);
-		pg.rotateX(p.ui.value(ROOM_ROTATION + "_X") * P.TWO_PI);
-		pg.rotateY(p.ui.value(ROOM_ROTATION + "_Y") * P.TWO_PI);	
+		pg.translate(0, 0, UI.value(ROOM_ROTATION + "_Z") * pg.width);
+		pg.rotateX(UI.value(ROOM_ROTATION + "_X") * P.TWO_PI);
+		pg.rotateY(UI.value(ROOM_ROTATION + "_Y") * P.TWO_PI);	
 	}
 	
 	protected void buildRoom() {
-		roomW = p.ui.value(ROOM_SIZE + "_X");
-		roomH = p.ui.value(ROOM_SIZE + "_Y");
-		roomD = p.ui.value(ROOM_SIZE + "_Z");
+		roomW = UI.value(ROOM_SIZE + "_X");
+		roomH = UI.value(ROOM_SIZE + "_Y");
+		roomD = UI.value(ROOM_SIZE + "_Z");
 		
 		// draw bounding box
 		pg.noFill();
@@ -145,7 +146,7 @@ extends PAppletHax {
 	}
 	
 	protected void drawFloorplan() {
-		float floorplanAlpha = p.ui.value(FLOORPLAN_ALPHA);
+		float floorplanAlpha = UI.value(FLOORPLAN_ALPHA);
 		if(floorplanAlpha > 0) {
 			pg.noStroke();
 			
@@ -181,11 +182,11 @@ extends PAppletHax {
 	
 	protected void updateLightSource() {
 		// update scroll direction
-		noiseGlobalOffset.add(p.ui.value(NOISE_SCROLL_DIRECTION + "_X"), p.ui.value(NOISE_SCROLL_DIRECTION + "_Y"), p.ui.value(NOISE_SCROLL_DIRECTION + "_Z"));
+		noiseGlobalOffset.add(UI.value(NOISE_SCROLL_DIRECTION + "_X"), UI.value(NOISE_SCROLL_DIRECTION + "_Y"), UI.value(NOISE_SCROLL_DIRECTION + "_Z"));
 	}
 	
 	protected void drawColorGrid() {
-		float noiseSpacing = p.ui.value(NOISE_GRID_SPACING);
+		float noiseSpacing = UI.value(NOISE_GRID_SPACING);
 		for (int x = 0; x <= roomW; x += noiseSpacing) {
 			for (int y = 0; y <= roomH; y += noiseSpacing) {
 				for (int z = 0; z <= roomD; z += noiseSpacing) {
@@ -196,7 +197,7 @@ extends PAppletHax {
 					pg.fill(cellColor);
 					pg.pushMatrix();
 					pg.translate(gridX, gridY, gridZ);
-					pg.box(p.ui.value(NOISE_GRID_CUBE_SIZE) * (1f * P.p.brightness(cellColor)/255f));
+					pg.box(UI.value(NOISE_GRID_CUBE_SIZE) * (1f * P.p.brightness(cellColor)/255f));
 					pg.popMatrix();
 				}	
 			}
@@ -208,7 +209,7 @@ extends PAppletHax {
 	///////////////////////////
 
 	protected int colorFromPosition(float x, float y, float z) {
-		float noiseAmp = p.ui.value(NOISE_FREQ);
+		float noiseAmp = UI.value(NOISE_FREQ);
 
 		return p.color(
 			0 + 255f * p.noise(x * noiseAmp + noiseGlobalOffset.x), 
@@ -250,7 +251,7 @@ extends PAppletHax {
 			
 			if(this.hasSlider) {
 				posSliderKey = SPATIAL_LIGHTING_PREFIX + "LIGHT_POS_" + dmxChannel;
-				p.ui.addSliderVector(posSliderKey, 0, -1f, 1f, 0.001f, false);
+				UI.addSliderVector(posSliderKey, 0, -1f, 1f, 0.001f, false);
 			}
 		}
 		
@@ -273,7 +274,7 @@ extends PAppletHax {
 		
 		protected void updatePosition() {
 			if(this.hasSlider) {
-				position.set(p.ui.value(posSliderKey + "_X"), p.ui.value(posSliderKey + "_Y"), p.ui.value(posSliderKey + "_Z"));
+				position.set(UI.value(posSliderKey + "_X"), UI.value(posSliderKey + "_Y"), UI.value(posSliderKey + "_Z"));
 			}	
 		}
 		
@@ -282,7 +283,7 @@ extends PAppletHax {
 			color.setTargetInt(colorOut);
 			
 			// override color if testing channel
-			if(dmxChannel == p.ui.valueInt(LIGHT_DEBUG_CHANNEL)) {
+			if(dmxChannel == UI.valueInt(LIGHT_DEBUG_CHANNEL)) {
 				int colorComponent = (P.round(p.frameCount / 8) % 2 == 0) ? 0 : 255;
 				color.setCurrentInt(p.color(colorComponent));
 			}

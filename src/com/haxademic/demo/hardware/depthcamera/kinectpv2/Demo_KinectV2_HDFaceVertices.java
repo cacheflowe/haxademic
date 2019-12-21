@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.ui.UI;
 
 import KinectPV2.HDFaceData;
 import KinectPV2.KinectPV2;
@@ -37,8 +38,8 @@ extends PAppletHax {
 		kinect.init();
 		
 		// init ui
-		p.ui.addSlider(startIndex, 0, 0, KinectPV2.HDFaceVertexCount, 1, false);
-		p.ui.addSlider(endIndex, 100, 0, KinectPV2.HDFaceVertexCount, 1, false);
+		UI.addSlider(startIndex, 0, 0, KinectPV2.HDFaceVertexCount, 1, false);
+		UI.addSlider(endIndex, 100, 0, KinectPV2.HDFaceVertexCount, 1, false);
 	}
 
 	public void drawApp() {
@@ -60,7 +61,7 @@ extends PAppletHax {
 				//draw the vertex points
 				stroke(0, 255, 0);
 				beginShape(POINTS);
-				for (int i = p.ui.valueInt(startIndex); i < p.ui.valueInt(endIndex) - 1; i++) {
+				for (int i = UI.valueInt(startIndex); i < UI.valueInt(endIndex) - 1; i++) {
 					float x = HDfaceData.getX(i);
 					float y = HDfaceData.getY(i);
 					vertex(x, y);

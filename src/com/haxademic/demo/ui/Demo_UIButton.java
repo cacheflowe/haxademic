@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.ui.IUIControl;
+import com.haxademic.core.ui.UI;
 import com.haxademic.core.ui.UIButton;
 import com.haxademic.core.ui.UIButton.IUIButtonDelegate;
 
@@ -27,7 +28,7 @@ implements IUIButtonDelegate {
 		mouseables.add( new UIButton( this, "3", buttonX, buttonY += 60, buttonW, buttonH - 10, true ) );
 		
 		// add a test slider to compare style
-		p.ui.addSlider("TEST SLIDER", 255, 0, 255, 0.5f);
+		UI.addSlider("TEST SLIDER", 255, 0, 255, 0.5f);
 	}
 	
 	public void keyPressed() {

@@ -4,6 +4,7 @@ import java.awt.Point;
 import java.awt.Rectangle;
 
 import com.haxademic.core.app.P;
+import com.haxademic.core.data.constants.PRegisterableMethods;
 import com.haxademic.core.data.constants.PTextAlign;
 import com.haxademic.core.draw.color.ColorsHax;
 import com.haxademic.core.draw.context.PG;
@@ -63,8 +64,8 @@ implements IUIControl {
 		this.saves = saves;
 		this.midiCCNote = midiCCNote;
 		valueEased = new EasingFloat(this.value, 0.2f);
-		P.p.registerMethod("mouseEvent", this);
-		P.p.registerMethod("keyEvent", this);
+		P.p.registerMethod(PRegisterableMethods.mouseEvent, this);
+		P.p.registerMethod(PRegisterableMethods.keyEvent, this);
 	}
 	
 	/////////////////////////////////////////
@@ -72,7 +73,7 @@ implements IUIControl {
 	/////////////////////////////////////////
 	
 	public boolean isActive() {
-		return (P.p.millis() - activeTime) < 10; // when drawing, time is tracked. if not drawing, time will be out-of-date
+		return (P.p.millis() - activeTime) < 50; // when drawing, time is tracked. if not drawing, time will be out-of-date
 	}
 	
 	/////////////////////////////////////////
@@ -204,7 +205,7 @@ implements IUIControl {
 	
 	public void keyEvent(KeyEvent e) {
 		if(isActive() == false) return;
-		if(mousePressed == false) return;
+		if(mouseHovered == false) return;
 		if(e.getAction() == KeyEvent.PRESS) {
 			if(e.getKeyCode() == P.LEFT) { value -= dragStep; value = P.max(value, valueMin); }
 			if(e.getKeyCode() == P.RIGHT) { value += dragStep; value = P.min(value, valueMax); }

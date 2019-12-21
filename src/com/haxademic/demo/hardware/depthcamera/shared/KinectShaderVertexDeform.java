@@ -7,6 +7,7 @@ import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.shapes.Shapes;
 import com.haxademic.core.draw.shapes.pshader.MeshDeformAndTextureFilter;
 import com.haxademic.core.hardware.depthcamera.DepthCameraSize;
+import com.haxademic.core.ui.UI;
 
 import processing.core.PGraphics;
 import processing.core.PImage;
@@ -39,10 +40,10 @@ extends PAppletHax {
 	}
 	
 	public void setupFirstFrame() {
-		p.ui.addSlider(kinectLeft, -0.08f, -1.0f, 1.0f, 0.01f, false);
-		p.ui.addSlider(kinectRight, 1.06f, 0f, 2f, 0.01f, false);
-		p.ui.addSlider(kinectTop, -0.08f, -1.0f, 1.0f, 0.01f, false);
-		p.ui.addSlider(kinectBottom, 1.04f, 0f, 2f, 0.01f, false);
+		UI.addSlider(kinectLeft, -0.08f, -1.0f, 1.0f, 0.01f, false);
+		UI.addSlider(kinectRight, 1.06f, 0f, 2f, 0.01f, false);
+		UI.addSlider(kinectTop, -0.08f, -1.0f, 1.0f, 0.01f, false);
+		UI.addSlider(kinectBottom, 1.04f, 0f, 2f, 0.01f, false);
 
 		tex = p.createGraphics(DepthCameraSize.WIDTH, DepthCameraSize.HEIGHT);
 		texDisplace = p.createGraphics(DepthCameraSize.WIDTH, DepthCameraSize.HEIGHT);
@@ -57,7 +58,7 @@ extends PAppletHax {
 		
 		// update mapped texture
 		tex.beginDraw();
-		tex.image(p.depthCamera.getRgbImage(), tex.width * p.ui.value(kinectLeft), tex.height * p.ui.value(kinectTop), tex.width * p.ui.value(kinectRight), tex.height * p.ui.value(kinectBottom));
+		tex.image(p.depthCamera.getRgbImage(), tex.width * UI.value(kinectLeft), tex.height * UI.value(kinectTop), tex.width * UI.value(kinectRight), tex.height * UI.value(kinectBottom));
 		tex.endDraw();
 				
 		texDisplace.beginDraw();

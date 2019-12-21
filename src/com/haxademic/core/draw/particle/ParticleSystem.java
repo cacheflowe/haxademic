@@ -8,6 +8,7 @@ import com.haxademic.core.draw.color.ColorUtil;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.math.MathUtil;
+import com.haxademic.core.ui.UI;
 
 import processing.core.PGraphics;
 import processing.core.PImage;
@@ -69,23 +70,23 @@ public class ParticleSystem {
 		SIZE_MIN = prefix + SIZE_MIN;
 		SIZE_MAX = prefix + SIZE_MAX;
 		
-		P.p.ui.addSlider(MAX_ATTEMPTS, 2000, 10, 5000, 5, saves);
-		P.p.ui.addSlider(MAX_LAUNCHES, 10, 1, 100, 1, saves);
-		P.p.ui.addSlider(POOL_MAX_SIZE, 10000, 10, 20000, 1, saves);
-		P.p.ui.addSlider(SPEED_X_MIN, -1f, -5f, 0, 0.01f, saves);
-		P.p.ui.addSlider(SPEED_X_MAX, 1f, 0, 5, 0.01f, saves);
-		P.p.ui.addSlider(SPEED_Y_MIN, -1f, -5f, 0, 0.01f, saves);
-		P.p.ui.addSlider(SPEED_Y_MAX, 1f, 0, 5, 0.01f, saves);
-		P.p.ui.addSlider(GRAVITY_X_MIN, -0.01f, -0.5f, 0, 0.001f, saves);
-		P.p.ui.addSlider(GRAVITY_X_MAX, 0.01f, 0, 0.5f, 0.001f, saves);
-		P.p.ui.addSlider(GRAVITY_Y_MIN, -0.01f, -0.5f, 0, 0.001f, saves);
-		P.p.ui.addSlider(GRAVITY_Y_MAX, 0.01f, 0, 0.5f, 0.001f, saves);
-		P.p.ui.addSlider(LIFESPAN_MIN, 10, 10, 50, 1, saves);
-		P.p.ui.addSlider(LIFESPAN_MAX, 50, 10, 200, 1, saves);
-		P.p.ui.addSlider(ROTATION_MIN, -0.1f, -1, 0, 0.001f, saves);
-		P.p.ui.addSlider(ROTATION_MAX, 0.1f, 0, 1f, 0.001f, saves);
-		P.p.ui.addSlider(SIZE_MIN, 10, 1, 40, 0.1f, saves);
-		P.p.ui.addSlider(SIZE_MAX, 40, 10, 200, 0.1f, saves);
+		UI.addSlider(MAX_ATTEMPTS, 2000, 10, 5000, 5, saves);
+		UI.addSlider(MAX_LAUNCHES, 10, 1, 100, 1, saves);
+		UI.addSlider(POOL_MAX_SIZE, 10000, 10, 20000, 1, saves);
+		UI.addSlider(SPEED_X_MIN, -1f, -5f, 0, 0.01f, saves);
+		UI.addSlider(SPEED_X_MAX, 1f, 0, 5, 0.01f, saves);
+		UI.addSlider(SPEED_Y_MIN, -1f, -5f, 0, 0.01f, saves);
+		UI.addSlider(SPEED_Y_MAX, 1f, 0, 5, 0.01f, saves);
+		UI.addSlider(GRAVITY_X_MIN, -0.01f, -0.5f, 0, 0.001f, saves);
+		UI.addSlider(GRAVITY_X_MAX, 0.01f, 0, 0.5f, 0.001f, saves);
+		UI.addSlider(GRAVITY_Y_MIN, -0.01f, -0.5f, 0, 0.001f, saves);
+		UI.addSlider(GRAVITY_Y_MAX, 0.01f, 0, 0.5f, 0.001f, saves);
+		UI.addSlider(LIFESPAN_MIN, 10, 10, 50, 1, saves);
+		UI.addSlider(LIFESPAN_MAX, 50, 10, 200, 1, saves);
+		UI.addSlider(ROTATION_MIN, -0.1f, -1, 0, 0.001f, saves);
+		UI.addSlider(ROTATION_MAX, 0.1f, 0, 1f, 0.001f, saves);
+		UI.addSlider(SIZE_MIN, 10, 1, 40, 0.1f, saves);
+		UI.addSlider(SIZE_MAX, 40, 10, 200, 0.1f, saves);
 	}
 
 	public void drawParticles(PGraphics pg) {
@@ -104,8 +105,8 @@ public class ParticleSystem {
 	
 	public void launchParticles(PGraphics pg, float destScale) {
 		int numLaunched = 0;
-		int maxAttempts = (usingUI) ? P.p.ui.valueInt(MAX_ATTEMPTS) : MAX_MAP_ATTEMPTS_PER_FRAME;
-		int maxLaunches = (usingUI) ? P.p.ui.valueInt(MAX_LAUNCHES) : MAX_LAUNCHES_PER_FRAME;
+		int maxAttempts = (usingUI) ? UI.valueInt(MAX_ATTEMPTS) : MAX_MAP_ATTEMPTS_PER_FRAME;
+		int maxLaunches = (usingUI) ? UI.valueInt(MAX_LAUNCHES) : MAX_LAUNCHES_PER_FRAME;
 		for (int i = 0; i < maxAttempts; i++) {
 			int checkX = MathUtil.randRange(0, pg.width);
 			int checkY = MathUtil.randRange(0, pg.height);
@@ -127,7 +128,7 @@ public class ParticleSystem {
 			}
 		}
 		// didn't find one
-		int maxPoolSize = (usingUI) ? P.p.ui.valueInt(POOL_MAX_SIZE) : PARTICLE_POOL_MAX_SIZE;
+		int maxPoolSize = (usingUI) ? UI.valueInt(POOL_MAX_SIZE) : PARTICLE_POOL_MAX_SIZE;
 		if(particles.size() < maxPoolSize) {
 			Particle newShape = initNewParticle();
 			launch(pg, newShape, x, y);
@@ -142,11 +143,11 @@ public class ParticleSystem {
 	protected void launch(PGraphics pg, Particle shape, float x, float y) {
 		if(usingUI) {
 			shape
-				.setSpeed(P.p.ui.value(SPEED_X_MIN), P.p.ui.value(SPEED_X_MAX), P.p.ui.value(SPEED_Y_MIN), P.p.ui.value(SPEED_Y_MAX))
-				.setGravity(P.p.ui.value(GRAVITY_X_MIN), P.p.ui.value(GRAVITY_X_MAX), P.p.ui.value(GRAVITY_Y_MIN), P.p.ui.value(GRAVITY_Y_MAX))
-				.setLifespan(P.p.ui.value(LIFESPAN_MIN), P.p.ui.value(LIFESPAN_MAX))
-				.setRotation(P.p.ui.value(ROTATION_MIN), P.p.ui.value(ROTATION_MAX))
-				.setSize(P.p.ui.value(SIZE_MIN), P.p.ui.value(SIZE_MAX))
+				.setSpeed(UI.value(SPEED_X_MIN), UI.value(SPEED_X_MAX), UI.value(SPEED_Y_MIN), UI.value(SPEED_Y_MAX))
+				.setGravity(UI.value(GRAVITY_X_MIN), UI.value(GRAVITY_X_MAX), UI.value(GRAVITY_Y_MIN), UI.value(GRAVITY_Y_MAX))
+				.setLifespan(UI.value(LIFESPAN_MIN), UI.value(LIFESPAN_MAX))
+				.setRotation(UI.value(ROTATION_MIN), UI.value(ROTATION_MAX))
+				.setSize(UI.value(SIZE_MIN), UI.value(SIZE_MAX))
 				.setColor(P.p.color(P.p.random(200, 255), P.p.random(200, 255), P.p.random(200, 255)))
 				.launch(pg, x, y, randomImg());
 		} else {

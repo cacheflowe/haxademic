@@ -8,6 +8,7 @@ import com.haxademic.core.draw.text.FontCacher;
 import com.haxademic.core.hardware.dmx.DMXWrapper;
 import com.haxademic.core.media.DemoAssets;
 import com.haxademic.core.media.audio.analysis.AudioIn;
+import com.haxademic.core.ui.UI;
 
 public class Demo_DmxChannelTester
 extends PAppletHax {
@@ -51,15 +52,15 @@ extends PAppletHax {
 		dmx = new DMXWrapper("COM3", 9600);
 		
 		// ui
-		p.ui.addSlider(CHANNEL, 1, 1, 512, 0.25f, false);
-		p.ui.addSlider(MODE, 0, 0, 3, 0.25f, false);
-		p.ui.addSlider(R, 100, 0, 255, 1, false);
-		p.ui.addSlider(G, 100, 0, 255, 1, false);
-		p.ui.addSlider(B, 100, 0, 255, 1, false);
-		p.ui.addSlider(MANUAL_BRIGHTNESS, 0, 0, 1, 1, false);
-		p.ui.addSlider(BRIGHTNESS_CAP, 255, 0, 255, 1, false);
-		p.ui.addSlider(AUDIOREACTIVE, 0, 0, 1, 1, false);
-		p.ui.addSlider(BOOLEAN_MODE, 0, 0, 1, 1, false);
+		UI.addSlider(CHANNEL, 1, 1, 512, 0.25f, false);
+		UI.addSlider(MODE, 0, 0, 3, 0.25f, false);
+		UI.addSlider(R, 100, 0, 255, 1, false);
+		UI.addSlider(G, 100, 0, 255, 1, false);
+		UI.addSlider(B, 100, 0, 255, 1, false);
+		UI.addSlider(MANUAL_BRIGHTNESS, 0, 0, 1, 1, false);
+		UI.addSlider(BRIGHTNESS_CAP, 255, 0, 255, 1, false);
+		UI.addSlider(AUDIOREACTIVE, 0, 0, 1, 1, false);
+		UI.addSlider(BOOLEAN_MODE, 0, 0, 1, 1, false);
 	}
 	
 	protected void addKeyCommandInfo() {
@@ -72,8 +73,8 @@ extends PAppletHax {
 		background(0);
 		FontCacher.setFontOnContext(p.g, FontCacher.getFont(DemoAssets.fontOpenSansPath, 40), p.color(255), 1f, PTextAlign.LEFT, PTextAlign.TOP);
 		
-		int startChannel = p.ui.valueInt(CHANNEL);
-		DMXTestmode testMode = modes[p.ui.valueInt(MODE)];
+		int startChannel = UI.valueInt(CHANNEL);
+		DMXTestmode testMode = modes[UI.valueInt(MODE)];
 
 		// choose channel with mouse
 //		if(p.mouseX != p.pmouseX) {
@@ -87,26 +88,26 @@ extends PAppletHax {
 		int valueB = P.round(127 + 127 * P.sin(p.frameCount * freq + P.PI));
 		
 		// manual control
-		if(p.ui.valueInt(MANUAL_BRIGHTNESS) == 1) {
-			valueR = p.ui.valueInt(R);
-			valueG = p.ui.valueInt(G);
-			valueB = p.ui.valueInt(B);
+		if(UI.valueInt(MANUAL_BRIGHTNESS) == 1) {
+			valueR = UI.valueInt(R);
+			valueG = UI.valueInt(G);
+			valueB = UI.valueInt(B);
 		}
 		
-		if(p.ui.valueInt(AUDIOREACTIVE) == 1) {
+		if(UI.valueInt(AUDIOREACTIVE) == 1) {
 			valueR = P.round(AudioIn.audioFreq(10) * 255);
 			valueG = P.round(AudioIn.audioFreq(20) * 255);
 			valueB = P.round(AudioIn.audioFreq(30) * 255);
 		}
 		
 		// temp: brightness cap
-		if(p.ui.valueInt(BRIGHTNESS_CAP) < 255) {
-			valueR = P.constrain(valueR, 0, p.ui.valueInt(BRIGHTNESS_CAP));
-			valueG = P.constrain(valueG, 0, p.ui.valueInt(BRIGHTNESS_CAP));
-			valueB = P.constrain(valueB, 0, p.ui.valueInt(BRIGHTNESS_CAP));
+		if(UI.valueInt(BRIGHTNESS_CAP) < 255) {
+			valueR = P.constrain(valueR, 0, UI.valueInt(BRIGHTNESS_CAP));
+			valueG = P.constrain(valueG, 0, UI.valueInt(BRIGHTNESS_CAP));
+			valueB = P.constrain(valueB, 0, UI.valueInt(BRIGHTNESS_CAP));
 		}
 		
-		if(p.ui.valueInt(BOOLEAN_MODE) == 1) {
+		if(UI.valueInt(BOOLEAN_MODE) == 1) {
 			valueR = (valueR >= 127) ? 255 : 0;
 			valueG = (valueG >= 127) ? 255 : 0;
 			valueB = (valueB >= 127) ? 255 : 0;

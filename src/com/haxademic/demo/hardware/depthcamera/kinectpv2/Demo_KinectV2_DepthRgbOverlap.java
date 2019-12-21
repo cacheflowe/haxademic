@@ -9,6 +9,7 @@ import com.haxademic.core.draw.filters.pshader.BlurVFilter;
 import com.haxademic.core.draw.image.BufferMotionDetectionMap;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.hardware.depthcamera.KinectDepthSilhouetteSmoothed;
+import com.haxademic.core.ui.UI;
 
 import processing.core.PGraphics;
 import processing.core.PImage;
@@ -30,7 +31,7 @@ extends PAppletHax {
 	}
 	
 	public void setupFirstFrame() {
-		p.ui.addSlider("STRETCH_DEPTH_X", 1f, 1f, 3f, 0.01f);
+		UI.addSlider("STRETCH_DEPTH_X", 1f, 1f, 3f, 0.01f);
 		kinectSilhouetteSmoothed = new KinectDepthSilhouetteSmoothed(p.depthCamera, 5);
 	}
 

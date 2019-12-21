@@ -5,6 +5,7 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.math.MathUtil;
+import com.haxademic.core.ui.UI;
 
 public class PolygonIncreaseVertices 
 extends PAppletHax {
@@ -25,10 +26,10 @@ extends PAppletHax {
 	}
 
 	public void setupFirstFrame() {
-		p.ui.addSlider(numPolys, 3, 1, 20, 1);
-		p.ui.addSlider(strokeWeight, 1, 0.2f, 100f, 0.1f);
-		p.ui.addSlider(startRadius, 10, 1, 300, 1);
-		p.ui.addSlider(spacing, 10, 1, 200, 1);
+		UI.addSlider(numPolys, 3, 1, 20, 1);
+		UI.addSlider(strokeWeight, 1, 0.2f, 100f, 0.1f);
+		UI.addSlider(startRadius, 10, 1, 300, 1);
+		UI.addSlider(spacing, 10, 1, 200, 1);
 	}
 
 	public void drawPolygon(float vertices, float radius) {
@@ -66,17 +67,17 @@ extends PAppletHax {
 		p.rotate(P.PI);
 		p.noFill();
 		p.stroke(255);
-		float strokeW = p.ui.value(strokeWeight);
+		float strokeW = UI.value(strokeWeight);
 		p.strokeWeight(strokeW);
 		
 //		p.strokeWeight(1);
 //		p.noStroke();
 //		p.fill(255);
 		
-		for (float i = 0; i < p.ui.valueInt(numPolys); i++) {
+		for (float i = 0; i < UI.valueInt(numPolys); i++) {
 			float vertices = i + 3;
 			float segmentRads = P.TWO_PI / vertices;
-			float curShapeRadius = p.ui.value(startRadius) + p.ui.value(spacing) * i;
+			float curShapeRadius = UI.value(startRadius) + UI.value(spacing) * i;
 			// v1
 			drawPolygon(vertices, curShapeRadius);
 			// v2

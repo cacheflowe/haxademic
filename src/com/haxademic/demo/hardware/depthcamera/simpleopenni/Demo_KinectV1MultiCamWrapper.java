@@ -10,6 +10,7 @@ import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.depthcamera.DepthCameraSize;
 import com.haxademic.core.hardware.depthcamera.cameras.KinectWrapperV1;
 import com.haxademic.core.hardware.depthcamera.cameras.KinectWrapperV2;
+import com.haxademic.core.ui.UI;
 
 import processing.core.PGraphics;
 
@@ -59,14 +60,14 @@ extends PAppletHax {
 		keystone2 = new PGraphicsKeystone( p, buffer2, 12, FileUtil.getFile("text/keystoning/keystone-kinect2.txt") );
 		
 		// add prefs sliders
-		p.ui.addSlider(PIXEL_SIZE, 	3,    1, 20, 0.1f, false);
-		p.ui.addSlider(KINECT_TOP, 	220,  0, KinectWrapperV1.KHEIGHT, 1, false);
-		p.ui.addSlider(KINECT_BOTTOM, 240,  0, KinectWrapperV1.KHEIGHT, 1, false);
-		p.ui.addSlider(KINECT_NEAR, 	1000, 0, 3000, 1, false);
-		p.ui.addSlider(KINECT_FAR, 	7000, 0, 10000, 4, false);
+		UI.addSlider(PIXEL_SIZE, 	3,    1, 20, 0.1f, false);
+		UI.addSlider(KINECT_TOP, 	220,  0, KinectWrapperV1.KHEIGHT, 1, false);
+		UI.addSlider(KINECT_BOTTOM, 240,  0, KinectWrapperV1.KHEIGHT, 1, false);
+		UI.addSlider(KINECT_NEAR, 	1000, 0, 3000, 1, false);
+		UI.addSlider(KINECT_FAR, 	7000, 0, 10000, 4, false);
 
-		p.ui.addSlider(KINECT_ROT_1, 	0, -P.PI, P.PI, 0.01f, false);
-		p.ui.addSlider(KINECT_ROT_2, 	0, -P.PI, P.PI, 0.01f, false);
+		UI.addSlider(KINECT_ROT_1, 	0, -P.PI, P.PI, 0.01f, false);
+		UI.addSlider(KINECT_ROT_2, 	0, -P.PI, P.PI, 0.01f, false);
 	}
 
 	public void drawApp() {
@@ -138,7 +139,7 @@ extends PAppletHax {
 	}
 	
 	protected float slider(String key) {
-		return p.ui.value(key);
+		return UI.value(key);
 	}
 	
 	protected int drawKinectDepthPixels(KinectWrapperV1 kinect, PGraphics buffer, int pixelColor, boolean drawAllData) {

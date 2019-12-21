@@ -7,6 +7,7 @@ import com.haxademic.core.draw.image.MotionBlurPGraphics;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.render.VideoFrameGrabber;
+import com.haxademic.core.ui.UI;
 
 import processing.core.PGraphics;
 import processing.core.PImage;
@@ -72,13 +73,13 @@ extends PAppletHax {
 
 		_videoFrames.setFrameIndex(_startMovieFrame);
 
-		p.ui.addSlider(thresholdSensitivity, 0.75f, 0, 1, 0.01f, false);
-		p.ui.addSlider(smoothing, 0.26f, 0, 1, 0.01f, false);
-		p.ui.addSlider(colorToReplaceR, 0.29f, 0, 1, 0.01f, false);
-		p.ui.addSlider(colorToReplaceG, 0.93f, 0, 1, 0.01f, false);
-		p.ui.addSlider(colorToReplaceB, 0.14f, 0, 1, 0.01f, false);
-		p.ui.addSlider(darkness, 0.4f, 0, 1, 0.01f, false);
-		p.ui.addSlider(spread, 0.35f, 0, 1, 0.01f, false);
+		UI.addSlider(thresholdSensitivity, 0.75f, 0, 1, 0.01f, false);
+		UI.addSlider(smoothing, 0.26f, 0, 1, 0.01f, false);
+		UI.addSlider(colorToReplaceR, 0.29f, 0, 1, 0.01f, false);
+		UI.addSlider(colorToReplaceG, 0.93f, 0, 1, 0.01f, false);
+		UI.addSlider(colorToReplaceB, 0.14f, 0, 1, 0.01f, false);
+		UI.addSlider(darkness, 0.4f, 0, 1, 0.01f, false);
+		UI.addSlider(spread, 0.35f, 0, 1, 0.01f, false);
 	}
 	
 	public void drawApp() {
@@ -99,16 +100,16 @@ extends PAppletHax {
 		_chromaKeyFilter.set("smoothing", 0.26f);
 		_chromaKeyFilter.set("colorToReplace", 0.29f,0.93f,0.14f);
 				
-		_chromaKeyFilter.set("thresholdSensitivity", p.ui.value(thresholdSensitivity));
-		_chromaKeyFilter.set("smoothing", p.ui.value(smoothing));
-		_chromaKeyFilter.set("colorToReplace", p.ui.value(colorToReplaceR), p.ui.value(colorToReplaceG), p.ui.value(colorToReplaceB));
+		_chromaKeyFilter.set("thresholdSensitivity", UI.value(thresholdSensitivity));
+		_chromaKeyFilter.set("smoothing", UI.value(smoothing));
+		_chromaKeyFilter.set("colorToReplace", UI.value(colorToReplaceR), UI.value(colorToReplaceG), UI.value(colorToReplaceB));
 		
 //		_vignette = loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/vignette.glsl" );
 		_vignette.set("darkness", 0.4f);
 		_vignette.set("spread", 0.35f);
 
-		_vignette.set("darkness", p.ui.value(darkness));
-		_vignette.set("spread", p.ui.value(spread));
+		_vignette.set("darkness", UI.value(darkness));
+		_vignette.set("spread", UI.value(spread));
 
 		_movieBuffer.beginDraw();
 		_movieBuffer.image(_videoFrames.movie(), 0, 0, p.width, p.height);

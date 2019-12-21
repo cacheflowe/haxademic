@@ -1,10 +1,12 @@
 package com.haxademic.core.app;
 
+import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.data.store.AppStore;
 import com.haxademic.core.data.store.AppStoreDistributed;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.keyboard.KeyboardState;
 import com.haxademic.core.hardware.mouse.Mouse;
+import com.haxademic.core.ui.UI;
 
 import processing.core.PApplet;
 import processing.core.PImage;
@@ -15,12 +17,15 @@ extends PApplet {
 	// static app object refs
 	
 	public static PAppletHax p;
+	public static String renderer;
 	public static AppStore store;	
 	public static AppStoreDistributed storeDistributed;	
 	
 	public static void init(PAppletHax p) {
 		P.p = p;
 		P.store = AppStore.instance();
+		renderer = p.appConfig.getString(AppSettings.RENDERER, P.P3D);
+		UI.instance();
 		Mouse.instance();
 		KeyboardState.instance();
 	}

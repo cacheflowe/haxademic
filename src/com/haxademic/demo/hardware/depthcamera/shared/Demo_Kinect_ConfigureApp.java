@@ -5,6 +5,7 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.hardware.depthcamera.DepthCameraSize;
+import com.haxademic.core.ui.UI;
 
 public class Demo_Kinect_ConfigureApp
 extends PAppletHax {
@@ -33,15 +34,15 @@ extends PAppletHax {
 	}
 	
 	public void setupFirstFrame() {
-		p.ui.addSlider(kinectLeft, 0, 0, DepthCameraSize.WIDTH/2, 1, false);
-		p.ui.addSlider(kinectRight, DepthCameraSize.WIDTH, DepthCameraSize.WIDTH/2,DepthCameraSize.WIDTH, 1, false);
-		p.ui.addSlider(kinectTop, 0, 0, DepthCameraSize.HEIGHT/2, 1, false);
-		p.ui.addSlider(kinectBottom, DepthCameraSize.HEIGHT, DepthCameraSize.HEIGHT/2,DepthCameraSize.HEIGHT, 1, false);
-		p.ui.addSlider(kinectNear, 300, 300, 12000, 1, false);
-		p.ui.addSlider(kinectFar, 12000, 300, 12000, 1, false);
-		p.ui.addSlider(pixelSkip, 5, 1, 10, 1, false);
-		p.ui.addSlider(depthDivider, 50, 1, 100, 0.1f, false);
-		p.ui.addSlider(pixelDrawSize, 0.5f, 0, 1, 0.01f, false);
+		UI.addSlider(kinectLeft, 0, 0, DepthCameraSize.WIDTH/2, 1, false);
+		UI.addSlider(kinectRight, DepthCameraSize.WIDTH, DepthCameraSize.WIDTH/2,DepthCameraSize.WIDTH, 1, false);
+		UI.addSlider(kinectTop, 0, 0, DepthCameraSize.HEIGHT/2, 1, false);
+		UI.addSlider(kinectBottom, DepthCameraSize.HEIGHT, DepthCameraSize.HEIGHT/2,DepthCameraSize.HEIGHT, 1, false);
+		UI.addSlider(kinectNear, 300, 300, 12000, 1, false);
+		UI.addSlider(kinectFar, 12000, 300, 12000, 1, false);
+		UI.addSlider(pixelSkip, 5, 1, 10, 1, false);
+		UI.addSlider(depthDivider, 50, 1, 100, 0.1f, false);
+		UI.addSlider(pixelDrawSize, 0.5f, 0, 1, 0.01f, false);
 	}
 
 	public void drawApp() {
@@ -72,17 +73,17 @@ extends PAppletHax {
 		p.noStroke();
 				
 		// draw kinect depth
-		int pixelSkipp = p.ui.valueInt(pixelSkip);
-		float kNear = p.ui.valueInt(kinectNear);
-		float kFar = p.ui.valueInt(kinectFar);
-		int kLeft = p.ui.valueInt(kinectLeft);
-		float kRight = p.ui.valueInt(kinectRight);
-		int kTop= p.ui.valueInt(kinectTop);
-		float kBottom = p.ui.valueInt(kinectBottom);
-		float depthDiv = p.ui.valueInt(depthDivider);
+		int pixelSkipp = UI.valueInt(pixelSkip);
+		float kNear = UI.valueInt(kinectNear);
+		float kFar = UI.valueInt(kinectFar);
+		int kLeft = UI.valueInt(kinectLeft);
+		float kRight = UI.valueInt(kinectRight);
+		int kTop= UI.valueInt(kinectTop);
+		float kBottom = UI.valueInt(kinectBottom);
+		float depthDiv = UI.valueInt(depthDivider);
 		
 		int numPixelsProcessed = 0;
-		float pixelsize = (float) pixelSkipp * p.ui.value(pixelDrawSize);
+		float pixelsize = (float) pixelSkipp * UI.value(pixelDrawSize);
 		for ( int x = kLeft; x < kRight; x += pixelSkipp ) {
 			for ( int y = kTop; y < kBottom; y += pixelSkipp ) {
 				int pixelDepth = p.depthCamera.getDepthAt( x, y );

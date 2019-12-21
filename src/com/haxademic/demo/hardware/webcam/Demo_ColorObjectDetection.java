@@ -4,6 +4,7 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.image.ColorObjectDetection;
 import com.haxademic.core.hardware.webcam.WebCam;
 import com.haxademic.core.hardware.webcam.WebCam.IWebCamCallback;
+import com.haxademic.core.ui.UI;
 
 import processing.core.PImage;
 
@@ -18,8 +19,8 @@ implements IWebCamCallback {
 	
 	public void setupFirstFrame () {
 		WebCam.instance().setDelegate(this);
-		p.ui.addSlider(COLOR_CLOSENESS_THRESHOLD, 0.95f, 0.9f, 1f, 0.001f, false);
-		p.ui.addSlider(COLOR_MIN_POINTS_DETECT_THRESHOLD, 10, 5, 100, 1, false);
+		UI.addSlider(COLOR_CLOSENESS_THRESHOLD, 0.95f, 0.9f, 1f, 0.001f, false);
+		UI.addSlider(COLOR_MIN_POINTS_DETECT_THRESHOLD, 10, 5, 100, 1, false);
 	}
 
 	public void drawApp() {
@@ -42,8 +43,8 @@ implements IWebCamCallback {
 	public void newFrame(PImage frame) {
 		// lazy-init color detection and update it with incoming webcam frames
 		if(colorObjectDetection == null) colorObjectDetection = new ColorObjectDetection(frame, 0.25f);
-		colorObjectDetection.colorClosenessThreshold(p.ui.value(COLOR_CLOSENESS_THRESHOLD));
-		colorObjectDetection.minPointsThreshold((int) p.ui.value(COLOR_MIN_POINTS_DETECT_THRESHOLD));
+		colorObjectDetection.colorClosenessThreshold(UI.value(COLOR_CLOSENESS_THRESHOLD));
+		colorObjectDetection.minPointsThreshold((int) UI.value(COLOR_MIN_POINTS_DETECT_THRESHOLD));
 		colorObjectDetection.debugging(true);
 		colorObjectDetection.update(frame);
 		p.debugView.setValue("colorObjectDetection.isActive()", colorObjectDetection.isActive());

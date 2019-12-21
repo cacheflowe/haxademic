@@ -4,6 +4,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.draw.context.PG;
+import com.haxademic.core.ui.UI;
 
 public class Demo_TrigDriveTest
 extends PAppletHax {
@@ -20,8 +21,8 @@ extends PAppletHax {
 	}
 
 	public void setupFirstFrame() {
-		p.ui.addSlider(radians, 0, 0, P.TWO_PI, 0.01f, false);
-		p.ui.addSlider(speed, 1, 0, 10, 0.1f, false);
+		UI.addSlider(radians, 0, 0, P.TWO_PI, 0.01f, false);
+		UI.addSlider(speed, 1, 0, 10, 0.1f, false);
 
 		_x = p.width / 2;
 		_y = p.height / 2;
@@ -31,8 +32,8 @@ extends PAppletHax {
 		background(0);
 		PG.setDrawCenter(p);
 
-		_x += P.cos(p.ui.value(radians)) * p.ui.value(speed);
-		_y += P.sin(p.ui.value(radians)) * p.ui.value(speed);
+		_x += P.cos(UI.value(radians)) * UI.value(speed);
+		_y += P.sin(UI.value(radians)) * UI.value(speed);
 		
 		if( _x > p.width ) _x = 0;
 		if( _x < 0 ) _x = p.width;
@@ -43,7 +44,7 @@ extends PAppletHax {
 		p.fill(255);
 		
 		p.translate(_x, _y);
-		p.rotate(p.ui.value(radians));
+		p.rotate(UI.value(radians));
 		p.rect(0, 0, 40, 20);
 		
 		p.popMatrix();

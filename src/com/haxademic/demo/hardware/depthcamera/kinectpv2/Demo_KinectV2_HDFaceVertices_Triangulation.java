@@ -9,6 +9,7 @@ import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.file.FileUtil;
+import com.haxademic.core.ui.UI;
 
 import KinectPV2.HDFaceData;
 import KinectPV2.KinectPV2;
@@ -60,8 +61,8 @@ extends PAppletHax {
 		kinect.init();
 
 		// init ui
-		p.ui.addSlider(startIndex, 0, 0, KinectPV2.HDFaceVertexCount, 1, false);
-		p.ui.addSlider(endIndex, KinectPV2.HDFaceVertexCount, 0, KinectPV2.HDFaceVertexCount, 1, false);
+		UI.addSlider(startIndex, 0, 0, KinectPV2.HDFaceVertexCount, 1, false);
+		UI.addSlider(endIndex, KinectPV2.HDFaceVertexCount, 0, KinectPV2.HDFaceVertexCount, 1, false);
 
 		// load texture
 		texture = p.loadImage(FileUtil.getFile("images/_sketch/the-opening-mask.png"));

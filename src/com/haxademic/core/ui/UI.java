@@ -5,7 +5,11 @@ import java.util.Iterator;
 import java.util.LinkedHashMap;
 
 import com.haxademic.core.app.P;
+import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.data.constants.PRegisterableMethods;
+import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.draw.context.PG;
+import com.haxademic.core.hardware.keyboard.KeyboardState;
 import com.haxademic.core.net.UIControlsHandler;
 import com.haxademic.core.net.WebServer;
 import com.haxademic.core.ui.UIButton.IUIButtonDelegate;
@@ -13,21 +17,21 @@ import com.haxademic.core.ui.UIButton.IUIButtonDelegate;
 import processing.data.JSONArray;
 import processing.data.JSONObject;
 
-public class UIControlPanel
+public class UI
 implements IUIButtonDelegate {
 
-	protected LinkedHashMap<String, IUIControl> controls;
+	protected static LinkedHashMap<String, IUIControl> controls;
 	
 	public static int controlX = 1;
-	protected int controlY = 1;
+	protected static int controlY = 1;
 	public static final int controlW = 250;
 	public static final int controlH = 24;
 	public static final int controlSpacing = 24;
-	protected float controlSpacingH = 0;
+	protected static float controlSpacingH = 0;
 
-	protected boolean active = false;
+	protected static boolean active = false;
 
-	protected WebServer server;
+	protected static WebServer server;
 	public static final String KEY_CONTROLS = "ui_controls";
 	public static final String KEY_TYPE = "type";
 	public static final String KEY_ID = "id";
@@ -38,15 +42,31 @@ implements IUIButtonDelegate {
 	public static final String KEY_VALUE_TOGGLES = "value_toggles";
 	public static final String KEY_VALUE_LAYOUT_W = "layout_width";
 	
-	public UIControlPanel() {
+	// Singleton instance
+	
+	public static UI instance;
+	
+	public static UI instance() {
+		if(instance != null) return instance;
+		instance = new UI();
+		return instance;
+	}
+	
+	// Constructor
+
+	public UI() {
+		active = P.p.appConfig.getBoolean(AppSettings.SHOW_UI, false);
 		controls = new LinkedHashMap<String, IUIControl>();
+		P.p.registerMethod(PRegisterableMethods.pre, this);
+		P.p.registerMethod(PRegisterableMethods.post, this);
+//		P.p.registerMethod(PRegisterableMethods.keyEvent, this);
 	}
 	
 	////////////////////////
 	// ADD web controls
 	////////////////////////
 	
-	public void addWebInterface(boolean debugWebRequests) {
+	public static void addWebInterface(boolean debugWebRequests) {
 		if(server != null) return;
 		server = new WebServer(new UIControlsHandler(), debugWebRequests);
 	}
@@ -55,36 +75,36 @@ implements IUIButtonDelegate {
 	// ADD controls
 	////////////////////////
 	
-	public void addTitle(String title) {
+	public static void addTitle(String title) {
 		controls.put(title, new UITitle(title, controlX, controlY, controlW, controlH));
 		controlY += controlH;
 		if(controlY > P.p.height - controlH) nextCol();
 	}
 	
-	public void addToggle(String key, boolean value, boolean saves) {
+	public static void addToggle(String key, boolean value, boolean saves) {
 		int valInt = (value == true) ? 1 : 0; 
 		addSlider(key, valInt, 0, 1, 1, saves);
 	}
 	
-	public void addSlider(String key, float value, float valueLow, float valueHigh, float dragStep) {
+	public static void addSlider(String key, float value, float valueLow, float valueHigh, float dragStep) {
 		addSlider(key, value, valueLow, valueHigh, dragStep, true);
 	}
 	
-	public void addSlider(String key, float value, float valueLow, float valueHigh, float dragStep, boolean saves) {
+	public static void addSlider(String key, float value, float valueLow, float valueHigh, float dragStep, boolean saves) {
 		addSlider(key, value, valueLow, valueHigh, dragStep, true, -1);
 	}
 	
-	public void addSlider(String key, float value, float valueLow, float valueHigh, float dragStep, boolean saves, int midiCCNote) {
+	public static void addSlider(String key, float value, float valueLow, float valueHigh, float dragStep, boolean saves, int midiCCNote) {
 		controls.put(key, new UISlider(key, value, valueLow, valueHigh, dragStep, controlX, controlY, controlW, controlH, saves, midiCCNote));
 		controlY += controlH;
 		if(controlY > P.p.height - controlH) nextCol();
 	}
 	
-	public void addSliderVector(String key, float value, float valueLow, float valueHigh, float dragStep, boolean saves) {
+	public static void addSliderVector(String key, float value, float valueLow, float valueHigh, float dragStep, boolean saves) {
 		addSliderVector(key, value, valueLow, valueHigh, dragStep, saves, -1, -1, -1);
 	}
 	
-	public void addSliderVector(String key, float value, float valueLow, float valueHigh, float dragStep, boolean saves, int midiCCNote1, int midiCCNote2, int midiCCNote3) {
+	public static void addSliderVector(String key, float value, float valueLow, float valueHigh, float dragStep, boolean saves, int midiCCNote1, int midiCCNote2, int midiCCNote3) {
 		float controlWidthDivided = (float) controlW / 3f;
 		int controlHStack = P.round(controlH * 1.5f);
 		controls.put(key + "_X", new UISlider(key + "_X", value, valueLow, valueHigh, dragStep, P.round(controlX + 0 * controlWidthDivided), controlY, P.round(controlWidthDivided), controlHStack, saves, midiCCNote1));
@@ -97,12 +117,12 @@ implements IUIButtonDelegate {
 		if(controlY > P.p.height - controlHStack) nextCol();
 	}
 	
-	protected void nextCol() {
+	protected static void nextCol() {
 		controlY = 1;
 		controlX += controlW + 1;
 	}
 	
-	public void removeControl(String key) {
+	public static void removeControl(String key) {
 		controls.remove(key);
 	}
 	
@@ -110,26 +130,26 @@ implements IUIButtonDelegate {
 	// ADD BUTTONS
 	////////////////////////
 	
-	public void addButton(String key, boolean toggles) {
+	public static void addButton(String key, boolean toggles) {
 		addButton(key, toggles, -1);
 	}
 	
-	public void addButton(String key, boolean toggles, int midiNote) {
-		controls.put(key, new UIButton(this, key, controlX, controlY, controlW, controlH, toggles, midiNote));
+	public static void addButton(String key, boolean toggles, int midiNote) {
+		controls.put(key, new UIButton(instance, key, controlX, controlY, controlW, controlH, toggles, midiNote));
 		controlY += controlSpacing;
 	}
 	
-	public void addButtons(String[] keys, boolean toggles) {
+	public static void addButtons(String[] keys, boolean toggles) {
 		addButtons(keys, toggles, null);
 	}
 	
-	public void addButtons(String[] keys, boolean toggles, int[] midiNotes) {
+	public static void addButtons(String[] keys, boolean toggles, int[] midiNotes) {
 		float layoutW = 1f / keys.length;
 		float controlWidthDivided = (controlW - controlSpacingH * (keys.length - 1)) / keys.length;
 		for (int i = 0; i < keys.length; i++) {
 			int buttonX = P.round(controlX + i * controlWidthDivided + controlSpacingH * i);
 			int midiNote = (midiNotes != null && midiNotes.length > i) ? midiNotes[i] : -1;
-			UIButton newButton = new UIButton(this, keys[i], buttonX, controlY, P.round(controlWidthDivided), controlH, toggles, midiNote);
+			UIButton newButton = new UIButton(instance, keys[i], buttonX, controlY, P.round(controlWidthDivided), controlH, toggles, midiNote);
 			newButton.layoutW(layoutW);
 			controls.put(keys[i], newButton);
 		}
@@ -140,55 +160,55 @@ implements IUIButtonDelegate {
 	// GET/SET VALUES
 	////////////////////////
 	
-	public IUIControl get(String key) {
+	public static IUIControl get(String key) {
 		return controls.get(key);
 	}
 
-	public boolean has(String key) {
+	public static boolean has(String key) {
 		return controls.containsKey(key);
 	}
 	
-	public void setValue(String key, float val) {
+	public static void setValue(String key, float val) {
 		controls.get(key).set(val);
 	}
 	
-	public float value(String key) {
+	public static float value(String key) {
 		return controls.get(key).value();
 	}
 	
-	public float valueEased(String key) {
+	public static float valueEased(String key) {
 		return controls.get(key).valueEased();
 	}
 	
-	public int valueInt(String key) {
+	public static int valueInt(String key) {
 		return P.round(controls.get(key).value());
 	}
 	
-	public boolean valueToggle(String key) {
+	public static boolean valueToggle(String key) {
 		return P.round(controls.get(key).value()) == 1;
 	}
 	
-	public float valueX(String key) {
+	public static float valueX(String key) {
 		return controls.get(key+"_X").value();
 	}
 	
-	public float valueY(String key) {
+	public static float valueY(String key) {
 		return controls.get(key+"_Y").value();
 	}
 	
-	public float valueZ(String key) {
+	public static float valueZ(String key) {
 		return controls.get(key+"_Z").value();
 	}
 	
-	public float valueXEased(String key) {
+	public static float valueXEased(String key) {
 		return controls.get(key+"_X").valueEased();
 	}
 	
-	public float valueYEased(String key) {
+	public static float valueYEased(String key) {
 		return controls.get(key+"_Y").valueEased();
 	}
 	
-	public float valueZEased(String key) {
+	public static float valueZEased(String key) {
 		return controls.get(key+"_Z").valueEased();
 	}
 	
@@ -196,32 +216,45 @@ implements IUIButtonDelegate {
 	// DRAW/ACTIVATE/DEACTIVATE
 	////////////////////////
 	
-	public void update() {
+	public void pre() {
+		checkKeyCommands();
 		// update control values whether UI is showing or not 
 		for (IUIControl control : controls.values()) control.update();
-
+	}
+	
+	public void post() {
 		// draw if UI is active
-		if(!active) return;
-		PG.setDrawFlat2d(P.p.g, true);
-		for (IUIControl control : controls.values()) {
-			control.draw(P.p.g);
+		if(active && P.renderer != PRenderers.PDF) {
+			PG.setDrawFlat2d(P.p.g, true);
+			for (IUIControl control : controls.values()) {
+				control.draw(P.p.g);
+			}
+			PG.setDrawFlat2d(P.p.g, false);
 		}
-		PG.setDrawFlat2d(P.p.g, false);
 	}
 
-	public void active(boolean val) {
+	public static void active(boolean val) {
 		active = val;
 	}
 
-	public boolean active() {
+	public static boolean active() {
 		return active;
+	}
+	
+	////////////////////////
+	// Key commands
+	////////////////////////
+	
+	public void checkKeyCommands() {
+		if(KeyboardState.instance().isKeyTriggered('\\')) active = !active;
+		if(KeyboardState.instance().isKeyTriggered('/')) active = false;
 	}
 	
 	////////////////////////
 	// EXPORT
 	////////////////////////
 	
-	public String configToJSON() {
+	public static String configToJSON() {
 		// build JSON array
 		JSONArray array = new JSONArray();
 		for (HashMap.Entry<String, IUIControl> entry : controls.entrySet()) {	// With LinkedHashMap, keys are in order
@@ -244,7 +277,7 @@ implements IUIButtonDelegate {
 		return outerJsonObject.toString();
 	}
 	
-	public String valuesToJSON() {
+	public static String valuesToJSON() {
 		JSONObject json = new JSONObject();
 		for (IUIControl control : controls.values()) {
 			json.setFloat(control.id(), control.value());
@@ -252,7 +285,7 @@ implements IUIButtonDelegate {
 		return json.toString();
 	}
 	
-	public void loadValuesFromJSON(JSONObject jsonData) {
+	public static void loadValuesFromJSON(JSONObject jsonData) {
 //		P.out(jsonData.toString());
 //		P.out(JsonUtil.isValid(jsonData.toString()));
 		Iterator<?> iterator = jsonData.keys().iterator();

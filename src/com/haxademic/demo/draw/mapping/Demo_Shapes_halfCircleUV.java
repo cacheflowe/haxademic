@@ -7,6 +7,7 @@ import com.haxademic.core.data.constants.PShapeTypes;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.hardware.webcam.WebCam;
 import com.haxademic.core.media.DemoAssets;
+import com.haxademic.core.ui.UI;
 
 import processing.core.PGraphics;
 import processing.video.Movie;
@@ -41,12 +42,12 @@ extends PAppletHax {
 		testPattern.endDraw();
 		
 		// set UI
-		p.ui.addSlider(displayW, p.width, 0, 2000, 1f, false);
-		p.ui.addSlider(displayH, 960, 0, 2000, 1f, false);
-		p.ui.addSlider(offsetX, 0, 0, 10, 0.01f, false);
-		p.ui.addSlider(webcam, 0, 0, 1, 1, false);
-		p.ui.addSlider(showLines, 0, 0, 1, 1, false);
-		p.ui.addSlider(detailVal, 500, 10, 1000, 1, false);
+		UI.addSlider(displayW, p.width, 0, 2000, 1f, false);
+		UI.addSlider(displayH, 960, 0, 2000, 1f, false);
+		UI.addSlider(offsetX, 0, 0, 10, 0.01f, false);
+		UI.addSlider(webcam, 0, 0, 1, 1, false);
+		UI.addSlider(showLines, 0, 0, 1, 1, false);
+		UI.addSlider(detailVal, 500, 10, 1000, 1, false);
 	}
 
 	public void drawApp() {
@@ -57,15 +58,15 @@ extends PAppletHax {
 		p.stroke(0, 255, 0);
 		p.strokeWeight(1);
 		p.fill(255);
-		if(p.ui.valueInt(showLines) == 0) p.noStroke();
+		if(UI.valueInt(showLines) == 0) p.noStroke();
 		
 		// set shape size
-		float shapeW = p.ui.value(displayW);
-		float shapeH = p.ui.value(displayH);
-		float detail = p.ui.value(detailVal);
+		float shapeW = UI.value(displayW);
+		float shapeH = UI.value(displayH);
+		float detail = UI.value(detailVal);
 		float shapeOriginX = shapeW / 2f;
 		float shapeOriginY = shapeH;
-		float startU = p.ui.value(offsetX);
+		float startU = UI.value(offsetX);
 		
 		// draw half-circle & apply texture
 		PG.setTextureRepeat(p.g, true);
@@ -74,7 +75,7 @@ extends PAppletHax {
 		p.textureMode(P.NORMAL);
 		p.texture(video);
 //		p.texture(testPattern);
-		if(p.ui.valueInt(webcam) == 1) p.texture(WebCam.instance().image());
+		if(UI.valueInt(webcam) == 1) p.texture(WebCam.instance().image());
 		float startRads = P.PI;
 		float segmentRads = P.PI / detail;
 		for (int i = 0; i < detail; i++) {

@@ -4,6 +4,7 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.draw.filters.pshader.BrightnessToAlphaFilter;
 import com.haxademic.core.file.FileUtil;
+import com.haxademic.core.ui.UI;
 
 import processing.core.PGraphics;
 import processing.opengl.PShader;
@@ -27,12 +28,12 @@ extends PAppletHax {
 		shader = p.loadShader(FileUtil.getFile("haxademic/shaders/textures/sdf-04-manual.glsl"));
 		
 		// ui
-		p.ui.addSlider(sdfThreshold, 0.00001f, 0.000001f, 0.0001f, 0.000001f, false);
-		p.ui.addSlider(twistAmp, 0f, -3f, 3f, 0.001f, false);
-		p.ui.addSliderVector(rotation, 0f, 0, 2, 0.01f, false);
-		p.ui.addSliderVector(cubeSize, 0.6f, 0, 2, 0.01f, false);
-		p.ui.addSliderVector(cubePos, 0f, -5f, 5f, 0.01f, false);
-		p.ui.setValue(cubePos+"_Z", -3f);
+		UI.addSlider(sdfThreshold, 0.00001f, 0.000001f, 0.0001f, 0.000001f, false);
+		UI.addSlider(twistAmp, 0f, -3f, 3f, 0.001f, false);
+		UI.addSliderVector(rotation, 0f, 0, 2, 0.01f, false);
+		UI.addSliderVector(cubeSize, 0.6f, 0, 2, 0.01f, false);
+		UI.addSliderVector(cubePos, 0f, -5f, 5f, 0.01f, false);
+		UI.setValue(cubePos+"_Z", -3f);
 	}
 
 	public void drawApp() {
@@ -44,9 +45,9 @@ extends PAppletHax {
 		p.stroke(255);
 		p.push();
 		p.translate(
-			p.width/2 + p.ui.valueX(cubePos) * ((float)-p.width/8f), 
-			p.height/2 + p.ui.valueY(cubePos) * ((float)p.height/5.6f), 
-			p.ui.valueZ(cubePos) * ((float)p.width/8f)
+			p.width/2 + UI.valueX(cubePos) * ((float)-p.width/8f), 
+			p.height/2 + UI.valueY(cubePos) * ((float)p.height/5.6f), 
+			UI.valueZ(cubePos) * ((float)p.width/8f)
 		);
 		p.sphere(200);
 		p.pop();
@@ -54,11 +55,11 @@ extends PAppletHax {
 		
 		// update shader texture
 		shader.set("time", p.frameCount * 0.01f);
-		shader.set(sdfThreshold, p.ui.value(sdfThreshold));
-		shader.set(twistAmp, p.ui.value(twistAmp));
-		shader.set(rotation, p.ui.valueX(rotation), p.ui.valueY(rotation), p.ui.valueZ(rotation));
-		shader.set(cubeSize, p.ui.valueX(cubeSize), p.ui.valueY(cubeSize), p.ui.valueZ(cubeSize));
-		shader.set(cubePos, p.ui.valueX(cubePos), p.ui.valueY(cubePos), p.ui.valueZ(cubePos));
+		shader.set(sdfThreshold, UI.value(sdfThreshold));
+		shader.set(twistAmp, UI.value(twistAmp));
+		shader.set(rotation, UI.valueX(rotation), UI.valueY(rotation), UI.valueZ(rotation));
+		shader.set(cubeSize, UI.valueX(cubeSize), UI.valueY(cubeSize), UI.valueZ(cubeSize));
+		shader.set(cubePos, UI.valueX(cubePos), UI.valueY(cubePos), UI.valueZ(cubePos));
 		buffer.filter(shader);
 		
 		buffer.beginDraw();

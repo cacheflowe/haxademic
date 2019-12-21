@@ -72,7 +72,7 @@ extends PAppletHax {
 	}
 	
 	protected boolean isHeadless() {
-		return renderer == PRenderers.PDF;
+		return P.renderer == PRenderers.PDF;
 	}
 	
 	public void drawApp() {

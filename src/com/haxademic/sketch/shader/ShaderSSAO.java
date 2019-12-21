@@ -3,12 +3,13 @@ package com.haxademic.sketch.shader;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.context.OpenGLUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.Penner;
 import com.haxademic.core.net.JsonUtil;
+import com.haxademic.core.ui.UI;
 
 import processing.core.PGraphics;
 import processing.opengl.PShader;
@@ -66,20 +67,20 @@ extends PAppletHax {
 	}
 
 	public void setupFirstFrame() {
-		p.ui.addSlider(onlyAO, 0, 0, 1, 1, false);
-		p.ui.addSlider(aoClamp, 1.5f, -5f, 5f, 0.01f, false);
-		p.ui.addSlider(lumInfluence, 0.2f, -5f, 5f, 0.01f, false);
-		p.ui.addSlider(cameraNear, 175, 1, 500, 1, false);
-		p.ui.addSlider(cameraFar, 1700, 500f, 2000f, 1, false);
-		p.ui.addSlider(samples, 32, 2, 128, 1, false);
-		p.ui.addSlider(radius, 1, 0, 2, 0.001f, false);
-		p.ui.addSlider(diffArea, 0.65f, 0, 5, 0.01f, false);
-		p.ui.addSlider(gDisplace, 0.65f, 0, 5, 0.01f, false);
-		p.ui.addSlider(diffMult, 100f, 1, 1000, 1f, false);
-		p.ui.addSlider(gaussMult, -2, -4, 4, 0.01f, false);
-		p.ui.addSlider(useNoise, 12, 0, 1, 1, false);
-		p.ui.addSlider(noiseAmount, 0.00003f, 0.00003f, 0.003f, 0.00001f, false);
-		p.ui.loadValuesFromJSON(JsonUtil.jsonFromString(config1));
+		UI.addSlider(onlyAO, 0, 0, 1, 1, false);
+		UI.addSlider(aoClamp, 1.5f, -5f, 5f, 0.01f, false);
+		UI.addSlider(lumInfluence, 0.2f, -5f, 5f, 0.01f, false);
+		UI.addSlider(cameraNear, 175, 1, 500, 1, false);
+		UI.addSlider(cameraFar, 1700, 500f, 2000f, 1, false);
+		UI.addSlider(samples, 32, 2, 128, 1, false);
+		UI.addSlider(radius, 1, 0, 2, 0.001f, false);
+		UI.addSlider(diffArea, 0.65f, 0, 5, 0.01f, false);
+		UI.addSlider(gDisplace, 0.65f, 0, 5, 0.01f, false);
+		UI.addSlider(diffMult, 100f, 1, 1000, 1f, false);
+		UI.addSlider(gaussMult, -2, -4, 4, 0.01f, false);
+		UI.addSlider(useNoise, 12, 0, 1, 1, false);
+		UI.addSlider(noiseAmount, 0.00003f, 0.00003f, 0.003f, 0.00001f, false);
+		UI.loadValuesFromJSON(JsonUtil.jsonFromString(config1));
 
 		canvas = p.createGraphics(p.width, p.height, P.P3D);
 		canvas.smooth(OpenGLUtil.SMOOTH_HIGH);
@@ -106,23 +107,23 @@ extends PAppletHax {
 	public void drawApp() {
 		background(0);
 		
-		depthShader.set("near", p.ui.value(cameraNear));
-		depthShader.set("far", p.ui.value(cameraFar));
+		depthShader.set("near", UI.value(cameraNear));
+		depthShader.set("far", UI.value(cameraFar));
 
-		ssaoShader.set("onlyAO", p.ui.value(onlyAO) == 1);
-		ssaoShader.set("aoClamp", p.ui.value(aoClamp));
-		ssaoShader.set("lumInfluence", p.ui.value(lumInfluence));
-		ssaoShader.set("cameraNear", p.ui.value(cameraNear));
-		ssaoShader.set("cameraFar", p.ui.value(cameraFar));
+		ssaoShader.set("onlyAO", UI.value(onlyAO) == 1);
+		ssaoShader.set("aoClamp", UI.value(aoClamp));
+		ssaoShader.set("lumInfluence", UI.value(lumInfluence));
+		ssaoShader.set("cameraNear", UI.value(cameraNear));
+		ssaoShader.set("cameraFar", UI.value(cameraFar));
 		
-		ssaoShader.set("samples", p.ui.valueInt(samples));
-		ssaoShader.set("radius", p.ui.value(radius));
-		ssaoShader.set("useNoise", p.ui.value(useNoise) == 1);
-		ssaoShader.set("noiseAmount", p.ui.value(noiseAmount));
-		ssaoShader.set("diffArea", p.ui.value(diffArea));
-		ssaoShader.set("gDisplace", p.ui.value(gDisplace));
-		ssaoShader.set("diffMult", p.ui.value(diffMult));
-		ssaoShader.set("gaussMult", p.ui.value(gaussMult));
+		ssaoShader.set("samples", UI.valueInt(samples));
+		ssaoShader.set("radius", UI.value(radius));
+		ssaoShader.set("useNoise", UI.value(useNoise) == 1);
+		ssaoShader.set("noiseAmount", UI.value(noiseAmount));
+		ssaoShader.set("diffArea", UI.value(diffArea));
+		ssaoShader.set("gDisplace", UI.value(gDisplace));
+		ssaoShader.set("diffMult", UI.value(diffMult));
+		ssaoShader.set("gaussMult", UI.value(gaussMult));
 				
 		// rendering
 		percentComplete = ((float)(p.frameCount%_frames)/_frames);

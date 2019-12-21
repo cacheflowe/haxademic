@@ -11,6 +11,7 @@ import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.EasingFloat;
 import com.haxademic.core.net.JsonUtil;
+import com.haxademic.core.ui.UI;
 
 import processing.core.PGraphics;
 import processing.core.PShape;
@@ -83,20 +84,20 @@ extends PAppletHax {
 		);	
 		
 		// build UI
-		p.ui.addSlider(WIDTH, 256, 0, 4196, 1, false);
-		p.ui.addSlider(HEIGHT, 256, 0, 4196, 1, false);
-		p.ui.addSlider(DEPTH, 256, 0, 4196, 1, false);
-		p.ui.addSlider(POINT_SIZE, 1, 0.1f, 20, 0.1f, false);
-		p.ui.addSlider(ROT_X, 0, -P.TWO_PI, P.TWO_PI, 0.001f, false);
-		p.ui.addSlider(ROT_Y, 0, -P.TWO_PI, P.TWO_PI, 0.001f, false);
+		UI.addSlider(WIDTH, 256, 0, 4196, 1, false);
+		UI.addSlider(HEIGHT, 256, 0, 4196, 1, false);
+		UI.addSlider(DEPTH, 256, 0, 4196, 1, false);
+		UI.addSlider(POINT_SIZE, 1, 0.1f, 20, 0.1f, false);
+		UI.addSlider(ROT_X, 0, -P.TWO_PI, P.TWO_PI, 0.001f, false);
+		UI.addSlider(ROT_Y, 0, -P.TWO_PI, P.TWO_PI, 0.001f, false);
 		
 		float easeFactor = 0.1f;
-		w = new EasingFloat(p.ui.value(WIDTH), easeFactor);
-		h = new EasingFloat(p.ui.value(HEIGHT), easeFactor);
-		d = new EasingFloat(p.ui.value(DEPTH), easeFactor);
-		pointSize = new EasingFloat(p.ui.value(POINT_SIZE), easeFactor);
-		rotX = new EasingFloat(p.ui.value(ROT_X), easeFactor);
-		rotY = new EasingFloat(p.ui.value(ROT_Y), easeFactor);
+		w = new EasingFloat(UI.value(WIDTH), easeFactor);
+		h = new EasingFloat(UI.value(HEIGHT), easeFactor);
+		d = new EasingFloat(UI.value(DEPTH), easeFactor);
+		pointSize = new EasingFloat(UI.value(POINT_SIZE), easeFactor);
+		rotX = new EasingFloat(UI.value(ROT_X), easeFactor);
+		rotY = new EasingFloat(UI.value(ROT_Y), easeFactor);
 	}
 	
 	protected void newPositions() {
@@ -115,17 +116,17 @@ extends PAppletHax {
 		
 		// update values
 		float upscale = 1.4f;
-		w.setTarget(p.ui.value(WIDTH) * upscale);
+		w.setTarget(UI.value(WIDTH) * upscale);
 		w.update(true);
-		h.setTarget(p.ui.value(HEIGHT) * upscale);
+		h.setTarget(UI.value(HEIGHT) * upscale);
 		h.update(true);
-		d.setTarget(p.ui.value(DEPTH) * upscale);
+		d.setTarget(UI.value(DEPTH) * upscale);
 		d.update(true);
-		pointSize.setTarget(p.ui.value(POINT_SIZE) * upscale);
+		pointSize.setTarget(UI.value(POINT_SIZE) * upscale);
 		pointSize.update(true);
-		rotX.setTarget(p.ui.value(ROT_X));
+		rotX.setTarget(UI.value(ROT_X));
 		rotX.update(true);
-		rotY.setTarget(p.ui.value(ROT_Y));
+		rotY.setTarget(UI.value(ROT_Y));
 		rotY.update(true);
 		
 		// set context
@@ -190,13 +191,13 @@ extends PAppletHax {
 //		generateSettings();
 		settingsIndex++;
 		if(settingsIndex >= particleSettings.length) settingsIndex = 0;
-		p.ui.loadValuesFromJSON(JSONObject.parse(particleSettings[settingsIndex]));
+		UI.loadValuesFromJSON(JSONObject.parse(particleSettings[settingsIndex]));
 	}
 	
 	public void keyPressed() {
 		super.keyPressed();
 		if(p.key == ' ') newPositions();
-		if(p.key == 's') P.out(JsonUtil.jsonToSingleLine(p.ui.valuesToJSON()));
+		if(p.key == 's') P.out(JsonUtil.jsonToSingleLine(UI.valuesToJSON()));
 		if(p.key == 'l') nextSettings();
 	}
 	

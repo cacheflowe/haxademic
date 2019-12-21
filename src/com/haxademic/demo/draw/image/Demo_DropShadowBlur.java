@@ -7,6 +7,7 @@ import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.BlurProcessingFilter;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.media.DemoAssets;
+import com.haxademic.core.ui.UI;
 
 import processing.core.PGraphics;
 import processing.core.PImage;
@@ -36,10 +37,10 @@ extends PAppletHax {
 		shadow = imageToImageWithPadding(img, 2f);
 		colorTransformShader = p.loadShader(FileUtil.getFile("haxademic/shaders/filters/opaque-pixels-to-color.glsl"));
 		
-		p.ui.addSlider(BLUR_SIZE, 12, 1, 20, 1, false);
-		p.ui.addSlider(BLUR_SIGMA, 6, 1, 20, 0.1f, false);
-		p.ui.addSlider(BLUR_ALPHA, 0.6f, 0, 1, 0.01f, false);
-		p.ui.addSlider(BLUR_STEPS, 9, 1, 20, 1, false);
+		UI.addSlider(BLUR_SIZE, 12, 1, 20, 1, false);
+		UI.addSlider(BLUR_SIGMA, 6, 1, 20, 0.1f, false);
+		UI.addSlider(BLUR_ALPHA, 0.6f, 0, 1, 0.01f, false);
+		UI.addSlider(BLUR_STEPS, 9, 1, 20, 1, false);
 	}
 	
 	public PGraphics imageToImageWithPadding(PImage img, float scaleCanvasUp) {
@@ -57,9 +58,9 @@ extends PAppletHax {
 		shadow.beginDraw();
 		shadow.clear();
 		shadow.image(shadowOrig, shadow.width/2, shadow.height/2);
-		BlurProcessingFilter.instance(p).setBlurSize(p.ui.valueInt(BLUR_SIZE));
-		BlurProcessingFilter.instance(p).setSigma(p.ui.value(BLUR_SIGMA));
-		for (int i = 0; i < (p.ui.valueInt(BLUR_STEPS)); i++) {
+		BlurProcessingFilter.instance(p).setBlurSize(UI.valueInt(BLUR_SIZE));
+		BlurProcessingFilter.instance(p).setSigma(UI.value(BLUR_SIGMA));
+		for (int i = 0; i < (UI.valueInt(BLUR_STEPS)); i++) {
 			BlurProcessingFilter.instance(p).applyTo(shadow);
 		}
 		if(shadowSolidColor) {
@@ -71,7 +72,7 @@ extends PAppletHax {
 		p.background(255);
 		PG.setCenterScreen(p);
 		PG.setDrawCenter(p);
-		PG.setPImageAlpha(p, p.ui.value(BLUR_ALPHA));
+		PG.setPImageAlpha(p, UI.value(BLUR_ALPHA));
 		p.image(shadow, 0, 0);
 		PG.setPImageAlpha(p, 1f);
 		p.image(img, -3f + 3f * P.sin(p.frameCount * 0.03f), -10f + 10f * P.sin(p.frameCount * 0.03f));

@@ -24,6 +24,7 @@ import com.haxademic.core.data.constants.PTextAlign;
 import com.haxademic.core.draw.text.FontCacher;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.media.DemoAssets;
+import com.haxademic.core.ui.UI;
 import com.haxademic.core.ui.UIButton;
 
 import beads.AudioContext;
@@ -71,7 +72,7 @@ extends PAppletHax {
 	        P.out(info.getName(), " - ", info.getDescription());
 			Mixer m = AudioSystem.getMixer(info);
 			mixers.add(m);
-			p.ui.addButton(info.getName(), false);
+			UI.addButton(info.getName(), false);
 	    }
 	}
 
@@ -143,9 +144,9 @@ extends PAppletHax {
 		
 		// add UI to select line out
 //		int numLinesOut = linesOut.size();
-//		p.ui.addSlider(LINE_INDEX, 0, 0, numLinesOut - 1, 1, false);
+//		UI.addSlider(LINE_INDEX, 0, 0, numLinesOut - 1, 1, false);
 		int numMixers = mixers.size();
-		p.ui.addSlider(MIXER_INDEX, 0, 0, numMixers - 1, 1, false);
+		UI.addSlider(MIXER_INDEX, 0, 0, numMixers - 1, 1, false);
 	}
 	
 	protected void buildLinesFromCurMixer() {
@@ -177,7 +178,7 @@ extends PAppletHax {
 	}
 	
 	protected Mixer curMixer() {
-		int mixerIndex = p.ui.valueInt(MIXER_INDEX);
+		int mixerIndex = UI.valueInt(MIXER_INDEX);
 		mixerIndex = P.constrain(mixerIndex, 0, mixers.size() - 1);
 		return mixers.get(mixerIndex);
 	}
@@ -196,7 +197,7 @@ extends PAppletHax {
 	
 	protected Clip clipFromMixer() {
 		try {
-			int mixerIndex = p.ui.valueInt(MIXER_INDEX);
+			int mixerIndex = UI.valueInt(MIXER_INDEX);
 			mixerIndex = P.constrain(mixerIndex, 0, mixers.size() - 1);
 			Clip clip;
 			clip = AudioSystem.getClip(mixers.get(mixerIndex).getMixerInfo());
@@ -210,7 +211,7 @@ extends PAppletHax {
 	protected Clip clipFromLine() {
 		try {
 			// did this even work??
-			int lineIndex = p.ui.valueInt(LINE_INDEX);
+			int lineIndex = UI.valueInt(LINE_INDEX);
 			lineIndex = P.constrain(lineIndex, 0, linesOut.size() - 1);
 			Line.Info lineInfo = linesOut.get(lineIndex);
 	    	Line line = AudioSystem.getLine(lineInfo);
@@ -293,12 +294,12 @@ extends PAppletHax {
 		FontCacher.setFontOnContext(p.g, font, 255, 1, PTextAlign.LEFT, PTextAlign.TOP);
 		
 		// write cur lineInfo
-//		int lineIndex = p.ui.valueInt(LINE_INDEX);
+//		int lineIndex = UI.valueInt(LINE_INDEX);
 //		lineIndex = P.constrain(lineIndex, 0, linesOut.size() - 1);
 		// p.g.text(""+linesOut.get(lineIndex) + FileUtil.NEWLINE + FileUtil.NEWLINE, 300, 100, 500, 1000);
 		
 		// show mixer info
-		int mixerIndex = p.ui.valueInt(MIXER_INDEX);
+		int mixerIndex = UI.valueInt(MIXER_INDEX);
 		mixerIndex = P.constrain(mixerIndex, 0, mixers.size() - 1);
 		p.g.text("Mixer:" + mixers.get(mixerIndex).getMixerInfo() + FileUtil.NEWLINE, 300, 100, 500, 1000);
 	}
