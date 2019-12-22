@@ -4,17 +4,6 @@
 
 * Update README with updated references
 
-* Inputs - more thoughts on InputTrigger below
-	* Make a base storage for different data types?
-		* Toggle values
-		* Range values
-		* String values
-	* Rework inputTrigger storage
-		* Remove P.p. global objects - convert to singletons
-		* Use a hash of input state that any of the objects can update via a shared key??
-			* Use AppStore here?
-			* Or InputStore?
-		* Broadcast ability via AppStore, while also keeping simple InputTrigger objects
 * DepthCamera like AudioIn
 * Rendering objects (video/audio/midi/joons)
 * DMXUniverse
@@ -33,12 +22,11 @@
 
 ## InputTrigger revamp
 
+* Test the rest of this - we should be in good shape now
 * Threaded safety of InputTrigger isn't good - especially at a low FPS?
-  * Switch this to an AppStore-based system so inputs are immediately picked up by a listener. This might still be thread-unsafe, but AppStore events aren't either!
-    * Do we need an InputEvent type added to AppStore collections??
   * WebServer requests can fall through the cracks (button clicks, etc)
   * Web requests that route to p.ui aren't predictable, especially at 30fps? Look at p.ui button handling in Re-Creation
-  * InputTrigger should merge MIDI buttons and CC controls, just like OSC commands??
+  * InputTrigger should merge MIDI buttons and CC controls?
 
 ## WebCam
 
