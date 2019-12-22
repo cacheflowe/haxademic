@@ -2,8 +2,6 @@ package com.haxademic.demo.hardware.shared;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.app.config.Config;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.hardware.gamepad.GamepadState;
 import com.haxademic.core.hardware.http.HttpInputState;
@@ -19,6 +17,7 @@ public class Demo_InputTrigger
 extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
+	protected int triggerKey = KeyCodes.keyCodeFromChar('c');
 	protected InputTrigger trigger = (new InputTrigger()).addKeyCodes(new char[]{'b', 'v'})
 														 .addOscMessages(new String[]{"/video-start", "/3/fader1"})
 														 .addMidiNotes(new Integer[]{LaunchControl.PAD_01, LaunchControl.PAD_03})
@@ -26,12 +25,6 @@ extends PAppletHax {
 														 .addHttpRequests(new String[]{"button1", "slider1", "slider2"})
 														 .addGamepadControls(new String[]{"Button 9"});
 
-	protected int triggerKey = KeyCodes.keyCodeFromChar('c');
-	
-	protected void config() {
-		Config.setProperty(AppSettings.SHOW_DEBUG, true );
-	}
-	
 	
 	public void firstFrame() {
 		// KeyboardState is auto-initialized in `P`
