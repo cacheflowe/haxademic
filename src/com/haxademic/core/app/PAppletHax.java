@@ -20,7 +20,6 @@ import com.haxademic.core.hardware.depthcamera.cameras.KinectWrapperV2;
 import com.haxademic.core.hardware.depthcamera.cameras.KinectWrapperV2Mac;
 import com.haxademic.core.hardware.depthcamera.cameras.RealSenseWrapper;
 import com.haxademic.core.hardware.midi.MidiState;
-import com.haxademic.core.hardware.osc.OscWrapper;
 import com.haxademic.core.hardware.webcam.WebCam;
 import com.haxademic.core.media.audio.analysis.AudioIn;
 import com.haxademic.core.media.audio.analysis.AudioInputESS;
@@ -78,9 +77,6 @@ extends PApplet {
 	public IDepthCamera depthCamera = null;
 	public LeapMotion leapMotion = null;
 	
-	// Input trigger
-	public OscWrapper oscState = null;
-
 	// debug
 	public int _fps;
 	
@@ -211,8 +207,6 @@ extends PApplet {
 		// hardware
 		initKinect();
 
-		if( Config.getBoolean( AppSettings.OSC_ACTIVE, false ) == true ) oscState = new OscWrapper();
-
 		if( Config.getBoolean( "leap_active", false ) == true ) leapMotion = new LeapMotion(this);
 		// app helpers
 		try { robot = new Robot(); } catch( Exception error ) { println("couldn't init Robot for screensaver disabling"); }
@@ -300,8 +294,6 @@ extends PApplet {
 		if( joons != null ) joons.endFrame( Config.getBoolean(AppSettings.SUNFLOW_SAVE_IMAGES, false) == true );
 		p.popMatrix();
 		renderFrame();
-		
-		if(oscState != null) oscState.update();
 		
 		if(WebCam.instance != null && p.key == 'W') WebCam.instance().drawMenu(p.g);
 		keepOnTop();

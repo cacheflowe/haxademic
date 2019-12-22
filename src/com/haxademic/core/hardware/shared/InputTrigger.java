@@ -6,13 +6,14 @@ import com.haxademic.core.hardware.http.HttpInputState;
 import com.haxademic.core.hardware.keyboard.KeyCodes;
 import com.haxademic.core.hardware.keyboard.KeyboardState;
 import com.haxademic.core.hardware.midi.MidiState;
+import com.haxademic.core.hardware.osc.OscState;
 
 
 public class InputTrigger {
 	
 	protected Integer[] keyCodes = new Integer[] {};
 	protected String[] oscMessages = new String[] {};
-	protected String[] webControls = new String[] {};
+	protected String[] httpRequests = new String[] {};
 	protected String[] gamepadControls = new String[] {};
 	protected Integer[] midiNotes = new Integer[] {};
 	protected Integer[] midiCC = new Integer[] {};
@@ -52,7 +53,7 @@ public class InputTrigger {
 	}
 	
 	public InputTrigger addHttpRequests(String[] webControls) {
-		this.webControls = webControls; 
+		this.httpRequests = webControls; 
 		return this;
 	}
 	
@@ -73,17 +74,15 @@ public class InputTrigger {
 		if(foundTrigger == false) for( int i=0; i < keyCodes.length; i++ ) {
 			if(KeyboardState.instance().isKeyTriggered(keyCodes[i])) foundTrigger = true;
 		}
-		if(P.p.oscState != null) {
-			if(foundTrigger == false) for( int i=0; i < oscMessages.length; i++ ) {
-				if( P.p.oscState.isValueTriggered(oscMessages[i])) {
-					curValue = P.p.oscState.getValue(oscMessages[i]);
-					foundTrigger = true;
-				}
+		if(foundTrigger == false) for( int i=0; i < oscMessages.length; i++ ) {
+			if(OscState.instance().isValueTriggered(oscMessages[i])) {
+				curValue = OscState.instance().getValue(oscMessages[i]);
+				foundTrigger = true;
 			}
 		}
-		if(foundTrigger == false) for( int i=0; i < webControls.length; i++ ) {
-			if(HttpInputState.instance().isValueTriggered(webControls[i])) {
-				curValue = HttpInputState.instance().getValue(webControls[i]);
+		if(foundTrigger == false) for( int i=0; i < httpRequests.length; i++ ) {
+			if(HttpInputState.instance().isValueTriggered(httpRequests[i])) {
+				curValue = HttpInputState.instance().getValue(httpRequests[i]);
 				foundTrigger = true;
 			}
 		}
@@ -117,35 +116,23 @@ public class InputTrigger {
 	}
 
 	public boolean on() {
-		if(keyCodes != null) {
-			for( int i=0; i < keyCodes.length; i++ ) {
-				if(KeyboardState.instance().isKeyOn(keyCodes[i])) return true;
-			}
+		for( int i=0; i < keyCodes.length; i++ ) {
+			if(KeyboardState.instance().isKeyOn(keyCodes[i])) return true;
 		}
-		if(P.p.oscState != null) {
-			for( int i=0; i < oscMessages.length; i++ ) {
-				if( P.p.oscState.isValueOn(oscMessages[i])) return true;
-			}
+		for( int i=0; i < oscMessages.length; i++ ) {
+			if(OscState.instance().isValueOn(oscMessages[i])) return true;
 		}
-		if(midiNotes != null) {
-			for( int i=0; i < midiNotes.length; i++ ) {
-				if(MidiState.instance().isMidiNoteOn(midiNotes[i])) return true;
-			}
+		for( int i=0; i < midiNotes.length; i++ ) {
+			if(MidiState.instance().isMidiNoteOn(midiNotes[i])) return true;
 		}
-		if(midiCC != null) {
-			for( int i=0; i < midiCC.length; i++ ) {
-				if(MidiState.instance().isMidiCCOn(midiCC[i])) return true;
-			}
+		for( int i=0; i < midiCC.length; i++ ) {
+			if(MidiState.instance().isMidiCCOn(midiCC[i])) return true;
 		}
-		if(webControls != null) {
-			for( int i=0; i < webControls.length; i++ ) {
-				if(HttpInputState.instance().isValueOn(webControls[i])) return true;
-			}
+		for( int i=0; i < httpRequests.length; i++ ) {
+			if(HttpInputState.instance().isValueOn(httpRequests[i])) return true;
 		}
-		if(gamepadControls != null) {
-			for( int i=0; i < gamepadControls.length; i++ ) {
-				if(GamepadState.instance().isValueOn(gamepadControls[i])) return true;
-			}
+		for( int i=0; i < gamepadControls.length; i++ ) {
+			if(GamepadState.instance().isValueOn(gamepadControls[i])) return true;
 		}
 		return false;
 	}

@@ -58,7 +58,6 @@ extends HaxMapper{
 		Config.setProperty( AppSettings.RENDERING_MOVIE, "false" );
 		Config.setProperty( AppSettings.FULLSCREEN, false );
 		Config.setProperty( AppSettings.FILLS_SCREEN, "false" );
-		Config.setProperty( AppSettings.OSC_ACTIVE, "false" );
 		Config.setProperty( AppSettings.WIDTH, 1280 );
 		Config.setProperty( AppSettings.HEIGHT, 1024 );
 		Config.setProperty( AppSettings.RETINA, false );

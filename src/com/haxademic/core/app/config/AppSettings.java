@@ -60,7 +60,6 @@ public class AppSettings {
 	public static final String DEPTH_CAM_DEPTH_ACTIVE = "depth_camera_depth_active";
 	// input
 	public static final String DISABLE_ESC_KEY = "disable_esc";
-	public static final String OSC_ACTIVE = "osc_active";
 	// Debugging
 	public static final String SHOW_DEBUG = "show_stats";
 	public static final String SHOW_UI = "show_ui";

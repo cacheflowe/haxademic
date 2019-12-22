@@ -12,6 +12,7 @@ import com.haxademic.core.hardware.keyboard.KeyboardState;
 import com.haxademic.core.hardware.midi.MidiDevice;
 import com.haxademic.core.hardware.midi.MidiState;
 import com.haxademic.core.hardware.midi.devices.LaunchControl;
+import com.haxademic.core.hardware.osc.OscState;
 import com.haxademic.core.hardware.shared.InputTrigger;
 
 public class Demo_InputTrigger
@@ -19,7 +20,7 @@ extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
 	protected InputTrigger trigger = (new InputTrigger()).addKeyCodes(new char[]{'b', 'v'})
-														 .addOscMessages(new String[]{"/video-start", "/1/faderC"})
+														 .addOscMessages(new String[]{"/video-start", "/3/fader1"})
 														 .addMidiNotes(new Integer[]{LaunchControl.PAD_01, LaunchControl.PAD_03})
 														 .addMidiCCNotes(new Integer[]{LaunchControl.KNOB_01})
 														 .addHttpRequests(new String[]{"button1", "slider1", "slider2"})
@@ -28,7 +29,6 @@ extends PAppletHax {
 	protected int triggerKey = KeyCodes.keyCodeFromChar('c');
 	
 	protected void config() {
-		Config.setProperty(AppSettings.OSC_ACTIVE, true );
 		Config.setProperty(AppSettings.SHOW_DEBUG, true );
 	}
 	
@@ -39,6 +39,7 @@ extends PAppletHax {
 		MidiDevice.init(0, 3);
 		HttpInputState.instance();
 		GamepadState.instance();
+		OscState.instance();
 		
 		// keep debug open
 		DebugView.autoHide(false);
@@ -47,16 +48,14 @@ extends PAppletHax {
 	
 	public void drawApp() {
 		// show triggering - TODO: add CC changes to trigger
-		if(KeyboardState.instance().isKeyOn(triggerKey) || MidiState.instance().isMidiNoteOn(LaunchControl.PAD_01) || p.oscState.isValueOn("/toggleC_2")) P.println("trigger 1"); 
+		if(KeyboardState.instance().isKeyOn(triggerKey) || MidiState.instance().isMidiNoteOn(LaunchControl.PAD_01) || OscState.instance().isValueOn("/toggleC_2")) P.println("trigger 1"); 
 		if(trigger.triggered()) P.println("trigger 2");
 		if(trigger.on()) {
-			p.background(0, 255, 255f * p.oscState.getValue("/1/faderC"));
+			p.background(0, 255, 255f * OscState.instance().getValue("/1/faderC"));
 		} else {
 			p.background(0);
 		}
 		DebugView.setValue("trigger.value()", trigger.value());
-		// debug print maps
-		p.oscState.printButtons();
 	}
 	
 }
