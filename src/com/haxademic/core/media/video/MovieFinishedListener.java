@@ -47,6 +47,14 @@ public class MovieFinishedListener {
 			delegate.videoFinished(movie);
 		}
 	};
+
+	// for video library v2
+//	protected PlayBin.ABOUT_TO_FINISH FinishCallback = new PlayBin.ABOUT_TO_FINISH() {
+//		@Override
+//		public void aboutToFinish(PlayBin playbin) {
+//			delegate.videoFinished(movie);
+//		}
+//	};
 	
 	// PUBLIC CALLBACK INTERFACE
 		

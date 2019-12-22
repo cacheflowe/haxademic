@@ -11,8 +11,10 @@ import com.haxademic.app.haxvisual.pools.HaxVisualTexturePools;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.data.constants.PBlendModes;
 import com.haxademic.core.data.store.IAppStoreListener;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.color.Gradients;
 import com.haxademic.core.draw.color.ImageGradient;
 import com.haxademic.core.draw.context.PG;
@@ -54,9 +56,14 @@ import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.mapping.PGraphicsKeystone;
 import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
 import com.haxademic.core.file.FileUtil;
+import com.haxademic.core.hardware.gamepad.GamepadState;
+import com.haxademic.core.hardware.http.HttpInputState;
+import com.haxademic.core.hardware.midi.MidiDevice;
+import com.haxademic.core.hardware.midi.MidiState;
 import com.haxademic.core.hardware.midi.devices.AbletonNotes;
 import com.haxademic.core.hardware.midi.devices.AkaiMpdPads;
 import com.haxademic.core.hardware.midi.devices.LaunchControl;
+import com.haxademic.core.hardware.osc.OscState;
 import com.haxademic.core.hardware.osc.devices.TouchOscPads;
 import com.haxademic.core.hardware.shared.InputTrigger;
 import com.haxademic.core.math.MathUtil;
@@ -64,6 +71,7 @@ import com.haxademic.core.math.easing.LinearFloat;
 import com.haxademic.core.media.audio.analysis.AudioIn;
 import com.haxademic.core.media.audio.interphase.Interphase;
 import com.haxademic.core.system.SystemUtil;
+import com.haxademic.core.ui.UI;
 import com.haxademic.core.ui.UIButton;
 
 import processing.core.PGraphics;
@@ -103,11 +111,12 @@ implements IAppStoreListener {
 	protected boolean DEBUG_TEXTURE_SAVE_IMAGE_PREVIEWS = false;
 
 	// MIDI CONFIG
+	// TODO: Use InputTriggers & their .value() for easy controller-swapping
 
 	protected int midiInChannel = 0;
 	protected int displaceMapLayerKnob = 21;
 	protected int overlayModeKnob = 41;
-	protected int invertKnob = 22;
+	protected InputTrigger invertKnob = new InputTrigger().addKeyCodes(new char[]{'i'}).addMidiCCNotes(new Integer[]{LaunchControl.KNOB_10});
 	protected int vignetteKnob = 42;
 	protected int distAmpKnob = 23;
 	protected int distTimeKnob = 43;
@@ -120,16 +129,16 @@ implements IAppStoreListener {
 	protected int brightnessKnob = 48;
 	protected int interstitialKnob = 47;
 
-	// MULTI-INPUT CONFIG
+	// MULTI-INPUT CONFIG 
 
-	protected InputTrigger _colorTrigger = new InputTrigger(new char[]{'c'},new String[]{TouchOscPads.PAD_01},new Integer[]{AkaiMpdPads.PAD_01, LaunchControl.PAD_03, AbletonNotes.NOTE_01});
-	protected InputTrigger _rotationTrigger = new InputTrigger(new char[]{'v'},new String[]{TouchOscPads.PAD_02},new Integer[]{AkaiMpdPads.PAD_02, LaunchControl.PAD_04, AbletonNotes.NOTE_02});
-	protected InputTrigger _timingTrigger = new InputTrigger(new char[]{'n'},new String[]{TouchOscPads.PAD_03},new Integer[]{AkaiMpdPads.PAD_03, LaunchControl.PAD_01, AbletonNotes.NOTE_03});
-	protected InputTrigger _modeTrigger = new InputTrigger(new char[]{'m'},new String[]{TouchOscPads.PAD_04},new Integer[]{AkaiMpdPads.PAD_04, LaunchControl.PAD_05, AbletonNotes.NOTE_04});
-	protected InputTrigger _timingSectionTrigger = new InputTrigger(new char[]{'f'},new String[]{TouchOscPads.PAD_05},new Integer[]{AkaiMpdPads.PAD_05, LaunchControl.PAD_02, AbletonNotes.NOTE_05});
-	//	protected InputTrigger _allSameTextureTrigger = new InputTrigger(new char[]{'a'},new String[]{TouchOscPads.PAD_06},new Integer[]{AkaiMpdPads.PAD_06, AbletonNotes.NOTE_06});
-	protected InputTrigger _bigChangeTrigger = new InputTrigger(new char[]{' '},new String[]{TouchOscPads.PAD_07},new Integer[]{AkaiMpdPads.PAD_07, LaunchControl.PAD_08, AbletonNotes.NOTE_07});
-	protected InputTrigger _lineModeTrigger = new InputTrigger(new char[]{'l'},new String[]{TouchOscPads.PAD_08},new Integer[]{AkaiMpdPads.PAD_08, LaunchControl.PAD_06, AbletonNotes.NOTE_08});
+	protected InputTrigger _colorTrigger = new InputTrigger().addKeyCodes(new char[]{'c'}).addOscMessages(new String[]{TouchOscPads.PAD_01}).addMidiNotes(new Integer[]{AkaiMpdPads.PAD_01, LaunchControl.PAD_03, AbletonNotes.NOTE_01});
+	protected InputTrigger _rotationTrigger = new InputTrigger().addKeyCodes(new char[]{'v'}).addOscMessages(new String[]{TouchOscPads.PAD_02}).addMidiNotes(new Integer[]{AkaiMpdPads.PAD_02, LaunchControl.PAD_04, AbletonNotes.NOTE_02});
+	protected InputTrigger _timingTrigger = new InputTrigger().addKeyCodes(new char[]{'n'}).addOscMessages(new String[]{TouchOscPads.PAD_03}).addMidiNotes(new Integer[]{AkaiMpdPads.PAD_03, LaunchControl.PAD_01, AbletonNotes.NOTE_03});
+	protected InputTrigger _modeTrigger = new InputTrigger().addKeyCodes(new char[]{'m'}).addOscMessages(new String[]{TouchOscPads.PAD_04}).addMidiNotes(new Integer[]{AkaiMpdPads.PAD_04, LaunchControl.PAD_05, AbletonNotes.NOTE_04});
+	protected InputTrigger _timingSectionTrigger = new InputTrigger().addKeyCodes(new char[]{'f'}).addOscMessages(new String[]{TouchOscPads.PAD_05}).addMidiNotes(new Integer[]{AkaiMpdPads.PAD_05, LaunchControl.PAD_02, AbletonNotes.NOTE_05});
+	//	protected InputTrigger _allSameTextureTrigger = new InputTrigger().addKeyCodes(new char[]{'a'}).addOscMessages(new String[]{TouchOscPads.PAD_06}).addMidiNotes(new Integer[]{AkaiMpdPads.PAD_06, AbletonNotes.NOTE_06});
+	protected InputTrigger _bigChangeTrigger = new InputTrigger().addKeyCodes(new char[]{' '}).addOscMessages(new String[]{TouchOscPads.PAD_07}).addMidiNotes(new Integer[]{AkaiMpdPads.PAD_07, LaunchControl.PAD_08, AbletonNotes.NOTE_07});
+	protected InputTrigger _lineModeTrigger = new InputTrigger().addKeyCodes(new char[]{'l'}).addOscMessages(new String[]{TouchOscPads.PAD_08}).addMidiNotes(new Integer[]{AkaiMpdPads.PAD_08, LaunchControl.PAD_06, AbletonNotes.NOTE_08});
 
 	// input debug
 	float debugEaseInc = 0.1f;
@@ -141,14 +150,14 @@ implements IAppStoreListener {
 	protected LinearFloat lineModeTriggerIndicator = new LinearFloat(0, debugEaseInc);
 	protected LinearFloat bigChangeTriggerIndicator = new LinearFloat(0, debugEaseInc);
 	protected LinearFloat[] triggerDebugLinearFloats = new LinearFloat[] { colorTriggerIndicator, rotationTriggerIndicator, timingTriggerIndicator, modeTriggerIndicator, timingSectionTriggerIndicator, bigChangeTriggerIndicator, lineModeTriggerIndicator };
-	
+
 	// extra controls
-	protected InputTrigger _audioInputUpTrigger = new InputTrigger(new char[]{},new String[]{"/7/nav1"},new Integer[]{26});
-	protected InputTrigger _audioInputDownTrigger = new InputTrigger(new char[]{},new String[]{"/7/nav2"},new Integer[]{25});
-	protected InputTrigger _brightnessUpTrigger = new InputTrigger(new char[]{']'},new String[]{},new Integer[]{});
-	protected InputTrigger _brightnessDownTrigger = new InputTrigger(new char[]{'['},new String[]{},new Integer[]{});
-	protected InputTrigger _keystoneResetTrigger = new InputTrigger(new char[]{'k'},new String[]{},new Integer[]{});
-	protected InputTrigger _debugTexturesTrigger = new InputTrigger(new char[]{'d'},new String[]{},new Integer[]{});
+	protected InputTrigger _audioInputUpTrigger = new InputTrigger().addKeyCodes(new char[]{'z'}).addOscMessages(new String[]{"/7/nav1"}).addMidiNotes(new Integer[]{26});
+	protected InputTrigger _audioInputDownTrigger = new InputTrigger().addKeyCodes(new char[]{'x'}).addOscMessages(new String[]{"/7/nav2"}).addMidiNotes(new Integer[]{25});
+	protected InputTrigger _brightnessUpTrigger = new InputTrigger().addKeyCodes(new char[]{']'}).addOscMessages(new String[]{}).addMidiNotes(new Integer[]{});
+	protected InputTrigger _brightnessDownTrigger = new InputTrigger().addKeyCodes(new char[]{'['}).addOscMessages(new String[]{}).addMidiNotes(new Integer[]{});
+	protected InputTrigger _keystoneResetTrigger = new InputTrigger().addKeyCodes(new char[]{'k'}).addOscMessages(new String[]{}).addMidiNotes(new Integer[]{});
+	protected InputTrigger _debugTexturesTrigger = new InputTrigger().addKeyCodes(new char[]{'d'}).addOscMessages(new String[]{}).addMidiNotes(new Integer[]{});
 
 	// USER INPUT OVERRIDE/TIMEOUT
 
@@ -176,8 +185,8 @@ implements IAppStoreListener {
 	protected PGraphics displacementBlurBuffer;
 
 	// GLITCH EFFECTS
-	protected GlitchSuite glitchSuite;	
-	
+	protected GlitchSuite glitchSuite;
+
 	// PER-TEXTURE POST EFFECTS
 	protected int[] textureEffectsIndices;	// store a effects number for each texture position after the first
 	protected int numTextureEffects = 16 + 8; // +8 to give a good chance at removing the filter from the texture slot
@@ -188,34 +197,40 @@ implements IAppStoreListener {
 	protected PGraphicsKeystone pgPinnable;
 	protected float scaleDownPG = 1f; // 0.5f;
 	protected boolean multiOutput = false;
-	
+
 	// LET'S PLAY OUR OWN MUSIC
 
 	protected Interphase interphase;
-	
+
 
 	//////////////////////////////////////////////////
 	// INIT
 	//////////////////////////////////////////////////
 
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.RENDERING_MOVIE, false );
-		p.appConfig.setProperty( AppSettings.FULLSCREEN, false );
-		p.appConfig.setProperty( AppSettings.ALWAYS_ON_TOP, false );
-		p.appConfig.setProperty( AppSettings.FILLS_SCREEN, false );
-		p.appConfig.setProperty( AppSettings.OSC_ACTIVE, false );
-		p.appConfig.setProperty( AppSettings.MIDI_DEVICE_IN_INDEX, 0 );
-		p.appConfig.setProperty( AppSettings.MIDI_DEBUG, false );
-		p.appConfig.setProperty( AppSettings.WIDTH, 1920 );
-		p.appConfig.setProperty( AppSettings.HEIGHT, 1080 );
-		p.appConfig.setProperty( AppSettings.PG_WIDTH, 1920 );
-		p.appConfig.setProperty( AppSettings.PG_HEIGHT, 1080 );
+	protected void config() {
+		Config.setProperty( AppSettings.RENDERING_MOVIE, false );
+		Config.setProperty( AppSettings.FULLSCREEN, false );
+		Config.setProperty( AppSettings.ALWAYS_ON_TOP, false );
+		Config.setProperty( AppSettings.FILLS_SCREEN, false );
+		Config.setProperty( AppSettings.WIDTH, 1280 );
+		Config.setProperty( AppSettings.HEIGHT, 720 );
+		Config.setProperty( AppSettings.PG_WIDTH, 1920 );
+		Config.setProperty( AppSettings.PG_HEIGHT, 1080 );
 	}
 
-	protected void setupFirstFrame() {
-		AudioIn.instance();
+	protected void firstFrame() {
 		P.store.addListener(this);
-//		initDMX();
+
+		// audio input
+		AudioIn.instance();
+
+		// hardware input
+		MidiDevice.init(0, 3);
+		HttpInputState.instance();
+		GamepadState.instance();
+		OscState.instance();
+
+		// graphics setup
 		if(multiOutput == false) {
 			buildCanvas();
 		} else {
@@ -224,7 +239,8 @@ implements IAppStoreListener {
 		buildTextures();
 		buildPostProcessingChain();
 		// buildInterstitial();
-		
+
+		// build audio player?
 //		interphase = new Interphase(SequencerConfig.interphaseChannelsMinimal());
 	}
 
@@ -233,27 +249,27 @@ implements IAppStoreListener {
 	}
 
 	// fancy mapping blended output
-	
+
 	protected int OVERLAP_PIXELS = 890;
 	protected String BLEND_LEFT = "BLEND_LEFT";
 	protected String BLEND_RIGHT = "BLEND_RIGHT";
 	protected String BLEND_WIDTH = "BLEND_WIDTH";
 	protected PGraphics fadeEdge;
-	
+
 	protected void buildCanvasMultiOutput() {
 		// add sliders for blending
-		p.ui.addSlider(BLEND_LEFT, OVERLAP_PIXELS / 2, -100, 2020, 1);
-		p.ui.addSlider(BLEND_RIGHT, OVERLAP_PIXELS / 2, -100, 2020, 1);
-		p.ui.addSlider(BLEND_WIDTH, 100, 0, 1000, 1);
-		
+		UI.addSlider(BLEND_LEFT, OVERLAP_PIXELS / 2, -100, 2020, 1);
+		UI.addSlider(BLEND_RIGHT, OVERLAP_PIXELS / 2, -100, 2020, 1);
+		UI.addSlider(BLEND_WIDTH, 100, 0, 1000, 1);
+
 		fadeEdge = PG.newPG(1920, pg.height);
 	}
-	
+
 	protected void buildPostProcessingChain() {
 		displacementBlurBuffer = PG.newPG(pg.width/20, pg.height/20);
-		
+
 		colorizeSourceTexture = PG.newPG(128, 4);
-		p.debugView.setTexture("colorizeSourceTexture", colorizeSourceTexture);
+		DebugView.setTexture("colorizeSourceTexture", colorizeSourceTexture);
 		imageGradient = new ImageGradient(ImageGradient.PASTELS());
 		imageGradient.addTexturesFromPath(ImageGradient.COOLORS_PATH);
 
@@ -266,25 +282,18 @@ implements IAppStoreListener {
 		HalftoneFilter.instance(p).setScale(1f);
 
 		PixelateFilter.instance(p).setDivider(20f, pg.width, pg.height);
-		
-		p.midiState.controllerChange(midiInChannel, contrastKnob, (int) 70);
 
-		p.midiState.controllerChange(midiInChannel, vignetteKnob, (int) 70);
-		
+		MidiState.instance().controllerChange(midiInChannel, contrastKnob, (int) 70);
+
+		MidiState.instance().controllerChange(midiInChannel, vignetteKnob, (int) 70);
+
 		glitchSuite = new GlitchSuite();
 	}
 
-//	protected void initDMX() {
-//		if(p.appConfig.getInt(AppSettings.DMX_LIGHTS_COUNT, 0) > 0) {
-//			_dmxLights = new RandomLightTiming(p.appConfig.getInt(AppSettings.DMX_LIGHTS_COUNT, 0));
-//		}
-//	}
-	
-	
 	protected void buildUI() {
-		p.ui.addSlider(TIMING_MIN_DELAY, 100, 50, 1000, 1, false);
+		UI.addSlider(TIMING_MIN_DELAY, 100, 50, 1000, 1, false);
 	}
-	
+
 	//////////////////////////////////////////////
 	// GETTERS
 	//////////////////////////////////////////////
@@ -302,7 +311,7 @@ implements IAppStoreListener {
 	//////////////////////////////////////////////
 
 	public void drawApp() {
-		if(p.frameCount == 3) buildUI(); 
+		if(p.frameCount == 3) buildUI();
 		background(0);
 		handleInputTriggers();
 		checkBeat();
@@ -319,7 +328,7 @@ implements IAppStoreListener {
 		if(imageCycler != null) drawInterstitial();
 		// draw pinned pgraphics
 		if(_debugTextures == true && pgPinnable != null) pgPinnable.drawTestPattern();
-//		p.debugView.setTexture(pg);
+//		DebugView.setTexture(pg);
 		if(multiOutput == false && pgPinnable != null) pgPinnable.update(p.g);
 		else if(multiOutput == false) ImageUtil.cropFillCopyImage(pg, p.g, false);
 		else drawCanvasToMultiScreens();
@@ -332,7 +341,7 @@ implements IAppStoreListener {
 		colorizeSourceTexture.noStroke();
 		ImageUtil.copyImage(imageGradient.texture(), colorizeSourceTexture);
 		colorizeSourceTexture.blendMode(PBlendModes.MULTIPLY);
-		
+
 		// then draw on top - replace this with a collection of audioreactive textures
 		for (int i = 0; i < colorizeSourceTexture.width; i++) {
 			float eqAmp = 0.3f + AudioIn.audioFreq(i + 20) * 20f;
@@ -344,7 +353,7 @@ implements IAppStoreListener {
 		colorizeSourceTexture.blendMode(PBlendModes.BLEND);
 		colorizeSourceTexture.endDraw();
 	}
-	
+
 	protected void updateEdgeBlending() {
 		if(fadeEdge != null && p.frameCount < 1000) {
 			fadeEdge.beginDraw();
@@ -352,37 +361,37 @@ implements IAppStoreListener {
 			fadeEdge.background(0, 0);
 			PG.setDrawCenter(fadeEdge);
 			fadeEdge.noStroke();
-			
+
 			// draw projector-blending gradient
-			int fadeSize = (int) p.ui.value(BLEND_WIDTH);
+			int fadeSize = (int) UI.value(BLEND_WIDTH);
 			fadeEdge.pushMatrix();
 			fadeEdge.translate((fadeSize * 0.5f), fadeEdge.height / 2);
 			Gradients.linear(fadeEdge, fadeSize, fadeEdge.height, p.color(1, 0), p.color(0,255));
 			fadeEdge.popMatrix();
-			
+
 			// draw solid portion
-			float solidSize = fadeEdge.width - fadeSize; 
+			float solidSize = fadeEdge.width - fadeSize;
 			fadeEdge.translate(fadeEdge.width - (solidSize * 0.5f), fadeEdge.height / 2);
 			fadeEdge.fill(0);
 			fadeEdge.rect(0, 0, solidSize, fadeEdge.height);
 			fadeEdge.endDraw();
-			
-			// p.debugView.setTexture(fadeEdge);
+
+			// DebugView.setTexture(fadeEdge);
 		}
 	}
-	
+
 	protected void drawPre() {
 		updateColorizeTexture();
 		updateEdgeBlending();
 	}
-	
+
 	protected void updateTextures() {
 		for( int i=0; i < _curTexturePool.size(); i++ ) {
 			BaseTexture tex = _curTexturePool.get(i);
 			if(tex != null && tex.texture() != null) {
 				tex.update();
 			}
-		}	
+		}
 	}
 
 	protected void drawLayers() {
@@ -396,7 +405,7 @@ implements IAppStoreListener {
 //			pg.blendMode(PBlendModes.DARKEST);
 			//		OpenGLUtil.setBlending(p.g, true);
 			//		OpenGLUtil.setBlendMode(p.g, OpenGLUtil.Blend.DARK_INVERSE);
-			for( int i=0; i < _curTexturePool.size() - 1; i++ ) {	
+			for( int i=0; i < _curTexturePool.size() - 1; i++ ) {
 				if(i != displacementTextureIndex) {	// don't draw displacement layer
 					BaseTexture tex = _curTexturePool.get(i);
 					if(tex != null && tex.texture() != null) {
@@ -418,9 +427,9 @@ implements IAppStoreListener {
 		pg.blendMode(PBlendModes.BLEND);
 		pg.endDraw();
 	}
-	
+
 	protected void drawCanvasToMultiScreens() {
-		if(p.debugView.active()) {
+		if(DebugView.active()) {
 			// show the whole thing
 			ImageUtil.cropFillCopyImage(pg, p.g, false);
 		} else {
@@ -429,30 +438,30 @@ implements IAppStoreListener {
 			int outH = 1080;
 	//		int sourceW = pg.width / 3;
 			int sourceH = pg.height;
-	
+
 			// screen 1 - left end
-			p.g.copy(pg,   0, 0, 1920, sourceH, 
+			p.g.copy(pg,   0, 0, 1920, sourceH,
 							0, 0, outW, outH);
 			// screen 2-3
-			p.g.copy(pg, 	1920, 0, 1920, sourceH, 
+			p.g.copy(pg, 	1920, 0, 1920, sourceH,
 							outW, 0, outW, outH);
-			p.g.copy(pg, 	pg.width - 1920 * 2, 0, 1920, sourceH, 
+			p.g.copy(pg, 	pg.width - 1920 * 2, 0, 1920, sourceH,
 							0, outH, outW, outH);
-			
+
 			// screen 4 - right end
-			p.g.copy(pg, 	pg.width - 1920, 0, 1920, sourceH, 
+			p.g.copy(pg, 	pg.width - 1920, 0, 1920, sourceH,
 							outW, outH, outW, outH);
-			
+
 			// screen 2-3 blending
 			PG.setDrawCenter(p.g);
-			p.g.image(fadeEdge, outW + outW / 2 + p.ui.value(BLEND_LEFT), outH / 2, fadeEdge.width, outH);
-			
+			p.g.image(fadeEdge, outW + outW / 2 + UI.value(BLEND_LEFT), outH / 2, fadeEdge.width, outH);
+
 			p.pushMatrix();
-			p.g.translate( -outW + p.ui.value(BLEND_RIGHT), outH + outH / 2);
+			p.g.translate( -outW + UI.value(BLEND_RIGHT), outH + outH / 2);
 			p.g.rotate(P.PI);
 			p.g.image(fadeEdge, 0, 0, fadeEdge.width, outH);
 			p.popMatrix();
-			
+
 			PG.setDrawCorner(p.g);
 		}
 	}
@@ -461,27 +470,27 @@ implements IAppStoreListener {
 	// POST PROCESSING EFFECTS
 	/////////////////////////////////////////////////////////////////
 
-	protected void getDisplacementLayer() {		
-		displacementTextureIndex = P.round(P.map(p.midiState.midiCCPercent(midiInChannel, displaceMapLayerKnob), 0, 1, 0, 3));
-		overlayMode = P.round(P.map(p.midiState.midiCCPercent(midiInChannel, overlayModeKnob), 0, 1, 0, 3));
-		p.debugView.setValue("HAXVISUAL :: displacementLayer", displacementTextureIndex);
-		p.debugView.setValue("HAXVISUAL :: overlayMode", overlayMode);
+	protected void getDisplacementLayer() {
+		displacementTextureIndex = P.round(P.map(MidiState.instance().midiCCPercent(midiInChannel, displaceMapLayerKnob), 0, 1, 0, 3));
+		overlayMode = P.round(P.map(MidiState.instance().midiCCPercent(midiInChannel, overlayModeKnob), 0, 1, 0, 3));
+		DebugView.setValue("HAXVISUAL :: displacementLayer", displacementTextureIndex);
+		DebugView.setValue("HAXVISUAL :: overlayMode", overlayMode);
 	}
 
-	protected void drawAltTopLayerOrDisplacement() {	
+	protected void drawAltTopLayerOrDisplacement() {
 		// DISPLACEMENT MAP ////////////////////////
-		// This does special drawing modes if layers weren't drawn 
+		// This does special drawing modes if layers weren't drawn
 		// which layer to use for displacement?
 		if(displacementTextureIndex < 3) {
 			// choose displacement buffer
 			if(displacementTextureIndex >= _curTexturePool.size()) displacementTextureIndex = _curTexturePool.size() - 1; // protection!
 			PGraphics displacementBuffer = _curTexturePool.get(displacementTextureIndex).texture();
-			
+
 			// add blur to displacement image
 			if(displacementBuffer == null) return;
 			boolean scaleByTextureResize = true;
 			if(scaleByTextureResize) {
-				p.debugView.setTexture("displacementBlurBuffer", displacementBlurBuffer);
+				DebugView.setTexture("displacementBlurBuffer", displacementBlurBuffer);
 				ImageUtil.copyImage(displacementBuffer, displacementBlurBuffer);			// scale down to tiny buffer
 //					ImageUtil.copyImage(displacementBlurBuffer, displacementBuffer);			// instead of copying back up,
 				BlendTowardsTexture.instance(p).setSourceTexture(displacementBlurBuffer);	// lerp it back up for smoothness
@@ -493,7 +502,7 @@ implements IAppStoreListener {
 				BlurHFilter.instance(p).applyTo(displacementBuffer);
 				BlurVFilter.instance(p).applyTo(displacementBuffer);
 			} else {
-				float blurPercent = 2f; // p.mousePercentX() * 10f;
+				float blurPercent = 2f; // Mouse.xNorm * 10f;
 				BlurHFilter.instance(p).setBlurByPercent(blurPercent, pg.width);
 				BlurVFilter.instance(p).setBlurByPercent(blurPercent, pg.height);
 				BlurHFilter.instance(p).applyTo(displacementBuffer);
@@ -501,7 +510,7 @@ implements IAppStoreListener {
 				BlurHFilter.instance(p).applyTo(displacementBuffer);
 				BlurVFilter.instance(p).applyTo(displacementBuffer);
 			}
-			
+
 			// apply displacement mode
 			if(overlayMode == 0) {
 				// DISPLACEMENT MAP FILTER
@@ -538,34 +547,33 @@ implements IAppStoreListener {
 		}
 	}
 
-	protected void postSpecialEffectsFilters() {		
+	protected void postSpecialEffectsFilters() {
 		// CONTRAST ////////////////////////
-//		p.midiState.controllerChange(midiInChannel, contrastKnob, (int) (0.25f * 127f));
-		if( p.midiState.midiCCPercent(midiInChannel, contrastKnob) != 0 ) {
-			if(p.midiState.midiCCPercent(midiInChannel, contrastKnob) > 0.1f) {
-				ContrastFilter.instance(p).setContrast(p.midiState.midiCCPercent(midiInChannel, contrastKnob) * 7f);
-//				if(p.mousePercentX() > 0.5f) ContrastFilter.instance(p).applyTo(pg);
+//		MidiState.instance().controllerChange(midiInChannel, contrastKnob, (int) (0.25f * 127f));
+		if( MidiState.instance().midiCCPercent(midiInChannel, contrastKnob) != 0 ) {
+			if(MidiState.instance().midiCCPercent(midiInChannel, contrastKnob) > 0.1f) {
+				ContrastFilter.instance(p).setContrast(MidiState.instance().midiCCPercent(midiInChannel, contrastKnob) * 7f);
+//				if(Mouse.xNorm > 0.5f) ContrastFilter.instance(p).applyTo(pg);
 
 			}
 		}
 
 		// MULTIPLE EFFECTS KNOB ////////////////////////
-		boolean halftone = ( p.midiState.midiCCPercent(midiInChannel, effectsKnob) > 0.25f && p.midiState.midiCCPercent(midiInChannel, effectsKnob) < 0.5f );
+		boolean halftone = ( MidiState.instance().midiCCPercent(midiInChannel, effectsKnob) > 0.25f && MidiState.instance().midiCCPercent(midiInChannel, effectsKnob) < 0.5f );
 		if( halftone ) HalftoneFilter.instance(p).applyTo(pg);
 
-		boolean edged = ( p.midiState.midiCCPercent(midiInChannel, effectsKnob) > 0.5f && p.midiState.midiCCPercent(midiInChannel, effectsKnob) < 0.75f );
+		boolean edged = ( MidiState.instance().midiCCPercent(midiInChannel, effectsKnob) > 0.5f && MidiState.instance().midiCCPercent(midiInChannel, effectsKnob) < 0.75f );
 		if( edged ) EdgesFilter.instance(p).applyTo(pg);
 
-		boolean pixelated = ( p.midiState.midiCCPercent(midiInChannel, effectsKnob) > 0.75f );
+		boolean pixelated = ( MidiState.instance().midiCCPercent(midiInChannel, effectsKnob) > 0.75f );
 		if( pixelated ) {
-			float pixAmout = P.round(p.midiState.midiCCPercent(midiInChannel, pixelateKnob) * 40f);
+			float pixAmout = P.round(MidiState.instance().midiCCPercent(midiInChannel, pixelateKnob) * 40f);
 			PixelateFilter.instance(p).setDivider(p.width/pixAmout, pg.width, pg.height);
-			if(p.midiState.midiCCPercent(midiInChannel, pixelateKnob) > 0) PixelateFilter.instance(p).applyTo(pg);
+			if(MidiState.instance().midiCCPercent(midiInChannel, pixelateKnob) > 0) PixelateFilter.instance(p).applyTo(pg);
 		}
 
 		// INVERT ////////////////////////
-		boolean inverted = ( p.midiState.midiCCPercent(midiInChannel, invertKnob) > 0.5f );
-		if( inverted ) InvertFilter.instance(p).applyTo(pg);
+		if((invertKnob.triggered() || invertKnob.on()) && invertKnob.value() > 0.5f) InvertFilter.instance(p).applyTo(pg);
 
 		// COLOR DISTORTION ///////////////////////
 		// color distortion auto
@@ -573,13 +581,13 @@ implements IAppStoreListener {
 		float distFrames = 100f;
 		if(distAutoFrame <= distFrames) {
 			float distAmpAuto = P.sin(distAutoFrame/distFrames * P.PI);
-			p.midiState.controllerChange(0, distAmpKnob, P.round(127 * distAmpAuto));
-			p.midiState.controllerChange(0, distTimeKnob, P.round(127 * distAmpAuto));
+			MidiState.instance().controllerChange(0, distAmpKnob, P.round(127 * distAmpAuto));
+			MidiState.instance().controllerChange(0, distTimeKnob, P.round(127 * distAmpAuto));
 		}
 
 		// color distortion
-		float colorDistortionAmp = p.midiState.midiCCPercent(midiInChannel, distAmpKnob) * 2.5f;
-		float colorDistortionTimeMult = p.midiState.midiCCPercent(midiInChannel, distTimeKnob);
+		float colorDistortionAmp = MidiState.instance().midiCCPercent(midiInChannel, distAmpKnob) * 2.5f;
+		float colorDistortionTimeMult = MidiState.instance().midiCCPercent(midiInChannel, distTimeKnob);
 		if(colorDistortionAmp > 0) {
 			float prevTime = ColorDistortionFilter.instance(p).getTime();
 			ColorDistortionFilter.instance(p).setTime(prevTime + 1/100f * colorDistortionTimeMult);
@@ -588,21 +596,21 @@ implements IAppStoreListener {
 		}
 
 		// WARP /////////////////////////
-		float warpAmp = p.midiState.midiCCPercent(midiInChannel, warpKnobAmp) * 0.1f;
-		float warpFreq = p.midiState.midiCCPercent(midiInChannel, warpKnobFreq) * 10f;
+		float warpAmp = MidiState.instance().midiCCPercent(midiInChannel, warpKnobAmp) * 0.1f;
+		float warpFreq = MidiState.instance().midiCCPercent(midiInChannel, warpKnobFreq) * 10f;
 		if(warpAmp > 0) {
 			LiquidWarpFilter.instance(p).setAmplitude(warpAmp);
 			LiquidWarpFilter.instance(p).setFrequency(warpFreq);
 			LiquidWarpFilter.instance(p).setTime(p.frameCount / 40f);
 			LiquidWarpFilter.instance(p).applyTo(pg);
 		}
-		
+
 		// GLITCH
 		glitchSuite.applyTo(pg);
 
 		// KALEIDOSCOPE ////////////////////////
-		float kaleidoSides = P.round( p.midiState.midiCCPercent(midiInChannel, kaledioKnob) * 12f );
-		p.debugView.setValue("HAXVISUAL :: kaleidoSides", kaleidoSides);
+		float kaleidoSides = P.round( MidiState.instance().midiCCPercent(midiInChannel, kaledioKnob) * 12f );
+		DebugView.setValue("HAXVISUAL :: kaleidoSides", kaleidoSides);
 		if( kaleidoSides > 0 ) {
 			if( kaleidoSides == 1 ) {
 				MirrorQuadFilter.instance(p).setZoom(0.5f);// + 0.1f * P.sin(p.frameCount * 0.01f));
@@ -616,24 +624,24 @@ implements IAppStoreListener {
 			}
 		}
 	}
-	
+
 	protected void postFinalFilters() {
 		applyColorizeFilter();
 		// bloomFilter();
 //		fakeLightFilter();
 		vignetteFilter();
-		postBrightness();	
+		postBrightness();
 	}
 
 	protected void applyColorizeFilter() {
 		if(colorizeWithGradient) {
 			ColorizeFromTexture.instance(p).setTexture(colorizeSourceTexture);
 			ColorizeFromTexture.instance(p).setLumaMult(false);
-			ColorizeFromTexture.instance(p).setCrossfade(0.75f); // p.mousePercentX());
+			ColorizeFromTexture.instance(p).setCrossfade(0.75f); // Mouse.xNorm);
 			ColorizeFromTexture.instance(p).applyTo(pg);
-		}	
+		}
 	}
-	
+
 	protected void bloomFilter() {
 		BloomFilter.instance(p).setStrength(1f);
 		BloomFilter.instance(p).setBlurIterations(4);
@@ -655,10 +663,10 @@ implements IAppStoreListener {
 		FakeLightingFilter.instance(p).setDiffDark(0.5f);
 		FakeLightingFilter.instance(p).applyTo(pg);
 	}
-	
+
 	protected void vignetteFilter() {
 		// VIGNETTE FROM CENTER ////////////////////////
-		float vignetteVal = p.midiState.midiCCPercent(midiInChannel, vignetteKnob);
+		float vignetteVal = MidiState.instance().midiCCPercent(midiInChannel, vignetteKnob);
 		float vignetteDarkness = P.map(vignetteVal, 0, 1, 13f, -13f);
 		VignetteAltFilter.instance(p).setSpread(0.5f);
 		VignetteAltFilter.instance(p).setDarkness(1f); // vignetteDarkness
@@ -670,13 +678,13 @@ implements IAppStoreListener {
 	}
 
 	protected void postBrightness() {
-		if(p.midiState.midiCCPercent(midiInChannel, brightnessKnob) != 0) brightnessVal = p.midiState.midiCCPercent(midiInChannel, brightnessKnob) * 5f;
+		if(MidiState.instance().midiCCPercent(midiInChannel, brightnessKnob) != 0) brightnessVal = MidiState.instance().midiCCPercent(midiInChannel, brightnessKnob) * 5f;
 		BrightnessFilter.instance(p).setBrightness(brightnessVal);
-		BrightnessFilter.instance(p).applyTo(pg);	
+		BrightnessFilter.instance(p).applyTo(pg);
 	}
-	
+
 	/////////////////////////////////////////////////////////////////
-	// BEAT DETECTION 
+	// BEAT DETECTION
 	/////////////////////////////////////////////////////////////////
 
 	protected void checkBeat() {
@@ -695,14 +703,14 @@ implements IAppStoreListener {
 	}
 
 	/////////////////////////////////////////////////////////////////
-	// INPUT 
+	// INPUT
 	/////////////////////////////////////////////////////////////////
 
 	public void keyPressed() {
 		super.keyPressed();
 		if(interphase != null) interphase.keyPressed();
 	}
-	
+
 	public void handleInputTriggers() {
 
 		//		if( p.key == 'a' || p.key == 'A' ){
@@ -749,12 +757,12 @@ implements IAppStoreListener {
 		if ( _brightnessDownTrigger.triggered() == true ) brightnessVal -= 0.1f;
 		if ( _keystoneResetTrigger.triggered() == true && pgPinnable != null) pgPinnable.resetCorners();
 		if ( _debugTexturesTrigger.triggered() == true ) _debugTextures = !_debugTextures;
-		
-		p.debugView.setValue("HAXVISUAL :: isBeatDetectMode()", isBeatDetectMode());
+
+		DebugView.setValue("HAXVISUAL :: isBeatDetectMode()", isBeatDetectMode());
 	}
 
 	/////////////////////////////////////////////////////////////////
-	// TIMING & PARAMETER UPDATES 
+	// TIMING & PARAMETER UPDATES
 	/////////////////////////////////////////////////////////////////
 
 	protected void newMode() {
@@ -793,7 +801,7 @@ implements IAppStoreListener {
 	protected void updateTiming() {
 		timingTriggerIndicator.setCurrent(1);
 		// tell all textures to update timing
-		int frameDelay = (p.ui.has(TIMING_MIN_DELAY)) ? p.ui.valueInt(TIMING_MIN_DELAY) : 0;
+		int frameDelay = (UI.has(TIMING_MIN_DELAY)) ? UI.valueInt(TIMING_MIN_DELAY) : 0;
 		if(p.millis() > lastTimingUpdateTime + frameDelay) {
 			for( int i=0; i < _curTexturePool.size(); i++ ) {
 				_curTexturePool.get(i).updateTiming();
@@ -801,17 +809,17 @@ implements IAppStoreListener {
 			lastTimingUpdateTime = p.millis();
 			// run beat-counted mode triggers on each beat
 			autoBeatMode();
-			p.debugView.setValue("HAXVISUAL :: lastTimingUpdateTime", lastTimingUpdateTime);
+			DebugView.setValue("HAXVISUAL :: lastTimingUpdateTime", lastTimingUpdateTime);
 		}
 		if(_dmxLights != null) _dmxLights.updateDmxLightsOnBeat();
 	}
 
 	protected void autoBeatMode() {
-		if( isBeatDetectMode() == false ) return; 
-		
+		if( isBeatDetectMode() == false ) return;
+
 		numBeatsDetected++;
-		p.debugView.setValue("HAXVISUAL :: isBeatDetectMode()", isBeatDetectMode());
-		p.debugView.setValue("HAXVISUAL :: numBeatsDetected", numBeatsDetected);
+		DebugView.setValue("HAXVISUAL :: isBeatDetectMode()", isBeatDetectMode());
+		DebugView.setValue("HAXVISUAL :: numBeatsDetected", numBeatsDetected);
 
 		if( numBeatsDetected % BEAT_INTERVAL_COLOR == 0 ) {
 			//			P.println("BEAT_INTERVAL_COLOR");
@@ -849,16 +857,16 @@ implements IAppStoreListener {
 
 	protected void updateTimingSection() {
 		timingSectionTriggerIndicator.setCurrent(1);
-		
+
 		for( int i=0; i < _curTexturePool.size(); i++ ) {
 			_curTexturePool.get(i).updateTimingSection();
 		}
 
 		// swap displacement filter option
 		displacementTextureIndex = MathUtil.randRange(0, 3);
-		overlayMode = MathUtil.randRange(0, 3);	
-		p.midiState.controllerChange(midiInChannel, displaceMapLayerKnob, P.round((127f/3.1f) * displacementTextureIndex));
-		p.midiState.controllerChange(midiInChannel, overlayModeKnob, P.round((127f/3.1f) * overlayMode));
+		overlayMode = MathUtil.randRange(0, 3);
+		MidiState.instance().controllerChange(midiInChannel, displaceMapLayerKnob, P.round((127f/3.1f) * displacementTextureIndex));
+		MidiState.instance().controllerChange(midiInChannel, overlayModeKnob, P.round((127f/3.1f) * overlayMode));
 		// P.println(P.round((127f/3.1f) * displacementLayer), P.round((127f/3.1f) * overlayMode));
 
 		// change kaleido
@@ -868,7 +876,7 @@ implements IAppStoreListener {
 		else if(kaleidoSides < 0.7f) kaleidoSides = 0.1f * 127f;	// 1
 		else if(kaleidoSides < 0.85f) kaleidoSides = 0.3f * 127f;	// 4
 		else kaleidoSides = 0.5f * 127f;							// 6
-		p.midiState.controllerChange(midiInChannel, kaledioKnob, (int) kaleidoSides);
+		MidiState.instance().controllerChange(midiInChannel, kaledioKnob, (int) kaleidoSides);
 
 		// start glitch mode
 		glitchSuite.newGlitchMode();
@@ -876,7 +884,7 @@ implements IAppStoreListener {
 
 	protected void bigChangeTrigger() {
 		bigChangeTriggerIndicator.setCurrent(1);
-		
+
 		// swap each layer in succession, and loop around
 		layerSwapIndex++;
 		if(layerSwapIndex >= texturePools.length) layerSwapIndex = 0;
@@ -896,8 +904,8 @@ implements IAppStoreListener {
 		colorizeWithGradient = MathUtil.randBoolean();
 
 		// debug values
-		p.debugView.setValue("HAXVISUAL :: layerSwapIndex", layerSwapIndex);
-		p.debugView.setValue("HAXVISUAL :: poolCurTextureIndexes", Arrays.toString(poolCurTextureIndexes));
+		DebugView.setValue("HAXVISUAL :: layerSwapIndex", layerSwapIndex);
+		DebugView.setValue("HAXVISUAL :: poolCurTextureIndexes", Arrays.toString(poolCurTextureIndexes));
 
 		// make sure time steppers don't go wild
 		SystemUtil.setTimeout(updateTimingCallback, 20);
@@ -978,7 +986,7 @@ implements IAppStoreListener {
 		//		for(BaseTexture tex : _curTexturePool) tex.setAsOverlay(false);
 		// remove from debug panel
 		for (int i = 0; i < _curTexturePool.size(); i++) {
-			p.debugView.removeTexture("layer-"+i);
+			DebugView.removeTexture("layer-"+i);
 		}
 		_curTexturePool.clear();
 	}
@@ -990,18 +998,18 @@ implements IAppStoreListener {
 		for (int i = 0; i < texturePools.length; i++) {
 			_curTexturePool.add( texturePools[i].get(poolCurTextureIndexes[i]) );
 			// debug info
-			p.debugView.setTexture("layer-"+i, texturePools[i].get(poolCurTextureIndexes[i]).texture());
-			p.debugView.setValue("HAXVISUAL :: texture "+i, texturePools[i].get(poolCurTextureIndexes[i]).toString());
+			DebugView.setTexture("layer-"+i, texturePools[i].get(poolCurTextureIndexes[i]).texture());
+			DebugView.setValue("HAXVISUAL :: texture "+i, texturePools[i].get(poolCurTextureIndexes[i]).toString());
 		}
 
 		// set current textures as active
-		for(BaseTexture tex : _curTexturePool) { 
-			tex.setActive(true); 
+		for(BaseTexture tex : _curTexturePool) {
+			tex.setActive(true);
 		}
 
 		// tell the top layer
 		topLayer().setCurTexturePool(_curTexturePool);
-		p.debugView.setValue("HAXVISUAL :: _curTexturePool.size()", _curTexturePool.size());
+		DebugView.setValue("HAXVISUAL :: _curTexturePool.size()", _curTexturePool.size());
 	}
 
 	/////////////////////////////////////////////////////////////////
@@ -1016,7 +1024,7 @@ implements IAppStoreListener {
 				textureEffectsIndices[i] = 0;
 			}
 		}
-		p.debugView.setValue("HAXVISUAL :: textureEffectsIndices", Arrays.toString(textureEffectsIndices));
+		DebugView.setValue("HAXVISUAL :: textureEffectsIndices", Arrays.toString(textureEffectsIndices));
 	}
 
 	protected void filterActiveTextures() {
@@ -1090,7 +1098,7 @@ implements IAppStoreListener {
 	}
 
 	/////////////////////////////////////////////////////////////////
-	// SPECIAL INTERSTITIAL MODE 
+	// SPECIAL INTERSTITIAL MODE
 	/////////////////////////////////////////////////////////////////
 
 	protected ImageCyclerBuffer imageCycler;
@@ -1106,7 +1114,7 @@ implements IAppStoreListener {
 	}
 
 	protected void drawInterstitial() {
-		float interstitialAlpha = (p.midiState.midiCCPercent(midiInChannel, interstitialKnob) != 0) ? p.midiState.midiCCPercent(midiInChannel, interstitialKnob) : 0;
+		float interstitialAlpha = (MidiState.instance().midiCCPercent(midiInChannel, interstitialKnob) != 0) ? MidiState.instance().midiCCPercent(midiInChannel, interstitialKnob) : 0;
 		if(interstitialAlpha > 0) {
 			imageCycler.update();
 			pg.beginDraw();
@@ -1122,18 +1130,18 @@ implements IAppStoreListener {
 	/////////////////////////////////////////////////////////////////
 
 	protected float dmxMultiplier() {
-		return p.midiState.midiCCPercent(midiInChannel, 41) * 1.5f;
+		return MidiState.instance().midiCCPercent(midiInChannel, 41) * 1.5f;
 	}
 
 	protected void sendDmxLights() {
 		int dmxKnob = 47;
 		if(_dmxLights != null) {
 			_dmxLights.update();
-			float knobValue = p.midiState.midiCCPercent(midiInChannel, dmxKnob);
+			float knobValue = MidiState.instance().midiCCPercent(midiInChannel, dmxKnob);
 			if(knobValue == 0) {
 				_dmxLights.setBrightness(1);
 			} else if(knobValue > 0.1f) {
-				_dmxLights.setBrightness((p.midiState.midiCCPercent(midiInChannel, dmxKnob)-0.1f) * 50f);
+				_dmxLights.setBrightness((MidiState.instance().midiCCPercent(midiInChannel, dmxKnob)-0.1f) * 50f);
 			} else {
 				_dmxLights.setBrightness(0);
 			}
@@ -1142,7 +1150,7 @@ implements IAppStoreListener {
 	}
 
 	/////////////////////////////////////////////////////////////////
-	// DEBUG 
+	// DEBUG
 	/////////////////////////////////////////////////////////////////
 
 	protected void runDebugHelpers() {
@@ -1150,18 +1158,18 @@ implements IAppStoreListener {
 		for (int i = 0; i < triggerDebugLinearFloats.length; i++) {
 			triggerDebugLinearFloats[i].update();
 		}
-		p.debugView.setValue("HAXVISUAL :: colorTrigger", colorTriggerIndicator.value() > 0);
-		p.debugView.setValue("HAXVISUAL :: rotationTrigger", rotationTriggerIndicator.value() > 0);
-		p.debugView.setValue("HAXVISUAL :: timingTrigger", timingTriggerIndicator.value() > 0);
-		p.debugView.setValue("HAXVISUAL :: modeTrigger", modeTriggerIndicator.value() > 0);
-		p.debugView.setValue("HAXVISUAL :: timingSectionTrigger", timingSectionTriggerIndicator.value() > 0);
-		p.debugView.setValue("HAXVISUAL :: lineModeTrigger", lineModeTriggerIndicator.value() > 0);
-		p.debugView.setValue("HAXVISUAL :: bigChangeTrigger", bigChangeTriggerIndicator.value() > 0);
-		
+		DebugView.setValue("HAXVISUAL :: colorTrigger", colorTriggerIndicator.value() > 0);
+		DebugView.setValue("HAXVISUAL :: rotationTrigger", rotationTriggerIndicator.value() > 0);
+		DebugView.setValue("HAXVISUAL :: timingTrigger", timingTriggerIndicator.value() > 0);
+		DebugView.setValue("HAXVISUAL :: modeTrigger", modeTriggerIndicator.value() > 0);
+		DebugView.setValue("HAXVISUAL :: timingSectionTrigger", timingSectionTriggerIndicator.value() > 0);
+		DebugView.setValue("HAXVISUAL :: lineModeTrigger", lineModeTriggerIndicator.value() > 0);
+		DebugView.setValue("HAXVISUAL :: bigChangeTrigger", bigChangeTriggerIndicator.value() > 0);
+
 		// debug render time
-		for (int i = 0; i < texturePools.length; i++) p.debugView.setValue("HAXVISUAL :: texture "+i, texturePools[i].get(poolCurTextureIndexes[i]).toString());
+		for (int i = 0; i < texturePools.length; i++) DebugView.setValue("HAXVISUAL :: texture "+i, texturePools[i].get(poolCurTextureIndexes[i]).toString());
 	}
-	
+
 	// debug textures to image files
 	protected void outputTestImages(ArrayList<BaseTexture> texturePool) {
 		for(BaseTexture tex : texturePool) {
@@ -1184,13 +1192,13 @@ implements IAppStoreListener {
 	/////////////////////////////////////////////////////////////////
 	// IAppStoreListener callbacks
 	/////////////////////////////////////////////////////////////////
-	
+
 	public void updatedNumber(String key, Number val) {
 		if(key.equals(Interphase.SEQUENCER_TRIGGER)) {
 			int sequencerIndex = val.intValue();
 			if(sequencerIndex < 3) {
 				updateTiming();
-				p.debugView.setValue(Interphase.SEQUENCER_TRIGGER, val.intValue());
+				DebugView.setValue(Interphase.SEQUENCER_TRIGGER, val.intValue());
 			}
 		}
 	}

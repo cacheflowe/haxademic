@@ -12,6 +12,7 @@ import com.haxademic.app.slideshow.text.SlideTitle;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.image.BrightnessBumper;
@@ -69,14 +70,14 @@ extends PAppletHax
 	// SETUP
 	/////////////////////////////////////////////////////////////
 
-	protected void overridePropsFile() {
-		p.appConfig.setProperty( AppSettings.WIDTH, 1280 );
-		p.appConfig.setProperty( AppSettings.HEIGHT, 720 );
-		p.appConfig.setProperty( AppSettings.ALWAYS_ON_TOP, false );
-		p.appConfig.setProperty( AppSettings.FULLSCREEN, false );
+	protected void config() {
+		Config.setProperty( AppSettings.WIDTH, 1280 );
+		Config.setProperty( AppSettings.HEIGHT, 720 );
+		Config.setProperty( AppSettings.ALWAYS_ON_TOP, false );
+		Config.setProperty( AppSettings.FULLSCREEN, true );
 	}
 
-	protected void setupFirstFrame() {
+	protected void firstFrame() {
 		brightnessBumper = new BrightnessBumper();
 		buildDrawingSurface();
 		buildState();
@@ -85,19 +86,19 @@ extends PAppletHax
 			slideCaption = new SlideCaption();
 			slideTitle = new SlideTitle();
 		}}).start();
+		addKeyCommandInfo();
 	}
 	
 	protected void addKeyCommandInfo() {
-		super.addKeyCommandInfo();
-		p.debugView.setHelpLine("\n" + DebugView.TITLE_PREFIX + "Custom Key Commands", "");
-		p.debugView.setHelpLine("[R] |", "Reload slides");
-		p.debugView.setHelpLine("[D] |", "Keystone/DEBUG toggle");
-		p.debugView.setHelpLine("[S] |", "Stress test [DANGER]");
-		p.debugView.setHelpLine("[BACKSPACE] |", "Reset keystone");
-		p.debugView.setHelpLine("[RIGHT] |", "Next slide");
-		p.debugView.setHelpLine("[DOWN] |", "Next slide");
-		p.debugView.setHelpLine("[LEFT] |", "Prev slide");
-		p.debugView.setHelpLine("[UP] |", "Prev slide");
+		DebugView.setHelpLine("\n" + DebugView.TITLE_PREFIX + "Custom Key Commands", "");
+		DebugView.setHelpLine("[R] |", "Reload slides");
+		DebugView.setHelpLine("[D] |", "Keystone/DEBUG toggle");
+		DebugView.setHelpLine("[S] |", "Stress test [DANGER]");
+		DebugView.setHelpLine("[BACKSPACE] |", "Reset keystone");
+		DebugView.setHelpLine("[RIGHT] |", "Next slide");
+		DebugView.setHelpLine("[DOWN] |", "Next slide");
+		DebugView.setHelpLine("[LEFT] |", "Prev slide");
+		DebugView.setHelpLine("[UP] |", "Prev slide");
 	}
 
 	protected void buildDrawingSurface() {
@@ -264,7 +265,7 @@ extends PAppletHax
 		brightnessBumper.applyTo(p.g);
 		
 		// debug
-		p.debugView.setValue("Slide index", P.store.getNumber(SlideshowState.SLIDE_INDEX.id()).intValue() + " / " + slides().size());
+		DebugView.setValue("Slide index", P.store.getNumber(SlideshowState.SLIDE_INDEX.id()).intValue() + " / " + slides().size());
 		// if(DEBUG_MODE == true || preloaded == false) { debugDrawSlides(); }
 		
 		// preload

@@ -6,6 +6,7 @@ import javax.sound.sampled.Mixer;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.media.audio.analysis.AudioInputBeads;
 import com.haxademic.core.media.audio.analysis.AudioInputESS;
 import com.haxademic.core.media.audio.analysis.AudioInputMinim;
@@ -22,12 +23,12 @@ extends PAppletHax { public static void main(String args[]) { arguments = args; 
 	protected AudioInputBeads audioInputBeads;
 	protected AudioInputProcessing audioInputProcessing;
 	
-	protected void overridePropsFile() {
-		p.appConfig.setProperty(AppSettings.WIDTH, 600);
-		p.appConfig.setProperty(AppSettings.HEIGHT, 300);
+	protected void config() {
+		Config.setProperty(AppSettings.WIDTH, 600);
+		Config.setProperty(AppSettings.HEIGHT, 300);
 	}
 
-	public void setupFirstFrame() {
+	public void firstFrame() {
 		JavaInfo.printAudioInfo();
 		
 //	    audioInputESS = new AudioInputESS();

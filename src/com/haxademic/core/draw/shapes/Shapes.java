@@ -2,10 +2,11 @@ package com.haxademic.core.draw.shapes;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.data.constants.PShapeTypes;
-import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.context.OrientationUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.math.MathUtil;
+import com.haxademic.core.media.audio.analysis.AudioIn;
 
 import processing.core.PApplet;
 import processing.core.PConstants;
@@ -104,8 +105,8 @@ public class Shapes {
 		float segmentRads = P.TWO_PI / numSegments;
 		pg.beginShape(P.TRIANGLES);
 		for( int i = 0; i < numSegments; i++ ) {
-			float amp = P.p.audioData.waveform()[i];
-			float ampNext = P.p.audioData.waveform()[(i+1) % P.p.audioData.waveform().length];
+			float amp = AudioIn.waveform[i];
+			float ampNext = AudioIn.waveform[(i+1) % AudioIn.waveform.length];
 			amp *= ampH;
 			ampNext *= ampH;
 			
@@ -397,7 +398,6 @@ public class Shapes {
 		
 		// draw textured rect
 		pg.noStroke();
-//		pg.stroke(255);
 		pg.beginShape();
 		pg.texture(texture);
 		pg.textureMode(P.IMAGE);

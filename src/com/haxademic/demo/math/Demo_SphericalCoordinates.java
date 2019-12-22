@@ -1,6 +1,8 @@
 package com.haxademic.demo.math;
 
+import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.draw.context.PG;
 
 public class Demo_SphericalCoordinates
 extends PAppletHax {
@@ -16,10 +18,8 @@ extends PAppletHax {
 		lights();
 		noStroke();
 		
-		translate( width/2, height/2, 50 );
-		rotateX(2f*PI/6f);
-		rotateZ(frameCount/100f);
-		rotateY(frameCount/100f);
+		PG.setCenterScreen(p.g);
+		PG.basicCameraFromMouse(p.g);
 		
 		sphereDetail( 60 );
 		stroke(100);
@@ -27,9 +27,9 @@ extends PAppletHax {
 		sphere(radius*.9f);
 
 		noStroke();
-		fill(255, 50);
+		fill(255);
 		// sphereDetail( 5 );
-		for(float i=0; i < 2*PI; i+=(2*PI)/20) {
+		for(float i=0; i < P.TWO_PI; i+=(P.TWO_PI)/20) {
 			pushMatrix();
 			
 			// spherical coordinates
@@ -43,7 +43,7 @@ extends PAppletHax {
 			rotateY(sin(lon) * cos(lat));
 			rotateZ(sin(lat));
 			
-			sphere(10);
+			box(10);
 
 			popMatrix();
 		}

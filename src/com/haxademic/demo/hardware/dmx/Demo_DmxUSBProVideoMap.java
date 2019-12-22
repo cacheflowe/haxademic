@@ -18,8 +18,8 @@ extends PAppletHax {
 	protected Movie video;
 	protected PGraphics videoBuffer;
 
-	public void setupFirstFrame() {
-		dmx = new DMXWrapper();
+	public void firstFrame() {
+		dmx = new DMXWrapper("COM6", 9600, 512);
 		
 		// init video
 		video = DemoAssets.movieFractalCube();

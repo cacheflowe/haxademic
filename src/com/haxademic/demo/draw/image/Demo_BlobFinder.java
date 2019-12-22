@@ -3,12 +3,14 @@ package com.haxademic.demo.draw.image;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.draw.filters.pshader.BlendTowardsTexture;
 import com.haxademic.core.draw.filters.pshader.BlurHFilter;
 import com.haxademic.core.draw.filters.pshader.BlurVFilter;
 import com.haxademic.core.draw.image.BlobFinder;
 import com.haxademic.core.draw.image.ImageUtil;
+import com.haxademic.core.hardware.mouse.Mouse;
 import com.haxademic.core.hardware.webcam.WebCam;
 import com.haxademic.core.hardware.webcam.WebCam.IWebCamCallback;
 import com.haxademic.core.math.MathUtil;
@@ -30,13 +32,13 @@ implements IWebCamCallback {
 	protected PGraphics webcamBuffer;
 	protected PGraphics webcamBufferLerped;
 
-	protected void overridePropsFile() {
-		p.appConfig.setProperty(AppSettings.WIDTH, webcamW);
-		p.appConfig.setProperty(AppSettings.HEIGHT, webcamH);
+	protected void config() {
+		Config.setProperty(AppSettings.WIDTH, webcamW);
+		Config.setProperty(AppSettings.HEIGHT, webcamH);
 	}
 
-	public void setupFirstFrame() {
-		super.setup();
+	public void firstFrame() {
+
 		
 		// setup webcam
 		WebCam.instance().setDelegate(this);
@@ -69,12 +71,12 @@ implements IWebCamCallback {
 		
 		webcamBufferLerped.loadPixels();
 		
-		float iterations = 10;
+		float iterations = 4;
 		for (int x = 0; x < iterations; x++) {
 			
 			// update blob detection
-			blobFinder.blobDetection().setPosDiscrimination(p.mousePercentY() > 0.5f);	// true if looking for bright areas
-//			blobFinder.blobDetection().setThreshold(p.mousePercentX()); // will detect bright areas whose luminosity > threshold
+			blobFinder.blobDetection().setPosDiscrimination(Mouse.yNorm > 0.5f);	// true if looking for bright areas
+//			blobFinder.blobDetection().setThreshold(Mouse.xNorm); // will detect bright areas whose luminosity > threshold
 			blobFinder.blobDetection().setThreshold((float) x / iterations); // will detect bright areas whose luminosity > threshold
 			blobFinder.update();
 			
