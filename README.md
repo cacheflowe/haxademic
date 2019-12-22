@@ -35,9 +35,9 @@ Below you'll find a long list of classes and utilities that I've built to make m
 
 `com.haxademic.core.app.config`
 
-* __[AppSettings](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/app/config/AppSettings.java)__ - Static constants to help set app properties and initialize special objects in `PAppletHax`. Used in tandem with `P5Properties`.
+* __[AppSettings](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/app/config/AppSettings.java)__ - Static constants to help set app properties and initialize special objects in `PAppletHax`. Used in tandem with `Config`.
 
-* __[P5Properties](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/app/config/P5Properties.java)__ - Loads properties from `data/properties/run.properties` (or an alternate specified .properties file), using the same string constants in `AppSettings`. All of these properties can be overridden in PAppletHax in the automatically-called `config()` function on app initialization.
+* __[Config](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/app/config/Config.java)__ - Loads properties from `data/properties/run.properties` (or an additional custom .properties file), using the same string constants in `AppSettings`. All of these properties can be overridden in PAppletHax in the automatically-called `config()` function on app initialization.
 
 ### Data
 
@@ -71,7 +71,7 @@ Below you'll find a long list of classes and utilities that I've built to make m
 
 `com.haxademic.core.debug`
 
-* __[DebugView](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/debug/DebugView.java)__ - Instantiated with every `PAppletHax` app, allows us to toggle and add properties to the `DebugView` HashMap to show realtime values on-screen, rather than trying to watch Java console values fly by. Press `/` to toggle. Also includes a panel for key commands and extra developer-defined info.
+* __[DebugView](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/debug/DebugView.java)__ - Instantiated with every `PAppletHax` app via `P`, the object allows us to toggle and add relatime properties to the `DebugView` HashMap and log values on-screen, rather than trying to watch Java console values fly by. Press `/` to toggle. Also includes a panel for key commands and extra developer-defined info.
 
 ### Draw
 
@@ -201,7 +201,7 @@ Below you'll find a long list of classes and utilities that I've built to make m
 
 * __[DMXWrapper](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/hardware/dmx/DMXWrapper.java)__ - Helper to "easily" connect and send messages to an ENTTEC DMX USB Pro.
 
-* __[GamepadListener](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/hardware/gamepad/GamepadListener.java)__ - Uses JInput to receive messages from a gamepad controller.
+* __[GamepadState](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/hardware/gamepad/GamepadState.java)__ - Uses JInput to receive messages from a gamepad controller.
 
 * __[MidiText](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/hardware/midi/MidiText.java)__ - Parses a MIDI file.
 
@@ -217,9 +217,9 @@ Below you'll find a long list of classes and utilities that I've built to make m
 
 * __[KinectRegionGrid](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/hardware/depthcamera/KinectRegionGrid.java)__ - Breaks up kinect raw data into an x/z grid, with center-of-mass (joystick) and `active` readings for each quadrant.
 
-* __[MouseUtil](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/hardware/mouse/MouseUtil.java)__ - Automates, moves & clicks the system mouse with a Java Robot.
+* __[Mouse](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/hardware/mouse/Mouse.java)__ - Automates, moves & clicks the system mouse with a Java Robot.
 
-* __[OscWrapper](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/hardware/osc/OscWrapper.java)__ - Wraps up OSC i/o functionality.
+* __[OscState](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/hardware/osc/OscState.java)__ - Wraps up OSC i/o functionality.
 
 * __[PrintPageDirect](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/hardware/printer/PrintPageDirect.java)__ - Print an image to a physical printer directly from Processing.
 
@@ -267,9 +267,11 @@ Below you'll find a long list of classes and utilities that I've built to make m
 
 `com.haxademic.core.media.audio.analysis`
 
-* __[IAudioInput](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/media/audio/analysis/IAudioInput.java)__ - A common interface between several Java libraries that run FFT analysis and beat detection on an incoming audio signal. Choose between [Beads](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/media/audio/analysis/AudioInputBeads.java), [Minim](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/media/audio/analysis/AudioInputMinim.java), [ESS](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/media/audio/analysis/AudioInputESS.java) or [Processing Sound](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/media/audio/analysis/AudioInputProcessingSound.java), via [AppSettings](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/demo/media/audio/analysis/Demo_IAudioInput.java).
+* __[AudioIn](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/media/audio/analysis/AudioIn.java)__ - A singleton to initialize a given IAudioInput object and route microphone input, or audio file playback FFT into a global analysis object, easily accessed from around the codebase.
 
 * __[AudioStreamData](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/media/audio/analysis/AudioStreamData.java)__ - The common data storage object for audio analysis results.
+
+* __[IAudioInput](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/media/audio/analysis/IAudioInput.java)__ - A common interface between several Java libraries that run FFT analysis and beat detection on an incoming audio signal. Choose between [Beads](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/media/audio/analysis/AudioInputBeads.java), [Minim](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/media/audio/analysis/AudioInputMinim.java), [ESS](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/media/audio/analysis/AudioInputESS.java) or [Processing Sound](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/media/audio/analysis/AudioInputProcessingSound.java), via [AppSettings](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/demo/media/audio/analysis/Demo_IAudioInput.java).
 
 `com.haxademic.core.media.video`
 
@@ -340,7 +342,7 @@ Below you'll find a long list of classes and utilities that I've built to make m
 
 * __[UIButton](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/ui/UIButton.java)__ - A Button object with optional toggle mode.
 
-* __[UIControlPanel](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/ui/UIControlPanel.java)__ - A collection of `IUIControl` objects, auto-initialized with PAppletHax. Press `\` to toggle paneL, and add new sliders/buttons by accessing `p.ui`.
+* __[UI](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/ui/UI.java)__ - A collection of `IUIControl` objects, auto-initialized with a PAppletHax app via `P`. Press `\` to toggle paneL, and add new sliders/buttons with static methods on `UI`.
 
 
 ## Dependencies
