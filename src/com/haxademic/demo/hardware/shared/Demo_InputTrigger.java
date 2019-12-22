@@ -2,6 +2,7 @@ package com.haxademic.demo.hardware.shared;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.data.store.IAppStoreListener;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.hardware.gamepad.GamepadState;
 import com.haxademic.core.hardware.http.HttpInputState;
@@ -13,8 +14,12 @@ import com.haxademic.core.hardware.midi.devices.LaunchControl;
 import com.haxademic.core.hardware.osc.OscState;
 import com.haxademic.core.hardware.shared.InputTrigger;
 
+import processing.core.PGraphics;
+import processing.core.PImage;
+
 public class Demo_InputTrigger
-extends PAppletHax {
+extends PAppletHax
+implements IAppStoreListener {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
 	protected int triggerKey = KeyCodes.keyCodeFromChar('c');
@@ -23,7 +28,8 @@ extends PAppletHax {
 														 .addMidiNotes(new Integer[]{LaunchControl.PAD_01, LaunchControl.PAD_03})
 														 .addMidiCCNotes(new Integer[]{LaunchControl.KNOB_01})
 														 .addHttpRequests(new String[]{"button1", "slider1", "slider2"})
-														 .addGamepadControls(new String[]{"Button 9"});
+														 .addGamepadControls(new String[]{"Button 9"})
+														 .setBroadcastKey("TRIGGER");
 
 	
 	public void firstFrame() {
@@ -37,6 +43,9 @@ extends PAppletHax {
 		// keep debug open
 		DebugView.autoHide(false);
 		DebugView.active(true);
+		
+		// listen for broadcast
+		P.store.addListener(this);
 	}
 	
 	public void drawApp() {
@@ -50,5 +59,19 @@ extends PAppletHax {
 		}
 		DebugView.setValue("trigger.value()", trigger.value());
 	}
+
+	/////////////////////////////
+	// AppStore callbacks
+	/////////////////////////////
+	
+	public void updatedNumber(String key, Number val) {
+		if(key.equals("TRIGGER")) {
+			DebugView.setValue("AppStore TRIGGER", val.floatValue());
+		}
+	}
+	public void updatedString(String key, String val) {}
+	public void updatedBoolean(String key, Boolean val) {}
+	public void updatedImage(String key, PImage val) {}
+	public void updatedBuffer(String key, PGraphics val) {}
 	
 }

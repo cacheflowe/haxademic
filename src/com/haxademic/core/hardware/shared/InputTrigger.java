@@ -72,7 +72,10 @@ public class InputTrigger {
 		boolean foundTrigger = false;
 		// if triggered, also store the latest value
 		if(foundTrigger == false) for( int i=0; i < keyCodes.length; i++ ) {
-			if(KeyboardState.instance().isKeyTriggered(keyCodes[i])) foundTrigger = true;
+			if(KeyboardState.instance().isKeyTriggered(keyCodes[i])) {
+				curValue = 1;
+				foundTrigger = true;
+			}
 		}
 		if(foundTrigger == false) for( int i=0; i < oscMessages.length; i++ ) {
 			if(OscState.instance().isValueTriggered(oscMessages[i])) {
@@ -133,6 +136,12 @@ public class InputTrigger {
 		}
 		for( int i=0; i < gamepadControls.length; i++ ) {
 			if(GamepadState.instance().isValueOn(gamepadControls[i])) return true;
+		}
+		
+		// switched to no longer being active
+		if(curValue > 0) {
+			curValue = 0;
+			if(broadcastKey != null) P.store.setNumber(broadcastKey, curValue);
 		}
 		return false;
 	}

@@ -2,8 +2,6 @@
 
 ## Modularize PAppletHax
 
-* BrowserInputState
-* OscState
 * Update README with updated references
 
 * Inputs - more thoughts on InputTrigger below
@@ -30,6 +28,8 @@
   * DebugView
   * Config
   * GamepadState
+  * HttpInputState
+  * OscState
 
 ## InputTrigger revamp
 
