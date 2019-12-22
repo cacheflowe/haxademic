@@ -65,7 +65,7 @@ extends PAppletHax { public static void main(String args[]) { arguments = args; 
 	protected void mapMidiKnobsToVolume() {
 		float vol = 1;
 		for(int i=0; i < knobs.length; i++) {
-			vol = MidiState.instance().midiCCPercent(knobs[i]);
+			vol = MidiState.instance().midiCCNormalized(knobs[i]);
 			if(vol > 0) {
 				loops[i].setVolume(vol);
 				loops[i].audioData().setGain(vol);

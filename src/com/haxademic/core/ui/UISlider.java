@@ -127,7 +127,7 @@ implements IUIControl {
 	public void update() {
 		// check midi
 		if(midiCCNote != -1 && MidiState.instance().isMidiCCTriggered(midiCCNote)) {
-			float val = MidiState.instance().midiCCPercent(midiCCNote);
+			float val = MidiState.instance().midiCCNormalized(midiCCNote);
 			set(P.map(val, 0, 1, valueMin, valueMax));
 		}
 		

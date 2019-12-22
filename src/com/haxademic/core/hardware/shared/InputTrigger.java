@@ -97,7 +97,7 @@ public class InputTrigger {
 		}
 		if(foundTrigger == false) for( int i=0; i < midiCC.length; i++ ) {
 			if(MidiState.instance().isMidiCCTriggered(midiCC[i])) {
-				curValue = MidiState.instance().midiCCPercent(0, midiCC[i]);
+				curValue = MidiState.instance().midiCCNormalized(0, midiCC[i]);
 				foundTrigger = true;
 			}
 		}

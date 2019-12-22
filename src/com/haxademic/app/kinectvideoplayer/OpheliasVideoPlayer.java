@@ -240,7 +240,7 @@ extends PAppletHax {
 	
 	protected void setShaderValues() {
 		int halftoneKnob = 47;
-		if(MidiState.instance().midiCCPercent(0, halftoneKnob) != 0) {
+		if(MidiState.instance().midiCCNormalized(0, halftoneKnob) != 0) {
 //			_halftone.set("scale", p.midi.midiCCPercent(0, halftoneKnob) * 5f);
 		}
 	}

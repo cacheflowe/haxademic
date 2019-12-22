@@ -83,8 +83,8 @@ extends PAppletHax {
 	}
 
 	protected void panWithMidi() {
-		controlX = MidiState.instance().midiCCPercent(21);
-		controlY = MidiState.instance().midiCCPercent(22);
+		controlX = MidiState.instance().midiCCNormalized(21);
+		controlY = MidiState.instance().midiCCNormalized(22);
 	}
 	
 	protected void panImageToBuffers() {

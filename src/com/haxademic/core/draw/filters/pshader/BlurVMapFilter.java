@@ -12,7 +12,7 @@ extends BaseFragmentShader {
 	public static BlurVMapFilter instance;
 	
 	public BlurVMapFilter(PApplet p) {
-		super(p, "haxademic/shaders/filters/blur-vertical.glsl");
+		super(p, "haxademic/shaders/filters/blur-vertical-map.glsl");
 		setMap(DemoAssets.smallTexture());
 		setBlur(0.001f);
 	}

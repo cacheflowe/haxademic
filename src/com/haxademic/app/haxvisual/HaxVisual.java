@@ -471,8 +471,8 @@ implements IAppStoreListener {
 	/////////////////////////////////////////////////////////////////
 
 	protected void getDisplacementLayer() {
-		displacementTextureIndex = P.round(P.map(MidiState.instance().midiCCPercent(midiInChannel, displaceMapLayerKnob), 0, 1, 0, 3));
-		overlayMode = P.round(P.map(MidiState.instance().midiCCPercent(midiInChannel, overlayModeKnob), 0, 1, 0, 3));
+		displacementTextureIndex = P.round(P.map(MidiState.instance().midiCCNormalized(midiInChannel, displaceMapLayerKnob), 0, 1, 0, 3));
+		overlayMode = P.round(P.map(MidiState.instance().midiCCNormalized(midiInChannel, overlayModeKnob), 0, 1, 0, 3));
 		DebugView.setValue("HAXVISUAL :: displacementLayer", displacementTextureIndex);
 		DebugView.setValue("HAXVISUAL :: overlayMode", overlayMode);
 	}
@@ -550,26 +550,26 @@ implements IAppStoreListener {
 	protected void postSpecialEffectsFilters() {
 		// CONTRAST ////////////////////////
 //		MidiState.instance().controllerChange(midiInChannel, contrastKnob, (int) (0.25f * 127f));
-		if( MidiState.instance().midiCCPercent(midiInChannel, contrastKnob) != 0 ) {
-			if(MidiState.instance().midiCCPercent(midiInChannel, contrastKnob) > 0.1f) {
-				ContrastFilter.instance(p).setContrast(MidiState.instance().midiCCPercent(midiInChannel, contrastKnob) * 7f);
+		if( MidiState.instance().midiCCNormalized(midiInChannel, contrastKnob) != 0 ) {
+			if(MidiState.instance().midiCCNormalized(midiInChannel, contrastKnob) > 0.1f) {
+				ContrastFilter.instance(p).setContrast(MidiState.instance().midiCCNormalized(midiInChannel, contrastKnob) * 7f);
 //				if(Mouse.xNorm > 0.5f) ContrastFilter.instance(p).applyTo(pg);
 
 			}
 		}
 
 		// MULTIPLE EFFECTS KNOB ////////////////////////
-		boolean halftone = ( MidiState.instance().midiCCPercent(midiInChannel, effectsKnob) > 0.25f && MidiState.instance().midiCCPercent(midiInChannel, effectsKnob) < 0.5f );
+		boolean halftone = ( MidiState.instance().midiCCNormalized(midiInChannel, effectsKnob) > 0.25f && MidiState.instance().midiCCNormalized(midiInChannel, effectsKnob) < 0.5f );
 		if( halftone ) HalftoneFilter.instance(p).applyTo(pg);
 
-		boolean edged = ( MidiState.instance().midiCCPercent(midiInChannel, effectsKnob) > 0.5f && MidiState.instance().midiCCPercent(midiInChannel, effectsKnob) < 0.75f );
+		boolean edged = ( MidiState.instance().midiCCNormalized(midiInChannel, effectsKnob) > 0.5f && MidiState.instance().midiCCNormalized(midiInChannel, effectsKnob) < 0.75f );
 		if( edged ) EdgesFilter.instance(p).applyTo(pg);
 
-		boolean pixelated = ( MidiState.instance().midiCCPercent(midiInChannel, effectsKnob) > 0.75f );
+		boolean pixelated = ( MidiState.instance().midiCCNormalized(midiInChannel, effectsKnob) > 0.75f );
 		if( pixelated ) {
-			float pixAmout = P.round(MidiState.instance().midiCCPercent(midiInChannel, pixelateKnob) * 40f);
+			float pixAmout = P.round(MidiState.instance().midiCCNormalized(midiInChannel, pixelateKnob) * 40f);
 			PixelateFilter.instance(p).setDivider(p.width/pixAmout, pg.width, pg.height);
-			if(MidiState.instance().midiCCPercent(midiInChannel, pixelateKnob) > 0) PixelateFilter.instance(p).applyTo(pg);
+			if(MidiState.instance().midiCCNormalized(midiInChannel, pixelateKnob) > 0) PixelateFilter.instance(p).applyTo(pg);
 		}
 
 		// INVERT ////////////////////////
@@ -586,8 +586,8 @@ implements IAppStoreListener {
 		}
 
 		// color distortion
-		float colorDistortionAmp = MidiState.instance().midiCCPercent(midiInChannel, distAmpKnob) * 2.5f;
-		float colorDistortionTimeMult = MidiState.instance().midiCCPercent(midiInChannel, distTimeKnob);
+		float colorDistortionAmp = MidiState.instance().midiCCNormalized(midiInChannel, distAmpKnob) * 2.5f;
+		float colorDistortionTimeMult = MidiState.instance().midiCCNormalized(midiInChannel, distTimeKnob);
 		if(colorDistortionAmp > 0) {
 			float prevTime = ColorDistortionFilter.instance(p).getTime();
 			ColorDistortionFilter.instance(p).setTime(prevTime + 1/100f * colorDistortionTimeMult);
@@ -596,8 +596,8 @@ implements IAppStoreListener {
 		}
 
 		// WARP /////////////////////////
-		float warpAmp = MidiState.instance().midiCCPercent(midiInChannel, warpKnobAmp) * 0.1f;
-		float warpFreq = MidiState.instance().midiCCPercent(midiInChannel, warpKnobFreq) * 10f;
+		float warpAmp = MidiState.instance().midiCCNormalized(midiInChannel, warpKnobAmp) * 0.1f;
+		float warpFreq = MidiState.instance().midiCCNormalized(midiInChannel, warpKnobFreq) * 10f;
 		if(warpAmp > 0) {
 			LiquidWarpFilter.instance(p).setAmplitude(warpAmp);
 			LiquidWarpFilter.instance(p).setFrequency(warpFreq);
@@ -609,7 +609,7 @@ implements IAppStoreListener {
 		glitchSuite.applyTo(pg);
 
 		// KALEIDOSCOPE ////////////////////////
-		float kaleidoSides = P.round( MidiState.instance().midiCCPercent(midiInChannel, kaledioKnob) * 12f );
+		float kaleidoSides = P.round( MidiState.instance().midiCCNormalized(midiInChannel, kaledioKnob) * 12f );
 		DebugView.setValue("HAXVISUAL :: kaleidoSides", kaleidoSides);
 		if( kaleidoSides > 0 ) {
 			if( kaleidoSides == 1 ) {
@@ -666,7 +666,7 @@ implements IAppStoreListener {
 
 	protected void vignetteFilter() {
 		// VIGNETTE FROM CENTER ////////////////////////
-		float vignetteVal = MidiState.instance().midiCCPercent(midiInChannel, vignetteKnob);
+		float vignetteVal = MidiState.instance().midiCCNormalized(midiInChannel, vignetteKnob);
 		float vignetteDarkness = P.map(vignetteVal, 0, 1, 13f, -13f);
 		VignetteAltFilter.instance(p).setSpread(0.5f);
 		VignetteAltFilter.instance(p).setDarkness(1f); // vignetteDarkness
@@ -678,7 +678,7 @@ implements IAppStoreListener {
 	}
 
 	protected void postBrightness() {
-		if(MidiState.instance().midiCCPercent(midiInChannel, brightnessKnob) != 0) brightnessVal = MidiState.instance().midiCCPercent(midiInChannel, brightnessKnob) * 5f;
+		if(MidiState.instance().midiCCNormalized(midiInChannel, brightnessKnob) != 0) brightnessVal = MidiState.instance().midiCCNormalized(midiInChannel, brightnessKnob) * 5f;
 		BrightnessFilter.instance(p).setBrightness(brightnessVal);
 		BrightnessFilter.instance(p).applyTo(pg);
 	}
@@ -1114,7 +1114,7 @@ implements IAppStoreListener {
 	}
 
 	protected void drawInterstitial() {
-		float interstitialAlpha = (MidiState.instance().midiCCPercent(midiInChannel, interstitialKnob) != 0) ? MidiState.instance().midiCCPercent(midiInChannel, interstitialKnob) : 0;
+		float interstitialAlpha = (MidiState.instance().midiCCNormalized(midiInChannel, interstitialKnob) != 0) ? MidiState.instance().midiCCNormalized(midiInChannel, interstitialKnob) : 0;
 		if(interstitialAlpha > 0) {
 			imageCycler.update();
 			pg.beginDraw();
@@ -1130,18 +1130,18 @@ implements IAppStoreListener {
 	/////////////////////////////////////////////////////////////////
 
 	protected float dmxMultiplier() {
-		return MidiState.instance().midiCCPercent(midiInChannel, 41) * 1.5f;
+		return MidiState.instance().midiCCNormalized(midiInChannel, 41) * 1.5f;
 	}
 
 	protected void sendDmxLights() {
 		int dmxKnob = 47;
 		if(_dmxLights != null) {
 			_dmxLights.update();
-			float knobValue = MidiState.instance().midiCCPercent(midiInChannel, dmxKnob);
+			float knobValue = MidiState.instance().midiCCNormalized(midiInChannel, dmxKnob);
 			if(knobValue == 0) {
 				_dmxLights.setBrightness(1);
 			} else if(knobValue > 0.1f) {
-				_dmxLights.setBrightness((MidiState.instance().midiCCPercent(midiInChannel, dmxKnob)-0.1f) * 50f);
+				_dmxLights.setBrightness((MidiState.instance().midiCCNormalized(midiInChannel, dmxKnob)-0.1f) * 50f);
 			} else {
 				_dmxLights.setBrightness(0);
 			}

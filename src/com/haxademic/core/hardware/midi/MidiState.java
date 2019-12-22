@@ -87,13 +87,13 @@ implements SimpleMidiListener {
 		return (midiCCVals.containsKey(pitch)) ? midiCCVals.get(pitch) : 0;
 	}
 	
-	public float midiCCPercent(int pitch) {
+	public float midiCCNormalized(int pitch) {
 		return (midiCCVals.containsKey(pitch)) ? (float) midiCCVals.get(pitch) / 127f : 0;
 	}
 	
-	public float midiCCPercent(int channel, int pitch) {
+	public float midiCCNormalized(int channel, int pitch) {
 		// P.println("TODO: add midi channel handling in MidiState");
-		return midiCCPercent(pitch);
+		return midiCCNormalized(pitch);
 	}
 	
 	///////////////////////////////

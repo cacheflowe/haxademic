@@ -2,6 +2,7 @@
 
 ## Modularize PAppletHax
 
+* Make sure midi notes don't override UI values until they've been touched
 * Update README with updated references
 
 * DepthCamera like AudioIn
@@ -166,17 +167,14 @@
 ## Audio
   * Make sub-app or figure out how to dispose or flush the Java sound stuff that starts lagging after hours of running
     * Look at Minim setInputMixer example to switch audio inputs
-  * Stretch samples to play within a beat segment - this could allow for ableton-style beat chopping
   * WavPlayer panning and FFT analysis need love:
     * Panning only works once
     * FFT only works for the left channel if it's been panned
   * Text to speech In Processing. Webview in Processing? Or web sockets to external browser? Vanilla Java?
   * Sphinx4 speech recognition
   * Test/Fix basic audio input. why is audio getting delayed after hours of running?
-    * Turn into singleton wrapper and pass in whichever input we want
-    * Why isn't Minim/Beads/Processing working on audio input anymore? Can only one run at a time now? 
     * Create separate demos for each input object?
-  * Turn off Beads audio input object output - this should not pass through
+  * [DONE?] Turn off Beads audio input object output - this should not pass through
   * Split audio stepthrough rendering from Renderer.java, which should just save movies. MIDIStepthrough renderer is a good example of splitting
   * Make demos for rendering at a specific bpm
   * Spatial audio:
@@ -234,8 +232,6 @@
   * Scripted startup/shutdown
 
 ## MIDI:
-  * Add midi input to prefsSliders
-  * Move midibus instance to MidiState (now MidiDevice)
   * Check MIDI rendering now that MIDI code has been revamped
 
 ## GLSL
@@ -386,7 +382,6 @@ Advanced Processing
   * Kinect topics
     * Room scan
     * Center-of-mass technique, vs. skeleton detection
-    
   * Run a Jetty web server
   * Run a websocket server
   * Scan & cache a kinect camera view via texture
@@ -397,6 +392,9 @@ Advanced Processing
   * Run in Eclipse
   	* How Eclipse works vs the command line code it generates
   	* Java compiling w/javac, etc 
+  	* Extra tools:
+  	  * VisualVM
+  	  * mat
   * ShaderCompiler
   * Shader techniques
     * Post-processing

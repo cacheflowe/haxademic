@@ -22,6 +22,8 @@ import com.haxademic.core.draw.filters.pshader.ThresholdFilter;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.textures.SimplexNoiseTexture;
 import com.haxademic.core.file.FileUtil;
+import com.haxademic.core.hardware.midi.MidiDevice;
+import com.haxademic.core.hardware.midi.devices.LaunchControl;
 import com.haxademic.core.hardware.webcam.WebCam;
 import com.haxademic.core.system.SystemUtil;
 import com.haxademic.core.ui.UI;
@@ -36,8 +38,10 @@ extends PAppletHax {
 	// TODO:
 	// - Add noise wavy shader in addition to the basic wavy sin() lines
 	// - Test audio looping & pitch shifting in Beads (a la Communichords, but with audio FFT data)
-	// - Find parameters & make a nice collection
-	// - Blur values above 1 seem to trigger the broken R/D state with fine lines 
+	// - Find parameters & make a nice collection of them
+	// - Blur values above 1 seem to trigger the broken R/D state with fine lines
+	// - Figure out performance issues
+	// 	 - FXAA & R/D shaders are slow. Is this because of kernel processing?
 	
 	// app
 	protected boolean clearScreen = true;
@@ -97,12 +101,15 @@ extends PAppletHax {
 	
 
 	protected void config() {
-		Config.setProperty(AppSettings.WIDTH, 1920);
-		Config.setProperty(AppSettings.HEIGHT, 1080);
+		Config.setProperty(AppSettings.WIDTH, 1280);
+		Config.setProperty(AppSettings.HEIGHT, 720);
+		Config.setProperty(AppSettings.PG_WIDTH, 1920);
+		Config.setProperty(AppSettings.PG_HEIGHT, 1080);
 		Config.setProperty(AppSettings.LOOP_FRAMES, 2000);
 		Config.setProperty(AppSettings.SHOW_UI, true);
-		Config.setProperty(AppSettings.FULLSCREEN, true);
+		Config.setProperty(AppSettings.FULLSCREEN, false);
 		Config.setProperty(AppSettings.ALWAYS_ON_TOP, false);
+		Config.setProperty(AppSettings.SHOW_FPS_IN_TITLE, true);
 	}
 	
 	/////////////////////////
@@ -110,6 +117,9 @@ extends PAppletHax {
 	/////////////////////////
 	
 	protected void firstFrame() {
+		// init midi controls
+		MidiDevice.init(0, 3);
+		
 		// main buffer & postFX buffer
 		pgPost = PG.newPG(pg.width, pg.height);
 		PG.setTextureRepeat(pg, true);
@@ -118,11 +128,9 @@ extends PAppletHax {
 		// feedback map
 		map = PG.newPG(pg.width/8, pg.height/8);
 		simplexNoise = new SimplexNoiseTexture(128, 128);
-//		map2 = PG.newPG(pg.width/8, pg.height/8);
-//		simplexNoise2 = new SimplexNoiseTexture(128, 128);
 		
 		// lines texture
-		linesTexture = PG.newPG(pg.width, pg.height);
+		linesTexture = PG.newPG(pg.width/2, pg.height/2, false, false);
 		gradientShader = p.loadShader(FileUtil.getFile("haxademic/shaders/textures/cacheflowe-two-color-repeating-gradient.glsl"));
 
 		buildUI();
@@ -130,20 +138,20 @@ extends PAppletHax {
 	
 	protected void buildUI() {
 		UI.addTitle("Feedback (Zoom/Rotate)");
-		UI.addSlider(FEEDBACK_AMP, 0, 0.99f, 1.01f, 0.0001f);
-		UI.addSlider(FEEDBACK_ROTATE, 0, -0.02f, 0.02f, 0.0001f);
-		UI.addSlider(FEEDBACK_OFFSET_X, 0, -0.02f, 0.02f, 0.0001f);
-		UI.addSlider(FEEDBACK_OFFSET_Y, 0, -0.02f, 0.02f, 0.0001f);
+		UI.addSlider(FEEDBACK_AMP, 1, 0.99f, 1.01f, 0.0001f, true, LaunchControl.KNOB_01);
+		UI.addSlider(FEEDBACK_ROTATE, 0, -0.005f, 0.005f, 0.00005f, true, LaunchControl.KNOB_02);
+		UI.addSlider(FEEDBACK_OFFSET_X, 0, -0.005f, 0.005f, 0.00005f, true, LaunchControl.KNOB_03);
+		UI.addSlider(FEEDBACK_OFFSET_Y, 0, -0.005f, 0.005f, 0.00005f, true, LaunchControl.KNOB_04);
 		
 		UI.addTitle("Feedback (Map)");
-		UI.addSlider(mapZoom, 2, 0.1f, 15, 0.1f, false);
-		UI.addSlider(mapRot, 0, 0, P.TWO_PI, 0.01f, false);
-		UI.addSlider(feedbackAmp, 0f, 0.00001f, 0.005f, 0.00001f, false);
-//		UI.addSlider(feedbackBrightStep, 0f, -0.01f, 0.01f, 0.0001f, false);
-//		UI.addSlider(feedbackAlphaStep, 0f, -0.01f, 0.01f, 0.0001f, false);
-		UI.addSlider(feedbackRadiansStart, 0f, 0, P.TWO_PI, 0.01f, false);
-		UI.addSlider(feedbackRadiansRange, P.TWO_PI * 2f, -P.TWO_PI * 2f, P.TWO_PI * 2f, 0.1f, false);
-		UI.addSlider(FEEDBACK_ITERS, 1, 0, 10, 1f, false);
+		UI.addSlider(mapZoom, 2, 0.1f, 15, 0.1f, true, LaunchControl.KNOB_05);
+		UI.addSlider(mapRot, 0, 0, P.TWO_PI, 0.01f, true, LaunchControl.KNOB_06);
+		UI.addSlider(feedbackAmp, 0f, 0f, 0.005f, 0.00001f, true, LaunchControl.KNOB_07);
+//		UI.addSlider(feedbackBrightStep, 0f, -0.01f, 0.01f, 0.0001f, true);
+//		UI.addSlider(feedbackAlphaStep, 0f, -0.01f, 0.01f, 0.0001f, true);
+		UI.addSlider(feedbackRadiansStart, 0f, 0, P.TWO_PI, 0.01f, true);
+		UI.addSlider(feedbackRadiansRange, P.TWO_PI * 2f, -P.TWO_PI * 2f, P.TWO_PI * 2f, 0.1f, true, LaunchControl.KNOB_08);
+		UI.addSlider(FEEDBACK_ITERS, 1, 0, 10, 1f, true);
 		
 		UI.addTitle("Feedback (Radial)");
 		UI.addSlider(feedbackRadialAmp, 0.0f, -0.005f, 0.005f, 0.00001f, false);
@@ -151,23 +159,23 @@ extends PAppletHax {
 		UI.addSlider(feedbackMultY, 1f, 0f, 1f, 0.001f, false);
 		UI.addSlider(feedbackWaveAmp, 0.1f, 0f, 1f, 0.001f, false);
 		UI.addSlider(feedbackWaveFreq, 10f, 0f, 100f, 0.1f, false);
-		UI.addSlider(feedbackWaveStartMult, 0.01f, -0.2f, 0.2f, 0.001f, false);
+		UI.addSlider(feedbackWaveStartMult, 0f, -0.002f, 0.002f, 0.00001f, false);
 
 		UI.addTitle("Reaction/Diffusion");
 //		UI.addSlider(map2Zoom, 3, 0.1f, 15, 0.1f, false);
 //		UI.addSlider(map2Rot, 2, 0, P.TWO_PI, 0.01f, false);
 		UI.addSlider(RD_ITERATIONS, 0, 0, 10, 1f);
-		UI.addSlider(RD_BLUR_AMP_X, 0, 0, 6, 0.01f);
+		UI.addSlider(RD_BLUR_AMP_X, 0, 0, 6, 0.01f, true, LaunchControl.KNOB_09);
 //		UI.addSlider(RD_BLUR_AMP_MAP_X, 0, 0, 6, 0.01f);
-		UI.addSlider(RD_BLUR_AMP_Y, 0, 0, 6, 0.01f);
+		UI.addSlider(RD_BLUR_AMP_Y, 0, 0, 6, 0.01f, true, LaunchControl.KNOB_10);
 //		UI.addSlider(RD_BLUR_AMP_MAP_Y, 0, 0, 6, 0.01f);
-		UI.addSlider(RD_SHARPEN_AMP, 0, 0, 20, 0.01f);
+		UI.addSlider(RD_SHARPEN_AMP, 0, 0, 20, 0.01f, true, LaunchControl.KNOB_11);
 //		UI.addSlider(RD_SHARPEN_MAP_AMP, 3, 0, 20, 0.01f);
 //		UI.addSlider(RD_SHARPEN_MAP_MIN_AMP, 1f, 0, 20, 0.01f);
-		UI.addSlider(DARKEN_AMP, 0, -255, 255, 1f);
+		UI.addSlider(DARKEN_AMP, 0, -255, 255, 1f, true, LaunchControl.KNOB_12);
 		
 		UI.addTitle("Texture Blend");
-		UI.addSlider(TEXTURE_BLEND, 0.5f, 0f, 1f, 0.01f);
+		UI.addSlider(TEXTURE_BLEND, 0.5f, 0f, 1f, 0.01f, false, LaunchControl.KNOB_13);
 		
 		UI.addTitle("Fake Light Post FX");
 		UI.addSlider(FAKE_LIGHT_AMBIENT, 2f, 0.3f, 6f, 0.01f);
@@ -186,7 +194,7 @@ extends PAppletHax {
 	/////////////////////////
 	
 	protected void darkenCanvas() {
-		if(UI.valueInt(RD_ITERATIONS) > 0) {
+		if(UI.valueInt(RD_ITERATIONS) > 0 && UI.valueEased(DARKEN_AMP) != 0) {
 			BrightnessStepFilter.instance(p).setBrightnessStep(UI.valueEased(DARKEN_AMP)/255f);
 			BrightnessStepFilter.instance(p).applyTo(pg);
 		}
@@ -296,12 +304,14 @@ extends PAppletHax {
 	}
 	
 	protected void mixTexture() {
+		if(UI.valueEased(TEXTURE_BLEND) == 0) return;
 		BlendTowardsTexture.instance(p).setSourceTexture(linesTexture);
 		BlendTowardsTexture.instance(p).setBlendLerp(UI.valueEased(TEXTURE_BLEND));
 		BlendTowardsTexture.instance(p).applyTo(pg);
 	}
 	
 	protected void updateLinesTexture() {
+		if(UI.valueEased(TEXTURE_BLEND) == 0) return;
 		// update other shader properties
 		gradientShader.set("color1", 0f, 0f, 0f);
 		gradientShader.set("color2", 1f, 1f, 1f);
@@ -322,7 +332,7 @@ extends PAppletHax {
 		updateLinesTexture();
 		
 		// set context
-		pg.beginDraw();
+//		pg.beginDraw();
 		if(p.frameCount <= 10 || clearScreen) pg.background(0);
 		clearScreen = false;
 		PG.setDrawCorner(pg);
@@ -338,7 +348,7 @@ extends PAppletHax {
 		applyRD();
 		
 		// close context
-		pg.endDraw();
+//		pg.endDraw();
 		
 		// copy to postFX buffer
 		ImageUtil.copyImage(pg, pgPost);		// copy to 2nd buffer for postprocessing

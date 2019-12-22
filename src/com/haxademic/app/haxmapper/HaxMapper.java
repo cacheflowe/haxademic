@@ -553,7 +553,7 @@ extends PAppletHax {
 		// brightness
 		float brightMult = 2.8f;
 		if(p.frameCount < 3) MidiState.instance().controllerChange(3, 41, P.round(127f/brightMult));	// default to 1.0, essentially, with room to get up to 2.8f
-		float brightnessVal = MidiState.instance().midiCCPercent(3, 41) * brightMult;
+		float brightnessVal = MidiState.instance().midiCCNormalized(3, 41) * brightMult;
 		BrightnessFilter.instance(p).setBrightness(brightnessVal);
 		BrightnessFilter.instance(p).applyTo(p);
 		
@@ -562,7 +562,7 @@ extends PAppletHax {
 		
 		float contrastMult = 2.5f;
 		if(p.frameCount < 3) MidiState.instance().controllerChange(3, 44, P.round(127f/contrastMult));	// default to 1.0, essentially, with room to get up to 2.8f
-		float contrastVal = MidiState.instance().midiCCPercent(3, 44) * contrastMult;
+		float contrastVal = MidiState.instance().midiCCNormalized(3, 44) * contrastMult;
 		ContrastFilter.instance(p).setContrast(contrastVal);
 		ContrastFilter.instance(p).applyTo(p);
 
@@ -587,8 +587,8 @@ extends PAppletHax {
 		}
 		
 		// color distortion
-		float colorDistortionAmp = MidiState.instance().midiCCPercent(3, 42) * 0.5f;
-		float colorDistortionTimeMult = MidiState.instance().midiCCPercent(3, 43);
+		float colorDistortionAmp = MidiState.instance().midiCCNormalized(3, 42) * 0.5f;
+		float colorDistortionTimeMult = MidiState.instance().midiCCNormalized(3, 43);
 		if(colorDistortionAmp > 0) {
 			float prevTime = ColorDistortionFilter.instance(p).getTime();
 			ColorDistortionFilter.instance(p).setTime(prevTime + 1/100f * colorDistortionTimeMult);
@@ -674,8 +674,8 @@ extends PAppletHax {
 			if(MathUtil.randBoolean() == true) setAllSameTexture();
 
 		}
-		if ( _brightnessUpTrigger.triggered() == true ) MidiState.instance().controllerChange(3, 41, Math.round(127f * MidiState.instance().midiCCPercent(3, 41) + 1));
-		if ( _brightnessDownTrigger.triggered() == true ) MidiState.instance().controllerChange(3, 41, Math.round(127f * MidiState.instance().midiCCPercent(3, 41) - 1));
+		if ( _brightnessUpTrigger.triggered() == true ) MidiState.instance().controllerChange(3, 41, Math.round(127f * MidiState.instance().midiCCNormalized(3, 41) + 1));
+		if ( _brightnessDownTrigger.triggered() == true ) MidiState.instance().controllerChange(3, 41, Math.round(127f * MidiState.instance().midiCCNormalized(3, 41) - 1));
 		if ( _debugTexturesTrigger.triggered() == true ) _debugTextures = !_debugTextures;
 	}
 	
