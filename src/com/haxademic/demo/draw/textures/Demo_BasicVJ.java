@@ -42,13 +42,13 @@ extends PAppletHax {
 	protected int textureCycleIndex = 0;
 
 	// input triggers
-	protected InputTrigger _colorTrigger = new InputTrigger(new char[]{'c'},new String[]{TouchOscPads.PAD_01},new Integer[]{AkaiMpdPads.PAD_01, LaunchControl.PAD_03, AbletonNotes.NOTE_01});
-	protected InputTrigger _rotationTrigger = new InputTrigger(new char[]{'v'},new String[]{TouchOscPads.PAD_02},new Integer[]{AkaiMpdPads.PAD_02, LaunchControl.PAD_04, AbletonNotes.NOTE_02});
-	protected InputTrigger _timingTrigger = new InputTrigger(new char[]{'n'},new String[]{TouchOscPads.PAD_03},new Integer[]{AkaiMpdPads.PAD_03, LaunchControl.PAD_01, AbletonNotes.NOTE_03});
-	protected InputTrigger _modeTrigger = new InputTrigger(new char[]{'m'},new String[]{TouchOscPads.PAD_04},new Integer[]{AkaiMpdPads.PAD_04, LaunchControl.PAD_05, AbletonNotes.NOTE_04});
-	protected InputTrigger _timingSectionTrigger = new InputTrigger(new char[]{'f'},new String[]{TouchOscPads.PAD_05},new Integer[]{AkaiMpdPads.PAD_05, LaunchControl.PAD_02, AbletonNotes.NOTE_05});
-	protected InputTrigger _bigChangeTrigger = new InputTrigger(new char[]{' '},new String[]{TouchOscPads.PAD_07},new Integer[]{AkaiMpdPads.PAD_07, LaunchControl.PAD_08, AbletonNotes.NOTE_07});
-	protected InputTrigger _lineModeTrigger = new InputTrigger(new char[]{'l'},new String[]{TouchOscPads.PAD_08},new Integer[]{AkaiMpdPads.PAD_08, LaunchControl.PAD_06, AbletonNotes.NOTE_08});
+	protected InputTrigger _colorTrigger = new InputTrigger().addKeyCodes(new char[]{'c'}).addOscMessages(new String[]{TouchOscPads.PAD_01}).addMidiNotes(new Integer[]{AkaiMpdPads.PAD_01, LaunchControl.PAD_03, AbletonNotes.NOTE_01});
+	protected InputTrigger _rotationTrigger = new InputTrigger().addKeyCodes(new char[]{'v'}).addOscMessages(new String[]{TouchOscPads.PAD_02}).addMidiNotes(new Integer[]{AkaiMpdPads.PAD_02, LaunchControl.PAD_04, AbletonNotes.NOTE_02});
+	protected InputTrigger _timingTrigger = new InputTrigger().addKeyCodes(new char[]{'n'}).addOscMessages(new String[]{TouchOscPads.PAD_03}).addMidiNotes(new Integer[]{AkaiMpdPads.PAD_03, LaunchControl.PAD_01, AbletonNotes.NOTE_03});
+	protected InputTrigger _modeTrigger = new InputTrigger().addKeyCodes(new char[]{'m'}).addOscMessages(new String[]{TouchOscPads.PAD_04}).addMidiNotes(new Integer[]{AkaiMpdPads.PAD_04, LaunchControl.PAD_05, AbletonNotes.NOTE_04});
+	protected InputTrigger _timingSectionTrigger = new InputTrigger().addKeyCodes(new char[]{'f'}).addOscMessages(new String[]{TouchOscPads.PAD_05}).addMidiNotes(new Integer[]{AkaiMpdPads.PAD_05, LaunchControl.PAD_02, AbletonNotes.NOTE_05});
+	protected InputTrigger _bigChangeTrigger = new InputTrigger().addKeyCodes(new char[]{' '}).addOscMessages(new String[]{TouchOscPads.PAD_07}).addMidiNotes(new Integer[]{AkaiMpdPads.PAD_07, LaunchControl.PAD_08, AbletonNotes.NOTE_07});
+	protected InputTrigger _lineModeTrigger = new InputTrigger().addKeyCodes(new char[]{'l'}).addOscMessages(new String[]{TouchOscPads.PAD_08}).addMidiNotes(new Integer[]{AkaiMpdPads.PAD_08, LaunchControl.PAD_06, AbletonNotes.NOTE_08});
 
 	protected WavPlayer player;
 	protected String audioTrack = "audio/jets-play.mp3";

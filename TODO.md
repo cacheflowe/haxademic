@@ -2,7 +2,10 @@
 
 ## Modularize PAppletHax
 
+* BrowserInputState
+* OscState
 * Update README with updated references
+
 * Inputs - more thoughts on InputTrigger below
 	* Make a base storage for different data types?
 		* Toggle values

@@ -18,7 +18,7 @@ extends PAppletHax {
 	AudioContext ac;
 	Sample sample01;
 	SamplePlayer samplePlayer01;
-	protected InputTrigger trigger1 = new InputTrigger(new char[]{' '}, null, new Integer[]{43}, null, null );
+	protected InputTrigger trigger1 = new InputTrigger().addKeyCodes(new char[]{' '}).addMidiNotes(new Integer[]{43});
 
 	public void firstFrame() {
 		ac = new AudioContext();

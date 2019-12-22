@@ -43,7 +43,7 @@ implements SimpleMidiListener {
 		// if the incoming MIDI signal was collected before post(), we want to clear it out here,
 		// ... otherwise external objects checking TRIGGERED will get it on 2 consecutive frames.
 		// `lastUpdatedFrame` helps us properly clear this out and not negate the state on a single frame
-		updateTriggerState();	
+		updateTriggerState();
 	}
 	
 	public void post() {
@@ -110,6 +110,10 @@ implements SimpleMidiListener {
 
 	public boolean isMidiCCTriggered(int pitch) {
 		return (midiCCState.containsKey(pitch) && midiCCState.get(pitch) == InputState.TRIGGER);
+	}
+	
+	public boolean isMidiCCOn(int pitch) {
+		return (midiCCState.containsKey(pitch) && (midiCCState.get(pitch) == InputState.TRIGGER || midiCCState.get(pitch) == InputState.ON));
 	}
 
 	

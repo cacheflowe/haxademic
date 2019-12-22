@@ -14,8 +14,8 @@ extends PAppletHax { public static void main(String args[]) { arguments = args; 
 	protected TextureShader[] textures;
 	protected int textureIndex = 0;
 
-	protected InputTrigger triggerPrev = new InputTrigger(new char[]{'1'});
-	protected InputTrigger triggerNext = new InputTrigger(new char[]{'2'});
+	protected InputTrigger triggerPrev = new InputTrigger().addKeyCodes(new char[]{'1'});
+	protected InputTrigger triggerNext = new InputTrigger().addKeyCodes(new char[]{'2'});
 
 	protected void config() {
 		Config.setProperty( AppSettings.WIDTH, 800 );

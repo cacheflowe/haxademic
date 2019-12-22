@@ -108,9 +108,9 @@ extends PAppletHax { public static void main(String args[]) { arguments = args; 
 	protected PGraphics noiseBuffer;
 	
 
-	protected InputTrigger triggerPrev = new InputTrigger(new char[]{'1'});
-	protected InputTrigger triggerNext = new InputTrigger(new char[]{'2'});
-	protected InputTrigger triggerToggle = new InputTrigger(new char[]{' '});
+	protected InputTrigger triggerPrev = new InputTrigger().addKeyCodes(new char[]{'1'});
+	protected InputTrigger triggerNext = new InputTrigger().addKeyCodes(new char[]{'2'});
+	protected InputTrigger triggerToggle = new InputTrigger().addKeyCodes(new char[]{' '});
 	
 	protected BaseFragmentShader[] filters;
 	protected int filterIndex = 0;

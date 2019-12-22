@@ -40,34 +40,34 @@ extends PAppletHax {
 
 	protected float startRads = 0;
 	
-	protected InputTrigger knob1 = new InputTrigger(null, null, null, new Integer[]{21}, new String[]{"slider1"}); 
+	protected InputTrigger knob1 = new InputTrigger().addMidiNotes(new Integer[]{21}).addHttpRequests(new String[]{"slider1"}); 
 	protected LinearFloat radius = new LinearFloat(50, easingVal / 2f);
-	protected InputTrigger knob2 = new InputTrigger(null, null, null, new Integer[]{22}, new String[]{"slider2"});
+	protected InputTrigger knob2 = new InputTrigger().addMidiNotes(new Integer[]{22}).addHttpRequests(new String[]{"slider2"});
 	protected LinearFloat vertices = new LinearFloat(3, easingVal);
-	protected InputTrigger knob3 = new InputTrigger(null, null, null, new Integer[]{23}, new String[]{"slider3"});
+	protected InputTrigger knob3 = new InputTrigger().addMidiNotes(new Integer[]{23}).addHttpRequests(new String[]{"slider3"});
 	protected LinearFloat maxLevels = new LinearFloat(1, easingVal);
 	protected LinearFloat[] levelsActive = new LinearFloat[] { new LinearFloat(0, easingLevelActive), new LinearFloat(0, easingLevelActive), new LinearFloat(0, easingLevelActive), new LinearFloat(0, easingLevelActive), new LinearFloat(0, easingLevelActive), new LinearFloat(0, easingLevelActive), new LinearFloat(0, easingLevelActive), new LinearFloat(0, easingLevelActive) };
 	protected LinearFloat[] circleLevelActive = new LinearFloat[] { new LinearFloat(0, easingLevelActive), new LinearFloat(0, easingLevelActive), new LinearFloat(0, easingLevelActive), new LinearFloat(0, easingLevelActive), new LinearFloat(0, easingLevelActive), new LinearFloat(0, easingLevelActive), new LinearFloat(0, easingLevelActive), new LinearFloat(0, easingLevelActive) };
-	protected InputTrigger knob4 = new InputTrigger(null, null, null, new Integer[]{24}, new String[]{"slider4"});
+	protected InputTrigger knob4 = new InputTrigger().addMidiNotes(new Integer[]{24}).addHttpRequests(new String[]{"slider4"});
 	protected LinearFloat iterateShrink = new LinearFloat(0.1f, easingVal);
-	protected InputTrigger knob5 = new InputTrigger(null, null, null, new Integer[]{25}, new String[]{"slider5"});
+	protected InputTrigger knob5 = new InputTrigger().addMidiNotes(new Integer[]{25}).addHttpRequests(new String[]{"slider5"});
 	protected LinearFloat lineWeight = new LinearFloat(1, easingVal);
-	protected InputTrigger knob6 = new InputTrigger(null, null, null, new Integer[]{26}, new String[]{"slider6"});
+	protected InputTrigger knob6 = new InputTrigger().addMidiNotes(new Integer[]{26}).addHttpRequests(new String[]{"slider6"});
 	protected LinearFloat offsetRotation = new LinearFloat(0, easingVal);
-	protected InputTrigger knob7 = new InputTrigger(null, null, null, new Integer[]{27}, new String[]{"slider7"});
+	protected InputTrigger knob7 = new InputTrigger().addMidiNotes(new Integer[]{27}).addHttpRequests(new String[]{"slider7"});
 	protected LinearFloat childDistanceAmp = new LinearFloat(1, easingVal);
-	protected InputTrigger knob8 = new InputTrigger(null, null, null, new Integer[]{28}, new String[]{"slider8"});
+	protected InputTrigger knob8 = new InputTrigger().addMidiNotes(new Integer[]{28}).addHttpRequests(new String[]{"slider8"});
 	protected LinearFloat circleRadius = new LinearFloat(0, easingVal);
-	protected InputTrigger knob9 = new InputTrigger(null, null, null, new Integer[]{LaunchControl.KNOB_01}, new String[]{"slider9"});
+	protected InputTrigger knob9 = new InputTrigger().addMidiNotes(new Integer[]{LaunchControl.KNOB_01}).addHttpRequests(new String[]{"slider9"});
 	protected LinearFloat radialConnections = new LinearFloat(0, easingVal);
-	protected InputTrigger knob10 = new InputTrigger(null, null, null, new Integer[]{LaunchControl.KNOB_02}, new String[]{"slider10"});
+	protected InputTrigger knob10 = new InputTrigger().addMidiNotes(new Integer[]{LaunchControl.KNOB_02}).addHttpRequests(new String[]{"slider10"});
 	protected LinearFloat circleLevelDisplay = new LinearFloat(0, 1);
-	
-	protected InputTrigger renderTrigger = new InputTrigger(new char[]{'r'}, null, new Integer[]{LaunchControl.PAD_01}, null, new String[]{"button1"});
-	protected InputTrigger saveConfigTrigger = new InputTrigger(new char[]{'s'}, null, new Integer[]{LaunchControl.PAD_02}, null, new String[]{"button2"});
-	protected InputTrigger animatingTrigger = new InputTrigger(new char[]{'a'}, null, new Integer[]{LaunchControl.PAD_03}, null, new String[]{"button3"});
-	protected InputTrigger prevTrigger = new InputTrigger(new char[]{'1'}, null, new Integer[]{LaunchControl.PAD_04}, null, new String[]{"button4"});
-	protected InputTrigger nextTrigger = new InputTrigger(new char[]{'2'}, null, new Integer[]{LaunchControl.PAD_05}, null, new String[]{"button5"});
+
+	protected InputTrigger renderTrigger = new InputTrigger().addKeyCodes(new char[]{'r'}).addMidiNotes(new Integer[]{LaunchControl.PAD_01}).addHttpRequests(new String[]{"button1"});
+	protected InputTrigger saveConfigTrigger = new InputTrigger().addKeyCodes(new char[]{'s'}).addMidiNotes(new Integer[]{LaunchControl.PAD_02}).addHttpRequests(new String[]{"button2"});
+	protected InputTrigger animatingTrigger = new InputTrigger().addKeyCodes(new char[]{'a'}).addMidiNotes(new Integer[]{LaunchControl.PAD_03}).addHttpRequests(new String[]{"button3"});
+	protected InputTrigger prevTrigger = new InputTrigger().addKeyCodes(new char[]{'1'}).addMidiNotes(new Integer[]{LaunchControl.PAD_04}).addHttpRequests(new String[]{"button4"});
+	protected InputTrigger nextTrigger = new InputTrigger().addKeyCodes(new char[]{'2'}).addMidiNotes(new Integer[]{LaunchControl.PAD_05}).addHttpRequests(new String[]{"button5"});
 	
 	protected ArrayList<float[]> animationStops = new ArrayList<float[]>();
 	protected boolean isAnimating = false;

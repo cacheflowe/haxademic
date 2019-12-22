@@ -14,13 +14,11 @@ import com.haxademic.core.debug.DebugUtil;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.file.FileUtil;
-import com.haxademic.core.hardware.browser.BrowserInputState;
 import com.haxademic.core.hardware.depthcamera.cameras.IDepthCamera;
 import com.haxademic.core.hardware.depthcamera.cameras.KinectWrapperV1;
 import com.haxademic.core.hardware.depthcamera.cameras.KinectWrapperV2;
 import com.haxademic.core.hardware.depthcamera.cameras.KinectWrapperV2Mac;
 import com.haxademic.core.hardware.depthcamera.cameras.RealSenseWrapper;
-import com.haxademic.core.hardware.gamepad.GamepadListener;
 import com.haxademic.core.hardware.midi.MidiState;
 import com.haxademic.core.hardware.osc.OscWrapper;
 import com.haxademic.core.hardware.webcam.WebCam;
@@ -81,10 +79,7 @@ extends PApplet {
 	public LeapMotion leapMotion = null;
 	
 	// Input trigger
-//	public GamepadState gamepadState;
-	public GamepadListener gamepadListener;
 	public OscWrapper oscState = null;
-	public BrowserInputState browserInputState = null;
 
 	// debug
 	public int _fps;
@@ -216,7 +211,6 @@ extends PApplet {
 		// hardware
 		initKinect();
 
-		browserInputState = new BrowserInputState();
 		if( Config.getBoolean( AppSettings.OSC_ACTIVE, false ) == true ) oscState = new OscWrapper();
 
 		if( Config.getBoolean( "leap_active", false ) == true ) leapMotion = new LeapMotion(this);
@@ -299,7 +293,6 @@ extends PApplet {
 		killScreensaver();
 		if(loop != null) loop.update();
 		handleRenderingStepthrough();
-//		browserInputState.update();
 		if( depthCamera != null ) depthCamera.update();
 		p.pushMatrix();
 		if( joons != null ) joons.startFrame();
@@ -308,10 +301,8 @@ extends PApplet {
 		p.popMatrix();
 		renderFrame();
 		
-		browserInputState.update();
 		if(oscState != null) oscState.update();
 		
-//		if(dmxUniverse != null) dmxUniverse.update();
 		if(WebCam.instance != null && p.key == 'W') WebCam.instance().drawMenu(p.g);
 		keepOnTop();
 		setAppDockIconAndTitle();

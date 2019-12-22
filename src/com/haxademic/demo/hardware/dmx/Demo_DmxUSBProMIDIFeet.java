@@ -27,21 +27,9 @@ extends PAppletHax {
 	Sample sample02;
 	int sampleTime02 = 0;
 	
-	protected InputTrigger trigger1 = new InputTrigger(
-			new char[]{'1'},
-			null,
-			new Integer[]{43},
-			null,
-			null
-	);
+	protected InputTrigger trigger1 = new InputTrigger().addKeyCodes(new char[]{'1'}).addMidiNotes(new Integer[]{43});
 	protected EasingColor color1 = new EasingColor(0xff00ff00, 8);
-	protected InputTrigger trigger2 = new InputTrigger(
-			new char[]{'2'},
-			null,
-			new Integer[]{49},
-			null,
-			null
-			);
+	protected InputTrigger trigger2 = new InputTrigger().addKeyCodes(new char[]{'2'}).addMidiNotes(new Integer[]{49});
 	protected EasingColor color2 = new EasingColor(0xffff0000, 8);
 
 

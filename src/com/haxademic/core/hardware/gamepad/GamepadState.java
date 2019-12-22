@@ -14,6 +14,7 @@ public class GamepadState {
 	protected HashMap<String, InputState> controlState;
 	protected int lastUpdatedFrame = 0;
 	
+	// Singleton instance
 	
 	public static GamepadState instance;
 	

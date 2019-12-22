@@ -1,19 +1,52 @@
-package com.haxademic.core.hardware.browser;
+package com.haxademic.core.hardware.http;
 
 import java.util.HashMap;
 
 import com.haxademic.core.app.P;
+import com.haxademic.core.data.constants.PRegisterableMethods;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.hardware.shared.InputState;
+import com.haxademic.core.net.UIControlsHandler;
+import com.haxademic.core.net.WebServer;
 
-public class BrowserInputState {
+public class HttpInputState {
+
+	protected WebServer server;
 
 	protected HashMap<String, Float> webControlValues;
 	protected HashMap<String, InputState> webControlState;
 	protected int lastUpdatedFrame = 0;
 	
-	public BrowserInputState() {
+	// Singleton instance
+	
+	public static HttpInputState instance;
+	
+	public static HttpInputState instance() {
+		if(instance != null) return instance;
+		instance = new HttpInputState(defaultServer());
+		return instance;
+	}
+	
+	public static HttpInputState instance(WebServer server) {
+		if(instance != null) return instance;
+		instance = new HttpInputState(server);
+		return instance;
+	}
+	
+	public HttpInputState(WebServer server) {
+		this.server = server;
+		
+		// local state storage
 		webControlValues = new HashMap<String, Float>();
 		webControlState = new HashMap<String, InputState>();
+		
+		// update!
+		P.p.registerMethod(PRegisterableMethods.pre, this);
+		P.p.registerMethod(PRegisterableMethods.post, this);
+	}
+	
+	public static WebServer defaultServer() {
+		return new WebServer(new UIControlsHandler(), true);
 	}
 	
 	///////////////////////////////
@@ -59,30 +92,29 @@ public class BrowserInputState {
 	// AUTO-SWITCH `TRIGGER` TO `ON`
 	///////////////////////////////
 	
-	public void update() {
+	public void pre() {
+		logValues();
+	}
+	
+	public void post() {
 		if(P.p.frameCount == lastUpdatedFrame) return; 
 		for (String key : webControlState.keySet()) {
 			if(webControlState.get(key) == InputState.TRIGGER) webControlState.put(key, InputState.ON);
 		}
 	}
 
+
 	///////////////////////////////
 	// DEBUG
 	///////////////////////////////
 
-	public void printButtons() {
-		P.p.noStroke();
-		P.p.fill(255);
-		String debugStr = "";
-		for (String key : webControlValues.keySet()) {
-			if(webControlState.get(key) == InputState.TRIGGER) {
-				debugStr += key + ": TRIGGER \n";
-			} else {
-				debugStr += key + ": " + webControlValues.get(key) + "\n";
+	protected void logValues() {
+		// debug print values if debug window is showing
+		if(DebugView.active()) {
+			for (String key : webControlValues.keySet()) {
+				DebugView.setValue("WebRequest ["+key+"]", webControlValues.get(key) + " | " + webControlState.get(key).name());
 			}
 		}
-		P.p.text(debugStr, 520, 20, P.p.width - 40, P.p.height - 40);
 	}
-
 
 }

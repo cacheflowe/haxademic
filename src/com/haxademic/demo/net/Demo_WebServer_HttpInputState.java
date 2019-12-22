@@ -3,6 +3,7 @@ package com.haxademic.demo.net;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.data.store.IAppStoreListener;
+import com.haxademic.core.hardware.http.HttpInputState;
 import com.haxademic.core.net.UIControlsHandler;
 import com.haxademic.core.net.WebServer;
 import com.haxademic.core.system.SystemUtil;
@@ -10,7 +11,7 @@ import com.haxademic.core.system.SystemUtil;
 import processing.core.PGraphics;
 import processing.core.PImage;
 
-public class Demo_WebServer
+public class Demo_WebServer_HttpInputState
 extends PAppletHax
 implements IAppStoreListener {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
@@ -30,7 +31,7 @@ implements IAppStoreListener {
 		if(p.frameCount == 200) SystemUtil.openWebPage(WebServer.getServerAddress() + "web-server-demo/");
 		// draw slider val
 		p.fill(255);
-		p.rect(0, 0, P.map(P.p.browserInputState.getValue("slider1"), 0, 1, 0, p.width), p.height);
+		p.rect(0, 0, P.map(HttpInputState.instance().getValue("slider1"), 0, 1, 0, p.width), p.height);
 		
 		// show incoming web request paths in DebugView
 		P.store.showStoreValuesInDebugView();

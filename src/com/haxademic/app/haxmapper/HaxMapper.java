@@ -79,23 +79,23 @@ extends PAppletHax {
 	protected boolean _debugTextures = false;
 
 	// user input triggers
-	protected InputTrigger _timingTrigger = new InputTrigger(new char[]{'n'},new String[]{TouchOscPads.PAD_03},new Integer[]{AkaiMpdPads.PAD_03, AbletonNotes.NOTE_03, LaunchControl.PAD_01});
-	protected InputTrigger _timingSectionTrigger = new InputTrigger(new char[]{'f'},new String[]{TouchOscPads.PAD_05},new Integer[]{AkaiMpdPads.PAD_05, AbletonNotes.NOTE_05, LaunchControl.PAD_02});
+	protected InputTrigger _timingTrigger = new InputTrigger().addKeyCodes(new char[]{'n'}).addOscMessages(new String[]{TouchOscPads.PAD_03}).addMidiNotes(new Integer[]{AkaiMpdPads.PAD_03, AbletonNotes.NOTE_03, LaunchControl.PAD_01});
+	protected InputTrigger _timingSectionTrigger = new InputTrigger().addKeyCodes(new char[]{'f'}).addOscMessages(new String[]{TouchOscPads.PAD_05}).addMidiNotes(new Integer[]{AkaiMpdPads.PAD_05, AbletonNotes.NOTE_05, LaunchControl.PAD_02});
 	
-	protected InputTrigger _colorTrigger = new InputTrigger(new char[]{'c'},new String[]{TouchOscPads.PAD_01},new Integer[]{AkaiMpdPads.PAD_01, AbletonNotes.NOTE_01});
-	protected InputTrigger _rotationTrigger = new InputTrigger(new char[]{'v'},new String[]{TouchOscPads.PAD_02},new Integer[]{AkaiMpdPads.PAD_02, AbletonNotes.NOTE_02, LaunchControl.PAD_03});
-	protected InputTrigger _modeTrigger = new InputTrigger(new char[]{'m'},new String[]{TouchOscPads.PAD_04},new Integer[]{AkaiMpdPads.PAD_04, AbletonNotes.NOTE_04, LaunchControl.PAD_04});
-	protected InputTrigger _lineModeTrigger = new InputTrigger(new char[]{'l'},new String[]{TouchOscPads.PAD_08},new Integer[]{AkaiMpdPads.PAD_08, AbletonNotes.NOTE_08, LaunchControl.PAD_05});
+	protected InputTrigger _colorTrigger = new InputTrigger().addKeyCodes(new char[]{'c'}).addOscMessages(new String[]{TouchOscPads.PAD_01}).addMidiNotes(new Integer[]{AkaiMpdPads.PAD_01, AbletonNotes.NOTE_01});
+	protected InputTrigger _rotationTrigger = new InputTrigger().addKeyCodes(new char[]{'v'}).addOscMessages(new String[]{TouchOscPads.PAD_02}).addMidiNotes(new Integer[]{AkaiMpdPads.PAD_02, AbletonNotes.NOTE_02, LaunchControl.PAD_03});
+	protected InputTrigger _modeTrigger = new InputTrigger().addKeyCodes(new char[]{'m'}).addOscMessages(new String[]{TouchOscPads.PAD_04}).addMidiNotes(new Integer[]{AkaiMpdPads.PAD_04, AbletonNotes.NOTE_04, LaunchControl.PAD_04});
+	protected InputTrigger _lineModeTrigger = new InputTrigger().addKeyCodes(new char[]{'l'}).addOscMessages(new String[]{TouchOscPads.PAD_08}).addMidiNotes(new Integer[]{AkaiMpdPads.PAD_08, AbletonNotes.NOTE_08, LaunchControl.PAD_05});
 
-	protected InputTrigger _newTextureTrigger = new InputTrigger(new char[]{'b'},new String[]{TouchOscPads.PAD_09},new Integer[]{AkaiMpdPads.PAD_09, AbletonNotes.NOTE_09, LaunchControl.PAD_06});
-	protected InputTrigger _allSameTextureTrigger = new InputTrigger(new char[]{'a'},new String[]{TouchOscPads.PAD_06},new Integer[]{AkaiMpdPads.PAD_06, AbletonNotes.NOTE_06, LaunchControl.PAD_07});
-	protected InputTrigger _bigChangeTrigger = new InputTrigger(new char[]{' '},new String[]{TouchOscPads.PAD_07},new Integer[]{AkaiMpdPads.PAD_07, AbletonNotes.NOTE_07, LaunchControl.PAD_08});
+	protected InputTrigger _newTextureTrigger = new InputTrigger().addKeyCodes(new char[]{'b'}).addOscMessages(new String[]{TouchOscPads.PAD_09}).addMidiNotes(new Integer[]{AkaiMpdPads.PAD_09, AbletonNotes.NOTE_09, LaunchControl.PAD_06});
+	protected InputTrigger _allSameTextureTrigger = new InputTrigger().addKeyCodes(new char[]{'a'}).addOscMessages(new String[]{TouchOscPads.PAD_06}).addMidiNotes(new Integer[]{AkaiMpdPads.PAD_06, AbletonNotes.NOTE_06, LaunchControl.PAD_07});
+	protected InputTrigger _bigChangeTrigger = new InputTrigger().addKeyCodes(new char[]{' '}).addOscMessages(new String[]{TouchOscPads.PAD_07}).addMidiNotes(new Integer[]{AkaiMpdPads.PAD_07, AbletonNotes.NOTE_07, LaunchControl.PAD_08});
 	
-	protected InputTrigger _audioInputUpTrigger = new InputTrigger(new char[]{},new String[]{"/7/nav1"},new Integer[]{});
-	protected InputTrigger _audioInputDownTrigger = new InputTrigger(new char[]{},new String[]{"/7/nav2"},new Integer[]{});
-	protected InputTrigger _brightnessUpTrigger = new InputTrigger(new char[]{']'},new String[]{},new Integer[]{});
-	protected InputTrigger _brightnessDownTrigger = new InputTrigger(new char[]{'['},new String[]{},new Integer[]{});
-	protected InputTrigger _debugTexturesTrigger = new InputTrigger(new char[]{'d'},new String[]{},new Integer[]{});
+	protected InputTrigger _audioInputUpTrigger = new InputTrigger().addKeyCodes(new char[]{}).addOscMessages(new String[]{"/7/nav1"}).addMidiNotes(new Integer[]{});
+	protected InputTrigger _audioInputDownTrigger = new InputTrigger().addKeyCodes(new char[]{}).addOscMessages(new String[]{"/7/nav2"}).addMidiNotes(new Integer[]{});
+	protected InputTrigger _brightnessUpTrigger = new InputTrigger().addKeyCodes(new char[]{']'}).addOscMessages(new String[]{}).addMidiNotes(new Integer[]{});
+	protected InputTrigger _brightnessDownTrigger = new InputTrigger().addKeyCodes(new char[]{'['}).addOscMessages(new String[]{}).addMidiNotes(new Integer[]{});
+	protected InputTrigger _debugTexturesTrigger = new InputTrigger().addKeyCodes(new char[]{'d'}).addOscMessages(new String[]{}).addMidiNotes(new Integer[]{});
 	protected int _lastInputMillis = 0;
 	protected int USER_INPUT_BEAT_TIMEOUT = 5000;
 	

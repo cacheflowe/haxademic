@@ -2,6 +2,7 @@ package com.haxademic.core.hardware.shared;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.hardware.gamepad.GamepadState;
+import com.haxademic.core.hardware.http.HttpInputState;
 import com.haxademic.core.hardware.keyboard.KeyCodes;
 import com.haxademic.core.hardware.keyboard.KeyboardState;
 import com.haxademic.core.hardware.midi.MidiState;
@@ -16,37 +17,10 @@ public class InputTrigger {
 	protected Integer[] midiNotes = new Integer[] {};
 	protected Integer[] midiCC = new Integer[] {};
 	protected float curValue = 0;
+	protected String broadcastKey;
 	
 	public InputTrigger() {
-		this( null, null, null );
-	}
-	
-	public InputTrigger( char[] charList ) {
-		this( charList, null, null );
-	}
-	
-	public InputTrigger( char[] charList, Integer[] midiNotes ) {
-		this( charList, null, midiNotes );
-	}
-	
-	public InputTrigger( char[] charList, String[] oscMessages, Integer[] midiNotes ) {
-		if(charList != null) {
-			keyCodes = new Integer[charList.length];
-			for (int i = 0; i < charList.length; i++) keyCodes[i] = KeyCodes.keyCodeFromChar(charList[i]);
-		}
-		if(oscMessages != null) this.oscMessages = oscMessages;
-		if(midiNotes != null) this.midiNotes = midiNotes;
-	}
-	
-	public InputTrigger( char[] charList, String[] oscMessages, Integer[] midiNotes, Integer[] midiCCNotes ) {
-		this( charList, oscMessages, midiNotes );
-		if(midiCCNotes != null) this.midiCC = midiCCNotes;
-	}
-	
-	public InputTrigger( char[] charList, String[] oscMessages, Integer[] midiNotes, Integer[] midiCCNotes, String[] webControls ) {
-		this( charList, oscMessages, midiNotes );
-		if(midiCCNotes != null) this.midiCC = midiCCNotes;
-		if(webControls != null) this.webControls = webControls;
+		
 	}
 	
 	// chainable setters
@@ -77,8 +51,13 @@ public class InputTrigger {
 		return this;
 	}
 	
-	public InputTrigger addWebControls(String[] webControls) {
+	public InputTrigger addHttpRequests(String[] webControls) {
 		this.webControls = webControls; 
+		return this;
+	}
+	
+	public InputTrigger setBroadcastKey(String broadcastKey) {
+		this.broadcastKey = broadcastKey;
 		return this;
 	}
 	
@@ -89,47 +68,50 @@ public class InputTrigger {
 	}
 	
 	public boolean triggered() {
+		boolean foundTrigger = false;
 		// if triggered, also store the latest value
-		for( int i=0; i < keyCodes.length; i++ ) {
-			if(KeyboardState.instance().isKeyTriggered(keyCodes[i])) return true;
+		if(foundTrigger == false) for( int i=0; i < keyCodes.length; i++ ) {
+			if(KeyboardState.instance().isKeyTriggered(keyCodes[i])) foundTrigger = true;
 		}
 		if(P.p.oscState != null) {
-			for( int i=0; i < oscMessages.length; i++ ) {
+			if(foundTrigger == false) for( int i=0; i < oscMessages.length; i++ ) {
 				if( P.p.oscState.isValueTriggered(oscMessages[i])) {
 					curValue = P.p.oscState.getValue(oscMessages[i]);
-					return true;
+					foundTrigger = true;
 				}
 			}
 		}
-		for( int i=0; i < webControls.length; i++ ) {
-			if( P.p.browserInputState.isValueTriggered(webControls[i])) {
-				curValue = P.p.browserInputState.getValue(webControls[i]);
-				return true;
+		if(foundTrigger == false) for( int i=0; i < webControls.length; i++ ) {
+			if(HttpInputState.instance().isValueTriggered(webControls[i])) {
+				curValue = HttpInputState.instance().getValue(webControls[i]);
+				foundTrigger = true;
 			}
 		}
-		for( int i=0; i < midiNotes.length; i++ ) {
+		if(foundTrigger == false) for( int i=0; i < midiNotes.length; i++ ) {
 			if(MidiState.instance().isMidiNoteTriggered(midiNotes[i])) {
 				curValue = MidiState.instance().midiNoteValue(midiNotes[i]);
-				return true;
+				foundTrigger = true;
 			}
 		}
-		for( int i=0; i < midiCC.length; i++ ) {
+		if(foundTrigger == false) for( int i=0; i < midiCC.length; i++ ) {
 			if(MidiState.instance().isMidiCCTriggered(midiCC[i])) {
 				curValue = MidiState.instance().midiCCPercent(0, midiCC[i]);
-				return true;
+				foundTrigger = true;
 			}
 		}
-		for( int i=0; i < midiCC.length; i++ ) {
-			if(MidiState.instance().isMidiCCTriggered(midiCC[i])) {
-				curValue = MidiState.instance().midiCCPercent(0, midiCC[i]);
-				return true;
-			}
-		}
-		for( int i=0; i < gamepadControls.length; i++ ) {
+		if(foundTrigger == false) for( int i=0; i < gamepadControls.length; i++ ) {
 			if(GamepadState.instance().isValueTriggered(gamepadControls[i])) {
 				curValue = GamepadState.instance().getValue(gamepadControls[i]);
-				return true;
+				foundTrigger = true;
 			}
+		}
+		
+		// return state
+		if(foundTrigger) {
+			// send it out to AppStore if needed
+			if(broadcastKey != null) P.store.setNumber(broadcastKey, curValue);
+			// return triggered state! 
+			return true;
 		}
 		return false;
 	}
@@ -137,7 +119,7 @@ public class InputTrigger {
 	public boolean on() {
 		if(keyCodes != null) {
 			for( int i=0; i < keyCodes.length; i++ ) {
-				if( KeyboardState.instance().isKeyOn(keyCodes[i]) ) return true;
+				if(KeyboardState.instance().isKeyOn(keyCodes[i])) return true;
 			}
 		}
 		if(P.p.oscState != null) {
@@ -147,17 +129,22 @@ public class InputTrigger {
 		}
 		if(midiNotes != null) {
 			for( int i=0; i < midiNotes.length; i++ ) {
-				if( MidiState.instance().isMidiNoteOn(midiNotes[i])) return true;
+				if(MidiState.instance().isMidiNoteOn(midiNotes[i])) return true;
+			}
+		}
+		if(midiCC != null) {
+			for( int i=0; i < midiCC.length; i++ ) {
+				if(MidiState.instance().isMidiCCOn(midiCC[i])) return true;
 			}
 		}
 		if(webControls != null) {
 			for( int i=0; i < webControls.length; i++ ) {
-				if( P.p.browserInputState.isValueOn(webControls[i])) return true;
+				if(HttpInputState.instance().isValueOn(webControls[i])) return true;
 			}
 		}
 		if(gamepadControls != null) {
 			for( int i=0; i < gamepadControls.length; i++ ) {
-				if( GamepadState.instance().isValueOn(gamepadControls[i])) return true;
+				if(GamepadState.instance().isValueOn(gamepadControls[i])) return true;
 			}
 		}
 		return false;
