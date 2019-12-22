@@ -2,6 +2,7 @@
 
 ## Modularize PAppletHax
 
+* Update README with updated references
 * Inputs - more thoughts on InputTrigger below
 	* Make a base storage for different data types?
 		* Toggle values
@@ -25,6 +26,7 @@
   * UI
   * DebugView
   * Config
+  * GamepadState
 
 ## InputTrigger revamp
 

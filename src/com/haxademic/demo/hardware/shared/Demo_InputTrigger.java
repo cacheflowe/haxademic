@@ -4,6 +4,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
+import com.haxademic.core.hardware.gamepad.GamepadState;
 import com.haxademic.core.hardware.keyboard.KeyCodes;
 import com.haxademic.core.hardware.keyboard.KeyboardState;
 import com.haxademic.core.hardware.midi.MidiDevice;
@@ -29,13 +30,14 @@ extends PAppletHax {
 	
 	protected void config() {
 		Config.setProperty(AppSettings.OSC_ACTIVE, true );
-		Config.setProperty(AppSettings.GAMEPADS_ACTIVE, true );
 		Config.setProperty(AppSettings.SHOW_DEBUG, true );
 	}
 	
 	
 	public void firstFrame() {
-		MidiDevice.init(0, 0);
+		// KeyboardState is auto-initialized in `P`
+		MidiDevice.init(0, 3);
+		GamepadState.instance();
 		server = new WebServer(new UIControlsHandler(), true);
 	}
 	
@@ -50,12 +52,8 @@ extends PAppletHax {
 		}
 		
 		// debug print maps
-		KeyboardState.instance().printKeys();
-//		MidiState.instance().printButtons();
-//		MidiState.instance().printCC();
 		p.oscState.printButtons();
 		p.browserInputState.printButtons();
-		p.gamepadState.printControls();
 	}
 	
 }

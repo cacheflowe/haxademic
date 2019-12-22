@@ -21,7 +21,6 @@ import com.haxademic.core.hardware.depthcamera.cameras.KinectWrapperV2;
 import com.haxademic.core.hardware.depthcamera.cameras.KinectWrapperV2Mac;
 import com.haxademic.core.hardware.depthcamera.cameras.RealSenseWrapper;
 import com.haxademic.core.hardware.gamepad.GamepadListener;
-import com.haxademic.core.hardware.gamepad.GamepadState;
 import com.haxademic.core.hardware.midi.MidiState;
 import com.haxademic.core.hardware.osc.OscWrapper;
 import com.haxademic.core.hardware.webcam.WebCam;
@@ -82,7 +81,7 @@ extends PApplet {
 	public LeapMotion leapMotion = null;
 	
 	// Input trigger
-	public GamepadState gamepadState;
+//	public GamepadState gamepadState;
 	public GamepadListener gamepadListener;
 	public OscWrapper oscState = null;
 	public BrowserInputState browserInputState = null;
@@ -218,8 +217,6 @@ extends PApplet {
 		initKinect();
 
 		browserInputState = new BrowserInputState();
-		gamepadState = new GamepadState();
-		if( Config.getBoolean( AppSettings.GAMEPADS_ACTIVE, false ) == true ) gamepadListener = new GamepadListener();
 		if( Config.getBoolean( AppSettings.OSC_ACTIVE, false ) == true ) oscState = new OscWrapper();
 
 		if( Config.getBoolean( "leap_active", false ) == true ) leapMotion = new LeapMotion(this);
@@ -302,7 +299,7 @@ extends PApplet {
 		killScreensaver();
 		if(loop != null) loop.update();
 		handleRenderingStepthrough();
-		browserInputState.update();
+//		browserInputState.update();
 		if( depthCamera != null ) depthCamera.update();
 		p.pushMatrix();
 		if( joons != null ) joons.startFrame();
@@ -310,8 +307,10 @@ extends PApplet {
 		if( joons != null ) joons.endFrame( Config.getBoolean(AppSettings.SUNFLOW_SAVE_IMAGES, false) == true );
 		p.popMatrix();
 		renderFrame();
-		gamepadState.update();
+		
+		browserInputState.update();
 		if(oscState != null) oscState.update();
+		
 //		if(dmxUniverse != null) dmxUniverse.update();
 		if(WebCam.instance != null && p.key == 'W') WebCam.instance().drawMenu(p.g);
 		keepOnTop();

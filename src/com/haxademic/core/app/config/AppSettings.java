@@ -61,7 +61,6 @@ public class AppSettings {
 	// input
 	public static final String DISABLE_ESC_KEY = "disable_esc";
 	public static final String OSC_ACTIVE = "osc_active";
-	public static final String GAMEPADS_ACTIVE = "gamepads_active";
 	// Debugging
 	public static final String SHOW_DEBUG = "show_stats";
 	public static final String SHOW_UI = "show_ui";

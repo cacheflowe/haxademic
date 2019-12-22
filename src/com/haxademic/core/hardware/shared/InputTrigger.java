@@ -1,6 +1,7 @@
 package com.haxademic.core.hardware.shared;
 
 import com.haxademic.core.app.P;
+import com.haxademic.core.hardware.gamepad.GamepadState;
 import com.haxademic.core.hardware.keyboard.KeyCodes;
 import com.haxademic.core.hardware.keyboard.KeyboardState;
 import com.haxademic.core.hardware.midi.MidiState;
@@ -90,7 +91,7 @@ public class InputTrigger {
 	public boolean triggered() {
 		// if triggered, also store the latest value
 		for( int i=0; i < keyCodes.length; i++ ) {
-			if( KeyboardState.instance().isKeyTriggered(keyCodes[i]) ) return true;
+			if(KeyboardState.instance().isKeyTriggered(keyCodes[i])) return true;
 		}
 		if(P.p.oscState != null) {
 			for( int i=0; i < oscMessages.length; i++ ) {
@@ -107,26 +108,26 @@ public class InputTrigger {
 			}
 		}
 		for( int i=0; i < midiNotes.length; i++ ) {
-			if( MidiState.instance().isMidiNoteTriggered(midiNotes[i])) {
+			if(MidiState.instance().isMidiNoteTriggered(midiNotes[i])) {
 				curValue = MidiState.instance().midiNoteValue(midiNotes[i]);
 				return true;
 			}
 		}
+		for( int i=0; i < midiCC.length; i++ ) {
+			if(MidiState.instance().isMidiCCTriggered(midiCC[i])) {
+				curValue = MidiState.instance().midiCCPercent(0, midiCC[i]);
+				return true;
+			}
+		}
+		for( int i=0; i < midiCC.length; i++ ) {
+			if(MidiState.instance().isMidiCCTriggered(midiCC[i])) {
+				curValue = MidiState.instance().midiCCPercent(0, midiCC[i]);
+				return true;
+			}
+		}
 		for( int i=0; i < gamepadControls.length; i++ ) {
-			if( P.p.gamepadState.isValueTriggered(gamepadControls[i])) {
-				curValue = P.p.gamepadState.getValue(gamepadControls[i]);
-				return true;
-			}
-		}
-		for( int i=0; i < midiCC.length; i++ ) {
-			if( MidiState.instance().isMidiCCTriggered(midiCC[i])) {
-				curValue = MidiState.instance().midiCCPercent(0, midiCC[i]);
-				return true;
-			}
-		}
-		for( int i=0; i < midiCC.length; i++ ) {
-			if( MidiState.instance().isMidiCCTriggered(midiCC[i])) {
-				curValue = MidiState.instance().midiCCPercent(0, midiCC[i]);
+			if(GamepadState.instance().isValueTriggered(gamepadControls[i])) {
+				curValue = GamepadState.instance().getValue(gamepadControls[i]);
 				return true;
 			}
 		}
@@ -156,7 +157,7 @@ public class InputTrigger {
 		}
 		if(gamepadControls != null) {
 			for( int i=0; i < gamepadControls.length; i++ ) {
-				if( P.p.gamepadState.isValueOn(gamepadControls[i])) return true;
+				if( GamepadState.instance().isValueOn(gamepadControls[i])) return true;
 			}
 		}
 		return false;

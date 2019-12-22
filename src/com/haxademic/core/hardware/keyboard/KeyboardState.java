@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.data.constants.PRegisterableMethods;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.hardware.shared.InputState;
 
 import processing.event.KeyEvent;
@@ -35,6 +36,7 @@ public class KeyboardState {
 	///////////////////////////////
 		
 	public void post() {
+		logValues();
 		if(P.p.frameCount == lastUpdatedFrame) return; 
 		for (Integer key : keyboardButtons.keySet()) {
 			if(keyboardButtons.get(key) == InputState.TRIGGER) keyboardButtons.put(key, InputState.ON);
@@ -81,16 +83,13 @@ public class KeyboardState {
 	// DEBUG
 	///////////////////////////////
 	
-	public void printKeys() {
-		P.p.noStroke();
-		P.p.fill(255);
-		
-		// keyboard
-		String debugStr = "";
-		for (Integer key : keyboardButtons.keySet()) {
-			debugStr += key + ": " + keyboardButtons.get(key) + "\n";
+	protected void logValues() {
+		// debug print values if debug window is showing
+		if(DebugView.active()) {
+			for (Integer key : keyboardButtons.keySet()) {
+				DebugView.setValue("Keyboard ["+key+"]", keyboardButtons.get(key).name());
+			}
 		}
-		P.p.text(debugStr, 20, 20, P.p.width - 40, P.p.height - 40);
 	}
-		
+
 }

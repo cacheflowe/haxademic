@@ -68,7 +68,6 @@ public class DebugView {
 	}
 	
 	public static void active(boolean active) {
-		P.out("set active", active);
 		DebugView.active = active;
 		if(active) frameOpened = P.p.frameCount;
 	}

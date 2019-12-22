@@ -1,9 +1,6 @@
 package com.haxademic.core.hardware.gamepad;
 
-import java.util.HashMap;
-
 import com.haxademic.core.app.P;
-import com.haxademic.core.hardware.shared.InputState;
 
 import net.java.games.input.Component;
 import net.java.games.input.Controller;
@@ -13,14 +10,7 @@ import net.java.games.input.EventQueue;
 
 public class GamepadListener {
 
-	protected HashMap<String, InputState> gamePadValues = new HashMap<String, InputState>();
-	protected int lastUpdatedFrame = 0;
-
 	public GamepadListener() {
-		init();
-	}
-	
-	protected void init() {
 		new Thread(new Runnable() { public void run() {
 
 			// look for controllers via JInput
@@ -45,12 +35,9 @@ public class GamepadListener {
 						EventQueue queue = controllers[i].getEventQueue();
 						Event event = new Event();
 						while (queue.getNextEvent(event)) {
-							// P.out(controllers[i].getType());
 							Component comp = event.getComponent();
 							float value = event.getValue();
-							P.p.gamepadState.setControlValue(comp.getName(), value);
-							// P.p.gamepadState.setControlValue(controllers[i].getName() + " " + comp.getName(), value);
-							// P.out(comp.getName(), value, comp.isAnalog(), comp.isRelative(), comp.getPollData());
+							GamepadState.instance().setControlValue(comp.getName(), value);
 						}
 					}
 				}
