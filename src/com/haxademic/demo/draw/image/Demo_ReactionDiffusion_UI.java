@@ -36,12 +36,15 @@ extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	// TODO:
-	// - Add noise wavy shader in addition to the basic wavy sin() lines
 	// - Test audio looping & pitch shifting in Beads (a la Communichords, but with audio FFT data)
+	//   - Draw 512x128 texture and blur it to use as displacement map
+	// - Add noise wavy shader in addition to the basic wavy sin() lines
+	//   - More lines shaders in general - should have a number to switch between
 	// - Find parameters & make a nice collection of them
 	// - Blur values above 1 seem to trigger the broken R/D state with fine lines
 	// - Figure out performance issues
 	// 	 - FXAA & R/D shaders are slow. Is this because of kernel processing?
+	// - Try 32-bit textures for smoothness? Only matters on main pg and any shaders that use maps?
 	
 	// app
 	protected boolean clearScreen = true;

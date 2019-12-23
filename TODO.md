@@ -5,7 +5,8 @@
 * Make sure midi notes don't override UI values until they've been touched
 * Update README with updated references
 
-* DepthCamera like AudioIn
+* DepthCamera like AudioIn - or have some sort of shared storage like MidiState?
+* Should OscState (and maybe GamepadState) be separated to OscConnection and OscState, so multiple OscConnections can send data to it? Multiple objects could communicate on different ports.
 * Rendering objects (video/audio/midi/joons)
 * DMXUniverse
 
