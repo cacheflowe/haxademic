@@ -14,6 +14,7 @@ import com.haxademic.core.draw.shapes.Shapes;
 import com.haxademic.core.draw.shapes.pshader.MeshDeformAndTextureFilter;
 import com.haxademic.core.draw.textures.SimplexNoiseTexture;
 import com.haxademic.core.file.FileUtil;
+import com.haxademic.core.render.FrameLoop;
 
 import processing.core.PFont;
 import processing.core.PGraphics;
@@ -91,7 +92,7 @@ extends PAppletHax {
 		p.pushMatrix();
 		
 		// update displacement noise
-		noiseTexture.update(0.07f, 0, P.cos(p.loop.progressRads()) * 0.2f, P.sin(p.loop.progressRads()) * 0.2f);
+		noiseTexture.update(0.07f, 0, P.cos(FrameLoop.progressRads()) * 0.2f, P.sin(FrameLoop.progressRads()) * 0.2f);
 		
 		// update text texture
 		texture.beginDraw();
@@ -99,7 +100,7 @@ extends PAppletHax {
 		texture.background(0, 0, 0);
 		texture.translate(texture.width / 2, texture.height / 2);
 		
-		tiledImg.setOffset(4f * p.loop.progress(), 0f);
+		tiledImg.setOffset(4f * FrameLoop.progress(), 0f);
 		tiledImg.setSize(1f, 1f);
 		tiledImg.update();
 		tiledImg.drawCentered(texture, texture.width, texture.height);

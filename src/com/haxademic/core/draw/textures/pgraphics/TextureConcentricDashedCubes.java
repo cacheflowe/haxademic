@@ -50,7 +50,7 @@ extends BaseTexture {
 		for (int i = 0; i < numCubes; i++) {
 			float cubeSize = i * spacing.value();
 			cubeSize += loopProgress * spacing.value();
-//			drawDashedCube(cubeSize, 20f + P.sin(p.loop.progressRads()) * 5f);
+//			drawDashedCube(cubeSize, 20f + P.sin(AnimationLoop.progressRads()) * 5f);
 			_texture.pushMatrix();
 			_texture.rotateZ(wobbleAmp.value() * P.sin(cubeSize * wobbleFreq.value()));
 			Shapes.drawDashedCube(_texture, cubeSize, 2f + (cubeSize * 0.08f), false);

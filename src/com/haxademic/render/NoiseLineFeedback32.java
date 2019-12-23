@@ -43,10 +43,10 @@ extends PAppletHax {
 //	}
 //	
 //	protected float noiseAtX(float x) {
-//		float noiseSpeed = 0.01f;// + 0.001f * P.sin(p.loop.progressRads());
+//		float noiseSpeed = 0.01f;// + 0.001f * P.sin(AnimationLoop.progressRads());
 //		float amp = p.height * 0.4f;
 //		float noiseCur = -0.5f + p.noise(x * noiseSpeed);
-//		float osc = 0.5f + 0.5f * P.sin(p.loop.progressRads());
+//		float osc = 0.5f + 0.5f * P.sin(AnimationLoop.progressRads());
 //		return osc * noiseCur * amp;
 //	}
 //
@@ -57,9 +57,9 @@ extends PAppletHax {
 //		noiseTexture.updateTime();
 ////		noiseTexture.shader().set("offset", 0f, p.frameCount * 0.004f);
 ////		noiseTexture.shader().set("offset", 0f, 10f * Mouse.yNorm);
-//		noiseTexture.shader().set("offset", 0f, 1f + 0.2f * P.sin(p.loop.progressRads()));
-//		noiseTexture.shader().set("rotation", 0.2f * P.sin(p.loop.progressRads()));
-//		noiseTexture.shader().set("zoom", 1.2f + 0.6f * P.sin(p.loop.progressRads()));
+//		noiseTexture.shader().set("offset", 0f, 1f + 0.2f * P.sin(AnimationLoop.progressRads()));
+//		noiseTexture.shader().set("rotation", 0.2f * P.sin(AnimationLoop.progressRads()));
+//		noiseTexture.shader().set("zoom", 1.2f + 0.6f * P.sin(AnimationLoop.progressRads()));
 //		noiseBuffer.filter(noiseTexture.shader());
 //	    OpenGL32Util.pGraphics2dToTexture32(noiseBuffer, textureNoise);
 //	    DebugView.setTexture("noiseBuffer", noiseBuffer);
@@ -71,9 +71,9 @@ extends PAppletHax {
 //		buffer8.strokeWeight(2.5f);
 //		for (int x = 0; x < p.width; x++) {
 //			buffer8.stroke(
-//					(180 + 40 * P.sin(1f + (float)x/300f * p.loop.progressRads() * 2f)),
-//					(180 + 55 * P.sin(2f + (float)x/300f * p.loop.progressRads())),
-//					(150 + 85 * P.sin(3f + (float)x/300f * p.loop.progressRads() * 3f))
+//					(180 + 40 * P.sin(1f + (float)x/300f * AnimationLoop.progressRads() * 2f)),
+//					(180 + 55 * P.sin(2f + (float)x/300f * AnimationLoop.progressRads())),
+//					(150 + 85 * P.sin(3f + (float)x/300f * AnimationLoop.progressRads() * 3f))
 //			);
 //			float noiseY = noiseAtX(x);
 //			float noiseYNext = noiseAtX(x+1);

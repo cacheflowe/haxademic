@@ -11,6 +11,7 @@ import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.LinearFloat;
 import com.haxademic.core.math.easing.Penner;
 import com.haxademic.core.media.audio.analysis.AudioIn;
+import com.haxademic.core.render.FrameLoop;
 
 import processing.core.PShape;
 import processing.core.PVector;
@@ -63,14 +64,14 @@ extends PAppletHax {
 		// toggle spike shrink
 		spikeShrink.setTarget(0f);
 //		if(Mouse.xNorm > 0.5f) spikeShrink.setTarget(1f);
-		if(p.loop.progress() > 0.5f) spikeShrink.setTarget(1f);
+		if(FrameLoop.progress() > 0.5f) spikeShrink.setTarget(1f);
 		spikeShrink.update();
 		easedSpikeShrink = Penner.easeInOutExpo(spikeShrink.value(), 0, 1, 1);
 		
 		// toggle icosa explosion
-		if(p.loop.progress() > 0.2f) explodeExtend.setTarget(1f);
+		if(FrameLoop.progress() > 0.2f) explodeExtend.setTarget(1f);
 //		if(Mouse.xNorm > 0.5f) spikeShrink.setTarget(1f);
-		if(p.loop.progress() > 0.8f) explodeExtend.setTarget(0.01f);
+		if(FrameLoop.progress() > 0.8f) explodeExtend.setTarget(0.01f);
 		explodeExtend.update();
 		easedExplode = Penner.easeInOutExpo(explodeExtend.value(), 0, 1, 1);
 
@@ -78,8 +79,8 @@ extends PAppletHax {
 		p.pushMatrix();
 //		PG.basicCameraFromMouse(p.g);
 		p.rotateX(0.2f);
-		p.rotateY(loop.progressRads());
-//		PShapeUtil.meshRotateOnAxis(obj, 0.02f * P.sin(loop.progressRads()), P.Y);
+		p.rotateY(FrameLoop.progressRads());
+//		PShapeUtil.meshRotateOnAxis(obj, 0.02f * P.sin(AnimationLoop.progressRads()), P.Y);
 		drawTriangles(obj);
 		p.popMatrix();
 	}
@@ -103,9 +104,9 @@ extends PAppletHax {
 		shapeIndex /= 4f;
 		float darken = P.constrain(progress + 0.04f, 0, 1);
 		return p.color(
-				darken * (127 + 127 * P.sin(0+ shapeIndex - progress * 3f + p.loop.progressRads() * 5f)),
-				darken * (127 + 127 * P.sin(1+ shapeIndex - progress * 3f + p.loop.progressRads() * 5f)),
-				darken * (127 + 127 * P.sin(2+ shapeIndex - progress * 3f + p.loop.progressRads() * 5f))
+				darken * (127 + 127 * P.sin(0+ shapeIndex - progress * 3f + FrameLoop.progressRads() * 5f)),
+				darken * (127 + 127 * P.sin(1+ shapeIndex - progress * 3f + FrameLoop.progressRads() * 5f)),
+				darken * (127 + 127 * P.sin(2+ shapeIndex - progress * 3f + FrameLoop.progressRads() * 5f))
 		);
 	}
 	
@@ -133,7 +134,7 @@ extends PAppletHax {
 
 			// draw emanating points
 //			float shrinkLerp = 0.05f;
-			float tentLength = 0.2f + 0.1f * P.sin(i*0.1f + loop.progressRads() * 3f);
+			float tentLength = 0.2f + 0.1f * P.sin(i*0.1f + FrameLoop.progressRads() * 3f);
 			float tentSegmentLength = tentLength / outSegments;
 			
 //			tentLength *= 0;

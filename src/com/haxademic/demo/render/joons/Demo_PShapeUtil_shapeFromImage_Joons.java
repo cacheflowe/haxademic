@@ -7,6 +7,7 @@ import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.media.DemoAssets;
+import com.haxademic.core.render.FrameLoop;
 import com.haxademic.core.render.JoonsWrapper;
 
 import processing.core.PShape;
@@ -62,10 +63,10 @@ extends PAppletHax {
 		// draw shape
 		float segmentRads = P.TWO_PI / materials.length;
 		for (int i = 0; i < materials.length; i++) {
-			float curRads = segmentRads * i - p.loop.progressRads();
+			float curRads = segmentRads * i - FrameLoop.progressRads();
 			float radius = 400;
 			p.pushMatrix();
-			p.translate(P.cos(curRads) * radius, p.height * 0.1f * P.sin(segmentRads * i * 2f + p.loop.progressRads() * 2), P.sin(curRads) * radius);
+			p.translate(P.cos(curRads) * radius, p.height * 0.1f * P.sin(segmentRads * i * 2f + FrameLoop.progressRads() * 2), P.sin(curRads) * radius);
 //			p.rotateY(-curRads);
 			p.rotateZ(P.HALF_PI);
 			p.rotateX(-curRads + P.HALF_PI);

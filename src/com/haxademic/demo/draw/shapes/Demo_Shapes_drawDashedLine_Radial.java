@@ -6,6 +6,7 @@ import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.shapes.Shapes;
+import com.haxademic.core.render.FrameLoop;
 
 public class Demo_Shapes_drawDashedLine_Radial 
 extends PAppletHax {
@@ -41,7 +42,7 @@ extends PAppletHax {
 			float startY = P.sin(rads) * radius * 0.1f;
 			float endX = P.cos(rads) * radius;
 			float endY = P.sin(rads) * radius;
-			Shapes.drawDashedLine(p.g, startX, startY, 0, endX, endY, 0, 50f + 30f * P.sin(p.loop.progressRads() + rads * 3f), false);
+			Shapes.drawDashedLine(p.g, startX, startY, 0, endX, endY, 0, 50f + 30f * P.sin(FrameLoop.progressRads() + rads * 3f), false);
 		}
 		
 	}

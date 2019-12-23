@@ -13,6 +13,7 @@ import com.haxademic.core.draw.textures.PerlinTexture;
 import com.haxademic.core.draw.textures.pgraphics.TextureEQGrid;
 import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
 import com.haxademic.core.file.FileUtil;
+import com.haxademic.core.render.FrameLoop;
 
 import processing.core.PGraphics;
 import processing.core.PImage;
@@ -93,8 +94,8 @@ extends PAppletHax {
 		pointsTexturedShader.set("pointSize", 1f); // 2.5f + 1.5f * P.sin(P.TWO_PI * percentComplete));
 		pointsTexturedShader.set("width", w);
 		pointsTexturedShader.set("height", h);
-		pointsTexturedShader.set("spread", 2.5f + 0.5f * P.sin(P.PI + 2f * loop.progressRads()));
-		pointsTexturedShader.set("mixVal", 0.5f + 0.5f * P.sin(loop.progressRads()));
+		pointsTexturedShader.set("spread", 2.5f + 0.5f * P.sin(P.PI + 2f * FrameLoop.progressRads()));
+		pointsTexturedShader.set("mixVal", 0.5f + 0.5f * P.sin(FrameLoop.progressRads()));
 		pointsTexturedShader.set("displaceStrength", 130f);//130f + 130f * P.sin(P.PI + P.TWO_PI * percentComplete));
 		buffer.shader(pointsTexturedShader);  
 		buffer.shape(shape);

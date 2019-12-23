@@ -173,8 +173,8 @@ extends BaseVideoFilter {
 		// for rendering loop:
 //		int fadeFrames = 100;
 //		int darkFrames = 60;
-//		if(p.loop.loopCurFrame() < fadeFrames) alphaAdd = P.map(p.loop.loopCurFrame(), 0, fadeFrames, 0, alphaAdd);
-//		if(p.loop.loopCurFrame() > FRAMES - fadeFrames - darkFrames) alphaAdd = P.map(p.loop.loopCurFrame(), FRAMES - fadeFrames - darkFrames, FRAMES - darkFrames, alphaAdd, 0);
+//		if(AnimationLoop.loopCurFrame() < fadeFrames) alphaAdd = P.map(AnimationLoop.loopCurFrame(), 0, fadeFrames, 0, alphaAdd);
+//		if(AnimationLoop.loopCurFrame() > FRAMES - fadeFrames - darkFrames) alphaAdd = P.map(AnimationLoop.loopCurFrame(), FRAMES - fadeFrames - darkFrames, FRAMES - darkFrames, alphaAdd, 0);
 		
 		// add new frame on top
 		fadePG.beginDraw();

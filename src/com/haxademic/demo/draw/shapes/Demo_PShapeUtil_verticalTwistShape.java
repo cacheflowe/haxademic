@@ -6,6 +6,7 @@ import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.media.DemoAssets;
+import com.haxademic.core.render.FrameLoop;
 
 import processing.core.PShape;
 
@@ -38,8 +39,8 @@ extends PAppletHax {
 		p.translate(p.width/2f, p.height/2f, -width*1.5f);
 		
 		// twist it
-//		p.rotateY(P.sin(-loop.progressRads()));
-		PShapeUtil.verticalTwistShape(obj,  0.002f, P.cos(loop.progressRads()) * 20);
+//		p.rotateY(P.sin(-AnimationLoop.progressRads()));
+		PShapeUtil.verticalTwistShape(obj,  0.002f, P.cos(FrameLoop.progressRads()) * 20);
 
 		// draw it - used drawTriangles() for good wireframe drawing
 		p.stroke(0, 255, 0);

@@ -8,6 +8,7 @@ import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.shapes.Icosahedron;
 import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.media.DemoAssets;
+import com.haxademic.core.render.FrameLoop;
 
 import processing.core.PImage;
 import processing.core.PShape;
@@ -57,21 +58,21 @@ extends PAppletHax {
 		// icosahedron
 		p.pushMatrix();
 		p.translate(p.width/2f, p.height/4f);
-		p.rotateY(loop.progressRads());
+		p.rotateY(FrameLoop.progressRads());
 		p.shape(shapeIcos);
 		p.popMatrix();
 
 		// original
 		p.pushMatrix();
 		p.translate(p.width/4f, p.height/1.5f);
-		p.rotateY(-loop.progressRads());
+		p.rotateY(-FrameLoop.progressRads());
 		p.shape(shape);
 		p.popMatrix();
 
 		// tessellated
 		p.pushMatrix();
 		p.translate(p.width - p.width/4f, p.height/1.5f);
-		p.rotateY(loop.progressRads());
+		p.rotateY(FrameLoop.progressRads());
 		p.rotateZ(P.PI);
 		p.shape(shapeTessellated);
 		p.popMatrix();

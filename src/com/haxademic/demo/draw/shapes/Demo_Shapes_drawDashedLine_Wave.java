@@ -9,6 +9,7 @@ import com.haxademic.core.draw.shapes.Shapes;
 import com.haxademic.core.hardware.mouse.Mouse;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.EasingFloat;
+import com.haxademic.core.render.FrameLoop;
 
 public class Demo_Shapes_drawDashedLine_Wave 
 extends PAppletHax {
@@ -46,7 +47,7 @@ extends PAppletHax {
 		p.stroke(255);
 		
 		wave.update(p.height, 0);
-		if(p.loop.loopCurFrame() == 1) {
+		if(FrameLoop.loopCurFrame() == 1) {
 			wave.randomize();
 		}
 	}
@@ -93,16 +94,16 @@ extends PAppletHax {
 			freqBase3.update(true);
 			freqMultRange.update(true);
 
-			float waveAmp = rowHeight * 0.4f; // * (0.25f + ampOscSpeed * P.sin(p.loop.progressRads()));
-			float waveFreqMult = freqBase.value() + freqMultRange.value();// * P.sin(p.loop.progressRads());
-//			float waveFreqMult2 = freqBase2.value() + freqMultRange.value();// * P.sin(p.loop.progressRads());
-//			float waveFreqMult3 = freqBase3.value() + freqMultRange.value();// * P.sin(p.loop.progressRads());
+			float waveAmp = rowHeight * 0.4f; // * (0.25f + ampOscSpeed * P.sin(AnimationLoop.progressRads()));
+			float waveFreqMult = freqBase.value() + freqMultRange.value();// * P.sin(AnimationLoop.progressRads());
+//			float waveFreqMult2 = freqBase2.value() + freqMultRange.value();// * P.sin(AnimationLoop.progressRads());
+//			float waveFreqMult3 = freqBase3.value() + freqMultRange.value();// * P.sin(AnimationLoop.progressRads());
 
 			float centerY = rowHeight * i + rowHeight / 2f;
 			for (int x = 0; x < p.width; x += spacing.value()) {
-				float oscValue = P.sin(p.loop.progressRads() * scrollMult.value() + x * waveFreqMult);
-//				float oscValue2 = P.sin(p.loop.progressRads() * scrollMult.value() + p.noise(x * waveFreqMult2));
-//				float oscValue3 = P.sin(p.loop.progressRads() * scrollMult.value() + p.noise(x * waveFreqMult3));
+				float oscValue = P.sin(FrameLoop.progressRads() * scrollMult.value() + x * waveFreqMult);
+//				float oscValue2 = P.sin(AnimationLoop.progressRads() * scrollMult.value() + p.noise(x * waveFreqMult2));
+//				float oscValue3 = P.sin(AnimationLoop.progressRads() * scrollMult.value() + p.noise(x * waveFreqMult3));
 //				oscValue *= oscValue2;
 //				oscValue *= oscValue3;
 				float waveY = centerY + oscValue * waveAmp;

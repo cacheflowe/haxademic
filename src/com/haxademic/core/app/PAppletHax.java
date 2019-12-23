@@ -21,7 +21,6 @@ import com.haxademic.core.hardware.webcam.WebCam;
 import com.haxademic.core.media.audio.analysis.AudioIn;
 import com.haxademic.core.media.audio.analysis.AudioInputESS;
 import com.haxademic.core.media.video.MovieBuffer;
-import com.haxademic.core.render.AnimationLoop;
 import com.haxademic.core.render.GifRenderer;
 import com.haxademic.core.render.ImageSequenceRenderer;
 import com.haxademic.core.render.JoonsWrapper;
@@ -30,7 +29,6 @@ import com.haxademic.core.render.VideoRenderer;
 import com.haxademic.core.system.AppUtil;
 import com.haxademic.core.system.SystemUtil;
 import com.haxademic.core.ui.UIButton;
-import com.jogamp.newt.opengl.GLWindow;
 
 import de.voidplus.leapmotion.LeapMotion;
 import krister.Ess.AudioInput;
@@ -55,7 +53,6 @@ extends PApplet {
 	public static String arguments[] = null;	// Args passed in via main() launch command
 	protected static PAppletHax p;				// Global/static ref to PApplet - any class can access reference from this static ref. Easier access via `P.p`
 	public PGraphics pg;						// Offscreen buffer that matches the app size by default
-	public GLWindow window;
 	protected boolean alwaysOnTop = false;
 
 	// rendering
@@ -67,7 +64,6 @@ extends PApplet {
 	protected Boolean renderingAudio = false;
 	protected Boolean renderingMidi = true;
 	public JoonsWrapper joons;
-	public AnimationLoop loop = null;
 
 	// input
 	public IDepthCamera depthCamera = null;
@@ -98,7 +94,7 @@ extends PApplet {
 	}
 	
 	public void setup() {
-		if(P.isOpenGL()) window = (GLWindow) surface.getNative();
+		P.appInitialized();
 	}
 	
 	////////////////////////
@@ -185,7 +181,6 @@ extends PApplet {
 		if(P.isOpenGL()) pg = PG.newPG(Config.getInt(AppSettings.PG_WIDTH, p.width), Config.getInt(AppSettings.PG_HEIGHT, p.height));
 
 		// rendering
-		if(Config.getFloat(AppSettings.LOOP_FRAMES, 0) != 0) loop = new AnimationLoop(Config.getFloat(AppSettings.LOOP_FRAMES, 0), Config.getInt(AppSettings.LOOP_TICKS, 4));
 		videoRenderer = new VideoRenderer( Config.getInt(AppSettings.FPS, 60), VideoRenderer.OUTPUT_TYPE_MOVIE, Config.getString( "render_output_dir", FileUtil.getHaxademicOutputPath() ) );
 		if(Config.getBoolean(AppSettings.RENDERING_GIF, false) == true) {
 			gifRenderer = new GifRenderer(Config.getInt(AppSettings.RENDERING_GIF_FRAMERATE, 45), Config.getInt(AppSettings.RENDERING_GIF_QUALITY, 15));
@@ -273,7 +268,6 @@ extends PApplet {
 	
 	public void draw() {
 		initializeOn1stFrame();
-		if(loop != null) loop.update();
 		handleRenderingStepthrough();
 		if( depthCamera != null ) depthCamera.update();
 		p.pushMatrix();

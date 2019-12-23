@@ -8,6 +8,7 @@ import com.haxademic.core.draw.context.PShaderHotSwap;
 import com.haxademic.core.draw.shapes.Icosahedron;
 import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.file.FileUtil;
+import com.haxademic.core.render.FrameLoop;
 
 import processing.core.PImage;
 import processing.core.PShape;
@@ -53,10 +54,10 @@ extends PAppletHax {
 		pg.noLights();
 		PG.setCenterScreen(pg);
 		PG.basicCameraFromMouse(pg);
-//		pg.rotateY(loop.progressRads());
+//		pg.rotateY(AnimationLoop.progressRads());
 		
 		// apply deform shader and draw mesh - CANNOT HAVE PROCESSING LIGHTS TURNED ON!
-		shaderHotSwap.shader().set("time", loop.progressRads());
+		shaderHotSwap.shader().set("time", FrameLoop.progressRads());
 		shaderHotSwap.shader().set("displaceAmp", 0.4f);
 		shaderHotSwap.shader().set("modelviewInv", ((PGraphicsOpenGL) g).modelviewInv);
 

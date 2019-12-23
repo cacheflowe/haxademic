@@ -13,6 +13,7 @@ import com.haxademic.core.draw.filters.pshader.VignetteFilter;
 import com.haxademic.core.math.easing.EasingFloat;
 import com.haxademic.core.math.easing.LinearFloat;
 import com.haxademic.core.math.easing.Penner;
+import com.haxademic.core.render.FrameLoop;
 
 public class CircleSphere 
 extends PAppletHax {
@@ -43,17 +44,17 @@ extends PAppletHax {
 		if(animStyle == 0) {
 			cameraProgress.setCompleteThreshold(0.000001f);
 			cameraProgress.setEaseFactor(0.075f);
-			if(p.loop.progress() > 0.8f) cameraProgress.setTarget(0.96f);
-			else if(p.loop.progress() > 0.6f) cameraProgress.setTarget(0.75f);
-			else if(p.loop.progress() > 0.4f) cameraProgress.setTarget(0.5f);
-			else if(p.loop.progress() > 0.2f) cameraProgress.setTarget(0.04f);
-			else if(p.loop.progress() > 0.0f) cameraProgress.setTarget(0f);
-			if(p.loop.loopCurFrame() == 1) cameraProgress.setCurrent(-0.04f);
+			if(FrameLoop.progress() > 0.8f) cameraProgress.setTarget(0.96f);
+			else if(FrameLoop.progress() > 0.6f) cameraProgress.setTarget(0.75f);
+			else if(FrameLoop.progress() > 0.4f) cameraProgress.setTarget(0.5f);
+			else if(FrameLoop.progress() > 0.2f) cameraProgress.setTarget(0.04f);
+			else if(FrameLoop.progress() > 0.0f) cameraProgress.setTarget(0f);
+			if(FrameLoop.loopCurFrame() == 1) cameraProgress.setCurrent(-0.04f);
 			cameraProgress.update(true);
 			cameraXRot = cameraProgress.value();
 		} else {
-			if(p.loop.progress() > 0.5f) cameraProgressEase.setTarget(1f);
-			else if(p.loop.progress() > 0.f) cameraProgressEase.setTarget(0f);
+			if(FrameLoop.progress() > 0.5f) cameraProgressEase.setTarget(1f);
+			else if(FrameLoop.progress() > 0.f) cameraProgressEase.setTarget(0f);
 			cameraProgressEase.update();
 			cameraXRot = -0.04f * Penner.easeInOutQuart(cameraProgressEase.value(), 0, 1, 1);			
 		}
@@ -86,7 +87,7 @@ extends PAppletHax {
 			float layoutYProgress = i / numCircles;
 			float yRads = segmentRads * i;
 			
-			float y = (-1f + 2f * layoutYProgress) + (spacingProgess * p.loop.progress() * 12f);
+			float y = (-1f + 2f * layoutYProgress) + (spacingProgess * FrameLoop.progress() * 12f);
 			float x = P.cos(P.asin(y));
 
 			pg.pushMatrix();

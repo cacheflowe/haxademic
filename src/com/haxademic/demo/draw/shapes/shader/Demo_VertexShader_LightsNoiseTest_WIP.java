@@ -10,6 +10,7 @@ import com.haxademic.core.draw.shapes.Shapes;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.mouse.Mouse;
 import com.haxademic.core.media.DemoAssets;
+import com.haxademic.core.render.FrameLoop;
 
 import processing.core.PShape;
 import processing.opengl.PShader;
@@ -55,13 +56,13 @@ extends PAppletHax {
 		PG.setCenterScreen(p);
 
 		// use shader
-		shader.set("time", loop.progressRads());
+		shader.set("time", FrameLoop.progressRads());
 		shader.set("lightDir", Mouse.xNorm, Mouse.yNorm, 0.9f);
 		shader.set("lightsOn", 0);
-		shader.set("lightAmbient", 0.1f, 0.1f * P.sin(loop.progressRads()), 0.5f);
+		shader.set("lightAmbient", 0.1f, 0.1f * P.sin(FrameLoop.progressRads()), 0.5f);
 		p.shader(shader);
 		p.shape(sheet);
-		p.rotateY(0.3f * P.sin(loop.progressRads()));
+		p.rotateY(0.3f * P.sin(FrameLoop.progressRads()));
 		shader.set("lightsOn", 1);
 		p.shape(obj);
 		p.resetShader();

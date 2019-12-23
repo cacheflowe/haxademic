@@ -25,7 +25,7 @@ import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.midi.MidiDevice;
 import com.haxademic.core.hardware.midi.devices.LaunchControl;
 import com.haxademic.core.hardware.webcam.WebCam;
-import com.haxademic.core.system.SystemUtil;
+import com.haxademic.core.render.FrameLoop;
 import com.haxademic.core.ui.UI;
 
 import processing.core.PGraphics;
@@ -319,12 +319,12 @@ extends PAppletHax {
 		// update other shader properties
 		gradientShader.set("color1", 0f, 0f, 0f);
 		gradientShader.set("color2", 1f, 1f, 1f);
-		gradientShader.set("zoom", 40f + 20f * P.sin(p.loop.progressRads()));
-		gradientShader.set("scrollY", loop.progress() * 4f);
+		gradientShader.set("zoom", 40f + 20f * P.sin(FrameLoop.progressRads()));
+		gradientShader.set("scrollY", FrameLoop.progress() * 4f);
 		gradientShader.set("oscFreq", P.PI * 8f);
-		gradientShader.set("oscAmp", 0.02f + 0.02f * P.sin(loop.progressRads()));
+		gradientShader.set("oscAmp", 0.02f + 0.02f * P.sin(FrameLoop.progressRads()));
 		gradientShader.set("fade", 0.1f);
-		gradientShader.set("rotate", 0.15f);//p.loop.progressRads());
+		gradientShader.set("rotate", 0.15f);//AnimationLoop.progressRads());
 		linesTexture.filter(gradientShader);
 	}
 	
@@ -337,7 +337,7 @@ extends PAppletHax {
 		
 		// set context
 //		pg.beginDraw();
-		if(p.frameCount <= 10 || clearScreen) pg.background(0);
+		if(FrameLoop.count() <= 10 || clearScreen) pg.background(0);
 		clearScreen = false;
 		PG.setDrawCorner(pg);
 		PG.setDrawFlat2d(pg, true);
@@ -369,7 +369,6 @@ extends PAppletHax {
 		if(p.key == 'z') P.out(UI.valuesToJSON());
 		if(p.key == ' ') clearScreen = true;
 		if(p.key == 'c') seedQueue = true;
-		if(p.key == 's') pgPost.save(FileUtil.getHaxademicOutputPath() + "_screenshots/" + SystemUtil.getTimestampFine() + ".png");
 //		if(p.key == '1') UI.loadJSON(JSONObject.parse(CONFIG_1));
 	}
 	

@@ -14,6 +14,7 @@ import com.haxademic.core.draw.filters.pshader.VignetteFilter;
 import com.haxademic.core.draw.shapes.Icosahedron;
 import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.file.FileUtil;
+import com.haxademic.core.render.FrameLoop;
 
 import processing.core.PImage;
 import processing.core.PShape;
@@ -55,7 +56,7 @@ extends PAppletHax {
 		p.background(0);
 		PG.setCenterScreen(p);
 
-		float sceneRot = 0.6f * P.sin(p.loop.progressRads());
+		float sceneRot = 0.6f * P.sin(FrameLoop.progressRads());
 		
 		//////////////////////
 		// sphere ////////////
@@ -76,14 +77,14 @@ extends PAppletHax {
 		//////////////////////
 		// set camera rotation
 		//////////////////////
-		p.rotateX(0.8f + 0.3f * P.sin(p.loop.progressRads()));
+		p.rotateX(0.8f + 0.3f * P.sin(FrameLoop.progressRads()));
 		p.rotateZ(sceneRot);
 
 		//////////////////////
 		// butterfly props ///
 		//////////////////////
 		
-		float wingOsc = p.loop.progressRads() * 12f;
+		float wingOsc = FrameLoop.progressRads() * 12f;
 		float wingRot = 0.7f + 0.6f * P.sin(wingOsc); // Mouse.xNorm;
 		// wingRot = p._audioInput.getFFT().spectrum[4] * 10f;
 		p.translate(0, 0, P.sin(P.HALF_PI + wingOsc) * p.height * 0.015f);	// bob up/down
@@ -116,7 +117,7 @@ extends PAppletHax {
 		// post //////////////
 		//////////////////////
 
-		GodRays.instance(p).setRotation(1.2f * P.sin(p.loop.progressRads()));
+		GodRays.instance(p).setRotation(1.2f * P.sin(FrameLoop.progressRads()));
 		GodRays.instance(p).setAmp(0.6f);
 		GodRays.instance(p).setWeight(0.03f);
 		GodRays.instance(p).applyTo(p);
@@ -124,7 +125,7 @@ extends PAppletHax {
 		SaturationFilter.instance(p).applyTo(p);
 		VignetteFilter.instance(p).setDarkness(0.5f);
 		VignetteFilter.instance(p).applyTo(p);
-//		HueFilter.instance(p).setHue(p.loop.progress() * 360f);
+//		HueFilter.instance(p).setHue(AnimationLoop.progress() * 360f);
 //		HueFilter.instance(p).applyTo(p);
 	}
 

@@ -18,6 +18,7 @@ import com.haxademic.core.math.easing.EasingFloat;
 import com.haxademic.core.math.easing.LinearFloat;
 import com.haxademic.core.net.UIControlsHandler;
 import com.haxademic.core.net.WebServer;
+import com.haxademic.core.render.FrameLoop;
 import com.haxademic.core.system.SystemUtil;
 
 import processing.core.PApplet;
@@ -599,7 +600,7 @@ extends PAppletHax {
 		PG.setDrawCenter(p);
 		
 		// override params if animating
-		if(isAnimating && loop.progress() == 0) nextAnimation(1);
+		if(isAnimating && FrameLoop.progress() == 0) nextAnimation(1);
 		if(!isAnimating) immediateLinearFloatParams();
 		
 		// handle input

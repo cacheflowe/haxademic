@@ -7,6 +7,7 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.shapes.Shapes;
+import com.haxademic.core.render.FrameLoop;
 
 import processing.core.PVector;
 
@@ -25,7 +26,7 @@ extends PAppletHax {
 		p.lights();
 		p.translate(p.width/2, p.height/2, -200);
 		
-		rotateY(P.sin(loop.progressRads()) * 1.25f); 
+		rotateY(P.sin(FrameLoop.progressRads()) * 1.25f); 
 		
 		p.stroke(255, 140, 200);
 		p.fill(255 * 0.2f, 140 * 0.2f, 200 * 0.2f);

@@ -11,6 +11,7 @@ import com.haxademic.core.hardware.mouse.Mouse;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.LinearFloat;
 import com.haxademic.core.math.easing.Penner;
+import com.haxademic.core.render.FrameLoop;
 
 public class Demo_Shapes_drawDashedCube 
 extends PAppletHax {
@@ -55,14 +56,14 @@ extends PAppletHax {
 //		PG.basicCameraFromMouse(p.g, 1f);
 		
 		// progress through loop
-		if(p.loop.progress() > 0.5f) tiltProgress.setTarget(1);
+		if(FrameLoop.progress() > 0.5f) tiltProgress.setTarget(1);
 		else tiltProgress.setTarget(0);
 		tiltProgress.update();
 		easedProgress = Penner.easeInOutCubic(tiltProgress.value());
 		
 		// rotate for rendering
 //		p.rotateY(P.QUARTER_PI * 0.75f);
-//		p.rotateX(p.loop.progressRads());
+//		p.rotateX(AnimationLoop.progressRads());
 
 		// almost-hexagon tilt
 //		p.rotateY(easedProgress * P.PI * 0.2307f); // Mouse.xNorm
@@ -86,7 +87,7 @@ extends PAppletHax {
 	}
 	
 	protected void drawCubeDashLerp() {
-		Shapes.drawDashedCube(p.g, 500, 20f + P.sin(p.loop.progressRads()) * 5f, false);
+		Shapes.drawDashedCube(p.g, 500, 20f + P.sin(FrameLoop.progressRads()) * 5f, false);
 	}
 	
 	protected void drawInfiniteZoomCubes() {
@@ -99,8 +100,8 @@ extends PAppletHax {
 		float spacing = 40;
 		for (int i = 0; i < numCubes; i++) {
 			float cubeSize = i * spacing;
-			cubeSize += p.loop.progress() * spacing;
-//			drawDashedCube(cubeSize, 20f + P.sin(p.loop.progressRads()) * 5f);
+			cubeSize += FrameLoop.progress() * spacing;
+//			drawDashedCube(cubeSize, 20f + P.sin(AnimationLoop.progressRads()) * 5f);
 			p.pushMatrix();
 //			p.rotateZ(0.1f * P.sin(cubeSize * 0.01f));
 			Shapes.drawDashedCube(p.g, cubeSize, 2f + (cubeSize * 0.08f), false);
@@ -123,8 +124,8 @@ extends PAppletHax {
 		// draw and trigger easing value targets on interval
 		for (int i = 0; i < numCubes; i++) {
 			// animate with offset
-			if((i*3) == p.loop.loopCurFrame()) easings[i].setTarget(1);
-			if((i*3) + P.round(p.loop.frames() / 2) == p.loop.loopCurFrame()) easings[i].setTarget(0);
+			if((i*3) == FrameLoop.loopCurFrame()) easings[i].setTarget(1);
+			if((i*3) + P.round(FrameLoop.loopFrames() / 2) == FrameLoop.loopCurFrame()) easings[i].setTarget(0);
 			easings[i].update();
 			float easedFloat = Penner.easeInOutCubic(easings[i].value());
 
@@ -168,7 +169,7 @@ extends PAppletHax {
 				float distanceToRadians = P.map(distanceFromCenter, 0, 1000, 0, P.TWO_PI * 1f);
 				
 				// calc wave
-				float curOsc = 0.5f + 0.5f * P.sin(-p.loop.progressRads() + distanceToRadians);
+				float curOsc = 0.5f + 0.5f * P.sin(-FrameLoop.progressRads() + distanceToRadians);
 				curOsc = Penner.easeInOutCubic(curOsc);
 				// float tileOscSize = (tileSize / 2) + (tileSize / 2) * 1f; // curOsc;
 

@@ -8,6 +8,7 @@ import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.BlurProcessingFilter;
 import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.file.FileUtil;
+import com.haxademic.core.render.FrameLoop;
 
 import processing.core.PShape;
 
@@ -40,14 +41,14 @@ extends PAppletHax {
 		// rotate
 		p.translate(p.width/2f, p.height/2f, -width*1.5f);
 		p.rotateX(P.QUARTER_PI);
-		p.rotateZ(loop.progressRads()); /// -P.HALF_PI +
-		p.scale(1f + 0.2f * P.sin(p.loop.progressRads()));
+		p.rotateZ(FrameLoop.progressRads()); /// -P.HALF_PI +
+		p.scale(1f + 0.2f * P.sin(FrameLoop.progressRads()));
 		// draw mesh with texture or without
 		p.stroke(
 				255, 
-				127 + 127 * P.sin(p.loop.progressRads() * 3f),
-				127 + 127 * P.sin(P.PI + p.loop.progressRads()));
-		p.strokeWeight(10 + 8f * P.sin(P.PI + p.loop.progressRads()));
+				127 + 127 * P.sin(FrameLoop.progressRads() * 3f),
+				127 + 127 * P.sin(P.PI + FrameLoop.progressRads()));
+		p.strokeWeight(10 + 8f * P.sin(P.PI + FrameLoop.progressRads()));
 		p.shape(svg);
 	}
 		

@@ -12,6 +12,7 @@ import com.haxademic.core.draw.filters.pshader.VignetteFilter;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.media.DemoAssets;
+import com.haxademic.core.render.FrameLoop;
 
 import processing.core.PGraphics;
 import processing.core.PShape;
@@ -101,8 +102,8 @@ extends PAppletHax {
 		pg.noStroke();
 		pg.pushMatrix();
 		
-		pg.translate(0, 180 * P.sin(loop.progressRads()));
-		pg.rotateY(loop.progressRads());
+		pg.translate(0, 180 * P.sin(FrameLoop.progressRads()));
+		pg.rotateY(FrameLoop.progressRads());
 		
 		pg.box(400, 20, 50);
 		pg.box(50, 20, 400);
@@ -112,9 +113,9 @@ extends PAppletHax {
 	}
 	
 	protected void applyBlur(PGraphics pg) {
-		BlurHFilter.instance(p).setBlurByPercent(3f + 2f * P.sin(P.PI + loop.progressRads()), pg.width);
+		BlurHFilter.instance(p).setBlurByPercent(3f + 2f * P.sin(P.PI + FrameLoop.progressRads()), pg.width);
 		BlurHFilter.instance(p).applyTo(pg);
-		BlurVFilter.instance(p).setBlurByPercent(3f + 2f * P.sin(P.PI + loop.progressRads()), pg.height);
+		BlurVFilter.instance(p).setBlurByPercent(3f + 2f * P.sin(P.PI + FrameLoop.progressRads()), pg.height);
 		BlurVFilter.instance(p).applyTo(pg);
 	}
 	

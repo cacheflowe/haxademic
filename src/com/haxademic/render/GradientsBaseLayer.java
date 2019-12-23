@@ -5,6 +5,7 @@ import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.color.EasingColor;
 import com.haxademic.core.draw.color.Gradients;
+import com.haxademic.core.render.FrameLoop;
 
 public class GradientsBaseLayer
 extends PAppletHax {
@@ -57,11 +58,11 @@ extends PAppletHax {
 //		}
 		
 		// single team
-		if(loop.loopCurFrame() == 1) {
+		if(FrameLoop.loopCurFrame() == 1) {
 			_colorStart.setTargetHex("#BB0022");
 			_colorStop.setTargetHex("#0B1630");
 		}
-		if(loop.loopCurFrame() == 200) {
+		if(FrameLoop.loopCurFrame() == 200) {
 			_colorStart.setTargetHex("#0B1630");
 			_colorStop.setTargetHex("#BB0022");
 		}

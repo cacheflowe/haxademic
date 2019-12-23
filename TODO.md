@@ -22,6 +22,7 @@
   * HttpInputState
   * OscState
   * ScreenSaverBlocker
+  * FrameLoop
 
 ## InputTrigger revamp
 

@@ -5,6 +5,7 @@ import java.awt.event.KeyEvent;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.data.constants.PRegisterableMethods;
+import com.haxademic.core.render.FrameLoop;
 
 public class ScreenSaverBlocker {
 
@@ -32,8 +33,8 @@ public class ScreenSaverBlocker {
 	
 	public void post() {
 		// simulate SHIFT key press on interval
-		if(P.p.frameCount % FRAME_INTERVAL == 10) robot.keyPress(KeyEvent.VK_SHIFT);
-		if(P.p.frameCount % FRAME_INTERVAL == 11) robot.keyRelease(KeyEvent.VK_SHIFT);
+		if(FrameLoop.frameMod(FRAME_INTERVAL, 10)) robot.keyPress(KeyEvent.VK_SHIFT);
+		if(FrameLoop.frameMod(FRAME_INTERVAL, 11)) robot.keyRelease(KeyEvent.VK_SHIFT);
 	}
 	
 }

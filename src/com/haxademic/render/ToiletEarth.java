@@ -8,6 +8,7 @@ import com.haxademic.core.draw.camera.CameraUtil;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.file.FileUtil;
+import com.haxademic.core.render.FrameLoop;
 
 import processing.core.PShape;
 
@@ -66,13 +67,13 @@ extends PAppletHax {
 		// camera
 		p.noStroke();
 //		p.rotateX(P.map(Mouse.xNorm, 0, 1, -2, 2));
-		p.rotateX(-0.5f + 0.05f * P.sin(p.loop.progressRads()));
-		p.rotateY(-0.75f + 0.1f * P.sin(p.loop.progressRads()));
+		p.rotateX(-0.5f + 0.05f * P.sin(FrameLoop.progressRads()));
+		p.rotateY(-0.75f + 0.1f * P.sin(FrameLoop.progressRads()));
 		p.scale(0.5f);
 		// earth
 		p.push();
-		p.translate(0, -p.width * 0.1f + P.sin(p.loop.progressRads() * 3f) * p.width * 0.02f, p.width * 0.08f);
-		p.rotateY(-p.loop.progressRads() * 2f);
+		p.translate(0, -p.width * 0.1f + P.sin(FrameLoop.progressRads() * 3f) * p.width * 0.02f, p.width * 0.08f);
+		p.rotateY(-FrameLoop.progressRads() * 2f);
 		p.shape(objEarth);
 		p.pop();
 		

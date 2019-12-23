@@ -8,6 +8,7 @@ import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.file.FileUtil;
+import com.haxademic.core.render.FrameLoop;
 
 import processing.core.PImage;
 import processing.core.PShape;
@@ -140,10 +141,10 @@ extends PAppletHax {
 		p.rotateX(rotation.x);
 		p.rotateY(rotation.y);
 		p.rotateZ(rotation.z);
-//		p.rotateY(loop.progressRads());
+//		p.rotateY(AnimationLoop.progressRads());
 		
 		// apply shader
-		fattenerVertShader.set("time", loop.progressRads() * 2f);
+		fattenerVertShader.set("time", FrameLoop.progressRads() * 2f);
 		fattenerVertShader.set("amp", p.height * 0.15f);
 //		p.shader(fattenerVertShader);  
 

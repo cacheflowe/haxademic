@@ -24,9 +24,9 @@ extends PAppletHax {
 		p.background(0);
 		
 		//get native window object
-		DebugView.setValue("window width", window.getBounds().getWidth());
-		DebugView.setValue("window height", window.getBounds().getHeight());
-		DebugView.setValue("window hasFocus", window.hasFocus());
+		DebugView.setValue("window width", P.window.getBounds().getWidth());
+		DebugView.setValue("window height", P.window.getBounds().getHeight());
+		DebugView.setValue("window hasFocus", P.window.hasFocus());
 		DebugView.setValue("p.mouseX", p.mouseX);
 		DebugView.setValue("p.mouseY", p.mouseY);
 	}

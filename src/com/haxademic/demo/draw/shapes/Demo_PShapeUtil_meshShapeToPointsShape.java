@@ -7,6 +7,7 @@ import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.media.DemoAssets;
+import com.haxademic.core.render.FrameLoop;
 
 import processing.core.PShape;
 
@@ -37,7 +38,7 @@ extends PAppletHax {
 		
 		// rotate
 		p.translate(p.width/2f, p.height/2f, -width*1.5f);
-		p.rotateY(0.4f * P.sin(loop.progressRads())); /// -P.HALF_PI +
+		p.rotateY(0.4f * P.sin(FrameLoop.progressRads())); /// -P.HALF_PI +
 
 		// draw mesh with texture or without
 		obj.disableStyle();

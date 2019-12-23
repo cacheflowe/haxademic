@@ -13,6 +13,7 @@ import com.haxademic.core.draw.shapes.pshader.LinesDeformAndTextureFilter;
 import com.haxademic.core.draw.textures.pshader.TextureShader;
 import com.haxademic.core.hardware.mouse.Mouse;
 import com.haxademic.core.media.DemoAssets;
+import com.haxademic.core.render.FrameLoop;
 
 import processing.core.PGraphics;
 import processing.core.PShape;
@@ -72,8 +73,8 @@ extends PAppletHax {
 		background(0);
 		
 		// update displacement texture
-		noiseTexture.shader().set("zoom", 2.5f + 1.5f * P.sin(p.loop.progressRads()));
-		noiseTexture.shader().set("rotation", p.loop.progressRads());
+		noiseTexture.shader().set("zoom", 2.5f + 1.5f * P.sin(FrameLoop.progressRads()));
+		noiseTexture.shader().set("rotation", FrameLoop.progressRads());
 		noiseBuffer.filter(noiseTexture.shader());
 		// blur texture for smooothness
 		BlurProcessingFilter.instance(p).setBlurSize(5);
@@ -82,7 +83,7 @@ extends PAppletHax {
 		// set context & camera
 		PG.setCenterScreen(p);
 		PG.basicCameraFromMouse(p.g);
-		p.rotateX(P.sin(loop.progressRads()) * 0.2f);
+		p.rotateX(P.sin(FrameLoop.progressRads()) * 0.2f);
 //		CameraUtil.setCameraDistance(p.g, 100, 10000);
 		
 		// set shader & draw mesh

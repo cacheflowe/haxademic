@@ -23,6 +23,7 @@ import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.LinearFloat;
 import com.haxademic.core.media.DemoAssets;
 import com.haxademic.core.media.audio.analysis.AudioIn;
+import com.haxademic.core.render.FrameLoop;
 
 import processing.core.PGraphics;
 import processing.core.PImage;
@@ -97,7 +98,7 @@ extends PAppletHax {
 		updateFloorTexture();
 		
 		// update calcs
-		planetBounceOsc = P.sin(-P.QUARTER_PI/2f - P.HALF_PI + p.loop.progressRads() * 2f);
+		planetBounceOsc = P.sin(-P.QUARTER_PI/2f - P.HALF_PI + FrameLoop.progressRads() * 2f);
 		
 		// draw to main buffer
 		pg.beginDraw();
@@ -112,8 +113,8 @@ extends PAppletHax {
 		// set camera
 //		pg.rotateX(-0.2f);
 //		pg.rotateX(-P.QUARTER_PI * Mouse.xNorm);
-//		pg.rotateY(-P.HALF_PI - p.loop.progressRads() * 2f);
-		pg.rotateX(-P.QUARTER_PI * 0.25f + P.QUARTER_PI * 0.25f * P.sin(P.QUARTER_PI -p.loop.progressRads()));
+//		pg.rotateY(-P.HALF_PI - AnimationLoop.progressRads() * 2f);
+		pg.rotateX(-P.QUARTER_PI * 0.25f + P.QUARTER_PI * 0.25f * P.sin(P.QUARTER_PI -FrameLoop.progressRads()));
 
 		// draw components
 //		drawWaveform();
@@ -136,8 +137,8 @@ extends PAppletHax {
 		
 		// update beats
 		beatTime.update();
-		if(p.loop.isTick() && p.loop.curTick() < 64 - 8) {
-			int eighthTick = p.loop.curTick() % 8;
+		if(FrameLoop.isTick() && FrameLoop.curTick() < 64 - 8) {
+			int eighthTick = FrameLoop.curTick() % 8;
 			if(eighthTick == 0 || eighthTick == 3 || eighthTick == 6) {		// 1, 4, 7
 				beatTime.setCurrent(1);
 				beatTime.setTarget(0);
@@ -152,7 +153,7 @@ extends PAppletHax {
 		p.image(pg, 0, 0);
 		
 		// debug info
-		// p.text(p.loop.curTick(), 20, 20);
+		// p.text(AnimationLoop.curTick(), 20, 20);
 	}
 	
 	//////////////////////////
@@ -186,7 +187,7 @@ extends PAppletHax {
 		floorTexture.beginDraw();
 		PG.setDrawCenter(floorTexture);
 		PG.setCenterScreen(floorTexture);
-		floorTexture.rotate(p.loop.progressRads());
+		floorTexture.rotate(FrameLoop.progressRads());
 		floorTexture.image(floorSrcImg, 0, 0, floorSrcImg.width * srcScale, floorSrcImg.height * srcScale);
 		floorTexture.endDraw();
 	}
@@ -228,7 +229,7 @@ extends PAppletHax {
 		// draw planet
 		pg.translate(0, pg.height * 0.025f * planetBounceOsc);	// bounce up/down
 		PG.push(pg);
-		pg.rotateY(P.sin(p.loop.progressRads()) * 0.5f);
+		pg.rotateY(P.sin(FrameLoop.progressRads()) * 0.5f);
 //		pg.shape(planet, 0, 0);
 		planet.deformWithAudioByNormals(pg.height * 0.025f);
 		PShapeUtil.drawTriangles(pg, planet.shape(), planetTexture, 1);
@@ -237,7 +238,7 @@ extends PAppletHax {
 		// draw audio ring
 		/*
 		PG.push(pg);
-		pg.rotateY(-P.HALF_PI - p.loop.progressRads() * 2f);
+		pg.rotateY(-P.HALF_PI - AnimationLoop.progressRads() * 2f);
 		pg.rotateX(-P.HALF_PI);
 		pg.fill(255);
 		Shapes.drawDiscAudio(pg, p.height * 0.32f, p.height * 0.34f, AudioIn.waveform.length, 10, false);
@@ -253,7 +254,7 @@ extends PAppletHax {
 //		pg.lights();
 		pg.noStroke();
 		PG.push(pg);
-		pg.rotateY(-P.HALF_PI - p.loop.progressRads());
+		pg.rotateY(-P.HALF_PI - FrameLoop.progressRads());
 		pg.rotateX(-P.HALF_PI);
 		Shapes.drawDiscTextured(pg, p.height * 0.25f, p.height * 0.33f, 100, waveform);
 		PG.pop(pg);
@@ -283,7 +284,7 @@ extends PAppletHax {
 //			float strokeAmp = 1f - (i % 4) * 0.3f;
 			pg.strokeWeight(2);
 			pg.stroke(255);//, 255 * strokeAmp);
-//			if(i == p.loop.curTick() + 1) {
+//			if(i == AnimationLoop.curTick() + 1) {
 //				pg.stroke(40, 160, 190);
 //				pg.strokeWeight(4);
 //			}
@@ -295,7 +296,7 @@ extends PAppletHax {
 			pg.line(x, y, z, xOut, yOut, zOut);
 			
 			// playhead
-			if(i == (p.loop.curTick() + 1) % TICKS) {
+			if(i == (FrameLoop.curTick() + 1) % TICKS) {
 				float xMid = P.cos(rads) * midRadius;
 				float yMid = 0;
 				float zMid = P.sin(rads) * midRadius;
@@ -326,10 +327,10 @@ extends PAppletHax {
 //		PG.setCenterScreen(pg);
 
 		for (int i = 0; i < trails.length; i++) {
-			float progress = i + p.loop.progressRads();
+			float progress = i + FrameLoop.progressRads();
 			float eqAmp = AudioIn.audioFreq(P.round(10 + i * 3f)) * 3f;
-			if(i % 3 == 0) progress = i + p.loop.progressRads() * 2;
-			if(i % 5 == 0) progress = i + p.loop.progressRads() * 3;
+			if(i % 3 == 0) progress = i + FrameLoop.progressRads() * 2;
+			if(i % 5 == 0) progress = i + FrameLoop.progressRads() * 3;
 			float minRadius = pg.height * 0.25f;
 			float addRadius = p.noise(i * 10f) * pg.height * 0.3f;
 			float radius = minRadius + addRadius * (1f + 0.2f * planetBounceOsc);
@@ -375,8 +376,8 @@ extends PAppletHax {
 		float waveformScale = 0.4f;
 		float waveW = waveform.width * waveformScale;
 		float waveH = waveform.height * waveformScale;
-		pg.image(waveform, -waveW * p.loop.progress(), 0, waveW, waveH);
-		pg.image(waveform, -waveW * p.loop.progress() + waveW, 0, waveW, waveH);
+		pg.image(waveform, -waveW * FrameLoop.progress(), 0, waveW, waveH);
+		pg.image(waveform, -waveW * FrameLoop.progress() + waveW, 0, waveW, waveH);
 	}
 
 	
@@ -448,7 +449,7 @@ extends PAppletHax {
 		PG.push(pg);
 		pg.translate(pg.width * 0.5f, pg.height * 0.64f + -planetBounceOsc * pg.height * 0.02f);
 		pg.rotateY(P.QUARTER_PI);
-		pg.rotateY(p.loop.progressRads() * -0.5f);
+		pg.rotateY(FrameLoop.progressRads() * -0.5f);
 		pg.rotateX(-P.HALF_PI);
 		
 		OpenGLUtil.setWireframe(pg, true);

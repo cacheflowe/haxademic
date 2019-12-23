@@ -7,6 +7,7 @@ import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.shapes.Shapes;
 import com.haxademic.core.math.easing.Penner;
 import com.haxademic.core.media.DemoAssets;
+import com.haxademic.core.render.FrameLoop;
 
 import processing.core.PImage;
 
@@ -32,7 +33,7 @@ extends PAppletHax {
 		lights();
 		translate(width/2, height/2, -200);
 		
-		float easedPercent = Penner.easeInOutQuart(loop.progress());
+		float easedPercent = Penner.easeInOutQuart(FrameLoop.progress());
 		float radsCompleteEased = easedPercent * P.TWO_PI;
 
 		p.rotateY(P.map(p.mouseX, 0, p.width, 0, P.TWO_PI * 2));

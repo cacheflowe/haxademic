@@ -6,6 +6,7 @@ import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.math.easing.DisplacementPoint;
+import com.haxademic.core.render.FrameLoop;
 import com.haxademic.core.ui.UI;
 
 public class DisplacementPointMesh
@@ -74,8 +75,8 @@ extends PAppletHax {
 			points[i].influenceByDistance(UI.value(INFLUENCE_BY_DISTANCE));
 			
 			// update input point
-			float inputX = p.width / 2 + P.cos(-p.loop.progressRads()) * 100;
-			float inputY = p.height / 2 + P.sin(-p.loop.progressRads()) * 100;
+			float inputX = p.width / 2 + P.cos(-FrameLoop.progressRads()) * 100;
+			float inputY = p.height / 2 + P.sin(-FrameLoop.progressRads()) * 100;
 			points[i].update(inputX, inputY);
 			
 			// draw points

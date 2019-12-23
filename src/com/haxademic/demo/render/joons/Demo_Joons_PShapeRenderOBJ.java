@@ -8,6 +8,7 @@ import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.media.DemoAssets;
+import com.haxademic.core.render.FrameLoop;
 import com.haxademic.core.render.JoonsWrapper;
 
 import processing.core.PShape;
@@ -65,7 +66,7 @@ extends PAppletHax {
 		// draw shape
 		p.pushMatrix();
 //		p.rotateZ(P.PI);
-		p.rotateY(-loop.progressRads()); // divide by 5 for pentagon
+		p.rotateY(-FrameLoop.progressRads()); // divide by 5 for pentagon
 //		joons.jr.fill(JoonsWrapper.MATERIAL_MIRROR, 230, 230, 230);		p.fill( 230, 230, 230 );
 		PShapeUtil.drawTrianglesJoons(p, obj, 1, JoonsWrapper.MATERIAL_MIRROR);
 		p.popMatrix();
@@ -74,7 +75,7 @@ extends PAppletHax {
 //		p.pushMatrix();
 ////		joons.jr.fill(JoonsWrapper.MATERIAL_LIGHT, 5, 5, 5);		p.fill( 255, 255, 255 );
 //		joons.jr.fill(JoonsWrapper.MATERIAL_GLASS, 5, 5, 5);		p.fill( 255, 255, 255 );
-////		joons.jr.fill(JoonsWrapper.MATERIAL_AMBIENT_OCCLUSION, 10, 10, 30 + 20f * P.sin(loop.progressRads()), 0, 0, 0,   50, 16);
+////		joons.jr.fill(JoonsWrapper.MATERIAL_AMBIENT_OCCLUSION, 10, 10, 30 + 20f * P.sin(AnimationLoop.progressRads()), 0, 0, 0,   50, 16);
 //		p.rotateY(1);
 //		p.rotateZ(1);
 //		p.sphere(70);
@@ -91,15 +92,15 @@ extends PAppletHax {
 			float z = P.sin(rads) * radius;
 			float y = P.map(progress, 0, 1, objHeight/3, -objHeight/3);
 			p.pushMatrix();
-			p.rotateY(P.HALF_PI - P.QUARTER_PI + p.loop.progressRads());
+			p.rotateY(P.HALF_PI - P.QUARTER_PI + FrameLoop.progressRads());
 			p.translate(x, y, z);
 //			if(i%2 == 0) {
-				joons.jr.fill(JoonsWrapper.MATERIAL_GLASS, 200 + 55f * P.sin(p.loop.progressRads() * 1f), 100 + 55f * P.sin(i/5f + p.loop.progressRads() * 1f), 200 + 55f * P.sin(i/3f + p.loop.progressRads() * 1f));		
-												   p.fill( 200 + 55f * P.sin(p.loop.progressRads() * 1f), 100 + 55f * P.sin(i/5f + p.loop.progressRads() * 1f), 200 + 55f * P.sin(i/3f + p.loop.progressRads() * 1f) );
+				joons.jr.fill(JoonsWrapper.MATERIAL_GLASS, 200 + 55f * P.sin(FrameLoop.progressRads() * 1f), 100 + 55f * P.sin(i/5f + FrameLoop.progressRads() * 1f), 200 + 55f * P.sin(i/3f + FrameLoop.progressRads() * 1f));		
+												   p.fill( 200 + 55f * P.sin(FrameLoop.progressRads() * 1f), 100 + 55f * P.sin(i/5f + FrameLoop.progressRads() * 1f), 200 + 55f * P.sin(i/3f + FrameLoop.progressRads() * 1f) );
 //			} else {
 //				joons.jr.fill(JoonsWrapper.MATERIAL_LIGHT, 255, 255, 255);		p.fill( 255, 255, 255 );
 //			}
-			float size = 10f + 10f * P.sin(-p.loop.progressRads() + rads + P.QUARTER_PI);
+			float size = 10f + 10f * P.sin(-FrameLoop.progressRads() + rads + P.QUARTER_PI);
 			p.sphere(size);
 			p.popMatrix();
 		}

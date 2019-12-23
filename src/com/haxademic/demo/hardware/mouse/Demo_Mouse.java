@@ -32,9 +32,9 @@ extends PAppletHax {
 		p.background(0);
 		
 		//get native window object
-		DebugView.setValue("window width", window.getBounds().getWidth());
-		DebugView.setValue("window height", window.getBounds().getHeight());
-		DebugView.setValue("window hasFocus", window.hasFocus());
+		DebugView.setValue("window width", P.window.getBounds().getWidth());
+		DebugView.setValue("window height", P.window.getBounds().getHeight());
+		DebugView.setValue("window hasFocus", P.window.hasFocus());
 
 		// move window in circle
 		AppUtil.setLocation(p, P.round(100 + 50f * P.cos(p.frameCount * 0.01f)), P.round(100 + 50f * P.sin(p.frameCount * 0.01f)));

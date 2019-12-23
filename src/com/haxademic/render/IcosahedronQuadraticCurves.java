@@ -8,6 +8,7 @@ import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.Penner;
 import com.haxademic.core.media.audio.analysis.AudioIn;
+import com.haxademic.core.render.FrameLoop;
 
 import processing.core.PShape;
 import processing.core.PVector;
@@ -42,7 +43,7 @@ extends PAppletHax {
 //		PG.setBetterLights(p);
 		
 		// rotate
-		float z = Penner.easeInOutExpo(0.5f + 0.5f * MathUtil.saw(loop.progressRads()), 0, 1, 1);
+		float z = Penner.easeInOutExpo(0.5f + 0.5f * MathUtil.saw(FrameLoop.progressRads()), 0, 1, 1);
 		p.translate(p.width/2f, p.height/2f, 100 + z * -p.width); // -p.width
 
 		// draw mesh with texture or without
@@ -51,7 +52,7 @@ extends PAppletHax {
 		
 		// draw curves
 		p.pushMatrix();
-		p.rotateY(loop.progressRads());
+		p.rotateY(FrameLoop.progressRads());
 		drawCurves(obj);
 		p.popMatrix();
 	}

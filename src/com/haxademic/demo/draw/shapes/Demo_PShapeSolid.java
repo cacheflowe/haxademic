@@ -10,6 +10,7 @@ import com.haxademic.core.draw.shapes.PShapeSolid;
 import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.media.DemoAssets;
 import com.haxademic.core.media.audio.analysis.AudioIn;
+import com.haxademic.core.render.FrameLoop;
 
 import processing.core.PImage;
 
@@ -79,7 +80,7 @@ extends PAppletHax {
 		// swap deform modes
 		int deformMode = P.round(p.frameCount / 400) % 4;
 		if(deformMode == 0) {
-			for (PShapeSolid shape : shapes) shape.updateWithTrig(true, loop.progress() * 2f, 0.05f, 17.4f);
+			for (PShapeSolid shape : shapes) shape.updateWithTrig(true, FrameLoop.progress() * 2f, 0.05f, 17.4f);
 		} else if(deformMode == 1) {
 			for (PShapeSolid shape : shapes) shape.deformWithAudio(1f);
 		} else if(deformMode == 2) {

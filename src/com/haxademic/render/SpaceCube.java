@@ -13,6 +13,7 @@ import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.shapes.Shapes;
 import com.haxademic.core.hardware.mouse.Mouse;
 import com.haxademic.core.math.easing.EasingFloat;
+import com.haxademic.core.render.FrameLoop;
 
 public class SpaceCube 
 extends PAppletHax {
@@ -56,23 +57,23 @@ extends PAppletHax {
 		float targetZ = 0;
 		
 		// loop override
-		if(loop.progress() < 0.2f) {
+		if(FrameLoop.progress() < 0.2f) {
 			targetX = 0;
 			targetY = 0;
 			targetZ = 0;
-		} else if(loop.progress() < 0.4f) {
+		} else if(FrameLoop.progress() < 0.4f) {
 			targetX = P.PI;
 			targetY = P.QUARTER_PI;
 			targetZ = 0;
-		} else if(loop.progress() < 0.6f) {
+		} else if(FrameLoop.progress() < 0.6f) {
 			targetX = P.QUARTER_PI - 0.166666f;
 			targetY = P.QUARTER_PI;
 			targetZ = 0;
-		} else if(loop.progress() < 0.8f) {
+		} else if(FrameLoop.progress() < 0.8f) {
 			targetX = 0;
 			targetY = -P.PI;
 			targetZ = P.QUARTER_PI;
-		} else if(loop.progress() < 1f) {
+		} else if(FrameLoop.progress() < 1f) {
 			targetX = P.QUARTER_PI;
 			targetY = -P.PI;
 			targetZ = 0;

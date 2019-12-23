@@ -8,6 +8,7 @@ import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.image.TiledTexture;
 import com.haxademic.core.math.easing.EasingFloat;
+import com.haxademic.core.render.FrameLoop;
 
 import processing.core.PGraphics;
 import processing.core.PShape;
@@ -128,19 +129,19 @@ extends PAppletHax {
 
 		
 		int displays[][] = null;
-		if(p.loop.progress() > 0.8f) {
+		if(FrameLoop.progress() > 0.8f) {
 			displays = bigHalfPattern;
 			tileSize.setTarget(1);
 			tileRot.setTarget(0);
-		} else if(p.loop.progress() > 0.6f) {
+		} else if(FrameLoop.progress() > 0.6f) {
 			displays = grid45Pattern;
 			tileSize.setTarget(2f);
 			tileRot.setTarget(-P.HALF_PI);
-		} else if(p.loop.progress() > 0.4f) {
+		} else if(FrameLoop.progress() > 0.4f) {
 			displays = diamondsPattern;
 			tileSize.setTarget(3.5f);
 			tileRot.setTarget(-P.QUARTER_PI);
-		} else if(p.loop.progress() > 0.2f) {
+		} else if(FrameLoop.progress() > 0.2f) {
 			displays = houndstoothPattern;
 			tileSize.setTarget(4f);
 			tileRot.setTarget(0);

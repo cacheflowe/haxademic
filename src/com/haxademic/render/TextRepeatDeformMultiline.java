@@ -13,6 +13,7 @@ import com.haxademic.core.draw.filters.pshader.VignetteFilter;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.image.TiledTexture;
 import com.haxademic.core.file.FileUtil;
+import com.haxademic.core.render.FrameLoop;
 
 import processing.core.PFont;
 import processing.core.PGraphics;
@@ -48,13 +49,13 @@ extends PAppletHax {
 		
 		// draw tiled texture
 		PG.setCenterScreen(p);
-		p.rotateX(0.93f + 0.02f * P.sin(p.loop.progressRads()));//0.95f); // Mouse.yNorm
+		p.rotateX(0.93f + 0.02f * P.sin(FrameLoop.progressRads()));//0.95f); // Mouse.yNorm
 //		p.rotateX(0.95f);
 		
-//		tiledImg.setRotation(0.01f * P.sin(p.loop.progressRads()));
+//		tiledImg.setRotation(0.01f * P.sin(AnimationLoop.progressRads()));
 //		tiledImg.setRotation(0f);
-		tiledImg.setOffset(0, -1f * p.loop.progress());
-		float sizeOsc = 0.01f * P.sin(p.loop.progressRads());
+		tiledImg.setOffset(0, -1f * FrameLoop.progress());
+		float sizeOsc = 0.01f * P.sin(FrameLoop.progressRads());
 		tiledImg.setSize(0.5f + sizeOsc, 0.5f + sizeOsc);
 		tiledImg.update();
 		tiledImg.drawCentered(p.g, p.width * 5f, p.height * 15f);

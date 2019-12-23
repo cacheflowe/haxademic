@@ -13,6 +13,7 @@ import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.draw.shapes.pshader.PointsDeformAndTextureFilter;
 import com.haxademic.core.draw.textures.pshader.TextureShader;
 import com.haxademic.core.media.DemoAssets;
+import com.haxademic.core.render.FrameLoop;
 
 import processing.core.PConstants;
 import processing.core.PGraphics;
@@ -72,8 +73,8 @@ extends PAppletHax {
 
 	public void drawApp() {
 		// update displacement texture
-		noiseTexture.shader().set("zoom", 2.5f + 1.5f * P.sin(p.loop.progressRads()));
-		noiseTexture.shader().set("rotation", p.loop.progressRads());
+		noiseTexture.shader().set("zoom", 2.5f + 1.5f * P.sin(FrameLoop.progressRads()));
+		noiseTexture.shader().set("rotation", FrameLoop.progressRads());
 		noiseBuffer.filter(noiseTexture.shader());
 		// blur texture for smooothness
 		BlurProcessingFilter.instance(p).setBlurSize(5);
@@ -90,7 +91,7 @@ extends PAppletHax {
 		PointsDeformAndTextureFilter.instance(p).setColorMap(texture);
 		PointsDeformAndTextureFilter.instance(p).setDisplacementMap(noiseBuffer);
 		PointsDeformAndTextureFilter.instance(p).setMaxPointSize(6f);
-		PointsDeformAndTextureFilter.instance(p).setDisplaceAmp(0.2f + 0.2f * P.sin(p.loop.progressRads()));			// multiplied by obj extent
+		PointsDeformAndTextureFilter.instance(p).setDisplaceAmp(0.2f + 0.2f * P.sin(FrameLoop.progressRads()));			// multiplied by obj extent
 		PointsDeformAndTextureFilter.instance(p).setModelMaxExtent(objExtent * 2.1f);		// texture mapping UV
 		PointsDeformAndTextureFilter.instance(p).setSheetMode(true);
 		PointsDeformAndTextureFilter.instance(p).setColorPointSizeMode(false);		// if color point size, use original color texture for point size. otherwise use displacement map color for point size

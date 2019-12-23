@@ -12,6 +12,7 @@ import com.haxademic.core.draw.shapes.TextToPShape;
 import com.haxademic.core.draw.textures.SimplexNoiseTexture;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.media.DemoAssets;
+import com.haxademic.core.render.FrameLoop;
 
 import processing.core.PShape;
 import processing.core.PVector;
@@ -99,15 +100,15 @@ extends PAppletHax {
 		// set context
 		background(0);
 		PG.setCenterScreen(p);
-		p.rotateX(0.2f + 0.2f * P.sin(p.loop.progressRads()) );
-		p.rotateY(0.1f * P.sin(p.loop.progressRads()) );
+		p.rotateX(0.2f + 0.2f * P.sin(FrameLoop.progressRads()) );
+		p.rotateY(0.1f * P.sin(FrameLoop.progressRads()) );
 //		PG.basicCameraFromMouse(p.g);
 
 		// update displacement map
-		displaceTexture.offsetX(P.sin(p.loop.progressRads()) * 0.4f);
-		displaceTexture.rotation(p.loop.progressRads());
+		displaceTexture.offsetX(P.sin(FrameLoop.progressRads()) * 0.4f);
+		displaceTexture.rotation(FrameLoop.progressRads());
 //		displaceTexture.zoom(1f);
-		displaceTexture.zoom(1f + 0.1f * P.sin(p.loop.progressRads()));
+		displaceTexture.zoom(1f + 0.1f * P.sin(FrameLoop.progressRads()));
 		displaceTexture.update();
 		
 		// apply deform shader and draw mesh - CANNOT HAVE PROCESSING LIGHTS TURNED ON!

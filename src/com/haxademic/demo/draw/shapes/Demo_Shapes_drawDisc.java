@@ -8,6 +8,7 @@ import com.haxademic.core.draw.color.ImageGradient;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.shapes.Shapes;
 import com.haxademic.core.math.MathUtil;
+import com.haxademic.core.render.FrameLoop;
 
 public class Demo_Shapes_drawDisc 
 extends PAppletHax {
@@ -37,14 +38,14 @@ extends PAppletHax {
 		p.lights();
 		PG.setCenterScreen(p);
 		p.translate(0, p.height * -0.075f);
-		rotateX(0.9f + 0.15f * P.sin(loop.progressRads())); 
+		rotateX(0.9f + 0.15f * P.sin(FrameLoop.progressRads())); 
 		
 		
 		// set up concentric polygon config
 		float radius = p.height * 0.39f; 
 		float spacing = p.height * 0.01f; 
 		float lineWeight = radius * 0.015f;
-		float vertices = P.round(5.5f + 2.5f * P.sin(loop.progressRads()));
+		float vertices = P.round(5.5f + 2.5f * P.sin(FrameLoop.progressRads()));
 		vertices = 8f;
 		
 		// rotate polygon to sit on a flat bottom
@@ -61,11 +62,11 @@ extends PAppletHax {
 		float index = 0;
 		while(radius > 2) {
 			p.pushMatrix();
-			p.translate(0, 0, p.width * 0.07f * P.sin(index * 0.3f + loop.progressRads()));
-//			p.rotateZ(0.2f * P.sin(index * 0.3f + loop.progressRads()));
-			p.fill(imageGradient.getColorAtProgress(0.5f + 0.4f * P.sin(index * 0.3f + loop.progressRads())));
+			p.translate(0, 0, p.width * 0.07f * P.sin(index * 0.3f + FrameLoop.progressRads()));
+//			p.rotateZ(0.2f * P.sin(index * 0.3f + AnimationLoop.progressRads()));
+			p.fill(imageGradient.getColorAtProgress(0.5f + 0.4f * P.sin(index * 0.3f + FrameLoop.progressRads())));
 //			Shapes.drawDisc(p, radius, radius - lineWeight, (int) vertices);
-			float h = 20f + 15f * P.sin(P.PI + index * 0.3f + loop.progressRads());
+			float h = 20f + 15f * P.sin(P.PI + index * 0.3f + FrameLoop.progressRads());
 			Shapes.drawDisc3D(p, radius, radius - lineWeight, h, (int) vertices, 0, 0 );
 			radius -= lineWeight + spacing;
 			lineWeight *= 0.98f;

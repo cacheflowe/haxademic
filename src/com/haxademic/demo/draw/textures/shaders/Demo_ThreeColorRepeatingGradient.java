@@ -6,6 +6,7 @@ import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
 import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.draw.color.EasingColor;
+import com.haxademic.core.render.FrameLoop;
 
 import processing.core.PGraphics;
 import processing.opengl.PShader;
@@ -53,7 +54,7 @@ extends PAppletHax {
 		background(0);
 
 		// change colors
-		if(loop.progress() < 0.5f)  setColors("#ff000000", "#ffffffff", "#ff44ff44");
+		if(FrameLoop.progress() < 0.5f)  setColors("#ff000000", "#ffffffff", "#ff44ff44");
 		else                        setColors("#ff000000", "#ffffffff", "#ffdddd44");
 		
 		// update colors in shader
@@ -64,9 +65,9 @@ extends PAppletHax {
 		
 		// update other shader properties
 		gradientShader.set("zoom", 85f);
-		gradientShader.set("scrollY", loop.progress() * 5f);
+		gradientShader.set("scrollY", FrameLoop.progress() * 5f);
 		gradientShader.set("oscFreq", P.PI * 3f);
-		gradientShader.set("oscAmp", 0.08f + 0.03f * P.sin(loop.progressRads()));
+		gradientShader.set("oscAmp", 0.08f + 0.03f * P.sin(FrameLoop.progressRads()));
 		gradientShader.set("fade", 0.6f);
 
 		// update gradient

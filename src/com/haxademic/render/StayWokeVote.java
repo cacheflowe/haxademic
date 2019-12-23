@@ -12,6 +12,7 @@ import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.LinearFloat;
 import com.haxademic.core.math.easing.Penner;
+import com.haxademic.core.render.FrameLoop;
 
 import processing.core.PShape;
 
@@ -78,7 +79,7 @@ extends PAppletHax {
 	}
 
 	public void drawApp() {
-		if(p.loop.progress() < 0.55f || p.loop.progress() > 0.85f) bgColor.setTargetHex("#000000"); else bgColor.setTargetHex("#ffffff");
+		if(FrameLoop.progress() < 0.55f || FrameLoop.progress() > 0.85f) bgColor.setTargetHex("#000000"); else bgColor.setTargetHex("#ffffff");
 		bgColor.update();
 		p.background(bgColor.colorInt());
 		PG.setCenterScreen(p);
@@ -94,8 +95,8 @@ extends PAppletHax {
 		p.shininess(5.0f); 
 
 		// mouse rotation
-		rotateX(P.cos(p.loop.progressRads() * 2f) * 0.1f);
-		rotateY(P.sin(p.loop.progressRads() * 2f) * 0.1f);
+		rotateX(P.cos(FrameLoop.progressRads() * 2f) * 0.1f);
+		rotateY(P.sin(FrameLoop.progressRads() * 2f) * 0.1f);
 //		rotateX(P.map(p.mouseY, 0, p.height, -1f, 1f));
 //		rotateY(P.map(p.mouseX, 0, p.width, -1f, 1f));
 
@@ -109,7 +110,7 @@ extends PAppletHax {
 		float distFromCenter = (p.height * 0.23f);// + showProgressEased * (p.height * 0.7f);
 		
 		// STAY
-		stayProgress.setTarget((p.loop.progress() <= 0.45f || p.loop.progress() >= 0.95f) ? 1 : 0);
+		stayProgress.setTarget((FrameLoop.progress() <= 0.45f || FrameLoop.progress() >= 0.95f) ? 1 : 0);
 		stayProgress.update();
 		float stayProgressEased = Penner.easeInOutExpo(stayProgress.value(), 0, 1, 1);
 
@@ -129,7 +130,7 @@ extends PAppletHax {
 		p.popMatrix();
 
 		// WOKE
-		wokeProgress.setTarget((p.loop.progress() <= 0.5f) ? 1 : 0);
+		wokeProgress.setTarget((FrameLoop.progress() <= 0.5f) ? 1 : 0);
 		wokeProgress.update();
 		float wokeProgressEased = Penner.easeInOutExpo(wokeProgress.value(), 0, 1, 1);
 
@@ -151,7 +152,7 @@ extends PAppletHax {
 		
 		
 		// VOTE
-		float showTarget = (p.loop.progress() <= 0.525f || p.loop.progress() >= 0.95f) ? 0 : 1; 
+		float showTarget = (FrameLoop.progress() <= 0.525f || FrameLoop.progress() >= 0.95f) ? 0 : 1; 
 		voteProgress.setTarget(showTarget);
 		voteProgress.update();
 		float voteProgressEased = Penner.easeInOutExpo(voteProgress.value(), 0, 1, 1);
@@ -181,9 +182,9 @@ extends PAppletHax {
 			}
 			
 			p.translate(letterX, 0);
-			p.rotateX(0.1f * P.sin(i * 1f + 4f * p.loop.progressRads()));
-			p.rotateY(0.1f * P.sin(i * 10f + 4f * p.loop.progressRads()));
-			p.translate(0, pg.height * 0.05f * P.sin(i + 4f * p.loop.progressRads()));
+			p.rotateX(0.1f * P.sin(i * 1f + 4f * FrameLoop.progressRads()));
+			p.rotateY(0.1f * P.sin(i * 10f + 4f * FrameLoop.progressRads()));
+			p.translate(0, pg.height * 0.05f * P.sin(i + 4f * FrameLoop.progressRads()));
 			
 			// add red circle stripes behind "O"
 			if(i == 1) drawCircleBg();
@@ -195,7 +196,7 @@ extends PAppletHax {
 		
 		
 		// stars!
-		if(p.loop.progress() > 0.83f && p.loop.progress() < 0.85f) {
+		if(FrameLoop.progress() > 0.83f && FrameLoop.progress() < 0.85f) {
 			starsProgress.setInc(0.02f);
 			starsProgress.setCurrent(-0.5f);
 			starsProgress.setTarget(2f);
@@ -252,11 +253,11 @@ extends PAppletHax {
 			// color radial stripes
 			p.noFill();
 			p.strokeWeight(spacing / 8f);
-			if(i % 2 == 0 && p.loop.progress() > 0.5f && p.loop.progress() < 0.98f) {
+			if(i % 2 == 0 && FrameLoop.progress() > 0.5f && FrameLoop.progress() < 0.98f) {
 				p.stroke(255, 70, 70);
 				// draw circles
 				p.translate(0, 0, i);
-				float circleSize = (spacing * -24f) + (spacing * 18 * p.loop.progress()) + spacing * p.loop.progress() * 20 + i * spacing;
+				float circleSize = (spacing * -24f) + (spacing * 18 * FrameLoop.progress()) + spacing * FrameLoop.progress() * 20 + i * spacing;
 				if(circleSize > 0) {
 					p.ellipse(0, 0, circleSize, circleSize);
 				}

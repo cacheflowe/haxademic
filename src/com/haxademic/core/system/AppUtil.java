@@ -58,9 +58,9 @@ public class AppUtil {
 	}
 	
 	public static void requestForegroundSafe() {
-		if(P.p.window.hasFocus() == false) {
+		if(P.window.hasFocus() == false) {
 			requestForeground(P.p);
-			P.p.window.requestFocus();
+			P.window.requestFocus();
 		}
 	}
 	

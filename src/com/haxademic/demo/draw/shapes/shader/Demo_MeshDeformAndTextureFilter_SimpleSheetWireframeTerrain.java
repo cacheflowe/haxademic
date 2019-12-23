@@ -12,6 +12,7 @@ import com.haxademic.core.draw.shapes.pshader.MeshDeformAndTextureFilter;
 import com.haxademic.core.draw.textures.SimplexNoiseTexture;
 import com.haxademic.core.math.easing.LinearFloat;
 import com.haxademic.core.math.easing.Penner;
+import com.haxademic.core.render.FrameLoop;
 
 import processing.core.PGraphics;
 import processing.core.PShape;
@@ -58,8 +59,8 @@ extends PAppletHax {
 
 	public void drawApp() {
 		// ease amplitude
-		if(p.loop.loopCurFrame() == 2) displaceAmpMult.setTarget(1);
-		if(p.loop.loopCurFrame() == FRAMES - 80) displaceAmpMult.setTarget(0);
+		if(FrameLoop.loopCurFrame() == 2) displaceAmpMult.setTarget(1);
+		if(FrameLoop.loopCurFrame() == FRAMES - 80) displaceAmpMult.setTarget(0);
 		displaceAmpMult.update();
 		float easedAmp = Penner.easeInOutQuad(displaceAmpMult.value());
 		

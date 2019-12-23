@@ -10,6 +10,7 @@ import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.draw.shapes.Shapes;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.media.DemoAssets;
+import com.haxademic.core.render.FrameLoop;
 
 import processing.core.PFont;
 import processing.core.PGraphics;
@@ -86,7 +87,7 @@ extends PAppletHax {
 	}
 	
 	public void drawPointOnFloor(PGraphics tex) {
-		float circleSize = tex.width * 0.1f * (1f + 0.2f * P.sin(8f * loop.progressRads()));
+		float circleSize = tex.width * 0.1f * (1f + 0.2f * P.sin(8f * FrameLoop.progressRads()));
 		tex.beginDraw();
 		PG.setDrawCenter(p);
 		tex.fill(255);
@@ -105,13 +106,13 @@ extends PAppletHax {
 		p.noStroke();
 		
 		// stripes
-		stripes.set("amp", 350.0f + 200f * P.cos(P.PI + P.QUARTER_PI + loop.progressRads()));
-		stripes.set("time", loop.progress() * 20f);
-		stripes.set("rot", P.HALF_PI + 0.15f * P.sin(loop.progressRads()));
+		stripes.set("amp", 350.0f + 200f * P.cos(P.PI + P.QUARTER_PI + FrameLoop.progressRads()));
+		stripes.set("time", FrameLoop.progress() * 20f);
+		stripes.set("rot", P.HALF_PI + 0.15f * P.sin(FrameLoop.progressRads()));
 		stripesBuffer2.filter(stripes);
 		
 		// floor
-		twist.set("time", 20f * loop.progress());
+		twist.set("time", 20f * FrameLoop.progress());
 		boxFloor.filter(twist);
 		
 		// ceiling
@@ -149,7 +150,7 @@ extends PAppletHax {
 		// draw box
 		p.translate(p.width/2, 0); // -p.height * 0.25f);
 		p.translate(0, 0, -p.height * 0.2f);
-		p.rotateY(loop.progressRads());
+		p.rotateY(FrameLoop.progressRads());
 		Shapes.drawTexturedCubeInside(p.g, boxW, boxH, boxD, box1, box2, box3, box4, boxFloor, boxCeiling);
 		
 		// draw human

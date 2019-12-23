@@ -53,15 +53,15 @@ extends PAppletHax {
 //		buffer8.clear();
 //		buffer8.noFill();
 //		buffer8.strokeWeight(2.5f);
-//		float noiseSpeed = 0.01f;// + 0.001f * P.sin(p.loop.progressRads());
+//		float noiseSpeed = 0.01f;// + 0.001f * P.sin(AnimationLoop.progressRads());
 //		float noiseStart = p.frameCount * 0.01f;
 //		for (int x = 0; x < p.width; x++) {
 //			float audioAmp = 0.3f + 7f * AudioIn.audioFreq(x);
 //			audioAmp = 1f;
 //			buffer8.stroke(
-//					audioAmp * (127 + 127 * P.sin((float)x * 0.002f + p.loop.progressRads())),
-//					audioAmp * (127 + 127 * P.sin((float)x * 0.005f + p.loop.progressRads())),
-//					audioAmp * (127 + 127 * P.sin((float)x * 0.01f + p.loop.progressRads()))
+//					audioAmp * (127 + 127 * P.sin((float)x * 0.002f + AnimationLoop.progressRads())),
+//					audioAmp * (127 + 127 * P.sin((float)x * 0.005f + AnimationLoop.progressRads())),
+//					audioAmp * (127 + 127 * P.sin((float)x * 0.01f + AnimationLoop.progressRads()))
 //			);
 //			float noiseY = p.noise(noiseStart + x * noiseSpeed) * 100f;
 //			float noiseYNext = p.noise(noiseStart + (x+1) * noiseSpeed) * 100f;

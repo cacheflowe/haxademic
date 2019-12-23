@@ -2,6 +2,7 @@ package com.haxademic.demo.hardware.mouse;
 
 import java.awt.Point;
 
+import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.debug.DebugView;
 
@@ -15,8 +16,8 @@ extends PAppletHax {
 
 	public void firstFrame() {
 		// keep mouse locked in window
-		window.confinePointer(true);
-		window.setPointerVisible(true);
+		P.window.confinePointer(true);
+		P.window.setPointerVisible(true);
 	}
 
 	public void drawApp() {
@@ -25,7 +26,7 @@ extends PAppletHax {
 		// lock mouse in center, and check offset from last frame
 		DebugView.setValue("mouseMoveX", p.mouseX - lastMousePoint.x);
 		DebugView.setValue("mouseMoveY", p.mouseY - lastMousePoint.y);
-		window.warpPointer(width/2, height/2);
+		P.window.warpPointer(width/2, height/2);
 		lastMousePoint.setLocation(width/2, height/2);
 	}
 

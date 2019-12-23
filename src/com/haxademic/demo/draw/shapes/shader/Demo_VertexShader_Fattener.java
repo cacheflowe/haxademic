@@ -11,6 +11,7 @@ import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.media.DemoAssets;
+import com.haxademic.core.render.FrameLoop;
 
 import processing.core.PGraphics;
 import processing.core.PImage;
@@ -73,11 +74,11 @@ extends PAppletHax {
 		buffer.beginDraw();
 		buffer.clear();
 		buffer.translate(p.width/2f, p.height/2f, 0);
-		buffer.rotateY(0.5f * P.sin(loop.progressRads()));
+		buffer.rotateY(0.5f * P.sin(FrameLoop.progressRads()));
 		
 		// apply deform shader and draw mesh - CANNOT HAVE PROCESSING LIGHTS TURNED ON!
-		fattenerVertShader.set("time", loop.progressRads() * 2f);
-//		fattenerVertShader.set("amp", 20f + 20f * P.sin(loop.progressRads()));
+		fattenerVertShader.set("time", FrameLoop.progressRads() * 2f);
+//		fattenerVertShader.set("amp", 20f + 20f * P.sin(AnimationLoop.progressRads()));
 		fattenerVertShader.set("amp", p.height * 0.05f);
 		buffer.noLights();
 		buffer.shader(fattenerVertShader);  

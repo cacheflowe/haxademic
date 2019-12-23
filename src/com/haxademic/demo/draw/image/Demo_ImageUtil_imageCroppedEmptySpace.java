@@ -9,6 +9,7 @@ import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.image.TiledTexture;
 import com.haxademic.core.media.DemoAssets;
+import com.haxademic.core.render.FrameLoop;
 
 import processing.core.PFont;
 import processing.core.PGraphics;
@@ -22,9 +23,9 @@ extends PAppletHax {
 	protected PFont fontBig;
 	protected PImage textCropped;
 	protected TiledTexture tiledImg;
+	protected int FRAMES = 140;
 	
 	protected void config() {
-		int FRAMES = 140;
 		Config.setProperty(AppSettings.WIDTH, 1024);
 		Config.setProperty(AppSettings.HEIGHT, 582);
 		Config.setProperty( AppSettings.LOOP_FRAMES, FRAMES );
@@ -63,9 +64,9 @@ extends PAppletHax {
 		PG.setCenterScreen(p);
 		
 		// draw tiled texture
-		float size = 1f + 0.2f * P.sin(p.loop.progressRads());
-		tiledImg.setRotation(0.01f * P.sin(p.loop.progressRads()));
-		tiledImg.setOffset(0, -1f * p.loop.progress());
+		float size = 1f + 0.2f * P.sin(FrameLoop.progressRads());
+		tiledImg.setRotation(0.01f * P.sin(FrameLoop.progressRads()));
+		tiledImg.setOffset(0, -1f * FrameLoop.progress());
 		tiledImg.setSize(size, size);
 		tiledImg.update();
 		tiledImg.drawCentered(p.g, p.width, p.height);

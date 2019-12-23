@@ -16,6 +16,7 @@ import com.haxademic.core.draw.shapes.TextToPShape;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.easing.LinearFloat;
 import com.haxademic.core.math.easing.Penner;
+import com.haxademic.core.render.FrameLoop;
 
 import processing.core.PGraphics;
 import processing.core.PShape;
@@ -130,22 +131,22 @@ extends PAppletHax {
 		meshTextureBuffer.beginDraw();
 		meshTextureBuffer.translate(meshTextureBuffer.width / 2, meshTextureBuffer.height / 2);
 		tiledRainbow.setOffset(0, 0);
-		tiledRainbow.setSize(3f + 2f * P.sin(2f * 4f * p.loop.progressRads()), 3f + 2f * P.sin(2f * 4f * p.loop.progressRads()));
-		tiledRainbow.setRotation(P.sin(4f * p.loop.progressRads()));
+		tiledRainbow.setSize(3f + 2f * P.sin(2f * 4f * FrameLoop.progressRads()), 3f + 2f * P.sin(2f * 4f * FrameLoop.progressRads()));
+		tiledRainbow.setRotation(P.sin(4f * FrameLoop.progressRads()));
 		tiledRainbow.drawCentered(meshTextureBuffer, meshTextureBuffer.width, meshTextureBuffer.height);
 		meshTextureBuffer.endDraw();
 		
 		textTextureBuffer.beginDraw();
 		textTextureBuffer.translate(textTextureBuffer.width / 2, textTextureBuffer.height / 2);
 		tiledRainbow.setOffset(0, 0);
-		tiledRainbow.setSize(2f + 1f * P.sin(2f * 4f * p.loop.progressRads()), 2f + 1f * P.sin(2f * 4f * p.loop.progressRads()));
-		tiledRainbow.setRotation(P.PI - P.sin(4f * p.loop.progressRads()));
+		tiledRainbow.setSize(2f + 1f * P.sin(2f * 4f * FrameLoop.progressRads()), 2f + 1f * P.sin(2f * 4f * FrameLoop.progressRads()));
+		tiledRainbow.setRotation(P.PI - P.sin(4f * FrameLoop.progressRads()));
 		tiledRainbow.drawCentered(textTextureBuffer, textTextureBuffer.width, textTextureBuffer.height);
 		textTextureBuffer.endDraw();
 		
 		// easing
 		showHide.setInc(0.015f);
-		float showHideTarget = ((4f * p.loop.progress()) % 1f > 0.5f) ? 0 : 1;
+		float showHideTarget = ((4f * FrameLoop.progress()) % 1f > 0.5f) ? 0 : 1;
 		showHide.setTarget(showHideTarget);
 		showHide.update();
 		float easedSlide = Penner.easeInOutQuad(showHide.value(), 0, 1, 1);
@@ -153,7 +154,7 @@ extends PAppletHax {
 		// draw shape
 		PG.setCenterScreen(p.g);
 		p.rotateX(0.5f * P.sin(P.HALF_PI + easedSlide * P.PI));
-//		p.rotateX(0.4f * P.sin(P.HALF_PI + p.loop.progressRads()));
+//		p.rotateX(0.4f * P.sin(P.HALF_PI + AnimationLoop.progressRads()));
 		// draw sheet
 		
 		p.pushMatrix();

@@ -4,10 +4,11 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.OpenGLUtil;
+import com.haxademic.core.render.FrameLoop;
 
 import processing.core.PVector;
 
-public class Demo_AnimationLoop
+public class Demo_FrameLoop
 extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }	
 	
@@ -38,11 +39,11 @@ extends PAppletHax {
 
 	public void drawApp() {
 		// make changes on tick
-		if(p.loop.isTick()) {
-			if(p.loop.curTick() == 14) {
+		if(FrameLoop.isTick()) {
+			if(FrameLoop.curTick() == 14) {
 				_bg = 70;
 			}
-			if(p.loop.curTick() % 2 == 0) {
+			if(FrameLoop.curTick() % 2 == 0) {
 				_boxSize = 200;
 			}
 		}
@@ -55,7 +56,7 @@ extends PAppletHax {
 		// box
 		p.pushMatrix();
 		p.translate(p.width/2, p.height/2);
-		_boxRot.set(p.loop.progressRads(), p.loop.progressRads(), p.loop.progressRads());
+		_boxRot.set(FrameLoop.progressRads(), FrameLoop.progressRads(), FrameLoop.progressRads());
 		p.rotateX(_boxRot.x);
 		p.rotateY(_boxRot.y);
 		p.rotateZ(_boxRot.z);

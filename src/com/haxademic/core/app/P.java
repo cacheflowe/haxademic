@@ -9,8 +9,10 @@ import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.keyboard.KeyboardState;
 import com.haxademic.core.hardware.mouse.Mouse;
+import com.haxademic.core.render.FrameLoop;
 import com.haxademic.core.system.ScreenSaverBlocker;
 import com.haxademic.core.ui.UI;
+import com.jogamp.newt.opengl.GLWindow;
 
 import processing.core.PApplet;
 import processing.core.PImage;
@@ -21,6 +23,7 @@ extends PApplet {
 	// static app object refs
 	
 	public static PAppletHax p;
+	public static GLWindow window;
 	public static String renderer;
 	public static AppStore store;	
 	public static AppStoreDistributed storeDistributed;	
@@ -30,6 +33,13 @@ extends PApplet {
 		P.store = AppStore.instance();
 		Config.instance();
 		renderer = Config.getString(AppSettings.RENDERER, P.P3D);
+	}
+	
+	public static void appInitialized() {
+		// now that the app/window is initialized, we can act on P.p properties 
+		// ... and anything that relied on PAppletHax.config() overrides per-app
+		if(P.isOpenGL()) window = (GLWindow) P.p.getSurface().getNative();
+		if(Config.getInt(AppSettings.LOOP_FRAMES, 0) != 0) FrameLoop.instance(Config.getInt(AppSettings.LOOP_FRAMES, 0), Config.getInt(AppSettings.LOOP_TICKS, 4));
 		if(P.renderer != PRenderers.PDF) DebugView.instance();
 		ScreenSaverBlocker.instance();
 		UI.instance();

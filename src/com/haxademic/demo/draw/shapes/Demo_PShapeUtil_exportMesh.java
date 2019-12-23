@@ -6,6 +6,7 @@ import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.shapes.Icosahedron;
 import com.haxademic.core.draw.shapes.PShapeUtil;
+import com.haxademic.core.render.FrameLoop;
 
 import processing.core.PConstants;
 import processing.core.PImage;
@@ -68,7 +69,7 @@ extends PAppletHax {
 		// icosahedron
 		p.pushMatrix();
 		p.translate(p.width/2f, p.height/2f);
-		p.rotateY(loop.progressRads());
+		p.rotateY(FrameLoop.progressRads());
 		shapeIcos.disableStyle();
 		p.fill(20);
 		p.noStroke();

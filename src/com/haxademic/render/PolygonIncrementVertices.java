@@ -11,6 +11,7 @@ import com.haxademic.core.draw.filters.pshader.VignetteFilter;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.EasingFloat;
+import com.haxademic.core.render.FrameLoop;
 
 public class PolygonIncrementVertices 
 extends PAppletHax {
@@ -61,8 +62,8 @@ extends PAppletHax {
 		pg.noStroke();
 
 		// update polygon vertex count and draw them
-		float polySize = pg.width * 0.3f * (1f + 0.05f * P.sin(p.loop.progressRads() * 5f));
-		float vertices = 5.5f + 2.5f * MathUtil.saw(p.loop.progressRads());
+		float polySize = pg.width * 0.3f * (1f + 0.05f * P.sin(FrameLoop.progressRads() * 5f));
+		float vertices = 5.5f + 2.5f * MathUtil.saw(FrameLoop.progressRads());
 		verticesEased.setTarget(P.round(vertices));
 		verticesEased.update(true);
 		float segmentRads = P.TWO_PI / verticesEased.value();

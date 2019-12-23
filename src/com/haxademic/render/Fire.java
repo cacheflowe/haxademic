@@ -18,6 +18,7 @@ import com.haxademic.core.draw.filters.pshader.RotateFilter;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.textures.SimplexNoiseTexture;
 import com.haxademic.core.file.FileUtil;
+import com.haxademic.core.render.FrameLoop;
 import com.haxademic.core.ui.UI;
 
 import processing.core.PGraphics;
@@ -131,7 +132,7 @@ extends PAppletHax {
 	}
 	
 	protected void drawSourceShape() {
-		float shapeSize = sourcePG.width * 0.2f * (1f + 0.05f * P.sin(p.loop.progressRads() * 3f));
+		float shapeSize = sourcePG.width * 0.2f * (1f + 0.05f * P.sin(FrameLoop.progressRads() * 3f));
 		sourcePG.beginDraw();
 		sourcePG.background(0);
 		sourcePG.fill(255);
@@ -187,8 +188,8 @@ extends PAppletHax {
 		// for rendering loop:
 //		int fadeFrames = 100;
 //		int darkFrames = 60;
-//		if(p.loop.loopCurFrame() < fadeFrames) alphaAdd = P.map(p.loop.loopCurFrame(), 0, fadeFrames, 0, alphaAdd);
-//		if(p.loop.loopCurFrame() > FRAMES - fadeFrames - darkFrames) alphaAdd = P.map(p.loop.loopCurFrame(), FRAMES - fadeFrames - darkFrames, FRAMES - darkFrames, alphaAdd, 0);
+//		if(AnimationLoop.loopCurFrame() < fadeFrames) alphaAdd = P.map(AnimationLoop.loopCurFrame(), 0, fadeFrames, 0, alphaAdd);
+//		if(AnimationLoop.loopCurFrame() > FRAMES - fadeFrames - darkFrames) alphaAdd = P.map(AnimationLoop.loopCurFrame(), FRAMES - fadeFrames - darkFrames, FRAMES - darkFrames, alphaAdd, 0);
 		
 		// add new frame on top
 		fadePG.beginDraw();
@@ -215,7 +216,7 @@ extends PAppletHax {
 		noiseTexture.update(
 				UI.value(UI_NOISE_ZOOM),
 				0,
-				p.frameCount * 0.01f + 0.1f * P.sin(p.loop.progressRads() * 3f),
+				p.frameCount * 0.01f + 0.1f * P.sin(FrameLoop.progressRads() * 3f),
 				-frameCount * 0.05f
 		);
 		

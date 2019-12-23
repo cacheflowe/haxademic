@@ -24,6 +24,7 @@ import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.EasingFloat;
 import com.haxademic.core.math.easing.LinearFloat;
+import com.haxademic.core.render.FrameLoop;
 import com.haxademic.core.ui.UI;
 
 import processing.core.PGraphics;
@@ -310,8 +311,8 @@ extends PAppletHax {
 	public void drawApp() {
 		p.background(0);
 		if(UI.valueInt(RENDER_MODE) == 1) {
-			if(p.loop.loopCurFrame() == 1) newMode();
-			if(p.loop.loopCurFrame() == FRAMES - 20) swipeForNextMode();
+			if(FrameLoop.loopCurFrame() == 1) newMode();
+			if(FrameLoop.loopCurFrame() == FRAMES - 20) swipeForNextMode();
 		}
 		
 		// set context
@@ -381,12 +382,12 @@ extends PAppletHax {
 			// draw oscillated shape
 			PG.setDrawCorner(pg);
 			pg.pushMatrix();
-			float newScale = 1.15f;// + 0.1f * P.sin(index + p.loop.progressRads() * 2f);
+			float newScale = 1.15f;// + 0.1f * P.sin(index + AnimationLoop.progressRads() * 2f);
 			pg.noStroke();
 			pg.fill(
-					127 + 127f * P.sin(index + p.loop.progressRads()), 
-					127 + 127f * P.sin(index + 1 + p.loop.progressRads()), 
-					127 + 127f * P.sin(index + 2 + p.loop.progressRads()));
+					127 + 127f * P.sin(index + FrameLoop.progressRads()), 
+					127 + 127f * P.sin(index + 1 + FrameLoop.progressRads()), 
+					127 + 127f * P.sin(index + 2 + FrameLoop.progressRads()));
 			
 			pg.fill(255);
 			pg.translate(position.x, position.y);
@@ -402,9 +403,9 @@ extends PAppletHax {
 			pg.stroke(255, 127);
 			pg.strokeWeight(3);
 			pg.translate(position.x, position.y);
-			int numRects = P.round(10 + 10 * P.sin(P.PI + index + p.loop.progressRads()));
+			int numRects = P.round(10 + 10 * P.sin(P.PI + index + FrameLoop.progressRads()));
 			for (int i = 0; i < numRects; i++) {
-				float scaleUp = 1 + i * 0.2f + 0.15f * P.sin(index + p.loop.progressRads());
+				float scaleUp = 1 + i * 0.2f + 0.15f * P.sin(index + FrameLoop.progressRads());
 				// pg.rect(0, 0, windowShape.width * scaleUp, windowShape.height * scaleUp);
 			}
 			pg.popMatrix();

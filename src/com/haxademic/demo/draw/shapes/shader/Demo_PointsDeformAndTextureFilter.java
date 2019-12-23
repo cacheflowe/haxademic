@@ -15,6 +15,7 @@ import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
 import com.haxademic.core.draw.textures.pshader.TextureShader;
 import com.haxademic.core.hardware.mouse.Mouse;
 import com.haxademic.core.media.DemoAssets;
+import com.haxademic.core.render.FrameLoop;
 
 import processing.core.PShape;
 
@@ -77,8 +78,8 @@ extends PAppletHax {
 		audioTexture.update();
 		if(Mouse.yNorm < 0.5f) {
 //			noiseTexture.shader().set("offset", 0f, P.p.frameCount * 0.005f);
-			noiseTexture.shader().set("zoom", 4f + 3f * P.sin(p.loop.progressRads()));
-			noiseTexture.shader().set("rotation", p.loop.progressRads());
+			noiseTexture.shader().set("zoom", 4f + 3f * P.sin(FrameLoop.progressRads()));
+			noiseTexture.shader().set("rotation", FrameLoop.progressRads());
 			audioTexture.texture().filter(noiseTexture.shader());
 		}
 		// blur texture for smooothness

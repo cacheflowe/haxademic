@@ -109,7 +109,7 @@ extends BaseVideoFilter {
 		pointsTexturedShader.set("width", (float) width);
 		pointsTexturedShader.set("height", (float) height);
 		pointsTexturedShader.set("flipY", 1);
-//		pointsTexturedShader.set("spread", 1f);//0.5f + Mouse.yNorm * 2f);//2.5f + 0.5f * P.sin(P.PI + 2f * loop.progressRads()));
+//		pointsTexturedShader.set("spread", 1f);//0.5f + Mouse.yNorm * 2f);//2.5f + 0.5f * P.sin(P.PI + 2f * AnimationLoop.progressRads()));
 		pointsTexturedShader.set("displaceStrength", 80f);//130f + 130f * P.sin(P.PI + P.TWO_PI * percentComplete));
 		destBuffer.shader(pointsTexturedShader);
 		destBuffer.shape(shape);

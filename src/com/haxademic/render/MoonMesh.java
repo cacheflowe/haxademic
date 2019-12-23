@@ -7,6 +7,7 @@ import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.shapes.Shapes;
 import com.haxademic.core.draw.shapes.pshader.MeshDeformAndTextureFilter;
+import com.haxademic.core.render.FrameLoop;
 
 import processing.core.PGraphics;
 import processing.core.PImage;
@@ -53,12 +54,12 @@ extends PAppletHax {
 		
 		// set center screen & rotate
 		p.scale(0.65f);
-		p.rotateZ(-0.3f + 0.01f * P.sin(p.loop.progressRads() * 2f)); 
-		p.rotateX(0.2f + 0.4f * P.sin(p.loop.progressRads())); 
+		p.rotateZ(-0.3f + 0.01f * P.sin(FrameLoop.progressRads() * 2f)); 
+		p.rotateX(0.2f + 0.4f * P.sin(FrameLoop.progressRads())); 
 
 		// set shader properties & draw mesh
 		MeshDeformAndTextureFilter.instance(p).setDisplacementMap(texture);
-		MeshDeformAndTextureFilter.instance(p).setDisplaceAmp(displaceAmp + displaceAmp * P.sin(p.loop.progressRads()));
+		MeshDeformAndTextureFilter.instance(p).setDisplaceAmp(displaceAmp + displaceAmp * P.sin(FrameLoop.progressRads()));
 		MeshDeformAndTextureFilter.instance(p).setSheetMode(true);
 		MeshDeformAndTextureFilter.instance(p).applyTo(p);
 		p.shape(mesh);

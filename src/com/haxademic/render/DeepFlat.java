@@ -12,6 +12,7 @@ import com.haxademic.core.hardware.mouse.Mouse;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.LinearFloat;
 import com.haxademic.core.math.easing.Penner;
+import com.haxademic.core.render.FrameLoop;
 
 import processing.core.PGraphics;
 import processing.core.PShape;
@@ -77,12 +78,12 @@ extends PAppletHax {
 		
 //		PG.basicCameraFromMouse(p.g);
 		// rotate!
-		if(p.loop.loopCurFrame() == 1) {
+		if(FrameLoop.loopCurFrame() == 1) {
 			rotX.setCurrent(0);
 			rotY.setCurrent(0);
 			rotX.setTarget(1);
 			rotY.setTarget(1);
-		} else if(p.loop.loopCurFrame() == 300) {
+		} else if(FrameLoop.loopCurFrame() == 300) {
 			rotX.setCurrent(0);
 			rotY.setCurrent(0);
 			rotX.setTarget(0);

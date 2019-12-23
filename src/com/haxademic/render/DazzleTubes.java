@@ -8,6 +8,7 @@ import com.haxademic.core.data.constants.PShapeTypes;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.VignetteFilter;
+import com.haxademic.core.render.FrameLoop;
 
 import processing.core.PGraphics;
 
@@ -37,10 +38,10 @@ extends PAppletHax {
 		dazzleBuff.clear();
 		dazzleBuff.background(0, 0);
 		dazzleBuff.noStroke();
-		float stripes = 120 + 10f * P.sin(p.loop.progressRads());
+		float stripes = 120 + 10f * P.sin(FrameLoop.progressRads());
 		float stripeH = dazzleBuff.height / stripes;
 		float scrollSpeed = 16f;
-		float scrollAmp = p.loop.progress() * scrollSpeed;
+		float scrollAmp = FrameLoop.progress() * scrollSpeed;
 		float startY = (-stripeH * scrollSpeed) + scrollAmp * stripeH * 2f; // *2 because stripes
 		float indx = 0;
 		for (float y = startY; y < dazzleBuff.height; y += stripeH) {
@@ -67,8 +68,8 @@ extends PAppletHax {
 		// draw shape
 		PG.setCenterScreen(p.g);
 //		PG.basicCameraFromMouse(p.g);
-		p.rotateX(P.sin(p.loop.progressRads()) * 0.3f);
-		p.rotateY(-p.loop.progressRads());
+		p.rotateX(P.sin(FrameLoop.progressRads()) * 0.3f);
+		p.rotateY(-FrameLoop.progressRads());
 		
 		// draw tube
 		drawTube(36, 200, 200, p.height * 1.3f);
@@ -108,8 +109,8 @@ extends PAppletHax {
 				float progressCircNext = (i+1f) / resCircumference;
 				float tubeRadiusOscAmp = 0.6f;
 				float tubeRadiusOscFreq = 0.0085f;
-				float radiusCur = radius * (1f + tubeRadiusOscAmp * P.sin(p.loop.progressRads() * 2f + y * tubeRadiusOscFreq));
-				float radiusNext = radius * (1f + tubeRadiusOscAmp * P.sin(p.loop.progressRads() * 2f + yNext * tubeRadiusOscFreq));
+				float radiusCur = radius * (1f + tubeRadiusOscAmp * P.sin(FrameLoop.progressRads() * 2f + y * tubeRadiusOscFreq));
+				float radiusNext = radius * (1f + tubeRadiusOscAmp * P.sin(FrameLoop.progressRads() * 2f + yNext * tubeRadiusOscFreq));
 				float curRads = i * segmentRads;
 				float nextRads = (i+1) * segmentRads;
 				

@@ -7,6 +7,7 @@ import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.shapes.Shapes;
 import com.haxademic.core.math.easing.ElasticFloat;
+import com.haxademic.core.render.FrameLoop;
 
 import processing.core.PVector;
 
@@ -40,16 +41,16 @@ extends PAppletHax {
 		p.translate(p.width/2, p.height/2, -p.width);
 		p.noStroke();
 //		p.rotateX(P.HALF_PI * Mouse.yNorm);
-		p.rotateY(-p.loop.progressRads() * 3f);
+		p.rotateY(-FrameLoop.progressRads() * 3f);
 		
 		// spiral
 		float yInc = p.height * 0.11f;
-		float pSides = 25f + 10f * P.sin(p.loop.progressRads()); // 3 + 39f * Mouse.xNorm;
+		float pSides = 25f + 10f * P.sin(FrameLoop.progressRads()); // 3 + 39f * Mouse.xNorm;
 		float segmentRads = P.TWO_PI / pSides; // polySides.value();
-		float radius = (p.width * 0.2f) + (p.width * 0.2f) + (p.width * 0.2f) * P.sin(p.loop.progressRads()); // p.width * 0.087f + 
+		float radius = (p.width * 0.2f) + (p.width * 0.2f) + (p.width * 0.2f) * P.sin(FrameLoop.progressRads()); // p.width * 0.087f + 
 		float thickness = p.width * 0.095f;
 
-//		float radiusInner = p.width * 0.08f + (p.width * 0.08f) * P.sin(p.loop.progressRads());
+//		float radiusInner = p.width * 0.08f + (p.width * 0.08f) * P.sin(AnimationLoop.progressRads());
 		
 		drawTwistTube(segmentRads, radius/3f, yInc, thickness/2.f, 0.4f);
 		p.rotateY(P.TWO_PI/3);
@@ -67,19 +68,19 @@ extends PAppletHax {
 			
 				// color cycle
 				p.fill(
-						colorAmp * (187f + 127f * P.sin(1 + index * 0.1f + p.loop.progressRads())),
-						colorAmp * (27f + 127f * P.sin(2 + index * 0.1f + p.loop.progressRads())),
-						colorAmp * (187f + 127f * P.sin(0 + index * 0.1f + p.loop.progressRads()))
+						colorAmp * (187f + 127f * P.sin(1 + index * 0.1f + FrameLoop.progressRads())),
+						colorAmp * (27f + 127f * P.sin(2 + index * 0.1f + FrameLoop.progressRads())),
+						colorAmp * (187f + 127f * P.sin(0 + index * 0.1f + FrameLoop.progressRads()))
 						);
 			// grayscale
-//			p.fill(colorAmp * (127f + 127f * P.sin(0 + index * 0.1f + p.loop.progressRads())));
+//			p.fill(colorAmp * (127f + 127f * P.sin(0 + index * 0.1f + AnimationLoop.progressRads())));
 			
 			// thick/thin wave
 			float thickAmp = 0.5f;
 			float thickFreq = 0.4f;
 			float thickSpeed = 6f;
-			float curThickness = thickness * (1f + thickAmp * P.sin((index*thickFreq) + colorAmp + p.loop.progressRads() * thickSpeed));
-			float lastThickness = thickness * (1f + thickAmp * P.sin(((index-1)*thickFreq) + colorAmp + p.loop.progressRads() * thickSpeed));
+			float curThickness = thickness * (1f + thickAmp * P.sin((index*thickFreq) + colorAmp + FrameLoop.progressRads() * thickSpeed));
+			float lastThickness = thickness * (1f + thickAmp * P.sin(((index-1)*thickFreq) + colorAmp + FrameLoop.progressRads() * thickSpeed));
 
 //			p.fill(255f);
 			p.pushMatrix();
