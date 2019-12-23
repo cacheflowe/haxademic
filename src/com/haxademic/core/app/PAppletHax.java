@@ -73,9 +73,6 @@ extends PApplet {
 	public IDepthCamera depthCamera = null;
 	public LeapMotion leapMotion = null;
 	
-	// debug
-	public int _fps;
-	
 	////////////////////////
 	// INIT
 	////////////////////////
@@ -148,7 +145,7 @@ extends PApplet {
 		}	
 		
 		// FRAMERATE
-		_fps = Config.getInt(AppSettings.FPS, 60);
+		int _fps = Config.getInt(AppSettings.FPS, 60);
 		if(Config.getInt(AppSettings.FPS, 60) != 60) frameRate(_fps);
 		
 		// SET APP ICON
@@ -189,7 +186,7 @@ extends PApplet {
 
 		// rendering
 		if(Config.getFloat(AppSettings.LOOP_FRAMES, 0) != 0) loop = new AnimationLoop(Config.getFloat(AppSettings.LOOP_FRAMES, 0), Config.getInt(AppSettings.LOOP_TICKS, 4));
-		videoRenderer = new VideoRenderer( _fps, VideoRenderer.OUTPUT_TYPE_MOVIE, Config.getString( "render_output_dir", FileUtil.getHaxademicOutputPath() ) );
+		videoRenderer = new VideoRenderer( Config.getInt(AppSettings.FPS, 60), VideoRenderer.OUTPUT_TYPE_MOVIE, Config.getString( "render_output_dir", FileUtil.getHaxademicOutputPath() ) );
 		if(Config.getBoolean(AppSettings.RENDERING_GIF, false) == true) {
 			gifRenderer = new GifRenderer(Config.getInt(AppSettings.RENDERING_GIF_FRAMERATE, 45), Config.getInt(AppSettings.RENDERING_GIF_QUALITY, 15));
 		}
@@ -328,7 +325,7 @@ extends PApplet {
 			if( p.frameCount == 1 ) {
 				try {
 					midiRenderer = new MIDISequenceRenderer(p);
-					midiRenderer.loadMIDIFile( Config.getString(AppSettings.RENDER_MIDI_FILE, ""), Config.getFloat(AppSettings.RENDER_MIDI_BPM, 150f), _fps, Config.getFloat(AppSettings.RENDER_MIDI_OFFSET, -8f) );
+					midiRenderer.loadMIDIFile( Config.getString(AppSettings.RENDER_MIDI_FILE, ""), Config.getFloat(AppSettings.RENDER_MIDI_BPM, 150f), Config.getInt(AppSettings.FPS, 60), Config.getFloat(AppSettings.RENDER_MIDI_OFFSET, -8f) );
 				} catch (InvalidMidiDataException e) { e.printStackTrace(); } catch (IOException e) { e.printStackTrace(); }
 			}
 		}

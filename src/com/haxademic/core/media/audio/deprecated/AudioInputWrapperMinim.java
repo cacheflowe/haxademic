@@ -2,6 +2,8 @@ package com.haxademic.core.media.audio.deprecated;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 
 import ddf.minim.AudioInput;
 import ddf.minim.Minim;
@@ -80,7 +82,7 @@ public class AudioInputWrapperMinim {
 		_beatDetection.detect( _audioInput.mix );
 		_isBeat = ( _beatDetection.isOnset() == true ) ? true : false;
 		
-		float timeSize = _fft.timeSize() * ( _fft.timeSize() / p._fps );
+		float timeSize = _fft.timeSize() * ( _fft.timeSize() / Config.getInt(AppSettings.FPS, 60) );
 		
 		  // calculate levels
 //		float volMax = _audioInput.mix.level();  

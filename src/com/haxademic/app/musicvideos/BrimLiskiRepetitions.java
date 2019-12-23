@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.color.EasingColor;
 import com.haxademic.core.draw.context.PG;
@@ -83,6 +84,8 @@ extends PAppletHax {
 
 	// INITIALIZE OBJECTS ===================================================================================
 	public void initRender() {
+		int _fps = Config.getInt(AppSettings.FPS, 60);
+		
 		_videoFile = Config.getString( "video_file", "" );
 		_frameIndex = 0;
 		_myMovie = new Movie( this, _videoFile );
@@ -316,6 +319,7 @@ extends PAppletHax {
 			
 			angle += 50; // hack to make angle correct - originals were entered as a standard cartesian angle
 			
+			int _fps = Config.getInt(AppSettings.FPS, 60);
 			frame = ( minutes * _fps * 60 ) + ( seconds * _fps ) + Math.round( hundredths * _fps );
 			radians = angleToRadians( angle );
 			
