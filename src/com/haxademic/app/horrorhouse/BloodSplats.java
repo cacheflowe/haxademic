@@ -79,7 +79,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.WIDTH, 1000 );
 		Config.setProperty( AppSettings.HEIGHT, 800 );
 		Config.setProperty( AppSettings.RENDERING_MOVIE, false );
-		Config.setProperty( AppSettings.KINECT_V2_MAC_ACTIVE, true );
+		Config.setProperty( AppSettings.KINECT_ACTIVE, true );
 		Config.setProperty( AppSettings.FULLSCREEN, true );
 	}
 	

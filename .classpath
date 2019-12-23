@@ -53,7 +53,6 @@
 	<classpathentry kind="lib" path="lib/minim/library/minim.jar"/>
 	<classpathentry kind="lib" path="lib/minim/library/mp3spi1.9.5.jar"/>
 	<classpathentry kind="lib" path="lib/newhull/library/newhull.jar"/>
-	<classpathentry kind="lib" path="lib/openkinect_processing/library/openkinect_processing.jar"/>
 	<classpathentry kind="lib" path="lib/oscP5/library/oscP5.jar"/>
 	<classpathentry kind="lib" path="lib/poly2tri/poly2tri-core-0.1.2.jar"/>
 	<classpathentry kind="lib" path="lib/poly2tri/slf4j-api-1.6.3.jar"/>

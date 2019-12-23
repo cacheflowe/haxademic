@@ -56,6 +56,7 @@ public class SerialDevice {
 			device.clear();
 			// Throw out the first reading, in case we started reading in the middle of a string from the sender.
 			device.readStringUntil(cr);
+			P.out("SerialDevice.initSerialDevice() complete!");
 		}
 	}
 	

@@ -17,7 +17,6 @@ import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.depthcamera.cameras.IDepthCamera;
 import com.haxademic.core.hardware.depthcamera.cameras.KinectWrapperV1;
 import com.haxademic.core.hardware.depthcamera.cameras.KinectWrapperV2;
-import com.haxademic.core.hardware.depthcamera.cameras.KinectWrapperV2Mac;
 import com.haxademic.core.hardware.depthcamera.cameras.RealSenseWrapper;
 import com.haxademic.core.hardware.midi.MidiState;
 import com.haxademic.core.hardware.webcam.WebCam;
@@ -224,8 +223,6 @@ extends PApplet {
 		
 		if( Config.getBoolean( AppSettings.KINECT_V2_WIN_ACTIVE, false ) == true ) {
 			depthCamera = new KinectWrapperV2( p, rgbActive, depthActive );
-		} else if( Config.getBoolean( AppSettings.KINECT_V2_MAC_ACTIVE, false ) == true ) {
-			depthCamera = new KinectWrapperV2Mac( p, rgbActive, depthActive );
 		} else if( Config.getBoolean( AppSettings.KINECT_ACTIVE, false ) == true ) {
 			depthCamera = new KinectWrapperV1( p, rgbActive, depthActive );
 		} else if( Config.getBoolean( AppSettings.REALSENSE_ACTIVE, false ) == true ) {

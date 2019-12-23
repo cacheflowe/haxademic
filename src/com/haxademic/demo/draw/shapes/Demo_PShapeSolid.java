@@ -9,6 +9,7 @@ import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.shapes.PShapeSolid;
 import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.media.DemoAssets;
+import com.haxademic.core.media.audio.analysis.AudioIn;
 
 import processing.core.PImage;
 
@@ -31,6 +32,8 @@ extends PAppletHax {
 	}
 
 	public void firstFrame() {
+		AudioIn.instance();
+		
 		// get texture
 		texture = DemoAssets.textureJupiter();
 		

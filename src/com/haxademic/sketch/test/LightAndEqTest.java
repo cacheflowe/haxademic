@@ -15,11 +15,9 @@ extends PAppletHax {
 	protected float angle;
 
 	protected void config() {
-		Config.setProperty( AppSettings.WIDTH, "1280" );
-		Config.setProperty( AppSettings.HEIGHT, "1280" );
-		Config.setProperty( AppSettings.RENDERING_MOVIE, "false" );
-		Config.setProperty( "force_foreground", "true" );
-		Config.setProperty( "force_foreground", "true" );
+		Config.setProperty( AppSettings.WIDTH, 1280 );
+		Config.setProperty( AppSettings.HEIGHT, 720 );
+		Config.setProperty( AppSettings.RENDERING_MOVIE, false );
 	}
 
 	public void firstFrame() {
@@ -58,6 +56,7 @@ extends PAppletHax {
 		
 		// draw circle
 		PG.setCenterScreen(p);
+		PG.basicCameraFromMouse(p.g);
 		p.pushMatrix();
 //		drawEQ(40,3,50,200,5);
 		drawEQSmoothed(30,4,50,200,15,5,2);
@@ -70,9 +69,6 @@ extends PAppletHax {
 		p.noStroke();
 		p.fill(200, 200, 200);
 
-		p.rotateY(p.mouseX/100f);
-		p.rotateX(p.mouseY/100f);
-		
 		// draw EQ
 		float radSegment = P.TWO_PI / discReso;
 		for (int i = 1; i < numBands; i++) {
@@ -104,8 +100,6 @@ extends PAppletHax {
 //		p.stroke(200, 200, 200);
 //		p.fill(0, 0, 0);
 //		p.noFill();
-		p.rotateY(p.mouseX/100f);
-		p.rotateX(p.mouseY/100f);
 
 		// draw EQ
 		float spacingSubDiv = spacing / (smoothsteps);
