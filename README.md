@@ -363,7 +363,6 @@ Haxademic uses the following Java & Processing libraries, which I've included in
 * [KinectPV2](https://github.com/ThomasLengeling/KinectPV2)
 * [Leap Motion for Processing](https://github.com/voidplus/leap-motion-processing/)
 * [minim](http://code.compartmental.net/tools/minim/)
-* [OpenKinect for Processing](https://github.com/shiffman/OpenKinect-for-Processing)
 * [oscP5](http://www.sojamo.de/libraries/oscP5/)
 * [Poly2Tri](https://github.com/orbisgis/poly2tri.java)
 * [RealSenseProcessing](https://github.com/cansik/realsense-processing)
