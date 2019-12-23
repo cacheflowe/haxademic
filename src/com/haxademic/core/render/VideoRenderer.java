@@ -115,8 +115,8 @@ public class VideoRenderer {
 	public void analyzeAudio() {
 		if(audioSimulation) {
 			// restart realtime audio on loop, if there's a loop
-			if(FrameLoop.instance().loopFrames() != 0) {
-				if(FrameLoop.instance().loopCurFrame() == 0) {
+			if(FrameLoop.loopFrames() != 0) {
+				if(FrameLoop.loopCurFrame() == 0) {
 					audioPlayer.cue(0);
 					audioPlayer.loop();
 				}

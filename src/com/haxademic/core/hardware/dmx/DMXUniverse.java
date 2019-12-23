@@ -4,7 +4,6 @@ import java.util.ArrayList;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.data.constants.PRegisterableMethods;
-import com.haxademic.core.debug.DebugUtil;
 
 public class DMXUniverse
 extends DMXWrapper {
@@ -20,14 +19,15 @@ extends DMXWrapper {
 	
 	public static DMXUniverse instance;
 	
-	public static DMXUniverse instanceInit(String port, int baudRate) {
+	public static DMXUniverse instance() {
 		if(instance != null) return instance;
-		instance = new DMXUniverse(port, baudRate);
+		instance = new DMXUniverse();
 		return instance;
 	}
 	
-	public static DMXUniverse instance() {
-		if(instance == null) DebugUtil.printErr("DMXUniverse instance() not initialized!");
+	public static DMXUniverse instanceInit(String port, int baudRate) {
+		if(instance != null) return instance;
+		instance = new DMXUniverse(port, baudRate);
 		return instance;
 	}
 	
@@ -35,6 +35,11 @@ extends DMXWrapper {
 	// regular constructor
 	/////////////////////////////
 
+	public DMXUniverse() {
+		super();
+		P.p.registerMethod(PRegisterableMethods.post, this);
+	}
+	
 	public DMXUniverse(String port, int baudRate) {
 		super(port, baudRate);
 		P.p.registerMethod(PRegisterableMethods.post, this);

@@ -8,11 +8,12 @@
 * DepthCamera like AudioIn - or have some sort of shared storage like MidiState?
 * Should OscState (and maybe GamepadState) be separated to OscConnection and OscState, so multiple OscConnections can send data to it? Multiple objects could communicate on different ports.
 * Rendering objects (video/audio/midi/joons)
-* DMXUniverse
 
 * Completed:
   * Webcam
+  * DMXUniverse
   * AudioIn
+  * KeyboardState
   * Mouse
   * MidiState / MidiDevice
   * UI

@@ -298,7 +298,7 @@ Below you'll find a long list of classes and utilities that I've built to make m
 
 ### Render
 
-* __[AnimationLoop](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/render/AnimationLoop.java)__ - Frame-counting helper to build looping animations.
+* __[FrameLoop](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/render/FrameLoop.java)__ - Frame-counting helper to build looping animations, trigger looping events based on `frameCount`, and provide global access to frame-based calculations.
 
 * __[GifRenderer](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/render/GifRenderer.java)__ - Auto-render gifs from the app.
 
