@@ -38,13 +38,16 @@ extends PAppletHax {
 	// TODO:
 	// - Test audio looping & pitch shifting in Beads (a la Communichords, but with audio FFT data)
 	//   - Draw 512x128 texture and blur it to use as displacement map
+	//   - Note frequencies: https://pages.mtu.edu/~suits/notefreqs.html
 	// - Add noise wavy shader in addition to the basic wavy sin() lines
 	//   - More lines shaders in general - should have a number to switch between
 	// - Find parameters & make a nice collection of them
-	// - Blur values above 1 seem to trigger the broken R/D state with fine lines
 	// - Figure out performance issues
 	// 	 - FXAA & R/D shaders are slow. Is this because of kernel processing?
+	//   - Make a more efficient blur for this app, w/fewer lookups
+	//   - Blur values above 1 seem to trigger the broken R/D state with fine lines
 	// - Try 32-bit textures for smoothness? Only matters on main pg and any shaders that use maps?
+	// - Auto-detect blank/black screen & re-seed
 	
 	// app
 	protected boolean clearScreen = true;
@@ -104,10 +107,8 @@ extends PAppletHax {
 	
 
 	protected void config() {
-		Config.setProperty(AppSettings.WIDTH, 1280);
-		Config.setProperty(AppSettings.HEIGHT, 720);
-		Config.setProperty(AppSettings.PG_WIDTH, 1920);
-		Config.setProperty(AppSettings.PG_HEIGHT, 1080);
+		Config.setAppSize(1280, 720);
+		Config.setPgSize(1920, 1080);
 		Config.setProperty(AppSettings.LOOP_FRAMES, 2000);
 		Config.setProperty(AppSettings.SHOW_UI, true);
 		Config.setProperty(AppSettings.FULLSCREEN, false);

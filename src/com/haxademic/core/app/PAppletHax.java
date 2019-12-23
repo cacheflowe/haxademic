@@ -186,7 +186,7 @@ extends PApplet {
 	protected void initHaxademicObjects() {
 		// create offscreen buffer
 		if(P.isOpenGL()) pg = PG.newPG(Config.getInt(AppSettings.PG_WIDTH, p.width), Config.getInt(AppSettings.PG_HEIGHT, p.height));
-		
+
 		// rendering
 		if(Config.getFloat(AppSettings.LOOP_FRAMES, 0) != 0) loop = new AnimationLoop(Config.getFloat(AppSettings.LOOP_FRAMES, 0), Config.getInt(AppSettings.LOOP_TICKS, 4));
 		videoRenderer = new VideoRenderer( _fps, VideoRenderer.OUTPUT_TYPE_MOVIE, Config.getString( "render_output_dir", FileUtil.getHaxademicOutputPath() ) );

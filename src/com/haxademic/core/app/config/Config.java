@@ -14,7 +14,9 @@ import com.haxademic.core.file.FileUtil;
 public class Config {
 	protected static Properties properties;
 	
+	/////////////////////////
 	// Singleton instance
+	/////////////////////////
 	
 	public static Config instance;
 	
@@ -28,6 +30,10 @@ public class Config {
 		properties = new Properties();
 		loadDefaultPropsFile();
 	}
+	
+	/////////////////////////
+	// load .properties files
+	/////////////////////////
 	
 	protected void loadDefaultPropsFile() {
 		String defaultPropsFile = FileUtil.getFile("properties/run.properties");
@@ -44,7 +50,9 @@ public class Config {
 		}
 	}
  
-	// Getters!
+	/////////////////////////
+	// Data type getters/setters
+	/////////////////////////
 	
 	// string helpers
 	
@@ -84,5 +92,19 @@ public class Config {
 	
 	public static float getFloat(String id, float defVal) {
 		return new Float(properties.getProperty(id,""+defVal)); 
-  	}  
+  	} 
+	
+	/////////////////////////
+	// Special helper setters
+	/////////////////////////
+	
+	public static void setAppSize(int w, int h) {
+		Config.setProperty(AppSettings.WIDTH, w);
+		Config.setProperty(AppSettings.HEIGHT, h);
+	}
+	
+	public static void setPgSize(int w, int h) {
+		Config.setProperty(AppSettings.PG_WIDTH, w);
+		Config.setProperty(AppSettings.PG_HEIGHT, h);
+	}
 }

@@ -39,7 +39,7 @@ public class DebugView {
 	protected static boolean autoHide = true;
 	protected static String ipAddress;
 	public static final String TITLE_PREFIX = "___";
-
+	
 	// Singleton instance
 	
 	public static DebugView instance;
@@ -58,7 +58,7 @@ public class DebugView {
 		// for some reason, these were crashing app launches, so they got threaded
 		updateAppInfo();
 		addKeyCommandInfo();
-		
+		// update every frame
 		P.p.registerMethod(PRegisterableMethods.pre, this);
 		P.p.registerMethod(PRegisterableMethods.post, this);
 	}
@@ -120,7 +120,11 @@ public class DebugView {
 	protected void updateAppInfo() {
 		debugLines.put(TITLE_PREFIX + " RUN TIME", "");
 		debugLines.put("Frame", ""+p.frameCount);
-		debugLines.put("Time", DateUtil.timeFromSeconds(p.millis() / 1000, true));
+		int runtimeSeconds = (int) DateUtil.uptimeSeconds();
+		int days = P.floor(runtimeSeconds / DateUtil.dayInSeconds);
+		String daysStr = (days > 0) ? days+" days + " : "";
+		runtimeSeconds = runtimeSeconds % DateUtil.dayInSeconds;
+		debugLines.put("Uptime", daysStr + DateUtil.timeFromSeconds(runtimeSeconds, true));
 		debugLines.put(TITLE_PREFIX + " APP", "");
 		debugLines.put("alwaysOnTop", ""+P.p.alwaysOnTop());
 		debugLines.put("width", ""+P.p.width);
