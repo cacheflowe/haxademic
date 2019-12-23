@@ -7,15 +7,12 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.debug.DebugUtil;
 import com.haxademic.core.file.FileUtil;
 
-import processing.core.PApplet;
-
 /**
  * Helper object to extend the standard java.util.Properties 
  * class to return pre-typed data from .properties files
  */
 public class Config {
 	protected static Properties properties;
-	protected PApplet p;
 	
 	// Singleton instance
 	
@@ -23,13 +20,11 @@ public class Config {
 	
 	public static Config instance() {
 		if(instance != null) return instance;
-		instance = new Config(P.p);
+		instance = new Config();
 		return instance;
 	}
 
-	public Config(PApplet p) {
-		super();
-		this.p = p;
+	public Config() {
 		properties = new Properties();
 		loadDefaultPropsFile();
 	}

@@ -2,8 +2,8 @@
 
 ## Modularize PAppletHax
 
-* Make sure midi notes don't override UI values until they've been touched
 * Update README with updated references
+* DebugView uptime should mod out days and display as a single number
 
 * DepthCamera like AudioIn - or have some sort of shared storage like MidiState?
 * Should OscState (and maybe GamepadState) be separated to OscConnection and OscState, so multiple OscConnections can send data to it? Multiple objects could communicate on different ports.
@@ -21,6 +21,7 @@
   * GamepadState
   * HttpInputState
   * OscState
+  * ScreenSaverBlocker
 
 ## InputTrigger revamp
 

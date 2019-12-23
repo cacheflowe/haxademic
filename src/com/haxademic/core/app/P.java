@@ -9,6 +9,7 @@ import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.keyboard.KeyboardState;
 import com.haxademic.core.hardware.mouse.Mouse;
+import com.haxademic.core.system.ScreenSaverBlocker;
 import com.haxademic.core.ui.UI;
 
 import processing.core.PApplet;
@@ -30,6 +31,7 @@ extends PApplet {
 		Config.instance();
 		renderer = Config.getString(AppSettings.RENDERER, P.P3D);
 		if(P.renderer != PRenderers.PDF) DebugView.instance();
+		ScreenSaverBlocker.instance();
 		UI.instance();
 		Mouse.instance();
 		KeyboardState.instance();

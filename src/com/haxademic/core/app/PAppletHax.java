@@ -1,7 +1,5 @@
 package com.haxademic.core.app;
 
-import java.awt.Robot;
-import java.awt.event.KeyEvent;
 import java.io.IOException;
 
 import javax.sound.midi.InvalidMidiDataException;
@@ -57,7 +55,6 @@ extends PApplet {
 	public static String arguments[] = null;	// Args passed in via main() launch command
 	protected static PAppletHax p;				// Global/static ref to PApplet - any class can access reference from this static ref. Easier access via `P.p`
 	public PGraphics pg;						// Offscreen buffer that matches the app size by default
-	public Robot robot;
 	public GLWindow window;
 	protected boolean alwaysOnTop = false;
 
@@ -189,8 +186,7 @@ extends PApplet {
 	protected void initHaxademicObjects() {
 		// create offscreen buffer
 		if(P.isOpenGL()) pg = PG.newPG(Config.getInt(AppSettings.PG_WIDTH, p.width), Config.getInt(AppSettings.PG_HEIGHT, p.height));
-		// audio 
-//		initAudioInput();
+		
 		// rendering
 		if(Config.getFloat(AppSettings.LOOP_FRAMES, 0) != 0) loop = new AnimationLoop(Config.getFloat(AppSettings.LOOP_FRAMES, 0), Config.getInt(AppSettings.LOOP_TICKS, 4));
 		videoRenderer = new VideoRenderer( _fps, VideoRenderer.OUTPUT_TYPE_MOVIE, Config.getString( "render_output_dir", FileUtil.getHaxademicOutputPath() ) );
@@ -203,12 +199,11 @@ extends PApplet {
 		joons = ( Config.getBoolean(AppSettings.SUNFLOW, false ) == true ) ?
 				new JoonsWrapper( p, width, height, ( Config.getString(AppSettings.SUNFLOW_QUALITY, "low" ) == AppSettings.SUNFLOW_QUALITY_HIGH ) ? JoonsWrapper.QUALITY_HIGH : JoonsWrapper.QUALITY_LOW, ( Config.getBoolean(AppSettings.SUNFLOW_ACTIVE, true ) == true ) ? true : false )
 				: null;
+		
 		// hardware
 		initKinect();
-
 		if( Config.getBoolean( "leap_active", false ) == true ) leapMotion = new LeapMotion(this);
-		// app helpers
-		try { robot = new Robot(); } catch( Exception error ) { println("couldn't init Robot for screensaver disabling"); }
+		
 		// fullscreen
 		boolean isFullscreen = Config.getBoolean(AppSettings.FULLSCREEN, false);
 		if(isFullscreen == true) {
@@ -281,7 +276,6 @@ extends PApplet {
 	
 	public void draw() {
 		initializeOn1stFrame();
-		killScreensaver();
 		if(loop != null) loop.update();
 		handleRenderingStepthrough();
 		if( depthCamera != null ) depthCamera.update();
@@ -419,12 +413,6 @@ extends PApplet {
 	// INPUT
 	////////////////////////
 	
-	protected void killScreensaver() {
-		// keep screensaver off - hit shift every 1000 frames
-		if( p.frameCount % 6000 == 10 ) robot.keyPress(KeyEvent.VK_SHIFT);
-		if( p.frameCount % 6000 == 11 ) robot.keyRelease(KeyEvent.VK_SHIFT);
-	}
-
 	public void keyPressed() {
 		// disable esc key - subclass must call super.keyPressed()
 		if( p.key == P.ESC && ( Config.getBoolean(AppSettings.DISABLE_ESC_KEY, false) == true ) ) {   //  || Config.getBoolean(AppSettings.RENDERING_MOVIE, false) == true )
