@@ -2,13 +2,13 @@ package com.haxademic.sketch.hardware.leap;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.app.config.Config;
-import com.haxademic.core.debug.DebugUtil;
+import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera;
+import com.haxademic.core.hardware.webcam.WebCam;
 
 import de.voidplus.leapmotion.Device;
 import de.voidplus.leapmotion.Finger;
 import de.voidplus.leapmotion.Hand;
+import de.voidplus.leapmotion.LeapMotion;
 import de.voidplus.leapmotion.Tool;
 import processing.core.PVector;
 
@@ -16,16 +16,10 @@ public class LeapBasic
 extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
-	protected void config() {
-		Config.setProperty( AppSettings.FILLS_SCREEN, "false" );
-		Config.setProperty( "leap_active", "true" );
-		Config.setProperty( AppSettings.WIDTH, "1200" );
-		Config.setProperty( AppSettings.HEIGHT, "900" );
-	}
+	public LeapMotion leapMotion = null;
 
 	public void firstFrame() {
-
-		DebugUtil.printErr("Make sure to run Processing LEAP Apps with JavaSE-1.7");
+		leapMotion = new LeapMotion(this);
 	}
 
 	public void drawApp(){
@@ -129,5 +123,5 @@ extends PAppletHax {
 	void leapOnExit(){
 	    // println("Leap Motion Exit");
 	}
-
+	
 }

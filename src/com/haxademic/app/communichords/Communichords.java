@@ -12,10 +12,8 @@ import com.haxademic.core.hardware.depthcamera.KinectRegionGrid;
 import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera;
 import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera.DepthCameraType;
 import com.haxademic.core.hardware.dmx.DmxAjaxProManagerInterface;
-import com.haxademic.core.hardware.joystick.AutoTesterJoysticksCollection;
 import com.haxademic.core.hardware.joystick.IJoystickCollection;
 import com.haxademic.core.hardware.joystick.IJoystickControl;
-import com.haxademic.core.hardware.leap.LeapRegionGrid;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.EasingFloat;
 import com.haxademic.core.math.easing.LinearFloat;
@@ -93,9 +91,9 @@ extends PAppletHax {
 		DepthCamera.instance(DepthCameraType.KinectV1);
 		minim = new Minim(this);
 		// hardware config
-		if(Config.getBoolean("leap_active", false) == true) {
-			_joysticks = new LeapRegionGrid(NUM_PLAYERS, 1, 1, 0f);
-		} else if(Config.getBoolean("kinect_active", false) == true) {
+//		if(Config.getBoolean("leap_active", false) == true) {
+//			_joysticks = new LeapRegionGrid(NUM_PLAYERS, 1, 1, 0f);
+//		} else if(Config.getBoolean("kinect_active", false) == true) {
 			_joysticks = new KinectRegionGrid(
 				NUM_PLAYERS, 
 				1, 
@@ -107,9 +105,9 @@ extends PAppletHax {
 				Config.getInt("kinect_pixel_skip", -1), 
 				Config.getInt("kinect_player_min_pixels", -1)
 			);
-		} else {
-			_joysticks = new AutoTesterJoysticksCollection(NUM_PLAYERS);			
-		}
+//		} else {
+//			_joysticks = new AutoTesterJoysticksCollection(NUM_PLAYERS);			
+//		}
 		_dmxActive = Config.getBoolean("dmx_active", false);
 		// Make sure to run Pro-Manager and select the ENTTEC DMXUSB PRO as the device from the web interface. Leave this running in the browser.
 		buildTonePlayers();

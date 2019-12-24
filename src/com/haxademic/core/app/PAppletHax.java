@@ -62,9 +62,6 @@ extends PApplet {
 	protected Boolean renderingMidi = true;
 	public JoonsWrapper joons;
 
-	// input
-	public LeapMotion leapMotion = null;
-	
 	////////////////////////
 	// INIT
 	////////////////////////
@@ -187,9 +184,6 @@ extends PApplet {
 		joons = ( Config.getBoolean(AppSettings.SUNFLOW, false ) == true ) ?
 				new JoonsWrapper( p, width, height, ( Config.getString(AppSettings.SUNFLOW_QUALITY, "low" ) == AppSettings.SUNFLOW_QUALITY_HIGH ) ? JoonsWrapper.QUALITY_HIGH : JoonsWrapper.QUALITY_LOW, ( Config.getBoolean(AppSettings.SUNFLOW_ACTIVE, true ) == true ) ? true : false )
 				: null;
-		
-		// hardware
-		if( Config.getBoolean( "leap_active", false ) == true ) leapMotion = new LeapMotion(this);
 		
 		// fullscreen
 		boolean isFullscreen = Config.getBoolean(AppSettings.FULLSCREEN, false);
@@ -409,7 +403,6 @@ extends PApplet {
 	public void stop() {
 		if(WebCam.instance != null) WebCam.instance().dispose();
 		if(DepthCamera.instance != null) DepthCamera.instance().dispose();
-		if( leapMotion != null ) leapMotion.dispose();
 		super.stop();
 	}
 
@@ -430,23 +423,6 @@ extends PApplet {
 		}
 	}
 
-	// LEAP MOTION EVENTS
-	void leapOnInit(){
-	    // println("Leap Motion Init");
-	}
-	void leapOnConnect(){
-	    // println("Leap Motion Connect");
-	}
-	void leapOnFrame(){
-	    // println("Leap Motion Frame");
-	}
-	void leapOnDisconnect(){
-	    // println("Leap Motion Disconnect");
-	}
-	void leapOnExit(){
-	    // println("Leap Motion Exit");
-	}
-	
 	// UIControlPanel listeners
 
 	public void uiButtonClicked(UIButton button) {

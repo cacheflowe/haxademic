@@ -6,6 +6,7 @@ import com.haxademic.core.hardware.joystick.IJoystickControl;
 import com.haxademic.core.math.MathUtil;
 
 import de.voidplus.leapmotion.Hand;
+import de.voidplus.leapmotion.LeapMotion;
 import processing.core.PGraphics;
 import processing.core.PVector;
 
@@ -13,6 +14,7 @@ class LeapRegion
 extends BaseJoystick
 implements IJoystickControl {
 	
+	protected LeapMotion leapMotion;
 	protected int _left = 0;
 	protected int _right = 0;
 	protected int _near = 0;
@@ -21,7 +23,8 @@ implements IJoystickControl {
 	protected int _bottom = 0;
 	protected int _blockColor = -1;
 	
-	public LeapRegion( int left, int right, int top, int bottom, int near, int far, int blockColor ) {
+	public LeapRegion( LeapMotion leap, int left, int right, int top, int bottom, int near, int far, int blockColor ) {
+		this.leapMotion = leap;
 		_left = left;
 		_right = right;
 		_near = near;
@@ -63,8 +66,8 @@ implements IJoystickControl {
 	public void update(PGraphics debugGraphics) {
 		// find kinect readings in the region
 		_isActive = false;
-		if( P.p.leapMotion != null ) {
-		    for(Hand hand : P.p.leapMotion.getHands()){
+		if( leapMotion != null ) {
+		    for(Hand hand : leapMotion.getHands()){
 		        PVector hand_position    = hand.getPosition();
 		        // PVector hand_stabilized  = hand.getStabilizedPosition();
 		        

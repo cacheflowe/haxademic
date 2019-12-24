@@ -5,27 +5,30 @@ import com.haxademic.core.hardware.joystick.BaseJoysticksCollection;
 import com.haxademic.core.hardware.joystick.IJoystickCollection;
 import com.haxademic.core.math.MathUtil;
 
+import de.voidplus.leapmotion.LeapMotion;
 import processing.core.PGraphics;
 
 public class LeapRegionGrid
 extends BaseJoysticksCollection
 implements IJoystickCollection {
 
+	protected LeapMotion leapMotion;
 	protected PGraphics _pg;
 	protected int _leapClose = 0;
 	protected int _leapFar = 0;
 	protected int _leapDepth = 0;
 
-	public LeapRegionGrid(int cols, int rows, int depthCells, float padding) {
-		this(cols, rows, depthCells, padding, 0, 100, false);
+	public LeapRegionGrid(LeapMotion leapMotion, int cols, int rows, int depthCells, float padding) {
+		this(leapMotion, cols, rows, depthCells, padding, 0, 100, false);
 	}
 	
-	public LeapRegionGrid(int cols, int rows, int depthCells, float padding, int leapClose, int leapFar) {
-		this(cols, rows, depthCells, padding, leapClose, leapFar, false);
+	public LeapRegionGrid(LeapMotion leapMotion, int cols, int rows, int depthCells, float padding, int leapClose, int leapFar) {
+		this(leapMotion, cols, rows, depthCells, padding, leapClose, leapFar, false);
 	}
 	
-	public LeapRegionGrid(int cols, int rows, int depthCells, float padding, int leapClose, int leapFar, boolean debug) {
+	public LeapRegionGrid(LeapMotion leapMotion, int cols, int rows, int depthCells, float padding, int leapClose, int leapFar, boolean debug) {
 		super();
+		this.leapMotion = leapMotion;
 
 		int sketchW = P.p.width;
 		int sketchH = P.p.height;
@@ -51,6 +54,7 @@ implements IJoystickCollection {
 			for ( int y = 0; y < rows; y++ ) {
 				for ( int z = 0; z < depthCells; z++ ) {
 					LeapRegion region = new LeapRegion(
+						leapMotion,
 						colW * x + paddingW * x, 
 						colW * x + paddingW * x + colW, 
 						rowH * y + paddingH * y, 
