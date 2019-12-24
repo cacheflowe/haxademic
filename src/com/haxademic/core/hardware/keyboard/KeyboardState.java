@@ -47,12 +47,20 @@ public class KeyboardState {
 	// PUBLIC GETTERS
 	///////////////////////////////
 	
-	public boolean isKeyTriggered(int keyCode) {
-		return (keyboardButtons.containsKey(keyCode) && keyboardButtons.get(keyCode) == InputState.TRIGGER);
+	public static boolean keyTriggered(char key) {
+		return KeyboardState.instance().isKeyTriggered(KeyCodes.keyCodeFromChar(key));
 	}
 	
-	public boolean isKeyOn(int keyCode) {
-		return (keyboardButtons.containsKey(keyCode) && (keyboardButtons.get(keyCode) == InputState.TRIGGER || keyboardButtons.get(keyCode) == InputState.ON));
+	public boolean isKeyTriggered(int key) {
+		return (keyboardButtons.containsKey(key) && keyboardButtons.get(key) == InputState.TRIGGER);
+	}
+	
+	public static boolean keyOn(char key) {
+		return KeyboardState.instance().isKeyOn(KeyCodes.keyCodeFromChar(key));
+	}
+	
+	public boolean isKeyOn(int key) {
+		return (keyboardButtons.containsKey(key) && (keyboardButtons.get(key) == InputState.TRIGGER || keyboardButtons.get(key) == InputState.ON));
 	}
 	
 	

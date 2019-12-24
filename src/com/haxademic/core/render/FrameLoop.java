@@ -87,21 +87,25 @@ public class FrameLoop {
 	// frame loop calculations 
 	
 	public void pre() {
+		// make framecount available everywhere
 		frame = P.p.frameCount;
+		
 		// update progress
-		loopCurFrame = frame % loopFrames;
-		progress = loopCurFrame / loopFrames;
-		progressRads = progress * P.TWO_PI;
-		
-		// update ticks
-		int newTick = P.floor(ticks * progress);
-		isTick = (curTick != newTick);
-		curTick = newTick;
-		
-		// set on DebugView
-		DebugView.setValue("AnimationLoop.loopCurFrame ", loopCurFrame + " / " + loopFrames);
-		DebugView.setValue("AnimationLoop.progress ", progress);
-		DebugView.setValue("AnimationLoop.curTick ", curTick);
+		if(loopFrames > 0) {
+			loopCurFrame = frame % loopFrames;
+			progress = loopCurFrame / loopFrames;
+			progressRads = progress * P.TWO_PI;
+			
+			// update ticks
+			int newTick = P.floor(ticks * progress);
+			isTick = (curTick != newTick);
+			curTick = newTick;
+			
+			// set on DebugView
+			DebugView.setValue("AnimationLoop.loopCurFrame ", loopCurFrame + " / " + loopFrames);
+			DebugView.setValue("AnimationLoop.progress ", progress);
+			DebugView.setValue("AnimationLoop.curTick ", curTick);
+		}
 	}
 	
 }

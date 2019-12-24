@@ -17,7 +17,10 @@ extends PAppletHax {
 
 	public void drawApp() {
 		p.background(0);
-		if(KeyboardState.instance().isKeyTriggered(' ')) {
+		if(KeyboardState.keyOn('b')) {
+			p.background(0, 0, 255);
+		}
+		if(KeyboardState.keyTriggered(' ')) {
 			P.out("SPACE");
 		}
 	}
