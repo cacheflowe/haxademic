@@ -10,6 +10,8 @@ import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.shapes.Shapes;
 import com.haxademic.core.hardware.webcam.WebCam;
 import com.haxademic.core.media.DemoAssets;
+import com.haxademic.core.render.JoonsWrapper;
+import com.haxademic.core.render.Renderer;
 
 import processing.core.PImage;
 
@@ -45,6 +47,7 @@ extends PAppletHax {
 	}
 
 	public void drawApp() {
+		JoonsWrapper joons = Renderer.instance().joons;
 		if(Config.getBoolean(AppSettings.SUNFLOW_ACTIVE, false) == true) {
 			joons.jr.background(0,0,0); //background(gray), or (r, g, b), like Processing.
 			joons.jr.background("gi_ambient_occlusion"); //Global illumination, ambient occlusion mode.
@@ -67,6 +70,7 @@ extends PAppletHax {
 	}
 
 	public void drawImgBoxes() {
+		JoonsWrapper joons = Renderer.instance().joons;
 		image.loadPixels();
 		for( int x=0; x < image.width; x++ ){
 			for(int y=0; y < image.height; y++){

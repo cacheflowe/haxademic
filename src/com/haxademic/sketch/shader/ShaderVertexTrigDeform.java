@@ -6,6 +6,7 @@ import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.file.FileUtil;
+import com.haxademic.core.render.Renderer;
 
 import processing.core.PImage;
 import processing.core.PShape;
@@ -74,7 +75,7 @@ extends PAppletHax {
 		// stop rendering
 		if( p.frameCount == _frames * 2 ) {
 			if(Config.getBoolean("rendering", false) ==  true) {				
-				videoRenderer.stop();
+				Renderer.instance().videoRenderer.stop();
 				P.println("render done!");
 			}
 		}

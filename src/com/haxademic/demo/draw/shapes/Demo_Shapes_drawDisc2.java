@@ -11,6 +11,7 @@ import com.haxademic.core.draw.image.MotionBlurPGraphics;
 import com.haxademic.core.draw.shapes.Shapes;
 import com.haxademic.core.math.easing.Penner;
 import com.haxademic.core.render.JoonsWrapper;
+import com.haxademic.core.render.Renderer;
 
 import processing.core.PApplet;
 import processing.core.PGraphics;
@@ -97,6 +98,7 @@ extends PAppletHax {
 	}
 	
 	protected void drawGraphicsSunflow( PApplet pg ) {
+		JoonsWrapper joons = Renderer.instance().joons;
 		p.noStroke();
 		PG.setDrawCenter(p);
 		
@@ -152,6 +154,7 @@ extends PAppletHax {
 	}
 
 	protected void setUpRoom() {
+		JoonsWrapper joons = Renderer.instance().joons;
 		pushMatrix();
 		translate(0, 0, 0);
 		float radiance = 20;

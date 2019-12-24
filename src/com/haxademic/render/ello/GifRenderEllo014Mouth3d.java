@@ -12,6 +12,7 @@ import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.easing.ElasticFloat3D;
 import com.haxademic.core.math.easing.Penner;
 import com.haxademic.core.render.JoonsWrapper;
+import com.haxademic.core.render.Renderer;
 
 import processing.core.PShape;
 import processing.core.PVector;
@@ -73,6 +74,7 @@ extends PAppletHax {
 	}
 	
 	public void drawApp() {		
+		JoonsWrapper joons = Renderer.instance().joons;
 		p.background(255);
 		
 		float frameRadians = P.TWO_PI / _frames;
@@ -127,12 +129,14 @@ extends PAppletHax {
 	}
 	
 	protected void makeLightSource() {
+		JoonsWrapper joons = Renderer.instance().joons;
 		joons.jr.fill("light", 255, 255, 255);
 		sphere(10);
 		translate(-1000, 0, 0);
 	}
 	
 	protected void setUpRoom() {
+		JoonsWrapper joons = Renderer.instance().joons;
 		pushMatrix();
 		translate(0, 0, 0);
 		float radiance = 20;

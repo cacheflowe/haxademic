@@ -8,7 +8,8 @@ import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.image.AnimatedGifEncoder;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.easing.Penner;
-import com.haxademic.core.render.GifRenderer;
+import com.haxademic.core.render.JoonsWrapper;
+import com.haxademic.core.render.Renderer;
 
 import processing.core.PGraphics;
 import processing.core.PImage;
@@ -29,16 +30,16 @@ extends PAppletHax {
 	}
 	
 	public void firstFrame() {
-
+		JoonsWrapper joons = Renderer.instance().joons;
 		p.smooth(OpenGLUtil.SMOOTH_HIGH);
 		_icon = p.loadImage(FileUtil.getHaxademicDataPath()+"images/play-arrow.png");
 		
 		// special rendering situation since applet won't go as small as 110
 		_pg = p.createGraphics(46, 50, P.P3D);
-		if(rendering == true) {
-			gifRenderer = new GifRenderer(40, 15);
-			gifRenderer.startGifRender(this);
-		}
+//		if(rendering == true) {
+//			gifRenderer = new GifRenderer(40, 15);
+//			gifRenderer.startGifRender(this);
+//		}
 	}
 
 	public void drawApp() {
@@ -67,13 +68,13 @@ extends PAppletHax {
 		p.image(_pg, 0, 0);
 			
 		// render
-		if(rendering == true) {
-			if(p.frameCount <= _frames) gifRenderer.renderGifFrame(_pg);
-			if(_frames == p.frameCount) {
-				P.println("should finish: ", p.frameCount);
-				gifRenderer.finish();
-			}
-		}
+//		if(rendering == true) {
+//			if(p.frameCount <= _frames) gifRenderer.renderGifFrame(_pg);
+//			if(_frames == p.frameCount) {
+//				P.println("should finish: ", p.frameCount);
+//				gifRenderer.finish();
+//			}
+//		}
 	}
 }
 

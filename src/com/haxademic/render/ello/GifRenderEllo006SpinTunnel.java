@@ -2,7 +2,6 @@ package com.haxademic.render.ello;
 
 import java.awt.image.BufferedImage;
 
-import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
@@ -92,14 +91,14 @@ extends PAppletHax {
 
 //		filter(INVERT);
 
-		if(Config.getBoolean("rendering_gif", false) == true) renderGifFrame();
-		if( p.frameCount == _frames * 8 ) {
-			if(Config.getBoolean("rendering_gif", false) ==  true) encoder.finish();
-			if(isRendering == true) {				
-				videoRenderer.stop();
-				P.println("render done!");
-			}
-		}
+//		if(Config.getBoolean("rendering_gif", false) == true) renderGifFrame();
+//		if( p.frameCount == _frames * 8 ) {
+//			if(Config.getBoolean("rendering_gif", false) ==  true) encoder.finish();
+//			if(isRendering == true) {				
+//				videoRenderer.stop();
+//				P.println("render done!");
+//			}
+//		}
 
 	}
 }

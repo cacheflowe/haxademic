@@ -4,6 +4,8 @@ package com.haxademic.demo.render.joons;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
+import com.haxademic.core.render.JoonsWrapper;
+import com.haxademic.core.render.Renderer;
 
 public class Demo_Joons_Materials 
 extends PAppletHax {
@@ -20,6 +22,7 @@ extends PAppletHax {
 	}
 
 	public void drawApp() {
+		JoonsWrapper joons = Renderer.instance().joons;
 		joons.jr.background(0, 0, 0); //background(gray), or (r, g, b), like Processing.
 		joons.jr.background("gi_instant"); //Global illumination, normal mode.
 		joons.jr.background("gi_ambient_occlusion"); //Global illumination, ambient occlusion mode.
@@ -87,6 +90,7 @@ extends PAppletHax {
 	}
 
 	public void keyPressed() {
+		JoonsWrapper joons = Renderer.instance().joons;
 		if (key == 'r' || key == 'R') joons.jr.render(); //Press 'r' key to start rendering.
 	}
 

@@ -5,6 +5,7 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
 import com.haxademic.core.render.JoonsWrapper;
+import com.haxademic.core.render.Renderer;
 
 public class VoxelSphere
 extends PAppletHax {
@@ -39,6 +40,7 @@ extends PAppletHax {
 	}
 
 	public void drawApp() {
+		JoonsWrapper joons = Renderer.instance().joons;
 		// rendering progress
 		progress = (p.frameCount % frames) / frames;
 		float progressRads = progress * P.TWO_PI;
@@ -194,6 +196,7 @@ extends PAppletHax {
 	}
 	
 	protected void setUpRoom() {
+		JoonsWrapper joons = Renderer.instance().joons;
 		pushMatrix();
 		translate(0, 0, 0);
 		float radiance = 20;

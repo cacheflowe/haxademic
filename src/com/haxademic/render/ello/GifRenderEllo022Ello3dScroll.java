@@ -112,12 +112,12 @@ extends PAppletHax {
 		p.popMatrix();
 		
 		
-		if( p.frameCount == _frames * 2 + 2 ) {
-			if(Config.getBoolean("rendering", false) ==  true) {				
-				videoRenderer.stop();
-				P.println("render done!");
-			}
-		}
+//		if( p.frameCount == _frames * 2 + 2 ) {
+//			if(Config.getBoolean("rendering", false) ==  true) {				
+//				videoRenderer.stop();
+//				P.println("render done!");
+//			}
+//		}
 
 	}
 

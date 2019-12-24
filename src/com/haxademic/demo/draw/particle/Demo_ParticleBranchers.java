@@ -16,6 +16,7 @@ import com.haxademic.core.draw.filters.pshader.VignetteFilter;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.MathUtil;
+import com.haxademic.core.render.Renderer;
 import com.haxademic.core.system.AppRestart;
 import com.haxademic.core.system.SystemUtil;
 
@@ -177,7 +178,7 @@ extends PAppletHax {
 		}
 		if(endFrame != -1 && p.frameCount > endFrame + 60) {
 			if(renderSingleMovie) {
-				p.videoRenderer.stop();
+				Renderer.instance().videoRenderer.stop();
 				AppRestart.restart(p);
 			} else {
 				if(renderImages) saveFrame(FileUtil.getHaxademicOutputPath() + "branchers" + FileUtil.SEPARATOR + SystemUtil.getTimestampFine() + ".png");

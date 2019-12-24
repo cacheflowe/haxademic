@@ -7,6 +7,7 @@ import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.media.DemoAssets;
 import com.haxademic.core.render.JoonsWrapper;
+import com.haxademic.core.render.Renderer;
 
 import processing.core.PShape;
 
@@ -45,6 +46,7 @@ extends PAppletHax {
 
 
 	public void drawApp() {
+		JoonsWrapper joons = Renderer.instance().joons;
 		if(Config.getBoolean(AppSettings.SUNFLOW_ACTIVE, false) == false) {
 			p.background(0);
 			p.lights();
@@ -85,6 +87,7 @@ extends PAppletHax {
 	}
 
 	protected void setUpRoom() {
+		JoonsWrapper joons = Renderer.instance().joons;
 		pushMatrix();
 		translate(0, 0, 0);
 		float radiance = 10;

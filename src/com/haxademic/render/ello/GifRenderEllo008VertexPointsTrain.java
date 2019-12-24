@@ -105,16 +105,16 @@ extends PAppletHax {
 
 //		filter(BLUR);
 
-		if(Config.getBoolean("rendering_gif", false) == true) {
-			if(p.frameCount > _frames * 2) renderGifFrame();
-		}
-		if( p.frameCount == _frames * 20 ) {
-			if(Config.getBoolean("rendering_gif", false) ==  true) encoder.finish();
-			if(isRendering == true) {				
-				videoRenderer.stop();
-				P.println("render done!");
-			}
-		}
+//		if(Config.getBoolean("rendering_gif", false) == true) {
+//			if(p.frameCount > _frames * 2) renderGifFrame();
+//		}
+//		if( p.frameCount == _frames * 20 ) {
+//			if(Config.getBoolean("rendering_gif", false) ==  true) encoder.finish();
+//			if(isRendering == true) {				
+//				videoRenderer.stop();
+//				P.println("render done!");
+//			}
+//		}
 
 	}
 }

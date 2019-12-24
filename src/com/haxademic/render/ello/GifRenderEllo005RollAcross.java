@@ -79,15 +79,15 @@ extends PAppletHax {
 		p.popMatrix();
 
 //		filter(INVERT);
-
-		if(Config.getBoolean("rendering_gif", false) == true) renderGifFrame();
-		if( p.frameCount == _frames * 4 + 5 ) {
-			if(Config.getBoolean("rendering_gif", false) ==  true) encoder.finish();
-			if(videoRenderer != null) {				
-				videoRenderer.stop();
-				P.println("render done!");
-			}
-		}
+//
+//		if(Config.getBoolean("rendering_gif", false) == true) renderGifFrame();
+//		if( p.frameCount == _frames * 4 + 5 ) {
+//			if(Config.getBoolean("rendering_gif", false) ==  true) encoder.finish();
+//			if(videoRenderer != null) {				
+//				videoRenderer.stop();
+//				P.println("render done!");
+//			}
+//		}
 
 	}
 }

@@ -10,6 +10,7 @@ import com.haxademic.core.draw.toxi.DrawToxiMesh;
 import com.haxademic.core.draw.toxi.MeshUtilToxi;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.render.JoonsWrapper;
+import com.haxademic.core.render.Renderer;
 
 import toxi.color.TColor;
 import toxi.geom.mesh.WETriangleMesh;
@@ -50,6 +51,7 @@ extends PAppletHax {
 	}
 	
 	public void drawApp() {		
+		JoonsWrapper joons = Renderer.instance().joons;
 		float frameRadians = P.TWO_PI / _frames;
 		float percentComplete = ((float)(p.frameCount%_frames)/_frames);
 		float radiansComplete = P.TWO_PI * percentComplete;
@@ -80,12 +82,14 @@ extends PAppletHax {
 	}
 	
 	protected void makeLightSource() {
+		JoonsWrapper joons = Renderer.instance().joons;
 		joons.jr.fill("light", 255, 255, 255);
 		sphere(10);
 		translate(-1000, 0, 0);
 	}
 	
 	protected void setUpRoom() {
+		JoonsWrapper joons = Renderer.instance().joons;
 		pushMatrix();
 		translate(0, 0, 0);
 		float radiance = 20;

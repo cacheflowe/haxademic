@@ -8,6 +8,7 @@ import com.haxademic.core.draw.camera.CameraOscillate;
 import com.haxademic.core.draw.camera.common.ICamera;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.render.JoonsWrapper;
+import com.haxademic.core.render.Renderer;
 
 public class FractalCube
 extends PAppletHax {
@@ -31,8 +32,6 @@ extends PAppletHax {
 	}
 
 	public void firstFrame() {
-
-		
 		BASE_CUBE_SIZE = p.width/4f;
 		
 		if(Config.getBoolean(AppSettings.SUNFLOW_ACTIVE, false) == false) {
@@ -45,6 +44,7 @@ extends PAppletHax {
 	}
 
 	public void drawApp() {
+		JoonsWrapper joons = Renderer.instance().joons;
 //		CHILD_RATIO = 0.25f + 0.1f * P.sin(p.frameCount * 0.01f);
 		percentComplete = ((float)(p.frameCount%_frames)/_frames);
 		
@@ -99,6 +99,7 @@ extends PAppletHax {
 		 * Place and draw each cube
 		 */
 		void update( float x, float y, float z ) {
+			JoonsWrapper joons = Renderer.instance().joons;
 			// store 3d coordinates
 			_x = x;
 			_y = y;
@@ -163,6 +164,7 @@ extends PAppletHax {
 	
 	
 	protected void setUpRoom() {
+		JoonsWrapper joons = Renderer.instance().joons;
 		pushMatrix();
 		translate(0, 0, -1000);
 		float radiance = 20;

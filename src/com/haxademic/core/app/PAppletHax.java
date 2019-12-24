@@ -1,9 +1,5 @@
 package com.haxademic.core.app;
 
-import java.io.IOException;
-
-import javax.sound.midi.InvalidMidiDataException;
-
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
 import com.haxademic.core.data.constants.PEvents;
@@ -13,16 +9,10 @@ import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera;
-import com.haxademic.core.hardware.midi.MidiState;
 import com.haxademic.core.hardware.webcam.WebCam;
 import com.haxademic.core.media.audio.analysis.AudioIn;
 import com.haxademic.core.media.audio.analysis.AudioInputESS;
 import com.haxademic.core.media.video.MovieBuffer;
-import com.haxademic.core.render.GifRenderer;
-import com.haxademic.core.render.ImageSequenceRenderer;
-import com.haxademic.core.render.JoonsWrapper;
-import com.haxademic.core.render.MIDISequenceRenderer;
-import com.haxademic.core.render.VideoRenderer;
 import com.haxademic.core.system.AppUtil;
 import com.haxademic.core.system.SystemUtil;
 import com.haxademic.core.ui.UIButton;
@@ -51,16 +41,10 @@ extends PApplet {
 	public PGraphics pg;						// Offscreen buffer that matches the app size by default
 	protected boolean alwaysOnTop = false;
 
-	// rendering
-	public VideoRenderer videoRenderer;
-	public ImageSequenceRenderer imageSequenceRenderer;
-	public MIDISequenceRenderer midiRenderer;
-	public GifRenderer gifRenderer;
-	protected Boolean isRendering = true;
-	protected Boolean renderingAudio = false;
-	protected Boolean renderingMidi = true;
-	public JoonsWrapper joons;
-
+	// events
+	public static final String DRAW_PRE = "DRAW_PRE";
+	public static final String DRAW_POST = "DRAW_POST";
+	
 	////////////////////////
 	// INIT
 	////////////////////////
@@ -71,7 +55,6 @@ extends PApplet {
 		P.init(this);
 		config();
 		buildAppWindow();
-		setRenderingProps();
 	}
 	
 	protected void printArgs() {
@@ -161,28 +144,10 @@ extends PApplet {
 	// INIT OBJECTS
 	////////////////////////
 	
-	protected void setRenderingProps() {
-		isRendering = Config.getBoolean(AppSettings.RENDERING_MOVIE, false);
-		if( isRendering == true ) DebugUtil.printErr("When rendering, make sure to call super.keyPressed(); for esc key shutdown");
-		renderingAudio = Config.getString(AppSettings.RENDER_AUDIO_FILE, "").length() > 0;
-		renderingMidi = Config.getString(AppSettings.RENDER_MIDI_FILE, "").length() > 0;
-	}
 	
 	protected void initHaxademicObjects() {
 		// create offscreen buffer
 		if(P.isOpenGL()) pg = PG.newPG(Config.getInt(AppSettings.PG_WIDTH, p.width), Config.getInt(AppSettings.PG_HEIGHT, p.height));
-
-		// rendering
-		videoRenderer = new VideoRenderer( Config.getInt(AppSettings.FPS, 60), VideoRenderer.OUTPUT_TYPE_MOVIE, Config.getString( "render_output_dir", FileUtil.getHaxademicOutputPath() ) );
-		if(Config.getBoolean(AppSettings.RENDERING_GIF, false) == true) {
-			gifRenderer = new GifRenderer(Config.getInt(AppSettings.RENDERING_GIF_FRAMERATE, 45), Config.getInt(AppSettings.RENDERING_GIF_QUALITY, 15));
-		}
-		if(Config.getBoolean(AppSettings.RENDERING_IMAGE_SEQUENCE, false) == true) {
-			imageSequenceRenderer = new ImageSequenceRenderer(p.g);
-		}
-		joons = ( Config.getBoolean(AppSettings.SUNFLOW, false ) == true ) ?
-				new JoonsWrapper( p, width, height, ( Config.getString(AppSettings.SUNFLOW_QUALITY, "low" ) == AppSettings.SUNFLOW_QUALITY_HIGH ) ? JoonsWrapper.QUALITY_HIGH : JoonsWrapper.QUALITY_LOW, ( Config.getBoolean(AppSettings.SUNFLOW_ACTIVE, true ) == true ) ? true : false )
-				: null;
 		
 		// fullscreen
 		boolean isFullscreen = Config.getBoolean(AppSettings.FULLSCREEN, false);
@@ -240,14 +205,11 @@ extends PApplet {
 	
 	public void draw() {
 		initializeOn1stFrame();
-		handleRenderingStepthrough();
-		p.pushMatrix();
-		if( joons != null ) joons.startFrame();
+		P.p.push();	// because drawApp can leave the context in a bad state
+		P.store.setNumber(PAppletHax.DRAW_PRE, p.frameCount);	// mostly for Renderer to do it's thing
 		drawApp();
-		if( joons != null ) joons.endFrame( Config.getBoolean(AppSettings.SUNFLOW_SAVE_IMAGES, false) == true );
-		p.popMatrix();
-		renderFrame();
-		
+		P.store.setNumber(PAppletHax.DRAW_POST, p.frameCount);
+		p.pop();
 		if(WebCam.instance != null && p.key == 'W') WebCam.instance().drawMenu(p.g);
 		keepOnTop();
 		setAppDockIconAndTitle();
@@ -284,89 +246,7 @@ extends PApplet {
 		p.exit();
 	}
 	
-	protected void handleRenderingStepthrough() {
-		// step through midi file if set
-		if( renderingMidi == true ) {
-			if( p.frameCount == 1 ) {
-				try {
-					midiRenderer = new MIDISequenceRenderer(p);
-					midiRenderer.loadMIDIFile( Config.getString(AppSettings.RENDER_MIDI_FILE, ""), Config.getFloat(AppSettings.RENDER_MIDI_BPM, 150f), Config.getInt(AppSettings.FPS, 60), Config.getFloat(AppSettings.RENDER_MIDI_OFFSET, -8f) );
-				} catch (InvalidMidiDataException e) { e.printStackTrace(); } catch (IOException e) { e.printStackTrace(); }
-			}
-		}
-		// analyze & init audio if stepping through a render
-		if( isRendering == true ) {
-			if( p.frameCount == 1 ) {
-				if( renderingAudio == true ) {
-					videoRenderer.startRendererForAudio( Config.getString(AppSettings.RENDER_AUDIO_FILE, "") );
-				} else {
-					videoRenderer.startVideoRenderer();
-				}
-			}
 
-			// have renderer step through audio, then special call to update the single WaveformData storage object
-			if( renderingAudio == true ) {
-				videoRenderer.analyzeAudio();
-			}
-
-			if( midiRenderer != null ) {
-				boolean doneCheckingForMidi = false;
-				while( doneCheckingForMidi == false ) {
-					int rendererNote = midiRenderer.checkForCurrentFrameNoteEvents();
-					if( rendererNote != -1 ) {
-						MidiState.instance().noteOn( 0, rendererNote, 100 );
-					} else {
-						doneCheckingForMidi = true;
-					}
-				}
-			}
-		}
-		if(gifRenderer != null && Config.getBoolean(AppSettings.RENDERING_GIF, false) == true) {
-			if(Config.getInt(AppSettings.RENDERING_GIF_START_FRAME, 1) == p.frameCount) {
-				gifRenderer.startGifRender(this);
-			}
-		}
-		if(imageSequenceRenderer != null && Config.getBoolean(AppSettings.RENDERING_IMAGE_SEQUENCE, false) == true) {
-			if(Config.getInt(AppSettings.RENDERING_IMAGE_SEQUENCE_START_FRAME, 1) == p.frameCount) {
-				imageSequenceRenderer.startImageSequenceRender();
-			}
-		}
-	}
-	
-	protected void renderFrame() {
-		// gives the app 1 frame to shutdown after the movie rendering stops
-		if( isRendering == true ) {
-			if(p.frameCount >= Config.getInt(AppSettings.RENDERING_MOVIE_START_FRAME, 1)) {
-				videoRenderer.renderFrame();
-			}
-			// check for movie rendering stop frame
-			if(p.frameCount == Config.getInt(AppSettings.RENDERING_MOVIE_STOP_FRAME, 5000)) {
-				videoRenderer.stop();
-				P.println("shutting down renderer");
-			}
-		}
-		// check for gif rendering stop frame
-		if(gifRenderer != null && Config.getBoolean(AppSettings.RENDERING_GIF, false) == true) {
-			if(Config.getInt(AppSettings.RENDERING_GIF_START_FRAME, 1) == p.frameCount) {
-				gifRenderer.startGifRender(this);
-			}
-			PG.setColorForPImage(p);
-			gifRenderer.renderGifFrame(p.g);
-			if(Config.getInt(AppSettings.RENDERING_GIF_STOP_FRAME, 100) == p.frameCount) {
-				gifRenderer.finish();
-			}
-		}
-		// check for image sequence stop frame
-		if(imageSequenceRenderer != null && Config.getBoolean(AppSettings.RENDERING_IMAGE_SEQUENCE, false) == true) {
-			if(p.frameCount >= Config.getInt(AppSettings.RENDERING_IMAGE_SEQUENCE_START_FRAME, 1)) {
-				imageSequenceRenderer.renderImageFrame();
-			}
-			if(p.frameCount == Config.getInt(AppSettings.RENDERING_IMAGE_SEQUENCE_STOP_FRAME, 500)) {
-				imageSequenceRenderer.finish();
-			}
-		}
-	}
-	
 	public void saveScreenshot(PGraphics savePG) {
 		savePG.save(FileUtil.getHaxademicOutputPath() + "_screenshots/" + SystemUtil.getTimestamp() + ".png");
 	}

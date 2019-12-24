@@ -6,6 +6,7 @@ import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.render.JoonsWrapper;
+import com.haxademic.core.render.Renderer;
 
 import processing.core.PShape;
 
@@ -46,9 +47,9 @@ extends PAppletHax {
 	
 	public void drawApp() {
 //		p.background(0);
-		joons.jr.background(100, 100, 100); //background(gray), or (r, g, b), like Processing.
-		joons.jr.background("gi_instant"); //Global illumination, normal mode.
-		joons.jr.background("gi_ambient_occlusion"); //Global illumination, ambient occlusion mode.
+		Renderer.instance().joons.jr.background(100, 100, 100); //background(gray), or (r, g, b), like Processing.
+		Renderer.instance().joons.jr.background("gi_instant"); //Global illumination, normal mode.
+		Renderer.instance().joons.jr.background("gi_ambient_occlusion"); //Global illumination, ambient occlusion mode.
 
 		setUpRoom();
 		
@@ -56,7 +57,7 @@ extends PAppletHax {
 		p.pushMatrix();
 		p.translate(0, 0, -1000);
 		_shape.disableStyle();
-		joons.jr.fill( JoonsWrapper.MATERIAL_SHINY, 255, 255, 255);
+		Renderer.instance().joons.jr.fill( JoonsWrapper.MATERIAL_SHINY, 255, 255, 255);
 		p.shape(_shape);
 		p.popMatrix();
 //			P.println("===================");
@@ -93,7 +94,7 @@ extends PAppletHax {
 	}
 
 	public void keyPressed() {
-		if (key == 'r' || key == 'R') joons.jr.render(); //Press 'r' key to start rendering.
+		if (key == 'r' || key == 'R') Renderer.instance().joons.jr.render(); //Press 'r' key to start rendering.
 	}
 
 	protected void setUpRoom() {
@@ -101,7 +102,7 @@ extends PAppletHax {
 		translate(0, 0, -1000);
 		float radiance = 20;
 		int samples = 16;
-		joons.jr.background("cornell_box", 
+		Renderer.instance().joons.jr.background("cornell_box", 
 				12000, 6000, 6000,	// width, height, depth
 				radiance, radiance, radiance, samples,  // radiance rgb & samples
 				40, 40, 40, // left rgb

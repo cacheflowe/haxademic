@@ -8,6 +8,7 @@ import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.file.FileUtil;
+import com.haxademic.core.render.Renderer;
 
 import processing.core.PImage;
 
@@ -24,7 +25,7 @@ extends PAppletHax {
 	protected void config() {
 		Config.setProperty( AppSettings.WIDTH, 1080 );
 		Config.setProperty( AppSettings.HEIGHT, 1080 );
-		Config.setProperty( AppSettings.RENDERING_MOVIE, true );
+		Config.setProperty( AppSettings.RENDERING_MOVIE, false );
 		Config.setProperty( "image_type", "jpg" );
 		Config.setProperty( "image_dir", "/Users/cacheflowe/Documents/workspace/mode_set/client_docs/legwork/nike-all-star/final_snkrs_xpress_game_faces/" );
 	}
@@ -59,7 +60,7 @@ extends PAppletHax {
 		
 		// stop when done
 		if( _imageIndex == _images.size() ) {
-			videoRenderer.stop();
+			Renderer.instance().videoRenderer.stop();
 		} else if( _imageIndex == _images.size() + 1 ) {
 			p.exit();
 		}

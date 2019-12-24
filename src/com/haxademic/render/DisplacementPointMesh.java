@@ -25,9 +25,9 @@ extends PAppletHax {
 	protected int FRAMES = 180;
 
 	protected void config() {
-		Config.setProperty( AppSettings.SHOW_UI, true);
+		Config.setProperty( AppSettings.SHOW_UI, false);
 		Config.setProperty( AppSettings.LOOP_FRAMES, FRAMES);
-		Config.setProperty(AppSettings.RENDERING_MOVIE, false );
+		Config.setProperty(AppSettings.RENDERING_MOVIE, true );
 		Config.setProperty(AppSettings.RENDERING_MOVIE_START_FRAME, 1 + FRAMES * 2);
 		Config.setProperty(AppSettings.RENDERING_MOVIE_STOP_FRAME, 1 + FRAMES * 3);
 	}

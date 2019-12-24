@@ -10,6 +10,7 @@ import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.media.DemoAssets;
 import com.haxademic.core.render.FrameLoop;
 import com.haxademic.core.render.JoonsWrapper;
+import com.haxademic.core.render.Renderer;
 
 import processing.core.PShape;
 
@@ -49,6 +50,7 @@ extends PAppletHax {
 
 
 	public void drawApp() {
+		JoonsWrapper joons = Renderer.instance().joons;
 		if(Config.getBoolean(AppSettings.SUNFLOW_ACTIVE, false) == false) {
 			p.background(0);
 			p.lights();

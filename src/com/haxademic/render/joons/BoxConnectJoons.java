@@ -7,6 +7,7 @@ import com.haxademic.core.app.config.Config;
 import com.haxademic.core.debug.DebugUtil;
 import com.haxademic.core.draw.shapes.Shapes;
 import com.haxademic.core.render.JoonsWrapper;
+import com.haxademic.core.render.Renderer;
 
 import processing.core.PImage;
 import processing.core.PVector;
@@ -39,6 +40,7 @@ extends PAppletHax {
 	}
 
 	public void drawApp() {
+		JoonsWrapper joons = Renderer.instance().joons;
 		background(0);
 		lights();
 		p.noStroke();

@@ -25,6 +25,7 @@ import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.EasingFloat;
 import com.haxademic.core.math.easing.LinearFloat;
 import com.haxademic.core.render.FrameLoop;
+import com.haxademic.core.render.Renderer;
 import com.haxademic.core.ui.UI;
 
 import processing.core.PGraphics;
@@ -141,7 +142,7 @@ extends PAppletHax {
 		buildSimulation();
 
 //		if(imageSequenceRenderer != null) imageSequenceRenderer.setPG(pgPost);
-		if(imageSequenceRenderer != null) imageSequenceRenderer.setPG(simulationPg2);
+		if(Renderer.instance().imageSequenceRenderer != null) Renderer.instance().imageSequenceRenderer.setPG(simulationPg2);
 	}
 	
 	protected void buildUI() {

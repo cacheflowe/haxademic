@@ -9,6 +9,7 @@ import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.media.DemoAssets;
 import com.haxademic.core.render.FrameLoop;
 import com.haxademic.core.render.JoonsWrapper;
+import com.haxademic.core.render.Renderer;
 
 import processing.core.PShape;
 
@@ -47,6 +48,7 @@ extends PAppletHax {
 	}
 	
 	public void drawApp() {
+		JoonsWrapper joons = Renderer.instance().joons;
 		if(Config.getBoolean(AppSettings.SUNFLOW_ACTIVE, false) == false) {
 			p.background(200, 255, 200);
 //			PG.setCenterScreen(p);

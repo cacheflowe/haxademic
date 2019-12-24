@@ -13,6 +13,7 @@ import com.haxademic.core.draw.toxi.MeshUtilToxi;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.easing.ElasticFloat3D;
 import com.haxademic.core.render.JoonsWrapper;
+import com.haxademic.core.render.Renderer;
 
 import toxi.color.TColor;
 import toxi.geom.mesh.Vertex;
@@ -69,7 +70,8 @@ extends PAppletHax {
 	}
 	
 	public void drawApp() {		
-		
+		JoonsWrapper joons = Renderer.instance().joons;
+
 		// update all back to zero on a certain frame
 		if(p.frameCount == 40) {
 			for( int i=0; i < _verticesElastic.size(); i++ ) {
@@ -126,12 +128,14 @@ extends PAppletHax {
 	}
 	
 	protected void makeLightSource() {
+		JoonsWrapper joons = Renderer.instance().joons;
 		joons.jr.fill("light", 255, 255, 255);
 		sphere(10);
 		translate(-1000, 0, 0);
 	}
 	
 	protected void setUpRoom() {
+		JoonsWrapper joons = Renderer.instance().joons;
 		pushMatrix();
 		translate(0, 0, 0);
 		float radiance = 20;

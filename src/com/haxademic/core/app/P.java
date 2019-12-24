@@ -10,6 +10,7 @@ import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.keyboard.KeyboardState;
 import com.haxademic.core.hardware.mouse.Mouse;
 import com.haxademic.core.render.FrameLoop;
+import com.haxademic.core.render.Renderer;
 import com.haxademic.core.system.ScreenSaverBlocker;
 import com.haxademic.core.ui.UI;
 import com.jogamp.newt.opengl.GLWindow;
@@ -45,6 +46,7 @@ extends PApplet {
 		UI.instance();
 		Mouse.instance();
 		KeyboardState.instance();
+		Renderer.instance();
 	}
 	
 	// helper methods

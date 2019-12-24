@@ -13,6 +13,7 @@ import com.haxademic.core.draw.image.AnimatedGifEncoder;
 import com.haxademic.core.draw.shapes.Shapes;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.render.JoonsWrapper;
+import com.haxademic.core.render.Renderer;
 import com.haxademic.core.system.SystemUtil;
 
 import processing.core.PImage;
@@ -57,6 +58,7 @@ extends PAppletHax {
 	}
 	
 	public void drawApp() {
+		JoonsWrapper joons = Renderer.instance().joons;
 //		PG.setDrawCenter(p);
 		PG.setBasicLights(p);
 //		p.translate( p.width/2, p.height/2, -1600 );
@@ -102,6 +104,7 @@ extends PAppletHax {
 	}
 	
 	protected void setUpRoom() {
+		JoonsWrapper joons = Renderer.instance().joons;
 		pushMatrix();
 		translate(0, 0, -3000);
 		float radiance = 20;

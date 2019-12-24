@@ -8,6 +8,7 @@ import com.haxademic.core.draw.toxi.DrawToxiMesh;
 import com.haxademic.core.draw.toxi.MeshUtilToxi;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.render.JoonsWrapper;
+import com.haxademic.core.render.Renderer;
 
 import toxi.color.TColor;
 import toxi.geom.mesh.WETriangleMesh;
@@ -48,6 +49,7 @@ extends PAppletHax {
 
 
 	public void drawApp() {
+		JoonsWrapper joons = Renderer.instance().joons;
 //		p.background(0);
 //		p.lights();
 
@@ -86,12 +88,14 @@ extends PAppletHax {
 	}
 
 	protected void makeLightSource() {
+		JoonsWrapper joons = Renderer.instance().joons;
 		joons.jr.fill("light", 200, 255, 200);
 		sphere(10);
 		translate(-2300, 0, 0);
 	}
 	
 	protected void setUpRoom() {
+		JoonsWrapper joons = Renderer.instance().joons;
 		pushMatrix();
 		translate(0, 0, -2000);
 		float radiance = 20;

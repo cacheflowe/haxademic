@@ -95,12 +95,12 @@ extends PAppletHax {
 
 
 //		filter(BLUR);
-		if( p.frameCount == _frames * 3 ) {
-			if(isRendering == true) {				
-				videoRenderer.stop();
-				P.println("render done!");
-			}
-		}
+//		if( p.frameCount == _frames * 3 ) {
+//			if(isRendering == true) {				
+//				videoRenderer.stop();
+//				P.println("render done!");
+//			}
+//		}
 
 	}
 }

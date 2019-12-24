@@ -9,6 +9,7 @@ import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.image.DrawCommand.Command;
 import com.haxademic.core.draw.image.HaxMotionBlur;
 import com.haxademic.core.math.easing.Penner;
+import com.haxademic.core.render.Renderer;
 
 public class RoundedRectTest
 extends PAppletHax {
@@ -44,7 +45,7 @@ extends PAppletHax {
 		
 		if( p.frameCount == _frames * 2 + 2 ) {
 			if(Config.getBoolean("rendering", false) ==  true) {				
-				videoRenderer.stop();
+				Renderer.instance().videoRenderer.stop();
 				P.println("render done!");
 			}
 		}

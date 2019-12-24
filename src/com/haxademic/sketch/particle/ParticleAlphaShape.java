@@ -11,6 +11,7 @@ import com.haxademic.core.draw.particle.VectorFlyer;
 import com.haxademic.core.draw.shapes.Shapes;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.render.JoonsWrapper;
+import com.haxademic.core.render.Renderer;
 
 import processing.core.PVector;
 import wblut.external.ProGAL.AlphaComplex;
@@ -70,6 +71,7 @@ extends PAppletHax {
 
 
 	public void drawApp() {
+		JoonsWrapper joons = Renderer.instance().joons;
 		if(joons == null) p.background(0);
 		p.lights();
 
@@ -95,6 +97,7 @@ extends PAppletHax {
 	}
 
 	protected void setUpRoom() {
+		JoonsWrapper joons = Renderer.instance().joons;
 		pushMatrix();
 		translate(0, 0, -2000);
 		float radiance = 20;
@@ -112,6 +115,7 @@ extends PAppletHax {
 	}
 	
 	protected void drawVoxels() {
+		JoonsWrapper joons = Renderer.instance().joons;
 		
 		ArrayList<PVector> voxelPositions = new ArrayList<PVector>();
 		ArrayList<Integer> voxelDecay = new ArrayList<Integer>();
@@ -166,6 +170,7 @@ extends PAppletHax {
 	}
 	
 	protected void drawProximitySticks() {
+		JoonsWrapper joons = Renderer.instance().joons;
 		DebugUtil.printErr("This probably wont work anymore with Joons since Shapes.boxBetween() uses p.g instead of p"); 
 		// set target of particle to closest attractor
 		VectorFlyer box = null;
@@ -194,6 +199,7 @@ extends PAppletHax {
 	}
 
 	protected void drawAlphaShape( boolean complex ) {
+		JoonsWrapper joons = Renderer.instance().joons;
 		for( int i=0; i < _numParticles; i++ ) {
 			points.get(i).setX( boxes.get(i).position().x );
 			points.get(i).setY( boxes.get(i).position().y );

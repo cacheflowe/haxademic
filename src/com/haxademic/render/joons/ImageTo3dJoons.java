@@ -5,7 +5,9 @@ import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.file.FileUtil;
+import com.haxademic.core.media.DemoAssets;
 import com.haxademic.core.render.JoonsWrapper;
+import com.haxademic.core.render.Renderer;
 
 import processing.core.PImage;
 import toxi.geom.Triangle3D;
@@ -21,11 +23,6 @@ extends PAppletHax {
 	protected boolean isWebCam;
 	
 
-	public void firstFrame() {
-
-		image = p.loadImage( FileUtil.getHaxademicDataPath() + "images/dawn-pattern.png" );
-	}
-	
 	protected void config() {
 		Config.setProperty( AppSettings.SUNFLOW, "true" );
 		Config.setProperty( AppSettings.SUNFLOW_ACTIVE, "false" );
@@ -41,6 +38,7 @@ extends PAppletHax {
 		lights();
 		p.noStroke();
 		
+		image = DemoAssets.smallTexture();
 				
 //		p.rotateX(5.03f);
 		p.rotateX(5.7f);
@@ -72,7 +70,7 @@ extends PAppletHax {
 				
 				// spheres
 				sphere(size*0.5f * pixelBrightness/255f);
-				if( joons != null ) joons.addColorForObject( JoonsWrapper.MATERIAL_DIFFUSE, pixelColor, 1, true );
+				if( Renderer.instance().joons != null ) Renderer.instance().joons.addColorForObject( JoonsWrapper.MATERIAL_DIFFUSE, pixelColor, 1, true );
 				
 				
 				p.popMatrix();
