@@ -1,6 +1,7 @@
 package com.haxademic.sketch.hardware.leap;
 
 import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.draw.context.PG;
 
 import de.voidplus.leapmotion.CircleGesture;
 import de.voidplus.leapmotion.Device;
@@ -17,18 +18,15 @@ public class LeapGestures
 extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
-
-	LeapMotion leap;
+	protected LeapMotion leap;
 
 	public void firstFrame() {
-
-	    leap = new LeapMotion(this).withGestures();
-//	     leap = new LeapMotion(this).withGestures("circle, swipe, screen_tap, key_tap");
+	    leap = new LeapMotion(this).withGestures("swipe, circle, screen_tap, key_tap");
 	    // leap = new LeapMotion(this).withGestures("swipe"); // Leap detects only swipe gestures.
 	}
 
 	public void drawApp(){
-	    background(0);
+	    background(255);
 	    // ...
 	    int fps = leap.getFrameRate();
 
@@ -47,6 +45,7 @@ extends PAppletHax {
 	        PVector sphere_position  = hand.getSpherePosition();
 	        float   sphere_radius    = hand.getSphereRadius();
 	        
+	        PG.setDrawCenter(p);
 	        p.noFill();
 	        p.stroke(0,255,0);
             p.pushMatrix();
@@ -54,7 +53,7 @@ extends PAppletHax {
             p.rotateX(hand_direction.y);
             p.rotateY(hand_direction.x);
             p.rotateZ(hand_direction.z);
-            p.box(80,10,80);
+            p.sphere(80);
             p.popMatrix();
 
 

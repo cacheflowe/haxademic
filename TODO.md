@@ -37,7 +37,7 @@
   	* AppStore: a global data store & event emitter
   	* DebugView for realtime value-tracking and performance monitoring
   	* UI for persistent sliders & buttons (also MIDI-controllable)
-  	* DemoAssets
+  	* DemoAssets for instant example media files to test with
   	* ScreenSaverBlocker
   * System
   	* FileUtil
@@ -71,6 +71,13 @@
   	* OSC
   	* MIDI
   	* FileDownloader
+  	
+* PAppletHax replaces Processing's functions:
+	* settings() with config()
+		* Set Config values in `config()` before the app is initialized
+	* setup() with firstFrame()
+		* Build you objects in `firstFrame()` - this solves potential problems if things take too long
+	* draw() with drawApp()
 
 ## InputTrigger revamp
 

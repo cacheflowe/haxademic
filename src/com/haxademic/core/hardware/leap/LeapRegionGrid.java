@@ -85,15 +85,13 @@ implements IJoystickCollection {
 	
 	public void updateDebug() {		
 		_pg.beginDraw();
-		_pg.clear();
+		_pg.background(0);
 		
-		_pg.shininess(1000f); 
 		_pg.lights();
 
 		
 		// draw regions' rectangles ----------------------------
 		_pg.pushMatrix();
-		
 		_pg.translate(0, 0, -300);
 				
 		// loop through leap data within rectangles ----------

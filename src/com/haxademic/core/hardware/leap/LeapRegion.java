@@ -1,6 +1,7 @@
 package com.haxademic.core.hardware.leap;
 
 import com.haxademic.core.app.P;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.hardware.joystick.BaseJoystick;
 import com.haxademic.core.hardware.joystick.IJoystickControl;
 import com.haxademic.core.math.MathUtil;
@@ -67,9 +68,11 @@ implements IJoystickControl {
 		// find kinect readings in the region
 		_isActive = false;
 		if( leapMotion != null ) {
+			DebugView.setValue("leapMotion.getHands()", leapMotion.getHands().size());
 		    for(Hand hand : leapMotion.getHands()){
 		        PVector hand_position    = hand.getPosition();
 		        // PVector hand_stabilized  = hand.getStabilizedPosition();
+		        DebugView.setValue("hand "+hand.getId(), hand_position.toString());
 		        
 		        // draw debug hand position
 		        if(debugGraphics != null) {
