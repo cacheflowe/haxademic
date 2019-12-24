@@ -5,6 +5,8 @@ import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
 import com.haxademic.core.hardware.depthcamera.KinectSilhouetteBasic;
 import com.haxademic.core.hardware.depthcamera.KinectSilhouetteVectorField;
+import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera;
+import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera.DepthCameraType;
 
 public class Demo_KinectSilhouetteVectorField
 extends PAppletHax {
@@ -18,7 +20,6 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.WIDTH, "640" );
 		Config.setProperty( AppSettings.HEIGHT, "480" );
 		Config.setProperty( AppSettings.RENDERING_MOVIE, "false" );
-		Config.setProperty( AppSettings.KINECT_ACTIVE, "true" );
 		Config.setProperty( "kinect_top_pixel", "0" );
 		Config.setProperty( "kinect_bottom_pixel", "480" );
 		Config.setProperty( "kinect_left_pixel", "0" );
@@ -37,7 +38,7 @@ extends PAppletHax {
 	}
 
 	public void firstFrame() {
-
+		DepthCamera.instance(DepthCameraType.KinectV1);
 //		_silhouette = new KinectSilhouetteBasic(false, true);
 		_silhouette = new KinectSilhouetteVectorField(false, true);
 	}

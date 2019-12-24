@@ -8,6 +8,9 @@ import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.shapes.Shapes;
 import com.haxademic.core.draw.shapes.pshader.MeshDeformAndTextureFilter;
 import com.haxademic.core.hardware.depthcamera.DepthCameraSize;
+import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera;
+import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera.DepthCameraType;
+import com.haxademic.core.hardware.depthcamera.cameras.IDepthCamera;
 import com.haxademic.core.ui.UI;
 
 import processing.core.PGraphics;
@@ -35,12 +38,12 @@ extends PAppletHax {
 
 
 	protected void config() {
-//		Config.setProperty( AppSettings.KINECT_V2_WIN_ACTIVE, true );
-		Config.setProperty( AppSettings.KINECT_ACTIVE, true );
 		Config.setProperty(AppSettings.SHOW_UI, true);
 	}
 	
 	public void firstFrame() {
+		DepthCamera.instance(DepthCameraType.KinectV1);
+		
 		UI.addSlider(kinectLeft, -0.08f, -1.0f, 1.0f, 0.01f, false);
 		UI.addSlider(kinectRight, 1.06f, 0f, 2f, 0.01f, false);
 		UI.addSlider(kinectTop, -0.08f, -1.0f, 1.0f, 0.01f, false);
@@ -53,18 +56,20 @@ extends PAppletHax {
 	}
 	
 	public void drawApp() {
+		IDepthCamera depthCamera = DepthCamera.instance().camera;
+
 		background(0);
 		PG.setCenterScreen(p.g);
 		if(p.key != ' ') PG.basicCameraFromMouse(p.g);
 		
 		// update mapped texture
 		tex.beginDraw();
-		tex.image(p.depthCamera.getRgbImage(), tex.width * UI.value(kinectLeft), tex.height * UI.value(kinectTop), tex.width * UI.value(kinectRight), tex.height * UI.value(kinectBottom));
+		tex.image(depthCamera.getRgbImage(), tex.width * UI.value(kinectLeft), tex.height * UI.value(kinectTop), tex.width * UI.value(kinectRight), tex.height * UI.value(kinectBottom));
 		tex.endDraw();
 				
 		texDisplace.beginDraw();
 //		texDisplace.image(p.kinectWrapper.getDepthImage(), texDisplace.width * kinectLeft, texDisplace.height * kinectTop, texDisplace.width * kinectRight, texDisplace.height * kinectBottom);
-		texDisplace.image(p.depthCamera.getDepthImage(), 0, 0, texDisplace.width, texDisplace.height);
+		texDisplace.image(depthCamera.getDepthImage(), 0, 0, texDisplace.width, texDisplace.height);
 		texDisplace.endDraw();
 		
 		// deform mesh

@@ -12,6 +12,9 @@ import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.mapping.PGraphicsKeystone;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.depthcamera.KinectAmbientActivityMonitor;
+import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera;
+import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera.DepthCameraType;
+import com.haxademic.core.hardware.depthcamera.cameras.IDepthCamera;
 import com.haxademic.core.hardware.dmx.DmxAjaxProManagerInterface;
 import com.haxademic.core.math.MathUtil;
 
@@ -79,16 +82,17 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.WIDTH, 1000 );
 		Config.setProperty( AppSettings.HEIGHT, 800 );
 		Config.setProperty( AppSettings.RENDERING_MOVIE, false );
-		Config.setProperty( AppSettings.KINECT_ACTIVE, true );
 		Config.setProperty( AppSettings.FULLSCREEN, true );
 	}
 	
 	public void firstFrame() {
+		DepthCamera.instance(DepthCameraType.KinectV1);
 		minim = new Minim(this);
 	}
 	
 	protected void initObjs() {
-		_kinectActive = p.depthCamera.isActive();
+		IDepthCamera depthCamera = DepthCamera.instance().camera;
+		_kinectActive = depthCamera.isActive();
 		
 		if( _kinectActive == true ) _kinectMonitor = new KinectAmbientActivityMonitor( 20, 500, 15000 );
 		
@@ -199,8 +203,9 @@ extends PAppletHax {
 	}
 		
 	public void handleKinectInput() {
+		IDepthCamera depthCamera = DepthCamera.instance().camera;
 		if( _kinectActive == true ) {
-			float kinectActivity = _kinectMonitor.update( p.depthCamera, false );
+			float kinectActivity = _kinectMonitor.update( depthCamera, false );
 			if( _clipPlaying == false && kinectActivity > _kinectAcitivityLaunchThreshold && p.frameCount > 60 ) {
 				startClip();
 				_nextLightning = p.frameCount + 1;

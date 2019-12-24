@@ -1,23 +1,20 @@
 package com.haxademic.demo.hardware.depthcamera.shared;
 
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.hardware.depthcamera.DepthCameraSize;
 import com.haxademic.core.hardware.depthcamera.KinectRegionGrid;
+import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera;
+import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera.DepthCameraType;
+import com.haxademic.core.hardware.depthcamera.cameras.IDepthCamera;
 
 public class Demo_KinectRegionGrid
 extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
 	protected KinectRegionGrid kinectRegionGrid;
-	
-	protected void config() {
-		Config.setProperty( AppSettings.KINECT_V2_WIN_ACTIVE, true );
-//		Config.setProperty( AppSettings.KINECT_ACTIVE, true );
-	}
 	
 	public void firstFrame() {
 		int KINECT_MIN_DIST = 	Config.getInt( "kinect_min_mm", 500 );
@@ -31,6 +28,7 @@ extends PAppletHax {
 		int PLAYER_MIN_PIXELS = Config.getInt( "player_min_pixels", 10 );
 		
 		// build input!
+		DepthCamera.instance(DepthCameraType.Realsense);
 		kinectRegionGrid = new KinectRegionGrid(COLS, ROWS, KINECT_MIN_DIST, KINECT_MAX_DIST, KINECT_PLAYER_GAP, KINECT_TOP, KINECT_BOTTOM, KINECT_PIXEL_SKIP, PLAYER_MIN_PIXELS);
 	}
 	
@@ -40,7 +38,7 @@ extends PAppletHax {
 	}
 	
 	public void drawApp() {
-		// context
+		IDepthCamera depthCamera = DepthCamera.instance().camera;
 		p.background(0);
 		
 		// update & draw grid
@@ -50,8 +48,8 @@ extends PAppletHax {
 		p.image(kinectRegionGrid.debugImage(), 0, 0);
 		
 		// debug textures
-		if(p.depthCamera.getRgbImage() != null) DebugView.setTexture("depthCamera.getRgbImage", p.depthCamera.getRgbImage());
-		if(p.depthCamera.getDepthImage() != null) DebugView.setTexture("depthCamera.getDepthImage", p.depthCamera.getDepthImage());
+		if(depthCamera.getRgbImage() != null) DebugView.setTexture("depthCamera.getRgbImage", depthCamera.getRgbImage());
+		if(depthCamera.getDepthImage() != null) DebugView.setTexture("depthCamera.getDepthImage", depthCamera.getDepthImage());
 		if(kinectRegionGrid.debugImage() != null) DebugView.setTexture("kinectRegionGrid.debugImage", kinectRegionGrid.debugImage());
 	}
 	

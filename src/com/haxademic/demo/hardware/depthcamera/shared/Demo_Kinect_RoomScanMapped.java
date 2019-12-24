@@ -10,6 +10,8 @@ import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.mapping.PGraphicsKeystone;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.depthcamera.KinectRoomScanDiff;
+import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera;
+import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera.DepthCameraType;
 import com.haxademic.core.system.SystemUtil;
 
 import processing.core.PGraphics;
@@ -26,13 +28,11 @@ extends PAppletHax {
 	protected void config() {
 		Config.setProperty( AppSettings.WIDTH, 1280 );
 		Config.setProperty( AppSettings.HEIGHT, 720 );
-//		Config.setProperty( AppSettings.KINECT_V2_WIN_ACTIVE, true );
-		Config.setProperty( AppSettings.KINECT_ACTIVE, true );
-//		Config.setProperty( AppSettings.REALSENSE_ACTIVE, true );
 	}
 
 	public void firstFrame() {
-		kinectDiff = new KinectRoomScanDiff(p.depthCamera);
+		DepthCamera.instance(DepthCameraType.KinectV1);
+		kinectDiff = new KinectRoomScanDiff(DepthCamera.instance().camera);
 		mappedKinectBuffer = PG.newPG(pg.width, pg.height);
 		mappedKinectKeystone = new PGraphicsKeystone( p, kinectDiff.resultSmoothed(), 12, FileUtil.getFile("text/keystoning/keystone-kinect.txt") );
 

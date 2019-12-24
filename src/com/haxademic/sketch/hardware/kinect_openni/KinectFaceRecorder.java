@@ -11,6 +11,8 @@ import com.haxademic.core.draw.filters.pshader.WobbleFilter;
 import com.haxademic.core.draw.image.MotionBlurPGraphics;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.depthcamera.DepthCameraSize;
+import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera;
+import com.haxademic.core.hardware.depthcamera.cameras.IDepthCamera;
 import com.haxademic.core.hardware.dmx.DmxAjaxProManagerInterface;
 import com.haxademic.core.math.MathUtil;
 
@@ -119,20 +121,24 @@ public class KinectFaceRecorder {
 	}
 	
 	protected void copyCameraToRealtimeTexture() {
+		IDepthCamera depthCamera = DepthCamera.instance().camera;
+
 		_realtimeTexture.beginDraw();
 		// _realtimeTexture.copy(p.kinectWrapper.getRgbImage(), 0, 0, 640, 480, 0, 0, _realtimeTexture.width, _realtimeTexture.height);
-		_realtimeTexture.copy(P.p.depthCamera.getRgbImage(), 160, 120, 320, 240, 0, 0, _realtimeTexture.width, _realtimeTexture.height);
+		_realtimeTexture.copy(depthCamera.getRgbImage(), 160, 120, 320, 240, 0, 0, _realtimeTexture.width, _realtimeTexture.height);
 		_realtimeTexture.endDraw();
 		_realtimeTexture.filter(_chromaKeyFilter);
 	}
 
 	protected void detectAnyFace() {
+		IDepthCamera depthCamera = DepthCamera.instance().camera;
+		
 		// loop through kinect data within player's control range
 		float pixelDepth;
 		int numPixels = 0;
 		for ( int x = 0; x < DepthCameraSize.WIDTH; x += PIXEL_SIZE ) {
 			for ( int y = KINECT_TOP; y < KINECT_BOTTOM; y += PIXEL_SIZE ) {
-				pixelDepth = P.p.depthCamera.getDepthAt( x, y );
+				pixelDepth = depthCamera.getDepthAt( x, y );
 				if( pixelDepth != 0 && pixelDepth > KINECT_CLOSE && pixelDepth < KINECT_FAR ) {
 					numPixels++;
 				}

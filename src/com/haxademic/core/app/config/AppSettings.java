@@ -52,9 +52,6 @@ public class AppSettings {
 	public static final String SUNFLOW_QUALITY_HIGH = "high";
 	public static final String SUNFLOW_SAVE_IMAGES = "sunflow_save_images";
 	// depth cams
-	public static final String KINECT_ACTIVE = "kinect_active";
-	public static final String KINECT_V2_WIN_ACTIVE = "kinect_v2_win_active";
-	public static final String REALSENSE_ACTIVE = "realsense_active";
 	public static final String DEPTH_CAM_RGB_ACTIVE = "depth_camera_rgb_active";
 	public static final String DEPTH_CAM_DEPTH_ACTIVE = "depth_camera_depth_active";
 	// input

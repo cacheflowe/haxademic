@@ -7,6 +7,8 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.file.FileUtil;
+import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera;
+import com.haxademic.core.hardware.depthcamera.cameras.IDepthCamera;
 import com.haxademic.core.math.MathUtil;
 
 import blobDetection.Blob;
@@ -177,9 +179,10 @@ public class KinectSilhouetteBasic {
 	}
 	
 	protected void drawKinectForBlob() {
-		_kinectBuffer.update(P.p.depthCamera);
+		IDepthCamera depthCamera = DepthCamera.instance().camera;
+		_kinectBuffer.update(depthCamera);
 		if(_kinectBufferRoomScan != null && _framesScannedCount <= _framesToScan) {
-			_kinectBufferRoomScan.update(P.p.depthCamera);
+			_kinectBufferRoomScan.update(depthCamera);
 			if(_framesScannedCount == _framesToScan) {
 				_kinectBufferRoomScan.extraSpread();
 				P.println("=== Finished Scanning Room ===");

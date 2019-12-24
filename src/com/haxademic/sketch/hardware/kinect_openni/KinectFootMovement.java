@@ -7,6 +7,9 @@ import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.hardware.depthcamera.SkeletonsTracker;
+import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera;
+import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera.DepthCameraType;
+import com.haxademic.core.hardware.depthcamera.cameras.IDepthCamera;
 
 import SimpleOpenNI.SimpleOpenNI;
 import ddf.minim.AudioPlayer;
@@ -35,7 +38,7 @@ extends PAppletHax {
 	protected float _groundScale = 5f;
 		
 	public void firstFrame() {
-
+		DepthCamera.instance(DepthCameraType.KinectV1);
 		
 		// do something
 		if(Config.getBoolean("kinect_active", true) == true) _skeletonTracker = new SkeletonsTracker();
@@ -53,7 +56,6 @@ extends PAppletHax {
 	
 	protected void config() {
 		Config.setProperty( AppSettings.RENDERING_MOVIE, "false" );
-		Config.setProperty( AppSettings.KINECT_ACTIVE, "false" );
 		Config.setProperty( AppSettings.WIDTH, "640" );
 		Config.setProperty( AppSettings.HEIGHT, "480" );
 	}
@@ -107,12 +109,14 @@ extends PAppletHax {
 	}
 	
 	protected void drawWebCam( float rotations ) {
+		IDepthCamera depthCamera = DepthCamera.instance().camera;
+
 		// draw cam
 		PG.setColorForPImage(p);
 		// control brightness with 2nd variable
 		PG.setPImageAlpha(p, 1f);
 		// normal camera video output
-		PImage drawCamImg = p.depthCamera.getRgbImage();
+		PImage drawCamImg = depthCamera.getRgbImage();
 
 		
 		for( int i=0; i < rotations; i++ ) {

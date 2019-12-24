@@ -11,6 +11,8 @@ import com.haxademic.core.draw.filters.pshader.BlurVFilter;
 import com.haxademic.core.draw.image.BufferMotionDetectionMap;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.hardware.depthcamera.KinectDepthSilhouetteSmoothed;
+import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera;
+import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera.DepthCameraType;
 import com.haxademic.core.ui.UI;
 
 import processing.core.PGraphics;
@@ -28,13 +30,12 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.WIDTH, 1280 );
 		Config.setProperty( AppSettings.HEIGHT, 720 );
 		Config.setProperty( AppSettings.SHOW_DEBUG, true );
-		Config.setProperty( AppSettings.KINECT_V2_WIN_ACTIVE, true );
-//		Config.setProperty( AppSettings.KINECT_ACTIVE, true );
 	}
 	
 	public void firstFrame() {
+		DepthCamera.instance(DepthCameraType.KinectV2);
 		UI.addSlider("STRETCH_DEPTH_X", 1f, 1f, 3f, 0.01f);
-		kinectSilhouetteSmoothed = new KinectDepthSilhouetteSmoothed(p.depthCamera, 5);
+		kinectSilhouetteSmoothed = new KinectDepthSilhouetteSmoothed(DepthCamera.instance().camera, 5);
 	}
 
 	public void drawApp() {
@@ -44,8 +45,8 @@ extends PAppletHax {
 		kinectSilhouetteSmoothed.update();
 //		p.image(kinectSilhouetteSmoothed.image(), 0, 0, kinectSilhouetteSmoothed.image().width * 3, kinectSilhouetteSmoothed.image().height * 3);
 
-		PImage depthImage = depthCamera.getDepthImage();
-		PImage cameraImage = depthCamera.getRgbImage();
+		PImage depthImage = DepthCamera.instance().camera.getDepthImage();
+		PImage cameraImage = DepthCamera.instance().camera.getRgbImage();
 		
 		// draw images
 		p.image(cameraImage, 0, 0);

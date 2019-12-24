@@ -8,6 +8,8 @@ import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.hardware.depthcamera.DepthCameraSize;
 import com.haxademic.core.hardware.depthcamera.KinectRegion;
+import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera;
+import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera.DepthCameraType;
 import com.haxademic.core.math.easing.EasingBoolean;
 import com.haxademic.core.math.easing.EasingFloat;
 import com.haxademic.core.ui.UI;
@@ -42,11 +44,11 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.WIDTH, 1024 );
 		Config.setProperty( AppSettings.HEIGHT, 512 );
 		Config.setProperty( AppSettings.SHOW_UI, true );
-		Config.setProperty( AppSettings.KINECT_V2_WIN_ACTIVE, true );
-//		Config.setProperty( AppSettings.KINECT_ACTIVE, true );
 	}
 	
 	public void firstFrame() {
+		DepthCamera.instance(DepthCameraType.KinectV1);
+
 		// build kinect region and debug buffer
 		regionDebug = PG.newPG(DepthCameraSize.WIDTH, DepthCameraSize.HEIGHT);
 		region = new KinectRegion(0, DepthCameraSize.WIDTH, 0, 2000, 0, DepthCameraSize.HEIGHT, 10, 20, 0xffff0000);

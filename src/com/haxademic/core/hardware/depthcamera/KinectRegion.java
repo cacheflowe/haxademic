@@ -2,6 +2,8 @@ package com.haxademic.core.hardware.depthcamera;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.data.constants.PShapeTypes;
+import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera;
+import com.haxademic.core.hardware.depthcamera.cameras.IDepthCamera;
 import com.haxademic.core.hardware.joystick.BaseJoystick;
 import com.haxademic.core.hardware.joystick.IJoystickControl;
 import com.haxademic.core.math.MathUtil;
@@ -69,6 +71,7 @@ implements IJoystickControl {
 	}
 	
 	public void update(PGraphics debugGraphics) {
+		IDepthCamera depthCamera = DepthCamera.instance().camera;
         if(debugGraphics != null) {
         	debugGraphics.beginShape(PShapeTypes.QUADS);
     		debugGraphics.stroke(debugColor);
@@ -81,14 +84,14 @@ implements IJoystickControl {
         }
         // find kinect readings in the region
 		_isActive = false;
-		if( P.p.depthCamera != null ) {
+		if( depthCamera != null ) {
 			pixelCount = 0;
 			float controlXTotal = 0;
 			float controlZTotal = 0;
 			float pixelDepth = 0;
 			for ( int x = left; x < right; x += pixelSkip ) {
 				for ( int y = top; y < bottom; y += pixelSkip ) {
-					pixelDepth = P.p.depthCamera.getDepthAt( x, y );
+					pixelDepth = depthCamera.getDepthAt( x, y );
 					if( pixelDepth != 0 && pixelDepth > near && pixelDepth < far ) {
 				        if(debugGraphics != null) {
 				        	debugGraphics.noStroke();

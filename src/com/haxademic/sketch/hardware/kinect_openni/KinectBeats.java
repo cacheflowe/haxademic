@@ -8,6 +8,9 @@ import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.hardware.depthcamera.DepthCameraSize;
+import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera;
+import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera.DepthCameraType;
+import com.haxademic.core.hardware.depthcamera.cameras.IDepthCamera;
 
 import ddf.minim.AudioOutput;
 import ddf.minim.AudioPlayer;
@@ -28,18 +31,16 @@ extends PAppletHax {
 	Minim minim;
 	
 	public void firstFrame() {
-
+		DepthCamera.instance(DepthCameraType.KinectV1);
 		minim = new Minim(this);
 		loadSounds();
 		_synth = new SynthHand();
 	}
 
 	protected void config() {
-		Config.setProperty( AppSettings.RENDERING_MOVIE, "false" );
-		Config.setProperty( AppSettings.KINECT_ACTIVE, "true" );
-		Config.setProperty( AppSettings.WIDTH, "640" );
-		Config.setProperty( AppSettings.HEIGHT, "480" );
-		Config.setProperty( AppSettings.FPS, "60" );
+		Config.setProperty( AppSettings.RENDERING_MOVIE, false );
+		Config.setProperty( AppSettings.WIDTH, 640 );
+		Config.setProperty( AppSettings.HEIGHT, 480 );
 	}
 	
 	protected void loadSounds() {
@@ -116,13 +117,14 @@ extends PAppletHax {
 		}
 
 		protected void detectWithKinect() {
+			IDepthCamera depthCamera = DepthCamera.instance().camera;
 			drawKinectUser();
 //			p.image(p.kinectWrapper.getRgbImage(), 0, 0);
 			float pixelDepth;
 			boolean madeActive = false;
 			for ( int x = _x; x < _x + _w; x += PIXEL_SIZE ) {
 				for ( int y = _y; y < _y + _h; y += PIXEL_SIZE ) {
-					pixelDepth = p.depthCamera.getDepthAt( x, y );
+					pixelDepth = depthCamera.getDepthAt( x, y );
 					if( pixelDepth != 0 && pixelDepth > KINECT_CLOSE && pixelDepth < KINECT_FAR ) {
 						if( _active == false ) {
 							_active = true;
@@ -138,13 +140,14 @@ extends PAppletHax {
 		}
 		
 		protected void drawKinectUser() {
-			p.depthCamera.setMirror(true);
+			IDepthCamera depthCamera = DepthCamera.instance().camera;
+			depthCamera.setMirror(true);
 			// loop through kinect data within player's control range
 			p.stroke(255, 127);
 			float pixelDepth;
 			for ( int x = 0; x < DepthCameraSize.WIDTH; x += PIXEL_SIZE ) {
 				for ( int y = 0; y < DepthCameraSize.HEIGHT; y += PIXEL_SIZE ) {
-					pixelDepth = p.depthCamera.getDepthAt( x, y );
+					pixelDepth = depthCamera.getDepthAt( x, y );
 					if( pixelDepth != 0 && pixelDepth > KINECT_CLOSE && pixelDepth < KINECT_FAR ) {
 						p.pushMatrix();
 						p.fill(((pixelDepth - KINECT_CLOSE) / (KINECT_FAR - KINECT_CLOSE)) * 255f);
@@ -198,10 +201,11 @@ extends PAppletHax {
 		}
 
 		protected void updateWithKinect() {
+			IDepthCamera depthCamera = DepthCamera.instance().camera;
 			float pixelDepth;
 			for ( int x = p.width / 2; x < p.width / 2 + 100; x += PIXEL_SIZE ) {
 				for ( int y = 0; y < p.height; y += PIXEL_SIZE ) {
-					pixelDepth = p.depthCamera.getDepthAt( x, y );
+					pixelDepth = depthCamera.getDepthAt( x, y );
 					if( pixelDepth != 0 && pixelDepth > KINECT_CLOSE && pixelDepth < KINECT_FAR ) {
 						_oscillator.setFreq( 30 + ( p.height - y ) );
 						_oscillator.setAmp(0.3f);

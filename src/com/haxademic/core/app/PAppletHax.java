@@ -12,10 +12,7 @@ import com.haxademic.core.debug.DebugUtil;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.file.FileUtil;
-import com.haxademic.core.hardware.depthcamera.cameras.IDepthCamera;
-import com.haxademic.core.hardware.depthcamera.cameras.KinectWrapperV1;
-import com.haxademic.core.hardware.depthcamera.cameras.KinectWrapperV2;
-import com.haxademic.core.hardware.depthcamera.cameras.RealSenseWrapper;
+import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera;
 import com.haxademic.core.hardware.midi.MidiState;
 import com.haxademic.core.hardware.webcam.WebCam;
 import com.haxademic.core.media.audio.analysis.AudioIn;
@@ -66,7 +63,6 @@ extends PApplet {
 	public JoonsWrapper joons;
 
 	// input
-	public IDepthCamera depthCamera = null;
 	public LeapMotion leapMotion = null;
 	
 	////////////////////////
@@ -193,7 +189,6 @@ extends PApplet {
 				: null;
 		
 		// hardware
-		initKinect();
 		if( Config.getBoolean( "leap_active", false ) == true ) leapMotion = new LeapMotion(this);
 		
 		// fullscreen
@@ -203,23 +198,7 @@ extends PApplet {
 			if(alwaysOnTop) AppUtil.setAlwaysOnTop(p, true);
 		}
 	}
-	
-	protected void initKinect() {
-		boolean rgbActive = Config.getBoolean(AppSettings.DEPTH_CAM_RGB_ACTIVE, true);
-		boolean depthActive = Config.getBoolean(AppSettings.DEPTH_CAM_DEPTH_ACTIVE, true);
 		
-		if( Config.getBoolean( AppSettings.KINECT_V2_WIN_ACTIVE, false ) == true ) {
-			depthCamera = new KinectWrapperV2( p, rgbActive, depthActive );
-		} else if( Config.getBoolean( AppSettings.KINECT_ACTIVE, false ) == true ) {
-			depthCamera = new KinectWrapperV1( p, rgbActive, depthActive );
-		} else if( Config.getBoolean( AppSettings.REALSENSE_ACTIVE, false ) == true ) {
-			depthCamera = new RealSenseWrapper( p, rgbActive, depthActive );
-		}
-		if(depthCamera != null) {
-			depthCamera.setMirror( Config.getBoolean( "kinect_mirrored", true ) );
-		}
-	}
-	
 	protected void initializeOn1stFrame() {
 		if( p.frameCount == 1 ) {
 			if(P.isOpenGL()) P.println("Using Java version: " + SystemUtil.getJavaVersion() + " and GL version: " + OpenGLUtil.getGlVersion(p.g));
@@ -269,7 +248,6 @@ extends PApplet {
 	public void draw() {
 		initializeOn1stFrame();
 		handleRenderingStepthrough();
-		if( depthCamera != null ) depthCamera.update();
 		p.pushMatrix();
 		if( joons != null ) joons.startFrame();
 		drawApp();
@@ -430,10 +408,7 @@ extends PApplet {
 	
 	public void stop() {
 		if(WebCam.instance != null) WebCam.instance().dispose();
-		if( depthCamera != null ) {
-			depthCamera.stop();
-			depthCamera = null;
-		}
+		if(DepthCamera.instance != null) DepthCamera.instance().dispose();
 		if( leapMotion != null ) leapMotion.dispose();
 		super.stop();
 	}

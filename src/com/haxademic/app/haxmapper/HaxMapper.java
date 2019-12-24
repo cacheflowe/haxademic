@@ -130,7 +130,6 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.RENDERING_MOVIE, "false" );
 		Config.setProperty( AppSettings.FULLSCREEN, "true" );
 		Config.setProperty( AppSettings.FILLS_SCREEN, "true" );
-		Config.setProperty( AppSettings.KINECT_ACTIVE, "false" );
 		Config.setProperty( "osc_active", "true" );
 	}
 	

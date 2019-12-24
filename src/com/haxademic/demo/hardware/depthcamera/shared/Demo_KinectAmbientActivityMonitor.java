@@ -1,10 +1,11 @@
 package com.haxademic.demo.hardware.depthcamera.shared;
 
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.app.config.Config;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.hardware.depthcamera.KinectAmbientActivityMonitor;
+import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera;
+import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera.DepthCameraType;
+import com.haxademic.core.hardware.depthcamera.cameras.IDepthCamera;
 
 
 public class Demo_KinectAmbientActivityMonitor 
@@ -17,20 +18,18 @@ extends PAppletHax {
 		
 	protected KinectAmbientActivityMonitor kinectMonitor;
 	
-	protected void config() {
-//		Config.setProperty( AppSettings.KINECT_V2_WIN_ACTIVE, true );
-		Config.setProperty( AppSettings.KINECT_ACTIVE, true );
-	}
-	
 	public void firstFrame() {
+		DepthCamera.instance(DepthCameraType.KinectV1);
 		kinectMonitor = new KinectAmbientActivityMonitor( PIXEL_SIZE, KINECT_CLOSE, KINECT_FAR );
 	}
 	
 	public void drawApp() {
-		p.background(0);
-		p.image( p.depthCamera.getRgbImage(), 0, 0);
+		IDepthCamera depthCamera = DepthCamera.instance().camera;
 
-		float activityLevel = kinectMonitor.update(p.depthCamera, true );
+		p.background(0);
+		p.image(depthCamera.getRgbImage(), 0, 0);
+
+		float activityLevel = kinectMonitor.update(depthCamera, true );
 		DebugView.setValue("KinectAmbientActivityMonitor", activityLevel / 1000);
 	}
 	

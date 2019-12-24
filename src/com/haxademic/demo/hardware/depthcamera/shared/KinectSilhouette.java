@@ -15,8 +15,14 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.OpenGLUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pgraphics.archive.FastBlurFilter;
+import com.haxademic.core.draw.filters.pshader.BlurHFilter;
+import com.haxademic.core.draw.filters.pshader.BlurVFilter;
 import com.haxademic.core.hardware.depthcamera.DepthCameraSize;
+import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera;
+import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera.DepthCameraType;
+import com.haxademic.core.hardware.depthcamera.cameras.IDepthCamera;
 import com.haxademic.core.math.MathUtil;
 
 import blobDetection.Blob;
@@ -41,7 +47,7 @@ extends PAppletHax {
 	protected PGraphics _silhouette;
 	
 	BlobDetection theBlobDetection;
-	PImage blobBufferImg;
+	PGraphics blobBufferImg;
 
 	protected ArrayList<PVector> _curEdgeList;
 	protected ArrayList<PVector> _lastEdgeList;
@@ -54,15 +60,13 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.WIDTH, 1024 );
 		Config.setProperty( AppSettings.HEIGHT, 768 );
 		Config.setProperty( AppSettings.RENDERING_MOVIE, "false" );
-//		Config.setProperty( AppSettings.KINECT_V2_WIN_ACTIVE, true );
-//		Config.setProperty( AppSettings.KINECT_ACTIVE, true );
-		Config.setProperty( AppSettings.REALSENSE_ACTIVE, true );
 		Config.setProperty( AppSettings.DEPTH_CAM_RGB_ACTIVE, false );
 		Config.setProperty( AppSettings.FULLSCREEN, "false" );
 	}
 	
 	public void firstFrame() {
-
+		Config.setProperty(AppSettings.DEPTH_CAM_RGB_ACTIVE, false);
+		DepthCamera.instance(DepthCameraType.Realsense);
 		
 		initBlobDetection();
 
@@ -81,7 +85,7 @@ extends PAppletHax {
 		
 		// BlobDetection
 		// img which will be sent to detection (a smaller copy of the image frame);
-		blobBufferImg = new PImage( (int)(p.width * 0.2f), (int)(p.height * 0.2f) ); 
+		blobBufferImg = PG.newPG((int)(p.width * 0.2f), (int)(p.height * 0.2f)); 
 		theBlobDetection = new BlobDetection( blobBufferImg.width, blobBufferImg.height );
 		theBlobDetection.setPosDiscrimination(true);	// true if looking for bright areas
 		theBlobDetection.setThreshold(0.5f); // will detect bright areas whose luminosity > threshold
@@ -97,6 +101,8 @@ extends PAppletHax {
 	}
 	
 	protected void drawKinect() {
+		IDepthCamera depthCamera = DepthCamera.instance().camera;
+
 		// loop through kinect data within player's control range
 		_kinectPixelated.beginDraw();
 		_kinectPixelated.clear();
@@ -104,7 +110,7 @@ extends PAppletHax {
 		float pixelDepth;
 		for ( int x = 0; x < DepthCameraSize.WIDTH; x += PIXEL_SIZE ) {
 			for ( int y = 0; y < DepthCameraSize.HEIGHT; y += PIXEL_SIZE ) {
-				pixelDepth = p.depthCamera.getDepthAt( x, y );
+				pixelDepth = depthCamera.getDepthAt( x, y );
 				if( pixelDepth != 0 && pixelDepth > KINECT_CLOSE && pixelDepth < KINECT_FAR ) {
 //					_kinectPixelated.fill(((pixelDepth - KINECT_CLOSE) / (KINECT_FAR - KINECT_CLOSE)) * 255f);
 					_kinectPixelated.fill(255f);
@@ -116,8 +122,15 @@ extends PAppletHax {
 	}
 	
 	protected void runBlobDetection( PImage source ) {
+		blobBufferImg.beginDraw();
+		blobBufferImg.background(0);
 		blobBufferImg.copy(source, 0, 0, source.width, source.height, 0, 0, blobBufferImg.width, blobBufferImg.height);
-		FastBlurFilter.blur(blobBufferImg, 3);
+		BlurHFilter.instance(p).setBlurByPercent(0.1f, blobBufferImg.width);
+		BlurHFilter.instance(p).applyTo(blobBufferImg);
+		BlurVFilter.instance(p).setBlurByPercent(0.1f, blobBufferImg.height);
+		BlurVFilter.instance(p).applyTo(blobBufferImg);
+		blobBufferImg.endDraw();
+		blobBufferImg.loadPixels();
 		theBlobDetection.computeBlobs(blobBufferImg.pixels);
 	}
 
@@ -127,7 +140,6 @@ extends PAppletHax {
 		_silhouette.smooth(OpenGLUtil.SMOOTH_LOW); 
 		_silhouette.stroke(255);
 		_silhouette.noFill();
-		
 		
 		if (_curEdgeList != null && _lastEdgeList != null && _curEdgeList.size() > 0 && _lastEdgeList.size() > 0) {
 			

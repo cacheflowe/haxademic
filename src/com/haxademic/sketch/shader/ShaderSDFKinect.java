@@ -2,12 +2,11 @@ package com.haxademic.sketch.shader;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.PG;
-import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.depthcamera.KinectRegionGrid;
+import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera;
+import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera.DepthCameraType;
 import com.haxademic.core.math.easing.EasingFloat;
 
 import processing.core.PGraphics;
@@ -30,21 +29,10 @@ extends PAppletHax {
 	protected KinectRegionGrid _kinectGrid;
 
 	
-	protected void config() {
-		Config.setProperty( AppSettings.FILLS_SCREEN, "false" );
-		Config.setProperty( AppSettings.WIDTH, "800" );
-		Config.setProperty( AppSettings.HEIGHT, "600" );
-		Config.setProperty( AppSettings.RENDERING_MOVIE, "false" );
-		Config.setProperty( AppSettings.KINECT_ACTIVE, "true" );
-	}
-
 	public void firstFrame() {
-	
-		p.smooth( OpenGLUtil.SMOOTH_HIGH );
-		
+		DepthCamera.instance(DepthCameraType.KinectV1);
+
 		_bg = p.createGraphics(p.width, p.height, P.P2D);
-		_bg.smooth( OpenGLUtil.SMOOTH_HIGH );
-				
 		_kinectGrid = new KinectRegionGrid(1, 1, 500, 2000, 0, 0, 480, 20, 10);
 
 		sdfShader = loadShader( FileUtil.getFile("haxademic/shaders/textures/sdf-01.glsl") ); 

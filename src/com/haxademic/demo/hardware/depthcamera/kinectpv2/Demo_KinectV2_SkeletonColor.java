@@ -14,24 +14,19 @@ public class Demo_KinectV2_SkeletonColor
 extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
-	protected KinectPV2 kinect;
+	protected KinectPV2 kinectV2;
 
 	protected void config() {
 		Config.setProperty( AppSettings.WIDTH, 1280 );
 		Config.setProperty( AppSettings.HEIGHT, 720 );
 		Config.setProperty( AppSettings.SHOW_DEBUG, true );
-		Config.setProperty( AppSettings.KINECT_V2_WIN_ACTIVE, true );
-		//		Config.setProperty( AppSettings.KINECT_ACTIVE, true );
 	}
 
 	public void firstFrame() {
-		kinect = new KinectPV2(this);
-
-		kinect.enableSkeletonColorMap(true);
-		kinect.enableColorImg(true);
-
-		kinect.init();
-
+		kinectV2 = new KinectPV2(this);
+		kinectV2.enableSkeletonColorMap(true);
+		kinectV2.enableColorImg(true);
+		kinectV2.init();
 	}
 
 	public void drawApp() {
@@ -40,7 +35,7 @@ extends PAppletHax {
 		// draw image
 //		image(kinect.getColorImage(), 0, 0, width, height);
 
-		ArrayList<KSkeleton> skeletonArray =  kinect.getSkeletonColorMap();
+		ArrayList<KSkeleton> skeletonArray =  kinectV2.getSkeletonColorMap();
 
 		//individual JOINTS
 		for (int i = 0; i < skeletonArray.size(); i++) {

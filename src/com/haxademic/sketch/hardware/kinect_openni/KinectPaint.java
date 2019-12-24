@@ -3,10 +3,11 @@ package com.haxademic.sketch.hardware.kinect_openni;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.hardware.depthcamera.SkeletonsTracker;
+import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera;
+import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera.DepthCameraType;
+import com.haxademic.core.hardware.depthcamera.cameras.IDepthCamera;
 
 import SimpleOpenNI.SimpleOpenNI;
 import processing.core.PGraphics;
@@ -22,20 +23,13 @@ extends PAppletHax {
 	public static final int KINECT_FAR = 1500;
 
 	public void firstFrame() {
-
+		DepthCamera.instance(DepthCameraType.KinectV1);
 		
 		// do something
 		_skeletonTracker = new SkeletonsTracker();
 		_texture = P.p.createGraphics( p.width, p.height, P.P2D );
 		
 		p.background(0);
-	}
-	
-	protected void config() {
-		Config.setProperty( AppSettings.RENDERING_MOVIE, "false" );
-		Config.setProperty( AppSettings.KINECT_ACTIVE, "true" );
-		Config.setProperty( AppSettings.WIDTH, "640" );
-		Config.setProperty( AppSettings.HEIGHT, "480" );
 	}
 	
 	public void drawApp() {
@@ -55,18 +49,20 @@ extends PAppletHax {
 	}
 	
 	protected void drawPaintbrushes() {
+		IDepthCamera depthCamera = DepthCamera.instance().camera;
+
 		// loop through attractors and store the closest & our distance for coloring
 		int[] users = _skeletonTracker.getUserIDs();
 		for(int i=0; i < users.length; i++) {
 			Vec3D position = _skeletonTracker.getBodyPart2d(users[i], SimpleOpenNI.SKEL_RIGHT_HAND);
 			if( position != null ) {
-				float pixelDepth = p.depthCamera.getDepthAt( (int) position.x, (int) position.y );
+				float pixelDepth = depthCamera.getDepthAt( (int) position.x, (int) position.y );
 				p.fill(((pixelDepth - KINECT_CLOSE) / (KINECT_FAR - KINECT_CLOSE)) * 255f);
 				p.ellipse( position.x, position.y , 30, 30 );
 			}
 			position = _skeletonTracker.getBodyPart2d(users[i], SimpleOpenNI.SKEL_LEFT_HAND);
 			if( position != null ) {
-				float pixelDepth = p.depthCamera.getDepthAt( (int) position.x, (int) position.y );
+				float pixelDepth = depthCamera.getDepthAt( (int) position.x, (int) position.y );
 				p.fill(((pixelDepth - KINECT_CLOSE) / (KINECT_FAR - KINECT_CLOSE)) * 255f);
 				p.ellipse( position.x, position.y , 30, 30 );
 			}

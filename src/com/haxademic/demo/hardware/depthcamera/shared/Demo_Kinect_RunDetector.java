@@ -10,6 +10,9 @@ import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.image.ImageSequenceRecorder;
 import com.haxademic.core.draw.text.FontCacher;
 import com.haxademic.core.hardware.depthcamera.DepthCameraSize;
+import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera;
+import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera.DepthCameraType;
+import com.haxademic.core.hardware.depthcamera.cameras.IDepthCamera;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.EasingBoolean;
 import com.haxademic.core.math.easing.EasingBoolean.IEasingBooleanCallback;
@@ -47,14 +50,14 @@ implements IEasingBooleanCallback {
 	protected void config() {
 		Config.setProperty( AppSettings.WIDTH, 1280 );
 		Config.setProperty( AppSettings.HEIGHT, 480 );
-		Config.setProperty( AppSettings.KINECT_V2_WIN_ACTIVE, true );
-//		Config.setProperty( AppSettings.KINECT_ACTIVE, true );
-//		Config.setProperty( AppSettings.REALSENSE_ACTIVE, true );
 		Config.setProperty( AppSettings.DEPTH_CAM_RGB_ACTIVE, true );
 		Config.setProperty(AppSettings.SHOW_UI, true);
 	}
 	
 	public void firstFrame() {
+		DepthCamera.instance(DepthCameraType.KinectV2);
+		IDepthCamera depthCamera = DepthCamera.instance().camera;
+
 		UI.addSlider(kinectLeft, 50, 0, DepthCameraSize.WIDTH, 1, false);
 		UI.addSlider(kinectRight, 420, 0, DepthCameraSize.WIDTH, 1, false);
 		UI.addSlider(kinectTop, 140, 0, DepthCameraSize.HEIGHT, 1, false);
@@ -66,10 +69,11 @@ implements IEasingBooleanCallback {
 		UI.addSlider(pixelDrawSize, 0.8f, 0, 1, 0.01f, false);
 		
 		isRecording = new EasingBoolean(false, 300, this);
-		recorder = new ImageSequenceRecorder(p.depthCamera.getRgbImage().width, p.depthCamera.getRgbImage().height, recordFrames);
+		recorder = new ImageSequenceRecorder(depthCamera.getRgbImage().width, depthCamera.getRgbImage().height, recordFrames);
 	}
 
 	public void drawApp() {
+		IDepthCamera depthCamera = DepthCamera.instance().camera;
 		// setup context
 		p.background(0);
 		p.noStroke();
@@ -80,10 +84,10 @@ implements IEasingBooleanCallback {
 		p.noStroke();
 		
 		// draw depth image
-		PImage depthImg = p.depthCamera.getDepthImage();
+		PImage depthImg = depthCamera.getDepthImage();
 		int depthW = 640;
 		float depthHScale = MathUtil.scaleToTarget(depthImg.width, depthW);
-		p.image(p.depthCamera.getRgbImage(), 0, 0, depthW, depthImg.height * depthHScale);
+		p.image(depthCamera.getRgbImage(), 0, 0, depthW, depthImg.height * depthHScale);
 		PG.setPImageAlpha(p.g, 0.5f);
 		p.image(depthImg, 0, 0, depthW, depthImg.height * depthHScale);
 		PG.setPImageAlpha(p.g, 1f);
@@ -126,7 +130,7 @@ implements IEasingBooleanCallback {
 		for ( int x = kLeft; x < kRight; x += pixelSkipp ) {
 			for ( int y = kTop; y < kBottom; y += pixelSkipp ) {
 				// get depth val
-				int pixelDepth = p.depthCamera.getDepthAt( x, y );
+				int pixelDepth = depthCamera.getDepthAt( x, y );
 				
 				// draw depths to screen
 				if( pixelDepth != 0 && pixelDepth > kNear && pixelDepth < kFar ) {
@@ -181,7 +185,7 @@ implements IEasingBooleanCallback {
 		
 		// save to recorder
 		if(isRecording.value() == true && recordFrame < recordFrames) {
-			recorder.addFrame(p.depthCamera.getRgbImage());
+			recorder.addFrame(depthCamera.getRgbImage());
 			recordFrame++;
 		}
 		
@@ -192,8 +196,8 @@ implements IEasingBooleanCallback {
 		p.fill(255);
 
 		// debug view
-		DebugView.setTexture("depthCamera.getDepthImage", p.depthCamera.getDepthImage());
-		DebugView.setTexture("depthCamera.getRgbImage", p.depthCamera.getRgbImage());
+		DebugView.setTexture("depthCamera.getDepthImage", depthCamera.getDepthImage());
+		DebugView.setTexture("depthCamera.getRgbImage", depthCamera.getRgbImage());
 		DebugView.setValue("numPixelsProcessed", numPixelsProcessed);
 
 		// draw recorded frames

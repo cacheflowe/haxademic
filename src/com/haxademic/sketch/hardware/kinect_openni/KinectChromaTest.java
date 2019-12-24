@@ -2,12 +2,13 @@ package com.haxademic.sketch.hardware.kinect_openni;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.ChromaColorFilter;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.file.FileUtil;
+import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera;
+import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera.DepthCameraType;
+import com.haxademic.core.hardware.depthcamera.cameras.IDepthCamera;
 import com.haxademic.core.ui.UI;
 
 import processing.core.PGraphics;
@@ -29,14 +30,8 @@ extends PAppletHax {
 	protected String colorToReplaceG = "colorToReplaceG";
 	protected String colorToReplaceB = "colorToReplaceB";
 
-	protected void config() {
-		Config.setProperty( AppSettings.RENDERING_MOVIE, "false" );
-		Config.setProperty( AppSettings.KINECT_ACTIVE, "true" );
-		Config.setProperty( AppSettings.WIDTH, "640" );
-		Config.setProperty( AppSettings.HEIGHT, "480" );
-	}
-	
 	public void firstFrame() {
+		DepthCamera.instance(DepthCameraType.KinectV1);
 
 		_chromaBuffer = p.createGraphics(p.width, p.height, P.P3D);
 
@@ -56,6 +51,8 @@ extends PAppletHax {
 	}
 
 	public void drawApp() {
+		IDepthCamera depthCamera = DepthCamera.instance().camera;
+
 		// reset drawing 
 		p.background(0);
 		PG.resetGlobalProps( p );
@@ -66,7 +63,7 @@ extends PAppletHax {
 		// draw webcam to buffer & apply chroma filter
 		_chromaBuffer.beginDraw();
 		_chromaBuffer.clear();
-		_chromaBuffer.image(p.depthCamera.getRgbImage(), 0, 0);
+		_chromaBuffer.image(depthCamera.getRgbImage(), 0, 0);
 		_chromaBuffer.endDraw();
 		
 		ChromaColorFilter.instance(p).setColorToReplace(UI.value(colorToReplaceR), UI.value(colorToReplaceG), UI.value(colorToReplaceB));

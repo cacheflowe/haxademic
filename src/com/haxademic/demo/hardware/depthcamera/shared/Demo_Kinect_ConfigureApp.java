@@ -7,6 +7,9 @@ import com.haxademic.core.app.config.Config;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.hardware.depthcamera.DepthCameraSize;
+import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera;
+import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera.DepthCameraType;
+import com.haxademic.core.hardware.depthcamera.cameras.IDepthCamera;
 import com.haxademic.core.ui.UI;
 
 public class Demo_Kinect_ConfigureApp
@@ -28,14 +31,13 @@ extends PAppletHax {
 	protected void config() {
 		Config.setProperty( AppSettings.WIDTH, 1280 );
 		Config.setProperty( AppSettings.HEIGHT, 720 );
-//		Config.setProperty( AppSettings.KINECT_V2_WIN_ACTIVE, true );
-//		Config.setProperty( AppSettings.KINECT_ACTIVE, true );
-		Config.setProperty( AppSettings.REALSENSE_ACTIVE, true );
 		Config.setProperty( AppSettings.DEPTH_CAM_RGB_ACTIVE, false );
 		Config.setProperty(AppSettings.SHOW_UI, true);
 	}
 	
 	public void firstFrame() {
+		DepthCamera.instance(DepthCameraType.Realsense);
+
 		UI.addSlider(kinectLeft, 0, 0, DepthCameraSize.WIDTH/2, 1, false);
 		UI.addSlider(kinectRight, DepthCameraSize.WIDTH, DepthCameraSize.WIDTH/2,DepthCameraSize.WIDTH, 1, false);
 		UI.addSlider(kinectTop, 0, 0, DepthCameraSize.HEIGHT/2, 1, false);
@@ -48,6 +50,7 @@ extends PAppletHax {
 	}
 
 	public void drawApp() {
+		IDepthCamera depthCamera = DepthCamera.instance().camera;
 		background(0);
 		PG.setDrawCorner(p);
 
@@ -88,7 +91,7 @@ extends PAppletHax {
 		float pixelsize = (float) pixelSkipp * UI.value(pixelDrawSize);
 		for ( int x = kLeft; x < kRight; x += pixelSkipp ) {
 			for ( int y = kTop; y < kBottom; y += pixelSkipp ) {
-				int pixelDepth = p.depthCamera.getDepthAt( x, y );
+				int pixelDepth = depthCamera.getDepthAt( x, y );
 				if( pixelDepth != 0 && pixelDepth > kNear && pixelDepth < kFar ) {
 					p.pushMatrix();
 					p.translate(0, 0, -pixelDepth/depthDiv);
@@ -101,7 +104,7 @@ extends PAppletHax {
 		}
 
 		// debug view
-		DebugView.setTexture("depthCamera.getDepthImage", p.depthCamera.getDepthImage());
+		DebugView.setTexture("depthCamera.getDepthImage", depthCamera.getDepthImage());
 		DebugView.setValue("numPixelsProcessed", numPixelsProcessed);
 		
 		p.popMatrix();

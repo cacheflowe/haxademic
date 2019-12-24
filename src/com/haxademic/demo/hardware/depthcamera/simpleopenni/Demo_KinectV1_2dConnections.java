@@ -9,6 +9,9 @@ import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.toxi.VectorFlyerToxi;
 import com.haxademic.core.hardware.depthcamera.SkeletonsTracker;
+import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera;
+import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera.DepthCameraType;
+import com.haxademic.core.hardware.depthcamera.cameras.IDepthCamera;
 import com.haxademic.core.vendor.Toxiclibs;
 
 import SimpleOpenNI.SimpleOpenNI;
@@ -25,13 +28,14 @@ extends PAppletHax {
 	protected PGraphics _texture;
 	
 	protected void config() {
-		Config.setProperty( AppSettings.RENDERING_MOVIE, "false" );
-		Config.setProperty( AppSettings.KINECT_ACTIVE, "true" );
-		Config.setProperty( AppSettings.WIDTH, "640" );
-		Config.setProperty( AppSettings.HEIGHT, "480" );
+		Config.setProperty( AppSettings.RENDERING_MOVIE, false );
+		Config.setProperty( AppSettings.WIDTH, 640 );
+		Config.setProperty( AppSettings.HEIGHT, 480 );
 	}
 	
 	public void firstFrame() {
+		DepthCamera.instance(DepthCameraType.KinectV1);
+
 		// do something
 		_skeletonTracker = new SkeletonsTracker();
 		_texture = P.p.createGraphics( p.width, p.height, P.P3D );
@@ -82,10 +86,12 @@ extends PAppletHax {
 	}
 	
 	protected void drawWebCam( float rotations ) {
+		IDepthCamera depthCamera = DepthCamera.instance().camera;
+
 		// draw cam
 		PG.setColorForPImage(p);
 		PG.setPImageAlpha(p, 0.25f);
-		PImage drawCamImg = p.depthCamera.getRgbImage();
+		PImage drawCamImg = depthCamera.getRgbImage();
 //		PImage drawCamImg = getFilteredCam();
 		for( int i=0; i < rotations; i++ ) {
 			p.rotate((float)P.TWO_PI/rotations * (float)i);

@@ -4,12 +4,14 @@ import java.util.ArrayList;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.color.ColorsHax;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.depthcamera.DepthCameraSize;
+import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera;
+import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera.DepthCameraType;
+import com.haxademic.core.hardware.depthcamera.cameras.IDepthCamera;
 
 import ddf.minim.AudioPlayer;
 import ddf.minim.Minim;
@@ -30,10 +32,10 @@ extends PAppletHax {
 
 	protected void config() {
 		Config.loadPropertiesFile(FileUtil.getFile("properties/airdrums.properties"));
-		Config.setProperty(AppSettings.KINECT_ACTIVE, true);
 	}
 
 	public void firstFrame() {
+		DepthCamera.instance(DepthCameraType.KinectV1);
 		initDrums();
 	}
 	
@@ -142,6 +144,8 @@ extends PAppletHax {
 		}
 
 		protected void detectWithKinect() {
+			IDepthCamera depthCamera = DepthCamera.instance().camera;
+
 //			drawKinectUser();
 //			p.image(p.kinectWrapper.getRgbImage(), 0, 0);
 			float pixelDepth;
@@ -149,7 +153,7 @@ extends PAppletHax {
 			boolean madeActive = false;
 			for ( int x = (int)_x; x < _x + _w; x += PIXEL_SIZE ) {
 				for ( int y = (int)_y; y < _y + _h; y += PIXEL_SIZE ) {
-					pixelDepth = p.depthCamera.getDepthAt( x, y );
+					pixelDepth = depthCamera.getDepthAt( x, y );
 					if( pixelDepth != 0 && pixelDepth > KINECT_CLOSE && pixelDepth < KINECT_FAR ) {
 						activePixels++;
 						if( _active == false && activePixels >= 4 ) {
@@ -166,13 +170,14 @@ extends PAppletHax {
 		}
 		
 		protected void drawKinectUser() {
-			p.depthCamera.setMirror(true);
+			IDepthCamera depthCamera = DepthCamera.instance().camera;
+			depthCamera.setMirror(true);
 			// loop through kinect data within player's control range
 			p.stroke(255, 127);
 			float pixelDepth;
 			for ( int x = 0; x < DepthCameraSize.WIDTH; x += PIXEL_SIZE ) {
 				for ( int y = 0; y < DepthCameraSize.HEIGHT; y += PIXEL_SIZE ) {
-					pixelDepth = p.depthCamera.getDepthAt( x, y );
+					pixelDepth = depthCamera.getDepthAt( x, y );
 					if( pixelDepth != 0 && pixelDepth > KINECT_CLOSE && pixelDepth < KINECT_FAR ) {
 						p.pushMatrix();
 						// p.fill(((pixelDepth - KINECT_CLOSE) / (KINECT_FAR - KINECT_CLOSE)) * 255f);

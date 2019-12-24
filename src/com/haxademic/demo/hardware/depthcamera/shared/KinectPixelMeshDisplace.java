@@ -2,11 +2,12 @@ package com.haxademic.demo.hardware.depthcamera.shared;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pgraphics.archive.PixelFilter;
 import com.haxademic.core.hardware.depthcamera.DepthCameraSize;
+import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera;
+import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera.DepthCameraType;
+import com.haxademic.core.hardware.depthcamera.cameras.IDepthCamera;
 
 import toxi.geom.Vec2D;
 import toxi.geom.Vec3D;
@@ -26,12 +27,8 @@ extends PAppletHax {
 	protected PixelFilter _pixelFilter;
 	protected WETriangleMesh _mesh;
 
-	protected void config() {
-		Config.setProperty( AppSettings.KINECT_V2_WIN_ACTIVE, true );
-//		Config.setProperty( AppSettings.KINECT_ACTIVE, true );
-	}
-
 	public void firstFrame() {
+		DepthCamera.instance(DepthCameraType.Realsense);
 		_pixelFilter = new PixelFilter(DepthCameraSize.WIDTH, DepthCameraSize.WIDTH, (int)PIXEL_SIZE);
 		setupMeshForTexture( (int)(DepthCameraSize.WIDTH / PIXEL_SIZE), (int)(DepthCameraSize.WIDTH / PIXEL_SIZE), 640, 480 );
 	}
@@ -53,6 +50,7 @@ extends PAppletHax {
 	}
 
 	public void drawApp() {
+		IDepthCamera depthCamera = DepthCamera.instance().camera;
 		PG.resetGlobalProps( p );
 		p.shininess(1000f); 
 		p.lights();
@@ -67,12 +65,12 @@ extends PAppletHax {
 		p.beginShape(P.TRIANGLES);
 		PG.setColorForPImage(p);
 		p.noStroke();
-		p.texture(_pixelFilter.updateWithPImage(p.depthCamera.getRgbImage()));
+		p.texture(_pixelFilter.updateWithPImage(depthCamera.getRgbImage()));
 		float pixelDepth;
 		for( Face f : _mesh.getFaces() ) {
 			// deform z-position
 			float normalizedDepth = 0;
-			pixelDepth = p.depthCamera.getDepthAt( (int)f.uvA.x, (int)f.uvA.y );
+			pixelDepth = depthCamera.getDepthAt( (int)f.uvA.x, (int)f.uvA.y );
 			if( pixelDepth != 0 && pixelDepth > KINECT_CLOSE && pixelDepth < KINECT_FAR ) {
 				normalizedDepth = 1 - (pixelDepth - KINECT_CLOSE) / (KINECT_FAR - KINECT_CLOSE);
 			}

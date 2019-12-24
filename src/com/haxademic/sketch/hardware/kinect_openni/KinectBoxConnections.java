@@ -4,13 +4,14 @@ import java.util.ArrayList;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.shapes.Shapes;
 import com.haxademic.core.draw.toxi.MeshPool;
 import com.haxademic.core.draw.toxi.MeshUtilToxi;
 import com.haxademic.core.hardware.depthcamera.SkeletonsTracker;
+import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera;
+import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera.DepthCameraType;
+import com.haxademic.core.hardware.depthcamera.cameras.IDepthCamera;
 import com.haxademic.core.vendor.Toxiclibs;
 
 import SimpleOpenNI.SimpleOpenNI;
@@ -32,7 +33,7 @@ extends PAppletHax {
 	protected float _meshRot = 0;
 
 	public void firstFrame() {
-
+		DepthCamera.instance(DepthCameraType.KinectV1);
 		
 		_skeletonTracker = new SkeletonsTracker();
 		
@@ -48,13 +49,6 @@ extends PAppletHax {
 //		_meshPool.addMesh( "CACHEFLOWE", MeshUtilToxi.meshFromOBJ( p, "../data/models/cacheflowe-3d.obj", 1f ), 150 );
 		
 		_meshKeys = _meshPool.getIds();
-	}
-	
-	protected void config() {
-		Config.setProperty( AppSettings.RENDERING_MOVIE, "false" );
-		Config.setProperty( AppSettings.KINECT_ACTIVE, "true" );
-		Config.setProperty( AppSettings.WIDTH, "1240" );
-		Config.setProperty( AppSettings.HEIGHT, "880" );
 	}
 	
 	public void drawApp() {
@@ -86,10 +80,12 @@ extends PAppletHax {
 	}
 	
 	protected void drawWebCam( float rotations ) {
+		IDepthCamera depthCamera = DepthCamera.instance().camera;
+		
 		// draw cam
 		PG.setColorForPImage(p);
 		PG.setPImageAlpha(p, 0.25f);
-		PImage drawCamImg = p.depthCamera.getRgbImage();
+		PImage drawCamImg = depthCamera.getRgbImage();
 		for( int i=0; i < rotations; i++ ) {
 			p.rotate((float)P.TWO_PI/rotations * (float)i);
 			p.image( drawCamImg, 0, 0 );

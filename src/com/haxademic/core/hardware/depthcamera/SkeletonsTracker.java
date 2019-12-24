@@ -5,6 +5,8 @@ import java.awt.Rectangle;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.context.PG;
+import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera;
+import com.haxademic.core.hardware.depthcamera.cameras.IDepthCamera;
 import com.haxademic.core.hardware.depthcamera.cameras.KinectWrapperV1;
 import com.haxademic.core.math.easing.EasingFloat3d;
 
@@ -38,8 +40,9 @@ public class SkeletonsTracker {
 		p = (PAppletHax) P.p;
 		// Set Kinect user/skeleton tracking - most of the setup and updating happens in PAppletHax
 		//_kinectContext = p.kinectWrapper.openni();
-		_kinectContext = (KinectWrapperV1) p.depthCamera;
-		p.depthCamera.setMirror(true);
+		IDepthCamera depthCamera = DepthCamera.instance().camera;
+		_kinectContext = (KinectWrapperV1) depthCamera;
+		depthCamera.setMirror(true);
 		enableSkeletonTracking();
 		
 		// set ratio of controls based on screen size vs kinect depth

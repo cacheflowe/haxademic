@@ -4,12 +4,13 @@ import java.util.ArrayList;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.color.ColorUtil;
 import com.haxademic.core.draw.color.EasingColor;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.depthcamera.KinectRegionGrid;
+import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera;
+import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera.DepthCameraType;
 import com.haxademic.core.hardware.dmx.DmxAjaxProManagerInterface;
 import com.haxademic.core.hardware.joystick.AutoTesterJoysticksCollection;
 import com.haxademic.core.hardware.joystick.IJoystickCollection;
@@ -74,7 +75,6 @@ extends PAppletHax {
 			};
 
 	protected void config() {
-		Config.setProperty( AppSettings.KINECT_ACTIVE, "true" );
 		Config.setProperty( "kinect_min_mm", "600" );
 		Config.setProperty( "kinect_max_mm", "2500" );
 		Config.setProperty( "kinect_top_pixel", "0" );
@@ -90,6 +90,7 @@ extends PAppletHax {
 	}
 
 	public void firstFrame() {
+		DepthCamera.instance(DepthCameraType.KinectV1);
 		minim = new Minim(this);
 		// hardware config
 		if(Config.getBoolean("leap_active", false) == true) {

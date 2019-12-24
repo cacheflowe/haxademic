@@ -19,6 +19,9 @@ import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.mapping.PGraphicsKeystone;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.depthcamera.KinectDepthSilhouetteSmoothed;
+import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera;
+import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera.DepthCameraType;
+import com.haxademic.core.hardware.depthcamera.cameras.IDepthCamera;
 import com.haxademic.core.hardware.mouse.Mouse;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.LinearFloat;
@@ -102,10 +105,10 @@ extends PAppletHax {
 		}
 		Config.setProperty( AppSettings.FULLSCREEN, true );
 		Config.setProperty( AppSettings.SHOW_DEBUG, false );
-		Config.setProperty( AppSettings.KINECT_V2_WIN_ACTIVE, true );
 	}
 
 	public void firstFrame() {
+		DepthCamera.instance(DepthCameraType.KinectV2);
 		AudioIn.instance();
 		// main buffer
 		mainBuffer = p.createGraphics(1920, 1080, PRenderers.P2D);
@@ -114,7 +117,7 @@ extends PAppletHax {
 		keystone = new PGraphicsKeystone(p, mainBuffer, 10, FileUtil.getFile("text/keystoning/partycles.txt"));
 		
 		// camera/kinect
-		kinectSilhouetteSmoothed = new KinectDepthSilhouetteSmoothed(p.depthCamera, 6);
+		kinectSilhouetteSmoothed = new KinectDepthSilhouetteSmoothed(DepthCamera.instance().camera, 6);
 		KinectDepthSilhouetteSmoothed.KINECT_FAR = 2000;
 		activityMonitor = new BufferActivityMonitor(32, 16, 10);
 
@@ -183,6 +186,8 @@ extends PAppletHax {
 	}
 	
 	protected void updateKinect() {
+		IDepthCamera depthCamera = DepthCamera.instance().camera;
+
 		KinectDepthSilhouetteSmoothed.KINECT_FAR = P.round(4000 * Mouse.xNorm);
 		// update silhouette
 		kinectSilhouetteSmoothed.update();

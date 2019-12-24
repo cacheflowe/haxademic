@@ -2,11 +2,12 @@ package com.haxademic.demo.hardware.dmx;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.hardware.depthcamera.DepthCameraSize;
 import com.haxademic.core.hardware.depthcamera.KinectRegionGrid;
+import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera;
+import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera.DepthCameraType;
 import com.haxademic.core.hardware.dmx.DMXWrapper;
 import com.haxademic.core.hardware.mouse.Mouse;
 import com.haxademic.core.math.easing.LinearFloat;
@@ -24,12 +25,9 @@ extends PAppletHax {
 	protected KinectRegionGrid kinectRegionGrid;
 	protected LinearFloat dimmer = new LinearFloat(0, 0.05f);
 
-	protected void config() {
-		// kinect init
-		Config.setProperty(AppSettings.KINECT_V2_WIN_ACTIVE, true);
-	}
 
 	public void firstFrame() {
+		DepthCamera.instance(DepthCameraType.KinectV2);
 		AudioIn.instance();
 		// dmx setup
 		// dmx = new DMXWrapper();

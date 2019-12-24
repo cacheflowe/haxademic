@@ -3,10 +3,11 @@ package com.haxademic.sketch.hardware.kinect_openni;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.hardware.depthcamera.SkeletonsTracker;
+import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera;
+import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera.DepthCameraType;
+import com.haxademic.core.hardware.depthcamera.cameras.IDepthCamera;
 import com.haxademic.core.math.MathUtil;
 
 import SimpleOpenNI.SimpleOpenNI;
@@ -23,7 +24,7 @@ extends PAppletHax {
 	protected GamePiece gamePiece;
 
 	public void firstFrame() {
-
+		DepthCamera.instance(DepthCameraType.KinectV1);
 		
 		// do something
 		_skeletonTracker = new SkeletonsTracker();
@@ -32,20 +33,15 @@ extends PAppletHax {
 		gamePiece = new GamePiece();
 	}
 	
-	protected void config() {
-		Config.setProperty( AppSettings.RENDERING_MOVIE, "false" );
-		Config.setProperty( AppSettings.KINECT_ACTIVE, "true" );
-		Config.setProperty( AppSettings.WIDTH, "640" );
-		Config.setProperty( AppSettings.HEIGHT, "480" );
-	}
-	
 	public void drawApp() {
+		IDepthCamera depthCamera = DepthCamera.instance().camera;
+
 		PG.resetGlobalProps( p );
 		p.background(0);
 
 		_skeletonTracker.update();
 		PG.setDrawCorner(p);
-		p.image( p.depthCamera.getRgbImage(), 0, 0 );
+		p.image( depthCamera.getRgbImage(), 0, 0 );
 		PG.setDrawCorner(p);
 
 		gamePiece.update();

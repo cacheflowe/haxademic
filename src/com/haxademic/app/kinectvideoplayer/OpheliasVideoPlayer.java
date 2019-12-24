@@ -16,6 +16,8 @@ import com.haxademic.core.draw.filters.pshader.SaturationFilter;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.depthcamera.KinectSilhouetteVectorField;
+import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera;
+import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera.DepthCameraType;
 import com.haxademic.core.hardware.midi.MidiState;
 import com.haxademic.core.math.MathUtil;
 
@@ -59,7 +61,6 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.FILLS_SCREEN, "true" );
 		Config.setProperty( AppSettings.RENDERING_MOVIE, "false" );
 
-		Config.setProperty( AppSettings.KINECT_ACTIVE, "true" );
 		Config.setProperty( "kinect_mirrored", "false" );
 		Config.setProperty( "kinect_top_pixel", "0" );
 		Config.setProperty( "kinect_bottom_pixel", "480" );
@@ -99,6 +100,7 @@ extends PAppletHax {
 	// * Make all blob resolution numbers configurable 
 	
 	public void firstFrame() {
+		DepthCamera.instance(DepthCameraType.KinectV1);
 		_videoPath = FileUtil.getHaxademicDataPath()+"video/ophelias/";
 		buildMenu();
 	}

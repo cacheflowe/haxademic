@@ -1,11 +1,12 @@
 package com.haxademic.demo.hardware.depthcamera.shared;
 
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pgraphics.archive.PixelFilter;
 import com.haxademic.core.hardware.depthcamera.DepthCameraSize;
+import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera;
+import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera.DepthCameraType;
+import com.haxademic.core.hardware.depthcamera.cameras.IDepthCamera;
 
 
 public class Demo_Kinect_PixelatedData 
@@ -21,18 +22,12 @@ extends PAppletHax {
 	protected PixelFilter _pixelFilter;
 	
 	public void firstFrame() {
-
+		DepthCamera.instance(DepthCameraType.KinectV1);
 		_pixelFilter = new PixelFilter(DepthCameraSize.WIDTH, DepthCameraSize.WIDTH, (int)PIXEL_SIZE);
 	}
 
-	protected void config() {
-		Config.setProperty( AppSettings.KINECT_V2_WIN_ACTIVE, true );
-//		Config.setProperty( AppSettings.KINECT_ACTIVE, true );
-		Config.setProperty( AppSettings.WIDTH, 640 );
-		Config.setProperty( AppSettings.HEIGHT, 480 );
-	}
-	
 	public void drawApp() {
+		IDepthCamera depthCamera = DepthCamera.instance().camera;
 		PG.resetGlobalProps( p );
 		p.shininess(1000f); 
 		p.lights();
@@ -42,7 +37,7 @@ extends PAppletHax {
 		PG.setDrawCorner(p);
 		PG.setColorForPImage(p);
 		
-		p.image(_pixelFilter.updateWithPImage( p.depthCamera.getRgbImage() ), 0, 0);
+		p.image(_pixelFilter.updateWithPImage( depthCamera.getRgbImage() ), 0, 0);
 
 
 		// loop through kinect data within player's control range
@@ -50,7 +45,7 @@ extends PAppletHax {
 		float pixelDepth;
 		for ( int x = 0; x < DepthCameraSize.WIDTH; x += PIXEL_SIZE ) {
 			for ( int y = KINECT_TOP; y < KINECT_BOTTOM; y += PIXEL_SIZE ) {
-				pixelDepth = p.depthCamera.getDepthAt( x, y );
+				pixelDepth = depthCamera.getDepthAt( x, y );
 				if( pixelDepth != 0 && pixelDepth > KINECT_CLOSE && pixelDepth < KINECT_FAR ) {
 					p.pushMatrix();
 					p.fill(((pixelDepth - KINECT_CLOSE) / (KINECT_FAR - KINECT_CLOSE)) * 255f);

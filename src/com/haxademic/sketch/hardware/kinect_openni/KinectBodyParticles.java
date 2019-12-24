@@ -3,11 +3,12 @@ package com.haxademic.sketch.hardware.kinect_openni;
 import java.util.ArrayList;
 
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.toxi.VectorFlyerToxi;
 import com.haxademic.core.hardware.depthcamera.SkeletonsTracker;
+import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera;
+import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera.DepthCameraType;
+import com.haxademic.core.hardware.depthcamera.cameras.IDepthCamera;
 
 import SimpleOpenNI.SimpleOpenNI;
 import toxi.color.TColor;
@@ -21,8 +22,7 @@ extends PAppletHax {
 	protected ArrayList<VectorFlyerToxi> particles;
 	
 	public void firstFrame() {
-
-		
+		DepthCamera.instance(DepthCameraType.KinectV1);
 		_skeletonTracker = new SkeletonsTracker();
 		initBoxes();
 	}
@@ -34,13 +34,8 @@ extends PAppletHax {
 		}
 	}
 	
-	protected void config() {
-		Config.setProperty( AppSettings.KINECT_ACTIVE, "true" );
-		Config.setProperty( AppSettings.WIDTH, "640" );
-		Config.setProperty( AppSettings.HEIGHT, "480" );
-	}
-	
 	public void drawApp() {
+		IDepthCamera depthCamera = DepthCamera.instance().camera;
 		PG.resetGlobalProps( p );
 
 		p.shininess(1000f); 
@@ -55,7 +50,7 @@ extends PAppletHax {
 		
 		PG.setDrawCenter(p);
 		PG.setColorForPImage(p);
-		p.image( p.depthCamera.getRgbImage(), p.width/2, -20, 640*8, 480*8 );
+		p.image( depthCamera.getRgbImage(), p.width/2, -20, 640*8, 480*8 );
 		p.popMatrix();
 		
 		// draw skeleton(s)

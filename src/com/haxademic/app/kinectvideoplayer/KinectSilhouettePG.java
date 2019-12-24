@@ -14,6 +14,8 @@ import org.poly2tri.triangulation.delaunay.DelaunayTriangle;
 import com.haxademic.core.app.P;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.hardware.depthcamera.DepthCameraSize;
+import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera;
+import com.haxademic.core.hardware.depthcamera.cameras.IDepthCamera;
 import com.haxademic.core.math.MathUtil;
 
 import blobDetection.Blob;
@@ -89,6 +91,7 @@ public class KinectSilhouettePG {
 	}
 	
 	protected void drawKinect() {
+		IDepthCamera depthCamera = DepthCamera.instance().camera;
 		// loop through kinect data within player's control range
 		_kinectPixelated.beginDraw();
 		_kinectPixelated.clear();
@@ -96,7 +99,7 @@ public class KinectSilhouettePG {
 		float pixelDepth;
 		for ( int x = 0; x < DepthCameraSize.WIDTH; x += PIXEL_SIZE ) {
 			for ( int y = 0; y < DepthCameraSize.HEIGHT; y += PIXEL_SIZE ) {
-				pixelDepth = P.p.depthCamera.getDepthAt( x, y );
+				pixelDepth = depthCamera.getDepthAt( x, y );
 				if( pixelDepth != 0 && pixelDepth > KINECT_CLOSE && pixelDepth < KINECT_FAR ) {
 //					_kinectPixelated.fill(((pixelDepth - KINECT_CLOSE) / (KINECT_FAR - KINECT_CLOSE)) * 255f);
 					_kinectPixelated.fill(255f);

@@ -6,6 +6,9 @@ import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.hardware.depthcamera.DepthCameraSize;
+import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera;
+import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera.DepthCameraType;
+import com.haxademic.core.hardware.depthcamera.cameras.IDepthCamera;
 
 
 public class Demo_Kinect_FloorWatch 
@@ -19,13 +22,16 @@ extends PAppletHax {
 	public static int KINECT_FAR = 5700;
 	
 	protected void config() {
-		Config.setProperty( AppSettings.KINECT_V2_WIN_ACTIVE, true );
-//		Config.setProperty( AppSettings.KINECT_ACTIVE, true );
 		Config.setProperty( AppSettings.WIDTH, 640 );
 		Config.setProperty( AppSettings.HEIGHT, 480 );
 	}
 	
+	public void firstFrame() {
+		DepthCamera.instance(DepthCameraType.KinectV1);
+	}
+
 	public void drawApp() {
+		IDepthCamera depthCamera = DepthCamera.instance().camera;
 		p.background(0);
 		
 		// draw filtered web cam
@@ -44,7 +50,7 @@ extends PAppletHax {
 		float numPoints = 0;
 		for ( int x = 0; x < DepthCameraSize.WIDTH; x += PIXEL_SIZE ) {
 			for ( int y = KINECT_TOP; y < KINECT_BOTTOM; y += PIXEL_SIZE ) {
-				pixelDepth = p.depthCamera.getDepthAt( x, y );
+				pixelDepth = depthCamera.getDepthAt( x, y );
 				if( pixelDepth != 0 && pixelDepth > KINECT_CLOSE && pixelDepth < KINECT_FAR ) {
 					p.pushMatrix();
 //					p.fill(((pixelDepth - KINECT_CLOSE) / (KINECT_FAR - KINECT_CLOSE)) * 255f);

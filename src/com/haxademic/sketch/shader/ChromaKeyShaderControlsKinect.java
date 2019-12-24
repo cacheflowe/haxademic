@@ -6,6 +6,9 @@ import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.color.Gradients;
 import com.haxademic.core.file.FileUtil;
+import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera;
+import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera.DepthCameraType;
+import com.haxademic.core.hardware.depthcamera.cameras.IDepthCamera;
 import com.haxademic.core.ui.UI;
 
 import processing.core.PGraphics;
@@ -29,14 +32,12 @@ extends PAppletHax {
 
 
 	protected void config() {
-		Config.setProperty( AppSettings.RENDERING_MOVIE, "false" );
-		Config.setProperty( AppSettings.KINECT_ACTIVE, "true" );
-		Config.setProperty( AppSettings.WIDTH, "640" );
-		Config.setProperty( AppSettings.HEIGHT, "480" );
 		Config.setProperty( AppSettings.SHOW_UI, true );
 	}
 	
 	public void firstFrame() {
+		DepthCamera.instance(DepthCameraType.KinectV1);
+
 		_pg = p.createGraphics( p.width, p.height, P.P3D );
 		setupChromakey();
 	}
@@ -52,6 +53,8 @@ extends PAppletHax {
 	}
 
 	public void drawApp() {
+		IDepthCamera depthCamera = DepthCamera.instance().camera;
+
 		// draw a background
 		p.pushMatrix();
 		p.translate(p.width/2, p.height/2);
@@ -64,7 +67,7 @@ extends PAppletHax {
 		_chromaKeyFilter.set("colorToReplace", UI.value(colorToReplaceR), UI.value(colorToReplaceG), UI.value(colorToReplaceB));
 		
 		// draw frame to offscreen buffer
-		PImage frame = p.depthCamera.getRgbImage();
+		PImage frame = depthCamera.getRgbImage();
 		_pg.beginDraw();
 		_pg.clear();
 		_pg.image(frame, 0, 0);

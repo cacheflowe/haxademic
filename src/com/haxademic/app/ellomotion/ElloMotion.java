@@ -12,6 +12,8 @@ import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.depthcamera.KinectRegionGrid;
 import com.haxademic.core.hardware.depthcamera.KinectSilhouetteVectorField;
+import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera;
+import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera.DepthCameraType;
 
 import processing.core.PGraphics;
 import processing.core.PImage;
@@ -49,7 +51,6 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.RENDERING_MOVIE, "false" );
 		Config.setProperty( "force_foreground", "false" );
 
-		Config.setProperty( AppSettings.KINECT_ACTIVE, "true" );
 		Config.setProperty( "kinect_close", "500" );
 		Config.setProperty( "kinect_far", "1300" );
 		Config.setProperty( "kinect_pixel_skip", "5" );
@@ -57,6 +58,7 @@ extends PAppletHax {
 	}
 	
 	public void firstFrame() {
+		DepthCamera.instance(DepthCameraType.KinectV1);
 		buildCanvas();
 		loadGalleryImages();
 		_kinectLayer = new KinectLayer();
