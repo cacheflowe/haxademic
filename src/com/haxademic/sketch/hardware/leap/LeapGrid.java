@@ -3,7 +3,6 @@ package com.haxademic.sketch.hardware.leap;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
-import com.haxademic.core.debug.DebugUtil;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.hardware.leap.LeapRegionGrid;
 
@@ -24,7 +23,6 @@ extends PAppletHax {
 
 	public void firstFrame() {
 		leapMotion = new LeapMotion(this);
-		DebugUtil.printErr("Make sure to run Processing LEAP Apps with JavaSE-1.7");
 		// debug display
 		_leapGrid = new LeapRegionGrid(leapMotion, 2, 3, 2, 0.05f);
 		// _leapGrid = new LeapRegionGrid(2, 3, 2, 0.05f, 0, 100, true);

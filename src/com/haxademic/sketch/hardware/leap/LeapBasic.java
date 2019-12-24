@@ -2,8 +2,6 @@ package com.haxademic.sketch.hardware.leap;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera;
-import com.haxademic.core.hardware.webcam.WebCam;
 
 import de.voidplus.leapmotion.Device;
 import de.voidplus.leapmotion.Finger;
