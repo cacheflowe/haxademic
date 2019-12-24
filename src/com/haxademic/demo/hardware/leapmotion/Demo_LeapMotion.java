@@ -1,7 +1,9 @@
-package com.haxademic.sketch.hardware.leap;
+package com.haxademic.demo.hardware.leapmotion;
 
-import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
+import com.haxademic.core.debug.DebugView;
 
 import de.voidplus.leapmotion.Device;
 import de.voidplus.leapmotion.Finger;
@@ -10,20 +12,24 @@ import de.voidplus.leapmotion.LeapMotion;
 import de.voidplus.leapmotion.Tool;
 import processing.core.PVector;
 
-public class LeapBasic 
+public class Demo_LeapMotion 
 extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
 	public LeapMotion leapMotion = null;
 
+	public void config() {
+		Config.setAppSize(1280, 720);
+		Config.setProperty(AppSettings.SHOW_DEBUG, true);
+	}
+	
 	public void firstFrame() {
 		leapMotion = new LeapMotion(this);
 	}
 
 	public void drawApp(){
 	    background(255);
-	    // ...
-	    int fps = leapMotion.getFrameRate();
+	    DebugView.setValue("LeapMotion FPS", leapMotion.getFrameRate());
 
 	    // HANDS
 	    for(Hand hand : leapMotion.getHands()){
@@ -40,7 +46,7 @@ extends PAppletHax {
 	        PVector sphere_position  = hand.getSpherePosition();
 	        float   sphere_radius    = hand.getSphereRadius();
 
-	        P.println("hand_position = "+hand_position.x+", "+hand_position.y+", "+hand_position.z);
+	        DebugView.setValue("hand_position " + hand.getId(), hand_position.x+", "+hand_position.y+", "+hand_position.z);
 	        
 	        // FINGERS
 	        for(Finger finger : hand.getFingers()){

@@ -2,12 +2,15 @@
 
 ## Modularize PAppletHax
 
-* Update README with updated references
-* DebugView should look more structured like UI boxes
-
-* DepthCamera like AudioIn - or have some sort of shared storage like MidiState?
-* Should OscState (and maybe GamepadState) be separated to OscConnection and OscState, so multiple OscConnections can send data to it? Multiple objects could communicate on different ports.
-* Rendering objects (video/audio/midi/joons)
+* Next:
+  * Update README with updated references
+  * DebugView should look more structured like UI boxes
+  	* Put images inside boxes like text outputs. yesss
+  * Rendering objects (video/audio/midi/joons) - new object called `Renderer`
+  * Clean up the rest of PAppletHax
+  * Separate key commands info from debug view, using a '?' key command
+    * Add another DebugView view to list the AppStore's contents
+  * Should OscState (and maybe GamepadState) be separated to OscConnection and OscState, so multiple OscConnections can send data to it? Multiple objects could communicate on different ports.
 
 * Completed:
   * Webcam
@@ -24,6 +27,50 @@
   * OscState
   * ScreenSaverBlocker
   * FrameLoop
+  * DepthCamera
+  
+## What is Haxademic?
+
+* Builds a thin layer on top of Processing with:
+  * Apps:
+  	* Config that pulls in .properties files and allows for inline overriding of app configuration
+  	* AppStore: a global data store & event emitter
+  	* DebugView for realtime value-tracking and performance monitoring
+  	* UI for persistent sliders & buttons (also MIDI-controllable)
+  	* DemoAssets
+  	* ScreenSaverBlocker
+  * System
+  	* FileUtil
+  	* FileWatcher
+  	* ScriptRunner
+  	* CrashMonitor
+  * Media playback tools
+  	* WavPlayer
+  	* Spatial audio
+  	* MediaTimecodeTrigger
+  * Hardware helpers
+  	* Mouse
+  	* InputTrigger
+  	* AudioIn: Beads, ESS, Minim, Processing Sound library
+  	* DepthCamera: Kinectv1, Kinectv2, Realsense
+  	* DmxWrapper, DmxFixture, DmxUniverse, DMXEditor
+  	* Gamepad API
+  	* Leap motion
+  	* SerialDevice
+  * Drawing tools
+  	* PG (context helpers)
+  	* FrameLoop
+  	* ImageUtil
+  	* PShapeUtil
+  	* Renderer
+  	* PGraphicsKeystone
+  	* (Tons of shaders & image-processing functions) 
+  * Communication
+  	* WebServer
+  	* WebSocketServer
+  	* OSC
+  	* MIDI
+  	* FileDownloader
 
 ## InputTrigger revamp
 
@@ -37,6 +84,7 @@
 
 * WebCam updates for Video 2.0 beta4
   * WebCam UI picker should draw flat on top of everything like DebugView
+  	* It should also layout like UI, so it builds across the screen with title headers
   * Add webcam inspector to provide a list of native webcam options
     * Should return these config options: https://webcamtests.com/resolution
     * libusb or something like that to query weather a webcam is still plugged in. Java library?

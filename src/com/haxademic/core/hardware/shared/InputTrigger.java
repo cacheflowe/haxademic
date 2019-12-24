@@ -11,6 +11,12 @@ import com.haxademic.core.hardware.osc.OscState;
 
 public class InputTrigger {
 	
+	public enum InputState {
+		TRIGGER,
+		ON,
+		OFF
+	}
+	
 	protected Integer[] keyCodes = new Integer[] {};
 	protected String[] oscMessages = new String[] {};
 	protected String[] httpRequests = new String[] {};

@@ -27,7 +27,6 @@ import com.haxademic.core.system.AppUtil;
 import com.haxademic.core.system.SystemUtil;
 import com.haxademic.core.ui.UIButton;
 
-import de.voidplus.leapmotion.LeapMotion;
 import krister.Ess.AudioInput;
 import processing.core.PApplet;
 import processing.core.PGraphics;

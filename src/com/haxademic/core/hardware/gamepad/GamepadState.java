@@ -5,7 +5,7 @@ import java.util.HashMap;
 import com.haxademic.core.app.P;
 import com.haxademic.core.data.constants.PRegisterableMethods;
 import com.haxademic.core.debug.DebugView;
-import com.haxademic.core.hardware.shared.InputState;
+import com.haxademic.core.hardware.shared.InputTrigger.InputState;
 
 public class GamepadState {
 

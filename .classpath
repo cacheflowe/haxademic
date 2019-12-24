@@ -46,7 +46,7 @@
 	<classpathentry kind="lib" path="lib/LeapMotionForProcessing/library/LeapJava.jar"/>
 	<classpathentry kind="lib" path="lib/LeapMotionForProcessing/library/LeapMotionForProcessing.jar" sourcepath="lib/LeapMotionForProcessing/src">
 		<attributes>
-			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="haxademic/lib/LeapMotionForProcessing/library/macosx"/>
+			<attribute name="org.eclipse.jdt.launching.CLASSPATH_ATTR_LIBRARY_PATH_ENTRY" value="haxademic/lib/LeapMotionForProcessing/library/windows64"/>
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="lib/minim/library/jsminim.jar"/>
