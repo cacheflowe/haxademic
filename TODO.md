@@ -3,13 +3,19 @@
 ## Modularize PAppletHax
 
 * Next:
-  * Update README with updated references
+  * WebCam menu should look more structured like UI boxes
+    * Also, keep internal toggle state to avoid hiding automatically
   * DebugView should look more structured like UI boxes
   	* Put images inside boxes like text outputs. yesss
-  * Rendering objects (video/audio/midi/joons) - new object called `Renderer`
+    * Separate key commands info from debug view, using a '?' key command
+      * Add another DebugView view to list the AppStore's contents
   * Clean up the rest of PAppletHax
-  * Separate key commands info from debug view, using a '?' key command
-    * Add another DebugView view to list the AppStore's contents
+    * Move app/window settings to new `Window` object
+  * Clean up Renderer situation
+    * Add ability to target specific offscreen buffers
+    * Test audioreactive rendering
+  	* Joons leaves the context in a weird place, and DebugView no longer works. Do we need to reset the camera?
+  * Update README with updated references
   * Should OscState (and maybe GamepadState) be separated to OscConnection and OscState, so multiple OscConnections can send data to it? Multiple objects could communicate on different ports.
 
 * Completed:
@@ -28,6 +34,7 @@
   * ScreenSaverBlocker
   * FrameLoop
   * DepthCamera
+  * Renderer
   
 ## What is Haxademic?
 
@@ -52,6 +59,7 @@
   	* Mouse
   	* InputTrigger
   	* AudioIn: Beads, ESS, Minim, Processing Sound library
+  	* MidiState
   	* DepthCamera: Kinectv1, Kinectv2, Realsense
   	* DmxWrapper, DmxFixture, DmxUniverse, DMXEditor
   	* Gamepad API
