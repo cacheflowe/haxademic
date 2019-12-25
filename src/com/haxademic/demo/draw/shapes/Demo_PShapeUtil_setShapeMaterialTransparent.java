@@ -24,7 +24,7 @@ extends PAppletHax {
 	
 	protected void firstFrame() {
 		// build shape and assign texture
-		shape = p.loadShape(FileUtil.getFile("haxademic/models/pink-car.obj"));
+		shape = p.loadShape(FileUtil.getPath("haxademic/models/pink-car.obj"));
 		
 		// normalize shape
 		PShapeUtil.centerShape(shape);

@@ -56,9 +56,9 @@ extends PAppletHax {
 		
 		// build sounds
 		sounds = new SpatialSound[] {
-			new SpatialSound(audioContext, FileUtil.getFile("audio/kit808/kick.wav"), outputs),
-			new SpatialSound(audioContext, FileUtil.getFile("audio/communichords/cacheflowe/low-synth.wav"), outputs),
-			new SpatialSound(audioContext, FileUtil.getFile("audio/communichords/cacheflowe/mid-synth.wav"), outputs),
+			new SpatialSound(audioContext, FileUtil.getPath("audio/kit808/kick.wav"), outputs),
+			new SpatialSound(audioContext, FileUtil.getPath("audio/communichords/cacheflowe/low-synth.wav"), outputs),
+			new SpatialSound(audioContext, FileUtil.getPath("audio/communichords/cacheflowe/mid-synth.wav"), outputs),
 		};
 		
 		// build mapped sound stage

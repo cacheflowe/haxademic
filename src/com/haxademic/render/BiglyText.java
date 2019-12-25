@@ -36,7 +36,7 @@ extends PAppletHax {
 	
 	public void firstFrame() {
 
-		biglyImg = p.loadImage(FileUtil.getFile("images/bigly-trans.png"));
+		biglyImg = p.loadImage(FileUtil.getPath("images/bigly-trans.png"));
 		buildMotionBlur();
 	}
 	

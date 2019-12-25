@@ -15,7 +15,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.HEIGHT, 720 );
 		Config.setProperty( AppSettings.RENDERING_MOVIE, false );
 		Config.setProperty( AppSettings.RENDER_AUDIO_SIMULATION, true );
-		Config.setProperty( AppSettings.RENDER_AUDIO_FILE, FileUtil.getFile("haxademic/audio/cacheflowe_bigger_loop.wav") );
+		Config.setProperty( AppSettings.RENDER_AUDIO_FILE, FileUtil.getPath("haxademic/audio/cacheflowe_bigger_loop.wav") );
 	}
 	
 	public void drawApp() {

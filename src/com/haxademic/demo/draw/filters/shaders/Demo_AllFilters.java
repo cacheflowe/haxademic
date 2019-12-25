@@ -204,7 +204,7 @@ extends PAppletHax { public static void main(String args[]) { arguments = args; 
 		texture = new TextureShader(TextureShader.bw_clouds);
 //		texture = new TextureShader(TextureShader.bw_radial_stripes);
 		
-		customShader = p.loadShader(FileUtil.getFile("haxademic/shaders/filters/luma-color-replace.glsl"));
+		customShader = p.loadShader(FileUtil.getPath("haxademic/shaders/filters/luma-color-replace.glsl"));
 //		customShader = p.loadShader(FileUtil.getFile("haxademic/shaders/filters/repeat.glsl"));
 	}
 	

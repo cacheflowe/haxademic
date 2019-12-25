@@ -60,8 +60,8 @@ extends PAppletHax {
 		boxFloor = p.createGraphics(p.width, p.width, P.P3D);
 		boxCeiling = p.createGraphics(p.width, p.width, P.P3D);
 		
-		stripes = p.loadShader(FileUtil.getFile("haxademic/shaders/textures/cacheflowe-rotating-stripes.glsl"));
-		twist = p.loadShader(FileUtil.getFile("haxademic/shaders/textures/cacheflowe-concentric-rectwist.glsl"));
+		stripes = p.loadShader(FileUtil.getPath("haxademic/shaders/textures/cacheflowe-rotating-stripes.glsl"));
+		twist = p.loadShader(FileUtil.getPath("haxademic/shaders/textures/cacheflowe-concentric-rectwist.glsl"));
 		
 		person = DemoAssets.objHumanoid();
 		PShapeUtil.scaleShapeToExtent(person, boxH / 2);

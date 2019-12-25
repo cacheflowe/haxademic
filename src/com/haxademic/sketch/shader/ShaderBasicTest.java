@@ -44,7 +44,7 @@ extends PAppletHax {
 		
 		_textureShaderFile = FileUtil.getHaxademicDataPath() + "haxademic/shaders/textures/bw-clouds.glsl";
 		_textureShader = p.loadShader( _textureShaderFile );
-		_postFilter = p.loadShader( FileUtil.getFile("haxademic/shaders/filters/escher-repeat.glsl"));
+		_postFilter = p.loadShader( FileUtil.getPath("haxademic/shaders/filters/escher-repeat.glsl"));
 		
 		_buffer = createGraphics( width,  height, P2D );
 	}

@@ -9,7 +9,7 @@ extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
 	public void firstFrame() {
-		String baseDir = FileUtil.getFile("haxademic/images/");
+		String baseDir = FileUtil.getPath("haxademic/images/");
 		
 		P.out("Files by modified date (newest first):");
 		String[] filesByDate = FileUtil.getFilesInDirByModifiedDateNewestFirst(baseDir);

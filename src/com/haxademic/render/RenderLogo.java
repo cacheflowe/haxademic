@@ -41,7 +41,7 @@ extends PAppletHax {
 
 		p.smooth(OpenGLUtil.SMOOTH_HIGH);
 
-		_mesh = MeshUtilToxi.getExtrudedMesh( MeshUtilToxi.meshFromSVG( p, FileUtil.getFile("svg/cacheflowe-logo.svg"), -1, 20, 0.9f ), 40 );
+		_mesh = MeshUtilToxi.getExtrudedMesh( MeshUtilToxi.meshFromSVG( p, FileUtil.getPath("svg/cacheflowe-logo.svg"), -1, 20, 0.9f ), 40 );
 //		_mesh = MeshUtil.getExtrudedMesh( MeshUtil.meshFromSVG( p, "/Users/cacheflowe/Documents/workspace/haxademic/output/fractal-2014-11-19-19-57-24-01.svg", -1, 20, 1.2f ), 80 );
 //		_mesh = MeshUtil.getExtrudedMesh( MeshUtil.meshFromSVG( p, FileUtil.getHaxademicDataPath() + "svg/fractal-2013-09-26-20-11-32.svg", -1, 20, 1.2f ), 40 );
 //		_mesh = MeshUtil.getExtrudedMesh( MeshUtil.meshFromSVG( p, FileUtil.getHaxademicDataPath() + "svg/ello.svg", -1, 20, 1.2f ), 40 );

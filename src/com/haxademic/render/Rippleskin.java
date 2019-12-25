@@ -52,11 +52,11 @@ extends PAppletHax {
 	}
 	
 	protected String[] vertSource() {
-		return FileUtil.readTextFromFile(FileUtil.getFile("haxademic/shaders/vertex/inline-vertcolor-150-vert.glsl"));
+		return FileUtil.readTextFromFile(FileUtil.getPath("haxademic/shaders/vertex/inline-vertcolor-150-vert.glsl"));
 	}
 	
 	protected String[] fragSource() {
-		return FileUtil.readTextFromFile(FileUtil.getFile("haxademic/shaders/vertex/inline-vertcolor-150-frag.glsl"));
+		return FileUtil.readTextFromFile(FileUtil.getPath("haxademic/shaders/vertex/inline-vertcolor-150-frag.glsl"));
 	}
 	
 	public void keyPressed() {

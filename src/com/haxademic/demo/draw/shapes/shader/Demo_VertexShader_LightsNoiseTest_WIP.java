@@ -43,8 +43,8 @@ extends PAppletHax {
 		
 		// load shader
 		shader = p.loadShader(
-			FileUtil.getFile("haxademic/shaders/vertex/noise-light-frag.glsl"), 
-			FileUtil.getFile("haxademic/shaders/vertex/noise-light-vert.glsl")
+			FileUtil.getPath("haxademic/shaders/vertex/noise-light-frag.glsl"), 
+			FileUtil.getPath("haxademic/shaders/vertex/noise-light-vert.glsl")
 		);
 		
 		// Set UV coords & set texture on obj.

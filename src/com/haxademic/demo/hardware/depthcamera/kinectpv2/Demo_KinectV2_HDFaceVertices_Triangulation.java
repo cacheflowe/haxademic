@@ -67,7 +67,7 @@ extends PAppletHax {
 		UI.addSlider(endIndex, KinectPV2.HDFaceVertexCount, 0, KinectPV2.HDFaceVertexCount, 1, false);
 
 		// load texture
-		texture = p.loadImage(FileUtil.getFile("images/_sketch/the-opening-mask.png"));
+		texture = p.loadImage(FileUtil.getPath("images/_sketch/the-opening-mask.png"));
 //		texture = DemoAssets.textureJupiter();
 		DebugView.setTexture("texture", texture);
 	}

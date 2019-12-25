@@ -97,14 +97,14 @@ extends PAppletHax {
 		if( _kinectActive == true ) _kinectMonitor = new KinectAmbientActivityMonitor( 20, 500, 15000 );
 		
 		_vidClips = new ArrayList<Movie>();
-		_vidClips.add( new Movie(this, FileUtil.getFile("video/horrorhouse/MotelLondon_02.mov")) );
-		_vidClips.add( new Movie(this, FileUtil.getFile("video/horrorhouse/MotelLondon_01.mov")) );
-		_vidClips.add( new Movie(this, FileUtil.getFile("video/horrorhouse/MotelLondon_03.mov")) );
-		_vidClips.add( new Movie(this, FileUtil.getFile("video/horrorhouse/MotelLondon_04.mov")) );
-		_vidClips.add( new Movie(this, FileUtil.getFile("video/horrorhouse/MotelLondon_05.mov")) );
-		_vidClips.add( new Movie(this, FileUtil.getFile("video/horrorhouse/MotelLondon_06.mov")) );
+		_vidClips.add( new Movie(this, FileUtil.getPath("video/horrorhouse/MotelLondon_02.mov")) );
+		_vidClips.add( new Movie(this, FileUtil.getPath("video/horrorhouse/MotelLondon_01.mov")) );
+		_vidClips.add( new Movie(this, FileUtil.getPath("video/horrorhouse/MotelLondon_03.mov")) );
+		_vidClips.add( new Movie(this, FileUtil.getPath("video/horrorhouse/MotelLondon_04.mov")) );
+		_vidClips.add( new Movie(this, FileUtil.getPath("video/horrorhouse/MotelLondon_05.mov")) );
+		_vidClips.add( new Movie(this, FileUtil.getPath("video/horrorhouse/MotelLondon_06.mov")) );
 //		_vidClips.add( new Movie(this, FileUtil.getFile("video/horrorhouse/MotelLondon_07.mov")) );
-		_vidClips.add( new Movie(this, FileUtil.getFile("video/horrorhouse/MotelLondon_08.mov")) );
+		_vidClips.add( new Movie(this, FileUtil.getPath("video/horrorhouse/MotelLondon_08.mov")) );
 		for(int i=0; i < _vidClips.size(); i++) {
 //			_vidClips.get(i).speed(5.4f);
 		}
@@ -159,7 +159,7 @@ extends PAppletHax {
 	protected void buildCanvas() {
 		buffer = p.createGraphics( p.width, p.height, P.P2D );
 		buffer.smooth(OpenGLUtil.SMOOTH_MEDIUM);
-		_pgPinnable = new PGraphicsKeystone( p, buffer, 12, FileUtil.getFile("text/keystoning/bloodsplats-keystone.txt") );
+		_pgPinnable = new PGraphicsKeystone( p, buffer, 12, FileUtil.getPath("text/keystoning/bloodsplats-keystone.txt") );
 	}
 	
 	protected void buildPhysicalLighting() {

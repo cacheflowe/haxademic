@@ -35,7 +35,7 @@ public class ImageCyclerBuffer {
 		}
 
 //		transitionShader = P.p.loadShader(FileUtil.getFile("haxademic/shaders/transitions/dissolve.glsl"));
-		transitionShader = P.p.loadShader(FileUtil.getFile("haxademic/shaders/transitions/directional-wipe.glsl"));
+		transitionShader = P.p.loadShader(FileUtil.getPath("haxademic/shaders/transitions/directional-wipe.glsl"));
 //		transitionShader = P.p.loadShader(FileUtil.getFile("haxademic/shaders/transitions/hsv-blend.glsl"));
 //		transitionShader = P.p.loadShader(FileUtil.getFile("haxademic/shaders/transitions/colour-distance.glsl"));
 		

@@ -4,7 +4,6 @@ import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
 import com.haxademic.core.data.constants.PEvents;
 import com.haxademic.core.data.constants.PRenderers;
-import com.haxademic.core.debug.DebugUtil;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.file.FileUtil;
@@ -13,15 +12,12 @@ import com.haxademic.core.hardware.webcam.WebCam;
 import com.haxademic.core.media.audio.analysis.AudioIn;
 import com.haxademic.core.media.audio.analysis.AudioInputESS;
 import com.haxademic.core.media.video.MovieBuffer;
-import com.haxademic.core.system.AppUtil;
 import com.haxademic.core.system.SystemUtil;
 import com.haxademic.core.ui.UIButton;
 
 import krister.Ess.AudioInput;
 import processing.core.PApplet;
 import processing.core.PGraphics;
-import processing.core.PSurface;
-import processing.opengl.PJOGL;
 import processing.video.Movie;
 
 public class PAppletHax
@@ -39,12 +35,7 @@ extends PApplet {
 	public static String arguments[] = null;	// Args passed in via main() launch command
 	protected static PAppletHax p;				// Global/static ref to PApplet - any class can access reference from this static ref. Easier access via `P.p`
 	public PGraphics pg;						// Offscreen buffer that matches the app size by default
-	protected boolean alwaysOnTop = false;
 
-	// events
-	public static final String DRAW_PRE = "DRAW_PRE";
-	public static final String DRAW_POST = "DRAW_POST";
-	
 	////////////////////////
 	// INIT
 	////////////////////////
@@ -54,7 +45,8 @@ extends PApplet {
 		printArgs();
 		P.init(this);
 		config();
-		buildAppWindow();
+		AppWindow.instance();
+//		buildAppWindow();
 	}
 	
 	protected void printArgs() {
@@ -73,99 +65,17 @@ extends PApplet {
 	}
 	
 	////////////////////////
-	// INIT GRAPHICS
-	////////////////////////
-	
-	protected void buildAppWindow() {
-		// SELECT RENDERER AND WINDOW SIZE
-		PJOGL.profile = 4;
-		if(Config.getBoolean(AppSettings.SPAN_SCREENS, false) == true) {
-			// run fullscreen across all screens
-			p.fullScreen(P.renderer, P.SPAN);
-		} else if(Config.getBoolean(AppSettings.FULLSCREEN, false) == true) {
-			// run fullscreen - default to screen #1 unless another is specified
-			if(Config.getInt(AppSettings.FULLSCREEN_SCREEN_NUMBER, 1) != 1) DebugUtil.printErr("AppSettings.FULLSCREEN_SCREEN_NUMBER is busted if not screen #1. Use AppSettings.SCREEN_X, etc.");
-			p.fullScreen(P.renderer); // , Config.getInt(AppSettings.FULLSCREEN_SCREEN_NUMBER, 1)
-		} else if(Config.getBoolean(AppSettings.FILLS_SCREEN, false) == true) {
-			// fills the screen, but not fullscreen
-			p.size(displayWidth,displayHeight,P.renderer);
-		} else {
-			if(P.renderer == PRenderers.PDF) {
-				// set headless pdf output file
-				p.size(Config.getInt(AppSettings.WIDTH, 800),Config.getInt(AppSettings.HEIGHT, 600), P.renderer, Config.getString(AppSettings.PDF_RENDERER_OUTPUT_FILE, "output/output.pdf"));
-			} else {
-				// run normal P3D renderer
-				p.size(Config.getInt(AppSettings.WIDTH, 800),Config.getInt(AppSettings.HEIGHT, 600), P.renderer);
-			}
-		}
-		
-		// SMOOTHING
-		if(Config.getInt(AppSettings.SMOOTHING, AppSettings.SMOOTH_HIGH) == 0) {
-			p.noSmooth();
-		} else {
-			p.smooth(Config.getInt(AppSettings.SMOOTHING, AppSettings.SMOOTH_HIGH));	
-		}
-
-		// DO WE DARE TRY THE RETINA SETTING?
-		if(Config.getBoolean(AppSettings.RETINA, false) == true) {
-			if(p.displayDensity() == 2) {
-				p.pixelDensity(2);
-			} else {
-				DebugUtil.printErr("Error: Attempting to set retina drawing on a non-retina screen");
-			}
-		}	
-		
-		// FRAMERATE
-		int _fps = Config.getInt(AppSettings.FPS, 60);
-		if(Config.getInt(AppSettings.FPS, 60) != 60) frameRate(_fps);
-		
-		// SET APP ICON
-		String appIconFile = Config.getString(AppSettings.APP_ICON, "haxademic/images/haxademic-logo.png");
-		String iconPath = FileUtil.getFile(appIconFile);
-		if(FileUtil.fileExists(iconPath)) {
-			PJOGL.setIcon(iconPath);
-		}
-	}
-	
-	protected void checkScreenManualPosition() {
-		boolean isFullscreen = Config.getBoolean(AppSettings.FULLSCREEN, false);
-		// check for additional screen_x params to manually place the window
-		if(Config.getInt("screen_x", -1) != -1) {
-			if(isFullscreen == false) {
-				DebugUtil.printErr("Error: Manual screen positioning requires AppSettings.FULLSCREEN = true");
-				return;
-			}
-			surface.setSize(Config.getInt(AppSettings.WIDTH, 800), Config.getInt(AppSettings.HEIGHT, 600));
-			surface.setLocation(Config.getInt(AppSettings.SCREEN_X, 0), Config.getInt(AppSettings.SCREEN_Y, 0));  // location has to happen after size, to break it out of fullscreen
-		}
-	}
-
-	////////////////////////
-	// INIT OBJECTS
+	// LAZY INIT ON FIRST FRAME
 	////////////////////////
 	
 	
-	protected void initHaxademicObjects() {
-		// create offscreen buffer
-		if(P.isOpenGL()) pg = PG.newPG(Config.getInt(AppSettings.PG_WIDTH, p.width), Config.getInt(AppSettings.PG_HEIGHT, p.height));
-		
-		// fullscreen
-		boolean isFullscreen = Config.getBoolean(AppSettings.FULLSCREEN, false);
-		if(isFullscreen == true) {
-			alwaysOnTop = Config.getBoolean(AppSettings.ALWAYS_ON_TOP, false);
-			if(alwaysOnTop) AppUtil.setAlwaysOnTop(p, true);
-		}
-	}
-		
-	protected void initializeOn1stFrame() {
+	protected void parentFirstFrame() {
 		if( p.frameCount == 1 ) {
-			if(P.isOpenGL()) P.println("Using Java version: " + SystemUtil.getJavaVersion() + " and GL version: " + OpenGLUtil.getGlVersion(p.g));
-			initHaxademicObjects();
-			firstFrame();
-		}
-		if(p.frameCount == 10) {
-			// move screen after first frame is rendered. this prevents weird issues (i.e. the app not even starting)
-			checkScreenManualPosition();
+			if(P.isOpenGL()) {
+				P.println("Using Java version: " + SystemUtil.getJavaVersion() + " and GL version: " + OpenGLUtil.getGlVersion(p.g));
+				pg = PG.newPG(Config.getInt(AppSettings.PG_WIDTH, p.width), Config.getInt(AppSettings.PG_HEIGHT, p.height));
+			}
+			firstFrame();	// call override
 		}
 	}
 	
@@ -184,58 +94,21 @@ extends PApplet {
 	protected void drawApp() {
 		P.println("Haxademic: YOU MUST OVERRIDE drawApp()");
 	}
-	
-	////////////////////////
-	// GETTERS
-	////////////////////////
-
-	// app surface
-	
-	public PSurface getSurface() {
-		return surface;
-	}
-	
-	public boolean alwaysOnTop() {
-		return alwaysOnTop;
-	}
 			
 	////////////////////////
 	// DRAW
 	////////////////////////
 	
 	public void draw() {
-		initializeOn1stFrame();
+		parentFirstFrame();
 		
 		p.pushMatrix();	// because drawApp can leave the context in a bad state
-		P.store.setNumber(PAppletHax.DRAW_PRE, p.frameCount);	// mostly for Renderer to do it's thing
+		P.store.setNumber(PEvents.DRAW_PRE, p.frameCount);	// mostly for Renderer to do it's thing
 		drawApp();
-		P.store.setNumber(PAppletHax.DRAW_POST, p.frameCount);
+		P.store.setNumber(PEvents.DRAW_POST, p.frameCount);
 		p.popMatrix();
 		
-		keepOnTop();
-		setAppDockIconAndTitle();
 		if(P.renderer == PRenderers.PDF) finishPdfRender();
-	}
-	
-	////////////////////////
-	// UPDATE OBJECTS
-	////////////////////////	
-
-	protected void keepOnTop() {
-		if(alwaysOnTop == true) {
-			if(p.frameCount % 600 == 0) AppUtil.requestForegroundSafe();
-		}
-	}
-	
-	protected void setAppDockIconAndTitle() {
-		if(P.renderer != PRenderers.PDF) {
-			if(p.frameCount == 1) {
-				AppUtil.setTitle(p, Config.getString(AppSettings.APP_NAME, "Haxademic | " + this.getClass().getSimpleName()));
-//				AppUtil.setAppToDockIcon(p);
-			} else if(Config.getBoolean(AppSettings.SHOW_FPS_IN_TITLE, false)) {
-				AppUtil.setTitle(p, Config.getString(AppSettings.APP_NAME, "Haxademic | " + this.getClass().getSimpleName()) + " | " + P.round(p.frameRate) + "fps");
-			}
-		}	
 	}
 	
 	////////////////////////
@@ -260,16 +133,9 @@ extends PApplet {
 		// disable esc key - subclass must call super.keyPressed()
 		if( p.key == P.ESC && ( Config.getBoolean(AppSettings.DISABLE_ESC_KEY, false) == true ) ) {   //  || Config.getBoolean(AppSettings.RENDERING_MOVIE, false) == true )
 			key = 0;
-//			renderShutdownBeforeExit();
 		}
 		
-		// special core app key commands
-		if (p.key == 'F') {
-			alwaysOnTop = !alwaysOnTop;
-			AppUtil.setAlwaysOnTop(p, alwaysOnTop);
-		}
-		
-		// show debug & prefs sliders
+		// screenshot
 		if (p.key == '|') saveScreenshot(p.g);
 		
 		// let other objects know

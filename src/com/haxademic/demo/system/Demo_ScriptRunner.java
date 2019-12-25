@@ -18,7 +18,7 @@ implements IScriptCallback {
 //		scriptRunner.runWithParams(FileUtil.getFile("haxademic/images/floaty-blob.anim"));
 		
 		scriptRunner = new ScriptRunner("normalize-wav-file", this);
-		scriptRunner.runWithParams(FileUtil.getFile("audio/drums/bass.wav"), 0);
+		scriptRunner.runWithParams(FileUtil.getPath("audio/drums/bass.wav"), 0);
 	}
 
 	public void drawApp() {

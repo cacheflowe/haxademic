@@ -26,9 +26,9 @@ extends PAppletHax {
 
 		
 		PImage[] images = new PImage[] {
-				p.loadImage(FileUtil.getFile("images/textures/space/sun.jpg")),
-				p.loadImage(FileUtil.getFile("images/textures/space/sun-nasa.jpg")),
-				p.loadImage(FileUtil.getFile("images/textures/grayscale/shader-1.jpg")),
+				p.loadImage(FileUtil.getPath("images/textures/space/sun.jpg")),
+				p.loadImage(FileUtil.getPath("images/textures/space/sun-nasa.jpg")),
+				p.loadImage(FileUtil.getPath("images/textures/grayscale/shader-1.jpg")),
 		};
 
 		imageCycler = new ImageCyclerBuffer(640, 280, images, 300, 0.5f);

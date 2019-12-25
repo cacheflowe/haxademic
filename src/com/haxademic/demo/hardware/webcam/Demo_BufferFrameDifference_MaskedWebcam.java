@@ -60,7 +60,7 @@ implements IWebCamCallback {
 	}
 		
 	public void firstFrame () {
-		template = p.loadShape( FileUtil.getFile("images/_sketch/clocktower/clocktower.svg"));
+		template = p.loadShape( FileUtil.getPath("images/_sketch/clocktower/clocktower.svg"));
 
 		// init webcam
 		WebCam.instance().setDelegate(this);

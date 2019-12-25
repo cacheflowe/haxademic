@@ -43,7 +43,7 @@ extends PAppletHax {
 
 		underlay = new TextureShaderTimeStepper( p.width, p.height, "basic-checker.glsl" );
 		
-		movie = new Movie(this, FileUtil.getFile("video/dam_ghost_outline.mov")); 
+		movie = new Movie(this, FileUtil.getPath("video/dam_ghost_outline.mov")); 
 //		movie = new Movie(this, FileUtil.getFile("video/dancelab/AlphaTest.mov")); 
 		movie.play();
 		movie.loop();

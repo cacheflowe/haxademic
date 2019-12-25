@@ -54,17 +54,17 @@ extends PAppletHax {
 		
 		buildModel();
 		
-		bgShader = p.loadShader(FileUtil.getFile("haxademic/shaders/textures/basic-diagonal-stripes.glsl"));
+		bgShader = p.loadShader(FileUtil.getPath("haxademic/shaders/textures/basic-diagonal-stripes.glsl"));
 		
 		points= new ArrayList<Point>();
 	}  
 	
 	protected void buildModel() {
 		// load texture
-		img = p.loadImage(FileUtil.getFile("images/justin-home.png"));
+		img = p.loadImage(FileUtil.getPath("images/justin-home.png"));
 		
 		// build obj PShape and scale to window
-		obj = p.loadShape( FileUtil.getFile("models/skull-realistic.obj"));	
+		obj = p.loadShape( FileUtil.getPath("models/skull-realistic.obj"));	
 //		obj = p.loadShape( FileUtil.getFile("models/lego-man.obj"));	
 		PShapeUtil.scaleShapeToExtent(obj, p.height * 0.4f);
 		

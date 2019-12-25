@@ -28,7 +28,7 @@ extends PAppletHax {
 	protected void firstFrame() {
 //		svg = PShapeUtil.svgToUniformPointsShape(FileUtil.getFile("svg/ello-filled.svg"), 13);
 //		svg = PShapeUtil.svgToUniformPointsShape(FileUtil.getFile("haxademic/svg/x.svg"), 15);
-		svg = PShapeUtil.svgToUniformPointsShape(FileUtil.getFile("haxademic/svg/heart.svg"), 15);
+		svg = PShapeUtil.svgToUniformPointsShape(FileUtil.getPath("haxademic/svg/heart.svg"), 15);
 		svg.disableStyle();
 		PShapeUtil.centerShape(svg);
 		PShapeUtil.scaleShapeToHeight(svg, p.height * 0.6f);

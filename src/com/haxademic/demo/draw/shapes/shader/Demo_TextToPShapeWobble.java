@@ -44,8 +44,8 @@ extends PAppletHax {
 		
 		// load displacement shader & texture
 		wobbleShader = new PShaderHotSwap(
-			FileUtil.getFile("haxademic/shaders/vertex/mesh-2d-deform-vert.glsl"),
-			FileUtil.getFile("haxademic/shaders/vertex/mesh-2d-deform-frag.glsl") 
+			FileUtil.getPath("haxademic/shaders/vertex/mesh-2d-deform-vert.glsl"),
+			FileUtil.getPath("haxademic/shaders/vertex/mesh-2d-deform-frag.glsl") 
 		);
 		displaceTexture = new SimplexNoiseTexture(256, 256);
 		DebugView.setTexture("displacement map", displaceTexture.texture());

@@ -12,7 +12,7 @@ public class BaseFragmentShader {
 	protected float time;
 
 	public BaseFragmentShader(PApplet p, String shaderFilePath) {
-		if(shaderFilePath != null) shader = p.loadShader(FileUtil.getFile(shaderFilePath));
+		if(shaderFilePath != null) shader = p.loadShader(FileUtil.getPath(shaderFilePath));
 		setTime(0);
 	}
 

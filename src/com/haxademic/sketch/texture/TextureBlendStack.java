@@ -68,7 +68,7 @@ extends PAppletHax {
 	
 	protected void loadImages() {
 		images = new ArrayList<PImage>();
-		ArrayList<String> filenames = FileUtil.getFilesInDirOfTypes(FileUtil.getFile("images/_sketch/texture-blender"), "jpg,png");
+		ArrayList<String> filenames = FileUtil.getFilesInDirOfTypes(FileUtil.getPath("images/_sketch/texture-blender"), "jpg,png");
 		for (int i = 0; i < filenames.size(); i++) {
 			P.println("loading: ", filenames.get(i));
 			images.add(p.loadImage(filenames.get(i)));

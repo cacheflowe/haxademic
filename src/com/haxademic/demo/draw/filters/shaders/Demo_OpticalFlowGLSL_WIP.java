@@ -50,8 +50,8 @@ extends PAppletHax {
 		DebugView.setTexture("opFlowResultLerped", opFlowResultLerped);
 		
 		// load shader
-		opFlowShader = p.loadShader(FileUtil.getFile("haxademic/shaders/filters/optical-flow.glsl"));
-		textureLerpShader = p.loadShader(FileUtil.getFile("haxademic/shaders/filters/texture-blend-towards-texture.glsl"));
+		opFlowShader = p.loadShader(FileUtil.getPath("haxademic/shaders/filters/optical-flow.glsl"));
+		textureLerpShader = p.loadShader(FileUtil.getPath("haxademic/shaders/filters/texture-blend-towards-texture.glsl"));
 	}
 
 	public void drawApp() {

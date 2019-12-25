@@ -55,7 +55,7 @@ extends PAppletHax {
 		// build buffer and keystone object
 		buffer = p.createGraphics( p.width / 2, p.height / 2, P.P3D );
 		buffer.smooth(OpenGLUtil.SMOOTH_HIGH);
-		keystonedPG = new PGraphicsKeystone( p, buffer, subdivisions, FileUtil.getFile("text/keystoning/keystone-demo.txt"), FileUtil.getFile("text/keystoning/fine-mapping-demo.txt") );
+		keystonedPG = new PGraphicsKeystone( p, buffer, subdivisions, FileUtil.getPath("text/keystoning/keystone-demo.txt"), FileUtil.getPath("text/keystoning/fine-mapping-demo.txt") );
 	}
 	
 	public void drawApp() {

@@ -24,23 +24,23 @@ extends PAppletHax {
 	}
 	
 	protected void downloadSingleFile() {
-		FileUtil.createDir(FileUtil.getFile("downloads"));
+		FileUtil.createDir(FileUtil.getPath("downloads"));
 		FileDownloader.downloadFile(
 				"https://cacheflowe.com/images/code/installation/silhouect.mp4", 
-				FileUtil.getFile("downloads/silhouect.mp4"), 
+				FileUtil.getPath("downloads/silhouect.mp4"), 
 				true);
 	}
 	
 	protected void downloadMultipleFiles() {
-		FileUtil.createDir(FileUtil.getFile("downloads"));
+		FileUtil.createDir(FileUtil.getPath("downloads"));
 		FileDownloader.downloadFiles(
 				new String[] {
 						"https://cacheflowe.com/images/code/installation/nike-beacon-01.jpg", 
 						"https://cacheflowe.com/images/code/installation/silhouect.mp4", 
 				},
 				new String[] {
-						FileUtil.getFile("downloads/nike-beacon-01.jpg"), 
-						FileUtil.getFile("downloads/silhouect.mp4"), 
+						FileUtil.getPath("downloads/nike-beacon-01.jpg"), 
+						FileUtil.getPath("downloads/silhouect.mp4"), 
 				},
 				true);
 	}

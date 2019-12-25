@@ -45,10 +45,10 @@ implements IWebCamCallback {
 		noiseBuffer = p.createGraphics(640, 480, PRenderers.P3D);
 		slitscanOutputBuffer = p.createGraphics(640, 480, PRenderers.P3D);
 		slitscanLerpedBuffer = p.createGraphics(640, 480, PRenderers.P3D);
-		lerpToTexture = P.p.loadShader(FileUtil.getFile("haxademic/shaders/filters/texture-blend-towards-texture.glsl"));
+		lerpToTexture = P.p.loadShader(FileUtil.getPath("haxademic/shaders/filters/texture-blend-towards-texture.glsl"));
 		recorder = new ImageSequenceRecorder(camBuffer.width, camBuffer.height, numFrames);
 		WebCam.instance().setDelegate(this);
-		slitscanShader = p.loadShader(FileUtil.getFile("haxademic/shaders/filters/slitscan-texture-map.glsl"));
+		slitscanShader = p.loadShader(FileUtil.getPath("haxademic/shaders/filters/slitscan-texture-map.glsl"));
 		noiseTexture = new TextureShader(TextureShader.noise_simplex_2d_iq);
 	}
 

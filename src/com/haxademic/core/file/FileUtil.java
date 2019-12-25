@@ -106,7 +106,7 @@ public class FileUtil {
 		return new java.io.File("").getAbsolutePath();
 	}
 	
-	public static String getFile(String path) {
+	public static String getPath(String path) {
 		path = safePath(path);
 		return getHaxademicDataPath() + path;
 	}

@@ -36,7 +36,7 @@ extends PAppletHax {
 		img = DemoAssets.smallTexture();
 		shadowOrig = imageToImageWithPadding(img, 2f);
 		shadow = imageToImageWithPadding(img, 2f);
-		colorTransformShader = p.loadShader(FileUtil.getFile("haxademic/shaders/filters/opaque-pixels-to-color.glsl"));
+		colorTransformShader = p.loadShader(FileUtil.getPath("haxademic/shaders/filters/opaque-pixels-to-color.glsl"));
 		
 		UI.addSlider(BLUR_SIZE, 12, 1, 20, 1, false);
 		UI.addSlider(BLUR_SIGMA, 6, 1, 20, 0.1f, false);

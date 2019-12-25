@@ -13,7 +13,7 @@ extends PAppletHax {
 	
 	public void firstFrame() {
 
-		chromaMovie = new ChromaMovie(FileUtil.getFile("video/fractal-cube.mp4"));
+		chromaMovie = new ChromaMovie(FileUtil.getPath("video/fractal-cube.mp4"));
 		chromaMovie.loop();
 	}
 	

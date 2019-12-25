@@ -31,7 +31,7 @@ extends PAppletHax {
 	public void firstFrame() {
 
 		p.noStroke();
-		backgroundImg = p.loadImage(FileUtil.getFile("haxademic/images/billboard-mockup.jpg"));
+		backgroundImg = p.loadImage(FileUtil.getPath("haxademic/images/billboard-mockup.jpg"));
 		
 		videoFrameBuffer = p.createGraphics(768, 384, P.P2D);
 		

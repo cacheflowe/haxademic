@@ -114,7 +114,7 @@ extends PAppletHax {
 		Config.setProperty(AppSettings.LOOP_FRAMES, 2000);
 		Config.setProperty(AppSettings.SHOW_UI, true);
 		Config.setProperty(AppSettings.FULLSCREEN, false);
-		Config.setProperty(AppSettings.ALWAYS_ON_TOP, false);
+		Config.setProperty(AppSettings.ALWAYS_ON_TOP, true);
 		Config.setProperty(AppSettings.SHOW_FPS_IN_TITLE, true);
 	}
 	
@@ -138,7 +138,7 @@ extends PAppletHax {
 		
 		// lines texture
 		linesTexture = PG.newPG(pg.width/2, pg.height/2, false, false);
-		gradientShader = p.loadShader(FileUtil.getFile("haxademic/shaders/textures/cacheflowe-two-color-repeating-gradient.glsl"));
+		gradientShader = p.loadShader(FileUtil.getPath("haxademic/shaders/textures/cacheflowe-two-color-repeating-gradient.glsl"));
 
 		buildUI();
 		

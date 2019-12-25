@@ -68,7 +68,7 @@ extends PAppletHax {
 	
 	protected void firstFrame() {
 		// build shape and assign texture
-		shape = p.loadShape(FileUtil.getFile("models/joy-hoop/joy_hoop.obj"));
+		shape = p.loadShape(FileUtil.getPath("models/joy-hoop/joy_hoop.obj"));
 //		shape = DemoAssets.objSkullRealistic();
 		shape = PShapeUtil.meshShapeToPointsShape(shape);
 		
@@ -90,8 +90,8 @@ extends PAppletHax {
 		
 		// load shader
 		fattenerVertShader = p.loadShader(
-			FileUtil.getFile("haxademic/shaders/vertex/joy-displacer-frag.glsl"), 
-			FileUtil.getFile("haxademic/shaders/vertex/joy-displacer-vert.glsl")
+			FileUtil.getPath("haxademic/shaders/vertex/joy-displacer-frag.glsl"), 
+			FileUtil.getPath("haxademic/shaders/vertex/joy-displacer-vert.glsl")
 		);
 	}
 	

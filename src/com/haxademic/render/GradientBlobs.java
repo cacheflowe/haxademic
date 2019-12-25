@@ -328,7 +328,7 @@ extends PAppletHax {
 		overlayMask.endDraw();
 		
 		// turn white to transparent
-		PShader brightnessToAlpha = p.loadShader(FileUtil.getFile("haxademic/shaders/filters/brightness-to-alpha.glsl"));
+		PShader brightnessToAlpha = p.loadShader(FileUtil.getPath("haxademic/shaders/filters/brightness-to-alpha.glsl"));
 		overlayMask.filter(brightnessToAlpha);
 	}
 	

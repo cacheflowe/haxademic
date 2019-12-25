@@ -382,13 +382,13 @@ extends PAppletHax {
 		OpenGLUtil.setTextureQualityHigh(ssao);
 		
 		depthShader = loadShader(
-				FileUtil.getFile("haxademic/shaders/vertex/depth-frag.glsl"), 
-				FileUtil.getFile("haxademic/shaders/vertex/depth-vert.glsl")
+				FileUtil.getPath("haxademic/shaders/vertex/depth-frag.glsl"), 
+				FileUtil.getPath("haxademic/shaders/vertex/depth-vert.glsl")
 				);
 
 		ssaoShader = loadShader(
-			FileUtil.getFile("haxademic/shaders/vertex/ssao-frag.glsl"), 
-			FileUtil.getFile("haxademic/shaders/vertex/ssao-vert.glsl")
+			FileUtil.getPath("haxademic/shaders/vertex/ssao-frag.glsl"), 
+			FileUtil.getPath("haxademic/shaders/vertex/ssao-vert.glsl")
 		);
 		ssaoShader.set("size", (float) p.width, (float) p.height );
 		ssaoShader.set("tDiffuse", buffer );

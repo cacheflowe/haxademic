@@ -24,7 +24,7 @@ extends PAppletHax {
 	}
 
 	public void firstFrame() {
-		String imagePath = FileUtil.getFile("haxademic/images/floaty-blob.anim/");
+		String imagePath = FileUtil.getPath("haxademic/images/floaty-blob.anim/");
 		imageSequence = new ImageSequenceMovieClip(imagePath, "png", 18);
 	}
 	

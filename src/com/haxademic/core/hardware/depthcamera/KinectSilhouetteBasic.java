@@ -98,7 +98,7 @@ public class KinectSilhouetteBasic {
 	}
 	
 	protected void initBackupMovie() {
-		_movieFallback = new Movie(P.p, FileUtil.getFile("video/loops/bubbles-2.m4v"));
+		_movieFallback = new Movie(P.p, FileUtil.getPath("video/loops/bubbles-2.m4v"));
 		_movieFallback.play();
 		_movieFallback.loop();
 		_movieFallback.jump(0);
@@ -112,9 +112,9 @@ public class KinectSilhouetteBasic {
 	}
 	
 	protected void initBlobDetection() {
-		_blurV = P.p.loadShader(FileUtil.getFile("haxademic/shaders/filters/blur-vertical.glsl"));
+		_blurV = P.p.loadShader(FileUtil.getPath("haxademic/shaders/filters/blur-vertical.glsl"));
 		_blurV.set( "v", 3f/_canvasH );
-		_blurH = P.p.loadShader(FileUtil.getFile("haxademic/shaders/filters/blur-horizontal.glsl"));
+		_blurH = P.p.loadShader(FileUtil.getPath("haxademic/shaders/filters/blur-horizontal.glsl"));
 		_blurH.set( "h", 3f/_canvasW );
 
 		theBlobDetection = new BlobDetection( _kinectPixelated.width, _kinectPixelated.height );

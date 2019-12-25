@@ -36,7 +36,7 @@ extends PAppletHax {
 		PImage[] particleImages = new PImage[] { DemoAssets.particle() };
 		boolean loadParticlesDir = true;
 		if(loadParticlesDir) {
-			ArrayList<PImage> particles = FileUtil.loadImagesFromDir(FileUtil.getFile("haxademic/images/particles/"), "png");
+			ArrayList<PImage> particles = FileUtil.loadImagesFromDir(FileUtil.getPath("haxademic/images/particles/"), "png");
 			particleImages = new PImage[particles.size()];
 			for (int i = 0; i < particles.size(); i++) {
 				particleImages[i] = particles.get(i);

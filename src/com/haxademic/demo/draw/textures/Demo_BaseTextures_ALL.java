@@ -103,7 +103,7 @@ extends PAppletHax {
 		// send Beads audio player analyzer to PAppletHax
 		player = new WavPlayer(); // WavPlayer.newAudioContext()
 		AudioIn.instance(new AudioInputBeads(WavPlayer.sharedContext));
-		player.loopWav(FileUtil.getFile(DemoAssets.audioBiggerLoop));		
+		player.loopWav(FileUtil.getPath(DemoAssets.audioBiggerLoop));		
 		
 		// init textures
 		int w = p.width; 

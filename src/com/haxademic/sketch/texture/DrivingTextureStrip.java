@@ -58,52 +58,52 @@ extends PAppletHax {
 
 		noStroke();
 		
-		img = loadImage(FileUtil.getFile("images/dino-pattern-3.png"));
+		img = loadImage(FileUtil.getPath("images/dino-pattern-3.png"));
 		speed = img.height * 4f * textureSegmentRatio;
 		textureY = img.height - speed; 
 		wrapPadding = displayW * 1.2f;
 		position = new PVector(p.width/2, 0);
 		
-		slimeSound = new SoundFile(this, FileUtil.getFile("audio/intestines/squish-loop.wav"));
+		slimeSound = new SoundFile(this, FileUtil.getPath("audio/intestines/squish-loop.wav"));
 		slimeSound.pan(-0.2f);
 		slimeSound.loop();
-		arcadeSound = new SoundFile(this, FileUtil.getFile("audio/intestines/arcade-ambience.wav"));
+		arcadeSound = new SoundFile(this, FileUtil.getPath("audio/intestines/arcade-ambience.wav"));
 		arcadeSound.loop();
 		arcadeSound.amp(0.3f);
 		arcadeSound.pan(0.8f);
 		
 		incidentalSounds = new SoundFile[]{
-				new SoundFile(this, FileUtil.getFile("audio/intestines/random-sounds/8-bit-loop.wav")),
-				new SoundFile(this, FileUtil.getFile("audio/intestines/random-sounds/56k-modem.wav")),
-				new SoundFile(this, FileUtil.getFile("audio/intestines/random-sounds/aim-in.wav")),
-				new SoundFile(this, FileUtil.getFile("audio/intestines/random-sounds/aim-out.wav")),
-				new SoundFile(this, FileUtil.getFile("audio/intestines/random-sounds/bad-telephone-number.wav")),
-				new SoundFile(this, FileUtil.getFile("audio/intestines/random-sounds/bleeps.wav")),
-				new SoundFile(this, FileUtil.getFile("audio/intestines/random-sounds/blip.wav")),
-				new SoundFile(this, FileUtil.getFile("audio/intestines/random-sounds/blips.wav")),
-				new SoundFile(this, FileUtil.getFile("audio/intestines/random-sounds/blooops.wav")),
-				new SoundFile(this, FileUtil.getFile("audio/intestines/random-sounds/fax.wav")),
-				new SoundFile(this, FileUtil.getFile("audio/intestines/random-sounds/happy-startup.wav")),
-				new SoundFile(this, FileUtil.getFile("audio/intestines/random-sounds/modem-3.wav")),
-				new SoundFile(this, FileUtil.getFile("audio/intestines/random-sounds/naturalised-long.wav")),
-				new SoundFile(this, FileUtil.getFile("audio/intestines/random-sounds/nokia.wav")),
-				new SoundFile(this, FileUtil.getFile("audio/intestines/random-sounds/printer.wav")),
-				new SoundFile(this, FileUtil.getFile("audio/intestines/random-sounds/speak-n-spell.wav")),
-				new SoundFile(this, FileUtil.getFile("audio/intestines/random-sounds/startup.wav")),
-				new SoundFile(this, FileUtil.getFile("audio/intestines/random-sounds/tetris.wav")),
-				new SoundFile(this, FileUtil.getFile("audio/intestines/random-sounds/tweeps.wav")),
-				new SoundFile(this, FileUtil.getFile("audio/intestines/random-sounds/uh-oh.wav"))
+				new SoundFile(this, FileUtil.getPath("audio/intestines/random-sounds/8-bit-loop.wav")),
+				new SoundFile(this, FileUtil.getPath("audio/intestines/random-sounds/56k-modem.wav")),
+				new SoundFile(this, FileUtil.getPath("audio/intestines/random-sounds/aim-in.wav")),
+				new SoundFile(this, FileUtil.getPath("audio/intestines/random-sounds/aim-out.wav")),
+				new SoundFile(this, FileUtil.getPath("audio/intestines/random-sounds/bad-telephone-number.wav")),
+				new SoundFile(this, FileUtil.getPath("audio/intestines/random-sounds/bleeps.wav")),
+				new SoundFile(this, FileUtil.getPath("audio/intestines/random-sounds/blip.wav")),
+				new SoundFile(this, FileUtil.getPath("audio/intestines/random-sounds/blips.wav")),
+				new SoundFile(this, FileUtil.getPath("audio/intestines/random-sounds/blooops.wav")),
+				new SoundFile(this, FileUtil.getPath("audio/intestines/random-sounds/fax.wav")),
+				new SoundFile(this, FileUtil.getPath("audio/intestines/random-sounds/happy-startup.wav")),
+				new SoundFile(this, FileUtil.getPath("audio/intestines/random-sounds/modem-3.wav")),
+				new SoundFile(this, FileUtil.getPath("audio/intestines/random-sounds/naturalised-long.wav")),
+				new SoundFile(this, FileUtil.getPath("audio/intestines/random-sounds/nokia.wav")),
+				new SoundFile(this, FileUtil.getPath("audio/intestines/random-sounds/printer.wav")),
+				new SoundFile(this, FileUtil.getPath("audio/intestines/random-sounds/speak-n-spell.wav")),
+				new SoundFile(this, FileUtil.getPath("audio/intestines/random-sounds/startup.wav")),
+				new SoundFile(this, FileUtil.getPath("audio/intestines/random-sounds/tetris.wav")),
+				new SoundFile(this, FileUtil.getPath("audio/intestines/random-sounds/tweeps.wav")),
+				new SoundFile(this, FileUtil.getPath("audio/intestines/random-sounds/uh-oh.wav"))
 		};
 		shuffleArray(incidentalSounds);
 		nextPlayTime = p.random(2000, 7000);
 		
 		buttonSounds = new SoundFile[]{
-				new SoundFile(this, FileUtil.getFile("audio/intestines/random-sounds/aim-in.wav")),
-				new SoundFile(this, FileUtil.getFile("audio/intestines/random-sounds/aim-out.wav")),
+				new SoundFile(this, FileUtil.getPath("audio/intestines/random-sounds/aim-in.wav")),
+				new SoundFile(this, FileUtil.getPath("audio/intestines/random-sounds/aim-out.wav")),
 //				new SoundFile(this, FileUtil.getFile("audio/intestines/random-sounds/blip.wav")),
 //				new SoundFile(this, FileUtil.getFile("audio/intestines/random-sounds/happy-startup.wav")),
-				new SoundFile(this, FileUtil.getFile("audio/intestines/random-sounds/startup.wav")),
-				new SoundFile(this, FileUtil.getFile("audio/intestines/random-sounds/uh-oh.wav"))
+				new SoundFile(this, FileUtil.getPath("audio/intestines/random-sounds/startup.wav")),
+				new SoundFile(this, FileUtil.getPath("audio/intestines/random-sounds/uh-oh.wav"))
 		};
 	}
 	

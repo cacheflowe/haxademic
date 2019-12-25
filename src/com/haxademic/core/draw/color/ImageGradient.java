@@ -51,19 +51,19 @@ public class ImageGradient {
 
 	public static PImage BLACK_HOLE = null;
 	public static PImage BLACK_HOLE() {
-		if(BLACK_HOLE == null) BLACK_HOLE = P.p.loadImage(FileUtil.getFile("haxademic/images/palettes/chandra-black-hole-burst.jpg"));
+		if(BLACK_HOLE == null) BLACK_HOLE = P.p.loadImage(FileUtil.getPath("haxademic/images/palettes/chandra-black-hole-burst.jpg"));
 		return BLACK_HOLE;
 	}
 
 	public static PImage PASTELS = null;
 	public static PImage PASTELS() {
-		if(PASTELS == null) PASTELS = P.p.loadImage(FileUtil.getFile("haxademic/images/palettes/pastels-gradient.png"));
+		if(PASTELS == null) PASTELS = P.p.loadImage(FileUtil.getPath("haxademic/images/palettes/pastels-gradient.png"));
 		return PASTELS;
 	}
 
 	public static PImage SPARKS_FLAMES = null;
 	public static PImage SPARKS_FLAMES() {
-		if(SPARKS_FLAMES == null) SPARKS_FLAMES = P.p.loadImage(FileUtil.getFile("haxademic/images/palettes/sparks-flames.jpg"));
+		if(SPARKS_FLAMES == null) SPARKS_FLAMES = P.p.loadImage(FileUtil.getPath("haxademic/images/palettes/sparks-flames.jpg"));
 		return SPARKS_FLAMES;
 	}
 	
@@ -75,7 +75,7 @@ public class ImageGradient {
 		// lazy-init array
 		if(filenamesArray == null) filenamesArray = new ArrayList<String>();
 		
-		String imagesPath = FileUtil.getFile(path);
+		String imagesPath = FileUtil.getPath(path);
 		filenamesArray = FileUtil.getFilesInDirOfType(imagesPath, "png");
 		for (int i = 0; i < filenamesArray.size(); i++) {
 			filenamesArray.set(i, imagesPath + filenamesArray.get(i)); 

@@ -79,7 +79,7 @@ extends PAppletHax {
 	protected WETriangleMesh _meshDeform;
 	
 	protected void config() {
-		Config.loadPropertiesFile(FileUtil.getFile("properties/brimliskirepetitions.properties"));
+		Config.loadPropertiesFile(FileUtil.getPath("properties/brimliskirepetitions.properties"));
 	}
 
 	// INITIALIZE OBJECTS ===================================================================================

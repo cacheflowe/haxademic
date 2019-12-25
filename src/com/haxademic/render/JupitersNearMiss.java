@@ -43,14 +43,14 @@ extends PAppletHax {
 	
 
 		// load texture
-		texture = p.loadImage(FileUtil.getFile("haxademic/images/spherical/jupiter.jpg"));
+		texture = p.loadImage(FileUtil.getPath("haxademic/images/spherical/jupiter.jpg"));
 		
 		// create icosahedron
 		shapeIcos = Icosahedron.createIcosahedron(p.g, 7, texture);
 		PShapeUtil.scaleShapeToExtent(shapeIcos, p.height/4f);
 		
 		// start field generative texture
-		bgShader = P.p.loadShader( FileUtil.getFile("haxademic/shaders/textures/stars-scroll.glsl")); 
+		bgShader = P.p.loadShader( FileUtil.getPath("haxademic/shaders/textures/stars-scroll.glsl")); 
 		bgShader.set("time", 0 );
 	}
 

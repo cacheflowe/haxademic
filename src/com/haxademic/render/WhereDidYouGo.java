@@ -51,7 +51,7 @@ extends PAppletHax {
 
 		texture = createGraphics(p.height * 2, p.height * 2, P.P3D);
 		
-		textureShader = P.p.loadShader( FileUtil.getFile("haxademic/shaders/textures/bw-clouds.glsl")); 
+		textureShader = P.p.loadShader( FileUtil.getPath("haxademic/shaders/textures/bw-clouds.glsl")); 
 		textureShader.set("time", 0 );
 
 		mesh = Shapes.createSheet(450, texture);

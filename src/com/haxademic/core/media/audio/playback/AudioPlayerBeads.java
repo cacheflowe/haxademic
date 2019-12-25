@@ -33,7 +33,7 @@ public class AudioPlayerBeads {
 		audioContext = ac;
 		
 		// build sample player
-		player = new SamplePlayer(audioContext, SampleManager.sample(FileUtil.getFile(audioFile)));
+		player = new SamplePlayer(audioContext, SampleManager.sample(FileUtil.getPath(audioFile)));
 		player.setLoopType(SamplePlayer.LoopType.LOOP_FORWARDS);
 		
 		// build audio stream

@@ -31,7 +31,7 @@ implements IAppStoreListener {
 		P.store.addListener(this);
 		height = p.height;
 		fontSize = height * 0.1f;
-		font = P.p.createFont( FileUtil.getFile(Slideshow.FONT_FILE), fontSize );
+		font = P.p.createFont( FileUtil.getPath(Slideshow.FONT_FILE), fontSize );
 	}
 	
 	protected boolean isShowing() {

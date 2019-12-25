@@ -67,7 +67,7 @@ extends PAppletHax {
 	
 	
 	protected void config() {
-		Config.setProperty(AppSettings.RENDER_AUDIO_FILE, FileUtil.getFile("audio/brim-duels/brim-liski-duels.wav"));
+		Config.setProperty(AppSettings.RENDER_AUDIO_FILE, FileUtil.getPath("audio/brim-duels/brim-liski-duels.wav"));
 		Config.setProperty(AppSettings.RENDER_AUDIO_SIMULATION, false);
 		Config.setProperty(AppSettings.RENDERING_MOVIE, true);
 		Config.setProperty(AppSettings.RENDERING_MOVIE_START_FRAME, 1);

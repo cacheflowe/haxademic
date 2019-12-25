@@ -40,14 +40,14 @@ extends PAppletHax {
 	public void firstFrame() {
 		// load sphere
 		int detail = 4;
-		icosa = Icosahedron.createIcosahedron(p.g, detail, p.loadImage(FileUtil.getFile("haxademic/images/spherical/outdoors.jpg")));
+		icosa = Icosahedron.createIcosahedron(p.g, detail, p.loadImage(FileUtil.getPath("haxademic/images/spherical/outdoors.jpg")));
 		PShapeUtil.centerShape(icosa);
 		PShapeUtil.scaleShapeToHeight(icosa, p.height * 5f);
 		
 		// load butterfly
-		butterflyCenter = p.loadImage(FileUtil.getFile("images/_sketch/butterfly-test-center.png"));
-		butterflyLeft = p.loadImage(FileUtil.getFile("images/_sketch/butterfly-test-left.png"));
-		butterflyRight = p.loadImage(FileUtil.getFile("images/_sketch/butterfly-test-right.png"));
+		butterflyCenter = p.loadImage(FileUtil.getPath("images/_sketch/butterfly-test-center.png"));
+		butterflyLeft = p.loadImage(FileUtil.getPath("images/_sketch/butterfly-test-left.png"));
+		butterflyRight = p.loadImage(FileUtil.getPath("images/_sketch/butterfly-test-right.png"));
 	}
 	
 

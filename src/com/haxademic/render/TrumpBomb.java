@@ -47,15 +47,15 @@ extends PAppletHax {
 	protected void firstFrameSetup() {
 		// load texture
 //		img = p.loadImage(FileUtil.getFile("images/jupiter-360.jpg"));
-		img = p.loadImage(FileUtil.getFile("images/aholes-trmp.jpg"));
-		flameColors = new ImageGradient(p.loadImage(FileUtil.getFile("haxademic/images/palettes/sparks-flames.jpg")));
+		img = p.loadImage(FileUtil.getPath("images/aholes-trmp.jpg"));
+		flameColors = new ImageGradient(p.loadImage(FileUtil.getPath("haxademic/images/palettes/sparks-flames.jpg")));
 
 		// build obj PShape and scale to window
 //		obj = p.loadShape( FileUtil.getFile("models/poly-hole-square.obj"));
 //		obj = p.loadShape( FileUtil.getFile("models/skull-realistic.obj"));
 //		obj = p.loadShape( FileUtil.getFile("models/man-lowpoly.obj"));
 //		obj = p.loadShape( FileUtil.getFile("models/lego-man.obj"));
-		obj = p.loadShape( FileUtil.getFile("models/bomb.obj"));
+		obj = p.loadShape( FileUtil.getPath("models/bomb.obj"));
 //		obj = obj.getTessellation();
 //		obj = p.loadShape( FileUtil.getFile("models/poly-hole-tri.obj"));
 		PShapeUtil.centerShape(obj);
@@ -78,7 +78,7 @@ extends PAppletHax {
 		float percentComplete = ((float)(p.frameCount%_frames)/_frames);
 		float radsComplete = percentComplete * P.TWO_PI;
 
-		if(p.frameCount % 300 == 0)		img = p.loadImage(FileUtil.getFile("images/aholes-trmp.jpg"));
+		if(p.frameCount % 300 == 0)		img = p.loadImage(FileUtil.getPath("images/aholes-trmp.jpg"));
 
 		p.pushMatrix();
 		background(0);

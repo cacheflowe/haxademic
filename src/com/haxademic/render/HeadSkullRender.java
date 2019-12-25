@@ -68,9 +68,9 @@ extends PAppletHax {
 		UI.addSlider(spotLightConcentration, 100f, 0, 1000f, 1f, false);
 
 		// load model
-		skullObj = p.loadShape( FileUtil.getFile("models/skull-realistic.obj"));
-		objOrig = p.loadShape( FileUtil.getFile("models/Trump_lowPoly_updated.obj"));
-		obj = p.loadShape( FileUtil.getFile("models/Trump_lowPoly_updated.obj"));
+		skullObj = p.loadShape( FileUtil.getPath("models/skull-realistic.obj"));
+		objOrig = p.loadShape( FileUtil.getPath("models/Trump_lowPoly_updated.obj"));
+		obj = p.loadShape( FileUtil.getPath("models/Trump_lowPoly_updated.obj"));
 		
 		PShapeUtil.scaleShapeToExtent(skullObj, p.height * 0.78f);
 		PShapeUtil.scaleShapeToExtent(obj, p.height * 0.8f);

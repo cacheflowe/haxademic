@@ -1104,7 +1104,7 @@ implements IAppStoreListener {
 	protected ImageCyclerBuffer imageCycler;
 	protected void buildInterstitial() {
 		String imagesPath = "images/_sketch/glissline-interstitials/";
-		ArrayList<String> imageFiles = FileUtil.getFilesInDirOfType(FileUtil.getFile(imagesPath), "jpg");
+		ArrayList<String> imageFiles = FileUtil.getFilesInDirOfType(FileUtil.getPath(imagesPath), "jpg");
 		PImage[] images = new PImage[imageFiles.size()];
 		for (int i = 0; i < imageFiles.size(); i++) {
 			images[i] = p.loadImage(imagesPath + imageFiles.get(i));

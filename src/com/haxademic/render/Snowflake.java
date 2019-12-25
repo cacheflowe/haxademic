@@ -44,14 +44,14 @@ extends PAppletHax {
 		pg = P.p.createGraphics(PrintPageDirect.PRINT_W, PrintPageDirect.PRINT_H, PRenderers.P3D);
 		
 		shapes = new ArrayList<PShape>();
-		shapes.add( p.loadShape( FileUtil.getFile("svg/cacheflowe-logo.svg")).getTessellation());
-		shapes.add( p.loadShape( FileUtil.getFile("svg/heart.svg")).getTessellation());
-		shapes.add( p.loadShape( FileUtil.getFile("svg/diamond.svg")).getTessellation());
-		shapes.add( p.loadShape( FileUtil.getFile("svg/cursor.svg")).getTessellation());
-		shapes.add( p.loadShape( FileUtil.getFile("svg/pot-leaf.svg")).getTessellation());
-		shapes.add( p.loadShape( FileUtil.getFile("svg/eye.svg")).getTessellation());
-		shapes.add( p.loadShape( FileUtil.getFile("svg/x.svg")).getTessellation());
-		shapes.add( p.loadShape( FileUtil.getFile("svg/smiley.svg")).getTessellation());
+		shapes.add( p.loadShape( FileUtil.getPath("svg/cacheflowe-logo.svg")).getTessellation());
+		shapes.add( p.loadShape( FileUtil.getPath("svg/heart.svg")).getTessellation());
+		shapes.add( p.loadShape( FileUtil.getPath("svg/diamond.svg")).getTessellation());
+		shapes.add( p.loadShape( FileUtil.getPath("svg/cursor.svg")).getTessellation());
+		shapes.add( p.loadShape( FileUtil.getPath("svg/pot-leaf.svg")).getTessellation());
+		shapes.add( p.loadShape( FileUtil.getPath("svg/eye.svg")).getTessellation());
+		shapes.add( p.loadShape( FileUtil.getPath("svg/x.svg")).getTessellation());
+		shapes.add( p.loadShape( FileUtil.getPath("svg/smiley.svg")).getTessellation());
 		
 		// normalize shapes
 		for (PShape shape : shapes) {

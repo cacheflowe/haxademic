@@ -48,12 +48,12 @@ implements IWatchDirListener {
 	
 	protected void firstFrame() {
 		// set shader paths for compiling and watching
-		vertShaderPath = FileUtil.getFile("haxademic/shaders/vertex/inline-vertcolordist-150-vert.glsl");
-		fragShaderPath = FileUtil.getFile("haxademic/shaders/vertex/inline-vertcolordist-150-frag.glsl");
+		vertShaderPath = FileUtil.getPath("haxademic/shaders/vertex/inline-vertcolordist-150-vert.glsl");
+		fragShaderPath = FileUtil.getPath("haxademic/shaders/vertex/inline-vertcolordist-150-frag.glsl");
 		rebuildShader();
 		
 		// watch shader files for saves
-		watchVert = new WatchDir(FileUtil.getFile("haxademic/shaders/vertex/"), false, this);
+		watchVert = new WatchDir(FileUtil.getPath("haxademic/shaders/vertex/"), false, this);
 		
 		// shape to adjust with shader
 		int detail = 9;

@@ -26,7 +26,7 @@ extends PAppletHax {
 	protected void firstFrame() {
 //		svg.setStroke(false);
 
-		svg = PShapeUtil.svgToUniformPointsShape(FileUtil.getFile("haxademic/svg/hexagon.svg"), 20);
+		svg = PShapeUtil.svgToUniformPointsShape(FileUtil.getPath("haxademic/svg/hexagon.svg"), 20);
 		svg.disableStyle();
 		PShapeUtil.centerShape(svg);
 		PShapeUtil.scaleShapeToExtent(svg, p.height * 0.8f);

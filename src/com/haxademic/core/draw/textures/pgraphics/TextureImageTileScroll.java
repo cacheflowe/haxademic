@@ -53,7 +53,7 @@ extends BaseTexture {
 //		transitionShader.set("interpolationPower", 2f);
 //		transitionShader = P.p.loadShader(FileUtil.getFile("haxademic/shaders/transitions/polka-dots-curtain.glsl"));
 //		transitionShader = P.p.loadShader(FileUtil.getFile("haxademic/shaders/transitions/fly-eye.glsl"));
-		transitionShader = P.p.loadShader(FileUtil.getFile("haxademic/shaders/transitions/circle-open.glsl"));
+		transitionShader = P.p.loadShader(FileUtil.getPath("haxademic/shaders/transitions/circle-open.glsl"));
 //		transitionShader = P.p.loadShader(FileUtil.getFile("haxademic/shaders/transitions/color-lerp.glsl"));
 //		transitionShader = P.p.loadShader(FileUtil.getFile("haxademic/shaders/transitions/directional-wipe.glsl"));
 //		transitionShader = P.p.loadShader(FileUtil.getFile("haxademic/shaders/transitions/warp-fade.glsl"));
@@ -73,7 +73,7 @@ extends BaseTexture {
 	
 	protected void loadImages() {
 		// load images
-		String imgBase = FileUtil.getFile("images/_sketch/occult-symbols/");
+		String imgBase = FileUtil.getPath("images/_sketch/occult-symbols/");
 		ArrayList<String> files = FileUtil.getFilesInDirOfType(imgBase, "png");
 		FileUtil.shuffleFileList( files );
 		images = new ArrayList<PImage>();

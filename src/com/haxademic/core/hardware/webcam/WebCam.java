@@ -179,9 +179,9 @@ implements IUIButtonDelegate {
 			
 			// if we had a selected config from file, load it up
 			if(configId != null) {
-				configFile = FileUtil.getFile(prefsDir + configId + ".txt");
+				configFile = FileUtil.getPath(prefsDir + configId + ".txt");
 				if(FileUtil.fileExists(configFile)) {
-					FileUtil.createDir(FileUtil.getFile(prefsDir));
+					FileUtil.createDir(FileUtil.getPath(prefsDir));
 					selectedConfig = FileUtil.readTextFromFile(configFile)[0];
 					if(webcamConfigExists(selectedConfig)) {
 						selectCam(selectedConfig);
@@ -274,7 +274,7 @@ implements IUIButtonDelegate {
 		
 		// if we had a selected config from file, store it on click!
 		if(configId != null) {
-			FileUtil.createDir(FileUtil.getFile(prefsDir));
+			FileUtil.createDir(FileUtil.getPath(prefsDir));
 			FileUtil.writeTextToFile(configFile, selectedConfig);
 		}
 	}

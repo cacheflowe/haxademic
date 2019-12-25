@@ -61,7 +61,7 @@ public class KinectRoomScanDiff {
 		PG.setTextureRepeat(resultLerped, false);
 		PG.setTextureRepeat(resultSmoothed, false);
 
-		colorDistanceFilter = P.p.loadShader(FileUtil.getFile("haxademic/shaders/filters/color-distance-two-textures.glsl"));
+		colorDistanceFilter = P.p.loadShader(FileUtil.getPath("haxademic/shaders/filters/color-distance-two-textures.glsl"));
 		
 		reset();
 	}

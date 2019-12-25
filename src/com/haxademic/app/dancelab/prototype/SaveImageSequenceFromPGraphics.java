@@ -45,7 +45,7 @@ extends PAppletHax {
 		buffer = p.createGraphics(p.width, p.height, P.P2D);
 		copyImg = p.createImage(buffer.width, buffer.height, P.RGB);
 
-		movie = new Movie(this, FileUtil.getFile("video/dancelab/015.mov")); 
+		movie = new Movie(this, FileUtil.getPath("video/dancelab/015.mov")); 
 		movie.play();
 		movie.loop();
 		movie.speed(1.0f);

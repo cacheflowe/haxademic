@@ -101,7 +101,7 @@ implements IAppStoreListener {
 		channelInput.filter(ValidateUtil.NOT_NUMERIC);
 
 		// load text config
-		textConfigPath = FileUtil.getFile(configPath);
+		textConfigPath = FileUtil.getPath(configPath);
 		if(FileUtil.fileExists(textConfigPath)) {
 			loadLightsConfig();
 		}

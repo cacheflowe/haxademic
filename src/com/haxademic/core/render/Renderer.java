@@ -5,9 +5,9 @@ import java.io.IOException;
 import javax.sound.midi.InvalidMidiDataException;
 
 import com.haxademic.core.app.P;
-import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
+import com.haxademic.core.data.constants.PEvents;
 import com.haxademic.core.data.store.IAppStoreListener;
 import com.haxademic.core.debug.DebugUtil;
 import com.haxademic.core.draw.context.PG;
@@ -156,10 +156,10 @@ implements IAppStoreListener {
 	////////////////////////////
 	
 	public void updatedNumber(String key, Number val) {
-		if(key.equals(PAppletHax.DRAW_PRE)) {
+		if(key.equals(PEvents.DRAW_PRE)) {
 			handleRenderingStepthrough();
 			if( joons != null ) joons.startFrame();
-		} else if(key.equals(PAppletHax.DRAW_POST)) {
+		} else if(key.equals(PEvents.DRAW_POST)) {
 			if( joons != null ) {
 				joons.endFrame( Config.getBoolean(AppSettings.SUNFLOW_SAVE_IMAGES, false) == true );
 				// TODO: unset Joons context  

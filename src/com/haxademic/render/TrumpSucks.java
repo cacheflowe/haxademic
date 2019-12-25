@@ -42,14 +42,14 @@ extends PAppletHax {
 	public void firstFrame() {
 
 		
-		img2 = ImageUtil.imageToGraphics(p.loadImage(FileUtil.getFile("images/trmp-fuck.png")));
-		img1 = ImageUtil.imageToGraphics(p.loadImage(FileUtil.getFile("images/trmp-trmp.png")));
+		img2 = ImageUtil.imageToGraphics(p.loadImage(FileUtil.getPath("images/trmp-fuck.png")));
+		img1 = ImageUtil.imageToGraphics(p.loadImage(FileUtil.getPath("images/trmp-trmp.png")));
 
 		buffer = ImageUtil.imageToGraphics(img1);
 		buffer.smooth(8);
 		
 //		transitionShader = p.loadShader(FileUtil.getFile("haxademic/shaders/transitions/circle-open.glsl"));
-		transitionShader = p.loadShader(FileUtil.getFile("haxademic/shaders/transitions/directional-wipe.glsl"));
+		transitionShader = p.loadShader(FileUtil.getPath("haxademic/shaders/transitions/directional-wipe.glsl"));
 //		transitionShader = p.loadShader(FileUtil.getFile("haxademic/shaders/transitions/warp-fade.glsl"));
 //		transitionShader = p.loadShader(FileUtil.getFile("haxademic/shaders/transitions/morph.glsl"));
 //		transitionShader = p.loadShader(FileUtil.getFile("haxademic/shaders/transitions/swap.glsl"));

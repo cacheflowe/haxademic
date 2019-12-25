@@ -79,8 +79,8 @@ extends PAppletHax {
 		p.smooth();
 		
 		// load image and configure size
-		img = p.loadImage(FileUtil.getFile("images/_grovemural_08-26-15.jpg"));
-		imgGroupMap = p.loadImage(FileUtil.getFile("images/_grovemural_08-24-15_map.jpg"));
+		img = p.loadImage(FileUtil.getPath("images/_grovemural_08-26-15.jpg"));
+		imgGroupMap = p.loadImage(FileUtil.getPath("images/_grovemural_08-24-15_map.jpg"));
 		svgDirectories = new String[]{"svg/bw15/level3/", "svg/bw15/level2/", "svg/bw15/level1/"};
 		svgGroupMapColors = new int[]{ColorUtil.colorFromHex("#000000"), ColorUtil.colorFromHex("#808080"), ColorUtil.colorFromHex("#ffffff")};
 		imagePrintWidth = 20.25f;

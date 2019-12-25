@@ -27,7 +27,7 @@ extends PAppletHax {
 		base = DemoAssets.textureJupiter();
 		mapSource = DemoAssets.textureNebula();
 		map = p.createGraphics(p.width, p.height, PRenderers.P3D);
-		texShader = loadShader(FileUtil.getFile("haxademic/shaders/filters/displacement-map.glsl"));
+		texShader = loadShader(FileUtil.getPath("haxademic/shaders/filters/displacement-map.glsl"));
 	}
 
 	public void drawApp() {

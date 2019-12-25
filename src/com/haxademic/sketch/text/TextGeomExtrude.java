@@ -38,7 +38,7 @@ extends PAppletHax {
 		RG.init(this);
 		toxi = new ToxiclibsSupport( this );
 
-		font = new RFont( FileUtil.getFile("fonts/bitlow.ttf"), 200, RFont.CENTER);
+		font = new RFont( FileUtil.getPath("fonts/bitlow.ttf"), 200, RFont.CENTER);
 //		buildToxiMesh3D();
 		buildToxiMesh();
 	}

@@ -31,7 +31,7 @@ public class ParticleLauncherGPU {
 		positionBufferSize = size;
 		// build random particle placement shader
 //		positionShader = P.p.loadShader(FileUtil.getFile("haxademic/shaders/point/particle-launcher-frag.glsl"));
-		positionShaderHotSwap = new PShaderHotSwap(FileUtil.getFile("haxademic/shaders/point/particle-launcher-frag.glsl"));
+		positionShaderHotSwap = new PShaderHotSwap(FileUtil.getPath("haxademic/shaders/point/particle-launcher-frag.glsl"));
 
 		
 		// create texture to store positions
@@ -55,8 +55,8 @@ public class ParticleLauncherGPU {
 		// load shader
 //		particlesRenderShader = P.p.loadShader(
 		particlesRenderHotSwap = new PShaderHotSwap(
-			FileUtil.getFile("haxademic/shaders/point/particle-launcher-vert.glsl"),
-			FileUtil.getFile("haxademic/shaders/point/points-default-frag.glsl")
+			FileUtil.getPath("haxademic/shaders/point/particle-launcher-vert.glsl"),
+			FileUtil.getPath("haxademic/shaders/point/points-default-frag.glsl")
 		);
 	}
 	

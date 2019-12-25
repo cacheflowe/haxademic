@@ -67,7 +67,7 @@ extends PAppletHax {
 	protected void drawText() {
 		// create buffer & font
 		textBuffer = p.createGraphics(p.width, p.height, PRenderers.P2D);
-		fontBig = p.createFont(FileUtil.getFile("fonts/_sketch/HelveticaNeueLTStd-Blk.ttf"), 100);
+		fontBig = p.createFont(FileUtil.getPath("fonts/_sketch/HelveticaNeueLTStd-Blk.ttf"), 100);
 		
 		// create cropped texts
 		textsCropped = new PImage[] {

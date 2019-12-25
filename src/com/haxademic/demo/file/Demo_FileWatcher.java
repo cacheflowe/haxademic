@@ -15,7 +15,7 @@ implements IWatchDirListener {
 	protected WatchDir watchDir;
 	
 	public void firstFrame() {
-		watchDir = new WatchDir(FileUtil.getFile("images"), true, this);
+		watchDir = new WatchDir(FileUtil.getPath("images"), true, this);
 	}
 
 	public void drawApp() {

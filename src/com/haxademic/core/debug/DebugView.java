@@ -3,6 +3,7 @@ package com.haxademic.core.debug;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import com.haxademic.core.app.AppWindow;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
@@ -139,7 +140,7 @@ public class DebugView {
 		runtimeSeconds = runtimeSeconds % DateUtil.dayInSeconds;
 		setValue("Uptime", daysStr + DateUtil.timeFromSeconds(runtimeSeconds, true));
 		setValue(TITLE_PREFIX + " APP", "");
-		setValue("alwaysOnTop", ""+P.p.alwaysOnTop());
+		setValue("alwaysOnTop", ""+AppWindow.instance().alwaysOnTop());
 		setValue("width", ""+P.p.width);
 		setValue("height", ""+P.p.height);
 		setValue(TITLE_PREFIX + " PERFORMANCE", "");
@@ -208,8 +209,7 @@ public class DebugView {
 			    String imageName = item.getKey();
 			    PImage image = item.getValue();
 			    if(imageName != null && image != null) {
-					drawTextLine(imageName + "( " + image.width + " x " + image.height + " )", true);
-					drawImage(image);
+					drawImage(imageName, image);
 			    }
 			}
 		}
@@ -238,7 +238,7 @@ public class DebugView {
 		if(controlY > P.p.height - controlH) nextCol();
 	}
 	
-	protected void drawImage(PImage image) {
+	protected void drawImage(String imageName, PImage image) {
     	// scale to fit
 		float padding = 10;
 		float imgScale = MathUtil.scaleToTarget(image.width, IUIControl.controlW);
@@ -247,8 +247,11 @@ public class DebugView {
 		
 		// if not enough room, move to next col
 		if(controlY + texH > P.p.height) nextCol();
-		
-		// draw!
+
+		// draw title
+		drawTextLine(imageName + "( " + image.width + " x " + image.height + " )", true);
+
+		// draw image
 		p.fill(P.p.color(ColorsHax.BUTTON_BG, BG_ALPHA));
 		p.rect(controlX, controlY, IUIControl.controlW, texH);
 		p.image(image, controlX + padding, controlY + padding, texW - padding * 2, texH - padding * 2);

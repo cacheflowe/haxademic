@@ -105,7 +105,7 @@ extends PAppletHax {
 //		mainBuffer.noSmooth();
 		rdBuffer = p.createGraphics(P.round(1920 * scaleDown), P.round(1080 * scaleDown), PRenderers.P3D);
 //		rdBuffer.noSmooth();
-		keystone = new PGraphicsKeystone(p, mainBuffer, 10, FileUtil.getFile("text/keystoning/silhouect.txt"));
+		keystone = new PGraphicsKeystone(p, mainBuffer, 10, FileUtil.getPath("text/keystoning/silhouect.txt"));
 		
 		// init kinect
 		if(P.platform == P.MACOSX) {
@@ -119,7 +119,7 @@ extends PAppletHax {
 		}
 		
 		// init instructions/slideshow
-		String imagesPath = FileUtil.getFile("images/silhouect/slideshow");
+		String imagesPath = FileUtil.getPath("images/silhouect/slideshow");
 		ArrayList<String> files = FileUtil.getFilesInDirOfTypes(imagesPath, "png,jpg");
 		slideshow = new ArrayList<PGraphics>();
 		for (int i = 0; i < files.size(); i++) {
@@ -138,7 +138,7 @@ extends PAppletHax {
 		}
 		
 		// load sponsor image if it exists
-		String sponsorImgPath = FileUtil.getFile("images/silhouect/sponsor.png");
+		String sponsorImgPath = FileUtil.getPath("images/silhouect/sponsor.png");
 		if(FileUtil.fileExists(sponsorImgPath)) {
 			sponsorImg = p.loadImage(sponsorImgPath);
 		}

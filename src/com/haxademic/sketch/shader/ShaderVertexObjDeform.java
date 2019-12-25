@@ -60,7 +60,7 @@ extends PAppletHax {
 		
 		// create geometry
 		if(_is3d == true) {
-			obj = p.loadShape( FileUtil.getFile("models/unicorn-head-lowpoly.obj"));
+			obj = p.loadShape( FileUtil.getPath("models/unicorn-head-lowpoly.obj"));
 			obj = obj.getTessellation();
 			PShapeUtil.scaleShapeToExtent(obj, p.height * 0.25f);
 			float modelExtent = PShapeUtil.getMaxExtent(obj);

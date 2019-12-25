@@ -34,7 +34,7 @@ extends PAppletHax {
 		DepthCamera.instance(DepthCameraType.KinectV1);
 		kinectDiff = new KinectRoomScanDiff(DepthCamera.instance().camera);
 		mappedKinectBuffer = PG.newPG(pg.width, pg.height);
-		mappedKinectKeystone = new PGraphicsKeystone( p, kinectDiff.resultSmoothed(), 12, FileUtil.getFile("text/keystoning/keystone-kinect.txt") );
+		mappedKinectKeystone = new PGraphicsKeystone( p, kinectDiff.resultSmoothed(), 12, FileUtil.getPath("text/keystoning/keystone-kinect.txt") );
 
 	}
 	

@@ -40,8 +40,8 @@ extends PAppletHax {
 		tracerstarShader = p.loadShader(
 //			FileUtil.getFile("haxademic/shaders/vertex/tracerstar-texture-frag.glsl"), 
 //			FileUtil.getFile("haxademic/shaders/vertex/tracerstar-texture-vert.glsl")
-			FileUtil.getFile("haxademic/shaders/vertex/tracerstar-vertcolor-frag.glsl"), 
-			FileUtil.getFile("haxademic/shaders/vertex/tracerstar-vertcolor-vert.glsl")
+			FileUtil.getPath("haxademic/shaders/vertex/tracerstar-vertcolor-frag.glsl"), 
+			FileUtil.getPath("haxademic/shaders/vertex/tracerstar-vertcolor-vert.glsl")
 		);
 	}
 

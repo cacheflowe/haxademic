@@ -9,9 +9,9 @@ extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
 	public void firstFrame() {
-		P.out(FileUtil.getFileSize(FileUtil.getFile("haxademic/video/fractal-cube.mp4")));
-		P.out(FileUtil.getFileSize(FileUtil.getFile("haxademic/images/smiley.png")));
-		P.out(FileUtil.getFileSize(FileUtil.getFile("haxademic/svg/x.svg")));
+		P.out(FileUtil.getFileSize(FileUtil.getPath("haxademic/video/fractal-cube.mp4")));
+		P.out(FileUtil.getFileSize(FileUtil.getPath("haxademic/images/smiley.png")));
+		P.out(FileUtil.getFileSize(FileUtil.getPath("haxademic/svg/x.svg")));
 	}
 
 	public void drawApp() {

@@ -106,7 +106,7 @@ extends PAppletHax
 		pgBg = PG.newPG(pg.width, pg.height);
 		
 		// keystone the off-screen buffer
-		pgKeystone = new PGraphicsKeystone(p, pg, 12, FileUtil.getFile("text/keystone-slideshow.txt"));
+		pgKeystone = new PGraphicsKeystone(p, pg, 12, FileUtil.getPath("text/keystone-slideshow.txt"));
 		pgKeystone.setActive(DEBUG_MODE);
 	}
 	

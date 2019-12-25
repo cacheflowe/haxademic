@@ -15,7 +15,7 @@ extends PAppletHax {
 	
 	public void firstFrame() {
 //		shader = new PShaderHotSwap(FileUtil.getFile("haxademic/shaders/textures/cacheflowe-triangle-wobble-stairs.glsl"));	
-		shader = new PShaderHotSwap(FileUtil.getFile("haxademic/shaders/textures/truchet-tooth.glsl"));	
+		shader = new PShaderHotSwap(FileUtil.getPath("haxademic/shaders/textures/truchet-tooth.glsl"));	
 //		shader = new PShaderHotSwap(FileUtil.getFile("haxademic/shaders/textures/cacheflowe-stripe-waves.glsl"));	
 	}
 	

@@ -42,10 +42,10 @@ extends PAppletHax {
 		OpenGLUtil.setTextureQualityHigh(buffer);
 		
 		// map it
-		pgKeystone = new PGraphicsKeystone(p, buffer, 12, FileUtil.getFile("text/keystoning/keystone-mapped-shader.txt") );
+		pgKeystone = new PGraphicsKeystone(p, buffer, 12, FileUtil.getPath("text/keystoning/keystone-mapped-shader.txt") );
 		
 		// load a shader
-		textureShader = p.loadShader(FileUtil.getFile("haxademic/shaders/textures/cacheflowe-down-void.glsl"));
+		textureShader = p.loadShader(FileUtil.getPath("haxademic/shaders/textures/cacheflowe-down-void.glsl"));
 	}
 	
 	public void drawApp() {

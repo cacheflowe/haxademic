@@ -23,7 +23,7 @@ public class BufferFrameDifference {
 		frame1 = P.p.createGraphics(w, h, PRenderers.P2D);
 		frame2 = P.p.createGraphics(w, h, PRenderers.P2D);
 		differenceBuffer = P.p.createGraphics(w, h, PRenderers.P2D);
-		differenceShader = P.p.loadShader(FileUtil.getFile("haxademic/shaders/filters/texture-difference-threshold.glsl"));
+		differenceShader = P.p.loadShader(FileUtil.getPath("haxademic/shaders/filters/texture-difference-threshold.glsl"));
 	}
 	
 	public PGraphics differenceBuffer() {

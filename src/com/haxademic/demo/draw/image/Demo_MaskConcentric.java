@@ -60,7 +60,7 @@ extends PAppletHax {
 		for (int i = 0; i < numCircles; i++) {
 			shadows[i] = PG.newPG(p.width, p.height);
 		}
-		colorTransformShader = p.loadShader(FileUtil.getFile("haxademic/shaders/filters/opaque-pixels-to-color.glsl"));
+		colorTransformShader = p.loadShader(FileUtil.getPath("haxademic/shaders/filters/opaque-pixels-to-color.glsl"));
 	}
 
 	public void updateMaskedImages(PImage source) {

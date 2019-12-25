@@ -66,8 +66,8 @@ extends PAppletHax {
 		
 		// load shader
 		pointsTexturedShader = loadShader(
-			FileUtil.getFile("haxademic/shaders/point/points-default-frag.glsl"), 
-			FileUtil.getFile("haxademic/shaders/point/points-interp-shapes-vert.glsl")
+			FileUtil.getPath("haxademic/shaders/point/points-default-frag.glsl"), 
+			FileUtil.getPath("haxademic/shaders/point/points-interp-shapes-vert.glsl")
 		);
 
 		// clear the screen

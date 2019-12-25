@@ -42,10 +42,10 @@ extends PAppletHax {
 		mouseBuffer = p.createGraphics(p.width, p.height, PRenderers.P3D);
 		mouseBuffer.smooth(8);
 		mouseBuffer.beginDraw(); mouseBuffer.background(0); mouseBuffer.endDraw();
-		mouseShader = loadShader(FileUtil.getFile("haxademic/shaders/interactive/mouse-speed.glsl"));
+		mouseShader = loadShader(FileUtil.getPath("haxademic/shaders/interactive/mouse-speed.glsl"));
 		feedbackBuffer = p.createGraphics(p.width, p.height, PRenderers.P3D);
 		feedbackBuffer.smooth(8);
-		feedbackShader = loadShader(FileUtil.getFile("haxademic/shaders/interactive/mouse-speed-feedback-map.glsl"));
+		feedbackShader = loadShader(FileUtil.getPath("haxademic/shaders/interactive/mouse-speed-feedback-map.glsl"));
 	}
 	
 	protected void blurMap(PGraphics buffer) {

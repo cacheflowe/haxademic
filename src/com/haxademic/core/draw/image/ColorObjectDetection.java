@@ -40,7 +40,7 @@ public class ColorObjectDetection {
 		analysisBuffer = P.p.createGraphics(bufferW, bufferH, PRenderers.P2D);
 		source.noSmooth();
 		analysisBuffer.noSmooth();
-		colorDistanceFilter = P.p.loadShader(FileUtil.getFile("haxademic/shaders/filters/color-distance.glsl"));
+		colorDistanceFilter = P.p.loadShader(FileUtil.getPath("haxademic/shaders/filters/color-distance.glsl"));
 		setColorCompare(1f, 1f, 1f);
 	}
 	

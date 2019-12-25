@@ -54,7 +54,7 @@ extends PAppletHax {
 		
 		builtGradientTextureLoop();
 		
-		maskShader = loadShader(FileUtil.getFile("haxademic/shaders/filters/three-texture-map-opacity-fade.glsl"));
+		maskShader = loadShader(FileUtil.getPath("haxademic/shaders/filters/three-texture-map-opacity-fade.glsl"));
 
 	}
 

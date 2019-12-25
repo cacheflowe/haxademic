@@ -133,7 +133,7 @@ extends PAppletHax {
 		PG.setTextureRepeat(pgPost, true);
 		
 		tower = P.getImage("images/_sketch/clocktower/clocktower.png");
-		template = p.loadShape( FileUtil.getFile("images/_sketch/clocktower/clocktower.svg"));
+		template = p.loadShape( FileUtil.getPath("images/_sketch/clocktower/clocktower.svg"));
 		windows = new WindowObj[template.getChildCount()];
 		
 		buildUI();

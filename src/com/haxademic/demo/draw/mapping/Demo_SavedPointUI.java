@@ -17,7 +17,7 @@ extends PAppletHax {
 	public void firstFrame() {
 		savedPoints = new SavedPointUI[20];
 		for (int i = 0; i < savedPoints.length; i++) {
-			savedPoints[i] = new SavedPointUI(0, 0, FileUtil.getFile("text/keystoning/points-demo"+i+".txt"));
+			savedPoints[i] = new SavedPointUI(0, 0, FileUtil.getPath("text/keystoning/points-demo"+i+".txt"));
 		}
 	}
 	

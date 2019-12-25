@@ -33,12 +33,12 @@ extends PAppletHax { public static void main(String args[]) { arguments = args; 
 	
 		// oad samples
 		loops = new AudioPlayerMinim[] {
-				new AudioPlayerMinim(minim, FileUtil.getFile("audio/crusher-loops/kicks.wav")),
-				new AudioPlayerMinim(minim, FileUtil.getFile("audio/crusher-loops/snares.wav")),
-				new AudioPlayerMinim(minim, FileUtil.getFile("audio/crusher-loops/bass-selekta.wav")),
-				new AudioPlayerMinim(minim, FileUtil.getFile("audio/crusher-loops/fnc-01.wav")),
-				new AudioPlayerMinim(minim, FileUtil.getFile("audio/crusher-loops/fx05.wav")),
-				new AudioPlayerMinim(minim, FileUtil.getFile("audio/crusher-loops/contender.wav")),
+				new AudioPlayerMinim(minim, FileUtil.getPath("audio/crusher-loops/kicks.wav")),
+				new AudioPlayerMinim(minim, FileUtil.getPath("audio/crusher-loops/snares.wav")),
+				new AudioPlayerMinim(minim, FileUtil.getPath("audio/crusher-loops/bass-selekta.wav")),
+				new AudioPlayerMinim(minim, FileUtil.getPath("audio/crusher-loops/fnc-01.wav")),
+				new AudioPlayerMinim(minim, FileUtil.getPath("audio/crusher-loops/fx05.wav")),
+				new AudioPlayerMinim(minim, FileUtil.getPath("audio/crusher-loops/contender.wav")),
 		};
 		
 		knobs = new int[] {

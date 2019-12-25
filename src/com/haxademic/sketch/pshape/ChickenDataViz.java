@@ -34,7 +34,7 @@ extends PAppletHax {
 
 	protected void firstFrame() {
 		// build obj PShape and scale to window
-		obj = p.loadShape( FileUtil.getFile("models/poly/chicken/Chicken_01.obj"));
+		obj = p.loadShape( FileUtil.getPath("models/poly/chicken/Chicken_01.obj"));
 		
 		// normalize model
 		PShapeUtil.meshRotateOnAxis(obj, P.PI, P.Z);

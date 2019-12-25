@@ -35,7 +35,7 @@ extends PAppletHax {
 		
 		int fontSize = 100;
 //		PFont font = p.createFont( FileUtil.getFile("fonts/bitlow.ttf"), fontSize );
-		PFont font = p.createFont( FileUtil.getFile("fonts/HelveticaNeueLTStd-Blk.ttf"), fontSize );
+		PFont font = p.createFont( FileUtil.getPath("fonts/HelveticaNeueLTStd-Blk.ttf"), fontSize );
 		fitText = new FitTextBuffer(font, p.color(127));
 		fitText.updateText("HEYO00");
 	}

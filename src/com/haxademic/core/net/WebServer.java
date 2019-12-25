@@ -97,7 +97,7 @@ public class WebServer {
 		// Migrate to pkcs12
 		// $ keytool -importkeystore -srckeystore selfsigned.jks -destkeystore selfsigned.jks -deststoretype pkcs12
 		SslContextFactory.Server ssl = new SslContextFactory.Server();
-	    ssl.setKeyStorePath(FileUtil.getFile("haxademic/net/config/haxademic-selfsigned.jks"));
+	    ssl.setKeyStorePath(FileUtil.getPath("haxademic/net/config/haxademic-selfsigned.jks"));
 	    ssl.setKeyStorePassword("haxademic");
 	    ssl.setKeyManagerPassword("haxademic");
 	    ssl.setKeyStoreType("PKCS12"); // "JKS" if not migrated

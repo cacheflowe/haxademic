@@ -52,7 +52,7 @@ extends PAppletHax {
 		
 		canvas = p.createGraphics(p.width/2, p.height/2, P.P3D);
 		ssaoBuffer = p.createGraphics(p.width/2, p.height/2, P.P2D);
-		ssao = p.loadShader(FileUtil.getFile("haxademic/shaders/filters/ssao-test.glsl"));
+		ssao = p.loadShader(FileUtil.getPath("haxademic/shaders/filters/ssao-test.glsl"));
 	}
 	
 	protected void drawShapes() {

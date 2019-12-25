@@ -76,7 +76,7 @@ extends PAppletHax {
 		
 		// make 3d text
 		textToPShape = new TextToPShape(TextToPShape.QUALITY_HIGH);
-		String fontFile = FileUtil.getFile("fonts/_sketch/GeometricBlack.ttf");
+		String fontFile = FileUtil.getPath("fonts/_sketch/GeometricBlack.ttf");
 		float textDepth = 80;
 		float textHeight = p.height * 0.09f;
 		

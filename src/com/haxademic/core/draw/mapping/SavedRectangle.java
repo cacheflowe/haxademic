@@ -27,7 +27,7 @@ public class SavedRectangle {
 
 	public SavedRectangle(String id, boolean draggable) {
 		// create config text file with default coords
-		savedFile = new ConfigTextFile(FileUtil.getFile("text/rectangles/"+id+".txt"), "0,0,100,100");
+		savedFile = new ConfigTextFile(FileUtil.getPath("text/rectangles/"+id+".txt"), "0,0,100,100");
 		String[] coords = savedFile.getSingleLineCSV();
 		
 		// build rectangle from text config

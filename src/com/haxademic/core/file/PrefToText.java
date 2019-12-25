@@ -9,8 +9,8 @@ public class PrefToText {
 	// common 
 	
 	public static String getFilePath(String key) {
-		FileUtil.createDir(FileUtil.getFile("text" + File.separator + "prefs"));
-		return FileUtil.getFile("text" + File.separator + "prefs" + File.separator + key + ".txt");
+		FileUtil.createDir(FileUtil.getPath("text" + File.separator + "prefs"));
+		return FileUtil.getPath("text" + File.separator + "prefs" + File.separator + key + ".txt");
 	}
 	
 	// setters

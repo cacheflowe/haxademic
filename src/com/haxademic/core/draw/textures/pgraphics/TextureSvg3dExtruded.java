@@ -129,7 +129,7 @@ extends BaseTexture {
 //		logo3d.setTexture(curMeshTexture);
 		
 		// create points version
-		logoPoints = PShapeUtil.svgToUniformPointsShape(FileUtil.getFile(DemoAssets.shapeXPath), 4);
+		logoPoints = PShapeUtil.svgToUniformPointsShape(FileUtil.getPath(DemoAssets.shapeXPath), 4);
 //		logoPoints = PShapeUtil.createExtrudedShape( logoSvg, thickness );
 		PShapeUtil.scaleShapeToHeight(logoPoints, shapeHeight);
 		PShapeUtil.centerShape(logoPoints);

@@ -80,7 +80,7 @@ extends PAppletHax {
 	protected void initAudioPlayer() {
 		player = new WavPlayer(); // WavPlayer.newAudioContext()
 		AudioIn.instance(new AudioInputBeads(player.context()));
-		player.loopWav(FileUtil.getFile(audioTrack));		
+		player.loopWav(FileUtil.getPath(audioTrack));		
 	}
 	
 	//////////////////////
@@ -133,7 +133,7 @@ extends PAppletHax {
 	public void drawApp() {
 		// set context
 		background(0);
-		player.setVolume(FileUtil.getFile(audioTrack), 0.99f);
+		player.setVolume(FileUtil.getPath(audioTrack), 0.99f);
 		
 		// input
 		simulateMidiAndBeats();

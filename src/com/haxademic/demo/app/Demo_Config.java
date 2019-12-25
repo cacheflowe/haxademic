@@ -10,7 +10,7 @@ extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
 	protected void config() {
-		Config.loadPropertiesFile(FileUtil.getFile("properties/haxvisual.properties"));
+		Config.loadPropertiesFile(FileUtil.getPath("properties/haxvisual.properties"));
 		Config.setProperty( AppSettings.SHOW_DEBUG, true );
 		Config.setProperty( AppSettings.SHOW_FPS_IN_TITLE, true );
 	}

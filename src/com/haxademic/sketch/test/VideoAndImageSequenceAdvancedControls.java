@@ -23,8 +23,8 @@ extends PAppletHax {
 
 	public void firstFrame() {
 		
-		movie = new Movie( p, FileUtil.getFile("video/cacheflowe/render-2015-04-23-13-38-17-export.mp4"));
-		imageSequence = new ImageSequenceMovieClip(FileUtil.getFile("images/floaty-blob.anim/"), "png", 18);
+		movie = new Movie( p, FileUtil.getPath("video/cacheflowe/render-2015-04-23-13-38-17-export.mp4"));
+		imageSequence = new ImageSequenceMovieClip(FileUtil.getPath("images/floaty-blob.anim/"), "png", 18);
 	}
 
 	public void drawApp() {

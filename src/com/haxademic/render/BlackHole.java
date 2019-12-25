@@ -52,10 +52,10 @@ extends PAppletHax {
 	
 	protected void initImages() {
 		images = new PImage[] {
-				p.loadImage(FileUtil.getFile("images/black-holes/2014-06-11-black.jpg")),
-				p.loadImage(FileUtil.getFile("images/black-holes/15084150039_299e5e4ed6_o.jpg")),
-				p.loadImage(FileUtil.getFile("images/black-holes/behemoth_blackhole.jpg")),
-				p.loadImage(FileUtil.getFile("images/black-holes/BlackHole.jpg"))
+				p.loadImage(FileUtil.getPath("images/black-holes/2014-06-11-black.jpg")),
+				p.loadImage(FileUtil.getPath("images/black-holes/15084150039_299e5e4ed6_o.jpg")),
+				p.loadImage(FileUtil.getPath("images/black-holes/behemoth_blackhole.jpg")),
+				p.loadImage(FileUtil.getPath("images/black-holes/BlackHole.jpg"))
 		};
 		
 		buffers = new PGraphics[4];

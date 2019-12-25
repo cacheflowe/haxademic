@@ -30,8 +30,8 @@ extends PAppletHax {
 
 	public void firstFrame() {
 		
-		_movie = new Movie( p, FileUtil.getFile("video/nike/nike-hike-gray-loop.mov") );
-		_movieColor = new Movie( p, FileUtil.getFile("video/nike/nike-hike-color-loop.mov") );
+		_movie = new Movie( p, FileUtil.getPath("video/nike/nike-hike-gray-loop.mov") );
+		_movieColor = new Movie( p, FileUtil.getPath("video/nike/nike-hike-color-loop.mov") );
 
 		_movie.jump(0);
 		_movie.loop();
@@ -44,7 +44,7 @@ extends PAppletHax {
 		_maskImage = createGraphics(p.width, p.height, P2D);
 		_maskImage.noSmooth();
 
-		_maskShader = loadShader(FileUtil.getFile("haxademic/shaders/filters/mask.glsl"));
+		_maskShader = loadShader(FileUtil.getPath("haxademic/shaders/filters/mask.glsl"));
 		_maskShader.set("mask", _maskImage);
 
 

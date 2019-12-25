@@ -48,7 +48,7 @@ extends BaseTexture {
 		_wordIndex = MathUtil.randRange( 0, _words.size() );
 
 		// load font
-		textFont = P.p.createFont(FileUtil.getFile("fonts/OhmegaSans-Regular.ttf"), height * 0.150f);
+		textFont = P.p.createFont(FileUtil.getPath("fonts/OhmegaSans-Regular.ttf"), height * 0.150f);
 	}
 	
 	public void newLineMode() {

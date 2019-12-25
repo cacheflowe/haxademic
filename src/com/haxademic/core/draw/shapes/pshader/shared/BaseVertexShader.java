@@ -12,7 +12,7 @@ public class BaseVertexShader {
 	protected float time;
 
 	public BaseVertexShader(PApplet p, String shaderFragPath, String shaderVertPath) {
-		shader = p.loadShader(FileUtil.getFile(shaderFragPath), FileUtil.getFile(shaderVertPath));
+		shader = p.loadShader(FileUtil.getPath(shaderFragPath), FileUtil.getPath(shaderVertPath));
 		setTime(0);
 	}
 	

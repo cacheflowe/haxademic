@@ -114,7 +114,7 @@ extends PAppletHax {
 		mainBuffer = p.createGraphics(1920, 1080, PRenderers.P2D);
 		cameraBuffer = p.createGraphics(1920, 1080, PRenderers.P2D);
 		shapesLayer = P.p.createGraphics(1920, 1080, PRenderers.P3D);
-		keystone = new PGraphicsKeystone(p, mainBuffer, 10, FileUtil.getFile("text/keystoning/partycles.txt"));
+		keystone = new PGraphicsKeystone(p, mainBuffer, 10, FileUtil.getPath("text/keystoning/partycles.txt"));
 		
 		// camera/kinect
 		kinectSilhouetteSmoothed = new KinectDepthSilhouetteSmoothed(DepthCamera.instance().camera, 6);
@@ -143,7 +143,7 @@ extends PAppletHax {
 		};
 		
 		// load sponsor image if it exists
-		String sponsorImgPath = FileUtil.getFile("images/partycles/sponsor.png");
+		String sponsorImgPath = FileUtil.getPath("images/partycles/sponsor.png");
 		if(FileUtil.fileExists(sponsorImgPath)) {
 			sponsorImg = p.loadImage(sponsorImgPath);
 		}

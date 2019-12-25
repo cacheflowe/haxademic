@@ -24,13 +24,13 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.HEIGHT, 282 );
 		Config.setProperty( AppSettings.SMOOTHING, AppSettings.SMOOTH_HIGH );
 		Config.setProperty( AppSettings.RENDERING_MOVIE, true );
-		Config.setProperty( AppSettings.RENDER_AUDIO_FILE, FileUtil.getFile("audio/cacheflowe_bigger_loop_padded.wav") );
+		Config.setProperty( AppSettings.RENDER_AUDIO_FILE, FileUtil.getPath("audio/cacheflowe_bigger_loop_padded.wav") );
 	}
 
 	public void firstFrame() {
 
 		p.noStroke();
-		backgroundImg = p.loadImage(FileUtil.getFile("images/computers/billboard-advertising.jpg"));
+		backgroundImg = p.loadImage(FileUtil.getPath("images/computers/billboard-advertising.jpg"));
 		waveform = p.createGraphics(300, 120, P.P2D);
 		waveform.smooth(AppSettings.SMOOTH_HIGH);
 	}

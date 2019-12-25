@@ -32,20 +32,20 @@ extends PAppletHax {
 
 	protected void firstFrame() {
 		// earth
-		objEarth = p.loadShape( FileUtil.getFile("models/poly/earth/Earth.obj"));
+		objEarth = p.loadShape( FileUtil.getPath("models/poly/earth/Earth.obj"));
 		PShapeUtil.centerShape(objEarth);
 		PShapeUtil.meshFlipOnAxis(objEarth, P.Y);
 		PShapeUtil.scaleShapeToHeight(objEarth, p.height * 0.5f);
 
 		// toilet
-		objToilet = p.loadShape( FileUtil.getFile("models/poly/toilet/Toilet_01.obj"));
+		objToilet = p.loadShape( FileUtil.getPath("models/poly/toilet/Toilet_01.obj"));
 		PShapeUtil.centerShape(objToilet);
 		PShapeUtil.meshFlipOnAxis(objToilet, P.Y);
 		PShapeUtil.scaleShapeToHeight(objToilet, p.height * 1.3f);
 		PShapeUtil.meshRotateOnAxis(objToilet, -P.HALF_PI, P.Y);
 
 		// ptp
-		objTP = p.loadShape( FileUtil.getFile("models/poly/toilet-paper/toilet-paper.obj"));
+		objTP = p.loadShape( FileUtil.getPath("models/poly/toilet-paper/toilet-paper.obj"));
 		PShapeUtil.centerShape(objTP);
 		PShapeUtil.scaleShapeToHeight(objTP, p.height * 0.1f);
 	}

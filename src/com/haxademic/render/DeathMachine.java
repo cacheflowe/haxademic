@@ -48,22 +48,22 @@ extends PAppletHax {
 		P.println("America the Indefensible");
 		// load texture
 //		flag = p.loadImage(FileUtil.getFile("images/usa.png"));
-		img = p.loadImage(FileUtil.getFile("images/las-vegas-victims-nbcnews.png"));
+		img = p.loadImage(FileUtil.getPath("images/las-vegas-victims-nbcnews.png"));
 		gunTexture = p.createGraphics(img.width * 3, img.width * 3, P.P3D);
 		gunTexture.smooth(8);
 		gunTilingTexture = new TiledTexture(img);
 		
 		
 		// build obj PShape and scale to window
-		skullMesh = p.loadShape( FileUtil.getFile("models/skull-realistic.obj"));	
-		gunMesh = p.loadShape( FileUtil.getFile("models/m4a1.obj"));	
+		skullMesh = p.loadShape( FileUtil.getPath("models/skull-realistic.obj"));	
+		gunMesh = p.loadShape( FileUtil.getPath("models/m4a1.obj"));	
 		normalizeMesh(skullMesh, p.height * 0.03f, null); // 
 		normalizeMesh(gunMesh, p.height, gunTexture);
 		
 		// build texts
 		float textDepth = 14f;
 		textToPShape = new TextToPShape();
-		String fontFile = FileUtil.getFile("fonts/AvantGarde-Book.ttf");
+		String fontFile = FileUtil.getPath("fonts/AvantGarde-Book.ttf");
 		textAmerica = textToPShape.stringToShape3d("AMERICA", textDepth, fontFile);
 		PShapeUtil.scaleShapeToMaxAbsY(textAmerica, p.height * 0.068f);
 		textThe = textToPShape.stringToShape3d("THE", textDepth, fontFile);

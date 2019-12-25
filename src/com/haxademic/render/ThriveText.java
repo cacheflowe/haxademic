@@ -49,7 +49,7 @@ extends PAppletHax {
 	public void firstFrame() {
 
 		
-		textImg = ImageUtil.imageToGraphics(p.loadImage(FileUtil.getFile("images/thrive-text.png")));
+		textImg = ImageUtil.imageToGraphics(p.loadImage(FileUtil.getPath("images/thrive-text.png")));
 
 		stripesBuffer1 = p.createGraphics(p.width, p.height, P.P3D);
 		stripesBuffer1.smooth(8);
@@ -61,9 +61,9 @@ extends PAppletHax {
 		
 		tiledImg = new TiledTexture(textImg);
 		
-		maskShader = loadShader(FileUtil.getFile("haxademic/shaders/filters/three-texture-opposite-mask.glsl"));
+		maskShader = loadShader(FileUtil.getPath("haxademic/shaders/filters/three-texture-opposite-mask.glsl"));
 		
-		stripes = p.loadShader(FileUtil.getFile("haxademic/shaders/textures/cacheflowe-rotating-stripes.glsl"));
+		stripes = p.loadShader(FileUtil.getPath("haxademic/shaders/textures/cacheflowe-rotating-stripes.glsl"));
 	}
 
 	public void drawApp() {

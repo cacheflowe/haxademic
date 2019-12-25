@@ -30,7 +30,7 @@ extends PAppletHax {
 		// load source image
 		sourceTexture = DemoAssets.justin();
 		sourceBuffer = ImageUtil.imageToGraphics(sourceTexture);
-		mappedCapture = new CaptureKeystoneToRectBuffer(sourceBuffer, 450, 200, FileUtil.getFile("text/keystoning/capture-map-demo.txt"));
+		mappedCapture = new CaptureKeystoneToRectBuffer(sourceBuffer, 450, 200, FileUtil.getPath("text/keystoning/capture-map-demo.txt"));
 	}
 	
 	public void keyPressed() {

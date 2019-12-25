@@ -80,7 +80,7 @@ extends PAppletHax {
 		p.smooth();
 		
 		if(kobeTest == true) {
-			img = p.loadImage(FileUtil.getFile("images/_kobeface_01_small.jpg"));
+			img = p.loadImage(FileUtil.getPath("images/_kobeface_01_small.jpg"));
 			svgDirectory = "svg/bw9_all_icons/";
 //			directory = "svg/bw10_test_center/";
 			iconInches = 0.5f;
@@ -88,13 +88,13 @@ extends PAppletHax {
 			outputFile = "kobe";
 			shapeDrawScale = 0.9f;
 		} else if(friendTest == true) {
-			img = p.loadImage(FileUtil.getFile("images/_adriana.png"));
+			img = p.loadImage(FileUtil.getPath("images/_adriana.png"));
 			outputFile = "adriana";
 			svgDirectory = "svg/bw2/";
 			iconInches = 1.5f;
 			shapeDrawScale = 0.9f;
 		} else {
-			img = p.loadImage(FileUtil.getFile("images/_billboard-contrast.jpg"));
+			img = p.loadImage(FileUtil.getPath("images/_billboard-contrast.jpg"));
 
 			shapeDrawScale = 0.75f;
 			iconInches = 1.675f;

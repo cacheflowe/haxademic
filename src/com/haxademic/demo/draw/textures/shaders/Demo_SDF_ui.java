@@ -26,7 +26,7 @@ extends PAppletHax {
 	protected void firstFrame() {
 		// create shader/buffer
 		buffer = p.createGraphics(p.width, p.height, PRenderers.P3D);
-		shader = p.loadShader(FileUtil.getFile("haxademic/shaders/textures/sdf-04-manual.glsl"));
+		shader = p.loadShader(FileUtil.getPath("haxademic/shaders/textures/sdf-04-manual.glsl"));
 		
 		// ui
 		UI.addSlider(sdfThreshold, 0.00001f, 0.000001f, 0.0001f, 0.000001f, false);
@@ -79,6 +79,6 @@ extends PAppletHax {
 		
 	public void keyPressed() {
 		super.keyPressed();
-		if(p.key == ' ') shader = p.loadShader(FileUtil.getFile("haxademic/shaders/textures/sdf-04-manual.glsl"));
+		if(p.key == ' ') shader = p.loadShader(FileUtil.getPath("haxademic/shaders/textures/sdf-04-manual.glsl"));
 	}
 }

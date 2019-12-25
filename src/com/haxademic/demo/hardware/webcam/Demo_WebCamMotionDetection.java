@@ -43,8 +43,8 @@ implements IWebCamCallback {
 		differenceBuffer = p.createGraphics(p.width, p.height, PRenderers.P3D);
 		bwBuffer = p.createGraphics(p.width, p.height, PRenderers.P3D);
 		
-		blendTowardsShader = p.loadShader(FileUtil.getFile("haxademic/shaders/filters/texture-blend-towards-texture.glsl"));
-		differenceShader = p.loadShader(FileUtil.getFile("haxademic/shaders/filters/texture-difference-threshold.glsl"));
+		blendTowardsShader = p.loadShader(FileUtil.getPath("haxademic/shaders/filters/texture-blend-towards-texture.glsl"));
+		differenceShader = p.loadShader(FileUtil.getPath("haxademic/shaders/filters/texture-difference-threshold.glsl"));
 	}
 
 	public void drawApp() {

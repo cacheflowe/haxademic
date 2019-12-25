@@ -37,7 +37,7 @@ extends PAppletHax {
 
 		noStroke();
 		OpenGLUtil.setQuality(p.g, OpenGLUtil.GL_QUALITY_HIGH);
-		heartShape = p.loadShape(FileUtil.getFile("svg/heart.svg"));
+		heartShape = p.loadShape(FileUtil.getPath("svg/heart.svg"));
 		baseScale = p.height * 0.03f / heartShape.height;
 		
 		// create map

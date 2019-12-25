@@ -53,10 +53,10 @@ extends PAppletHax {
 	}
 	
 	protected void initApp() {
-		bigImage = p.requestImage(FileUtil.getFile("images/sun.jpg"));
-		bigImage2 = p.requestImage(FileUtil.getFile("images/sun-nasa.jpg"));
+		bigImage = p.requestImage(FileUtil.getPath("images/sun.jpg"));
+		bigImage2 = p.requestImage(FileUtil.getPath("images/sun-nasa.jpg"));
 		buildCanvas();
-		transitionShader = p.loadShader(FileUtil.getFile("haxademic/shaders/transitions/warp-fade.glsl"));
+		transitionShader = p.loadShader(FileUtil.getPath("haxademic/shaders/transitions/warp-fade.glsl"));
 	}
 
 	public void drawApp() {

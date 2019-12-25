@@ -72,7 +72,7 @@ extends BaseVideoFilter {
 		firePG = PG.newPG(width, height);
 		
 		// feedback shader & map
-		feedbackShader = P.p.loadShader(FileUtil.getFile("haxademic/shaders/filters/displacement-map.glsl"));
+		feedbackShader = P.p.loadShader(FileUtil.getPath("haxademic/shaders/filters/displacement-map.glsl"));
 		noiseTexture = new SimplexNoiseTexture(width/4, height/4);
 		// DebugView.setTexture(noiseTexture.texture());
 		

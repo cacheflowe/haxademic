@@ -119,7 +119,7 @@ extends PAppletHax {
 	public void drawGlassRoom() {
 		// Glass Room ---------------------
 		if(obj == null) {
-			obj = p.loadShape( FileUtil.getFile("models/poly-hole-square.obj"));	
+			obj = p.loadShape( FileUtil.getPath("models/poly-hole-square.obj"));	
 			objSolid = new PShapeSolid(obj);
 		}
 		
@@ -177,7 +177,7 @@ extends PAppletHax {
 	public void drawBlankStare() {
 		// Blank Stare ---------------------
 		if(obj == null) {
-			obj = p.loadShape( FileUtil.getFile("models/skull.obj"));	
+			obj = p.loadShape( FileUtil.getPath("models/skull.obj"));	
 			objSolid = new PShapeSolid(obj);
 		}
 		
@@ -224,11 +224,11 @@ extends PAppletHax {
 	public void drawMan() {
 		// Man ---------------------
 		if(obj == null) {
-			obj = p.loadShape( FileUtil.getFile("models/man_free_lowpoly.obj"));	
+			obj = p.loadShape( FileUtil.getPath("models/man_free_lowpoly.obj"));	
 			objSolid = new PShapeSolid(obj);
 		}
 		
-		PShape diamond = p.loadShape( FileUtil.getFile("models/diamond.obj"));
+		PShape diamond = p.loadShape( FileUtil.getPath("models/diamond.obj"));
 		
 		
 		// draw room

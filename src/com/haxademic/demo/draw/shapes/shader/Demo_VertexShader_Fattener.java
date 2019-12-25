@@ -46,7 +46,7 @@ extends PAppletHax {
 		
 		// build obj PShape and scale to window
 		// Note: Without getTesselation(), PShape.setTexture(PImage) is SUPER slow. 
-		obj = p.loadShape(FileUtil.getFile("models/cacheflowe_2017-12-15_18-23-17.obj")).getTessellation();
+		obj = p.loadShape(FileUtil.getPath("models/cacheflowe_2017-12-15_18-23-17.obj")).getTessellation();
 
 		// normalize shape
 		PShapeUtil.centerShape(obj);
@@ -54,8 +54,8 @@ extends PAppletHax {
 		
 		// load shader
 		fattenerVertShader = p.loadShader(
-			FileUtil.getFile("haxademic/shaders/vertex/fattener-frag.glsl"), 
-			FileUtil.getFile("haxademic/shaders/vertex/fattener-vert.glsl")
+			FileUtil.getPath("haxademic/shaders/vertex/fattener-frag.glsl"), 
+			FileUtil.getPath("haxademic/shaders/vertex/fattener-vert.glsl")
 		);
 		
 		// Set UV coords & set texture on obj.
@@ -65,7 +65,7 @@ extends PAppletHax {
 
 		// clear background
 		background(0);
-		feedbackShader = loadShader(FileUtil.getFile("haxademic/shaders/filters/feedback-radial-fattener-render.glsl"));
+		feedbackShader = loadShader(FileUtil.getPath("haxademic/shaders/filters/feedback-radial-fattener-render.glsl"));
 	}
 
 	public void drawApp() {

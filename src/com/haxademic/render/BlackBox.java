@@ -34,7 +34,7 @@ extends PAppletHax {
 
 		noStroke();
 		texture = p.createGraphics(p.width, p.height, P.P3D);
-		logo = p.loadImage(FileUtil.getFile("images/the-black-box-white.png"));
+		logo = p.loadImage(FileUtil.getPath("images/the-black-box-white.png"));
 	}
 
 	public void drawApp() {

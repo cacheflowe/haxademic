@@ -55,8 +55,8 @@ extends BaseVideoFilter {
 		
 		// load points displacer shader
 		pointsTexturedShader = P.p.loadShader(
-			FileUtil.getFile("haxademic/shaders/point/displacement-frag.glsl"), 
-			FileUtil.getFile("haxademic/shaders/point/displacement-vert.glsl")
+			FileUtil.getPath("haxademic/shaders/point/displacement-frag.glsl"), 
+			FileUtil.getPath("haxademic/shaders/point/displacement-vert.glsl")
 		);
 	}
 	

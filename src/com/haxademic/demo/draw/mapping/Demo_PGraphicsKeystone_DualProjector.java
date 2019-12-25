@@ -39,8 +39,8 @@ extends PAppletHax {
 	protected void buildCanvas() {
 		buffer = p.createGraphics( p.width / 2, p.height / 2, P.P3D );
 		buffer.smooth(OpenGLUtil.SMOOTH_HIGH);
-		keystone1 = new PGraphicsKeystone( p, buffer, 12, FileUtil.getFile("text/keystoning/keystone-demo1.txt") );
-		keystone2 = new PGraphicsKeystone( p, buffer, 12, FileUtil.getFile("text/keystoning/keystone-demo2.txt") );
+		keystone1 = new PGraphicsKeystone( p, buffer, 12, FileUtil.getPath("text/keystoning/keystone-demo1.txt") );
+		keystone2 = new PGraphicsKeystone( p, buffer, 12, FileUtil.getPath("text/keystoning/keystone-demo2.txt") );
 	}
 
 	public void drawApp() {

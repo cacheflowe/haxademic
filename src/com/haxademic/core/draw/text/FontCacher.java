@@ -15,7 +15,7 @@ public class FontCacher {
 	public static PFont getFont(String fontPath, float fontSize) {
 		String key = fontPath + "-" + fontSize;
 		if(fonts.containsKey(key) == false) {
-			fonts.put(key, P.p.createFont(FileUtil.getFile(fontPath), fontSize));
+			fonts.put(key, P.p.createFont(FileUtil.getPath(fontPath), fontSize));
 		}
 		return fonts.get(key);
 	}

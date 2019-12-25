@@ -36,7 +36,7 @@ public class Config {
 	/////////////////////////
 	
 	protected void loadDefaultPropsFile() {
-		String defaultPropsFile = FileUtil.getFile("properties/run.properties");
+		String defaultPropsFile = FileUtil.getPath("properties/run.properties");
 		if(FileUtil.fileExists(defaultPropsFile)) {
 			loadPropertiesFile(defaultPropsFile);
 		}

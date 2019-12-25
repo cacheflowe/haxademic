@@ -92,12 +92,12 @@ extends PAppletHax {
 		DebugView.setTexture("displaceTexture", displaceTexture.texture());
 		
 		polygonShader = new PShaderHotSwap(
-			FileUtil.getFile("haxademic/shaders/vertex/mesh-2d-deform-vert.glsl"),
-			FileUtil.getFile("haxademic/shaders/vertex/mesh-2d-deform-frag.glsl") 
+			FileUtil.getPath("haxademic/shaders/vertex/mesh-2d-deform-vert.glsl"),
+			FileUtil.getPath("haxademic/shaders/vertex/mesh-2d-deform-frag.glsl") 
 		);
 		linesShader = new PShaderHotSwap(
-			FileUtil.getFile("haxademic/shaders/vertex/mesh-2d-deform-lines-vert.glsl"),
-			FileUtil.getFile("haxademic/shaders/vertex/mesh-2d-deform-frag.glsl") 
+			FileUtil.getPath("haxademic/shaders/vertex/mesh-2d-deform-lines-vert.glsl"),
+			FileUtil.getPath("haxademic/shaders/vertex/mesh-2d-deform-frag.glsl") 
 		);
 	}
 

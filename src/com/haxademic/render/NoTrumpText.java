@@ -40,7 +40,7 @@ extends PAppletHax {
 	public void setup()	{
 
 		textToPShape = new TextToPShape();
-		String fontFile = FileUtil.getFile("fonts/CenturyGothic.ttf");
+		String fontFile = FileUtil.getPath("fonts/CenturyGothic.ttf");
 		
 		float depth = 10;
 		textNo = textToPShape.stringToShape3d("NO", depth, fontFile);

@@ -111,7 +111,7 @@ extends PAppletHax {
 		protected float radius = 0;
 		
 		public StepInstrument(String soundPath) {
-			sound = new SoundFile(P.p, FileUtil.getFile(soundPath));
+			sound = new SoundFile(P.p, FileUtil.getPath(soundPath));
 			steps = new Step[8];
 			for (int i = 0; i < steps.length; i++) {
 				steps[i] = new Step();

@@ -66,7 +66,7 @@ extends PAppletHax {
 	protected ArrayList<ElasticFloat> _elasticVertices;
 		
 	public void config() {
-		Config.loadPropertiesFile(FileUtil.getFile("properties/modesetlogo.properties"));
+		Config.loadPropertiesFile(FileUtil.getPath("properties/modesetlogo.properties"));
 	}
 
 	public void firstFrame() {

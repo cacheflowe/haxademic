@@ -17,6 +17,7 @@ import com.jogamp.newt.opengl.GLWindow;
 
 import processing.core.PApplet;
 import processing.core.PImage;
+import processing.core.PSurface;
 
 public class P
 extends PApplet {
@@ -59,10 +60,14 @@ extends PApplet {
 		return P.p instanceof PAppletHax;
 	}
 	
+	public static PSurface surface() {
+		return P.p.getSurface();
+	}
+	
 	// image loading 
 	
 	public static PImage getImage(String file) {
-		return P.p.loadImage(FileUtil.getFile(file));
+		return P.p.loadImage(FileUtil.getPath(file));
 	}
 	
 	// logging

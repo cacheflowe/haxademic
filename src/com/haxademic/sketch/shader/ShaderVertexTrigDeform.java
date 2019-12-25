@@ -44,13 +44,13 @@ extends PAppletHax {
 		p.smooth( OpenGLUtil.SMOOTH_HIGH );
 
 		// texture = loadImage(FileUtil.getFile("images/ello-multiple.png"));
-		texture = loadImage(FileUtil.getFile("images/cacheflowe-art/fractal-2013-09-26-20-11-32.png"));
+		texture = loadImage(FileUtil.getPath("images/cacheflowe-art/fractal-2013-09-26-20-11-32.png"));
 		
 		mesh = createCylinder(100, 200, 1000, texture);
 
 		texShader = loadShader(
-			FileUtil.getFile("haxademic/shaders/vertex/trig-displace-frag.glsl"), 
-			FileUtil.getFile("haxademic/shaders/vertex/trig-displace-cylinder-vert.glsl")
+			FileUtil.getPath("haxademic/shaders/vertex/trig-displace-frag.glsl"), 
+			FileUtil.getPath("haxademic/shaders/vertex/trig-displace-cylinder-vert.glsl")
 		);
 	}
 

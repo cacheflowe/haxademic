@@ -26,7 +26,7 @@ extends PAppletHax {
 
 	public void firstFrame() {
 
-		tiledBg = new TiledTexture(p.loadImage(FileUtil.getFile("images/pot-leaf.png")));
+		tiledBg = new TiledTexture(p.loadImage(FileUtil.getPath("images/pot-leaf.png")));
 	}
 	
 	public void drawApp() {

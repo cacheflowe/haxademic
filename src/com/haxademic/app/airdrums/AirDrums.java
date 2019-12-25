@@ -31,7 +31,7 @@ extends PAppletHax {
 	protected Minim minim;
 
 	protected void config() {
-		Config.loadPropertiesFile(FileUtil.getFile("properties/airdrums.properties"));
+		Config.loadPropertiesFile(FileUtil.getPath("properties/airdrums.properties"));
 	}
 
 	public void firstFrame() {

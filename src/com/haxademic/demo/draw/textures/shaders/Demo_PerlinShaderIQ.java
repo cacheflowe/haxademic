@@ -19,7 +19,7 @@ extends PAppletHax {
 	protected void firstFrame() {
 		// create noise buffer
 		perlinBuffer = p.createGraphics(p.width, p.height, PRenderers.P3D);
-		perlinShader = p.loadShader(FileUtil.getFile("haxademic/shaders/textures/noise-simplex-2d-iq.glsl"));
+		perlinShader = p.loadShader(FileUtil.getPath("haxademic/shaders/textures/noise-simplex-2d-iq.glsl"));
 	}
 
 	public void drawApp() {

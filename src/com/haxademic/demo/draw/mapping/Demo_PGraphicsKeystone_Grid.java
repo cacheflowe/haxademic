@@ -36,8 +36,8 @@ extends PAppletHax {
 	}
 
 	public void firstFrame() {
-		shaderPattern = p.loadShader(FileUtil.getFile("haxademic/shaders/textures/cacheflowe-scrolling-dashed-lines.glsl"));
-		shaderPattern2 = p.loadShader(FileUtil.getFile("haxademic/shaders/textures/cacheflowe-op-wavy-rotate.glsl"));
+		shaderPattern = p.loadShader(FileUtil.getPath("haxademic/shaders/textures/cacheflowe-scrolling-dashed-lines.glsl"));
+		shaderPattern2 = p.loadShader(FileUtil.getPath("haxademic/shaders/textures/cacheflowe-op-wavy-rotate.glsl"));
 		overlayImage = DemoAssets.particle();
 		buildCanvas();
 	}
@@ -47,7 +47,7 @@ extends PAppletHax {
 		for (int i = 0; i < keystoneQuads.length; i++) {
 			PGraphics pg = p.createGraphics( p.width / 2, p.height / 2, P.P3D );
 			pg.smooth(OpenGLUtil.SMOOTH_HIGH);
-			keystoneQuads[i] = new PGraphicsKeystone(p, pg, 12, FileUtil.getFile("text/keystoning/grid-demo"+i+".txt"));
+			keystoneQuads[i] = new PGraphicsKeystone(p, pg, 12, FileUtil.getPath("text/keystoning/grid-demo"+i+".txt"));
 		}
 	}
 	

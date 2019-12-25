@@ -58,8 +58,8 @@ extends PAppletHax {
 		buffer2 = p.createGraphics(KinectWrapperV1.KWIDTH, KinectWrapperV1.KWIDTH, PRenderers.P3D);
 		
 		// add keystones for each buffer
-		keystone1 = new PGraphicsKeystone( p, buffer1, 12, FileUtil.getFile("text/keystoning/keystone-kinect1.txt") );
-		keystone2 = new PGraphicsKeystone( p, buffer2, 12, FileUtil.getFile("text/keystoning/keystone-kinect2.txt") );
+		keystone1 = new PGraphicsKeystone( p, buffer1, 12, FileUtil.getPath("text/keystoning/keystone-kinect1.txt") );
+		keystone2 = new PGraphicsKeystone( p, buffer2, 12, FileUtil.getPath("text/keystoning/keystone-kinect2.txt") );
 		
 		// add prefs sliders
 		UI.addSlider(PIXEL_SIZE, 	3,    1, 20, 0.1f, false);

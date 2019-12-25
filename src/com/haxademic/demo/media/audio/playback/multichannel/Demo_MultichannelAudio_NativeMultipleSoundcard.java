@@ -51,7 +51,7 @@ extends PAppletHax {
 
 	public void firstFrame() {
 		// load assets
-		audioSample = FileUtil.fileFromPath(FileUtil.getFile("audio/kit808/snare.wav"));
+		audioSample = FileUtil.fileFromPath(FileUtil.getPath("audio/kit808/snare.wav"));
 		
 		// store audio lines
 		linesOut = new ArrayList<Line.Info>();

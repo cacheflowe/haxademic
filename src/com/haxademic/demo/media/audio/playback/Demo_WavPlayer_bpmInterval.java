@@ -106,7 +106,7 @@ extends PAppletHax {
 		public AudioStep(float triggerProgress) {
 			AppStore.instance().addListener(this);
 			this.triggerProgress = triggerProgress;
-			sound = FileUtil.getFile("audio/kit808/kick.wav");
+			sound = FileUtil.getPath("audio/kit808/kick.wav");
 		}
 		
 		protected void checkTrigger() {

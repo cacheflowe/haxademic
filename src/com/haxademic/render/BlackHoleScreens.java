@@ -49,10 +49,10 @@ extends PAppletHax {
 	
 	protected void initImages() {
 		images = new PImage[] {
-				p.loadImage(FileUtil.getFile("images/phone-2-trans.png")),
-				p.loadImage(FileUtil.getFile("images/phone-2-trans.png")),
-				p.loadImage(FileUtil.getFile("images/phone-2-trans.png")),
-				p.loadImage(FileUtil.getFile("images/phone-2-trans.png"))
+				p.loadImage(FileUtil.getPath("images/phone-2-trans.png")),
+				p.loadImage(FileUtil.getPath("images/phone-2-trans.png")),
+				p.loadImage(FileUtil.getPath("images/phone-2-trans.png")),
+				p.loadImage(FileUtil.getPath("images/phone-2-trans.png"))
 		};
 		
 		buffers = new PGraphics[4];

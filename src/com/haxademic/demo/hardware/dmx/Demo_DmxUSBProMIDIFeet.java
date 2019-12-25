@@ -38,8 +38,8 @@ extends PAppletHax {
 		dmx = new DMXWrapper();
 
 		ac = new AudioContext();
-		sample01 = SampleManager.sample(FileUtil.getFile("audio/kit808/kick.wav"));
-		sample02 = SampleManager.sample(FileUtil.getFile("audio/kit808/snare.wav"));
+		sample01 = SampleManager.sample(FileUtil.getPath("audio/kit808/kick.wav"));
+		sample02 = SampleManager.sample(FileUtil.getPath("audio/kit808/snare.wav"));
 		ac.start();
 	}
 

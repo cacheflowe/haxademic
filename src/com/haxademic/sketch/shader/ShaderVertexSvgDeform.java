@@ -60,7 +60,7 @@ extends PAppletHax {
 		PGraphics displacementMap = (_isAudio == true) ? audioTexture.texture() : perlinTexture.texture();
 		
 		// create geometry
-		shape = p.loadShape( FileUtil.getFile("svg/ello-centered.svg"));
+		shape = p.loadShape( FileUtil.getPath("svg/ello-centered.svg"));
 		shape = PShapeUtil.clonePShape(this, shape.getTessellation());
 		PShapeUtil.scaleShapeToExtent(shape, p.height * 0.3f);
 		PShapeUtil.addTextureUVToShape(shape, displacementMap);

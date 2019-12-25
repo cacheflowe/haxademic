@@ -78,7 +78,7 @@ extends PAppletHax {
 		FileUtil.shuffleFileList( files );
 		
 		for( int i=0; i < files.size(); i++ ) {
-			_galleryImages.add( P.p.loadImage( FileUtil.getFile( imgBase + files.get(i) ) ) );
+			_galleryImages.add( P.p.loadImage( FileUtil.getPath( imgBase + files.get(i) ) ) );
 			_galleryArtists.add(files.get(i).replaceAll(".jpg", ""));
 		}
 		_galleryIndex = 0;

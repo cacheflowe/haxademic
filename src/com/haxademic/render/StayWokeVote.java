@@ -46,10 +46,10 @@ extends PAppletHax {
 
 	public void firstFrame()	{
 		textToPShape = new TextToPShape(TextToPShape.QUALITY_MEDIUM);
-		String fontFile = FileUtil.getFile("fonts/LubalinGraph-Demi.ttf");
+		String fontFile = FileUtil.getPath("fonts/LubalinGraph-Demi.ttf");
 		wordStay = textToPShape.stringToShape3d("STAY", 20, fontFile);
 		wordWoke = textToPShape.stringToShape3d("WOKE", 20, fontFile);
-		String fontFile2 = FileUtil.getFile("fonts/Nexa-XBold.ttf");
+		String fontFile2 = FileUtil.getPath("fonts/Nexa-XBold.ttf");
 		PShapeUtil.scaleShapeToHeight(wordStay, p.height * 0.3f);
 		PShapeUtil.scaleShapeToHeight(wordWoke, p.height * 0.3f);
 		wordStay.disableStyle();
@@ -70,7 +70,7 @@ extends PAppletHax {
 		wordVoteXPositions = new float[] {-0.4f, -0.2f, 0.2f, 0.4f};
 		
 		// star
-		starSvg = p.loadShape(FileUtil.getFile("svg/star-5.svg")).getTessellation();
+		starSvg = p.loadShape(FileUtil.getPath("svg/star-5.svg")).getTessellation();
 		PShapeUtil.repairMissingSVGVertex(starSvg);
 		PShapeUtil.centerShape(starSvg);
 		PShapeUtil.scaleShapeToMaxAbsY(starSvg, p.height * 0.1f);

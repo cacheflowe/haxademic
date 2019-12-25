@@ -42,7 +42,7 @@ extends PAppletHax {
 		UI.addSlider(colorToReplaceB, 0.14f, 0, 1, 0.01f, false);
 		
 		// build movie layer		
-		_movie = new Movie( p, FileUtil.getFile("video/nike/nike-hike-gray-loop.mov") );
+		_movie = new Movie( p, FileUtil.getPath("video/nike/nike-hike-gray-loop.mov") );
 
 		_movie.jump(0);
 		_movie.loop();

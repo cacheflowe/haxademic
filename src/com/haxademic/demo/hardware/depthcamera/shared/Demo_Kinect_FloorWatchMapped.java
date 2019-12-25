@@ -51,7 +51,7 @@ extends PAppletHax {
 		bufferNormalizedDepth = p.createGraphics(KinectWrapperV2.KWIDTH, KinectWrapperV2.KWIDTH, PRenderers.P3D);
 		
 		// add keystones for each buffer
-		keystone = new PGraphicsKeystone( p, bufferDepthSlice, 12, FileUtil.getFile("text/keystoning/keystone-kinect.txt") );
+		keystone = new PGraphicsKeystone( p, bufferDepthSlice, 12, FileUtil.getPath("text/keystoning/keystone-kinect.txt") );
 		
 		// add prefs sliders
 		UI.addSlider(PIXEL_SIZE, 	3,    1, 20, 0.1f, false);

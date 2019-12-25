@@ -38,8 +38,8 @@ extends PAppletHax {
 	
 	protected void firstFrame() {
 		// build shape and assign texture
-		obj = p.loadShape(FileUtil.getFile("haxademic/models/pink-car.obj"));
-		objWire = p.loadShape(FileUtil.getFile("haxademic/models/pink-car.obj"));
+		obj = p.loadShape(FileUtil.getPath("haxademic/models/pink-car.obj"));
+		objWire = p.loadShape(FileUtil.getPath("haxademic/models/pink-car.obj"));
 //		shape.disableStyle();
 		
 		// normalize original shape

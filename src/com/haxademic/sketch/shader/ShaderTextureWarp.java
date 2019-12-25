@@ -34,9 +34,9 @@ extends PAppletHax {
 
 		((PGraphics)g).textureWrap(Texture.REPEAT);
 //		_warpShader = p.loadShader(FileUtil.getFile("haxademic/shaders/texturewarp/round-tunnel.glsl"));
-		_warpShader = p.loadShader(FileUtil.getFile("haxademic/shaders/texturewarp/square-tunnel.glsl"));
+		_warpShader = p.loadShader(FileUtil.getPath("haxademic/shaders/texturewarp/square-tunnel.glsl"));
 		_warpShader.set("time", p.frameCount/100f);
-		PImage img = p.loadImage(FileUtil.getFile("images/ello-grid-crap-512.png"));
+		PImage img = p.loadImage(FileUtil.getPath("images/ello-grid-crap-512.png"));
 		_warpShader.set("textureInput", img);
 	}
 

@@ -40,8 +40,8 @@ extends PAppletHax {
 
 		
 		// load & normalize shape
-		obj = p.loadShape( FileUtil.getFile("models/skull-realistic.obj"));	
-		obj = p.loadShape( FileUtil.getFile("models/poly-hole-penta.obj"));
+		obj = p.loadShape( FileUtil.getPath("models/skull-realistic.obj"));	
+		obj = p.loadShape( FileUtil.getPath("models/poly-hole-penta.obj"));
 		obj = DemoAssets.objSkullRealistic();
 		PShapeUtil.centerShape(obj);
 		PShapeUtil.scaleShapeToHeight(obj, p.height * 0.8f);

@@ -44,10 +44,10 @@ extends PAppletHax {
 		ac = new AudioContext();
 
 		// load a sample		
-		sample01 = SampleManager.sample(FileUtil.getFile("audio/kit808/kick.wav"));
-		sample02 = SampleManager.sample(FileUtil.getFile("audio/kit808/snare.wav"));
-		sample03 = SampleManager.sample(FileUtil.getFile("audio/kit808/hi-hat.wav"));
-		sample04 = SampleManager.sample(FileUtil.getFile("audio/kit808/hi-hat-open.wav"));
+		sample01 = SampleManager.sample(FileUtil.getPath("audio/kit808/kick.wav"));
+		sample02 = SampleManager.sample(FileUtil.getPath("audio/kit808/snare.wav"));
+		sample03 = SampleManager.sample(FileUtil.getPath("audio/kit808/hi-hat.wav"));
+		sample04 = SampleManager.sample(FileUtil.getPath("audio/kit808/hi-hat-open.wav"));
 
 		/*
 		 * In this example a Clock is used to trigger events. We do this

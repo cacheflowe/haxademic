@@ -30,13 +30,13 @@ extends PAppletHax {
 
 		
 		shapes = new ArrayList<PShape>();
-		shapes.add( p.loadShape( FileUtil.getFile("svg/cacheflowe-logotype-new.svg")).getTessellation() );
-		shapes.add( p.loadShape( FileUtil.getFile("svg/microphone.svg")).getTessellation() );
-		shapes.add( p.loadShape( FileUtil.getFile("svg/money.svg")).getTessellation() );
-		shapes.add( p.loadShape( FileUtil.getFile("svg/weed.svg")).getTessellation() );
-		shapes.add( p.loadShape( FileUtil.getFile("svg/diamond.svg")).getTessellation() );
-		shapes.add( p.loadShape( FileUtil.getFile("svg/coin.svg")).getTessellation() );
-		shapes.add( p.loadShape( FileUtil.getFile("svg/cacheflowe-logo.svg")).getTessellation() );
+		shapes.add( p.loadShape( FileUtil.getPath("svg/cacheflowe-logotype-new.svg")).getTessellation() );
+		shapes.add( p.loadShape( FileUtil.getPath("svg/microphone.svg")).getTessellation() );
+		shapes.add( p.loadShape( FileUtil.getPath("svg/money.svg")).getTessellation() );
+		shapes.add( p.loadShape( FileUtil.getPath("svg/weed.svg")).getTessellation() );
+		shapes.add( p.loadShape( FileUtil.getPath("svg/diamond.svg")).getTessellation() );
+		shapes.add( p.loadShape( FileUtil.getPath("svg/coin.svg")).getTessellation() );
+		shapes.add( p.loadShape( FileUtil.getPath("svg/cacheflowe-logo.svg")).getTessellation() );
 		
 		shapesExtruded = new ArrayList<PShape>();
 		for (PShape shape : shapes) {

@@ -24,7 +24,7 @@ extends PAppletHax {
 		ac = new AudioContext();
 
 		// load a sample		
-		sample01 = SampleManager.sample(FileUtil.getFile("audio/drums/booty-house.wav"));
+		sample01 = SampleManager.sample(FileUtil.getPath("audio/drums/booty-house.wav"));
 
 		ac.start();
 	}

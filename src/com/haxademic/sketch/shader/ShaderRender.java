@@ -45,7 +45,7 @@ extends PAppletHax {
 	
 		p.smooth( OpenGLUtil.SMOOTH_HIGH );
 
-		texShader = loadShader(FileUtil.getFile("haxademic/shaders/textures/square-twist.glsl"));
+		texShader = loadShader(FileUtil.getPath("haxademic/shaders/textures/square-twist.glsl"));
 	}
 
 	public void drawApp() {

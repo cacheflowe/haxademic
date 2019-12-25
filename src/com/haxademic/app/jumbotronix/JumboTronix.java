@@ -64,7 +64,7 @@ extends PAppletHax {
 	}
 	
 	protected void config() {
-		Config.loadPropertiesFile(FileUtil.getFile("properties/jumbotronix.properties"));
+		Config.loadPropertiesFile(FileUtil.getPath("properties/jumbotronix.properties"));
 		Config.setProperty( AppSettings.WIDTH, "1100" );
 		Config.setProperty( AppSettings.HEIGHT, "462" );
 		Config.setProperty( AppSettings.FULLSCREEN, "false" );

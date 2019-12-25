@@ -33,13 +33,13 @@ extends BaseTexture {
 
 	public void init() {
 		_meshPool = new ArrayList<PShapeSolid>();
-		_meshPool.add(prepShape(P.p.loadShape(FileUtil.getFile("models/unicorn-head-lowpoly.obj"))));
-		_meshPool.add(prepShape(P.p.loadShape(FileUtil.getFile("models/the-discovery-multiplied-seied.obj"))));
-		_meshPool.add(prepShape(P.p.loadShape(FileUtil.getFile("models/topsecret-seied.obj"))));
-		_meshPool.add(prepShape(P.p.loadShape(FileUtil.getFile("models/skull.obj"))));
-		_meshPool.add(prepShape(P.p.loadShape(FileUtil.getFile("models/poly-hole-penta.obj"))));
-		_meshPool.add(prepShape(P.p.loadShape(FileUtil.getFile("models/poly-hole-square.obj"))));
-		_meshPool.add(prepShape(P.p.loadShape(FileUtil.getFile("models/poly-hole-tri.obj"))));
+		_meshPool.add(prepShape(P.p.loadShape(FileUtil.getPath("models/unicorn-head-lowpoly.obj"))));
+		_meshPool.add(prepShape(P.p.loadShape(FileUtil.getPath("models/the-discovery-multiplied-seied.obj"))));
+		_meshPool.add(prepShape(P.p.loadShape(FileUtil.getPath("models/topsecret-seied.obj"))));
+		_meshPool.add(prepShape(P.p.loadShape(FileUtil.getPath("models/skull.obj"))));
+		_meshPool.add(prepShape(P.p.loadShape(FileUtil.getPath("models/poly-hole-penta.obj"))));
+		_meshPool.add(prepShape(P.p.loadShape(FileUtil.getPath("models/poly-hole-square.obj"))));
+		_meshPool.add(prepShape(P.p.loadShape(FileUtil.getPath("models/poly-hole-tri.obj"))));
 		selectNewModel();
 	}
 

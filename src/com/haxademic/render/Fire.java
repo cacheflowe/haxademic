@@ -86,7 +86,7 @@ extends PAppletHax {
 		DebugView.setTexture("gradientPG", gradientPG);
 
 		// feedback shader & map
-		feedbackShader = p.loadShader(FileUtil.getFile("haxademic/shaders/filters/displacement-map.glsl"));
+		feedbackShader = p.loadShader(FileUtil.getPath("haxademic/shaders/filters/displacement-map.glsl"));
 		noiseTexture = new SimplexNoiseTexture(p.width/4, p.height/4);
 		DebugView.setTexture("noiseTexture", noiseTexture.texture());
 		
