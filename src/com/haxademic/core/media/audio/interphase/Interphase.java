@@ -9,6 +9,7 @@ import com.haxademic.core.draw.shapes.Shapes;
 import com.haxademic.core.hardware.midi.devices.LaunchPad;
 import com.haxademic.core.hardware.midi.devices.LaunchPad.ILaunchpadCallback;
 import com.haxademic.core.hardware.shared.InputTrigger;
+import com.haxademic.core.ui.IUIControl;
 import com.haxademic.core.ui.UI;
 import com.haxademic.core.ui.UIButton;
 
@@ -210,7 +211,7 @@ implements ILaunchpadCallback {
 				if(step % 4 == 0) {
 					if(UI.active()) {
 						P.p.fill(127);
-						P.p.rect(0, 10 + UI.controlSpacing * step, UI.controlW + 20, UI.controlH);
+						P.p.rect(0, 10 + IUIControl.controlSpacing * step, IUIControl.controlW + 20, IUIControl.controlH);
 					}
 				}
 			}
@@ -219,7 +220,7 @@ implements ILaunchpadCallback {
 		// playhead
 		if(UI.active()) {
 			P.p.fill(255);
-			P.p.rect(0, UI.controlSpacing * P.store.getInt(CUR_STEP), UI.controlW + 20, UI.controlH);
+			P.p.rect(0, IUIControl.controlSpacing * P.store.getInt(CUR_STEP), IUIControl.controlW + 20, IUIControl.controlH);
 		}
 	}
 	

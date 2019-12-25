@@ -35,6 +35,7 @@ implements IWebCamCallback {
 		
 		DebugView.setValue("webcam W", webcamImg.width);
 		DebugView.setValue("webcam H", webcamImg.height);
+		DebugView.setTexture("webcam", webcamImg);
 	}
 
 	@Override

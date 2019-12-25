@@ -8,7 +8,10 @@ public interface IUIControl {
 	public static final String TYPE_BUTTON = "button";
 	
 	public static int TEXT_INDENT = 6;
-	
+	public static final int controlW = 250;
+	public static final int controlH = 24;
+	public static final int controlSpacing = 24;
+
 	public String type();
 	public String id();
 	public void set(float val);

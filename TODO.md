@@ -4,7 +4,6 @@
 
 * Next:
   * WebCam menu should look more structured like UI boxes
-    * Also, keep internal toggle state to avoid hiding automatically
   * DebugView should look more structured like UI boxes
   	* Put images inside boxes like text outputs. yesss
     * Separate key commands info from debug view, using a '?' key command
@@ -58,6 +57,7 @@
   * Hardware helpers
   	* Mouse
   	* InputTrigger
+  	* WebCam
   	* AudioIn: Beads, ESS, Minim, Processing Sound library
   	* MidiState
   	* DepthCamera: Kinectv1, Kinectv2, Realsense
@@ -76,8 +76,8 @@
   * Communication
   	* WebServer
   	* WebSocketServer
-  	* OSC
-  	* MIDI
+  	* OscState
+  	* MidiState
   	* FileDownloader
   	
 * PAppletHax replaces Processing's functions:

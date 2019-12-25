@@ -8,17 +8,21 @@ import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
 import com.haxademic.core.data.constants.PBlendModes;
 import com.haxademic.core.data.constants.PRegisterableMethods;
+import com.haxademic.core.data.constants.PTextAlign;
+import com.haxademic.core.draw.color.ColorsHax;
 import com.haxademic.core.draw.context.PG;
+import com.haxademic.core.draw.text.FontCacher;
 import com.haxademic.core.hardware.keyboard.KeyboardState;
-import com.haxademic.core.hardware.mouse.Mouse;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.media.DemoAssets;
 import com.haxademic.core.net.IPAddress;
 import com.haxademic.core.system.DateUtil;
 import com.haxademic.core.text.StringUtil;
+import com.haxademic.core.ui.IUIControl;
 
 import processing.core.PApplet;
 import processing.core.PFont;
+import processing.core.PGraphics;
 import processing.core.PImage;
 
 public class DebugView {
@@ -34,12 +38,20 @@ public class DebugView {
 	protected static float helpPanelW = 0;
 	protected static int fontSize = 11;
 	protected static boolean active = false;
+	
+	protected static int MODE_DEBUG = 0;
+	protected static int MODE_HELP = 1;
+	protected static int mode = MODE_DEBUG;
 	protected static int frameOpened = 0;
 	protected static int hideFrames = 60 * 60;
 	protected static boolean autoHide = true;
 	protected static String ipAddress;
 	public static final String TITLE_PREFIX = "___";
 	
+	public static int controlX = 1;
+	protected static int controlY = 1;
+	public static final int controlH = 16;
+
 	// Singleton instance
 	
 	public static DebugView instance;
@@ -110,33 +122,34 @@ public class DebugView {
 	}
 	
 	public static float debugPanelW() {
-		return debugPanelW + padding;
+		return debugPanelW;
 	}
 	
 	public static float helpPanelW() {
-		return helpPanelW + padding;
+		return helpPanelW;
 	}
 	
 	protected void updateAppInfo() {
-		debugLines.put(TITLE_PREFIX + " RUN TIME", "");
-		debugLines.put("Frame", ""+p.frameCount);
+		setValue(TITLE_PREFIX + " RUN TIME", "");
+		setValue("Frame", ""+p.frameCount);
 		int runtimeSeconds = (int) DateUtil.uptimeSeconds();
 		int days = P.floor(runtimeSeconds / DateUtil.dayInSeconds);
 		String daysStr = (days > 0) ? days+" days + " : "";
 		runtimeSeconds = runtimeSeconds % DateUtil.dayInSeconds;
-		debugLines.put("Uptime", daysStr + DateUtil.timeFromSeconds(runtimeSeconds, true));
-		debugLines.put(TITLE_PREFIX + " APP", "");
-		debugLines.put("alwaysOnTop", ""+P.p.alwaysOnTop());
-		debugLines.put("width", ""+P.p.width);
-		debugLines.put("height", ""+P.p.height);
-		debugLines.put(TITLE_PREFIX + " PERFORMANCE", "");
-		debugLines.put("FPS", ""+P.round(p.frameRate));
-		debugLines.put("Memory Allocated", StringUtil.formattedInteger(DebugUtil.memoryAllocated()));
-		debugLines.put("Memory Free", StringUtil.formattedInteger(DebugUtil.memoryFree()));
-		debugLines.put("Memory Max", StringUtil.formattedInteger(DebugUtil.memoryMax()));
-		debugLines.put(TITLE_PREFIX + " NET", "");
-		debugLines.put("IP Address", ipAddress);
-		debugLines.put(TITLE_PREFIX + " CUSTOM", "");
+		setValue("Uptime", daysStr + DateUtil.timeFromSeconds(runtimeSeconds, true));
+		setValue(TITLE_PREFIX + " APP", "");
+		setValue("alwaysOnTop", ""+P.p.alwaysOnTop());
+		setValue("width", ""+P.p.width);
+		setValue("height", ""+P.p.height);
+		setValue(TITLE_PREFIX + " PERFORMANCE", "");
+		setValue("FPS", ""+P.round(p.frameRate));
+		setValue("Memory Allocated", StringUtil.formattedInteger(DebugUtil.memoryAllocated()));
+		setValue("Memory Free", StringUtil.formattedInteger(DebugUtil.memoryFree()));
+		setValue("Memory Max", StringUtil.formattedInteger(DebugUtil.memoryMax()));
+		setValue(TITLE_PREFIX + " NET", "");
+		setValue("IP Address", ipAddress);
+		updateInputs();
+		setValue(TITLE_PREFIX + " CUSTOM", "");
 	}
 	
 	protected void addKeyCommandInfo() {
@@ -152,11 +165,12 @@ public class DebugView {
 	}
 	
 	public static void updateInputs() {
-		setValue("mouseX", P.p.mouseX);
-		setValue("mouseY", P.p.mouseY);
-		setValue("key", P.p.key);
-		setValue("keyCode", P.p.keyCode);
-		setValue("keyPressed", P.p.keyPressed);
+		setValue(DebugView.TITLE_PREFIX + "PROCESSING:", "");
+		setValue("p.mouseX", P.p.mouseX);
+		setValue("p.mouseY", P.p.mouseY);
+		setValue("p.key", P.p.key);
+		setValue("p.keyCode", P.p.keyCode);
+		setValue("p.keyPressed", P.p.keyPressed);
 	}
 	
 	protected String stringFromHashMap(LinkedHashMap<String, String> hashMap) {
@@ -173,8 +187,89 @@ public class DebugView {
 		return string;
 	}
 	
+	protected void drawValuesFromHashMap(LinkedHashMap<String, String> hashMap) {
+		// build string by iterating over LinkedHashMap
+		for (Map.Entry<String, String> item : hashMap.entrySet()) {
+			String key = item.getKey();
+			String value = item.getValue();
+			if(key != null && value != null) {
+				String textLine = (value.length() > 0) ?
+						key + ": " + value + "\n" :
+						key + "\n";
+				boolean isTitle = textLine.indexOf(TITLE_PREFIX) == 0; 
+				if(isTitle) textLine = textLine.substring(TITLE_PREFIX.length()).trim();
+				drawTextLine(textLine, isTitle);
+			}
+		}
+		
+		if(mode == MODE_DEBUG) {
+			for (Map.Entry<String, PImage> item : textures.entrySet()) {
+			    String imageName = item.getKey();
+			    PImage image = item.getValue();
+			    if(imageName != null && image != null) {
+					drawTextLine(imageName, true);
+					drawImage(image);
+			    }
+			}
+		}
+
+	}
+	
+	protected void drawTextLine(String textLine, boolean isTitle) {
+		PGraphics pg = P.p.g;
+		PG.setDrawCorner(pg);
+
+		// outline
+		pg.noStroke();
+		pg.fill(ColorsHax.BUTTON_OUTLINE);
+		pg.rect(controlX, controlY + controlH, IUIControl.controlW, 1);
+
+		// background
+		pg.fill((isTitle) ? ColorsHax.TITLE_BG : P.p.color(ColorsHax.BUTTON_BG, 180));
+		pg.rect(controlX, controlY, IUIControl.controlW, controlH);
+
+		// text label
+		pg.fill(ColorsHax.BUTTON_TEXT);
+		pg.text(textLine, controlX + IUIControl.TEXT_INDENT, controlY + 1f, IUIControl.controlW, controlH);
+
+		// move to next box
+		controlY += controlH;
+		if(controlY > P.p.height - controlH) nextCol();
+	}
+	
+	protected void drawImage(PImage image) {
+    	// scale to fit
+		float padding = 10;
+		float imgScale = MathUtil.scaleToTarget(image.width, IUIControl.controlW - 80);
+		float texH = image.height * imgScale;
+		float texW = image.width * imgScale;
+		
+		// if not enough room, move to next col
+		if(controlY + texH > P.p.height) nextCol();
+		
+		// draw!
+		p.fill(P.p.color(ColorsHax.BUTTON_BG, 180));
+		p.rect(controlX, controlY, IUIControl.controlW, texH);
+		p.image(image, controlX + padding, controlY + padding, texW - padding * 2, texH - padding * 2);
+
+		// move to next box
+		controlY += texH;
+		if(controlY > P.p.height - texH) nextCol();
+	}
+	
+	protected static void nextCol() {
+		controlY = 1;
+		controlX += IUIControl.controlW + 1;
+	}
+
+	
 	public void checkKeyCommands() {
-		if(KeyboardState.instance().isKeyTriggered('/')) active(!active);
+		if(KeyboardState.instance().isKeyTriggered('/')) {
+			active(!active);
+			if(P.p.key == '?') mode = MODE_HELP; 
+			else mode = MODE_DEBUG;
+		}
+//		if(KeyboardState.instance().isKeyTriggered('?')) { active(!active); mode = MODE_HELP; }
 		if(KeyboardState.instance().isKeyTriggered('\\')) active(false);
 	}
 	
@@ -204,76 +299,17 @@ public class DebugView {
 		PG.setDrawCorner(p);
 		PG.setDrawFlat2d(p, true);
 		p.blendMode(PBlendModes.BLEND);
-
-		// draw debug text block
-		String debugStr = stringFromHashMap(debugLines);
 		
-		p.textFont(debugFont);
-		p.textAlign(P.LEFT, P.TOP);
-		p.textSize(fontSize);
-		p.textLeading(17f);
-		float textW = p.textWidth(debugStr) + padding;
-		debugPanelW = P.max(debugPanelW, textW);
-		debugPanelW = P.min(debugPanelW, MAX_PANEL_WIDTH);
-		
-		// push to scroll
-		p.pushMatrix();
-
-		// draw bg
-		p.noStroke();
-		p.fill(0,225);
-		p.rect(0, 0, debugPanelW + padding, p.height);
-		
-		// scroll text - offset w/mouse y if too big to fit on screen
-		float textH = debugLines.size() * fontSize * debugFont.ascent() * 3f;
-		if(textH > p.height) {
-			float heightDiff = p.height - textH;
-			p.translate(0, P.map(Mouse.yNorm, 0, 1, 0, heightDiff));
+		// draw info boxes!
+		controlX = 1;
+		controlY = 1;
+		FontCacher.setFontOnContext(P.p.g, debugFont, P.p.color(255), 1f, PTextAlign.LEFT, PTextAlign.TOP);
+		if(mode == MODE_DEBUG) {
+			drawValuesFromHashMap(debugLines); 
+		} else {
+			drawValuesFromHashMap(helpLines); 
 		}
 		
-		// draw text
-		p.fill(255);
-		p.text(debugStr, 10, 10, textW, textH);
-		
-		// pop scroll
-		p.popMatrix();
-		
-		// draw help lines
-		if(helpLines.isEmpty() == false) {
-			String helpStr = stringFromHashMap(helpLines);
-			p.textAlign(P.LEFT, P.TOP);
-			p.textSize(fontSize);
-			textW = p.textWidth(helpStr) + padding;
-			helpPanelW = P.max(helpPanelW, textW);
-			p.noStroke();
-			p.fill(0,225);
-			p.rect(p.width - helpPanelW - 10, 0, helpPanelW + padding, p.height);
-			p.fill(255);
-			p.text(helpStr, p.width - helpPanelW, 10, helpPanelW, p.height - padding);
-		}
-		
-		// draw textures
-		float texHeight = 100;
-		int texIndex = 0;
-		for (Map.Entry<String, PImage> item : textures.entrySet()) {
-		    String imageName = item.getKey();
-		    PImage image = item.getValue();
-		    if(imageName != null && image != null) {
-		    	// scale to fit
-				float texW = image.width * MathUtil.scaleToTarget(image.height, texHeight);
-				p.image(image, debugPanelW(), texHeight * texIndex, texW, texHeight);
-				// write title
-				String textureName = imageName + " (" + image.width + "x" + image.height + ")";
-				p.fill(0, 140);
-				p.rect(debugPanelW(), texHeight * texIndex, p.textWidth(textureName) + 8, 18);
-				p.fill(255);
-				p.textSize(11);
-				p.text(textureName, debugPanelW() + 4, texHeight * texIndex + 2);
-				// increment
-			    texIndex++;
-		    }
-		}
-
 		// reset context
 		PG.setDrawFlat2d(p, false);
 		p.popStyle();
