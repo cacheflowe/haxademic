@@ -9,6 +9,7 @@ import com.haxademic.core.data.constants.PTextAlign;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.text.FontCacher;
 import com.haxademic.core.file.FileUtil;
+import com.haxademic.core.hardware.keyboard.KeyboardState;
 import com.haxademic.core.media.DemoAssets;
 import com.haxademic.core.ui.UIButton;
 import com.haxademic.core.ui.UIButton.IUIButtonDelegate;
@@ -31,6 +32,7 @@ implements IUIButtonDelegate {
 	protected String selectedConfig = null;
 	protected int lastFrameUpdated = 0;
 	public static PImage noCamera;
+	protected boolean menuActive = false;
 	protected char menuKey = 'W';
 
 	public static final int BUTTON_W = 180;
@@ -84,6 +86,12 @@ implements IUIButtonDelegate {
 	// update / get image
 	/////////////////////////////
 	
+	public void checkKeyCommands() {
+		if(KeyboardState.instance().isKeyTriggered('W')) menuActive(!menuActive);
+		if(KeyboardState.instance().isKeyTriggered('/')) menuActive(false);
+		if(KeyboardState.instance().isKeyTriggered('\\')) menuActive(false);
+	}
+
 	public void pre() {
 		lazyLoadConfigs();
 		if(webCam == null) return;
@@ -91,11 +99,11 @@ implements IUIButtonDelegate {
 			webCam.read();
 			if(delegate != null) delegate.newFrame(image());
 		}
+		checkKeyCommands();
 	}
 	
 	public void post() {
-		// if(webCam != null && KeyboardState.keyOn('W')) {
-		if(webCam != null && P.p.key == menuKey) {
+		if(webCam != null && menuActive) {
 			drawMenu(P.p.g);
 		}
 	}
@@ -108,9 +116,21 @@ implements IUIButtonDelegate {
 		return image() != noCamera;
 	}
 	
+	// menu
+	
 	public void setMenuKey(char menuKey) {
 		this.menuKey = menuKey;
 	}
+	
+	public boolean menuActive() {
+		return menuActive;
+	}
+	
+	public void menuActive(boolean menuActive) {
+		this.menuActive = menuActive;
+//		if(menuActive) frameOpened = P.p.frameCount;
+	}
+
 	
 	// get cameras list
 	
