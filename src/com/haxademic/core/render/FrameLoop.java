@@ -102,9 +102,9 @@ public class FrameLoop {
 			curTick = newTick;
 			
 			// set on DebugView
-			DebugView.setValue("AnimationLoop.loopCurFrame ", loopCurFrame + " / " + loopFrames);
-			DebugView.setValue("AnimationLoop.progress ", progress);
-			DebugView.setValue("AnimationLoop.curTick ", curTick);
+			DebugView.setValue("FrameLoop.loopCurFrame ", loopCurFrame + " / " + loopFrames);
+			DebugView.setValue("FrameLoop.progress ", progress);
+			DebugView.setValue("FrameLoop.curTick ", curTick);
 		}
 	}
 	

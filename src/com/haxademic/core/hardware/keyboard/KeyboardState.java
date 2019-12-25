@@ -13,6 +13,7 @@ public class KeyboardState {
 
 	protected HashMap<Integer, InputState> keyboardButtons = new HashMap<Integer, InputState>();
 	protected int lastUpdatedFrame = 0;
+	protected boolean updatesDebugView = true;
 
 	// Singleton instance
 	
@@ -91,7 +92,12 @@ public class KeyboardState {
 	// DEBUG
 	///////////////////////////////
 	
+	public void updatesDebugView(boolean updatesDebugView) {
+		this.updatesDebugView = updatesDebugView;
+	}
+	
 	protected void logValues() {
+		if(!updatesDebugView) return;
 		// debug print values if debug window is showing
 		if(DebugView.active()) {
 			for (Integer key : keyboardButtons.keySet()) {

@@ -42,14 +42,15 @@ public class DebugView {
 	protected static int MODE_DEBUG = 0;
 	protected static int MODE_HELP = 1;
 	protected static int mode = MODE_DEBUG;
+	protected static int BG_ALPHA = 200;
 	protected static int frameOpened = 0;
 	protected static int hideFrames = 60 * 60;
 	protected static boolean autoHide = true;
 	protected static String ipAddress;
 	public static final String TITLE_PREFIX = "___";
 	
-	public static int controlX = 1;
-	protected static int controlY = 1;
+	public static int controlX = 0;
+	protected static int controlY = 0;
 	public static final int controlH = 16;
 
 	// Singleton instance
@@ -207,7 +208,7 @@ public class DebugView {
 			    String imageName = item.getKey();
 			    PImage image = item.getValue();
 			    if(imageName != null && image != null) {
-					drawTextLine(imageName, true);
+					drawTextLine(imageName + "( " + image.width + " x " + image.height + " )", true);
 					drawImage(image);
 			    }
 			}
@@ -225,7 +226,7 @@ public class DebugView {
 		pg.rect(controlX, controlY + controlH, IUIControl.controlW, 1);
 
 		// background
-		pg.fill((isTitle) ? ColorsHax.TITLE_BG : P.p.color(ColorsHax.BUTTON_BG, 180));
+		pg.fill((isTitle) ? ColorsHax.TITLE_BG : P.p.color(ColorsHax.BUTTON_BG, BG_ALPHA));
 		pg.rect(controlX, controlY, IUIControl.controlW, controlH);
 
 		// text label
@@ -240,7 +241,7 @@ public class DebugView {
 	protected void drawImage(PImage image) {
     	// scale to fit
 		float padding = 10;
-		float imgScale = MathUtil.scaleToTarget(image.width, IUIControl.controlW - 80);
+		float imgScale = MathUtil.scaleToTarget(image.width, IUIControl.controlW);
 		float texH = image.height * imgScale;
 		float texW = image.width * imgScale;
 		
@@ -248,7 +249,7 @@ public class DebugView {
 		if(controlY + texH > P.p.height) nextCol();
 		
 		// draw!
-		p.fill(P.p.color(ColorsHax.BUTTON_BG, 180));
+		p.fill(P.p.color(ColorsHax.BUTTON_BG, BG_ALPHA));
 		p.rect(controlX, controlY, IUIControl.controlW, texH);
 		p.image(image, controlX + padding, controlY + padding, texW - padding * 2, texH - padding * 2);
 
@@ -258,8 +259,8 @@ public class DebugView {
 	}
 	
 	protected static void nextCol() {
-		controlY = 1;
-		controlX += IUIControl.controlW + 1;
+		controlY = 0;
+		controlX += IUIControl.controlW;
 	}
 
 	
@@ -301,8 +302,8 @@ public class DebugView {
 		p.blendMode(PBlendModes.BLEND);
 		
 		// draw info boxes!
-		controlX = 1;
-		controlY = 1;
+		controlX = 0;
+		controlY = 0;
 		FontCacher.setFontOnContext(P.p.g, debugFont, P.p.color(255), 1f, PTextAlign.LEFT, PTextAlign.TOP);
 		if(mode == MODE_DEBUG) {
 			drawValuesFromHashMap(debugLines); 

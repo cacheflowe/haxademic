@@ -5,6 +5,7 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
 import com.haxademic.core.data.constants.PBlendModes;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.BlendTowardsTexture;
 import com.haxademic.core.draw.filters.pshader.BlurHFilter;
@@ -22,6 +23,7 @@ import com.haxademic.core.draw.filters.pshader.ThresholdFilter;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.textures.SimplexNoiseTexture;
 import com.haxademic.core.file.FileUtil;
+import com.haxademic.core.hardware.keyboard.KeyboardState;
 import com.haxademic.core.hardware.midi.MidiDevice;
 import com.haxademic.core.hardware.midi.devices.LaunchControl;
 import com.haxademic.core.hardware.webcam.WebCam;
@@ -123,6 +125,7 @@ extends PAppletHax {
 	protected void firstFrame() {
 		// init midi controls
 		MidiDevice.init(0, 3);
+		KeyboardState.instance().updatesDebugView(false);
 		
 		// main buffer & postFX buffer
 		pgPost = PG.newPG(pg.width, pg.height);
@@ -138,6 +141,10 @@ extends PAppletHax {
 		gradientShader = p.loadShader(FileUtil.getFile("haxademic/shaders/textures/cacheflowe-two-color-repeating-gradient.glsl"));
 
 		buildUI();
+		
+		// debug
+		DebugView.setTexture("map", map);
+		DebugView.setTexture("lines", linesTexture);
 	}
 	
 	protected void buildUI() {
@@ -362,6 +369,8 @@ extends PAppletHax {
 		
 		// draw post to screen
 		ImageUtil.cropFillCopyImage(pgPost, p.g, false);
+		
+		P.store.showStoreValuesInDebugView();
 	}
 		
 	public void keyPressed() {
