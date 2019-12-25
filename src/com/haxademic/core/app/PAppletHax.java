@@ -205,12 +205,13 @@ extends PApplet {
 	
 	public void draw() {
 		initializeOn1stFrame();
-		P.p.push();	// because drawApp can leave the context in a bad state
+		
+		p.pushMatrix();	// because drawApp can leave the context in a bad state
 		P.store.setNumber(PAppletHax.DRAW_PRE, p.frameCount);	// mostly for Renderer to do it's thing
 		drawApp();
 		P.store.setNumber(PAppletHax.DRAW_POST, p.frameCount);
-		p.pop();
-		if(WebCam.instance != null && p.key == 'W') WebCam.instance().drawMenu(p.g);
+		p.popMatrix();
+		
 		keepOnTop();
 		setAppDockIconAndTitle();
 		if(P.renderer == PRenderers.PDF) finishPdfRender();

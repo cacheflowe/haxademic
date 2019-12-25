@@ -193,6 +193,7 @@ public class DebugView {
 		if(active == false) return;
 		if(autoHide && p.frameCount > frameOpened + hideFrames) active = false;
 		
+		p.pushMatrix();
 		p.pushStyle();
 		p.noLights();
 		
@@ -276,5 +277,6 @@ public class DebugView {
 		// reset context
 		PG.setDrawFlat2d(p, false);
 		p.popStyle();
+		p.popMatrix();
 	}
 }

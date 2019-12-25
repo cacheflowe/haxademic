@@ -4,7 +4,9 @@ import java.util.ArrayList;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.data.ConvertUtil;
+import com.haxademic.core.data.constants.PRegisterableMethods;
 import com.haxademic.core.data.constants.PTextAlign;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.text.FontCacher;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.media.DemoAssets;
@@ -29,6 +31,7 @@ implements IUIButtonDelegate {
 	protected String selectedConfig = null;
 	protected int lastFrameUpdated = 0;
 	public static PImage noCamera;
+	protected char menuKey = 'W';
 
 	public static final int BUTTON_W = 180;
 	public static final int BUTTON_H = 24;
@@ -60,7 +63,8 @@ implements IUIButtonDelegate {
 		this.configId = configId;
 		noCamera = P.getImage("haxademic/images/no-signal.png");
 		refreshCameraList();
-		P.p.registerMethod("pre", this);
+		P.p.registerMethod(PRegisterableMethods.pre, this);
+		P.p.registerMethod(PRegisterableMethods.post, this);
 	}
 
 	/////////////////////////////
@@ -89,12 +93,23 @@ implements IUIButtonDelegate {
 		}
 	}
 	
+	public void post() {
+		// if(webCam != null && KeyboardState.keyOn('W')) {
+		if(webCam != null && P.p.key == menuKey) {
+			drawMenu(P.p.g);
+		}
+	}
+	
 	public PImage image() {
 		return (webCam != null && webCam.width > 80) ? webCam : noCamera;
 	}
 
 	public boolean isReady() {
 		return image() != noCamera;
+	}
+	
+	public void setMenuKey(char menuKey) {
+		this.menuKey = menuKey;
 	}
 	
 	// get cameras list
@@ -168,10 +183,15 @@ implements IUIButtonDelegate {
 	/////////////////////////////
 
 	public void drawMenu(PGraphics pg) {
+		PG.setDrawFlat2d(pg, true);
+		PG.setDrawCorner(pg);
+		pg.noLights();
+
 		// draw background
 		pg.fill(0, 180);
 		pg.noStroke();
 		pg.rect(0, 0, pg.width, pg.height);
+		pg.fill(255);
 		
 		if(selectedConfig != null) {
 			// draw header (camera title)
@@ -187,6 +207,7 @@ implements IUIButtonDelegate {
 
 		// draw menu
 		if(cameraConfigs != null) {
+
 			for (int i = 0; i < cameraConfigs.size(); i++) {
 				int x = 20 + BUTTON_W * i;
 				int y = 50;
@@ -223,6 +244,8 @@ implements IUIButtonDelegate {
 			FontCacher.setFontOnContext(pg, font, P.p.color(0, 255, 0), 2f, PTextAlign.LEFT, PTextAlign.TOP);
 			pg.text("Cameras initializing", 20, 20);
 		}
+
+		PG.setDrawFlat2d(pg, false);
 	}
 
 	@Override
@@ -237,7 +260,6 @@ implements IUIButtonDelegate {
 	}
 	
 	protected void selectCam(String camId) {
-		P.out("selectCam", camId);
 		if(webCam != null) webCam.stop();
 		webCam = new Capture(P.p, camId);
 		webCam.start();

@@ -137,6 +137,7 @@ implements IUIControl {
 	}
 	
 	public void draw(PGraphics pg) {
+		pg.pushMatrix();
 		PG.setDrawCorner(pg);
 		
 		// outline
@@ -166,6 +167,7 @@ implements IUIControl {
 		
 		// set active if drawing
 		activeTime = P.p.millis();
+		pg.popMatrix();
 	}
 	
 	/////////////////////////////////////////
