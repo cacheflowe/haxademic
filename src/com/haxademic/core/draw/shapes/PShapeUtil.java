@@ -8,6 +8,7 @@ import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.media.audio.analysis.AudioIn;
+import com.haxademic.core.render.Renderer;
 import com.haxademic.core.system.SystemUtil;
 
 import geomerative.RG;
@@ -1061,7 +1062,7 @@ public class PShapeUtil {
 		float r = P.p.red(color);
 		float g = P.p.green(color);
 		float b = P.p.blue(color);
-		if(P.p.joons != null) P.p.joons.jr.fill(material, r, g, b);		
+		if(Renderer.instance().joons != null) Renderer.instance().joons.jr.fill(material, r, g, b);		
 		P.p.fill(r, g, b);
 	}
 	
