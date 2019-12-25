@@ -46,7 +46,6 @@ extends PApplet {
 		P.init(this);
 		config();
 		AppWindow.instance();
-//		buildAppWindow();
 	}
 	
 	protected void printArgs() {
@@ -102,7 +101,7 @@ extends PApplet {
 	public void draw() {
 		parentFirstFrame();
 		
-		p.pushMatrix();	// because drawApp can leave the context in a bad state
+		p.pushMatrix();	// because drawApp can leave the context in a bad state for anything drawing via the "post" event
 		P.store.setNumber(PEvents.DRAW_PRE, p.frameCount);	// mostly for Renderer to do it's thing
 		drawApp();
 		P.store.setNumber(PEvents.DRAW_POST, p.frameCount);
