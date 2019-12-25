@@ -4,10 +4,6 @@
 
 * Next:
   * WebCam menu should look more structured like UI boxes
-  * DebugView should look more structured like UI boxes
-  	* Put images inside boxes like text outputs. yesss
-    * Separate key commands info from debug view, using a '?' key command
-      * Add another DebugView view to list the AppStore's contents
   * Clean up the rest of PAppletHax
     * Move app/window settings to new `Window` object
   * Clean up Renderer situation
@@ -72,7 +68,7 @@
   	* PShapeUtil
   	* Renderer
   	* PGraphicsKeystone
-  	* (Tons of shaders & image-processing functions) 
+  	* (Tons of shaders, textures & image-processing functions) 
   * Communication
   	* WebServer
   	* WebSocketServer
