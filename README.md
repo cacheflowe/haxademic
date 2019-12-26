@@ -33,6 +33,8 @@ Below you'll find a long list of classes and utilities that I've built to make m
 
 * __[P](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/app/P.java)__ - This class holds static references and methods - primarily to the app instance so I don't have to pass it around everywhere.
 
+* __[AppWindow](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/app/AppWindow.java)__ - This object helps set up properties related to the app window, which can mostly be configured in `Config` via `AppSettings`.
+
 `com.haxademic.core.app.config`
 
 * __[AppSettings](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/app/config/AppSettings.java)__ - Static constants to help set app properties and initialize special objects in `PAppletHax`. Used in tandem with `Config`.
