@@ -15,7 +15,7 @@ v2.0 beta1 will play 4k videos at least 100% faster/better than the current vide
 
 More under-the-hood code [here](https://github.com/praxis-live/praxis/blob/master/praxis.video.pgl/src/net/neilcsmith/praxis/video/pgl/PGLPlayer.java#L251)
 
-```
+```java
 public void settings() {
 	fullScreen();
 }
@@ -36,7 +36,7 @@ public void draw() {
 
 This is helpful for any non-drawing code that you need to run that might slow down the UI thread. One example is calling `play()` on a Movie object, which can freeze the UI thread, as seen below. 
 
-```
+```java
 new Thread(new Runnable() { public void run() {
 	myMovie.play();
 }}).start();
@@ -45,7 +45,7 @@ new Thread(new Runnable() { public void run() {
 
 It's also a good idea to communicate with hardware on a Thread, as this can also slow down your app's framerate. You can pick up results in your `draw()` loop from the Thread by setting a "isBusy" boolean, and setting it to true when done. This ensures that your threaded operation takes as much time as it needs, while your graphics continue running fast.
 
-```
+```java
 public boolean working = false;
 public int result = 0;
 
@@ -71,7 +71,7 @@ public void startLongProcess() {
 
 #### Sort an array
 
-```
+```java
 Arrays.sort(myArray, compare);
 
 public static Comparator<CustomObject> compare = new Comparator<CustomObject>() {
@@ -84,7 +84,7 @@ public static Comparator<CustomObject> compare = new Comparator<CustomObject>() 
 
 #### Create a HashMap literal (almost)
 
-```
+```java
 protected static HashMap<String, String> colors;
 static
   {
@@ -97,7 +97,7 @@ static
 
 #### Iterate over a HashMap
 
-```
+```java
 HashMap<Rectangle, PGraphics> screenBuffers = new HashMap<Rectangle, PGraphics>();
 // ...
 
@@ -110,7 +110,7 @@ for (HashMap.Entry<Rectangle, PGraphics> entry : screenBuffers.entrySet()) {
 
 or
 
-```
+```java
 for (Iterator<Entry<Rectangle, PGraphics>> iterator = screenSources.entrySet().iterator(); iterator.hasNext();) {
 	HashMap.Entry<Rectangle, PGraphics> entry = iterator.next();
 }
@@ -120,7 +120,7 @@ Switch from `HashMap` to a `LinkedHashMap` if you want the keys to come out in t
 
 #### Build an array of HashMap keys
 
-```
+```java
 Set<String> keys = hashMap.keySet();
 keysArray = new String[keys.size()];
 int index = 0;
@@ -129,7 +129,7 @@ for(String element : keys) keysArray[index++] = element;
 
 #### Pick a random enum
 
-```
+```java
 enum DrawMode {
   Color,
   Textured,
@@ -183,7 +183,7 @@ NOTE:You may need to restart your PC to see the changes or Scan for hardware cha
 
 #### Errors
 
-```
+```java
 java.lang.ArrayIndexOutOfBoundsException:
 	at processing.opengl.PShapeOpenGL.scaleTextureUV(PShapeOpenGL.java:838)
 ```

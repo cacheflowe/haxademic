@@ -40,7 +40,7 @@ Or if you're running from the command line, you'd point to the Serial library by
 
 If you're using the Processing IDE and have installed the `DmxP512` library and found your COM port (Windows), the following code is the most basic example to test your lights. Make sure you import the Processing Serial library to help the DMX library find your DMX USB device.
 
-```
+```java
 import dmxP512.*;
 import processing.serial.*;
 
