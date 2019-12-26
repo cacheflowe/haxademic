@@ -249,7 +249,7 @@ public class DebugView {
 		if(controlY + texH > P.p.height) nextCol();
 
 		// draw title
-		drawTextLine(imageName + "( " + image.width + " x " + image.height + " )", true);
+		drawTextLine(imageName + " (" + image.width + " x " + image.height + ")", true);
 
 		// draw image
 		p.fill(P.p.color(ColorsHax.BUTTON_BG, BG_ALPHA));

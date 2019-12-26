@@ -146,7 +146,7 @@ implements IAppStoreListener {
 			// move screen after first frame is rendered. this prevents weird issues (i.e. the app not even starting)
 			checkFullscreenSettings();
 		}
-		keepOnTop();
+		// keepOnTop();
 	}
 
 

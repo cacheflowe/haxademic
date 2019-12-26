@@ -43,6 +43,9 @@ extends PAppletHax {
 	//   - Note frequencies: https://pages.mtu.edu/~suits/notefreqs.html
 	// - Add noise wavy shader in addition to the basic wavy sin() lines
 	//   - More lines shaders in general - should have a number to switch between
+	//     - Checkerboard
+	//     - Add uniform controls for all b&w patterns
+	//   - Add a slider to switch between b&w patterns
 	// - Find parameters & make a nice collection of them
 	// - Figure out performance issues
 	// 	 - FXAA & R/D shaders are slow. Is this because of kernel processing?
@@ -50,6 +53,7 @@ extends PAppletHax {
 	//   - Blur values above 1 seem to trigger the broken R/D state with fine lines
 	// - Try 32-bit textures for smoothness? Only matters on main pg and any shaders that use maps?
 	// - Auto-detect blank/black screen & re-seed
+	// - B&W color-cycling shader for pattern textures
 	
 	// app
 	protected boolean clearScreen = true;
@@ -111,10 +115,10 @@ extends PAppletHax {
 	protected void config() {
 		Config.setAppSize(1280, 720);
 		Config.setPgSize(1920, 1080);
+//		Config.setProperty(AppSettings.FULLSCREEN, true);
 		Config.setProperty(AppSettings.LOOP_FRAMES, 2000);
 		Config.setProperty(AppSettings.SHOW_UI, true);
-		Config.setProperty(AppSettings.FULLSCREEN, false);
-		Config.setProperty(AppSettings.ALWAYS_ON_TOP, true);
+		Config.setProperty(AppSettings.ALWAYS_ON_TOP, false);
 		Config.setProperty(AppSettings.SHOW_FPS_IN_TITLE, true);
 	}
 	
