@@ -11,9 +11,9 @@
 	<classpathentry kind="lib" path="lib/beads/library/org-jaudiolibs-audioservers.jar"/>
 	<classpathentry kind="lib" path="lib/beads/library/org-jaudiolibs-jnajack.jar"/>
 	<classpathentry kind="lib" path="lib/beads/library/tools.jar"/>
-	<classpathentry kind="lib" path="lib/beads/library/mp3spi1.9.4.jar"/>
 	<classpathentry kind="lib" path="lib/beads/library/tritonus_aos-0.3.6.jar"/>
 	<classpathentry kind="lib" path="lib/beads/library/tritonus_share.jar"/>
+	<classpathentry kind="lib" path="lib/blobDetection/library/blobDetection.jar"/>
 	<classpathentry kind="lib" path="lib/dmxP512/library/dmxP512.jar"/>
 	<classpathentry kind="lib" path="lib/Ess/library/Ess.jar"/>
 	<classpathentry kind="lib" path="lib/haxademic/haxademic.jar" sourcepath="/haxademic"/>
@@ -21,6 +21,7 @@
 	<classpathentry kind="lib" path="lib/jetty/jetty-all-9.4.22.v20191022-uber.jar"/>
 	<classpathentry kind="lib" path="lib/minim/library/jsminim.jar"/>
 	<classpathentry kind="lib" path="lib/minim/library/minim.jar"/>
+	<classpathentry kind="lib" path="lib/minim/library/mp3spi1.9.5.jar"/>
 	<classpathentry kind="lib" path="lib/processing-3/core/library/core.jar" sourcepath="/processing-core"/>
 	<classpathentry kind="lib" path="lib/processing-3/core/library/gluegen-rt.jar"/>
 	<classpathentry kind="lib" path="lib/processing-3/core/library/jogl-all.jar"/>

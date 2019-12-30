@@ -75,7 +75,7 @@ extends PAppletHax {
 		
 		// copy haxademic assets
 		copyDir("/data/haxademic");
-		copyDir("/www");
+		copyDir("/www/ui");
 		copyDir("/scripts");
 
 		// copy select libs
