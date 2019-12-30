@@ -14,6 +14,7 @@
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.text"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.demo.draw.filters.shaders"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.demo.hardware.webcam"/>
+        <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.demo.hardware.leapmotion"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.draw.mapping"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.demo.draw.color"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.demo.render"/>
@@ -44,7 +45,6 @@
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.demo.hardware.depthcamera.realsense"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.hardware.depthcamera.cameras"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.demo.hardware.depthcamera.kinectpv2"/>
-        <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.hardware.browser"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.draw.shapes.pshader.shared"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.demo.draw.particle"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.demo.math"/>
@@ -121,6 +121,7 @@
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.debug"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.draw.text"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.media.video"/>
+        <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.hardware.http"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.draw.camera"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.draw.particle"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.demo.hardware.keyboard"/>

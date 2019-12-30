@@ -37,8 +37,8 @@ public class FrameLoop {
 	
 	public FrameLoop(float frames, float ticks) {
 		this.loopFrames = frames;
-		loopCurFrame = 0;
 		this.ticks = ticks;
+		loopCurFrame = 0;
 		curTick = -1;
 		
 		P.p.registerMethod(PRegisterableMethods.pre, this);

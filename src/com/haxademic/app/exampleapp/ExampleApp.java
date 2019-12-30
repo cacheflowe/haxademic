@@ -50,7 +50,7 @@ implements IAppStoreListener {
 	}	
 	
 	protected void addKeyCommandInfo() {
-		DebugView.setHelpLine("\n" + DebugView.TITLE_PREFIX + "Custom Key Commands", "");
+		DebugView.setHelpLine(DebugView.TITLE_PREFIX + "Custom Key Commands", "");
 		DebugView.setHelpLine("[1] |", "Trigger");
 	}
 	

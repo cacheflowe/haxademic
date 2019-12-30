@@ -167,7 +167,7 @@ public class DebugView {
 	}
 	
 	public static void updateInputs() {
-		setValue(DebugView.TITLE_PREFIX + "PROCESSING:", "");
+		setValue(DebugView.TITLE_PREFIX + "PROCESSING", "");
 		setValue("p.mouseX", P.p.mouseX);
 		setValue("p.mouseY", P.p.mouseY);
 		setValue("p.key", P.p.key);

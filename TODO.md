@@ -7,17 +7,17 @@
   * Clean up Renderer situation
     * Add ability to target specific offscreen buffers
     * Test audioreactive rendering
-  	* Joons leaves the context in a weird place, and DebugView no longer works. Do we need to reset the camera?
+  	* Joons leaves the context in a weird place, and DebugView looks busted & scaled up. Do we need to reset the camera?
   * DebugView
     * Show full text on hover (move to top of z-stack)
     * Add to UI overlay to be able to see both at once?
     * Click to copy the value
-  * Revisit AppWindow & update demos. Try to keep on top on an interval, in coase of windows popups 
+  * Revisit AppWindow & update demos. Try to keep on top on an interval, in case of windows popups 
   
   * Update README with updated references
   * Should OscState (and maybe GamepadState) be separated to OscConnection and OscState, so multiple OscConnections can send data to it? Multiple objects could communicate on different ports.
 
-* Completed:
+* Converted:
   * Webcam
   * DMXUniverse
   * AudioIn
@@ -72,6 +72,7 @@
   	* PShapeUtil
   	* Renderer
   	* PGraphicsKeystone
+  	* PShaderCompiler
   	* (Tons of shaders, textures & image-processing functions) 
   * Communication
   	* WebServer
