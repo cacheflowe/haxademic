@@ -10,7 +10,7 @@ import com.haxademic.core.hardware.midi.devices.LaunchControl;
 import com.haxademic.core.ui.UI;
 import com.haxademic.core.ui.UIButton;
 
-public class Demo_UIControls_MIDI 
+public class Demo_UI_MIDI 
 extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	

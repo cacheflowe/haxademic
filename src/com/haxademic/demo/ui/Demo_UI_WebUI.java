@@ -10,7 +10,7 @@ import com.haxademic.core.system.SystemUtil;
 import com.haxademic.core.ui.UI;
 import com.haxademic.core.ui.UIButton;
 
-public class Demo_UIControls_WebUI 
+public class Demo_UI_WebUI 
 extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	

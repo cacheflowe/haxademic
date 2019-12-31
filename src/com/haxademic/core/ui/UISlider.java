@@ -5,17 +5,13 @@ import java.awt.Rectangle;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.data.constants.PRegisterableMethods;
-import com.haxademic.core.data.constants.PTextAlign;
 import com.haxademic.core.draw.color.ColorsHax;
 import com.haxademic.core.draw.context.PG;
-import com.haxademic.core.draw.text.FontCacher;
 import com.haxademic.core.file.PrefToText;
 import com.haxademic.core.hardware.midi.MidiState;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.EasingFloat;
-import com.haxademic.core.media.DemoAssets;
 
-import processing.core.PFont;
 import processing.core.PGraphics;
 import processing.event.KeyEvent;
 import processing.event.MouseEvent;
@@ -143,27 +139,27 @@ implements IUIControl {
 		// outline
 		pg.noStroke();
 		pg.fill(ColorsHax.BUTTON_OUTLINE);
-		pg.rect(x-1, y-1, w+2, h+2);
+		pg.rect(x, y, w, h);
 		
 		// background
 		if(mouseHovered) pg.fill(ColorsHax.BUTTON_BG_HOVER);
 		else pg.fill(ColorsHax.BUTTON_BG);
-		pg.rect(x, y, w, h);
-		
-		// text label
-		PFont font = FontCacher.getFont(DemoAssets.fontInterPath, 11);
-		FontCacher.setFontOnContext(pg, font, P.p.color(255), 1f, PTextAlign.LEFT, PTextAlign.TOP);
-		pg.fill(ColorsHax.BUTTON_TEXT);
-		pg.text(id + ": " + MathUtil.roundToPrecision(value, 5), P.round(x + TEXT_INDENT), P.round(y - 2) + 7.1f, w, h);
-		uiRect.setBounds(x, y, w, h);
+		pg.rect(x+1, y+1, w-2, h-2);
 		
 		// draw current value
 		pg.noStroke();
 		if(mousePressed) pg.fill(ColorsHax.WHITE, 180);
-		else pg.fill(ColorsHax.WHITE, 90);
-		float handleW = 20;
-		float mappedX = P.map(value, valueMin, valueMax, x, x + w - handleW);
-		pg.rect(mappedX - 0.5f, y, handleW, h);
+		else pg.fill(0, 127, 0);
+//		else pg.fill(ColorsHax.WHITE, 120);
+		float handleW = 4;
+		float mappedX = P.map(value, valueMin, valueMax, x+1, x + w - handleW);
+		pg.rect(mappedX - 0.5f, y+1, handleW, h-2);
+		
+		// text label
+		IUIControl.setFont(pg);
+		pg.fill(ColorsHax.BUTTON_TEXT);
+		pg.text(id + ": " + MathUtil.roundToPrecision(value, 5), P.round(x + TEXT_INDENT), y, w, h*2);
+		uiRect.setBounds(x, y, w, h);
 		
 		// set active if drawing
 		activeTime = P.p.millis();

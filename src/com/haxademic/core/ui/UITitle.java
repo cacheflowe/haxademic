@@ -2,15 +2,10 @@ package com.haxademic.core.ui;
 
 import java.awt.Rectangle;
 
-import com.haxademic.core.app.P;
-import com.haxademic.core.data.constants.PTextAlign;
 import com.haxademic.core.draw.color.ColorsHax;
 import com.haxademic.core.draw.context.PG;
-import com.haxademic.core.draw.text.FontCacher;
 import com.haxademic.core.math.MathUtil;
-import com.haxademic.core.media.DemoAssets;
 
-import processing.core.PFont;
 import processing.core.PGraphics;
 
 public class UITitle
@@ -99,17 +94,16 @@ implements IUIControl {
 		// outline
 		pg.noStroke();
 		pg.fill(ColorsHax.BUTTON_OUTLINE);
-		pg.rect(rect.x-1, rect.y-1, rect.width+2, rect.height+2);
+		pg.rect(rect.x, rect.y, rect.width, rect.height);
 
 		// background
 		pg.fill(ColorsHax.TITLE_BG);
-		pg.rect(rect.x, rect.y, rect.width, rect.height);
+		pg.rect(rect.x+1, rect.y+1, rect.width-2, rect.height-2);
 
 		// text label
-		PFont font = FontCacher.getFont(DemoAssets.fontOpenSansPath, P.max(11, rect.height * 0.35f));
-		FontCacher.setFontOnContext(pg, font, P.p.color(255), 1f, PTextAlign.LEFT, PTextAlign.TOP);
+		IUIControl.setFont(pg);
 		pg.fill(ColorsHax.BUTTON_TEXT);
-		pg.text(label, rect.x + TEXT_INDENT, rect.y + 4f, rect.width, rect.height);
+		pg.text(label, rect.x + TEXT_INDENT, rect.y);
 	}
 	
 }

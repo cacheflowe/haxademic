@@ -23,8 +23,8 @@ implements IUIButtonDelegate {
 
 	protected static LinkedHashMap<String, IUIControl> controls;
 	
-	public static int controlX = 1;
-	protected static int controlY = 1;
+	public static int controlX = 0;
+	public static int controlY = 0;
 
 	protected static boolean active = false;
 
@@ -73,7 +73,7 @@ implements IUIButtonDelegate {
 	
 	public static void addTitle(String title) {
 		controls.put(title, new UITitle(title, controlX, controlY, IUIControl.controlW, IUIControl.controlH));
-		controlY += IUIControl.controlH;
+		controlY += IUIControl.controlSpacing;
 		if(controlY > P.p.height - IUIControl.controlH) nextCol();
 	}
 	
@@ -92,7 +92,7 @@ implements IUIButtonDelegate {
 	
 	public static void addSlider(String key, float value, float valueLow, float valueHigh, float dragStep, boolean saves, int midiCCNote) {
 		controls.put(key, new UISlider(key, value, valueLow, valueHigh, dragStep, controlX, controlY, IUIControl.controlW, IUIControl.controlH, saves, midiCCNote));
-		controlY += IUIControl.controlH;
+		controlY += IUIControl.controlSpacing;
 		if(controlY > P.p.height - IUIControl.controlH) nextCol();
 	}
 	
@@ -102,20 +102,20 @@ implements IUIButtonDelegate {
 	
 	public static void addSliderVector(String key, float value, float valueLow, float valueHigh, float dragStep, boolean saves, int midiCCNote1, int midiCCNote2, int midiCCNote3) {
 		float controlWidthDivided = (float) IUIControl.controlW / 3f;
-		int controlHStack = P.round(IUIControl.controlH * 1.5f);
-		controls.put(key + "_X", new UISlider(key + "_X", value, valueLow, valueHigh, dragStep, P.round(controlX + 0 * controlWidthDivided), controlY, P.round(controlWidthDivided), controlHStack, saves, midiCCNote1));
-		controls.put(key + "_Y", new UISlider(key + "_Y", value, valueLow, valueHigh, dragStep, P.round(controlX + 1 * controlWidthDivided), controlY, P.round(controlWidthDivided), controlHStack, saves, midiCCNote2));
-		controls.put(key + "_Z", new UISlider(key + "_Z", value, valueLow, valueHigh, dragStep, P.round(controlX + 2 * controlWidthDivided), controlY, P.round(controlWidthDivided), controlHStack, saves, midiCCNote3));
-		controls.get(key + "_X").layoutW(0.3333f);
-		controls.get(key + "_Y").layoutW(0.3333f);
-		controls.get(key + "_Z").layoutW(0.3333f);
-		controlY += controlHStack;
+		int controlHStack = P.round(IUIControl.controlH * 1.6f);
+		controls.put(key + "_X", new UISlider(key + "_X", value, valueLow, valueHigh, dragStep, P.ceil(controlX + 0 * controlWidthDivided), controlY, P.ceil(controlWidthDivided)-1, controlHStack, saves, midiCCNote1));
+		controls.put(key + "_Y", new UISlider(key + "_Y", value, valueLow, valueHigh, dragStep, P.ceil(controlX + 1 * controlWidthDivided)-2, controlY, P.ceil(controlWidthDivided), controlHStack, saves, midiCCNote2));
+		controls.put(key + "_Z", new UISlider(key + "_Z", value, valueLow, valueHigh, dragStep, P.ceil(controlX + 2 * controlWidthDivided)-2, controlY, P.ceil(controlWidthDivided)+1, controlHStack, saves, midiCCNote3));
+		controls.get(key + "_X").layoutW(0.333f);
+		controls.get(key + "_Y").layoutW(0.333f);
+		controls.get(key + "_Z").layoutW(0.333f);
+		controlY += controlHStack - 1;
 		if(controlY > P.p.height - controlHStack) nextCol();
 	}
 	
 	protected static void nextCol() {
-		controlY = 1;
-		controlX += IUIControl.controlW + 1;
+		controlY = 0;
+		controlX += IUIControl.controlW + 0;
 	}
 	
 	public static void removeControl(String key) {
@@ -141,7 +141,7 @@ implements IUIButtonDelegate {
 	
 	public static void addButtons(String[] keys, boolean toggles, int[] midiNotes) {
 		float layoutW = 1f / keys.length;
-		float controlWidthDivided = (IUIControl.controlW - IUIControl.controlSpacing * (keys.length - 1)) / keys.length;
+		float controlWidthDivided = IUIControl.controlW / keys.length;
 		for (int i = 0; i < keys.length; i++) {
 			int buttonX = P.round(controlX + i * controlWidthDivided);
 			int midiNote = (midiNotes != null && midiNotes.length > i) ? midiNotes[i] : -1;
@@ -244,7 +244,7 @@ implements IUIButtonDelegate {
 	
 	public void checkKeyCommands() {
 		if(KeyboardState.instance().isKeyTriggered('\\')) active = !active;
-		if(KeyboardState.instance().isKeyTriggered('/')) active = false;
+//		if(KeyboardState.instance().isKeyTriggered('/')) active = false;
 	}
 	
 	////////////////////////

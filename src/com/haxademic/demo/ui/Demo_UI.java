@@ -8,7 +8,7 @@ import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.ui.UI;
 import com.haxademic.core.ui.UIButton;
 
-public class Demo_UIControls 
+public class Demo_UI 
 extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
@@ -24,10 +24,13 @@ extends PAppletHax {
 	}
 	
 	public void firstFrame () {
+		UI.addTitle("Color");
 		UI.addSlider(R, 255, 0, 255, 0.5f);
 		UI.addSlider(G, 255, 0, 255, 0.5f);
 		UI.addSlider(B, 255, 0, 255, 0.5f);
+		UI.addTitle("Rotation");
 		UI.addSliderVector(VECTOR_3, 0, -1f, 1f, 0.001f, false);
+		UI.addTitle("Test buttons");
 		UI.addButton("Button", false);
 		UI.addButton("Button 2", true);
 		UI.addButtons(new String[] {"1", "2", "3", "4"}, true);

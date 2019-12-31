@@ -20,6 +20,7 @@ import com.haxademic.core.net.IPAddress;
 import com.haxademic.core.system.DateUtil;
 import com.haxademic.core.text.StringUtil;
 import com.haxademic.core.ui.IUIControl;
+import com.haxademic.core.ui.UI;
 
 import processing.core.PApplet;
 import processing.core.PFont;
@@ -51,7 +52,7 @@ public class DebugView {
 	public static final String TITLE_PREFIX = "___";
 	
 	public static int controlX = 0;
-	protected static int controlY = 0;
+	public static int controlY = 0;
 	public static final int controlH = 16;
 
 	// Singleton instance
@@ -166,7 +167,7 @@ public class DebugView {
 		setHelpLine("[|]", "Save screenshot");
 	}
 	
-	public static void updateInputs() {
+	protected static void updateInputs() {
 		setValue(DebugView.TITLE_PREFIX + "PROCESSING", "");
 		setValue("p.mouseX", P.p.mouseX);
 		setValue("p.mouseY", P.p.mouseY);
@@ -223,18 +224,18 @@ public class DebugView {
 		// outline
 		pg.noStroke();
 		pg.fill(ColorsHax.BUTTON_OUTLINE);
-		pg.rect(controlX, controlY + controlH, IUIControl.controlW, 1);
+		pg.rect(controlX, controlY, IUIControl.controlW, controlH);
 
 		// background
 		pg.fill((isTitle) ? ColorsHax.TITLE_BG : P.p.color(ColorsHax.BUTTON_BG, BG_ALPHA));
-		pg.rect(controlX, controlY, IUIControl.controlW, controlH);
+		pg.rect(controlX+1, controlY+1, IUIControl.controlW-2, controlH-2);
 
 		// text label
 		pg.fill(ColorsHax.BUTTON_TEXT);
 		pg.text(textLine, controlX + IUIControl.TEXT_INDENT, controlY + 1f, IUIControl.controlW, controlH);
 
 		// move to next box
-		controlY += controlH;
+		controlY += controlH - 1;
 		if(controlY > P.p.height - controlH) nextCol();
 	}
 	
@@ -274,7 +275,7 @@ public class DebugView {
 			else mode = MODE_DEBUG;
 		}
 //		if(KeyboardState.instance().isKeyTriggered('?')) { active(!active); mode = MODE_HELP; }
-		if(KeyboardState.instance().isKeyTriggered('\\')) active(false);
+//		if(KeyboardState.instance().isKeyTriggered('\\')) active(false);
 	}
 	
 	public void pre() {
@@ -305,8 +306,8 @@ public class DebugView {
 		p.blendMode(PBlendModes.BLEND);
 		
 		// draw info boxes!
-		controlX = 0;
-		controlY = 0;
+		controlX = (UI.active()) ? UI.controlX : 0;
+		controlY = (UI.active()) ? UI.controlY : 0;
 		FontCacher.setFontOnContext(P.p.g, debugFont, P.p.color(255), 1f, PTextAlign.LEFT, PTextAlign.TOP);
 		if(mode == MODE_DEBUG) {
 			drawValuesFromHashMap(debugLines); 

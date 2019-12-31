@@ -33,7 +33,6 @@ extends PAppletHax {
 	public void drawApp() {
 		background(0);
 
-		DebugView.updateInputs();
 		DebugView.setValue("Max mouse", P.max(p.mouseX, p.mouseY));
 		DebugView.setTexture("smallTexture", DemoAssets.smallTexture());
 		

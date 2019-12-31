@@ -1,5 +1,11 @@
 package com.haxademic.core.ui;
 
+import com.haxademic.core.app.P;
+import com.haxademic.core.data.constants.PTextAlign;
+import com.haxademic.core.draw.text.FontCacher;
+import com.haxademic.core.media.DemoAssets;
+
+import processing.core.PFont;
 import processing.core.PGraphics;
 
 public interface IUIControl {
@@ -9,9 +15,14 @@ public interface IUIControl {
 	
 	public static int TEXT_INDENT = 6;
 	public static final int controlW = 250;
-	public static final int controlH = 24;
-	public static final int controlSpacing = 24;
+	public static final int controlH = 16;
+	public static final int controlSpacing = controlH - 1;
 
+	public static void setFont(PGraphics pg) {
+		PFont font = FontCacher.getFont(DemoAssets.fontOpenSansPath, 11);
+		FontCacher.setFontOnContext(pg, font, P.p.color(255), 1f, PTextAlign.LEFT, PTextAlign.TOP);
+	}
+	
 	public String type();
 	public String id();
 	public void set(float val);

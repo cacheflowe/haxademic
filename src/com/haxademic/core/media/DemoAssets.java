@@ -140,6 +140,11 @@ public class DemoAssets {
 		if(fontInter == null) fontInter = P.p.createFont( FileUtil.getPath(fontInterPath), fontSize );
 		return fontInter;
 	}
+	public static PFont fontDebug = null;
+	public static PFont fontDebug() {
+		if(fontDebug == null) fontDebug = P.p.createFont( FileUtil.getPath(fontInterPath), 11 );
+		return fontDebug;
+	}
 	
 	public static String fontRalewayPath = "haxademic/fonts/Raleway-Regular.ttf";
 	public static PFont fontRaleway = null;
