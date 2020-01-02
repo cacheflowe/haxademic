@@ -133,7 +133,7 @@ extends BaseVideoFilter {
 			tiledTexture.setSize(1, 1);
 			tiledTexture.setRotation(P.PI);
 			tiledTexture.setOffset(0, 0);
-			tiledTexture.drawCentered(destBuffer, destBuffer.width, destBuffer.height);
+			tiledTexture.draw(destBuffer, destBuffer.width, destBuffer.height);
 		}
 		// draw punch-in layers
 		if(animIndex == -1 || animIndex == 0 || animIndex == 1) {
@@ -144,14 +144,14 @@ extends BaseVideoFilter {
 				tiledTexture.setSize(tileSize.value() - (punchSteps - 1 - i) * stepSize, tileSize.value() - (punchSteps - 1 - i) * stepSize);
 				tiledTexture.setRotation(tileRot.value());
 				tiledTexture.setOffset(tileOffsetX.value(), tileOffsetY.value());
-				tiledTexture.drawCentered(destBuffer, destBuffer.width * stepDrawSize, destBuffer.height * stepDrawSize);
+				tiledTexture.draw(destBuffer, destBuffer.width * stepDrawSize, destBuffer.height * stepDrawSize);
 			}
 		}
 		// set animated properties
 		tiledTexture.setSize(tileSize.value(), tileSize.value());
 		tiledTexture.setRotation(tileRot.value());
 		tiledTexture.setOffset(tileOffsetX.value(), tileOffsetY.value());
-		tiledTexture.drawCentered(destBuffer, destBuffer.width * drawSize.value(), destBuffer.height * drawSize.value());
+		tiledTexture.draw(destBuffer, destBuffer.width * drawSize.value(), destBuffer.height * drawSize.value());
 		destBuffer.popMatrix();
 	}
 

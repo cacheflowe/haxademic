@@ -179,7 +179,7 @@ extends PAppletHax {
 		PG.setCenterScreen(pg);
 		tileSize.update(true);
 		tileRot.update(true);
-		finalPatternTileRepeat.drawCentered(pg, pg.width, pg.height);
+		finalPatternTileRepeat.draw(pg, pg.width, pg.height);
 		finalPatternTileRepeat.setRotation(tileRot.value());
 		finalPatternTileRepeat.setSize(tileSize.value(), tileSize.value());
 		
@@ -261,7 +261,7 @@ extends PAppletHax {
 			bwCellTile.setRotation(easedRot.value());
 			houndsTooth4x4.pushMatrix();
 			houndsTooth4x4.translate(size * col + size/2, size * row + size/2);
-			bwCellTile.drawCentered(houndsTooth4x4, size, size);
+			bwCellTile.draw(houndsTooth4x4, size, size);
 			
 			// debug text
 //			houndsTooth4x4.fill(255,0,0);

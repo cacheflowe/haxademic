@@ -31,6 +31,12 @@ public class FrameLoop {
 		return instance;
 	}
 
+	public static FrameLoop instance(float frames) {
+		if(instance != null) return instance;
+		instance = new FrameLoop(frames);
+		return instance;
+	}
+	
 	public FrameLoop(float frames) {
 		this(frames, 4);
 	}
@@ -38,7 +44,8 @@ public class FrameLoop {
 	public FrameLoop(float frames, float ticks) {
 		this.loopFrames = frames;
 		this.ticks = ticks;
-		loopCurFrame = 0;
+		loopCurFrame = 1;
+		frame = 1;
 		curTick = -1;
 		
 		P.p.registerMethod(PRegisterableMethods.pre, this);
@@ -48,6 +55,10 @@ public class FrameLoop {
 	
 	public static float count() {
 		return FrameLoop.instance().frame;
+	}
+	
+	public static float count(float mult) {
+		return FrameLoop.instance().frame * mult;
 	}
 	
 	public static boolean frameMod(int mod) {

@@ -58,7 +58,7 @@ extends PAppletHax {
 		float sizeOsc = 0.01f * P.sin(FrameLoop.progressRads());
 		tiledImg.setSize(0.5f + sizeOsc, 0.5f + sizeOsc);
 		tiledImg.update();
-		tiledImg.drawCentered(p.g, p.width * 5f, p.height * 15f);
+		tiledImg.draw(p.g, p.width * 5f, p.height * 15f);
 		
 		// post effects
 		postProcess();

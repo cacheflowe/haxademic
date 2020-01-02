@@ -103,7 +103,7 @@ extends PAppletHax {
 		tiledImg.setOffset(0, progress);// easedProgress);
 		tiledImg.setSize(size, size);
 		tiledImg.update();
-		tiledImg.drawCentered(tiledBuffer, tiledBuffer.width, tiledBuffer.height);
+		tiledImg.draw(tiledBuffer, tiledBuffer.width, tiledBuffer.height);
 		tiledBuffer.popMatrix();
 		tiledBuffer.endDraw();
 

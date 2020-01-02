@@ -132,7 +132,7 @@ extends PAppletHax {
 		gunTilingTexture.setOffset(percentComplete, percentComplete);
 		float tileScale = 1.0f + 0.5f * P.sin(radsComplete);
 		gunTilingTexture.setSize(tileScale, -tileScale);
-		gunTilingTexture.drawCentered(gunTexture, gunTexture.width, gunTexture.height);
+		gunTilingTexture.draw(gunTexture, gunTexture.width, gunTexture.height);
 		gunTexture.endDraw();
 
 		// draw gun

@@ -111,7 +111,7 @@ extends BaseTexture {
 		tiledImg.setOffset(xOffset.value(), yOffset.value());
 		tiledImg.setSize(scale.value(), scale.value());
 		tiledImg.update();
-		tiledImg.drawCentered(_texture, width, height);
+		tiledImg.draw(_texture, width, height);
 		
 		InvertFilter.instance(P.p).applyTo(_texture);
 	}

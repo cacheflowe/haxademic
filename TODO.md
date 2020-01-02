@@ -201,21 +201,26 @@
   	* Any other cool loop/render?!
 
 ## Interphase
+  * C.A.C.H.E. - Creative Adversarial Computer-Human Exchange
   * [DONE!] perfectly-looped audio clips, mapped to main loop length
   	* [Kinda works! would be better w/Interphase Metronome] Scrub to random parts of samples to chop breaks
   * [Works!] Integrate Communichords looping tones (for Moire Room, specifically)
-  * Add sliders to specifically choose samples
-  * C.A.C.H.E. - Creative Adversarial Computer-Human Exchange
+  * Add slider for BPM
+  * [DONE but kills internal randomization & incrementing] Add sliders to specifically choose samples
+  * Space button to start/stop
   * Store/recall audio & visual combos
-    * Need to turn off totally random notes (rely on position-based notes)
     * Serialize sequencer config
+    * Need to turn off totally random notes (rely on position-based notes)
     * Morph between stored configs
     * Store premade patterns for different beats/songs. Json?
     * Make alternate z-space-scrolling sequencer grid
   * Musical interaction
-    * Fix BPM increment
     * allow doubletime sequencer
     * More morphing options
+    * Add breakbeat & synth loop Sequencer types? How to work these concepts in?
+  * Sound style
+    * More/new samples! Get rid of abrasive samples
+    * Make interphase more bangy & think about converting to be more spatial w/lighting
   * Effects
     * delay / offset
     * add a compressor to main output? audio needs to be squished
@@ -226,9 +231,6 @@
     * build a more custom touchscreen 8x16 interface via `p.ui`
       * Map more functions to hardware controls
       * Use a button to play sample without changing pattern
-  * Sound style
-    * More/new samples! Get rid of abrasive samples
-    * Make interphase more bangy & think about converting to be more spatial w/lighting
   * Visual style
     * Better haxvisual patterns configurations
 

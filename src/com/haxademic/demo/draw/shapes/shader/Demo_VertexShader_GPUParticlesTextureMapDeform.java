@@ -13,6 +13,7 @@ import com.haxademic.core.draw.textures.PerlinTexture;
 import com.haxademic.core.draw.textures.pgraphics.TextureEQGrid;
 import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
 import com.haxademic.core.file.FileUtil;
+import com.haxademic.core.media.audio.analysis.AudioIn;
 import com.haxademic.core.render.FrameLoop;
 
 import processing.core.PGraphics;
@@ -46,6 +47,8 @@ extends PAppletHax {
 	}
 
 	protected void firstFrame() {
+		AudioIn.instance();
+		
 		// load & set texture
 		// perlin = new PerlinTexture(p, (int) w, (int) h);
 		audioTexture = new TextureEQGrid((int) w, (int) h);

@@ -47,7 +47,7 @@ public class DebugView {
 	protected static int BG_ALPHA = 200;
 	protected static int frameOpened = 0;
 	protected static int hideFrames = 60 * 60;
-	protected static boolean autoHide = true;
+	protected static boolean autoHide = false;
 	protected static String ipAddress;
 	public static final String TITLE_PREFIX = "___";
 	

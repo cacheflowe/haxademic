@@ -133,7 +133,7 @@ extends PAppletHax {
 		tiledRainbow.setOffset(0, 0);
 		tiledRainbow.setSize(3f + 2f * P.sin(2f * 4f * FrameLoop.progressRads()), 3f + 2f * P.sin(2f * 4f * FrameLoop.progressRads()));
 		tiledRainbow.setRotation(P.sin(4f * FrameLoop.progressRads()));
-		tiledRainbow.drawCentered(meshTextureBuffer, meshTextureBuffer.width, meshTextureBuffer.height);
+		tiledRainbow.draw(meshTextureBuffer, meshTextureBuffer.width, meshTextureBuffer.height);
 		meshTextureBuffer.endDraw();
 		
 		textTextureBuffer.beginDraw();
@@ -141,7 +141,7 @@ extends PAppletHax {
 		tiledRainbow.setOffset(0, 0);
 		tiledRainbow.setSize(2f + 1f * P.sin(2f * 4f * FrameLoop.progressRads()), 2f + 1f * P.sin(2f * 4f * FrameLoop.progressRads()));
 		tiledRainbow.setRotation(P.PI - P.sin(4f * FrameLoop.progressRads()));
-		tiledRainbow.drawCentered(textTextureBuffer, textTextureBuffer.width, textTextureBuffer.height);
+		tiledRainbow.draw(textTextureBuffer, textTextureBuffer.width, textTextureBuffer.height);
 		textTextureBuffer.endDraw();
 		
 		// easing

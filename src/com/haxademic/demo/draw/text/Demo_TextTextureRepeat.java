@@ -124,7 +124,7 @@ extends PAppletHax {
 //		tiledImg.setOffset(AnimationLoop.progress(), 0f);
 		tiledImg.setSize(1f, 1f);
 		tiledImg.update();
-		tiledImg.drawCentered(texture, texture.width, texture.height);
+		tiledImg.draw(texture, texture.width, texture.height);
 
 		texture.endDraw();
 		

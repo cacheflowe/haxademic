@@ -202,6 +202,15 @@ implements IAppStoreListener {
 		return evolves = !evolves;
 	}
 	
+	public int numSamples() {
+		return filenames.length;
+	}
+	
+	public void setSampleByIndex(int index) {
+		curSampleIndex = index;
+		curSample = samples[curSampleIndex];
+	}
+	
 	/////////////////////////////////////
 	// INPUT
 	/////////////////////////////////////

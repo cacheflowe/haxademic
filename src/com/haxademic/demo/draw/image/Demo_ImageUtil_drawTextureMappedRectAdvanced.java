@@ -73,7 +73,7 @@ extends PAppletHax {
 			movieRepeatTexture.setSize(movieScale, movieScale * ((float) videoFrameBuffer.height / (float) videoFrameBuffer.width));
 			movieRepeatTexture.setOffset(0, offset);
 			movieRepeatTexture.update();
-			movieRepeatTexture.drawCentered(videoFrameBuffer, videoFrameBuffer.width, videoFrameBuffer.height);
+			movieRepeatTexture.draw(videoFrameBuffer, videoFrameBuffer.width, videoFrameBuffer.height);
 			videoFrameBuffer.popMatrix();
 		}
 		

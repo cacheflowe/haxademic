@@ -68,7 +68,7 @@ implements IWebCamCallback {
 			tiledTexture.setSize(sizee, sizee);
 			tiledTexture.setRotation(p.frameCount * 0.0001f);
 			tiledTexture.setOffset(1f * P.sin(p.frameCount * 0.0001f), 1f * P.sin(p.frameCount * 0.00005f));
-			tiledTexture.drawCentered(p.g, p.width, p.height);
+			tiledTexture.draw(p.g, p.width, p.height);
 		}
 		
 		// kaleido

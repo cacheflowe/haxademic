@@ -13,7 +13,6 @@
 	<classpathentry kind="lib" path="lib/beads/library/tools.jar"/>
 	<classpathentry kind="lib" path="lib/beads/library/tritonus_aos-0.3.6.jar"/>
 	<classpathentry kind="lib" path="lib/beads/library/tritonus_share.jar"/>
-	<classpathentry kind="lib" path="lib/blobDetection/library/blobDetection.jar"/>
 	<classpathentry kind="lib" path="lib/dmxP512/library/dmxP512.jar"/>
 	<classpathentry kind="lib" path="lib/Ess/library/Ess.jar"/>
 	<classpathentry kind="lib" path="lib/haxademic/haxademic.jar" sourcepath="/haxademic"/>

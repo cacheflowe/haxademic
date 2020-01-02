@@ -47,7 +47,7 @@ extends PAppletHax {
 //		tiledBg.setOffset(30000f * P.sin(p.frameCount * 0.01f), 10f * P.cos(p.frameCount * 0.01f));
 		tiledBg.setSize(6f + 5.6f * P.sin(progressRads), 6f + 5.6f * P.sin(progressRads));
 		tiledBg.update();
-		tiledBg.drawCentered(p.g, p.width, p.height);
+		tiledBg.draw(p.g, p.width, p.height);
 		p.popMatrix();
 		
 		

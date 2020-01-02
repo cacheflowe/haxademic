@@ -77,7 +77,11 @@ public class TiledTexture {
 		if(vY > texture.height && speedY > 0f) vY -= texture.height;
 	}
 	
-	public void drawCentered(PGraphics pg, float drawW, float drawH) {
+	public void draw(PGraphics pg, float drawW, float drawH) {
+		draw(pg, drawW, drawH, true);
+	}
+	
+	public void draw(PGraphics pg, float drawW, float drawH, boolean drawFromCenter) {
 		PG.setTextureRepeat(pg, true);
 		float halfDrawW = drawW / 2f;
 		float halfDrawH = drawH / 2f;
@@ -113,10 +117,17 @@ public class TiledTexture {
 			blX = uX + radius * P.cos(blRads);
 			blY = vY - radius * P.sin(blRads);
 		}
-		pg.vertex(-halfDrawW, -halfDrawH, tlX, tlY);
-		pg.vertex( halfDrawW, -halfDrawH, trX, trY);
-		pg.vertex( halfDrawW,  halfDrawH, brX, brY);
-		pg.vertex(-halfDrawW,  halfDrawH, blX, blY);
+		if(drawFromCenter) {
+			pg.vertex(-halfDrawW, -halfDrawH, tlX, tlY);
+			pg.vertex( halfDrawW, -halfDrawH, trX, trY);
+			pg.vertex( halfDrawW,  halfDrawH, brX, brY);
+			pg.vertex(-halfDrawW,  halfDrawH, blX, blY);
+		} else {
+			pg.vertex(0, 0, 		tlX, tlY);
+			pg.vertex(drawW, 0, 	trX, trY);
+			pg.vertex(drawW, drawH, brX, brY);
+			pg.vertex(0, drawH, 	blX, blY);
+		}
 		pg.endShape();
 	}
 	

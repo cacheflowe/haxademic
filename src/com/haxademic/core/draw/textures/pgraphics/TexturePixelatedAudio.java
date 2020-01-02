@@ -61,12 +61,6 @@ extends BaseTexture {
 		// simplex noise shader
 		textureShader = new TextureShader(TextureShader.noise_simplex_2d_iq, 0.0005f);
 		
-		// debug textures
-//		DebugView.setTexture(noiseMap);
-//		DebugView.setTexture(noiseMapZoomed);
-//		DebugView.setTexture(noiseMapFine);
-//		DebugView.setTexture(noiseComposite);
-		
 		// create gradients
 		gradient = new ImageGradient(ImageGradient.BLACK_HOLE());
 //		gradient = new ImageGradient(ImageGradient.PASTELS());
@@ -146,15 +140,15 @@ extends BaseTexture {
 		ColorizeFromTexture.instance(P.p).applyTo(noiseMap);
 		
 		// draw audio cells over scaled-up low-res texture
-		noiseMap.beginDraw();
-		noiseMap.noStroke();
-		for (int i = 0; i < cells.length; i++) {
-			if(cells[i] != null) {
-				if(AudioIn.isBeat()) cells[i].beat();
-				cells[i].update();
-			}
-		}
-		noiseMap.endDraw();
+//		noiseMap.beginDraw();
+//		noiseMap.noStroke();
+//		for (int i = 0; i < cells.length; i++) {
+//			if(cells[i] != null) {
+//				if(AudioIn.isBeat()) cells[i].beat();
+//				cells[i].update();
+//			}
+//		}
+//		noiseMap.endDraw();
 		
 		// blend composite
 		BlendTowardsTexture.instance(P.p).setSourceTexture(noiseMap);
