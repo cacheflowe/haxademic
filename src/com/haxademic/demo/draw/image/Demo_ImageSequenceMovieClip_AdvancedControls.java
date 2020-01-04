@@ -1,4 +1,4 @@
-package com.haxademic.sketch.test;
+package com.haxademic.demo.draw.image;
 
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
@@ -8,7 +8,7 @@ import com.haxademic.core.file.FileUtil;
 
 import processing.video.Movie;
 
-public class VideoAndImageSequenceAdvancedControls
+public class Demo_ImageSequenceMovieClip_AdvancedControls
 extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 

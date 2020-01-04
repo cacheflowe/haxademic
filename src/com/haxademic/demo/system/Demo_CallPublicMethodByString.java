@@ -1,9 +1,9 @@
-package com.haxademic.sketch.test;
+package com.haxademic.demo.system;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 
-public class CallPublicMethodByString
+public class Demo_CallPublicMethodByString
 extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
