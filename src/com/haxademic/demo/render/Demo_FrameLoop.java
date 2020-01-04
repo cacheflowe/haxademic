@@ -3,7 +3,6 @@ package com.haxademic.demo.render;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
-import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.render.FrameLoop;
 
 import processing.core.PVector;
@@ -29,10 +28,6 @@ extends PAppletHax {
 	}
 
 	public void firstFrame() {
-	
-		
-		p.smooth(OpenGLUtil.SMOOTH_HIGH);
-		
 		_boxSize = 200;
 		_boxRot.set(0,0,0);
 	}
