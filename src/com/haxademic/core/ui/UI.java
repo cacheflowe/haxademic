@@ -115,7 +115,7 @@ implements IUIButtonDelegate {
 	
 	protected static void nextCol() {
 		controlY = 0;
-		controlX += IUIControl.controlW + 0;
+		controlX += IUIControl.controlW - 1;
 	}
 	
 	public static void removeControl(String key) {

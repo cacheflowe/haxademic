@@ -83,10 +83,12 @@ implements IAppStoreListener {
 				DebugUtil.printErr("Error: Attempting to set retina drawing on a non-retina screen");
 			}
 		}	
-		
+	}
+	
+	public void finishSetup() {
 		// FRAMERATE
 		int _fps = Config.getInt(AppSettings.FPS, 60);
-		if(Config.getInt(AppSettings.FPS, 60) != 60) p.frameRate(_fps);
+		if(Config.getInt(AppSettings.FPS, 60) != 60) P.p.frameRate(_fps);
 		
 		// SET APP ICON
 		String appIconFile = Config.getString(AppSettings.APP_ICON, "haxademic/images/haxademic-logo.png");
@@ -94,7 +96,6 @@ implements IAppStoreListener {
 		if(FileUtil.fileExists(iconPath)) {
 			PJOGL.setIcon(iconPath);
 		}
-		
 	}
 	
 	protected void updateAppTitle() {

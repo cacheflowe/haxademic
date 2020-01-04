@@ -44,7 +44,7 @@ public class DebugView {
 	protected static int MODE_DEBUG = 0;
 	protected static int MODE_HELP = 1;
 	protected static int mode = MODE_DEBUG;
-	protected static int BG_ALPHA = 200;
+	protected static int BG_ALPHA = 180;
 	protected static int frameOpened = 0;
 	protected static int hideFrames = 60 * 60;
 	protected static boolean autoHide = false;
@@ -221,18 +221,20 @@ public class DebugView {
 		PGraphics pg = P.p.g;
 		PG.setDrawCorner(pg);
 
-		// outline
-		pg.noStroke();
-		pg.fill(ColorsHax.BUTTON_OUTLINE);
-		pg.rect(controlX, controlY, IUIControl.controlW, controlH);
-
-		// background
-		pg.fill((isTitle) ? ColorsHax.TITLE_BG : P.p.color(ColorsHax.BUTTON_BG, BG_ALPHA));
-		pg.rect(controlX+1, controlY+1, IUIControl.controlW-2, controlH-2);
+		// set context
+		pg.pushMatrix();
+		pg.translate(controlX, controlY);
+		
+		// draw bg rect
+		int fill = (isTitle) ? P.p.color(ColorsHax.TITLE_BG, BG_ALPHA) : P.p.color(ColorsHax.BUTTON_BG, BG_ALPHA);
+		PG.drawStrokedRect(pg, IUIControl.controlW, controlH, 1, fill, ColorsHax.BUTTON_OUTLINE);
 
 		// text label
 		pg.fill(ColorsHax.BUTTON_TEXT);
-		pg.text(textLine, controlX + IUIControl.TEXT_INDENT, controlY + 1f, IUIControl.controlW, controlH);
+		pg.text(textLine, IUIControl.TEXT_INDENT, 1f, IUIControl.controlW, controlH);
+		
+		// reset context
+		pg.popMatrix();
 
 		// move to next box
 		controlY += controlH - 1;
@@ -240,6 +242,8 @@ public class DebugView {
 	}
 	
 	protected void drawImage(String imageName, PImage image) {
+		PGraphics pg = P.p.g;
+
     	// scale to fit
 		float padding = 10;
 		float imgScale = MathUtil.scaleToTarget(image.width, IUIControl.controlW);
@@ -252,10 +256,16 @@ public class DebugView {
 		// draw title
 		drawTextLine(imageName + " (" + image.width + " x " + image.height + ")", true);
 
+		// set context
+		pg.pushMatrix();
+		pg.translate(controlX, controlY);
+		
 		// draw image
-		p.fill(P.p.color(ColorsHax.BUTTON_BG, BG_ALPHA));
-		p.rect(controlX, controlY, IUIControl.controlW, texH);
-		p.image(image, controlX + padding, controlY + padding, texW - padding * 2, texH - padding * 2);
+		PG.drawStrokedRect(pg, IUIControl.controlW, texH, 1, P.p.color(ColorsHax.BUTTON_BG, BG_ALPHA), ColorsHax.BUTTON_OUTLINE);
+		p.image(image, padding, padding, texW - padding * 2, texH - padding * 2);
+
+		// reset context
+		pg.popMatrix();
 
 		// move to next box
 		controlY += texH;
@@ -264,7 +274,7 @@ public class DebugView {
 	
 	protected static void nextCol() {
 		controlY = 0;
-		controlX += IUIControl.controlW;
+		controlX += IUIControl.controlW - 1;
 	}
 
 	

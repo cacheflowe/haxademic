@@ -5,9 +5,7 @@ import java.util.ArrayList;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.app.config.AppSettings;
-import com.haxademic.core.app.config.Config;
-import com.haxademic.core.draw.context.OpenGLUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.system.SystemUtil;
@@ -20,17 +18,7 @@ extends PAppletHax {
 	protected int _numDivisions = 100;
 	
 
-	protected void config() {
-		Config.setProperty( AppSettings.RENDERING_MOVIE, "false" );
-		Config.setProperty( AppSettings.FILLS_SCREEN, "false" );
-		Config.setProperty( AppSettings.FULLSCREEN, "false" );
-		Config.setProperty( AppSettings.WIDTH, "800" );
-		Config.setProperty( AppSettings.HEIGHT, "600" );
-	}
-
 	public void firstFrame() {
-	
-		p.smooth( OpenGLUtil.SMOOTH_HIGH );
 		newRectanges();
 	}
 	
@@ -46,33 +34,46 @@ extends PAppletHax {
 			if(rectToSplit.width > 30 || rectToSplit.height > 30) {
 				_rectangles.remove(randIndex);
 				if(rectToSplit.width > rectToSplit.height) {
-					float horizSplit = Math.round(10f * MathUtil.randRangeDecimal(0.3f, 0.7f))/10f;	// quantized split
-					P.println(horizSplit);
-					_rectangles.add(new Rectangle(rectToSplit.x, rectToSplit.y, Math.round(rectToSplit.width * horizSplit), rectToSplit.height));
-					_rectangles.add(new Rectangle(rectToSplit.x + _rectangles.get(_rectangles.size()-1).width, rectToSplit.y, Math.round(rectToSplit.width * (1f-horizSplit)), rectToSplit.height));
+					// quantized split
+					float horizSplit = Math.round(10f * MathUtil.randRangeDecimal(0.3f, 0.7f))/10f;	
+					// split the width
+					int totalW = rectToSplit.width;
+					int rect1W = P.round(rectToSplit.width * horizSplit);
+					int rect2W = totalW - rect1W;
+					// create new rects
+					_rectangles.add(new Rectangle(rectToSplit.x, rectToSplit.y, rect1W, rectToSplit.height));
+					_rectangles.add(new Rectangle(rectToSplit.x + rect1W - 1, rectToSplit.y, rect2W + 1, rectToSplit.height));	// +/- 1 to overlap the rects by a pixel. remove this if there's not a stroke to overlap
 				} else {
 					float vertSplit = Math.round(10f * MathUtil.randRangeDecimal(0.3f, 0.7f))/10f;	// quantized split
-					P.println(vertSplit);
-					_rectangles.add(new Rectangle(rectToSplit.x, rectToSplit.y, rectToSplit.width, Math.round(rectToSplit.height * vertSplit)));
-					_rectangles.add(new Rectangle(rectToSplit.x, rectToSplit.y + _rectangles.get(_rectangles.size()-1).height, rectToSplit.width, Math.round(rectToSplit.height * (1f-vertSplit)) ));
+					// split the height
+					int totalH = rectToSplit.height;
+					int rect1H = P.round(rectToSplit.height * vertSplit);
+					int rect2H = totalH - rect1H;
+					// create new rects
+					_rectangles.add(new Rectangle(rectToSplit.x, rectToSplit.y, rectToSplit.width, rect1H));
+					_rectangles.add(new Rectangle(rectToSplit.x, rectToSplit.y + rect1H - 1, rectToSplit.width, rect2H + 1));
 				}
 			}
 		}
 		
 		// debug print
-		for (Rectangle rect : _rectangles) {
-			P.println(rect.x, rect.y, rect.width, rect.height);
-		}
+//		for (Rectangle rect : _rectangles) {
+//			P.println(rect.x, rect.y, rect.width, rect.height);
+//		}
 	}
 
 	public void drawApp() {
-		background(0);
-		
-		p.noFill();
+		p.background(0);
+		p.fill(0);
 		p.stroke(255);
-		
 		for (Rectangle rect : _rectangles) {
-			p.rect(rect.x, rect.y, rect.width, rect.height);
+			p.fill(255);
+			p.pushMatrix();
+			p.translate(rect.x, rect.y);
+			PG.drawStrokedRect(p.g, rect.width, rect.height, 1, 0x00000000, 0xffffffff);
+			// p.text(rect.x + ", " + rect.y + ", " + rect.width + ", " + rect.height, 10, 10, rect.width, 1000);
+			p.popMatrix();
+//			p.rect(rect.x, rect.y, rect.width, rect.height);	// imperfect rects!
 		}
 	}
 	

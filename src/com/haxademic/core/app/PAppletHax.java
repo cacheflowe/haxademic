@@ -61,6 +61,7 @@ extends PApplet {
 	}
 	
 	public void setup() {
+		AppWindow.instance().finishSetup();
 		P.appInitialized();
 	}
 	

@@ -306,6 +306,30 @@ public class PG {
 		pg.endDraw();
 	}
 	
+	public static void drawStrokedRect(PGraphics pg, float w, float h, float strokeWeight, int colorBg, int colorStroke) {
+		int prevRectMode = pg.rectMode;
+		pg.push();
+		
+		// make sure rect stroke is drawing from the same top left as rect bg
+		if(prevRectMode == PConstants.CENTER) pg.translate(P.round(-w/2), P.round(-h/2));
+		pg.rectMode(PConstants.CORNER);
+		
+		// rect bg
+		pg.noStroke();
+		pg.fill(colorBg);
+		pg.rect(0, 0, w, h);
+		
+		// pixel-perfect stroke by drawing 4 rects
+		pg.fill(colorStroke);
+		pg.rect(0, 0, w, strokeWeight);					// top
+		pg.rect(0, h - strokeWeight, w, strokeWeight);	// bottom
+		pg.rect(0, 0, strokeWeight, h);					// left
+		pg.rect(w - strokeWeight, 0, strokeWeight, h);	// right
+		pg.rectMode(prevRectMode);						// reset rectMode to whatever it was before
+
+		pg.pop();
+	}
+	
 	//////////////////////////////
 	// PATTERNS
 	//////////////////////////////
