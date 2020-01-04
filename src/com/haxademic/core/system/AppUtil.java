@@ -116,7 +116,7 @@ public class AppUtil {
 	
 	public static String getAppRunCommandRelative() {
 		String absoluteRunCommand = AppUtil.getAppRunCommand();
-		String projectPath = FileUtil.getHaxademicPath() + File.separator;
+		String projectPath = FileUtil.curProjectPath() + File.separator;
 		return absoluteRunCommand.replace(projectPath, "");
 	}
 	
@@ -128,7 +128,7 @@ public class AppUtil {
 	
 	public static void writeRunScriptForWindows(String scriptDestinationPath) {
 		String fileExtension = ".cmd";
-		String runScriptPath = FileUtil.getHaxademicPath() + File.separator + scriptDestinationPath + fileExtension;
+		String runScriptPath = FileUtil.curProjectPath() + File.separator + scriptDestinationPath + fileExtension;
 		String scriptStr = "REM @echo off" + "\n";
 		scriptStr += "cd .." + "\n";
 		scriptStr += "timeout 3" + "\n\n";
@@ -140,7 +140,7 @@ public class AppUtil {
 	
 	public static void writeRunScriptForBash(String scriptDestinationPath) {
 		String fileExtension = ".sh";
-		String runScriptPath = FileUtil.getHaxademicPath() + File.separator + scriptDestinationPath + fileExtension;
+		String runScriptPath = FileUtil.curProjectPath() + File.separator + scriptDestinationPath + fileExtension;
 		String scriptStr = "";
 		scriptStr += "cd .." + "\n\n";
 		scriptStr += AppUtil.getAppRunCommandRelative() + "\n\n";

@@ -3,7 +3,7 @@ package com.haxademic.demo.system;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
-import com.haxademic.core.system.ScreenUtil;
+import com.haxademic.core.system.ScreenshotUtil;
 import com.haxademic.core.ui.UI;
 
 import processing.core.PImage;
@@ -31,7 +31,7 @@ extends PAppletHax {
 	public void drawApp() {
 		background(0);
 //		 p.image( ScreenUtil.getScreenshotMainMonitor(UI.valueInt(_x), UI.valueInt(_y), p.width, p.height), 0, 0);	// deprecated version
-		p.image( ScreenUtil.getScreenShotAsPImage(UI.valueInt(_x), UI.valueInt(_y), p.width, p.height), 0, 0);
+		p.image( ScreenshotUtil.getScreenShotAsPImage(UI.valueInt(_x), UI.valueInt(_y), p.width, p.height), 0, 0);
 //		p.image( ScreenUtil.getScreenShotAllMonitors(0, 0, 0.5f), 0, 0 );
 	}
 

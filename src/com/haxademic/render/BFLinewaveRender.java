@@ -42,7 +42,7 @@ extends PAppletHax {
 	public void firstFrame() {
 
 		p.smooth(OpenGLUtil.SMOOTH_HIGH);
-		_print = p.loadImage(FileUtil.getHaxademicDataPath()+"images/BF.Linewave.1.jpg");
+		_print = p.loadImage(FileUtil.haxademicDataPath()+"images/BF.Linewave.1.jpg");
 		_lines = new ArrayList<Linewave>();
 		for (int i = 0; i < 35; i++) {
 			_lines.add(new Linewave(277, 189, i));

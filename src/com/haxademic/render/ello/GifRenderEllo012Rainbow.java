@@ -39,9 +39,9 @@ extends PAppletHax {
 	public void firstFrame() {
 
 		p.smooth(OpenGLUtil.SMOOTH_HIGH);
-		_logo = p.loadShape(FileUtil.getHaxademicDataPath()+"svg/ello.svg");
+		_logo = p.loadShape(FileUtil.haxademicDataPath()+"svg/ello.svg");
 		_logo.disableStyle();
-		_logoInverse = p.loadShape(FileUtil.getHaxademicDataPath()+"svg/ello-inverse.svg");
+		_logoInverse = p.loadShape(FileUtil.haxademicDataPath()+"svg/ello-inverse.svg");
 		
 		_colors = new int[]{
 			ColorUtil.colorFromHex("#FF0000"),

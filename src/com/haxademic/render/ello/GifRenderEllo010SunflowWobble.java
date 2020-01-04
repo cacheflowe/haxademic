@@ -47,7 +47,7 @@ extends PAppletHax {
 		p.background(255);
 		p.smooth(OpenGLUtil.SMOOTH_HIGH);
 		
-		_mesh = MeshUtilToxi.getExtrudedMesh( MeshUtilToxi.meshFromSVG( p, FileUtil.getHaxademicDataPath() + "svg/ello.svg", -1, 20, 0.5f ), 20 );
+		_mesh = MeshUtilToxi.getExtrudedMesh( MeshUtilToxi.meshFromSVG( p, FileUtil.haxademicDataPath() + "svg/ello.svg", -1, 20, 0.5f ), 20 );
 	}
 	
 	public void drawApp() {		

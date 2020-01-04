@@ -42,7 +42,7 @@ extends PAppletHax {
 		_colorGradientCenter = new EasingColor("#000000", 9f);
 		_colorGradientOuter = new EasingColor("#000000", 9f);
 		
-		_logo = p.loadShape(FileUtil.getHaxademicDataPath()+"svg/ello-mouth-only.svg");
+		_logo = p.loadShape(FileUtil.haxademicDataPath()+"svg/ello-mouth-only.svg");
 	}
 
 	public void drawApp() {

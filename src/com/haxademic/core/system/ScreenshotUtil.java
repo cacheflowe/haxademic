@@ -11,11 +11,14 @@ import java.awt.image.BufferedImage;
 
 import com.haxademic.core.app.P;
 
-import processing.core.PApplet;
 import processing.core.PImage;
 
-public class ScreenUtil {
+public class ScreenshotUtil {
 
+	///////////////////////////
+	// save desktop screenshots
+	///////////////////////////
+	
 	// singleton robot
 	public static Robot robot;
 	public static Robot robot() {
@@ -28,13 +31,7 @@ public class ScreenUtil {
 		}
 		return robot;
 	}
-
-	public static String saveScreenshot( PApplet p, String outputDir ) {
-		String filename = outputDir + SystemUtil.getTimestampFine() + ".png";
-		p.saveFrame( filename );
-		return filename;
-	}
-
+	
 	public static PImage getScreenShotAsPImage(int x, int y, int w, int h) {
 		return new PImage(robot().createScreenCapture(new Rectangle(x, y, w, h)));
 	}

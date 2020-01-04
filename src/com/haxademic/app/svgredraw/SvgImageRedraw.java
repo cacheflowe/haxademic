@@ -129,11 +129,11 @@ extends PAppletHax {
 		analyzeCanvas = p.createGraphics((int)analyzeSize, (int)analyzeSize);
 
 		// load svgs
-		ArrayList<String> files = FileUtil.getFilesInDirOfType(FileUtil.getHaxademicDataPath() + svgDirectory, "svg");
+		ArrayList<String> files = FileUtil.getFilesInDirOfType(FileUtil.haxademicDataPath() + svgDirectory, "svg");
 		P.println("Loading and analyzing "+files.size()+" svgs");
 		_svgs = new ArrayList<SvgRanked>();
 		for (String file : files) {
-			PShape shape = p.loadShape( FileUtil.getHaxademicDataPath() + svgDirectory + file );
+			PShape shape = p.loadShape( FileUtil.haxademicDataPath() + svgDirectory + file );
 //			PShapeUtil.scaleSvgToExtent(shape, shapeSize);
 //			PShapeUtil.centerSvg(shape);
 			SvgRanked rankedSvg = new SvgRanked(shape, 1.0f, file);
@@ -159,7 +159,7 @@ extends PAppletHax {
 //				_svgs.add(rankedSvg);
 //				
 				// copy 100 to 80 for more options
-				shape = p.loadShape( FileUtil.getHaxademicDataPath() + svgDirectory + file );
+				shape = p.loadShape( FileUtil.haxademicDataPath() + svgDirectory + file );
 				rankedSvg = new SvgRanked(shape, 0.8f, file);
 				if(file.toLowerCase().indexOf("white") != -1) rankedSvg.isWhite = true;
 				_svgs.add(rankedSvg);
@@ -205,7 +205,7 @@ extends PAppletHax {
 	}
 		
 	protected void debugDrawSvgs() {
-		if(p.frameCount == 3) p.beginRecord(P.PDF, FileUtil.getHaxademicOutputPath() + "_testIcons.pdf");
+		if(p.frameCount == 3) p.beginRecord(P.PDF, FileUtil.haxademicOutputPath() + "_testIcons.pdf");
 		PG.setDrawCenter(p);
 		int x = 0;
 		int y = 0;
@@ -231,7 +231,7 @@ extends PAppletHax {
 		float shapeDrawSize = shapeSize * shapeDrawScale;
 		
 		String splitFileAdd = (splitFiles == true) ? "_row-"+fileNum : "";
-		p.beginRecord(P.PDF, FileUtil.getHaxademicOutputPath() + "_"+outputFile+"_shapeSize-"+(int)shapeSize+"_whiteMode-"+whitenessMode+"_maps255-"+mapsTo255+"_variance-"+noRepeatVariance+splitFileAdd+".pdf");
+		p.beginRecord(P.PDF, FileUtil.haxademicOutputPath() + "_"+outputFile+"_shapeSize-"+(int)shapeSize+"_whiteMode-"+whitenessMode+"_maps255-"+mapsTo255+"_variance-"+noRepeatVariance+splitFileAdd+".pdf");
 		for (float y = halfShapeSize; y <= img.height - halfShapeSize; y += shapeSize) {
 			P.println("Processing row ",y);
 			if(rowsDrawn > 0) {
@@ -304,7 +304,7 @@ extends PAppletHax {
 			if(splitFiles == true && rowsDrawn % rowSplit == 0) {
 				fileNum++;
 				p.endRecord();
-				p.beginRecord(P.PDF, FileUtil.getHaxademicOutputPath() + "_"+outputFile+"_shapeSize-"+(int)shapeSize+"_whiteMode-"+whitenessMode+"_maps255-"+mapsTo255+"_variance-"+noRepeatVariance+"_row-"+fileNum+".pdf");
+				p.beginRecord(P.PDF, FileUtil.haxademicOutputPath() + "_"+outputFile+"_shapeSize-"+(int)shapeSize+"_whiteMode-"+whitenessMode+"_maps255-"+mapsTo255+"_variance-"+noRepeatVariance+"_row-"+fileNum+".pdf");
 			}
 		}
 		

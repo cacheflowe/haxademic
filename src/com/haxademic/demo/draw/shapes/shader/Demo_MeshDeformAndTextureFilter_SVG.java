@@ -37,7 +37,7 @@ extends PAppletHax {
 		texture.endDraw();
 		
 		// build sheet mesh
-		shape = p.loadShape( FileUtil.getHaxademicDataPath() + "svg/pot-leaf-expanded.svg" ).getTessellation();
+		shape = p.loadShape( FileUtil.haxademicDataPath() + "svg/pot-leaf-expanded.svg" ).getTessellation();
 		PShapeUtil.centerShape(shape);
 		PShapeUtil.scaleShapeToHeight(shape, p.height * 0.7f);
 		PShapeUtil.addTextureUVExactWidthHeight(shape, texture, displaceTexture.texture().width * 0.1f, displaceTexture.texture().height * 0.1f);

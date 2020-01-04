@@ -38,7 +38,7 @@ extends PAppletHax {
 		_cloudsGraphics = p.createGraphics(p.width, p.height, P.P3D);
 		_cloudsGraphics.smooth(OpenGLUtil.SMOOTH_HIGH);
 		
-		_clouds = loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/textures/clouds-iq.glsl" ); 
+		_clouds = loadShader( FileUtil.haxademicDataPath()+"haxademic/shaders/textures/clouds-iq.glsl" ); 
 	}
 	
 	public void drawApp() {
@@ -77,7 +77,7 @@ extends PAppletHax {
 		float cloudControlY = ((float)-p.height * 0.3f) + P.cos(cloudControlRadians - P.HALF_PI) * (float)p.width/2f * 1.f;
 
 		_cloudTimeEaser.update();
-		_clouds = loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/textures/clouds-iq.glsl" ); 
+		_clouds = loadShader( FileUtil.haxademicDataPath()+"haxademic/shaders/textures/clouds-iq.glsl" ); 
 		_clouds.set("resolution", 1f, (float)(p.width/p.height));
 		_clouds.set("time", p.frameCount * _timeConstantInc + _cloudTimeEaser.value() );
 //		_clouds.set("mouse", 0.5f + p.frameCount/4000f, 0.9f - p.frameCount/4000f);		

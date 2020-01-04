@@ -47,13 +47,13 @@ extends PAppletHax {
 		// String imgBase = "images/chairs/06-canvas/";
 		String imgBase = "images/cb-logos/";
 		
-		ArrayList<String> files = FileUtil.getFilesInDirOfType( FileUtil.getHaxademicDataPath() + imgBase, "jpg" );
-		files.addAll( FileUtil.getFilesInDirOfType( FileUtil.getHaxademicDataPath() + imgBase, "png" ) );
+		ArrayList<String> files = FileUtil.getFilesInDirOfType( FileUtil.haxademicDataPath() + imgBase, "jpg" );
+		files.addAll( FileUtil.getFilesInDirOfType( FileUtil.haxademicDataPath() + imgBase, "png" ) );
 		FileUtil.shuffleFileList( files );
 		
 		_images = new ArrayList<PImage>();
 		for( int i=0; i < files.size(); i++ ) {
-			_images.add( P.p.loadImage( FileUtil.getHaxademicDataPath() + imgBase + files.get(i) ) );
+			_images.add( P.p.loadImage( FileUtil.haxademicDataPath() + imgBase + files.get(i) ) );
 		}
 		
 		_numImages = Math.round(_framesPerImage * _images.size());

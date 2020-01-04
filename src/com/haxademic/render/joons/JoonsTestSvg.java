@@ -31,7 +31,7 @@ extends PAppletHax {
 	public void firstFrame() {
 
 		
-		_shape = p.loadShape(FileUtil.getHaxademicDataPath() + "/svg/pink-eye-skeleton.svg");
+		_shape = p.loadShape(FileUtil.haxademicDataPath() + "/svg/pink-eye-skeleton.svg");
 		_shape.scale(3);
 		
 //		for( PShape child: _shape.getChildren() ) {

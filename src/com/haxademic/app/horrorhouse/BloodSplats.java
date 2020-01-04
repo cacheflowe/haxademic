@@ -110,7 +110,7 @@ extends PAppletHax {
 		}
 		_curClip = _vidClips.get(0);
 		
-		_horrorhouse = p.loadImage( FileUtil.getHaxademicDataPath()+"images/halloween-2.png" );
+		_horrorhouse = p.loadImage( FileUtil.haxademicDataPath()+"images/halloween-2.png" );
 //		_drop = p.loadImage("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABaCAIAAACHRsd0AAAAAXNSR0IArs4c6QAAAAZiS0dEAP8A/wD/oL2nkwAAAAlwSFlzAAALEwAACxMBAJqcGAAAAAd0SU1FB9wIARENKcscdTYAAAFbSURBVHja7ZoxTsMwFIZtN02DkooBxg6VGBArF+AArD1Fr8HWjYF7cI5K5QJdKnUqUjaEBEkxa5f3VNxgOer3b9GTnHx6v/3HiW1ZluaP+siupFLV1iaunOm5AAAAAAAAOEk2IMjoAAAHyg4vFq6cuyKd9xwsBEDsOdCVYm4Y6EAUKS1lEgOQ4stc56sQc4Bl9BgzhBkMC5HEx0ixFhYCAIDzXIX0PFLkR9Z++dSX0e/70GGXzAEAAAAAAAA6CzIlbv2Fbe4GUjV/2kil/arav14H3FHaEmAhAAAAAIAzDzIlO5SNlS2a/HZLBwAAAAAAAEh5R5ZN38XaxJsHK1aVD6fDQTwAd/kp1kbG3NiQG1Y/WAgAAAAAoCdB9h/S//AFnFZRAWZKoKqjPotP6dY+f2uxEAAAAAAAAF0lo3L0WDtTM23My06sPk6kyritfa874LEQAAAAAEBS+gXVX0Ar1x59kgAAAABJRU5ErkJggg==");
 		for(int i=0; i < _numDrips; i++) {
 			_drips[i] = new Drip();
@@ -118,30 +118,30 @@ extends PAppletHax {
 		p.background(0);
 		
 		_lightnings = new ArrayList<AudioPlayer>();
-		_lightnings.add(minim.loadFile( FileUtil.getHaxademicDataPath() + "/audio/halloween/lightning-strike-080807.wav", 512 ));
-		_lightnings.add(minim.loadFile( FileUtil.getHaxademicDataPath() + "/audio/halloween/lightning-strike-with-rain.wav", 512 ));
-		_lightnings.add(minim.loadFile( FileUtil.getHaxademicDataPath() + "/audio/halloween/noisenoir__lightningcrash.wav", 512 ));
-		_lightnings.add(minim.loadFile( FileUtil.getHaxademicDataPath() + "/audio/halloween/thunder-and-lightning.mp3", 512 ));
-		_lightnings.add(minim.loadFile( FileUtil.getHaxademicDataPath() + "/audio/halloween/turrus__lightning-strike.wav", 512 ));
+		_lightnings.add(minim.loadFile( FileUtil.haxademicDataPath() + "/audio/halloween/lightning-strike-080807.wav", 512 ));
+		_lightnings.add(minim.loadFile( FileUtil.haxademicDataPath() + "/audio/halloween/lightning-strike-with-rain.wav", 512 ));
+		_lightnings.add(minim.loadFile( FileUtil.haxademicDataPath() + "/audio/halloween/noisenoir__lightningcrash.wav", 512 ));
+		_lightnings.add(minim.loadFile( FileUtil.haxademicDataPath() + "/audio/halloween/thunder-and-lightning.mp3", 512 ));
+		_lightnings.add(minim.loadFile( FileUtil.haxademicDataPath() + "/audio/halloween/turrus__lightning-strike.wav", 512 ));
 		_lightningIndex = 0;
 		buildPhysicalLighting();
 		
-		_invert = loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/invert.glsl" ); 
+		_invert = loadShader( FileUtil.haxademicDataPath()+"haxademic/shaders/filters/invert.glsl" ); 
 
-		_badtv = loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/badtv.glsl" ); 
+		_badtv = loadShader( FileUtil.haxademicDataPath()+"haxademic/shaders/filters/badtv.glsl" ); 
 		_badtv.set("time", p.frameCount * 0.1f);
 		_badtv.set("grayscale", 0);
 		_badtv.set("nIntensity", 0.75f);
 		_badtv.set("sIntensity", 0.55f);
 		_badtv.set("sCount", 4096.0f);
 
-		_vignette = loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/vignette.glsl" );
+		_vignette = loadShader( FileUtil.haxademicDataPath()+"haxademic/shaders/filters/vignette.glsl" );
 		_vignette.set("darkness", 0.85f);
 		_vignette.set("spread", 0.15f);
 		
-		_blurH = loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/blur-horizontal.glsl" ); 
+		_blurH = loadShader( FileUtil.haxademicDataPath()+"haxademic/shaders/filters/blur-horizontal.glsl" ); 
 		_blurH.set( "h", 1f/p.width );
-		_blurV = loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/blur-vertical.glsl" ); 
+		_blurV = loadShader( FileUtil.haxademicDataPath()+"haxademic/shaders/filters/blur-vertical.glsl" ); 
 		_blurV.set( "v", 1f/p.height );
 
 		_pg = p.createGraphics(width, height, P.P3D);

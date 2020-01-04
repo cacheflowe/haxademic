@@ -73,7 +73,7 @@ extends PAppletHax {
 		
 		String imgBase = "images/ello-art/";
 		
-		ArrayList<String> files = FileUtil.getFilesInDirOfType( FileUtil.getHaxademicDataPath() + imgBase, "jpg" );
+		ArrayList<String> files = FileUtil.getFilesInDirOfType( FileUtil.haxademicDataPath() + imgBase, "jpg" );
 		// files.addAll( FileUtil.getFilesInDirOfType( FileUtil.getHaxademicDataPath() + imgBase, "png" ) );
 		FileUtil.shuffleFileList( files );
 		

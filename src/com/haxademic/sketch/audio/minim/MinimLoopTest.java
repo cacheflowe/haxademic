@@ -27,7 +27,7 @@ extends PAppletHax {
 	
 		minim = new Minim(this);
 
-		_sound = minim.loadFile( FileUtil.getHaxademicDataPath() + "audio/test-loop.wav", 512 );
+		_sound = minim.loadFile( FileUtil.haxademicDataPath() + "audio/test-loop.wav", 512 );
 		_sound.loop();
 	}
 

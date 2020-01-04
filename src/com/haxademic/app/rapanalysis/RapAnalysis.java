@@ -330,9 +330,9 @@ extends PAppletHax {
 
 		if( _recordingPDF == true ) {
 			if( _gridCols < 31 && _wrapping == true ) 
-				p.beginRecord( P.PDF,  FileUtil.getHaxademicOutputPath() + "kelly-monico-212-"+_gridCols+"col.pdf" );	// -"+ SystemUtil.getTimestamp(p) +"
+				p.beginRecord( P.PDF,  FileUtil.haxademicOutputPath() + "kelly-monico-212-"+_gridCols+"col.pdf" );	// -"+ SystemUtil.getTimestamp(p) +"
 			if( p.frameCount == 1 && _wrapping == false )
-				p.beginRecord( P.PDF,  FileUtil.getHaxademicOutputPath() + "kelly-monico-212-lines.pdf" );
+				p.beginRecord( P.PDF,  FileUtil.haxademicOutputPath() + "kelly-monico-212-lines.pdf" );
 		}
 
 
@@ -413,14 +413,14 @@ extends PAppletHax {
 			//			if( _wrapping == true ) 
 			//				p.beginRecord( P.PDF,  FileUtil.getHaxademicOutputPath() + "kelly-monico-das-me-"+_gridCols+"col.pdf" );	// -"+ SystemUtil.getTimestamp(p) +"
 			//			if( _wrapping == false )
-			p.beginRecord( P.PDF,  FileUtil.getHaxademicOutputPath() + "kelly-monico-das-me-lines.pdf" );
+			p.beginRecord( P.PDF,  FileUtil.haxademicOutputPath() + "kelly-monico-das-me-lines.pdf" );
 
 
 
 			Rectangle pageRect = new Rectangle (16000, 16000);
 			pageRect.setBackgroundColor(new Color(0xff, 0xff, 0xff));
 			Document document = new Document(pageRect);
-			PdfWriter.getInstance(document,new FileOutputStream(FileUtil.getHaxademicOutputPath() + "kelly-monico-das-me-lines.pdf"));
+			PdfWriter.getInstance(document,new FileOutputStream(FileUtil.haxademicOutputPath() + "kelly-monico-das-me-lines.pdf"));
 			document.open();
 			
 //			protected PImage _bitch = loadImage( "/Users/cacheflowe/Documents/workspace/haxademic/assets/projects/bitches-and-hoes/dasme/bitch.png" );

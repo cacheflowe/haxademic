@@ -57,7 +57,7 @@ extends PAppletHax {
 		p.smooth(OpenGLUtil.SMOOTH_HIGH);
 		p.g.smooth(OpenGLUtil.SMOOTH_HIGH);
 		
-		_logo = p.loadShape(FileUtil.getHaxademicDataPath()+"svg/ello-centered-complex-lofi.svg");
+		_logo = p.loadShape(FileUtil.haxademicDataPath()+"svg/ello-centered-complex-lofi.svg");
 		
 		_outerPoints = new ArrayList<PVector>();
 		_mouthPoints = new ArrayList<PVector>();

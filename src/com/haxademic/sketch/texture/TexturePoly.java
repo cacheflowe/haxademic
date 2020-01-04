@@ -40,7 +40,7 @@ extends PAppletHax {
 
 	public void firstFrame() {
 		AudioIn.instance();
-		img = loadImage(FileUtil.getHaxademicDataPath() + "images/justin-tiny-color1.png");
+		img = loadImage(FileUtil.haxademicDataPath() + "images/justin-tiny-color1.png");
 		// img = loadImage(FileUtil.getHaxademicDataPath() + "images/sphere-map-test-2.jpg");
 		noStroke();
 		

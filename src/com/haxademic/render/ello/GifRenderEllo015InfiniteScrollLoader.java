@@ -38,7 +38,7 @@ extends PAppletHax {
 	public void firstFrame() {
 
 		p.smooth(OpenGLUtil.SMOOTH_HIGH);
-		_logo = p.loadShape(FileUtil.getHaxademicDataPath()+"svg/ello.svg");
+		_logo = p.loadShape(FileUtil.haxademicDataPath()+"svg/ello.svg");
 	}
 
 	public void drawApp() {

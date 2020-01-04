@@ -41,7 +41,7 @@ extends PAppletHax {
 	
 //		OpenGLUtil.setQuality( p, OpenGLUtil.SMOOTH_HIGH );
 		
-		_squirrel = p.loadShape( FileUtil.getHaxademicDataPath() + "svg/squirrel-test-01.svg");
+		_squirrel = p.loadShape( FileUtil.haxademicDataPath() + "svg/squirrel-test-01.svg");
 		
 		_flameLarge = _squirrel.getChild("flame-large");
 		

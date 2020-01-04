@@ -10,8 +10,8 @@
   	* Joons leaves the context in a weird place, and DebugView looks busted & scaled up. Do we need to reset the camera?
   * DebugView
     * Show full text on hover (move to top of z-stack)
-    * Add to UI overlay to be able to see both at once? Always show UI first, since that's more dependent on static positions, then use its last position to start debug view
-    * Click to copy the value
+    * Click to copy a value
+    * `uiButtonClicked` and UISlider value updates should emit an AppStore event, rather than having a callback (or do nothing, like UISlider) 
   * Revisit AppWindow & update demos. Try to keep on top on an interval, in case of windows popups 
   
   * Update README with updated references

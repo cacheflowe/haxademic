@@ -44,20 +44,20 @@ extends BaseTexture {
 	}
 	
 	protected void loadShaders() {
-		_vignette = P.p.loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/vignette.glsl" );
+		_vignette = P.p.loadShader( FileUtil.haxademicDataPath()+"haxademic/shaders/filters/vignette.glsl" );
 		_vignette.set("darkness", 0.7f);
 		_vignette.set("spread", 0.15f);
 
-		_brightness = P.p.loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/brightness.glsl" );
+		_brightness = P.p.loadShader( FileUtil.haxademicDataPath()+"haxademic/shaders/filters/brightness.glsl" );
 		_brightness.set("brightness", _brightEaser.value() );
 
-		_saturation = P.p.loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/saturation.glsl" );
+		_saturation = P.p.loadShader( FileUtil.haxademicDataPath()+"haxademic/shaders/filters/saturation.glsl" );
 		_saturation.set("saturation", 0.25f );
 
 	
-		_blurH = P.p.loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/blur-horizontal.glsl" ); 
+		_blurH = P.p.loadShader( FileUtil.haxademicDataPath()+"haxademic/shaders/filters/blur-horizontal.glsl" ); 
 		_blurH.set( "h", 1f/width );
-		_blurV = P.p.loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/blur-vertical.glsl" ); 
+		_blurV = P.p.loadShader( FileUtil.haxademicDataPath()+"haxademic/shaders/filters/blur-vertical.glsl" ); 
 		_blurV.set( "v", 1f/height );
 		
 	}
@@ -65,13 +65,13 @@ extends BaseTexture {
 	protected void loadImages() {
 		String imgBase = "haxademic/images/space/";
 		
-		ArrayList<String> files = FileUtil.getFilesInDirOfType( FileUtil.getHaxademicDataPath() + imgBase, "jpg" );
-		files.addAll( FileUtil.getFilesInDirOfType( FileUtil.getHaxademicDataPath() + imgBase, "png" ) );
+		ArrayList<String> files = FileUtil.getFilesInDirOfType( FileUtil.haxademicDataPath() + imgBase, "jpg" );
+		files.addAll( FileUtil.getFilesInDirOfType( FileUtil.haxademicDataPath() + imgBase, "png" ) );
 		FileUtil.shuffleFileList( files );
 		
 		_images = new ArrayList<PImage>();
 		for( int i=0; i < files.size(); i++ ) {
-			_images.add( P.p.loadImage( FileUtil.getHaxademicDataPath() + imgBase + files.get(i) ) );
+			_images.add( P.p.loadImage( FileUtil.haxademicDataPath() + imgBase + files.get(i) ) );
 		}
 		_image = P.p.createGraphics( width, height, P.P2D);// new PImage( p.width, p.height );
 		nextImage();

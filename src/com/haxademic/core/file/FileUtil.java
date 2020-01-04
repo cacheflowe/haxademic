@@ -32,6 +32,7 @@ public class FileUtil {
 	
 	public static String DATA_PATH = null;
 	public static String OUTPUT_PATH = null;
+	public static String SCREENSHOTS_PATH = null;
 	public static String BIN_PATH = null;
 	public static String HAX_PATH = null;
 	public static String UTIL_PATH = null;
@@ -43,7 +44,7 @@ public class FileUtil {
 	
 	// HAXADEMIC PATHS
 	
-	public static String getHaxademicPath() {
+	public static String curProjectPath() {
 		if( HAX_PATH != null ) return HAX_PATH;
 		String binPath = getProjectAbsolutePath();
 		Boolean hasBin = ( binPath.lastIndexOf(File.separator + "bin") != -1 ) ? true : false;
@@ -51,40 +52,46 @@ public class FileUtil {
 		return HAX_PATH;
 	}
 	
-	public static String getHaxademicBinPath() {
+	public static String haxademicBinPath() {
 		if( BIN_PATH != null ) return BIN_PATH;
-		BIN_PATH = getHaxademicPath().concat(File.separator + "bin" + File.separator);
+		BIN_PATH = curProjectPath().concat(File.separator + "bin" + File.separator);
 		return BIN_PATH;
 	}
 	
-	public static String getHaxademicDataPath() {
+	public static String haxademicDataPath() {
 		if( DATA_PATH != null ) return DATA_PATH;
-		DATA_PATH = getHaxademicPath().concat(File.separator + "data" + File.separator);
+		DATA_PATH = curProjectPath().concat(File.separator + "data" + File.separator);
 		return DATA_PATH;
 	}
 	
-	public static String getHaxademicWebPath() {
+	public static String haxademicWwwPath() {
 		if( WWW_PATH != null ) return WWW_PATH;
-		WWW_PATH = getHaxademicPath().concat(File.separator + "www" + File.separator);
+		WWW_PATH = curProjectPath().concat(File.separator + "www" + File.separator);
 		return WWW_PATH;
 	}
 	
-	public static String getHaxademicUtilScriptsPath() {
+	public static String haxademicUtilScriptsPath() {
 		if( UTIL_PATH != null ) return UTIL_PATH;
-		UTIL_PATH = getHaxademicPath().concat(File.separator + "util" + File.separator);
+		UTIL_PATH = curProjectPath().concat(File.separator + "util" + File.separator);
 		return UTIL_PATH;
 	}
 	
-	public static String getHaxademicScriptsPath() {
+	public static String haxademicScriptsPath() {
 		if( SCRIPTS_PATH != null ) return SCRIPTS_PATH;
-		SCRIPTS_PATH = getHaxademicPath().concat(File.separator + "scripts" + File.separator);
+		SCRIPTS_PATH = curProjectPath().concat(File.separator + "scripts" + File.separator);
 		return SCRIPTS_PATH;
 	}
 	
-	public static String getHaxademicOutputPath() {
+	public static String haxademicOutputPath() {
 		if( OUTPUT_PATH != null ) return OUTPUT_PATH;
-		OUTPUT_PATH = getHaxademicPath().concat(File.separator + "output" + File.separator);
+		OUTPUT_PATH = curProjectPath().concat(File.separator + "output" + File.separator);
 		return OUTPUT_PATH;
+	}
+	
+	public static String screenshotsPath() {
+		if( SCREENSHOTS_PATH != null ) return SCREENSHOTS_PATH;
+		SCREENSHOTS_PATH = haxademicOutputPath().concat(File.separator + "_screenshots" + File.separator);
+		return SCREENSHOTS_PATH;
 	}
 	
 	// PATH HELPERS
@@ -108,11 +115,11 @@ public class FileUtil {
 	
 	public static String getPath(String path) {
 		path = safePath(path);
-		return getHaxademicDataPath() + path;
+		return haxademicDataPath() + path;
 	}
 	
 	public static String getScript(String path) {
-		return getHaxademicScriptsPath() + path;
+		return haxademicScriptsPath() + path;
 	}
 	
 	public static String safePath(String path) {

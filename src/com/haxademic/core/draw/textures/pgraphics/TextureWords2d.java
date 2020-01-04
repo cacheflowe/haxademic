@@ -32,7 +32,7 @@ extends BaseTexture {
 		
 
 		// load text file
-		String lines[] = P.p.loadStrings(FileUtil.getHaxademicDataPath() + "text/gibson-text.txt");
+		String lines[] = P.p.loadStrings(FileUtil.haxademicDataPath() + "text/gibson-text.txt");
 		_words = new ArrayList<String>();
 		String wordsPerLine[];
 		for( int i=0; i < lines.length; i++ ) {

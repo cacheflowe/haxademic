@@ -106,10 +106,10 @@ extends PAppletHax {
 //		Config.setProperty( AppSettings.HEIGHT, "135" );
 		Config.setProperty( AppSettings.RENDERING_MOVIE, "true" );
 		Config.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, (int) _songLengthFrames );
-		Config.setProperty( AppSettings.RENDER_MIDI_FILE, FileUtil.getHaxademicDataPath() + "midi/patter-kick-snare-bass-synth-timing-more-snares.mid" );
+		Config.setProperty( AppSettings.RENDER_MIDI_FILE, FileUtil.haxademicDataPath() + "midi/patter-kick-snare-bass-synth-timing-more-snares.mid" );
 		Config.setProperty( AppSettings.RENDER_MIDI_BPM, "132" );
 		Config.setProperty( AppSettings.RENDER_MIDI_OFFSET, "0" );
-		Config.setProperty( AppSettings.RENDER_AUDIO_FILE, FileUtil.getHaxademicDataPath() + "audio/13. CacheFlowe - Patter - Master.wav" );
+		Config.setProperty( AppSettings.RENDER_AUDIO_FILE, FileUtil.haxademicDataPath() + "audio/13. CacheFlowe - Patter - Master.wav" );
 	}
 
 	/**
@@ -140,21 +140,21 @@ extends PAppletHax {
 		_movieMotionBlurBuffer.smooth(OpenGLUtil.SMOOTH_HIGH);
 		
 		// shaders
-		_chromaKeyFilter = loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/chroma-gpu.glsl" );
+		_chromaKeyFilter = loadShader( FileUtil.haxademicDataPath()+"haxademic/shaders/filters/chroma-gpu.glsl" );
 		_chromaKeyFilter.set("thresholdSensitivity", 0.65f);
 		_chromaKeyFilter.set("smoothing", 0.26f);
 		_chromaKeyFilter.set("colorToReplace", 0.29f,0.93f,0.14f);
 
 		_movieOpacityEaser = new LinearFloat(0, 0.02f);
 
-		_desaturate = loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/saturation.glsl" );
+		_desaturate = loadShader( FileUtil.haxademicDataPath()+"haxademic/shaders/filters/saturation.glsl" );
 		_desaturate.set("saturation", 0.0f);
 
-		_resaturate = loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/saturation.glsl" );
+		_resaturate = loadShader( FileUtil.haxademicDataPath()+"haxademic/shaders/filters/saturation.glsl" );
 		_resaturate.set("saturation", 1.4f);
 
 		// video scrubber
-		_videoFrames = new VideoFrameGrabber(p, FileUtil.getHaxademicDataPath() + "video/patter/ultrasoft-selects-1080.mp4", 30, 0);
+		_videoFrames = new VideoFrameGrabber(p, FileUtil.haxademicDataPath() + "video/patter/ultrasoft-selects-1080.mp4", 30, 0);
 
 		// particles
 		_blobFilter = new BlobParticles( p.width, p.height );
@@ -164,11 +164,11 @@ extends PAppletHax {
 		_cloudsGraphics = p.createGraphics(p.width, p.height, P.P3D);
 		_cloudsGraphics.smooth(OpenGLUtil.SMOOTH_HIGH);
 
-		_clouds = loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/textures/clouds-iq.glsl" ); 
+		_clouds = loadShader( FileUtil.haxademicDataPath()+"haxademic/shaders/textures/clouds-iq.glsl" ); 
 	}
 
 	protected void setupSuperformula() {
-		_opacity = loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/opacity.glsl" );
+		_opacity = loadShader( FileUtil.haxademicDataPath()+"haxademic/shaders/filters/opacity.glsl" );
 		_opacity.set("opacity", 0.3f);
 
 		_superForm = new Superformula(100,100, 1, 1,   6, 20,  7, 18);
@@ -179,20 +179,20 @@ extends PAppletHax {
 	}
 
 	protected void setupPostEffects() {
-		_fxaa = loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/fxaa.glsl" ); 
+		_fxaa = loadShader( FileUtil.haxademicDataPath()+"haxademic/shaders/filters/fxaa.glsl" ); 
 		_fxaa.set("resolution", 1f, (float)(p.width/p.height));
 
-		_brightness = loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/brightness.glsl" );
+		_brightness = loadShader( FileUtil.haxademicDataPath()+"haxademic/shaders/filters/brightness.glsl" );
 		_brightness.set("brightness", 1.5f);
 		_overallBrightnessEaser.setCurrent(1.5f);
 		_overallBrightnessEaser.setTarget(1.0f);
 
-		_vignette = loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/vignette.glsl" );
+		_vignette = loadShader( FileUtil.haxademicDataPath()+"haxademic/shaders/filters/vignette.glsl" );
 		_vignette.set("darkness", 0.0f);
 		_vignetteDarknessEaser.setTarget(0.5f);
 		_vignette.set("spread", 0.15f);
 
-		_contrast = loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/contrast.glsl" );
+		_contrast = loadShader( FileUtil.haxademicDataPath()+"haxademic/shaders/filters/contrast.glsl" );
 		_contrast.set("contrast", 1.2f);
 	}
 
@@ -551,7 +551,7 @@ extends PAppletHax {
 			_particles = new Vector<BlobParticle>();
 			_inactiveParticles = new Vector<BlobParticle>();
 
-			_desaturate = p.loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/saturation.glsl" );
+			_desaturate = p.loadShader( FileUtil.haxademicDataPath()+"haxademic/shaders/filters/saturation.glsl" );
 			_desaturate.set("saturation", 0.75f);
 
 		}

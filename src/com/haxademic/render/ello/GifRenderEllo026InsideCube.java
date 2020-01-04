@@ -29,7 +29,7 @@ extends PAppletHax {
 
 	public void firstFrame() {
 
-		img = loadImage(FileUtil.getHaxademicDataPath() + "images/ello.png");
+		img = loadImage(FileUtil.haxademicDataPath() + "images/ello.png");
 		noStroke();
 	}
 

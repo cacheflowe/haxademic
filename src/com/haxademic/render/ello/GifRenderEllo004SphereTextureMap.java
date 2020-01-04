@@ -56,9 +56,9 @@ extends PAppletHax {
 		MeshUtilToxi.calcTextureCoordinates( _sphereMesh );
 		_deformMesh = _sphereMesh.copy();
 
-		_texture = p.loadImage(FileUtil.getHaxademicDataPath()+"images/ello-large-fill-squish.png");
-		_logo = p.loadShape(FileUtil.getHaxademicDataPath()+"svg/ello.svg");
-		_logoInverse = p.loadShape(FileUtil.getHaxademicDataPath()+"svg/ello-inverse.svg");
+		_texture = p.loadImage(FileUtil.haxademicDataPath()+"images/ello-large-fill-squish.png");
+		_logo = p.loadShape(FileUtil.haxademicDataPath()+"svg/ello.svg");
+		_logoInverse = p.loadShape(FileUtil.haxademicDataPath()+"svg/ello-inverse.svg");
 	}
 	
 	public void drawApp() {

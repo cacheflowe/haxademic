@@ -61,6 +61,12 @@ public class FrameLoop {
 		return FrameLoop.instance().frame * mult;
 	}
 	
+	public static float osc(float mult, float low, float high) {
+		float range = (high - low) * 0.5f;
+		float mid = low + range;
+		return mid + P.sin(count(mult)) * range;
+	}
+	
 	public static boolean frameMod(int mod) {
 		return FrameLoop.instance().frame % mod == 1;
 	}

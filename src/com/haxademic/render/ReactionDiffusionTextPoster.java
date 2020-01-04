@@ -169,7 +169,7 @@ extends PAppletHax {
 		super.keyPressed();
 		if(p.key == 'z') P.out(UI.valuesToJSON());
 		if(p.key == ' ') clearScreen = true;
-		if(p.key == 's') pgPost.save(FileUtil.getHaxademicOutputPath() + "_screenshots/" + SystemUtil.getTimestampFine() + ".png");
+		if(p.key == 's') pgPost.save(FileUtil.haxademicOutputPath() + "_screenshots/" + SystemUtil.getTimestampFine() + ".png");
 //		if(p.key == '1') UI.loadJSON(JSONObject.parse(CONFIG_1));
 	}
 	

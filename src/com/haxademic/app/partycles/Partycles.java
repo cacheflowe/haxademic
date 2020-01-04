@@ -180,7 +180,7 @@ extends PAppletHax {
 		keystone.update(p.g, true);
 		// occasional screenshot
 		if(activityMonitor.activityAmp() > 0.1f && p.millis() > lastScreenshotTime + (10 * 1000)) {
-			mainBuffer.save(FileUtil.getHaxademicOutputPath() + "_screenshots/" + SystemUtil.getTimestamp() + ".jpg");
+			mainBuffer.save(FileUtil.haxademicOutputPath() + "_screenshots/" + SystemUtil.getTimestamp() + ".jpg");
 			lastScreenshotTime = p.millis();
 		}
 	}

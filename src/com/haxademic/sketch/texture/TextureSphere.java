@@ -24,7 +24,7 @@ extends PAppletHax {
 
 	public void firstFrame() {
 
-		String img = FileUtil.getHaxademicDataPath() + "images/ello-large-fill-squish.png";
+		String img = FileUtil.haxademicDataPath() + "images/ello-large-fill-squish.png";
 		earth = createIcosahedron(subdivisionLevel, img); // create the subdivided icosahedron PShape (see custom creation method) and put it in the global earth reference
 	}
 

@@ -27,7 +27,7 @@ public class CsvTest
 extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
-	protected String _csvFile = FileUtil.getHaxademicDataPath() + "csv/match-game.csv";
+	protected String _csvFile = FileUtil.haxademicDataPath() + "csv/match-game.csv";
 	protected ArrayList<Score> _scores;
 	protected String[] _csvHeaders;
 	protected int _curId = 0;

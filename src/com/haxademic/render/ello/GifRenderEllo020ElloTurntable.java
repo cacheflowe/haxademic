@@ -41,9 +41,9 @@ extends PAppletHax {
 	public void firstFrame() {
 
 		p.smooth(OpenGLUtil.SMOOTH_HIGH);
-		_turntable = p.loadImage(FileUtil.getHaxademicDataPath()+"images/ello/ello-turntable.png");
-		_overlay = p.loadImage(FileUtil.getHaxademicDataPath()+"images/ello/ello-turntable-spindle.png");
-		_record = p.loadImage(FileUtil.getHaxademicDataPath()+"images/ello/ello-turntable-record.png");
+		_turntable = p.loadImage(FileUtil.haxademicDataPath()+"images/ello/ello-turntable.png");
+		_overlay = p.loadImage(FileUtil.haxademicDataPath()+"images/ello/ello-turntable-spindle.png");
+		_record = p.loadImage(FileUtil.haxademicDataPath()+"images/ello/ello-turntable-record.png");
 	}
 	
 	public void drawApp() {

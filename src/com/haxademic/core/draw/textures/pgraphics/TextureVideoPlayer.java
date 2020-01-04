@@ -19,7 +19,7 @@ extends BaseTexture {
 		
 		
 		
-		_movie = new Movie( P.p, FileUtil.getHaxademicDataPath() + videoFile );
+		_movie = new Movie( P.p, FileUtil.haxademicDataPath() + videoFile );
 	}
 	
 	public BaseTexture setActive( boolean isActive ) {

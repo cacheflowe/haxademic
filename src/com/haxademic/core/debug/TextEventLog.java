@@ -10,7 +10,7 @@ public class TextEventLog {
 	protected int maxLogFiles = 90;
 	
 	public TextEventLog() {
-		logsDir = FileUtil.getHaxademicOutputPath() + "logs/";
+		logsDir = FileUtil.haxademicOutputPath() + "logs/";
 		checkMaxLogFileCount();
 	}
 	

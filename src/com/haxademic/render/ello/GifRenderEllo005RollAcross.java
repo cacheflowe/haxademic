@@ -36,14 +36,14 @@ extends PAppletHax {
 	public void firstFrame() {
 
 		p.smooth(OpenGLUtil.SMOOTH_HIGH);
-		_logo = p.loadShape(FileUtil.getHaxademicDataPath()+"svg/ello.svg");
-		_logoInverse = p.loadShape(FileUtil.getHaxademicDataPath()+"svg/ello-inverse.svg");
+		_logo = p.loadShape(FileUtil.haxademicDataPath()+"svg/ello.svg");
+		_logoInverse = p.loadShape(FileUtil.haxademicDataPath()+"svg/ello-inverse.svg");
 		if(Config.getBoolean("rendering_gif", false) == true) startGifRender();
 	}
 	
 	public void startGifRender() {
 		encoder = new AnimatedGifEncoder();
-		encoder.start( FileUtil.getHaxademicOutputPath() + SystemUtil.getTimestamp() + "-export.gif" );
+		encoder.start( FileUtil.haxademicOutputPath() + SystemUtil.getTimestamp() + "-export.gif" );
 		encoder.setFrameRate( 45 );
 		encoder.setQuality( 15 );
 		encoder.setRepeat( 0 );

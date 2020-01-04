@@ -49,8 +49,8 @@ extends PAppletHax {
 	
 		p.smooth( OpenGLUtil.SMOOTH_HIGH );
 
-		_logo = p.loadShape(FileUtil.getHaxademicDataPath()+"svg/ello-filled.svg");
-		_logoImg = p.loadImage(FileUtil.getHaxademicDataPath()+"images/ello.png");
+		_logo = p.loadShape(FileUtil.haxademicDataPath()+"svg/ello-filled.svg");
+		_logoImg = p.loadImage(FileUtil.haxademicDataPath()+"images/ello.png");
 		
 		_logoG = p.createGraphics((int)_tileSize, (int)_tileSize);
 		_logoG.beginDraw();

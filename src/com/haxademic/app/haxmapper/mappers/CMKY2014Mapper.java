@@ -45,7 +45,7 @@ extends HaxMapper{
 
 	protected void config() {
 		super.config();
-		Config.setProperty( "mapping_file", FileUtil.getHaxademicDataPath() + "text/mapping/mapping-2015-08-31-20-09-27.txt" );
+		Config.setProperty( "mapping_file", FileUtil.haxademicDataPath() + "text/mapping/mapping-2015-08-31-20-09-27.txt" );
 		Config.setProperty( AppSettings.RENDERING_MOVIE, false );
 		Config.setProperty( AppSettings.FULLSCREEN, true );
 		Config.setProperty( AppSettings.FILLS_SCREEN, true );

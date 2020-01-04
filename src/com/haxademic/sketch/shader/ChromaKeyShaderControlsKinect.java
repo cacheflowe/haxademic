@@ -49,7 +49,7 @@ extends PAppletHax {
 		UI.addSlider(colorToReplaceG, 0.93f, 0, 1, 0.01f, false);
 		UI.addSlider(colorToReplaceB, 0.14f, 0, 1, 0.01f, false);
 
-		_chromaKeyFilter = loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/chroma-color.glsl" );
+		_chromaKeyFilter = loadShader( FileUtil.haxademicDataPath()+"haxademic/shaders/filters/chroma-color.glsl" );
 	}
 
 	public void drawApp() {

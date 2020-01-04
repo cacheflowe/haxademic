@@ -40,7 +40,7 @@ extends PAppletHax {
 	
 	public void firstFrame() {
 
-		_logo = p.loadShape(FileUtil.getHaxademicDataPath()+"svg/ello-mouth-gray-01.svg");
+		_logo = p.loadShape(FileUtil.haxademicDataPath()+"svg/ello-mouth-gray-01.svg");
 		buildCanvas();
 	}
 

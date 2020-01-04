@@ -1176,7 +1176,7 @@ implements IAppStoreListener {
 			tex.update();
 			tex.update();
 			tex.update();
-			tex.texture().save(FileUtil.getHaxademicOutputPath() + "hax-visual-textures/" + tex.toString());
+			tex.texture().save(FileUtil.haxademicOutputPath() + "hax-visual-textures/" + tex.toString());
 			P.println("output: ", tex.toString());
 		}
 	}

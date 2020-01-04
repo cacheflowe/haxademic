@@ -30,15 +30,15 @@ public class WebServer {
 	protected Boolean useSSL;
 
 	public WebServer(AbstractHandler handler) {
-		this(handler, false, FileUtil.getHaxademicWebPath(), false);
+		this(handler, false, FileUtil.haxademicWwwPath(), false);
 	}
 	
 	public WebServer(AbstractHandler handler, boolean debug) {
-		this(handler, debug, FileUtil.getHaxademicWebPath(), false);
+		this(handler, debug, FileUtil.haxademicWwwPath(), false);
 	}
 	
 	public WebServer(AbstractHandler handler, boolean debug, boolean addSSL) {
-		this(handler, debug, FileUtil.getHaxademicWebPath(), addSSL);
+		this(handler, debug, FileUtil.haxademicWwwPath(), addSSL);
 	}
 	
 	public WebServer(AbstractHandler handler, boolean debug, String wwwPath, boolean useSSL) {

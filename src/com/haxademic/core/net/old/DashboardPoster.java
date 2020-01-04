@@ -14,7 +14,7 @@ import com.haxademic.core.net.IJsonRequestCallback;
 import com.haxademic.core.net.JsonHttpRequest;
 import com.haxademic.core.net.JsonRequest;
 import com.haxademic.core.system.DateUtil;
-import com.haxademic.core.system.ScreenUtil;
+import com.haxademic.core.system.ScreenshotUtil;
 
 import processing.core.PGraphics;
 import processing.core.PImage;
@@ -143,7 +143,7 @@ implements IJsonRequestCallback {
 	
 	protected void takeThreadedScreenshot() {
 		new Thread(new Runnable() { public void run() {
-			screenshot = ScreenUtil.getScreenShotNativeAllMonitors(0, 0, 1);
+			screenshot = ScreenshotUtil.getScreenShotNativeAllMonitors(0, 0, 1);
 		}}).start();	
 	}
 	

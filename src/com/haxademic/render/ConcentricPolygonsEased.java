@@ -373,7 +373,7 @@ extends PAppletHax {
 	protected void preparePDFRender() {
 		if(shouldRecord == true) {
 			circleResolution = 300;
-			p.beginRecord(P.PDF, FileUtil.getHaxademicOutputPath() + "/pdf/frame-"+SystemUtil.getTimestamp()+".pdf");
+			p.beginRecord(P.PDF, FileUtil.haxademicOutputPath() + "/pdf/frame-"+SystemUtil.getTimestamp()+".pdf");
 		}
 	}
 	

@@ -45,9 +45,9 @@ extends PAppletHax {
 	public void firstFrame() {
 
 		p.smooth(OpenGLUtil.SMOOTH_HIGH);
-		_logo = p.loadShape(FileUtil.getHaxademicDataPath()+"svg/ello.svg");
-		_logoInverse = p.loadShape(FileUtil.getHaxademicDataPath()+"svg/ello-inverse.svg");
-		_bread = p.loadImage(FileUtil.getHaxademicDataPath()+"images/bread.png");
+		_logo = p.loadShape(FileUtil.haxademicDataPath()+"svg/ello.svg");
+		_logoInverse = p.loadShape(FileUtil.haxademicDataPath()+"svg/ello-inverse.svg");
+		_bread = p.loadImage(FileUtil.haxademicDataPath()+"images/bread.png");
 		
 		// build off-screen logo image for processing
 		_logoOffscreen = p.createGraphics(p.width, p.height);

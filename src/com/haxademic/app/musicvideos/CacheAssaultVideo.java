@@ -67,15 +67,15 @@ extends PAppletHax {
 
 	protected void config() {
 		Config.setProperty( AppSettings.FPS, "30" );
-		Config.setProperty( "video_source_file", FileUtil.getHaxademicDataPath() + "video/Janet Jackson - Control - trimmed.mov" );
+		Config.setProperty( "video_source_file", FileUtil.haxademicDataPath() + "video/Janet Jackson - Control - trimmed.mov" );
 //		Config.setProperty( "video_source_file", FileUtil.getHaxademicDataPath() + "video/Madonna - Lucky Star.mov" );
 		Config.setProperty( AppSettings.WIDTH, "1280" );
 		Config.setProperty( AppSettings.HEIGHT, "720" );
 //		Config.setProperty( "disable_esc", "true" );
 		Config.setProperty( AppSettings.RENDERING_MOVIE, "true" );
 //		Config.setProperty( AppSettings.RENDER_AUDIO, "true" );
-		Config.setProperty( AppSettings.RENDER_AUDIO_FILE, FileUtil.getHaxademicDataPath() + "video/cache-assault-master.wav" );
-		Config.setProperty( AppSettings.RENDER_MIDI_FILE, FileUtil.getHaxademicDataPath() + "video/cache-assault-midi.mid" );
+		Config.setProperty( AppSettings.RENDER_AUDIO_FILE, FileUtil.haxademicDataPath() + "video/cache-assault-master.wav" );
+		Config.setProperty( AppSettings.RENDER_MIDI_FILE, FileUtil.haxademicDataPath() + "video/cache-assault-midi.mid" );
 		Config.setProperty( AppSettings.RENDER_MIDI_BPM, "150" );
 		Config.setProperty( AppSettings.RENDER_MIDI_OFFSET, "0" );
 	}
@@ -97,17 +97,17 @@ extends PAppletHax {
 		_blobFilter = new BlobOuterMeshFilter( _curFrame.width, _curFrame.height );
 //		_8bitFilter = new Cluster8BitRow( _curFrame.width, _curFrame.height, (int) 10, false );
 		
-		kaleido = loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/kaleido.glsl" ); 
+		kaleido = loadShader( FileUtil.haxademicDataPath()+"haxademic/shaders/filters/kaleido.glsl" ); 
 		kaleido.set("sides", 6.0f);
 		kaleido.set("angle", 0.0f);
 		
-		vignette = loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/vignette.glsl" );
+		vignette = loadShader( FileUtil.haxademicDataPath()+"haxademic/shaders/filters/vignette.glsl" );
 		vignette.set("darkness", 0.85f);
 		vignette.set("spread", 0.15f);
 
 //		edge = loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/edges.glsl" ); 
 		
-		badtv = loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/badtv.glsl" ); 
+		badtv = loadShader( FileUtil.haxademicDataPath()+"haxademic/shaders/filters/badtv.glsl" ); 
 		badtv.set("nIntensity", 0.1f);
 		badtv.set("sIntensity", 0.8f);
 

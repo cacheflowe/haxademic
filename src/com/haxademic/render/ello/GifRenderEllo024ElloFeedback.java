@@ -41,7 +41,7 @@ extends PAppletHax {
 		_texture.background(0);
 		_texture.endDraw();
 		
-		_logo = p.loadShape(FileUtil.getHaxademicDataPath()+"svg/ello-filled.svg");
+		_logo = p.loadShape(FileUtil.haxademicDataPath()+"svg/ello-filled.svg");
 	}
 	
 	public void drawApp() {

@@ -101,7 +101,7 @@ extends PAppletHax {
 	
 	public void firstFrame() {
 		DepthCamera.instance(DepthCameraType.KinectV1);
-		_videoPath = FileUtil.getHaxademicDataPath()+"video/ophelias/";
+		_videoPath = FileUtil.haxademicDataPath()+"video/ophelias/";
 		buildMenu();
 	}
 	
@@ -192,7 +192,7 @@ extends PAppletHax {
 		_movieComposite = p.createGraphics(P.round(p.width * SCALE_DOWN), P.round(p.height * SCALE_DOWN), P.P3D);
 
 		_lightLeak = p.createGraphics(P.round(p.width * SCALE_DOWN), P.round(p.height * SCALE_DOWN), P.P3D);
-		_lightShader = loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/textures/light-leak.glsl" );
+		_lightShader = loadShader( FileUtil.haxademicDataPath()+"haxademic/shaders/textures/light-leak.glsl" );
 
 		_movieLayer = new MovieLayer(_files);
 		_movieLayer.randomFrame();

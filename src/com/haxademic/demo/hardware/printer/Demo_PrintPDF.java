@@ -24,7 +24,7 @@ extends PAppletHax {
 
 	public void drawApp() {
 		if(p.frameCount == 1) {
-			p.beginRecord(PDF, FileUtil.getHaxademicOutputPath() + "pdf/outputt.pdf");
+			p.beginRecord(PDF, FileUtil.haxademicOutputPath() + "pdf/outputt.pdf");
 			p.background( 255 );
 
 		

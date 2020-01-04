@@ -106,7 +106,7 @@ public class JoonsWrapper {
             PG.setDrawCorner(p);
             jr.displayRendered(true); //Display rendered image if rendering completed, and the argument is true.
 			if( saveFrameImg == true ) {
-				String sunflowOutputPath = FileUtil.getHaxademicOutputPath()+"/_sunflow/";
+				String sunflowOutputPath = FileUtil.haxademicOutputPath()+"/_sunflow/";
 				if(FileUtil.fileOrPathExists(sunflowOutputPath) == false) FileUtil.createDir(sunflowOutputPath);
 				p.save(sunflowOutputPath + SystemUtil.getTimestamp() + "-render.png");
 			}

@@ -92,7 +92,7 @@ public class KinectFaceRecorder {
 	}
 	
 	protected void setupChromakey() {
-		_chromaKeyFilter = P.p.loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/chroma-color.glsl" );
+		_chromaKeyFilter = P.p.loadShader( FileUtil.haxademicDataPath()+"haxademic/shaders/filters/chroma-color.glsl" );
 		_chromaKeyFilter.set("thresholdSensitivity", 0.75f);
 		_chromaKeyFilter.set("smoothing", 0.25f);
 		_chromaKeyFilter.set("colorToReplace", 0.2f, 0.4f, 0.1f);

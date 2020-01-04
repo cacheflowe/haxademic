@@ -4,7 +4,6 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.image.ImageUtil;
-import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.media.DemoAssets;
 import com.haxademic.core.render.JoonsWrapper;
 import com.haxademic.core.render.Renderer;

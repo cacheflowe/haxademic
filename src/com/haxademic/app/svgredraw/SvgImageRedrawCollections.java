@@ -119,12 +119,12 @@ extends PAppletHax {
 		public ArrayList<SvgRanked> _svgs;
 		public SvgCollection(String dir) {
 			// load svgs
-			ArrayList<String> files = FileUtil.getFilesInDirOfType(FileUtil.getHaxademicDataPath() + dir, "svg");
+			ArrayList<String> files = FileUtil.getFilesInDirOfType(FileUtil.haxademicDataPath() + dir, "svg");
 			P.println("Loading and analyzing "+files.size()+" svgs");
 			
 			_svgs = new ArrayList<SvgRanked>();
 			for (String file : files) {
-				PShape shape = p.loadShape( FileUtil.getHaxademicDataPath() + dir + file );
+				PShape shape = p.loadShape( FileUtil.haxademicDataPath() + dir + file );
 				SvgRanked rankedSvg = new SvgRanked(shape, 1.0f, file);
 				if(file.indexOf("black-dot.svg") != -1) {
 					_blackDot = rankedSvg;
@@ -136,7 +136,7 @@ extends PAppletHax {
 					
 					// add scaled versions
 					// if(file.indexOf("scaled-100") != -1) {
-						shape = p.loadShape( FileUtil.getHaxademicDataPath() + dir + file );
+						shape = p.loadShape( FileUtil.haxademicDataPath() + dir + file );
 						rankedSvg = new SvgRanked(shape, 0.8f, file);
 						_svgs.add(rankedSvg);
 					// }
@@ -180,7 +180,7 @@ extends PAppletHax {
 	}
 		
 	protected void debugDrawSvgs() {
-		if(p.frameCount == 3) p.beginRecord(P.PDF, FileUtil.getHaxademicOutputPath() + "_testIcons.pdf");
+		if(p.frameCount == 3) p.beginRecord(P.PDF, FileUtil.haxademicOutputPath() + "_testIcons.pdf");
 		PG.setDrawCenter(p);
 		int x = 0;
 		int y = 0;
@@ -210,7 +210,7 @@ extends PAppletHax {
 		float shapeDrawSize = shapeSize * shapeDrawScale;
 		
 		String splitFileAdd = (splitFiles == true) ? "_row-"+fileNum : "";
-		p.beginRecord(P.PDF, FileUtil.getHaxademicOutputPath() + "_"+outputFile+"_shapeSize-"+(int)shapeSize+"_whiteMode-"+whitenessMode+"_maps255-"+mapsTo255+"_variance-"+noRepeatVariance+splitFileAdd+".pdf");
+		p.beginRecord(P.PDF, FileUtil.haxademicOutputPath() + "_"+outputFile+"_shapeSize-"+(int)shapeSize+"_whiteMode-"+whitenessMode+"_maps255-"+mapsTo255+"_variance-"+noRepeatVariance+splitFileAdd+".pdf");
 		
 		for (float y = halfShapeSize; y <= img.height - halfShapeSize; y += shapeSize) {
 			P.println("Processing row ",y);
@@ -323,7 +323,7 @@ extends PAppletHax {
 			if(splitFiles == true && rowsDrawn % rowSplit == 0) {
 				fileNum++;
 				p.endRecord();
-				p.beginRecord(P.PDF, FileUtil.getHaxademicOutputPath() + "_"+outputFile+"_shapeSize-"+(int)shapeSize+"_whiteMode-"+whitenessMode+"_maps255-"+mapsTo255+"_variance-"+noRepeatVariance+"_row-"+fileNum+".pdf");
+				p.beginRecord(P.PDF, FileUtil.haxademicOutputPath() + "_"+outputFile+"_shapeSize-"+(int)shapeSize+"_whiteMode-"+whitenessMode+"_maps255-"+mapsTo255+"_variance-"+noRepeatVariance+"_row-"+fileNum+".pdf");
 			}
 		}
 		

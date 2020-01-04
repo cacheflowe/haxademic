@@ -14,7 +14,7 @@ import java.awt.image.WritableRaster;
 import java.awt.peer.RobotPeer;
 
 import com.haxademic.core.app.P;
-import com.haxademic.core.system.ScreenUtil;
+import com.haxademic.core.system.ScreenshotUtil;
 
 import processing.core.PImage;
 import sun.awt.SunToolkit;
@@ -49,7 +49,7 @@ public class ScreenshotBuffer {
 
 	public ScreenshotBuffer(Rectangle2D bound) {
 		// default bounds to capture all screens 
-		bounds = (bound == null) ? ScreenUtil.getFullScreenBounds() : bound;
+		bounds = (bound == null) ? ScreenshotUtil.getFullScreenBounds() : bound;
 		w = (int) bounds.getWidth();
 		h = (int) bounds.getHeight();
 		image = new PImage(w, h);

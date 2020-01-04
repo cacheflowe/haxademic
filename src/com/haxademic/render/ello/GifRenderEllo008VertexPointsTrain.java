@@ -37,7 +37,7 @@ extends PAppletHax {
 
 		p.background(0);
 		p.smooth(OpenGLUtil.SMOOTH_HIGH);
-		_logo = p.loadShape(FileUtil.getHaxademicDataPath()+"svg/ello-centered-complex-lofi.svg");
+		_logo = p.loadShape(FileUtil.haxademicDataPath()+"svg/ello-centered-complex-lofi.svg");
 //		_logo.scale(5);
 //		_logoOrig = p.loadShape(FileUtil.getHaxademicDataPath()+"svg/ello.svg");
 		if(Config.getBoolean("rendering_gif", false) == true) startGifRender();
@@ -45,7 +45,7 @@ extends PAppletHax {
 	
 	public void startGifRender() {
 		encoder = new AnimatedGifEncoder();
-		encoder.start( FileUtil.getHaxademicOutputPath() + SystemUtil.getTimestamp() + "-export.gif" );
+		encoder.start( FileUtil.haxademicOutputPath() + SystemUtil.getTimestamp() + "-export.gif" );
 		encoder.setFrameRate( 45 );
 		encoder.setQuality( 15 );
 		encoder.setRepeat( 0 );

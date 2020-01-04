@@ -266,7 +266,7 @@ extends PAppletHax {
 				export += "\n";
 			}
 		}
-		FileUtil.writeTextToFile(FileUtil.getHaxademicDataPath() + "text/mapping/mapping-"+SystemUtil.getTimestamp()+".txt", export);
+		FileUtil.writeTextToFile(FileUtil.haxademicDataPath() + "text/mapping/mapping-"+SystemUtil.getTimestamp()+".txt", export);
 	}
 	
 	public void loadVertices() {

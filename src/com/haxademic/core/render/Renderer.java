@@ -13,6 +13,7 @@ import com.haxademic.core.debug.DebugUtil;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.midi.MidiState;
+import com.haxademic.core.system.SystemUtil;
 
 import processing.core.PGraphics;
 import processing.core.PImage;
@@ -55,7 +56,7 @@ implements IAppStoreListener {
 	}
 
 	protected void initRendering() {
-		videoRenderer = new VideoRenderer( Config.getInt(AppSettings.FPS, 60), VideoRenderer.OUTPUT_TYPE_MOVIE, Config.getString( "render_output_dir", FileUtil.getHaxademicOutputPath() ) );
+		videoRenderer = new VideoRenderer( Config.getInt(AppSettings.FPS, 60), VideoRenderer.OUTPUT_TYPE_MOVIE, Config.getString( "render_output_dir", FileUtil.haxademicOutputPath() ) );
 		if(Config.getBoolean(AppSettings.RENDERING_GIF, false) == true) {
 			gifRenderer = new GifRenderer(Config.getInt(AppSettings.RENDERING_GIF_FRAMERATE, 45), Config.getInt(AppSettings.RENDERING_GIF_QUALITY, 15));
 		}
@@ -148,6 +149,21 @@ implements IAppStoreListener {
 				imageSequenceRenderer.finish();
 			}
 		}
+	}
+	
+	///////////////////////////
+	// save in-app buffers
+	///////////////////////////
+
+	public static String saveBufferToDisk( PGraphics pg ) {
+		return saveBufferToDisk(pg, FileUtil.screenshotsPath());
+	}
+	
+	public static String saveBufferToDisk( PGraphics pg, String outputDir ) {
+		if( FileUtil.fileOrPathExists(outputDir) == false ) FileUtil.createDir(outputDir);
+		String filename = outputDir + SystemUtil.getTimestampFine() + ".png";
+		pg.save(filename);
+		return filename;
 	}
 	
 

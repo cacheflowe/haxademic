@@ -28,16 +28,16 @@ extends PAppletHax {
 
 		
 		shapes = new ArrayList<PShape>();
-		shapes.add( p.loadShape( FileUtil.getHaxademicDataPath() + "svg/money.svg" ).getTessellation() );
-		shapes.add( p.loadShape( FileUtil.getHaxademicDataPath() + "svg/weed.svg" ).getTessellation() );
-		shapes.add( p.loadShape( FileUtil.getHaxademicDataPath() + "svg/gun.svg" ).getTessellation() );
-		shapes.add( p.loadShape( FileUtil.getHaxademicDataPath() + "svg/gun-uzi.svg" ).getTessellation() );
-		shapes.add( p.loadShape( FileUtil.getHaxademicDataPath() + "svg/speaker.svg" ).getTessellation() );
-		shapes.add( p.loadShape( FileUtil.getHaxademicDataPath() + "svg/money-bag.svg" ).getTessellation() );
-		shapes.add( p.loadShape( FileUtil.getHaxademicDataPath() + "svg/diamond.svg" ).getTessellation() );
-		shapes.add( p.loadShape( FileUtil.getHaxademicDataPath() + "svg/car.svg" ).getTessellation() );
-		shapes.add( p.loadShape( FileUtil.getHaxademicDataPath() + "svg/coin.svg" ).getTessellation() );
-		shapes.add( p.loadShape( FileUtil.getHaxademicDataPath() + "svg/cacheflowe-logo.svg" ).getTessellation() );
+		shapes.add( p.loadShape( FileUtil.haxademicDataPath() + "svg/money.svg" ).getTessellation() );
+		shapes.add( p.loadShape( FileUtil.haxademicDataPath() + "svg/weed.svg" ).getTessellation() );
+		shapes.add( p.loadShape( FileUtil.haxademicDataPath() + "svg/gun.svg" ).getTessellation() );
+		shapes.add( p.loadShape( FileUtil.haxademicDataPath() + "svg/gun-uzi.svg" ).getTessellation() );
+		shapes.add( p.loadShape( FileUtil.haxademicDataPath() + "svg/speaker.svg" ).getTessellation() );
+		shapes.add( p.loadShape( FileUtil.haxademicDataPath() + "svg/money-bag.svg" ).getTessellation() );
+		shapes.add( p.loadShape( FileUtil.haxademicDataPath() + "svg/diamond.svg" ).getTessellation() );
+		shapes.add( p.loadShape( FileUtil.haxademicDataPath() + "svg/car.svg" ).getTessellation() );
+		shapes.add( p.loadShape( FileUtil.haxademicDataPath() + "svg/coin.svg" ).getTessellation() );
+		shapes.add( p.loadShape( FileUtil.haxademicDataPath() + "svg/cacheflowe-logo.svg" ).getTessellation() );
 		
 		// normalize shapes
 		for (PShape shape : shapes) {

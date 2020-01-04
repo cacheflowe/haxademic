@@ -40,7 +40,7 @@ extends PAppletHax {
 	
 	protected void config() {
 		Config.setProperty( AppSettings.RENDERER, P.PDF );
-		Config.setProperty( AppSettings.PDF_RENDERER_OUTPUT_FILE, FileUtil.getHaxademicOutputPath() + "/_pdf/output.pdf" );
+		Config.setProperty( AppSettings.PDF_RENDERER_OUTPUT_FILE, FileUtil.haxademicOutputPath() + "/_pdf/output.pdf" );
 		Config.setProperty( AppSettings.WIDTH, 800 );
 		Config.setProperty( AppSettings.HEIGHT, 600 );
 //		Config.setProperty( AppSettings.FPS, 30 );
@@ -60,10 +60,10 @@ extends PAppletHax {
 		_svgs = new ArrayList<PShape>();
 		_imgs = new ArrayList<PGraphics>();
 		
-		_svgs.add( p.loadShape( FileUtil.getHaxademicDataPath() + "svg/nike/camo-m.svg" ) );
-		_svgs.add( p.loadShape( FileUtil.getHaxademicDataPath() + "svg/nike/camo-a.svg" ) );
-		_svgs.add( p.loadShape( FileUtil.getHaxademicDataPath() + "svg/nike/camo-k.svg" ) );
-		_svgs.add( p.loadShape( FileUtil.getHaxademicDataPath() + "svg/nike/camo-w.svg" ) );
+		_svgs.add( p.loadShape( FileUtil.haxademicDataPath() + "svg/nike/camo-m.svg" ) );
+		_svgs.add( p.loadShape( FileUtil.haxademicDataPath() + "svg/nike/camo-a.svg" ) );
+		_svgs.add( p.loadShape( FileUtil.haxademicDataPath() + "svg/nike/camo-k.svg" ) );
+		_svgs.add( p.loadShape( FileUtil.haxademicDataPath() + "svg/nike/camo-w.svg" ) );
 		
 		// output args
 		P.println("arguments length", arguments.length);
@@ -85,7 +85,7 @@ extends PAppletHax {
 
 		// set up to render pdf
 		if(shouldRecord == true) {
-			p.beginRecord(P.PDF, FileUtil.getHaxademicOutputPath() + "/_pdf/frame-####.pdf");
+			p.beginRecord(P.PDF, FileUtil.haxademicOutputPath() + "/_pdf/frame-####.pdf");
 		}
 		
 		// create image buffers

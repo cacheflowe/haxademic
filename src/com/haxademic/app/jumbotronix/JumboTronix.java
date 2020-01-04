@@ -24,7 +24,6 @@ import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.midi.MidiDevice;
 import com.haxademic.core.hardware.midi.MidiState;
 import com.haxademic.core.media.audio.analysis.AudioIn;
-import com.haxademic.core.system.ScreenUtil;
 
 import processing.core.PGraphics;
 import processing.opengl.PShader;
@@ -133,36 +132,36 @@ extends PAppletHax {
 	}
 	
 	protected void initShaders() {
-		invert = loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/invert.glsl" ); 
+		invert = loadShader( FileUtil.haxademicDataPath()+"haxademic/shaders/filters/invert.glsl" ); 
 		
-		kaleido = loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/kaleido.glsl" ); 
+		kaleido = loadShader( FileUtil.haxademicDataPath()+"haxademic/shaders/filters/kaleido.glsl" ); 
 		kaleido.set("sides", 2.0f);
 		kaleido.set("angle", 0.0f);
 		
-		vignette = loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/vignette.glsl" );
+		vignette = loadShader( FileUtil.haxademicDataPath()+"haxademic/shaders/filters/vignette.glsl" );
 		vignette.set("darkness", 0.85f);
 		vignette.set("spread", 0.15f);
 
-		edge = loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/edges.glsl" ); 
+		edge = loadShader( FileUtil.haxademicDataPath()+"haxademic/shaders/filters/edges.glsl" ); 
 		
-		dotScreen = loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/dotscreen.glsl" ); 
+		dotScreen = loadShader( FileUtil.haxademicDataPath()+"haxademic/shaders/filters/dotscreen.glsl" ); 
 		dotScreen.set("tSize", 256f, 256f);
 		dotScreen.set("center", 0.5f, 0.5f);
 		dotScreen.set("angle", 1.57f);
 		dotScreen.set("scale", 1f);
 
-		mirror = loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/mirror.glsl" ); 
+		mirror = loadShader( FileUtil.haxademicDataPath()+"haxademic/shaders/filters/mirror.glsl" ); 
 
-		pixelate = loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/pixelate.glsl" ); 
+		pixelate = loadShader( FileUtil.haxademicDataPath()+"haxademic/shaders/filters/pixelate.glsl" ); 
 		pixelate.set("divider", p.width/20f, p.height/20f);
 		
-		brightness = loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/brightness.glsl" ); 
+		brightness = loadShader( FileUtil.haxademicDataPath()+"haxademic/shaders/filters/brightness.glsl" ); 
 		brightness.set("brightness", 2f);
 		
-		contrast = loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/contrast.glsl" ); 
+		contrast = loadShader( FileUtil.haxademicDataPath()+"haxademic/shaders/filters/contrast.glsl" ); 
 		contrast.set("contrast", 2f);
 		
-		_chromaKeyFilter = loadShader( FileUtil.getHaxademicDataPath()+"haxademic/shaders/filters/chroma-gpu.glsl" );
+		_chromaKeyFilter = loadShader( FileUtil.haxademicDataPath()+"haxademic/shaders/filters/chroma-gpu.glsl" );
 		_chromaKeyFilter.set("thresholdSensitivity", 0.65f);
 		_chromaKeyFilter.set("smoothing", 0.19f);
 		_chromaKeyFilter.set("colorToReplace", 0.48f,0.8f,0.2f);
@@ -255,15 +254,4 @@ extends PAppletHax {
 		p.image(pg, 0, 0);
 	}
 	
-	public void keyPressed() {
-		super.keyPressed();
-		
-		// screenshot
-		if ( key == ' ' ) { 
-			String screenshotPath = FileUtil.getHaxademicOutputPath() + "_screenshots/";
-			if( FileUtil.fileOrPathExists( screenshotPath ) == false ) FileUtil.createDir( screenshotPath );
-			ScreenUtil.saveScreenshot( p, screenshotPath );
-		}
-	}
-
 }

@@ -25,7 +25,7 @@ extends HaxMapper{
 	
 	protected void config() {
 		super.config();
-		Config.setProperty( "mapping_file", FileUtil.getHaxademicDataPath() + "text/mapping/mapping-2014-04-05-00-17-25.txt" );
+		Config.setProperty( "mapping_file", FileUtil.haxademicDataPath() + "text/mapping/mapping-2014-04-05-00-17-25.txt" );
 	}
 
 	protected void buildMappingGroups() {

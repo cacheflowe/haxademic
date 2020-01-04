@@ -12,6 +12,7 @@ import com.haxademic.core.hardware.webcam.WebCam;
 import com.haxademic.core.media.audio.analysis.AudioIn;
 import com.haxademic.core.media.audio.analysis.AudioInputESS;
 import com.haxademic.core.media.video.MovieBuffer;
+import com.haxademic.core.render.Renderer;
 import com.haxademic.core.system.SystemUtil;
 import com.haxademic.core.ui.UIButton;
 
@@ -102,7 +103,7 @@ extends PApplet {
 		parentFirstFrame();
 		
 		p.pushMatrix();	// because drawApp can leave the context in a bad state for anything drawing via the "post" event
-		P.store.setNumber(PEvents.DRAW_PRE, p.frameCount);	// mostly for Renderer to do it's thing
+		P.store.setNumber(PEvents.DRAW_PRE, p.frameCount);	// mostly for Renderer to prep for rendering current frame
 		drawApp();
 		P.store.setNumber(PEvents.DRAW_POST, p.frameCount);
 		p.popMatrix();
@@ -118,12 +119,7 @@ extends PApplet {
 		P.println("Finished PDF render.");
 		p.exit();
 	}
-	
-
-	public void saveScreenshot(PGraphics savePG) {
-		savePG.save(FileUtil.getHaxademicOutputPath() + "_screenshots/" + SystemUtil.getTimestamp() + ".png");
-	}
-	
+		
 	////////////////////////
 	// INPUT
 	////////////////////////
@@ -135,7 +131,7 @@ extends PApplet {
 		}
 		
 		// screenshot
-		if (p.key == '|') saveScreenshot(p.g);
+		if (p.key == '|') Renderer.saveBufferToDisk(p.g, FileUtil.screenshotsPath());
 		
 		// let other objects know
 		P.store.setString(PEvents.KEY_PRESSED, p.key+"");

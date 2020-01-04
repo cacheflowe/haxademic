@@ -126,7 +126,7 @@ extends PAppletHax {
 	}
 	
 	protected void folderSoundsToTonePlayerPool(ArrayList<TonePlayer> array, String folder) {
-		ArrayList<String> files = FileUtil.getFilesInDirOfTypes(FileUtil.getHaxademicDataPath() + folder, "wav,aif");
+		ArrayList<String> files = FileUtil.getFilesInDirOfTypes(FileUtil.haxademicDataPath() + folder, "wav,aif");
 		for (String file : files) {
 			P.println("File: "+file);
 			array.add(new TonePlayer(file));

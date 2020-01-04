@@ -43,7 +43,7 @@ extends PAppletHax {
 
 		// create an AudioRecorder that will record from in to the filename specified.
 		// the file will be located in the sketch's main folder.
-		recorder = minim.createRecorder(in, FileUtil.getHaxademicOutputPath() + "audio/myrecording.wav");
+		recorder = minim.createRecorder(in, FileUtil.haxademicOutputPath() + "audio/myrecording.wav");
 
 		// get an output we can playback the recording on
 		out = minim.getLineOut( Minim.STEREO );

@@ -32,7 +32,7 @@ extends PAppletHax {
 	public void firstFrame() {
 		JoonsWrapper joons = Renderer.instance().joons;
 		p.smooth(OpenGLUtil.SMOOTH_HIGH);
-		_icon = p.loadImage(FileUtil.getHaxademicDataPath()+"images/play-arrow.png");
+		_icon = p.loadImage(FileUtil.haxademicDataPath()+"images/play-arrow.png");
 		
 		// special rendering situation since applet won't go as small as 110
 		_pg = p.createGraphics(46, 50, P.P3D);

@@ -42,7 +42,7 @@ extends PAppletHax {
 	public void firstFrame() {
 
 		
-		_textureShaderFile = FileUtil.getHaxademicDataPath() + "haxademic/shaders/textures/bw-clouds.glsl";
+		_textureShaderFile = FileUtil.haxademicDataPath() + "haxademic/shaders/textures/bw-clouds.glsl";
 		_textureShader = p.loadShader( _textureShaderFile );
 		_postFilter = p.loadShader( FileUtil.getPath("haxademic/shaders/filters/escher-repeat.glsl"));
 		
