@@ -54,6 +54,7 @@ extends PAppletHax {
 	// - Try 32-bit textures for smoothness? Only matters on main pg and any shaders that use maps?
 	// - Auto-detect blank/black screen & re-seed
 	// - B&W color-cycling shader for pattern textures
+	// - Darken amp could also be a texture instead of uniform/solid black 
 	
 	// app
 	protected boolean clearScreen = true;
@@ -115,7 +116,7 @@ extends PAppletHax {
 	protected void config() {
 		Config.setAppSize(1280, 720);
 		Config.setPgSize(1920, 1080);
-//		Config.setProperty(AppSettings.FULLSCREEN, true);
+		Config.setProperty(AppSettings.FULLSCREEN, true);
 		Config.setProperty(AppSettings.LOOP_FRAMES, 2000);
 		Config.setProperty(AppSettings.SHOW_UI, true);
 		Config.setProperty(AppSettings.ALWAYS_ON_TOP, false);
@@ -132,8 +133,9 @@ extends PAppletHax {
 		KeyboardState.instance().updatesDebugView(false);
 		
 		// main buffer & postFX buffer
+//		pg = PG.newPG32(pg.width, pg.height, true, false);
 		pgPost = PG.newPG(pg.width, pg.height);
-		PG.setTextureRepeat(pg, true);
+//		PG.setTextureRepeat(pg, true);
 		PG.setTextureRepeat(pgPost, true);
 		
 		// feedback map
@@ -321,6 +323,7 @@ extends PAppletHax {
 	protected void mixTexture() {
 		if(UI.valueEased(TEXTURE_BLEND) == 0) return;
 		BlendTowardsTexture.instance(p).setSourceTexture(linesTexture);
+//		BlendTowardsTexture.instance(p).setSourceTexture(map);
 		BlendTowardsTexture.instance(p).setBlendLerp(UI.valueEased(TEXTURE_BLEND));
 		BlendTowardsTexture.instance(p).applyTo(pg);
 	}
@@ -339,7 +342,7 @@ extends PAppletHax {
 		linesTexture.filter(gradientShader);
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(0);
 		
 		// pre-draw
@@ -347,11 +350,12 @@ extends PAppletHax {
 		updateLinesTexture();
 		
 		// set context
-//		pg.beginDraw();
+		pg.beginDraw();
 		if(FrameLoop.count() <= 10 || clearScreen) pg.background(0);
 		clearScreen = false;
 		PG.setDrawCorner(pg);
 		PG.setDrawFlat2d(pg, true);
+		pg.endDraw();
 		
 		// fx steps
 		addBitmapSeed();
@@ -382,7 +386,7 @@ extends PAppletHax {
 		if(p.key == 'z') P.out(UI.valuesToJSON());
 		if(p.key == ' ') clearScreen = true;
 		if(p.key == 'c') seedQueue = true;
-//		if(p.key == '1') UI.loadJSON(JSONObject.parse(CONFIG_1));
+//		if(p.key == '1') UI/loadJSON(JSONObject.parse(CONFIG_1));
 	}
 	
 }

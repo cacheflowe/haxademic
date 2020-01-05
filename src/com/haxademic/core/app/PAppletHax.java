@@ -138,6 +138,10 @@ extends PApplet {
 		P.store.setString(PEvents.KEY_PRESSED, p.key+"");
 	}
 	
+	public void mouseClicked() {
+		P.store.setBoolean(PEvents.MOUSE_CLICKED, true);
+	}
+	
 	////////////////////////
 	// SHUTDOWN
 	////////////////////////

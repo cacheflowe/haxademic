@@ -28,7 +28,7 @@ extends PAppletHax { public static void main(String args[]) { arguments = args; 
 		Config.setProperty(AppSettings.HEIGHT, 300);
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		JavaInfo.printAudioInfo();
 		
 //	    audioInputESS = new AudioInputESS();
@@ -37,7 +37,7 @@ extends PAppletHax { public static void main(String args[]) { arguments = args; 
 //		audioInputProcessing = new AudioInputProcessing();
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		background(0);
 		if(audioInputESS != null) audioInputESS.update(p.g);
 		if(audioInputMinim != null) audioInputMinim.update(p.g);
