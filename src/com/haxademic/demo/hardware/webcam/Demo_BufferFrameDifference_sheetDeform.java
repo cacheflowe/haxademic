@@ -74,7 +74,7 @@ implements IWebCamCallback {
 		DebugView.setValue("shape.getVertexCount();", shape.getVertexCount());
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		// set context
 		p.background(0);
 		PG.setCenterScreen(p);

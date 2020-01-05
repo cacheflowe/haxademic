@@ -21,7 +21,7 @@ extends PAppletHax {
 	}
 
 
-	public void firstFrame() {
+	protected void firstFrame() {
 
 		sortArray();
 		interfaceTest();
@@ -134,6 +134,6 @@ extends PAppletHax {
 		}
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 	}
 }

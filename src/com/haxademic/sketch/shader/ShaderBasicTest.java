@@ -39,7 +39,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, P.round(600 + _frames - 1) );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 
 		
 		_textureShaderFile = FileUtil.haxademicDataPath() + "haxademic/shaders/textures/bw-clouds.glsl";
@@ -49,7 +49,7 @@ extends PAppletHax {
 		_buffer = createGraphics( width,  height, P2D );
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		background(0, 0, 0);
 	
 		// rendering progress

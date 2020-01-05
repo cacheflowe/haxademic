@@ -44,7 +44,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.RENDERING_GIF_STOP_FRAME, ""+Math.round(_frames+1) );
 	}
 	
-	public void firstFrame() {
+	protected void firstFrame() {
 
 		p.smooth(OpenGLUtil.SMOOTH_HIGH);
 		
@@ -61,7 +61,7 @@ extends PAppletHax {
 		_logoInverse = p.loadShape(FileUtil.haxademicDataPath()+"svg/ello-inverse.svg");
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(255);
 //		p.fill(255, 40);
 //		p.rect(0, 0, p.width, p.height);

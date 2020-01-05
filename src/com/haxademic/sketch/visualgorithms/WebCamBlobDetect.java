@@ -42,7 +42,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.RENDERING_MOVIE, false );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 
 		//		image = ImageUtil.getScaledImage( WebCamWrapper.getImage(), 64, 48 );
 		pg = p.createGraphics(p.width,p.height,P.P3D);
@@ -55,7 +55,7 @@ extends PAppletHax {
 		theBlobDetection.setThreshold(0.35f); // will detect bright areas whose luminosity > 0.2f;
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		background(0);
 
 		curFrame = WebCam.instance().image();

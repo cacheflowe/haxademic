@@ -43,7 +43,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.RENDERING_GIF_STOP_FRAME, ""+Math.round(_frames+1) );
 	}
 	
-	public void firstFrame() {
+	protected void firstFrame() {
 
 		p.smooth(OpenGLUtil.SMOOTH_HIGH);
 		_print = p.loadImage(FileUtil.haxademicDataPath()+"images/BF.Linewave.1.jpg");
@@ -83,7 +83,7 @@ extends PAppletHax {
 		}
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(0);
 		if( _shouldPrint ) p.beginRecord( P.PDF,  FileUtil.haxademicOutputPath() + "linewave-"+ SystemUtil.getTimestamp() +".pdf" );
 		drawGraphics();

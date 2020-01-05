@@ -107,7 +107,7 @@ extends PAppletHax {
 		}
 	}
 		
-	public void drawApp() {
+	protected void drawApp() {
 		// clear the screen
 		background(0);
 		p.noStroke();

@@ -28,7 +28,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.HEIGHT, "1080" );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		
 		_movie = new Movie( p, FileUtil.getPath("video/nike/nike-hike-gray-loop.mov") );
 		_movieColor = new Movie( p, FileUtil.getPath("video/nike/nike-hike-color-loop.mov") );
@@ -50,7 +50,7 @@ extends PAppletHax {
 
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		// reset drawing 
 		p.background(0);
 		PG.resetGlobalProps( p );

@@ -28,13 +28,13 @@ implements IWebCamCallback {
 		Config.setProperty(AppSettings.FILLS_SCREEN, true );
 	}
 		
-	public void firstFrame () {
+	protected void firstFrame () {
 		camBuffer = p.createGraphics(640, 480, PRenderers.P3D);
 		recorder = new ImageSequenceRecorder(camBuffer.width, camBuffer.height, 20);
 		WebCam.instance().setDelegate(this);
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		p.background( 0 );
 				
 		p.pushMatrix();

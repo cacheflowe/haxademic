@@ -57,7 +57,7 @@ extends PAppletHax {
 		DebugView.setTexture("displaceTexture", displaceTexture.texture());
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		// ease amplitude
 		if(FrameLoop.loopCurFrame() == 2) displaceAmpMult.setTarget(1);
 		if(FrameLoop.loopCurFrame() == FRAMES - 80) displaceAmpMult.setTarget(0);

@@ -53,7 +53,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.ALWAYS_ON_TOP, alwaysOnTop );
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		background(0, 255, 0);
 		
 		_easingX.setEaseFactor(easeFactor);

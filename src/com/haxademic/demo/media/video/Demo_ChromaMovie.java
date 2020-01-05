@@ -11,13 +11,13 @@ extends PAppletHax {
 	
 	protected ChromaMovie chromaMovie;
 	
-	public void firstFrame() {
+	protected void firstFrame() {
 
 		chromaMovie = new ChromaMovie(FileUtil.getPath("video/fractal-cube.mp4"));
 		chromaMovie.loop();
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		if(p.frameCount == 1) p.background(0);
 		p.noStroke();
 		

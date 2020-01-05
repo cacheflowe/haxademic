@@ -143,7 +143,7 @@ extends PAppletHax {
 		}
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(0);
 		
 		// set context

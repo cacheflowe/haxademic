@@ -36,7 +36,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.RENDERING_GIF_STOP_FRAME, ""+(_frames+1) );
 	}
 	
-	public void firstFrame() {
+	protected void firstFrame() {
 
 		p.smooth(OpenGLUtil.SMOOTH_HIGH);
 		_logo = p.loadShape(FileUtil.haxademicDataPath()+"svg/ello.svg");
@@ -54,7 +54,7 @@ extends PAppletHax {
 		};
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(255);
 //		p.rect(0, 0, p.width, p.height);
 		p.noStroke();

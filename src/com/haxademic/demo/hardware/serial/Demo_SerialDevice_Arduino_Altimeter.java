@@ -26,12 +26,12 @@ implements ISerialDeviceDelegate {
 		Config.setProperty( AppSettings.SHOW_DEBUG, true );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		SerialDevice.printDevices();
 		serialDevice = new SerialDevice(this, 0, 9600); 
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		background(0);
 		
 		// test draw to make sure serial communication doesn't hurt framerate

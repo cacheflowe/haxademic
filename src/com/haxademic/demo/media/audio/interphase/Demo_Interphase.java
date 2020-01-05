@@ -21,7 +21,7 @@ extends PAppletHax {
 //		Config.setProperty( AppSettings.MIDI_DEVICE_IN_INDEX, 0 );
 	}
 	
-	public void firstFrame() {
+	protected void firstFrame() {
 //		interphase = new Interphase(SequencerConfig.interphaseChannels, true);
 //		SequencerConfig.BASE_AUDIO_PATH = FileUtil.getHaxademicDataPath();
 		interphase = new Interphase(SequencerConfig.interphaseChannels(), true);
@@ -34,7 +34,7 @@ extends PAppletHax {
 		interphase.keyPressed();
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(0);
 		p.noStroke();
 		PG.setDrawCorner(p);

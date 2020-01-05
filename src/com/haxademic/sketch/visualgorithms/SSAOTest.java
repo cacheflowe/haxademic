@@ -47,7 +47,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.RETINA, false );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 	
 		
 		canvas = p.createGraphics(p.width/2, p.height/2, P.P3D);
@@ -133,7 +133,7 @@ extends PAppletHax {
 
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		drawShapes();
 		createSSAOBuffer();
 		

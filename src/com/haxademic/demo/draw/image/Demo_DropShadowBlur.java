@@ -55,7 +55,7 @@ extends PAppletHax {
 		return pg;
 	}  
 	
-	public void drawApp() {
+	protected void drawApp() {
 		shadow.beginDraw();
 		shadow.clear();
 		shadow.image(shadowOrig, shadow.width/2, shadow.height/2);

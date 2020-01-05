@@ -35,7 +35,7 @@ implements IWebCamCallback {
 		Config.setProperty(AppSettings.HEIGHT, 720 );
 	}
 		
-	public void firstFrame () {
+	protected void firstFrame () {
 		WebCam.instance().setDelegate(this);
 		
 		backplate = p.createGraphics(p.width, p.height, PRenderers.P3D);
@@ -47,7 +47,7 @@ implements IWebCamCallback {
 		differenceShader = p.loadShader(FileUtil.getPath("haxademic/shaders/filters/texture-difference-threshold.glsl"));
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		// set up context
 		p.background( 0 );
 		PG.setDrawCenter(p);

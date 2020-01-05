@@ -37,7 +37,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.SHOW_UI, true );
 	}
 	
-	public void firstFrame() {
+	protected void firstFrame() {
 		AudioIn.instance();
 		_superForm = new Superformula(100,100, 1, 1,   6, 20,  7, 18);
 		_superFormGfx = p.createGraphics(p.width, p.height, P.P3D);
@@ -51,7 +51,7 @@ extends PAppletHax {
 		UI.addSlider(n3, 6, 0, 30, 0.1f, false);
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(0);
 		drawSuperformula();
 	}

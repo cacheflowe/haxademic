@@ -19,11 +19,11 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.SMOOTHING, AppSettings.SMOOTH_HIGH );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 	
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		if(p.frameCount == 1) background(0);
 		PG.fadeToBlack(p.g, 1);
 		PG.setDrawCenter(p);

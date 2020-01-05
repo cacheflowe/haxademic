@@ -17,13 +17,13 @@ extends PAppletHax {
 	protected PGraphics printBuffer;
 	
 	
-	public void firstFrame () {
+	protected void firstFrame () {
 		printDirect = new PrintPageDirectNew(false);
 		// printBuffer = P.p.createGraphics(PrintPageDirect.PRINT_W * 4, PrintPageDirect.PRINT_W * 3, PRenderers.P3D);
 		printBuffer = P.p.createGraphics(1600, 2000, PRenderers.P3D);
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		p.background( 0 );
 //		if(p.frameCount % 100 == 0) 		printBuffer = P.p.createGraphics(PrintPageDirect.PRINT_W, PrintPageDirect.PRINT_H, PRenderers.P3D);
 

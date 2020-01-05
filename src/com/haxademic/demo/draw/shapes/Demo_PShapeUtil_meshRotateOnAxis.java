@@ -26,7 +26,7 @@ extends PAppletHax {
 		obj = PShapeUtil.meshShapeToPointsShape(obj);
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		background(0);
 		p.translate(p.width/2f, p.height/2f, -width*1.5f);
 		PG.setBetterLights(p);

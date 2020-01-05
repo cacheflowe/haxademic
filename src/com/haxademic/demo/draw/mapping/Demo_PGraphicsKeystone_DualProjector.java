@@ -32,7 +32,7 @@ extends PAppletHax {
 //		Config.setProperty( AppSettings.HEIGHT, 1080 );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		buildCanvas();
 	}
 
@@ -43,7 +43,7 @@ extends PAppletHax {
 		keystone2 = new PGraphicsKeystone( p, buffer, 12, FileUtil.getPath("text/keystoning/keystone-demo2.txt") );
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(0);
 		
 		// draw test content

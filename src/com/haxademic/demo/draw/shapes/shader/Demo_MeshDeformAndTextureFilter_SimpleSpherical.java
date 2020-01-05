@@ -43,7 +43,7 @@ extends PAppletHax {
 		displacementMap2 = audioTexture.texture();
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		background(0);
 		PG.setBetterLights(p);
 		PG.setCenterScreen(p);

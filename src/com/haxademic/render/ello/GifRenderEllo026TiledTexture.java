@@ -24,12 +24,12 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, frames + 1 );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 
 		tiledBg = new TiledTexture(p.loadImage(FileUtil.getPath("images/pot-leaf.png")));
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(255);
 		p.noStroke();
 		

@@ -44,7 +44,7 @@ extends PAppletHax {
 //		Config.setProperty( AppSettings.RENDERING_GIF_STOP_FRAME, ""+Math.round(_frames+2) );
 }
 
-	public void firstFrame() {
+	protected void firstFrame() {
 	
 		p.smooth(OpenGLUtil.SMOOTH_HIGH);
 		buildCanvas();
@@ -143,7 +143,7 @@ extends PAppletHax {
 	}
 
 
-	public void drawApp() {
+	protected void drawApp() {
 		if(Config.getBoolean("sunflow", false) == false) {
 			p.background(0);
 			drawGraphicsNative(_pg);

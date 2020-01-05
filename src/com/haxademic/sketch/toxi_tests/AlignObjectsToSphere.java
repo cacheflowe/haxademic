@@ -18,7 +18,7 @@ extends PAppletHax {
 
 	TriangleMesh[] boxes=new TriangleMesh[300];
 
-	public void firstFrame() {
+	protected void firstFrame() {
 
 		for(int i=0; i<boxes.length; i++) {
 			// create a new direction vector for each box
@@ -36,7 +36,7 @@ extends PAppletHax {
 		}
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		background(51);
 		lights();
 		translate(width / 2, height / 2, 0);

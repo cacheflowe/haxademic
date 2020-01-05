@@ -9,11 +9,11 @@ public class Demo_DistributionCurveTest
 extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
-	public void firstFrame() {
+	protected void firstFrame() {
 		background(0);
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		p.stroke(255);
 		for (int i = 0; i < 300; i++) {
 			float x = MathUtil.randRange(0, p.width);

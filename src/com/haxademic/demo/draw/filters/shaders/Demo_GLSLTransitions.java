@@ -26,7 +26,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.RENDERING_MOVIE, false );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 
 		
 		img1 = ImageUtil.imageToGraphics(DemoAssets.squareTexture());
@@ -54,7 +54,7 @@ extends PAppletHax {
 		transitionShader.set("to", img2);
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(0);
 		float progress = (p.frameCount % frames*2) / frames; 
 		if(progress < 1.0f) {

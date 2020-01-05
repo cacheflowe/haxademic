@@ -24,7 +24,7 @@ extends PAppletHax {
 	protected PVector perp2 = new PVector();
 
 	
-	public void firstFrame() {
+	protected void firstFrame() {
 		background(0);
 		center = new PVector(p.width/2, p.height/2);
 	}
@@ -34,7 +34,7 @@ extends PAppletHax {
 		pDest.set(-pDest.y, pDest.x);
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(0);
 		p.stroke(255);
 		PG.setDrawCenter(p);

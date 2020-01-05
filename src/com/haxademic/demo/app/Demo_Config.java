@@ -15,10 +15,10 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.SHOW_FPS_IN_TITLE, true );
 	}
 	
-	public void firstFrame() {
+	protected void firstFrame() {
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		background(0);
 	}
 

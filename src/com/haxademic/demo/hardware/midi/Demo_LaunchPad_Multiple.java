@@ -23,7 +23,7 @@ implements ILaunchpadCallback {
 		Config.setProperty(AppSettings.PG_HEIGHT, 128 );
 	}
 	
-	public void firstFrame() {
+	protected void firstFrame() {
 		launchpad1 = new LaunchPad(0, 3);
 		launchpad1.setDelegate(this);
 		launchpad2 = new LaunchPad(1, 4);
@@ -34,7 +34,7 @@ implements ILaunchpadCallback {
 	// DEMO DRAW
 	//////////////////////////////
 	
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(0);
 		
 		// draw test pattern

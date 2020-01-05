@@ -7,7 +7,7 @@ public class Demo_WindowsComputerRestart
 extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(0);
 		p.text(p.frameCount, 20, 30);
 		if(p.frameCount == 90) {

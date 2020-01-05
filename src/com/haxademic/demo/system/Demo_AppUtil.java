@@ -23,12 +23,12 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.ALWAYS_ON_TOP, true );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		// AppUtil.setGLWindowChromeless(p);
 //		AppUtil.setLocation(p, 0, 30);
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(0);
 		
 		//get native window object

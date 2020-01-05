@@ -36,7 +36,7 @@ extends PAppletHax {
 	}
 
 
-	public void firstFrame() {
+	protected void firstFrame() {
 
 		newTriangle();
 	}
@@ -219,7 +219,7 @@ extends PAppletHax {
 		p.rect(0, 0, textureW, textureH);
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		background(0);
 		drawExampleTexture();
 		drawTriangle(_randTriangle, _triangleBB, p.color(0,255,0));

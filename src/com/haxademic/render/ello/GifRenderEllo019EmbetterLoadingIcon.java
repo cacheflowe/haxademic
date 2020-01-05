@@ -29,7 +29,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.HEIGHT, "110" );
 	}
 	
-	public void firstFrame() {
+	protected void firstFrame() {
 		JoonsWrapper joons = Renderer.instance().joons;
 		p.smooth(OpenGLUtil.SMOOTH_HIGH);
 		_icon = p.loadImage(FileUtil.haxademicDataPath()+"images/play-arrow.png");
@@ -42,7 +42,7 @@ extends PAppletHax {
 //		}
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(0);
 		p.noStroke();
 		

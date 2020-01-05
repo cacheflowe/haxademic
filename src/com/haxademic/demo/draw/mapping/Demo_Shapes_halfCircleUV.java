@@ -51,7 +51,7 @@ extends PAppletHax {
 		UI.addSlider(detailVal, 500, 10, 1000, 1, false);
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(0);
 		p.push();
 		

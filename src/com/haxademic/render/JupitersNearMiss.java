@@ -39,7 +39,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.RENDERING_GIF_STOP_FRAME, Math.round(_frames) );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 	
 
 		// load texture
@@ -54,7 +54,7 @@ extends PAppletHax {
 		bgShader.set("time", 0 );
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		background(255);
 		
 		// wrap-around textures

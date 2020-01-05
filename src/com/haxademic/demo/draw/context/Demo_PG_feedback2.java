@@ -18,7 +18,7 @@ extends PAppletHax {
 	protected PImage img;
 	protected float _frames = 90;
 	
-	public void firstFrame() {
+	protected void firstFrame() {
 		img = DemoAssets.smallTexture();
 		
 		_texture = p.createGraphics( p.width, p.height, P.P3D );
@@ -33,7 +33,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, ""+Math.round(_frames + _frames*2) );
 	}
 		
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(255);
 		
 		// texture feedback

@@ -38,7 +38,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.RENDERING_GIF_STOP_FRAME, ""+Math.round(_frames+1) );
 	}
 	
-	public void firstFrame() {
+	protected void firstFrame() {
 
 		p.smooth(OpenGLUtil.SMOOTH_HIGH);
 		_turntable = p.loadImage(FileUtil.haxademicDataPath()+"images/ello/ello-turntable.png");
@@ -46,7 +46,7 @@ extends PAppletHax {
 		_record = p.loadImage(FileUtil.haxademicDataPath()+"images/ello/ello-turntable-record.png");
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 //		p.background(255);
 		drawFrame();
 	}

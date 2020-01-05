@@ -55,7 +55,7 @@ extends PAppletHax {
 		}
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(0);
 		
 		// update mapped source to captured buffer

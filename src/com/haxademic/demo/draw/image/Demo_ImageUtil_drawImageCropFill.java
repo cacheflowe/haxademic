@@ -9,7 +9,7 @@ public class Demo_ImageUtil_drawImageCropFill
 extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
-	public void drawApp() {
+	protected void drawApp() {
 		background(0);
 		boolean cropFill = Mouse.xNorm < 0.5f;
 		ImageUtil.drawImageCropFill(DemoAssets.justin(), p.g, cropFill, Mouse.yNorm < 0.5f, false);

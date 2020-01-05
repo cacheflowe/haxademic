@@ -23,12 +23,12 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.HEIGHT, 800 );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 
 		noStroke();
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		background(0);
 		lights();
 		translate(width/2, height/2, -200);

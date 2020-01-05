@@ -39,13 +39,13 @@ extends PAppletHax {
 	protected PApplet p = this;
 	
 	
-	public void firstFrame() {
+	protected void firstFrame() {
 
 		toxi = Toxiclibs.instance(p).toxi;
 		pickNewColors();
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 	  background(0);
 	  lights();
 	  translate(width / 2, height / 2, 0);

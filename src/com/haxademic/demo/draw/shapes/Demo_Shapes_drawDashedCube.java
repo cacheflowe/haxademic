@@ -41,7 +41,7 @@ extends PAppletHax {
 	protected void firstFrame() {
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		// debug input
 		DebugView.setValue("Mouse.xNorm", Mouse.xNorm);
 		DebugView.setValue("Mouse.yNorm", Mouse.yNorm);

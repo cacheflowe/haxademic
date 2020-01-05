@@ -14,14 +14,14 @@ extends PAppletHax {
 	protected int endTime;
 	protected int fakeLastDigit = 9;
 	
-	public void firstFrame() {
+	protected void firstFrame() {
 		
 		endTime = P.p.millis() + 45 * 60 * 1000;
 		PFont daFont = DemoAssets.fontDSEG7(100); // p.createFont(FileUtil.getFile("fonts/coders_crux.ttf"), 100, true);
 		p.textFont(daFont);
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(0);
 		// update time 
 		int curTime = endTime - P.p.millis();

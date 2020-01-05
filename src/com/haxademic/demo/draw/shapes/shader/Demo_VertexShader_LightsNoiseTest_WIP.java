@@ -51,7 +51,7 @@ extends PAppletHax {
 		PShapeUtil.addTextureUVSpherical(obj, null);
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		background(0);
 		PG.setCenterScreen(p);
 

@@ -21,12 +21,12 @@ extends PAppletHax {
 		Config.setProperty(AppSettings.HEIGHT, 960);
 	}
 	
-	public void firstFrame () {
+	protected void firstFrame () {
 		printDirect = new PrintPageDirect(false);
 		pg = P.p.createGraphics(PrintPageDirect.PRINT_W, PrintPageDirect.PRINT_H, PRenderers.P2D);
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		p.background( 0 );
 //		if(p.frameCount % 100 == 0) 		pg = P.p.createGraphics(PrintPageDirect.PRINT_W, PrintPageDirect.PRINT_H, PRenderers.P3D);
 

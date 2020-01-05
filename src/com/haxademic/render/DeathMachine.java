@@ -40,7 +40,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, (int)_frames );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 	
 	}
 	
@@ -93,7 +93,7 @@ extends PAppletHax {
 		p.shininess(5.0f); 
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		p.pushMatrix();
 		if(p.frameCount == 1) firstFrameSetup();
 		

@@ -19,13 +19,13 @@ implements IMovieFinishedDelegate {
 	protected void config() {
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		video = DemoAssets.movieFractalCube();
 		video.loop();
 		movieFinished = new MovieFinishedListener(video, this);
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(0);
 		p.image(video, 0, 0);
 		// movieFinished.disconnect();

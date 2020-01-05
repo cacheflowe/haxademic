@@ -22,12 +22,12 @@ extends PAppletHax {
 		Config.setProperty(AppSettings.HEIGHT, 960 );
 	}
 		
-	public void firstFrame() {
+	protected void firstFrame() {
 		cam1 = new WebCam("cam_1");
 		freezeMonitor = new FrozenImageMonitor();
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(0);
 		PG.setDrawCorner(p);
 		

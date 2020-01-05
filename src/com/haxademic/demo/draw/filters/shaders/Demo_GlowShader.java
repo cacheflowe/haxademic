@@ -31,7 +31,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, frames );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 
 		img = DemoAssets.smallTexture();
 		shape = DemoAssets.shapeX().getTessellation();
@@ -42,7 +42,7 @@ extends PAppletHax {
 		pg.smooth(8);
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		background(255);
 		
 		float progress = (float) (p.frameCount % frames) / (float) frames;

@@ -14,7 +14,7 @@ extends PAppletHax {
 	protected int rows = 4;
 	protected int cols = 5;
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		savedPoints = new SavedPointUI[20];
 		for (int i = 0; i < savedPoints.length; i++) {
 			savedPoints[i] = new SavedPointUI(0, 0, FileUtil.getPath("text/keystoning/points-demo"+i+".txt"));
@@ -31,7 +31,7 @@ extends PAppletHax {
 		}
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(0);
 		
 		// draw points 

@@ -42,7 +42,7 @@ extends PAppletHax {
 		if(p.key == ' ') newTestString();
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		background(100,155,100);
 		
 		p.image(fitText.buffer(), 100, 100);

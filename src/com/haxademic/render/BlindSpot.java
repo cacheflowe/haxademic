@@ -25,11 +25,11 @@ extends PAppletHax {
 	}
 
 
-	public void firstFrame() {
+	protected void firstFrame() {
 	
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		if(p.frameCount == 1) p.background(255);
 
 		p.blendMode(P.BLEND);

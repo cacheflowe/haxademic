@@ -14,11 +14,11 @@ implements IWatchDirListener {
 	
 	protected WatchDir watchDir;
 	
-	public void firstFrame() {
+	protected void firstFrame() {
 		watchDir = new WatchDir(FileUtil.getPath("images"), true, this);
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(0);
 	}
 	

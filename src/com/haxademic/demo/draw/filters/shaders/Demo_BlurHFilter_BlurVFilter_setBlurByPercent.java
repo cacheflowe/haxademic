@@ -28,7 +28,7 @@ extends PAppletHax {
 	}
 
 
-	public void firstFrame() {
+	protected void firstFrame() {
 	
 		p.smooth( OpenGLUtil.SMOOTH_HIGH );
 
@@ -39,7 +39,7 @@ extends PAppletHax {
 		pg = ImageUtil.imageToGraphics( DemoAssets.justin());
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(0);
 		
 		// redraw img to pg

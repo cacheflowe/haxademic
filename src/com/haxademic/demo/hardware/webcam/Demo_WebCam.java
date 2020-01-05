@@ -20,11 +20,11 @@ implements IWebCamCallback {
 		Config.setProperty(AppSettings.FILLS_SCREEN, false );
 	}
 		
-	public void firstFrame () {
+	protected void firstFrame () {
 		WebCam.instance().setDelegate(this);
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		PImage webcamImg = WebCam.instance().image();
 		boolean webcamIsGood = (webcamImg.width > 400);
 		

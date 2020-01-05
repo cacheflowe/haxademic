@@ -32,7 +32,7 @@ extends PAppletHax {
 		Config.setProperty(AppSettings.RENDERING_MOVIE_STOP_FRAME, 1 + FRAMES * 3);
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		// lay out grid
 		float spacing = 14;
 		float startX = p.width / 2 - (cols / 2) * spacing + spacing/2;
@@ -56,7 +56,7 @@ extends PAppletHax {
 		return y * cols + x;
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		// set up context
 		background(0);
 		PG.setDrawCenter(p);

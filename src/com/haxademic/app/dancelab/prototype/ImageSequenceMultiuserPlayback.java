@@ -37,7 +37,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.SMOOTHING, AppSettings.SMOOTH_NONE );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		imgW = p.width / 9;
 		imgH = p.height;
 		
@@ -74,7 +74,7 @@ extends PAppletHax {
 		}	
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		background(0);
 		
 		// map time to framerate - drops frames if needed

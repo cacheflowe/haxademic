@@ -13,7 +13,7 @@ extends PAppletHax {
 	
 	protected IEasingValue[] easings;
 	
-	public void firstFrame() {
+	protected void firstFrame() {
 		easings = new IEasingValue[] {
 			new EasingFloat(0, 0.2f),
 			new LinearFloat(0, 5),
@@ -21,7 +21,7 @@ extends PAppletHax {
 		};
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		// set up drawing context
 		background(0);
 		PG.setDrawCenter(p);

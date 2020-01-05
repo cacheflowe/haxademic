@@ -23,12 +23,12 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.SHOW_UI, true );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		UI.addSlider(_x, 10, 0, p.displayWidth - p.width, 1, false);
 		UI.addSlider(_y, 10, 1, p.displayHeight - p.height, 1, false);
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		background(0);
 //		 p.image( ScreenUtil.getScreenshotMainMonitor(UI.valueInt(_x), UI.valueInt(_y), p.width, p.height), 0, 0);	// deprecated version
 		p.image( ScreenshotUtil.getScreenShotAsPImage(UI.valueInt(_x), UI.valueInt(_y), p.width, p.height), 0, 0);

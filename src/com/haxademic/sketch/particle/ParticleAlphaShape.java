@@ -42,7 +42,7 @@ extends PAppletHax {
 //		Config.setProperty( AppSettings.FPS, 30 );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 
 
 		initFlyers();
@@ -70,7 +70,7 @@ extends PAppletHax {
 	}
 
 
-	public void drawApp() {
+	protected void drawApp() {
 		JoonsWrapper joons = Renderer.instance().joons;
 		if(joons == null) p.background(0);
 		p.lights();

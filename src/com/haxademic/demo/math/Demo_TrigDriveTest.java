@@ -21,7 +21,7 @@ extends PAppletHax {
 		Config.setProperty(AppSettings.SHOW_UI, true);
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		UI.addSlider(radians, 0, 0, P.TWO_PI, 0.01f, false);
 		UI.addSlider(speed, 1, 0, 10, 0.1f, false);
 
@@ -29,7 +29,7 @@ extends PAppletHax {
 		_y = p.height / 2;
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		background(0);
 		PG.setDrawCenter(p);
 

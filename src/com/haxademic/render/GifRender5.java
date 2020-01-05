@@ -33,7 +33,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.SUNFLOW_QUALITY, "high" );
 	}
 	
-	public void firstFrame() {
+	protected void firstFrame() {
 
 		p.smooth(OpenGLUtil.SMOOTH_HIGH);
 		startGifRender();
@@ -57,7 +57,7 @@ extends PAppletHax {
 		}
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		JoonsWrapper joons = Renderer.instance().joons;
 //		PG.setDrawCenter(p);
 		PG.setBasicLights(p);

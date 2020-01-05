@@ -38,7 +38,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.RENDERING_MOVIE, "false" );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		AudioIn.instance();
 		img = loadImage(FileUtil.haxademicDataPath() + "images/justin-tiny-color1.png");
 		// img = loadImage(FileUtil.getHaxademicDataPath() + "images/sphere-map-test-2.jpg");
@@ -65,7 +65,7 @@ extends PAppletHax {
 		}      
 	}
 		
-	public void drawApp() {
+	protected void drawApp() {
 		updateTextures();
 		
 		background(0);

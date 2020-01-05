@@ -35,7 +35,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.SHOW_UI, true );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		UI.addSlider(numLines, 56, 1, 100, 1, false);
 		UI.addSlider(spacing, 9, 0, 50, 0.5f, false);
 		UI.addSlider(perlinStart, 0, 0, 100, 0.5f, false);
@@ -52,7 +52,7 @@ extends PAppletHax {
 		if( p.key == 'p' ) _shouldPrint = true;
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		background(0);
 		PG.setDrawCenter(p);
 

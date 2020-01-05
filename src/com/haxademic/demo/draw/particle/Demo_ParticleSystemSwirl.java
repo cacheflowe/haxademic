@@ -19,12 +19,12 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.HEIGHT, 800 );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		particles = new ParticleSystemSwirl(new PImage[] { DemoAssets.particle() });
 		particles.enableUI("SWIRL_1_", false);
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		background(0);
 		
 		// draw image/map base

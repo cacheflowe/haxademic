@@ -48,7 +48,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, (int)_frames + 1 );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 
 		smooth();
 		
@@ -135,7 +135,7 @@ extends PAppletHax {
 		drawAlphaComplex();
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		percentCompete = ((float)(p.frameCount%_frames)/_frames);
 		radsComplete = percentCompete * P.TWO_PI;
 

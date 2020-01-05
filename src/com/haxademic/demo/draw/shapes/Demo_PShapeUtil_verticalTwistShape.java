@@ -33,7 +33,7 @@ extends PAppletHax {
 		PShapeUtil.scaleShapeToExtent(obj, objHeight);
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		// set scene
 		background(0);
 		p.translate(p.width/2f, p.height/2f, -width*1.5f);

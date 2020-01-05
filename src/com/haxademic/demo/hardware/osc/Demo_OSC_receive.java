@@ -33,7 +33,7 @@ extends PAppletHax {
 		DebugView.active(true);
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(0);
 		logOut.printToScreen(p.g, 320, 20);
 	}

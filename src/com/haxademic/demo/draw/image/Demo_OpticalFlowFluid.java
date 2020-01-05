@@ -23,7 +23,7 @@ extends PAppletHax {
 	protected PGraphics fluidBuff;
 	protected int scale = 10;
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		// set buffer size
 		pg = p.createGraphics(w, h, PRenderers.P3D);
 		
@@ -37,7 +37,7 @@ extends PAppletHax {
 		fluidBuff = p.createGraphics(w, h, PRenderers.P3D);
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		// set up context
 		p.background(0);
 		p.noStroke();

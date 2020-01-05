@@ -55,7 +55,7 @@ implements IWebCamCallback {
 		vfx = new SmokeFeedback(p.width, p.height);
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		background(0);
 		if(vfxPre != null) {
 			vfxPre.update();

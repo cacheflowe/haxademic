@@ -37,7 +37,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.SHOW_UI, true );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		// NOTES:
 		// Jack app must be running!
 		
@@ -65,7 +65,7 @@ extends PAppletHax {
 		stage = new SoundStage(200, outputs);
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(0);
 		
 		// auto trigger

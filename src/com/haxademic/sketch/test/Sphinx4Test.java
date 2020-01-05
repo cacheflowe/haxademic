@@ -23,7 +23,7 @@ extends PAppletHax {
 	protected void config() {
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		initSphinx4();
 	}
 
@@ -56,7 +56,7 @@ extends PAppletHax {
 
 
 
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(0);
 		p.fill(255);
 		if(recognizer != null && ready) {

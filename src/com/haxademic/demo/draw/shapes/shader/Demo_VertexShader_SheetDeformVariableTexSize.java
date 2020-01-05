@@ -45,7 +45,7 @@ extends PAppletHax {
 		);
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		background(0);
 		CameraUtil.setCameraDistance(p.g, 100, 20000);
 		

@@ -23,12 +23,12 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.SHOW_DEBUG, true );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		String imagePath = FileUtil.getPath("haxademic/images/floaty-blob.anim/");
 		imageSequence = new ImageSequenceMovieClip(imagePath, "png", 18);
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(0);
 		
 		if(p.frameCount % 100 == 50) {

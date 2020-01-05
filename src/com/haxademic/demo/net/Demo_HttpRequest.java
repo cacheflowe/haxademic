@@ -13,7 +13,7 @@ implements IHttpRequestCallback {
 	
 	protected HttpRequest request;
 	
-	public void drawApp() {
+	protected void drawApp() {
 		// background
 		pg.beginDraw();
 		PG.setDrawCenter(pg);

@@ -30,11 +30,11 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.RENDERING_MOVIE, "false" );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(100);
 
 		PG.resetGlobalProps(p);

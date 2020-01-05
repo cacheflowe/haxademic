@@ -20,7 +20,7 @@ extends PAppletHax {
 	SamplePlayer samplePlayer01;
 	protected InputTrigger trigger1 = new InputTrigger().addKeyCodes(new char[]{' '}).addMidiNotes(new Integer[]{43});
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		ac = new AudioContext();
 
 		// load a sample		
@@ -29,7 +29,7 @@ extends PAppletHax {
 		ac.start();
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		background(0);
 
 		if(trigger1.triggered()) {

@@ -110,7 +110,7 @@ extends PAppletHax {
 	public void preDraw() {
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		// animate!
 		if(Config.getBoolean(AppSettings.RENDERING_MOVIE, false) == true) {
 			if(p.frameCount % interval == 1) nextSettings();

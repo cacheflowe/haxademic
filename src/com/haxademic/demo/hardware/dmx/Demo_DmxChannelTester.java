@@ -47,7 +47,7 @@ extends PAppletHax {
 		Config.setProperty(AppSettings.SHOW_UI, true );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		AudioIn.instance();
 		// dmx = new DMXWrapper();
 		dmx = new DMXWrapper("COM3", 9600);
@@ -71,7 +71,7 @@ extends PAppletHax {
 		DebugView.setHelpLine("SPACE |", "Reset all");
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		background(0);
 		FontCacher.setFontOnContext(p.g, FontCacher.getFont(DemoAssets.fontOpenSansPath, 40), p.color(255), 1f, PTextAlign.LEFT, PTextAlign.TOP);
 		

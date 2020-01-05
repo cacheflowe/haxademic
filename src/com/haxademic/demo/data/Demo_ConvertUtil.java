@@ -7,7 +7,7 @@ public class Demo_ConvertUtil
 extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
-	public void drawApp() {
+	protected void drawApp() {
 		background(0);
 		String outputStr = "";
 		outputStr += "ConvertUtil.stringToInt(\"10\") = " + ConvertUtil.stringToInt("10") + "\n";

@@ -26,7 +26,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.FILLS_SCREEN, true );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		kinect = new KinectPV2(p);
 		kinect.enableDepthImg(true);
 		kinect.enableColorImg(true);
@@ -38,7 +38,7 @@ extends PAppletHax {
 		recorder = new ImageSequenceRecorder(640, 480, 30);
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		p.background( 0 );
 		
 		p.pushMatrix();

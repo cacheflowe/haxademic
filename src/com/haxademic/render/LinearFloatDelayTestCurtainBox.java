@@ -23,7 +23,7 @@ extends PAppletHax {
 	}
 
 
-	public void firstFrame() {
+	protected void firstFrame() {
 	
 		easingsL = new LinearFloat[40];
 		easingsR = new LinearFloat[40];
@@ -31,7 +31,7 @@ extends PAppletHax {
 		for (int i = 0; i < easingsR.length; i++) easingsR[i] = new LinearFloat(1, 0.02f);
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		background(0);
 
 		// set delay once in a while

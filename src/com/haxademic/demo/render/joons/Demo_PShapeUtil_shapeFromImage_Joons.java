@@ -40,14 +40,14 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.RENDERING_IMAGE_SEQUENCE_STOP_FRAME, 3 + FRAMES );
 	}
 	
-	public void firstFrame() {
+	protected void firstFrame() {
 		shape = PShapeUtil.shapeFromImage(DemoAssets.textureCursor());
 		PShapeUtil.centerShape(shape);
 		PShapeUtil.scaleVertices(shape, 1, 1, 4);
 		PShapeUtil.scaleShapeToExtent(shape, p.height * 0.2f);
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		JoonsWrapper joons = Renderer.instance().joons;
 		if(Config.getBoolean(AppSettings.SUNFLOW_ACTIVE, false) == false) {
 			p.background(200, 255, 200);

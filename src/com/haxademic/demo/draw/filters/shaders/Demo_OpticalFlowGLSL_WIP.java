@@ -32,7 +32,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.HEIGHT, 480 );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		// load movie
 		testMovie = DemoAssets.movieKinectSilhouette();
 		testMovie.jump(0);
@@ -54,7 +54,7 @@ extends PAppletHax {
 		textureLerpShader = p.loadShader(FileUtil.getPath("haxademic/shaders/filters/texture-blend-towards-texture.glsl"));
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(0);
 		
 		if(testMovie.width > 10) {

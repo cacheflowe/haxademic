@@ -15,13 +15,13 @@ extends PAppletHax {
 	
 	PImage img;
 	
-	public void firstFrame() {
+	protected void firstFrame() {
 
 		img = DemoAssets.justin();
 		OpenGLUtil.setTextureQualityHigh(p.g);
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(0);
 		PG.setDrawCenter(p);
 		

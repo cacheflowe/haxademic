@@ -23,7 +23,7 @@ extends PAppletHax {
 	protected EasingColor[] colors;
 	protected EasingColor targetColor;
 	
-	public void firstFrame() {
+	protected void firstFrame() {
 		AudioIn.instance();
 		// dmx = new DMXWrapper();
 		dmx = new DMXWrapper("COM4", 9600);
@@ -36,7 +36,7 @@ extends PAppletHax {
 		targetColor = new EasingColor(0x00ff00, 0.5f);
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		DebugView.setValue("audioActive", audioActive);
 		background(0);
 		if(audioActive) {

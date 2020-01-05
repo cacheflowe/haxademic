@@ -37,7 +37,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, (int) frames );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 
 		
 
@@ -56,7 +56,7 @@ extends PAppletHax {
 		stripes = p.loadShader(FileUtil.getPath("haxademic/shaders/textures/cacheflowe-rotating-stripes.glsl"));
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 //		p.background(0);
 		float progress = (p.frameCount % frames) / frames; 
 		float easedProgress = Penner.easeInOutExpo(progress, 0, 1, 1);

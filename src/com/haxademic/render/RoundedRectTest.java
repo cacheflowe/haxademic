@@ -32,13 +32,13 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.RENDERING_GIF_STOP_FRAME, ""+Math.round(_frames+1) );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 
 		p.smooth(OpenGLUtil.SMOOTH_HIGH);
 		_motionBlur = new HaxMotionBlur(3);
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(255);
 //		_motionBlur.render(p.g, new DrawCommand());
 		drawFrame();

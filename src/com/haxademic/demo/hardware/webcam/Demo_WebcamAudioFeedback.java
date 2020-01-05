@@ -33,7 +33,7 @@ implements IWebCamCallback {
 //		Config.setProperty(AppSettings.SHOW_DEBUG, true );
 	}
 
-	public void firstFrame () {
+	protected void firstFrame () {
 		WebCam.instance().setDelegate(this);
 		AudioIn.instance();
 	}
@@ -70,7 +70,7 @@ implements IWebCamCallback {
 		for (int i = 0; i < feedbackCycles; i++) FeedbackMapFilter.instance(P.p).applyTo(flippedCamera);
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		// set up context
 		p.background( 0 );
 		PG.setDrawCenter(p);

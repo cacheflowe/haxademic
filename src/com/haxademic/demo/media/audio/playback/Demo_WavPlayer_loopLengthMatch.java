@@ -24,7 +24,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.SHOW_DEBUG, true );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		// create looping players
 		player = new WavPlayer();
 		player.loopWav(beat1);
@@ -38,7 +38,7 @@ extends PAppletHax {
 		AudioIn.instance(new AudioInputBeads(player.context()));
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(0);
 		
 		

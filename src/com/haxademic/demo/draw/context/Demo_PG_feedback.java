@@ -18,7 +18,7 @@ extends PAppletHax {
 	protected PGraphics _texture;
 	protected float _frames = 360;
 	
-	public void firstFrame() {
+	protected void firstFrame() {
 
 		p.background(0);
 		
@@ -38,7 +38,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, P.round(_frames * 3) );
 	}
 		
-	public void drawApp() {
+	protected void drawApp() {
 		// loop
 		float percentComplete = ((float)(p.frameCount%_frames)/_frames);
 		float percentRads = percentComplete * P.TWO_PI;

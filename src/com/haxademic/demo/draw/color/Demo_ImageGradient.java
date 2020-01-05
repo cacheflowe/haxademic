@@ -18,13 +18,13 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.HEIGHT, 800 );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 
 		imageGradient = new ImageGradient(ImageGradient.PASTELS());
 //		imageGradient.addTexturesFromPath(ImageGradient.COOLORS_PATH);
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		float colorProgress = 0.5f + 0.5f * P.sin(p.frameCount * 0.01f);
 		p.background(imageGradient.getColorAtProgress(colorProgress));
 		if(p.frameCount % 100 == 1) imageGradient.randomGradientTexture();

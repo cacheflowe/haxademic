@@ -19,14 +19,14 @@ extends PAppletHax {
 	};
 	protected String soundbed = "data/audio/communichords/bass/operator-organ-bass.aif";
 	
-	public void firstFrame() {
+	protected void firstFrame() {
 		player = new WavPlayer();
 		player2 = new WavPlayer(WavPlayer.newAudioContext());
 		// send Beads audio player analyzer to PAppletHax
 		AudioIn.instance(new AudioInputBeads(player2.context()));
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(0);
 		player.setVolume(soundbed, Mouse.xNorm);
 	}

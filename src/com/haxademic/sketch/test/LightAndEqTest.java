@@ -20,11 +20,11 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.RENDERING_MOVIE, false );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		AudioIn.instance();
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(0);
 
 //		p.pointLight(0, 255, 255, 0, p.mouseY, 500);

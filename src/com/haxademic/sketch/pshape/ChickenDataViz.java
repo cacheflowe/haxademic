@@ -43,7 +43,7 @@ extends PAppletHax {
 		modelSize = new PVector(PShapeUtil.getMaxAbsX(obj), PShapeUtil.getMaxAbsY(obj), PShapeUtil.getMaxAbsZ(obj));
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		p.pushMatrix();
 		background(255);
 		CameraUtil.setCameraDistance(p.g, 100, 20000);

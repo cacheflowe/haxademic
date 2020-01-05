@@ -28,7 +28,7 @@ implements IWebCamCallback {
 		Config.setProperty(AppSettings.SHOW_DEBUG, true );
 	}
 
-	public void firstFrame () {
+	protected void firstFrame () {
 		// build activity monitor
 		activityMonitor = new BufferActivityMonitor(32, 32, 10);
 
@@ -47,7 +47,7 @@ implements IWebCamCallback {
 		DebugView.setTexture("flippedCamera", flippedCamera);
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		// set up context
 		p.background( 0 );
 		PG.setDrawCenter(p);

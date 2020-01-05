@@ -31,7 +31,7 @@ extends PAppletHax {
 		Config.setProperty(AppSettings.HEIGHT, 900);
 	}
 	
-	public void firstFrame() {
+	protected void firstFrame() {
 		minim = new Minim(P.p);
 	
 		// load samples
@@ -55,7 +55,7 @@ extends PAppletHax {
 		bass.start();
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		background(0);
 		p.noFill();
 		stroke(255);

@@ -39,7 +39,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, (int) frames );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 
 		
 		img2 = ImageUtil.imageToGraphics(p.loadImage(FileUtil.getPath("images/trmp-fuck.png")));
@@ -69,7 +69,7 @@ extends PAppletHax {
 
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 //		p.background(0);
 		float progress = (p.frameCount % frames*2) / frames; 
 		if(progress < 1.0f) {

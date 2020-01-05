@@ -47,7 +47,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.RENDERING_GIF_STOP_FRAME, "52" );
 	}
 	
-	public void firstFrame() {
+	protected void firstFrame() {
 
 		p.background(255);
 		p.smooth(OpenGLUtil.SMOOTH_HIGH);
@@ -69,7 +69,7 @@ extends PAppletHax {
 		}
 	}
 	
-	public void drawApp() {		
+	protected void drawApp() {		
 		JoonsWrapper joons = Renderer.instance().joons;
 
 		// update all back to zero on a certain frame

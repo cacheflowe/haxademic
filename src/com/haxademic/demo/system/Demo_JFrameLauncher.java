@@ -15,7 +15,7 @@ extends PAppletHax {
 
 	protected FrameWithBorderLayout frame;
 	
-	public void firstFrame() {
+	protected void firstFrame() {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                  frame = new FrameWithBorderLayout();
@@ -27,7 +27,7 @@ extends PAppletHax {
       });
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(0);
 		PG.setCenterScreen(p);
 		

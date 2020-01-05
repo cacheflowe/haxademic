@@ -27,12 +27,12 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.HEIGHT, "480" );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		_x = p.width / 2;
 		_z = 0;
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		background(0);
 		PG.setDrawCenter(p);
 		

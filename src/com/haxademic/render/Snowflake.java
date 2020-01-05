@@ -39,7 +39,7 @@ extends PAppletHax {
 		Config.setProperty(AppSettings.RENDERING_MOVIE_STOP_FRAME, 1 + FRAMES * 2);
 	}
 	
-	public void firstFrame() {
+	protected void firstFrame() {
 		printDirect = new PrintPageDirect(false);
 		pg = P.p.createGraphics(PrintPageDirect.PRINT_W, PrintPageDirect.PRINT_H, PRenderers.P3D);
 		
@@ -61,7 +61,7 @@ extends PAppletHax {
 	}
 
 
-	public void drawApp() {
+	protected void drawApp() {
 		// set context
 		pg.beginDraw();
 		pg.ortho();

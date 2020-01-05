@@ -38,7 +38,7 @@ extends PAppletHax {
 		
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		// move camera
 		float cameraXRot = 0;
 		if(animStyle == 0) {

@@ -42,7 +42,7 @@ extends PAppletHax {
 		rect2 = new Rectangle(210, 100, 100, 80);
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		mouseVec.set(p.mouseX, p.mouseY);
 		
 		background(0);

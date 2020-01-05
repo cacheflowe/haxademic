@@ -42,7 +42,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.RENDERING_GIF_STOP_FRAME, ""+Math.round(_frames+1) );
 	}
 	
-	public void firstFrame() {
+	protected void firstFrame() {
 
 		p.background(255);
 		p.smooth(OpenGLUtil.SMOOTH_HIGH);
@@ -50,7 +50,7 @@ extends PAppletHax {
 		_mesh = MeshUtilToxi.getExtrudedMesh( MeshUtilToxi.meshFromSVG( p, FileUtil.haxademicDataPath() + "svg/ello.svg", -1, 20, 0.5f ), 20 );
 	}
 	
-	public void drawApp() {		
+	protected void drawApp() {		
 		JoonsWrapper joons = Renderer.instance().joons;
 		float frameRadians = P.TWO_PI / _frames;
 		float percentComplete = ((float)(p.frameCount%_frames)/_frames);

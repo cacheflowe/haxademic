@@ -10,7 +10,7 @@ public class Demo_Shapes_drawDashedLine_Pyramid
 extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(0);
 		p.stroke(255);
 		p.strokeWeight(1f + 4f * Mouse.xNorm);

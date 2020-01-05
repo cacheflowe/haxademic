@@ -19,14 +19,14 @@ extends PAppletHax {
 //		Config.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, 400 );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		easingsL = new LinearFloat[40];
 		easingsR = new LinearFloat[40];
 		for (int i = 0; i < easingsL.length; i++) easingsL[i] = new LinearFloat(0, 0.02f);
 		for (int i = 0; i < easingsR.length; i++) easingsR[i] = new LinearFloat(1, 0.02f);
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		background(0);
 
 		// set delay once in a while

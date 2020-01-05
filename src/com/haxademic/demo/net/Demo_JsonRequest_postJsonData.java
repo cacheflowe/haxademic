@@ -30,13 +30,13 @@ implements IJsonRequestCallback {
 	protected PGraphics scaledPG;
 	protected String serverPostPath = "http://localhost/haxademic/www/post-json/";
 	
-	public void firstFrame() {
+	protected void firstFrame() {
 		postJSON = new JsonRequest(serverPostPath);
 		scaledPG = p.createGraphics(p.width / 2, p.height / 2, PRenderers.P2D);
 		P.out(Arrays.toString(ImageIO.getWriterFormatNames()));
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		// background
 		pg.beginDraw();
 		PG.setDrawCenter(pg);

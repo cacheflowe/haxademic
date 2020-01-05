@@ -25,7 +25,7 @@ extends PAppletHax {
 		Config.setProperty(AppSettings.HEIGHT, 960 );
 	}
 		
-	public void firstFrame() {
+	protected void firstFrame() {
 		addWebCam();
 		freezeMonitor = new FrozenImageMonitor();
 	}
@@ -38,7 +38,7 @@ extends PAppletHax {
 		return cams.get(cams.size() - 1);
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(0);
 		PG.setDrawCorner(p);
 		

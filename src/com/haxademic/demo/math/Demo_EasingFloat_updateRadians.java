@@ -26,11 +26,11 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.SHOW_DEBUG, true );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		image = ImageUtil.imageToGraphics(DemoAssets.arrow());
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		background(100,100,255);
 		p.pushMatrix();
 		PG.setDrawCenter(p);

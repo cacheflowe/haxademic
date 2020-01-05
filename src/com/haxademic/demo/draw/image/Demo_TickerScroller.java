@@ -24,11 +24,11 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, 311 );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		ticker = new TickerScroller(DemoAssets.squareTexture(), p.color(255), 640, 200, 4.f);
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(0);
 		p.noStroke();
 		

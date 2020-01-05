@@ -23,7 +23,7 @@ extends PAppletHax {
 	
 	protected GamePiece gamePiece;
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		DepthCamera.instance(DepthCameraType.KinectV1);
 		
 		// do something
@@ -33,7 +33,7 @@ extends PAppletHax {
 		gamePiece = new GamePiece();
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		IDepthCamera depthCamera = DepthCamera.instance().camera;
 
 		PG.resetGlobalProps( p );

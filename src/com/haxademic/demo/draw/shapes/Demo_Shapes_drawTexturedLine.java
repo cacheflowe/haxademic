@@ -18,7 +18,7 @@ extends PAppletHax {
 	protected PVector p3 = new PVector();
 	protected PImage lineTexture;
 
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(0);
 		if(lineTexture == null) lineTexture = P.getImage("haxademic/images/hand-drawn-line.png");
 		

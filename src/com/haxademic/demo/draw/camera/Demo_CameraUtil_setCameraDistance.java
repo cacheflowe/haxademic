@@ -18,12 +18,12 @@ extends PAppletHax {
 		Config.setProperty(AppSettings.SHOW_UI, true );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		UI.addSlider(DIST, 4000, 100, 20000, 100, false);
 		UI.addSlider(NEAR, 100, 100, 10000, 10, false);
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(0);
 		PG.setCenterScreen(p);
 		PG.setDrawCenter(p);

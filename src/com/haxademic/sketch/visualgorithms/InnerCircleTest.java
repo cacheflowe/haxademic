@@ -23,13 +23,13 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.HEIGHT, 640 );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 
 		img = p.loadImage(FileUtil.getPath("images/_sketch/bread-large.png"));
 		pg = ImageUtil.imageToGraphics(img);
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		background(100,100,255);
 	
 		p.fill(255);

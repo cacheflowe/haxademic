@@ -26,7 +26,7 @@ extends PAppletHax {
 	protected LinearFloat dimmer = new LinearFloat(0, 0.05f);
 
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		DepthCamera.instance(DepthCameraType.KinectV2);
 		AudioIn.instance();
 		// dmx setup
@@ -46,7 +46,7 @@ extends PAppletHax {
 		kinectRegionGrid = new KinectRegionGrid(NUM_PLAYERS, 1, KINECT_MIN_DIST, KINECT_MAX_DIST, KINECT_PLAYER_GAP, KINECT_TOP, KINECT_BOTTOM, KINECT_PIXEL_SKIP, PLAYER_MIN_PIXELS);
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		background(0);
 		if(audioActive) {
 			// audio eq

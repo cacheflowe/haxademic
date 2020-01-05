@@ -30,7 +30,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.RENDERING_MOVIE, false );
 	}
 	
-	public void firstFrame() {
+	protected void firstFrame() {
 
 //		_meshCrest = MeshUtil.getExtrudedMesh( MeshUtil.meshFromSVG( p, FileUtil.getHaxademicDataPath() + "svg/modeset-logotype.svg", 10, -1, 0.7f ), 250 );
 //		_meshCrest = MeshUtil.meshFromSVG( p, FileUtil.getHaxademicDataPath() + "svg/modeset-crest.svg", -1, 20, 0.8f );
@@ -41,7 +41,7 @@ extends PAppletHax {
 		p.smooth(OpenGLUtil.SMOOTH_HIGH);
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		PG.setBasicLights(p);
 		PG.setCenterScreen(p);
 		p.background(0);

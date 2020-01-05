@@ -32,7 +32,7 @@ extends PAppletHax {
 		obj = PShapeUtil.meshShapeToPointsShape(obj);
 	}
 
-	public void drawApp() {		
+	protected void drawApp() {		
 		background(0);
 		PG.setBetterLights(p);
 		

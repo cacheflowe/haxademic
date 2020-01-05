@@ -17,7 +17,7 @@ extends PAppletHax {
 		spoutTexture = new SpoutTexture(1120, 630);
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		background(0);
 		
 		// update & draw to screen

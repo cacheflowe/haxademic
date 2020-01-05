@@ -31,12 +31,12 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, (int)_frames );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		texture = DemoAssets.squareTexture();
 		mesh = Shapes.createSheet(270, texture);
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		background(0);
 		
 		// rendering

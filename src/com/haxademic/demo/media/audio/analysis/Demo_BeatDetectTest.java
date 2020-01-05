@@ -8,7 +8,7 @@ public class Demo_BeatDetectTest
 extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
-	public void drawApp() {
+	protected void drawApp() {
 		AudioIn.instance();
 		
 		PG.setDrawCenter(p);

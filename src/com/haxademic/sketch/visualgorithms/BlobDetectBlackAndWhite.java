@@ -29,7 +29,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.HEIGHT, 800 );
 	}
 	
-	public void firstFrame() {
+	protected void firstFrame() {
 //		video = DemoAssets.movieKinectSilhouette();
 //		video.loop();
 //		video.speed(0.1f);
@@ -37,7 +37,7 @@ extends PAppletHax {
 		testImage = P.getImage("haxademic/images/test-bw-shapes.jpg");
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		PG.setDrawCenter(p);
 		p.background(0);
 		PG.setPImageAlpha(p, 0.4f);

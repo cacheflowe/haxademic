@@ -18,7 +18,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.HEIGHT, 800 );
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(0);
 		ImageUtil.drawImageCropFill(DemoAssets.squareTexture(), p.g, true);
 		

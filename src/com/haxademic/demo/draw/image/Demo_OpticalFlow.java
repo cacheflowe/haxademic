@@ -11,7 +11,7 @@ extends PAppletHax {
 
 	protected OpticalFlow opticalFlow;
 
-	public void drawApp() {
+	protected void drawApp() {
 		// set up context
 		p.background(0);
 		p.noStroke();

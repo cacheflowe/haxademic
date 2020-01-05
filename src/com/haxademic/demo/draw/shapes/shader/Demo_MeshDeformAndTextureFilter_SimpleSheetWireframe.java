@@ -41,7 +41,7 @@ extends PAppletHax {
 		DebugView.setTexture("displaceTexture", displaceTexture.texture());
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		// update texture
 		texture.beginDraw();
 		texture.background(0);

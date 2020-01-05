@@ -31,7 +31,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.HEIGHT, 640 );
 	}
 
-	public void firstFrame()	{
+	protected void firstFrame()	{
 		// build text
 		textToPShape = new TextToPShape(TextToPShape.QUALITY_HIGH);
 		String fontFile = DemoAssets.fontOpenSansPath;
@@ -51,7 +51,7 @@ extends PAppletHax {
 		DebugView.setTexture("displacement map", displaceTexture.texture());
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		// set context
 		background(0);
 		PG.setCenterScreen(p);

@@ -27,11 +27,11 @@ implements IJsonRequestCallback {
 	protected boolean firstPost = true;
 	protected String jsonURL = "http://localhost/haxademic/www/json-response/";
 	
-	public void firstFrame() {
+	protected void firstFrame() {
 		postJSON = new JsonRequest(jsonURL);
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		// background
 		pg.beginDraw();
 		PG.setDrawCenter(pg);

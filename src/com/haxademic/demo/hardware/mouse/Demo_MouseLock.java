@@ -14,13 +14,13 @@ extends PAppletHax {
 	protected Point mousePoint;
 	protected Point lastMousePoint = new Point();
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		// keep mouse locked in window
 		P.window.confinePointer(true);
 		P.window.setPointerVisible(true);
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(0);
 
 		// lock mouse in center, and check offset from last frame

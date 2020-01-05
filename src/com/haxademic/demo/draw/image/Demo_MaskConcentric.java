@@ -30,7 +30,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.HEIGHT, 1000 );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		// build masks
 		masks = new PGraphics[numCircles];
 		for (int i = 0; i < numCircles; i++) {
@@ -94,7 +94,7 @@ extends PAppletHax {
 		}
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		// user interaction
 		float offsetX = -P.TWO_PI * 0.2f + P.TWO_PI * 0.4f * Mouse.xEasedNorm;
 		float offsetY = -P.TWO_PI + P.TWO_PI * 2f * Mouse.yEasedNorm;

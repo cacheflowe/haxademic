@@ -17,7 +17,7 @@ extends PAppletHax {
 	protected PGraphics _texture;
 	protected float _frames = 60;
 	
-	public void firstFrame() {
+	protected void firstFrame() {
 
 		
 		_texture = p.createGraphics( p.width, p.height, P.P3D );
@@ -39,7 +39,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.RENDERING_GIF_STOP_FRAME, ""+Math.round(_frames + _frames*4) );
 	}
 		
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(255);
 
 		float percentComplete = ((float)(p.frameCount%_frames)/_frames);

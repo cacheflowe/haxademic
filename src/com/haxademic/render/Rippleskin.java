@@ -64,7 +64,7 @@ extends PAppletHax {
 		if(p.key == ' ') rebuildShader();
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		// set context
 		pg.beginDraw();
 		pg.background(0);

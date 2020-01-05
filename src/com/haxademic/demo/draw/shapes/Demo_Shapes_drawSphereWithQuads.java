@@ -21,7 +21,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.LOOP_FRAMES, 120 );
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(0);
 		p.lights();
 		p.translate(p.width/2, p.height/2, -200);

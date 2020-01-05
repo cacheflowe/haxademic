@@ -24,13 +24,13 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.APP_NAME, "Debug Display Test" );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		DebugView.active(true);
 		DebugView.setHelpLine("Test info here", "");
 		DebugView.setHelpLine("[key]", "[Value]");
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		background(0);
 
 		DebugView.setValue("Max mouse", P.max(p.mouseX, p.mouseY));

@@ -41,7 +41,7 @@ extends PAppletHax {
 		if(timer != null) timer.cancel();
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		bg.update();
 		p.background(bg.colorInt());
 	}

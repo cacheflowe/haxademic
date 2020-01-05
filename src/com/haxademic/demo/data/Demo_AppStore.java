@@ -20,11 +20,11 @@ implements IAppStoreListener {
 		Config.setProperty(AppSettings.SHOW_DEBUG, true );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		AppStore.instance().addListener(this);
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		background(0);
 		AppStore.instance().setNumber("frameCount", p.frameCount);
 		AppStore.instance().setBoolean("Frame over 100", (p.frameCount % 200) > 100);

@@ -32,7 +32,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.SHOW_DEBUG, true );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		// init kinect
 		kinect = new KinectPV2(p);
 		kinect.enableHDFaceDetection(true);
@@ -44,7 +44,7 @@ extends PAppletHax {
 		UI.addSlider(endIndex, 100, 0, KinectPV2.HDFaceVertexCount, 1, false);
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(0);
 		
 		// Draw the color Image

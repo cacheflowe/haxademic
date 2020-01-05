@@ -21,7 +21,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.HEIGHT, "600" );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 	
 
 		// Create an Input stream which is routed into the Amplitude analyzer
@@ -35,7 +35,7 @@ extends PAppletHax {
 		fft.input(in);
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(255);
 		fft.analyze(spectrum);
 

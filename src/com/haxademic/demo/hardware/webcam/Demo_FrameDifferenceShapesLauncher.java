@@ -49,7 +49,7 @@ implements IWebCamCallback {
 		Config.setProperty(AppSettings.SHOW_DEBUG, true );
 	}
 		
-	public void firstFrame () {
+	protected void firstFrame () {
 		// capture webcam frames
 		WebCam.instance().setDelegate(this);
 		// build particles array
@@ -99,7 +99,7 @@ implements IWebCamCallback {
 		differenceBuffer.filter(differenceShader);
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		// set up context
 		p.background(0);
 		

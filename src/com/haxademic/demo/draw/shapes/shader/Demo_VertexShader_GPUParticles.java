@@ -112,7 +112,7 @@ extends PAppletHax {
 		if(p.key == ' ') resetParticlePositions();
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		// clear the screen
 		p.background(0);
 		PG.setDrawCorner(p);

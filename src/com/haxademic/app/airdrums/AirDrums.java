@@ -34,7 +34,7 @@ extends PAppletHax {
 		Config.loadPropertiesFile(FileUtil.getPath("properties/airdrums.properties"));
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		DepthCamera.instance(DepthCameraType.KinectV1);
 		initDrums();
 	}
@@ -72,7 +72,7 @@ extends PAppletHax {
 		_beats.add( new BeatSquare(3 * drumPadW, 2 * drumPadH, drumPadW, drumPadH, ColorsHax.COLOR_GROUPS[2][3], "data/audio/drums/janet-stab.wav") );
 	}
 		
-	public void drawApp() {
+	protected void drawApp() {
 //		PG.resetGlobalProps( p );
 		p.shininess(1000f); 
 		p.lights();

@@ -14,7 +14,7 @@ extends PAppletHax {
 	protected Rectangle rect1 = new Rectangle(20, 20, 100, 200);
 	protected Rectangle rect2 = new Rectangle(300, 300, 200, 100);
 	
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(0);
 		p.noStroke();
 		

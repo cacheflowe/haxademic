@@ -30,7 +30,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.HEIGHT, 720 );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		DepthCamera.instance(DepthCameraType.KinectV1);
 		kinectDiff = new KinectRoomScanDiff(DepthCamera.instance().camera);
 		mappedKinectBuffer = PG.newPG(pg.width, pg.height);
@@ -54,7 +54,7 @@ extends PAppletHax {
 		return mappedKinectKeystone;
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(0, 127, 0);
 		
 		// update kinect room scan

@@ -14,7 +14,7 @@ extends PAppletHax {
 	PVector center = new PVector();
 	PVector[] points = new PVector[600];
 	
-	public void firstFrame() {
+	protected void firstFrame() {
 	
 		center.set(0, 0);
 		for (int i = 0; i < points.length; i++) {
@@ -22,7 +22,7 @@ extends PAppletHax {
 		}
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		background(0);
 		
 		PG.setCenterScreen(p.g);

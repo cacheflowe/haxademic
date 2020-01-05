@@ -46,7 +46,7 @@ extends PAppletHax {
 
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 	
 
 		texture = createGraphics(p.height * 2, p.height * 2, P.P3D);
@@ -57,7 +57,7 @@ extends PAppletHax {
 		mesh = Shapes.createSheet(450, texture);
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		background(0);
 		
 //		OpenGLUtil.setWireframe(p.g, true);

@@ -31,7 +31,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.HEIGHT, 640 );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		BASE_CUBE_SIZE = p.width/4f;
 		
 		if(Config.getBoolean(AppSettings.SUNFLOW_ACTIVE, false) == false) {
@@ -43,7 +43,7 @@ extends PAppletHax {
 		camera = new CameraOscillate( this, 200, 200, 0, 200 );
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		JoonsWrapper joons = Renderer.instance().joons;
 //		CHILD_RATIO = 0.25f + 0.1f * P.sin(p.frameCount * 0.01f);
 		percentComplete = ((float)(p.frameCount%_frames)/_frames);

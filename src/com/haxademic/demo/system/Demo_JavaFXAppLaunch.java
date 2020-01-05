@@ -14,7 +14,7 @@ extends PAppletHax {
 		Config.setProperty(AppSettings.LOOP_FRAMES, FRAMES);
 	}
 
-//	public void firstFrame() {
+//	protected void firstFrame() {
 //        new Thread() {
 //            @Override
 //            public void run() {
@@ -24,7 +24,7 @@ extends PAppletHax {
 //	}
 	
 
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(0);
 		PG.setCenterScreen(p);
 		

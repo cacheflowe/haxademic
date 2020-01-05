@@ -164,7 +164,7 @@ extends PAppletHax {
 		return loadedMovies;
 	}
 
-	public void drawApp() {	
+	protected void drawApp() {	
 		background(0,127,0);
 		// load a new movie once in a while
 		if(p.frameCount % 100 == 0) {

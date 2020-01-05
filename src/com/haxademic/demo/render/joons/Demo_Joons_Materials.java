@@ -21,7 +21,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.RENDERING_MOVIE, false );
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		JoonsWrapper joons = Renderer.instance().joons;
 		joons.jr.background(0, 0, 0); //background(gray), or (r, g, b), like Processing.
 		joons.jr.background("gi_instant"); //Global illumination, normal mode.

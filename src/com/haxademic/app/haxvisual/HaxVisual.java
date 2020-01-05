@@ -310,7 +310,7 @@ implements IAppStoreListener {
 	// DRAW
 	//////////////////////////////////////////////
 
-	public void drawApp() {
+	protected void drawApp() {
 		if(p.frameCount == 3) buildUI();
 		background(0);
 		handleInputTriggers();

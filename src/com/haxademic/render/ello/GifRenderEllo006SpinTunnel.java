@@ -32,7 +32,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.RENDERING_GIF, "false" );
 	}
 	
-	public void firstFrame() {
+	protected void firstFrame() {
 
 		p.smooth(OpenGLUtil.SMOOTH_HIGH);
 		_logo = p.loadShape(FileUtil.haxademicDataPath()+"svg/ello.svg");
@@ -54,7 +54,7 @@ extends PAppletHax {
 		encoder.addFrame(newFrame);
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(255);
 		
 		float frameRadians = PConstants.TWO_PI / _frames;

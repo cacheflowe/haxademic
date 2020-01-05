@@ -32,7 +32,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.RENDERING_IMAGE_SEQUENCE_STOP_FRAME, 2 );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		// load & repair tesselated shape
 		obj = DemoAssets.shapeX().getTessellation(); // p.loadShape( FileUtil.getFile("svg/fractal-1.svg")).getTessellation();
 		PShapeUtil.repairMissingSVGVertex(obj);
@@ -45,7 +45,7 @@ extends PAppletHax {
 	}
 
 
-	public void drawApp() {
+	protected void drawApp() {
 		JoonsWrapper joons = Renderer.instance().joons;
 		if(Config.getBoolean(AppSettings.SUNFLOW_ACTIVE, false) == false) {
 			p.background(0);

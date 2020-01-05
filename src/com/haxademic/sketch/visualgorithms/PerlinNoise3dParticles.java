@@ -45,7 +45,7 @@ extends PAppletHax {
 		Config.setProperty(AppSettings.SHOW_UI, true);
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		AudioIn.instance();
 		halfSize = p.width * 0.5f;
 
@@ -81,7 +81,7 @@ extends PAppletHax {
 		}
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(0);
 		PG.setBetterLights(p);
 		p.pushMatrix();

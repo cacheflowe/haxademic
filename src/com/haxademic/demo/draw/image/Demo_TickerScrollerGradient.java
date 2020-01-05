@@ -36,7 +36,7 @@ extends PAppletHax {
 		Config.setProperty(AppSettings.RENDERING_MOVIE_STOP_FRAME, 1 + FRAMES);
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		
 		gradientW = P.round(p.width * 0.25f);
 		
@@ -68,7 +68,7 @@ extends PAppletHax {
 		ticker = new TickerScroller(gradientImg, p.color(255), gradientW, p.height, tickerLoopSpeed);
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 
 		p.background(255);
 		p.noStroke();

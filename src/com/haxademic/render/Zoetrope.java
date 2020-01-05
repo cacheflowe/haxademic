@@ -33,7 +33,7 @@ extends PAppletHax {
 		
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		// set context
 		pg.beginDraw();
 		pg.blendMode(PBlendModes.BLEND);

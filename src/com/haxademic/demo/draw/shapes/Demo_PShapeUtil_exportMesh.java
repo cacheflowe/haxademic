@@ -26,7 +26,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.HEIGHT, 800 );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 	
 
 		p.sphereDetail(10);
@@ -60,7 +60,7 @@ extends PAppletHax {
 		shapeIcos = newIcos;
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		background(255);
 		
 		// setup lights

@@ -33,7 +33,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, (int)_frames + 1 );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 
 		noStroke();
 		OpenGLUtil.setQuality(p.g, OpenGLUtil.GL_QUALITY_HIGH);
@@ -44,7 +44,7 @@ extends PAppletHax {
 		heartMap = p.createGraphics(p.width, p.height);
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(0);
 		PG.setDrawCenter(p);
 		

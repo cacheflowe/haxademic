@@ -39,7 +39,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, (int) _frames );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 
 		p.noiseSeed(20);
 	}
@@ -73,7 +73,7 @@ extends PAppletHax {
 		objSolid = new PShapeSolid(obj);
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		if(p.frameCount == 1) firstFrameSetup();
 		float percentComplete = ((float)(p.frameCount%_frames)/_frames);
 		float radsComplete = percentComplete * P.TWO_PI;

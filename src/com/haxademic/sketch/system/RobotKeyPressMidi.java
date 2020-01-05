@@ -33,7 +33,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.HEIGHT, "480" );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		MidiDevice.init(0, 0);
 		try { _robot = new Robot(); } catch( Exception error ) { println("couldn't init Robot"); }
 		
@@ -45,7 +45,7 @@ extends PAppletHax {
 		};
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		background(0);
 
 		for (MidiKeyTrigger trigger : midiKeyTriggers) {

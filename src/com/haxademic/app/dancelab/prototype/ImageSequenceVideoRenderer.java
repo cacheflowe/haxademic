@@ -36,7 +36,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, startRenderFrame + 1800);
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		imgW = p.width;
 		imgH = p.height;
 		
@@ -49,7 +49,7 @@ extends PAppletHax {
 		imageSequencePlayer.loadImages(newDancer.path, "jpg");
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		background(0);
 
 		if(p.frameCount >= startRenderFrame) {

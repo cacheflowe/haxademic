@@ -38,7 +38,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.RENDERING_GIF_STOP_FRAME, ""+Math.round(_frames+1) );
 	}
 	
-	public void firstFrame() {
+	protected void firstFrame() {
 
 		p.smooth(OpenGLUtil.SMOOTH_HIGH);
 		_logo = p.loadShape(FileUtil.haxademicDataPath()+"svg/ello.svg");
@@ -63,7 +63,7 @@ extends PAppletHax {
 		pg.endDraw();
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		if(p.frameCount == 2) _bursts.add(new ElloBurst(0, p.width/3f, p.width/2, p.height/2, p.width/2, p.height/2));
 		p.background(255);
 		drawGraphics(_pg);

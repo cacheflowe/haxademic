@@ -26,7 +26,7 @@ extends PAppletHax {
 		Config.setProperty(AppSettings.HEIGHT, 600);
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		//loop through x &y and affs 
 		int pointIndex = 0;
 		for(int y=0;y<=10;y++){
@@ -164,7 +164,7 @@ extends PAppletHax {
 	};
 
 
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(255);
 		p.strokeWeight(1);
 		p.stroke(0);

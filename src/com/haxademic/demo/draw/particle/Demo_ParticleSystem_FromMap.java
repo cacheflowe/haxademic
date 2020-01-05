@@ -26,7 +26,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.HEIGHT, 800 );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		// create map
 		video = DemoAssets.movieKinectSilhouette();
 		video.loop();
@@ -47,7 +47,7 @@ extends PAppletHax {
 		particles.enableUI("PARTY_1", false);	// add sliders
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		background(0);
 		
 		// draw image/map base

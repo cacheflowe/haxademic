@@ -25,13 +25,13 @@ extends PAppletHax {
 		Config.setProperty(AppSettings.HEIGHT, 800);
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		sphereRadius = p.width * 0.4f;
 		spherePointsFib = SphericalCoord.buildFibonacciSpherePoints(200);
 		addSpheres();
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(200);
 		PG.setBetterLights(p);
 		PG.setCenterScreen(p);

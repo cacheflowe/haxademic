@@ -10,13 +10,13 @@ extends PAppletHax {
 	
 	protected DashboardPoster dashboardPoster;
 	
-	public void firstFrame() {
+	protected void firstFrame() {
 		dashboardPoster = new DashboardPoster("test", "http://localhost/haxademic/www/dashboard/", 20, 0.5f, 0.5f);
 		dashboardPoster.setImage(p.g);
 		dashboardPoster.setDebug(true);
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		// background
 		pg.beginDraw();
 		PG.setDrawCenter(pg);

@@ -42,7 +42,7 @@ extends PAppletHax {
 	}
 
 
-	public void firstFrame() {
+	protected void firstFrame() {
 	}
 	
 	protected void buildObjects() {
@@ -58,7 +58,7 @@ extends PAppletHax {
 
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		if(p.frameCount == 1) buildObjects();
 		p.background(255);
 		

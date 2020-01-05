@@ -309,7 +309,7 @@ extends PAppletHax {
 		}
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(0);
 		if(UI.valueInt(RENDER_MODE) == 1) {
 			if(FrameLoop.loopCurFrame() == 1) newMode();

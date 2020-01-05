@@ -43,7 +43,7 @@ extends PAppletHax {
 		Config.setProperty(AppSettings.SHOW_UI, true);
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 
 		
 		p.sphereDetail(100);
@@ -114,7 +114,7 @@ extends PAppletHax {
 		}
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(0);
 		p.noStroke();
 		p.pushMatrix();

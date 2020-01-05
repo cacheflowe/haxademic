@@ -35,7 +35,7 @@ extends PAppletHax {
 		Config.setProperty(AppSettings.SHOW_UI, true);
 	}
 	
-	public void firstFrame() {
+	protected void firstFrame() {
 		DepthCamera.instance(DepthCameraType.Realsense);
 
 		UI.addSlider(kinectLeft, 0, 0, DepthCameraSize.WIDTH/2, 1, false);
@@ -49,7 +49,7 @@ extends PAppletHax {
 		UI.addSlider(pixelDrawSize, 0.5f, 0, 1, 0.01f, false);
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		IDepthCamera depthCamera = DepthCamera.instance().camera;
 		background(0);
 		PG.setDrawCorner(p);

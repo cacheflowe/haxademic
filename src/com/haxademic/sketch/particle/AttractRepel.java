@@ -24,7 +24,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.HEIGHT, 500 );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 	
 		particles = new Particle[maxCircles];
 		for (int i = 0; i < particles.length; i++) {
@@ -32,7 +32,7 @@ extends PAppletHax {
 		}
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		background(0);
 		
 		// replace a particle every once in a while

@@ -49,7 +49,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, 600 );
 	}
 	
-	public void firstFrame() {
+	protected void firstFrame() {
 
 		
 //		img = p.loadImage(FileUtil.getFile("images/bread.png"));
@@ -76,7 +76,7 @@ extends PAppletHax {
 		return P.renderer == PRenderers.PDF;
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(100);
 		
 		// update anim params

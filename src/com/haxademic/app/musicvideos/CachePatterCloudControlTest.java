@@ -32,7 +32,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.RENDERING_MOVIE, "false" );
 	}
 	
-	public void firstFrame() {
+	protected void firstFrame() {
 
 		
 		_cloudsGraphics = p.createGraphics(p.width, p.height, P.P3D);
@@ -41,7 +41,7 @@ extends PAppletHax {
 		_clouds = loadShader( FileUtil.haxademicDataPath()+"haxademic/shaders/textures/clouds-iq.glsl" ); 
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(0);
 		
 		drawClouds();

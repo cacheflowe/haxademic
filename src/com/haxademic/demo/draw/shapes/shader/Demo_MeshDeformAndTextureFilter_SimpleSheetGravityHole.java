@@ -45,7 +45,7 @@ extends PAppletHax {
 		DebugView.setTexture("displaceTexture", displaceTexture);
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		// draw grid
 		PG.drawGrid(texture, p.color(0), p.color(255), cols, rows, 4);
 		

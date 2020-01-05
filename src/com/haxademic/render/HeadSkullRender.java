@@ -50,7 +50,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.SHOW_UI, true );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 
 		
 		centerX = p.width/2;
@@ -135,7 +135,7 @@ extends PAppletHax {
 		}
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(0);
 		p.noStroke();
 		p.sphereDetail(100);

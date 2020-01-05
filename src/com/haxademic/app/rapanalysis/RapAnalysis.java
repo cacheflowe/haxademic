@@ -59,7 +59,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.HEIGHT, "1300" );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 
 
 		if( _isCapturingData == true ) {
@@ -69,7 +69,7 @@ extends PAppletHax {
 		}
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		if( _isCapturingData == true ) {
 			stepThroughLyrics();
 		} else {

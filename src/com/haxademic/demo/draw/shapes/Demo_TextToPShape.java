@@ -34,7 +34,7 @@ extends PAppletHax {
 		PShapeUtil.scaleShapeToExtent(word2d, 800);
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		PG.setBetterLights(p);
 		background(0);
 		translate(width/2,height/4,-600);

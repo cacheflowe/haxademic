@@ -23,12 +23,12 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, (int)_frames + 1 );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 
 		noStroke();
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		background(210);
 		p.ortho();
 		translate(width/2, height/2, -400);

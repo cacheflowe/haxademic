@@ -32,7 +32,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.RETINA, false );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 	
 		
 		canvas = createGraphics(width, height, P3D);
@@ -46,7 +46,7 @@ extends PAppletHax {
 		
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		depthShader.set("screen", (float)width, (float)height, (float)300, (float)600);
 	    canvas.beginDraw();
 	    canvas.blendMode(REPLACE);

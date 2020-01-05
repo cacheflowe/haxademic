@@ -22,7 +22,7 @@ extends PAppletHax {
 
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		background(20);
 		PG.setDrawCenter(p);
 		p.noFill();

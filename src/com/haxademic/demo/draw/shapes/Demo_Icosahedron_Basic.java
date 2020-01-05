@@ -18,14 +18,14 @@ extends PAppletHax {
 	protected PImage texture;
 	protected PShape icosa;
 
-	public void firstFrame() {
+	protected void firstFrame() {
 
 		int detail = 4;
 		icosa = Icosahedron.createIcosahedron(p.g, detail, DemoAssets.textureJupiter());
 		PShapeUtil.scaleShapeToHeight(icosa, p.height * 0.75f);
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		background(0);
 		PG.setDrawCorner(p);
 		

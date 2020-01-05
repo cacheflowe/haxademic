@@ -33,7 +33,7 @@ implements IAppStoreListener {
 		Config.setProperty( AppSettings.SHOW_DEBUG, true );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		AppStore.instance().addListener(this);
 		
 		P.store.setNumber(Interphase.BPM, 90);
@@ -48,7 +48,7 @@ implements IAppStoreListener {
 		AudioIn.instance(new AudioInputBeads(player.context()));
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(0);
 		
 		// adjust audio loops' pitch to match Metronome 

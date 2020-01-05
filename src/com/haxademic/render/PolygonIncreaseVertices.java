@@ -26,7 +26,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.HEIGHT, 1000 );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		UI.addSlider(numPolys, 3, 1, 20, 1);
 		UI.addSlider(strokeWeight, 1, 0.2f, 100f, 0.1f);
 		UI.addSlider(startRadius, 10, 1, 300, 1);
@@ -60,7 +60,7 @@ extends PAppletHax {
 		return MathUtil.getDistance(0, 0, midpointX, midpointY);
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		background(0);
 		
 		// set context

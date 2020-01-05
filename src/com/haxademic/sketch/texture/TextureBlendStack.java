@@ -58,7 +58,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.HEIGHT, 600 );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		camerBuffer = p.createGraphics(640, 480, PRenderers.P2D);
 		layers = new ArrayList<TextureBlendLayer>();
 		layers.add(new TextureBlendLayer());
@@ -75,7 +75,7 @@ extends PAppletHax {
 		}
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(255);
 		p.noStroke();
 		p.blendMode(PBlendModes.BLEND);

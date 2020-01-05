@@ -21,7 +21,7 @@ extends PAppletHax {
 	public ArrayList<MovingBox> boxes;
 	public AABB focus = new AABB(10);
 	
-	public void firstFrame() {
+	protected void firstFrame() {
 
 		
 		boxes = new ArrayList<MovingBox>();
@@ -38,7 +38,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.RENDERING_MOVIE, "false" );
 	}
 		
-	public void drawApp() {
+	protected void drawApp() {
 		PG.resetGlobalProps( p );
 		PG.setCenterScreen(p);
 

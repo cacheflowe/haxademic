@@ -130,7 +130,7 @@ extends PAppletHax {
 	// TEXTURE POOLS
 	//////////////////////
 		
-	public void drawApp() {
+	protected void drawApp() {
 		// set context
 		background(0);
 		player.setVolume(FileUtil.getPath(audioTrack), 0.99f);

@@ -14,11 +14,11 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.HEIGHT, 128 );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 	
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(127f + 127f * P.sin((float)p.frameCount * 0.1f));
 	}
 }

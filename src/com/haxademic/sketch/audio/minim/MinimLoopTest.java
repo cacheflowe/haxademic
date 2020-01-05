@@ -23,7 +23,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.HEIGHT, "400" );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 	
 		minim = new Minim(this);
 
@@ -32,7 +32,7 @@ extends PAppletHax {
 	}
 
 
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(0);
 		fill(255);  
 		text("Loop Count: " + _sound.loopCount(), 5, 20);

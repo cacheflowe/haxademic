@@ -33,7 +33,7 @@ implements SimpleMidiListener {
 		device2 = new MidiDevice(1, 4, this);	// a 2nd device, with normal constructor
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(0);
 		
 		// debug views

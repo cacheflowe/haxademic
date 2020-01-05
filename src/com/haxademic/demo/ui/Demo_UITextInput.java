@@ -15,7 +15,7 @@ extends PAppletHax {
 	protected boolean debugMode = true;
 	protected ArrayList<UITextInput> textInputs = new ArrayList<UITextInput>();
 	
-	public void firstFrame () {
+	protected void firstFrame () {
 		int inputX = 100;
 		int inputY = 30;
 		int inputW = 300;
@@ -34,7 +34,7 @@ extends PAppletHax {
 		if(p.key == 'd') debugMode = !debugMode;
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(0);
 		for (int i = 0; i < textInputs.size(); i++) {
 			textInputs.get(i).update(p.g);

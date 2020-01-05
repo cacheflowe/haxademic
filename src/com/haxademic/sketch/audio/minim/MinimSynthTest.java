@@ -186,7 +186,7 @@ extends PAppletHax {
 	}
 
 	// draw is run many times
-	public void drawApp()
+	protected void drawApp()
 	{
 	  // erase the window to black
 	  background( 0 );

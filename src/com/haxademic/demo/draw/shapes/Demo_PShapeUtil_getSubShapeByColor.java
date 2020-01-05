@@ -95,7 +95,7 @@ extends PAppletHax {
 		windowsWire.disableStyle();
 	}
 			
-	public void drawApp() {
+	protected void drawApp() {
 		// clear the screen
 		pg.beginDraw();
 		pg.background(0);

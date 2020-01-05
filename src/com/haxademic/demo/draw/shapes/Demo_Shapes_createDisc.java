@@ -22,7 +22,7 @@ extends PAppletHax {
 		shape.setTexture(DemoAssets.textureNebula());
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		background(0);
 		PG.setCenterScreen(p.g);
 		PG.basicCameraFromMouse(p.g);

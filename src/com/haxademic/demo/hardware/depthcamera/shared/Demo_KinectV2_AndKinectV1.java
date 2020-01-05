@@ -23,7 +23,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.SHOW_DEBUG, true );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		kinectWrapperV1 = new KinectWrapperV1( p, true, true);
 		kinectWrapperV1.setMirror(true);
 
@@ -31,7 +31,7 @@ extends PAppletHax {
 		kinectWrapperV2.setMirror(true);
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(0);
 
 		float imgWidth = 400;

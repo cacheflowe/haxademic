@@ -51,11 +51,11 @@ extends PAppletHax {
 	protected String DISSIPATION = "DISSIPATION";
 	protected String PRESSURE = "PRESSURE";
 
-	public void config() {
+	protected void config() {
 		Config.setAppSize(1280, 860);
 	}
 	
-	public void firstFrame() {
+	protected void firstFrame() {
 		// set up main buffer - 32-bit!
 		pg = PG.newPG32(p.width, p.height, false, false);
 		pg.beginDraw();
@@ -92,7 +92,7 @@ extends PAppletHax {
 		DebugView.setTexture("displacement map", displaceTexture.texture());
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		// set up context
 		if(FrameLoop.count() == 1) p.background(0);
 		p.noStroke();

@@ -27,13 +27,13 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, (int)_frames + 1 );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 
 		img = loadImage(FileUtil.haxademicDataPath() + "images/ello.png");
 		noStroke();
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		background(210);
 		translate(width/2, height/2, 0);
 		PG.setDrawCenter(p);

@@ -44,7 +44,7 @@ extends PAppletHax {
 //		Config.setProperty( MAPPING_FILE,  FileUtil.getFile("text/mapping/mapping-2016-04-09-20-23-29.txt") );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		AudioIn.instance();
 
 		_shapes = new ArrayList<PShape>();
@@ -55,7 +55,7 @@ extends PAppletHax {
 	}
 
 	// loop -------------------------------------------------------------
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(0);
 
 		drawExistingShapes();

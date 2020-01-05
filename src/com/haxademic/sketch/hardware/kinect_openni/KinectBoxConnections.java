@@ -32,7 +32,7 @@ extends PAppletHax {
 	protected int _meshIndex = 0;
 	protected float _meshRot = 0;
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		DepthCamera.instance(DepthCameraType.KinectV1);
 		
 		_skeletonTracker = new SkeletonsTracker();
@@ -51,7 +51,7 @@ extends PAppletHax {
 		_meshKeys = _meshPool.getIds();
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		PG.resetGlobalProps(p);
 		PG.setDrawCorner(p);
 		PG.setColorForPImage(p);

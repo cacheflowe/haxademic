@@ -25,7 +25,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.HEIGHT, 682 );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 
 		p.noStroke();
 		backgroundImg = p.loadImage(FileUtil.getPath("haxademic/images/billboard-mockup.jpg"));
@@ -35,7 +35,7 @@ extends PAppletHax {
 		movie.loop();
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		// background image 
 		p.image(backgroundImg, 0, 0);
 		

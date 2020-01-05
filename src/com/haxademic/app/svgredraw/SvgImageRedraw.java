@@ -75,7 +75,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.HEIGHT, "1000" );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 	
 		p.smooth();
 		
@@ -189,7 +189,7 @@ extends PAppletHax {
 	    }
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		background(0, 70, 0);
 		
 		// debug draw image

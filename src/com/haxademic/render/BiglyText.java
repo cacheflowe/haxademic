@@ -34,7 +34,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, (int)_frames * 2 );
 	}
 	
-	public void firstFrame() {
+	protected void firstFrame() {
 
 		biglyImg = p.loadImage(FileUtil.getPath("images/bigly-trans.png"));
 		buildMotionBlur();
@@ -46,7 +46,7 @@ extends PAppletHax {
 		_pgMotionBlur = new MotionBlurPGraphics(11);
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(255);
 		drawGraphics(_pg);
 		_pgMotionBlur.updateToCanvas(_pg, p.g, 1);

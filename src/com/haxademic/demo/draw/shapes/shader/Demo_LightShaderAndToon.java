@@ -15,13 +15,13 @@ extends PAppletHax {
 	protected PShader toonShader;
 	protected boolean isToon = false;
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		lightShaderBasic = p.loadShader(FileUtil.getPath("haxademic/shaders/lights/lightfrag/lightfrag.glsl"), FileUtil.getPath("haxademic/shaders/lights/lightfrag/lightvert.glsl"));
 		toonShader = p.loadShader(FileUtil.getPath("haxademic/shaders/lights/toon/frag.glsl"), FileUtil.getPath("haxademic/shaders/lights/toon/vert.glsl"));
 		toonShader.set("fraction", 4.0f);
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(0);
 
 		isToon = (Mouse.xNorm > 0.5f);

@@ -34,7 +34,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, (int)_frames/4 );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 
 		OpenGLUtil.setTextureQualityHigh(p.g);
 		buildMotionBlur();
@@ -67,7 +67,7 @@ extends PAppletHax {
 		}
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(255);
 		if(p.frameCount == 1) initImages();
 		PG.feedback(p.g, p.color(255, 127), 0.2f, 1f);

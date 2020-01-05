@@ -48,7 +48,7 @@ extends PAppletHax {
 
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 	
 
 		texture = createGraphics(p.width, p.height, P.P2D);
@@ -63,7 +63,7 @@ extends PAppletHax {
 		mesh = Shapes.createSheet(600, texture);
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		background(0);
 		p.pushMatrix();
 		
@@ -152,7 +152,7 @@ extends PAppletHax {
 			setup();
 		}
 		
-		public void firstFrame() {	
+		protected void firstFrame() {	
 
 			balls = new MetaBall[NUM_BALLS];
 			img = createImage(width, height, ALPHA);

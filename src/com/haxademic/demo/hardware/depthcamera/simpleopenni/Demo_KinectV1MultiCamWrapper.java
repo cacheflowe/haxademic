@@ -48,7 +48,7 @@ extends PAppletHax {
 		Config.setProperty(AppSettings.SHOW_FPS_IN_TITLE, true );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		// init the cameras
 		kinect1 = new KinectWrapperV1(p, false, false, 0);
 		kinect2 = new KinectWrapperV1(p, false, false, 1);
@@ -72,7 +72,7 @@ extends PAppletHax {
 		UI.addSlider(KINECT_ROT_2, 	0, -P.PI, P.PI, 0.01f, false);
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		// prep drawing
 		p.background(0);
 		p.noStroke();

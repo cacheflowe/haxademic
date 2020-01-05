@@ -17,11 +17,11 @@ extends PAppletHax {
 	
 	protected PGraphics glowBuffer;
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		glowBuffer = p.createGraphics(pg.width, pg.height, PRenderers.P2D);
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		// draw cube to buffer
 		pg.beginDraw();
 		pg.clear();

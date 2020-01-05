@@ -23,7 +23,7 @@ extends PAppletHax {
 	}
 
 
-	public void firstFrame() {
+	protected void firstFrame() {
 
 		texture = new TextureShaderTimeStepper(p.width, p.height, "cacheflowe-repeating-circles.glsl");
 //		texture = new TextureMeshDeform(p.width, p.height);
@@ -36,7 +36,7 @@ extends PAppletHax {
 		OpenGLUtil.setTextureQualityLow(texture.texture());
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		if(p.frameCount == 2) {	// wait until we have a GL version
 			P.println(OpenGLUtil.getGlVersion(p.g).toString());
 			P.println(OpenGLUtil.getGlVersion(texture.texture()).toString());

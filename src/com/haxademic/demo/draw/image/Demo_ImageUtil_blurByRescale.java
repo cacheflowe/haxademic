@@ -11,7 +11,7 @@ public class Demo_ImageUtil_blurByRescale
 extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
-	public void drawApp() {
+	protected void drawApp() {
 		// set up context
 		p.background(100);
 		p.noStroke();

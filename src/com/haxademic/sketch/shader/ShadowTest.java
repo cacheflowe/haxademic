@@ -38,7 +38,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, frames );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 
 		
 		// load image into padded buffer
@@ -52,7 +52,7 @@ extends PAppletHax {
 		imageShadow = GlowFilter.instance(p).getShadowBuffer(image, 6);
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		float progress = (float) (p.frameCount % frames) / (float) frames;
 		
 		// draw gradient

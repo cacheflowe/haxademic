@@ -80,7 +80,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.RENDER_MIDI_OFFSET, "0" );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 	}
 
 	public void initRender() {
@@ -113,7 +113,7 @@ extends PAppletHax {
 
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		if( p.frameCount == 1 ) initRender();
 		handleInputTriggers();
 		p.background(0);

@@ -20,14 +20,14 @@ extends PAppletHax {
 		Config.setProperty(AppSettings.SHOW_UI, true);
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		AudioIn.instance();
 		UI.addSlider(numPoints, 3, 3, 90, 1, false);
 		UI.addSlider(radius, 100, 0, 300, 1f, false);
 		UI.addSlider(connectionDivisions, 2, 0, 20, 1, false);
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		background(0);
 		PG.setDrawCenter(p);
 		p.fill(255);

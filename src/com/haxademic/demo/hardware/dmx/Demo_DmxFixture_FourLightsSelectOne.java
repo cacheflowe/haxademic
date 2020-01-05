@@ -11,7 +11,7 @@ extends PAppletHax {
 	protected DMXFixture[] fixtures;
 	protected int selectedIndex = -1;
 	
-	public void firstFrame() {
+	protected void firstFrame() {
 		// use most basic singleton instance version of DMXUniverse
 		DMXUniverse.instanceInit("COM3", 9600);
 		
@@ -25,7 +25,7 @@ extends PAppletHax {
 		};
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(0);
 		p.noStroke();
 		float rectW = (float) p.width / fixtures.length;

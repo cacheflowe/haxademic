@@ -30,7 +30,7 @@ extends PAppletHax {
 		for(int i=0; i < 512; i++) eqBandTrigger[i] = 0;
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		background(0);
 		p.noStroke();
 		

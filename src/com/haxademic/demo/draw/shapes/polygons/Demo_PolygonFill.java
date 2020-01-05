@@ -9,11 +9,11 @@ extends PAppletHax {
 
 	protected Polygon poly;
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		poly = Polygon.buildShape(p.width/2, p.height/2, 3, 200);
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(0);
 
 		// draw toxiclibs mesh

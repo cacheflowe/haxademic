@@ -50,7 +50,7 @@ extends PAppletHax {
 		objSolid = new PShapeSolid(obj);
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		float percentComplete = ((float)(p.frameCount%_frames)/_frames);
 		
 		background(0);

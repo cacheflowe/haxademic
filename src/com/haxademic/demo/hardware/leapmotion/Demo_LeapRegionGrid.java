@@ -13,7 +13,7 @@ extends PAppletHax {
 	public LeapMotion leapMotion = null;
 	protected LeapRegionGrid _leapGrid;
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		leapMotion = new LeapMotion(this);
 		// debug display
 //		_leapGrid = new LeapRegionGrid(leapMotion, 2, 3, 2, 0.05f);
@@ -22,7 +22,7 @@ extends PAppletHax {
 		// _leapGrid = new LeapRegionGrid(leapMotion, 2, 3, 2, 0.05f, 0, 100);
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(255);
 		
 		_leapGrid.update();

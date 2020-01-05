@@ -35,7 +35,7 @@ implements IAppStoreListener {
 		Config.setProperty( AppSettings.APP_ICON, "images/app-icon.png" );
 	}
 	
-	public void firstFrame() {
+	protected void firstFrame() {
 		// init state
 		P.store.setNumber(App.APP_STATE, App.APP_STATE_INTRO);
 		P.store.setNumber(App.QUEUED_APP_STATE, App.APP_STATE_NONE);
@@ -91,7 +91,7 @@ implements IAppStoreListener {
 	// DRAW
 	/////////////////////////////////
 	
-	public void drawApp() {
+	protected void drawApp() {
 		// update state
 		checkInputs();
 		checkQueuedState();

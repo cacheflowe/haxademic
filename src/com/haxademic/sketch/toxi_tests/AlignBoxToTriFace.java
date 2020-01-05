@@ -17,13 +17,13 @@ extends PAppletHax {
 	TriangleMesh mesh;
 	ToxiclibsSupport toxi;
 
-	public void firstFrame() {
+	protected void firstFrame() {
 
 		toxi = Toxiclibs.instance(p).toxi;
 		randomize();
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		background(0);
 		lights();
 		translate(width/2, height/2, 0);

@@ -33,7 +33,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.RENDERING_MOVIE, "false" );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 	
 		p.smooth( OpenGLUtil.SMOOTH_HIGH );
 		
@@ -43,7 +43,7 @@ extends PAppletHax {
 		sdfShader = loadShader( FileUtil.getPath("haxademic/shaders/textures/sdf-01.glsl") ); 
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		background(0);
 		
 		PG.setColorForPImage( p );

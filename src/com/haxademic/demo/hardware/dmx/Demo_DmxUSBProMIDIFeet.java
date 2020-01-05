@@ -33,7 +33,7 @@ extends PAppletHax {
 	protected EasingColor color2 = new EasingColor(0xffff0000, 8);
 
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		AudioIn.instance();
 		dmx = new DMXWrapper();
 
@@ -43,7 +43,7 @@ extends PAppletHax {
 		ac.start();
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		background(0);
 		
 		if(trigger1.triggered() && p.millis() > sampleTime01 + 200) {

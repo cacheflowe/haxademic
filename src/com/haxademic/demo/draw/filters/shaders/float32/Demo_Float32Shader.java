@@ -23,7 +23,7 @@ extends PAppletHax {
 //	    OpenGL32Util.pGraphics2dToTexture32(buffer8, texture32);
 //	}
 //
-//	public void drawApp() {
+//	protected void drawApp() {
 //		// Draw shader output to DwGLTexture
 //	    OpenGL32Util.context().begin();
 //	    OpenGL32Util.context().beginDraw(texture32);

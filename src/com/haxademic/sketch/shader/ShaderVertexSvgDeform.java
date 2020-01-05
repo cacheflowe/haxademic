@@ -49,7 +49,7 @@ extends PAppletHax {
 
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 	
 		p.smooth( OpenGLUtil.SMOOTH_HIGH );
 		
@@ -67,7 +67,7 @@ extends PAppletHax {
 		shape.setTexture(displacementMap);
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		background(255);
 
 		// rendering

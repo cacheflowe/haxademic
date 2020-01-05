@@ -13,7 +13,7 @@ extends PAppletHax {
 		AudioIn.instance(AudioInputLibrary.ESS);
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		background(0);
 		p.noStroke();
 		float numElements = p.width;

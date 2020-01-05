@@ -11,13 +11,13 @@ extends PAppletHax {
 	
 	protected DMXFixture fixture;
 	
-	public void firstFrame() {
+	protected void firstFrame() {
 		// use most basic singleton instance version of DMXUniverse
 		DMXUniverse.instanceInit("COM3", 9600);
 		fixture = (new DMXFixture(1)).setEaseFactor(0.1f);
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		fixture.color().setTargetRGBANormalized(Mouse.xNorm, Mouse.yNorm, Mouse.xNorm, 1);
 		background(fixture.color().colorInt());
 	}

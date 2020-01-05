@@ -28,7 +28,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.FPS, "30" );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 
 		
 		_shape = p.loadShape(FileUtil.haxademicDataPath() + "/svg/pink-eye-skeleton.svg");
@@ -45,7 +45,7 @@ extends PAppletHax {
 
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 //		p.background(0);
 		Renderer.instance().joons.jr.background(100, 100, 100); //background(gray), or (r, g, b), like Processing.
 		Renderer.instance().joons.jr.background("gi_instant"); //Global illumination, normal mode.

@@ -27,7 +27,7 @@ extends PAppletHax {
 		DebugView.setValue("totalVertices", gpuParticles.vertices());
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		// clear the screen
 		background(0);
 		

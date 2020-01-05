@@ -23,12 +23,12 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.SHOW_UI, true );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		UI.addSlider(fric, 0.5f, 0, 1, 0.001f, false);
 		UI.addSlider(accel, 0.5f, 0, 1, 0.001f, false);
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		background(0);
 		
 		_elasticX.setFriction(UI.value(fric));

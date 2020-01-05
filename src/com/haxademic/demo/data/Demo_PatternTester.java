@@ -18,7 +18,7 @@ extends PAppletHax {
 	protected String[] patternNames;
 	protected int NUM_STEPS = 16;
 	
-	public void firstFrame() {
+	protected void firstFrame() {
 		// build pattern generators
 		patterns = new ISequencerPattern[] {
 			new PatternNoise(),
@@ -55,7 +55,7 @@ extends PAppletHax {
 		}
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		background(0);
 		
 		// apply pattern generators

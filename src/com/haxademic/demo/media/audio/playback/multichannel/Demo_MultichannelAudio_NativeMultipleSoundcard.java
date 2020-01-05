@@ -49,7 +49,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.SHOW_UI, true );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		// load assets
 		audioSample = FileUtil.fileFromPath(FileUtil.getPath("audio/kit808/snare.wav"));
 		
@@ -287,7 +287,7 @@ extends PAppletHax {
 	    }
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(0);
 		
 		// set font

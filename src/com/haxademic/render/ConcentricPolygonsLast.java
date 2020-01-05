@@ -105,7 +105,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, 1 + FRAMES * 75 );		// num animations + 1. 4 will render a loop of 3 shapes
 	}
 	
-	public void firstFrame() {
+	protected void firstFrame() {
 		MidiDevice.init(0, 0);
 		server = new WebServer(new UIControlsHandler(), false);
 		if(PRenderers.currentRenderer() == PRenderers.PDF) shouldRecord = true;
@@ -588,7 +588,7 @@ extends PAppletHax {
 		}
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		// context setup
 		p.background(0);
 //		p.background(100 * beatDisplay);

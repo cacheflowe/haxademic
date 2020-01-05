@@ -22,7 +22,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.SHOW_DEBUG, true );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		GraphicsEnvironment ge = GraphicsEnvironment.getLocalGraphicsEnvironment();
 		screenSize = ge.getMaximumWindowBounds();
 
@@ -47,7 +47,7 @@ extends PAppletHax {
 		P.println("Screen resized");
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		background(0);
 		if(p.frameCount % 120 == 0) {
 			p.getSurface().setLocation(0, 0);

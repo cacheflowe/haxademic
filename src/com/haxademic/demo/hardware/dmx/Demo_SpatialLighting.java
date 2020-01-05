@@ -68,7 +68,7 @@ extends PAppletHax {
 		Config.setProperty(AppSettings.SHOW_UI, true);
 	}
 	
-	public void firstFrame () {
+	protected void firstFrame () {
 		loadAssets();
 		buildControls();
 		initDMX();
@@ -107,7 +107,7 @@ extends PAppletHax {
 		lights.add(new DMXLightRGB(7, true));
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(0);
 		
 		pg.beginDraw();

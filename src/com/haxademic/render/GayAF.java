@@ -118,7 +118,7 @@ extends PAppletHax {
 		super.keyPressed();
 	}
 		
-	public void drawApp() {
+	protected void drawApp() {
 		// set up context
 		background(0);
 		p.noStroke();

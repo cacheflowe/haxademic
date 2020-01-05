@@ -16,11 +16,11 @@ extends PAppletHax {
 		Config.setProperty(AppSettings.SHOW_DEBUG, false );
 	}
 		
-	public void firstFrame() {
+	protected void firstFrame() {
 		camPicker = new WebCam("cam_1");
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(0);
 		PG.setDrawCorner(p);
 		

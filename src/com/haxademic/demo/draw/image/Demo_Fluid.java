@@ -17,7 +17,7 @@ extends PAppletHax {
 	protected Fluid fluid;
 	protected PGraphics fluidBuff;
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		int w = 50;
 		int h = 50;
 		int scale = 10;
@@ -27,7 +27,7 @@ extends PAppletHax {
 		fluidBuff = p.createGraphics(w * scale, h * scale, PRenderers.P3D);
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		// set up context
 		p.background(100);
 		p.noStroke();

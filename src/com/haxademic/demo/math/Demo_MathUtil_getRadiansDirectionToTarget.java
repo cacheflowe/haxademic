@@ -26,7 +26,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.HEIGHT, 600 );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 
 		
 		// load texture
@@ -49,7 +49,7 @@ extends PAppletHax {
 		}
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		background(200,100,255);
 		PG.setDrawCenter(p);
 		p.noStroke();

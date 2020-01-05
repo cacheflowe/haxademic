@@ -37,7 +37,7 @@ extends PAppletHax {
 //	    noiseBuffer = (PGraphics2D) createGraphics(p.width, p.height, P2D);
 //	}
 //
-//	public void drawApp() {
+//	protected void drawApp() {
 //		background(0);
 //		
 //		// update noise

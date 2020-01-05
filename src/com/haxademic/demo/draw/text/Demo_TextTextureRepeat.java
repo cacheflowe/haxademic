@@ -110,7 +110,7 @@ extends PAppletHax {
 		DebugView.setTexture("texture", texture);
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		p.pushMatrix();
 		
 		// update text tiled texture

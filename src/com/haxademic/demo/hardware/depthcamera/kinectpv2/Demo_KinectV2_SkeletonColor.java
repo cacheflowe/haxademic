@@ -22,14 +22,14 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.SHOW_DEBUG, true );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		kinectV2 = new KinectPV2(this);
 		kinectV2.enableSkeletonColorMap(true);
 		kinectV2.enableColorImg(true);
 		kinectV2.init();
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(0);
 		
 		// draw image

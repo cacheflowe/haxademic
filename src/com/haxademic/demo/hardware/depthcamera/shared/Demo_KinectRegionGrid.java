@@ -16,7 +16,7 @@ extends PAppletHax {
 	
 	protected KinectRegionGrid kinectRegionGrid;
 	
-	public void firstFrame() {
+	protected void firstFrame() {
 		int KINECT_MIN_DIST = 	Config.getInt( "kinect_min_mm", 500 );
 		int KINECT_MAX_DIST = 	Config.getInt( "kinect_max_mm", 2000 );
 		int KINECT_TOP = 		Config.getInt( "kinect_top_pixel", 0 );
@@ -37,7 +37,7 @@ extends PAppletHax {
 		if(p.key == ' ') kinectRegionGrid.toggleDebugOverhead();
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		IDepthCamera depthCamera = DepthCamera.instance().camera;
 		p.background(0);
 		

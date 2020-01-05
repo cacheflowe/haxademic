@@ -29,7 +29,7 @@ extends PAppletHax {
 		shape.setTexture(DemoAssets.particle());
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		// clear the screen
 		background(50 + 50 * P.sin(p.frameCount * 0.01f), 50 + 50 * P.sin(p.frameCount * 0.02f), 50 + 50 * P.sin(p.frameCount * 0.03f));
 

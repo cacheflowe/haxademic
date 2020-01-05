@@ -24,7 +24,7 @@ extends PAppletHax {
 	protected PImage image;
 	protected WETriangleMesh _mesh;
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		
 //		_mesh = MeshUtilToxi.meshFromOBJ( p, FileUtil.getHaxademicDataPath() + "models/cacheflowe-3d.obj", 16f );
 	}
@@ -39,7 +39,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.RENDERING_MOVIE, "false" );
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		JoonsWrapper joons = Renderer.instance().joons;
 		background(0);
 		lights();

@@ -88,7 +88,7 @@ extends PAppletHax {
 		tiledImg = new TiledTexture(textCropped);
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		p.pushMatrix();
 		
 		// update displacement noise

@@ -11,12 +11,12 @@ extends PAppletHax {
 	protected DMXWrapper dmx1;
 	protected DMXWrapper dmx2;
 	
-	public void firstFrame() {
+	protected void firstFrame() {
 		dmx1 = new DMXWrapper("COM4", 9600);
 		dmx2 = new DMXWrapper("COM7", 9600);
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		background(0);
 		for (int i = 0; i < 512; i++) {
 			dmx1.setValue(i+1, P.round(127 + 127 * P.sin(p.frameCount * 0.01f + i)));

@@ -21,12 +21,12 @@ extends PAppletHax {
 	
 	protected PixelFilter _pixelFilter;
 	
-	public void firstFrame() {
+	protected void firstFrame() {
 		DepthCamera.instance(DepthCameraType.KinectV1);
 		_pixelFilter = new PixelFilter(DepthCameraSize.WIDTH, DepthCameraSize.WIDTH, (int)PIXEL_SIZE);
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		IDepthCamera depthCamera = DepthCamera.instance().camera;
 		PG.resetGlobalProps( p );
 		p.shininess(1000f); 

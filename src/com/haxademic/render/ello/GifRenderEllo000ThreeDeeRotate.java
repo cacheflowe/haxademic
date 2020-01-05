@@ -18,7 +18,7 @@ extends PAppletHax {
 	
 	protected int animCount = 0;
 	
-	public void firstFrame() {
+	protected void firstFrame() {
 
 		
 		// create ello mesh
@@ -39,7 +39,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.RENDERING_GIF_STOP_FRAME, "22" ); // 26 for imgs=5
 	}
 		
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(255);
 		p.noStroke();
 		

@@ -27,7 +27,7 @@ extends PAppletHax {
 	}
 	
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		DepthCamera.instance(DepthCameraType.KinectV1);
 		IDepthCamera depthCamera = DepthCamera.instance().camera;
 		kinectSilhouetteSmoothed = new KinectDepthSilhouetteSmoothed(depthCamera, 5);
@@ -37,7 +37,7 @@ extends PAppletHax {
 		DebugView.setTexture("image", kinectSilhouetteSmoothed.image());
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(0);
 
 		KinectDepthSilhouetteSmoothed.KINECT_FAR = 600 + P.round(2000 * Mouse.xNorm);

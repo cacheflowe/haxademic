@@ -39,7 +39,7 @@ extends PAppletHax {
 		PShapeUtil.setShapeMaterialTransparent(shape, 0.079f, 0.13f, 0.4f, 0.5f);
 	}
 			
-	public void drawApp() {
+	protected void drawApp() {
 		// clear the screen
 		background(10);
 		p.noStroke();

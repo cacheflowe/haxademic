@@ -38,7 +38,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.HEIGHT, 720 );
 	}
 	
-	public void firstFrame() {
+	protected void firstFrame() {
 		DepthCamera.instance(DepthCameraType.KinectV1);
 		surface.setResizable(true);
 		// Choose depthImageMode vs raw depth data method.
@@ -57,7 +57,7 @@ extends PAppletHax {
 		userActive = new BufferThresholdMonitor(32, 24, 20);
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		// reset if we need to run out of the frame
 		if(needsDelayedReset) {
 			kinectDiff.reset();

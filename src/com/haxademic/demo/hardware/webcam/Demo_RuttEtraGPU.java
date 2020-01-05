@@ -62,7 +62,7 @@ implements IWebCamCallback {
 		DebugView.setValue("shape.getVertexCount();", PShapeUtil.vertexCount(shape));
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		background(0);
 		
 		// rotate

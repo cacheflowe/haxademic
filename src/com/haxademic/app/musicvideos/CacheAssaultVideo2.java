@@ -77,7 +77,7 @@ extends PAppletHax {
 
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 
 		pg = p.createGraphics(p.width, p.height, P.P3D);
 		pg.smooth( AppSettings.SMOOTH_HIGH );
@@ -119,7 +119,7 @@ extends PAppletHax {
 		return mid + amp * P.sin(p.frameCount*inc);
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		if( p.frameCount == 1 ) initRender();
 		handleInputTriggers();
 		p.background(0);

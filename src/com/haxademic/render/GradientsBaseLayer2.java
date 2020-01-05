@@ -30,7 +30,7 @@ extends PAppletHax {
 		Config.setProperty(AppSettings.RENDERING_MOVIE_STOP_FRAME, 1 + FRAMES);
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		int[] colors = new int[] {
 				// superbowl: #0D131B
 				ColorUtil.colorFromHex("#ff0D131B"),
@@ -81,7 +81,7 @@ extends PAppletHax {
 		ticker = new TickerScroller(img, p.color(255), gradientW, p.height, tickerLoopSpeed);
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(255);
 		p.noStroke();
 		

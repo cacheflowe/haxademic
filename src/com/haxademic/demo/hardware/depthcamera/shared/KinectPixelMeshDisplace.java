@@ -27,7 +27,7 @@ extends PAppletHax {
 	protected PixelFilter _pixelFilter;
 	protected WETriangleMesh _mesh;
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		DepthCamera.instance(DepthCameraType.Realsense);
 		_pixelFilter = new PixelFilter(DepthCameraSize.WIDTH, DepthCameraSize.WIDTH, (int)PIXEL_SIZE);
 		setupMeshForTexture( (int)(DepthCameraSize.WIDTH / PIXEL_SIZE), (int)(DepthCameraSize.WIDTH / PIXEL_SIZE), 640, 480 );
@@ -49,7 +49,7 @@ extends PAppletHax {
 		}
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		IDepthCamera depthCamera = DepthCamera.instance().camera;
 		PG.resetGlobalProps( p );
 		p.shininess(1000f); 

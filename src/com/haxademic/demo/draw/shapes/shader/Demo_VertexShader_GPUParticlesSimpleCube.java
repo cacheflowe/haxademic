@@ -73,7 +73,7 @@ extends PAppletHax {
 		if(p.key == ' ') newPositions();
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		// clear the screen
 		background(0);
 		

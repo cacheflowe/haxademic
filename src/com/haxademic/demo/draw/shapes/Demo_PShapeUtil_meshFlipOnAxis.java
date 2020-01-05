@@ -23,7 +23,7 @@ extends PAppletHax {
 		PShapeUtil.scaleShapeToHeight(obj, objHeight);
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		background(0);
 		p.translate(p.width/2f, p.height/2f, 0);
 		PG.setBetterLights(p);

@@ -19,7 +19,7 @@ extends PAppletHax {
 		Config.setProperty(AppSettings.SHOW_DEBUG, true );
 	}
 		
-	public void firstFrame () {
+	protected void firstFrame () {
 		P.println("getting cameras");
 		String[] cameras = Capture.list();
 		P.println("cameras: "+cameras);
@@ -37,7 +37,7 @@ extends PAppletHax {
 		}      
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		p.background( 0 );
 		PG.setDrawCenter(p);
 		PG.setCenterScreen(p);

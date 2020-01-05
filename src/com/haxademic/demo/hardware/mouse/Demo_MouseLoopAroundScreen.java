@@ -16,11 +16,11 @@ extends PAppletHax {
 	protected Point mousePoint;
 	protected Point lastMousePoint = new Point();
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		P.p.registerMethod("post", this);
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(0);
 		
 		//get native window object

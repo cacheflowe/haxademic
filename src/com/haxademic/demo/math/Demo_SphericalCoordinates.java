@@ -12,7 +12,7 @@ extends PAppletHax {
 	float lon = 0;
 	float radius = 250;
 	
-	public void drawApp() {
+	protected void drawApp() {
 		background( 0 );
 		shininess(1000); 
 		lights();

@@ -34,7 +34,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, Math.round(frames) );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 	
 
 		UI.addSlider(noiseScale, 0.003f, 0.0001f, 0.025f, 0.0001f, false);
@@ -44,7 +44,7 @@ extends PAppletHax {
 		UI.addSlider(spacing, 40, 5, 150f, 1f, false);
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		float progress = (p.frameCount % frames) / frames;
 		
 //		p.blendMode(P.BLEND);

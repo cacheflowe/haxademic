@@ -29,7 +29,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.RENDERING_GIF_STOP_FRAME, ""+Math.round(_frames + _frames) );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 
 
 		((PGraphics)g).textureWrap(Texture.REPEAT);
@@ -40,7 +40,7 @@ extends PAppletHax {
 		_warpShader.set("textureInput", img);
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(0);
 		_warpShader.set("time", (p.frameCount % 10f) * 0.033f);
 		p.filter(_warpShader);

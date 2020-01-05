@@ -41,7 +41,7 @@ extends PAppletHax {
 	protected PShader blur;
 
 		
-	public void firstFrame() {
+	protected void firstFrame() {
 		initRender();
 	}
 	
@@ -78,7 +78,7 @@ extends PAppletHax {
 	}
 		
 	// FRAME LOOP RENDERING ===================================================================================
-	public void drawApp() {
+	protected void drawApp() {
 //		filter(blur); 
 		
 		p.background(0);

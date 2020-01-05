@@ -29,7 +29,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.HEIGHT, 800 );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 	
 
 		// load texture
@@ -40,7 +40,7 @@ extends PAppletHax {
 		PShapeUtil.scaleShapeToExtent(shapeIcos, p.height/4f);
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		background(0);
 		
 		// draw icosahedron

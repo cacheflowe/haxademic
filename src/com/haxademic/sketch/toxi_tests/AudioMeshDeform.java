@@ -14,7 +14,7 @@ extends PAppletHax {
 	
 	WETriangleMesh _mesh, _meshDeform;
 
-	public void firstFrame() {
+	protected void firstFrame() {
 
 		
 //		_mesh = MeshUtil.meshFromOBJ( p, "../data/models/pointer_cursor_2_hollow.obj", 1.5f );
@@ -28,7 +28,7 @@ extends PAppletHax {
 		_meshDeform = _mesh.copy();
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		p.shininess(1000f); 
 		p.lights();
 		p.background(100);

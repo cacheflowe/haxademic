@@ -30,7 +30,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.RENDERING_MOVIE, "false" );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 
 		p.smooth(OpenGLUtil.SMOOTH_HIGH);
 		_fxaa = p.loadShader( FileUtil.haxademicDataPath() + "haxademic/shaders/filters/fxaa.glsl" );
@@ -59,7 +59,7 @@ extends PAppletHax {
 		reset();
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(0);
 //		PG.setDrawCorner(p);
 //		p.fill(0, 20);

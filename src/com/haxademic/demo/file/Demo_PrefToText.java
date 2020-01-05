@@ -11,7 +11,7 @@ extends PAppletHax {
 
 	protected float gray = 0.5f;
 	
-	public void firstFrame () {
+	protected void firstFrame () {
 		gray = PrefToText.getValueF("gray", gray);
 		P.println("gray", gray);
 	}
@@ -22,7 +22,7 @@ extends PAppletHax {
 		if(p.key == ' ') PrefToText.setValue("gray", gray);
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		// set up context
 		p.background( gray * 255 );
 	}

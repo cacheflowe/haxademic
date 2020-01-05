@@ -12,7 +12,7 @@ extends PAppletHax {
 	protected boolean debugMode = true;
 	protected HashMap<String, UISlider> sliders;
 	
-	public void firstFrame () {
+	protected void firstFrame () {
 		int sliderX = 10;
 		int sliderY = 10;
 		int sliderW = 300;
@@ -28,7 +28,7 @@ extends PAppletHax {
 		if(p.key == 'd') debugMode = !debugMode;
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		// use prefs values
 		p.background(sliders.get("r").value(), sliders.get("g").value(), sliders.get("b").value());
 		// show sliders in debug mode

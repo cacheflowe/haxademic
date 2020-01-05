@@ -14,7 +14,7 @@ extends PAppletHax {
 	
 	protected PImage[] pImages;
 	
-	public void firstFrame() {
+	protected void firstFrame() {
 		ArrayList<String> images = FileUtil.getFilesInDirOfTypes(FileUtil.getPath("haxademic/images"), "jpg,png");
 		pImages = new PImage[images.size()];
 		for (int i = 0; i < images.size(); i++) {
@@ -23,7 +23,7 @@ extends PAppletHax {
 		}
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(0);
 		for (int i = 0; i < pImages.length; i++) {
 			p.image(pImages[i], i * 100, 0);

@@ -38,7 +38,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.RENDERING_GIF_STOP_FRAME, Math.round(_frames*2) );
 	}
 	
-	public void firstFrame() {
+	protected void firstFrame() {
 
 		_logo = p.loadShape(FileUtil.haxademicDataPath()+"svg/ello-mouth-gray-01.svg");
 		buildCanvas();
@@ -51,7 +51,7 @@ extends PAppletHax {
 	}
 
 
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(255);
 		drawGraphics(_pg);
 		_pgMotionBlur.updateToCanvas(_pg, p.g, 0.8f);

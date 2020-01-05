@@ -42,7 +42,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.SUNFLOW_QUALITY, "low" );
 	}
 	
-	public void firstFrame() {
+	protected void firstFrame() {
 
 		
 		_rot = new EasingFloat3d( 0, 0, 0, 10f );
@@ -69,7 +69,7 @@ extends PAppletHax {
 		}
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		PG.setBasicLights( p );
 		p.background(0);
 		

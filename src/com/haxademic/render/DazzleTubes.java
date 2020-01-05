@@ -54,7 +54,7 @@ extends PAppletHax {
 		DebugView.setTexture("dazzleBuff", dazzleBuff);
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		// pre draw
 		updateStripes();
 		

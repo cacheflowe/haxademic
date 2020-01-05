@@ -202,12 +202,12 @@ extends HaxMapper{
 
 	}
 	
-	public void firstFrame() {
+	protected void firstFrame() {
 //		_audioPixel = new AudioPixelInterface();
 //		_audioPixelColors = new int[ _mappingGroups.size() ];
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		super.drawApp();
 		
 		for(int i=0; i < _mappingGroups.size(); i++ ) {

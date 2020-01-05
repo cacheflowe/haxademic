@@ -20,14 +20,14 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.HEIGHT, 900 );
 	}
 	
-	public void firstFrame() {
+	protected void firstFrame() {
 		shape = PShapeUtil.shapeFromImage(DemoAssets.textureCursor());
 		PShapeUtil.centerShape(shape);
 		PShapeUtil.scaleVertices(shape, 1, 1, 4);
 		PShapeUtil.scaleShapeToExtent(shape, p.height * 0.2f);
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(200, 255, 200);
 		PG.setCenterScreen(p);
 		PG.setBetterLights(p);

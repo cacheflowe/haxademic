@@ -26,7 +26,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.FULLSCREEN, false );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		buildCanvas();
 	}
 
@@ -36,7 +36,7 @@ extends PAppletHax {
 		keystonePG = new PGraphicsKeystone( p, externalBuffer, 12, null );
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(0);
 		// update texture
 		shaderPattern.set("time", p.frameCount * 0.01f);

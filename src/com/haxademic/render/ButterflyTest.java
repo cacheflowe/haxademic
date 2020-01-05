@@ -37,7 +37,7 @@ extends PAppletHax {
 		Config.setProperty(AppSettings.RENDERING_MOVIE_STOP_FRAME, 1 + FRAMES * 3);
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		// load sphere
 		int detail = 4;
 		icosa = Icosahedron.createIcosahedron(p.g, detail, p.loadImage(FileUtil.getPath("haxademic/images/spherical/outdoors.jpg")));
@@ -52,7 +52,7 @@ extends PAppletHax {
 	
 
 
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(0);
 		PG.setCenterScreen(p);
 

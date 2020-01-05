@@ -16,7 +16,7 @@ extends PAppletHax {
 		MidiDevice.init(1, 4);
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(0);
 		// p.midi.isMidiButtonOn(LaunchControl.PAD_01)
 		

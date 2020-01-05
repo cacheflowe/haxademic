@@ -12,13 +12,13 @@ extends PAppletHax {
 	protected String COLOR_2 = "COLOR_2";
 	protected String COLOR_3 = "COLOR_3";
 	
-	public void firstFrame() {
+	protected void firstFrame() {
 		UI.addSliderVector(COLOR_1, 0, 0, 255, 1, false);
 		UI.addSliderVector(COLOR_2, 0, 0, 255, 1, false);
 		UI.addSliderVector(COLOR_3, 0, 0, 255, 1, false);
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		background(0);
 		
 		int color1 = p.color(UI.valueX(COLOR_1), UI.valueY(COLOR_1), UI.valueZ(COLOR_1));

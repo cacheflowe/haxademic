@@ -18,13 +18,13 @@ extends PAppletHax {
 	protected float CURSOR_EASING_FACTOR = 7;
 	protected float CURSOR_STROKE = 4;
 	
-	public void firstFrame() {
+	protected void firstFrame() {
 	
 		GREEN = new EasingColor("00b159");
 		WHITE = new EasingColor("ffffff");
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		background(0);
 		
 		PG.setColorForPImage( p );

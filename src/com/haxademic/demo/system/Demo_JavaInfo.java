@@ -13,11 +13,11 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.SHOW_DEBUG, true );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		JavaInfo.printDebug();
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		background(0);
 	}
 

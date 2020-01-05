@@ -23,7 +23,7 @@ extends PAppletHax {
 
 	RemoteEndpoint remote;
 	
-	public void firstFrame() {
+	protected void firstFrame() {
         try {
         	// web socket
         	HttpClient http = new HttpClient();
@@ -63,7 +63,7 @@ extends PAppletHax {
 
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(0);
 		if(p.frameCount % 100 == 0) {
     		try {

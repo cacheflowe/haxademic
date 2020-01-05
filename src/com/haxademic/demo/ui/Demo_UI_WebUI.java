@@ -24,7 +24,7 @@ extends PAppletHax {
 		Config.setProperty(AppSettings.SHOW_UI, true);
 	}
 	
-	public void firstFrame () {
+	protected void firstFrame () {
 		UI.addSlider(R, 255, 0, 255, 0.5f);
 		UI.addSlider(G, 255, 0, 255, 0.5f);
 		UI.addSlider(B, 255, 0, 255, 0.5f);
@@ -38,7 +38,7 @@ extends PAppletHax {
 		P.out(UI.valuesToJSON());
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		if(p.frameCount == 200) SystemUtil.openWebPage(WebServer.getServerAddress() + "ui/");
 
 		// bg components

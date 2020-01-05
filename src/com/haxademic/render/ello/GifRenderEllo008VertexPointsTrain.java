@@ -33,7 +33,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.RENDERING_GIF, "false" );
 	}
 	
-	public void firstFrame() {
+	protected void firstFrame() {
 
 		p.background(0);
 		p.smooth(OpenGLUtil.SMOOTH_HIGH);
@@ -57,7 +57,7 @@ extends PAppletHax {
 		encoder.addFrame(newFrame);
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		p.fill(0, 40);
 		p.rect(0, 0, p.width, p.height);
 		

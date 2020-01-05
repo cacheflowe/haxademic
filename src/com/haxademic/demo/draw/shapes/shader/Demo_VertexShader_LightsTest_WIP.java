@@ -39,7 +39,7 @@ extends PAppletHax {
 //		obj.setTexture(ImageUtil.imageToGraphics(DemoAssets.textureNebula()));
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		background(0);
 		PG.setCenterScreen(p);
 		p.rotateY(0.5f * P.sin(p.frameCount * 0.01f));

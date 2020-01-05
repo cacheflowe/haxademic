@@ -40,7 +40,7 @@ implements IMediaTimecodeTriggerDelegate {
 		Config.setProperty(AppSettings.SHOW_DEBUG, true );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		// loop audio
 		AUDIO_FILE = FileUtil.getPath(DemoAssets.audioBiggerLoop); // make sure we're pulling from absolute project data path
 		audioPlayer = new WavPlayer(false);
@@ -60,7 +60,7 @@ implements IMediaTimecodeTriggerDelegate {
 	}
 	
 
-	public void drawApp() {
+	protected void drawApp() {
 		background(0);
 		
 		// update audio time on triggers

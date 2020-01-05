@@ -16,7 +16,7 @@ extends PAppletHax {
 	protected FFT fft;
 	protected int bufferSize = 512;
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		Ess.start(P.p); 
 		
 		fft = new FFT( bufferSize * 2 );
@@ -29,7 +29,7 @@ extends PAppletHax {
 		audioInput.start();
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		// draw background color based on max eq value
 		DebugView.setValue("fft.max", fft.max);
 		p.background(fft.max * 3000f);

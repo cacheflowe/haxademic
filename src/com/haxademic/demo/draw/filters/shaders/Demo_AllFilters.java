@@ -120,7 +120,7 @@ extends PAppletHax { public static void main(String args[]) { arguments = args; 
 		Config.setProperty( AppSettings.HEIGHT, 400 );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		noiseTexture = new TextureShader(TextureShader.noise_simplex_2d_iq);
 		noiseBuffer = p.createGraphics(p.width, p.height, PRenderers.P2D);
 		
@@ -212,7 +212,7 @@ extends PAppletHax { public static void main(String args[]) { arguments = args; 
 		return P.sin(p.frameCount * 0.01f);
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		// show red background for transparency-relevant shaders
 		p.background(255, 0, 0);
 		p.noStroke();

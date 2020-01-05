@@ -35,7 +35,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.FULLSCREEN, false );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		shaderPattern = p.loadShader(FileUtil.getPath("haxademic/shaders/textures/cacheflowe-scrolling-dashed-lines.glsl"));
 		shaderPattern2 = p.loadShader(FileUtil.getPath("haxademic/shaders/textures/cacheflowe-op-wavy-rotate.glsl"));
 		overlayImage = DemoAssets.particle();
@@ -62,7 +62,7 @@ extends PAppletHax {
 		}
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(0);
 		
 		// update textures

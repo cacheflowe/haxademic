@@ -30,7 +30,7 @@ extends PAppletHax {
 	protected SynthHand _synth;
 	Minim minim;
 	
-	public void firstFrame() {
+	protected void firstFrame() {
 		DepthCamera.instance(DepthCameraType.KinectV1);
 		minim = new Minim(this);
 		loadSounds();
@@ -53,7 +53,7 @@ extends PAppletHax {
 		_beats.add( new BeatSquare(200, 150, 50, 100, "audio/kit808/tom.wav") );
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		PG.resetGlobalProps( p );
 		p.shininess(1000f); 
 		p.lights();

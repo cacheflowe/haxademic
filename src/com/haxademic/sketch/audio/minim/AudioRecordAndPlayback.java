@@ -32,7 +32,7 @@ extends PAppletHax {
 	}
 
 
-	public void firstFrame() {
+	protected void firstFrame() {
 	
 		
 		minim = new Minim(this);
@@ -51,7 +51,7 @@ extends PAppletHax {
 		textFont(createFont("Arial", 12));
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		background(0); 
 		stroke(255);
 		// draw the waveforms

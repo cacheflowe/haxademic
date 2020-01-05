@@ -17,13 +17,13 @@ extends PAppletHax {
 	protected TiledGrid tiledImg2;
 	protected TiledGrid tiledImg3;
 
-	public void config() {
+	protected void config() {
 		Config.setProperty(AppSettings.RENDERING_MOVIE, false );
 		Config.setProperty(AppSettings.RENDERING_MOVIE_START_FRAME, 1 + FRAMES * 2);
 		Config.setProperty(AppSettings.RENDERING_MOVIE_STOP_FRAME, 1 + FRAMES * 3);
 	}
 	
-	public void firstFrame() {
+	protected void firstFrame() {
 		// frame loop
 		FrameLoop.instance(FRAMES);
 		
@@ -34,7 +34,7 @@ extends PAppletHax {
 		tiledImg3 = new TiledGrid(16, 0xff000000, 0xffffffff, strokeW);
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		// set context
 		p.background(0);
 		p.noStroke();

@@ -25,7 +25,7 @@ implements ISocketClientDelegate {
 		Config.setProperty(AppSettings.SHOW_DEBUG, true);
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 	
 		String serverAddress = "ws://" + IPAddress.getIP() + ":" + SocketServer.PORT;
 		wsClient = new SocketClient(serverAddress, this, true);
@@ -34,7 +34,7 @@ implements ISocketClientDelegate {
 	protected void buildSocketServer() {
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		background(0);
 		p.fill(255);
 		// send a simple message to clients

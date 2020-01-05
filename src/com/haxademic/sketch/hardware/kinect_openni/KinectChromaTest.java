@@ -30,7 +30,7 @@ extends PAppletHax {
 	protected String colorToReplaceG = "colorToReplaceG";
 	protected String colorToReplaceB = "colorToReplaceB";
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		DepthCamera.instance(DepthCameraType.KinectV1);
 
 		_chromaBuffer = p.createGraphics(p.width, p.height, P.P3D);
@@ -50,7 +50,7 @@ extends PAppletHax {
 
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		IDepthCamera depthCamera = DepthCamera.instance().camera;
 
 		// reset drawing 

@@ -50,7 +50,7 @@ extends PAppletHax {
 		PShapeUtil.scaleShapeToHeight(objTP, p.height * 0.1f);
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(255, 220, 180);
 		p.noStroke();
 		CameraUtil.setCameraDistance(p.g, 100, 20000);

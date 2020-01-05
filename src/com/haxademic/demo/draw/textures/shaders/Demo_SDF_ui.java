@@ -37,7 +37,7 @@ extends PAppletHax {
 		UI.setValue(cubePos+"_Z", -3f);
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		background(0);
 		
 		

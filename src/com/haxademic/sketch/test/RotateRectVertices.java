@@ -10,7 +10,7 @@ public class RotateRectVertices
 extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 		
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(255);
 		p.noStroke();
 	

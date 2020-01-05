@@ -41,7 +41,7 @@ implements IWebCamCallback {
 		Config.setProperty(AppSettings.SMOOTHING, AppSettings.SMOOTH_NONE );
 	}
 
-	public void firstFrame () {
+	protected void firstFrame () {
 		WebCam.instance().setDelegate(this);
 		webcamBuffer = p.createGraphics(640, 480, PRenderers.P2D);
 		webcamBuffer.noSmooth();
@@ -64,7 +64,7 @@ implements IWebCamCallback {
 		UI.addSlider(RECT_LERP, lerpSpeed, 0.001f, 0.5f, 0.001f);
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		// set up context
 		p.background(0);
 

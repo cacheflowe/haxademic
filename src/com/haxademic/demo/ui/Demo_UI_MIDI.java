@@ -24,7 +24,7 @@ extends PAppletHax {
 		Config.setProperty(AppSettings.SHOW_UI, true);
 	}
 	
-	public void firstFrame () {
+	protected void firstFrame () {
 		// init midi input
 		MidiDevice.init(0, 3);
 
@@ -38,7 +38,7 @@ extends PAppletHax {
 		UI.addButtons(new String[] {"1", "2", "3", "4"}, true, new int[] {LaunchControl.PAD_03, LaunchControl.PAD_04, LaunchControl.PAD_05, LaunchControl.PAD_06});
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 //		p.debugView.active(true);
 
 		// bg components

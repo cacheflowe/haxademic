@@ -20,7 +20,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.RENDERING_MOVIE, false );
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		JoonsWrapper joons = Renderer.instance().joons;
 		if(Config.getBoolean(AppSettings.SUNFLOW_ACTIVE, false) == false) {
 			p.background(0);

@@ -16,7 +16,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.HEIGHT, 800 );
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		AudioIn.instance();
 		
 		// context

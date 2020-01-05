@@ -64,7 +64,7 @@ public class CrashMonitor {
 			size(256, 128, PRenderers.P2D);
 		}
 
-		public void firstFrame() {
+		protected void firstFrame() {
 			int windowX = (showing) ? 0 : -220;
 			super.surface.setResizable(true);	// needed for setLocation()
 			super.surface.setLocation(windowX, 0);

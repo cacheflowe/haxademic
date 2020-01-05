@@ -12,7 +12,7 @@ extends PAppletHax {
 	Block[] blocks;
 	int numBlocks = 360;
 		
-	public void firstFrame() {
+	protected void firstFrame() {
 
 		blocks = new Block[numBlocks];
 		for(int i=0; i < numBlocks; i++) {
@@ -29,7 +29,7 @@ extends PAppletHax {
 	}
 		
 	// FRAME LOOP RENDERING ===================================================================================
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(0);
 //		p.fill( 255 );
 //		p.noStroke();

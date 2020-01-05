@@ -7,7 +7,7 @@ public class Demo_WebViewTest
 extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
-//	public void firstFrame() {
+//	protected void firstFrame() {
 //        new Thread() {
 //            @Override
 //            public void run() {
@@ -17,7 +17,7 @@ extends PAppletHax {
 //	}
 	
 
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(0);
 		PG.setCenterScreen(p);
 		

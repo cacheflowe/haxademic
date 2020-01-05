@@ -137,7 +137,7 @@ extends PAppletHax {
 	// Setup: build mapped polygon groups & init texture pools
 	/////////////////////////////////////////////////////////////////
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		AudioIn.instance();
 		
 //		p.hint(P.DISABLE_DEPTH_SORT);
@@ -293,7 +293,7 @@ extends PAppletHax {
 	// Main draw loop
 	/////////////////////////////////////////////////////////////////
 
-	public void drawApp() {
+	protected void drawApp() {
 		handleInputTriggers();
 		background(0);
 		if(_faceRecorder != null) updateFaceRecorder();

@@ -13,7 +13,7 @@ extends PAppletHax {
 
 	public SimpleOpenNI  context;
 
-	public void firstFrame()
+	protected void firstFrame()
 	{
 		// context = new SimpleOpenNI(this);
 		context = new SimpleOpenNI(this,SimpleOpenNI.RUN_MODE_MULTI_THREADED);
@@ -29,7 +29,7 @@ extends PAppletHax {
 		strokeWeight(3);
 	}
 
-	public void drawApp()
+	protected void drawApp()
 	{
 		background(200,0,0);
 		// update the cam

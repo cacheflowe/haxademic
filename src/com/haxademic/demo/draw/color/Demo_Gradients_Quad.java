@@ -19,13 +19,13 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.HEIGHT, "600" );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 	
 		_colorStart = new EasingColor("#000000", 20f);
 		_colorStop = new EasingColor("#000000", 20f);
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(0);
 
 		_colorStart.setTargetInt( p.color(255f * P.sin(p.frameCount/20f), 255f * P.sin(p.frameCount/25f), 255f * P.sin(p.frameCount/30f)) );

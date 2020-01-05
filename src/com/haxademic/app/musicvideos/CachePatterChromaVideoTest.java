@@ -57,7 +57,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.SHOW_UI, true );
 	}
 	
-	public void firstFrame() {
+	protected void firstFrame() {
 
 	
 		_pgMotionBlur = new MotionBlurPGraphics(6);
@@ -83,7 +83,7 @@ extends PAppletHax {
 		UI.addSlider(spread, 0.35f, 0, 1, 0.01f, false);
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(255);
 
 		_addMovieFrame += 0.5f;

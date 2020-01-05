@@ -47,7 +47,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, 1 + FRAMES );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 
 		
 		font = DemoAssets.fontBitlow(100);
@@ -98,7 +98,7 @@ extends PAppletHax {
 		PG.setDrawCorner(p);
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(0);
 		p.lights();
 //		PG.setBetterLights(p);

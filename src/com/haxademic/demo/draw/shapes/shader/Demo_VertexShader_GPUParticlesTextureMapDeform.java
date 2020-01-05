@@ -77,7 +77,7 @@ extends PAppletHax {
 		background(0);
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		// update displacement texture
 		// perlin.update(0.15f, 0.05f, p.frameCount/ 10f, 0);
 		audioTexture.update();

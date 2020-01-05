@@ -107,7 +107,7 @@ implements ISpeechRecognizer {
 		colors.put("black", "#000000");
     }
 	
-	public void firstFrame() {
+	protected void firstFrame() {
 		Demo_SpeechRecognitionColors thiss = this;
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -118,7 +118,7 @@ implements ISpeechRecognizer {
       });
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		color.update();
 		p.background(color.colorInt());
 		if(curColor != null) {

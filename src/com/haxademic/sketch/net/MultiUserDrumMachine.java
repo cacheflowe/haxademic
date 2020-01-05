@@ -27,7 +27,7 @@ extends PAppletHax {
 		Config.setProperty(AppSettings.FPS, 90);
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 	
 		buildWebServer();
 		loadAudio();
@@ -42,7 +42,7 @@ extends PAppletHax {
 		hatLane = new StepInstrument("audio/kit808/hi-hat.wav");
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		background(0);
 		// if(p.frameCount == 200) SystemUtil.openWebPage("http://localhost:8080/web-server-demo/index.html");
 		// draw slider val

@@ -25,7 +25,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, 830);
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 
 		p.background(0);
 		forceGraph = new ForceDirectedLayout(100, 100, 600, 600, 140, 3);
@@ -34,7 +34,7 @@ extends PAppletHax {
 		forceGraph.setKFactor(0.9f);
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		PG.fadeToBlack(p.g, 10f);
 		p.fill(200);
 		p.noStroke();

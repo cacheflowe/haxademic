@@ -32,7 +32,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.RENDERING_GIF_STOP_FRAME, ""+Math.round(_frames + _frames*3) );
 	}
 	
-	public void firstFrame() {
+	protected void firstFrame() {
 
 		
 		_texture = p.createGraphics( p.width, p.height, P.P3D );
@@ -44,7 +44,7 @@ extends PAppletHax {
 		_logo = p.loadShape(FileUtil.haxademicDataPath()+"svg/ello-filled.svg");
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(255);
 
 		float percentComplete = ((float)(p.frameCount%_frames)/_frames);

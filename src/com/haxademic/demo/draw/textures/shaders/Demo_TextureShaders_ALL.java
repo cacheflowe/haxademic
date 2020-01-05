@@ -23,7 +23,7 @@ extends PAppletHax { public static void main(String args[]) { arguments = args; 
 		Config.setProperty( AppSettings.FULLSCREEN, false );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		textures = new TextureShader[] {
 			new TextureShader(TextureShader.basic_checker),
 			new TextureShader(TextureShader.basic_diagonal_stripes),
@@ -138,7 +138,7 @@ extends PAppletHax { public static void main(String args[]) { arguments = args; 
 
 
 
-	public void drawApp() {
+	protected void drawApp() {
 		// cycle
 		if(triggerPrev.triggered()) textureIndex = (textureIndex > 0) ? textureIndex - 1 : textures.length - 1;
 		if(triggerNext.triggered()) textureIndex = (textureIndex < textures.length - 1) ? textureIndex + 1 : 0;

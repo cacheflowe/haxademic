@@ -99,13 +99,13 @@ extends PAppletHax {
 	// * Remove extra filling-in of depth data at the end of the room scan 	
 	// * Make all blob resolution numbers configurable 
 	
-	public void firstFrame() {
+	protected void firstFrame() {
 		DepthCamera.instance(DepthCameraType.KinectV1);
 		_videoPath = FileUtil.haxademicDataPath()+"video/ophelias/";
 		buildMenu();
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		
 		if(_playlistSelected == false) {
 			p.background(0);

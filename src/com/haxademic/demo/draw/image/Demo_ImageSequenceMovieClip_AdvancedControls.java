@@ -21,13 +21,13 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.SMOOTHING, AppSettings.SMOOTH_HIGH );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		
 		movie = new Movie( p, FileUtil.getPath("video/cacheflowe/render-2015-04-23-13-38-17-export.mp4"));
 		imageSequence = new ImageSequenceMovieClip(FileUtil.getPath("images/floaty-blob.anim/"), "png", 18);
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(255);
 		
 		if(p.frameCount == 100) {

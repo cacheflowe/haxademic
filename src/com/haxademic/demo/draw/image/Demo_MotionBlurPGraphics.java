@@ -22,7 +22,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.HEIGHT, "400" );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		_pg = p.createGraphics( p.width, p.height, P.P3D );
 		_pg.smooth(OpenGLUtil.SMOOTH_HIGH);
 		_pgMotionBlur = new MotionBlurPGraphics(20);
@@ -41,7 +41,7 @@ extends PAppletHax {
 		pg.endDraw();
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(0);
 		drawGraphics(_pg);
 		_pgMotionBlur.updateToCanvas(_pg, p.g, 1);

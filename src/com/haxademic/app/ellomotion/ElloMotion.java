@@ -57,7 +57,7 @@ extends PAppletHax {
 		Config.setProperty( "kinect_mirrored", "true" );		
 	}
 	
-	public void firstFrame() {
+	protected void firstFrame() {
 		DepthCamera.instance(DepthCameraType.KinectV1);
 		buildCanvas();
 		loadGalleryImages();
@@ -84,7 +84,7 @@ extends PAppletHax {
 		_galleryIndex = 0;
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		background(0);
 		newImageForNewPlayers();
 		_kinectLayer.updateWithImage(_galleryImages.get(_galleryIndex));

@@ -11,12 +11,12 @@ extends PAppletHax {
 
 	protected FloatBuffer buff;
 	
-	public void firstFrame() {
+	protected void firstFrame() {
 		
 		buff = new FloatBuffer(10);
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		buff.update((float)Math.sin(p.frameCount/20f) * 10f);
 		
 		P.println( 

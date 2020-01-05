@@ -30,7 +30,7 @@ implements IWebCamCallback {
 		Config.setProperty(AppSettings.SHOW_DEBUG, true );
 	}
 
-	public void firstFrame () {
+	protected void firstFrame () {
 		// build palette
 		imageGradient = new ImageGradient(ImageGradient.PASTELS());
 		imageGradient.addTexturesFromPath(ImageGradient.COOLORS_PATH);
@@ -54,7 +54,7 @@ implements IWebCamCallback {
 		}
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		// set up context
 		p.background( 0 );
 		PG.setDrawCenter(p);

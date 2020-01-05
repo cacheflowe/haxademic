@@ -38,7 +38,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.HEIGHT, "480" );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 
 
 		_scores = new ArrayList<Score>();
@@ -52,7 +52,7 @@ extends PAppletHax {
 		addScore( "FO3", "jonny.cat@dog.com", 33333, 9 );
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 	}
 
 	public void addScore( String initials, String email, int completeTime, int regionId ) {

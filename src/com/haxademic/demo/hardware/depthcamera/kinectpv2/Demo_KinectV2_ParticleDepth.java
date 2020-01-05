@@ -50,7 +50,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.SHOW_DEBUG, true );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		  kinect = new KinectPV2(this);
 
 		  kinect.enableDepthImg(true);
@@ -75,7 +75,7 @@ extends PAppletHax {
 		  endPGL();
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(0);
 		
 		  //draw the depth capture images

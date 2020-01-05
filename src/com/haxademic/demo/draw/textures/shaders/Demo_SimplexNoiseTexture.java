@@ -27,7 +27,7 @@ extends PAppletHax {
 		noiseTexture.update(0.07f, 0, 0, 0);
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		background(0);
 		
 		// update perlin texture

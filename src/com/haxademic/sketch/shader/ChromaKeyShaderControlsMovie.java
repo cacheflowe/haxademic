@@ -38,7 +38,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, 1000 );
 	}
 	
-	public void firstFrame() {
+	protected void firstFrame() {
 
 
 		underlay = new TextureShaderTimeStepper( p.width, p.height, "basic-checker.glsl" );
@@ -61,7 +61,7 @@ extends PAppletHax {
 		UI.addSlider(colorToReplaceB, 0.02f, 0, 1, 0.01f, false);
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		
 		
 //		PG.feedback(p.g, p.color(255), 0.05f, 6f);

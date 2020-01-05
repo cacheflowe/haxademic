@@ -37,7 +37,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.FPS, "30" );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 
 		p.smooth(OpenGLUtil.SMOOTH_HIGH);
 
@@ -48,7 +48,7 @@ extends PAppletHax {
 	}
 
 
-	public void drawApp() {
+	protected void drawApp() {
 		JoonsWrapper joons = Renderer.instance().joons;
 //		p.background(0);
 //		p.lights();

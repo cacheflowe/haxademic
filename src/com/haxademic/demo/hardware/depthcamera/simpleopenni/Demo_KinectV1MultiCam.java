@@ -25,7 +25,7 @@ extends PAppletHax {
 		Config.setProperty(AppSettings.SHOW_DEBUG, true );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		// init the cameras
 		cam1 = new SimpleOpenNI( p, SimpleOpenNI.RUN_MODE_MULTI_THREADED );
 		cam2 = new SimpleOpenNI( SimpleOpenNI.RUN_MODE_MULTI_THREADED, p, 1);
@@ -43,7 +43,7 @@ extends PAppletHax {
 
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		// update all cams
 		// SimpleOpenNI.updateAll();
 		update();

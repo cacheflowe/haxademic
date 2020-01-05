@@ -38,7 +38,7 @@ extends PAppletHax {
 		if(p.key == 'b') drawBuffer = !drawBuffer;
 	}
 	
-	public void firstFrame() {
+	protected void firstFrame() {
 		buffer = p.createGraphics(p.width, p.height, PRenderers.P2D);
 	}
 
@@ -59,7 +59,7 @@ extends PAppletHax {
 		P.println(blendSrcIndex, ", ", blendDestIndex, ", ", blendEquationIndex);
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		DebugView.setValue("mouseControlled", mouseControlled);
 		DebugView.setValue("drawBuffer", drawBuffer);
 		

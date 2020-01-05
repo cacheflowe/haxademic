@@ -34,7 +34,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.HEIGHT, 800 );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		shape = DemoAssets.objHumanoid();
 		PShapeUtil.centerShape(shape);
 		PShapeUtil.scaleShapeToHeight(shape, p.displayHeight * 0.8f);
@@ -52,7 +52,7 @@ extends PAppletHax {
 		}
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		background(0);
 		
 		// setup lights

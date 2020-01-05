@@ -250,7 +250,7 @@ extends PAppletHax
 	// MAIN DRAW LOOP
 	/////////////////////////////////////////////////////////////
 
-	public void drawApp() {
+	protected void drawApp() {
 		// auto cycle slides
 		if(p.frameCount % STRESS_INTERVAL == 0 && stressTesting == true) if(!waitingForAutoAdvance()) nextSlide();
 

@@ -19,7 +19,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.HEIGHT, 640 );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		colorHaxEasing = new EasingColor("#00ff00", 10);
 		colorHaxEasing = new EasingColor(0x00ff00, 10);
 		colorHaxEasing = new EasingColor("#ff00ff00", 10);
@@ -27,7 +27,7 @@ extends PAppletHax {
 		colorHaxEasing = new EasingColor(0, 255, 0);
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		colorHaxEasing.setEaseFactor(Mouse.xNorm);
 		colorHaxEasing.update();
 		p.background(0);

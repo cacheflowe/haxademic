@@ -23,7 +23,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.HEIGHT, "120" );
 	}
 		
-	public void firstFrame() {
+	protected void firstFrame() {
 		_texture = P.p.createGraphics( 520, 120, P.P3D );
 		_texture.smooth(OpenGLUtil.SMOOTH_HIGH);
 		_texture.beginDraw();
@@ -31,7 +31,7 @@ extends PAppletHax {
 		_texture.endDraw();
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(0);
 
 		// texture feedback

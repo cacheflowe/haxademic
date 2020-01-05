@@ -28,7 +28,7 @@ implements ISocketClientDelegate {
 		Config.setProperty(AppSettings.SHOW_DEBUG, true);
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 	
 		buildSocketServer();
 		SystemUtil.openWebPage("http://localhost/haxademic/www/web-socket-demo/");
@@ -44,7 +44,7 @@ implements ISocketClientDelegate {
 		}
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		background(0);
 		p.fill(255);
 		// send a simple message to clients

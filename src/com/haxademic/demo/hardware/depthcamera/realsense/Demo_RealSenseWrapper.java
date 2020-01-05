@@ -21,7 +21,7 @@ extends PAppletHax {
 		realSenseWrapper = new RealSenseWrapper(p, false, true);
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(0);
 		realSenseWrapper.update();
 		p.image(realSenseWrapper.getRgbImage(), 0, 0);

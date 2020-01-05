@@ -30,7 +30,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.HEIGHT, 640 );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 
 	}
 
@@ -113,7 +113,7 @@ extends PAppletHax {
 		}
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		background(0);
 		if(p.frameCount == 1) {
 			printSerialDevices();

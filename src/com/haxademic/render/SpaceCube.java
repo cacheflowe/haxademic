@@ -42,7 +42,7 @@ extends PAppletHax {
 	protected void firstFrame() {
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		// set context
 		pg.beginDraw();
 		pg.background(10, 0, 5);

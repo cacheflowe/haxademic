@@ -89,7 +89,7 @@ extends PAppletHax {
 		buildMoons();
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		background(0);
 		p.noiseSeed(1008);
 		

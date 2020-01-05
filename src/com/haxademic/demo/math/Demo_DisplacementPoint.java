@@ -28,7 +28,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.SHOW_UI, true);
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		// lay out grid
 		float spacing = 40;
 		float startX = p.width / 2 - (cols / 2) * spacing + spacing/2;
@@ -55,7 +55,7 @@ extends PAppletHax {
 	protected void autoHideMouse() {
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		p.noCursor();
 		// set up context
 		background(0);

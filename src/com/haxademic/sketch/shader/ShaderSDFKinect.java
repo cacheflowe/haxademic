@@ -29,7 +29,7 @@ extends PAppletHax {
 	protected KinectRegionGrid _kinectGrid;
 
 	
-	public void firstFrame() {
+	protected void firstFrame() {
 		DepthCamera.instance(DepthCameraType.KinectV1);
 
 		_bg = p.createGraphics(p.width, p.height, P.P2D);
@@ -38,7 +38,7 @@ extends PAppletHax {
 		sdfShader = loadShader( FileUtil.getPath("haxademic/shaders/textures/sdf-01.glsl") ); 
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		background(0);
 		
 		PG.setColorForPImage( p );

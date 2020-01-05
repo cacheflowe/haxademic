@@ -16,11 +16,11 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.HEIGHT, 182 );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		if(p.frameCount % 200 < 100) {
 			p.background(Integer.decode("0x" + "f6eb0f"));
 			p.background(Color.decode("#f6eb0f").getRGB());

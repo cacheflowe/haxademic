@@ -67,7 +67,7 @@ implements IWebCamCallback {
 		DebugView.setTexture("differenceBuffer", bufferFrameDifference.differenceBuffer());
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(0);
 		
 		// update shader & draw mesh

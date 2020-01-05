@@ -46,7 +46,7 @@ import com.haxademic.core.app.config.Config;
 //		Config.setProperty( AppSettings.SHOW_SLIDERS, true );
 //	}
 //
-//	public void firstFrame() {
+//	protected void firstFrame() {
 //		List<String> driverNameList = AsioDriver.getDriverNames();
 //
 //		AsioDriver asioDriver = AsioDriver.getDriver(driverNameList.get(0));
@@ -126,7 +126,7 @@ import com.haxademic.core.app.config.Config;
 //		asioDriver.shutdownAndUnloadDriver();
 //	}
 //
-//	public void drawApp() {
+//	protected void drawApp() {
 //		p.background(0);
 //		
 //		// set font

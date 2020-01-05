@@ -28,7 +28,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.HEIGHT, 640 );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		shape = DemoAssets.shapeX().getTessellation();
 		shape.disableStyle();
 		PShapeUtil.centerShape(shape);
@@ -43,7 +43,7 @@ extends PAppletHax {
 		});
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		background(255);
 		
 		// update drawing

@@ -22,7 +22,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.HEIGHT, 1000 );
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		if(p.frameCount == 1) {
 			p.beginRecord(PDF, FileUtil.haxademicOutputPath() + "pdf/outputt.pdf");
 			p.background( 255 );

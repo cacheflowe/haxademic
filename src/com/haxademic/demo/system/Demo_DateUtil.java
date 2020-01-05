@@ -14,7 +14,7 @@ public class Demo_DateUtil
 extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(0);
 		
 		// set font

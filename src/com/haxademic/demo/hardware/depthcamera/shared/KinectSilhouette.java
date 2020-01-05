@@ -64,7 +64,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.FULLSCREEN, "false" );
 	}
 	
-	public void firstFrame() {
+	protected void firstFrame() {
 		Config.setProperty(AppSettings.DEPTH_CAM_RGB_ACTIVE, false);
 		DepthCamera.instance(DepthCameraType.Realsense);
 		
@@ -91,7 +91,7 @@ extends PAppletHax {
 		theBlobDetection.setThreshold(0.5f); // will detect bright areas whose luminosity > threshold
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(0);
 		drawKinect();
 		runBlobDetection( _kinectPixelated );

@@ -68,7 +68,7 @@ extends PAppletHax {
 		feedbackShader = loadShader(FileUtil.getPath("haxademic/shaders/filters/feedback-radial-fattener-render.glsl"));
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		
 		// draw shape to buffer
 		buffer.beginDraw();

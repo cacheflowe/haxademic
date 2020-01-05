@@ -17,13 +17,13 @@ extends PAppletHax {
 	protected StringBufferLog logOut = new StringBufferLog(10);
 	protected StringBufferLog logIn = new StringBufferLog(10);
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		udp = new UDP(this, portLocal);
 		udp.log(true);
 		udp.listen(true);
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		background(0);
 		// should only be one
 		logOut.printToScreen(p.g, 20, 20);

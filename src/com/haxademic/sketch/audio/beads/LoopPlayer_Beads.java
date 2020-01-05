@@ -25,7 +25,7 @@ extends PAppletHax { public static void main(String args[]) { arguments = args; 
 		//	Config.setProperty( AppSettings.WIDTH, 800 );
 	}
 
-	public void firstFrame2() {
+	protected void firstFrame2() {
 		  ac = new AudioContext();
 		  Gain g = new Gain(ac, 2, 0.4f);
 		  g.addInput(ac.getAudioInput());
@@ -46,7 +46,7 @@ extends PAppletHax { public static void main(String args[]) { arguments = args; 
 		  ac.start();
 	}
 		  
-	public void firstFrame() {
+	protected void firstFrame() {
 		  ac = new AudioContext();
 		  ShortFrameSegmenter sfs = new ShortFrameSegmenter(ac);
 		  FFT fft = new FFT();
@@ -90,7 +90,7 @@ extends PAppletHax { public static void main(String args[]) { arguments = args; 
 	
 	
 	
-	public void drawApp() {
+	protected void drawApp() {
 		background(0);
 		stroke(255, 102, 204);
 		

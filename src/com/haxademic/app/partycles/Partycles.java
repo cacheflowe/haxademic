@@ -107,7 +107,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.SHOW_DEBUG, false );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		DepthCamera.instance(DepthCameraType.KinectV2);
 		AudioIn.instance();
 		// main buffer
@@ -168,7 +168,7 @@ extends PAppletHax {
 		DebugView.setHelpLine("[D]", "Keystone test pattern");
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		// set up context
 		p.background(0);
 		if(dmxMode) updateDMX();

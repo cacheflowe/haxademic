@@ -49,7 +49,7 @@ extends PAppletHax {
 
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		AudioIn.instance(AudioInputLibrary.Minim);
 		
 		// create dynamic deformation texture
@@ -72,7 +72,7 @@ extends PAppletHax {
 		
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		background(0);
 
 		// rendering

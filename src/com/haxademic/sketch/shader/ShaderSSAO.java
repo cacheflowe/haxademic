@@ -67,7 +67,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.SHOW_UI, true );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		UI.addSlider(onlyAO, 0, 0, 1, 1, false);
 		UI.addSlider(aoClamp, 1.5f, -5f, 5f, 0.01f, false);
 		UI.addSlider(lumInfluence, 0.2f, -5f, 5f, 0.01f, false);
@@ -105,7 +105,7 @@ extends PAppletHax {
 		ssaoShader.set("tDepth", depth );
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		background(0);
 		
 		depthShader.set("near", UI.value(cameraNear));

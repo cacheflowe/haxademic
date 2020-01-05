@@ -26,13 +26,13 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.SHOW_DEBUG, true );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		for (int i = 0; i < 10000; i++) {
 			partis.add(new Parti());
 		}
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		// fade background
 		PG.setDrawCorner(p);
 		p.fill(110,70,215,40);

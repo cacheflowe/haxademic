@@ -18,12 +18,12 @@ implements IWebCamCallback {
 
 	protected PGraphics rotatedBuffer;
 	
-	public void firstFrame () {
+	protected void firstFrame () {
 		WebCam.instance().setDelegate(this);
 		rotatedBuffer = PG.newPG(360, 640);
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		// is the webcam loaded?
 		boolean webcamIsGood = (WebCam.instance().image().width > 32);
 		p.background((webcamIsGood) ? 50 : p.color(255,0,0));

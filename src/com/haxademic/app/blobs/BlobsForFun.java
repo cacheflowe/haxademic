@@ -107,7 +107,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, (int)_frames + 1 );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		p.noStroke();
 		p.noiseSeed(noiseSeed);
 		OpenGLUtil.setQuality(p.g, OpenGLUtil.GL_QUALITY_HIGH);
@@ -217,7 +217,7 @@ extends PAppletHax {
 		return new PShapeSolid(group);
 	}	
 
-	public void drawApp() {
+	protected void drawApp() {
 		if(p.frameCount == 1) initObjects();
 		p.background(0);
 		

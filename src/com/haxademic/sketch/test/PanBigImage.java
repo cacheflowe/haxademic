@@ -41,7 +41,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.SMOOTHING, AppSettings.SMOOTH_NONE );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		MidiDevice.init(0,  0);
 	}
 
@@ -59,7 +59,7 @@ extends PAppletHax {
 		transitionShader = p.loadShader(FileUtil.getPath("haxademic/shaders/transitions/warp-fade.glsl"));
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		if(p.frameCount == 1) initApp();
 		p.background(0);
 		

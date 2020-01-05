@@ -41,7 +41,7 @@ extends PAppletHax {
 		Config.setProperty(AppSettings.SHOW_UI, true);
 	}
 	
-	public void firstFrame() {
+	protected void firstFrame() {
 		DepthCamera.instance(DepthCameraType.KinectV1);
 		
 		UI.addSlider(kinectLeft, -0.08f, -1.0f, 1.0f, 0.01f, false);
@@ -55,7 +55,7 @@ extends PAppletHax {
 		obj = Shapes.createSheet(200, tex);
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		IDepthCamera depthCamera = DepthCamera.instance().camera;
 
 		background(0);

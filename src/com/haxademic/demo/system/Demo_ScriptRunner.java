@@ -13,7 +13,7 @@ implements IScriptCallback {
 
 	protected ScriptRunner scriptRunner;
 	
-	public void firstFrame() {
+	protected void firstFrame() {
 //		scriptRunner = new ScriptRunner("image-sequence-to-video", this);
 //		scriptRunner.runWithParams(FileUtil.getFile("haxademic/images/floaty-blob.anim"));
 		
@@ -21,7 +21,7 @@ implements IScriptCallback {
 		scriptRunner.runWithParams(FileUtil.getPath("audio/drums/bass.wav"), 0);
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		p.background((float)mouseX/width * 255,(float)mouseY/height * 255,0);
 	}
 	

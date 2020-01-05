@@ -69,7 +69,7 @@ extends PAppletHax {
 		video.play();
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		background(0);
 		
 			if(videoLength == 0) {

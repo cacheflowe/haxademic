@@ -44,7 +44,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.HEIGHT, 400 );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		buildState();
 		buildSteps();
 	}
@@ -76,7 +76,7 @@ extends PAppletHax {
 		AppStore.instance().setNumber(Demo_WavPlayer_bpmInterval.PROGRESS, playheadProgress);
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		updateTiming();
 		p.background(0);
 		AppStore.instance().setNumber(Demo_WavPlayer_bpmInterval.DRAW, p.frameCount);

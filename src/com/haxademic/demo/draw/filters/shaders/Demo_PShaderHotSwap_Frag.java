@@ -13,13 +13,13 @@ extends PAppletHax {
 
 	protected PShaderHotSwap shader;
 	
-	public void firstFrame() {
+	protected void firstFrame() {
 //		shader = new PShaderHotSwap(FileUtil.getFile("haxademic/shaders/textures/cacheflowe-triangle-wobble-stairs.glsl"));	
 		shader = new PShaderHotSwap(FileUtil.getPath("haxademic/shaders/textures/truchet-tooth.glsl"));	
 //		shader = new PShaderHotSwap(FileUtil.getFile("haxademic/shaders/textures/cacheflowe-stripe-waves.glsl"));	
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		if(p.frameCount == 1) PG.setTextureRepeat(p.g, true);
 		p.background(0);
 		shader.update();

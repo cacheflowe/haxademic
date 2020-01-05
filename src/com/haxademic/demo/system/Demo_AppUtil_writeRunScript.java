@@ -7,13 +7,13 @@ public class Demo_AppUtil_writeRunScript
 extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
-	public void firstFrame() {
+	protected void firstFrame() {
 
 		// Don't include run script file extension - platform detection inside will do that
 		AppUtil.writeRunScript("scripts/write-test-run");	
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(0);
 	}
 

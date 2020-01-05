@@ -15,12 +15,12 @@ extends PAppletHax {
 
 	RFont font;
 
-	public void firstFrame() {
+	protected void firstFrame() {
 	    RG.init(this);
 	    font = new RFont( FileUtil.getPath("haxademic/fonts/bitlow.ttf"), 72, RFont.CENTER);
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 	    background(255);
 	    translate(width/2,height/2);
 

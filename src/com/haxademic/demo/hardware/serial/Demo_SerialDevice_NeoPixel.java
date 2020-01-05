@@ -34,14 +34,14 @@ implements ISerialDeviceDelegate {
 		Config.setProperty( AppSettings.HEIGHT, 640 );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		SerialDevice.printDevices();
 		serialDevice = new SerialDevice(this, 0, 57600); 
 		
 		noiseTexture = new SimplexNoiseTexture(p.width, p.height);
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		background(0);
 		updateLedLights();
 	}

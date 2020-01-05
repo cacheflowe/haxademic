@@ -34,7 +34,7 @@ extends PAppletHax {
 		PShapeUtil.scaleShapeToHeight(svg, p.height * 0.6f);
 	}
 
-	public void drawApp() {		
+	protected void drawApp() {		
 		background(0);
 		
 		// rotate

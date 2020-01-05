@@ -16,7 +16,7 @@ extends PAppletHax {
 	protected int randGray = 0;
 	protected ActionListener callback;
 	
-	public void firstFrame() {
+	protected void firstFrame() {
 
 		buildCallbacks();
 	}
@@ -35,7 +35,7 @@ extends PAppletHax {
 		SystemUtil.setTimeout(callback, 1000);
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(randGray);
 	}
 }

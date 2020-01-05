@@ -22,7 +22,7 @@ extends PAppletHax {
 		perlinShader = p.loadShader(FileUtil.getPath("haxademic/shaders/textures/noise-simplex-2d-iq.glsl"));
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		background(0);
 		
 		// update perlin texture

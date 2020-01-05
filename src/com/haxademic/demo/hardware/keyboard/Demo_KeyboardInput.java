@@ -21,7 +21,7 @@ extends PAppletHax {
 		P.println("key:", p.key, "keyCode:", p.keyCode);
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(0);
 		p.text("key: " + p.key + " keyCode: " + p.keyCode, 20, 20);
 	}

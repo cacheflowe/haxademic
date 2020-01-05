@@ -26,16 +26,16 @@ extends PAppletHax {
 	
 	public LeapMotion leapMotion = null;
 
-	public void config() {
+	protected void config() {
 		Config.setAppSize(1280, 720);
 		Config.setProperty(AppSettings.SHOW_DEBUG, true);
 	}
 	
-	public void firstFrame() {
+	protected void firstFrame() {
 		leapMotion = new LeapMotion(this).allowGestures("SWIPE,CIRCLE,SCREEN_TAP,KEY_TAP").allowImages().allowHdm();
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 	    background(255);
 	    DebugView.setValue("LeapMotion FPS", leapMotion.getFrameRate());
 		DebugView.setValue("leapMotion.getHands()", leapMotion.getHands().size());

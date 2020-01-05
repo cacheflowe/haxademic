@@ -27,7 +27,7 @@ extends PAppletHax {
 		// Config.setProperty( AppSettings.WIDTH, "1200" );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 
 
 		height3 = height/3;
@@ -52,7 +52,7 @@ extends PAppletHax {
 	}
 
 
-	public void drawApp() {
+	protected void drawApp() {
 		background(0);
 		stroke(255);
 

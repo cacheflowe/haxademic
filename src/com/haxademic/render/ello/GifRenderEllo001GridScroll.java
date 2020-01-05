@@ -29,7 +29,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.RENDERING_MOVIE, "false" );
 	}
 	
-	public void firstFrame() {
+	protected void firstFrame() {
 
 		p.smooth(OpenGLUtil.SMOOTH_HIGH);
 		_logo = p.loadShape(FileUtil.haxademicDataPath()+"svg/ello.svg");
@@ -55,7 +55,7 @@ extends PAppletHax {
 		}
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 //		if(p.frameCount % 2 == 0) {
 //			p.background(0);
 //		} else {

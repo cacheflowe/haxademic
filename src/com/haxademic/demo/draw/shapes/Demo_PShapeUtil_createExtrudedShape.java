@@ -26,7 +26,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.HEIGHT, 900 );
 	}
 	
-	public void firstFrame() {
+	protected void firstFrame() {
 
 		
 		shapes = new ArrayList<PShape>();
@@ -60,7 +60,7 @@ extends PAppletHax {
 		}
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(0);
 		PG.setBetterLights(p);
 

@@ -22,7 +22,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.RETINA, false );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 
 		
 		PImage[] images = new PImage[] {
@@ -34,7 +34,7 @@ extends PAppletHax {
 		imageCycler = new ImageCyclerBuffer(640, 280, images, 300, 0.5f);
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(0);
 		
 

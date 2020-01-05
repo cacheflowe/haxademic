@@ -36,7 +36,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.HEIGHT, 800 );
 	}
 	
-	public void firstFrame() {
+	protected void firstFrame() {
 		// load movie
 		if(videoMap) {
 			testMovie = DemoAssets.movieKinectSilhouette();
@@ -64,7 +64,7 @@ extends PAppletHax {
 	}
 
 	
-	public void drawApp() {
+	protected void drawApp() {
 		background(0);
 		
 		// update map

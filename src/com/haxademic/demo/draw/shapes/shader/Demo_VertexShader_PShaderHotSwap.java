@@ -47,7 +47,7 @@ extends PAppletHax {
 		PShapeUtil.scaleShapeToHeight(icosa, p.height * 0.5f);
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		// set context
 		pg.beginDraw();
 		pg.background(0);

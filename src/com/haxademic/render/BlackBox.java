@@ -30,14 +30,14 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, (int)_frames + 1 );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 
 		noStroke();
 		texture = p.createGraphics(p.width, p.height, P.P3D);
 		logo = p.loadImage(FileUtil.getPath("images/the-black-box-white.png"));
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(0);
 		p.translate(width/2, height/2, 0);
 		PG.setBetterLights(p);

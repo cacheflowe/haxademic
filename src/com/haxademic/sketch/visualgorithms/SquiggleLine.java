@@ -21,12 +21,12 @@ extends PAppletHax {
 	}
 
 
-	public void firstFrame() {
+	protected void firstFrame() {
 	
 		_squiggle = new Squiggle(5, 50f, 20, 400, 5, p.color(0,255,0) );
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		background(0);
 		_squiggle.update();
 	}

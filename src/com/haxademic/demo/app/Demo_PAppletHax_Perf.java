@@ -16,7 +16,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.SHOW_FPS_IN_TITLE, false );
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		background(0);
 	}
 

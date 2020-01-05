@@ -50,7 +50,7 @@ extends PAppletHax {
 		colorStops[1].setTargetHex(hex2);
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		background(0);
 
 		// change colors

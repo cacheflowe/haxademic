@@ -24,7 +24,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.RENDERING_MOVIE, "false" );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		//point array
 		points = new Point3d[] {
 				new Point3d (0.0, 0.0, 0.0),
@@ -49,7 +49,7 @@ extends PAppletHax {
 
 	}  
 
-	public void drawApp() {
+	protected void drawApp() {
 		PG.setBetterLights(p);
 		background(0);
 		fill(255);

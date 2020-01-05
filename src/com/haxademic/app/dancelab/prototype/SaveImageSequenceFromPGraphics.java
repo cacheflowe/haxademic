@@ -41,7 +41,7 @@ extends PAppletHax {
 	}
 
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		buffer = p.createGraphics(p.width, p.height, P.P2D);
 		copyImg = p.createImage(buffer.width, buffer.height, P.RGB);
 
@@ -65,7 +65,7 @@ extends PAppletHax {
 		// .tga = 13109ms rendering  | 896mb
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(0);
 		
 		buffer.beginDraw();

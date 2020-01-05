@@ -27,7 +27,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.HEIGHT, 1000 );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		mask = PG.newPG(p.width, p.height);
 		maskInverse = PG.newPG(p.width, p.height);
 		image1 = PG.newPG(p.width, p.height);
@@ -42,7 +42,7 @@ extends PAppletHax {
 		svgMask.disableStyle();
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(0);
 		
 		// draw mask buffer

@@ -92,7 +92,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, (int)_frames + 1 );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		p.noStroke();
 		p.noiseSeed(noiseSeed);
 		buildSSAO();
@@ -199,7 +199,7 @@ extends PAppletHax {
 //	}
 	
 
-	public void drawApp() {
+	protected void drawApp() {
 		if(p.frameCount == 1) initObjects();
 		p.background(0);
 //		PG.setDrawCenter(p);

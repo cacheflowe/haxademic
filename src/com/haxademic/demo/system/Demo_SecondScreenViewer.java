@@ -10,11 +10,11 @@ extends PAppletHax {
 
 	protected SecondScreenViewer appViewerWindow;
 	
-	public void firstFrame() {
+	protected void firstFrame() {
 		appViewerWindow = new SecondScreenViewer(p.g, 0.5f);
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		PG.setDrawCenter(p);
 		p.background((float)mouseX/width * 255,(float)mouseY/height * 255,0);
 		p.fill(255);

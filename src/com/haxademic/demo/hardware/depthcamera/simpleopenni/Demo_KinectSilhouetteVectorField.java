@@ -37,13 +37,13 @@ extends PAppletHax {
 		Config.setProperty( "kinect_blob_bg_int", "80" );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		DepthCamera.instance(DepthCameraType.KinectV1);
 //		_silhouette = new KinectSilhouetteBasic(false, true);
 		_silhouette = new KinectSilhouetteVectorField(false, true);
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(0);
 		boolean clearsCanvas = false; // adds feedback or not
 		_silhouette.update(clearsCanvas);

@@ -22,7 +22,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.HEIGHT, 800 );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 
 		
 		points = new ArrayList<PVector>();
@@ -63,7 +63,7 @@ extends PAppletHax {
 
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(0);
 		p.lights();
 		p.translate(p.width/2, p.height/2, -200);

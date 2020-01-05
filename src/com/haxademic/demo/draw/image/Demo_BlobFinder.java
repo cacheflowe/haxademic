@@ -37,7 +37,7 @@ implements IWebCamCallback {
 		Config.setProperty(AppSettings.HEIGHT, webcamH);
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 
 		
 		// setup webcam
@@ -64,7 +64,7 @@ implements IWebCamCallback {
 		BlendTowardsTexture.instance(p).applyTo(webcamBufferLerped);
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		background(255);
 //		p.image(webcamBufferLerped, 0, 0);
 		p.image(blobFinder.blobOutputBuffer(), 0, 0);

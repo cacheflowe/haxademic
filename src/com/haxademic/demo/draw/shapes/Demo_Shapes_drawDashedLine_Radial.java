@@ -25,7 +25,7 @@ extends PAppletHax {
 
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(0);
 		p.stroke(255);
 		p.strokeWeight(8f);

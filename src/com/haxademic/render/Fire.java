@@ -71,7 +71,7 @@ extends PAppletHax {
 		Config.setProperty(AppSettings.RENDERING_MOVIE_STOP_FRAME, 1 + FRAMES * 3);
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		// init buffers
 		int smallW = P.round(pg.width * 0.25f);
 		int smallH = P.round(pg.height * 0.25f);
@@ -108,7 +108,7 @@ extends PAppletHax {
 
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		// set up context
 		background(0);
 		PG.setDrawCorner(p);

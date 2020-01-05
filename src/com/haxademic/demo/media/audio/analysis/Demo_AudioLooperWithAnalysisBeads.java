@@ -20,7 +20,7 @@ extends PAppletHax { public static void main(String args[]) { arguments = args; 
 		Config.setProperty(AppSettings.HEIGHT, 600);
 	}
 	
-	public void firstFrame() {
+	protected void firstFrame() {
 		ac = new AudioContext();
 		ac.start();
 	
@@ -45,7 +45,7 @@ extends PAppletHax { public static void main(String args[]) { arguments = args; 
 		}
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		background(0);
 		stroke(255);
 		

@@ -27,12 +27,12 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, Math.round(_frames + _frames*4) );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		_boxSize = 200;
 		_boxRot.set(0,0,0);
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		// make changes on tick
 		if(FrameLoop.isTick()) {
 			if(FrameLoop.curTick() == 14) {

@@ -33,7 +33,7 @@ extends PAppletHax {
 //	    OpenGL32Util.pGraphics2dToTexture32(buffer8, texture32);
 //	}
 //
-//	public void drawApp() {
+//	protected void drawApp() {
 //		// update noise
 //		noiseTexture.updateTime();
 ////		noiseTexture.shader().set("offset", 0f, p.frameCount * 0.004f);

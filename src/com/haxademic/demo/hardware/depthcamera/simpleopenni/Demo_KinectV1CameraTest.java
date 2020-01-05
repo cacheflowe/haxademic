@@ -18,11 +18,11 @@ extends PAppletHax {
 		Config.setProperty(AppSettings.SHOW_DEBUG, true );
 	}
 	
-	public void firstFrame() {
+	protected void firstFrame() {
 		DepthCamera.instance(DepthCameraType.KinectV1);
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		IDepthCamera depthCamera = DepthCamera.instance().camera;
 		p.image(depthCamera.getRgbImage(), 0, 0);
 		p.image(depthCamera.getDepthImage(), 640, 0);

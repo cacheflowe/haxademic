@@ -36,7 +36,7 @@ extends PAppletHax {
 		Config.setProperty(AppSettings.SHOW_DEBUG, true);
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		img = DemoAssets.textureNebula();
 //		img = p.loadImage(FileUtil.getFile("images/textures/space/eagle-nebula-pillars-of-creation.jpg"));
 		mouseBuffer = p.createGraphics(p.width, p.height, PRenderers.P3D);
@@ -54,7 +54,7 @@ extends PAppletHax {
 		BlurProcessingFilter.instance(p).applyTo(buffer);
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		background(0);
 		
 		// update mouse shader

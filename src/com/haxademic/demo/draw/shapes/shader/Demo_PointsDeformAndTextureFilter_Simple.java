@@ -42,7 +42,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.RENDERING_MOVIE, false );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		// noise texture
 		noiseBuffer = p.createGraphics(p.width, p.height, PRenderers.P2D);
 		noiseTexture = new TextureShader(TextureShader.noise_simplex_2d_iq, 0.0005f);
@@ -71,7 +71,7 @@ extends PAppletHax {
 		objExtent = PShapeUtil.getMaxExtent(shape);
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		// update displacement texture
 		noiseTexture.shader().set("zoom", 2.5f + 1.5f * P.sin(FrameLoop.progressRads()));
 		noiseTexture.shader().set("rotation", FrameLoop.progressRads());

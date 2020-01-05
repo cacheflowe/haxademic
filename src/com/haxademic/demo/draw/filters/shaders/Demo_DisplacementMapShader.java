@@ -23,14 +23,14 @@ extends PAppletHax {
 	PShader texShader;
 	int mode = 0;
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		base = DemoAssets.textureJupiter();
 		mapSource = DemoAssets.textureNebula();
 		map = p.createGraphics(p.width, p.height, PRenderers.P3D);
 		texShader = loadShader(FileUtil.getPath("haxademic/shaders/filters/displacement-map.glsl"));
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		background(255);
 		
 		// rotate map for visibility

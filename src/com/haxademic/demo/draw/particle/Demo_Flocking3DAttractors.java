@@ -24,7 +24,7 @@ extends PAppletHax {
 	public ArrayList<MovingBox> boxes;
 	public ArrayList<Attractor> attractors;
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		initBoxes();
 	}
 	
@@ -48,7 +48,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.FILLS_SCREEN, "false" );
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		setupScene();
 
 		for( int i=0; i < attractors.size(); i++ ) {

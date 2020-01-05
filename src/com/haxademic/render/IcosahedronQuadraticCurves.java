@@ -37,7 +37,7 @@ extends PAppletHax {
 		PShapeUtil.scaleShapeToExtent(obj, p.height * 0.8f);
 	}
 
-	public void drawApp() {		
+	protected void drawApp() {		
 		background(0);
 		p.noFill();
 //		PG.setBetterLights(p);

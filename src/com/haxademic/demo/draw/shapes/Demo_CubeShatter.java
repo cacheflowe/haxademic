@@ -17,12 +17,12 @@ extends PAppletHax {
 	ArrayList<WETriangleMesh> meshes;
 	ToxiclibsSupport toxi;
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		toxi = new ToxiclibsSupport( p );
 		meshes = Voronoi3D.getShatteredBox( p, 200 );
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(0);
 		PG.setCenterScreen(p);
 		PG.setBetterLights(p.g);

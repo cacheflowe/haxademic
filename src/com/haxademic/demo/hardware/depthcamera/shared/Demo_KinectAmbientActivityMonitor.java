@@ -18,12 +18,12 @@ extends PAppletHax {
 		
 	protected KinectAmbientActivityMonitor kinectMonitor;
 	
-	public void firstFrame() {
+	protected void firstFrame() {
 		DepthCamera.instance(DepthCameraType.KinectV1);
 		kinectMonitor = new KinectAmbientActivityMonitor( PIXEL_SIZE, KINECT_CLOSE, KINECT_FAR );
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		IDepthCamera depthCamera = DepthCamera.instance().camera;
 
 		p.background(0);

@@ -1,8 +1,6 @@
 package com.haxademic.demo.media.video;
 
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.draw.image.ImageUtil;
-import com.haxademic.core.media.DemoAssets;
 import com.haxademic.core.media.video.MovieBuffer;
 
 public class Demo_MovieBuffer 
@@ -12,13 +10,19 @@ extends PAppletHax {
 	protected MovieBuffer movieBuffer;
 	
 	protected void firstFrame() {
-		movieBuffer = new MovieBuffer(DemoAssets.movieFractalCube());
+//		movieBuffer = new MovieBuffer(DemoAssets.movieFractalCube());
+//		movieBuffer = new MovieBuffer(FileUtil.getPath(DemoAssets.movieFractalCubePath));
+		movieBuffer = new MovieBuffer("D:\\workspace\\cobra-2020-pga-show-sculpture\\data\\video\\video-1.mp4");
 		movieBuffer.movie.loop();
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(0);
-		if(movieBuffer.buffer != null) ImageUtil.cropFillCopyImage(movieBuffer.buffer, p.g, false);
+		if(movieBuffer.buffer != null) {
+			// ImageUtil.cropFillCopyImage(movieBuffer.buffer, p.g, false);
+//			p.image(movieBuffer.buffer, 0, 0);
+			p.image(movieBuffer.movie, 0, 0);
+		}
 	}
 	
 }

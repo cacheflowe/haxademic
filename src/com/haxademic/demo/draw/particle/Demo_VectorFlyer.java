@@ -32,7 +32,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.HEIGHT, 800 );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		shape = Icosahedron.createIcosahedron(p.g, 4, null);
 //		shape = DemoAssets.objHumanoid();
 		PShapeUtil.scaleShapeToExtent(shape, p.displayHeight * 0.3f);
@@ -74,7 +74,7 @@ extends PAppletHax {
 		}
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		background(0);
 		
 		// setup lights

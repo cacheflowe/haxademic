@@ -28,7 +28,7 @@ extends PAppletHax {
 		Config.setProperty(AppSettings.HEIGHT, 540);
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		// Create buffer for DMXEditor color sampling
 		// Can be smaller, but should be same aspect ratio as pgUI
 		// - Buffer is treated as the same size as GUI, but scaled up for speed of sampling smaller texture
@@ -44,7 +44,7 @@ extends PAppletHax {
 		editor = new DMXEditor("COM4", 9600, DMXMode.SINGLE_CHANNEL, "text/dmx/dmx-lights-editor.txt", dmxUI, textureMap, floorplan);
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		// clear background
 		p.background(0);
 		// copy lights animation to DMXEditor buffer 

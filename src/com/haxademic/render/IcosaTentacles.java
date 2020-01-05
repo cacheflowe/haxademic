@@ -44,7 +44,7 @@ extends PAppletHax {
 		PShapeUtil.scaleShapeToHeight(obj, p.height * 0.8f);
 	}
 
-	public void drawApp() {		
+	protected void drawApp() {		
 		background(0);
 		p.noFill();
 //		p.ortho();

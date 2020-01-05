@@ -29,13 +29,13 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.RENDERING_GIF_STOP_FRAME, ""+Math.round(_frames*4 + 1) );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 	
 		_colorGradientCenter = new EasingColor("#000000", 20f);
 		_colorGradientOuter = new EasingColor("#000000", 20f);
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(0);
 
 		// rendering

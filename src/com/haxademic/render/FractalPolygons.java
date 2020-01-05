@@ -58,7 +58,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.RENDERING_GIF_STOP_FRAME, Math.round(_frames + 10) );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 
 		buildCanvas();
 	}
@@ -69,7 +69,7 @@ extends PAppletHax {
 		_pgMotionBlur = new MotionBlurPGraphics(6);
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(255);
 		_pg.beginDraw();
 		_pg.clear();

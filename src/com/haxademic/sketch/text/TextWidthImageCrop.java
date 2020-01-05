@@ -45,7 +45,7 @@ extends PAppletHax {
 		if(p.key == ' ') newWord();
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		background(0);
 		
 //		if(p.frameCount % 100 == 0 || p.frameCount == 1) newWord();

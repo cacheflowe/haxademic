@@ -32,7 +32,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.RENDERING_MOVIE, "false" );
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		background(0);
 		lights();
 		p.noStroke();

@@ -25,7 +25,7 @@ extends PApplet {
 	Matrix4x4 normalMap = new Matrix4x4().translateSelf(128,128,128).scaleSelf(127);
 	float[] m=new float[8];
 
-	public void firstFrame() {
+	protected void firstFrame() {
 	  size(1024,576, OPENGL);
 	  randomizeMesh();
 	}

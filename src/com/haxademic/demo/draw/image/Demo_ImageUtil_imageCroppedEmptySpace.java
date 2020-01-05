@@ -34,7 +34,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, 1 + FRAMES * 2 );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		// create buffer & font
 		textBuffer = p.createGraphics(p.width, p.height);	// NOTE: new version of Processing can't use `PRenderers.P3D` - leave it out
 		fontBig = DemoAssets.fontHelloDenver(200);
@@ -59,7 +59,7 @@ extends PAppletHax {
 		tiledImg = new TiledTexture(textCropped);
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		background(0);
 		PG.setCenterScreen(p);
 		

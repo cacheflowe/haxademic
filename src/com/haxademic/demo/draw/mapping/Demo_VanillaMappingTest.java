@@ -29,7 +29,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.FULLSCREEN, "true" );
 	}
 	
-	public void firstFrame() {
+	protected void firstFrame() {
 		AudioIn.instance();
 		
 		_shapes = new ArrayList<PShape>();
@@ -38,7 +38,7 @@ extends PAppletHax {
 		p.smooth(OpenGLUtil.SMOOTH_HIGH);
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(0);
 		
 		// draw already-drawn shapes

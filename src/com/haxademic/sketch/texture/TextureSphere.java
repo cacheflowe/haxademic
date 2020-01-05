@@ -22,13 +22,13 @@ extends PAppletHax {
 	float rotationSpeed = 0.02f; // the rotation speed
 
 
-	public void firstFrame() {
+	protected void firstFrame() {
 
 		String img = FileUtil.haxademicDataPath() + "images/ello-large-fill-squish.png";
 		earth = createIcosahedron(subdivisionLevel, img); // create the subdivided icosahedron PShape (see custom creation method) and put it in the global earth reference
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		background(255); // black background
 		perspective(PI/3.0f, (float) width/height, 0.1f, 1000000f); // perspective for close shapes
 		translate(width/2, height/2); // translate to center of the screen

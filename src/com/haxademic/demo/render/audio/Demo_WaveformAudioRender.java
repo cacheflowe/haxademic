@@ -18,7 +18,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.RENDER_AUDIO_FILE, FileUtil.getPath("haxademic/audio/cacheflowe_bigger_loop.wav") );
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		AudioIn.instance();
 		p.background(0);
 

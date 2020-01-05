@@ -18,7 +18,7 @@ extends PAppletHax {
 //		Config.setProperty( AppSettings.SMOOTHING, AppSettings.SMOOTH_NONE );
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(0);
 		
 		int drawCalls = 64 * 128;

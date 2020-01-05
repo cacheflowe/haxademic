@@ -35,11 +35,11 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.RETINA, true );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 	
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		JoonsWrapper joons = Renderer.instance().joons;
 		// rendering progress
 		progress = (p.frameCount % frames) / frames;

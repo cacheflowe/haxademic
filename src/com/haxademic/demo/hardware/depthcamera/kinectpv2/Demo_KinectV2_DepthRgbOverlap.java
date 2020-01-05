@@ -32,13 +32,13 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.SHOW_DEBUG, true );
 	}
 	
-	public void firstFrame() {
+	protected void firstFrame() {
 		DepthCamera.instance(DepthCameraType.KinectV2);
 		UI.addSlider("STRETCH_DEPTH_X", 1f, 1f, 3f, 0.01f);
 		kinectSilhouetteSmoothed = new KinectDepthSilhouetteSmoothed(DepthCamera.instance().camera, 5);
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(0);
 		
 		// update silhouette

@@ -16,11 +16,11 @@ implements IEasingBooleanCallback {
 	protected EasingBoolean booleanSwitch;
 	protected LinearFloat showUpdatedValue = new LinearFloat(0, 0.025f);
 	
-	public void firstFrame() {
+	protected void firstFrame() {
 		booleanSwitch = new EasingBoolean(false, 120, this);
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(0);
 		p.noStroke();
 		PG.setDrawCenter(p);

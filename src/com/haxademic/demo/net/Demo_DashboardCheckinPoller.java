@@ -10,13 +10,13 @@ extends PAppletHax {
 	
 	protected DashboardCheckinPoller dashboardPoster;
 	
-	public void firstFrame() {
+	protected void firstFrame() {
 		DashboardCheckinPoller.DEBUG = true;
 		dashboardPoster = new DashboardCheckinPoller("test-app-2", "TEST APP 2", "http://localhost/haxademic/www/dashboard-new/", 5, 23, 0.5f);
 		dashboardPoster.setExtraImage(p.g, 20);
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		// background
 		pg.beginDraw();
 		PG.setDrawCenter(pg);

@@ -25,7 +25,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.SHOW_DEBUG, true );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		// create looping players
 		player1 = new WavPlayer();
 		player1.loopWav(soundbed);
@@ -36,7 +36,7 @@ extends PAppletHax {
 		AudioIn.instance(new AudioInputBeads(WavPlayer.sharedContext()));
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(0);
 		
 		// adjust audio loops' volume & pitch 

@@ -37,7 +37,7 @@ extends PAppletHax {
 		DebugView.setTexture("texture", texture);
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		// update displacement texture
 		perlin.update(0.05f, 0.5f, p.frameCount * 0.01f, 0);
 		

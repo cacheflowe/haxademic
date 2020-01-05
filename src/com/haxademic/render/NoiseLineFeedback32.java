@@ -50,7 +50,7 @@ extends PAppletHax {
 //		return osc * noiseCur * amp;
 //	}
 //
-//	public void drawApp() {
+//	protected void drawApp() {
 //		background(0);
 //		
 //		// update noise

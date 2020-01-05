@@ -22,7 +22,7 @@ extends PAppletHax {
 	public static final int KINECT_CLOSE = 1000;
 	public static final int KINECT_FAR = 1500;
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		DepthCamera.instance(DepthCameraType.KinectV1);
 		
 		// do something
@@ -32,7 +32,7 @@ extends PAppletHax {
 		p.background(0);
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		PG.resetGlobalProps( p );
 
 		_skeletonTracker.update();

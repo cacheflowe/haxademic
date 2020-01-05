@@ -37,7 +37,7 @@ extends PAppletHax {
 	protected PImage _ground;
 	protected float _groundScale = 5f;
 		
-	public void firstFrame() {
+	protected void firstFrame() {
 		DepthCamera.instance(DepthCameraType.KinectV1);
 		
 		// do something
@@ -60,7 +60,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.HEIGHT, "480" );
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		PG.resetGlobalProps( p );
 		
 		p.background(0);

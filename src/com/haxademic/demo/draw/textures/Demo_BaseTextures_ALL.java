@@ -278,7 +278,7 @@ extends PAppletHax {
 		UI.addSlider(TEX_INDEX, 0, 0, allTextures.length - 1, 1, false);
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		background(127);
 		simulateMidiAndBeats();
 		

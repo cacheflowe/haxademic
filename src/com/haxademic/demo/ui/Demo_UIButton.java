@@ -17,7 +17,7 @@ implements IUIButtonDelegate {
 	protected boolean activeButtons = true;
 	protected ArrayList<IUIControl> mouseables;
 
-	public void firstFrame () {
+	protected void firstFrame () {
 		int buttonX = 40;
 		int buttonY = 10;
 		int buttonW = 200;
@@ -36,7 +36,7 @@ implements IUIButtonDelegate {
 		if(p.key == 'd') activeButtons = !activeButtons;
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(0);
 		
 		// draw buttons

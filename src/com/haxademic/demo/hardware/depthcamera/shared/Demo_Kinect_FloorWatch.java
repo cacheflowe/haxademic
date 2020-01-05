@@ -26,11 +26,11 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.HEIGHT, 480 );
 	}
 	
-	public void firstFrame() {
+	protected void firstFrame() {
 		DepthCamera.instance(DepthCameraType.KinectV1);
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		IDepthCamera depthCamera = DepthCamera.instance().camera;
 		p.background(0);
 		

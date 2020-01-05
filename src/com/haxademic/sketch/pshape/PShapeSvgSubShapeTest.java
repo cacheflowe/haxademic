@@ -37,7 +37,7 @@ extends PAppletHax {
 	}
 
 
-	public void firstFrame() {
+	protected void firstFrame() {
 	
 //		OpenGLUtil.setQuality( p, OpenGLUtil.SMOOTH_HIGH );
 		
@@ -65,7 +65,7 @@ extends PAppletHax {
 		}
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		background(255);
 		PG.setDrawCenter(p);
 		p.translate(p.width/2f, p.height/2f);

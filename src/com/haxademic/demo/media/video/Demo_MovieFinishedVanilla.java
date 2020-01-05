@@ -14,7 +14,7 @@ extends PAppletHax {
 	protected void config() {
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		video = DemoAssets.movieFractalCube();
 		video.loop();
 		
@@ -32,7 +32,7 @@ extends PAppletHax {
 //		}
 //	};
 	
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(0);
 		p.fill(255);
 		

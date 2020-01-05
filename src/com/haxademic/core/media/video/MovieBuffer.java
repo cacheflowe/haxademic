@@ -4,7 +4,6 @@ import java.util.HashMap;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.draw.context.PG;
-import com.haxademic.core.draw.image.ImageUtil;
 
 import processing.core.PGraphics;
 import processing.video.Movie;
@@ -17,8 +16,7 @@ public class MovieBuffer {
 	public Movie movie;
 
 	public MovieBuffer(String moviePath) {
-		movie = new Movie(P.p, moviePath);
-		P.p.registerMethod("pre", this);
+		this(new Movie(P.p, moviePath));
 	}
 
 	public MovieBuffer(Movie movie) {
@@ -31,10 +29,14 @@ public class MovieBuffer {
 		if(moviesEventFrames.get(movie).intValue() == P.p.frameCount) {
 			if(movie.width > 10) {
 				if(buffer == null) {
-					buffer = PG.newPG(movie.width, movie.height, false, true);
+					buffer = PG.newPG2DFast(movie.width, movie.height);
 				}
 				else {
-					ImageUtil.copyImage(movie, buffer);
+//					ImageUtil.copyImage(movie, buffer);
+					
+					buffer.beginDraw();
+					buffer.image(movie, 0, 0);
+					buffer.endDraw();
 				}
 			}
 		}

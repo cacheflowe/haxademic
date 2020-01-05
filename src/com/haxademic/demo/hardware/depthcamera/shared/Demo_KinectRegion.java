@@ -46,7 +46,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.SHOW_UI, true );
 	}
 	
-	public void firstFrame() {
+	protected void firstFrame() {
 		DepthCamera.instance(DepthCameraType.KinectV1);
 
 		// build kinect region and debug buffer
@@ -68,7 +68,7 @@ extends PAppletHax {
 		super.keyPressed();
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		// context
 		p.background(127);
 		

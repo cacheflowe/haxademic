@@ -29,7 +29,7 @@ extends PAppletHax {
 
 	Server server;
 	
-	public void firstFrame() {
+	protected void firstFrame() {
 		server = new Server();
 		
 		ServerConnector connector = new ServerConnector(server);
@@ -52,7 +52,7 @@ extends PAppletHax {
 		}
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(0);
 	}
 

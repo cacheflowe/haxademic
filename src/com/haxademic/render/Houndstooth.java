@@ -109,7 +109,7 @@ extends PAppletHax {
 		super.keyPressed();
 	}
 		
-	public void drawApp() {
+	protected void drawApp() {
 //		defaultDisplays[0][0] = 3; 
 //		defaultDisplays[0][1] = 2; 
 //		defaultDisplays[0][2] = 3; 

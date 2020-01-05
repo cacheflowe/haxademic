@@ -62,7 +62,7 @@ extends PAppletHax {
 		mirrorDepth = PG.newPG(CAMERA_W, CAMERA_H);
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(0);
 		
 		MIRROR = true;

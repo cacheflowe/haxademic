@@ -66,7 +66,7 @@ extends PAppletHax {
 		DebugView.setValue("shape.getVertexCount();", PShapeUtil.vertexCount(shape));
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(0);
 		p.push();
 		p.ortho();

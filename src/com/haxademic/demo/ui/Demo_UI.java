@@ -23,7 +23,7 @@ extends PAppletHax {
 		Config.setProperty(AppSettings.SHOW_UI, true);
 	}
 	
-	public void firstFrame () {
+	protected void firstFrame () {
 		UI.addTitle("Color");
 		UI.addSlider(R, 255, 0, 255, 0.5f);
 		UI.addSlider(G, 255, 0, 255, 0.5f);
@@ -39,7 +39,7 @@ extends PAppletHax {
 		P.out(UI.valuesToJSON());
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		// test setting of components
 		if(UI.valueToggle(AUTO_ON) == true) {
 			// override slider

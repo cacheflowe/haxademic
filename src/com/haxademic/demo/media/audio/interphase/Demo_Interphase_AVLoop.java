@@ -31,7 +31,7 @@ implements IAppStoreListener {
 		Config.setProperty( AppSettings.HEIGHT, 720 );
 	}
 	
-	public void firstFrame() {
+	protected void firstFrame() {
 //		SequencerConfig.BASE_AUDIO_PATH = FileUtil.getHaxademicDataPath();
 		interphase = new Interphase(SequencerConfig.interphaseChannels(), true);
 		
@@ -56,7 +56,7 @@ implements IAppStoreListener {
 		interphase.keyPressed();
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		// set draw context
 		p.background(0);
 		p.noStroke();

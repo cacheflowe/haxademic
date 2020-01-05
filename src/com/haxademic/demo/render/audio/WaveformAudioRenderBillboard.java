@@ -27,7 +27,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.RENDER_AUDIO_FILE, FileUtil.getPath("audio/cacheflowe_bigger_loop_padded.wav") );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 
 		p.noStroke();
 		backgroundImg = p.loadImage(FileUtil.getPath("images/computers/billboard-advertising.jpg"));
@@ -35,7 +35,7 @@ extends PAppletHax {
 		waveform.smooth(AppSettings.SMOOTH_HIGH);
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		// background 
 		p.image(backgroundImg, 0, 0);
 		BadTVLinesFilter.instance(p).setTime(100f+(float)p.frameCount/1000f);

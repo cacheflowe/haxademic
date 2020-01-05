@@ -24,7 +24,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.RENDERING_MOVIE, "false" );
 	}
 	
-	public void firstFrame() {
+	protected void firstFrame() {
 
 		startGifRender();
 	}
@@ -47,7 +47,7 @@ extends PAppletHax {
 		}
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(0);
 		p.noStroke();
 		

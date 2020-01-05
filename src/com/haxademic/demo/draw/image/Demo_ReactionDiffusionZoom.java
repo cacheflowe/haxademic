@@ -40,7 +40,7 @@ extends PAppletHax {
 		if(p.key == 'a') drawSeed(0);
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		if(p.frameCount == 1) p.background(0);
 		drawSeed(255);
 		

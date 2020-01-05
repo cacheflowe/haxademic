@@ -18,7 +18,7 @@ extends PAppletHax {
 	protected Movie video;
 	protected PGraphics videoBuffer;
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		dmx = new DMXWrapper("COM6", 9600, 512);
 		
 		// init video
@@ -26,7 +26,7 @@ extends PAppletHax {
 		video.loop();
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		// set context
 		p.background(0);
 		p.noStroke();

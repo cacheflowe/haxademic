@@ -30,7 +30,7 @@ extends PAppletHax {
 		Config.setProperty( "image_dir", "/Users/cacheflowe/Documents/workspace/mode_set/client_docs/legwork/nike-all-star/final_snkrs_xpress_game_faces/" );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 
 		initRender();
 	}
@@ -44,7 +44,7 @@ extends PAppletHax {
 		_framesPerImage = Config.getInt( "frames_per_image", 1 );
 	}
 		
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(0);
 		PG.setColorForPImage(p);
 		PG.setPImageAlpha(p, (p.frameCount % 2 == 1) ? 0.999f : 1 );	// stupid hack b/c UMovieMaker doesn't save the exact same frame twice in a row.

@@ -11,11 +11,11 @@ extends PAppletHax {
 	
 	protected Robot _robot;
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		try { _robot = new Robot(); } catch( Exception error ) { println("couldn't init Robot"); }
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		background(0);
 
 		if( p.frameCount % 2 == 0 ) {

@@ -27,11 +27,11 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, 1 + FRAMES );
 	}
 	
-	public void firstFrame() {
+	protected void firstFrame() {
 		imageGradient = new ImageGradient(ImageGradient.PASTELS());
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(0);
 		p.noStroke();
 		//		PG.setBetterLights(p);

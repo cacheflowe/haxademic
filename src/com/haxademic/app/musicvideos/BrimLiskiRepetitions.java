@@ -170,7 +170,7 @@ extends PAppletHax {
 
 		
 	// FRAME LOOP RENDERING ===================================================================================
-	public void drawApp() {
+	protected void drawApp() {
 		if( p.frameCount == 1 ) initRender();
 		p.background(0);
 		p.fill( 255 );

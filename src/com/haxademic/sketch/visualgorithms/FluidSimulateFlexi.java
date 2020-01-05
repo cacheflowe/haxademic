@@ -34,7 +34,7 @@ public class FluidSimulateFlexi extends PAppletHax {
 		Config.setProperty( AppSettings.HEIGHT, "512" );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 
 		//size(512, 512);
 		//frameRate(60);
@@ -65,7 +65,7 @@ public class FluidSimulateFlexi extends PAppletHax {
 		}
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 
 		handleMouseMotion();
 

@@ -22,7 +22,7 @@ extends PAppletHax {
 		Config.setProperty(AppSettings.SHOW_DEBUG, true );
 	}
 		
-	public void firstFrame () {
+	protected void firstFrame () {
 		movieToImageSequence = new MovieToImageSequence(DemoAssets.movieFractalCube(), 0.5f);
 	}
 	
@@ -32,7 +32,7 @@ extends PAppletHax {
 //		movieClip.pause();
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		movieToImageSequence.update();
 		if(movieClip == null && movieToImageSequence.complete()) convertToMoviePlayer();
 		DebugView.setValue("movie convert progress", movieToImageSequence.progress());

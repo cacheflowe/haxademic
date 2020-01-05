@@ -73,7 +73,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.HEIGHT, "480" );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 
 
 		// screen and video
@@ -109,7 +109,7 @@ extends PAppletHax {
 		vline = new int[wscreen];
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		if(video.available()){
 			// video capture
 			video.read();

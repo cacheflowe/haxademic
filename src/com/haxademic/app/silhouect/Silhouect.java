@@ -98,7 +98,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.ALWAYS_ON_TOP, false );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		// main buffer
 		float scaleDown = 0.75f;
 		mainBuffer = p.createGraphics(P.round(1920 * scaleDown), P.round(1080 * scaleDown), PRenderers.P3D);
@@ -364,7 +364,7 @@ extends PAppletHax {
 	// DRAW LOOP
 	///////////////////////////////////////
 	
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(0);
 		lazyCreateBuffer();
 		if(userBuffer != null) updateUserBuffer();

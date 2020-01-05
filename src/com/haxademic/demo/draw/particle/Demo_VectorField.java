@@ -37,7 +37,7 @@ extends PAppletHax {
 
 	}
 	
-	public void firstFrame() {
+	protected void firstFrame() {
 		AudioIn.instance();
 		
 		_vectorField = new ArrayList<PVector>();
@@ -54,7 +54,7 @@ extends PAppletHax {
 		}
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		if( p.frameCount == 1 ) p.background(0);
 
 //		OpenGLUtil.setBlending(p.g, true);

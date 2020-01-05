@@ -41,7 +41,7 @@ extends PAppletHax {
 		fadeEdge.endDraw();
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		ImageUtil.cropFillCopyImage(DemoAssets.justin(), p.g, true);
 		PG.setCenterScreen(p);
 		PG.setDrawCenter(p);

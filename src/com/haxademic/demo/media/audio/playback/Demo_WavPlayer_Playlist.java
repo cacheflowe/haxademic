@@ -22,13 +22,13 @@ extends PAppletHax {
 	};
 	protected int playlistIndex = 0;
 	
-	public void firstFrame() {
+	protected void firstFrame() {
 		player = new WavPlayer();
 		AudioIn.instance(new AudioInputBeads(player.context()));
 		playNextSound();
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(0);
 		checkPlayerComplete();
 	}

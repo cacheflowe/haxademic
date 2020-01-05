@@ -24,7 +24,7 @@ extends PAppletHax {
 	protected PImage img;
 	protected boolean busy = false;
 	
-	public void drawApp() {
+	protected void drawApp() {
 		// background
 		pg.beginDraw();
 		PG.setDrawCenter(pg);

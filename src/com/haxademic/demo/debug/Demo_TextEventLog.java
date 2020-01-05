@@ -9,13 +9,13 @@ extends PAppletHax {
 	
 	protected TextEventLog eventLog;
 	
-	public void firstFrame() {
+	protected void firstFrame() {
 		eventLog = new TextEventLog();
 		eventLog.appStarted();
 		eventLog.setMaxLogFiles(5);
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		background(0);
 	}
 	

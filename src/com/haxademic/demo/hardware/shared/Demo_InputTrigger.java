@@ -32,7 +32,7 @@ implements IAppStoreListener {
 														 .setBroadcastKey("TRIGGER");
 
 	
-	public void firstFrame() {
+	protected void firstFrame() {
 		// KeyboardState is auto-initialized in `P`
 		KeyboardState.instance();	// ...but we can put it here for fun & uniformity
 		MidiDevice.init(0, 3);
@@ -48,7 +48,7 @@ implements IAppStoreListener {
 		P.store.addListener(this);
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		// show triggering - TODO: add CC changes to trigger
 		if(KeyboardState.instance().isKeyOn(triggerKey) || MidiState.instance().isMidiNoteOn(LaunchControl.PAD_01) || OscState.instance().isValueOn("/toggleC_2")) P.println("trigger 1"); 
 		if(trigger.triggered()) P.println("trigger 2");

@@ -43,7 +43,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, P.round(1 + frames * 4) );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		pg = PG.newPG(W, H); 
 		
 		xShape = DemoAssets.shapeX().getTessellation();
@@ -84,7 +84,7 @@ extends PAppletHax {
 		FeedbackRadialFilter.instance(P.p).applyTo(pg);
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		progress = (p.frameCount % frames) / frames;
 		progressRads = progress * P.TWO_PI;
 		DebugView.setValue("progress", progress);

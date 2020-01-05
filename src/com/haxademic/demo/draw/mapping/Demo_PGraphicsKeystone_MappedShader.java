@@ -26,7 +26,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.FULLSCREEN, true );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		buildDrawingSurface();
 	}
 	
@@ -48,7 +48,7 @@ extends PAppletHax {
 		textureShader = p.loadShader(FileUtil.getPath("haxademic/shaders/textures/cacheflowe-down-void.glsl"));
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(0);
 		p.noStroke();
 		

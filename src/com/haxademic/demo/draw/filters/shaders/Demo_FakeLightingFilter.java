@@ -26,7 +26,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.SHOW_UI, true );
 	}
 	
-	public void firstFrame() {
+	protected void firstFrame() {
 		UI.addSlider(AMBIENT, 2f, 0.3f, 6f, 0.01f, false);
 		UI.addSlider(GRAD_AMP, 0.66f, 0.1f, 6f, 0.01f, false);
 		UI.addSlider(GRAD_BLUR, 1f, 0.1f, 6f, 0.01f, false);
@@ -36,7 +36,7 @@ extends PAppletHax {
 		UI.addSlider(FILTER_ACTIVE, 1f, 0f, 1f, 1f, false);
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(0);
 		ImageUtil.drawImageCropFill(DemoAssets.squareTexture(), p.g, true);
 		

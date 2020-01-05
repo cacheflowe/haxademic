@@ -24,14 +24,14 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.RETINA, false );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 	
 		for(int i = 0; i < 5; ++i)
 			cells.add(new Cell((int)random(0,width), (int)random(0,height), color(random(0,255), random(0,255), random(0,255))));
 
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		cells.get(0).loc.x = mouseX;
 		cells.get(0).loc.y = mouseY;
 		background(0);

@@ -65,11 +65,11 @@ extends PAppletHax {
 	
 	protected ArrayList<ElasticFloat> _elasticVertices;
 		
-	public void config() {
+	protected void config() {
 		Config.loadPropertiesFile(FileUtil.getPath("properties/modesetlogo.properties"));
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 
 		initRender();
 	}
@@ -107,7 +107,7 @@ extends PAppletHax {
 		p.noStroke();
 	}
 		
-	public void drawApp() {
+	protected void drawApp() {
 		PG.setBasicLights( p );
 		// draw background and set to center
 		if( PRenderers.currentRenderer() == P.P3D ) p.background(0,0,0,255);

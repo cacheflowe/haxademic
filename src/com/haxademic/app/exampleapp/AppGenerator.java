@@ -29,7 +29,7 @@ extends PAppletHax {
 		parentDir = haxPath.getParent();
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(0);
 		
 		// info

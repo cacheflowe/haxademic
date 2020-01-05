@@ -39,7 +39,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.RENDERING_GIF_STOP_FRAME, ""+Math.round(_frames+1) );
 	}
 	
-	public void firstFrame() {
+	protected void firstFrame() {
 
 		p.smooth(OpenGLUtil.SMOOTH_HIGH);
 		_print = p.loadImage(FileUtil.haxademicDataPath()+"images/BF.Linewave.1.jpg");
@@ -82,7 +82,7 @@ extends PAppletHax {
 		pg.endDraw();
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(255);
 		drawGraphics(_pg);
 		_pgMotionBlur.updateToCanvas(_pg, p.g, 1f);

@@ -40,7 +40,7 @@ extends PAppletHax {
 		//	Config.setProperty( AppSettings.WIDTH, 800 );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		ac = new AudioContext();
 
 		// load a sample		
@@ -137,7 +137,7 @@ extends PAppletHax {
 		ac.start();
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		background(0);
 		stroke(255, 102, 204);
 

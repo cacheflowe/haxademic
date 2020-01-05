@@ -11,7 +11,7 @@ public class Demo_saveTransparentPng
 extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }	
 	
-	public void drawApp() {
+	protected void drawApp() {
 		// draw box in transparent buffer
 		// by default, PAppletHax's `pg` is created with transparency enabled
 		DebugView.setTexture("pg", pg);

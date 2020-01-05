@@ -26,7 +26,7 @@ extends PAppletHax { public static void main(String args[]) { arguments = args; 
 		Config.setProperty(AppSettings.HEIGHT, 600);
 	}
 	
-	public void firstFrame() {
+	protected void firstFrame() {
 		minim = new Minim(P.p);
 		
 		MidiDevice.init(0, 0);
@@ -84,7 +84,7 @@ extends PAppletHax { public static void main(String args[]) { arguments = args; 
 		if(MidiState.instance().isMidiNoteTriggered(LaunchControl.PAD_08)) relaunchAllLoops();
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		background(0);
 		stroke(255);
 		

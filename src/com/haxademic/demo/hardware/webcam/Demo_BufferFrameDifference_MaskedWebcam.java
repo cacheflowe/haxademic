@@ -59,7 +59,7 @@ implements IWebCamCallback {
 		Config.setProperty(AppSettings.ALWAYS_ON_TOP, false);
 	}
 		
-	public void firstFrame () {
+	protected void firstFrame () {
 		template = p.loadShape( FileUtil.getPath("images/_sketch/clocktower/clocktower.svg"));
 
 		// init webcam
@@ -81,7 +81,7 @@ implements IWebCamCallback {
 		UI.addSlider(diffSmoothThresh, 0.66f, 0, 1, 0.001f, false);
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		// set up context
 		if(p.frameCount < 10) p.background(0);	// clear screen up front, but then stop
 		PG.setDrawCenter(p);

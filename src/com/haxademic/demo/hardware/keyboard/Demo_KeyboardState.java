@@ -10,12 +10,12 @@ public class Demo_KeyboardState
 extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		DebugView.autoHide(false);
 		DebugView.active(true);
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(0);
 		if(KeyboardState.keyOn('b')) {
 			p.background(0, 0, 255);

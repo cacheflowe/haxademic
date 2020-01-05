@@ -85,7 +85,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.FULLSCREEN, true );
 	}
 	
-	public void firstFrame() {
+	protected void firstFrame() {
 		DepthCamera.instance(DepthCameraType.KinectV1);
 		minim = new Minim(this);
 	}
@@ -171,7 +171,7 @@ extends PAppletHax {
 	}
 
 	
-	public void drawApp() {
+	protected void drawApp() {
 		if(p.frameCount == 1) initObjs();
 		p.background(0);
 		handleKinectInput();

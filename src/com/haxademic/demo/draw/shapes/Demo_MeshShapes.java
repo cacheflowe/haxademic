@@ -20,7 +20,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.HEIGHT, "800" );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 
 		// init all shapes
 		meshes = new MeshShapes[] {
@@ -52,7 +52,7 @@ extends PAppletHax {
 		}
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(0);
 		noStroke();
 		fill(0);

@@ -19,7 +19,7 @@ extends PAppletHax {
 	protected String brightness = "brightness";
 	protected String speed = "speed";
 	
-	public void firstFrame() {
+	protected void firstFrame() {
 		DMXUniverse.instanceInit("COM3", 9600);
 		
 		fixture = new ArrayList<DMXFixture>(); 
@@ -31,7 +31,7 @@ extends PAppletHax {
 		UI.addWebInterface(false);
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		// update pride texture
 		pg.beginDraw();
 		pg.noStroke();

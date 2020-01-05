@@ -59,7 +59,7 @@ extends PAppletHax {
 		if(p.key == 's') drawShape();
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		if(p.frameCount == 1) p.background(0);
 		// if(p.frameCount <= 20) drawSeed(255);
 		drawShape();

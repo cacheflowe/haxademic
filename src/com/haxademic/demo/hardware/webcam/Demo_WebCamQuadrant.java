@@ -16,7 +16,7 @@ extends PAppletHax
 implements IWebCamCallback {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
-	public void drawApp() {
+	protected void drawApp() {
 		p.background( 0 );
 		PG.setDrawCorner(p);
 		PG.resetPImageAlpha(p);

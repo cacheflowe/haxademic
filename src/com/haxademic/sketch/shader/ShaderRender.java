@@ -41,14 +41,14 @@ extends PAppletHax {
 
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 	
 		p.smooth( OpenGLUtil.SMOOTH_HIGH );
 
 		texShader = loadShader(FileUtil.getPath("haxademic/shaders/textures/square-twist.glsl"));
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		background(255);
 		OpenGLUtil.setTextureRepeat(g);
 		

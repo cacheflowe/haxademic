@@ -12,7 +12,7 @@ extends PAppletHax {
 	protected LineTrail trail;
 	protected PVector mouseVec = new PVector();
 
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(0);
 		p.noFill();
 		p.stroke(40, 255, 40);

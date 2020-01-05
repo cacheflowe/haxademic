@@ -20,12 +20,12 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.SMOOTHING, AppSettings.SMOOTH_HIGH );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 
 		fbm = new FractalBrownianMotion(p);
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		noStroke();
 		for(int i=0; i < 100; i++){
 			for(int j=0; j < 100; j++){

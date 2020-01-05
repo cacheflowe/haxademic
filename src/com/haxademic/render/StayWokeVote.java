@@ -44,7 +44,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.SMOOTHING, AppSettings.SMOOTH_HIGH );
 	}
 
-	public void firstFrame()	{
+	protected void firstFrame()	{
 		textToPShape = new TextToPShape(TextToPShape.QUALITY_MEDIUM);
 		String fontFile = FileUtil.getPath("fonts/LubalinGraph-Demi.ttf");
 		wordStay = textToPShape.stringToShape3d("STAY", 20, fontFile);
@@ -78,7 +78,7 @@ extends PAppletHax {
 		starSvg.disableStyle();
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		if(FrameLoop.progress() < 0.55f || FrameLoop.progress() > 0.85f) bgColor.setTargetHex("#000000"); else bgColor.setTargetHex("#ffffff");
 		bgColor.update();
 		p.background(bgColor.colorInt());

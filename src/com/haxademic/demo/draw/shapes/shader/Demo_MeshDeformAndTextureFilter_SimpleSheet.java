@@ -33,7 +33,7 @@ extends PAppletHax {
 		DebugView.setTexture("textureNebula", DemoAssets.textureNebula());
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		// update displacement texture
 		perlin.update(0.05f, 0.05f, p.frameCount * 0.01f, 0);
 		

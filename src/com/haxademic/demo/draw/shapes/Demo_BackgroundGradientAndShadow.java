@@ -34,7 +34,7 @@ extends PAppletHax {
 		Config.setProperty(AppSettings.RENDERING_MOVIE_STOP_FRAME, 1 + FRAMES * 2);
 	}
 	
-	public void firstFrame() {
+	protected void firstFrame() {
 		shadowMap = ImageUtil.imageToGraphics(p.g);
 		loadObj();
 	}
@@ -47,7 +47,7 @@ extends PAppletHax {
 		obj.disableStyle();
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		background(0);
 		PG.setDrawCenter(p);
 		drawBgGradient();

@@ -17,7 +17,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.SHOW_DEBUG, true );
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		background(0);
 	}
 

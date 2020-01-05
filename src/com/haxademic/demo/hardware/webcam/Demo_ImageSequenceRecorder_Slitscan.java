@@ -40,7 +40,7 @@ implements IWebCamCallback {
 		Config.setProperty(AppSettings.FILLS_SCREEN, false );
 	}
 		
-	public void firstFrame () {
+	protected void firstFrame () {
 		camBuffer = p.createGraphics(640, 480, PRenderers.P3D);
 		noiseBuffer = p.createGraphics(640, 480, PRenderers.P3D);
 		slitscanOutputBuffer = p.createGraphics(640, 480, PRenderers.P3D);
@@ -52,7 +52,7 @@ implements IWebCamCallback {
 		noiseTexture = new TextureShader(TextureShader.noise_simplex_2d_iq);
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		p.background( 0 );
 		DebugView.setTexture("camBuffer", camBuffer);
 

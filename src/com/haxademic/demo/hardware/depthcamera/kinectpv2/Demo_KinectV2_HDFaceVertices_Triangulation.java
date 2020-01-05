@@ -55,7 +55,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.SHOW_DEBUG, true );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		// init kinect
 		kinect = new KinectPV2(p);
 		kinect.enableHDFaceDetection(true);
@@ -78,7 +78,7 @@ extends PAppletHax {
 		if(p.key == 't') doTriangulate = !doTriangulate;
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(0);
 		p.strokeWeight(1f);
 		//			PG.setBetterLights(p);

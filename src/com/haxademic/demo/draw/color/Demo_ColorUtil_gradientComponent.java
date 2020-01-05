@@ -33,7 +33,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, 1500 );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 	
 		p.noStroke();
 		
@@ -91,7 +91,7 @@ extends PAppletHax {
 		if( p.key == ' ' ) randomParams();
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		oscillateParams();
 		for(int x = 0; x < p.width; x++) {
 			float r = ColorUtil.gradientComponent(dcOffsetR, ampR, freqR, phaseR, p.frameCount/100f + P.map(x, 0, p.width, 0, P.TWO_PI));

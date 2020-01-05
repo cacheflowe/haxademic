@@ -225,7 +225,7 @@ extends PAppletHax {
 		}
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		background(0);
 		
 //		camera test

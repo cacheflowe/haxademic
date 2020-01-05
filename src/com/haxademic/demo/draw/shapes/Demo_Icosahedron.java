@@ -28,7 +28,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.HEIGHT, 800 );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 	
 
 		PImage img = DemoAssets.textureJupiter();
@@ -49,7 +49,7 @@ extends PAppletHax {
 		PShapeUtil.addTextureUVToShape(shapeTessellated, img);
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		background(0);
 		
 		// setup lights

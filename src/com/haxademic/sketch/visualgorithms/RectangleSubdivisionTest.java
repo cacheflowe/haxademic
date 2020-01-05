@@ -18,7 +18,7 @@ extends PAppletHax {
 	protected int _numDivisions = 100;
 	
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		newRectanges();
 	}
 	
@@ -62,7 +62,7 @@ extends PAppletHax {
 //		}
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(0);
 		p.fill(0);
 		p.stroke(255);

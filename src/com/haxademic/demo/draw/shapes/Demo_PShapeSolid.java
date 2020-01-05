@@ -32,7 +32,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.HEIGHT, 800 );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		AudioIn.instance();
 		
 		// get texture
@@ -53,7 +53,7 @@ extends PAppletHax {
 		};
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		// setup center screen & lights
 		PG.setCenterScreen(p.g);
 		PG.setBetterLights(p.g);

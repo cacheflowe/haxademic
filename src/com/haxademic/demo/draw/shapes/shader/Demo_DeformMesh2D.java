@@ -101,7 +101,7 @@ extends PAppletHax {
 		);
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		// context & camera
 		p.background(0);
 		p.push();

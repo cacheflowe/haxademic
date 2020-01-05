@@ -22,7 +22,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.LOOP_FRAMES, FRAMES );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 	
 		_colorStart = new EasingColor("#ffBB0022", 50f);
 		_colorStop = new EasingColor("#0B1630", 50f);
@@ -31,7 +31,7 @@ extends PAppletHax {
 		// Team 2: #F5AB2C / #471D6C
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(0);
 
 //		_colorStart.setTargetColorInt( p.color(255f * P.sin(p.frameCount/50f), 255f * P.sin(p.frameCount/45f), 255f * P.sin(p.frameCount/60f)) );

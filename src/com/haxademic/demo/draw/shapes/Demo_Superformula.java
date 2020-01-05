@@ -24,7 +24,7 @@ extends PAppletHax {
 	
 	protected boolean _audioEnabled = false;
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		AudioIn.instance();
 		
 		_superForm = new Superformula( 200, 200, 10, 1, 6, 20, 7, 18);
@@ -37,7 +37,7 @@ extends PAppletHax {
 		UI.addSlider(n3, 6, 0, 30, 0.1f, false);
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(0);
 		
 		p.pushMatrix();

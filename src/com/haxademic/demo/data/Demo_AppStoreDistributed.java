@@ -28,7 +28,7 @@ implements IAppStoreListener {
 		Config.setProperty(AppSettings.SHOW_DEBUG, true );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		P.storeDistributed = AppStoreDistributed.instance();
 		if(isServer == true) {
 			P.storeDistributed.start(AppStoreDistributed.MODE_SERVER, null);
@@ -51,7 +51,7 @@ implements IAppStoreListener {
 		P.store.setNumber(MOUSE_Y, 0);
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		background(0);
 		if(p.mouseX != p.pmouseX) P.storeDistributed.setNumber(MOUSE_X, p.mouseX);
 		if(p.mouseY != p.pmouseY) P.storeDistributed.setNumber(MOUSE_Y, p.mouseY);

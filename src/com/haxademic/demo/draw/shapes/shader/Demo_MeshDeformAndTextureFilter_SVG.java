@@ -50,7 +50,7 @@ extends PAppletHax {
 		DebugView.setTexture("displaceTexture", displaceTexture.texture());
 	}
 
-	public void drawApp() {		
+	protected void drawApp() {		
 		// context & camera
 		background(0);
 		//p.image(texture, 0, 0);

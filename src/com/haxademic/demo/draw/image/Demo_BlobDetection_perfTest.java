@@ -39,7 +39,7 @@ extends PAppletHax {
 	}
 
 
-	public void firstFrame() {
+	protected void firstFrame() {
 	
 
 		_canvasW = p.width;
@@ -50,7 +50,7 @@ extends PAppletHax {
 		initBlobDetection();
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		background(0);
 		
 //		drawVideo();

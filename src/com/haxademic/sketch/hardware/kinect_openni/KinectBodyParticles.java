@@ -21,7 +21,7 @@ extends PAppletHax {
 	protected SkeletonsTracker _skeletonTracker;
 	protected ArrayList<VectorFlyerToxi> particles;
 	
-	public void firstFrame() {
+	protected void firstFrame() {
 		DepthCamera.instance(DepthCameraType.KinectV1);
 		_skeletonTracker = new SkeletonsTracker();
 		initBoxes();
@@ -34,7 +34,7 @@ extends PAppletHax {
 		}
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		IDepthCamera depthCamera = DepthCamera.instance().camera;
 		PG.resetGlobalProps( p );
 

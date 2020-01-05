@@ -47,7 +47,7 @@ extends PAppletHax {
 		DebugView.setValue("shape.depth", modelSize.z);
 	}
 		
-	public void drawApp() {
+	protected void drawApp() {
 		// clear the screen
 		background(10);
 		p.noStroke();

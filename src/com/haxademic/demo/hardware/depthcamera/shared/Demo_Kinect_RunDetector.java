@@ -54,7 +54,7 @@ implements IEasingBooleanCallback {
 		Config.setProperty(AppSettings.SHOW_UI, true);
 	}
 	
-	public void firstFrame() {
+	protected void firstFrame() {
 		DepthCamera.instance(DepthCameraType.KinectV2);
 		IDepthCamera depthCamera = DepthCamera.instance().camera;
 
@@ -72,7 +72,7 @@ implements IEasingBooleanCallback {
 		recorder = new ImageSequenceRecorder(depthCamera.getRgbImage().width, depthCamera.getRgbImage().height, recordFrames);
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		IDepthCamera depthCamera = DepthCamera.instance().camera;
 		// setup context
 		p.background(0);

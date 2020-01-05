@@ -37,7 +37,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.RENDERING_GIF_STOP_FRAME, ""+Math.round(_framesPerImage * _images.size() - 1) );
 	}
 	
-	public void firstFrame() {
+	protected void firstFrame() {
 
 		p.background(255);
 		p.smooth(OpenGLUtil.SMOOTH_HIGH);
@@ -60,7 +60,7 @@ extends PAppletHax {
 	}
 
 	
-	public void drawApp() {	
+	protected void drawApp() {	
 		p.background(0);
 		p.noStroke();
 		

@@ -66,7 +66,7 @@
 //		Config.setProperty( AppSettings.HEIGHT, 355 );
 //	}
 //
-//	public void firstFrame() {
+//	protected void firstFrame() {
 //		
 //		// load movies
 //		movies = new ArrayList<Movie>();
@@ -102,7 +102,7 @@
 //		return loadedMovies;
 //	}
 //
-//	public void drawApp() {	
+//	protected void drawApp() {	
 //		// load a new movie once in a while
 //		if(p.frameCount % 100 == 0) {
 ////			loadMovieThread();

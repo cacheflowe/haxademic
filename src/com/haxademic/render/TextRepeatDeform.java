@@ -42,7 +42,7 @@ extends PAppletHax {
 		drawText();
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		background(20);
 		
 		// draw tiled texture

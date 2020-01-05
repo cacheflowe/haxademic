@@ -33,7 +33,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.FULLSCREEN, false );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		buildCanvas();
 		
 		DebugView.setHelpLine("__ Key Commands", "__\n");
@@ -58,7 +58,7 @@ extends PAppletHax {
 		keystonedPG = new PGraphicsKeystone( p, buffer, subdivisions, FileUtil.getPath("text/keystoning/keystone-demo.txt"), FileUtil.getPath("text/keystoning/fine-mapping-demo.txt") );
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(0);
 		
 		// oscuillateOffsets();

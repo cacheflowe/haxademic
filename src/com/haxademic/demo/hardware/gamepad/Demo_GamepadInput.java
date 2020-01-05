@@ -9,14 +9,14 @@ public class Demo_GamepadInput
 extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		GamepadState.instance();
 		
 		DebugView.autoHide(false);
 		DebugView.active(true);
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(0);
 	}
 

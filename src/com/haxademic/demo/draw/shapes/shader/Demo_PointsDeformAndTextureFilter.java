@@ -71,7 +71,7 @@ extends PAppletHax {
 		objExtent = PShapeUtil.getMaxExtent(obj);
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		background(0);
 		
 		// update textures & switch between audio & noise

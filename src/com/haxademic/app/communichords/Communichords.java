@@ -87,7 +87,7 @@ extends PAppletHax {
 		Config.setProperty( "dmx_active", "true" );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		DepthCamera.instance(DepthCameraType.KinectV1);
 		minim = new Minim(this);
 		// hardware config
@@ -161,7 +161,7 @@ extends PAppletHax {
 		_highToneIndex = setNextToneForPlayer(_players.get(3), _highTones, _highToneIndex);
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		background(0);
 		
 		// update controls

@@ -26,7 +26,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.FULLSCREEN, false );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		buildCanvas();
 	}
 
@@ -36,7 +36,7 @@ extends PAppletHax {
 		keystonedPG = new PGraphicsKeystone( p, buffer, 12, FileUtil.getPath("text/keystoning/keystone-demo.txt") );
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(0);
 		
 		buffer.beginDraw();

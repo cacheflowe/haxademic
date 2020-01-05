@@ -36,7 +36,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.RENDERING_IMAGE_SEQUENCE_STOP_FRAME, 3 + FRAMES );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 
 		
 		// load & normalize shape
@@ -49,7 +49,7 @@ extends PAppletHax {
 	}
 
 
-	public void drawApp() {
+	protected void drawApp() {
 		JoonsWrapper joons = Renderer.instance().joons;
 		if(Config.getBoolean(AppSettings.SUNFLOW_ACTIVE, false) == false) {
 			p.background(0);

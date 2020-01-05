@@ -55,7 +55,7 @@ extends PAppletHax {
 	protected Rectangle _textureRect;
 	protected int _curTextureIndex = 0;
 	
-	public void firstFrame() {
+	protected void firstFrame() {
 		MidiDevice.init(0, 0);
 		initWebcam();
 		initShaders();
@@ -167,7 +167,7 @@ extends PAppletHax {
 		_chromaKeyFilter.set("colorToReplace", 0.48f,0.8f,0.2f);
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		p.background( MidiState.instance().midiCCNormalized(11, 7) * 255f, MidiState.instance().midiCCNormalized(12, 7) * 255f, MidiState.instance().midiCCNormalized(13, 7) * 255f );
 //		p.shininess(1000f); 
 //		p.lights();

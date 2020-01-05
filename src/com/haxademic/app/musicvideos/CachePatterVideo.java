@@ -116,7 +116,7 @@ extends PAppletHax {
 	 * SETUP ===================================================================================================
 	 */
 
-	public void firstFrame() {
+	protected void firstFrame() {
 
 		p.smooth(OpenGLUtil.SMOOTH_HIGH);
 		
@@ -200,7 +200,7 @@ extends PAppletHax {
 	 * FRAME PROCESSING ===================================================================================================
 	 */
 
-	public void drawApp() {
+	protected void drawApp() {
 		handleInputTriggers();
 		p.background(0,0,0);
 		drawClouds();

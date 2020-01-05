@@ -47,7 +47,7 @@ extends PAppletHax {
         }
     }
 
-	public void drawApp() {
+	protected void drawApp() {
 		delegate = this;
 		dispatch("testMethod");
 	}

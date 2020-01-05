@@ -16,7 +16,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.APP_NAME, "CrashMonitor Test" );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		boolean RESTARTS = true;	// if false, we're expecting CrashMonitor to quit the app (rather than restart), 
 									// and the run.cmd script will restart it after a delay. 
 									// If true, we shouldn't have restart recovery built into the run.cmd script.
@@ -24,7 +24,7 @@ extends PAppletHax {
 //		WindowsSystemUtil.killOtherJavaApps();
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		PG.setDrawCenter(p);
 		p.background((float)mouseX/width * 255,(float)mouseY/height * 255,0);
 		p.fill(255);

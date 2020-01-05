@@ -35,7 +35,7 @@ extends PAppletHax {
 
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		texture = P.getImage("haxademic/images/space/luna.jpg");
 //		texture = P.getImage("haxademic/images/space/sun.jpg");
 //		textureFade = ImageUtil.imageToGraphics(texture);
@@ -48,7 +48,7 @@ extends PAppletHax {
 		mesh.setTexture(texture);
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(0);
 		PG.setCenterScreen(p);
 		

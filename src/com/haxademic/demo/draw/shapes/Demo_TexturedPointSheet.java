@@ -24,7 +24,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.RENDERING_MOVIE, false );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		// build points shape
 		pointsShape = p.createShape();
 		pointsShape.beginShape(PConstants.POINTS);
@@ -42,7 +42,7 @@ extends PAppletHax {
 		pointsShape.endShape();
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		// set context
 		p.background(127);
 		p.pushMatrix();

@@ -89,7 +89,7 @@ implements IWatchDirListener {
 		if(p.key == ' ') rebuildShader();
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		// check reload queue
 		if(queueShaderReload) {
 			queueShaderReload = false;

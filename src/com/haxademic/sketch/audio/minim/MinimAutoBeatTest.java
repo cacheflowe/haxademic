@@ -26,7 +26,7 @@ extends PAppletHax {
 	protected void config() {
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 
 		
 		minim = new Minim(this);
@@ -47,7 +47,7 @@ extends PAppletHax {
 
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		background(0);
 		
 		_bpm = 40 + 160 * MathUtil.getPercentWithinRange(0, p.width, p.mouseX);

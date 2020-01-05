@@ -39,7 +39,7 @@ extends PAppletHax {
 		Config.setProperty(AppSettings.RENDERING_MOVIE_STOP_FRAME, 1 + FRAMES * 2);
 	}
 
-	public void firstFrame()	{
+	protected void firstFrame()	{
 		// build text
 		textToPShape = new TextToPShape(TextToPShape.QUALITY_MEDIUM);
 		String fontFile = DemoAssets.fontOpenSansPath;
@@ -96,7 +96,7 @@ extends PAppletHax {
 	}
 
 
-	public void drawApp() {
+	protected void drawApp() {
 		// set context
 		background(0);
 		PG.setCenterScreen(p);

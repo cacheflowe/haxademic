@@ -27,14 +27,14 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.RENDERING_MOVIE, false );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		particles = new ArrayList<VectorFlyer2d>();
 		for(int i=0; i < 10000; i++) particles.add(new VectorFlyer2d(new PVector(p.random(p.width), p.random(p.height))));
 		attractors = new ArrayList<Attractor>();
 		for(int i=0; i < 5; i++) attractors.add(new Attractor(new PVector(p.width/2, p.height/2)));
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(127);
 		PG.setDrawCenter(p);
 		

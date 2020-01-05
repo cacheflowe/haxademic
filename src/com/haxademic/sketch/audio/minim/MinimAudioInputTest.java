@@ -27,7 +27,7 @@ extends PAppletHax {
 		// Config.setProperty( AppSettings.WIDTH, "1200" );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 
 		minim = new Minim(this);
 		in = minim.getLineIn();
@@ -52,7 +52,7 @@ extends PAppletHax {
 //		in.shiftGain(0, -60f, 5000);
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		background(0);
 		stroke(255);
 

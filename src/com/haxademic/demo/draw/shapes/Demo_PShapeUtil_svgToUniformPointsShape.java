@@ -32,7 +32,7 @@ extends PAppletHax {
 		PShapeUtil.scaleShapeToExtent(svg, p.height * 0.8f);
 	}
 
-	public void drawApp() {		
+	protected void drawApp() {		
 		if(p.frameCount == 1) background(0);
 		for(int i=0; i < 10; i++) PG.feedback(p.g, 2f);
 		BlurProcessingFilter.instance(p).setBlurSize(6);

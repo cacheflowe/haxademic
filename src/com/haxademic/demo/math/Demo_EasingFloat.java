@@ -24,11 +24,11 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.SHOW_UI, true );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		UI.addSlider(easeFactor, 6, 0, 30, 0.1f, false);
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		background(0);
 		
 		easingX.setEaseFactor(UI.value(easeFactor));

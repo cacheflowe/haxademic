@@ -59,7 +59,7 @@ extends PAppletHax {
 //		PShapeUtil.scaleObjToExtent(word2d, 800);
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		// anim progress
 		float progress = (p.frameCount % frames) / frames; 
 		float loopProgress = progress % 1f;

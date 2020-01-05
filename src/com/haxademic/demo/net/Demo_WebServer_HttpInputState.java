@@ -18,7 +18,7 @@ implements IAppStoreListener {
 	
 	protected WebServer server;
 	
-	public void firstFrame() {
+	protected void firstFrame() {
 		// basic web server
 		// server = new WebServer(new UIControlsHandler(), false);
 		
@@ -26,7 +26,7 @@ implements IAppStoreListener {
 		server = new WebServer(new UIControlsHandler(), false, true);
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		background(0);
 		if(p.frameCount == 200) SystemUtil.openWebPage(WebServer.getServerAddress() + "web-server-demo/");
 		// draw slider val

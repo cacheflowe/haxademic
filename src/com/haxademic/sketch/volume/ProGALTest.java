@@ -32,7 +32,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.HEIGHT, "1024" );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 
 		smooth();
 
@@ -124,7 +124,7 @@ extends PAppletHax {
 
 	}  
 
-	public void drawApp() {
+	protected void drawApp() {
 		PG.setBasicLights(p);
 		background(0);
 		fill(255);

@@ -24,7 +24,7 @@ extends PAppletHax {
 	float _frames = 60;
 	float size = 18f;
 
-	public void firstFrame() {
+	protected void firstFrame() {
 
 		image = DemoAssets.smallTexture();
 	}
@@ -46,7 +46,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.RENDERING_GIF_STOP_FRAME, ""+Math.round(_frames+1) );
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		JoonsWrapper joons = Renderer.instance().joons;
 		if(Config.getBoolean(AppSettings.SUNFLOW_ACTIVE, false) == true) {
 			joons.jr.background(0,0,0); //background(gray), or (r, g, b), like Processing.

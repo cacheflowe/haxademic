@@ -25,7 +25,7 @@ extends PAppletHax {
 	Matrix4x4 colorMatrix=new Matrix4x4().scale(255f/(DIM*2)).translate(DIM,DIM,DIM);
 
 
-	public void firstFrame() {
+	protected void firstFrame() {
 
 		flock = new Flock();
 		// Add an initial set of boids into the system
@@ -35,7 +35,7 @@ extends PAppletHax {
 		smooth();
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		background(0);
 		lights();
 		translate(width/2,height/2,0);

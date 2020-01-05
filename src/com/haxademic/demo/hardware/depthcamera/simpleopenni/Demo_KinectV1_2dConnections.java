@@ -33,7 +33,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.HEIGHT, 480 );
 	}
 	
-	public void firstFrame() {
+	protected void firstFrame() {
 		DepthCamera.instance(DepthCameraType.KinectV1);
 
 		// do something
@@ -41,7 +41,7 @@ extends PAppletHax {
 		_texture = P.p.createGraphics( p.width, p.height, P.P3D );
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		PG.resetGlobalProps( p );
 
 		p.shininess(1000f); 

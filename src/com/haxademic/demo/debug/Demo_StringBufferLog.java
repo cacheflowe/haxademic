@@ -10,7 +10,7 @@ extends PAppletHax {
 
 	protected StringBufferLog logOut = new StringBufferLog(10);
 
-	public void drawApp() {
+	protected void drawApp() {
 		background(0);
 		if(MathUtil.randBooleanWeighted(0.05f)) logOut.update("Frame " + p.frameCount);
 		logOut.printToScreen(p.g, 20, 20);

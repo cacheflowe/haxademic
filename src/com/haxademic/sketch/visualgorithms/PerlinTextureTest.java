@@ -21,7 +21,7 @@ extends PAppletHax {
 		Config.setProperty(AppSettings.SHOW_UI, true);
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		UI.addSlider(zoom, 0.01f, 0.001f, 0.1f, 0.0001f, false);
 		UI.addSlider(detail, 0.1f, 0.0001f, 0.3f, 0.001f, false);
 		UI.addSlider(xProgress, 0, 0, 10, 0.01f, false);
@@ -30,7 +30,7 @@ extends PAppletHax {
 		_perlinTexture = new PerlinTexture(this, 200, 200);
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		p.background(0);
 		_perlinTexture.update(UI.value(zoom), UI.value(detail), UI.value(xProgress), UI.value(yProgress));
 		p.image(_perlinTexture.texture(), p.width - _perlinTexture.texture().width, 0);

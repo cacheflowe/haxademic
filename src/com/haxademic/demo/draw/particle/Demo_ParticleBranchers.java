@@ -75,7 +75,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, 1 + 60 * 60 );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 		// load palette
 		imageGradient = new ImageGradient(ImageGradient.PASTELS());
 		imageGradient.addTexturesFromPath(ImageGradient.COOLORS_PATH);
@@ -139,7 +139,7 @@ extends PAppletHax {
 		if(p.key == ' ') reset();
 	}
 	
-	public void drawApp() {
+	protected void drawApp() {
 		// clear app background
 		background(0);
 		

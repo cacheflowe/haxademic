@@ -44,7 +44,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.RETINA, true );
 	}
 
-	public void firstFrame() {
+	protected void firstFrame() {
 	
 
 		balls = new MetaBall[NUM_BALLS];
@@ -61,7 +61,7 @@ extends PAppletHax {
 		}
 	}
 
-	public void drawApp() {
+	protected void drawApp() {
 		int t = millis();
 		p.background(0);
 		for (int i = 0; i < NUM_BALLS; i++) {
