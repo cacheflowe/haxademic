@@ -1,8 +1,9 @@
 package com.haxademic.core.app.config;
 
 public class AppSettings {
-	// Canvas setup
+	// App window setup
 	public static final String RENDERER = "renderer";
+	public static final String PJOGL_PROFILE = "pjogl_profile";
 	public static final String PDF_RENDERER_OUTPUT_FILE = "renderer_output_file";
 	public static final String WIDTH = "width";
 	public static final String HEIGHT = "height";

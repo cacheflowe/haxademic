@@ -47,7 +47,7 @@ implements IAppStoreListener {
 	
 	protected void buildAppWindow(PApplet p) {
 		// SELECT RENDERER AND WINDOW SIZE
-		PJOGL.profile = 4;
+		PJOGL.profile = Config.getInt(AppSettings.PJOGL_PROFILE, 4);
 		if(Config.getBoolean(AppSettings.SPAN_SCREENS, false) == true) {
 			// run fullscreen across all screens
 			p.fullScreen(P.renderer, P.SPAN);
