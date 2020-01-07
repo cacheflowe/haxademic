@@ -149,6 +149,7 @@ extends PApplet {
 	public void stop() {
 		if(WebCam.instance != null) WebCam.instance().dispose();
 		if(DepthCamera.instance != null) DepthCamera.instance().dispose();
+		P.store.setBoolean(PEvents.EXIT, true);
 		super.stop();
 	}
 
