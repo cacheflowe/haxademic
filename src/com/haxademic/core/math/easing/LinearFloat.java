@@ -49,6 +49,11 @@ implements IEasingValue {
 		return this;
 	}
 	
+	public IEasingValue setDelegate( IEasingValueDelegate delegate ) {
+		this.delegate = delegate;
+		return this;
+	}
+	
 	public IEasingValue setInc(float inc) {
 		this.inc = inc;
 		return this;

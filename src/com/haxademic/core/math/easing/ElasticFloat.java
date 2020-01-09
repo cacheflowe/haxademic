@@ -1,5 +1,7 @@
 package com.haxademic.core.math.easing;
 
+import com.haxademic.core.math.easing.IEasingValue.IEasingValueDelegate;
+
 public class ElasticFloat
 implements IEasingValue {
 	
@@ -33,6 +35,11 @@ implements IEasingValue {
 
 	public IEasingValue setTarget( float target ) {
 		this.target = target;
+		return this;
+	}
+	
+	public IEasingValue setDelegate( IEasingValueDelegate delegate ) {
+		// no-op :-/ hard to know when elastic value settles, but should be revisited
 		return this;
 	}
 
