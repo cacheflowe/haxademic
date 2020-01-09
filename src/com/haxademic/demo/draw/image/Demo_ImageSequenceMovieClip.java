@@ -1,11 +1,13 @@
 package com.haxademic.demo.draw.image;
 
+import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.image.ImageSequenceMovieClip;
 import com.haxademic.core.file.FileUtil;
+import com.haxademic.core.hardware.keyboard.KeyboardState;
 import com.haxademic.core.hardware.mouse.Mouse;
 
 public class Demo_ImageSequenceMovieClip
@@ -61,6 +63,15 @@ extends PAppletHax {
 			p.image(imageSequenceManual.getFrameByProgress(Mouse.xNorm), 0, 100);
 		}
 		
+		
+		// test seek methods
+		if(KeyboardState.keyTriggered(' ')) {
+			imageSequence.play();
+//			imageSequence.setFrame(9);
+//			imageSequence.setFrameByProgress(0.5f);
+			imageSequence.seek(0.5f);
+			P.out("numFrames", imageSequence.numImageFiles());
+		}
 	}
 	
 }

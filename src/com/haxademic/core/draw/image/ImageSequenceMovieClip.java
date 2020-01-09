@@ -197,14 +197,22 @@ public class ImageSequenceMovieClip {
 
 	public void seek(float progress) {
 		curFrame = P.round(progress * (playbackFrames() - 1));
+		setStartTimeFromCurFrame();
 	}
 	
 	public void setFrame(int frameIndex) {
 		curFrame = P.constrain(frameIndex, 0, playbackFrames() - 1);
+		setStartTimeFromCurFrame();
 	}
 	
 	public void setFrameByProgress(float progress) {
 		curFrame = P.floor(progress * (float) numImages) % numImages;
+		setStartTimeFromCurFrame();
+	}
+	
+	protected void setStartTimeFromCurFrame() {
+		// helper to enable seeking with the above methods
+		startTime = P.round(P.p.millis() - curFrame * (1f / fps) * 1000f);
 	}
 	
 	public void stop() {
