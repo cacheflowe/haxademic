@@ -195,6 +195,18 @@ public class ImageSequenceMovieClip {
 		}
 	}
 
+	public void seek(float progress) {
+		curFrame = P.round(progress * (playbackFrames() - 1));
+	}
+	
+	public void setFrame(int frameIndex) {
+		curFrame = P.constrain(frameIndex, 0, playbackFrames() - 1);
+	}
+	
+	public void setFrameByProgress(float progress) {
+		curFrame = P.floor(progress * (float) numImages) % numImages;
+	}
+	
 	public void stop() {
 		reset();
 	}
@@ -205,10 +217,6 @@ public class ImageSequenceMovieClip {
 	
 	public void unpause() {
 		pauseTime = -1;
-	}
-	
-	public void seek(float progress) {
-		curFrame = P.round(progress * (playbackFrames() - 1));
 	}
 	
 	public int curFrame() {
@@ -352,10 +360,6 @@ public class ImageSequenceMovieClip {
 				curFrame = P.floor(playbackProgress * fps);
 			}
 		}
-	}
-	
-	public void setFrameByProgress(float progress) {
-		curFrame = P.floor(progress * (float) numImages) % numImages;
 	}
 	
 	public void drawToPGraphics(PGraphics pg, float x, float y, float scale) {
