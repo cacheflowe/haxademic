@@ -129,7 +129,7 @@ implements IEasingValue {
 	protected void checkComplete() {
 		if(complete == false && value == target) {
 			complete = true;
-			delegate.complete(this);
+			delegate.easingValueComplete(this);
 		}
 	}
 }

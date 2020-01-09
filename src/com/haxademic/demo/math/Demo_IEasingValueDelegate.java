@@ -63,7 +63,7 @@ implements IEasingValueDelegate {
 	//////////////////////////////////////
 
 	@Override
-	public void complete(IEasingValue easingObject) {
+	public void easingValueComplete(IEasingValue easingObject) {
 		// pick random new easing speeds, and toggle direction on complete
 		if(easingObject == easingFloat) {
 			P.out("EasingFloat", easingObject.value());

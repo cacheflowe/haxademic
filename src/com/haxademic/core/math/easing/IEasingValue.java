@@ -9,6 +9,6 @@ public interface IEasingValue {
 	public boolean isComplete();
 
 	public interface IEasingValueDelegate {
-		public void complete(IEasingValue easingObject);
+		public void easingValueComplete(IEasingValue easingObject);
 	}
 }
