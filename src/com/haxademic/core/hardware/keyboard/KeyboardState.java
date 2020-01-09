@@ -13,7 +13,7 @@ public class KeyboardState {
 
 	protected HashMap<Integer, InputState> keyboardButtons = new HashMap<Integer, InputState>();
 	protected int lastUpdatedFrame = 0;
-	protected boolean updatesDebugView = true;
+	protected boolean updatesDebugView = false;
 
 	// Singleton instance
 	
