@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Properties;
 
 import com.haxademic.core.app.P;
+import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.debug.DebugUtil;
 import com.haxademic.core.file.FileUtil;
 
@@ -13,6 +14,32 @@ import com.haxademic.core.file.FileUtil;
  */
 public class Config {
 	protected static Properties properties;
+	
+	/////////////////////////
+	// Static PAppletHax `arguments` helpers
+	/////////////////////////
+	
+	public static void printArgs() {
+		String[] arguments = PAppletHax.arguments; 
+		if(arguments == null || arguments.length == 0) return;
+		// print command line arguments
+		P.out("=============");
+		P.out("main() args:");
+		for (String string : arguments) {
+			P.out("# " + string);
+		}
+		P.out("=============");
+	}
+	
+	public static String getArgValue(String arg) {
+		String[] arguments = PAppletHax.arguments; 
+		for (String string : arguments) {
+			if(string.indexOf(arg+"=") != -1) {
+				return string.split("=")[1];
+			}
+		}
+		return null;
+	}
 	
 	/////////////////////////
 	// Singleton instance

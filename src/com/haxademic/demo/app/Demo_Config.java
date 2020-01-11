@@ -1,5 +1,6 @@
 package com.haxademic.demo.app;
 
+import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
@@ -16,6 +17,7 @@ extends PAppletHax {
 	}
 	
 	protected void firstFrame() {
+		P.out("testArg =", Config.getArgValue("testArg"));	// need to pass in command line arg of `testArg=HELLO`
 	}
 	
 	protected void drawApp() {

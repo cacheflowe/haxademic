@@ -43,21 +43,10 @@ extends PApplet {
 	
 	public void settings() {
 		p = this;
-		printArgs();
+		Config.printArgs();
 		P.init(this);
 		config();
 		AppWindow.instance();
-	}
-	
-	protected void printArgs() {
-		if(arguments == null || arguments.length == 0) return;
-		// print command line arguments
-		P.out("=============");
-		P.out("main() args:");
-		for (String string : arguments) {
-			P.out("# " + string);
-		}
-		P.out("=============");
 	}
 	
 	public void setup() {
