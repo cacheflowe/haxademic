@@ -21,6 +21,7 @@ import com.haxademic.core.system.DateUtil;
 import com.haxademic.core.text.StringUtil;
 import com.haxademic.core.ui.IUIControl;
 import com.haxademic.core.ui.UI;
+import com.haxademic.core.ui.UITextInput;
 
 import processing.core.PApplet;
 import processing.core.PFont;
@@ -279,7 +280,7 @@ public class DebugView {
 
 	
 	public void checkKeyCommands() {
-		if(KeyboardState.instance().isKeyTriggered('/')) {
+		if(KeyboardState.instance().isKeyTriggered('/') && !UITextInput.active()) {
 			active(!active);
 			if(P.p.key == '?') mode = MODE_HELP; 
 			else mode = MODE_DEBUG;

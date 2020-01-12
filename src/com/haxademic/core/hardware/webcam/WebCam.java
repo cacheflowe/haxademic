@@ -12,6 +12,7 @@ import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.keyboard.KeyboardState;
 import com.haxademic.core.media.DemoAssets;
 import com.haxademic.core.ui.UIButton;
+import com.haxademic.core.ui.UITextInput;
 import com.haxademic.core.ui.UIButton.IUIButtonDelegate;
 
 import processing.core.PFont;
@@ -87,6 +88,7 @@ implements IUIButtonDelegate {
 	/////////////////////////////
 	
 	public void checkKeyCommands() {
+		if(UITextInput.active()) return;
 		if(KeyboardState.instance().isKeyTriggered('W')) menuActive(!menuActive);
 		if(KeyboardState.instance().isKeyTriggered('/')) menuActive(false);
 		if(KeyboardState.instance().isKeyTriggered('\\')) menuActive(false);

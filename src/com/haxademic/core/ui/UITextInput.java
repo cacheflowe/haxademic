@@ -54,6 +54,10 @@ public class UITextInput {
 		P.p.registerMethod("keyEvent", this);
 	}
 	
+	public static boolean active() {
+		return ACTIVE_INPUT != null;
+	}
+	
 	public String id() {
 		return id;
 	}

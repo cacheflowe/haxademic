@@ -243,7 +243,7 @@ implements IUIButtonDelegate {
 	////////////////////////
 	
 	public void checkKeyCommands() {
-		if(KeyboardState.instance().isKeyTriggered('\\')) active = !active;
+		if(KeyboardState.instance().isKeyTriggered('\\') && !UITextInput.active()) active = !active;
 //		if(KeyboardState.instance().isKeyTriggered('/')) active = false;
 	}
 	

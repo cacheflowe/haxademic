@@ -52,6 +52,10 @@ public class KeyboardState {
 		return KeyboardState.instance().isKeyTriggered(KeyCodes.keyCodeFromChar(key));
 	}
 	
+	public static boolean keyTriggered(int keyCode) {
+		return KeyboardState.instance().isKeyTriggered(keyCode);
+	}
+	
 	public boolean isKeyTriggered(int key) {
 		return (keyboardButtons.containsKey(key) && keyboardButtons.get(key) == InputState.TRIGGER);
 	}

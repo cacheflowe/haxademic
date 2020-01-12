@@ -15,6 +15,7 @@ import com.haxademic.core.media.video.MovieBuffer;
 import com.haxademic.core.render.Renderer;
 import com.haxademic.core.system.SystemUtil;
 import com.haxademic.core.ui.UIButton;
+import com.haxademic.core.ui.UITextInput;
 
 import krister.Ess.AudioInput;
 import processing.core.PApplet;
@@ -121,7 +122,7 @@ extends PApplet {
 		}
 		
 		// screenshot
-		if (p.key == '|') Renderer.saveBufferToDisk(p.g, FileUtil.screenshotsPath());
+		if (p.key == '|' && !UITextInput.active()) Renderer.saveBufferToDisk(p.g, FileUtil.screenshotsPath());
 		
 		// let other objects know
 		P.store.setString(PEvents.KEY_PRESSED, p.key+"");

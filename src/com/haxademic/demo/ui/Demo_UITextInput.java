@@ -6,6 +6,7 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.data.constants.PTextAlign;
 import com.haxademic.core.media.DemoAssets;
 import com.haxademic.core.text.ValidateUtil;
+import com.haxademic.core.ui.UI;
 import com.haxademic.core.ui.UITextInput;
 
 public class Demo_UITextInput 
@@ -16,6 +17,11 @@ extends PAppletHax {
 	protected ArrayList<UITextInput> textInputs = new ArrayList<UITextInput>();
 	
 	protected void firstFrame () {
+		// add a UI slide to test key command squashing when a textfield has focus
+		UI.addTitle("Haxademic key commands");
+		UI.addToggle("TEST", false, false);
+		
+		// add varying-sized input fields 
 		int inputX = 100;
 		int inputY = 30;
 		int inputW = 300;

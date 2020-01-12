@@ -3,6 +3,7 @@ package com.haxademic.demo.hardware.keyboard;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.data.constants.PKeys;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.hardware.keyboard.KeyboardState;
 
@@ -13,6 +14,7 @@ extends PAppletHax {
 	protected void firstFrame() {
 		DebugView.autoHide(false);
 		DebugView.active(true);
+		KeyboardState.instance().updatesDebugView(true);
 	}
 
 	protected void drawApp() {
@@ -22,6 +24,12 @@ extends PAppletHax {
 		}
 		if(KeyboardState.keyTriggered(' ')) {
 			P.out("SPACE");
+		}
+		if(KeyboardState.keyTriggered(PKeys.VK_SHIFT)) {
+			P.out("VK_SHIFT");
+		}
+		if(KeyboardState.keyTriggered(10)) {
+			P.out("ENTER");
 		}
 	}
 

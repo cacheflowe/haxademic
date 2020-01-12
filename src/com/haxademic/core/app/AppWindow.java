@@ -9,6 +9,7 @@ import com.haxademic.core.data.store.IAppStoreListener;
 import com.haxademic.core.debug.DebugUtil;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.system.AppUtil;
+import com.haxademic.core.ui.UITextInput;
 
 import processing.core.PApplet;
 import processing.core.PGraphics;
@@ -154,7 +155,7 @@ implements IAppStoreListener {
 	public void updatedNumber(String key, Number val) {
 	}
 	public void updatedString(String key, String val) {
-		if(key.equals(PEvents.KEY_PRESSED) && val.equals("F")) {
+		if(key.equals(PEvents.KEY_PRESSED) && val.equals("F") && !UITextInput.active()) {
 			toggleAlwaysOnTop();
 		}
 	}
