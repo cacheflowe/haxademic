@@ -113,6 +113,7 @@
 
 ## Big Mother / DashboardPoster / CrashMonitor
 
+* Screenshots still get "stuck" and don't update
 * Can CrashMonitor launch the main app instead of the other way around?
 * Can CrashMonitor init DashboardPoster and other tools like monitor size change and auto-mouse clicking, rather than those being in the main app
 * Can DashboardPoster also post heartbeat checkins more often
@@ -300,6 +301,7 @@
   * 3d scene to RenderTexture to Spout
     * https://www.youtube.com/watch?v=iIwcqgAPVWI
   * Scripted startup/shutdown
+  * Investigate Chromium w/Spout: https://github.com/fg-uulm/cef-spout
 
 ## MIDI:
   * Check MIDI rendering now that MIDI code has been revamped
