@@ -11,13 +11,21 @@ import processing.opengl.Texture;
 
 public class ImageSequenceMovieClip {
 
+	public interface IImageSequenceMovieClipDelegate {
+		public void movieClipHasFileList(ImageSequenceMovieClip movieClip);
+		public void movieClipLoaded(ImageSequenceMovieClip movieClip);
+		public void movieClipPreCached(ImageSequenceMovieClip movieClip);
+		public void movieClipFinished(ImageSequenceMovieClip movieClip);
+	}
+	
 	static public PImage BLANK_IMAGE;
 
+	protected IImageSequenceMovieClipDelegate delegate;
 	protected ArrayList<String> imagesToLoad = null;
 	protected String imagesDir;
 	protected int loadStartTime;
 	protected int loadFinishTime = -1;
-	protected int numImages = 0;
+	protected int totalImages = 0;
 	protected int imagesLoaded = 0;
 	protected boolean debug = false;
 	protected int preCacheFrame = 0;
@@ -70,22 +78,28 @@ public class ImageSequenceMovieClip {
 	public ImageSequenceMovieClip(ArrayList<PImage> images, float fps) {	// for already-loaded images array
 		this(null, null, fps, null);
 		imageSequence = images;
-		imagesLoaded = numImages = imageSequence.size();
+		imagesLoaded = totalImages = imageSequence.size();
 	}
 	
 	public ImageSequenceMovieClip(ArrayList<PImage> images, float fps, int numFrames) {		// for copy() - will load as original loads
 		this(null, null, fps, null);
 		imageSequence = images;
-		imagesLoaded = numImages = numFrames;
+		imagesLoaded = totalImages = numFrames;
 	}
 	
-	public void setFramesSequence(int[] framesSequence) {
+	public ImageSequenceMovieClip setDelegate(IImageSequenceMovieClipDelegate delegate) {
+		this.delegate = delegate;
+		return this;
+	}
+	
+	public ImageSequenceMovieClip setFramesSequence(int[] framesSequence) {
 		this.frameIndexPlaybackSequence = framesSequence;
+		return this;
 	}
 	
 	public ImageSequenceMovieClip copy() {
-		if(numImages == 0) P.error("ImageSequenceMovieClip.copy() must be called after threaded image loading has started on the original");
-		return new ImageSequenceMovieClip(imageSequence, fps, numImages);
+		if(totalImages == 0) P.error("ImageSequenceMovieClip.copy() must be called after threaded image loading has started on the original");
+		return new ImageSequenceMovieClip(imageSequence, fps, totalImages);
 	}
 	
 	public void setTint(int tintColor) {
@@ -106,7 +120,7 @@ public class ImageSequenceMovieClip {
 	}
 	
 	public PImage getFrameByProgress(float progress) {
-		int index = P.floor(progress * (float) numImages) % numImages;
+		int index = P.floor(progress * (float) totalImages) % totalImages;
 		if(index < imageSequence.size()) {
 			return imageSequence.get(index);
 		} else {
@@ -119,11 +133,11 @@ public class ImageSequenceMovieClip {
 	///////////////////////////////////
 	
 	public boolean isLoaded() {
-		return imagesLoaded == numImages;
+		return imagesLoaded == totalImages;
 	}
 	
 	public float loadProgress() {
-		return (float)imagesLoaded / (float)numImages;
+		return (float)imagesLoaded / (float)totalImages;
 	}
 	
 	public boolean isFlipped() {
@@ -206,7 +220,7 @@ public class ImageSequenceMovieClip {
 	}
 	
 	public void setFrameByProgress(float progress) {
-		curFrame = P.floor(progress * (float) numImages) % numImages;
+		curFrame = P.floor(progress * (float) totalImages) % totalImages;
 		setStartTimeFromCurFrame();
 	}
 	
@@ -243,8 +257,8 @@ public class ImageSequenceMovieClip {
 		return curFrame == playbackFrames() - 1;
 	}
 	
-	public int numImageFiles() {
-		return numImages;
+	public int numImages() {
+		return totalImages;
 	}
 	
 	public int numImagesLoaded() {
@@ -290,17 +304,20 @@ public class ImageSequenceMovieClip {
 
 			// read next directory
 			imagesToLoad = FileUtil.getFilesInDirOfType(imageDir, format);
-			numImages = imagesToLoad.size();
+			totalImages = imagesToLoad.size();
 		}}).start();	
 	}
 	
 	boolean isBusy = false;
 	public void loadNextImage() {
+		// if we're  not done or busy, keep loading
 		if(imagesToLoad == null) return;
 		if(imagesToLoad.size() == 0) return;
 		if(isBusy == true) return;
 		isBusy = true;
 		
+		// load next image on a separate thread
+		ImageSequenceMovieClip self = this;
 		new Thread(new Runnable() { public void run() {
 //			PImage loadedImg = P.p.requestImage(imagesDir + imagesToLoad.get(0));
 			PImage loadedImg = P.p.loadImage(imagesDir + imagesToLoad.get(0));
@@ -312,20 +329,21 @@ public class ImageSequenceMovieClip {
 				loadFinishTime = P.p.millis();
 				imagesToLoad = null;
 				if(debug == true) P.println("Sequence Load Time: "+((P.p.millis() - loadStartTime)/1000) + " seconds");
+				if(delegate != null) delegate.movieClipLoaded(self);
 			} else {
-				if(debug == true) P.println("loading image "+imagesLoaded+" / "+numImages+" :: "+imagesToLoad.get(0));
+				if(debug == true) P.println("loading image "+imagesLoaded+" / "+totalImages+" :: "+imagesToLoad.get(0));
 			}
 		}}).start();
 	}
 	
-	public void preCacheImages() {
+	public void preCacheImages(PGraphics pg) {
 		if(preCacheFrame < imageSequence.size() && preCacheFrame != -1) {
-			P.p.image(imageSequence.get(preCacheFrame), P.p.width * 3, P.p.height * 3, 10, 10);
-//			P.p.image(imageSequence.get(preCacheFrame), 0, 0, imageSequence.get(preCacheFrame).width, imageSequence.get(preCacheFrame).height);
-//			P.println("Pre-caching frame: ", preCacheFrame);
+			// draw image to buffer, which caches into Processing's PGrpahics Texture cache
+			// doing this once, upfront will make performance faster after everything's loaded
+			pg.image(imageSequence.get(preCacheFrame), pg.width * 3, pg.height * 3, 10, 10);
 			preCacheFrame++;
-		} else if(preCacheFrame == numImages && preCacheFrame != -1) {
-//			 P.println("Done pre-caching");
+		} else if(preCacheFrame == totalImages && preCacheFrame != -1) {
+			if(delegate != null) delegate.movieClipPreCached(this);
 			preCacheFrame = -1;
 		}
 	}
@@ -334,13 +352,13 @@ public class ImageSequenceMovieClip {
 	// Cleanup
 	///////////////////////////////////
 	
-	public void dispose() {
+	public void dispose(PGraphics pg) {
 		// https://forum.processing.org/two/discussion/6898/how-to-correctly-release-pimage-memory
 		// https://github.com/jeffThompson/ProcessingTeachingSketches/blob/master/Utilities/AvoidPImageMemoryLeaks/AvoidPImageMemoryLeaks.pde
 		// https://forum.processing.org/one/topic/pimage-memory-leak-example.html
 		for (int i = 0; i < imageSequence.size(); i++) {
-			Object cache = P.p.g.getCache(imageSequence.get(i));
-			P.p.g.removeCache(imageSequence.get(i));
+			Object cache = pg.getCache(imageSequence.get(i));
+			pg.removeCache(imageSequence.get(i));
 			if (cache instanceof Texture) {
 				((Texture) cache).disposeSourceBuffer();
 			}
@@ -353,7 +371,7 @@ public class ImageSequenceMovieClip {
 	///////////////////////////////////
 	
 	protected int playbackFrames() {
-		return (frameIndexPlaybackSequence != null) ? frameIndexPlaybackSequence.length : numImages;
+		return (frameIndexPlaybackSequence != null) ? frameIndexPlaybackSequence.length : totalImages;
 	}
 	
 	public void update() {
@@ -364,6 +382,7 @@ public class ImageSequenceMovieClip {
 				playbackProgress = (P.p.millis() - startTime) / 1000f;
 				if(playbackProgress > duration()) {
 					resetPlayhead();
+					if(delegate != null) delegate.movieClipFinished(this);
 				}
 				curFrame = P.floor(playbackProgress * fps);
 			}

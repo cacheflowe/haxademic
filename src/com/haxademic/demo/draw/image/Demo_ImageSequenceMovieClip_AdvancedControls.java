@@ -5,6 +5,7 @@ import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.image.ImageSequenceMovieClip;
 import com.haxademic.core.file.FileUtil;
+import com.haxademic.core.media.DemoAssets;
 
 import processing.video.Movie;
 
@@ -22,9 +23,8 @@ extends PAppletHax {
 	}
 
 	protected void firstFrame() {
-		
-		movie = new Movie( p, FileUtil.getPath("video/cacheflowe/render-2015-04-23-13-38-17-export.mp4"));
-		imageSequence = new ImageSequenceMovieClip(FileUtil.getPath("images/floaty-blob.anim/"), "png", 18);
+		movie = DemoAssets.movieFractalCube();
+		imageSequence = new ImageSequenceMovieClip(FileUtil.getPath("haxademic/images/floaty-blob.anim/"), "png", 18);
 	}
 
 	protected void drawApp() {
@@ -68,7 +68,7 @@ extends PAppletHax {
 		
 		// draw image sequence
 		imageSequence.update();
-		imageSequence.preCacheImages();
+		imageSequence.preCacheImages(p.g);
 		p.image(imageSequence.image(), 640, 0, 640, 640);
 	}
 	

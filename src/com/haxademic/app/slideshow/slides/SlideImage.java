@@ -357,7 +357,7 @@ implements IAppStoreListener {
 	protected void preloadAndCache(PGraphics buffer) {
 		// preload image sequences
 		if(imageSequence != null) {
-			imageSequence.preCacheImages();
+			imageSequence.preCacheImages(buffer);
 			imageSequence.update();
 		}
 
@@ -491,7 +491,7 @@ implements IAppStoreListener {
 			if(movie != null) buffer.image(movie, 0, 0, imageW, imageH);
 			if(gif != null) buffer.image(gif, 0, 0, imageW, imageH);
 			if(imageSequence != null) {
-				PImage frameImg = (imageSequence.isPlaying() == true) ? imageSequence.image() : imageSequence.getFrame(imageSequence.numImageFiles() - 1);
+				PImage frameImg = (imageSequence.isPlaying() == true) ? imageSequence.image() : imageSequence.getFrame(imageSequence.numImages() - 1);
 				buffer.image(frameImg, 0, 0, imageW, imageH);
 			}
 		}
