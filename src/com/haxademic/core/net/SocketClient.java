@@ -52,6 +52,7 @@ public class SocketClient {
 				@Override
 				public void onOpen( ServerHandshake handshake ) {
 					if(SOCKET_DEBUG == true) P.println( "opened connection" );
+					if(delegate != null) delegate.socketConnected("self");
 					JSONObject jsonOut = new JSONObject();
 					jsonOut.setString("event", "SocketClient: opened connection");
 					sendMessage(JsonUtil.jsonToSingleLine(jsonOut));
@@ -59,6 +60,7 @@ public class SocketClient {
 
 				@Override
 				public void onClose( int code, String reason, boolean remote ) {
+					if(delegate != null) delegate.socketDisconnected("self");
 					if(SOCKET_DEBUG == true) P.println( "closed connection" );
 				}
 

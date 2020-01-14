@@ -49,11 +49,20 @@ implements ISocketClientDelegate {
 	    jsonOut.setInt("y", p.mouseY);
 		wsClient.sendMessage(JsonUtil.jsonToSingleLine(jsonOut));
 	}
+	
+	// ISocketClientDelegate methods
 
-	@Override
 	public void messageReceived(String message) {
 		P.out("Incoming WS message:");
 	    DebugUtil.printBig(message);
+	}
+	
+	public void socketConnected(String connection) {
+		P.out("socketConnected:", connection);
+	}
+	
+	public void socketDisconnected(String connection) {
+		P.out("socketDisconnected:", connection);
 	}
 
 }

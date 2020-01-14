@@ -2,6 +2,7 @@ package com.haxademic.demo.net;
 
 import java.net.UnknownHostException;
 
+import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
@@ -72,5 +73,14 @@ implements ISocketClientDelegate {
 		    DebugUtil.printBig("Incoming WS message: " + event + " / " + command);
 		}
 	}
+
+	public void socketConnected(String connection) {
+		P.out("socketConnected:", connection);
+	}
+	
+	public void socketDisconnected(String connection) {
+		P.out("socketDisconnected:", connection);
+	}
+
 
 }

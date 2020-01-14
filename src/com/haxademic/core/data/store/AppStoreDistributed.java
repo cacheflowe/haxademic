@@ -22,6 +22,8 @@ implements ISocketClientDelegate {
 	protected SocketServer server;
 	protected SocketClient client;
 	
+	public static final String SOCKET_CONNECTED = "SOCKET_CONNECTED";
+	public static final String SOCKET_DISCONNECTED = "SOCKET_DISCONNECTED";
 	public static final String DATA_TYPE = "type";
 	public static final String DATA_TYPE_NUMBER = "number";
 	public static final String DATA_TYPE_STRING = "string";
@@ -75,6 +77,14 @@ implements ISocketClientDelegate {
 		client = new SocketClient(serverAddress, this, true);
 	}
 	
+	public boolean isSocketConnected() {
+		if(server != null) return true;
+		if(client != null) return client.isConnected();
+		return false;
+	}
+	
+	// Shared basic data types setters 
+	
 	public void setNumber(String storeKey, Number val) {
 		// pass along to AppStore
 		P.store.setNumber(storeKey, val);
@@ -120,10 +130,9 @@ implements ISocketClientDelegate {
 	}
 	
 	/////////////////////////////////////////
-	// Shared server/client callback & status
+	// ISocketClientDelegate: Shared server/client callback & status
 	/////////////////////////////////////////
 
-	@Override
 	public void messageReceived(String message) {
 		// parse incoming json and pass along to correct AppStore data type
 		// P.println("CustomSocketHandler.receiveMessage() : ", message);
@@ -142,12 +151,14 @@ implements ISocketClientDelegate {
 			P.store.setString(DATA_TYPE_JSON_KEY, message);
 		}
 	}
-
-	protected boolean isSocketConnected() {
-		if(server != null) return true;
-		if(client != null) return client.isConnected();
-		return false;
+	
+	public void socketConnected(String connection) {
+		P.store.setString(SOCKET_CONNECTED, connection);
 	}
 	
+	public void socketDisconnected(String connection) {
+		P.store.setString(SOCKET_DISCONNECTED, connection);
+	}
+
 }
 

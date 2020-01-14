@@ -37,6 +37,7 @@ extends WebSocketServer {
 	public void onOpen( WebSocket conn, ClientHandshake handshake ) {
 		// handshake.getResourceDescriptor()
 		if(conn != null) {
+			if(delegate != null) delegate.socketConnected(connAddress(conn));
 			if(SocketServer.FORWARDS_ALL_MESSAGES) this.sendToAll( "{\"message\":\"new connection: " + connAddress(conn) + " has entered the room.\"}" );
 			if(SocketServer.DEBUG == true) {
 				P.out( connAddress(conn) + " entered the room!" );
@@ -47,6 +48,7 @@ extends WebSocketServer {
 	
 	@Override
 	public void onClose( WebSocket conn, int code, String reason, boolean remote ) {
+		if(delegate != null) delegate.socketDisconnected(connAddress(conn));
 		if(conn != null) {
 			if(SocketServer.FORWARDS_ALL_MESSAGES) this.sendToAll( "{\"message\":\"" + connAddress(conn) + " has left the room.\"}" );
 			if(SocketServer.DEBUG == true) P.out( connAddress(conn) + " has left the room!" );
