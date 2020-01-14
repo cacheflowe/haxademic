@@ -1,4 +1,4 @@
-package com.haxademic.demo.hardware.printer;
+package com.haxademic.demo.render;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
@@ -13,7 +13,7 @@ import com.haxademic.core.hardware.printer.PrintPageDirect;
 
 import processing.core.PGraphics;
 
-public class Demo_PrintPDF 
+public class Demo_savePDF 
 extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
