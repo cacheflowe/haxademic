@@ -32,6 +32,10 @@ public class StringUtil {
 		return NumberFormat.getInstance().format(number);
 	}
 	
+	public static String safeString(String str) {
+		return str.replaceAll("[^A-Za-z0-9._\\-]", EMPTY_STRING);
+	}
+	
 	public static String toAlphaNumericChars(String str) {
 		return str.replaceAll("[^A-Za-z0-9.]", EMPTY_STRING);
 	}

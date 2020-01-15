@@ -19,6 +19,7 @@ extends PAppletHax {
 
 	protected void firstFrame() {
 		logOut.update("formattedDecimal: " + StringUtil.formattedDecimal(""+1002.2333333f));
+		logOut.update("safeString: " + StringUtil.safeString("DRFTYGU@#43567$%^&*_-.jmohuuytt.png"));
 	}
 
 	protected void drawApp() {
