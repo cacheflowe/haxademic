@@ -225,8 +225,8 @@ public class PG {
 	}
 	
 	public static void basicCameraFromMouse(PGraphics pg, float amp) {
-		pg.rotateX(P.map(Mouse.xEasedNorm, 0, 1, P.PI * amp, -P.PI * amp));
-		pg.rotateY(P.map(Mouse.yEasedNorm, 0, 1, -P.PI * amp, P.PI * amp));
+		pg.rotateX(P.map(Mouse.yEasedNorm, 0, 1, P.PI * amp, -P.PI * amp));
+		pg.rotateY(P.map(Mouse.xEasedNorm, 0, 1, -P.PI * amp, P.PI * amp));
 	}
 	
 	//////////////////////////////
