@@ -70,9 +70,8 @@ public class SocketClient {
 					ex.printStackTrace();
 				}
 			};
+			client.connect();
 		} catch (URISyntaxException e) { e.printStackTrace(); }
-		
-		client.connect();
 	}
 	
 	public String localSocketServerAddress() {
