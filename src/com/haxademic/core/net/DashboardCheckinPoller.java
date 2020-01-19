@@ -104,7 +104,6 @@ implements IJsonRequestCallback {
 		    String value = item.getValue();
 		    if(key != null && value != null) {
 		    	jsonObj.setString(key, value);
-		    	appCustomInfo.remove(key);	// remove after being added to post
 		    }
 		}
 		for (Map.Entry<String, Number> item : appCustomInfoNumeric.entrySet()) {
@@ -112,9 +111,12 @@ implements IJsonRequestCallback {
 			float value = item.getValue().floatValue();
 			if(key != null) {
 				jsonObj.setFloat(key, value);
-				appCustomInfoNumeric.remove(key);	// remove after being added to post
 			}
 		}
+		
+		// clear custom values after adding them to post object
+		appCustomInfo.clear();
+		appCustomInfoNumeric.clear();
 		
 		return jsonObj;
 	}
