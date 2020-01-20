@@ -4,6 +4,8 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
+import com.haxademic.core.draw.image.ImageUtil;
+import com.haxademic.core.draw.textures.pshader.TextureShader;
 import com.haxademic.core.hardware.mouse.Mouse;
 import com.haxademic.core.media.DemoAssets;
 
@@ -15,17 +17,27 @@ extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	protected PGraphics image;
+	protected TextureShader curShader;
 
 	protected void firstFrame()	{
 		image = PG.newPG(1000, 500);
+		curShader = new TextureShader(TextureShader.cacheflowe_down_void);
 	}
 
 	protected void drawApp() {
 		// update image w/test pattern
 		image.beginDraw();
-		PG.drawTestPattern(image);
-		image.image(DemoAssets.squareTexture(), 0, 0);
+		ImageUtil.drawImageCropFill(DemoAssets.squareTexture(), image, true);
 		image.endDraw();
+		DebugView.setTexture("image", image);
+
+		// overwrite with test pattern
+		PG.drawTestPattern(image);
+
+		// overwrite with shader
+		curShader.setTimeMult(0.001f);
+		curShader.updateTime();
+		image.filter(curShader.shader());
 
 		// prep context w/camera rotate
 		p.background(0);
@@ -33,12 +45,7 @@ extends PAppletHax {
 		p.lights();
 		PG.setCenterScreen(p);
 		p.translate(0, -100, -500);
-		float amp = 1f;
-		p.rotateX(P.map(Mouse.yEasedNorm, 0, 1, P.PI * amp, -P.PI * amp));
-		p.rotateY(P.map(Mouse.xEasedNorm, 0, 1, -P.PI * amp, P.PI * amp));
-
-		DebugView.setTexture("image", image);
-
+		PG.basicCameraFromMouse(p.g);
 		p.pushMatrix();
 
 		// draw back wall
