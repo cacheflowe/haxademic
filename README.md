@@ -39,7 +39,7 @@ Below you'll find a long list of classes and utilities that I've built to make m
 
 * __[AppSettings](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/app/config/AppSettings.java)__ - Static constants to help set app properties and initialize special objects in `PAppletHax`. Used in tandem with `Config`.
 
-* __[Config](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/app/config/Config.java)__ - Loads properties from `data/properties/run.properties` (or an additional custom .properties file), using the same string constants in `AppSettings`. All of these properties can be overridden in PAppletHax in the automatically-called `config()` function on app initialization.
+* __[Config](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/app/config/Config.java)__ - Loads properties from `data/properties/run.properties` (or an additional custom .properties file), using the same string constants in `AppSettings`. All of these properties can be overridden in PAppletHax in the automatically-called `config()` function on app initialization. Also helps access & parse command line arguments.
 
 ### Data
 
