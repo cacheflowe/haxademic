@@ -27,34 +27,43 @@ extends PAppletHax {
 	protected float xPad = 0;
 	protected String SUBDIVISIONS = "SUBDIVISIONS";
 	protected String CORNER_X_PAD = "CORNER_X_PAD";
+	protected String MID_X_PAD = "MID_X_PAD";
 	protected String SCALE = "SCALE";
+	protected String IMAGE_MODE = "IMAGE_MODE";
 
 
 	protected void firstFrame()	{
 		// image setup
 		image = PG.newPG(1000, 500);
+		DebugView.setTexture("image", image);
+
 		curShader = new TextureShader(TextureShader.cacheflowe_down_void);
 		
 		// ui
 		UI.addSlider(SUBDIVISIONS, 10, 1, 20, 1, false);
 		UI.addSlider(CORNER_X_PAD, 0, 0, 0.5f, 0.001f, false);
+		UI.addSlider(MID_X_PAD, 0.2f, 0, 0.5f, 0.001f, false);
 		UI.addSlider(SCALE, 1, 0.5f, 5f, 0.01f, false);
+		UI.addSlider(IMAGE_MODE, 0, 0, 2, 1, false);
 	}
 
 	protected void drawApp() {
-		// update image w/test pattern
-		image.beginDraw();
-		ImageUtil.drawImageCropFill(DemoAssets.squareTexture(), image, true);
-		image.endDraw();
-		DebugView.setTexture("image", image);
-
 		// overwrite with test pattern
 		PG.drawTestPattern(image);
 
-		// overwrite with shader
-		curShader.setTimeMult(0.003f);
-		curShader.updateTime();
-//		image.filter(curShader.shader());
+		if(UI.valueInt(IMAGE_MODE) == 1) {
+			// update image w/test pattern
+			image.beginDraw();
+			ImageUtil.drawImageCropFill(DemoAssets.squareTexture(), image, true);
+			image.endDraw();
+		}
+
+		if(UI.valueInt(IMAGE_MODE) == 2) {
+			// overwrite with shader
+			curShader.setTimeMult(0.003f);
+			curShader.updateTime();
+			image.filter(curShader.shader());
+		}
 		
 		// draw UV mapping on texture itself
 		drawUvVisualization();
@@ -72,6 +81,8 @@ extends PAppletHax {
 		// mapping calcs
 		subdivisions = UI.valueInt(SUBDIVISIONS);
 		xPad = UI.value(CORNER_X_PAD);
+		midX1 = UI.value(MID_X_PAD);
+		midX2 = 1f - midX1;
 		
 		// draw back wall
 		textureQuadSubdivided(p.g, image, subdivisions, 
