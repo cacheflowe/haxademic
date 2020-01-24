@@ -114,6 +114,7 @@
 ## Big Mother / DashboardPoster / CrashMonitor
 
 * Screenshots still get "stuck" and don't update
+* On web side, uptime is modded every 24 hours - needs a day count up front!
 * Can CrashMonitor launch the main app instead of the other way around?
 * Can CrashMonitor init DashboardPoster and other tools like monitor size change and auto-mouse clicking, rather than those being in the main app
 * Can DashboardPoster also post heartbeat checkins more often

@@ -67,7 +67,7 @@ class Dashboard {
 
       // show uptime stats
       $uptimeSeconds = isset($appData['uptime']) ? $appData['uptime'] : 0;
-      $uptimeClock = ($uptimeSeconds) ? DateUtil::secondsToClockTime($uptimeSeconds) : "n/a";
+      $uptimeClock = ($uptimeSeconds) ? DateUtil::daysAndSecondsToClockTime($uptimeSeconds) : "n/a";
       $restartedAlert = ($uptimeSeconds < 60 * 30 && $offlineAlert == "") ? " dashboard-restarted" : "";  // 30 minute window to show restarted color
 
       $appTitle = isset($appData['appTitle']) ? $appData['appTitle'] : $appKey;
