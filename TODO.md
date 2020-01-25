@@ -114,11 +114,12 @@
 
 ## Big Mother / DashboardPoster / CrashMonitor
 
+* Should Screenshot in DashboardPoster be it's own app/process, like the CrashMonitor? or *in* CrashMonitor? As an UptimeSuite??
+* CrashMonitor is very slow to communicate & turns yellow if a heavy app is starting up
 * Screenshots still get "stuck" and don't update
 * On web side, uptime is modded every 24 hours - needs a day count up front!
 * Can CrashMonitor launch the main app instead of the other way around?
 * Can CrashMonitor init DashboardPoster and other tools like monitor size change and auto-mouse clicking, rather than those being in the main app
-* Can DashboardPoster also post heartbeat checkins more often
 * Add config CMS to BigMother for any app to receive commands and config
 * BigMother should be implemented in a Simplesite instance
 
@@ -156,6 +157,7 @@
 
 
 ## Art projects
+  * Video filter that does a bunch of feedback operations every frame, leading to GAN-like looks?
   * 8-channel surround sound & light
   * C.A.C.H.E. 
   * Variable Reaction-Diffusion using amplitude map & custom blur/sharpen shaders
@@ -365,7 +367,6 @@
   	* https://forum.processing.org/two/discussion/17629/how-to-get-round-using-16-bit-image-buffers-shadertoy-question
 
 ## net
-  * Should Screenshot in DashboardPoster be it's own app/process, like the CrashMonitor? or *in* CrashMonitor? As an UptimeSuite??
   * WebServer and SocketServer should be more stylistically similar. See PORT in WebServer, and DEBUG static boolean - should be passed in?
   * Replace JavaWebsocket with Jetty WebSocket server??
 
