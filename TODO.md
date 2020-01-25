@@ -90,6 +90,7 @@
 
 ## InputTrigger revamp
 
+* Key press triggers with KeyboardState don't always register - especially over TeamViewer of if the FPS is low
 * Test the rest of this - we should be in good shape now
 * Threaded safety of InputTrigger isn't good - especially at a low FPS?
   * WebServer requests can fall through the cracks (button clicks, etc)
@@ -309,6 +310,7 @@
 
 ## GLSL
   * Processing float 32 support: https://github.com/processing/processing/issues/3321
+  * Do the physarum: https://sagejenson.com/physarum
   * Shader builder w/snippets - look through Hepp's code
     * Add uniforms automatically?
   	* Default shader chunks
@@ -341,7 +343,7 @@
     * Build a basic demo that uses vertex depth to fade to a color- probably already have something similar
     * Does textureSize(Sampler2D) give us the texture size???
     * Doing calculations in the vertex shader should always be faster than the fragment shader, since there are fewer vertices than fragments.
-    * Use the â€˜discard' keyword to *not* update a fragment, anywhere in a fragment shader.
+    * Use the 'discard' keyword to *not* update a fragment, anywhere in a fragment shader.
   * GPU Particles
     * Fix up GPU particle launcher to store colors per-particle
     * https://github.com/armdz/ParticlesGPU/blob/master/bin/data/shader/render.vert
