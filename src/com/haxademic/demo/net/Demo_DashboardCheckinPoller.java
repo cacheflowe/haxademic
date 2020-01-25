@@ -12,7 +12,10 @@ extends PAppletHax {
 	
 	protected void firstFrame() {
 		DashboardCheckinPoller.DEBUG = true;
-		dashboardPoster = new DashboardCheckinPoller("test-app-2", "TEST APP 2", "http://localhost/haxademic/www/dashboard-new/", 5, 23, 0.5f);
+//		dashboardPoster = new DashboardCheckinPoller("test-app-2", "TEST APP 2", "http://localhost/haxademic/www/dashboard-new/", 5, 23, 0.5f);
+		dashboardPoster = new DashboardCheckinPoller("test-app-2", "TEST APP 2", "http://bigmother.hovercraftstudio.com/", 5, 20, 0.5f);
+//		dashboardCheckinPoller = new DashboardCheckinPoller("nike-react-infinity-"+serverNumberInt, "Nike React Infinity @ 650 ("+serverNumberInt+")", "http://bigmother.hovercraftstudio.com/", 30, 3600, 0.5f);
+
 		dashboardPoster.setExtraImage(p.g, 20);
 	}
 	
