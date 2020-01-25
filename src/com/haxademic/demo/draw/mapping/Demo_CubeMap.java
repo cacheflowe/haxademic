@@ -2,12 +2,16 @@ package com.haxademic.demo.draw.mapping;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
+import com.haxademic.core.draw.filters.pshader.RepeatFilter;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.shapes.Shapes;
 import com.haxademic.core.draw.textures.pshader.TextureShader;
+import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.media.DemoAssets;
+import com.haxademic.core.render.FrameLoop;
 import com.haxademic.core.ui.UI;
 
 import processing.core.PGraphics;
@@ -29,8 +33,16 @@ extends PAppletHax {
 	protected String MID_X_PAD = "MID_X_PAD";
 	protected String SCALE = "SCALE";
 	protected String IMAGE_MODE = "IMAGE_MODE";
+	protected String SCROLL_TEXTURE = "SCROLL_TEXTURE";
+	protected String ROT_X = "ROT_X";
+	protected String ROT_Y = "ROT_Y";
+	protected String SHOW_UV = "SHOW_UV";
 
 
+	protected void config()	{
+		Config.setAppSize(960, 960);
+	}
+	
 	protected void firstFrame()	{
 		// image setup
 		image = PG.newPG(1000, 500);
@@ -44,9 +56,15 @@ extends PAppletHax {
 		UI.addSlider(MID_X_PAD, 0.2f, 0, 0.5f, 0.001f, false);
 		UI.addSlider(SCALE, 1, 0.5f, 5f, 0.01f, false);
 		UI.addSlider(IMAGE_MODE, 0, 0, 2, 1, false);
+		UI.addSlider(ROT_X, 0, -P.PI, P.PI, 0.001f, false);
+		UI.addSlider(ROT_Y, 0, -P.PI, P.PI, 0.001f, false);
+		UI.addToggle(SCROLL_TEXTURE, false, false);
+		UI.addToggle(SHOW_UV, false, false);
 	}
 
 	protected void drawApp() {
+		// update texture
+		
 		// overwrite with test pattern
 		PG.drawTestPattern(image);
 
@@ -56,6 +74,11 @@ extends PAppletHax {
 			ImageUtil.drawImageCropFill(DemoAssets.squareTexture(), image, true);
 			image.endDraw();
 		}
+		
+		if(UI.valueToggle(SCROLL_TEXTURE)) {
+			RepeatFilter.instance(p).setOffset(0, FrameLoop.count(0.0005f));
+			RepeatFilter.instance(p).applyTo(image);
+		}
 
 		if(UI.valueInt(IMAGE_MODE) == 2) {
 			// overwrite with shader
@@ -63,24 +86,30 @@ extends PAppletHax {
 			curShader.updateTime();
 			image.filter(curShader.shader());
 		}
-		
-		// draw UV mapping on texture itself
-		drawUvVisualization();
 
-		// prep context w/camera rotate
+		// clear app context
 		p.background(0);
 		p.noStroke();
 		p.lights();
+		
+		// draw UV mapping on texture itself, and then to screen
+		if(UI.valueToggle(SHOW_UV)) drawUvVisualization();
+		float texDrawScale = MathUtil.scaleToTarget(image.width, p.width);
+		p.image(image, 0, 0, image.width * texDrawScale, image.height * texDrawScale);
+
+		// prep context w/camera rotate
 		PG.setCenterScreen(p);
-		p.translate(0, -100, -500);
-		PG.basicCameraFromMouse(p.g);
+		p.translate(0, 300, -500);
+		// PG.basicCameraFromMouse(p.g);
+		p.rotateX(UI.valueEased(ROT_X));
+		p.rotateY(UI.valueEased(ROT_Y));
 		p.pushMatrix();
-		p.scale(UI.value(SCALE));
+		p.scale(UI.valueEased(SCALE));
 		
 		// mapping calcs
 		subdivisions = UI.valueInt(SUBDIVISIONS);
-		xPad = UI.value(CORNER_X_PAD);
-		midX1 = UI.value(MID_X_PAD);
+		xPad = UI.valueEased(CORNER_X_PAD);
+		midX1 = UI.valueEased(MID_X_PAD);
 		midX2 = 1f - midX1;
 		
 		// draw back wall
@@ -119,7 +148,7 @@ extends PAppletHax {
 		// draw visualization
 		image.beginDraw();
 		image.stroke(255, 0, 0);
-		image.strokeWeight(10);
+		image.strokeWeight(4);
 		image.noFill();
 		
 		// back wall
