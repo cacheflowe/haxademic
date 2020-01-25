@@ -1,7 +1,5 @@
 package com.haxademic.core.math.easing;
 
-import com.haxademic.core.math.easing.IEasingValue.IEasingValueDelegate;
-
 public class ElasticFloat
 implements IEasingValue {
 	

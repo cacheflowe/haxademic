@@ -1,7 +1,6 @@
 package com.haxademic.core.text;
 
 import com.haxademic.core.app.P;
-import com.haxademic.core.data.constants.PRenderers;
 
 import processing.core.PFont;
 import processing.core.PGraphics;

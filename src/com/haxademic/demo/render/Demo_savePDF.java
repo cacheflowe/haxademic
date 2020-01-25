@@ -4,14 +4,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
-import com.haxademic.core.data.constants.PBlendModes;
-import com.haxademic.core.data.constants.PRenderers;
-import com.haxademic.core.draw.context.PG;
-import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.file.FileUtil;
-import com.haxademic.core.hardware.printer.PrintPageDirect;
-
-import processing.core.PGraphics;
 
 public class Demo_savePDF 
 extends PAppletHax {

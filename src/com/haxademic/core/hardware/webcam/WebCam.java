@@ -12,8 +12,8 @@ import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.keyboard.KeyboardState;
 import com.haxademic.core.media.DemoAssets;
 import com.haxademic.core.ui.UIButton;
-import com.haxademic.core.ui.UITextInput;
 import com.haxademic.core.ui.UIButton.IUIButtonDelegate;
+import com.haxademic.core.ui.UITextInput;
 
 import processing.core.PFont;
 import processing.core.PGraphics;
