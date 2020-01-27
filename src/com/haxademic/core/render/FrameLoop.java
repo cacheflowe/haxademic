@@ -75,6 +75,18 @@ public class FrameLoop {
 		return FrameLoop.instance().frame % mod == frameInLoop;
 	}
 	
+	public static boolean frameModSeconds(float seconds) {
+		return FrameLoop.instance().frame % P.round(seconds * 60) == 1;   		// 60 frames per second
+	}
+
+	public static boolean frameModMinutes(float minutes) {
+		return FrameLoop.instance().frame % P.round(minutes * 3600) == 1;		// 60 frames * 60 seconds
+	}
+	
+	public static boolean frameModHours(float hours) {
+		return FrameLoop.instance().frame % P.round(hours * 216000) == 1;		// 60 frames * 60 seconds * 60 minutes
+	}
+	
 	// static loop getters
 	
 	public static float loopFrames() {
