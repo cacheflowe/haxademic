@@ -34,7 +34,28 @@
   * FrameLoop
   * DepthCamera
   * Renderer
-  
+
+## Bring into Haxademic:
+
+Infinity:
+
+* Custom UITextField example (kill ESC and other keys)
+* Debug tools in main app 
+* MouseShutdown10x - just make original configurable for clicks & timeout
+* Finish gradient alpha wipe shader & wrapper
+* New Slack wrapper
+  * See if we can remove the 2 extra slack-client jars
+
+PGA:
+
+* Chrome launch script? And java side?
+
+Chi WS Server:
+
+* Nice updated websocket demo
+  * Include www portion
+
+
 ## What is Haxademic?
 
 * Builds a thin layer on top of Processing with:

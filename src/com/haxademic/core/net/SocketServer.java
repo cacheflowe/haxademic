@@ -14,7 +14,7 @@ public class SocketServer {
 	public static int PORT = 3001;
 	public static boolean FORWARDS_ALL_MESSAGES = true;
 
-	SocketServerHandler server;
+	protected SocketServerHandler server;
 	
 	public SocketServer(SocketServerHandler handler, boolean debug) {
 		SocketServer.DEBUG = debug;
