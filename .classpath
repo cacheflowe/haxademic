@@ -96,5 +96,8 @@
 	<classpathentry kind="lib" path="lib/udp/library/udp.jar"/>
 	<classpathentry kind="lib" path="lib/UMovieMaker/library/monte-cc.jar"/>
 	<classpathentry kind="lib" path="lib/UMovieMaker/library/UMovieMaker.jar"/>
+	<classpathentry kind="lib" path="lib/zxing4p3/zxingjavase_3.3.2.jar"/>
+	<classpathentry kind="lib" path="lib/zxing4p3/zxing4p3.jar"/>
+	<classpathentry kind="lib" path="lib/zxing4p3/zxingcore_3.3.2.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>

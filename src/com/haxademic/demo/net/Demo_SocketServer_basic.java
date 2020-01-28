@@ -17,7 +17,7 @@ import com.haxademic.core.system.SystemUtil;
 
 import processing.data.JSONObject;
 
-public class Demo_SocketServer
+public class Demo_SocketServer_basic
 extends PAppletHax
 implements ISocketClientDelegate {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }

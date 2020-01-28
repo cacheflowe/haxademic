@@ -1,0 +1,42 @@
+body {
+  margin: 0;
+  padding: 0;
+  opacity: 0.5;
+  transition: all 0.2s ease;
+  font-family: 'Avenir-Heavy', Helvetica, sans-serif;
+}
+body.has-socket {
+  opacity: 1;
+  border-top: 10px solid #00ff00;
+}
+body.no-socket {
+  border-top: 10px solid #ff0000;
+}
+#debug {
+  padding: 0px;
+}
+#debug > div {
+  white-space: nowrap;
+}
+#send-messages > button {
+  white-space: nowrap;
+  padding: 8px 4px;
+  color: #fff;
+  border: 1px solid rgba(0,0,0,0.8);
+  border-radius: 2px;
+}
+.grid-container {
+  text-align: left;
+  grid-gap: 0px 10px;
+  gap: 0px 10px;
+}
+section {
+  width: 70%;
+  float: left;
+  padding: 20px;
+  box-sizing: border-box;
+}
+section:first-of-type {
+  width: 30%;
+  background: #999;
+}

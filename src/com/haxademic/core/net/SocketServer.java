@@ -27,6 +27,31 @@ public class SocketServer {
 	
 	protected void initSocketServer() {
 		try {
+			////////////////////////////////////////////////
+			// Look into SSL addition: https://github.com/TooTallNate/Java-WebSocket/blob/master/src/main/example/SSLServerExample.java
+			/*
+			String STORETYPE = "JKS";
+			String STOREPASSWORD = "haxademic";
+			String KEYPASSWORD = "haxademic";
+
+			KeyStore ks = KeyStore.getInstance( STORETYPE );
+			File kf = new File( FileUtil.getPath("haxademic/net/config/haxademic-selfsigned.jks") );
+			ks.load( new FileInputStream( kf ), STOREPASSWORD.toCharArray() );
+
+			KeyManagerFactory kmf = KeyManagerFactory.getInstance( "SunX509" );
+			kmf.init( ks, KEYPASSWORD.toCharArray() );
+			TrustManagerFactory tmf = TrustManagerFactory.getInstance( "SunX509" );
+			tmf.init( ks );
+
+			SSLContext sslContext = null;
+			sslContext = SSLContext.getInstance( "TLS" );
+			sslContext.init( kmf.getKeyManagers(), tmf.getTrustManagers(), null );
+
+			server.setWebSocketFactory( new DefaultSSLWebSocketServerFactory( sslContext ) );
+			*/
+			
+			////////////////////////////////////////////////
+			
 			WebSocketImpl.DEBUG = false; // SocketServer.DEBUG;
 			server.start();
 			P.println( "WS Server started on port: " + server.getPort() );
@@ -37,7 +62,7 @@ public class SocketServer {
 				String in = sysin.readLine();
 				server.sendToAll( in );
 			}
-		} catch(IOException e) {
+		} catch(IOException e) {	//  | NoSuchAlgorithmException | CertificateException | UnrecoverableKeyException | KeyStoreException | KeyManagementException
 			e.printStackTrace();
 		}  
 	}

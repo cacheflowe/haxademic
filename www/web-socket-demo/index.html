@@ -1,131 +1,33 @@
 <html>
 <head>
   <title>WebSocket Test</title>
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      opacity: 0.5;
-      transition: all 0.2s ease;
-      font-family: 'Avenir-Heavy', Helvetica, sans-serif;
-    }
-    body.has-socket {
-      opacity: 1;
-    }
-    body.no-socket {
-      background: #ff0000;
-    }
-    #debug {
-      padding: 20px;
-      padding-top: 120px;
-    }
-    #debug > div {
-      white-space: nowrap;
-    }
-    #send-messages {
-      position: fixed;
-      top: 0;
-      left: 0;
-      background: #999;
-      padding: 20px;
-    }
-    #send-messages > button {
-      white-space: nowrap;
-      padding: 8px 4px;
-      margin-bottom: 8px;
-      color: #fff;
-      border: 1px solid rgba(0,0,0,0.8);
-      border-radius: 2px;
-    }
-  </style>
+  <link rel="stylesheet" href="css/normalize.css">
+  <link rel="stylesheet" href="css/barebones.css">
+  <link rel="stylesheet" href="css/socket-demo.css">
 </head>
-<body>
-  <div id="debug">
-    <div>Debug:</div>
-  </div>
-  <div id="send-messages">
-    <div>Send a test message:</div>
-    <button style="background-color: #36B1BF;" onclick='javascript:sendJsonData({"event":"WEB_EVENT","command":"start"});'>Web Event: Start</button>
-    <button style="background-color: #D95E32;" onclick='javascript:sendJsonData({"event":"WEB_EVENT","command":"stop"});'>Web Event: Stop</button>
-    <button style="background-color: #5ED932;" onclick='javascript:sendJsonData({"store":true, "type":"number", "key":"WEB_EVENT","value":"1"});'>Web Event: 1</button>
-    <button style="background-color: #32D95E;" onclick='javascript:sendJsonData({"store":true, "type":"number", "key":"WEB_EVENT","value":"2"});'>Web Event: 2</button>
-  </div>
-  <script type="text/javascript" src="./solid-socket.js"></script>
-  <script type="text/javascript" src="./socket-monitor.js"></script>
-  <script type="text/javascript">
-    // globals
-    var debug = document.getElementById('debug');
-    var MAX_LOGS = 20;
-
-    //////////////////////////
-    // WEBSOCKET SETUP
-    //////////////////////////
-
-    var onopen = function (event) {
-      solidSocket.sendMessage(JSON.stringify({
-        event: "connect",
-        machine: "products-ipad",
-        date: ""+Date.now()
-      }));
-    };
-
-    var onmessage = function (event) {
-      if(!event.data) return;
-      var jsonData = window.JSON.parse(event.data);
-      checkJSON(jsonData);
-    };
-
-    var solidSocket = new SolidSocket("ws://"+document.location.hostname+":3001");
-    solidSocket.setOpenCallback(onopen);
-    solidSocket.setMessageCallback(onmessage);
-
-    var sendJsonData = function (data) {
-      solidSocket.sendMessage(JSON.stringify(data));
-    };
-
-    //////////////////////////
-    // WEBSOCKET INCOMING EVENTS
-    //////////////////////////
-
-    function checkJSON(jsonData) {
-      console.log(jsonData, jsonData['event']);
-      if(jsonData['store'] && jsonData['type']) {
-        var div = document.createElement('div');
-        div.innerHTML = JSON.stringify(jsonData);
-        div.style.backgroundColor = "#D95E32";
-        div.style.color = '#ffffff';
-        div.style.padding = '2px 10px';
-        document.getElementById('debug').appendChild(div);
-      }
-      // check for specific message data
-      if(jsonData['event'] && jsonData['event'] == 'frame-count') {
-        // add event to screen
-        var div = document.createElement('div');
-        div.innerHTML = JSON.stringify(jsonData);
-        document.getElementById('debug').appendChild(div);
-      }
-      if(jsonData['event'] && jsonData['event'] == 'WEB_EVENT') {
-        var div = document.createElement('div');
-        div.innerHTML = JSON.stringify(jsonData);
-        // start, capture, finish, process, server
-        if(jsonData['command'] != null) {
-          if(jsonData['command'] == 'start') div.style.backgroundColor = "#D95E32";
-          if(jsonData['command'] == 'stop') div.style.backgroundColor = "#36B1BF";
-          div.style.color = '#ffffff';
-          div.style.padding = '2px 10px';
-        } else {
-          div.style.fontSize = '10px';
-        }
-        // add event to screen
-        document.getElementById('debug').appendChild(div);
-      }
-      // cut off log length
-      while(debug.childNodes.length > MAX_LOGS) {
-        var el = debug.childNodes[0];
-        el.parentNode.removeChild(el);
-      }
-    }
-
-  </script>
+<body class="no-socket">
+  <section>
+    <div id="send-messages">
+      <div class="grid-container full">
+        <h3>Broadcast:</h3>
+      </div>
+      <div class="grid-container full">
+        <button style="background-color: #36B1BF;" data-json='{"event":"WEB_EVENT","command":"start"}'>Web Event: Start</button>
+        <button style="background-color: #D95E32;" data-json='{"event":"WEB_EVENT","command":"stop"}'>Web Event: Stop</button>
+        <button style="background-color: #5ED932;" data-json='{"store":true, "type":"number", "key":"WEB_CLICK","value":"1"}'>Web Click: 1</button>
+        <button style="background-color: #32D95E;" data-json='{"store":true, "type":"number", "key":"WEB_CLICK","value":"2"}'>Web Click: 2</button>
+      </div>
+    </div>
+  </section>
+  <section>
+    <div class="grid-container full">
+      <h3>Incoming:</h3>
+    </div>
+    <div id="debug"></div>
+  </section>
+  <!-- Scripts -->
+  <script type="text/javascript" src="js/gyronorm.complete.min.js"></script>
+  <script type="text/javascript" src="js/solid-socket.es6.js"></script>
+  <script type="text/javascript" src="js/socket-demo.js"></script>
 </body>
 </html>
