@@ -73,11 +73,13 @@ public class WavPlayer {
 		String id = filePath;
 		
 		// load sound
-		// P.println("Playing:", filePath);
+		 P.println("Playing:", filePath);
 		Sample audioSample = SampleManager.sample(filePath);
 		if(audioSample != null) {
 			SamplePlayer player = null;
-			if(players.containsKey(id) == false) {
+			if(players.containsKey(id) == true) {
+				player = getPlayer(id);
+			} else {
 				players.put(id, new SamplePlayer(curContext, audioSample));
 				player = getPlayer(id);
 				player.setKillOnEnd(false);
