@@ -34,6 +34,10 @@ public class AppUtil {
 		p.getSurface().setSize(w, h);
 	}
 	
+	public static void setResizable(PApplet p, boolean isResizable) {
+		p.getSurface().setResizable(isResizable);
+	}
+	
 	public static void setTitle(PApplet p, String title) {
 		if(p.frame != null) {
 			p.getSurface().setTitle(title);
