@@ -151,9 +151,11 @@ implements IAppStoreListener {
 		// keepOnTop();
 	}
 
+	////////////////////////
+	// AppStore callbacks
+	////////////////////////
 
-	public void updatedNumber(String key, Number val) {
-	}
+	public void updatedNumber(String key, Number val) {}
 	public void updatedString(String key, String val) {
 		if(key.equals(PEvents.KEY_PRESSED) && val.equals("F") && !UITextInput.active()) {
 			toggleAlwaysOnTop();
