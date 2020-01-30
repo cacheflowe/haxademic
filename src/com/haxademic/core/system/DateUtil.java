@@ -121,7 +121,26 @@ public class DateUtil {
 	}
 	
 	// WEEK
+	
+	public static Calendar sharedCalendar;
+	public static Calendar calendarInstance() {
+		if(sharedCalendar == null) sharedCalendar = Calendar.getInstance(); 
+		return sharedCalendar;
+	}
+	
+	public static int dayOfWeek() {
+		// Sunday == 1, Monday == 2, etc
+		Date now = new Date();
+		calendarInstance().setTime(now);
+		return calendarInstance().get(Calendar.DAY_OF_WEEK);
+	}
 
+	public static int weekOfYear() {
+		Date now = new Date();
+		calendarInstance().setTime(now);
+		return calendarInstance().get(Calendar.WEEK_OF_YEAR);
+	}
+	
 	public static int getWeekInt(String year, String monthPadded, String dayPadded) { // , boolean isToday
 		String input = year + monthPadded + dayPadded; // "20190507"
 		String format = "yyyyMMdd";
@@ -129,7 +148,7 @@ public class DateUtil {
 		Date date;
 		try {
 			date = df.parse(input);
-			Calendar cal = Calendar.getInstance();
+			Calendar cal = calendarInstance();
 			cal.setTime(date);
 			int week = cal.get(Calendar.WEEK_OF_YEAR);
 //			if(isToday && cal.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) week++; // project-specific hack: show upcoming week events if today is sunday

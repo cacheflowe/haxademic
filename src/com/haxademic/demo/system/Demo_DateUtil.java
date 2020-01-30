@@ -19,7 +19,7 @@ extends PAppletHax {
 		
 		// set font
 		PFont font = FontCacher.getFont(DemoAssets.fontOpenSansPath, 18);
-		FontCacher.setFontOnContext(p.g, font, p.color(255), 2f, PTextAlign.LEFT, PTextAlign.TOP);
+		FontCacher.setFontOnContext(p.g, font, p.color(255), 1.2f, PTextAlign.LEFT, PTextAlign.TOP);
 				
 		// draw debug output
 		p.text(
@@ -28,6 +28,8 @@ extends PAppletHax {
 				"Uptime (timeFromSeconds()) :: " + DateUtil.timeFromSeconds((int) DateUtil.uptimeSeconds(), true) + FileUtil.NEWLINE + 
 				"DateUtil.todaySeconds() :: " + DateUtil.todaySeconds() + FileUtil.NEWLINE + 
 				"DateUtil.todayHours() :: " + DateUtil.todayHours() + FileUtil.NEWLINE + 
+				"DateUtil.dayOfWeek() :: " + DateUtil.dayOfWeek() + FileUtil.NEWLINE +
+				"DateUtil.weekOfYear() :: " + DateUtil.weekOfYear() + FileUtil.NEWLINE +
 				"Current time (currentTime(true, false, true)) :: " + DateUtil.currentTime(false, false, true) + FileUtil.NEWLINE + 
 				"Current time (secondsToFormattedTime()) :: " + DateUtil.secondsToFormattedTime((int) DateUtil.todaySeconds(), false, false) + FileUtil.NEWLINE + 
 				"uptimeHours() :: " + DateUtil.uptimeHours() + FileUtil.NEWLINE + 
