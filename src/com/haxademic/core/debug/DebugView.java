@@ -12,8 +12,10 @@ import com.haxademic.core.data.constants.PRegisterableMethods;
 import com.haxademic.core.data.constants.PTextAlign;
 import com.haxademic.core.draw.color.ColorsHax;
 import com.haxademic.core.draw.context.PG;
+import com.haxademic.core.draw.shapes.polygons.CollisionUtil;
 import com.haxademic.core.draw.text.FontCacher;
 import com.haxademic.core.hardware.keyboard.KeyboardState;
+import com.haxademic.core.hardware.mouse.Mouse;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.media.DemoAssets;
 import com.haxademic.core.net.IPAddress;
@@ -35,7 +37,7 @@ public class DebugView {
 	protected static LinkedHashMap<String, String> debugLines = new LinkedHashMap<String, String>();
 	protected static LinkedHashMap<String, String> helpLines = new LinkedHashMap<String, String>();
 	protected static LinkedHashMap<String, PImage> textures = new LinkedHashMap<String, PImage>();
-	protected static float padding = 20;
+	protected static float padding = 10;
 	protected static float debugPanelW = 0;
 	protected static float MAX_PANEL_WIDTH = 500;
 	protected static float helpPanelW = 0;
@@ -51,6 +53,8 @@ public class DebugView {
 	protected static boolean autoHide = false;
 	protected static String ipAddress;
 	public static final String TITLE_PREFIX = "___";
+	protected static String highlightedText = null;
+	protected static PImage highlightedImage = null;
 	
 	public static int controlX = 0;
 	public static int controlY = 0;
@@ -232,7 +236,12 @@ public class DebugView {
 
 		// text label
 		pg.fill(ColorsHax.BUTTON_TEXT);
-		pg.text(textLine, IUIControl.TEXT_INDENT, 1f, IUIControl.controlW, controlH);
+		pg.text(textLine, IUIControl.TEXT_INDENT, 1f); // , IUIControl.controlW, controlH
+
+		// if mouse hover, draw big afterwards
+		if(!isTitle && CollisionUtil.rectangleContainsPoint(Mouse.x, Mouse.y, controlX, controlY, IUIControl.controlW, controlH)) {
+			highlightedText = textLine;
+		}
 		
 		// reset context
 		pg.popMatrix();
@@ -246,10 +255,13 @@ public class DebugView {
 		PGraphics pg = P.p.g;
 
     	// scale to fit
-		float padding = 10;
 		float imgScale = MathUtil.scaleToTarget(image.width, IUIControl.controlW);
 		float texH = image.height * imgScale;
 		float texW = image.width * imgScale;
+		if(texH > image.height) {
+			texW = image.width;
+			texH = image.height;
+		}
 		
 		// if not enough room, move to next col
 		if(controlY + texH > P.p.height) nextCol();
@@ -264,6 +276,11 @@ public class DebugView {
 		// draw image
 		PG.drawStrokedRect(pg, IUIControl.controlW, texH, 1, P.p.color(ColorsHax.BUTTON_BG, BG_ALPHA), ColorsHax.BUTTON_OUTLINE);
 		p.image(image, padding, padding, texW - padding * 2, texH - padding * 2);
+		
+		// if mouse hover, draw big afterwards
+		if(CollisionUtil.rectangleContainsPoint(Mouse.x, Mouse.y, controlX, controlY, IUIControl.controlW, (int) texH)) {
+			highlightedImage = image;
+		}
 
 		// reset context
 		pg.popMatrix();
@@ -271,6 +288,32 @@ public class DebugView {
 		// move to next box
 		controlY += texH;
 		if(controlY > P.p.height - texH) nextCol();
+	}
+	
+	protected void drawHighlightedValue() {
+		if(highlightedText != null) {
+			PGraphics pg = P.p.g;
+
+			// draw bg rect
+			int fill = P.p.color(0, 180, 0);
+			PG.drawStrokedRect(pg, pg.width, controlH, 1, fill, ColorsHax.BUTTON_OUTLINE);
+
+			// text label
+			pg.fill(ColorsHax.BUTTON_TEXT);
+			pg.text(highlightedText, IUIControl.TEXT_INDENT, 1f); // , IUIControl.controlW, controlH
+
+		}
+	}
+	
+	protected void drawHighlightedImage() {
+		if(highlightedImage != null) {
+			PGraphics pg = P.p.g;
+			
+			// draw bg rect
+			PG.drawStrokedRect(pg, highlightedImage.width + padding * 2, highlightedImage.height + padding * 2, 1, P.p.color(0, 180, 0), ColorsHax.BUTTON_OUTLINE);
+			// draw image
+			p.image(highlightedImage, padding, padding);
+		}
 	}
 	
 	protected static void nextCol() {
@@ -285,8 +328,6 @@ public class DebugView {
 			if(P.p.key == '?') mode = MODE_HELP; 
 			else mode = MODE_DEBUG;
 		}
-//		if(KeyboardState.instance().isKeyTriggered('?')) { active(!active); mode = MODE_HELP; }
-//		if(KeyboardState.instance().isKeyTriggered('\\')) active(false);
 	}
 	
 	public void pre() {
@@ -304,12 +345,12 @@ public class DebugView {
 		if(active == false) return;
 		if(autoHide && p.frameCount > frameOpened + hideFrames) active = false;
 		
+		// update core app stats
+		updateAppInfo();
+		
 		p.pushMatrix();
 		p.pushStyle();
 		p.noLights();
-		
-		// update core app stats
-		updateAppInfo();
 		
 		// set up flat drawing
 		PG.setDrawCorner(p);
@@ -317,6 +358,9 @@ public class DebugView {
 		p.blendMode(PBlendModes.BLEND);
 		
 		// draw info boxes!
+		// check to see if UI is already drawn on screen, and start from there
+		highlightedText = null;
+		highlightedImage = null;
 		controlX = (UI.active()) ? UI.controlX : 0;
 		controlY = (UI.active()) ? UI.controlY : 0;
 		FontCacher.setFontOnContext(P.p.g, debugFont, P.p.color(255), 1f, PTextAlign.LEFT, PTextAlign.TOP);
@@ -325,10 +369,13 @@ public class DebugView {
 		} else {
 			drawValuesFromHashMap(helpLines); 
 		}
+		drawHighlightedValue();
+		drawHighlightedImage();
 		
 		// reset context
 		PG.setDrawFlat2d(p, false);
 		p.popStyle();
 		p.popMatrix();
 	}
+
 }

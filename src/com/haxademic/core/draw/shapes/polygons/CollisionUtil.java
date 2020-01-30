@@ -44,6 +44,12 @@ public class CollisionUtil {
 		return result;
 	}
 	
+	protected static Rectangle rect = new Rectangle();
+	public static boolean rectangleContainsPoint(float checkX, float checkY, int rectX, int rectY, int rectW, int rectH) {
+		rect.setRect(rectX, rectY, rectW, rectH);
+		return rect.contains(checkX, checkY, 1, 1);
+	}
+	
 	//////////////////////////
 	// LINE SEGMENTS INTERSECT
 	//////////////////////////
