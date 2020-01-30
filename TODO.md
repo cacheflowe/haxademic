@@ -50,10 +50,6 @@ PGA:
 
 * Chrome launch script? And java side?
 
-Chi WS Server:
-
-* Nice updated websocket demo
-  * Include www portion
 
 
 ## What is Haxademic?
