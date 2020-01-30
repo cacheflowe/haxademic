@@ -88,7 +88,7 @@ public class Config {
 	}
 	
 	public static String getString(String id, String defState) {
-		return properties.getProperty(id,defState);
+		return properties.getProperty(id, defState);
 	}
  
 	// boolean helpers

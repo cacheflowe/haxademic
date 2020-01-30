@@ -34,7 +34,6 @@ extends PApplet {
 		P.p = p;
 		P.store = AppStore.instance();
 		Config.instance();
-		renderer = Config.getString(AppSettings.RENDERER, P.P3D);
 	}
 	
 	public static void appInitialized() {
