@@ -73,7 +73,6 @@ public class WavPlayer {
 		String id = filePath;
 		
 		// load sound
-		 P.println("Playing:", filePath);
 		Sample audioSample = SampleManager.sample(filePath);
 		if(audioSample != null) {
 			SamplePlayer player = null;

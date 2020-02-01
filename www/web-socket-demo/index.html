@@ -1,33 +1,39 @@
 <html>
 <head>
-  <title>WebSocket Test</title>
-  <link rel="stylesheet" href="css/normalize.css">
-  <link rel="stylesheet" href="css/barebones.css">
+  <title>WebSocket Demo</title>
+  <link rel="stylesheet" href="../_shared/css/normalize.css">
+  <link rel="stylesheet" href="../_shared/css/barebones.css">
   <link rel="stylesheet" href="css/socket-demo.css">
 </head>
 <body class="no-socket">
-  <section>
-    <div id="send-messages">
-      <div class="grid-container full">
-        <h3>Broadcast:</h3>
+  <div class="grid-container full">
+    <section>
+      <h2>WebSocket Demo</h2>
+    </section>
+  </div>
+  <div class="grid-container halves">
+    <section>
+      <div id="send-messages">
+        <div class="grid-container full">
+          <h3>Broadcast:</h3>
+        </div>
+        <div class="grid-container full">
+          <button style="background-color: #36B1BF;" data-json='{"event":"WEB_EVENT","command":"start"}'>Web Event: Start</button>
+          <button style="background-color: #D95E32;" data-json='{"event":"WEB_EVENT","command":"stop"}'>Web Event: Stop</button>
+          <button style="background-color: #5ED932;" data-json='{"store":true, "type":"number", "key":"WEB_CLICK","value":"1"}'>Web Click: 1</button>
+          <button style="background-color: #32D95E;" data-json='{"store":true, "type":"number", "key":"WEB_CLICK","value":"2"}'>Web Click: 2</button>
+        </div>
       </div>
+    </section>
+    <section>
       <div class="grid-container full">
-        <button style="background-color: #36B1BF;" data-json='{"event":"WEB_EVENT","command":"start"}'>Web Event: Start</button>
-        <button style="background-color: #D95E32;" data-json='{"event":"WEB_EVENT","command":"stop"}'>Web Event: Stop</button>
-        <button style="background-color: #5ED932;" data-json='{"store":true, "type":"number", "key":"WEB_CLICK","value":"1"}'>Web Click: 1</button>
-        <button style="background-color: #32D95E;" data-json='{"store":true, "type":"number", "key":"WEB_CLICK","value":"2"}'>Web Click: 2</button>
+        <h3>Incoming:</h3>
       </div>
-    </div>
-  </section>
-  <section>
-    <div class="grid-container full">
-      <h3>Incoming:</h3>
-    </div>
-    <div id="debug"></div>
-  </section>
+      <div id="debug"></div>
+    </section>
+  </div>
   <!-- Scripts -->
-  <script type="text/javascript" src="js/gyronorm.complete.min.js"></script>
-  <script type="text/javascript" src="js/solid-socket.es6.js"></script>
+  <script type="text/javascript" src="../_shared/js/haxademic.es6.js"></script>
   <script type="text/javascript" src="js/socket-demo.js"></script>
 </body>
 </html>

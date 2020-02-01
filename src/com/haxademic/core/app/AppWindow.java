@@ -44,12 +44,11 @@ implements IAppStoreListener {
 	public boolean alwaysOnTop() {
 		return alwaysOnTop;
 	}
-
 	
 	protected void buildAppWindow(PApplet p) {
 		// SELECT RENDERER AND WINDOW SIZE
 		P.renderer = Config.getString(AppSettings.RENDERER, P.P3D);
-		P.out("Renderer:", P.renderer);
+		P.out("Processing renderer:", P.renderer);
 		if(P.isOpenGL()) PJOGL.profile = Config.getInt(AppSettings.PJOGL_PROFILE, 4);
 		if(Config.getBoolean(AppSettings.SPAN_SCREENS, false) == true) {
 			// run fullscreen across all screens

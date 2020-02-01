@@ -1,0 +1,24 @@
+body {
+  margin: 0;
+  padding: 0;
+  opacity: 0.5;
+  transition: all 0.2s ease;
+  font-family: 'Avenir-Heavy', Helvetica, sans-serif;
+}
+body.has-socket {
+  opacity: 1;
+  border-top: 10px solid #00ff00;
+}
+body.no-socket {
+  border-top: 10px solid #ff0000;
+  opacity: 0.7;
+}
+#debug > div {
+  white-space: nowrap;
+}
+.grid-container {
+  text-align: left;
+}
+section {
+  padding: 2rem;
+}

@@ -1,69 +1,72 @@
 <html>
 <head>
-  <title>WebSocket Test</title>
-  <style>
-    body {
-      margin: 0;
-      padding: 0;
-      opacity: 0.5;
-      transition: all 0.2s ease;
-      font-family: 'Avenir-Heavy', Helvetica, sans-serif;
-    }
-    body.has-socket {
-      opacity: 1;
-    }
-    body.no-socket {
-      background: #ff0000;
-    }
-    #debug {
-      padding: 20px;
-      padding-top: 120px;
-    }
-    #debug > div {
-      white-space: nowrap;
-    }
-    #send-messages {
-      position: fixed;
-      top: 0;
-      right: 0;
-      background: #999;
-      padding: 20px;
-    }
-    #send-messages > button {
-      white-space: nowrap;
-      padding: 8px 4px;
-      margin-bottom: 8px;
-      /* color: #fff; */
-      border: 1px solid rgba(0,0,0,0.8);
-      border-radius: 2px;
-    }
-  </style>
+  <title>AppStoreDistributed Demo</title>
+  <link rel="stylesheet" href="../_shared/css/normalize.css">
+  <link rel="stylesheet" href="../_shared/css/barebones.css">
+  <link rel="stylesheet" href="css/demo.css">
 </head>
-<body>
-  <div id="send-messages">
-    <div>Send a test number:</div>
-    <button onclick='javascript:_store.set("CLICK", 1, true);'>click: 1</button>
-    <button onclick='javascript:_store.set("CLICK", 2, true);'>click: 2</button>
-    <div>Send a test boolean:</div>
-    <button onclick='javascript:_store.set("bool", true, true);'>bool: true</button>
-    <button onclick='javascript:_store.set("bool", false, true);'>bool: false</button>
-    <div>Send a test string:</div>
-    <button onclick='javascript:_store.set("strang", "string one", true);'>strang: string one</button>
-    <button onclick='javascript:_store.set("strang", "string two", true);'>strang: string two</button>
-    <div>Send generic JSON:</div>
-    <button onclick='javascript:_store.broadcastJson({"test":"test","data":true});'>"data":true</button>
-    <button onclick='javascript:_store.broadcastJson({"test":"test","data":false});'>"data":false</button>
+<body class="no-socket">
+  <div class="grid-container full">
+    <section>
+      <h2>AppStoreDistributed Demo</h2>
+    </section>
   </div>
-  <script type="text/javascript" src="../haxademic.js/solid-socket.es6.js"></script>
-  <script type="text/javascript" src="../haxademic.js/app-store.es6.js"></script>
-  <script type="text/javascript" src="../haxademic.js/app-store-distributed.es6.js"></script>
-  <script type="text/javascript" src="../haxademic.js/app-store-debug.es6.js"></script>
-  <script type="text/javascript" src="./socket-monitor.js"></script>
+  <div class="grid-container halves">
+    <section>
+      <div class="grid-container full">
+        <h3>Outgoing:</h3>
+      </div>
+      <div id="send-messages">
+        <div>Send a test number:</div>
+        <button onclick='javascript:_store.set("CLICK", 1, true);'>click: 1</button>
+        <button onclick='javascript:_store.set("CLICK", 2, true);'>click: 2</button>
+        <div>Send a test boolean:</div>
+        <button onclick='javascript:_store.set("bool", true, true);'>bool: true</button>
+        <button onclick='javascript:_store.set("bool", false, true);'>bool: false</button>
+        <div>Send a test string:</div>
+        <button onclick='javascript:_store.set("strang", "string one", true);'>strang: string one</button>
+        <button onclick='javascript:_store.set("strang", "string two", true);'>strang: string two</button>
+        <div>Send generic JSON:</div>
+        <button onclick='javascript:_store.broadcastJson({"test":"test","data":true});'>"data":true</button>
+        <button onclick='javascript:_store.broadcastJson({"test":"test","data":false});'>"data":false</button>
+        <div>Text update:</div>
+        <div class="grid-container full">
+          <input type="text" oninput='javascript:_store.set("text", this.value, true);' placeholder="type here"></input>
+        </div>
+      </div>
+    </section>
+    <section>
+      <div class="grid-container full">
+        <h3>Incoming:</h3>
+      </div>
+      <div id="debug"></div>
+    </section>
+  </div>
+
+  <script type="text/javascript" src="../_shared/js/haxademic.es6.js"></script>
   <script type="text/javascript">
-    // init app store
+    // init app store. 
+    // haxademic.js dependencies: AppStore, AppStoreDistributed, SolidSocket
     let webSocketHost = "ws://"+document.location.hostname+":3001";
     let appStore = new AppStoreDistributed(webSocketHost);
-    let appStoreDebug = new AppStoreDebug(true);
+
+    // log incoming values
+    const debugEl = document.getElementById('debug');
+    appStore.addListener(
+      {
+        storeUpdated: (key, val) => {
+          let htmlStr = '<table>';
+          for(let storeKey in _store.state) {
+            let val = _store.state[storeKey];
+            if(val && typeof val == "object" && val.length && val.length > 0) val = `Array(${val.length})`; // special display for arrays
+            else if(val && typeof val == "object") val = JSON.stringify(val); // special display for objects
+            htmlStr += `<tr><td>${storeKey}</td><td>${val}</td></tr>`;
+          }
+          htmlStr += '</table>';
+          debugEl.innerHTML = htmlStr;
+        }
+      }
+    );
   </script>
 </body>
 </html>

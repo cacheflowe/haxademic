@@ -4,10 +4,13 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
+import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
+import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.EasingFloat;
 import com.haxademic.core.media.DemoAssets;
+import com.haxademic.core.text.RandomStringUtil;
 
 public class Demo_DebugView
 extends PAppletHax {
@@ -20,14 +23,20 @@ extends PAppletHax {
 	protected void config() {
 		Config.setProperty( AppSettings.FPS, 90 );
 		Config.setProperty( AppSettings.WIDTH, 800 );
-		Config.setProperty( AppSettings.HEIGHT, 600 );
-		Config.setProperty( AppSettings.APP_NAME, "Debug Display Test" );
+		Config.setProperty( AppSettings.HEIGHT, 400 );
+		Config.setProperty( AppSettings.APP_NAME, "DebugView" );
+		Config.setProperty( AppSettings.RENDERER, PRenderers.JAVA2D );
 	}
 
 	protected void firstFrame() {
 		DebugView.active(true);
 		DebugView.setHelpLine("Test info here", "");
 		DebugView.setHelpLine("[key]", "[Value]");
+		
+		// add a bunch of long strings to test value length
+		for (int i = 0; i < 20; i++) {
+			DebugView.setValue("test val "+i, RandomStringUtil.randomStringOfLength(MathUtil.randRange(5, 50), RandomStringUtil.ALPHANUMERIC));
+		}
 	}
 
 	protected void drawApp() {

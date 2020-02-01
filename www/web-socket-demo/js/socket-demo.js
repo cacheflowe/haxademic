@@ -3,15 +3,18 @@
 //////////////////////////
 var debug = document.getElementById('debug');
 var MAX_LOGS = 20;
+var machineId = (document.location.hash.length > 0) ? document.location.hash.substring(1) : "machine-id-in-hash-please"
 
 //////////////////////////
 // WEBSOCKET SETUP
 //////////////////////////
 
+// callbacks
+
 function onOpen(event) {
   solidSocket.sendMessage(JSON.stringify({
     event: "connect",
-    machine: "machine-id",
+    machine: machineId,
     date: ""+Date.now()
   }));
 };
@@ -21,6 +24,8 @@ function onMessage(event) {
   var jsonData = window.JSON.parse(event.data);
   checkJSON(jsonData);
 };
+
+// init SolidSocket
 
 const socketAddress = "ws://"+document.location.hostname+":3001";
 const solidSocket = new SolidSocket(socketAddress);
@@ -76,6 +81,7 @@ function checkJSON(jsonData) {
     div = document.createElement('code');
     div.innerHTML = JSON.stringify(jsonData);
   }
+  // add styling to new logging divs
   if(div != null) {
     // div.style.color = '#ffffff';
     div.style.padding = '2px 10px';
@@ -83,49 +89,9 @@ function checkJSON(jsonData) {
     container.appendChild(div);
     document.getElementById('debug').appendChild(container);
   }
-  // cut off log length
+  // truncate log
   while(debug.childNodes.length > MAX_LOGS) {
     var el = debug.childNodes[0];
     el.parentNode.removeChild(el);
   }
 }
-
-//////////////////////////
-// EXTRA CREDIT: ACCELEROMETER
-// ... requires an https server, which then requires a wss server, which isn't part of the plan here :(
-//////////////////////////
-
-/*
-var gn = new GyroNorm();
-gn.init().then(function(){
-  gn.start(function(data){
-    sendJsonData({
-      rotX: data.do.beta,
-      rotY: data.do.alpha,
-      rotZ: data.do.gamma,
-    });
-    // Process:
-    // data.do.alpha	( deviceorientation event alpha value )
-    // data.do.beta		( deviceorientation event beta value )
-    // data.do.gamma	( deviceorientation event gamma value )
-    // data.do.absolute	( deviceorientation event absolute value )
-
-    // data.dm.x		( devicemotion event acceleration x value )
-    // data.dm.y		( devicemotion event acceleration y value )
-    // data.dm.z		( devicemotion event acceleration z value )
-
-    // data.dm.gx		( devicemotion event accelerationIncludingGravity x value )
-    // data.dm.gy		( devicemotion event accelerationIncludingGravity y value )
-    // data.dm.gz		( devicemotion event accelerationIncludingGravity z value )
-
-    // data.dm.alpha	( devicemotion event rotationRate alpha value )
-    // data.dm.beta		( devicemotion event rotationRate beta value )
-    // data.dm.gamma	( devicemotion event rotationRate gamma value )
-  });
-}).catch(function(e){
-  alert('FAIL');
-  console.log(e);
-  alert(e.toString());
-  // Catch if the DeviceOrientation or DeviceMotion is not supported by the browser or device
-});
-*/

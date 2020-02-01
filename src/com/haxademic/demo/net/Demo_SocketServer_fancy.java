@@ -100,7 +100,7 @@ implements IAppStoreListener, ISocketClientDelegate {
 	
 	public void keyPressed() {
 		super.keyPressed();
-		if(p.key == 'b') SystemUtil.openWebPage(WebServer.getServerAddress() + "web-socket-demo/");
+		if(p.key == 'b') SystemUtil.openWebPage(WebServer.getServerAddress() + "web-socket-demo/#machine-1");
 	}
 	
 	/////////////////////////////////
@@ -161,7 +161,7 @@ implements IAppStoreListener, ISocketClientDelegate {
 	    jsonOut.setInt("value", p.frameCount);
 	    String jsonString = JsonUtil.jsonToSingleLine(jsonOut);
 		socketServer.sendMessage(jsonString);
-		socketLog.update("OUT: " + jsonString);
+		socketLog.printToScreen(pg, 20, 80);
 	}
 	
 	/////////////////////////////////

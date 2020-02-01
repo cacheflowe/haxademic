@@ -4,6 +4,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Set;
 
 import javax.swing.Timer;
 
@@ -83,7 +84,7 @@ public class AppStore {
 	
 	public void setValueWithDelay(String storeKey, Number val, int delay) {
 		Timer deferredStateTimer = new Timer(delay, new ActionListener() {
-			@Override public void actionPerformed(ActionEvent arg0) {
+			public void actionPerformed(ActionEvent arg0) {
 				setNumber(storeKey, val);
 			}
 		});
@@ -117,6 +118,18 @@ public class AppStore {
 	
 	public PGraphics getBuffer(String storeKey) {
 		return bufferStore.get(storeKey);
+	}
+	
+	public Set<String> numberKeys() {
+		return numberStore.keySet();
+	}
+	
+	public Set<String> stringKeys() {
+		return stringStore.keySet();
+	}
+	
+	public Set<String> booleanKeys() {
+		return boolStore.keySet();
 	}
 	
 	public void showStoreValuesInDebugView() {

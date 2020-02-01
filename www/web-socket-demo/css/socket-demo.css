@@ -16,7 +16,7 @@ body.no-socket {
   padding: 0px;
 }
 #debug > div {
-  white-space: nowrap;
+  /* white-space: nowrap; */
 }
 #send-messages > button {
   white-space: nowrap;
@@ -30,13 +30,16 @@ body.no-socket {
   grid-gap: 0px 10px;
   gap: 0px 10px;
 }
+code {
+  white-space: break-spaces;
+}
 section {
-  width: 70%;
-  float: left;
+  /* width: 70%;
+  float: left; */
   padding: 20px;
   box-sizing: border-box;
 }
 section:first-of-type {
-  width: 30%;
-  background: #999;
+  /* width: 30%; */
+  /* background: #999; */
 }
