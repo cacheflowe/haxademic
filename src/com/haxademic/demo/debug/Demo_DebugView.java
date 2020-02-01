@@ -25,7 +25,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.WIDTH, 800 );
 		Config.setProperty( AppSettings.HEIGHT, 400 );
 		Config.setProperty( AppSettings.APP_NAME, "DebugView" );
-		Config.setProperty( AppSettings.RENDERER, PRenderers.JAVA2D );
+//		Config.setProperty( AppSettings.RENDERER, PRenderers.JAVA2D );	// why doesn't DebugView work in JAVA2D renderer?
 	}
 
 	protected void firstFrame() {
@@ -44,6 +44,7 @@ extends PAppletHax {
 
 		DebugView.setValue("Max mouse", P.max(p.mouseX, p.mouseY));
 		DebugView.setTexture("smallTexture", DemoAssets.smallTexture());
+		DebugView.setTexture("squareTexture", DemoAssets.squareTexture());
 		DebugView.setTexture("app", p.g);
 		
 		_easingX.setEaseFactor(easeFactor);

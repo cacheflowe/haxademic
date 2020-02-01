@@ -255,7 +255,7 @@ public class DebugView {
 		PGraphics pg = P.p.g;
 
     	// scale to fit
-		float imgScale = MathUtil.scaleToTarget(image.width, IUIControl.controlW);
+		float imgScale = MathUtil.scaleToTarget(image.width, IUIControl.controlW - padding * 2);
 		float texH = image.height * imgScale;
 		float texW = image.width * imgScale;
 		if(texH > image.height) {
@@ -274,8 +274,8 @@ public class DebugView {
 		pg.translate(controlX, controlY);
 		
 		// draw image
-		PG.drawStrokedRect(pg, IUIControl.controlW, texH, 1, P.p.color(ColorsHax.BUTTON_BG, BG_ALPHA), ColorsHax.BUTTON_OUTLINE);
-		p.image(image, padding, padding, texW - padding * 2, texH - padding * 2);
+		PG.drawStrokedRect(pg, IUIControl.controlW, texH + padding * 2, 1, P.p.color(ColorsHax.BUTTON_BG, BG_ALPHA), ColorsHax.BUTTON_OUTLINE);
+		p.image(image, padding, padding, texW, texH);
 		
 		// if mouse hover, draw big afterwards
 		if(CollisionUtil.rectangleContainsPoint(Mouse.x, Mouse.y, controlX, controlY, IUIControl.controlW, (int) texH)) {
@@ -295,13 +295,12 @@ public class DebugView {
 			PGraphics pg = P.p.g;
 
 			// draw bg rect
-			int fill = P.p.color(0, 180, 0);
+			int fill = P.p.color(0, 100, 0);
 			PG.drawStrokedRect(pg, pg.width, controlH, 1, fill, ColorsHax.BUTTON_OUTLINE);
 
 			// text label
 			pg.fill(ColorsHax.BUTTON_TEXT);
 			pg.text(highlightedText, IUIControl.TEXT_INDENT, 1f); // , IUIControl.controlW, controlH
-
 		}
 	}
 	
@@ -310,7 +309,7 @@ public class DebugView {
 			PGraphics pg = P.p.g;
 			
 			// draw bg rect
-			PG.drawStrokedRect(pg, highlightedImage.width + padding * 2, highlightedImage.height + padding * 2, 1, P.p.color(0, 180, 0), ColorsHax.BUTTON_OUTLINE);
+			PG.drawStrokedRect(pg, highlightedImage.width + padding * 2, highlightedImage.height + padding * 2, 1, P.p.color(0, 100, 0), ColorsHax.BUTTON_OUTLINE);
 			// draw image
 			p.image(highlightedImage, padding, padding);
 		}
