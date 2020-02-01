@@ -107,6 +107,7 @@ implements IAppStoreListener {
 		// 3. draw main buffer to screen
 		P.store.setNumber(App.ANIMATION_FRAME_PRE, p.frameCount);
 		pg.beginDraw();
+		pg.background(0);
 		P.store.setNumber(App.ANIMATION_FRAME, p.frameCount);
 		pg.endDraw();
 		ImageUtil.cropFillCopyImage(pg, p.g, false);

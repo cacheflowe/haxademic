@@ -35,4 +35,8 @@ public class JsonUtil {
 		return jsonFromString(jsonStr);
 	}
 
+	public static void jsonToFile(JSONObject jsonData, String path) {
+		FileUtil.writeTextToFile(path, jsonData.toString());
+	}
+	
 }
