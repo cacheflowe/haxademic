@@ -4,7 +4,6 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.Config;
 import com.haxademic.core.debug.DebugView;
-import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.DisplacementMapFilter;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.textures.pgraphics.TextureEQGrid;
@@ -53,7 +52,7 @@ extends PAppletHax {
 		if(FrameLoop.frameMod(200)) audioTexture.newLineMode();
 		
 		// draw video to screen once we've received its frames
-		p.background(0);
+//		p.background(0);
 		if(movieBuffer.buffer != null && movieBuffer.hasNewFrame) {
 //			PG.setTextureRepeat(movieBuffer.buffer, true);
 			
@@ -62,9 +61,9 @@ extends PAppletHax {
 			DisplacementMapFilter.instance(P.p).setAmp(0.01f);
 			DisplacementMapFilter.instance(P.p).setMap(audioTexture.texture());
 			DisplacementMapFilter.instance(P.p).applyTo(movieBuffer.buffer);
+			
+			// draw to screen, letterboxed
+			ImageUtil.cropFillCopyImage(movieBuffer.buffer, p.g, false);
 		}
-		
-		// draw to screen, letterboxed
-		ImageUtil.cropFillCopyImage(movieBuffer.buffer, p.g, false);
 	}
 }

@@ -13,8 +13,8 @@ public class MovieBuffer {
 	public static HashMap<Movie, Number> moviesEventFrames = new HashMap<Movie, Number>();	// stores last frame that each movie was updated, to prevent storing frames more than necessary
 	protected String moviePath;
 	public PGraphics buffer;
-	public Movie movie;
 	public boolean hasNewFrame = false;
+	public Movie movie;
 
 	public MovieBuffer(String moviePath) {
 		this(new Movie(P.p, moviePath));
