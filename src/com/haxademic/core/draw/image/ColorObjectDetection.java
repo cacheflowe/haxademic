@@ -1,7 +1,6 @@
 package com.haxademic.core.draw.image;
 
 import com.haxademic.core.app.P;
-import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.color.ColorUtil;
 import com.haxademic.core.draw.context.PG;
@@ -36,10 +35,10 @@ public class ColorObjectDetection {
 		this.scale = scale;
 		bufferW = P.round(scale * sourceImg.width);
 		bufferH = P.round(scale * sourceImg.height);
-		source = P.p.createGraphics(bufferW, bufferH, PRenderers.P2D);
-		analysisBuffer = P.p.createGraphics(bufferW, bufferH, PRenderers.P2D);
-		source.noSmooth();
-		analysisBuffer.noSmooth();
+		source = PG.newPG2DFast(bufferW, bufferH);
+		analysisBuffer = PG.newPG2DFast(bufferW, bufferH);
+//		source.noSmooth();
+//		analysisBuffer.noSmooth();
 		colorDistanceFilter = P.p.loadShader(FileUtil.getPath("haxademic/shaders/filters/color-distance.glsl"));
 		setColorCompare(1f, 1f, 1f);
 	}

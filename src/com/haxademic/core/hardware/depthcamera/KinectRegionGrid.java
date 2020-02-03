@@ -20,8 +20,8 @@ implements IJoystickCollection {
 
 	// debug drawing helpers
 	protected EasingFloat _sceneRot;
+	protected EasingFloat _sceneTranslateY;
 	protected EasingFloat _sceneTranslateZ;
-	protected EasingFloat _sceneTranslateZ2;
 	protected boolean _overheadView = false;
 	protected int rows = 1;
 
@@ -82,22 +82,22 @@ implements IJoystickCollection {
 		// lazy-init debugging camera easing
 		if( _sceneRot == null ) {
 			_sceneRot = new EasingFloat(0, 6f);
+			_sceneTranslateY = new EasingFloat(0, 6f);
 			_sceneTranslateZ = new EasingFloat(0, 6f);
-			_sceneTranslateZ2 = new EasingFloat(0, 6f);
 		}
 
 		// move scene towards front of kinect range
 		debugBuffer.pushMatrix();
-		debugBuffer.translate(0,0,_kinectClose);
+//		debugBuffer.translate(0,0,_kinectClose);
 
 		// rotate scene for debugging
-		_sceneTranslateZ.update();
+		_sceneTranslateY.update();
 		_sceneRot.update();
-		_sceneTranslateZ2.update();
+		_sceneTranslateZ.update();
 
-		debugBuffer.translate(0, 0, _sceneTranslateZ.value());
+		debugBuffer.translate(0, _sceneTranslateY.value(), 0);
 		debugBuffer.rotateX(_sceneRot.value());
-		debugBuffer.translate(0, 0, _sceneTranslateZ2.value());
+		debugBuffer.translate(0, 0, _sceneTranslateZ.value());
 
 		// loop through kinect data within rectangles ----------
 		updateRegions();
@@ -106,7 +106,7 @@ implements IJoystickCollection {
 		debugBuffer.pushMatrix();
 
 		debugBuffer.rotateX(-P.PI/2f);
-		debugBuffer.translate(0,0,460);
+		debugBuffer.translate(0,0,0);
 
 		for( int i=0; i < _joysticks.size(); i++ ) {
 			_joysticks.get(i).drawDebug(debugBuffer);
@@ -126,13 +126,13 @@ implements IJoystickCollection {
 		_overheadView = !_overheadView;
 
 		if(_overheadView == true) {
-			_sceneTranslateZ.setTarget(debugBuffer.width * -1f);
-			_sceneRot.setTarget(-P.PI/2f);
-			_sceneTranslateZ2.setTarget(_kinectClose + _kinectDepth);
+			_sceneTranslateY.setTarget(debugBuffer.height * 1f);
+			_sceneRot.setTarget(-P.PI * 0.5f);
+			_sceneTranslateZ.setTarget(debugBuffer.height * 0.2f);
 		} else {
-			_sceneTranslateZ.setTarget(0);
+			_sceneTranslateY.setTarget(0);
 			_sceneRot.setTarget(0);
-			_sceneTranslateZ2.setTarget(0);
+			_sceneTranslateZ.setTarget(0);
 		}
 	}
 

@@ -1,7 +1,7 @@
 package com.haxademic.core.draw.image;
 
 import com.haxademic.core.app.P;
-import com.haxademic.core.data.constants.PRenderers;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.file.FileUtil;
 
 import processing.core.PGraphics;
@@ -20,9 +20,9 @@ public class BufferFrameDifference {
 
 	public BufferFrameDifference(int w, int h) {
 		// frame buffers
-		frame1 = P.p.createGraphics(w, h, PRenderers.P2D);
-		frame2 = P.p.createGraphics(w, h, PRenderers.P2D);
-		differenceBuffer = P.p.createGraphics(w, h, PRenderers.P2D);
+		frame1 = PG.newPG2DFast(w, h);
+		frame2 = PG.newPG2DFast(w, h);
+		differenceBuffer = PG.newPG2DFast(w, h);
 		differenceShader = P.p.loadShader(FileUtil.getPath("haxademic/shaders/filters/texture-difference-threshold.glsl"));
 	}
 	

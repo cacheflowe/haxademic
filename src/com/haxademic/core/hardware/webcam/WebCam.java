@@ -6,6 +6,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.data.ConvertUtil;
 import com.haxademic.core.data.constants.PRegisterableMethods;
 import com.haxademic.core.data.constants.PTextAlign;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.text.FontCacher;
 import com.haxademic.core.file.FileUtil;
@@ -88,6 +89,7 @@ implements IUIButtonDelegate {
 	/////////////////////////////
 	
 	public void checkKeyCommands() {
+		DebugView.setValue("checkKeyCommands", webCam != null);
 		if(UITextInput.active()) return;
 		if(KeyboardState.instance().isKeyTriggered('W')) menuActive(!menuActive);
 		if(KeyboardState.instance().isKeyTriggered('/')) menuActive(false);
@@ -96,16 +98,16 @@ implements IUIButtonDelegate {
 
 	public void pre() {
 		lazyLoadConfigs();
+		checkKeyCommands();
 		if(webCam == null) return;
 		if(webCam.available() == true) {
 			webCam.read();
 			if(delegate != null) delegate.newFrame(image());
 		}
-		checkKeyCommands();
 	}
 	
 	public void post() {
-		if(webCam != null && menuActive) {
+		if(menuActive) {
 			drawMenu(P.p.g);
 		}
 	}

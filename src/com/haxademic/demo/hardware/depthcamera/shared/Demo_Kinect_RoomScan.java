@@ -43,7 +43,7 @@ extends PAppletHax {
 		surface.setResizable(true);
 		// Choose depthImageMode vs raw depth data method.
 		// Depending on whether the camera re-calibrates the depth image, we might need to go with pixel data
-//		kinectDiff = new KinectRoomScanDiff(p.depthCamera, 3, true);
+//		kinectDiff = new KinectRoomScanDiff(DepthCamera.instance().camera, 3, true);
 		kinectDiff = new KinectRoomScanDiff(DepthCamera.instance().camera, 8, false);
 		
 		// build ui
@@ -74,6 +74,7 @@ extends PAppletHax {
 		kinectDiff.update();
 		
 		// draw all
+		p.push();
 		p.scale(UI.value(debugScale));
 		p.background(0, 127, 0);
 		p.image(kinectDiff.roomScanBuffer(), 0, 0);
@@ -88,12 +89,18 @@ extends PAppletHax {
 		float activeMonitorResult = userActive.thresholdCalc();
 		DebugView.setValue("activeMonitorResult", activeMonitorResult);
 		DebugView.setTexture("activeMonitorResult buffer", userActive.thresholdBuffer());
+		
 		// activity indicator
 		int userIndicatorFill = (activeMonitorResult > 0.01f) ? p.color(0,255,0) : p.color(255,0,0);
 		p.fill(userIndicatorFill);
-		p.ellipse(20 + kinectDiff.resultLerped().width * 2, 20 + kinectDiff.depthDifference().height, 20, 20);
-		FontCacher.setFontOnContext(p.g, FontCacher.getFont(DemoAssets.fontInterPath, 24), p.color(255), 1, PTextAlign.LEFT, PTextAlign.TOP);
-		p.text(activeMonitorResult, 20 + kinectDiff.resultLerped().width * 2, kinectDiff.depthDifference().height * 2 - 40);
+		p.ellipse(4 + kinectDiff.resultLerped().width * 2, 4 + kinectDiff.depthDifference().height, 10, 10);
+		FontCacher.setFontOnContext(p.g, FontCacher.getFont(DemoAssets.fontInterPath, 12), userIndicatorFill, 1, PTextAlign.LEFT, PTextAlign.TOP);
+		p.text(activeMonitorResult, 14 + kinectDiff.resultLerped().width * 2, 1 + kinectDiff.depthDifference().height * 1);
+		p.pop();
+		
+		// scan progress
+		p.fill(255);
+		p.rect(0, p.height - 20, p.width * kinectDiff.scanProgress(), 20);
 	}
 	
 	public void keyPressed() {

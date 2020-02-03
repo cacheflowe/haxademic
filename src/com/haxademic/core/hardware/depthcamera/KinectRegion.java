@@ -1,6 +1,5 @@
 package com.haxademic.core.hardware.depthcamera;
 
-import com.haxademic.core.app.P;
 import com.haxademic.core.data.constants.PShapeTypes;
 import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera;
 import com.haxademic.core.hardware.depthcamera.cameras.IDepthCamera;
@@ -61,9 +60,9 @@ implements IJoystickControl {
 	
 	public void drawDebug(PGraphics debugGraphics) {
 		if( debugColor == -1 ) return;
-		debugGraphics.stroke(debugColor);
-		debugGraphics.fill( debugColor, P.min(pixelCount * 5, 255) );
-		debugGraphics.rect(left, near, right - left, far - near);
+//		debugGraphics.stroke(debugColor);
+//		debugGraphics.fill( debugColor, P.min(pixelCount * 5, 255) );
+//		debugGraphics.rect(left, near, right - left, far - near);
 	}
 	
 	public void update() {
@@ -72,15 +71,18 @@ implements IJoystickControl {
 	
 	public void update(PGraphics debugGraphics) {
 		IDepthCamera depthCamera = DepthCamera.instance().camera;
+		
+		float depthDivider = 0.3f;
         if(debugGraphics != null) {
         	debugGraphics.beginShape(PShapeTypes.QUADS);
     		debugGraphics.stroke(debugColor);
     		debugGraphics.fill( 255, pixelCount / minPixels * 10f );
-        	debugGraphics.vertex(left, bottom, 0);
-        	debugGraphics.vertex(right, bottom, 0);
-        	debugGraphics.vertex(right, bottom, -far);
-        	debugGraphics.vertex(left, bottom, -far);
+        	debugGraphics.vertex(left, bottom, -near * depthDivider);
+        	debugGraphics.vertex(right, bottom, -near * depthDivider);
+        	debugGraphics.vertex(right, bottom, -far * depthDivider);
+        	debugGraphics.vertex(left, bottom, -far * depthDivider);
         	debugGraphics.endShape();
+        	debugGraphics.noStroke();
         }
         // find kinect readings in the region
 		_isActive = false;
@@ -94,11 +96,10 @@ implements IJoystickControl {
 					pixelDepth = depthCamera.getDepthAt( x, y );
 					if( pixelDepth != 0 && pixelDepth > near && pixelDepth < far ) {
 				        if(debugGraphics != null) {
-				        	debugGraphics.noStroke();
 				        	debugGraphics.fill( debugColor, 127 );
 				        	debugGraphics.pushMatrix();
-				        	debugGraphics.translate(x, y, -pixelDepth/10f);
-				        	debugGraphics.rect(0, 0, pixelSkip, pixelSkip);
+				        	debugGraphics.translate(x, y, -pixelDepth * depthDivider);
+				        	debugGraphics.box(pixelSkip, pixelSkip, pixelSkip);
 				        	debugGraphics.popMatrix();
 						}
 						// add up for calculations
@@ -123,8 +124,8 @@ implements IJoystickControl {
 			        if(debugGraphics != null) {
 						debugGraphics.fill( 255, 127 );
 						debugGraphics.pushMatrix();
-						debugGraphics.translate(avgX, bottom - 100, -avgZ/10f);
-						debugGraphics.box(20, 200, 20);
+						debugGraphics.translate(avgX, bottom - 250, -avgZ * depthDivider);
+						debugGraphics.box(20, 500, 20);
 						debugGraphics.popMatrix();
 					}
 				}

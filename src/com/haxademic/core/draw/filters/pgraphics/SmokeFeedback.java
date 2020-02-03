@@ -30,9 +30,9 @@ extends BaseVideoFilter {
 		super(width, height);
 
 		noiseTexture = new SimplexNoiseTexture(width, height);
-		feedbackSeedBuffer = PG.newPG(width / 2, height / 2);
+		feedbackSeedBuffer = PG.newPG2DFast(width / 2, height / 2);
 //		feedbackSeedBuffer.noSmooth();
-		feedbackFinalBuffer = PG.newPG(width, height);
+		feedbackFinalBuffer = PG.newPG2DFast(width, height);
 //		feedbackFinalBuffer.noSmooth();
 		DebugView.setTexture("feedbackSeedBuffer", feedbackSeedBuffer);
 	}

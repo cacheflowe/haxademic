@@ -46,12 +46,12 @@ implements IWebCamCallback {
 	protected void config() {
 		Config.setProperty(AppSettings.WIDTH, 640 );
 		Config.setProperty(AppSettings.HEIGHT, 480 );
-		Config.setProperty(AppSettings.SHOW_DEBUG, true );
 	}
 		
 	protected void firstFrame () {
 		// capture webcam frames
 		WebCam.instance().setDelegate(this);
+		
 		// build particles array
 		imageGradient = new ImageGradient(ImageGradient.PASTELS());
 		imageGradient.addTexturesFromPath(ImageGradient.COOLORS_PATH);
@@ -226,7 +226,7 @@ implements IWebCamCallback {
 			sizeProgress.setTarget(1);
 			
 			pos.set(x, y, 0);
-			speed.set(0, -5f, 0);
+			speed.set(0, -1f, 0);
 			rotation = P.p.random(P.TWO_PI);
 			gravity.set(MathUtil.randRangeDecimal(-0.1f, 0.1f), MathUtil.randRangeDecimal(0.2f, 0.4f), MathUtil.randRangeDecimal(-0.02f, 0.02f)); // z is rotation!
 			

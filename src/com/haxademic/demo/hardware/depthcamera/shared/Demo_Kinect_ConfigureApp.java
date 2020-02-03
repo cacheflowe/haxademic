@@ -26,8 +26,6 @@ extends PAppletHax {
 	protected String depthDivider = "depthDivider";
 	protected String pixelDrawSize = "pixelDrawSize";
 
-	protected boolean _isDebug = false;
-	
 	protected void config() {
 		Config.setProperty( AppSettings.WIDTH, 1280 );
 		Config.setProperty( AppSettings.HEIGHT, 720 );
@@ -36,14 +34,17 @@ extends PAppletHax {
 	}
 	
 	protected void firstFrame() {
-		DepthCamera.instance(DepthCameraType.Realsense);
+		// init camera
+		DepthCamera.instance(DepthCameraType.KinectV1);
 
+		// add UI controls
+		UI.addTitle("Depth Data Settings");
 		UI.addSlider(kinectLeft, 0, 0, DepthCameraSize.WIDTH/2, 1, false);
 		UI.addSlider(kinectRight, DepthCameraSize.WIDTH, DepthCameraSize.WIDTH/2,DepthCameraSize.WIDTH, 1, false);
 		UI.addSlider(kinectTop, 0, 0, DepthCameraSize.HEIGHT/2, 1, false);
 		UI.addSlider(kinectBottom, DepthCameraSize.HEIGHT, DepthCameraSize.HEIGHT/2,DepthCameraSize.HEIGHT, 1, false);
 		UI.addSlider(kinectNear, 300, 300, 12000, 1, false);
-		UI.addSlider(kinectFar, 12000, 300, 12000, 1, false);
+		UI.addSlider(kinectFar, 7000, 300, 12000, 1, false);
 		UI.addSlider(pixelSkip, 5, 1, 10, 1, false);
 		UI.addSlider(depthDivider, 50, 1, 100, 0.1f, false);
 		UI.addSlider(pixelDrawSize, 0.5f, 0, 1, 0.01f, false);
@@ -55,14 +56,6 @@ extends PAppletHax {
 		PG.setDrawCorner(p);
 
 		p.pushMatrix();
-		
-//		kinectWrapper.drawPointCloudForRect(p, true, pixelSkip, 1f, 1, kinectNear, kinectFar, kinectTop, kinectRight, kinectBottom, kinectLeft);
-//		p.rotateY(P.map(p.mouseX, 0, p.width, 0f, 1f));
-		
-		// draw controls background
-		p.noStroke();
-		p.fill(0,127);
-		p.rect(10, 10, 280, 12 * 10);
 		
 		// move kinect depth pixels over
 		p.translate(290, 20);
@@ -87,6 +80,7 @@ extends PAppletHax {
 		float kBottom = UI.valueInt(kinectBottom);
 		float depthDiv = UI.valueInt(depthDivider);
 		
+		// loop through depth data grid, draw, and count how many depth points we found
 		int numPixelsProcessed = 0;
 		float pixelsize = (float) pixelSkipp * UI.value(pixelDrawSize);
 		for ( int x = kLeft; x < kRight; x += pixelSkipp ) {
@@ -103,19 +97,11 @@ extends PAppletHax {
 			}
 		}
 
-		// debug view
+		p.popMatrix();
+
+		// debug view updates
 		DebugView.setTexture("depthCamera.getDepthImage", depthCamera.getDepthImage());
 		DebugView.setValue("numPixelsProcessed", numPixelsProcessed);
-		
-		p.popMatrix();
 	}
 	
-	public void keyPressed() {
-		super.keyPressed();	
-		if( p.key == 'd' ){
-			_isDebug = !_isDebug;
-		}
-	}
-	
-
 }

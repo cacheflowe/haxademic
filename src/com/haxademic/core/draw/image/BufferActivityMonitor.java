@@ -24,9 +24,9 @@ public class BufferActivityMonitor {
 		activityAmp = new FloatBuffer(bufferAvgSize);
 		
 		// frame buffers
-		prevFrame = PG.newPG(w, h);
-		curFrame = PG.newPG(w, h);
-		differenceBuffer = PG.newPG(w, h);
+		prevFrame = PG.newPG2DFast(w, h);
+		curFrame = PG.newPG2DFast(w, h);
+		differenceBuffer = PG.newPG2DFast(w, h);
 		
 		OpenGLUtil.setTextureQualityLow(prevFrame);
 		OpenGLUtil.setTextureQualityLow(curFrame);

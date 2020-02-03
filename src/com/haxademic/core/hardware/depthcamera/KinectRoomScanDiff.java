@@ -120,6 +120,12 @@ public class KinectRoomScanDiff {
 		smoothOutput();
 	}
 	
+	public float scanProgress() {
+		int scanFrameCount = P.p.frameCount - roomMapCaptureStartFrame;
+		float progress = (float) scanFrameCount / (float) roomMapCaptureFrames;
+		return P.min(1, progress);
+	}
+	
 	protected void storeRoomScan() {
 		int scanFrameCount = P.p.frameCount - roomMapCaptureStartFrame;
 		if(scanFrameCount < roomMapCaptureFrames) {

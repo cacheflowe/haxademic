@@ -4,7 +4,7 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.PG;
-import com.haxademic.core.draw.filters.pgraphics.SmokeFeedback;
+import com.haxademic.core.draw.filters.pgraphics.MotionFire;
 import com.haxademic.core.draw.filters.pgraphics.shared.BaseVideoFilter;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.hardware.webcam.WebCam;
@@ -39,7 +39,7 @@ implements IWebCamCallback {
 
 	protected void firstFrame() {
 		WebCam.instance().setDelegate(this);
-		webcamBuffer = PG.newPG(webcamW, webcamH);
+		webcamBuffer = PG.newPG2DFast(webcamW, webcamH);
 		
 //		vfx = new GPUParticlesSheetDisplacer(p.width, p.height, 0.5f);
 //		vfx = new PixelTriFilter(p.width, p.height, 20);
@@ -50,9 +50,9 @@ implements IWebCamCallback {
 //		vfx = new RadialHistory(p.width, p.height);
 //		vfx = new UVGridOpticalFlow(p.width, p.height);
 //		vfx = new ColorGradientTrail(p.width, p.height);
-//		vfx = new MotionFire(p.width, p.height);
+		vfx = new MotionFire(p.width, p.height);
 //		vfx = new GPUParticlesLauncher(p.width, p.height);
-		vfx = new SmokeFeedback(p.width, p.height);
+//		vfx = new SmokeFeedback(p.width, p.height);
 	}
 
 	protected void drawApp() {

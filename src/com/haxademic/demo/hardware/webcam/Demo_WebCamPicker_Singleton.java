@@ -5,6 +5,7 @@ import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.hardware.webcam.WebCam;
+import com.haxademic.core.system.AppUtil;
 
 public class Demo_WebCamPicker_Singleton 
 extends PAppletHax {
@@ -14,6 +15,10 @@ extends PAppletHax {
 		Config.setProperty(AppSettings.SHOW_DEBUG, false );
 	}
 		
+	protected void firstFrame() {
+		AppUtil.setResizable(p, true);
+	}
+	
 	protected void drawApp() {
 		p.background(0);
 		PG.setDrawCorner(p);

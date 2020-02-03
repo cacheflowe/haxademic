@@ -12,7 +12,6 @@ import com.haxademic.core.draw.filters.pshader.ThresholdFilter;
 import com.haxademic.core.draw.image.BufferFrameDifference;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.textures.SimplexNoiseTexture;
-import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.webcam.WebCam;
 import com.haxademic.core.hardware.webcam.WebCam.IWebCamCallback;
 import com.haxademic.core.ui.UI;
@@ -49,18 +48,16 @@ implements IWebCamCallback {
 	protected PShape template;
 
 	protected void config() {
-		Config.setProperty(AppSettings.WIDTH, 1280 );
-		Config.setProperty(AppSettings.HEIGHT, 720 );
-		Config.setProperty(AppSettings.PG_WIDTH, 3438 );
-		Config.setProperty(AppSettings.PG_HEIGHT, 1080 );
-		Config.setProperty(AppSettings.FULLSCREEN, true);
+		Config.setAppSize(1280, 720);
+//		Config.setProperty(AppSettings.PG_WIDTH, 3438 );
+//		Config.setProperty(AppSettings.PG_HEIGHT, 1080 );
+		Config.setProperty(AppSettings.FULLSCREEN, false);
 //		Config.setProperty(AppSettings.SCREEN_X, 0);
 //		Config.setProperty(AppSettings.SCREEN_Y, 0);
-		Config.setProperty(AppSettings.ALWAYS_ON_TOP, false);
 	}
 		
 	protected void firstFrame () {
-		template = p.loadShape( FileUtil.getPath("images/_sketch/clocktower/clocktower.svg"));
+//		template = p.loadShape( FileUtil.getPath("images/_sketch/clocktower/clocktower.svg"));
 
 		// init webcam
 		WebCam.instance().setDelegate(this);
@@ -94,7 +91,7 @@ implements IWebCamCallback {
 			pg.beginDraw();
 			ImageUtil.drawImageCropFill(knockoutWebCam, pg, true);
 //			pg.image(knockoutWebCam, 0, 0);
-			pg.shape(template, 0, 0);
+			if(template != null) pg.shape(template, 0, 0);
 			pg.endDraw();
 		}
 		
@@ -106,13 +103,14 @@ implements IWebCamCallback {
 	protected void updateFeedback() {
 		// update feedback noise map
 		simplexNoise.update(UI.value(mapZoom), UI.value(mapRot), 0, 0);
-		
+		DebugView.setTexture("simplexNoise.texture()", simplexNoise.texture());
+
 		// apply feedback shader
 		FeedbackMapFilter.instance(P.p).setMap(simplexNoise.texture());
 		FeedbackMapFilter.instance(p).setAmp(UI.value(feedbackAmp));
 		FeedbackMapFilter.instance(p).setBrightnessStep(UI.value(feedbackBrightStep));
 		FeedbackMapFilter.instance(p).setAlphaStep(UI.value(feedbackAlphaStep));
-		FeedbackMapFilter.instance(p).setRadiansStart(p.frameCount/10f); // UI.value(feedbackRadiansStart));
+		FeedbackMapFilter.instance(p).setRadiansStart(p.frameCount/20f); // UI.value(feedbackRadiansStart));
 		FeedbackMapFilter.instance(p).setRadiansRange(UI.value(feedbackRadiansRange));
 		for (int i = 0; i < UI.valueInt(feedbackIters); i++) FeedbackMapFilter.instance(P.p).applyTo(pg);
 	}
