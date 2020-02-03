@@ -9,6 +9,7 @@ import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.textures.pgraphics.TextureEQGrid;
 import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
 import com.haxademic.core.file.FileUtil;
+import com.haxademic.core.media.DemoAssets;
 import com.haxademic.core.media.audio.analysis.AudioIn;
 import com.haxademic.core.media.audio.analysis.AudioInputBeads;
 import com.haxademic.core.media.audio.playback.WavPlayer;
@@ -29,8 +30,8 @@ extends PAppletHax {
 	
 	protected void firstFrame() {
 		// init looping video
-		// movieBuffer = new MovieBuffer(DemoAssets.movieFractalCube());
-		movieBuffer = new MovieBuffer("D:\\workspace\\ctd-design-studio\\_assets\\spatial-prototyping\\RFID.MOV");
+//		movieBuffer = new MovieBuffer("D:\\workspace\\ctd-design-studio\\_assets\\spatial-prototyping\\RFID.MOV");
+		movieBuffer = new MovieBuffer(DemoAssets.movieFractalCube());
 		movieBuffer.movie.loop();
 		DebugView.setTexture("Video original", movieBuffer.movie);
 
