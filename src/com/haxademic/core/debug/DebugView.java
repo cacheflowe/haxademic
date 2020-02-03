@@ -256,8 +256,8 @@ public class DebugView {
 
     	// scale to fit
 		float imgScale = MathUtil.scaleToTarget(image.width, IUIControl.controlW - padding * 2);
-		float texH = image.height * imgScale;
 		float texW = image.width * imgScale;
+		float texH = image.height * imgScale;
 		if(texH > image.height) {
 			texW = image.width;
 			texH = image.height;
@@ -286,7 +286,7 @@ public class DebugView {
 		pg.popMatrix();
 
 		// move to next box
-		controlY += texH;
+		controlY += texH + padding * 2 - 1;
 		if(controlY > P.p.height - texH) nextCol();
 	}
 	

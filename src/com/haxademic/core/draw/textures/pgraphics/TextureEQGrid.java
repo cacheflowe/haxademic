@@ -9,8 +9,7 @@ public class TextureEQGrid
 extends BaseTexture {
 
 	protected float _cols = 32;
-	protected float _rows = 32;
-	protected float _spectrumInterval = 512f / (_cols * _rows);	// 256 keeps it in the bottom half of the spectrum since the high ends is so overrun
+	protected float _rows = 16;
 	protected float _cellW;
 	protected float _cellH;
 	protected boolean _boxesGrow = false;
@@ -18,7 +17,6 @@ extends BaseTexture {
 
 	public TextureEQGrid( int width, int height ) {
 		super(width, height);
-		
 		
 		_cellW = P.ceil( width/_cols );
 		_cellH = P.ceil( height/_rows );
@@ -40,8 +38,9 @@ extends BaseTexture {
 		for (int i = 0; i < _cols; i++) {
 			for (int j = 0; j < _rows; j++) {
 				if( _boxesGrow ) {
-					float scaleVal = AudioIn.audioFreq(spectrumIndex) / 5f;
-
+					float scaleVal = AudioIn.audioFreq(spectrumIndex % 128) / 10f;
+					scaleVal = P.min(1, scaleVal);
+					
 					_texture.fill( _colorEase.colorInt() );
 					_texture.rect( 
 						startX + i*_cellW + _cellW * 0.5f - (_cellW * scaleVal * 0.5f), 
@@ -49,15 +48,14 @@ extends BaseTexture {
 						_cellW * scaleVal, 
 						_cellH * scaleVal 
 					);	
-//					_texture.rect( startX + i*_cellW, startY + j*_cellH, _cellW/2f, _cellH/2f );	
-
-					spectrumIndex++;
 				} else {
-					float alphaVal = AudioIn.audioFreq(spectrumIndex);
+					float alphaVal = AudioIn.audioFreq(spectrumIndex % 128) / 10f;
+					alphaVal = P.min(1, alphaVal);
+					
 					_texture.fill( _colorEase.colorInt(), P.constrain( alphaVal * 255f, 0, 255 ) );
 					_texture.rect( startX + i*_cellW, startY + j*_cellH, _cellW, _cellH );	
-					spectrumIndex++;
 				}
+				spectrumIndex++;
 			}
 		}
 	}

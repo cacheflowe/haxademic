@@ -29,9 +29,9 @@ public class PG {
 		newPG.beginDraw();
 		newPG.background(0, 0);
 		newPG.noStroke();
-		newPG.hint(PConstants.DISABLE_DEPTH_SORT);
-		newPG.hint(PConstants.DISABLE_DEPTH_TEST);
-		newPG.hint(PConstants.DISABLE_DEPTH_MASK);
+//		newPG.hint(PConstants.DISABLE_DEPTH_SORT);
+//		newPG.hint(PConstants.DISABLE_DEPTH_TEST);
+//		newPG.hint(PConstants.DISABLE_DEPTH_MASK);
 		newPG.endDraw();
 		PG.setTextureRepeat(newPG, false);
 		return newPG;
