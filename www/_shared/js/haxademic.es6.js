@@ -119,6 +119,7 @@ class AppStoreDistributed extends AppStore {
 
   onOpen() {
     console.log('AppStoreDistributed connected to ' + this.socketServerUrl);
+    this.set(AppStoreDistributed.CONNECTED, this.socketServerUrl);
   }
 
   onMessage(event) {
@@ -154,6 +155,8 @@ class AppStoreDistributed extends AppStore {
   }
 
 }
+
+AppStoreDistributed.CONNECTED = "AppStoreDistributed_CONNECTED";
 
 class ArrayUtil {
 
