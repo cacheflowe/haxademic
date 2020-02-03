@@ -14,6 +14,7 @@ public class MovieBuffer {
 	protected String moviePath;
 	public PGraphics buffer;
 	public Movie movie;
+	public boolean hasNewFrame = false;
 
 	public MovieBuffer(String moviePath) {
 		this(new Movie(P.p, moviePath));
@@ -25,15 +26,18 @@ public class MovieBuffer {
 	}
 	
 	public void pre() {
+		hasNewFrame = false;
 		if(moviesEventFrames.containsKey(movie) == false) return;
 		if(moviesEventFrames.get(movie).intValue() == P.p.frameCount) {
+			hasNewFrame = true;
 			if(movie.width > 10) {
 				if(buffer == null) {
 					buffer = PG.newPG2DFast(movie.width, movie.height);
 				}
 				else {
-//					ImageUtil.copyImage(movie, buffer);
-					
+					// copyImage() is about 2x slower
+					// ImageUtil.copyImage(movie, buffer);
+
 					buffer.beginDraw();
 					buffer.image(movie, 0, 0);
 					buffer.endDraw();

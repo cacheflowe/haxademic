@@ -33,6 +33,8 @@ extends PAppletHax {
 		// movieBuffer = new MovieBuffer(DemoAssets.movieFractalCube());
 		movieBuffer = new MovieBuffer("D:\\workspace\\ctd-design-studio\\_assets\\spatial-prototyping\\RFID.MOV");
 		movieBuffer.movie.loop();
+		DebugView.setTexture("Video original", movieBuffer.movie);
+
 		
 		// init audio
 		// ...and send Beads audio player analyzer to PAppletHax
@@ -52,17 +54,17 @@ extends PAppletHax {
 		
 		// draw video to screen once we've received its frames
 		p.background(0);
-		if(movieBuffer.buffer != null) {
-			PG.setTextureRepeat(movieBuffer.buffer, true);
+		if(movieBuffer.buffer != null && movieBuffer.hasNewFrame) {
+//			PG.setTextureRepeat(movieBuffer.buffer, true);
 			
 			// apply audio texture to displacement shader on video buffer
 			DisplacementMapFilter.instance(P.p).setMode(6);
 			DisplacementMapFilter.instance(P.p).setAmp(0.01f);
 			DisplacementMapFilter.instance(P.p).setMap(audioTexture.texture());
 			DisplacementMapFilter.instance(P.p).applyTo(movieBuffer.buffer);
-			
-			// draw to screen, letterboxed
-			ImageUtil.cropFillCopyImage(movieBuffer.buffer, p.g, false);
 		}
+		
+		// draw to screen, letterboxed
+		ImageUtil.cropFillCopyImage(movieBuffer.buffer, p.g, false);
 	}
 }
