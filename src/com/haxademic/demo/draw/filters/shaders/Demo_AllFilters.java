@@ -42,6 +42,8 @@ import com.haxademic.core.draw.filters.pshader.ErosionFilter;
 import com.haxademic.core.draw.filters.pshader.FXAAFilter;
 import com.haxademic.core.draw.filters.pshader.FakeLightingFilter;
 import com.haxademic.core.draw.filters.pshader.FeedbackMapFilter;
+import com.haxademic.core.draw.filters.pshader.FlipHFilter;
+import com.haxademic.core.draw.filters.pshader.FlipVFilter;
 import com.haxademic.core.draw.filters.pshader.GlitchImageGlitcherFilter;
 import com.haxademic.core.draw.filters.pshader.GlitchPseudoPixelSortingFilter;
 import com.haxademic.core.draw.filters.pshader.GlitchShaderAFilter;
@@ -160,6 +162,8 @@ extends PAppletHax { public static void main(String args[]) { arguments = args; 
 			ErosionFilter.instance(p),
 			FakeLightingFilter.instance(p),
 			FeedbackMapFilter.instance(p),
+			FlipHFilter.instance(p),
+			FlipVFilter.instance(p),
 			FXAAFilter.instance(p),
 			GlitchImageGlitcherFilter.instance(p),
 			GlitchPseudoPixelSortingFilter.instance(p),
@@ -399,6 +403,10 @@ extends PAppletHax { public static void main(String args[]) { arguments = args; 
 			FeedbackMapFilter.instance(p).setBrightnessStep(P.map(Mouse.xNorm, 0, 1, -1f, 1f));
 			FeedbackMapFilter.instance(p).setAlphaStep(P.map(Mouse.yNorm, 0, 1, -1f, 1f));
 			FeedbackMapFilter.instance(p).applyTo(pg);
+		} else if(curFilter == FlipHFilter.instance(p)) {
+			FlipHFilter.instance(p).applyTo(pg);
+		} else if(curFilter == FlipVFilter.instance(p)) {
+			FlipVFilter.instance(p).applyTo(pg);
 		} else if(curFilter == FXAAFilter.instance(p)) {
 			FXAAFilter.instance(p).applyTo(pg);
 		} else if(curFilter == GlitchImageGlitcherFilter.instance(p)) {
