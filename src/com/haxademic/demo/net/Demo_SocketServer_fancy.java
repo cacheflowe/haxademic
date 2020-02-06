@@ -38,6 +38,7 @@ implements IAppStoreListener, ISocketClientDelegate {
 	// PROPERTIES
 	/////////////////////////////////
 	
+	protected boolean DEBUG = true;
 	protected SocketServerHandler socketServerHandler;
 	protected SocketServer socketServer;
 	protected String wsServerAddress;
@@ -86,7 +87,7 @@ implements IAppStoreListener, ISocketClientDelegate {
 		try {
 			// SocketServer.PORT = 3000;
 			socketServerHandler = new SocketServerHandler(SocketServer.PORT, this);
-			socketServer = new SocketServer(socketServerHandler, false);
+			socketServer = new SocketServer(socketServerHandler, DEBUG);
 			wsServerAddress = "ws://" + IPAddress.getIP() + ":" + SocketServer.PORT;
 			DebugView.setValue("WS Server", wsServerAddress);
 		} catch (UnknownHostException e) {
