@@ -361,6 +361,7 @@ Haxademic uses the following Java & Processing libraries, which I've included in
 * [Java-WebSocket](https://github.com/TooTallNate/Java-WebSocket)
 * [jetty](https://www.eclipse.org/jetty/)
 * [JInput](https://github.com/jinput/jinput)
+* [jnajack](https://github.com/jaudiolibs/jnajack)
 * [Joons renderer](https://github.com/joonhyublee/joons-renderer/wiki)
 * [KinectPV2](https://github.com/ThomasLengeling/KinectPV2)
 * [Leap Motion for Processing](https://github.com/voidplus/leap-motion-processing/)
@@ -368,12 +369,15 @@ Haxademic uses the following Java & Processing libraries, which I've included in
 * [oscP5](http://www.sojamo.de/libraries/oscP5/)
 * [Poly2Tri](https://github.com/orbisgis/poly2tri.java)
 * [RealSenseProcessing](https://github.com/cansik/realsense-processing)
+* [sphinx4](https://github.com/cmusphinx/sphinx4)
+* [Spout](https://github.com/leadedge/SpoutProcessing)
 * [Super CSV](http://supercsv.sourceforge.net/)
 * [simple-openni](https://github.com/totovr/SimpleOpenni)
 * [themidibus](https://github.com/sparks/themidibus)
 * [toxiclibs](http://toxiclibs.org/)
 * [UDP Processing Library](http://ubaa.net/shared/processing/udp/)
 * [UMovieMaker](https://github.com/mariuswatz/modelbuilder)
+* [zxing4processing](https://github.com/cageehv/zxing4processing)
 
 
 ## Installing / Compiling
