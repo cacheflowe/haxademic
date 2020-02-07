@@ -43,7 +43,7 @@ extends PAppletHax {
 	protected void drawApp() {
 		p.background(0);
 		for (int i = 0; i < textInputs.size(); i++) {
-			textInputs.get(i).update(p.g);
+			textInputs.get(i).draw(p.g);
 		}
 	}
 	

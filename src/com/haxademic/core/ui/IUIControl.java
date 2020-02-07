@@ -12,6 +12,7 @@ public interface IUIControl {
 	public static final String TYPE_TITLE = "title";
 	public static final String TYPE_SLIDER = "slider";
 	public static final String TYPE_BUTTON = "button";
+	public static final String TYPE_TEXTFIELD = "textfield";
 	
 	public static int TEXT_INDENT = 6;
 	public static final int controlW = 250;
@@ -26,8 +27,10 @@ public interface IUIControl {
 	public String type();
 	public String id();
 	public void set(float val);
+	public void set(String val);
 	public float value();
 	public float valueEased();
+	public String valueString();
 	public float step();
 	public float valueMin();
 	public float valueMax();

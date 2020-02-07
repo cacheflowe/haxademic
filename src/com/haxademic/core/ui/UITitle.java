@@ -14,7 +14,6 @@ implements IUIControl {
 	protected String id;
 	protected String label;
 	protected Rectangle rect;
-	protected float value = 0;
 	protected float layoutW = 1;
 
 	public UITitle(String title, int x, int y, int w, int h) {
@@ -36,11 +35,11 @@ implements IUIControl {
 		return id;
 	}
 	
-	public void label(String label) {
+	public void set(String label) {
 		this.label = label;
 	}
 	
-	public String label() {
+	public String valueString() {
 		return label;
 	}
 	
@@ -49,11 +48,11 @@ implements IUIControl {
 	}
 	
 	public float value() {
-		return value;
+		return 0;
 	}
 	
 	public float valueEased() {
-		return value;
+		return 0;
 	}
 	
 	public float valueMin() {
@@ -81,7 +80,7 @@ implements IUIControl {
 	}
 	
 	public void set(float val) {
-		value = val;
+		// no-op
 	}
 	
 	public void update() {

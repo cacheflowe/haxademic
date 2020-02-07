@@ -9,8 +9,10 @@ import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
 import com.haxademic.core.data.constants.PRegisterableMethods;
 import com.haxademic.core.data.constants.PRenderers;
+import com.haxademic.core.data.constants.PTextAlign;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.hardware.keyboard.KeyboardState;
+import com.haxademic.core.media.DemoAssets;
 import com.haxademic.core.net.UIControlsHandler;
 import com.haxademic.core.net.WebServer;
 import com.haxademic.core.ui.UIButton.IUIButtonDelegate;
@@ -73,6 +75,12 @@ implements IUIButtonDelegate {
 	
 	public static void addTitle(String title) {
 		controls.put(title, new UITitle(title, controlX, controlY, IUIControl.controlW, IUIControl.controlH));
+		controlY += IUIControl.controlSpacing;
+		if(controlY > P.p.height - IUIControl.controlH) nextCol();
+	}
+	
+	public static void addTextfield(String key, String value, boolean saves) {
+		controls.put(key, new UITextInput(key, value, DemoAssets.fontOpenSansPath, PTextAlign.LEFT, controlX, controlY, IUIControl.controlW, IUIControl.controlH, saves));
 		controlY += IUIControl.controlSpacing;
 		if(controlY > P.p.height - IUIControl.controlH) nextCol();
 	}
@@ -178,6 +186,10 @@ implements IUIButtonDelegate {
 	
 	public static int valueInt(String key) {
 		return P.round(controls.get(key).value());
+	}
+	
+	public static String valueString(String key) {
+		return controls.get(key).valueString();
 	}
 	
 	public static boolean valueToggle(String key) {

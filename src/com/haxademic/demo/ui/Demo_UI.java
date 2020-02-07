@@ -16,6 +16,7 @@ extends PAppletHax {
 	protected String G = "G";
 	protected String B = "B";
 	protected String AUTO_ON = "AUTO_ON";
+	protected String TEXT = "UI_TEXT";
 	
 	protected String VECTOR_3 = "VECTOR_3";
 	
@@ -24,6 +25,7 @@ extends PAppletHax {
 	}
 	
 	protected void firstFrame () {
+		// build UI
 		UI.addTitle("Color");
 		UI.addSlider(R, 255, 0, 255, 0.5f);
 		UI.addSlider(G, 255, 0, 255, 0.5f);
@@ -35,6 +37,10 @@ extends PAppletHax {
 		UI.addButton("Button 2", true);
 		UI.addButtons(new String[] {"1", "2", "3", "4"}, true);
 		UI.addToggle(AUTO_ON, false, false);
+		UI.addTitle("Editable text");
+		UI.addTextfield(TEXT, "Test String", true);
+		
+		// write out config to json
 		P.out(UI.configToJSON());
 		P.out(UI.valuesToJSON());
 	}
@@ -46,6 +52,9 @@ extends PAppletHax {
 			UI.setValue(R, 127 + 127f * P.sin(p.frameCount * 0.04f));
 			// set a button's value
 			if(p.frameCount % 200 == 0) UI.get("1").set(1);
+			if(p.frameCount % 200 == 100) UI.get("1").set(0);
+			// set textfield
+			if(p.frameCount % 200 == 0) UI.get(TEXT).set("AUTOMATIC!");
 		}
 		
 		// bg components
@@ -54,6 +63,9 @@ extends PAppletHax {
 			UI.value(G),
 			UI.value(B)
 		);
+		
+		// live editable text
+		p.text(UI.valueString(TEXT), 20, p.height - 30);
 		
 		// 3d rotation
 		p.lights();

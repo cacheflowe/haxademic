@@ -410,19 +410,19 @@ implements IAppStoreListener {
 		if(activeLight != newActiveLight) {
 			activeLight = newActiveLight;
 			if(activeLight != null) {
-				channelInput.text("" + activeLight.dmxChannel());
+				channelInput.set("" + activeLight.dmxChannel());
 				channelInput.focus();
 				UITextInput.ACTIVE_INPUT = channelInput;
 			} else {
-				channelInput.text("");
+				channelInput.set("");
 				channelInput.blur();
 				UITextInput.ACTIVE_INPUT = null;
 			}
 		}
 		
 		// if active light, send it's value into the dmx channel setting for the active light. make sure we have a number in the text input
-		if(activeLight != null && channelInput.text().length() > 0) {
-			activeLight.setDmxChannel(ConvertUtil.stringToInt(channelInput.text()));
+		if(activeLight != null && channelInput.valueString().length() > 0) {
+			activeLight.setDmxChannel(ConvertUtil.stringToInt(channelInput.valueString()));
 		}
 		
 		// temporary dragging point for a new edge being created
@@ -460,7 +460,7 @@ implements IAppStoreListener {
 	
 			// channel text input
 			drawText("DMX channel:", channelInput.x(), channelInput.y() - 25);
-			channelInput.update(pgUI);
+			channelInput.draw(pgUI);
 		}
 		
 		// reset context

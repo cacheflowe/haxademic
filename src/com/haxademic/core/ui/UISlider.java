@@ -92,6 +92,10 @@ implements IUIControl {
 		return valueEased.value();
 	}
 	
+	public String valueString() {
+		return value + "";
+	}
+	
 	public float valueMin() {
 		return valueMin;
 	}
@@ -118,6 +122,10 @@ implements IUIControl {
 	
 	public void set(float val) {
 		value = val;
+	}
+	
+	public void set(String val) {
+		// no-op
 	}
 	
 	public void update() {
