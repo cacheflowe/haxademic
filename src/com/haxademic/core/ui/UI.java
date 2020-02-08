@@ -7,21 +7,24 @@ import java.util.LinkedHashMap;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
+import com.haxademic.core.data.constants.PEvents;
 import com.haxademic.core.data.constants.PRegisterableMethods;
 import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.data.constants.PTextAlign;
+import com.haxademic.core.data.store.IAppStoreListener;
 import com.haxademic.core.draw.context.PG;
-import com.haxademic.core.hardware.keyboard.KeyboardState;
 import com.haxademic.core.media.DemoAssets;
 import com.haxademic.core.net.UIControlsHandler;
 import com.haxademic.core.net.WebServer;
 import com.haxademic.core.ui.UIButton.IUIButtonDelegate;
 
+import processing.core.PGraphics;
+import processing.core.PImage;
 import processing.data.JSONArray;
 import processing.data.JSONObject;
 
 public class UI
-implements IUIButtonDelegate {
+implements IUIButtonDelegate, IAppStoreListener {
 
 	protected static LinkedHashMap<String, IUIControl> controls;
 	
@@ -58,6 +61,7 @@ implements IUIButtonDelegate {
 		controls = new LinkedHashMap<String, IUIControl>();
 		P.p.registerMethod(PRegisterableMethods.pre, this);
 		P.p.registerMethod(PRegisterableMethods.post, this);
+		P.store.addListener(this);
 	}
 	
 	////////////////////////
@@ -225,7 +229,6 @@ implements IUIButtonDelegate {
 	////////////////////////
 	
 	public void pre() {
-		checkKeyCommands();
 		// update control values whether UI is showing or not 
 		for (IUIControl control : controls.values()) control.update();
 	}
@@ -248,15 +251,6 @@ implements IUIButtonDelegate {
 
 	public static boolean active() {
 		return active;
-	}
-	
-	////////////////////////
-	// Key commands
-	////////////////////////
-	
-	public void checkKeyCommands() {
-		if(KeyboardState.instance().isKeyTriggered('\\') && !UITextInput.active()) active = !active;
-//		if(KeyboardState.instance().isKeyTriggered('/')) active = false;
 	}
 	
 	////////////////////////
@@ -313,4 +307,16 @@ implements IUIButtonDelegate {
 		P.p.uiButtonClicked(button);
 	}
 	
+	/////////////////////////////
+	// IAppStoreListener
+	/////////////////////////////
+
+	public void updatedNumber(String key, Number val) {}
+	public void updatedString(String key, String val) {
+		if(key.equals(PEvents.KEY_PRESSED) && !UITextInput.active() && val.equals("\\")) active = !active;
+	}
+	public void updatedBoolean(String key, Boolean val) {}
+	public void updatedImage(String key, PImage val) {}
+	public void updatedBuffer(String key, PGraphics val) {}
+
 }

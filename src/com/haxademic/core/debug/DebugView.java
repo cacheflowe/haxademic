@@ -8,13 +8,14 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
 import com.haxademic.core.data.constants.PBlendModes;
+import com.haxademic.core.data.constants.PEvents;
 import com.haxademic.core.data.constants.PRegisterableMethods;
 import com.haxademic.core.data.constants.PTextAlign;
+import com.haxademic.core.data.store.IAppStoreListener;
 import com.haxademic.core.draw.color.ColorsHax;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.shapes.polygons.CollisionUtil;
 import com.haxademic.core.draw.text.FontCacher;
-import com.haxademic.core.hardware.keyboard.KeyboardState;
 import com.haxademic.core.hardware.mouse.Mouse;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.media.DemoAssets;
@@ -30,7 +31,8 @@ import processing.core.PFont;
 import processing.core.PGraphics;
 import processing.core.PImage;
 
-public class DebugView {
+public class DebugView
+implements IAppStoreListener {
 	
 	protected PApplet p;
 	protected static PFont debugFont;	
@@ -81,6 +83,7 @@ public class DebugView {
 		// update every frame
 		P.p.registerMethod(PRegisterableMethods.pre, this);
 		P.p.registerMethod(PRegisterableMethods.post, this);
+		P.store.addListener(this);
 	}
 	
 	public static boolean active() {
@@ -320,15 +323,6 @@ public class DebugView {
 		controlX += IUIControl.controlW - 1;
 	}
 
-	
-	public void checkKeyCommands() {
-		if(KeyboardState.instance().isKeyTriggered('/') && !UITextInput.active()) {
-			active(!active);
-			if(P.p.key == '?') mode = MODE_HELP; 
-			else mode = MODE_DEBUG;
-		}
-	}
-	
 	public void pre() {
 		if(P.p.frameCount == 1) {
 			new Thread(new Runnable() { public void run() {
@@ -336,7 +330,6 @@ public class DebugView {
 				ipAddress = IPAddress.getLocalAddress();
 			}}).start();
 		}
-		checkKeyCommands();
 	}
 	
 	public void post() {
@@ -376,5 +369,21 @@ public class DebugView {
 		p.popStyle();
 		p.popMatrix();
 	}
+	
+	/////////////////////////////
+	// IAppStoreListener
+	/////////////////////////////
+
+	public void updatedNumber(String key, Number val) {}
+	public void updatedString(String key, String val) {
+		if(key.equals(PEvents.KEY_PRESSED)) {
+			if(!UITextInput.active() && val.equals("/")) active(!active);
+			if(val.equals("?")) mode = MODE_HELP; 
+			else mode = MODE_DEBUG;
+		}
+	}
+	public void updatedBoolean(String key, Boolean val) {}
+	public void updatedImage(String key, PImage val) {}
+	public void updatedBuffer(String key, PGraphics val) {}
 
 }
