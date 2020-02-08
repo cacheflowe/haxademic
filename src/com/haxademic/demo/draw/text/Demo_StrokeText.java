@@ -5,6 +5,7 @@ import com.haxademic.core.data.constants.PTextAlign;
 import com.haxademic.core.draw.text.FontCacher;
 import com.haxademic.core.draw.text.StrokeText;
 import com.haxademic.core.media.DemoAssets;
+import com.haxademic.core.render.FrameLoop;
 import com.haxademic.core.ui.UI;
 
 import processing.core.PFont;
@@ -32,6 +33,11 @@ extends PAppletHax {
 		
 		// draw text
 		StrokeText.draw(p.g, "Hello", 300, 100, p.color(0, 255, 0), p.color(0), UI.value(thickness), UI.valueInt(resolution));
+
+		// draw text that wraps
+		font = FontCacher.getFont(DemoAssets.fontInterPath, 20);
+		FontCacher.setFontOnContext(p.g, font, p.color(255), 1.4f, PTextAlign.LEFT, PTextAlign.TOP);
+		StrokeText.draw(p.g, "Hello this will wrap if we have enough text", 300, 300, 150 + FrameLoop.osc(0.02f, 0, 150), 1000, p.color(0, 255, 255), p.color(0), UI.value(thickness)/2f, UI.valueInt(resolution));
 	}
 	
 }
