@@ -43,7 +43,7 @@ implements IUIControl {
 	}
 	
 	public UISlider(String property, float value, float low, float high, float dragStep, int x, int y, int w, int h, boolean saves) {
-		this(property, value, low, high, dragStep, x, y, w, h, true, -1);
+		this(property, value, low, high, dragStep, x, y, w, h, saves, -1);
 	}
 
 	public UISlider(String property, float value, float low, float high, float dragStep, int x, int y, int w, int h, boolean saves, int midiCCNote) {

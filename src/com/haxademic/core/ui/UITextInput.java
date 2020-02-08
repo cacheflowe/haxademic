@@ -44,7 +44,7 @@ implements IUIControl {
 		this(id, "", fontFile, align, x, y, w, h, false);
 	}
 	
-	public UITextInput(String id, String value, String fontFile, int align, int x, int y, int w, int h, boolean saves ) {
+	public UITextInput(String id, String value, String fontFile, int align, int x, int y, int w, int h, boolean saves) {
 		this.id = id;
 		this.value = (saves) ? PrefToText.getValueS(id, value) : value;
 		this.fontFile = fontFile;
