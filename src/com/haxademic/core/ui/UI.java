@@ -99,7 +99,7 @@ implements IUIButtonDelegate, IAppStoreListener {
 	}
 	
 	public static void addSlider(String key, float value, float valueLow, float valueHigh, float dragStep, boolean saves) {
-		addSlider(key, value, valueLow, valueHigh, dragStep, true, -1);
+		addSlider(key, value, valueLow, valueHigh, dragStep, saves, -1);
 	}
 	
 	public static void addSlider(String key, float value, float valueLow, float valueHigh, float dragStep, boolean saves, int midiCCNote) {
