@@ -52,7 +52,6 @@ public class ParticleSystem {
 	public void enableUI(String prefix, boolean saves) {
 		usingUI = true;
 		MAX_ATTEMPTS = prefix + MAX_ATTEMPTS;
-		MAX_ATTEMPTS = prefix + MAX_ATTEMPTS;
 		MAX_LAUNCHES = prefix + MAX_LAUNCHES;
 		POOL_MAX_SIZE = prefix + POOL_MAX_SIZE;
 		SPEED_X_MIN = prefix + SPEED_X_MIN;
