@@ -133,6 +133,18 @@ public class FloatBuffer {
 	};
 	
 	/**
+	 * Returns the overall difference between values in the buffer
+	 * @return		The total variance value of the buffer
+	 */
+	public float variance() {
+		float variance = 0;
+		for(int i=0; i < size - 1; i++) {
+			variance += Math.abs(buffer[i] - buffer[i+1]);
+		}
+		return variance;
+	};
+	
+	/**
 	 * Returns first index of a needle value
 	 * @return		The buffer index of needle
 	 */
