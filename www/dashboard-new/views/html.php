@@ -1,15 +1,3 @@
-<?php
-  // Simple password protection
-  $loggedIn = false;
-  $pass = 'YOUR_PASSWORD';
-  if (isset($_COOKIE['password']) && $_COOKIE['password'] === $pass) {
-    $loggedIn = true;
-  }
-  if (isset($_POST['password']) && $_POST['password'] == $pass) {
-    setcookie("password", $pass, strtotime('+30 days'));
-    $loggedIn = true;
-  }
-?>
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -59,17 +47,13 @@
       .mdl-cell-full-width {
         width: 100%;
       }
-      .relaunched {
-        background-color: #99ff99;
-      }
-      .offline {
-        background-color: #ff9999;
-      }
       /* lightbox */
       .lightbox,.lightbox-image-holder{width:100%;height:100%;box-sizing:border-box}.lightbox{position:fixed;top:0;left:0;background:rgba(255,255,255,.9);z-index:9999;opacity:0;transition:opacity .2s linear}.lightbox.showing{opacity:1}.lightbox-image-holder{position:relative;background-position:center;background-size:contain;background-repeat:no-repeat}.lightbox-image-holder.lightbox-image-contained{background-size:auto}.imagexpander,.lightbox,.lightbox-image-holder,img[rel]{cursor:pointer}
 
 
-
+      .dashboard-props {
+        padding: 2rem;
+      }
 
       /* NEW! */
       /* Form layout */
@@ -161,7 +145,7 @@
             <a class="mdl-navigation__link" href="./">Home</a>
             <hr>
             <?php
-              if($loggedIn == true) {
+              if(Login::isLoggedIn() == true) {
                 $projectDirs = get_files_chrono("./projects", false);
                 foreach($projectDirs as $projectId) {
                   echo '<a class="mdl-navigation__link" href="./?project=' . $projectId . '">' . ucwords(str_replace("-", " ", $projectId)) . '</a>';
@@ -174,8 +158,7 @@
         <!-- CONTENT -->
         <main class="mdl-layout__content">
           <?php
-
-            if($loggedIn == true) {
+            if(Login::isLoggedIn() == true) {
               if(isset($_GET['project']) && isset($_GET['date'])) {
                 include './views/project-date-details.php';
               } else if(isset($_GET['project'])) {
@@ -187,18 +170,18 @@
               }
             } else {
           ?>
-          <div class="mdl-grid portfolio-max-width">
-            <div class="mdl-cell mdl-card mdl-shadow--2dp portfolio-card">
-            <div class="mdl-card__title">
-              <form action="#" method="POST">
-                <div class="mdl-textfield mdl-js-textfield">
-                  <input class="mdl-textfield__input" type="text" name="password" id="password">
-                  <label class="mdl-textfield__label" for="password">Password</label>
-                </div>
-              </form>
+            <div class="mdl-grid portfolio-max-width">
+              <div class="mdl-cell mdl-card mdl-shadow--2dp portfolio-card">
+              <div class="mdl-card__title">
+                <form action="#" method="POST">
+                  <div class="mdl-textfield mdl-js-textfield">
+                    <input class="mdl-textfield__input" type="text" name="password" id="password">
+                    <label class="mdl-textfield__label" for="password">Password</label>
+                  </div>
+                </form>
+              </div>
+              </div>
             </div>
-            </div>
-          </div>
           <?php
             }
           ?>

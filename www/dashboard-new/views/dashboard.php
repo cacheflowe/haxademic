@@ -68,18 +68,18 @@ class Dashboard {
       // show uptime stats
       $uptimeSeconds = isset($appData['uptime']) ? $appData['uptime'] : 0;
       $uptimeClock = ($uptimeSeconds) ? DateUtil::daysAndSecondsToClockTime($uptimeSeconds) : "n/a";
-      $restartedAlert = ($uptimeSeconds < 60 * 30 && $offlineAlert == "") ? " dashboard-restarted" : "";  // 30 minute window to show restarted color
+      $restartedAlert = ($uptimeSeconds < 60 * 30 && $offlineAlert == "") ? " dashboard-restarted" : "";    // 30 minute window to show restarted color
 
       $appTitle = isset($appData['appTitle']) ? $appData['appTitle'] : $appKey;
 
-      // display card for machine
+      // display card for app
       $html .= '<div class="dashboard-card'.$offlineAlert.$restartedAlert.'">';
       $html .= '  <div class="dashboard-title">' . $appTitle . '</div>';
       $html .= '  <div>';
       $html .= '    <p><b>Uptime</b>: '. $uptimeClock .'<br>';
       $html .= '      Last seen: ' . $timeSinceLastSeen .'<br>'; //  . ' ('.$msSinceSeen.'s)</p>';
-      if(isset($appData['imageScreenshot']))  $html .= 'Screenshot: ' . DateUtil::timeElapsedString(DateUtil::getDateTimeFromMS($appData['lastSeenScreenshot'])) . '<span class="dashboard-img-container"><img data-zoomable src="data:image/jpeg;base64,'.$appData['imageScreenshot'].'"></span>';
-      if(isset($appData['imageExtra']))       $html .= 'Custom Img: ' . DateUtil::timeElapsedString(DateUtil::getDateTimeFromMS($appData['lastSeenExtra'])) . '<span class="dashboard-img-container"><img data-zoomable src="data:image/jpeg;base64,'.$appData['imageExtra'].'"></span>';
+      if(isset($appData['imageScreenshot']))  $html .= 'Screenshot: ' . DateUtil::timeElapsedString(DateUtil::getDateTimeFromMS($appData['lastSeenScreenshot'])) . '<span class="dashboard-img-container"><img data-zoomable class="imagexpander" src="data:image/jpeg;base64,'.$appData['imageScreenshot'].'"></span>';
+      if(isset($appData['imageExtra']))       $html .= 'Custom Img: ' . DateUtil::timeElapsedString(DateUtil::getDateTimeFromMS($appData['lastSeenExtra'])) . '<span class="dashboard-img-container"><img data-zoomable class="imagexpander" src="data:image/jpeg;base64,'.$appData['imageExtra'].'"></span>';
       $html .= '    </p>';
       $html .= '    <p><b>Custom Values</b><br>';
       foreach ($appData as $key => $value) {
