@@ -7,7 +7,7 @@
     <meta content="no" name="imagetoolbar" />
     <link rel="shortcut icon" type="image/x-icon" href="icon.png">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Big Mother</title>
+    <title>Project Dashboard</title>
     <link rel="stylesheet" href="css/dashboard.css">
     <link rel="stylesheet" href="css/dashboard-local.css">
     <link rel="stylesheet" href="css/lightbox.css">
