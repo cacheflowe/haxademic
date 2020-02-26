@@ -15,7 +15,7 @@ class Dashboard {
     $this->request = $request;
     $this->dataPath = $dataPath;
     $this->projectsJsonPath = $dataPath."projects.json";
-    $this->dashboardDB = JsonUtil::getJsonFromFile($this->projectsJsonPath);
+    $this->dashboardDB = (file_exists($this->projectsJsonPath)) ? JsonUtil::getJsonFromFile($this->projectsJsonPath) : null;
   }
 
   function storePostedCheckIn() {
@@ -114,7 +114,16 @@ class Dashboard {
     }
   }
 
+  function noResults() {
+    return '<div class="dashboard-card"><span>No results.</span></div>';
+  }
+
   function listProjects() {
+    // bail if no projects.json data
+    if(isset($this->dashboardDB['checkins']) == false) {
+      return $this->noResults();
+    }
+
     // sort checkins
     function cmp($a, $b) {
       return strcmp($a['appId'], $b['appId']);
@@ -145,7 +154,7 @@ class Dashboard {
       // loop through checkin history
       $historyReverse = array_reverse($projectHistory);
       foreach ($historyReverse as $key => $checkIn) {
-        $html .= $this->renderCheckInCard($checkIn);
+        $html .= $this->renderCheckInCard($checkIn, true);
       }
     }
     // if no history...
@@ -155,7 +164,7 @@ class Dashboard {
     return $html;
   }
 
-  function renderCheckInCard($checkIn) {
+  function renderCheckInCard($checkIn, $isDetails=false) {
     // sort the keys for custom values below
     ksort($checkIn);
 
@@ -166,7 +175,7 @@ class Dashboard {
 
     // show alert if we're past the threshold of being "offline"
     $msSinceSeen = time() - $lastSeenTimeMS;
-    $offlineAlert = ($msSinceSeen > $this->offlineTimeout) ? " dashboard-offline" : "";                                 // 20 minute window to show offline indication
+    $offlineAlert = ($msSinceSeen > $this->offlineTimeout && !$isDetails) ? " dashboard-offline" : "";                // 20 minute window to show offline indication
 
     // show uptime stats
     $uptimeSeconds = isset($checkIn['uptime']) ? $checkIn['uptime'] : 0;
@@ -179,7 +188,7 @@ class Dashboard {
     $html = "";
     $html .= '<div class="dashboard-card'.$offlineAlert.$restartedAlert.'">';
     // title
-    if($this->standalone) {
+    if($this->standalone && $isDetails == false) {
       $html .= '  <div class="dashboard-title" title="' . $appTitle . '"><a href="./?detail='.$checkIn['appId'].'">' . $appTitle . '</a></div>';
       $html .= '  <a href="./?action=delete&app='.$checkIn['appId'].'" class="dashboard-card-delete">✖️</a>';
     } else {

@@ -7,7 +7,7 @@
     <meta content="no" name="imagetoolbar" />
     <link rel="shortcut icon" type="image/x-icon" href="icon.png">
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Project Dashboard</title>
+    <title><?php echo $constants['dashboardTitle']; ?></title>
     <link rel="stylesheet" href="css/dashboard.css">
     <link rel="stylesheet" href="css/dashboard-local.css">
     <link rel="stylesheet" href="css/lightbox.css">
@@ -15,7 +15,7 @@
   <body>
     <!-- HEADER -->
     <header>
-      <span class="main-title"><a href="./">Project Dashboard</a><?php
+      <span class="main-title"><a href="./"><?php echo $constants['dashboardTitle']; ?></a><?php
         if(isset($_GET['detail'])) {
           print('<b>'.$_GET['detail'].'</b>');
         }

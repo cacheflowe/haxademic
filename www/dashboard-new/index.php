@@ -13,6 +13,7 @@ include './views/dashboard.php';
 // set up password & other constants
 $constants = [
   Login::PASS_KEY => "PASSWORD",
+  'dashboardTitle' => "Projects Dashboard"
 ];
 
 // Get the SimpleSite request/response objects
@@ -28,7 +29,7 @@ if(isset($_POST[Login::PASS_KEY])) {
 }
 
 // get dashboard data from file & init Dashboard
-$dashboard = new Dashboard($request, "data/", 12, true);
+$dashboard = new Dashboard($request, "data/", 100, true);
 
 // Receive posted checkin via JSON post & return success/fail message in JSON response
 // OR: List existing data via Dashboard UI if we're not submitting a checkin
