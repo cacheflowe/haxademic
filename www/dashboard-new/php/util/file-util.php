@@ -8,13 +8,13 @@ class FileUtil {
     }
 
     // rm -rf
-    public static function rrmdir($dir) {
+    public static function deleteDir($dir) {
       if (is_dir($dir)) {
         $objects = scandir($dir);
         foreach ($objects as $object) {
           if ($object != "." && $object != "..") {
             if (is_dir($dir."/".$object))
-              rrmdir($dir."/".$object);
+              FileUtil::deleteDir($dir."/".$object);
             else
               unlink($dir."/".$object);
           }
@@ -30,7 +30,7 @@ class FileUtil {
     }
 
     // convert base64 image to file
-    public static function base64_to_png($base64_string, $output_file) {
+    public static function base64ToFile($base64_string, $output_file) {
       // open the output file for writing
       $ifp = fopen( $output_file, 'wb' );
       fwrite( $ifp, base64_decode( $base64_string ) );
@@ -39,7 +39,7 @@ class FileUtil {
       // return $output_file;
     }
 
-    public static function get_files_sorted($path, $reverse=true) {
+    public static function getFilesSorted($path, $reverse=true) {
       $files = array();
       $dir = opendir($path); // open the cwd..also do an err check.
       while(false != ($file = readdir($dir))) {

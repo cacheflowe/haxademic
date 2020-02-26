@@ -1,0 +1,46 @@
+body {
+  font-family: Avenir, "Century Gothic", CenturyGothic, "Segoe UI", "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  background: #222;
+  color: #fff;
+  font-size: 14px;
+  line-height: 1.6;
+}
+header {
+  padding: 1rem 2rem;
+}
+.main-title {
+  font-size: 18px;
+  font-weight: bold;
+  /* silly icon */
+  padding: 0 0 0 32px;
+  background-image: url('../icon.png');
+  background-size: auto 100%;
+  background-repeat: no-repeat;
+}
+.main-title b {
+  margin-left: 10px;
+  padding: 6px 15px;
+  background: #444;
+  border-radius: 6px;
+  font-weight: normal;
+  font-size: 14px;
+}
+.main-navigation {
+  float: right;
+  font-size: 14px;
+  margin-top: 4px;
+}
+.main-navigation > * {
+  margin-left: 2rem;
+}
+header a,
+header a:hover,
+header a:active {
+  color: #fff;
+  text-decoration: none;
+}
+
+/* Dashboard override */
+.dashboard-items {
+  padding: 0 2rem;
+}

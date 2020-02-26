@@ -1,5 +1,6 @@
 # TODO
 
+* UI via web interface (json config) doesn't support new textfield components
 ## Modularize PAppletHax
 
 * Next:
@@ -11,9 +12,9 @@
   * DebugView
     * Show full text on hover (move to top of z-stack)
     * Click to copy a value
-    * `uiButtonClicked` and UISlider value updates should emit an AppStore event, rather than having a callback (or do nothing, like UISlider) 
-  * Revisit AppWindow & update demos. Try to keep on top on an interval, in case of windows popups 
-  
+    * `uiButtonClicked` and UISlider value updates should emit an AppStore event, rather than having a callback (or do nothing, like UISlider)
+  * Revisit AppWindow & update demos. Try to keep on top on an interval, in case of windows popups
+
   * Update README with updated references
   * Should OscState (and maybe GamepadState) be separated to OscConnection and OscState, so multiple OscConnections can send data to it? Multiple objects could communicate on different ports.
 
@@ -40,15 +41,15 @@
 Infinity:
 
 * Custom UITextField example (kill ESC and other keys)
-* Debug tools in main app 
+* Debug tools in main app
 * MouseShutdown10x - just make original configurable for clicks & timeout
-* Finish gradient alpha wipe shader & wrapper
 * New Slack wrapper
   * See if we can remove the 2 extra slack-client jars
 
-PGA:
+PGA + Bespoke:
 
 * Chrome launch script? And java side?
+* cef-spout updated compile
 
 
 
@@ -90,14 +91,14 @@ PGA:
   	* Renderer
   	* PGraphicsKeystone
   	* PShaderCompiler
-  	* (Tons of shaders, textures & image-processing functions) 
+  	* (Tons of shaders, textures & image-processing functions)
   * Communication
   	* WebServer
   	* WebSocketServer
   	* OscState
   	* MidiState
   	* FileDownloader
-  	
+
 * PAppletHax replaces Processing's functions:
 	* settings() with config()
 		* Set Config values in `config()` before the app is initialized
@@ -131,10 +132,11 @@ PGA:
 
 ## Big Mother / DashboardPoster / CrashMonitor
 
+* Update standalone DashboardPoster app w/new dashboard code
 * Should Screenshot in DashboardPoster be it's own app/process, like the CrashMonitor? or *in* CrashMonitor? As an UptimeSuite??
 * CrashMonitor is very slow to communicate & turns yellow if a heavy app is starting up
 * Screenshots still get "stuck" and don't update
-* On web side, uptime is modded every 24 hours - needs a day count up front!
+* [DONE?] On web side, uptime is modded every 24 hours - needs a day count up front!
 * Can CrashMonitor launch the main app instead of the other way around?
 * Can CrashMonitor init DashboardPoster and other tools like monitor size change and auto-mouse clicking, rather than those being in the main app
 * Add config CMS to BigMother for any app to receive commands and config
@@ -176,9 +178,10 @@ PGA:
 ## Art projects
   * Video filter that does a bunch of feedback operations every frame, leading to GAN-like looks?
   * 8-channel surround sound & light
-  * C.A.C.H.E. 
+  * C.A.C.H.E.
+    * CACHE performance: launchpads, visuals, 8-bar LED array, kinect, drum pads, gqom beats
+  * Gradient circle spinning, leaving a trail
   * Variable Reaction-Diffusion using amplitude map & custom blur/sharpen shaders
-  * CACHE performance: launchpads, visuals, 8-bar LED array, kinect, drum pads, gqom beats
   * Kinect-triggered music - krump to trigger sounds & lights
   * Kinect silhouette studies (uv coord offset, glitch overlay, feedback)
   * Convert Fliud sim: https://github.com/PavelDoGreat/WebGL-Fluid-Simulation/blob/master/script.js
@@ -330,6 +333,7 @@ PGA:
 ## GLSL
   * Processing float 32 support: https://github.com/processing/processing/issues/3321
   * Do the physarum: https://sagejenson.com/physarum
+  * Do this with GPU particles: https://twitter.com/mamboleoo/status/1224738602200064000?s=12
   * Shader builder w/snippets - look through Hepp's code
     * Add uniforms automatically?
   	* Default shader chunks
@@ -425,7 +429,6 @@ PGA:
   * Test importing a Java class into a Processing IDE project
   * How can we optimize for Raspberry Pi? It wants Java 1.7 for the old version of Eclipse :(
   * Look into JarSplice or other compiling tools for application deployment
-  * Fix overhead view of KinectRegionGrid - with larger grids it's off-screen
   * BufferActivityMonitor should use FrameDifferenceBuffer object
   * Replace ColorUtil with EasingColor
   * ImageSequence -> ffmpeg rendering from a class. Would make rendering easier on both platforms
@@ -484,7 +487,7 @@ Advanced Processing
   * AppStore concept
   * Run in Eclipse
   	* How Eclipse works vs the command line code it generates
-  	* Java compiling w/javac, etc 
+  	* Java compiling w/javac, etc
   	* Extra tools:
   	  * VisualVM
   	  * mat

@@ -1,0 +1,39 @@
+/* Lightbox ---------------------------------------- */
+.lightbox {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+	background: rgba(0,0,0,0.85);
+	z-index: 9999;
+	opacity: 0;
+	padding: 20px;
+	transition: opacity 200ms linear;
+}
+
+.lightbox.showing {
+	opacity: 1;
+}
+
+.lightbox-image-holder {
+	position: relative;
+  width: 100%;
+  height: 100%;
+	box-sizing: border-box;
+	background-position: center;
+	background-size: contain;
+	background-repeat: no-repeat;
+}
+.lightbox-image-holder.lightbox-image-contained {
+	background-size: auto;
+}
+
+/* iOS click event bubbling fix */
+img[rel],
+.imagexpander,
+.lightbox-image-holder,
+.lightbox {
+	cursor: pointer;
+}

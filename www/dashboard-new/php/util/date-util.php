@@ -85,7 +85,7 @@ class DateUtil {
   public static function secondsToClockTime($seconds) {
     return gmdate('H:i:s', $seconds);
   }
-  
+
   public static function daysAndSecondsToClockTime($seconds) {
     $days = gmdate('j', $seconds);
     $daysInt = intval($days) - 1;
