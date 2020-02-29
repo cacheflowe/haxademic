@@ -3,7 +3,7 @@
 class Dashboard {
 
   const HALF_HOUR = 30 * 60;        // 60 seconds * 30 minutes
-  const OFFLINE_TIMEOUT = 20 * 60;  // 60 seconds * 20 minutes
+  const OFFLINE_TIMEOUT = 30 * 60;  // 60 seconds * 20 minutes
   const MAX_CHECKINS = 100;
 
   function __construct($request, $dataPath, $maxCheckIns=Dashboard::MAX_CHECKINS, $standalone=false) {
@@ -224,15 +224,15 @@ class Dashboard {
     $uptimeClock = ($uptimeSeconds) ? DateUtil::daysAndSecondsToClockTime($uptimeSeconds) : "n/a";
     $restartedAlert = ($uptimeSeconds < $this->restartWindow && $offlineAlert == "") ? " dashboard-restarted" : "";    // 30 minute window to show restarted color
 
-    $appTitle = isset($checkIn['appTitle']) ? $checkIn['appTitle'] : $appKey;
+    $appTitle = isset($checkIn['appTitle']) ? $checkIn['appTitle'] : $checkIn['appId'];
 
     // display card for app
     $html = "";
     $html .= '<div class="dashboard-card'.$offlineAlert.$restartedAlert.'">';
     // title
     if($this->standalone && $isDetails == false) {
-      $html .= '  <div class="dashboard-title" title="' . $appTitle . '"><a href="./?detail='.$checkIn['appId'].'">' . $appTitle . '</a></div>';
-      $html .= '  <a href="./?action=delete&app='.$checkIn['appId'].'" class="dashboard-card-delete">✖️</a>';
+      $html .= '  <div class="dashboard-title" title="' . $appTitle . '"><a href="?detail='.$checkIn['appId'].'">' . $appTitle . '</a></div>';
+      $html .= '  <a href="?action=delete&app='.$checkIn['appId'].'" class="dashboard-card-delete">✖️</a>';
     } else {
       $html .= '  <div class="dashboard-title" title="' . $appTitle . '">' . $appTitle . '</div>';
     }
