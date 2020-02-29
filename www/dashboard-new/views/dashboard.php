@@ -106,7 +106,7 @@ class Dashboard {
     if(isset($jsonPostObj['project']) && isset($jsonPostObj['screenshotBase64'])) {
       // migrate old 'project' key to 'appId' & 'appTitle'
       $jsonPostObj['appId'] = $jsonPostObj['project'];
-      $jsonPostObj['appTitle'] = $jsonPostObj['project'];
+      $jsonPostObj['appTitle'] = ucwords(str_replace("-", " ", $jsonPostObj['project']));
       unset($jsonPostObj['project']);
 
       // turn time strings into numbers - why the heck were these strings anyway?
