@@ -33,7 +33,7 @@
 }
 
 .dashboard-card .dashboard-title {
-  padding: 0 0 4px;
+  padding: 0 18px 4px 0;
   font-size: 20px;
   font-weight: bold;
   border-bottom: 2px solid #fff;
@@ -107,6 +107,8 @@
 .dashboard-val {
   font-size: 12px;
   line-height: 1.2;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .dashboard-card-delete {

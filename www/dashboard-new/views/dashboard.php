@@ -266,7 +266,7 @@ class Dashboard {
       if($key == 'appUptime') $val = DateUtil::secondsToClockTime($value);
       // make sure we're not showing system props, since we've already shown them
       if($key != 'appId' && $key != 'uptime' && $key != 'lastSeen' && $key != 'appTitle' && $key != 'lastSeenScreenshot' && $key != 'lastSeenExtra' && $key != 'imageScreenshot' && $key != 'imageExtra') {
-        $html .= '<div class="dashboard-key">' . $key . '</div><div class="dashboard-val">' . $val . '</div>';
+        $html .= '<div class="dashboard-key" title="' . $key . '">' . $key . '</div><div class="dashboard-val" title="' . $val . '">' . $val . '</div>';
       }
     }
     $html .= '  </div>';
