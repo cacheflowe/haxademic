@@ -11,6 +11,7 @@ class Dashboard {
     $this->restartWindow = Dashboard::HALF_HOUR;
     $this->maxCheckIns = $maxCheckIns;
     $this->standalone = $standalone;  // should we show links in cards to view details?
+    $this->imageExt = "jpg";
 
     $this->request = $request;
     $this->dataPath = $dataPath;
@@ -22,6 +23,9 @@ class Dashboard {
     // get data from form submit & set response type as json
     $jsonPostObj = $this->request->postedJson();
     JsonUtil::setJsonOutput();
+
+    // check for old-style data
+    $this->transformDataFromOldStyle($jsonPostObj);
 
     // validate form data
     if(isset($jsonPostObj['appId'])) {
@@ -84,16 +88,54 @@ class Dashboard {
   function convertImagesToFiles(&$jsonPostObj) {
     // save images & rewrite base64 image to image file path
     if(isset($jsonPostObj['imageScreenshot'])) {
-      $imagePath = $this->imageSavePath . DateUtil::createTimestamp() . "-screenshot.jpg";
+      $imagePath = $this->imageSavePath . DateUtil::createTimestamp() . "-screenshot." . $this->imageExt;
       FileUtil::base64ToFile($jsonPostObj['imageScreenshot'], $imagePath);
       $jsonPostObj['imageScreenshot'] = $imagePath;
       $jsonPostObj['lastSeenScreenshot'] = DateUtil::msSince1970(); // add timestamp for image upload
     }
     if(isset($jsonPostObj['imageExtra'])) {
-      $imagePath = $this->imageSavePath . DateUtil::createTimestamp() . "-extra.jpg";
+      $imagePath = $this->imageSavePath . DateUtil::createTimestamp() . "-extra." . $this->imageExt;
       FileUtil::base64ToFile($jsonPostObj['imageExtra'], $imagePath);
       $jsonPostObj['imageExtra'] = $imagePath;
       $jsonPostObj['lastSeenExtra'] = DateUtil::msSince1970(); // add timestamp for image upload
+    }
+  }
+
+  function transformDataFromOldStyle(&$jsonPostObj) {
+    // make sure we're looking at the old dashboard json
+    if(isset($jsonPostObj['project']) && isset($jsonPostObj['screenshotBase64'])) {
+      // migrate old 'project' key to 'appId' & 'appTitle'
+      $jsonPostObj['appId'] = $jsonPostObj['project'];
+      $jsonPostObj['appTitle'] = $jsonPostObj['project'];
+      unset($jsonPostObj['project']);
+
+      // turn time strings into numbers - why the heck were these strings anyway?
+      if(isset($jsonPostObj['frameCount'])) $jsonPostObj['frameCount'] = intval($jsonPostObj['frameCount']);
+      if(isset($jsonPostObj['uptime'])) $jsonPostObj['uptime'] = intval($jsonPostObj['frameCount']) / 60; // old style was formatted clock time 00:00:00 - so, let's just divide by 60fps to get seconds uptime
+      if(isset($jsonPostObj['frameRate'])) $jsonPostObj['frameRate'] = intval($jsonPostObj['frameRate']);
+
+      // migrate images (were png - need to be saved as such)
+      if(isset($jsonPostObj['screenshotBase64'])) {
+        $jsonPostObj['imageScreenshot'] = $jsonPostObj['screenshotBase64'];
+        unset($jsonPostObj['screenshotBase64']);
+      }
+      if(isset($jsonPostObj['imageBase64'])) {
+        $jsonPostObj['imageExtra'] = $jsonPostObj['imageBase64'];
+        unset($jsonPostObj['imageBase64']);
+      }
+      $this->imageExt = "png";
+
+      // migrate custom props in own 'custom' object node
+      if(isset($jsonPostObj['custom'])) {
+        $customObj = $jsonPostObj['custom'];
+        foreach ($customObj as $key => $val) {
+          $jsonPostObj[$key] = $val;
+        }
+        unset($jsonPostObj['custom']);
+      }
+
+      // finally, only allow 50 checkins, since every checkin has images, which take up a lot of space on the server
+      $this->maxCheckIns = 50;
     }
   }
 
@@ -195,10 +237,12 @@ class Dashboard {
       $html .= '  <div class="dashboard-title" title="' . $appTitle . '">' . $appTitle . '</div>';
     }
     // time info
-    $html .= '  <div class="dashboard-info-time">';
-    $html .= '    <b>Uptime</b>: '. $uptimeClock .'<br>';
-    $html .= '    <b>Updated</b>: ' . $timeSinceLastSeen;
-    $html .= '  </div>';
+    if($uptimeSeconds) {
+      $html .= '  <div class="dashboard-info-time">';
+      $html .= '    <b>Uptime</b>: '. $uptimeClock .'<br>';
+      $html .= '    <b>Updated</b>: ' . $timeSinceLastSeen;
+      $html .= '  </div>';
+    }
     // images
     if(isset($checkIn['imageScreenshot']))  {
       $html .= '  <div class="dashboard-img-outer">';

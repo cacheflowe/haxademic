@@ -11,7 +11,7 @@ extends PAppletHax {
 	protected DashboardPoster dashboardPoster;
 	
 	protected void firstFrame() {
-		dashboardPoster = new DashboardPoster("test", "http://localhost/haxademic/www/dashboard/", 20, 0.5f, 0.5f);
+		dashboardPoster = new DashboardPoster("test", "http://localhost/haxademic/www/dashboard-new/", 20, 0.5f, 0.5f);
 		dashboardPoster.setImage(p.g);
 		dashboardPoster.setDebug(true);
 	}

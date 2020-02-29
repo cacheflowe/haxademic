@@ -29,7 +29,7 @@ if(isset($_POST[Login::PASS_KEY])) {
 }
 
 // get dashboard data from file & init Dashboard
-$dashboard = new Dashboard($request, "data/", 100, true);
+$dashboard = new Dashboard($request, "data/", 500, true);
 
 // Receive posted checkin via JSON post & return success/fail message in JSON response
 // OR: List existing data via Dashboard UI if we're not submitting a checkin
