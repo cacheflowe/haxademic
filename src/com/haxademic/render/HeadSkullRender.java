@@ -42,8 +42,8 @@ extends PAppletHax {
 	protected float maxObjExtent;
 	
 	protected void config() {
-		Config.setProperty( AppSettings.WIDTH, 800 );
-		Config.setProperty( AppSettings.HEIGHT, 800 );
+		Config.setProperty( AppSettings.WIDTH, 960 );
+		Config.setProperty( AppSettings.HEIGHT, 960 );
 		Config.setProperty( AppSettings.RENDERING_MOVIE, false );
 		Config.setProperty( AppSettings.RENDERING_MOVIE_START_FRAME, 201 );
 		Config.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, Math.round(201 + _frames-1) );
@@ -51,8 +51,6 @@ extends PAppletHax {
 	}
 
 	protected void firstFrame() {
-
-		
 		centerX = p.width/2;
 		centerY = p.height/2;
 
@@ -72,8 +70,9 @@ extends PAppletHax {
 		objOrig = p.loadShape( FileUtil.getPath("models/Trump_lowPoly_updated.obj"));
 		obj = p.loadShape( FileUtil.getPath("models/Trump_lowPoly_updated.obj"));
 		
-		PShapeUtil.scaleShapeToExtent(skullObj, p.height * 0.78f);
-		PShapeUtil.scaleShapeToExtent(obj, p.height * 0.8f);
+		PShapeUtil.scaleShapeToHeight(skullObj, p.height * 0.78f * 2f);
+		PShapeUtil.scaleShapeToHeight(objOrig, p.height * 0.7f * 2f);
+		PShapeUtil.scaleShapeToHeight(obj, p.height * 0.7f * 2f);
 		
 		// get centers of each face
 		objFaceCenters = new PVector[obj.getChildCount()];
@@ -161,7 +160,7 @@ extends PAppletHax {
 		// additional lights
 		////////////////////////////////
 		addDirectionalLight();
-		addPointLight();
+//		addPointLight();
 //		addSpotLight();
 
 
@@ -187,11 +186,17 @@ extends PAppletHax {
 	}
 		
 	protected void drawObj() {
+		////////////////
+		// set context
+		////////////////
 		p.pushMatrix();
 		p.translate(p.width/2, p.height * 0.45f, -p.width);
 		p.rotateZ(P.PI);
 		p.rotateY(P.sin(P.TWO_PI * _progress) * 0.45f);
 		
+		////////////////
+		// draw skull
+		////////////////
 		p.pushMatrix();
 		p.translate(0, p.height * -0.03f, 0);
 		skullObj.disableStyle();
@@ -200,15 +205,19 @@ extends PAppletHax {
 		p.scale(0.71f);
 		p.shape(skullObj);
 		p.popMatrix();
-
+		
+		////////////////
+		// draw head
+		////////////////
 		p.pushMatrix();
-		p.translate(0, p.height * -0.17f, 0);
+		p.translate(0, p.height * -0.18f, 12);
 		p.fill(255);
 //		p.scale(0.9f + 0.2f * P.sin(P.PI + P.TWO_PI * _progress));
 		
-		
+		// sweeping x progress for distance check
 		float xProg = P.map(_progress, 0, 1, -maxObjExtent * 1.3f, maxObjExtent * 1.3f);
 		
+		// shrink/grow adjusted mesh
 		for (int i = 0; i < obj.getChildren().length; i++ ) {
 			PShape child = obj.getChild(i);
 			PShape childOrig = objOrig.getChild(i);
@@ -223,40 +232,40 @@ extends PAppletHax {
 				// float indexOffset = (float)i / 100f;
 //				float easedProgress = Penner.easeInOutCubic(0.5f + 0.5f * P.sin(indexOffset + _progress * P.TWO_PI), 0, 1, 1);
 				
+				// get distance to sweeping x coord
 				float dist = MathUtil.getDistance(xProg, 0, objFaceCenters[i].x, 0);
 				float easedProgress = 0;
 				float distanceMax = maxObjExtent * 0.65f;
 				if(P.abs(dist) < distanceMax) {
 //					easedProgress = P.map(dist, distanceMax, 0, 0, 1);
-					easedProgress = Penner.easeInOutQuart(P.map(dist, distanceMax, 0, 0, 1), 0, 1, 1);
+					easedProgress = Penner.easeInOutExpo(P.map(dist, distanceMax, 0, 0, 1), 0, 1, 1);
 				}
-//				if(dist < 0 && dist > -_progress) {
-//					easedProgress = Penner.easeInOutSine(P.map(dist, -_progress * 2f, 0, 0, 1), 0, 1, 1);
-//				} else if(dist >= 0 && dist < _progress) {
-//					easedProgress = Penner.easeInOutSine(P.map(dist, 0, _progress * 2f, 1, 0), 0, 1, 1);
-//				}
 
-				
+				// set vertices of manipulated object
 				child.setVertex(
-						vIndex, 
-						P.map(easedProgress, 0, 1, vertexOrig.x, objFaceCenters[i].x), 
-						P.map(easedProgress, 0, 1, vertexOrig.y, objFaceCenters[i].y), 
-						P.map(easedProgress, 0, 1, vertexOrig.z, objFaceCenters[i].z)
-						);
+					vIndex, 
+					P.map(easedProgress, 0, 1, vertexOrig.x, objFaceCenters[i].x), 
+					P.map(easedProgress, 0, 1, vertexOrig.y, objFaceCenters[i].y), 
+					P.map(easedProgress, 0, 1, vertexOrig.z, objFaceCenters[i].z)
+				);
 			}
 		}
 		
-//		p.pushMatrix();
-//		p.translate(xProg, 300);
-//		p.fill(255);
-//		p.box(20);
-//		p.popMatrix();
+		// draw debug box for x-distance check on shrinking triangles
+		if(UI.active()) {
+			p.pushMatrix();
+			p.translate(xProg, 300);
+			p.fill(255);
+			p.box(20);
+			p.popMatrix();
+		}
 		
 //		obj.disableStyle();
 		p.fill(255,185,40);
 		p.shape(obj);
 		p.popMatrix();
 
+		// reset context
 		p.popMatrix();
 	}
 	

@@ -1,4 +1,4 @@
-package com.haxademic.demo.render.joons;
+package com.haxademic.render;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
@@ -13,7 +13,7 @@ import com.haxademic.core.render.Renderer;
 
 import processing.core.PShape;
 
-public class Demo_PShapeUtil_shapeFromImage_Joons 
+public class Accountability 
 extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
