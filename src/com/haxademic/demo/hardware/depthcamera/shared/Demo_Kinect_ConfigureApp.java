@@ -35,7 +35,7 @@ extends PAppletHax {
 	
 	protected void firstFrame() {
 		// init camera
-		DepthCamera.instance(DepthCameraType.KinectV1);
+		DepthCamera.instance(DepthCameraType.Realsense);
 
 		// add UI controls
 		UI.addTitle("Depth Data Settings");
@@ -43,8 +43,8 @@ extends PAppletHax {
 		UI.addSlider(kinectRight, DepthCameraSize.WIDTH, DepthCameraSize.WIDTH/2,DepthCameraSize.WIDTH, 1, false);
 		UI.addSlider(kinectTop, 0, 0, DepthCameraSize.HEIGHT/2, 1, false);
 		UI.addSlider(kinectBottom, DepthCameraSize.HEIGHT, DepthCameraSize.HEIGHT/2,DepthCameraSize.HEIGHT, 1, false);
-		UI.addSlider(kinectNear, 300, 300, 12000, 1, false);
-		UI.addSlider(kinectFar, 7000, 300, 12000, 1, false);
+		UI.addSlider(kinectNear, 300, 300, 12000, 5, false);
+		UI.addSlider(kinectFar, 7000, 300, 12000, 5, false);
 		UI.addSlider(pixelSkip, 5, 1, 10, 1, false);
 		UI.addSlider(depthDivider, 50, 1, 100, 0.1f, false);
 		UI.addSlider(pixelDrawSize, 0.5f, 0, 1, 0.01f, false);

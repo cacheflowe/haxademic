@@ -7,8 +7,10 @@ import com.haxademic.core.app.config.Config;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.image.ImageUtil;
+import com.haxademic.core.ui.UI;
 
 import ch.bildspur.realsense.RealSenseCamera;
+import ch.bildspur.realsense.type.ColorScheme;
 import processing.core.PGraphics;
 import processing.core.PImage;
 
@@ -31,60 +33,82 @@ extends PAppletHax {
 	| 1920  | 1080   | `6`, `15`, `30`             | â�Œ            | âœ…            | 1920/1080/30 works but runs at 10fps/rgb-only
 	*/
 	
-	// TODO: 
-	// * Test all reslutions and framerates
-	
 	protected RealSenseCamera camera;
-	protected int CAMERA_W = 848;
+	protected int CAMERA_W = 640;
 	protected int CAMERA_H = 480;
-	protected int CAMERA_FPS = 60;
 	protected int CAMERA_NEAR = 180;
-	protected int CAMERA_FAR = 5000;
+	protected String CAMERA_FAR = "CAMERA_FAR";
+	protected String MIRROR = "MIRROR";
 	protected boolean DEPTH_ACTIVE = true;
 	protected boolean RGB_ACTIVE = true;
-	protected boolean MIRROR = true;
+	protected boolean IR_ACTIVE = false;
 	protected PGraphics mirrorRGB;
 	protected PGraphics mirrorDepth;
-
+	protected short[][] data = new short[CAMERA_H][CAMERA_W];
+	protected boolean cameraThreadBusy = false;
+	
 	protected void config() {
 		Config.setProperty( AppSettings.WIDTH, 1200 );
 		Config.setProperty( AppSettings.HEIGHT, 900 );
 		Config.setProperty( AppSettings.SHOW_DEBUG, true );
 	}
 
-
 	protected void firstFrame() {
+		// init camera
 		camera = new RealSenseCamera(this);
-		camera.start(CAMERA_W, CAMERA_H, CAMERA_FPS, DEPTH_ACTIVE, RGB_ACTIVE);
-		DebugView.setTexture("camera.getDepthImage", camera.getDepthImage());
+		camera.enableColorStream();
+		camera.enableDepthStream(CAMERA_W, CAMERA_H);
+		camera.enableColorizer(ColorScheme.Cold);
+//		camera.enableIRStream(640, 480, 30);
+		camera.enableAlign();
+		camera.start();
 		
+//		DebugView.setTexture("camera.getIRImage", camera.getIRImage());
+		// init mirrored buffers
 		mirrorRGB = PG.newPG(CAMERA_W, CAMERA_H);
 		mirrorDepth = PG.newPG(CAMERA_W, CAMERA_H);
+		
+		// UI
+		UI.addTitle("Realsense settings");
+		UI.addSlider(CAMERA_FAR, 5000, 400, 10000, 10, false);
+		UI.addToggle(MIRROR, false, false);
 	}
 
 	protected void drawApp() {
 		p.background(0);
 		
-		MIRROR = true;
-		CAMERA_FAR = 10000;
-
-		// TODO: thread this!
-//		new Thread(new Runnable() { public void run() {
-			camera.readFrames();
-//		}}).start();
+		// threaded reading!
+		if(cameraThreadBusy == false) {
+			new Thread(new Runnable() { public void run() {
+				cameraThreadBusy = true;
+				camera.readFrames();
+				if(DEPTH_ACTIVE) data = camera.getDepthData();
+				cameraThreadBusy = false;
+			}}).start();
+		}
 
 		// show depth image
 		fill(255);
 		noStroke();
 		if(DEPTH_ACTIVE) {
-			camera.createDepthImage(CAMERA_NEAR, CAMERA_FAR); // min/max depth
-			if(MIRROR) ImageUtil.copyImageFlipH(camera.getDepthImage(), mirrorDepth);
-			image(getDepthImage(), 0, 0);
+//			camera.createDepthImage(CAMERA_NEAR, CAMERA_FAR); // min/max depth
+			if(UI.valueToggle(MIRROR)) ImageUtil.copyImageFlipH(camera.getDepthImage(), mirrorDepth);
+//			image(getDepthImage(), 0, 0);
+			DebugView.setTexture("camera.getDepthImage", getDepthImage());
 		}
 		
 		// show color image
 		if(RGB_ACTIVE) {
-			if(MIRROR) ImageUtil.copyImageFlipH(camera.getColorImage(), mirrorRGB);
+			if(UI.valueToggle(MIRROR)) ImageUtil.copyImageFlipH(camera.getColorImage(), mirrorRGB);
+			PG.setPImageAlpha(p, 0.6f);
+//			p.image(getRGBImage(), 0, 0);
+			PG.setPImageAlpha(p, 1f);
+			DebugView.setTexture("camera.getColorImage", getRGBImage());
+		}
+
+		// show color image
+		if(IR_ACTIVE) {
+//			if(UI.valueToggle(MIRROR)) ImageUtil.copyImageFlipH(camera.getIRImage(), mirrorRGB);
 			PG.setPImageAlpha(p, 0.6f);
 //			p.image(getRGBImage(), 30, 0);
 			PG.setPImageAlpha(p, 1f);
@@ -94,35 +118,35 @@ extends PAppletHax {
 		drawDepthPixels();
 	}
 	
-	public int getDepth(int x, int y) {
-		return camera.getDepth((MIRROR) ? CAMERA_W - x : x, y);
+	public float getDepth(int x, int y) {
+		return Math.round(camera.getDistance((UI.valueToggle(MIRROR)) ? CAMERA_W - x : x, y) * 1000f);
 	}
 	
 	public PImage getRGBImage() {
-		return (MIRROR) ? mirrorRGB : camera.getColorImage();
+		return (UI.valueToggle(MIRROR)) ? mirrorRGB : camera.getColorImage();
 	}
 	
 	public PImage getDepthImage() {
-		return (MIRROR) ? mirrorDepth : camera.getDepthImage();
+		return (UI.valueToggle(MIRROR)) ? mirrorDepth : camera.getDepthImage();
 	}
 	
 	protected void drawDepthPixels() {
-//		if(RGB_ACTIVE) getRGBImage().loadPixels();
+		if(RGB_ACTIVE) getRGBImage().loadPixels();
 		int numPixelsProcessed = 0;
 		int pixelSize = 6;
 		for ( int x = 0; x < CAMERA_W; x += pixelSize ) {
 			for ( int y = 0; y < CAMERA_H; y += pixelSize ) {
-				int pixelDepth = getDepth(x, y);
-				if( pixelDepth != 0 && pixelDepth > CAMERA_NEAR && pixelDepth < CAMERA_FAR ) {
+			    // get intensity
+			    float pixelDepth = (UI.valueToggle(MIRROR)) ? data[y][CAMERA_W - 1 - x] : data[y][x];
+				if( pixelDepth != 0 && pixelDepth > CAMERA_NEAR && pixelDepth < UI.value(CAMERA_FAR)) {
 //				if( pixelDepth == 0 || (pixelDepth > CAMERA_NEAR && pixelDepth < CAMERA_FAR)) {
-					p.pushMatrix();
+//					P.out(pixelDepth);
 //					if(RGB_ACTIVE) {
-//						p.fill(ImageUtil.getPixelColor(getRGBImage(), x - 30, y));
 //					} else {
-						p.fill(P.map(pixelDepth, CAMERA_NEAR, CAMERA_FAR, 255, 0));
+						p.fill(P.map(pixelDepth, CAMERA_NEAR, UI.value(CAMERA_FAR), 255, 0));
+//						p.fill(ImageUtil.getPixelColor(getRGBImage(), x - 30, y));
 //					}
 					p.rect(x, y, pixelSize, pixelSize);
-					p.popMatrix();
 					numPixelsProcessed++;
 				}
 			}
