@@ -49,7 +49,7 @@ extends ParticleSystem {
 		}
 	}
 	
-	protected Particle initNewParticle() {
+	protected Particle2d initNewParticle() {
 		// override with custom particle subclass
 		return new ParticleSwirl();
 	}

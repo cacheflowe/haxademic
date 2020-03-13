@@ -7,6 +7,7 @@ import com.haxademic.core.app.config.Config;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.shapes.PShapeUtil;
+import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.media.DemoAssets;
 
 import processing.core.PImage;
@@ -30,6 +31,7 @@ extends PAppletHax {
 	protected void firstFrame() {
 		// build shape and assign texture
 		shape = DemoAssets.objHumanoid();
+//		shape = p.loadShape(FileUtil.getPath("models/cv/Virus.obj"));
 		
 		// normalize shape (scaling centers)
 		PShapeUtil.centerShape(shape);
@@ -55,8 +57,7 @@ extends PAppletHax {
 
 		// rotate camera
 		p.translate(p.width/2, p.height * 0.65f);
-		p.rotateX(P.map(p.mouseY, 0, p.height, 0.5f, -0.5f));
-		p.rotateY(P.map(p.mouseX, 0, p.width, 0, P.TWO_PI * 2));
+		PG.basicCameraFromMouse(p.g);
 		
 		// draw floor
 		p.pushMatrix();

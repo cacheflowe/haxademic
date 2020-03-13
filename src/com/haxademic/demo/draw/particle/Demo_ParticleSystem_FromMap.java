@@ -44,7 +44,7 @@ extends PAppletHax {
 		}
 
 		particles = new ParticleSystem(particleImages);
-		particles.enableUI("PARTY_1", false);	// add sliders
+		particles.enableUI("PARTY_1_", false);	// add sliders
 	}
 	
 	protected void drawApp() {

@@ -8,7 +8,7 @@ import processing.core.PGraphics;
 import processing.core.PImage;
 import processing.core.PVector;
 
-public class Particle {
+public class Particle2d {
 	
 	protected PVector pos = new PVector(0, 0, 0);
 	protected PVector speed = new PVector(0, 0, 0);
@@ -34,48 +34,48 @@ public class Particle {
 	protected int color = 0xffffffff;
 	protected PImage image;
 	
-	public Particle() {}
+	public Particle2d() {}
 	
 	// Random range setters
 	
-	public Particle setSize(float sizeMin, float sizeMax) {
+	public Particle2d setSize(float sizeMin, float sizeMax) {
 		this.sizeMin = sizeMin;
 		this.sizeMax = sizeMax;
 		return this;
 	}
 	
-	public Particle setLifespan(float lifespanMin, float lifespanMax) {
+	public Particle2d setLifespan(float lifespanMin, float lifespanMax) {
 		this.lifespanMin = lifespanMin; 
 		this.lifespanMax = lifespanMax; 
 		return this;
 	}
 	
-	public Particle setRotation(float rotationMin, float rotationMax) {
+	public Particle2d setRotation(float rotationMin, float rotationMax) {
 		this.rotationMin = rotationMin;
 		this.rotationMax = rotationMax;
 		return this;
 	}
 	
-	public Particle setSpeed(float speedMinX, float speedMaxX, float speedMinY, float speedMaxY) {
+	public Particle2d setSpeed(float speedMinX, float speedMaxX, float speedMinY, float speedMaxY) {
 		this.speedMin.set(speedMinX, speedMinY);
 		this.speedMax.set(speedMaxX, speedMaxY);
 		return this;
 	}
 	
-	public Particle setGravity(float gravityMinX, float gravityMaxX, float gravityMinY, float gravityMaxY) {
+	public Particle2d setGravity(float gravityMinX, float gravityMaxX, float gravityMinY, float gravityMaxY) {
 		this.gravityMin.set(gravityMinX, gravityMinY);
 		this.gravityMax.set(gravityMaxX, gravityMaxY);
 		return this;
 	}
 	
-	public Particle setColor(int color) {
+	public Particle2d setColor(int color) {
 		this.color = color;
 		return this;
 	}
 	
 	// Launch!
 	
-	public Particle launch(PGraphics pg, float x, float y, PImage img) {
+	public Particle2d launch(PGraphics pg, float x, float y, PImage img) {
 		// get random particle texture
 		image = img;
 		

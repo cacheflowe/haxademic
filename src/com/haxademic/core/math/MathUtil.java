@@ -50,6 +50,10 @@ public class MathUtil {
 		return (P.p.random( 0f, 1f ) < likeliness) ? true : false;
 	}
 
+	public static int randIndex(int size) {
+		return randRange(0, size - 1);
+	}
+	
 	/**
 	 *	Calculates a random number within a minimum and maximum range.
 	 *	@param	min		the value for the bottom range.

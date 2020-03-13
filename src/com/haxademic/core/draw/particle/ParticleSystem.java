@@ -16,7 +16,7 @@ import processing.core.PImage;
 public class ParticleSystem {
 
 	// particles & source textures
-	protected ArrayList<Particle> particles = new ArrayList<Particle>();
+	protected ArrayList<Particle2d> particles = new ArrayList<Particle2d>();
 	protected PImage[] particleImages;
 
 	// config
@@ -129,17 +129,17 @@ public class ParticleSystem {
 		// didn't find one
 		int maxPoolSize = (usingUI) ? UI.valueInt(POOL_MAX_SIZE) : PARTICLE_POOL_MAX_SIZE;
 		if(particles.size() < maxPoolSize) {
-			Particle newShape = initNewParticle();
+			Particle2d newShape = initNewParticle();
 			launch(pg, newShape, x, y);
 			particles.add(newShape);
 		}
 	}
 	
-	protected Particle initNewParticle() {
-		return new Particle();
+	protected Particle2d initNewParticle() {
+		return new Particle2d();
 	}
 
-	protected void launch(PGraphics pg, Particle shape, float x, float y) {
+	protected void launch(PGraphics pg, Particle2d shape, float x, float y) {
 		if(usingUI) {
 			shape
 				.setSpeed(UI.value(SPEED_X_MIN), UI.value(SPEED_X_MAX), UI.value(SPEED_Y_MIN), UI.value(SPEED_Y_MAX))

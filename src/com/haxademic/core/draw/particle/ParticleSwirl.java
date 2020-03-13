@@ -7,7 +7,7 @@ import processing.core.PGraphics;
 import processing.core.PImage;
 
 public class ParticleSwirl
-extends Particle {
+extends Particle2d {
 	
 	protected float radius;
 	protected float radians;
@@ -16,7 +16,7 @@ extends Particle {
 	
 	// launch
 	
-	public Particle launch(PGraphics pg, float x, float y, PImage img) {
+	public Particle2d launch(PGraphics pg, float x, float y, PImage img) {
 		super.launch(pg, x, y, img);
 		
 		// repurpose x/y as radius/rads
