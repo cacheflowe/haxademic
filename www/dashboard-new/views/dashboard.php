@@ -222,7 +222,7 @@ class Dashboard {
     // show uptime stats
     $uptimeSeconds = isset($checkIn['uptime']) ? $checkIn['uptime'] : 0;
     $uptimeClock = ($uptimeSeconds) ? DateUtil::daysAndSecondsToClockTime($uptimeSeconds) : "n/a";
-    $restartedAlert = ($uptimeSeconds < $this->restartWindow && $offlineAlert == "") ? " dashboard-restarted" : "";    // 30 minute window to show restarted color
+    $restartedAlert = (abs($uptimeSeconds) < $this->restartWindow && $offlineAlert == "") ? " dashboard-restarted" : "";    // 30 minute window to show restarted color
 
     $appTitle = isset($checkIn['appTitle']) ? $checkIn['appTitle'] : $checkIn['appId'];
 

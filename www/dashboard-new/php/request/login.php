@@ -15,9 +15,9 @@ class Login {
     return $loggedIn;
   }
 
-  public static function setAuthRequired() {
+  public static function setAuthRequired($isRequired=true) {
     global $request;
-    $request->setAuthRequired(true);
+    $request->setAuthRequired($isRequired);
   }
 
   public static function resetPasswordCookie() {
