@@ -211,7 +211,7 @@ Working in tandem with vhost configurations, you need to edit your hosts file fo
 
 #### Enable SSL for local development
 
-Some web development that requires hardware access (real-time camera, accelerometer) require a web server that has SSL enabled. Adapted from [this guide](https://creativelogic.biz/blog/https-ssl-local-dev-with-windows), here are the steps to create an SSL certificate and allow your machine and others to make https requests to your Ubuntu Apache server. Be sure to enter a real passphrase when prompted, and write it down:
+Some web development that requires hardware access (real-time camera, accelerometer) require a web server that has SSL enabled. I've adapted the setup from [this guide](https://creativelogic.biz/blog/https-ssl-local-dev-with-windows), but their setup seems to be running Apache on Windows, not on Ubuntu. So, here are the steps to create an SSL certificate and allow your machine and others to make https requests to your Ubuntu Apache server. Be sure to enter a real passphrase when prompted, and write it down:
 
 * Create a `certs` directory somewhere safe on your Windows drive. You won't want to move this.
 * Run the following commands from the WSL command line in your `certs` directory. In this example, we'll use `/mnt/d/workspace/certs`
@@ -222,7 +222,9 @@ Some web development that requires hardware access (real-time camera, accelerome
   openssl req -x509 -new -nodes -key myCA.key -sha256 -days 1825 -out myCA.pem
 ```
 
-* Create the following script in your `certs` directory. I named mine `cert-gen.sh` and ran it by calling: `./cert-gen.sh localhost`. This will generate final certificate files in the same directory, with the name of your hostname: `localhost.crt` and `localhost.key`
+* Create the following script in your `certs` directory. I named mine `cert-gen.sh` and ran it by calling:
+* `./cert-gen.sh localhost`
+* This will generate final certificate files in the same directory, with the name of your hostname: `localhost.crt` and `localhost.key`
 ```
   #!/bin/bash
 
@@ -254,7 +256,7 @@ Some web development that requires hardware access (real-time camera, accelerome
   rm ./$DOMAIN.ext
 ```
 
-* Add the final certificates' location and SSL settings to the vhosts file. In my case it's `localhost`. The ServerName should match the name used when running `cert-gen.sh`. Port 443 is the default for an SSL host:
+* Add the final certificates' location and SSL settings to your vhosts file, making a copy of your normal (non-SSL) entry. In my case it's called `localhost`. The ServerName should (I believe) match the name used when running `cert-gen.sh`. Port 443 is the default for an SSL host. Be sure to fill in anything else needed for your vhost entry:
 ```
   <VirtualHost *:443>
     DocumentRoot "/mnt/d/workspace"
@@ -265,11 +267,11 @@ Some web development that requires hardware access (real-time camera, accelerome
   </VirtualHost>
 ```
 
-If Apache doesn't already have ssl enabled, you'll get an error message on Apache restart like this: `Invalid command 'SSLEngine'`. To fix this, run this command:
+* If Apache doesn't already have ssl enabled, you'll get an error message on Apache restart like this: `Invalid command 'SSLEngine'`. To fix this, run this command:
 
-`sudo a2enmod ssl`
+* `sudo a2enmod ssl`
 
-If all goes well, you should be able to make requests like `https://localhost` or `https://your.ip.address`. You might have to manually allow the self-signed certificate in any given browser.
+* If all goes well, you should be able to make requests like `https://localhost` or `https://your.ip.address` from other devices. You might have to manually allow the self-signed certificate in any given browser.
 
 #### Fix a WSL warning message on Apache start
 
