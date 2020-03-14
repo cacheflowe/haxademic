@@ -209,6 +209,79 @@ Working in tandem with vhost configurations, you need to edit your hosts file fo
 
 * `C:/Windows/System32/drivers/etc/hosts`
 
+#### Enable SSL for local development
+
+Some web development that requires hardware access (real-time camera, accelerometer) require a web server that has SSL enabled. Adapted from [this guide](https://creativelogic.biz/blog/https-ssl-local-dev-with-windows), here are the steps to create an SSL certificate and allow your machine and others to make https requests to your Ubuntu Apache server. Be sure to enter a real passphrase when prompted, and write it down:
+
+* Create a `certs` directory somewhere safe on your Windows drive. You won't want to move this.
+* Run the following commands from the WSL command line in your `certs` directory. In this example, we'll use `/mnt/d/workspace/certs`
+```
+  mkdir certs
+  cd certs
+  openssl genrsa -des3 -out myCA.key 2048
+  openssl req -x509 -new -nodes -key myCA.key -sha256 -days 1825 -out myCA.pem
+```
+
+* Create the following script in your `certs` directory. I named mine `cert-gen.sh` and ran it by calling: `./cert-gen.sh localhost`. This will generate final certificate files in the same directory, with the name of your hostname: `localhost.crt` and `localhost.key`
+```
+  #!/bin/bash
+
+  if [ "$#" -ne 1 ]
+  then
+  echo "You must supply a domain..."
+  exit 1
+  fi
+
+  DOMAIN=$1
+
+  openssl genrsa -out ./$DOMAIN.key 2048
+  openssl req -new -key ./$DOMAIN.key -out ./$DOMAIN.csr
+
+  cat > ./$DOMAIN.ext << EOF
+  authorityKeyIdentifier=keyid,issuer
+  basicConstraints=CA:FALSE
+  keyUsage = digitalSignature, nonRepudiation, keyEncipherment, dataEncipherment
+  subjectAltName = @alt_names
+
+  [alt_names]
+  DNS.1 = $DOMAIN
+  EOF
+
+  openssl x509 -req -in ./$DOMAIN.csr -CA myCA.pem -CAkey myCA.key -CAcreateserial \
+  -out ./$DOMAIN.crt -days 1825 -sha256 -extfile ./$DOMAIN.ext
+
+  rm ./$DOMAIN.csr
+  rm ./$DOMAIN.ext
+```
+
+* Add the final certificates' location and SSL settings to the vhosts file. In my case it's `localhost`. The ServerName should match the name used when running `cert-gen.sh`. Port 443 is the default for an SSL host:
+```
+  <VirtualHost *:443>
+    DocumentRoot "/mnt/d/workspace"
+    ServerName localhost
+    SSLEngine on
+    SSLCertificateFile "/mnt/d/workspace/certs/localhost.crt"
+    SSLCertificateKeyFile "/mnt/d/workspace/certs/localhost.key"
+  </VirtualHost>
+```
+
+If Apache doesn't already have ssl enabled, you'll get an error message on Apache restart like this: `Invalid command 'SSLEngine'`. To fix this, run this command:
+
+`sudo a2enmod ssl`
+
+If all goes well, you should be able to make requests like `https://localhost` or `https://your.ip.address`. You might have to manually allow the self-signed certificate in any given browser.
+
+#### Fix a WSL warning message on Apache start
+
+If you get an error like the following:
+
+`Failed to enable APR_TCP_DEFER_ACCEPT`
+
+Add this to the end of /etc/apache2/apache2.conf:
+
+`AcceptFilter http none`
+
+
 ### More php configuration
 
 Install the php xml package (there may be others you'll want, and make sure you're targeting the php version you're using)
