@@ -156,8 +156,9 @@ public class WavPlayer {
 		}
 	}
 	
-	public void pauseToggle(String id) {
+	public WavPlayer pauseToggle(String id) {
 		if(getPlayer(id) != null) getPlayer(id).pause(!isPaused(id));
+		return this;
 	}
 	
 	public boolean isPaused(String id) {
@@ -165,7 +166,7 @@ public class WavPlayer {
 		return false;
 	}
 	
-	public void stop(String id) {
+	public WavPlayer stop(String id) {
 		if(getPlayer(id) != null) {
 			getPlayer(id).kill();
 			players.remove(id);
@@ -173,6 +174,7 @@ public class WavPlayer {
 			glides.remove(id);
 			glideTimes.remove(id);
 		}
+		return this;
 	}
 	
 	public float progress(String id) {
@@ -189,10 +191,11 @@ public class WavPlayer {
 		return (float) getPlayer(id).getSample().getLength();
 	}
 	
-	public void setVolume(String id, float gain) {
+	public WavPlayer setVolume(String id, float gain) {
 		if(gains.containsKey(id)) {
 			gains.get(id).setGain(gain);
 		}
+		return this;
 	}
 	
 	public int glideTime(String id) {
@@ -200,14 +203,15 @@ public class WavPlayer {
 		return glideTimes.get(id).intValue();
 	}
 	
-	public void setGlideTime(String id, int glide) {
+	public WavPlayer setGlideTime(String id, int glide) {
 		if(gains.containsKey(id)) {
 			glideTimes.put(id, glide);
 			glides.get(id).setGlideTime(glide);
 		}
+		return this;
 	}
 	
-	public void setPitch(String id, float pitchIndex) {
+	public WavPlayer setPitch(String id, float pitchIndex) {
 		if(glides.containsKey(id)) {
 			// remove glide completely or use portamento if glide has been set
 			if(glideTime(id) == 0) {
@@ -218,6 +222,7 @@ public class WavPlayer {
 			// apply pitch adjustment to sample
 			getPlayer(id).setRate(glides.get(id));
 		}
+		return this;
 	}
 	
 }
