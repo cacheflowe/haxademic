@@ -1090,5 +1090,84 @@ public class PShapeUtil {
 		outputStr += faces;
 		FileUtil.writeTextToFile(FileUtil.haxademicOutputPath() + "text/model-"+SystemUtil.getTimestamp()+".obj", outputStr);
 	}
+	
+	///////////////////////////
+	// Create basic PShapes
+	// from: https://processing.org/reference/createShape_.html
+	///////////////////////////
+	
+	// shared helpers
+	
+	public static PShape setBasicShapeStyles(PShape shape, int color, int stroke, float strokeWeight) {
+		shape.setFill(color != 0);		// boolean turn on/off
+		shape.setFill(color);
+		shape.setStroke(stroke != 0);	// boolean turn on/off
+		shape.setStroke(stroke);
+		shape.setStrokeWeight(strokeWeight);
+		return shape;
+	}	
+	
+	public static PShape translateShape(PShape shape, float x, float y, float z) {
+		if(x != 0 || y != 0 || z != 0) {
+			shape.translate(x, y, z);
+		}
+		return shape;
+	}	
+	
+	// individual shapes - could add more here, but these are some common basics!
+	
+	public static PShape createRect(float width, float height, int color) {
+		return createRect(width, height, 0,	0, 0, color, 0, 0);
+	}
+	
+	public static PShape createRect(float width, float height, float x, float y, float z, int color, int stroke, float strokeWeight) {
+		PShape shape = P.p.createShape(P.RECT, -width/2f, -height/2f, width, height);
+		translateShape(shape, x, y, z);
+		setBasicShapeStyles(shape, color, stroke, strokeWeight);
+		return shape;
+	}
 
+	public static PShape createEllipse(float width, float height, int color) {
+		return createEllipse(width, height, 0, 0, 0, color, 0, 0);
+	}
+	
+	public static PShape createEllipse(float width, float height, float x, float y, float z, int color, int stroke, float strokeWeight) {
+		PShape shape = P.p.createShape(P.ELLIPSE, 0, 0, width, height);
+		translateShape(shape, x, y, z);
+		setBasicShapeStyles(shape, color, stroke, strokeWeight);
+		return shape;
+	}
+	
+	public static PShape createBox(float width, float height, float depth, int color) {
+		return createBox(width, height, depth, 0, 0, 0, color, 0, 0);
+	}
+	
+	public static PShape createBox(float width, float height, float depth, float x, float y, float z, int color, int stroke, float strokeWeight) {
+		PShape shape = P.p.createShape(P.BOX, width, height, depth);
+		translateShape(shape, x, y, z);
+		setBasicShapeStyles(shape, color, stroke, strokeWeight);
+		return shape;
+	}
+	
+	public static PShape createSphere(float size, int color) {
+		return createSphere(size, 0, 0, 0, color, 0, 0);
+	}
+	
+	public static PShape createSphere(float size, float x, float y, float z, int color, int stroke, float strokeWeight) {
+		PShape shape = P.p.createShape(P.SPHERE, size/2f);
+		translateShape(shape, x, y, z);
+		setBasicShapeStyles(shape, color, stroke, strokeWeight);
+		return shape;
+	}
+	
+	///////////////////////////
+	// COPY MESH (only works on basic shapes, it seems)
+	// from: https://discourse.processing.org/t/copying-a-pshape/1081/8
+	///////////////////////////
+
+	public static class PShapeCopy extends PShape {
+		public static PShape copyShape(PShape shape) {
+			return createShape(P.p, shape);
+		}
+	}
 }
