@@ -16,8 +16,11 @@ public class SimplexNoiseTexture {
 	protected PVector offset = new PVector();
 
 	public SimplexNoiseTexture(int w, int h) {
+		this(w, h, false);
+	}
+	public SimplexNoiseTexture(int w, int h, boolean is32bit) {
 		noiseTexture = new TextureShader(TextureShader.noise_simplex_2d_iq);
-	    noiseBuffer = PG.newPG(w, h);
+	    noiseBuffer = (is32bit) ? PG.newPG32(w, h, true, false) : PG.newPG(w, h);
 	}
 
 	public PGraphics texture() {

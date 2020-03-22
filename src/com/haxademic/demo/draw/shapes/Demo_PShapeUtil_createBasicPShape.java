@@ -14,12 +14,6 @@ public class Demo_PShapeUtil_createBasicPShape
 extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
-	protected PShape box;
-	protected PShape sphere;
-	protected PShape ellipse;
-	protected PShape ellipseCopy;
-	protected PShape rect;
-	protected PShape rectCopy;
 	protected ArrayList<PShape> shapes = new ArrayList<PShape>();
 	
 	protected void config() {
