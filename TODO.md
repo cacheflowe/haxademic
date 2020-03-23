@@ -1,6 +1,10 @@
 # TODO
 
+## Bugs
+
+* [DONE?] IUIControl components are saving text files when they shouldn't
 * UI via web interface (json config) doesn't support new textfield components
+
 ## Modularize PAppletHax
 
 * Next:
@@ -9,10 +13,11 @@
     * Add ability to target specific offscreen buffers
     * Test audioreactive rendering
   	* Joons leaves the context in a weird place, and DebugView looks busted & scaled up. Do we need to reset the camera?
-  * DebugView
+  * DebugView/UI
     * Show full text on hover (move to top of z-stack)
     * Click to copy a value
     * `uiButtonClicked` and UISlider value updates should emit an AppStore event, rather than having a callback (or do nothing, like UISlider)
+    * UI components should dispatch event or have getter flags for when a component is hovered/changed 
   * Revisit AppWindow & update demos. Try to keep on top on an interval, in case of windows popups
 
   * Update README with updated references
@@ -51,6 +56,7 @@ PGA + Bespoke:
 * Chrome launch script? And java side?
 * cef-spout updated compile
 
+* New 3d particle system from WashHands render
 
 
 ## What is Haxademic?
