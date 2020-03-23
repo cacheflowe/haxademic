@@ -68,7 +68,7 @@ public class FrameLoop {
 	}
 	
 	public static boolean frameMod(int mod) {
-		return FrameLoop.instance().frame % mod == 1;
+		return FrameLoop.instance().frame % mod == 0;
 	}
 	
 	public static boolean frameMod(int mod, int frameInLoop) {
