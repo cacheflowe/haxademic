@@ -38,12 +38,13 @@ extends PAppletHax {
 		
 		int numPixelsProcessed = 0;
 		int pixelSize = 6;
+		int depthFar = 1000;
 		for ( int x = 0; x < RealSenseWrapper.CAMERA_W; x += pixelSize ) {
 			for ( int y = 0; y < RealSenseWrapper.CAMERA_H; y += pixelSize ) {
 			    // get intensity
 			    float pixelDepth = realSenseWrapper.getDepthAt(x, y);
-			    if(pixelDepth != 0 && pixelDepth < 5000) {
-				    p.fill(P.map(pixelDepth, 0, 5000, 255, 0));
+			    if(pixelDepth != 0 && pixelDepth < depthFar) {
+				    p.fill(P.map(pixelDepth, 0, depthFar, 255, 0));
 				    p.rect(x, y, pixelSize, pixelSize);
 				    numPixelsProcessed++;
 			    }
