@@ -29,6 +29,7 @@ extends PAppletHax {
 	// - Make a new version with a particle system, a la GPU particles
 	// - Make a grid that Kinect displaces
 	// - Use a real-time texture (camera) as color map
+	// - Rotate shapes in vertex shader
 	
 	protected ArrayList<PShape> shared = new ArrayList<PShape>();
 	protected PShape group;
@@ -66,7 +67,7 @@ extends PAppletHax {
 		UI.addSlider(LIGHT_SHININESS, 1f, 0, 1000, 0.01f, false);
 		
 		// config build shapes
-		float shapeSize = 18;
+		float shapeSize = 12;
 		float shapeSpacing = 12;
 		p.sphereDetail(10);
 		int vertCount = PShapeUtil.vertexCount(PShapeUtil.createSphere(1, 0));
@@ -81,8 +82,8 @@ extends PAppletHax {
 			for (int y = 0; y < rows; y++) {
 				float gridX = -(shapeSpacing * cols/2) + (x * shapeSpacing);
 				float gridY = -(shapeSpacing * rows/2) + (y * shapeSpacing);
-				PShape shape = PShapeUtil.createSphere(shapeSize, gridX, gridY, 0, 127 + 127 * p.color(P.sin(x/10f), 127 + 127 * P.sin(y/10f), 127 + 127 * P.sin(x+y/100f)), 0, 0);
-//				PShape shape = PShapeUtil.createBox(shapeSize, shapeSize, shapeSize, gridX, gridY, 0, 127 + 127 * p.color(P.sin(x/10f), 127 + 127 * P.sin(y/10f), 127 + 127 * P.sin(x+y/100f)), 0, 0);
+//				PShape shape = PShapeUtil.createSphere(shapeSize, gridX, gridY, 0, 127 + 127 * p.color(P.sin(x/10f), 127 + 127 * P.sin(y/10f), 127 + 127 * P.sin(x+y/100f)), 0, 0);
+				PShape shape = PShapeUtil.createBox(shapeSize, shapeSize, shapeSize, gridX, gridY, 0, 127 + 127 * p.color(P.sin(x/10f), 127 + 127 * P.sin(y/10f), 127 + 127 * P.sin(x+y/100f)), 0, 0);
 				// give the shape attributes for the shader to pick out their UV coord from grid index
 				shape.attrib("x", x);
 				shape.attrib("y", y);
