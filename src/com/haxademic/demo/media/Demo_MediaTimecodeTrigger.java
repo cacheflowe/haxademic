@@ -44,7 +44,7 @@ implements IMediaTimecodeTriggerDelegate {
 		// loop audio
 		AUDIO_FILE = FileUtil.getPath(DemoAssets.audioBiggerLoop); // make sure we're pulling from absolute project data path
 		audioPlayer = new WavPlayer(false);
-		audioPlayer.playWav(AUDIO_FILE, WavPlayer.PAN_CENTER, true, 0);
+		audioPlayer.playWav(AUDIO_FILE, 1, WavPlayer.PAN_CENTER, true, 0);
 
 		// loop movie
 		videoLoop = DemoAssets.movieFractalCube();

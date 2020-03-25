@@ -30,6 +30,8 @@ extends PAppletHax {
 	// - Make a grid that Kinect displaces
 	// - Use a real-time texture (camera) as color map
 	// - Rotate shapes in vertex shader
+	//   - https://stackoverflow.com/questions/35248095/rotation-of-model-with-translation-results-in-rotation-not-at-origin
+	//   - https://learnopengl.com/Getting-started/Transformations
 	
 	protected ArrayList<PShape> shared = new ArrayList<PShape>();
 	protected PShape group;

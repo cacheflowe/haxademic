@@ -61,14 +61,14 @@ public class WavPlayer {
 	// play triggers
 	
 	public boolean playWav(String filePath) {
-		return playWav(filePath, PAN_CENTER, false, 0);
+		return playWav(filePath, 1, PAN_CENTER, false, 0);
 	}
 	
 	public boolean loopWav(String filePath) {
-		return playWav(filePath, PAN_CENTER, true, 0);
+		return playWav(filePath, 1, PAN_CENTER, true, 0);
 	}
 	
-	public boolean playWav(String filePath, float panAmp, boolean loops, int pitch) {
+	public boolean playWav(String filePath, float volume, float panAmp, boolean loops, int pitch) {
 		boolean success = false;
 		String id = filePath;
 		
@@ -103,7 +103,7 @@ public class WavPlayer {
 //				P.error("Audioreactivity only works on the left channel");
 				
 				// play it! 
-				gains.put(id, new Gain(curContext, 2, 1f));		// 2 channel, 1f volume
+				gains.put(id, new Gain(curContext, 2, volume));		// 2 channel, 1f volume
 				if(pan != null) {
 					gains.get(id).addInput(pan);
 				} else {

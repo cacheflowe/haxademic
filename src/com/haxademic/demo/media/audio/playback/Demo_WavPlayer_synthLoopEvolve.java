@@ -20,16 +20,20 @@ extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	// TODO: 
-	// - Add to WavPlayer - initial volume on play/loop
 	// - Visualize the progress and pitch of currently-active players
 	// - Draw lerped waveform
 	//   - Use lerped waveform as distortion?
+	// - How to prevent clicking? Is there a Gain function to lerp volume?
+	// - Global pitch & volume multiplier for interactivity response?
+	// - Add a 2nd layer of loops w/higher pitches, like Communichords
 	
 	protected WavPlayer player;
 	protected WavPlayer activePlayer;
 	protected String[] soundFiles;
 	protected HashMap<String, SynthLoop> synths = new HashMap<String, SynthLoop>();
 	protected int soundIndex = -1;
+	protected int nextSynthInterval = 15000;
+	protected int lastSynthStarted = -nextSynthInterval;
 	
 	protected void config() {
 		Config.setProperty( AppSettings.WIDTH, 800 );
@@ -74,7 +78,7 @@ extends PAppletHax {
 			SynthLoop synthLoop = entry.getValue();
 			// do something with the key/value
 			// kill old players
-			if(synthLoop.active() && P.p.millis() - synthLoop.startTime() > 10000) {
+			if(synthLoop.active() && P.p.millis() - synthLoop.startTime() > nextSynthInterval/2) {
 				synthLoop.stop();
 			}
 		}
@@ -93,7 +97,15 @@ extends PAppletHax {
 	
 	protected void drawApp() {
 		p.background(0);
+		startNextSoundInterval();
 		updateSynthLoops();
+	}
+	
+	protected void startNextSoundInterval() {
+		if(p.millis() > lastSynthStarted + nextSynthInterval) {
+			lastSynthStarted = p.millis();
+			startNextSound();
+		}
 	}
 	
 	protected void updateSynthLoops() {
@@ -120,7 +132,7 @@ extends PAppletHax {
 	public class SynthLoop {
 		
 		protected String id; 
-		protected LinearFloat volume = new LinearFloat(0, 0.005f);
+		protected LinearFloat volume = new LinearFloat(0, 0.0003f);
 		protected int pitch = 0;
 		protected int startTime = 0;
 		
@@ -136,12 +148,12 @@ extends PAppletHax {
 			P.out("Started!", id);
 			this.pitch = pitch;
 			startTime = P.p.millis();
-			player.loopWav(id);
-			setVolume(1);
+			player.playWav(id, 0, WavPlayer.PAN_CENTER, true, this.pitch);
+			volume.setTarget(1);
 		}
 		
 		public void stop() {
-			setVolume(0);
+			volume.setDelay(200).setTarget(0);
 		}
 		
 		public void setVolume(float newVol) {
