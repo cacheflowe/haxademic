@@ -7,13 +7,20 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
+import com.haxademic.core.data.ArrayUtil;
+import com.haxademic.core.debug.DebugView;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.MathUtil;
+import com.haxademic.core.math.easing.EasingFloat;
+import com.haxademic.core.math.easing.FloatBuffer;
 import com.haxademic.core.math.easing.LinearFloat;
 import com.haxademic.core.media.audio.analysis.AudioIn;
 import com.haxademic.core.media.audio.analysis.AudioInputBeads;
 import com.haxademic.core.media.audio.interphase.Scales;
 import com.haxademic.core.media.audio.playback.WavPlayer;
+
+import processing.core.PGraphics;
 
 public class Demo_WavPlayer_synthLoopEvolve
 extends PAppletHax {
@@ -21,8 +28,9 @@ extends PAppletHax {
 
 	// TODO: 
 	// - Visualize the progress and pitch of currently-active players
-	// - Draw lerped waveform
-	//   - Use lerped waveform as distortion?
+	// - Draw repeated waveform
+	// - Use lerped waveform as distortion texture map?
+	//   - Need to normalize waveform value between negative and positive max extents
 	// - How to prevent clicking? Is there a Gain function to lerp volume?
 	// - Global pitch & volume multiplier for interactivity response?
 	// - Add a 2nd layer of loops w/higher pitches, like Communichords
@@ -35,10 +43,16 @@ extends PAppletHax {
 	protected int nextSynthInterval = 15000;
 	protected int lastSynthStarted = -nextSynthInterval;
 	
+	protected EasingFloat waveformMaxVal;
+	protected FloatBuffer[] waveformLerped;
+	protected float[] waveformLerpValues;
+	protected PGraphics waveformLerpImg;
+	protected PGraphics waveformTexture;
+	
 	protected void config() {
 		Config.setProperty( AppSettings.WIDTH, 800 );
 		Config.setProperty( AppSettings.HEIGHT, 400 );
-		Config.setProperty( AppSettings.SHOW_DEBUG, true );
+		Config.setProperty( AppSettings.SHOW_DEBUG, false );
 	}
 
 	protected void firstFrame() {
@@ -47,6 +61,19 @@ extends PAppletHax {
 		
 		// send Beads audio player analyzer to PAppletHax
 		AudioIn.instance(new AudioInputBeads(WavPlayer.sharedContext()));
+		
+		// prepare to draw lerped waveform
+		waveformMaxVal = new EasingFloat(0, 0.01f);
+		waveformLerped = new FloatBuffer[AudioIn.waveform.length];
+		waveformLerpValues = new float[AudioIn.waveform.length];
+		for (int i = 0; i < waveformLerped.length; i++) {
+			waveformLerped[i] = new FloatBuffer(90);
+			waveformLerpValues[i] = 0;
+		}
+		waveformLerpImg = PG.newPG2DFast(AudioIn.waveform.length, 256);
+		waveformTexture = PG.newPG2DFast(AudioIn.waveform.length, 8);
+		DebugView.setTexture("waveformLerpImg", waveformLerpImg);
+		DebugView.setTexture("waveformTexture", waveformTexture);
 		
 		// load audio directory
 		ArrayList<String> sounds = FileUtil.getFilesInDirOfTypes(FileUtil.getPath("audio/communichords/bass"), "wav,aif");
@@ -64,12 +91,6 @@ extends PAppletHax {
 		soundIndex = (soundIndex < soundFiles.length - 1) ? soundIndex + 1 : 0;	
 		String nextSoundId = soundFiles[soundIndex];
 		startPlayer(nextSoundId);
-		
-		
-		// set player properties
-//		player1.setGlideTime(soundId1, 200);
-//		player2.setGlideTime(soundId2, 200);
-		
 	}
 	
 	protected void killOldPlayers() {
@@ -99,6 +120,9 @@ extends PAppletHax {
 		p.background(0);
 		startNextSoundInterval();
 		updateSynthLoops();
+		updateWaveform();
+		p.image(waveformLerpImg, 0, 0);
+		p.image(waveformTexture, 0, waveformLerpImg.height);
 	}
 	
 	protected void startNextSoundInterval() {
@@ -112,9 +136,54 @@ extends PAppletHax {
 		for (HashMap.Entry<String, SynthLoop> entry : synths.entrySet()) {
 //			String id = entry.getKey();
 			SynthLoop synthLoop = entry.getValue();
-			// do something with the key/value
 			synthLoop.update();
 		}
+	}
+	
+	protected void updateWaveform() {
+		// lerp waveform normalization amp
+		float absMaxVal = 0;	// normalize visual waveform
+		for (int i = 0; i < waveformLerped.length; i++) {
+			waveformLerped[i] = waveformLerped[i].update(AudioIn.waveform[i]);
+			if(P.abs(waveformLerped[i].average()) > absMaxVal) absMaxVal = P.abs(waveformLerped[i].average()); 
+		}
+		waveformMaxVal.setTarget(absMaxVal);
+		waveformMaxVal.update(true);
+		float addAmp = 1f / waveformMaxVal.value();
+		DebugView.setValue("addAmp", addAmp);
+		DebugView.setValue("waveformMaxVal.value()", waveformMaxVal.value());
+		
+		// double lerp into final float[] arrayt and crossfade ends to loop
+		for (int i = 0; i < waveformLerpValues.length; i++) {
+			waveformLerpValues[i] = MathUtil.easeTo(waveformLerpValues[i], waveformLerped[i].average(), 5);
+		}
+		ArrayUtil.crossfadeEnds(waveformLerpValues, 0.075f);
+		
+		// draw waveform
+		waveformLerpImg.beginDraw();
+		waveformLerpImg.background(0);
+		waveformLerpImg.noFill();
+		waveformLerpImg.stroke(255);
+		waveformLerpImg.strokeWeight(1);
+		waveformLerpImg.push();
+		waveformLerpImg.translate(0, waveformLerpImg.height / 2);
+		waveformLerpImg.beginShape();
+		for (int i = 0; i < waveformLerped.length; i++) {
+			waveformLerpImg.vertex(i, waveformLerpValues[i] * 25f * waveformLerpImg.height/2);// * addAmp); // waveformLerpImg.height
+		}
+		waveformLerpImg.endShape();
+		waveformLerpImg.pop();
+		waveformLerpImg.endDraw();
+		
+		// draw waveform
+		waveformTexture.beginDraw();
+		waveformTexture.background(0);
+		waveformTexture.noStroke();
+		for (int i = 0; i < waveformLerped.length; i++) {
+			waveformTexture.fill(127 + 127f * waveformLerpValues[i] * 25f, 255);
+			waveformTexture.rect(i, 0, 1, waveformTexture.height); // waveformTexture.height
+		}
+		waveformTexture.endDraw();
 	}
 
 	public void keyPressed() {
