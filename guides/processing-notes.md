@@ -34,7 +34,7 @@ public void draw() {
 
 #### Run a thread inline
 
-This is helpful for any non-drawing code that you need to run that might slow down the UI thread. One example is calling `play()` on a Movie object, which can freeze the UI thread, as seen below. 
+This is helpful for any non-drawing code that you need to run that might slow down the UI thread. One example is calling `play()` on a Movie object, which can freeze the UI thread, as seen below.
 
 ```java
 new Thread(new Runnable() { public void run() {
@@ -191,6 +191,8 @@ java.lang.ArrayIndexOutOfBoundsException:
 * This is likely a result of swapping textures of different sizes. Use a PGraphics instance, and update that instead of swapping image objects for a PShape texture.
 
 #### General Eclipse/Processing Tips
+
+Code will hot-reload when running an app in Debug mode. If it's not, make sure `Project -. Build Automatically` is active
 
 Use the following VM Arguments when running the Java Application to increase memory allocated to your app
 
