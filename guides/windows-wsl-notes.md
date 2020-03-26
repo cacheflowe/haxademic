@@ -222,6 +222,12 @@ Some web development that requires hardware access (real-time camera, accelerome
   openssl req -x509 -new -nodes -key myCA.key -sha256 -days 1825 -out myCA.pem
 ```
 
+* Tell your Windows machine to trust the certificate once it's being used by your Apache server:
+  * Press the Windows key and type "Cert" on the start screen and launch the Windows Certificate Manager
+  * Click "Trusted Root Certification Authorities" and right-click to Import your certificate
+  * Click Browse, change file type you are looking for to All Files (.), select the myCA.pem file we just saved, and import!
+  * You might also want to restart your web browser
+
 * Create the following script in your `certs` directory. I named mine `cert-gen.sh` and ran it by calling:
 * `./cert-gen.sh localhost`
 * This will generate final certificate files in the same directory, with the name of your hostname: `localhost.crt` and `localhost.key`
