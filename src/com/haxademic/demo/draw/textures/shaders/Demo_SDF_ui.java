@@ -74,7 +74,7 @@ extends PAppletHax {
 		
 		// draw to screen
 		DebugView.setTexture("buffer", buffer);
-//		p.image(buffer, 0, 0);
+		p.image(buffer, 0, 0);
 	}
 		
 	public void keyPressed() {

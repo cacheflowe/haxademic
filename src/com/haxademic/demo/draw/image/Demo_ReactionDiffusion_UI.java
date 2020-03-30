@@ -51,6 +51,7 @@ extends PAppletHax {
 	// 	 - FXAA & R/D shaders are slow. Is this because of kernel processing?
 	//   - Make a more efficient blur for this app, w/fewer lookups
 	//   - Blur values above 1 seem to trigger the broken R/D state with fine lines
+	// - Other draw styles: each panel with a different pattern rotated. 2 layers on top like DAM moire piece. 
 	// - Try 32-bit textures for smoothness? Only matters on main pg and any shaders that use maps?
 	// - Auto-detect blank/black screen & re-seed
 	// - B&W color-cycling shader for pattern textures
