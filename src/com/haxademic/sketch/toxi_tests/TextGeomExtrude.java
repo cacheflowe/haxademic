@@ -1,4 +1,4 @@
-package com.haxademic.sketch.text;
+package com.haxademic.sketch.toxi_tests;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;

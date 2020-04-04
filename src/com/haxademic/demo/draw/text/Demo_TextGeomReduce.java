@@ -1,4 +1,4 @@
-package com.haxademic.sketch.text;
+package com.haxademic.demo.draw.text;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.MathUtil;
@@ -9,7 +9,7 @@ import geomerative.RG;
 import geomerative.RGroup;
 import geomerative.RPoint;
 
-public class TextGeomReduce
+public class Demo_TextGeomReduce
 extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 

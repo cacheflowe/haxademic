@@ -1,5 +1,5 @@
 
-package com.haxademic.sketch.text;
+package com.haxademic.demo.draw.image;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
@@ -15,7 +15,7 @@ import processing.core.PFont;
 import processing.core.PGraphics;
 import processing.core.PImage;
 
-public class TextWidthImageCrop
+public class Demo_ImageUtil_imageCroppedEmptySpace3
 extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
@@ -34,8 +34,8 @@ extends PAppletHax {
 		croppedText = p.createImage(128, 128, P.ARGB);
 		
 		int fontSize = 100;
-//		PFont font = p.createFont( FileUtil.getFile("fonts/bitlow.ttf"), fontSize );
-		PFont font = p.createFont( FileUtil.getPath("fonts/HelveticaNeueLTStd-Blk.ttf"), fontSize );
+		PFont font = p.createFont( FileUtil.getPath("fonts/bitlow.ttf"), fontSize );
+//		PFont font = p.createFont( FileUtil.getPath("fonts/HelveticaNeueLTStd-Blk.ttf"), fontSize );
 		fitText = new FitTextBuffer(font, p.color(127));
 		fitText.updateText("HEYO00");
 	}

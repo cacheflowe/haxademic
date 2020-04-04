@@ -27,8 +27,6 @@ extends PAppletHax {
 	}
 
 	public void setup()	{
-
-		
 		croppedTextResult = p.createImage(128, 128, P.ARGB);
 		
 		int fontSize = 200;
