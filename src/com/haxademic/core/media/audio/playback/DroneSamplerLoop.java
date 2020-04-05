@@ -5,7 +5,7 @@ import com.haxademic.core.math.easing.LinearFloat;
 
 public class DroneSamplerLoop {
 	
-	protected static WavPlayer player = null;
+	protected static WavPlayer player = null;	// shared static WavPlayer
 	protected String id; 
 	protected LinearFloat volume = new LinearFloat(0, 0.0003f);
 	protected int pitch = 0;
@@ -21,14 +21,13 @@ public class DroneSamplerLoop {
 	}
 	
 	public void start(int pitch) {
-		P.out("Started!", id);
 		this.pitch = pitch;
 		startTime = P.p.millis();
 		player.playWav(id, 0, WavPlayer.PAN_CENTER, true, this.pitch);
 		volume.setTarget(1);
 	}
 	
-	public void stop() {
+	public void release() {
 		volume.setDelay(200).setTarget(0);
 	}
 	
@@ -37,7 +36,6 @@ public class DroneSamplerLoop {
 	}
 	
 	public void soundStopped() {
-		P.out("Stopped!", id);
 		player.stop(id);
 	}
 	

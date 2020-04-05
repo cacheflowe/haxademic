@@ -47,12 +47,10 @@ public class DroneSampler {
 	
 	protected void killOldPlayers() {
 		for (HashMap.Entry<String, DroneSamplerLoop> entry : droneLoops.entrySet()) {
-			// String id = entry.getKey();
+			// ramp down old players halfway through interval
 			DroneSamplerLoop synthLoop = entry.getValue();
-			// do something with the key/value
-			// kill old players
 			if(synthLoop.active() && P.p.millis() - synthLoop.startTime() > loopInterval/2) {
-				synthLoop.stop();
+				synthLoop.release();
 			}
 		}
 	}
