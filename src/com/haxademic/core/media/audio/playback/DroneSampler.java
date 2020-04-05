@@ -37,15 +37,13 @@ public class DroneSampler {
 	}
 	
 	protected void startNextSound() {
-		// kill old players
-		killOldPlayers();
 		// go to next index & play next sound!
 		soundIndex = (soundIndex < audioFiles.length - 1) ? soundIndex + 1 : 0;	
 		String nextSoundId = audioFiles[soundIndex];
 		startPlayer(nextSoundId);
 	}
 	
-	protected void killOldPlayers() {
+	protected void releaseOldPlayers() {
 		for (HashMap.Entry<String, DroneSamplerLoop> entry : droneLoops.entrySet()) {
 			// ramp down old players halfway through interval
 			DroneSamplerLoop synthLoop = entry.getValue();
@@ -56,13 +54,12 @@ public class DroneSampler {
 	}
 	
 	protected void startPlayer(String id) {
-		// lazy-init SynthLoop
+		// lazy-init DroneSampler
 		if(droneLoops.containsKey(id) == false) {
 			droneLoops.put(id, new DroneSamplerLoop(id));
 		}
-		// get pitch
+		// get random pitch and play
 		int newPitch = Scales.SCALES[0][MathUtil.randRange(0, Scales.SCALES[0].length - 1)];
-		// play!
 		droneLoops.get(id).start(newPitch);
 	}
 	
@@ -73,12 +70,16 @@ public class DroneSampler {
 		}
 	}
 	
-	public void update() {
-		checkNextSoundInterval();
+	protected void updateLoops() {
 		for (HashMap.Entry<String, DroneSamplerLoop> entry : droneLoops.entrySet()) {
-//			String id = entry.getKey();
-			DroneSamplerLoop synthLoop = entry.getValue();
-			synthLoop.update();
+			DroneSamplerLoop droneLoop = entry.getValue();
+			droneLoop.update();
 		}
+	}
+	
+	public void update() {
+		releaseOldPlayers();
+		checkNextSoundInterval();
+		updateLoops();
 	}
 }
