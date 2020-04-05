@@ -15,41 +15,25 @@ public class DroneSampler {
 	protected WavPlayer activePlayer;
 	protected HashMap<String, DroneSamplerLoop> droneLoops = new HashMap<String, DroneSamplerLoop>();
 	protected int soundIndex = -1;
-	protected int loopInterval = 15000;
-	protected int loopLastStartTime = -loopInterval;
+	protected int loopInterval;
+	protected int loopLastStartTime;
 	
 	
 	public DroneSampler(String audioDir, float loopIntervalSeconds) {
 		this.audioDir = audioDir;
 		this.loopInterval = P.round(loopIntervalSeconds * 1000); // ms
-		P.out("DroneSampler loading sounds from:", this.audioDir);
+		loopLastStartTime = -loopInterval; // start immediately
 		loadSounds();
 	}
 	
 	protected void loadSounds() {
 		// load audio directory
+		P.out("DroneSampler loading sounds from:", this.audioDir);
 		ArrayList<String> sounds = FileUtil.getFilesInDirOfTypes(FileUtil.getPath(audioDir), "wav,aif");
 		audioFiles = new String[sounds.size()];
 		for (int i = 0; i < sounds.size(); i++) {
 			audioFiles[i] = sounds.get(i);
 			P.out("Loading...", audioFiles[i]);
-		}
-	}
-	
-	protected void startNextSound() {
-		// go to next index & play next sound!
-		soundIndex = (soundIndex < audioFiles.length - 1) ? soundIndex + 1 : 0;	
-		String nextSoundId = audioFiles[soundIndex];
-		startPlayer(nextSoundId);
-	}
-	
-	protected void releaseOldPlayers() {
-		for (HashMap.Entry<String, DroneSamplerLoop> entry : droneLoops.entrySet()) {
-			// ramp down old players halfway through interval
-			DroneSamplerLoop synthLoop = entry.getValue();
-			if(synthLoop.active() && P.p.millis() - synthLoop.startTime() > loopInterval/2) {
-				synthLoop.release();
-			}
 		}
 	}
 	
@@ -63,7 +47,25 @@ public class DroneSampler {
 		droneLoops.get(id).start(newPitch);
 	}
 	
+	protected void startNextSound() {
+		// go to next index & play next sound!
+		soundIndex = (soundIndex < audioFiles.length - 1) ? soundIndex + 1 : 0;	
+		String nextSoundId = audioFiles[soundIndex];
+		startPlayer(nextSoundId);
+	}
+	
+	protected void releaseOldPlayers() {
+		// ramp down old players halfway through interval
+		for (HashMap.Entry<String, DroneSamplerLoop> entry : droneLoops.entrySet()) {
+			DroneSamplerLoop synthLoop = entry.getValue();
+			if(synthLoop.active() && P.p.millis() - synthLoop.startTime() > loopInterval/2) {
+				synthLoop.release();
+			}
+		}
+	}
+	
 	protected void checkNextSoundInterval() {
+		// is it time to start a new loop?
 		if(P.p.millis() > loopLastStartTime + loopInterval) {
 			loopLastStartTime = P.p.millis();
 			startNextSound();
@@ -71,6 +73,7 @@ public class DroneSampler {
 	}
 	
 	protected void updateLoops() {
+		// update volume lerping
 		for (HashMap.Entry<String, DroneSamplerLoop> entry : droneLoops.entrySet()) {
 			DroneSamplerLoop droneLoop = entry.getValue();
 			droneLoop.update();
