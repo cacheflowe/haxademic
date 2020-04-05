@@ -36,8 +36,10 @@ extends PAppletHax {
 	//   -Is there a Gain function to lerp volume?
 	//   - Switch to attack/decay instead of easing equation?
 	
+	// audio
 	protected DroneSampler[] droneSamplers;
 	
+	// visual
 	protected EasingFloat waveformMaxVal;
 	protected FloatBuffer[] waveformLerped;
 	protected float[] waveformLerpValues;

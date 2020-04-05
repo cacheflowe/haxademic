@@ -57,9 +57,9 @@ public class DroneSampler {
 	protected void releaseOldPlayers() {
 		// ramp down old players halfway through interval
 		for (HashMap.Entry<String, DroneSamplerLoop> entry : droneLoops.entrySet()) {
-			DroneSamplerLoop synthLoop = entry.getValue();
-			if(synthLoop.active() && P.p.millis() - synthLoop.startTime() > loopInterval/2) {
-				synthLoop.release();
+			DroneSamplerLoop droneLoop = entry.getValue();
+			if(droneLoop.active() && P.p.millis() - droneLoop.startTime() > loopInterval/2) {
+				droneLoop.release();
 			}
 		}
 	}
