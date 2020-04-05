@@ -18,6 +18,7 @@ uniform vec3 color1 = vec3(0.8, 0.2, 0.2);
 uniform vec3 color2 = vec3(0.0, 0.0, 0.0);
 float stops = 2.;
 uniform float zoom = 1.;
+uniform float waveformTexZoom = 1.;
 uniform float fade = 0.;
 uniform float rotate = 0.;
 uniform float amp = 0.2;
@@ -31,17 +32,17 @@ vec2 rotateCoord(vec2 uv, float rads) {
 void main() {
     vec2 uv = vertTexCoord.xy - 0.5;
     uv.x *= texOffset.y / texOffset.x;		// Correct for aspect ratio
-
+    // add vertical displacement
+    uv.y += amp * (-0.5 + texture2D(waveformTex, uv * waveformTexZoom).r);
     // rotate
     uv = rotateCoord(uv, rotate);
-    uv += offset;
-
-    // make it wave, just for fun
-    uv.y += amp * (-0.5 + texture2D(waveformTex, uv).r);
-
-    // animate to test repeat
+    // offset
+    uv.x = uv.x + offset.x;
+    uv.y = uv.y + offset.y;
+    // zoom
     uv *= zoom;			// zoom
-    uv = fract(uv);			// repeat
+    // repeat
+    uv = fract(uv);	// repeat
 
     // fade colors
     float stopSize = 1. / stops;
