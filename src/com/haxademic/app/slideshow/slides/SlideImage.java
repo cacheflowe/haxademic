@@ -282,12 +282,14 @@ implements IAppStoreListener {
 		movie.jump(0);
 		movie.play();
 		movie.pause();
+		movie.volume(0);
 		moviePaused = true;
 		movieStopped = false;
 	}
 
 	protected void moviePlay() {
 		movie.play();
+		movie.volume(0);
 		movieStopped = false;
 	}
 
@@ -299,6 +301,7 @@ implements IAppStoreListener {
 	protected void movieLoop() {
 		movieUnpause();
 		movie.loop();
+		movie.volume(0);
 		movieStopped = false;
 	}
 
