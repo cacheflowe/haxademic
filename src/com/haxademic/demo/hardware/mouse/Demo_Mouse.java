@@ -20,6 +20,7 @@ implements IAppStoreListener {
 		Config.setAppSize(800, 600);
 		Config.setProperty( AppSettings.APP_NAME, "Demo_Mouse" );
 		Config.setProperty( AppSettings.SHOW_DEBUG, true );
+//		Config.setProperty(AppSettings.RENDERER, PRenderers.JAVA2D);
 	}
 
 	protected void firstFrame() {
@@ -35,6 +36,10 @@ implements IAppStoreListener {
 			Mouse.mouseClickAt(300, 300);
 			Mouse.movePointerTo(99999, 0);
 		}
+		if(p.frameCount % 60 == 0) {
+			Mouse.movePointerTo(p.frameCount % 1920, p.frameCount % 1080);
+		}
+		Mouse.movePointerTo(500 + P.round(100f * P.cos(p.frameCount/10f)), 500 + P.round(100f * P.sin(p.frameCount/10f)));
 	}
 
 	/////////////////////////////////////
