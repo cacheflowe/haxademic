@@ -11,12 +11,12 @@ import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.midi.MidiDevice;
+import com.haxademic.core.hardware.midi.MidiState;
 import com.haxademic.core.hardware.midi.devices.LaunchControl;
 import com.haxademic.core.hardware.shared.InputTrigger;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.EasingFloat;
 import com.haxademic.core.math.easing.LinearFloat;
-import com.haxademic.core.net.UIControlsHandler;
 import com.haxademic.core.net.WebServer;
 import com.haxademic.core.render.FrameLoop;
 import com.haxademic.core.system.SystemUtil;
@@ -41,34 +41,34 @@ extends PAppletHax {
 
 	protected float startRads = 0;
 	
-	protected InputTrigger knob1 = new InputTrigger().addMidiNotes(new Integer[]{21}).addHttpRequests(new String[]{"slider1"}); 
+	protected InputTrigger knob1 = new InputTrigger().addMidiCCNotes(new Integer[]{LaunchControl.KNOB_09}).addHttpRequests(new String[]{"slider1"}); 
 	protected LinearFloat radius = new LinearFloat(50, easingVal / 2f);
-	protected InputTrigger knob2 = new InputTrigger().addMidiNotes(new Integer[]{22}).addHttpRequests(new String[]{"slider2"});
+	protected InputTrigger knob2 = new InputTrigger().addMidiCCNotes(new Integer[]{LaunchControl.KNOB_10}).addHttpRequests(new String[]{"slider2"});
 	protected LinearFloat vertices = new LinearFloat(3, easingVal);
-	protected InputTrigger knob3 = new InputTrigger().addMidiNotes(new Integer[]{23}).addHttpRequests(new String[]{"slider3"});
+	protected InputTrigger knob3 = new InputTrigger().addMidiCCNotes(new Integer[]{LaunchControl.KNOB_11}).addHttpRequests(new String[]{"slider3"});
 	protected LinearFloat maxLevels = new LinearFloat(1, easingVal);
 	protected LinearFloat[] levelsActive = new LinearFloat[] { new LinearFloat(0, easingLevelActive), new LinearFloat(0, easingLevelActive), new LinearFloat(0, easingLevelActive), new LinearFloat(0, easingLevelActive), new LinearFloat(0, easingLevelActive), new LinearFloat(0, easingLevelActive), new LinearFloat(0, easingLevelActive), new LinearFloat(0, easingLevelActive) };
 	protected LinearFloat[] circleLevelActive = new LinearFloat[] { new LinearFloat(0, easingLevelActive), new LinearFloat(0, easingLevelActive), new LinearFloat(0, easingLevelActive), new LinearFloat(0, easingLevelActive), new LinearFloat(0, easingLevelActive), new LinearFloat(0, easingLevelActive), new LinearFloat(0, easingLevelActive), new LinearFloat(0, easingLevelActive) };
-	protected InputTrigger knob4 = new InputTrigger().addMidiNotes(new Integer[]{24}).addHttpRequests(new String[]{"slider4"});
+	protected InputTrigger knob4 = new InputTrigger().addMidiCCNotes(new Integer[]{LaunchControl.KNOB_12}).addHttpRequests(new String[]{"slider4"});
 	protected LinearFloat iterateShrink = new LinearFloat(0.1f, easingVal);
-	protected InputTrigger knob5 = new InputTrigger().addMidiNotes(new Integer[]{25}).addHttpRequests(new String[]{"slider5"});
+	protected InputTrigger knob5 = new InputTrigger().addMidiCCNotes(new Integer[]{LaunchControl.KNOB_13}).addHttpRequests(new String[]{"slider5"});
 	protected LinearFloat lineWeight = new LinearFloat(1, easingVal);
-	protected InputTrigger knob6 = new InputTrigger().addMidiNotes(new Integer[]{26}).addHttpRequests(new String[]{"slider6"});
+	protected InputTrigger knob6 = new InputTrigger().addMidiCCNotes(new Integer[]{LaunchControl.KNOB_14}).addHttpRequests(new String[]{"slider6"});
 	protected LinearFloat offsetRotation = new LinearFloat(0, easingVal);
-	protected InputTrigger knob7 = new InputTrigger().addMidiNotes(new Integer[]{27}).addHttpRequests(new String[]{"slider7"});
+	protected InputTrigger knob7 = new InputTrigger().addMidiCCNotes(new Integer[]{LaunchControl.KNOB_15}).addHttpRequests(new String[]{"slider7"});
 	protected LinearFloat childDistanceAmp = new LinearFloat(1, easingVal);
-	protected InputTrigger knob8 = new InputTrigger().addMidiNotes(new Integer[]{28}).addHttpRequests(new String[]{"slider8"});
+	protected InputTrigger knob8 = new InputTrigger().addMidiCCNotes(new Integer[]{LaunchControl.KNOB_16}).addHttpRequests(new String[]{"slider8"});
 	protected LinearFloat circleRadius = new LinearFloat(0, easingVal);
-	protected InputTrigger knob9 = new InputTrigger().addMidiNotes(new Integer[]{LaunchControl.KNOB_01}).addHttpRequests(new String[]{"slider9"});
+	protected InputTrigger knob9 = new InputTrigger().addMidiCCNotes(new Integer[]{LaunchControl.KNOB_01}).addHttpRequests(new String[]{"slider9"});
 	protected LinearFloat radialConnections = new LinearFloat(0, easingVal);
-	protected InputTrigger knob10 = new InputTrigger().addMidiNotes(new Integer[]{LaunchControl.KNOB_02}).addHttpRequests(new String[]{"slider10"});
+	protected InputTrigger knob10 = new InputTrigger().addMidiCCNotes(new Integer[]{LaunchControl.KNOB_02}).addHttpRequests(new String[]{"slider10"});
 	protected LinearFloat circleLevelDisplay = new LinearFloat(0, 1);
 
-	protected InputTrigger renderTrigger = new InputTrigger().addKeyCodes(new char[]{'r'}).addMidiNotes(new Integer[]{LaunchControl.PAD_01}).addHttpRequests(new String[]{"button1"});
-	protected InputTrigger saveConfigTrigger = new InputTrigger().addKeyCodes(new char[]{'s'}).addMidiNotes(new Integer[]{LaunchControl.PAD_02}).addHttpRequests(new String[]{"button2"});
-	protected InputTrigger animatingTrigger = new InputTrigger().addKeyCodes(new char[]{'a'}).addMidiNotes(new Integer[]{LaunchControl.PAD_03}).addHttpRequests(new String[]{"button3"});
-	protected InputTrigger prevTrigger = new InputTrigger().addKeyCodes(new char[]{'1'}).addMidiNotes(new Integer[]{LaunchControl.PAD_04}).addHttpRequests(new String[]{"button4"});
-	protected InputTrigger nextTrigger = new InputTrigger().addKeyCodes(new char[]{'2'}).addMidiNotes(new Integer[]{LaunchControl.PAD_05}).addHttpRequests(new String[]{"button5"});
+	protected InputTrigger renderTrigger = new InputTrigger().addKeyCodes(new char[]{'r'}).addMidiCCNotes(new Integer[]{LaunchControl.PAD_01}).addHttpRequests(new String[]{"button1"});
+	protected InputTrigger saveConfigTrigger = new InputTrigger().addKeyCodes(new char[]{'s'}).addMidiCCNotes(new Integer[]{LaunchControl.PAD_02}).addHttpRequests(new String[]{"button2"});
+	protected InputTrigger animatingTrigger = new InputTrigger().addKeyCodes(new char[]{'a'}).addMidiCCNotes(new Integer[]{LaunchControl.PAD_03}).addHttpRequests(new String[]{"button3"});
+	protected InputTrigger prevTrigger = new InputTrigger().addKeyCodes(new char[]{'1'}).addMidiCCNotes(new Integer[]{LaunchControl.PAD_04}).addHttpRequests(new String[]{"button4"});
+	protected InputTrigger nextTrigger = new InputTrigger().addKeyCodes(new char[]{'2'}).addMidiCCNotes(new Integer[]{LaunchControl.PAD_05}).addHttpRequests(new String[]{"button5"});
 	
 	protected ArrayList<float[]> animationStops = new ArrayList<float[]>();
 	protected boolean isAnimating = false;
@@ -95,10 +95,11 @@ extends PAppletHax {
 		if(RENDERING == true) circleResolution = 300;
 //		Config.setProperty( AppSettings.RENDERER, PRenderers.PDF );
 		Config.setProperty( AppSettings.LOOP_FRAMES, FRAMES );
-		Config.setProperty( AppSettings.WIDTH, 1000 );
-		Config.setProperty( AppSettings.HEIGHT, 800 );
-		Config.setProperty( AppSettings.WIDTH, 1920 );
-		Config.setProperty( AppSettings.HEIGHT, 1080 );
+		Config.setProperty( AppSettings.WIDTH, 1280 );
+		Config.setProperty( AppSettings.HEIGHT, 720 );
+//		Config.setProperty( AppSettings.WIDTH, 1920 );
+//		Config.setProperty( AppSettings.HEIGHT, 1080 );
+		Config.setPgSize(1920, 1080);
 		Config.setProperty( AppSettings.FILLS_SCREEN, false );
 		Config.setProperty( AppSettings.RENDERING_MOVIE, RENDERING );
 		Config.setProperty( AppSettings.RENDERING_MOVIE_START_FRAME, 1 + FRAMES );
@@ -107,7 +108,7 @@ extends PAppletHax {
 	
 	protected void firstFrame() {
 		MidiDevice.init(0, 0);
-		server = new WebServer(new UIControlsHandler(), false);
+//		server = new WebServer(new UIControlsHandler(), false);
 		if(PRenderers.currentRenderer() == PRenderers.PDF) shouldRecord = true;
 		
 		// video 1080p selects
@@ -411,9 +412,12 @@ extends PAppletHax {
 	}
 	
 	protected void updateControls() {
+		DebugView.setValue("HELLO", p.frameCount + ", " + knob1.triggered());
+		
 		// set up concentric polygon config
-		if(knob1.triggered()) radius.setTarget(P.map(knob1.value(), 0.01f, 1, 50, 500));
+		if(knob1.triggered()) radius.setTarget(P.map(MidiState.instance().midiCCNormalized(LaunchControl.KNOB_09), 0.01f, 1, 50, 500));
 		radius.update(true);
+		DebugView.setValue("knob1.value()", knob1.value());
 		DebugView.setValue("radius", radius.value());
 		DebugView.setValue("radius target", radius.target());
 
