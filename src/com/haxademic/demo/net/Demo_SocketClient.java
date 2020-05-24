@@ -32,8 +32,9 @@ implements ISocketClientDelegate {
 	}
 	
 	protected void firstFrame() {
+//		SocketServer.PORT = 1337;
 		serverAddress = (isServerLocalhost) ?
-				"ws://" + IPAddress.getIP() + ":" + SocketServer.PORT :
+				"ws://" + IPAddress.getIP() + ":" + SocketServer.PORT + "?roomId=987654321" :
 				"ws://10.0.1.27:8080";
 		socketClient = new SocketClient(serverAddress, this, true);
 	}

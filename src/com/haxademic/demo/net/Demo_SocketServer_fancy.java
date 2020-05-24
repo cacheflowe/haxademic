@@ -6,7 +6,6 @@ import java.net.UnknownHostException;
 import com.cage.zxing4p3.ZXING4P;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
 import com.haxademic.core.data.constants.PTextAlign;
 import com.haxademic.core.data.store.IAppStoreListener;
@@ -55,7 +54,6 @@ implements IAppStoreListener, ISocketClientDelegate {
 	
 	protected void config() {
 		Config.setAppSize(560, 680);
-		Config.setProperty( AppSettings.APP_NAME, "SocketServer" );
 	}
 	
 	protected void firstFrame() {
