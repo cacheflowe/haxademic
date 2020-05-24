@@ -4,6 +4,7 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.PG;
+import com.haxademic.sketch.net.Demo_WebViewTestApp;
 
 public class Demo_JavaFXAppLaunch
 extends PAppletHax {
@@ -14,14 +15,14 @@ extends PAppletHax {
 		Config.setProperty(AppSettings.LOOP_FRAMES, FRAMES);
 	}
 
-//	protected void firstFrame() {
-//        new Thread() {
-//            @Override
-//            public void run() {
-//                javafx.application.Application.launch(Demo_WebViewTestApp.class);
-//            }
-//        }.start();
-//	}
+	protected void firstFrame() {
+        new Thread() {
+            @Override
+            public void run() {
+                javafx.application.Application.launch(Demo_WebViewTestApp.class);
+            }
+        }.start();
+	}
 	
 
 	protected void drawApp() {
