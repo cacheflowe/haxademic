@@ -19,6 +19,7 @@ import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.render.Renderer;
 import com.haxademic.core.system.AppRestart;
 import com.haxademic.core.system.SystemUtil;
+import com.haxademic.core.ui.UI;
 
 import processing.core.PVector;
 
@@ -26,11 +27,12 @@ public class Demo_ParticleBranchers
 extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
+	protected String STROKE_SIZE = "STROKE_SIZE";
+	protected String NUM_DRAWS_PER_FRAME = "NUM_DRAWS_PER_FRAME";
+	
 	protected ArrayList<BranchingParticle> particles;
 	protected ArrayList<BranchingParticle> deadParticles;
 	protected boolean resetQueued = false;
-	protected int updatesPerFrame = 5;
-	protected float strokeSize = 2;
 
 	protected float maxLifespan = 200;
 	protected float maxBranchAge = 100;
@@ -65,9 +67,9 @@ extends PAppletHax {
 	protected boolean renderSingleMovie = false;
 	
 	protected void config() {
-		Config.setProperty( AppSettings.WIDTH, 1080 );
-		Config.setProperty( AppSettings.HEIGHT, 1080 );
-		Config.setProperty( AppSettings.FULLSCREEN, true );
+		Config.setProperty( AppSettings.WIDTH, 960 );
+		Config.setProperty( AppSettings.HEIGHT, 540 );
+		Config.setProperty( AppSettings.FULLSCREEN, false );
 		Config.setProperty( AppSettings.ALWAYS_ON_TOP, false );
 		Config.setProperty( AppSettings.RENDERING_MOVIE, false );
 		if(renderSingleMovie) Config.setProperty( AppSettings.RENDERING_MOVIE, true );
@@ -76,6 +78,11 @@ extends PAppletHax {
 	}
 
 	protected void firstFrame() {
+		// UI
+		UI.addTitle("BRANCHERS CONTROLS");
+		UI.addSlider(STROKE_SIZE, 2, 0, 10, 0.1f, false);
+		UI.addSlider(NUM_DRAWS_PER_FRAME, 4, 1, 15, 1f, false);
+		
 		// load palette
 		imageGradient = new ImageGradient(ImageGradient.PASTELS());
 		imageGradient.addTexturesFromPath(ImageGradient.COOLORS_PATH);
@@ -145,15 +152,14 @@ extends PAppletHax {
 		
 		// draw to main canvas. make canvas pixels accessible
 		pg.beginDraw();
-		pg.strokeWeight(strokeSize);
+		pg.strokeWeight(UI.value(STROKE_SIZE));
 
 		// clear background if queued
 		checkClearCanvas();
 
 		// update particles
-		updatesPerFrame = 10;
 		pg.loadPixels();
-		for (int j = 0; j < updatesPerFrame; j++) {
+		for (int j = 0; j < UI.valueInt(NUM_DRAWS_PER_FRAME); j++) {
 			for (int i = 0; i < particles.size(); i++) particles.get(i).update();
 			for (int i = 0; i < particles.size(); i++) particles.get(i).update();
 		
@@ -335,19 +341,23 @@ extends PAppletHax {
 			// draw
 			if(colorMode == COLOR_MODE_TRIG) updateColorTrig();
 			pg.stroke(curColor);
-			pg.line(lastX, lastY, position.x, position.y);
+			boolean startedLine = false;
+//			if(canvasColor == bgColor) {
+				pg.line(lastX, lastY, position.x, position.y);
+				startedLine = true;
+//			}
 
 			// check for EOL
 			if (age == lifeSpan) {
 				newBranch();
 				die();
 			} else {
-				if(canvasColor != bgColor && age > strokeSize * 1.5f) {	// make sure pixel detection is far enough from starting location before hit test kills
+				if(canvasColor != bgColor && age > UI.value(STROKE_SIZE) * 1.75f) {	// make sure pixel detection is far enough from starting location before hit test kills
 					pg.line(position.x, position.y, nextX, nextY);
 					die();
 				} else if (position.x < 0 || position.x > pg.width || position.y < 0 || position.y > pg.height) {
 					die();
-				} else if(canvasColor != bgColor && gen > 1 && age > strokeSize * 1.005f) {
+				} else if(canvasColor != bgColor && gen > 1 && age > UI.value(STROKE_SIZE) * 1.015f) {
 					// further generations don't need the same initial distance check for collisions. Let's not let them go past each other
 					die();
 				}
