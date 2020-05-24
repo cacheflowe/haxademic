@@ -12,6 +12,7 @@ import java.awt.event.MouseEvent;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import com.haxademic.core.app.P;
 import com.haxademic.core.data.constants.PRenderers;
 
 import processing.awt.PSurfaceAWT;
@@ -45,10 +46,13 @@ extends PApplet {
 		frame.setUndecorated(true);
 		frame.setLayout(null);
 		frame.addNotify();
+		frame.setAlwaysOnTop(true);
 
 		pg = createGraphics(width, height);
 
 		JPanel panel = new JPanel() {
+			private static final long serialVersionUID = 1L;
+
 			@Override
 			protected void paintComponent(Graphics graphics) {
 				if (graphics instanceof Graphics2D) {
@@ -64,8 +68,7 @@ extends PApplet {
 		panel.requestFocus();
 		panel.requestFocusInWindow();
 
-		MouseAdapter mA = 
-				new MouseAdapter() {
+		MouseAdapter mA = new MouseAdapter() {
 			public void mousePressed(MouseEvent me) {
 				mousePressed = true;
 				applet.mousePressed();
@@ -78,7 +81,7 @@ extends PApplet {
 
 		panel.addMouseListener(mA);
 
-		mA = new MouseAdapter() {
+		MouseAdapter mA2 = new MouseAdapter() {
 
 			public void mouseDragged(MouseEvent me) {
 				mouseX = MouseInfo.getPointerInfo().getLocation().x-frame.getLocation().x;
@@ -92,10 +95,9 @@ extends PApplet {
 			}
 		};
 
-		panel.addMouseMotionListener(mA);
+		panel.addMouseMotionListener(mA2);
 
-		KeyListener kL = 
-				new KeyListener() {
+		KeyListener kL = new KeyListener() {
 
 			public void keyTyped(KeyEvent e) {
 				key = e.getKeyChar();
@@ -129,12 +131,15 @@ extends PApplet {
 		} else {
 			pg.fill(0, 204, 153, 126);
 		}
-		pg.ellipse(frameCount % 100, frameCount % 100, 60, 60);
+//		pg.ellipse(frameCount % 100, frameCount % 100, 60, 60);
+		pg.ellipse(30, 30, 60, 60);
 		pg.fill(0, 255);
 		pg.stroke(0, 255);
 		pg.text(key, mouseX-3, mouseY-10);
 		pg.endDraw();
 		frame.setBackground(new Color(0, 0, 0, 0));
 		frame.repaint();
+		
+		frame.setLocation(P.round(300 + P.cos(frameCount * 0.1f) * 100f), P.round(300 + P.sin(frameCount * 0.1f) * 100f));
 	}
 }
