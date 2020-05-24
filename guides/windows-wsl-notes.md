@@ -322,3 +322,8 @@ https://www.digitalocean.com/community/tutorials/how-to-install-java-with-apt-ge
 * Install Java via `sudo apt-get install default-jdk`
 * Find installation path: `sudo update-alternatives --config java`
 * Set JAVA_HOME: `export JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64/jre/`
+
+
+## DNS problems?
+
+* Check `/etc/resolv.conf` and make sure the default is: `nameserver 8.8.8.8`
