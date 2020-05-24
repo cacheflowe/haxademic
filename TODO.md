@@ -58,6 +58,7 @@ PGA + Bespoke:
 
 * New 3d particle system from WashHands render
 
+* this: https://skeleton-tracing.netlify.app/
 
 ## What is Haxademic?
 
@@ -331,12 +332,15 @@ PGA + Bespoke:
   * 3d scene to RenderTexture to Spout
     * https://www.youtube.com/watch?v=iIwcqgAPVWI
   * Scripted startup/shutdown
-  * Investigate Chromium w/Spout: https://github.com/fg-uulm/cef-spout
+  * Recompile Chromium w/Spout: https://github.com/fg-uulm/cef-spout
 
 ## MIDI:
   * Check MIDI rendering now that MIDI code has been revamped
 
 ## GLSL
+  * Cheap depth buffer: https://github.com/kosowski/Processing_DepthBuffer/blob/master/DepthBuuferRead/CustomFrameBuffer.pde
+  * Compute Shaders: https://github.com/perses-games/jogl-compute-shaders-fireworks
+  * Big particle sim like: https://www.instagram.com/p/B-h3tp7oUWN/
   * Processing float 32 support: https://github.com/processing/processing/issues/3321
   * Do the physarum: https://sagejenson.com/physarum
   * Do this with GPU particles: https://twitter.com/mamboleoo/status/1224738602200064000?s=12
@@ -422,6 +426,7 @@ PGA + Bespoke:
     * Demo_VertexShader_Fattener
 
 ## General / tools
+  * Check out fast voronoi/delaunay library: http://leebyron.com/mesh/
   * Video
     * IP camera (get one that does an mjpeg stream)
     * Rtp video in Java?
