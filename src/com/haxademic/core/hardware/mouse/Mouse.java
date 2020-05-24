@@ -7,6 +7,7 @@ import java.awt.Point;
 import java.awt.Robot;
 import java.awt.Toolkit;
 import java.awt.event.InputEvent;
+import java.awt.event.KeyEvent;
 import java.awt.image.BufferedImage;
 
 import com.haxademic.core.app.P;
@@ -129,6 +130,11 @@ public class Mouse {
 		mouseRobot().mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
 	}
 	
+	public static void mouseClick() {
+		mouseRobot().mousePress(InputEvent.BUTTON1_DOWN_MASK);
+		mouseRobot().mouseRelease(InputEvent.BUTTON1_DOWN_MASK);
+	}
+	
 	public static void movePointerTo(int x, int y) {
 		mouseRobot().mouseMove(x, y);
 	}
@@ -155,6 +161,23 @@ public class Mouse {
 	    BufferedImage cursorImage = new BufferedImage(1, 1, BufferedImage.TRANSLUCENT); 
 	    Cursor invisibleCursor = toolkit.createCustomCursor(cursorImage, hotSpot, "InvisibleCursor");
 	    comp.setCursor(invisibleCursor);
+	}
+	
+	// keyboard utils to move later
+	
+	public static void keyPress(int keyCode) {
+		mouseRobot().keyPress(keyCode);
+	}
+	
+	public static void keyRelease(int keyCode) {
+		mouseRobot().keyRelease(keyCode);
+	}
+	
+	public static void keyCommandPaste() {
+		mouseRobot().keyPress(KeyEvent.VK_CONTROL);
+		mouseRobot().keyPress(KeyEvent.VK_V);
+		mouseRobot().keyRelease(KeyEvent.VK_V);
+		mouseRobot().keyRelease(KeyEvent.VK_CONTROL);
 	}
 	
 }
