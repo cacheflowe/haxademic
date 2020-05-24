@@ -26,6 +26,14 @@ extends PAppletHax {
 			//	WebViewApplicationTest.instance.printSomething();
 		}
 	}
+	
+	public void keyPressed() {
+		super.keyPressed();
+		if(p.key == ' ') {
+//			Demo_WebViewTestApp.instance.printSomething();
+//			Demo_WebViewTestApp.instance.callJavascript("alert('hello')");
+		}
+	}
 
 }
 
