@@ -58,7 +58,7 @@ public class SocketServer {
 			P.println( "WS Server started on ip: " + IPAddress.getLocalAddress() );
 			
 			BufferedReader sysin = new BufferedReader( new InputStreamReader( System.in ) );
-			while ( true ) {
+			while (true) { // sysin.ready()
 				String in = sysin.readLine();
 				server.sendToAll( in );
 			}
