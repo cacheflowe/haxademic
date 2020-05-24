@@ -22,7 +22,7 @@ extends PAppletHax {
 	protected PixelFilter _pixelFilter;
 	
 	protected void firstFrame() {
-		DepthCamera.instance(DepthCameraType.KinectV1);
+		DepthCamera.instance(DepthCameraType.Realsense);
 		_pixelFilter = new PixelFilter(DepthCameraSize.WIDTH, DepthCameraSize.WIDTH, (int)PIXEL_SIZE);
 	}
 
@@ -32,6 +32,7 @@ extends PAppletHax {
 		p.shininess(1000f); 
 		p.lights();
 		p.background(0);
+		p.noStroke();
 		
 		// draw filtered web cam
 		PG.setDrawCorner(p);
