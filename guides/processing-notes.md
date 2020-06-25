@@ -214,6 +214,12 @@ or
 -Djava.net.preferIPv4Stack=true
 ```
 
+This will print Java environment properties, which can help while debugging:
+
+```
+ -XshowSettings:properties
+```
+
 * If you want to wipe your `bin/` directory, you'll have to do a **Project -> Clean** in Eclipse afterwards.
 
 #### Publish a .jar library
