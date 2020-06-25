@@ -3,6 +3,9 @@ package com.haxademic.core.system;
 import java.io.File;
 import java.lang.management.ManagementFactory;
 
+import javax.swing.ImageIcon;
+import javax.swing.JFrame;
+
 import com.haxademic.core.app.P;
 import com.haxademic.core.file.FileUtil;
 import com.jogamp.newt.opengl.GLWindow;
@@ -44,10 +47,10 @@ public class AppUtil {
 		}
 	}
 
-	public static void setAppToDockIcon(PApplet p) {
-		if(System.getProperty("os.name").contains("Mac OS") == false) return;
-//		Application application = Application.getApplication();
-//		application.setDockIconImage((BufferedImage)p.get().getNative());
+	public static void setAppIconJFrame(JFrame jframe, String imagePath) {
+		ImageIcon img = new ImageIcon(imagePath);
+		jframe.setIconImage(img.getImage());
+
 	}
 	
 	public static void setPImageToDockIcon(PImage img) {
