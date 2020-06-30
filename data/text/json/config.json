@@ -1,0 +1,6 @@
+{
+  "textOption": "option 1 text",
+  "nullOption": null,
+  "numericOption": 1.5,
+  "booleanOption": true
+}
