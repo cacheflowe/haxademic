@@ -137,15 +137,14 @@ public class DemoAssets {
 	public static String fontInterPath = "haxademic/fonts/Inter-Regular.ttf";
 	public static PFont fontInter = null;
 	public static PFont fontInter(float fontSize) {
-		if(fontInter == null) fontInter = P.p.createFont( FileUtil.getPath(fontInterPath), fontSize );
+		if(fontInter == null) {
+			fontInter = (FileUtil.fileExists(FileUtil.getPath(fontInterPath))) ?
+					P.p.createFont( FileUtil.getPath(fontInterPath), fontSize ) : 
+					P.p.createFont("Arial", fontSize );
+		}
 		return fontInter;
 	}
-	public static PFont fontDebug = null;
-	public static PFont fontDebug() {
-		if(fontDebug == null) fontDebug = P.p.createFont( FileUtil.getPath(fontInterPath), 11 );
-		return fontDebug;
-	}
-	
+
 	public static String fontRalewayPath = "haxademic/fonts/Raleway-Regular.ttf";
 	public static PFont fontRaleway = null;
 	public static PFont fontRaleway(float fontSize) {
