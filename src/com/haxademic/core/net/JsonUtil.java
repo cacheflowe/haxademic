@@ -43,12 +43,8 @@ public class JsonUtil {
 		String,
 		Number, 
 		Boolean, 
-		Unkonwn
+		Unknown
 	}
-	public static int TYPE_STRING = 0;
-	public static int TYPE_NUMBER = 2;
-	public static int TYPE_BOOLEAN = 3;
-	public static int TYPE_UNKNOWN = 4;
 	
 	public static Type getTypeForKey(JSONObject jsonData, String key) {
 		Object val = jsonData.get(key);
@@ -65,7 +61,7 @@ public class JsonUtil {
 	    } else if(isNull) {
 	    	return Type.String;
 	    } else {
-	    	return Type.Unkonwn;
+	    	return Type.Unknown;
 	    }
 
 	}
