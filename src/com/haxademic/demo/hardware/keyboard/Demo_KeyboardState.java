@@ -28,6 +28,9 @@ extends PAppletHax {
 		if(KeyboardState.keyTriggered(PKeys.VK_SHIFT)) {
 			P.out("VK_SHIFT");
 		}
+		if(KeyboardState.keyTriggered(PKeys.VK_LEFT)) {
+			P.out("VK_LEFT");
+		}
 		if(KeyboardState.keyTriggered(10)) {
 			P.out("ENTER");
 		}
