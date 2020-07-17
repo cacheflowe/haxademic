@@ -7,18 +7,15 @@ precision mediump int;
 
 uniform sampler2D texture;
 uniform float cutoff = 0.5;
+uniform float crossfade = 1.0;
 
 varying vec4 vertColor;
 varying vec4 vertTexCoord;
 
-const vec4 lumcoeff = vec4(0.299, 0.587, 0.114, 0);
-
 void main() {
-  vec4 col = texture2D(texture, vertTexCoord.xy);
-  float lum = dot(col, lumcoeff);
-  if (lum > cutoff) {
-    gl_FragColor = vertColor;
-  } else {
-    gl_FragColor = vec4(0, 0, 0, 1);
-  }
+  // better version from gene kogan
+  vec3 col = texture2D(texture, vertTexCoord.st).rgb;
+  float bright = 0.33333 * (col.r + col.g + col.b);
+  float b = mix(0.0, 1.0, step(cutoff, bright));
+  gl_FragColor = vec4(mix(col, vec3(b), crossfade), 1.0);
 }

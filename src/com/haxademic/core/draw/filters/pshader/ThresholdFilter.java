@@ -12,6 +12,7 @@ extends BaseFragmentShader {
 	public ThresholdFilter(PApplet p) {
 		super(p, "haxademic/shaders/filters/threshold.glsl");
 		setCutoff(0.5f);
+		setCrossfade(0.5f);
 	}
 	
 	public static ThresholdFilter instance(PApplet p) {
@@ -22,6 +23,10 @@ extends BaseFragmentShader {
 
 	public void setCutoff(float cutoff) {
 		shader.set("cutoff", cutoff);
+	}
+	
+	public void setCrossfade(float crossfade) {
+		shader.set("crossfade", crossfade);
 	}
 	
 }

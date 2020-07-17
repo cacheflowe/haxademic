@@ -225,6 +225,7 @@ extends PAppletHax { public static void main(String args[]) { arguments = args; 
 		int numEffects = filters.length;
 		if(triggerPrev.triggered()) filterIndex = (filterIndex > 0) ? filterIndex - 1 : numEffects - 1;
 		if(triggerNext.triggered()) filterIndex = (filterIndex < numEffects - 1) ? filterIndex + 1 : 0;
+		DebugView.setValue("filterIndex", filterIndex);
 
 		// debug log mouse position
 		DebugView.setValue("Mouse.xNorm", Mouse.xNorm);
@@ -509,7 +510,8 @@ extends PAppletHax { public static void main(String args[]) { arguments = args; 
 			LumaColorReplaceFilter.instance(p).setLumaTarget(Mouse.yNorm);
 			LumaColorReplaceFilter.instance(p).applyTo(pg);
 		} else if(curFilter == MaskThreeTextureFilter.instance(p)) {
-			ThresholdFilter.instance(p).setCutoff(0.5f);
+			ThresholdFilter.instance(p).setCutoff(Mouse.xNorm);
+			ThresholdFilter.instance(p).setCrossfade(Mouse.yNorm);
 			ThresholdFilter.instance(p).applyTo(pg);
 
 			MaskThreeTextureFilter.instance(p).setMask(pg);
@@ -568,6 +570,7 @@ extends PAppletHax { public static void main(String args[]) { arguments = args; 
 			SphereDistortionFilter.instance(p).applyTo(pg);
 		} else if(curFilter == ThresholdFilter.instance(p)) {
 			ThresholdFilter.instance(p).setCutoff(Mouse.xNorm);
+			ThresholdFilter.instance(p).setCrossfade(Mouse.yNorm);
 			ThresholdFilter.instance(p).applyTo(pg);
 		} else if(curFilter == VignetteAltFilter.instance(p)) {
 			VignetteAltFilter.instance(p).setDarkness(-5f + 10f * Mouse.xNorm);
@@ -613,11 +616,12 @@ extends PAppletHax { public static void main(String args[]) { arguments = args; 
 		p.text(filterName, 20, p.height - 30);
 	}
 
-	public void keyPressed() {
-		super.keyPressed();
-		int numEffects = filters.length;
-		if(p.key == '1') filterIndex = (filterIndex > 0) ? filterIndex - 1 : numEffects - 1;
-		if(p.key == '2') filterIndex = (filterIndex < numEffects - 1) ? filterIndex + 1 : 0;
-	}
+//	public void keyPressed() {
+//		super.keyPressed();
+//		int numEffects = filters.length;
+//		if(p.key == '1') filterIndex = (filterIndex > 0) ? filterIndex - 1 : numEffects - 1;
+//		if(p.key == '2') filterIndex = (filterIndex < numEffects - 1) ? filterIndex + 1 : 0;
+//		P.out("filterIndex", filterIndex);
+//	}
 
 }
