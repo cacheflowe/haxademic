@@ -69,7 +69,7 @@ implements IUIControl {
 	/////////////////////////////////////////
 	
 	public boolean isActive() {
-		return (P.p.millis() - activeTime) < 50; // when drawing, time is tracked. if not drawing, time will be out-of-date
+		return (P.p.millis() - activeTime) < 500; // when drawing, time is tracked. if not drawing, time will be out-of-date
 	}
 	
 	/////////////////////////////////////////
