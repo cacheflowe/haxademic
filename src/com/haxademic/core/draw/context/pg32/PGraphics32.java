@@ -35,7 +35,7 @@ extends PGraphics3D {
 
 		@Override
 		public void texImage2D(int target, int level, int internalFormat, int width, int height, int border, int format, int type, Buffer data) {
-			gl.glTexImage2D(target, level, GL.GL_RGBA32F, width, height, border, format, type, data); // do we need type? default value works! GL.GL_FLOAT, GL.GL_UNSIGNED_INT
+			gl.glTexImage2D(target, level, GL.GL_RGBA32F, width, height, border, format, type, data); 
 		}
 	}
 
