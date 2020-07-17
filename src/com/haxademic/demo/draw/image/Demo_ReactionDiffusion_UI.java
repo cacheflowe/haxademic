@@ -105,6 +105,10 @@ extends PAppletHax {
 	
 	protected String TEXTURE_BLEND = "TEXTURE_BLEND";
 	
+	protected String THRESHOLD_ACTIVE = "THRESHOLD_ACTIVE";
+	protected String THRESHOLD_MIX = "THRESHOLD_MIX";
+	
+	protected String FAKE_LIGHT_ACTIVE = "FAKE_LIGHT_ACTIVE";
 	protected String FAKE_LIGHT_AMBIENT = "FAKE_LIGHT_AMBIENT";
 	protected String FAKE_LIGHT_GRAD_AMP = "FAKE_LIGHT_GRAD_AMP";
 	protected String FAKE_LIGHT_GRAD_BLUR = "FAKE_LIGHT_GRAD_BLUR";
@@ -112,12 +116,13 @@ extends PAppletHax {
 	protected String FAKE_LIGHT_DIFF_DARK = "FAKE_LIGHT_DIFF_DARK";
 
 	protected String FXAA_ACTIVE = "FXAA_ACTIVE";
+	protected String OUTPUT_IMAGE = "OUTPUT_IMAGE";
 	
 
 	protected void config() {
 		Config.setAppSize(1280, 720);
 		Config.setPgSize(1920, 1080);
-		Config.setProperty(AppSettings.FULLSCREEN, true);
+		Config.setProperty(AppSettings.FULLSCREEN, false);
 		Config.setProperty(AppSettings.LOOP_FRAMES, 2000);
 		Config.setProperty(AppSettings.SHOW_UI, true);
 		Config.setProperty(AppSettings.ALWAYS_ON_TOP, false);
@@ -144,7 +149,7 @@ extends PAppletHax {
 		simplexNoise = new SimplexNoiseTexture(128, 128);
 		
 		// lines texture
-		linesTexture = PG.newPG(pg.width/2, pg.height/2, false, false);
+		linesTexture = PG.newPG(pg.width, pg.height);
 		gradientShader = p.loadShader(FileUtil.getPath("haxademic/shaders/textures/cacheflowe-two-color-repeating-gradient.glsl"));
 
 		buildUI();
@@ -192,10 +197,15 @@ extends PAppletHax {
 //		UI.addSlider(RD_SHARPEN_MAP_MIN_AMP, 1f, 0, 20, 0.01f);
 		UI.addSlider(DARKEN_AMP, 0, -255, 255, 1f, true, LaunchControl.KNOB_12);
 		
+		UI.addTitle("Threshold");
+		UI.addToggle(THRESHOLD_ACTIVE, false, false);
+		UI.addSlider(THRESHOLD_MIX, 0.5f, 0f, 1f, 0.01f, false);
+		
 		UI.addTitle("Texture Blend");
 		UI.addSlider(TEXTURE_BLEND, 0.5f, 0f, 1f, 0.01f, false, LaunchControl.KNOB_13);
 		
 		UI.addTitle("Fake Light Post FX");
+		UI.addToggle(FAKE_LIGHT_ACTIVE, true, false);
 		UI.addSlider(FAKE_LIGHT_AMBIENT, 2f, 0.3f, 6f, 0.01f);
 		UI.addSlider(FAKE_LIGHT_GRAD_AMP, 0.66f, 0.1f, 6f, 0.01f);
 		UI.addSlider(FAKE_LIGHT_GRAD_BLUR, 1f, 0.1f, 6f, 0.01f);
@@ -205,6 +215,9 @@ extends PAppletHax {
 		UI.addTitle("More Post FX");
 		UI.addSlider(FXAA_ACTIVE, 1, 0, 1, 1);
 
+		UI.addTitle("Image output");
+		UI.addSlider(OUTPUT_IMAGE, 0, 0, 1, 1);
+		
 	}
 	
 	/////////////////////////
@@ -219,6 +232,7 @@ extends PAppletHax {
 	}
 
 	protected void setFakeLighting() {
+		if(UI.valueToggle(FAKE_LIGHT_ACTIVE) == false) return;
 		FakeLightingFilter.instance(p).setAmbient(UI.value(FAKE_LIGHT_AMBIENT));
 		FakeLightingFilter.instance(p).setGradAmp(UI.value(FAKE_LIGHT_GRAD_AMP));
 		FakeLightingFilter.instance(p).setGradBlur(UI.value(FAKE_LIGHT_GRAD_BLUR));
@@ -228,11 +242,10 @@ extends PAppletHax {
 	}
 	
 	protected void setColorize() {
-		ColorizeTwoColorsFilter.instance(p).setColor1(1f,  0.7f,  1f);
+		ColorizeTwoColorsFilter.instance(p).setColor1(1f,  1f,  1f);
 		ColorizeTwoColorsFilter.instance(p).setColor2(0f,  0f,  0f);
 		ColorizeTwoColorsFilter.instance(p).applyTo(pgPost);
 	}
-	
 	
 	protected void applyZoomRotate() {
 		RotateFilter.instance(p).setRotation(UI.valueEased(FEEDBACK_ROTATE));
@@ -263,6 +276,11 @@ extends PAppletHax {
 //			SharpenMapFilter.instance(p).setSharpnessMin(UI.valueEased(RD_SHARPEN_MAP_MIN_AMP));
 //			SharpenMapFilter.instance(p).applyTo(pg);
 		}
+	}
+	
+	protected void applyThreshold() {
+		if(UI.valueToggle(THRESHOLD_ACTIVE) == false) return;
+		ThresholdFilter.instance(p).shader().set("crossfade", UI.valueEased(THRESHOLD_MIX));
 		ThresholdFilter.instance(p).applyTo(pg);
 	}
 	
@@ -338,7 +356,7 @@ extends PAppletHax {
 		gradientShader.set("scrollY", FrameLoop.progress() * 4f);
 		gradientShader.set("oscFreq", P.PI * 8f);
 		gradientShader.set("oscAmp", 0.02f + 0.02f * P.sin(FrameLoop.progressRads()));
-		gradientShader.set("fade", 0.1f);
+		gradientShader.set("fade", 0.5f);
 		gradientShader.set("rotate", 0.15f);//AnimationLoop.progressRads());
 		linesTexture.filter(gradientShader);
 	}
@@ -366,18 +384,23 @@ extends PAppletHax {
 		applyRadialFeedback();
 		applyMapFeedback();
 		applyRD();
+		applyThreshold();
 		
 		// close context
 //		pg.endDraw();
 		
 		// copy to postFX buffer
 		ImageUtil.copyImage(pg, pgPost);		// copy to 2nd buffer for postprocessing
-//		setColorize();
-		if(UI.valueInt(FXAA_ACTIVE) == 1) FXAAFilter.instance(p).applyTo(pgPost);
+		setColorize();
+		if(UI.valueToggle(FXAA_ACTIVE) == true) FXAAFilter.instance(p).applyTo(pgPost);
 		setFakeLighting();
 		
 		// draw post to screen
-		ImageUtil.cropFillCopyImage(pgPost, p.g, false);
+		if(UI.valueInt(OUTPUT_IMAGE) == 0) {
+			p.image(pgPost, 0, 0);
+		} else if(UI.valueInt(OUTPUT_IMAGE) == 1) {
+			ImageUtil.cropFillCopyImage(pgPost, p.g, false);
+		} 
 		
 		P.store.showStoreValuesInDebugView();
 	}
