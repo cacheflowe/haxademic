@@ -11,6 +11,7 @@ implements IEasingValue {
 	protected float speed;
 	protected int delay = 0;
 	protected float completeThreshold = 0.0001f;
+	protected float accelFactor = 1f;
 	
 	protected boolean complete = false;
 	protected IEasingValueDelegate delegate;
@@ -66,6 +67,11 @@ implements IEasingValue {
 		return this;
 	}
 	
+	public EasingFloat setAccelFactor(float accelFactor) {
+		this.accelFactor = accelFactor;
+		return this;
+	}
+	
 	public IEasingValue setCompleteThreshold( float value ) {
 		completeThreshold = value;
 		return this;
@@ -93,12 +99,11 @@ implements IEasingValue {
 		} else {
 			float increment = (target - value ) / easeFactor;
 			if(Math.abs(increment) > Math.abs(speed)) {
-				speed += increment / easeFactor;
-				increment = speed;
+				speed += (increment - speed) / (easeFactor * accelFactor);
 			} else {
 				speed = increment;
 			}
-			value += increment;
+			value += speed;
 		}
 		// set the value to the target if we're close enough
 		checkThreshold();

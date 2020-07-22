@@ -81,7 +81,7 @@ public class UMovieMakerCustom {
 			prevImg=new BufferedImage(w, h, BufferedImage.TYPE_INT_RGB);
 			prevData=((DataBufferInt)prevImg.getRaster().getDataBuffer()).getData();
 			gg=img.createGraphics();
-			System.out.println("vt "+vt+" "+img.getWidth());
+			System.out.println("UMovieMakerCustom started: "+img.getHeight()+", "+img.getWidth());
 			gg.setRenderingHint(RenderingHints.KEY_RENDERING,
 					RenderingHints.VALUE_RENDER_QUALITY);
 

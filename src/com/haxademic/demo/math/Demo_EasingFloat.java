@@ -14,6 +14,7 @@ extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
 	protected String easeFactor = "easeFactor";
+	protected String accelFactor = "accelFactor";
 	protected EasingFloat easingX = new EasingFloat(0, 6f);
 	protected EasingFloat easingY = new EasingFloat(0, 6f);
 	protected EasingFloat easingRotation = new EasingFloat(0, 6f);
@@ -26,6 +27,7 @@ extends PAppletHax {
 
 	protected void firstFrame() {
 		UI.addSlider(easeFactor, 6, 0, 30, 0.1f, false);
+		UI.addSlider(accelFactor, 1, 0, 30, 0.1f, false);
 	}
 
 	protected void drawApp() {
@@ -34,6 +36,7 @@ extends PAppletHax {
 		easingX.setEaseFactor(UI.value(easeFactor));
 		easingY.setEaseFactor(UI.value(easeFactor));
 		easingBottom.setEaseFactor(UI.value(easeFactor));
+		easingBottom.setAccelFactor(UI.value(accelFactor));
 		
 		easingX.setTarget(p.mouseX);
 		easingY.setTarget(p.mouseY);
@@ -41,8 +44,8 @@ extends PAppletHax {
 		int bottomVal = P.round(p.frameCount * 0.01f) % 2;
 		easingBottom.setTarget((bottomVal % 2) * p.width);
 
-		easingX.update();
-		easingY.update();
+		easingX.update(true);
+		easingY.update(true);
 		easingRotation.update(true);
 		easingBottom.update(true);
 		
