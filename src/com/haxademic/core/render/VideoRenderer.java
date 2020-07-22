@@ -10,11 +10,12 @@ import com.haxademic.core.system.DateUtil;
 import com.haxademic.core.system.SystemUtil;
 
 import krister.Ess.AudioChannel;
-import unlekker.moviemaker.UMovieMaker;
+import processing.core.PGraphics;
 
 public class VideoRenderer {
 	
-	protected UMovieMaker movieMaker;
+	protected PGraphics pg;
+	protected UMovieMakerCustom movieMaker;
 	protected AudioInputESS audioInput;
 	protected AudioChannel audioPlayer;
 	protected int curFrame = 0;
@@ -31,15 +32,17 @@ public class VideoRenderer {
 	public int timeStarted;
 
 	public VideoRenderer(int framesPerSecond, int outputType, String outputDir ) {
+		this.pg = P.p.g;
 		fps = framesPerSecond;
 		this.outputType = outputType;
 		this.outputDir = outputDir;
 		audioSimulation = Config.getBoolean( AppSettings.RENDER_AUDIO_SIMULATION, false );
 	}
 	
-	/**
-	 * Starts the movie cap
-	 */
+	public void setPG(PGraphics pg) {
+		this.pg = pg;
+	}
+	
 	public void startVideoRenderer() {
 		// bail if simulating
 		if(audioSimulation) return;
@@ -50,8 +53,8 @@ public class VideoRenderer {
 		// initialize movie renderer
 		if( outputType == OUTPUT_TYPE_MOVIE ) {
 			if( FileUtil.fileOrPathExists(outputDir) == false ) FileUtil.createDir(outputDir);
-			movieMaker = new UMovieMaker( P.p, outputDir+"render-"+timestampStart+".mov", P.p.width, P.p.height, (int)fps );
-			P.println("new UMovieMaker created :: "+timestampStart);
+			movieMaker = new UMovieMakerCustom(pg, outputDir+"render-"+timestampStart+".mov", pg.width, pg.height, (int)fps);
+			P.println("VideoRenderer started :: "+timestampStart);
 		}
 		
 		// set rendering flag
