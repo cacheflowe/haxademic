@@ -280,7 +280,7 @@ extends PAppletHax {
 	
 	protected void applyThreshold() {
 		if(UI.valueToggle(THRESHOLD_ACTIVE) == false) return;
-		ThresholdFilter.instance(p).shader().set("crossfade", UI.valueEased(THRESHOLD_MIX));
+		ThresholdFilter.instance(p).setCrossfade(UI.valueEased(THRESHOLD_MIX));
 		ThresholdFilter.instance(p).applyTo(pg);
 	}
 	
