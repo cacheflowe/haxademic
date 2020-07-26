@@ -4,6 +4,7 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
 import com.haxademic.core.render.FrameLoop;
+import com.haxademic.core.render.Renderer;
 
 import processing.core.PVector;
 
@@ -11,8 +12,8 @@ public class Demo_FrameLoop
 extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }	
 	
-	protected float _frames = 232;
-	protected float _lastTick = -1;
+	protected int _frames = 232;
+	protected int _lastTick = -1;
 	protected float _boxSize = 200;
 	protected float _bg = 0;
 	protected PVector _boxRot = new PVector(0,0,0);
@@ -23,11 +24,12 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.LOOP_FRAMES, _frames );
 		Config.setProperty( AppSettings.LOOP_TICKS, 16 );
 		
-		Config.setProperty( AppSettings.RENDERING_MOVIE, false );
+		Config.setProperty( AppSettings.RENDERING_MOVIE, true );
 		Config.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, Math.round(_frames + _frames*4) );
 	}
 
 	protected void firstFrame() {
+		if(Renderer.instance().videoRenderer != null) Renderer.instance().videoRenderer.setPG(p.g); 
 		_boxSize = 200;
 		_boxRot.set(0,0,0);
 	}
