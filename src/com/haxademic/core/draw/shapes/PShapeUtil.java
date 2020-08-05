@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.haxademic.core.app.P;
 import com.haxademic.core.draw.color.EasingColor;
 import com.haxademic.core.draw.image.ImageUtil;
+import com.haxademic.core.draw.shapes.polygons.Triangle3d;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.media.audio.analysis.AudioIn;
@@ -680,6 +681,29 @@ public class PShapeUtil {
 		for (int j = 0; j < shape.getChildCount(); j++) {
 			getDepth(shape.getChild(j), minMax);
 		}
+	}
+	
+	///////////////////////////
+	// Faces
+	///////////////////////////
+	
+	public static Triangle3d[] getTesselatedFaces(PShape shape) {
+		int vertexCount = shape.getVertexCount();
+		int numFaces = vertexCount/3;
+		P.out("getFaces vertexCount", vertexCount);
+		P.out("getFaces numFaces", numFaces);
+		Triangle3d[] triangles = new Triangle3d[numFaces];
+		int triIndex = 0;
+		for (int j = 0; j < shape.getVertexCount(); j+=3) {
+			triangles[triIndex] = new Triangle3d(
+				shape.getVertex(j+0), 
+				shape.getVertex(j+1), 
+				shape.getVertex(j+2)
+			);
+//			P.out(triangles[triIndex].toString());
+			triIndex++;
+		}
+		return triangles;
 	}
 	
 	///////////////////////////
