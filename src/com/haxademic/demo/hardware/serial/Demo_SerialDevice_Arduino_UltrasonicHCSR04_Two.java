@@ -23,7 +23,7 @@ implements ISerialDeviceDelegate {
 	protected SerialDevice serialDevice;
 	protected String DIST_MIN = "DIST_MIN";
 	protected String DIST_MAX = "DIST_MAX";
-	protected FloatBuffer ultrasonicAvg1 = new FloatBuffer(10);
+	protected FloatBuffer ultrasonicAvg1 = new FloatBuffer(3);
 	protected EasingFloat ultrasonicVal1 = new EasingFloat(0, 0.3f);
 	protected FloatBuffer ultrasonicAvg2 = new FloatBuffer(10);
 	protected EasingFloat ultrasonicVal2 = new EasingFloat(0, 0.3f);
@@ -71,7 +71,7 @@ implements ISerialDeviceDelegate {
 			if(serialInputString.substring(0, 1).equals("a")) {
 				float newVal = ConvertUtil.stringToFloat(serialInputString.substring(1));
 				DebugView.setValue("[Serial in a]", newVal);
-				if(newVal > 0) {
+				if(newVal > UI.value(DIST_MIN) && newVal < UI.value(DIST_MAX)) {
 					ultrasonicAvg1.update(newVal);
 					ultrasonicVal1.setTarget(ultrasonicAvg1.average());
 				}
