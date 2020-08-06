@@ -10,7 +10,7 @@ import com.haxademic.core.media.DemoAssets;
 import processing.core.PShape;
 import processing.core.PVector;
 
-public class Demo_PShape_contains 
+public class Demo_PShapeUtil_rayIntersectsTriangle 
 extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
@@ -21,7 +21,7 @@ extends PAppletHax {
 		// load shape, scale & center
 		shape = DemoAssets.objSkullRealistic().getTessellation();
 //		shape = PShapeUtil.createBox(100, 100, 100, 0xff00ff00).getTessellation();
-		PShapeUtil.scaleShapeToHeight(shape, p.height * 0.75f);
+		PShapeUtil.scaleShapeToHeight(shape, p.height * 0.45f);
 		PShapeUtil.centerShape(shape);
 		faces = PShapeUtil.getTesselatedFaces(shape);
 	}
@@ -43,14 +43,15 @@ extends PAppletHax {
 		p.strokeWeight(0.5f);
 		p.shape(shape, 0, 0);
 		
-		// set up demo points
+		// iterate & animate demo points
 		float offset = p.frameCount/5f % 100;
 		for (float x = -1000 + offset; x < 1000; x+=100) {
-			float y = 100f * P.sin(x/50f + p.frameCount/10f);
+			float y = 200f * P.sin(x/50f + p.frameCount/30f);
+			float z = 200f * P.cos(x/70f + p.frameCount/20f);
 			// check point against all triangles
 			int numCollisions = 0;
 			for (int i = 0; i < faces.length; i++) {
-				boolean collided = rayIntersectsTriangle(new PVector(x,y,0), new PVector(0,0,1f), faces[i].v1, faces[i].v2, faces[i].v3);
+				boolean collided = PShapeUtil.rayIntersectsTriangle(new PVector(x,y,z), new PVector(0,0,1f), faces[i].v1, faces[i].v2, faces[i].v3);
 				if(collided) {
 					numCollisions++;
 					p.stroke(255,0,0);
@@ -66,9 +67,9 @@ extends PAppletHax {
 			// draw ray success
 			p.strokeWeight(1f);
 			p.push();
-			p.translate(x, y, 0);
+			p.translate(x, y, z);
 			if(numCollisions % 2 == 1) {
-				// inside mesh!
+				// inside mesh! an odd number of collisions means it's inside :) 
 				p.stroke(255, 0, 0);
 				p.fill(255, 0, 0);
 			} else {
@@ -84,41 +85,5 @@ extends PAppletHax {
 			p.pop();
 		}
 	}
-	
-	// https://en.wikipedia.org/wiki/M%C3%B6ller%E2%80%93Trumbore_intersection_algorithm
-    private static final float EPSILON = 0.0000001f;
-    public static boolean rayIntersectsTriangle(PVector rayOrigin, 
-                                                PVector rayVector,
-                                                PVector vertex0,
-                                                PVector vertex1,
-                                                PVector vertex2) {
-        PVector edge1 = new PVector();
-        PVector edge2 = new PVector();
-        PVector h = new PVector();
-        PVector s = new PVector();
-        PVector q = new PVector();
-        float a, f, u, v;
-        edge1 = PVector.sub(vertex1, vertex0);
-        edge2 = PVector.sub(vertex2, vertex0);
-        h = rayVector.cross(edge2);
-        a = edge1.dot(h);
-        if (a > -EPSILON && a < EPSILON) {
-            return false;    // This ray is parallel to this triangle.
-        }
-        f = 1.0f / a;
-        s = PVector.sub(rayOrigin, vertex0);
-        u = f * (s.dot(h));
-        if (u < 0.0 || u > 1.0) {
-            return false;
-        }
-        q = s.cross(edge1);
-        v = f * rayVector.dot(q);
-        if (v < 0.0 || u + v > 1.0) {
-            return false;
-        }
-        // At this stage we can compute t to find out where the intersection point is on the line.
-        float t = f * edge2.dot(q);
-        return (t > EPSILON); // ray intersection
-    }
-	
+		
 }
