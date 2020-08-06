@@ -682,16 +682,55 @@ public class PShapeUtil {
 			getDepth(shape.getChild(j), minMax);
 		}
 	}
+
+	public static PVector getBounds(PShape shape) {
+		return new PVector(
+			PShapeUtil.getWidth(shape), 
+			PShapeUtil.getHeight(shape), 
+			PShapeUtil.getDepth(shape)
+		);
+	}
+	
 	
 	///////////////////////////
-	// Faces
+	// COLLISIONS
+	///////////////////////////
+	
+	// https://en.wikipedia.org/wiki/M%C3%B6ller%E2%80%93Trumbore_intersection_algorithm
+    public static final float EPSILON = 0.0000001f;
+    protected static PVector edge1 = new PVector();
+    protected static PVector edge2 = new PVector();
+    protected static PVector h = new PVector();
+    protected static PVector s = new PVector();
+    protected static PVector q = new PVector();
+    public static boolean rayIntersectsTriangle(PVector rayOrigin, PVector rayVector, PVector vertex0, PVector vertex1, PVector vertex2) {
+        edge1 = PVector.sub(vertex1, vertex0);
+        edge2 = PVector.sub(vertex2, vertex0);
+        h = rayVector.cross(edge2);
+        float a = edge1.dot(h);
+        if (a > -EPSILON && a < EPSILON) return false;    // This ray is parallel to this triangle.
+        float f = 1.0f / a;
+        s = PVector.sub(rayOrigin, vertex0);
+        float u = f * (s.dot(h));
+        if (u < 0f || u > 1f) return false;
+        q = s.cross(edge1);
+        float v = f * rayVector.dot(q);
+        if (v < 0f || u + v > 1f) return false;
+        // At this stage we can compute t to find out where the intersection point is on the line.
+        float t = f * edge2.dot(q);
+        return (t > EPSILON); // ray intersection
+    }
+	
+	///////////////////////////
+	// GET FACES
 	///////////////////////////
 	
 	public static Triangle3d[] getTesselatedFaces(PShape shape) {
+		// only use with a PShape that's had `getTesselation()` called on it
 		int vertexCount = shape.getVertexCount();
 		int numFaces = vertexCount/3;
-		P.out("getFaces vertexCount", vertexCount);
-		P.out("getFaces numFaces", numFaces);
+//		P.out("getFaces vertexCount", vertexCount);
+//		P.out("getFaces numFaces", numFaces);
 		Triangle3d[] triangles = new Triangle3d[numFaces];
 		int triIndex = 0;
 		for (int j = 0; j < shape.getVertexCount(); j+=3) {
@@ -700,7 +739,6 @@ public class PShapeUtil {
 				shape.getVertex(j+1), 
 				shape.getVertex(j+2)
 			);
-//			P.out(triangles[triIndex].toString());
 			triIndex++;
 		}
 		return triangles;
