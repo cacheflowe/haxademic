@@ -10,7 +10,7 @@ import com.haxademic.core.draw.filters.pshader.BlurHFilter;
 import com.haxademic.core.draw.filters.pshader.BlurVFilter;
 import com.haxademic.core.draw.image.BufferMotionDetectionMap;
 import com.haxademic.core.draw.image.ImageUtil;
-import com.haxademic.core.hardware.depthcamera.KinectDepthSilhouetteSmoothed;
+import com.haxademic.core.hardware.depthcamera.DepthSilhouetteSmoothed;
 import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera;
 import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera.DepthCameraType;
 import com.haxademic.core.ui.UI;
@@ -23,7 +23,7 @@ extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
 	protected BufferMotionDetectionMap motionDetectionMap;
-	protected KinectDepthSilhouetteSmoothed kinectSilhouetteSmoothed;
+	protected DepthSilhouetteSmoothed kinectSilhouetteSmoothed;
 	protected PGraphics motionBuffer;	// copy kinect silhouette to match the size of the RGB camera
 
 	protected void config() {
@@ -35,7 +35,7 @@ extends PAppletHax {
 	protected void firstFrame() {
 		DepthCamera.instance(DepthCameraType.KinectV2);
 		UI.addSlider("STRETCH_DEPTH_X", 1f, 1f, 3f, 0.01f);
-		kinectSilhouetteSmoothed = new KinectDepthSilhouetteSmoothed(DepthCamera.instance().camera, 5);
+		kinectSilhouetteSmoothed = new DepthSilhouetteSmoothed(DepthCamera.instance().camera, 5);
 	}
 
 	protected void drawApp() {

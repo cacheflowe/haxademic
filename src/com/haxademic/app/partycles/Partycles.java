@@ -18,7 +18,7 @@ import com.haxademic.core.draw.image.BufferMotionDetectionMap;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.mapping.PGraphicsKeystone;
 import com.haxademic.core.file.FileUtil;
-import com.haxademic.core.hardware.depthcamera.KinectDepthSilhouetteSmoothed;
+import com.haxademic.core.hardware.depthcamera.DepthSilhouetteSmoothed;
 import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera;
 import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera.DepthCameraType;
 import com.haxademic.core.hardware.depthcamera.cameras.IDepthCamera;
@@ -48,7 +48,7 @@ extends PAppletHax {
 
 	// kinect 
 	protected BufferMotionDetectionMap motionDetectionMap;
-	protected KinectDepthSilhouetteSmoothed kinectSilhouetteSmoothed;
+	protected DepthSilhouetteSmoothed kinectSilhouetteSmoothed;
 	protected PGraphics motionBuffer;	// copy kinect silhouette to match the size of the RGB camera
 	protected BufferActivityMonitor activityMonitor;
 
@@ -117,8 +117,8 @@ extends PAppletHax {
 		keystone = new PGraphicsKeystone(p, mainBuffer, 10, FileUtil.getPath("text/keystoning/partycles.txt"));
 		
 		// camera/kinect
-		kinectSilhouetteSmoothed = new KinectDepthSilhouetteSmoothed(DepthCamera.instance().camera, 6);
-		KinectDepthSilhouetteSmoothed.KINECT_FAR = 2000;
+		kinectSilhouetteSmoothed = new DepthSilhouetteSmoothed(DepthCamera.instance().camera, 6);
+		DepthSilhouetteSmoothed.DEPTH_FAR = 2000;
 		activityMonitor = new BufferActivityMonitor(32, 16, 10);
 
 		// init particles
@@ -188,7 +188,7 @@ extends PAppletHax {
 	protected void updateKinect() {
 		IDepthCamera depthCamera = DepthCamera.instance().camera;
 
-		KinectDepthSilhouetteSmoothed.KINECT_FAR = P.round(4000 * Mouse.xNorm);
+		DepthSilhouetteSmoothed.DEPTH_FAR = P.round(4000 * Mouse.xNorm);
 		// update silhouette
 		kinectSilhouetteSmoothed.update();
 

@@ -12,7 +12,7 @@ import com.haxademic.core.hardware.depthcamera.cameras.IDepthCamera;
 
 import processing.core.PGraphics;
 
-public class KinectDepthSilhouetteSmoothed {
+public class DepthSilhouetteSmoothed {
 
 	protected IDepthCamera kinectWrapper;
 	protected int pixelSkip = 5;
@@ -22,14 +22,14 @@ public class KinectDepthSilhouetteSmoothed {
 	protected float thresholdCutoff = 0.4f;
 	protected float thresholdPreBrightness = 1.25f;
 	protected float postBlur = 0;
-	public static int KINECT_NEAR = 500;
-	public static int KINECT_FAR = 1800;
+	public static int DEPTH_NEAR = 500;
+	public static int DEPTH_FAR = 1800;
 
 	protected PGraphics depthBuffer;
 	protected PGraphics avgBuffer;
 	protected PGraphics postBuffer;
 
-	public KinectDepthSilhouetteSmoothed(IDepthCamera kinectWrapper, int pixelSkip) {
+	public DepthSilhouetteSmoothed(IDepthCamera kinectWrapper, int pixelSkip) {
 		this.kinectWrapper = kinectWrapper;
 		this.pixelSkip = pixelSkip;
 		
@@ -85,7 +85,7 @@ public class KinectDepthSilhouetteSmoothed {
 		for ( int x = 0; x < depthBuffer.width; x++ ) {
 			for ( int y = 0; y < depthBuffer.height; y++ ) {
 				pixelDepth = kinectWrapper.getDepthAt( x * pixelSkip, y * pixelSkip );
-				if( pixelDepth != 0 && pixelDepth > KINECT_NEAR && pixelDepth < KINECT_FAR ) {
+				if( pixelDepth != 0 && pixelDepth > DEPTH_NEAR && pixelDepth < DEPTH_FAR ) {
 					depthBuffer.pushMatrix();
 					depthBuffer.rect(x, y, 1, 1);
 					depthBuffer.popMatrix();

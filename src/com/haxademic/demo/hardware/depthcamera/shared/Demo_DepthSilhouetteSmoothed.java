@@ -5,20 +5,20 @@ import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.image.ImageUtil;
-import com.haxademic.core.hardware.depthcamera.KinectDepthSilhouetteSmoothed;
+import com.haxademic.core.hardware.depthcamera.DepthSilhouetteSmoothed;
 import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera;
 import com.haxademic.core.hardware.depthcamera.cameras.DepthCamera.DepthCameraType;
 import com.haxademic.core.hardware.depthcamera.cameras.IDepthCamera;
 import com.haxademic.core.ui.UI;
 
 
-public class Demo_KinectDepthSilhouetteSmoothed 
+public class Demo_DepthSilhouetteSmoothed 
 extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
-	protected KinectDepthSilhouetteSmoothed kinectSilhouetteSmoothed;
-	protected String KINECT_NEAR = "KINECT_NEAR";
-	protected String KINECT_FAR = "KINECT_FAR";
+	protected DepthSilhouetteSmoothed depthSilhouetteSmoothed;
+	protected String DEPTH_NEAR = "DEPTH_NEAR";
+	protected String DEPTH_FAR = "DEPTH_FAR";
 	protected String SILHOUETTE_FRAME_BLEND = "SILHOUETTE_FRAME_BLEND";
 	protected String SILHOUETTE_SMOOTH = "SILHOUETTE_SMOOTH";
 	protected String SILHOUETTE_THRESHOLD_PRE_BRIGHTNESS = "SILHOUETTE_THRESHOLD_PRE_BRIGHTNESS";
@@ -36,17 +36,17 @@ extends PAppletHax {
 		// init depth cam
 		DepthCamera.instance(DepthCameraType.Realsense);
 		IDepthCamera depthCamera = DepthCamera.instance().camera;
-		kinectSilhouetteSmoothed = new KinectDepthSilhouetteSmoothed(depthCamera, 5);
+		depthSilhouetteSmoothed = new DepthSilhouetteSmoothed(depthCamera, 5);
 		
 		// add camera images to debugview
-		DebugView.setTexture("depthBuffer", kinectSilhouetteSmoothed.depthBuffer());
-		DebugView.setTexture("avgBuffer", kinectSilhouetteSmoothed.avgBuffer());
-		DebugView.setTexture("image", kinectSilhouetteSmoothed.image());
+		DebugView.setTexture("depthBuffer", depthSilhouetteSmoothed.depthBuffer());
+		DebugView.setTexture("avgBuffer", depthSilhouetteSmoothed.avgBuffer());
+		DebugView.setTexture("image", depthSilhouetteSmoothed.image());
 		
 		// add UI
 		UI.addTitle("Depth Camera Config");
-		UI.addSlider(KINECT_NEAR, 300, 300, 3000, 10, false);
-		UI.addSlider(KINECT_FAR, 1500, 500, 6000, 10, false);
+		UI.addSlider(DEPTH_NEAR, 300, 300, 3000, 10, false);
+		UI.addSlider(DEPTH_FAR, 1500, 500, 6000, 10, false);
 		UI.addSlider(SILHOUETTE_FRAME_BLEND, 0.25f, 0, 1, 0.01f, false);
 		UI.addSlider(SILHOUETTE_SMOOTH, 0.25f, 0, 2, 0.01f, false);
 		UI.addSlider(SILHOUETTE_THRESHOLD_PRE_BRIGHTNESS, 1.25f, 0, 3, 0.01f, false);
@@ -58,17 +58,17 @@ extends PAppletHax {
 		p.background(0);
 
 		// apply UI settings to silhouette object
-		KinectDepthSilhouetteSmoothed.KINECT_NEAR = UI.valueInt(KINECT_NEAR);
-		KinectDepthSilhouetteSmoothed.KINECT_FAR = UI.valueInt(KINECT_FAR);
+		DepthSilhouetteSmoothed.DEPTH_NEAR = UI.valueInt(DEPTH_NEAR);
+		DepthSilhouetteSmoothed.DEPTH_FAR = UI.valueInt(DEPTH_FAR);
 
 		// do depth processing & draw to screen
-		kinectSilhouetteSmoothed.setFrameBlend(UI.value(SILHOUETTE_FRAME_BLEND));
-		kinectSilhouetteSmoothed.setSmoothing(UI.value(SILHOUETTE_SMOOTH));
-		kinectSilhouetteSmoothed.setThresholdPreBrightness(UI.value(SILHOUETTE_THRESHOLD_PRE_BRIGHTNESS));
-		kinectSilhouetteSmoothed.setThresholdCutoff(UI.value(SILHOUETTE_THRESHOLD_CUTOFF));
-		kinectSilhouetteSmoothed.setPostBlur(UI.value(SILHOUETTE_POST_BLUR));
-		kinectSilhouetteSmoothed.update();
-		ImageUtil.cropFillCopyImage(kinectSilhouetteSmoothed.image(), p.g, false);
+		depthSilhouetteSmoothed.setFrameBlend(UI.value(SILHOUETTE_FRAME_BLEND));
+		depthSilhouetteSmoothed.setSmoothing(UI.value(SILHOUETTE_SMOOTH));
+		depthSilhouetteSmoothed.setThresholdPreBrightness(UI.value(SILHOUETTE_THRESHOLD_PRE_BRIGHTNESS));
+		depthSilhouetteSmoothed.setThresholdCutoff(UI.value(SILHOUETTE_THRESHOLD_CUTOFF));
+		depthSilhouetteSmoothed.setPostBlur(UI.value(SILHOUETTE_POST_BLUR));
+		depthSilhouetteSmoothed.update();
+		ImageUtil.cropFillCopyImage(depthSilhouetteSmoothed.image(), p.g, false);
 	}
 	
 }
