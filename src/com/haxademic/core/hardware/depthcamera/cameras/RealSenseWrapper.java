@@ -1,5 +1,6 @@
 package com.haxademic.core.hardware.depthcamera.cameras;
 
+import com.haxademic.core.app.P;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.hardware.depthcamera.DepthCameraSize;
@@ -58,7 +59,11 @@ implements IDepthCamera {
 			if(threadBusy == false) {
 				new Thread(new Runnable() { public void run() {
 					threadBusy = true;
-					camera.readFrames();
+					try {
+						camera.readFrames();
+					} catch (NullPointerException e) {
+						P.out("RealSenseWrapper failed to update");
+					}
 					if(DEPTH_ACTIVE) data = camera.getDepthData();
 					threadBusy = false;
 					hasUpdated = true;
