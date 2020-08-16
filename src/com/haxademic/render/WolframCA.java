@@ -1,7 +1,5 @@
 package com.haxademic.render;
 
-import java.util.Arrays;
-
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
