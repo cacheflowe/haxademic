@@ -27,7 +27,7 @@ void main() {
   vec2 center = vec2(0.5);
   float distFromCenter = distance(uv, center);
   float curRads = atan(center.y - uv.y, center.x - uv.x);			// get current pixel's angle to center
-  if(waveAmp > 0.) curRads += sin(waveStart + distFromCenter * waveFreq) * waveAmp;
+  curRads += sin(waveStart + distFromCenter * waveFreq) * waveAmp;
   vec2 displaceDir = vec2(amp * cos(curRads), amp * sin(curRads));
   displaceDir.y *= texOffset.y / texOffset.x;		// Correct displacement for aspect ratio
   displaceDir.x *= multX;                       // allow tweaks to axis of displacement
