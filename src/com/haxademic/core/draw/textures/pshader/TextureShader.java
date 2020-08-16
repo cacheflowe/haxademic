@@ -10,6 +10,7 @@ public class TextureShader {
 	protected String shaderPath;
 	protected PShader fragShader;
 	protected float timeMult;
+	protected float timeCur;
 
 	public TextureShader(String shaderPath) {
 		this(shaderPath, 0.01f);
@@ -18,6 +19,7 @@ public class TextureShader {
 	public TextureShader(String shaderPath, float timeMult) {
 		this.shaderPath = shaderPath;
 		fragShader = TextureShader.loadShader(shaderPath);
+		timeCur = 0;
 		setTimeMult(timeMult);
 	}
 
@@ -39,7 +41,8 @@ public class TextureShader {
 	}
 	
 	public void updateTime() {
-		fragShader.set("time", P.p.frameCount * timeMult);
+		timeCur += timeMult;
+		fragShader.set("time", timeCur);
 	}
 
 	public void setTime(float time) {
