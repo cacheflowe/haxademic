@@ -128,6 +128,10 @@ implements IUIControl {
 		// no-op
 	}
 	
+	public void setEasingFactor(float easeFactor) {
+		valueEased.setEaseFactor(easeFactor);
+	}
+	
 	public void update() {
 		// check midi
 		if(midiCCNote != -1 && MidiState.instance().isMidiCCTriggered(midiCCNote)) {

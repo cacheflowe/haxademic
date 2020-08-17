@@ -32,6 +32,7 @@ extends PAppletHax {
 		UI.addSlider(R, 255, 0, 255, 0.5f, false);
 		UI.addSlider(G, 255, 0, 255, 0.5f, false);
 		UI.addSlider(B, 255, 0, 255, 0.5f, false);
+		UI.setEasingFactor(B, 0.01f);
 		UI.addTitle("Rotation");
 		UI.addSliderVector(VECTOR_3, 0, -1f, 1f, 0.001f, false);
 		UI.addTitle("Test buttons");
@@ -63,7 +64,7 @@ extends PAppletHax {
 		p.background(
 			UI.value(R),
 			UI.value(G),
-			UI.value(B)
+			UI.valueEased(B)
 		);
 		
 		// live editable text
@@ -87,9 +88,13 @@ extends PAppletHax {
 	
 	public void keyPressed() {
 		super.keyPressed();
-		if(p.key == '1') P.out(UI.valuesToJSON(new String[] {"COLOR_", TEXT}));
+		if(p.key == '1') P.out(UI.valuesToJSON(new String[] {"COLOR_"}));
 		if(p.key == '2') UI.loadValuesFromJSON(JSONObject.parse(CONFIG_SAVED));
 	}
 	
-	protected String CONFIG_SAVED = "";
+	protected String CONFIG_SAVED = "{\r\n" + 
+		"	\"COLOR_R\": 117.0,\r\n" + 
+		"	\"COLOR_G\": 58.5,\r\n" + 
+		"	\"COLOR_B\": 174.0\r\n" +
+	"}";
 }

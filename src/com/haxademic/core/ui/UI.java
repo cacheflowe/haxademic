@@ -1,7 +1,6 @@
 package com.haxademic.core.ui;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -194,6 +193,10 @@ implements IUIButtonDelegate, IAppStoreListener {
 		return controls.get(key).valueEased();
 	}
 	
+	public static void setEasingFactor(String key, float easeFactor) {
+		((UISlider) controls.get(key)).setEasingFactor(easeFactor);
+	}
+	
 	public static int valueInt(String key) {
 		return P.round(controls.get(key).value());
 	}
@@ -292,7 +295,7 @@ implements IUIButtonDelegate, IAppStoreListener {
 	public static String valuesToJSON(String[] filters) {
 		// get sorted key list
         Set<String> names = controls.keySet(); 
-        System.out.println("HashSet before sorting : " + names); 
+//        System.out.println("HashSet before sorting : " + names); 
         // Sorting HashSet using List 
         List<String> tempList = new ArrayList<String>(names);
         Collections.sort(tempList); 
