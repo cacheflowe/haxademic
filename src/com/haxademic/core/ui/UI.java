@@ -1,6 +1,7 @@
 package com.haxademic.core.ui;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -17,6 +18,7 @@ import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.data.constants.PTextAlign;
 import com.haxademic.core.data.store.IAppStoreListener;
 import com.haxademic.core.draw.context.PG;
+import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.media.DemoAssets;
 import com.haxademic.core.net.UIControlsHandler;
 import com.haxademic.core.net.WebServer;
@@ -297,13 +299,13 @@ implements IUIButtonDelegate, IAppStoreListener {
 		
         // loop through keys
 		JSONObject json = new JSONObject();
+		String jsonOutput = "{" + FileUtil.NEWLINE;
 		for (IUIControl control : controls.values()) {
 //		for (String hashKey : tempList) {
 			// get key/val
 //			IUIControl control = controls.get(hashKey);
 			String key = control.id();
 			float val = control.value();
-			P.out("key", key);
 			// check keys against filter (or if no filter)
 			boolean filterFound = false;
 			for (int i = 0; i < filters.length; i++) {
@@ -312,10 +314,15 @@ implements IUIButtonDelegate, IAppStoreListener {
 
 			// add to json string
 			if(filters.length == 0 || filterFound) {
-				json.setFloat(key, val);
+//				json.setFloat(key, val);
+				jsonOutput += "\t" + "\"" + key + "\": " + val + "," + FileUtil.NEWLINE;
 			}
 		}
-		return json.toString();
+		// remove last comma
+		jsonOutput = jsonOutput.substring(0, jsonOutput.length() - 3) + FileUtil.NEWLINE;
+		jsonOutput += "}" + FileUtil.NEWLINE;
+		return jsonOutput;
+//		return String.join("\n", sortedLines);
 	}
 	
 	public static void loadValuesFromJSON(JSONObject jsonData) {
