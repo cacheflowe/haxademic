@@ -7,6 +7,7 @@ import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.net.JsonUtil;
+import com.haxademic.core.system.SystemUtil;
 import com.haxademic.core.ui.UI;
 import com.haxademic.core.ui.UIButton;
 import com.haxademic.core.ui.UIConfigFilesPicker;
@@ -25,6 +26,7 @@ extends PAppletHax {
 	protected String VECTOR_3 = "VECTOR_3";
 	
 	protected UIConfigFilesPicker configPicker;
+	protected String configsPath = "text/json/ui-configs";
 	
 	protected void config() {
 		Config.setProperty(AppSettings.SHOW_UI, true);
@@ -57,7 +59,7 @@ extends PAppletHax {
 		P.out(UI.valuesToJSON());
 		
 		// load config files picker
-		configPicker = new UIConfigFilesPicker("UI Configs", "COLOR_AND_ROT_CONFIG", FileUtil.getPath("text/json/ui-configs"));
+		configPicker = new UIConfigFilesPicker("UI Configs", "RGB_AND_ROT_CONFIG", FileUtil.getPath(configsPath));
 	}
 	
 	protected void drawApp() {
@@ -98,21 +100,35 @@ extends PAppletHax {
 		P.out(button.id(), button.value());
 	}
 	
+	protected void pickRandomValues() {
+		UI.setRandomValue(R);
+		UI.setRandomValue(G);
+		UI.setRandomValue(B);
+		UI.setRandomValue(VECTOR_3+"_X");
+		UI.setRandomValue(VECTOR_3+"_Y");
+		UI.setRandomValue(VECTOR_3+"_Z");
+	}
+	
 	public void keyPressed() {
 		super.keyPressed();
 		if(p.key == '1') P.out(UI.valuesToJSON(new String[] {"COLOR_", "VECTOR_"}));
 		if(p.key == '2') UI.loadValuesFromJSON(JSONObject.parse(CONFIG_SAVED));
 		if(p.key == '3') saveJsonFile();
 		if(p.key == '4') loadJsonFile();
+		if(p.key == 'r') pickRandomValues();
 	}
 	
+	//////////////////////////
+	// Saving & recalling json configs
+	//////////////////////////
+	
 	protected String savedConfigFile() {
-		return FileUtil.getPath("text/json/ui-configs/config_1.json");
+		return FileUtil.getPath(configsPath + "/config_1.json");
 	}
 	
 	protected void saveJsonFile() {
 		String jsonOutput = UI.valuesToJSON(new String[] {"COLOR_", "VECTOR_"});
-		JsonUtil.jsonToFile(jsonOutput, savedConfigFile());
+		JsonUtil.jsonToFile(jsonOutput, FileUtil.getPath(configsPath + "/color_rot_" + SystemUtil.getTimestamp() + ".json"));
 	}
 	
 	protected void loadJsonFile() {

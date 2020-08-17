@@ -132,6 +132,14 @@ implements IUIControl {
 		valueEased.setEaseFactor(easeFactor);
 	}
 	
+	public void setRandomValue() {
+		set(MathUtil.randRangeDecimal(valueMin, valueMax));
+	}
+	
+	public void setRandomValueInt() {
+		set(MathUtil.randRange(valueMin, valueMax));
+	}
+	
 	public void update() {
 		// check midi
 		if(midiCCNote != -1 && MidiState.instance().isMidiCCTriggered(midiCCNote)) {

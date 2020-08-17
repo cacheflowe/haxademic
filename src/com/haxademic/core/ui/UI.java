@@ -186,6 +186,14 @@ implements IUIButtonDelegate, IAppStoreListener {
 		controls.get(key).set(val);
 	}
 	
+	public static void setRandomValue(String key) {
+		((UISlider) controls.get(key)).setRandomValue();
+	}
+	
+	public static void setRandomValueInt(String key) {
+		((UISlider) controls.get(key)).setRandomValueInt();
+	}
+	
 	public static float value(String key) {
 		return controls.get(key).value();
 	}
