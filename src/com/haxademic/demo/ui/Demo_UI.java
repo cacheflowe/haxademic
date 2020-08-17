@@ -8,13 +8,15 @@ import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.ui.UI;
 import com.haxademic.core.ui.UIButton;
 
+import processing.data.JSONObject;
+
 public class Demo_UI 
 extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
-	protected String R = "R";
-	protected String G = "G";
-	protected String B = "B";
+	protected String R = "COLOR_R";
+	protected String G = "COLOR_G";
+	protected String B = "COLOR_B";
 	protected String AUTO_ON = "AUTO_ON";
 	protected String TEXT = "UI_TEXT";
 	
@@ -27,9 +29,9 @@ extends PAppletHax {
 	protected void firstFrame () {
 		// build UI
 		UI.addTitle("Color");
-		UI.addSlider(R, 255, 0, 255, 0.5f);
-		UI.addSlider(G, 255, 0, 255, 0.5f);
-		UI.addSlider(B, 255, 0, 255, 0.5f);
+		UI.addSlider(R, 255, 0, 255, 0.5f, false);
+		UI.addSlider(G, 255, 0, 255, 0.5f, false);
+		UI.addSlider(B, 255, 0, 255, 0.5f, false);
 		UI.addTitle("Rotation");
 		UI.addSliderVector(VECTOR_3, 0, -1f, 1f, 0.001f, false);
 		UI.addTitle("Test buttons");
@@ -82,4 +84,12 @@ extends PAppletHax {
 	public void uiButtonClicked(UIButton button) {
 		P.out(button.id(), button.value());
 	}
+	
+	public void keyPressed() {
+		super.keyPressed();
+		if(p.key == '1') P.out(UI.valuesToJSON(new String[] {"COLOR_", TEXT}));
+		if(p.key == '2') UI.loadValuesFromJSON(JSONObject.parse(CONFIG_SAVED));
+	}
+	
+	protected String CONFIG_SAVED = "";
 }

@@ -1,8 +1,12 @@
 package com.haxademic.core.ui;
 
+import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Set;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.config.AppSettings;
@@ -281,9 +285,35 @@ implements IUIButtonDelegate, IAppStoreListener {
 	}
 	
 	public static String valuesToJSON() {
+		return valuesToJSON(new String[] {});
+	}
+	public static String valuesToJSON(String[] filters) {
+		// get sorted key list
+        Set<String> names = controls.keySet(); 
+        System.out.println("HashSet before sorting : " + names); 
+        // Sorting HashSet using List 
+        List<String> tempList = new ArrayList<String>(names);
+        Collections.sort(tempList); 
+		
+        // loop through keys
 		JSONObject json = new JSONObject();
 		for (IUIControl control : controls.values()) {
-			json.setFloat(control.id(), control.value());
+//		for (String hashKey : tempList) {
+			// get key/val
+//			IUIControl control = controls.get(hashKey);
+			String key = control.id();
+			float val = control.value();
+			P.out("key", key);
+			// check keys against filter (or if no filter)
+			boolean filterFound = false;
+			for (int i = 0; i < filters.length; i++) {
+				if(key.indexOf(filters[i]) != -1) filterFound = true;
+			}
+
+			// add to json string
+			if(filters.length == 0 || filterFound) {
+				json.setFloat(key, val);
+			}
 		}
 		return json.toString();
 	}
