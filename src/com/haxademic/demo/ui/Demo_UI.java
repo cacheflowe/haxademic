@@ -5,8 +5,11 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.PG;
+import com.haxademic.core.file.FileUtil;
+import com.haxademic.core.net.JsonUtil;
 import com.haxademic.core.ui.UI;
 import com.haxademic.core.ui.UIButton;
+import com.haxademic.core.ui.UIConfigFilesPicker;
 
 import processing.data.JSONObject;
 
@@ -19,8 +22,9 @@ extends PAppletHax {
 	protected String B = "COLOR_B";
 	protected String AUTO_ON = "AUTO_ON";
 	protected String TEXT = "UI_TEXT";
-	
 	protected String VECTOR_3 = "VECTOR_3";
+	
+	protected UIConfigFilesPicker configPicker;
 	
 	protected void config() {
 		Config.setProperty(AppSettings.SHOW_UI, true);
@@ -32,9 +36,14 @@ extends PAppletHax {
 		UI.addSlider(R, 255, 0, 255, 0.5f, false);
 		UI.addSlider(G, 255, 0, 255, 0.5f, false);
 		UI.addSlider(B, 255, 0, 255, 0.5f, false);
-		UI.setEasingFactor(B, 0.01f);
+		UI.setEasingFactor(R, 0.05f);
+		UI.setEasingFactor(G, 0.05f);
+		UI.setEasingFactor(B, 0.05f);
 		UI.addTitle("Rotation");
 		UI.addSliderVector(VECTOR_3, 0, -1f, 1f, 0.001f, false);
+		UI.setEasingFactor(VECTOR_3+"_X", 0.05f);
+		UI.setEasingFactor(VECTOR_3+"_Y", 0.05f);
+		UI.setEasingFactor(VECTOR_3+"_Z", 0.05f);
 		UI.addTitle("Test buttons");
 		UI.addButton("Button", false);
 		UI.addButton("Button 2", true);
@@ -46,6 +55,9 @@ extends PAppletHax {
 		// write out config to json
 		P.out(UI.configToJSON());
 		P.out(UI.valuesToJSON());
+		
+		// load config files picker
+		configPicker = new UIConfigFilesPicker("UI Configs", "COLOR_AND_ROT_CONFIG", FileUtil.getPath("text/json/ui-configs"));
 	}
 	
 	protected void drawApp() {
@@ -62,8 +74,8 @@ extends PAppletHax {
 		
 		// bg components
 		p.background(
-			UI.value(R),
-			UI.value(G),
+			UI.valueEased(R),
+			UI.valueEased(G),
 			UI.valueEased(B)
 		);
 		
@@ -74,9 +86,9 @@ extends PAppletHax {
 		p.lights();
 		PG.setCenterScreen(p.g);
 		PG.setDrawCenter(p.g);
-		p.rotateX(UI.valueX(VECTOR_3));
-		p.rotateY(UI.valueY(VECTOR_3));
-		p.rotateZ(UI.valueZ(VECTOR_3));
+		p.rotateX(UI.valueXEased(VECTOR_3));
+		p.rotateY(UI.valueYEased(VECTOR_3));
+		p.rotateZ(UI.valueZEased(VECTOR_3));
 		p.fill(255);
 		p.stroke(0);
 		p.box(100);
@@ -88,8 +100,24 @@ extends PAppletHax {
 	
 	public void keyPressed() {
 		super.keyPressed();
-		if(p.key == '1') P.out(UI.valuesToJSON(new String[] {"COLOR_"}));
+		if(p.key == '1') P.out(UI.valuesToJSON(new String[] {"COLOR_", "VECTOR_"}));
 		if(p.key == '2') UI.loadValuesFromJSON(JSONObject.parse(CONFIG_SAVED));
+		if(p.key == '3') saveJsonFile();
+		if(p.key == '4') loadJsonFile();
+	}
+	
+	protected String savedConfigFile() {
+		return FileUtil.getPath("text/json/ui-configs/config_1.json");
+	}
+	
+	protected void saveJsonFile() {
+		String jsonOutput = UI.valuesToJSON(new String[] {"COLOR_", "VECTOR_"});
+		JsonUtil.jsonToFile(jsonOutput, savedConfigFile());
+	}
+	
+	protected void loadJsonFile() {
+		JSONObject jsonObj = JsonUtil.jsonFromFile(savedConfigFile());
+		UI.loadValuesFromJSON(jsonObj);
 	}
 	
 	protected String CONFIG_SAVED = "{\r\n" + 
@@ -97,4 +125,5 @@ extends PAppletHax {
 		"	\"COLOR_G\": 58.5,\r\n" + 
 		"	\"COLOR_B\": 174.0\r\n" +
 	"}";
+
 }

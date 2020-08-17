@@ -36,7 +36,11 @@ public class JsonUtil {
 	}
 
 	public static void jsonToFile(JSONObject jsonData, String path) {
-		FileUtil.writeTextToFile(path, jsonData.toString());
+		jsonToFile(path, jsonData.toString());
+	}
+	
+	public static void jsonToFile(String jsonStr, String path) {
+		FileUtil.writeTextToFile(path, jsonStr);
 	}
 	
 	public enum Type {

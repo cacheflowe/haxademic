@@ -19,6 +19,7 @@ import com.haxademic.core.data.store.IAppStoreListener;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.media.DemoAssets;
+import com.haxademic.core.net.JsonUtil;
 import com.haxademic.core.net.UIControlsHandler;
 import com.haxademic.core.net.WebServer;
 import com.haxademic.core.ui.UIButton.IUIButtonDelegate;
@@ -292,6 +293,7 @@ implements IUIButtonDelegate, IAppStoreListener {
 	public static String valuesToJSON() {
 		return valuesToJSON(new String[] {});
 	}
+	
 	public static String valuesToJSON(String[] filters) {
 		// get sorted key list
         Set<String> names = controls.keySet(); 
@@ -301,7 +303,7 @@ implements IUIButtonDelegate, IAppStoreListener {
         Collections.sort(tempList); 
 		
         // loop through keys
-		JSONObject json = new JSONObject();
+//		JSONObject json = new JSONObject();
 		String jsonOutput = "{" + FileUtil.NEWLINE;
 		for (IUIControl control : controls.values()) {
 //		for (String hashKey : tempList) {
@@ -326,6 +328,10 @@ implements IUIButtonDelegate, IAppStoreListener {
 		jsonOutput += "}" + FileUtil.NEWLINE;
 		return jsonOutput;
 //		return String.join("\n", sortedLines);
+	}
+	
+	public static void loadValuesFromJSON(String jsonStr) {
+		loadValuesFromJSON(JsonUtil.jsonFromString(jsonStr));
 	}
 	
 	public static void loadValuesFromJSON(JSONObject jsonData) {
