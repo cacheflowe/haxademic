@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import com.haxademic.core.app.P;
 import com.haxademic.core.data.constants.PRegisterableMethods;
 import com.haxademic.core.file.FileUtil;
+import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.net.JsonUtil;
 
 import processing.data.JSONObject;
@@ -15,8 +16,10 @@ public class UIConfigFilesPicker {
 	protected String title;
 	protected String sliderKey;
 	protected String configFilesPath;
+	protected ArrayList<String> configFilePaths;
 	protected JSONObject[] configs;
 	protected int curIndex = 0;
+	public static boolean DEBUG = false;
 	
 	public UIConfigFilesPicker(String title, String sliderKey, String configFilesPath) {
 		this.title = title;
@@ -29,13 +32,17 @@ public class UIConfigFilesPicker {
 	
 	protected void loadConfigFiles() {
 		filesPath = configFilesPath;
-		ArrayList<String> configFiles = FileUtil.getFilesInDirOfTypes(filesPath, "json");
-		configs = new JSONObject[configFiles.size()];
-		for (int i = 0; i < configFiles.size(); i++) {
-			String jsonPath = configFiles.get(i);
+		configFilePaths = FileUtil.getFilesInDirOfTypes(filesPath, "json");
+		configs = new JSONObject[configFilePaths.size()];
+		for (int i = 0; i < configFilePaths.size(); i++) {
+			String jsonPath = configFilePaths.get(i);
 			configs[i] = JsonUtil.jsonFromFile(jsonPath);
-//			P.out("jsonPath:", jsonPath);
-//			P.out("json obj:", configs[i].toString());
+			if(DEBUG == true) {
+				P.out("loadConfigFiles ["+i+"] ===============================");
+				P.out("jsonPath:", jsonPath);
+				P.out("json obj:", configs[i].toString());
+				P.out("===================================================");
+			}
 		}
 	}
 	
@@ -60,8 +67,27 @@ public class UIConfigFilesPicker {
 		P.p.registerMethod(PRegisterableMethods.pre, this);
 	}
 	
+	public int curIndex() {
+		return curIndex;
+	}
+	
 	public int numConfigs() {
 		return configs.length;
+	}
+
+	public void goNextConfig() {
+		int nextIndex = (curIndex + 1) % numConfigs();
+		UI.setValue(sliderKey, nextIndex);
+	}
+	
+	public void goPrevConfig() {
+		int prevIndex = curIndex - 1;
+		if(prevIndex < 0) prevIndex = numConfigs() - 1;
+		UI.setValue(sliderKey, prevIndex);
+	}
+	
+	public void goRandomConfig() {
+		UI.setValue(sliderKey, MathUtil.randIndex(numConfigs()));
 	}
 	
 	public void loadConfigByIndex(int index) {
@@ -75,6 +101,7 @@ public class UIConfigFilesPicker {
 		// check for preset slider value change, and reload settings when that happens
 		if(curIndex != UI.valueInt(sliderKey)) {
 			curIndex = UI.valueInt(sliderKey);
+			if(DEBUG == true) P.out("UIConfigFilesPicker :: new config index:", "[" + curIndex + "]", configFilePaths.get(curIndex));
 			UI.loadValuesFromJSON(configs[curIndex]);
 		}
 	}

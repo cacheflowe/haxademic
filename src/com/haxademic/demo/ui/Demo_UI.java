@@ -59,6 +59,7 @@ extends PAppletHax {
 		P.out(UI.valuesToJSON());
 		
 		// load config files picker
+		UIConfigFilesPicker.DEBUG = true;
 		configPicker = new UIConfigFilesPicker("UI Configs", "RGB_AND_ROT_CONFIG", FileUtil.getPath(configsPath));
 	}
 	
@@ -116,6 +117,9 @@ extends PAppletHax {
 		if(p.key == '3') saveJsonFile();
 		if(p.key == '4') loadJsonFile();
 		if(p.key == 'r') pickRandomValues();
+		if(p.key == '8') configPicker.goPrevConfig();
+		if(p.key == '9') configPicker.goNextConfig();
+		if(p.key == '0') configPicker.goRandomConfig();
 	}
 	
 	//////////////////////////
