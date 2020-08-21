@@ -95,7 +95,7 @@ public class UIConfigFilesPicker {
 	}
 	
 	public void loadConfigByIndex(int index) {
-		UI.setValue(sliderKey, index);
+		UI.setValue(sliderKey, index % numConfigs());
 	}
 	
 	public void pre() {
