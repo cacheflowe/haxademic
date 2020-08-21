@@ -55,7 +55,7 @@ public class UIConfigFilesPicker {
 		
 		// build UI to attach configs to a slider
 		UI.addTitle(title);
-		UI.addSlider(sliderKey, 0, 0, configs.length - 1, 1);
+		UI.addSlider(sliderKey, 0, 0, configs.length - 1, 1, false);
 		
 		// make sure any saved value is stored for value changes
 		// and load initial selection
