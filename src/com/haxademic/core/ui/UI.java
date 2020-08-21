@@ -348,8 +348,11 @@ implements IUIButtonDelegate, IAppStoreListener {
 		Iterator<?> iterator = jsonData.keys().iterator();
 		while(iterator.hasNext()) {
 		    String key = (String) iterator.next();
-	    	controls.get(key).set(jsonData.getFloat(key));
-	    	// P.out(key, jsonData.getFloat(key));
+		    if(controls.containsKey(key)) {
+		    	controls.get(key).set(jsonData.getFloat(key));
+		    } else {
+		    	P.out("UI.loadValuesFromJSON() Error: couldn't find key: ", key);
+		    }
 		}
 	}
 

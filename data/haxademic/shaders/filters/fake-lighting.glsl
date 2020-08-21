@@ -18,14 +18,15 @@ uniform float gradAmp = 1.0;   // 0.3 - 5.0
 uniform float gradBlur = 1.0;  // 0.5 - 3.0
 uniform float specAmp = 1.5;   // 0.5 - 1.5
 uniform float diffDark = 0.5;  // 0.1 - 1.0
+uniform sampler2D map;
 
 float getVal(vec2 uv) {
     // return length(texture(texture,uv).xyz);
-    return dot(texture(texture,uv).xyz, vec3(0.299, 0.587, 0.114));
+    return dot(texture(map,uv).xyz, vec3(0.299, 0.587, 0.114));
 }
 
-vec2 getGrad(vec2 uv,float delta) {
-    vec2 d=vec2(delta,0);
+vec2 getGrad(vec2 uv, float delta) {
+    vec2 d = vec2(delta,0);
     return vec2(
         getVal(uv+d.xy)-getVal(uv-d.xy),
         getVal(uv+d.yx)-getVal(uv-d.yx)

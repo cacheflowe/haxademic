@@ -191,6 +191,7 @@ extends PAppletHax {
 		FakeLightingFilter.instance(p).setGradBlur(0.1f);
 		FakeLightingFilter.instance(p).setSpecAmp(0.2f);
 		FakeLightingFilter.instance(p).setDiffDark(0.8f);
+		FakeLightingFilter.instance(p).setMap(pg);
 		FakeLightingFilter.instance(p).applyTo(waveformShaderTexture);
 		FXAAFilter.instance(p).applyTo(waveformShaderTexture);
 	}

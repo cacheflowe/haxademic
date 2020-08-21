@@ -38,6 +38,11 @@ vec2 uv = vertTexCoord.xy - 0.5;
 uv.x *= texOffset.y / texOffset.x;		// Correct for aspect ratio
 ```
 
+Get a texture size
+```
+vec2 texSize = textureSize(displacementMap, 0);
+```
+
 Angle to center
 ```
 float rads = atan(uv.x, uv.y);

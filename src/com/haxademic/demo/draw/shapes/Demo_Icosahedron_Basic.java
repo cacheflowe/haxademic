@@ -19,7 +19,6 @@ extends PAppletHax {
 	protected PShape icosa;
 
 	protected void firstFrame() {
-
 		int detail = 4;
 		icosa = Icosahedron.createIcosahedron(p.g, detail, DemoAssets.textureJupiter());
 		PShapeUtil.scaleShapeToHeight(icosa, p.height * 0.75f);

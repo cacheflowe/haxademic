@@ -71,6 +71,10 @@ public class UIConfigFilesPicker {
 		return curIndex;
 	}
 	
+	public String curConfigPath() {
+		return configFilePaths.get(curIndex);
+	}
+	
 	public int numConfigs() {
 		return configs.length;
 	}

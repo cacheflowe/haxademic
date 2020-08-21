@@ -661,6 +661,7 @@ implements IAppStoreListener {
 		FakeLightingFilter.instance(p).setGradBlur(1f);
 		FakeLightingFilter.instance(p).setSpecAmp(1.25f);
 		FakeLightingFilter.instance(p).setDiffDark(0.5f);
+		FakeLightingFilter.instance(p).setMap(pg);
 		FakeLightingFilter.instance(p).applyTo(pg);
 	}
 

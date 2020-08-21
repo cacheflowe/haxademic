@@ -397,6 +397,7 @@ extends PAppletHax { public static void main(String args[]) { arguments = args; 
 			FakeLightingFilter.instance(p).setGradBlur(Mouse.yNorm * 2f);
 			FakeLightingFilter.instance(p).setSpecAmp(Mouse.yNorm * 1.5f);
 			FakeLightingFilter.instance(p).setDiffDark(Mouse.yNorm * 3f);
+			FakeLightingFilter.instance(p).setMap(pg);
 			FakeLightingFilter.instance(p).applyTo(pg);
 		} else if(curFilter == FeedbackMapFilter.instance(p)) {
 			FeedbackMapFilter.instance(p).setMap(noiseBuffer);

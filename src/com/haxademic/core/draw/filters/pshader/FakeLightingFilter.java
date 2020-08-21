@@ -3,6 +3,7 @@ package com.haxademic.core.draw.filters.pshader;
 import com.haxademic.core.draw.filters.pshader.shared.BaseFragmentShader;
 
 import processing.core.PApplet;
+import processing.core.PImage;
 
 public class FakeLightingFilter
 extends BaseFragmentShader {
@@ -16,6 +17,7 @@ extends BaseFragmentShader {
 		setGradBlur(1.0f);
 		setSpecAmp(1.5f);
 		setDiffDark(0.5f);
+		setMap(null);
 	}
 	
 	public static FakeLightingFilter instance(PApplet p) {
@@ -42,6 +44,10 @@ extends BaseFragmentShader {
 	
 	public void setDiffDark(float diffDark) {
 		shader.set("diffDark", diffDark);
+	}
+
+	public void setMap(PImage map) {
+		shader.set("map", map);
 	}
 
 }

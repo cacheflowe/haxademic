@@ -116,6 +116,7 @@ extends PAppletHax {
 		if(p.key == '2') UI.loadValuesFromJSON(JSONObject.parse(CONFIG_SAVED));
 		if(p.key == '3') saveJsonFile();
 		if(p.key == '4') loadJsonFile();
+		if(p.key == '5') updateJsonFile();
 		if(p.key == 'r') pickRandomValues();
 		if(p.key == '8') configPicker.goPrevConfig();
 		if(p.key == '9') configPicker.goNextConfig();
@@ -133,6 +134,11 @@ extends PAppletHax {
 	protected void saveJsonFile() {
 		String jsonOutput = UI.valuesToJSON(new String[] {"COLOR_", "VECTOR_"});
 		JsonUtil.jsonToFile(jsonOutput, FileUtil.getPath(configsPath + "/color_rot_" + SystemUtil.getTimestamp() + ".json"));
+	}
+	
+	protected void updateJsonFile() {
+		String jsonOutput = UI.valuesToJSON(new String[] {"COLOR_", "VECTOR_"});
+		JsonUtil.jsonToFile(jsonOutput, configPicker.curConfigPath());
 	}
 	
 	protected void loadJsonFile() {

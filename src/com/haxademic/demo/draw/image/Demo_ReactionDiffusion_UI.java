@@ -238,6 +238,7 @@ extends PAppletHax {
 		FakeLightingFilter.instance(p).setGradBlur(UI.value(FAKE_LIGHT_GRAD_BLUR));
 		FakeLightingFilter.instance(p).setSpecAmp(UI.value(FAKE_LIGHT_SPEC_AMP));
 		FakeLightingFilter.instance(p).setDiffDark(UI.value(FAKE_LIGHT_DIFF_DARK));
+		FakeLightingFilter.instance(p).setMap(pgPost);
 		FakeLightingFilter.instance(p).applyTo(pgPost);
 	}
 	
