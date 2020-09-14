@@ -4,8 +4,6 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-import org.java_websocket.WebSocketImpl;
-
 import com.haxademic.core.app.P;
 
 public class SocketServer {
@@ -52,7 +50,6 @@ public class SocketServer {
 			
 			////////////////////////////////////////////////
 			
-			WebSocketImpl.DEBUG = false; // SocketServer.DEBUG;
 			server.start();
 			P.println( "WS Server started on port: " + server.getPort() );
 			P.println( "WS Server started on ip: " + IPAddress.getLocalAddress() );
