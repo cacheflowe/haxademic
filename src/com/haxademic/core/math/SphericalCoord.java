@@ -13,8 +13,8 @@ public class SphericalCoord {
 	// and: https://math.stackexchange.com/questions/2466728/cartesian-to-spherical-coordinates-translation-how-to-differentiate-x-y-signs
 	// and: http://www.java-gaming.org/index.php?topic=36791.0
 
-	public float theta = P.p.random(P.TWO_PI);	// longitude (vert)
-	public float phi = P.p.random(P.TWO_PI);		// latitude	(horiz)
+	public float theta = 0;	// longitude (vert)
+	public float phi = 0;	// latitude	(horiz)
 	public float radius = 1f;
 	public PVector cartesian = new PVector();
 
