@@ -33,11 +33,9 @@ extends PAppletHax {
 		
 		// launch! need to open & close the position buffer where we're writing new launch pixels
 		int startLaunchTime = p.millis();
-		int launchesPerFrame = 1000;
+		int launchesPerFrame = 2000;
 		gpuParticles.beginLaunch();
-		for (int j = 0; j < launchesPerFrame; j++) 
-			 gpuParticles.launch(pg, Mouse.xEased * pg.width, Mouse.yEased * pg.height);
-//			gpuParticles.launch(pg, pg.width/2f, pg.height/2f);
+		for (int j = 0; j < launchesPerFrame; j++) gpuParticles.launch(pg, Mouse.xEased, Mouse.yEased);
 		gpuParticles.endLaunch();
 		DebugView.setValue("launchTime", p.millis() - startLaunchTime);
 
