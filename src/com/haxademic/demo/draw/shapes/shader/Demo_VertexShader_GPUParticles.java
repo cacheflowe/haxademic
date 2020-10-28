@@ -117,9 +117,10 @@ extends PAppletHax {
 		p.background(0);
 		PG.setDrawCorner(p);
 		
+		
 		// float adjust increment - must be 1f/255f is using Processing's default 8-bit textures
-		// but can be smalLer using modified core.jar with 32-bit support
-		float minAmp = 0.0001f;
+		// but can be smaller using 32-bit support
+		float minAmp = 0.00001f;
 		
 		// update colors
 		colorMapShader.set("time", p.frameCount * 0.01f);
