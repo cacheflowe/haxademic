@@ -100,5 +100,12 @@
 	<classpathentry kind="lib" path="lib/zxing4p3/zxingjavase_3.3.2.jar"/>
 	<classpathentry kind="lib" path="lib/zxing4p3/zxing4p3.jar"/>
 	<classpathentry kind="lib" path="lib/zxing4p3/zxingcore_3.3.2.jar"/>
+	<!--<classpathentry kind="lib" path="lib/IPCapture/library/IPCapture.jar"/>
+	<classpathentry kind="lib" path="lib/jasiohost/JAsioHost.jar"/>
+	<classpathentry kind="lib" path="lib/twilio/commons-codec-1.12.jar"/>
+	<classpathentry kind="lib" path="lib/twilio/twilio-7.38.0-jar-with-dependencies.jar"/>
+	<classpathentry kind="lib" path="lib/usb4java/lib/commons-lang3-3.8.1.jar"/>
+	<classpathentry kind="lib" path="lib/usb4java/lib/usb-api-1.0.2.jar"/>
+	<classpathentry kind="lib" path="lib/usb4java/lib/usb4java-javax-1.3.0.jar"/>-->
 	<classpathentry kind="output" path="bin"/>
 </classpath>
