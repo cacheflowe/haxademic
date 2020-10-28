@@ -7,6 +7,8 @@ import com.haxademic.core.hardware.depthcamera.DepthCameraSize;
 
 import ch.bildspur.realsense.RealSenseCamera;
 import ch.bildspur.realsense.type.ColorScheme;
+import ch.bildspur.realsense.type.HoleFillingType;
+import ch.bildspur.realsense.type.PersistencyIndex;
 import processing.core.PApplet;
 import processing.core.PGraphics;
 import processing.core.PImage;
@@ -26,6 +28,7 @@ implements IDepthCamera {
 	protected PGraphics mirrorRGB;
 	protected PGraphics mirrorDepth;
 	protected short[][] data = new short[CAMERA_H][CAMERA_W];
+	public static float METERS_FAR_THRESH = 15;
 
 	public RealSenseWrapper(PApplet p, boolean initRGB, boolean initDepthImage) {
 		RGB_ACTIVE = initRGB;
@@ -39,6 +42,12 @@ implements IDepthCamera {
 		camera.enableColorizer(ColorScheme.Cold);
 //		camera.enableIRStream(640, 480, 30);
 		camera.enableAlign();
+		camera.addThresholdFilter(0.0f, METERS_FAR_THRESH);
+//		camera.addSpatialFilter(1, 0.75f, 50, 1);
+//		camera.addDecimationFilter(2);
+//		camera.addDisparityTransform(true);
+//		camera.addHoleFillingFilter(HoleFillingType.FarestFromAround);
+//		camera.addTemporalFilter(0.5f, 30, PersistencyIndex.ValidIn1_Last2);
 		camera.start();
 		
 		mirrorRGB = PG.newPG(CAMERA_W, CAMERA_H);
@@ -53,8 +62,6 @@ implements IDepthCamera {
 	///////////////////////////
 
 	public void update() {
-//		threaded = true;
-		
 		if(threaded) {
 			if(threadBusy == false) {
 				new Thread(new Runnable() { public void run() {
