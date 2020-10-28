@@ -26,9 +26,6 @@
 	<lib name="tools.jar" scope="COMPILE">
 		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/beads/library/tools.jar!/"/>
 	</lib>
-	<lib name="mp3spi1.9.4.jar" scope="COMPILE">
-		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/beads/library/mp3spi1.9.4.jar!/"/>
-	</lib>
 	<lib name="tritonus_aos-0.3.6.jar" scope="COMPILE">
 		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/beads/library/tritonus_aos-0.3.6.jar!/"/>
 	</lib>
@@ -77,11 +74,11 @@
 	<lib name="hemesh.jar" scope="COMPILE">
 		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/hemesh/library/hemesh.jar!/"/>
 	</lib>
-	<lib name="Java-WebSocket-1.3.9.jar" scope="COMPILE">
-		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/java_websocket/Java-WebSocket-1.3.9.jar!/"/>
+	<lib name="Java-WebSocket-1.5.1.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/java_websocket/Java-WebSocket-1.5.1.jar!/"/>
 	</lib>
-	<lib name="jetty-all-9.4.15.v20190215-uber.jar" scope="COMPILE">
-		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/jetty/jetty-all-9.4.15.v20190215-uber.jar!/"/>
+	<lib name="jetty-all-9.4.30.v20200611-uber.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/jetty/jetty-all-9.4.30.v20200611-uber.jar!/"/>
 	</lib>
 	<lib name="jinput-2.0.9.jar" scope="COMPILE">
 		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/jinput/jinput-2.0.9.jar!/"/>
@@ -114,11 +111,11 @@
 	<lib name="minim.jar" scope="COMPILE">
 		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/minim/library/minim.jar!/"/>
 	</lib>
+	<lib name="mp3spi1.9.5.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/minim/library/mp3spi1.9.5.jar!/"/>
+	</lib>
 	<lib name="newhull.jar" scope="COMPILE">
 		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/newhull/library/newhull.jar!/"/>
-	</lib>
-	<lib name="openkinect_processing.jar" scope="COMPILE">
-		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/openkinect_processing/library/openkinect_processing.jar!/"/>
 	</lib>
 	<lib name="oscP5.jar" scope="COMPILE">
 		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/oscP5/library/oscP5.jar!/"/>
@@ -130,7 +127,7 @@
 		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/poly2tri/slf4j-api-1.6.3.jar!/"/>
 	</lib>
 	<lib name="core.jar" scope="COMPILE">
-		<srcroot url="file:///processing-core"/>
+		<srcroot url="file:///processing-core/src"/>
 		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/processing-3/core/library/core.jar!/"/>
 	</lib>
 	<lib name="gluegen-rt.jar" scope="COMPILE">
@@ -151,6 +148,12 @@
 	<lib name="serial.jar" scope="COMPILE">
 		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/processing-3/libraries/serial/library/serial.jar!/"/>
 	</lib>
+	<lib name="javamp3-1.0.4.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/processing-3/libraries/sound/library/javamp3-1.0.4.jar!/"/>
+	</lib>
+	<lib name="jsyn-20171016.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/processing-3/libraries/sound/library/jsyn-20171016.jar!/"/>
+	</lib>
 	<lib name="sound.jar" scope="COMPILE">
 		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/processing-3/libraries/sound/library/sound.jar!/"/>
 	</lib>
@@ -163,8 +166,23 @@
 	<lib name="video.jar" scope="COMPILE">
 		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/processing-3/libraries/video/library/video.jar!/"/>
 	</lib>
-	<lib name="librealsense.jar" scope="COMPILE">
-		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/RealSenseProcessing/library/librealsense.jar!/"/>
+	<lib name="javacpp-1.5.2.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/RealSenseProcessing/library/javacpp-1.5.2.jar!/"/>
+	</lib>
+	<lib name="librealsense2-2.29.0-1.5.2.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/RealSenseProcessing/library/librealsense2-2.29.0-1.5.2.jar!/"/>
+	</lib>
+	<lib name="librealsense2-2.29.0-1.5.2-macosx-x86_64.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/RealSenseProcessing/library/librealsense2-2.29.0-1.5.2-macosx-x86_64.jar!/"/>
+	</lib>
+	<lib name="librealsense2-2.29.0-1.5.2-windows-x86_64.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/RealSenseProcessing/library/librealsense2-2.29.0-1.5.2-windows-x86_64.jar!/"/>
+	</lib>
+	<lib name="librealsense2-platform-2.29.0-1.5.2.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/RealSenseProcessing/library/librealsense2-platform-2.29.0-1.5.2.jar!/"/>
+	</lib>
+	<lib name="librealsense-java-0.2.1.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/RealSenseProcessing/library/librealsense-java-0.2.1.jar!/"/>
 	</lib>
 	<lib name="RealSenseProcessing.jar" scope="COMPILE">
 		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/RealSenseProcessing/library/RealSenseProcessing.jar!/"/>
@@ -208,61 +226,13 @@
 	<lib name="UMovieMaker.jar" scope="COMPILE">
 		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/UMovieMaker/library/UMovieMaker.jar!/"/>
 	</lib>
-	<lib name="IPCapture.jar" scope="COMPILE">
-		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/IPCapture/library/IPCapture.jar!/"/>
+	<lib name="zxingjavase_3.3.2.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/zxing4p3/zxingjavase_3.3.2.jar!/"/>
 	</lib>
-	<lib name="JAsioHost.jar" scope="COMPILE">
-		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/jasiohost/JAsioHost.jar!/"/>
+	<lib name="zxing4p3.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/zxing4p3/zxing4p3.jar!/"/>
 	</lib>
-	<lib name="openimaj-test-project-1.0-SNAPSHOT-jar-with-dependencies.jar" scope="COMPILE">
-		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/openimaj/openimaj-test-project-1.0-SNAPSHOT-jar-with-dependencies.jar!/"/>
-	</lib>
-	<lib name="twilio-7.38.0-jar-with-dependencies.jar" scope="COMPILE">
-		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/twilio/twilio-7.38.0-jar-with-dependencies.jar!/"/>
-	</lib>
-	<lib name="commons-codec-1.12.jar" scope="COMPILE">
-		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/twilio/commons-codec-1.12.jar!/"/>
-	</lib>
-	<lib name="libusb4java-1.3.0-linux-arm.jar" scope="COMPILE">
-		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/usb4java/lib/libusb4java-1.3.0-linux-arm.jar!/"/>
-	</lib>
-	<lib name="libusb4java-1.3.0-linux-x86.jar" scope="COMPILE">
-		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/usb4java/lib/libusb4java-1.3.0-linux-x86.jar!/"/>
-	</lib>
-	<lib name="libusb4java-1.3.0-linux-x86-64.jar" scope="COMPILE">
-		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/usb4java/lib/libusb4java-1.3.0-linux-x86-64.jar!/"/>
-	</lib>
-	<lib name="libusb4java-1.3.0-win32-x86.jar" scope="COMPILE">
-		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/usb4java/lib/libusb4java-1.3.0-win32-x86.jar!/"/>
-	</lib>
-	<lib name="libusb4java-1.3.0-win32-x86-64.jar" scope="COMPILE">
-		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/usb4java/lib/libusb4java-1.3.0-win32-x86-64.jar!/"/>
-	</lib>
-	<lib name="usb4java-1.3.0.jar" scope="COMPILE">
-		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/usb4java/lib/usb4java-1.3.0.jar!/"/>
-	</lib>
-	<lib name="commons-lang3-3.8.1.jar" scope="COMPILE">
-		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/usb4java/lib/commons-lang3-3.8.1.jar!/"/>
-	</lib>
-	<lib name="libusb4java-1.3.0-darwin-x86-64.jar" scope="COMPILE">
-		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/usb4java/lib/libusb4java-1.3.0-darwin-x86-64.jar!/"/>
-	</lib>
-	<lib name="libusb4java-1.3.0-linux-aarch64.jar" scope="COMPILE">
-		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/usb4java/lib/libusb4java-1.3.0-linux-aarch64.jar!/"/>
-	</lib>
-	<lib name="usb4java-javax-1.3.0.jar" scope="COMPILE">
-		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/usb4java/lib/usb4java-javax-1.3.0.jar!/"/>
-	</lib>
-	<lib name="usb-api-1.0.2.jar" scope="COMPILE">
-		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/usb4java/lib/usb-api-1.0.2.jar!/"/>
-	</lib>
-	<lib name="bridj-0.7.0.jar" scope="COMPILE">
-		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/webcam-capture/bridj-0.7.0.jar!/"/>
-	</lib>
-	<lib name="slf4j-api-1.7.2.jar" scope="COMPILE">
-		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/webcam-capture/slf4j-api-1.7.2.jar!/"/>
-	</lib>
-	<lib name="webcam-capture-0.3.12.jar" scope="COMPILE">
-		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/webcam-capture/webcam-capture-0.3.12.jar!/"/>
+	<lib name="zxingcore_3.3.2.jar" scope="COMPILE">
+		<relative-module-cls project-related="jar://$PROJECT_DIR$/lib/zxing4p3/zxingcore_3.3.2.jar!/"/>
 	</lib>
 </component>
