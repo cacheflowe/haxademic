@@ -52,6 +52,7 @@ implements IAppStoreListener {
 	protected static int BG_ALPHA = 180;
 	protected static int frameOpened = 0;
 	protected static int hideFrames = 60 * 60;
+	protected static String uptimeStr = "";
 	protected static boolean autoHide = false;
 	protected static String ipAddress;
 	public static final String TITLE_PREFIX = "___";
@@ -140,14 +141,19 @@ implements IAppStoreListener {
 		return helpPanelW;
 	}
 	
-	protected void updateAppInfo() {
-		setValue(TITLE_PREFIX + " RUN TIME", "");
-		setValue("Frame", ""+p.frameCount);
+	public static String uptimeStr() {
 		int runtimeSeconds = (int) DateUtil.uptimeSeconds();
 		int days = P.floor(runtimeSeconds / DateUtil.dayInSeconds);
 		String daysStr = (days > 0) ? days+" days + " : "";
 		runtimeSeconds = runtimeSeconds % DateUtil.dayInSeconds;
-		setValue("Uptime", daysStr + DateUtil.timeFromSeconds(runtimeSeconds, true));
+		uptimeStr = daysStr + DateUtil.timeFromSeconds(runtimeSeconds, true);
+		return uptimeStr;
+	}
+	
+	protected void updateAppInfo() {
+		setValue(TITLE_PREFIX + " RUN TIME", "");
+		setValue("Frame", ""+p.frameCount);
+		setValue("Uptime", uptimeStr());
 		setValue(TITLE_PREFIX + " APP", "");
 		setValue("alwaysOnTop", ""+AppWindow.instance().alwaysOnTop());
 		setValue("width", ""+P.p.width);
