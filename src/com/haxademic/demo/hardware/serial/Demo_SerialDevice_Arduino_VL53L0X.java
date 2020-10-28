@@ -64,7 +64,7 @@ implements ISerialDeviceDelegate {
 			// update easing value. good readings start with `a`
 			if(serialInputString.charAt(0) == 'a') {
 				float newVal = ConvertUtil.stringToFloat(serialInputString.substring(1));	// use rest of string after `a`
-				if(newVal > 0) {
+				if(newVal >= 0) {
 					lidarAvg.update(newVal);
 					lidarVal.setTarget(lidarAvg.average());
 				}
