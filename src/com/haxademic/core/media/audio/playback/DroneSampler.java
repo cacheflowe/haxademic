@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import com.haxademic.core.app.P;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.media.audio.interphase.Scales;
@@ -13,11 +14,11 @@ public class DroneSampler {
 	protected String audioDir;
 	protected String[] audioFiles;
 	protected WavPlayer activePlayer;
-	protected HashMap<String, DroneSamplerLoop> droneLoops = new HashMap<String, DroneSamplerLoop>();
+	protected HashMap<String, AmbientAudioLoop> droneLoops = new HashMap<String, AmbientAudioLoop>();
 	protected int soundIndex = -1;
 	protected int loopInterval;
 	protected int loopLastStartTime;
-	
+	protected int activePlayers = 0;
 	
 	public DroneSampler(String audioDir, float loopIntervalSeconds) {
 		this.audioDir = audioDir;
@@ -40,11 +41,11 @@ public class DroneSampler {
 	protected void startPlayer(String id) {
 		// lazy-init DroneSampler
 		if(droneLoops.containsKey(id) == false) {
-			droneLoops.put(id, new DroneSamplerLoop(id));
+			droneLoops.put(id, new AmbientAudioLoop(id));
 		}
 		// get random pitch and play
 		int newPitch = Scales.SCALES[0][MathUtil.randRange(0, Scales.SCALES[0].length - 1)];
-		droneLoops.get(id).start(newPitch);
+		droneLoops.get(id).start(newPitch).setFadeSeconds(this.loopInterval / 2f / 1000f);
 	}
 	
 	protected void startNextSound() {
@@ -56,9 +57,10 @@ public class DroneSampler {
 	
 	protected void releaseOldPlayers() {
 		// ramp down old players halfway through interval
-		for (HashMap.Entry<String, DroneSamplerLoop> entry : droneLoops.entrySet()) {
-			DroneSamplerLoop droneLoop = entry.getValue();
-			if(droneLoop.active() && P.p.millis() - droneLoop.startTime() > loopInterval/2) {
+		for (HashMap.Entry<String, AmbientAudioLoop> entry : droneLoops.entrySet()) {
+			AmbientAudioLoop droneLoop = entry.getValue();
+//			DebugView.setValue(droneLoop.id, droneLoop.active());
+			if(droneLoop.active() && P.p.millis() > loopLastStartTime + loopInterval/2) {
 				droneLoop.release();
 			}
 		}
@@ -74,15 +76,22 @@ public class DroneSampler {
 	
 	protected void updateLoops() {
 		// update volume lerping
-		for (HashMap.Entry<String, DroneSamplerLoop> entry : droneLoops.entrySet()) {
-			DroneSamplerLoop droneLoop = entry.getValue();
+		activePlayers = 0;
+		for (HashMap.Entry<String, AmbientAudioLoop> entry : droneLoops.entrySet()) {
+			AmbientAudioLoop droneLoop = entry.getValue();
 			droneLoop.update();
+			if(droneLoop.active()) activePlayers++;
 		}
+		DebugView.setValue("activePlayers", activePlayers);
 	}
 	
 	public void update() {
 		releaseOldPlayers();
 		checkNextSoundInterval();
 		updateLoops();
+	}
+
+	public int activePlayers() {
+		return activePlayers;
 	}
 }

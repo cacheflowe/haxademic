@@ -58,9 +58,9 @@ extends PAppletHax {
 	protected void firstFrame() {
 		// create looping players
 		droneSamplers = new DroneSampler[] {
-				new DroneSampler("audio/communichords/bass", 15),
-				new DroneSampler("audio/communichords/mid", 10),
-				new DroneSampler("audio/ambiance", 12.5f),
+				new DroneSampler("audio/communichords/bass", 5),
+//				new DroneSampler("audio/communichords/mid", 4),
+//				new DroneSampler("audio/ambiance", 2.5f),
 		};
 		
 		// send Beads audio player analyzer to PAppletHax
@@ -92,7 +92,10 @@ extends PAppletHax {
 
 	protected void drawApp() {
 		p.background(0);
-		for(int i=0; i < droneSamplers.length; i++) droneSamplers[i].update();
+		for(int i=0; i < droneSamplers.length; i++) {
+			droneSamplers[i].update();
+			DebugView.setValue("droneSampler_"+i, droneSamplers[i].activePlayers());
+		}
 		updateWaveform();
 		drawShader();
 		p.image(waveformLerpImg, 0, 0);
