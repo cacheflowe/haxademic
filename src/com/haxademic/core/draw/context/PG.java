@@ -2,12 +2,17 @@ package com.haxademic.core.draw.context;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.data.constants.PRenderers;
+import com.haxademic.core.data.constants.PTextAlign;
 import com.haxademic.core.draw.color.ColorsHax;
 import com.haxademic.core.draw.context.pg32.PGraphics32;
+import com.haxademic.core.draw.shapes.Shapes;
+import com.haxademic.core.draw.text.FontCacher;
 import com.haxademic.core.hardware.mouse.Mouse;
+import com.haxademic.core.media.DemoAssets;
 
 import processing.core.PApplet;
 import processing.core.PConstants;
+import processing.core.PFont;
 import processing.core.PGraphics;
 import processing.opengl.PGraphicsOpenGL;
 import processing.opengl.Texture;
@@ -382,6 +387,67 @@ public class PG {
 			pg.rect(0, colorHeight * i, pg.width, colorHeight);
 		}
 		pg.endDraw();
+	}
+	
+	public static void drawOriginAxis(PGraphics pg) {
+		drawOriginAxis(pg, pg.height / 6f, 4);
+	}
+	
+	public static void drawOriginAxis(PGraphics pg, float armSize, float thickness) {
+		// size calc
+		float tipThickness = thickness * 2f;
+		float tipSize = thickness * 4f;
+		float boxSize = thickness * 2f;
+		// font
+		PFont debugFont = FontCacher.getFont(DemoAssets.fontInterPath, thickness * 3f);
+		// context start
+		pg.push();
+		pg.noStroke();
+		// center box
+		pg.fill(0xffffff00);
+		pg.box(boxSize);
+		// y
+//		pg.fill(0xff00ff00);
+		FontCacher.setFontOnContext(pg, debugFont, 0xff00ff00, 1f, PTextAlign.LEFT, PTextAlign.TOP);
+		pg.pushMatrix();
+		pg.translate(0, -armSize / 2f, 0);
+		pg.box(thickness, armSize, thickness);
+		pg.translate(0, -armSize / 2, 0);
+		pg.pushMatrix();
+		pg.translate(0, -debugFont.getSize(), 0);
+		pg.text("Y", tipThickness, 0);
+		pg.popMatrix();
+		pg.rotateX(P.HALF_PI);
+		Shapes.drawPyramid(pg, tipSize, tipThickness, true);
+		pg.popMatrix();
+		// x
+		pg.fill(0xffff0000);
+		pg.pushMatrix();
+		pg.translate(armSize / 2f, 0, 0);
+		pg.box(armSize, thickness, thickness);
+		pg.translate(armSize / 2f, 0, 0);
+		pg.pushMatrix();
+		pg.translate(0, -boxSize * 2.75f, 0);
+		pg.text("X", 0, 0);
+		pg.popMatrix();
+		pg.rotateY(P.HALF_PI);
+		Shapes.drawPyramid(pg, tipSize, tipThickness, true);
+		pg.popMatrix();
+		// z
+		pg.fill(0xff0000ff);
+		pg.pushMatrix();
+		pg.translate(0, 0, armSize / 2f);
+		pg.box(thickness, thickness, armSize);
+		pg.translate(0, 0, armSize / 2f);
+		pg.pushMatrix();
+		pg.translate(0, -debugFont.getSize() / 2f * 1.3f, 0);
+		pg.text("Z", tipThickness, 0);
+		pg.popMatrix();
+		pg.rotateZ(P.HALF_PI);
+		Shapes.drawPyramid(pg, tipSize, tipThickness, true);
+		pg.popMatrix();
+		// context end
+		pg.pop();
 	}
 
 }
