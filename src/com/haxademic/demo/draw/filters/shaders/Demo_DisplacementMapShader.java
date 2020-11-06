@@ -5,13 +5,12 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
-import com.haxademic.core.file.FileUtil;
+import com.haxademic.core.draw.filters.pshader.DisplacementMapFilter;
 import com.haxademic.core.hardware.mouse.Mouse;
 import com.haxademic.core.media.DemoAssets;
 
 import processing.core.PGraphics;
 import processing.core.PImage;
-import processing.opengl.PShader;
 
 public class Demo_DisplacementMapShader
 extends PAppletHax {
@@ -20,14 +19,12 @@ extends PAppletHax {
 	PImage base;
 	PImage mapSource;
 	PGraphics map;
-	PShader texShader;
 	int mode = 0;
 
 	protected void firstFrame() {
 		base = DemoAssets.textureJupiter();
 		mapSource = DemoAssets.textureNebula();
 		map = p.createGraphics(p.width, p.height, PRenderers.P3D);
-		texShader = loadShader(FileUtil.getPath("haxademic/shaders/filters/displacement-map.glsl"));
 	}
 
 	protected void drawApp() {
@@ -41,15 +38,15 @@ extends PAppletHax {
 		map.image(mapSource, 0, 0, mapSource.width * 2, mapSource.height * 2);
 		map.endDraw();
 
-		// set mode
-		mode = P.round(Mouse.yNorm * 7);
-		texShader.set("map", map );
-		texShader.set("mode", mode );
-		texShader.set("amp", Mouse.xNorm/10f);
-		
-		// draw image and apply displacement map
+		// draw image to screen, to be displaced next
 		p.image(base, 0, 0);
-		p.filter(texShader); 
+
+		// set displace shader params & apply
+		mode = P.round(Mouse.yNorm * 7);
+		DisplacementMapFilter.instance(p).setMap(map);
+		DisplacementMapFilter.instance(p).setMode(mode);
+		DisplacementMapFilter.instance(p).setAmp(Mouse.xNorm/10f);
+		DisplacementMapFilter.instance.applyTo(p.g);
 		
 		// debug
 		DebugView.setValue("mode", mode);
