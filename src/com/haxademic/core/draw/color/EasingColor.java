@@ -50,56 +50,62 @@ public class EasingColor {
 		return P.p.color(r.target(), g.target(), b.target(), a.target());
 	}
 	
-	public void setTargetEasingColor( EasingColor color ) {
+	public EasingColor setTargetEasingColor( EasingColor color ) {
 		this.r.setTarget( color.r() );
 		this.g.setTarget( color.g() );
 		this.b.setTarget( color.b() );
 		this.a.setTarget( color.a() );
+		return this;
 	}
 	
-	public void setTargetRGBA( float r, float g, float b, float a ) {
+	public EasingColor setTargetRGBA( float r, float g, float b, float a ) {
 		this.r.setTarget( r );
 		this.g.setTarget( g );
 		this.b.setTarget( b );
 		this.a.setTarget( a );
+		return this;
 	}
 	
-	public void setTargetR(float r) { this.r.setTarget(r); }
-	public void setTargetG(float g) { this.g.setTarget(g); }
-	public void setTargetB(float b) { this.b.setTarget(b); }
-	public void setTargetA(float a) { this.a.setTarget(a); }
+	public EasingColor setTargetR(float r) { this.r.setTarget(r); return this; }
+	public EasingColor setTargetG(float g) { this.g.setTarget(g); return this; }
+	public EasingColor setTargetB(float b) { this.b.setTarget(b); return this; }
+	public EasingColor setTargetA(float a) { this.a.setTarget(a); return this; }
 	
-	public void setTargetRGBANormalized( float r, float g, float b, float a ) {
+	public EasingColor setTargetRGBANormalized( float r, float g, float b, float a ) {
 		this.r.setTarget( r * 255f );
 		this.g.setTarget( g * 255f );
 		this.b.setTarget( b * 255f );
 		this.a.setTarget( a * 255f );
+		return this;
 	}
 	
-	public void setTargetRNorm(float r) { this.r.setTarget(r * 255f); }
-	public void setTargetGNorm(float g) { this.g.setTarget(g * 255f); }
-	public void setTargetBNorm(float b) { this.b.setTarget(b * 255f); }
-	public void setTargetANorm(float a) { this.a.setTarget(a * 255f); }
+	public EasingColor setTargetRNorm(float r) { this.r.setTarget(r * 255f); return this; }
+	public EasingColor setTargetGNorm(float g) { this.g.setTarget(g * 255f); return this; }
+	public EasingColor setTargetBNorm(float b) { this.b.setTarget(b * 255f); return this; }
+	public EasingColor setTargetANorm(float a) { this.a.setTarget(a * 255f); return this; }
 	
-	public void setTargetHex( String hex ) {
+	public EasingColor setTargetHex( String hex ) {
 		setTargetInt(ColorUtil.colorFromHex(hex));
+		return this;
 	}
 	
-	public void setTargetInt( int color ) {
+	public EasingColor setTargetInt( int color ) {
 		this.r.setTarget( redFromColorInt(color) );
 		this.g.setTarget( greenFromColorInt(color) );
 		this.b.setTarget( blueFromColorInt(color) );
 		this.a.setTarget( alphaFromColorInt(color) );
+		return this;
 	}
 	
-	public void setTargetColorIntWithBrightness( int color, float brightness ) {
+	public EasingColor setTargetColorIntWithBrightness( int color, float brightness ) {
 		this.r.setTarget( redFromColorInt(color) * brightness );
 		this.g.setTarget( greenFromColorInt(color) * brightness );
 		this.b.setTarget( blueFromColorInt(color) * brightness );
 		this.a.setTarget( alphaFromColorInt(color) );
+		return this;
 	}
 	
-	public void setTargetColorIntWithBrightnessAndSaturation( int color, float brightness ) {
+	public EasingColor setTargetColorIntWithBrightnessAndSaturation( int color, float brightness ) {
 
 		this.r.setTarget( redFromColorInt(color) * brightness );
 		this.g.setTarget( greenFromColorInt(color) * brightness );
@@ -118,50 +124,57 @@ public class EasingColor {
 			this.r.setTarget( redFromColorInt(color) * brightness * saturationAmount );
 			this.g.setTarget( greenFromColorInt(color) * brightness * saturationAmount );
 		}
+		
+		return this;
 	}
 	
 	// CURRENT
 	
-	public void setCurrentEasingColor( EasingColor color ) {
+	public EasingColor setCurrentEasingColor( EasingColor color ) {
 		this.r.setCurrent( color.r() );
 		this.g.setCurrent( color.g() );
 		this.b.setCurrent( color.b() );
 		this.a.setCurrent( color.a() );
+		return this;
 	}
 	
-	public void setCurrentRGBA( float r, float g, float b, float a ) {
+	public EasingColor setCurrentRGBA( float r, float g, float b, float a ) {
 		this.r.setCurrent( r );
 		this.g.setCurrent( g );
 		this.b.setCurrent( b );
 		this.a.setCurrent( a );
+		return this;
 	}
 	
-	public void setCurrentR(float r) { this.r.setCurrent(r); }
-	public void setCurrentG(float g) { this.g.setCurrent(g); }
-	public void setCurrentB(float b) { this.b.setCurrent(b); }
-	public void setCurrentA(float a) { this.a.setCurrent(a); }
+	public EasingColor setCurrentR(float r) { this.r.setCurrent(r); return this; }
+	public EasingColor setCurrentG(float g) { this.g.setCurrent(g); return this; }
+	public EasingColor setCurrentB(float b) { this.b.setCurrent(b); return this; }
+	public EasingColor setCurrentA(float a) { this.a.setCurrent(a); return this; }
 	
-	public void setCurrentRGBANormalized( float r, float g, float b, float a ) {
+	public EasingColor setCurrentRGBANormalized( float r, float g, float b, float a ) {
 		this.r.setCurrent( r * 255f );
 		this.g.setCurrent( g * 255f );
 		this.b.setCurrent( b * 255f );
 		this.a.setCurrent( a * 255f );
+		return this;
 	}
 	
-	public void setCurrentRNorm(float r) { this.r.setCurrent(r * 255f); }
-	public void setCurrentGNorm(float g) { this.g.setCurrent(g * 255f); }
-	public void setCurrentBNorm(float b) { this.b.setCurrent(b * 255f); }
-	public void setCurrentANorm(float a) { this.a.setCurrent(a * 255f); }
+	public EasingColor setCurrentRNorm(float r) { this.r.setCurrent(r * 255f); return this; }
+	public EasingColor setCurrentGNorm(float g) { this.g.setCurrent(g * 255f); return this; }
+	public EasingColor setCurrentBNorm(float b) { this.b.setCurrent(b * 255f); return this; }
+	public EasingColor setCurrentANorm(float a) { this.a.setCurrent(a * 255f); return this; }
 
-	public void setCurrentHex( String hex ) {
+	public EasingColor setCurrentHex( String hex ) {
 		setCurrentInt(ColorUtil.colorFromHex(hex));
+		return this;
 	}
 
-	public void setCurrentInt( int color ) {
+	public EasingColor setCurrentInt( int color ) {
 		this.r.setCurrent( redFromColorInt(color) );
 		this.g.setCurrent( greenFromColorInt(color) );
 		this.b.setCurrent( blueFromColorInt(color) );
 		this.a.setCurrent( alphaFromColorInt(color) );
+		return this;
 	}
 	
 	// UPDATE
@@ -175,11 +188,12 @@ public class EasingColor {
 	
 	// OTHER SETTERS
 	
-	public void setEaseFactor(float easeFactor) {
+	public EasingColor setEaseFactor(float easeFactor) {
 		this.r.setEaseFactor(easeFactor);
 		this.g.setEaseFactor(easeFactor);
 		this.b.setEaseFactor(easeFactor);
 		this.a.setEaseFactor(easeFactor);
+		return this;
 	}
 	
 	// GETTERS
