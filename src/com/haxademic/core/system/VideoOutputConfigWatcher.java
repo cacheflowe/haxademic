@@ -19,6 +19,7 @@ public class VideoOutputConfigWatcher {
 	protected int pollingInterval = 60;
 	protected Rectangle screenBounds = new Rectangle();
 	protected String screenBoundsStr = null;
+	protected int numScreens = 0;
 	
 	public VideoOutputConfigWatcher(IVideoOutputConfigWatcher delegate, int pollingInterval) {
 		this.delegate = delegate;
@@ -37,6 +38,10 @@ public class VideoOutputConfigWatcher {
 	
 	public String screenBoundsStr() {
 		return screenBoundsStr;
+	}
+	
+	public int numScreens() {
+		return numScreens;
 	}
 	
 	public void pre() {
@@ -60,15 +65,20 @@ public class VideoOutputConfigWatcher {
 				screenBounds = screenBounds.union(gc[i].getBounds());
 			}
 		}
-//		DebugView.setValue("screenBounds.toString()", screenBounds.toString());
-//		DebugView.setValue("screenBoundsStr", screenBoundsStr);
+		
+		// get number of video outputs
+		int newNumScreens = GraphicsEnvironment.getLocalGraphicsEnvironment().getScreenDevices().length;
 		
 		// check to see if the string representation of the screen boundaries has changed
-		if(screenBounds.toString().equals(screenBoundsStr) == false) {
-			if(screenBoundsStr != null) {	// don't call the callback the first time
+		if(screenBounds.toString().equals(screenBoundsStr) == false || newNumScreens != numScreens) {
+			// run callback, but don't call it the first time
+			if(screenBoundsStr != null) {
 				delegate.videoOutputConfigChanged(screensWidth(), screensHeight());
 			}
+			
+			// store current config
 			screenBoundsStr = screenBounds.toString();
+			numScreens = newNumScreens;
 		}
 	}
 }

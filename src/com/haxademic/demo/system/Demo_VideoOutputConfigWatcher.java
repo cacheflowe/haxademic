@@ -20,7 +20,7 @@ implements IVideoOutputConfigWatcher {
 
 	protected void firstFrame() {
 		videoConfigWatcher = new VideoOutputConfigWatcher(this, 120);	// check every 2 seconds. should be much less often, IRL, probably
-		P.out("Initial screens size:", videoConfigWatcher.screensWidth(), videoConfigWatcher.screensHeight());
+		P.out("Initial screens size:", "[" + videoConfigWatcher.numScreens() + "]", videoConfigWatcher.screensWidth() + ", " + videoConfigWatcher.screensHeight());
 	}
 
 	protected void drawApp() {
@@ -32,7 +32,7 @@ implements IVideoOutputConfigWatcher {
 	//////////////////////////
 
 	public void videoOutputConfigChanged(int screensWidth, int screensHeight) {
-		P.out("New screen config!", screensWidth, screensHeight);
+		P.out("New screen config!", "[" + videoConfigWatcher.numScreens() + "]", screensWidth + ", " + screensHeight);
 	}
 	
 }
