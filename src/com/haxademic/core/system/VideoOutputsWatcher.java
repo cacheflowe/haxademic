@@ -7,21 +7,20 @@ import java.awt.Rectangle;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.data.constants.PRegisterableMethods;
-import com.haxademic.core.debug.DebugView;
 
-public class VideoOutputConfigWatcher {
+public class VideoOutputsWatcher {
 	
-	public interface IVideoOutputConfigWatcher {
-		public void videoOutputConfigChanged(int screensWidth, int screensHeight);
+	public interface IVideoOutputsWatcherDelegate {
+		public void videoOutputsChanged(int screensWidth, int screensHeight);
 	}
 
-	protected IVideoOutputConfigWatcher delegate;
+	protected IVideoOutputsWatcherDelegate delegate;
 	protected int pollingInterval = 60;
 	protected Rectangle screenBounds = new Rectangle();
 	protected String screenBoundsStr = null;
 	protected int numScreens = 0;
 	
-	public VideoOutputConfigWatcher(IVideoOutputConfigWatcher delegate, int pollingInterval) {
+	public VideoOutputsWatcher(IVideoOutputsWatcherDelegate delegate, int pollingInterval) {
 		this.delegate = delegate;
 		this.pollingInterval = pollingInterval;
 		checkScreensConfig();
@@ -71,14 +70,15 @@ public class VideoOutputConfigWatcher {
 		
 		// check to see if the string representation of the screen boundaries has changed
 		if(screenBounds.toString().equals(screenBoundsStr) == false || newNumScreens != numScreens) {
+			numScreens = newNumScreens;
+			
 			// run callback, but don't call it the first time
 			if(screenBoundsStr != null) {
-				delegate.videoOutputConfigChanged(screensWidth(), screensHeight());
+				delegate.videoOutputsChanged(screensWidth(), screensHeight());
 			}
 			
 			// store current config
 			screenBoundsStr = screenBounds.toString();
-			numScreens = newNumScreens;
 		}
 	}
 }
