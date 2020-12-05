@@ -28,7 +28,7 @@ extends PAppletHax {
 				DemoAssets.textureJupiter(),
 		};
 
-		imageCycler = new ImageCyclerBuffer(640, 280, images, 300, 0.5f);
+		imageCycler = new ImageCyclerBuffer(640, 280, images, 300, 0.95f);
 	}
 	
 	protected void drawApp() {
