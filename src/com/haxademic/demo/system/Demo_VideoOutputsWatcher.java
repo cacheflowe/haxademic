@@ -28,7 +28,7 @@ implements IVideoOutputsWatcherDelegate {
 	}
 
 	//////////////////////////
-	// IVideoOutputConfigWatcher delegate methods
+	// IVideoOutputsWatcherDelegate methods
 	//////////////////////////
 
 	public void videoOutputsChanged(int screensWidth, int screensHeight) {

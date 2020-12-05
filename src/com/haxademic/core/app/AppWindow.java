@@ -76,7 +76,7 @@ implements IAppStoreListener {
 		} else {
 			p.smooth(Config.getInt(AppSettings.SMOOTHING, AppSettings.SMOOTH_HIGH));	
 		}
-
+		
 		// DO WE DARE TRY THE RETINA SETTING?
 		if(Config.getBoolean(AppSettings.RETINA, false) == true) {
 			if(p.displayDensity() == 2) {
@@ -97,6 +97,11 @@ implements IAppStoreListener {
 		String iconPath = FileUtil.getPath(appIconFile);
 		if(FileUtil.fileExists(iconPath)) {
 			PJOGL.setIcon(iconPath);
+		}
+		
+		// APP RESIZING
+		if(Config.getBoolean(AppSettings.RESIZABLE, false) == true) {
+			AppUtil.setResizable(P.p, true);
 		}
 	}
 	
