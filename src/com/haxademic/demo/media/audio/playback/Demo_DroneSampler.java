@@ -58,9 +58,9 @@ extends PAppletHax {
 	protected void firstFrame() {
 		// create looping players
 		droneSamplers = new DroneSampler[] {
-				new DroneSampler("audio/communichords/bass", 5),
-//				new DroneSampler("audio/communichords/mid", 4),
-//				new DroneSampler("audio/ambiance", 2.5f),
+				new DroneSampler("audio/communichords/bass", 5, 0.33f),
+				new DroneSampler("audio/communichords/mid", 4, 0.33f),
+				new DroneSampler("audio/ambiance", 2.5f, 0.33f),
 		};
 		
 		// send Beads audio player analyzer to PAppletHax

@@ -25,15 +25,25 @@ public class AmbientAudioLoop {
 	}
 
 	public AmbientAudioLoop start(int pitch) {
+		return start(pitch, 1);
+	}
+	
+	public AmbientAudioLoop start(int pitch, float targetVol) {
 		this.pitch = pitch;
 		startTime = P.p.millis();
 		player.playWav(id, 0, WavPlayer.PAN_CENTER, true, this.pitch);
-		volume.setTarget(1).setCurrent(0);
+		volume.setTarget(targetVol).setCurrent(0);
 		return this;
 	}
 	
 	public void setFadeSeconds(float seconds) {
-		volume.setInc(1f / (seconds * 60f));
+		setFadeSeconds(seconds, 1f);
+	}
+	
+	public void setFadeSeconds(float seconds, float maxVol) {
+		// maxVol defaults to 1, for the idea that most loops would play at 1 volume...
+		// but we can set this to 0.5f is the target volume is 0.5, to compensate the timing
+		volume.setInc(maxVol / (seconds * 60f));
 	}
 
 	public AmbientAudioLoop release() {

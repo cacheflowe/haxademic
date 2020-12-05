@@ -18,12 +18,14 @@ public class DroneSampler {
 	protected int soundIndex = -1;
 	protected int loopInterval;
 	protected int loopLastStartTime;
+	protected float loopVol = 1;
 	protected int activePlayers = 0;
 	
-	public DroneSampler(String audioDir, float loopIntervalSeconds) {
+	public DroneSampler(String audioDir, float loopIntervalSeconds, float loopVol) {
 		this.audioDir = audioDir;
 		this.loopInterval = P.round(loopIntervalSeconds * 1000); // ms
 		loopLastStartTime = -loopInterval; // start immediately
+		this.loopVol = loopVol;
 		loadSounds();
 	}
 	
@@ -45,7 +47,7 @@ public class DroneSampler {
 		}
 		// get random pitch and play
 		int newPitch = Scales.SCALES[0][MathUtil.randRange(0, Scales.SCALES[0].length - 1)];
-		droneLoops.get(id).start(newPitch).setFadeSeconds(this.loopInterval / 2f / 1000f);
+		droneLoops.get(id).start(newPitch, loopVol).setFadeSeconds(this.loopInterval / 2f / 1000f, loopVol);
 	}
 	
 	protected void startNextSound() {
