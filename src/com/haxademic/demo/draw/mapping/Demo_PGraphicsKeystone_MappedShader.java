@@ -4,6 +4,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.mapping.PGraphicsKeystone;
 import com.haxademic.core.file.FileUtil;
@@ -40,6 +41,7 @@ extends PAppletHax {
 		buffer.smooth(AppSettings.SMOOTH_HIGH);
 		buffer.noStroke();
 		OpenGLUtil.setTextureQualityHigh(buffer);
+		DebugView.setTexture("buffer", buffer);
 		
 		// map it
 		pgKeystone = new PGraphicsKeystone(p, buffer, 12, FileUtil.getPath("text/keystoning/keystone-mapped-shader.txt") );
