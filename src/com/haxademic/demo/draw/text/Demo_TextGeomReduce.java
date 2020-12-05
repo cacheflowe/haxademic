@@ -26,9 +26,6 @@ extends PAppletHax {
 
 	    RGroup grp = font.toGroup("CACHEFLOWE!");
 	    
-	    // die folgenden einstellungen beinflussen wieviele punkte die
-	    // polygone am ende bekommen werden.
-
 	    //RCommand.setSegmentStep(random(0,3));
 	    //RCommand.setSegmentator(RCommand.UNIFORMSTEP);
 	    
