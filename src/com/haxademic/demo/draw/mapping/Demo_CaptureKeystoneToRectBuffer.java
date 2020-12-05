@@ -55,7 +55,7 @@ extends PAppletHax {
 		
 		// draw mapped source & result
 		p.image(sourceBuffer, 0, 0);
-		p.image(mappedCapture.mappedBuffer(), 0, sourceBuffer.height);
+		p.image(mappedCapture.mappedBuffer(), sourceBuffer.width, 0);
 	}
 
 }
