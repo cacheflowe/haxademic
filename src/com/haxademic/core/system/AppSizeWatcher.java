@@ -6,7 +6,7 @@ import com.haxademic.core.data.constants.PRegisterableMethods;
 public class AppSizeWatcher {
 	
 	public interface IAppSizeWatcherDelegate {
-		public void appSizeChanged(int screensWidth, int screensHeight);
+		public void appSizeChanged(int appWidth, int appHeight);
 	}
 
 	protected IAppSizeWatcherDelegate delegate;
