@@ -3,7 +3,6 @@ package com.haxademic.demo.draw.textures.shaders;
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.draw.textures.SimplexNoise3dTexture;
-import com.haxademic.core.draw.textures.SimplexNoiseTexture;
 import com.haxademic.core.ui.UI;
 
 public class Demo_SimplexNoise3dTexture 
