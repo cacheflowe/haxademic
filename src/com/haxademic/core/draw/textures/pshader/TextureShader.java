@@ -135,6 +135,7 @@ public class TextureShader {
 	public static String morphing_bokeh_shape = "morphing_bokeh_shape.glsl";
 	public static String noise_function = "noise_function.glsl";
 	public static String noise_simplex_2d_iq = "noise_simplex_2d_iq.glsl";
+	public static String noise_simplex_3d = "noise_simplex_3d.glsl";
 	public static String primitives_2d = "primitives_2d.glsl";
 	public static String radial_burst = "radial_burst.glsl";
 	public static String radial_waves = "radial_waves.glsl";
