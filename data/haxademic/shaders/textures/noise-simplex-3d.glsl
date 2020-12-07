@@ -137,17 +137,8 @@ void main() {
   p += offset.xy;
   vec3 p3 = vec3(p, offset.z);
   
-  float value;
-  
-  if (fractalMode == 0) {
-    value = simplex3d(p3);
-  } else {
-    value = simplex3d_fractal(p3);
-  }
-
+  float value = (fractalMode == 0) ? simplex3d(p3) : simplex3d_fractal(p3);
   value = 0.5 + 0.5 * value;
 
-  gl_FragColor = vec4(
-      vec3(value),
-      1.0);
+  gl_FragColor = vec4(vec3(value), 1.0);
 }

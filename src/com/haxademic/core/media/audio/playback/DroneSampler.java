@@ -32,7 +32,7 @@ public class DroneSampler {
 	protected void loadSounds() {
 		// load audio directory
 		P.out("DroneSampler loading sounds from:", this.audioDir);
-		ArrayList<String> sounds = FileUtil.getFilesInDirOfTypes(FileUtil.getPath(audioDir), "wav,aif");
+		ArrayList<String> sounds = FileUtil.getFilesInDirOfTypes(FileUtil.getPath(audioDir), "wav,aif,mp3");
 		audioFiles = new String[sounds.size()];
 		for (int i = 0; i < sounds.size(); i++) {
 			audioFiles[i] = sounds.get(i);
