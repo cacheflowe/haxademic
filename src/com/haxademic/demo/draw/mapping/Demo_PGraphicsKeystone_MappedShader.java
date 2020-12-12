@@ -7,10 +7,10 @@ import com.haxademic.core.app.config.Config;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.mapping.PGraphicsKeystone;
+import com.haxademic.core.draw.textures.pshader.TextureShader;
 import com.haxademic.core.file.FileUtil;
 
 import processing.core.PGraphics;
-import processing.opengl.PShader;
 
 public class Demo_PGraphicsKeystone_MappedShader
 extends PAppletHax {
@@ -19,7 +19,7 @@ extends PAppletHax {
 	protected PGraphics buffer;
 	protected PGraphicsKeystone pgKeystone;
 	protected boolean drawTestPattern = false;
-	protected PShader textureShader;
+	protected TextureShader textureShader;
 	
 	protected void config() {
 		Config.setProperty( AppSettings.WIDTH, 1000 );
@@ -47,7 +47,7 @@ extends PAppletHax {
 		pgKeystone = new PGraphicsKeystone(p, buffer, 12, FileUtil.getPath("text/keystoning/keystone-mapped-shader.txt") );
 		
 		// load a shader
-		textureShader = p.loadShader(FileUtil.getPath("haxademic/shaders/textures/cacheflowe-down-void.glsl"));
+		textureShader = new TextureShader(TextureShader.cacheflowe_concentric_plasma);
 	}
 	
 	protected void drawApp() {
@@ -55,8 +55,8 @@ extends PAppletHax {
 		p.noStroke();
 		
 		// update & draw shader
-		textureShader.set("time", (float) p.frameCount * 0.03f);
-		buffer.filter(textureShader);
+		textureShader.setTime((float) p.frameCount * 0.03f);
+		buffer.filter(textureShader.shader());
 		
 		// draw buffer to screen
 		if(drawTestPattern == true) pgKeystone.drawTestPattern();

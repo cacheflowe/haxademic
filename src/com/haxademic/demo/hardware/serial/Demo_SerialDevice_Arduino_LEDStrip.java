@@ -33,7 +33,7 @@ implements ISerialDeviceDelegate {
 
 	protected void firstFrame() {
 		SerialDevice.printDevices();
-		serialDevice = new SerialDevice(this, 0, 345600); 
+		serialDevice = new SerialDevice(this, 0, 115200); 
 		
 		noiseTexture = new SimplexNoiseTexture(p.width, p.height);
 	}
@@ -64,6 +64,8 @@ implements ISerialDeviceDelegate {
 		p.image(readTexture, 0, 0);
 		readTexture.loadPixels();
 		
+		// show debug texture sampling points and 
+		// send the Serial messages
 		float skipPixels = (readTexture.width - 40) / numLights;
 		for (int i = 0; i < numLights; i++) {
 			// get pixel color from webcam
