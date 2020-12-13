@@ -190,6 +190,12 @@ implements IAppStoreListener {
 		steps[i] = active;
 	}
 	
+	public void setPatternByInts(int[] pattern) {
+		for (int i = 0; i < steps.length; i++) {
+			steps[i] = (pattern[i] == 1);
+		}
+	}
+	
 	public boolean shouldPlay() {
 		return shouldPlay;
 	}
@@ -199,7 +205,12 @@ implements IAppStoreListener {
 	}
 	
 	public boolean toggleEvloves() {
-		return evolves = !evolves;
+		evolves = !evolves;
+		return evolves;
+	}
+	
+	public boolean setEvolves(boolean doesEvolve) {
+		return evolves = doesEvolve;
 	}
 	
 	public int numSamples() {
