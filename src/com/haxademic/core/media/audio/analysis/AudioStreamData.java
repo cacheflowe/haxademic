@@ -72,6 +72,7 @@ public class AudioStreamData {
 		amp = 0;
 		for(int i=0; i < frequencies.length; i++) amp += P.abs(frequencies[i]);
 		amp /= (float) frequencies.length;
+		if(amp > 1) amp = 1;
 	}
 	
 	public void setAmp(float newAmp) {

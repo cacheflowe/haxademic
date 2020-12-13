@@ -7,9 +7,10 @@ import com.haxademic.core.app.config.Config;
 import com.haxademic.core.data.store.IAppStoreListener;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.image.ImageUtil;
-import com.haxademic.core.draw.textures.pgraphics.TextureConcentricDashedCubes;
+import com.haxademic.core.draw.textures.pgraphics.TextureRadialGridPulse;
 import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
 import com.haxademic.core.media.audio.interphase.Interphase;
+import com.haxademic.core.media.audio.interphase.Scales;
 import com.haxademic.core.media.audio.interphase.Sequencer;
 import com.haxademic.core.media.audio.interphase.SequencerConfig;
 import com.haxademic.core.ui.UI;
@@ -26,8 +27,10 @@ implements IAppStoreListener {
 	protected Interphase interphase;
 	protected BaseTexture audioTexture;
 	
+	protected String SAMPLE_ = "SAMPLE_";
 	protected String UI_BPM = "UI_BPM";
 	protected String UI_EVOLVES = "UI_EVOLVES";
+	protected String UI_SCALE = "UI_SCALE";
 
 	protected void config() {
 		Config.setProperty( AppSettings.WIDTH, 1280 );
@@ -44,15 +47,16 @@ implements IAppStoreListener {
 		
 		// viz
 //		audioTexture = new TexturePixelatedAudio(p.width, p.height);
-		audioTexture = new TextureConcentricDashedCubes(p.width, p.height);
+		audioTexture = new TextureRadialGridPulse(p.width, p.height);
 		
 		// Interphase UI
 		UI.addTitle("Interphase");
 		UI.addSlider(UI_BPM, 105, 60, 170, 1, false);
 		UI.addToggle(UI_EVOLVES, true, false);
+		UI.addSlider(UI_SCALE, 0, 0, Scales.SCALES.length-1, 1, false);
 		for (int i = 0; i < interphase.sequencers().length; i++) {
 			Sequencer seq = interphase.sequencers()[i];
-			UI.addSlider("Sequencer "+(i+1), 0, 0, seq.numSamples() - 1, 1, false);
+			UI.addSlider(SAMPLE_+(i+1), 0, 0, seq.numSamples() - 1, 1, false);
 		}
 	}
 	
@@ -71,10 +75,11 @@ implements IAppStoreListener {
 		// overall interphase props
 		P.store.setNumber(Interphase.BPM, UI.value(UI_BPM));
 		P.store.setBoolean(Interphase.PATTERNS_AUTO_MORPH, UI.valueToggle(UI_EVOLVES));
+		P.store.setNumber(Interphase.CUR_SCALE_INDEX, UI.valueInt(UI_SCALE));
 		// set current instruments
 		for (int i = 0; i < interphase.sequencers().length; i++) {
 			Sequencer seq = interphase.sequencers()[i];
-			seq.setSampleByIndex(UI.valueInt("Sequencer "+(i+1)));
+			seq.setSampleByIndex(UI.valueInt(SAMPLE_+(i+1)));
 		}
 		// override sequences on some channels
 		interphase.sequencers()[0].setPatternByInts(new int[] {1,0,0,0,0,0,0,0,1,0,0,1,0,0,0,0});

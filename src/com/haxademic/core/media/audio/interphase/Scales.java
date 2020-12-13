@@ -29,7 +29,7 @@ implements IAppStoreListener {
 		"Pentatonic",
 		"Major",
 		"Minor",
-		"Minor2",
+		"MinorLimited",
 	};
 	
 	public static int BEATS_PER_SCALE_CHANGE = 240;
@@ -40,7 +40,6 @@ implements IAppStoreListener {
 	
 	public void setScaleIndex(int index) {
 		scaleIndex = index;
-		P.store.setNumber(Interphase.CUR_SCALE_INDEX, scaleIndex);
 		CUR_SCALE = SCALES[scaleIndex % SCALES.length];
 	}
 	
@@ -57,6 +56,7 @@ implements IAppStoreListener {
 
 	public void updatedNumber(String key, Number val) {
 		if(key.equals(Interphase.BEAT)) newBeat(val.intValue());
+		if(key.equals(Interphase.CUR_SCALE_INDEX)) setScaleIndex(val.intValue());
 	}
 	public void updatedString(String key, String val) {}
 	public void updatedBoolean(String key, Boolean val) {}
