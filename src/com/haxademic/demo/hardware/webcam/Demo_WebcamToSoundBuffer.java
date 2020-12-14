@@ -40,7 +40,6 @@ implements IWebCamCallback {
 		AudioContext ac = new AudioContext();
 		AudioIn.instance(new AudioInputBeads(ac));
 	
-		// create the WavePlayer and the Gain - use math to set frequence / volume
 		// try changing Buffer.SINE to Buffer.SQUARE
 		wp = new WavePlayer(ac, 440.0f, Buffer.SINE);
 		Gain g = new Gain(ac, 1, 1);
@@ -80,6 +79,8 @@ implements IWebCamCallback {
 		PImage camFrame = WebCam.instance().image();
 		ImageUtil.cropFillCopyImage(camFrame, pg, true);
 		ImageUtil.cropFillCopyImage(camFrame, audioBufferPG, true);
+		ImageUtil.flipH(pg);
+		ImageUtil.flipH(audioBufferPG);
 		
 		for (int i = 0; i < 5; i++) {			
 			BlurHFilter.instance(p).setBlurByPercent(Mouse.xNorm * 1f, pg.width);
@@ -87,7 +88,7 @@ implements IWebCamCallback {
 			BlurVFilter.instance(p).setBlurByPercent(Mouse.yNorm * 1f, pg.height);
 			BlurVFilter.instance(p).applyTo(audioBufferPG);
 		}
-		ContrastFilter.instance(p).setContrast(1);
+		ContrastFilter.instance(p).setContrast(1.9f);
 		ContrastFilter.instance(p).applyTo(audioBufferPG);
 
 		BlendTowardsTexture.instance(p).setSourceTexture(audioBufferPG);
@@ -130,8 +131,6 @@ implements IWebCamCallback {
 	@Override
 	public void newFrame(PImage frame) {
 //		frame.loadPixels();
-		
-
 	}
 	
 	public void mousePressed() {
