@@ -242,6 +242,9 @@ implements IAppStoreListener {
 
 		// build audio player?
 //		interphase = new Interphase(SequencerConfig.interphaseChannelsMinimal());
+		
+		
+		UI.addSlider(TIMING_MIN_DELAY, 100, 50, 1000, 1, false);
 	}
 
 	protected void buildCanvas() {
@@ -290,10 +293,6 @@ implements IAppStoreListener {
 		glitchSuite = new GlitchSuite();
 	}
 
-	protected void buildUI() {
-		UI.addSlider(TIMING_MIN_DELAY, 100, 50, 1000, 1, false);
-	}
-
 	//////////////////////////////////////////////
 	// GETTERS
 	//////////////////////////////////////////////
@@ -311,7 +310,6 @@ implements IAppStoreListener {
 	//////////////////////////////////////////////
 
 	protected void drawApp() {
-		if(p.frameCount == 3) buildUI();
 		background(0);
 		handleInputTriggers();
 		checkBeat();
