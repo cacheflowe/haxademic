@@ -15,7 +15,7 @@ import com.haxademic.core.ui.UI;
 
 import processing.core.PImage;
 
-public class Demo_PShaderHotSwap_WebcamFilter
+public class Demo_ToneMappingFilter
 extends PAppletHax
 implements IWebCamCallback {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
