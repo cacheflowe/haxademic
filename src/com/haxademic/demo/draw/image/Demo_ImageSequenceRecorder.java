@@ -25,7 +25,6 @@ implements IWebCamCallback {
 	
 	protected void config() {
 		Config.setProperty(AppSettings.SHOW_DEBUG, true );
-		Config.setProperty(AppSettings.FILLS_SCREEN, true );
 	}
 		
 	protected void firstFrame () {

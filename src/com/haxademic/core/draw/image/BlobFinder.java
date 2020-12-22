@@ -1,6 +1,7 @@
 package com.haxademic.core.draw.image;
 
 import com.haxademic.core.app.P;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.EdgeColorDarkenFilter;
 
 import blobDetection.BlobDetection;
@@ -20,8 +21,8 @@ public class BlobFinder {
 		// create scaled-down offscreen buffer for blob processing
 		int blurImgW = P.round(sourceBuffer.width * scale);
 		int blurImgH = P.round(sourceBuffer.height * scale);
-		blobSourceBuffer = P.p.createGraphics(blurImgW, blurImgH, P.P2D);
-		blobOutputBuffer = P.p.createGraphics(blurImgW, blurImgH, P.P2D);
+		blobSourceBuffer = PG.newPG2DFast(blurImgW, blurImgH);
+		blobOutputBuffer = PG.newPG2DFast(blurImgW, blurImgH);
 
 //		// set up blur shader for blob pre-processing
 //		float shaderBlurAmount = 1f;
@@ -36,6 +37,14 @@ public class BlobFinder {
 	
 	public BlobDetection blobDetection() {
 		return blobDetection;
+	}
+	
+	public int numbBlobs() {
+		return blobDetection.getBlobNb();
+	}
+	
+	public PGraphics blobSourceBuffer() {
+		return blobSourceBuffer;
 	}
 	
 	public PGraphics blobOutputBuffer() {
