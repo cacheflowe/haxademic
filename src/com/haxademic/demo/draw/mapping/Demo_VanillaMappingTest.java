@@ -35,7 +35,6 @@ extends PAppletHax {
 		_shapes = new ArrayList<PShape>();
 		
 		p.strokeWeight( 1 );
-		p.smooth(OpenGLUtil.SMOOTH_HIGH);
 	}
 	
 	protected void drawApp() {
