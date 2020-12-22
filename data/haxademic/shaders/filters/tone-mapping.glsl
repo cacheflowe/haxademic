@@ -26,9 +26,8 @@ precision mediump int;
 #define PROCESSING_TEXTURE_SHADER
 
 uniform sampler2D texture;
-uniform float time = 0.;
 uniform float gamma = 2.2;
-uniform int mode = 0;
+uniform int mode = 1;
 uniform float crossfade = 1.0;
 
 varying vec4 vertColor;
