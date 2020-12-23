@@ -34,6 +34,8 @@ extends SerialDevice {
 		BlendTowardsTexture.instance(P.p).applyTo(buffer);
 		buffer.loadPixels();
 		
+//		device().write('n');
+		
 		// sampling across screen, write Serial bytes
 		float skipPixels = (buffer.width - 40) / numLights;
 		int y = buffer.height / 2;

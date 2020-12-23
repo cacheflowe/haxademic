@@ -1,11 +1,14 @@
 package com.haxademic.demo.hardware.serial;
 
+import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
 import com.haxademic.core.debug.DebugView;
+import com.haxademic.core.draw.filters.pshader.BrightnessFilter;
 import com.haxademic.core.draw.textures.SimplexNoise3dTexture;
 import com.haxademic.core.draw.textures.pshader.TextureShader;
+import com.haxademic.core.hardware.mouse.Mouse;
 import com.haxademic.core.hardware.serial.LedStripLPD8806;
 import com.haxademic.core.hardware.serial.SerialDevice;
 import com.haxademic.core.hardware.serial.SerialDevice.ISerialDeviceDelegate;
@@ -26,11 +29,12 @@ implements ISerialDeviceDelegate {
 		Config.setProperty( AppSettings.WIDTH, 640 );
 		Config.setProperty( AppSettings.HEIGHT, 640 );
 		Config.setProperty( AppSettings.SHOW_FPS_IN_TITLE, true );
+//		Config.setProperty( AppSettings.FPS, 30 );
 	}
 
 	protected void firstFrame() {
 		SerialDevice.printDevices();
-		ledStrip = new LedStripLPD8806(this, 0, 115200, 32); 
+		ledStrip = new LedStripLPD8806(this, 0, 115200, 12); 
 		
 		noiseTexture = new SimplexNoise3dTexture(p.width, p.height);
 		textureShader = new TextureShader(TextureShader.light_leak);
@@ -45,6 +49,10 @@ implements ISerialDeviceDelegate {
 		// update texture
 		textureShader.setTime((float) p.frameCount * 0.03f);
 		pg.filter(textureShader.shader());
+		
+		
+		BrightnessFilter.instance(p).setBrightness(Mouse.xNorm);
+		BrightnessFilter.instance(p).applyTo(pg);
 
 		// copy to device buffer & send to hardware
 		ledStrip.update(pg, 0.4f, 0.85f);
@@ -56,6 +64,7 @@ implements ISerialDeviceDelegate {
 		// log incoming messages
 		String inputStr = serialDevice.readString();
 		DebugView.setValue("[Serial in]", inputStr);
+		P.out(inputStr);
 	}
 
 }
