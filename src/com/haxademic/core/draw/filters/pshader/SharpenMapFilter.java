@@ -14,8 +14,8 @@ extends BaseFragmentShader {
 	public SharpenMapFilter(PApplet p) {
 		super(p, "haxademic/shaders/filters/sharpen-map.glsl");
 		setMap(DemoAssets.smallTexture());
-		setSharpnessMax(1f);
-		setSharpnessMin(0f);
+		setAmpMax(1f);
+		setAmpMin(0f);
 	}
 	
 	public static SharpenMapFilter instance(PApplet p) {
@@ -25,15 +25,15 @@ extends BaseFragmentShader {
 	}
 
 	public void setMap(PImage texture) {
-		shader.set("map", texture);
+		shader.set("ampMap", texture);
 	}
 	
-	public void setSharpnessMax(float sharpnessMax) {
-		shader.set("sharpnessMax", sharpnessMax);
+	public void setAmpMax(float ampMax) {
+		shader.set("ampMax", ampMax);
 	}
 	
-	public void setSharpnessMin(float sharpnessMin) {
-		shader.set("sharpnessMin", sharpnessMin);
+	public void setAmpMin(float ampMin) {
+		shader.set("ampMin", ampMin);
 	}
 	
 }

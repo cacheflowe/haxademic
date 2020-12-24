@@ -1,6 +1,8 @@
 // sharpen.fs
 // from: http://www.blitzbasic.com/Community/posts.php?topic=85263
 // 3x3 sharpen kernel
+// 
+// Map version by @cacheflowe
 
 #ifdef GL_ES
 precision mediump float;
@@ -18,21 +20,21 @@ varying vec4 vertTexCoord;
 //   -1  9 -1
 //   -1 -1 -1
 
-uniform sampler2D map;
-uniform float sharpnessMax = 1.0;
-uniform float sharpnessMin = 0.0;
+uniform sampler2D ampMap;
+uniform float ampMin = 0.;
+uniform float ampMax = 1.;
 
 vec2 offsets[9] = vec2[](vec2(-1.0,-1.0), vec2(0.0,-1.0), vec2(1.0,-1.0), vec2(-1.0,0.0), vec2(0.0,0.0), vec2(1.0,0.0), vec2(-1.0,1.0), vec2(0.0,1.0), vec2(1.0,1.0));
 vec4 neighbor[9];
 
 void main() {
-  float mapVal = texture2D(map, vertTexCoord.st).r;
-  float sharpness = sharpnessMin + (sharpnessMax - sharpnessMin) * mapVal;
+  float mapVal = texture2D(ampMap, vertTexCoord.st).r;
+  float sharpness = ampMin + (ampMax - ampMin) * mapVal;
   for (int i = 0; i < 9; i++) {
       neighbor[i] = texture2D( texture, vertTexCoord.xy + (offsets[i] * sharpness) * texOffset );
   }
 
-  gl_FragColor = (neighbor[4] * 9.0) -
+  gl_FragColor =  (neighbor[4] * 9.0) -
                   (neighbor[0] + neighbor[1] + neighbor[2] +
                    neighbor[3] + neighbor[5] +
                    neighbor[6] + neighbor[7] + neighbor[8]);

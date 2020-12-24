@@ -14,7 +14,8 @@ extends BaseFragmentShader {
 	public BlurHMapFilter(PApplet p) {
 		super(p, "haxademic/shaders/filters/blur-horizontal-map.glsl");
 		setMap(DemoAssets.smallTexture());
-		setBlur(0f);
+		setAmpMax(1f);
+		setAmpMin(0f);
 	}
 	
 	public static BlurHMapFilter instance(PApplet p) {
@@ -22,18 +23,17 @@ extends BaseFragmentShader {
 		instance = new BlurHMapFilter(p);
 		return instance;
 	}
-	
-	public void setMap(PImage texture) {
-		shader.set("map", texture);
-	}
-	
-	public void setBlur(float blur) {
-		shader.set("h", blur);
-	}
-	
-	public void setBlurByPercent(float blurPercent, float imageWidth) {
-		shader.set("h", blurPercent * (1f / imageWidth));
-	}
 
+	public void setMap(PImage texture) {
+		shader.set("ampMap", texture);
+	}
+	
+	public void setAmpMax(float ampMax) {
+		shader.set("ampMax", ampMax);
+	}
+	
+	public void setAmpMin(float ampMin) {
+		shader.set("ampMin", ampMin);
+	}
 	
 }

@@ -8,6 +8,8 @@
 // - 9 samples per pass
 // - standard deviation 2.7
 // - "h" and "v" parameters should be set to "1 / width" and "1 / height"
+// 
+// Map version by @cacheflowe
 
 #ifdef GL_ES
 precision mediump float;
@@ -17,15 +19,22 @@ precision mediump int;
 #define PROCESSING_TEXTURE_SHADER
 
 uniform sampler2D texture;
+uniform vec2 texOffset;
 varying vec4 vertColor;
 varying vec4 vertTexCoord;
 
-uniform sampler2D map;
-uniform float v;
+uniform sampler2D ampMap;
+uniform float ampMin = 0.;
+uniform float ampMax = 1.;
 
 void main() {
+    // amplitude map calculation
+    float mapVal = texture2D(ampMap, vertTexCoord.st).r;
+    float amp = ampMin + (ampMax - ampMin) * mapVal;    // inline map()
+    amp *= texOffset.y; // map to range of 1 px
+    
+    // average out the kernel
     vec4 sum = vec4( 0.0 );
-    float amp = v * texture2D(map, vertTexCoord.st).r;
     sum += texture2D( texture, vec2( vertTexCoord.x, vertTexCoord.y - 4.0 * amp ) ) * 0.051;
     sum += texture2D( texture, vec2( vertTexCoord.x, vertTexCoord.y - 3.0 * amp ) ) * 0.0918;
     sum += texture2D( texture, vec2( vertTexCoord.x, vertTexCoord.y - 2.0 * amp ) ) * 0.12245;

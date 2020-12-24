@@ -297,10 +297,12 @@ extends PAppletHax { public static void main(String args[]) { arguments = args; 
 			BlurVFilter.instance(p).applyTo(pg);
 		} else if(curFilter == BlurHMapFilter.instance(p)) {
 			BlurHMapFilter.instance(p).setMap(noiseBuffer);
-			BlurHMapFilter.instance(p).setBlurByPercent(Mouse.xNorm * 2f, p.width);
+			BlurHMapFilter.instance(p).setAmpMin(0);
+			BlurHMapFilter.instance(p).setAmpMax(Mouse.xNorm * 10f);
 			BlurHMapFilter.instance(p).applyTo(pg);
 			BlurVMapFilter.instance(p).setMap(noiseBuffer);
-			BlurVMapFilter.instance(p).setBlurByPercent(Mouse.yNorm * 2f, p.height);
+			BlurVMapFilter.instance(p).setAmpMin(0);
+			BlurVMapFilter.instance(p).setAmpMax(Mouse.yNorm * 10f);
 			BlurVMapFilter.instance(p).applyTo(pg);
 		} else if(curFilter == BlurProcessingFilter.instance(p)) {
 			BlurProcessingFilter.instance(p).setBlurSize(P.round(Mouse.yNorm * 10f));
@@ -563,8 +565,8 @@ extends PAppletHax { public static void main(String args[]) { arguments = args; 
 			SharpenFilter.instance(p).applyTo(pg);
 		} else if(curFilter == SharpenMapFilter.instance(p)) {
 			SharpenMapFilter.instance(p).setMap(noiseBuffer);
-			SharpenMapFilter.instance(p).setSharpnessMax(Mouse.xNorm * 10f);
-			SharpenMapFilter.instance(p).setSharpnessMin(Mouse.yNorm * 10f);
+			SharpenMapFilter.instance(p).setAmpMax(Mouse.xNorm * 10f);
+			SharpenMapFilter.instance(p).setAmpMin(Mouse.yNorm * 10f);
 			SharpenMapFilter.instance(p).applyTo(pg);
 		} else if(curFilter == SphereDistortionFilter.instance(p)) {
 			SphereDistortionFilter.instance(p).setAmplitude(P.map(p.mouseX, 0, p.width, -20f, 20f));
