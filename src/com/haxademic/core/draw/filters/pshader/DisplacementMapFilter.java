@@ -1,5 +1,6 @@
 package com.haxademic.core.draw.filters.pshader;
 
+import com.haxademic.core.app.P;
 import com.haxademic.core.draw.filters.pshader.shared.BaseFragmentShader;
 import com.haxademic.core.media.DemoAssets;
 
@@ -16,6 +17,7 @@ extends BaseFragmentShader {
 		setMap(DemoAssets.smallTexture());
 		setAmp(0.1f);
 		setMode(1);
+		setRotRange(P.TWO_PI);
 		setDivider(4f);
 	}
 	
@@ -35,6 +37,10 @@ extends BaseFragmentShader {
 	
 	public void setMode(int mode) {
 		shader.set("mode", mode);
+	}
+	
+	public void setRotRange(float rotRange) {
+		shader.set("rotRange", rotRange);
 	}
 	
 	public void setDivider(float divider) {

@@ -1,5 +1,6 @@
 package com.haxademic.demo.draw.filters.shaders;
 
+import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
@@ -85,6 +86,7 @@ extends PAppletHax {
 		
 		DisplacementMapFilter.instance(p).setMap(noiseTexture.texture());
 		DisplacementMapFilter.instance(p).setMode(3);
+		DisplacementMapFilter.instance(p).setRotRange(P.TWO_PI * 2f);
 		DisplacementMapFilter.instance(p).setAmp(0.002f);
 
 		BrightnessStepFilter.instance(p).setBrightnessStep(-70f/255f);

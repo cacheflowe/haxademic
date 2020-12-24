@@ -10,12 +10,14 @@ uniform vec2 texOffset;
 varying vec4 vertColor;
 varying vec4 vertTexCoord;
 
+
 uniform sampler2D map;
 uniform int mode = 0;
 uniform float amp = 0.1;
 uniform float divider = 5.;
+uniform float rotRange = 6.283185307179586;
 
-float TWO_PI = radians(360);
+const float TWO_PI = radians(360);
 
 float rgbToGray(vec4 rgba) {
 	const vec3 W = vec3(0.2125, 0.7154, 0.0721);
@@ -53,7 +55,7 @@ void main() {
 	} else if(mode == 3) {
 		// cacheflowe original, based on feedback-map.glsl
 		float radialAmp = amp * 0.2;
-		float rotate = rgbToGray(texture2D(map, p)) * TWO_PI;
+		float rotate = rgbToGray(texture2D(map, p)) * rotRange;
 		vec2 displace = p + vec2(radialAmp * cos(rotate), radialAmp * sin(rotate));
 		colorDisplaced = texture2D(texture, displace);
 	} else if(mode == 4) {
@@ -100,7 +102,7 @@ void main() {
 
 		// shift based on pixelated map texture luma
 		float radialAmp = amp * 0.2;
-		float rotate = rgbToGray(gridSampleColor) * TWO_PI;
+		float rotate = rgbToGray(gridSampleColor) * rotRange;
 		vec2 displace = p + vec2(radialAmp * cos(rotate), radialAmp * sin(rotate));
 
 		colorDisplaced = texture2D(texture, displace);
