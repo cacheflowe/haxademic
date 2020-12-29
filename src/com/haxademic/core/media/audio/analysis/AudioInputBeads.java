@@ -83,13 +83,11 @@ implements IAudioInput {
 		od.setResetDelay(250);
 		od.setAlpha(0.1f);
 		od.setFilter(new RampBuffer().generateBuffer(64));		
-		od.addMessageListener(
-				new Bead() {
-					protected void messageReceived(Bead b) {
-						beatDirty = true;
-					}
-				}
-				);
+		od.addMessageListener( new Bead() {
+			protected void messageReceived(Bead b) {
+				beatDirty = true;
+			}
+		});
 	}
 
 	public AudioStreamData audioData() {
