@@ -202,9 +202,9 @@ extends PAppletHax {
 	public void keyPressed() {
 		super.keyPressed();
 		if(p.key == ' ') droneSamplers[0].update();
-//		if(p.key == ' ') player2.pauseToggle(soundId2);
-//		if(p.key == 'c') player2.stop(soundId2);
-//		if(p.key == 's') player2.loopWav(soundId2);
+		if(p.key == '1') droneSamplers[0].startNextSound();
+		if(p.key == '2') droneSamplers[1].startNextSound();
+		if(p.key == '3') droneSamplers[2].startNextSound();
 	}
 	
 }

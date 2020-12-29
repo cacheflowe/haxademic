@@ -31,7 +31,7 @@ public class AmbientAudioLoop {
 	public AmbientAudioLoop start(int pitch, float targetVol) {
 		this.pitch = pitch;
 		startTime = P.p.millis();
-		player.playWav(id, 0, WavPlayer.PAN_CENTER, true, this.pitch);
+		player.playWav(id, 0, WavPlayer.PAN_CENTER, true, this.pitch, 0);
 		volume.setTarget(targetVol).setCurrent(0);
 		return this;
 	}

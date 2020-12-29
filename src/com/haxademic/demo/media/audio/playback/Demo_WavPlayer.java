@@ -23,7 +23,7 @@ extends PAppletHax {
 		player = new WavPlayer();
 		player2 = new WavPlayer(WavPlayer.newAudioContext());
 		// send Beads audio player analyzer to PAppletHax
-		AudioIn.instance(new AudioInputBeads(player2.context()));
+		AudioIn.instance(new AudioInputBeads(player.context()));
 	}
 	
 	protected void drawApp() {
@@ -33,10 +33,10 @@ extends PAppletHax {
 
 	public void keyPressed() {
 		super.keyPressed();
-		if(p.key == '1') player.playWav(oneshots[0]);
-		if(p.key == '2') player2.playWav(oneshots[1], 1, WavPlayer.PAN_RIGHT, false, 0);
-		if(p.key == '3') player.playWav(oneshots[1], 1, WavPlayer.PAN_LEFT, false, 0);
-		if(p.key == '4') player.playWav(oneshots[1], 1, MathUtil.randRange(-1, 1), false, 0);
+		if(p.key == '1') player.playWav(oneshots[0], 1, WavPlayer.PAN_CENTER, false, MathUtil.randRange(-10, 10), 0);
+		if(p.key == '2') player2.playWav(oneshots[1], 1, WavPlayer.PAN_RIGHT, false, 0, 0);
+		if(p.key == '3') player.playWav(oneshots[1], 1, WavPlayer.PAN_LEFT, false, MathUtil.randRange(-10, 10), MathUtil.randRange(0, 100));
+		if(p.key == '4') player.playWav(oneshots[1], 1, MathUtil.randRange(-1, 1), false, 0, 0);
 		if(p.key == '5') player.playWav(oneshots[1]);
 		if(p.key == '6') {
 			player.loopWav(soundbed);

@@ -1,6 +1,7 @@
 package com.haxademic.core.media.audio.playback;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 
 import com.haxademic.core.app.P;
@@ -33,6 +34,7 @@ public class DroneSampler {
 		// load audio directory
 		P.out("DroneSampler loading sounds from:", this.audioDir);
 		ArrayList<String> sounds = FileUtil.getFilesInDirOfTypes(FileUtil.getPath(audioDir), "wav,aif,mp3");
+		Collections.shuffle(sounds);
 		audioFiles = new String[sounds.size()];
 		for (int i = 0; i < sounds.size(); i++) {
 			audioFiles[i] = sounds.get(i);
@@ -50,7 +52,7 @@ public class DroneSampler {
 		droneLoops.get(id).start(newPitch, loopVol).setFadeSeconds(this.loopInterval / 2f / 1000f, loopVol);
 	}
 	
-	protected void startNextSound() {
+	public void startNextSound() {
 		// go to next index & play next sound!
 		soundIndex = (soundIndex < audioFiles.length - 1) ? soundIndex + 1 : 0;	
 		String nextSoundId = audioFiles[soundIndex];

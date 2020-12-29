@@ -414,7 +414,8 @@ implements IAppStoreListener {
 			ac.out.addInput(curPlayer);
 		}
 
-		curPlayer.start(0);
+		int delay = (index == 2 || index == 5) ? MathUtil.randRange(-10, 2) : 0; // 
+		curPlayer.start(delay);
 		return curPlayer;
 	}
 	

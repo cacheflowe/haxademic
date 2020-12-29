@@ -6,12 +6,16 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.debug.DebugUtil;
 
 import beads.AudioContext;
+import beads.Bead;
+import beads.DelayTrigger;
 import beads.Gain;
 import beads.Glide;
 import beads.Panner;
 import beads.Sample;
 import beads.SampleManager;
 import beads.SamplePlayer;
+import beads.TapIn;
+import beads.TapOut;
 
 public class WavPlayer {
 
@@ -21,6 +25,7 @@ public class WavPlayer {
 	protected HashMap<String, Gain> gains = new HashMap<String, Gain>();
 	protected HashMap<String, Glide> glides = new HashMap<String, Glide>();
 	protected HashMap<String, Number> glideTimes = new HashMap<String, Number>();
+	protected HashMap<String, Panner> panners = new HashMap<String, Panner>();
 	
 	public static int PAN_CENTER = 0;
 	public static float PAN_LEFT = -1;
@@ -61,14 +66,14 @@ public class WavPlayer {
 	// play triggers
 	
 	public boolean playWav(String filePath) {
-		return playWav(filePath, 1, PAN_CENTER, false, 0);
+		return playWav(filePath, 1, PAN_CENTER, false, 0, 0);
 	}
 	
 	public boolean loopWav(String filePath) {
-		return playWav(filePath, 1, PAN_CENTER, true, 0);
+		return playWav(filePath, 1, PAN_CENTER, true, 0, 0);
 	}
 	
-	public boolean playWav(String filePath, float volume, float panAmp, boolean loops, int pitch) {
+	public boolean playWav(String filePath, float volume, float panAmp, boolean loops, int pitch, int delay) {
 		boolean success = false;
 		String id = filePath;
 		
@@ -84,38 +89,51 @@ public class WavPlayer {
 				player.setKillOnEnd(false);
 				
 				// pan it! only add panner if actually panned
-				Panner pan = null;
-				if(panAmp != PAN_CENTER) {
-					pan = new Panner(curContext, panAmp);
-					pan.addInput(player);
-				}
+//				if(panAmp != PAN_CENTER) {
+					panners.put(id, new Panner(curContext, panAmp));
+					panners.get(id).addInput(player);
+//				}
 				
 				// set pitch if needed
 				glides.put(id, new Glide(curContext, pitchRatioFromIndex(pitch)));
 				glideTimes.put(id, 0);
-				if(pitch != 0) {
+//				if(pitch != 0) {
 					// change pitch
 					player.setRate(glides.get(id));
 					glides.get(id).setGlideTime(glideTimes.get(id).intValue());
-				}
+//				}
 				
 //				P.error("Panning only works once, not a second time");
 //				P.error("Audioreactivity only works on the left channel");
 				
-				// play it! 
+				// add Gain
 				gains.put(id, new Gain(curContext, 2, volume));		// 2 channel, 1f volume
-				if(pan != null) {
-					gains.get(id).addInput(pan);
-				} else {
-					gains.get(id).addInput(player);
-				}
+//				if(pan != null) {
+					gains.get(id).addInput(panners.get(id));
+//				} else {
+//					gains.get(id).addInput(player);
+//				}
+				
+				// send to output
 				curContext.out.addInput(gains.get(id));
 			}
 			
 			// play it
 			if(player != null) {
-				player.start(0);
-				if(loops) player.setLoopType(SamplePlayer.LoopType.LOOP_FORWARDS);
+//				P.out("trigger");
+//				new DelayTrigger(delay, 
+//					new Bead() {
+//				  		protected void messageReceived(Bead b) {
+							setVolume(id, volume);
+							panners.get(id).setPos(panAmp);
+							setPitch(id, pitch);
+//							setDelay(id, delay);
+							player(id).start(-delay);
+							if(loops) player(id).setLoopType(SamplePlayer.LoopType.LOOP_FORWARDS);
+							else player(id).setLoopType(SamplePlayer.LoopType.NO_LOOP_FORWARDS);
+//				  		}
+//					}
+//				);
 			}
 			
 			success = true;
@@ -123,6 +141,10 @@ public class WavPlayer {
 			DebugUtil.printErr("Bad audio file: " + filePath);
 		}
 		return success;
+	}
+	
+	public SamplePlayer player(String id) {
+		return players.get(id);
 	}
 	
 	// pitch shift
@@ -169,10 +191,10 @@ public class WavPlayer {
 	public WavPlayer stop(String id) {
 		if(getPlayer(id) != null) {
 			getPlayer(id).kill();
-			players.remove(id);
-			gains.remove(id);
-			glides.remove(id);
-			glideTimes.remove(id);
+//			players.remove(id);
+//			gains.remove(id);
+//			glides.remove(id);
+//			glideTimes.remove(id);
 		}
 		return this;
 	}
