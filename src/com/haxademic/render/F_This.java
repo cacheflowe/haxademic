@@ -1,4 +1,4 @@
-package com.haxademic.demo.draw.text;
+package com.haxademic.render;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
@@ -17,7 +17,7 @@ import processing.core.PGraphics;
 import processing.core.PImage;
 import processing.core.PShape;
 
-public class Demo_TextTextureRepeat
+public class F_This
 extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 

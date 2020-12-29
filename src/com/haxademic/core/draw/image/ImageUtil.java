@@ -488,7 +488,11 @@ public class ImageUtil {
 		int cropH = destH - cropIn[0] - cropIn[2];
 		destW += padding[1] + padding[3] - cropIn[1] - cropIn[3];
 		destH += padding[0] + padding[2] - cropIn[0] - cropIn[2];
-		destImg.resize(destW, destH);
+		if(destImg == null) {
+			destImg = P.p.createImage(destW, destH, P.ARGB);
+		} else {
+			destImg.resize(destW, destH);
+		}
 		if(debug) P.println("destW, destH", destW, destH);
 		// get size of image to crop
 		// clear destination image
