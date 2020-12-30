@@ -17,7 +17,7 @@
     * Show full text on hover (move to top of z-stack)
     * Click to copy a value
     * `uiButtonClicked` and UISlider value updates should emit an AppStore event, rather than having a callback (or do nothing, like UISlider)
-    * UI components should dispatch event or have getter flags for when a component is hovered/changed 
+    * UI components should dispatch event or have getter flags for when a component is hovered/changed
   * Revisit AppWindow & update demos. Try to keep on top on an interval, in case of windows popups
 
   * Update README with updated references
@@ -43,6 +43,11 @@
 
 ## Bring into Haxademic:
 
+https://slides.com/nicolasbarradeau/it-s-dangerous-to-go-alone-take-this
+	DAMPING
+	x+=(newX−x)∗.1x += (newX-x) *.1x+=(newX−x)∗.1
+	EASING
+	t=t∗t∗(3−2∗t)t = t * t * ( 3 - 2 * t )t=t∗t∗(3−2∗t)
 Infinity:
 
 * Custom UITextField example (kill ESC and other keys)
@@ -149,10 +154,12 @@ PGA + Bespoke:
 * Add config CMS to BigMother for any app to receive commands and config
 * BigMother should be implemented in a Simplesite instance
 
-## DMX
+## DMX / LED
 
 * Add multiple universes to DMXEditor
 * Build 8 bar light contraption @ home
+* Artnet https://github.com/cansik/artnet4j/tree/master/examples
+* sACN: http://www.bennette.co.uk/codeViewer.html?rootPath=downloads/src_files/java/sACN4J&projId=sacnlight&srcObj=0
 
 ## Processing problems
 
@@ -233,6 +240,7 @@ PGA + Bespoke:
   	* Any other cool loop/render?!
 
 ## Interphase
+  * Work within Demo_Interphase_AV_Loop & make a soid framework for AV loops
   * C.A.C.H.E. - Creative Adversarial Computer-Human Exchange
   * [DONE!] perfectly-looped audio clips, mapped to main loop length
   	* [Kinda works! would be better w/Interphase Metronome] Scrub to random parts of samples to chop breaks
@@ -267,6 +275,21 @@ PGA + Bespoke:
     * Better haxvisual patterns configurations
 
 ## Audio
+  * Last convo
+    * Build a sequencer texture
+    * Sequencer offset control (1-16). show playhead in sequencer display
+      * Do we have an evolve that pushes the entire sequence forward/back?
+    * Random generator w/thumbs up to keep
+    * How to export a wav file on the fly
+    * Swing on a lfo, different for on & off beats
+    * Scale pattern up or down(with repeating)
+    * oscillated quantization
+    * Sample note offset when loaded - add a base pitch adjust
+    * Chords - stick with 4th & 5th
+    * Load MIDI file for quantization purposes
+    * MIDI sync with ableton - slave to ableton tempo
+    * Figure out delay for swing
+    * Check this out: https://www.elf-audio.com/synths/bauble/#
   * Make sub-app or figure out how to dispose or flush the Java sound stuff that starts lagging after hours of running
     * Look at Minim setInputMixer example to switch audio inputs
   * WavPlayer panning and FFT analysis need love:
@@ -277,6 +300,11 @@ PGA + Bespoke:
   * Test/Fix basic audio input. why is audio getting delayed after hours of running?
     * Create separate demos for each input object?
   * [DONE?] Turn off Beads audio input object output - this should not pass through
+  * Beads synthesis examples/inspiration
+    * https://github.com/orsjb/beads/blob/master/src/beads_main/java/net/beadsproject/beads/data/buffers/SineBuffer.java
+    * http://aum.dartmouth.edu/~mcasey/cs2/notes/sound3.php
+    * https://www.google.com/search?client=firefox-b-1-d&q=granular+synthesis+buffer
+    * https://www.google.com/search?client=firefox-b-1-d&q=wavetable+synthesis
   * Split audio stepthrough rendering from Renderer.java, which should just save movies. MIDIStepthrough renderer is a good example of splitting
   * Make demos for rendering at a specific bpm
   * Spatial audio:
@@ -338,6 +366,8 @@ PGA + Bespoke:
   * Check MIDI rendering now that MIDI code has been revamped
 
 ## GLSL
+  * Fresnel shader:
+    * https://github.com/poikilos/KivyGlops/blob/master/shaders/fresnel.glsl
   * Cheap depth buffer: https://github.com/kosowski/Processing_DepthBuffer/blob/master/DepthBuuferRead/CustomFrameBuffer.pde
   * Compute Shaders: https://github.com/perses-games/jogl-compute-shaders-fireworks
   * Big particle sim like: https://www.instagram.com/p/B-h3tp7oUWN/
@@ -444,6 +474,7 @@ PGA + Bespoke:
   * Replace ColorUtil with EasingColor
   * ImageSequence -> ffmpeg rendering from a class. Would make rendering easier on both platforms
   * JNA: https://www.techbeamers.com/write-a-simple-jna-program-in-java/
+    * https://github.com/bytedeco/javacpp
 
 ## To investigate
 
@@ -466,6 +497,7 @@ What is your app doing when you're not home?
   * TextEventLog
   * DebugView
   * UIControlPanel
+    * Hide debug panels if left open
   * FrozenImageMonitor
   * Click app to stay on top & move mouse offscreen
   * Fullscreen, force on top
