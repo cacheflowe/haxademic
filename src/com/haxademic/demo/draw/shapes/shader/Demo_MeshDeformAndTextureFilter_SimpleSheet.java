@@ -38,22 +38,28 @@ extends PAppletHax {
 		perlin.update(0.05f, 0.05f, p.frameCount * 0.01f, 0);
 		
 		// context & camera
-		background(0);
-		PG.setCenterScreen(p.g);
-		PG.basicCameraFromMouse(p.g);
+		p.background(0);
 
+		
+		pg.beginDraw();
+		pg.background(0);
+		PG.setCenterScreen(pg);
+		PG.basicCameraFromMouse(pg);
 		// deform mesh
 		MeshDeformAndTextureFilter.instance(p).setDisplacementMap(texture);
 		MeshDeformAndTextureFilter.instance(p).setDisplaceAmp(100f);
 		MeshDeformAndTextureFilter.instance(p).setSheetMode(true);
-		MeshDeformAndTextureFilter.instance(p).applyTo(p);
+		MeshDeformAndTextureFilter.instance(p).applyTo(pg);
 		// set texture using PShape method
 		shape.setTexture(DemoAssets.textureNebula());
 
 		// draw mesh
-		p.scale(4f);
-		p.shape(shape);
-		p.resetShader();
+		pg.scale(4f);
+		pg.shape(shape);
+		pg.resetShader();
+		pg.endDraw();
+		
+		p.image(pg, 0, 0);
 	}
 		
 }
