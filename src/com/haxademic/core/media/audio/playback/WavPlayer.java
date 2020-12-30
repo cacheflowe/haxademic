@@ -6,16 +6,12 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.debug.DebugUtil;
 
 import beads.AudioContext;
-import beads.Bead;
-import beads.DelayTrigger;
 import beads.Gain;
 import beads.Glide;
 import beads.Panner;
 import beads.Sample;
 import beads.SampleManager;
 import beads.SamplePlayer;
-import beads.TapIn;
-import beads.TapOut;
 
 public class WavPlayer {
 

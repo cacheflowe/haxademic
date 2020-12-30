@@ -40,7 +40,7 @@ extends PAppletHax {
 		Config.setProperty(AppSettings.HEIGHT, 1536);
 		Config.setAppSize(1920/2, 1536/2);
 		Config.setProperty(AppSettings.LOOP_FRAMES, FRAMES);
-		Config.setProperty(AppSettings.RENDERING_MOVIE, true);
+		Config.setProperty(AppSettings.RENDERING_MOVIE, false);
 		Config.setProperty(AppSettings.RENDERING_MOVIE_START_FRAME, 1 + FRAMES);
 		Config.setProperty(AppSettings.RENDERING_MOVIE_STOP_FRAME, 1 + FRAMES * 2);
 	}
