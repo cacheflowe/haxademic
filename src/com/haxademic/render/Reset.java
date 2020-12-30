@@ -20,6 +20,8 @@ import com.haxademic.core.draw.text.StrokeText;
 import com.haxademic.core.draw.textures.SimplexNoiseTexture;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.MathUtil;
+import com.haxademic.core.math.easing.EasingFloat;
+import com.haxademic.core.math.easing.LinearFloat;
 import com.haxademic.core.math.easing.Penner;
 import com.haxademic.core.render.FrameLoop;
 import com.haxademic.core.render.Renderer;
@@ -33,12 +35,13 @@ extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	protected int FRAMES = 60 * 10;
+	protected boolean wobbles = false;
 
 	protected String basePath = "images/_sketch/reset/";
 	protected PShape iabLogo;
 	
 	// recycle logo
-	protected int colorRecycle = 0xAAED2024;
+	protected int colorRecycle = 0x44ED2024;
 	protected PShape recycleLogo;
 
 	// background layer
@@ -52,28 +55,41 @@ extends PAppletHax {
 	// texts
 	protected PGraphics[] texts;
 	protected String[] words = new String[] {
+		"video",
+		"addressability",
+		"great",
 		"streaming",
 		"data",
-		"great",
-		"accessibility",
+		"measurement",
+		"attribution",
 		"privacy",
-		"retail",
 		"identity",
-		"workplace",
+		"compliance",
+		"audio",
+		"creative",
+		"retail",
 	};
+
 	protected String fontFile;
 	protected PFont font;
 	protected int fontSize = 490;
 	protected int paddingX = 4;
 	protected int colorTextRedLight = 0xffff0202;
 	protected int colorTextWhite = 0xffffffff;
+	protected EasingFloat scrollProgress = new EasingFloat(0, 0.1f);
+	protected LinearFloat scrollPageProgress = new LinearFloat(0, 0.025f);
+	protected float scrollCurPageStart = 0;
+	protected float scrollCurPageEnd = 0;
+	
+	protected final int APP_W = 1280;
+	protected final int APP_H = 830;
 	
 	protected void config() {
-		Config.setAppSize(1280, 830);
-		Config.setPgSize(1280, 830);
+		Config.setAppSize(APP_W, APP_H);
+		Config.setPgSize(APP_W * 2, APP_H * 2);
 		Config.setProperty(AppSettings.SHOW_FPS_IN_TITLE, true);
 		Config.setProperty(AppSettings.LOOP_FRAMES, FRAMES);
-		Config.setProperty(AppSettings.RENDERING_MOVIE, true);
+		Config.setProperty(AppSettings.RENDERING_MOVIE, false);
 		Config.setProperty(AppSettings.RENDERING_MOVIE_START_FRAME, 1 + FRAMES);
 		Config.setProperty(AppSettings.RENDERING_MOVIE_STOP_FRAME, 1 + FRAMES * 2);
 	}
@@ -115,16 +131,15 @@ extends PAppletHax {
 		
 		// camera/rotation
 //		CameraUtil.setCameraDistance(pg, 0.1f, 20000);
-//		pg.push();
 //		PG.basicCameraFromMouse(pg, 0.3f);
-//		pg.rotateX(-0.35f + P.sin(FrameLoop.progressRads()) * 0.125f);
-////		pg.rotateY(P.PI * easedRotY);
-		pg.rotateY(-0.2f + 0.1f * P.sin(P.HALF_PI + FrameLoop.progressRads()));
-//		pg.rotateX(0.2f + 0.1f * P.sin(P.HALF_PI + FrameLoop.progressRads()));
+		if(wobbles) {
+			pg.rotateY(-0.2f + 0.1f * P.sin(P.HALF_PI + FrameLoop.progressRads()));
+			float wobbleX = 0.07f;
+			pg.rotateX(wobbleX + wobbleX * P.sin(-P.HALF_PI + FrameLoop.progressRads()));
+		}
 		
 		// draw objects
 		drawBackground();
-//		pg.ortho();
 		drawRecycleLogo();
 //		pg.pop();
 		pg.push();
@@ -139,10 +154,6 @@ extends PAppletHax {
 		
 		// draw composition to screeen
 		ImageUtil.drawImageCropFill(pg, p.g, true);
-		
-//		if(FrameLoop.loopCurFrame() == FRAMES-2) for (int i = 0; i < heartFaces.length; i++) heartFaces[i].reset();
-////		if(FrameLoop.loopCurFrame() % 100 == 0) for (int i = 0; i < heartFaces.length; i++) heartFaces[i].heartComplete();
-//		if(FrameLoop.loopCurFrame() == 360) for (int i = 0; i < heartFaces.length; i++) heartFaces[i].heartComplete();
 	}
 	
 	/////////////////////////////////
@@ -191,46 +202,104 @@ extends PAppletHax {
 	protected void drawTexts() {
 		PG.setDrawFlat2d(pg, true);
 		PG.setDrawCorner(pg);
+		// text size/spacing measurements
 		float textH = pg.height * 0.14f;
 		float wordSpacing = textH * 0.93f;
-		float wordStackH = wordSpacing * texts.length;
-		float easedProgress = Penner.easeInOutQuint(FrameLoop.progress());
-		float startY = wordStackH + wordStackH * 5f * easedProgress;
-		float centerY = -textH;
-		float topEdge = -wordSpacing * 3.1f;
-		float bottomEdge = wordSpacing * 4;
-		for (int i = 0; i < texts.length * 8; i++) {
-			int loopIndx = i % texts.length;
-			pg.push();
-			float wordY = -startY -pg.height * 0.4f + i * wordSpacing;
+		int numWords = words.length;
+
+		// page scroll
+		float curPageScrollDist = scrollCurPageEnd - scrollCurPageStart;
+		float curPageProgress = scrollCurPageStart + Penner.easeInOutQuint(scrollPageProgress.value()) * curPageScrollDist;
+		float easedScrollPosition = curPageProgress;//Penner.easeInOutQuint(scrollPageProgress.value());
+		
+		// scroll measurements
+		float startY = -pg.height * 0.35f;
+		float centerY = startY + (textH * 2f); // 3rd word from top
+		float scrollDistance = wordSpacing * numWords;
+		float scrollStacks = 2;
+		float startScrollOffset = scrollDistance * scrollStacks * easedScrollPosition; // scrollProgress.value()
+		startScrollOffset = scrollDistance * easedScrollPosition; // scrollProgress.value()
+		float startScroll = startY - startScrollOffset;
+		
+		// scroll steps
+		float scrollSingleStep = 1f / numWords;
+		
+		// boundaries for add/remove animations 
+		float topEdge = startY;
+		float bottomEdge = startY + wordSpacing * 5f;
+		
+		// scroll to new location on specific frames
+		if(FrameLoop.loopCurFrame() == 10) {
+			// reset page turn w/start & end scroll positions
+			scrollPageProgress.setCurrent(0).setTarget(1);
+			scrollPageProgress.setInc(0.006f);
+			scrollCurPageStart = 0;
+			scrollCurPageEnd = scrollSingleStep * 5f;
+		}
+		if(FrameLoop.loopCurFrame() == P.round(FrameLoop.loopFrames() * 0.3f)) {
+			// reset page turn w/start & end scroll positions
+			scrollPageProgress.setCurrent(0).setTarget(1);
+			scrollPageProgress.setInc(0.006f);
+			scrollCurPageStart = scrollCurPageEnd;
+			scrollCurPageEnd = scrollSingleStep * (numWords + 9f);
+		}
+		if(FrameLoop.loopCurFrame() == P.round(FrameLoop.loopFrames() * 0.6f)) {
+			// reset page turn w/start & end scroll positions
+			scrollPageProgress.setCurrent(0).setTarget(1);
+			scrollPageProgress.setInc(0.006f);
+			scrollCurPageStart = scrollCurPageEnd;
+			scrollCurPageEnd = scrollSingleStep * (numWords * 3f);	// needs to add up to 26, if we have 13 words
+		}
+		
+		// scroll progress
+		scrollPageProgress.update();
+		DebugView.setValue("scrollPageProgress", scrollPageProgress.value());
+		DebugView.setValue("curPageScrollDist", curPageScrollDist);
+		DebugView.setValue("scrollCurPageStart", scrollCurPageStart);
+		DebugView.setValue("scrollCurPageEnd", scrollCurPageEnd);
+		
+		
+		// draw words - draw far beyond start and end boundaries
+		for (int i = 0; i < numWords * 8; i++) {
+			// individual word position
+			int loopIndx = i % numWords;
+			float wordY = startScroll + i * wordSpacing;
 			float distToCenter = P.abs(wordY - centerY);
 			float offsetY = 0;
+			float textScale = MathUtil.scaleToTarget(texts[loopIndx].height, textH);
+			float textW = texts[loopIndx].width * textScale;
+			float textX = pg.width * 0.65f - textW;
+			
+			// set word color and edge animation offsets
 			if(wordY < topEdge) {
 				float distToEdge = P.abs(wordY - topEdge);
 				float lerpColFromDist = (distToEdge / wordSpacing);
 				offsetY = lerpColFromDist * -wordSpacing;
 				lerpColFromDist = Penner.easeInOutCubic(lerpColFromDist);
+				lerpColFromDist *= 1.15f;	// speed up fade-out
 				int lerpCol = p.lerpColor(colorTextRedLight, 0x00ff0000, lerpColFromDist);
 				pg.tint(lerpCol);
 			} else if(wordY > bottomEdge) {
 				float distToEdge = P.abs(wordY - bottomEdge);
 				float lerpColFromDist = (distToEdge / wordSpacing);
 				offsetY = lerpColFromDist * wordSpacing;
-				lerpColFromDist = Penner.easeInOutCubic(lerpColFromDist);
+				lerpColFromDist = Penner.easeInCubic(lerpColFromDist);
+//				lerpColFromDist *= 0.9f;
 				int lerpCol = p.lerpColor(colorTextRedLight, 0x00ff0000, lerpColFromDist);
 				pg.tint(lerpCol);
 			} else if(distToCenter > wordSpacing / 2f) {
 				pg.tint(colorTextRedLight);
 			} else {
 				float lerpColFromDist = 1f - (distToCenter / wordSpacing);
-				lerpColFromDist = Penner.easeInOutCubic(lerpColFromDist);
+//				lerpColFromDist = Penner.easeInOutCubic(lerpColFromDist);
 				int lerpCol = p.lerpColor(colorTextRedLight, colorTextWhite, lerpColFromDist);
 				pg.tint(lerpCol);
 			}
-			float textScale = MathUtil.scaleToTarget(texts[loopIndx].height, textH);
-			float textW = texts[loopIndx].width * textScale;
+			
+			
+			pg.push();
 			pg.translate(-pg.width * 0.3f, wordY + offsetY);
-			pg.image(texts[loopIndx], pg.width * 0.7f -textW, 0, textW, texts[loopIndx].height * textScale);
+			pg.image(texts[loopIndx], textX, 0, textW, texts[loopIndx].height * textScale);
 			pg.pop();
 		}
 	}
@@ -241,18 +310,27 @@ extends PAppletHax {
 	
 	protected void buildRecycleLogo() {
 		recycleLogo = p.loadShape(FileUtil.getPath(basePath + "recycle-logo.svg"));
+		recycleLogo.disableStyle();
 	}
 	
 	protected void drawRecycleLogo() {
-		recycleLogo.disableStyle();
-		pg.fill(colorRecycle);
+//		colorRecycle = 0x44ED2024;
 		
+		// set context
+		pg.fill(colorRecycle);
 		PG.setDrawFlat2d(pg, true);
 		pg.push();
 		PG.setDrawCenter(pg);
 		pg.translate(0, 0, -pg.height * 0.15f);
+		
+		// extra wobble
 		float easedProgress = Penner.easeInOutQuint(FrameLoop.progress());
-		pg.rotate(easedProgress * P.TWO_PI * 3f);
+//		pg.rotate(easedProgress * P.TWO_PI * 1f);
+		pg.rotateZ(FrameLoop.progressRads());
+		float wobbleX = 0.07f;
+		pg.rotateX(wobbleX + wobbleX * P.sin(-P.HALF_PI + FrameLoop.progressRads()));
+		
+		// draw logo
 		float logoScale = MathUtil.scaleToTarget(recycleLogo.height, pg.height * 0.9f);
 		pg.shape(recycleLogo, 0, 0, recycleLogo.width * logoScale, recycleLogo.height * logoScale);
 		pg.pop();
@@ -358,19 +436,19 @@ extends PAppletHax {
 		// postprocess on background
 		GrainFilter.instance(p).setTime(p.frameCount * 0.02f);
 		GrainFilter.instance(p).setCrossfade(0.08f);
-		GrainFilter.instance(p).applyTo(pg);
+//		GrainFilter.instance(p).applyTo(pg);
 		
 		BlurHMapFilter.instance(p).setMap(bgBlurMap);
 		BlurHMapFilter.instance(p).setAmpMin(0f);
-		BlurHMapFilter.instance(p).setAmpMax(2f);
+		BlurHMapFilter.instance(p).setAmpMax(1f);
 		BlurVMapFilter.instance(p).setMap(bgBlurMap);
 		BlurVMapFilter.instance(p).setAmpMin(0f);
-		BlurVMapFilter.instance(p).setAmpMax(2f);
+		BlurVMapFilter.instance(p).setAmpMax(1f);
 
-		BlurHMapFilter.instance(p).applyTo(pg);
-		BlurVMapFilter.instance(p).applyTo(pg);
-		BlurHMapFilter.instance(p).applyTo(pg);
-		BlurVMapFilter.instance(p).applyTo(pg);
+//		BlurHMapFilter.instance(p).applyTo(pg);
+//		BlurVMapFilter.instance(p).applyTo(pg);
+//		BlurHMapFilter.instance(p).applyTo(pg);
+//		BlurVMapFilter.instance(p).applyTo(pg);
 	}
 	
 }
