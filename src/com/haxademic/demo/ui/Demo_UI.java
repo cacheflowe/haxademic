@@ -4,6 +4,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
+import com.haxademic.core.data.store.IAppStoreListener;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.net.JsonUtil;
@@ -12,10 +13,13 @@ import com.haxademic.core.ui.UI;
 import com.haxademic.core.ui.UIButton;
 import com.haxademic.core.ui.UIConfigFilesPicker;
 
+import processing.core.PGraphics;
+import processing.core.PImage;
 import processing.data.JSONObject;
 
 public class Demo_UI 
-extends PAppletHax {
+extends PAppletHax
+implements IAppStoreListener {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
 	protected String R = "COLOR_R";
@@ -61,6 +65,9 @@ extends PAppletHax {
 		// load config files picker
 		UIConfigFilesPicker.DEBUG = true;
 		configPicker = new UIConfigFilesPicker("UI Configs", "RGB_AND_ROT_CONFIG", FileUtil.getPath(configsPath));
+		
+		// subscribe to updates
+		P.store.addListener(this);
 	}
 	
 	protected void drawApp() {
@@ -151,5 +158,21 @@ extends PAppletHax {
 		"	\"COLOR_G\": 58.5,\r\n" + 
 		"	\"COLOR_B\": 174.0\r\n" +
 	"}";
+	
+	
+	//////////////////////////
+	// IAppStoreListener updates
+	//////////////////////////
+	
+	public void updatedNumber(String key, Number val) {
+		if(key == R || key == G || key == B || key.equals("Button")) P.out(key, "=", val);
+	}
+	public void updatedString(String key, String val) {
+		P.out(key, "=", val);
+	}
+	public void updatedBoolean(String key, Boolean val) {
+	}	
+	public void updatedImage(String key, PImage val) {}
+	public void updatedBuffer(String key, PGraphics val) {}
 
 }

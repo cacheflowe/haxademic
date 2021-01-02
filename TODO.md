@@ -16,7 +16,7 @@
   * DebugView/UI
     * Show full text on hover (move to top of z-stack)
     * Click to copy a value
-    * `uiButtonClicked` and UISlider value updates should emit an AppStore event, rather than having a callback (or do nothing, like UISlider)
+    * Remove `uiButtonClicked` now that we're emitting UI updates via AppStore?
     * UI components should dispatch event or have getter flags for when a component is hovered/changed
   * Revisit AppWindow & update demos. Try to keep on top on an interval, in case of windows popups
 

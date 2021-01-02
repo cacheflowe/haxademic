@@ -47,6 +47,10 @@ implements IUIControl {
 		P.p.registerMethod(PRegisterableMethods.mouseEvent, this); // add mouse listeners
 	}
 	
+	protected void updateStore() {
+		P.store.setNumber(id, value);
+	}
+	
 	/////////////////////////////////////////
 	// Disable/enable
 	/////////////////////////////////////////
@@ -165,6 +169,7 @@ implements IUIControl {
 		if(toggles) {
 			value = (value == 0) ? 1 : 0;	// flip toggle value
 		}
+		updateStore();
 		delegate.uiButtonClicked(this);
 	}
 	

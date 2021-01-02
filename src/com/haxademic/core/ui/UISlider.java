@@ -122,6 +122,7 @@ implements IUIControl {
 	
 	public void set(float val) {
 		value = val;
+		updateStore();
 	}
 	
 	public void set(String val) {
@@ -186,6 +187,10 @@ implements IUIControl {
 		pg.popMatrix();
 	}
 	
+	protected void updateStore() {
+		P.store.setNumber(id, value);
+	}
+	
 	/////////////////////////////////////////
 	// Mouse events
 	/////////////////////////////////////////
@@ -212,6 +217,7 @@ implements IUIControl {
 				float deltaX = (P.p.mouseX - P.p.pmouseX) * dragStep;
 				value += deltaX;
 				value = P.constrain(value, valueMin, valueMax);
+				updateStore();
 			}
 			break;
 		}
@@ -225,8 +231,8 @@ implements IUIControl {
 		if(isActive() == false) return;
 		if(mouseHovered == false) return;
 		if(e.getAction() == KeyEvent.PRESS) {
-			if(e.getKeyCode() == P.LEFT) { value -= dragStep; value = P.max(value, valueMin); }
-			if(e.getKeyCode() == P.RIGHT) { value += dragStep; value = P.min(value, valueMax); }
+			if(e.getKeyCode() == P.LEFT) { value -= dragStep; value = P.max(value, valueMin); updateStore(); }
+			if(e.getKeyCode() == P.RIGHT) { value += dragStep; value = P.min(value, valueMax); updateStore(); }
 			if(saves) PrefToText.setValue(id, value);
 		}
 	}

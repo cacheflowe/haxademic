@@ -76,6 +76,7 @@ implements IUIControl {
 	
 	public void set(String newText) {
 		value = newText;
+		updateStore();
 	}
 	
 	public void blur() {
@@ -88,6 +89,7 @@ implements IUIControl {
 	
 	public void reset() {
 		value = "";
+		updateStore();
 	}
 	
 	public int x() {
@@ -207,6 +209,10 @@ implements IUIControl {
 	protected void setActive() {
 		ACTIVE_INPUT = this;
 	}
+	
+	protected void updateStore() {
+		P.store.setString(id, value);
+	}
 
 	/////////////////////////////////////////
 	// Keyboard events
@@ -222,12 +228,14 @@ implements IUIControl {
 			if(key == PConstants.BACKSPACE) {
 				if(value.length() > 0) {
 					value = value.substring( 0, value.length() - 1 );
+					updateStore();
 				}
 			} else if(key == PConstants.RETURN || key == PConstants.ENTER || keyCode == PConstants.SHIFT || key == PConstants.TAB) {
 				// do nothing for special keys
 			} else {
 				value += key;
 				if(filter != null) value = value.replaceAll(filter, "");
+				updateStore();
 			}
 		}
 	}
