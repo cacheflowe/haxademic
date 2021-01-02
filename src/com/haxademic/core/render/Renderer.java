@@ -47,7 +47,7 @@ implements IAppStoreListener {
 		P.store.addListener(this);
 		setRenderingProps();
 		initRendering();
-		P.p.registerMethod(PRegisterableMethods.dispose, this);
+		P.p.registerMethod(PRegisterableMethods.dispose, this);	// when app is manually killed, make sure the render finishes saving the video
 	}
 	
 	protected void setRenderingProps() {
