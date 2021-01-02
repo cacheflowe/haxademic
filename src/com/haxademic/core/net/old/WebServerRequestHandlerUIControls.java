@@ -6,7 +6,6 @@ import com.haxademic.core.data.ConvertUtil;
 import com.haxademic.core.hardware.http.HttpInputState;
 import com.haxademic.core.net.WebServer;
 import com.haxademic.core.ui.UI;
-import com.haxademic.core.ui.UIButton;
 
 public class WebServerRequestHandlerUIControls 
 extends WebServerRequestHandler {
@@ -19,7 +18,7 @@ extends WebServerRequestHandler {
 
 	@Override
 	protected String handleCustomPaths(String path, String[] pathComponents) {
-		if(WebServer.DEBUG && pathComponents[0].equals("values") == false) P.println("CustomWebRequestHandler path:", path);
+		if(WebServer.DEBUG == true && pathComponents[0].equals("values") == false) P.println("CustomWebRequestHandler path:", path);
 		P.store.setString(WebServer.REQUEST_URL, path);	// pass along all web requests to AppStore
 		
 		if(pathComponents[0].equals("button")) {
@@ -28,7 +27,6 @@ extends WebServerRequestHandler {
 			HttpInputState.instance().setControlValue("button"+buttonIndex, buttonValue);
 			if(UI.has(buttonIndex)) {
 				UI.setValue(buttonIndex, buttonValue);
-				P.p.uiButtonClicked((UIButton) UI.get(buttonIndex));	// grab button and set clicked callback
 			}
 			return "{\"log\": \"button: "+buttonIndex+", value: "+buttonValue+"\"}";
 			

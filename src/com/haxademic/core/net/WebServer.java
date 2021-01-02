@@ -18,7 +18,7 @@ import com.haxademic.core.file.FileUtil;
 
 public class WebServer {
 	
-	public static boolean DEBUG;
+	public static boolean DEBUG = false;
 	public static int PORT = 8080;
 	public static int PORT_SSL = 443;
 	public static boolean IS_SSL = false;

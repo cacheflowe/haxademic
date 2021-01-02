@@ -121,6 +121,7 @@ implements IUIControl {
 	
 	public void set(float val) {
 		value = val;
+		updateStore();
 	}
 	
 	public void set(String val) {
@@ -170,7 +171,7 @@ implements IUIControl {
 			value = (value == 0) ? 1 : 0;	// flip toggle value
 		}
 		updateStore();
-		delegate.uiButtonClicked(this);
+		if(delegate != null) delegate.uiButtonClicked(this);	// deprecated
 	}
 	
 	public void mouseEvent(MouseEvent event) {

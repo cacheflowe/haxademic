@@ -12,7 +12,7 @@ import com.haxademic.core.net.WebServer;
 public class HttpInputState {
 
 	protected WebServer server;
-
+	public static boolean DEBUG = true;
 	protected HashMap<String, Float> webControlValues;
 	protected HashMap<String, InputState> webControlState;
 	protected int lastUpdatedFrame = 0;
@@ -109,6 +109,7 @@ public class HttpInputState {
 	///////////////////////////////
 
 	protected void logValues() {
+		if(!DEBUG) return;
 		// debug print values if debug window is showing
 		if(DebugView.active()) {
 			for (String key : webControlValues.keySet()) {

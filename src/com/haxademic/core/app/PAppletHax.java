@@ -14,7 +14,6 @@ import com.haxademic.core.media.audio.analysis.AudioInputESS;
 import com.haxademic.core.media.video.MovieBuffer;
 import com.haxademic.core.render.Renderer;
 import com.haxademic.core.system.SystemUtil;
-import com.haxademic.core.ui.UIButton;
 import com.haxademic.core.ui.UITextInput;
 
 import krister.Ess.AudioInput;
@@ -162,13 +161,6 @@ extends PApplet {
 		if(AudioIn.audioInput instanceof AudioInputESS) {
 			((AudioInputESS) AudioIn.audioInput).audioInputCallback(theInput);
 		}
-	}
-
-	// UIControlPanel listeners
-	// TODO: Move to AppStore events
-
-	public void uiButtonClicked(UIButton button) {
-		P.out("uiButtonClicked: please override", button.id(), button.value());
 	}
 
 }

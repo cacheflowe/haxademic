@@ -1,5 +1,5 @@
 :root {
-  --height: 80px;
+  --height: 40px;
   --width: 80px;
   --slider-height: calc(var(--height) - 2px);
   --slider-width: calc(var(--width) - 2px);
@@ -7,7 +7,7 @@
   --color: #ffffff;
   --radius: 5px;
   --border: 1px solid var(--color);
-  --margin: 0 0 40px;
+  --margin: 0 0 20px;
 }
 
 :root #R {

@@ -10,7 +10,6 @@ import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.net.JsonUtil;
 import com.haxademic.core.system.SystemUtil;
 import com.haxademic.core.ui.UI;
-import com.haxademic.core.ui.UIButton;
 import com.haxademic.core.ui.UIConfigFilesPicker;
 
 import processing.core.PGraphics;
@@ -104,10 +103,6 @@ implements IAppStoreListener {
 		p.box(100);
 	}
 	
-	public void uiButtonClicked(UIButton button) {
-		P.out(button.id(), button.value());
-	}
-	
 	protected void pickRandomValues() {
 		UI.setRandomValue(R);
 		UI.setRandomValue(G);
@@ -158,7 +153,6 @@ implements IAppStoreListener {
 		"	\"COLOR_G\": 58.5,\r\n" + 
 		"	\"COLOR_B\": 174.0\r\n" +
 	"}";
-	
 	
 	//////////////////////////
 	// IAppStoreListener updates

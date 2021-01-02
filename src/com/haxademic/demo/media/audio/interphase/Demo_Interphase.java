@@ -6,7 +6,6 @@ import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.media.audio.interphase.Interphase;
 import com.haxademic.core.media.audio.interphase.SequencerConfig;
-import com.haxademic.core.ui.UIButton;
 
 public class Demo_Interphase
 extends PAppletHax {
@@ -42,12 +41,4 @@ extends PAppletHax {
 		interphase.update(p.g);
 	}
 	
-	/////////////////////////////////////////////////////////////////
-	// UIControls listener
-	/////////////////////////////////////////////////////////////////
-
-	public void uiButtonClicked(UIButton button) {
-		if(interphase != null) interphase.uiButtonClicked(button);
-	}
-
 }

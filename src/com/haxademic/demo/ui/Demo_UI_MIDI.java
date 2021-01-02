@@ -1,6 +1,5 @@
 package com.haxademic.demo.ui;
 
-import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
@@ -8,7 +7,6 @@ import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.hardware.midi.MidiDevice;
 import com.haxademic.core.hardware.midi.devices.LaunchControl;
 import com.haxademic.core.ui.UI;
-import com.haxademic.core.ui.UIButton;
 
 public class Demo_UI_MIDI 
 extends PAppletHax {
@@ -60,7 +58,4 @@ extends PAppletHax {
 		}
 	}
 	
-	public void uiButtonClicked(UIButton button) {
-		P.out(button.id(), button.value());
-	}
 }

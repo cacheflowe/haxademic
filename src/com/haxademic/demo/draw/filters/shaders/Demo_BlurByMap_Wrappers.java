@@ -21,7 +21,6 @@ import com.haxademic.core.draw.filters.pshader.SaturationFilter;
 import com.haxademic.core.draw.filters.pshader.SharpenMapFilter;
 import com.haxademic.core.draw.filters.pshader.ThresholdFilter;
 import com.haxademic.core.draw.text.FontCacher;
-import com.haxademic.core.draw.text.StrokeText;
 import com.haxademic.core.draw.textures.SimplexNoise3dTexture;
 import com.haxademic.core.hardware.mouse.Mouse;
 import com.haxademic.core.media.DemoAssets;
@@ -118,8 +117,7 @@ extends PAppletHax {
 		String fontFile = DemoAssets.fontOpenSansPath;
 		PFont font = FontCacher.getFont(fontFile, 280);
 		FontCacher.setFontOnContext(pg, font, p.color(255), 1f, PTextAlign.CENTER, PTextAlign.CENTER);
-//		pg.text("FAKE", 0, 0, pg.width, pg.height);
-		StrokeText.draw(pg, "PETE", 0, -40, pg.width, pg.height, p.color(255), p.color(0), 10, 36);
+//		StrokeText.draw(pg, "PETE", 0, -40, pg.width, pg.height, p.color(255), p.color(0), 10, 36);
 		
 		///////////////////////
 		// set R/D uniforms
@@ -152,8 +150,8 @@ extends PAppletHax {
 		///////////////////////
 		// auto loop
 		///////////////////////
-		BrightnessStepFilter.instance(p).setBrightnessStep(FrameLoop.osc(0.003f, -200, -40)/255f);
-		DisplacementMapFilter.instance(p).setAmp(FrameLoop.osc(0.003f, 0f, 0.004f));
+//		BrightnessStepFilter.instance(p).setBrightnessStep(FrameLoop.osc(0.003f, -200, -40)/255f);
+//		DisplacementMapFilter.instance(p).setAmp(FrameLoop.osc(0.003f, 0f, 0.004f));
 		
 		///////////////////////
 		// Do R/D
@@ -162,7 +160,7 @@ extends PAppletHax {
 			BrightnessStepFilter.instance(p).applyTo(pg);
 			DisplacementMapFilter.instance(p).applyTo(pg);
 			RotateFilter.instance(p).applyTo(pg);
-//			GrainFilter.instance(p).applyTo(pg);	// add jitter. not sure if this helps. might prevent from going full black or white
+			GrainFilter.instance(p).applyTo(pg);	// add jitter. not sure if this helps. might prevent from going full black or white
 			BlurHMapFilter.instance(p).applyTo(pg);
 			BlurVMapFilter.instance(p).applyTo(pg);
 			BlurHMapFilter.instance(p).applyTo(pg);

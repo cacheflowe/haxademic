@@ -26,7 +26,6 @@ import com.haxademic.core.draw.text.FontCacher;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.media.DemoAssets;
 import com.haxademic.core.ui.UI;
-import com.haxademic.core.ui.UIButton;
 
 import beads.AudioContext;
 import processing.core.PFont;
@@ -312,10 +311,4 @@ extends PAppletHax {
 		if(p.key == 'm') buildLinesFromCurMixer();
 	}
 	
-	// UIButton callback
-	
-	public void uiButtonClicked(UIButton button) {
-		P.out("uiButtonClicked: please override", button.id(), button.value());
-	}
-
 }

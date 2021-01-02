@@ -8,7 +8,6 @@ import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.net.WebServer;
 import com.haxademic.core.system.SystemUtil;
 import com.haxademic.core.ui.UI;
-import com.haxademic.core.ui.UIButton;
 
 public class Demo_UI_WebUI 
 extends PAppletHax {
@@ -25,6 +24,7 @@ extends PAppletHax {
 	}
 	
 	protected void firstFrame () {
+		UI.addTitle("Hax UI");
 		UI.addSlider(R, 255, 0, 255, 0.5f);
 		UI.addSlider(G, 255, 0, 255, 0.5f);
 		UI.addSlider(B, 255, 0, 255, 0.5f);
@@ -43,24 +43,21 @@ extends PAppletHax {
 
 		// bg components
 		p.background(
-			UI.value(R),
-			UI.value(G),
-			UI.value(B)
+			UI.valueEased(R),
+			UI.valueEased(G),
+			UI.valueEased(B)
 		);
 		
 		// 3d rotation
 		p.lights();
 		PG.setCenterScreen(p.g);
 		PG.setDrawCenter(p.g);
-		p.rotateX(UI.valueX(VECTOR_3));
-		p.rotateY(UI.valueY(VECTOR_3));
-		p.rotateZ(UI.valueZ(VECTOR_3));
+		p.rotateX(UI.valueXEased(VECTOR_3));
+		p.rotateY(UI.valueYEased(VECTOR_3));
+		p.rotateZ(UI.valueZEased(VECTOR_3));
 		p.fill(255);
 		p.stroke(0);
 		p.box(200);
 	}
 	
-	public void uiButtonClicked(UIButton button) {
-		P.out(button.id(), button.value());
-	}
 }

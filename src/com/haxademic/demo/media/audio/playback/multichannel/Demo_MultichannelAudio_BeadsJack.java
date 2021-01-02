@@ -12,7 +12,6 @@ import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.text.FontCacher;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.media.DemoAssets;
-import com.haxademic.core.ui.UIButton;
 
 import beads.AudioContext;
 import beads.Gain;
@@ -100,13 +99,6 @@ extends PAppletHax {
 		super.keyPressed();
 		if(p.key == ' ') startLoops();
 	}
-	
-	// UIButton callback
-	
-	public void uiButtonClicked(UIButton button) {
-		P.out("uiButtonClicked: please override", button.id(), button.value());
-	}
-	
 	
 	// aptial sound object
 	

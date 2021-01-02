@@ -4,17 +4,20 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
+import com.haxademic.core.data.constants.PEvents;
 import com.haxademic.core.data.store.IAppStoreListener;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.image.ImageUtil;
-import com.haxademic.core.draw.textures.pgraphics.TextureRadialGridPulse;
+import com.haxademic.core.draw.textures.pgraphics.TextureConcentricDashedCubes;
 import com.haxademic.core.draw.textures.pgraphics.shared.BaseTexture;
+import com.haxademic.core.hardware.http.HttpInputState;
 import com.haxademic.core.media.audio.interphase.Interphase;
 import com.haxademic.core.media.audio.interphase.Scales;
 import com.haxademic.core.media.audio.interphase.Sequencer;
 import com.haxademic.core.media.audio.interphase.SequencerConfig;
+import com.haxademic.core.net.WebServer;
+import com.haxademic.core.system.SystemUtil;
 import com.haxademic.core.ui.UI;
-import com.haxademic.core.ui.UIButton;
 
 import processing.core.PGraphics;
 import processing.core.PImage;
@@ -28,9 +31,9 @@ implements IAppStoreListener {
 	protected BaseTexture audioTexture;
 	
 	protected String SAMPLE_ = "SAMPLE_";
-	protected String UI_BPM = "UI_BPM";
-	protected String UI_EVOLVES = "UI_EVOLVES";
-	protected String UI_SCALE = "UI_SCALE";
+	protected String GLOBAL_BPM = "GLOBAL_BPM";
+	protected String GLOBAL_EVOLVES = "GLOBAL_EVOLVES";
+	protected String CUR_SCALE = "CUR_SCALE";
 
 	protected void config() {
 		Config.setProperty( AppSettings.WIDTH, 1280 );
@@ -45,15 +48,21 @@ implements IAppStoreListener {
 		interphase = new Interphase(SequencerConfig.interphaseChannels(), true);
 		P.store.addListener(this);
 		
+		P.out("WebServer.DEBUG", WebServer.DEBUG);
+		HttpInputState.DEBUG = false;
+		
 		// viz
 //		audioTexture = new TexturePixelatedAudio(p.width, p.height);
-		audioTexture = new TextureRadialGridPulse(p.width, p.height);
+//		audioTexture = new TextureFractalPolygons(p.width, p.height);
+//		audioTexture = new TextureEQLinesTerrain(p.width, p.height);
+		audioTexture = new TextureConcentricDashedCubes(p.width, p.height);
+//		audioTexture = new TextureRadialGridPulse(p.width, p.height);
 		
 		// Interphase UI
 		UI.addTitle("Interphase");
-		UI.addSlider(UI_BPM, 105, 60, 170, 1, false);
-		UI.addToggle(UI_EVOLVES, true, false);
-		UI.addSlider(UI_SCALE, 0, 0, Scales.SCALES.length-1, 1, false);
+		UI.addSlider(GLOBAL_BPM, 105, 60, 170, 1, false);
+		UI.addToggle(GLOBAL_EVOLVES, true, false);
+		UI.addSlider(CUR_SCALE, 0, 0, Scales.SCALES.length-1, 1, false);
 		for (int i = 0; i < interphase.sequencers().length; i++) {
 			Sequencer seq = interphase.sequencers()[i];
 			UI.addSlider(SAMPLE_+(i+1), 0, 0, seq.numSamples() - 1, 1, false);
@@ -73,35 +82,39 @@ implements IAppStoreListener {
 
 		// update music playback
 		// overall interphase props
-		P.store.setNumber(Interphase.BPM, UI.value(UI_BPM));
-		P.store.setBoolean(Interphase.PATTERNS_AUTO_MORPH, UI.valueToggle(UI_EVOLVES));
-		P.store.setNumber(Interphase.CUR_SCALE_INDEX, UI.valueInt(UI_SCALE));
+		P.store.setNumber(Interphase.BPM, UI.value(GLOBAL_BPM));
+		P.store.setBoolean(Interphase.PATTERNS_AUTO_MORPH, UI.valueToggle(GLOBAL_EVOLVES));
+		P.store.setNumber(Interphase.CUR_SCALE_INDEX, UI.valueInt(CUR_SCALE));
+		
 		// set current instruments
 		for (int i = 0; i < interphase.sequencers().length; i++) {
 			Sequencer seq = interphase.sequencers()[i];
 			seq.setSampleByIndex(UI.valueInt(SAMPLE_+(i+1)));
 		}
+		
 		// override sequences on some channels
-		interphase.sequencers()[0].setPatternByInts(new int[] {1,0,0,0,0,0,0,0,1,0,0,1,0,0,0,0});
-		interphase.sequencers()[1].setPatternByInts(new int[] {0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0});
-		interphase.sequencers()[2].setPatternByInts(new int[] {0,0,1,0,0,0,1,0,0,0,1,0,0,0,1,0});
-		interphase.sequencers()[3].setPatternByInts(new int[] {0,0,0,1,0,0,0,0,0,0,0,0,0,1,0,0});
+//		interphase.sequencers()[0].setPatternByInts(new int[] {1,0,0,0,0,0,0,0,1,0,0,1,0,0,0,0});
+//		interphase.sequencers()[1].setPatternByInts(new int[] {0,0,0,0,1,0,0,0,0,0,0,0,1,0,0,0});
+//		interphase.sequencers()[2].setPatternByInts(new int[] {0,0,1,0,0,0,1,0,0,0,1,0,0,0,1,0});
+//		interphase.sequencers()[3].setPatternByInts(new int[] {0,0,0,1,0,0,0,0,0,0,0,0,0,1,0,0});
+		
 		// update Interphase object every frame
 		interphase.update(null);
 		
-		// update viz
+		// update viz (disabled for the moment
 		audioTexture.update();
 		ImageUtil.cropFillCopyImage(audioTexture.texture(), p.g, true);
+		
+		// do something custom
+		if(p.frameCount % 1000 == 0) {
+//			audioTexture = new TextureConcentricDashedCubes(p.width, p.height);
+//			audioTexture = new TextureNoiseLines(p.width, p.height);
+//			audioTexture = new TexturePixelatedAudio(p.width, p.height);
+//			audioTexture = new TextureOuterSphere(p.width, p.height);
+//			audioTexture = new TextureConcentricDashedCubes(p.width, p.height);
+		}
 	}
 	
-	/////////////////////////////////////////////////////////////////
-	// UIControls listener
-	/////////////////////////////////////////////////////////////////
-
-	public void uiButtonClicked(UIButton button) {
-		if(interphase != null) interphase.uiButtonClicked(button);
-	}
-
 	/////////////////////////////////////////////////////////////////
 	// IAppStoreListener
 	/////////////////////////////////////////////////////////////////
@@ -109,14 +122,31 @@ implements IAppStoreListener {
 	public void updatedNumber(String key, Number val) {
 //		if(key.equals(Interphase.BEAT)) {
 		if(key.equals(Interphase.CUR_STEP)) {
+			if(val.intValue() == 0) audioTexture.newMode();
 			if(val.intValue() == 0) audioTexture.updateTimingSection();
+			if(val.intValue() == 2) audioTexture.newLineMode();
+			if(val.intValue() == 5) audioTexture.updateTiming();
 		}
 		if(key.equals(Interphase.SEQUENCER_TRIGGER)) {
 			if(val.intValue() == 0) audioTexture.newLineMode();
+			if(val.intValue() == 1) audioTexture.newMode();
 			if(val.intValue() == 1) audioTexture.updateTiming();
+			if(val.intValue() == 2) audioTexture.newLineMode();
+			if(val.intValue() == 2) audioTexture.newRotation();
+
+			
+//			if(val.intValue() == 0) P.store.setNumber("beat1", 1f);
+//			if(val.intValue() == 1) audioTexture.newMode();
+//			if(val.intValue() == 2) audioTexture.updateTiming();
+//			if(val.intValue() == 2) audioTexture.newLineMode();
 		}
 	}
-	public void updatedString(String key, String val) {}
+	public void updatedString(String key, String val) {
+		if(key == PEvents.KEY_PRESSED && val.equals("b")) {
+//			SystemUtil.openWebPage(WebServer.getServerAddress() + "ui");
+			SystemUtil.openWebPage("http://localhost:8080/ui");
+		}
+	}
 	public void updatedBoolean(String key, Boolean val) {}
 	public void updatedImage(String key, PImage val) {}
 	public void updatedBuffer(String key, PGraphics val) {}

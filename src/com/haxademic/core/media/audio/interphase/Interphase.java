@@ -3,6 +3,7 @@ package com.haxademic.core.media.audio.interphase;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.data.ConvertUtil;
+import com.haxademic.core.data.store.IAppStoreListener;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.shapes.Shapes;
@@ -11,12 +12,12 @@ import com.haxademic.core.hardware.midi.devices.LaunchPad.ILaunchpadCallback;
 import com.haxademic.core.hardware.shared.InputTrigger;
 import com.haxademic.core.ui.IUIControl;
 import com.haxademic.core.ui.UI;
-import com.haxademic.core.ui.UIButton;
 
 import processing.core.PGraphics;
+import processing.core.PImage;
 
 public class Interphase
-implements ILaunchpadCallback {
+implements IAppStoreListener, ILaunchpadCallback {
 	
 	////////////////////////////////////////
 	
@@ -83,6 +84,7 @@ implements ILaunchpadCallback {
 		P.store.setNumber(CUR_SCALE_INDEX, 0);
 		P.store.setNumber(SEQUENCER_TRIGGER, 0);
 		P.store.setBoolean(PATTERNS_AUTO_MORPH, true);
+		P.store.addListener(this);
 		
 		// build music machine
 		scales = new Scales();
@@ -360,13 +362,21 @@ implements ILaunchpadCallback {
 		}
 	}
 	
-	public void uiButtonClicked(UIButton button) {
-		if(button.id().indexOf("beatgrid-") == 0) {
-			String[] components = button.id().split("-");
+	//////////////////////////
+	// IAppStoreListener updates
+	//////////////////////////
+	
+	public void updatedNumber(String key, Number val) {
+		if(key.indexOf("beatgrid-") == 0) {
+			String[] components = key.split("-");
 			int gridX = ConvertUtil.stringToInt(components[1]);
 			int gridY = ConvertUtil.stringToInt(components[2]);
-			boolean isActive = (button.value() == 1f);
+			boolean isActive = (val.intValue() == 1);
 			sequencers[gridX].stepActive(gridY, isActive);
 		}
 	}
+	public void updatedString(String key, String val) {}
+	public void updatedBoolean(String key, Boolean val) {}	
+	public void updatedImage(String key, PImage val) {}
+	public void updatedBuffer(String key, PGraphics val) {}
 }

@@ -18,11 +18,11 @@ import com.haxademic.core.data.constants.PTextAlign;
 import com.haxademic.core.data.store.IAppStoreListener;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.file.FileUtil;
+import com.haxademic.core.hardware.http.HttpInputState;
 import com.haxademic.core.media.DemoAssets;
 import com.haxademic.core.net.JsonUtil;
 import com.haxademic.core.net.UIControlsHandler;
 import com.haxademic.core.net.WebServer;
-import com.haxademic.core.ui.UIButton.IUIButtonDelegate;
 
 import processing.core.PGraphics;
 import processing.core.PImage;
@@ -30,7 +30,7 @@ import processing.data.JSONArray;
 import processing.data.JSONObject;
 
 public class UI
-implements IUIButtonDelegate, IAppStoreListener {
+implements IAppStoreListener {
 
 	protected static LinkedHashMap<String, IUIControl> controls;
 	
@@ -77,6 +77,7 @@ implements IUIButtonDelegate, IAppStoreListener {
 	public static void addWebInterface(boolean debugWebRequests) {
 		if(server != null) return;
 		server = new WebServer(new UIControlsHandler(), debugWebRequests);
+		HttpInputState.instance(server);
 	}
 	
 	////////////////////////
@@ -149,7 +150,7 @@ implements IUIButtonDelegate, IAppStoreListener {
 	}
 	
 	public static void addButton(String key, boolean toggles, int midiNote) {
-		controls.put(key, new UIButton(instance, key, controlX, controlY, IUIControl.controlW, IUIControl.controlH, toggles, midiNote));
+		controls.put(key, new UIButton(null, key, controlX, controlY, IUIControl.controlW, IUIControl.controlH, toggles, midiNote));
 		controlY += IUIControl.controlSpacing;
 	}
 	
@@ -163,7 +164,7 @@ implements IUIButtonDelegate, IAppStoreListener {
 		for (int i = 0; i < keys.length; i++) {
 			int buttonX = P.round(controlX + i * controlWidthDivided);
 			int midiNote = (midiNotes != null && midiNotes.length > i) ? midiNotes[i] : -1;
-			UIButton newButton = new UIButton(instance, keys[i], buttonX, controlY, P.round(controlWidthDivided), IUIControl.controlH, toggles, midiNote);
+			UIButton newButton = new UIButton(null, keys[i], buttonX, controlY, P.round(controlWidthDivided), IUIControl.controlH, toggles, midiNote);
 			newButton.layoutW(layoutW);
 			controls.put(keys[i], newButton);
 		}
@@ -356,14 +357,6 @@ implements IUIButtonDelegate, IAppStoreListener {
 		}
 	}
 
-	////////////////////////
-	// IUIButtonDelegate
-	////////////////////////
-	
-	public void uiButtonClicked(UIButton button) {
-		P.p.uiButtonClicked(button);
-	}
-	
 	/////////////////////////////
 	// IAppStoreListener
 	/////////////////////////////
