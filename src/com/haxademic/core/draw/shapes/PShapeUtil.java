@@ -784,6 +784,23 @@ public class PShapeUtil {
 		return svg;
 	}
 	
+	public static PShape pointsShapeFromRPoints(RPoint[] points) {
+		if(!RG.initialized()) RG.init(P.p);
+
+		// create PShape
+		PShape svg = P.p.createShape();
+		svg.beginShape(PConstants.POINTS);
+		svg.stroke(255);
+		svg.strokeWeight(1);
+		svg.noFill();
+		for(int i=0; i < points.length; i++){
+			svg.vertex(points[i].x, points[i].y, 0);
+		}
+		svg.endShape(P.CLOSE);
+		
+		return svg;
+	}
+	
 	// Add vertices to a new PShape, while ignoring duplicates. Reduces vertex count significantly
 	public static void addVerticesToPointShape(PShape origShape, PShape newShape) {
 		for (int i = 0; i < origShape.getVertexCount(); i++) {
