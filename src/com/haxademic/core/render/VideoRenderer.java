@@ -180,7 +180,7 @@ public class VideoRenderer {
 	}
 
 	public void stop() {
-		if( outputType == OUTPUT_TYPE_MOVIE && audioSimulation == false ) movieMaker.finish();
+		if( isRendering && outputType == OUTPUT_TYPE_MOVIE && audioSimulation == false ) movieMaker.finish();
 		isRendering = false;
 	}
 	

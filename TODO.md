@@ -115,13 +115,13 @@ PGA + Bespoke:
 	* settings() with config()
 		* Set Config values in `config()` before the app is initialized
 	* setup() with firstFrame()
-		* Build you objects in `firstFrame()` - this solves potential problems if things take too long
+		* Build your objects in `firstFrame()` - this solves potential problems if things take too long
 	* draw() with drawApp()
 
 ## InputTrigger revamp
 
 * Key press triggers with KeyboardState don't always register - especially over TeamViewer of if the FPS is low
-* Test the rest of this - we should be in good shape now
+  * Test the rest of this - we should be in good shape now
 * Threaded safety of InputTrigger isn't good - especially at a low FPS?
   * WebServer requests can fall through the cracks (button clicks, etc)
   * Web requests that route to p.ui aren't predictable, especially at 30fps? Look at p.ui button handling in Re-Creation
@@ -237,6 +237,9 @@ PGA + Bespoke:
   	* Brim liski sphere
   	* ParticleBranchers
   	* SpaceCube
+    * R/D
+    * Scrolling text from Reset animation 
+    * Background sheet from Reset animation 
   	* Any other cool loop/render?!
 
 ## Interphase
@@ -293,8 +296,15 @@ PGA + Bespoke:
   * Make sub-app or figure out how to dispose or flush the Java sound stuff that starts lagging after hours of running
     * Look at Minim setInputMixer example to switch audio inputs
   * WavPlayer panning and FFT analysis need love:
-    * Panning only works once
+    * [Fixed?] Panning only works once
     * FFT only works for the left channel if it's been panned
+    * Build a demo that tests:
+      * Panning
+      * ADSR
+      * Pitch
+      * Volume
+      * Reverse??
+      * Filter?!
   * Text to speech In Processing. Webview in Processing? Or web sockets to external browser? Vanilla Java?
   * Sphinx4 speech recognition
   * Test/Fix basic audio input. why is audio getting delayed after hours of running?
@@ -305,6 +315,8 @@ PGA + Bespoke:
     * http://aum.dartmouth.edu/~mcasey/cs2/notes/sound3.php
     * https://www.google.com/search?client=firefox-b-1-d&q=granular+synthesis+buffer
     * https://www.google.com/search?client=firefox-b-1-d&q=wavetable+synthesis
+    * https://evanxmerz.com/soundsynthjava/Sound_Synth_Java.html#digital_sound
+    * https://www.jabaco.org/board/1189-beads-audio-library-question.html
   * Split audio stepthrough rendering from Renderer.java, which should just save movies. MIDIStepthrough renderer is a good example of splitting
   * Make demos for rendering at a specific bpm
   * Spatial audio:

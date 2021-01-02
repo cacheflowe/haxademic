@@ -273,7 +273,7 @@ implements IUIButtonDelegate {
 	}
 
 	@Override
-	public void clicked(UIButton button) {
+	public void uiButtonClicked(UIButton button) {
 		selectCam(button.id());
 		
 		// if we had a selected config from file, store it on click!

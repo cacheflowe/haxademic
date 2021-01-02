@@ -2,6 +2,7 @@ package com.haxademic.demo.draw.text;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.MathUtil;
+import com.haxademic.core.media.DemoAssets;
 
 import geomerative.RCommand;
 import geomerative.RFont;
@@ -17,7 +18,7 @@ extends PAppletHax {
 
 	protected void firstFrame() {
 	    RG.init(this);
-	    font = new RFont( FileUtil.getPath("haxademic/fonts/bitlow.ttf"), 72, RFont.CENTER);
+	    font = new RFont( FileUtil.getPath(DemoAssets.fontOpenSansPath), 72, RFont.CENTER);
 	}
 
 	protected void drawApp() {

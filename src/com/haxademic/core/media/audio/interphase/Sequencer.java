@@ -93,6 +93,7 @@ implements IAppStoreListener {
 	protected Sample[] samples;
 	protected String[] filenames;
 	protected boolean useASDR = true;
+	protected float triggerDelay = 0;
 	
 	public Sequencer(Interphase i, SequencerConfig config) {
 		this.config = config;
@@ -330,7 +331,8 @@ implements IAppStoreListener {
 			if(notesByStep) {
 				// if notes by step mode, use cur step + offset to cycle through current scale notes 
 				pitchIndex1 = Scales.CUR_SCALE[(noteOffset + curStep) % Scales.CUR_SCALE.length];
-				pitchIndex2 = Scales.CUR_SCALE[(noteOffset + curStep + 2) % Scales.CUR_SCALE.length];
+				int secondPitch = (MathUtil.randBoolean()) ? 5 : 7;	// 4ths & 5ths - thank you David Last :-D 
+				pitchIndex2 = Scales.CUR_SCALE[(noteOffset + curStep + secondPitch) % Scales.CUR_SCALE.length];
 			} else {
 				// random pitch
 				int randPitch = MathUtil.randRange(0, Scales.CUR_SCALE.length - 1);
@@ -414,7 +416,7 @@ implements IAppStoreListener {
 			ac.out.addInput(curPlayer);
 		}
 
-		int delay = (index == 2 || index == 5) ? MathUtil.randRange(-10, 2) : 0; // 
+		int delay = (index == 2 || index == 5) ? MathUtil.randRange(-10, 2) : 0; //  add some swing... move this!
 		curPlayer.start(delay);
 		return curPlayer;
 	}

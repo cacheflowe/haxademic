@@ -15,7 +15,7 @@ public class UIButton
 implements IUIControl {
 	
 	public interface IUIButtonDelegate {
-		public void clicked(UIButton button);
+		public void uiButtonClicked(UIButton button);
 	}
 	 
 	protected IUIButtonDelegate delegate;
@@ -165,7 +165,7 @@ implements IUIControl {
 		if(toggles) {
 			value = (value == 0) ? 1 : 0;	// flip toggle value
 		}
-		delegate.clicked(this);
+		delegate.uiButtonClicked(this);
 	}
 	
 	public void mouseEvent(MouseEvent event) {

@@ -360,7 +360,7 @@ implements IUIButtonDelegate, IAppStoreListener {
 	// IUIButtonDelegate
 	////////////////////////
 	
-	public void clicked(UIButton button) {
+	public void uiButtonClicked(UIButton button) {
 		P.p.uiButtonClicked(button);
 	}
 	

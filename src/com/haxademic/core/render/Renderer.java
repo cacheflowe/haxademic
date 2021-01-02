@@ -8,6 +8,7 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
 import com.haxademic.core.data.constants.PEvents;
+import com.haxademic.core.data.constants.PRegisterableMethods;
 import com.haxademic.core.data.store.IAppStoreListener;
 import com.haxademic.core.debug.DebugUtil;
 import com.haxademic.core.draw.context.PG;
@@ -46,6 +47,7 @@ implements IAppStoreListener {
 		P.store.addListener(this);
 		setRenderingProps();
 		initRendering();
+		P.p.registerMethod(PRegisterableMethods.dispose, this);
 	}
 	
 	protected void setRenderingProps() {
@@ -149,6 +151,10 @@ implements IAppStoreListener {
 				imageSequenceRenderer.finish();
 			}
 		}
+	}
+	
+	public void dispose() {
+		if(isRendering) videoRenderer.stop();
 	}
 	
 	///////////////////////////

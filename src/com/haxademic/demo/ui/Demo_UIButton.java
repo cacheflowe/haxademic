@@ -45,7 +45,7 @@ implements IUIButtonDelegate {
 		}
 	}
 	
-	public void clicked(UIButton button) {
+	public void uiButtonClicked(UIButton button) {
 		P.out(button.id(), button.value());
 	}
 	
