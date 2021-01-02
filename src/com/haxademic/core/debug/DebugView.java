@@ -287,7 +287,7 @@ implements IAppStoreListener {
 		p.image(image, padding, padding, texW, texH);
 		
 		// if mouse hover, draw big afterwards
-		if(CollisionUtil.rectangleContainsPoint(Mouse.x, Mouse.y, controlX, controlY, IUIControl.controlW, (int) texH)) {
+		if(CollisionUtil.rectangleContainsPoint(Mouse.x, Mouse.y, controlX, controlY, IUIControl.controlW, (int) texH + (int) padding * 2)) {
 			highlightedImage = image;
 		}
 
