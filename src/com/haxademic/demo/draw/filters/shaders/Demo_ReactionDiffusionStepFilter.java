@@ -90,8 +90,8 @@ extends PAppletHax {
 		
 		// zoom/rotate
 		RotateFilter.instance(p).setZoom(1f);
-		RotateFilter.instance(p).setRotation(0.004f);
-		RotateFilter.instance(p).setOffset(0, 0.0002f);
+		RotateFilter.instance(p).setRotation(0.0001f);
+//		RotateFilter.instance(p).setOffset(0, 0.0002f);
 		RotateFilter.instance(p).applyTo(pg);
 		
 		pg.endDraw();

@@ -3,14 +3,24 @@ package com.haxademic.demo.draw.image;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
+import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.image.OpticalFlow;
+import com.haxademic.core.hardware.webcam.WebCam;
+import com.haxademic.core.hardware.webcam.WebCam.IWebCamCallback;
+
+import processing.core.PImage;
 
 public class Demo_OpticalFlow 
-extends PAppletHax {
+extends PAppletHax
+implements IWebCamCallback {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	protected OpticalFlow opticalFlow;
 
+	protected void firstFrame() {
+		WebCam.instance().setDelegate(this);
+	}
+	
 	protected void drawApp() {
 		// set up context
 		p.background(0);
@@ -23,6 +33,7 @@ extends PAppletHax {
 		pg.fill(255);
 		PG.setDrawCenter(pg);
 		pg.ellipse(p.mouseX, p.mouseY, 40, 40);
+		ImageUtil.cropFillCopyImage(WebCam.instance().image(), pg, true);
 		pg.endDraw();
 
 		// lazy-init color detection and update it with `pg`
@@ -49,6 +60,12 @@ extends PAppletHax {
 		vecResult = opticalFlow.getVectorAt(0f, 0f);
 		DebugView.setValue("OpticalFlow.getVectorAt(0f, 0f) x", vecResult[0]);
 		DebugView.setValue("OpticalFlow.getVectorAt(0f, 0f) y", vecResult[1]);
+	}
+
+	@Override
+	public void newFrame(PImage frame) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

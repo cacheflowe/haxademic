@@ -28,7 +28,7 @@ public class Demo_FeedbackMapShader
 extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
-	protected float frames = 80;
+	protected float frames = 240;
 	protected float progress = 0;
 	protected float progressRads = 0;
 	protected int W = 800;
@@ -102,7 +102,7 @@ extends PAppletHax {
 	protected void drawXShape(boolean black) {
 		pg.beginDraw();
 		xShape.disableStyle();
-		pg.fill(127f + 127f * P.sin(progressRads * 3f));
+		pg.fill(127f + 127f * P.sin(progressRads * 1f));
 		if(black) {
 			pg.fill(0);
 //			pg.fill(MathUtil.randRange(0, 255), MathUtil.randRange(0, 255), MathUtil.randRange(0, 255));
