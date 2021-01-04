@@ -34,8 +34,9 @@ public class Reset
 extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
-	protected int FRAMES = 60 * 10;
-	protected boolean wobbles = false;
+//	protected int FRAMES = 60 * 10;  // scrolling animation
+	protected int FRAMES = 60 * 15;  // neon animation
+	protected boolean wobbles = true;
 
 	protected String basePath = "images/_sketch/reset/";
 	protected PShape iabLogo;
@@ -61,8 +62,8 @@ extends PAppletHax {
 		"streaming",
 		"data",
 		"measurement",
-		"attribution",
 		"privacy",
+		"attribution",
 		"identity",
 		"compliance",
 		"audio",
@@ -76,10 +77,34 @@ extends PAppletHax {
 	protected int paddingX = 4;
 	protected int colorTextRedLight = 0xffff0202;
 	protected int colorTextWhite = 0xffffffff;
+	
+	// animation #1: scroll!
 	protected EasingFloat scrollProgress = new EasingFloat(0, 0.1f);
 	protected LinearFloat scrollPageProgress = new LinearFloat(0, 0.025f);
 	protected float scrollCurPageStart = 0;
 	protected float scrollCurPageEnd = 0;
+	
+	// animation #2: neon!
+	protected LinearFloat[] wordProgressShow;
+	protected LinearFloat[] wordProgressColor;
+	protected int[][] wordIndexes = new int[][] {
+			new int[] {0, 6,  9},
+			new int[] {1, 7,  11},
+			new int[] {2, 2,  2},
+			new int[] {3, 8,  12},
+			new int[] {4, 9,  5},
+			new int[] {5, 10, 10},
+	};
+	protected int[] wordCurIndex = new int[] {0, 0, 0, 0, 0, 0};
+	protected PGraphics extraGreat; 
+
+	
+	// text position/layout
+	float textH = 0;
+	float wordSpacing = 0;
+	int numWords = 0;
+	float startY = 0;
+
 	
 	protected final int APP_W = 1280;
 	protected final int APP_H = 830;
@@ -117,12 +142,18 @@ extends PAppletHax {
 	protected void drawApp() {
 		p.background(0);
 		
+		// calculate layout
+		textH = pg.height * 0.14f;
+		wordSpacing = textH * 0.93f;
+		numWords = words.length;
+		startY = -pg.height * 0.35f;
+		
 		// pre-draw
 		drawBgBlurMap();
 //		drawBgTexture();
 		updateBackgroundNoise();
 		
-		// set up context
+		// set up pg context
 		pg.beginDraw();
 		pg.push();
 		pg.background(127, 0, 5);
@@ -130,8 +161,9 @@ extends PAppletHax {
 		PG.setCenterScreen(pg);
 		
 		// camera/rotation
-//		CameraUtil.setCameraDistance(pg, 0.1f, 20000);
-//		PG.basicCameraFromMouse(pg, 0.3f);
+		//	CameraUtil.setCameraDistance(pg, 0.1f, 20000);
+		//	PG.basicCameraFromMouse(pg, 0.3f);
+		wobbles = true;
 		if(wobbles) {
 			pg.rotateY(-0.2f + 0.1f * P.sin(P.HALF_PI + FrameLoop.progressRads()));
 			float wobbleX = 0.07f;
@@ -144,6 +176,8 @@ extends PAppletHax {
 //		pg.pop();
 		pg.push();
 		pg.rotate(-0.45f);
+		PG.setDrawFlat2d(pg, true);
+		PG.setDrawCorner(pg);
 		drawTexts();
 		drawIabLogo();
 		pg.pop();
@@ -152,7 +186,7 @@ extends PAppletHax {
 		pg.pop();
 		pg.endDraw();
 		
-		// draw composition to screeen
+		// draw composition to screen
 		ImageUtil.drawImageCropFill(pg, p.g, true);
 	}
 	
@@ -170,10 +204,15 @@ extends PAppletHax {
 		texts = new PGraphics[words.length];
 		for (int i = 0; i < words.length; i++) {
 			texts[i] = buildText(words[i], i);
+			if(i == 2) extraGreat = buildText(words[i], i, true);
 		}
 	}
 	
 	protected PGraphics buildText(String word, int index) {
+		return buildText(word, index, false);
+	}
+	
+	protected PGraphics buildText(String word, int index, boolean filled) {
 		// sentence concat
 		String sentence = "the " + word + " reset";
 		
@@ -187,7 +226,11 @@ extends PAppletHax {
 		textBuffer.clear();
 		textBuffer.background(0);
 		FontCacher.setFontOnContext(textBuffer, font, p.color(255), 1f, PTextAlign.CENTER, PTextAlign.CENTER);
-		StrokeText.draw(textBuffer, sentence, textBuffer.width * -0.5f, textBuffer.height * -0.66f, textBuffer.width * 2f, textBuffer.height * 1.85f, p.color(255), p.color(0), pg.height * 0.006f, 36);
+		if(filled) {			
+			textBuffer.text(sentence, textBuffer.width * -0.5f, textBuffer.height * -0.66f, textBuffer.width * 2f, textBuffer.height * 1.85f);
+		} else {
+			StrokeText.draw(textBuffer, sentence, textBuffer.width * -0.5f, textBuffer.height * -0.66f, textBuffer.width * 2f, textBuffer.height * 1.85f, p.color(255), p.color(0), pg.height * 0.006f, 36);
+		}
 		textBuffer.endDraw();
 		
 		// knock out background
@@ -200,20 +243,197 @@ extends PAppletHax {
 	}
 	
 	protected void drawTexts() {
-		PG.setDrawFlat2d(pg, true);
-		PG.setDrawCorner(pg);
-		// text size/spacing measurements
-		float textH = pg.height * 0.14f;
-		float wordSpacing = textH * 0.93f;
-		int numWords = words.length;
+//		drawScrollVersion();
+//		drawNeonVersion();
+		drawSlideVersion();
+	}
+	
+	protected void drawNeonVersion() {
+		// lazy init
+		if(wordProgressShow == null) {
+			wordProgressShow = new LinearFloat[6];
+			for (int i = 0; i < wordProgressShow.length; i++) {
+				wordProgressShow[i] = new LinearFloat(0.5f, 0.025f);
+			}
+		}
+		
+		// update positions/progress
+		for (int i = 0; i < wordProgressShow.length; i++) {
+			wordProgressShow[i].update();
+		}
+		
+		// set animation props on specific frames
+		if(
+				FrameLoop.loopCurFrame() == 10 || 
+				FrameLoop.loopCurFrame() == P.round(FrameLoop.loopFrames() * 0.33f) || 
+				FrameLoop.loopCurFrame() == P.round(FrameLoop.loopFrames() * 0.66f)
+			) {
+			for (int i = 0; i < wordProgressShow.length; i++) {
+				wordProgressShow[i].setInc(0.03f);
+				wordProgressShow[i].setDelay(i * 7).setCurrent(0.5f).setTarget(0);
+			}
+		}
+		
+		// check for linearfloat progress completions
+		for (int i = 0; i < wordProgressShow.length; i++) {
+			// come back from full white
+			if(wordProgressShow[i].value() == 1 && wordProgressShow[i].target() == 1) {
+				wordProgressShow[i].setDelay(30).setTarget(0.5f);
+			}
+			// show after fading out
+			if(wordProgressShow[i].value() == 0 && wordProgressShow[i].target() == 0) {
+				wordProgressShow[i].setDelay(60).setTarget(0.49f);
+				// increment word index when fading word back up
+				wordCurIndex[i]++;
+				wordCurIndex[i] = wordCurIndex[i] % wordIndexes[0].length;
+			}
+			// slight delay from red to white
+			if(wordProgressShow[i].value() == 0.49f && wordProgressShow[i].target() == 0.49f) {
+				wordProgressShow[i].setDelay(30).setTarget(1);
+			}
+		}
 
+		
+		// draw words - only 6 slots
+		for (int i = 0; i < 6; i++) {
+			// individual word position
+			int loopIndx = i % numWords;
+			float offsetY = 0;
+			PGraphics curTextPg = texts[wordIndexes[loopIndx][wordCurIndex[i]]]; // wordIndexes
+			float textScale = MathUtil.scaleToTarget(curTextPg.height, textH);
+			float textW = curTextPg.width * textScale;
+			float textX = pg.width * 0.65f - textW;
+			float wordY = startY + i * wordSpacing;
+
+			// set word color and edge animation offsets
+			float colorMix = P.map(wordProgressShow[i].value(), 0.5f, 1, 0, 1);
+			float alphaMix = P.map(wordProgressShow[i].value(), 0f, 0.5f, 0, 1);
+			if(i == 2) colorMix = 1;
+			if(i == 2) alphaMix = 1;
+			int lerpCol = p.lerpColor(colorTextRedLight, colorTextWhite, colorMix);
+			pg.tint(lerpCol, alphaMix * 255f);
+			
+			// draw word to screen
+			pg.push();
+			pg.translate(-pg.width * 0.3f, wordY + offsetY);
+			if(i == 2) {
+				float fadeMix = P.map(wordProgressShow[i].value(), 0.5f, 1, 0, 1);
+				PG.setPImageAlpha(pg, 1f - fadeMix);
+				pg.image(curTextPg, textX, 0, textW, curTextPg.height * textScale);
+				PG.resetPImageAlpha(pg);
+				
+				PG.setPImageAlpha(pg, fadeMix);
+				pg.image(extraGreat, textX, 0, textW, extraGreat.height * textScale);
+				PG.resetPImageAlpha(pg);
+			} else {
+				pg.image(curTextPg, textX, 0, textW, curTextPg.height * textScale);
+			}
+			pg.pop();
+		}
+	}
+	
+	protected void drawSlideVersion() {
+		// lazy init
+		if(wordProgressShow == null) {
+			wordProgressShow = new LinearFloat[6];
+			wordProgressColor = new LinearFloat[6];
+			for (int i = 0; i < wordProgressShow.length; i++) {
+				wordProgressShow[i] = new LinearFloat(0.5f, 0.025f);
+				wordProgressColor[i] = new LinearFloat(1, 0.025f);
+			}
+		}
+		
+		// update positions/progress
+		for (int i = 0; i < wordProgressShow.length; i++) {
+			wordProgressShow[i].update();
+			wordProgressColor[i].update();
+		}
+		
+		// set animation props on specific frames
+		// clear screen every 3rd of the animation
+		if(
+				FrameLoop.loopCurFrame() == 10 || 
+				FrameLoop.loopCurFrame() == P.round(FrameLoop.loopFrames() * 0.33f) || 
+				FrameLoop.loopCurFrame() == P.round(FrameLoop.loopFrames() * 0.66f)
+				) {
+			for (int i = 0; i < wordProgressShow.length; i++) {
+				wordProgressShow[i].setInc(0.015f);
+				wordProgressColor[i].setInc(0.06f);
+				wordProgressShow[i].setDelay(i * 7).setCurrent(0.5f).setTarget(1);
+				wordProgressColor[i].setCurrent(0.001f).setTarget(0.001f);
+			}
+		}
+		
+		// check for linearfloat progress completions
+		for (int i = 0; i < wordProgressShow.length; i++) {
+			// restart
+			if(wordProgressShow[i].value() == 1 && wordProgressShow[i].target() == 1) {
+				wordProgressShow[i].setDelay(30).setCurrent(0).setTarget(0.5f);
+				// increment word index when sliding back in
+				wordCurIndex[i]++;
+				wordCurIndex[i] = wordCurIndex[i] % wordIndexes[0].length;
+			}
+			// slight delay from red to white when words land on screen
+			if(wordProgressShow[i].value() == 0.5f && wordProgressShow[i].target() == 0.5f && wordProgressColor[i].value() == 0.001f && wordProgressColor[i].target() != 1) {
+//				wordProgressShow[i].setDelay(180).setTarget(1);
+				wordProgressColor[i].setDelay(20 + i * 1).setCurrent(0).setTarget(1);
+			}
+			// pulse back to red
+			if(wordProgressColor[i].value() == 1 && wordProgressColor[i].target() == 1) {
+				wordProgressColor[i].setDelay(90 + i * 1).setCurrent(1).setTarget(0);
+			}
+		}
+		
+		
+		// draw words - only 6 slots
+		for (int i = 0; i < 6; i++) {
+			// individual word position
+			int loopIndx = i % numWords;
+			float offsetY = 0;
+			PGraphics curTextPg = texts[wordIndexes[loopIndx][wordCurIndex[i]]]; // wordIndexes
+			float textScale = MathUtil.scaleToTarget(curTextPg.height, textH);
+			float textW = curTextPg.width * textScale;
+			float textX = pg.width * 0.65f - textW;
+			float wordY = startY + i * wordSpacing;
+			
+			// set word color and edge animation offsets
+			float colorMix = wordProgressColor[i].value();
+			if(i == 2) colorMix = 1;
+			int lerpCol = p.lerpColor(colorTextRedLight, colorTextWhite, colorMix);
+			pg.tint(lerpCol);
+			
+			// offset x for sliding
+			float offsetX = (wordProgressShow[i].value() <= 0.5f) ?
+					pg.width * 2f - pg.width * 2f * Penner.easeOutQuint(P.map(wordProgressShow[i].value(), 0, 0.5f, 0, 1)) :
+					-pg.width * 2f * Penner.easeInQuint(P.map(wordProgressShow[i].value(), 0.5f, 1, 0, 1));	
+			if(i != 2) textX += offsetX;
+			
+			// draw word to screen
+			pg.push();
+			pg.translate(-pg.width * 0.3f, wordY + offsetY);
+			if(i == 2) {
+				float fadeMix = wordProgressColor[i].value();
+				PG.setPImageAlpha(pg, 1f - fadeMix);
+				pg.image(curTextPg, textX, 0, textW, curTextPg.height * textScale);
+				PG.resetPImageAlpha(pg);
+				
+				PG.setPImageAlpha(pg, fadeMix);
+				pg.image(extraGreat, textX, 0, textW, extraGreat.height * textScale);
+				PG.resetPImageAlpha(pg);
+			} else {
+				pg.image(curTextPg, textX, 0, textW, curTextPg.height * textScale);
+			}
+			pg.pop();
+		}
+	}
+	
+	protected void drawScrollVersion() {
 		// page scroll
 		float curPageScrollDist = scrollCurPageEnd - scrollCurPageStart;
 		float curPageProgress = scrollCurPageStart + Penner.easeInOutQuint(scrollPageProgress.value()) * curPageScrollDist;
 		float easedScrollPosition = curPageProgress;//Penner.easeInOutQuint(scrollPageProgress.value());
 		
 		// scroll measurements
-		float startY = -pg.height * 0.35f;
 		float centerY = startY + (textH * 2f); // 3rd word from top
 		float scrollDistance = wordSpacing * numWords;
 		float scrollStacks = 2;
@@ -229,24 +449,24 @@ extends PAppletHax {
 		float bottomEdge = startY + wordSpacing * 5f;
 		
 		// scroll to new location on specific frames
-		if(FrameLoop.loopCurFrame() == 10) {
+		if(FrameLoop.loopCurFrame() == 2) {
 			// reset page turn w/start & end scroll positions
 			scrollPageProgress.setCurrent(0).setTarget(1);
-			scrollPageProgress.setInc(0.006f);
+			scrollPageProgress.setInc(0.0075f);
 			scrollCurPageStart = 0;
-			scrollCurPageEnd = scrollSingleStep * 5f;
+			scrollCurPageEnd = scrollSingleStep * 4f;
 		}
 		if(FrameLoop.loopCurFrame() == P.round(FrameLoop.loopFrames() * 0.3f)) {
 			// reset page turn w/start & end scroll positions
 			scrollPageProgress.setCurrent(0).setTarget(1);
-			scrollPageProgress.setInc(0.006f);
+			scrollPageProgress.setInc(0.0075f);
 			scrollCurPageStart = scrollCurPageEnd;
 			scrollCurPageEnd = scrollSingleStep * (numWords + 9f);
 		}
 		if(FrameLoop.loopCurFrame() == P.round(FrameLoop.loopFrames() * 0.6f)) {
 			// reset page turn w/start & end scroll positions
 			scrollPageProgress.setCurrent(0).setTarget(1);
-			scrollPageProgress.setInc(0.006f);
+			scrollPageProgress.setInc(0.0055f);
 			scrollCurPageStart = scrollCurPageEnd;
 			scrollCurPageEnd = scrollSingleStep * (numWords * 3f);	// needs to add up to 26, if we have 13 words
 		}
@@ -296,7 +516,7 @@ extends PAppletHax {
 				pg.tint(lerpCol);
 			}
 			
-			
+			// draw image to screen
 			pg.push();
 			pg.translate(-pg.width * 0.3f, wordY + offsetY);
 			pg.image(texts[loopIndx], textX, 0, textW, texts[loopIndx].height * textScale);
