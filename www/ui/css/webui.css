@@ -165,3 +165,17 @@ Buttons
   background-color: var(--color);
   color: var(--background);
 }
+
+/*****************************
+Textfields
+*****************************/
+input[type=text] {
+  background-color: #fff;
+}
+
+/*****************************
+Titles
+*****************************/
+h3 {
+  color: #fff;
+}

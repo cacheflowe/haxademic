@@ -16,8 +16,8 @@ extends PAppletHax {
 	protected String R = "R";
 	protected String G = "G";
 	protected String B = "B";
-	
 	protected String VECTOR_3 = "VECTOR_3";
+	protected String TEXT = "TEXT";
 	
 	protected void config() {
 		Config.setProperty(AppSettings.SHOW_UI, true);
@@ -32,7 +32,8 @@ extends PAppletHax {
 		UI.addButton("Button", false);
 		UI.addButton("Button 2", true);
 		UI.addButtons(new String[] {"1", "2", "3", "4"}, true);
-		for (int i = 0; i < 30; i++) UI.addSlider("Test slider " + i, 255, 0, 255, 0.5f, false);
+		UI.addTextfield(TEXT, "Test String", false);
+//		for (int i = 0; i < 30; i++) UI.addSlider("Test slider " + i, 255, 0, 255, 0.5f, false);
 		UI.addWebInterface(false);
 		P.out(UI.configToJSON());
 		P.out(UI.valuesToJSON());

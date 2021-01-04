@@ -64,6 +64,15 @@ extends AbstractHandler {
 			}
 			return "{\"log\": \"slider: "+sliderIndex+", value: "+sliderValue+"\"}";
 
+		} else if(pathComponents[0].equals("textfield")) {
+			String textIndex = pathComponents[1];
+			String textVal = (pathComponents.length > 2) ? pathComponents[2] : "";
+//			HttpInputState.instance().setControlValue("textfield"+textIndex, textVal);	// HttpInputStateis only numeric values right now
+			if(UI.has(textIndex)) {
+				UI.setValue(textIndex, textVal);
+			}
+			return "{\"log\": \"textfield: "+textIndex+", value: "+textVal+"\"}";
+			
 		} else if(pathComponents[0].equals("config")) {
 			return UI.configToJSON();
 

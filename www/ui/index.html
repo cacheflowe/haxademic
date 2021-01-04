@@ -36,9 +36,11 @@
     const TYPE_BUTTON = "button";
     const TYPE_SLIDER = "slider";
     const TYPE_TITLE = "title";
+    const TYPE_TEXTFIELD = "textfield";
     let buttonTemplate = '<button data-ui-button="true" class="btn {COLS}" id="{ID}" data-value="{VALUE}" data-toggles="{TOGGLES}">{ID}</button>';
     let sliderTemplate = '<input data-ui-slider="true" id="{ID}" class="{COLS}" type="range" min="{MIN}" max="{MAX}" step="{STEP}" value="{VALUE}"></input>';
     let titleTemplate = '<h3 id="{ID}">{VALUE}</h3>';
+    let textTemplate = '<input data-ui-textfield="true" id="{ID}" class="{COLS}" type="text" value="{VALUE}"></input>';
     let uiContainer = document.getElementById('ui-container');
 
     function buildUiControls(uiArray) {
@@ -59,6 +61,12 @@
           sliderStr = sliderStr.replace("{MAX}", element.value_high);
           sliderStr = sliderStr.replace("{STEP}", element.value_step);
           uiContainer.innerHTML += sliderStr;
+        } else if(element.type == TYPE_TEXTFIELD) {
+          let textInputStr = textTemplate + "";
+          textInputStr = textInputStr.replace(/{ID}/g, element.id);
+          textInputStr = textInputStr.replace("{VALUE}", element.value);
+          textInputStr = textInputStr.replace("{COLS}", widthClass(element.layout_width));
+          uiContainer.innerHTML += textInputStr;
         } else if(element.type == TYPE_TITLE) {
           let titleStr = titleTemplate + "";
           titleStr = titleStr.replace(/{ID}/g, element.id);
@@ -96,6 +104,9 @@
       if(e.target && e.target.hasAttribute('data-ui-slider')) {
         makeRequest('/slider/'+ e.target.id +'/' + e.target.value);
       }
+      if(e.target && e.target.hasAttribute('data-ui-textfield')) {
+        makeRequest('/textfield/'+ e.target.id +'/' + e.target.value);
+      }
     });
 
     // request helper for UI controls
@@ -118,14 +129,17 @@
       if(data) {
         for (const key in data) {
           if (data.hasOwnProperty(key)) {
-            const element = data[key];
+            const val = data[key];
             let uiControl = document.getElementById(key);
             if(uiControl) {
               if(uiControl.hasAttribute('data-ui-slider')) {
-                uiControl.value = element;
-                uiControl.setAttribute('data-value', element.toFixed(1));
+                uiControl.value = val;
+                uiControl.setAttribute('data-value', val.toFixed(1));
               } else if(uiControl.hasAttribute('data-ui-button')) {
-                uiControl.setAttribute('data-value', element);
+                uiControl.setAttribute('data-value', val);
+              } else if(uiControl.hasAttribute('data-ui-textfield')) {
+                uiControl.value = val;
+                uiControl.setAttribute('data-value', val);
               }
             } else {
               // titles are included in configuration but don't havE associated UI controls

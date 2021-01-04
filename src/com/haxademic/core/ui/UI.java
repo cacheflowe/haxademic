@@ -187,6 +187,10 @@ implements IAppStoreListener {
 		controls.get(key).set(val);
 	}
 	
+	public static void setValue(String key, String val) {
+		((UITextInput) controls.get(key)).set(val);
+	}
+	
 	public static void setRandomValue(String key) {
 		((UISlider) controls.get(key)).setRandomValue();
 	}
@@ -286,7 +290,11 @@ implements IAppStoreListener {
 			JSONObject controlJson = new JSONObject();
 			controlJson.setString(KEY_TYPE, control.type());
 			controlJson.setString(KEY_ID, control.id());
-			controlJson.setFloat(KEY_VALUE, control.value());
+			if(control.type() == IUIControl.TYPE_TEXTFIELD ||	control.type() == IUIControl.TYPE_TITLE) {
+				controlJson.setString(KEY_VALUE, control.valueString());
+			} else {
+				controlJson.setFloat(KEY_VALUE, control.value());
+			}
 			controlJson.setFloat(KEY_VALUE_MIN, control.valueMin());
 			controlJson.setFloat(KEY_VALUE_MAX, control.valueMax());
 			controlJson.setFloat(KEY_VALUE_STEP, control.step());
@@ -319,7 +327,12 @@ implements IAppStoreListener {
 			// get key/val
 //			IUIControl control = controls.get(hashKey);
 			String key = control.id();
-			float val = control.value();
+			String val;
+			if(control.type() == IUIControl.TYPE_TEXTFIELD ||	control.type() == IUIControl.TYPE_TITLE) {
+				val = "\"" + control.valueString() + "\"";
+			} else {
+				val = ""+control.value();
+			}
 			// check keys against filter (or if no filter)
 			boolean filterFound = false;
 			for (int i = 0; i < filters.length; i++) {
