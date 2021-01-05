@@ -4,8 +4,8 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
-import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.file.FileUtil;
+import com.haxademic.core.media.DemoAssets;
 import com.haxademic.core.render.Renderer;
 
 import processing.core.PImage;
@@ -16,37 +16,26 @@ public class ShaderVertexTrigDeform
 extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
-
 	PImage texture;
 	PShape mesh;
 	float angle;
 	PShader texShader;
-	float _frames = 60;
+	float _frames = 240;
 
 
 	protected void config() {
-		Config.setProperty( AppSettings.FILLS_SCREEN, "false" );
-		Config.setProperty( AppSettings.WIDTH, "640" );
-		Config.setProperty( AppSettings.HEIGHT, "640" );
+		Config.setProperty( AppSettings.RENDERING_MOVIE, false );
 		
-		Config.setProperty( AppSettings.RENDERING_MOVIE, "false" );
-		
-		Config.setProperty( AppSettings.RENDERING_GIF, "false" );
-		Config.setProperty( AppSettings.RENDERING_GIF_FRAMERATE, "40" );
-		Config.setProperty( AppSettings.RENDERING_GIF_QUALITY, "15" );
-		Config.setProperty( AppSettings.RENDERING_GIF_START_FRAME, "3" );
-		Config.setProperty( AppSettings.RENDERING_GIF_STOP_FRAME, ""+Math.round(_frames+2) );
+		Config.setProperty( AppSettings.RENDERING_GIF, false );
+		Config.setProperty( AppSettings.RENDERING_GIF_FRAMERATE, 40 );
+		Config.setProperty( AppSettings.RENDERING_GIF_QUALITY, 15 );
+		Config.setProperty( AppSettings.RENDERING_GIF_START_FRAME, 3 );
+		Config.setProperty( AppSettings.RENDERING_GIF_STOP_FRAME, Math.round(_frames+2) );
 
 	}
 
 	protected void firstFrame() {
-	
-		p.smooth( OpenGLUtil.SMOOTH_HIGH );
-
-		// texture = loadImage(FileUtil.getFile("images/ello-multiple.png"));
-		texture = loadImage(FileUtil.getPath("images/cacheflowe-art/fractal-2013-09-26-20-11-32.png"));
-		
-		mesh = createCylinder(100, 200, 1000, texture);
+		mesh = createCylinder(100, 200, 1000, DemoAssets.textureJupiter());
 
 		texShader = loadShader(
 			FileUtil.getPath("haxademic/shaders/vertex/trig-displace-frag.glsl"), 

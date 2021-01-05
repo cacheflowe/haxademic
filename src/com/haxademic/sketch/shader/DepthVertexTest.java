@@ -4,6 +4,7 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
 import com.haxademic.core.file.FileUtil;
+import com.haxademic.core.media.DemoAssets;
 
 import processing.core.PGraphics;
 import processing.core.PImage;
@@ -20,7 +21,6 @@ extends PAppletHax {
 	PGraphics canvas;
 	PImage backImage;
 
-	// https://forum.processing.org/two/discussion/3250/how-to-store-information-in-the-alpha-channel
 	
 	protected void config() {
 		Config.setProperty( AppSettings.WIDTH, 600 );
@@ -33,15 +33,19 @@ extends PAppletHax {
 	}
 
 	protected void firstFrame() {
-	
-		
 		canvas = createGraphics(width, height, P3D);
 		canvas.beginDraw();
 		canvas.noStroke();
 		canvas.endDraw();
 		
-		backImage = loadImage("http" + "://upload.wikimedia.org/wikipedia/commons/thumb/5/59/Processing_Logo_Clipped.svg/256px-Processing_Logo_Clipped.svg.png");
-		depthShader = new PShader(this, FileUtil.getPath("haxademic/shaders/vertex/depth-vert.glsl"), FileUtil.getPath("haxademic/shaders/vertex/depth-frag.glsl"));
+		backImage = DemoAssets.justin();
+		
+		// load shader and set once - it'll persist between frames
+		// https://forum.processing.org/two/discussion/3250/how-to-store-information-in-the-alpha-channel
+		depthShader = new PShader(this, 
+			FileUtil.getPath("haxademic/shaders/vertex/depth-vert.glsl"), 
+			FileUtil.getPath("haxademic/shaders/vertex/depth-frag.glsl")
+		);
 		canvas.shader(depthShader);
 		
 	}
@@ -49,16 +53,13 @@ extends PAppletHax {
 	protected void drawApp() {
 		depthShader.set("screen", (float)width, (float)height, (float)300, (float)600);
 	    canvas.beginDraw();
-	    canvas.blendMode(REPLACE);
-	 
+//	    canvas.blendMode(REPLACE);
 	    canvas.background(0, 0);
 //	    canvas.fill(100,200,100);
 	    canvas.translate(width / 2, height / 2);
 	    canvas.rotate(frameCount / 100.0f, 1.0f, 0.75f, 0.5f);
 	    canvas.box(300);
 	    canvas.endDraw();
-	    
-
 	 
 	    image(backImage, -40, -40, width + 80, height + 80);
 	    image(canvas, 0, 0);
