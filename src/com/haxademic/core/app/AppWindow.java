@@ -77,6 +77,13 @@ implements IAppStoreListener {
 			p.smooth(Config.getInt(AppSettings.SMOOTHING, AppSettings.SMOOTH_HIGH));	
 		}
 		
+		// SET APP ICON
+		String appIconFile = Config.getString(AppSettings.APP_ICON, "haxademic/images/haxademic-logo.png");
+		String iconPath = FileUtil.getPath(appIconFile);
+		if(FileUtil.fileExists(iconPath)) {
+			PJOGL.setIcon(iconPath);
+		}
+		
 		// DO WE DARE TRY THE RETINA SETTING?
 		if(Config.getBoolean(AppSettings.RETINA, false) == true) {
 			if(p.displayDensity() == 2) {
@@ -91,13 +98,6 @@ implements IAppStoreListener {
 		// FRAMERATE
 		int _fps = Config.getInt(AppSettings.FPS, 60);
 		if(Config.getInt(AppSettings.FPS, 60) != 60) P.p.frameRate(_fps);
-		
-		// SET APP ICON
-		String appIconFile = Config.getString(AppSettings.APP_ICON, "haxademic/images/haxademic-logo.png");
-		String iconPath = FileUtil.getPath(appIconFile);
-		if(FileUtil.fileExists(iconPath)) {
-			PJOGL.setIcon(iconPath);
-		}
 		
 		// APP RESIZING
 		if(Config.getBoolean(AppSettings.RESIZABLE, false) == true) {
