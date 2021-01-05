@@ -2,8 +2,9 @@
 
 ## Bugs
 
-* [DONE?] IUIControl components are saving text files when they shouldn't
-* UI via web interface (json config) doesn't support new textfield components
+* UI via web interface (json config)  should support:
+  * New textfield component
+  * Title component
 
 ## Modularize PAppletHax
 
@@ -13,11 +14,6 @@
     * Add ability to target specific offscreen buffers
     * Test audioreactive rendering
   	* Joons leaves the context in a weird place, and DebugView looks busted & scaled up. Do we need to reset the camera?
-  * DebugView/UI
-    * Show full text on hover (move to top of z-stack)
-    * Click to copy a value
-    * Fix Interphase web sequencer buttons
-    * UI components should dispatch event or have getter flags for when a component is hovered/changed
   * Revisit AppWindow & update demos. Try to keep on top on an interval, in case of windows popups
 
   * Update README with updated references
@@ -142,8 +138,16 @@ PGA + Bespoke:
 * Android high-framerate capture or UVC use?
   * https://github.com/android/media-samples/blob/master/MediaRecorder/Application/src/main/java/com/example/android/mediarecorder/MainActivity.java
 
+## DebugView / UI
+  * Update Web UI CSS to work on more devices. Use Plus Six slider styles?
+    * Update in general & make it more attractive. Titles & textfields too
+    * https://materializecss.com ?
+  * Show full text on hover (move to top of z-stack)
+  * Click to copy a value
+
 ## Big Mother / DashboardPoster / CrashMonitor
 
+* Add a delegate callback or event(!) that's called when a screenshot is taking place, in case we want to do other stuff. Yotel should take an rgb capture
 * Update standalone DashboardPoster app w/new dashboard code
 * Should Screenshot in DashboardPoster be it's own app/process, like the CrashMonitor? or *in* CrashMonitor? As an UptimeSuite??
 * CrashMonitor is very slow to communicate & turns yellow if a heavy app is starting up
@@ -291,7 +295,9 @@ PGA + Bespoke:
     * Chords - stick with 4th & 5th
     * Load MIDI file for quantization purposes
     * MIDI sync with ableton - slave to ableton tempo
-    * Figure out delay for swing
+    * Drag & drop wav file to load
+      * https://stackoverflow.com/a/39415436
+    * [DONE?] Figure out delay for swing
     * Check this out: https://www.elf-audio.com/synths/bauble/#
   * Make sub-app or figure out how to dispose or flush the Java sound stuff that starts lagging after hours of running
     * Look at Minim setInputMixer example to switch audio inputs
@@ -378,9 +384,12 @@ PGA + Bespoke:
   * Check MIDI rendering now that MIDI code has been revamped
 
 ## GLSL
+  * Get a handle on modelViewInv uniform. make a basic example to test
   * Fresnel shader:
     * https://github.com/poikilos/KivyGlops/blob/master/shaders/fresnel.glsl
   * Cheap depth buffer: https://github.com/kosowski/Processing_DepthBuffer/blob/master/DepthBuuferRead/CustomFrameBuffer.pde
+    * Also: com.haxademic.sketch.shader.ShaderSSAO
+    * Also: com.haxademic.sketch.shader.DepthVertexTest
   * Compute Shaders: https://github.com/perses-games/jogl-compute-shaders-fireworks
   * Big particle sim like: https://www.instagram.com/p/B-h3tp7oUWN/
   * Processing float 32 support: https://github.com/processing/processing/issues/3321
@@ -470,7 +479,9 @@ PGA + Bespoke:
 ## General / tools
   * Check out fast voronoi/delaunay library: http://leebyron.com/mesh/
   * Video
+    * Add VLCJ for 4k/HAP/webcam playback: https://github.com/linux-man/VLCJVideo
     * IP camera (get one that does an mjpeg stream)
+      * Or does this one work with VLCJ??
     * Rtp video in Java?
       * https://www.oracle.com/technetwork/java/javase/documentation/toolstx-178270.html
       * https://forum.processing.org/two/discussion/17166/livestreaming-ipcapture-sdp-file
@@ -530,6 +541,7 @@ Advanced Processing
   * WebSocket server
   * PGraphics compositing
     * Handling large graphics in realtime (Joran clouds example)
+    * Text buffer & alpha channel
   * Kinect topics
     * Room scan
     * Center-of-mass technique, vs. skeleton detection
