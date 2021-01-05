@@ -57,18 +57,18 @@ extends PAppletHax {
 	protected PGraphics[] texts;
 	protected String[] words = new String[] {
 		"video",
-		"addressability",
+		"creative",
 		"great",
-		"streaming",
-		"data",
-		"measurement",
+		"retail",
+		"compliance",
+		"addressability",
 		"privacy",
 		"attribution",
-		"identity",
-		"compliance",
+		"streaming",
+		"data",
 		"audio",
-		"creative",
-		"retail",
+		"measurement",
+		"identity",
 	};
 
 	protected String fontFile;
@@ -96,6 +96,8 @@ extends PAppletHax {
 			new int[] {5, 10, 10},
 	};
 	protected int[] wordCurIndex = new int[] {0, 0, 0, 0, 0, 0};
+	
+	// filled version
 	protected PGraphics extraGreat; 
 
 	
@@ -111,10 +113,11 @@ extends PAppletHax {
 	
 	protected void config() {
 		Config.setAppSize(APP_W, APP_H);
-		Config.setPgSize(APP_W * 2, APP_H * 2);
+		Config.setPgSize(APP_W * 3, APP_H * 2);
+		Config.setProperty(AppSettings.RESIZABLE, true);
 		Config.setProperty(AppSettings.SHOW_FPS_IN_TITLE, true);
 		Config.setProperty(AppSettings.LOOP_FRAMES, FRAMES);
-		Config.setProperty(AppSettings.RENDERING_MOVIE, false);
+		Config.setProperty(AppSettings.RENDERING_MOVIE, true);
 		Config.setProperty(AppSettings.RENDERING_MOVIE_START_FRAME, 1 + FRAMES);
 		Config.setProperty(AppSettings.RENDERING_MOVIE_STOP_FRAME, 1 + FRAMES * 2);
 	}
@@ -146,7 +149,7 @@ extends PAppletHax {
 		textH = pg.height * 0.14f;
 		wordSpacing = textH * 0.93f;
 		numWords = words.length;
-		startY = -pg.height * 0.35f;
+		startY = -pg.height * 0.21f;
 		
 		// pre-draw
 		drawBgBlurMap();
@@ -163,7 +166,7 @@ extends PAppletHax {
 		// camera/rotation
 		//	CameraUtil.setCameraDistance(pg, 0.1f, 20000);
 		//	PG.basicCameraFromMouse(pg, 0.3f);
-		wobbles = true;
+		wobbles = false;
 		if(wobbles) {
 			pg.rotateY(-0.2f + 0.1f * P.sin(P.HALF_PI + FrameLoop.progressRads()));
 			float wobbleX = 0.07f;
@@ -179,7 +182,7 @@ extends PAppletHax {
 		PG.setDrawFlat2d(pg, true);
 		PG.setDrawCorner(pg);
 		drawTexts();
-		drawIabLogo();
+//		drawIabLogo();
 		pg.pop();
 		
 		// close context
@@ -187,7 +190,7 @@ extends PAppletHax {
 		pg.endDraw();
 		
 		// draw composition to screen
-		ImageUtil.drawImageCropFill(pg, p.g, true);
+		ImageUtil.drawImageCropFill(pg, p.g, false);
 	}
 	
 	/////////////////////////////////
@@ -243,9 +246,9 @@ extends PAppletHax {
 	}
 	
 	protected void drawTexts() {
-//		drawScrollVersion();
+		drawScrollVersion();
 //		drawNeonVersion();
-		drawSlideVersion();
+//		drawSlideVersion();
 	}
 	
 	protected void drawNeonVersion() {
@@ -428,6 +431,9 @@ extends PAppletHax {
 	}
 	
 	protected void drawScrollVersion() {
+		// override filled "great" text version
+		texts[2] = extraGreat;
+		
 		// page scroll
 		float curPageScrollDist = scrollCurPageEnd - scrollCurPageStart;
 		float curPageProgress = scrollCurPageStart + Penner.easeInOutQuint(scrollPageProgress.value()) * curPageScrollDist;
@@ -449,26 +455,30 @@ extends PAppletHax {
 		float bottomEdge = startY + wordSpacing * 5f;
 		
 		// scroll to new location on specific frames
-		if(FrameLoop.loopCurFrame() == 2) {
+		// scroll speed
+		scrollPageProgress.setInc(0.0075f);
+		scrollPageProgress.setInc(0.01f);
+		
+		float framesDivided = 1f / 10f; // numWords;
+		boolean newScroll = false;
+		float newScrollEnd = 0;
+		// scroll
+		if(FrameLoop.loopCurFrame() == 1) 													 { newScroll = true; newScrollEnd = scrollSingleStep * 3; scrollCurPageEnd = 0; }
+		if(FrameLoop.loopCurFrame() == P.round(FrameLoop.loopFrames() * framesDivided * 1f)) { newScroll = true; newScrollEnd = scrollSingleStep * 6; }
+		if(FrameLoop.loopCurFrame() == P.round(FrameLoop.loopFrames() * framesDivided * 2f)) { newScroll = true; newScrollEnd = scrollSingleStep * 9; }
+		if(FrameLoop.loopCurFrame() == P.round(FrameLoop.loopFrames() * framesDivided * 3f)) { newScroll = true; newScrollEnd = scrollSingleStep * (numWords * 1f); }
+		if(FrameLoop.loopCurFrame() == P.round(FrameLoop.loopFrames() * framesDivided * 5f)) { newScroll = true; newScrollEnd = scrollSingleStep * 17; }
+		if(FrameLoop.loopCurFrame() == P.round(FrameLoop.loopFrames() * framesDivided * 6f)) { newScroll = true; newScrollEnd = scrollSingleStep * 20; }
+		if(FrameLoop.loopCurFrame() == P.round(FrameLoop.loopFrames() * framesDivided * 7f)) { newScroll = true; newScrollEnd = scrollSingleStep * 23; }
+		if(FrameLoop.loopCurFrame() == P.round(FrameLoop.loopFrames() * framesDivided * 8f)) { newScroll = true; newScrollEnd = scrollSingleStep * (numWords * 2f); }
+//		if(FrameLoop.loopCurFrame() == P.round(FrameLoop.loopFrames() * framesDivided * 3f)) { newScroll = true; newScrollEnd = scrollSingleStep * (numWords + 3f); }
+//		if(FrameLoop.loopCurFrame() == P.round(FrameLoop.loopFrames() * framesDivided * 3f)) { newScroll = true; newScrollEnd = scrollSingleStep * (numWords  * 2f); }
+		
+		if(newScroll) {
 			// reset page turn w/start & end scroll positions
 			scrollPageProgress.setCurrent(0).setTarget(1);
-			scrollPageProgress.setInc(0.0075f);
-			scrollCurPageStart = 0;
-			scrollCurPageEnd = scrollSingleStep * 4f;
-		}
-		if(FrameLoop.loopCurFrame() == P.round(FrameLoop.loopFrames() * 0.3f)) {
-			// reset page turn w/start & end scroll positions
-			scrollPageProgress.setCurrent(0).setTarget(1);
-			scrollPageProgress.setInc(0.0075f);
 			scrollCurPageStart = scrollCurPageEnd;
-			scrollCurPageEnd = scrollSingleStep * (numWords + 9f);
-		}
-		if(FrameLoop.loopCurFrame() == P.round(FrameLoop.loopFrames() * 0.6f)) {
-			// reset page turn w/start & end scroll positions
-			scrollPageProgress.setCurrent(0).setTarget(1);
-			scrollPageProgress.setInc(0.0055f);
-			scrollCurPageStart = scrollCurPageEnd;
-			scrollCurPageEnd = scrollSingleStep * (numWords * 3f);	// needs to add up to 26, if we have 13 words
+			scrollCurPageEnd = newScrollEnd;
 		}
 		
 		// scroll progress
@@ -488,7 +498,7 @@ extends PAppletHax {
 			float offsetY = 0;
 			float textScale = MathUtil.scaleToTarget(texts[loopIndx].height, textH);
 			float textW = texts[loopIndx].width * textScale;
-			float textX = pg.width * 0.65f - textW;
+			float textX = pg.width * 0.7f - textW;	// was: 0.65f
 			
 			// set word color and edge animation offsets
 			if(wordY < topEdge) {
@@ -541,14 +551,16 @@ extends PAppletHax {
 		PG.setDrawFlat2d(pg, true);
 		pg.push();
 		PG.setDrawCenter(pg);
-		pg.translate(0, 0, -pg.height * 0.15f);
+		pg.translate(pg.height * 0.47f, 0, -pg.height * 0.15f);	// 0 centered
 		
-		// extra wobble
-		float easedProgress = Penner.easeInOutQuint(FrameLoop.progress());
-//		pg.rotate(easedProgress * P.TWO_PI * 1f);
 		pg.rotateZ(FrameLoop.progressRads());
-		float wobbleX = 0.07f;
-		pg.rotateX(wobbleX + wobbleX * P.sin(-P.HALF_PI + FrameLoop.progressRads()));
+		// extra wobble
+		if(wobbles) {
+			float easedProgress = Penner.easeInOutQuint(FrameLoop.progress());
+	//		pg.rotate(easedProgress * P.TWO_PI * 1f);
+			float wobbleX = 0.07f;
+			pg.rotateX(wobbleX + wobbleX * P.sin(-P.HALF_PI + FrameLoop.progressRads()));
+		}
 		
 		// draw logo
 		float logoScale = MathUtil.scaleToTarget(recycleLogo.height, pg.height * 0.9f);
@@ -636,7 +648,7 @@ extends PAppletHax {
 		pg.push();
 		PG.setDrawCorner(pg);
 		pg.translate(-pg.width * -.1f, -pg.height * 0.2f, -pg.height * 0.4f);
-//		pg.rotateY(-0.3f + 0.05f * P.sin(FrameLoop.progressRads()));
+		pg.rotateY(-0.3f + 0.05f * P.sin(FrameLoop.progressRads()));
 		
 		// deform mesh
 		MeshDeformAndTextureFilter.instance(p).setDisplacementMap(noiseTexture.texture());
