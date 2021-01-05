@@ -17,7 +17,6 @@ import com.haxademic.core.ui.UI;
 
 import processing.core.PGraphics;
 import processing.core.PShape;
-import processing.data.JSONObject;
 import processing.opengl.PShader;
 
 public class Demo_VertexShader_GPUParticlesWarp 
@@ -193,7 +192,7 @@ extends PAppletHax {
 //		generateSettings();
 		settingsIndex++;
 		if(settingsIndex >= particleSettings.length) settingsIndex = 0;
-		UI.loadValuesFromJSON(JSONObject.parse(particleSettings[settingsIndex]));
+		UI.loadValuesFromJSON(particleSettings[settingsIndex]);
 	}
 	
 	public void keyPressed() {
