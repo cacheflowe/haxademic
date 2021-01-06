@@ -18,6 +18,7 @@ import com.haxademic.core.ui.UI;
 
 import processing.core.PGraphics;
 import processing.core.PShape;
+import processing.opengl.PGraphicsOpenGL;
 
 public class Demo_VertexShader_MoveSpheres 
 extends PAppletHax {
@@ -55,6 +56,8 @@ extends PAppletHax {
 	}
 	
 	protected void firstFrame() {
+		pg = PG.newPG32(pg.width, pg.height, false, false);
+		
 		// UI
 		UI.addTitle("Spheres config");
 		UI.addToggle(CAMERA_ON, true, false);
@@ -70,7 +73,7 @@ extends PAppletHax {
 		
 		// config build shapes
 		float shapeSize = 12;
-		float shapeSpacing = 12;
+		float shapeSpacing = shapeSize * 2f;
 		p.sphereDetail(10);
 		int vertCount = PShapeUtil.vertexCount(PShapeUtil.createSphere(1, 0));
 
@@ -105,9 +108,9 @@ extends PAppletHax {
 		
 		// load shader to move spheres
 		polygonShader = new PShaderHotSwap(
-				FileUtil.getPath("haxademic/shaders/vertex/mesh-3d-deform-vert.glsl"),
-				FileUtil.getPath("haxademic/shaders/vertex/mesh-3d-deform-frag.glsl") 
-			);
+			FileUtil.getPath("haxademic/shaders/vertex/mesh-3d-deform-vert.glsl"),
+			FileUtil.getPath("haxademic/shaders/vertex/mesh-3d-deform-frag.glsl") 
+		);
 		noiseTexture = new SimplexNoiseTexture(cols, rows, true);
 		displaceTexture = PG.newPG32(cols, rows, false, false);
 		DebugView.setTexture("noiseTexture", noiseTexture.texture());
@@ -128,12 +131,13 @@ extends PAppletHax {
 		noiseTexture.offsetY(UI.value(DISPLACE_OFFSET_Y) + FrameLoop.count(UI.value(NOISE_SPEED_Y)));
 		noiseTexture.update();
 		// lerp proper 32-bit texture for displacement
-		BlendTowardsTexture.instance(p).setBlendLerp(0.05f);
+		BlendTowardsTexture.instance(p).setBlendLerp(0.5f);
 		BlendTowardsTexture.instance(p).setSourceTexture(noiseTexture.texture());
 		BlendTowardsTexture.instance(p).applyTo(displaceTexture);
 		// draw & generate shapes
 //		pg.beginDraw();
 		// apply deform shader and draw mesh - CANNOT HAVE PROCESSING LIGHTS TURNED ON!
+		polygonShader.shader().set("modelviewInv", ((PGraphicsOpenGL) g).modelviewInv);
 		polygonShader.shader().set("time", p.frameCount);
 		polygonShader.shader().set("displacementMap", displaceTexture);
 		polygonShader.shader().set("displaceAmp", UI.value(DISPLACE_AMP));
@@ -145,7 +149,8 @@ extends PAppletHax {
 		polygonShader.update();
 		
 		// draw mesh group
-		p.shader(polygonShader.shader());  
+		p.shader(polygonShader.shader());
+//		p.translate(FrameLoop.osc(0.02f, -100, 100), 0);
 		p.shape(group);
 		p.resetShader();
 		// shared elements

@@ -77,7 +77,7 @@ public class PG {
 	
 	public static PGraphics newPG32(int w, int h, boolean smooth, boolean hasAlpha) {
 		PGraphics newPG = PGraphics32.createGraphics(P.p, w, h);
-		if(smooth == false) newPG.noSmooth();
+		if(smooth == false) newPG.noSmooth();	// turning off smoothing seems to benefit shader-only drawing
 		if(hasAlpha == true) {
 			newPG.beginDraw();
 			newPG.background(0, 0);

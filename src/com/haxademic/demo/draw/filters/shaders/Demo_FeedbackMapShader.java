@@ -58,7 +58,7 @@ extends PAppletHax {
 	}
 
 	protected void firstFrame() {
-
+		pg = PG.newPG32(pg.width, pg.height, false, false);
 
 		map = PG.newPG(W, H);
 
@@ -66,7 +66,7 @@ extends PAppletHax {
 		PShapeUtil.centerShape(xShape);
 		PShapeUtil.scaleShapeToMaxAbsY(xShape, p.height * 0.35f);
 
-		simplexNoise = new SimplexNoiseTexture(128, 128);
+		simplexNoise = new SimplexNoiseTexture(128, 128, true);
 		audioTexture = new TextureEQGrid(128, 128);
 
 		textureShader = new TextureShader(TextureShader.bw_voronoi);

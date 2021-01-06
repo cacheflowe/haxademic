@@ -7,6 +7,7 @@ import com.haxademic.core.app.config.Config;
 import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.color.ImageGradient;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.AlphaStepFilter;
 import com.haxademic.core.draw.filters.pshader.BadTVGlitchFilter;
 import com.haxademic.core.draw.filters.pshader.BadTVLinesFilter;
@@ -123,6 +124,8 @@ extends PAppletHax { public static void main(String args[]) { arguments = args; 
 	}
 
 	protected void firstFrame() {
+//		pg = PG.newPG32(pg.width, pg.height, false, false);	// causes problems with certain shaders
+		
 		noiseTexture = new TextureShader(TextureShader.noise_simplex_2d_iq);
 		noiseBuffer = p.createGraphics(p.width, p.height, PRenderers.P2D);
 		

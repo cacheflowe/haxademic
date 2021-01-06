@@ -5,7 +5,6 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
 import com.haxademic.core.data.constants.PBlendModes;
-import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.ContrastFilter;
@@ -63,9 +62,9 @@ extends PAppletHax {
 		bufferDirection = PG.newDataPG((int) w, (int) h); // p.createGraphics((int) w, (int) h, PRenderers.P3D);
 //		bufferDirection.noSmooth();
 		bufferAmp = PG.newDataPG((int) w, (int) h); // p.createGraphics((int) w, (int) h, PRenderers.P3D);
-		bufferRenderedParticles = p.createGraphics(p.width, p.height, PRenderers.P3D);
+		bufferRenderedParticles = PG.newPG32(p.width, p.height, false, false); // p.createGraphics(p.width, p.height, PRenderers.P3D);
 //		bufferRenderedParticles.smooth(8);
-		colorBuffer = p.createGraphics(p.width, p.height, PRenderers.P3D);
+		colorBuffer = PG.newPG32(p.width, p.height, false, false);
 //		colorBuffer.smooth(8);
 
 		DebugView.setTexture("colorBuffer", colorBuffer);
@@ -144,7 +143,7 @@ extends PAppletHax {
 		// update particle positions
 		positionMover.set("directionMap", bufferDirection);
 		positionMover.set("ampMap", bufferAmp);
-		positionMover.set("amp", 0.003f);// * (0.5f + 0.3f * P.sin(p.frameCount/20f))); // P.map(p.mouseX, 0, p.width, 0.001f, 0.05f));
+		positionMover.set("amp", 0.001f);// * (0.5f + 0.3f * P.sin(p.frameCount/20f))); // P.map(p.mouseX, 0, p.width, 0.001f, 0.05f));
 		bufferPositions.filter(positionMover);
 		
 		// update render shader

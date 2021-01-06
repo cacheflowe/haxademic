@@ -20,7 +20,7 @@ public class SimplexNoiseTexture {
 	}
 	public SimplexNoiseTexture(int w, int h, boolean is32bit) {
 		noiseTexture = new TextureShader(TextureShader.noise_simplex_2d_iq);
-	    noiseBuffer = (is32bit) ? PG.newPG32(w, h, true, false) : PG.newPG(w, h);
+	    noiseBuffer = (is32bit) ? PG.newPG32(w, h, false, false) : PG.newPG(w, h);
 	}
 
 	public PGraphics texture() {
