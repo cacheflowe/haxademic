@@ -83,6 +83,8 @@ mat4 rotationMatrix(vec3 axis, float angle)
 ////////////////////////////
 // Rotation functions from: 
 // https://www.geeks3d.com/20141201/how-to-rotate-a-vertex-by-a-quaternion-in-glsl/
+// More to look at here:
+// https://stackoverflow.com/questions/27215854/rotate-a-sphere-in-an-opengl-shader
 ////////////////////////////
 
 vec4 quat_from_axis_angle(vec3 axis, float angle)

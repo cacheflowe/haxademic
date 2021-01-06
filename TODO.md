@@ -11,7 +11,9 @@
 * Next:
   * WebCam menu should look more structured like UI/DebugView - can they all live together?
   * Clean up Renderer situation
-    * Add ability to target specific offscreen buffers
+    * Add 2d noise() loop function to FrameLoop
+    * It always inits a video renderer, which is shouldn't. Test different modes.
+    * [Done, but clean up] Add ability to target specific offscreen buffers
     * Test audioreactive rendering
   	* Joons leaves the context in a weird place, and DebugView looks busted & scaled up. Do we need to reset the camera?
   * Revisit AppWindow & update demos. Try to keep on top on an interval, in case of windows popups
