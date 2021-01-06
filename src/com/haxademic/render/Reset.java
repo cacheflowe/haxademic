@@ -16,7 +16,6 @@ import com.haxademic.core.draw.text.FontCacher;
 import com.haxademic.core.draw.text.StrokeText;
 import com.haxademic.core.draw.textures.SimplexNoiseTexture;
 import com.haxademic.core.file.FileUtil;
-import com.haxademic.core.hardware.mouse.Mouse;
 import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.EasingFloat;
 import com.haxademic.core.math.easing.LinearFloat;
