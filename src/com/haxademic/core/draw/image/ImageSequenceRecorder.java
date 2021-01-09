@@ -1,7 +1,6 @@
 package com.haxademic.core.draw.image;
 
-import com.haxademic.core.app.P;
-import com.haxademic.core.data.constants.PRenderers;
+import com.haxademic.core.draw.context.PG;
 
 import processing.core.PGraphics;
 import processing.core.PImage;
@@ -24,8 +23,7 @@ public class ImageSequenceRecorder {
 	protected void buildFrames() {
 		images = new PGraphics[numFrames];
 		for (int i = 0; i < numFrames; i++) {
-			images[i] = P.p.createGraphics(width, height, PRenderers.P2D);
-			images[i].noSmooth();
+			images[i] = PG.newPG2DFast(width, height);
 		}
 	}
 	
@@ -52,7 +50,11 @@ public class ImageSequenceRecorder {
 	}
 	
 	public void drawDebug(PGraphics pg) {
-		pg.beginDraw();
+		drawDebug(pg, false);
+	}
+	
+	public void drawDebug(PGraphics pg, boolean openContext) {
+		if(openContext) pg.beginDraw();
 		float frameW = (float) pg.width / (float) numFrames;
 		float frameH = frameW * ((float) height / (float) width);
 		for (int i = 0; i < numFrames; i++) {
@@ -61,6 +63,6 @@ public class ImageSequenceRecorder {
 			while(curIndex < 0) curIndex += numFrames; 
 			pg.image(images[curIndex], x, 0, frameW, frameH);
 		}
-		pg.endDraw();
+		if(openContext) pg.endDraw();
 	}
 }
