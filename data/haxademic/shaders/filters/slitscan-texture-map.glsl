@@ -9,7 +9,6 @@ uniform sampler2D texture;
 varying vec4 vertColor;
 varying vec4 vertTexCoord;
 
-uniform float lerpAmp = 0.5;
 uniform sampler2D map;
 uniform sampler2D frame_0;
 uniform sampler2D frame_1;
@@ -25,7 +24,7 @@ uniform sampler2D frame_10;
 uniform sampler2D frame_11;
 uniform sampler2D frame_12;
 uniform sampler2D frame_13;
-uniform sampler2D frame_14;
+// uniform sampler2D frame_14;
 
 
 float rgbToGray(vec4 rgba) {
@@ -34,23 +33,29 @@ float rgbToGray(vec4 rgba) {
 }
 
 void main() {
+  // sample 
 	vec2 p = vertTexCoord.xy;
-  vec4 colorOrig = texture2D(texture, p);
-  float idx = floor(rgbToGray(colorOrig) * 15.);
+  vec4 mapColor = texture2D(map, p);
+  float mapAmp = rgbToGray(mapColor);
 
-  if(idx == 0.) gl_FragColor = mix(colorOrig, texture2D(frame_0, p), lerpAmp);
-  else if(idx == 1.) gl_FragColor = mix(colorOrig, texture2D(frame_1, p), lerpAmp);
-  else if(idx == 2.) gl_FragColor = mix(colorOrig, texture2D(frame_2, p), lerpAmp);
-  else if(idx == 3.) gl_FragColor = mix(colorOrig, texture2D(frame_3, p), lerpAmp);
-  else if(idx == 4.) gl_FragColor = mix(colorOrig, texture2D(frame_4, p), lerpAmp);
-  else if(idx == 5.) gl_FragColor = mix(colorOrig, texture2D(frame_5, p), lerpAmp);
-  else if(idx == 6.) gl_FragColor = mix(colorOrig, texture2D(frame_6, p), lerpAmp);
-  else if(idx == 7.) gl_FragColor = mix(colorOrig, texture2D(frame_7, p), lerpAmp);
-  else if(idx == 8.) gl_FragColor = mix(colorOrig, texture2D(frame_8, p), lerpAmp);
-  else if(idx == 9.) gl_FragColor = mix(colorOrig, texture2D(frame_9, p), lerpAmp);
-  else if(idx == 10.) gl_FragColor = mix(colorOrig, texture2D(frame_10, p), lerpAmp);
-  else if(idx == 11.) gl_FragColor = mix(colorOrig, texture2D(frame_11, p), lerpAmp);
-  else if(idx == 12.) gl_FragColor = mix(colorOrig, texture2D(frame_12, p), lerpAmp);
-  else if(idx == 13.) gl_FragColor = mix(colorOrig, texture2D(frame_13, p), lerpAmp);
-  else if(idx >= 14.) gl_FragColor = mix(colorOrig, texture2D(frame_14, p), lerpAmp);
+  // get posterization and map to crossfade across all images
+  float idx = mapAmp * 13.;
+  float crossfade = mod(idx, 1.);
+
+  // crossfade across all images
+  if(idx <= 1.) gl_FragColor = mix(texture2D(frame_0, p), texture2D(frame_1, p), crossfade);
+  else if(idx <= 2.) gl_FragColor = mix(texture2D(frame_1, p), texture2D(frame_2, p), crossfade);
+  else if(idx <= 3.) gl_FragColor = mix(texture2D(frame_2, p), texture2D(frame_3, p), crossfade);
+  else if(idx <= 4.) gl_FragColor = mix(texture2D(frame_3, p), texture2D(frame_4, p), crossfade);
+  else if(idx <= 5.) gl_FragColor = mix(texture2D(frame_4, p), texture2D(frame_5, p), crossfade);
+  else if(idx <= 6.) gl_FragColor = mix(texture2D(frame_5, p), texture2D(frame_6, p), crossfade);
+  else if(idx <= 7.) gl_FragColor = mix(texture2D(frame_6, p), texture2D(frame_7, p), crossfade);
+  else if(idx <= 8.) gl_FragColor = mix(texture2D(frame_7, p), texture2D(frame_8, p), crossfade);
+  else if(idx <= 9.) gl_FragColor = mix(texture2D(frame_8, p), texture2D(frame_9, p), crossfade);
+  else if(idx <= 10.) gl_FragColor = mix(texture2D(frame_9, p), texture2D(frame_10, p), crossfade);
+  else if(idx <= 11.) gl_FragColor = mix(texture2D(frame_10, p), texture2D(frame_11, p), crossfade);
+  else if(idx <= 12.) gl_FragColor = mix(texture2D(frame_11, p), texture2D(frame_12, p), crossfade);
+  else if(idx <= 13.) gl_FragColor = mix(texture2D(frame_12, p), texture2D(frame_13, p), crossfade);
+
+  // gl_FragColor = texture2D(frame_0, p);
 }

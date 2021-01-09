@@ -1,12 +1,12 @@
 package com.haxademic.demo.hardware.webcam;
 
-import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
-import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
+import com.haxademic.core.draw.context.PShaderHotSwap;
+import com.haxademic.core.draw.filters.pshader.BlendTowardsTexture;
 import com.haxademic.core.draw.filters.pshader.ContrastFilter;
 import com.haxademic.core.draw.filters.pshader.SaturationFilter;
 import com.haxademic.core.draw.image.ImageSequenceRecorder;
@@ -18,7 +18,6 @@ import com.haxademic.core.hardware.webcam.WebCam.IWebCamCallback;
 
 import processing.core.PGraphics;
 import processing.core.PImage;
-import processing.opengl.PShader;
 
 public class Demo_ImageSequenceRecorder_Slitscan 
 extends PAppletHax
@@ -30,10 +29,9 @@ implements IWebCamCallback {
 	protected PGraphics noiseBuffer;
 	protected PGraphics slitscanOutputBuffer;
 	protected PGraphics slitscanLerpedBuffer;
-	protected PShader slitscanShader;
-	protected PShader lerpToTexture;
+	protected PShaderHotSwap slitscanShader;
 	protected TextureShader noiseTexture;
-	protected int numFrames = 15;
+	protected int numFrames = 14;
 	
 	protected void config() {
 		Config.setProperty(AppSettings.SHOW_DEBUG, false );
@@ -41,15 +39,16 @@ implements IWebCamCallback {
 	}
 		
 	protected void firstFrame () {
-		camBuffer = p.createGraphics(640, 480, PRenderers.P3D);
-		noiseBuffer = p.createGraphics(640, 480, PRenderers.P3D);
-		slitscanOutputBuffer = p.createGraphics(640, 480, PRenderers.P3D);
-		slitscanLerpedBuffer = p.createGraphics(640, 480, PRenderers.P3D);
-		lerpToTexture = P.p.loadShader(FileUtil.getPath("haxademic/shaders/filters/texture-blend-towards-texture.glsl"));
+		camBuffer = PG.newPG32(640, 480, false, true);
+		noiseBuffer = PG.newPG32(640, 480, false, true);
+		slitscanOutputBuffer = PG.newPG32(640, 480, false, true);
+		slitscanLerpedBuffer = PG.newPG32(640, 480, false, true);
+		DebugView.setTexture("slitscanLerpedBuffer", slitscanLerpedBuffer);
 		recorder = new ImageSequenceRecorder(camBuffer.width, camBuffer.height, numFrames);
-		WebCam.instance().setDelegate(this);
-		slitscanShader = p.loadShader(FileUtil.getPath("haxademic/shaders/filters/slitscan-texture-map.glsl"));
+		slitscanShader = new PShaderHotSwap(FileUtil.getPath("haxademic/shaders/filters/slitscan-texture-map.glsl"));	
+
 		noiseTexture = new TextureShader(TextureShader.noise_simplex_2d_iq);
+		WebCam.instance().setDelegate(this);
 	}
 
 	protected void drawApp() {
@@ -58,47 +57,65 @@ implements IWebCamCallback {
 
 		// update noise
 		noiseTexture.updateTime();
-		/*
-			uniform float zoom = 1.;
-			uniform float rotation = 0.;
-		 */
-		noiseTexture.shader().set("offset", 0f, p.frameCount * 0.01f);
-		noiseTexture.shader().set("rotation", 0f, p.frameCount * 0.01f);
-		noiseTexture.shader().set("zoom", 2f);
+		noiseTexture.shader().set("offset", 0f, p.frameCount * 0.007f);
+		noiseTexture.shader().set("rotation", 0f, p.frameCount * 0.002f);
+		noiseTexture.shader().set("zoom", 2.5f);
 		noiseBuffer.filter(noiseTexture.shader());
-		ContrastFilter.instance(p).setContrast(2f);
+		ContrastFilter.instance(p).setContrast(1f);
 		ContrastFilter.instance(p).applyTo(noiseBuffer);
 		DebugView.setTexture("noiseBuffer", noiseBuffer);
 		
+		// override map buffer
+		// pixel mode
+		/*
+		noiseBuffer.beginDraw();
+		noiseBuffer.noStroke();
+		noiseBuffer.background(255);
+		int gridSize = 20;
+		for (int x = 0; x < noiseBuffer.width; x+=gridSize) {
+			for (int y = 0; y < noiseBuffer.height; y+=gridSize) {
+				noiseBuffer.fill(p.noise(x, y) * 255f);
+				noiseBuffer.rect(x, y, gridSize, noiseBuffer.height);
+			}
+		}
+		noiseBuffer.endDraw();
+		*/
+		
 		// debug draw recorder object frames
 		PG.setDrawCorner(p);
-		// recorder.drawDebug(p.g);	// kills the rest of the drawing
+		recorder.drawDebug(p.g);	// kills the rest of the drawing
 		
 		// slitscanShader
-		slitscanShader.set("lerpAmp", 0.3f); // Mouse.xNorm
-		slitscanShader.set("map", noiseBuffer);
+		slitscanShader.update();
+		slitscanShader.shader().set("texture", noiseBuffer);
+		slitscanShader.shader().set("map", noiseBuffer);
 		for (int i = 0; i < numFrames; i++) {
-//			slitscanShader.set("frame_"+((i + recorder.frameIndex()) % numFrames), recorder.images()[i]);		// scary mode
-			int shaderFrame = i - 1 - recorder.frameIndex() % numFrames;
+			// follow the recorder
+			int curIndex = (recorder.frameIndex() + i) % numFrames;
+			while(curIndex < 0) curIndex += numFrames; 
+
+			// set uniforms
+			int shaderFrame = -1 + i - 1 - recorder.frameIndex() % numFrames;
 			while(shaderFrame < 0) shaderFrame += numFrames;
-			slitscanShader.set("frame_"+shaderFrame, recorder.images()[i]);
+//			slitscanShader.shader().set("frame_"+((i + recorder.frameIndex()) % numFrames), recorder.images()[i]);		// scary mode
+			slitscanShader.shader().set("frame_"+i, recorder.images()[curIndex]);
+			DebugView.setValue("shaderFrame"+shaderFrame, shaderFrame);
 		}
-		slitscanOutputBuffer.filter(slitscanShader);
+		slitscanOutputBuffer.filter(slitscanShader.shader());
 		DebugView.setTexture("slitscanOutputBuffer", slitscanOutputBuffer);
 		
 		// lerp the slitscan to next buffer
-		lerpToTexture.set("blendLerp", 0.3f);
-		lerpToTexture.set("targetTexture", slitscanOutputBuffer);
-		slitscanLerpedBuffer.filter(lerpToTexture);
-
+		BlendTowardsTexture.instance(p).setBlendLerp(0.45f);
+		BlendTowardsTexture.instance(p).setSourceTexture(slitscanOutputBuffer);
+		BlendTowardsTexture.instance(p).applyTo(slitscanLerpedBuffer);
 		
 		// draw live webcam
 		p.pushMatrix();
 		PG.setDrawCenter(p);
 		PG.setCenterScreen(p);
 //		p.image(camBuffer, 0, 0);
-//		p.image(slitscanOutputBuffer, 0, 0);
-		p.image(slitscanLerpedBuffer, 0, 0);
+		p.image(slitscanOutputBuffer, 0, 0);
+//		p.image(slitscanLerpedBuffer, 0, 0);
 		p.popMatrix();
 		
 	}
