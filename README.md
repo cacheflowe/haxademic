@@ -340,7 +340,9 @@ Below you'll find a long list of classes and utilities that I've built to make m
 
 ### UI
 
-* __[UISlider](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/ui/PrefSlider.java)__ - A text file-backed slider UI.
+* __[UISlider](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/ui/UISlider.java)__ - A text file-backed slider UI.
+
+* __[UISlider](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/ui/UISlider.java)__ - A text file-backed slider UI.
 
 * __[UIButton](https://github.com/cacheflowe/haxademic/blob/master/src/com/haxademic/core/ui/UIButton.java)__ - A Button object with optional toggle mode.
 
