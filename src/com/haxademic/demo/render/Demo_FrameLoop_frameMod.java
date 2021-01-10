@@ -36,7 +36,7 @@ extends PAppletHax {
 		p.noStroke();
 		p.fill(255);
 		
-
+		// draw
 		drawShapes();
 		drawText();
 		drawEventLog();

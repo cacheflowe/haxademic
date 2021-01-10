@@ -3,6 +3,7 @@ package com.haxademic.demo.render;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.render.FrameLoop;
 import com.haxademic.core.render.Renderer;
 
@@ -24,7 +25,7 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.LOOP_FRAMES, _frames );
 		Config.setProperty( AppSettings.LOOP_TICKS, 16 );
 		
-		Config.setProperty( AppSettings.RENDERING_MOVIE, true );
+		Config.setProperty( AppSettings.RENDERING_MOVIE, false );
 		Config.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, Math.round(_frames + _frames*4) );
 	}
 
@@ -52,7 +53,7 @@ extends PAppletHax {
 
 		// box
 		p.pushMatrix();
-		p.translate(p.width/2, p.height/2);
+		PG.setCenterScreen(p.g);
 		_boxRot.set(FrameLoop.progressRads(), FrameLoop.progressRads(), FrameLoop.progressRads());
 		p.rotateX(_boxRot.x);
 		p.rotateY(_boxRot.y);
