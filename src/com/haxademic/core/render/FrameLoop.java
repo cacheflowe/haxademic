@@ -67,6 +67,20 @@ public class FrameLoop {
 		return mid + P.sin(count(mult)) * range;
 	}
 	
+	public static float oscRads(float rads, float low, float high) {
+		float range = (high - low) * 0.5f;
+		float mid = low + range;
+		return mid + P.cos(rads) * range;
+	}
+	
+	public static float noiseLoop(float zoom, float offset) {
+		// circular looped noise
+		return P.p.noise(
+			offset + zoom * P.cos(progressRads()),
+			zoom * P.sin(progressRads())
+		);
+	}
+	
 	public static boolean frameMod(int mod) {
 		return FrameLoop.instance().frame % mod == 0;
 	}

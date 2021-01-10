@@ -8,16 +8,16 @@
   * Can we daisy-chain DMX lights for a test? Sync up light strip & larger fixtures?
   * Use Kinect to detect angle of hands, and flow a pattern left or righton LED strip depending on tint
 * Optical flow shader displace filter
-* Bring VLC wrapper into Haxademic
 * Processing 4 test branch 
 * WavPlayer updates for Moire Room & Interphase - build a test app
 * Fill a PShape with GPU particles. (check barradeu article)
 * Glitch mirror w/slit scan history but blocks on buffer difference active areas
+  * Bring VLC wrapper into Haxademic (& add to this demo)
 * Text rasterizer/cacher/cropper w/border per letter
 
 ## Bugs
 
-* UI via web interface (json config)  should support:
+* [WIP, needs styling] UI via web interface (json config)  should support:
   * New textfield component
   * Title component
 
