@@ -2,6 +2,8 @@
 
 ## New ideas, TODOs
 
+* Add audio textures from Moire Room to AudioIn or its data object in the core
+* Look at buffer writing audio (??)
 * Plug in Advatek and try out artnet w/WS2813 strip
   * Can we daisy-chain DMX lights for a test? Sync up light strip & larger fixtures?
   * Use Kinect to detect angle of hands, and flow a pattern left or righton LED strip depending on tint

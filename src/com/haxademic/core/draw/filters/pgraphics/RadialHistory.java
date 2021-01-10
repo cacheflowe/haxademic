@@ -35,9 +35,8 @@ extends BaseVideoFilter {
 		
 		// draw tunnel
 		for (int i = 0; i < recorder.images().length; i++) {
-			int shaderFrame = (recorder.frameIndex() + 1 + i) % recorder.images().length;
 			float imageScale = MathUtil.scaleToTarget(destBuffer.height, destBuffer.height - spacing * i);
-			destBuffer.image(recorder.images()[shaderFrame], 0, 0, destBuffer.width * imageScale, destBuffer.height * imageScale);
+			destBuffer.image(recorder.getSortedFrame(i), 0, 0, destBuffer.width * imageScale, destBuffer.height * imageScale);
 		}
 		
 		// pop context

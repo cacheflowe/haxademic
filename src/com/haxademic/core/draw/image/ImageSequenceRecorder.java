@@ -12,6 +12,12 @@ public class ImageSequenceRecorder {
 	protected int numFrames;
 	protected int frameIndex = 0;
 	protected PGraphics[] images;
+	protected PGraphics[] imagesSorted;
+	
+	// TODO: 
+	// - Instead of imageIndexes, just rearrange the PImage array every frame
+	// - Update other classes that use frames like this
+	// - Make the slitscan app use 15-16 images, and try to not pass in `texture`
 	
 	public ImageSequenceRecorder(int width, int height, int frames) {
 		this.width = width;
@@ -22,8 +28,10 @@ public class ImageSequenceRecorder {
 	
 	protected void buildFrames() {
 		images = new PGraphics[numFrames];
+		imagesSorted = new PGraphics[numFrames];
 		for (int i = 0; i < numFrames; i++) {
 			images[i] = PG.newPG2DFast(width, height);
+			imagesSorted[i] = images[i];
 		}
 	}
 	
@@ -44,9 +52,22 @@ public class ImageSequenceRecorder {
 		return images[frameIndex];
 	}
 	
+	public PGraphics getSortedFrame(int index) {
+		return imagesSorted[index];
+	}
+	
 	protected PImage getNextBuffer() {
 		frameIndex = (frameIndex < numFrames-1) ? frameIndex + 1 : 0;
+		updateSortedImages();
 		return images[frameIndex];
+	}
+	
+	protected void updateSortedImages() {
+		for (int i = 0; i < numFrames; i++) {
+			int curIndex = (frameIndex - i) % numFrames;
+			while(curIndex < 0) curIndex += numFrames;
+			imagesSorted[i] = images[curIndex];
+		}
 	}
 	
 	public void drawDebug(PGraphics pg) {
@@ -59,9 +80,7 @@ public class ImageSequenceRecorder {
 		float frameH = frameW * ((float) height / (float) width);
 		for (int i = 0; i < numFrames; i++) {
 			float x = frameW * i;
-			int curIndex = (frameIndex - i) % numFrames;
-			while(curIndex < 0) curIndex += numFrames; 
-			pg.image(images[curIndex], x, 0, frameW, frameH);
+			pg.image(imagesSorted[i], x, 0, frameW, frameH);
 		}
 		if(openContext) pg.endDraw();
 	}

@@ -9,6 +9,7 @@ import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.EdgesFilter;
 import com.haxademic.core.draw.filters.pshader.InvertFilter;
+import com.haxademic.core.draw.filters.pshader.LeaveWhiteFilter;
 import com.haxademic.core.draw.filters.pshader.RotateFilter;
 import com.haxademic.core.draw.filters.pshader.compound.ReactionDiffusionStepFilter;
 import com.haxademic.core.draw.image.BlobFinder;
@@ -19,6 +20,7 @@ import com.haxademic.core.ui.UI;
 import blobDetection.Blob;
 import blobDetection.EdgeVertex;
 import processing.core.PGraphics;
+import processing.core.PImage;
 
 public class Demo_ReactionDiffusionBlobDetection
 extends PAppletHax {
@@ -48,12 +50,12 @@ extends PAppletHax {
 
 	protected void firstFrame() {
 		// set up UI
-		UI.addTitle("ReactionDiffusionStepFilter");
-		UI.addSlider(RD_ITERATIONS, 2, 0, 20, 1, false);
-		UI.addSlider(RD_BLUR_ITERATIONS, 2, 0, 20, 1, false);
-		UI.addSlider(RD_BLUR_X, 1f, 0, 1.7f, 0.01f, false);
-		UI.addSlider(RD_BLUR_Y, 1f, 0, 1.7f, 0.01f, false);
-		UI.addSlider(RD_SHARPEN, 2f, 0, 30, 0.1f, false);
+//		UI.addTitle("ReactionDiffusionStepFilter");
+		UI.addSlider(RD_ITERATIONS, 3, 0, 20, 1, false);
+		UI.addSlider(RD_BLUR_ITERATIONS, 3, 0, 20, 1, false);
+		UI.addSlider(RD_BLUR_X, 1.5f, 0, 1.7f, 0.01f, false);
+		UI.addSlider(RD_BLUR_Y, 1.5f, 0, 1.7f, 0.01f, false);
+		UI.addSlider(RD_SHARPEN, 30f, 0, 30, 0.1f, false);
 		UI.addToggle(RD_THRESH_ACTIVE, true, false);
 		UI.addSlider(RD_THRESH_CROSSFADE, 0.5f, 0, 1, 0.01f, false);
 		UI.addSlider(RD_THRESH_CUTOFF, 0.5f, 0, 1, 0.01f, false);
@@ -90,12 +92,13 @@ extends PAppletHax {
 		p.background(255);
 
 		// set up drawing context & border shape
+		DebugView.setTexture("pg", pg);
 		pg.beginDraw();
-		if(p.frameCount == 1) {
+		if(p.frameCount == 1 || p.frameCount % 360 == 1) {
 			pg.background(0);
 			drawSeedCircle(pg, 255);
 		}
-		//		if(p.frameCount % 120 == 1) drawSeedCircle(pg, 255);
+//		if(p.frameCount % 120 == 1) drawSeedCircle(pg, 255);
 		drawOuterEnclosure(pg, 255);
 
 		// R/D effect
@@ -113,7 +116,7 @@ extends PAppletHax {
 		// zoom/rotate
 		RotateFilter.instance(p).setZoom(1f);
 		RotateFilter.instance(p).setRotation(0.004f);
-		RotateFilter.instance(p).setOffset(0, 0.005f);
+		RotateFilter.instance(p).setOffset(0, 0.0f);
 		RotateFilter.instance(p).applyTo(pg);
 
 		pg.endDraw();
@@ -124,16 +127,13 @@ extends PAppletHax {
 		// blob finder
 //		drawBlobs(p.g);
 		
-		// or edges filter
-//		EdgesFilter.instance(p).applyTo(p.g);
-		
 		// update buffer array
 		recorder.addFrame(pg);
 		// do some post-processing
 		InvertFilter.instance(p).applyTo(recorder.getCurFrame());
 		EdgesFilter.instance(p).applyTo(recorder.getCurFrame());
-//		LeaveWhiteFilter.instance(p).setCrossfade(0.5f);
-//		LeaveWhiteFilter.instance(p).applyTo(recorder.getCurFrame());
+		LeaveWhiteFilter.instance(p).setCrossfade(0.95f);
+		LeaveWhiteFilter.instance(p).applyTo(recorder.getCurFrame());
 		
 		// show debug frames
 		DebugView.setTexture("recorder", recorder.getCurFrame());
@@ -141,6 +141,7 @@ extends PAppletHax {
 		// display frames to screen
 		p.background(0);
 		p.ortho();
+//		p.perspective();
 //		recorder.drawDebug(p.g);
 		float spacing = 150;
 		PG.setCenterScreen(p);
@@ -148,18 +149,18 @@ extends PAppletHax {
 		p.rotateY(Mouse.xNorm * P.TWO_PI);
 		p.translate(0, 0, pg.height/4f);
 		p.blendMode(PBlendModes.ADD);
-		p.translate(0, 0, -spacing * recorder.images().length);
-		PG.setDrawCenter(p);
+		p.blendMode(PBlendModes.BLEND);
 		int numFrames = recorder.images().length;
-		for (int i = 0; i < recorder.images().length; i++) {
-//			int curIndex = (recorder.frameIndex() - i) % numFrames;
-			int curIndex = (recorder.frameIndex() + i) % numFrames;
-			while(curIndex < 0) curIndex += numFrames; 
+		p.translate(0, 0, -spacing * numFrames);
+		PG.setDrawCenter(p);
+		for (int i = 0; i < numFrames; i++) {
 			p.push();
 			p.translate(0, 0, spacing * i);
 			p.tint(255 * ((float) i / recorder.images().length));
-			float dispScale = 0.3f;
-			p.image(recorder.images()[curIndex], 0, 0, recorder.images()[curIndex].width * dispScale, recorder.images()[curIndex].width * dispScale);
+			float dispScale = 1f;
+			PImage img = recorder.getSortedFrame(numFrames - 1 - i);
+			p.tint(127f + 127 * P.sin(i/10f), 127f + 127 * P.sin(1 + i/10f), 127f + 127 * P.sin(2 + i/10f));
+			p.image(img, 0, 0, img.width * dispScale, img.width * dispScale);
 			p.pop();
 		}
 	}

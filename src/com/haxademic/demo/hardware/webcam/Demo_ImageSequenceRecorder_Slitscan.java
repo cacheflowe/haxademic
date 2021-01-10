@@ -31,7 +31,11 @@ implements IWebCamCallback {
 	protected PGraphics slitscanLerpedBuffer;
 	protected PShaderHotSwap slitscanShader;
 	protected TextureShader noiseTexture;
-	protected int numFrames = 14;
+	protected int numFrames = 16;
+	
+	// TODO:
+	// - Swap for faster camera (60fps would be nice)
+	// - Add more shaders to handle more frames of history
 	
 	protected void config() {
 		Config.setProperty(AppSettings.SHOW_DEBUG, false );
@@ -46,7 +50,6 @@ implements IWebCamCallback {
 		DebugView.setTexture("slitscanLerpedBuffer", slitscanLerpedBuffer);
 		recorder = new ImageSequenceRecorder(camBuffer.width, camBuffer.height, numFrames);
 		slitscanShader = new PShaderHotSwap(FileUtil.getPath("haxademic/shaders/filters/slitscan-texture-map.glsl"));	
-
 		noiseTexture = new TextureShader(TextureShader.noise_simplex_2d_iq);
 		WebCam.instance().setDelegate(this);
 	}
@@ -59,9 +62,9 @@ implements IWebCamCallback {
 		noiseTexture.updateTime();
 		noiseTexture.shader().set("offset", 0f, p.frameCount * 0.007f);
 		noiseTexture.shader().set("rotation", 0f, p.frameCount * 0.002f);
-		noiseTexture.shader().set("zoom", 2.5f);
+		noiseTexture.shader().set("zoom", 2.f);
 		noiseBuffer.filter(noiseTexture.shader());
-		ContrastFilter.instance(p).setContrast(1f);
+		ContrastFilter.instance(p).setContrast(1.35f);	// weights the time distortion to newest/oldest
 		ContrastFilter.instance(p).applyTo(noiseBuffer);
 		DebugView.setTexture("noiseBuffer", noiseBuffer);
 		
@@ -90,16 +93,7 @@ implements IWebCamCallback {
 		slitscanShader.shader().set("texture", noiseBuffer);
 		slitscanShader.shader().set("map", noiseBuffer);
 		for (int i = 0; i < numFrames; i++) {
-			// follow the recorder
-			int curIndex = (recorder.frameIndex() + i) % numFrames;
-			while(curIndex < 0) curIndex += numFrames; 
-
-			// set uniforms
-			int shaderFrame = -1 + i - 1 - recorder.frameIndex() % numFrames;
-			while(shaderFrame < 0) shaderFrame += numFrames;
-//			slitscanShader.shader().set("frame_"+((i + recorder.frameIndex()) % numFrames), recorder.images()[i]);		// scary mode
-			slitscanShader.shader().set("frame_"+i, recorder.images()[curIndex]);
-			DebugView.setValue("shaderFrame"+shaderFrame, shaderFrame);
+			slitscanShader.shader().set("frame_"+i, recorder.getSortedFrame(i));
 		}
 		slitscanOutputBuffer.filter(slitscanShader.shader());
 		DebugView.setTexture("slitscanOutputBuffer", slitscanOutputBuffer);
@@ -127,7 +121,7 @@ implements IWebCamCallback {
 		recorder.addFrame(camBuffer);
 		// do some post-processing
 		SaturationFilter.instance(p).setSaturation(0);
-		SaturationFilter.instance(p).applyTo(recorder.getCurFrame());
+//		SaturationFilter.instance(p).applyTo(recorder.getCurFrame());
 		// set debug staus
 		DebugView.setValue("Last WebCam frame", p.frameCount);
 	}

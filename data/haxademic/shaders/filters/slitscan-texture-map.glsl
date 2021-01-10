@@ -5,7 +5,7 @@ precision mediump int;
 
 #define PROCESSING_TEXTURE_SHADER
 
-uniform sampler2D texture;
+// uniform sampler2D texture;
 varying vec4 vertColor;
 varying vec4 vertTexCoord;
 
@@ -24,7 +24,8 @@ uniform sampler2D frame_10;
 uniform sampler2D frame_11;
 uniform sampler2D frame_12;
 uniform sampler2D frame_13;
-// uniform sampler2D frame_14;
+uniform sampler2D frame_14;
+uniform sampler2D frame_15;
 
 
 float rgbToGray(vec4 rgba) {
@@ -39,7 +40,7 @@ void main() {
   float mapAmp = rgbToGray(mapColor);
 
   // get posterization and map to crossfade across all images
-  float idx = mapAmp * 13.;
+  float idx = mapAmp * 15.;
   float crossfade = mod(idx, 1.);
 
   // crossfade across all images
@@ -56,6 +57,8 @@ void main() {
   else if(idx <= 11.) gl_FragColor = mix(texture2D(frame_10, p), texture2D(frame_11, p), crossfade);
   else if(idx <= 12.) gl_FragColor = mix(texture2D(frame_11, p), texture2D(frame_12, p), crossfade);
   else if(idx <= 13.) gl_FragColor = mix(texture2D(frame_12, p), texture2D(frame_13, p), crossfade);
+  else if(idx <= 14.) gl_FragColor = mix(texture2D(frame_13, p), texture2D(frame_14, p), crossfade);
+  else if(idx <= 15.) gl_FragColor = mix(texture2D(frame_14, p), texture2D(frame_15, p), crossfade);
 
   // gl_FragColor = texture2D(frame_0, p);
 }
