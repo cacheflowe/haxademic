@@ -4,10 +4,10 @@
 
 * Add audio textures from Moire Room to AudioIn or its data object in the core
 * Look at buffer writing audio (??)
-* Plug in Advatek and try out artnet w/WS2813 strip
-  * Grab ethernet cable and power supply & wiring
+* Advatek controller
   * Can we daisy-chain DMX lights for a test? Sync up light strip & larger fixtures?
   * Use Kinect to detect angle of hands, and flow a pattern left or righton LED strip depending on tint
+  * How to handle > 170 rgb lights on a universe
 * Optical flow shader displace filter
 * Processing 4 test branch 
 * WavPlayer updates for Moire Room & Interphase - build a test app

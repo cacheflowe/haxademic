@@ -3,6 +3,7 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="src" path="data"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="lib/artnet4j/library/artnet4j.jar"/>
 	<classpathentry kind="lib" path="lib/beads/library/beads.jar"/>
 	<classpathentry kind="lib" path="lib/beads/library/jarjar-1.0.jar"/>
 	<classpathentry kind="lib" path="lib/beads/library/jl1.0.1.jar"/>
