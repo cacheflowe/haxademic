@@ -1,11 +1,11 @@
-package com.haxademic.demo.hardware.artnet;
+package com.haxademic.core.hardware.dmx.artnet;
 
+import ch.bildspur.artnet.ArtNetClient;
 import com.haxademic.core.app.P;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
+import com.haxademic.core.draw.filters.pshader.BlendTowardsTexture;
 import com.haxademic.core.draw.image.ImageUtil;
-
-import ch.bildspur.artnet.ArtNetClient;
 import processing.core.PGraphics;
 import processing.core.PImage;
 
@@ -37,9 +37,9 @@ public class ArtNetLedStrip {
 
 	public void update(PImage img, float brightness, float smoothing) {
 		// copy frame - lerp it!
-//		BlendTowardsTexture.instance(P.p).setSourceTexture(img);
-//		BlendTowardsTexture.instance(P.p).setBlendLerp(smoothing);
-//		BlendTowardsTexture.instance(P.p).applyTo(buffer);
+		BlendTowardsTexture.instance(P.p).setSourceTexture(img);
+		BlendTowardsTexture.instance(P.p).setBlendLerp(smoothing);
+		BlendTowardsTexture.instance(P.p).applyTo(buffer);
 		ImageUtil.cropFillCopyImage(img, buffer, true);
 		buffer.loadPixels();
 
@@ -51,9 +51,9 @@ public class ArtNetLedStrip {
 			// GRB format
 			///////////////////////////
 			int pixelColor = ImageUtil.getPixelColor(buffer, i, y);
-			colorsData[i * 3 + 0] = P.parseByte(P.p.green(pixelColor) * brightness);
-			colorsData[i * 3 + 1] = P.parseByte(P.p.red(pixelColor) * brightness);
-			colorsData[i * 3 + 2] = P.parseByte(P.p.blue(pixelColor) * brightness);
+			colorsData[i * 3 + 0] = P.parseByte(P.max(10, P.p.red(pixelColor) * brightness));
+			colorsData[i * 3 + 1] = P.parseByte(P.max(10, P.p.green(pixelColor) * brightness));
+			colorsData[i * 3 + 2] = P.parseByte(P.max(10, P.p.blue(pixelColor) * brightness));
 		}
 		// send dmx to localhost
 		artnet.unicastDmx(universeIp, 0, 0, colorsData);
