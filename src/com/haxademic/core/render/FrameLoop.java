@@ -74,13 +74,17 @@ public class FrameLoop {
 	}
 	
 	public static float noiseLoop(float zoom, float offset) {
-		// circular looped noise
-		return P.p.noise(
-			offset + zoom * P.cos(progressRads()),
-			zoom * P.sin(progressRads())
-		);
+		return noiseLoop(zoom, offset, 0);
 	}
 	
+	public static float noiseLoop(float zoom, float offsetX, float offsetY) {
+		// circular looped noise
+		return P.p.noise(
+			offsetX + zoom * P.cos(progressRads()),
+			offsetY + zoom * P.sin(progressRads())
+		);
+	}
+
 	public static boolean frameMod(int mod) {
 		return FrameLoop.instance().frame % mod == 0;
 	}
