@@ -216,6 +216,10 @@ public class EasingColor {
 		return P.p.color(r.value() * multiplier, g.value() * multiplier, b.value() * multiplier, a.value());
 	}
 	
+	public boolean isComplete() {
+		return r.isComplete() && g.isComplete() && b.isComplete() && a.isComplete();
+	}
+	
 	public int colorIntMixedWith( EasingColor color2, float mix ) {
 		return P.p.lerpColor(colorInt(), color2.colorInt(), mix);
 	}

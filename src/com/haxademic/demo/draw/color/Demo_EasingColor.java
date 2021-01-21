@@ -43,6 +43,7 @@ extends PAppletHax {
 		}
 		
 		// update easing from UI & color object
+		DebugView.setValue("colorHaxEasing.isComplete()", colorHaxEasing.isComplete());
 		colorHaxEasing.setEaseFactor(UI.value(EASING));
 		colorHaxEasing.update();
 		
