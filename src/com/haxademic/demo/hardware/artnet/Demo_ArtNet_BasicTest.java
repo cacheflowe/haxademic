@@ -6,7 +6,7 @@ import com.haxademic.core.math.easing.Penner;
 
 import ch.bildspur.artnet.ArtNetClient;
 
-public class Demo_ArtNetTest
+public class Demo_ArtNet_BasicTest
 extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
@@ -36,7 +36,7 @@ extends PAppletHax {
 		// send dmx to localhost: address, subnet, universe, data
 		artnet.unicastDmx("192.168.1.101", 0, 0, dmxData);
 
-		// send DMX data out of extra port
+		// send DMX data out of extra port (set to universe `1`)
 		for(int i=0; i < 100; i++) {
 			// fill data array
 			int indx = i * 3;
@@ -44,6 +44,6 @@ extends PAppletHax {
 			dmxData2[indx + 1] = P.parseByte(127 + 127f * sin(1+(i/10f) + frameCount * 0.04f));
 			dmxData2[indx + 2] = P.parseByte(127 + 127f * sin(2+(i/10f) + frameCount * 0.02f));
 		}
-//		artnet.unicastDmx("192.168.1.101", 0, 1, dmxData2);
+		artnet.unicastDmx("192.168.1.101", 0, 1, dmxData2);
 	}
 }

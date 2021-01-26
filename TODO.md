@@ -31,7 +31,6 @@
 * Next:
   * WebCam menu should look more structured like UI/DebugView - can they all live together?
   * Clean up Renderer situation
-    * Add 2d noise() loop function to FrameLoop
     * It always inits a video renderer, which is shouldn't. Test different modes.
     * [Done, but clean up] Add ability to target specific offscreen buffers
     * Test audioreactive rendering
@@ -184,8 +183,14 @@ PGA + Bespoke:
 
 * Add multiple universes to DMXEditor
 * Build 8 bar light contraption @ home
-* Artnet https://github.com/cansik/artnet4j/tree/master/examples
+* ArtNet:
+  * Fix up `ArtNetLedStrip` with `ArtNetDataSender`
+  * Add mappable strips like DMXEditor
+  * Add matrix object wrapper
+    * Add PG to LED matrix object
+    * Send webcam in
 * sACN: http://www.bennette.co.uk/codeViewer.html?rootPath=downloads/src_files/java/sACN4J&projId=sacnlight&srcObj=0
+  * Can we turn this into a Processing library if given permission?
 
 ## Processing problems
 
@@ -407,6 +412,9 @@ PGA + Bespoke:
 
 ## GLSL
   * Get a handle on modelViewInv uniform. make a basic example to test
+  * Get more into custom lighting. Good start with this demo:
+    * com.haxademic.demo.draw.shapes.shader.Demo_VertexShader_MoveSpheres
+    * Also figure out vert shader rotation of sub shapes
   * Fresnel shader:
     * https://github.com/poikilos/KivyGlops/blob/master/shaders/fresnel.glsl
   * Cheap depth buffer: https://github.com/kosowski/Processing_DepthBuffer/blob/master/DepthBuuferRead/CustomFrameBuffer.pde
@@ -558,11 +566,15 @@ What is your app doing when you're not home?
     * https://github.com/laserpilot/Installation_Up_4evr
 
 Advanced Processing
+  * Processing v4 updates:
+    * Video player is *far* faster
+    * Capture (webcam) doesn't provide sizes, and that's tricky, because you don't know what you're actually getting
   * Hot reloading code in Eclipse/IntelliJ/Processing - make instructions!
     * Hot reloading PShader code w/Haxademic objects
   * How to track people
   * DMX & Addressable LEDs
   * Shader basics
+  * PShape geometry caching vs creating it all every frame
   * Shaders & chaining
     * Kinect noise smoothing
     * GPU particles
