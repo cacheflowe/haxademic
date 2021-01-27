@@ -31,6 +31,9 @@ implements IAudioInput {
 
 	public AudioInputBeads() {
 		ac = new AudioContext();
+//		ac = new AudioContext(new beads.JavaSoundAudioIO());
+//		ac = new AudioContext(new AudioServerIO.JavaSound());
+
 
 		ShortFrameSegmenter sfs = new ShortFrameSegmenter(ac);
 		gain = new Gain(ac, 2);
