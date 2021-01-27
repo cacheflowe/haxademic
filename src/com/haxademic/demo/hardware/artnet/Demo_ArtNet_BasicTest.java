@@ -30,7 +30,7 @@ extends PAppletHax {
 			float b = 0; // 127 + 127f * sin(2+(i/10f) + frameCount * 0.02f);
 			dmxData[indx + 0] = P.parseByte(r);
 			dmxData[indx + 1] = P.parseByte(g);
-			dmxData[indx + 2] = P.parseByte(r);
+			dmxData[indx + 2] = P.parseByte(b);
 		}
 
 		// send dmx to localhost: address, subnet, universe, data

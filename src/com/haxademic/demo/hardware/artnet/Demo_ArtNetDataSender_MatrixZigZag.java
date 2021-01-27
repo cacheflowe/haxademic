@@ -39,7 +39,7 @@ extends PAppletHax {
 			int rowStartI = P.floor(i / matrixSize) * matrixSize;
 			int twoRowIndex = i % (matrixSize * 2);
 			int zigZagRevIndex = 16 - 1 - (i % 16);
-			if(twoRowIndex < matrixSize) {
+			if(twoRowIndex < matrixSize) {	// flip even rows
 				pixelIndex = (rowStartI + zigZagRevIndex) * 3;
 			}
 			

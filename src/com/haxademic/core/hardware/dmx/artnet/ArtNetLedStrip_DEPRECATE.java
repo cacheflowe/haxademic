@@ -9,7 +9,7 @@ import com.haxademic.core.draw.image.ImageUtil;
 import processing.core.PGraphics;
 import processing.core.PImage;
 
-public class ArtNetLedStrip {
+public class ArtNetLedStrip_DEPRECATE {
 	
 	public static ArtNetClient artnet;
 	protected PGraphics buffer;
@@ -18,7 +18,7 @@ public class ArtNetLedStrip {
 	protected int numLights;
 	protected byte[] colorsData = new byte[512];
 
-	public ArtNetLedStrip(String universeIp, int universeNum, int numLights) {
+	public ArtNetLedStrip_DEPRECATE(String universeIp, int universeNum, int numLights) {
 		this.universeIp = universeIp;
 		this.universeNum = universeNum;
 		this.numLights = numLights;

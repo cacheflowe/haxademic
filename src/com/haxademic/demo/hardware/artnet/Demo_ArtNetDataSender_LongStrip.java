@@ -17,19 +17,21 @@ extends PAppletHax {
 	}
 
 	protected void drawApp() {
+		background(0);
 		createColors();
 		artNetDataSender.send();
+		artNetDataSender.drawDebug(p.g);
 	}
 	
 	protected void createColors() {
 		// build entire LED data, to loop through afterwards
-		float colorSpeed = 0.2f;
-		float colorFreq = 0.1f;
+		float colorSpeed = 0.02f;
+		float colorFreq = 0.04f;
 		for(int i=0; i < numPixels; i++) {
 			// set rgb colors
 			float r = 255f * Penner.easeInOutExpo(0.5f + 0.5f * P.sin(0+(i*colorFreq) + -frameCount * colorSpeed*1f));
-			float g = 0; // 255f * Penner.easeInOutExpo(0.5f + 0.5f * P.sin(1+(i*colorFreq) + -frameCount * colorSpeed*0.66f));
-			float b = 0; // 255f * Penner.easeInOutExpo(0.5f + 0.5f * P.sin(2+(i*colorFreq) + -frameCount * colorSpeed*0.33f));
+			float g = 255f * Penner.easeInOutExpo(0.5f + 0.5f * P.sin(1+(i*colorFreq) + -frameCount * colorSpeed*0.8f));
+			float b = 255f * Penner.easeInOutExpo(0.5f + 0.5f * P.sin(2+(i*colorFreq) + -frameCount * colorSpeed*0.6f));
 			
 			// set data
 			int pixelIndex = i * 3;

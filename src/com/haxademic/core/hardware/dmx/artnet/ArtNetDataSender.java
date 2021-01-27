@@ -1,8 +1,13 @@
 package com.haxademic.core.hardware.dmx.artnet;
 
 import com.haxademic.core.app.P;
+import com.haxademic.core.draw.color.ColorUtil;
+import com.haxademic.core.draw.image.ImageUtil;
+import com.haxademic.core.math.MathUtil;
 
 import ch.bildspur.artnet.ArtNetClient;
+import processing.core.PGraphics;
+import processing.core.PImage;
 
 public class ArtNetDataSender {
 
@@ -49,9 +54,8 @@ public class ArtNetDataSender {
 		// when we complete copying each universe to the current array
 		int curUniverse = universeStart;
 		int iCurUniverse = 0;
-		int i = 0;
 		int loopedIndex = 0;
-		for(i=0; i < dmxData.length; i++) {
+		for(int i=0; i < dmxData.length; i++) {
 			loopedIndex = i % universeSize;
 			dmxDataCurUniverse[loopedIndex] = dmxData[i];
 			iCurUniverse++;
@@ -67,5 +71,54 @@ public class ArtNetDataSender {
 		if(iCurUniverse > 0) {
 			artnet.unicastDmx(controllerAddress, 0, curUniverse, dmxDataCurUniverse);	// address, subnet, universe, data
 		}
+	}
+
+	public void sendMatrixFromBuffer(PImage texture, boolean shouldLoadPixels) {
+		if(shouldLoadPixels) texture.loadPixels();
+		int matrixSize = texture.width;
+		
+		// build entire LED data, to loop through afterwards
+		for(int i=0; i < numPixels; i++) {
+			// get texture pixel color components
+			int x = MathUtil.gridColFromIndex(i, matrixSize);
+			int y = MathUtil.gridRowFromIndex(i, matrixSize);
+			int pixelColor = ImageUtil.getPixelColor(texture, x, y);
+			float r = ColorUtil.redFromColorInt(pixelColor);
+			float g = ColorUtil.greenFromColorInt(pixelColor);
+			float b = ColorUtil.blueFromColorInt(pixelColor);
+			
+			// pixel index, stepping through single-row sequential layout, 1 by 1
+			// zigzag remap
+			int pixelIndex = i * 3;
+			int rowStartI = P.floor(i / matrixSize) * matrixSize;
+			int twoRowIndex = i % (matrixSize * 2);
+			int zigZagRevIndex = matrixSize - 1 - (i % matrixSize);
+			if(twoRowIndex < matrixSize) {
+				pixelIndex = (rowStartI + zigZagRevIndex) * 3;
+			}
+			
+			// set data
+			setColorAtIndex(pixelIndex, r, g, b);
+		}
+		send();
+	}
+	
+	public void drawDebug(PGraphics pg) {
+		pg.push();
+		pg.noStroke();
+		int pixSize = 4;
+		int x = 0;
+		int y = 0;
+		int debugMult = 80;
+		for(int i=0; i < dmxData.length/3; i+=3) {
+			pg.fill(debugMult*dmxData[i + 0], debugMult*dmxData[i + 1], debugMult*dmxData[i + 2]);
+			pg.rect(x, y, pixSize, pixSize);
+			x += pixSize;
+			if(x >= pg.width) {
+				x = 0;
+				y += pixSize;
+			}
+		}
+		pg.pop();
 	}
 }
