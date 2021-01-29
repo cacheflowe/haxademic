@@ -580,6 +580,60 @@ public class Shapes {
 		return sh;
 	}
 	
+	public static PShape createTorus(float torusRadius, float tubeRadius, int radialDetail, int tubeDetail, PImage tex) {
+		P.p.textureMode(P.NORMAL); 
+		PG.setTextureRepeat(P.p, true);
+		PShape sh = P.p.createShape();
+		sh.beginShape(P.QUADS);
+		sh.textureMode(P.NORMAL);
+		if(tex != null) sh.texture(tex);
+		sh.noStroke();
+
+		float u, v;
+		for (int iv = 2; iv <= tubeDetail+1; iv++) {
+			for (int iu = 0; iu <= radialDetail; iu++) {
+				u = P.map(iu, 0, radialDetail, 0, P.TWO_PI);
+				v = P.map(iv, 0, tubeDetail, 0, P.TWO_PI);
+				float x = (torusRadius + tubeRadius * P.cos(v)) * P.sin(u);
+				float z = tubeRadius * P.sin(v);
+				float y = (torusRadius + tubeRadius * P.cos(v)) * P.cos(u);
+				sh.vertex(x, y, z, 
+						P.map(iu, 0, radialDetail, 0, 1),
+						P.map(iv, 0, tubeDetail, 0, 1));
+				
+				u = P.map(iu + 1, 0, radialDetail, 0, P.TWO_PI);
+				v = P.map(iv, 0, tubeDetail, 0, P.TWO_PI);
+				x = (torusRadius + tubeRadius * P.cos(v)) * P.sin(u);
+				z = tubeRadius * P.sin(v);
+				y = (torusRadius + tubeRadius * P.cos(v)) * P.cos(u);
+				sh.vertex(x, y, z, 
+						P.map(iu + 1, 0, radialDetail, 0, 1),
+						P.map(iv, 0, tubeDetail, 0, 1));
+
+				u = P.map(iu + 1, 0, radialDetail, 0, P.TWO_PI);
+				v = P.map(iv + 1, 0, tubeDetail, 0, P.TWO_PI);
+				x = (torusRadius + tubeRadius * P.cos(v)) * P.sin(u);
+				z = tubeRadius * P.sin(v);
+				y = (torusRadius + tubeRadius * P.cos(v)) * P.cos(u);
+				sh.vertex(x, y, z, 
+						P.map(iu + 1, 0, radialDetail, 0, 1),
+						P.map(iv + 1, 0, tubeDetail, 0, 1));
+
+				u = P.map(iu, 0, radialDetail, 0, P.TWO_PI);
+				v = P.map(iv + 1, 0, tubeDetail, 0, P.TWO_PI);
+				x = (torusRadius + tubeRadius * P.cos(v)) * P.sin(u);
+				z = tubeRadius * P.sin(v);
+				y = (torusRadius + tubeRadius * P.cos(v)) * P.cos(u);
+				sh.vertex(x, y, z, 
+						P.map(iu, 0, radialDetail, 0, 1),
+						P.map(iv + 1, 0, tubeDetail, 0, 1));
+			}
+		}
+		
+		sh.endShape();
+		return sh;
+	}
+	
 	public static PShape createStrip(float width, float height, int detail) {
 		P.p.textureMode(P.NORMAL); 
 		PShape sh = P.p.createShape();

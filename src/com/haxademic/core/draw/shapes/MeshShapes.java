@@ -65,8 +65,7 @@ public class MeshShapes {
 	float vMax = P.PI;
 	int vCount = 50;
 
-	float[] params = {
-			1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1        };
+	float[] params = { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 };
 
 	int drawMode = P.TRIANGLE_STRIP;
 	float minHue = 0;
