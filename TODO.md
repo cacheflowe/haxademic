@@ -4,13 +4,6 @@
 
 * Add audio textures from Moire Room to AudioIn or its data object in the core
 * Look at buffer writing audio (??)
-* Advatek controller
-  * Sketch: Use Kinect to detect angle of hands, and flow a pattern left or righton LED strip depending on tint
-  * Sketch: Projection map onto new light fixture that samples from the same pixels underneath
-  * Sketch: Bounce a light strip between 2 par lights  
-  * Wrap up sAcn & ArtNet objects & demos
-    * Map using UV coordinates to a texture? (like webcam reverse-projection mapping)
-  * Merge ArtNet & sAcn objects with DMX lighting objects
 * Optical flow shader displace filter
 * Processing 4 test branch
 * WavPlayer updates for Moire Room & Interphase - build a test app
@@ -182,13 +175,17 @@ PGA + Bespoke:
 ## DMX / LED
 
 * Add multiple universes to DMXEditor
-* Build 8 bar light contraption @ home
 * ArtNet:
-  * Fix up `ArtNetLedStrip` with `ArtNetDataSender`
+  * * Advatek controller
+    * Use a dirty flag and have ArtNetDataSender subscribe to `post` and only send data once per frame
+    * Sketch: Use Kinect to detect angle of hands, and flow a pattern left or righton LED strip depending on tint
+    * Sketch: Projection map onto new light fixture that samples from the same pixels underneath
+    * Sketch: Bounce a light strip between 2 par lights  
+    * Wrap up sAcn & ArtNet objects & demos
+    * Map using UV coordinates to a texture? (like webcam reverse-projection mapping)
+    * Merge ArtNet & sAcn objects with DMX lighting objects
   * Add mappable strips like DMXEditor
-  * Add matrix object wrapper
-    * Add PG to LED matrix object
-    * Send webcam in
+  * Send webcam to 16x16 matrix :) 
 * sACN: http://www.bennette.co.uk/codeViewer.html?rootPath=downloads/src_files/java/sACN4J&projId=sacnlight&srcObj=0
   * Can we turn this into a Processing library if given permission?
 
