@@ -109,7 +109,7 @@ public class ArtNetDataSender {
 		int pixSize = 4;
 		int x = 0;
 		int y = 0;
-		int debugMult = 80;
+		int debugMult = 10;
 		for(int i=0; i < dmxData.length/3; i+=3) {
 			pg.fill(debugMult*dmxData[i + 0], debugMult*dmxData[i + 1], debugMult*dmxData[i + 2]);
 			pg.rect(x, y, pixSize, pixSize);

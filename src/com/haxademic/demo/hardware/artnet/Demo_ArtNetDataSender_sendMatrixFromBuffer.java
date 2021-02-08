@@ -44,13 +44,13 @@ extends PAppletHax {
 
 	protected void firstFrame() {
 		// prepare ArtNetSender & matrix texture
-		artNetDataSender = new ArtNetDataSender("192.168.1.101", 0, numPixels);
+		artNetDataSender = new ArtNetDataSender("192.168.1.100", 4, numPixels);
 		ledTexture = PG.newPG2DFast(16, 16);
 		DebugView.setTexture("ledTexture", ledTexture);
 
 		// build textures
 		texture = new TextureEQConcentricCircles(256, 256);
-		AudioIn.instance(AudioInputLibrary.Beads);
+		AudioIn.instance(AudioInputLibrary.Minim);
 		// alt texture
 		noise3d = new SimplexNoise3dTexture(256, 256);
 	}

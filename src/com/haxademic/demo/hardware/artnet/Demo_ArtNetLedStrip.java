@@ -5,7 +5,7 @@ import com.haxademic.core.draw.color.ImageGradient;
 import com.haxademic.core.draw.filters.pshader.ColorizeFromTexture;
 import com.haxademic.core.draw.filters.pshader.ContrastFilter;
 import com.haxademic.core.draw.textures.SimplexNoise3dTexture;
-import com.haxademic.core.hardware.dmx.artnet.ArtNetLedStrip;
+import com.haxademic.core.hardware.dmx.artnet.ArtNetLedStrip_DEPRECATE;
 import com.haxademic.core.render.FrameLoop;
 
 public class Demo_ArtNetLedStrip
@@ -13,11 +13,11 @@ extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	protected SimplexNoise3dTexture noise3d;
-	protected ArtNetLedStrip strip;
+	protected ArtNetLedStrip_DEPRECATE strip;
 
 	protected void firstFrame() {
 		noise3d = new SimplexNoise3dTexture(p.width, p.height);
-		strip = new ArtNetLedStrip("192.168.1.101", 0, 100);
+		strip = new ArtNetLedStrip_DEPRECATE("192.168.1.101", 0, 100);
 	}
 
 	protected void drawApp() {
