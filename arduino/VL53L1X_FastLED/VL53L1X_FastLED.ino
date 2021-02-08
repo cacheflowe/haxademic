@@ -1,10 +1,13 @@
 ////////////////////////////////////////////////////////////////
 // FastLED: Control (5v) WS2812 RGB LED Modules in a strip
+// Uses FastLED's library: https://github.com/FastLED/FastLED
 // -------------------------------------------------------
 // Wiring info: https://learn.adafruit.com/digital-led-strip/wiring
-// -5V  = 5V
-// -GND = GND
-// -DIN = Digital 2
+// LED  ->  Arduino
+// --------------
+// 5V   ->  5V
+// GND  ->  GND
+// DIN  ->  Digital 2
 ////////////////////////////////////////////////////////////////
 
 // LED library includes
@@ -22,12 +25,15 @@ const long ledInterval = 16;
 
 ////////////////////////////////////////////////////////////////
 // VL53L1X: Read distance from sensor in mm
+// Uses Polulu's library: https://github.com/pololu/vl53l1x-arduino
 // ----------------------------------------
 // Wiring info: https://learn.adafruit.com/adafruit-vl53l0x-micro-lidar-distance-sensor-breakout/arduino-code
-// VIN -> VIN
-// GND -> GND
-// SCL -> SCL || A5
-// SDA -> SDA || A4
+// Sensor  ->  Arduino
+// --------------
+// VIN     ->  VIN
+// GND     ->  GND
+// SCL     ->  SCL (aka A5)
+// SDA     ->  SDA (aka A4)
 ////////////////////////////////////////////////////////////////
 
 // sensor library includes
