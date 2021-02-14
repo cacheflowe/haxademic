@@ -27,14 +27,16 @@ import com.haxademic.core.render.FrameLoop;
 import processing.core.PFont;
 import processing.core.PGraphics;
 
-public class Demo_ArtNetDataSender_sendMatrixFromBuffer
+public class Demo_ArtNetDataSender_sendMultipleMatrixes
 extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	protected ArtNetDataSender artNetDataSender;
 	protected PGraphics ledTexture;
+	protected int numMatrixes = 3;
 	protected int matrixSize = 16;
-	protected int numPixels = matrixSize * matrixSize;
+	protected int pixelsPerMatrix = matrixSize * matrixSize;
+	protected int numPixels = pixelsPerMatrix * numMatrixes;
 
 	protected BaseTexture texture;
 	protected SimplexNoise3dTexture noise3d;
@@ -46,14 +48,14 @@ extends PAppletHax {
 	protected void firstFrame() {
 		// prepare ArtNetSender & matrix texture
 		artNetDataSender = new ArtNetDataSender("192.168.1.101", 4, numPixels);
-		ledTexture = PG.newPG2DFast(matrixSize, matrixSize);
+		ledTexture = PG.newPG2DFast(matrixSize * numMatrixes, matrixSize);
 		DebugView.setTexture("ledTexture", ledTexture);
 
 		// build textures
-		texture = new TextureEQConcentricCircles(256, 256);
+		texture = new TextureEQConcentricCircles(256 * 3, 256);
 		AudioIn.instance(AudioInputLibrary.Minim);
 		// alt texture
-		noise3d = new SimplexNoise3dTexture(256, 256);
+		noise3d = new SimplexNoise3dTexture(256 * 3, 256);
 	}
 
 	protected void drawApp() {
@@ -76,7 +78,11 @@ extends PAppletHax {
 		BrightnessFilter.instance(p).applyTo(ledTexture);
 		
 		// send it!
-		artNetDataSender.sendMatrixFromBuffer(ledTexture, matrixSize);
+		ledTexture.loadPixels();
+		artNetDataSender.sendMatrixFromBuffer(ledTexture, matrixSize, pixelsPerMatrix * 0, matrixSize * 0, 0, false, false);
+		artNetDataSender.sendMatrixFromBuffer(ledTexture, matrixSize, pixelsPerMatrix * 1, matrixSize * 1, 0, false, false);
+		artNetDataSender.sendMatrixFromBuffer(ledTexture, matrixSize, pixelsPerMatrix * 2, matrixSize * 2, 0, false, false);
+		artNetDataSender.send();
 		
 		// show original texture on screen
 		ImageUtil.cropFillCopyImage(curTexture, p.g, false);

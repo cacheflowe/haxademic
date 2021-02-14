@@ -1,6 +1,7 @@
 package com.haxademic.core.hardware.dmx.artnet;
 
 import com.haxademic.core.app.P;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.color.ColorUtil;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.math.MathUtil;
@@ -28,7 +29,7 @@ public class ArtNetDataSender {
 	protected int universeStart;
 	protected int numPixels = 0;
 	protected byte[] dmxData;
-	protected byte[] dmxDataCurUniverse = new byte[universeSize];	// data per univers is copied into this array and sent out, one universe at a time in sequence
+	protected byte[] dmxDataCurUniverse = new byte[universeSize];	// data per universe is copied into this array and sent out, one universe at a time in sequence
 
 	public ArtNetDataSender(String controllerAddress, int universeStart, int numPixels) {
 		this.controllerAddress = controllerAddress;
@@ -73,16 +74,20 @@ public class ArtNetDataSender {
 		}
 	}
 
-	public void sendMatrixFromBuffer(PImage texture, boolean shouldLoadPixels) {
+	public void sendMatrixFromBuffer(PImage texture, int matrixSize) {
+		sendMatrixFromBuffer(texture, matrixSize, 0, 0, 0, true, true);
+	}
+	
+	public void sendMatrixFromBuffer(PImage texture, int matrixSize, int pixelIndexStart, int offsetX, int offsetY, boolean shouldLoadPixels, boolean shouldSend) {
 		if(shouldLoadPixels) texture.loadPixels();
-		int matrixSize = texture.width;
 		
 		// build entire LED data, to loop through afterwards
-		for(int i=0; i < numPixels; i++) {
+		int numPixelsPerMatrix = matrixSize * matrixSize;
+		for(int i=0; i < numPixelsPerMatrix; i++) {
 			// get texture pixel color components
 			int x = MathUtil.gridColFromIndex(i, matrixSize);
 			int y = MathUtil.gridRowFromIndex(i, matrixSize);
-			int pixelColor = ImageUtil.getPixelColor(texture, x, y);
+			int pixelColor = ImageUtil.getPixelColor(texture, offsetX + x, offsetY + y);
 			float r = ColorUtil.redFromColorInt(pixelColor);
 			float g = ColorUtil.greenFromColorInt(pixelColor);
 			float b = ColorUtil.blueFromColorInt(pixelColor);
@@ -98,9 +103,11 @@ public class ArtNetDataSender {
 			}
 			
 			// set data
-			setColorAtIndex(pixelIndex, r, g, b);
+			int pixIndex = (pixelIndexStart * 3) + pixelIndex;
+			if(pixIndex <= dmxData.length - 3) setColorAtIndex(pixIndex, r, g, b);
+			else P.out("ERROR: ArtNet data index is past array length: ", pixIndex);
 		}
-		send();
+		if(shouldSend) send();
 	}
 	
 	public void drawDebug(PGraphics pg) {

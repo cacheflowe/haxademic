@@ -10,10 +10,10 @@ extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	protected ArtNetDataSender artNetDataSender;
-	protected int numPixels = 400;
+	protected int numPixels = 256 * 3;//400;
 
 	protected void firstFrame() {
-		artNetDataSender = new ArtNetDataSender("192.168.1.101", 0, numPixels);
+		artNetDataSender = new ArtNetDataSender("192.168.1.101", 4, numPixels);
 	}
 
 	protected void drawApp() {
@@ -36,6 +36,7 @@ extends PAppletHax {
 			// set data
 			int pixelIndex = i * 3;
 			artNetDataSender.setColorAtIndex(pixelIndex, r, g, b);
+			// artNetDataSender.setColorAtIndex(pixelIndex, 30, 30, 30);
 		}
 	}
 }
