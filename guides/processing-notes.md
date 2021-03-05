@@ -242,6 +242,13 @@ $ cd haxademic/bin
 $ jar cfv ../../ohheckyeah/ohheckyeah-games-java/lib/haxademic/haxademic.jar ./com/haxademic/core/*
 ```
 
+#### Other Eclipse debugging tools
+
+These tools allow for deeper inspection of your Java app when building in Eclipse
+
+* [mat](https://www.eclipse.org/mat/)
+* [VisualVM](https://visualvm.github.io/)
+
 
 #### Create an Uber jar with Maven
 
