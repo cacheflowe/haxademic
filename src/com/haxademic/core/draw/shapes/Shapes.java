@@ -2,6 +2,7 @@ package com.haxademic.core.draw.shapes;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.data.constants.PShapeTypes;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.context.OrientationUtil;
 import com.haxademic.core.draw.context.PG;
@@ -895,35 +896,42 @@ public class Shapes {
 
 		// front face: top, right, bottom, left
 		float frontFaceZ = halfD;
-		drawDashedLine(pg, -halfW, -halfH, frontFaceZ, halfW, -halfH, frontFaceZ, dashLength, dashRounds);
-		drawDashedLine(pg, halfW, -halfH, frontFaceZ, halfW, halfH, frontFaceZ, dashLength, dashRounds);
-		drawDashedLine(pg, halfW, halfH, frontFaceZ, -halfW, halfH, frontFaceZ, dashLength, dashRounds);
-		drawDashedLine(pg, -halfW, halfH, frontFaceZ, -halfW, -halfH, frontFaceZ, dashLength, dashRounds);
+		drawDashedLine(pg, -halfW, -halfH, frontFaceZ, halfW, -halfH, frontFaceZ, dashLength, 0, dashRounds, true);
+		drawDashedLine(pg, halfW, -halfH, frontFaceZ, halfW, halfH, frontFaceZ, dashLength, 0, dashRounds, true);
+		drawDashedLine(pg, halfW, halfH, frontFaceZ, -halfW, halfH, frontFaceZ, dashLength, 0, dashRounds, true);
+		drawDashedLine(pg, -halfW, halfH, frontFaceZ, -halfW, -halfH, frontFaceZ, dashLength, 0, dashRounds, true);
 		
 		// back face: top, right, bottom, left
 		float backFaceZ = -halfD;
-		drawDashedLine(pg, -halfW, -halfH, backFaceZ, halfW, -halfH, backFaceZ, dashLength, dashRounds);
-		drawDashedLine(pg, halfW, -halfH, backFaceZ, halfW, halfH, backFaceZ, dashLength, dashRounds);
-		drawDashedLine(pg, halfW, halfH, backFaceZ, -halfW, halfH, backFaceZ, dashLength, dashRounds);
-		drawDashedLine(pg, -halfW, halfH, backFaceZ, -halfW, -halfH, backFaceZ, dashLength, dashRounds);
+		drawDashedLine(pg, -halfW, -halfH, backFaceZ, halfW, -halfH, backFaceZ, dashLength, 0, dashRounds, true);
+		drawDashedLine(pg, halfW, -halfH, backFaceZ, halfW, halfH, backFaceZ, dashLength, 0, dashRounds, true);
+		drawDashedLine(pg, halfW, halfH, backFaceZ, -halfW, halfH, backFaceZ, dashLength, 0, dashRounds, true);
+		drawDashedLine(pg, -halfW, halfH, backFaceZ, -halfW, -halfH, backFaceZ, dashLength, 0, dashRounds, true);
 		
 		// connect front & back faces, start at top left, clockwise, front to back
-		drawDashedLine(pg, -halfW, -halfH, frontFaceZ, -halfW, -halfH, backFaceZ, dashLength, dashRounds);
-		drawDashedLine(pg, halfW, -halfH, frontFaceZ, halfW, -halfH, backFaceZ, dashLength, dashRounds);
-		drawDashedLine(pg, halfW, halfH, frontFaceZ, halfW, halfH, backFaceZ, dashLength, dashRounds);
-		drawDashedLine(pg, -halfW, halfH, frontFaceZ, -halfW, halfH, backFaceZ, dashLength, dashRounds);
+		drawDashedLine(pg, -halfW, -halfH, frontFaceZ, -halfW, -halfH, backFaceZ, dashLength, 0, dashRounds, true);
+		drawDashedLine(pg, halfW, -halfH, frontFaceZ, halfW, -halfH, backFaceZ, dashLength, 0, dashRounds, true);
+		drawDashedLine(pg, halfW, halfH, frontFaceZ, halfW, halfH, backFaceZ, dashLength, 0, dashRounds, true);
+		drawDashedLine(pg, -halfW, halfH, frontFaceZ, -halfW, halfH, backFaceZ, dashLength, 0, dashRounds, true);
 	}
 		
 	public static void drawDashedLine(PGraphics pg, float x1, float y1, float z1, float x2, float y2, float z2, float dashLength) {
-		drawDashedLine(pg, x1, y1, z1, x2, y2, z2, dashLength, true);
+		drawDashedLine(pg, x1, y1, z1, x2, y2, z2, dashLength, 0, true, true);
 	}
 	
 	public static void drawDashedLine(PGraphics pg, float x1, float y1, float z1, float x2, float y2, float z2, float dashLength, boolean rounds) {
+		drawDashedLine(pg, x1, y1, z1, x2, y2, z2, dashLength, 0, true, rounds);
+	}
+	
+	public static void drawDashedLine(PGraphics pg, float x1, float y1, float z1, float x2, float y2, float z2, float dashLength, float offset, boolean rounds, boolean drawExtraEndSegment) {
+		if(dashLength <= 0) dashLength = 1;	// prevent infinite loop
 		float lineLength = MathUtil.distance3d(x1, y1, z1, x2, y2, z2);
 		float numDashes = (rounds) ? P.round(lineLength / dashLength) : lineLength / dashLength;
-		float numSegments = (numDashes * 2) - 1;
-		for (float i = 0; i < numSegments; i++) {
-			if(i % 2 == 0) {
+		float numSegments = (numDashes * 2);
+		if(drawExtraEndSegment) numSegments -= 1;
+		int oddEven = 0;
+		for (float i = offset; i < numSegments; i++) {
+			if(oddEven % 2 == 0) {
 				float lineProgress = i / numSegments;
 				float curX = P.lerp(x1, x2, lineProgress);
 				float curY = P.lerp(y1, y2, lineProgress);
@@ -935,6 +943,7 @@ public class Shapes {
 				float nextZ = P.lerp(z1, z2, nextProgress);
 				pg.line(curX, curY, curZ, nextX, nextY, nextZ);
 			}
+			oddEven++;
 		}
 	}
 	
