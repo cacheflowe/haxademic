@@ -4,6 +4,22 @@
 	<classpathentry kind="src" path="data"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="lib/artnet4j/library/artnet4j.jar"/>
+
+	<!-- New Beads library causes super slow FFT updates
+	<classpathentry kind="lib" path="lib/beads/library.new/audioservers-api-2.0.0.jar"/>
+	<classpathentry kind="lib" path="lib/beads/library.new/audioservers-jack-2.0.0.jar"/>
+	<classpathentry kind="lib" path="lib/beads/library.new/audioservers-javasound-2.0.0.jar"/>
+	<classpathentry kind="lib" path="lib/beads/library.new/beads.jar"/>
+	<classpathentry kind="lib" path="lib/beads/library.new/jlayer-1.0.1.4.jar"/>
+	<classpathentry kind="lib" path="lib/beads/library.new/jlayer-1.0.1.jar"/>
+	<classpathentry kind="lib" path="lib/beads/library.new/jna-5.6.0.jar"/>
+	<classpathentry kind="lib" path="lib/beads/library.new/jnajack-1.4.0.jar"/>
+	<classpathentry kind="lib" path="lib/beads/library.new/junit-3.8.2.jar"/>
+	<classpathentry kind="lib" path="lib/beads/library.new/mp3spi-1.9.5.4.jar"/>
+	<classpathentry kind="lib" path="lib/beads/library.new/tritonus-aos-1.0.0.jar"/>
+	<classpathentry kind="lib" path="lib/beads/library.new/tritonus-share-0.3.7.4.jar"/>
+	<classpathentry kind="lib" path="lib/beads/library.new/tritonus-share-1.0.0.jar"/>
+	-->
 	<classpathentry kind="lib" path="lib/beads/library/beads.jar"/>
 	<classpathentry kind="lib" path="lib/beads/library/jarjar-1.0.jar"/>
 	<classpathentry kind="lib" path="lib/beads/library/jl1.0.1.jar"/>
@@ -13,7 +29,8 @@
 	<classpathentry kind="lib" path="lib/beads/library/org-jaudiolibs-jnajack.jar"/>
 	<classpathentry kind="lib" path="lib/beads/library/tools.jar"/>
 	<classpathentry kind="lib" path="lib/beads/library/tritonus_aos-0.3.6.jar"/>
-	<classpathentry kind="lib" path="lib/beads/library/tritonus_share.jar"/>
+	<classpathentry kind="lib" path="lib/beads/library/tritonus_share.jar"/> 
+	
 	<classpathentry kind="lib" path="lib/blobDetection/library/blobDetection.jar"/>
 	<classpathentry kind="lib" path="lib/dmxP512/library/dmxP512.jar"/>
 	<classpathentry kind="lib" path="lib/Ess/library/Ess.jar"/>
@@ -71,9 +88,14 @@
 	<classpathentry kind="lib" path="lib/processing-3/libraries/sound/library/javamp3-1.0.4.jar"/>
 	<classpathentry kind="lib" path="lib/processing-3/libraries/sound/library/jsyn-20171016.jar"/>
 	<classpathentry kind="lib" path="lib/processing-3/libraries/sound/library/sound.jar"/>
-	<classpathentry kind="lib" path="lib/processing-3/libraries/video/library/gstreamer-java.jar"/>
+	<!-- 
+	<classpathentry kind="lib" path="lib/processing-3/libraries/video/library/gst1-java-core-1.2.0.jar"/>
 	<classpathentry kind="lib" path="lib/processing-3/libraries/video/library/jna.jar"/>
 	<classpathentry kind="lib" path="lib/processing-3/libraries/video/library/video.jar"/>
+	-->
+	<classpathentry kind="lib" path="lib/processing-3/libraries/video/library/gstreamer-java.jar"/>
+	<classpathentry kind="lib" path="lib/processing-3/libraries/video/library/jna.jar"/>
+	<classpathentry kind="lib" path="lib/processing-3/libraries/video/library/video.jar"/> 
 	<classpathentry kind="lib" path="lib/RealSenseProcessing/library/javacpp-1.5.2.jar"/>
 	<classpathentry kind="lib" path="lib/RealSenseProcessing/library/librealsense2-2.29.0-1.5.2.jar"/>
 	<classpathentry kind="lib" path="lib/RealSenseProcessing/library/librealsense2-2.29.0-1.5.2-macosx-x86_64.jar"/>

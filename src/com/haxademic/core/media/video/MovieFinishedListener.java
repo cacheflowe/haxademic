@@ -41,6 +41,7 @@ public class MovieFinishedListener {
 	
 	// GSTREAMER CALLBACK
 	
+	// for video library v1
 	protected PlayBin2.ABOUT_TO_FINISH FinishCallback = new PlayBin2.ABOUT_TO_FINISH() {
 		@Override
 		public void aboutToFinish(PlayBin2 playbin) {
