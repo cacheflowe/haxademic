@@ -19,7 +19,8 @@ implements IAudioInput {
 
 	protected AudioContext ac;
 	protected Gain gain;
-	protected float[] freqs;
+	protected int FFT_SIZE = 512;
+	protected float[] freqs = new float[FFT_SIZE/2];
 	protected PowerSpectrum ps;
 	protected PeakDetector od;
 	protected BiquadFilter fftFilter;
@@ -39,8 +40,8 @@ implements IAudioInput {
 		gain = new Gain(ac, 2);
 		FFT fft = new FFT();
 		ps = new PowerSpectrum();
-		sfs.setChunkSize(512);
-		sfs.setHopSize(256);
+		sfs.setChunkSize(FFT_SIZE);
+		sfs.setHopSize(FFT_SIZE/2);
 		sfs.addInput(gain);   // sfs.addInput(ac.out);
 		sfs.addListener(fft);
 		fft.addListener(ps);
@@ -52,6 +53,9 @@ implements IAudioInput {
 		gain.addInput(ac.getAudioInput());
 
 		ac.start();
+		
+		// make sure we have analysis arrays created
+		audioStreamData.setFFTFrequencies(freqs);
 	}
 
 	public AudioInputBeads(AudioContext exsitingAc) {
@@ -67,13 +71,16 @@ implements IAudioInput {
 		sfs.addInput(fftFilter); // sfs.addInput(ac.out);
 		FFT fft = new FFT();
 		ps = new PowerSpectrum();
-		sfs.setChunkSize(512);
-		sfs.setHopSize(256);
+		sfs.setChunkSize(FFT_SIZE);
+		sfs.setHopSize(FFT_SIZE/2);
 		sfs.addListener(fft);
 		fft.addListener(ps);
 		ac.out.addDependent(sfs);
 
 		addBeatDetection();
+		
+		// make sure we have analysis arrays created
+		audioStreamData.setFFTFrequencies(freqs);
 	}
 
 	public void addBeatDetection() {
@@ -105,9 +112,9 @@ implements IAudioInput {
 		// update audio data object
 		if(features != null) {
 			// make a lower-amplitude copy
-			if(freqs == null) freqs = new float[features.length];
-			for (int i = 0; i < features.length; i++) {
-				freqs[i] = features[i] * 15f * window(features.length, i);
+			int hopSize = FFT_SIZE/2;
+			for (int i = 0; i < hopSize; i++) {
+				freqs[i] = features[i] * 15f * window(hopSize, i);
 			}
 
 			audioStreamData.setFFTFrequencies(freqs);

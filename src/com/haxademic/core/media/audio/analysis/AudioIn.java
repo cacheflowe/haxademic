@@ -23,7 +23,12 @@ public class AudioIn {
 	public static IAudioInput audioInput;
 	public static float[] frequencies;
 	public static float[] waveform;
-
+	
+	// extra optional features
+	protected boolean drawsFFT;
+	protected PGraphics bufferFFT;
+	protected boolean drawsWaveform;
+	protected PGraphics bufferWaveform;
 	
 	/////////////////////////////
 	// static instance & initializer for quick & easy access
@@ -98,6 +103,23 @@ public class AudioIn {
 	
 	// getters
 	
+	public void drawBufferFFT(boolean drawsFFT) {
+		this.drawsFFT = drawsFFT;
+		if(this.drawsFFT && bufferFFT == null) {
+			bufferFFT = PG.newPG32(AudioIn.frequencies.length, 8, false, false);
+			DebugView.setTexture("AudioIn.bufferFFT", bufferFFT);
+		}
+	}
+	
+	public void drawBufferWaveform(boolean drawsWaveform) {
+		this.drawsWaveform = drawsWaveform;
+		if(this.drawsWaveform && bufferWaveform == null) {
+			bufferWaveform = PG.newPG32(AudioIn.waveform.length, 8, false, false);
+			DebugView.setTexture("AudioIn.bufferWaveform", bufferWaveform);
+		}
+
+	}
+	
 	public IAudioInput audioInput() {
 		return audioInput;
 	}
@@ -134,6 +156,7 @@ public class AudioIn {
 		updateAudioData();
 		AudioIn.frequencies = AudioIn.audioInput.audioData().frequencies;
 		AudioIn.waveform = AudioIn.audioInput.audioData().waveform;
+		drawBuffers();
 	}
 	
 	protected void updateAudioData() {
@@ -151,6 +174,31 @@ public class AudioIn {
 		if(audioBuffer != null) audioBuffer.endDraw();
 	}
 
+	protected void drawBuffers() {
+		if(drawsFFT) {
+	    	bufferFFT.beginDraw();
+	    	bufferFFT.background(0);
+	    	bufferFFT.noStroke();
+	    	for (int i = 0; i < AudioIn.frequencies.length; i++) {
+	    		bufferFFT.fill(255f * AudioIn.frequencies[i] * 1f, 255);
+	    		bufferFFT.rect(i, 0, 1, bufferFFT.height);
+	    	}
+	    	bufferFFT.endDraw();
+	    	
+	    	// re-draw with only a lower portion of the FFT spectrum... upper range is generally useless
+	    	bufferFFT.copy(0, 0, 100, bufferFFT.height, 0, 0, bufferFFT.width, bufferFFT.height);
+		}
+		if(drawsWaveform) {
+	        bufferWaveform.beginDraw();
+	        bufferWaveform.background(0);
+	        bufferWaveform.noStroke();
+	        for (int i = 0; i < AudioIn.waveform.length; i++) {
+	            bufferWaveform.fill(127 + 127f * AudioIn.waveform[i] * 10f);
+	            bufferWaveform.rect(i, 0, 1, bufferWaveform.height); // bufferWaveform.height
+	        }
+	        bufferWaveform.endDraw();
+		}
+	}
 	
 	/////////////////////////////
 	// input

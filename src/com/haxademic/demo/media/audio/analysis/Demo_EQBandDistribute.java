@@ -11,6 +11,8 @@ extends PAppletHax {
 	
 	protected void firstFrame() {
 		AudioIn.instance(AudioInputLibrary.ESS);
+		AudioIn.instance().drawBufferFFT(true);
+		AudioIn.instance().drawBufferWaveform(true);
 	}
 	
 	protected void drawApp() {
