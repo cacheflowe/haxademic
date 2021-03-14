@@ -1,5 +1,7 @@
 package com.haxademic.core.hardware.depthcamera.cameras;
 
+import org.intel.rs.device.Device;
+
 import com.haxademic.core.app.P;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.image.ImageUtil;
@@ -7,8 +9,6 @@ import com.haxademic.core.hardware.depthcamera.DepthCameraSize;
 
 import ch.bildspur.realsense.RealSenseCamera;
 import ch.bildspur.realsense.type.ColorScheme;
-import ch.bildspur.realsense.type.HoleFillingType;
-import ch.bildspur.realsense.type.PersistencyIndex;
 import processing.core.PApplet;
 import processing.core.PGraphics;
 import processing.core.PImage;
@@ -31,6 +31,10 @@ implements IDepthCamera {
 	public static float METERS_FAR_THRESH = 15;
 
 	public RealSenseWrapper(PApplet p, boolean initRGB, boolean initDepthImage) {
+		this(p, initRGB, initDepthImage, null);
+	}
+	
+	public RealSenseWrapper(PApplet p, boolean initRGB, boolean initDepthImage, String serialNumber) {
 		RGB_ACTIVE = initRGB;
 		DEPTH_ACTIVE = initDepthImage;
 
@@ -48,10 +52,23 @@ implements IDepthCamera {
 //		camera.addDisparityTransform(true);
 //		camera.addHoleFillingFilter(HoleFillingType.FarestFromAround);
 //		camera.addTemporalFilter(0.5f, 30, PersistencyIndex.ValidIn1_Last2);
-		camera.start();
+		if(serialNumber == null) {
+			camera.start();
+		} else {
+			camera.start(serialNumber);
+		}
 		
 		mirrorRGB = PG.newPG(CAMERA_W, CAMERA_H);
 		mirrorDepth = PG.newPG(CAMERA_W, CAMERA_H);
+	}
+	
+	public static void listConnectedCameras() {
+		P.out("getDeviceCount", RealSenseCamera.getDeviceCount());
+		Device devices[] = RealSenseCamera.getDevices();
+		for (int i = 0; i < devices.length; i++) {
+			Device device = devices[i];
+			P.out("Device["+i+"] SerialNumber:", device.getSerialNumber());
+		}
 	}
 	
 	public void stop() {
