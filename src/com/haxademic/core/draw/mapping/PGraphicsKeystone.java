@@ -1,7 +1,9 @@
 package com.haxademic.core.draw.mapping;
 
+import com.haxademic.core.app.P;
 import com.haxademic.core.data.ConvertUtil;
 import com.haxademic.core.debug.DebugUtil;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.file.FileUtil;
 
 import processing.core.PApplet;
@@ -12,6 +14,13 @@ import processing.event.KeyEvent;
 
 public class PGraphicsKeystone
 extends BaseSavedQuadUI {
+	
+	//////////////////////////
+	// TODO: 
+	// - Add "reset offsets" public function & keystroke
+	//   - Add global and currently-selected col/row reset
+	// - Convert x/y offsets to top/bottom & left/right offsets that can be treated as pairs of independently
+	//////////////////////////
 
 	protected PGraphics pg;
 	protected float subDivideSteps;
@@ -43,16 +52,6 @@ extends BaseSavedQuadUI {
 		canvas.endShape();
 	}
 		
-	public void setOffsetsX(float[] offsetsX) {
-		this.offsetsX = offsetsX;
-		if(this.offsetsX.length != subDivideSteps + 1) DebugUtil.printErr("PGraphicsKeystone.offsetsX[] must have one more element than subDivideSteps");
-	}
-	
-	public void setOffsetsY(float[] offsetsY) {
-		this.offsetsY = offsetsY;
-		if(this.offsetsX.length != subDivideSteps + 1) DebugUtil.printErr("PGraphicsKeystone.offsetsY[] must have one more element than subDivideSteps");
-	}
-	
 	public void update( PGraphics canvas ) {
 		update(canvas, true, pg);
 	}
@@ -243,6 +242,52 @@ extends BaseSavedQuadUI {
 	
 	// public
 	
+	public void setOffsetsX(float[] offsetsX) {
+		if(this.offsetsX.length != subDivideSteps + 1) DebugUtil.printErr("PGraphicsKeystone.offsetsX[] must have one more element than subDivideSteps");
+		if(this.offsetsX == null) {
+			this.offsetsX = offsetsX;
+		} else {
+			for (int i = 0; i < offsetsX.length; i++) {
+				this.offsetsX[i] = offsetsX[i];
+			}
+			DebugView.setValue("last offsetsX update", P.p.frameCount);
+		}
+	}
+	
+	public void setOffsetsY(float[] offsetsY) {
+		if(this.offsetsX.length != subDivideSteps + 1) DebugUtil.printErr("PGraphicsKeystone.offsetsY[] must have one more element than subDivideSteps");
+		this.offsetsY = offsetsY;
+	}
+	
+	public int selectedRowIndex() {
+		return selectedRowIndex;
+	}
+	
+	public int selectedColIndex() {
+		return selectedColIndex;
+	}
+	
+	public void resetOffsets() {
+		resetOffsetsX(-1);
+		resetOffsetsY(-1);
+	}
+	
+	public void resetOffsetsX(int colIndex) {
+		if(colIndex < 0) {
+			for (int i = 0; i < offsetsX.length; i++) offsetsX[i] = 0;
+		} else {
+			offsetsX[colIndex] = 0;
+		}
+	}
+		
+	public void resetOffsetsY(int rowIndex) {
+		if(rowIndex < 0) {
+			for (int i = 0; i < offsetsY.length; i++) offsetsY[i] = 0;
+		} else {
+			offsetsY[rowIndex] = 0;
+		}
+	}
+	
 	public void setActive(boolean debug) {
 		super.setActive(debug);
 		if(!active) {
@@ -307,10 +352,13 @@ extends BaseSavedQuadUI {
 				selectedRowIndex++;
 				if(selectedRowIndex >= offsetsY.length) selectedRowIndex = -1;
 			}
-			if(e.getKey() == 'O')  fineControlAdjust(offsetsX, selectedColIndex, -1f);
+			if(e.getKey() == 'O') fineControlAdjust(offsetsX, selectedColIndex, -1f);
 			if(e.getKey() == 'P') fineControlAdjust(offsetsX, selectedColIndex, 1f);
 			if(e.getKey() == '{') fineControlAdjust(offsetsY, selectedRowIndex, -1f);
 			if(e.getKey() == '}') fineControlAdjust(offsetsY, selectedRowIndex, 1f);
+			if(e.getKey() == '0') resetOffsets();
+			if(e.getKey() == 'A') resetOffsetsX(-1);
+			if(e.getKey() == 'S') resetOffsetsY(-1);
 			if(e.getKey() == 'E') saveConfig();
 		}
 	}

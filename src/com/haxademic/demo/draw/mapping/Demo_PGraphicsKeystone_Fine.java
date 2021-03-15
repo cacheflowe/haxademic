@@ -6,6 +6,7 @@ import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.OpenGLUtil;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.draw.mapping.PGraphicsKeystone;
 import com.haxademic.core.file.FileUtil;
@@ -41,19 +42,26 @@ extends PAppletHax {
 		DebugView.setHelpLine("D |", "Toggle keystone active");
 		DebugView.setHelpLine("T |", "Test pattern toggle");
 		DebugView.setHelpLine("R |", "Reset corners");
-		
+		DebugView.setHelpLine("0 |", "Reset offsets");
+		DebugView.setHelpLine("A |", "Reset offsets X");
+		DebugView.setHelpLine("S |", "Reset offsets Y");
+
 		DebugView.setHelpLine("X |", "Next col");
 		DebugView.setHelpLine("Z |", "Prev col");
+		DebugView.setHelpLine("O |", "Adjust col down");
+		DebugView.setHelpLine("P |", "Adjust col up");
+
 		DebugView.setHelpLine("C |", "Next row");
 		DebugView.setHelpLine("V |", "Prev row");
-		DebugView.setHelpLine("[ |", "Adjust down");
-		DebugView.setHelpLine("] |", "Adjust up");
+		DebugView.setHelpLine("{ |", "Adjust row down");
+		DebugView.setHelpLine("} |", "Adjust row up");
+		
 		DebugView.setHelpLine("E |", "Export config");
 	}
 	
 	protected void buildCanvas() {
 		// build buffer and keystone object
-		buffer = p.createGraphics( p.width / 2, p.height / 2, P.P3D );
+		buffer = PG.newPG(p.width/2, p.height/2);
 		buffer.smooth(OpenGLUtil.SMOOTH_HIGH);
 		keystonedPG = new PGraphicsKeystone( p, buffer, subdivisions, FileUtil.getPath("text/keystoning/keystone-demo.txt"), FileUtil.getPath("text/keystoning/fine-mapping-demo.txt") );
 	}
@@ -61,7 +69,7 @@ extends PAppletHax {
 	protected void drawApp() {
 		p.background(0);
 		
-		// oscuillateOffsets();
+//		oscillateOffsets();
 		
 		// update mapped texture
 		buffer.beginDraw();
@@ -82,12 +90,17 @@ extends PAppletHax {
 //	}
 	
 	protected void oscillateOffsets() {
-		for (int i = 0; i < offsetsX.length; i++) {
+		offsetsX = new float[subdivisions + 1];
+		for (int i = 1; i < offsetsX.length - 1; i++) {
 			offsetsX[i] = P.sin(i + p.frameCount * 0.03f) * 0.02f;
 		}
-		for (int i = 0; i < offsetsY.length; i++) {
+		keystonedPG.setOffsetsX(offsetsX);
+		
+		offsetsY = new float[subdivisions + 1];
+		for (int i = 1; i < offsetsY.length - 1; i++) {
 			offsetsY[i] = P.sin(i + p.frameCount * 0.03f) * 0.02f;
 		}
+		keystonedPG.setOffsetsY(offsetsY);
 	}
 	
 	public void keyPressed() {
