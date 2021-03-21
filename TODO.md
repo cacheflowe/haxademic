@@ -2,16 +2,14 @@
 
 ## New ideas, TODOs
 
-* Add audio textures from Moire Room to AudioIn or its data object in the core
-* Look at buffer writing audio (??)
 * Optical flow shader displace filter
 * Processing 4 test branch
-* WavPlayer updates for Moire Room & Interphase - build a test app
 * Grab a row of pixels from any image to populate audio buffer AND Interphase sequencer
 * Fill a PShape with GPU particles. (check barradeu article)
 * Glitch mirror w/slit scan history but blocks on buffer difference active areas
   * Bring VLC wrapper into Haxademic (& add to this demo)
 * Text rasterizer/cacher/cropper w/border per letter
+* Import this glsl filter: https://www.shadertoy.com/view/3lXcW8
 
 ## Bugs
 
@@ -176,7 +174,7 @@ PGA + Bespoke:
 
 * Add multiple universes to DMXEditor
 * ArtNet:
-  * * Advatek controller
+  * Advatek controller
     * Use a dirty flag and have ArtNetDataSender subscribe to `post` and only send data once per frame
     * Sketch: Use Kinect to detect angle of hands, and flow a pattern left or righton LED strip depending on tint
     * Sketch: Projection map onto new light fixture that samples from the same pixels underneath
@@ -271,7 +269,8 @@ PGA + Bespoke:
   	* Any other cool loop/render?!
 
 ## Interphase
-  * Work within Demo_Interphase_AV_Loop & make a soid framework for AV loops
+  * Switch to playing audio with WavPlayer
+  * Work within Demo_Interphase_AV_Loop & make a solid framework for AV loops
   * C.A.C.H.E. - Creative Adversarial Computer-Human Exchange
   * [DONE!] perfectly-looped audio clips, mapped to main loop length
   	* [Kinda works! would be better w/Interphase Metronome] Scrub to random parts of samples to chop breaks
@@ -325,21 +324,18 @@ PGA + Bespoke:
     * Check this out: https://www.elf-audio.com/synths/bauble/#
   * Make sub-app or figure out how to dispose or flush the Java sound stuff that starts lagging after hours of running
     * Look at Minim setInputMixer example to switch audio inputs
+    * Test/Fix basic audio input. why is audio getting delayed after hours of running?
+      * Create separate demos for each input object?
+  * Demo_DroneSampler upgrades: check TODO list
   * WavPlayer panning and FFT analysis need love:
-    * [Fixed?] Panning only works once
     * FFT only works for the left channel if it's been panned
     * Build a demo that tests:
-      * Panning
-      * ADSR
-      * Pitch
-      * Volume
+      * ADSR - add sustain
       * Reverse??
       * Filter?!
+      * Auto-panning?
   * Text to speech In Processing. Webview in Processing? Or web sockets to external browser? Vanilla Java?
   * Sphinx4 speech recognition
-  * Test/Fix basic audio input. why is audio getting delayed after hours of running?
-    * Create separate demos for each input object?
-  * [DONE?] Turn off Beads audio input object output - this should not pass through
   * Beads synthesis examples/inspiration
     * https://github.com/orsjb/beads/blob/master/src/beads_main/java/net/beadsproject/beads/data/buffers/SineBuffer.java
     * http://aum.dartmouth.edu/~mcasey/cs2/notes/sound3.php
