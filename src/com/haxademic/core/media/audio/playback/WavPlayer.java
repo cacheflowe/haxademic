@@ -4,6 +4,7 @@ import java.util.HashMap;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.debug.DebugUtil;
+import com.haxademic.core.ui.UI;
 
 import beads.AudioContext;
 import beads.Bead;
@@ -65,9 +66,16 @@ public class WavPlayer {
 		return curContext;
 	}
 	
+	// getters
+	
 	public int activeConnections() {
 		return curContext.out.getConnectedInputs().size();
 	}
+	
+	public void setGlobalVolume(float vol) {
+		curContext.out.setGain(vol);
+	}
+	
 	
 	// play triggers
 	
