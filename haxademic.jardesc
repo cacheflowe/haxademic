@@ -67,6 +67,7 @@
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.hardware.printer"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.demo.hardware.gamepad"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.demo.draw.shapes"/>
+        <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.hardware.lidar"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.draw.toxi"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.hardware.midi.devices"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.draw.shapes.pshader"/>
@@ -123,6 +124,7 @@
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.draw.text"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.media.video"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.hardware.http"/>
+        <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.demo.hardware.lidar"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.draw.camera"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.draw.particle"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.demo.hardware.keyboard"/>
