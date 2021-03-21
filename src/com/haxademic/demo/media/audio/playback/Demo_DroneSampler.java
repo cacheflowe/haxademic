@@ -32,9 +32,9 @@ extends PAppletHax {
 	// TODO: 
 	// - Visualize the progress and pitch of currently-active players
 	// - Add global pitch & volume multiplier for interactivity response
-	// - How to prevent clicking? 
-	//   -Is there a Gain function to lerp volume?
-	//   - Switch to attack/decay instead of easing equation?
+	// - Give DroneSamplers option to randomize attack & decay 
+	// - Add Sustain to AmbientAudioLoop & WavPlayer
+	// - How to prevent clicking? - try crossfade in WavPlayer?
 	
 	// audio
 	protected DroneSampler[] droneSamplers;
@@ -94,7 +94,6 @@ extends PAppletHax {
 		p.background(0);
 		for(int i=0; i < droneSamplers.length; i++) {
 			droneSamplers[i].update();
-			DebugView.setValue("droneSampler_"+i, droneSamplers[i].activePlayers());
 		}
 		updateWaveform();
 		drawShader();
@@ -202,9 +201,9 @@ extends PAppletHax {
 	public void keyPressed() {
 		super.keyPressed();
 		if(p.key == ' ') droneSamplers[0].update();
-		if(p.key == '1') droneSamplers[0].startNextSound();
-		if(p.key == '2') droneSamplers[1].startNextSound();
-		if(p.key == '3') droneSamplers[2].startNextSound();
+//		if(p.key == '1') droneSamplers[0].startNextSound();
+//		if(p.key == '2') droneSamplers[1].startNextSound();
+//		if(p.key == '3') droneSamplers[2].startNextSound();
 	}
 	
 }

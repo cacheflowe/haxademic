@@ -38,7 +38,7 @@ extends PAppletHax {
 
 	protected void loadSounds() {
 		// load audio directory
-		P.out("DroneSampler loading sounds from:", audioDir);
+		P.out("AmbientAudioLoop loading sounds from:", audioDir);
 		ArrayList<String> sounds = FileUtil.getFilesInDirOfTypes(FileUtil.getPath(audioDir), "wav,aif");
 		audioFiles = new String[sounds.size()];
 		for (int i = 0; i < sounds.size(); i++) {
@@ -49,17 +49,15 @@ extends PAppletHax {
 
 	protected void drawApp() {
 		p.background(0);
-		ambientLoop.update();
-		DebugView.setValue("volume().value()", ambientLoop.volume().value());
-		DebugView.setValue("volume().target()", ambientLoop.volume().target());
+		DebugView.setValue("ambientLoop.volume()", ambientLoop.volume());
+		DebugView.setValue("AudioContext :: numinputs", AmbientAudioLoop.player.activeConnections());
 	}
 
 	public void keyPressed() {
 		super.keyPressed();
-		if(p.key == '1') ambientLoop.start(0).setFadeSeconds(5);
-		if(p.key == '2') ambientLoop.release().setFadeSeconds(1);
-		if(p.key == '3') ambientLoop.start(5).setFadeSeconds(2);
-		if(p.key == '4') ambientLoop.release().setFadeSeconds(5);
+		if(p.key == '1') ambientLoop.start(0);
+		if(p.key == '2') ambientLoop.release();
+		if(p.key == '3') ambientLoop.start(5, 0.15f, 2000, 2000);
 		if(p.key == '5') ambientLoop.soundForceStop();
 	}
 	

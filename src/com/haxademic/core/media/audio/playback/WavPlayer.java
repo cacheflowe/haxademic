@@ -6,8 +6,12 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.debug.DebugUtil;
 
 import beads.AudioContext;
+import beads.Bead;
+import beads.DelayTrigger;
+import beads.Envelope;
 import beads.Gain;
 import beads.Glide;
+import beads.KillTrigger;
 import beads.Panner;
 import beads.Sample;
 import beads.SampleManager;
@@ -26,6 +30,8 @@ public class WavPlayer {
 	public static int PAN_CENTER = 0;
 	public static float PAN_LEFT = -1;
 	public static float PAN_RIGHT = 1f;
+
+	public static boolean RECYCLES_PLAYERS = false;	// could cause lots of active players at once... default off & revisit later
 
 	// contructors
 	
@@ -59,88 +65,107 @@ public class WavPlayer {
 		return curContext;
 	}
 	
+	public int activeConnections() {
+		return curContext.out.getConnectedInputs().size();
+	}
+	
 	// play triggers
 	
 	public boolean playWav(String filePath) {
-		return playWav(filePath, 1, PAN_CENTER, false, 0, 0);
+		return playWav(filePath, 1, PAN_CENTER, false, 0, 0, 0, 0, 0);
 	}
 	
 	public boolean loopWav(String filePath) {
-		return playWav(filePath, 1, PAN_CENTER, true, 0, 0);
+		return playWav(filePath, 1, PAN_CENTER, true, 0, 0, 0, 0, 0);
 	}
 	
-	public boolean playWav(String filePath, float volume, float panAmp, boolean loops, int pitch, int delay) {
+	public boolean playWav(String filePath, float volume, float panAmp, boolean loops, int pitch, int delay, float attackTime, float releaseTime, float sampleStart) {
 		boolean success = false;
-		String id = filePath;
 		
 		// load sound
+		String id = filePath;
 		Sample audioSample = SampleManager.sample(filePath);
+		
 		if(audioSample != null) {
-			SamplePlayer player = null;
-			if(players.containsKey(id) == true) {
-				player = getPlayer(id);
-			} else {
-				players.put(id, new SamplePlayer(curContext, audioSample));
-				player = getPlayer(id);
-				player.setKillOnEnd(false);
-				
-				// pan it! only add panner if actually panned
-//				if(panAmp != PAN_CENTER) {
-					panners.put(id, new Panner(curContext, panAmp));
-					panners.get(id).addInput(player);
-//				}
-				
-				// set pitch if needed
-				glides.put(id, new Glide(curContext, pitchRatioFromIndex(pitch)));
-				glideTimes.put(id, 0);
-//				if(pitch != 0) {
-					// change pitch
-					player.setRate(glides.get(id));
-					glides.get(id).setGlideTime(glideTimes.get(id).intValue());
-//				}
-				
-//				P.error("Panning only works once, not a second time");
-//				P.error("Audioreactivity only works on the left channel");
-				
-				// add Gain
-				gains.put(id, new Gain(curContext, 2, volume));		// 2 channel, 1f volume
-//				if(pan != null) {
-					gains.get(id).addInput(panners.get(id));
-//				} else {
-//					gains.get(id).addInput(player);
-//				}
-				
-				// send to output
-				curContext.out.addInput(gains.get(id));
-			}
+			// Audio chain: 
+			// SamplePlayer -> Panner -> Gain (w/Envelope for ASDR)
+			// we pause() in case there's a delay set - simply creating the player triggers the sample once
+			final SamplePlayer player = new SamplePlayer(curContext, audioSample);
+			player.pause(true);	
+			players.put(id, player);
+			player.setKillOnEnd(true);
 			
-			// play it
-			if(player != null) {
-//				P.out("trigger");
-//				new DelayTrigger(delay, 
-//					new Bead() {
-//				  		protected void messageReceived(Bead b) {
-							setVolume(id, volume);
-							panners.get(id).setPos(panAmp);
-							setPitch(id, pitch);
-//							setDelay(id, delay);
-							player(id).start(-delay);
-							if(loops) player(id).setLoopType(SamplePlayer.LoopType.LOOP_FORWARDS);
-							else player(id).setLoopType(SamplePlayer.LoopType.NO_LOOP_FORWARDS);
-//				  		}
-//					}
-//				);
+			// pan it! 
+			Panner panner = new Panner(curContext, panAmp);
+			panner.setKillListener(player);
+			panners.put(id, panner);
+			panners.get(id).addInput(player);
+			
+			// set pitch if needed
+			int glideTime = 0;
+			float pitchOffset = pitchRatioFromIndex(pitch);
+			Glide glide = new Glide(curContext, pitchOffset);
+			glide.setKillListener(player);
+			glides.put(id, glide);
+			glideTimes.put(id, glideTime);
+			
+			// set pitch
+			player.setRate(glide);
+			glide.setGlideTime(glideTime);
+			
+//				P.error("Audioreactivity only works on the left channel");
+			
+			// Add Gain
+			// add ASDR :: http://doc.gold.ac.uk/CreativeComputing/creativecomputation/?page_id=558
+			float startGain = (attackTime == 0) ? volume : 0f;
+			float endGain = 0f;
+
+			Envelope ampEnv = new Envelope(curContext, startGain);				// start volume at 0 or 1
+			Gain gain = new Gain(curContext, 2, ampEnv); 								// ampEnv now controls the fader level. `2` for stereo
+
+			// apply ASDR or not!
+			if(attackTime > 0 || releaseTime > 0) {
+				float fadeCurve = 2f;	// 1f is default, but not very nice
+//					release = P.min(release, sampleLength - attack);						// release should be no longer than sample length minus attack
+				ampEnv.addSegment(volume, attackTime, fadeCurve);
+				ampEnv.addSegment(endGain, releaseTime, 1f/fadeCurve, new KillTrigger(gain));			// attack & release envelope segments
+			} else {
 			}
+			// need a KillTrigger if we're not using the on in the Envelope
+			// otherwise players don't clear out!
+			// clean up panner too!
+			player.setKillListener(new KillTrigger(gain)); 	
+			panner.setKillListener(new KillTrigger(gain)); 	
+			
+			// add Gain
+			gains.put(id, gain);		
+			gain.addInput(panner);
+			
+			// attach to main Beads output
+			curContext.out.addInput(gain);		// to test SamplePlayer without audio chain: addInput(player);
+				
+			// play it, with delay or without
+			Bead myBead = new Bead() {
+				protected void messageReceived(Bead b) {
+					// play from sample start - this un-pauses
+					player.start(sampleStart);
+					
+					// trigger as loop or one-shot
+					if(loops) {
+						player.setLoopType(SamplePlayer.LoopType.LOOP_FORWARDS);
+//							player.setLoopCrossFade(200);
+					}
+					else player.setLoopType(SamplePlayer.LoopType.NO_LOOP_FORWARDS);
+				}
+			};
+			DelayTrigger dt = new DelayTrigger(curContext, delay, myBead, null);
+			curContext.out.addDependent(dt);
 			
 			success = true;
 		} else {
 			DebugUtil.printErr("Bad audio file: " + filePath);
 		}
 		return success;
-	}
-	
-	public SamplePlayer player(String id) {
-		return players.get(id);
 	}
 	
 	// pitch shift
@@ -186,7 +211,11 @@ public class WavPlayer {
 	
 	public WavPlayer stop(String id) {
 		if(getPlayer(id) != null) {
-			getPlayer(id).kill();
+			if(RECYCLES_PLAYERS) {
+				getPlayer(id).pause(true);
+			} else {
+				getPlayer(id).kill();
+			}
 //			players.remove(id);
 //			gains.remove(id);
 //			glides.remove(id);

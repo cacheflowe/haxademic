@@ -14,13 +14,13 @@ public class DroneSampler {
 	
 	protected String audioDir;
 	protected String[] audioFiles;
-	protected WavPlayer activePlayer;
 	protected HashMap<String, AmbientAudioLoop> droneLoops = new HashMap<String, AmbientAudioLoop>();
+	protected AmbientAudioLoop curLoop;
+	protected String curLoopId;
 	protected int soundIndex = -1;
 	protected int loopInterval;
 	protected int loopLastStartTime;
 	protected float loopVol = 1;
-	protected int activePlayers = 0;
 	
 	public DroneSampler(String audioDir, float loopIntervalSeconds, float loopVol) {
 		this.audioDir = audioDir;
@@ -42,60 +42,56 @@ public class DroneSampler {
 		}
 	}
 	
-	protected void startPlayer(String id) {
-		// lazy-init DroneSampler
-		if(droneLoops.containsKey(id) == false) {
-			droneLoops.put(id, new AmbientAudioLoop(id));
-		}
-		// get random pitch and play
-		int newPitch = Scales.SCALES[0][MathUtil.randRange(0, Scales.SCALES[0].length - 1)];
-		droneLoops.get(id).start(newPitch, loopVol).setFadeSeconds(this.loopInterval / 2f / 1000f, loopVol);
-	}
-	
-	public void startNextSound() {
+	protected void startNextPlayer() {
+		// log the current id
 		// go to next index & play next sound!
 		soundIndex = (soundIndex < audioFiles.length - 1) ? soundIndex + 1 : 0;	
-		String nextSoundId = audioFiles[soundIndex];
-		startPlayer(nextSoundId);
+		curLoopId = audioFiles[soundIndex];
+		DebugView.setValue("CUR_LOOP @ " + audioDir, FileUtil.fileNameFromPath(curLoopId));
+
+		// lazy-init DroneSampler
+		if(droneLoops.containsKey(curLoopId) == false) {
+			droneLoops.put(curLoopId, new AmbientAudioLoop(curLoopId));
+		}
+		
+		// get random pitch and play
+		int newPitch = Scales.SCALES[0][MathUtil.randRange(0, Scales.SCALES[0].length - 1)];
+		float loopFadeTime = this.loopInterval / 2f;
+		curLoop = droneLoops.get(curLoopId); 
+		curLoop.start(newPitch, loopVol, loopFadeTime, loopFadeTime);
 	}
 	
-	protected void releaseOldPlayers() {
-		// ramp down old players halfway through interval
-		for (HashMap.Entry<String, AmbientAudioLoop> entry : droneLoops.entrySet()) {
-			AmbientAudioLoop droneLoop = entry.getValue();
-//			DebugView.setValue(droneLoop.id, droneLoop.active());
-			if(droneLoop.active() && P.p.millis() > loopLastStartTime + loopInterval/2) {
-				droneLoop.release();
-			}
-		}
-	}
+//	protected void releaseOldPlayers() {
+//		// ramp down old players halfway through interval
+//		for (HashMap.Entry<String, AmbientAudioLoop> entry : droneLoops.entrySet()) {
+//			AmbientAudioLoop droneLoop = entry.getValue();
+//			if(droneLoop.active() && P.p.millis() > loopLastStartTime + loopInterval/2) {
+//				droneLoop.release();
+//			}
+//		}
+//	}
 	
 	protected void checkNextSoundInterval() {
 		// is it time to start a new loop?
 		if(P.p.millis() > loopLastStartTime + loopInterval) {
 			loopLastStartTime = P.p.millis();
-			startNextSound();
+			startNextPlayer();
 		}
 	}
 	
 	protected void updateLoops() {
-		// update volume lerping
-		activePlayers = 0;
-		for (HashMap.Entry<String, AmbientAudioLoop> entry : droneLoops.entrySet()) {
-			AmbientAudioLoop droneLoop = entry.getValue();
-			droneLoop.update();
-			if(droneLoop.active()) activePlayers++;
-		}
-		DebugView.setValue("activePlayers", activePlayers);
+		// log loop progress
+		float curProgress = AmbientAudioLoop.player.progress(curLoopId);
+//		float curPosition = AmbientAudioLoop.player.position(curLoopId);
+//		float curDuration = AmbientAudioLoop.player.duration(curLoopId);
+		DebugView.setValue("AmbientAudioLoop progress "+audioDir, MathUtil.roundToPrecision(curProgress, 3));
+//		DebugView.setValue("AmbientAudioLoop position "+audioDir, MathUtil.roundToPrecision(curPosition, 3));
+//		DebugView.setValue("AmbientAudioLoop duration "+audioDir, MathUtil.roundToPrecision(curDuration, 3));
 	}
 	
 	public void update() {
-		releaseOldPlayers();
 		checkNextSoundInterval();
 		updateLoops();
 	}
 
-	public int activePlayers() {
-		return activePlayers;
-	}
 }
