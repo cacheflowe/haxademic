@@ -36,27 +36,17 @@ extends PAppletHax {
 
 	protected void firstFrame() {
 		buildCanvas();
-		
+		addHelpLines();
+	}
+	
+	protected void addHelpLines() {
 		DebugView.setHelpLine("__ Key Commands", "__\n");
 		DebugView.setHelpLine("ESC |", "Quit");
-		DebugView.setHelpLine("D |", "Toggle keystone active");
-		DebugView.setHelpLine("T |", "Test pattern toggle");
-		DebugView.setHelpLine("R |", "Reset corners");
-		DebugView.setHelpLine("0 |", "Reset offsets");
-		DebugView.setHelpLine("A |", "Reset offsets X");
-		DebugView.setHelpLine("S |", "Reset offsets Y");
-
-		DebugView.setHelpLine("X |", "Next col");
-		DebugView.setHelpLine("Z |", "Prev col");
-		DebugView.setHelpLine("O |", "Adjust col down");
-		DebugView.setHelpLine("P |", "Adjust col up");
-
-		DebugView.setHelpLine("C |", "Next row");
-		DebugView.setHelpLine("V |", "Prev row");
-		DebugView.setHelpLine("{ |", "Adjust row down");
-		DebugView.setHelpLine("} |", "Adjust row up");
 		
-		DebugView.setHelpLine("E |", "Export config");
+		DebugView.setHelpLine("__ PGraphicsKeystone Commands", "__\n");
+		DebugView.setHelpLine("d |", "Toggle keystone active");
+		DebugView.setHelpLine("t |", "Test pattern toggle");
+		DebugView.setHelpLine("r |", "Reset corners");
 	}
 	
 	protected void buildCanvas() {
@@ -94,13 +84,13 @@ extends PAppletHax {
 		for (int i = 1; i < offsetsX.length - 1; i++) {
 			offsetsX[i] = P.sin(i + p.frameCount * 0.03f) * 0.02f;
 		}
-		keystonedPG.setOffsetsX(offsetsX);
+		keystonedPG.setOffsetsCols(offsetsX);
 		
 		offsetsY = new float[subdivisions + 1];
 		for (int i = 1; i < offsetsY.length - 1; i++) {
 			offsetsY[i] = P.sin(i + p.frameCount * 0.03f) * 0.02f;
 		}
-		keystonedPG.setOffsetsY(offsetsY);
+		keystonedPG.setOffsetsRows(offsetsY);
 	}
 	
 	public void keyPressed() {

@@ -1,6 +1,5 @@
 package com.haxademic.core.draw.mapping;
 
-import com.haxademic.core.app.P;
 import com.haxademic.core.data.ConvertUtil;
 import com.haxademic.core.debug.DebugUtil;
 import com.haxademic.core.debug.DebugView;
@@ -17,8 +16,6 @@ extends BaseSavedQuadUI {
 	
 	//////////////////////////
 	// TODO: 
-	// - Add "reset offsets" public function & keystroke
-	//   - Add global and currently-selected col/row reset
 	// - Convert x/y offsets to top/bottom & left/right offsets that can be treated as pairs of independently
 	//////////////////////////
 
@@ -29,6 +26,7 @@ extends BaseSavedQuadUI {
 		super(p.width, p.height, filePath);
 		this.pg = pg;
 		this.subDivideSteps = subDivideSteps;
+		addHelpLines();
 	}
 	
 	public PGraphicsKeystone( PApplet p, PGraphics pg, float subDivideSteps, String filePath, String filePathFineOffsets ) {
@@ -38,6 +36,27 @@ extends BaseSavedQuadUI {
 	
 	public PGraphics pg() {
 		return pg;
+	}
+	
+	protected void addHelpLines() {
+		DebugView.setHelpLine("__ PGraphicsKeystone Controls", "__\n");
+		
+		// internal PGraphicsKeystone key commands
+		DebugView.setHelpLine("R |", "Reset offsets");
+		DebugView.setHelpLine("W |", "Reset offsets Cols");
+		DebugView.setHelpLine("Q |", "Reset offsets Rows");
+
+		DebugView.setHelpLine("X |", "Next col");
+		DebugView.setHelpLine("Z |", "Prev col");
+		DebugView.setHelpLine("A |", "Adjust col down");
+		DebugView.setHelpLine("S |", "Adjust col up");
+
+		DebugView.setHelpLine("C |", "Next row");
+		DebugView.setHelpLine("V |", "Prev row");
+		DebugView.setHelpLine("D |", "Adjust row down");
+		DebugView.setHelpLine("F |", "Adjust row up");
+		
+		DebugView.setHelpLine("E |", "Export config");
 	}
 	
 	public void fillSolidColor( PGraphics canvas, int fill ) {
@@ -88,10 +107,10 @@ extends BaseSavedQuadUI {
 				float uPercentNext = xPercentNext;
 
 				// add x offsets if array exists and values aren't zero
-				if(offsetsX != null) {
+				if(offsetsCols != null) {
 					int fineIndex = (int) x;
-					if(offsetsX[fineIndex] != 0) xPercent += offsetsX[fineIndex]; 
-					if(offsetsX[fineIndex + 1] != 0) xPercentNext += offsetsX[fineIndex + 1];
+					if(offsetsCols[fineIndex] != 0) xPercent += offsetsCols[fineIndex]; 
+					if(offsetsCols[fineIndex + 1] != 0) xPercentNext += offsetsCols[fineIndex + 1];
 				}
 				
 				for( float y=0; y < stepsY; y += 1f ) {
@@ -103,10 +122,10 @@ extends BaseSavedQuadUI {
 					float vPercentNext = yPercentNext;
 
 					// add y offsets if array exists and values aren't zero
-					if(offsetsY != null) {
+					if(offsetsRows != null) {
 						int fineIndexY = (int) y;
-						if(offsetsY[fineIndexY] != 0) yPercent += offsetsY[fineIndexY]; 
-						if(offsetsY[fineIndexY + 1] != 0) yPercentNext += offsetsY[fineIndexY + 1];
+						if(offsetsRows[fineIndexY] != 0) yPercent += offsetsRows[fineIndexY]; 
+						if(offsetsRows[fineIndexY + 1] != 0) yPercentNext += offsetsRows[fineIndexY + 1];
 					}
 					
 					// calc grid positions based on interpolating columns between corners
@@ -139,9 +158,9 @@ extends BaseSavedQuadUI {
 			}
 			
 			// draw fine control debug lines
-			if(offsetsX != null && selectedColIndex != -1) {
+			if(offsetsCols != null && selectedColIndex != -1) {
 				float xPercent = selectedColIndex/stepsX;
-				if(offsetsX[selectedColIndex] != 0) xPercent += offsetsX[selectedColIndex]; 
+				if(offsetsCols[selectedColIndex] != 0) xPercent += offsetsCols[selectedColIndex]; 
 
 				float colTopX = interp(topLeft.x, topRight.x, xPercent);
 				float colTopY = interp(topLeft.y, topRight.y, xPercent);
@@ -154,9 +173,9 @@ extends BaseSavedQuadUI {
 				canvas.vertex(colBotX, colBotY, 0, 		0, 0);
 				canvas.vertex(colBotX, colBotY, 0, 		0, 0);
 			}
-			if(offsetsY != null && selectedRowIndex != -1) {
+			if(offsetsRows != null && selectedRowIndex != -1) {
 				float yPercent = selectedRowIndex/stepsY;
-				if(offsetsY[selectedRowIndex] != 0) yPercent += offsetsY[selectedRowIndex]; 
+				if(offsetsRows[selectedRowIndex] != 0) yPercent += offsetsRows[selectedRowIndex]; 
 				
 				float rowTopX = interp(topLeft.x, bottomLeft.x, yPercent);
 				float rowTopY = interp(topLeft.y, bottomLeft.y, yPercent);
@@ -214,8 +233,8 @@ extends BaseSavedQuadUI {
 	//////////////////////////////////////////
 	
 	// fine subdivision controls
-	protected float[] offsetsX = null;
-	protected float[] offsetsY = null;
+	protected float[] offsetsCols = null;
+	protected float[] offsetsRows = null;
 	protected int selectedRowIndex = -1;
 	protected int selectedColIndex = -1;
 	protected float offsetPushAmp = 0.0005f;
@@ -231,32 +250,25 @@ extends BaseSavedQuadUI {
 	
 	protected void buildMappingOffsets() {
 		// build offsets arrays
-		offsetsX = new float[(int) subDivideSteps + 1];
-		for (int i = 0; i < offsetsX.length; i++) offsetsX[i] = 0;
-		setOffsetsX(offsetsX);
+		offsetsCols = new float[(int) subDivideSteps + 1];
+		for (int i = 0; i < offsetsCols.length; i++) offsetsCols[i] = 0;
+		setOffsetsCols(offsetsCols);
 
-		offsetsY = new float[(int) subDivideSteps + 1];
-		for (int i = 0; i < offsetsY.length; i++) offsetsY[i] = 0;
-		setOffsetsY(offsetsY);
+		offsetsRows = new float[(int) subDivideSteps + 1];
+		for (int i = 0; i < offsetsRows.length; i++) offsetsRows[i] = 0;
+		setOffsetsRows(offsetsRows);
 	}
 	
 	// public
 	
-	public void setOffsetsX(float[] offsetsX) {
-		if(this.offsetsX.length != subDivideSteps + 1) DebugUtil.printErr("PGraphicsKeystone.offsetsX[] must have one more element than subDivideSteps");
-		if(this.offsetsX == null) {
-			this.offsetsX = offsetsX;
-		} else {
-			for (int i = 0; i < offsetsX.length; i++) {
-				this.offsetsX[i] = offsetsX[i];
-			}
-			DebugView.setValue("last offsetsX update", P.p.frameCount);
-		}
+	public void setOffsetsCols(float[] offsetsCols) {
+		if(this.offsetsCols.length != subDivideSteps + 1) DebugUtil.printErr("PGraphicsKeystone.offsetsX[] must have one more element than subDivideSteps");
+		this.offsetsCols = offsetsCols;
 	}
 	
-	public void setOffsetsY(float[] offsetsY) {
-		if(this.offsetsX.length != subDivideSteps + 1) DebugUtil.printErr("PGraphicsKeystone.offsetsY[] must have one more element than subDivideSteps");
-		this.offsetsY = offsetsY;
+	public void setOffsetsRows(float[] offsetsRows) {
+		if(this.offsetsCols.length != subDivideSteps + 1) DebugUtil.printErr("PGraphicsKeystone.offsetsY[] must have one more element than subDivideSteps");
+		this.offsetsRows = offsetsRows;
 	}
 	
 	public int selectedRowIndex() {
@@ -268,23 +280,23 @@ extends BaseSavedQuadUI {
 	}
 	
 	public void resetOffsets() {
-		resetOffsetsX(-1);
-		resetOffsetsY(-1);
+		resetOffsetsCols(-1);
+		resetOffsetsRows(-1);
 	}
 	
-	public void resetOffsetsX(int colIndex) {
+	public void resetOffsetsCols(int colIndex) {
 		if(colIndex < 0) {
-			for (int i = 0; i < offsetsX.length; i++) offsetsX[i] = 0;
+			for (int i = 0; i < offsetsCols.length; i++) offsetsCols[i] = 0;
 		} else {
-			offsetsX[colIndex] = 0;
+			offsetsCols[colIndex] = 0;
 		}
 	}
 		
-	public void resetOffsetsY(int rowIndex) {
+	public void resetOffsetsRows(int rowIndex) {
 		if(rowIndex < 0) {
-			for (int i = 0; i < offsetsY.length; i++) offsetsY[i] = 0;
+			for (int i = 0; i < offsetsRows.length; i++) offsetsRows[i] = 0;
 		} else {
-			offsetsY[rowIndex] = 0;
+			offsetsRows[rowIndex] = 0;
 		}
 	}
 	
@@ -304,26 +316,26 @@ extends BaseSavedQuadUI {
 			String[] numbersStrArrayX = textLines[0].split(",");
 			for (int i = 0; i < numbersStrArrayX.length; i++) {
 				float offset = ConvertUtil.stringToFloat(numbersStrArrayX[i]);
-				if(i < offsetsX.length) offsetsX[i] = offset;
+				if(i < offsetsCols.length) offsetsCols[i] = offset;
 			}
 			String[] numbersStrArrayY = textLines[1].split(",");
 			for (int i = 0; i < numbersStrArrayY.length; i++) {
 				float offset = ConvertUtil.stringToFloat(numbersStrArrayY[i]);
-				if(i < offsetsY.length) offsetsY[i] = offset;
+				if(i < offsetsRows.length) offsetsRows[i] = offset;
 			}
 		}
 	}
 	
 	protected void saveConfig() {
 		String floatsStr = "";
-		for (int i = 0; i < offsetsX.length; i++) {
+		for (int i = 0; i < offsetsCols.length; i++) {
 			if(i > 0) floatsStr += ","; 
-			floatsStr += offsetsX[i];
+			floatsStr += offsetsCols[i];
 		}
 		floatsStr += FileUtil.NEWLINE;
-		for (int i = 0; i < offsetsY.length; i++) {
+		for (int i = 0; i < offsetsRows.length; i++) {
 			if(i > 0) floatsStr += ","; 
-			floatsStr += offsetsY[i];
+			floatsStr += offsetsRows[i];
 		}
 		FileUtil.writeTextToFile(configFile, floatsStr);
 	}
@@ -333,32 +345,40 @@ extends BaseSavedQuadUI {
 	public void keyEvent(KeyEvent e) {
 		super.keyEvent(e);
 		if(active == false) return;
-		if(offsetsX == null || offsetsY == null) return;
+		if(offsetsCols == null || offsetsRows == null) return;
 		if(e.getAction() == KeyEvent.PRESS) {
 			// fine controls
 			if(e.getKey() == 'Z') {
 				selectedColIndex--;
-				if(selectedColIndex < -1) selectedColIndex = offsetsX.length - 1;
+				if(selectedColIndex < -1) selectedColIndex = offsetsCols.length - 1;
+				selectedRowIndex = -1;
 			}
 			if(e.getKey() == 'X') {
 				selectedColIndex++;
-				if(selectedColIndex >= offsetsX.length) selectedColIndex = -1;
+				if(selectedColIndex >= offsetsCols.length) selectedColIndex = -1;
+				selectedRowIndex = -1;
 			}
 			if(e.getKey() == 'C') {
 				selectedRowIndex--;
-				if(selectedRowIndex < -1) selectedRowIndex = offsetsY.length - 1;
+				if(selectedRowIndex < -1) selectedRowIndex = offsetsRows.length - 1;
+				selectedColIndex = -1;
 			}
 			if(e.getKey() == 'V')  {
 				selectedRowIndex++;
-				if(selectedRowIndex >= offsetsY.length) selectedRowIndex = -1;
+				if(selectedRowIndex >= offsetsRows.length) selectedRowIndex = -1;
+				selectedColIndex = -1;
 			}
-			if(e.getKey() == 'O') fineControlAdjust(offsetsX, selectedColIndex, -1f);
-			if(e.getKey() == 'P') fineControlAdjust(offsetsX, selectedColIndex, 1f);
-			if(e.getKey() == '{') fineControlAdjust(offsetsY, selectedRowIndex, -1f);
-			if(e.getKey() == '}') fineControlAdjust(offsetsY, selectedRowIndex, 1f);
-			if(e.getKey() == '0') resetOffsets();
-			if(e.getKey() == 'A') resetOffsetsX(-1);
-			if(e.getKey() == 'S') resetOffsetsY(-1);
+			if(selectedColIndex != -1) {
+				if(e.getKey() == 'A') fineControlAdjust(offsetsCols, selectedColIndex, -1f);
+				if(e.getKey() == 'S') fineControlAdjust(offsetsCols, selectedColIndex, 1f);
+			}
+			if(selectedRowIndex != -1) {
+				if(e.getKey() == 'D') fineControlAdjust(offsetsRows, selectedRowIndex, -1f);
+				if(e.getKey() == 'F') fineControlAdjust(offsetsRows, selectedRowIndex, 1f);
+			}
+			if(e.getKey() == 'R') resetOffsets();
+			if(e.getKey() == 'Q') resetOffsetsCols(-1);
+			if(e.getKey() == 'W') resetOffsetsRows(-1);
 			if(e.getKey() == 'E') saveConfig();
 		}
 	}

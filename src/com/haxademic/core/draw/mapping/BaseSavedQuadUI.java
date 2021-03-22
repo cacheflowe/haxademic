@@ -75,6 +75,11 @@ public class BaseSavedQuadUI {
 		}
 	}
 
+	
+	public void toggleActive() {
+		setActive(!active);
+	}
+	
 	public void resetCorners() {
 		topLeft = new Point(0, 0);
 		topRight = new Point(w, 0);
