@@ -40,10 +40,12 @@
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.demo.ui"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.demo.draw.context"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.demo.draw.filters.shaders.float32"/>
+        <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.draw.filters.pshader.compound"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.media.audio.analysis"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.draw.textures"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.demo.hardware.depthcamera.realsense"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.hardware.depthcamera.cameras"/>
+        <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.demo.hardware.artnet.sacn"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.demo.hardware.depthcamera.kinectpv2"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.draw.shapes.pshader.shared"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.demo.draw.particle"/>
@@ -51,6 +53,7 @@
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.draw.textures.pgraphics"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.demo.app"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.demo.hardware.shared"/>
+        <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.demo.hardware.artnet"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.media.audio.deprecated"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.vendor"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.demo.system"/>
@@ -103,6 +106,7 @@
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.math"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.data"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.hardware.depthcamera"/>
+        <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.hardware.dmx.artnet"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.draw.camera.common"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.hardware.shared"/>
         <javaElement handleIdentifier="=haxademic/src&lt;com.haxademic.core.draw.filters.pgraphics"/>
