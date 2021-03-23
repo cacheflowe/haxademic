@@ -2,42 +2,58 @@ package com.haxademic.demo.hardware.depthcamera.kinectpv2;
 
 import java.util.ArrayList;
 
+import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
+import com.haxademic.core.draw.context.PG;
+import com.haxademic.core.draw.image.ImageUtil;
+import com.haxademic.core.math.MathUtil;
 
 import KinectPV2.KJoint;
 import KinectPV2.KSkeleton;
 import KinectPV2.KinectPV2;
+import processing.core.PImage;
 
 public class Demo_KinectV2_SkeletonColor
 extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	protected KinectPV2 kinectV2;
+	protected PImage handImg;
+	protected PImage hatImg;
 
 	protected void config() {
 		Config.setProperty( AppSettings.WIDTH, 1280 );
 		Config.setProperty( AppSettings.HEIGHT, 720 );
+		Config.setProperty( AppSettings.PG_WIDTH, 1920 );
+		Config.setProperty( AppSettings.PG_HEIGHT, 1080 );
 		Config.setProperty( AppSettings.SHOW_DEBUG, true );
 	}
 
 	protected void firstFrame() {
+		// init kinect
 		kinectV2 = new KinectPV2(this);
 		kinectV2.enableSkeletonColorMap(true);
 		kinectV2.enableColorImg(true);
 		kinectV2.init();
+		
+		// load media
+		handImg = P.getImage("images/_sketch/foam-finger.png");
+		hatImg = P.getImage("images/_sketch/beanie.png");
 	}
 
 	protected void drawApp() {
 		p.background(0);
 		
+		// draw to 1080p offscreen canvas to match the inect skeleto coordinates
+		pg.beginDraw();
+		
 		// draw image
-//		image(kinect.getColorImage(), 0, 0, width, height);
-
-		ArrayList<KSkeleton> skeletonArray =  kinectV2.getSkeletonColorMap();
+		pg.image(kinectV2.getColorImage(), 0, 0, pg.width, pg.height);
 
 		//individual JOINTS
+		ArrayList<KSkeleton> skeletonArray =  kinectV2.getSkeletonColorMap();
 		for (int i = 0; i < skeletonArray.size(); i++) {
 			KSkeleton skeleton = (KSkeleton) skeletonArray.get(i);
 			if (skeleton.isTracked()) {
@@ -45,20 +61,54 @@ extends PAppletHax {
 
 				int col  = skeleton.getIndexColor();
 				// col = 255;
-				fill(col);
-				stroke(col);
-				strokeWeight(3);
+				pg.fill(col);
+				pg.stroke(col);
+				pg.strokeWeight(3);
 				drawBody(joints);
 
 				//draw different color for each hand state
 				drawHandState(joints[KinectPV2.JointType_HandRight]);
 				drawHandState(joints[KinectPV2.JointType_HandLeft]);
+				
+				// draw foam finger
+//				drawHandState(joints[KinectPV2.JointType_HandTipRight]);
+				KJoint handJoint = joints[KinectPV2.JointType_HandTipLeft];
+				KJoint elbowJoint = joints[KinectPV2.JointType_ElbowLeft];
+				float elbowHandDist = P.dist(handJoint.getX(), handJoint.getY(), elbowJoint.getX(), elbowJoint.getY());
+				float imgScale = MathUtil.scaleToTarget(handImg.height, elbowHandDist);
+				float imgRot = MathUtil.getRadiansToTarget(handJoint.getX(), handJoint.getY(), elbowJoint.getX(), elbowJoint.getY());
+				pg.push();
+				PG.setDrawCenter(pg);
+				pg.noStroke();
+				pg.translate(handJoint.getX(), handJoint.getY(), handJoint.getZ());
+				pg.rotate(imgRot - P.HALF_PI);
+				pg.image(handImg, 0, 0, handImg.width * imgScale, handImg.height * imgScale);
+				pg.pop();
+
+				// draw hat
+//				drawHandState(joints[KinectPV2.JointType_HandTipRight]);
+				KJoint neckJoint = joints[KinectPV2.JointType_Neck];
+				KJoint headJoint = joints[KinectPV2.JointType_Head];
+				float neckHeadDist = P.dist(headJoint.getX(), headJoint.getY(), neckJoint.getX(), neckJoint.getY());
+				imgScale = MathUtil.scaleToTarget(hatImg.height, neckHeadDist) * 1.8f;
+				imgRot = MathUtil.getRadiansToTarget(headJoint.getX(), headJoint.getY(), neckJoint.getX(), neckJoint.getY());
+				pg.push();
+				PG.setDrawCenter(pg);
+				pg.noStroke();
+				pg.translate(headJoint.getX(), headJoint.getY(), headJoint.getZ());
+				pg.rotate(imgRot - P.HALF_PI);
+				pg.translate(0, -hatImg.height * imgScale * 0.55f);
+				pg.image(hatImg, 0, 0, hatImg.width * imgScale, hatImg.height * imgScale);
+				pg.pop();
 			}
 		}
 
-		fill(255, 0, 0);
-		text(frameRate, 50, 50);
+		pg.fill(255, 0, 0);
+		pg.text(frameRate, 50, 50);
 
+		pg.endDraw();
+		
+		ImageUtil.cropFillCopyImage(pg, p.g, true);
 	}
 
 
@@ -110,29 +160,29 @@ extends PAppletHax {
 
 	//draw joint
 	void drawJoint(KJoint[] joints, int jointType) {
-		pushMatrix();
-		translate(joints[jointType].getX(), joints[jointType].getY(), joints[jointType].getZ());
-		ellipse(0, 0, 10, 10);
-		popMatrix();
+		pg.pushMatrix();
+		pg.translate(joints[jointType].getX(), joints[jointType].getY(), joints[jointType].getZ());
+		pg.ellipse(0, 0, 10, 10);
+		pg.popMatrix();
 	}
 
 	//draw bone
 	void drawBone(KJoint[] joints, int jointType1, int jointType2) {
-		pushMatrix();
-		translate(joints[jointType1].getX(), joints[jointType1].getY(), joints[jointType1].getZ());
-		ellipse(0, 0, 10, 10);
-		popMatrix();
-		line(joints[jointType1].getX(), joints[jointType1].getY(), joints[jointType1].getZ(), joints[jointType2].getX(), joints[jointType2].getY(), joints[jointType2].getZ());
+		pg.pushMatrix();
+		pg.translate(joints[jointType1].getX(), joints[jointType1].getY(), joints[jointType1].getZ());
+		pg.ellipse(0, 0, 10, 10);
+		pg.popMatrix();
+		pg.line(joints[jointType1].getX(), joints[jointType1].getY(), joints[jointType1].getZ(), joints[jointType2].getX(), joints[jointType2].getY(), joints[jointType2].getZ());
 	}
 
 	//draw hand state
 	void drawHandState(KJoint joint) {
-		noStroke();
+		pg.noStroke();
 		handState(joint.getState());
-		pushMatrix();
-		translate(joint.getX(), joint.getY(), joint.getZ());
-		ellipse(0, 0, 10, 10);
-		popMatrix();
+		pg.pushMatrix();
+		pg.translate(joint.getX(), joint.getY(), joint.getZ());
+		pg.ellipse(0, 0, 70, 70);
+		pg.popMatrix();
 	}
 
 	/*
@@ -145,16 +195,16 @@ extends PAppletHax {
 	void handState(int handState) {
 		switch(handState) {
 		case KinectPV2.HandState_Open:
-			fill(0, 255, 0);
+			pg.fill(0, 255, 0);
 			break;
 		case KinectPV2.HandState_Closed:
-			fill(255, 0, 0);
+			pg.fill(255, 0, 0);
 			break;
 		case KinectPV2.HandState_Lasso:
-			fill(0, 0, 255);
+			pg.fill(0, 0, 255);
 			break;
 		case KinectPV2.HandState_NotTracked:
-			fill(255, 255, 255);
+			pg.fill(255, 255, 255);
 			break;
 		}
 	}
