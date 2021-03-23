@@ -77,7 +77,6 @@
 	<classpathentry kind="lib" path="lib/processing-3/core/library/core.jar" sourcepath="/processing-core/src"/>
 	<classpathentry kind="lib" path="lib/processing-3/core/library/gluegen-rt.jar"/>
 	<classpathentry kind="lib" path="lib/processing-3/core/library/jogl-all.jar"/>
-	<classpathentry kind="lib" path="lib/processing-3/libraries/net/library/net.jar"/>
 	<classpathentry kind="lib" path="lib/processing-3/libraries/pdf/library/itext.jar"/>
 	<classpathentry kind="lib" path="lib/processing-3/libraries/pdf/library/pdf.jar"/>
 	<classpathentry kind="lib" path="lib/processing-3/libraries/serial/library/jssc.jar"/>
@@ -96,7 +95,6 @@
 	-->
 	<classpathentry kind="lib" path="lib/processing-3/libraries/video/library/gstreamer-java.jar"/>
 	<classpathentry kind="lib" path="lib/processing-3/libraries/video/library/jna.jar"/>
-	<classpathentry kind="lib" path="lib/processing-3/libraries/video/library/video.jar"/> 
 	<classpathentry kind="lib" path="lib/processing-3/libraries/video/library/video.jar"/>
 	<classpathentry kind="lib" path="lib/RealSenseProcessing/library/javacpp-1.5.4.jar"/>
 	<classpathentry kind="lib" path="lib/RealSenseProcessing/library/javacpp-1.5.4-macosx-x86_64.jar"/>
