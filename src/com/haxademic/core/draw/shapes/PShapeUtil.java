@@ -121,6 +121,7 @@ public class PShapeUtil {
 				}
 			}
 		}
+		centerShape(newShape);
 		
 		return newShape;
 	}
