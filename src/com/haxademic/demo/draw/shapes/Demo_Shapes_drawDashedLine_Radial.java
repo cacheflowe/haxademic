@@ -11,7 +11,6 @@ import com.haxademic.core.render.FrameLoop;
 public class Demo_Shapes_drawDashedLine_Radial 
 extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
-
 	
 	protected void config() {
 		int FRAMES = 200;
@@ -22,7 +21,6 @@ extends PAppletHax {
 		Config.setProperty( AppSettings.RENDERING_MOVIE_START_FRAME, (FRAMES * 1) + 1 );
 		Config.setProperty( AppSettings.RENDERING_MOVIE_STOP_FRAME, (FRAMES * 2) + 1 );
 		Config.setProperty( AppSettings.SMOOTHING, AppSettings.SMOOTH_HIGH );
-
 	}
 	
 	protected void drawApp() {
