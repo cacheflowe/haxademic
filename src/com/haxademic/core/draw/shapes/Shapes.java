@@ -2,7 +2,6 @@ package com.haxademic.core.draw.shapes;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.data.constants.PShapeTypes;
-import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.OpenGLUtil;
 import com.haxademic.core.draw.context.OrientationUtil;
 import com.haxademic.core.draw.context.PG;
@@ -18,6 +17,10 @@ import processing.core.PVector;
 
 public class Shapes {
 	
+	public static void drawDisc3D( PApplet p, float radius, float innerRadius, float cylinderHeight, int numSegments, int color, int wallcolor ) {
+		drawDisc3D(p.g, radius, innerRadius, cylinderHeight, numSegments, color, wallcolor);
+	}
+
 	public static void drawDisc3D( PGraphics p, float radius, float innerRadius, float cylinderHeight, int numSegments, int color, int wallcolor ) {
 		// draw triangles
 		p.beginShape(P.TRIANGLES);
@@ -25,8 +28,7 @@ public class Shapes {
 		float segmentRads = P.TWO_PI / numSegments;
 		float halfHeight = cylinderHeight / 2;
 		
-		for( int i = 0; i < numSegments; i++ )
-		{
+		for( int i = 0; i < numSegments; i++ ) {
 			if( color > 0 ) p.fill( color );
 			
 			// top disc
@@ -73,10 +75,6 @@ public class Shapes {
 		}
 		
 		p.endShape();
-	}
-	public static void drawDisc3D( PApplet p, float radius, float innerRadius, float cylinderHeight, int numSegments, int color, int wallcolor )
-	{
-		drawDisc3D(p.g, radius, innerRadius, cylinderHeight, numSegments, color, wallcolor);
 	}
 
 	public static void drawDisc( PApplet p, float radius, float innerRadius, int numSegments ) {
@@ -529,7 +527,7 @@ public class Shapes {
 		return sh;
 	}
 	
-	public static PShape createDisc(float radius, int vertices, int rows, PImage tex) {
+	public static PShape createDisc(float radius, int detail, int rows, PImage tex) {
 		P.p.textureMode(P.NORMAL); 
 		PShape sh = P.p.createShape();
 		sh.beginShape(P.TRIANGLES);
@@ -539,8 +537,8 @@ public class Shapes {
 		
 		float radiusTwo = radius * 2f;
 		float rowSize = radius / (float) rows;
-		float segmentRads = P.TWO_PI / vertices;
-		for( int v = 0; v < vertices; v++ ) {
+		float segmentRads = P.TWO_PI / detail;
+		for( int v = 0; v < detail; v++ ) {
 			for( int r = 0; r < rows; r++ ) {
 				float curRads = v * segmentRads;
 				float nextRads = (v+1) * segmentRads;
@@ -577,6 +575,82 @@ public class Shapes {
 			}
 		}
 
+		sh.endShape();
+		return sh;
+	}
+	
+	public static PShape createDisc3d(float radius, float innerRadius, float depth, int detail, PImage tex) {
+		P.p.textureMode(P.NORMAL); 
+		PShape sh = P.p.createShape();
+		sh.beginShape(P.TRIANGLES);
+		sh.textureMode(P.NORMAL);
+		if(tex != null) sh.texture(tex);
+		sh.noStroke();
+		
+		float segmentRads = P.TWO_PI / detail;
+		float halfHeight = depth / 2;
+		
+		for( int i = 0; i < detail; i++ ) {
+			float curRads = i * segmentRads;
+			float nextRads = (i+1) * segmentRads;
+			float xOuterCur = P.cos( curRads ) * radius;
+			float xOuterNext = P.cos( nextRads ) * radius;
+			float xInnerCur = P.cos( curRads ) * innerRadius;
+			float xInnerNext = P.cos( nextRads ) * innerRadius;
+			float yOuterCur = P.sin( curRads ) * radius;
+			float yOuterNext = P.sin( nextRads ) * radius;
+			float yInnerCur = P.sin( curRads ) * innerRadius;
+			float yInnerNext = P.sin( nextRads ) * innerRadius;
+			
+			float innerCurU = P.map(xInnerCur, -radius, radius, 0, 1);
+			float innerCurV = P.map(yInnerCur, -radius, radius, 0, 1);
+			float innerNextU = P.map(xInnerNext, -radius, radius, 0, 1);
+			float innerNextV = P.map(yInnerNext, -radius, radius, 0, 1);
+			float outerCurU = P.map(xOuterCur, -radius, radius, 0, 1);
+			float outerCurV = P.map(yOuterCur, -radius, radius, 0, 1);
+			float outerNextU = P.map(xOuterNext, -radius, radius, 0, 1);
+			float outerNextV = P.map(yOuterNext, -radius, radius, 0, 1);
+
+			// top disc
+			sh.vertex( xInnerCur, yInnerCur, halfHeight, innerCurU, innerCurV );
+			sh.vertex( xOuterCur, yOuterCur, halfHeight, outerCurU, outerCurV );
+			sh.vertex( xOuterNext, yOuterNext, halfHeight, outerNextU, outerNextV );
+			
+			sh.vertex( xInnerCur, yInnerCur, halfHeight, innerCurU, innerCurV );
+			sh.vertex( xInnerNext, yInnerNext, halfHeight, innerNextU, innerNextV );
+			sh.vertex( xOuterNext, yOuterNext, halfHeight, outerNextU, outerNextV );
+			
+			// bottom disc
+			sh.vertex( xInnerCur, yInnerCur, -halfHeight, innerCurU, innerCurV );
+			sh.vertex( xOuterCur, yOuterCur, -halfHeight, outerCurU, outerCurV );
+			sh.vertex( xOuterNext, yOuterNext, -halfHeight, outerNextU, outerNextV );
+			
+			sh.vertex( xInnerCur, yInnerCur, -halfHeight, innerCurU, innerCurV );
+			sh.vertex( xInnerNext, yInnerNext, -halfHeight, innerNextU, innerNextV );
+			sh.vertex( xOuterNext, yOuterNext, -halfHeight, outerNextU, outerNextV );
+			
+			// outer wall
+			sh.vertex( xOuterCur, yOuterCur, halfHeight, outerCurU, outerCurV );
+			sh.vertex( xOuterCur, yOuterCur, -halfHeight, outerCurU, outerCurV );
+			sh.vertex( xOuterNext, yOuterNext, halfHeight, outerNextU, outerNextV );
+			
+			sh.vertex( xOuterCur, yOuterCur, -halfHeight, outerCurU, outerCurV );
+			sh.vertex( xOuterNext, yOuterNext, halfHeight, outerNextU, outerNextV );
+			sh.vertex( xOuterNext, yOuterNext, -halfHeight, outerNextU, outerNextV );
+			
+			// only draw inner radius if needed
+			if( innerRadius > 0 ) {
+				// inner wall
+				sh.vertex( xInnerCur, yInnerCur, halfHeight, innerCurU, innerCurV );
+				sh.vertex( xInnerCur, yInnerCur, -halfHeight, innerCurU, innerCurV );
+				sh.vertex( xInnerNext, yInnerNext, halfHeight, innerNextU, innerNextV );
+				
+				sh.vertex( xInnerCur, yInnerCur, -halfHeight, innerCurU, innerCurV );
+				sh.vertex( xInnerNext, yInnerNext, halfHeight, innerNextU, innerNextV );
+				sh.vertex( xInnerNext, yInnerNext, -halfHeight, innerNextU, innerNextV );
+			}
+		}
+		
 		sh.endShape();
 		return sh;
 	}

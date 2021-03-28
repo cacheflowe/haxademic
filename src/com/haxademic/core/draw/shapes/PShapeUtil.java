@@ -49,7 +49,7 @@ public class PShapeUtil {
 			for(int y=0; y < img.height; y++){
 				int pixelColor = ImageUtil.getPixelColor( img, x, y );
 //				float pixelBrightness = P.p.brightness( pixelColor );
-				if(pixelColor != ImageUtil.TRANSPARENT_PNG) {
+				if(pixelColor != ImageUtil.TRANSPARENT_PNG && pixelColor != ImageUtil.EMPTY_INT) {
 //				if( pixelColor != ImageUtil.EMPTY_WHITE_INT && pixelColor != ImageUtil.WHITE_INT ) {
 					P.p.fill(EasingColor.redFromColorInt(pixelColor), EasingColor.greenFromColorInt(pixelColor), EasingColor.blueFromColorInt(pixelColor), 255);
 					P.p.noStroke();
@@ -982,7 +982,7 @@ public class PShapeUtil {
 			if(img != null) pg.texture(img);
 
 			for (int i = 0; i < vertexCount; i += 3) {
-				if(i < vertexCount - 3) {	// protect against rogue vertices?
+				if(i < vertexCount - 2) {	// protect against rogue vertices?
 					PVector vertex = polygon.getVertex(i);
 					PVector vertex2 = polygon.getVertex(i+1);
 					PVector vertex3 = polygon.getVertex(i+2);

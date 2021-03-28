@@ -4,7 +4,6 @@ import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.app.config.AppSettings;
 import com.haxademic.core.app.config.Config;
-import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.image.ImageUtil;
@@ -13,7 +12,7 @@ import com.haxademic.core.draw.shapes.PShapeUtil;
 import com.haxademic.core.draw.shapes.Shapes;
 import com.haxademic.core.draw.shapes.pshader.MeshDeformAndTextureFilter;
 import com.haxademic.core.draw.textures.SimplexNoiseTexture;
-import com.haxademic.core.file.FileUtil;
+import com.haxademic.core.media.DemoAssets;
 import com.haxademic.core.render.FrameLoop;
 
 import processing.core.PFont;
@@ -28,7 +27,7 @@ extends PAppletHax {
 	protected PGraphics texture;
 	protected PShape shape;
 	protected SimplexNoiseTexture noiseTexture;
-	protected boolean nativeTriangles = false;
+	protected boolean nativeTriangles = true;
 	
 	protected PGraphics textBuffer;
 	protected PFont fontBig;
@@ -46,7 +45,7 @@ extends PAppletHax {
 	}
 
 	protected void firstFrame() {
-		texture = p.createGraphics(p.width * 8, 150, P.P2D);
+		texture = PG.newPG(p.width * 6, 150);
 		PG.setTextureRepeat(texture, false);
 		noiseTexture = new SimplexNoiseTexture(texture.width, 40);
 		noiseTexture.update(0.07f, 0, 0, 0);
@@ -66,8 +65,8 @@ extends PAppletHax {
 	
 	public void buildText() {
 		// create buffer & font
-		textBuffer = p.createGraphics(p.width, p.height, PRenderers.P2D);
-		fontBig = p.createFont(FileUtil.getPath("fonts/_sketch/HelveticaNeueLTStd-Blk.ttf"), 150);
+		textBuffer = PG.newPG(p.width, p.height);
+		fontBig = DemoAssets.fontHelloDenver(textBuffer.height * 0.5f);
 		textCropped = p.createImage(100, 100, P.ARGB);
 		
 		// draw text
@@ -101,7 +100,7 @@ extends PAppletHax {
 		texture.translate(texture.width / 2, texture.height / 2);
 		
 		tiledImg.setOffset(4f * FrameLoop.progress(), 0f);
-		tiledImg.setSize(1f, 1f);
+		tiledImg.setSize(2f, 2f);
 		tiledImg.update();
 		tiledImg.draw(texture, texture.width, texture.height);
 
@@ -109,9 +108,10 @@ extends PAppletHax {
 		
 		DebugView.setTexture("textCropped", textCropped);
 		DebugView.setTexture("texture", texture);
+		DebugView.setTexture("noiseTexture.texture()", noiseTexture.texture());
 		
 		// set main app context
-		background(0);
+		background(127);
 		PG.setCenterScreen(p);
 		PG.basicCameraFromMouse(p.g);
 		
@@ -122,7 +122,7 @@ extends PAppletHax {
 			MeshDeformAndTextureFilter.instance(p).setDisplaceAmp(texture.height * 2.5f);
 			MeshDeformAndTextureFilter.instance(p).setSheetMode(true);
 			MeshDeformAndTextureFilter.instance(p).setYAxisOnly(true);
-			MeshDeformAndTextureFilter.instance(p).applyTo(p);
+			MeshDeformAndTextureFilter.instance(p).applyTo(p.g);
 	
 			p.shape(shape);
 			
