@@ -358,6 +358,14 @@ public class MathUtil {
 		return quad3dCenter;
 	};
 	
+	public static float circleSizeAroundSquare(float squareSize) {
+		return squareSize * P.sqrt(2f);
+	}
+	
+	public static float circleSizeAroundRect(float rectWidth, float rectHeight) {
+		return P.sqrt(rectWidth * rectWidth + rectHeight * rectHeight);
+	}
+	
 	public static float fract(float f) {
 	    return f % 1f;
 	}

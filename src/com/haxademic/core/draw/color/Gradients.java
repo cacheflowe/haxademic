@@ -35,8 +35,7 @@ public class Gradients {
 	public static void quad( PApplet p, float width, float height, int colorTL, int colorTR, int colorBR, int colorBL ) {
 		quad(p.g, width, height, colorTL, colorTR, colorBR, colorBL);
 	}
-	public static void quad( PGraphics p, float width, float height, int colorTL, int colorTR, int colorBR, int colorBL )
-	{
+	public static void quad( PGraphics p, float width, float height, int colorTL, int colorTR, int colorBR, int colorBL ) {
 		p.pushMatrix();
 		
 		float halfW = width/2;
@@ -60,23 +59,22 @@ public class Gradients {
 		radial(p.g, width, height, colorInner, colorOuter, numSegments);
 	}
 	
-	public static void radial( PGraphics p, float width, float height, int colorInner, int colorOuter, int numSegments )
-	{
+	public static void radial( PGraphics p, float width, float height, int colorInner, int colorOuter, int numSegments ) {
 		p.pushMatrix();
-
-		float halfW = width/2;
-		float halfH = height/2;
-		
-		float segmentRadians = P.TWO_PI / numSegments;
 		p.noStroke();
+
+		float halfW = width/2f;
+		float halfH = height/2f;
+		
+		float segmentRadians = P.TWO_PI / (float) numSegments;
 		for(float r=0; r < P.TWO_PI; r += segmentRadians) {
 			float r2 = r + segmentRadians;
 			p.beginShape();
 			p.fill(colorInner);
 			p.vertex(0,0);
 			p.fill(colorOuter);
-			p.vertex(P.sin(r) * halfW, P.cos(r) * halfH);
-			p.vertex(P.sin(r2) * halfW, P.cos(r2) * halfH);
+			p.vertex(P.cos(r) * halfW, P.sin(r) * halfH);
+			p.vertex(P.cos(r2) * halfW, P.sin(r2) * halfH);
 			p.endShape(P.CLOSE);
 		}
 		
