@@ -17,8 +17,8 @@ public class RealSenseWrapper
 implements IDepthCamera {
 	
 	protected RealSenseCamera camera;
-	public static final int CAMERA_W = 640;	// KWIDTH
-	public static final int CAMERA_H = 480;
+	public static int CAMERA_W = 1280;
+	public static int CAMERA_H = 720;
 	protected boolean DEPTH_ACTIVE = true;
 	protected boolean RGB_ACTIVE = true;
 	protected boolean MIRROR = true;
@@ -27,24 +27,35 @@ implements IDepthCamera {
 	protected boolean hasUpdated = false;
 	protected PGraphics mirrorRGB;
 	protected PGraphics mirrorDepth;
-	protected short[][] data = new short[CAMERA_H][CAMERA_W];
+	protected short[][] data;
 	public static float METERS_FAR_THRESH = 15;
 
 	public RealSenseWrapper(PApplet p, boolean initRGB, boolean initDepthImage) {
-		this(p, initRGB, initDepthImage, null);
+		this(p, initRGB, initDepthImage, CAMERA_W, CAMERA_H, null);
 	}
 	
 	public RealSenseWrapper(PApplet p, boolean initRGB, boolean initDepthImage, String serialNumber) {
+		this(p, initRGB, initDepthImage, CAMERA_W, CAMERA_H, serialNumber);
+	}
+	
+	public RealSenseWrapper(PApplet p, boolean initRGB, boolean initDepthImage, int width, int height) {
+		this(p, initRGB, initDepthImage, width, height, null);
+	}
+	
+	public RealSenseWrapper(PApplet p, boolean initRGB, boolean initDepthImage, int width, int height, String serialNumber) {
 		RGB_ACTIVE = initRGB;
 		DEPTH_ACTIVE = initDepthImage;
+		CAMERA_W = width;
+		CAMERA_H = height;
 
+		data = new short[CAMERA_H][CAMERA_W];
 		DepthCameraSize.setSize(CAMERA_W, CAMERA_H);
 		
 		camera = new RealSenseCamera(p);
-		camera.enableColorStream();
-		camera.enableDepthStream(640, 480);
+		camera.enableColorStream(CAMERA_W, CAMERA_H);
+		camera.enableDepthStream(CAMERA_W, CAMERA_H);
 		camera.enableColorizer(ColorScheme.Cold);
-//		camera.enableIRStream(640, 480, 30);
+//		camera.enableIRStream(CAMERA_W, CAMERA_H, 30);
 		camera.enableAlign();
 		camera.addThresholdFilter(0.0f, METERS_FAR_THRESH);
 //		camera.addSpatialFilter(1, 0.75f, 50, 1);

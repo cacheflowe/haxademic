@@ -39,11 +39,12 @@ extends PAppletHax {
 	protected void firstFrame() {
 		RealSenseWrapper.METERS_FAR_THRESH = 5;
 		camera1 = new RealSenseWrapper(p, true, true, "953122060282");
-		camera2 = new RealSenseWrapper(p, true, true, "851112060694");
+//		camera2 = new RealSenseWrapper(p, true, true, "851112060694");
+		camera2 = new RealSenseWrapper(p, true, true, "821312062651");
 		
 		// set size of depth/motion processing buffers
-		camW = RealSenseWrapper.CAMERA_W / 5;
-		camH = RealSenseWrapper.CAMERA_H / 5;
+		camW = RealSenseWrapper.CAMERA_W / 10;
+		camH = RealSenseWrapper.CAMERA_H / 10;
 		
 		// build buffers
 		cam1LerpedFrame = PG.newPG(camW, camH);

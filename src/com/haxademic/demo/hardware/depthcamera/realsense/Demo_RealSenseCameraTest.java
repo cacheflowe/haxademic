@@ -19,6 +19,7 @@ extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
 	/*
+	 * Old resolution.framerate chart
 	| width | height | fps                         | depth stream | color stream |
 	|-------|--------|-----------------------------|--------------|--------------|
 	| 424   | 240    | `6`, `15`, `30`, `60`       | âœ…            | âœ…            |
@@ -34,8 +35,8 @@ extends PAppletHax {
 	*/
 	
 	protected RealSenseCamera camera;
-	protected int CAMERA_W = 640;
-	protected int CAMERA_H = 480;
+	protected int CAMERA_W = 1280;
+	protected int CAMERA_H = 720;
 	protected int CAMERA_NEAR = 180;
 	protected String CAMERA_FAR = "CAMERA_FAR";
 	protected String MIRROR = "MIRROR";
@@ -48,15 +49,15 @@ extends PAppletHax {
 	protected boolean cameraThreadBusy = false;
 	
 	protected void config() {
-		Config.setProperty( AppSettings.WIDTH, 1200 );
-		Config.setProperty( AppSettings.HEIGHT, 900 );
+		Config.setProperty( AppSettings.WIDTH, 1280 );
+		Config.setProperty( AppSettings.HEIGHT, 720 );
 		Config.setProperty( AppSettings.SHOW_DEBUG, true );
 	}
 
 	protected void firstFrame() {
 		// init camera
 		camera = new RealSenseCamera(this);
-		camera.enableColorStream();
+		camera.enableColorStream(CAMERA_W, CAMERA_H);
 		camera.enableDepthStream(CAMERA_W, CAMERA_H);
 		camera.enableColorizer(ColorScheme.Cold);
 //		camera.enableIRStream(640, 480, 30);

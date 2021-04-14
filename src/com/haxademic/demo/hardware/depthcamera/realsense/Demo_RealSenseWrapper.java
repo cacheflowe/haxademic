@@ -24,6 +24,7 @@ extends PAppletHax {
 	protected void firstFrame() {
 		RealSenseWrapper.METERS_FAR_THRESH = 3;
 		realSenseWrapper = new RealSenseWrapper(p, true, true);
+		realSenseWrapper.setMirror(false);
 	}
 
 	protected void drawApp() {
