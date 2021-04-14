@@ -48,7 +48,7 @@ public class DateUtil {
 	public static float todayHours() {
 		return P.hour() + ((P.minute() + (P.second() / 60f)) / 60f);	
 	}
-		
+	
 	public static String currentTime(boolean showSeconds, boolean showMilliseconds, boolean showAmPm) {
 		int hours = P.hour() % 12;
 		return 	StringUtil.paddedNumberString(2, hours) + ":" + 
@@ -56,6 +56,13 @@ public class DateUtil {
 				((showSeconds) ? ":" + StringUtil.paddedNumberString(2, P.second()) : NOSTRING) +  
 				((showMilliseconds) ? ":" + StringUtil.paddedNumberString(2, P.round((P.p.millis() % 1000) / 10)) : NOSTRING) + 
 				((showAmPm) ? ((hours >= 12) ? "pm" : "am") : NOSTRING);
+	}
+	
+	public static String currentDate(String delimiter) {
+		String month = (P.month() < 10) ? "0"+P.month() : ""+P.month();
+		String day = (P.day() < 10) ? "0"+P.day() : ""+P.day();
+		String year = ""+P.round(P.year() - 2000);
+		return month + delimiter + day + delimiter + year;
 	}
 	
 	public static String secondsToFormattedTime(float seconds, boolean padHours, boolean shortTime) {
