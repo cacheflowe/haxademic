@@ -133,7 +133,7 @@ public class SystemUtil {
 	    clipboard.setContents(selection, selection);
 	}
 	
-	public String getClipboardContents() {
+	public static String getClipboardContents() {
 	    String result = "";
 	    Clipboard clipboard = Toolkit.getDefaultToolkit().getSystemClipboard();
 	    Transferable contents = clipboard.getContents(null);
