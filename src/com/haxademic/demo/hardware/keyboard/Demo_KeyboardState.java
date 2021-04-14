@@ -6,6 +6,7 @@ import com.haxademic.core.app.PAppletHax;
 import com.haxademic.core.data.constants.PKeys;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.hardware.keyboard.KeyboardState;
+import com.haxademic.core.system.SystemUtil;
 
 public class Demo_KeyboardState
 extends PAppletHax {
@@ -33,6 +34,13 @@ extends PAppletHax {
 		}
 		if(KeyboardState.keyTriggered(10)) {
 			P.out("ENTER");
+		}
+	}
+	
+	public void keyPressed() {
+		super.keyPressed();
+		if(p.keyCode == 86 && KeyboardState.instance().isKeyOn(17)) { // ctrl + v
+			P.out("PASTED", SystemUtil.getClipboardContents());
 		}
 	}
 
