@@ -128,6 +128,15 @@ public class FileUtil {
 		return path;
 	}
 	
+	public static String getPathExtension(String path) {
+		int i = path.lastIndexOf('.');
+		if (i > 0) {
+		    return path.substring(i+1);
+		} else {
+			return "";
+		}
+	}
+	
 	// CHECK FILE EXISTENCE
 	
 	public static Boolean fileOrPathExists( String path ) {
