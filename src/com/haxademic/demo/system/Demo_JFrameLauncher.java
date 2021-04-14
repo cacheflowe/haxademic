@@ -16,15 +16,15 @@ extends PAppletHax {
 	protected FrameWithBorderLayout frame;
 	
 	protected void firstFrame() {
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                 frame = new FrameWithBorderLayout();
-                 frame.setVisible(true);
-                 frame.setSize(400, 200);
-//                 frame.setUndecorated(true);
-//                 frame.setOpacity(0);
-            }
-      });
+		java.awt.EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				frame = new FrameWithBorderLayout();
+				frame.setVisible(true);
+				frame.setSize(400, 200);
+				// frame.setUndecorated(true);
+				// frame.setOpacity(0);
+			}
+		});
 	}
 	
 	protected void drawApp() {
