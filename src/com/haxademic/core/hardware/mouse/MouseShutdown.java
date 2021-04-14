@@ -1,55 +1,46 @@
 package com.haxademic.core.hardware.mouse;
 
 import com.haxademic.core.app.P;
+import com.haxademic.core.data.constants.PRegisterableMethods;
 
 import processing.event.MouseEvent;
 
 public class MouseShutdown {
 	
-	// triple click to shut down
-	protected int NUM_CLICKS = 3;
-	protected int[] clickTimes = new int[NUM_CLICKS];
+	// multiple clicks to shut down
+	protected int numClicks = 3;
+	protected int timeWindow = 1500;
+	protected int[] clickTimes;
 	protected int clickIndex = 0;
 	
-	// singleton
-	public static MouseShutdown instance;
-	public static MouseShutdown instance() {
-		if(instance != null) return instance;
-		instance = new MouseShutdown();
-		return instance;
-	}
-	
-	public MouseShutdown() {
-		P.p.registerMethod("mouseEvent", this);
+	public MouseShutdown(int numClicks, int timeWindow) {
+		this.numClicks = numClicks;
+		this.timeWindow = timeWindow;
+		clickTimes = new int[numClicks];
+		for (int i = 0; i < clickTimes.length; i++) clickTimes[i] = -99999;
+		P.p.registerMethod(PRegisterableMethods.mouseEvent, this);
 	}
 	
 	public void mouseEvent(MouseEvent event) {
-		  // int x = event.getX();
-		  // int y = event.getY();
-
-		  switch (event.getAction()) {
-		    case MouseEvent.PRESS:
-		      break;
-		    case MouseEvent.RELEASE:
-		      break;
-		    case MouseEvent.CLICK:
-		    	click();
-		      break;
-		    case MouseEvent.DRAG:
-		      break;
-		    case MouseEvent.MOVE:
-		      break;
-		  }
+		switch (event.getAction()) {
+			case MouseEvent.CLICK:
+				click();
+				break;
+			default:
+				break;
 		}
+	}
 
 	protected void click() {
 		// track click
-		clickTimes[clickIndex] = P.p.millis();
-		clickIndex = (clickIndex >= NUM_CLICKS - 1) ? 0 : clickIndex + 1; // check for triple click
+		int now = P.p.millis();
+		clickTimes[clickIndex] = now;
+		clickIndex = (clickIndex >= numClicks - 1) ? 0 : clickIndex + 1;
 		
-		// check to see if clicks are recent
+		// check to see if any clicks are old, 
+		// or rather, all clicks are recent
 		for (int i = 0; i < clickTimes.length; i++) {
-			if(clickTimes[i] < P.p.millis() - 1500) {
+			if(clickTimes[i] < now - timeWindow) {
 				return;
 			}
 		}
