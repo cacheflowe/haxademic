@@ -30,6 +30,7 @@ extends PAppletHax {
 				"DateUtil.todayHours() :: " + DateUtil.todayHours() + FileUtil.NEWLINE + 
 				"DateUtil.dayOfWeek() :: " + DateUtil.dayOfWeek() + FileUtil.NEWLINE +
 				"DateUtil.weekOfYear() :: " + DateUtil.weekOfYear() + FileUtil.NEWLINE +
+				"Current date (currentDate()) :: " + DateUtil.currentDate(" / ") + FileUtil.NEWLINE + 
 				"Current time (currentTime(true, false, true)) :: " + DateUtil.currentTime(false, false, true) + FileUtil.NEWLINE + 
 				"Current time (secondsToFormattedTime()) :: " + DateUtil.secondsToFormattedTime((int) DateUtil.todaySeconds(), false, false) + FileUtil.NEWLINE + 
 				"uptimeHours() :: " + DateUtil.uptimeHours() + FileUtil.NEWLINE + 
