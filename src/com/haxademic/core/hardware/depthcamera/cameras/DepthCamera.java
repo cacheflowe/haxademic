@@ -14,6 +14,7 @@ public class DepthCamera {
 	}
 	public IDepthCamera camera = null;
 	public DepthCameraType cameraType = null;
+	public static boolean initialized = false;
 	
 	/////////////////////////////
 	// static instance & initializer for quick & easy access
@@ -40,18 +41,19 @@ public class DepthCamera {
 	}
 	
 	public DepthCamera(DepthCameraType lib) {
-		this(initKinect(lib));
+		this(initCamera(lib));
 	}
 	
 	public DepthCamera(IDepthCamera input) {
 		this.camera = input;
+		initialized = true;
 		if(camera != null) {
 			camera.setMirror( Config.getBoolean( "kinect_mirrored", true ) );
 		}
 		P.p.registerMethod(PRegisterableMethods.pre, this);
 	}
 
-	protected static IDepthCamera initKinect(DepthCameraType lib) {
+	protected static IDepthCamera initCamera(DepthCameraType lib) {
 		boolean rgbActive = Config.getBoolean(AppSettings.DEPTH_CAM_RGB_ACTIVE, true);
 		boolean depthActive = Config.getBoolean(AppSettings.DEPTH_CAM_DEPTH_ACTIVE, true);
 		
