@@ -27,7 +27,7 @@ public class MovieBuffer {
 	
 	public void pre() {
 		hasNewFrame = false;
-		if(moviesEventFrames.containsKey(movie) == false) return;
+		if(moviesEventFrames.containsKey(movie) == false) return;	// frames end up here from PAppletHax.movieEvent() listener
 		if(moviesEventFrames.get(movie).intValue() == P.p.frameCount) {
 			hasNewFrame = true;
 			if(movie.width > 10) {
