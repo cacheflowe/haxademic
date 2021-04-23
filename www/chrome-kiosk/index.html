@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
+  <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible" />
+  <meta content="no" name="imagetoolbar" />  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    * {
+      box-sizing: border-box;
+      cursor: none;
+    }
+
+    html, body {
+      padding: 0;
+      margin: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background-color: #000;
+      font-family: Arial, sans-serif;
+      overflow: hidden;
+    }
+
+    #container {
+      background: #000;
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+  </style>
+</head>
+<body>
+  <div id="container"></div>
+  <script>
+    class URLUtil {
+
+      static getHashQueryVariable(variable) {
+        var query = decodeURIComponent(window.location.hash.substring(1)); // decode in case of it being encoded
+        var vars = query.split('&');
+        for (var i = 0; i < vars.length; i++) {
+          var pair = vars[i].split('=');
+          if (decodeURIComponent(pair[0]) == variable) {
+            return decodeURIComponent(pair[1]);
+          }
+        }
+        return null;
+      }
+
+    }
+
+    class VideoPlayer {
+
+      constructor() {
+        // get container
+        this.el = document.getElementById('container');
+
+        // load video
+        this.videoUrl = URLUtil.getHashQueryVariable('video');
+        this.el.innerHTML = this.createVideoHtml();
+        this.videoEl = this.el.querySelector('video');
+        console.log('loading video ', this.videoUrl);
+        console.log(this.videoEl);
+
+        // create websocket
+        // this.socket = new SolidSocket('ws://localhost:3001');
+        // this.socket.setMessageCallback((message) => {
+        //   this.onMessage(message);
+        // });
+      }
+
+      createVideoHtml() {
+        const extension = (this.videoUrl.indexOf('pixelmap') !== -1) ? 'webm' : 'mp4';
+        return `
+          <video src="${this.videoUrl}" width="100%" height="100%" autoplay playsinline preload muted loop></video>
+        `;
+      }
+
+      // onMessage({data}) {
+      //   const jsonData = JSON.parse(data);
+      //   // console.log(jsonData);
+      //   if(jsonData.key && jsonData.key == "VIDEO_RESTARTED") {
+      //     this.videoEl.currentTime = 0;
+      //     this.videoEl.play();
+      //   }
+      // }
+
+    }
+
+    window.player = new VideoPlayer();
+  </script>
+</body>
+</html>

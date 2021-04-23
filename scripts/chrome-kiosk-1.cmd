@@ -1,2 +1,0 @@
-"%SYSTEMDRIVE%%HOMEPATH%\AppData\Local\Chromium\Application\chrome.exe" --app=%1 --chrome -kiosk --incognito --disable-pinch --overscroll-history-navigation=0 --disable-session-crashed-bubble  --user-data-dir=c:/chrome-kiosk/monitor1
-exit

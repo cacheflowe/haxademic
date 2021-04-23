@@ -73,59 +73,6 @@ PGA + Bespoke:
 
 * this: https://skeleton-tracing.netlify.app/
 
-## What is Haxademic?
-
-* Builds a thin layer on top of Processing with:
-  * Apps:
-  	* Config that pulls in .properties files and allows for inline overriding of app configuration
-  	* AppStore: a global data store & event emitter
-  	* DebugView for realtime value-tracking and performance monitoring
-  	* UI for persistent sliders & buttons (also MIDI-controllable)
-  	* DemoAssets for instant example media files to test with
-  	* ScreenSaverBlocker
-  * System
-  	* FileUtil
-  	* FileWatcher
-  	* ScriptRunner
-  	* CrashMonitor
-  * Media playback tools
-  	* WavPlayer
-  	* Spatial audio
-  	* MediaTimecodeTrigger
-  * Hardware helpers
-  	* Mouse
-  	* InputTrigger
-  	* WebCam
-  	* AudioIn: Beads, ESS, Minim, Processing Sound library
-  	* MidiState
-  	* DepthCamera: Kinectv1, Kinectv2, Realsense
-  	* DmxWrapper, DmxFixture, DmxUniverse, DMXEditor
-  	* Gamepad API
-  	* Leap motion
-  	* SerialDevice
-  * Drawing tools
-  	* PG (context helpers)
-  	* FrameLoop
-  	* ImageUtil
-  	* PShapeUtil
-  	* Renderer
-  	* PGraphicsKeystone
-  	* PShaderCompiler
-  	* (Tons of shaders, textures & image-processing functions)
-  * Communication
-  	* WebServer
-  	* WebSocketServer
-  	* OscState
-  	* MidiState
-  	* FileDownloader
-
-* PAppletHax replaces Processing's functions:
-	* settings() with config()
-		* Set Config values in `config()` before the app is initialized
-	* setup() with firstFrame()
-		* Build your objects in `firstFrame()` - this solves potential problems if things take too long
-	* draw() with drawApp()
-
 ## InputTrigger revamp
 
 * Key press triggers with KeyboardState don't always register - especially over TeamViewer of if the FPS is low
@@ -368,6 +315,7 @@ PGA + Bespoke:
       * https://stackoverflow.com/questions/14174968/how-do-i-determine-which-channel-is-left-right-etc
       * https://www.alastairbarber.com/?post=using-jasiohost
     * Beads
+      * https://groups.google.com/g/beadsproject
       * AudioContext: http://www.beadsproject.net/doc/index.html?net/beadsproject/beads/core/AudioContext.html
       * IOAudioFormat: http://www.beadsproject.net/doc/net/beadsproject/beads/core/IOAudioFormat.html
       * AudioIO: https://github.com/orsjb/beads/blob/master/src/beads_main/net/beadsproject/beads/core/AudioIO.java
@@ -404,12 +352,14 @@ PGA + Bespoke:
   * Check MIDI rendering now that MIDI code has been revamped
 
 ## GLSL
+  * Refraction shader: 
+    * https://tympanus.net/codrops/2019/10/29/real-time-multiside-refraction-in-three-steps/
+  * Fresnel shader:
+    * https://github.com/poikilos/KivyGlops/blob/master/shaders/fresnel.glsl
   * Get a handle on modelViewInv uniform. make a basic example to test
   * Get more into custom lighting. Good start with this demo:
     * com.haxademic.demo.draw.shapes.shader.Demo_VertexShader_MoveSpheres
     * Also figure out vert shader rotation of sub shapes
-  * Fresnel shader:
-    * https://github.com/poikilos/KivyGlops/blob/master/shaders/fresnel.glsl
   * Cheap depth buffer: https://github.com/kosowski/Processing_DepthBuffer/blob/master/DepthBuuferRead/CustomFrameBuffer.pde
     * Also: com.haxademic.sketch.shader.ShaderSSAO
     * Also: com.haxademic.sketch.shader.DepthVertexTest
