@@ -1,6 +1,7 @@
 package com.haxademic.demo.hardware.depthcamera.shared;
 
 import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.hardware.depthcamera.DepthCameraSize;
 import com.haxademic.core.hardware.depthcamera.KinectRegionGrid;
@@ -14,19 +15,23 @@ extends PAppletHax {
 	
 	protected KinectRegionGrid kinectRegionGrid;
 	
-	protected void firstFrame() {
+	public void config() {
+		Config.setAppSize(1280, 720);
+	}
+	
+	public void firstFrame() {
 		int KINECT_MIN_DIST = 	300;
-		int KINECT_MAX_DIST = 	2000;
+		int KINECT_MAX_DIST = 	1000;
 		int KINECT_TOP = 		0;
 		int KINECT_BOTTOM = 	DepthCameraSize.HEIGHT;
-		int KINECT_PLAYER_GAP = 30;
+		int KINECT_PLAYER_GAP = 160;
 		int KINECT_PIXEL_SKIP = 20;
 		int PLAYER_MIN_PIXELS = 30;
 		int COLS = 				2;
-		int ROWS = 				2;
+		int ROWS = 				1;
 		
 		// build input!
-		DepthCamera.instance(DepthCameraType.KinectV1);
+		DepthCamera.instance(DepthCameraType.Realsense);
 		kinectRegionGrid = new KinectRegionGrid(COLS, ROWS, KINECT_MIN_DIST, KINECT_MAX_DIST, KINECT_PLAYER_GAP, KINECT_TOP, KINECT_BOTTOM, KINECT_PIXEL_SKIP, PLAYER_MIN_PIXELS);
 	}
 	
@@ -40,8 +45,9 @@ extends PAppletHax {
 		
 		// update & draw grid
 		IDepthCamera depthCamera = DepthCamera.instance().camera;
-		kinectRegionGrid.update(true);
+		kinectRegionGrid.update(false);
 		p.image(kinectRegionGrid.debugImage(), 0, 0);
+		DebugView.setValue("kinectRegionGrid(0).controlX()", kinectRegionGrid.getRegion(0).controlX());
 		
 		// debug textures
 		if(depthCamera.getRgbImage() != null) DebugView.setTexture("depthCamera.getRgbImage", depthCamera.getRgbImage());

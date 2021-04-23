@@ -47,7 +47,7 @@ extends PAppletHax {
 	}
 	
 	protected void firstFrame() {
-		DepthCamera.instance(DepthCameraType.KinectV1);
+		DepthCamera.instance(DepthCameraType.Realsense);
 
 		// build kinect region and debug buffer
 		regionDebug = PG.newPG(DepthCameraSize.WIDTH, DepthCameraSize.HEIGHT);
@@ -57,7 +57,7 @@ extends PAppletHax {
 		UI.addSlider(KINECT_left, 0, 0, DepthCameraSize.WIDTH, 1, false);
 		UI.addSlider(KINECT_right, DepthCameraSize.WIDTH, 0, DepthCameraSize.WIDTH, 1, false);
 		UI.addSlider(KINECT_near, 500, 0, 1, 1, false);
-		UI.addSlider(KINECT_far, 2000, 0, 20000, 1, false);
+		UI.addSlider(KINECT_far, 1200, 0, 20000, 1, false);
 		UI.addSlider(KINECT_top, 0, 0, DepthCameraSize.HEIGHT, 1, false);
 		UI.addSlider(KINECT_bottom, DepthCameraSize.HEIGHT, 0, DepthCameraSize.HEIGHT, 1, false);
 		UI.addSlider(KINECT_pixelSkip, 10, 1, 30, 1, false);

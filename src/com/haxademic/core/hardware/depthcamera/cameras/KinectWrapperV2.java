@@ -9,6 +9,9 @@ import processing.core.PImage;
 public class KinectWrapperV2 
 implements IDepthCamera {
 	
+	// info on Kinect v2 readings: 
+	// - https://medium.com/@lisajamhoury/understanding-kinect-v2-joints-and-coordinate-system-4f4b90b9df16
+	
 	protected PApplet p;
 	protected KinectPV2 _kinect;
 	protected boolean _kinectActive = true;
