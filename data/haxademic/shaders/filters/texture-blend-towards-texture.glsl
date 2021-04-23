@@ -10,11 +10,13 @@ varying vec4 vertColor;
 varying vec4 vertTexCoord;
 
 uniform sampler2D targetTexture;
-uniform float blendLerp = 0.2;//0.04;
+uniform float blendLerp = 0.2;
+uniform bool flipY = false;
 
 void main() {
-	vec2 uv = vertTexCoord.xy;
+  vec2 uv = vertTexCoord.xy;
+  if(flipY == true) uv.y = 1. - uv.y;
   vec4 colorCurrent = texture2D(texture, uv);
   vec4 colorTarget = texture2D(targetTexture, uv);
-	gl_FragColor = mix(colorCurrent, colorTarget, blendLerp);
+  gl_FragColor = mix(colorCurrent, colorTarget, blendLerp);
 }
