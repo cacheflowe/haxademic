@@ -148,6 +148,10 @@ The Apache installation resides at:
 
 `/etc/apache2`
 
+Apache error logs should be here:
+
+`/var/log/apache2`
+
 ### Enable Apache vhosts to create named local web servers
 
 * https://www.digitalocean.com/community/tutorials/how-to-rewrite-urls-with-mod_rewrite-for-apache-on-ubuntu-16-04
@@ -289,14 +293,17 @@ Add this to the end of /etc/apache2/apache2.conf:
 
 `AcceptFilter http none`
 
+### Enable mod_rewrite & headers for Apache
+
+`sudo a2enmod rewrite`
+`sudo a2enmod headers`
+
+* From: https://stackoverflow.com/a/5758551
 
 ### More php configuration
 
 Install the php xml package (there may be others you'll want, and make sure you're targeting the php version you're using)
-`sudo apt-get install php7.0-xml`
-
-Install php7.1 (I had a project that required it)
-* https://websiteforstudents.com/downgrade-php-7-2-to-php-7-1-with-apache2-http-server-on-ubuntu-16-04-17-10-18-04/
+`sudo apt-get install php-xml`
 
 ### Install & use mysql
 
