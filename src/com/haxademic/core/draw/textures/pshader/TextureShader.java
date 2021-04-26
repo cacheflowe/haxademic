@@ -1,6 +1,7 @@
 package com.haxademic.core.draw.textures.pshader;
 
 import com.haxademic.core.app.P;
+import com.haxademic.core.draw.context.PShaderHotSwap;
 import com.haxademic.core.file.FileUtil;
 
 import processing.opengl.PShader;
@@ -11,6 +12,9 @@ public class TextureShader {
 	protected PShader fragShader;
 	protected float timeMult;
 	protected float timeCur;
+	
+	public static boolean HOT_SWAP = false;		// only turn on for dev!
+	protected static PShaderHotSwap shaderHotSwap;
 
 	public TextureShader(String shaderPath) {
 		this(shaderPath, 0.01f);
@@ -28,12 +32,22 @@ public class TextureShader {
 	}
 
 	public PShader shader() {
+		if(shaderHotSwap != null) {
+			shaderHotSwap.update();
+			fragShader = shaderHotSwap.shader();
+		}
 		return fragShader;
 	}
 
 	public static PShader loadShader(String shaderPath) {
 		shaderPath = shaderPath.replaceAll("_", "-");
-		return P.p.loadShader(FileUtil.getPath("haxademic/shaders/textures/" + shaderPath));
+		String shaderFilePath = FileUtil.getPath("haxademic/shaders/textures/" + shaderPath);
+		if(HOT_SWAP) {
+			shaderHotSwap = new PShaderHotSwap(shaderFilePath);
+			return shaderHotSwap.shader();
+		} else {
+			return P.p.loadShader(shaderFilePath);
+		}
 	}
 
 	public void setTimeMult(float mult) {
@@ -136,6 +150,7 @@ public class TextureShader {
 	public static String noise_function = "noise_function.glsl";
 	public static String noise_simplex_2d_iq = "noise_simplex_2d_iq.glsl";
 	public static String noise_simplex_3d = "noise_simplex_3d.glsl";
+	public static String noise_simplex_3d_loop = "noise_simplex_3d_loop.glsl";
 	public static String primitives_2d = "primitives_2d.glsl";
 	public static String radial_burst = "radial_burst.glsl";
 	public static String radial_waves = "radial_waves.glsl";

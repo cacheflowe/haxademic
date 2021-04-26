@@ -101,7 +101,7 @@ extends PAppletHax {
 	protected void updateNoiseTexture() {
 		// update noise map
 		noise3d.offsetZ(p.frameCount / 10f);
-		noise3d.update(0.8f, 0, 0, FrameLoop.count(0.01f), FrameLoop.count(0.0075f), false);
+		noise3d.update(0.8f, 0, 0, FrameLoop.count(0.01f), FrameLoop.count(0.0075f), false, false);
 
 		// post-process noise map
 //		ContrastFilter.instance(p).setContrast(3f);

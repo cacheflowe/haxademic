@@ -16,6 +16,9 @@ uniform vec3 offset = vec3(0.);
 uniform float zoom = 1.;
 uniform float rotation = 0.;
 uniform int fractalMode = 0;
+uniform int repeatXMode = 0;
+
+#define TWO_PI 6.283185307
 
 /* https://www.shadertoy.com/view/XsX3zB
  *
@@ -137,6 +140,14 @@ void main() {
   p += offset.xy;
   vec3 p3 = vec3(p, offset.z);
   
+  // if tiling on x-axis for cylinder, simulate 3d position to 3d noise
+  if(repeatXMode == 1) {
+    p3.x = offset.x + cos(vertTexCoord.x * TWO_PI) * zoom;
+    p3.y = offset.y + vertTexCoord.y * zoom;
+    p3.z = offset.z + sin(vertTexCoord.x * TWO_PI) * zoom;
+  }
+  
+  // return simplex noise
   float value = (fractalMode == 0) ? simplex3d(p3) : simplex3d_fractal(p3);
   value = 0.5 + 0.5 * value;
 

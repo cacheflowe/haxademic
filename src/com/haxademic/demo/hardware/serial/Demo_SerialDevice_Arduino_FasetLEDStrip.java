@@ -53,7 +53,7 @@ implements ISerialDeviceDelegate {
 		// larger sets of data would need to be chunked...
 		
 		// pixel-sampling color send
-		noiseTexture.update(4f, p.frameCount * 0.007f, 0, 0, p.frameCount * 0.01f, false);
+		noiseTexture.update(4f, p.frameCount * 0.007f, 0, 0, p.frameCount * 0.01f, false, false);
 		ContrastFilter.instance(p).setContrast(2f);
 		ContrastFilter.instance(p).applyTo(noiseTexture.texture());
 		ImageUtil.copyImage(noiseTexture.texture(), pg);

@@ -23,7 +23,7 @@ extends PAppletHax {
 	protected void drawApp() {
 		// update noise map
 		noise3d.offsetZ(p.frameCount / 10f);
-		noise3d.update(1f, 0, 0, 0, FrameLoop.count(0.001f), false);
+		noise3d.update(1f, 0, 0, 0, FrameLoop.count(0.001f), false, false);
 
 		// post-process noise map
 		ContrastFilter.instance(p).setContrast(3f);

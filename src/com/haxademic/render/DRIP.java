@@ -39,7 +39,7 @@ extends PAppletHax {
 	protected void firstFrame() {
 		// init noise object
 		noiseTexture = new SimplexNoise3dTexture(p.width, p.height, true);
-		noiseTexture.update(0.07f, 0, 0, 0, 0, false);
+		noiseTexture.update(0.07f, 0, 0, 0, 0, false, false);
 		DebugView.setTexture("noise", noiseTexture.texture());
 	}
 	
@@ -54,7 +54,8 @@ extends PAppletHax {
 				0,									// offset x
 				0,									// offset y
 				FrameLoop.count(0.002f),			// offset z
-				false								// fractal mode
+				false,								// fractal mode
+				false								// xRepeat mode
 		);
 		ContrastFilter.instance(p).setContrast(1.f);
 		ContrastFilter.instance(p).applyTo(noiseTexture.texture());
