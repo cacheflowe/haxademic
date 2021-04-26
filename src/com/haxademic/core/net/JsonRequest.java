@@ -24,7 +24,7 @@ public class JsonRequest {
 	
 	public void requestJsonData(IJsonRequestCallback delegate) throws IOException {
 		// send request with empty json
-		postJsonData(new JSONObject(), delegate);
+		postJsonData(null, delegate);
 	}
 	
 	public void postJsonData(JSONObject jsonOut, IJsonRequestCallback delegate) throws IOException {

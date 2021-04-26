@@ -46,11 +46,13 @@ implements Runnable {
 			httpcon.connect();
 
 			// write json data to http stream
-			String outputString = jsonOut.toString();
-			byte[] outputBytes = outputString.getBytes("UTF-8");
-			OutputStream os = httpcon.getOutputStream();
-			os.write(outputBytes);
-			os.close();
+			if(jsonOut != null) {
+				String outputString = jsonOut.toString();
+				byte[] outputBytes = outputString.getBytes("UTF-8");
+				OutputStream os = httpcon.getOutputStream();
+				os.write(outputBytes);
+				os.close();
+			}
 			
 			// trigger request
 			responseCode = httpcon.getResponseCode(); 
