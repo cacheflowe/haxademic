@@ -43,11 +43,12 @@ extends PAppletHax {
 	protected void drawApp() {
 		p.background( 0 );
 		
+		// crop images into buffers to match sizes
 		ImageUtil.cropFillCopyImage(kinect.getColorImage(), bufferRgb, true);
 		ImageUtil.cropFillCopyImage(kinect.getBodyTrackImage(), bufferMask, true);
 		InvertFilter.instance(p).applyTo(bufferMask);
 		
-		
+		// apply mask and draw to the screen
 		bufferRgb.mask(bufferMask);
 		p.image(bufferRgb, 0, 0);
 	}
