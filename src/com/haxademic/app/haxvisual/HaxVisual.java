@@ -70,9 +70,9 @@ import com.haxademic.core.math.MathUtil;
 import com.haxademic.core.math.easing.LinearFloat;
 import com.haxademic.core.media.audio.analysis.AudioIn;
 import com.haxademic.core.media.audio.interphase.Interphase;
+import com.haxademic.core.media.audio.interphase.SequencerConfig;
 import com.haxademic.core.system.SystemUtil;
 import com.haxademic.core.ui.UI;
-import com.haxademic.core.ui.UIButton;
 
 import processing.core.PGraphics;
 import processing.core.PImage;
@@ -241,7 +241,7 @@ implements IAppStoreListener {
 		// buildInterstitial();
 
 		// build audio player?
-//		interphase = new Interphase(SequencerConfig.interphaseChannelsMinimal());
+		interphase = new Interphase(SequencerConfig.interphaseChannelsMinimal(), true);
 		
 		
 		UI.addSlider(TIMING_MIN_DELAY, 100, 50, 1000, 1, false);
