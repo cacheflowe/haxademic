@@ -245,5 +245,9 @@ public class EasingColor {
 	public static final int redFromColorInt( int c ) { return (c >> 16) & 0xFF;	}
 	public static final int greenFromColorInt( int c ) { return (c >> 8)  & 0xFF; }
 	public static final int blueFromColorInt( int c ) { return c & 0xFF; }
+	public static final float alphaFromColorIntNorm( int c ) { return alphaFromColorInt(c) / 255f; }
+	public static final float redFromColorIntNorm( int c ) { return redFromColorInt(c) / 255f; }
+	public static final float greenFromColorIntNorm( int c ) { return greenFromColorInt(c) / 255f; }
+	public static final float blueFromColorIntNorm( int c ) { return blueFromColorInt(c) / 255f; }
 
 }
