@@ -33,6 +33,7 @@ attribute vec2 offset;
 
 varying vec4 vertColor;
 
+attribute int vertIndex;
 
 // added:
 uniform mat4 transform;
@@ -93,17 +94,24 @@ void main() {
   float x = -w / 2. + particlePosition.x * w;
   float y = -h / 2. + particlePosition.y * h;
   float z = 0; // -depth * (1. - particlePosition.a);
-  float progress = particlePosition.a;
+  z = 0. - (1. - particlePosition.a) * 500.;  // move into distance with progress
+  float progress = 1. - particlePosition.a;
   vec4 vertPosition = vec4(x, y, z, 1.) * 2.;
 
   // get particle color from extra color map
   vec4 textureColor = texture2D(colorTexture, vec2(vertex.x, vertex.y));
 
-
   // offset position with curl noise?
-  vec3 curlInput = vertPosition.xyz / 400. + vec3(1. - textureColor.r, 1. - textureColor.g, 1. - textureColor.b);
+  float curlCohesion = 10.;  // larger numbers bring particles cohesion closer
+  float curlZoom = 300.;
+  float curlAmp = 300. * progress;  // multiply by progress to spread furtherover time
+  vec3 curlInputOffset = textureColor.rgb / curlCohesion;  // use particle color to slightly offset its input into the curl to give a little randomness
+  vec3 curlVertInput = vertPosition.xyz;
+  curlVertInput.z = 0;  // things get too curly if we're moving z and also using that for the curl input
+  curlVertInput /= curlZoom;
+  vec3 curlInput = curlVertInput + curlInputOffset;
   vec3 curlResult = curlNoise(curlInput);
-  vertPosition.xyz += curlResult * 10.;
+  vertPosition.xy += curlResult.xy * curlAmp; // only curl .xy for now. z fades off into the distance
 
   // custom point size - use color to grow point
   float finalPointSize = pointSize;// * progress;
@@ -126,6 +134,6 @@ void main() {
   // use original vertex color
   // vertColor = color;
   // or instead, use texture-mapped color :)
-  vertColor = vec4(textureColor.rgb, progress);
+  vertColor = vec4(textureColor.rgb, particlePosition.a);
   // vertColor = vec4(1., 1., 1., 0.4);
 }

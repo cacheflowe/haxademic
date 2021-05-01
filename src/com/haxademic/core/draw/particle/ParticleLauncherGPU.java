@@ -2,6 +2,7 @@ package com.haxademic.core.draw.particle;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.debug.DebugView;
+import com.haxademic.core.draw.color.ImageGradient;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.context.PShaderHotSwap;
 import com.haxademic.core.draw.shapes.PShapeUtil;
@@ -36,7 +37,7 @@ public class ParticleLauncherGPU {
 		
 		// create texture to store positions
 		colorBuffer = PG.newDataPG(positionBufferSize, positionBufferSize);
-//		DebugView.setTexture("colorBuffer", colorBuffer);
+		DebugView.setTexture("colorBuffer", colorBuffer);
 		colorBuffer.beginDraw();
 		colorBuffer.background(255);
 		colorBuffer.noStroke();
@@ -119,9 +120,10 @@ public class ParticleLauncherGPU {
 		renderShader.set("height", (float) buffer.height);
 		renderShader.set("depth", (float) buffer.width);
 		renderShader.set("colorTexture", colorBuffer);
-		renderShader.set("colorTexture", DemoAssets.justin());
+		renderShader.set("colorTexture", DemoAssets.textureJupiter());
+		renderShader.set("colorTexture", ImageGradient.BLACK_HOLE());
 		renderShader.set("positionTexture", positionBuffer);
-		renderShader.set("pointSize", 2f);
+		renderShader.set("pointSize", 3f);
 		
 		buffer.shader(renderShader);	// set vertex shader
 		buffer.shape(shape);			// draw particles

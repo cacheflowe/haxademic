@@ -15,6 +15,10 @@ uniform sampler2D directionMap;
 
 float TWO_PI = radians(360);
 
+float rand(vec2 co){
+    return fract(sin(dot(co.xy ,vec2(12.9898,78.233))) * 43758.5453);
+}
+
 void main() {
 	// RGBA = X, Y, Rads, Speed
 	vec2 p = vertTexCoord.xy;
@@ -25,17 +29,22 @@ void main() {
   float y = texelColor.g;
   float rads = texelColor.b * TWO_PI * 2;
   float progress = texelColor.a;
-	// if(progress > 0.9) progress = 0.6 + 0.4 * sin(rads * 10.);// 0.75 + 0.25 * sin(x + y * 10.); // pick a "random" initial speed divisor
-	// else progress *= 0.93; // always decelerate
-	// progress *= 0.99; // always decelerate
-	// progress -= 0.007; // always decelerate
-  // move progress
-	x += cos(rads) / 2000.;
-	y += sin(rads) / 2000.;
-	// progress -= 0.01;
-  // progress -= progressSpeed;
-	// if(progress < 0.) progress = 0.;
-  // posOffset.g += 1./255.;   // fall
+  float progressPre = texelColor.a;
+
+	// update progress (alpha)
+	progress -= 0.006;
+	if(progress < 0.) progress = 0.;	// things get weird if alpha goes negative...
+
+  // move particles. slow down over time, via progress
+	float speed = 0.0025;
+	x += cos(rads) * speed * progress;
+	y += sin(rads) * speed * progress;
+
+	// add a bit of randomness to the launch point so we don't have perfect circles
+	if(progressPre == 1.) {
+		x += 0.02 * cos(rand(p * 10. * speed * 40. - speed * 20.));
+		y += 0.02 * sin(rand(p * 80. * speed * 10. - speed * 5.));
+	}
 
   // get map color -> progressation
 	// float ampCol = texture2D(ampMap, p).r;
@@ -50,5 +59,5 @@ void main() {
   // posOffset.y = posOffset.y + progress * sin(rotation);
 
 	// write back to texture
-  gl_FragColor = vec4(x, y, texelColor.b, texelColor.a *= 0.95);
+  gl_FragColor = vec4(x, y, texelColor.b, progress);
 }
