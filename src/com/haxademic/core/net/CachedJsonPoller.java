@@ -15,7 +15,7 @@ implements IJsonRequestCallback {
 		public void jsonUpdated(String json);
 		public void jsonNotUpdated(String json);
 		public void jsonNotValid(String json);
-		public void jsonRequestNetError(String error);
+		public void jsonRequestNetError(String responseText, String error);
 	}
 	
 	protected JsonPoller jsonPoller;
@@ -106,7 +106,7 @@ implements IJsonRequestCallback {
 	}
 
 	public void postFailure(String responseText, int responseCode, String requestId, int responseTime, String errorMessage) {
-		if(this.delegate != null) this.delegate.jsonRequestNetError(errorMessage);
+		if(this.delegate != null) this.delegate.jsonRequestNetError(responseText, errorMessage);
 	}	
 	
 	public void aboutToRequest(JsonHttpRequest request) {
