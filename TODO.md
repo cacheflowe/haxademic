@@ -163,6 +163,10 @@ PGA + Bespoke:
 
 
 ## Art projects
+  * Blow up Arduino via camera feed & mircophones. Re-pitch? Use a motor that spins something that a sensor picks up (for mechanical oscillation)?
+  * Simulations & complex systems
+  * Dark room w/Light/sound combo
+  * Tiny projection mapping w/custom objects
   * Video filter that does a bunch of feedback operations every frame, leading to GAN-like looks?
   * 8-channel surround sound & light
   * C.A.C.H.E.
