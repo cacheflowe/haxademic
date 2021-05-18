@@ -24,15 +24,18 @@ extends PAppletHax {
 	protected void firstFrame() {
 		PImage[] images = new PImage[] {
 				DemoAssets.squareTexture(),
+				DemoAssets.smallTexture(),
 				DemoAssets.textureNebula(),
 				DemoAssets.textureJupiter(),
 		};
 
-		imageCycler = new ImageCyclerBuffer(640, 280, images, 300, 0.95f);
+//		imageCycler = new ImageCyclerBuffer(640, 280, images, 100, 99, p.color(0,255,0), false);
+//		imageCycler = new ImageCyclerBuffer(640, 280, images, 100, 99, -1, false, ImageCyclerBuffer.directional_wipe);
+		imageCycler = new ImageCyclerBuffer(640, 280, images, 100, 99, -1, false, ImageCyclerBuffer.circle_open);
 	}
 	
 	protected void drawApp() {
-		p.background(0);
+		p.background(255,0,0);
 
 		imageCycler.update();
 		p.image(imageCycler.image(), 20, 20);
