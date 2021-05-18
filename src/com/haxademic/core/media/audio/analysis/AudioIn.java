@@ -26,9 +26,9 @@ public class AudioIn {
 	
 	// extra optional features
 	protected boolean drawsFFT;
-	protected PGraphics bufferFFT;
+	public static PGraphics bufferFFT;
 	protected boolean drawsWaveform;
-	protected PGraphics bufferWaveform;
+	public static PGraphics bufferWaveform;
 	
 	/////////////////////////////
 	// static instance & initializer for quick & easy access
@@ -140,6 +140,14 @@ public class AudioIn {
 
 	public static boolean isBeat() {
 		return audioInput.audioData().isBeat();
+	}
+
+	public static PGraphics bufferFFT() {
+		return bufferFFT;
+	}
+	
+	public static PGraphics bufferWaveform() {
+		return bufferWaveform;
 	}
 	
 	// debug
