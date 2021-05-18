@@ -6,7 +6,6 @@ import com.haxademic.core.data.constants.PEvents;
 import com.haxademic.core.data.constants.PRegisterableMethods;
 import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.data.store.IAppStoreListener;
-import com.haxademic.core.debug.DebugUtil;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.system.AppUtil;
 import com.haxademic.core.ui.UITextInput;
@@ -48,14 +47,13 @@ implements IAppStoreListener {
 	protected void buildAppWindow(PApplet p) {
 		// SELECT RENDERER AND WINDOW SIZE
 		P.renderer = Config.getString(AppSettings.RENDERER, P.P3D);
-		P.out("Processing renderer:", P.renderer);
 		if(P.isOpenGL()) PJOGL.profile = Config.getInt(AppSettings.PJOGL_PROFILE, 4);
 		if(Config.getBoolean(AppSettings.SPAN_SCREENS, false) == true) {
 			// run fullscreen across all screens
 			p.fullScreen(P.renderer, P.SPAN);
 		} else if(Config.getBoolean(AppSettings.FULLSCREEN, false) == true) {
 			// run fullscreen - default to screen #1 unless another is specified
-			if(Config.getInt(AppSettings.FULLSCREEN_SCREEN_NUMBER, 1) != 1) DebugUtil.printErr("AppSettings.FULLSCREEN_SCREEN_NUMBER is busted if not screen #1. Use AppSettings.SCREEN_X, etc.");
+			if(Config.getInt(AppSettings.FULLSCREEN_SCREEN_NUMBER, 1) != 1) P.error("AppSettings.FULLSCREEN_SCREEN_NUMBER is busted if not screen #1. Use AppSettings.SCREEN_X, etc.");
 			p.fullScreen(P.renderer); // , Config.getInt(AppSettings.FULLSCREEN_SCREEN_NUMBER, 1)
 		} else if(Config.getBoolean(AppSettings.FILLS_SCREEN, false) == true) {
 			// fills the screen, but not fullscreen
@@ -89,7 +87,7 @@ implements IAppStoreListener {
 			if(p.displayDensity() == 2) {
 				p.pixelDensity(2);
 			} else {
-				DebugUtil.printErr("Error: Attempting to set retina drawing on a non-retina screen");
+				P.error("Error: Attempting to set retina drawing on a non-retina screen");
 			}
 		}	
 	}
@@ -120,7 +118,7 @@ implements IAppStoreListener {
 		// check for additional screen_x params to manually place the window
 		if(Config.getInt("screen_x", -1) != -1) {
 			if(isFullscreen == false) {
-				DebugUtil.printErr("Error: Manual screen positioning requires AppSettings.FULLSCREEN = true");
+				P.error("Error: Manual screen positioning requires AppSettings.FULLSCREEN = true");
 				return;
 			}
 			P.surface().setSize(Config.getInt(AppSettings.WIDTH, 800), Config.getInt(AppSettings.HEIGHT, 600));

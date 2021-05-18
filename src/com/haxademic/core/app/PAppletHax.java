@@ -13,6 +13,7 @@ import com.haxademic.core.media.audio.analysis.AudioIn;
 import com.haxademic.core.media.audio.analysis.AudioInputESS;
 import com.haxademic.core.media.video.MovieBuffer;
 import com.haxademic.core.render.Renderer;
+import com.haxademic.core.system.ConsoleColors;
 import com.haxademic.core.system.SystemUtil;
 import com.haxademic.core.ui.UITextInput;
 
@@ -62,8 +63,18 @@ extends PApplet {
 	protected void parentFirstFrame() {
 		if( p.frameCount == 1 ) {
 			if(P.isOpenGL()) {
-				P.println("Using Java version: " + SystemUtil.getJavaVersion() + " and GL version: " + OpenGLUtil.getGlVersion(p.g));
-				pg = PG.newPG(Config.getInt(AppSettings.PG_WIDTH, p.width), Config.getInt(AppSettings.PG_HEIGHT, p.height));
+				P.outInit("Graphics init ##############");
+				P.outInit("Processing renderer:", P.renderer);
+				P.outInit("Java version:", SystemUtil.getJavaVersion());
+				P.outInit("GL version:", OpenGLUtil.getGlVersion(p.g));
+				int pgW = Config.getInt(AppSettings.PG_WIDTH, p.width);
+				int pgH = Config.getInt(AppSettings.PG_HEIGHT, p.height);
+				boolean is32Bit = Config.getBoolean(AppSettings.PG_32_BIT, false);
+				pg = (is32Bit) ? PG.newPG32(pgW, pgH, true, true) : PG.newPG(pgW, pgH);
+				if(is32Bit) P.outInit("32-bit pg");
+				P.outInit("############################");
+			} else {
+				P.outInit("Processing special renderer:", P.renderer);
 			}
 			firstFrame();	// call override
 		}
@@ -82,7 +93,7 @@ extends PApplet {
 	}
 
 	protected void drawApp() {
-		P.println("Haxademic: YOU MUST OVERRIDE drawApp()");
+		P.error("Haxademic: YOU MUST OVERRIDE drawApp()");
 	}
 			
 	////////////////////////
@@ -106,7 +117,7 @@ extends PApplet {
 	////////////////////////
 	
 	protected void finishPdfRender() {
-		P.println("Finished PDF render.");
+		P.out(ConsoleColors.GREEN, "Finished PDF render.", ConsoleColors.RESET);
 		p.exit();
 	}
 		

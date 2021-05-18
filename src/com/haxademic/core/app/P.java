@@ -40,7 +40,7 @@ extends PApplet {
 		// now that the app/window is initialized, we can act on P.p properties 
 		// ... and anything that relied on PAppletHax.config() overrides per-app
 		if(P.isOpenGL()) window = (GLWindow) P.p.getSurface().getNative();
-		if(Config.getInt(AppSettings.LOOP_FRAMES, 0) != 0) FrameLoop.instance(Config.getInt(AppSettings.LOOP_FRAMES, 0), Config.getInt(AppSettings.LOOP_TICKS, 4));
+		if(Config.getInt(AppSettings.LOOP_FRAMES, 0) != 0) FrameLoop.instance(Config.getInt(AppSettings.LOOP_FRAMES, 360), Config.getInt(AppSettings.LOOP_TICKS, 4));
 		if(P.renderer != PRenderers.PDF) DebugView.instance();
 		ScreenSaverBlocker.instance();
 		UI.instance();
@@ -74,6 +74,12 @@ extends PApplet {
 	public static boolean logging = true;
 	public static void out(Object ...args) {
 		if(logging) P.println(args);
+	}
+	public static void outInit(Object ...args) {
+		if(logging) {
+			P.print("##Hax## ");
+			P.println(args);
+		}
 	}
 	public static void error(Object ...args) {
 		if(logging) {

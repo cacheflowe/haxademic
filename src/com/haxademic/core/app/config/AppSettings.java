@@ -9,6 +9,7 @@ public class AppSettings {
 	public static final String HEIGHT = "height";
 	public static final String PG_WIDTH = "pg_width";
 	public static final String PG_HEIGHT = "pg_height";
+	public static final String PG_32_BIT = "pg_32_bit";
 	public static final String SPAN_SCREENS = "span_screens";
 	public static final String FULLSCREEN = "fullscreen";
 	public static final String FULLSCREEN_SCREEN_NUMBER = "fullscreen_screen_number";

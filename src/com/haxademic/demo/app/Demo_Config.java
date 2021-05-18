@@ -14,6 +14,7 @@ extends PAppletHax {
 		Config.loadPropertiesFile(FileUtil.getPath("properties/haxvisual.properties"));
 		Config.setProperty( AppSettings.SHOW_DEBUG, true );
 		Config.setProperty( AppSettings.SHOW_FPS_IN_TITLE, true );
+		Config.setProperty( AppSettings.PG_32_BIT, true );
 	}
 	
 	protected void firstFrame() {
