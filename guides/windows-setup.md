@@ -1,6 +1,8 @@
 # Set up Windows 10 for installations
 
-* Set up Windows normally during blue setup screens, but turn off non-essential services
+* Set up Windows normally during blue setup screens, but: 
+  * Don't attach the machine to a network or wifi!
+  * Turn off non-essential services (but keep location services)
 
 * Uninstall non-essential apps & bloatware
   * Right-click Start Menu -> Control Panel -> Programs / Uninstall a program
@@ -25,46 +27,47 @@
 * Update video card drivers
 
 * Enable network sharing
+  * Click on the Network button in Explorer, and the first time, a notification should show in the window header, asking you to enable
 
 * Prevent interruptions
   * Energy preferences:
-    * Settings -> System -> Power & Sleep
+    * (WIN + "Power") Settings -> System -> Power & Sleep
       * When plugged in, turn off screen & PC sleep: Never
-      * Click Additional Power settings button:
+      * (WIN + "Edit Power Plan") Click Additional Power settings button:
         * Show additional plans -> High Performance -> Change plan settings -> Change advanced power settings
           * Select "High Performance" from dropdown
           * USB settings -> Selective suspend -> Plugged in -> Disabled
-  * Turn off screensaver: Settings -> Personalization -> Lock screen -> Screen saver settings
+    * Control Panel -> Hardware and Sound -> Power Options -> System Settings
+      * Power button should shut down
+      * Laptop should do nothing on lid close
+  * (WIN + "Screen saver") Turn off screensaver : Settings -> Personalization -> Lock screen -> Screen saver settings
   * Settings -> Personalization -> Start -> Turn off: "Occasionally show suggestions in Start"
   * Turn off system sounds:
     * Settings -> Personalization -> Themes -> Sounds -> Sound Scheme -> No Sounds
   * Turn off notifications:
-    * Settings -> System -> Notifications & actions
-    * Settings -> Privacy -> Notifications -> Turn off "Let apps access my notifications"
-    * Settings -> Network & Internet -> Windows Firewall -> Firewall notification settings
-      * Uncheck both "Notify me" boxes
-    * Control Panel -> System & Security -> Security & Maintenance -> Change Security & Maintenance settings
+    * (WIN + "Notifications") Settings -> System -> Notifications & actions
+    * (WIN + "Notifications privacy") Settings -> Privacy -> Notifications -> Turn off "Let apps access my notifications" and other checkbox
+    * (WIN + "Windows Security" -> Settings) Settings -> Network & Internet -> Windows Firewall -> Firewall notification settings
+      * Uncheck all "Notify me" boxes
+    * (WIN + "Security & Maintenance") Control Panel -> System & Security -> Security & Maintenance -> Change Security & Maintenance settings
       * Uncheck all boxes
   * Turn on Windows Defender
     * But turn off notifications
-      * Task Manager -> Startup -> Disable Windows Defender Notifications
+      * (WIN + "Startup") Task Manager -> Startup -> Disable Windows Defender Notifications
   * Turn off power management for wifi connection:
-    * Control Panel -> Network and Internet -> Network and Sharing Center -> Change Adapter Settings -> Right-click Wifi -> Properties -> Configure -> Power Management -> Uncheck "Allow ... turn off power:
+    * (WIN + "Network Connections") Control Panel -> Network and Internet -> Network and Sharing Center -> Change Adapter Settings -> Right-click Wifi -> Properties -> Configure -> Power Management -> Uncheck "Allow ... turn off power
 
 * Performance boost:
-  * Defrag Hard drive:
+  * Defrag Hard drive (should be automatic by default):
     * Control Panel -> System & Security -> Administrative tools -> Defrag and optimize your drives
-  * Control Panel -> System & Security -> System -> Advanced System settings -> Advanced tab -> Performance Settings -> Visual Effects -> Adjust for Best Performance
+  * (WIN + "Adjust performance") Control Panel -> System & Security -> System -> Advanced System settings -> Advanced tab -> Performance Settings -> Visual Effects -> Adjust for Best Performance
     * But re-check:
       * Show shadows under Mouse pointer
       * Show window contents while dragging
       * Smooth edges of screen fonts
 
 * Windows settings:
-  * Control Panel -> Hardware and Sound -> Power Options -> System Settings
-    * Power button should shut down
-    * Laptop should do nothing on lid close
-  * Settings -> System -> Display -> Change the size of text, apps... -> 100%
+  * (WIN + "Display") Settings -> System -> Display -> Change the size of text, apps... -> 100%
   * Settings -> Personalization -> Multiple Displays -> Show taskbars on all displays -> Off
   * Show file name extensions: In a system Explorer window, click "View" in the toolbar, and check "File name extensions" and "Hidden files"
   * Set to Developer mode:
@@ -75,8 +78,11 @@
   * Remove login screen:
     * Windows button + "R" -> "netplwiz" + Run
       * Uncheck "Users must enter..." -> Apply -> Type password twice
+      * If you're using Windows 10 Pro, you might not see this checkbox, in which case, you need to edit the registry:
+        * regedit -> HKEY_LOCAL_MACHINE -> Software -> Microsoft -> Windows NT -> CurrentVersion -> Passwordless -> Device -> Change DevicePasswordLessBuildVersion to 0
 
-* Disable Windows update notifications
+
+* Disable Windows update notifications (this is now old info)
 	* More info below, but there's a disable/enable script in `/scripts` that can be run as administrator from Windows Explorer
 	* Info:
 		* https://techgage.com/article/taking-back-control-of-windows-10-updates/
@@ -120,9 +126,9 @@
   * TeamViewer
 
 * Disable Java updates:
-  * Find the Java icon in the system taskbar from the up arrow on the right and disable
+  * Find the Java icon in the system taskbar from the up arrow on the right and disable (might not be a thing anymore)
   * Open Java app from Start Menu and disable from there
-  * Open the system Task Manager (ctrl + alt + delete), go to the Startup tab, and disable java updater on startup
+  * (WIN + "Startup Apps") Open the system Task Manager (ctrl + alt + delete), go to the Startup tab, and disable java updater on startup
 
 * Networking
 	* Set a static [IP address](https://portforward.com/networking/static-ip-windows-10.htm) - only needed for multi-machine networking situations
