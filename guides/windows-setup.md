@@ -4,60 +4,62 @@
   * Don't attach the machine to a network or wifi!
   * Turn off non-essential services (but keep location services)
 
-* Uninstall non-essential apps & bloatware
-  * Right-click Start Menu -> Control Panel -> Programs / Uninstall a program
-  * Delete any apps in Program Files (x86) that seem suspect and aren't in the Control Panel list (and aren't likely essential drivers)
-  * Settings -> System -> Apps & Features
-    * Microsoft OneDrive
-  * Settings -> System -> Default Apps
-    * Set Web Browser to Firefox
+## Uninstall non-essential apps & bloatware
 
-* Clean up Windows UI
-  * System Taskbar
-    * Unpin apps
-    * Hide Cortana
-  * Click notification icon in taskbar and "clear all notifications" at bottom
-  * Start menu
-    * Unpin live tiles and collapse width of start menu
-  * Change background image
+* Right-click Start Menu -> Control Panel -> Programs / Uninstall a program
+* Delete any apps in Program Files (x86) that seem suspect and aren't in the Control Panel list (and aren't likely essential drivers)
+* Settings -> System -> Apps & Features
+  * Microsoft OneDrive
+* Settings -> System -> Default Apps
+  * Set Web Browser to Firefox
 
-* Run Windows system updates:
-  * Settings -> Update & Security -> Windows Update -> Check for Updates
-  * Restart/Repeat until there are really no more updates
+## Run Windows system updates
+
+* Settings -> Update & Security -> Windows Update -> Check for Updates
+* Restart/Repeat until there are really no more updates
 * Update video card drivers
 
-* Enable network sharing
-  * Click on the Network button in Explorer, and the first time, a notification should show in the window header, asking you to enable
+## Clean up Windows UI
 
-* Prevent interruptions
-  * Energy preferences:
-    * (WIN + "Power") Settings -> System -> Power & Sleep
-      * When plugged in, turn off screen & PC sleep: Never
-      * (WIN + "Edit Power Plan") Click Additional Power settings button:
-        * Show additional plans -> High Performance -> Change plan settings -> Change advanced power settings
-          * Select "High Performance" from dropdown
-          * USB settings -> Selective suspend -> Plugged in -> Disabled
-    * Control Panel -> Hardware and Sound -> Power Options -> System Settings
-      * Power button should shut down
-      * Laptop should do nothing on lid close
-  * (WIN + "Screen saver") Turn off screensaver : Settings -> Personalization -> Lock screen -> Screen saver settings
-  * Settings -> Personalization -> Start -> Turn off: "Occasionally show suggestions in Start"
-  * Turn off system sounds:
-    * Settings -> Personalization -> Themes -> Sounds -> Sound Scheme -> No Sounds
-  * Turn off notifications:
-    * (WIN + "Notifications") Settings -> System -> Notifications & actions
-    * (WIN + "Notifications privacy") Settings -> Privacy -> Notifications -> Turn off "Let apps access my notifications" and other checkbox
-    * (WIN + "Windows Security" -> Settings) Settings -> Network & Internet -> Windows Firewall -> Firewall notification settings
-      * Uncheck all "Notify me" boxes
-    * (WIN + "Security & Maintenance") Control Panel -> System & Security -> Security & Maintenance -> Change Security & Maintenance settings
-      * Uncheck all boxes
-  * Turn on Windows Defender
-    * But turn off notifications
-      * (WIN + "Startup") Task Manager -> Startup -> Disable Windows Defender Notifications
-  * Turn off power management for wifi connection:
-    * (WIN + "Network Connections") Control Panel -> Network and Internet -> Network and Sharing Center -> Change Adapter Settings -> Right-click Wifi -> Properties -> Configure -> Power Management -> Uncheck "Allow ... turn off power
+* System Taskbar
+  * Unpin apps
+  * Hide Cortana
+* Click notification icon in taskbar and "clear all notifications" at bottom
+* Start menu
+  * Unpin live tiles and collapse width of start menu
+* Change background image
 
-* Performance boost:
+## Prevent interruptions
+
+* Energy preferences:
+  * (WIN + "Power") Settings -> System -> Power & Sleep
+    * When plugged in, turn off screen & PC sleep: Never
+    * (WIN + "Edit Power Plan") Click Additional Power settings button:
+      * Show additional plans -> High Performance -> Change plan settings -> Change advanced power settings
+        * Select "High Performance" from dropdown
+        * USB settings -> Selective suspend -> Plugged in -> Disabled
+  * Control Panel -> Hardware and Sound -> Power Options -> System Settings
+    * Power button should shut down
+    * Laptop should do nothing on lid close
+* (WIN + "Screen saver") Turn off screensaver : Settings -> Personalization -> Lock screen -> Screen saver settings
+* Settings -> Personalization -> Start -> Turn off: "Occasionally show suggestions in Start"
+* Turn off system sounds:
+  * Settings -> Personalization -> Themes -> Sounds -> Sound Scheme -> No Sounds
+* Turn off notifications:
+  * (WIN + "Notifications") Settings -> System -> Notifications & actions
+  * (WIN + "Notifications privacy") Settings -> Privacy -> Notifications -> Turn off "Let apps access my notifications" and other checkbox
+  * (WIN + "Windows Security" -> Settings) Settings -> Network & Internet -> Windows Firewall -> Firewall notification settings
+    * Uncheck all "Notify me" boxes
+  * (WIN + "Security & Maintenance") Control Panel -> System & Security -> Security & Maintenance -> Change Security & Maintenance settings
+    * Uncheck all boxes
+* Turn on Windows Defender
+  * But turn off notifications
+    * (WIN + "Startup") Task Manager -> Startup -> Disable Windows Defender Notifications
+* Turn off power management for wifi connection:
+  * (WIN + "Network Connections") Control Panel -> Network and Internet -> Network and Sharing Center -> Change Adapter Settings -> Right-click Wifi -> Properties -> Configure -> Power Management -> Uncheck "Allow ... turn off power
+
+## Performance boost
+
   * Defrag Hard drive (should be automatic by default):
     * Control Panel -> System & Security -> Administrative tools -> Defrag and optimize your drives
   * (WIN + "Adjust performance") Control Panel -> System & Security -> System -> Advanced System settings -> Advanced tab -> Performance Settings -> Visual Effects -> Adjust for Best Performance
@@ -66,24 +68,56 @@
       * Show window contents while dragging
       * Smooth edges of screen fonts
 
-* Windows settings:
-  * (WIN + "Display") Settings -> System -> Display -> Change the size of text, apps... -> 100%
-  * Settings -> Personalization -> Multiple Displays -> Show taskbars on all displays -> Off
-  * Show file name extensions: In a system Explorer window, click "View" in the toolbar, and check "File name extensions" and "Hidden files"
-  * Set to Developer mode:
-    * Settings -> Update & Security -> For developers -> Developer Mode option
-    * Click "Apply" under the "Windows Explorer", "Remote Desktop" and "Powershell" section checkboxes
-  * Rename PC (requires restart):
-    * Settings -> System -> About -> Rename PC
-  * Remove login screen:
-    * Windows button + "R" -> "netplwiz" + Run
-      * Uncheck "Users must enter..." -> Apply -> Type password twice
-      * If you're using Windows 10 Pro, you might not see this checkbox, in which case, you need to edit the registry:
-        * regedit -> HKEY_LOCAL_MACHINE -> Software -> Microsoft -> Windows NT -> CurrentVersion -> Passwordless -> Device -> Change DevicePasswordLessBuildVersion to 0
+## Windows settings
+
+* (WIN + "Display") Settings -> System -> Display -> Change the size of text, apps... -> 100%
+* Settings -> Personalization -> Multiple Displays -> Show taskbars on all displays -> Off
+* Show file name extensions: In a system Explorer window, click "View" in the toolbar, and check "File name extensions" and "Hidden files"
+* Set to Developer mode:
+  * Settings -> Update & Security -> For developers -> Developer Mode option
+  * Click "Apply" under the "Windows Explorer", "Remote Desktop" and "Powershell" section checkboxes
+* Rename PC (requires restart):
+  * Settings -> System -> About -> Rename PC
+* Remove login screen:
+  * Windows button + "R" -> "netplwiz" + Run
+    * Uncheck "Users must enter..." -> Apply -> Type password twice
+    * If you're using Windows 10 Pro, you might not see this checkbox, in which case, you need to edit the registry:
+      * regedit -> HKEY_LOCAL_MACHINE -> Software -> Microsoft -> Windows NT -> CurrentVersion -> Passwordless -> Device -> Change DevicePasswordLessBuildVersion to 0
+
+## Disable Java updates
+
+* Find the Java icon in the system taskbar from the up arrow on the right and disable (might not be a thing anymore)
+* Open Java app from Start Menu and disable from there
+* (WIN + "Startup Apps") Open the system Task Manager (ctrl + alt + delete), go to the Startup tab, and disable java updater on startup
+
+## Networking
+
+* Enable network sharing
+  * Click on the Network button in Explorer, and the first time, a notification should show in the window header, asking you to enable
+* Set a static [IP address](https://portforward.com/networking/static-ip-windows-10.htm) - only needed for multi-machine networking situations
+* Allow WebSockets messages to go through on a specific port (3001 is default in Haxademic)
+  * Open `Windows Firewall with Advanced Security` and add an incoming and outgoing rule for port 3001, and allow on all networks
+
+## TeamViewer settings
+
+*Check "Start with Windows" under "Unattended Access"
+*Go to "Extras -> Options"
+  * Security Tab: 
+    * Enter a personal password
+    * Windows Logon: Set to "All Users"
+  * Remote Control
+    * Optimize Speed
+    * Uncheck "Remove Remote Wallpaper"
+    * Uncheck "Play Sounds and Music"
+  * Advanced
+    * Check: "Automatically Minimize local TeamViewer Panel"
+    * Check: "Ignore Alpha Blending"
+    * Check: "Full access control when a partner is connecting to the Windows Logon screen"
 
 
-* Disable Windows update notifications (this is now old info)
-	* More info below, but there's a disable/enable script in `/scripts` that can be run as administrator from Windows Explorer
+## Disable Windows update notifications (this is now old info)
+	
+  * More info below, but there's a disable/enable script in `/scripts` that can be run as administrator from Windows Explorer
 	* Info:
 		* https://techgage.com/article/taking-back-control-of-windows-10-updates/
 		* https://winaero.com/blog/disable-updates-available-windows-10/
@@ -112,37 +146,88 @@
 		icacls musnotificationux.exe /remove:g Everyone
 		```
 
+## Create ssh key for machines' GitHub access
 
 
-* Download essential apps & pin to taskbar
-  * Chrome
-  * Atom
-  * Github Desktop
-  * Java latest version
-  * Eclipse
-  * Microsoft Kinect SDK
-  * Latest GeForce drivers
-  * Processing
-  * TeamViewer
+* Generate a new key:
+  ```
+  $ ssh-keygen -t ed25519 -C "your@email.com"
+  ```
 
-* Disable Java updates:
-  * Find the Java icon in the system taskbar from the up arrow on the right and disable (might not be a thing anymore)
-  * Open Java app from Start Menu and disable from there
-  * (WIN + "Startup Apps") Open the system Task Manager (ctrl + alt + delete), go to the Startup tab, and disable java updater on startup
+* Should output:  
+  ```
+  Generating public/private ed25519 key pair.
+  Enter file in which to save the key (/c/Users/your_user/.ssh/id_ed25519):
+  Created directory '/c/Users/your_user/.ssh'.
+  Enter passphrase (empty for no passphrase): YOUR_PASSWORD
+  Enter same passphrase again: YOUR_PASSWORD
+  Your identification has been saved in /c/Users/your_user/.ssh/id_ed25519
+  Your public key has been saved in /c/Users/your_user/.ssh/id_ed25519.pub
+  The key fingerprint is:
+  SHA256:j+2JvTnII7o7s8JkXIdH2amW/lF09mrUjR4Uad34nsk your@email.com
+  The key's randomart image is:
+  +--[ED25519 256]--+
+  |       o .    oo |
+  |      o o . o.. o|
+  |     o o ..o + o+|
+  |    o *   . . =oo|
+  | . . +  S. . o.o+|
+  |  +   . .=  o .E.|
+  | +     oooo.     |
+  |  o o .o=..o     |
+  |   .=B o+.o.     |
+  +----[SHA256]-----+
+  ```
 
-* Networking
-	* Set a static [IP address](https://portforward.com/networking/static-ip-windows-10.htm) - only needed for multi-machine networking situations
-	* Allow WebSockets messages to go through on a specific port (3001 is default in Haxademic)
-		* Open `Windows Firewall with Advanced Security` and add an incoming and outgoing rule for port 3001, and allow on all networks
+* Copy to Github:
+  ```
+  $ ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIA6mvfhC48oKJzihaAvZouPr7D1Uhxc4eWSaa5qE8RRU your@email.com
+  ```
 
-Additional steps:
+### Add ssh key to each machine
+
+* Add key to Windows w/Git Bash:
+* Copy ssh key files into `C:\Users\your_user\.ssh`
+  ```
+  $ eval `ssh-agent -s`
+  $ ssh-add ~/.ssh/id_ed25519
+  ```
+* Pull repo
+  ```
+  $ `mkdir ~/Documents/workspace`
+  $ `cd ~/Documents/workspace`
+  $ `git clone git@github.com:GitHub-Account/github-repo.git`
+  $ `cd ~/Documents/workspace/github-repo`
+  $ `git pull`
+  ```
+* Do git things in Git Bash, and run scripts in CMD
+* CMD into project dir to pull, etc
+  ```
+  $ cd C:\Users\your_user\Documents\workspace\github-repo
+  ```
+
+## Download essential apps & pin to taskbar
+
+* Chrome
+* Atom
+* Github Desktop
+* Java latest version
+* Eclipse
+* Microsoft Kinect SDK
+* Latest GeForce drivers
+* Processing
+* TeamViewer
+
+
+## Additional steps
+
   * BIOS settings to resume after power loss
   * http://www.evsc.net/tech/prep-windows-machine-for-fulltime-exhibition-setup
   * https://github.com/morphogencc/ofxWindowsSetup
   * https://github.com/brangerbriz/up-4evr-windows-10
   * https://gist.github.com/jasonalderman/f7c27d18b978cc2566cdf848e8493b2c
 
-* Scripting help:
+## Scripting help
   * Set a timeout: `timeout 15 > NUL`
   * Set a timeout with a visible countdown: `timeout 15`
   * Reference User directory: `C:%HOMEPATH%\Documents\`
