@@ -148,8 +148,8 @@
 
 ## Create ssh key for machines' GitHub access
 
-
-* Generate a new key:
+* Install Git Bash
+* Generate a new key in Git Bash terminal:
   ```
   $ ssh-keygen -t ed25519 -C "your@email.com"
   ```
@@ -180,6 +180,10 @@
   ```
 
 * Copy to Github:
+  ```
+  $ cat /c/Users/your_user/.ssh/id_ed25519.pub
+  ```
+  Shows something like: 
   ```
   $ ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIA6mvfhC48oKJzihaAvZouPr7D1Uhxc4eWSaa5qE8RRU your@email.com
   ```
