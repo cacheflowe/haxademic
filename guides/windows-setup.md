@@ -38,13 +38,13 @@
       * Show additional plans -> High Performance -> Change plan settings -> Change advanced power settings
         * Select "High Performance" from dropdown
         * USB settings -> Selective suspend -> Plugged in -> Disabled
-  * Control Panel -> Hardware and Sound -> Power Options -> System Settings
+  * (WIN + "Lid") Control Panel -> Hardware and Sound -> Power Options -> System Settings
     * Power button should shut down
     * Laptop should do nothing on lid close
 * (WIN + "Screen saver") Turn off screensaver : Settings -> Personalization -> Lock screen -> Screen saver settings
-* Settings -> Personalization -> Start -> Turn off: "Occasionally show suggestions in Start"
+* (WIN + "Start menu") Settings -> Personalization -> Start -> Turn off: "Occasionally show suggestions in Start"
 * Turn off system sounds:
-  * Settings -> Personalization -> Themes -> Sounds -> Sound Scheme -> No Sounds
+  * (WIN + "Change system sounds") Settings -> Personalization -> Themes -> Sounds -> Sound Scheme -> No Sounds
 * Turn off notifications:
   * (WIN + "Notifications") Settings -> System -> Notifications & actions
   * (WIN + "Notifications privacy") Settings -> Privacy -> Notifications -> Turn off "Let apps access my notifications" and other checkbox
@@ -71,7 +71,8 @@
 ## Windows settings
 
 * (WIN + "Display") Settings -> System -> Display -> Change the size of text, apps... -> 100%
-* Settings -> Personalization -> Multiple Displays -> Show taskbars on all displays -> Off
+* (WIN + "Taskbar") Settings -> Personalization -> Taskbar -> Hide the taskbar in desktop mode
+* (WIN + "Customize the Taskbar") Settings -> Personalization -> Multiple Displays -> Show taskbars on all displays -> Off
 * Show file name extensions: In a system Explorer window, click "View" in the toolbar, and check "File name extensions" and "Hidden files"
 * Set to Developer mode:
   * Settings -> Update & Security -> For developers -> Developer Mode option
