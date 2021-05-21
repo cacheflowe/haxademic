@@ -138,6 +138,10 @@ public class AudioIn {
 		return frequencies[index % mod];
 	}
 
+	public static float amplitude() {
+		return audioInput.audioData().amp();
+	}
+	
 	public static boolean isBeat() {
 		return audioInput.audioData().isBeat();
 	}
