@@ -98,8 +98,8 @@ public class ParticleLauncherGPU {
 		
 		// reset progress
 		// set new position color: // rgba = x, y, rotation, speed
-		float launchX = (x / P.p.width) * 255f;
-		float launchY = (y / P.p.height) * 255f;
+		float launchX = (x / buffer.width) * 255f;
+		float launchY = (y / buffer.height) * 255f;
 		float radians = MathUtil.randRangeDecimal(0f, 255f);
 		float progress = 255f;	// reset progress to 100%, always, since alpha is additive. not sure if there's a good way to reset alpha to non-100% 
 		int positionColor = P.p.color(launchX, launchY, radians, progress);
@@ -114,6 +114,10 @@ public class ParticleLauncherGPU {
 	}
 	
 	public void renderTo(PGraphics buffer) {
+		renderTo(buffer, false);
+	}
+	
+	public void renderTo(PGraphics buffer, boolean translateCenter) {
 		// update vertex/rendering shader props
 		PShader renderShader = particlesRenderHotSwap.shader();
 		renderShader.set("width", (float) buffer.width);
@@ -123,9 +127,10 @@ public class ParticleLauncherGPU {
 		renderShader.set("colorTexture", DemoAssets.textureJupiter());
 		renderShader.set("colorTexture", ImageGradient.BLACK_HOLE());
 		renderShader.set("positionTexture", positionBuffer);
-		renderShader.set("pointSize", 3f);
+		renderShader.set("pointSize", 5f);
 		
 		buffer.shader(renderShader);	// set vertex shader
+		if(translateCenter) buffer.translate(buffer.width/2, buffer.height/2);
 		buffer.shape(shape);			// draw particles
 		buffer.resetShader();
 
