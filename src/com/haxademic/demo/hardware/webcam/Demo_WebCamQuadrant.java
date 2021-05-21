@@ -16,6 +16,13 @@ extends PAppletHax
 implements IWebCamCallback {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 
+	/*
+	 * This was a prototype to receive & split the feed of a 4x security camera that
+	 * displayed the 4 cameras in equal quadrants of the incoming HDMI feed. This allows
+	 * for 4 cameras from a single capture card. 
+	 */
+	
+	
 	protected void drawApp() {
 		p.background( 0 );
 		PG.setDrawCorner(p);
