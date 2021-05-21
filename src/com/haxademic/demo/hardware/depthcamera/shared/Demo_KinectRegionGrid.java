@@ -19,9 +19,9 @@ extends PAppletHax {
 		Config.setAppSize(1280, 720);
 	}
 	
-	public void firstFrame() {
+	protected void firstFrame() {
 		int KINECT_MIN_DIST = 	300;
-		int KINECT_MAX_DIST = 	1000;
+		int KINECT_MAX_DIST = 	2000;
 		int KINECT_TOP = 		0;
 		int KINECT_BOTTOM = 	DepthCameraSize.HEIGHT;
 		int KINECT_PLAYER_GAP = 160;
@@ -45,7 +45,7 @@ extends PAppletHax {
 		
 		// update & draw grid
 		IDepthCamera depthCamera = DepthCamera.instance().camera;
-		kinectRegionGrid.update(false);
+		kinectRegionGrid.update(true);
 		p.image(kinectRegionGrid.debugImage(), 0, 0);
 		DebugView.setValue("kinectRegionGrid(0).controlX()", kinectRegionGrid.getRegion(0).controlX());
 		

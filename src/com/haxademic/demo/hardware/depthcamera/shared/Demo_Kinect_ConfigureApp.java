@@ -36,6 +36,7 @@ extends PAppletHax {
 	protected void firstFrame() {
 		// init camera
 		DepthCamera.instance(DepthCameraType.Realsense);
+		DepthCamera.instance().camera.setMirror(false);
 
 		// add UI controls
 		UI.addTitle("Depth Data Settings");
@@ -52,6 +53,7 @@ extends PAppletHax {
 
 	protected void drawApp() {
 		IDepthCamera depthCamera = DepthCamera.instance().camera;
+		DebugView.setTexture("rgb", DepthCamera.instance().camera.getRgbImage());
 		background(0);
 		PG.setDrawCorner(p);
 
