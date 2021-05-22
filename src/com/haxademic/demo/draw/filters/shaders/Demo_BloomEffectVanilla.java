@@ -1,4 +1,4 @@
-package com.haxademic.sketch.visualgorithms;
+package com.haxademic.demo.draw.filters.shaders;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
@@ -14,7 +14,7 @@ import com.haxademic.core.hardware.mouse.Mouse;
 
 import processing.core.PGraphics;
 
-public class BloomEffect
+public class Demo_BloomEffectVanilla
 extends PAppletHax {
 	public static void main(String args[]) { arguments = args; PAppletHax.main(Thread.currentThread().getStackTrace()[1].getClassName()); }
 	
@@ -40,7 +40,7 @@ extends PAppletHax {
 		
 		// copy image & create glow version
 		ImageUtil.copyImage(pg, glowBuffer);
-		LeaveWhiteFilter.instance(p).setCrossfade(0.7f);
+		LeaveWhiteFilter.instance(p).setCrossfade(0.3f);
 		LeaveWhiteFilter.instance(p).applyTo(glowBuffer);
 		BlurHFilter.instance(p).setBlurByPercent(Mouse.xNorm * 5f, glowBuffer.width);
 		BlurVFilter.instance(p).setBlurByPercent(Mouse.yNorm * 5f, glowBuffer.height);
