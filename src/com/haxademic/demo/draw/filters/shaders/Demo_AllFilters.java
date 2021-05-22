@@ -68,6 +68,7 @@ import com.haxademic.core.draw.filters.pshader.Pixelate2Filter;
 import com.haxademic.core.draw.filters.pshader.PixelateFilter;
 import com.haxademic.core.draw.filters.pshader.PixelateHexFilter;
 import com.haxademic.core.draw.filters.pshader.RadialBlurFilter;
+import com.haxademic.core.draw.filters.pshader.RadialFlareFilter;
 import com.haxademic.core.draw.filters.pshader.RadialRipplesFilter;
 import com.haxademic.core.draw.filters.pshader.ReflectFilter;
 import com.haxademic.core.draw.filters.pshader.RepeatFilter;
@@ -190,6 +191,7 @@ extends PAppletHax { public static void main(String args[]) { arguments = args; 
 			PixelateFilter.instance(p),
 			Pixelate2Filter.instance(p),
 			RadialBlurFilter.instance(p),
+			RadialFlareFilter.instance(p),
 			RadialRipplesFilter.instance(p),
 			ReflectFilter.instance(p),
 			RepeatFilter.instance(p),
@@ -534,7 +536,13 @@ extends PAppletHax { public static void main(String args[]) { arguments = args; 
 			PixelateHexFilter.instance(p).applyTo(pg);
 		} else if(curFilter == Pixelate2Filter.instance(p)) {
 			Pixelate2Filter.instance(p).setDivider(Mouse.xNorm * 10f);
-			Pixelate2Filter.instance(p).applyTo(pg);
+			Pixelate2Filter.instance(p).applyTo	(pg);
+		} else if(curFilter == RadialFlareFilter.instance(p)) {
+			RadialFlareFilter.instance(p).setImageBrightness(0f + Mouse.yNorm * 10f);
+			RadialFlareFilter.instance(p).setFlareBrightness(0f + Mouse.yNorm * 10f);
+			RadialFlareFilter.instance(p).setRadialLength(0.5f + Mouse.xNorm * 0.5f);
+			RadialFlareFilter.instance(p).setIters(100f + Mouse.xNorm * 3000f);
+			RadialFlareFilter.instance(p).applyTo(pg);
 		} else if(curFilter == RadialBlurFilter.instance(p)) {
 			RadialBlurFilter.instance(p).applyTo(pg);
 		} else if(curFilter == RadialRipplesFilter.instance(p)) {

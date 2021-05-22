@@ -2,7 +2,6 @@ package com.haxademic.demo.draw.filters.shaders;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
-import com.haxademic.core.data.constants.PRenderers;
 import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.filters.pshader.BloomFilter;
@@ -18,7 +17,7 @@ extends PAppletHax {
 	protected PGraphics glowBuffer;
 
 	protected void firstFrame() {
-		glowBuffer = p.createGraphics(pg.width, pg.height, PRenderers.P2D);
+		glowBuffer = PG.newPG(pg.width, pg.height);
 	}
 
 	protected void drawApp() {
