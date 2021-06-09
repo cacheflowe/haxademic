@@ -2,6 +2,7 @@ package com.haxademic.demo.media.audio.analysis;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.media.audio.analysis.AudioIn;
 import com.haxademic.core.media.audio.analysis.AudioIn.AudioInputLibrary;
 
@@ -16,10 +17,11 @@ extends PAppletHax {
 	}
 	
 	protected void drawApp() {
-		background(0);
+		p.background(0);
 		p.noStroke();
-		float numElements = p.width;
 
+		// draw bars
+		float numElements = p.width;
 		float eqStep = 512f / numElements;
 		float barW = numElements / 512f;
 		int eqIndex = 0;
@@ -30,5 +32,14 @@ extends PAppletHax {
 			p.rect(i * barW, 0, barW, p.height);
 		}
 
+		// draw circle
+		float audioAmp = AudioIn.amplitude();
+		p.push();
+		PG.setDrawCenter(p);
+		PG.setCenterScreen(p);
+		p.fill(255f);
+		p.ellipse(0, 0, audioAmp * 1000f, audioAmp * 1000f);
+		PG.setDrawCorner(p);
+		p.pop();
 	}
 }
