@@ -2,6 +2,10 @@
 
 ## New ideas, TODOs
 
+* More GPGPU/curl effects
+  * Splash shapes or letters onto screen
+  * Start with an actual grid of pixels & displace from there
+  * Build array of launch positions to colorize a color map by pixel in a 2nd draw call
 * Optical flow shader displace filter
 * Processing 4 test branch
 * Grab a row of pixels from any image to populate audio buffer AND Interphase sequencer
@@ -9,7 +13,6 @@
 * Glitch mirror w/slit scan history but blocks on buffer difference active areas
   * Bring VLC wrapper into Haxademic (& add to this demo)
 * Text rasterizer/cacher/cropper w/border per letter
-* Import this glsl filter: https://www.shadertoy.com/view/3lXcW8
 
 ## Bugs
 
@@ -56,11 +59,11 @@ https://slides.com/nicolasbarradeau/it-s-dangerous-to-go-alone-take-this
 	x+=(newX−x)∗.1x += (newX-x) *.1x+=(newX−x)∗.1
 	EASING
 	t=t∗t∗(3−2∗t)t = t * t * ( 3 - 2 * t )t=t∗t∗(3−2∗t)
+
 Infinity:
 
 * Custom UITextField example (kill ESC and other keys)
 * Debug tools in main app
-* MouseShutdown10x - just make original configurable for clicks & timeout
 * New Slack wrapper
   * See if we can remove the 2 extra slack-client jars
 
@@ -175,7 +178,10 @@ PGA + Bespoke:
   * Variable Reaction-Diffusion using amplitude map & custom blur/sharpen shaders
   * Kinect-triggered music - krump to trigger sounds & lights
   * Kinect silhouette studies (uv coord offset, glitch overlay, feedback)
-  * Convert Fliud sim: https://github.com/PavelDoGreat/WebGL-Fluid-Simulation/blob/master/script.js
+  * Convert Fliud sim: 
+    * https://github.com/PavelDoGreat/WebGL-Fluid-Simulation/blob/master/script.js
+    * https://storage.googleapis.com/movenet/creative/index.html
+    * https://github.com/malik-tillman/Fluid-JS
   * Shatter model & triangles fall down (Sunflow final render)
   * Sound in space. Raspberry Pis via wifi, attached to speakers. Split channels for more outputs
   * New video loops should have a soundtrack. use my tunes? look in sketch/render/avloops
@@ -358,8 +364,11 @@ PGA + Bespoke:
 ## GLSL
   * Refraction shader: 
     * https://tympanus.net/codrops/2019/10/29/real-time-multiside-refraction-in-three-steps/
+    * https://www.youtube.com/watch?v=NCpaaLkmXI8&feature=youtu.be
   * Fresnel shader:
     * https://github.com/poikilos/KivyGlops/blob/master/shaders/fresnel.glsl
+  * Bitangent noise
+    * https://github.com/atyuwen/bitangent_noise/
   * Get a handle on modelViewInv uniform. make a basic example to test
   * Get more into custom lighting. Good start with this demo:
     * com.haxademic.demo.draw.shapes.shader.Demo_VertexShader_MoveSpheres
