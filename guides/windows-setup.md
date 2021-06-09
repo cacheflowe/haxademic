@@ -99,22 +99,32 @@
 * Allow WebSockets messages to go through on a specific port (3001 is default in Haxademic)
   * Open `Windows Firewall with Advanced Security` and add an incoming and outgoing rule for port 3001, and allow on all networks
 
-## TeamViewer settings
+## Teamviewer settings
 
-*Check "Start with Windows" under "Unattended Access"
-*Go to "Extras -> Options"
-  * Security Tab: 
-    * Enter a personal password
-    * Windows Logon: Set to "All Users"
-  * Remote Control
-    * Optimize Speed
-    * Uncheck "Remove Remote Wallpaper"
-    * Uncheck "Play Sounds and Music"
-  * Advanced
-    * Check: "Automatically Minimize local TeamViewer Panel"
-    * Check: "Ignore Alpha Blending"
-    * Check: "Full access control when a partner is connecting to the Windows Logon screen"
-
+* On remote machine
+  * Check "Start with Windows" under "Unattended Access"
+  * Go to "Extras -> Options"
+    * Security Tab: 
+      * Enter a personal password
+      * Windows Logon: Set to "All Users"
+    * Remote Control
+      * Optimize Speed
+      * Uncheck "Remove Remote Wallpaper"
+      * Uncheck "Play Sounds and Music"
+    * Advanced
+      * Check: "Automatically Minimize local TeamViewer Panel"
+      * Check: "Ignore Alpha Blending"
+      * Check: "Full access control when a partner is connecting to the Windows Logon screen"
+* On local machine
+  * Go to "Extras -> Options"
+    * Remote Control
+      * Optimize Speed
+      * Uncheck "Remove Remote Wallpaper"
+      * Check: "Show your partner's cursor"
+      * Uncheck "Play computer sounds and music"
+    * Advanced
+      * "Lock remote computer": Never
+      
 
 ## Disable Windows update notifications (this is now old info)
 	
