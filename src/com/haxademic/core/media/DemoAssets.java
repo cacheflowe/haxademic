@@ -99,7 +99,8 @@ public class DemoAssets {
 	public static PShape objHumanoid = null;
 	public static PShape objHumanoid() {
 		if(objHumanoid == null) {
-			objHumanoid = P.p.loadShape(FileUtil.getPath("haxademic/models/man-lowpoly.obj"));
+//			objHumanoid = P.p.loadShape(FileUtil.getPath("haxademic/models/man-lowpoly.obj"));
+			objHumanoid = P.p.loadShape(FileUtil.getPath("haxademic/models/humanoid-lowpoly.obj"));
 			PShapeUtil.meshRotateOnAxis(objHumanoid, P.PI, P.Z);
 			PShapeUtil.meshRotateOnAxis(objHumanoid, P.HALF_PI, P.Y);
 		}
