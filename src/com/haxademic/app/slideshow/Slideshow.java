@@ -1,5 +1,7 @@
 package com.haxademic.app.slideshow;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.FileFilter;
 import java.util.ArrayList;
@@ -21,6 +23,7 @@ import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.math.easing.EasingFloat;
 import com.haxademic.core.math.easing.LinearFloat;
 import com.haxademic.core.math.easing.Penner;
+import com.haxademic.core.system.SystemUtil;
 
 import processing.core.PGraphics;
 
@@ -39,11 +42,16 @@ extends PAppletHax
 //	public static String slidesDir = FileUtil.getFile("images/_sketch/aiga-slides");
 //	public static String slidesDir = "/Users/cacheflowe/Documents/workspace/presentations/aiga-freelance";
 //	public static String slidesDir = "D:\\workspace\\presentations\\_ctd-class-01";
-	public static String SLIDES_DIR = "D:\\workspace\\presentations\\denver-creative-tech-08-2019";
+//	public static String SLIDES_DIR = "D:\\workspace\\presentations\\denver-creative-tech-08-2019";
+//	public static String SLIDES_DIR = "D:\\workspace\\ctd-design-studio\\_assets\\durability-slides";
+	public static String SLIDES_DIR = "D:\\personal\\dad\\slideshow";
 	public static String FONT_FILE = "haxademic/fonts/Raleway-Regular.ttf";
 		
 	// CONFIG
 	public static boolean DEBUG_MODE = false;
+	public static boolean SLIDESHOW_LOOPS = true;
+	public static boolean START_ON_FIRST_SLIDE = true;
+	public static boolean CUSTOM_OVERRIDES = true;
 	protected int LOADING_INTERVAL = 5;
 	protected int STRESS_INTERVAL = 5 * 60;
 	protected boolean stressTesting = false;
@@ -74,7 +82,7 @@ extends PAppletHax
 		Config.setProperty( AppSettings.WIDTH, 1280 );
 		Config.setProperty( AppSettings.HEIGHT, 720 );
 		Config.setProperty( AppSettings.ALWAYS_ON_TOP, false );
-		Config.setProperty( AppSettings.FULLSCREEN, true );
+		Config.setProperty( AppSettings.FULLSCREEN, false );
 	}
 
 	protected void firstFrame() {
@@ -144,9 +152,17 @@ extends PAppletHax
 			slideImages.add(newSlide);
 			if(fileName.indexOf("background") == -1) slideImagesFg.add(newSlide);
 			else slideImagesBg.add(newSlide);
+			if(CUSTOM_OVERRIDES) addCustomSlideProps(newSlide);
 		}
 		preloaded = true;
+		if(START_ON_FIRST_SLIDE) SystemUtil.setTimeout(goFirstSlide, 1000);
 	}
+	
+	protected ActionListener goFirstSlide = new ActionListener() {
+		public void actionPerformed(ActionEvent e) {
+			nextSlide();
+		}
+	};
 	
 	protected void loadSlidesFromDir(String imagesPath) {
 		String[] mediaFilesInDir = getFilesAndDirsInDir(imagesPath);
@@ -183,6 +199,20 @@ extends PAppletHax
 		preloadBarOff.setCurrent(0);
 		preloadBarOff.setTarget(0);
 	}
+	
+	protected void addCustomSlideProps(SlideImage slide) {
+		// display style
+		slide.setLetterbox(true);
+		// slide.setCrossfades(); // only do this if we're not letterboxing
+		// autoplay
+		if(slide.isMovie()) {
+			slide.setLoops(false);
+			slide.setAdvanceVideoOnComplete(true);
+		} else {
+			slide.setAutoClickFrames(60*12);
+			slide.setAutoClickFrames(60*3);
+		}
+	}
 
 
 	/////////////////////////////////////////////////////////////
@@ -196,8 +226,8 @@ extends PAppletHax
 		if(p.key == 's') stressTesting = !stressTesting;
 		if(p.key == ' ') if(!waitingForAutoAdvance()) nextSlide();
 		if(p.keyCode == 8) pgKeystone.resetCorners();
-		if (p.key == P.CODED && keyCode == P.RIGHT) if(!waitingForAutoAdvance()) nextSlide();
-		if (p.key == P.CODED && keyCode == P.DOWN) if(!waitingForAutoAdvance()) nextSlide();
+		if (p.key == P.CODED && keyCode == P.RIGHT) if(!waitingForAutoAdvance() || CUSTOM_OVERRIDES) nextSlide();
+		if (p.key == P.CODED && keyCode == P.DOWN) if(!waitingForAutoAdvance() || CUSTOM_OVERRIDES) nextSlide();
 		if (p.key == P.CODED && keyCode == P.LEFT) prevSlide();
 		if (p.key == P.CODED && keyCode == P.UP) prevSlide();
 	}
@@ -232,7 +262,7 @@ extends PAppletHax
 		} else {																											// normal slide incrementing below
 			curIndex++;
 			if(curIndex >= numToLoad) {
-				curIndex = -1;
+				curIndex = (SLIDESHOW_LOOPS) ? 0 : -1;
 //				if(stressTesting == false) preloaded = true;
 			}
 			P.store.setNumber(SlideshowState.SLIDE_INDEX.id(), curIndex);
@@ -255,7 +285,7 @@ extends PAppletHax
 		if(p.frameCount % STRESS_INTERVAL == 0 && stressTesting == true) if(!waitingForAutoAdvance()) nextSlide();
 
 		// draw slides
-		p.background(backgroundColor);		
+		p.background(backgroundColor);	
 		drawBackgroundSlides();
 		drawSlides();
 		
@@ -290,7 +320,7 @@ extends PAppletHax
 	}
 	
 	protected void drawSlides() {
-		if(parsedDirectories == false) return;
+		if(parsedDirectories == false || preloaded == false) return;
 		
 		// prep buffer
 		pg.beginDraw();

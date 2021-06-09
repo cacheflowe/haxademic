@@ -24,7 +24,7 @@ implements IAppSizeWatcherDelegate {
 	}
 
 	protected void firstFrame() {
-		appSizeWatcher = new AppSizeWatcher(this, 120);	// check every 2 seconds. should be much less often, IRL, probably
+		appSizeWatcher = new AppSizeWatcher(this, 800, 600, 120);	// check every 2 seconds. should be much less often, IRL, probably
 		P.out("Initial app size:", P.p.width + ", " + P.p.height);
 	}
 
@@ -40,6 +40,16 @@ implements IAppSizeWatcherDelegate {
 	@Override
 	public void appSizeChanged(int appWidth, int appHeight) {
 		P.out("New app size!", "[appSizeWatcher]", appWidth + ", " + appHeight);
+		if(p.width != 800 || p.height != 600) {
+			changedFlash.setTarget(0).setCurrent(1);
+			AppUtil.setSize(p, 800, 600);
+			AppUtil.setLocation(p, 0, 0);
+		}
+	}
+	
+	@Override
+	public void appSizeIncorrect(int appWidth, int appHeight) {
+		P.out("Incorrect app size!", "[appSizeWatcher]", appWidth + ", " + appHeight);
 		if(p.width != 800 || p.height != 600) {
 			changedFlash.setTarget(0).setCurrent(1);
 			AppUtil.setSize(p, 800, 600);

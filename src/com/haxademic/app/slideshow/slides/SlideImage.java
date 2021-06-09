@@ -6,6 +6,7 @@ import com.haxademic.app.slideshow.Slideshow;
 import com.haxademic.core.app.P;
 import com.haxademic.core.data.ConvertUtil;
 import com.haxademic.core.data.store.IAppStoreListener;
+import com.haxademic.core.debug.DebugView;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.image.ImageSequenceMovieClip;
 import com.haxademic.core.draw.image.ImageUtil;
@@ -173,12 +174,22 @@ implements IAppStoreListener {
 			title = title.replaceAll("newline", newline);
 		}
 	}
+	
+	public SlideImage setLoops(boolean loops) { this.loops = loops; return this; }
+	public SlideImage setAdvanceVideoOnComplete(boolean advanceOnComplete) { this.advanceOnComplete = advanceOnComplete; this.advanceAfterLoop = advanceOnComplete; return this; }
+	public SlideImage setLetterbox(boolean letterbox) { this.letterbox = letterbox; return this; }
+	public SlideImage setAutoClickFrames(int autoClickFrames) { this.autoClickFrames = autoClickFrames; return this; }
+	public SlideImage setCrossfades() { queueDelay.setInc(1f); fadesOut = false; return this; }
 
 	public PImage image() {
-		if(movie != null) return movie;
+		if(movie != null) { movie.volume(0); movie.volume(0.1f); return movie; }
 		if(gif != null) return gif;
 		if(imageSequence != null) return imageSequence.image();
 		return image;
+	}
+	
+	public boolean isMovie() {
+		return movie != null;
 	}
 
 	public String caption() {
@@ -409,7 +420,9 @@ implements IAppStoreListener {
 
 	protected boolean movieIsFinished() {
 		// return movie.time() == movie.duration();
-		return P.abs(movie.time() - movie.duration()) < 0.01f;
+		DebugView.setValue("movie time", movie.time());
+		DebugView.setValue("movie duration", movie.duration());
+		return P.abs(movie.time() - movie.duration()) < 0.1f;
 	}
 
 	protected void checkQueueAnim() {
