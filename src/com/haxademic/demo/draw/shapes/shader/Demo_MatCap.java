@@ -49,7 +49,7 @@ extends PAppletHax {
 				FileUtil.getPath("haxademic/shaders/lights/matcap/matcap-frag.glsl"), 
 				FileUtil.getPath("haxademic/shaders/lights/matcap/matcap-vert.glsl")
 		);
-		UI.addSlider(RANGE, 1.1f, 0, 5, 0.01f, false);
+		UI.addSlider(RANGE, 0.96f, 0, 5, 0.01f, false);
 		UI.addSlider(MATCAP_IMG_INDEX, 0, 0, matCapImages.size() - 1, 1, false);
 	}
 
@@ -72,6 +72,11 @@ extends PAppletHax {
 		
 		// draw shapes
 		p.shape(shape);
+		
+		p.translate(200, 0);
+		p.rotateX(p.frameCount * 0.01f);
+		p.rotateZ(p.frameCount * 0.01f);
+		p.box(50);
 		
 		p.resetShader();
 	}
