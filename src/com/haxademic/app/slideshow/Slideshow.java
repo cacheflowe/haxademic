@@ -51,7 +51,7 @@ extends PAppletHax
 	public static boolean DEBUG_MODE = false;
 	public static boolean SLIDESHOW_LOOPS = true;
 	public static boolean START_ON_FIRST_SLIDE = true;
-	public static boolean CUSTOM_OVERRIDES = true;
+	public static boolean CUSTOM_OVERRIDES = false;
 	protected int LOADING_INTERVAL = 5;
 	protected int STRESS_INTERVAL = 5 * 60;
 	protected boolean stressTesting = false;
@@ -209,8 +209,7 @@ extends PAppletHax
 			slide.setLoops(false);
 			slide.setAdvanceVideoOnComplete(true);
 		} else {
-			slide.setAutoClickFrames(60*12);
-			slide.setAutoClickFrames(60*3);
+			slide.setAutoClickFrames(60*6);
 		}
 	}
 
@@ -230,6 +229,10 @@ extends PAppletHax
 		if (p.key == P.CODED && keyCode == P.DOWN) if(!waitingForAutoAdvance() || CUSTOM_OVERRIDES) nextSlide();
 		if (p.key == P.CODED && keyCode == P.LEFT) prevSlide();
 		if (p.key == P.CODED && keyCode == P.UP) prevSlide();
+		
+		// show debug state
+		DebugView.setValue("DEBUG_MODE", DEBUG_MODE);
+		DebugView.setValue("stressTesting", stressTesting);
 	}
 
 	public void mouseClicked() {
@@ -255,9 +258,10 @@ extends PAppletHax
 	}
 	
 	public void nextSlide() {
+		if(preloaded == false) return;
 		// check current slide
 		int curIndex = getSlideIndex();
-		if(curIndex >= 0 && preloaded == true && slideImages.get(curIndex).canAdvanceAfterLoop() == true) {					// queue up the current slide to advance the show if it's configured for that
+		if(curIndex >= 0 && slideImages.get(curIndex).canAdvanceAfterLoop() == true) {					// queue up the current slide to advance the show if it's configured for that
 			slideImages.get(curIndex).advanceAfterComplete();
 		} else {																											// normal slide incrementing below
 			curIndex++;
