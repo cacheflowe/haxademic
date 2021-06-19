@@ -229,8 +229,9 @@ PGA + Bespoke:
   * Switch to playing audio with WavPlayer
   * Work within Demo_Interphase_AV_Loop & make a solid framework for AV loops
   * C.A.C.H.E. - Creative Adversarial Computer-Human Exchange
-  * [DONE!] perfectly-looped audio clips, mapped to main loop length
+  * [Demo exists!] perfectly-looped audio clips, mapped to main loop length
   	* [Kinda works! would be better w/Interphase Metronome] Scrub to random parts of samples to chop breaks
+    * Add to Interphase sequencer
   * [Works!] Integrate Communichords looping tones (for Moire Room, specifically)
   * Add slider for BPM
   * [DONE but kills internal randomization & incrementing] Add sliders to specifically choose samples

@@ -18,6 +18,7 @@ import com.haxademic.core.draw.filters.pshader.BlurHMapFilter;
 import com.haxademic.core.draw.filters.pshader.BlurProcessingFilter;
 import com.haxademic.core.draw.filters.pshader.BlurVFilter;
 import com.haxademic.core.draw.filters.pshader.BlurVMapFilter;
+import com.haxademic.core.draw.filters.pshader.BrightnessClampFilter;
 import com.haxademic.core.draw.filters.pshader.BrightnessFilter;
 import com.haxademic.core.draw.filters.pshader.BrightnessStepFilter;
 import com.haxademic.core.draw.filters.pshader.BrightnessToAlphaFilter;
@@ -140,6 +141,7 @@ extends PAppletHax { public static void main(String args[]) { arguments = args; 
 			BlurHFilter.instance(p),
 			BlurHMapFilter.instance(p),
 			BlurProcessingFilter.instance(p),
+			BrightnessClampFilter.instance(p),
 			BrightnessFilter.instance(p),
 			BrightnessStepFilter.instance(p),
 			BrightnessToAlphaFilter.instance(p),
@@ -312,6 +314,10 @@ extends PAppletHax { public static void main(String args[]) { arguments = args; 
 			BlurProcessingFilter.instance(p).setBlurSize(P.round(Mouse.yNorm * 10f));
 			BlurProcessingFilter.instance(p).setSigma(Mouse.xNorm * 10f);
 			BlurProcessingFilter.instance(p).applyTo(pg);
+		} else if(curFilter == BrightnessClampFilter.instance(p)) {
+			BrightnessClampFilter.instance(p).setLow(Mouse.xNorm);
+			BrightnessClampFilter.instance(p).setHigh(Mouse.yNorm);
+			BrightnessClampFilter.instance(p).applyTo(pg);
 		} else if(curFilter == BrightnessFilter.instance(p)) {
 			BrightnessFilter.instance(p).setBrightness(Mouse.yNorm * 10f);
 			BrightnessFilter.instance(p).applyTo(pg);
