@@ -2,6 +2,8 @@ package com.haxademic.demo.draw.filters.shaders;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.app.PAppletHax;
+import com.haxademic.core.app.config.AppSettings;
+import com.haxademic.core.app.config.Config;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.context.PShaderHotSwap;
 import com.haxademic.core.file.FileUtil;
@@ -13,8 +15,13 @@ extends PAppletHax {
 
 	protected PShaderHotSwap shader;
 	
+	protected void config() {
+		Config.setProperty(AppSettings.SHOW_UI, true);
+	}
+	
 	protected void firstFrame() {
 		shader = new PShaderHotSwap(FileUtil.getPath("haxademic/shaders/filters/radial-flare.glsl"));
+		UI.addTitle("Shader Uniforms");
 		UI.addSlider("radialLength", 0.95f, 0.5f, 1f, 0.01f, false);
 		UI.addSlider("imageBrightness", 9f, 0f, 10f, 0.1f, false);
 		UI.addSlider("flareBrightness", 9f, 0f, 10f, 0.1f, false);
