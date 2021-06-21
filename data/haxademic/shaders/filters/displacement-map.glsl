@@ -106,6 +106,11 @@ void main() {
 		vec2 displace = p + vec2(radialAmp * cos(rotate), radialAmp * sin(rotate));
 
 		colorDisplaced = texture2D(texture, displace);
+	} else if(mode == 10) {
+		// optical flow displacement, to be used with results from `optical-flow-td.glsl`
+		vec2 opFlowDisplace = texture2D(map, p).xy - 0.5;
+		opFlowDisplace *= amp;
+		colorDisplaced = texture2D(texture, p + opFlowDisplace);
 	}
 	gl_FragColor = mix(colorOrig, colorDisplaced, colorDisplaced.a);
 }

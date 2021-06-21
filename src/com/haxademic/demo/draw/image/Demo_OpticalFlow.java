@@ -49,6 +49,7 @@ implements IWebCamCallback {
 		
 		// draw debug flow results
 		opticalFlow.debugDraw(p.g, false);
+		opticalFlow.drawDataBuffer();
 		
 		// check vector getter for a specific position
 		float[] vecResult = opticalFlow.getVectorAt(0.5f, 0.5f);

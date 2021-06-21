@@ -2,6 +2,7 @@ package com.haxademic.core.draw.image;
 
 import com.haxademic.core.app.P;
 import com.haxademic.core.data.constants.PRenderers;
+import com.haxademic.core.draw.context.PG;
 
 import processing.core.PGraphics;
 import processing.core.PImage;
@@ -57,6 +58,8 @@ public class OpticalFlow {
 	protected float[] sflowx, sflowy; // slowly changing version of the flow
 	protected int clockNow,clockPrev, clockDiff; // for timing check
 
+	// data buffer for shaders
+	protected PGraphics dataBuffer;
 
 	public OpticalFlow(PImage sourceImg, float scale) {
 		this.scale = scale;
@@ -161,12 +164,41 @@ public class OpticalFlow {
 		}
 	}
 	
+	public void drawDataBuffer() {
+		// lazy-init data buffer when called
+		if(dataBuffer == null) dataBuffer = PG.newPG(analyzeW, analyzeH, true, true);
+		
+		// draw data pixels
+		dataBuffer.beginDraw();
+		dataBuffer.noStroke();
+		dataBuffer.background(127);
+		for(int ix=0;ix<gw;ix++) {
+			int x0=ix*gridStep+gs2;
+			for(int iy=0;iy<gh;iy++) {
+				int y0=iy*gridStep+gs2;
+				int ig=iy*gw+ix;
+
+				float u=df*sflowx[ig];
+				float v=df*sflowy[ig];
+
+				// draw the line segments for optical flow
+//				float a=P.sqrt(u*u+v*v);
+//				if(a>=0.1f) { // draw only if the length >=2.0
+					dataBuffer.fill(127 + u, 127 + v);
+					dataBuffer.rect(x0,y0,1,1);
+//				}
+			}
+		}
+
+		dataBuffer.endDraw();
+	}
+	
 	// OPTICAL FLOW 
 
 	public void update(PImage newFrame) {
 		// int analyzeStart = P.p.millis();
 
-		// copy webcam to current buffer
+		// copy image to current buffer
 		ImageUtil.copyImage(newFrame, source);
 
 		// clock in msec
@@ -262,13 +294,13 @@ public class OpticalFlow {
 				pix=source.pixels[i];
 				b=pix & 0xFF; // blue
 				pix = pix >> 8;
-			g=pix & 0xFF; // green
-			pix = pix >> 8;
-			r=pix & 0xFF; // red
-			// averaging the values
-			sumr += r;
-			sumg += g;
-			sumb += b;
+				g=pix & 0xFF; // green
+				pix = pix >> 8;
+				r=pix & 0xFF; // red
+				// averaging the values
+				sumr += r;
+				sumg += g;
+				sumb += b;
 			}
 		}
 		n = (x2-x1+1)*(y2-y1+1); // number of pixels
