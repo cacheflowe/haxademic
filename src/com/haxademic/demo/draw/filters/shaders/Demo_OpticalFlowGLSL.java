@@ -9,18 +9,13 @@ import com.haxademic.core.draw.color.ColorUtil;
 import com.haxademic.core.draw.context.PG;
 import com.haxademic.core.draw.context.PShaderHotSwap;
 import com.haxademic.core.draw.filters.pshader.BlendTowardsTexture;
-import com.haxademic.core.draw.filters.pshader.BlurHFilter;
 import com.haxademic.core.draw.filters.pshader.BlurProcessingFilter;
-import com.haxademic.core.draw.filters.pshader.BlurVFilter;
 import com.haxademic.core.draw.filters.pshader.DisplacementMapFilter;
 import com.haxademic.core.draw.image.ImageUtil;
 import com.haxademic.core.file.FileUtil;
 import com.haxademic.core.hardware.depthcamera.cameras.RealSenseWrapper;
-import com.haxademic.core.hardware.mouse.Mouse;
-import com.haxademic.core.media.DemoAssets;
 
 import processing.core.PGraphics;
-import processing.core.PImage;
 import processing.video.Movie;
 
 public class Demo_OpticalFlowGLSL
@@ -73,7 +68,7 @@ extends PAppletHax {
 		flowTheFlowData();
 		applyFlowToRgbCamera();
 		drawToScreen();
-		drawDebugLines();
+//		drawDebugLines();
 	}
 	
 	protected void runOpticalFlow() {
@@ -85,7 +80,7 @@ extends PAppletHax {
 		ImageUtil.cropFillCopyImage(realSenseWrapper.getDepthImage(), curFrame, true);
 		
 		// override!
-		// draw a lissijous curve
+		// draw a lissajous curve
 //		curFrame.beginDraw();
 //		curFrame.background(0);
 //		curFrame.translate(curFrame.width/2, curFrame.height/2);
@@ -107,11 +102,11 @@ extends PAppletHax {
 		opFlowShader.shader().set("texFlow", opFlowResult);	// lerp from previous flow frame
 		opFlowShader.shader().set("tex0", curFrame);
 		opFlowShader.shader().set("tex1", lastFrame);
-		opFlowShader.shader().set("uDecayLerp", 0.015f);
+		opFlowShader.shader().set("uDecayLerp", 0.02f);
 		opFlowShader.shader().set("uForce", 0.5f);
 		opFlowShader.shader().set("uOffset", 8f);
 		opFlowShader.shader().set("uLambda", 0.012f);
-		opFlowShader.shader().set("uThreshold", 0.2f);
+		opFlowShader.shader().set("uThreshold", 0.1f);
 		opFlowResult.filter(opFlowShader.shader());
 	}
 	
@@ -119,23 +114,18 @@ extends PAppletHax {
 		// displace & blur the flow data for liquidy flow & dispersion
 		DisplacementMapFilter.instance(p).setMap(opFlowResult);
 		DisplacementMapFilter.instance(p).setMode(10);
-		DisplacementMapFilter.instance(p).setAmp(1f);
+		DisplacementMapFilter.instance(p).setAmp(0.6f);
 		DisplacementMapFilter.instance.applyTo(opFlowResult);
 
 		BlurProcessingFilter.instance(p).setBlurSize(20);
-		BlurProcessingFilter.instance(p).setSigma(20f);
+		BlurProcessingFilter.instance(p).setSigma(10f);
 		BlurProcessingFilter.instance(p).applyTo(opFlowResult);
-//		BlurProcessingFilter.instance(p).applyTo(opFlowResult);
-//		BlurHFilter.instance(p).setBlurByPercent(Mouse.xNorm * 2f, opFlowResult.width);
-//		BlurHFilter.instance(p).applyTo(opFlowResult);
-//		BlurVFilter.instance(p).setBlurByPercent(Mouse.yNorm * 2f, opFlowResult.height);
-//		BlurVFilter.instance(p).applyTo(opFlowResult);	
 	}
 	
 	protected void applyFlowToRgbCamera() {
 		ImageUtil.cropFillCopyImage(realSenseWrapper.getRgbImage(), curRgbFrame, true);
 		BlendTowardsTexture.instance(p).setSourceTexture(curRgbFrame);
-		BlendTowardsTexture.instance(p).setBlendLerp(0.05f);
+		BlendTowardsTexture.instance(p).setBlendLerp(0.1f);
 		BlendTowardsTexture.instance(p).applyTo(camDisplaced);
 		DisplacementMapFilter.instance.applyTo(camDisplaced);	
 	}
@@ -143,6 +133,7 @@ extends PAppletHax {
 	protected void drawToScreen() {
 //		p.image(opFlowResult, 0, 0);
 //		p.image(curFrame, 0, 0);
+//		ImageUtil.cropFillCopyImage(opFlowResult, p.g, true);	
 		ImageUtil.cropFillCopyImage(camDisplaced, p.g, true);	
 	}
 	
