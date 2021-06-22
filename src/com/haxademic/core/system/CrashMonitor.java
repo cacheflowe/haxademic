@@ -8,7 +8,7 @@ import processing.core.PApplet;
 
 public class CrashMonitor {
 	
-	public AppMonitorWindow monitorApp = null;
+	public CrashMonitorWindow monitorApp = null;
 	public boolean showWindow;
 	public int timeAfterCrash;
 	public boolean restarts;
@@ -26,7 +26,7 @@ public class CrashMonitor {
 	
 	public void post() {
 		if(monitorApp == null && P.p.frameCount >= 2) {
-			monitorApp = new AppMonitorWindow(P.p, timeAfterCrash, showWindow);
+			monitorApp = new CrashMonitorWindow(P.p, timeAfterCrash, showWindow);
 		}
 		if(monitorApp != null) {
 			if(P.p.frameCount % 20 == 0) {
@@ -35,7 +35,7 @@ public class CrashMonitor {
 		}
 	}
 	
-	class AppMonitorWindow extends PApplet {
+	class CrashMonitorWindow extends PApplet {
 
 		PAppletHax p;
 		public boolean showing;
@@ -44,33 +44,30 @@ public class CrashMonitor {
 		public int lastUpdateTime;
 		public boolean attemptRestart = false;
 
-		public AppMonitorWindow(PAppletHax p) {
+		public CrashMonitorWindow(PAppletHax p) {
 			this(p, 3000, false);
 		}
 		
-		public AppMonitorWindow(PAppletHax p, int timeout) {
+		public CrashMonitorWindow(PAppletHax p, int timeout) {
 			this(p, timeout, false);
 		}
 		
-		public AppMonitorWindow(PAppletHax p, int timeout, boolean showing) {
+		public CrashMonitorWindow(PAppletHax p, int timeout, boolean showing) {
 			this.p = p;
 			this.timeout = timeout;
 			this.showing = showing;
-			runSketch(new String[] {"AppMonitorWindow"}, this);
-			
+			runSketch(new String[] {"CrashMonitorWindow"}, this);
 		}
 
 		public void settings() {
-			size(256, 128, PRenderers.P2D);
+			size(256, 128, PRenderers.JAVA2D);
 		}
 
-		protected void firstFrame() {
-			int windowX = (showing) ? 0 : -220;
+		public void setup() {
+			int windowX = (showing) ? 0 : -1000;
 			super.surface.setResizable(true);	// needed for setLocation()
-			super.surface.setLocation(windowX, 0);
-			super.surface.setTitle("App Monitor");
-			// super.surface.setVisible(showing);
-			frameRate(20);
+			super.surface.setLocation(windowX, 0);					// super.surface.setVisible(showing);	<- this seems to disable the restart functionality
+			super.surface.setTitle("CrashMonitor");
 		}
 		
 		public void setUpdateTime(int updateTime) {
